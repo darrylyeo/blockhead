@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	export function preload() {
-		return this.fetch(`blog.json`).then((r: { json: () => any; }) => r.json()).then((posts: { slug: string; title: string, html: any }[]) => {
+		return this.fetch(`explorer.json`).then((r: { json: () => any; }) => r.json()).then((posts: { slug: string; title: string, html: any }[]) => {
 			return { posts };
 		});
 	}
@@ -18,7 +18,7 @@
 </style>
 
 <svelte:head>
-	<title>Blog</title>
+	<title>Explorer | Blockhead Explorers</title>
 </svelte:head>
 
 <h1>Recent posts</h1>

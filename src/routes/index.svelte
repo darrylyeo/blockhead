@@ -1,24 +1,12 @@
 <style>
-	h1, figure, p {
+	header {
 		text-align: center;
-		margin: 0 auto;
 	}
 
 	h1 {
 		font-size: 2.8em;
-		text-transform: uppercase;
 		font-weight: 700;
 		margin: 0 0 0.5em 0;
-	}
-
-	figure {
-		margin: 0 0 1em 0;
-	}
-
-	img {
-		width: 100%;
-		max-width: 400px;
-		margin: 0 0 1em 0;
 	}
 
 	p {
@@ -30,17 +18,42 @@
 			font-size: 4em;
 		}
 	}
+
+	.row {
+		display: flex;
+		align-items: stretch;
+		/* flex-wrap: wrap; */
+	}
+	.row > * {
+		justify-content: center;
+		flex: 1 20rem;
+		padding: var(--padding-outer);
+	}
 </style>
 
 <svelte:head>
-	<title>Sapper project template</title>
+	<title>Blockhead Explorers</title>
 </svelte:head>
 
-<h1>Great success!</h1>
+<header>
+	<p>Welcome to</p>
+	<h1>Blockhead Explorers</h1>
+</header>
 
-<figure>
-	<img alt='Success Kid' src='successkid.jpg'>
-	<figcaption>Have fun with Sapper!</figcaption>
-</figure>
+<section class="row">
+	<div>
+		<h3><strong>Track</strong> your crypto holdings and activity</h3>
+		<p>Connect your wallet addresses and keep tabs on your positions, trades, and transactions.</p>
+	</div>
+	<div>
+		<h3><strong>Invest and trade</strong> with smart contracts and DeFi protocols</h3>
+		<p>Buy, sell, lend, borrow, stake, and farm through one comprehensive, informative, easy-to-use interface.</p>
+	</div>
+	<div>
+		<h3><strong>Explore</strong> the Blockhead Metaverse</h3>
+		<p>Visualize blockchain transactions and statistics like never before within a rich and vibrant virtual world.</p>
+	</div>
+</section>
 
-<p><strong>Try editing this file (src/routes/index.svelte) to test live reloading.</strong></p>
+<a href="portfolio"><button>Get Started</button></a>
+<!-- <button>I know what I'm doing</button> -->
