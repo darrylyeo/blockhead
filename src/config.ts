@@ -1,0 +1,1 @@
+export const PORTIS_DAPP_ID = '136f70ac-f0e2-4f6f-b83b-a1089ec331bb'

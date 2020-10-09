@@ -64,3 +64,8 @@ button:hover, button:focus {
 	opacity: 0.9;
 	transform: scale(1.02);
 }
+
+
+input.is-valid {
+	border: 2px solid green;
+}

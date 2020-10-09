@@ -38,6 +38,7 @@
 <header>
 	<p>Welcome to</p>
 	<h1>Blockhead Explorers</h1>
+	<p>An all-in-one crypto market visualizer, DeFi interface and block explorer metaverse</p>
 </header>
 
 <section class="row">
