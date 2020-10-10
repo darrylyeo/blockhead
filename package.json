@@ -13,8 +13,11 @@
     "@pokt-network/pocket-js": "^0.6.1-rc",
     "@portis/web3": "^2.0.0-beta.59",
     "compression": "^1.7.1",
+    "date-fns": "^2.16.1",
+    "graphql": "^15.3.0",
     "polka": "next",
     "sirv": "^1.0.0",
+    "subscriptions-transport-ws": "^0.9.18",
     "web3": "^1.3.0"
   },
   "devDependencies": {
