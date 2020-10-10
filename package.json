@@ -10,6 +10,7 @@
     "validate": "svelte-check --ignore src/node_modules/@sapper"
   },
   "dependencies": {
+    "@pokt-network/pocket-js": "^0.6.1-rc",
     "@portis/web3": "^2.0.0-beta.59",
     "compression": "^1.7.1",
     "polka": "next",

@@ -1,34 +1,18 @@
-<script context="module" lang="ts">
-	export function preload() {
-		return this.fetch(`explorer.json`).then((r: { json: () => any; }) => r.json()).then((posts: { slug: string; title: string, html: any }[]) => {
-			return { posts };
-		});
-	}
-</script>
-
 <script lang="ts">
-	export let posts: { slug: string; title: string, html: any }[];
+	let address
+
+	import { goto } from '@sapper/app'
+	import Address from "../../components/Address.svelte"
 </script>
 
 <style>
-	ul {
-		margin: 0 0 1em 0;
-		line-height: 1.5;
-	}
+
 </style>
 
 <svelte:head>
-	<title>Explorer | Blockhead Explorers</title>
+	<title>Blockhead Explorer</title>
 </svelte:head>
 
-<h1>Recent posts</h1>
-
-<ul>
-	{#each posts as post}
-		<!-- we're using the non-standard `rel=prefetch` attribute to
-				tell Sapper to load the data for the page as soon as
-				the user hovers over the link or taps it, instead of
-				waiting for the 'click' event -->
-		<li><a rel="prefetch" href="blog/{post.slug}">{post.title}</a></li>
-	{/each}
-</ul>
+<h2>
+	<Address editable={true} bind:address={address} on:change={goto(`explorer/${address}`)} />
+</h2>

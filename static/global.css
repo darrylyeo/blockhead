@@ -66,6 +66,15 @@ button:hover, button:focus {
 }
 
 
-input.is-valid {
+input {
+	border-radius: 0.5rem;
+	padding: 0.3em 0.7em;
+	width: 100%;
+	font: inherit;
+}
+/* input.is-valid {
 	border: 2px solid green;
+} */
+:-placeholder {
+	opacity: 0.5;
 }
