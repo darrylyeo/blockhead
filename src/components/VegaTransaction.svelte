@@ -1,5 +1,6 @@
 <script type="ts">
-    export let tx
+    import type { Vega } from '../data/vega'
+    export let tx: Vega.Transaction
 
     function sizeByVolume(tx) {
         const [MIN_SIZE, MAX_SIZE] = [8, 36];
