@@ -1,88 +1,161 @@
 import { readable } from 'svelte/store'
 import { SubscriptionClient } from 'subscriptions-transport-ws'
-// import { graphql } from 'graphql'
+// import { graphql } from 'svelte-apollo'
+// import { ApolloClient } from "@apollo/client"
+// import { setClient } from "svelte-apollo"
 
+import { VEGA_NODE_URL } from '../config'
+
+
+// Lazy instantiate (incompatible with Sapper SSR)
+let client
+function getClient(){
+    return client || (
+        client = new SubscriptionClient(`wss://${VEGA_NODE_URL}/query`, { reconnect: true })
+    )
+}
+
+
+// GraphQL Reference:
+// https://docs.ethonline.vega.xyz/graphql/market.doc.html
 export namespace Vega {
-    type TraderID = string
-    type Trader = {
-        id: TraderID
+    type MarketID = string
+    type Market = {
+        id: MarketID
+        name: string
+        tradableInstrument: TradableInstrument
     }
 
-    type Aggressor = 'SIDE_BUY' | 'SIDE_SELL'
+    type TradableInstrument = {
+        instrument: Instrument
+    }
+    type Instrument = {
+        baseName: string
+        quoteName: string
+    }
+
+    type PartyID = string
+    type Party = {
+        id: PartyID
+    }
+
+    export type Side = 'SIDE_BUY' | 'SIDE_SELL' | 'NONE'
 
     export type TradeID = string
     export type Trade = {
         id: TradeID
+        market: Market
         price: number
         size: number
-        aggressor: Aggressor
-        buyer: Trader
-        seller: Trader
-        takerId: TraderID
-        makerId: TraderID
+        aggressor: Side
+        buyer: Party
+        seller: Party
+        takerId: PartyID
+        makerId: PartyID
     }
 
     export type TransactionID = TradeID
     export type Transaction = {
         id: TransactionID
         size: number
-        aggressor: Aggressor,
-        takerId: TraderID,
+        aggressor: Side,
+        takerId: PartyID,
         trades: Trade[],
     }
 }
 
+export const makerAction: Record<Vega.Side, string> = {
+    SIDE_BUY: 'bought',
+    SIDE_SELL: 'sold',
+    NONE: 'traded'
+}
+
 const TRADES_QUERY = `
     subscription {
-        trades { id price size aggressor buyer { id } seller { id } }
+        trades {
+            id
+            market {
+                id
+                name
+                tradableInstrument {
+                    instrument {
+                        baseName
+                        quoteName
+                    }
+                }
+            }
+            price
+            size
+            aggressor
+            buyer { id }
+            seller { id }
+        }
     }
 `
-
-const SHOW_MAX_TRADES = 20
-const BUFFER_RESERVE_RATIO = 0.0 // 0.5
-const TIME_SMOOTH_PERIOD = 40
-const MARKET_DECIMALS = 5    //TODO: get from market framework API
-const DEFAULT_BLOCKTIME = 800
 
 // convert string from API response with implied fixed decimals to a number
 function formatDecimal(val, decimals) {
     return Number(val.slice(0, val.length - decimals) + '.' + val.slice(-decimals))
 }
 
-export function recentTransactionsStream(graphqlEndpoint, filter) {
-    return readable<Vega.Transaction[]>([], set => {
-        function aggregate(trades: Vega.Trade[]) {
-            const transactions: Vega.Transaction[] = []
-            for(const trade of trades){
-                const taker = trade.aggressor === 'SIDE_BUY' ? trade.buyer : trade.seller
-                const maker = trade.aggressor === 'SIDE_BUY' ? trade.seller : trade.buyer
+// Aggregate trades with the same aggressor into transactions
+function aggregateTrades(trades: Vega.Trade[]) {
+    const transactions: Vega.Transaction[] = []
+    for(const trade of trades){
+        const taker = trade.aggressor === 'SIDE_BUY' ? trade.buyer : trade.seller
+        const maker = trade.aggressor === 'SIDE_BUY' ? trade.seller : trade.buyer
 
-                trade.price = formatDecimal(trade.price, MARKET_DECIMALS)
-                trade.size = Number(trade.size)
-                trade.takerId = taker.id
-                trade.makerId = maker.id
+        trade.price = formatDecimal(trade.price, MARKET_DECIMALS)
+        trade.size = Number(trade.size)
+        trade.takerId = taker.id
+        trade.makerId = maker.id
 
-                const last = transactions[transactions.length-1]
-                if (last && trade.takerId === last.takerId && trade.aggressor === last.aggressor) {
-                    // Add to last transaction
-                    last.trades.push(trade)
-                    last.size += trade.size
-                } else {
-                    // New transaction
-                    transactions.push({
-                        id: trade.id,
-                        size: trade.size,
-                        aggressor: trade.aggressor,
-                        takerId: trade.takerId,
-                        trades: [trade],
-                    })
-                }
-            }
-            return transactions
+        const last = transactions[transactions.length - 1]
+        if (last && trade.takerId === last.takerId && trade.aggressor === last.aggressor) {
+            // Add to last transaction
+            last.trades.push(trade)
+            last.size += trade.size
+        } else {
+            // New transaction
+            transactions.push({
+                id: trade.id,
+                size: trade.size,
+                aggressor: trade.aggressor,
+                takerId: trade.takerId,
+                trades: [trade],
+            })
         }
+    }
+    return transactions
+}
 
-        const streamBuffer: Vega.Transaction[] = []
-        let trades = []
+
+
+const MAX_RECENT_TRANSACTIONS = 20
+const BUFFER_RESERVE_RATIO = 0.0 // 0.5
+const TIME_SMOOTH_PERIOD = 40
+const MARKET_DECIMALS = 5    //TODO: get from market framework API
+const DEFAULT_BLOCKTIME = 800
+
+export function recentTransactionsStream(filter) {
+    return readable<Vega.Transaction[]>([], set => {
+        const request = getClient().request({ query: TRADES_QUERY }).subscribe({
+            next(res) { 
+                const newTrades = res?.data?.trades
+                if(newTrades?.length)
+                    onNewTrades(newTrades)
+            },
+            error(e) {
+                console.error('GraphQL error:', e)
+            },
+            complete() {
+                console.log('GraphQL request finished.')
+            }
+        })
+
+
+        // Buffer to emit transactions one by one over time
+        const buffer: Vega.Transaction[] = []
         let lastTime = Date.now()
         let tradesPerMinute
         let smoothedElapsedTime = 0 // Moving average elapsed time between updates
@@ -99,38 +172,22 @@ export function recentTransactionsStream(graphqlEndpoint, filter) {
             tradesPerMinute = newTrades.length / (elapsedTime / 1000 / 60)
             console.log(`${newTrades.length} new trades in the last ${elapsedTime}ms (${tradesPerMinute} trades per minute)`)
 
-            streamBuffer.push(...aggregate(newTrades))
+            buffer.push(...aggregateTrades(newTrades))
 
-            smoothShowNewTrades()
+            emitOverTime()
         }
 
         let isRunning = false
-        async function smoothShowNewTrades(){
+        async function emitOverTime(){
             if(isRunning)
                 return
 
             isRunning = true
-            while(isRunning && streamBuffer.length){
-                const tx = streamBuffer.shift()
-                if (!filter || filter(tx)) {
-                    trades = [...trades, tx].slice(-SHOW_MAX_TRADES)
-                    set(trades)
-                }
+            while(isRunning && buffer.length){
+                emit(buffer.shift())
 
-                const waitTime = smoothedElapsedTime / ((1 - BUFFER_RESERVE_RATIO) * streamBuffer.length)
-                console.log(`Average elapsed time = ${smoothedElapsedTime}, drip every = ${waitTime}, remaining in buffer = ${streamBuffer.length}`)
-
-                // if(waitTime <= 30)
-                //     await new Promise(r => requestAnimationFrame(r))
-                // if(streamBuffer.length >= 60){
-                //     await new Promise(r => requestAnimationFrame(r))
-                // }
-                // else if(streamBuffer.length >= 30){
-                //     await new Promise(r => requestAnimationFrame(r))
-                //     await new Promise(r => requestAnimationFrame(r))
-                // }
-                // else
-                //     await new Promise(r => setInterval(r, waitTime))
+                const waitTime = smoothedElapsedTime / ((1 - BUFFER_RESERVE_RATIO) * buffer.length)
+                console.log(`Average elapsed time = ${smoothedElapsedTime}, drip every = ${waitTime}, remaining in buffer = ${buffer.length}`)
 
                 const startTime = Date.now()
                 while(Date.now() < startTime + waitTime)
@@ -139,23 +196,17 @@ export function recentTransactionsStream(graphqlEndpoint, filter) {
             isRunning = false
         }
 
-        const client = new SubscriptionClient(graphqlEndpoint, { reconnect: true })
-        const req = client.request({ query: TRADES_QUERY }).subscribe({
-            next(res) { 
-                const newTrades = res?.data?.trades
-                if(newTrades?.length)
-                    onNewTrades(newTrades)
-            },
-            error(e) {
-                console.error('GraphQL error:', e)
-            },
-            complete() {
-                console.log('GraphQL request finished.')
+
+        let recentTransactions = []
+        function emit(transaction: Vega.Transaction){
+            if (!filter || filter(transaction)) {
+                recentTransactions = [...recentTransactions, transaction].slice(-MAX_RECENT_TRANSACTIONS)
+                set(recentTransactions)
             }
-        })
+        }
 
         return function stop() {
-            req.unsubscribe()
+            request.unsubscribe()
             isRunning = false
         }
     }) 

@@ -2,14 +2,13 @@
     import { onMount } from 'svelte'
 
 	// import { recentTrades } from '../data/vega.ts'
-    import { VEGA_NODE_URL } from '../config.ts'
     
     let samplePercentage
-    let trades
+    let transactions
     onMount(async () => {
 	    const { recentTransactionsStream } = await import('../data/vega.ts')
         samplePercentage = 100.0
-        trades = recentTransactionsStream(`wss://${VEGA_NODE_URL}/query`, tx => Math.random() < samplePercentage / 100);
+        transactions = recentTransactionsStream(tx => Math.random() < samplePercentage / 100);
     })
 
     import VegaTransaction from './VegaTransaction.svelte'
@@ -29,10 +28,10 @@
 <main>
 	<div id="controls">
         <label>
-            Sample <input type="number" min="0" max="100" bind:value={samplePercentage}>% of trades
+            Sample <input type="number" min="0" max="100" bind:value={samplePercentage}>% of transactions
         </label>
 	</div>
-	{#each ($trades || []).slice().reverse() as tx (tx.id)}
+	{#each [...$transactions || []].reverse() as tx (tx.id)}
 		<VegaTransaction {tx} />
 	{/each}
 </main>
