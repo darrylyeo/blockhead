@@ -1,5 +1,17 @@
-<script lang="ts">
-    import VegaDEX from '../../components/VegaDEX.svelte'
+<script>
+
 </script>
 
-<VegaDEX />
+<style>
+
+</style>
+
+<h1>Trade</h1>
+
+<h2>Pick your mode of transport:</h2>
+<a href="trade/vega"><button>Vega</button></a>
+<a href="trade/uniswap"><button>Uniswap</button></a>
+
+<h2>Express</h2>
+<p>Need to swap tokens right away? Let one of these fine travel agencies decide the optimal transport method for you!</p>
+<a href="trade/1inch"><button>1inch</button></a>
