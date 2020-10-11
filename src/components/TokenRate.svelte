@@ -1,8 +1,9 @@
 <script>
-	export let value = 0.0
-	export let token = 'ETH'
+	export let rate = 0.0
+	export let quoteToken = 'BTC'
+	export let baseToken = 'ETH'
 	export let decimals = 3
-	
+
 	import TokenIcon from './TokenIcon.svelte';
 </script>
 
@@ -18,9 +19,13 @@
 </style>
 
 <div>
-	<TokenIcon {token} />
+	<!-- <TokenIcon token={quoteToken} /> -->
 	<span>
-		{value.toFixed(decimals)}
-		{token}
+		{rate.toFixed(decimals)}
+		{quoteToken}
+		<TokenIcon token={quoteToken} />
+		/
+		{baseToken}
+		<TokenIcon token={baseToken} />
 	</span>
 </div>

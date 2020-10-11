@@ -24,6 +24,7 @@ export namespace Vega {
         id: MarketID
         name: string
         tradableInstrument: TradableInstrument
+        decimalPlaces: number
     }
 
     type TradableInstrument = {
@@ -50,6 +51,8 @@ export namespace Vega {
         aggressor: Side
         buyer: Party
         seller: Party
+        createdAt: Date
+
         takerId: PartyID
         makerId: PartyID
     }
@@ -57,6 +60,8 @@ export namespace Vega {
     export type TransactionID = TradeID
     export type Transaction = {
         id: TransactionID
+        market: Market
+        price: number
         size: number
         aggressor: Side,
         takerId: PartyID,
@@ -67,7 +72,12 @@ export namespace Vega {
 export const makerAction: Record<Vega.Side, string> = {
     SIDE_BUY: 'bought',
     SIDE_SELL: 'sold',
-    NONE: 'traded'
+    NONE: 'traded' // auction or similar
+}
+export const takerAction: Record<Vega.Side, string> = {
+    SIDE_BUY: 'bought',
+    SIDE_SELL: 'sold',
+    NONE: 'traded' // auction or similar
 }
 
 const TRADES_QUERY = `
@@ -83,19 +93,21 @@ const TRADES_QUERY = `
                         quoteName
                     }
                 }
+                decimalPlaces
             }
             price
             size
             aggressor
             buyer { id }
             seller { id }
+            createdAt
         }
     }
 `
 
 // convert string from API response with implied fixed decimals to a number
-function formatDecimal(val, decimals) {
-    return Number(val.slice(0, val.length - decimals) + '.' + val.slice(-decimals))
+function formatDecimal(value, decimalPlaces) {
+    return value * 0.1 ** decimalPlaces
 }
 
 // Aggregate trades with the same aggressor into transactions
@@ -105,8 +117,10 @@ function aggregateTrades(trades: Vega.Trade[]) {
         const taker = trade.aggressor === 'SIDE_BUY' ? trade.buyer : trade.seller
         const maker = trade.aggressor === 'SIDE_BUY' ? trade.seller : trade.buyer
 
-        trade.price = formatDecimal(trade.price, MARKET_DECIMALS)
+        trade.price = formatDecimal(trade.price, trade.market.decimalPlaces)
         trade.size = Number(trade.size)
+
+        trade.createdAt = new Date(trade.createdAt)
         trade.takerId = taker.id
         trade.makerId = maker.id
 
@@ -119,6 +133,8 @@ function aggregateTrades(trades: Vega.Trade[]) {
             // New transaction
             transactions.push({
                 id: trade.id,
+                market: trade.market,
+                price: trade.price,
                 size: trade.size,
                 aggressor: trade.aggressor,
                 takerId: trade.takerId,
@@ -131,13 +147,11 @@ function aggregateTrades(trades: Vega.Trade[]) {
 
 
 
-const MAX_RECENT_TRANSACTIONS = 20
 const BUFFER_RESERVE_RATIO = 0.0 // 0.5
 const TIME_SMOOTH_PERIOD = 40
-const MARKET_DECIMALS = 5    //TODO: get from market framework API
 const DEFAULT_BLOCKTIME = 800
 
-export function recentTransactionsStream(filter) {
+export function recentTransactionsStream(filter, limit = 20) {
     return readable<Vega.Transaction[]>([], set => {
         const request = getClient().request({ query: TRADES_QUERY }).subscribe({
             next(res) { 
@@ -200,7 +214,7 @@ export function recentTransactionsStream(filter) {
         let recentTransactions = []
         function emit(transaction: Vega.Transaction){
             if (!filter || filter(transaction)) {
-                recentTransactions = [...recentTransactions, transaction].slice(-MAX_RECENT_TRANSACTIONS)
+                recentTransactions = [...recentTransactions, transaction].slice(-limit)
                 set(recentTransactions)
             }
         }

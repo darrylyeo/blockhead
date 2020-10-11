@@ -4,22 +4,16 @@
 	// import { recentTrades } from '../data/vega.ts'
     
     let samplePercentage = 100
-    let transactions
+    let transactionsStream
     onMount(async () => {
 	    const { recentTransactionsStream } = await import('../data/vega.ts')
-        transactions = recentTransactionsStream(tx => Math.random() < samplePercentage / 100);
+        transactionsStream = recentTransactionsStream(tx => Math.random() < samplePercentage / 100);
     })
 
-    import VegaTransaction from './VegaTransaction.svelte'
+    import VegaTransactions from './VegaTransactions.svelte'
 </script>
 
 <style>
-	section {
-        display: grid;
-        grid-auto-flow: row reverse;
-        gap: var(--padding-inner);
-    }
-
     #controls {
         display: flex;
     }
@@ -42,14 +36,5 @@
     </label>
 </div>
 <section>
-    {#if transactions}
-        {#each $transactions as tx (tx.id)}
-            <VegaTransaction {tx} />
-        {:else}
-            <p>Connected to Vega.</p>
-            <p>Loading transactions...</p>
-        {/each}
-    {:else}
-        <p>Connecting to Vega...</p>
-    {/if}
+    <VegaTransactions {transactionsStream}/>
 </section>
