@@ -8,14 +8,27 @@
 	--bitcoin-gold: #f7931a;
 	--ethereum-blue: #627eea;
 
+	--up-green: #1af73d;
+	--down-red: #f7541a;
+	
 	--primary-color: var(--ethereum-blue); /* #6790e1; */
 	--padding-outer: 1rem;
 	--padding-inner: 0.8rem;
+
+    min-height: 100vh;
 
 	font-size: 20px;
 	font-family: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 	line-height: 1.5;
 	color: #333;
+	
+	background: linear-gradient(155deg, transparent, var(--primary-color) 250%);
+}
+@media (prefers-color-scheme: dark) {
+	:root {
+		background: linear-gradient(155deg, #01002d, var(--primary-color) 250%);
+		color: #f7fdff;
+	}
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -66,15 +79,24 @@ button:hover, button:focus {
 }
 
 
+:-placeholder {
+	opacity: 0.5;
+}
+
+input, select, textarea {
+	font: inherit;
+}
+
 input {
 	border-radius: 0.5rem;
 	padding: 0.3em 0.7em;
 	width: 100%;
-	font: inherit;
 }
 /* input.is-valid {
 	border: 2px solid green;
 } */
-:-placeholder {
-	opacity: 0.5;
+
+select {
+	border-radius: 0.5rem;
+	padding: 0.25em 0.4em;
 }

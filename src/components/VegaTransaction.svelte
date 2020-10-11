@@ -45,19 +45,19 @@
     }
 
     .aggressor-buy {
-        color: green;
+        color: var(--up-green);
     }
     .aggressor-sell {
-        color: red;
+        color: var(--down-red);
     }
     .aggressor-none {
-        color: gray;
+        opacity: 0.7;
     }
 </style>
 
 {#if tx}
     <div class="card"> 
-        Matched trade for {tx.takerId.slice(0,7) + '…'}
+        Matched trade for {formatPartyID(tx.takerId)}
         <div style="font-size: {sizeByVolume(tx.size)}pt" class={aggressorClasses[tx.aggressor]}>
             <span style="font-size: 32pt; padding-right: 8pt">{emoji(tx)}</span>
             {action(tx)} {tx.size}

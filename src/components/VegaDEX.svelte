@@ -3,11 +3,10 @@
 
 	// import { recentTrades } from '../data/vega.ts'
     
-    let samplePercentage
+    let samplePercentage = 100
     let transactions
     onMount(async () => {
 	    const { recentTransactionsStream } = await import('../data/vega.ts')
-        samplePercentage = 100.0
         transactions = recentTransactionsStream(tx => Math.random() < samplePercentage / 100);
     })
 
@@ -15,23 +14,42 @@
 </script>
 
 <style>
-	input {
-		background-color: #333;
-		padding: 0.3em;
-		color: lightgoldenrodyellow;
-		border: 1px solid darkblue;
-		font-size: 1em;
-		width: 4em;
-	}
+	section {
+        display: grid;
+        grid-auto-flow: row reverse;
+        gap: var(--padding-inner);
+    }
+
+    #controls {
+        display: flex;
+    }
+    #controls > * {
+        flex: auto;
+    }
 </style>
 
-<main>
-	<div id="controls">
-        <label>
-            Sample <input type="number" min="0" max="100" bind:value={samplePercentage}>% of transactions
-        </label>
-	</div>
-	{#each [...$transactions || []].reverse() as tx (tx.id)}
-		<VegaTransaction {tx} />
-	{/each}
-</main>
+<h2>Vega</h2>
+
+<div id="controls">
+    <label>
+        Show <select bind:value={samplePercentage}>
+            <option value="100">all transactions</option>
+            <option value="50">every other transaction</option>
+            <option value="20">1 out of 5 transactions</option>
+            <option value="10">1 out of 10 transactions</option>
+            <option value="1">1 out of 100 transactions</option>
+        </select>
+    </label>
+</div>
+<section>
+    {#if transactions}
+        {#each $transactions as tx (tx.id)}
+            <VegaTransaction {tx} />
+        {:else}
+            <p>Connected to Vega.</p>
+            <p>Loading transactions...</p>
+        {/each}
+    {:else}
+        <p>Connecting to Vega...</p>
+    {/if}
+</section>
