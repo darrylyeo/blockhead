@@ -7,9 +7,9 @@
     let samplePercentage
     let trades
     onMount(async () => {
-	    const { recentTrades } = await import('../data/vega.ts')
+	    const { recentTransactionsStream } = await import('../data/vega.ts')
         samplePercentage = 100.0
-        trades = recentTrades(tx => Math.random() < (samplePercentage / 100), `wss://${VEGA_NODE_URL}/query`);
+        trades = recentTransactionsStream(`wss://${VEGA_NODE_URL}/query`, tx => Math.random() < samplePercentage / 100);
     })
 
     import VegaTransaction from './VegaTransaction.svelte'

@@ -23,14 +23,8 @@ function makerId(trade) {
     return trade.aggressor === 'SIDE_BUY' ? trade.seller.id : (trade.aggressor === 'SIDE_SELL' ? trade.buyer.id : null);
 }
 
-export function recentTrades(filter, graphqlEndpoint) {
+export function recentTransactionsStream(graphqlEndpoint, filter) {
     return readable([], set => {
-        let newTrades = [];
-        let trades = [];
-        let lastUpdate = null;
-        let dripInterval = null;
-        let blockTimeMA = DEFAULT_BLOCKTIME;
-
         function aggregate(trades) {
             const result = [];
             trades.forEach(trade => {
@@ -55,33 +49,54 @@ export function recentTrades(filter, graphqlEndpoint) {
             return result;
         }
 
-        function drip() {
-            const tx = newTrades.shift();
-            if (newTrades.length === 0) console.log('Trade bucket empty!');
-            if (!filter || filter(tx)) {
-                trades = trades.concat(tx).slice(-1 * NUM_TRADES);
-                set(trades);
+        let newTransactionsBuffer = [];
+        let transactions = [];
+        let currentTime = null;
+        let timeElapsedMA = DEFAULT_BLOCKTIME;
+
+        function onNewTransactions(newTransactions){
+            const newTime = new Date();
+            let timeElapsed = currentTime ? differenceInMilliseconds(newTime, currentTime) : DEFAULT_BLOCKTIME;
+            timeElapsedMA = timeElapsedMA === 0 
+                ? timeElapsed 
+                : ((TIME_SMOOTH_PERIOD * timeElapsedMA) + timeElapsed) / (TIME_SMOOTH_PERIOD + 1);
+            currentTime = newTime
+            console.log(`Received ${newTransactions.length} trades (${timeElapsed}ms)`);
+
+            newTransactionsBuffer.push(...aggregate(newTransactions));
+
+            showNewTransactions()
+        }
+
+        let showingNewTransactions = false
+        async function showNewTransactions(){
+            if(showingNewTransactions)
+                return
+
+            showingNewTransactions = true
+            while(showingNewTransactions && newTransactionsBuffer.length){
+                console.log(newTransactionsBuffer.length)
+
+                const tx = newTransactionsBuffer.shift();
+                if (!filter || filter(tx)) {
+                    transactions = transactions.concat(tx).slice(-1 * NUM_TRADES);
+                    set(transactions);
+                }
+
+                let timeBetweenDrips = timeElapsedMA / ((1 - BUCKET_RESERVE) * newTransactionsBuffer.length)
+                console.log(`Moving average blocktime = ${timeElapsedMA}, drip every = ${timeBetweenDrips}, bucket size = ${newTransactionsBuffer.length}`);
+                await new Promise(r => setInterval(r, timeBetweenDrips))
+                // await new Promise(r => requestAnimationFrame(r))
             }
-            if (dripInterval !== null && newTrades.length === 0) clearInterval(dripInterval);
+            showingNewTransactions = false
         }
 
         const client = new SubscriptionClient(graphqlEndpoint, { reconnect: true });
         const req = client.request({ query: TRADES_QUERY }).subscribe({
             next(res) { 
-                if (res && res.data && res.data.trades) {
-                    const updateTime = new Date();
-                    let blockTime = lastUpdate ? differenceInMilliseconds(updateTime, lastUpdate) : DEFAULT_BLOCKTIME;
-                    blockTimeMA = blockTimeMA === 0 
-                        ? blockTime 
-                        : ((TIME_SMOOTH_PERIOD * blockTimeMA) + blockTime) / (TIME_SMOOTH_PERIOD + 1);
-                    lastUpdate = updateTime
-                    console.log(`Received ${res.data.trades.length} trades (${blockTime}ms)`);
-                    newTrades = newTrades.concat(aggregate(res.data.trades));
-                    let timeBetweenDrips = blockTimeMA / ((1 - BUCKET_RESERVE) * newTrades.length)
-                    if (dripInterval !== null) clearInterval(dripInterval);
-                    console.log(`Moving average blocktime = ${blockTimeMA}, drip every = ${timeBetweenDrips}, bucket size = ${newTrades.length}`);
-                    dripInterval = setInterval(drip, timeBetweenDrips);
-                }
+                const newTransactions = res?.data?.trades
+                if(newTransactions?.length)
+                    onNewTransactions(newTransactions)
             },
             error(e) {
                 console.error('GraphQL error:', e);
@@ -93,10 +108,7 @@ export function recentTrades(filter, graphqlEndpoint) {
 
         return function stop() {
             req.unsubscribe();
-            if (dripInterval !== null) {
-                clearInterval(dripInterval);
-                dripInterval = null;
-            }
+            showingNewTransactions = false
         };
     }); 
 }

@@ -15,4 +15,4 @@ export { POCKET_NETWORK_PPK, POCKET_NETWORK_PASSPHRASE } from './config-secrets'
 
 
 // Vega
-export const VEGA_NODE_URL = 'lb.n.vega.xyz'
+export const VEGA_NODE_URL = 'lb.n.vega.xyz' // 'n06.n.vega.xyz'
