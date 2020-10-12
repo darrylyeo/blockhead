@@ -11,9 +11,19 @@
 		display: inline-grid;
 		grid-auto-flow: column;
 		align-items: center;
-		gap: 0.33em;
+		gap: var(--inner-padding);
 
+		line-height: 1;
 		align-self: baseline;
+	}
+
+	div {
+		--inner-padding: 0.33em;
+	}
+
+	.token-name {
+		font-weight: 300;
+		font-size: 0.8em;
 	}
 </style>
 
@@ -21,6 +31,6 @@
 	<TokenIcon {token} />
 	<span>
 		{value.toFixed(decimals)}
-		{token}
+		<span class="token-name">{token}</span>
 	</span>
 </div>

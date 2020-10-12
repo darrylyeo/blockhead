@@ -4,28 +4,93 @@
 	export let baseToken = 'ETH'
 	export let decimals = 3
 
-	import TokenIcon from './TokenIcon.svelte';
+	export let layout = 'vertical' // 'horizontal'
+	export let fractionLayout = layout === 'vertical' ? 'horizontal' : 'vertical'
+
+	import TokenIcon from './TokenIcon.svelte'
 </script>
 
 <style>
-	div {
-		display: inline-grid;
+	.token-rate.horizontal, .fraction.horizontal {
 		grid-auto-flow: column;
+	}
+	.token-rate.vertical, .fraction.vertical {
+		grid-auto-flow: row;
+	}
+
+	.token-rate {
+		display: inline-grid;
+		justify-items: center;
 		align-items: center;
-		gap: 0.33em;
+		gap: var(--padding-inner);
+
+		line-height: 1;
+		--padding-inner: 0.33em;
 
 		align-self: baseline;
 	}
+	.token-rate.horizontal {
+		--padding-inner: 0.33em;
+	}
+
+	@supports (-webkit-background-clip: text) or (background-clip: text) {
+		.rate {
+			background: linear-gradient(135deg, var(--bitcoin-gold), var(--ethereum-blue));
+			-webkit-background-clip: text;
+			background-clip: text;
+			-webkit-text-fill-color: #ffffff20;
+		}
+	}
+
+	.fraction {
+		display: inline-grid;
+		align-items: center;
+
+		font-size: 0.5em;
+	}
+	.fraction.horizontal {
+		gap: 0.33em;
+	}
+	.token-rate.horizontal .fraction.horizontal {
+		align-self: baseline;
+	}
+	.fraction.vertical {
+		gap: 0.33em;
+	}
+
+	.fraction > * {
+		display: inline-grid;
+		grid-auto-flow: column;
+		gap: var(--padding-inner);
+
+		justify-items: center;
+		align-items: center;
+	}
+	.fraction.vertical .fraction-bar {
+		text-indent: -1000vw;
+		border-bottom: 0.1em solid;
+		height: 0;
+		width: 100%;
+	}
+
+	.token-name {
+		font-weight: 300;
+	}
 </style>
 
-<div>
-	<!-- <TokenIcon token={quoteToken} /> -->
-	<span>
+<div class="token-rate {layout}">
+	<span class="rate">
 		{rate.toFixed(decimals)}
-		{quoteToken}
-		<TokenIcon token={quoteToken} />
-		/
-		{baseToken}
-		<TokenIcon token={baseToken} />
+	</span>
+	<span class="fraction {fractionLayout}">
+		<span>
+			<TokenIcon token={quoteToken} />
+			<span class="token-name">{quoteToken}</span>
+		</span>
+		<span class="fraction-bar">/</span>
+		<span>
+			<TokenIcon token={baseToken} />
+			<span class="token-name">{baseToken}</span>
+		</span>
 	</span>
 </div>

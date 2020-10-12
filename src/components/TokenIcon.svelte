@@ -7,12 +7,13 @@
 
 <figure title={token}>
     {#if Icon}
-        <svelte:component this={Icon} size="1.25em" /> 
+        <svelte:component this={Icon} size="1.2em" /> 
     {/if}
 </figure>
 
 <style>
     figure {
         display: inline-flex;
+        align-self: center;
     }
 </style>

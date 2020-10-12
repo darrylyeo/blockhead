@@ -75,8 +75,8 @@ export const makerAction: Record<Vega.Side, string> = {
     NONE: 'traded' // auction or similar
 }
 export const takerAction: Record<Vega.Side, string> = {
-    SIDE_BUY: 'bought',
-    SIDE_SELL: 'sold',
+    SIDE_BUY: 'sold',
+    SIDE_SELL: 'bought',
     NONE: 'traded' // auction or similar
 }
 
@@ -204,8 +204,9 @@ export function recentTransactionsStream(filter, limit = 20) {
                 console.log(`Average elapsed time = ${smoothedElapsedTime}, drip every = ${waitTime}, remaining in buffer = ${buffer.length}`)
 
                 const startTime = Date.now()
-                while(Date.now() < startTime + waitTime)
-                    await new Promise(r => requestAnimationFrame(r))
+                if(waitTime > 2)
+                    while(Date.now() < startTime + waitTime)
+                        await new Promise(r => requestAnimationFrame(r))
             }
             isRunning = false
         }
