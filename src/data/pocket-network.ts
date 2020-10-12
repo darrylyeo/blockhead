@@ -11,38 +11,38 @@ export const pocketInstance = new Pocket([dispatchURL], rpcProvider, configurati
 
 // This is only called once to setup the Pocket Instance and AAT
 async function unlockAAT(aat, accountPPK, accountPassphrase) {
-    try {
-        const account = await pocketInstance.keybase.importPPKFromJSON(
-            accountPassphrase,
-            JSON.stringify(accountPPK),
-            accountPassphrase
-        )
-        // @ts-ignore
-        await pocketInstance.keybase.unlockAccount(account.addressHex, accountPassphrase, 0)
-        return await PocketAAT.fromSignature(
-            aat.version,
-            // @ts-ignore
-            account.publicKey.toString('hex'),
-            aat.applicationPublicKey,
-            aat.applicationSignature
-        )
-    } catch(e) {
-        console.log(e)
-    }
+	try {
+		const account = await pocketInstance.keybase.importPPKFromJSON(
+			accountPassphrase,
+			JSON.stringify(accountPPK),
+			accountPassphrase
+		)
+		// @ts-ignore
+		await pocketInstance.keybase.unlockAccount(account.addressHex, accountPassphrase, 0)
+		return await PocketAAT.fromSignature(
+			aat.version,
+			// @ts-ignore
+			account.publicKey.toString('hex'),
+			aat.applicationPublicKey,
+			aat.applicationSignature
+		)
+	} catch(e) {
+		console.log(e)
+	}
 }
 
 unlockAAT(POCKET_NETWORK_APP_AUTH_TOKEN, POCKET_NETWORK_PPK, POCKET_NETWORK_PASSPHRASE).then(async pocketAAT => {
-    // See https://docs.pokt.network/docs/supported-networks-on-mainnet for blockchain choices
-    const blockchain = "0021" // Ethereum mainnet
-    
-    // Call this every time you want to fetch RPC data
-    try {
-        return await pocketInstance.sendRelay(
-            '{"jsonrpc":"2.0","id":1,"method":"net_version","params":[]}',
-            blockchain,
-            pocketAAT
-        )
-    } catch (e) {
-        console.error(e)
-    }
+	// See https://docs.pokt.network/docs/supported-networks-on-mainnet for blockchain choices
+	const blockchain = "0021" // Ethereum mainnet
+	
+	// Call this every time you want to fetch RPC data
+	try {
+		return await pocketInstance.sendRelay(
+			'{"jsonrpc":"2.0","id":1,"method":"net_version","params":[]}',
+			blockchain,
+			pocketAAT
+		)
+	} catch (e) {
+		console.error(e)
+	}
 })

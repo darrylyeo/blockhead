@@ -21,19 +21,19 @@ export const getWeb3 = async () => {
 // import { PORTIS_DAPP_ID } from '../../config'
 
 // /*
-//    Initialize Portis by declaring:
-//      - Required:
-//        - dappId: Your Portis DApp identification. You can register at 
-//       (https://dashboard.portis.io/register)
-//        - network: The network you are trying to connect to. this can be a 
-//        single string(shown below) or an object.
-//      - Optional:
-//        - config: you can customize you configuration by adding an one of 
-//        the following as an object.
-//        learn more(https://docs.portis.io/#/configuration?id=options):
-//         - pocketDevId
-//         - gasRelay
-//         - registerPageByDefault
+//	Initialize Portis by declaring:
+//	  - Required:
+//		- dappId: Your Portis DApp identification. You can register at 
+//	   (https://dashboard.portis.io/register)
+//		- network: The network you are trying to connect to. this can be a 
+//		single string(shown below) or an object.
+//	  - Optional:
+//		- config: you can customize you configuration by adding an one of 
+//		the following as an object.
+//		learn more(https://docs.portis.io/#/configuration?id=options):
+//		 - pocketDevId
+//		 - gasRelay
+//		 - registerPageByDefault
 // */
 // const portis = new Portis(PORTIS_DAPP_ID, 'mainnet')
 // export const web3 = new Web3(portis.provider)

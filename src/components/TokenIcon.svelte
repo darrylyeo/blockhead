@@ -1,19 +1,19 @@
 <script lang="ts">
-    import * as CryptoIcons from 'svelte-cryptoicon'
-    export let token = 'ETH'
+	import * as CryptoIcons from 'svelte-cryptoicon'
+	export let token = 'ETH'
 
-    $: Icon = CryptoIcons[token[0].toUpperCase() + token.slice(1).toLowerCase()]
+	$: Icon = CryptoIcons[token[0].toUpperCase() + token.slice(1).toLowerCase()]
 </script>
 
 <figure title={token}>
-    {#if Icon}
-        <svelte:component this={Icon} size="1.2em" /> 
-    {/if}
+	{#if Icon}
+		<svelte:component this={Icon} size="1.2em" /> 
+	{/if}
 </figure>
 
 <style>
-    figure {
-        display: inline-flex;
-        align-self: center;
-    }
+	figure {
+		display: inline-flex;
+		align-self: center;
+	}
 </style>
