@@ -41,18 +41,20 @@
 	<p>An all-in-one crypto market visualizer, DeFi interface and block explorer metaverse</p>
 </header>
 
-<section class="row">
-	<div>
-		<h3><strong>Track</strong> your crypto holdings and activity</h3>
-		<p>Connect your wallet addresses and keep tabs on your positions, trades, and transactions.</p>
-	</div>
-	<div>
-		<h3><strong>Invest and trade</strong> with smart contracts and DeFi protocols</h3>
-		<p>Buy, sell, lend, borrow, stake, and farm through one comprehensive, informative, easy-to-use interface.</p>
-	</div>
-	<div>
-		<h3><strong>Explore</strong> the Blockhead Metaverse</h3>
-		<p>Visualize blockchain transactions and statistics like never before within a rich and vibrant virtual world.</p>
+<section>
+	<div class="row">
+		<div>
+			<h3><strong>Track</strong> your crypto holdings and activity</h3>
+			<p>Connect your wallet addresses and keep tabs on your positions, trades, and transactions.</p>
+		</div>
+		<div>
+			<h3><strong>Invest and trade</strong> with smart contracts and DeFi protocols</h3>
+			<p>Buy, sell, lend, borrow, stake, and farm through one comprehensive, informative, easy-to-use interface.</p>
+		</div>
+		<div>
+			<h3><strong>Explore</strong> the Blockhead Metaverse</h3>
+			<p>Visualize blockchain transactions and statistics like never before within a rich and vibrant virtual world.</p>
+		</div>
 	</div>
 </section>
 

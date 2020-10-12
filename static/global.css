@@ -37,6 +37,7 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
 	font-size: 2em;
+	font-weight: 500;
 }
 
 a {
@@ -83,6 +84,7 @@ button:hover, button:focus {
 }
 
 input, select, textarea {
+	border: none;
 	font: inherit;
 }
 
@@ -98,4 +100,9 @@ input {
 select {
 	border-radius: 0.5rem;
 	padding: 0.25em 0.4em;
+}
+
+section {
+	display: grid;
+	gap: var(--padding-inner);
 }

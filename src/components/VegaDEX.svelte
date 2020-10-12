@@ -22,19 +22,20 @@
 	}
 </style>
 
-<h2>Vega</h2>
+<h1>Vega</h1>
 
-<div id="controls">
-	<label>
-		Show <select bind:value={samplePercentage}>
-			<option value="100">all transactions</option>
-			<option value="50">every other transaction</option>
-			<option value="20">1 out of 5 transactions</option>
-			<option value="10">1 out of 10 transactions</option>
-			<option value="1">1 out of 100 transactions</option>
-		</select>
-	</label>
-</div>
 <section>
+	<h2>Recent Trades</h2>
+	<div id="controls">
+		<label>
+			Show <select bind:value={samplePercentage}>
+				<option value="100">all transactions</option>
+				<option value="50">every other transaction</option>
+				<option value="20">1 out of 5 transactions</option>
+				<option value="10">1 out of 10 transactions</option>
+				<option value="1">1 out of 100 transactions</option>
+			</select>
+		</label>
+	</div>
 	<VegaTransactions {transactionsStream}/>
 </section>
