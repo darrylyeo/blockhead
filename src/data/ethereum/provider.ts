@@ -1,18 +1,18 @@
 import { PORTIS_DAPP_ID } from '../../config'
 import type { EthereumNetwork } from './network'
-import type { Web3Provider } from '@Ethersproject/providers'
+import type { Web3Provider } from '@ethersproject/providers'
 
 export type EthereumProvider = Web3Provider
 
-let Ethers
+let ethers
 let Portis
 
 const providers: Partial<Record<EthereumNetwork, EthereumProvider>> = {}
 
 export async function getEthersJS(){
-	if(!Ethers)
-		Ethers = (await import('Ethers')).default
-	return Ethers
+	if(!ethers)
+		ethers = (await import('ethers')).default
+	return ethers
 }
 
 export async function getPortis(){
@@ -28,7 +28,7 @@ export async function getPortis(){
 // }
 
 export async function getProvider(network: EthereumNetwork = 'mainnet'){
-	const Ethers = await getEthersJS()
+	const ethers = await getEthersJS()
 	const Portis = await getPortis()
 	// const Web3 = await getPWeb3()
 
@@ -49,7 +49,7 @@ export async function getProvider(network: EthereumNetwork = 'mainnet'){
 			- registerPageByDefault
 		*/
 		const portis = new Portis(PORTIS_DAPP_ID, network)
-		providers[network] = new Ethers.providers.Web3Provider(portis.provider)
+		providers[network] = new ethers.providers.Web3Provider(portis.provider)
 		// providers[network] = new Web3(portis.provider)
 	}
 
