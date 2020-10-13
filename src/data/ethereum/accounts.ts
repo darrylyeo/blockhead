@@ -1,16 +1,24 @@
 import { writable } from 'svelte/store'
-import { getWeb3 } from './web3'
+import { getProvider } from './provider'
 
 export const accounts = writable([])
 
 export const getAccounts = async () => {
-	const { web3 } = await getWeb3()
+	const { ethers, provider } = await getProvider()
 	
-	console.log('web3', web3, web3.eth.accounts)
+	// console.log('web3', web3, web3.eth.accounts)
 	// You can now use a web3 method to obtain or send data. 
-	web3.eth.getBalance("0xE11c896E2a6fF6E52A925C68c8083397Ab65eaA8", (error, balance) => {
-		console.log(balance, error);
-	})
+	// web3.eth.getBalance("0xE11c896E2a6fF6E52A925C68c8083397Ab65eaA8", (error, balance) => {
+	// 	console.log(balance, error);
+	// })
+	
+	console.log(provider, provider.provider.isConnected())
+	const balance = await provider.getBalance("0xE11c896E2a6fF6E52A925C68c8083397Ab65eaA8")
+	console.log(balance)
+	console.log(ethers.utils.formatEther(balance))
+
+	console.log('balance', await provider.getBalance("ethers.eth"))
+	// provider._getAddress('')
 }
 
 

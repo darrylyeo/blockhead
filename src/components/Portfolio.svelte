@@ -11,8 +11,9 @@
 	export let address: CryptoAddress
 
 	let accounts
-	onMount(() => {
-		accounts = getAccounts()
+	onMount(async () => {
+		accounts = await getAccounts()
+		console.log('accounts', accounts)
 	})
 </script>
 

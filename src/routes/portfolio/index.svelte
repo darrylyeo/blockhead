@@ -14,8 +14,9 @@
 <h1>Portfolio</h1>
 
 <section>
-	{#each addresses as address}
+	<Portfolio />
+	<!-- {#each addresses as address}
 		<Portfolio {address} />
-	{/each}
+	{/each} -->
 	<button>Connect Wallet</button>
 </section>

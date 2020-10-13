@@ -2,8 +2,13 @@
 	export let value = 0.0
 	export let token = 'ETH'
 	export let decimals = 3
+
+	const formatValue = value =>
+		typeof value === 'number' ? value.toFixed(decimals) :
+		typeof value === 'string' ? value :
+		value.toString()
 	
-	import TokenIcon from './TokenIcon.svelte';
+	import TokenIcon from './TokenIcon.svelte'
 </script>
 
 <style>
@@ -30,7 +35,7 @@
 <div>
 	<TokenIcon {token} />
 	<span>
-		{value.toFixed(decimals)}
+		{formatValue(value)}
 		<span class="token-name">{token}</span>
 	</span>
 </div>
