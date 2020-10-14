@@ -26,12 +26,12 @@
 				<VegaTransaction {tx} />
 			</div>
 		{:else}
-			<Loading>Loading transactions...</Loading>
+			<Loading>Connecting to Vega...</Loading><!-- <Loading>Loading transactions...</Loading> -->
 			<div class="placeholder">
 				<VegaTransaction tx={dummyTransaction} />
 			</div>
 		{/each}
 	{:else}
-		<Loading>Connecting to Vega...</Loading>
+		<!-- <Loading>Connecting to Vega...</Loading> -->
 	{/if}
 </div>

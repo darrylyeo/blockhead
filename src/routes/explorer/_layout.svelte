@@ -1,14 +1,16 @@
 <script lang="ts">
 	import { onMount } from 'svelte'
 	import { goto } from '@sapper/app'
-
+	
 	let blockchain = 'Ethereum'
-
+	
 	// $: {
 	// 	console.log('blockchain')
 	// 	if(globalThis.document)
 	// 		goto(`explorer/${blockchain.toLowerCase()}`)
 	// }
+
+	import Controls from '../../components/Controls.svelte'
 </script>
 
 <style>
@@ -19,7 +21,7 @@
 	<title>{blockchain ? `${blockchain} Explorer` : `Explorer`} | Blockhead</title>
 </svelte:head>
 
-<div>
+<Controls>
 	<h2>Explorer</h2>
 	<label>
 		<span>Blockchain: </span>
@@ -29,6 +31,6 @@
 			<option value="Ethereum" selected>Ethereum</option>
 		</select>
 	</label>
-</div>
+</Controls>
 
 <slot></slot>
