@@ -16,7 +16,8 @@
 <style>
 	section {
 		padding: var(--padding-outer);
-		background-color: rgba(255, 255, 255, 0.1);
+		background-color: var(--card-background-color);
+		border-radius: var(--card-border-radius);
 	}
 </style>
 

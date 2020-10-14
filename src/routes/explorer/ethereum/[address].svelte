@@ -31,8 +31,10 @@
 	// $: if(address)
 	// 	$provider?.getBalance(address).then(_ => balance = _)
 
-	// import Portfolio from '../../../components/Portfolio.svelte'
+	import Loading from '../../../components/Loading.svelte'
+	import TokenIcon from '../../../components/TokenIcon.svelte'
 	import TokenValue from '../../../components/TokenValue.svelte'
+	// import Portfolio from '../../../components/Portfolio.svelte'
 </script>
 
 <style>
@@ -43,9 +45,12 @@
 	<!-- <Portfolio {address} /> -->
 	{#if $address}
 		{#await $provider?.getBalance($address).catch(console.error)}
-			Reading balance...
+			<Loading>
+				<span slot="spinner"><TokenIcon token="ETH" /></span>
+				Reading balance...
+			</Loading>
 		{:then balance} 
-			<TokenValue value={ethers?.utils.formatEther(balance)} />
+			<TokenValue token="ETH" value={ethers?.utils.formatEther(balance)} />
 		{/await}
 	{/if}
 

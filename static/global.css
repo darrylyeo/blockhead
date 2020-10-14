@@ -12,6 +12,9 @@
 	--down-red: #f7541a;
 	
 	--primary-color: var(--ethereum-blue); /* #6790e1; */
+	--card-background-color: rgba(0, 0, 0, 0.1);
+	--card-border-radius: 0.5rem;
+
 	--padding-outer: 1rem;
 	--padding-inner: 0.8rem;
 
@@ -22,14 +25,17 @@
 	line-height: 1.5;
 	color: #333;
 	
-	background: linear-gradient(155deg, transparent, var(--primary-color) 250%);
+	background: linear-gradient(155deg, #ffffff, var(--primary-color) 250%);
 }
 @media (prefers-color-scheme: dark) {
 	:root {
+		--card-background-color: rgba(255, 255, 255, 0.1);
+
 		background: linear-gradient(155deg, #01002d, var(--primary-color) 250%);
 		color: #f7fdff;
 	}
 }
+
 
 h1, h2, h3, h4, h5, h6 {
 	line-height: 1.2;
@@ -59,7 +65,7 @@ button {
 	background-color: var(--primary-color);
 	color: #fff;
 	border: none;
-	border-radius: 0.5rem;
+	border-radius: 0.33em;
 	outline: none;
 
 	padding: 0.3em 0.7em;

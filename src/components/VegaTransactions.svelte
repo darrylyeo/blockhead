@@ -5,6 +5,7 @@
 	dummyTransaction.trades.push(dummyTransaction)
 
 	import VegaTransaction from './VegaTransaction.svelte'
+	import Loading from './Loading.svelte'
 </script>
 
 <style>
@@ -20,10 +21,10 @@
 		{#each $transactionsStream as tx (tx.id)}
 			<VegaTransaction {tx} />
 		{:else}
-			<p>Loading transactions...</p>
+			<Loading>Loading transactions...</Loading>
 			<VegaTransaction tx={dummyTransaction} />
 		{/each}
 	{:else}
-		<p>Connecting to Vega...</p>
+		<Loading>Connecting to Vega...</Loading>
 	{/if}
 </div>

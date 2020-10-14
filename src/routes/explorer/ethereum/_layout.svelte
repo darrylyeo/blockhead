@@ -39,7 +39,8 @@
 	// $: if(globalThis.document)
 	// 	goto(`explorer/ethereum/${address}`)
 
-	import Address from "../../../components/Address.svelte"
+	import Address from '../../../components/Address.svelte'
+	import Loading from '../../../components/Loading.svelte'
 </script>
 
 <svelte:head>
@@ -54,5 +55,5 @@
 	<slot></slot>
 	<!-- <slot {provider} {address}></slot> -->
 {:else}
-	Connecting to the blockchain...
+	<Loading>Connecting to the blockchain...</Loading>
 {/if}

@@ -53,12 +53,8 @@
 
 		position: relative;
 
-		background-color: rgba(0, 0, 0, 0.1);
-	}
-	@media (prefers-color-scheme: dark) {
-		.card {
-			background-color: rgba(255, 255, 255, 0.05)
-		}
+		background-color: var(--card-background-color);
+		border-radius: var(--card-border-radius);
 	}
 	.card > * {
 		display: flex;
