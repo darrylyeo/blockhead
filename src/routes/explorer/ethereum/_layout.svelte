@@ -39,7 +39,7 @@
 	// $: if(globalThis.document)
 	// 	goto(`explorer/ethereum/${address}`)
 
-	import AddressField from '../../../components/Address-Field.svelte'
+	import AddressField from '../../../components/AddressField.svelte'
 	import Loading from '../../../components/Loading.svelte'
 </script>
 

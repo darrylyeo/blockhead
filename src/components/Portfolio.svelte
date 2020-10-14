@@ -7,14 +7,38 @@
 	// import type { CryptoPosition } from '../data/CryptoPosition'
 	
 	export let name = 'Your Portfolio'
+	export let editable = false
+	export let accounts: CryptoAddress[]
 
 	let provider 
-	export let accounts: CryptoAddress[]
 	onMount(async () => {
 		provider = await getProvider($ethereumNetwork)
 	})
 
+	let newWalletAddress = ''
+
+	let isEditing = false
+	let isAddingWallet = false
+	function showAddWallet(){
+		isAddingWallet = true
+	}
+
+	function isValid(address){
+		return address !== ''
+	}
+
+	function addWallet(newWalletAddress){
+		if(!isValid(newWalletAddress))
+			return
+
+		const newAccount = newWalletAddress
+		accounts = [...accounts, newAccount] // accounts.push(newAccount)
+
+		isAddingWallet = false
+	}
+
 	import Address from './Address.svelte'
+	import AddressField from './AddressField.svelte'
 	import Balance from './Balance.svelte'
 	import Controls from './Controls.svelte'
 	import Loading from './Loading.svelte'
@@ -32,13 +56,28 @@
 		background-color: var(--card-background-color);
 		border-radius: var(--card-border-radius);
 	}
+
+	form {
+		display: contents;
+	}
 </style>
 
 
 <Controls>
 	<h1>{name}</h1>
-	<button>Edit</button>
-	<button>+ Add Wallet</button>
+	{#if editable}
+		{#if isAddingWallet}
+			<form on:submit={() => addWallet(newWalletAddress)}>
+				<AddressField bind:address={newWalletAddress} required />
+				<button>Add</button>
+			</form>
+		{:else if isEditing}
+			<button>Done</button>
+		{:else}
+			<button>Edit</button>
+			<button on:click={showAddWallet}>+ Add Wallet</button>
+		{/if}
+	{/if}
 </Controls>
 <div class="portfolio">
 	{#if accounts}
@@ -49,6 +88,11 @@
 					<Balance provider={provider} address={address} />
 				{/if}
 			</section>
+		{:else}
+			<p>Your Blockhead Portfolio is empty!</p>
+			{#if editable}
+				<p>You can <a on:click={showAddWallet}>add a new wallet address manually</a>, or import an address by connecting a wallet service below!</p>
+			{/if}
 		{/each}
 	{:else}
 		<slot>

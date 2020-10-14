@@ -1,11 +1,9 @@
-import { writable } from 'svelte/store'
+import type { CryptoAddress } from '../CryptoAddress'
+import { localStorageWritable } from '../local-storage'
 import { getProvider } from './provider'
 
-export const accounts = writable([])
-
-// export const getLocalAccounts = async () => {
-// 	return accounts
-// }
+export const getLocalAccounts = () =>
+	localStorageWritable<CryptoAddress[]>('localAccounts', [])
 
 export const getWeb3Accounts = async () => {
 	const provider = await getProvider()
@@ -30,11 +28,7 @@ export const getWeb3Accounts = async () => {
 }
 
 
-
-// import { writable } from 'svelte/store'
-
 // import { web3 } from './web3'
-// export const accounts = writable([])
 
 // // console.log(web3)
 // // You can now use a web3 method to obtain or send data. 
@@ -43,16 +37,10 @@ export const getWeb3Accounts = async () => {
 // })
 
 
-
-// import { writable } from 'svelte/store'
-
-// export const accounts = writable([])
-
-// console.log(9)
 // if(globalThis.document) (async () => {
 // 	const { web3 } = await import('./web3')
-	
 // 	console.log(web3)
+	
 // 	// You can now use a web3 method to obtain or send data. 
 // 	web3.eth.getBalance("0xE11c896E2a6fF6E52A925C68c8083397Ab65eaA8", (error, balance) => {
 // 		console.log(balance);

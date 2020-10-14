@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte'
 
-	import { getWeb3Accounts } from '../../data/ethereum/accounts'
+	import { getLocalAccounts, getWeb3Accounts } from '../../data/ethereum/accounts'
 	
-	let accounts
+	let localAccounts
+	let web3Accounts
 	onMount(async () => {
-		accounts = await getWeb3Accounts()
+		localAccounts = await getLocalAccounts()
+		web3Accounts = await getWeb3Accounts()
 	})
 	
 	import Portfolio from '../../components/Portfolio.svelte'
@@ -16,5 +18,8 @@
 </svelte:head>
 
 <section>
-	<Portfolio name="Portis Wallet" {accounts} />
+	{#if localAccounts}
+		<Portfolio name="Your Portfolio" bind:accounts={$localAccounts} editable={true} />
+	{/if}
+	<Portfolio name="Portis Wallet" accounts={web3Accounts} />
 </section>
