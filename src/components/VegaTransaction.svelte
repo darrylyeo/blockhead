@@ -105,7 +105,7 @@
 
 {#if tx}
 	{#each [tx] as {market: {tradableInstrument: {instrument: {quoteName, baseName}}}, price, size, aggressor, takerId}}
-	<div class="card" style:--emoji={emojiForTransactionSize(tx.size)}> 
+	<div class="card" style:--emoji={emojiForTransactionSize(tx.size)}>
 		<div class="maker">
 			{#each tx.trades as {id, size, makerId} (id)}
 				<p>

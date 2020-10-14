@@ -112,3 +112,10 @@ section {
 	display: grid;
 	gap: var(--padding-inner);
 }
+
+
+:disabled, [disabled], .placeholder {
+	opacity: 0.2;
+	pointer-events: none;
+	touch-action: none;
+}
