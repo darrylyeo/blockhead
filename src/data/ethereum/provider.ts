@@ -5,6 +5,7 @@ import type { Web3Provider } from '@ethersproject/providers'
 export type EthereumProvider = Web3Provider
 
 let ethers
+let Web3
 let Portis
 
 const providers: Partial<Record<EthereumNetwork, EthereumProvider>> = {}
@@ -30,7 +31,7 @@ export async function getPortis(){
 export async function getProvider(network: EthereumNetwork = 'mainnet'){
 	const ethers = await getEthersJS()
 	const Portis = await getPortis()
-	// const Web3 = await getPWeb3()
+	// const Web3 = await getWeb3()
 
 	if(!(network in providers)){
 		/*

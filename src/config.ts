@@ -16,3 +16,7 @@ export { POCKET_NETWORK_PPK, POCKET_NETWORK_PASSPHRASE } from './config-secrets'
 
 // Vega
 export const VEGA_NODE_URL = 'lb.n.vega.xyz' // 'n06.n.vega.xyz'
+
+
+// The Graph
+export const THE_GRAPH_UNISWAP_API_URL = 'wss://api.thegraph.com/explorer/graphql'

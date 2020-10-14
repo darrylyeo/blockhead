@@ -42,8 +42,8 @@
 <div>
 	<!-- <Portfolio {address} /> -->
 	{#if $address}
-		{#await $provider?.getBalance($address)}
-			Reading your balance...
+		{#await $provider?.getBalance($address).catch(console.error)}
+			Reading balance...
 		{:then balance} 
 			<TokenValue value={ethers?.utils.formatEther(balance)} />
 		{/await}

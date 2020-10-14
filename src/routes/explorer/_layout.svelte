@@ -23,8 +23,8 @@
 	<h2>Explorer</h2>
 	<label>
 		<span>Blockchain: </span>
-		<!-- <select bind:value={blockchain} on:input={() => goto(`explorer/${blockchain.toLowerCase()}`)}> -->
-		<select bind:value={blockchain}>
+		<select bind:value={blockchain} on:input={() => goto(`explorer/${blockchain.toLowerCase()}`)}>
+		<!-- <select bind:value={blockchain}> -->
 			<option value="Bitcoin">Bitcoin</option>
 			<option value="Ethereum" selected>Ethereum</option>
 		</select>
