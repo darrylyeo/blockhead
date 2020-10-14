@@ -16,14 +16,14 @@
 		display: inline-grid;
 		grid-auto-flow: column;
 		align-items: center;
-		gap: var(--inner-padding);
+		gap: var(--padding-inner);
 
 		line-height: 1;
 		align-self: baseline;
 	}
 
 	div {
-		--inner-padding: 0.33em;
+		--padding-inner: 0.33em;
 	}
 
 	.token-name {

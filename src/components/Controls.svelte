@@ -5,7 +5,9 @@
 		flex-wrap: wrap;
 		gap: var(--padding-inner);
 	}
-    .controls > :global(:first-child) {
+    .controls > :global(h1:first-child),
+    .controls > :global(h2:first-child),
+    .controls > :global(h3:first-child) {
 		margin-right: auto;
 	}
 	.controls > :global(*) {

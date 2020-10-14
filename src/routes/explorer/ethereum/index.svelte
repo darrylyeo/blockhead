@@ -1,16 +1,11 @@
 <script lang="ts">
 	import { getContext } from 'svelte'
 	import type { EthereumProvider } from '../../../data/ethereum/provider'
-
-	// export let provider: EthereumProvider
 	
-	// $: blockNumber = provider?.getBlockNumber()
-
-
-	let provider = getContext('provider')
-
-	let blockNumber
-	$: $provider?.getBlockNumber().then(_ => blockNumber = _)
+	// export let provider: EthereumProvider
+	const provider = getContext('provider')
+	
+	import Loading from '../../../components/Loading.svelte'
 </script>
 
 <style>
@@ -21,7 +16,9 @@
 	}
 </style>
 
-{#if blockNumber}
+{#await $provider?.getBlockNumber()}
+	<Loading>Retrieving statistics...</Loading>
+{:then blockNumber}
 	<section>
 		<h3>Block Number</h3>
 		<p>
@@ -30,4 +27,6 @@
 			<span> blocks long.</span>
 		</p>
 	</section>
-{/if}
+{:catch error}
+	{error}
+{/await}

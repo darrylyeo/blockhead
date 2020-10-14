@@ -39,7 +39,7 @@
 	// $: if(globalThis.document)
 	// 	goto(`explorer/ethereum/${address}`)
 
-	import Address from '../../../components/Address.svelte'
+	import AddressField from '../../../components/Address-Field.svelte'
 	import Loading from '../../../components/Loading.svelte'
 </script>
 
@@ -48,7 +48,7 @@
 </svelte:head>
 
 <div>
-	<Address editable={true} bind:address={$address} on:change={goto(`explorer/ethereum/${address}`)}/><!--  -->
+	<AddressField bind:address={$address} on:change={goto(`explorer/ethereum/${address}`)}/>
 </div>
 
 {#if $provider}
