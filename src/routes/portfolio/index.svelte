@@ -1,22 +1,20 @@
 <script lang="ts">
-	import Portfolio from '../../components/Portfolio.svelte';
+	import { onMount } from 'svelte'
 
-	import type { CryptoAddress } from '../../data/CryptoAddress'
-	import type { CryptoPosition } from '../../data/CryptoPosition'
-
-	let addresses: CryptoAddress[] = []
+	import { getWeb3Accounts } from '../../data/ethereum/accounts'
+	
+	let accounts
+	onMount(async () => {
+		accounts = await getWeb3Accounts()
+	})
+	
+	import Portfolio from '../../components/Portfolio.svelte'
 </script>
 
 <svelte:head>
 	<title>Portfolio | Blockhead Explorers</title>
 </svelte:head>
 
-<h1>Portfolio</h1>
-
 <section>
-	<Portfolio />
-	<!-- {#each addresses as address}
-		<Portfolio {address} />
-	{/each} -->
-	<button>Connect Wallet</button>
+	<Portfolio name="Portis Wallet" {accounts} />
 </section>

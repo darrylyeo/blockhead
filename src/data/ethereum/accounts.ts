@@ -3,7 +3,11 @@ import { getProvider } from './provider'
 
 export const accounts = writable([])
 
-export const getAccounts = async () => {
+// export const getLocalAccounts = async () => {
+// 	return accounts
+// }
+
+export const getWeb3Accounts = async () => {
 	const provider = await getProvider()
 	
 	// console.log('web3', web3, web3.eth.accounts)
@@ -21,7 +25,8 @@ export const getAccounts = async () => {
 	// provider._getAddress('')
 
 	const accounts = await provider.listAccounts()
-	console.log(accounts)
+	console.log('accounts', accounts)
+	return accounts
 }
 
 
