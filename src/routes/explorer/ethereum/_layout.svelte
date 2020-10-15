@@ -43,13 +43,25 @@
 	import Loading from '../../../components/Loading.svelte'
 </script>
 
+<style>
+	form {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		gap: var(--padding-inner);
+		align-items: center;
+	}
+</style>
+
 <svelte:head>
 	<title>{$address ? `${$address} | ` : ''}Ethereum Explorer | Blockhead</title>
 </svelte:head>
 
-<div>
-	<AddressField bind:address={$address} on:change={goto(`explorer/ethereum/${address}`)}/>
-</div>
+
+<!-- <AddressField bind:address={$address} on:change={goto(`explorer/ethereum/${address}`)}/> -->
+<form on:submit={() => goto(`explorer/ethereum/${$address}`)}>
+	<AddressField bind:address={$address}/>
+	<button>Go</button>
+</form>
 
 {#if $provider}
 	<slot></slot>

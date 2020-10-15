@@ -6,13 +6,14 @@
 
 <style>
 	main {
-		position: relative;
-		max-width: 58em;
-		padding: 2em;
-		margin: 0 auto;
-
 		display: grid;
 		gap: var(--padding-inner);
+		/* justify-content: center; */
+		padding: 2rem;
+
+		position: relative;
+		max-width: 58em;
+		margin: 0 auto;
 	}
 
 	main > * {

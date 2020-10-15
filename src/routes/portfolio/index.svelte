@@ -13,13 +13,40 @@
 	import Portfolio from '../../components/Portfolio.svelte'
 </script>
 
+<style>
+	:global(main) {
+		max-width: none !important;
+	}
+	section {
+		/* display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr)); */
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 2rem;
+	}
+	section > * {
+		flex: 1 25rem;
+		max-width: 45rem;
+
+		display: grid;
+		gap: var(--padding-inner);
+		align-content: start;
+		grid-template-columns: 100%;
+	}
+</style>
+
 <svelte:head>
 	<title>Portfolio | Blockhead Explorers</title>
 </svelte:head>
 
 <section>
-	{#if localAccounts}
-		<Portfolio name="Your Portfolio" bind:accounts={$localAccounts} editable={true} />
-	{/if}
-	<Portfolio name="Portis Wallet" accounts={web3Accounts} />
+	<div>
+		{#if localAccounts}
+			<Portfolio name="Your Portfolio" bind:accounts={$localAccounts} editable={true} />
+		{/if}
+	</div>
+	<div>
+		<Portfolio name="Portis Wallet" accounts={web3Accounts} />
+	</div>
 </section>

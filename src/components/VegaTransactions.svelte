@@ -12,17 +12,19 @@
 </script>
 
 <style>
-	div {
+	.transactions {
 		display: grid;
 		grid-auto-flow: row reverse;
 		gap: var(--padding-inner);
+
+		font-size: 0.8em;
 	}
 </style>
 
-<div>
+<div class="transactions">
 	{#if transactionsStream}
 		{#each $transactionsStream as tx (tx.id)}
-			<div transition:fade><!-- animate:flip -->
+			<div><!-- transition:fade animate:flip -->
 				<VegaTransaction {tx} />
 			</div>
 		{:else}
