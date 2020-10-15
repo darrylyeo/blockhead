@@ -7,8 +7,9 @@
 		-webkit-backdrop-filter: blur(4px);
 		backdrop-filter: blur(4px);
 		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-		font-weight: 300;
 		padding: 0 var(--padding-outer);
+		font-size: 1.2em;
+		font-weight: 300;
 	}
 
 	ul {

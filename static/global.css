@@ -12,7 +12,7 @@
 	--down-red: #f7541a;
 	
 	--primary-color: var(--ethereum-blue); /* #6790e1; */
-	--card-background-color: rgba(0, 0, 0, 0.1);
+	--card-background-color: rgba(0, 0, 0, 0.075);
 	--card-border-radius: 0.5rem;
 
 	--padding-outer: 1rem;
@@ -21,6 +21,7 @@
     min-height: 100vh;
 
 	font-size: 20px;
+	font-size: clamp(15px, 1.1vw, 20px);
 	font-family: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 	line-height: 1.5;
 	color: #333;
@@ -97,7 +98,6 @@ input, select, textarea {
 input {
 	border-radius: 0.5rem;
 	padding: 0.3em 0.7em;
-	width: 100%;
 }
 /* input.is-valid {
 	border: 2px solid green;
