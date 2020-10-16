@@ -38,6 +38,7 @@
 		accounts = [...accounts, newAccount] // accounts.push(newAccount)
 
 		isAddingWallet = false
+		newWalletAddress = ''
 	}
 
 	function deleteWallet(i){
@@ -78,8 +79,9 @@
 	section > * {
 		flex: 1;
 	}
+
 	.edit-controls {
-		flex: auto;
+		flex: 0 auto;
 	}
 
 	form {

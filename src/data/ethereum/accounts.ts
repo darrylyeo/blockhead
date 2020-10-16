@@ -5,9 +5,7 @@ import { getProvider } from './provider'
 export const getLocalAccounts = () =>
 	localStorageWritable<CryptoAddress[]>('localAccounts', [])
 
-export const getWeb3Accounts = async () => {
-	const provider = await getProvider()
-	
+export const getWeb3Accounts = async provider => {
 	// console.log('web3', web3, web3.eth.accounts)
 	// You can now use a web3 method to obtain or send data. 
 	// web3.eth.getBalance("0xE11c896E2a6fF6E52A925C68c8083397Ab65eaA8", (error, balance) => {
