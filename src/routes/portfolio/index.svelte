@@ -11,13 +11,11 @@
 	})
 	
 	import Portfolio from '../../components/Portfolio.svelte'
+	import { fly } from 'svelte/transition'
 </script>
 
 <style>
-	:global(main) {
-		max-width: none !important;
-	}
-	section {
+	main {
 		/* display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr)); */
 		display: flex;
@@ -25,7 +23,7 @@
 		flex-wrap: wrap;
 		gap: 2rem;
 	}
-	section > * {
+	section {
 		flex: 1 25rem;
 		max-width: 45rem;
 
@@ -40,13 +38,13 @@
 	<title>Portfolio | Blockhead Explorers</title>
 </svelte:head>
 
-<section>
-	<div>
+<main in:fly={{x: 300}} out:fly={{x: -300}}>
+	<section>
 		{#if localAccounts}
 			<Portfolio name="Your Portfolio" bind:accounts={$localAccounts} editable={true} />
 		{/if}
-	</div>
-	<div>
+	</section>
+	<section>
 		<Portfolio name="Portis Wallet" accounts={web3Accounts} />
-	</div>
-</section>
+	</section>
+</main>

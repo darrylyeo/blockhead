@@ -5,24 +5,25 @@
 </script>
 
 <style>
-	main {
+	:global(#sapper) {
 		display: grid;
-		gap: var(--padding-inner);
-		/* justify-content: center; */
-		padding: 2rem;
-
-		position: relative;
-		max-width: 58em;
-		margin: 0 auto;
+		grid:
+			"nav" auto
+			"main" 1fr;
+		place-items: start;
+		height: 100vh;
 	}
-
-	main > * {
-		padding: var(--padding-outer);
+	:global(nav) {
+		grid-area: nav;
+		position: sticky;
+		top: 0;
+	}
+	:global(main) {
+		grid-area: main;
+		overflow: auto;
 	}
 </style>
 
 <Nav {segment}/>
 
-<main>
-	<slot></slot>
-</main>
+<slot></slot>

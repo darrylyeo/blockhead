@@ -15,6 +15,7 @@
 	--card-background-color: rgba(0, 0, 0, 0.075);
 	--card-border-radius: 0.5rem;
 
+	--one-column-width: 58em;
 	--padding-outer: 1rem;
 	--padding-inner: 0.8rem;
 
@@ -119,4 +120,15 @@ section {
 	opacity: 0.2;
 	pointer-events: none;
 	touch-action: none;
+}
+
+
+main {
+	display: grid;
+	gap: var(--padding-inner);
+	margin: 0 auto;
+	padding: 2rem;
+
+	position: relative;
+	width: 100%;
 }
