@@ -2,6 +2,8 @@
 	import { getEthersJS } from '../data/ethereum/provider'
 	import type { EthereumProvider } from '../data/ethereum/provider'
 
+	export let token = 'ETH'
+
 	let ethers
 	getEthersJS().then(_ => ethers = _)
 
@@ -30,12 +32,12 @@
 	{#if provider && address}
 		{#await provider.getBalance(address)}
 			<Loading>
-				<span slot="spinner"><TokenIcon token="ETH" /></span>
+				<span slot="spinner"><TokenIcon {token} /></span>
 				Reading balance...
 			</Loading>
         {:then balance}
             <div in:scale>
-                <TokenValue token="ETH" value={ethers?.utils.formatEther(balance)} />
+                <TokenValue {token} value={ethers?.utils.formatEther(balance)} />
             </div>
 		{:catch error}
 			{error}

@@ -93,6 +93,15 @@
 	form {
 		display: contents;
 	}
+
+	.balances {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--padding-inner);
+	}
+	.balances > :global(*) {
+		flex: 0 auto;
+	}
 </style>
 
 
@@ -121,7 +130,11 @@
 					<div class="account">
 						<h3><Address {address} /></h3>
 						{#if provider}
-							<Balance {provider} {address} />
+							<div class="balances">
+								{#each ['ETH'] as token}
+									<Balance {provider} {token} {address} />
+								{/each}
+							</div>
 						{/if}
 					</div>
 					{#if isEditing}
