@@ -15,6 +15,17 @@
     import { scale } from 'svelte/transition'
 </script>
 
+<style>
+	div {
+		display: grid;
+		grid: "area";
+	}
+	div > :global(*) {
+		grid-area: area;
+		place-items: start;
+	}
+</style>
+
 <div>
 	{#if provider && address}
 		{#await provider.getBalance(address)}
@@ -23,7 +34,7 @@
 				Reading balance...
 			</Loading>
         {:then balance}
-            <div transition:scale>
+            <div in:scale>
                 <TokenValue token="ETH" value={ethers?.utils.formatEther(balance)} />
             </div>
 		{:catch error}

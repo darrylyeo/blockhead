@@ -63,7 +63,9 @@ import { disconnect } from 'process';
 			{#await getWeb3Accounts(provider)}
 				<Loading>Log into Portis via the pop-up window.</Loading>
 			{:then web3Accounts}
-				<Portfolio name="Portis Wallet" accounts={web3Accounts}></Portfolio>
+				<Portfolio name="Portis Wallet" accounts={web3Accounts}>
+					<button on:click={disconnectProvider}>Disconnect</button>
+				</Portfolio>
 			{:catch error}
 				<h2>Import from Portis</h2>
 				<div>

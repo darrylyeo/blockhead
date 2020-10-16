@@ -68,7 +68,7 @@
 		/* display: grid;
 		grid-auto-flow: column;
 		grid-auto-columns: 1fr auto; */
-		display: flex;
+		/* display: flex; */
 		gap: var(--padding-inner);
 		padding: var(--padding-outer);
 
@@ -82,6 +82,12 @@
 
 	.edit-controls {
 		flex: 0 auto;
+	}
+
+	.account {
+		--padding-inner: 0.5em;
+		display: grid;
+		gap: var(--padding-inner);
 	}
 
 	form {
@@ -105,22 +111,25 @@
 			<button on:click={showAddWallet}>+ Add Wallet</button>
 		{/if}
 	{/if}
+	<slot></slot>
 </Controls>
 <div class="portfolio">
 	{#if accounts}
 		{#each accounts as address, i (address)}
 			<section animate:flip={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
-				<div>
-					<h3><Address {address} /></h3>
-					{#if provider}
-						<Balance provider={provider} address={address} />
-					{/if}
-				</div>
-				{#if isEditing}
-					<div class="edit-controls">
-						<button on:click={() => deleteWallet(i)}>Delete</button>
+				<Controls>
+					<div class="account">
+						<h3><Address {address} /></h3>
+						{#if provider}
+							<Balance {provider} {address} />
+						{/if}
 					</div>
-				{/if}
+					{#if isEditing}
+						<div class="edit-controls">
+							<button on:click={() => deleteWallet(i)}>Delete</button>
+						</div>
+					{/if}
+				</Controls>
 			</section>
 		{:else}
 			<p>Your Blockhead Portfolio is empty!</p>
@@ -129,7 +138,7 @@
 			{/if}
 		{/each}
 	{:else}
-		<slot>
+		<slot name="loading">
 			<Loading>Loading your accounts...</Loading>
 		</slot>
 	{/if}
