@@ -1,6 +1,6 @@
 import { THE_GRAPH_ENS_URL } from '../config'
 
-import { ApolloClient, createHttpLink, gql, InMemoryCache } from '@apollo/client'
+import { ApolloClient, createHttpLink, gql, InMemoryCache } from '@apollo/client/core'
 import { readableFromApolloRequest } from './apollo-store'
 
 

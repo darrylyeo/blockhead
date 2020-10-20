@@ -1,17 +1,41 @@
 import { readable } from 'svelte/store'
-import { SubscriptionClient } from 'subscriptions-transport-ws'
-// import { graphql } from 'svelte-apollo'
-// import { ApolloClient } from "@apollo/client"
-// import { setClient } from "svelte-apollo"
+import { gql, NormalizedCacheObject } from '@apollo/client/core'
+import { ApolloClient, HttpLink, InMemoryCache, split } from '@apollo/client/core'
+import { getMainDefinition } from '@apollo/client/utilities'
+import { WebSocketLink } from '@apollo/client/link/ws'
 
 import { VEGA_NODE_URL } from '../config'
 
 
-// Lazy instantiate (incompatible with Sapper SSR)
-let client
-function getClient(){
+// Everything must be lazy instantiated; web sockets are incompatible with Sapper SSR
+
+let client: ApolloClient<NormalizedCacheObject>
+function getVegaClient(){
 	return client || (
-		client = new SubscriptionClient(`wss://${VEGA_NODE_URL}/query`, { reconnect: true })
+		client = new ApolloClient({
+			cache: new InMemoryCache(),
+
+			// Use Web Socket link for subscriptions, and regular HTTPS link for queries
+			// https://www.apollographql.com/docs/react/data/subscriptions/#3-use-different-transports-for-different-operations
+			link: split(
+				({ query }) => {
+					const definition = getMainDefinition(query)
+					return (
+						definition.kind === 'OperationDefinition' &&
+						definition.operation === 'subscription'
+					)
+				},
+				new WebSocketLink({
+					uri: `wss://${VEGA_NODE_URL}/query`,
+					options: {
+						reconnect: true
+					}
+				}),
+				new HttpLink({
+					uri: `https://${VEGA_NODE_URL}/query`
+				}),
+			)
+		})
 	)
 }
 
@@ -19,8 +43,8 @@ function getClient(){
 // GraphQL Reference:
 // https://docs.ethonline.vega.xyz/graphql/market.doc.html
 export namespace Vega {
-	type MarketID = string
-	type Market = {
+	export type MarketID = string
+	export type Market = {
 		id: MarketID
 		name: string
 		tradableInstrument: TradableInstrument
@@ -31,6 +55,7 @@ export namespace Vega {
 		instrument: Instrument
 	}
 	type Instrument = {
+		name: string
 		baseName: string
 		quoteName: string
 	}
@@ -63,9 +88,9 @@ export namespace Vega {
 		market: Market
 		price: number
 		size: number
-		aggressor: Side,
-		takerId: PartyID,
-		trades: Trade[],
+		aggressor: Side
+		takerId: PartyID
+		trades: Trade[]
 	}
 }
 
@@ -80,21 +105,29 @@ export const takerAction: Record<Vega.Side, string> = {
 	NONE: 'traded' // auction or similar
 }
 
-const TRADES_QUERY = `
+
+const MARKETS_QUERY = gql`
+	query {
+		markets {
+			id
+			name
+			tradableInstrument {
+				instrument {
+					name
+					baseName
+					quoteName
+				}
+			}
+			decimalPlaces
+		}
+	}
+`
+
+const TRADES_QUERY = gql`
 	subscription {
 		trades {
 			id
-			market {
-				id
-				name
-				tradableInstrument {
-					instrument {
-						baseName
-						quoteName
-					}
-				}
-				decimalPlaces
-			}
+			market { id }
 			price
 			size
 			aggressor
@@ -104,6 +137,25 @@ const TRADES_QUERY = `
 		}
 	}
 `
+
+
+let getVegaMarketsPromise
+export const getVegaMarkets = () => getVegaMarketsPromise || (getVegaMarketsPromise =
+	getVegaClient().query({query: MARKETS_QUERY})
+		.then(result => {
+			const markets: Vega.Market[] = result?.data?.markets
+
+			const marketsByID: Record<Vega.MarketID, Vega.Market> = {}
+			for(const market of markets)
+				marketsByID[market.id] = market
+
+			return marketsByID
+		})
+		.catch(e => {
+			console.error('GraphQL error:', e)
+		})
+)
+
 
 // convert string from API response with implied fixed decimals to a number
 function formatDecimal(value, decimalPlaces) {
@@ -153,9 +205,15 @@ const DEFAULT_BLOCKTIME = 800
 
 export function recentTransactionsStream(filter, limit = 20) {
 	return readable<Vega.Transaction[]>([], set => {
-		const request = getClient().request({ query: TRADES_QUERY }).subscribe({
-			next(res) { 
-				const newTrades = res?.data?.trades
+		// const subscription = getVegaClient().query({ query: TRADES_QUERY }).subscribe({
+		const subscription = getVegaClient().subscribe({ query: TRADES_QUERY }).subscribe({
+			async next(result) {
+				const newTrades = result?.data?.trades
+
+				const markets = await getVegaMarkets()
+				for(const trade of newTrades)
+					trade.market = markets[trade.market.id]
+
 				if(newTrades?.length)
 					onNewTrades(newTrades)
 			},
@@ -220,8 +278,8 @@ export function recentTransactionsStream(filter, limit = 20) {
 			}
 		}
 
-		return function stop() {
-			request.unsubscribe()
+		return () => {
+			subscription.unsubscribe()
 			isRunning = false
 		}
 	}) 
