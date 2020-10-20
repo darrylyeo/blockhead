@@ -4,8 +4,8 @@
 
 <style>
 	nav {
-		-webkit-backdrop-filter: blur(4px);
-		backdrop-filter: blur(4px);
+		-webkit-backdrop-filter: blur(20px) contrast(1.1);
+		backdrop-filter: blur(20px) contrast(1.1);
 		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 		padding: 0 var(--padding-outer);
 		font-size: 1.2em;

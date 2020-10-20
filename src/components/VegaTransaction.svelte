@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
 	import type { Vega } from '../data/vega'
 	import { makerAction, takerAction } from '../data/vega'
 

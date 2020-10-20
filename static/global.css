@@ -27,13 +27,13 @@
 	line-height: 1.5;
 	color: #333;
 	
-	background: linear-gradient(155deg, #ffffff, var(--primary-color) 250%);
+	--global-background-gradient-base-color: #ffffff;
+	background: linear-gradient(155deg, var(--global-background-gradient-base-color), var(--primary-color) 250%) fixed;
 }
 @media (prefers-color-scheme: dark) {
 	:root {
 		--card-background-color: rgba(255, 255, 255, 0.1);
-
-		background: linear-gradient(155deg, #01002d, var(--primary-color) 250%);
+		--global-background-gradient-base-color: #01002d;
 		color: #f7fdff;
 	}
 }

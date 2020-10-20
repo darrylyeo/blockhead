@@ -1,5 +1,5 @@
 <script>
-	import { fly } from 'svelte/transition'
+	import { fly, scale } from 'svelte/transition'
 </script>
 
 <style>
@@ -37,7 +37,7 @@
 	}
 </style>
 
-<div class="loading" in:fly={{x: -100}} out:fly={{x: 100}}>
+<div class="loading" transition:scale><!-- in:fly={{x: -100}} out:fly={{x: 100}} -->
 	<span class="spinner">
 		<slot name="spinner">🧭</slot>
 	</span>

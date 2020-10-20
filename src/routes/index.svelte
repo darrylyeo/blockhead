@@ -43,7 +43,7 @@
 	<title>Blockhead Explorers</title>
 </svelte:head>
 
-<main in:fly={{x: 300}} out:fly={{x: -300}}>
+<main in:fly={{x: 100}} out:fly={{x: -100}}>
 	<header>
 		<p>Welcome to</p>
 		<h1>Blockhead Explorers</h1>
