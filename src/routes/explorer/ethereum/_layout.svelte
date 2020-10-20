@@ -32,12 +32,12 @@
 	export let segment
 	$: console.log('segment', segment)
 
-	export let address = writable<string>('')
-	setContext('address', address)
+	export let query = writable<string>('')
+	setContext('query', query)
 
-	// $: console.log('address changed: ', address)
+	// $: console.log('query changed: ', query)
 	// $: if(globalThis.document)
-	// 	goto(`explorer/ethereum/${address}`)
+	// 	goto(`explorer/ethereum/${query}`)
 
 	import AddressField from '../../../components/AddressField.svelte'
 	import Loading from '../../../components/Loading.svelte'
@@ -53,19 +53,19 @@
 </style>
 
 <svelte:head>
-	<title>{$address ? `${$address} | ` : ''}Ethereum Explorer | Blockhead</title>
+	<title>{$query ? `${$query} | ` : ''}Ethereum Explorer | Blockhead</title>
 </svelte:head>
 
 
-<!-- <AddressField bind:address={$address} on:change={goto(`explorer/ethereum/${address}`)}/> -->
-<form on:submit={() => goto(`explorer/ethereum/${$address}`)}>
-	<AddressField bind:address={$address}/>
+<!-- <AddressField bind:query={$query} on:change={goto(`explorer/ethereum/${query}`)}/> -->
+<form on:submit={() => goto(`explorer/ethereum/${$query}`)}>
+	<AddressField bind:address={$query}/>
 	<button>Go</button>
 </form>
 
 {#if $provider}
 	<slot></slot>
-	<!-- <slot {provider} {address}></slot> -->
+	<!-- <slot {provider} {query}></slot> -->
 {:else}
 	<Loading>Connecting to the blockchain...</Loading>
 {/if}

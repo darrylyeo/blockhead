@@ -123,6 +123,14 @@ section {
 }
 
 
+hr {
+	background: none;
+	border: none;
+	border-bottom: currentColor 1px solid;
+	opacity: 0.25;
+}
+
+
 main {
 	display: grid;
 	gap: var(--padding-inner);
@@ -131,4 +139,14 @@ main {
 
 	position: relative;
 	width: 100%;
+}
+
+
+.card {
+	display: grid;
+	gap: var(--padding-inner);
+	padding: var(--padding-outer);
+
+	background-color: var(--card-background-color);
+	border-radius: var(--card-border-radius);
 }
