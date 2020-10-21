@@ -13,7 +13,14 @@ let client: ApolloClient<NormalizedCacheObject>
 function getVegaClient(){
 	return client || (
 		client = new ApolloClient({
-			cache: new InMemoryCache(),
+			cache: new InMemoryCache({
+				// possibleTypes: {
+				// 	AssetSource: ['BuiltinAsset', 'ERC20'],
+				// }
+				// typePolicies: {
+
+				// }
+			}),
 
 			// Use Web Socket link for subscriptions, and regular HTTPS link for queries
 			// https://www.apollographql.com/docs/react/data/subscriptions/#3-use-different-transports-for-different-operations
@@ -43,39 +50,88 @@ function getVegaClient(){
 // GraphQL Reference:
 // https://docs.ethonline.vega.xyz/graphql/market.doc.html
 export namespace Vega {
-	export type MarketID = string
+	type Int = number
+	type String = string
+
+	export type MarketID = String
 	export type Market = {
 		id: MarketID
-		name: string
+		name: String
 		tradableInstrument: TradableInstrument
-		decimalPlaces: number
+		decimalPlaces: Int
 	}
 
 	type TradableInstrument = {
 		instrument: Instrument
 	}
 	type Instrument = {
-		name: string
-		baseName: string
-		quoteName: string
+		name: String
+		baseName: String
+		quoteName: String
+		product: Product
 	}
 
-	type PartyID = string
+	type Product = Future
+	type Future = {
+		maturity: String
+		asset: Asset
+		oracle: Oracle
+	}
+
+	export type AssetID = String
+	export type Asset = {
+		id: AssetID
+		name: String
+		symbol: String
+		totalSupply: String
+		decimals: Int
+		source: AssetSource
+		infrastructureFeeAccount: Account
+	}
+
+	type AssetSource = BuiltinAsset | ERC20
+	type BuiltinAsset = {
+		id: String
+		name: String
+		symbol: String
+		totalSupply: String
+		decimals: Int
+		maxFaucetAmountMint: String
+	}
+	type ERC20 = {
+		contractAddress: String
+	}
+
+	type Account = {
+		balance: String
+		asset: Asset
+		type: AccountType
+		market: Market
+	}
+	type AccountType = 'Insurance' | 'Settlement' | 'Margin' | 'General' | 'FeeInfrastructure' | 'FeeLiquidity' | 'LockWithdraw'
+
+	type Oracle = EthereumEvent
+	type EthereumEvent = {
+		contractId: String
+		event: String
+	}
+
+	type PartyID = String
 	type Party = {
 		id: PartyID
 	}
 
 	export type Side = 'SIDE_BUY' | 'SIDE_SELL' | 'NONE'
 
-	export type TradeID = string
+	export type TradeID = String
 	export type Trade = {
 		id: TradeID
 		market: Market
-		price: number
-		size: number
-		aggressor: Side
 		buyer: Party
 		seller: Party
+		aggressor: Side
+		price: Int
+		size: Int
 		createdAt: Date
 
 		takerId: PartyID
@@ -86,8 +142,8 @@ export namespace Vega {
 	export type Transaction = {
 		id: TransactionID
 		market: Market
-		price: number
-		size: number
+		price: Int
+		size: Int
 		aggressor: Side
 		takerId: PartyID
 		trades: Trade[]
@@ -106,16 +162,57 @@ export const takerAction: Record<Vega.Side, string> = {
 }
 
 
+const ASSETS_QUERY = gql`
+	query VegaAssets {
+		assets {
+			id
+			name
+			symbol
+			totalSupply
+			decimals
+			source {
+				... on BuiltinAsset {
+					id
+					name
+					symbol
+					totalSupply
+					decimals
+					maxFaucetAmountMint
+				}
+				... on ERC20 {
+					contractAddress
+				}
+			}
+			infrastructureFeeAccount {
+				balance
+				asset { id }
+				type
+				market { id }
+			}
+		}
+	}
+`
+
 const MARKETS_QUERY = gql`
-	query {
+	query VegaMarkets {
 		markets {
 			id
 			name
 			tradableInstrument {
 				instrument {
+					id
 					name
 					baseName
 					quoteName
+					product {
+						... on Future {
+							maturity
+							asset { id }
+							oracle {
+								... on EthereumEvent { contractId event }
+							}
+						}
+					}
 				}
 			}
 			decimalPlaces
@@ -124,35 +221,54 @@ const MARKETS_QUERY = gql`
 `
 
 const TRADES_QUERY = gql`
-	subscription {
+	subscription VegaRecentTrades {
 		trades {
 			id
 			market { id }
-			price
-			size
-			aggressor
 			buyer { id }
 			seller { id }
+			aggressor
+			price
+			size
 			createdAt
 		}
 	}
 `
 
 
-let getVegaMarketsPromise
+let getVegaAssetsPromise: Promise<Record<Vega.AssetID, Vega.Asset>>
+export const getVegaAssets = () => getVegaAssetsPromise || (getVegaAssetsPromise =
+	getVegaClient().query({query: ASSETS_QUERY})
+		.then(result => {
+			const assets: Vega.Asset[] = result?.data?.assets
+			console.log(result?.data, assets)
+
+			const assetsByID: Record<Vega.AssetID, Vega.Asset> = {}
+			for(const asset of assets)
+				assetsByID[asset.id] = asset
+
+			return assetsByID
+		})
+)
+
+
+let getVegaMarketsPromise: Promise<Record<Vega.MarketID, Vega.Market>>
 export const getVegaMarkets = () => getVegaMarketsPromise || (getVegaMarketsPromise =
 	getVegaClient().query({query: MARKETS_QUERY})
-		.then(result => {
+		.then(async result => {
 			const markets: Vega.Market[] = result?.data?.markets
+
+			// const assets = await getVegaAssets()
+			// for(const market of markets){
+			// 	console.log(market.tradableInstrument.instrument.product.asset)
+			// 	market.tradableInstrument.instrument.product.asset = assets[market.tradableInstrument.instrument.product.asset.id]
+			// }
 
 			const marketsByID: Record<Vega.MarketID, Vega.Market> = {}
 			for(const market of markets)
 				marketsByID[market.id] = market
 
 			return marketsByID
-		})
-		.catch(e => {
-			console.error('GraphQL error:', e)
 		})
 )
 
@@ -211,6 +327,8 @@ export function recentTransactionsStream(filter, limit = 20) {
 				const newTrades = result?.data?.trades
 
 				const markets = await getVegaMarkets()
+				console.log('result?.data', result?.data)
+				console.log('markets', markets)
 				for(const trade of newTrades)
 					trade.market = markets[trade.market.id]
 
