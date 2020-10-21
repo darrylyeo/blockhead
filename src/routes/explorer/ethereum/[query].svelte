@@ -11,9 +11,9 @@
 </script>
 
 <script lang="ts">
-	import type { EthereumProvider } from '../../../data/ethereum/provider'
+	import type { Ethereum } from '../../../data/ethereum/types'
 
-	let provider: SvelteStore<EthereumProvider> = getContext('provider')
+	let provider: SvelteStore<Ethereum.Provider> = getContext('provider')
 
 	export let initialQuery
 	export let query: SvelteStore<string> = getContext('query')

@@ -2,7 +2,6 @@
 	import { getContext } from 'svelte'
 	import type { EthereumProvider } from '../../../data/ethereum/provider'
 	
-	// export let provider: EthereumProvider
 	const provider = getContext('provider')
 	
 	import Loading from '../../../components/Loading.svelte'

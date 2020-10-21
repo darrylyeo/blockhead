@@ -1,58 +1,37 @@
-import { PORTIS_DAPP_ID } from '../../config'
-import type { EthereumNetwork } from './network'
-import type { Web3Provider } from '@ethersproject/providers'
+import type { Ethereum } from './types'
+import { getEthersJS } from './ethers'
+import { getWeb3 } from './web3'
+import { getPortisProvider } from './providers/portis'
 
-export type EthereumProvider = Web3Provider
+// Cache provider objects by EthereumNetwork, ProviderName, ProviderLibrary
+export const providersCache: Partial<Record<Ethereum.Network, Partial<Record<Ethereum.ProviderName, {provider: any, wrapped: Partial<Record<Ethereum.ProviderLibrary, Ethereum.Provider>>} >> >> = {}
 
-let ethers
-let Web3
-let Portis
-
-const providers: Partial<Record<EthereumNetwork, EthereumProvider>> = {}
-
-export async function getEthersJS(){
-	if(!ethers)
-		ethers = (await import('ethers')).default
-	return ethers
+const getProviderFunctions: Record<Ethereum.ProviderName, any> = {
+	'Portis': getPortisProvider,
+	'Pocket Network': () => {}
 }
 
-export async function getPortis(){
-	if(!Portis)
-		Portis = (await import('@portis/web3')).default
-	return Portis
-}
+export async function getProvider(network: Ethereum.Network = 'mainnet', providerName: Ethereum.ProviderName, library: Ethereum.ProviderLibrary = 'ethers'){
+	if(!(network in providersCache))
+		providersCache[network] = {}
+	
+	if(!(providerName in providersCache[network]))
+		providersCache[network][providerName] = {
+			provider: await getProviderFunctions[providerName](network),
+			wrapped: {}
+		}
+	
+	if(!(library in providersCache[network][providerName].wrapped)){
+		const provider = providersCache[network][providerName].provider
 
-// export async function getWeb3(){
-// 	if(!Web3)
-// 		Web3 = (await import('web3')).default
-// 	return Web3
-// }
-
-export async function getProvider(network: EthereumNetwork = 'mainnet'){
-	const ethers = await getEthersJS()
-	const Portis = await getPortis()
-	// const Web3 = await getWeb3()
-
-	if(!(network in providers)){
-		/*
-		Initialize Portis by declaring:
-		- Required:
-			- dappId: Your Portis DApp identification. You can register at 
-		(https://dashboard.portis.io/register)
-			- network: The network you are trying to connect to. this can be a 
-			single string(shown below) or an object.
-		- Optional:
-			- config: you can customize you configuration by adding an one of 
-			the following as an object.
-			learn more(https://docs.portis.io/#/configuration?id=options):
-			- pocketDevId
-			- gasRelay
-			- registerPageByDefault
-		*/
-		const portis = new Portis(PORTIS_DAPP_ID, network)
-		providers[network] = new ethers.providers.Web3Provider(portis.provider)
-		// providers[network] = new Web3(portis.provider)
+		if(library === 'ethers'){
+			const ethers = await getEthersJS()
+			providersCache[network][providerName].wrapped[library] = new ethers.providers.Web3Provider(provider)
+		}else if(library === 'web3'){
+			const Web3 = await getWeb3()
+			providersCache[network][providerName].wrapped[library] = new Web3(provider)
+		}
 	}
 
-	return providers[network]
+	return providersCache[network][providerName].wrapped[library]
 }

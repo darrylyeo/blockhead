@@ -1,29 +1,34 @@
 <script lang="ts">
 	import { onMount } from 'svelte'
 
-	import { getProvider } from '../../data/ethereum/provider'
-	import { getLocalAccounts, getWeb3Accounts } from '../../data/ethereum/accounts'
+	import { getProvider, providersCache } from '../../data/ethereum/provider'
+	import { getLocalAccounts, getEthersAccounts } from '../../data/ethereum/accounts'
+	import { ethereumNetwork, preferredEthereumProvider } from '../../data/ethereum/preferences'
 	
 	let localAccounts
-
-	onMount(async () => {
+	onMount(async () =>
 		localAccounts = getLocalAccounts()
-	})
+	)
 
-	let provider
-	const loadProvider = async () => {
-		provider = await getProvider()
+	let portisProvider
+	const loadPortisProvider = async () =>
+		portisProvider = await getProvider($ethereumNetwork, 'Portis', 'ethers')
+	const disconnectPortisProvider = () => {
+		providersCache[$ethereumNetwork]['Portis'].provider.stop()
+		providersCache[$ethereumNetwork]['Portis'].provider.removeProvider(portisProvider)
+		console.log(portisProvider, providersCache[$ethereumNetwork]['Portis'].provider.isConnected())
+		portisProvider = undefined
 	}
 
-	const disconnectProvider = () => {
-		provider = undefined
-	}
+	let preferredProvider
+	onMount(async () =>
+		preferredProvider = await getProvider($ethereumNetwork, $preferredEthereumProvider, 'ethers')
+	)
 	
-	import Portfolio from '../../components/Portfolio.svelte'
+	import Controls from '../../components/Controls.svelte'
 	import Loading from '../../components/Loading.svelte'
+	import Portfolio from '../../components/Portfolio.svelte'
 	import { fly } from 'svelte/transition'
-import Controls from '../../components/Controls.svelte'
-import { disconnect } from 'process';
 </script>
 
 <style>
@@ -53,31 +58,31 @@ import { disconnect } from 'process';
 <main in:fly={{x: 100}} out:fly={{x: -100}}>
 	<section>
 		{#if localAccounts}
-			<Portfolio name="Your Portfolio" bind:accounts={$localAccounts} editable={true} />
+			<Portfolio name="Your Portfolio" provider={preferredProvider} bind:accounts={$localAccounts} editable={true} />
 		{:else}
-			LocalStorage isn't availale in your browser.
+			LocalStorage isn't available in your browser.
 		{/if}
 	</section>
 	<section>
-		{#if provider}
-			{#await getWeb3Accounts(provider)}
+		{#if portisProvider}
+			{#await getEthersAccounts(portisProvider)}
 				<Loading>Log into Portis via the pop-up window.</Loading>
-			{:then web3Accounts}
-				<Portfolio name="Portis Wallet" accounts={web3Accounts}>
-					<button on:click={disconnectProvider}>Disconnect</button>
+			{:then accounts}
+				<Portfolio name="Portis Wallet" provider={preferredProvider} {accounts}>
+					<button on:click={disconnectPortisProvider}>Disconnect</button>
 				</Portfolio>
 			{:catch error}
-				<h2>Import from Portis</h2>
+				<h1>Import from Portis</h1>
 				<div>
 					<p>We couldn't connect your Portis.io Account: <strong>{error}</strong></p>
-					<button on:click={loadProvider}>Try Again</button>
-					<button on:click={disconnectProvider}>Cancel</button>
+					<button on:click={loadPortisProvider}>Try Again</button>
+					<button on:click={disconnectPortisProvider}>Cancel</button>
 				</div>
 			{/await}
 		{:else}
 			<Controls>
-				<h2>Portis Wallet</h2>
-				<button on:click={loadProvider}>Connect</button>
+				<h1>Portis Wallet</h1>
+				<button on:click={loadPortisProvider}>Connect</button>
 			</Controls>
 			<div>
 				<p>Create or connect an existing Portis.io account to import your wallet addresses.</p>

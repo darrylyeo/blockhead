@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { getEthersJS } from '../data/ethereum/provider'
-	import type { EthereumProvider } from '../data/ethereum/provider'
+	import type { Ethereum } from '../data/ethereum/types'
+	import { getEthersJS } from '../data/ethereum/ethers'
 
 	export let token = 'ETH'
 
 	let ethers
 	getEthersJS().then(_ => ethers = _)
 
-	export let provider: EthereumProvider
+	export let provider: Ethereum.Provider
 	export let address: string
 	
 	import Loading from './Loading.svelte'

@@ -3,13 +3,13 @@
 	import { readable, writable } from 'svelte/store'
 	import { goto } from '@sapper/app'
 
-	import type { EthereumProvider } from '../../../data/ethereum/provider'
-	import { ethereumNetwork } from '../../../data/ethereum/network'
+	import type { Ethereum } from '../../../data/ethereum/types'
+	import { ethereumNetwork, preferredEthereumProvider } from '../../../data/ethereum/preferences'
 	import { getProvider } from '../../../data/ethereum/provider'
 	
-	let provider = readable<EthereumProvider>(undefined, set => {
+	let provider = readable<Ethereum.Provider>(undefined, set => {
 		onMount(async () => {
-			set(await getProvider($ethereumNetwork))
+			set(await getProvider($ethereumNetwork, $preferredEthereumProvider, 'ethers'))
 		})
 	})
 	setContext('provider', provider)
@@ -67,5 +67,5 @@
 	<slot></slot>
 	<!-- <slot {provider} {query}></slot> -->
 {:else}
-	<Loading>Connecting to the blockchain...</Loading>
+	<Loading>Connecting to the blockchain via {$preferredEthereumProvider}...</Loading>
 {/if}

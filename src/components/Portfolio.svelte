@@ -1,8 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte'
-
-	import { ethereumNetwork } from '../data/ethereum/network'
-	import { getProvider } from '../data/ethereum/provider'
 	import type { CryptoAddress } from '../data/CryptoAddress'
 	// import type { CryptoPosition } from '../data/CryptoPosition'
 	
@@ -10,10 +6,7 @@
 	export let editable = false
 	export let accounts: CryptoAddress[]
 
-	let provider 
-	onMount(async () => {
-		provider = await getProvider($ethereumNetwork)
-	})
+	export let provider
 
 	let newWalletAddress = ''
 
@@ -135,6 +128,8 @@
 									<Balance {provider} {token} {address} />
 								{/each}
 							</div>
+						{:else}
+							<Loading>Connecting to the blockchain...</Loading>
 						{/if}
 					</div>
 					{#if isEditing}
