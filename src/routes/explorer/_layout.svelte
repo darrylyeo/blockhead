@@ -1,14 +1,17 @@
 <script lang="ts">
-	import { onMount } from 'svelte'
 	import { goto } from '@sapper/app'
 	
 	let blockchain = 'Ethereum'
 	
-	// $: {
-	// 	console.log('blockchain')
-	// 	if(globalThis.document)
-	// 		goto(`explorer/${blockchain.toLowerCase()}`)
-	// }
+	const blockchainColors = {
+		'Bitcoin': 'bitcoin-gold',
+		'Ethereum': 'ethereum-blue'
+	}
+
+	$: if(globalThis.document){
+		goto(`explorer/${blockchain.toLowerCase()}`)
+		document.documentElement.style.setProperty('--primary-color', `var(--${blockchainColors[blockchain]})`)
+	}
 
 	import Controls from '../../components/Controls.svelte'
 	import { fly } from 'svelte/transition'
@@ -26,14 +29,16 @@
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 	<Controls>
-		<h2>Explorer</h2>
+		<h1>{blockchain ? `${blockchain} Explorer` : `Explorer`}</h1>
 		<label>
 			<span>Blockchain: </span>
-			<select bind:value={blockchain} on:input={() => goto(`explorer/${blockchain.toLowerCase()}`)}>
 			<!-- <select bind:value={blockchain}> -->
+			<select bind:value={blockchain}>
 				<option value="Bitcoin">Bitcoin</option>
 				<option value="Ethereum" selected>Ethereum</option>
 			</select>
+			<!-- <a href="explorer/bitcoin"><button>Bitcoin</button></a>
+			<a href="explorer/ethereum"><button>Ethereum</button></a> -->
 		</label>
 	</Controls>
 

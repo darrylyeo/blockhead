@@ -1,1 +1,1 @@
-Bitcoin Explorer coming soon!
+<div class="card">Coming soon!</div>
