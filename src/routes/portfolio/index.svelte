@@ -55,16 +55,26 @@
 		grid-template-columns: 100%;
 	}
 
+	.portis-logo {
+		display: inline-block;
+		height: 1.1em;
+		vertical-align: middle;
+	}
+	@media (prefers-color-scheme: dark) {
+		.portis-logo {
+			filter: invert(1);
+		}
+	}
 	.portis {
 		--primary-color: var(--portis-blue);
 	}
 </style>
 
 <svelte:head>
-	<title>Portfolio | Blockhead Explorers</title>
+	<title>Portfolio | Blockhead</title>
 </svelte:head>
 
-<main in:fly={{x: 100}} out:fly={{x: -100}}>
+<main in:fly={{x: 300}} out:fly={{x: -300}}>
 	<section>
 		{#if localAccounts}
 			<Portfolio name="Your Portfolio" provider={preferredProvider} bind:accounts={$localAccounts} editable={true} />
@@ -76,7 +86,7 @@
 	<section class="portis">
 		{#if portisProvider}
 			{#await getEthersAccounts(portisProvider)}
-				<h1>Portis Wallet</h1>
+				<h1><img src="https://docs.portis.io/_media/logo_bw.svg" alt="Portis" class="portis-logo"> Wallet</h1>
 				<Loading>Log into Portis via the pop-up window.</Loading>
 			{:then accounts}
 				<Portfolio name="Portis Wallet" provider={preferredProvider} {accounts}>
@@ -84,7 +94,7 @@
 					<button on:click={disconnectPortisProvider}>Disconnect</button>
 				</Portfolio>
 			{:catch error}
-				<h1>Portis Wallet</h1>
+				<h1><img src="https://docs.portis.io/_media/logo_bw.svg" alt="Portis" class="portis-logo"> Wallet</h1>
 				<div>
 					<p>We couldn't connect your Portis.io Account: <strong>{error}</strong></p>
 					<button on:click={loadPortisProvider}>Try Again</button>
@@ -93,7 +103,7 @@
 			{/await}
 		{:else}
 			<Controls>
-				<h1>Portis Wallet</h1><!-- <img src="https://docs.portis.io/_media/logo_bw.svg" alt="Portis" style="height: 1.1em;display:inline-block;vertical-align: middle;filter: invert(1);"> -->
+				<h1><img src="https://docs.portis.io/_media/logo_bw.svg" alt="Portis" class="portis-logo"> Wallet</h1>
 				<button on:click={loadPortisProvider}>Connect</button>
 			</Controls>
 			<div class="card">
