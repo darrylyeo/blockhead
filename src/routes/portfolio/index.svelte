@@ -25,6 +25,10 @@
 		portis.logout()
 		portisProvider = undefined
 	}
+
+	const addToPortfolio = account => {
+
+	}
 	
 	import Controls from '../../components/Controls.svelte'
 	import Loading from '../../components/Loading.svelte'
@@ -50,6 +54,10 @@
 		align-content: start;
 		grid-template-columns: 100%;
 	}
+
+	.portis {
+		--primary-color: var(--portis-blue);
+	}
 </style>
 
 <svelte:head>
@@ -61,17 +69,18 @@
 		{#if localAccounts}
 			<Portfolio name="Your Portfolio" provider={preferredProvider} bind:accounts={$localAccounts} editable={true} />
 		{:else}
-			LocalStorage isn't available in your browser.
+			Please enable LocalStorage in your browser.
 		{/if}
 	</section>
 
-	<section>
+	<section class="portis">
 		{#if portisProvider}
 			{#await getEthersAccounts(portisProvider)}
 				<h1>Portis Wallet</h1>
 				<Loading>Log into Portis via the pop-up window.</Loading>
 			{:then accounts}
 				<Portfolio name="Portis Wallet" provider={preferredProvider} {accounts}>
+					<button on:click={() => addToPortfolio(accounts[0])}>Add to...</button>
 					<button on:click={disconnectPortisProvider}>Disconnect</button>
 				</Portfolio>
 			{:catch error}
@@ -84,11 +93,12 @@
 			{/await}
 		{:else}
 			<Controls>
-				<h1>Portis Wallet</h1>
+				<h1>Portis Wallet</h1><!-- <img src="https://docs.portis.io/_media/logo_bw.svg" alt="Portis" style="height: 1.1em;display:inline-block;vertical-align: middle;filter: invert(1);"> -->
 				<button on:click={loadPortisProvider}>Connect</button>
 			</Controls>
 			<div class="card">
-				<p>Create or connect an existing Portis.io account to import your wallet addresses.</p>
+				<img src="https://docs.portis.io/_media/logo.svg" alt="Portis" width="200">
+				<p>Create or import a wallet address by connecting a Portis.io account.</p>
 			</div>
 		{/if}
 	</section>

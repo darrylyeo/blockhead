@@ -10,6 +10,8 @@
 
 	--up-green: #1af73d;
 	--down-red: #f7541a;
+
+	--portis-blue: #6db2d8;
 	
 	--primary-color: var(--ethereum-blue); /* #6790e1; */
 	--card-background-color: rgba(0, 0, 0, 0.075);
@@ -68,6 +70,7 @@ button {
 	color: #fff;
 	border: none;
 	border-radius: 0.33em;
+	cursor: pointer;
 	outline: none;
 
 	padding: 0.3em 0.7em;
@@ -76,14 +79,26 @@ button {
 	font-size: 1.25em;
 	font-weight: bold;
 	text-decoration: none;
+	text-shadow: 0px 2px 1px rgba(0, 0, 0, 0.1);
+
+	--depth: 0.15em;
+	--scale: 1;
+	--glow: 0;
+	box-shadow: 0px var(--depth) rgba(0, 0, 0, 0.25), 0px var(--depth) var(--primary-color), 0 var(--depth) var(--glow) var(--primary-color);
+	transform: translateY(calc(-1 * var(--depth))) scale(var(--scale));
 	
-	transition: 0.3s;
+	transition: 0.2s;
 
 	cursor: pointer;
 }
 button:hover, button:focus {
-	opacity: 0.9;
-	transform: scale(1.02);
+	--scale: 1.015;
+}
+button:focus {
+	--glow: 5px;
+}
+button:active {
+	--depth: 0;
 }
 
 
