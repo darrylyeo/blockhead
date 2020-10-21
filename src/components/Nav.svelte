@@ -22,7 +22,7 @@
 
 	a {
 		text-decoration: none;
-		padding: 0.75em;
+		padding: 0.75rem;
 		transition: font-weight 0.2s;
 	}
 
@@ -31,11 +31,29 @@
 		margin-bottom: -1px;
 		font-weight: bold;
 	}
+
+	.logo {
+		font-size: 1.4em;
+		font-weight: 600;
+		/* text-transform: uppercase; */
+		font-variant: all-small-caps;
+		letter-spacing: 0.15ch;
+		line-height: 1;
+	}
+	/* .logo {
+		font-size: 1em;
+		font-weight: 600;
+		font-variant: all-small-caps;
+		letter-spacing: 0.15ch;
+		line-height: 0.9;
+		display: inline-block;
+		text-align: center;
+	} */
 </style>
 
 <nav>
 	<ul>
-		<li><a aria-current="{segment === undefined ? 'page' : undefined}" href=".">🧭</a></li>
+		<li><a aria-current="{segment === undefined ? 'page' : undefined}" href="."><span class="logo">Blockhead</span></a></li>
 		<li><a aria-current="{segment === 'portfolio' ? 'page' : undefined}" href="portfolio">Portfolio</a></li>
 		<li><a aria-current="{segment === 'trade' ? 'page' : undefined}" href="trade">Trade</a></li>
 		<li><a aria-current="{segment === 'invest' ? 'page' : undefined}" href="invest">Invest</a></li>
