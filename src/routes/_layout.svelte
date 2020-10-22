@@ -9,19 +9,42 @@
 		display: grid;
 		grid:
 			"nav" auto
-			"main" 1fr;
+			"main" 1fr
+			"preferences" auto;
 		place-items: start;
+		min-height: 100vh;
 	}
+
 	:global(nav) {
 		grid-area: nav;
 		position: sticky;
 		width: 100%;
 		top: 0;
 		z-index: 1;
+
+		-webkit-backdrop-filter: var(--overlay-backdrop-filter);
+		backdrop-filter: var(--overlay-backdrop-filter);
+		border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+		padding: 0 var(--padding-outer);
 	}
+
 	:global(main) {
 		grid-area: main;
 		overflow: auto;
+	}
+
+	:global(.preferences) {
+		grid-area: preferences;
+		position: sticky;
+		width: 100%;
+		bottom: 0;
+		z-index: 1;
+
+		-webkit-backdrop-filter: var(--overlay-backdrop-filter);
+		backdrop-filter: var(--overlay-backdrop-filter);
+		border-top: 1px solid rgba(0, 0, 0, 0.2);
+		--padding-outer: 1em;
+		padding: var(--padding-outer);
 	}
 </style>
 

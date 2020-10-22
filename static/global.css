@@ -32,6 +32,8 @@
 	--base-fonts: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 	--monospace-fonts: 'Fira Code', 'JetBrains Mono', 'Roboto Mono', Menlo, Inconsolata, monospace;
 
+	--overlay-backdrop-filter: blur(20px) contrast(1.1);
+
 	min-height: 100vh;
 
 	font-size: 20px;

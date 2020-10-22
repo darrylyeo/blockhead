@@ -10,10 +10,7 @@
 		preferredProvider = await getProvider($ethereumNetwork, $preferredEthereumProvider, 'ethers')
 	)
 	
-	let localAccounts
-	onMount(async () =>
-		localAccounts = getLocalAccounts()
-	)
+	const localAccounts = getLocalAccounts()
 
 	let portisProvider
 	const loadPortisProvider = async () => {
@@ -32,6 +29,7 @@
 	
 	import Loading from '../../components/Loading.svelte'
 	import Portfolio from '../../components/Portfolio.svelte'
+	import Preferences from '../../components/Preferences.svelte'
 	import { fly } from 'svelte/transition'
 </script>
 
@@ -112,3 +110,5 @@
 		{/if}
 	</section>
 </main>
+
+<Preferences />

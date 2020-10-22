@@ -5,13 +5,13 @@ import { writable, get } from 'svelte/store'
 export function localStorageWritable<T>(localStorageKey, value): Writable<T> {
 	const store = writable(value)
 
-	const json = window.localStorage.getItem(localStorageKey)	
+	const json = globalThis.localStorage?.getItem(localStorageKey)	
 	if(json)
 		store.set(JSON.parse(json))
 	
 	return {
 		set(value) {console.log('set', value)
-			localStorage.setItem(localStorageKey, JSON.stringify(value))
+			globalThis.localStorage.setItem(localStorageKey, JSON.stringify(value))
 			store.set(value)
 		},
 
