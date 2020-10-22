@@ -19,7 +19,10 @@
 <section>
 	{#if domainQuery && $domainQuery}
 		{#if $domainQuery.loading}
-			<Loading>Querying the Ethereum Name Service...</Loading>
+			<Loading iconAnimation="hover">
+				<img slot="icon" src="/logos/the-graph.svg" alt="The Graph" width="25">
+				<p>Querying the Ethereum Name Service...</p>
+			</Loading>
 		{:else if domains = $domainQuery.data?.domains}
 			{#each domains as domain (domain.id)}
  				<EnsDomain {domain}/>

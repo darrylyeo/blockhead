@@ -23,9 +23,13 @@ function getENSClient(){
 export namespace ENS {
 	export type ID = string
 	export type Int = number
+	export type BigInt = string
+	export type Bytes = string
 
 	export type Account = {
 		id: string
+		domains: Domain[]
+		registrations: Registration[]
 	}
 	export type Resolver = {
 		id: ID
@@ -47,8 +51,6 @@ export namespace ENS {
 		blockNumber: Int
 		transactionID: Bytes
 	}
-	export type BigInt = string
-	export type Bytes = string
 
 	export type Domain = {
 		id: ID
@@ -64,17 +66,23 @@ export namespace ENS {
 		isMigrated: Boolean
 		events: DomainEvent[]
 	}
+
+	export type Registration = {
+		id: ID
+		domain: Domain
+		registrationDate: BigInt
+		expiryDate: BigInt
+		registrant: Account
+		labelName: String
+	}
 }
 
 
-const sanitize = name => name.replace(/\)/g, '')
-
-
-export function queryENSDomain(domain) {
+export function queryENSDomain(name) {
 	return readableFromApolloRequest<{domains: ENS.Domain[]}>(getENSClient().subscribe({
 		query: gql`
-			query {
-				domains(domain: "${sanitize(domain)}") {
+			query getENSDomainByName($name: String!) {
+				domains(where: {name_contains: $name}) {
 					id
 					name
 					labelName
@@ -96,6 +104,9 @@ export function queryENSDomain(domain) {
 					events { id blockNumber transactionID }
 				}
 			}
-		`
+		`,
+		variables: {
+			name
+		}
 	}))
 }

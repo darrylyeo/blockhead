@@ -8,17 +8,38 @@
 	import EnsResolver from './EnsResolver.svelte'
 </script>
 
+<style>
+	.row {
+		display: flex;
+		align-items: stretch;
+		flex-wrap: wrap;
+		gap: var(--padding-inner);
+	}
+	.row > * {
+		flex: 1 20rem;
+		padding: var(--padding-outer);
+	}
+</style>
+
 {#if domain}
 	<div class="card domain">
 		<h2>{domain.name}</h2>
-		{#if domain.resolvedAddress}
-			<p>Resolves to: <Address address={domain.resolvedAddress.id}/></p>
-		{/if}
+		<div class="row">
+			{#if domain.resolvedAddress}
+				<div class="card">
+					<h3>Resolves to</h3>
+					<Address address={domain.resolvedAddress.id}/>
+				</div>
+			{/if}
+			{#if domain.owner}
+				<div class="card">
+					<h3>Owned by</h3>
+					<Address address={domain.owner.id}/>
+				</div>
+			{/if}
+		</div>
 		{#if domain.labelhash}
 			<p>Hash: {domain.labelhash}</p>
-		{/if}
-		{#if domain.owner}
-			<p>owned by <Address address={domain.owner.id}/></p>
 		{/if}
 		{#if domain.resolver}
 			<h3>Resolver</h3>
@@ -28,7 +49,7 @@
 		{#if domain.events}
 			<hr>
 
-			<h3>History</h3>
+			<h3>Transaction History</h3>
 			{#each domain.events as event (event.id)}
 				<EnsDomainEvent event={event}/>
 			{/each}
