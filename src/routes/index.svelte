@@ -5,20 +5,19 @@
 <style>
 	main {
 		max-width: var(--one-column-width);
+		text-align: center;
+		--padding-inner: 3.5rem;
 	}
 
 	header {
-		text-align: center;
+		display: grid;
+		gap: var(--padding-inner);
+		--padding-inner: 1.75rem;
 	}
 
 	h1 {
-		font-size: 2.8em;
+		font-size: 3em;
 		font-weight: 700;
-		margin: 0 0 0.5em 0;
-	}
-
-	p {
-		margin: 1em auto;
 	}
 
 	@media (min-width: 480px) {
@@ -31,23 +30,32 @@
 		display: flex;
 		align-items: stretch;
 		/* flex-wrap: wrap; */
+		gap: var(--padding-inner);
+		--padding-inner: 2rem;
 	}
 	.row > * {
 		justify-content: center;
 		flex: 1 20rem;
-		padding: var(--padding-outer);
+
+		display: grid;
+		gap: var(--padding-inner);
+		--padding-inner: 1rem;
+	}
+
+	button {
+		font-size: 1.5em;
 	}
 </style>
 
 <svelte:head>
-	<title>Blockhead Explorers</title>
+	<title>Blockhead</title>
 </svelte:head>
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 	<header>
-		<p>Welcome to</p>
-		<h1>Blockhead Explorers</h1>
-		<p>An all-in-one crypto market visualizer, DeFi interface and block explorer metaverse</p>
+		<!-- <p>Welcome to</p> -->
+		<h1 class="logo">Blockhead</h1>
+		<h2>is a decentralized crypto market visualizer,<br>DeFi interface and block explorer metaverse</h2>
 	</header>
 
 	<section>

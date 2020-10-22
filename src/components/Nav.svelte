@@ -34,21 +34,7 @@
 
 	.logo {
 		font-size: 1.4em;
-		font-weight: 600;
-		/* text-transform: uppercase; */
-		font-variant: all-small-caps;
-		letter-spacing: 0.15ch;
-		line-height: 1;
 	}
-	/* .logo {
-		font-size: 1em;
-		font-weight: 600;
-		font-variant: all-small-caps;
-		letter-spacing: 0.15ch;
-		line-height: 0.9;
-		display: inline-block;
-		text-align: center;
-	} */
 </style>
 
 <nav>
