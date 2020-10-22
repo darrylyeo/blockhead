@@ -30,7 +30,6 @@
 
 	}
 	
-	import Controls from '../../components/Controls.svelte'
 	import Loading from '../../components/Loading.svelte'
 	import Portfolio from '../../components/Portfolio.svelte'
 	import { fly } from 'svelte/transition'
@@ -102,10 +101,10 @@
 				</div>
 			{/await}
 		{:else}
-			<Controls>
+			<div class="bar">
 				<h1><img src="/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>
 				<button on:click={loadPortisProvider}>Connect</button>
-			</Controls>
+			</div>
 			<div class="card">
 				<img src="/logos/portis.svg" alt="Portis" width="200">
 				<p>Create or import a wallet address by connecting a Portis.io account.</p>

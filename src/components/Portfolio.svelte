@@ -45,7 +45,6 @@
 	import Address from './Address.svelte'
 	import AddressField from './AddressField.svelte'
 	import Balance from './Balance.svelte'
-	import Controls from './Controls.svelte'
 	import Loading from './Loading.svelte'
 	import { flip } from 'svelte/animate'
 </script>
@@ -83,6 +82,10 @@
 		display: contents;
 	}
 
+	form :global(.address-field) {
+		width: 16rem;
+	}
+
 	.balances {
 		display: flex;
 		flex-wrap: wrap;
@@ -94,13 +97,14 @@
 </style>
 
 
-<Controls>
+<div class="bar">
 	<h1>{name}</h1>
 	{#if editable}
 		{#if isAddingWallet}
 			<form on:submit|preventDefault={() => addWallet(newWalletAddress)}>
-				<AddressField bind:address={newWalletAddress} required />
+				<AddressField bind:address={newWalletAddress} autofocus required/>
 				<button>Add</button>
+				<button>Cancel</button>
 			</form>
 		{:else if isEditing}
 			<button on:click={toggleEdit}>Done</button>
@@ -110,12 +114,12 @@
 		{/if}
 	{/if}
 	<slot></slot>
-</Controls>
+</div>
 <div class="portfolio">
 	{#if accounts}
 		{#each accounts as address, i (address)}
 			<section class="card" animate:flip={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
-				<Controls>
+				<div class="bar">
 					<div class="account">
 						<h3><Address {address} /></h3>
 						{#if provider}
@@ -133,7 +137,7 @@
 							<button on:click={() => deleteWallet(i)}>Delete</button>
 						</div>
 					{/if}
-				</Controls>
+				</div>
 			</section>
 		{:else}
 			<div class="card">

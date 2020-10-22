@@ -1,10 +1,6 @@
-<script>
-    import Controls from "./Controls.svelte"
-</script>
-
-<Controls>
+<div class="bar">
     <slot name="title"></slot>
     <slot name="controls"></slot>
-</Controls>
+</div>
 
 <slot></slot>

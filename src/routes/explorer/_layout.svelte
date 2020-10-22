@@ -13,7 +13,6 @@
 
 	$: blockchainDisplayName = blockchain[0].toUpperCase() + blockchain.slice(1)
 
-	import Controls from '../../components/Controls.svelte'
 	import { fly } from 'svelte/transition'
 	import { tokenColors } from '../../data/token-colors'
 </script>
@@ -21,6 +20,7 @@
 <style>
 	main {
 		max-width: var(--one-column-width);
+		grid-template-columns: 100%;
 	}
 </style>
 
@@ -29,7 +29,7 @@
 </svelte:head>
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
-	<Controls>
+	<div class="bar">
 		<h1>{blockchain ? `${blockchainDisplayName} Explorer` : `Explorer`}</h1>
 		<label>
 			<span>Blockchain: </span>
@@ -41,7 +41,7 @@
 			<!-- <a href="explorer/bitcoin"><button>Bitcoin</button></a>
 			<a href="explorer/ethereum"><button>Ethereum</button></a> -->
 		</label>
-	</Controls>
+	</div>
 
 	<slot></slot>
 </main>

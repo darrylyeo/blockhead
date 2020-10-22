@@ -12,16 +12,16 @@
 		markets = await getVegaMarkets()
 	})
 
+	let marketId
 	let samplePercentage = 100
 	
-	import Controls from './Controls.svelte'
 	import VegaTransactions from './VegaTransactions.svelte'
 </script>
 
 <h1>Vega</h1>
 
 <section>
-	<Controls>
+	<div class="bar">
 		<h2>Recent Trades</h2>
 		<label>
 			Market: <select bind:value={samplePercentage}>
@@ -40,6 +40,6 @@
 				<option value="1">1 out of 100 transactions</option>
 			</select>
 		</label>
-	</Controls>
+	</div>
 	<VegaTransactions {transactionsStream}/>
 </section>
