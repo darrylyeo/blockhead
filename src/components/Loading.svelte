@@ -1,25 +1,31 @@
-<script>
+<script lang="ts">
 	import { fly, scale } from 'svelte/transition'
+
+	export let iconAnimation: 'spin' | 'hover' = 'spin'
 </script>
 
 <style>
 	.loading {
-		background-color: var(--card-background-color);
-		border-radius: var(--card-border-radius);
-		padding: var(--padding-outer);
 		animation: /*ScaleIn 0.2s,*/ Hover 1.5s infinite;
 
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		gap: var(--padding-inner);
+
+		--hover-intensity: 4px;
 	}
-	.spinner {
+	.icon {
 		display: inline-flex;
 		place-items: center;
 		font-size: 1.5em;
-
+	}
+	.spin {
 		animation: Spin 1s linear infinite;
+	}
+	.hover {
+		animation: Hover 1s linear infinite;
+		--hover-intensity: 20px;
 	}
 
 	/* @keyframes ScaleIn {
@@ -32,14 +38,14 @@
 	}
 
 	@keyframes Hover {
-		from, to { transform: perspective(1000px) translateZ(-4px); }
-		50% { transform: perspective(1000px) translateZ(4px); }
+		from, to { transform: perspective(1000px) translateZ(calc(-1 * var(--hover-intensity))); }
+		50% { transform: perspective(1000px) translateZ(var(--hover-intensity)); }
 	}
 </style>
 
-<div class="loading" transition:scale><!-- in:fly={{x: -100}} out:fly={{x: 100}} -->
-	<span class="spinner">
-		<slot name="spinner">🧭</slot>
+<div class="loading card" transition:scale><!-- in:fly={{x: -100}} out:fly={{x: 100}} -->
+	<span class="icon {iconAnimation}">
+		<slot name="icon">🧭</slot>
 	</span>
 	<slot></slot>
 </div>
