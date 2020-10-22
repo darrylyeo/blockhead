@@ -63,10 +63,6 @@
 		grid-auto-columns: 1fr auto; */
 		/* display: flex; */
 		gap: var(--padding-inner);
-		padding: var(--padding-outer);
-
-		background-color: var(--card-background-color);
-		border-radius: var(--card-border-radius);
 	}
 
 	section > * {
@@ -102,7 +98,7 @@
 	<h1>{name}</h1>
 	{#if editable}
 		{#if isAddingWallet}
-			<form on:submit={() => addWallet(newWalletAddress)}>
+			<form on:submit|preventDefault={() => addWallet(newWalletAddress)}>
 				<AddressField bind:address={newWalletAddress} required />
 				<button>Add</button>
 			</form>
@@ -118,7 +114,7 @@
 <div class="portfolio">
 	{#if accounts}
 		{#each accounts as address, i (address)}
-			<section animate:flip={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
+			<section class="card" animate:flip={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
 				<Controls>
 					<div class="account">
 						<h3><Address {address} /></h3>
@@ -140,10 +136,12 @@
 				</Controls>
 			</section>
 		{:else}
-			<p>Your Blockhead Portfolio is empty!</p>
-			{#if editable}
-				<p>You can <a on:click={showAddWallet}>add a new wallet address manually</a>, or import an address by connecting a wallet service below!</p>
-			{/if}
+			<div class="card">
+				<p>Your Blockhead Portfolio is empty!</p>
+				{#if editable}
+					<p>You can <a on:click={showAddWallet}>add a new wallet address manually</a>, or import an address by connecting a wallet service!</p>
+				{/if}
+			</div>
 		{/each}
 	{:else}
 		<slot name="loading">

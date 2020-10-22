@@ -1,8 +1,10 @@
 <script lang="ts">
-	export let status: number;
-	export let error: Error;
+	export let status: number
+	export let error: Error
+	
+	const dev = process.env.NODE_ENV === 'development'
 
-	const dev = process.env.NODE_ENV === 'development';
+	import { fly } from 'svelte/transition'
 </script>
 
 <style>
@@ -28,13 +30,15 @@
 </style>
 
 <svelte:head>
-	<title>{status}</title>
+	<title>{status} Error</title>
 </svelte:head>
 
-<h1>{status}</h1>
+<main in:fly={{x: 300}} out:fly={{x: -300}}>
+	<h1>{status} Error</h1>
 
-<p>{error.message}</p>
+	<p>{error.message}</p>
 
-{#if dev && error.stack}
-	<pre>{error.stack}</pre>
-{/if}
+	{#if dev && error.stack}
+		<pre>{error.stack}</pre>
+	{/if}
+</main>

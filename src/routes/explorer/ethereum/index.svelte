@@ -7,18 +7,10 @@
 	import Loading from '../../../components/Loading.svelte'
 </script>
 
-<style>
-	section {
-		padding: var(--padding-outer);
-		background-color: var(--card-background-color);
-		border-radius: var(--card-border-radius);
-	}
-</style>
-
 {#await $provider?.getBlockNumber()}
 	<Loading>Retrieving statistics...</Loading>
 {:then blockNumber}
-	<section>
+	<section class="card">
 		<h3>Block Number</h3>
 		<p>
 			<span>The Ethereum blockchain is </span>

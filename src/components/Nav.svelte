@@ -23,7 +23,7 @@
 	a {
 		text-decoration: none;
 		padding: 0.75rem;
-		transition: font-weight 0.2s;
+		transition: 0.2s, font-weight 0.2s;
 	}
 
 	[aria-current] {

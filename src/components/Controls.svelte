@@ -10,6 +10,7 @@
 		grid-template-columns: 1fr;
 		grid-auto-columns: auto;
 		gap: var(--padding-inner);
+		align-items: center;
 	}
     .controls > :global(:first-child) {
 		/* flex: 1; */

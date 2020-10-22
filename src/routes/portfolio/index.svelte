@@ -86,15 +86,15 @@
 	<section class="portis">
 		{#if portisProvider}
 			{#await getEthersAccounts(portisProvider)}
-				<h1><img src="https://docs.portis.io/_media/logo_bw.svg" alt="Portis" class="portis-logo"> Wallet</h1>
+				<h1><img src="/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>
 				<Loading>Log into Portis via the pop-up window.</Loading>
 			{:then accounts}
 				<Portfolio name="Portis Wallet" provider={preferredProvider} {accounts}>
-					<button on:click={() => addToPortfolio(accounts[0])}>Add to...</button>
+					<!-- <button on:click={() => addToPortfolio(accounts[0])}>Add to...</button> -->
 					<button on:click={disconnectPortisProvider}>Disconnect</button>
 				</Portfolio>
 			{:catch error}
-				<h1><img src="https://docs.portis.io/_media/logo_bw.svg" alt="Portis" class="portis-logo"> Wallet</h1>
+				<h1><img src="/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>
 				<div>
 					<p>We couldn't connect your Portis.io Account: <strong>{error}</strong></p>
 					<button on:click={loadPortisProvider}>Try Again</button>
@@ -103,11 +103,11 @@
 			{/await}
 		{:else}
 			<Controls>
-				<h1><img src="https://docs.portis.io/_media/logo_bw.svg" alt="Portis" class="portis-logo"> Wallet</h1>
+				<h1><img src="/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>
 				<button on:click={loadPortisProvider}>Connect</button>
 			</Controls>
 			<div class="card">
-				<img src="https://docs.portis.io/_media/logo.svg" alt="Portis" width="200">
+				<img src="/logos/portis.svg" alt="Portis" width="200">
 				<p>Create or import a wallet address by connecting a Portis.io account.</p>
 			</div>
 		{/if}

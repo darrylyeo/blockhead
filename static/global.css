@@ -2,6 +2,7 @@
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
+	text-decoration-color: inherit;
 }
 
 :root {
@@ -15,19 +16,30 @@
 	
 	--primary-color: var(--ethereum-blue); /* #6790e1; */
 	--card-background-color: rgba(0, 0, 0, 0.075);
+	--card-hover-background-color: rgba(0, 0, 0, 0.100);
 	--card-border-radius: 0.5rem;
 
 	--one-column-width: 58em;
 	--padding-outer: 1rem;
 	--padding-inner: 0.8rem;
+	
+	--base-fonts: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+	--monospace-fonts: 'Fira Code', 'JetBrains Mono', 'Roboto Mono', Menlo, Inconsolata, monospace;
 
-    min-height: 100vh;
+	min-height: 100vh;
 
 	font-size: 20px;
 	font-size: clamp(15px, 1.1vw, 20px);
-	font-family: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+	font-family: var(--base-fonts);
 	line-height: 1.5;
+
+	-webkit-font-feature-settings: "liga" on, "calt" on;
+	font-feature-settings: "liga" on, "calt" on;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+
 	color: #333;
+	--text-decoration-color: 51, 51, 51;
 	
 	--global-background-gradient-base-color: #ffffff;
 	background: linear-gradient(155deg, var(--global-background-gradient-base-color), var(--primary-color) 250%) fixed;
@@ -35,27 +47,39 @@
 @media (prefers-color-scheme: dark) {
 	:root {
 		--card-background-color: rgba(255, 255, 255, 0.1);
+		--card-hover-background-color: rgba(255, 255, 255, 0.15);
 		--global-background-gradient-base-color: #01002d;
+
+		-webkit-font-smoothing: auto;
+
 		color: #f7fdff;
+		--text-decoration-color: 247, 253, 255;
 	}
+}
+
+a {
+	--text-decoration-opacity: 0.1;
+	color: inherit;
+	transition: 0.2s;
+    text-decoration-color: rgba(var(--text-decoration-color), var(--text-decoration-opacity));
+}
+a:hover {
+	--text-decoration-opacity: 0.45;
+	opacity: 0.9;
 }
 
 
 h1, h2, h3, h4, h5, h6 {
+	font-weight: 600;
 	line-height: 1.2;
 }
 
 h1 {
 	font-size: 2em;
-	font-weight: 600;
-}
-
-a {
-	color: inherit;
 }
 
 code {
-	font-family: menlo, inconsolata, monospace;
+	font-family: var(--monospace-fonts);
 	font-size: calc(1em - 2px);
 	color: #555;
 	background-color: #f0f0f0;
@@ -164,4 +188,9 @@ main {
 
 	background-color: var(--card-background-color);
 	border-radius: var(--card-border-radius);
+
+	transition: 0.4s;
+}
+.card:hover {
+	background-color: var(--card-hover-background-color);
 }
