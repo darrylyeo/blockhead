@@ -2,33 +2,62 @@
 	import { onMount } from 'svelte'
 	import type { ENS } from '../data/ens'
 	
-	export let domain: string
+	export let query: string
 	
 	let domainQuery
+	let domainsContainingQuery
 	onMount(async () => {
-		const { queryENSDomain } = await import('../data/ens')
-		domainQuery = queryENSDomain(domain)
+		const { queryENSDomain, queryENSDomainsContaining} = await import('../data/ens')
+		domainQuery = queryENSDomain(query)
+		domainsContainingQuery = queryENSDomainsContaining(query)
 	})
 	
 	let domains: ENS.Domain[]
+	let domainsContaining: ENS.Domain[]
+
+	const sortByLength = (a, b) => a.name.length - b.name.length
 	
 	import EnsDomain from './EnsDomain.svelte'
 	import Loading from './Loading.svelte'
 </script>
 
-<section>
+<style>
+	.explorer {
+		gap: 1.5em;
+	}
+</style>
+
+<section class="explorer">
 	{#if domainQuery && $domainQuery}
 		{#if $domainQuery.loading}
 			<Loading iconAnimation="hover">
-				<img slot="icon" src="/logos/the-graph.svg" alt="The Graph" width="25">
+				<img slot="icon" src="/logos/ens.svg" alt="The Graph" width="25">
 				<p>Querying the Ethereum Name Service...</p>
 			</Loading>
 		{:else if domains = $domainQuery.data?.domains}
-			{#each domains as domain (domain.id)}
- 				<EnsDomain {domain}/>
+			{#each domains.sort(sortByLength) as domain (domain.id)}
+				<EnsDomain {domain}/>
+			{:else}
+				<div class="card">
+					<p>The ENS name "{query}" doesn't have an owner.</p>
+					<a href="https://app.ens.domains/name/{domain}" target="_blank"><button>Register On ENS</button></a>
+				</div>
 			{/each}
 		{:else if $domainQuery.error}
 			<pre>{$domainQuery.error}</pre>
+		{/if}
+	{/if}
+
+	{#if domainsContainingQuery && $domainsContainingQuery}
+		{#if $domainsContainingQuery.loading}
+		{:else if (domainsContaining = $domainsContainingQuery.data?.domains) && domainsContaining.length}
+			<hr>
+			<h2>Similar ENS Names</h2>
+			{#each domainsContaining.sort(sortByLength) as domain (domain.id)}
+				<EnsDomain {domain}/>
+			{/each}
+		{:else if $domainsContainingQuery.error}
+			<pre>{$domainsContainingQuery.error}</pre>
 		{/if}
 	{/if}
 </section>

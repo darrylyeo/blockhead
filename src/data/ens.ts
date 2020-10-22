@@ -25,6 +25,7 @@ export namespace ENS {
 	export type Int = number
 	export type BigInt = string
 	export type Bytes = string
+	export type String = string
 
 	export type Account = {
 		id: string
@@ -47,9 +48,14 @@ export namespace ENS {
 		transactionID: Bytes
 	}
 	export type DomainEvent = {
+		__typename: 'Transfer' | 'NewOwner' | 'NewResolver' | 'NewTTL'
 		id: ID
 		blockNumber: Int
 		transactionID: Bytes
+
+		owner?: Account
+		resolver?: Resolver
+		ttl?: BigInt
 	}
 
 	export type Domain = {
@@ -81,32 +87,93 @@ export namespace ENS {
 export function queryENSDomain(name) {
 	return readableFromApolloRequest<{domains: ENS.Domain[]}>(getENSClient().subscribe({
 		query: gql`
-			query getENSDomainByName($name: String!) {
-				domains(where: {name_contains: $name}) {
+			query ENSDomain($name: String!) {
+				domains(where: {name: $name}) {
 					id
 					name
-					labelName
-					labelhash
-					parent { id name labelName labelhash }
-					subdomains { id name labelName labelhash }
+					parent { id name }
+					subdomains { id name }
 					resolvedAddress { id }
 					owner { id }
 					resolver {
 						id
 						address
-						addr { id }
 						texts
 						coinTypes
 						events { id blockNumber transactionID }
 					}
 					ttl
 					isMigrated
-					events { id blockNumber transactionID }
+					events {
+						__typename
+						id
+						blockNumber
+						transactionID
+						... on Transfer {
+							owner { id }
+						}
+						... on NewOwner {
+							owner { id }
+						}
+						... on NewResolver {
+							resolver { id address }
+						}
+						... on NewTTL {
+							ttl
+						}
+					}
 				}
 			}
 		`,
 		variables: {
 			name
+		}
+	}))
+}
+
+export function queryENSDomainsContaining(query) {
+	return readableFromApolloRequest<{domains: ENS.Domain[]}>(getENSClient().subscribe({
+		query: gql`
+			query ENSDomainContaining($query: String!) {
+				domains(where: {name_contains: $query, name_not: $query}) {
+					id
+					name
+					parent { id name }
+					subdomains { id name }
+					resolvedAddress { id }
+					owner { id }
+					resolver {
+						id
+						address
+						texts
+						coinTypes
+						events { id blockNumber transactionID }
+					}
+					ttl
+					isMigrated
+					events {
+						__typename
+						id
+						blockNumber
+						transactionID
+						... on Transfer {
+							owner { id }
+						}
+						... on NewOwner {
+							owner { id }
+						}
+						... on NewResolver {
+							resolver { id address }
+						}
+						... on NewTTL {
+							ttl
+						}
+					}
+				}
+			}
+		`,
+		variables: {
+			query
 		}
 	}))
 }

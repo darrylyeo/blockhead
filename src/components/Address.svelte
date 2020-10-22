@@ -4,7 +4,6 @@
 	export let address: CryptoAddress = ''
 	export let blockchain = 'ethereum'
 	export let format: 'full' | 'middle-truncated' = 'full'
-
 	export let linked = true
 
 	$: formattedAddress =

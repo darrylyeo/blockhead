@@ -5,9 +5,6 @@
 		const { query } = params
 		return { initialQuery: query }
 	}
-
-	const isAddress = query => query.startsWith('0x')
-	const isENS = query => query.match(/^.+\..+$/)
 </script>
 
 <script lang="ts">
@@ -22,9 +19,14 @@
 	$: if(initialQuery)
 		query.set(initialQuery)
 
-	import Address from '../../../components/Address.svelte'
-	import Balance from '../../../components/Balance.svelte'
+	const isAddress = query => /^0x[0-9a-f]{40}$/i.test(query)
+	const isTransaction = query => /^0x[0-9a-f]{64}$/i.test(query)
+	const isBlockNumber = query => /^[0-9]+$/i.test(query)
+
 	import EnsExplorer from '../../../components/EnsExplorer.svelte'
+	import EthereumAccount from '../../../components/EthereumAccount.svelte'
+	import EthereumBlock from '../../../components/EthereumBlock.svelte'
+	import EthereumTransactionDetails from '../../../components/EthereumTransactionDetails.svelte'
 </script>
 
 <style>
@@ -34,12 +36,17 @@
 {#if $query}
 	{#if isAddress($query)}
 		{#if $provider}
-			<div class="card">
-				<h2><Address address={$query}/></h2>
-				<Balance provider={$provider} address={$query} />
-			</div>
+			<EthereumAccount address={$query} provider={$provider}/>
 		{/if}
-	{:else if isENS($query)}
-		<EnsExplorer domain={$query} />
+	{:else if isTransaction($query)}
+		{#if $provider}
+			<EthereumTransactionDetails transactionID={$query} provider={$provider}/>
+		{/if}
+	{:else if isBlockNumber($query)}
+		{#if $provider}
+			<EthereumBlock blockNumber={$query} provider={$provider}/>
+		{/if}
+	{:else}
+		<EnsExplorer query={$query} />
 	{/if}
 {/if}
