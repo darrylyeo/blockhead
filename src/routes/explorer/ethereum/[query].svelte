@@ -11,16 +11,18 @@
 </script>
 
 <script lang="ts">
+	import type { Writable } from 'svelte/store'
 	import type { Ethereum } from '../../../data/ethereum/types'
 
-	let provider: SvelteStore<Ethereum.Provider> = getContext('provider')
+	let provider: Writable<Ethereum.Provider> = getContext('provider')
 
-	export let initialQuery
-	export let query: SvelteStore<string> = getContext('query')
-
+	export let query: Writable<string> = getContext('query')
+		
+	export let initialQuery: string
 	$: if(initialQuery)
 		query.set(initialQuery)
 
+	import Address from '../../../components/Address.svelte'
 	import Balance from '../../../components/Balance.svelte'
 	import EnsExplorer from '../../../components/EnsExplorer.svelte'
 </script>
@@ -29,14 +31,15 @@
 
 </style>
 
-<div>
-	{#if $query}
-		{#if isAddress($query)}
-			{#if $provider}
+{#if $query}
+	{#if isAddress($query)}
+		{#if $provider}
+			<div class="card">
+				<h2><Address address={$query}/></h2>
 				<Balance provider={$provider} address={$query} />
-			{/if}
-		{:else if isENS($query)}
-			<EnsExplorer domain={$query} />
+			</div>
 		{/if}
+	{:else if isENS($query)}
+		<EnsExplorer domain={$query} />
 	{/if}
-</div>
+{/if}

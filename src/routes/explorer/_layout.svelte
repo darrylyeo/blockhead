@@ -8,7 +8,9 @@
 		'Ethereum': 'ethereum-blue'
 	}
 
-	$: if(globalThis.document){
+	export let segment: string
+	$: console.log('segment', segment)
+	$: if(segment === undefined && globalThis.document){
 		goto(`explorer/${blockchain.toLowerCase()}`)
 		document.documentElement.style.setProperty('--primary-color', `var(--${blockchainColors[blockchain]})`)
 	}

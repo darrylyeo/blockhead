@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount, setContext } from 'svelte'
+	import { onMount, getContext, setContext } from 'svelte'
 	import { readable, writable } from 'svelte/store'
 	import { goto } from '@sapper/app'
 
@@ -29,11 +29,12 @@
 	// 	const balance = await pocketInstance.rpc.query.getBalance(address)
 	// })
 
-	export let segment
+	export let segment: string
 	$: console.log('segment', segment)
 
 	export let query = writable<string>('')
-	setContext('query', query)
+	if(!getContext('query'))
+		setContext('query', query)
 
 	// $: console.log('query changed: ', query)
 	// $: if(globalThis.document)
@@ -58,7 +59,7 @@
 
 
 <!-- <AddressField bind:query={$query} on:change={goto(`explorer/ethereum/${query}`)}/> -->
-<form on:submit={() => goto(`explorer/ethereum/${$query}`)}>
+<form on:submit|preventDefault={() => goto(`explorer/ethereum/${$query}`)}>
 	<AddressField bind:address={$query}/>
 	<button>Go</button>
 </form>
