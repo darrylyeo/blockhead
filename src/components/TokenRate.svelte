@@ -7,6 +7,7 @@
 	export let layout = 'vertical' // 'horizontal'
 	export let fractionLayout = layout === 'vertical' ? 'horizontal' : 'vertical'
 
+	import { tokenColors } from '../data/token-colors'
 	import TokenIcon from './TokenIcon.svelte'
 </script>
 
@@ -35,7 +36,9 @@
 
 	@supports (-webkit-background-clip: text) or (background-clip: text) {
 		.rate {
-			background: linear-gradient(135deg, var(--bitcoin-gold), var(--ethereum-blue));
+			--color-1: currentColor;
+			--color-2: var(--bitcoin-gold);
+			background: linear-gradient(135deg, var(--color-1), var(--color-2));
 			-webkit-background-clip: text;
 			background-clip: text;
 			-webkit-text-fill-color: #ffffff20;
@@ -79,7 +82,7 @@
 </style>
 
 <div class="token-rate {layout}">
-	<span class="rate">
+	<span class="rate" style="--color-1: var(--{tokenColors[quoteToken]}); --color-2: var(--{tokenColors[baseToken]})">
 		{rate.toFixed(decimals)}
 	</span>
 	<span class="fraction {fractionLayout}">

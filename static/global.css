@@ -6,8 +6,14 @@
 }
 
 :root {
+	--usd-green: #6cde07;
+	--gbp-purple: #bc3fe0;
 	--bitcoin-gold: #f7931a;
 	--ethereum-blue: #627eea;
+	--dai-yellow: #faba34;
+	--usdc-blue: #2775c9;
+	--tether-teal: #26a17b;
+	--ripple-black: #222222;
 
 	--up-green: #1af73d;
 	--down-red: #f7541a;

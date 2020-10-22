@@ -2,21 +2,17 @@
 	import { goto } from '@sapper/app'
 	
 	let blockchain = 'Ethereum'
-	
-	const blockchainColors = {
-		'Bitcoin': 'bitcoin-gold',
-		'Ethereum': 'ethereum-blue'
-	}
 
 	export let segment: string
 	$: console.log('segment', segment)
 	$: if(segment === undefined && globalThis.document){
 		goto(`explorer/${blockchain.toLowerCase()}`)
-		document.documentElement.style.setProperty('--primary-color', `var(--${blockchainColors[blockchain]})`)
+		document.documentElement.style.setProperty('--primary-color', `var(--${tokenColors[blockchain]})`)
 	}
 
 	import Controls from '../../components/Controls.svelte'
 	import { fly } from 'svelte/transition'
+	import { tokenColors } from '../../data/token-colors'
 </script>
 
 <style>
