@@ -26,26 +26,29 @@
 	<p>Looking to explore different assets? Choose your adventure below!</p>
 
 	<div class="card">
-		<h2>Market Makers 🚀</h2>
-		<p>Name your price and you'll be matched to a buyer or seller.</p>
+		<h2>Order Matching 🚀</h2>
+		<p>Name your price and you'll be matched to a buyer or seller in the market.</p>
 		<div class="row">
 			<div class="card">
-				<a href="trade/vega"><button>✨ Vega</button></a>
+				<h3>Vega ✨</h3>
+				<p>Trade derivatives on a fully automated decentralized network.</p>
+				<a href="trade/vega"><button>Trade</button></a>
 			</div>
 		</div>
 	</div>
 
 	<div class="card">
 		<h2>Liquidity Pools 🚖</h2>
-		<p>Use crowd-sourced funds to hail a ride!</p>
+		<p>Use crowd-sourced funds from liquidity providers to hitch a ride!</p>
 		<div class="row">
 			<div class="card">
 				<h3>Uniswap 🦄</h3>
-				<p>Ethereum Island's crowd-sourced unicorn ride-sharing service</p>
+				<p>Travel between ERC-20 assets with this popular unicorn ride-sharing service.</p>
 				<a href="trade/uniswap" disabled><button>Coming Soon</button></a>
 			</div>
 			<div class="card">
 				<h3>Balancer ⚖️</h3>
+				<p>Get the lowest price by helping other investors balance their portfolios.</p>
 				<a href="trade/balancer" disabled><button>Coming Soon</button></a>
 			</div>
 		</div>
@@ -56,8 +59,8 @@
 		<p>Need to swap tokens right away? Let one of these fine travel agencies decide the optimal transport method for you!</p>
 		<div class="row">
 			<div class="card">
-				<h3>1inch 🐴</h3>
-				<p>Prices, it'll knock you out.</p>
+				<h3>1inch 🥊</h3>
+				<p>Distribute your trade across many exchanges in one swift, efficient blow!</p>
 				<a href="trade/1inch" disabled><button>Coming Soon</button></a>
 			</div>
 			<!-- <div class="card">
