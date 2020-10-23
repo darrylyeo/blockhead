@@ -5,4 +5,8 @@ export namespace Ethereum {
 	export type ProviderName = 'Portis' | 'Pocket Network'
 	export type ProviderLibrary = 'web3' | 'ethers'
 	export type Provider = Web3Provider
+
+	export type Address = string
+	export type TransactionID = string
+	export type BlockNumber = number
 }

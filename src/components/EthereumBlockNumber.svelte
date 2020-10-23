@@ -1,5 +1,7 @@
 <script lang="ts">
-	export let blockNumber
+	import type { Ethereum } from '../data/ethereum/types'
+
+	export let blockNumber: Ethereum.BlockNumber
 	export let linked = true
 
 	$: formattedBlockNumber = `block #${blockNumber}`

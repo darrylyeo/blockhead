@@ -1,6 +1,8 @@
 <script lang="ts">
-	export let transactionID
-	export let blockNumber
+	import type { Ethereum } from '../data/ethereum/types'
+
+	export let transactionID: Ethereum.TransactionID
+	export let blockNumber: Ethereum.BlockNumber
 
 	import EthereumTransactionID from './EthereumTransactionID.svelte'
 	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
