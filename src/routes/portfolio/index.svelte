@@ -12,6 +12,8 @@
 	
 	const localAccounts = getLocalAccounts()
 
+	let metamaskProvider
+
 	let portisProvider
 	const loadPortisProvider = async () => {
 		portisProvider = await getProvider($ethereumNetwork, 'Portis', 'ethers')
@@ -52,6 +54,13 @@
 		grid-template-columns: 100%;
 	}
 
+	.metamask {
+		--primary-color: var(--metamask-orange);
+	}
+	/* .metamask-logo {
+		filter: brightness(300%);
+	} */
+
 	.portis-logo {
 		display: inline-block;
 		height: 1.1em;
@@ -64,6 +73,12 @@
 	}
 	.portis {
 		--primary-color: var(--portis-blue);
+	}
+
+	.wallet-providers {
+		display: grid;
+		gap: 2em;
+		align-content: start;
 	}
 </style>
 
@@ -80,35 +95,72 @@
 		{/if}
 	</section>
 
-	<section class="portis">
-		{#if portisProvider}
-			{#await getEthersAccounts(portisProvider)}
-				<h1><img src="/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>
-				<Loading>Log into Portis via the pop-up window.</Loading>
-			{:then accounts}
-				<Portfolio name="Portis Wallet" provider={preferredProvider} {accounts}>
-					<!-- <button on:click={() => addToPortfolio(accounts[0])}>Add to...</button> -->
-					<button on:click={disconnectPortisProvider}>Disconnect</button>
-				</Portfolio>
-			{:catch error}
-				<h1><img src="/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>
-				<div>
-					<p>We couldn't connect your Portis.io Account: <strong>{error}</strong></p>
-					<button on:click={loadPortisProvider}>Try Again</button>
-					<button on:click={disconnectPortisProvider}>Cancel</button>
+	<div class="wallet-providers">
+		<section class="metamask">
+			{#if metamaskProvider}
+				<!-- {#await getEthersAccounts(metamaskProvider)}
+					<h1><img src="/logos/metamask.svg" alt="MetaMask" class="metamask-logo"> Wallet</h1>
+					<Loading>
+						<img slot="icon" src="/logos/metamask-icon.svg">
+						Log into MetaMask via the pop-up window.
+					</Loading>
+				{:then accounts}
+					<Portfolio name="Portis Wallet" provider={preferredProvider} {accounts}>
+						<button on:click={disconnectPortisProvider}>Disconnect</button>
+					</Portfolio>
+				{:catch error}
+					<h1><img src="/logos/metamask.svg" alt="MetaMask" class="metamask-logo"> Wallet</h1>
+					<div>
+						<p>We couldn't connect your MetaMask Account: <strong>{error}</strong></p>
+						<button on:click={loadPortisProvider}>Try Again</button>
+						<button on:click={disconnectPortisProvider}>Cancel</button>
+					</div>
+				{/await} -->
+			{:else}
+				<div class="bar">
+					<h1><img src="/logos/metamask-icon.svg" alt="MetaMask" class="metamask-logo"> Metamask Wallet</h1>
+					<button on:click={loadPortisProvider}>Connect</button>
 				</div>
-			{/await}
-		{:else}
-			<div class="bar">
-				<h1><img src="/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>
-				<button on:click={loadPortisProvider}>Connect</button>
-			</div>
-			<div class="card">
-				<img src="/logos/portis.svg" alt="Portis" width="200">
-				<p>Create or import a wallet address by connecting a Portis.io account.</p>
-			</div>
-		{/if}
-	</section>
+				<div class="card">
+					<img src="/logos/metamask.svg" alt="MetaMask" width="200">
+					<p>Create or import a wallet address by connecting the MetaMask browser extension.</p>
+				</div>
+			{/if}
+		</section>
+
+		<section class="portis">
+			{#if portisProvider}
+				{#await getEthersAccounts(portisProvider)}
+					<h1><img src="/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>
+					<Loading>
+						<!-- <img slot="icon" src="/logos/portis-icon.svg" width=""> -->
+						Log into Portis via the pop-up window.
+					</Loading>
+				{:then accounts}
+					<Portfolio name="Portis Wallet" provider={preferredProvider} {accounts}>
+						<!-- <button on:click={() => addToPortfolio(accounts[0])}>Add to...</button> -->
+						<button on:click={disconnectPortisProvider}>Disconnect</button>
+					</Portfolio>
+				{:catch error}
+					<h1><img src="/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>
+					<div>
+						<p>We couldn't connect your Portis.io Account: <strong>{error}</strong></p>
+						<button on:click={loadPortisProvider}>Try Again</button>
+						<button on:click={disconnectPortisProvider}>Cancel</button>
+					</div>
+				{/await}
+			{:else}
+				<div class="bar">
+					<h1><img src="/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>
+					<button on:click={loadPortisProvider}>Connect</button>
+				</div>
+				<div class="card">
+					<img src="/logos/portis.svg" alt="Portis" width="200">
+					<p>Create or import a wallet address by connecting a Portis.io account.</p>
+				</div>
+			{/if}
+		</section>
+	</div>
 </main>
 
 <Preferences />
