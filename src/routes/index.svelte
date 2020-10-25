@@ -55,7 +55,8 @@
 	<header>
 		<!-- <p>Welcome to</p> -->
 		<h1 class="logo">Blockhead</h1>
-		<h2>is a decentralized crypto market visualizer,<br>DeFi interface and block explorer metaverse</h2>
+		<!-- <h2>is a decentralized crypto market visualizer,<br>DeFi interface and block explorer metaverse</h2> -->
+		<h2>is a decentralized wallet manager, trading interface,<br>and blockchain explorer metaverse</h2>
 	</header>
 
 	<section>
