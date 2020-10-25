@@ -25,7 +25,7 @@
 	}
 	.hover {
 		animation: Hover 1s linear infinite;
-		--hover-intensity: 20px;
+		--hover-intensity: 100px;
 	}
 
 	/* @keyframes ScaleIn {
