@@ -7,7 +7,7 @@
 	let transactionsStream
 	onMount(async () => {
 		const { getVegaAssets, getVegaMarkets, recentTransactionsStream } = await import('../data/vega')
-		transactionsStream = recentTransactionsStream(tx => Math.random() < samplePercentage / 100)
+		transactionsStream = recentTransactionsStream(marketId, tx => Math.random() < samplePercentage / 100)
 		assets = await getVegaAssets()
 		markets = await getVegaMarkets()
 	})
@@ -24,10 +24,10 @@
 	<div class="bar">
 		<h2>Recent Trades</h2>
 		<label>
-			Market: <select bind:value={samplePercentage}>
+			Market: <select bind:value={marketId}>
 				<option value="all">all</option>
 				{#each Object.values(markets) as market (market.id)}
-					<option value="{market.id}">{market.name}</option>
+					<option value={market.id}>{market.name}</option>
 				{/each}
 			</select>
 		</label>

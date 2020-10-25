@@ -17,8 +17,18 @@ function getVegaClient(){
 				// possibleTypes: {
 				// 	AssetSource: ['BuiltinAsset', 'ERC20'],
 				// }
-				// typePolicies: {
 
+				// typePolicies: {
+				// 	Trade: {
+				// 		fields: {
+				// 			market: {
+				// 				merge(existing, incoming, { mergeObjects }) {
+				// 					console.log('merge', existing, incoming)
+				// 					return mergeObjects(existing, incoming);
+				// 				},
+				// 			}
+				// 		}
+				// 	}
 				// }
 			}),
 
@@ -220,11 +230,26 @@ const MARKETS_QUERY = gql`
 	}
 `
 
-const TRADES_QUERY = gql`
+const RECENT_TRADES_QUERY = gql`
 	subscription VegaRecentTrades {
 		trades {
 			id
 			market { id }
+			buyer { id }
+			seller { id }
+			aggressor
+			price
+			size
+			createdAt
+		}
+	}
+`
+
+const RECENT_TRADES_FOR_MARKET_QUERY = gql`
+	subscription VegaRecentTradesForMarket($marketId: String) {
+		trades(marketId: $marketId) {
+			id
+			market { id, decimalPlaces }
 			buyer { id }
 			seller { id }
 			aggressor
@@ -241,7 +266,7 @@ export const getVegaAssets = () => getVegaAssetsPromise || (getVegaAssetsPromise
 	getVegaClient().query({query: ASSETS_QUERY})
 		.then(result => {
 			const assets: Vega.Asset[] = result?.data?.assets
-			console.log(result?.data, assets)
+			console.log('Vega Assets', assets)
 
 			const assetsByID: Record<Vega.AssetID, Vega.Asset> = {}
 			for(const asset of assets)
@@ -319,18 +344,27 @@ const BUFFER_RESERVE_RATIO = 0.0 // 0.5
 const TIME_SMOOTH_PERIOD = 40
 const DEFAULT_BLOCKTIME = 800
 
-export function recentTransactionsStream(filter, limit = 20) {
+export function recentTransactionsStream(marketId = 'all', filter, limit = 20) {
 	return readable<Vega.Transaction[]>([], set => {
-		// const subscription = getVegaClient().query({ query: TRADES_QUERY }).subscribe({
-		const subscription = getVegaClient().subscribe({ query: TRADES_QUERY }).subscribe({
+		const subscription = getVegaClient().subscribe(
+			marketId === 'all' ? {
+				query: RECENT_TRADES_QUERY
+			} : {
+				query: RECENT_TRADES_FOR_MARKET_QUERY,
+				variables: { marketId },
+				// fetchPolicy: 'cache-first'
+			}
+		).subscribe({
 			async next(result) {
 				const newTrades = result?.data?.trades
 
 				const markets = await getVegaMarkets()
 				console.log('result?.data', result?.data)
 				console.log('markets', markets)
-				for(const trade of newTrades)
+				for(const trade of newTrades){
+					console.log(trade.market, trade.market.decimalPlaces)
 					trade.market = markets[trade.market.id]
+				}
 
 				if(newTrades?.length)
 					onNewTrades(newTrades)

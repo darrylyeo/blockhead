@@ -48,13 +48,10 @@
 		align-items: center;
 		padding: var(--padding-outer);
 		
-		font-size: 0.8em;
+		font-size: 0.85em;
 		font-weight: 300;
 
 		position: relative;
-
-		background-color: var(--card-background-color);
-		border-radius: var(--card-border-radius);
 	}
 	.card > * {
 		display: flex;
@@ -73,7 +70,7 @@
 		text-align: left;
 	}
 
-	.card:before {
+	/* .card:before {
 		content: var(--emoji);
 
 		position: absolute;
@@ -83,7 +80,7 @@
 
 		font-size: 2em;
 		opacity: 0.5;
-	}
+	} */
 
 	.action-bought {
 		color: var(--up-green);
@@ -105,7 +102,7 @@
 
 {#if tx}
 	{#each [tx] as {market: {tradableInstrument: {instrument: {quoteName, baseName}}}, price, size, aggressor, takerId}}
-	<div class="card" style:--emoji={emojiForTransactionSize(tx.size)}>
+	<div class="card" style="--emoji: '{emojiForTransactionSize(tx.size)}'">
 		<div class="maker">
 			{#each tx.trades as {id, size, makerId} (id)}
 				<p>
