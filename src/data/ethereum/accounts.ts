@@ -1,8 +1,10 @@
 import type { CryptoAddress } from '../CryptoAddress'
 import { localStorageWritable } from '../local-storage'
 
-export const getLocalAccounts = () =>
+let localAccounts
+export const getLocalAccounts = () => localAccounts || (localAccounts =
 	localStorageWritable<CryptoAddress[]>('localAccounts', [])
+)
 
 export const getEthersAccounts = async provider => {
 	const accounts = await provider.listAccounts()
