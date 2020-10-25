@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { preferredEthereumProvider, preferredPriceFeedProvider } from '../data/ethereum/preferences'
+	import { preferredBaseCurrency, preferredEthereumProvider, preferredPriceFeedProvider } from '../data/ethereum/preferences'
 </script>
 
 <style>
@@ -25,8 +25,9 @@
 	<label>
 		<span>Price Feed:</span>
 		<select bind:value={$preferredPriceFeedProvider}>
-			<option>Chainlink</option>
-			<option>Tellor</option>
+			<option value="Chainlink">Chainlink</option>
+			<option value="Tellor">Tellor</option>
+			<option value="Open Price Feed">Compound Price Feed</option>
 		</select>
 	</label>
 
@@ -35,6 +36,14 @@
 		<select bind:value={$preferredEthereumProvider}>
 			<option value="Pocket Network">Pocket Network</option>
 			<option value="Portis">Infura (Portis)</option>
+		</select>
+	</label>
+
+	<label>
+		<span>Base Currency:</span>
+		<select bind:value={$preferredBaseCurrency}>
+			<option value="USD">US Dollar ($)</option>
+			<option value="GBP">British Pound (£)</option>
 		</select>
 	</label>
 </div>

@@ -15,6 +15,7 @@
 
 	import { fly } from 'svelte/transition'
 	import { tokenColors } from '../../data/token-colors'
+	import Preferences from '../../components/Preferences.svelte';
 </script>
 
 <style>
@@ -45,3 +46,5 @@
 
 	<slot></slot>
 </main>
+
+<Preferences />

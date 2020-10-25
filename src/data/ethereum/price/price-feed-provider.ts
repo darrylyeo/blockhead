@@ -1,0 +1,1 @@
+export type PriceFeedProvider = 'Chainlink' | 'Tellor' | 'Compound Open Price Feed'
