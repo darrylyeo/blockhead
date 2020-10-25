@@ -2,6 +2,7 @@ import type { Ethereum } from './types'
 import { getEthersJS } from './ethers'
 import { getWeb3 } from './web3'
 import { getPortis } from './providers/portis'
+// import { getPocketNetwork } from './providers/pocket-network'
 
 type ProviderCache = {
 	// Provider object (e.g. Portis instance)
@@ -23,7 +24,11 @@ const getProviderFunctions: Record<Ethereum.ProviderName, any> = {
 		const { provider } = instance
 		return { instance, provider }
 	},
-	'Pocket Network': () => {}
+	'Pocket Network': async () => {
+		// const instance = await getPocketNetwork()
+		// const { provider } = instance
+		// return { instance, provider }
+	}
 }
 
 async function getProviderCache(network: Ethereum.Network = 'mainnet', providerName: Ethereum.ProviderName){

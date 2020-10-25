@@ -1,11 +1,16 @@
-<script>
+<script lang="ts">
 	export let rate = 0.0
 	export let quoteToken = 'BTC'
 	export let baseToken = 'ETH'
 	export let decimals = 3
 
-	export let layout = 'vertical' // 'horizontal'
-	export let fractionLayout = layout === 'vertical' ? 'horizontal' : 'vertical'
+	export let layout: 'horizontal' | 'vertical' = 'vertical'
+	export let fractionLayout: 'horizontal' | 'vertical' = layout === 'vertical' ? 'horizontal' : 'vertical'
+
+	const formatRate = value =>
+		typeof value === 'number' ? value.toFixed(decimals) :
+		typeof value === 'string' ? value :
+		value.toString()
 
 	import { tokenColors } from '../data/token-colors'
 	import TokenIcon from './TokenIcon.svelte'
@@ -21,6 +26,7 @@
 
 	.token-rate {
 		display: inline-grid;
+		justify-content: center;
 		justify-items: center;
 		align-items: center;
 		gap: var(--padding-inner);
@@ -83,7 +89,7 @@
 
 <div class="token-rate {layout}">
 	<span class="rate" style="--color-1: var(--{tokenColors[quoteToken]}); --color-2: var(--{tokenColors[baseToken]})">
-		{rate.toFixed(decimals)}
+		{formatRate(rate)}
 	</span>
 	<span class="fraction {fractionLayout}">
 		<span>

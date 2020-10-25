@@ -47,7 +47,13 @@ export const getChainlinkPriceFeed = async (provider: Ethereum.Provider, network
 	const ethers = await getEthersJS()
 	const assetPair: AssetPair = `${quoteAsset}/${baseAsset}`
 	const contractAddress = CHAINLINK_CONTRACTS[network][assetPair]
-	const priceFeedContract = new ethers.Contract(aggregatorV3InterfaceABI, contractAddress).connect(provider)
-	console.log(priceFeedContract)
-	return await priceFeedContract.methods.latestRoundData().call()
+	const priceFeedContract = new ethers.Contract(contractAddress, aggregatorV3InterfaceABI, provider)
+	
+	console.log('priceFeedContract', priceFeedContract)
+	const {answer, answeredInRound, roundId, startedAt, updatedAt} = await priceFeedContract.latestRoundData()
+	console.log(answer.toString(), answeredInRound.toString(), roundId.toString(), startedAt.toString(), updatedAt.toString())
+	return {
+		price: ethers.utils.formatUnits(answer, 8),
+		updatedAt: new Date(updatedAt.toString())
+	}
 }
