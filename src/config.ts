@@ -11,7 +11,7 @@ export const POCKET_NETWORK_APP_AUTH_TOKEN = {
 	"applicationPublicKey": "98c2e1be1e4aac38ffffb9c1b95d8d0e4ab7dd7a6b073085dac8e4d6eda5b592",
 	"applicationSignature": "8e0bfcdff2dcd41e44484bfc17ee5b7f2e5e76b6815b079a1cc12abf6620250709f25e1162c0830d1650799e7e9917f0083987caee8ea4bcee6abb53536e0703"
 }
-export { POCKET_NETWORK_PPK, POCKET_NETWORK_PASSPHRASE } from './config-secrets'
+// export { POCKET_NETWORK_PPK, POCKET_NETWORK_PASSPHRASE } from './config-secrets'
 
 
 // Vega

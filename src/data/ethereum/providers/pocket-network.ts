@@ -1,5 +1,5 @@
 import { Pocket, Configuration, HttpRpcProvider, PocketAAT } from '@pokt-network/pocket-js';
-import { POCKET_NETWORK_DISPATCH_URL, POCKET_NETWORK_APP_AUTH_TOKEN/*, POCKET_NETWORK_PPK, POCKET_NETWORK_PASSPHRASE*/ } from '../config'
+import { POCKET_NETWORK_DISPATCH_URL, POCKET_NETWORK_APP_AUTH_TOKEN, POCKET_NETWORK_PPK, POCKET_NETWORK_PASSPHRASE } from '../../../config'
 
 // The dispatcher provides information about your Pocket session so that your
 // application can then connect to the decentralized network of nodes.
@@ -7,6 +7,7 @@ import { POCKET_NETWORK_DISPATCH_URL, POCKET_NETWORK_APP_AUTH_TOKEN/*, POCKET_NE
 const dispatchURL = new URL(POCKET_NETWORK_DISPATCH_URL)
 const rpcProvider = new HttpRpcProvider(dispatchURL)
 const configuration = new Configuration(5, 1000, 0, 40000)
+
 export const pocketInstance = new Pocket([dispatchURL], rpcProvider, configuration)
 
 // This is only called once to setup the Pocket Instance and AAT
@@ -27,7 +28,7 @@ async function unlockAAT(aat, accountPPK, accountPassphrase) {
 			aat.applicationSignature
 		)
 	} catch(e) {
-		console.log(e)
+		console.error(e)
 	}
 }
 
@@ -46,3 +47,8 @@ unlockAAT(POCKET_NETWORK_APP_AUTH_TOKEN, POCKET_NETWORK_PPK, POCKET_NETWORK_PASS
 		console.error(e)
 	}
 })
+
+
+export function getPocketNetwork(){
+	return { provider: {} }
+}
