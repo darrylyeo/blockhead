@@ -9,6 +9,7 @@ const initCompound = async () => {
 }
 
 export const getCompoundPriceFeed = async (token, baseToken) => {
+	const Compound = await import('@compound-finance/compound-js')
 	const compound = await initCompound()
 	return await compound.getPrice(Compound[token], baseToken)
 }
