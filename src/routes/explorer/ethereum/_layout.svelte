@@ -1,27 +1,20 @@
 <script lang="ts">
-	import { onMount, getContext, setContext } from 'svelte'
-	import { readable, writable } from 'svelte/store'
+	import { getContext, setContext } from 'svelte'
+	import { writable, derived } from 'svelte/store'
 	import { goto } from '@sapper/app'
 
 	import type { Ethereum } from '../../../data/ethereum/types'
 	import { ethereumNetwork, preferredEthereumProvider } from '../../../data/ethereum/preferences'
 	import { getProvider } from '../../../data/ethereum/provider'
 	
-	let provider = readable<Ethereum.Provider>(undefined, set => {
-		onMount(async () => {
+	const provider = derived<[SvelteStore<Ethereum.Network>, SvelteStore<Ethereum.ProviderName>], Ethereum.Provider>(
+		[ethereumNetwork, preferredEthereumProvider],
+		// @ts-ignore
+		async ([$ethereumNetwork, $preferredEthereumProvider], set) => {
 			set(await getProvider($ethereumNetwork, $preferredEthereumProvider, 'ethers'))
-		})
-	})
+		}
+	)
 	setContext('provider', provider)
-
-	// let provider: EthereumProvider
-	// onMount(async () => {
-	// 	console.log('ethereumNetwork', $ethereumNetwork)
-	// 	provider = await getProvider($ethereumNetwork)
-	// 	console.log('provider', provider)
-
-	// 	setContext('provider', provider)
-	// })
 
 	export let segment: string
 	$: console.log('segment', segment)
