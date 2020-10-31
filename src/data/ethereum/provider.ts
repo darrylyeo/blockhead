@@ -18,25 +18,26 @@ type ProviderCache = {
 // Cache provider objects by EthereumNetwork, ProviderName, ProviderLibrary
 const providersCache: Partial<Record<Ethereum.Network, Partial<Record<Ethereum.ProviderName, ProviderCache>> >> = {}
 
-const getProviderFunctions: Record<Ethereum.ProviderName, any> = {
-	'Portis': async () => {
-		const instance = await getPortis()
+const getProviderAndInstance: Record<Ethereum.ProviderName, (network: Ethereum.Network) => Promise<{ instance: any, provider: any }>> = {
+	'Portis': async network => {
+		const instance = await getPortis(network)
 		const { provider } = instance
 		return { instance, provider }
 	},
-	'Pocket Network': async () => {
-		// const instance = await getPocketNetwork()
-		// const { provider } = instance
+
+	'Pocket Network': async network => {
+		return { instance: {}, provider: {} }
+		// const { instance, provider } = await getPocketNetwork(network)
 		// return { instance, provider }
 	}
 }
 
-async function getProviderCache(network: Ethereum.Network = 'mainnet', providerName: Ethereum.ProviderName){
+async function getCachedProvider(network: Ethereum.Network = 'mainnet', providerName: Ethereum.ProviderName){
 	if(!(network in providersCache))
 		providersCache[network] = {}
 	
 	if(!(providerName in providersCache[network])){
-		const { instance, provider } = await getProviderFunctions[providerName](network)
+		const { instance, provider } = await getProviderAndInstance[providerName](network)
 		providersCache[network][providerName] = {
 			instance,
 			provider,
@@ -48,13 +49,13 @@ async function getProviderCache(network: Ethereum.Network = 'mainnet', providerN
 }
 
 export async function getProviderInstance(network: Ethereum.Network, providerName: Ethereum.ProviderName){
-	const { instance } = await getProviderCache(network, providerName)
+	const { instance } = await getCachedProvider(network, providerName)
 
 	return instance
 }
 
 export async function getProvider(network: Ethereum.Network, providerName: Ethereum.ProviderName, library: Ethereum.ProviderLibrary = 'ethers'){
-	const { provider, wrapped } = await getProviderCache(network, providerName)
+	const { provider, wrapped } = await getCachedProvider(network, providerName)
 
 	if(!(library in wrapped)){
 		if(library === 'ethers'){

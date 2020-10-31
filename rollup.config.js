@@ -27,7 +27,10 @@ export default {
 		plugins: [
 			replace({
 				'process.browser': true,
-				'process.env.NODE_ENV': JSON.stringify(mode)
+				'process.env.NODE_ENV': JSON.stringify(mode),
+				exclude: [
+					'@pokt-network'
+				]
 			}),
 			json(),
 			svelte({
@@ -75,7 +78,10 @@ export default {
 		plugins: [
 			replace({
 				'process.browser': false,
-				'process.env.NODE_ENV': JSON.stringify(mode)
+				'process.env.NODE_ENV': JSON.stringify(mode),
+				exclude: [
+					'@pokt-network'
+				]
 			}),
 			json(),
 			svelte({
@@ -103,7 +109,10 @@ export default {
 			resolve(),
 			replace({
 				'process.browser': true,
-				'process.env.NODE_ENV': JSON.stringify(mode)
+				'process.env.NODE_ENV': JSON.stringify(mode),
+				exclude: [
+					'@pokt-network'
+				]
 			}),
 			commonjs(),
 			typescript({ sourceMap: dev }),

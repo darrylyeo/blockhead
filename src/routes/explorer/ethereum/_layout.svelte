@@ -22,12 +22,6 @@
 
 	// 	setContext('provider', provider)
 	// })
-		
-	// import { pocketInstance } from '../../data/pocket-network'
-	// onMount(async () => {
-	// 	const pocketInstance = await import('../../data/pocket-network')
-	// 	const balance = await pocketInstance.rpc.query.getBalance(address)
-	// })
 
 	export let segment: string
 	$: console.log('segment', segment)
