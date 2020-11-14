@@ -12,7 +12,42 @@
 	
 	const localAccounts = getLocalAccounts()
 
-	let metamaskProvider
+	// let metaMaskProvider
+	// const loadMetaMaskProvider = async () => {
+	// 	metaMaskProvider = await getProvider($ethereumNetwork, 'MetaMask', 'ethers')
+
+	// 	const metaMask = await getProviderInstance($ethereumNetwork, 'MetaMask')
+	// 	metaMaskProvider.on('accountsChanged', accounts => {
+	// 		console.log('accountsChanged', accounts)
+	// 		loadMetaMaskProvider()
+	// 	})
+	// 	metaMaskProvider.on('chainChanged', chainId => {
+	// 		console.log('chainChanged', chainId)
+	// 		loadMetaMaskProvider()
+	// 	})
+	// }
+	// const disconnectMetaMaskProvider = async () => {
+	// 	const metaMask = await getProviderInstance($ethereumNetwork, 'MetaMask')
+	// 	metaMaskProvider = undefined
+	// }
+	let metaMaskAccountsPromise
+	const loadMetaMaskAccounts = async () => {
+		metaMaskAccountsPromise = getProvider($ethereumNetwork, 'MetaMask', 'ethers').then(provider => getEthersAccounts(provider))
+
+		const metaMask = await getProviderInstance($ethereumNetwork, 'MetaMask')
+		metaMask.once('accountsChanged', accounts => {
+			console.log('accountsChanged', accounts)
+			loadMetaMaskAccounts()
+		})
+		metaMask.once('chainChanged', chainId => {
+			console.log('chainChanged', chainId, metaMask.chainId)
+			loadMetaMaskAccounts()
+		})
+	}
+	const disconnectMetaMaskProvider = async () => {
+		// const metaMask = await getProviderInstance($ethereumNetwork, 'MetaMask')
+		metaMaskAccountsPromise = undefined
+	}
 
 	let portisProvider
 	const loadPortisProvider = async () => {
@@ -97,29 +132,29 @@
 
 	<div class="wallet-providers">
 		<section class="metamask">
-			{#if metamaskProvider}
-				<!-- {#await getEthersAccounts(metamaskProvider)}
+			{#if metaMaskAccountsPromise}
+				{#await metaMaskAccountsPromise}
 					<h1><img src="/logos/metamask.svg" alt="MetaMask" class="metamask-logo"> Wallet</h1>
-					<Loading>
+					<Loading iconAnimation="hover">
 						<img slot="icon" src="/logos/metamask-icon.svg">
 						Log into MetaMask via the pop-up window.
 					</Loading>
 				{:then accounts}
-					<Portfolio name="Portis Wallet" provider={preferredProvider} {accounts}>
-						<button on:click={disconnectPortisProvider}>Disconnect</button>
+					<Portfolio name="MetaMask Wallet" provider={preferredProvider} {accounts}>
+						<button on:click={disconnectMetaMaskProvider}>Disconnect</button>
 					</Portfolio>
 				{:catch error}
 					<h1><img src="/logos/metamask.svg" alt="MetaMask" class="metamask-logo"> Wallet</h1>
-					<div>
-						<p>We couldn't connect your MetaMask Account: <strong>{error}</strong></p>
-						<button on:click={loadPortisProvider}>Try Again</button>
-						<button on:click={disconnectPortisProvider}>Cancel</button>
+					<div class="card">
+						<p>We couldn't connect your MetaMask Account: <strong>{error.message ?? error}</strong></p>
+						<button on:click={loadMetaMaskAccounts}>Try Again</button>
+						<button on:click={disconnectMetaMaskProvider}>Cancel</button>
 					</div>
-				{/await} -->
+				{/await}
 			{:else}
 				<div class="bar">
-					<h1><img src="/logos/metamask-icon.svg" alt="MetaMask" class="metamask-logo"> Metamask Wallet</h1>
-					<button on:click={loadPortisProvider}>Connect</button>
+					<h1><img src="/logos/metamask-icon.svg" alt="MetaMask" class="metamask-logo"> MetaMask Wallet</h1>
+					<button on:click={loadMetaMaskAccounts}>Connect</button>
 				</div>
 				<div class="card">
 					<img src="/logos/metamask.svg" alt="MetaMask" width="200">
@@ -143,7 +178,7 @@
 					</Portfolio>
 				{:catch error}
 					<h1><img src="/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>
-					<div>
+					<div class="card">
 						<p>We couldn't connect your Portis.io Account: <strong>{error}</strong></p>
 						<button on:click={loadPortisProvider}>Try Again</button>
 						<button on:click={disconnectPortisProvider}>Cancel</button>

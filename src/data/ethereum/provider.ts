@@ -1,6 +1,7 @@
 import type { Ethereum } from './types'
 import { getEthersJS } from './ethers'
 import { getWeb3 } from './web3'
+import { getMetaMask } from './providers/metamask'
 import { getPortis } from './providers/portis'
 // import { getPocketNetwork } from './providers/pocket-network'
 
@@ -19,6 +20,11 @@ type ProviderCache = {
 const providersCache: Partial<Record<Ethereum.Network, Partial<Record<Ethereum.ProviderName, ProviderCache>> >> = {}
 
 const getProviderAndInstance: Record<Ethereum.ProviderName, (network: Ethereum.Network) => Promise<{ instance: any, provider: any }>> = {
+	'MetaMask': async network => {
+		const instance = await getMetaMask(network)
+		return { instance, provider: instance }
+	},
+
 	'Portis': async network => {
 		const instance = await getPortis(network)
 		const { provider } = instance
