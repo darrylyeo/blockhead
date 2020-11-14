@@ -45,6 +45,7 @@
 	import Address from './Address.svelte'
 	import AddressField from './AddressField.svelte'
 	import Balance from './Balance.svelte'
+	import DefiBalances from './DefiBalances.svelte'
 	import Loading from './Loading.svelte'
 	import { flip } from 'svelte/animate'
 </script>
@@ -94,6 +95,13 @@
 	.balances > :global(*) {
 		flex: 0 auto;
 	}
+
+	.defi-balances {
+		--padding-inner: 0.5em;
+		display: grid;
+		gap: var(--padding-inner);
+		grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+	}
 </style>
 
 
@@ -127,6 +135,9 @@
 								{#each ['ETH'] as token}
 									<Balance {provider} {token} {address} />
 								{/each}
+							</div>
+							<div class="defi-balances">
+								<DefiBalances {provider} {address} />
 							</div>
 						{:else}
 							<Loading>Connecting to the blockchain...</Loading>

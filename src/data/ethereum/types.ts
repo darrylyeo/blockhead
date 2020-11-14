@@ -9,4 +9,5 @@ export namespace Ethereum {
 	export type Address = string
 	export type TransactionID = string
 	export type BlockNumber = number
+	export type ContractAddress = string
 }
