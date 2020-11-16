@@ -1,6 +1,9 @@
-<script>
+<script lang="ts">
+	import type { Ethereum } from '../data/ethereum/types'
+
 	export let value = 0.0
 	export let token = 'ETH'
+	export let tokenAddress: Ethereum.ContractAddress
 	export let decimals = 3
 
 	const formatValue = value =>
@@ -15,6 +18,7 @@
 	div {
 		display: inline-grid;
 		grid-auto-flow: column;
+		justify-content: start;
 		align-items: center;
 		gap: var(--padding-inner);
 
@@ -33,9 +37,9 @@
 </style>
 
 <div>
-	<TokenIcon {token} />
+	<TokenIcon {token} {tokenAddress} />
 	<span>
-		{formatValue(value)}
+		<span class="token-value">{formatValue(value)}</span>
 		<span class="token-name">{token}</span>
 	</span>
 </div>

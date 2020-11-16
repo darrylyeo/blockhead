@@ -22,9 +22,12 @@
 	--metamask-orange: #e27625;
 	
 	--primary-color: var(--ethereum-blue); /* #6790e1; */
-	--card-background-color: rgba(0, 0, 0, 0.075);
-	--card-hover-background-color: rgba(0, 0, 0, 0.100);
+	/* --card-background-color: rgba(0, 0, 0, 0.075);
+	--card-hover-background-color: rgba(0, 0, 0, 0.100); */
+	--card-background-color: rgb(255, 255, 255, 0.4);
+	--card-hover-background-color: rgb(255, 255, 255, 0.6);
 	--card-border-radius: 0.5rem;
+	--card-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.075);
 
 	--one-column-width: 60em;
 	--padding-outer: 1rem;
@@ -44,6 +47,8 @@
 
 	-webkit-font-feature-settings: "liga" on, "calt" on;
 	font-feature-settings: "liga" on, "calt" on;
+	font-variant: tabular-nums;
+
 	-webkit-font-smoothing: antialiased;
 	text-rendering: optimizeLegibility;
 
@@ -58,6 +63,8 @@
 	:root {
 		--card-background-color: rgba(255, 255, 255, 0.1);
 		--card-hover-background-color: rgba(255, 255, 255, 0.12);
+		/* --card-box-shadow: 0px 2px 4px rgba(255, 255, 555, 0.075); */
+
 		--global-background-gradient-base-color: #01002d;
 
 		-webkit-font-smoothing: auto;
@@ -196,9 +203,11 @@ main {
 	align-content: start;
 	padding: var(--padding-outer);
 
+	background-image: var(--card-background-image);
 	background-color: var(--card-background-color);
 	/* background-image: radial-gradient(circle, transparent -75%, var(--card-background-color)); */
 	border-radius: var(--card-border-radius);
+	box-shadow: var(--card-box-shadow);
 
 	transition: 0.4s;
 }
@@ -206,6 +215,12 @@ main {
 	/* background-image: none; */
 	background-color: var(--card-hover-background-color);
 }
+/* .card:before {
+	content: '';
+	background-image: var(--card-background-image);
+	grid: 1 / 1 / -1 / -1;
+	opacity: 0.1;
+} */
 
 .card-annotation {
 	opacity: 0.4;
@@ -226,6 +241,16 @@ main {
 }
 .bar > :not(:first-child) {
 	flex: 0 auto;
+}
+
+
+.stack {
+	display: grid;
+	grid: "area";
+}
+.stack > :global(*) {
+	grid-area: area;
+	place-items: start;
 }
 
 

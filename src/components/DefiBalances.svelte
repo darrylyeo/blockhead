@@ -70,18 +70,35 @@
 </script>
 
 <style>
-	.stack {
-		display: grid;
-		grid: "area";
-	}
-	.stack > :global(*) {
-		grid-area: area;
-		place-items: start;
-	}
-
 	.containing {
 		font-size: 0.8em;
 		text-align: left;
+
+		display: grid;
+		--padding-inner: 0.1em;
+		gap: var(--padding-inner);
+		grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+	}
+
+	.containing-symbol {
+		display: inline-flex;
+		padding: 0 0.3em;
+		opacity: 0.8;
+	}
+
+	.card {
+		position: relative;
+		overflow: hidden;
+	}
+	.card img {
+		position: absolute;
+		opacity: 0.075;
+		width: 13em;
+		right: -1.5em;
+		bottom: -2em;
+		filter: contrast(10);
+		border-radius: 50%;
+		z-index: -1;
 	}
 </style>
 
@@ -94,28 +111,30 @@
 			</Loading>
 		</div>
 	{:then defiBalances}
-		{#each defiBalances as protocol}
-			<div in:scale class="card" style="--card-background-image: {makeCardGradient(defiProtocolColors[protocol.metadata.name])})">
-				<h3><img src={`https://${protocol.metadata.iconURL}`} alt={protocol.metadata.name} width="20"/> {protocol.metadata.name}</h3>
-				{#each protocol.adapterBalances as adapterBalance}
-					{#if adapterBalance.metadata.adapterType === 'Debt'}
-						<h4>{adapterBalance.metadata.adapterType}</h4>
-					{/if}
-					{#each adapterBalance.balances as {base: baseBalance, underlying}}
-						<TokenValue token={baseBalance.metadata.symbol} value={formatDecimal(baseBalance.amount, baseBalance.metadata.decimals)} />
-						{#if underlying.length}
-							<div class="containing">
-								{#each underlying as underlyingBalance}
-									<p>┖ <TokenValue token={underlyingBalance.metadata.symbol} value={formatDecimal(underlyingBalance.amount, underlyingBalance.metadata.decimals)} /></p>
-								{/each}
-							</div>
+		<div class="defi-balances">
+			{#each defiBalances as protocol}
+				<div in:scale class="card defi-protocol-balance" style="--card-background-image: {makeCardGradient(defiProtocolColors[protocol.metadata.name])})">
+					<h4 title="{protocol.metadata.description}"><img src={`https://${protocol.metadata.iconURL}`} alt={protocol.metadata.name} width="20"/> {protocol.metadata.name}</h4>
+					<hr>
+					{#each protocol.adapterBalances as adapterBalance}
+						{#if adapterBalance.metadata.adapterType === 'Debt'}
+							<h4>{adapterBalance.metadata.adapterType}</h4>
 						{/if}
+						{#each adapterBalance.balances as {base: baseBalance, underlying}}
+							<TokenValue token={baseBalance.metadata.symbol} value={formatDecimal(baseBalance.amount, baseBalance.metadata.decimals)} tokenAddress={baseBalance.metadata.token} />
+							{#if underlying.length}
+								<div class="containing">
+									{#each underlying as underlyingBalance}
+										<p><span class="containing-symbol">┖</span> <TokenValue token={underlyingBalance.metadata.symbol} value={formatDecimal(underlyingBalance.amount, underlyingBalance.metadata.decimals)} tokenAddress={underlyingBalance.metadata.token} /></p>
+									{/each}
+								</div>
+							{/if}
+						{/each}
 					{/each}
-				{/each}
-			</div>
-		{/each}
+				</div>
+			{/each}
+		</div>
 	{:catch error}
 		{error}
 	{/await}
 {/if}
-

@@ -96,7 +96,7 @@
 		flex: 0 auto;
 	}
 
-	.defi-balances {
+	.account :global(.defi-balances) {
 		--padding-inner: 0.5em;
 		display: grid;
 		gap: var(--padding-inner);
@@ -133,12 +133,12 @@
 						{#if provider}
 							<div class="balances">
 								{#each ['ETH'] as token}
-									<Balance {provider} {token} {address} />
+									<div class="card">
+										<Balance {provider} {token} {address} />
+									</div>
 								{/each}
 							</div>
-							<div class="defi-balances">
-								<DefiBalances {provider} {address} />
-							</div>
+							<DefiBalances {provider} {address} />
 						{:else}
 							<Loading>Connecting to the blockchain...</Loading>
 						{/if}

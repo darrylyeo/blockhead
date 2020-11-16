@@ -3,6 +3,7 @@
 	import { getEthersJS } from '../data/ethereum/ethers'
 
 	export let token = 'ETH'
+	export let tokenAddress: Ethereum.ContractAddress
 
 	let ethers
 	getEthersJS().then(_ => ethers = _)
@@ -12,33 +13,28 @@
 	
 	import Loading from './Loading.svelte'
 	import TokenIcon from './TokenIcon.svelte'
-    import TokenValue from './TokenValue.svelte'
-    
-    import { scale } from 'svelte/transition'
+	import TokenValue from './TokenValue.svelte'
+	
+	import { scale } from 'svelte/transition'
 </script>
 
 <style>
-	div {
-		display: grid;
-		grid: "area";
-	}
-	div > :global(*) {
-		grid-area: area;
-		place-items: start;
+	.animation-wrapper {
+		display: flex;
 	}
 </style>
 
-<div>
+<div class="stack">
 	{#if provider && address}
 		{#await provider.getBalance(address)}
 			<Loading>
-				<span slot="icon"><TokenIcon {token} /></span>
+				<span slot="icon"><TokenIcon {token} {tokenAddress} /></span>
 				Reading balance...
 			</Loading>
-        {:then balance}
-            <div in:scale>
-                <TokenValue {token} value={ethers?.utils.formatEther(balance)} />
-            </div>
+		{:then balance}
+			<div in:scale class="animation-wrapper">
+				<TokenValue {token} value={ethers?.utils.formatEther(balance)} />
+			</div>
 		{:catch error}
 			{error}
 		{/await}
