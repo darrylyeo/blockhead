@@ -12,6 +12,9 @@
 	export let provider: Ethereum.Provider
 	export let address: string
 	
+	export let layout: 'horizontal' | 'vertical' = 'vertical'
+	export let showUnderlyingAssets = true
+	
 	import Loading from './Loading.svelte'
 	import TokenIcon from './TokenIcon.svelte'
 	import TokenValue from './TokenValue.svelte'
@@ -70,7 +73,7 @@
 </script>
 
 <style>
-	.containing {
+	.underlying {
 		font-size: 0.8em;
 		text-align: left;
 
@@ -80,22 +83,32 @@
 		grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
 	}
 
-	.containing-symbol {
+	.underlying-symbol {
 		display: inline-flex;
 		padding: 0 0.3em;
 		opacity: 0.8;
+	}
+
+	.column {
+		display: grid;
+    	gap: var(--padding-inner);
 	}
 
 	.card {
 		position: relative;
 		overflow: hidden;
 	}
+
+	.card.layout-horizontal {
+		grid-template-columns: 1fr auto auto;
+	}
+
 	.card img {
 		position: absolute;
 		opacity: 0.075;
 		width: 13em;
 		right: -1.5em;
-		bottom: -2em;
+		top: -2em;
 		filter: contrast(10);
 		border-radius: 50%;
 		z-index: -1;
@@ -113,24 +126,30 @@
 	{:then defiBalances}
 		<div class="defi-balances">
 			{#each defiBalances as protocol}
-				<div in:scale class="card defi-protocol-balance" style="--card-background-image: {makeCardGradient(defiProtocolColors[protocol.metadata.name])})">
+				<div transition:scale class="card defi-protocol layout-{layout}" style="--card-background-image: {makeCardGradient(defiProtocolColors[protocol.metadata.name])})">
 					<h4 title="{protocol.metadata.description}"><img src={`https://${protocol.metadata.iconURL}`} alt={protocol.metadata.name} width="20"/> {protocol.metadata.name}</h4>
-					<hr>
-					{#each protocol.adapterBalances as adapterBalance}
-						{#if adapterBalance.metadata.adapterType === 'Debt'}
-							<h4>{adapterBalance.metadata.adapterType}</h4>
-						{/if}
-						{#each adapterBalance.balances as {base: baseBalance, underlying}}
-							<TokenValue token={baseBalance.metadata.symbol} value={formatDecimal(baseBalance.amount, baseBalance.metadata.decimals)} tokenAddress={baseBalance.metadata.token} />
-							{#if underlying.length}
-								<div class="containing">
-									{#each underlying as underlyingBalance}
-										<p><span class="containing-symbol">┖</span> <TokenValue token={underlyingBalance.metadata.symbol} value={formatDecimal(underlyingBalance.amount, underlyingBalance.metadata.decimals)} tokenAddress={underlyingBalance.metadata.token} /></p>
-									{/each}
-								</div>
+					{#if layout === 'vertical'}
+						<hr>
+					{/if}
+					<div class="defi-protocol-balances column">
+						{#each protocol.adapterBalances as adapterBalance}
+							{#if adapterBalance.metadata.adapterType === 'Debt'}
+								<h4>{adapterBalance.metadata.adapterType}</h4>
 							{/if}
+							{#each adapterBalance.balances as {base: baseBalance, underlying}}
+								<div class="column defi-protocol-balance">
+									<TokenValue token={baseBalance.metadata.symbol} value={formatDecimal(baseBalance.amount, baseBalance.metadata.decimals)} tokenAddress={baseBalance.metadata.token} />
+									{#if underlying.length && showUnderlyingAssets}
+										<div class="underlying" transition:scale>
+											{#each underlying as underlyingBalance}
+												<p><span class="underlying-symbol">┖</span> <TokenValue token={underlyingBalance.metadata.symbol} value={formatDecimal(underlyingBalance.amount, underlyingBalance.metadata.decimals)} tokenAddress={underlyingBalance.metadata.token} /></p>
+											{/each}
+										</div>
+									{/if}
+								</div>
+							{/each}
 						{/each}
-					{/each}
+					</div>
 				</div>
 			{/each}
 		</div>

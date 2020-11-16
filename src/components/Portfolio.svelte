@@ -39,6 +39,8 @@
 		accounts = [...accounts.slice(0, i), ...accounts.slice(i + 1)]
 	}
 
+	let showUnderlyingAssets = false
+
 
 	let delayStartIndex = 0
 
@@ -107,6 +109,10 @@
 
 <div class="bar">
 	<h1>{name}</h1>
+	<label>
+		<input type="checkbox" bind:checked={showUnderlyingAssets}>
+		<span>Show Underlying Assets</span>
+	</label>
 	{#if editable}
 		{#if isAddingWallet}
 			<form on:submit|preventDefault={() => addWallet(newWalletAddress)}>
@@ -138,7 +144,7 @@
 									</div>
 								{/each}
 							</div>
-							<DefiBalances {provider} {address} />
+							<DefiBalances {provider} {address} {showUnderlyingAssets} layout={showUnderlyingAssets ? 'vertical' : 'horizontal'} />
 						{:else}
 							<Loading>Connecting to the blockchain...</Loading>
 						{/if}
