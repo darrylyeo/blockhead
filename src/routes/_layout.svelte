@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Nav from '../components/Nav.svelte'
-	import Metaverse from '../components/Metaverse.svelte'
 
 	export let segment: string
 </script>
@@ -52,5 +51,3 @@
 <Nav {segment}/>
 
 <slot></slot>
-
-<Metaverse />
