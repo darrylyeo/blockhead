@@ -8,25 +8,27 @@
 	$: Icon = CryptoIcons[token[0].toUpperCase() + token.slice(1).toLowerCase()]
 </script>
 
-<figure title={token}>
+<picture>
 	{#if Icon}
-		<svelte:component this={Icon} size="1.2em" /> 
-	<!-- {:else if tokenAddress}
-		<img src="https://token-icons.s3.amazonaws.com/{tokenAddress}.png"> -->
+		<svelte:component this={Icon} size="1.25em" /> 
+	{:else if tokenAddress}
+		<source srcset="https://token-icons.s3.amazonaws.com/{tokenAddress.toLowerCase()}.png">
+		<source srcset="https://tokens.1inch.exchange/{tokenAddress.toLowerCase()}.png">
+		<img title={token + (tokenAddress ? ` (${tokenAddress})` : '')}>
 	{:else}
 		<i class="placeholder-icon" data-icon={token.slice(0, 4)}></i>
 	{/if}
-</figure>
+</picture>
 
 <style>
-	figure {
+	picture {
 		display: inline-flex;
 		align-self: center;
 	}
 
 	img, .placeholder-icon {
-		width: 1.2em;
-		height: 1.2em;
+		width: 1.25em;
+		height: 1.25em;
 	}
 
 	.placeholder-icon {
