@@ -144,7 +144,7 @@
 									</div>
 								{/each}
 							</div>
-							<DefiBalances {provider} {address} {showUnderlyingAssets} layout={showUnderlyingAssets ? 'vertical' : 'horizontal'} />
+							<DefiBalances {provider} {address} {showUnderlyingAssets} />
 						{:else}
 							<Loading>Connecting to the blockchain...</Loading>
 						{/if}

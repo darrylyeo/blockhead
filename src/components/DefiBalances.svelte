@@ -13,8 +13,13 @@
 	export let address: string
 	
 	export let showUnderlyingAssets = true
-	export let layout: 'horizontal' | 'vertical' = 'vertical'
-	// $: layout = showUnderlyingAssets ? 'vertical' : 'horizontal'
+
+	type Layout = 'horizontal' | 'horizontal-alternate' | 'vertical'
+	export let layout: Layout | 'auto' = 'auto'
+	let computedLayout: Layout
+	$: computedLayout = layout === 'auto'
+		? showUnderlyingAssets ? 'vertical' : 'horizontal' // 'horizontal-alternate'
+		: layout
 	
 	import Loading from './Loading.svelte'
 	import TokenIcon from './TokenIcon.svelte'
@@ -103,8 +108,23 @@
 	}
 
 	.card.layout-horizontal {
-		grid-auto-columns: 1fr auto auto;
-		grid-auto-flow: column;
+		display: flex;
+		flex-wrap: wrap;
+	}
+	.card.layout-horizontal > :first-child {
+		flex: 1;
+	}
+	.card.layout-horizontal-alternate {
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row-reverse;
+    	justify-content: flex-end;
+	}
+	.card.layout-horizontal-alternate .card-annotation {
+		font-weight: normal;
+		/* order: 1; */
+		margin-left: auto;
+		line-height: 1.5;
 	}
 
 	.card img {
@@ -131,9 +151,9 @@
 		{#if defiBalances.length}
 			<div class="defi-balances">
 				{#each defiBalances as protocol, i (protocol.metadata.name)}
-					<div transition:scale animate:flip|local={{duration: 300, delay: Math.abs(i) * 10}} class="card defi-protocol layout-{layout}" style="--card-background-image: {makeCardGradient(defiProtocolColors[protocol.metadata.name])})">
-						<h4 title="{protocol.metadata.description}"><img src={`https://${protocol.metadata.iconURL}`} alt={protocol.metadata.name} width="20"/> {protocol.metadata.name}</h4>
-						{#if layout === 'vertical'}
+					<div transition:scale animate:flip|local={{duration: 300, delay: Math.abs(i) * 10}} class="card defi-protocol layout-{computedLayout}" style="--card-background-image: {makeCardGradient(defiProtocolColors[protocol.metadata.name])})">
+						<h4 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{protocol.metadata.description}"><img src={`https://${protocol.metadata.iconURL}`} alt={protocol.metadata.name} width="20"/> {protocol.metadata.name}</h4>
+						{#if computedLayout === 'vertical'}
 							<hr>
 						{/if}
 						<div class="defi-protocol-balances column">
