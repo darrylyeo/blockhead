@@ -132,7 +132,7 @@
 <div class="portfolio">
 	{#if accounts}
 		{#each accounts as address, i (address)}
-			<section class="card" animate:flip={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
+			<section class="card" animate:flip|local={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
 				<div class="bar">
 					<div class="account">
 						<h3><Address {address} /></h3>

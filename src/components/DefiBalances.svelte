@@ -12,13 +12,15 @@
 	export let provider: Ethereum.Provider
 	export let address: string
 	
-	export let layout: 'horizontal' | 'vertical' = 'vertical'
 	export let showUnderlyingAssets = true
+	export let layout: 'horizontal' | 'vertical' = 'vertical'
+	// $: layout = showUnderlyingAssets ? 'vertical' : 'horizontal'
 	
 	import Loading from './Loading.svelte'
 	import TokenIcon from './TokenIcon.svelte'
 	import TokenValue from './TokenValue.svelte'
 	
+	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
 
 	const defiProtocolColors: Record<DefiSDK.ProtocolName, string[]> = {
@@ -78,6 +80,7 @@
 		text-align: left;
 
 		display: grid;
+		justify-items: start;
 		--padding-inner: 0.1em;
 		gap: var(--padding-inner);
 		grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
@@ -100,7 +103,8 @@
 	}
 
 	.card.layout-horizontal {
-		grid-template-columns: 1fr auto auto;
+		grid-auto-columns: 1fr auto auto;
+		grid-auto-flow: column;
 	}
 
 	.card img {
@@ -124,35 +128,40 @@
 			</Loading>
 		</div>
 	{:then defiBalances}
-		<div class="defi-balances">
-			{#each defiBalances as protocol}
-				<div transition:scale class="card defi-protocol layout-{layout}" style="--card-background-image: {makeCardGradient(defiProtocolColors[protocol.metadata.name])})">
-					<h4 title="{protocol.metadata.description}"><img src={`https://${protocol.metadata.iconURL}`} alt={protocol.metadata.name} width="20"/> {protocol.metadata.name}</h4>
-					{#if layout === 'vertical'}
-						<hr>
-					{/if}
-					<div class="defi-protocol-balances column">
-						{#each protocol.adapterBalances as adapterBalance}
-							{#if adapterBalance.metadata.adapterType === 'Debt'}
-								<h4>{adapterBalance.metadata.adapterType}</h4>
-							{/if}
-							{#each adapterBalance.balances as {base: baseBalance, underlying}}
-								<div class="column defi-protocol-balance">
-									<TokenValue token={baseBalance.metadata.symbol} value={formatDecimal(baseBalance.amount, baseBalance.metadata.decimals)} tokenAddress={baseBalance.metadata.token} />
-									{#if underlying.length && showUnderlyingAssets}
-										<div class="underlying" transition:scale>
-											{#each underlying as underlyingBalance}
-												<p><span class="underlying-symbol">┖</span> <TokenValue token={underlyingBalance.metadata.symbol} value={formatDecimal(underlyingBalance.amount, underlyingBalance.metadata.decimals)} tokenAddress={underlyingBalance.metadata.token} /></p>
-											{/each}
-										</div>
-									{/if}
-								</div>
+		{#if defiBalances.length}
+			<div class="defi-balances">
+				{#each defiBalances as protocol, i (protocol.metadata.name)}
+					<div transition:scale animate:flip|local={{duration: 300, delay: Math.abs(i) * 10}} class="card defi-protocol layout-{layout}" style="--card-background-image: {makeCardGradient(defiProtocolColors[protocol.metadata.name])})">
+						<h4 title="{protocol.metadata.description}"><img src={`https://${protocol.metadata.iconURL}`} alt={protocol.metadata.name} width="20"/> {protocol.metadata.name}</h4>
+						{#if layout === 'vertical'}
+							<hr>
+						{/if}
+						<div class="defi-protocol-balances column">
+							{#each protocol.adapterBalances as adapterBalance}
+								{#if adapterBalance.metadata.adapterType === 'Debt'}
+									<h4>{adapterBalance.metadata.adapterType}</h4>
+								{/if}
+								{#each adapterBalance.balances as {base: baseBalance, underlying}}
+									<div class="column defi-protocol-balance">
+										<TokenValue token={baseBalance.metadata.symbol} value={formatDecimal(baseBalance.amount, baseBalance.metadata.decimals)} tokenAddress={baseBalance.metadata.token} />
+										{#if underlying.length && showUnderlyingAssets}
+											<div class="underlying">
+												{#each underlying as underlyingBalance}
+													<p in:scale>
+														<span class="underlying-symbol">┖</span>
+														<TokenValue token={underlyingBalance.metadata.symbol} value={formatDecimal(underlyingBalance.amount, underlyingBalance.metadata.decimals)} tokenAddress={underlyingBalance.metadata.token} />
+													</p>
+												{/each}
+											</div>
+										{/if}
+									</div>
+								{/each}
 							{/each}
-						{/each}
+						</div>
 					</div>
-				</div>
-			{/each}
-		</div>
+				{/each}
+			</div>
+		{/if}
 	{:catch error}
 		{error}
 	{/await}
