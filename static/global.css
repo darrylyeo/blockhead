@@ -55,6 +55,7 @@
 	--text-color: #333;
 	color: var(--text-color);
 	--text-decoration-color: 51, 51, 51;
+	text-shadow: 0px 2px 1px rgba(0, 0, 0, 0.1);
 	
 	--global-background-gradient-base-color: #ffffff;
 	background: linear-gradient(155deg, var(--global-background-gradient-base-color), var(--primary-color) 250%) fixed;
