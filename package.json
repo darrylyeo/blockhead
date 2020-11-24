@@ -11,6 +11,10 @@
   },
   "dependencies": {
     "@apollo/client": "^3.2.5",
+    "@ceramicnetwork/ceramic-core": "^0.12.2",
+    "@ceramicnetwork/ceramic-http-client": "^0.7.3",
+    "@ceramicstudio/idx-tools": "^0.3.1",
+    "@ceramicstudio/idx-web": "^0.2.0",
     "@compound-finance/compound-js": "^0.2.2",
     "@pokt-network/web3-provider": "0.0.6-rc",
     "@portis/web3": "^2.0.0-beta.59",

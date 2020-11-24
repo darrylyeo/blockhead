@@ -4,6 +4,7 @@
 	import { getProvider, getProviderInstance } from '../../data/ethereum/provider'
 	import { getLocalAccounts, getEthersAccounts } from '../../data/ethereum/accounts'
 	import { ethereumNetwork, preferredEthereumProvider } from '../../data/ethereum/preferences'
+	import { getIDXProfile } from '../../data/identity/idx'
 
 	let preferredProvider
 	onMount(async () => 
@@ -59,6 +60,13 @@
 		portis.logout()
 		portisProvider = undefined
 	}
+
+
+	const loadIDX = async () => {
+		const profile = await getIDXProfile()
+		console.log(profile)
+	}
+	const disconnectIDX = async () => {}
 
 	const addToPortfolio = account => {
 
@@ -192,6 +200,39 @@
 				<div class="card">
 					<img src="/logos/portis.svg" alt="Portis" width="200">
 					<p>Create or import a wallet address by connecting a Portis.io account.</p>
+				</div>
+			{/if}
+		</section>
+
+		<section class="idx">
+			{#if false}
+				{#await getEthersAccounts(portisProvider)}
+					<h1>IDX</h1>
+					<Loading>
+						<!-- <img slot="icon" src="/logos/portis-icon.svg" width=""> -->
+						Connect IDX via the pop-up window.
+					</Loading>
+				{:then accounts}
+					<Portfolio name="IDX Profile" provider={preferredProvider} {accounts}>
+						<!-- <button on:click={() => addToPortfolio(accounts[0])}>Add to...</button> -->
+						<button on:click={disconnectPortisProvider}>Disconnect</button>
+					</Portfolio>
+				{:catch error}
+					<h1>IDX Profile</h1>
+					<div class="card">
+						<p>We couldn't connect your IDX Profile: <strong>{error}</strong></p>
+						<button on:click={loadIDX}>Try Again</button>
+						<button on:click={disconnectIDX}>Cancel</button>
+					</div>
+				{/await}
+			{:else}
+				<div class="bar">
+					<h1>IDX</h1>
+					<button on:click={loadIDX}>Connect</button>
+				</div>
+				<div class="card">
+					<img src="https://idx.xyz/img/logo_idx.png" alt="IDX" width="200">
+					<p>Connect an Identity Index identity to save your portfolio.</p>
 				</div>
 			{/if}
 		</section>

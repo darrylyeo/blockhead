@@ -26,7 +26,8 @@ export default {
 		output: config.client.output(),
 		plugins: [
 			replace({
-				'process.browser': true,
+				'process.browser': 'true',
+				'process.versions.node': 'undefined', // Added to prevent error in js-sha256 package (imported by Ceramic): var NODE_JS = !root.JS_SHA3_NO_NODE_JS && typeof process === 'object' && process.versions && process.versions.node
 				'process.env.NODE_ENV': JSON.stringify(mode),
 				exclude: [
 					'@pokt-network'
@@ -77,7 +78,7 @@ export default {
 		output: config.server.output(),
 		plugins: [
 			replace({
-				'process.browser': false,
+				'process.browser': 'false',
 				'process.env.NODE_ENV': JSON.stringify(mode),
 				exclude: [
 					'@pokt-network'
@@ -108,7 +109,8 @@ export default {
 		plugins: [
 			resolve(),
 			replace({
-				'process.browser': true,
+				'process.browser': 'true',
+				'process.versions.node': 'undefined', // Added to prevent error in js-sha256 package (imported by Ceramic): var NODE_JS = !root.JS_SHA3_NO_NODE_JS && typeof process === 'object' && process.versions && process.versions.node
 				'process.env.NODE_ENV': JSON.stringify(mode),
 				exclude: [
 					'@pokt-network'
