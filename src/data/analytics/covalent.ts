@@ -270,7 +270,7 @@ export namespace Covalent {
 		decoded: boolean
 		value: {}
 	}
-	export type TransactionLogEvent = {
+	export type LogEvent = {
 		block_signed_at: date_time
 		block_height: int64
 		tx_offset: int64
@@ -286,6 +286,11 @@ export namespace Covalent {
 			params: Parameter[]
 		}
 	}
+	export type LogEvents = {
+		items: LogEvent[]
+		pagination: Pagination
+	}
+
 	export type Transaction = {
 		block_signed_at: date_time
 		tx_hash: string
@@ -302,7 +307,7 @@ export namespace Covalent {
 		gas_price: int64 // The gas price at the time of this tx.
 		gas_quote: float // The gas spent in quote-currency denomination.
 		gas_quote_rate: float // Historical ETH price at the time of tx.
-		log_events?: TransactionLogEvent[]
+		log_events?: LogEvent[]
 	}
 	export type Transactions = AddressData & {
 		items: Transaction[]
@@ -333,6 +338,15 @@ export namespace Covalent {
 	}
 	export type ERC20TokenTransfers = AddressData & {
 		items: ERC20TokenTransaction[]
+		pagination: Pagination
+	}
+
+	export type BlockItem = {
+		signed_at: date_time
+		height: int32
+	}
+	export type BlockItems = {
+		items: BlockItem[]
 		pagination: Pagination
 	}
 }
@@ -418,22 +432,43 @@ export const getUniswapV2Balances = (
 ) =>
 	makeRequest<Covalent.UniswapV1Balances>(`/v1/1/address/${address}/stacks/uniswap_v2/balances`, {quoteCurrency})
 
-export const getTransactions = (
-	{address, quoteCurrency, noLogs, pageNumber, pageSize}:
-	{address: Ethereum.Address, noLogs?: boolean, pageNumber?: number, pageSize?: number, quoteCurrency?: Covalent.QuoteCurrency}
+export const getTransactionsByAddress = (
+	{address, includeLogs = false, pageNumber, pageSize, quoteCurrency}:
+	{address: Ethereum.Address, includeLogs?: boolean, pageNumber?: number, pageSize?: number, quoteCurrency?: Covalent.QuoteCurrency}
 ) =>
-	makeRequest<Covalent.Transactions>(`/v1/1/address/${address}/transactions_v2`, {quoteCurrency, noLogs, pageNumber, pageSize})
+	makeRequest<Covalent.Transactions>(`/v1/1/address/${address}/transactions_v2`, {noLogs: !includeLogs, pageNumber, pageSize, quoteCurrency})
 
 export const getERC20TokenTransfers = (
-	{address, quoteCurrency, contractAddress, pageNumber, pageSize}:
+	{address, contractAddress, pageNumber, pageSize, quoteCurrency}:
 	{address: Ethereum.Address, contractAddress: Ethereum.ContractAddress, pageNumber?: number, pageSize?: number, quoteCurrency?: Covalent.QuoteCurrency}
 ) =>
-	makeRequest<Covalent.ERC20TokenTransfers>(`/v1/1/address/${address}/transfers_v2`, {quoteCurrency, contractAddress, pageNumber, pageSize})
+	makeRequest<Covalent.ERC20TokenTransfers>(`/v1/1/address/${address}/transfers_v2`, {contractAddress, pageNumber, pageSize, quoteCurrency})
 
-// /v1/1/block_v2/${block_height}/
-// /v1/1/events/address/${address}/
-// /v1/1/events/topics/${topic}/
-// /v1/1/transaction_v2/${tx_hash}/
+
+export const getBlock = (
+	{blockNumber = 'latest', pageNumber, pageSize}:
+	{blockNumber: Ethereum.BlockNumber | 'latest', pageNumber?: number, pageSize?: number}
+) =>
+	makeRequest<Covalent.BlockItems>(`/v1/1/block_v2/${blockNumber}`, {pageNumber, pageSize})
+
+export const getLogEventsByContract = (
+	{contractAddress, startingBlock, endingBlock, pageNumber, pageSize, quoteCurrency}:
+	{contractAddress: Ethereum.ContractAddress, startingBlock: Ethereum.BlockNumber, endingBlock: Ethereum.BlockNumber, pageNumber?: number, pageSize?: number, quoteCurrency?: Covalent.QuoteCurrency}
+) =>
+	makeRequest<Covalent.LogEvents>(`/v1/1/events/address/${contractAddress}`, {startingBlock, endingBlock, pageNumber, pageSize, quoteCurrency})
+
+export const getLogEventsByTopicHash = (
+	{topic, startingBlock, endingBlock, senderAddress, pageNumber, pageSize, quoteCurrency}:
+	{topic: string | string[], startingBlock: Ethereum.BlockNumber, endingBlock: Ethereum.BlockNumber, senderAddress?: Ethereum.Address, pageNumber?: number, pageSize?: number, quoteCurrency?: Covalent.QuoteCurrency}
+) =>
+	makeRequest<Covalent.LogEvents>(`/v1/1/events/topics/${topic}`, {startingBlock, endingBlock, senderAddress, pageNumber, pageSize, quoteCurrency})
+
+export const getTransaction = (
+	{transactionHash, includeLogs = false, pageNumber, pageSize, quoteCurrency}:
+	{transactionHash: Ethereum.TransactionID, includeLogs?: boolean, pageNumber?: number, pageSize?: number, quoteCurrency?: Covalent.QuoteCurrency}
+) =>
+	makeRequest<Covalent.Transactions>(`/v1/1/transaction_v2/${transactionHash}`, {noLogs: !includeLogs, pageNumber, pageSize, quoteCurrency})
+
 // /v1/1/networks/aave/assets/
 // /v1/1/networks/augur/affiliate_fee/
 // /v1/1/networks/compound/assets/
