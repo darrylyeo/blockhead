@@ -21,7 +21,7 @@
 	// export let analyticsProvider: AnalyticsProvider
 
 	function sizeByVolume(size) {
-		return 1 //+ size * 0.00025
+		return 1 + size * 0.0025
 	}
 
 	import Address from './Address.svelte'
@@ -34,6 +34,7 @@
 <style>
 	.transaction-details {
 		--padding-inner: 0.5em;
+		text-align: center;
 	}
 	.transaction-details > :global(.transaction) {
 		font-size: 0.66em;
@@ -41,16 +42,13 @@
 	}
 
 	.container {
-		--padding-inner: 2em;
+		--padding-inner: 1em;
 
 		display: grid;
 		grid-auto-flow: column;
-		grid-auto-columns: 1fr auto 1fr;
 		gap: var(--padding-inner);
 		align-items: center;
-		padding: var(--padding-outer);
-		
-		font-size: 0.85em;
+
 		font-weight: 300;
 
 		position: relative;
@@ -59,39 +57,9 @@
 		display: flex;
 		flex-direction: column;
 	}
-	.sender {
-		text-align: right;
-	}
-	.rate {
-		text-align: center;
-	}
-	.rate :global(div) {
+
+	.value {
 		font-size: 2em;
-	}
-	.receiver {
-		text-align: left;
-	}
-
-	/* .card:before {
-		content: var(--emoji);
-
-		position: absolute;
-		inset: 0;
-		display: flex;
-		place-content: center;
-
-		font-size: 2em;
-		opacity: 0.5;
-	} */
-
-	.action-bought {
-		color: var(--up-green);
-	}
-	.action-sold {
-		color: var(--down-red);
-	}
-	.action-none {
-		opacity: 0.7;
 	}
 
 	:global(.token-rate) {
@@ -109,32 +77,41 @@
 	</div> -->
 	<div class="container">
 		<div class="sender">
-			<p>
-				<Address address={fromAddress} format="middle-truncated" />
-				<span>sent</span>
-				<span style="font-size: {sizeByVolume(value)}em">
-					<TokenValue {value} {token} />
-					(<TokenValue value={valueQuote} token={quoteToken} />)
-				</span>
-			</p>
-		</div>
-		<div class="rate">
-			at
 			<span>
-				<TokenRate rate={rate} {quoteToken} baseToken={token} />
+				<Address address={fromAddress} format="middle-truncated" />
 			</span>
-			<!-- {actions[tx.aggressor]} -->
 		</div>
+		{#if value}
+			<div>
+				<span>sent</span>
+				<span class="value" style="font-size: {sizeByVolume(valueQuote)}em">
+					<TokenValue {value} {token} />
+				</span>
+				<span class="rate">
+					(
+					<TokenValue value={valueQuote} token={quoteToken} />
+					at
+					<TokenRate rate={rate} {quoteToken} baseToken={token} layout='horizontal'/>
+					)
+				</span>
+			</div>
+		{/if}
 		<div class="receiver">
 			<span>
 				to
+			</span>
+			<span>
 				<Address address={toAddress} format="middle-truncated" />
 			</span>
 		</div>
 		<div class="fee">
 			<span>
-				with a fee of
+				for fee
+			</span>
+			<span>
 				<TokenValue value={gasValue} {token} />
+			</span>
+			<span>
 				(<TokenValue value={gasValueQuote} token={quoteToken} />)
 			</span>
 		</div>

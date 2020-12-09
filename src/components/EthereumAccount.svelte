@@ -1,7 +1,6 @@
 <script lang="ts">
-	import type { each } from 'svelte/internal'
 	import type { Covalent } from '../data/analytics/covalent'
-	import { getTransactions } from '../data/analytics/covalent'
+	import { getTransactionsByAddress } from '../data/analytics/covalent'
 	import { preferredAnalyticsProvider, preferredBaseCurrency } from '../data/ethereum/preferences'
 	
 	export let address
@@ -9,9 +8,7 @@
 
 	$: quoteCurrency = $preferredBaseCurrency as Covalent.QuoteCurrency
 
-	function formatDecimal(value, decimalPlaces = 9) {
-		return value * 0.1 ** decimalPlaces
-	}
+	import { formatEther, formatUnits } from 'ethers/lib/utils'
 
 	import Address from './Address.svelte'
 	import Balance from './Balance.svelte'
@@ -26,7 +23,7 @@
 	</div>
 	<Balance {provider} {address} />
 	{#if $preferredAnalyticsProvider === 'Covalent'}
-		{#await getTransactions({address, quoteCurrency})}
+		{#await getTransactionsByAddress({address, quoteCurrency})}
 			<Loading iconAnimation="hover">
 				<img slot="icon" src="/logos/covalent-logomark.svg" alt="Covalent" width="25">
 				<p>Fetching transactions...</p>
@@ -38,13 +35,17 @@
 					fromAddress={transaction.from_address}
 					toAddress={transaction.to_address}
 					token="ETH"
-					value={formatDecimal(transaction.value)}
-					gasValue={transaction.gas_spent}
+					value={formatEther(transaction.value)}
+					gasValue={formatUnits(transaction.gas_spent, 'gwei')}
 					gasValueQuote={transaction.gas_quote}
 					quoteToken={quoteCurrency}
-					rate={transaction.value / transaction.value_quote}
+					rate={transaction.value_quote / formatEther(transaction.value)}
 				/>
 			{/each}
+		{:catch error}
+			<div class="card">
+				{error}
+			</div>
 		{/await}
 	{/if}
 </div>

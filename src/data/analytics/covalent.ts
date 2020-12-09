@@ -1,5 +1,6 @@
 import type { Token } from 'graphql'
 import { COVALENT_URL, COVALENT_API_KEY } from '../../config'
+import type { BaseCurrency, TickerSymbol } from '../currency/currency'
 import type { Ethereum } from '../ethereum/types'
 
 // https://www.covalenthq.com/docs/api/
@@ -11,6 +12,9 @@ export namespace Covalent {
 	type double = number
 	type date_time = Date
 
+	export type Day = string // 'YYYY-MM-DD'
+
+
 	type Pagination = {
 		has_more: boolean // true if we can paginate to get more data.
 		page_number: int32 // The specific page being returned.
@@ -18,7 +22,15 @@ export namespace Covalent {
 		total_count: int32 // Total number of entries.
 	}
 
-	export type QuoteCurrency = 'USD' | 'CAD'| 'INR' | 'ETH' | 'EUR'
+	export type Response = {
+		data: any
+		error: boolean
+		error_message: string
+		error_code: number
+	}
+
+
+	export type QuoteCurrency = BaseCurrency // 'USD' | 'CAD'| 'INR' | 'ETH' | 'EUR'
 
 	interface AddressData {
 		address: Ethereum.Address,
@@ -30,7 +42,7 @@ export namespace Covalent {
 	export interface Contract {
 		contract_decimals: integer
 		contract_name: string
-		contract_ticker_symbol: string
+		contract_ticker_symbol: TickerSymbol
 		contract_address: Ethereum.ContractAddress
 
 		contract_logo_url: string
@@ -63,7 +75,7 @@ export namespace Covalent {
 
 	export type AaveBalance = {
 		atoken_contract_address: string
-		atoken_contract_ticker_symbol: string
+		atoken_contract_ticker_symbol: TickerSymbol
 		atoken_contract_name: string
 		atoken_contract_decimals: int32
 		atoken_balance: integer
@@ -73,7 +85,7 @@ export namespace Covalent {
 		origination_fee: integer
 		peg_contract_decimals: int32
 		peg_contract_address: string
-		peg_contract_ticker_symbol: string
+		peg_contract_ticker_symbol: TickerSymbol
 		logo_url: string
 		quote_rate: float
 		quote: float
@@ -113,10 +125,10 @@ export namespace Covalent {
 		contract_address: string
 		contract_logo_url: string
 		contract_decimals: int32
-		contract_ticker_symbol: string
+		contract_ticker_symbol: TickerSymbol
 
 		ctoken_contract_decimals: int32
-		ctoken_contract_ticker_symbol: string
+		ctoken_contract_ticker_symbol: TickerSymbol
 		quote_rate: float
 		quote: float
 		successful: boolean
@@ -191,7 +203,7 @@ export namespace Covalent {
 		description: string
 		tx_hash: string
 		amount: integer
-		ticker_symbol: string
+		ticker_symbol: TickerSymbol
 		quote_rate: float
 		contract_decimals: int32
 	}
@@ -323,7 +335,7 @@ export namespace Covalent {
 		to_address_label: string
 		contract_decimals: int32
 		contract_name: string
-		contract_ticker_symbol: string
+		contract_ticker_symbol: TickerSymbol
 		contract_address: string
 		logo_url: string
 		transfer_type: string
@@ -351,6 +363,7 @@ export namespace Covalent {
 	}
 }
 
+
 const formatParams = params =>
 	new URLSearchParams(
 		// @ts-ignore
@@ -364,9 +377,12 @@ const formatParams = params =>
 const makeRequest = <T>(endpoint: string, params: any) =>
 	fetch(`${COVALENT_URL}${endpoint}/?${`${formatParams({key: COVALENT_API_KEY, ...params})}`}`)
 		.then(response => response.json())
-		.finally(console.log)
-		.then(({data}) => data as T)
-		.finally(console.log)
+		.then(({data, error, error_message, error_code}: Covalent.Response) => {
+			if(error)
+				throw new Error(error_message)
+			console.log(data)
+			return data as T
+		})
 
 
 export const getTokenAddressBalances = (
@@ -469,11 +485,11 @@ export const getTransaction = (
 ) =>
 	makeRequest<Covalent.Transactions>(`/v1/1/transaction_v2/${transactionHash}`, {noLogs: !includeLogs, pageNumber, pageSize, quoteCurrency})
 
+
 // /v1/1/networks/aave/assets/
 // /v1/1/networks/augur/affiliate_fee/
 // /v1/1/networks/compound/assets/
 // /v1/1/networks/uniswap_v2/assets/
-// /v1/pricing/historical/${quote_currency}/${ticker_symbol}/
 // /v1/pricing/tickers/
 // /v1/pricing/volatility/
 // /v1/1/tokens/${address}/token_holders_changes/
