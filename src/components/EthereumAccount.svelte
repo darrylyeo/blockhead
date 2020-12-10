@@ -6,6 +6,10 @@
 	export let address
 	export let provider
 
+	let detailLevel = 'summary'
+	let showQuotes = false
+	let showFees = false
+
 	$: quoteCurrency = $preferredBaseCurrency as Covalent.QuoteCurrency
 
 	import { formatEther, formatUnits } from 'ethers/lib/utils'
@@ -16,36 +20,72 @@
 	import Loading from './Loading.svelte'
 </script>
 
+<style>
+	.transactions {
+		display: grid;
+		gap: var(--padding-inner);
+	}
+</style>
+
 <div class="card">
 	<div class="bar">
 		<h2><Address {address}/></h2>
 		<span class="card-annotation">Ethereum Account</span>
 	</div>
 	<Balance {provider} {address} />
-	{#if $preferredAnalyticsProvider === 'Covalent'}
-		{#await getTransactionsByAddress({address, quoteCurrency})}
-			<Loading iconAnimation="hover">
-				<img slot="icon" src="/logos/covalent-logomark.svg" alt="Covalent" width="25">
-				<p>Fetching transactions...</p>
-			</Loading>
-		{:then transactions}
-			{#each transactions.items as transaction}
-				<EthereumTransactionDetails
-					transactionID={transaction.tx_hash}
-					fromAddress={transaction.from_address}
-					toAddress={transaction.to_address}
-					token="ETH"
-					value={formatEther(transaction.value)}
-					gasValue={formatUnits(transaction.gas_spent, 'gwei')}
-					gasValueQuote={transaction.gas_quote}
-					quoteToken={quoteCurrency}
-					rate={transaction.value_quote / formatEther(transaction.value)}
-				/>
-			{/each}
-		{:catch error}
-			<div class="card">
-				{error}
-			</div>
-		{/await}
-	{/if}
+	<div class="transactions">
+		{#if $preferredAnalyticsProvider === 'Covalent'}
+			{#await getTransactionsByAddress({address, quoteCurrency})}
+				<Loading iconAnimation="hover">
+					<img slot="icon" src="/logos/covalent-logomark.svg" alt="Covalent" width="25">
+					<p>Fetching transactions...</p>
+				</Loading>
+			{:then transactions}
+				<hr>
+				<div class="bar">
+					<h3>Transactions</h3>
+					<label>
+						<span>Show</span>
+						<select bind:value={detailLevel}>
+							<option value="summary">Summary</option>
+							<option value="detailed">Detailed</option>
+							<option value="exhaustive">Exhaustive</option>
+						</select>
+					</label>
+					<label>
+						<input type="checkbox" bind:checked={showQuotes}>
+						<span>Quotes</span>
+					</label>
+					{#if detailLevel !== 'exhaustive'}
+						<label>
+							<input type="checkbox" bind:checked={showFees}>
+							<span>Fees</span>
+						</label>
+					{/if}
+				</div>
+				{#each transactions.items as transaction}
+					<EthereumTransactionDetails
+						contextualAddress={address}
+						{detailLevel}
+						{showQuotes}
+						{showFees}
+						transactionID={transaction.tx_hash}
+						date={transaction.block_signed_at}
+						fromAddress={transaction.from_address}
+						toAddress={transaction.to_address}
+						token="ETH"
+						value={formatEther(transaction.value)}
+						gasValue={formatUnits(transaction.gas_spent, 'gwei')}
+						gasValueQuote={transaction.gas_quote}
+						quoteToken={quoteCurrency}
+					/>
+						<!-- rate={transaction.value_quote / formatEther(transaction.value)} -->
+				{/each}
+			{:catch error}
+				<div class="card">
+					{error}
+				</div>
+			{/await}
+		{/if}
+	</div>
 </div>

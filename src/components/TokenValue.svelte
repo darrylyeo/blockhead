@@ -15,19 +15,13 @@
 </script>
 
 <style>
-	div {
+	.token-value-container {
 		display: inline-grid;
 		grid-auto-flow: column;
 		justify-content: start;
-		align-items: center;
-		gap: var(--padding-inner);
-
-		line-height: 1;
-		align-self: baseline;
-	}
-
-	div {
+		align-items: baseline;
 		--padding-inner: 0.33em;
+		gap: var(--padding-inner);
 	}
 
 	.token-name {
@@ -36,10 +30,10 @@
 	}
 </style>
 
-<div>
+<span class="token-value-container">
 	<TokenIcon {token} {tokenAddress} />
 	<span>
 		<span class="token-value">{formatValue(value)}</span>
 		<span class="token-name">{token}</span>
 	</span>
-</div>
+</span>

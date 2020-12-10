@@ -1,8 +1,18 @@
 <script lang="ts">
 	// import type { AnalyticsProvider } from '../data/analytics/provider'
 
+	export let contextualAddress // used for summary
+	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
+	export let showQuotes = false
+	export let showFees = false
+
+	export let layout: 'standalone' | 'inline' = 'inline'
+	export let innerLayout: 'columns' | 'row' = 'row'
+
+
 	export let transactionID
 	export let blockNumber
+	export let date
 
 	export let fromAddress
 	export let toAddress
@@ -17,6 +27,12 @@
 	export let quoteToken
 	export let rate
 
+	$: isSummary = detailLevel === 'summary'
+	$: isExhaustive = detailLevel === 'exhaustive'
+	$: contextIsSender = contextualAddress && contextualAddress.toLowerCase() === fromAddress.toLowerCase()
+	$: contextIsReceiver = contextualAddress && contextualAddress.toLowerCase() === toAddress.toLowerCase()
+
+
 	// export let provider: Ethereum.Provider
 	// export let analyticsProvider: AnalyticsProvider
 
@@ -24,26 +40,67 @@
 		return 1 + size * 0.0025
 	}
 
+	import { scale } from 'svelte/transition'
 	import Address from './Address.svelte'
-	import EthereumTransaction from './EthereumTransaction.svelte'
+	import Date from './Date.svelte'
+	import EthereumTransactionId from './EthereumTransactionID.svelte'
+	import EthereumTransactionSummary from './EthereumTransactionSummary.svelte'
 	import TokenRate from './TokenRate.svelte'
 	import TokenValue from './TokenValue.svelte'
 </script>
 
 
 <style>
+	h2 :global(.transaction-id) {
+		font-size: 0.8em;
+	}
+
 	.transaction-details {
 		--padding-inner: 0.5em;
 		text-align: center;
 	}
-	.transaction-details > :global(.transaction) {
+
+	.transaction-details :global(.address) {
+		font-weight: 600;
+	}
+	.transaction-details.layout-inline :global(.address) {
+		display: inline;
+	}
+	.value {
+		font-size: 1.1em;
+	}
+	.quote, .fee {
+		font-size: 0.85em;
+	}
+	.transaction-details :global(.token-rate) {
+		font-weight: 500;
+	}
+	.container :global(.date) {
 		font-size: 0.66em;
-		justify-self: end;
+		opacity: 0.7;
+		align-self: center;
+		align-items: flex-end;
+    	justify-content: center;
+		height: 1em;
 	}
 
-	.container {
-		--padding-inner: 1em;
 
+	.transaction-details .footer {
+		/* justify-items: end;
+		gap: var(--padding-inner); */
+		opacity: 0.7;
+		font-size: 0.66em;
+	}
+
+	.container.inner-layout-row {
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: var(--padding-inner);
+	}
+
+	.container.inner-layout-columns {
 		display: grid;
 		grid-auto-flow: column;
 		gap: var(--padding-inner);
@@ -53,68 +110,77 @@
 
 		position: relative;
 	}
-	.container > * {
+	.container.inner-layout-columns > * {
 		display: flex;
 		flex-direction: column;
 	}
-
-	.value {
-		font-size: 2em;
-	}
-
-	:global(.token-rate) {
-		font-weight: 500;
-	}
-	:global(.address) {
-		font-weight: 600;
+	.container.inner-layout-columns .value {
+		font-size: 1.5em;
 	}
 </style>
 
-<div class="card transaction-details">
-	<!-- <div class="bar">
-		<h3><EthereumTransaction {transactionID} {blockNumber} /></h3>
-		<span class="card-annotation">Ethereum Transaction</span>
-	</div> -->
-	<div class="container">
-		<div class="sender">
-			<span>
+<div class="card transaction-details layout-{layout}" transition:scale>
+	{#if layout === 'standalone'}
+		<div class="bar">
+			<h2><EthereumTransactionId {transactionID}/></h2>
+			<span class="card-annotation">Ethereum Transaction</span>
+		</div>
+	{/if}
+	<div class="container inner-layout-{innerLayout}">
+		{#if !isSummary}
+			<span class="sender">
 				<Address address={fromAddress} format="middle-truncated" />
 			</span>
-		</div>
+		{/if}
 		{#if value}
-			<div>
-				<span>sent</span>
+			<span>
+				<span class="action">{isSummary && contextIsReceiver ? 'received' : 'sent'}</span>
 				<span class="value" style="font-size: {sizeByVolume(valueQuote)}em">
 					<TokenValue {value} {token} />
 				</span>
-				<span class="rate">
-					(
-					<TokenValue value={valueQuote} token={quoteToken} />
-					at
-					<TokenRate rate={rate} {quoteToken} baseToken={token} layout='horizontal'/>
-					)
-				</span>
-			</div>
-		{/if}
-		<div class="receiver">
-			<span>
-				to
+				{#if showQuotes}
+					<span class="quote" transition:scale>
+						(<TokenValue value={valueQuote} token={quoteToken} />{#if rate} at <TokenRate rate={rate} {quoteToken} baseToken={token} layout='horizontal'/>{/if})
+					</span>
+				{/if}
 			</span>
-			<span>
+		{/if}
+		{#if isSummary && contextIsReceiver}
+			<span class="sender">
+				<span>from</span>
+				<Address address={fromAddress} format="middle-truncated" />
+			</span>
+		{:else}
+			<span class="receiver">
+				<span>to</span>
 				<Address address={toAddress} format="middle-truncated" />
 			</span>
-		</div>
-		<div class="fee">
-			<span>
-				for fee
+		{/if}
+		{#if isExhaustive || showFees}
+			<span class="fee" transition:scale>
+				<span>for fee</span>
+				<span>
+					<TokenValue value={gasValue} {token} />
+				</span>
+				{#if showQuotes}
+					<span class="quote">
+						(<TokenValue value={gasValueQuote} token={quoteToken} />)
+					</span>
+				{/if}
 			</span>
-			<span>
-				<TokenValue value={gasValue} {token} />
-			</span>
-			<span>
-				(<TokenValue value={gasValueQuote} token={quoteToken} />)
-			</span>
-		</div>
+		{/if}
+		{#if isSummary}
+			<Date {date} />
+		{/if}
 	</div>
-	<EthereumTransaction {transactionID} {blockNumber} />
+	{#if !isSummary}
+		<div class="footer bar">
+			{#if layout === 'standalone' && blockNumber}
+				<EthereumTransactionSummary {blockNumber} />
+			{:else if layout === 'inline'}
+				<EthereumTransactionSummary {transactionID} {blockNumber} />
+			{/if}
+			<Date {date} layout="horizontal" />
+		</div>
+	{/if}
 </div>

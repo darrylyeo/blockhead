@@ -23,7 +23,9 @@
 <style>
 	picture {
 		display: inline-flex;
+		height: 1em;
 		align-self: center;
+		align-items: center;
 	}
 
 	img, .placeholder-icon {
