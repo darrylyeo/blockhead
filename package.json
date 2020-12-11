@@ -7,7 +7,9 @@
     "build": "sapper build --legacy",
     "export": "sapper export --legacy",
     "start": "node __sapper__/build",
-    "validate": "svelte-check --ignore src/node_modules/@sapper"
+    "validate": "svelte-check --ignore src/node_modules/@sapper",
+    "generate:specs": "npm run generate:specs:1inch",
+    "generate:specs:1inch": "npx openapi-typescript https://api.1inch.exchange/v2.0/api-docs/swagger.json --output src/data/exchanges/1inch-exchange-v2.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.2.5",
