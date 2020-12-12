@@ -6,8 +6,8 @@
 	export let address
 	export let provider
 
-	let detailLevel = 'summary'
-	let showQuotes = false
+	let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'summary'
+	let showValues: 'original' | 'converted' | 'both' = 'original'
 	let showFees = false
 
 	$: quoteCurrency = $preferredBaseCurrency as Covalent.QuoteCurrency
@@ -53,8 +53,12 @@
 						</select>
 					</label>
 					<label>
-						<input type="checkbox" bind:checked={showQuotes}>
-						<span>Quotes</span>
+						<span>Values</span>
+						<select bind:value={showValues}>
+							<option value="original">Original</option>
+							<option value="converted">Converted</option>
+							<option value="both">Both</option>
+						</select>
 					</label>
 					{#if detailLevel !== 'exhaustive'}
 						<label>
@@ -67,7 +71,7 @@
 					<EthereumTransactionDetails
 						contextualAddress={address}
 						{detailLevel}
-						{showQuotes}
+						{showValues}
 						{showFees}
 						transactionID={transaction.tx_hash}
 						date={transaction.block_signed_at}
@@ -75,6 +79,7 @@
 						toAddress={transaction.to_address}
 						token="ETH"
 						value={formatEther(transaction.value)}
+						valueQuote={transaction.value_quote}
 						gasValue={formatUnits(transaction.gas_spent, 'gwei')}
 						gasValueQuote={transaction.gas_quote}
 						quoteToken={quoteCurrency}

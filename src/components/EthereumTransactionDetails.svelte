@@ -3,7 +3,7 @@
 
 	export let contextualAddress // used for summary
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
-	export let showQuotes = false
+	export let showValues: 'original' | 'converted' | 'both' = 'original'
 	export let showFees = false
 
 	export let layout: 'standalone' | 'inline' = 'inline'
@@ -45,6 +45,7 @@
 	import Date from './Date.svelte'
 	import EthereumTransactionId from './EthereumTransactionID.svelte'
 	import EthereumTransactionSummary from './EthereumTransactionSummary.svelte'
+	import TokenName from './TokenName.svelte'
 	import TokenRate from './TokenRate.svelte'
 	import TokenValue from './TokenValue.svelte'
 </script>
@@ -66,10 +67,16 @@
 	.transaction-details.layout-inline :global(.address) {
 		display: inline;
 	}
-	.value {
+	.value, .value-converted {
 		font-size: 1.1em;
 	}
-	.quote, .fee {
+	.value + .value-converted {
+		font-size: 0.85em;
+	}
+	.worth {
+		font-size: 0.85em;
+	}
+	.fee {
 		font-size: 0.85em;
 	}
 	.transaction-details :global(.token-rate) {
@@ -128,30 +135,37 @@
 	{/if}
 	<div class="container inner-layout-{innerLayout}">
 		{#if !isSummary}
-			<span class="sender">
+			<span class="sender" transition:scale>
 				<Address address={fromAddress} format="middle-truncated" />
 			</span>
 		{/if}
 		{#if value}
 			<span>
 				<span class="action">{isSummary && contextIsReceiver ? 'received' : 'sent'}</span>
-				<span class="value" style="font-size: {sizeByVolume(valueQuote)}em">
-					<TokenValue {value} {token} />
-				</span>
-				{#if showQuotes}
-					<span class="quote" transition:scale>
-						(<TokenValue value={valueQuote} token={quoteToken} />{#if rate} at <TokenRate rate={rate} {quoteToken} baseToken={token} layout='horizontal'/>{/if})
+				{#if showValues === 'original' || showValues === 'both'}
+					<span class="value" transition:scale><!-- style="font-size: {sizeByVolume(valueQuote)}em" -->
+						<TokenValue {value} {token} />
 					</span>
+				{/if}
+				{#if (showValues === 'converted' || showValues === 'both')}
+					<span class="value-converted" transition:scale>
+						{#if showValues === 'both'}({/if}<TokenValue value={valueQuote} token={quoteToken} /><!--{#if rate} at <TokenRate {rate} {quoteToken} baseToken={token} layout='horizontal'/>{/if}-->{#if showValues === 'both'}){/if}
+					</span>
+					{#if showValues === 'converted' && quoteToken !== token}
+						<span class="worth" transition:scale>
+							of <TokenName {token} />
+						</span>
+					{/if}
 				{/if}
 			</span>
 		{/if}
 		{#if isSummary && contextIsReceiver}
-			<span class="sender">
+			<span class="sender" transition:scale>
 				<span>from</span>
 				<Address address={fromAddress} format="middle-truncated" />
 			</span>
 		{:else}
-			<span class="receiver">
+			<span class="receiver" transition:scale>
 				<span>to</span>
 				<Address address={toAddress} format="middle-truncated" />
 			</span>
@@ -159,13 +173,29 @@
 		{#if isExhaustive || showFees}
 			<span class="fee" transition:scale>
 				<span>for fee</span>
-				<span>
+				<!-- <span>
 					<TokenValue value={gasValue} {token} />
 				</span>
 				{#if showQuotes}
 					<span class="quote">
 						(<TokenValue value={gasValueQuote} token={quoteToken} />)
 					</span>
+				{/if} -->
+				
+				{#if showValues === 'original' || showValues === 'both'}
+					<span transition:scale>
+						<TokenValue value={gasValue} {token} />
+					</span>
+				{/if}
+				{#if showValues === 'converted' || showValues === 'both'}
+					<span class="value-converted" transition:scale>
+						{#if showValues === 'both'}({/if}<TokenValue value={gasValueQuote} token={quoteToken} />{#if showValues === 'both'}){/if}
+					</span>
+					{#if showValues === 'converted' && quoteToken !== 'ETH'}
+						<span class="worth" transition:scale>
+							of <TokenName token="ETH" />
+						</span>
+					{/if}
 				{/if}
 			</span>
 		{/if}
