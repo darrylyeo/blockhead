@@ -36,18 +36,12 @@
 	// export let provider: Ethereum.Provider
 	// export let analyticsProvider: AnalyticsProvider
 
-	function sizeByVolume(size) {
-		return 1 + size * 0.0025
-	}
-
-	import { scale } from 'svelte/transition'
 	import Address from './Address.svelte'
 	import Date from './Date.svelte'
 	import EthereumTransactionId from './EthereumTransactionID.svelte'
 	import EthereumTransactionSummary from './EthereumTransactionSummary.svelte'
-	import TokenName from './TokenName.svelte'
-	import TokenRate from './TokenRate.svelte'
-	import TokenValue from './TokenValue.svelte'
+	import TokenValueWithConversion from './TokenValueWithConversion.svelte'
+	import { scale } from 'svelte/transition'
 </script>
 
 
@@ -66,15 +60,6 @@
 	}
 	.transaction-details.layout-inline :global(.address) {
 		display: inline;
-	}
-	.value, .value-converted {
-		font-size: 1.1em;
-	}
-	.value + .value-converted {
-		font-size: 0.85em;
-	}
-	.worth {
-		font-size: 0.85em;
 	}
 	.fee {
 		font-size: 0.85em;
@@ -142,21 +127,7 @@
 		{#if value}
 			<span>
 				<span class="action">{isSummary && contextIsReceiver ? 'received' : 'sent'}</span>
-				{#if showValues === 'original' || showValues === 'both'}
-					<span class="value" transition:scale><!-- style="font-size: {sizeByVolume(valueQuote)}em" -->
-						<TokenValue {value} {token} />
-					</span>
-				{/if}
-				{#if (showValues === 'converted' || showValues === 'both')}
-					<span class="value-converted" transition:scale>
-						{#if showValues === 'both'}({/if}<TokenValue value={valueQuote} token={quoteToken} /><!--{#if rate} at <TokenRate {rate} {quoteToken} baseToken={token} layout='horizontal'/>{/if}-->{#if showValues === 'both'}){/if}
-					</span>
-					{#if showValues === 'converted' && quoteToken !== token}
-						<span class="worth" transition:scale>
-							of <TokenName {token} />
-						</span>
-					{/if}
-				{/if}
+				<TokenValueWithConversion {showValues} {token} {value} conversionCurrency={quoteToken} convertedValue={valueQuote} />
 			</span>
 		{/if}
 		{#if isSummary && contextIsReceiver}
@@ -173,30 +144,7 @@
 		{#if isExhaustive || showFees}
 			<span class="fee" transition:scale>
 				<span>for fee</span>
-				<!-- <span>
-					<TokenValue value={gasValue} {token} />
-				</span>
-				{#if showQuotes}
-					<span class="quote">
-						(<TokenValue value={gasValueQuote} token={quoteToken} />)
-					</span>
-				{/if} -->
-				
-				{#if showValues === 'original' || showValues === 'both'}
-					<span transition:scale>
-						<TokenValue value={gasValue} {token} />
-					</span>
-				{/if}
-				{#if showValues === 'converted' || showValues === 'both'}
-					<span class="value-converted" transition:scale>
-						{#if showValues === 'both'}({/if}<TokenValue value={gasValueQuote} token={quoteToken} />{#if showValues === 'both'}){/if}
-					</span>
-					{#if showValues === 'converted' && quoteToken !== 'ETH'}
-						<span class="worth" transition:scale>
-							of <TokenName token="ETH" />
-						</span>
-					{/if}
-				{/if}
+				<TokenValueWithConversion {showValues} token="ETH" value={gasValue} conversionCurrency={quoteToken} convertedValue={gasValueQuote} />
 			</span>
 		{/if}
 		{#if isSummary}

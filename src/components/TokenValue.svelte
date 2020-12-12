@@ -1,13 +1,14 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
+	import type { TickerSymbol } from '../data/currency/currency'
 
-	export let value = 0.0
-	export let token = 'ETH'
+	export let value = '...'
+	export let token: TickerSymbol
 	export let tokenAddress: Ethereum.ContractAddress
-	export let decimals = 3
+	export let showDecimalPlaces = 3
 
 	const formatValue = value =>
-		typeof value === 'number' ? value.toFixed(decimals) :
+		typeof value === 'number' ? value.toFixed(showDecimalPlaces) :
 		typeof value === 'string' ? value :
 		value?.toString()
 	
@@ -28,15 +29,11 @@
 		font-weight: 300;
 		font-size: 0.8em;
 	}
-
-	.is-zero {
-		opacity: 0.55;
-	}
 </style>
 
 <span class="token-value-container">
 	<TokenIcon {token} {tokenAddress} />
-	<span class:is-zero={value == 0}>
+	<span>
 		<span class="token-value">{formatValue(value)}</span>
 		<span class="token-name">{token}</span>
 	</span>
