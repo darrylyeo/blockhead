@@ -8,9 +8,8 @@
 	export let showDecimalPlaces = 3
 
 	const formatValue = value =>
-		typeof value === 'number' ? value.toFixed(showDecimalPlaces) :
-		typeof value === 'string' ? value :
-		value?.toString()
+		showDecimalPlaces ? Number(value).toFixed(showDecimalPlaces) :
+		value?.toString() ?? '???'
 	
 	import TokenIcon from './TokenIcon.svelte'
 </script>
@@ -31,7 +30,7 @@
 	}
 </style>
 
-<span class="token-value-container">
+<span class="token-value-container" title="{value} {token}">
 	<TokenIcon {token} {tokenAddress} />
 	<span>
 		<span class="token-value">{formatValue(value)}</span>
