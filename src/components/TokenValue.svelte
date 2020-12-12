@@ -7,9 +7,21 @@
 	export let tokenAddress: Ethereum.ContractAddress
 	export let showDecimalPlaces = 3
 
-	const formatValue = value =>
-		showDecimalPlaces ? Number(value).toFixed(showDecimalPlaces) :
-		value?.toString() ?? '???'
+	export let showPlainFiat = true
+	$: isFiat = showPlainFiat && ['USD', 'EUR', 'GBP', 'CAD', 'INR'].includes(token)
+
+	const formatValue = value => {
+		try {
+			return new Intl.NumberFormat(globalThis.navigator.languages, {
+				... isFiat ? {style: 'currency', currency: token} : {},
+				minimumFractionDigits: showDecimalPlaces,
+				maximumFractionDigits: showDecimalPlaces
+			}).format(value)
+		}catch(e){
+			console.error(e)
+			return value?.toString()
+		}
+	}
 	
 	import TokenIcon from './TokenIcon.svelte'
 </script>
@@ -31,9 +43,13 @@
 </style>
 
 <span class="token-value-container" title="{value} {token}">
-	<TokenIcon {token} {tokenAddress} />
-	<span>
+	{#if isFiat}
 		<span class="token-value">{formatValue(value)}</span>
-		<span class="token-name">{token}</span>
-	</span>
+	{:else}
+		<TokenIcon {token} {tokenAddress} />
+		<span>
+			<span class="token-value">{formatValue(value)}</span>
+			<span class="token-name">{token}</span>
+		</span>
+	{/if}
 </span>
