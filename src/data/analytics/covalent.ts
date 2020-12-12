@@ -361,6 +361,16 @@ export namespace Covalent {
 		items: BlockItem[]
 		pagination: Pagination
 	}
+
+
+	export type HistoricalPricePoint = {
+		date: Day
+		price: float
+	}
+	export type HistoricalPrices = Contract & {
+		quote_currency: QuoteCurrency
+		prices: HistoricalPricePoint[]
+	}
 }
 
 
@@ -376,10 +386,20 @@ const formatParams = params =>
 
 const makeRequest = <T>(endpoint: string, params: any) =>
 	fetch(`${COVALENT_URL}${endpoint}/?${`${formatParams({key: COVALENT_API_KEY, ...params})}`}`)
-		.then(response => response.json())
-		.then(({data, error, error_message, error_code}: Covalent.Response) => {
-			if(error)
-				throw new Error(error_message)
+		.then(async response => {
+			if(response.ok)
+				return response.json()
+			// else try {
+			// 	const {error, error_message, error_code}: Covalent.Response = await response.json()
+			// 	throw new Error(error_message)
+			// }
+			// catch(e){
+			// 	throw new Error(await response.text())
+			// }
+			const {error, error_message, error_code}: Covalent.Response = await response.json()
+			throw new Error(error_message)
+		})
+		.then(({data}: Covalent.Response) => { 
 			console.log(data)
 			return data as T
 		})
@@ -490,6 +510,14 @@ export const getTransaction = (
 // /v1/1/networks/augur/affiliate_fee/
 // /v1/1/networks/compound/assets/
 // /v1/1/networks/uniswap_v2/assets/
+
+
+export const getHistoricalPrices = (
+	{quoteCurrency, tickerSymbol, from, to, pageNumber, pageSize}:
+	{quoteCurrency: Covalent.QuoteCurrency, tickerSymbol: TickerSymbol, from: Covalent.Day, to: Covalent.Day, pageNumber?: number, pageSize?: number}
+) =>
+	makeRequest<Covalent.HistoricalPrices>(`/v1/pricing/historical/${quoteCurrency}/${tickerSymbol}`, {from, to, pageNumber, pageSize})
+
 // /v1/pricing/tickers/
 // /v1/pricing/volatility/
 // /v1/1/tokens/${address}/token_holders_changes/
