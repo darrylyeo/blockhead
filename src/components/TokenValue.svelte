@@ -9,7 +9,7 @@
 	const formatValue = value =>
 		typeof value === 'number' ? value.toFixed(decimals) :
 		typeof value === 'string' ? value :
-		value.toString()
+		value?.toString()
 	
 	import TokenIcon from './TokenIcon.svelte'
 </script>
@@ -28,11 +28,15 @@
 		font-weight: 300;
 		font-size: 0.8em;
 	}
+
+	.is-zero {
+		opacity: 0.55;
+	}
 </style>
 
 <span class="token-value-container">
 	<TokenIcon {token} {tokenAddress} />
-	<span>
+	<span class:is-zero={value == 0}>
 		<span class="token-value">{formatValue(value)}</span>
 		<span class="token-name">{token}</span>
 	</span>
