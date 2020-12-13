@@ -2,9 +2,12 @@
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { TickerSymbol } from '../data/currency/currency'
 
-	export let value = '...'
 	export let token: TickerSymbol
 	export let tokenAddress: Ethereum.ContractAddress
+	export let tokenIcon: string
+	export let tokenName: string
+
+	export let value: number | string | BigInt = '...'
 	export let showDecimalPlaces = 3
 
 	export let showPlainFiat = true
@@ -42,11 +45,11 @@
 	}
 </style>
 
-<span class="token-value-container" title="{value} {token}">
+<span class="token-value-container" title="{value} {token} ({tokenName})">
 	{#if isFiat}
 		<span class="token-value">{formatValue(value)}</span>
 	{:else}
-		<TokenIcon {token} {tokenAddress} />
+		<TokenIcon {token} {tokenAddress} {tokenIcon} />
 		<span>
 			<span class="token-value">{formatValue(value)}</span>
 			<span class="token-name">{token}</span>

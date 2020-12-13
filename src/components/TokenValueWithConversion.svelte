@@ -7,6 +7,9 @@
 
 	export let token: TickerSymbol
 	export let tokenAddress: Ethereum.ContractAddress
+	export let tokenIcon: string
+	export let tokenName: string
+
 	export let value
 
 	export let conversionCurrency: BaseCurrency
@@ -28,10 +31,7 @@
 	.value, .value-converted {
 		font-size: 1.1em;
 	}
-	.value + .value-converted {
-		font-size: 0.85em;
-	}
-	.worth {
+	.value + .value-converted, .worth, .rate {
 		font-size: 0.85em;
 	}
 
@@ -43,17 +43,20 @@
 <span class="value-with-conversion" class:is-zero={value == 0}>
 	{#if showValues === 'original' || showValues === 'both'}
 		<span class="value" transition:scale><!-- style="font-size: {sizeByVolume(convertedValue)}em" -->
-			<TokenValue {token} {tokenAddress} {value} {showDecimalPlaces} />
+			<TokenValue {token} {tokenAddress} {tokenIcon} {tokenName} {value} {showDecimalPlaces} />
 		</span>
 	{/if}
 	{#if (showValues === 'converted' || showValues === 'both')}
 		<span class="value-converted" transition:scale>
-			{#if showValues === 'both'}({/if}<TokenValue token={conversionCurrency} value={convertedValue} {showDecimalPlaces} />{#if conversionRate} at <TokenRate rate={conversionRate} {conversionCurrency} baseToken={token} layout='horizontal'/>{/if}{#if showValues === 'both'}){/if}
+			{#if showValues === 'both'}({/if
+			}<TokenValue token={conversionCurrency} value={convertedValue} {showDecimalPlaces}
+			/>{#if showValues === 'converted' && conversionCurrency !== token}
+				<span class="worth" transition:scale>
+					&nbsp;in <TokenName {token} {tokenAddress} {tokenIcon} />
+				</span>
+			{/if
+			}{#if conversionRate}<span class="rate"> at <TokenRate rate={conversionRate} quoteToken={conversionCurrency} baseToken={token} layout='horizontal'/></span>{/if
+			}{#if showValues === 'both'}){/if}
 		</span>
-		{#if showValues === 'converted' && conversionCurrency !== token}
-			<span class="worth" transition:scale>
-				as <TokenName {token} />
-			</span>
-		{/if}
 	{/if}
 </span>
