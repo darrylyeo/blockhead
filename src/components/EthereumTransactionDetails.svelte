@@ -1,5 +1,5 @@
 <script lang="ts">
-	// import type { AnalyticsProvider } from '../data/analytics/provider'
+	import type { Ethereum } from '../data/ethereum/types'
 
 	export let contextualAddress // used for summary
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
@@ -14,8 +14,10 @@
 	export let blockNumber
 	export let date
 
-	export let fromAddress
-	export let toAddress
+	export let fromAddress: Ethereum.Address
+	export let fromAddressLabel
+	export let toAddress: Ethereum.Address
+	export let toAddressLabel
 
 	export let token = 'ETH'
 	export let value
@@ -36,7 +38,7 @@
 	// export let provider: Ethereum.Provider
 	// export let analyticsProvider: AnalyticsProvider
 
-	import Address from './Address.svelte'
+	import AddressWithLabel from './AddressWithLabel.svelte'
 	import Date from './Date.svelte'
 	import EthereumTransactionId from './EthereumTransactionID.svelte'
 	import EthereumTransactionSummary from './EthereumTransactionSummary.svelte'
@@ -121,7 +123,7 @@
 	<div class="container inner-layout-{innerLayout}">
 		{#if !isSummary}
 			<span class="sender" transition:scale>
-				<Address address={fromAddress} format="middle-truncated" />
+				<AddressWithLabel address={fromAddress} label={fromAddressLabel} format="middle-truncated" />
 			</span>
 		{/if}
 		{#if value}
@@ -133,12 +135,12 @@
 		{#if isSummary && contextIsReceiver}
 			<span class="sender" transition:scale>
 				<span>from</span>
-				<Address address={fromAddress} format="middle-truncated" />
+				<AddressWithLabel address={fromAddress} label={fromAddressLabel} format="middle-truncated" />
 			</span>
 		{:else}
 			<span class="receiver" transition:scale>
 				<span>to</span>
-				<Address address={toAddress} format="middle-truncated" />
+				<AddressWithLabel address={toAddress} label={toAddressLabel} format="middle-truncated" />
 			</span>
 		{/if}
 		{#if isExhaustive || showFees}

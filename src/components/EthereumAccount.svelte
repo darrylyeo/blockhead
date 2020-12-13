@@ -76,7 +76,9 @@
 						transactionID={transaction.tx_hash}
 						date={transaction.block_signed_at}
 						fromAddress={transaction.from_address}
+						fromAddressLabel={transaction.from_address_label}
 						toAddress={transaction.to_address}
+						toAddressLabel={transaction.to_address_label}
 						token="ETH"
 						value={formatEther(transaction.value)}
 						valueQuote={transaction.value_quote}
