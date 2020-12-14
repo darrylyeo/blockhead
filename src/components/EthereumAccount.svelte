@@ -11,6 +11,7 @@
 	let showValues: 'original' | 'converted' | 'both' = 'original'
 	let showFees = false
 	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
+	let showZeroBalances = false
 
 	$: quoteCurrency = $preferredBaseCurrency as Covalent.QuoteCurrency
 
@@ -48,8 +49,12 @@
 					<option value="ticker-ascending">Alphabetical</option>
 				</select>
 			</label>
+			<label>
+				<input type="checkbox" bind:checked={showZeroBalances}>
+				<span>Show Zero Balances</span>
+			</label>
 		</div>
-		<EthereumBalances analyticsProvider={$preferredAnalyticsProvider} conversionCurrency={$preferredBaseCurrency} {sortBy} {showValues} {address} />
+		<EthereumBalances analyticsProvider={$preferredAnalyticsProvider} conversionCurrency={$preferredBaseCurrency} {sortBy} {showZeroBalances} {showValues} {address} />
 	</div>
 	<hr>
 	<div class="transactions">

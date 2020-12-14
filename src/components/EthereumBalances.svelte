@@ -8,9 +8,15 @@
 	export let address: string
 	export let conversionCurrency: TickerSymbol
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending'
+	export let showZeroBalances = false
 	export let showValues
 	
 	$: quoteCurrency = conversionCurrency as Covalent.QuoteCurrency
+
+	let filterFunction: (b: Covalent.TokenBalance) => boolean
+	$: filterFunction = showZeroBalances
+		? undefined
+		: b => b.quote > 1e-6
 
 	let sortFunction: (a: Covalent.TokenBalance, b: Covalent.TokenBalance) => number
 	$: sortFunction =
@@ -23,7 +29,7 @@
 	import TokenValueWithConversion from './TokenValueWithConversion.svelte'
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
-	import { circOut, elasticInOut, elasticOut, quintOut } from 'svelte/easing'
+	import { quintOut } from 'svelte/easing'
 </script>
 
 <style>		
@@ -54,7 +60,7 @@
 				Retrieving balances...
 			</Loading>
 		{:then balances}
-			{#each balances.items.sort(sortFunction) as {balance, quote, quote_rate, contract_name, contract_address, contract_decimals, contract_ticker_symbol, contract_logo_url}, i (contract_ticker_symbol)}
+			{#each (filterFunction ? balances.items.filter(filterFunction) : balances.items).sort(sortFunction) as {balance, quote, quote_rate, contract_name, contract_address, contract_decimals, contract_ticker_symbol, contract_logo_url}, i (contract_ticker_symbol)}
 				<span in:scale animate:flip|local={{duration: 500, delay: Math.abs(i) * 10, easing: quintOut}}>
 					<TokenValueWithConversion
 						{showValues}
