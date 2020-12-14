@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { preferredAnalyticsProvider, preferredBaseCurrency, preferredEthereumProvider, preferredPriceFeedProvider } from '../data/ethereum/preferences'
+	import { preferredAnalyticsProvider, preferredQuoteCurrency, preferredEthereumProvider, preferredPriceFeedProvider } from '../data/ethereum/preferences'
 </script>
 
 <style>
@@ -47,8 +47,8 @@
 	</label> -->
 
 	<label>
-		<span>Base Currency:</span>
-		<select bind:value={$preferredBaseCurrency}>
+		<span>Quote Currency:</span>
+		<select bind:value={$preferredQuoteCurrency}>
 			<optgroup label="Fiat Currencies">
 				<option value="USD">US Dollar ($)</option>
 				<option value="GBP">British Pound (£)</option>

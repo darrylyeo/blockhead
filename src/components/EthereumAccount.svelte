@@ -1,8 +1,7 @@
 <script lang="ts">
-	import type { Covalent } from '../data/analytics/covalent'
 	import { getERC20TokenTransfers } from '../data/analytics/covalent'
 	import { getTransactionsByAddress } from '../data/analytics/covalent'
-	import { preferredAnalyticsProvider, preferredBaseCurrency } from '../data/ethereum/preferences'
+	import { preferredAnalyticsProvider, preferredQuoteCurrency } from '../data/ethereum/preferences'
 	
 	export let address
 	export let provider
@@ -13,7 +12,7 @@
 	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
 	let showZeroBalances = false
 
-	$: quoteCurrency = $preferredBaseCurrency as Covalent.QuoteCurrency
+	$: quoteCurrency = $preferredQuoteCurrency
 
 	import { formatEther, formatUnits } from 'ethers/lib/utils'
 
@@ -54,7 +53,7 @@
 				<span>Show Zero Balances</span>
 			</label>
 		</div>
-		<EthereumBalances analyticsProvider={$preferredAnalyticsProvider} conversionCurrency={$preferredBaseCurrency} {sortBy} {showZeroBalances} {showValues} {address} />
+		<EthereumBalances analyticsProvider={$preferredAnalyticsProvider} conversionCurrency={$preferredQuoteCurrency} {sortBy} {showZeroBalances} {showValues} {address} />
 	</div>
 	<hr>
 	<div class="transactions">

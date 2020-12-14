@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getContext, onMount } from 'svelte'
 	import { readable } from 'svelte/store'
-	import { preferredBaseCurrency, preferredPriceFeedProvider } from '../../../data/ethereum/preferences'
+	import { preferredAnalyticsProvider, preferredQuoteCurrency, preferredPriceFeedProvider } from '../../../data/ethereum/preferences'
 	// import { getCompoundPriceFeed } from '.../../../data/ethereum/price/compound-price-feed'
 	import { getChainlinkPriceFeed } from '.../../../data/ethereum/price/chainlink'
 	
@@ -47,13 +47,13 @@
 			<h3>Current Price</h3>
 			<span class="card-annotation">{$preferredPriceFeedProvider}</span>
 		</div>
-		{#await getChainlinkPriceFeed($provider, 'mainnet', 'ETH', $preferredBaseCurrency)}
+		{#await getChainlinkPriceFeed($provider, 'mainnet', 'ETH', $preferredQuoteCurrency)}
 			<Loading iconAnimation="hover">
 				<img slot="icon" src={priceFeedLogo} alt={$preferredPriceFeedProvider} width="32">
 				Retrieving price...
 			</Loading>
 		{:then priceFeed}
-			<TokenRate rate={priceFeed.price} quoteToken={$preferredBaseCurrency} baseToken="ETH" layout="horizontal" />
+			<TokenRate rate={priceFeed.price} quoteToken={$preferredQuoteCurrency} baseToken="ETH" layout="horizontal" />
 			<!-- <p>Updated {priceFeed.updatedAt.toString()} -->
 		{/await}
 	</section>
@@ -72,7 +72,7 @@
 	</section>
 
 	<!-- {#if isMounted}
-		{#await getCompoundPriceFeed('ETH', $preferredBaseCurrency)}
+		{#await getCompoundPriceFeed('ETH', $preferredQuoteCurrency)}
 			<Loading>
 				<img slot="icon" src="/logos/chainlink" alt="Chainlink" width="50">
 				Retrieving price...
@@ -80,7 +80,7 @@
 		{:then rate}
 			<section class="card">
 				<h3>Current Rate (Chainlink)</h3>
-				<TokenRate {rate} quoteToken={'ETH'} baseToken={$preferredBaseCurrency} />
+				<TokenRate {rate} quoteToken={'ETH'} baseToken={$preferredQuoteCurrency} />
 			</section>
 		{/await}
 	{/if} -->

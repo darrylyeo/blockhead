@@ -1,17 +1,15 @@
 <script lang="ts">
 	import type { Covalent } from '../data/analytics/covalent'
 	import type { AnalyticsProvider } from '../data/analytics/provider'
-	import type { TickerSymbol } from '../data/currency/currency'
+	import type { QuoteCurrency } from '../data/currency/currency'
 	import { getTokenAddressBalances } from '../data/analytics/covalent'
 
 	export let analyticsProvider: AnalyticsProvider
 	export let address: string
-	export let conversionCurrency: TickerSymbol
+	export let conversionCurrency: QuoteCurrency
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending'
 	export let showZeroBalances = false
 	export let showValues
-	
-	$: quoteCurrency = conversionCurrency as Covalent.QuoteCurrency
 
 	let filterFunction: (b: Covalent.TokenBalance) => boolean
 	$: filterFunction = showZeroBalances
@@ -55,7 +53,7 @@
 
 <div class="erc20-balances">
 	{#if analyticsProvider === 'Covalent' && address}
-		{#await getTokenAddressBalances({address, nft: true, quoteCurrency})}
+		{#await getTokenAddressBalances({address, nft: true, quoteCurrency: conversionCurrency})}
 			<Loading>
 				Retrieving balances...
 			</Loading>
@@ -69,7 +67,7 @@
 						tokenIcon={contract_logo_url}
 						tokenName={contract_name}
 						value={balance * 0.1 ** contract_decimals}
-						conversionCurrency={quoteCurrency}
+						{conversionCurrency}
 						convertedValue={quote}
 						conversionRate={quote_rate}
 						/>
