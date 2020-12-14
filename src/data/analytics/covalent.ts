@@ -32,14 +32,14 @@ export namespace Covalent {
 
 	export type QuoteCurrency = BaseCurrency // 'USD' | 'CAD'| 'INR' | 'ETH' | 'EUR'
 
-	interface AddressData {
+	type AddressData = {
 		address: Ethereum.Address,
 		updated_at: Date,
 		next_update_at: Date,
 		quote_currency: QuoteCurrency
 	}
 
-	export interface Contract {
+	export type Contract = {
 		contract_decimals: integer
 		contract_name: string
 		contract_ticker_symbol: TickerSymbol
@@ -49,7 +49,7 @@ export namespace Covalent {
 		logo_url: string
 	}
 
-	export interface TokenWithBalance extends Contract {
+	export type TokenWithBalance = Contract & {
 		balance: integer
 		quote: float
 		quote_rate: float
@@ -61,16 +61,17 @@ export namespace Covalent {
 		token_url: string
 	}
 
+	export type TokenBalance = TokenWithBalance & NFT & {
+		external_data: {
+			name: string
+			description: string
+			image: string
+			external_url: string
+			attributes: {}
+		}
+	}
 	export type TokenBalances = AddressData & {
-		items: (TokenWithBalance & NFT & {
-			external_data: {
-				name: string
-				description: string
-				image: string
-				external_url: string
-				attributes: {}
-			}
-		})[]
+		items: TokenBalance[]
 	}
 
 	export type AaveBalance = {
@@ -326,18 +327,7 @@ export namespace Covalent {
 		pagination: Pagination
 	}
 
-	export type ERC20TokenTransfer = Transaction & {
-		block_signed_at: date_time
-		tx_hash: string
-		from_address: string
-		from_address_label: string
-		to_address: string
-		to_address_label: string
-		contract_decimals: int32
-		contract_name: string
-		contract_ticker_symbol: TickerSymbol
-		contract_address: string
-		logo_url: string
+	export type ERC20TokenTransfer = Transaction & Contract & {
 		transfer_type: string
 		delta: number
 		balance: number
