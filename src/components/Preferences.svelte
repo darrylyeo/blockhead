@@ -39,12 +39,12 @@
 		</select>
 	</label>
 
-	<label>
+	<!-- <label>
 		<span>Analytics Provider:</span>
 		<select bind:value={$preferredAnalyticsProvider}>
 			<option value="Covalent">Covalent</option>
 		</select>
-	</label>
+	</label> -->
 
 	<label>
 		<span>Base Currency:</span>
