@@ -58,7 +58,7 @@
 
 
 	// Options menu
-	let showOptions = false
+	let showOptions = true
 	const toggleShowOptions = () => showOptions = !showOptions
 
 
@@ -125,6 +125,22 @@
 		gap: var(--padding-inner);
 		grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
 	}
+
+	.options {
+		position: sticky;
+		/* top: -1em; */
+		bottom: -1em;
+		margin: 0 calc(-2 * var(--padding-outer));
+		z-index: 1;
+
+		font-size: 0.8em;
+
+		-webkit-backdrop-filter: var(--overlay-backdrop-filter);
+		backdrop-filter: var(--overlay-backdrop-filter);
+		/* padding: var(--padding-outer); */
+
+		grid-row-end: 4;
+	}
 </style>
 
 
@@ -144,20 +160,11 @@
 			<button on:click={showAddWallet}>+ Add Wallet</button>
 		{/if}
 	{/if}
-	<button on:click={toggleShowOptions}>Options</button>
+	<!-- <button on:click={toggleShowOptions}>Options</button> -->
 	<slot></slot>
 </div>
 {#if showOptions}
 	<div class="card bar options">
-		<span></span>
-		<label>
-			<input type="checkbox" bind:checked={showUnderlyingAssets}>
-			<span>Show Underlying Assets</span>
-		</label>
-		<label>
-			<input type="checkbox" bind:checked={showZeroBalances}>
-			<span>Show Zero Balances</span>
-		</label>
 		<label>
 			<span>Sort</span>
 			<select bind:value={sortBy}>
@@ -165,6 +172,14 @@
 				<option value="value-ascending">Lowest Value</option>
 				<option value="ticker-ascending">Alphabetical</option>
 			</select>
+		</label>
+		<label>
+			<input type="checkbox" bind:checked={showUnderlyingAssets}>
+			<span>Show Underlying Assets</span>
+		</label>
+		<label>
+			<input type="checkbox" bind:checked={showZeroBalances}>
+			<span>Show Zero Balances</span>
 		</label>
 	</div>
 {/if}

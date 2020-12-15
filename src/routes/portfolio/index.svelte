@@ -71,6 +71,17 @@
 </script>
 
 <style>
+	/* Experimental: make <main> the scrolling element to enable inner position: sticky elements */
+	main {
+		overflow: auto;
+		height: 100vh;
+		grid-area: 1 / 1 / 3 / 1;
+		padding: 5rem var(--padding-inner);
+	}
+	:global(#sapper) {
+		height: 100vh;
+	}
+
 	main {
 		/* display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr)); */
