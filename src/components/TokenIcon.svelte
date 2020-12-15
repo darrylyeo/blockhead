@@ -7,13 +7,15 @@
 	export let tokenAddress: Ethereum.ContractAddress | undefined
 	export let tokenIcon: string
 
+	let loadingError = false
+
 	$: Icon = CryptoIcons[token[0].toUpperCase() + token.slice(1).toLowerCase()]
 </script>
 
 <picture title={token + (tokenAddress ? ` (${tokenAddress})` : '')}>
 	{#if Icon}
 		<svelte:component this={Icon} size="1.25em" /> 
-	{:else if tokenAddress || tokenIcon}
+	{:else if !loadingError && (tokenAddress || tokenIcon)}
 		{#if tokenAddress}
 			<source srcset="https://token-icons.s3.amazonaws.com/{tokenAddress.toLowerCase()}.png">
 			<source srcset="https://tokens.1inch.exchange/{tokenAddress.toLowerCase()}.png">
@@ -21,7 +23,7 @@
 		{#if tokenIcon}
 			<source srcset={tokenIcon}>
 		{/if}
-		<img>
+		<img on:error={() => loadingError = true}>
 	{:else}
 		<i class="placeholder-icon" data-icon={token.slice(0, 4)}></i>
 	{/if}
