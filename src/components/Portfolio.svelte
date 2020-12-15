@@ -1,12 +1,16 @@
 <script lang="ts">
 	import type { CryptoAddress } from '../data/CryptoAddress'
 	// import type { CryptoPosition } from '../data/CryptoPosition'
-	
+	import type { Ethereum } from '../data/ethereum/types'
+	import type { AnalyticsProvider } from '../data/analytics/provider'
+	import type { QuoteCurrency } from '../data/currency/currency'
+
+
+	// Portfolio management
+
 	export let name = 'Your Portfolio'
 	export let editable = false
 	export let accounts: CryptoAddress[]
-
-	export let provider
 
 	let newWalletAddress = ''
 
@@ -42,12 +46,29 @@
 	let showUnderlyingAssets = false
 
 
+	// Balances view options
+
+	export let provider: Ethereum.Provider
+	export let analyticsProvider: AnalyticsProvider
+	export let quoteCurrency: QuoteCurrency
+
+	let showValues: 'original' | 'converted' | 'both' = 'original'
+	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
+	let showZeroBalances = false
+
+
+	// Options menu
+	let showOptions = false
+	const toggleShowOptions = () => showOptions = !showOptions
+
+
 	let delayStartIndex = 0
 
 	import Address from './Address.svelte'
 	import AddressField from './AddressField.svelte'
 	import Balance from './Balance.svelte'
 	import DefiBalances from './DefiBalances.svelte'
+	import EthereumBalances from './EthereumBalances.svelte'
 	import Loading from './Loading.svelte'
 	import { flip } from 'svelte/animate'
 </script>
@@ -109,10 +130,6 @@
 
 <div class="bar">
 	<h1>{name}</h1>
-	<label>
-		<input type="checkbox" bind:checked={showUnderlyingAssets}>
-		<span>Show Underlying Assets</span>
-	</label>
 	{#if editable}
 		{#if isAddingWallet}
 			<form on:submit|preventDefault={() => addWallet(newWalletAddress)}>
@@ -127,8 +144,30 @@
 			<button on:click={showAddWallet}>+ Add Wallet</button>
 		{/if}
 	{/if}
+	<button on:click={toggleShowOptions}>Options</button>
 	<slot></slot>
 </div>
+{#if showOptions}
+	<div class="card bar options">
+		<span></span>
+		<label>
+			<input type="checkbox" bind:checked={showUnderlyingAssets}>
+			<span>Show Underlying Assets</span>
+		</label>
+		<label>
+			<input type="checkbox" bind:checked={showZeroBalances}>
+			<span>Show Zero Balances</span>
+		</label>
+		<label>
+			<span>Sort</span>
+			<select bind:value={sortBy}>
+				<option value="value-descending">Highest Value</option>
+				<option value="value-ascending">Lowest Value</option>
+				<option value="ticker-ascending">Alphabetical</option>
+			</select>
+		</label>
+	</div>
+{/if}
 <div class="portfolio">
 	{#if accounts}
 		{#each accounts as address, i (address)}
@@ -136,14 +175,17 @@
 				<div class="bar">
 					<div class="account">
 						<h3><Address {address} /></h3>
+						{#if analyticsProvider}
+							<EthereumBalances {analyticsProvider} conversionCurrency={quoteCurrency} {sortBy} {showZeroBalances} {showValues} {address} />
+						{/if}
 						{#if provider}
-							<div class="balances">
+							<!-- <div class="balances">
 								{#each ['ETH'] as token}
 									<div class="card">
 										<Balance {provider} {token} {address} />
 									</div>
 								{/each}
-							</div>
+							</div> -->
 							<DefiBalances {provider} {address} {showUnderlyingAssets} />
 						{:else}
 							<Loading>Connecting to the blockchain...</Loading>
