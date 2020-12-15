@@ -163,7 +163,7 @@
 	<!-- <button on:click={toggleShowOptions}>Options</button> -->
 	<slot></slot>
 </div>
-{#if showOptions}
+{#if showOptions && accounts.length}
 	<div class="card bar options">
 		<h3>Show</h3>
 		<label>
