@@ -130,7 +130,7 @@
 		position: sticky;
 		/* top: -1em; */
 		bottom: -1em;
-		margin: 0 calc(-2 * var(--padding-outer));
+		margin: 0 calc(-1 * var(--padding-outer));
 		z-index: 1;
 
 		font-size: 0.8em;
