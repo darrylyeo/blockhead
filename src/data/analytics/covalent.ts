@@ -50,18 +50,21 @@ export namespace Covalent {
 	}
 
 	export type TokenWithBalance = Contract & {
+		// type: 'cryptocurrency' | 'stablecoin' | 'dust'
 		balance: integer
 		quote: float
 		quote_rate: float
 	}
 
 	export type NFT = {
+		// type: 'nft'
 		token_id: integer
 		token_balance: integer
 		token_url: string
 	}
 
 	export type TokenBalance = TokenWithBalance & NFT & {
+		type: 'cryptocurrency' | 'stablecoin' | 'dust' | 'nft'
 		external_data: {
 			name: string
 			description: string

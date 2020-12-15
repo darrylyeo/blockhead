@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import type { BaseCurrency, TickerSymbol } from '../data/currency/currency'
+	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
 
 	export let showValues: 'original' | 'converted' | 'both' = 'original'
 	export let showDecimalPlaces = 3
@@ -11,8 +11,10 @@
 	export let tokenName: string
 
 	export let value
+	$: isZero = value == 0
+	export let isDust = false
 
-	export let conversionCurrency: BaseCurrency
+	export let conversionCurrency: QuoteCurrency
 	export let convertedValue
 
 	export let conversionRate
@@ -35,12 +37,12 @@
 		font-size: 0.85em;
 	}
 
-	.is-zero {
+	.is-dust, .is-zero {
 		opacity: 0.55;
 	}
 </style>
 
-<span class="value-with-conversion" class:is-zero={value == 0}>
+<span class="value-with-conversion" class:is-zero={isZero} class:is-dust={isDust}>
 	{#if showValues === 'original' || showValues === 'both'}
 		<span class="value" transition:scale><!-- style="font-size: {sizeByVolume(convertedValue)}em" -->
 			<TokenValue {token} {tokenAddress} {tokenIcon} {tokenName} {value} {showDecimalPlaces} />
