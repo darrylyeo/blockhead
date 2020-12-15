@@ -52,7 +52,7 @@
 		<TokenIcon {token} {tokenAddress} {tokenIcon} />
 		<span>
 			<span class="token-value">{formatValue(value)}</span>
-			<span class="token-name">{token}</span>
+			<span class="token-name">{token || '___'}</span>
 		</span>
 	{/if}
 </span>

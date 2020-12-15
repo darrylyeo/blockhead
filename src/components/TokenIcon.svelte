@@ -9,7 +9,7 @@
 
 	let loadingError = false
 
-	$: Icon = CryptoIcons[token[0].toUpperCase() + token.slice(1).toLowerCase()]
+	$: Icon = token && CryptoIcons[token[0].toUpperCase() + token.slice(1).toLowerCase()]
 </script>
 
 <picture title={token + (tokenAddress ? ` (${tokenAddress})` : '')}>
@@ -25,7 +25,7 @@
 		{/if}
 		<img on:error={() => loadingError = true}>
 	{:else}
-		<i class="placeholder-icon" data-icon={token.slice(0, 4)}></i>
+		<i class="placeholder-icon" data-icon={token?.slice(0, 4) ?? '?'}></i>
 	{/if}
 </picture>
 
