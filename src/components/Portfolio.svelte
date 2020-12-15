@@ -165,21 +165,30 @@
 </div>
 {#if showOptions}
 	<div class="card bar options">
+		<h3>Show</h3>
 		<label>
-			<span>Sort</span>
+			<input type="checkbox" bind:checked={showUnderlyingAssets}>
+			<span>Underlying Assets</span>
+		</label>
+		<label>
+			<input type="checkbox" bind:checked={showZeroBalances}>
+			<span>Zero Balances</span>
+		</label>
+		<label>
+			<span>Values</span>
+			<select bind:value={showValues}>
+				<option value="original">Original</option>
+				<option value="converted">Converted</option>
+				<option value="both">Both</option>
+			</select>
+		</label>
+		<label>
+			<span>Sort Balances</span>
 			<select bind:value={sortBy}>
 				<option value="value-descending">Highest Value</option>
 				<option value="value-ascending">Lowest Value</option>
 				<option value="ticker-ascending">Alphabetical</option>
 			</select>
-		</label>
-		<label>
-			<input type="checkbox" bind:checked={showUnderlyingAssets}>
-			<span>Show Underlying Assets</span>
-		</label>
-		<label>
-			<input type="checkbox" bind:checked={showZeroBalances}>
-			<span>Show Zero Balances</span>
 		</label>
 	</div>
 {/if}
