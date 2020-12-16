@@ -80,26 +80,8 @@
 		grid-template-columns: 100%;
 	}
 
-	section {
-		/* display: grid;
-		grid-auto-flow: column;
-		grid-auto-columns: 1fr auto; */
-		/* display: flex; */
-		gap: var(--padding-inner);
-	}
-
-	section > * {
-		flex: 1;
-	}
-
 	.edit-controls {
 		flex: 0 auto;
-	}
-
-	.account {
-		--padding-inner: 0.5em;
-		display: grid;
-		gap: var(--padding-inner);
 	}
 
 	form {
@@ -110,13 +92,22 @@
 		width: 16rem;
 	}
 
-	.balances {
+	.account {
+		--padding-inner: 0.75em;
+		display: grid;
+		gap: var(--padding-inner);
+	}
+
+	/* .balances {
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--padding-inner);
 	}
 	.balances > :global(*) {
 		flex: 0 auto;
+	} */
+	.account :global(.ethereum-balances) {
+		--padding-inner: 0.5em;
 	}
 
 	.account :global(.defi-balances) {
@@ -128,9 +119,10 @@
 
 	.options {
 		position: sticky;
-		/* top: -1em; */
-		/* bottom: -1em; */
+		/* top: 0; */
 		bottom: 0;
+		grid-row-end: 4;
+
 		margin: 0 calc(-1 * var(--padding-outer));
 		z-index: 1;
 
@@ -138,9 +130,6 @@
 
 		-webkit-backdrop-filter: var(--overlay-backdrop-filter);
 		backdrop-filter: var(--overlay-backdrop-filter);
-		/* padding: var(--padding-outer); */
-
-		grid-row-end: 4;
 	}
 </style>
 
@@ -166,29 +155,31 @@
 </div>
 {#if showOptions && accounts.length}
 	<div class="card bar options">
-		<h3>Show</h3>
-		<label>
-			<input type="checkbox" bind:checked={showUnderlyingAssets}>
-			<span>Underlying Assets</span>
-		</label>
-		<label>
-			<input type="checkbox" bind:checked={showZeroBalances}>
-			<span>Zero Balances</span>
-		</label>
-		<label>
-			<span>Values</span>
-			<select bind:value={showValues}>
-				<option value="original">Original</option>
-				<option value="converted">Converted</option>
-				<option value="both">Both</option>
-			</select>
-		</label>
+		<div class="row">
+			<h3>Show</h3>
+			<label>
+				<input type="checkbox" bind:checked={showZeroBalances}>
+				<span>Zero Balances</span>
+			</label>
+			<label>
+				<input type="checkbox" bind:checked={showUnderlyingAssets}>
+				<span>Underlying Assets</span>
+			</label>
+			<label>
+				<span>Values</span>
+				<select bind:value={showValues}>
+					<option value="original">Original</option>
+					<option value="converted">Converted</option>
+					<option value="both">Both</option>
+				</select>
+			</label>
+		</div>
 		<label>
 			<span>Sort Balances</span>
 			<select bind:value={sortBy}>
 				<option value="value-descending">Highest Value</option>
-				<option value="value-ascending">Lowest Value</option>
 				<option value="ticker-ascending">Alphabetical</option>
+				<option value="value-ascending">Lowest Value</option>
 			</select>
 		</label>
 	</div>

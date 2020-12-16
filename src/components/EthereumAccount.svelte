@@ -41,16 +41,16 @@
 		<div class="bar">
 			<h3>Balances</h3>
 			<label>
+				<input type="checkbox" bind:checked={showZeroBalances}>
+				<span>Show Zero Balances</span>
+			</label>
+			<label>
 				<span>Sort</span>
 				<select bind:value={sortBy}>
 					<option value="value-descending">Highest Value</option>
 					<option value="value-ascending">Lowest Value</option>
 					<option value="ticker-ascending">Alphabetical</option>
 				</select>
-			</label>
-			<label>
-				<input type="checkbox" bind:checked={showZeroBalances}>
-				<span>Show Zero Balances</span>
 			</label>
 		</div>
 		<EthereumBalances analyticsProvider={$preferredAnalyticsProvider} conversionCurrency={$preferredQuoteCurrency} {sortBy} {showZeroBalances} {showValues} {address} />
