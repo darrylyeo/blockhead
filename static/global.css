@@ -161,6 +161,14 @@ input {
 	border: 2px solid green;
 } */
 
+input[type="checkbox"] {
+	width: 1.2em;
+	height: 1.2em;
+	transform: translateY(0.2em);
+    /* display: inline-flex;
+	align-items: center; */
+}
+
 select {
 	border-radius: 0.5rem;
 	padding: 0.25em 0.4em;
