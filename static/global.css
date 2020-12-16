@@ -271,3 +271,23 @@ main {
 	display: inline-block;
 	text-align: center;
 } */
+
+
+
+::-webkit-scrollbar {
+	background: transparent;
+	width: 5px;
+}
+[style*="animation:"]::-webkit-scrollbar {
+	display: none;
+}
+::-webkit-scrollbar-track {
+	background: rgba(255, 255, 255, 0.1);
+}
+::-webkit-scrollbar-button {
+	height: 1.8rem;
+}
+::-webkit-scrollbar-thumb {
+	background: var(--primary-color);
+	border-radius: 5px;
+}
