@@ -1,3 +1,13 @@
+<script context="module">
+	import { env } from '../config-secrets'
+		
+	// https://github.com/sveltejs/sapper/issues/122#issuecomment-619770615
+	export async function preload({params}, session){
+		if(session.env)
+			Object.assign(env, session.env)
+	}
+</script>
+
 <script lang="ts">
 	import Nav from '../components/Nav.svelte'
 

@@ -1,7 +1,10 @@
 import type { Token } from 'graphql'
-import { COVALENT_URL, COVALENT_API_KEY } from '../../config'
 import type { QuoteCurrency, TickerSymbol } from '../currency/currency'
 import type { Ethereum } from '../ethereum/types'
+
+import { COVALENT_URL } from '../../config'
+import { env } from '../../config-secrets'
+const { COVALENT_API_KEY } = env
 
 // type QuoteCurrency = 'USD' | 'CAD'| 'INR' | 'ETH' | 'EUR'
 

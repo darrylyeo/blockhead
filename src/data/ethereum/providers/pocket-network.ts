@@ -1,7 +1,8 @@
 import type { Ethereum } from '../types'
 // import { Pocket, Configuration, HttpRpcProvider, PocketAAT, PocketRpcProvider } from '@pokt-network/pocket-js'
 // import { Pocket, Configuration, HttpProvider, HttpRpcProvider, PocketAAT, PocketProvider, PocketRpcProvider } from '@pokt-network/web3-provider'
-import { POCKET_NETWORK_DISPATCH_URLS, POCKET_NETWORK_APP_AUTH_TOKEN, POCKET_NETWORK_PPK, POCKET_NETWORK_PASSPHRASE } from '../../../config'
+import { POCKET_NETWORK_DISPATCH_URLS, POCKET_NETWORK_APP_AUTH_TOKEN } from '../../../config'
+import { env } from '../../../config-secrets'
 
 
 let pocketInstance
@@ -34,7 +35,7 @@ async function getPocketInstance(){
 			)
 		)
 
-		pocketAAT = await unlockAAT(pocketInstance, POCKET_NETWORK_APP_AUTH_TOKEN, POCKET_NETWORK_PPK, POCKET_NETWORK_PASSPHRASE)
+		pocketAAT = await unlockAAT(pocketInstance, POCKET_NETWORK_APP_AUTH_TOKEN, env.POCKET_NETWORK_PPK, env.POCKET_NETWORK_PASSPHRASE)
 	}
 
 	return { pocketInstance, pocketAAT }
