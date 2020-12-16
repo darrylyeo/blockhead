@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getContext, setContext } from 'svelte'
+	import { getContext, onMount, setContext } from 'svelte'
 	import { writable, derived } from 'svelte/store'
 	import { goto } from '@sapper/app'
 
@@ -7,10 +7,13 @@
 	import { ethereumNetwork, preferredAnalyticsProvider, preferredEthereumProvider } from '../../../data/ethereum/preferences'
 	import { getProvider } from '../../../data/ethereum/provider'
 	
+	const whenMounted = new Promise(r => onMount(r))
+
 	const provider = derived<[SvelteStore<Ethereum.Network>, SvelteStore<Ethereum.ProviderName>], Ethereum.Provider>(
 		[ethereumNetwork, preferredEthereumProvider],
 		// @ts-ignore
 		async ([$ethereumNetwork, $preferredEthereumProvider], set) => {
+			await whenMounted
 			set(await getProvider($ethereumNetwork, $preferredEthereumProvider, 'ethers'))
 		}
 	)
