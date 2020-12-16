@@ -10,8 +10,10 @@
 <script lang="ts">
 	import type { Writable } from 'svelte/store'
 	import type { Ethereum } from '../../../data/ethereum/types'
+	import type { AnalyticsProvider } from '../../../data/analytics/provider'
 
-	let provider: Writable<Ethereum.Provider> = getContext('provider')
+	const provider: Writable<Ethereum.Provider> = getContext('provider')
+	const analyticsProvider: Writable<AnalyticsProvider> = getContext('analyticsProvider')
 
 	export let query: Writable<string> = getContext('query')
 		
@@ -40,7 +42,9 @@
 		{/if}
 	{:else if isTransaction($query)}
 		{#if $provider}
-			<EthereumTransactionDetails transactionID={$query} provider={$provider}/>
+			<EthereumTransactionDetails layout="standalone" transactionID={$query} />
+			<!-- <EthereumTransactionDetails transactionID={$query} provider={$provider}/> -->
+			<!-- <EthereumTransactionDetails transactionID={$query} analyticsProvider={$analyticsProvider}/> -->
 		{/if}
 	{:else if isBlockNumber($query)}
 		{#if $provider}

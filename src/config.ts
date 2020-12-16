@@ -30,3 +30,8 @@ export const THE_GRAPH_ENS_URL = 'https://api.thegraph.com/subgraphs/name/ensdom
 
 // The Graph: Uniswap
 export const THE_GRAPH_UNISWAP_API_URL = 'wss://api.thegraph.com/explorer/graphql'
+
+
+// Covalent
+export const COVALENT_URL = `https://api.covalenthq.com`
+export const COVALENT_API_KEY = 'ckey_a3230f8b678f4ea4a66bff40a54'

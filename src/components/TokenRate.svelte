@@ -1,7 +1,9 @@
 <script lang="ts">
+	import type { TickerSymbol } from '../data/currency/currency'
+
 	export let rate = 0.0
-	export let quoteToken = 'BTC'
-	export let baseToken = 'ETH'
+	export let quoteToken: TickerSymbol
+	export let baseToken: TickerSymbol
 	export let decimals = 3
 
 	export let layout: 'horizontal' | 'vertical' = 'vertical'

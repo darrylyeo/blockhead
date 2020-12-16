@@ -3,7 +3,7 @@
 
 	import { getProvider, getProviderInstance } from '../../data/ethereum/provider'
 	import { getLocalAccounts, getEthersAccounts } from '../../data/ethereum/accounts'
-	import { ethereumNetwork, preferredEthereumProvider } from '../../data/ethereum/preferences'
+	import { ethereumNetwork, preferredAnalyticsProvider, preferredEthereumProvider, preferredQuoteCurrency } from '../../data/ethereum/preferences'
 
 	let preferredProvider
 	onMount(async () => 
@@ -71,6 +71,17 @@
 </script>
 
 <style>
+	/* Experimental: make <main> the scrolling element to enable inner position: sticky elements */
+	main {
+		overflow: auto;
+		height: 100vh;
+		grid-area: 1 / 1 / 3 / 1;
+		padding: 5rem var(--padding-inner);
+	}
+	:global(#sapper) {
+		height: 100vh;
+	}
+
 	main {
 		/* display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr)); */
@@ -124,7 +135,7 @@
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 	<section>
 		{#if localAccounts}
-			<Portfolio name="Your Portfolio" provider={preferredProvider} bind:accounts={$localAccounts} editable={true} />
+			<Portfolio name="Your Portfolio" provider={preferredProvider} analyticsProvider={$preferredAnalyticsProvider} quoteCurrency={$preferredQuoteCurrency} bind:accounts={$localAccounts} editable={true} />
 		{:else}
 			Please enable LocalStorage in your browser.
 		{/if}
@@ -140,7 +151,7 @@
 						Log into MetaMask via the pop-up window.
 					</Loading>
 				{:then accounts}
-					<Portfolio name="MetaMask Wallet" provider={preferredProvider} {accounts}>
+					<Portfolio name="MetaMask Wallet" provider={preferredProvider} analyticsProvider={$preferredAnalyticsProvider} quoteCurrency={$preferredQuoteCurrency} {accounts}>
 						<button on:click={disconnectMetaMaskProvider}>Disconnect</button>
 					</Portfolio>
 				{:catch error}
@@ -172,7 +183,7 @@
 						Log into Portis via the pop-up window.
 					</Loading>
 				{:then accounts}
-					<Portfolio name="Portis Wallet" provider={preferredProvider} {accounts}>
+					<Portfolio name="Portis Wallet" provider={preferredProvider} analyticsProvider={$preferredAnalyticsProvider} quoteCurrency={$preferredQuoteCurrency} {accounts}>
 						<!-- <button on:click={() => addToPortfolio(accounts[0])}>Add to...</button> -->
 						<button on:click={disconnectPortisProvider}>Disconnect</button>
 					</Portfolio>

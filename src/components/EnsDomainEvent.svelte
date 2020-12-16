@@ -5,7 +5,7 @@
 	console.log(event)
 
 	import Address from './Address.svelte'
-	import EthereumTransaction from './EthereumTransaction.svelte'
+	import EthereumTransactionSummary from './EthereumTransactionSummary.svelte'
 </script>
 
 <style>
@@ -34,5 +34,5 @@
 			<span>{event.ttl}</span>
 		{/if}
 	</p>
-	<EthereumTransaction transactionID={event.transactionID} blockNumber={event.blockNumber}/>
+	<EthereumTransactionSummary transactionID={event.transactionID} blockNumber={event.blockNumber}/>
 </div>

@@ -17,7 +17,7 @@
     "aframe": "^1.0.4",
     "compression": "^1.7.1",
     "dotenv": "^8.2.0",
-    "ethers": "^5.0.18",
+    "ethers": "^5.0.24",
     "graphql": "^15.3.0",
     "polka": "next",
     "sirv": "^1.0.7",

@@ -33,7 +33,7 @@
 	--padding-outer: 1rem;
 	--padding-inner: 0.8rem;
 	
-	--base-fonts: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+	--base-fonts: -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 	--monospace-fonts: 'Fira Code', 'JetBrains Mono', 'Roboto Mono', Menlo, Inconsolata, monospace;
 
 	--overlay-backdrop-filter: blur(20px) contrast(1.1);
@@ -249,7 +249,7 @@ main {
 	display: grid;
 	grid: "area";
 }
-.stack > :global(*) {
+.stack > * {
 	grid-area: area;
 	place-items: start;
 }

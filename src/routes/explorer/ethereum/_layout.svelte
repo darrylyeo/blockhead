@@ -4,7 +4,7 @@
 	import { goto } from '@sapper/app'
 
 	import type { Ethereum } from '../../../data/ethereum/types'
-	import { ethereumNetwork, preferredEthereumProvider } from '../../../data/ethereum/preferences'
+	import { ethereumNetwork, preferredAnalyticsProvider, preferredEthereumProvider } from '../../../data/ethereum/preferences'
 	import { getProvider } from '../../../data/ethereum/provider'
 	
 	const provider = derived<[SvelteStore<Ethereum.Network>, SvelteStore<Ethereum.ProviderName>], Ethereum.Provider>(
@@ -15,6 +15,7 @@
 		}
 	)
 	setContext('provider', provider)
+	setContext('analyticsProvider', preferredAnalyticsProvider)
 
 	export let segment: string
 	$: console.log('segment', segment)
