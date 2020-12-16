@@ -29,7 +29,7 @@ export default {
 				'process.browser': true,
 				'process.env.NODE_ENV': JSON.stringify(mode),
 				exclude: [
-					'@pokt-network'
+					'node_modules/@pokt-network/**'
 				]
 			}),
 			json(),
@@ -77,10 +77,10 @@ export default {
 		output: config.server.output(),
 		plugins: [
 			replace({
-				'process.browser': false,
+				'process.browser': true,
 				'process.env.NODE_ENV': JSON.stringify(mode),
 				exclude: [
-					'@pokt-network'
+					'node_modules/@pokt-network/**'
 				]
 			}),
 			json(),
@@ -111,7 +111,7 @@ export default {
 				'process.browser': true,
 				'process.env.NODE_ENV': JSON.stringify(mode),
 				exclude: [
-					'@pokt-network'
+					'node_modules/@pokt-network/**'
 				]
 			}),
 			commonjs(),
