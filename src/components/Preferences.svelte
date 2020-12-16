@@ -53,8 +53,8 @@
 				<option value="USD">US Dollar ($)</option>
 				<option value="GBP">British Pound (£)</option>
 				<option value="CAD">Canadian Dollar (CA$)</option>
-				<option value="INR">Indian Rupee ()</option>
-				<option value="EUR">Euro ()</option>
+				<option value="INR">Indian Rupee (₹)</option>
+				<option value="EUR">Euro (€)</option>
 			</optgroup>
 			<optgroup label="Cryptocurrencies">
 				<option value="BTC">Bitcoin (BTC)</option>
