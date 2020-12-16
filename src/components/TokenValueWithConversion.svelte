@@ -4,6 +4,7 @@
 
 	export let showValues: 'original' | 'converted' | 'both' = 'original'
 	export let showDecimalPlaces = 3
+	export let showConversionRate = false
 
 	export let token: TickerSymbol
 	export let tokenAddress: Ethereum.ContractAddress
@@ -57,7 +58,7 @@
 					&nbsp;in <TokenName {token} {tokenAddress} {tokenIcon} />
 				</span>
 			{/if
-			}{#if conversionRate}<span class="rate"> at <TokenRate rate={conversionRate} quoteToken={conversionCurrency} baseToken={token} layout='horizontal'/></span>{/if
+			}{#if showConversionRate && conversionRate}<span class="rate"> at <TokenRate rate={conversionRate} quoteToken={conversionCurrency} baseToken={token} layout='horizontal'/></span>{/if
 			}{#if showValues === 'both'}){/if}
 		</span>
 	{/if}
