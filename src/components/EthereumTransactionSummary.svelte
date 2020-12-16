@@ -32,7 +32,7 @@
 <p class="transaction">
 	<span class="muted">Transaction</span>
 	{#if transactionID}
-		<EthereumTransactionID {transactionID}/>
+		<EthereumTransactionID {transactionID} format="middle-truncated"/>
 	{/if}
 	{#if blockNumber}
 		<span class="muted">at</span>

@@ -3,7 +3,7 @@
 
 	export let transactionID: Ethereum.TransactionID
 	let blockchain = 'ethereum'
-	export let format: 'full' | 'middle-truncated' = 'middle-truncated'
+	export let format: 'full' | 'middle-truncated' = 'full'
 	export let linked = true
 
 	$: formattedTransactionID =
