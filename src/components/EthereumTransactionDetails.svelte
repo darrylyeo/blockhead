@@ -1,7 +1,9 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
+	import type { TickerSymbol } from '../data/currency/currency'
+	import type { Covalent } from '../data/analytics/covalent'
 
-	export let contextualAddress // used for summary
+	export let contextualAddress: Ethereum.Address // used for summary
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
 	export let showValues: 'original' | 'converted' | 'both' = 'original'
 	export let showFees = false
@@ -13,13 +15,18 @@
 	export let transactionID
 	export let blockNumber
 	export let date
+	export let isSuccessful = true
 
 	export let fromAddress: Ethereum.Address
 	export let fromAddressLabel
 	export let toAddress: Ethereum.Address
 	export let toAddressLabel
 
-	export let token = 'ETH'
+	export let token: TickerSymbol = 'ETH'
+	export let tokenAddress: Ethereum.ContractAddress
+	export let tokenIcon: string
+	export let tokenName: string
+
 	export let value
 	export let valueQuote
 
@@ -28,6 +35,9 @@
 
 	export let quoteToken
 	export let rate
+
+	export let transfers = []
+	export let logEvents: Covalent.LogEvent[] = []
 
 	$: isSummary = detailLevel === 'summary'
 	$: isExhaustive = detailLevel === 'exhaustive'
@@ -40,6 +50,7 @@
 
 	import AddressWithLabel from './AddressWithLabel.svelte'
 	import Date from './Date.svelte'
+	import EthereumLogEvent from './EthereumLogEvent.svelte'
 	import EthereumTransactionId from './EthereumTransactionID.svelte'
 	import EthereumTransactionSummary from './EthereumTransactionSummary.svelte'
 	import TokenValueWithConversion from './TokenValueWithConversion.svelte'
@@ -74,8 +85,12 @@
 		opacity: 0.7;
 		align-self: center;
 		align-items: flex-end;
-    	justify-content: center;
+		justify-content: center;
 		height: 1em;
+	}
+
+	.log-events {
+		font-size: 0.8em;
 	}
 
 
@@ -111,9 +126,13 @@
 	.container.inner-layout-columns .value {
 		font-size: 1.5em;
 	}
+
+	.unsuccessful {
+		box-shadow: 0 1px 3px #ff2f00a0;
+	}
 </style>
 
-<div class="card transaction-details layout-{layout}" transition:scale>
+<div class="card transaction-details layout-{layout}" class:unsuccessful={!isSuccessful} transition:scale>
 	{#if layout === 'standalone'}
 		<div class="bar">
 			<h2><EthereumTransactionId {transactionID}/></h2>
@@ -128,8 +147,12 @@
 		{/if}
 		{#if value}
 			<span>
-				<span class="action">{isSummary && contextIsReceiver ? 'received' : 'sent'}</span>
-				<TokenValueWithConversion {showValues} {token} {value} conversionCurrency={quoteToken} convertedValue={valueQuote} />
+				<span class="action">
+					{isSummary && contextIsReceiver
+						? isSuccessful ? 'received' : 'failed to receive'
+						: isSuccessful ? 'sent' : 'failed to send'}
+				</span>
+				<TokenValueWithConversion {showValues} {token} {tokenAddress} {tokenIcon} {tokenName} {value} conversionCurrency={quoteToken} convertedValue={valueQuote} />
 			</span>
 		{/if}
 		{#if isSummary && contextIsReceiver}
@@ -153,6 +176,30 @@
 			<Date {date} />
 		{/if}
 	</div>
+	{#if transfers?.length}
+		<div class="transfers">
+			{#each transfers as transfer}
+				<svelte:self
+					{contextualAddress}
+					{detailLevel}
+					{showValues}
+					showFees={false}
+					{...transfer}
+				/>
+			{/each}
+		</div>
+	{/if}
+	{#if logEvents?.length}
+		<div class="log-events">
+			{#each logEvents as logEvent}
+				<EthereumLogEvent
+					{logEvent}
+					{detailLevel}
+					{contextualAddress}
+				/>
+			{/each}
+		</div>
+	{/if}
 	{#if !isSummary}
 		<div class="footer bar">
 			{#if layout === 'standalone' && blockNumber}

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { getERC20TokenTransfers } from '../data/analytics/covalent'
-	import { getTransactionsByAddress } from '../data/analytics/covalent'
+	import type { Covalent } from '../data/analytics/covalent'
+	import { getERC20TokenTransfers, getTransactionsByAddress } from '../data/analytics/covalent'
 	import { preferredAnalyticsProvider, preferredQuoteCurrency } from '../data/ethereum/preferences'
 	
 	export let address
@@ -14,7 +14,67 @@
 
 	$: quoteCurrency = $preferredQuoteCurrency
 
+
 	import { formatEther, formatUnits } from 'ethers/lib/utils'
+
+	function convertCovalentTransaction(transaction: Covalent.Transaction){
+		return {
+			transactionID: transaction.tx_hash,
+			date: transaction.block_signed_at,
+			isSuccessful: transaction.successful,
+
+			fromAddress: transaction.from_address,
+			fromAddressLabel: transaction.from_address_label,
+			toAddress: transaction.to_address,
+			toAddressLabel: transaction.to_address_label,
+
+			token: 'ETH',
+			tokenName: 'Ethereum',
+
+			value: formatEther(transaction.value),
+			valueQuote: transaction.value_quote,
+
+			gasValue: formatUnits(transaction.gas_spent, 'gwei'),
+			gasValueQuote: transaction.gas_quote,
+
+			quoteToken: quoteCurrency,
+			// rate: transaction.value_quote / formatEther(transaction.value),
+
+			logEvents: transaction.log_events,
+		}
+	}
+	function convertCovalentERC20TokenTransaction(transaction: Covalent.ERC20TokenTransaction){
+		return {
+			...convertCovalentTransaction(transaction),
+			transfers: transaction.transfers.map(convertCovalentERC20TokenTransfer)
+		}
+	}
+	function convertCovalentERC20TokenTransfer(transfer: Covalent.ERC20TokenTransfer){
+		return {
+			transferID: transfer.tx_hash,
+			date: transfer.block_signed_at,
+			isSuccessful: transfer.successful,
+
+			fromAddress: transfer.from_address,
+			fromAddressLabel: transfer.from_address_label,
+			toAddress: transfer.to_address,
+			toAddressLabel: transfer.to_address_label,
+
+			token: transfer.contract_ticker_symbol,
+			tokenName: transfer.contract_name,
+			tokenIcon: transfer.logo_url,
+			tokenAddress: transfer.contract_address,
+
+			value: formatUnits(transfer.delta, transfer.contract_decimals),
+			valueQuote: transfer.delta_quote,
+
+			quoteToken: quoteCurrency,
+			rate: transfer.quote_rate,
+
+			logEvents: transfer.log_events,
+		}
+	}
+
 
 	import Address from './Address.svelte'
 	import Balance from './Balance.svelte'
@@ -66,7 +126,7 @@
 	<hr>
 	<div class="transactions">
 		{#if $preferredAnalyticsProvider === 'Covalent'}
-			{#await getTransactionsByAddress({address, quoteCurrency})}
+			{#await getTransactionsByAddress({address, includeLogs: true, quoteCurrency})}
 				<Loading iconAnimation="hover">
 					<img slot="icon" src="/logos/covalent-logomark.svg" alt="Covalent" width="25">
 					<p>Fetching transactions...</p>
@@ -103,20 +163,8 @@
 						{detailLevel}
 						{showValues}
 						{showFees}
-						transactionID={transaction.tx_hash}
-						date={transaction.block_signed_at}
-						fromAddress={transaction.from_address}
-						fromAddressLabel={transaction.from_address_label}
-						toAddress={transaction.to_address}
-						toAddressLabel={transaction.to_address_label}
-						token="ETH"
-						value={formatEther(transaction.value)}
-						valueQuote={transaction.value_quote}
-						gasValue={formatUnits(transaction.gas_spent, 'gwei')}
-						gasValueQuote={transaction.gas_quote}
-						quoteToken={quoteCurrency}
+						{...convertCovalentTransaction(transaction)}
 					/>
-						<!-- rate={transaction.value_quote / formatEther(transaction.value)} -->
 				{/each}
 			{:catch error}
 				<div class="card">
@@ -163,20 +211,8 @@
 						{detailLevel}
 						{showValues}
 						{showFees}
-						transactionID={transaction.tx_hash}
-						date={transaction.block_signed_at}
-						fromAddress={transaction.from_address}
-						fromAddressLabel={transaction.from_address_label}
-						toAddress={transaction.to_address}
-						toAddressLabel={transaction.to_address_label}
-						token="ETH"
-						value={formatEther(transaction.value)}
-						valueQuote={transaction.value_quote}
-						gasValue={formatUnits(transaction.gas_spent, 'gwei')}
-						gasValueQuote={transaction.gas_quote}
-						quoteToken={quoteCurrency}
+						{...convertCovalentERC20TokenTransaction(transaction)}
 					/>
-						<!-- rate={transaction.value_quote / formatEther(transaction.value)} -->
 				{/each}
 			{:catch error}
 				<div class="card">

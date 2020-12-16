@@ -287,7 +287,7 @@ export namespace Covalent {
 		type: string
 		indexed: boolean
 		decoded: boolean
-		value: {}
+		value: any
 	}
 	export type LogEvent = {
 		block_signed_at: date_time
