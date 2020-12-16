@@ -178,11 +178,17 @@
 			{#await getERC20TokenTransfers({address, contractAddress: '0x6B175474E89094C44Da98b954EedeAC495271d0F', quoteCurrency})}
 				<Loading iconAnimation="hover">
 					<img slot="icon" src="/logos/covalent-logomark.svg" alt="Covalent" width="25">
-					<p>Fetching ERC-20 transactions...</p>
+					<p>Fetching ERC-20 transactions from Covalent...</p>
 				</Loading>
 			{:then transactions}
 				<div class="bar">
 					<h3><TokenName token="DAI" /> Transactions</h3>
+					{#if detailLevel !== 'exhaustive'}
+						<label>
+							<input type="checkbox" bind:checked={showFees}>
+							<span>Fees</span>
+						</label>
+					{/if}
 					<label>
 						<span>Show</span>
 						<select bind:value={detailLevel}>
@@ -199,12 +205,6 @@
 							<option value="both">Both</option>
 						</select>
 					</label>
-					{#if detailLevel !== 'exhaustive'}
-						<label>
-							<span>Fees</span>
-							<input type="checkbox" bind:checked={showFees}>
-						</label>
-					{/if}
 				</div>
 				{#each transactions.items as transaction}
 					<EthereumTransaction
