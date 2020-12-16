@@ -1,11 +1,12 @@
 <script lang="ts">
+	import type { Ethereum } from '../../../data/ethereum/types'
 	import { getContext, onMount } from 'svelte'
 	import { readable } from 'svelte/store'
 	import { preferredAnalyticsProvider, preferredQuoteCurrency, preferredPriceFeedProvider } from '../../../data/ethereum/preferences'
 	// import { getCompoundPriceFeed } from '.../../../data/ethereum/price/compound-price-feed'
 	import { getChainlinkPriceFeed } from '.../../../data/ethereum/price/chainlink'
 	
-	const provider = getContext('provider')
+	const provider = getContext<Ethereum.Provider>('provider')
 
 	const blockNumber = readable<number>(undefined, set => {
 		$provider.on('block', blockNumber => {
