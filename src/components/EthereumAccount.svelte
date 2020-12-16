@@ -29,6 +29,14 @@
 		display: grid;
 		gap: var(--padding-inner);
 	}
+
+	.bar {
+		/* --padding-inner: 1.25em; */
+		--padding-inner: 1em;
+	}
+	label {
+		font-size: 0.9em;
+	}
 </style>
 
 <div class="card">
@@ -66,6 +74,12 @@
 			{:then transactions}
 				<div class="bar">
 					<h3>Transactions</h3>
+					{#if detailLevel !== 'exhaustive'}
+						<label>
+							<input type="checkbox" bind:checked={showFees}>
+							<span>Fees</span>
+						</label>
+					{/if}
 					<label>
 						<span>Show</span>
 						<select bind:value={detailLevel}>
@@ -82,12 +96,6 @@
 							<option value="both">Both</option>
 						</select>
 					</label>
-					{#if detailLevel !== 'exhaustive'}
-						<label>
-							<input type="checkbox" bind:checked={showFees}>
-							<span>Fees</span>
-						</label>
-					{/if}
 				</div>
 				{#each transactions.items as transaction}
 					<EthereumTransactionDetails
@@ -144,8 +152,8 @@
 					</label>
 					{#if detailLevel !== 'exhaustive'}
 						<label>
-							<input type="checkbox" bind:checked={showFees}>
 							<span>Fees</span>
+							<input type="checkbox" bind:checked={showFees}>
 						</label>
 					{/if}
 				</div>
