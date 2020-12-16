@@ -130,7 +130,7 @@
 			{#await getTransactionsByAddress({address, includeLogs: true, quoteCurrency})}
 				<Loading iconAnimation="hover">
 					<img slot="icon" src="/logos/covalent-logomark.svg" alt="Covalent" width="25">
-					<p>Fetching transactions...</p>
+					<p>Fetching transactions from Covalent...</p>
 				</Loading>
 			{:then transactions}
 				<div class="bar">

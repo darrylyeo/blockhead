@@ -55,7 +55,8 @@
 	{#if analyticsProvider === 'Covalent' && address}
 		{#await getTokenAddressBalances({address, nft: false, quoteCurrency: conversionCurrency})}
 			<Loading>
-				Retrieving balances...
+				<img slot="icon" src="/logos/covalent-logomark.svg" alt="Covalent" width="25">
+				Retrieving balances from Covalent...
 			</Loading>
 		{:then balances}
 			{#each
