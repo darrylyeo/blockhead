@@ -48,7 +48,7 @@
 		{/if}
 	{:else if isBlockNumber($query)}
 		{#if $provider}
-			<EthereumBlock blockNumber={$query} provider={$provider}/>
+			<EthereumBlock blockNumber={$query} provider={$provider} analyticsProvider={$analyticsProvider}/>
 		{/if}
 	{:else}
 		<EnsExplorer query={$query} />
