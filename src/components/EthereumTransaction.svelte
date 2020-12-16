@@ -175,7 +175,7 @@
 				<TokenValueWithConversion {showValues} token="ETH" value={gasValue} conversionCurrency={quoteToken} convertedValue={gasValueQuote} />
 			</span>
 		{/if}
-		{#if isSummary}
+		{#if isSummary && date}
 			<Date {date} />
 		{/if}
 	</div>
@@ -210,7 +210,9 @@
 			{:else if layout === 'inline'}
 				<EthereumTransactionSummary {transactionID} {blockNumber} />
 			{/if}
-			<Date {date} layout="horizontal" />
+			{#if date}
+				<Date {date} layout="horizontal" />
+			{/if}
 		</div>
 	{/if}
 </div>
