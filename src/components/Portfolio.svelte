@@ -129,7 +129,8 @@
 	.options {
 		position: sticky;
 		/* top: -1em; */
-		bottom: -1em;
+		/* bottom: -1em; */
+		bottom: 0;
 		margin: 0 calc(-1 * var(--padding-outer));
 		z-index: 1;
 

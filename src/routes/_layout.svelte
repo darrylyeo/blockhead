@@ -15,7 +15,8 @@
 </script>
 
 <style>
-	:global(#sapper) {
+	/* Grid-based */
+	/* :global(#sapper) {
 		display: grid;
 		grid:
 			"nav" auto
@@ -40,7 +41,6 @@
 
 	:global(main) {
 		grid-area: main;
-		overflow: auto;
 	}
 
 	:global(.preferences) {
@@ -50,6 +50,61 @@
 		bottom: 0;
 		z-index: 1;
 
+		-webkit-backdrop-filter: var(--overlay-backdrop-filter);
+		backdrop-filter: var(--overlay-backdrop-filter);
+		border-top: 1px solid rgba(0, 0, 0, 0.2);
+		--padding-outer: 1em;
+		padding: var(--padding-outer);
+	} */
+
+
+	/* Experimental: make <main> the scrolling element to enable inner position: sticky elements */
+	/* :global(#sapper) {
+		height: 100vh;
+	} */
+	/* :global(#sapper main) {
+		overflow-y: auto;
+		height: 100vh;
+		grid-area: 1 / 1 / 3 / 1;
+	} */
+	/* :global(#sapper main) {
+		overflow-y: auto;
+		--bleed: 3rem;
+		margin: calc(-1 * var(--bleed)) 0;
+		padding: calc(var(--bleed) + var(--padding-outer)) var(--padding-outer);
+	} */
+
+
+	/* Fixed layout (supports inner position: sticky elements) */
+	:global(nav) {
+		position: fixed;
+		width: 100%;
+		top: 0;
+		z-index: 1;
+	}
+
+	:global(main) {
+		--bleed: 3.5rem;
+		align-content: start;
+		padding: calc(var(--bleed) + var(--padding-outer)) var(--padding-outer);
+	}
+
+	:global(.preferences) {
+		position: fixed;
+		width: 100%;
+		bottom: 0;
+		z-index: 1;
+	}
+
+
+
+	:global(nav) {
+		-webkit-backdrop-filter: var(--overlay-backdrop-filter);
+		backdrop-filter: var(--overlay-backdrop-filter);
+		border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+		padding: 0 var(--padding-outer);
+	}
+	:global(.preferences) {
 		-webkit-backdrop-filter: var(--overlay-backdrop-filter);
 		backdrop-filter: var(--overlay-backdrop-filter);
 		border-top: 1px solid rgba(0, 0, 0, 0.2);

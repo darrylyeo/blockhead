@@ -71,24 +71,19 @@
 </script>
 
 <style>
-	/* Experimental: make <main> the scrolling element to enable inner position: sticky elements */
-	main {
-		overflow: auto;
-		height: 100vh;
-		grid-area: 1 / 1 / 3 / 1;
-		padding: 5rem var(--padding-inner);
-	}
-	:global(#sapper) {
-		height: 100vh;
-	}
-
 	main {
 		/* display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr)); */
+		grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+		justify-items: center; */
+
 		display: flex;
 		justify-content: center;
 		flex-wrap: wrap;
 		gap: 2rem;
+		
+		/* Override scroll container to support position: sticky */
+		height: 100vh;
+		overflow-y: auto;
 	}
 	section {
 		flex: 1 25rem;
