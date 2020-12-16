@@ -19,6 +19,7 @@
 	})[$preferredPriceFeedProvider]
 
 	import Loading from '../../../components/Loading.svelte'
+	import PriceChart from '../../../components/PriceChart.svelte'
 	import TokenRate from '../../../components/TokenRate.svelte'
 
 	let isMounted = false
@@ -70,6 +71,14 @@
 		{:else}
 			<Loading>Retrieving statistics...</Loading>
 		{/if}
+	</section>
+
+	<section class="card">
+		<div class="bar">
+			<h3>Historical Price</h3>
+			<span class="card-annotation">{$preferredAnalyticsProvider}</span>
+		</div>
+		<PriceChart provider={$preferredAnalyticsProvider} quoteCurrency={$preferredQuoteCurrency} currency="ETH" />
 	</section>
 
 	<!-- {#if isMounted}
