@@ -73,7 +73,7 @@
 				</Loading>
 			{:then transactions}
 				<div class="bar">
-					<h3>Transactions</h3>
+					<h3>Transactions ({transactions.items.length})</h3>
 					{#if detailLevel !== 'exhaustive'}
 						<label>
 							<input type="checkbox" bind:checked={showFees}>
