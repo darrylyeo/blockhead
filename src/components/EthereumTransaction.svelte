@@ -63,21 +63,21 @@
 		font-size: 0.8em;
 	}
 
-	.transaction-details {
+	.transaction {
 		--padding-inner: 0.5em;
 		text-align: center;
 	}
 
-	.transaction-details :global(.address) {
+	.transaction :global(.address) {
 		font-weight: 600;
 	}
-	.transaction-details.layout-inline :global(.address) {
+	.transaction.layout-inline :global(.address) {
 		display: inline;
 	}
 	.fee {
 		font-size: 0.85em;
 	}
-	.transaction-details :global(.token-rate) {
+	.transaction :global(.token-rate) {
 		font-weight: 500;
 	}
 	.container :global(.date) {
@@ -97,7 +97,7 @@
 	}
 
 
-	.transaction-details .footer {
+	.transaction .footer {
 		/* justify-items: end;
 		gap: var(--padding-inner); */
 		opacity: 0.7;
@@ -135,7 +135,7 @@
 	}
 </style>
 
-<div class="card transaction-details layout-{layout}" class:unsuccessful={!isSuccessful} transition:scale>
+<div class="card transaction layout-{layout}" class:unsuccessful={!isSuccessful} transition:scale>
 	{#if layout === 'standalone'}
 		<div class="bar">
 			<h2><EthereumTransactionId {transactionID}/></h2>

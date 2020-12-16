@@ -80,7 +80,7 @@
 	import Address from './Address.svelte'
 	import Balance from './Balance.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
-	import EthereumTransactionDetails from './EthereumTransactionDetails.svelte'
+	import EthereumTransaction from './EthereumTransaction.svelte'
 	import Loading from './Loading.svelte'
 	import TokenName from './TokenName.svelte'
 </script>
@@ -159,7 +159,7 @@
 					</label>
 				</div>
 				{#each transactions.items as transaction}
-					<EthereumTransactionDetails
+					<EthereumTransaction
 						contextualAddress={address}
 						{detailLevel}
 						{showValues}
@@ -207,7 +207,7 @@
 					{/if}
 				</div>
 				{#each transactions.items as transaction}
-					<EthereumTransactionDetails
+					<EthereumTransaction
 						contextualAddress={address}
 						{detailLevel}
 						{showValues}

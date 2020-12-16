@@ -28,7 +28,7 @@
 	import EnsExplorer from '../../../components/EnsExplorer.svelte'
 	import EthereumAccount from '../../../components/EthereumAccount.svelte'
 	import EthereumBlock from '../../../components/EthereumBlock.svelte'
-	import EthereumTransactionDetails from '../../../components/EthereumTransactionDetails.svelte'
+	import EthereumTransaction from '../../../components/EthereumTransaction.svelte'
 </script>
 
 <style>
@@ -42,9 +42,9 @@
 		{/if}
 	{:else if isTransaction($query)}
 		{#if $provider}
-			<EthereumTransactionDetails layout="standalone" transactionID={$query} />
-			<!-- <EthereumTransactionDetails transactionID={$query} provider={$provider}/> -->
-			<!-- <EthereumTransactionDetails transactionID={$query} analyticsProvider={$analyticsProvider}/> -->
+			<EthereumTransaction layout="standalone" transactionID={$query} />
+			<!-- <EthereumTransaction transactionID={$query} provider={$provider}/> -->
+			<!-- <EthereumTransaction transactionID={$query} analyticsProvider={$analyticsProvider}/> -->
 		{/if}
 	{:else if isBlockNumber($query)}
 		{#if $provider}
