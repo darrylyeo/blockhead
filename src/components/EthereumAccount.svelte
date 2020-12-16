@@ -20,6 +20,7 @@
 	function convertCovalentTransaction(transaction: Covalent.Transaction){
 		return {
 			transactionID: transaction.tx_hash,
+			blockNumber: transaction.log_events?.[0]?.block_height,
 			date: transaction.block_signed_at,
 			isSuccessful: transaction.successful,
 

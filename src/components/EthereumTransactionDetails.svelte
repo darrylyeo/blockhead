@@ -90,7 +90,10 @@
 	}
 
 	.log-events {
-		font-size: 0.8em;
+		display: grid;
+		gap: var(--padding-inner);
+		font-size: 0.75em;
+		padding: var(--padding-outer);
 	}
 
 
@@ -166,7 +169,7 @@
 				<AddressWithLabel address={toAddress} label={toAddressLabel} format="middle-truncated" />
 			</span>
 		{/if}
-		{#if isExhaustive || showFees}
+		{#if (isExhaustive || showFees) && gasValue !== undefined}
 			<span class="fee" transition:scale>
 				<span>for fee</span>
 				<TokenValueWithConversion {showValues} token="ETH" value={gasValue} conversionCurrency={quoteToken} convertedValue={gasValueQuote} />
@@ -189,7 +192,7 @@
 			{/each}
 		</div>
 	{/if}
-	{#if logEvents?.length}
+	{#if isExhaustive && logEvents?.length}
 		<div class="log-events">
 			{#each logEvents as logEvent}
 				<EthereumLogEvent
