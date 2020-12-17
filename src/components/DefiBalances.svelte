@@ -108,6 +108,7 @@
 	.card.layout-horizontal {
 		display: flex;
 		flex-wrap: wrap;
+		align-items: baseline;
 	}
 	.card.layout-horizontal > :first-child {
 		flex: 1 auto;
