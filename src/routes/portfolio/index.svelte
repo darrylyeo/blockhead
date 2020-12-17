@@ -85,10 +85,11 @@
 		height: 100vh;
 		overflow-y: auto;
 	}
-	section {
+	main > * {
 		flex: 1 25rem;
 		max-width: 45rem;
-
+	}
+	section {
 		display: grid;
 		gap: var(--padding-inner);
 		align-content: start;
