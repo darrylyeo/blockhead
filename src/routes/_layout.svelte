@@ -85,7 +85,7 @@
 
 	:global(main) {
 		--bleed-top: 3.5rem;
-		--bleed-bottom: 2.25rem;
+		--bleed-bottom: 3.25rem;
 		align-content: start;
 		padding: calc(var(--bleed-top) + var(--padding-outer)) var(--padding-outer) calc(var(--bleed-bottom) + var(--padding-outer));
 	}
