@@ -1,4 +1,6 @@
 <script lang="ts">
+	import type { Ethereum } from '../data/ethereum/types'
+	import type { TickerSymbol } from '../data/currency/currency'
 	import type { Covalent } from '../data/analytics/covalent'
 	import { getERC20TokenTransfers, getTransactionsByAddress } from '../data/analytics/covalent'
 	import { preferredAnalyticsProvider, preferredQuoteCurrency } from '../data/ethereum/preferences'
@@ -13,6 +15,13 @@
 	let showSmallValues = false
 
 	$: quoteCurrency = $preferredQuoteCurrency
+
+	let selectedToken: {
+		token: TickerSymbol,
+		tokenAddress: Ethereum.ContractAddress,
+		tokenIcon: string,
+		tokenName: string
+	} | undefined
 
 
 	import { formatEther, formatUnits } from 'ethers/lib/utils'
@@ -130,88 +139,100 @@
 				</select>
 			</label>
 		</div>
-		<EthereumBalances analyticsProvider={$preferredAnalyticsProvider} conversionCurrency={$preferredQuoteCurrency} {sortBy} {showSmallValues} {showValues} {address} />
+		<EthereumBalances
+			analyticsProvider={$preferredAnalyticsProvider}
+			conversionCurrency={$preferredQuoteCurrency}
+			{sortBy}
+			{showSmallValues}
+			{showValues}
+			{address}
+			isSelectable={true}
+			bind:selectedToken={selectedToken}
+		/>
 	</div>
 	<hr>
 	<div class="transactions">
 		{#if $preferredAnalyticsProvider === 'Covalent'}
-			{#await getTransactionsByAddress({address, includeLogs: true, quoteCurrency})}
-				<Loading iconAnimation="hover">
-					<img slot="icon" src="/logos/covalent-logomark.svg" alt="Covalent" width="25">
-					<p>Fetching transactions from Covalent...</p>
-				</Loading>
-			{:then transactions}
-				<div class="bar">
-					<h3>Transactions ({transactions.items.length})</h3>
-					{#if detailLevel !== 'exhaustive'}
+			{#if !selectedToken}
+				<!-- Regular Ethereum Transactions -->
+				{#await getTransactionsByAddress({address, includeLogs: true, quoteCurrency})}
+					<Loading iconAnimation="hover">
+						<img slot="icon" src="/logos/covalent-logomark.svg" alt="Covalent" width="25">
+						<p>Fetching transactions from Covalent...</p>
+					</Loading>
+				{:then transactions}
+					<div class="bar">
+						<h3>Transactions ({transactions.items.length})</h3>
+						{#if detailLevel !== 'exhaustive'}
+							<label>
+								<input type="checkbox" bind:checked={showFees}>
+								<span>Show Fees</span>
+							</label>
+						{/if}
 						<label>
-							<input type="checkbox" bind:checked={showFees}>
-							<span>Show Fees</span>
+							<span>View</span>
+							<select bind:value={detailLevel}>
+								<option value="summary">Summary</option>
+								<option value="detailed">Detailed</option>
+								<option value="exhaustive">Exhaustive</option>
+							</select>
 						</label>
-					{/if}
-					<label>
-						<span>Show</span>
-						<select bind:value={detailLevel}>
-							<option value="summary">Summary</option>
-							<option value="detailed">Detailed</option>
-							<option value="exhaustive">Exhaustive</option>
-						</select>
-					</label>
-				</div>
-				{#each transactions.items as transaction}
-					<EthereumTransaction
-						contextualAddress={address}
-						{detailLevel}
-						{showValues}
-						{showFees}
-						{...convertCovalentTransaction(transaction)}
-					/>
-				{/each}
-			{:catch error}
-				<div class="card">
-					{error}
-				</div>
-			{/await}
-
-			<hr>
-
-			{#await getERC20TokenTransfers({address, contractAddress: '0x6B175474E89094C44Da98b954EedeAC495271d0F', quoteCurrency})}
-				<Loading iconAnimation="hover">
-					<img slot="icon" src="/logos/covalent-logomark.svg" alt="Covalent" width="25">
-					<p>Fetching ERC-20 transactions from Covalent...</p>
-				</Loading>
-			{:then transactions}
-				<div class="bar">
-					<h3><TokenName token="DAI" /> Transactions ({transactions.items.length})</h3>
-					{#if detailLevel !== 'exhaustive'}
+					</div>
+					{#each transactions.items as transaction}
+						<EthereumTransaction
+							contextualAddress={address}
+							{detailLevel}
+							{showValues}
+							{showFees}
+							{...convertCovalentTransaction(transaction)}
+						/>
+					{/each}
+				{:catch error}
+					<div class="card">
+						{error}
+					</div>
+				{/await}
+			{:else}
+				<!-- ERC-20 Transactions -->
+				{#await getERC20TokenTransfers({address, contractAddress: selectedToken.tokenAddress, quoteCurrency})}
+					<Loading iconAnimation="hover">
+						<img slot="icon" src="/logos/covalent-logomark.svg" alt="Covalent" width="25">
+						<p>Fetching ERC-20 transactions from Covalent...</p>
+					</Loading>
+				{:then transactions}
+					<div class="bar">
+						<h3><TokenName token={selectedToken.token} tokenAddress={selectedToken.tokenAddress} tokenIcon={selectedToken.tokenIcon} /> Transactions ({transactions.items.length})</h3>
+						{#if detailLevel !== 'exhaustive'}
+							<label>
+								<input type="checkbox" bind:checked={showFees}>
+								<span>Show Fees</span>
+							</label>
+						{/if}
 						<label>
-							<input type="checkbox" bind:checked={showFees}>
-							<span>Show Fees</span>
+							<span>View</span>
+							<select bind:value={detailLevel}>
+								<option value="summary">Summary</option>
+								<option value="detailed">Detailed</option>
+								<option value="exhaustive">Exhaustive</option>
+							</select>
 						</label>
-					{/if}
-					<label>
-						<span>View</span>
-						<select bind:value={detailLevel}>
-							<option value="summary">Summary</option>
-							<option value="detailed">Detailed</option>
-							<option value="exhaustive">Exhaustive</option>
-						</select>
-					</label>
-				</div>
-				{#each transactions.items as transaction}
-					<EthereumTransaction
-						contextualAddress={address}
-						{detailLevel}
-						{showValues}
-						{showFees}
-						{...convertCovalentERC20TokenTransaction(transaction)}
-					/>
-				{/each}
-			{:catch error}
-				<div class="card">
-					{error}
-				</div>
-			{/await}
+						<button on:click={() => selectedToken = undefined}>Back</button>
+					</div>
+					{#each transactions.items as transaction}
+						<EthereumTransaction
+							contextualAddress={address}
+							{detailLevel}
+							{showValues}
+							{showFees}
+							{...convertCovalentERC20TokenTransaction(transaction)}
+						/>
+					{/each}
+				{:catch error}
+					<div class="card">
+						{error}
+					</div>
+				{/await}
+			{/if}
 		{/if}
 	</div>
 </div>
