@@ -5,10 +5,6 @@
 
 	export let token = 'ETH'
 
-	function formatDecimal(value, decimalPlaces) {
-		return value * 0.1 ** decimalPlaces
-	}
-
 	export let provider: Ethereum.Provider
 	export let address: string
 	
@@ -20,6 +16,8 @@
 	$: computedLayout = layout === 'auto'
 		? showUnderlyingAssets ? 'vertical' : 'horizontal' // 'horizontal-alternate'
 		: layout
+
+	import { formatUnits } from 'ethers/lib/utils'
 	
 	import Loading from './Loading.svelte'
 	import TokenIcon from './TokenIcon.svelte'
@@ -163,13 +161,13 @@
 								{/if}
 								{#each adapterBalance.balances as {base: baseBalance, underlying}}
 									<div class="column defi-protocol-balance">
-										<TokenValue token={baseBalance.metadata.symbol} value={formatDecimal(baseBalance.amount, baseBalance.metadata.decimals)} tokenAddress={baseBalance.metadata.token} />
+										<TokenValue token={baseBalance.metadata.symbol} value={formatUnits(baseBalance.amount, baseBalance.metadata.decimals)} tokenAddress={baseBalance.metadata.token} />
 										{#if underlying.length && showUnderlyingAssets}
 											<div class="underlying">
 												{#each underlying as underlyingBalance}
 													<p in:scaleFont>
 														<span class="underlying-symbol">┖</span>
-														<TokenValue token={underlyingBalance.metadata.symbol} value={formatDecimal(underlyingBalance.amount, underlyingBalance.metadata.decimals)} tokenAddress={underlyingBalance.metadata.token} />
+														<TokenValue token={underlyingBalance.metadata.symbol} value={formatUnits(underlyingBalance.amount, underlyingBalance.metadata.decimals)} tokenAddress={underlyingBalance.metadata.token} />
 													</p>
 												{/each}
 											</div>

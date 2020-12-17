@@ -2,6 +2,8 @@ import type { Ethereum } from '../types'
 import { getEthersJS } from '../ethers'
 import { getWeb3 } from '../web3'
 
+import { formatUnits } from 'ethers/lib/utils'
+
 type AssetPair = string
 
 // https://docs.chain.link/docs/reference-contracts
@@ -53,7 +55,7 @@ export const getChainlinkPriceFeed = async (provider: Ethereum.Provider, network
 	const {answer, answeredInRound, roundId, startedAt, updatedAt} = await priceFeedContract.latestRoundData()
 	console.log(answer.toString(), answeredInRound.toString(), roundId.toString(), startedAt.toString(), updatedAt.toString())
 	return {
-		price: ethers.utils.formatUnits(answer, 8),
+		price: formatUnits(answer, 8),
 		updatedAt: new Date(updatedAt.toString())
 	}
 }
