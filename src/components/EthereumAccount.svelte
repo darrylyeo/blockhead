@@ -107,6 +107,13 @@
 	label {
 		font-size: 0.9em;
 	}
+
+	h3 {
+		line-height: 1.6
+	}
+	/* .transactions :global(.token-value-container) {
+		font-size: 1.1em;
+	} */
 </style>
 
 <div class="card">
@@ -156,6 +163,17 @@
 			{#if !selectedToken}
 				<!-- Regular Ethereum Transactions -->
 				{#await getTransactionsByAddress({address, includeLogs: true, quoteCurrency})}
+					<div class="bar">
+						<h3>Transactions</h3>
+						<label>
+							<span>View</span>
+							<select bind:value={detailLevel}>
+								<option value="summary">Summary</option>
+								<option value="detailed">Detailed</option>
+								<option value="exhaustive">Exhaustive</option>
+							</select>
+						</label>
+					</div>
 					<Loading iconAnimation="hover">
 						<img slot="icon" src="/logos/covalent-logomark.svg" alt="Covalent" width="25">
 						<p>Fetching transactions from Covalent...</p>
@@ -195,13 +213,40 @@
 			{:else}
 				<!-- ERC-20 Transactions -->
 				{#await getERC20TokenTransfers({address, contractAddress: selectedToken.tokenAddress, quoteCurrency})}
+					<div class="bar">
+						<h3>
+							{selectedToken.tokenName}
+							(<TokenName token={selectedToken.token} tokenAddress={selectedToken.tokenAddress} tokenIcon={selectedToken.tokenIcon} />)
+							Transactions
+						</h3>
+						{#if detailLevel !== 'exhaustive'}
+							<label>
+								<input type="checkbox" bind:checked={showFees}>
+								<span>Show Fees</span>
+							</label>
+						{/if}
+						<label>
+							<span>View</span>
+							<select bind:value={detailLevel}>
+								<option value="summary">Summary</option>
+								<option value="detailed">Detailed</option>
+								<option value="exhaustive">Exhaustive</option>
+							</select>
+						</label>
+						<button on:click={() => selectedToken = undefined}>Back</button>
+					</div>
 					<Loading iconAnimation="hover">
 						<img slot="icon" src="/logos/covalent-logomark.svg" alt="Covalent" width="25">
 						<p>Fetching ERC-20 transactions from Covalent...</p>
 					</Loading>
 				{:then transactions}
 					<div class="bar">
-						<h3><TokenName token={selectedToken.token} tokenAddress={selectedToken.tokenAddress} tokenIcon={selectedToken.tokenIcon} /> Transactions ({transactions.items.length})</h3>
+						<h3>
+							{selectedToken.tokenName}
+							(<TokenName token={selectedToken.token} tokenAddress={selectedToken.tokenAddress} tokenIcon={selectedToken.tokenIcon} />)
+							Transactions
+							({transactions.items.length})
+						</h3>
 						{#if detailLevel !== 'exhaustive'}
 							<label>
 								<input type="checkbox" bind:checked={showFees}>

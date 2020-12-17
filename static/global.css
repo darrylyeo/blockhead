@@ -254,6 +254,7 @@ main {
 .bar > h2:first-child, .bar > h3:first-child {
 	overflow: hidden;
 	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 .bar > :not(:first-child) {
 	flex: 0 auto;
