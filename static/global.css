@@ -270,6 +270,12 @@ main {
 }
 
 
+.slot {
+	display: inline-flex;
+	align-items: center;
+}
+
+
 .logo {
 	font-weight: 600;
 	/* text-transform: uppercase; */

@@ -28,7 +28,7 @@
 	{#if provider && address}
 		{#await provider.getBalance(address)}
 			<Loading>
-				<span slot="icon"><TokenIcon {token} {tokenAddress} /></span>
+				<span slot="icon" class="slot"><TokenIcon {token} {tokenAddress} /></span>
 				Reading balance...
 			</Loading>
 		{:then balance}

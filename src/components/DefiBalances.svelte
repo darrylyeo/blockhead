@@ -141,7 +141,7 @@
 	{#await getDefiBalances(provider, address)}
 		<div class="stack">
 			<Loading>
-				<span slot="icon"><TokenIcon {token} /></span>
+				<span slot="icon" class="slot"><TokenIcon {token} /></span>
 				Reading DeFi balances...
 			</Loading>
 		</div>
