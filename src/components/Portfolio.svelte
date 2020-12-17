@@ -190,7 +190,7 @@
 <div class="portfolio">
 	{#if accounts}
 		{#each accounts as address, i (address)}
-			<section class="card" animate:flip|local={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
+			<section class="card" transition:scale|local animate:flip|local={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
 				<div class="bar">
 					<div class="account">
 						<div class="bar">
@@ -220,7 +220,7 @@
 				</div>
 			</section>
 		{:else}
-			<div class="card">
+			<div class="card" transition:scale|local>
 				<p>Your Blockhead Portfolio is empty!</p>
 				{#if editable}
 					<p>You can <a on:click={showAddWallet}>add a new wallet address manually</a>, or import an address by connecting a wallet service!</p>
