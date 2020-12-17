@@ -27,7 +27,7 @@
 	import TokenName from './TokenName.svelte'
 	import TokenRate from './TokenRate.svelte'
 	import TokenValue from './TokenValue.svelte'
-	import { scale } from 'svelte/transition'
+	import { scaleFont } from '../transitions/scale-font'
 </script>
 
 <style>
@@ -45,16 +45,16 @@
 
 <span class="value-with-conversion" class:is-zero={isZero} class:is-dust={isDust}>
 	{#if showValues === 'original' || showValues === 'both'}
-		<span class="value" transition:scale><!-- style="font-size: {sizeByVolume(convertedValue)}em" -->
+		<span class="value" transition:scaleFont|local><!-- style="font-size: {sizeByVolume(convertedValue)}em" -->
 			<TokenValue {token} {tokenAddress} {tokenIcon} {tokenName} {value} {showDecimalPlaces} />
 		</span>
 	{/if}
 	{#if (showValues === 'converted' || showValues === 'both')}
-		<span class="value-converted" transition:scale>
+		<span class="value-converted" transition:scaleFont|local={{delay: 300}}>
 			{#if showValues === 'both'}({/if
 			}<TokenValue token={conversionCurrency} value={convertedValue} {showDecimalPlaces}
 			/>{#if showValues === 'converted' && conversionCurrency !== token}
-				<span class="worth" transition:scale>
+				<span class="worth" transition:scaleFont|local>
 					&nbsp;in <TokenName {token} {tokenAddress} {tokenIcon} />
 				</span>
 			{/if

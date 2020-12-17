@@ -26,7 +26,7 @@
 	import TokenValue from './TokenValue.svelte'
 	
 	import { flip } from 'svelte/animate'
-	import { scale } from 'svelte/transition'
+	import { scaleFont } from '../transitions/scale-font'
 
 	const defiProtocolColors: Record<DefiSDK.ProtocolName, string[]> = {
 		'Aave': ['#77c0c7', '#b56da4'],
@@ -151,7 +151,7 @@
 		{#if defiBalances.length}
 			<div class="defi-balances">
 				{#each defiBalances as protocol, i (protocol.metadata.name)}
-					<div transition:scale animate:flip|local={{duration: 300, delay: Math.abs(i) * 10}} class="card defi-protocol layout-{computedLayout}" style="--card-background-image: {makeCardGradient(defiProtocolColors[protocol.metadata.name])})">
+					<div transition:scaleFont|local animate:flip|local={{duration: 300, delay: Math.abs(i) * 10}} class="card defi-protocol layout-{computedLayout}" style="--card-background-image: {makeCardGradient(defiProtocolColors[protocol.metadata.name])})">
 						<h4 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{protocol.metadata.description}"><img src={`https://${protocol.metadata.iconURL}`} alt={protocol.metadata.name} width="20"/> {protocol.metadata.name}</h4>
 						{#if computedLayout === 'vertical'}
 							<hr>
@@ -167,7 +167,7 @@
 										{#if underlying.length && showUnderlyingAssets}
 											<div class="underlying">
 												{#each underlying as underlyingBalance}
-													<p in:scale>
+													<p in:scaleFont>
 														<span class="underlying-symbol">┖</span>
 														<TokenValue token={underlyingBalance.metadata.symbol} value={formatDecimal(underlyingBalance.amount, underlyingBalance.metadata.decimals)} tokenAddress={underlyingBalance.metadata.token} />
 													</p>

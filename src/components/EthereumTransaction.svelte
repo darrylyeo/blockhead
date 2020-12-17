@@ -54,7 +54,8 @@
 	import EthereumTransactionId from './EthereumTransactionID.svelte'
 	import EthereumTransactionSummary from './EthereumTransactionSummary.svelte'
 	import TokenValueWithConversion from './TokenValueWithConversion.svelte'
-	import { scale } from 'svelte/transition'
+	import { fade, scale } from 'svelte/transition'
+	import { scaleFont } from '../transitions/scale-font'
 </script>
 
 
@@ -135,7 +136,7 @@
 	}
 </style>
 
-<div class="card transaction layout-{layout}" class:unsuccessful={!isSuccessful} transition:scale>
+<div class="card transaction layout-{layout}" class:unsuccessful={!isSuccessful} transition:fade|local>
 	{#if layout === 'standalone'}
 		<div class="bar">
 			<h2><EthereumTransactionId {transactionID}/></h2>
@@ -144,7 +145,7 @@
 	{/if}
 	<div class="container inner-layout-{innerLayout}">
 		{#if !isSummary}
-			<span class="sender" transition:scale>
+			<span class="sender" transition:fade|local>
 				<AddressWithLabel address={fromAddress} label={fromAddressLabel} format="middle-truncated" />
 			</span>
 		{/if}
@@ -159,18 +160,18 @@
 			</span>
 		{/if}
 		{#if isSummary && contextIsReceiver}
-			<span class="sender" transition:scale>
+			<span class="sender" transition:fade|local>
 				<span>from</span>
 				<AddressWithLabel address={fromAddress} label={fromAddressLabel} format="middle-truncated" />
 			</span>
 		{:else}
-			<span class="receiver" transition:scale>
+			<span class="receiver" transition:fade|local>
 				<span>to</span>
 				<AddressWithLabel address={toAddress} label={toAddressLabel} format="middle-truncated" />
 			</span>
 		{/if}
 		{#if (isExhaustive || showFees) && gasValue !== undefined}
-			<span class="fee" transition:scale>
+			<span class="fee" transition:fade|local>
 				<span>for fee</span>
 				<TokenValueWithConversion {showValues} token="ETH" value={gasValue} conversionCurrency={quoteToken} convertedValue={gasValueQuote} />
 			</span>
@@ -193,7 +194,7 @@
 		</div>
 	{/if}
 	{#if isExhaustive && logEvents?.length}
-		<div class="log-events">
+		<div class="log-events" transition:fade|local>
 			{#each logEvents as logEvent}
 				<EthereumLogEvent
 					{logEvent}
@@ -204,7 +205,7 @@
 		</div>
 	{/if}
 	{#if !isSummary}
-		<div class="footer bar">
+		<div class="footer bar" transition:fade|local>
 			{#if layout === 'standalone' && blockNumber}
 				<EthereumTransactionSummary {blockNumber} />
 			{:else if layout === 'inline'}
