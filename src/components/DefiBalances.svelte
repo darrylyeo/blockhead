@@ -157,18 +157,28 @@
 						{/if}
 						<div class="defi-protocol-balances column">
 							{#each protocol.adapterBalances as adapterBalance}
-								{#if adapterBalance.metadata.adapterType === 'Debt'}
+								<!-- {#if adapterBalance.metadata.adapterType === 'Debt'}
 									<h4>{adapterBalance.metadata.adapterType}</h4>
-								{/if}
+								{/if} -->
 								{#each adapterBalance.balances as {base: baseBalance, underlying}}
 									<div class="column defi-protocol-balance">
-										<TokenValue token={baseBalance.metadata.symbol} value={formatUnits(baseBalance.amount, baseBalance.metadata.decimals)} tokenAddress={baseBalance.metadata.token} />
+										<TokenValue
+											token={baseBalance.metadata.symbol}
+											tokenAddress={baseBalance.metadata.token}
+											value={formatUnits(baseBalance.amount, baseBalance.metadata.decimals)}
+											isDebt={adapterBalance.metadata.adapterType === 'Debt'}
+										/>
 										{#if underlying.length && showUnderlyingAssets}
 											<div class="underlying">
 												{#each underlying as underlyingBalance}
 													<p in:scaleFont>
 														<span class="underlying-symbol">┖</span>
-														<TokenValue token={underlyingBalance.metadata.symbol} value={formatUnits(underlyingBalance.amount, underlyingBalance.metadata.decimals)} tokenAddress={underlyingBalance.metadata.token} />
+														<TokenValue
+															token={underlyingBalance.metadata.symbol}
+															tokenAddress={underlyingBalance.metadata.token}
+															value={formatUnits(underlyingBalance.amount, underlyingBalance.metadata.decimals)}
+															isDebt={adapterBalance.metadata.adapterType === 'Debt'}
+														/>
 													</p>
 												{/each}
 											</div>

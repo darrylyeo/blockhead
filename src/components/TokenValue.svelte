@@ -10,6 +10,8 @@
 	export let value: number | string | BigInt = '...'
 	export let showDecimalPlaces = 3
 
+	export let isDebt = false
+
 	export let showPlainFiat = false
 	$: isFiat = showPlainFiat && ['USD', 'EUR', 'GBP', 'CAD', 'INR'].includes(token)
 
@@ -49,15 +51,19 @@
 		font-weight: 300;
 		font-size: 0.8em;
 	}
+
+	.is-debt {
+		color: var(--down-red);
+	}
 </style>
 
-<span class="token-value-container" title="{value} {token} ({tokenName})">
+<span class="token-value-container" class:is-debt={isDebt} title="{value} {token} ({tokenName})">
 	{#if isFiat}
 		<span class="token-value">{formatValue(value)}</span>
 	{:else}
 		<TokenIcon {token} {tokenAddress} {tokenIcon} />
 		<span>
-			<span class="token-value">{formatValue(value)}</span>
+			<span class="token-value">{isDebt ? '−' : ''}{formatValue(value)}</span>
 			<span class="token-name">{token || '___'}</span>
 		</span>
 	{/if}
