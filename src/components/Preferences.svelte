@@ -23,11 +23,18 @@
 	<h3>Preferences</h3>
 
 	<label>
+		<span>Analytics Provider:</span>
+		<select bind:value={$preferredAnalyticsProvider}>
+			<option value="Covalent">Covalent</option>
+		</select>
+	</label>
+
+	<label>
 		<span>Price Feed:</span>
 		<select bind:value={$preferredPriceFeedProvider}>
 			<option value="Chainlink">Chainlink</option>
-			<option value="Tellor">Tellor</option>
-			<option value="Open Price Feed">Compound Price Feed</option>
+			<!-- <option value="Tellor">Tellor</option>
+			<option value="Open Price Feed">Compound Price Feed</option> -->
 		</select>
 	</label>
 
@@ -38,13 +45,6 @@
 			<option value="Portis">Infura (Portis)</option>
 		</select>
 	</label>
-
-	<!-- <label>
-		<span>Analytics Provider:</span>
-		<select bind:value={$preferredAnalyticsProvider}>
-			<option value="Covalent">Covalent</option>
-		</select>
-	</label> -->
 
 	<label>
 		<span>Quote Currency:</span>
