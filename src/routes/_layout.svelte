@@ -111,6 +111,9 @@
 		border-top: 1px solid rgba(0, 0, 0, 0.2);
 		--padding-outer: 1em;
 		padding: var(--padding-outer);
+
+		max-height: 3.5rem;
+		overflow-y: auto;
 	}
 </style>
 
