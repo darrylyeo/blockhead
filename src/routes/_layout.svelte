@@ -84,9 +84,10 @@
 	}
 
 	:global(main) {
-		--bleed: 3.5rem;
+		--bleed-top: 3.5rem;
+		--bleed-bottom: 2.25rem;
 		align-content: start;
-		padding: calc(var(--bleed) + var(--padding-outer)) var(--padding-outer);
+		padding: calc(var(--bleed-top) + var(--padding-outer)) var(--padding-outer) calc(var(--bleed-bottom) + var(--padding-outer));
 	}
 
 	:global(.preferences) {
