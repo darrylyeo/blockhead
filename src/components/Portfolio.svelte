@@ -71,6 +71,7 @@
 	import EthereumBalances from './EthereumBalances.svelte'
 	import Loading from './Loading.svelte'
 	import { flip } from 'svelte/animate'
+	import { scale } from 'svelte/transition'
 </script>
 
 <style>
@@ -82,6 +83,7 @@
 
 	.edit-controls {
 		flex: 0 auto;
+		font-size: 0.7em;
 	}
 
 	form {
@@ -191,7 +193,14 @@
 			<section class="card" animate:flip|local={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
 				<div class="bar">
 					<div class="account">
-						<h3><Address {address} /></h3>
+						<div class="bar">
+							<h3><Address {address} /></h3>
+							{#if isEditing}
+								<div class="row edit-controls" transition:scale>
+									<button on:click={() => deleteWallet(i)}>Remove</button>
+								</div>
+							{/if}
+						</div>
 						{#if analyticsProvider}
 							<EthereumBalances {analyticsProvider} conversionCurrency={quoteCurrency} {sortBy} {showSmallValues} {showValues} {address} />
 						{/if}
@@ -208,11 +217,6 @@
 							<Loading>Connecting to the blockchain...</Loading>
 						{/if}
 					</div>
-					{#if isEditing}
-						<div class="edit-controls">
-							<button on:click={() => deleteWallet(i)}>Delete</button>
-						</div>
-					{/if}
 				</div>
 			</section>
 		{:else}
