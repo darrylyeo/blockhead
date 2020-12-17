@@ -30,7 +30,7 @@
 	--card-border-radius: 0.5rem;
 	--card-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.075);
 
-	--one-column-width: 60em;
+	--one-column-width: 70em;
 	--padding-outer: 1rem;
 	--padding-inner: 0.8rem;
 	
@@ -41,8 +41,10 @@
 
 	min-height: 100vh;
 
-	font-size: 20px;
-	font-size: clamp(15px, 1.1vw, 20px);
+	/* font-size: 20px;
+	font-size: clamp(15px, 1.1vw, 20px); */
+	font-size: 16px;
+	font-size: clamp(14px, 1.05vw, 19px);
 	font-family: var(--base-fonts);
 	line-height: 1.5;
 
