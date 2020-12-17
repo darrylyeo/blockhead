@@ -12,8 +12,9 @@
 	export let tokenName: string
 
 	export let value
-	$: isZero = value == 0
 	export let isDust = false
+	$: isSmallValue = convertedValue < 1e-3
+	$: isZero = value == 0
 
 	export let conversionCurrency: QuoteCurrency
 	export let convertedValue
@@ -42,12 +43,16 @@
 		white-space: nowrap;
 	}
 
-	.is-dust, .is-zero {
+	.is-dust, .is-small-value {
+		opacity: 0.55;
+	}
+	.is-zero {
+		/* opacity: 0.2; */
 		opacity: 0.55;
 	}
 </style>
 
-<span class="value-with-conversion" class:is-zero={isZero} class:is-dust={isDust}>
+<span class="value-with-conversion" class:is-dust={isDust} class:is-small-value={isSmallValue} class:is-zero={isZero}>
 	{#if showValues === 'original' || showValues === 'both'}
 		<span class="value" transition:scaleFont|local><!-- style="font-size: {sizeByVolume(convertedValue)}em" -->
 			<TokenValue {token} {tokenAddress} {tokenIcon} {tokenName} {value} {showDecimalPlaces} />

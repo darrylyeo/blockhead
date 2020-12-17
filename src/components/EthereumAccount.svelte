@@ -10,7 +10,7 @@
 	let showValues: 'original' | 'converted' | 'both' = 'original'
 	let showFees = false
 	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
-	let showZeroBalances = false
+	let showSmallValues = false
 
 	$: quoteCurrency = $preferredQuoteCurrency
 
@@ -110,8 +110,8 @@
 		<div class="bar">
 			<h3>Balances</h3>
 			<label>
-				<input type="checkbox" bind:checked={showZeroBalances}>
-				<span>Show Zero Balances</span>
+				<input type="checkbox" bind:checked={showSmallValues}>
+				<span>Show Small Values</span>
 			</label>
 			<label>
 				<span>Sort</span>
@@ -130,7 +130,7 @@
 				</select>
 			</label>
 		</div>
-		<EthereumBalances analyticsProvider={$preferredAnalyticsProvider} conversionCurrency={$preferredQuoteCurrency} {sortBy} {showZeroBalances} {showValues} {address} />
+		<EthereumBalances analyticsProvider={$preferredAnalyticsProvider} conversionCurrency={$preferredQuoteCurrency} {sortBy} {showSmallValues} {showValues} {address} />
 	</div>
 	<hr>
 	<div class="transactions">

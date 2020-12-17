@@ -54,7 +54,7 @@
 
 	let showValues: 'original' | 'converted' | 'both' = 'original'
 	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
-	let showZeroBalances = false
+	let showSmallValues = false
 
 
 	// Options menu
@@ -165,8 +165,8 @@
 				</select>
 			</label>
 			<label>
-				<input type="checkbox" bind:checked={showZeroBalances}>
-				<span>Zero Balances</span>
+				<input type="checkbox" bind:checked={showSmallValues}>
+				<span>Small Values</span>
 			</label>
 			<label>
 				<input type="checkbox" bind:checked={showUnderlyingAssets}>
@@ -193,7 +193,7 @@
 					<div class="account">
 						<h3><Address {address} /></h3>
 						{#if analyticsProvider}
-							<EthereumBalances {analyticsProvider} conversionCurrency={quoteCurrency} {sortBy} {showZeroBalances} {showValues} {address} />
+							<EthereumBalances {analyticsProvider} conversionCurrency={quoteCurrency} {sortBy} {showSmallValues} {showValues} {address} />
 						{/if}
 						{#if provider}
 							<!-- <div class="balances">

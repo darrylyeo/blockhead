@@ -8,13 +8,13 @@
 	export let address: string
 	export let conversionCurrency: QuoteCurrency
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending'
-	export let showZeroBalances = false
+	export let showSmallValues = false
 	export let showValues
 
 	let filterFunction: (b: Covalent.TokenBalance) => boolean
-	$: filterFunction = showZeroBalances
+	$: filterFunction = showSmallValues
 		? b => b.type !== 'nft' // undefined
-		: b => b.type !== 'nft' && b.type !== 'dust' // b.quote > 1e-6
+		: b => b.type !== 'nft' && !(b.type === 'dust' || b.quote < 1e-3)
 
 	let sortFunction: (a: Covalent.TokenBalance, b: Covalent.TokenBalance) => number
 	$: sortFunction =
