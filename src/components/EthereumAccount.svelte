@@ -116,9 +116,17 @@
 			<label>
 				<span>Sort</span>
 				<select bind:value={sortBy}>
+					<option value="ticker-ascending">Alphabetical</option>
 					<option value="value-descending">Highest Value</option>
 					<option value="value-ascending">Lowest Value</option>
-					<option value="ticker-ascending">Alphabetical</option>
+				</select>
+			</label>
+			<label>
+				<span>Show</span>
+				<select bind:value={showValues}>
+					<option value="original">Token Amounts</option>
+					<option value="converted">Quote Values</option>
+					<option value="both">Amounts and Values</option>
 				</select>
 			</label>
 		</div>
@@ -138,7 +146,7 @@
 					{#if detailLevel !== 'exhaustive'}
 						<label>
 							<input type="checkbox" bind:checked={showFees}>
-							<span>Fees</span>
+							<span>Show Fees</span>
 						</label>
 					{/if}
 					<label>
@@ -147,14 +155,6 @@
 							<option value="summary">Summary</option>
 							<option value="detailed">Detailed</option>
 							<option value="exhaustive">Exhaustive</option>
-						</select>
-					</label>
-					<label>
-						<span>Values</span>
-						<select bind:value={showValues}>
-							<option value="original">Original</option>
-							<option value="converted">Converted</option>
-							<option value="both">Both</option>
 						</select>
 					</label>
 				</div>
@@ -182,27 +182,19 @@
 				</Loading>
 			{:then transactions}
 				<div class="bar">
-					<h3><TokenName token="DAI" /> Transactions</h3>
+					<h3><TokenName token="DAI" /> Transactions ({transactions.items.length})</h3>
 					{#if detailLevel !== 'exhaustive'}
 						<label>
 							<input type="checkbox" bind:checked={showFees}>
-							<span>Fees</span>
+							<span>Show Fees</span>
 						</label>
 					{/if}
 					<label>
-						<span>Show</span>
+						<span>View</span>
 						<select bind:value={detailLevel}>
 							<option value="summary">Summary</option>
 							<option value="detailed">Detailed</option>
 							<option value="exhaustive">Exhaustive</option>
-						</select>
-					</label>
-					<label>
-						<span>Values</span>
-						<select bind:value={showValues}>
-							<option value="original">Original</option>
-							<option value="converted">Converted</option>
-							<option value="both">Both</option>
 						</select>
 					</label>
 				</div>

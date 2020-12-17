@@ -158,6 +158,13 @@
 		<div class="row">
 			<h3>Show</h3>
 			<label>
+				<select bind:value={showValues}>
+					<option value="original">Token Amounts</option>
+					<option value="converted">Quote Values</option>
+					<option value="both">Amounts and Values</option>
+				</select>
+			</label>
+			<label>
 				<input type="checkbox" bind:checked={showZeroBalances}>
 				<span>Zero Balances</span>
 			</label>
@@ -165,23 +172,17 @@
 				<input type="checkbox" bind:checked={showUnderlyingAssets}>
 				<span>Underlying Assets</span>
 			</label>
+		</div>
+		<div class="row">
+			<h3>Sort</h3>
 			<label>
-				<span>Values</span>
-				<select bind:value={showValues}>
-					<option value="original">Original</option>
-					<option value="converted">Converted</option>
-					<option value="both">Both</option>
+				<select bind:value={sortBy}>
+					<option value="ticker-ascending">Alphabetical</option>
+					<option value="value-descending">Highest Value</option>
+					<option value="value-ascending">Lowest Value</option>
 				</select>
 			</label>
 		</div>
-		<label>
-			<span>Sort Balances</span>
-			<select bind:value={sortBy}>
-				<option value="value-descending">Highest Value</option>
-				<option value="ticker-ascending">Alphabetical</option>
-				<option value="value-ascending">Lowest Value</option>
-			</select>
-		</label>
 	</div>
 {/if}
 <div class="portfolio">
