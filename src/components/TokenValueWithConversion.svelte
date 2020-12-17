@@ -38,6 +38,10 @@
 		font-size: 0.85em;
 	}
 
+	.value-converted {
+		white-space: nowrap;
+	}
+
 	.is-dust, .is-zero {
 		opacity: 0.55;
 	}
