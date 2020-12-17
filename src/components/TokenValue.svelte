@@ -10,7 +10,7 @@
 	export let value: number | string | BigInt = '...'
 	export let showDecimalPlaces = 3
 
-	export let showPlainFiat = true
+	export let showPlainFiat = false
 	$: isFiat = showPlainFiat && ['USD', 'EUR', 'GBP', 'CAD', 'INR'].includes(token)
 
 	const formatValue = value => {

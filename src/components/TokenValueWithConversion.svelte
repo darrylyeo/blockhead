@@ -61,7 +61,7 @@
 	{#if (showValues === 'converted' || showValues === 'both')}
 		<span class="value-converted" transition:scaleFont|local={{delay: 300}}>
 			{#if showValues === 'both'}({/if
-			}<TokenValue token={conversionCurrency} value={convertedValue} {showDecimalPlaces}
+			}<TokenValue token={conversionCurrency} value={convertedValue} {showDecimalPlaces} showPlainFiat={true}
 			/>{#if showValues === 'converted' && conversionCurrency !== token}
 				<span class="worth" transition:scaleFont|local>
 					&nbsp;in <TokenName {token} {tokenAddress} {tokenIcon} />
