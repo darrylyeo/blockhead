@@ -166,6 +166,10 @@
 					<div class="bar">
 						<h3>Transactions</h3>
 						<label>
+							<input type="checkbox" bind:checked={showFees}>
+							<span>Show Fees</span>
+						</label>
+						<label>
 							<span>View</span>
 							<select bind:value={detailLevel}>
 								<option value="summary">Summary</option>
@@ -181,12 +185,10 @@
 				{:then transactions}
 					<div class="bar">
 						<h3>Transactions ({transactions.items.length})</h3>
-						{#if detailLevel !== 'exhaustive'}
-							<label>
-								<input type="checkbox" bind:checked={showFees}>
-								<span>Show Fees</span>
-							</label>
-						{/if}
+						<label>
+							<input type="checkbox" bind:checked={showFees}>
+							<span>Show Fees</span>
+						</label>
 						<label>
 							<span>View</span>
 							<select bind:value={detailLevel}>

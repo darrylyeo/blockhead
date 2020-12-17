@@ -170,7 +170,7 @@
 				<AddressWithLabel address={toAddress} label={toAddressLabel} format="middle-truncated" />
 			</span>
 		{/if}
-		{#if (isExhaustive || showFees) && gasValue !== undefined}
+		{#if showFees && gasValue !== undefined}
 			<span class="fee" transition:fade|local>
 				<span>for fee</span>
 				<TokenValueWithConversion {showValues} token="ETH" value={gasValue} conversionCurrency={quoteToken} convertedValue={gasValueQuote} />
