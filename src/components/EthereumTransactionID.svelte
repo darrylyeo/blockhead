@@ -17,10 +17,10 @@
 	.transaction-id {
 		font-family: var(--monospace-fonts), var(--base-fonts);
 
-		display: inline-block;
+		/* display: inline-block;
 		max-width: 100%;
 		overflow: hidden;
-		text-overflow: ellipsis;
+		text-overflow: ellipsis; */
 	}
 </style>
 

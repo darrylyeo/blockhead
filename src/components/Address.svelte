@@ -18,10 +18,10 @@
 		font-family: var(--monospace-fonts), var(--base-fonts);
 		font-size: 0.95em;
 
-		display: inline-block;
+		/* display: inline-block;
 		max-width: 100%;
 		overflow: hidden;
-		text-overflow: ellipsis;
+		text-overflow: ellipsis; */
 	}
 </style>
 

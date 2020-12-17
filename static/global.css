@@ -249,6 +249,10 @@ main {
 .bar > :first-child {
 	flex: 1;
 }
+.bar > h2:first-child, .bar > h3:first-child {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
 .bar > :not(:first-child) {
 	flex: 0 auto;
 }
