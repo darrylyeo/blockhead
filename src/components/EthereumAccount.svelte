@@ -104,7 +104,7 @@
 		/* --padding-inner: 1.25em; */
 		--padding-inner: 1em;
 	}
-	label {
+	label, button {
 		font-size: 0.9em;
 	}
 
