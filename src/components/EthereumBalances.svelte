@@ -14,7 +14,7 @@
 	let filterFunction: (b: Covalent.TokenBalance) => boolean
 	$: filterFunction = showSmallValues
 		? b => b.type !== 'nft' // undefined
-		: b => b.type !== 'nft' && !(b.type === 'dust' || b.quote < 1e-3)
+		: b => b.type !== 'nft' && !(/*b.type === 'dust' || */ b.quote < 1e-3)
 
 	let sortFunction: (a: Covalent.TokenBalance, b: Covalent.TokenBalance) => number
 	$: sortFunction =
@@ -72,11 +72,12 @@
 						tokenIcon={logo_url}
 						tokenName={contract_name}
 						value={balance * 0.1 ** contract_decimals}
-						isDust={type === 'dust'}
+						isDust={false}
 						{conversionCurrency}
 						convertedValue={quote}
 						conversionRate={quote_rate}
-						/>
+					/>
+					<!-- isDust={type === 'dust'} -->
 				</span>
 			{/each}
 		{:catch error}
