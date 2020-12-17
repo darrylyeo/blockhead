@@ -86,7 +86,7 @@
 		overflow-y: auto;
 	}
 	main > * {
-		flex: 1 25rem;
+		flex: 1 30rem;
 		max-width: 45rem;
 	}
 	section {
