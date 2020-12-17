@@ -32,7 +32,7 @@
 			return
 
 		const newAccount = newWalletAddress
-		accounts = [...accounts, newAccount] // accounts.push(newAccount)
+		accounts = [newAccount, ...accounts]
 
 		isAddingWallet = false
 		newWalletAddress = ''
