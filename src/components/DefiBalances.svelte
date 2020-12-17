@@ -112,7 +112,7 @@
 		flex-wrap: wrap;
 	}
 	.card.layout-horizontal > :first-child {
-		flex: 1;
+		flex: 1 auto;
 	}
 	.card.layout-horizontal-alternate {
 		display: flex;
