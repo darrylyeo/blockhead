@@ -18,7 +18,7 @@
 	const toggleEdit = () => isEditing = !isEditing
 
 	let isAddingWallet = false
-	const showAddWallet = () => isAddingWallet = true
+	const toggleAddWallet = () => isAddingWallet = !isAddingWallet
 
 	function isValid(address){
 		return address !== ''
@@ -86,13 +86,9 @@
 		font-size: 0.7em;
 	}
 
-	form {
-		display: contents;
-	}
-
-	form :global(.address-field) {
+	/* form :global(.address-field) {
 		width: 16rem;
-	}
+	} */
 
 	.account {
 		--padding-inner: 0.75em;
@@ -139,17 +135,13 @@
 <div class="bar">
 	<h1>{name}</h1>
 	{#if editable}
-		{#if isAddingWallet}
-			<form on:submit|preventDefault={() => addWallet(newWalletAddress)}>
-				<AddressField bind:address={newWalletAddress} autofocus required/>
-				<button>Add</button>
-				<button>Cancel</button>
-			</form>
-		{:else if isEditing}
+		{#if isEditing}
 			<button on:click={toggleEdit}>Done</button>
 		{:else}
+			{#if !isAddingWallet}
+				<button on:click={toggleAddWallet} transition:scale>+ Add Wallet</button>
+			{/if}
 			<button on:click={toggleEdit}>Edit</button>
-			<button on:click={showAddWallet}>+ Add Wallet</button>
 		{/if}
 	{/if}
 	<!-- <button on:click={toggleShowOptions}>Options</button> -->
@@ -189,6 +181,13 @@
 {/if}
 <div class="portfolio">
 	{#if accounts}
+		{#if isAddingWallet}
+			<form class="card bar" on:submit|preventDefault={() => {addWallet(newWalletAddress); isAddingWallet = false; newWalletAddress = ''}} transition:scale>
+				<AddressField bind:address={newWalletAddress} autofocus required/>
+				<button>Add</button>
+				<button on:click={() => isAddingWallet = false}>Cancel</button>
+			</form>
+		{/if}
 		{#each accounts as address, i (address)}
 			<section class="card" transition:scale|local animate:flip|local={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
 				<div class="bar">
@@ -223,7 +222,7 @@
 			<div class="card" transition:scale|local>
 				<p>Your Blockhead Portfolio is empty!</p>
 				{#if editable}
-					<p>You can <a on:click={showAddWallet}>add a new wallet address manually</a>, or import an address by connecting a wallet service!</p>
+					<p>You can <a on:click={() => isAddingWallet = true}>add a new wallet address manually</a>, or import an address by connecting a wallet service!</p>
 				{/if}
 			</div>
 		{/each}
