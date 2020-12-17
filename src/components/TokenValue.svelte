@@ -39,6 +39,12 @@
 		gap: var(--padding-inner);
 	}
 
+	.token-value-container > * {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
 	.token-name {
 		font-weight: 300;
 		font-size: 0.8em;
