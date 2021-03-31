@@ -68,6 +68,7 @@
 	import Portfolio from '../../components/Portfolio.svelte'
 	import Preferences from '../../components/Preferences.svelte'
 	import { fly } from 'svelte/transition'
+	import { assets } from '$app/paths'
 </script>
 
 <style>
@@ -141,9 +142,9 @@
 		<section class="metamask">
 			{#if metaMaskAccountsPromise}
 				{#await metaMaskAccountsPromise}
-					<h1><img src="/logos/metamask.svg" alt="MetaMask" class="metamask-logo"> Wallet</h1>
+					<h1><img src="{assets}/logos/metamask.svg" alt="MetaMask" class="metamask-logo"> Wallet</h1>
 					<Loading iconAnimation="hover">
-						<img slot="icon" src="/logos/metamask-icon.svg">
+						<img slot="icon" src="{assets}/logos/metamask-icon.svg">
 						Log into MetaMask via the pop-up window.
 					</Loading>
 				{:then accounts}
@@ -151,7 +152,7 @@
 						<button on:click={disconnectMetaMaskProvider}>Disconnect</button>
 					</Portfolio>
 				{:catch error}
-					<h1><img src="/logos/metamask.svg" alt="MetaMask" class="metamask-logo"> Wallet</h1>
+					<h1><img src="{assets}/logos/metamask.svg" alt="MetaMask" class="metamask-logo"> Wallet</h1>
 					<div class="card">
 						<p>We couldn't connect your MetaMask Account: <strong>{error.message ?? error}</strong></p>
 						<button on:click={loadMetaMaskAccounts}>Try Again</button>
@@ -160,11 +161,11 @@
 				{/await}
 			{:else}
 				<div class="bar">
-					<h1><img src="/logos/metamask-icon.svg" alt="MetaMask" class="metamask-logo"> MetaMask Wallet</h1>
+					<h1><img src="{assets}/logos/metamask-icon.svg" alt="MetaMask" class="metamask-logo"> MetaMask Wallet</h1>
 					<button on:click={loadMetaMaskAccounts}>Connect</button>
 				</div>
 				<div class="card">
-					<img src="/logos/metamask.svg" alt="MetaMask" width="200">
+					<img src="{assets}/logos/metamask.svg" alt="MetaMask" width="200">
 					<p>Create or import a wallet address by connecting the MetaMask browser extension.</p>
 				</div>
 			{/if}
@@ -173,9 +174,9 @@
 		<section class="portis">
 			{#if portisProvider}
 				{#await getEthersAccounts(portisProvider)}
-					<h1><img src="/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>
+					<h1><img src="{assets}/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>
 					<Loading>
-						<!-- <img slot="icon" src="/logos/portis-icon.svg" width=""> -->
+						<!-- <img slot="icon" src="{assets}/logos/portis-icon.svg" width=""> -->
 						Log into Portis via the pop-up window.
 					</Loading>
 				{:then accounts}
@@ -184,20 +185,19 @@
 						<button on:click={disconnectPortisProvider}>Disconnect</button>
 					</Portfolio>
 				{:catch error}
-					<h1><img src="/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>
+					<h1><img src="{assets}/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>
 					<div class="card">
-						<p>We couldn't connect your Portis.io Account: <strong>{error}</strong></p>
 						<button on:click={loadPortisProvider}>Try Again</button>
 						<button on:click={disconnectPortisProvider}>Cancel</button>
 					</div>
 				{/await}
 			{:else}
 				<div class="bar">
-					<h1><img src="/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>
+					<h1><img src="{assets}/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>
 					<button on:click={loadPortisProvider}>Connect</button>
 				</div>
 				<div class="card">
-					<img src="/logos/portis.svg" alt="Portis" width="200">
+					<img src="{assets}/logos/portis.svg" alt="Portis" width="200">
 					<p>Create or import a wallet address by connecting a Portis.io account.</p>
 				</div>
 			{/if}

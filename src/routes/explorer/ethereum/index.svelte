@@ -3,8 +3,8 @@
 	import { getContext, onMount } from 'svelte'
 	import { readable } from 'svelte/store'
 	import { preferredAnalyticsProvider, preferredQuoteCurrency, preferredPriceFeedProvider } from '../../../data/ethereum/preferences'
-	// import { getCompoundPriceFeed } from '.../../../data/ethereum/price/compound-price-feed'
-	import { getChainlinkPriceFeed } from '.../../../data/ethereum/price/chainlink'
+	// import { getCompoundPriceFeed } from '../../../data/ethereum/price/compound-price-feed'
+	import { getChainlinkPriceFeed } from '../../../data/ethereum/price/chainlink'
 	
 	const provider = getContext<Ethereum.Provider>('provider')
 
@@ -21,6 +21,7 @@
 	import Loading from '../../../components/Loading.svelte'
 	import PriceChart from '../../../components/PriceChart.svelte'
 	import TokenRate from '../../../components/TokenRate.svelte'
+	import { assets } from '$app/paths'
 
 	let isMounted = false
 	onMount(() => isMounted = true)
@@ -84,7 +85,7 @@
 	<!-- {#if isMounted}
 		{#await getCompoundPriceFeed('ETH', $preferredQuoteCurrency)}
 			<Loading>
-				<img slot="icon" src="/logos/chainlink" alt="Chainlink" width="50">
+				<img slot="icon" src="{assets}/logos/chainlink" alt="Chainlink" width="50">
 				Retrieving price...
 			</Loading>
 		{:then rate}

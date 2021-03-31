@@ -16,9 +16,10 @@
 	let domainsContaining: ENS.Domain[]
 
 	const sortByLength = (a, b) => a.name.length - b.name.length
-	
+
 	import EnsDomain from './EnsDomain.svelte'
 	import Loading from './Loading.svelte'
+	import { assets } from '$app/paths'
 </script>
 
 <style>
@@ -31,7 +32,7 @@
 	{#if domainQuery && $domainQuery}
 		{#if $domainQuery.loading}
 			<Loading iconAnimation="hover">
-				<img slot="icon" src="/logos/ens.svg" alt="The Graph" width="25">
+				<img slot="icon" src="{assets}/logos/ens.svg" alt="The Graph" width="25">
 				<p>Querying the Ethereum Name Service...</p>
 			</Loading>
 		{:else if domains = $domainQuery.data?.domains}

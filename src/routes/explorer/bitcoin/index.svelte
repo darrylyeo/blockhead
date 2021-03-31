@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getContext, onMount } from 'svelte'
 	import { preferredQuoteCurrency, preferredPriceFeedProvider } from '../../../data/ethereum/preferences'
-	import { getChainlinkPriceFeed } from '.../../../data/ethereum/price/chainlink'
+	import { getChainlinkPriceFeed } from '../../../data/ethereum/price/chainlink'
 	
 	const provider = getContext('provider')
 
@@ -11,6 +11,7 @@
 
 	import Loading from '../../../components/Loading.svelte'
 	import TokenRate from '../../../components/TokenRate.svelte'
+	import { assets } from '$app/paths'
 </script>
 
 <style>

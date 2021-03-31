@@ -10,6 +10,7 @@
 	import Date from './Date.svelte'
 	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
 	import Loading from './Loading.svelte'
+	import { assets } from '$app/paths'
 </script>
 
 <div class="card">
@@ -22,7 +23,7 @@
 	{#if analyticsProvider === 'Covalent'}
 		{#await getBlock({blockNumber})}
 			<Loading iconAnimation="hover">
-				<img slot="icon" src="/logos/covalent-logomark.svg" alt="Covalent" width="25">
+				<img slot="icon" src="{assets}/logos/covalent-logomark.svg" alt="Covalent" width="25">
 				<p>Fetching block data from Covalent...</p>
 			</Loading>
 		{:then block}

@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { getContext, onMount, setContext } from 'svelte'
 	import { writable, derived } from 'svelte/store'
-	import { goto } from '@sapper/app'
+	import { base } from '$app/paths'
+	import { goto } from '$app/navigation'
 
 	import type { Ethereum } from '../../../data/ethereum/types'
 	import { ethereumNetwork, preferredAnalyticsProvider, preferredEthereumProvider } from '../../../data/ethereum/preferences'
@@ -50,7 +51,7 @@
 
 
 <!-- <AddressField bind:query={$query} on:change={goto(`explorer/ethereum/${query}`)}/> -->
-<form on:submit|preventDefault={() => goto(`explorer/ethereum/${$query}`)}>
+<form on:submit|preventDefault={() => goto(`${base}/explorer/ethereum/${$query}`)}>
 	<AddressField bind:address={$query}/>
 	<button>Go</button>
 </form>

@@ -1,14 +1,14 @@
 <script lang="ts">
-	import { goto } from '@sapper/app'
-	
-	export let segment: string
-	let blockchain = segment || 'ethereum'
+	import { browser } from '$app/env'
+	import { base } from '$app/paths'
+	import { goto } from '$app/navigation'
+	import { page } from '$app/stores'
 
-	$: console.log('Explorer segment', segment)
-	if(segment === undefined && globalThis.document)
-		goto(`explorer/${blockchain}`)
+	let blockchain = $page.path.match('/explorer/(.+)')?.[1] || 'ethereum'
+	$: if(browser && $page.path === `${base}/explorer`)
+		goto(`${base}/explorer/${blockchain}`)
 	
-	$: if(globalThis.document)
+	$: if(browser && tokenColors[blockchain])
 		document.documentElement.style.setProperty('--primary-color', `var(--${tokenColors[blockchain]})`)
 
 	$: blockchainDisplayName = blockchain[0].toUpperCase() + blockchain.slice(1)
@@ -35,7 +35,7 @@
 		<label>
 			<span>Blockchain: </span>
 			<!-- <select bind:value={blockchain}> -->
-			<select bind:value={blockchain} on:input={() => globalThis.requestAnimationFrame(() => goto(`explorer/${blockchain}`))}>
+			<select bind:value={blockchain} on:input={() => globalThis.requestAnimationFrame(() => goto(`${base}/explorer/${blockchain}`))}>
 				<option value="bitcoin">Bitcoin</option>
 				<option value="ethereum" selected>Ethereum</option>
 			</select>

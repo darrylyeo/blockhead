@@ -1,5 +1,6 @@
 import { readable } from 'svelte/store'
-import { gql, NormalizedCacheObject } from '@apollo/client/core'
+import type { NormalizedCacheObject } from '@apollo/client/core'
+import { gql } from '@apollo/client/core'
 import { ApolloClient, HttpLink, InMemoryCache, split } from '@apollo/client/core'
 import { getMainDefinition } from '@apollo/client/utilities'
 import { WebSocketLink } from '@apollo/client/link/ws'

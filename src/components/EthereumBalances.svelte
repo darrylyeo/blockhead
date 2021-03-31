@@ -37,6 +37,7 @@
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
 	import { quintOut } from 'svelte/easing'
+	import { assets } from '$app/paths'
 </script>
 
 <style>		
@@ -81,7 +82,7 @@
 	{#if analyticsProvider === 'Covalent' && address}
 		{#await getTokenAddressBalances({address, nft: false, quoteCurrency: conversionCurrency})}
 			<Loading iconAnimation="hover">
-				<img slot="icon" src="/logos/covalent-logomark.svg" alt="Covalent" width="25">
+				<img slot="icon" src="{assets}/logos/covalent-logomark.svg" alt="Covalent" width="25">
 				Retrieving balances from Covalent...
 			</Loading>
 		{:then balances}

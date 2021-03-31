@@ -92,6 +92,7 @@
 	import EthereumTransaction from './EthereumTransaction.svelte'
 	import Loading from './Loading.svelte'
 	import TokenName from './TokenName.svelte'
+	import { assets } from '$app/paths'
 </script>
 
 <style>
@@ -179,7 +180,7 @@
 						</label>
 					</div>
 					<Loading iconAnimation="hover">
-						<img slot="icon" src="/logos/covalent-logomark.svg" alt="Covalent" width="25">
+						<img slot="icon" src="{assets}/logos/covalent-logomark.svg" alt="Covalent" width="25">
 						<p>Fetching transactions from Covalent...</p>
 					</Loading>
 				{:then transactions}
@@ -238,7 +239,7 @@
 						<button on:click={() => selectedToken = undefined}>Back</button>
 					</div>
 					<Loading iconAnimation="hover">
-						<img slot="icon" src="/logos/covalent-logomark.svg" alt="Covalent" width="25">
+						<img slot="icon" src="{assets}/logos/covalent-logomark.svg" alt="Covalent" width="25">
 						<p>Fetching ERC-20 transactions from Covalent...</p>
 					</Loading>
 				{:then transactions}

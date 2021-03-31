@@ -1,4 +1,4 @@
-<script context="module">
+<!-- <script context="module">
 	import { env } from '../config-secrets'
 		
 	// https://github.com/sveltejs/sapper/issues/122#issuecomment-619770615
@@ -6,12 +6,15 @@
 		if(session.env)
 			Object.assign(env, session.env)
 	}
-</script>
+</script> -->
 
 <script lang="ts">
 	import Nav from '../components/Nav.svelte'
 
 	export let segment: string
+
+	import '../app.css';
+	import '../fonts.css';
 </script>
 
 <style>

@@ -24,6 +24,7 @@
 	})[provider]
 
 	import Loading from "./Loading.svelte"
+	import { assets } from '$app/paths'
 </script>
 
 <style>
