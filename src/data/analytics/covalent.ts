@@ -17,8 +17,9 @@ export namespace Covalent {
 
 	export type Day = string // 'YYYY-MM-DD'
 
+	// https://covalenthq.com/docs/networks
+	export type ChainID = 1 | 137 | 43114 | 56 | 250 | 80001 | 43113
 	export type QuoteCurrency = 'USD' | 'CAD' | 'EUR' | 'SGD' | 'INR' | 'JPY' | 'VND' | 'CNY' | 'KRW' | 'RUB' | 'TRY' | 'ETH'
-
 
 	type Pagination = {
 		has_more: boolean // true if we can paginate to get more data.
@@ -370,7 +371,7 @@ export namespace Covalent {
 }
 
 type ChainIDParameters = {
-	chainID: Ethereum.ChainID
+	chainID: Covalent.ChainID
 }
 type QuoteCurrencyParameters = {
 	quoteCurrency?: Covalent.QuoteCurrency
