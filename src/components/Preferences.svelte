@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '../data/currency/currency'
 	import { preferredAnalyticsProvider, preferredQuoteCurrency, preferredEthereumProvider, preferredPriceFeedProvider } from '../data/ethereum/preferences'
 </script>
 
@@ -50,15 +51,14 @@
 		<span>Quote Currency:</span>
 		<select bind:value={$preferredQuoteCurrency}>
 			<optgroup label="Fiat Currencies">
-				<option value="USD">US Dollar ($)</option>
-				<option value="GBP">British Pound (£)</option>
-				<option value="CAD">Canadian Dollar (CA$)</option>
-				<option value="INR">Indian Rupee (₹)</option>
-				<option value="EUR">Euro (€)</option>
+				{#each Object.values(fiatQuoteCurrencies) as currency}
+					<option value={currency.isoCode}>{currency.name} ({currency.symbol})</option>
+				{/each}
 			</optgroup>
 			<optgroup label="Cryptocurrencies">
-				<option value="BTC">Bitcoin (BTC)</option>
-				<option value="ETH">Ethereum (ETH)</option>
+				{#each Object.values(cryptoQuoteCurrencies) as currency}
+					<option value={currency.isoCode}>{currency.name} ({currency.symbol})</option>
+				{/each}
 			</optgroup>
 		</select>
 	</label>

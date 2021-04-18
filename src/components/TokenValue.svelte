@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { TickerSymbol } from '../data/currency/currency'
+	import { fiatQuoteCurrencies } from '../data/currency/currency'
 
 	export let token: TickerSymbol
 	export let tokenAddress: Ethereum.ContractAddress
@@ -13,7 +14,7 @@
 	export let isDebt = false
 
 	export let showPlainFiat = false
-	$: isFiat = showPlainFiat && ['USD', 'EUR', 'GBP', 'CAD', 'INR'].includes(token)
+	$: isFiat = showPlainFiat && token in fiatQuoteCurrencies
 
 	const formatValue = value => {
 		try {

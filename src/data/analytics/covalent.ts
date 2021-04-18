@@ -1,12 +1,10 @@
 import type { Token } from 'graphql'
-import type { QuoteCurrency, TickerSymbol } from '../currency/currency'
+import type { TickerSymbol } from '../currency/currency'
 import type { Ethereum } from '../ethereum/types'
 
 import { COVALENT_URL } from '../../config'
 import { env } from '../../config-secrets'
 const { COVALENT_API_KEY } = env
-
-// type QuoteCurrency = 'USD' | 'CAD'| 'INR' | 'ETH' | 'EUR'
 
 // https://www.covalenthq.com/docs/api/
 export namespace Covalent {
@@ -18,6 +16,8 @@ export namespace Covalent {
 	type date_time = Date
 
 	export type Day = string // 'YYYY-MM-DD'
+
+	export type QuoteCurrency = 'USD' | 'CAD' | 'EUR' | 'SGD' | 'INR' | 'JPY' | 'VND' | 'CNY' | 'KRW' | 'RUB' | 'TRY' | 'ETH'
 
 
 	type Pagination = {
@@ -403,7 +403,7 @@ const makeRequest = <T>(endpoint: string, params: any) =>
 
 export const getTokenAddressBalances = (
 	{address, nft, quoteCurrency}:
-	{address: Ethereum.Address, nft?: boolean, quoteCurrency?: QuoteCurrency}
+	{address: Ethereum.Address, nft?: boolean, quoteCurrency?: Covalent.QuoteCurrency}
 ) =>
 	makeRequest<Covalent.TokenBalances>(`/v1/1/address/${address}/balances_v2`, {nft, quoteCurrency})
 
@@ -412,67 +412,67 @@ export const getTokenAddressBalances = (
 
 export const getAaveBalances = (
 	{address, quoteCurrency}:
-	{address: Ethereum.Address, quoteCurrency?: QuoteCurrency}
+	{address: Ethereum.Address, quoteCurrency?: Covalent.QuoteCurrency}
 ) =>
 	makeRequest<Covalent.AaveBalances>(`/v1/1/address/${address}/stacks/aave/balances`, {quoteCurrency})
 
 export const getBalancerBalances = (
 	{address, quoteCurrency}:
-	{address: Ethereum.Address, quoteCurrency?: QuoteCurrency}
+	{address: Ethereum.Address, quoteCurrency?: Covalent.QuoteCurrency}
 ) =>
 	makeRequest<Covalent.BalancerBalances>(`/v1/1/address/${address}/stacks/balancer/balances`, {quoteCurrency})
 
 export const getCompoundActivity = (
 	{address, quoteCurrency}:
-	{address: Ethereum.Address, quoteCurrency?: QuoteCurrency}
+	{address: Ethereum.Address, quoteCurrency?: Covalent.QuoteCurrency}
 ) =>
 	makeRequest<Covalent.CompoundActivity>(`/v1/1/address/${address}/stacks/compound/acts`, {quoteCurrency})
 
 export const getCompoundBalances = (
 	{address, quoteCurrency}:
-	{address: Ethereum.Address, quoteCurrency?: QuoteCurrency}
+	{address: Ethereum.Address, quoteCurrency?: Covalent.QuoteCurrency}
 ) =>
 	makeRequest<Covalent.CompoundBalances>(`/v1/1/address/${address}/stacks/compound/balances`, {quoteCurrency})
 
 export const getCurveBalances = (
 	{address, quoteCurrency}:
-	{address: Ethereum.Address, quoteCurrency?: QuoteCurrency}
+	{address: Ethereum.Address, quoteCurrency?: Covalent.QuoteCurrency}
 ) =>
 	makeRequest<Covalent.CurveBalances>(`/v1/1/address/${address}/stacks/curve/balances`, {quoteCurrency})
 
 export const getMakerBalances = (
 	{address, quoteCurrency}:
-	{address: Ethereum.Address, quoteCurrency?: QuoteCurrency}
+	{address: Ethereum.Address, quoteCurrency?: Covalent.QuoteCurrency}
 ) =>
 	makeRequest<Covalent.MakerBalances>(`/v1/1/address/${address}/stacks/makerdao`, {quoteCurrency})
 
 export const getUniswapV1Balances = (
 	{address, quoteCurrency}:
-	{address: Ethereum.Address, quoteCurrency?: QuoteCurrency}
+	{address: Ethereum.Address, quoteCurrency?: Covalent.QuoteCurrency}
 ) =>
 	makeRequest<Covalent.UniswapV1Balances>(`/v1/1/address/${address}/stacks/uniswap_v1/balances`, {quoteCurrency})
 
 export const getUniswapV1Transactions = (
 	{address, quoteCurrency}:
-	{address: Ethereum.Address, quoteCurrency?: QuoteCurrency}
+	{address: Ethereum.Address, quoteCurrency?: Covalent.QuoteCurrency}
 ) =>
 	makeRequest<Covalent.UniswapV2LiquidityTransactions>(`/v1/1/address/${address}/stacks/uniswap_v2/acts`, {quoteCurrency})
 
 export const getUniswapV2Balances = (
 	{address, quoteCurrency}:
-	{address: Ethereum.Address, quoteCurrency?: QuoteCurrency}
+	{address: Ethereum.Address, quoteCurrency?: Covalent.QuoteCurrency}
 ) =>
 	makeRequest<Covalent.UniswapV1Balances>(`/v1/1/address/${address}/stacks/uniswap_v2/balances`, {quoteCurrency})
 
 export const getTransactionsByAddress = (
 	{address, includeLogs = false, pageNumber, pageSize, quoteCurrency}:
-	{address: Ethereum.Address, includeLogs?: boolean, pageNumber?: number, pageSize?: number, quoteCurrency?: QuoteCurrency}
+	{address: Ethereum.Address, includeLogs?: boolean, pageNumber?: number, pageSize?: number, quoteCurrency?: Covalent.QuoteCurrency}
 ) =>
 	makeRequest<Covalent.Transactions>(`/v1/1/address/${address}/transactions_v2`, {noLogs: !includeLogs, pageNumber, pageSize, quoteCurrency})
 
 export const getERC20TokenTransfers = (
 	{address, contractAddress, pageNumber, pageSize, quoteCurrency}:
-	{address: Ethereum.Address, contractAddress: Ethereum.ContractAddress, pageNumber?: number, pageSize?: number, quoteCurrency?: QuoteCurrency}
+	{address: Ethereum.Address, contractAddress: Ethereum.ContractAddress, pageNumber?: number, pageSize?: number, quoteCurrency?: Covalent.QuoteCurrency}
 ) =>
 	makeRequest<Covalent.ERC20TokenTransfers>(`/v1/1/address/${address}/transfers_v2`, {contractAddress, pageNumber, pageSize, quoteCurrency})
 
@@ -485,19 +485,19 @@ export const getBlock = (
 
 export const getLogEventsByContract = (
 	{contractAddress, startingBlock, endingBlock, pageNumber, pageSize, quoteCurrency}:
-	{contractAddress: Ethereum.ContractAddress, startingBlock: Ethereum.BlockNumber, endingBlock: Ethereum.BlockNumber, pageNumber?: number, pageSize?: number, quoteCurrency?: QuoteCurrency}
+	{contractAddress: Ethereum.ContractAddress, startingBlock: Ethereum.BlockNumber, endingBlock: Ethereum.BlockNumber, pageNumber?: number, pageSize?: number, quoteCurrency?: Covalent.QuoteCurrency}
 ) =>
 	makeRequest<Covalent.LogEvents>(`/v1/1/events/address/${contractAddress}`, {startingBlock, endingBlock, pageNumber, pageSize, quoteCurrency})
 
 export const getLogEventsByTopicHash = (
 	{topic, startingBlock, endingBlock, senderAddress, pageNumber, pageSize, quoteCurrency}:
-	{topic: string | string[], startingBlock: Ethereum.BlockNumber, endingBlock: Ethereum.BlockNumber, senderAddress?: Ethereum.Address, pageNumber?: number, pageSize?: number, quoteCurrency?: QuoteCurrency}
+	{topic: string | string[], startingBlock: Ethereum.BlockNumber, endingBlock: Ethereum.BlockNumber, senderAddress?: Ethereum.Address, pageNumber?: number, pageSize?: number, quoteCurrency?: Covalent.QuoteCurrency}
 ) =>
 	makeRequest<Covalent.LogEvents>(`/v1/1/events/topics/${topic}`, {startingBlock, endingBlock, senderAddress, pageNumber, pageSize, quoteCurrency})
 
 export const getTransaction = (
 	{transactionHash, includeLogs = false, pageNumber, pageSize, quoteCurrency}:
-	{transactionHash: Ethereum.TransactionID, includeLogs?: boolean, pageNumber?: number, pageSize?: number, quoteCurrency?: QuoteCurrency}
+	{transactionHash: Ethereum.TransactionID, includeLogs?: boolean, pageNumber?: number, pageSize?: number, quoteCurrency?: Covalent.QuoteCurrency}
 ) =>
 	makeRequest<Covalent.Transactions>(`/v1/1/transaction_v2/${transactionHash}`, {noLogs: !includeLogs, pageNumber, pageSize, quoteCurrency})
 
@@ -510,7 +510,7 @@ export const getTransaction = (
 
 export const getHistoricalPrices = (
 	{quoteCurrency, tickerSymbol, from, to, pageNumber, pageSize}:
-	{quoteCurrency: QuoteCurrency, tickerSymbol: TickerSymbol, from: Covalent.Day, to: Covalent.Day, pageNumber?: number, pageSize?: number}
+	{quoteCurrency: Covalent.QuoteCurrency, tickerSymbol: TickerSymbol, from: Covalent.Day, to: Covalent.Day, pageNumber?: number, pageSize?: number}
 ) =>
 	makeRequest<Covalent.HistoricalPrices>(`/v1/pricing/historical/${quoteCurrency}/${tickerSymbol}`, {from, to, pageNumber, pageSize})
 
