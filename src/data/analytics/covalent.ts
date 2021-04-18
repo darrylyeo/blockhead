@@ -18,7 +18,8 @@ export namespace Covalent {
 	export type Day = string // 'YYYY-MM-DD'
 
 	// https://covalenthq.com/docs/networks
-	export type ChainID = 1 | 137 | 43114 | 56 | 250 | 80001 | 43113
+	export const ChainIDs = [1, 137, 43114, 56, 250, 80001, 43113] as const
+	export type ChainID = typeof ChainIDs[number]
 	export type QuoteCurrency = 'USD' | 'CAD' | 'EUR' | 'SGD' | 'INR' | 'JPY' | 'VND' | 'CNY' | 'KRW' | 'RUB' | 'TRY' | 'ETH'
 
 	type Pagination = {
