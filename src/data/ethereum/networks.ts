@@ -1,6 +1,6 @@
 import { Ethereum } from './types'
 
-const networks: Ethereum.Network[] = [
+export const networks: Ethereum.Network[] = [
 	{
 		"name": "Ethereum Mainnet",
 		"chainId": 1,
@@ -1900,3 +1900,7 @@ const networks: Ethereum.Network[] = [
 		"infoURL": "https://testnet.wanscan.org"
 	}
 ]
+
+export const networksByChainID = {}
+for(const network of networks)
+	networksByChainID[network.chainId] = network
