@@ -34,6 +34,7 @@
 		undefined
 
 	import Loading from './Loading.svelte'
+	import TokenValue from './TokenValue.svelte'
 	import TokenValueWithConversion from './TokenValueWithConversion.svelte'
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
@@ -88,8 +89,10 @@
 		{:then balances}
 			{#each [(filterFunction ? balances.items.filter(filterFunction) : balances.items).sort(sortFunction)] as items}
 				{#if items.length}
-					<hr>
-					<h4>{network.name}</h4>
+					<div class="bar">
+						<h4>{network.name}</h4>
+						<TokenValue token={conversionCurrency} value={items.reduce((sum, item) => sum + item.quote, 0)} showPlainFiat={true} />
+					</div>
 					<div class="ethereum-balances card">
 						{#each
 							items
