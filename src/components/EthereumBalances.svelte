@@ -83,50 +83,58 @@
 		{#await getTokenAddressBalances({address, nft: false, chainID: network.chainId, quoteCurrency: conversionCurrency})}
 			<Loading iconAnimation="hover">
 				<img slot="icon" src="/logos/covalent-logomark.svg" alt="Covalent" width="25">
-				Retrieving {network.name} balances from Covalent...
+				Retrieving {network.name} balances from {analyticsProvider}...
 			</Loading>
 		{:then balances}
-			<h4>{network.name}</h4>
-			<div class="ethereum-balances card">
-				{#each
-					(filterFunction ? balances.items.filter(filterFunction) : balances.items).sort(sortFunction)
-					as {type, balance, quote, quote_rate, contract_name, contract_address, contract_decimals, contract_ticker_symbol, logo_url},
-					i (contract_address || contract_ticker_symbol || contract_name)
-				}
-					<span
-						class="ethereum-balance"
-						class:is-selectable={isSelectable}
-						class:is-selected={selectedToken?.tokenAddress === contract_address}
-						tabindex={isSelectable ? 0 : undefined}
-						on:click={() =>
-							selectedToken = selectedToken?.tokenAddress === contract_address ? undefined : {
-								token: contract_ticker_symbol || contract_name,
-								tokenAddress: contract_address,
-								tokenIcon: logo_url,
-								tokenName: contract_name,
-							}
+			{#each [(filterFunction ? balances.items.filter(filterFunction) : balances.items).sort(sortFunction)] as items}
+				{#if items.length}
+					<hr>
+					<h4>{network.name}</h4>
+					<div class="ethereum-balances card">
+						{#each
+							items
+							as {type, balance, quote, quote_rate, contract_name, contract_address, contract_decimals, contract_ticker_symbol, logo_url},
+							i (contract_address || contract_ticker_symbol || contract_name)
 						}
-						in:scale
-						animate:flip|local={{duration: 500, delay: Math.abs(i) * 10, easing: quintOut}}
-					>
-						<TokenValueWithConversion
-							{showValues}
-							token={contract_ticker_symbol || contract_name}
-							tokenAddress={contract_address}
-							tokenIcon={logo_url}
-							tokenName={contract_name}
-							value={balance * 0.1 ** contract_decimals}
-							isDust={false}
-							{conversionCurrency}
-							convertedValue={quote}
-							conversionRate={quote_rate}
-						/>
-						<!-- isDust={type === 'dust'} -->
-					</span>
-				{/each}
-			</div>
+							<span
+								class="ethereum-balance"
+								class:is-selectable={isSelectable}
+								class:is-selected={selectedToken?.tokenAddress === contract_address}
+								tabindex={isSelectable ? 0 : undefined}
+								on:click={() =>
+									selectedToken = selectedToken?.tokenAddress === contract_address ? undefined : {
+										token: contract_ticker_symbol || contract_name,
+										tokenAddress: contract_address,
+										tokenIcon: logo_url,
+										tokenName: contract_name,
+									}
+								}
+								in:scale
+								animate:flip|local={{duration: 500, delay: Math.abs(i) * 10, easing: quintOut}}
+							>
+								<TokenValueWithConversion
+									{showValues}
+									token={contract_ticker_symbol || contract_name}
+									tokenAddress={contract_address}
+									tokenIcon={logo_url}
+									tokenName={contract_name}
+									value={balance * 0.1 ** contract_decimals}
+									isDust={false}
+									{conversionCurrency}
+									convertedValue={quote}
+									conversionRate={quote_rate}
+								/>
+								<!-- isDust={type === 'dust'} -->
+							</span>
+						{/each}
+					</div>
+				{/if}
+			{/each}
 		{:catch error}
-			{error}
+			<div class="card">
+				<p>Error retrieving {network.name} balances from {analyticsProvider}:</p>
+				<pre>{error}</pre>
+			</div>
 		{/await}
 	{/each}
 {/if}
