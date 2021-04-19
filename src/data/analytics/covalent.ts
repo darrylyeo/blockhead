@@ -4,6 +4,7 @@ import type { Ethereum } from '../ethereum/types'
 
 import { COVALENT_URL } from '../../config'
 import { env } from '../../config-secrets'
+import { ConcurrentPromiseQueue } from '../../utils/concurrent-promise-queue'
 const { COVALENT_API_KEY } = env
 
 // https://www.covalenthq.com/docs/api/
@@ -385,6 +386,8 @@ type PaginationParameters = {
 }
 
 
+const queue = new ConcurrentPromiseQueue(3)
+
 const formatParams = params =>
 	new URLSearchParams(
 		// @ts-ignore
@@ -396,23 +399,25 @@ const formatParams = params =>
 	)
 
 const makeRequest = <T>(endpoint: string, params: any) =>
-	fetch(`${COVALENT_URL}${endpoint}/?${`${formatParams({key: COVALENT_API_KEY, ...params})}`}`)
-		.then(async response => {
-			if(response.ok)
-				return response.json()
+	queue.enqueue(() =>
+		fetch(`${COVALENT_URL}${endpoint}/?${`${formatParams({key: COVALENT_API_KEY, ...params})}`}`)
+			.then(async response => {
+				if(response.ok)
+					return response.json()
 
-			if(response.headers.get('content-type').includes('application/json')){
-				const {error, error_message, error_code}: Covalent.Response = await response.json()
-				throw new Error(error_message)
-			}
-			
-			// throw new Error(await response.text())
-			throw new Error(new DOMParser().parseFromString(await response.text(), 'text/html').documentElement.innerText)
-		})
-		.then(({data}: Covalent.Response) => { 
-			console.log(data)
-			return data as T
-		})
+				if(response.headers.get('content-type').includes('application/json')){
+					const {error, error_message, error_code}: Covalent.Response = await response.json()
+					throw new Error(error_message)
+				}
+				
+				// throw new Error(await response.text())
+				throw new Error(new DOMParser().parseFromString(await response.text(), 'text/html').documentElement.innerText)
+			})
+			.then(({data}: Covalent.Response) => { 
+				console.log(data)
+				return data as T
+			})
+	)
 
 
 export const getTokenAddressBalances = (
