@@ -400,15 +400,14 @@ const makeRequest = <T>(endpoint: string, params: any) =>
 		.then(async response => {
 			if(response.ok)
 				return response.json()
-			// else try {
-			// 	const {error, error_message, error_code}: Covalent.Response = await response.json()
-			// 	throw new Error(error_message)
-			// }
-			// catch(e){
-			// 	throw new Error(await response.text())
-			// }
-			const {error, error_message, error_code}: Covalent.Response = await response.json()
-			throw new Error(error_message)
+
+			if(response.headers.get('content-type').includes('application/json')){
+				const {error, error_message, error_code}: Covalent.Response = await response.json()
+				throw new Error(error_message)
+			}
+			
+			// throw new Error(await response.text())
+			throw new Error(new DOMParser().parseFromString(await response.text(), 'text/html').documentElement.innerText)
 		})
 		.then(({data}: Covalent.Response) => { 
 			console.log(data)
