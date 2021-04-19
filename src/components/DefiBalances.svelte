@@ -148,10 +148,11 @@
 		</div>
 	{:then defiBalances}
 		{#if defiBalances.length}
+			<h4>Ethereum DeFi Balances</h4>
 			<div class="defi-balances">
 				{#each defiBalances as protocol, i (protocol.metadata.name)}
 					<div transition:scaleFont|local animate:flip|local={{duration: 300, delay: Math.abs(i) * 10}} class="card defi-protocol layout-{computedLayout}" style="--card-background-image: {makeCardGradient(defiProtocolColors[protocol.metadata.name])})">
-						<h4 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{protocol.metadata.description}"><img src={`https://${protocol.metadata.iconURL}`} alt={protocol.metadata.name} width="20"/> {protocol.metadata.name}</h4>
+						<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{protocol.metadata.description}"><img src={`https://${protocol.metadata.iconURL}`} alt={protocol.metadata.name} width="20"/> {protocol.metadata.name}</h5>
 						{#if computedLayout === 'vertical'}
 							<hr>
 						{/if}
