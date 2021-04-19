@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import type { Covalent } from '../data/analytics/covalent'
+	import { networksByChainID } from '../data/ethereum/networks'
+	import { Covalent } from '../data/analytics/covalent'
 	import type { AnalyticsProvider } from '../data/analytics/provider'
 	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
 	import { getTokenAddressBalances } from '../data/analytics/covalent'
@@ -77,52 +78,55 @@
 	}
 </style>
 
-<div class="ethereum-balances">
-	{#if analyticsProvider === 'Covalent' && address}
-		{#await getTokenAddressBalances({address, nft: false, quoteCurrency: conversionCurrency})}
+{#if analyticsProvider === 'Covalent' && address}
+	{#each Covalent.MainnetChainIDs.map(chainID => networksByChainID[chainID]) as network, i}
+		{#await getTokenAddressBalances({address, nft: false, chainID: network.chainId, quoteCurrency: conversionCurrency})}
 			<Loading iconAnimation="hover">
 				<img slot="icon" src="/logos/covalent-logomark.svg" alt="Covalent" width="25">
-				Retrieving balances from Covalent...
+				Retrieving {network.name} balances from Covalent...
 			</Loading>
 		{:then balances}
-			{#each
-				(filterFunction ? balances.items.filter(filterFunction) : balances.items).sort(sortFunction)
-				as {type, balance, quote, quote_rate, contract_name, contract_address, contract_decimals, contract_ticker_symbol, logo_url},
-				i (contract_address || contract_ticker_symbol || contract_name)
-			}
-				<span
-					class="ethereum-balance"
-					class:is-selectable={isSelectable}
-					class:is-selected={selectedToken?.tokenAddress === contract_address}
-					tabindex={isSelectable ? 0 : undefined}
-					on:click={() =>
-						selectedToken = selectedToken?.tokenAddress === contract_address ? undefined : {
-							token: contract_ticker_symbol || contract_name,
-							tokenAddress: contract_address,
-							tokenIcon: logo_url,
-							tokenName: contract_name,
+			<h4>{network.name}</h4>
+			<div class="ethereum-balances card">
+				{#each
+					(filterFunction ? balances.items.filter(filterFunction) : balances.items).sort(sortFunction)
+					as {type, balance, quote, quote_rate, contract_name, contract_address, contract_decimals, contract_ticker_symbol, logo_url},
+					i (contract_address || contract_ticker_symbol || contract_name)
+				}
+					<span
+						class="ethereum-balance"
+						class:is-selectable={isSelectable}
+						class:is-selected={selectedToken?.tokenAddress === contract_address}
+						tabindex={isSelectable ? 0 : undefined}
+						on:click={() =>
+							selectedToken = selectedToken?.tokenAddress === contract_address ? undefined : {
+								token: contract_ticker_symbol || contract_name,
+								tokenAddress: contract_address,
+								tokenIcon: logo_url,
+								tokenName: contract_name,
+							}
 						}
-					}
-					in:scale
-					animate:flip|local={{duration: 500, delay: Math.abs(i) * 10, easing: quintOut}}
-				>
-					<TokenValueWithConversion
-						{showValues}
-						token={contract_ticker_symbol || contract_name}
-						tokenAddress={contract_address}
-						tokenIcon={logo_url}
-						tokenName={contract_name}
-						value={balance * 0.1 ** contract_decimals}
-						isDust={false}
-						{conversionCurrency}
-						convertedValue={quote}
-						conversionRate={quote_rate}
-					/>
-					<!-- isDust={type === 'dust'} -->
-				</span>
-			{/each}
+						in:scale
+						animate:flip|local={{duration: 500, delay: Math.abs(i) * 10, easing: quintOut}}
+					>
+						<TokenValueWithConversion
+							{showValues}
+							token={contract_ticker_symbol || contract_name}
+							tokenAddress={contract_address}
+							tokenIcon={logo_url}
+							tokenName={contract_name}
+							value={balance * 0.1 ** contract_decimals}
+							isDust={false}
+							{conversionCurrency}
+							convertedValue={quote}
+							conversionRate={quote_rate}
+						/>
+						<!-- isDust={type === 'dust'} -->
+					</span>
+				{/each}
+			</div>
 		{:catch error}
 			{error}
 		{/await}
-	{/if}
-</div>
+	{/each}
+{/if}
