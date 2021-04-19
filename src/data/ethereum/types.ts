@@ -1,5 +1,5 @@
 import type { Web3Provider } from '@ethersproject/providers'
-import { TickerSymbol } from '../currency/currency'
+import type { TickerSymbol } from '../currency/currency'
 
 export namespace Ethereum {
 	export type Network = {
