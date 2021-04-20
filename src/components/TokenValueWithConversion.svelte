@@ -59,7 +59,7 @@
 		</span>
 	{/if}
 	{#if (showValues === 'converted' || showValues === 'both')}
-		<span class="value-converted" transition:scaleFont|local={{delay: 300}}>
+		<span class="value-converted" transition:scaleFont|local={{delay: 200}}>
 			{#if showValues === 'both'}({/if
 			}<TokenValue token={conversionCurrency} value={convertedValue} {showDecimalPlaces} showPlainFiat={true}
 			/>{#if showValues === 'converted' && conversionCurrency !== token}
