@@ -168,6 +168,9 @@
 						{analyticsProvider}
 						{quoteCurrency}
 
+						{showValues}
+						{sortBy}
+						{showSmallValues}
 						{showUnderlyingAssets}
 					>
 						{#if isEditing}

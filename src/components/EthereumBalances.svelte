@@ -38,9 +38,9 @@
 
 
 	$: getBalancesPromise = getTokenAddressBalances({address, nft: false, chainID: network.chainId, quoteCurrency: conversionCurrency})
-		.then(balances => (filterFunction ? balances.items.filter(filterFunction) : balances.items).sort(sortFunction))
 	let balances: Covalent.TokenBalance[] = []
-	$: getBalancesPromise.then(_ => balances = _)
+	$: getBalancesPromise.then(balances => (filterFunction ? balances.items.filter(filterFunction) : balances.items).sort(sortFunction))
+		.then(_ => balances = _)
 
 	$: quoteTotal = balances.reduce((sum, item) => sum + item.quote, 0)
 	
@@ -97,7 +97,7 @@
 			<img slot="icon" src="/logos/covalent-logomark.svg" alt="Covalent" width="25">
 			Retrieving {network.name} balances from {analyticsProvider}...
 		</Loading>
-	{:then balances}
+	{:then}
 		{#if balances.length}
 			<hr>
 			<div class="bar">
