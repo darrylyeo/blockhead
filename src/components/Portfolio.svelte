@@ -4,8 +4,6 @@
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { AnalyticsProvider } from '../data/analytics/provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
-	import { Covalent } from '../data/analytics/covalent'
-	import { networksByChainID } from '../data/ethereum/networks'
 
 
 	// Portfolio management
@@ -44,19 +42,18 @@
 		delayStartIndex = i
 		accounts = [...accounts.slice(0, i), ...accounts.slice(i + 1)]
 	}
-
-	let showUnderlyingAssets = false
-
-
+	
+	
 	// Balances view options
-
+	
 	export let provider: Ethereum.Provider
 	export let analyticsProvider: AnalyticsProvider
 	export let quoteCurrency: QuoteCurrency
-
+	
 	let showValues: 'original' | 'converted' | 'both' = 'original'
 	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
 	let showSmallValues = false
+	let showUnderlyingAssets = false
 
 
 	// Options menu
@@ -66,12 +63,9 @@
 
 	let delayStartIndex = 0
 
-	import Address from './Address.svelte'
 	import AddressField from './AddressField.svelte'
-	import Balance from './Balance.svelte'
-	import DefiBalances from './DefiBalances.svelte'
-	import EthereumBalances from './EthereumBalances.svelte'
 	import Loading from './Loading.svelte'
+	import PortfolioAccount from './PortfolioAccount.svelte'
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
 </script>
@@ -91,31 +85,6 @@
 	/* form :global(.address-field) {
 		width: 16rem;
 	} */
-
-	.account {
-		--padding-inner: 0.75em;
-		display: grid;
-		gap: var(--padding-inner);
-	}
-
-	/* .balances {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--padding-inner);
-	}
-	.balances > :global(*) {
-		flex: 0 auto;
-	} */
-	.account :global(.ethereum-balances) {
-		--padding-inner: 0.5em;
-	}
-
-	.account :global(.defi-balances) {
-		--padding-inner: 0.5em;
-		display: grid;
-		gap: var(--padding-inner);
-		grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-	}
 
 	.options {
 		position: sticky;
@@ -193,42 +162,20 @@
 		{#each accounts as address, i (address)}
 			<section class="card" transition:scale|local animate:flip|local={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
 				<div class="bar">
-					<div class="account">
-						<div class="bar">
-							<h3><Address {address} /></h3>
-							{#if isEditing}
-								<div class="row edit-controls" transition:scale>
-									<button on:click={() => deleteWallet(i)}>Remove</button>
-								</div>
-							{/if}
-						</div>
-						{#if analyticsProvider}
-							{#if analyticsProvider === 'Covalent'}
-								{#each Covalent.MainnetChainIDs.map(chainID => networksByChainID[chainID]) as network, i}
-									<EthereumBalances
-										{network}
-										{analyticsProvider}
-										conversionCurrency={quoteCurrency}
-										{sortBy} {showSmallValues} {showValues} {address}
-									>
-										<h4 slot="title">{network.name}</h4>
-									</EthereumBalances>
-								{/each}
-							{/if}
+					<PortfolioAccount
+						{address}
+						{provider}
+						{analyticsProvider}
+						{quoteCurrency}
+
+						{showUnderlyingAssets}
+					>
+						{#if isEditing}
+							<div class="row edit-controls" transition:scale>
+								<button on:click={() => deleteWallet(i)}>Remove</button>
+							</div>
 						{/if}
-						{#if provider}
-							<!-- <div class="balances">
-								{#each ['ETH'] as token}
-									<div class="card">
-										<Balance {provider} {token} {address} />
-									</div>
-								{/each}
-							</div> -->
-							<DefiBalances {provider} {address} {showUnderlyingAssets} />
-						{:else}
-							<Loading>Connecting to the blockchain...</Loading>
-						{/if}
-					</div>
+					</PortfolioAccount>
 				</div>
 			</section>
 		{:else}
