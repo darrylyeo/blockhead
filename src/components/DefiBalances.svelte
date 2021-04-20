@@ -148,7 +148,7 @@
 		</div>
 	{:then defiBalances}
 		{#if defiBalances.length}
-			<h4>Ethereum DeFi Balances</h4>
+			<h4>Ethereum DeFi</h4>
 			<div class="defi-balances">
 				{#each defiBalances as protocol, i (protocol.metadata.name)}
 					<div transition:scaleFont|local animate:flip|local={{duration: 300, delay: Math.abs(i) * 10}} class="card defi-protocol layout-{computedLayout}" style="--card-background-image: {makeCardGradient(defiProtocolColors[protocol.metadata.name])})">
