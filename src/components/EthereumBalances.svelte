@@ -8,7 +8,7 @@
 	export let network: Ethereum.Network
 	export let analyticsProvider: AnalyticsProvider
 	export let address: string
-	export let conversionCurrency: QuoteCurrency
+	export let quoteCurrency: QuoteCurrency
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending'
 	export let showSmallValues = false
 	export let showValues
@@ -37,7 +37,7 @@
 		undefined
 
 
-	$: getBalancesPromise = getTokenAddressBalances({address, nft: false, chainID: network.chainId, quoteCurrency: conversionCurrency})
+	$: getBalancesPromise = getTokenAddressBalances({address, nft: false, chainID: network.chainId, quoteCurrency: quoteCurrency})
 	let balances: Covalent.TokenBalance[] = []
 	$: getBalancesPromise.then(balances => (filterFunction ? balances.items.filter(filterFunction) : balances.items).sort(sortFunction))
 		.then(_ => balances = _)
@@ -46,7 +46,6 @@
 	
 
 	import Loading from './Loading.svelte'
-	import TokenValue from './TokenValue.svelte'
 	import TokenValueWithConversion from './TokenValueWithConversion.svelte'
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
@@ -100,12 +99,7 @@
 	{:then}
 		{#if balances.length}
 			<hr>
-			<div class="bar">
-				<slot name="title">
-					<h4>{network.name}</h4>
-				</slot>
-				<TokenValue token={conversionCurrency} value={quoteTotal} showPlainFiat={true} />
-			</div>
+			<slot name="header" {network} {quoteCurrency} {quoteTotal}></slot>
 			<div class="ethereum-balances card">
 				{#each
 					balances
@@ -136,7 +130,7 @@
 							tokenName={contract_name}
 							value={balance * 0.1 ** contract_decimals}
 							isDust={false}
-							{conversionCurrency}
+							conversionCurrency={quoteCurrency}
 							convertedValue={quote}
 							conversionRate={quote_rate}
 						/>

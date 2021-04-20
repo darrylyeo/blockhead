@@ -71,11 +71,14 @@
 					{address}
 					{network}
 					{analyticsProvider}
-					conversionCurrency={quoteCurrency}
+					{quoteCurrency}
 					{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets}
 					bind:quoteTotal={quoteTotals[i]}
 				>
-					<h4 slot="title">{network.name}</h4>
+					<div slot="header" class="bar" let:network let:quoteCurrency let:quoteTotal>
+						<h4>{network.name}</h4>
+						<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
+					</div>
 				</EthereumBalances>
 			{/each}
 		{/if}

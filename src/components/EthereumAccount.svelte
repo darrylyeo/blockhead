@@ -93,6 +93,7 @@
 	import EthereumTransaction from './EthereumTransaction.svelte'
 	import Loading from './Loading.svelte'
 	import TokenName from './TokenName.svelte'
+	import TokenValue from './TokenValue.svelte'
 </script>
 
 <style>
@@ -124,33 +125,10 @@
 	</div>
 	<!-- <Balance {provider} {address} /> -->
 	<div class="balances">
-		<div class="bar">
-			<h3>Balances</h3>
-			<label>
-				<input type="checkbox" bind:checked={showSmallValues}>
-				<span>Show Small Values</span>
-			</label>
-			<label>
-				<span>Sort</span>
-				<select bind:value={sortBy}>
-					<option value="ticker-ascending">Alphabetical</option>
-					<option value="value-descending">Highest Value</option>
-					<option value="value-ascending">Lowest Value</option>
-				</select>
-			</label>
-			<label>
-				<span>Show</span>
-				<select bind:value={showValues}>
-					<option value="original">Token Amounts</option>
-					<option value="converted">Quote Values</option>
-					<option value="both">Amounts and Values</option>
-				</select>
-			</label>
-		</div>
 		<EthereumBalances
 			{network}
 			analyticsProvider={$preferredAnalyticsProvider}
-			conversionCurrency={$preferredQuoteCurrency}
+			quoteCurrency={$preferredQuoteCurrency}
 			{sortBy}
 			{showSmallValues}
 			{showValues}
@@ -158,7 +136,29 @@
 			isSelectable={true}
 			bind:selectedToken={selectedToken}
 		>
-			<h3 slot="title">Balances</h3>
+			<div slot="header" class="bar" let:network let:quoteCurrency let:quoteTotal>
+				<h3>{network.name} Tokens (<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />)</h3>
+				<label>
+					<input type="checkbox" bind:checked={showSmallValues}>
+					<span>Show Small Values</span>
+				</label>
+				<label>
+					<span>Sort</span>
+					<select bind:value={sortBy}>
+						<option value="ticker-ascending">Alphabetical</option>
+						<option value="value-descending">Highest Value</option>
+						<option value="value-ascending">Lowest Value</option>
+					</select>
+				</label>
+				<label>
+					<span>Show</span>
+					<select bind:value={showValues}>
+						<option value="original">Token Amounts</option>
+						<option value="converted">Quote Values</option>
+						<option value="both">Amounts and Values</option>
+					</select>
+				</label>
+			</div>
 		</EthereumBalances>
 	</div>
 	<hr>
