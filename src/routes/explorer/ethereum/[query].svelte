@@ -12,6 +12,7 @@
 	import type { Ethereum } from '../../../data/ethereum/types'
 	import type { AnalyticsProvider } from '../../../data/analytics/provider'
 
+	const explorerNetwork: Writable<Ethereum.Network> = getContext('explorerNetwork')
 	const provider: Writable<Ethereum.Provider> = getContext('provider')
 	const analyticsProvider: Writable<AnalyticsProvider> = getContext('analyticsProvider')
 
@@ -38,7 +39,7 @@
 {#if $query}
 	{#if isAddress($query)}
 		{#if $provider}
-			<EthereumAccount address={$query} provider={$provider}/>
+			<EthereumAccount network={$explorerNetwork} address={$query} provider={$provider}/>
 		{/if}
 	{:else if isTransaction($query)}
 		{#if $provider}
