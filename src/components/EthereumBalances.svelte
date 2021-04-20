@@ -23,6 +23,7 @@
 
 	export let quoteTotal
 
+
 	let filterFunction: (b: Covalent.TokenBalance) => boolean
 	$: filterFunction = showSmallValues
 		? b => b.type !== 'nft' // undefined
@@ -34,6 +35,14 @@
 		sortBy === 'value-ascending' ? (a, b) => a.quote - b.quote || a.token_balance - b.token_balance :
 		sortBy === 'ticker-ascending' ? (a, b) => a.contract_ticker_symbol.localeCompare(b.contract_ticker_symbol) :
 		undefined
+
+
+	$: getBalancesPromise = getTokenAddressBalances({address, nft: false, chainID: network.chainId, quoteCurrency: conversionCurrency})
+		.then(balances => (filterFunction ? balances.items.filter(filterFunction) : balances.items).sort(sortFunction))
+	let balances: Covalent.TokenBalance[] = []
+	$: getBalancesPromise.then(_ => balances = _)
+
+	$: quoteTotal = balances.reduce((sum, item) => sum + item.quote, 0)
 	
 
 	import Loading from './Loading.svelte'
@@ -83,25 +92,23 @@
 </style>
 
 {#if address}
-	{#await
-		getTokenAddressBalances({address, nft: false, chainID: network.chainId, quoteCurrency: conversionCurrency})
-			.then(balances => (filterFunction ? balances.items.filter(filterFunction) : balances.items).sort(sortFunction))
-	}
+	{#await getBalancesPromise}
 		<Loading iconAnimation="hover">
 			<img slot="icon" src="/logos/covalent-logomark.svg" alt="Covalent" width="25">
 			Retrieving {network.name} balances from {analyticsProvider}...
 		</Loading>
-	{:then items}
-		{#if items.length}
+	{:then balances}
+		{#if balances.length}
+			<hr>
 			<div class="bar">
 				<slot name="title">
 					<h4>{network.name}</h4>
 				</slot>
-				<TokenValue token={conversionCurrency} value={quoteTotal = items.reduce((sum, item) => sum + item.quote, 0)} showPlainFiat={true} />
+				<TokenValue token={conversionCurrency} value={quoteTotal} showPlainFiat={true} />
 			</div>
 			<div class="ethereum-balances card">
 				{#each
-					items
+					balances
 					as {type, balance, quote, quote_rate, contract_name, contract_address, contract_decimals, contract_ticker_symbol, logo_url},
 					i (contract_address || contract_ticker_symbol || contract_name)
 				}
