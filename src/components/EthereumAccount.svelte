@@ -5,6 +5,7 @@
 	import { getERC20TokenTransfers, getTransactionsByAddress } from '../data/analytics/covalent'
 	import { preferredAnalyticsProvider, preferredQuoteCurrency } from '../data/ethereum/preferences'
 	
+	export let network: Ethereum.Network
 	export let address
 	export let provider
 
@@ -147,6 +148,7 @@
 			</label>
 		</div>
 		<EthereumBalances
+			{network}
 			analyticsProvider={$preferredAnalyticsProvider}
 			conversionCurrency={$preferredQuoteCurrency}
 			{sortBy}
@@ -155,14 +157,16 @@
 			{address}
 			isSelectable={true}
 			bind:selectedToken={selectedToken}
-		/>
+		>
+			<h3 slot="title">Balances</h3>
+		</EthereumBalances>
 	</div>
 	<hr>
 	<div class="transactions">
 		{#if $preferredAnalyticsProvider === 'Covalent'}
 			{#if !selectedToken}
 				<!-- Regular Ethereum Transactions -->
-				{#await getTransactionsByAddress({address, includeLogs: true, quoteCurrency})}
+				{#await getTransactionsByAddress({chainID: network.chainId, address, includeLogs: true, quoteCurrency})}
 					<div class="bar">
 						<h3>Transactions</h3>
 						<label>
@@ -214,7 +218,7 @@
 				{/await}
 			{:else}
 				<!-- ERC-20 Transactions -->
-				{#await getERC20TokenTransfers({address, contractAddress: selectedToken.tokenAddress, quoteCurrency})}
+				{#await getERC20TokenTransfers({chainID: network.chainId, address, contractAddress: selectedToken.tokenAddress, quoteCurrency})}
 					<div class="bar">
 						<h3>
 							{selectedToken.tokenName}

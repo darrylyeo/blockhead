@@ -4,6 +4,8 @@
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { AnalyticsProvider } from '../data/analytics/provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
+	import { Covalent } from '../data/analytics/covalent'
+	import { networksByChainID } from '../data/ethereum/networks'
 
 
 	// Portfolio management
@@ -201,7 +203,18 @@
 							{/if}
 						</div>
 						{#if analyticsProvider}
-							<EthereumBalances {analyticsProvider} conversionCurrency={quoteCurrency} {sortBy} {showSmallValues} {showValues} {address} />
+							{#if analyticsProvider === 'Covalent'}
+								{#each Covalent.MainnetChainIDs.map(chainID => networksByChainID[chainID]) as network, i}
+									<EthereumBalances
+										{network}
+										{analyticsProvider}
+										conversionCurrency={quoteCurrency}
+										{sortBy} {showSmallValues} {showValues} {address}
+									>
+										<h4 slot="title">{network.name}</h4>
+									</EthereumBalances>
+								{/each}
+							{/if}
 						{/if}
 						{#if provider}
 							<!-- <div class="balances">
