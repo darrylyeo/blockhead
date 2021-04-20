@@ -58,7 +58,7 @@
 	}
 </style>
 
-<span class="token-value-container" class:is-debt={isDebt} title="{value} {token} ({tokenName})">
+<span class="token-value-container" class:is-debt={isDebt} title="{value} {tokenName || token}{token && tokenName ? ` (${token})` : ``}">
 	{#if isFiat}
 		<span class="token-value">{formatValue(value)}</span>
 	{:else}
