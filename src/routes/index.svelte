@@ -87,6 +87,6 @@
 	<!-- <button>I know what I'm doing</button> -->
 	
 	<footer transition:scale>
-		<strong>Blockhead</strong> • developed by <a href="https://darryl-yeo.com/blockhead">Darryl Yeo</a> • 2020
+		<strong>Blockhead</strong> • developed by <a href="https://darryl-yeo.com/blockhead">Darryl Yeo</a> • 2020 — 2021
 	</footer>
 </main>
