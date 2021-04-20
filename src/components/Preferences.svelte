@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Covalent } from '../data/analytics/covalent'
 	import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '../data/currency/currency'
 	import { preferredAnalyticsProvider, preferredQuoteCurrency, preferredEthereumProvider, preferredPriceFeedProvider } from '../data/ethereum/preferences'
 </script>
@@ -52,12 +53,12 @@
 		<select bind:value={$preferredQuoteCurrency}>
 			<optgroup label="Fiat Currencies">
 				{#each Object.values(fiatQuoteCurrencies) as currency}
-					<option value={currency.isoCode}>{currency.name} ({currency.symbol})</option>
+					<option value={currency.isoCode} disabled={!Covalent.quoteCurrencies.includes(currency.isoCode)}>{currency.name} ({currency.symbol})</option>
 				{/each}
 			</optgroup>
 			<optgroup label="Cryptocurrencies">
 				{#each Object.values(cryptoQuoteCurrencies) as currency}
-					<option value={currency.isoCode}>{currency.name} ({currency.symbol})</option>
+					<option value={currency.isoCode} disabled={!Covalent.quoteCurrencies.includes(currency.isoCode)}>{currency.name} ({currency.symbol})</option>
 				{/each}
 			</optgroup>
 		</select>
