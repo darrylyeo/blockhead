@@ -40,13 +40,13 @@
 		<!-- </select>
 	</label> -->
 
-	<label>
+	<!-- <label>
 		<span>Blockchain Provider:</span>
 		<select bind:value={$preferredEthereumProvider}>
 			<option value="Pocket Network">Pocket Network</option>
 			<option value="Portis">Infura (Portis)</option>
 		</select>
-	</label>
+	</label> -->
 
 	<label>
 		<span>Quote Currency:</span>
