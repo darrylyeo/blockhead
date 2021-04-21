@@ -31,14 +31,14 @@
 		</select>
 	</label> -->
 
-	<label>
+	<!-- <label>
 		<span>Price Feed:</span>
 		<select bind:value={$preferredPriceFeedProvider}>
-			<option value="Chainlink">Chainlink</option>
+			<option value="Chainlink">Chainlink</option> -->
 			<!-- <option value="Tellor">Tellor</option>
 			<option value="Open Price Feed">Compound Price Feed</option> -->
-		</select>
-	</label>
+		<!-- </select>
+	</label> -->
 
 	<label>
 		<span>Blockchain Provider:</span>
