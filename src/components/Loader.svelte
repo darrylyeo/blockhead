@@ -12,24 +12,33 @@
 	export let load: () => Promise<Type>
 	export let showIf: ((then: Type) => boolean) | undefined
 
-	let isResolved = false
+	enum PromiseStatus {
+		Idle,
+		Pending,
+		Resolved,
+		Rejected
+	}
+	let status = PromiseStatus.Idle
 	let promise: Promise<Type>
 	let result: Type
+	let error
 
 	function start(){
-		isResolved = false
+		status = PromiseStatus.Pending
 		promise = load()
-		promise.then(async _result => {
+		promise.then(_result => {
 			result = _result
-			await tick()
-			isResolved = true
+			status = PromiseStatus.Resolved
+		}, _error => {
+			error = _error
+			status = PromiseStatus.Rejected
 		})
 	}
 
 	if(startImmediately)
 		start()
 	
-	$: isHidden = showIf && isResolved && !showIf(result)
+	$: isHidden = showIf && status === PromiseStatus.Resolved && !showIf(result)
 
 
 	import Loading from './Loading.svelte'
@@ -45,7 +54,7 @@
 
 {#if promise && !isHidden}
 	<div class="loader stack">
-		{#await promise}
+		{#if status === PromiseStatus.Pending}
 			<Loading iconAnimation="hover">
 				<slot slot="loadingIcon" name="icon">
 					<img src={loadingIcon} alt={loadingIconName} width={loadingIconWidth}>
@@ -54,9 +63,9 @@
 					{loadingMessage}
 				</slot>
 			</Loading>
-		{:then}
+		{:else if status === PromiseStatus.Resolved}
 			<slot then={result} />
-		{:catch error}
+		{:else if status === PromiseStatus.Rejected}
 			<div class="card">
 				<slot name="errorMessage">
 					<p>{errorMessage}</p>
@@ -66,6 +75,6 @@
 				</slot>
 				<button on:click={start}>Retry</button>
 			</div>
-		{/await}
+		{/if}
 	</div>
 {/if}
