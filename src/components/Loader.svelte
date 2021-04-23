@@ -1,4 +1,7 @@
 <script lang="ts">
+	import type { Readable } from 'svelte/store'
+	import type { Result } from '../data/apollo-store'
+
 	export let startImmediately = true
 	export let loadingIcon: string
 	export let loadingIconName: string
@@ -7,37 +10,57 @@
 	export let errorMessage: string
 	export let hideError = true
 
-	type Type = any
-	export let load: () => Promise<Type>
-	export let showIf: ((then: Type) => boolean | any) | undefined
+	export let fromPromise: <TData = unknown> () => Promise<TData>
+	export let fromStore: <TData = unknown> () => Readable<Result<TData>>
+	export let showIf: (<TData = unknown> (then: TData) => boolean | any) | undefined
 
-	enum PromiseStatus {
+	enum LoadingStatus {
 		Idle,
-		Pending,
+		Loading,
 		Resolved,
-		Rejected
+		Errored
 	}
-	let status = PromiseStatus.Idle
-	let promise: Promise<Type>
-	let result: Type
+	let status = LoadingStatus.Idle
+
+	type TData = unknown
+	let promise: Promise<TData>
+	let store: Readable<Result<TData>>
+	let result: TData
 	let error
 
 	function start(){
-		status = PromiseStatus.Pending
-		promise = load()
+		status = LoadingStatus.Loading
+
+		if(fromPromise){
+			promise = fromPromise()
+		}else if(fromStore){
+			store = fromStore()
+		}
+	}
+	$: if(promise)
 		promise.then(_result => {
 			result = _result
-			status = PromiseStatus.Resolved
+			status = LoadingStatus.Resolved
 		}, _error => {
 			error = _error
-			status = PromiseStatus.Rejected
+			status = LoadingStatus.Errored
 		})
-	}
+	$: if(store)
+		if($store.loading){
+			status = LoadingStatus.Loading
+		}else if($store.error){
+			error = $store.error
+			status = LoadingStatus.Errored
+		}else{
+			result = $store.data
+			status = LoadingStatus.Resolved
+		}
+				
 
 	if(startImmediately)
 		start()
 	
-	$: isHidden = showIf && status === PromiseStatus.Resolved && !showIf(result)
+	$: isHidden = showIf && status === LoadingStatus.Resolved && !showIf(result)
 
 
 	import { fade, scale } from 'svelte/transition'
@@ -56,7 +79,7 @@
 
 {#if promise && !isHidden}
 	<div class="loader stack">
-		{#if status === PromiseStatus.Pending}
+		{#if status === LoadingStatus.Loading}
 			<Loading iconAnimation="hover">
 				<slot slot="loadingIcon" name="icon">
 					<img src={loadingIcon} alt={loadingIconName} width={loadingIconWidth}>
@@ -65,11 +88,11 @@
 					{loadingMessage}
 				</slot>
 			</Loading>
-		{:else if status === PromiseStatus.Resolved}
+		{:else if status === LoadingStatus.Resolved}
 			<div transition:fade>
 				<slot then={result} />
 			</div>
-		{:else if !hideError && status === PromiseStatus.Rejected}
+		{:else if !hideError && status === LoadingStatus.Errored}
 			<div class="card" transition:scale>
 				<slot name="errorMessage">
 					<p>{errorMessage}</p>
