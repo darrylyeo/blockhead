@@ -1,12 +1,11 @@
 <script lang="ts">
-	import { tick } from 'svelte'
-
 	export let startImmediately = true
 	export let loadingIcon: string
 	export let loadingIconName: string
 	export let loadingMessage: string
 	export let loadingIconWidth = 32
 	export let errorMessage: string
+	export let hideError = true
 
 	type Type = any
 	export let load: () => Promise<Type>
@@ -65,7 +64,7 @@
 			</Loading>
 		{:else if status === PromiseStatus.Resolved}
 			<slot then={result} />
-		{:else if status === PromiseStatus.Rejected}
+		{:else if !hideError && status === PromiseStatus.Rejected}
 			<div class="card">
 				<slot name="errorMessage">
 					<p>{errorMessage}</p>
