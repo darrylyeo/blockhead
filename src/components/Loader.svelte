@@ -9,7 +9,7 @@
 
 	type Type = any
 	export let load: () => Promise<Type>
-	export let showIf: ((then: Type) => boolean) | undefined
+	export let showIf: ((then: Type) => boolean | any) | undefined
 
 	enum PromiseStatus {
 		Idle,
