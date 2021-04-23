@@ -40,6 +40,7 @@
 	$: isHidden = showIf && status === PromiseStatus.Resolved && !showIf(result)
 
 
+	import { fade, scale } from 'svelte/transition'
 	import Loading from './Loading.svelte'
 </script>
 
@@ -50,7 +51,7 @@
 </style>
 
 {#if !isHidden}
-<slot name="header" />
+	<slot name="header" />
 {/if}
 
 {#if promise && !isHidden}
@@ -65,9 +66,11 @@
 				</slot>
 			</Loading>
 		{:else if status === PromiseStatus.Resolved}
-			<slot then={result} />
+			<div transition:fade>
+				<slot then={result} />
+			</div>
 		{:else if !hideError && status === PromiseStatus.Rejected}
-			<div class="card">
+			<div class="card" transition:scale>
 				<slot name="errorMessage">
 					<p>{errorMessage}</p>
 				</slot>
