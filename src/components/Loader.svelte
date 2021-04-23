@@ -81,7 +81,7 @@
 	<div class="loader stack">
 		{#if status === LoadingStatus.Loading}
 			<Loading iconAnimation="hover">
-				<slot slot="loadingIcon" name="icon">
+				<slot name="loadingIcon" slot="icon">
 					<img src={loadingIcon} alt={loadingIconName} width={loadingIconWidth}>
 				</slot>
 				<slot name="loadingMessage">
