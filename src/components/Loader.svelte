@@ -49,7 +49,9 @@
 	}
 </style>
 
+{#if !isHidden}
 <slot name="header" />
+{/if}
 
 {#if promise && !isHidden}
 	<div class="loader stack">
