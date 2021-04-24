@@ -180,7 +180,7 @@ select {
 	padding: 0.25em 0.4em;
 }
 
-section {
+section, .column {
 	display: grid;
 	gap: var(--padding-inner);
 	grid-template-columns: 100%;
