@@ -269,11 +269,10 @@ main {
 
 .stack {
 	display: grid;
-	grid: "area";
+	grid: "stack";
 }
 .stack > * {
-	grid-area: area;
-	place-items: start;
+	grid-area: stack;
 }
 
 
