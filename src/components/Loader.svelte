@@ -78,9 +78,8 @@
 	}
 </style>
 
-<slot name="header" {status} />
-
 {#if !isHidden}
+<slot name="header" {status} />
 	<div class="loader stack">
 		{#if status === LoadingStatus.Loading}
 			<Loading iconAnimation="hover">
