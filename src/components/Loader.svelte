@@ -94,7 +94,7 @@
 		{:else if !hideError && status === LoadingStatus.Errored}
 			<div class="card" transition:scale>
 				<slot name="errorMessage">
-					<p>{errorMessage}</p>
+						<h4>{errorMessage}</h4>
 				</slot>
 				<slot name="error" {error}>
 					<pre>{errorFunction ? errorFunction(error) : error}</pre>
