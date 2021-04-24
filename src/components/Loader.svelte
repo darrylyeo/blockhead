@@ -15,10 +15,10 @@
 	export let showIf: (<TData = unknown> (then: TData) => boolean | any) | undefined
 
 	enum LoadingStatus {
-		Idle,
-		Loading,
-		Resolved,
-		Errored
+		Idle = 'idle',
+		Loading = 'loading',
+		Resolved = 'resolved',
+		Errored = 'error'
 	}
 	let status = LoadingStatus.Idle
 
