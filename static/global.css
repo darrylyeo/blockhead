@@ -107,7 +107,6 @@ h5 {
 
 pre, code {
 	font-family: var(--monospace-fonts);
-	padding: var(--padding-inner);
 	white-space: pre-wrap;
 }
 
