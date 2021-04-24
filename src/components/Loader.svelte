@@ -92,7 +92,7 @@
 				</slot>
 			</Loading>
 		{:else if status === LoadingStatus.Resolved}
-			<div transition:fade>
+			<div class="column" transition:fade>
 				<slot then={result} />
 			</div>
 		{:else if !hideError && status === LoadingStatus.Errored}
