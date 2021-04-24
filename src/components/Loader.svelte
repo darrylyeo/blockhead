@@ -20,7 +20,7 @@
 		Resolved = 'resolved',
 		Errored = 'error'
 	}
-	let status = LoadingStatus.Idle
+	let status: LoadingStatus = LoadingStatus.Idle
 
 	let promise: ReturnType<typeof fromPromise>
 	let store: ReturnType<typeof fromStore>
@@ -72,9 +72,7 @@
 	}
 </style>
 
-{#if !isHidden}
-	<slot name="header" />
-{/if}
+<slot name="header" {status} />
 
 {#if promise && !isHidden}
 	<div class="loader stack">
