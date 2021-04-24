@@ -37,9 +37,13 @@
 			store = fromStore()
 		}
 
-	function start(){
+	function load(){
 		startImmediately = !startImmediately
 		startImmediately = !startImmediately
+	}
+
+	function cancel(){
+		status = LoadingStatus.Idle
 	}
 
 	$: if(promise)
@@ -93,13 +97,18 @@
 			</div>
 		{:else if !hideError && status === LoadingStatus.Errored}
 			<div class="card" transition:scale>
+				<div class="bar">
 				<slot name="errorMessage">
 						<h4>{errorMessage}</h4>
 				</slot>
+					<slot name="errorActions" {load} {cancel}>
+						<button class="small" on:click={load}>Retry</button>
+						<button class="small" on:click={cancel}>Cancel</button>
+					</slot>
+				</div>
 				<slot name="error" {error}>
 					<pre>{errorFunction ? errorFunction(error) : error}</pre>
 				</slot>
-				<button on:click={start}>Retry</button>
 			</div>
 		{/if}
 	</div>

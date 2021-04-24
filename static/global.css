@@ -148,6 +148,9 @@ button:focus {
 button:active {
 	--depth: 0;
 }
+button.small {
+	font-size: 0.7em;
+}
 
 
 :-placeholder {
