@@ -98,6 +98,7 @@
 		errorMessage="Error retrieving {network.name} balances from {analyticsProvider}"
 		fromPromise={() => getBalancesPromise}
 		showIf={() => balances.length}
+		hideError={true}
 	>
 		<svelte:fragment slot="header">
 			{#if balances.length}
