@@ -11,7 +11,7 @@
 	export let provider: Ethereum.Provider
 	export let address: string
 	
-	import Loading from './Loading.svelte'
+	import Loader from './Loader.svelte'
 	import TokenIcon from './TokenIcon.svelte'
 	import TokenValue from './TokenValue.svelte'
 	
@@ -26,17 +26,14 @@
 
 <div class="stack">
 	{#if provider && address}
-		{#await provider.getBalance(address)}
-			<Loading>
-				<span slot="icon" class="slot"><TokenIcon {token} {tokenAddress} /></span>
-				Reading balance...
-			</Loading>
-		{:then balance}
-			<div in:scale class="animation-wrapper">
+		<Loader
+			fromPromise={() => provider.getBalance(address)}
+			loadingMessage="Reading balance..."
+		>
+			<svelte:fragment slot="loadingIcon"><TokenIcon {token} {tokenAddress} /></svelte:fragment>
+			<div in:scale class="animation-wrapper" let:then={balance}>
 				<TokenValue {token} value={ethers?.utils.formatEther(balance)} />
 			</div>
-		{:catch error}
-			{error}
-		{/await}
+		</Loader>
 	{/if}
 </div>

@@ -45,7 +45,7 @@
 	$: quoteTotal = balances.reduce((sum, item) => sum + item.quote, 0)
 	
 
-	import Loading from './Loading.svelte'
+	import Loader from './Loader.svelte'
 	import TokenValueWithConversion from './TokenValueWithConversion.svelte'
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
@@ -91,58 +91,58 @@
 </style>
 
 {#if address}
-	{#await getBalancesPromise}
-		<Loading iconAnimation="hover">
-			<img slot="icon" src="/logos/covalent-logomark.svg" alt="Covalent" width="25">
-			Retrieving {network.name} balances from {analyticsProvider}...
-		</Loading>
-	{:then}
-		{#if balances.length}
-			<hr>
-			<slot name="header" {network} {quoteCurrency} {quoteTotal}></slot>
-			<div class="ethereum-balances card">
-				{#each
-					balances
-					as {type, balance, quote, quote_rate, contract_name, contract_address, contract_decimals, contract_ticker_symbol, logo_url},
-					i (contract_address || contract_ticker_symbol || contract_name)
-				}
-					<span
-						class="ethereum-balance"
-						class:is-selectable={isSelectable}
-						class:is-selected={selectedToken?.tokenAddress === contract_address}
-						tabindex={isSelectable ? 0 : undefined}
-						on:click={() =>
-							selectedToken = selectedToken?.tokenAddress === contract_address ? undefined : {
-								token: contract_ticker_symbol || contract_name,
-								tokenAddress: contract_address,
-								tokenIcon: logo_url,
-								tokenName: contract_name,
-							}
+	<Loader
+		loadingIcon={'/logos/covalent-logomark.svg'}
+		loadingIconName={'Covalent'}
+		loadingMessage="Retrieving {network.name} balances from {analyticsProvider}..."
+		errorMessage="Error retrieving {network.name} balances from {analyticsProvider}"
+		fromPromise={() => getBalancesPromise}
+		showIf={() => balances.length}
+	>
+		<svelte:fragment slot="header">
+			{#if balances.length}
+				<hr>
+				<slot name="header" {network} {quoteCurrency} {quoteTotal}></slot>
+			{/if}
+		</svelte:fragment>
+
+		<div class="ethereum-balances card">
+			{#each
+				balances
+				as {type, balance, quote, quote_rate, contract_name, contract_address, contract_decimals, contract_ticker_symbol, logo_url},
+				i (contract_address || contract_ticker_symbol || contract_name)
+			}
+				<span
+					class="ethereum-balance"
+					class:is-selectable={isSelectable}
+					class:is-selected={selectedToken?.tokenAddress === contract_address}
+					tabindex={isSelectable ? 0 : undefined}
+					on:click={() =>
+						selectedToken = selectedToken?.tokenAddress === contract_address ? undefined : {
+							token: contract_ticker_symbol || contract_name,
+							tokenAddress: contract_address,
+							tokenIcon: logo_url,
+							tokenName: contract_name,
 						}
-						in:scale
-						animate:flip|local={{duration: 500, delay: Math.abs(i) * 10, easing: quintOut}}
-					>
-						<TokenValueWithConversion
-							{showValues}
-							token={contract_ticker_symbol || contract_name}
-							tokenAddress={contract_address}
-							tokenIcon={logo_url}
-							tokenName={contract_name}
-							value={balance * 0.1 ** contract_decimals}
-							isDust={false}
-							conversionCurrency={quoteCurrency}
-							convertedValue={quote}
-							conversionRate={quote_rate}
-						/>
-						<!-- isDust={type === 'dust'} -->
-					</span>
-				{/each}
-			</div>
-		{/if}
-	{:catch error}
-		<div class="card">
-			<p>Error retrieving {network.name} balances from {analyticsProvider}:</p>
-			<pre>{error}</pre>
+					}
+					in:scale
+					animate:flip|local={{duration: 500, delay: Math.abs(i) * 10, easing: quintOut}}
+				>
+					<TokenValueWithConversion
+						{showValues}
+						token={contract_ticker_symbol || contract_name}
+						tokenAddress={contract_address}
+						tokenIcon={logo_url}
+						tokenName={contract_name}
+						value={balance * 0.1 ** contract_decimals}
+						isDust={false}
+						conversionCurrency={quoteCurrency}
+						convertedValue={quote}
+						conversionRate={quote_rate}
+					/>
+					<!-- isDust={type === 'dust'} -->
+				</span>
+			{/each}
 		</div>
-	{/await}
+	</Loader>
 {/if}

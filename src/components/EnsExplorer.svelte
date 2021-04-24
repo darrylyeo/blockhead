@@ -18,7 +18,7 @@
 	const sortByLength = (a, b) => a.name.length - b.name.length
 	
 	import EnsDomain from './EnsDomain.svelte'
-	import Loading from './Loading.svelte'
+	import Loader from './Loader.svelte'
 </script>
 
 <style>
@@ -28,38 +28,46 @@
 </style>
 
 <section class="explorer">
-	{#if domainQuery && $domainQuery}
-		{#if $domainQuery.loading}
-			<Loading iconAnimation="hover">
-				<img slot="icon" src="/logos/ens.svg" alt="The Graph" width="25">
-				<p>Querying the Ethereum Name Service...</p>
-			</Loading>
-		{:else if domains = $domainQuery.data?.domains}
-			{#each domains.sort(sortByLength) as domain (domain.id)}
-				<EnsDomain {domain}/>
-			{:else}
-				<div class="card">
-					<p>The ENS name "{query}" doesn't have an owner.</p>
-					<a href="https://app.ens.domains/name/{domain}" target="_blank"><button>Register On ENS</button></a>
-				</div>
-			{/each}
-		{:else if $domainQuery.error}
-			<pre>{$domainQuery.error}</pre>
-		{/if}
-	{/if}
+	<Loader
+		fromStore={() => domainQuery}
+		loadingIcon="/logos/ens.svg"
+		loadingIconName="The Graph"
+		loadingMessage="Querying the Ethereum Name Service..."
+		let:then={{domains}}
+	>
+		{#each domains.sort(sortByLength) as domain (domain.id)}
+			<EnsDomain {domain}/>
+		{:else}
+			<div class="card">
+				<p>The ENS name "{query}" doesn't have an owner.</p>
+				<a href="https://app.ens.domains/name/{domain}" target="_blank"><button>Register On ENS</button></a>
+			</div>
+		{/each}
+	</Loader>
+	<Loader
+		fromStore={() => domainsContainingQuery}
+		loadingIcon="/logos/ens.svg"
+		loadingIconName="The Graph"
+		loadingMessage="Querying the Ethereum Name Service for similar names..."
+		let:then={{domains}}
+		showIf={({domains} = {}) => domains.length}
+	>
+		<svelte:fragment slot="header" let:status>
+			{#if status === 'resolved'}
+				<hr>
+				<h2>Similar ENS Names</h2>
+			{/if}
+		</svelte:fragment>
 
-	{#if domainsContainingQuery && $domainsContainingQuery}
-		{#if $domainsContainingQuery.loading}
-		{:else if (domainsContaining = $domainsContainingQuery.data?.domains) && domainsContaining.length}
-			<hr>
-			<h2>Similar ENS Names</h2>
-			{#each domainsContaining.sort(sortByLength) as domain (domain.id)}
-				<EnsDomain {domain}/>
-			{/each}
-		{:else if $domainsContainingQuery.error}
-			<pre>{$domainsContainingQuery.error}</pre>
-		{/if}
-	{/if}
+		{#each domains.sort(sortByLength) as domain (domain.id)}
+			<EnsDomain {domain}/>
+		{:else}
+			<div class="card">
+				<p>The ENS name "{query}" doesn't have an owner.</p>
+				<a href="https://app.ens.domains/name/{domain}" target="_blank"><button>Register On ENS</button></a>
+			</div>
+		{/each}
+	</Loader>
 </section>
 
 

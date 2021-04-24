@@ -18,7 +18,7 @@
 		'Chainlink': '/logos/chainlink.svg'
 	})[$preferredPriceFeedProvider]
 
-	import Loading from '../../../components/Loading.svelte'
+	import Loader from '../../../components/Loader.svelte'
 	import PriceChart from '../../../components/PriceChart.svelte'
 	import TokenRate from '../../../components/TokenRate.svelte'
 
@@ -48,29 +48,31 @@
 		<div class="bar">
 			<h3>Current Price</h3>
 			<span class="card-annotation">{$preferredPriceFeedProvider}</span>
-		</div>
-		{#await getChainlinkPriceFeed($provider, 'mainnet', 'ETH', $preferredQuoteCurrency)}
-			<Loading iconAnimation="hover">
-				<img slot="icon" src={priceFeedLogo} alt={$preferredPriceFeedProvider} width="32">
-				Retrieving price...
-			</Loading>
-		{:then priceFeed}
+		</div> 
+		<Loader
+			loadingIcon={priceFeedLogo}
+			loadingIconName={$preferredPriceFeedProvider}
+			loadingMessage="Retrieving price from Chainlink..."
+			fromPromise={() => getChainlinkPriceFeed($provider, 'mainnet', 'ETH', $preferredQuoteCurrency)}
+			let:then={priceFeed}
+		>
 			<TokenRate rate={priceFeed.price} quoteToken={$preferredQuoteCurrency} baseToken="ETH" layout="horizontal" />
 			<!-- <p>Updated {priceFeed.updatedAt.toString()} -->
-		{/await}
+		</Loader>
 	</section>
 
 	<section class="card">
 		<h3>Block Number</h3>
-		{#if $blockNumber}
+		<Loader
+			loadingMessage="Retrieving statistics..."
+			fromPromise={() => new Promise(r => $provider.once('block', r))}
+		>
 			<p>
 				<span>The Ethereum blockchain is </span>
 				<strong>{$blockNumber}</strong>
 				<span> blocks long.</span>
 			</p>
-		{:else}
-			<Loading>Retrieving statistics...</Loading>
-		{/if}
+		</Loader>
 	</section>
 
 	<section class="card">

@@ -91,7 +91,9 @@
 				</div>
 			{/each}
 		</div> -->
-		<DefiBalances {provider} {address} {showUnderlyingAssets} />
+		<DefiBalances {provider} {address} {showUnderlyingAssets}>
+			<h4 slot="header">Ethereum DeFi</h4>
+		</DefiBalances>
 	{:else}
 		<Loading>Connecting to the blockchain...</Loading>
 	{/if}

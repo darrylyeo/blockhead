@@ -23,7 +23,7 @@
 		'Covalent': '/logos/covalent-logomark.svg'
 	})[provider]
 
-	import Loading from "./Loading.svelte"
+	import Loader from './Loader.svelte'
 </script>
 
 <style>
@@ -40,12 +40,13 @@
 </style>
 
 {#if provider === 'Covalent'}
-	{#await getHistoricalPrices({tickerSymbol: currency, quoteCurrency, from: fromDate, to: toDate})}
-		<Loading iconAnimation="hover">
-			<img slot="icon" src={historicalPriceLogo} alt={provider} width="32">
-			Retrieving price history...
-		</Loading>
-	{:then result}
+	<Loader
+		fromPromise={() => getHistoricalPrices({tickerSymbol: currency, quoteCurrency, from: fromDate, to: toDate})}
+		loadingIcon={historicalPriceLogo}
+		loadingIconName={provider}
+		loadingMessage="Retrieving price history..."
+		let:then={result}
+	>
 		<!-- <svg height="300" viewBox="0 0 1 1"> -->
 		<svg height="300" viewBox="{fromDateTimestamp} {-toPrice} {toDateTimestamp - fromDateTimestamp} {toPrice - fromPrice}">
 			<g class="price-line"><!-- style="--x-start: {fromDateTimestamp}; --x-end: {toDateTimestamp}; --y-start: {fromPrice}; --y-end: {toPrice};" -->
@@ -58,9 +59,5 @@
 				></polyline>
 			</g>
 		</svg>
-	{:catch error}
-		<div class="card">
-			{error}
-		</div>
-	{/await}
+	</Loader>
 {/if}
