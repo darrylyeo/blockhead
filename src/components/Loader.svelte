@@ -22,11 +22,10 @@
 	}
 	let status = LoadingStatus.Idle
 
-	type TData = unknown
-	let promise: Promise<TData>
-	let store: Readable<Result<TData>>
-	let result: TData
-	let error
+	let promise: ReturnType<typeof fromPromise>
+	let store: ReturnType<typeof fromStore>
+	let result: unknown = {}
+	let error: unknown
 
 	function start(){
 		status = LoadingStatus.Loading
