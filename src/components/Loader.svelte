@@ -6,7 +6,7 @@
 	export let loadingIcon: string
 	export let loadingIconName: string
 	export let loadingMessage: string
-	export let loadingIconWidth = 32
+	export let loadingIconWidth = 25
 	export let errorMessage: string
 	export let hideError = true
 
