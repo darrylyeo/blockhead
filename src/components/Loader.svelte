@@ -27,15 +27,20 @@
 	let result: unknown = {}
 	let error: unknown
 
-	function start(){
+	$: if(startImmediately){
 		status = LoadingStatus.Loading
 
-		if(fromPromise){
+		if(fromPromise)
 			promise = fromPromise()
-		}else if(fromStore){
+		else if(fromStore)
 			store = fromStore()
 		}
+
+	function start(){
+		startImmediately = !startImmediately
+		startImmediately = !startImmediately
 	}
+
 	$: if(promise)
 		promise.then(_result => {
 			result = _result
@@ -55,10 +60,6 @@
 			status = LoadingStatus.Resolved
 		}
 				
-
-	if(startImmediately)
-		start()
-	
 	$: isHidden = showIf && status === LoadingStatus.Resolved && !showIf(result)
 
 
