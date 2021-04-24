@@ -49,13 +49,13 @@
 			error = _error
 			status = LoadingStatus.Errored
 		})
-	$: if(store)
+	$: if(store && $store)
 		if($store.loading){
 			status = LoadingStatus.Loading
 		}else if($store.error){
 			error = $store.error
 			status = LoadingStatus.Errored
-		}else{
+		}else if($store.data){
 			result = $store.data
 			status = LoadingStatus.Resolved
 		}
