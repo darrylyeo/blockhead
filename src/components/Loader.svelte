@@ -74,7 +74,7 @@
 
 <slot name="header" {status} />
 
-{#if promise && !isHidden}
+{#if !isHidden}
 	<div class="loader stack">
 		{#if status === LoadingStatus.Loading}
 			<Loading iconAnimation="hover">
