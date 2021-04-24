@@ -8,7 +8,8 @@
 	export let loadingMessage: string
 	export let loadingIconWidth = 25
 	export let errorMessage: string
-	export let hideError = true
+	export let errorFunction: ((Error) => string) | undefined
+	export let hideError = false
 
 	export let fromPromise: <TData = unknown> () => Promise<TData>
 	export let fromStore: <TData = unknown> () => Readable<Result<TData>>
@@ -96,7 +97,7 @@
 					<p>{errorMessage}</p>
 				</slot>
 				<slot name="error" {error}>
-					<pre>{error}</pre>
+					<pre>{errorFunction ? errorFunction(error) : error}</pre>
 				</slot>
 				<button on:click={start}>Retry</button>
 			</div>
