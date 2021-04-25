@@ -12,9 +12,6 @@
 		domainsContainingQuery = queryENSDomainsContaining(query)
 	})
 	
-	let domains: ENS.Domain[]
-	let domainsContaining: ENS.Domain[]
-
 	const sortByLength = (a, b) => a.name.length - b.name.length
 	
 	import EnsDomain from './EnsDomain.svelte'
