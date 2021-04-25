@@ -4,6 +4,7 @@
 	padding: 0;
 	text-decoration-color: inherit;
 	min-width: 0;
+	gap: inherit;
 }
 
 :root {
@@ -182,7 +183,7 @@ select {
 	padding: 0.25em 0.4em;
 }
 
-section, .column {
+section {
 	display: grid;
 	gap: var(--padding-inner);
 	grid-template-columns: 100%;
@@ -273,6 +274,12 @@ main {
 }
 .stack > * {
 	grid-area: stack;
+}
+
+
+.column {
+	display: grid;
+	grid-template-columns: 100%;
 }
 
 
