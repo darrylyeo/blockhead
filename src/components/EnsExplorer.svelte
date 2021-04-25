@@ -40,30 +40,31 @@
 				<a href="https://app.ens.domains/name/{domain}" target="_blank"><button>Register On ENS</button></a>
 			</div>
 		{/each}
-	</Loader>
-	<Loader
-		fromStore={() => domainsContainingQuery}
-		loadingIcon="/logos/ens.svg"
-		loadingIconName="The Graph"
-		loadingMessage="Querying the Ethereum Name Service for similar names..."
-		let:then={{domains}}
-		showIf={({domains} = {}) => domains.length}
-	>
-		<svelte:fragment slot="header" let:status>
-			{#if status === 'resolved'}
-				<hr>
-				<h2>Similar ENS Names</h2>
-			{/if}
-		</svelte:fragment>
 
-		{#each domains.sort(sortByLength) as domain (domain.id)}
-			<EnsDomain {domain}/>
-		{:else}
-			<div class="card">
-				<p>The ENS name "{query}" doesn't have an owner.</p>
-				<a href="https://app.ens.domains/name/{domain}" target="_blank"><button>Register On ENS</button></a>
-			</div>
-		{/each}
+		<Loader
+			fromStore={() => domainsContainingQuery}
+			loadingIcon="/logos/ens.svg"
+			loadingIconName="The Graph"
+			loadingMessage="Querying the Ethereum Name Service for similar names..."
+			let:then={{domains}}
+			showIf={({domains} = {}) => domains.length}
+		>
+			<svelte:fragment slot="header" let:status>
+				{#if status === 'resolved'}
+					<hr>
+					<h2>Similar ENS Names</h2>
+				{/if}
+			</svelte:fragment>
+	
+			{#each domains.sort(sortByLength) as domain (domain.id)}
+				<EnsDomain {domain}/>
+			{:else}
+				<div class="card">
+					<p>The ENS name "{query}" doesn't have an owner.</p>
+					<a href="https://app.ens.domains/name/{domain}" target="_blank"><button>Register On ENS</button></a>
+				</div>
+			{/each}
+		</Loader>
 	</Loader>
 </section>
 
