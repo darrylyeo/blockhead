@@ -92,7 +92,10 @@
 			{/each}
 		</div> -->
 		<DefiBalances {provider} {address} {showUnderlyingAssets}>
-			<h4 slot="header">Ethereum DeFi</h4>
+			<svelte:fragment slot="header">
+				<hr>
+				<h4>Ethereum DeFi</h4>
+			</svelte:fragment>
 		</DefiBalances>
 	{:else}
 		<Loading>Connecting to the blockchain...</Loading>
