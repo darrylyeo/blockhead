@@ -4,6 +4,7 @@
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { AnalyticsProvider } from '../data/analytics/provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
+	import { networksByChainID } from '../data/ethereum/networks'
 
 
 	// Portfolio management
@@ -46,6 +47,7 @@
 	
 	// Balances view options
 	
+	export let networks = [1, 137, 43114, 56, 250].map(chainID => networksByChainID[chainID])
 	export let provider: Ethereum.Provider
 	export let analyticsProvider: AnalyticsProvider
 	export let quoteCurrency: QuoteCurrency
@@ -131,6 +133,7 @@
 			<section class="card" transition:scale|local animate:flip|local={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
 				<div class="bar">
 					<PortfolioAccount
+						{networks}
 						{address}
 						{provider}
 						{analyticsProvider}

@@ -5,11 +5,11 @@
 	import type { AnalyticsProvider } from '../data/analytics/provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import { Covalent } from '../data/analytics/covalent'
-	import { networksByChainID } from '../data/ethereum/networks'
 
 
 	// Balances view options
 
+	export let networks: Ethereum.Network[]
 	export let address: CryptoAddress
 	export let provider: Ethereum.Provider
 	export let analyticsProvider: AnalyticsProvider
@@ -64,41 +64,36 @@
 		</span>
 		<slot></slot>
 	</div>
-	{#if analyticsProvider}
-		{#if analyticsProvider === 'Covalent'}
-			{#each Covalent.MainnetChainIDs.map(chainID => networksByChainID[chainID]) as network, i}
-				<EthereumBalances
-					{address}
-					{network}
-					{analyticsProvider}
-					{quoteCurrency}
-					{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets}
-					bind:quoteTotal={quoteTotals[i]}
-				>
-					<div slot="header" class="bar" let:network let:quoteCurrency let:quoteTotal>
-						<h4>{network.name}</h4>
-						<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
-					</div>
-				</EthereumBalances>
-			{/each}
-		{/if}
-	{/if}
-	{#if provider}
-		<!-- <div class="balances">
-			{#each ['ETH'] as token}
-				<div class="card">
-					<Balance {provider} {token} {address} />
+	{#each networks as network, i}
+		<!-- Token Balances -->
+		{#if analyticsProvider === 'Covalent' && Covalent.ChainIDs.includes(network.chainId)}
+			<EthereumBalances
+				{network}
+				{address}
+				{analyticsProvider}
+				{quoteCurrency}
+				{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets}
+				bind:quoteTotal={quoteTotals[i]}
+			>
+				<div slot="header" class="bar" let:network let:quoteCurrency let:quoteTotal>
+					<h4>{network.name}</h4>
+					<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
 				</div>
-			{/each}
-		</div> -->
-		<DefiBalances {provider} {address} {showUnderlyingAssets}>
-			<svelte:fragment slot="header">
-				<hr>
-				<h4>Ethereum DeFi</h4>
-			</svelte:fragment>
-		</DefiBalances>
-	{:else}
-		<Loading>Connecting to the blockchain...</Loading>
-	{/if}
-</div>
+			</EthereumBalances>
+		{/if}
 
+		<!-- DeFi Balances -->
+		{#if network.chainId === 1}
+			{#if provider}
+				<DefiBalances {provider} {address} {showUnderlyingAssets}>
+					<svelte:fragment slot="header">
+						<hr>
+						<h4>Ethereum DeFi</h4>
+					</svelte:fragment>
+				</DefiBalances>
+			{:else}
+				<Loading>Connecting to the blockchain...</Loading>
+			{/if}
+		{/if}
+	{/each}
+</div>

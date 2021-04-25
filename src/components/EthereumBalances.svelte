@@ -6,8 +6,8 @@
 	import { getTokenAddressBalances } from '../data/analytics/covalent'
 
 	export let network: Ethereum.Network
-	export let analyticsProvider: AnalyticsProvider
 	export let address: string
+	export let analyticsProvider: AnalyticsProvider
 	export let quoteCurrency: QuoteCurrency
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending'
 	export let showSmallValues = false

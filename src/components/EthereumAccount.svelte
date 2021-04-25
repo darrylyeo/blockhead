@@ -127,12 +127,12 @@
 	<div class="balances">
 		<EthereumBalances
 			{network}
+			{address}
 			analyticsProvider={$preferredAnalyticsProvider}
 			quoteCurrency={$preferredQuoteCurrency}
 			{sortBy}
 			{showSmallValues}
 			{showValues}
-			{address}
 			isSelectable={true}
 			bind:selectedToken={selectedToken}
 		>

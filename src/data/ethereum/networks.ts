@@ -1901,6 +1901,6 @@ export const networks: Ethereum.Network[] = [
 	}
 ]
 
-export const networksByChainID = {}
+export const networksByChainID: Record<Ethereum.ChainID, Ethereum.Network> = {}
 for(const network of networks)
 	networksByChainID[network.chainId] = network
