@@ -1,16 +1,8 @@
 <script lang="ts">
-	import { onMount } from 'svelte'
 	import type { ENS } from '../data/ens'
+	import { queryENSDomain, queryENSDomainsContaining } from '../data/ens'
 	
 	export let query: string
-	
-	let domainQuery
-	let domainsContainingQuery
-	onMount(async () => {
-		const { queryENSDomain, queryENSDomainsContaining} = await import('../data/ens')
-		domainQuery = queryENSDomain(query)
-		domainsContainingQuery = queryENSDomainsContaining(query)
-	})
 	
 	const sortByLength = (a, b) => a.name.length - b.name.length
 	
@@ -26,7 +18,7 @@
 
 <section class="explorer">
 	<Loader
-		fromStore={() => domainQuery}
+		fromStore={() => queryENSDomain(query)}
 		loadingIcon="/logos/ens.svg"
 		loadingIconName="The Graph"
 		loadingMessage="Querying the Ethereum Name Service..."
@@ -42,7 +34,7 @@
 		{/each}
 
 		<Loader
-			fromStore={() => domainsContainingQuery}
+			fromStore={() => queryENSDomainsContaining(query)}
 			loadingIcon="/logos/ens.svg"
 			loadingIconName="The Graph"
 			loadingMessage="Querying the Ethereum Name Service for similar names..."
