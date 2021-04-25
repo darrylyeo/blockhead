@@ -26,6 +26,7 @@
 
 
 	import Address from './Address.svelte'
+	import Balance from './Balance.svelte'
 	import DefiBalances from './DefiBalances.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
 	import Loading from './Loading.svelte'
@@ -80,6 +81,12 @@
 					<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
 				</div>
 			</EthereumBalances>
+		{:else if provider}
+			<div class="balances">
+				{#each ['ETH', 'USDC'] as token}
+					<Balance {provider} {token} {address} />
+				{/each}
+			</div>
 		{/if}
 
 		<!-- DeFi Balances -->
