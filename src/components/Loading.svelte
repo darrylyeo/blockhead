@@ -19,6 +19,8 @@
 		display: inline-flex;
 		place-items: center;
 		font-size: 1.5em;
+
+		align-items: center;
 	}
 	.spin {
 		animation: Spin 1s linear infinite;

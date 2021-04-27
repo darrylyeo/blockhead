@@ -1,6 +1,6 @@
 import { quintOut } from 'svelte/easing'
 
-export function scaleFont(node: Element, { delay = 0, duration = 300, easing = quintOut }){
+export function scaleFont(node: Element, { delay = 0, duration = 200, easing = quintOut }){
 	// const {fontSize} = getComputedStyle(node)
 	return {
 		delay,

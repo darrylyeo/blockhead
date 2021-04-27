@@ -9,7 +9,7 @@
 		'Chainlink': '/logos/chainlink.svg'
 	})[$preferredPriceFeedProvider]
 
-	import Loading from '../../../components/Loading.svelte'
+	import Loader from '../../../components/Loader.svelte'
 	import TokenRate from '../../../components/TokenRate.svelte'
 </script>
 
@@ -40,14 +40,15 @@
 			<h3>Current Price</h3>
 			<span class="card-annotation">{$preferredPriceFeedProvider}</span>
 		</div>
-		{#await getChainlinkPriceFeed($provider, 'mainnet', 'BTC', $preferredQuoteCurrency)}
-			<Loading iconAnimation="hover">
-				<img slot="icon" src={priceFeedLogo} alt={$preferredPriceFeedProvider} width="32">
-				Retrieving price...
-			</Loading>
-		{:then priceFeed}
+		<Loader
+			loadingIcon={priceFeedLogo}
+			loadingIconName={$preferredPriceFeedProvider}
+			loadingMessage="Retrieving price from Chainlink..."
+			fromPromise={() => getChainlinkPriceFeed($provider, 'mainnet', 'BTC', $preferredQuoteCurrency)}
+			let:then={priceFeed}
+		>
 			<TokenRate rate={priceFeed.price} quoteToken={$preferredQuoteCurrency} baseToken="BTC" layout="horizontal" />
 			<!-- <p>Updated {priceFeed.updatedAt.toString()} -->
-		{/await}
+		</Loader>
 	</section>
 </div>

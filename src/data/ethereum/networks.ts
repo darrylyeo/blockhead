@@ -2,7 +2,7 @@ import type { Ethereum } from './types'
 
 export const networks: Ethereum.Network[] = [
 	{
-		"name": "Ethereum Mainnet",
+		"name": "Ethereum",
 		"chainId": 1,
 		"shortName": "eth",
 		"chain": "ETH",
@@ -132,7 +132,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://clover.finance"
 	},
 	{
-		"name": "Clover Mainnet",
+		"name": "Clover",
 		"chainId": 1024,
 		"shortName": "clv",
 		"chain": "Clover",
@@ -145,7 +145,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://clover.finance"
 	},
 	{
-		"name": "ThunderCore Mainnet",
+		"name": "ThunderCore",
 		"chainId": 108,
 		"shortName": "TT",
 		"chain": "TT",
@@ -158,7 +158,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://thundercore.com"
 	},
 	{
-		"name": "Metadium Mainnet",
+		"name": "Metadium",
 		"chainId": 11,
 		"shortName": "meta",
 		"chain": "META",
@@ -223,7 +223,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://metadium.com"
 	},
 	{
-		"name": "Fuse Mainnet",
+		"name": "Fuse",
 		"chainId": 122,
 		"shortName": "fuse",
 		"chain": "FUSE",
@@ -236,7 +236,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://fuse.io/"
 	},
 	{
-		"name": "Huobi ECO Chain Mainnet",
+		"name": "Huobi ECO Chain",
 		"chainId": 128,
 		"shortName": "heco",
 		"chain": "Heco",
@@ -392,7 +392,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://pepchain.io"
 	},
 	{
-		"name": "Matic Mainnet",
+		"name": "Matic",
 		"chainId": 137,
 		"shortName": "matic",
 		"chain": "Matic",
@@ -405,7 +405,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://matic.network/"
 	},
 	{
-		"name": "Flare Mainnet",
+		"name": "Flare",
 		"chainId": 14,
 		"shortName": "flr",
 		"chain": "FLR",
@@ -470,7 +470,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://atheios.com"
 	},
 	{
-		"name": "Lightstreams Mainnet",
+		"name": "Lightstreams",
 		"chainId": 163,
 		"shortName": "pht",
 		"chain": "PHT",
@@ -483,7 +483,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://explorer.lightstreams.io"
 	},
 	{
-		"name": "Harmony Mainnet Shard 0",
+		"name": "Harmony Shard 0",
 		"chainId": 1666600000,
 		"shortName": "hmy-s0",
 		"chain": "Harmony",
@@ -496,7 +496,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.harmony.one/"
 	},
 	{
-		"name": "Harmony Mainnet Shard 1",
+		"name": "Harmony Shard 1",
 		"chainId": 1666600001,
 		"shortName": "hmy-s1",
 		"chain": "Harmony",
@@ -509,7 +509,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.harmony.one/"
 	},
 	{
-		"name": "Harmony Mainnet Shard 2",
+		"name": "Harmony Shard 2",
 		"chainId": 1666600002,
 		"shortName": "hmy-s2",
 		"chain": "Harmony",
@@ -522,7 +522,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.harmony.one/"
 	},
 	{
-		"name": "Harmony Mainnet Shard 3",
+		"name": "Harmony Shard 3",
 		"chainId": 1666600003,
 		"shortName": "hmy-s3",
 		"chain": "Harmony",
@@ -665,7 +665,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://expanse.tech"
 	},
 	{
-		"name": "ELA-ETH-Sidechain Mainnet",
+		"name": "ELA-ETH-Sidechain",
 		"chainId": 20,
 		"shortName": "elaeth",
 		"chain": "ETH",
@@ -704,7 +704,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://420integrated.com"
 	},
 	{
-		"name": "Edgeware Mainnet",
+		"name": "Edgeware",
 		"chainId": 2021,
 		"shortName": "edg",
 		"chain": "EDG",
@@ -756,7 +756,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://freighttrust.com"
 	},
 	{
-		"name": "ELA-DID-Sidechain Mainnet",
+		"name": "ELA-DID-Sidechain",
 		"chainId": 22,
 		"shortName": "eladid",
 		"chain": "ETH",
@@ -886,7 +886,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://hpbscan.org/"
 	},
 	{
-		"name": "Auxilium Network Mainnet",
+		"name": "Auxilium Network",
 		"chainId": 28945486,
 		"shortName": "auxi",
 		"chain": "AUX",
@@ -912,7 +912,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://github.com/ethereum/ropsten"
 	},
 	{
-		"name": "RSK Mainnet",
+		"name": "RSK",
 		"chainId": 30,
 		"shortName": "rsk",
 		"chain": "RSK",
@@ -964,7 +964,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://pirl.io"
 	},
 	{
-		"name": "Fusion Mainnet",
+		"name": "Fusion",
 		"chainId": 32659,
 		"shortName": "fsn",
 		"chain": "FSN",
@@ -977,7 +977,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.fusion.org/"
 	},
 	{
-		"name": "GoodData Mainnet",
+		"name": "GoodData",
 		"chainId": 33,
 		"shortName": "GooD",
 		"chain": "GooD",
@@ -1003,7 +1003,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://tbwg.io"
 	},
 	{
-		"name": "Joys Digital Mainnet",
+		"name": "Joys Digital",
 		"chainId": 35855456,
 		"shortName": "JOYS",
 		"chain": "JOYS",
@@ -1042,7 +1042,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://lisinski.online"
 	},
 	{
-		"name": "Energi Mainnet",
+		"name": "Energi",
 		"chainId": 39797,
 		"shortName": "nrg",
 		"chain": "NRG",
@@ -1068,7 +1068,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.rinkeby.io"
 	},
 	{
-		"name": "Telos EVM Mainnet",
+		"name": "Telos EVM",
 		"chainId": 40,
 		"shortName": "Telos EVM",
 		"chain": "TLOS",
@@ -1133,7 +1133,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://teampeggle.com"
 	},
 	{
-		"name": "Celo Mainnet",
+		"name": "Celo",
 		"chainId": 42220,
 		"shortName": "CELO",
 		"chain": "CELO",
@@ -1185,7 +1185,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://cchain.explorer.avax-test.network"
 	},
 	{
-		"name": "Avalanche Mainnet",
+		"name": "Avalanche Contract Chain",
 		"chainId": 43114,
 		"shortName": "Avalanche",
 		"chain": "AVAX",
@@ -1224,7 +1224,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://docs.celo.org/"
 	},
 	{
-		"name": "IoTeX Network Mainnet",
+		"name": "IoTeX Network",
 		"chainId": 4689,
 		"shortName": "iotex-mainnet",
 		"chain": "IOTX",
@@ -1289,7 +1289,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://goerli.net/#about"
 	},
 	{
-		"name": "XinFin Network Mainnet",
+		"name": "XinFin Network",
 		"chainId": 50,
 		"shortName": "xdc",
 		"chain": "XDC",
@@ -1315,7 +1315,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://xinfin.org"
 	},
 	{
-		"name": "CoinEx Smart Chain Mainnet",
+		"name": "CoinEx Smart Chain",
 		"chainId": 52,
 		"shortName": "cet",
 		"chain": "CSC",
@@ -1354,7 +1354,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://tao.network"
 	},
 	{
-		"name": "Binance Smart Chain Mainnet",
+		"name": "Binance Smart Chain",
 		"chainId": 56,
 		"shortName": "bnb",
 		"chain": "BSC",
@@ -1367,7 +1367,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.binance.org"
 	},
 	{
-		"name": "Wegochain Rubidium Mainnet",
+		"name": "Wegochain Rubidium",
 		"chainId": 5869,
 		"shortName": "rbd",
 		"chain": "RBD",
@@ -1419,7 +1419,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://gochain.io"
 	},
 	{
-		"name": "Ethereum Classic Mainnet",
+		"name": "Ethereum Classic",
 		"chainId": 61,
 		"shortName": "etc",
 		"chain": "ETC",
@@ -1510,7 +1510,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.okex.com/okexchain"
 	},
 	{
-		"name": "OKExChain Mainnet",
+		"name": "OKExChain",
 		"chainId": 66,
 		"shortName": "okt",
 		"chain": "okexchain",
@@ -1536,7 +1536,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "http://test.dbmbp.com"
 	},
 	{
-		"name": "SoterOne Mainnet",
+		"name": "SoterOne",
 		"chainId": 68,
 		"shortName": "SO1",
 		"chain": "SOTER",
@@ -1692,7 +1692,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://acala.network"
 	},
 	{
-		"name": "Ubiq Network Mainnet",
+		"name": "Ubiq Network",
 		"chainId": 8,
 		"shortName": "ubq",
 		"chain": "UBQ",
@@ -1718,7 +1718,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://matic.network/"
 	},
 	{
-		"name": "Meter Mainnet",
+		"name": "Meter",
 		"chainId": 82,
 		"shortName": "Meter",
 		"chain": "METER",
@@ -1731,7 +1731,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.meter.io"
 	},
 	{
-		"name": "Callisto Mainnet",
+		"name": "Callisto",
 		"chainId": 820,
 		"shortName": "clo",
 		"chain": "CLO",
@@ -1757,7 +1757,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://callisto.network"
 	},
 	{
-		"name": "Klaytn Mainnet Cypress",
+		"name": "Klaytn Cypress",
 		"chainId": 8217,
 		"shortName": "Cypress",
 		"chain": "KLAY",
@@ -1901,6 +1901,6 @@ export const networks: Ethereum.Network[] = [
 	}
 ]
 
-export const networksByChainID = {}
+export const networksByChainID: Record<Ethereum.ChainID, Ethereum.Network> = {}
 for(const network of networks)
 	networksByChainID[network.chainId] = network

@@ -9,7 +9,7 @@
 
 	import Date from './Date.svelte'
 	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
-	import Loading from './Loading.svelte'
+	import Loader from './Loader.svelte'
 </script>
 
 <div class="card">
@@ -20,22 +20,20 @@
 
 
 	{#if analyticsProvider === 'Covalent'}
-		{#await getBlock({blockNumber})}
-			<Loading iconAnimation="hover">
-				<img slot="icon" src="/logos/covalent-logomark.svg" alt="Covalent" width="25">
-				<p>Fetching block data from Covalent...</p>
-			</Loading>
-		{:then block}
+		<Loader
+			loadingIcon={'/logos/covalent-logomark.svg'}
+			loadingIconName={'Covalent'}
+			loadingMessage="Fetching block data from {analyticsProvider}..."
+			errorMessage="Error fetching block data from {analyticsProvider}"
+			fromPromise={() => getBlock({blockNumber})}
+			let:then={block}
+		>
 			{#each block.items as blockItem}
 				<div class="card">
 					<h3>Signed At</h3>
 					<Date date={blockItem.signed_at} layout="horizontal" />
 				</div>
 			{/each}
-		{:catch error}
-			<div class="card">
-				{error}
-			</div>
-		{/await}
+		</Loader>
 	{/if}
 </div>

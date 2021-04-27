@@ -4,6 +4,7 @@
 	padding: 0;
 	text-decoration-color: inherit;
 	min-width: 0;
+	gap: inherit;
 }
 
 :root {
@@ -15,6 +16,7 @@
 	--usdc-blue: #2775c9;
 	--tether-teal: #26a17b;
 	--ripple-black: #222222;
+	--avalanche-red: #f9273c;
 
 	--up-green: #1af73d;
 	--down-red: #f7541a;
@@ -61,7 +63,7 @@
 	text-shadow: 0px 2px 1px rgba(0, 0, 0, 0.1);
 	
 	--global-background-gradient-base-color: #ffffff;
-	background: linear-gradient(155deg, var(--global-background-gradient-base-color), var(--primary-color) 250%) fixed;
+	background: linear-gradient(155deg, var(--global-background-gradient-base-color), var(--primary-color, var(--ethereum-blue)) 250%) fixed;
 }
 @media (prefers-color-scheme: dark) {
 	:root {
@@ -106,7 +108,6 @@ h5 {
 
 pre, code {
 	font-family: var(--monospace-fonts);
-	padding: var(--padding-inner);
 	white-space: pre-wrap;
 }
 
@@ -146,6 +147,9 @@ button:focus {
 }
 button:active {
 	--depth: 0;
+}
+button.small {
+	font-size: 0.7em;
 }
 
 
@@ -266,11 +270,16 @@ main {
 
 .stack {
 	display: grid;
-	grid: "area";
+	grid: "stack";
 }
 .stack > * {
-	grid-area: area;
-	place-items: start;
+	grid-area: stack;
+}
+
+
+.column {
+	display: grid;
+	grid-template-columns: 100%;
 }
 
 

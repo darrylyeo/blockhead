@@ -8,7 +8,7 @@
 	import { ethereumNetwork, preferredAnalyticsProvider, preferredEthereumProvider } from '../../../data/ethereum/preferences'
 	import { getProvider } from '../../../data/ethereum/provider'
 	
-	const chainID = 1
+	const chainID = 43114
 	export const explorerNetwork = writable<Ethereum.Network>(networksByChainID[chainID])
 	setContext('explorerNetwork', explorerNetwork)
 	
@@ -49,13 +49,13 @@
 </style>
 
 <svelte:head>
-	<title>{$query ? `${$query} | ` : ''}Ethereum Explorer | Blockhead</title>
+	<title>{$query ? `${$query} | ` : ''}Avalanche Explorer | Blockhead</title>
 </svelte:head>
 
 
-<!-- <AddressField bind:query={$query} on:change={goto(`explorer/ethereum/${query}`)}/> -->
-<form on:submit|preventDefault={() => goto(`explorer/ethereum/${$query}`)}>
-	<AddressField bind:address={$query}/>
+<!-- <AddressField bind:query={$query} on:change={goto(`explorer/avalanche/${query}`)}/> -->
+<form on:submit|preventDefault={() => goto(`explorer/avalanche/${$query}`)}>
+	<AddressField bind:address={$query} placeholder="C-Chain Address (0xabcd...6789) / Avvy Domain (avvy.avax)" />
 	<button>Go</button>
 </form>
 
@@ -63,5 +63,5 @@
 	<slot></slot>
 	<!-- <slot {provider} {query}></slot> -->
 {:else}
-	<Loading>Connecting to the blockchain via {$preferredEthereumProvider}...</Loading>
+	<Loading>Connecting to the Avalanche blockchain via {$preferredEthereumProvider}...</Loading>
 {/if}

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { BigNumberish } from 'ethers'
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { TickerSymbol } from '../data/currency/currency'
 	import { fiatQuoteCurrencies } from '../data/currency/currency'
@@ -8,28 +9,49 @@
 	export let tokenIcon: string
 	export let tokenName: string
 
-	export let value: number | string | BigInt = '...'
-	export let showDecimalPlaces = 3
+	export let value: number | string | BigNumberish = 0
+	export let price
+	export let showDecimalPlaces = 3 // 2 + Math.round(Math.log10(price || 1))
 
 	export let isDebt = false
 
 	export let showPlainFiat = false
 	$: isFiat = showPlainFiat && token in fiatQuoteCurrencies
 
+
+	$: formatter = new Intl.NumberFormat(globalThis.navigator.languages, {
+		... isFiat ? {style: 'currency', currency: token} : {},
+		minimumFractionDigits: Math.max(showDecimalPlaces, 0),
+		maximumFractionDigits: Math.max(showDecimalPlaces, 0)
+	})
 	const formatValue = value => {
 		try {
-			return new Intl.NumberFormat(globalThis.navigator.languages, {
-				... isFiat ? {style: 'currency', currency: token} : {},
-				minimumFractionDigits: showDecimalPlaces,
-				maximumFractionDigits: showDecimalPlaces
-			}).format(value)
+			return globalThis.navigator
+				? formatter.format(value || 0)
+				: value
 		}catch(e){
 			console.error(e)
 			return value?.toString()
 		}
 	}
-	
+
+
+	import { tweened } from 'svelte/motion'
+	const tweenedValue = tweened(0, {
+		duration: 1000,
+		delay: 1,
+		easing: quintOut,
+		interpolate: (from, to) => t => {
+			const logFrom = from ? Math.log10(from) : -showDecimalPlaces - 1
+			const logTo = to ? Math.log10(to) : -showDecimalPlaces - 1
+			return Math.pow(10, logFrom + t * (logTo - logFrom))
+		}
+	})
+	$: tweenedValue.set(Number(value || 0))
+
+
 	import TokenIcon from './TokenIcon.svelte'
+import { expoOut, quintOut } from 'svelte/easing';
 </script>
 
 <style>
@@ -52,19 +74,22 @@
 		font-weight: 300;
 		font-size: 0.8em;
 	}
+	.token-value {
+		font-weight: 500;
+	}
 
 	.is-debt {
 		color: var(--down-red);
 	}
 </style>
 
-<span class="token-value-container" class:is-debt={isDebt} title="{value} {token} ({tokenName})">
+<span class="token-value-container" class:is-debt={isDebt} title="{value} {tokenName || token}{token && tokenName ? ` (${token})` : ``}">
 	{#if isFiat}
-		<span class="token-value">{formatValue(value)}</span>
+		<span class="token-value">{formatValue($tweenedValue)}</span>
 	{:else}
 		<TokenIcon {token} {tokenAddress} {tokenIcon} />
 		<span>
-			<span class="token-value">{isDebt ? '−' : ''}{formatValue(value)}</span>
+			<span class="token-value">{isDebt ? '−' : ''}{formatValue($tweenedValue)}</span>
 			<span class="token-name">{token || '___'}</span>
 		</span>
 	{/if}

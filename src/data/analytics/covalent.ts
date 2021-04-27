@@ -25,7 +25,9 @@ export namespace Covalent {
 	export const TestnetChainIDs = [80001, 43113] as const
 	export const ChainIDs = [...MainnetChainIDs, ...TestnetChainIDs] as const
 	export type ChainID = typeof ChainIDs[number]
-	export type QuoteCurrency = 'USD' | 'CAD' | 'EUR' | 'SGD' | 'INR' | 'JPY' | 'VND' | 'CNY' | 'KRW' | 'RUB' | 'TRY' | 'ETH'
+
+	export const quoteCurrencies = ['USD', 'CAD', 'EUR', 'SGD', 'INR', 'JPY', 'VND', 'CNY', 'KRW', 'RUB', 'TRY', 'ETH']
+	export type QuoteCurrency = typeof quoteCurrencies[number]
 
 	type Pagination = {
 		has_more: boolean // true if we can paginate to get more data.

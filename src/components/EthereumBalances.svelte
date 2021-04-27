@@ -1,14 +1,14 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import { networksByChainID } from '../data/ethereum/networks'
-	import { Covalent } from '../data/analytics/covalent'
+	import type { Covalent } from '../data/analytics/covalent'
 	import type { AnalyticsProvider } from '../data/analytics/provider'
 	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
 	import { getTokenAddressBalances } from '../data/analytics/covalent'
 
-	export let analyticsProvider: AnalyticsProvider
+	export let network: Ethereum.Network
 	export let address: string
-	export let conversionCurrency: QuoteCurrency
+	export let analyticsProvider: AnalyticsProvider
+	export let quoteCurrency: QuoteCurrency
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending'
 	export let showSmallValues = false
 	export let showValues
@@ -20,6 +20,9 @@
 		tokenIcon: string,
 		tokenName: string
 	} | undefined = undefined
+
+	export let quoteTotal
+
 
 	let filterFunction: (b: Covalent.TokenBalance) => boolean
 	$: filterFunction = showSmallValues
@@ -33,7 +36,16 @@
 		sortBy === 'ticker-ascending' ? (a, b) => a.contract_ticker_symbol.localeCompare(b.contract_ticker_symbol) :
 		undefined
 
-	import Loading from './Loading.svelte'
+
+	$: getBalancesPromise = getTokenAddressBalances({address, nft: false, chainID: network.chainId, quoteCurrency: quoteCurrency})
+	let balances: Covalent.TokenBalance[] = []
+	$: getBalancesPromise.then(balances => (filterFunction ? balances.items.filter(filterFunction) : balances.items).sort(sortFunction))
+		.then(_ => balances = _)
+
+	$: quoteTotal = balances.reduce((sum, item) => sum + item.quote, 0)
+	
+
+	import Loader from './Loader.svelte'
 	import TokenValueWithConversion from './TokenValueWithConversion.svelte'
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
@@ -78,55 +90,60 @@
 	}
 </style>
 
-{#if analyticsProvider === 'Covalent' && address}
-	{#each Covalent.MainnetChainIDs.map(chainID => networksByChainID[chainID]) as network, i}
-		{#await getTokenAddressBalances({address, nft: false, chainID: network.chainId, quoteCurrency: conversionCurrency})}
-			<Loading iconAnimation="hover">
-				<img slot="icon" src="/logos/covalent-logomark.svg" alt="Covalent" width="25">
-				Retrieving {network.name} balances from Covalent...
-			</Loading>
-		{:then balances}
-			<h4>{network.name}</h4>
-			<div class="ethereum-balances card">
-				{#each
-					(filterFunction ? balances.items.filter(filterFunction) : balances.items).sort(sortFunction)
-					as {type, balance, quote, quote_rate, contract_name, contract_address, contract_decimals, contract_ticker_symbol, logo_url},
-					i (contract_address || contract_ticker_symbol || contract_name)
-				}
-					<span
-						class="ethereum-balance"
-						class:is-selectable={isSelectable}
-						class:is-selected={selectedToken?.tokenAddress === contract_address}
-						tabindex={isSelectable ? 0 : undefined}
-						on:click={() =>
-							selectedToken = selectedToken?.tokenAddress === contract_address ? undefined : {
-								token: contract_ticker_symbol || contract_name,
-								tokenAddress: contract_address,
-								tokenIcon: logo_url,
-								tokenName: contract_name,
-							}
+{#if address}
+	<Loader
+		loadingIcon={'/logos/covalent-logomark.svg'}
+		loadingIconName={'Covalent'}
+		loadingMessage="Retrieving {network.name} balances from {analyticsProvider}..."
+		errorMessage="Error retrieving {network.name} balances from {analyticsProvider}"
+		fromPromise={() => getBalancesPromise}
+		showIf={() => balances.length}
+		hideError={true}
+	>
+		<svelte:fragment slot="header">
+			{#if balances.length}
+				<hr>
+				<slot name="header" {network} {quoteCurrency} {quoteTotal}></slot>
+			{/if}
+		</svelte:fragment>
+
+		<div class="ethereum-balances card">
+			{#each
+				balances
+				as {type, balance, quote, quote_rate, contract_name, contract_address, contract_decimals, contract_ticker_symbol, logo_url},
+				i (contract_address || contract_ticker_symbol || contract_name)
+			}
+				<span
+					class="ethereum-balance"
+					class:is-selectable={isSelectable}
+					class:is-selected={selectedToken?.tokenAddress === contract_address}
+					tabindex={isSelectable ? 0 : undefined}
+					on:click={() =>
+						selectedToken = selectedToken?.tokenAddress === contract_address ? undefined : {
+							token: contract_ticker_symbol || contract_name,
+							tokenAddress: contract_address,
+							tokenIcon: logo_url,
+							tokenName: contract_name,
 						}
-						in:scale
-						animate:flip|local={{duration: 500, delay: Math.abs(i) * 10, easing: quintOut}}
-					>
-						<TokenValueWithConversion
-							{showValues}
-							token={contract_ticker_symbol || contract_name}
-							tokenAddress={contract_address}
-							tokenIcon={logo_url}
-							tokenName={contract_name}
-							value={balance * 0.1 ** contract_decimals}
-							isDust={false}
-							{conversionCurrency}
-							convertedValue={quote}
-							conversionRate={quote_rate}
-						/>
-						<!-- isDust={type === 'dust'} -->
-					</span>
-				{/each}
-			</div>
-		{:catch error}
-			{error}
-		{/await}
-	{/each}
+					}
+					in:scale
+					animate:flip|local={{duration: 500, delay: Math.abs(i) * 10, easing: quintOut}}
+				>
+					<TokenValueWithConversion
+						{showValues}
+						token={contract_ticker_symbol || contract_name}
+						tokenAddress={contract_address}
+						tokenIcon={logo_url}
+						tokenName={contract_name}
+						value={balance * 0.1 ** contract_decimals}
+						isDust={false}
+						conversionCurrency={quoteCurrency}
+						convertedValue={quote}
+						conversionRate={quote_rate}
+					/>
+					<!-- isDust={type === 'dust'} -->
+				</span>
+			{/each}
+		</div>
+	</Loader>
 {/if}

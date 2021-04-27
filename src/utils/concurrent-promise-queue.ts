@@ -6,8 +6,8 @@ export class ConcurrentPromiseQueue {
 		public maxConcurrent = 3
 	){}
 	
-	public enqueue(asyncFunction){
-		return new Promise((resolve, reject) => {
+	public enqueue<T>(asyncFunction: () => Promise<T>){
+		return new Promise<T>((resolve, reject) => {
 			this.queue.push({asyncFunction, resolve, reject})
 
 			this.dequeue()
