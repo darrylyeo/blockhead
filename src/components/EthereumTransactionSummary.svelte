@@ -30,8 +30,12 @@
 </style>
 
 <p class="transaction">
-	<span class="muted">Transaction</span>
-	<EthereumTransactionID {transactionID}/>
+	{#if transactionID || blockNumber}
+		<span class="muted">Transaction</span>
+	{/if}
+	{#if transactionID}
+		<EthereumTransactionID {transactionID} format="middle-truncated"/>
+	{/if}
 	{#if blockNumber}
 		<span class="muted">at</span>
 		<EthereumBlockNumber {blockNumber}/>

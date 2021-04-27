@@ -1,7 +1,9 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
+	import type { TickerSymbol } from '../data/currency/currency'
+	import type { Covalent } from '../data/analytics/covalent'
 
-	export let contextualAddress // used for summary
+	export let contextualAddress: Ethereum.Address // used for summary
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
 	export let showValues: 'original' | 'converted' | 'both' = 'original'
 	export let showFees = false
@@ -13,13 +15,18 @@
 	export let transactionID
 	export let blockNumber
 	export let date
+	export let isSuccessful = true
 
 	export let fromAddress: Ethereum.Address
 	export let fromAddressLabel
 	export let toAddress: Ethereum.Address
 	export let toAddressLabel
 
-	export let token = 'ETH'
+	export let token: TickerSymbol = 'ETH'
+	export let tokenAddress: Ethereum.ContractAddress
+	export let tokenIcon: string
+	export let tokenName: string
+
 	export let value
 	export let valueQuote
 
@@ -28,6 +35,9 @@
 
 	export let quoteToken
 	export let rate
+
+	export let transfers = []
+	export let logEvents: Covalent.LogEvent[] = []
 
 	$: isSummary = detailLevel === 'summary'
 	$: isExhaustive = detailLevel === 'exhaustive'
@@ -40,10 +50,12 @@
 
 	import AddressWithLabel from './AddressWithLabel.svelte'
 	import Date from './Date.svelte'
+	import EthereumLogEvent from './EthereumLogEvent.svelte'
 	import EthereumTransactionId from './EthereumTransactionID.svelte'
 	import EthereumTransactionSummary from './EthereumTransactionSummary.svelte'
 	import TokenValueWithConversion from './TokenValueWithConversion.svelte'
-	import { scale } from 'svelte/transition'
+	import { fade, scale } from 'svelte/transition'
+	import { scaleFont } from '../transitions/scale-font'
 </script>
 
 
@@ -52,21 +64,21 @@
 		font-size: 0.8em;
 	}
 
-	.transaction-details {
+	.transaction {
 		--padding-inner: 0.5em;
 		text-align: center;
 	}
 
-	.transaction-details :global(.address) {
+	.transaction :global(.address) {
 		font-weight: 600;
 	}
-	.transaction-details.layout-inline :global(.address) {
+	.transaction.layout-inline :global(.address) {
 		display: inline;
 	}
 	.fee {
 		font-size: 0.85em;
 	}
-	.transaction-details :global(.token-rate) {
+	.transaction :global(.token-rate) {
 		font-weight: 500;
 	}
 	.container :global(.date) {
@@ -74,12 +86,19 @@
 		opacity: 0.7;
 		align-self: center;
 		align-items: flex-end;
-    	justify-content: center;
+		justify-content: center;
 		height: 1em;
 	}
 
+	.log-events {
+		display: grid;
+		gap: var(--padding-inner);
+		font-size: 0.75em;
+		padding: var(--padding-outer);
+	}
 
-	.transaction-details .footer {
+
+	.transaction .footer {
 		/* justify-items: end;
 		gap: var(--padding-inner); */
 		opacity: 0.7;
@@ -111,9 +130,13 @@
 	.container.inner-layout-columns .value {
 		font-size: 1.5em;
 	}
+
+	.unsuccessful {
+		box-shadow: 0 1px 3px #ff2f00a0;
+	}
 </style>
 
-<div class="card transaction-details layout-{layout}" transition:scale>
+<div class="card transaction layout-{layout}" class:unsuccessful={!isSuccessful} transition:fade|local>
 	{#if layout === 'standalone'}
 		<div class="bar">
 			<h2><EthereumTransactionId {transactionID}/></h2>
@@ -122,45 +145,75 @@
 	{/if}
 	<div class="container inner-layout-{innerLayout}">
 		{#if !isSummary}
-			<span class="sender" transition:scale>
+			<span class="sender" transition:fade|local>
 				<AddressWithLabel address={fromAddress} label={fromAddressLabel} format="middle-truncated" />
 			</span>
 		{/if}
 		{#if value}
 			<span>
-				<span class="action">{isSummary && contextIsReceiver ? 'received' : 'sent'}</span>
-				<TokenValueWithConversion {showValues} {token} {value} conversionCurrency={quoteToken} convertedValue={valueQuote} />
+				<span class="action">
+					{isSummary && contextIsReceiver
+						? isSuccessful ? 'received' : 'failed to receive'
+						: isSuccessful ? 'sent' : 'failed to send'}
+				</span>
+				<TokenValueWithConversion {showValues} {token} {tokenAddress} {tokenIcon} {tokenName} {value} conversionCurrency={quoteToken} convertedValue={valueQuote} />
 			</span>
 		{/if}
 		{#if isSummary && contextIsReceiver}
-			<span class="sender" transition:scale>
+			<span class="sender" transition:fade|local>
 				<span>from</span>
 				<AddressWithLabel address={fromAddress} label={fromAddressLabel} format="middle-truncated" />
 			</span>
 		{:else}
-			<span class="receiver" transition:scale>
+			<span class="receiver" transition:fade|local>
 				<span>to</span>
 				<AddressWithLabel address={toAddress} label={toAddressLabel} format="middle-truncated" />
 			</span>
 		{/if}
-		{#if isExhaustive || showFees}
-			<span class="fee" transition:scale>
+		{#if showFees && gasValue !== undefined}
+			<span class="fee" transition:fade|local>
 				<span>for fee</span>
 				<TokenValueWithConversion {showValues} token="ETH" value={gasValue} conversionCurrency={quoteToken} convertedValue={gasValueQuote} />
 			</span>
 		{/if}
-		{#if isSummary}
+		{#if isSummary && date}
 			<Date {date} />
 		{/if}
 	</div>
+	{#if transfers?.length}
+		<div class="transfers">
+			{#each transfers as transfer}
+				<svelte:self
+					{contextualAddress}
+					{detailLevel}
+					{showValues}
+					showFees={false}
+					{...transfer}
+				/>
+			{/each}
+		</div>
+	{/if}
+	{#if isExhaustive && logEvents?.length}
+		<div class="log-events" transition:fade|local>
+			{#each logEvents as logEvent}
+				<EthereumLogEvent
+					{logEvent}
+					{detailLevel}
+					{contextualAddress}
+				/>
+			{/each}
+		</div>
+	{/if}
 	{#if !isSummary}
-		<div class="footer bar">
+		<div class="footer bar" transition:fade|local>
 			{#if layout === 'standalone' && blockNumber}
 				<EthereumTransactionSummary {blockNumber} />
 			{:else if layout === 'inline'}
 				<EthereumTransactionSummary {transactionID} {blockNumber} />
 			{/if}
-			<Date {date} layout="horizontal" />
+			{#if date}
+				<Date {date} layout="horizontal" />
+			{/if}
 		</div>
 	{/if}
 </div>

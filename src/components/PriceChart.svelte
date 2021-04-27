@@ -1,66 +1,203 @@
 <script lang="ts">
-	import type { AnalyticsProvider } from '../data/analytics/provider'
-	import type { Covalent } from '../data/analytics/covalent'
-	import { getHistoricalPrices } from '../data/analytics/covalent'
 	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
 	
-	export let provider: AnalyticsProvider
-	export let currency: TickerSymbol
+	type TimePrice = {
+		time: number,
+		price: number
+	}
+	type TimePricesForCurrency = {
+		currency: TickerSymbol,
+		prices: TimePrice[]
+	}
+
+	export let data: TimePricesForCurrency[]
 	export let quoteCurrency: QuoteCurrency
-	export let fromDate = '2018-01-01'
-	export let toDate = new Date().toISOString().slice(0, 10) // today's date
-	export let fromPrice = 0
-	export let toPrice = 1000
+	export let timeRange: [number, number]
+	export let priceRange: [number, number]
 
+	export let priceScale: 'linear' | 'linearFromZero' | 'logarithmic' = 'linear'
 
-	const dayToTimestamp = (day: Covalent.Day) => new Date(day).valueOf() / 86400000
-	
-	$: fromDateTimestamp = dayToTimestamp(fromDate)
-	$: toDateTimestamp = dayToTimestamp(toDate)
+	function formatTimestamp(timestamp){
+		return new Date(timestamp).toLocaleDateString()
+	}
 
+	function formatCurrency(value){
+		const showDecimalPlaces = 2 + Math.round(Math.log10(value || 1))
+		return new Intl.NumberFormat(globalThis.navigator.languages, {
+			style: 'currency',
+			currency: quoteCurrency,
+			minimumFractionDigits: 0,
+			maximumFractionDigits: 0
+		}).format(value)
+	}
 
-	$: historicalPriceLogo = ({
-		'Covalent': '/logos/covalent-logomark.svg'
-	})[provider]
+	import Echart from './Echart.svelte'
 
-	import Loading from "./Loading.svelte"
+	import { tokenColors } from '../data/token-colors'
 </script>
 
-<style>
-	svg {
-		width: 100%;
-	}
-	.price-line {
-		fill: var(--primary-color);
-		stroke: rgba(0, 0, 0, 0.3);
-		stroke-width: 5;
-		stroke-linejoin: round;
-		transform: scale(1, -1);
-	}
-</style>
+<Echart options={{
+	grid: {
+		left: 6,
+		right: 60,
+	},
+	xAxis: {
+		type: 'time',
+		boundaryGap: false,
+		splitNumber: 12,
+		splitLine: {
+			show: true
+		},
+		minorSplitLine: {}
+	},
+	yAxis: {
+		...{
+			'linear': {
+				type: 'value',
+				scale: true,
+				// min: 'dataMin',
+				// max: 'dataMax'
+			},
+			'linearFromZero': {
+				type: 'value',
+				scale: false,
+				// min: 0,
+				// max: 'dataMax'
+			},
+			'logarithmic': {
+				type: 'log',
+				logBase: 10,
+				min: 'dataMin',
+				max: 'dataMax',
+				minorSplitLine: {
+					show: true,
+				},
+				splitNumber: 10
+			}
+		}[priceScale],
+		boundaryGap: ['2%', '2%'],
 
-{#if provider === 'Covalent'}
-	{#await getHistoricalPrices({tickerSymbol: currency, quoteCurrency, from: fromDate, to: toDate})}
-		<Loading iconAnimation="hover">
-			<img slot="icon" src={historicalPriceLogo} alt={provider} width="32">
-			Retrieving price history...
-		</Loading>
-	{:then result}
-		<!-- <svg height="300" viewBox="0 0 1 1"> -->
-		<svg height="300" viewBox="{fromDateTimestamp} {-toPrice} {toDateTimestamp - fromDateTimestamp} {toPrice - fromPrice}">
-			<g class="price-line"><!-- style="--x-start: {fromDateTimestamp}; --x-end: {toDateTimestamp}; --y-start: {fromPrice}; --y-end: {toPrice};" -->
-				<polyline
-					points={[
-						[toDateTimestamp, 0],
-						[fromDateTimestamp, 0],
-						...result.prices.map(({date, price}) => [dayToTimestamp(date), price]).reverse()
-					].map(point => point.join(' ')).join(',')}
-				></polyline>
-			</g>
-		</svg>
-	{:catch error}
-		<div class="card">
-			{error}
-		</div>
-	{/await}
-{/if}
+		position: 'right',
+		axisLabel: {
+			formatter: value => formatCurrency(value),
+		},
+	},
+	series: data?.map(({currency, prices}) => ({
+		type: 'line',
+		name: currency,
+
+		data: prices.map(({time, price}) => [time, price]),
+		// data: prices,
+		// encode: {
+		// 	x: 'time',
+		// 	y: 'price',
+		// 	label: ['Time', 'Price'],
+		// 	itemName: '???',
+		// 	tooltip: ['price'],
+		// },
+
+		symbol: 'none',
+		// symbol: `https://tokens.1inch.exchange/0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.png`,
+		
+		color: `var(--${tokenColors[currency]})`,
+		areaStyle: {
+			color: {
+				type: 'linear',
+				x: 0, y: 0,
+				x2: 0, y2: 2,
+				colorStops: [{
+					offset: 0.05,
+					color: `var(--${tokenColors[currency]})`
+				}, {
+					offset: 1,
+					color: 'transparent'
+				}]
+			}
+		},
+		labelLayout: {
+			moveOverlap: 'shiftY'
+		},
+		endLabel: {
+			show: true,
+			formatter: ({value: [time, price]}) => formatCurrency(price),
+			textBorderColor: 'transparent'
+		},
+		emphasis: {
+			focus: 'series'
+		},
+	})),
+	tooltip: {
+		trigger: 'axis',
+		position: points => [points[0], points[1]],
+		order: 'valueDesc',
+		axisPointer: {
+			type: 'cross',
+		},
+		symbol: 'circle',
+	},
+	axisPointer: {
+		type: 'cross',
+		link: {xAxisIndex: 'all'},
+		label: {
+			formatter: ({axisDimension, value}) =>
+				axisDimension === 'x' ? formatTimestamp(value) :
+				axisDimension === 'y' ? formatCurrency(value) :
+				'',
+			backgroundColor: 'rgba(250, 250, 250, 0.5)'
+		}
+	},
+	dataZoom: [{
+		type: 'inside',
+		start: 95,
+		end: 100
+		// start: timeRange[0],
+		// end: timeRange[1]
+	}, {
+		type: 'slider',
+		start: 0,
+		end: 100
+	}],
+	legend: {
+
+	},
+	toolbox: [{
+		feature: {
+			magicType: {
+				type: [
+					'line',
+					'bar',
+					'stack'
+				]
+			},
+		},
+		x: 0
+	}, {
+		feature: {
+			dataZoom: {
+				title: {
+					zoom: 'Zoom Tool',
+					back: 'Undo Zoom'
+				},
+				yAxisIndex: 'none'
+			},
+			restore: {
+				title: 'Reset'
+			},
+            saveAsImage: {
+				title: 'Save'
+			}
+		}
+	}]
+}} />
+
+<div class="bar">
+	<h4>Show</h4>
+	<label>
+		<span>Price Scale</span>
+		<select bind:value={priceScale}>
+			<option value="logarithmic">Logarithmic</option>
+			<option value="linear">Linear</option>
+			<option value="linearFromZero">Linear From Zero</option>
+		</select>
+	</label>
+</div>

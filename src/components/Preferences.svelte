@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { Covalent } from '../data/analytics/covalent'
+	import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '../data/currency/currency'
 	import { preferredAnalyticsProvider, preferredQuoteCurrency, preferredEthereumProvider, preferredPriceFeedProvider } from '../data/ethereum/preferences'
 </script>
 
@@ -22,23 +24,6 @@
 <div class="bar preferences">
 	<h3>Preferences</h3>
 
-	<label>
-		<span>Price Feed:</span>
-		<select bind:value={$preferredPriceFeedProvider}>
-			<option value="Chainlink">Chainlink</option>
-			<option value="Tellor">Tellor</option>
-			<option value="Open Price Feed">Compound Price Feed</option>
-		</select>
-	</label>
-
-	<label>
-		<span>Blockchain Provider:</span>
-		<select bind:value={$preferredEthereumProvider}>
-			<option value="Pocket Network">Pocket Network</option>
-			<option value="Portis">Infura (Portis)</option>
-		</select>
-	</label>
-
 	<!-- <label>
 		<span>Analytics Provider:</span>
 		<select bind:value={$preferredAnalyticsProvider}>
@@ -46,19 +31,35 @@
 		</select>
 	</label> -->
 
+	<!-- <label>
+		<span>Price Feed:</span>
+		<select bind:value={$preferredPriceFeedProvider}>
+			<option value="Chainlink">Chainlink</option> -->
+			<!-- <option value="Tellor">Tellor</option>
+			<option value="Open Price Feed">Compound Price Feed</option> -->
+		<!-- </select>
+	</label> -->
+
+	<!-- <label>
+		<span>Blockchain Provider:</span>
+		<select bind:value={$preferredEthereumProvider}>
+			<option value="Pocket Network">Pocket Network</option>
+			<option value="Portis">Infura (Portis)</option>
+		</select>
+	</label> -->
+
 	<label>
 		<span>Quote Currency:</span>
 		<select bind:value={$preferredQuoteCurrency}>
 			<optgroup label="Fiat Currencies">
-				<option value="USD">US Dollar ($)</option>
-				<option value="GBP">British Pound (£)</option>
-				<option value="CAD">Canadian Dollar (CA$)</option>
-				<option value="INR">Indian Rupee (₹)</option>
-				<option value="EUR">Euro (€)</option>
+				{#each Object.values(fiatQuoteCurrencies) as currency}
+					<option value={currency.isoCode} disabled={!Covalent.quoteCurrencies.includes(currency.isoCode)}>{currency.name} ({currency.symbol})</option>
+				{/each}
 			</optgroup>
 			<optgroup label="Cryptocurrencies">
-				<option value="BTC">Bitcoin (BTC)</option>
-				<option value="ETH">Ethereum (ETH)</option>
+				{#each Object.values(cryptoQuoteCurrencies) as currency}
+					<option value={currency.isoCode} disabled={!Covalent.quoteCurrencies.includes(currency.isoCode)}>{currency.name} ({currency.symbol})</option>
+				{/each}
 			</optgroup>
 		</select>
 	</label>

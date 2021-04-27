@@ -64,36 +64,32 @@
 
 	}
 	
-	import Loading from '../../components/Loading.svelte'
+	import Loader from '../../components/Loader.svelte'
 	import Portfolio from '../../components/Portfolio.svelte'
 	import Preferences from '../../components/Preferences.svelte'
 	import { fly } from 'svelte/transition'
 </script>
 
 <style>
-	/* Experimental: make <main> the scrolling element to enable inner position: sticky elements */
-	main {
-		overflow: auto;
-		height: 100vh;
-		grid-area: 1 / 1 / 3 / 1;
-		padding: 5rem var(--padding-inner);
-	}
-	:global(#sapper) {
-		height: 100vh;
-	}
-
 	main {
 		/* display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr)); */
+		grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+		justify-items: center; */
+
 		display: flex;
 		justify-content: center;
 		flex-wrap: wrap;
 		gap: 2rem;
+		
+		/* Override scroll container to support position: sticky */
+		height: 100vh;
+		overflow-y: auto;
+	}
+	main > * {
+		flex: 1 30rem;
+		max-width: 45rem;
 	}
 	section {
-		flex: 1 25rem;
-		max-width: 45rem;
-
 		display: grid;
 		gap: var(--padding-inner);
 		align-content: start;
@@ -144,24 +140,30 @@
 	<div class="wallet-providers">
 		<section class="metamask">
 			{#if metaMaskAccountsPromise}
-				{#await metaMaskAccountsPromise}
-					<h1><img src="/logos/metamask.svg" alt="MetaMask" class="metamask-logo"> Wallet</h1>
-					<Loading iconAnimation="hover">
-						<img slot="icon" src="/logos/metamask-icon.svg">
-						Log into MetaMask via the pop-up window.
-					</Loading>
-				{:then accounts}
+				<Loader
+					loadingIcon={'/logos/metamask-icon.svg'}
+					loadingIconName={'MetaMask'}
+					loadingMessage="Log into Portis via the pop-up window."
+					errorMessage="We couldn't connect your MetaMask Account."
+					errorFunction={error => error.message ?? error}
+					fromPromise={() => metaMaskAccountsPromise}
+					let:then={accounts}
+				>
+					<svelte:fragment slot="header" let:status>
+						{#if status !== 'resolved'}
+							<h1><img src="/logos/metamask.svg" alt="MetaMask" class="metamask-logo"> Wallet</h1>
+						{/if}
+					</svelte:fragment>
+
 					<Portfolio name="MetaMask Wallet" provider={preferredProvider} analyticsProvider={$preferredAnalyticsProvider} quoteCurrency={$preferredQuoteCurrency} {accounts}>
 						<button on:click={disconnectMetaMaskProvider}>Disconnect</button>
 					</Portfolio>
-				{:catch error}
-					<h1><img src="/logos/metamask.svg" alt="MetaMask" class="metamask-logo"> Wallet</h1>
-					<div class="card">
-						<p>We couldn't connect your MetaMask Account: <strong>{error.message ?? error}</strong></p>
+
+					<svelte:fragment slot="errorActions">
 						<button on:click={loadMetaMaskAccounts}>Try Again</button>
 						<button on:click={disconnectMetaMaskProvider}>Cancel</button>
-					</div>
-				{/await}
+					</svelte:fragment>
+				</Loader>
 			{:else}
 				<div class="bar">
 					<h1><img src="/logos/metamask-icon.svg" alt="MetaMask" class="metamask-logo"> MetaMask Wallet</h1>
@@ -176,25 +178,30 @@
 
 		<section class="portis">
 			{#if portisProvider}
-				{#await getEthersAccounts(portisProvider)}
-					<h1><img src="/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>
-					<Loading>
-						<!-- <img slot="icon" src="/logos/portis-icon.svg" width=""> -->
-						Log into Portis via the pop-up window.
-					</Loading>
-				{:then accounts}
+				<Loader
+					loadingIcon={'/logos/portis-icon.svg'}
+					loadingIconName={'Portis'}
+					loadingMessage="Log into Portis via the pop-up window."
+					errorMessage="We couldn't connect your Portis.io Account."
+					fromPromise={() => getEthersAccounts(portisProvider)}
+					let:then={accounts}
+				>
+					<svelte:fragment slot="header" let:status>
+						{#if status !== 'resolved'}
+							<h1><img src="/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>
+						{/if}
+					</svelte:fragment>
+
 					<Portfolio name="Portis Wallet" provider={preferredProvider} analyticsProvider={$preferredAnalyticsProvider} quoteCurrency={$preferredQuoteCurrency} {accounts}>
 						<!-- <button on:click={() => addToPortfolio(accounts[0])}>Add to...</button> -->
 						<button on:click={disconnectPortisProvider}>Disconnect</button>
 					</Portfolio>
-				{:catch error}
-					<h1><img src="/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>
-					<div class="card">
-						<p>We couldn't connect your Portis.io Account: <strong>{error}</strong></p>
+
+					<svelte:fragment slot="errorActions">
 						<button on:click={loadPortisProvider}>Try Again</button>
 						<button on:click={disconnectPortisProvider}>Cancel</button>
-					</div>
-				{/await}
+					</svelte:fragment>
+				</Loader>
 			{:else}
 				<div class="bar">
 					<h1><img src="/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>

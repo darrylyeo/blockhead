@@ -4,6 +4,7 @@
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { AnalyticsProvider } from '../data/analytics/provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
+	import { networksByChainID } from '../data/ethereum/networks'
 
 
 	// Portfolio management
@@ -18,7 +19,7 @@
 	const toggleEdit = () => isEditing = !isEditing
 
 	let isAddingWallet = false
-	const showAddWallet = () => isAddingWallet = true
+	const toggleAddWallet = () => isAddingWallet = !isAddingWallet
 
 	function isValid(address){
 		return address !== ''
@@ -32,7 +33,7 @@
 			return
 
 		const newAccount = newWalletAddress
-		accounts = [...accounts, newAccount] // accounts.push(newAccount)
+		accounts = [newAccount, ...accounts]
 
 		isAddingWallet = false
 		newWalletAddress = ''
@@ -42,19 +43,19 @@
 		delayStartIndex = i
 		accounts = [...accounts.slice(0, i), ...accounts.slice(i + 1)]
 	}
-
-	let showUnderlyingAssets = false
-
-
+	
+	
 	// Balances view options
-
+	
+	export let networks = [1, 137, 43114, 56, 250].map(chainID => networksByChainID[chainID])
 	export let provider: Ethereum.Provider
 	export let analyticsProvider: AnalyticsProvider
 	export let quoteCurrency: QuoteCurrency
-
+	
 	let showValues: 'original' | 'converted' | 'both' = 'original'
 	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
-	let showZeroBalances = false
+	let showSmallValues = false
+	let showUnderlyingAssets = false
 
 
 	// Options menu
@@ -64,13 +65,11 @@
 
 	let delayStartIndex = 0
 
-	import Address from './Address.svelte'
 	import AddressField from './AddressField.svelte'
-	import Balance from './Balance.svelte'
-	import DefiBalances from './DefiBalances.svelte'
-	import EthereumBalances from './EthereumBalances.svelte'
 	import Loading from './Loading.svelte'
+	import PortfolioAccount from './PortfolioAccount.svelte'
 	import { flip } from 'svelte/animate'
+	import { scale } from 'svelte/transition'
 </script>
 
 <style>
@@ -80,56 +79,21 @@
 		grid-template-columns: 100%;
 	}
 
-	section {
-		/* display: grid;
-		grid-auto-flow: column;
-		grid-auto-columns: 1fr auto; */
-		/* display: flex; */
-		gap: var(--padding-inner);
-	}
-
-	section > * {
-		flex: 1;
-	}
-
 	.edit-controls {
 		flex: 0 auto;
+		font-size: 0.7em;
 	}
 
-	.account {
-		--padding-inner: 0.5em;
-		display: grid;
-		gap: var(--padding-inner);
-	}
-
-	form {
-		display: contents;
-	}
-
-	form :global(.address-field) {
+	/* form :global(.address-field) {
 		width: 16rem;
-	}
-
-	.balances {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--padding-inner);
-	}
-	.balances > :global(*) {
-		flex: 0 auto;
-	}
-
-	.account :global(.defi-balances) {
-		--padding-inner: 0.5em;
-		display: grid;
-		gap: var(--padding-inner);
-		grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-	}
+	} */
 
 	.options {
 		position: sticky;
-		/* top: -1em; */
-		bottom: -1em;
+		/* top: 0; */
+		bottom: 0;
+		grid-row-end: 4;
+
 		margin: 0 calc(-1 * var(--padding-outer));
 		z-index: 1;
 
@@ -137,9 +101,6 @@
 
 		-webkit-backdrop-filter: var(--overlay-backdrop-filter);
 		backdrop-filter: var(--overlay-backdrop-filter);
-		/* padding: var(--padding-outer); */
-
-		grid-row-end: 4;
 	}
 </style>
 
@@ -147,86 +108,55 @@
 <div class="bar">
 	<h1>{name}</h1>
 	{#if editable}
-		{#if isAddingWallet}
-			<form on:submit|preventDefault={() => addWallet(newWalletAddress)}>
-				<AddressField bind:address={newWalletAddress} autofocus required/>
-				<button>Add</button>
-				<button>Cancel</button>
-			</form>
-		{:else if isEditing}
+		{#if isEditing}
 			<button on:click={toggleEdit}>Done</button>
 		{:else}
+			{#if !isAddingWallet}
+				<button on:click={toggleAddWallet} transition:scale>+ Add Wallet</button>
+			{/if}
 			<button on:click={toggleEdit}>Edit</button>
-			<button on:click={showAddWallet}>+ Add Wallet</button>
 		{/if}
 	{/if}
 	<!-- <button on:click={toggleShowOptions}>Options</button> -->
 	<slot></slot>
 </div>
-{#if showOptions && accounts.length}
-	<div class="card bar options">
-		<h3>Show</h3>
-		<label>
-			<input type="checkbox" bind:checked={showUnderlyingAssets}>
-			<span>Underlying Assets</span>
-		</label>
-		<label>
-			<input type="checkbox" bind:checked={showZeroBalances}>
-			<span>Zero Balances</span>
-		</label>
-		<label>
-			<span>Values</span>
-			<select bind:value={showValues}>
-				<option value="original">Original</option>
-				<option value="converted">Converted</option>
-				<option value="both">Both</option>
-			</select>
-		</label>
-		<label>
-			<span>Sort Balances</span>
-			<select bind:value={sortBy}>
-				<option value="value-descending">Highest Value</option>
-				<option value="value-ascending">Lowest Value</option>
-				<option value="ticker-ascending">Alphabetical</option>
-			</select>
-		</label>
-	</div>
-{/if}
 <div class="portfolio">
 	{#if accounts}
+		{#if isAddingWallet}
+			<form class="card bar" on:submit|preventDefault={() => {addWallet(newWalletAddress); isAddingWallet = false; newWalletAddress = ''}} transition:scale>
+				<AddressField bind:address={newWalletAddress} autofocus required/>
+				<button>Add</button>
+				<button on:click={() => isAddingWallet = false}>Cancel</button>
+			</form>
+		{/if}
 		{#each accounts as address, i (address)}
-			<section class="card" animate:flip|local={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
+			<section class="card" transition:scale|local animate:flip|local={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
 				<div class="bar">
-					<div class="account">
-						<h3><Address {address} /></h3>
-						{#if analyticsProvider}
-							<EthereumBalances {analyticsProvider} conversionCurrency={quoteCurrency} {sortBy} {showZeroBalances} {showValues} {address} />
+					<PortfolioAccount
+						{networks}
+						{address}
+						{provider}
+						{analyticsProvider}
+						{quoteCurrency}
+
+						{showValues}
+						{sortBy}
+						{showSmallValues}
+						{showUnderlyingAssets}
+					>
+						{#if isEditing}
+							<div class="row edit-controls" transition:scale>
+								<button on:click={() => deleteWallet(i)}>Remove</button>
+							</div>
 						{/if}
-						{#if provider}
-							<!-- <div class="balances">
-								{#each ['ETH'] as token}
-									<div class="card">
-										<Balance {provider} {token} {address} />
-									</div>
-								{/each}
-							</div> -->
-							<DefiBalances {provider} {address} {showUnderlyingAssets} />
-						{:else}
-							<Loading>Connecting to the blockchain...</Loading>
-						{/if}
-					</div>
-					{#if isEditing}
-						<div class="edit-controls">
-							<button on:click={() => deleteWallet(i)}>Delete</button>
-						</div>
-					{/if}
+					</PortfolioAccount>
 				</div>
 			</section>
 		{:else}
-			<div class="card">
+			<div class="card" transition:scale|local>
 				<p>Your Blockhead Portfolio is empty!</p>
 				{#if editable}
-					<p>You can <a on:click={showAddWallet}>add a new wallet address manually</a>, or import an address by connecting a wallet service!</p>
+					<p>You can <a on:click={() => isAddingWallet = true}>add a new wallet address manually</a>, or import an address by connecting a wallet service!</p>
 				{/if}
 			</div>
 		{/each}
@@ -236,3 +166,35 @@
 		</slot>
 	{/if}
 </div>
+{#if showOptions && accounts.length}
+	<div class="card bar options">
+		<div class="row">
+			<h3>Show</h3>
+			<label>
+				<select bind:value={showValues}>
+					<option value="original">Token Amounts</option>
+					<option value="converted">Quote Values</option>
+					<option value="both">Amounts and Values</option>
+				</select>
+			</label>
+			<label>
+				<input type="checkbox" bind:checked={showSmallValues}>
+				<span>Small Values</span>
+			</label>
+			<label>
+				<input type="checkbox" bind:checked={showUnderlyingAssets}>
+				<span>Underlying Assets</span>
+			</label>
+		</div>
+		<div class="row">
+			<h3>Sort</h3>
+			<label>
+				<select bind:value={sortBy}>
+					<option value="ticker-ascending">Alphabetical</option>
+					<option value="value-descending">Highest Value</option>
+					<option value="value-ascending">Lowest Value</option>
+				</select>
+			</label>
+		</div>
+	</div>
+{/if}

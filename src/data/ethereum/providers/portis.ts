@@ -1,7 +1,7 @@
 import type { Ethereum } from '../types'
 import { PORTIS_DAPP_ID } from '../../../config'
 
-export async function getPortis(network: Ethereum.Network = 'mainnet'){
+export async function getPortis(network: Ethereum.NetworkName = 'mainnet'){
 	const Portis = (await import('@portis/web3')).default
 
     /*

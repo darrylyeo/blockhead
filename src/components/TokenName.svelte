@@ -22,6 +22,10 @@
 	.token-name {
 		font-weight: 300;
 		font-size: 0.8em;
+
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 </style>
 

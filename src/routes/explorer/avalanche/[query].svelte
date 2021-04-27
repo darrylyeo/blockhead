@@ -52,6 +52,6 @@
 			<EthereumBlock blockNumber={$query} provider={$provider} analyticsProvider={$analyticsProvider}/>
 		{/if}
 	{:else}
-		<EnsExplorer query={$query} />
+		<div class="card">avvy.domains resolution coming soon!</div>
 	{/if}
 {/if}

@@ -67,7 +67,7 @@ async function unlockAAT(pocketInstance, aat, accountPPK, accountPassphrase) {
 
 
 // https://docs.pokt.network/docs/web3-provider
-export async function getPocketNetwork(network: Ethereum.Network = 'mainnet'){
+export async function getPocketNetwork(network: Ethereum.NetworkName = 'mainnet'){
 	const { PocketProvider } = await import('@pokt-network/web3-provider')
 	const { pocketInstance, pocketAAT } = await getPocketInstance()
 	

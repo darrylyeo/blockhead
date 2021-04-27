@@ -2,10 +2,12 @@ import type { Ethereum } from '../types'
 import { getEthersJS } from '../ethers'
 import { getWeb3 } from '../web3'
 
+import { formatUnits } from 'ethers/lib/utils'
+
 type AssetPair = string
 
 // https://docs.chain.link/docs/reference-contracts
-const CHAINLINK_CONTRACTS: Partial<Record<Ethereum.Network, Record<AssetPair, Ethereum.Address>>> = {
+const CHAINLINK_CONTRACTS: Partial<Record<Ethereum.NetworkName, Record<AssetPair, Ethereum.Address>>> = {
 	mainnet: {
 		'BTC/ETH': '0xdeb288F737066589598e9214E782fa5A8eD689e8',
 		'BTC/USD': '0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c',
@@ -38,7 +40,7 @@ const aggregatorV3InterfaceABI = [{"inputs":[],"name":"decimals","outputs":[{"in
 // let validId = BigInt("18446744073709562301")
 // return await priceFeed.methods.getRoundData(validId).call()
 
-export const getChainlinkPriceFeed = async (provider: Ethereum.Provider, network: Ethereum.Network = 'mainnet', quoteAsset = 'ETH', baseAsset = 'USD') => {
+export const getChainlinkPriceFeed = async (provider: Ethereum.Provider, network: Ethereum.NetworkName = 'mainnet', quoteAsset = 'ETH', baseAsset = 'USD') => {
 	// const web3 = await getWeb3()
 	// const assetPair: AssetPair = `${quoteAsset}/${baseAsset}`
 	// const priceFeedContract = new web3.eth.Contract(aggregatorV3InterfaceABI, CHAINLINK_CONTRACTS[network][assetPair])
@@ -53,7 +55,7 @@ export const getChainlinkPriceFeed = async (provider: Ethereum.Provider, network
 	const {answer, answeredInRound, roundId, startedAt, updatedAt} = await priceFeedContract.latestRoundData()
 	console.log(answer.toString(), answeredInRound.toString(), roundId.toString(), startedAt.toString(), updatedAt.toString())
 	return {
-		price: ethers.utils.formatUnits(answer, 8),
+		price: formatUnits(answer, 8),
 		updatedAt: new Date(updatedAt.toString())
 	}
 }

@@ -5,10 +5,6 @@
 
 	export let token = 'ETH'
 
-	function formatDecimal(value, decimalPlaces) {
-		return value * 0.1 ** decimalPlaces
-	}
-
 	export let provider: Ethereum.Provider
 	export let address: string
 	
@@ -20,13 +16,15 @@
 	$: computedLayout = layout === 'auto'
 		? showUnderlyingAssets ? 'vertical' : 'horizontal' // 'horizontal-alternate'
 		: layout
+
+	import { formatUnits } from 'ethers/lib/utils'
 	
-	import Loading from './Loading.svelte'
+	import Loader from './Loader.svelte'
 	import TokenIcon from './TokenIcon.svelte'
 	import TokenValue from './TokenValue.svelte'
 	
 	import { flip } from 'svelte/animate'
-	import { scale } from 'svelte/transition'
+	import { scaleFont } from '../transitions/scale-font'
 
 	const defiProtocolColors: Record<DefiSDK.ProtocolName, string[]> = {
 		'Aave': ['#77c0c7', '#b56da4'],
@@ -110,9 +108,10 @@
 	.card.layout-horizontal {
 		display: flex;
 		flex-wrap: wrap;
+		align-items: baseline;
 	}
 	.card.layout-horizontal > :first-child {
-		flex: 1;
+		flex: 1 auto;
 	}
 	.card.layout-horizontal-alternate {
 		display: flex;
@@ -140,49 +139,60 @@
 </style>
 
 {#if provider && address}
-	{#await getDefiBalances(provider, address)}
-		<div class="stack">
-			<Loading>
-				<span slot="icon"><TokenIcon {token} /></span>
-				Reading DeFi balances...
-			</Loading>
-		</div>
-	{:then defiBalances}
-		{#if defiBalances.length}
-			<div class="defi-balances">
-				{#each defiBalances as protocol, i (protocol.metadata.name)}
-					<div transition:scale animate:flip|local={{duration: 300, delay: Math.abs(i) * 10}} class="card defi-protocol layout-{computedLayout}" style="--card-background-image: {makeCardGradient(defiProtocolColors[protocol.metadata.name])})">
-						<h4 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{protocol.metadata.description}"><img src={`https://${protocol.metadata.iconURL}`} alt={protocol.metadata.name} width="20"/> {protocol.metadata.name}</h4>
-						{#if computedLayout === 'vertical'}
-							<hr>
-						{/if}
-						<div class="defi-protocol-balances column">
-							{#each protocol.adapterBalances as adapterBalance}
-								{#if adapterBalance.metadata.adapterType === 'Debt'}
-									<h4>{adapterBalance.metadata.adapterType}</h4>
-								{/if}
-								{#each adapterBalance.balances as {base: baseBalance, underlying}}
-									<div class="column defi-protocol-balance">
-										<TokenValue token={baseBalance.metadata.symbol} value={formatDecimal(baseBalance.amount, baseBalance.metadata.decimals)} tokenAddress={baseBalance.metadata.token} />
-										{#if underlying.length && showUnderlyingAssets}
-											<div class="underlying">
-												{#each underlying as underlyingBalance}
-													<p in:scale>
-														<span class="underlying-symbol">┖</span>
-														<TokenValue token={underlyingBalance.metadata.symbol} value={formatDecimal(underlyingBalance.amount, underlyingBalance.metadata.decimals)} tokenAddress={underlyingBalance.metadata.token} />
-													</p>
-												{/each}
-											</div>
-										{/if}
-									</div>
-								{/each}
+	<Loader
+		loadingMessage="Reading DeFi balances..."
+		fromPromise={() => getDefiBalances(provider, address)}
+		let:then={defiBalances}
+		showIf={defiBalances => defiBalances.length}
+	>
+		<TokenIcon slot="loadingIcon" {token} />
+		<!-- <svelte:fragment slot="loadingIcon"><TokenIcon slot="icon" {token} /></svelte:fragment> -->
+
+		<svelte:fragment slot="header">
+			<slot name="header"></slot>
+		</svelte:fragment>
+
+		<div class="defi-balances">
+			{#each defiBalances as protocol, i (protocol.metadata.name)}
+				<div transition:scaleFont|local animate:flip|local={{duration: 300, delay: Math.abs(i) * 10}} class="card defi-protocol layout-{computedLayout}" style="--card-background-image: {makeCardGradient(defiProtocolColors[protocol.metadata.name])})">
+					<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{protocol.metadata.description}"><img src={`https://${protocol.metadata.iconURL}`} alt={protocol.metadata.name} width="20"/> {protocol.metadata.name}</h5>
+					{#if computedLayout === 'vertical'}
+						<hr>
+					{/if}
+					<div class="defi-protocol-balances column">
+						{#each protocol.adapterBalances as adapterBalance}
+							<!-- {#if adapterBalance.metadata.adapterType === 'Debt'}
+								<h4>{adapterBalance.metadata.adapterType}</h4>
+							{/if} -->
+							{#each adapterBalance.balances as {base: baseBalance, underlying}}
+								<div class="column defi-protocol-balance">
+									<TokenValue
+										token={baseBalance.metadata.symbol}
+										tokenAddress={baseBalance.metadata.token}
+										value={formatUnits(baseBalance.amount, baseBalance.metadata.decimals)}
+										isDebt={adapterBalance.metadata.adapterType === 'Debt'}
+									/>
+									{#if underlying.length && showUnderlyingAssets}
+										<div class="underlying">
+											{#each underlying as underlyingBalance}
+												<p in:scaleFont>
+													<span class="underlying-symbol">┖</span>
+													<TokenValue
+														token={underlyingBalance.metadata.symbol}
+														tokenAddress={underlyingBalance.metadata.token}
+														value={formatUnits(underlyingBalance.amount, underlyingBalance.metadata.decimals)}
+														isDebt={adapterBalance.metadata.adapterType === 'Debt'}
+													/>
+												</p>
+											{/each}
+										</div>
+									{/if}
+								</div>
 							{/each}
-						</div>
+						{/each}
 					</div>
-				{/each}
-			</div>
-		{/if}
-	{:catch error}
-		{error}
-	{/await}
+				</div>
+			{/each}
+		</div>
+	</Loader>
 {/if}

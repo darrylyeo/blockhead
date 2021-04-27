@@ -3,6 +3,8 @@
 	margin: 0;
 	padding: 0;
 	text-decoration-color: inherit;
+	min-width: 0;
+	gap: inherit;
 }
 
 :root {
@@ -14,6 +16,7 @@
 	--usdc-blue: #2775c9;
 	--tether-teal: #26a17b;
 	--ripple-black: #222222;
+	--avalanche-red: #f9273c;
 
 	--up-green: #1af73d;
 	--down-red: #f7541a;
@@ -29,7 +32,7 @@
 	--card-border-radius: 0.5rem;
 	--card-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.075);
 
-	--one-column-width: 60em;
+	--one-column-width: 70em;
 	--padding-outer: 1rem;
 	--padding-inner: 0.8rem;
 	
@@ -40,8 +43,10 @@
 
 	min-height: 100vh;
 
-	font-size: 20px;
-	font-size: clamp(15px, 1.1vw, 20px);
+	/* font-size: 20px;
+	font-size: clamp(15px, 1.1vw, 20px); */
+	font-size: 16px;
+	font-size: clamp(14px, 1.05vw, 19px);
 	font-family: var(--base-fonts);
 	line-height: 1.5;
 
@@ -58,7 +63,7 @@
 	text-shadow: 0px 2px 1px rgba(0, 0, 0, 0.1);
 	
 	--global-background-gradient-base-color: #ffffff;
-	background: linear-gradient(155deg, var(--global-background-gradient-base-color), var(--primary-color) 250%) fixed;
+	background: linear-gradient(155deg, var(--global-background-gradient-base-color), var(--primary-color, var(--ethereum-blue)) 250%) fixed;
 }
 @media (prefers-color-scheme: dark) {
 	:root {
@@ -97,10 +102,12 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
 	font-size: 2em;
 }
+h5 {
+	font-size: 0.95em;
+}
 
 pre, code {
 	font-family: var(--monospace-fonts);
-	padding: var(--padding-inner);
 	white-space: pre-wrap;
 }
 
@@ -141,6 +148,9 @@ button:focus {
 button:active {
 	--depth: 0;
 }
+button.small {
+	font-size: 0.7em;
+}
 
 
 :-placeholder {
@@ -159,6 +169,14 @@ input {
 /* input.is-valid {
 	border: 2px solid green;
 } */
+
+input[type="checkbox"] {
+	width: 1.2em;
+	height: 1.2em;
+	transform: translateY(0.2em);
+    /* display: inline-flex;
+	align-items: center; */
+}
 
 select {
 	border-radius: 0.5rem;
@@ -231,7 +249,7 @@ main {
 }
 
 
-.bar {
+.row, .bar {
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
@@ -240,6 +258,11 @@ main {
 .bar > :first-child {
 	flex: 1;
 }
+.bar > h2:first-child, .bar > h3:first-child {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
 .bar > :not(:first-child) {
 	flex: 0 auto;
 }
@@ -247,11 +270,22 @@ main {
 
 .stack {
 	display: grid;
-	grid: "area";
+	grid: "stack";
 }
 .stack > * {
-	grid-area: area;
-	place-items: start;
+	grid-area: stack;
+}
+
+
+.column {
+	display: grid;
+	grid-template-columns: 100%;
+}
+
+
+.slot {
+	display: inline-flex;
+	align-items: center;
 }
 
 
@@ -271,3 +305,23 @@ main {
 	display: inline-block;
 	text-align: center;
 } */
+
+
+
+::-webkit-scrollbar {
+	background: transparent;
+	width: 5px;
+}
+[style*="animation:"]::-webkit-scrollbar {
+	display: none;
+}
+::-webkit-scrollbar-track {
+	background: rgba(255, 255, 255, 0.1);
+}
+::-webkit-scrollbar-button {
+	height: 1.8rem;
+}
+::-webkit-scrollbar-thumb {
+	background: var(--primary-color);
+	border-radius: 5px;
+}

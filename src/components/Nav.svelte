@@ -37,8 +37,8 @@
 	<ul>
 		<li><a aria-current="{segment === undefined ? 'page' : undefined}" href="."><span class="logo">Blockhead</span></a></li>
 		<li><a aria-current="{segment === 'portfolio' ? 'page' : undefined}" href="portfolio">Portfolio</a></li>
-		<li><a aria-current="{segment === 'trade' ? 'page' : undefined}" href="trade">Trade</a></li>
-		<li><a aria-current="{segment === 'invest' ? 'page' : undefined}" href="invest">Invest</a></li>
+		<!-- <li><a aria-current="{segment === 'trade' ? 'page' : undefined}" href="trade">Trade</a></li> -->
+		<!-- <li><a aria-current="{segment === 'invest' ? 'page' : undefined}" href="invest">Invest</a></li> -->
 
 		<!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
 			 the blog data when we hover over the link or tap it on a touchscreen -->

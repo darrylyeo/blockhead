@@ -5,9 +5,10 @@
 
 	export let autofocus = false
 	export let required = false
+	export let placeholder = 'Address (0xabcd...6789) / ENS Domain (mywallet.eth)'
 
 	const isValid = address =>
 		address !== undefined
 </script>
 
-<input class="address-field" type="text" class:is-valid={isValid(address)} placeholder="Address (0xabcd...6789) / ENS (mywallet.eth)" bind:value={address} {autofocus} {required} />
+<input class="address-field" type="text" class:is-valid={isValid(address)} {placeholder} bind:value={address} {autofocus} {required} />

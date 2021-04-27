@@ -1,7 +1,7 @@
 import type { Ethereum } from '../types'
 import { evmNetworkByID } from '../types'
 
-export async function getMetaMask(network: Ethereum.Network){
+export async function getMetaMask(network: Ethereum.NetworkName){
     const ethereum = globalThis.ethereum
 
     if(!ethereum?.isMetaMask)

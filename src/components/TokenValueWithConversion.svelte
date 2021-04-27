@@ -12,8 +12,9 @@
 	export let tokenName: string
 
 	export let value
-	$: isZero = value == 0
 	export let isDust = false
+	$: isSmallValue = convertedValue < 1e-3
+	$: isZero = value == 0
 
 	export let conversionCurrency: QuoteCurrency
 	export let convertedValue
@@ -27,7 +28,7 @@
 	import TokenName from './TokenName.svelte'
 	import TokenRate from './TokenRate.svelte'
 	import TokenValue from './TokenValue.svelte'
-	import { scale } from 'svelte/transition'
+	import { scaleFont } from '../transitions/scale-font'
 </script>
 
 <style>
@@ -38,23 +39,31 @@
 		font-size: 0.85em;
 	}
 
-	.is-dust, .is-zero {
+	.value-converted {
+		white-space: nowrap;
+	}
+
+	.is-dust, .is-small-value {
+		opacity: 0.55;
+	}
+	.is-zero {
+		/* opacity: 0.2; */
 		opacity: 0.55;
 	}
 </style>
 
-<span class="value-with-conversion" class:is-zero={isZero} class:is-dust={isDust}>
+<span class="value-with-conversion" class:is-dust={isDust} class:is-small-value={isSmallValue} class:is-zero={isZero}>
 	{#if showValues === 'original' || showValues === 'both'}
-		<span class="value" transition:scale><!-- style="font-size: {sizeByVolume(convertedValue)}em" -->
+		<span class="value" transition:scaleFont|local><!-- style="font-size: {sizeByVolume(convertedValue)}em" -->
 			<TokenValue {token} {tokenAddress} {tokenIcon} {tokenName} {value} {showDecimalPlaces} />
 		</span>
 	{/if}
 	{#if (showValues === 'converted' || showValues === 'both')}
-		<span class="value-converted" transition:scale>
+		<span class="value-converted" transition:scaleFont|local={{delay: 200}}>
 			{#if showValues === 'both'}({/if
-			}<TokenValue token={conversionCurrency} value={convertedValue} {showDecimalPlaces}
+			}<TokenValue token={conversionCurrency} value={convertedValue} {showDecimalPlaces} showPlainFiat={true}
 			/>{#if showValues === 'converted' && conversionCurrency !== token}
-				<span class="worth" transition:scale>
+				<span class="worth" transition:scaleFont|local>
 					&nbsp;in <TokenName {token} {tokenAddress} {tokenIcon} />
 				</span>
 			{/if

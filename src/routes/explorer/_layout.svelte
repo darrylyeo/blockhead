@@ -38,6 +38,7 @@
 			<select bind:value={blockchain} on:input={() => globalThis.requestAnimationFrame(() => goto(`explorer/${blockchain}`))}>
 				<option value="bitcoin">Bitcoin</option>
 				<option value="ethereum" selected>Ethereum</option>
+				<option value="avalanche">Avalanche</option>
 			</select>
 			<!-- <a href="explorer/bitcoin"><button>Bitcoin</button></a>
 			<a href="explorer/ethereum"><button>Ethereum</button></a> -->

@@ -17,9 +17,9 @@ type ProviderCache = {
 }
 
 // Cache provider objects by EthereumNetwork, ProviderName, ProviderLibrary
-const providersCache: Partial<Record<Ethereum.Network, Partial<Record<Ethereum.ProviderName, ProviderCache>> >> = {}
+const providersCache: Partial<Record<Ethereum.NetworkName, Partial<Record<Ethereum.ProviderName, ProviderCache>> >> = {}
 
-const getProviderAndInstance: Record<Ethereum.ProviderName, (network: Ethereum.Network) => Promise<{ instance: any, provider: any }>> = {
+const getProviderAndInstance: Record<Ethereum.ProviderName, (network: Ethereum.NetworkName) => Promise<{ instance: any, provider: any }>> = {
 	'MetaMask': async network => {
 		const instance = await getMetaMask(network)
 		return { instance, provider: instance }
@@ -37,7 +37,7 @@ const getProviderAndInstance: Record<Ethereum.ProviderName, (network: Ethereum.N
 	}
 }
 
-async function getCachedProvider(network: Ethereum.Network = 'mainnet', providerName: Ethereum.ProviderName){
+async function getCachedProvider(network: Ethereum.NetworkName = 'mainnet', providerName: Ethereum.ProviderName){
 	if(!(network in providersCache))
 		providersCache[network] = {}
 	
@@ -53,13 +53,13 @@ async function getCachedProvider(network: Ethereum.Network = 'mainnet', provider
 	return providersCache[network][providerName]
 }
 
-export async function getProviderInstance(network: Ethereum.Network, providerName: Ethereum.ProviderName){
+export async function getProviderInstance(network: Ethereum.NetworkName, providerName: Ethereum.ProviderName){
 	const { instance } = await getCachedProvider(network, providerName)
 
 	return instance
 }
 
-export async function getProvider(network: Ethereum.Network, providerName: Ethereum.ProviderName, library: Ethereum.ProviderLibrary = 'ethers'){
+export async function getProvider(network: Ethereum.NetworkName, providerName: Ethereum.ProviderName, library: Ethereum.ProviderLibrary = 'ethers'){
 	const { provider, wrapped } = await getCachedProvider(network, providerName)
 
 	if(!(library in wrapped)){
