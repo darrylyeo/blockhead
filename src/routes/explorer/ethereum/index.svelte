@@ -19,7 +19,7 @@
 	})[$preferredPriceFeedProvider]
 
 	import Loader from '../../../components/Loader.svelte'
-	import PriceChart from '../../../components/PriceChart.svelte'
+	import CovalentPriceChart from '../../../components/CovalentPriceChart.svelte'
 	import TokenRate from '../../../components/TokenRate.svelte'
 
 	let isMounted = false
@@ -48,17 +48,19 @@
 		<div class="bar">
 			<h3>Current Price</h3>
 			<span class="card-annotation">{$preferredPriceFeedProvider}</span>
-		</div> 
-		<Loader
-			loadingIcon={priceFeedLogo}
-			loadingIconName={$preferredPriceFeedProvider}
-			loadingMessage="Retrieving price from Chainlink..."
-			fromPromise={() => getChainlinkPriceFeed($provider, 'mainnet', 'ETH', $preferredQuoteCurrency)}
-			let:then={priceFeed}
-		>
-			<TokenRate rate={priceFeed.price} quoteToken={$preferredQuoteCurrency} baseToken="ETH" layout="horizontal" />
-			<!-- <p>Updated {priceFeed.updatedAt.toString()} -->
-		</Loader>
+		</div>
+		{#key $blockNumber}
+			<Loader
+				loadingIcon={priceFeedLogo}
+				loadingIconName={$preferredPriceFeedProvider}
+				loadingMessage="Retrieving price from Chainlink..."
+				fromPromise={() => getChainlinkPriceFeed($provider, 'mainnet', 'ETH', $preferredQuoteCurrency)}
+				let:then={priceFeed}
+			>
+				<TokenRate rate={priceFeed.price} quoteToken={$preferredQuoteCurrency} baseToken="ETH" layout="horizontal" />
+				<!-- <p>Updated {priceFeed.updatedAt.toString()} -->
+			</Loader>
+		{/key}
 	</section>
 
 	<section class="card">
@@ -75,14 +77,6 @@
 		</Loader>
 	</section>
 
-	<section class="card">
-		<div class="bar">
-			<h3>Historical Price</h3>
-			<span class="card-annotation">{$preferredAnalyticsProvider}</span>
-		</div>
-		<PriceChart provider={$preferredAnalyticsProvider} quoteCurrency={$preferredQuoteCurrency} currency="ETH" />
-	</section>
-
 	<!-- {#if isMounted}
 		{#await getCompoundPriceFeed('ETH', $preferredQuoteCurrency)}
 			<Loading>
@@ -96,4 +90,19 @@
 			</section>
 		{/await}
 	{/if} -->
+</div>
+
+<div class="row">
+	<section class="card">
+		<div class="bar">
+			<h3>Historical Price</h3>
+			<span class="card-annotation">{$preferredAnalyticsProvider}</span>
+		</div>
+		<CovalentPriceChart
+			provider={$preferredAnalyticsProvider}
+			quoteCurrency={$preferredQuoteCurrency}
+			currencies={['ETH']}
+		/>
+		<!-- currencies={['ETH', 'BTC', 'CEL', 'USDC', 'USDT', 'DAI', 'UNI', 'BAL', 'AVAX', 'CRV', 'YFI']} -->
+	</section>
 </div>

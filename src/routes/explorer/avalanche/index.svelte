@@ -5,7 +5,7 @@
 	
 	const provider = getContext<Ethereum.Provider>('provider')
 
-	import PriceChart from '../../../components/PriceChart.svelte'
+	import CovalentPriceChart from '../../../components/PriceChart.svelte'
 </script>
 
 <style>
@@ -28,6 +28,10 @@
 			<h3>Historical Price</h3>
 			<span class="card-annotation">{$preferredAnalyticsProvider}</span>
 		</div>
-		<PriceChart provider={$preferredAnalyticsProvider} quoteCurrency={$preferredQuoteCurrency} currency="AVAX" />
+		<CovalentPriceChart
+			provider={$preferredAnalyticsProvider}
+			quoteCurrency={$preferredQuoteCurrency}
+			currencies={['AVAX']}
+		/>
 	</section>
 </div>
