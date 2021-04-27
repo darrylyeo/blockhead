@@ -14,7 +14,6 @@
     "@compound-finance/compound-js": "^0.2.2",
     "@pokt-network/web3-provider": "0.0.6-rc",
     "@portis/web3": "^2.0.0-beta.59",
-    "aframe": "^1.0.4",
     "compression": "^1.7.1",
     "dotenv": "^8.2.0",
     "echarts": "^5.1.0",
