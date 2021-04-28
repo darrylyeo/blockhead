@@ -1,10 +1,31 @@
 import type { CryptoAddress } from '../CryptoAddress'
 import { localStorageWritable } from '../local-storage'
 
+export class Portfolio {
+	constructor(
+		public name: string = '',
+		public accounts: CryptoAddress[] = []
+	){}
+
+	toJSON(){
+		return {name: this.name, accounts: this.accounts}
+	}
+}
+
+// Local storage v1 (deprecated)
 let localAccounts
-export const getLocalAccounts = () => localAccounts || (localAccounts =
-	localStorageWritable<CryptoAddress[]>('localAccounts', [])
-)
+export const getLocalAccounts = () => localAccounts ||= localStorageWritable<CryptoAddress[]>('localAccounts', [])
+function getV1LocalAccounts(): CryptoAddress[] {
+	const json = globalThis.localStorage?.getItem('localAccounts')
+	return json && JSON.parse(json)
+}
+
+// Local storage v2
+let localPortfolios
+export const getLocalPortfolios = () => localPortfolios ||= localStorageWritable<Portfolio[]>('localPortfolios', [
+	new Portfolio('Your Portfolio', getV1LocalAccounts() || [])
+])
+
 
 export const getEthersAccounts = async provider => {
 	const accounts = await provider.listAccounts()

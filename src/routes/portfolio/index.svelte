@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte'
 
 	import { getProvider, getProviderInstance } from '../../data/ethereum/provider'
-	import { getLocalAccounts, getEthersAccounts } from '../../data/ethereum/accounts'
+	import { Portfolio, getLocalPortfolios, getEthersAccounts } from '../../data/ethereum/accounts'
 	import { ethereumNetwork, preferredAnalyticsProvider, preferredEthereumProvider, preferredQuoteCurrency } from '../../data/ethereum/preferences'
 
 	let preferredProvider
@@ -10,7 +10,13 @@
 		preferredProvider = await getProvider($ethereumNetwork, $preferredEthereumProvider, 'ethers')
 	)
 	
-	const localAccounts = getLocalAccounts()
+	const localPortfolios = getLocalPortfolios()
+	function addPortfolio(){
+		$localPortfolios = [...$localPortfolios, new Portfolio()]
+	}
+	function deletePortfolio(i){
+		$localPortfolios = [...$localPortfolios.slice(0, i), ...$localPortfolios.slice(i + 1)]
+	}
 
 	// let metaMaskProvider
 	// const loadMetaMaskProvider = async () => {
@@ -65,7 +71,7 @@
 	}
 	
 	import Loader from '../../components/Loader.svelte'
-	import Portfolio from '../../components/Portfolio.svelte'
+	import PortfolioComponent from '../../components/Portfolio.svelte'
 	import Preferences from '../../components/Preferences.svelte'
 	import { fly } from 'svelte/transition'
 </script>
@@ -90,10 +96,7 @@
 		max-width: 45rem;
 	}
 	section {
-		display: grid;
-		gap: var(--padding-inner);
-		align-content: start;
-		grid-template-columns: 100%;
+		gap: 2rem;
 	}
 
 	.metamask {
@@ -116,12 +119,6 @@
 	.portis {
 		--primary-color: var(--portis-blue);
 	}
-
-	.wallet-providers {
-		display: grid;
-		gap: 2em;
-		align-content: start;
-	}
 </style>
 
 <svelte:head>
@@ -129,16 +126,29 @@
 </svelte:head>
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
-	<section>
-		{#if localAccounts}
-			<Portfolio name="Your Portfolio" provider={preferredProvider} analyticsProvider={$preferredAnalyticsProvider} quoteCurrency={$preferredQuoteCurrency} bind:accounts={$localAccounts} editable={true} />
+	<section class="portfolios column">
+		{#if localPortfolios}
+			{#each $localPortfolios as {name, accounts}, i (i)}
+				<PortfolioComponent
+					bind:name
+					bind:accounts
+					editable={true}
+					provider={preferredProvider}
+					analyticsProvider={$preferredAnalyticsProvider}
+					quoteCurrency={$preferredQuoteCurrency}
+					on:delete={e => deletePortfolio(i)}
+				/>
+			{/each}
+			{#if $localPortfolios[$localPortfolios.length - 1]?.accounts.length}
+				<button on:click={() => addPortfolio()}>+ Create Another Portfolio</button>
+			{/if}
 		{:else}
 			Please enable LocalStorage in your browser.
 		{/if}
 	</section>
 
-	<div class="wallet-providers">
-		<section class="metamask">
+	<section class="wallet-providers column">
+		<div class="metamask column">
 			{#if metaMaskAccountsPromise}
 				<Loader
 					loadingIcon={'/logos/metamask-icon.svg'}
@@ -155,9 +165,9 @@
 						{/if}
 					</svelte:fragment>
 
-					<Portfolio name="MetaMask Wallet" provider={preferredProvider} analyticsProvider={$preferredAnalyticsProvider} quoteCurrency={$preferredQuoteCurrency} {accounts}>
+					<PortfolioComponent name="MetaMask Wallet" provider={preferredProvider} analyticsProvider={$preferredAnalyticsProvider} quoteCurrency={$preferredQuoteCurrency} {accounts}>
 						<button on:click={disconnectMetaMaskProvider}>Disconnect</button>
-					</Portfolio>
+					</PortfolioComponent>
 
 					<svelte:fragment slot="errorActions">
 						<button on:click={loadMetaMaskAccounts}>Try Again</button>
@@ -174,9 +184,9 @@
 					<p>Create or import a wallet address by connecting the MetaMask browser extension.</p>
 				</div>
 			{/if}
-		</section>
+			</div>
 
-		<section class="portis">
+		<div class="portis column">
 			{#if portisProvider}
 				<Loader
 					loadingIcon={'/logos/portis-icon.svg'}
@@ -192,10 +202,10 @@
 						{/if}
 					</svelte:fragment>
 
-					<Portfolio name="Portis Wallet" provider={preferredProvider} analyticsProvider={$preferredAnalyticsProvider} quoteCurrency={$preferredQuoteCurrency} {accounts}>
+					<PortfolioComponent name="Portis Wallet" provider={preferredProvider} analyticsProvider={$preferredAnalyticsProvider} quoteCurrency={$preferredQuoteCurrency} {accounts}>
 						<!-- <button on:click={() => addToPortfolio(accounts[0])}>Add to...</button> -->
 						<button on:click={disconnectPortisProvider}>Disconnect</button>
-					</Portfolio>
+					</PortfolioComponent>
 
 					<svelte:fragment slot="errorActions">
 						<button on:click={loadPortisProvider}>Try Again</button>
@@ -212,8 +222,8 @@
 					<p>Create or import a wallet address by connecting a Portis.io account.</p>
 				</div>
 			{/if}
-		</section>
-	</div>
+		</div>
+	</section>
 </main>
 
 <Preferences />

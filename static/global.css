@@ -184,6 +184,19 @@ input[type="checkbox"] {
 	align-items: center; */
 }
 
+h1 input, h2 input {
+	font-size: 0.75em;
+	animation: From 0.3s;
+}
+@keyframes From {
+	from {
+		padding: 0;
+		background: inherit;
+		color: inherit;
+		font-size: inherit;
+	}
+}
+
 select {
 	border-radius: 0.5rem;
 	padding: 0.25em 0.4em;
@@ -292,6 +305,8 @@ main {
 .column {
 	display: grid;
 	grid-template-columns: 100%;
+	align-content: start;
+	gap: var(--padding-inner);
 }
 
 
