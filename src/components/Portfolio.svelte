@@ -100,6 +100,10 @@
 		-webkit-backdrop-filter: var(--overlay-backdrop-filter);
 		backdrop-filter: var(--overlay-backdrop-filter);
 	}
+
+	form {
+		display: contents;
+	}
 </style>
 
 
@@ -128,8 +132,10 @@
 	{#if accounts}
 		{#if state === State.Adding}
 			<div class="card" transition:scale>
-				<div class="row">
+				<div class="bar">
+					<div>
 					<h3>Add Wallet</h3>
+					</div>
 					<small>{networks.map(network => network.name).join(', ')}</small>
 				</div>
 				<div class="bar">

@@ -170,6 +170,7 @@ input, select, textarea {
 input {
 	border-radius: 0.5rem;
 	padding: 0.3em 0.7em;
+	flex-basis: 20rem;
 }
 /* input.is-valid {
 	border: 2px solid green;
@@ -259,7 +260,6 @@ main {
 	align-items: center;
 	flex-wrap: wrap;
 	gap: var(--padding-inner);
-	justify-content: space-between;
 }
 .bar > :first-child {
 	flex: 1;
