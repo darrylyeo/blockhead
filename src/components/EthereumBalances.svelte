@@ -102,7 +102,6 @@
 	>
 		<svelte:fragment slot="header">
 			{#if balances.length}
-				<hr>
 				<slot name="header" {network} {quoteCurrency} {quoteTotal}></slot>
 			{/if}
 		</svelte:fragment>

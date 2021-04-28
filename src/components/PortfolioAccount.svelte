@@ -76,10 +76,13 @@
 				{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets}
 				bind:quoteTotal={quoteTotals[i]}
 			>
-				<div slot="header" class="bar" let:network let:quoteCurrency let:quoteTotal>
-					<h4>{network.name}</h4>
-					<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
-				</div>
+				<svelte:fragment slot="header" let:network let:quoteCurrency let:quoteTotal>
+					<hr>
+					<div class="bar">
+						<h4>{network.name}</h4>
+						<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
+					</div>
+				</svelte:fragment>
 			</EthereumBalances>
 		{:else if provider}
 			<div class="balances">

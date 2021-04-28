@@ -148,8 +148,10 @@
 		<TokenIcon slot="loadingIcon" {token} />
 		<!-- <svelte:fragment slot="loadingIcon"><TokenIcon slot="icon" {token} /></svelte:fragment> -->
 
-		<svelte:fragment slot="header">
-			<slot name="header"></slot>
+		<svelte:fragment slot="header" let:status>
+			{#if defiBalances.length}
+				<slot name="header" {status}></slot>
+			{/if}
 		</svelte:fragment>
 
 		<div class="defi-balances">
