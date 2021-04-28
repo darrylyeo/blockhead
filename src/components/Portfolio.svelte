@@ -15,11 +15,12 @@
 
 	let newWalletAddress = ''
 
-	let isEditing = false
-	const toggleEdit = () => isEditing = !isEditing
-
-	let isAddingWallet = false
-	const toggleAddWallet = () => isAddingWallet = !isAddingWallet
+	enum State {
+		Idle = 'idle',
+		Editing = 'editing',
+		Adding = 'adding'
+	}
+	let state = State.Idle
 
 	function isValid(address){
 		return address !== ''
@@ -34,9 +35,6 @@
 
 		const newAccount = newWalletAddress
 		accounts = [newAccount, ...accounts]
-
-		isAddingWallet = false
-		newWalletAddress = ''
 	}
 
 	function deleteWallet(i){
@@ -108,26 +106,40 @@
 <div class="bar">
 	<h1>{name}</h1>
 	{#if editable}
-		{#if isEditing}
-			<button on:click={toggleEdit}>Done</button>
-		{:else}
-			{#if !isAddingWallet}
-				<button on:click={toggleAddWallet} transition:scale>+ Add Wallet</button>
+		<div class="stack">
+			{#if state !== State.Editing}
+				<div class="bar" transition:scale>
+					{#if state === State.Idle}
+						<button on:click={() => state = State.Adding} transition:scale>+ Add Wallet</button>
+					{/if}
+					<button on:click={() => state = State.Editing}>Edit</button>
+				</div>
+			{:else}
+				<div transition:scale>
+					<button on:click={() => state = State.Idle}>Done</button>
+				</div>
 			{/if}
-			<button on:click={toggleEdit}>Edit</button>
-		{/if}
+		</div>
 	{/if}
 	<!-- <button on:click={toggleShowOptions}>Options</button> -->
 	<slot></slot>
 </div>
 <div class="portfolio">
 	{#if accounts}
-		{#if isAddingWallet}
-			<form class="card bar" on:submit|preventDefault={() => {addWallet(newWalletAddress); isAddingWallet = false; newWalletAddress = ''}} transition:scale>
-				<AddressField bind:address={newWalletAddress} autofocus required/>
-				<button>Add</button>
-				<button on:click={() => isAddingWallet = false}>Cancel</button>
-			</form>
+		{#if state === State.Adding}
+			<div class="card" transition:scale>
+				<div class="row">
+					<h3>Add Wallet</h3>
+					<small>{networks.map(network => network.name).join(', ')}</small>
+				</div>
+				<div class="bar">
+					<form class="bar" on:submit|preventDefault={() => {addWallet(newWalletAddress); state = State.Idle; newWalletAddress = ''}}>
+						<AddressField bind:address={newWalletAddress} autofocus required/>
+						<button class="medium" disabled={!isValid(newWalletAddress)}>Add</button>
+					</form>
+					<button class="medium" on:click={() => state = State.Idle}>Cancel</button>
+				</div>
+			</div>
 		{/if}
 		{#each accounts as address, i (address)}
 			<section class="card" transition:scale|local animate:flip|local={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
@@ -144,7 +156,7 @@
 						{showSmallValues}
 						{showUnderlyingAssets}
 					>
-						{#if isEditing}
+						{#if state === State.Editing}
 							<div class="row edit-controls" transition:scale>
 								<button on:click={() => deleteWallet(i)}>Remove</button>
 							</div>

@@ -109,6 +109,8 @@ h5 {
 pre, code {
 	font-family: var(--monospace-fonts);
 	white-space: pre-wrap;
+	font-size: 0.75em;
+	user-select: all;
 }
 
 
@@ -147,6 +149,9 @@ button:focus {
 }
 button:active {
 	--depth: 0;
+}
+button.medium {
+	font-size: 0.95em;
 }
 button.small {
 	font-size: 0.7em;
@@ -191,7 +196,7 @@ section {
 
 
 :disabled, [disabled], .placeholder {
-	opacity: 0.2;
+	opacity: 0.33;
 	pointer-events: none;
 	touch-action: none;
 }
@@ -254,6 +259,7 @@ main {
 	align-items: center;
 	flex-wrap: wrap;
 	gap: var(--padding-inner);
+	justify-content: space-between;
 }
 .bar > :first-child {
 	flex: 1;
@@ -274,6 +280,12 @@ main {
 }
 .stack > * {
 	grid-area: stack;
+}
+.bar > .stack:first-child {
+	justify-items: start;
+}
+.bar > .stack:last-child {
+	justify-items: end;
 }
 
 
