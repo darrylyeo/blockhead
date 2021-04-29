@@ -112,12 +112,15 @@
 	.account-total-value {
 		font-size: 1.21em;
 	}
+
+	.portfolio h1 {
+		flex: 1 auto;
+	}
 </style>
 
 
 <div class="portfolio column">
-	<div class="bar">
-		<h1 on:dblclick={() => state = State.Editing}>
+	<header class="bar">
 			{#if state !== State.Editing}
 				{name || '[Untitled Portfolio]'}
 			{:else}
@@ -151,8 +154,9 @@
 			</div>
 		{/if}
 		<!-- <button on:click={toggleShowOptions}>Options</button> -->
+
 		<slot></slot>
-	</div>
+	</header>
 
 	{#if accounts}
 		{#if state === State.Adding || !accounts.length}
@@ -185,7 +189,6 @@
 		{/if}
 		{#each accounts as address, i (address)}
 			<section class="card" transition:scale|local animate:flip|local={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
-				<div class="bar">
 					<PortfolioAccount
 						{networks}
 						{address}
@@ -206,7 +209,6 @@
 							</div>
 						{/if}
 					</PortfolioAccount>
-				</div>
 			</section>
 		{/each}
 	{:else}

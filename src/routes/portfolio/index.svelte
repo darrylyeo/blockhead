@@ -96,7 +96,7 @@
 		max-width: 45rem;
 	}
 	section {
-		gap: 2rem;
+		gap: 2.5rem;
 	}
 
 	.metamask {
