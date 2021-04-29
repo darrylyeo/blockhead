@@ -23,6 +23,8 @@
 
 	// Computed Values
 	let quoteTotals = []
+	export let quoteTotal
+	$: quoteTotal = quoteTotals.reduce((sum, quoteTotal) => sum + quoteTotal, 0)
 
 
 	import Address from './Address.svelte'
@@ -60,9 +62,11 @@
 <div class="account">
 	<div class="bar">
 		<h3><Address {address} /></h3>
+		{#if quoteTotals.length}
 		<span class="account-total-value">
-			<TokenValue token={quoteCurrency} value={quoteTotals.reduce((sum, quoteTotal) => sum + quoteTotal, 0)} showPlainFiat={true} />
+				<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
 		</span>
+		{/if}
 		<slot></slot>
 	</div>
 	{#each networks as network, i}

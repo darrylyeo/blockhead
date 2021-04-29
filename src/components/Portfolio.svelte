@@ -65,6 +65,12 @@
 	let showUnderlyingAssets = false
 
 
+	// Computed Values
+	let quoteTotals = []
+	export let quoteTotal
+	$: quoteTotal = quoteTotals.reduce((sum, quoteTotal) => sum + quoteTotal, 0)
+
+
 	// Options menu
 	let showOptions = true
 	const toggleShowOptions = () => showOptions = !showOptions
@@ -75,6 +81,7 @@
 	import AddressField from './AddressField.svelte'
 	import Loading from './Loading.svelte'
 	import PortfolioAccount from './PortfolioAccount.svelte'
+	import TokenValue from './TokenValue.svelte'
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
 </script>
@@ -101,6 +108,10 @@
 	form {
 		display: contents;
 	}
+
+	.account-total-value {
+		font-size: 1.21em;
+	}
 </style>
 
 
@@ -115,6 +126,13 @@
 				</form>
 			{/if}
 		</h1>
+
+		{#if quoteTotals.length}
+			<span class="account-total-value">
+				<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
+			</span>
+		{/if}
+
 		{#if editable}
 			<div class="stack">
 				{#if state !== State.Editing}
@@ -179,6 +197,8 @@
 						{sortBy}
 						{showSmallValues}
 						{showUnderlyingAssets}
+
+					bind:quoteTotal={quoteTotals[i]}
 					>
 						{#if state === State.Editing}
 							<div class="row edit-controls" transition:scale>
