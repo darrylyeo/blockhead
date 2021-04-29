@@ -275,15 +275,23 @@ main {
 	gap: var(--padding-inner);
 }
 .bar > :first-child {
-	flex: 1;
+	flex: 1 auto;
 }
 .bar > h2:first-child, .bar > h3:first-child {
+	flex: 1;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 .bar > :not(:first-child) {
 	flex: 0 auto;
+}
+.bar > :first-child {
+	justify-items: start;
+}
+.bar > :not(:first-child):last-child {
+	margin-left: auto;
+	justify-items: end;
 }
 
 
@@ -293,12 +301,6 @@ main {
 }
 .stack > * {
 	grid-area: stack;
-}
-.bar > .stack:first-child {
-	justify-items: start;
-}
-.bar > .stack:last-child {
-	justify-items: end;
 }
 
 

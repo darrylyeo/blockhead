@@ -121,6 +121,7 @@
 
 <div class="portfolio column">
 	<header class="bar">
+		<h1 class="row">
 			{#if state !== State.Editing}
 				{name || '[Untitled Portfolio]'}
 			{:else}
