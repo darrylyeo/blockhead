@@ -63,9 +63,9 @@
 	<div class="bar">
 		<h3><Address {address} /></h3>
 		{#if quoteTotals.length}
-		<span class="account-total-value">
+			<span class="account-total-value">
 				<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
-		</span>
+			</span>
 		{/if}
 		<slot></slot>
 	</div>
@@ -99,7 +99,7 @@
 		<!-- DeFi Balances -->
 		{#if network.chainId === 1}
 			{#if provider}
-				<DefiBalances {provider} {address} {showUnderlyingAssets}>
+				<DefiBalances {network} {provider} {address} {showUnderlyingAssets}>
 					<svelte:fragment slot="header">
 						<hr>
 						<h4>Ethereum DeFi</h4>

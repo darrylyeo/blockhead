@@ -5,6 +5,7 @@
 
 	export let token = 'ETH'
 
+	export let network: Ethereum.Network
 	export let provider: Ethereum.Provider
 	export let address: string
 	
@@ -140,7 +141,7 @@
 
 {#if provider && address}
 	<Loader
-		loadingMessage="Reading DeFi balances..."
+		loadingMessage="Reading {network.name} DeFi balances..."
 		fromPromise={() => getDefiBalances(provider, address)}
 		let:then={defiBalances}
 		showIf={defiBalances => defiBalances.length}
