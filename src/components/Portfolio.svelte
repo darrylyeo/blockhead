@@ -121,7 +121,7 @@
 
 <div class="portfolio column">
 	<header class="bar">
-		<h1 class="row">
+		<h1 class="row" on:dblclick={editable && (() => state = State.Editing)}>
 			{#if state !== State.Editing}
 				{name || '[Untitled Portfolio]'}
 			{:else}
