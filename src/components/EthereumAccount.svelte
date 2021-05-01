@@ -38,7 +38,7 @@
 			transactionID: transaction.tx_hash,
 			blockNumber: transaction.log_events?.[0]?.block_height,
 			date: transaction.block_signed_at,
-			isSuccessful: transaction.successful,
+			isSuccessful: transaction.successful !== false,
 
 			fromAddress: transaction.from_address,
 			fromAddressLabel: transaction.from_address_label,
@@ -70,7 +70,7 @@
 		return {
 			transferID: transfer.tx_hash,
 			date: transfer.block_signed_at,
-			isSuccessful: transfer.successful,
+			isSuccessful: transfer.successful !== false,
 
 			fromAddress: transfer.from_address,
 			fromAddressLabel: transfer.from_address_label,
