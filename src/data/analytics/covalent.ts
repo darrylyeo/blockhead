@@ -543,9 +543,21 @@ export const getTransaction = (
 
 export const getHistoricalPrices = (
 	{quoteCurrency, tickerSymbol, from, to, pageNumber, pageSize}:
-	QuoteCurrencyParameters & {tickerSymbol: TickerSymbol, from: Covalent.Day, to: Covalent.Day} & ChainIDParameters & PaginationParameters
+	QuoteCurrencyParameters & {tickerSymbol: TickerSymbol, from: Covalent.Day, to: Covalent.Day} & PaginationParameters
 ) =>
 	makeRequest<Covalent.HistoricalPrices>(`/v1/pricing/historical/${quoteCurrency}/${tickerSymbol}`, {from, to, pageNumber, pageSize})
+
+export const getHistoricalPricesByAddress = (
+	{quoteCurrency, contractAddress, from, to, chainID, pageNumber, pageSize}:
+	QuoteCurrencyParameters & {contractAddress: Ethereum.ContractAddress, from: Covalent.Day, to: Covalent.Day} & ChainIDParameters & PaginationParameters
+) =>
+	makeRequest<Covalent.HistoricalPrices>(`/v1/pricing/historical_by_address/${chainID}/${quoteCurrency}/${contractAddress}`, {from, to, pageNumber, pageSize})
+
+export const getHistoricalPricesByAddresses = (
+	{quoteCurrency, contractAddresses, from, to, chainID, pageNumber, pageSize}:
+	QuoteCurrencyParameters & {contractAddresses: Ethereum.ContractAddress[], from: Covalent.Day, to: Covalent.Day} & ChainIDParameters & PaginationParameters
+) =>
+	makeRequest<Covalent.HistoricalPrices[]>(`/v1/pricing/historical_by_addresses_v2/${chainID}/${quoteCurrency}/${contractAddresses.join(',')}`, {from, to, pageNumber, pageSize})
 
 // /v1/pricing/tickers/
 // /v1/pricing/volatility/
