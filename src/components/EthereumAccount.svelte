@@ -2,6 +2,7 @@
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { TickerSymbol } from '../data/currency/currency'
 	import type { Covalent } from '../data/analytics/covalent'
+	import type { PriceScale } from './PriceChart.svelte'
 	import { getERC20TokenTransfers, getTransactionsByAddress } from '../data/analytics/covalent'
 	import { preferredAnalyticsProvider, preferredQuoteCurrency } from '../data/ethereum/preferences'
 	
@@ -23,6 +24,11 @@
 		tokenIcon: string,
 		tokenName: string
 	} | undefined
+
+
+	let balances: Covalent.ERC20TokenOrNFTContractWithBalance[]
+
+	let priceScale: PriceScale
 
 
 	import { formatEther, formatUnits } from 'ethers/lib/utils'
@@ -89,6 +95,7 @@
 
 	import Address from './Address.svelte'
 	import Balance from './Balance.svelte'
+	import CovalentPriceChart from './CovalentPriceChart.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
 	import EthereumTransaction from './EthereumTransaction.svelte'
 	import Loader from './Loader.svelte'
@@ -116,6 +123,10 @@
 	/* .transactions :global(.token-value-container) {
 		font-size: 1.1em;
 	} */
+
+	.price-chart {
+		--echart-height: 20rem;
+	}
 </style>
 
 <div class="card">
@@ -135,6 +146,7 @@
 			{showValues}
 			isSelectable={true}
 			bind:selectedToken={selectedToken}
+			bind:balances={balances}
 		>
 			<div slot="header" class="bar" let:network let:quoteCurrency let:quoteTotal>
 				<h3>{network.name} Tokens (<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />)</h3>
@@ -255,5 +267,32 @@
 				</Loader>
 			{/if}
 		{/if}
+	</div>
+	<hr>
+	<div class="price-chart">
+		<CovalentPriceChart
+			provider={$preferredAnalyticsProvider}
+			quoteCurrency={$preferredQuoteCurrency}
+			currencies={
+				selectedToken ? [selectedToken.tokenAddress] :
+				balances ? balances.map(tokenWithBalance => tokenWithBalance.contract_address) :
+				[]
+			}
+			{priceScale}
+		>
+			<svelte:fragment slot="header">
+				<div class="bar">
+					<h3>Chart</h3>
+					<label>
+						<span>Price Scale</span>
+						<select bind:value={priceScale}>
+							<option value="logarithmic">Logarithmic</option>
+							<option value="linear">Linear</option>
+							<option value="linearFromZero">Linear From Zero</option>
+						</select>
+					</label>
+				</div>
+			</svelte:fragment>
+		</CovalentPriceChart>
 	</div>
 </div>

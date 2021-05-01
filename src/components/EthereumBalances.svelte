@@ -38,7 +38,7 @@
 
 
 	$: getBalancesPromise = getTokenAddressBalances({address, nft: false, chainID: network.chainId, quoteCurrency: quoteCurrency})
-	let balances: Covalent.ERC20TokenOrNFTContractWithBalance[] = []
+	export let balances: Covalent.ERC20TokenOrNFTContractWithBalance[] = []
 	$: getBalancesPromise.then(balances => (filterFunction ? balances.items.filter(filterFunction) : balances.items).sort(sortFunction))
 		.then(_ => balances = _)
 
