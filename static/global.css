@@ -312,6 +312,17 @@ main {
 }
 
 
+.scrollable-list {
+	max-height: 30rem;
+	overflow-y: auto;
+	scroll-snap-type: y proximity;
+}
+.scrollable-list > * {
+	scroll-snap-stop: always;
+	scroll-snap-align: start;
+}
+
+
 .slot {
 	display: inline-flex;
 	align-items: center;

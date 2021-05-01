@@ -195,15 +195,17 @@
 						</div>
 					</svelte:fragment>
 
-					{#each transactions.items as transaction}
-						<EthereumTransaction
-							contextualAddress={address}
-							{detailLevel}
-							{showValues}
-							{showFees}
-							{...convertCovalentTransaction(transaction)}
-						/>
-					{/each}
+					<div class="transactions-list column scrollable-list">
+						{#each transactions.items as transaction}
+							<EthereumTransaction
+								contextualAddress={address}
+								{detailLevel}
+								{showValues}
+								{showFees}
+								{...convertCovalentTransaction(transaction)}
+							/>
+						{/each}
+					</div>
 				</Loader>
 			{:else}
 				<!-- ERC-20 Transactions -->
