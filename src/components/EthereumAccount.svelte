@@ -134,6 +134,7 @@
 		<h2><Address {address}/></h2>
 		<span class="card-annotation">Ethereum Account</span>
 	</div>
+	<hr>
 	<!-- <Balance {provider} {address} /> -->
 	<div class="balances">
 		<EthereumBalances
