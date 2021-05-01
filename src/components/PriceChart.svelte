@@ -59,7 +59,7 @@
 			'linear': {
 				type: 'value',
 				scale: true,
-				// min: 'dataMin',
+				min: 'dataMin',
 				// max: 'dataMax'
 			},
 			'linearFromZero': {
