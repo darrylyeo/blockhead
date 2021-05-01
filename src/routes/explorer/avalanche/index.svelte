@@ -5,7 +5,7 @@
 	
 	const provider = getContext<Ethereum.Provider>('provider')
 
-	import CovalentPriceChart from '../../../components/PriceChart.svelte'
+	import CovalentPriceChart from '../../../components/CovalentPriceChart.svelte'
 </script>
 
 <style>
