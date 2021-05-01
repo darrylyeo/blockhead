@@ -4,6 +4,7 @@
 	import type { Covalent } from '../data/analytics/covalent'
 	import { getHistoricalPricesByTickerSymbol, getHistoricalPricesByAddress } from '../data/analytics/covalent'
 	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
+	import type { PriceScale } from './PriceChart.svelte'
 	
 	export let provider: AnalyticsProvider
 	export let currencies: (TickerSymbol | Ethereum.ContractAddress)[]
@@ -13,12 +14,16 @@
 	export let toDate = new Date().toISOString().slice(0, 10) // today's date
 	export let fromPrice = 0
 	export let toPrice = 1000
+	export let priceScale: PriceScale
+
 
 	const isAddress = query => /^0x[0-9a-f]{40}$/i.test(query)
+
 
 	$: historicalPriceLogo = ({
 		'Covalent': '/logos/covalent-logomark.svg'
 	})[provider]
+
 
 	import Loader from './Loader.svelte'
 	import PriceChart from './PriceChart.svelte'
@@ -51,11 +56,14 @@
 		loadingMessage="Retrieving price history..."
 		let:then={data}
 	>
+		<slot name="header"></slot>
+
 		<PriceChart
 			{data}
 			{quoteCurrency}
 			timeRange={[fromDate, toDate]}
 			priceRange={[fromPrice, toPrice]}}
+			{priceScale}
 		/>
 	</Loader>
 {/if}

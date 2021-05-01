@@ -1,3 +1,7 @@
+<script lang="ts" context="module">
+	export type PriceScale = 'linear' | 'linearFromZero' | 'logarithmic'
+</script>
+
 <script lang="ts">
 	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
 	
@@ -15,8 +19,7 @@
 	export let timeRange: [number, number]
 	export let priceRange: [number, number]
 	$: isMultiple = data.length > 1
-
-	export let priceScale: 'linear' | 'linearFromZero' | 'logarithmic' = 'linear'
+	export let priceScale: PriceScale = 'logarithmic' // isMultiple ? 'logarithmic' : 'linear'
 
 	function formatTimestamp(timestamp){
 		return new Date(timestamp).toLocaleDateString()
@@ -209,15 +212,3 @@
 		}
 	}]
 }} />
-
-<div class="bar">
-	<h4>Show</h4>
-	<label>
-		<span>Price Scale</span>
-		<select bind:value={priceScale}>
-			<option value="logarithmic">Logarithmic</option>
-			<option value="linear">Linear</option>
-			<option value="linearFromZero">Linear From Zero</option>
-		</select>
-	</label>
-</div>
