@@ -351,6 +351,7 @@ main {
 ::-webkit-scrollbar {
 	background: transparent;
 	width: 5px;
+	height: 5px;
 }
 [style*="animation:"]::-webkit-scrollbar {
 	display: none;
@@ -358,7 +359,8 @@ main {
 ::-webkit-scrollbar-track {
 	background: rgba(255, 255, 255, 0.1);
 }
-::-webkit-scrollbar-button {
+:root::-webkit-scrollbar-button,
+body::-webkit-scrollbar-button {
 	height: 1.8rem;
 }
 ::-webkit-scrollbar-thumb {
