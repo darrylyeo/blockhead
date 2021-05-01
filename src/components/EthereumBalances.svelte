@@ -24,21 +24,21 @@
 	export let quoteTotal
 
 
-	let filterFunction: (b: Covalent.TokenBalance) => boolean
+	let filterFunction: (b: Covalent.ERC20TokenOrNFTContractWithBalance) => boolean
 	$: filterFunction = showSmallValues
 		? b => b.type !== 'nft' // undefined
 		: b => b.type !== 'nft' && !(/*b.type === 'dust' || */ b.quote < 1e-3)
 
-	let sortFunction: (a: Covalent.TokenBalance, b: Covalent.TokenBalance) => number
+	let sortFunction: (a: Covalent.ERC20TokenOrNFTContractWithBalance, b: Covalent.ERC20TokenOrNFTContractWithBalance) => number
 	$: sortFunction =
-		sortBy === 'value-descending' ? (a, b) => b.quote - a.quote || b.token_balance - a.token_balance :
-		sortBy === 'value-ascending' ? (a, b) => a.quote - b.quote || a.token_balance - b.token_balance :
+		sortBy === 'value-descending' ? (a, b) => b.quote - a.quote || b.balance - a.balance :
+		sortBy === 'value-ascending' ? (a, b) => a.quote - b.quote || a.balance - b.balance :
 		sortBy === 'ticker-ascending' ? (a, b) => a.contract_ticker_symbol.localeCompare(b.contract_ticker_symbol) :
 		undefined
 
 
 	$: getBalancesPromise = getTokenAddressBalances({address, nft: false, chainID: network.chainId, quoteCurrency: quoteCurrency})
-	let balances: Covalent.TokenBalance[] = []
+	let balances: Covalent.ERC20TokenOrNFTContractWithBalance[] = []
 	$: getBalancesPromise.then(balances => (filterFunction ? balances.items.filter(filterFunction) : balances.items).sort(sortFunction))
 		.then(_ => balances = _)
 
