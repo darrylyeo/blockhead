@@ -5,6 +5,7 @@
 	import { preferredAnalyticsProvider, preferredQuoteCurrency, preferredPriceFeedProvider } from '../../../data/ethereum/preferences'
 	// import { getCompoundPriceFeed } from '.../../../data/ethereum/price/compound-price-feed'
 	import { getChainlinkPriceFeed } from '.../../../data/ethereum/price/chainlink'
+	import type { PriceScale } from '../../../components/PriceChart.svelte'
 
 
 	const provider = getContext<Ethereum.Provider>('provider')
@@ -21,7 +22,7 @@
 	})[$preferredPriceFeedProvider]
 
 
-	let priceScale
+	let priceScale: PriceScale
 
 
 	import Loader from '../../../components/Loader.svelte'
