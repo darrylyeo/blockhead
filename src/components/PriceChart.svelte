@@ -47,9 +47,12 @@
 		boundaryGap: false,
 		splitNumber: 12,
 		splitLine: {
-			show: true
+			show: true,
+			lineStyle: {
+				color: 'hsla(0deg, 0%, 71%, 0.15)'
+			}
 		},
-		minorSplitLine: {}
+		// minorSplitLine: {}
 	},
 	yAxis: {
 		...{
@@ -70,12 +73,24 @@
 				logBase: 10,
 				min: 'dataMin',
 				max: 'dataMax',
-				minorSplitLine: {
-					show: true,
-				},
+				// minorTick: {
+				// 	splitNumber: 2
+				// },
+				// minorSplitLine: {
+				// 	show: true,
+				// 	lineStyle: {
+				// 		color: 'hsla(0deg, 0%, 71%, 0.15)'
+				// 	},
+				// },
 				splitNumber: 10
 			}
 		}[priceScale],
+		splitLine: {
+			show: true,
+			lineStyle: {
+				color: 'hsla(0deg, 0%, 71%, 0.15)'
+			}
+		},
 		boundaryGap: ['2%', '2%'],
 
 		position: 'right',
