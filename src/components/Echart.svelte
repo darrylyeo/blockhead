@@ -38,7 +38,7 @@
 <style>
 	.chart {
 		width: 100%;
-		min-height: 35rem;
+		min-height: var(--echart-height, 35rem);
 		max-height: 90vh;
 		font-size: 0.85em;
 	}
