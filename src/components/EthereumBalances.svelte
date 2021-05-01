@@ -52,12 +52,15 @@
 	import { quintOut } from 'svelte/easing'
 </script>
 
-<style>		
+<style>	
 	.ethereum-balances {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
 		align-items: stretch;
 		gap: var(--padding-inner);
+	}
+	.ethereum-balances.show-amounts-and-values {
+		column-gap: calc(2 * var(--padding-inner));
 	}
 
 	/* 
@@ -72,6 +75,9 @@
 		flex: 0 auto;
 	} */
 
+	.ethereum-balance {
+		gap: var(--padding-inner);
+	}
 	.ethereum-balance.is-selectable {
 		--padding-outer: 0.25rem;
 		margin: calc(-1 * var(--padding-outer));
@@ -87,6 +93,12 @@
 	.ethereum-balance.is-selectable.is-selected {
 		background-color: rgba(255, 255, 255, 0.3);
 		box-shadow: var(--primary-color) 0 0 0 2px inset;
+	}
+
+	.ethereum-balance :global(.value-with-conversion) {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
 	}
 </style>
 
@@ -106,7 +118,7 @@
 			{/if}
 		</svelte:fragment>
 
-		<div class="ethereum-balances card">
+		<div class="ethereum-balances card" class:show-amounts-and-values={showValues === 'both'}>
 			{#each
 				balances
 				as {type, balance, quote, quote_rate, contract_name, contract_address, contract_decimals, contract_ticker_symbol, logo_url},
