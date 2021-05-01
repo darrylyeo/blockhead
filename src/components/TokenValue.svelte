@@ -19,21 +19,7 @@
 	$: isFiat = showPlainFiat && token in fiatQuoteCurrencies
 
 
-	$: formatter = new Intl.NumberFormat(globalThis.navigator.languages, {
-		... isFiat ? {style: 'currency', currency: token} : {},
-		minimumFractionDigits: Math.max(showDecimalPlaces, 0),
-		maximumFractionDigits: Math.max(showDecimalPlaces, 0)
-	})
-	const formatValue = value => {
-		try {
-			return globalThis.navigator
-				? formatter.format(value || 0)
-				: value
-		}catch(e){
-			console.error(e)
-			return value?.toString()
-		}
-	}
+	import { formatValue } from '../utils/format-value'
 
 
 	import { tweened } from 'svelte/motion'
@@ -85,7 +71,7 @@ import { expoOut, quintOut } from 'svelte/easing';
 
 <span class="token-value-container" class:is-debt={isDebt} title="{value} {tokenName || token}{token && tokenName ? ` (${token})` : ``}">
 	{#if isFiat}
-		<span class="token-value">{formatValue($tweenedValue)}</span>
+		<span class="token-value">{formatValue($tweenedValue, token)}</span>
 	{:else}
 		<TokenIcon {token} {tokenAddress} {tokenIcon} />
 		<span>

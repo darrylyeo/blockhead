@@ -21,19 +21,13 @@
 	$: isMultiple = data.length > 1
 	export let priceScale: PriceScale = 'logarithmic' // isMultiple ? 'logarithmic' : 'linear'
 
+
+	import { formatValue } from '../utils/format-value'
+
 	function formatTimestamp(timestamp){
 		return new Date(timestamp).toLocaleDateString()
 	}
 
-	function formatCurrency(value){
-		const showDecimalPlaces = 2 + Math.round(Math.log10(value || 1))
-		return new Intl.NumberFormat(globalThis.navigator.languages, {
-			style: 'currency',
-			currency: quoteCurrency,
-			minimumFractionDigits: 0,
-			maximumFractionDigits: 0
-		}).format(value)
-	}
 
 	import Echart from './Echart.svelte'
 
@@ -98,7 +92,7 @@
 
 		position: 'right',
 		axisLabel: {
-			formatter: value => formatCurrency(value),
+			formatter: value => formatValue(value, quoteCurrency),
 		},
 	},
 	series: data?.map(({currency, prices}) => ({
@@ -140,7 +134,8 @@
 		},
 		endLabel: {
 			show: true,
-			formatter: ({value: [time, price]}) => formatCurrency(price),
+			formatter: ({value: [time, price]}) => formatValue(price, quoteCurrency),
+			fontSize: 6,
 			textBorderColor: 'transparent'
 		},
 		emphasis: {
@@ -162,14 +157,14 @@
 		label: {
 			formatter: ({axisDimension, value}) =>
 				axisDimension === 'x' ? formatTimestamp(value) :
-				axisDimension === 'y' ? formatCurrency(value) :
+				axisDimension === 'y' ? formatValue(value, quoteCurrency) :
 				'',
 			backgroundColor: 'rgba(250, 250, 250, 0.5)'
 		}
 	},
 	dataZoom: [{
 		type: 'inside',
-		start: 95,
+		start: 80,
 		end: 100
 		// start: timeRange[0],
 		// end: timeRange[1]
@@ -182,6 +177,13 @@
 		left: 120,
 		right: 120,
 		top: 4
+		// type: 'scroll',
+		// orient: 'vertical',
+		// right: 10,
+		// top: 20,
+		// bottom: 20,
+		// data: data.legendData,
+		// selected: data.selected
 	},
 	toolbox: [{
 		feature: {
