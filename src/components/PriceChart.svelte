@@ -158,7 +158,9 @@
 		end: 100
 	}],
 	legend: {
-
+		left: 120,
+		right: 120,
+		top: 4
 	},
 	toolbox: [{
 		feature: {
