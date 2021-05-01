@@ -14,6 +14,7 @@
 	export let quoteCurrency: QuoteCurrency
 	export let timeRange: [number, number]
 	export let priceRange: [number, number]
+	$: isMultiple = data.length > 1
 
 	export let priceScale: 'linear' | 'linearFromZero' | 'logarithmic' = 'linear'
 
@@ -99,15 +100,17 @@
 		symbol: 'none',
 		// symbol: `https://tokens.1inch.exchange/0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.png`,
 		
-		color: `var(--${tokenColors[currency]})`,
-		areaStyle: {
+		color: `var(--${tokenColors[currency]}, hsla(0deg, 0%, 90%, 0.75))`,
+		areaStyle: isMultiple ? {
+			color: 'transparent'
+		} : {
 			color: {
 				type: 'linear',
 				x: 0, y: 0,
 				x2: 0, y2: 2,
 				colorStops: [{
 					offset: 0.05,
-					color: `var(--${tokenColors[currency]})`
+					color: `var(--${tokenColors[currency]}, hsla(0deg, 0%, 90%, 0.75))`,
 				}, {
 					offset: 1,
 					color: 'transparent'
