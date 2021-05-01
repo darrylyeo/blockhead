@@ -65,7 +65,7 @@
 			'linearFromZero': {
 				type: 'value',
 				scale: false,
-				// min: 0,
+				min: 0,
 				// max: 'dataMax'
 			},
 			'logarithmic': {
