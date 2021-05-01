@@ -541,7 +541,7 @@ export const getTransaction = (
 // /v1/${chainID}/networks/uniswap_v2/assets/
 
 
-export const getHistoricalPrices = (
+export const getHistoricalPricesByTickerSymbol = (
 	{quoteCurrency, tickerSymbol, from, to, pageNumber, pageSize}:
 	QuoteCurrencyParameters & {tickerSymbol: TickerSymbol, from: Covalent.Day, to: Covalent.Day} & PaginationParameters
 ) =>
