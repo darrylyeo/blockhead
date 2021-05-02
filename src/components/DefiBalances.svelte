@@ -3,12 +3,14 @@
 	import type { DefiSDK } from '../data/ethereum/price/defi-sdk'
 	import { getDefiBalances } from '../data/ethereum/price/defi-sdk'
 
+
 	export let token = 'ETH'
 
 	export let network: Ethereum.Network
 	export let provider: Ethereum.Provider
 	export let address: string
-	
+
+
 	export let showUnderlyingAssets = true
 
 	type Layout = 'horizontal' | 'horizontal-alternate' | 'vertical'
@@ -17,7 +19,10 @@
 	$: computedLayout = layout === 'auto'
 		? showUnderlyingAssets ? 'vertical' : 'horizontal' // 'horizontal-alternate'
 		: layout
+	
+	export let isCollapsed: boolean
 
+	
 	import { formatUnits } from 'ethers/lib/utils'
 	
 	import Loader from './Loader.svelte'
@@ -26,6 +31,7 @@
 	
 	import { flip } from 'svelte/animate'
 	import { scaleFont } from '../transitions/scale-font'
+
 
 	const defiProtocolColors: Record<DefiSDK.ProtocolName, string[]> = {
 		'Aave': ['#77c0c7', '#b56da4'],
@@ -145,6 +151,7 @@
 		fromPromise={() => getDefiBalances(provider, address)}
 		let:then={defiBalances}
 		showIf={defiBalances => defiBalances.length}
+		{isCollapsed}
 	>
 		<TokenIcon slot="loadingIcon" {token} />
 		<!-- <svelte:fragment slot="loadingIcon"><TokenIcon slot="icon" {token} /></svelte:fragment> -->

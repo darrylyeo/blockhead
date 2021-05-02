@@ -20,6 +20,8 @@
 	export let showSmallValues = false
 	export let showUnderlyingAssets = false
 
+	export let isCollapsed: boolean
+
 
 	// Computed Values
 	let tokenQuoteTotals = []
@@ -81,6 +83,7 @@
 				{analyticsProvider}
 				{quoteCurrency}
 				{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets}
+				{isCollapsed}
 				bind:quoteTotal={tokenQuoteTotals[i]}
 			>
 				<svelte:fragment slot="header" let:network let:quoteCurrency let:quoteTotal>
@@ -102,7 +105,13 @@
 		<!-- DeFi Balances -->
 		{#if network.chainId === 1}
 			{#if provider}
-				<DefiBalances {network} {provider} {address} {showUnderlyingAssets}>
+				<DefiBalances
+					{network}
+					{provider}
+					{address}
+					{showUnderlyingAssets}
+					{isCollapsed}
+				>
 					<svelte:fragment slot="header">
 						<hr>
 						<h4>{network.name} DeFi</h4>
@@ -120,6 +129,7 @@
 			{analyticsProvider}
 			{quoteCurrency}
 			{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets}
+			{isCollapsed}
 			bind:quoteTotal={nftQuoteTotals[i]}
 		>
 			<svelte:fragment slot="header">

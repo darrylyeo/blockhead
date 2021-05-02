@@ -201,8 +201,9 @@
 						{sortBy}
 						{showSmallValues}
 						{showUnderlyingAssets}
+						isCollapsed={state === State.Editing}
 
-					bind:quoteTotal={quoteTotals[i]}
+						bind:quoteTotal={quoteTotals[i]}
 					>
 						{#if state === State.Editing}
 							<div class="row edit-controls" transition:scale>

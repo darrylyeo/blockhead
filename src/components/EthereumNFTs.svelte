@@ -15,6 +15,8 @@
 
 	export let quoteTotal
 
+	export let isCollapsed: boolean
+
 
 	let filterFunction: (b: Covalent.ERC20TokenOrNFTContractWithBalance) => boolean
 	$: filterFunction =
@@ -132,6 +134,7 @@
 		errorMessage="Error retrieving {network.name} NFTs from {analyticsProvider}"
 		fromPromise={() => getBalancesPromise}
 		showIf={() => balances.length}
+		{isCollapsed}
 		hideError={true}
 	>
 		<svelte:fragment slot="header">
