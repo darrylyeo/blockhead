@@ -190,27 +190,27 @@
 		{/if}
 		{#each accounts as address, i (address)}
 			<section class="card" transition:scale|local animate:flip|local={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
-					<PortfolioAccount
-						{networks}
-						{address}
-						{provider}
-						{analyticsProvider}
-						{quoteCurrency}
+				<PortfolioAccount
+					{networks}
+					{address}
+					{provider}
+					{analyticsProvider}
+					{quoteCurrency}
 
-						{showValues}
-						{sortBy}
-						{showSmallValues}
-						{showUnderlyingAssets}
-						isCollapsed={state === State.Editing}
+					{showValues}
+					{sortBy}
+					{showSmallValues}
+					{showUnderlyingAssets}
+					isCollapsed={state === State.Editing}
 
-						bind:quoteTotal={quoteTotals[i]}
-					>
-						{#if state === State.Editing}
-							<div class="row edit-controls" transition:scale>
-								<button on:click={() => deleteWallet(i)}>Remove</button>
-							</div>
-						{/if}
-					</PortfolioAccount>
+					bind:quoteTotal={quoteTotals[i]}
+				>
+					{#if state === State.Editing}
+						<div class="row edit-controls" transition:scale>
+							<button on:click={() => deleteWallet(i)}>Remove</button>
+						</div>
+					{/if}
+				</PortfolioAccount>
 			</section>
 		{/each}
 	{:else}
