@@ -4,7 +4,7 @@
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import { networksByChainID } from '../data/ethereum/networks'
 
-	import { Account } from '../data/ethereum/accounts'
+	import { Account } from '../data/ethereum/portfolio-accounts'
 
 
 	// Portfolio management

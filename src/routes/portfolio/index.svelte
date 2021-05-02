@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte'
 
 	import { getProvider, getProviderInstance } from '../../data/ethereum/provider'
-	import { Portfolio, getLocalPortfolios, getEthersAccounts } from '../../data/ethereum/accounts'
+	import { Portfolio, getLocalPortfolios, getEthersAccounts } from '../../data/ethereum/portfolio-accounts'
 	import { ethereumNetwork, preferredAnalyticsProvider, preferredEthereumProvider, preferredQuoteCurrency } from '../../data/ethereum/preferences'
 
 	let preferredProvider

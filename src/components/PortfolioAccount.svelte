@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { AccountType } from '../data/ethereum/accounts'
+	import { AccountType } from '../data/ethereum/portfolio-accounts'
 	// import type { CryptoPosition } from '../data/CryptoPosition'
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { AnalyticsProvider } from '../data/analytics/provider'
