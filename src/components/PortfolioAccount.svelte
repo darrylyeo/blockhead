@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { CryptoAddress } from '../data/CryptoAddress'
+	import { AccountType } from '../data/ethereum/accounts'
 	// import type { CryptoPosition } from '../data/CryptoPosition'
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { AnalyticsProvider } from '../data/analytics/provider'
@@ -9,8 +9,10 @@
 
 	// Balances view options
 
+	export let addressOrENSName: Ethereum.Address | string
+	export let type: AccountType
 	export let networks: Ethereum.Network[]
-	export let address: CryptoAddress
+
 	export let provider: Ethereum.Provider
 	export let analyticsProvider: AnalyticsProvider
 	export let quoteCurrency: QuoteCurrency
@@ -21,6 +23,9 @@
 	export let showUnderlyingAssets = false
 
 	export let isCollapsed: boolean
+
+
+	$: address = type === AccountType.Address ? addressOrENSName : addressOrENSName // await ens.name(addressOrENSName).getAddress()
 
 
 	// Computed Values

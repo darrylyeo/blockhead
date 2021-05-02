@@ -1,17 +1,18 @@
 <script lang="ts">
-	import type { CryptoAddress } from '../data/CryptoAddress'
-	// import type { CryptoPosition } from '../data/CryptoPosition'
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { AnalyticsProvider } from '../data/analytics/provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import { networksByChainID } from '../data/ethereum/networks'
 
+	import { Account } from '../data/ethereum/accounts'
+
 
 	// Portfolio management
 
 	export let name = ''
+	export let accounts: Account[]
+
 	export let editable = false
-	export let accounts: CryptoAddress[]
 
 	enum State {
 		Idle = 'idle',
@@ -39,10 +40,10 @@
 		if(!isValid(newWalletAddress))
 			return
 
-		if(accounts.includes(newWalletAddress))
+		if(accounts.some(account => account.id.toLowerCase() === newWalletAddress.toLowerCase()))
 			return
 
-		const newAccount = newWalletAddress
+		const newAccount = new Account(newWalletAddress)
 		accounts = [newAccount, ...accounts]
 	}
 
@@ -188,11 +189,13 @@
 				{/if}
 			</div>
 		{/if}
-		{#each accounts as address, i (address)}
+		{#each accounts as {id, type, nickname}, i (id)}
 			<section class="card" transition:scale|local animate:flip|local={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
 				<PortfolioAccount
+					addressOrENSName={id}
+					{type}
 					{networks}
-					{address}
+
 					{provider}
 					{analyticsProvider}
 					{quoteCurrency}
