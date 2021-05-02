@@ -64,7 +64,7 @@
 			result = $store.data
 			status = LoadingStatus.Resolved
 		}
-				
+
 	$: isHidden = showIf && status === LoadingStatus.Resolved && !showIf(result)
 
 
@@ -79,7 +79,7 @@
 </style>
 
 {#if !isHidden}
-<slot name="header" {status} />
+	<slot name="header" {status} />
 	<div class="loader stack">
 		{#if status === LoadingStatus.Loading}
 			<Loading iconAnimation="hover">
@@ -97,11 +97,11 @@
 		{:else if !hideError && status === LoadingStatus.Errored}
 			<div class="card" transition:scale>
 				<div class="bar">
-				<slot name="errorMessage">
+					<slot name="errorMessage">
 						{#if errorMessage}
-						<h4>{errorMessage}</h4>
+							<h4>{errorMessage}</h4>
 						{/if}
-				</slot>
+					</slot>
 					<slot name="errorActions" {load} {cancel}>
 						<button class="small" on:click={load}>Retry</button>
 						<button class="small" on:click={cancel}>Cancel</button>
