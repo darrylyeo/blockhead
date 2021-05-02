@@ -31,6 +31,7 @@
 	import Balance from './Balance.svelte'
 	import DefiBalances from './DefiBalances.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
+	import EthereumNFTs from './EthereumNFTs.svelte'
 	import Loading from './Loading.svelte'
 	import TokenValue from './TokenValue.svelte'
 </script>
@@ -109,5 +110,20 @@
 				<Loading>Connecting to the blockchain...</Loading>
 			{/if}
 		{/if}
+
+		<!-- NFT Balances -->
+		<EthereumNFTs
+			{network}
+			{address}
+			{analyticsProvider}
+			{quoteCurrency}
+			{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets}
+			bind:quoteTotal={quoteTotals[i]}
+		>
+			<svelte:fragment slot="header">
+				<hr>
+				<h4>{network.name} NFTs</h4>
+			</svelte:fragment>
+		</EthereumNFTs>
 	{/each}
 </div>

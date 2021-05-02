@@ -74,6 +74,12 @@ export namespace Covalent {
 		type: 'nft'
 		nft_data: NFTWithBalance[]
 	}
+	export type NFTAttributes = Record<string, string> | {
+		key?: string
+		display_type?: string
+		trait_type: string
+		value: string | number
+	}[]
 	export type NFTWithBalance = {
 		token_id: integer
 		token_balance: integer
@@ -89,7 +95,7 @@ export namespace Covalent {
 			description: string
 			image: string
 			external_url: string
-			attributes: {}
+			attributes: NFTAttributes
 		}
 
 		owner: string

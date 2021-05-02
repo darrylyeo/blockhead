@@ -224,6 +224,19 @@ hr {
 }
 
 
+dl {
+	display: grid;
+	/* grid-template-columns: minmax(min-content, 1fr) minmax(min-content, 1fr); */
+	grid-template-columns: minmax(min-content, 1fr) 1fr;
+	align-items: center;
+	margin: 0 auto;
+}
+dt {
+	font-weight: bold;
+	text-align: right;
+}
+
+
 main {
 	display: grid;
 	gap: var(--padding-inner);
@@ -274,6 +287,9 @@ main {
 	flex-wrap: wrap;
 	gap: var(--padding-inner);
 }
+.bar {
+	row-gap: calc(0.5 * var(--padding-inner));
+}
 .bar > :first-child {
 	flex: 1 auto;
 }
@@ -316,6 +332,7 @@ main {
 	max-height: 30rem;
 	overflow-y: auto;
 	scroll-snap-type: y proximity;
+	padding-right: var(--padding-inner);
 }
 .scrollable-list > * {
 	scroll-snap-stop: always;
