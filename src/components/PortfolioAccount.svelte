@@ -22,7 +22,9 @@
 
 
 	// Computed Values
-	let quoteTotals = []
+	let tokenQuoteTotals = []
+	let nftQuoteTotals = []
+	$: quoteTotals = [...tokenQuoteTotals, ...nftQuoteTotals]
 	export let quoteTotal
 	$: quoteTotal = quoteTotals.reduce((sum, quoteTotal) => sum + quoteTotal, 0)
 
@@ -79,7 +81,7 @@
 				{analyticsProvider}
 				{quoteCurrency}
 				{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets}
-				bind:quoteTotal={quoteTotals[i]}
+				bind:quoteTotal={tokenQuoteTotals[i]}
 			>
 				<svelte:fragment slot="header" let:network let:quoteCurrency let:quoteTotal>
 					<hr>
@@ -118,7 +120,7 @@
 			{analyticsProvider}
 			{quoteCurrency}
 			{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets}
-			bind:quoteTotal={quoteTotals[i]}
+			bind:quoteTotal={nftQuoteTotals[i]}
 		>
 			<svelte:fragment slot="header">
 				<hr>
