@@ -219,8 +219,8 @@
 		</slot>
 	{/if}
 
-	{#if showOptions && accounts.length}
-		<div class="card bar options">
+	{#if showOptions && accounts.length && state !== State.Editing}
+		<div class="card bar options" transition:scale>
 			<div class="row">
 				<h3>Show</h3>
 				<label>
