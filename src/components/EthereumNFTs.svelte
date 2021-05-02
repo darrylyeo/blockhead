@@ -151,7 +151,7 @@
 					i (contract_address || contract_ticker_symbol || contract_name)
 				}
 					<div class="nft-contract card column"
-						class:is-single={nft_data?.length === 1}
+						class:is-single={nft_data?.length <= 1}
 						animate:flip|local={{duration: 500, delay: Math.abs(i) * 10, easing: quintOut}}
 					>
 						<div class="bar">
@@ -162,7 +162,7 @@
 						</div>
 						{#if nft_data}
 							<hr>
-							<div class="nfts scrollable-list">
+							<div class="nfts" class:scrollable-list={nft_data?.length > 3}>
 								{#each nft_data as {token_id, token_url, external_data, supports_erc}}
 									{#if external_data}
 										{#each [parseNFTAttributes(external_data.attributes)] as attributes}
