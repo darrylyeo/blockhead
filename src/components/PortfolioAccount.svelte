@@ -103,7 +103,7 @@
 				<DefiBalances {network} {provider} {address} {showUnderlyingAssets}>
 					<svelte:fragment slot="header">
 						<hr>
-						<h4>Ethereum DeFi</h4>
+						<h4>{network.name} DeFi</h4>
 					</svelte:fragment>
 				</DefiBalances>
 			{:else}
