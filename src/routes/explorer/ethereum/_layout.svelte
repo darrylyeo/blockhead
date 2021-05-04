@@ -32,8 +32,10 @@
 		setContext('query', query)
 
 	// $: console.log('query changed: ', query)
-	// $: if(globalThis.document)
-	// 	goto(`explorer/ethereum/${query}`)
+	$: if(globalThis.document && $query)
+		goto(`explorer/ethereum/${$query}`)
+
+	$: currentQuery = $query
 
 	import AddressField from '../../../components/AddressField.svelte'
 	import Loading from '../../../components/Loading.svelte'
@@ -54,8 +56,8 @@
 
 
 <!-- <AddressField bind:query={$query} on:change={goto(`explorer/ethereum/${query}`)}/> -->
-<form on:submit|preventDefault={() => goto(`explorer/ethereum/${$query}`)}>
-	<AddressField bind:address={$query}/>
+<form on:submit|preventDefault={() => $query = currentQuery}>
+	<AddressField bind:address={currentQuery}/>
 	<button>Go</button>
 </form>
 
