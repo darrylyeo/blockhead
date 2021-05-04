@@ -46,7 +46,7 @@
 	<div class="row">
 		{#if domain.resolvedAddress}
 			<div class="card">
-				<h3>Resolves to</h3>
+				<h3>Resolved Ethereum Address</h3>
 				<Address address={domain.resolvedAddress.id}/>
 			</div>
 		{/if}
@@ -58,7 +58,7 @@
 		{/if}
 		{#if domain.resolver}
 			<div class="card">
-				<h3>Resolver</h3>
+				<h3>Resolver Contract</h3>
 				<Address address={domain.resolver.address}/>
 				<!-- <EnsResolver resolver={domain.resolver}/> -->
 			</div>
@@ -89,7 +89,7 @@
 	
 	{#if domain.events}
 		<div class="card">
-			<h3>Transaction History</h3>
+			<h3>History</h3>
 			{#each domain.events as event (event.id)}
 				<EnsDomainEvent event={event}/>
 			{/each}
