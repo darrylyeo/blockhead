@@ -91,9 +91,9 @@
 		width: 100%;
 		border-radius: 0.33em;
 		margin: auto;
-		/* max-height: 30em;
+		background-color: rgba(0, 0, 0, 0.1);
 		object-fit: contain;
-		aspect-ratio: 4/3; */
+		aspect-ratio: 1;
 	}
 
 	.nft {
@@ -175,7 +175,7 @@
 											}>
 												<a class="bar" href={token_url || external_data?.external_url} target="_blank">
 													{#if external_data.image}
-														<img class="nft-image" src={external_data.image} alt={external_data.name} />
+														<img class="nft-image" src={external_data.image} alt={external_data.name} loading="lazy" />
 													{/if}
 												</a>
 												<header class="bar">
