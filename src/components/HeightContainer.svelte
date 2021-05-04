@@ -57,7 +57,7 @@
 <style>
 	.container {
 		will-change: height margin-bottom;
-		contain: size;
+		contain: size layout;
 		transition: margin-top transform 150ms;
 	}
 	@supports ( clip-path: polygon(0 0) ){
