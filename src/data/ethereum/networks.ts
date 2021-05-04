@@ -2054,3 +2054,5 @@ for(const network of networks)
 export const networksBySlug: Record<string, Ethereum.Network> = {}
 for(const network of networks)
 	networksBySlug[network.slug] = network
+
+export const availableNetworks = [1, 137, 43114, 56, 250].map(chainID => networksByChainID[chainID])

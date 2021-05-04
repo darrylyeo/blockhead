@@ -2,9 +2,8 @@
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { AnalyticsProvider } from '../data/analytics/provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
-	import { networksByChainID } from '../data/ethereum/networks'
 
-	import { Account, AccountNetworkSettings } from '../data/ethereum/portfolio-accounts'
+	import { Account } from '../data/ethereum/portfolio-accounts'
 
 
 	// Portfolio management
@@ -30,8 +29,6 @@
 
 	// Wallet management
 
-	const defaultNetworks = [1, 137, 43114, 56, 250].map(chainID => networksByChainID[chainID])
-
 	function isValid(address){
 		return address !== ''
 	}
@@ -45,8 +42,7 @@
 		if(accounts.some(account => account.id.toLowerCase() === newWalletAddress.toLowerCase()))
 			return
 
-		const defaultAccountNetworkSettings: AccountNetworkSettings[] = defaultNetworks.map(network => new AccountNetworkSettings(network.chainId))
-		const newAccount = new Account(newWalletAddress, undefined, undefined, defaultAccountNetworkSettings)
+		const newAccount = new Account(newWalletAddress)
 		accounts = [newAccount, ...accounts]
 	}
 
@@ -58,7 +54,6 @@
 	
 	// Balances view options
 	
-	export let networks = [1, 137, 43114, 56, 250].map(chainID => networksByChainID[chainID])
 	export let provider: Ethereum.Provider
 	export let analyticsProvider: AnalyticsProvider
 	export let quoteCurrency: QuoteCurrency
@@ -88,6 +83,7 @@
 	import TokenValue from './TokenValue.svelte'
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
+import { availableNetworks } from '../data/ethereum/networks';
 </script>
 
 <style>
@@ -172,7 +168,7 @@
 							<div>
 								<h3>Add Wallet</h3>
 							</div>
-							<small>{defaultNetworks.map(network => network.name).join(', ')}</small>
+							<small>{availableNetworks.map(network => network.name).join(', ')}</small>
 						</div>
 						<div class="bar">
 							<form class="bar" on:submit|preventDefault={() => {addAccount(newWalletAddress); state = State.Idle; newWalletAddress = ''}}>

@@ -1,5 +1,6 @@
 import type { Ethereum } from './types'
 import { isAddress } from '@ethersproject/address'
+import { availableNetworks } from './networks'
 
 export class Portfolio {
 	constructor(
@@ -22,7 +23,7 @@ export class Account {
 		public id: Ethereum.Address | string,
 		public type: AccountType = isAddress(id) ? AccountType.Address : AccountType.ENS,
 		public nickname: string = '',
-		public networks: AccountNetworkSettings[] = []
+		public networks: AccountNetworkSettings[] = getDefaultAccountNetworkSettings()
 	){}
 
 	toJSON(){
@@ -53,6 +54,11 @@ export class AccountNetworkSettings {
 			showNFTs: this.showNFTs
 		}
 	}
+}
+
+
+function getDefaultAccountNetworkSettings(){
+	return availableNetworks.map(network => new AccountNetworkSettings(network.chainId))
 }
 
 
