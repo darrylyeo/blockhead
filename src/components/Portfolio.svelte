@@ -118,7 +118,7 @@
 	}
 
 	.portfolio h1 {
-		flex: 1 auto;
+		flex: 1 16rem;
 	}
 </style>
 
@@ -135,8 +135,8 @@
 			{/if}
 		</h1>
 
-		{#if quoteTotals.length}
-			<span class="account-total-value">
+		{#if quoteTotals.length && state !== State.Editing}
+			<span class="account-total-value" transition:scale>
 				<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
 			</span>
 		{/if}
