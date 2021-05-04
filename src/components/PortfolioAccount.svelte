@@ -83,10 +83,10 @@
 		{#if nickname}
 			<div class="row-inline">
 				<h3>{nickname}</h3>
-				<small><Address {address} /></small>
+				<small><Address network={networksByChainID[1]} {address} /></small>
 			</div>
 		{:else}
-			<h3><Address {address} /></h3>
+			<h3><Address network={networksByChainID[1]} {address} /></h3>
 		{/if}
 		{#if quoteTotals.length}
 			<span class="account-total-value">

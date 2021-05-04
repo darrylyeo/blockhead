@@ -158,7 +158,7 @@
 						animate:flip|local={{duration: 500, delay: Math.abs(i) * 10, easing: quintOut}}
 					>
 						<div class="bar">
-							<h4><Address address={contract_address} let:formattedAddress>{contract_name || formattedAddress}</Address> ({balance})</h4>
+							<h4><Address {network} address={contract_address} let:formattedAddress>{contract_name || formattedAddress}</Address> ({balance})</h4>
 							{#if supports_erc?.length}
 								<span class="card-annotation">{supports_erc.join('/')}</span>
 							{/if}

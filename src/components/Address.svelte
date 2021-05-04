@@ -1,8 +1,10 @@
 <script lang="ts">
 	import type { CryptoAddress } from '../data/CryptoAddress'
+	import type { Ethereum } from '../data/ethereum/types'
 	
+	export let network: Ethereum.Network
 	export let address: CryptoAddress = ''
-	export let blockchain = 'ethereum'
+
 	export let format: 'full' | 'middle-truncated' = 'full'
 	export let linked = true
 
@@ -26,7 +28,7 @@
 </style>
 
 {#if linked}
-	<a class="address" href="explorer/{blockchain}/{address}">
+	<a class="address" href="explorer/{network.slug}/{address}">
 		<slot {formattedAddress}>
 			<span class="format">
 				{formattedAddress}

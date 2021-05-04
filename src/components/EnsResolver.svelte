@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { ENS } from '../data/ens'
+	import type { Ethereum } from '../data/ethereum/types'
 	
+	export let network: Ethereum.Network
 	export let resolver: ENS.Resolver
 	
 	import Address from './Address.svelte'
@@ -9,10 +11,10 @@
 
 <div class="card">
 	{#if resolver.domain}
-		<p>Domain: <EnsDomain domain={resolver.domain}/></p>
+		<p>Domain: <EnsDomain {network} domain={resolver.domain}/></p>
 	{/if}
 	{#if resolver.address}
-		<p>Address: <Address address={resolver.address}/></p>
+		<p>Address: <Address {network} address={resolver.address}/></p>
 	{/if}
 	{#if resolver.addr}
 		<p>Addr: {resolver.addr.id}</p>

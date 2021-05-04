@@ -2,6 +2,7 @@
 	import type { Covalent } from '../data/analytics/covalent'
 	import type { Ethereum } from '../data/ethereum/types'
 
+	export let network: Ethereum.Network
 	export let logEvent: Covalent.LogEvent
 
 	export let contextualAddress: Ethereum.Address // used for summary
@@ -53,7 +54,7 @@
 					<span class="parameter">
 						<span class="parameter-name">{name}</span>
 						{#if type === 'address'}
-							<Address address={value} format="middle-truncated" />
+							<Address {network} address={value} format="middle-truncated" />
 						{:else}
 							<span class="parameter-value">{value}</span>
 						{/if}

@@ -43,15 +43,15 @@
 		{/if}
 	{:else if isTransaction($query)}
 		{#if $provider}
-			<EthereumTransaction layout="standalone" transactionID={$query} />
-			<!-- <EthereumTransaction transactionID={$query} provider={$provider}/> -->
-			<!-- <EthereumTransaction transactionID={$query} analyticsProvider={$analyticsProvider}/> -->
+			<EthereumTransaction network={$explorerNetwork} layout="standalone" transactionID={$query} />
+			<!-- <EthereumTransaction network={$explorerNetwork} transactionID={$query} provider={$provider}/> -->
+			<!-- <EthereumTransaction network={$explorerNetwork} transactionID={$query} analyticsProvider={$analyticsProvider}/> -->
 		{/if}
 	{:else if isBlockNumber($query)}
 		{#if $provider}
-			<EthereumBlock blockNumber={$query} provider={$provider} analyticsProvider={$analyticsProvider}/>
+			<EthereumBlock network={$explorerNetwork} blockNumber={$query} provider={$provider} analyticsProvider={$analyticsProvider}/>
 		{/if}
 	{:else}
-		<EnsQuery query={$query} />
+		<EnsQuery network={$explorerNetwork} query={$query} />
 	{/if}
 {/if}

@@ -131,7 +131,7 @@
 
 <div class="card">
 	<div class="bar">
-		<h2><Address {address}/></h2>
+		<h2><Address {network} {address}/></h2>
 		<span class="card-annotation">Ethereum Account</span>
 	</div>
 	<hr>
@@ -211,6 +211,7 @@
 					<div class="transactions-list column scrollable-list">
 						{#each transactions.items as transaction}
 							<EthereumTransaction
+								{network}
 								contextualAddress={address}
 								{detailLevel}
 								{showValues}
@@ -258,6 +259,7 @@
 
 					{#each transactions.items as transaction}
 						<EthereumTransaction
+							{network}
 							contextualAddress={address}
 							{detailLevel}
 							{showValues}

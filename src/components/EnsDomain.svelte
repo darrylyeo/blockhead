@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { ENS } from '../data/ens'
+	import type { Ethereum } from '../data/ethereum/types'
 	
+	export let network: Ethereum.Network
 	export let domain: ENS.Domain
 
 	import Address from './Address.svelte'
@@ -40,33 +42,33 @@
 
 <div class="card domain">
 	<div class="bar">
-		<h2><Address address={domain.name}/></h2>
+		<h2><Address {network} address={domain.name} /></h2>
 		<span class="card-annotation">ENS Name</span>
 	</div>
 	<div class="row">
 		{#if domain.resolvedAddress}
 			<div class="card">
 				<h3>Resolved Ethereum Address</h3>
-				<Address address={domain.resolvedAddress.id}/>
+				<Address {network} address={domain.resolvedAddress.id} />
 			</div>
 		{/if}
 		{#if domain.owner}
 			<div class="card">
 				<h3>Owned by</h3>
-				<Address address={domain.owner.id}/>
+				<Address {network} address={domain.owner.id} />
 			</div>
 		{/if}
 		{#if domain.resolver}
 			<div class="card">
 				<h3>Resolver Contract</h3>
-				<Address address={domain.resolver.address}/>
-				<!-- <EnsResolver resolver={domain.resolver}/> -->
+				<Address {network} address={domain.resolver.address} />
+				<!-- <EnsResolver {network} resolver={domain.resolver}/> -->
 			</div>
 		{/if}
 		{#if domain.parent}
 			<div class="card">
 				<h3>Subdomain of</h3>
-				<Address address={domain.parent.name || domain.parent.id}/>
+				<Address {network} address={domain.parent.name || domain.parent.id} />
 			</div>
 		{/if}
 	</div>
@@ -81,7 +83,7 @@
 			<h3>Subdomains</h3>
 			<div class="subdomains">
 				{#each domain.subdomains as subdomain}
-					<Address address={subdomain.name}/>
+					<Address {network} address={subdomain.name}/>
 				{/each}
 			</div>
 		</div>
@@ -92,7 +94,7 @@
 			<h3>History</h3>
 			<div class="column scrollable-list">
 				{#each domain.events as event (event.id)}
-					<EnsDomainEvent event={event}/>
+					<EnsDomainEvent {network} {event}/>
 				{/each}
 			</div>
 		</div>

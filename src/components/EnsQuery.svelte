@@ -1,6 +1,8 @@
 <script lang="ts">
+	import type { Ethereum } from '../data/ethereum/types'
 	import { queryENSDomain, queryENSDomainsContaining } from '../data/ens'
-	
+
+	export let network: Ethereum.Network
 	export let query: string
 	
 	const sortByLength = (a, b) => a.name.length - b.name.length
@@ -25,11 +27,11 @@
 >
 	<div class="ens-query column">
 		{#each domains.sort(sortByLength) as domain (domain.id)}
-			<EnsDomain {domain}/>
+			<EnsDomain {network} {domain}/>
 		{:else}
 			<div class="card">
 				<div class="bar">
-					<h2><Address address={query} /></h2>
+					<h2><Address {network} address={query} /></h2>
 					<span class="card-annotation">ENS Name</span>
 				</div>
 				<div class="bar">
@@ -55,7 +57,7 @@
 			</svelte:fragment>
 
 			{#each domains.sort(sortByLength) as domain (domain.id)}
-				<EnsDomain {domain}/>
+				<EnsDomain {network} {domain}/>
 			{/each}
 		</Loader>
 	</div>

@@ -3,6 +3,7 @@
 	import type { AnalyticsProvider } from '../data/analytics/provider'
 	import { getBlock } from '../data/analytics/covalent'
 	
+	export let network: Ethereum.Network
     export let blockNumber: Ethereum.BlockNumber
 	export let provider: Ethereum.Provider
 	export let analyticsProvider: AnalyticsProvider
@@ -14,7 +15,7 @@
 
 <div class="card">
 	<div class="bar">
-        <h2><EthereumBlockNumber {blockNumber}/></h2>
+        <h2><EthereumBlockNumber {network} {blockNumber}/></h2>
 		<span class="card-annotation">Ethereum Block</span>
 	</div>
 
