@@ -4,7 +4,7 @@
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import { networksByChainID } from '../data/ethereum/networks'
 
-	import { Account } from '../data/ethereum/portfolio-accounts'
+	import { Account, AccountNetworkSettings } from '../data/ethereum/portfolio-accounts'
 
 
 	// Portfolio management
@@ -30,6 +30,8 @@
 
 	// Wallet management
 
+	const defaultNetworks = [1, 137, 43114, 56, 250].map(chainID => networksByChainID[chainID])
+
 	function isValid(address){
 		return address !== ''
 	}
@@ -43,7 +45,8 @@
 		if(accounts.some(account => account.id.toLowerCase() === newWalletAddress.toLowerCase()))
 			return
 
-		const newAccount = new Account(newWalletAddress)
+		const defaultAccountNetworkSettings: AccountNetworkSettings[] = defaultNetworks.map(network => new AccountNetworkSettings(network.chainId))
+		const newAccount = new Account(newWalletAddress, undefined, undefined, defaultAccountNetworkSettings)
 		accounts = [newAccount, ...accounts]
 	}
 
@@ -169,7 +172,7 @@
 							<div>
 								<h3>Add Wallet</h3>
 							</div>
-							<small>{networks.map(network => network.name).join(', ')}</small>
+							<small>{defaultNetworks.map(network => network.name).join(', ')}</small>
 						</div>
 						<div class="bar">
 							<form class="bar" on:submit|preventDefault={() => {addWallet(newWalletAddress); state = State.Idle; newWalletAddress = ''}}>
@@ -189,13 +192,13 @@
 				{/if}
 			</div>
 		{/if}
-		{#each accounts as {id, type, nickname}, i (id)}
+		{#each accounts as {id, type, nickname, networks}, i (id)}
 			<section class="card" transition:scale|local animate:flip|local={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
 				<PortfolioAccount
 					addressOrENSName={id}
 					{type}
 					{nickname}
-					{networks}
+					showNetworks={networks}
 
 					{provider}
 					{analyticsProvider}

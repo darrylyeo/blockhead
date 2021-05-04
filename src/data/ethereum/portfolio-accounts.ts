@@ -22,7 +22,7 @@ export class Account {
 		public id: Ethereum.Address | string,
 		public type: AccountType = isAddress(id) ? AccountType.Address : AccountType.ENS,
 		public nickname: string = '',
-		public chains: AccountChainSettings[] = []
+		public networks: AccountNetworkSettings[] = []
 	){}
 
 	toJSON(){
@@ -30,12 +30,12 @@ export class Account {
 			id: this.id,
 			type: this.type,
 			nickname: this.nickname,
-			chains: this.chains
+			networks: this.networks
 		}
 	}
 }
 
-export class AccountChainSettings {
+export class AccountNetworkSettings {
 	constructor(
 		public chainID: Ethereum.ChainID,
 		public show = true,
