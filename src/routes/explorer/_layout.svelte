@@ -1,17 +1,22 @@
 <script lang="ts">
-	import { goto } from '@sapper/app'
-	
+	import { networksBySlug } from '../../data/ethereum/networks'
+
+
 	export let segment: string
-	let blockchain = segment || 'ethereum'
+	let networkSlug = segment || 'ethereum'
+	$: network = networksBySlug[networkSlug]
+	$: networkDisplayName = network ? network.name : networkSlug[0].toUpperCase() + networkSlug.slice(1)
 
 	$: console.log('Explorer segment', segment)
 	if(segment === undefined && globalThis.document)
-		goto(`explorer/${blockchain}`)
+		goto(`explorer/${networkSlug}`)
 	
 	$: if(globalThis.document)
-		document.documentElement.style.setProperty('--primary-color', `var(--${tokenColors[blockchain]})`)
+		document.documentElement.style.setProperty('--primary-color', `var(--${tokenColors[networkSlug]})`)
 
-	$: blockchainDisplayName = blockchain[0].toUpperCase() + blockchain.slice(1)
+
+	import { goto } from '@sapper/app'
+
 
 	import { fly } from 'svelte/transition'
 	import { tokenColors } from '../../data/token-colors'
@@ -26,16 +31,16 @@
 </style>
 
 <svelte:head>
-	<title>{blockchain ? `${blockchainDisplayName} Explorer` : `Explorer`} | Blockhead</title>
+	<title>{networkSlug ? `${networkDisplayName} Explorer` : `Explorer`} | Blockhead</title>
 </svelte:head>
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 	<div class="bar">
-		<h1>{blockchain ? `${blockchainDisplayName} Explorer` : `Explorer`}</h1>
+		<h1>{networkSlug ? `${networkDisplayName} Explorer` : `Explorer`}</h1>
 		<label>
 			<span>Blockchain: </span>
 			<!-- <select bind:value={blockchain}> -->
-			<select bind:value={blockchain} on:input={() => globalThis.requestAnimationFrame(() => goto(`explorer/${blockchain}`))}>
+			<select bind:value={networkSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`explorer/${networkSlug}`))}>
 				<option value="bitcoin">Bitcoin</option>
 				<option value="ethereum" selected>Ethereum</option>
 				<option value="avalanche">Avalanche</option>
