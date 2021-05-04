@@ -326,6 +326,15 @@ main {
 	align-content: start;
 	gap: var(--padding-inner);
 }
+.column-block {
+	display: block;
+}
+/* .column-block > * + * {
+	margin-top: var(--padding-inner);
+} */
+.column-block > :not(:last-child) {
+	margin-bottom: var(--padding-inner);
+}
 
 
 .scrollable-list {

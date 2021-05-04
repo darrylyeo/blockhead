@@ -48,8 +48,6 @@
 <style>
 	.account {
 		--padding-inner: 0.75em;
-		display: grid;
-		gap: var(--padding-inner);
 	}
 
 	.account-total-value {
@@ -69,7 +67,7 @@
 	}
 </style>
 
-<div class="account">
+<div class="account column-block">
 	<div class="bar">
 		<h3><Address {address} /></h3>
 		{#if quoteTotals.length}
