@@ -66,7 +66,7 @@
 		{#if domain.parent}
 			<div class="card">
 				<h3>Subdomain of</h3>
-				<Address address={domain.parent.name}/>
+				<Address address={domain.parent.name || domain.parent.id}/>
 			</div>
 		{/if}
 	</div>
