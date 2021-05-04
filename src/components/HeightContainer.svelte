@@ -19,6 +19,7 @@
 		})
 
 	const height = spring()
+	export let animate = true
 
 	// $: if(contentRect)
 	// 	$height = isOpen ? $contentRect.height : 0
@@ -35,7 +36,8 @@
 			height.damping = 0.9
 		}
 
-		$height = newHeight
+		// $height = newHeight
+		height.set(newHeight, animate ? undefined : {hard: true})
 		previousHeight = newHeight
 	}
 
