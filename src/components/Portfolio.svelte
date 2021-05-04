@@ -38,7 +38,7 @@
 
 	let newWalletAddress = ''
 
-	function addWallet(newWalletAddress){
+	function addAccount(newWalletAddress){
 		if(!isValid(newWalletAddress))
 			return
 
@@ -50,7 +50,7 @@
 		accounts = [newAccount, ...accounts]
 	}
 
-	function deleteWallet(i){
+	function deleteAccount(i){
 		delayStartIndex = i
 		accounts = [...accounts.slice(0, i), ...accounts.slice(i + 1)]
 	}
@@ -175,7 +175,7 @@
 							<small>{defaultNetworks.map(network => network.name).join(', ')}</small>
 						</div>
 						<div class="bar">
-							<form class="bar" on:submit|preventDefault={() => {addWallet(newWalletAddress); state = State.Idle; newWalletAddress = ''}}>
+							<form class="bar" on:submit|preventDefault={() => {addAccount(newWalletAddress); state = State.Idle; newWalletAddress = ''}}>
 								<AddressField bind:address={newWalletAddress} autofocus required/>
 								<button class="medium" disabled={!isValid(newWalletAddress)}>Add</button>
 							</form>
@@ -214,7 +214,7 @@
 				>
 					{#if state === State.Editing}
 						<div class="row edit-controls" transition:scale>
-							<button class="destructive" on:click={() => deleteWallet(i)}>Remove</button>
+							<button class="destructive" on:click={() => deleteAccount(i)}>Delete Account</button>
 						</div>
 					{/if}
 				</PortfolioAccount>
