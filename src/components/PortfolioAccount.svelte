@@ -187,11 +187,18 @@
 						{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets}
 						isCollapsed={isEditing}
 						bind:quoteTotal={nftQuoteTotals[i]}
+						let:nftContractCount
+						let:nftCount
 					>
 						<svelte:fragment slot="header">
 							<hr>
 							<div class="bar">
 								<h4>{network.name} NFTs</h4>
+								<span>
+									<strong>{nftCount}</strong> NFT{nftCount === 1 ? '' : 's'}
+									across
+									<strong>{nftContractCount}</strong> collection{nftContractCount === 1 ? '' : 's'}
+								</span>
 								{#if isEditing}
 									<button class="small" on:click={() => showNFTs = false}>Hide</button>
 								{/if}

@@ -14,6 +14,8 @@
 	export let showValues
 
 	export let quoteTotal
+	export let nftContractCount
+	export let nftCount
 
 	export let isCollapsed: boolean
 
@@ -36,7 +38,8 @@
 		.then(_ => balances = _)
 
 	$: quoteTotal = balances.reduce((sum, item) => sum + item.quote, 0)
-
+	$: nftContractCount = balances.length
+	$: nftCount = balances.reduce((sum, item) => sum + (item.nft_data?.length ?? 0), 0)
 
 
 	function parseNFTAttributes(attributes: Covalent.NFTAttributes | null): {
@@ -139,7 +142,7 @@
 	>
 		<svelte:fragment slot="header">
 			{#if balances.length}
-				<slot name="header" {network} {quoteCurrency} {quoteTotal}></slot>
+				<slot name="header" {network} {quoteCurrency} {quoteTotal} {nftContractCount} {nftCount}></slot>
 			{/if}
 		</svelte:fragment>
 
