@@ -159,9 +159,11 @@
 					>
 						<div class="bar">
 							<h4><Address {network} address={contract_address} let:formattedAddress>{contract_name || formattedAddress}</Address> ({balance})</h4>
-							{#if supports_erc?.length}
-								<span class="card-annotation">{supports_erc.join('/')}</span>
-							{/if}
+							{#each [supports_erc.filter(erc => erc !== 'erc20')] as supports_erc}
+								{#if supports_erc?.length}
+									<span class="card-annotation">{supports_erc.filter(erc => erc !== 'erc20').join('/')}</span>
+								{/if}
+							{/each}
 						</div>
 						{#if nft_data}
 							<hr>
