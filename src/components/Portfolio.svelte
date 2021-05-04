@@ -197,8 +197,8 @@
 				<PortfolioAccount
 					addressOrENSName={id}
 					{type}
-					{nickname}
-					showNetworks={networks}
+					bind:nickname
+					bind:showNetworks={networks}
 
 					{provider}
 					{analyticsProvider}
@@ -208,7 +208,7 @@
 					{sortBy}
 					{showSmallValues}
 					{showUnderlyingAssets}
-					isCollapsed={state === State.Editing}
+					isEditing={state === State.Editing}
 
 					bind:quoteTotal={quoteTotals[i]}
 				>
