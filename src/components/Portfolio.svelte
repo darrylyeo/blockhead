@@ -152,7 +152,7 @@
 					</div>
 				{:else}
 					<div class="bar" transition:scale>
-						<button on:click={() => dispatch('delete')}>Delete Portfolio</button>
+						<button class="destructive" on:click={() => dispatch('delete')}>Delete Portfolio</button>
 						<button on:click={() => state = State.Idle}>Done</button>
 					</div>
 				{/if}
@@ -214,7 +214,7 @@
 				>
 					{#if state === State.Editing}
 						<div class="row edit-controls" transition:scale>
-							<button on:click={() => deleteWallet(i)}>Remove</button>
+							<button class="destructive" on:click={() => deleteWallet(i)}>Remove</button>
 						</div>
 					{/if}
 				</PortfolioAccount>

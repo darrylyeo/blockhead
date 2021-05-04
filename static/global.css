@@ -156,6 +156,9 @@ button.medium {
 button.small {
 	font-size: 0.7em;
 }
+button.destructive {
+	--primary-color: hsl(17deg 69% 43%);
+}
 
 
 :-placeholder {
