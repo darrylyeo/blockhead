@@ -24,6 +24,8 @@
 
 	export let isCollapsed: boolean
 
+	export let nickname: string
+
 
 	$: address = type === AccountType.Address ? addressOrENSName : addressOrENSName // await ens.name(addressOrENSName).getAddress()
 
@@ -69,7 +71,14 @@
 
 <div class="account column-block">
 	<div class="bar">
-		<h3><Address {address} /></h3>
+		{#if nickname}
+			<div class="row-inline">
+				<h3>{nickname}</h3>
+				<small><Address {address} /></small>
+			</div>
+		{:else}
+			<h3><Address {address} /></h3>
+		{/if}
 		{#if quoteTotals.length}
 			<span class="account-total-value">
 				<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />

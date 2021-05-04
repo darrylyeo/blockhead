@@ -194,6 +194,7 @@
 				<PortfolioAccount
 					addressOrENSName={id}
 					{type}
+					{nickname}
 					{networks}
 
 					{provider}

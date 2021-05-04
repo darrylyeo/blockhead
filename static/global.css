@@ -281,11 +281,15 @@ main {
 }
 
 
-.row, .bar {
+.row, .row-inline, .bar {
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
 	gap: var(--padding-inner);
+}
+.row-inline {
+	gap: 1ch;
+	align-items: baseline;
 }
 .bar {
 	row-gap: calc(0.5 * var(--padding-inner));
@@ -293,7 +297,7 @@ main {
 .bar > :first-child {
 	flex: 1 auto;
 }
-.bar > h2:first-child, .bar > h3:first-child {
+.bar > .row-inline:first-child, .bar > h2:first-child, .bar > h3:first-child {
 	flex: 1;
 	overflow: hidden;
 	text-overflow: ellipsis;
