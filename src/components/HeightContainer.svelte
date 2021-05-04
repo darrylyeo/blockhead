@@ -43,19 +43,20 @@
 		requestAnimationFrame(() => {
 			Object.assign(container.style, {
 				height: `${Math.max($height, 0)}px`,
-				marginTop: $height < 0 ? `${$height}px` : null,
+				marginBottom: $height < 0 ? `${$height}px` : null,
 				position: $height === 0 ? 'absolute' : null,
 
-				marginBottom: isOpen ? null : `0px`,
+				marginTop: isOpen ? null : `0px`,
+				transform: isOpen ? null : `translateY(var(--padding-inner))`,
 			})
 		})
 </script>
 
 <style>
 	.container {
-		will-change: height margin-top;
+		will-change: height margin-bottom;
 		contain: size;
-		transition: margin-bottom 150ms;
+		transition: margin-top transform 150ms;
 	}
 	@supports ( clip-path: polygon(0 0) ){
 		.container {

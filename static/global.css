@@ -329,12 +329,12 @@ main {
 .column-block {
 	display: block;
 }
-/* .column-block > * + * {
+.column-block > * + * {
 	margin-top: var(--padding-inner);
-} */
-.column-block > :not(:last-child) {
-	margin-bottom: var(--padding-inner);
 }
+/* .column-block > :not(:last-child) {
+	margin-bottom: var(--padding-inner);
+} */
 
 
 .scrollable-list {
