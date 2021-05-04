@@ -90,14 +90,11 @@
 	{#if domain.events}
 		<div class="card">
 			<h3>History</h3>
-			{#each domain.events as event (event.id)}
-				<EnsDomainEvent event={event}/>
-			{/each}
+			<div class="column scrollable-list">
+				{#each domain.events as event (event.id)}
+					<EnsDomainEvent event={event}/>
+				{/each}
+			</div>
 		</div>
-		<!-- <hr>
-		<h3>Transaction History</h3>
-		{#each domain.events as event (event.id)}
-			<EnsDomainEvent event={event}/>
-		{/each} -->
 	{/if}
 </div>
