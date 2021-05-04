@@ -28,7 +28,7 @@
 		const newHeight = isOpen ? $contentRect.height : 0
 
 		if(newHeight > 0){
-			height.stiffness = 0.1
+			height.stiffness = 0.08
 			height.damping = 0.5
 		}else{
 			height.stiffness = 0.15
@@ -46,13 +46,17 @@
 				marginTop: $height < 0 ? `${$height}px` : null,
 				position: $height === 0 ? 'absolute' : null,
 
-				transition: 'margin-bottom 150ms',
 				marginBottom: isOpen ? null : `0px`,
 			})
 		})
 </script>
 
 <style>
+	.container {
+		will-change: height margin-top;
+		contain: size;
+		transition: margin-bottom 150ms;
+	}
 	@supports ( clip-path: polygon(0 0) ){
 		.container {
 			clip-path: polygon(-10% -100%, 110% -100%, 110% 100%, -10% 100%);
