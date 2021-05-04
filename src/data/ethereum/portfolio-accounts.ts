@@ -95,7 +95,7 @@ function getLocalPortfoliosFromV2(): Portfolio[] {
 
 // Local storage v3
 let localPortfolios
-export const getLocalPortfolios = () => localPortfolios ||= localStorageWritable<Portfolio[]>('localPortfoliosV3', getLocalPortfoliosFromV2() || [])
+export const getLocalPortfolios = () => localPortfolios ||= localStorageWritable<Portfolio[]>('localPortfoliosV3', getLocalPortfoliosFromV2() || [new Portfolio('Your Portfolio')])
 
 
 export const getEthersAccounts = async provider => {
