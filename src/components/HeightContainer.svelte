@@ -42,7 +42,7 @@
 	}
 
 	$: if($height !== undefined && container)
-		requestAnimationFrame(() => {
+		// requestAnimationFrame(() => {
 			Object.assign(container.style, {
 				height: `${Math.max($height, 0)}px`,
 				marginBottom: $height < 0 ? `${$height}px` : null,
@@ -51,7 +51,7 @@
 				marginTop: isOpen ? null : `0px`,
 				transform: isOpen ? null : `translateY(var(--padding-inner))`,
 			})
-		})
+		// })
 </script>
 
 <style>
