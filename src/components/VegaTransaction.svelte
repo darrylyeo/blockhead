@@ -106,7 +106,7 @@
 		<div class="maker">
 			{#each tx.trades as {id, size, makerId} (id)}
 				<p>
-					<Address address={makerId} format="middle-truncated" />
+					<Address address={makerId} format="middle-truncated" linked={false} />
 					<span class="action-{makerAction[tx.aggressor]}">{makerAction[tx.aggressor]}</span>
 					<span style="font-size: {sizeByVolume(size)}em">
 						<TokenValue value={size} token={quoteName} />
@@ -124,7 +124,7 @@
 		<div class="taker">
 			<span>
 				{actionPreposition[aggressor]}
-				<Address address={takerId} format="middle-truncated" />,
+				<Address address={takerId} format="middle-truncated" linked={false} />,
 				who
 				<span class="action-{takerAction[aggressor]}">{takerAction[aggressor]}</span>
 			</span>

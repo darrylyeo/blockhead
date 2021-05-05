@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { ENS } from '../data/ens'
+	import type { Ethereum } from '../data/ethereum/types'
 	
+	export let network: Ethereum.Network
 	export let event: ENS.DomainEvent
 	console.log(event)
 
@@ -22,17 +24,17 @@
 	<p>
 		{#if event.__typename === 'Transfer'}
 			<strong>Transferred to</strong>
-			<Address address={event.owner.id}/>
+			<Address {network} address={event.owner.id}/>
 		{:else if event.__typename === 'NewOwner'}
 			<strong>Owner changed to</strong>
-			<Address address={event.owner.id}/>
+			<Address {network} address={event.owner.id}/>
 		{:else if event.__typename === 'NewResolver'}
 			<strong>Resolver changed to</strong>
-			<Address address={event.resolver.address}/>
+			<Address {network} address={event.resolver.address}/>
 		{:else if event.__typename === 'NewTTL'}
 			<strong>Time To Live (TTL) changed to</strong>
 			<span>{event.ttl}</span>
 		{/if}
 	</p>
-	<EthereumTransactionSummary transactionID={event.transactionID} blockNumber={event.blockNumber}/>
+	<EthereumTransactionSummary {network} transactionID={event.transactionID} blockNumber={event.blockNumber}/>
 </div>

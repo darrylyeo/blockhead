@@ -1,5 +1,14 @@
 <script lang="ts">
-	import * as echarts from 'echarts'
+	import * as echarts from 'echarts/core'
+	import { BarChart, LineChart } from 'echarts/charts'
+	import { DataZoomComponent, CalendarComponent, GridComponent, LegendComponent, TitleComponent, TimelineComponent, ToolboxComponent, TooltipComponent, VisualMapComponent } from 'echarts/components'
+	import { SVGRenderer } from 'echarts/renderers'
+	echarts.use([
+		BarChart, LineChart,
+		DataZoomComponent, CalendarComponent, GridComponent, LegendComponent, TitleComponent, TimelineComponent, ToolboxComponent, TooltipComponent, VisualMapComponent,
+		SVGRenderer
+	])
+
 	import { colorTheme } from '../data/color-theme'
 
 	export let options
@@ -29,7 +38,7 @@
 <style>
 	.chart {
 		width: 100%;
-		min-height: 35rem;
+		min-height: var(--echart-height, 35rem);
 		max-height: 90vh;
 		font-size: 0.85em;
 	}

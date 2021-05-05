@@ -5,7 +5,9 @@
 	import { preferredAnalyticsProvider, preferredQuoteCurrency, preferredPriceFeedProvider } from '../../../data/ethereum/preferences'
 	// import { getCompoundPriceFeed } from '.../../../data/ethereum/price/compound-price-feed'
 	import { getChainlinkPriceFeed } from '.../../../data/ethereum/price/chainlink'
-	
+	import type { PriceScale } from '../../../components/PriceChart.svelte'
+
+
 	const provider = getContext<Ethereum.Provider>('provider')
 
 	const blockNumber = readable<number>(undefined, set => {
@@ -14,9 +16,14 @@
 		})
 	})
 
+
 	$: priceFeedLogo = ({
 		'Chainlink': '/logos/chainlink.svg'
 	})[$preferredPriceFeedProvider]
+
+
+	let priceScale: PriceScale
+
 
 	import Loader from '../../../components/Loader.svelte'
 	import CovalentPriceChart from '../../../components/CovalentPriceChart.svelte'
@@ -102,7 +109,19 @@
 			provider={$preferredAnalyticsProvider}
 			quoteCurrency={$preferredQuoteCurrency}
 			currencies={['ETH']}
+			{priceScale}
 		/>
 		<!-- currencies={['ETH', 'BTC', 'CEL', 'USDC', 'USDT', 'DAI', 'UNI', 'BAL', 'AVAX', 'CRV', 'YFI']} -->
+		<div class="bar">
+			<h4>Show</h4>
+			<label>
+				<span>Price Scale</span>
+				<select bind:value={priceScale}>
+					<option value="logarithmic">Logarithmic</option>
+					<option value="linear">Linear</option>
+					<option value="linearFromZero">Linear From Zero</option>
+				</select>
+			</label>
+		</div>
 	</section>
 </div>

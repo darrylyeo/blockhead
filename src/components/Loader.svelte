@@ -14,6 +14,7 @@
 	export let fromPromise: <TData = unknown> () => Promise<TData>
 	export let fromStore: <TData = unknown> () => Readable<Result<TData>>
 	export let showIf: (<TData = unknown> (then: TData) => boolean | any) | undefined
+	export let isCollapsed = false
 
 	enum LoadingStatus {
 		Idle = 'idle',
@@ -64,11 +65,11 @@
 			result = $store.data
 			status = LoadingStatus.Resolved
 		}
-				
+
 	$: isHidden = showIf && status === LoadingStatus.Resolved && !showIf(result)
 
-
 	import { fade, scale } from 'svelte/transition'
+	import HeightContainer from './HeightContainer.svelte'
 	import Loading from './Loading.svelte'
 </script>
 
@@ -79,38 +80,41 @@
 </style>
 
 {#if !isHidden}
-<slot name="header" {status} />
-	<div class="loader stack">
-		{#if status === LoadingStatus.Loading}
-			<Loading iconAnimation="hover">
-				<slot name="loadingIcon" slot="icon">
-					<img src={loadingIcon} alt={loadingIconName} width={loadingIconWidth}>
-				</slot>
-				<slot name="loadingMessage">
-					{loadingMessage}
-				</slot>
-			</Loading>
-		{:else if status === LoadingStatus.Resolved}
-			<div class="column" transition:fade>
-				<slot then={result} />
-			</div>
-		{:else if !hideError && status === LoadingStatus.Errored}
-			<div class="card" transition:scale>
-				<div class="bar">
-				<slot name="errorMessage">
-						{#if errorMessage}
-						<h4>{errorMessage}</h4>
-						{/if}
-				</slot>
-					<slot name="errorActions" {load} {cancel}>
-						<button class="small" on:click={load}>Retry</button>
-						<button class="small" on:click={cancel}>Cancel</button>
+	<slot name="header" {status} />
+
+	<!-- {#if !isCollapsed} -->
+		<HeightContainer class="loader stack" isOpen={!isCollapsed}>
+			{#if status === LoadingStatus.Loading}
+				<Loading iconAnimation="hover">
+					<slot name="loadingIcon" slot="icon">
+						<img src={loadingIcon} alt={loadingIconName} width={loadingIconWidth}>
+					</slot>
+					<slot name="loadingMessage">
+						{loadingMessage}
+					</slot>
+				</Loading>
+			{:else if status === LoadingStatus.Resolved}
+				<div class="column" transition:fade>
+					<slot then={result} />
+				</div>
+			{:else if !hideError && status === LoadingStatus.Errored}
+				<div class="card" transition:scale>
+					<div class="bar">
+						<slot name="errorMessage">
+							{#if errorMessage}
+								<h4>{errorMessage}</h4>
+							{/if}
+						</slot>
+						<slot name="errorActions" {load} {cancel}>
+							<button class="small" on:click={load}>Retry</button>
+							<button class="small" on:click={cancel}>Cancel</button>
+						</slot>
+					</div>
+					<slot name="error" {error}>
+						<pre>{errorFunction ? errorFunction(error) : error}</pre>
 					</slot>
 				</div>
-				<slot name="error" {error}>
-					<pre>{errorFunction ? errorFunction(error) : error}</pre>
-				</slot>
-			</div>
-		{/if}
-	</div>
+			{/if}
+		</HeightContainer>
+	<!-- {/if} -->
 {/if}

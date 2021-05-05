@@ -3,6 +3,9 @@
 	import type { TickerSymbol } from '../data/currency/currency'
 	import type { Covalent } from '../data/analytics/covalent'
 
+
+	// View options
+
 	export let contextualAddress: Ethereum.Address // used for summary
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
 	export let showValues: 'original' | 'converted' | 'both' = 'original'
@@ -12,6 +15,9 @@
 	export let innerLayout: 'columns' | 'row' = 'row'
 
 
+	// Data
+
+	export let network: Ethereum.Network
 	export let transactionID
 	export let blockNumber
 	export let date
@@ -22,7 +28,7 @@
 	export let toAddress: Ethereum.Address
 	export let toAddressLabel
 
-	export let token: TickerSymbol = 'ETH'
+	export let token: TickerSymbol
 	export let tokenAddress: Ethereum.ContractAddress
 	export let tokenIcon: string
 	export let tokenName: string
@@ -38,6 +44,7 @@
 
 	export let transfers = []
 	export let logEvents: Covalent.LogEvent[] = []
+
 
 	$: isSummary = detailLevel === 'summary'
 	$: isExhaustive = detailLevel === 'exhaustive'
@@ -139,14 +146,14 @@
 <div class="card transaction layout-{layout}" class:unsuccessful={!isSuccessful} transition:fade|local>
 	{#if layout === 'standalone'}
 		<div class="bar">
-			<h2><EthereumTransactionId {transactionID}/></h2>
+			<h2><EthereumTransactionId {network} {transactionID} /></h2>
 			<span class="card-annotation">Ethereum Transaction</span>
 		</div>
 	{/if}
 	<div class="container inner-layout-{innerLayout}">
 		{#if !isSummary}
 			<span class="sender" transition:fade|local>
-				<AddressWithLabel address={fromAddress} label={fromAddressLabel} format="middle-truncated" />
+				<AddressWithLabel {network} address={fromAddress} label={fromAddressLabel} format="middle-truncated" />
 			</span>
 		{/if}
 		{#if value}
@@ -162,12 +169,12 @@
 		{#if isSummary && contextIsReceiver}
 			<span class="sender" transition:fade|local>
 				<span>from</span>
-				<AddressWithLabel address={fromAddress} label={fromAddressLabel} format="middle-truncated" />
+				<AddressWithLabel {network} address={fromAddress} label={fromAddressLabel} format="middle-truncated" />
 			</span>
 		{:else}
 			<span class="receiver" transition:fade|local>
 				<span>to</span>
-				<AddressWithLabel address={toAddress} label={toAddressLabel} format="middle-truncated" />
+				<AddressWithLabel {network} address={toAddress} label={toAddressLabel} format="middle-truncated" />
 			</span>
 		{/if}
 		{#if showFees && gasValue !== undefined}
@@ -184,6 +191,7 @@
 		<div class="transfers">
 			{#each transfers as transfer}
 				<svelte:self
+					{network}
 					{contextualAddress}
 					{detailLevel}
 					{showValues}
@@ -197,6 +205,7 @@
 		<div class="log-events" transition:fade|local>
 			{#each logEvents as logEvent}
 				<EthereumLogEvent
+					{network}
 					{logEvent}
 					{detailLevel}
 					{contextualAddress}
@@ -207,9 +216,9 @@
 	{#if !isSummary}
 		<div class="footer bar" transition:fade|local>
 			{#if layout === 'standalone' && blockNumber}
-				<EthereumTransactionSummary {blockNumber} />
+				<EthereumTransactionSummary {network} {blockNumber} />
 			{:else if layout === 'inline'}
-				<EthereumTransactionSummary {transactionID} {blockNumber} />
+				<EthereumTransactionSummary {network} {transactionID} {blockNumber} />
 			{/if}
 			{#if date}
 				<Date {date} layout="horizontal" />

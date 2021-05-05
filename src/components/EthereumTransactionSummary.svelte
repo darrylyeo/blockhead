@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 
+	export let network: Ethereum.Network
 	export let transactionID: Ethereum.TransactionID
 	export let blockNumber: Ethereum.BlockNumber
 
@@ -34,10 +35,10 @@
 		<span class="muted">Transaction</span>
 	{/if}
 	{#if transactionID}
-		<EthereumTransactionID {transactionID} format="middle-truncated"/>
+		<EthereumTransactionID {network} {transactionID} format="middle-truncated"/>
 	{/if}
 	{#if blockNumber}
 		<span class="muted">at</span>
-		<EthereumBlockNumber {blockNumber}/>
+		<EthereumBlockNumber {network} {blockNumber}/>
 	{/if}
 </p>

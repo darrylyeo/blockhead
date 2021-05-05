@@ -3,11 +3,14 @@
 	import type { DefiSDK } from '../data/ethereum/price/defi-sdk'
 	import { getDefiBalances } from '../data/ethereum/price/defi-sdk'
 
+
 	export let token = 'ETH'
 
+	export let network: Ethereum.Network
 	export let provider: Ethereum.Provider
 	export let address: string
-	
+
+
 	export let showUnderlyingAssets = true
 
 	type Layout = 'horizontal' | 'horizontal-alternate' | 'vertical'
@@ -16,7 +19,10 @@
 	$: computedLayout = layout === 'auto'
 		? showUnderlyingAssets ? 'vertical' : 'horizontal' // 'horizontal-alternate'
 		: layout
+	
+	export let isCollapsed: boolean
 
+	
 	import { formatUnits } from 'ethers/lib/utils'
 	
 	import Loader from './Loader.svelte'
@@ -25,6 +31,7 @@
 	
 	import { flip } from 'svelte/animate'
 	import { scaleFont } from '../transitions/scale-font'
+
 
 	const defiProtocolColors: Record<DefiSDK.ProtocolName, string[]> = {
 		'Aave': ['#77c0c7', '#b56da4'],
@@ -140,16 +147,19 @@
 
 {#if provider && address}
 	<Loader
-		loadingMessage="Reading DeFi balances..."
+		loadingMessage="Reading {network.name} DeFi balances..."
 		fromPromise={() => getDefiBalances(provider, address)}
 		let:then={defiBalances}
 		showIf={defiBalances => defiBalances.length}
+		{isCollapsed}
 	>
 		<TokenIcon slot="loadingIcon" {token} />
 		<!-- <svelte:fragment slot="loadingIcon"><TokenIcon slot="icon" {token} /></svelte:fragment> -->
 
-		<svelte:fragment slot="header">
-			<slot name="header"></slot>
+		<svelte:fragment slot="header" let:status>
+			{#if defiBalances.length}
+				<slot name="header" {status}></slot>
+			{/if}
 		</svelte:fragment>
 
 		<div class="defi-balances">
