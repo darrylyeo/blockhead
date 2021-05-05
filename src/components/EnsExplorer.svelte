@@ -7,7 +7,8 @@
 	let domainQuery
 	let domainsContainingQuery
 	onMount(async () => {
-		const { queryENSDomain, queryENSDomainsContaining} = await import('../data/ens')
+		const { initENSClient, queryENSDomain, queryENSDomainsContaining} = await import('../data/ens')
+		initENSClient()
 		domainQuery = queryENSDomain(query)
 		domainsContainingQuery = queryENSDomainsContaining(query)
 	})

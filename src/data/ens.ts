@@ -1,21 +1,28 @@
 import { THE_GRAPH_ENS_URL } from '../config'
 
-import { ApolloClient, createHttpLink, gql, InMemoryCache } from '@apollo/client/core'
-import { readableFromApolloRequest } from './apollo-store'
+// import { ApolloClient, createHttpLink, gql, InMemoryCache } from '@apollo/client/core'
+// import { readableFromApolloRequest } from './apollo-store'
 
+import { createClient, dedupExchange, fetchExchange, initClient, operationStore, query } from '@urql/svelte'
+import { cacheExchange } from '@urql/exchange-graphcache'
+
+export function initENSClient(){
+	initClient({
+		url: THE_GRAPH_ENS_URL,
+		exchanges: [dedupExchange, cacheExchange({}), fetchExchange]
+	})
+}
 
 // Lazy instantiate (incompatible with Sapper SSR)
-let client
-function getENSClient(){
-	return client || (
-		client = new ApolloClient({
-			cache: new InMemoryCache(),
-			link: createHttpLink({
-				uri: THE_GRAPH_ENS_URL,
-			})
-		})
-	)
-}
+// let client
+// function getENSClient(){
+// 	return client || (
+// 		client = createClient({
+// 			url: THE_GRAPH_ENS_URL,
+// 			exchanges: [dedupExchange, cacheExchange({}), fetchExchange]
+// 		})
+// 	)
+// }
 
 
 // GraphQL Reference:
@@ -85,95 +92,89 @@ export namespace ENS {
 
 
 export function queryENSDomain(name) {
-	return readableFromApolloRequest<{domains: ENS.Domain[]}>(getENSClient().subscribe({
-		query: gql`
-			query ENSDomain($name: String!) {
-				domains(where: {name: $name}) {
+	return operationStore<{domains: ENS.Domain[]}>(`
+		query ENSDomain($name: String!) {
+			domains(where: {name: $name}) {
+				id
+				name
+				parent { id name }
+				subdomains { id name }
+				resolvedAddress { id }
+				owner { id }
+				resolver {
 					id
-					name
-					parent { id name }
-					subdomains { id name }
-					resolvedAddress { id }
-					owner { id }
-					resolver {
-						id
-						address
-						texts
-						coinTypes
-						events { id blockNumber transactionID }
+					address
+					texts
+					coinTypes
+					events { id blockNumber transactionID }
+				}
+				ttl
+				isMigrated
+				events {
+					__typename
+					id
+					blockNumber
+					transactionID
+					... on Transfer {
+						owner { id }
 					}
-					ttl
-					isMigrated
-					events {
-						__typename
-						id
-						blockNumber
-						transactionID
-						... on Transfer {
-							owner { id }
-						}
-						... on NewOwner {
-							owner { id }
-						}
-						... on NewResolver {
-							resolver { id address }
-						}
-						... on NewTTL {
-							ttl
-						}
+					... on NewOwner {
+						owner { id }
+					}
+					... on NewResolver {
+						resolver { id address }
+					}
+					... on NewTTL {
+						ttl
 					}
 				}
 			}
-		`,
-		variables: {
-			name
 		}
-	}))
+	`, {
+		name
+	})
 }
 
 export function queryENSDomainsContaining(query) {
-	return readableFromApolloRequest<{domains: ENS.Domain[]}>(getENSClient().subscribe({
-		query: gql`
-			query ENSDomainContaining($query: String!) {
-				domains(where: {name_contains: $query, name_not: $query}) {
+	return operationStore<{domains: ENS.Domain[]}>(`
+		query ENSDomainContaining($query: String!) {
+			domains(where: {name_contains: $query, name_not: $query}) {
+				id
+				name
+				parent { id name }
+				subdomains { id name }
+				resolvedAddress { id }
+				owner { id }
+				resolver {
 					id
-					name
-					parent { id name }
-					subdomains { id name }
-					resolvedAddress { id }
-					owner { id }
-					resolver {
-						id
-						address
-						texts
-						coinTypes
-						events { id blockNumber transactionID }
+					address
+					texts
+					coinTypes
+					events { id blockNumber transactionID }
+				}
+				ttl
+				isMigrated
+				events {
+					__typename
+					id
+					blockNumber
+					transactionID
+					... on Transfer {
+						owner { id }
 					}
-					ttl
-					isMigrated
-					events {
-						__typename
-						id
-						blockNumber
-						transactionID
-						... on Transfer {
-							owner { id }
-						}
-						... on NewOwner {
-							owner { id }
-						}
-						... on NewResolver {
-							resolver { id address }
-						}
-						... on NewTTL {
-							ttl
-						}
+					... on NewOwner {
+						owner { id }
+					}
+					... on NewResolver {
+						resolver { id address }
+					}
+					... on NewTTL {
+						ttl
 					}
 				}
 			}
-		`,
-		variables: {
-			query
 		}
-	}))
+	`, {
+		query
+	})
 }
