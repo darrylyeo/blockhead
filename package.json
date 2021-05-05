@@ -7,7 +7,8 @@
     "build": "sapper build --legacy",
     "export": "sapper export --legacy",
     "start": "node __sapper__/build",
-    "validate": "svelte-check --ignore src/node_modules/@sapper"
+    "validate": "svelte-check --ignore src/node_modules/@sapper",
+    "generate": "npx @openapitools/openapi-generator-cli generate --input-spec https://api.zapper.fi/api/json --output ./src/data/zapper/api --generator-name typescript-fetch"
   },
   "dependencies": {
     "@apollo/client": "^3.3.15",
