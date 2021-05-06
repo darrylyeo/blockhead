@@ -101,9 +101,7 @@
 				<div class="card" transition:scale>
 					<div class="bar">
 						<slot name="errorMessage">
-							{#if errorMessage}
-								<h4>{errorMessage}</h4>
-							{/if}
+							<h4>{errorMessage || 'Error'}</h4>
 						</slot>
 						<slot name="errorActions" {load} {cancel}>
 							<button class="small" on:click={load}>Retry</button>

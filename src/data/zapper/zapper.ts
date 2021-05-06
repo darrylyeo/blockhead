@@ -30,7 +30,7 @@ const PromiseAllFulfilled = promises =>
 			.map(({value}) => value)
 	)
 
-const fromRaw = requestPromise => requestPromise.then(response => response.raw.json()).catch(async r => { throw await r.json() })
+const fromRaw = requestPromise => requestPromise.then(response => response.raw.json()).catch(async e => { throw e.json ? await e.json() : e.toString() })
 
 
 function defiProtocolNames(protocolNames){
