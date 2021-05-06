@@ -64,7 +64,7 @@
 			}<TokenValue token={conversionCurrency} value={convertedValue} {showDecimalPlaces} showPlainFiat={true}
 			/>{#if showValues === 'converted' && conversionCurrency !== token}
 				<span class="worth" transition:scaleFont|local>
-					&nbsp;in <TokenName {token} {tokenAddress} {tokenIcon} />
+					&nbsp;in <TokenName {token} {tokenAddress} {tokenIcon} {tokenName} />
 				</span>
 			{/if
 			}{#if showConversionRate && conversionRate}<span class="rate"> at <TokenRate rate={conversionRate} quoteToken={conversionCurrency} baseToken={token} layout='horizontal'/></span>{/if
