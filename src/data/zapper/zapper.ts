@@ -8,9 +8,6 @@ const config = new Zapper.Configuration({ apiKey: () => ZAPPER_API_KEY })
 
 export const ProtocolBalances = new Zapper.ProtocolBalancesApi(config)
 export const ProtocolStats = new Zapper.ProtocolStatsApi(config)
-console.log('Zapper', globalThis.Zapper = Zapper)
-console.log('Zapper ProtocolBalances', globalThis.ProtocolBalances = ProtocolBalances)
-console.log('Zapper ProtocolStats', globalThis.ProtocolStats = ProtocolStats)
 
 
 const networkNamesByChainID: Record<Ethereum.ChainID, Zapper.PoolControllerGetPoolStatsNetworkEnum & Zapper.BalanceControllerGetProtocolBalancesV2NetworkEnum> = {
@@ -22,6 +19,7 @@ const networkNamesByChainID: Record<Ethereum.ChainID, Zapper.PoolControllerGetPo
 	'250': 'fantom'
 }
 
+
 import { ConcurrentPromiseQueue } from '../../utils/concurrent-promise-queue'
 const queue = new ConcurrentPromiseQueue(3)
 
@@ -32,37 +30,51 @@ const PromiseAllFulfilled = promises =>
 			.map(({value}) => value)
 	)
 
-export async function getAllProtocolBalances(network: Ethereum.Network, address: Ethereum.Address){
-	const networkName = networkNamesByChainID[network.chainID]
+const fromRaw = requestPromise => requestPromise.then(response => response.raw.json()).catch(async r => { throw await r.json() })
 
-	const supportedProtocolsByNetwork: {network: string, protocols}[] = await ProtocolBalances.balanceControllerGetSupportedV2BalancesRaw({ addresses: [address] })
-		.then(r => r.raw.json())
+
+function defiProtocolNames(protocolNames){
+	return [
+		...protocolNames.filter(protocol => !['tokens', 'nft', 'other'].includes(protocol)),
+		...protocolNames.filter(protocol => ['other'].includes(protocol))
+	]
+}
+
+
+export async function getAllDeFiProtocolBalances({network, address}: {network: Ethereum.Network, address: Ethereum.Address}){
+	const networkName = networkNamesByChainID[network.chainId]
+
+	const supportedProtocolsByNetwork: {network: string, protocols}[] = await fromRaw(ProtocolBalances.balanceControllerGetSupportedV2BalancesRaw({ addresses: [address] }))
 	const supportedProtocols = supportedProtocolsByNetwork.find(({network}) => network === networkName)
-	const supportedProtocolNames = supportedProtocols?.protocols.map(({protocol}) => protocol)
-
+	const supportedProtocolNames: Zapper.BalanceControllerGetProtocolBalancesV2ProtocolEnum[] = supportedProtocols?.protocols.map(({protocol}) => protocol) ?? []
 	// const supportedProtocolNames = Object.values(Zapper.BalanceControllerGetProtocolBalancesV2ProtocolEnum)
-	console.log(Object.values(Zapper.BalanceControllerGetProtocolBalancesV2ProtocolEnum), supportedProtocols)
 
-	return supportedProtocolNames && Promise.all(
-		supportedProtocols.map(protocol =>
-			queue.enqueue(() => 
+	return await Promise.all(
+		defiProtocolNames(supportedProtocolNames).map(protocol =>
+			queue.enqueue(() =>
 				ProtocolBalances.balanceControllerGetProtocolBalancesV2({
 					protocol,
 					addresses: [address],
-					network: networkNamesByChainID[network.chainID]
+					network: networkNamesByChainID[network.chainId]
 				})
+				.then(response => Object.values(response)[0])
+				// fromRaw(ProtocolBalances.balanceControllerGetProtocolBalancesV2Raw({
+				// 	protocol,
+				// 	addresses: [address],
+				// 	network: networkNamesByChainID[network.chainId]
+				// }))
 			)
 		)
 	)
 }
 
-export async function getAllPoolStats(network: Ethereum.Network, address: Ethereum.Address){
+export async function getAllPoolStats({network, address}: {network: Ethereum.Network, address: Ethereum.Address}){
 	return Promise.all(
 		Object.values(Zapper.PoolControllerGetPoolStatsPoolStatsTypeEnum).map(poolStatsType =>
 			queue.enqueue(() =>
 				ProtocolStats.poolControllerGetPoolStats({
 					poolStatsType,    
-					network: networkNamesByChainID[network.chainID]
+					network: networkNamesByChainID[network.chainId]
 				})
 			)
 		)
