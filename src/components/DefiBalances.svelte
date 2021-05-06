@@ -6,14 +6,25 @@
 	import { getAllDeFiProtocolBalances } from '../data/zapper/zapper'
 
 
-	export let token = 'ETH'
-
+	// Data
 	export let network: Ethereum.Network
 	export let provider: Ethereum.Provider
 	export let address: string
 	export let defiProvider: 'Zapper' | 'Zerion DeFi SDK' = 'Zapper'
 	export let quoteCurrency: QuoteCurrency
 
+
+	// Computed Values
+	export let quoteTotal
+	type TypeOfPromise<T> = T extends Promise<infer R> ? R : T
+	let zapperDefiProtocolBalances: TypeOfPromise<ReturnType<typeof getAllDeFiProtocolBalances>>
+	$: if(zapperDefiProtocolBalances)
+		quoteTotal = zapperDefiProtocolBalances.reduce((sum, {meta}) => sum + Number(
+			meta?.find(({label, type, value}) => label === 'Total')?.value ?? 0
+		), 0)
+
+
+	// View options
 	export let showValues: 'original' | 'converted' | 'both' = 'original'
 	export let showUnderlyingAssets = true
 	export let showMetadata = true
@@ -182,18 +193,19 @@
 			loadingIconName={defiProvider}
 			loadingIcon={'/logos/zapper-logomark.svg'}
 			fromPromise={() => getAllDeFiProtocolBalances({network, address})}
-			let:then={protocolBalances}
+			bind:result={zapperDefiProtocolBalances}
+			let:then={defiProtocolBalances}
 			showIf={protocolBalances => protocolBalances.length}
 			{isCollapsed}
 		>
 			<svelte:fragment slot="header" let:status>
-				{#if protocolBalances.length}
-					<slot name="header" {status}></slot>
+				{#if status === 'resolved' && defiProtocolBalances.length}
+					<slot name="header" {quoteTotal}></slot>
 				{/if}
 			</svelte:fragment>
 
 			<div class="defi-balances">
-				{#each protocolBalances as {products, meta}, i}
+				{#each defiProtocolBalances as {products, meta}, i}
 					{#each products as {label, assets, meta: productMeta}, j (label)}
 						<div transition:scaleFont|local animate:flip|local={{duration: 300, delay: Math.abs(i + j * 0.1) * 10}} class="card defi-protocol" style="--card-background-image: {makeCardGradient(defiProtocolColors[label])}); --primary-color: {defiProtocolColors[label]?.[defiProtocolColors[label].length / 2 | 0] ?? 'inherit'}">
 							{#if assets[0]?.protocolImg}
@@ -385,12 +397,12 @@
 				showIf={defiBalances => defiBalances.length}
 				{isCollapsed}
 			>
-				<TokenIcon slot="loadingIcon" {token} />
+				<TokenIcon slot="loadingIcon" token="ETH" />
 				<!-- <svelte:fragment slot="loadingIcon"><TokenIcon slot="icon" {token} /></svelte:fragment> -->
 
 				<svelte:fragment slot="header" let:status>
 					{#if defiBalances.length}
-						<slot name="header" {status}></slot>
+						<slot name="header" {network} {quoteCurrency} {quoteTotal}></slot>
 					{/if}
 				</svelte:fragment>
 

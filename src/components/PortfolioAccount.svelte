@@ -33,8 +33,10 @@
 
 	// Computed Values
 	let tokenQuoteTotals = []
+	let defiQuoteTotals = []
 	let nftQuoteTotals = []
-	$: quoteTotals = [...tokenQuoteTotals, ...nftQuoteTotals]
+	$: console.log(address, 'defiQuoteTotals', defiQuoteTotals, 'quoteTotals', quoteTotals)
+	$: quoteTotals = [...tokenQuoteTotals, ...defiQuoteTotals, ...nftQuoteTotals]
 	export let quoteTotal
 	$: quoteTotal = quoteTotals.reduce((sum, quoteTotal) => sum + quoteTotal, 0)
 
@@ -154,13 +156,17 @@
 						{showValues}
 						{showUnderlyingAssets}
 						isCollapsed={isEditing}
+						bind:quoteTotal={defiQuoteTotals[i]}
 					>
-						<svelte:fragment slot="header">
+						<svelte:fragment slot="header" let:quoteTotal>
 							<hr>
 							<div class="bar">
 								<h4>{network.name} DeFi</h4>
 								{#if isEditing}
 									<button class="small" on:click={() => showDeFi = false}>Hide</button>
+								{/if}
+								{#if quoteTotal !== undefined}
+									<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
 								{/if}
 								<!-- {#if isEditing}
 									<label>
