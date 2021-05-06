@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
+	import type { QuoteCurrency } from '../data/currency/currency'
 	import type { DefiSDK } from '../data/ethereum/price/defi-sdk'
 	import { getDefiBalances } from '../data/ethereum/price/defi-sdk'
 	import { getAllDeFiProtocolBalances } from '../data/zapper/zapper'
@@ -11,7 +12,7 @@
 	export let provider: Ethereum.Provider
 	export let address: string
 	export let defiProvider: 'Zapper' | 'Zerion DeFi SDK' = 'Zapper'
-
+	export let quoteCurrency: QuoteCurrency
 
 	export let showValues: 'original' | 'converted' | 'both' = 'original'
 	export let showUnderlyingAssets = true
@@ -348,6 +349,12 @@
 					{/each}
 				{/each}
 			</div>
+			{#if quoteCurrency !== 'USD'}
+				<small class="card row" transition:scale>
+					<img src="/logos/zapper-logomark.svg" width="25" height="25" />
+					Note: The Zapper API doesn't yet support currencies other than US Dollars.
+				</small>
+			{/if}
 
 			<!-- {#each protocolBalances as {products: [{label, assets, meta: productMeta}], meta}}
 				<h4>{label}</h4>

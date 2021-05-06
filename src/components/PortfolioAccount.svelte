@@ -150,6 +150,7 @@
 						{network}
 						{provider}
 						{address}
+						{quoteCurrency}
 						{showValues}
 						{showUnderlyingAssets}
 						isCollapsed={isEditing}
