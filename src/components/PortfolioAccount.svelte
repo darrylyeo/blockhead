@@ -36,7 +36,7 @@
 	let defiQuoteTotals = []
 	let nftQuoteTotals = []
 	$: console.log(address, 'defiQuoteTotals', defiQuoteTotals, 'quoteTotals', quoteTotals)
-	$: quoteTotals = [...tokenQuoteTotals, ...defiQuoteTotals, ...nftQuoteTotals]
+	$: quoteTotals = [...tokenQuoteTotals, ...defiQuoteTotals, ...nftQuoteTotals].filter(quoteTotal => quoteTotal !== undefined)
 	export let quoteTotal
 	$: quoteTotal = quoteTotals.reduce((sum, quoteTotal) => sum + quoteTotal, 0)
 
