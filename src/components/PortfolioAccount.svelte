@@ -146,35 +146,30 @@
 
 				<!-- DeFi Balances -->
 				{#if showDeFi}
-					{#if network.chainId === 1}
-						{#if provider}
-							<DefiBalances
-								{network}
-								{provider}
-								{address}
-								{showUnderlyingAssets}
-								isCollapsed={isEditing}
-							>
-								<svelte:fragment slot="header">
-									<hr>
-									<div class="bar">
-										<h4>{network.name} DeFi</h4>
-										{#if isEditing}
-											<button class="small" on:click={() => showDeFi = false}>Hide</button>
-										{/if}
-										<!-- {#if isEditing}
-											<label>
-												<input type="checkbox" bind:checked={showDeFi}>
-												<span>Show DeFi</span>
-											</label>
-										{/if} -->
-									</div>
-								</svelte:fragment>
-							</DefiBalances>
-						{:else}
-							<Loading>Connecting to the blockchain...</Loading>
-						{/if}
-					{/if}
+					<DefiBalances
+						{network}
+						{provider}
+						{address}
+						{showValues}
+						{showUnderlyingAssets}
+						isCollapsed={isEditing}
+					>
+						<svelte:fragment slot="header">
+							<hr>
+							<div class="bar">
+								<h4>{network.name} DeFi</h4>
+								{#if isEditing}
+									<button class="small" on:click={() => showDeFi = false}>Hide</button>
+								{/if}
+								<!-- {#if isEditing}
+									<label>
+										<input type="checkbox" bind:checked={showDeFi}>
+										<span>Show DeFi</span>
+									</label>
+								{/if} -->
+							</div>
+						</svelte:fragment>
+					</DefiBalances>
 				{/if}
 
 				<!-- NFT Balances -->
