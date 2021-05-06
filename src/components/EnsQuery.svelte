@@ -23,6 +23,7 @@
 	loadingIcon="/logos/ens.svg"
 	loadingIconName="The Graph"
 	loadingMessage="Querying the Ethereum Name Service..."
+	result={{}}
 	let:then={{domains}}
 >
 	<div class="ens-query column">
@@ -46,6 +47,7 @@
 			loadingIcon="/logos/ens.svg"
 			loadingIconName="The Graph"
 			loadingMessage="Querying the Ethereum Name Service for similar names..."
+			result={{}}
 			let:then={{domains}}
 			showIf={({domains} = {}) => domains.length}
 		>

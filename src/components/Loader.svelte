@@ -26,7 +26,7 @@
 
 	let promise: ReturnType<typeof fromPromise>
 	let store: ReturnType<typeof fromStore>
-	let result: unknown = {}
+	export let result: unknown
 	let error: unknown
 
 	$: if(startImmediately){
