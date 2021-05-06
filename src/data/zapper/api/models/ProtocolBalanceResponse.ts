@@ -29,7 +29,7 @@ import {
  * @export
  * @interface ProtocolBalanceResponse
  */
-export interface ProtocolBalanceResponse {
+export interface _ProtocolBalanceResponse {
     /**
      * Data on the specific balances
      * @type {Array<ProductItem>}
@@ -43,12 +43,15 @@ export interface ProtocolBalanceResponse {
      */
     meta: Array<MetadataItem>;
 }
+export type ProtocolBalanceResponse = Record<string, _ProtocolBalanceResponse>
 
 export function ProtocolBalanceResponseFromJSON(json: any): ProtocolBalanceResponse {
     return ProtocolBalanceResponseFromJSONTyped(json, false);
 }
 
 export function ProtocolBalanceResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ProtocolBalanceResponse {
+    return json;
+
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -60,6 +63,8 @@ export function ProtocolBalanceResponseFromJSONTyped(json: any, ignoreDiscrimina
 }
 
 export function ProtocolBalanceResponseToJSON(value?: ProtocolBalanceResponse | null): any {
+    return value;
+
     if (value === undefined) {
         return undefined;
     }
