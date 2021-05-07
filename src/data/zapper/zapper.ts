@@ -8,6 +8,7 @@ const config = new Zapper.Configuration({ apiKey: () => ZAPPER_API_KEY })
 
 export const ProtocolBalances = new Zapper.ProtocolBalancesApi(config)
 export const ProtocolStats = new Zapper.ProtocolStatsApi(config)
+export const MiscellaneousDataEndpoints = new Zapper.MiscellaneousDataEndpointsApi(config)
 
 
 const networkNamesByChainID: Record<Ethereum.ChainID, Zapper.PoolControllerGetPoolStatsNetworkEnum & Zapper.BalanceControllerGetProtocolBalancesV2NetworkEnum> = {
@@ -79,4 +80,8 @@ export async function getAllPoolStats({network, address}: {network: Ethereum.Net
 			)
 		)
 	)
+}
+
+export async function getFiatRates(){
+	return await MiscellaneousDataEndpoints.pricesControllerListFiatRates()
 }

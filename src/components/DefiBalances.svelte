@@ -3,7 +3,7 @@
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import type { DefiSDK } from '../data/ethereum/price/defi-sdk'
 	import { getDefiBalances } from '../data/ethereum/price/defi-sdk'
-	import { getAllDeFiProtocolBalances } from '../data/zapper/zapper'
+	import { getAllDeFiProtocolBalances, getFiatRates } from '../data/zapper/zapper'
 
 
 	// Data
@@ -15,13 +15,21 @@
 
 
 	// Computed Values
+	let zapperFiatRates
+	if(defiProvider === 'Zapper')
+		getFiatRates().then(_ => zapperFiatRates = _)
+	$: zapperQuoteCurrency = zapperFiatRates ? quoteCurrency : 'USD' 
+	$: zapperFiatRate = zapperFiatRates?.[quoteCurrency] ?? 1
+
 	export let quoteTotal
+	export let quoteTotalCurrency
+	$: quoteTotalCurrency = zapperQuoteCurrency
 	type TypeOfPromise<T> = T extends Promise<infer R> ? R : T
 	let zapperDefiProtocolBalances: TypeOfPromise<ReturnType<typeof getAllDeFiProtocolBalances>>
 	$: if(zapperDefiProtocolBalances)
 		quoteTotal = zapperDefiProtocolBalances.reduce((sum, {meta}) => sum + Number(
 			meta?.find(({label, type, value}) => label === 'Total')?.value ?? 0
-		), 0)
+		), 0) * zapperFiatRate
 
 
 	// View options
@@ -199,7 +207,7 @@
 		>
 			<svelte:fragment slot="header" let:status>
 				{#if (status === 'resolved' && defiProtocolBalances.length) || status === 'error'}
-					<slot name="header" {quoteTotal}></slot>
+					<slot name="header" {quoteTotal} {quoteTotalCurrency}></slot>
 				{/if}
 			</svelte:fragment>
 
@@ -217,14 +225,14 @@
 								{#each meta as {label, type, value}}
 									{#if label === 'Assets'}
 										<TokenValue
-											token={'USD'}
-											value={value}
+											token={zapperQuoteCurrency}
+											value={value * zapperFiatRate}
 											showPlainFiat={true}
 										/>
 									{:else if label === 'Debt' && value}
 										<TokenValue
-											token={'USD'}
-											value={value}
+											token={zapperQuoteCurrency}
+											value={value * zapperFiatRate}
 											showPlainFiat={true}
 											isDebt={true}
 										/>
@@ -273,9 +281,9 @@
 												tokenAddress={tokenAddress || address}
 												value={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
 
-												convertedValue={balanceUSD}
-												conversionCurrency={'USD'}
-												conversionRate={price}
+												convertedValue={balanceUSD * zapperFiatRate}
+												conversionCurrency={zapperQuoteCurrency}
+												conversionRate={price * zapperFiatRate}
 											/>
 											{#if showActions}
 												<div transition:scale>
@@ -321,9 +329,9 @@
 															tokenAddress={tokenAddress || address}
 															value={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
 				
-															convertedValue={balanceUSD}
-															conversionCurrency={'USD'}
-															conversionRate={price}
+															convertedValue={balanceUSD * zapperFiatRate}
+															conversionCurrency={zapperQuoteCurrency}
+															conversionRate={price * zapperFiatRate}
 														/>
 														{#if weight}
 															<small>({formatPercent(weight)})</small>
@@ -364,12 +372,12 @@
 					{/each}
 				{/each}
 			</div>
-			{#if quoteCurrency !== 'USD'}
+			<!-- {#if quoteCurrency !== 'USD'}
 				<small class="card row" transition:scale>
 					<img src="/logos/zapper-logomark.svg" width="25" height="25" />
 					Note: The Zapper API doesn't yet support currencies other than US Dollars.
 				</small>
-			{/if}
+			{/if} -->
 
 			<!-- {#each protocolBalances as {products: [{label, assets, meta: productMeta}], meta}}
 				<h4>{label}</h4>
