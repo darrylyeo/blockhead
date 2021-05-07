@@ -28,6 +28,7 @@
 	let store: ReturnType<typeof fromStore>
 	export let result: unknown
 	let error: unknown
+	$: if(error) console.error(error)
 
 	$: if(startImmediately){
 		status = LoadingStatus.Loading
