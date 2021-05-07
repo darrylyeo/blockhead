@@ -284,6 +284,8 @@
 												convertedValue={balanceUSD * zapperFiatRate}
 												conversionCurrency={zapperQuoteCurrency}
 												conversionRate={price * zapperFiatRate}
+
+												isDebt={balanceUSD < 0}
 											/>
 											{#if showActions}
 												<div transition:scale>
@@ -332,6 +334,8 @@
 															convertedValue={balanceUSD * zapperFiatRate}
 															conversionCurrency={zapperQuoteCurrency}
 															conversionRate={price * zapperFiatRate}
+
+															isDebt={balanceUSD < 0}
 														/>
 														{#if weight}
 															<small>({formatPercent(weight)})</small>
