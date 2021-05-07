@@ -16,7 +16,7 @@
 
 	// Computed Values
 	let zapperFiatRates
-	if(defiProvider === 'Zapper')
+	$: if(defiProvider === 'Zapper' && quoteCurrency !== 'USD')
 		getFiatRates().then(_ => zapperFiatRates = _)
 	$: zapperQuoteCurrency = zapperFiatRates ? quoteCurrency : 'USD' 
 	$: zapperFiatRate = zapperFiatRates?.[quoteCurrency] ?? 1
