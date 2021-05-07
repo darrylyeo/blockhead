@@ -1,5 +1,5 @@
 import type { Ethereum } from './types'
-import { getEthersJS } from './ethers'
+import { providers } from 'ethers'
 import { getWeb3 } from './web3'
 import { getMetaMask } from './providers/metamask'
 import { getPortis } from './providers/portis'
@@ -65,8 +65,7 @@ export async function getProvider(network: Ethereum.NetworkName, providerName: E
 
 	if(!(library in wrapped)){
 		if(library === 'ethers'){
-			const ethers = await getEthersJS()
-			wrapped[library] = new ethers.providers.Web3Provider(provider)
+			wrapped[library] = new providers.Web3Provider(provider)
 		}else if(library === 'web3'){
 			const Web3 = await getWeb3()
 			wrapped[library] = new Web3(provider)
