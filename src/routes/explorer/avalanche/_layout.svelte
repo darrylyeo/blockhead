@@ -1,27 +1,19 @@
 <script lang="ts">
-	import { getContext, onMount, setContext } from 'svelte'
-	import { writable, derived } from 'svelte/store'
+	import { getContext, setContext } from 'svelte'
+	import { writable } from 'svelte/store'
 	import { goto } from '@sapper/app'
 
 	import type { Ethereum } from '../../../data/ethereum/types'
 	import { networksByChainID } from '../../../data/ethereum/networks'
-	import { ethereumNetwork, preferredAnalyticsProvider, preferredEthereumProvider } from '../../../data/ethereum/preferences'
+	import { preferredAnalyticsProvider, preferredEthereumProvider } from '../../../data/ethereum/preferences'
 	import { getProvider } from '../../../data/ethereum/provider'
 	
 	const chainID = 43114
 	export const explorerNetwork = writable<Ethereum.Network>(networksByChainID[chainID])
 	setContext('explorerNetwork', explorerNetwork)
-	
-	const whenMounted = new Promise(r => onMount(r))
-	const provider = derived<[SvelteStore<Ethereum.Network>, SvelteStore<Ethereum.ProviderName>], Ethereum.Provider>(
-		[ethereumNetwork, preferredEthereumProvider],
-		// @ts-ignore
-		async ([$ethereumNetwork, $preferredEthereumProvider], set) => {
-			await whenMounted
-			set(await getProvider($ethereumNetwork, $preferredEthereumProvider, 'ethers'))
-		}
-	)
-	setContext('provider', provider)
+
+	const provider = getContext<Ethereum.Provider>('ethereumProvider')
+	// setContext('provider', provider)
 	setContext('analyticsProvider', preferredAnalyticsProvider)
 
 	export let segment: string

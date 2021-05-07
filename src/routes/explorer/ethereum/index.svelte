@@ -8,7 +8,7 @@
 	import type { PriceScale } from '../../../components/PriceChart.svelte'
 
 
-	const provider = getContext<Ethereum.Provider>('provider')
+	const provider = getContext<Ethereum.Provider>('ethereumProvider')
 
 	const blockNumber = readable<number>(undefined, set => {
 		$provider.on('block', blockNumber => {

@@ -1,14 +1,12 @@
 <script lang="ts">
-	import { onMount } from 'svelte'
+	import { getContext } from 'svelte'
 
+	import type { Ethereum } from '../../data/ethereum/types'
 	import { getProvider, getProviderInstance } from '../../data/ethereum/provider'
 	import { Portfolio, getLocalPortfolios, getEthersAccounts } from '../../data/ethereum/portfolio-accounts'
 	import { ethereumNetwork, preferredAnalyticsProvider, preferredEthereumProvider, preferredQuoteCurrency } from '../../data/ethereum/preferences'
 
-	let preferredProvider
-	onMount(async () => 
-		preferredProvider = await getProvider($ethereumNetwork, $preferredEthereumProvider, 'ethers')
-	)
+	const ethereumProvider = getContext<Ethereum.Provider>('ethereumProvider')
 	
 	const localPortfolios = getLocalPortfolios()
 	function addPortfolio(){
@@ -133,7 +131,7 @@
 					bind:name
 					bind:accounts
 					editable={true}
-					provider={preferredProvider}
+					provider={ethereumProvider}
 					analyticsProvider={$preferredAnalyticsProvider}
 					quoteCurrency={$preferredQuoteCurrency}
 					on:delete={e => deletePortfolio(i)}
@@ -165,7 +163,7 @@
 						{/if}
 					</svelte:fragment>
 
-					<PortfolioComponent name="MetaMask Wallet" provider={preferredProvider} analyticsProvider={$preferredAnalyticsProvider} quoteCurrency={$preferredQuoteCurrency} {accounts}>
+					<PortfolioComponent name="MetaMask Wallet" provider={ethereumProvider} analyticsProvider={$preferredAnalyticsProvider} quoteCurrency={$preferredQuoteCurrency} {accounts}>
 						<button on:click={disconnectMetaMaskProvider}>Disconnect</button>
 					</PortfolioComponent>
 
