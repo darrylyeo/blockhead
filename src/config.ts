@@ -7,7 +7,20 @@ export const PORTIS_DAPP_ID = '136f70ac-f0e2-4f6f-b83b-a1089ec331bb'
 
 
 // Pocket Network
-export const POCKET_NETWORK_DISPATCH_URLS = ['https://node1.mainnet.pokt.network:443', 'https://node2.mainnet.pokt.network:443', 'https://node3.mainnet.pokt.network:443']
+export const POCKET_NETWORK_DISPATCH_URLS = [
+	'https://node1.mainnet.pokt.network:443',
+	'https://node2.mainnet.pokt.network:443',
+	'https://node3.mainnet.pokt.network:443',
+	'https://node4.mainnet.pokt.network:443',
+	'https://node5.mainnet.pokt.network:443',
+	'https://node6.mainnet.pokt.network:443',
+	'https://node7.mainnet.pokt.network:443',
+	'https://node8.mainnet.pokt.network:443',
+	'https://node9.mainnet.pokt.network:443',
+	'https://node10.mainnet.pokt.network:443',
+	'https://seed1.mainnet.pokt.network:443',
+	'https://seed2.mainnet.pokt.network:443',
+]
 
 export const POCKET_NETWORK_APP_AUTH_TOKEN = {
 	"version": "0.0.1",
