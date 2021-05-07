@@ -18,7 +18,7 @@
 
 	// let loadingError
 
-	$: Icon = token && CryptoIcons[token[0].toUpperCase() + token.slice(1).toLowerCase()]
+	$: Icon = token && token !== 'DAI' && CryptoIcons[token[0].toUpperCase() + token.slice(1).toLowerCase()]
 </script>
 
 <picture title={token + (tokenAddress ? ` (${tokenAddress})` : '')}>
