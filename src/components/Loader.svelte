@@ -109,7 +109,11 @@
 						</slot>
 					</div>
 					<slot name="error" {error}>
-						<pre>{errorFunction ? errorFunction(error) : error}</pre>
+						<pre>{
+							errorFunction ? errorFunction(error) : 
+							typeof error === 'object' ? error.message ?? JSON.stringify(error) :
+							error
+						}</pre>
 					</slot>
 				</div>
 			{/if}

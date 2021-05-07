@@ -184,6 +184,7 @@
 	{#if defiProvider === 'Zapper'}
 		<Loader
 			loadingMessage="Reading {network.name} DeFi balances from {defiProvider}..."
+			errorMessage="Error getting {network.name} DeFi balances from {defiProvider}."
 			loadingIconName={defiProvider}
 			loadingIcon={'/logos/zapper-logomark.svg'}
 			fromPromise={() => getAllDeFiProtocolBalances({network, address})}
@@ -386,6 +387,7 @@
 		{#if provider}
 			<Loader
 				loadingMessage="Reading {network.name} DeFi balances from {defiProvider}..."
+				errorMessage="Error getting {network.name} DeFi balances from {defiProvider}."
 				fromPromise={() => getDefiBalances(provider, address)}
 				let:then={defiBalances}
 				showIf={defiBalances => defiBalances.length}
