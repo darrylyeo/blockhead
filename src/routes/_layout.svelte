@@ -26,7 +26,7 @@
 	import { getProvider } from '../data/ethereum/provider'
 	import { onMount, setContext } from 'svelte'
 	const whenMounted = new Promise(r => onMount(r))
-	const provider = derived<[SvelteStore<Ethereum.NetworkName>, SvelteStore<Ethereum.ProviderName>], Ethereum.Provider>(
+	const provider = derived<[typeof ethereumNetwork, typeof preferredEthereumProvider], Ethereum.Provider>(
 		[ethereumNetwork, preferredEthereumProvider],
 		// @ts-ignore
 		async ([$ethereumNetwork, $preferredEthereumProvider], set) => {
