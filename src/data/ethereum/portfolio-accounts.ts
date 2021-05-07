@@ -104,10 +104,10 @@ let localPortfolios
 export const getLocalPortfolios = () => localPortfolios ||= localStorageWritable<Portfolio[]>('localPortfoliosV3', getLocalPortfoliosFromV2() || [new Portfolio('Your Portfolio')])
 
 
-export const getEthersAccounts = async provider => {
+export async function getAccountsFromProvider(provider: Ethereum.Provider){
 	const accounts = await provider.listAccounts()
 	console.log('accounts', accounts)
-	return accounts
+	return accounts.map(id => new Account(id))
 }
 
 

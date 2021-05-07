@@ -4,7 +4,7 @@ import type { PriceFeedProvider } from './price/price-feed-provider'
 import type { AnalyticsProvider } from '../analytics/provider'
 import type { QuoteCurrency } from '../currency/currency'
 
-export const ethereumNetwork = localStorageWritable<Ethereum.NetworkName>('ethereum-network', 'mainnet')
+export const ethereumChainID = localStorageWritable<Ethereum.ChainID>('ethereum-network', 1)
 export const preferredEthereumProvider = localStorageWritable<Ethereum.ProviderName>('preferred-ethereum-provider', 'Portis')
 export const preferredPriceFeedProvider = localStorageWritable<PriceFeedProvider>('preferred-price-feed-provider', 'Chainlink')
 export const preferredAnalyticsProvider = localStorageWritable<AnalyticsProvider>('preferred-analytics-provider', 'Covalent')

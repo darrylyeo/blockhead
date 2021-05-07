@@ -5,6 +5,18 @@ import { POCKET_NETWORK_DISPATCH_URLS, POCKET_NETWORK_APP_AUTH_TOKEN } from '../
 import { env } from '../../../config-secrets'
 
 
+// https://docs.pokt.network/docs/supported-networks-on-mainnet
+const pocketNetworkChainIDs: Record<Ethereum.ChainID, string> = {
+	1: '0021', // Mainnet Full Node
+	// 1: '0022', // Mainnet Archival
+	3: '0023', // Ropsten Full Node
+	42: '0024', // Kovan Full Node
+	4: '0025', // Rinkeby Full Node
+	5: '0026', // Gorli Full Node
+	100: '0027', // xDAI Full Node
+}
+
+
 let pocketInstance
 let pocketAAT
 async function getPocketInstance(){
@@ -67,18 +79,11 @@ async function unlockAAT(pocketInstance, aat, accountPPK, accountPassphrase) {
 
 
 // https://docs.pokt.network/docs/web3-provider
-export async function getPocketNetwork(network: Ethereum.NetworkName = 'mainnet'){
+export async function getPocketNetwork(network: Ethereum.Network){
 	const { PocketProvider } = await import('@pokt-network/web3-provider')
 	const { pocketInstance, pocketAAT } = await getPocketInstance()
 	
-	const blockchainID = {
-		'mainnet': '0021',
-		'rinkeby': '0022',
-		'ropsten': '0023',
-		'goerli': '0020'
-	}[network]
-
-	const provider = new PocketProvider(blockchainID, pocketAAT, pocketInstance)
+	const provider = new PocketProvider(pocketNetworkChainIDs[network.chainId], pocketAAT, pocketInstance)
 	// const provider = new PocketRpcProvider(blockchainID, pocketAAT, pocketInstance)
 
 	return { instance: pocketInstance, provider }

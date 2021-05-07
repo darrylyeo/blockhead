@@ -21,17 +21,18 @@
 	// setContext('provider', provider)
 
 	import type { Ethereum } from '../data/ethereum/types'
-	import { ethereumNetwork, preferredEthereumProvider } from '../data/ethereum/preferences'
+	import { ethereumChainID, preferredEthereumProvider } from '../data/ethereum/preferences'
+	import { networksByChainID } from '../data/ethereum/networks'
 	import { derived } from 'svelte/store'
 	import { getProvider } from '../data/ethereum/provider'
 	import { onMount, setContext } from 'svelte'
 	const whenMounted = new Promise(r => onMount(r))
-	const provider = derived<[typeof ethereumNetwork, typeof preferredEthereumProvider], Ethereum.Provider>(
-		[ethereumNetwork, preferredEthereumProvider],
+	const provider = derived<[typeof ethereumChainID, typeof preferredEthereumProvider], Ethereum.Provider>(
+		[ethereumChainID, preferredEthereumProvider],
 		// @ts-ignore
-		async ([$ethereumNetwork, $preferredEthereumProvider], set) => {
+		async ([$ethereumChainID, $preferredEthereumProvider], set) => {
 			await whenMounted
-			set(await getProvider($ethereumNetwork, $preferredEthereumProvider, 'ethers'))
+			set(await getProvider(networksByChainID[$ethereumChainID], $preferredEthereumProvider, 'ethers'))
 		}
 	)
 	setContext('ethereumProvider', provider)

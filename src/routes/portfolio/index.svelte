@@ -3,8 +3,9 @@
 
 	import type { Ethereum } from '../../data/ethereum/types'
 	import { getProvider, getProviderInstance } from '../../data/ethereum/provider'
-	import { Portfolio, getLocalPortfolios, getEthersAccounts } from '../../data/ethereum/portfolio-accounts'
-	import { ethereumNetwork, preferredAnalyticsProvider, preferredEthereumProvider, preferredQuoteCurrency } from '../../data/ethereum/preferences'
+	import { Portfolio, getLocalPortfolios, getAccountsFromProvider } from '../../data/ethereum/portfolio-accounts'
+	import { ethereumChainID, preferredAnalyticsProvider, preferredQuoteCurrency } from '../../data/ethereum/preferences'
+	import { networksByChainID } from '../../data/ethereum/networks'
 
 	const ethereumProvider = getContext<Ethereum.Provider>('ethereumProvider')
 	
@@ -16,50 +17,34 @@
 		$localPortfolios = [...$localPortfolios.slice(0, i), ...$localPortfolios.slice(i + 1)]
 	}
 
-	// let metaMaskProvider
-	// const loadMetaMaskProvider = async () => {
-	// 	metaMaskProvider = await getProvider($ethereumNetwork, 'MetaMask', 'ethers')
+	$: network = networksByChainID[$ethereumChainID]
 
-	// 	const metaMask = await getProviderInstance($ethereumNetwork, 'MetaMask')
-	// 	metaMaskProvider.on('accountsChanged', accounts => {
-	// 		console.log('accountsChanged', accounts)
-	// 		loadMetaMaskProvider()
-	// 	})
-	// 	metaMaskProvider.on('chainChanged', chainId => {
-	// 		console.log('chainChanged', chainId)
-	// 		loadMetaMaskProvider()
-	// 	})
-	// }
-	// const disconnectMetaMaskProvider = async () => {
-	// 	const metaMask = await getProviderInstance($ethereumNetwork, 'MetaMask')
-	// 	metaMaskProvider = undefined
-	// }
-	let metaMaskAccountsPromise
-	const loadMetaMaskAccounts = async () => {
-		metaMaskAccountsPromise = getProvider($ethereumNetwork, 'MetaMask', 'ethers').then(provider => getEthersAccounts(provider))
+	let metaMaskProvider
+	const loadMetaMaskProvider = async () => {
+		metaMaskProvider = await getProvider(network, 'MetaMask', 'ethers')
+		await metaMaskProvider.enable()
 
-		const metaMask = await getProviderInstance($ethereumNetwork, 'MetaMask')
-		metaMask.once('accountsChanged', accounts => {
+		metaMaskProvider.on('accountsChanged', accounts => {
 			console.log('accountsChanged', accounts)
-			loadMetaMaskAccounts()
+			loadMetaMaskProvider()
 		})
-		metaMask.once('chainChanged', chainId => {
-			console.log('chainChanged', chainId, metaMask.chainId)
-			loadMetaMaskAccounts()
+		metaMaskProvider.on('chainChanged', chainId => {
+			console.log('chainChanged', chainId)
+			loadMetaMaskProvider()
 		})
 	}
 	const disconnectMetaMaskProvider = async () => {
-		// const metaMask = await getProviderInstance($ethereumNetwork, 'MetaMask')
-		metaMaskAccountsPromise = undefined
+		metaMaskProvider = undefined
 	}
+
 
 	let portisProvider
 	const loadPortisProvider = async () => {
-		portisProvider = await getProvider($ethereumNetwork, 'Portis', 'ethers')
+		portisProvider = await getProvider(network, 'Portis', 'ethers')
 		// await portis.showPortis()
 	}
 	const disconnectPortisProvider = async () => {
-		const portis = await getProviderInstance($ethereumNetwork, 'Portis')
+		const portis = await getProviderInstance(network, 'Portis')
 		portis.logout()
 		portisProvider = undefined
 	}
@@ -147,14 +132,14 @@
 
 	<section class="wallet-providers column">
 		<div class="metamask column">
-			{#if metaMaskAccountsPromise}
+			{#if metaMaskProvider}
 				<Loader
 					loadingIcon={'/logos/metamask-icon.svg'}
 					loadingIconName={'MetaMask'}
-					loadingMessage="Log into Portis via the pop-up window."
+					loadingMessage="Log into MetaMask via the pop-up window."
 					errorMessage="We couldn't connect your MetaMask Account."
 					errorFunction={error => error.message ?? error}
-					fromPromise={() => metaMaskAccountsPromise}
+					fromPromise={() => getAccountsFromProvider(metaMaskProvider)}
 					let:then={accounts}
 				>
 					<svelte:fragment slot="header" let:status>
@@ -168,21 +153,21 @@
 					</PortfolioComponent>
 
 					<svelte:fragment slot="errorActions">
-						<button on:click={loadMetaMaskAccounts}>Try Again</button>
+						<button on:click={loadMetaMaskProvider}>Try Again</button>
 						<button on:click={disconnectMetaMaskProvider}>Cancel</button>
 					</svelte:fragment>
 				</Loader>
 			{:else}
 				<div class="bar">
 					<h1><img src="/logos/metamask-icon.svg" alt="MetaMask" class="metamask-logo"> MetaMask Wallet</h1>
-					<button on:click={loadMetaMaskAccounts}>Connect</button>
+					<button on:click={loadMetaMaskProvider}>Connect</button>
 				</div>
 				<div class="card">
 					<img src="/logos/metamask.svg" alt="MetaMask" width="200">
 					<p>Create or import a wallet address by connecting the MetaMask browser extension.</p>
 				</div>
 			{/if}
-			</div>
+		</div>
 
 		<div class="portis column">
 			{#if portisProvider}
@@ -191,7 +176,7 @@
 					loadingIconName={'Portis'}
 					loadingMessage="Log into Portis via the pop-up window."
 					errorMessage="We couldn't connect your Portis.io Account."
-					fromPromise={() => getEthersAccounts(portisProvider)}
+					fromPromise={() => getAccountsFromProvider(portisProvider)}
 					let:then={accounts}
 				>
 					<svelte:fragment slot="header" let:status>
@@ -200,7 +185,7 @@
 						{/if}
 					</svelte:fragment>
 
-					<PortfolioComponent name="Portis Wallet" provider={preferredProvider} analyticsProvider={$preferredAnalyticsProvider} quoteCurrency={$preferredQuoteCurrency} {accounts}>
+					<PortfolioComponent name="Portis Wallet" provider={ethereumProvider} analyticsProvider={$preferredAnalyticsProvider} quoteCurrency={$preferredQuoteCurrency} {accounts}>
 						<!-- <button on:click={() => addToPortfolio(accounts[0])}>Add to...</button> -->
 						<button on:click={disconnectPortisProvider}>Disconnect</button>
 					</PortfolioComponent>
