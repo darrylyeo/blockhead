@@ -162,11 +162,11 @@
 							<hr>
 							<div class="bar">
 								<h4>{network.name} DeFi</h4>
-								{#if isEditing}
-									<button class="small" on:click={() => showDeFi = false}>Hide</button>
-								{/if}
 								{#if quoteTotal !== undefined}
 									<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
+								{/if}
+								{#if isEditing}
+									<button class="small" on:click={() => showDeFi = false}>Hide</button>
 								{/if}
 								<!-- {#if isEditing}
 									<label>
