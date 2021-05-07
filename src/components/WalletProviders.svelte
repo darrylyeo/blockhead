@@ -52,10 +52,15 @@
 	.metamask {
 		--primary-color: var(--metamask-orange);
 	}
-	/* .metamask-logo {
-		filter: brightness(300%);
-	} */
+	.metamask-logo {
+		height: 1.1em;
+		vertical-align: -0.2em;
+		/* filter: brightness(300%); */
+	}
 
+	.portis {
+		--primary-color: var(--portis-blue);
+	}
 	.portis-logo {
 		display: inline-block;
 		height: 1.1em;
@@ -65,9 +70,6 @@
 		.portis-logo {
 			filter: invert(1);
 		}
-	}
-	.portis {
-		--primary-color: var(--portis-blue);
 	}
 </style>
 
@@ -86,17 +88,29 @@
 			>
 				<svelte:fragment slot="header" let:status>
 					{#if status !== 'resolved'}
-						<h1><img src="/logos/metamask.svg" alt="MetaMask" class="metamask-logo"> Wallet</h1>
+						<h1><img src="/logos/metamask-icon.svg" alt="MetaMask" class="metamask-logo"> MetaMask Wallet</h1>
 					{/if}
 				</svelte:fragment>
 
-				<Portfolio name="MetaMask Wallet" provider={portfolioProvider} analyticsProvider={$preferredAnalyticsProvider} quoteCurrency={$preferredQuoteCurrency} {accounts}>
-					<button on:click={disconnectMetaMaskProvider}>Disconnect</button>
+				<Portfolio
+					name="MetaMask Wallet"
+					provider={portfolioProvider}
+					analyticsProvider={$preferredAnalyticsProvider}
+					quoteCurrency={$preferredQuoteCurrency}
+					{accounts}
+				>
+					<h1 slot="title"><img src="/logos/metamask-icon.svg" alt="MetaMask" class="metamask-logo"> MetaMask Wallet</h1>
+
+					<div slot="actions" class="row">
+						<button on:click={disconnectMetaMaskProvider}>Disconnect</button>
+					</div>
 				</Portfolio>
 
 				<svelte:fragment slot="errorActions">
-					<button on:click={loadMetaMaskProvider}>Try Again</button>
-					<button on:click={disconnectMetaMaskProvider}>Cancel</button>
+					<div slot="actions" class="row">
+						<button on:click={loadMetaMaskProvider}>Try Again</button>
+						<button on:click={disconnectMetaMaskProvider}>Cancel</button>
+					</div>
 				</svelte:fragment>
 			</Loader>
 		{:else}
@@ -127,9 +141,19 @@
 					{/if}
 				</svelte:fragment>
 
-				<Portfolio name="Portis Wallet" provider={portfolioProvider} analyticsProvider={$preferredAnalyticsProvider} quoteCurrency={$preferredQuoteCurrency} {accounts}>
-					<!-- <button on:click={() => addToPortfolio(accounts[0])}>Add to...</button> -->
-					<button on:click={disconnectPortisProvider}>Disconnect</button>
+				<Portfolio
+					name="Portis Wallet"
+					provider={portfolioProvider}
+					analyticsProvider={$preferredAnalyticsProvider}
+					quoteCurrency={$preferredQuoteCurrency}
+					{accounts}
+				>
+					<h1 slot="title"><img src="/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>
+
+					<div slot="actions" class="row">
+						<!-- <button on:click={() => addToPortfolio(accounts[0])}>Add to...</button> -->
+						<button on:click={disconnectPortisProvider}>Disconnect</button>
+					</div>
 				</Portfolio>
 
 				<svelte:fragment slot="errorActions">

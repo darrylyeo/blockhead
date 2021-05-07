@@ -121,15 +121,17 @@ import { availableNetworks } from '../data/ethereum/networks';
 
 <div class="portfolio column">
 	<header class="bar">
-		<h1 class="row" on:dblclick={editable && (() => state = State.Editing)}>
-			{#if state !== State.Editing}
-				{name || '[Untitled Portfolio]'}
-			{:else}
-				<form on:submit={() => state = State.Idle}>
-					<input type="text" bind:value={name} placeholder="My Portfolio" autofocus />
-				</form>
-			{/if}
-		</h1>
+		<slot name="title">
+			<h1 class="row" on:dblclick={editable && (() => state = State.Editing)}>
+				{#if state !== State.Editing}
+					{name || '[Untitled Portfolio]'}
+				{:else}
+					<form on:submit={() => state = State.Idle}>
+						<input type="text" bind:value={name} placeholder="My Portfolio" autofocus />
+					</form>
+				{/if}
+			</h1>
+		</slot>
 
 		{#if quoteTotals.length && state !== State.Editing}
 			<span class="account-total-value" transition:scale>
@@ -156,7 +158,7 @@ import { availableNetworks } from '../data/ethereum/networks';
 		{/if}
 		<!-- <button on:click={toggleShowOptions}>Options</button> -->
 
-		<slot></slot>
+		<slot name="actions"></slot>
 	</header>
 
 	{#if accounts}
