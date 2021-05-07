@@ -4,11 +4,6 @@ export const fiatQuoteCurrencies = {
 		isoCode: 'USD',
 		name: 'US Dollar'
 	},
-	'GBP': {
-		symbol: '£',
-		isoCode: 'GBP',
-		name: 'British Pound'
-	},
 	'CAD': {
 		symbol: 'CA$',
 		isoCode: 'CAD',
@@ -18,6 +13,11 @@ export const fiatQuoteCurrencies = {
 		symbol: '€',
 		isoCode: 'EUR',
 		name: 'Euro'
+	},
+	'GBP': {
+		symbol: '£',
+		isoCode: 'GBP',
+		name: 'British Pound'
 	},
 	'SGD': {
 		symbol: 'S$',
@@ -62,15 +62,15 @@ export const fiatQuoteCurrencies = {
 }
 
 export const cryptoQuoteCurrencies = {
-	'BTC': {
-		symbol: '₿',
-		isoCode: 'BTC',
-		name: 'Bitcoin'
-	},
 	'ETH': {
 		symbol: 'Ξ',
 		isoCode: 'ETH',
 		name: 'Ethereum'
+	},
+	'BTC': {
+		symbol: '₿',
+		isoCode: 'BTC',
+		name: 'Bitcoin'
 	}
 }
 

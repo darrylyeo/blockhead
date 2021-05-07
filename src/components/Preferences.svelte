@@ -53,12 +53,14 @@
 		<select bind:value={$preferredQuoteCurrency}>
 			<optgroup label="Fiat Currencies">
 				{#each Object.values(fiatQuoteCurrencies) as currency}
-					<option value={currency.isoCode} disabled={!Covalent.quoteCurrencies.includes(currency.isoCode)}>{currency.name} ({currency.symbol})</option>
+					<option value={currency.isoCode}>{currency.name} ({currency.symbol})</option>
+					<!-- disabled={!Covalent.quoteCurrencies.includes(currency.isoCode)} -->
 				{/each}
 			</optgroup>
 			<optgroup label="Cryptocurrencies">
 				{#each Object.values(cryptoQuoteCurrencies) as currency}
-					<option value={currency.isoCode} disabled={!Covalent.quoteCurrencies.includes(currency.isoCode)}>{currency.name} ({currency.symbol})</option>
+					<option value={currency.isoCode}>{currency.name} ({currency.symbol})</option>
+					<!-- disabled={!Covalent.quoteCurrencies.includes(currency.isoCode)} -->
 				{/each}
 			</optgroup>
 		</select>
