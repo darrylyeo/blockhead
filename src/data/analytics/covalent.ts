@@ -431,7 +431,7 @@ const makeRequest = <T>(endpoint: string, params: any) =>
 				}
 				
 				// throw new Error(await response.text())
-				throw new Error(new DOMParser().parseFromString(await response.text(), 'text/html').documentElement.innerText)
+				throw new Error(new DOMParser().parseFromString(await response.text(), 'text/html').documentElement.innerText.trim())
 			})
 			.then(({data}: Covalent.Response) => { 
 				console.log(data)
