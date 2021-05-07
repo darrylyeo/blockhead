@@ -348,6 +348,10 @@
 														isDebt={label === 'Debt'}
 														showPlainFiat={true}
 													/>
+												{:else if type === 'pct'}
+													{formatPercent(value)}
+												{:else if type === 'number'}
+													{value}
 												{:else}
 													{value}
 												{/if}
