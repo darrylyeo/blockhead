@@ -138,7 +138,6 @@
 		fromPromise={() => getBalancesPromise}
 		showIf={() => balances.length}
 		{isCollapsed}
-		hideError={true}
 	>
 		<svelte:fragment slot="header">
 			{#if balances.length}
