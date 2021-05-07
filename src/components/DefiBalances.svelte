@@ -54,9 +54,13 @@
 	import { scale } from 'svelte/transition'
 	import { scaleFont } from '../transitions/scale-font'
 
-	type ZapperProtocolName = '1inch' | 'Aave' | 'Alchemix' | 'Alpha' | 'B.Protocol' | 'Badger' | 'Balancer' | 'Bancor' | 'BarnBridge' | 'Compound' | 'Cover' | 'Cream' | 'Curve' | 'DefiSaver' | 'DerivaDEX' | 'Dhedge' | 'Dodo' | 'Dynamic Set' | 'Empty Set' | 'Futureswap' | 'Harvest' | 'Hegic' | 'Idle' | 'KeeperDAO' | 'Linkswap' | 'Liquity' | 'Loopring' | 'Maker' | 'Mooniswap' | 'Mushroom' | 'Pickle' | 'PoolTogether' | 'Rari Capital' | 'RealT' | 'Reflexer' | 'S.Finance' | 'Saddle' | 'Shell' | 'Smoothy' | 'SnowSwap' | 'Sushiswap' | 'Swerve' | 'Synthetix' | 'TokenSets' | 'Uniswap' | 'Unit' | 'Value' | 'Vesper' | 'Yearn' | 'dForce' | 'dYdX' | 'xSigma' | 'AutoFarm' | 'Ellipsis' | 'Harvest' | 'PancakeSwap' | 'Venus' | 'Aave' | 'Curve' | 'PoolTogether' | 'Quickswap' | 'Synthetix' | 'Synths' | 'Uniswap V1' | 'Uniswap V2'
+	type ZapperProtocolName = '1inch' | 'Aave' | 'Alchemix' | 'Alpha' | 'B.Protocol' | 'Badger' | 'Balancer' | 'Bancor' | 'BarnBridge' | 'Compound' | 'Cover' | 'Cream' | 'Curve' | 'DefiSaver' | 'DerivaDEX' | 'Dhedge' | 'Dodo' | 'Dynamic Set' | 'Empty Set' | 'Futureswap' | 'Harvest' | 'Hegic' | 'Idle' | 'KeeperDAO' | 'Linkswap' | 'Liquity' | 'Loopring' | 'Maker' | 'Mooniswap' | 'Mushroom' | 'Pickle' | 'PoolTogether' | 'Rari Capital' | 'RealT' | 'Reflexer' | 'S.Finance' | 'Saddle' | 'Shell' | 'Smoothy' | 'SnowSwap' | 'Sushiswap' | 'Swerve' | 'Synthetix' | 'TokenSets' | 'Uniswap' | 'Unit' | 'Value' | 'Vesper' | 'Yearn' | 'dForce' | 'dYdX' | 'xSigma' | 'AutoFarm' | 'Ellipsis' | 'Harvest' | 'PancakeSwap' | 'Venus' | 'Aave' | 'Curve' | 'PoolTogether' | 'Quickswap' | 'Synthetix'
+	| 'Aave V1' | 'Aave V2' | 'Synths' | 'Uniswap V1' | 'Uniswap V2'
 
 	const defiProtocolColors: Record<ZapperProtocolName & DefiSDK.ProtocolName, string[]> = {
+		'Aave': ['#77c0c7', '#b56da4'],
+		'Aave V1': ['#77c0c7', '#b56da4'],
+		'Aave V2': ['#77c0c7', '#b56da4'],
 		'Aave': ['#77c0c7', '#b56da4'],
 		'Aave • Uniswap Market': [],
 		'Ampleforth': [],
@@ -190,11 +194,11 @@
 			fromPromise={() => getAllDeFiProtocolBalances({network, address})}
 			bind:result={zapperDefiProtocolBalances}
 			let:then={defiProtocolBalances}
-			showIf={protocolBalances => protocolBalances.length}
+			showIf={defiProtocolBalances => defiProtocolBalances.length}
 			{isCollapsed}
 		>
 			<svelte:fragment slot="header" let:status>
-				{#if status === 'resolved' && defiProtocolBalances.length}
+				{#if (status === 'resolved' && defiProtocolBalances.length) || status === 'error'}
 					<slot name="header" {quoteTotal}></slot>
 				{/if}
 			</svelte:fragment>
