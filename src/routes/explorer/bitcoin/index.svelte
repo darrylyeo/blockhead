@@ -44,6 +44,7 @@
 			loadingIcon={priceFeedLogo}
 			loadingIconName={$preferredPriceFeedProvider}
 			loadingMessage="Retrieving price from Chainlink..."
+			errorMessage="Error retrieving price from Chainlink"
 			fromPromise={() => getChainlinkPriceFeed($provider, 'mainnet', 'BTC', $preferredQuoteCurrency)}
 			let:then={priceFeed}
 		>

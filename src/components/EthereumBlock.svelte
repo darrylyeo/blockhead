@@ -24,8 +24,8 @@
 		<Loader
 			loadingIcon={'/logos/covalent-logomark.svg'}
 			loadingIconName={'Covalent'}
-			loadingMessage="Fetching block data from {analyticsProvider}..."
-			errorMessage="Error fetching block data from {analyticsProvider}"
+			loadingMessage="Retrieving block data from {analyticsProvider}..."
+			errorMessage="Error retrieving block data from {analyticsProvider}"
 			fromPromise={() => getBlock({blockNumber})}
 			let:then={block}
 		>
