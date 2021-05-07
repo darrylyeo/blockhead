@@ -70,18 +70,20 @@
 			<h3>Current Price</h3>
 			<span class="card-annotation">{$preferredPriceFeedProvider}</span>
 		</div>
-		{#key $blockNumber}
-			<Loader
-				loadingIcon={priceFeedLogo}
-				loadingIconName={$preferredPriceFeedProvider}
-				loadingMessage="Retrieving price from Chainlink..."
-				fromPromise={() => getChainlinkPriceFeed($provider, 'mainnet', 'ETH', $preferredQuoteCurrency)}
-				let:then={priceFeed}
-			>
-				<TokenRate rate={priceFeed.price} quoteToken={$preferredQuoteCurrency} baseToken="ETH" layout="horizontal" />
-				<!-- <p>Updated {priceFeed.updatedAt.toString()} -->
-			</Loader>
-		{/key}
+		<div class="stack">
+			{#key $blockNumber}
+				<Loader
+					loadingIcon={priceFeedLogo}
+					loadingIconName={$preferredPriceFeedProvider}
+					loadingMessage="Retrieving price from Chainlink..."
+					fromPromise={() => getChainlinkPriceFeed($provider, 'mainnet', 'ETH', $preferredQuoteCurrency)}
+					let:then={priceFeed}
+				>
+					<TokenRate rate={priceFeed.price} quoteToken={$preferredQuoteCurrency} baseToken="ETH" layout="horizontal" />
+					<!-- <p>Updated {priceFeed.updatedAt.toString()} -->
+				</Loader>
+			{/key}
+		</div>
 	</section>
 
 	<!-- {#if isMounted}
