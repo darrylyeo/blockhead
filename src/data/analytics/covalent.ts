@@ -49,42 +49,60 @@ export namespace Covalent {
 		quote_currency: QuoteCurrency
 	}
 
-	export type Contract = {
+	export type ERCTokenStandard = 'erc20' | 'erc721' | 'erc1155'
+
+	export type TokenContract = {
 		contract_decimals: integer
 		contract_name: string
 		contract_ticker_symbol: TickerSymbol
 		contract_address: Ethereum.ContractAddress
+		supports_erc: ERCTokenStandard[]
 
 		contract_logo_url: string
 		logo_url: string
 	}
 
-	export type TokenWithBalance = Contract & {
-		// type: 'cryptocurrency' | 'stablecoin' | 'dust'
+	export type TokenContractWithBalance = TokenContract & {
 		balance: integer
 		quote: float
 		quote_rate: float
 	}
-
-	export type NFT = {
-		// type: 'nft'
+	export type ERC20TokenContractWithBalance = TokenContractWithBalance & {
+		type: 'cryptocurrency' | 'stablecoin' | 'dust'
+	}
+	export type NFTContractWithBalance = TokenContractWithBalance & {
+		type: 'nft'
+		nft_data: NFTWithBalance[]
+	}
+	export type NFTAttributes = Record<string, string> | {
+		key?: string
+		display_type?: string
+		trait_type: string
+		value: string | number
+	}[]
+	export type NFTWithBalance = {
 		token_id: integer
 		token_balance: integer
 		token_url: string
-	}
 
-	export type TokenBalance = TokenWithBalance & NFT & {
-		type: 'cryptocurrency' | 'stablecoin' | 'dust' | 'nft'
+		supports_erc: ERCTokenStandard[]
+
+		token_price_wei: integer
+		token_quote_rate_eth: string
+		
 		external_data: {
 			name: string
 			description: string
 			image: string
 			external_url: string
-			attributes: {}
+			attributes: NFTAttributes
 		}
+
+		owner: string
 	}
-	export type TokenBalances = AddressData & {
-		items: TokenBalance[]
+	export type ERC20TokenOrNFTContractWithBalance = ERC20TokenContractWithBalance | NFTContractWithBalance
+	export type TokenContractsWithBalances = AddressData & {
+		items: ERC20TokenOrNFTContractWithBalance[]
 	}
 
 	export type AaveBalance = {
@@ -111,7 +129,7 @@ export namespace Covalent {
 		}
 	}
 
-	export type BalancerPoolToken = TokenWithBalance & {
+	export type BalancerPoolToken = TokenContractWithBalance & {
 		total_supply: integer
 		swap_fee: float
 	}
@@ -156,7 +174,7 @@ export namespace Covalent {
 		pagination: Pagination
 	}
 
-	export type CompoundSupplyToken = Contract & {
+	export type CompoundSupplyToken = TokenContract & {
 		balance: integer
 		interest_accrued: integer
 		balance_quote: float
@@ -164,7 +182,7 @@ export namespace Covalent {
 		quote_rate: float
 		apr: float
 	}
-	export type CompoundBorrowToken = Contract & {
+	export type CompoundBorrowToken = TokenContract & {
 		balance: integer
 		interest_accrued: integer
 		balance_quote: float
@@ -172,7 +190,7 @@ export namespace Covalent {
 		quote_rate: float
 		apr: float
 	}
-	export type CompoundBalance = Contract & {
+	export type CompoundBalance = TokenContract & {
 		account_address: string
 		source: string
 		supply_tokens: CompoundSupplyToken[]
@@ -196,14 +214,14 @@ export namespace Covalent {
 		}
 	}
 
-	export type CurvePoolToken = Contract & {
+	export type CurvePoolToken = TokenContract & {
 		balance: integer
 		supply: integer
 		fee: integer
 	}
 	export type CurveBalance = {
 		pool: CurvePoolToken
-		underlying: TokenWithBalance[]
+		underlying: TokenContractWithBalance[]
 	}
 	export type CurveBalances = AddressData & {
 		balancer: {
@@ -246,12 +264,12 @@ export namespace Covalent {
 		breakdown_vault: MakerVault[]
 	}
 
-	export type UniswapV1PoolToken = TokenWithBalance & {
+	export type UniswapV1PoolToken = TokenContractWithBalance & {
 		total_supply: integer
 	}
 	export type UniswapV1Balance = {
-		token_0: TokenWithBalance
-		token_1: TokenWithBalance
+		token_0: TokenContractWithBalance
+		token_1: TokenContractWithBalance
 		pool_token: UniswapV1PoolToken
 	}
 	export type UniswapV1Balances = AddressData & {
@@ -266,8 +284,8 @@ export namespace Covalent {
 		description: string
 		tx_hash: string
 
-		token_0: TokenWithBalance
-		token_1: TokenWithBalance
+		token_0: TokenContractWithBalance
+		token_1: TokenContractWithBalance
 		pool_token: UniswapV1PoolToken
 	}
 	export type UniswapV2LiquidityTransactions = AddressData & {
@@ -275,12 +293,12 @@ export namespace Covalent {
 		pagination: Pagination
 	}
 
-	export type UniswapV2PoolToken = TokenWithBalance & {
+	export type UniswapV2PoolToken = TokenContractWithBalance & {
 		total_supply: integer
 	}
 	export type UniswapV2Balance = {
-		token_0: TokenWithBalance
-		token_1: TokenWithBalance
+		token_0: TokenContractWithBalance
+		token_1: TokenContractWithBalance
 		pool_token: UniswapV2PoolToken
 	}
 	export type UniswapV2Balances = AddressData & {
@@ -340,7 +358,7 @@ export namespace Covalent {
 		pagination: Pagination
 	}
 
-	export type ERC20TokenTransfer = Transaction & Contract & {
+	export type ERC20TokenTransfer = Transaction & TokenContract & {
 		transfer_type: string
 		delta: number
 		balance: number
@@ -370,7 +388,7 @@ export namespace Covalent {
 		date: Day
 		price: float
 	}
-	export type HistoricalPrices = Contract & {
+	export type HistoricalPrices = TokenContract & {
 		quote_currency: QuoteCurrency
 		prices: HistoricalPricePoint[]
 	}
@@ -413,7 +431,7 @@ const makeRequest = <T>(endpoint: string, params: any) =>
 				}
 				
 				// throw new Error(await response.text())
-				throw new Error(new DOMParser().parseFromString(await response.text(), 'text/html').documentElement.innerText)
+				throw new Error(new DOMParser().parseFromString(await response.text(), 'text/html').documentElement.innerText.trim())
 			})
 			.then(({data}: Covalent.Response) => { 
 				console.log(data)
@@ -426,7 +444,7 @@ export const getTokenAddressBalances = (
 	{address, nft, chainID, quoteCurrency}:
 	{address: Ethereum.Address, nft?: boolean} & ChainIDParameters & QuoteCurrencyParameters
 ) =>
-	makeRequest<Covalent.TokenBalances>(`/v1/${chainID}/address/${address}/balances_v2`, {nft, quoteCurrency})
+	makeRequest<Covalent.TokenContractsWithBalances>(`/v1/${chainID}/address/${address}/balances_v2`, {nft, quoteCurrency})
 
 // post-/v1/${chainID}/address/${address}/register/
 
@@ -529,11 +547,23 @@ export const getTransaction = (
 // /v1/${chainID}/networks/uniswap_v2/assets/
 
 
-export const getHistoricalPrices = (
+export const getHistoricalPricesByTickerSymbol = (
 	{quoteCurrency, tickerSymbol, from, to, pageNumber, pageSize}:
-	QuoteCurrencyParameters & {tickerSymbol: TickerSymbol, from: Covalent.Day, to: Covalent.Day} & ChainIDParameters & PaginationParameters
+	QuoteCurrencyParameters & {tickerSymbol: TickerSymbol, from: Covalent.Day, to: Covalent.Day} & PaginationParameters
 ) =>
 	makeRequest<Covalent.HistoricalPrices>(`/v1/pricing/historical/${quoteCurrency}/${tickerSymbol}`, {from, to, pageNumber, pageSize})
+
+export const getHistoricalPricesByAddress = (
+	{quoteCurrency, contractAddress, from, to, chainID, pageNumber, pageSize}:
+	QuoteCurrencyParameters & {contractAddress: Ethereum.ContractAddress, from: Covalent.Day, to: Covalent.Day} & ChainIDParameters & PaginationParameters
+) =>
+	makeRequest<Covalent.HistoricalPrices>(`/v1/pricing/historical_by_address/${chainID}/${quoteCurrency}/${contractAddress}`, {from, to, pageNumber, pageSize})
+
+export const getHistoricalPricesByAddresses = (
+	{quoteCurrency, contractAddresses, from, to, chainID, pageNumber, pageSize}:
+	QuoteCurrencyParameters & {contractAddresses: Ethereum.ContractAddress[], from: Covalent.Day, to: Covalent.Day} & ChainIDParameters & PaginationParameters
+) =>
+	makeRequest<Covalent.HistoricalPrices[]>(`/v1/pricing/historical_by_addresses_v2/${chainID}/${quoteCurrency}/${contractAddresses.join(',')}`, {from, to, pageNumber, pageSize})
 
 // /v1/pricing/tickers/
 // /v1/pricing/volatility/

@@ -5,6 +5,7 @@
 	export let token: TickerSymbol
 	export let tokenAddress: Ethereum.ContractAddress
 	export let tokenIcon: string
+	export let tokenName: string
 
 	import TokenIcon from './TokenIcon.svelte'
 </script>
@@ -29,7 +30,7 @@
 	}
 </style>
 
-<span class="token-value-container">
+<span class="token-value-container" title="{tokenName || token}{token && tokenName ? ` (${token})` : ``}">
 	<TokenIcon {token} {tokenAddress} {tokenIcon} />
 	<span class="token-name">{token}</span>
 </span>

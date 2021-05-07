@@ -1,27 +1,17 @@
 <script lang="ts">
-	import { getContext, onMount, setContext } from 'svelte'
-	import { writable, derived } from 'svelte/store'
+	import { getContext, setContext } from 'svelte'
+	import { writable } from 'svelte/store'
 	import { goto } from '@sapper/app'
 
 	import type { Ethereum } from '../../../data/ethereum/types'
 	import { networksByChainID } from '../../../data/ethereum/networks'
-	import { ethereumNetwork, preferredAnalyticsProvider, preferredEthereumProvider } from '../../../data/ethereum/preferences'
-	import { getProvider } from '../../../data/ethereum/provider'
+	import { preferredAnalyticsProvider, preferredEthereumProvider } from '../../../data/ethereum/preferences'
 	
 	const chainID = 1
 	export const explorerNetwork = writable<Ethereum.Network>(networksByChainID[chainID])
 	setContext('explorerNetwork', explorerNetwork)
-	
-	const whenMounted = new Promise(r => onMount(r))
-	const provider = derived<[SvelteStore<Ethereum.Network>, SvelteStore<Ethereum.ProviderName>], Ethereum.Provider>(
-		[ethereumNetwork, preferredEthereumProvider],
-		// @ts-ignore
-		async ([$ethereumNetwork, $preferredEthereumProvider], set) => {
-			await whenMounted
-			set(await getProvider($ethereumNetwork, $preferredEthereumProvider, 'ethers'))
-		}
-	)
-	setContext('provider', provider)
+
+	const provider = getContext<Ethereum.Provider>('ethereumProvider')
 	setContext('analyticsProvider', preferredAnalyticsProvider)
 
 	export let segment: string
@@ -32,8 +22,10 @@
 		setContext('query', query)
 
 	// $: console.log('query changed: ', query)
-	// $: if(globalThis.document)
-	// 	goto(`explorer/ethereum/${query}`)
+	$: if(globalThis.document && $query)
+		goto(`explorer/ethereum/${$query}`)
+
+	$: currentQuery = $query
 
 	import AddressField from '../../../components/AddressField.svelte'
 	import Loading from '../../../components/Loading.svelte'
@@ -54,8 +46,8 @@
 
 
 <!-- <AddressField bind:query={$query} on:change={goto(`explorer/ethereum/${query}`)}/> -->
-<form on:submit|preventDefault={() => goto(`explorer/ethereum/${$query}`)}>
-	<AddressField bind:address={$query}/>
+<form on:submit|preventDefault={() => $query = currentQuery}>
+	<AddressField bind:address={currentQuery}/>
 	<button>Go</button>
 </form>
 

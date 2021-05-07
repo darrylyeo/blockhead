@@ -7,18 +7,18 @@
     "build": "sapper build --legacy",
     "export": "sapper export --legacy",
     "start": "node __sapper__/build",
-    "validate": "svelte-check --ignore src/node_modules/@sapper"
+    "validate": "svelte-check --ignore src/node_modules/@sapper",
+    "generate": "npx @openapitools/openapi-generator-cli generate --input-spec https://api.zapper.fi/api/json --output ./src/data/zapper/api --generator-name typescript-fetch"
   },
   "dependencies": {
     "@apollo/client": "^3.3.15",
     "@compound-finance/compound-js": "^0.2.2",
     "@pokt-network/web3-provider": "^0.0.6-rc",
-    "@portis/web3": "^2.0.0-beta.59",
-    "aframe": "^1.0.4",
+    "@portis/web3": "^4.0.0",
     "compression": "^1.7.1",
     "dotenv": "^8.2.0",
     "echarts": "^5.1.0",
-    "ethers": "^5.1.3",
+    "ethers": "^5.1.4",
     "graphql": "^15.3.0",
     "polka": "next",
     "sirv": "^1.0.7",

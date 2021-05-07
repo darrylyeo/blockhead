@@ -2,7 +2,7 @@
 	import type { Ethereum } from '../data/ethereum/types'
 
 	export let transactionID: Ethereum.TransactionID
-	let blockchain = 'ethereum'
+	export let network: Ethereum.Network
 	export let format: 'full' | 'middle-truncated' = 'full'
 	export let linked = true
 
@@ -25,7 +25,7 @@
 </style>
 
 {#if linked}
-	<a class="transaction-id" href="explorer/{blockchain}/{transactionID}">{formattedTransactionID}</a>
+	<a class="transaction-id" href="explorer/{network.slug}/{transactionID}">{formattedTransactionID}</a>
 {:else}
 	<span class="transaction-id">{formattedTransactionID}</span>
 {/if}

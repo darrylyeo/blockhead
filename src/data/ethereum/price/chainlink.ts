@@ -1,8 +1,8 @@
 import type { Ethereum } from '../types'
-import { getEthersJS } from '../ethers'
 import { getWeb3 } from '../web3'
+import { formatUnits } from '@ethersproject/units'
+import { Contract } from '@ethersproject/contracts'
 
-import { formatUnits } from 'ethers/lib/utils'
 
 type AssetPair = string
 
@@ -46,10 +46,9 @@ export const getChainlinkPriceFeed = async (provider: Ethereum.Provider, network
 	// const priceFeedContract = new web3.eth.Contract(aggregatorV3InterfaceABI, CHAINLINK_CONTRACTS[network][assetPair])
 	// return await priceFeedContract.methods.latestRoundData().call()
 
-	const ethers = await getEthersJS()
 	const assetPair: AssetPair = `${quoteAsset}/${baseAsset}`
 	const contractAddress = CHAINLINK_CONTRACTS[network][assetPair]
-	const priceFeedContract = new ethers.Contract(contractAddress, aggregatorV3InterfaceABI, provider)
+	const priceFeedContract = new Contract(contractAddress, aggregatorV3InterfaceABI, provider)
 	
 	console.log('priceFeedContract', priceFeedContract)
 	const {answer, answeredInRound, roundId, startedAt, updatedAt} = await priceFeedContract.latestRoundData()

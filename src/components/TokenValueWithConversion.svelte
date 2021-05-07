@@ -13,8 +13,9 @@
 
 	export let value
 	export let isDust = false
-	$: isSmallValue = convertedValue < 1e-3
+	$: isSmallValue = Math.abs(convertedValue) < 1e-3
 	$: isZero = value == 0
+	export let isDebt = false
 
 	export let conversionCurrency: QuoteCurrency
 	export let convertedValue
@@ -50,21 +51,25 @@
 		/* opacity: 0.2; */
 		opacity: 0.55;
 	}
+
+	.is-debt {
+		color: hsl(31deg 93% 54%);
+	}
 </style>
 
-<span class="value-with-conversion" class:is-dust={isDust} class:is-small-value={isSmallValue} class:is-zero={isZero}>
+<span class="value-with-conversion" class:is-debt={isDebt} class:is-dust={isDust} class:is-small-value={isSmallValue} class:is-zero={isZero}>
 	{#if showValues === 'original' || showValues === 'both'}
 		<span class="value" transition:scaleFont|local><!-- style="font-size: {sizeByVolume(convertedValue)}em" -->
-			<TokenValue {token} {tokenAddress} {tokenIcon} {tokenName} {value} {showDecimalPlaces} />
+			<TokenValue {token} {tokenAddress} {tokenIcon} {tokenName} {value} {showDecimalPlaces} {isDebt} />
 		</span>
 	{/if}
 	{#if (showValues === 'converted' || showValues === 'both')}
 		<span class="value-converted" transition:scaleFont|local={{delay: 200}}>
 			{#if showValues === 'both'}({/if
-			}<TokenValue token={conversionCurrency} value={convertedValue} {showDecimalPlaces} showPlainFiat={true}
+			}<TokenValue token={conversionCurrency} value={convertedValue} {showDecimalPlaces} showPlainFiat={true} {isDebt}
 			/>{#if showValues === 'converted' && conversionCurrency !== token}
 				<span class="worth" transition:scaleFont|local>
-					&nbsp;in <TokenName {token} {tokenAddress} {tokenIcon} />
+					&nbsp;in <TokenName {token} {tokenAddress} {tokenIcon} {tokenName} />
 				</span>
 			{/if
 			}{#if showConversionRate && conversionRate}<span class="rate"> at <TokenRate rate={conversionRate} quoteToken={conversionCurrency} baseToken={token} layout='horizontal'/></span>{/if

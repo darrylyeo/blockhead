@@ -18,22 +18,10 @@
 	export let showPlainFiat = false
 	$: isFiat = showPlainFiat && token in fiatQuoteCurrencies
 
+	$: isNegative = value < 0
 
-	$: formatter = new Intl.NumberFormat(globalThis.navigator.languages, {
-		... isFiat ? {style: 'currency', currency: token} : {},
-		minimumFractionDigits: Math.max(showDecimalPlaces, 0),
-		maximumFractionDigits: Math.max(showDecimalPlaces, 0)
-	})
-	const formatValue = value => {
-		try {
-			return globalThis.navigator
-				? formatter.format(value || 0)
-				: value
-		}catch(e){
-			console.error(e)
-			return value?.toString()
-		}
-	}
+
+	import { formatValue } from '../utils/format-value'
 
 
 	import { tweened } from 'svelte/motion'
@@ -47,11 +35,11 @@
 			return Math.pow(10, logFrom + t * (logTo - logFrom))
 		}
 	})
-	$: tweenedValue.set(Number(value || 0))
+	$: tweenedValue.set(Math.abs(value || 0))
 
 
 	import TokenIcon from './TokenIcon.svelte'
-import { expoOut, quintOut } from 'svelte/easing';
+	import { expoOut, quintOut } from 'svelte/easing'
 </script>
 
 <style>
@@ -79,17 +67,17 @@ import { expoOut, quintOut } from 'svelte/easing';
 	}
 
 	.is-debt {
-		color: var(--down-red);
+		color: hsl(31deg 93% 54%);
 	}
 </style>
 
 <span class="token-value-container" class:is-debt={isDebt} title="{value} {tokenName || token}{token && tokenName ? ` (${token})` : ``}">
 	{#if isFiat}
-		<span class="token-value">{formatValue($tweenedValue)}</span>
+		<span class="token-value">{isNegative ? '−' : ''}{formatValue($tweenedValue, token)}</span>
 	{:else}
 		<TokenIcon {token} {tokenAddress} {tokenIcon} />
 		<span>
-			<span class="token-value">{isDebt ? '−' : ''}{formatValue($tweenedValue)}</span>
+			<span class="token-value">{isNegative ? '−' : ''}{formatValue($tweenedValue)}</span>
 			<span class="token-name">{token || '___'}</span>
 		</span>
 	{/if}

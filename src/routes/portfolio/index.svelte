@@ -1,61 +1,50 @@
 <script lang="ts">
-	import { onMount } from 'svelte'
+	import { getContext } from 'svelte'
 
+	import type { Ethereum } from '../../data/ethereum/types'
 	import { getProvider, getProviderInstance } from '../../data/ethereum/provider'
-	import { getLocalAccounts, getEthersAccounts } from '../../data/ethereum/accounts'
-	import { ethereumNetwork, preferredAnalyticsProvider, preferredEthereumProvider, preferredQuoteCurrency } from '../../data/ethereum/preferences'
+	import { Portfolio, getLocalPortfolios, getAccountsFromProvider } from '../../data/ethereum/portfolio-accounts'
+	import { ethereumChainID, preferredAnalyticsProvider, preferredQuoteCurrency } from '../../data/ethereum/preferences'
+	import { networksByChainID } from '../../data/ethereum/networks'
 
-	let preferredProvider
-	onMount(async () => 
-		preferredProvider = await getProvider($ethereumNetwork, $preferredEthereumProvider, 'ethers')
-	)
+	const ethereumProvider = getContext<Ethereum.Provider>('ethereumProvider')
 	
-	const localAccounts = getLocalAccounts()
+	const localPortfolios = getLocalPortfolios()
+	function addPortfolio(){
+		$localPortfolios = [...$localPortfolios, new Portfolio()]
+	}
+	function deletePortfolio(i){
+		$localPortfolios = [...$localPortfolios.slice(0, i), ...$localPortfolios.slice(i + 1)]
+	}
 
-	// let metaMaskProvider
-	// const loadMetaMaskProvider = async () => {
-	// 	metaMaskProvider = await getProvider($ethereumNetwork, 'MetaMask', 'ethers')
+	$: network = networksByChainID[$ethereumChainID]
 
-	// 	const metaMask = await getProviderInstance($ethereumNetwork, 'MetaMask')
-	// 	metaMaskProvider.on('accountsChanged', accounts => {
-	// 		console.log('accountsChanged', accounts)
-	// 		loadMetaMaskProvider()
-	// 	})
-	// 	metaMaskProvider.on('chainChanged', chainId => {
-	// 		console.log('chainChanged', chainId)
-	// 		loadMetaMaskProvider()
-	// 	})
-	// }
-	// const disconnectMetaMaskProvider = async () => {
-	// 	const metaMask = await getProviderInstance($ethereumNetwork, 'MetaMask')
-	// 	metaMaskProvider = undefined
-	// }
-	let metaMaskAccountsPromise
-	const loadMetaMaskAccounts = async () => {
-		metaMaskAccountsPromise = getProvider($ethereumNetwork, 'MetaMask', 'ethers').then(provider => getEthersAccounts(provider))
+	let metaMaskProvider
+	const loadMetaMaskProvider = async () => {
+		metaMaskProvider = await getProvider(network, 'MetaMask', 'ethers')
+		await metaMaskProvider.enable()
 
-		const metaMask = await getProviderInstance($ethereumNetwork, 'MetaMask')
-		metaMask.once('accountsChanged', accounts => {
+		metaMaskProvider.on('accountsChanged', accounts => {
 			console.log('accountsChanged', accounts)
-			loadMetaMaskAccounts()
+			loadMetaMaskProvider()
 		})
-		metaMask.once('chainChanged', chainId => {
-			console.log('chainChanged', chainId, metaMask.chainId)
-			loadMetaMaskAccounts()
+		metaMaskProvider.on('chainChanged', chainId => {
+			console.log('chainChanged', chainId)
+			loadMetaMaskProvider()
 		})
 	}
 	const disconnectMetaMaskProvider = async () => {
-		// const metaMask = await getProviderInstance($ethereumNetwork, 'MetaMask')
-		metaMaskAccountsPromise = undefined
+		metaMaskProvider = undefined
 	}
+
 
 	let portisProvider
 	const loadPortisProvider = async () => {
-		portisProvider = await getProvider($ethereumNetwork, 'Portis', 'ethers')
+		portisProvider = await getProvider(network, 'Portis', 'ethers')
 		// await portis.showPortis()
 	}
 	const disconnectPortisProvider = async () => {
-		const portis = await getProviderInstance($ethereumNetwork, 'Portis')
+		const portis = await getProviderInstance(network, 'Portis')
 		portis.logout()
 		portisProvider = undefined
 	}
@@ -65,7 +54,7 @@
 	}
 	
 	import Loader from '../../components/Loader.svelte'
-	import Portfolio from '../../components/Portfolio.svelte'
+	import PortfolioComponent from '../../components/Portfolio.svelte'
 	import Preferences from '../../components/Preferences.svelte'
 	import { fly } from 'svelte/transition'
 </script>
@@ -90,10 +79,7 @@
 		max-width: 45rem;
 	}
 	section {
-		display: grid;
-		gap: var(--padding-inner);
-		align-content: start;
-		grid-template-columns: 100%;
+		gap: 2.5rem;
 	}
 
 	.metamask {
@@ -116,12 +102,6 @@
 	.portis {
 		--primary-color: var(--portis-blue);
 	}
-
-	.wallet-providers {
-		display: grid;
-		gap: 2em;
-		align-content: start;
-	}
 </style>
 
 <svelte:head>
@@ -129,24 +109,37 @@
 </svelte:head>
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
-	<section>
-		{#if localAccounts}
-			<Portfolio name="Your Portfolio" provider={preferredProvider} analyticsProvider={$preferredAnalyticsProvider} quoteCurrency={$preferredQuoteCurrency} bind:accounts={$localAccounts} editable={true} />
+	<section class="portfolios column">
+		{#if localPortfolios}
+			{#each $localPortfolios as {name, accounts}, i (i)}
+				<PortfolioComponent
+					bind:name
+					bind:accounts
+					editable={true}
+					provider={ethereumProvider}
+					analyticsProvider={$preferredAnalyticsProvider}
+					quoteCurrency={$preferredQuoteCurrency}
+					on:delete={e => deletePortfolio(i)}
+				/>
+			{/each}
+			{#if $localPortfolios[$localPortfolios.length - 1]?.accounts.length}
+				<button on:click={() => addPortfolio()}>+ Create Another Portfolio</button>
+			{/if}
 		{:else}
 			Please enable LocalStorage in your browser.
 		{/if}
 	</section>
 
-	<div class="wallet-providers">
-		<section class="metamask">
-			{#if metaMaskAccountsPromise}
+	<section class="wallet-providers column">
+		<div class="metamask column">
+			{#if metaMaskProvider}
 				<Loader
 					loadingIcon={'/logos/metamask-icon.svg'}
 					loadingIconName={'MetaMask'}
-					loadingMessage="Log into Portis via the pop-up window."
+					loadingMessage="Log into MetaMask via the pop-up window."
 					errorMessage="We couldn't connect your MetaMask Account."
 					errorFunction={error => error.message ?? error}
-					fromPromise={() => metaMaskAccountsPromise}
+					fromPromise={() => getAccountsFromProvider(metaMaskProvider)}
 					let:then={accounts}
 				>
 					<svelte:fragment slot="header" let:status>
@@ -155,35 +148,35 @@
 						{/if}
 					</svelte:fragment>
 
-					<Portfolio name="MetaMask Wallet" provider={preferredProvider} analyticsProvider={$preferredAnalyticsProvider} quoteCurrency={$preferredQuoteCurrency} {accounts}>
+					<PortfolioComponent name="MetaMask Wallet" provider={ethereumProvider} analyticsProvider={$preferredAnalyticsProvider} quoteCurrency={$preferredQuoteCurrency} {accounts}>
 						<button on:click={disconnectMetaMaskProvider}>Disconnect</button>
-					</Portfolio>
+					</PortfolioComponent>
 
 					<svelte:fragment slot="errorActions">
-						<button on:click={loadMetaMaskAccounts}>Try Again</button>
+						<button on:click={loadMetaMaskProvider}>Try Again</button>
 						<button on:click={disconnectMetaMaskProvider}>Cancel</button>
 					</svelte:fragment>
 				</Loader>
 			{:else}
 				<div class="bar">
 					<h1><img src="/logos/metamask-icon.svg" alt="MetaMask" class="metamask-logo"> MetaMask Wallet</h1>
-					<button on:click={loadMetaMaskAccounts}>Connect</button>
+					<button on:click={loadMetaMaskProvider}>Connect</button>
 				</div>
 				<div class="card">
 					<img src="/logos/metamask.svg" alt="MetaMask" width="200">
 					<p>Create or import a wallet address by connecting the MetaMask browser extension.</p>
 				</div>
 			{/if}
-		</section>
+		</div>
 
-		<section class="portis">
+		<div class="portis column">
 			{#if portisProvider}
 				<Loader
 					loadingIcon={'/logos/portis-icon.svg'}
 					loadingIconName={'Portis'}
 					loadingMessage="Log into Portis via the pop-up window."
 					errorMessage="We couldn't connect your Portis.io Account."
-					fromPromise={() => getEthersAccounts(portisProvider)}
+					fromPromise={() => getAccountsFromProvider(portisProvider)}
 					let:then={accounts}
 				>
 					<svelte:fragment slot="header" let:status>
@@ -192,10 +185,10 @@
 						{/if}
 					</svelte:fragment>
 
-					<Portfolio name="Portis Wallet" provider={preferredProvider} analyticsProvider={$preferredAnalyticsProvider} quoteCurrency={$preferredQuoteCurrency} {accounts}>
+					<PortfolioComponent name="Portis Wallet" provider={ethereumProvider} analyticsProvider={$preferredAnalyticsProvider} quoteCurrency={$preferredQuoteCurrency} {accounts}>
 						<!-- <button on:click={() => addToPortfolio(accounts[0])}>Add to...</button> -->
 						<button on:click={disconnectPortisProvider}>Disconnect</button>
-					</Portfolio>
+					</PortfolioComponent>
 
 					<svelte:fragment slot="errorActions">
 						<button on:click={loadPortisProvider}>Try Again</button>
@@ -212,8 +205,8 @@
 					<p>Create or import a wallet address by connecting a Portis.io account.</p>
 				</div>
 			{/if}
-		</section>
-	</div>
+		</div>
+	</section>
 </main>
 
 <Preferences />

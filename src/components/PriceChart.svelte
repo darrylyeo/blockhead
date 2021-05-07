@@ -1,3 +1,7 @@
+<script lang="ts" context="module">
+	export type PriceScale = 'linear' | 'linearFromZero' | 'logarithmic'
+</script>
+
 <script lang="ts">
 	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
 	
@@ -14,22 +18,16 @@
 	export let quoteCurrency: QuoteCurrency
 	export let timeRange: [number, number]
 	export let priceRange: [number, number]
+	$: isMultiple = data.length > 1
+	export let priceScale: PriceScale = 'logarithmic' // isMultiple ? 'logarithmic' : 'linear'
 
-	export let priceScale: 'linear' | 'linearFromZero' | 'logarithmic' = 'linear'
+
+	import { formatValue } from '../utils/format-value'
 
 	function formatTimestamp(timestamp){
 		return new Date(timestamp).toLocaleDateString()
 	}
 
-	function formatCurrency(value){
-		const showDecimalPlaces = 2 + Math.round(Math.log10(value || 1))
-		return new Intl.NumberFormat(globalThis.navigator.languages, {
-			style: 'currency',
-			currency: quoteCurrency,
-			minimumFractionDigits: 0,
-			maximumFractionDigits: 0
-		}).format(value)
-	}
 
 	import Echart from './Echart.svelte'
 
@@ -46,22 +44,25 @@
 		boundaryGap: false,
 		splitNumber: 12,
 		splitLine: {
-			show: true
+			show: true,
+			lineStyle: {
+				color: 'hsla(0deg, 0%, 71%, 0.15)'
+			}
 		},
-		minorSplitLine: {}
+		// minorSplitLine: {}
 	},
 	yAxis: {
 		...{
 			'linear': {
 				type: 'value',
 				scale: true,
-				// min: 'dataMin',
+				min: 'dataMin',
 				// max: 'dataMax'
 			},
 			'linearFromZero': {
 				type: 'value',
 				scale: false,
-				// min: 0,
+				min: 0,
 				// max: 'dataMax'
 			},
 			'logarithmic': {
@@ -69,17 +70,29 @@
 				logBase: 10,
 				min: 'dataMin',
 				max: 'dataMax',
-				minorSplitLine: {
-					show: true,
-				},
+				// minorTick: {
+				// 	splitNumber: 2
+				// },
+				// minorSplitLine: {
+				// 	show: true,
+				// 	lineStyle: {
+				// 		color: 'hsla(0deg, 0%, 71%, 0.15)'
+				// 	},
+				// },
 				splitNumber: 10
 			}
 		}[priceScale],
+		splitLine: {
+			show: true,
+			lineStyle: {
+				color: 'hsla(0deg, 0%, 71%, 0.15)'
+			}
+		},
 		boundaryGap: ['2%', '2%'],
 
 		position: 'right',
 		axisLabel: {
-			formatter: value => formatCurrency(value),
+			formatter: value => formatValue(value, quoteCurrency),
 		},
 	},
 	series: data?.map(({currency, prices}) => ({
@@ -99,15 +112,17 @@
 		symbol: 'none',
 		// symbol: `https://tokens.1inch.exchange/0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.png`,
 		
-		color: `var(--${tokenColors[currency]})`,
-		areaStyle: {
+		color: `var(--${tokenColors[currency]}, hsla(0deg, 0%, 90%, 0.75))`,
+		areaStyle: isMultiple ? {
+			color: 'transparent'
+		} : {
 			color: {
 				type: 'linear',
 				x: 0, y: 0,
 				x2: 0, y2: 2,
 				colorStops: [{
 					offset: 0.05,
-					color: `var(--${tokenColors[currency]})`
+					color: `var(--${tokenColors[currency]}, hsla(0deg, 0%, 90%, 0.75))`,
 				}, {
 					offset: 1,
 					color: 'transparent'
@@ -119,7 +134,8 @@
 		},
 		endLabel: {
 			show: true,
-			formatter: ({value: [time, price]}) => formatCurrency(price),
+			formatter: ({value: [time, price]}) => formatValue(price, quoteCurrency),
+			fontSize: 6,
 			textBorderColor: 'transparent'
 		},
 		emphasis: {
@@ -141,14 +157,14 @@
 		label: {
 			formatter: ({axisDimension, value}) =>
 				axisDimension === 'x' ? formatTimestamp(value) :
-				axisDimension === 'y' ? formatCurrency(value) :
+				axisDimension === 'y' ? formatValue(value, quoteCurrency) :
 				'',
 			backgroundColor: 'rgba(250, 250, 250, 0.5)'
 		}
 	},
 	dataZoom: [{
 		type: 'inside',
-		start: 95,
+		start: 80,
 		end: 100
 		// start: timeRange[0],
 		// end: timeRange[1]
@@ -158,7 +174,16 @@
 		end: 100
 	}],
 	legend: {
-
+		left: 120,
+		right: 120,
+		top: 4
+		// type: 'scroll',
+		// orient: 'vertical',
+		// right: 10,
+		// top: 20,
+		// bottom: 20,
+		// data: data.legendData,
+		// selected: data.selected
 	},
 	toolbox: [{
 		feature: {
@@ -189,15 +214,3 @@
 		}
 	}]
 }} />
-
-<div class="bar">
-	<h4>Show</h4>
-	<label>
-		<span>Price Scale</span>
-		<select bind:value={priceScale}>
-			<option value="logarithmic">Logarithmic</option>
-			<option value="linear">Linear</option>
-			<option value="linearFromZero">Linear From Zero</option>
-		</select>
-	</label>
-</div>

@@ -10,8 +10,32 @@
 
 <script lang="ts">
 	import Nav from '../components/Nav.svelte'
-
+	
 	export let segment: string
+	
+	
+	// import { getDefaultProvider } from '@ethersproject/providers'
+	// import { setContext } from 'svelte'
+	// import { writable } from 'svelte/store'
+	// const provider = writable<Ethereum.Provider>(getDefaultProvider('mainnet', {}))
+	// setContext('provider', provider)
+
+	import type { Ethereum } from '../data/ethereum/types'
+	import { ethereumChainID, preferredEthereumProvider } from '../data/ethereum/preferences'
+	import { networksByChainID } from '../data/ethereum/networks'
+	import { derived } from 'svelte/store'
+	import { getProvider } from '../data/ethereum/provider'
+	import { onMount, setContext } from 'svelte'
+	const whenMounted = new Promise(r => onMount(r))
+	const provider = derived<[typeof ethereumChainID, typeof preferredEthereumProvider], Ethereum.Provider>(
+		[ethereumChainID, preferredEthereumProvider],
+		// @ts-ignore
+		async ([$ethereumChainID, $preferredEthereumProvider], set) => {
+			await whenMounted
+			set(await getProvider(networksByChainID[$ethereumChainID], $preferredEthereumProvider, 'ethers'))
+		}
+	)
+	setContext('ethereumProvider', provider)
 </script>
 
 <style>

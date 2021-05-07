@@ -24,21 +24,24 @@
 	export let quoteTotal
 
 
-	let filterFunction: (b: Covalent.TokenBalance) => boolean
+	export let isCollapsed: boolean
+
+
+	let filterFunction: (b: Covalent.ERC20TokenOrNFTContractWithBalance) => boolean
 	$: filterFunction = showSmallValues
 		? b => b.type !== 'nft' // undefined
 		: b => b.type !== 'nft' && !(/*b.type === 'dust' || */ b.quote < 1e-3)
 
-	let sortFunction: (a: Covalent.TokenBalance, b: Covalent.TokenBalance) => number
+	let sortFunction: (a: Covalent.ERC20TokenOrNFTContractWithBalance, b: Covalent.ERC20TokenOrNFTContractWithBalance) => number
 	$: sortFunction =
-		sortBy === 'value-descending' ? (a, b) => b.quote - a.quote || b.token_balance - a.token_balance :
-		sortBy === 'value-ascending' ? (a, b) => a.quote - b.quote || a.token_balance - b.token_balance :
+		sortBy === 'value-descending' ? (a, b) => b.quote - a.quote || b.balance - a.balance :
+		sortBy === 'value-ascending' ? (a, b) => a.quote - b.quote || a.balance - b.balance :
 		sortBy === 'ticker-ascending' ? (a, b) => a.contract_ticker_symbol.localeCompare(b.contract_ticker_symbol) :
 		undefined
 
 
 	$: getBalancesPromise = getTokenAddressBalances({address, nft: false, chainID: network.chainId, quoteCurrency: quoteCurrency})
-	let balances: Covalent.TokenBalance[] = []
+	export let balances: Covalent.ERC20TokenOrNFTContractWithBalance[] = []
 	$: getBalancesPromise.then(balances => (filterFunction ? balances.items.filter(filterFunction) : balances.items).sort(sortFunction))
 		.then(_ => balances = _)
 
@@ -52,12 +55,15 @@
 	import { quintOut } from 'svelte/easing'
 </script>
 
-<style>		
+<style>	
 	.ethereum-balances {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
 		align-items: stretch;
 		gap: var(--padding-inner);
+	}
+	.ethereum-balances.show-amounts-and-values {
+		column-gap: calc(2 * var(--padding-inner));
 	}
 
 	/* 
@@ -72,6 +78,9 @@
 		flex: 0 auto;
 	} */
 
+	.ethereum-balance {
+		gap: var(--padding-inner);
+	}
 	.ethereum-balance.is-selectable {
 		--padding-outer: 0.25rem;
 		margin: calc(-1 * var(--padding-outer));
@@ -88,6 +97,12 @@
 		background-color: rgba(255, 255, 255, 0.3);
 		box-shadow: var(--primary-color) 0 0 0 2px inset;
 	}
+
+	.ethereum-balance :global(.value-with-conversion) {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+	}
 </style>
 
 {#if address}
@@ -98,16 +113,15 @@
 		errorMessage="Error retrieving {network.name} balances from {analyticsProvider}"
 		fromPromise={() => getBalancesPromise}
 		showIf={() => balances.length}
-		hideError={true}
+		{isCollapsed}
 	>
 		<svelte:fragment slot="header">
 			{#if balances.length}
-				<hr>
 				<slot name="header" {network} {quoteCurrency} {quoteTotal}></slot>
 			{/if}
 		</svelte:fragment>
 
-		<div class="ethereum-balances card">
+		<div class="ethereum-balances card" class:show-amounts-and-values={showValues === 'both'}>
 			{#each
 				balances
 				as {type, balance, quote, quote_rate, contract_name, contract_address, contract_decimals, contract_ticker_symbol, logo_url},

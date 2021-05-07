@@ -15,12 +15,13 @@ polka() // You can also use Express
 		sirv('static', { dev }),
 		sapper.middleware({
 			session: (req, res) => {
-				const { POCKET_NETWORK_PPK, POCKET_NETWORK_PASSPHRASE, COVALENT_API_KEY } = process.env
+				const { POCKET_NETWORK_PPK, POCKET_NETWORK_PASSPHRASE, COVALENT_API_KEY, ZAPPER_API_KEY } = process.env
 				return {
 					env: {
 						POCKET_NETWORK_PPK,
 						POCKET_NETWORK_PASSPHRASE,
-						COVALENT_API_KEY
+						COVALENT_API_KEY,
+						ZAPPER_API_KEY
 					}
 				}
 			}
