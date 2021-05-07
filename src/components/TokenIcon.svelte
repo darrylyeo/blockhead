@@ -7,23 +7,39 @@
 	export let tokenAddress: Ethereum.ContractAddress | undefined
 	export let tokenIcon: string
 
-	let loadingError = false
+	let i = 0
+	$: imageSources = [
+		tokenAddress && `https://token-icons.s3.amazonaws.com/${tokenAddress.toLowerCase()}.png`,
+		tokenIcon,
+		token && `https://zapper.fi/images/${token}-icon.png`,
+		tokenAddress && `https://tokens.1inch.exchange/${tokenAddress.toLowerCase()}.png`,
+		tokenAddress && `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${tokenAddress}/logo.png`,
+	].filter(Boolean)
+
+	// let loadingError
 
 	$: Icon = token && CryptoIcons[token[0].toUpperCase() + token.slice(1).toLowerCase()]
 </script>
 
 <picture title={token + (tokenAddress ? ` (${tokenAddress})` : '')}>
 	{#if Icon}
-		<svelte:component this={Icon} size="1.25em" /> 
-	{:else if !loadingError && (tokenAddress || tokenIcon)}
+		<svelte:component this={Icon} size="1.25em" />
+	<!-- {:else if !loadingError && (tokenAddress || tokenIcon || token)}
 		{#if tokenAddress}
-			<source srcset="https://token-icons.s3.amazonaws.com/{tokenAddress.toLowerCase()}.png">
-			<source srcset="https://tokens.1inch.exchange/{tokenAddress.toLowerCase()}.png">
+			<source src="https://token-icons.s3.amazonaws.com/{tokenAddress.toLowerCase()}.png">
+			<source src="https://tokens.1inch.exchange/{tokenAddress.toLowerCase()}.png">
+			<source src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/{tokenAddress}/logo.png">
 		{/if}
 		{#if tokenIcon}
-			<source srcset={tokenIcon}>
+			<source src={tokenIcon}>
 		{/if}
-		<img on:error={() => loadingError = true}>
+		{#if token}
+			<source src="https://zapper.fi/images/{token}-icon.png">
+		{/if}
+		<img on:error={e => loadingError = e}>
+		<img src={tokenIcon || `https://zapper.fi/images/${token}-icon.png`} on:error={e => loadingError = e}> -->
+	{:else if imageSources[i]}
+		<img src={imageSources[i]} on:error={e => i++} alt={token} />
 	{:else}
 		<i class="placeholder-icon" data-icon={token?.slice(0, 4) ?? '?'}></i>
 	{/if}
