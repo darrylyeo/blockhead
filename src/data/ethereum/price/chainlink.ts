@@ -1,8 +1,8 @@
 import type { Ethereum } from '../types'
 import { getEthersJS } from '../ethers'
 import { getWeb3 } from '../web3'
+import { formatUnits } from '@ethersproject/units'
 
-import { formatUnits } from 'ethers/lib/utils'
 
 type AssetPair = string
 

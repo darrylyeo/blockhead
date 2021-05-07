@@ -40,25 +40,19 @@
 	export let isCollapsed: boolean
 
 	
-	import { formatUnits } from 'ethers/lib/utils'
+	import { formatPercent } from '../utils/format-percent'
+	import { formatUnits } from '../utils/format-units'
 
-	function formatPercent(number, maxDecimals = 2){
-		return new Intl.NumberFormat(globalThis.navigator.languages, {
-			minimumFractionDigits: maxDecimals,
-			maximumFractionDigits: maxDecimals
-		}).format(number * 100) + '%'
-	}
 
-	
 	import Loader from './Loader.svelte'
 	import Loading from './Loading.svelte'
 	import TokenIcon from './TokenIcon.svelte'
 	import TokenValue from './TokenValue.svelte'
+	import TokenValueWithConversion from './TokenValueWithConversion.svelte'
 	
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
 	import { scaleFont } from '../transitions/scale-font'
-	import TokenValueWithConversion from './TokenValueWithConversion.svelte'
 
 	type ZapperProtocolName = '1inch' | 'Aave' | 'Alchemix' | 'Alpha' | 'B.Protocol' | 'Badger' | 'Balancer' | 'Bancor' | 'BarnBridge' | 'Compound' | 'Cover' | 'Cream' | 'Curve' | 'DefiSaver' | 'DerivaDEX' | 'Dhedge' | 'Dodo' | 'Dynamic Set' | 'Empty Set' | 'Futureswap' | 'Harvest' | 'Hegic' | 'Idle' | 'KeeperDAO' | 'Linkswap' | 'Liquity' | 'Loopring' | 'Maker' | 'Mooniswap' | 'Mushroom' | 'Pickle' | 'PoolTogether' | 'Rari Capital' | 'RealT' | 'Reflexer' | 'S.Finance' | 'Saddle' | 'Shell' | 'Smoothy' | 'SnowSwap' | 'Sushiswap' | 'Swerve' | 'Synthetix' | 'TokenSets' | 'Uniswap' | 'Unit' | 'Value' | 'Vesper' | 'Yearn' | 'dForce' | 'dYdX' | 'xSigma' | 'AutoFarm' | 'Ellipsis' | 'Harvest' | 'PancakeSwap' | 'Venus' | 'Aave' | 'Curve' | 'PoolTogether' | 'Quickswap' | 'Synthetix' | 'Synths' | 'Uniswap V1' | 'Uniswap V2'
 
@@ -272,7 +266,7 @@
 												token={symbol}
 												tokenIcon={`https://zapper.fi/images/${img}`}
 												tokenAddress={tokenAddress || address}
-												value={balanceRaw ? formatUnits(balanceRaw, decimals) : balance}
+												value={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
 
 												convertedValue={balanceUSD}
 												conversionCurrency={'USD'}

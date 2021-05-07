@@ -31,7 +31,7 @@
 	let priceScale: PriceScale
 
 
-	import { formatEther, formatUnits } from 'ethers/lib/utils'
+	import { formatEther, formatUnits } from '@ethersproject/units'
 
 	function convertCovalentTransaction(transaction: Covalent.Transaction){
 		return {
