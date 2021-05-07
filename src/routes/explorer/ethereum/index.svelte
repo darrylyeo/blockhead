@@ -52,6 +52,20 @@
 
 <div class="row">
 	<section class="card">
+		<h3>Block Number</h3>
+		<Loader
+			loadingMessage="Retrieving statistics..."
+			fromPromise={() => new Promise(r => $provider.once('block', r))}
+		>
+			<p>
+				<span>The Ethereum blockchain is </span>
+				<strong>{$blockNumber}</strong>
+				<span> blocks long.</span>
+			</p>
+		</Loader>
+	</section>
+
+	<section class="card">
 		<div class="bar">
 			<h3>Current Price</h3>
 			<span class="card-annotation">{$preferredPriceFeedProvider}</span>
@@ -68,20 +82,6 @@
 				<!-- <p>Updated {priceFeed.updatedAt.toString()} -->
 			</Loader>
 		{/key}
-	</section>
-
-	<section class="card">
-		<h3>Block Number</h3>
-		<Loader
-			loadingMessage="Retrieving statistics..."
-			fromPromise={() => new Promise(r => $provider.once('block', r))}
-		>
-			<p>
-				<span>The Ethereum blockchain is </span>
-				<strong>{$blockNumber}</strong>
-				<span> blocks long.</span>
-			</p>
-		</Loader>
 	</section>
 
 	<!-- {#if isMounted}
