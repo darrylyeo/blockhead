@@ -182,6 +182,9 @@
 		pointer-events: none;
 		user-select: none;
 	}
+	.card .card-background > :global(*) {
+		font-size: 13em;
+	}
 
 	.metadata {
 		font-size: 0.8em;
