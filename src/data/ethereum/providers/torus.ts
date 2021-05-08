@@ -17,6 +17,7 @@ export async function getTorusOpenLogin(network: Ethereum.Network){
 	const torusOpenLogin = new OpenLogin({
 		clientId: TORUS_PROJECT_ID,
 		network: networkTypeByChainID[network.chainId],
+		redirectUrl: 'https:/blockhead.info/portfolio',
 		iframeUrl: 'https://beta.openlogin.com',
 		uxMode: 'popup'
 	})
