@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../../../data/ethereum/types'
 	import { getContext } from 'svelte'
-	import { preferredAnalyticsProvider, preferredQuoteCurrency, preferredPriceFeedProvider } from '../../../data/ethereum/preferences'
+	import { preferredAnalyticsProvider, preferredQuoteCurrency, preferredOracleProvider } from '../../../data/ethereum/preferences'
 
 
 	const explorerNetwork = getContext<SvelteStore<Ethereum.Network>>('explorerNetwork')
@@ -51,7 +51,7 @@
 
 	<!-- <section class="card">
 		<OraclePrice
-			oracleProvider={$preferredPriceFeedProvider}
+			oracleProvider={$preferredOracleProvider}
 			token={$explorerNetwork.nativeCurrency.symbol}
 			quoteCurrency={$preferredQuoteCurrency}
 			provider={$explorerProvider}

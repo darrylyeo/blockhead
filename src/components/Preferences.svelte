@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Covalent } from '../data/analytics/covalent'
 	import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '../data/currency/currency'
-	import { preferredAnalyticsProvider, preferredQuoteCurrency, preferredEthereumProvider, preferredPriceFeedProvider } from '../data/ethereum/preferences'
+	import { preferredAnalyticsProvider, preferredQuoteCurrency, preferredEthereumProvider, preferredOracleProvider } from '../data/ethereum/preferences'
 </script>
 
 <style>
@@ -33,7 +33,7 @@
 
 	<!-- <label>
 		<span>Price Feed:</span>
-		<select bind:value={$preferredPriceFeedProvider}>
+		<select bind:value={$preferredOracleProvider}>
 			<option value="Chainlink">Chainlink</option> -->
 			<!-- <option value="Tellor">Tellor</option>
 			<option value="Open Price Feed">Compound Price Feed</option> -->
