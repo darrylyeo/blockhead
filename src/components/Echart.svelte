@@ -29,7 +29,11 @@
 	}
 
 	$: if(chart)
-		chart.setOption(options)
+		try {
+			chart.setOption(options)
+		}catch(e){
+			console.error(e)
+		}
 	
 	import { onDestroy } from 'svelte'
 	onDestroy(() => chart?.dispose())
