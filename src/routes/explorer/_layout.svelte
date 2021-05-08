@@ -46,7 +46,7 @@
 
 	
 	$: if(globalThis.document)
-		document.documentElement.style.setProperty('--primary-color', `var(--${tokenColors[$networkSlug]})`)
+		document.documentElement.style.setProperty('--primary-color', `var(--${tokenColors[$networkSlug] || tokenColors['ethereum']})`)
 
 
 	const query = writable<string>('')
