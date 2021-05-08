@@ -11,7 +11,7 @@
 	export const explorerNetwork = writable<Ethereum.Network>(networksByChainID[chainID])
 	setContext('explorerNetwork', explorerNetwork)
 
-	const provider = getContext<Ethereum.Provider>('ethereumProvider')
+	const provider = getContext<SvelteStore<Ethereum.Provider>>('ethereumProvider')
 	setContext('analyticsProvider', preferredAnalyticsProvider)
 
 	export let segment: string
