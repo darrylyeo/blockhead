@@ -134,7 +134,9 @@
 		<h2><Address {network} {address}/></h2>
 		<span class="card-annotation">Ethereum Account</span>
 	</div>
+
 	<hr>
+
 	<!-- <Balance {provider} {address} /> -->
 	<div class="balances">
 		<EthereumBalances
@@ -174,7 +176,9 @@
 			</div>
 		</EthereumBalances>
 	</div>
+
 	<hr>
+
 	<div class="transactions">
 		{#if $preferredAnalyticsProvider === 'Covalent'}
 			{#if !selectedToken}
@@ -271,31 +275,34 @@
 			{/if}
 		{/if}
 	</div>
-	<hr>
-	<div class="price-chart">
-		<CovalentPriceChart
-			analyticsProvider={$preferredAnalyticsProvider}
-			quoteCurrency={$preferredQuoteCurrency}
-			currencies={
-				selectedToken ? [selectedToken.tokenAddress] :
-				balances ? balances.map(tokenWithBalance => tokenWithBalance.contract_address) :
-				[]
-			}
-			{priceScale}
-		>
-			<svelte:fragment slot="header">
-				<div class="bar">
-					<h3>Chart</h3>
-					<label>
-						<span>Price Scale</span>
-						<select bind:value={priceScale}>
-							<option value="logarithmic">Logarithmic</option>
-							<option value="linear">Linear</option>
-							<option value="linearFromZero">Linear From Zero</option>
-						</select>
-					</label>
-				</div>
-			</svelte:fragment>
-		</CovalentPriceChart>
-	</div>
+
+	{#if balances?.length}
+		<hr>
+		<div class="price-chart">
+			<CovalentPriceChart
+				analyticsProvider={$preferredAnalyticsProvider}
+				quoteCurrency={$preferredQuoteCurrency}
+				currencies={
+					selectedToken ? [selectedToken.tokenAddress] :
+					balances ? balances.map(tokenWithBalance => tokenWithBalance.contract_address) :
+					[]
+				}
+				{priceScale}
+			>
+				<svelte:fragment slot="header">
+					<div class="bar">
+						<h3>Chart</h3>
+						<label>
+							<span>Price Scale</span>
+							<select bind:value={priceScale}>
+								<option value="logarithmic">Logarithmic</option>
+								<option value="linear">Linear</option>
+								<option value="linearFromZero">Linear From Zero</option>
+							</select>
+						</label>
+					</div>
+				</svelte:fragment>
+			</CovalentPriceChart>
+		</div>
+	{/if}
 </div>
