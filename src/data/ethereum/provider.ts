@@ -4,7 +4,7 @@ import { getWeb3 } from './web3'
 import { getMetaMask } from './providers/metamask'
 import { getTorusOpenLogin } from './providers/torus'
 import { getPortis } from './providers/portis'
-import { getPocketNetwork } from './providers/pocket-network'
+// import { getPocketNetwork } from './providers/pocket-network'
 
 type ProviderCache = {
 	// Provider object (e.g. Portis instance)
