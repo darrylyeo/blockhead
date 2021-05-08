@@ -80,7 +80,7 @@
 		grid-column: 1 / -1;
 	}
 	.nft-contracts.scrollable-list {
-		height: 38rem;
+		height: 39.5rem;
 	}
 
 	.nfts {
@@ -152,7 +152,7 @@
 		</svelte:fragment>
 
 		{#if balances}
-			<div class="nft-contracts column scrollable-list">
+			<div class="nft-contracts column" class:scrollable-list={balances?.length > 3}>
 				{#each
 					balances
 					as {balance, contract_name, contract_address, contract_ticker_symbol, logo_url, nft_data, supports_erc},
