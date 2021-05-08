@@ -55,6 +55,10 @@
 	import { goto } from '@sapper/app'
 
 
+	const topNetworks = ['ethereum', 'matic', 'optimism', 'bsc', 'avalanche', 'xdai', 'bitcoin'].map(slug => networksBySlug[slug]||console.log(slug))
+	const otherNetworks = networks.filter(network => !topNetworks.includes(network))
+
+
 	import { fly } from 'svelte/transition'
 	import { tokenColors } from '../../data/token-colors'
 	import Preferences from '../../components/Preferences.svelte'
@@ -77,15 +81,11 @@
 		<label>
 			<span>Blockchain: </span>
 			<select bind:value={$networkSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`explorer/${$networkSlug}${$query ? `/${$query}` : ''}`))}>
-				<option value="ethereum" selected>Ethereum</option>
-				<option value="matic">Polygon/Matic</option>
-				<option value="xdai">xDAI</option>
-				<option value="avalanche">Avalanche</option>
-				<option value="optimism">Optimism</option>
-				<option value="bsc">Binance Smart Chain</option>
-				<option value="bitcoin">Bitcoin</option>
-				<optgroup label="All EVM Chains">
-					{#each networks as {name, slug}}
+				{#each topNetworks as {name, slug}}
+					<option value={slug}>{name}</option>
+				{/each}
+				<optgroup label="Other EVM Chains (beta)">
+					{#each otherNetworks as {name, slug}}
 						<option value={slug}>{name}</option>
 					{/each}
 				</optgroup>
