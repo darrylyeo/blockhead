@@ -2,13 +2,14 @@
 	import type { Ethereum } from '../../../data/ethereum/types'
 	import { getContext, onMount } from 'svelte'
 	import { readable } from 'svelte/store'
-	import { preferredAnalyticsProvider, preferredQuoteCurrency, preferredPriceFeedProvider } from '../../../data/ethereum/preferences'
-	// import { getCompoundPriceFeed } from '.../../../data/ethereum/price/compound-price-feed'
-	import { getChainlinkPriceFeed } from '.../../../data/ethereum/price/chainlink'
+	import { preferredAnalyticsProvider, preferredEthereumProvider, preferredQuoteCurrency, preferredPriceFeedProvider } from '../../../data/ethereum/preferences'
 	import type { PriceScale } from '../../../components/PriceChart.svelte'
 
 
-	const provider = getContext<Ethereum.Provider>('ethereumProvider')
+	const token = 'ETH'
+
+	const network = getContext<SvelteStore<Ethereum.Network>>('ethereumNetwork')
+	const provider = getContext<SvelteStore<Ethereum.Provider>>('ethereumProvider')
 
 	const blockNumber = readable<number>(undefined, set => {
 		$provider.on('block', blockNumber => {
@@ -17,20 +18,12 @@
 	})
 
 
-	$: priceFeedLogo = ({
-		'Chainlink': '/logos/chainlink.svg'
-	})[$preferredPriceFeedProvider]
-
-
 	let priceScale: PriceScale
 
 
 	import Loader from '../../../components/Loader.svelte'
 	import CovalentPriceChart from '../../../components/CovalentPriceChart.svelte'
-	import TokenRate from '../../../components/TokenRate.svelte'
-
-	let isMounted = false
-	onMount(() => isMounted = true)
+	import OraclePrice from '../../../components/OraclePrice.svelte'
 </script>
 
 <style>
@@ -44,15 +37,14 @@
 		flex: 1 20rem;
 		padding: var(--padding-outer);
 	}
-
-	section :global(.token-rate) {
-		font-size: 2em;
-	}
 </style>
 
 <div class="row">
 	<section class="card">
-		<h3>Block Number</h3>
+		<div class="bar">
+			<h3>Block Number</h3>
+			<!-- <span class="card-annotation">{$preferredEthereumProvider}</span> -->
+		</div>
 		<Loader
 			loadingMessage="Retrieving statistics..."
 			fromPromise={() => new Promise(r => $provider.once('block', r))}
@@ -66,39 +58,15 @@
 	</section>
 
 	<section class="card">
-		<div class="bar">
-			<h3>Current Price</h3>
-			<span class="card-annotation">{$preferredPriceFeedProvider}</span>
-		</div>
-		<div class="stack">
-			{#key $blockNumber}
-				<Loader
-					loadingIcon={priceFeedLogo}
-					loadingIconName={$preferredPriceFeedProvider}
-					loadingMessage="Retrieving price from Chainlink..."
-					fromPromise={() => getChainlinkPriceFeed($provider, 'mainnet', 'ETH', $preferredQuoteCurrency)}
-					let:then={priceFeed}
-				>
-					<TokenRate rate={priceFeed.price} quoteToken={$preferredQuoteCurrency} baseToken="ETH" layout="horizontal" />
-					<!-- <p>Updated {priceFeed.updatedAt.toString()} -->
-				</Loader>
-			{/key}
-		</div>
+		<OraclePrice
+			oracleProvider={$preferredPriceFeedProvider}
+			{token}
+			quoteCurrency={$preferredQuoteCurrency}
+			provider={$provider}
+			network={$network}
+			blockNumber={$blockNumber}
+		/>
 	</section>
-
-	<!-- {#if isMounted}
-		{#await getCompoundPriceFeed('ETH', $preferredQuoteCurrency)}
-			<Loading>
-				<img slot="icon" src="/logos/chainlink" alt="Chainlink" width="50">
-				Retrieving price...
-			</Loading>
-		{:then rate}
-			<section class="card">
-				<h3>Current Rate (Chainlink)</h3>
-				<TokenRate {rate} quoteToken={'ETH'} baseToken={$preferredQuoteCurrency} />
-			</section>
-		{/await}
-	{/if} -->
 </div>
 
 <div class="row">

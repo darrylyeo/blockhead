@@ -1,16 +1,16 @@
 <script lang="ts">
-	import { getContext, onMount } from 'svelte'
+	import type { Ethereum } from '../../../data/ethereum/types'
+	import { getContext } from 'svelte'
 	import { preferredQuoteCurrency, preferredPriceFeedProvider } from '../../../data/ethereum/preferences'
-	import { getChainlinkPriceFeed } from '.../../../data/ethereum/price/chainlink'
-	
-	const provider = getContext('provider')
 
-	$: priceFeedLogo = ({
-		'Chainlink': '/logos/chainlink.svg'
-	})[$preferredPriceFeedProvider]
 
-	import Loader from '../../../components/Loader.svelte'
-	import TokenRate from '../../../components/TokenRate.svelte'
+	const token = 'BTC'
+
+	const network = getContext<SvelteStore<Ethereum.Network>>('ethereumNetwork')
+	const provider = getContext<SvelteStore<Ethereum.Provider>>('ethereumProvider')
+
+
+	import OraclePrice from '../../../components/OraclePrice.svelte'
 </script>
 
 <style>
@@ -24,10 +24,6 @@
 		flex: 1 20rem;
 		padding: var(--padding-outer);
 	}
-
-	section :global(.token-rate) {
-		font-size: 2em;
-	}
 </style>
 
 <div class="card">Bitcoin explorer coming soon!</div>
@@ -36,20 +32,12 @@
 
 <div class="row">
 	<section class="card">
-		<div class="bar">
-			<h3>Current Price</h3>
-			<span class="card-annotation">{$preferredPriceFeedProvider}</span>
-		</div>
-		<Loader
-			loadingIcon={priceFeedLogo}
-			loadingIconName={$preferredPriceFeedProvider}
-			loadingMessage="Retrieving price from Chainlink..."
-			errorMessage="Error retrieving price from Chainlink"
-			fromPromise={() => getChainlinkPriceFeed($provider, 'mainnet', 'BTC', $preferredQuoteCurrency)}
-			let:then={priceFeed}
-		>
-			<TokenRate rate={priceFeed.price} quoteToken={$preferredQuoteCurrency} baseToken="BTC" layout="horizontal" />
-			<!-- <p>Updated {priceFeed.updatedAt.toString()} -->
-		</Loader>
+		<OraclePrice
+			oracleProvider={$preferredPriceFeedProvider}
+			{token}
+			quoteCurrency={$preferredQuoteCurrency}
+			provider={$provider}
+			network={$network}
+		/>
 	</section>
 </div>
