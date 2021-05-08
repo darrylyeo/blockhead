@@ -20,21 +20,31 @@
 	// const provider = writable<Ethereum.Provider>(getDefaultProvider('mainnet', {}))
 	// setContext('provider', provider)
 
+
 	import type { Ethereum } from '../data/ethereum/types'
 	import { ethereumChainID, preferredEthereumProvider } from '../data/ethereum/preferences'
 	import { networksByChainID } from '../data/ethereum/networks'
 	import { derived } from 'svelte/store'
 	import { getProvider } from '../data/ethereum/provider'
 	import { onMount, setContext } from 'svelte'
-	const whenMounted = new Promise(r => onMount(r))
-	const provider = derived<[typeof ethereumChainID, typeof preferredEthereumProvider], Ethereum.Provider>(
-		[ethereumChainID, preferredEthereumProvider],
-		// @ts-ignore
-		async ([$ethereumChainID, $preferredEthereumProvider], set) => {
-			await whenMounted
-			set(await getProvider(networksByChainID[$ethereumChainID], $preferredEthereumProvider, 'ethers'))
+
+	const ethereumNetwork = derived<[typeof ethereumChainID], Ethereum.Network>(
+		[ethereumChainID],
+		([$ethereumChainID], set) => {
+			set(networksByChainID[$ethereumChainID])
 		}
 	)
+
+	const whenMounted = new Promise(r => onMount(r))
+	const provider = derived<[typeof ethereumNetwork, typeof preferredEthereumProvider], Ethereum.Provider>(
+		[ethereumNetwork, preferredEthereumProvider],
+		// @ts-ignore
+		async ([$ethereumNetwork, $preferredEthereumProvider], set) => {
+			await whenMounted
+			set(await getProvider($ethereumNetwork, $preferredEthereumProvider, 'ethers'))
+		}
+	)
+	setContext('ethereumNetwork', ethereumNetwork)
 	setContext('ethereumProvider', provider)
 </script>
 
