@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import { getProvider, getProviderInstance } from '../data/ethereum/provider'
+	import { getTorusOpenLogin } from '../data/ethereum/providers/torus'
 	import { getAccountsFromProvider } from '../data/ethereum/portfolio-accounts'
 	import { preferredAnalyticsProvider, preferredQuoteCurrency } from '../data/ethereum/preferences'
 
@@ -26,7 +27,7 @@
 
 
 	const loadTorusProvider = async () => {
-		return await getProvider(network, 'Torus', 'ethers')
+		return (await getTorusOpenLogin(network)).provider
 	}
 	const disconnectTorusProvider = async () => {
 		const torusOpenLogin = await getProviderInstance(network, 'Torus')

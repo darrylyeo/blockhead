@@ -27,8 +27,7 @@ const getProviderAndInstance: Record<Ethereum.ProviderName, (network: Ethereum.N
 	},
 
 	'Torus': async network => {
-		const instance = await getTorusOpenLogin(network)
-		const { provider } = instance
+		const { instance, provider } = await getTorusOpenLogin(network)
 		return { instance, provider }
 	},
 
