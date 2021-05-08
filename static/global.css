@@ -351,10 +351,12 @@ main {
 
 
 .scrollable-list {
-	max-height: 30rem;
+	height: 30rem;
+	max-height: 100%;
 	overflow-y: auto;
 	scroll-snap-type: y proximity;
 	padding-right: var(--padding-inner);
+	resize: vertical;
 }
 .scrollable-list > * {
 	scroll-snap-stop: always;

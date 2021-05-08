@@ -80,7 +80,7 @@
 		grid-column: 1 / -1;
 	}
 	.nft-contracts.scrollable-list {
-		max-height: 38rem;
+		height: 38rem;
 	}
 
 	.nfts {
@@ -93,7 +93,7 @@
 		gap: var(--padding-inner);
 	}
 	.nfts.scrollable-list {
-		max-height: 31rem;
+		height: 31rem;
 	}
 
 	.nft-image {
