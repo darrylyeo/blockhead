@@ -11,7 +11,11 @@ for(const [color, tokenNames] of Object.entries({
 	'tether-teal': ['tether', 'Tether', 'USDT'],
 	'ripple-black': ['ripple', 'Ripple', 'XRP'],
 
-	'avalanche-red': ['avalanche', 'Avalanche', 'AVAX']
+	'polygon-purple': ['matic', 'Matic', 'MATIC', 'polygon', 'Polygon'],
+	'optimism-red': ['optimism', 'Optimism', 'OP', 'OETH', 'oeth', 'op'],
+	'binance-gold': ['BSC', 'Binance Smart Chain', 'bsc', 'BNB', 'bnb'],
+	'avalanche-red': ['avalanche', 'Avalanche', 'AVAX'],
+	'xdai-teal': ['xdai', 'xDAI']
 }))
 	for(const tokenName of tokenNames)
 		tokenColors[tokenName] = color
