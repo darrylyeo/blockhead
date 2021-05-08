@@ -26,7 +26,7 @@
 
 	import { fly } from 'svelte/transition'
 	import { tokenColors } from '../../data/token-colors'
-	import Preferences from '../../components/Preferences.svelte';
+	import Preferences from '../../components/Preferences.svelte'
 </script>
 
 <style>
@@ -56,7 +56,9 @@
 		</label>
 	</div>
 
-	<slot></slot>
+	<div class="stack">
+		<slot />
+	</div>
 </main>
 
 <Preferences />

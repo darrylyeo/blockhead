@@ -42,6 +42,7 @@
 	import AddressField from '../../../components/AddressField.svelte'
 	import Loader from '../../../components/Loader.svelte'
 	import TokenIcon from '../../../components/TokenIcon.svelte'
+	import { fly } from 'svelte/transition'
 </script>
 
 <style>
@@ -54,17 +55,19 @@
 </style>
 
 
-<!-- <AddressField bind:query={$query} on:change={goto(`explorer/${$explorerNetwork.slug}/${query}`)}/> -->
-<form on:submit|preventDefault={() => $query = currentQuery}>
-	<AddressField bind:address={currentQuery} placeholder="C-Chain Address (0xabcd...6789) / Avvy Domain (avvy.avax)" />
-	<button>Go</button>
-</form>
+<section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
+	<!-- <AddressField bind:query={$query} on:change={goto(`explorer/${$explorerNetwork.slug}/${query}`)}/> -->
+	<form on:submit|preventDefault={() => $query = currentQuery}>
+		<AddressField bind:address={currentQuery} placeholder="C-Chain Address (0xabcd...6789) / Avvy Domain (avvy.avax)" />
+		<button>Go</button>
+	</form>
 
-<Loader
-	loadingMessage="Connecting to the {$explorerNetwork.name} blockchain via {$preferredEthereumProvider}..."
-	fromPromise={$explorerProvider && (async () => $explorerProvider)}
->
-	<TokenIcon slot="loadingIcon" token={$explorerNetwork.nativeCurrency.symbol} />
+	<Loader
+		loadingMessage="Connecting to the {$explorerNetwork.name} blockchain via {$preferredEthereumProvider}..."
+		fromPromise={$explorerProvider && (async () => $explorerProvider)}
+	>
+		<TokenIcon slot="loadingIcon" token={$explorerNetwork.nativeCurrency.symbol} />
 
-	<slot />
-</Loader>
+		<slot />
+	</Loader>
+</section>
