@@ -52,7 +52,7 @@
 	/* font-size: 20px;
 	font-size: clamp(15px, 1.1vw, 20px); */
 	font-size: 16px;
-	font-size: clamp(14px, 1.05vw, 19px);
+	font-size: clamp(14px, 1.05vw, 17px);
 	font-family: var(--base-fonts);
 	line-height: 1.5;
 
