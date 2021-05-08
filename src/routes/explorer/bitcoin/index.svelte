@@ -6,8 +6,8 @@
 
 	const token = 'BTC'
 
-	const network = getContext<SvelteStore<Ethereum.Network>>('ethereumNetwork')
-	const provider = getContext<SvelteStore<Ethereum.Provider>>('ethereumProvider')
+	const ethereumNetwork = getContext<SvelteStore<Ethereum.Network>>('ethereumNetwork')
+	const ethereumProvider = getContext<SvelteStore<Ethereum.Provider>>('ethereumProvider')
 
 
 	import OraclePrice from '../../../components/OraclePrice.svelte'
@@ -36,8 +36,8 @@
 			oracleProvider={$preferredPriceFeedProvider}
 			{token}
 			quoteCurrency={$preferredQuoteCurrency}
-			provider={$provider}
-			network={$network}
+			provider={$ethereumProvider}
+			network={$ethereumNetwork}
 		/>
 	</section>
 </div>

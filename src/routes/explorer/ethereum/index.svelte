@@ -1,57 +1,53 @@
 <script lang="ts">
 	import type { Ethereum } from '../../../data/ethereum/types'
-	import { getContext, onMount } from 'svelte'
-	import { readable } from 'svelte/store'
-	import { preferredAnalyticsProvider, preferredEthereumProvider, preferredQuoteCurrency, preferredPriceFeedProvider } from '../../../data/ethereum/preferences'
+	import { getContext } from 'svelte'
+	import { preferredAnalyticsProvider, preferredQuoteCurrency, preferredPriceFeedProvider } from '../../../data/ethereum/preferences'
+
+
+	const explorerNetwork = getContext<SvelteStore<Ethereum.Network>>('explorerNetwork')
+	const explorerProvider = getContext<SvelteStore<Ethereum.Provider>>('explorerProvider')
+	const blockNumber = getContext<SvelteStore<number>>('blockNumber')
+
+
+	const ethereumNetwork = getContext<SvelteStore<Ethereum.Network>>('ethereumNetwork')
+	const ethereumProvider = getContext<SvelteStore<Ethereum.Provider>>('ethereumProvider')
+
+
 	import type { PriceScale } from '../../../components/PriceChart.svelte'
-
-
-	const token = 'ETH'
-
-	const network = getContext<SvelteStore<Ethereum.Network>>('ethereumNetwork')
-	const provider = getContext<SvelteStore<Ethereum.Provider>>('ethereumProvider')
-
-	const blockNumber = readable<number>(undefined, set => {
-		$provider.on('block', blockNumber => {
-			set(blockNumber)
-		})
-	})
-
-
 	let priceScale: PriceScale
 
 
 	import Loader from '../../../components/Loader.svelte'
-	import CovalentPriceChart from '../../../components/CovalentPriceChart.svelte'
+	import EthereumBlockNumber from '../../../components/EthereumBlockNumber.svelte'
 	import OraclePrice from '../../../components/OraclePrice.svelte'
+	import CovalentPriceChart from '../../../components/CovalentPriceChart.svelte'
+	import TokenIcon from '../../../components/TokenIcon.svelte'
 </script>
 
 <style>
 	.row {
-		display: flex;
 		align-items: stretch;
-		flex-wrap: wrap;
-		gap: var(--padding-inner);
 	}
 	.row > * {
 		flex: 1 20rem;
-		padding: var(--padding-outer);
 	}
 </style>
 
 <div class="row">
 	<section class="card">
 		<div class="bar">
-			<h3>Block Number</h3>
+			<h3>Block Height</h3>
 			<!-- <span class="card-annotation">{$preferredEthereumProvider}</span> -->
 		</div>
 		<Loader
 			loadingMessage="Retrieving statistics..."
-			fromPromise={() => new Promise(r => $provider.once('block', r))}
+			fromPromise={() => new Promise(r => $explorerProvider.once('block', r))}
 		>
-			<p>
-				<span>The Ethereum blockchain is </span>
-				<strong>{$blockNumber}</strong>
+			<TokenIcon slot="loadingIcon" token={$explorerNetwork.nativeCurrency.symbol} />
+
+			<p class="centered">
+				<span>The {$explorerNetwork.name} blockchain is </span>
+				<EthereumBlockNumber network={$explorerNetwork} blockNumber={$blockNumber} format="number-only" />
 				<span> blocks long.</span>
 			</p>
 		</Loader>
@@ -60,10 +56,10 @@
 	<section class="card">
 		<OraclePrice
 			oracleProvider={$preferredPriceFeedProvider}
-			{token}
+			token={$explorerNetwork.nativeCurrency.symbol}
 			quoteCurrency={$preferredQuoteCurrency}
-			provider={$provider}
-			network={$network}
+			provider={$ethereumProvider}
+			network={$ethereumNetwork}
 			blockNumber={$blockNumber}
 		/>
 	</section>
@@ -78,7 +74,7 @@
 		<CovalentPriceChart
 			provider={$preferredAnalyticsProvider}
 			quoteCurrency={$preferredQuoteCurrency}
-			currencies={['ETH']}
+			currencies={[$explorerNetwork.nativeCurrency.symbol]}
 			{priceScale}
 		/>
 		<!-- currencies={['ETH', 'BTC', 'CEL', 'USDC', 'USDT', 'DAI', 'UNI', 'BAL', 'AVAX', 'CRV', 'YFI']} -->

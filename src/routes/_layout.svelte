@@ -35,17 +35,12 @@
 		}
 	)
 
-	const whenMounted = new Promise(r => onMount(r))
-	const provider = derived<[typeof ethereumNetwork, typeof preferredEthereumProvider], Ethereum.Provider>(
-		[ethereumNetwork, preferredEthereumProvider],
-		// @ts-ignore
-		async ([$ethereumNetwork, $preferredEthereumProvider], set) => {
-			await whenMounted
-			set(await getProvider($ethereumNetwork, $preferredEthereumProvider, 'ethers'))
-		}
-	)
+	const ethereumProvider = derived<[typeof ethereumNetwork, typeof preferredEthereumProvider], Ethereum.Provider>([ethereumNetwork, preferredEthereumProvider], async ([$ethereumNetwork, $preferredEthereumProvider], set) => {
+		await new Promise(r => onMount(r))
+		set(await getProvider($ethereumNetwork, $preferredEthereumProvider, 'ethers'))
+	})
 	setContext('ethereumNetwork', ethereumNetwork)
-	setContext('ethereumProvider', provider)
+	setContext('ethereumProvider', ethereumProvider)
 </script>
 
 <style>

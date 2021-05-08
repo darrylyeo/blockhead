@@ -1,34 +1,47 @@
 <script lang="ts">
-	import { getContext, setContext } from 'svelte'
-	import { writable } from 'svelte/store'
-	import { goto } from '@sapper/app'
+	import { getContext, onMount, setContext } from 'svelte'
+	import { derived, readable, writable } from 'svelte/store'
 
 	import type { Ethereum } from '../../../data/ethereum/types'
 	import { networksByChainID } from '../../../data/ethereum/networks'
-	import { preferredAnalyticsProvider, preferredEthereumProvider } from '../../../data/ethereum/preferences'
-	
+	import { preferredEthereumProvider } from '../../../data/ethereum/preferences'
+	import { getProvider } from '../../../data/ethereum/provider'
+
+
+	// Network being explored
 	const chainID = 1
-	export const explorerNetwork = writable<Ethereum.Network>(networksByChainID[chainID])
+
+	const explorerNetwork = readable<Ethereum.Network>(networksByChainID[chainID], set => {})
 	setContext('explorerNetwork', explorerNetwork)
 
-	const provider = getContext<SvelteStore<Ethereum.Provider>>('ethereumProvider')
-	setContext('analyticsProvider', preferredAnalyticsProvider)
+	const explorerProvider = derived<[typeof explorerNetwork, typeof preferredEthereumProvider], Ethereum.Provider>([explorerNetwork, preferredEthereumProvider], async ([$explorerNetwork, $preferredEthereumProvider], set) => {
+		await new Promise(r => onMount(r))
+		set(await getProvider($explorerNetwork, $preferredEthereumProvider, 'ethers'))
+	})
+	setContext('explorerProvider', explorerProvider)
+	
+	const blockNumber = derived<typeof explorerProvider, number>(explorerProvider, ($explorerProvider, set) => {
+		const onBlock = blockNumber => set(blockNumber)
+		$explorerProvider.on('block', onBlock)
+		return () => $explorerProvider.off('block', onBlock)
+	})
+	setContext('blockNumber', blockNumber)
 
-	export let segment: string
-	$: console.log('segment', segment)
 
 	export let query = writable<string>('')
 	if(!getContext('query'))
 		setContext('query', query)
 
-	// $: console.log('query changed: ', query)
+	import { goto } from '@sapper/app'
 	$: if(globalThis.document && $query)
-		goto(`explorer/ethereum/${$query}`)
+		goto(`explorer/${$explorerNetwork.slug}/${$query}`)
 
 	$: currentQuery = $query
 
+
 	import AddressField from '../../../components/AddressField.svelte'
-	import Loading from '../../../components/Loading.svelte'
+	import Loader from '../../../components/Loader.svelte'
+	import TokenIcon from '../../../components/TokenIcon.svelte'
 </script>
 
 <style>
@@ -41,19 +54,21 @@
 </style>
 
 <svelte:head>
-	<title>{$query ? `${$query} | ` : ''}Ethereum Explorer | Blockhead</title>
+	<title>{$query ? `${$query} | ` : ''}{$explorerNetwork.name} Explorer | Blockhead</title>
 </svelte:head>
 
 
-<!-- <AddressField bind:query={$query} on:change={goto(`explorer/ethereum/${query}`)}/> -->
+<!-- <AddressField bind:query={$query} on:change={goto(`explorer/${$explorerNetwork.slug}/${query}`)}/> -->
 <form on:submit|preventDefault={() => $query = currentQuery}>
 	<AddressField bind:address={currentQuery}/>
 	<button>Go</button>
 </form>
 
-{#if $provider}
-	<slot></slot>
-	<!-- <slot {provider} {query}></slot> -->
-{:else}
-	<Loading>Connecting to the blockchain via {$preferredEthereumProvider}...</Loading>
-{/if}
+<Loader
+	loadingMessage="Connecting to the {$explorerNetwork.name} blockchain via {$preferredEthereumProvider}..."
+	fromPromise={$explorerProvider && (async () => $explorerProvider)}
+>
+	<TokenIcon slot="loadingIcon" token={$explorerNetwork.nativeCurrency.symbol} />
+
+	<slot />
+</Loader>
