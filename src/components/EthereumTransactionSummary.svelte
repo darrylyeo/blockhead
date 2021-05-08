@@ -20,9 +20,11 @@
 		flex: 0 auto;
 	}
 
-	:global(.block-number) {
+	.transaction :global(.block-number) {
+		display: inline-block;
 		background-color: var(--card-background-color);
-		--padding-outer: 0.5em;
+		padding: 0.2em 0.5em;
+		border-radius: 0.33em;
 	}
 
 	.muted {
