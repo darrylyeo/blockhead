@@ -2044,6 +2044,20 @@ export const networks: Ethereum.Network[] = [
 		"faucets": [],
 		"explorers": [],
 		"infoURL": "https://testnet.wanscan.org"
+	},
+	{
+		"name": "Bitcoin",
+		"chainId": undefined,
+		"shortName": "btc",
+		"slug": "bitcoin",
+		"chain": "BTC",
+		"network": "mainnet",
+		"networkId": undefined,
+		"nativeCurrency": { "name": "Bitcoin", "symbol": "BTC", "decimals": 8 },
+		"rpc": [],
+		"faucets": [],
+		"explorers": [],
+		"infoURL": "https://bitcoin.org"
 	}
 ]
 
