@@ -1,31 +1,10 @@
 <script lang="ts">
-	import { getContext, onMount, setContext } from 'svelte'
-	import { derived, readable } from 'svelte/store'
-
 	import type { Ethereum } from '../../../data/ethereum/types'
-	import { networksByChainID } from '../../../data/ethereum/networks'
-	import { preferredEthereumProvider } from '../../../data/ethereum/preferences'
-	import { getProvider } from '../../../data/ethereum/provider'
+	import { getContext } from 'svelte'
 
-
-	// Network being explored
-	const chainID = 1
-
-	const explorerNetwork = readable<Ethereum.Network>(networksByChainID[chainID], set => {})
-	setContext('explorerNetwork', explorerNetwork)
-
-	const explorerProvider = derived<[typeof explorerNetwork, typeof preferredEthereumProvider], Ethereum.Provider>([explorerNetwork, preferredEthereumProvider], async ([$explorerNetwork, $preferredEthereumProvider], set) => {
-		await new Promise(r => onMount(r))
-		set(await getProvider($explorerNetwork, $preferredEthereumProvider, 'ethers'))
-	})
-	setContext('explorerProvider', explorerProvider)
-	
-	const blockNumber = derived<typeof explorerProvider, number>(explorerProvider, ($explorerProvider, set) => {
-		const onBlock = blockNumber => set(blockNumber)
-		$explorerProvider.on('block', onBlock)
-		return () => $explorerProvider.off('block', onBlock)
-	})
-	setContext('blockNumber', blockNumber)
+	const explorerNetwork = getContext<SvelteStore<Ethereum.Network>>('explorerNetwork')
+	const explorerProvider = getContext<SvelteStore<Ethereum.Provider>>('explorerProvider')
+	const blockNumber = getContext<SvelteStore<number>>('blockNumber')
 
 
 	import type { Writable } from 'svelte/store'
@@ -37,6 +16,9 @@
 		goto(`explorer/${$explorerNetwork.slug}/${$query}`)
 
 	$: currentQuery = $query
+
+
+	import { preferredEthereumProvider } from '../../../data/ethereum/preferences'
 
 
 	import AddressField from '../../../components/AddressField.svelte'
@@ -56,14 +38,13 @@
 
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
-	<!-- <AddressField bind:query={$query} on:change={goto(`explorer/${$explorerNetwork.slug}/${query}`)}/> -->
 	<form on:submit|preventDefault={() => $query = currentQuery}>
 		<AddressField bind:address={currentQuery}/>
 		<button>Go</button>
 	</form>
 
 	<Loader
-		loadingMessage="Connecting to the {$explorerNetwork.name} blockchain via {$preferredEthereumProvider}..."
+		loadingMessage="Connecting to the {$explorerNetwork ? `${$explorerNetwork.name} ` : ''} blockchain via {$preferredEthereumProvider}..."
 		fromPromise={$explorerProvider && (async () => $explorerProvider)}
 	>
 		<TokenIcon slot="loadingIcon" token={$explorerNetwork.nativeCurrency.symbol} />
