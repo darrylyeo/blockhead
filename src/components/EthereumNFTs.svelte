@@ -79,6 +79,9 @@
 	.nft-contract:not(.is-single) {
 		grid-column: 1 / -1;
 	}
+	.nft-contracts.scrollable-list {
+		max-height: 38rem;
+	}
 
 	.nfts {
 		display: grid;
@@ -88,6 +91,9 @@
 
 		--padding-inner: 1.5em;
 		gap: var(--padding-inner);
+	}
+	.nfts.scrollable-list {
+		max-height: 31rem;
 	}
 
 	.nft-image {
@@ -146,7 +152,7 @@
 		</svelte:fragment>
 
 		{#if balances}
-			<div class="nft-contracts column">
+			<div class="nft-contracts column scrollable-list">
 				{#each
 					balances
 					as {balance, contract_name, contract_address, contract_ticker_symbol, logo_url, nft_data, supports_erc},
@@ -180,6 +186,8 @@
 												<a class="bar" href={token_url || external_data?.external_url} target="_blank">
 													{#if external_data.image}
 														<img class="nft-image" src={external_data.image} alt={external_data.name} loading="lazy" />
+													{:else}
+														<img class="nft-image" />
 													{/if}
 												</a>
 												<header class="bar">
