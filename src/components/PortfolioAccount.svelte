@@ -129,11 +129,12 @@
 				<HeightContainer class="column" isOpen={isEditing}>
 					<hr>
 					<div class="bar">
-						<h3>{network.name}</h3>
+						<h3><Address {network} {address}>{network.name}</Address></h3>
 						<span class="card-annotation">#{network.chainId}</span>
 						<button class="small" on:click={() => show = false}>Hide Network</button>
 					</div>
 				</HeightContainer>
+
 				<!-- Token Balances -->
 				{#if showBalances}
 					{#if analyticsProvider === 'Covalent' && Covalent.ChainIDs.includes(network.chainId)}
@@ -149,7 +150,7 @@
 							<svelte:fragment slot="header" let:network let:quoteCurrency let:quoteTotal>
 								<hr>
 								<div class="bar">
-									<h4>{network.name} Balances</h4>
+									<h4><Address {network} {address}>{network.name} Balances</Address></h4>
 									<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
 									{#if isEditing}
 										<button class="small" on:click={() => showBalances = false}>Hide</button>
