@@ -16,10 +16,24 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://ethereum.org"
 	},
 	{
-		"name": "Optimistic Ethereum",
+		"name": "Matic",
+		"chainId": 137,
+		"shortName": "matic",
+		"slug": "matic",
+		"chain": "Matic",
+		"network": "mainnet",
+		"networkId": 137,
+		"nativeCurrency": { "name": "Matic", "symbol": "MATIC", "decimals": 18 },
+		"rpc": ["https://rpc-mainnet.matic.network", "wss://ws-mainnet.matic.network"],
+		"faucets": [],
+		"explorers": [],
+		"infoURL": "https://matic.network/"
+	},
+	{
+		"name": "Optimism",
 		"chainId": 10,
 		"shortName": "oeth",
-		"slug": "optimistic",
+		"slug": "optimism",
 		"chain": "ETH",
 		"network": "mainnet",
 		"networkId": 10,
@@ -30,7 +44,21 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://optimism.io"
 	},
 	{
-		"name": "xDAI Chain",
+		"name": "Avalanche C-Chain",
+		"chainId": 43114,
+		"shortName": "Avalanche",
+		"slug": "avalanche",
+		"chain": "AVAX",
+		"network": "mainnet",
+		"networkId": 1,
+		"nativeCurrency": { "name": "Avalanche", "symbol": "AVAX", "decimals": 18 },
+		"rpc": ["https://api.avax.network/ext/bc/C/rpc"],
+		"faucets": [],
+		"explorers": [],
+		"infoURL": "https://cchain.explorer.avax.network/"
+	},
+	{
+		"name": "xDAI",
 		"chainId": 100,
 		"shortName": "xdai",
 		"slug": "xdai",
@@ -42,6 +70,34 @@ export const networks: Ethereum.Network[] = [
 		"faucets": [],
 		"explorers": [],
 		"infoURL": "https://forum.poa.network/c/xdai-chain"
+	},
+	{
+		"name": "Binance Smart Chain",
+		"chainId": 56,
+		"shortName": "bnb",
+		"slug": "bsc",
+		"chain": "BSC",
+		"network": "mainnet",
+		"networkId": 56,
+		"nativeCurrency": { "name": "Binance Chain Native Token", "symbol": "BNB", "decimals": 18 },
+		"rpc": ["https://bsc-dataseed1.binance.org", "https://bsc-dataseed2.binance.org", "https://bsc-dataseed3.binance.org", "https://bsc-dataseed4.binance.org", "https://bsc-dataseed1.defibit.io", "https://bsc-dataseed2.defibit.io", "https://bsc-dataseed3.defibit.io", "https://bsc-dataseed4.defibit.io", "https://bsc-dataseed1.ninicoin.io", "https://bsc-dataseed2.ninicoin.io", "https://bsc-dataseed3.ninicoin.io", "https://bsc-dataseed4.ninicoin.io", "wss://bsc-ws-node.nariox.org"],
+		"faucets": [],
+		"explorers": [],
+		"infoURL": "https://www.binance.org"
+	},
+	{
+		"name": "Huobi ECO Chain",
+		"chainId": 128,
+		"shortName": "heco",
+		"slug": "heco",
+		"chain": "Heco",
+		"network": "mainnet",
+		"networkId": 128,
+		"nativeCurrency": { "name": "Huobi ECO Chain Native Token", "symbol": "HT", "decimals": 18 },
+		"rpc": ["https://http-mainnet.hecochain.com", "wss://ws-mainnet.hecochain.com"],
+		"faucets": [],
+		"explorers": [],
+		"infoURL": "https://hecoinfo.com"
 	},
 	{
 		"name": "Klaytn Testnet Baobab",
@@ -254,20 +310,6 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://fuse.io/"
 	},
 	{
-		"name": "Huobi ECO Chain",
-		"chainId": 128,
-		"shortName": "heco",
-		"slug": "heco",
-		"chain": "Heco",
-		"network": "mainnet",
-		"networkId": 128,
-		"nativeCurrency": { "name": "Huobi ECO Chain Native Token", "symbol": "HT", "decimals": 18 },
-		"rpc": ["https://http-mainnet.hecochain.com", "wss://ws-mainnet.hecochain.com"],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://hecoinfo.com"
-	},
-	{
 		"name": "Moonbeam Polkadot",
 		"chainId": 1284,
 		"shortName": "mbeam",
@@ -420,20 +462,6 @@ export const networks: Ethereum.Network[] = [
 		"faucets": [],
 		"explorers": [],
 		"infoURL": "https://pepchain.io"
-	},
-	{
-		"name": "Matic",
-		"chainId": 137,
-		"shortName": "matic",
-		"slug": "matic",
-		"chain": "Matic",
-		"network": "mainnet",
-		"networkId": 137,
-		"nativeCurrency": { "name": "Matic", "symbol": "MATIC", "decimals": 18 },
-		"rpc": ["https://rpc-mainnet.matic.network", "wss://ws-mainnet.matic.network"],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://matic.network/"
 	},
 	{
 		"name": "Flare",
@@ -1276,20 +1304,6 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://cchain.explorer.avax-test.network"
 	},
 	{
-		"name": "Avalanche Contract Chain",
-		"chainId": 43114,
-		"shortName": "Avalanche",
-		"slug": "avalanche",
-		"chain": "AVAX",
-		"network": "mainnet",
-		"networkId": 1,
-		"nativeCurrency": { "name": "Avalanche", "symbol": "AVAX", "decimals": 18 },
-		"rpc": ["https://api.avax.network/ext/bc/C/rpc"],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://cchain.explorer.avax.network/"
-	},
-	{
 		"name": "Darwinia Crab Network",
 		"chainId": 44,
 		"shortName": "crab",
@@ -1456,20 +1470,6 @@ export const networks: Ethereum.Network[] = [
 		"faucets": [],
 		"explorers": [],
 		"infoURL": "https://tao.network"
-	},
-	{
-		"name": "Binance Smart Chain",
-		"chainId": 56,
-		"shortName": "bnb",
-		"slug": "bsc",
-		"chain": "BSC",
-		"network": "mainnet",
-		"networkId": 56,
-		"nativeCurrency": { "name": "Binance Chain Native Token", "symbol": "BNB", "decimals": 18 },
-		"rpc": ["https://bsc-dataseed1.binance.org", "https://bsc-dataseed2.binance.org", "https://bsc-dataseed3.binance.org", "https://bsc-dataseed4.binance.org", "https://bsc-dataseed1.defibit.io", "https://bsc-dataseed2.defibit.io", "https://bsc-dataseed3.defibit.io", "https://bsc-dataseed4.defibit.io", "https://bsc-dataseed1.ninicoin.io", "https://bsc-dataseed2.ninicoin.io", "https://bsc-dataseed3.ninicoin.io", "https://bsc-dataseed4.ninicoin.io", "wss://bsc-ws-node.nariox.org"],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://www.binance.org"
 	},
 	{
 		"name": "Wegochain Rubidium",
