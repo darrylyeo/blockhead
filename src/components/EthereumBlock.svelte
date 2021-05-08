@@ -26,7 +26,7 @@
 			loadingIconName={'Covalent'}
 			loadingMessage="Retrieving block data from {analyticsProvider}..."
 			errorMessage="Error retrieving block data from {analyticsProvider}"
-			fromPromise={() => getBlock({blockNumber})}
+			fromPromise={() => getBlock({blockNumber, chainID: network.chainId})}
 			let:then={block}
 		>
 			{#each block.items as blockItem}
