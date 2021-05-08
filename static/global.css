@@ -362,6 +362,8 @@ main {
 	scroll-snap-type: y proximity;
 	padding-right: var(--padding-inner);
 	resize: vertical;
+	grid-auto-rows: min-content;
+	justify-content: start;
 }
 .scrollable-list > * {
 	scroll-snap-stop: always;
