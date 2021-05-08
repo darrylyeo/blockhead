@@ -91,7 +91,7 @@
 			loadingIcon={'/logos/chainlink.svg'}
 			loadingIconName={oracleProvider}
 			loadingMessage="Retrieving price from Chainlink..."
-			fromPromise={() => getChainlinkPriceFeed(provider, network, token, quoteCurrency)}
+			fromPromise={provider && network && (() => getChainlinkPriceFeed(provider, network, token, quoteCurrency))}
 			let:then={priceFeed}
 		>
 			<div class="rate">
