@@ -18,7 +18,7 @@
 </div>
 <Loader
 	loadingMessage="Retrieving statistics..."
-	fromPromise={() => new Promise(r => provider.once('block', r))}
+	fromPromise={provider && (() => new Promise(r => provider.once('block', r)))}
 >
 	<TokenIcon slot="loadingIcon" token={network.nativeCurrency.symbol} />
 
