@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../../data/ethereum/types'
 	import { preferredEthereumProvider } from '../../data/ethereum/preferences'
-	import { networksBySlug } from '../../data/ethereum/networks'
+	import { networks, networksBySlug } from '../../data/ethereum/networks'
 	import { derived, writable } from 'svelte/store'
 	import { onMount, setContext } from 'svelte'
 	import { getProvider } from '../../data/ethereum/provider'
@@ -76,16 +76,20 @@
 		<h1>{$networkSlug ? `${networkDisplayName} Explorer` : `Explorer`}</h1>
 		<label>
 			<span>Blockchain: </span>
-			<!-- <select bind:value={blockchain}> -->
-			<select bind:value={$networkSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`explorer/${$networkSlug}`))}>
-				<option value="bitcoin">Bitcoin</option>
+			<select bind:value={$networkSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`explorer/${$networkSlug}${$query ? `/${$query}` : ''}`))}>
 				<option value="ethereum" selected>Ethereum</option>
 				<option value="matic">Polygon/Matic</option>
 				<option value="xdai">xDAI</option>
 				<option value="avalanche">Avalanche</option>
+				<option value="optimism">Optimism</option>
+				<option value="bsc">Binance Smart Chain</option>
+				<option value="bitcoin">Bitcoin</option>
+				<optgroup label="All EVM Chains">
+					{#each networks as {name, slug}}
+						<option value={slug}>{name}</option>
+					{/each}
+				</optgroup>
 			</select>
-			<!-- <a href="explorer/bitcoin"><button>Bitcoin</button></a>
-			<a href="explorer/ethereum"><button>Ethereum</button></a> -->
 		</label>
 	</div>
 
