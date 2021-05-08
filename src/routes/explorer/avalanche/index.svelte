@@ -17,9 +17,8 @@
 	let priceScale: PriceScale
 
 
-	import Loader from '../../../components/Loader.svelte'
+	import EthereumBlockHeight from '../../../components/EthereumBlockHeight.svelte'
 	import CovalentPriceChart from '../../../components/CovalentPriceChart.svelte'
-	import OraclePrice from '../../../components/OraclePrice.svelte'
 </script>
 
 <style>
@@ -33,20 +32,11 @@
 
 <div class="row">
 	<section class="card">
-		<div class="bar">
-			<h3>Block Number</h3>
-			<!-- <span class="card-annotation">{$preferredEthereumProvider}</span> -->
-		</div>
-		<Loader
-			loadingMessage="Retrieving statistics..."
-			fromPromise={() => new Promise(r => $ethereumProvider.once('block', r))}
-		>
-			<p>
-				<span>The {$explorerNetwork.name} blockchain is </span>
-				<strong>{$blockNumber}</strong>
-				<span> blocks long.</span>
-			</p>
-		</Loader>
+		<EthereumBlockHeight
+			network={$explorerNetwork}
+			provider={$explorerProvider}
+			blockNumber={$blockNumber}
+		/>
 	</section>
 
 	<!-- <section class="card">

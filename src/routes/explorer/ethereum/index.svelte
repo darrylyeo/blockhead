@@ -17,11 +17,9 @@
 	let priceScale: PriceScale
 
 
-	import Loader from '../../../components/Loader.svelte'
-	import EthereumBlockNumber from '../../../components/EthereumBlockNumber.svelte'
+	import EthereumBlockHeight from '../../../components/EthereumBlockHeight.svelte'
 	import OraclePrice from '../../../components/OraclePrice.svelte'
 	import CovalentPriceChart from '../../../components/CovalentPriceChart.svelte'
-	import TokenIcon from '../../../components/TokenIcon.svelte'
 </script>
 
 <style>
@@ -35,22 +33,11 @@
 
 <div class="row">
 	<section class="card">
-		<div class="bar">
-			<h3>Block Height</h3>
-			<!-- <span class="card-annotation">{$preferredEthereumProvider}</span> -->
-		</div>
-		<Loader
-			loadingMessage="Retrieving statistics..."
-			fromPromise={() => new Promise(r => $explorerProvider.once('block', r))}
-		>
-			<TokenIcon slot="loadingIcon" token={$explorerNetwork.nativeCurrency.symbol} />
-
-			<p class="centered">
-				<span>The {$explorerNetwork.name} blockchain is </span>
-				<EthereumBlockNumber network={$explorerNetwork} blockNumber={$blockNumber} format="number-only" />
-				<span> blocks long.</span>
-			</p>
-		</Loader>
+		<EthereumBlockHeight
+			network={$explorerNetwork}
+			provider={$explorerProvider}
+			blockNumber={$blockNumber}
+		/>
 	</section>
 
 	<section class="card">
@@ -77,7 +64,6 @@
 			currencies={[$explorerNetwork.nativeCurrency.symbol]}
 			{priceScale}
 		/>
-		<!-- currencies={['ETH', 'BTC', 'CEL', 'USDC', 'USDT', 'DAI', 'UNI', 'BAL', 'AVAX', 'CRV', 'YFI']} -->
 		<div class="bar">
 			<h4>Show</h4>
 			<label>
