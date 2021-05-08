@@ -53,10 +53,6 @@
 	}
 </style>
 
-<svelte:head>
-	<title>{$query ? `${$query} | ` : ''}{$explorerNetwork.name} Explorer | Blockhead</title>
-</svelte:head>
-
 
 <!-- <AddressField bind:query={$query} on:change={goto(`explorer/${$explorerNetwork.slug}/${query}`)}/> -->
 <form on:submit|preventDefault={() => $query = currentQuery}>

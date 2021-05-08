@@ -37,7 +37,7 @@
 </style>
 
 <svelte:head>
-	<title>{networkSlug ? `${networkDisplayName} Explorer` : `Explorer`} | Blockhead</title>
+	<title>{$query ? `${$query} | ` : ''}{networkSlug ? `${networkDisplayName} Explorer` : `Explorer`} | Blockhead</title>
 </svelte:head>
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
