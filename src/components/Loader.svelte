@@ -15,6 +15,7 @@
 	export let fromStore: <TData = unknown> () => Readable<Result<TData>>
 	export let showIf: (<TData = unknown> (then: TData) => boolean | any) | undefined
 	export let isCollapsed = false
+	export let whenCanceled: (() => Promise<any>) | undefined
 
 	enum LoadingStatus {
 		Idle = 'idle',
@@ -30,22 +31,26 @@
 	let error: unknown
 	$: if(error) console.error(error)
 
-	$: if(startImmediately){
+	let started = startImmediately
+	$: if(started){
 		status = LoadingStatus.Loading
 
 		if(fromPromise)
 			promise = fromPromise()
 		else if(fromStore)
 			store = fromStore()
-		}
-
-	function load(){
-		startImmediately = !startImmediately
-		startImmediately = !startImmediately
 	}
 
-	function cancel(){
+	function load(){
+		started = true
+	}
+
+	async function cancel(){
+		if(whenCanceled)
+			await whenCanceled().catch(console.error)
+
 		status = LoadingStatus.Idle
+		started = startImmediately
 	}
 
 	$: if(promise)
@@ -81,11 +86,13 @@
 </style>
 
 {#if !isHidden}
-	<slot name="header" {status} />
+	<slot name="header" {status} {load} {cancel} />
 
 	<!-- {#if !isCollapsed} -->
 		<HeightContainer class="loader stack" isOpen={!isCollapsed}>
-			{#if status === LoadingStatus.Loading}
+			{#if status === LoadingStatus.Idle}
+				<slot name="idle"></slot>
+			{:else if status === LoadingStatus.Loading}
 				<Loading iconAnimation="hover">
 					<slot name="loadingIcon" slot="icon">
 						<img src={loadingIcon} alt={loadingIconName} width={loadingIconWidth}>
@@ -96,7 +103,7 @@
 				</Loading>
 			{:else if status === LoadingStatus.Resolved}
 				<div class="column" transition:fade>
-					<slot then={result} />
+					<slot then={result} {status} {load} {cancel} />
 				</div>
 			{:else if !hideError && status === LoadingStatus.Errored}
 				<div class="card" transition:scale>
