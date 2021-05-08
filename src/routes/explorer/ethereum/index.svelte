@@ -13,13 +13,9 @@
 	const ethereumProvider = getContext<SvelteStore<Ethereum.Provider>>('ethereumProvider')
 
 
-	import type { PriceScale } from '../../../components/PriceChart.svelte'
-	let priceScale: PriceScale
-
-
 	import EthereumBlockHeight from '../../../components/EthereumBlockHeight.svelte'
 	import OraclePrice from '../../../components/OraclePrice.svelte'
-	import CovalentPriceChart from '../../../components/CovalentPriceChart.svelte'
+	import HistoricalPriceChart from '../../../components/HistoricalPriceChart.svelte'
 </script>
 
 <style>
@@ -54,26 +50,10 @@
 
 <div class="row">
 	<section class="card">
-		<div class="bar">
-			<h3>Historical Price</h3>
-			<span class="card-annotation">{$preferredAnalyticsProvider}</span>
-		</div>
-		<CovalentPriceChart
-			provider={$preferredAnalyticsProvider}
-			quoteCurrency={$preferredQuoteCurrency}
+		<HistoricalPriceChart
+			analyticsProvider={$preferredAnalyticsProvider}
 			currencies={[$explorerNetwork.nativeCurrency.symbol]}
-			{priceScale}
+			quoteCurrency={$preferredQuoteCurrency}
 		/>
-		<div class="bar">
-			<h4>Show</h4>
-			<label>
-				<span>Price Scale</span>
-				<select bind:value={priceScale}>
-					<option value="logarithmic">Logarithmic</option>
-					<option value="linear">Linear</option>
-					<option value="linearFromZero">Linear From Zero</option>
-				</select>
-			</label>
-		</div>
 	</section>
 </div>

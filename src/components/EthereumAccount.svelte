@@ -274,7 +274,7 @@
 	<hr>
 	<div class="price-chart">
 		<CovalentPriceChart
-			provider={$preferredAnalyticsProvider}
+			analyticsProvider={$preferredAnalyticsProvider}
 			quoteCurrency={$preferredQuoteCurrency}
 			currencies={
 				selectedToken ? [selectedToken.tokenAddress] :

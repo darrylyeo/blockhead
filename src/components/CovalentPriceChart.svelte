@@ -6,7 +6,7 @@
 	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
 	import type { PriceScale } from './PriceChart.svelte'
 	
-	export let provider: AnalyticsProvider
+	export let analyticsProvider: AnalyticsProvider
 	export let currencies: (TickerSymbol | Ethereum.ContractAddress)[]
 	export let chainID: Ethereum.ChainID = 1
 	export let quoteCurrency: QuoteCurrency
@@ -22,14 +22,14 @@
 
 	$: historicalPriceLogo = ({
 		'Covalent': '/logos/covalent-logomark.svg'
-	})[provider]
+	})[analyticsProvider]
 
 
 	import Loader from './Loader.svelte'
 	import PriceChart from './PriceChart.svelte'
 </script>
 
-{#if provider === 'Covalent' && currencies}
+{#if analyticsProvider === 'Covalent' && currencies}
 	<Loader
 		fromPromise={
 			() => Promise.all(
@@ -52,7 +52,7 @@
 		}
 
 		loadingIcon={historicalPriceLogo}
-		loadingIconName={provider}
+		loadingIconName={analyticsProvider}
 		loadingMessage="Retrieving price history..."
 		let:then={data}
 	>
