@@ -98,6 +98,7 @@
 				<TokenValue
 					value={1}
 					{token}
+					tween={false}
 				/>
 				=
 				<TokenValue

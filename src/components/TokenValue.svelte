@@ -20,14 +20,16 @@
 
 	$: isNegative = value < 0
 
+	export let tween = true
+
 
 	import { formatValue } from '../utils/format-value'
 
 
 	import { tweened } from 'svelte/motion'
 	const tweenedValue = tweened(0, {
-		duration: 1000,
-		delay: 1,
+		duration: tween ? 1000 : 0,
+		delay: tween ? 1 : 0,
 		easing: quintOut,
 		interpolate: (from, to) => t => {
 			const logFrom = from ? Math.log10(from) : -showDecimalPlaces - 1
