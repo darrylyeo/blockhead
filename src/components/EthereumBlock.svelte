@@ -15,7 +15,7 @@
 
 <div class="card">
 	<div class="bar">
-        <h2><EthereumBlockNumber {network} {blockNumber}/></h2>
+        <h2><EthereumBlockNumber {network} {blockNumber}>Block #{blockNumber}</EthereumBlockNumber></h2>
 		<span class="card-annotation">Ethereum Block</span>
 	</div>
 
