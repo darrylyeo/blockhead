@@ -164,7 +164,7 @@
 			</svelte:fragment>
 
 			<div slot="idle" class="card">
-				<img src="/logos/torus-logo.svg" alt="Torus" width="180">
+				<img src="/logos/torus-logo-color.svg" alt="Torus" width="180">
 				<p>Create or import a wallet address by connecting a Tor.us OpenLogin account.</p>
 				<small>Supports: email address, Google, Facebook, Twitter, Discord, LINE, Apple ID, GitHub, Twitch, LinkedIn, WeChat, KakaoTalk</small>
 			</div>
