@@ -13,7 +13,7 @@
 	import type { AnalyticsProvider } from '../../../data/analytics/provider'
 
 	const explorerNetwork: Writable<Ethereum.Network> = getContext('explorerNetwork')
-	const provider: Writable<Ethereum.Provider> = getContext('provider')
+	const provider: Writable<Ethereum.Provider> = getContext('ethereumProvider')
 	const analyticsProvider: Writable<AnalyticsProvider> = getContext('analyticsProvider')
 
 	export let query: Writable<string> = getContext('query')
