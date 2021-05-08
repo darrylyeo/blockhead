@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../../../data/ethereum/types'
 	import { getContext } from 'svelte'
-	import { preferredQuoteCurrency, preferredOracleProvider } from '../../../data/ethereum/preferences'
+	import { preferredQuoteCurrency, preferredOracleProvider, preferredAnalyticsProvider } from '../../../data/ethereum/preferences'
 
 
 	const token = 'BTC'
@@ -11,6 +11,7 @@
 
 
 	import OraclePrice from '../../../components/OraclePrice.svelte'
+	import HistoricalPriceChart from '../../../components/HistoricalPriceChart.svelte'
 </script>
 
 <style>
@@ -38,6 +39,16 @@
 			quoteCurrency={$preferredQuoteCurrency}
 			provider={$ethereumProvider}
 			network={$ethereumNetwork}
+		/>
+	</section>
+</div>
+
+<div class="row">
+	<section class="card">
+		<HistoricalPriceChart
+			analyticsProvider={$preferredAnalyticsProvider}
+			currencies={[token]}
+			quoteCurrency={$preferredQuoteCurrency}
 		/>
 	</section>
 </div>
