@@ -23,9 +23,11 @@ export async function getTorusOpenLogin(network: Ethereum.Network){
 
 	await torusOpenLogin.init()
 
-	const privateKey = await torusOpenLogin.login({
-		display: 'popup'
-	})
+	if(!torusOpenLogin.privKey){
+		const privKey = await torusOpenLogin.login({
+			display: 'popup'
+		})
+	}
 	console.log(torusOpenLogin)
 
 	return torusOpenLogin
