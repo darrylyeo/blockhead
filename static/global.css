@@ -23,6 +23,7 @@
 
 	--portis-blue: #6db2d8;
 	--metamask-orange: #e27625;
+	--torus-blue: #0364ff;
 	
 	--primary-color: var(--ethereum-blue); /* #6790e1; */
 	/* --card-background-color: rgba(0, 0, 0, 0.075);
@@ -237,6 +238,11 @@ dl {
 dt {
 	font-weight: bold;
 	text-align: right;
+}
+
+
+iframe {
+	border: none;
 }
 
 

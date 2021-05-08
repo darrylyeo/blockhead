@@ -25,6 +25,15 @@
 	}
 
 
+	const loadTorusProvider = async () => {
+		return await getProvider(network, 'Torus', 'ethers')
+	}
+	const disconnectTorusProvider = async () => {
+		const torusOpenLogin = await getProviderInstance(network, 'Torus')
+		torusOpenLogin.logout()
+	}
+
+
 	const loadPortisProvider = async () => {
 		return await getProvider(network, 'Portis', 'ethers')
 		// await portis.showPortis()
@@ -51,6 +60,20 @@
 		height: 1.1em;
 		vertical-align: -0.2em;
 		/* filter: brightness(300%); */
+	}
+
+	.torus {
+		--primary-color: var(--torus-blue);
+	}
+	.torus-logo {
+		height: 0.75em;
+		vertical-align: -0.025em;
+	}
+	:global(#openlogin-modal) {
+		max-width: 410px;
+		max-height: 650px;
+		margin: auto;
+		border-radius: 1rem;
 	}
 
 	.portis {
@@ -112,8 +135,58 @@
 			</Portfolio>
 
 			<svelte:fragment slot="errorActions">
-				<button on:click={load}>Try Again</button>
-				<button on:click={cancel}>Cancel</button>
+				<button class="medium" on:click={load}>Try Again</button>
+				<button class="medium" on:click={cancel}>Cancel</button>
+			</svelte:fragment>
+		</Loader>
+	</div>
+
+	<div class="torus column">
+		<Loader
+			loadingIcon={'/logos/torus-icon.svg'}
+			loadingIconName={'Torus'}
+			loadingMessage="Log into Torus via the pop-up window."
+			errorMessage="We couldn't connect your Tor.us Account."
+			startImmediately={false}
+			let:load fromPromise={() => loadTorusProvider().then(getAccountsFromProvider)}
+			let:then={accounts}
+			let:cancel whenCanceled={disconnectTorusProvider}
+		>
+			<svelte:fragment slot="header" let:status>
+				{#if status !== 'resolved'}
+					<div class="bar">
+						<h1><img src="/logos/torus-logo.svg" alt="Torus" class="torus-logo"> Wallet</h1>
+						{#if status === 'idle'}
+							<button on:click={load}>Connect</button>
+						{/if}
+					</div>
+				{/if}
+			</svelte:fragment>
+
+			<div slot="idle" class="card">
+				<img src="/logos/torus-logo.svg" alt="Torus" width="180">
+				<p>Create or import a wallet address by connecting a Tor.us OpenLogin account.</p>
+				<small>Supports: email address, Google, Facebook, Twitter, Discord, LINE, Apple ID, GitHub, Twitch, LinkedIn, WeChat, KakaoTalk</small>
+			</div>
+
+			<Portfolio
+				name="Torus Wallet"
+				provider={portfolioProvider}
+				analyticsProvider={$preferredAnalyticsProvider}
+				quoteCurrency={$preferredQuoteCurrency}
+				{accounts}
+			>
+				<h1 slot="title"><img src="/logos/torus-logo.svg" alt="Torus" class="torus-logo"> Wallet</h1>
+
+				<div slot="actions" class="row">
+					<!-- <button on:click={() => addToPortfolio(accounts[0])}>Add to...</button> -->
+					<button on:click={cancel}>Disconnect</button>
+				</div>
+			</Portfolio>
+
+			<svelte:fragment slot="errorActions">
+				<button class="medium" on:click={load}>Try Again</button>
+				<button class="medium" on:click={cancel}>Cancel</button>
 			</svelte:fragment>
 		</Loader>
 	</div>
@@ -161,8 +234,8 @@
 			</Portfolio>
 
 			<svelte:fragment slot="errorActions">
-				<button on:click={load}>Try Again</button>
-				<button on:click={cancel}>Cancel</button>
+				<button class="medium" on:click={load}>Try Again</button>
+				<button class="medium" on:click={cancel}>Cancel</button>
 			</svelte:fragment>
 		</Loader>
 	</div>

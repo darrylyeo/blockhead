@@ -29,7 +29,8 @@ export default {
 				'process.browser': true,
 				'process.env.NODE_ENV': JSON.stringify(mode),
 				exclude: [
-					'node_modules/@pokt-network/**'
+					'node_modules/@pokt-network/**',
+					'node_modules/@toruslabs/**'
 				]
 			}),
 			json(),
@@ -80,7 +81,8 @@ export default {
 				'process.browser': true,
 				'process.env.NODE_ENV': JSON.stringify(mode),
 				exclude: [
-					'node_modules/@pokt-network/**'
+					'node_modules/@pokt-network/**',
+					'node_modules/@toruslabs/**'
 				]
 			}),
 			json(),
@@ -111,7 +113,8 @@ export default {
 				'process.browser': true,
 				'process.env.NODE_ENV': JSON.stringify(mode),
 				exclude: [
-					'node_modules/@pokt-network/**'
+					'node_modules/@pokt-network/**',
+					'node_modules/@toruslabs/**'
 				]
 			}),
 			commonjs(),

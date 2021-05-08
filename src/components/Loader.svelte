@@ -47,7 +47,7 @@
 
 	async function cancel(){
 		if(whenCanceled)
-			await whenCanceled()
+			await whenCanceled().catch(console.error)
 
 		status = LoadingStatus.Idle
 		started = startImmediately

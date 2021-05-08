@@ -2,6 +2,7 @@ import type { Ethereum } from './types'
 import { providers } from 'ethers'
 import { getWeb3 } from './web3'
 import { getMetaMask } from './providers/metamask'
+import { getTorusOpenLogin } from './providers/torus'
 import { getPortis } from './providers/portis'
 import { getPocketNetwork } from './providers/pocket-network'
 
@@ -23,6 +24,12 @@ const getProviderAndInstance: Record<Ethereum.ProviderName, (network: Ethereum.N
 	'MetaMask': async network => {
 		const instance = await getMetaMask(network)
 		return { instance, provider: instance }
+	},
+
+	'Torus': async network => {
+		const instance = await getTorusOpenLogin(network)
+		const { provider } = instance
+		return { instance, provider }
 	},
 
 	'Portis': async network => {
