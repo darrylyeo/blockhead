@@ -210,7 +210,8 @@
 											</article>
 										{/each}
 									{:else}
-										<div class="nft" title={`${contract_name ? `${contract_name} ` : ''}#${token_id}`}>
+										<div class="nft column" title={`${contract_name ? `${contract_name} ` : ''}#${token_id}`}>
+											<div class="nft-image" />
 											<span class="card-annotation token-id">#{token_id}</span>
 										</div>
 									{/if}
