@@ -153,7 +153,7 @@
 					i (contract_address || contract_ticker_symbol || contract_name)
 				}
 					<div class="nft-contract card column"
-						class:is-single={nft_data?.length <= 1}
+						class:is-single={nft_data ? nft_data.length <= 1 : true}
 						animate:flip|local={{duration: 500, delay: Math.abs(i) * 10, easing: quintOut}}
 					>
 						<div class="bar">
