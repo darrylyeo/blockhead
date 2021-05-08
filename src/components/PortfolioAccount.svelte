@@ -6,6 +6,7 @@
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import { networksByChainID } from '../data/ethereum/networks'
 	import { Covalent } from '../data/analytics/covalent'
+	import { getDefaultProvider } from '@ethersproject/providers'
 
 
 	// Balances view options
@@ -28,7 +29,24 @@
 	export let nickname: string
 
 
-	$: address = type === AccountType.Address ? addressOrENSName : addressOrENSName // await ens.name(addressOrENSName).getAddress()
+	let address
+	let ensName
+	// import ENS, { getEnsAddress } from '@ensdomains/ensjs'
+	// const ens = new ENS({ provider, ensAddress: getEnsAddress('1') })
+	$: if(type === AccountType.Address){
+		address = addressOrENSName
+		getDefaultProvider().lookupAddress(address).then(_ => ensName = _)
+		// provider.lookupAddress(address).then(_ => ensName = _)
+		// ens.getName(address).then(async name => {
+		// 	if(address === await ens.name(name).getAddress())
+		// 		ensName = name 
+		// })
+	}else{
+		ensName = addressOrENSName
+		getDefaultProvider().resolveName(addressOrENSName).then(_ => address = _)
+		// provider.resolveName(addressOrENSName).then(_ => address = _)
+		// ens.name(addressOrENSName).getAddress().then(_ => address = _)
+	}
 
 
 	// Computed Values
@@ -82,14 +100,22 @@
 
 <div class="account column-block" class:is-editing={isEditing}>
 	<div class="bar">
-		{#if nickname}
-			<div class="row-inline">
+		<div class="row-inline">
+			{#if nickname}
 				<h3>{nickname}</h3>
 				<small><Address network={networksByChainID[1]} {address} /></small>
-			</div>
-		{:else}
-			<h3><Address network={networksByChainID[1]} {address} /></h3>
-		{/if}
+			{:else if type === AccountType.ENS}
+				<h3><Address network={networksByChainID[1]} address={ensName} /></h3>
+				{#if address}
+					<small><Address network={networksByChainID[1]} {address} /></small>
+				{/if}
+			{:else}
+				<h3><Address network={networksByChainID[1]} {address} /></h3>
+				{#if ensName}
+					<small><Address network={networksByChainID[1]} address={ensName} /></small>
+				{/if}
+			{/if}
+		</div>
 		{#if quoteTotals.length}
 			<span class="account-total-value">
 				<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
