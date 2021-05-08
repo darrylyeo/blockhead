@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getContext, onMount, setContext } from 'svelte'
-	import { derived, readable, writable } from 'svelte/store'
+	import { derived, readable } from 'svelte/store'
 
 	import type { Ethereum } from '../../../data/ethereum/types'
 	import { networksByChainID } from '../../../data/ethereum/networks'
@@ -28,9 +28,9 @@
 	setContext('blockNumber', blockNumber)
 
 
-	export let query = writable<string>('')
-	if(!getContext('query'))
-		setContext('query', query)
+	import type { Writable } from 'svelte/store'
+
+	const query = getContext<Writable<string>>('query')
 
 	import { goto } from '@sapper/app'
 	$: if(globalThis.document && $query)

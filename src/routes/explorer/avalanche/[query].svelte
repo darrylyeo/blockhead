@@ -18,11 +18,13 @@
 	$: analyticsProvider = $preferredAnalyticsProvider
 
 	
-	export let query: SvelteStore<string> = getContext('query')
-		
+	import type { Writable } from 'svelte/store'
+
+	export let query = getContext<Writable<string>>('query')
+
 	export let initialQuery: string
 	$: if(initialQuery)
-		query.set(initialQuery)
+		$query = initialQuery
 
 
 	const isAddress = query => /^0x[0-9a-f]{40}$/i.test(query)

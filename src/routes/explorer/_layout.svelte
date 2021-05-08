@@ -15,6 +15,12 @@
 		document.documentElement.style.setProperty('--primary-color', `var(--${tokenColors[networkSlug]})`)
 
 
+	import { writable } from 'svelte/store'
+	import { setContext } from 'svelte'
+
+	const query = writable<string>('')
+	setContext('query', query)
+
 	import { goto } from '@sapper/app'
 
 
