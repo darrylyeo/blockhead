@@ -7,6 +7,11 @@
 	import { getProvider } from '../../data/ethereum/provider'
 
 
+	const topNetworks = ['ethereum', 'matic', 'bsc', 'avalanche', 'xdai', 'optimism', 'fantom', 'bitcoin'].map(slug => networksBySlug[slug])
+	const topTestNetworks = ['ethereum-kovan', 'ethereum-rinkeby', 'ethereum-ropsten', 'ethereum-goerli', 'matic-mumbai', 'bsc-testnet', 'avalanche-fuji', 'optimistic-goerli', 'optimistic-kovan'].map(slug => networksBySlug[slug])
+	const otherNetworks = networks.filter(network => !topNetworks.includes(network) && !topTestNetworks.includes(network))
+
+
 	export let segment: string
 	$: console.log('Explorer segment', segment)
 	
@@ -54,11 +59,6 @@
 
 	import { goto } from '@sapper/app'
 
-
-	const topNetworks = ['ethereum', 'matic', 'bsc', 'avalanche', 'xdai', 'optimism', 'fantom', 'bitcoin'].map(slug => networksBySlug[slug]||console.log(slug))
-	const otherNetworks = networks.filter(network => !topNetworks.includes(network))
-
-
 	import { fly } from 'svelte/transition'
 	import { tokenColors } from '../../data/token-colors'
 	import Preferences from '../../components/Preferences.svelte'
@@ -84,9 +84,14 @@
 				{#each topNetworks as {name, slug}}
 					<option value={slug}>{name}</option>
 				{/each}
-				<optgroup label="Other EVM Chains (beta)">
-					{#each otherNetworks as {name, slug}}
-						<option value={slug}>{name}</option>
+				<optgroup label="Testnets">
+					{#each topTestNetworks as {name, slug, chainId}}
+						<option value={slug}>{name} ({chainId})</option>
+					{/each}
+				</optgroup>
+				<optgroup label="Other EVM Chains">
+					{#each otherNetworks as {name, slug, chainId}}
+						<option value={slug}>{name} ({chainId})</option>
 					{/each}
 				</optgroup>
 			</select>
