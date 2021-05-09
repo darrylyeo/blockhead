@@ -215,7 +215,7 @@
 						</div>
 					</svelte:fragment>
 
-					<div class="transactions-list column scrollable-list">
+					<div class="transactions-list column" class:scrollable-list={transactions.items.length > 7}>
 						{#each transactions.items as transaction}
 							<EthereumTransaction
 								{network}
@@ -264,16 +264,18 @@
 						</div>
 					</svelte:fragment>
 
-					{#each transactions.items as transaction}
-						<EthereumTransaction
-							{network}
-							contextualAddress={address}
-							{detailLevel}
-							{showValues}
-							{showFees}
-							{...convertCovalentERC20TokenTransaction(transaction)}
-						/>
-					{/each}
+					<div class="transactions-list column" class:scrollable-list={transactions.items.length > 7}>
+						{#each transactions.items as transaction}
+							<EthereumTransaction
+								{network}
+								contextualAddress={address}
+								{detailLevel}
+								{showValues}
+								{showFees}
+								{...convertCovalentERC20TokenTransaction(transaction)}
+							/>
+						{/each}
+					</div>
 				</Loader>
 			{/if}
 		{/if}
