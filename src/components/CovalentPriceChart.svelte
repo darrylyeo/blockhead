@@ -25,6 +25,14 @@
 	})[analyticsProvider]
 
 
+	const PromiseAllFulfilled = promises =>
+		Promise.allSettled(promises).then(results =>
+			Object.values(results)
+				.filter(({status}) => status === 'fulfilled')
+				.map(({value}) => value)
+		)
+
+
 	import Loader from './Loader.svelte'
 	import PriceChart from './PriceChart.svelte'
 </script>
@@ -32,7 +40,7 @@
 {#if analyticsProvider === 'Covalent' && currencies}
 	<Loader
 		fromPromise={
-			() => Promise.all(
+			() => PromiseAllFulfilled(
 				currencies.map(async currency => {
 					if(currency.toLowerCase() === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
 						currency = 'ETH'
