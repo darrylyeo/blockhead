@@ -121,7 +121,7 @@
 			{/if}
 		</svelte:fragment>
 
-		<div class:scrollable-list={balances.length > 30}>
+		<div class:scrollable-list={balances.length > 45}>
 			<div class="ethereum-balances card" class:show-amounts-and-values={showValues === 'both'}>
 				{#each
 					balances
