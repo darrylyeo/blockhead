@@ -242,7 +242,7 @@
 						<div class="bar">
 							<h3>
 								{selectedToken.tokenName}
-								(<TokenName token={selectedToken.token} tokenAddress={selectedToken.tokenAddress} tokenIcon={selectedToken.tokenIcon} />)
+								(<TokenName tokenName={selectedToken.tokenName} token={selectedToken.token} tokenAddress={selectedToken.tokenAddress} tokenIcon={selectedToken.tokenIcon} />)
 								Transactions
 								{#if status === 'resolved'}({transactions.items.length}){/if}
 							</h3>
