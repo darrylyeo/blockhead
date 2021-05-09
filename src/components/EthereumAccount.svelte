@@ -120,12 +120,12 @@
 		font-size: 1.1em;
 	} */
 
-	.price-chart {
+	.ethereum-account {
 		--echart-height: 20rem;
 	}
 </style>
 
-<div class="card">
+<div class="ethereum-account card">
 	<div class="bar">
 		<h2><Address {network} {address}/></h2>
 		<span class="card-annotation">Ethereum Account</span>
@@ -280,33 +280,32 @@
 	{/if}
 
 	{#if balances?.length}
-		<hr>
-		<div class="price-chart">
-			<CovalentPriceChart
-				analyticsProvider={$preferredAnalyticsProvider}
-				quoteCurrency={$preferredQuoteCurrency}
-				chainID={network.chainId}
-				currencies={
-					selectedToken ? [selectedToken.tokenAddress] :
-					balances ? balances.map(tokenWithBalance => tokenWithBalance.contract_address) :
-					[]
-				}
-				{priceScale}
-			>
-				<svelte:fragment slot="header">
-					<div class="bar">
-						<h3>Chart</h3>
-						<label>
-							<span>Price Scale</span>
-							<select bind:value={priceScale}>
-								<option value="logarithmic">Logarithmic</option>
-								<option value="linear">Linear</option>
-								<option value="linearFromZero">Linear From Zero</option>
-							</select>
-						</label>
-					</div>
-				</svelte:fragment>
-			</CovalentPriceChart>
-		</div>
+		<CovalentPriceChart
+			analyticsProvider={$preferredAnalyticsProvider}
+			quoteCurrency={$preferredQuoteCurrency}
+			chainID={network.chainId}
+			currencies={
+				selectedToken ? [selectedToken.tokenAddress] :
+				balances ? balances.map(tokenWithBalance => tokenWithBalance.contract_address) :
+				[]
+			}
+			{priceScale}
+		>
+			<svelte:fragment slot="header">
+				<hr>
+
+				<div class="bar">
+					<h3>Chart</h3>
+					<label>
+						<span>Price Scale</span>
+						<select bind:value={priceScale}>
+							<option value="logarithmic">Logarithmic</option>
+							<option value="linear">Linear</option>
+							<option value="linearFromZero">Linear From Zero</option>
+						</select>
+					</label>
+				</div>
+			</svelte:fragment>
+		</CovalentPriceChart>
 	{/if}
 </div>
