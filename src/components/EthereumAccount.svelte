@@ -285,6 +285,7 @@
 			<CovalentPriceChart
 				analyticsProvider={$preferredAnalyticsProvider}
 				quoteCurrency={$preferredQuoteCurrency}
+				chainID={network.chainId}
 				currencies={
 					selectedToken ? [selectedToken.tokenAddress] :
 					balances ? balances.map(tokenWithBalance => tokenWithBalance.contract_address) :
