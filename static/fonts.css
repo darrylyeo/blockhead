@@ -110,3 +110,54 @@
 	font-weight: 700;
 	font-style: normal;
 }
+
+
+@font-face {
+	font-family: 'Pally';
+	src: url('./Pally-Variable.ttf') format('truetype');
+	font-weight: 300;
+	font-style: normal;
+	font-variation-settings: 'wght' 300 'ordn' 0;
+}
+@font-face {
+	font-family: 'Pally';
+	src: url('./Pally-Variable.ttf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+	font-variation-settings: 'wght' 400 'ordn' 0;
+}
+@font-face {
+	font-family: 'Pally';
+	src: url('./Pally-Variable.ttf') format('truetype');
+	font-weight: 500;
+	font-style: normal;
+	font-variation-settings: 'wght' 500 'ordn' 0;
+}
+@font-face {
+	font-family: 'Pally';
+	src: url('./Pally-Variable.ttf') format('truetype');
+	font-weight: 600;
+	font-style: normal;
+	font-variation-settings: 'wght' 600 'ordn' 0;
+}
+@font-face {
+	font-family: 'Pally';
+	src: url('./Pally-Variable.ttf') format('truetype');
+	font-weight: 700;
+	font-style: normal;
+	font-variation-settings: 'wght' 700 'ordn' 0;
+}
+@font-face {
+	font-family: 'Pally';
+	src: url('./Pally-Variable.ttf') format('truetype');
+	font-weight: 800;
+	font-style: normal;
+	font-variation-settings: 'wght' 800 'ordn' 0;
+}
+@font-face {
+	font-family: 'Pally';
+	src: url('./Pally-Variable.ttf') format('truetype');
+	font-weight: 900;
+	font-style: normal;
+	font-variation-settings: 'wght' 900 'ordn' 0;
+}

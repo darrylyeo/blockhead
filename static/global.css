@@ -381,10 +381,14 @@ main {
 
 .logo {
 	font-weight: 600;
-	/* text-transform: uppercase; */
-	font-variant: all-small-caps;
-	letter-spacing: 0.15ch;
-	line-height: 1;
+	text-transform: uppercase;
+	/* font-variant: all-small-caps; */
+	letter-spacing: 0.175ch;
+	/* line-height: 1; */
+
+	font-family: Pally, var(--base-fonts);
+	letter-spacing: 0.225ch;
+	font-weight: 900;
 }
 /* .logo {
 	font-size: 1em;
