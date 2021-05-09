@@ -365,6 +365,7 @@ main {
 	resize: vertical;
 	grid-auto-rows: min-content;
 	justify-content: start;
+	contain: strict;
 }
 .scrollable-list > * {
 	scroll-snap-stop: always;
