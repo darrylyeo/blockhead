@@ -55,7 +55,7 @@
 	import { goto } from '@sapper/app'
 
 
-	const topNetworks = ['ethereum', 'matic', 'optimism', 'bsc', 'avalanche', 'xdai', 'bitcoin'].map(slug => networksBySlug[slug]||console.log(slug))
+	const topNetworks = ['ethereum', 'matic', 'optimism', 'bsc', 'avalanche', 'xdai', 'fantom', 'bitcoin'].map(slug => networksBySlug[slug]||console.log(slug))
 	const otherNetworks = networks.filter(network => !topNetworks.includes(network))
 
 

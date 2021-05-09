@@ -86,6 +86,20 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.binance.org"
 	},
 	{
+		"name": "Fantom Opera",
+		"chainId": 250,
+		"shortName": "ftm",
+		"slug": "fantom",
+		"chain": "FTM",
+		"network": "mainnet",
+		"networkId": 250,
+		"nativeCurrency": { "name": "Fantom", "symbol": "FTM", "decimals": 18 },
+		"rpc": ["https://rpc.fantom.network", "https://fantomscan.io/rpc"],
+		"faucets": [],
+		"explorers": [],
+		"infoURL": "https://fantom.foundation"
+	},
+	{
 		"name": "Huobi ECO Chain",
 		"chainId": 128,
 		"shortName": "heco",
@@ -938,20 +952,6 @@ export const networks: Ethereum.Network[] = [
 		"faucets": [],
 		"explorers": [],
 		"infoURL": "https://www.mintme.com"
-	},
-	{
-		"name": "Fantom Opera",
-		"chainId": 250,
-		"shortName": "ftm",
-		"slug": "fantom",
-		"chain": "FTM",
-		"network": "mainnet",
-		"networkId": 250,
-		"nativeCurrency": { "name": "Fantom", "symbol": "FTM", "decimals": 18 },
-		"rpc": ["https://rpc.fantom.network", "https://fantomscan.io/rpc"],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://fantom.foundation"
 	},
 	{
 		"name": "Huobi ECO Chain Testnet",
