@@ -126,6 +126,10 @@
 </script>
 
 <style>
+	.defi-balances.scrollable-list {
+		contain: layout;
+	}
+
 	.underlying {
 		font-size: 0.8em;
 		text-align: left;
@@ -218,7 +222,7 @@
 				{/if}
 			</svelte:fragment>
 
-			<div class="defi-balances">
+			<div class="defi-balances" class:scrollable-list={defiProtocolBalances.length > 6}>
 				{#each defiProtocolBalances as {products, meta}, i}
 					{#each products as {label, assets, meta: productMeta}, j (label)}
 						<div transition:scaleFont|local animate:flip|local={{duration: 300, delay: Math.abs(i + j * 0.1) * 10}} class="card defi-protocol" style="--card-background-image: {makeCardGradient(defiProtocolColors[label])}); --primary-color: {defiProtocolColors[label]?.[defiProtocolColors[label].length / 2 | 0] ?? 'inherit'}">
