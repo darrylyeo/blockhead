@@ -45,12 +45,13 @@
 			toAddress: transaction.to_address,
 			toAddressLabel: transaction.to_address_label,
 
-			token: 'ETH',
-			tokenName: 'Ethereum',
+			token: network.nativeCurrency.symbol,
+			tokenName: network.nativeCurrency.name,
 
 			value: formatEther(transaction.value),
 			valueQuote: transaction.value_quote,
 
+			gasToken: network.nativeCurrency.symbol,
 			gasValue: formatUnits(transaction.gas_spent, 'gwei'),
 			gasValueQuote: transaction.gas_quote,
 

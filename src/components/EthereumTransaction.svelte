@@ -36,6 +36,7 @@
 	export let value
 	export let valueQuote
 
+	export let gasToken = network.nativeCurrency.symbol
 	export let gasValue
 	export let gasValueQuote
 
@@ -184,7 +185,7 @@
 		{#if showFees && gasValue !== undefined}
 			<span class="fee" transition:fade|local>
 				<span>for fee</span>
-				<TokenValueWithConversion {showValues} token="ETH" value={gasValue} conversionCurrency={quoteToken} convertedValue={gasValueQuote} />
+				<TokenValueWithConversion {showValues} token={gasToken} value={gasValue} conversionCurrency={quoteToken} convertedValue={gasValueQuote} />
 			</span>
 		{/if}
 		{#if isSummary && date}
@@ -206,7 +207,7 @@
 		</div>
 	{/if}
 	{#if isExhaustive && logEvents?.length}
-		<div class="log-events" transition:fade|local>
+		<div class="log-events" class:scrollable-list={logEvents.length > 16}>><!-- transition:fade|local -->
 			{#each logEvents as logEvent}
 				<EthereumLogEvent
 					{network}
