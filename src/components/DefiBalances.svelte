@@ -200,6 +200,10 @@
 		row-gap: 0.5em;
 		opacity: 0.8;
 	}
+
+	.underlying-asset {
+		display: flex;
+	}
 </style>
 
 {#if provider && address}
@@ -332,7 +336,7 @@
 													reserve, weight,
 													isCToken
 												}}
-													<p in:scaleFont>
+													<p class="underlying-asset" in:scaleFont>
 														<span class="underlying-symbol">┖</span>
 														<TokenValueWithConversion
 															{showValues}
