@@ -8,3 +8,9 @@
   from = "/*"
   to = "/"
   status = 200
+
+[[redirects]]
+  from = "https://blockhead-beta.netlify.app"
+  to = "https://blockhead.info"
+  status = 301
+  force = true
