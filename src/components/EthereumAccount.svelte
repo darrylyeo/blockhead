@@ -225,6 +225,8 @@
 								{showFees}
 								{...convertCovalentTransaction(transaction)}
 							/>
+						{:else}
+							<div class="card">No transactions yet.</div>
 						{/each}
 					</div>
 				</Loader>
@@ -274,6 +276,8 @@
 								{showFees}
 								{...convertCovalentERC20TokenTransaction(transaction)}
 							/>
+						{:else}
+							<div class="card">No transactions yet.</div>
 						{/each}
 					</div>
 				</Loader>
