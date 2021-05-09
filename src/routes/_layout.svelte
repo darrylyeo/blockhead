@@ -41,6 +41,11 @@
 	})
 	setContext('ethereumNetwork', ethereumNetwork)
 	setContext('ethereumProvider', ethereumProvider)
+
+
+	import { preferredColorScheme } from '../data/ethereum/preferences'
+	$: if(globalThis.document)
+		globalThis.document.documentElement.className = `color-scheme-${$preferredColorScheme}`
 </script>
 
 <style>

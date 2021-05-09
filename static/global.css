@@ -73,7 +73,7 @@
 	background: linear-gradient(155deg, var(--global-background-gradient-base-color), var(--primary-color, var(--ethereum-blue)) 250%) fixed;
 }
 @media (prefers-color-scheme: dark) {
-	:root {
+	:root:not(.color-scheme-light) {
 		--card-background-color: rgba(255, 255, 255, 0.1);
 		--card-hover-background-color: rgba(255, 255, 255, 0.12);
 		/* --card-box-shadow: 0px 2px 4px rgba(255, 255, 555, 0.075); */
@@ -85,6 +85,18 @@
 		--text-color: #f7fdff;
 		--text-decoration-color: 247, 253, 255;
 	}
+}
+:root.color-scheme-dark {
+	--card-background-color: rgba(255, 255, 255, 0.1);
+	--card-hover-background-color: rgba(255, 255, 255, 0.12);
+	/* --card-box-shadow: 0px 2px 4px rgba(255, 255, 555, 0.075); */
+
+	--global-background-gradient-base-color: #01002d;
+
+	-webkit-font-smoothing: auto;
+
+	--text-color: #f7fdff;
+	--text-decoration-color: 247, 253, 255;
 }
 
 a {

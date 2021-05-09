@@ -9,3 +9,5 @@ export const preferredEthereumProvider = localStorageWritable<Ethereum.ProviderN
 export const preferredOracleProvider = localStorageWritable<PriceFeedProvider>('preferred-price-feed-provider', 'Chainlink')
 export const preferredAnalyticsProvider = localStorageWritable<AnalyticsProvider>('preferred-analytics-provider', 'Covalent')
 export const preferredQuoteCurrency = localStorageWritable<QuoteCurrency>('preferred-quote-currency', 'USD')
+
+export const preferredColorScheme = localStorageWritable<'auto' | 'dark' | 'light'>('preferred-color-scheme', 'auto')

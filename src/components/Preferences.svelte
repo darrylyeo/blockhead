@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Covalent } from '../data/analytics/covalent'
 	import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '../data/currency/currency'
-	import { preferredAnalyticsProvider, preferredQuoteCurrency, preferredEthereumProvider, preferredOracleProvider } from '../data/ethereum/preferences'
+	import { preferredAnalyticsProvider, preferredQuoteCurrency, preferredEthereumProvider, preferredOracleProvider, preferredColorScheme } from '../data/ethereum/preferences'
 </script>
 
 <style>
@@ -23,6 +23,15 @@
 
 <div class="bar preferences">
 	<h3>Preferences</h3>
+
+	<label>
+		<span>Theme:</span>
+		<select bind:value={$preferredColorScheme}>
+			<option value="auto">Auto</option>
+			<option value="light">Light</option>
+			<option value="dark">Dark</option>
+		</select>
+	</label>
 
 	<!-- <label>
 		<span>Analytics Provider:</span>
