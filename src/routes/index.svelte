@@ -84,7 +84,7 @@
 		<div class="centered">
 			<h1 class="logo">Blockhead</h1>
 		</div>
-		<h2>is a cross-chain crypto portfolio and explorer interface<br>for <span style="color: var(--ethereum-blue)">Ethereum</span>, <span style="color: var(--polygon-purple)">Polygon</span>, and the <span style="color: var(--binance-gold)">EVM Multiverse</span></h2>
+		<h2>is a cross-chain crypto portfolio and explorer interface<br>for <span style="color: var(--ethereum-blue)">Ethereum</span>, <span style="color: var(--polygon-purple)">Polygon</span>, and the <span style="color: var(--bitcoin-gold)">EVM Multiverse</span></h2>
 	</header>
 
 	<section>
