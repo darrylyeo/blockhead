@@ -421,3 +421,7 @@ body::-webkit-scrollbar-button {
 	background: var(--primary-color);
 	border-radius: 5px;
 }
+::-webkit-scrollbar-corner {
+	background: var(--primary-color);
+	border: none;
+}
