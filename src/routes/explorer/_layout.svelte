@@ -7,8 +7,8 @@
 	import { getProvider } from '../../data/ethereum/provider'
 
 
-	const topNetworks = ['ethereum', 'matic', 'bsc', 'avalanche', 'xdai', 'optimism', 'fantom', 'bitcoin'].map(slug => networksBySlug[slug])
-	const topTestNetworks = ['ethereum-kovan', 'ethereum-rinkeby', 'ethereum-ropsten', 'ethereum-goerli', 'matic-mumbai', 'bsc-testnet', 'avalanche-fuji', 'optimistic-goerli', 'optimistic-kovan'].map(slug => networksBySlug[slug])
+	const topNetworks = ['ethereum', 'polygon', 'bsc', 'avalanche', 'xdai', 'optimism', 'fantom', 'bitcoin'].map(slug => networksBySlug[slug])
+	const topTestNetworks = ['ethereum-kovan', 'ethereum-rinkeby', 'ethereum-ropsten', 'ethereum-goerli', 'polygon-mumbai', 'bsc-testnet', 'avalanche-fuji', 'optimistic-goerli', 'optimistic-kovan'].map(slug => networksBySlug[slug])
 	const otherNetworks = networks.filter(network => !topNetworks.includes(network) && !topTestNetworks.includes(network))
 
 

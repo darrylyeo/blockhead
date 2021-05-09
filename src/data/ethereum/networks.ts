@@ -1897,50 +1897,6 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://mathchain.org"
 	},
 	{
-		"name": "Matic",
-		"chainId": 137,
-		"shortName": "matic",
-		"slug": "matic",
-		"chain": "Matic",
-		"network": "mainnet",
-		"networkId": 137,
-		"nativeCurrency": {
-			"name": "Matic",
-			"symbol": "MATIC",
-			"decimals": 18
-		},
-		"rpc": [
-			"https://rpc-mainnet.matic.network",
-			"wss://ws-mainnet.matic.network"
-		],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://matic.network/"
-	},
-	{
-		"name": "Matic Testnet Mumbai",
-		"chainId": 80001,
-		"shortName": "maticmum",
-		"slug": "matic-mumbai",
-		"chain": "Matic",
-		"network": "testnet",
-		"networkId": 80001,
-		"nativeCurrency": {
-			"name": "Matic",
-			"symbol": "tMATIC",
-			"decimals": 18
-		},
-		"rpc": [
-			"https://rpc-mumbai.matic.today",
-			"wss://ws-mumbai.matic.today"
-		],
-		"faucets": [
-			"https://faucet.matic.network/"
-		],
-		"explorers": [],
-		"infoURL": "https://matic.network/"
-	},
-	{
 		"name": "Metadium",
 		"chainId": 11,
 		"shortName": "meta",
@@ -2460,6 +2416,50 @@ export const networks: Ethereum.Network[] = [
 		],
 		"explorers": [],
 		"infoURL": "https://poa.network"
+	},
+	{
+		"name": "Polygon",
+		"chainId": 137,
+		"shortName": "polygon",
+		"slug": "polygon",
+		"chain": "Polygon",
+		"network": "mainnet",
+		"networkId": 137,
+		"nativeCurrency": {
+			"name": "Polygon",
+			"symbol": "MATIC",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://rpc-mainnet.matic.network",
+			"wss://ws-mainnet.matic.network"
+		],
+		"faucets": [],
+		"explorers": [],
+		"infoURL": "https://polygon.technology"
+	},
+	{
+		"name": "Polygon Testnet Mumbai",
+		"chainId": 80001,
+		"shortName": "maticmum",
+		"slug": "polygon-mumbai",
+		"chain": "Polygon",
+		"network": "testnet",
+		"networkId": 80001,
+		"nativeCurrency": {
+			"name": "Matic",
+			"symbol": "tMATIC",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://rpc-mumbai.matic.today",
+			"wss://ws-mumbai.matic.today"
+		],
+		"faucets": [
+			"https://faucet.matic.network/"
+		],
+		"explorers": [],
+		"infoURL": "https://matic.network/"
 	},
 	{
 		"name": "PrimusChain mainnet",
