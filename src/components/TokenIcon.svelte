@@ -1,3 +1,8 @@
+<script context="module" lang="ts">
+	const cachedImageSources = {}
+	const cachedIndex = {}
+</script>
+
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { TickerSymbol } from '../data/currency/currency'
@@ -7,8 +12,10 @@
 	export let tokenAddress: Ethereum.ContractAddress | undefined
 	export let tokenIcon: string
 
-	let i = 0
-	$: imageSources = [
+
+	let i = cachedIndex[tokenAddress || token] ||= 0
+	$: cachedIndex[tokenAddress || token] = i
+	$: imageSources = cachedImageSources[tokenAddress || token] ||= [
 		token === 'AVAX' && '/logos/avax-token.svg',
 		tokenAddress && `https://token-icons.s3.amazonaws.com/${tokenAddress.toLowerCase()}.png`,
 		tokenIcon,
