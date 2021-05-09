@@ -44,11 +44,13 @@
 
 		const newAccount = new Account(newWalletAddress)
 		accounts = [newAccount, ...accounts]
+		quoteTotals = [, ...quoteTotals]
 	}
 
 	function deleteAccount(i){
 		delayStartIndex = i
 		accounts = [...accounts.slice(0, i), ...accounts.slice(i + 1)]
+		quoteTotals = [...quoteTotals.slice(0, i), ...quoteTotals.slice(i + 1)]
 	}
 	
 	
