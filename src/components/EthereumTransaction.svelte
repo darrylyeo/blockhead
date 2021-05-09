@@ -207,7 +207,7 @@
 		</div>
 	{/if}
 	{#if isExhaustive && logEvents?.length}
-		<div class="log-events" class:scrollable-list={logEvents.length > 16}>><!-- transition:fade|local -->
+		<div class="log-events" class:scrollable-list={logEvents.length > 16}><!-- transition:fade|local -->
 			{#each logEvents as logEvent}
 				<EthereumLogEvent
 					{network}
