@@ -63,6 +63,7 @@
 		loadingIconName={analyticsProvider}
 		loadingMessage="Retrieving price history..."
 		let:then={data}
+		showIf={data => data.length}
 	>
 		<slot name="header"></slot>
 
