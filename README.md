@@ -1,7 +1,7 @@
-# Blockhead: Decentralized wallet manager, trading interface, and blockchain explorer metaverse
+# Blockhead
 
 by Darryl Yeo
 
-Blockhead is a dynamic, comprehensive and data-agnostic interface that lets you explore and interact with Ethereum in a fun, flexible, and transparent way.
+Blockhead is a dynamic, user-friendly cross-chain crypto portfolio manager and explorer interface for Ethereum and other EVM-based blockchains.
 
-Try it here! [https://blockhead-beta.netlify.app](https://blockhead-beta.netlify.app)
+[https://blockhead.info](blockhead.info)
