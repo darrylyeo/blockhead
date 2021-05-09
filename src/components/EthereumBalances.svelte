@@ -121,43 +121,45 @@
 			{/if}
 		</svelte:fragment>
 
-		<div class="ethereum-balances card" class:show-amounts-and-values={showValues === 'both'}>
-			{#each
-				balances
-				as {type, balance, quote, quote_rate, contract_name, contract_address, contract_decimals, contract_ticker_symbol, logo_url},
-				i (contract_address || contract_ticker_symbol || contract_name)
-			}
-				<span
-					class="ethereum-balance"
-					class:is-selectable={isSelectable}
-					class:is-selected={selectedToken?.tokenAddress === contract_address}
-					tabindex={isSelectable ? 0 : undefined}
-					on:click={() =>
-						selectedToken = selectedToken?.tokenAddress === contract_address ? undefined : {
-							token: contract_ticker_symbol || contract_name,
-							tokenAddress: contract_address,
-							tokenIcon: logo_url,
-							tokenName: contract_name,
+		<div class:scrollable-list={balances.length > 30}>
+			<div class="ethereum-balances card" class:show-amounts-and-values={showValues === 'both'}>
+				{#each
+					balances
+					as {type, balance, quote, quote_rate, contract_name, contract_address, contract_decimals, contract_ticker_symbol, logo_url},
+					i (contract_address || contract_ticker_symbol || contract_name)
+				}
+					<span
+						class="ethereum-balance"
+						class:is-selectable={isSelectable}
+						class:is-selected={selectedToken?.tokenAddress === contract_address}
+						tabindex={isSelectable ? 0 : undefined}
+						on:click={() =>
+							selectedToken = selectedToken?.tokenAddress === contract_address ? undefined : {
+								token: contract_ticker_symbol || contract_name,
+								tokenAddress: contract_address,
+								tokenIcon: logo_url,
+								tokenName: contract_name,
+							}
 						}
-					}
-					in:scale
-					animate:flip|local={{duration: 500, delay: Math.abs(i) * 10, easing: quintOut}}
-				>
-					<TokenValueWithConversion
-						{showValues}
-						token={contract_ticker_symbol || contract_name}
-						tokenAddress={contract_address}
-						tokenIcon={logo_url}
-						tokenName={contract_name}
-						value={balance * 0.1 ** contract_decimals}
-						isDust={false}
-						conversionCurrency={quoteCurrency}
-						convertedValue={quote}
-						conversionRate={quote_rate}
-					/>
-					<!-- isDust={type === 'dust'} -->
-				</span>
-			{/each}
+						in:scale
+						animate:flip|local={{duration: 500, delay: Math.abs(i) * 10, easing: quintOut}}
+					>
+						<TokenValueWithConversion
+							{showValues}
+							token={contract_ticker_symbol || contract_name}
+							tokenAddress={contract_address}
+							tokenIcon={logo_url}
+							tokenName={contract_name}
+							value={balance * 0.1 ** contract_decimals}
+							isDust={false}
+							conversionCurrency={quoteCurrency}
+							convertedValue={quote}
+							conversionRate={quote_rate}
+						/>
+						<!-- isDust={type === 'dust'} -->
+					</span>
+				{/each}
+			</div>
 		</div>
 	</Loader>
 {/if}
