@@ -92,7 +92,7 @@
 	{#if domain.events}
 		<div class="card">
 			<h3>History</h3>
-			<div class="column scrollable-list">
+			<div class="column" class:scrollable-list={domain.events.length > 4}>
 				{#each domain.events as event (event.id)}
 					<EnsDomainEvent {network} {event}/>
 				{/each}
