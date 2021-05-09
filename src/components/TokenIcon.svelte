@@ -9,6 +9,7 @@
 
 	let i = 0
 	$: imageSources = [
+		token === 'AVAX' && '/logos/avax-token.svg',
 		tokenAddress && `https://token-icons.s3.amazonaws.com/${tokenAddress.toLowerCase()}.png`,
 		tokenIcon,
 		token && `https://zapper.fi/images/${token}-icon.png`,
