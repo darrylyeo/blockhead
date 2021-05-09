@@ -141,6 +141,10 @@
 	.unsuccessful {
 		box-shadow: 0 1px 3px #ff2f00a0;
 	}
+
+	.log-events.scrollable-list {
+		height: 20rem;
+	}
 </style>
 
 <div class="card transaction layout-{layout}" class:unsuccessful={!isSuccessful} transition:fade|local>
