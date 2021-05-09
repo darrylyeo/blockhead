@@ -230,9 +230,12 @@ import { availableNetworks } from '../data/ethereum/networks';
 				<h3>Show</h3>
 				<label>
 					<select bind:value={showValues}>
-						<option value="original">Token Amounts</option>
+						<option value="original">Balances</option>
+						<option value="converted">Quotes</option>
+						<option value="both">Balances + Quotes</option>
+						<!-- <option value="original">Token Amounts</option>
 						<option value="converted">Quote Values</option>
-						<option value="both">Amounts and Values</option>
+						<option value="both">Amounts and Values</option> -->
 					</select>
 				</label>
 				<label>
