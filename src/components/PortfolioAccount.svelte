@@ -23,6 +23,7 @@
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
 	export let showSmallValues = false
 	export let showUnderlyingAssets = false
+	export let showNFTMetadata = false
 
 	export let isEditing: boolean
 
@@ -213,7 +214,7 @@
 						{address}
 						{analyticsProvider}
 						{quoteCurrency}
-						{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets}
+						{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets} {showNFTMetadata}
 						isCollapsed={isEditing}
 						bind:quoteTotal={nftQuoteTotals[i]}
 						let:nftContractCount

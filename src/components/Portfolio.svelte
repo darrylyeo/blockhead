@@ -62,6 +62,7 @@
 	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
 	let showSmallValues = false
 	let showUnderlyingAssets = false
+	let showNFTMetadata = false
 
 
 	// Computed Values
@@ -206,6 +207,7 @@ import { availableNetworks } from '../data/ethereum/networks';
 					{sortBy}
 					{showSmallValues}
 					{showUnderlyingAssets}
+					{showNFTMetadata}
 					isEditing={state === State.Editing}
 
 					bind:quoteTotal={quoteTotals[i]}
@@ -245,6 +247,10 @@ import { availableNetworks } from '../data/ethereum/networks';
 				<label>
 					<input type="checkbox" bind:checked={showUnderlyingAssets}>
 					<span>Underlying Assets</span>
+				</label>
+				<label>
+					<input type="checkbox" bind:checked={showNFTMetadata}>
+					<span>NFT Metadata</span>
 				</label>
 			</div>
 			<div class="row">
