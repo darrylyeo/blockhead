@@ -69,6 +69,10 @@
 		max-width: var(--one-column-width);
 		grid-template-columns: 100%;
 	}
+
+	select {
+		max-width: 11.5rem;
+	}
 </style>
 
 <svelte:head>
