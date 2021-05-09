@@ -17,6 +17,9 @@
 		$localPortfolios = [...$localPortfolios.slice(0, i), ...$localPortfolios.slice(i + 1)]
 	}
 
+	$: if(localPortfolios && !$localPortfolios.length)
+		addPortfolio()
+
 	$: network = networksByChainID[$ethereumChainID]
 
 	const addToPortfolio = account => {
