@@ -36,7 +36,7 @@ const fromRaw = requestPromise => requestPromise.then(response => response.raw.j
 
 function defiProtocolNames(protocolNames){
 	return [
-		...protocolNames.filter(protocol => !['tokens', 'nft', 'other'].includes(protocol)),
+		...protocolNames.filter(protocol => !['tokens', 'nft', 'other', 'idle'].includes(protocol)),
 		...protocolNames.filter(protocol => ['other'].includes(protocol))
 	]
 }
