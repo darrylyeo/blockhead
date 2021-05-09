@@ -104,11 +104,6 @@
 </script>
 
 <style>
-	.balances, .transactions {
-		display: grid;
-		gap: var(--padding-inner);
-	}
-
 	.bar {
 		/* --padding-inner: 1.25em; */
 		--padding-inner: 1em;
@@ -135,23 +130,23 @@
 		<span class="card-annotation">Ethereum Account</span>
 	</div>
 
-	<hr>
-
 	<!-- <Balance {provider} {address} /> -->
-	<div class="balances">
-		<EthereumBalances
-			{network}
-			{address}
-			analyticsProvider={$preferredAnalyticsProvider}
-			quoteCurrency={$preferredQuoteCurrency}
-			{sortBy}
-			{showSmallValues}
-			{showValues}
-			isSelectable={true}
-			bind:selectedToken={selectedToken}
-			bind:balances={balances}
-		>
-			<div slot="header" class="bar" let:network let:quoteCurrency let:quoteTotal>
+	<EthereumBalances
+		{network}
+		{address}
+		analyticsProvider={$preferredAnalyticsProvider}
+		quoteCurrency={$preferredQuoteCurrency}
+		{sortBy}
+		{showSmallValues}
+		{showValues}
+		isSelectable={true}
+		bind:selectedToken={selectedToken}
+		bind:balances={balances}
+	>
+		<svelte:fragment slot="header" let:network let:quoteCurrency let:quoteTotal>
+			<hr>
+
+			<div class="bar">
 				<h3>{network.name} Tokens (<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />)</h3>
 				<label>
 					<input type="checkbox" bind:checked={showSmallValues}>
@@ -177,113 +172,111 @@
 					</select>
 				</label>
 			</div>
-		</EthereumBalances>
-	</div>
+		</svelte:fragment>
+	</EthereumBalances>
 
 	<hr>
 
-	<div class="transactions">
-		{#if $preferredAnalyticsProvider === 'Covalent'}
-			{#if !selectedToken}
-				<!-- Regular Ethereum Transactions -->
-				<Loader
-					loadingIcon={'/logos/covalent-logomark.svg'}
-					loadingIconName={'Covalent'}
-					loadingMessage="Retrieving {network.name} transactions from {$preferredAnalyticsProvider}..."
-					errorMessage="Error retrieving {network.name} transactions from {$preferredAnalyticsProvider}"
-					fromPromise={() => getTransactionsByAddress({chainID: network.chainId, address, includeLogs: true, quoteCurrency})}
-					let:then={transactions}
-				>
-					<svelte:fragment slot="header" let:status>
-						<div class="bar">
-							<h3>
-								Transactions
-								{#if status === 'resolved'}({transactions.items.length}){/if}
-							</h3>
+	{#if $preferredAnalyticsProvider === 'Covalent'}
+		{#if !selectedToken}
+			<!-- Regular Ethereum Transactions -->
+			<Loader
+				loadingIcon={'/logos/covalent-logomark.svg'}
+				loadingIconName={'Covalent'}
+				loadingMessage="Retrieving {network.name} transactions from {$preferredAnalyticsProvider}..."
+				errorMessage="Error retrieving {network.name} transactions from {$preferredAnalyticsProvider}"
+				fromPromise={() => getTransactionsByAddress({chainID: network.chainId, address, includeLogs: true, quoteCurrency})}
+				let:then={transactions}
+			>
+				<svelte:fragment slot="header" let:status>
+					<div class="bar">
+						<h3>
+							Transactions
+							{#if status === 'resolved'}({transactions.items.length}){/if}
+						</h3>
+						<label>
+							<input type="checkbox" bind:checked={showFees}>
+							<span>Show Fees</span>
+						</label>
+						<label>
+							<span>View</span>
+							<select bind:value={detailLevel}>
+								<option value="summary">Summary</option>
+								<option value="detailed">Detailed</option>
+								<option value="exhaustive">Exhaustive</option>
+							</select>
+						</label>
+					</div>
+				</svelte:fragment>
+
+				<div class="transactions-list column" class:scrollable-list={transactions.items.length > 7}>
+					{#each transactions.items as transaction}
+						<EthereumTransaction
+							{network}
+							contextualAddress={address}
+							{detailLevel}
+							{showValues}
+							{showFees}
+							{...convertCovalentTransaction(transaction)}
+						/>
+					{:else}
+						<div class="card">No transactions yet.</div>
+					{/each}
+				</div>
+			</Loader>
+		{:else}
+			<!-- ERC-20 Transactions -->
+			<Loader
+				loadingIcon={'/logos/covalent-logomark.svg'}
+				loadingIconName={'Covalent'}
+				loadingMessage="Retrieving ERC-20 transactions from {$preferredAnalyticsProvider}..."
+				errorMessage="Error retrieving ERC-20 transactions from {$preferredAnalyticsProvider}"
+				fromPromise={() => getERC20TokenTransfers({chainID: network.chainId, address, contractAddress: selectedToken.tokenAddress, quoteCurrency})}
+				let:then={transactions}
+			>
+				<svelte:fragment slot="header" let:status>
+					<div class="bar">
+						<h3>
+							{selectedToken.tokenName}
+							(<TokenName tokenName={selectedToken.tokenName} token={selectedToken.token} tokenAddress={selectedToken.tokenAddress} tokenIcon={selectedToken.tokenIcon} />)
+							Transactions
+							{#if status === 'resolved'}({transactions.items.length}){/if}
+						</h3>
+						{#if detailLevel !== 'exhaustive'}
 							<label>
 								<input type="checkbox" bind:checked={showFees}>
 								<span>Show Fees</span>
 							</label>
-							<label>
-								<span>View</span>
-								<select bind:value={detailLevel}>
-									<option value="summary">Summary</option>
-									<option value="detailed">Detailed</option>
-									<option value="exhaustive">Exhaustive</option>
-								</select>
-							</label>
-						</div>
-					</svelte:fragment>
-
-					<div class="transactions-list column" class:scrollable-list={transactions.items.length > 7}>
-						{#each transactions.items as transaction}
-							<EthereumTransaction
-								{network}
-								contextualAddress={address}
-								{detailLevel}
-								{showValues}
-								{showFees}
-								{...convertCovalentTransaction(transaction)}
-							/>
-						{:else}
-							<div class="card">No transactions yet.</div>
-						{/each}
+						{/if}
+						<label>
+							<span>View</span>
+							<select bind:value={detailLevel}>
+								<option value="summary">Summary</option>
+								<option value="detailed">Detailed</option>
+								<option value="exhaustive">Exhaustive</option>
+							</select>
+						</label>
+						<button on:click={() => selectedToken = undefined}>Back</button>
 					</div>
-				</Loader>
-			{:else}
-				<!-- ERC-20 Transactions -->
-				<Loader
-					loadingIcon={'/logos/covalent-logomark.svg'}
-					loadingIconName={'Covalent'}
-					loadingMessage="Retrieving ERC-20 transactions from {$preferredAnalyticsProvider}..."
-					errorMessage="Error retrieving ERC-20 transactions from {$preferredAnalyticsProvider}"
-					fromPromise={() => getERC20TokenTransfers({chainID: network.chainId, address, contractAddress: selectedToken.tokenAddress, quoteCurrency})}
-					let:then={transactions}
-				>
-					<svelte:fragment slot="header" let:status>
-						<div class="bar">
-							<h3>
-								{selectedToken.tokenName}
-								(<TokenName tokenName={selectedToken.tokenName} token={selectedToken.token} tokenAddress={selectedToken.tokenAddress} tokenIcon={selectedToken.tokenIcon} />)
-								Transactions
-								{#if status === 'resolved'}({transactions.items.length}){/if}
-							</h3>
-							{#if detailLevel !== 'exhaustive'}
-								<label>
-									<input type="checkbox" bind:checked={showFees}>
-									<span>Show Fees</span>
-								</label>
-							{/if}
-							<label>
-								<span>View</span>
-								<select bind:value={detailLevel}>
-									<option value="summary">Summary</option>
-									<option value="detailed">Detailed</option>
-									<option value="exhaustive">Exhaustive</option>
-								</select>
-							</label>
-							<button on:click={() => selectedToken = undefined}>Back</button>
-						</div>
-					</svelte:fragment>
+				</svelte:fragment>
 
-					<div class="transactions-list column" class:scrollable-list={transactions.items.length > 7}>
-						{#each transactions.items as transaction}
-							<EthereumTransaction
-								{network}
-								contextualAddress={address}
-								{detailLevel}
-								{showValues}
-								{showFees}
-								{...convertCovalentERC20TokenTransaction(transaction)}
-							/>
-						{:else}
-							<div class="card">No transactions yet.</div>
-						{/each}
-					</div>
-				</Loader>
-			{/if}
+				<div class="transactions-list column" class:scrollable-list={transactions.items.length > 7}>
+					{#each transactions.items as transaction}
+						<EthereumTransaction
+							{network}
+							contextualAddress={address}
+							{detailLevel}
+							{showValues}
+							{showFees}
+							{...convertCovalentERC20TokenTransaction(transaction)}
+						/>
+					{:else}
+						<div class="card">No transactions yet.</div>
+					{/each}
+				</div>
+			</Loader>
 		{/if}
-	</div>
+	{/if}
 
 	{#if balances?.length}
 		<hr>
