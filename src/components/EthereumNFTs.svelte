@@ -28,7 +28,7 @@
 	$: sortFunction =
 		sortBy === 'value-descending' ? (a, b) => b.quote - a.quote || b.balance - a.balance :
 		sortBy === 'value-ascending' ? (a, b) => a.quote - b.quote || a.balance - b.balance :
-		sortBy === 'ticker-ascending' ? (a, b) => a.contract_ticker_symbol.localeCompare(b.contract_ticker_symbol) :
+		sortBy === 'ticker-ascending' ? (a, b) => a.contract_ticker_symbol?.localeCompare(b.contract_ticker_symbol) :
 		undefined
 
 
