@@ -24,7 +24,7 @@ export namespace Covalent {
 	export const ChainIDs = [...MainnetChainIDs, ...TestnetChainIDs] as const
 	export type ChainID = typeof ChainIDs[number]
 
-	export const quoteCurrencies = ['USD', 'CAD', 'EUR', 'SGD', 'INR', 'JPY', 'VND', 'CNY', 'KRW', 'RUB', 'TRY', 'ETH']
+	export const quoteCurrencies = ['USD', 'CAD', 'EUR', 'SGD', 'INR', 'JPY', 'VND', 'CNY', 'KRW', 'RUB', 'TRY', 'ETH', 'BNB']
 	export type QuoteCurrency = typeof quoteCurrencies[number]
 
 	type Pagination = {

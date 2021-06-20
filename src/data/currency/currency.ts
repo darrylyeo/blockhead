@@ -71,6 +71,11 @@ export const cryptoQuoteCurrencies = {
 		symbol: '₿',
 		isoCode: 'BTC',
 		name: 'Bitcoin'
+	},
+	'BNB': {
+		symbol: '$',
+		isoCode: 'BNB',
+		name: 'Binance Coin'
 	}
 }
 
