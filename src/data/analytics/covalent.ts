@@ -20,7 +20,7 @@ export namespace Covalent {
 
 	// https://covalenthq.com/docs/networks
 	export const MainnetChainIDs = [1, 137, 43114, 56, 250] as const
-	export const TestnetChainIDs = [80001, 43113] as const
+	export const TestnetChainIDs = [80001, 43113, 42, 97, 1287, 4002] as const
 	export const ChainIDs = [...MainnetChainIDs, ...TestnetChainIDs] as const
 	export type ChainID = typeof ChainIDs[number]
 
