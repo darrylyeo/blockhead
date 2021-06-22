@@ -30,23 +30,29 @@
 	export let nickname: string
 
 
-	let address
-	let ensName
+	let addressPromise
+	let ensNamePromise
 	// import ENS, { getEnsAddress } from '@ensdomains/ensjs'
 	// const ens = new ENS({ provider, ensAddress: getEnsAddress('1') })
 	$: if(type === AccountType.Address){
-		address = addressOrENSName
-		getDefaultProvider().lookupAddress(address).then(_ => ensName = _)
-		// provider.lookupAddress(address).then(_ => ensName = _)
-		// ens.getName(address).then(async name => {
+		const address = addressOrENSName
+		addressPromise = Promise.resolve(address)
+		ensNamePromise = getDefaultProvider().lookupAddress(address)
+		// ensNamePromise = provider.lookupAddress(address)
+		// ensNamePromise = ens.getName(address).then(async name => {
 		// 	if(address === await ens.name(name).getAddress())
-		// 		ensName = name 
+		// 		return name 
 		// })
 	}else{
-		ensName = addressOrENSName
-		getDefaultProvider().resolveName(addressOrENSName).then(_ => address = _)
-		// provider.resolveName(addressOrENSName).then(_ => address = _)
-		// ens.name(addressOrENSName).getAddress().then(_ => address = _)
+		const ensName = addressOrENSName
+		addressPromise = getDefaultProvider().resolveName(ensName).then(address => {
+			if(address)
+				return address
+			throw new Error(`The ENS Name "${ensName}" couldn't be resolved to an address.`)
+		})
+		// addressPromise = provider.resolveName(addressOrENSName)
+		// addressPromise = ens.name(addressOrENSName).getAddress()
+		ensNamePromise = Promise.resolve(ensName)
 	}
 
 
@@ -54,7 +60,7 @@
 	let tokenQuoteTotals = []
 	let defiQuoteTotals = []
 	let nftQuoteTotals = []
-	$: console.log(address, 'defiQuoteTotals', defiQuoteTotals, 'quoteTotals', quoteTotals)
+	// $: console.log(address, 'defiQuoteTotals', defiQuoteTotals, 'quoteTotals', quoteTotals)
 	$: quoteTotals = [...tokenQuoteTotals, ...defiQuoteTotals, ...nftQuoteTotals].filter(quoteTotal => quoteTotal !== undefined)
 	export let quoteTotal
 	$: quoteTotal = quoteTotals.reduce((sum, quoteTotal) => sum + quoteTotal, 0)
@@ -65,7 +71,7 @@
 	import DefiBalances from './DefiBalances.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
 	import EthereumNFTs from './EthereumNFTs.svelte'
-	import Loading from './Loading.svelte'
+	import Loader from './Loader.svelte'
 	import HeightContainer from './HeightContainer.svelte'
 	import TokenValue from './TokenValue.svelte'
 </script>
@@ -104,17 +110,23 @@
 		<div class="row-inline">
 			{#if nickname}
 				<h3>{nickname}</h3>
-				<small><Address network={networksByChainID[1]} {address} /></small>
-			{:else if type === AccountType.ENS}
-				<h3><Address network={networksByChainID[1]} address={ensName} /></h3>
-				{#if address}
+				{#await addressPromise then address}{#if address}
 					<small><Address network={networksByChainID[1]} {address} /></small>
-				{/if}
+				{/if}{/await}
+			{:else if type === AccountType.ENS}
+				{#await ensNamePromise then ensName}{#if ensName}
+					<h3><Address network={networksByChainID[1]} address={ensName} /></h3>
+				{/if}{/await}
+				{#await addressPromise then address}{#if address}
+					<small><Address network={networksByChainID[1]} {address} /></small>
+				{/if}{/await}
 			{:else}
-				<h3><Address network={networksByChainID[1]} {address} /></h3>
-				{#if ensName}
+				{#await addressPromise then address}{#if address}
+					<h3><Address network={networksByChainID[1]} {address} /></h3>
+				{/if}{/await}
+				{#await ensNamePromise then ensName}{#if ensName}
 					<small><Address network={networksByChainID[1]} address={ensName} /></small>
-				{/if}
+				{/if}{/await}
 			{/if}
 		</div>
 		{#if quoteTotals.length}
@@ -124,125 +136,135 @@
 		{/if}
 		<slot></slot>
 	</div>
-	{#each showNetworks as {chainID, show, showBalances, showDeFi, showNFTs}, i}
-		{#each [networksByChainID[chainID]] as network}
-			{#if show}
-				<HeightContainer class="column" isOpen={isEditing}>
-					<hr>
-					<div class="bar">
-						<h3><Address {network} {address}>{network.name}</Address></h3>
-						<span class="card-annotation">#{network.chainId}</span>
-						<button class="small" on:click={() => show = false}>Hide Network</button>
-					</div>
-				</HeightContainer>
 
-				<!-- Token Balances -->
-				{#if showBalances}
-					{#if analyticsProvider === 'Covalent' && Covalent.ChainIDs.includes(network.chainId)}
-						<EthereumBalances
+	<Loader
+		fromPromise={() => addressPromise}
+		loadingIcon="/logos/ens.svg"
+		loadingIconName="ENS"
+		loadingMessage="Querying the Ethereum Name Service..."
+		errorMessage="Error resolving ENS Name"
+		let:then={address}
+	>
+		{#each showNetworks as {chainID, show, showBalances, showDeFi, showNFTs}, i}
+			{#each [networksByChainID[chainID]] as network}
+				{#if show}
+					<HeightContainer class="column" isOpen={isEditing}>
+						<hr>
+						<div class="bar">
+							<h3><Address {network} {address}>{network.name}</Address></h3>
+							<span class="card-annotation">#{network.chainId}</span>
+							<button class="small" on:click={() => show = false}>Hide Network</button>
+						</div>
+					</HeightContainer>
+
+					<!-- Token Balances -->
+					{#if showBalances}
+						{#if analyticsProvider === 'Covalent' && Covalent.ChainIDs.includes(network.chainId)}
+							<EthereumBalances
+								{network}
+								{address}
+								{analyticsProvider}
+								{quoteCurrency}
+								{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets}
+								isCollapsed={isEditing}
+								bind:quoteTotal={tokenQuoteTotals[i]}
+							>
+								<svelte:fragment slot="header" let:network let:quoteCurrency let:quoteTotal>
+									<hr>
+									<div class="bar">
+										<h4><Address {network} {address}>{network.name} Balances</Address></h4>
+										<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
+										{#if isEditing}
+											<button class="small" on:click={() => showBalances = false}>Hide</button>
+										{/if}
+										<!-- {#if isEditing}
+											<label>
+												<input type="checkbox" bind:checked={showBalances}>
+												<span>Show Balances</span>
+											</label>
+										{/if} -->
+									</div>
+								</svelte:fragment>
+							</EthereumBalances>
+						{:else if provider}
+							<div class="balances">
+								{#each ['ETH', 'USDC'] as token}
+									<Balance {provider} {token} {address} />
+								{/each}
+							</div>
+						{/if}
+					{/if}
+
+					<!-- DeFi Balances -->
+					{#if showDeFi}
+						<DefiBalances
 							{network}
+							{provider}
 							{address}
-							{analyticsProvider}
 							{quoteCurrency}
-							{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets}
+							{showValues}
+							{showUnderlyingAssets}
 							isCollapsed={isEditing}
-							bind:quoteTotal={tokenQuoteTotals[i]}
+							bind:quoteTotal={defiQuoteTotals[i]}
 						>
-							<svelte:fragment slot="header" let:network let:quoteCurrency let:quoteTotal>
+							<svelte:fragment slot="header" let:quoteTotal let:quoteTotalCurrency>
 								<hr>
 								<div class="bar">
-									<h4><Address {network} {address}>{network.name} Balances</Address></h4>
-									<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
+									<h4>{network.name} DeFi</h4>
+									{#if quoteTotal !== undefined}
+										<TokenValue token={quoteTotalCurrency || quoteCurrency} value={quoteTotal} showPlainFiat={true} />
+									{/if}
 									{#if isEditing}
-										<button class="small" on:click={() => showBalances = false}>Hide</button>
+										<button class="small" on:click={() => showDeFi = false}>Hide</button>
 									{/if}
 									<!-- {#if isEditing}
 										<label>
-											<input type="checkbox" bind:checked={showBalances}>
-											<span>Show Balances</span>
+											<input type="checkbox" bind:checked={showDeFi}>
+											<span>Show DeFi</span>
 										</label>
 									{/if} -->
 								</div>
 							</svelte:fragment>
-						</EthereumBalances>
-					{:else if provider}
-						<div class="balances">
-							{#each ['ETH', 'USDC'] as token}
-								<Balance {provider} {token} {address} />
-							{/each}
-						</div>
+						</DefiBalances>
+					{/if}
+
+					<!-- NFT Balances -->
+					{#if showNFTs}
+						<EthereumNFTs
+							{network}
+							{address}
+							{analyticsProvider}
+							{quoteCurrency}
+							{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets} {showNFTMetadata}
+							isCollapsed={isEditing}
+							bind:quoteTotal={nftQuoteTotals[i]}
+							let:nftContractCount
+							let:nftCount
+						>
+							<svelte:fragment slot="header">
+								<hr>
+								<div class="bar">
+									<h4>{network.name} NFTs</h4>
+									<span>
+										<strong>{nftCount}</strong> NFT{nftCount === 1 ? '' : 's'}
+										across
+										<strong>{nftContractCount}</strong> collection{nftContractCount === 1 ? '' : 's'}
+									</span>
+									{#if isEditing}
+										<button class="small" on:click={() => showNFTs = false}>Hide</button>
+									{/if}
+									<!-- {#if isEditing}
+										<label>
+											<input type="checkbox" bind:checked={showNFTs}>
+											<span>Show NFTs</span>
+										</label>
+									{/if} -->
+								</div>
+							</svelte:fragment>
+						</EthereumNFTs>
 					{/if}
 				{/if}
-
-				<!-- DeFi Balances -->
-				{#if showDeFi}
-					<DefiBalances
-						{network}
-						{provider}
-						{address}
-						{quoteCurrency}
-						{showValues}
-						{showUnderlyingAssets}
-						isCollapsed={isEditing}
-						bind:quoteTotal={defiQuoteTotals[i]}
-					>
-						<svelte:fragment slot="header" let:quoteTotal let:quoteTotalCurrency>
-							<hr>
-							<div class="bar">
-								<h4>{network.name} DeFi</h4>
-								{#if quoteTotal !== undefined}
-									<TokenValue token={quoteTotalCurrency || quoteCurrency} value={quoteTotal} showPlainFiat={true} />
-								{/if}
-								{#if isEditing}
-									<button class="small" on:click={() => showDeFi = false}>Hide</button>
-								{/if}
-								<!-- {#if isEditing}
-									<label>
-										<input type="checkbox" bind:checked={showDeFi}>
-										<span>Show DeFi</span>
-									</label>
-								{/if} -->
-							</div>
-						</svelte:fragment>
-					</DefiBalances>
-				{/if}
-
-				<!-- NFT Balances -->
-				{#if showNFTs}
-					<EthereumNFTs
-						{network}
-						{address}
-						{analyticsProvider}
-						{quoteCurrency}
-						{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets} {showNFTMetadata}
-						isCollapsed={isEditing}
-						bind:quoteTotal={nftQuoteTotals[i]}
-						let:nftContractCount
-						let:nftCount
-					>
-						<svelte:fragment slot="header">
-							<hr>
-							<div class="bar">
-								<h4>{network.name} NFTs</h4>
-								<span>
-									<strong>{nftCount}</strong> NFT{nftCount === 1 ? '' : 's'}
-									across
-									<strong>{nftContractCount}</strong> collection{nftContractCount === 1 ? '' : 's'}
-								</span>
-								{#if isEditing}
-									<button class="small" on:click={() => showNFTs = false}>Hide</button>
-								{/if}
-								<!-- {#if isEditing}
-									<label>
-										<input type="checkbox" bind:checked={showNFTs}>
-										<span>Show NFTs</span>
-									</label>
-								{/if} -->
-							</div>
-						</svelte:fragment>
-					</EthereumNFTs>
-				{/if}
-			{/if}
+			{/each}
 		{/each}
-	{/each}
+	</Loader>
 </div>
