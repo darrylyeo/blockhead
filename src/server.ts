@@ -16,6 +16,7 @@ polka() // You can also use Express
 		sapper.middleware({
 			session: (req, res) => {
 				const {
+					INFURA_PROJECT_ID,
 					POCKET_NETWORK_PPK,
 					POCKET_NETWORK_PASSPHRASE,
 					COVALENT_API_KEY,
@@ -26,6 +27,7 @@ polka() // You can also use Express
 				} = process.env
 				return {
 					env: {
+						INFURA_PROJECT_ID,
 						POCKET_NETWORK_PPK,
 						POCKET_NETWORK_PASSPHRASE,
 						COVALENT_API_KEY,

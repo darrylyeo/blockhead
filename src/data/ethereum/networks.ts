@@ -1,5 +1,9 @@
 import type { Ethereum } from './types'
 
+import { env } from '../../config-secrets'
+const { INFURA_PROJECT_ID } = env
+
+
 export const networks: Ethereum.Network[] = [
 	{
 		"name": "Acala Mandala Testnet",
@@ -859,8 +863,8 @@ export const networks: Ethereum.Network[] = [
 			"decimals": 18
 		},
 		"rpc": [
-			"https://mainnet.infura.io/v3/${INFURA_API_KEY}",
-			"wss://mainnet.infura.io/ws/v3/${INFURA_API_KEY}",
+			`https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}`,
+			`wss://mainnet.infura.io/ws/v3/${INFURA_PROJECT_ID}`,
 			"https://api.mycryptoapi.com/eth",
 			"https://cloudflare-eth.com"
 		],
@@ -989,8 +993,8 @@ export const networks: Ethereum.Network[] = [
 		"rpc": [
 			"https://kovan.poa.network",
 			"http://kovan.poa.network:8545",
-			"https://kovan.infura.io/v3/${INFURA_API_KEY}",
-			"wss://kovan.infura.io/ws/v3/${INFURA_API_KEY}",
+			"https://kovan.infura.io/v3/${INFURA_PROJECT_ID}",
+			"wss://kovan.infura.io/ws/v3/${INFURA_PROJECT_ID}",
 			"ws://kovan.poa.network:8546"
 		],
 		"faucets": [
@@ -1014,8 +1018,8 @@ export const networks: Ethereum.Network[] = [
 			"decimals": 18
 		},
 		"rpc": [
-			"https://rinkeby.infura.io/v3/${INFURA_API_KEY}",
-			"wss://rinkeby.infura.io/ws/v3/${INFURA_API_KEY}"
+			"https://rinkeby.infura.io/v3/${INFURA_PROJECT_ID}",
+			"wss://rinkeby.infura.io/ws/v3/${INFURA_PROJECT_ID}"
 		],
 		"faucets": [
 			"https://faucet.rinkeby.io"
@@ -1037,8 +1041,8 @@ export const networks: Ethereum.Network[] = [
 			"decimals": 18
 		},
 		"rpc": [
-			"https://ropsten.infura.io/v3/${INFURA_API_KEY}",
-			"wss://ropsten.infura.io/ws/v3/${INFURA_API_KEY}"
+			"https://ropsten.infura.io/v3/${INFURA_PROJECT_ID}",
+			"wss://ropsten.infura.io/ws/v3/${INFURA_PROJECT_ID}"
 		],
 		"faucets": [
 			"https://faucet.ropsten.be?${ADDRESS}"
