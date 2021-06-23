@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
+	import type { DeFiProvider } from '../data/defi-provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import type { DefiSDK } from '../data/ethereum/price/defi-sdk'
 	import { getDefiBalances } from '../data/ethereum/price/defi-sdk'
@@ -10,7 +11,7 @@
 	export let network: Ethereum.Network
 	export let provider: Ethereum.Provider
 	export let address: string
-	export let defiProvider: 'Zapper' | 'Zerion DeFi SDK' = 'Zapper'
+	export let defiProvider: DeFiProvider = 'Zapper'
 	export let quoteCurrency: QuoteCurrency
 
 

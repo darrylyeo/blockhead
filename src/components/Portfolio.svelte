@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
+	import type { DeFiProvider } from '../data/defi-provider'
 	import type { AnalyticsProvider } from '../data/analytics/provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
 
@@ -57,6 +58,7 @@
 	// Balances view options
 	
 	export let provider: Ethereum.Provider
+	export let defiProvider: DeFiProvider
 	export let analyticsProvider: AnalyticsProvider
 	export let quoteCurrency: QuoteCurrency
 	
@@ -202,6 +204,7 @@ import { availableNetworks } from '../data/ethereum/networks';
 					bind:showNetworks={networks}
 
 					{provider}
+					{defiProvider}
 					{analyticsProvider}
 					{quoteCurrency}
 

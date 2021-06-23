@@ -2,6 +2,7 @@
 	import { AccountNetworkSettings, AccountType } from '../data/ethereum/portfolio-accounts'
 	// import type { CryptoPosition } from '../data/CryptoPosition'
 	import type { Ethereum } from '../data/ethereum/types'
+	import type { DeFiProvider } from '../data/defi-provider'
 	import type { AnalyticsProvider } from '../data/analytics/provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import { networksByChainID } from '../data/ethereum/networks'
@@ -16,6 +17,7 @@
 	export let showNetworks: AccountNetworkSettings[]
 
 	export let provider: Ethereum.Provider
+	export let defiProvider: DeFiProvider
 	export let analyticsProvider: AnalyticsProvider
 	export let quoteCurrency: QuoteCurrency
 
@@ -201,6 +203,7 @@
 							{network}
 							{provider}
 							{address}
+							{defiProvider}
 							{quoteCurrency}
 							{showValues}
 							{showUnderlyingAssets}

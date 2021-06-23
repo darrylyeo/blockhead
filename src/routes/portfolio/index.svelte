@@ -3,7 +3,7 @@
 
 	import type { Ethereum } from '../../data/ethereum/types'
 	import { Portfolio, getLocalPortfolios } from '../../data/ethereum/portfolio-accounts'
-	import { ethereumChainID, preferredAnalyticsProvider, preferredQuoteCurrency } from '../../data/ethereum/preferences'
+	import { ethereumChainID, preferredDeFiProvider, preferredAnalyticsProvider, preferredQuoteCurrency } from '../../data/ethereum/preferences'
 	import { networksByChainID } from '../../data/ethereum/networks'
 
 
@@ -68,6 +68,7 @@
 					bind:accounts
 					editable={true}
 					provider={portfolioProvider}
+					defiProvider={$preferredDeFiProvider}
 					analyticsProvider={$preferredAnalyticsProvider}
 					quoteCurrency={$preferredQuoteCurrency}
 					on:delete={e => deletePortfolio(i)}

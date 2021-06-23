@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Covalent } from '../data/analytics/covalent'
 	import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '../data/currency/currency'
-	import { preferredAnalyticsProvider, preferredQuoteCurrency, preferredEthereumProvider, preferredOracleProvider, preferredColorScheme } from '../data/ethereum/preferences'
+	import { preferredDeFiProvider, preferredAnalyticsProvider, preferredQuoteCurrency, preferredEthereumProvider, preferredOracleProvider, preferredColorScheme } from '../data/ethereum/preferences'
 </script>
 
 <style>
@@ -48,6 +48,15 @@
 			<option value="Open Price Feed">Compound Price Feed</option> -->
 		<!-- </select>
 	</label> -->
+
+	<label>
+		<span>DeFi Provider:</span>
+		<select bind:value={$preferredDeFiProvider}>
+			<option value="Zapper">Zapper</option>
+			<option value="Zerion DeFi SDK">Zerion DeFi SDK</option>
+			<option value="Covalent">Covalent</option>
+		</select>
+	</label>
 
 	<!-- <label>
 		<span>Blockchain Provider:</span>

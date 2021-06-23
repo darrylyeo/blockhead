@@ -3,7 +3,7 @@
 	import { getProvider, getProviderInstance } from '../data/ethereum/provider'
 	import { getTorusOpenLogin } from '../data/ethereum/providers/torus'
 	import { getAccountsFromProvider } from '../data/ethereum/portfolio-accounts'
-	import { preferredAnalyticsProvider, preferredQuoteCurrency } from '../data/ethereum/preferences'
+	import { preferredDeFiProvider, preferredAnalyticsProvider, preferredQuoteCurrency } from '../data/ethereum/preferences'
 
 
 	export let portfolioProvider
@@ -124,6 +124,7 @@
 			<Portfolio
 				name="MetaMask Wallet"
 				provider={portfolioProvider}
+				defiProvider={$preferredDeFiProvider}
 				analyticsProvider={$preferredAnalyticsProvider}
 				quoteCurrency={$preferredQuoteCurrency}
 				{accounts}
@@ -173,6 +174,7 @@
 			<Portfolio
 				name="Torus Wallet"
 				provider={portfolioProvider}
+				defiProvider={$preferredDeFiProvider}
 				analyticsProvider={$preferredAnalyticsProvider}
 				quoteCurrency={$preferredQuoteCurrency}
 				{accounts}
@@ -222,6 +224,7 @@
 			<Portfolio
 				name="Portis Wallet"
 				provider={portfolioProvider}
+				defiProvider={$preferredDeFiProvider}
 				analyticsProvider={$preferredAnalyticsProvider}
 				quoteCurrency={$preferredQuoteCurrency}
 				{accounts}
