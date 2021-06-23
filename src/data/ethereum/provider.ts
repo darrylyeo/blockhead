@@ -1,10 +1,11 @@
 import type { Ethereum } from './types'
-import { providers } from 'ethers'
+import { getDefaultProvider, providers } from 'ethers'
 import { getWeb3 } from './web3'
 import { getMetaMask } from './providers/metamask'
 import { getTorusOpenLogin } from './providers/torus'
 import { getPortis } from './providers/portis'
 // import { getPocketNetwork } from './providers/pocket-network'
+import { env } from '../../config-secrets'
 
 type ProviderCache = {
 	// Provider object (e.g. Portis instance)
@@ -21,6 +22,29 @@ type ProviderCache = {
 const providersCache: Partial<Record<Ethereum.ChainID, Partial<Record<Ethereum.ProviderName, ProviderCache>> >> = {}
 
 const getProviderAndInstance: Record<Ethereum.ProviderName, (network: Ethereum.Network) => Promise<{ instance: any, provider: any }>> = {
+	'Ethers': async network => {
+		const provider = getDefaultProvider(network.chainId, {
+			// alchemy: env.ALCHEMY_API_KEY,
+			// etherscan: env.ALCHEMY_API_KEY,
+			infura: env.INFURA_PROJECT_ID,
+			// pocket: {
+			// 	applicationId: env.POCKET_NETWORK_PPK,
+			// 	applicationSecretKey: env.POCKET_NETWORK_PASSPHRASE
+			// },
+			// quorum: 2
+		})
+
+		return { instance: provider, provider }
+	},
+
+	'Infura': async network => {
+		const provider = new providers.InfuraProvider(network.chainId, {
+			infura: env.INFURA_PROJECT_ID
+		})
+
+		return { instance: provider, provider }
+	},
+
 	'MetaMask': async network => {
 		const instance = await getMetaMask(network)
 		return { instance, provider: instance }

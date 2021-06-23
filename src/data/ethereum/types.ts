@@ -30,7 +30,7 @@ export namespace Ethereum {
 	export type NetworkID = number
 	export type NetworkName = 'mainnet' | 'ropsten' | 'rinkeby' | 'goerli' | 'kovan' | 'classic' | string
 
-	export type ProviderName = 'MetaMask' | 'Portis' | 'Pocket Network' | 'Torus'
+	export type ProviderName = 'Ethers' | 'Infura' | 'MetaMask' | 'Portis' | 'Pocket Network' | 'Torus'
 	export type ProviderLibrary = 'web3' | 'ethers'
 	export type Provider = Web3Provider
 
