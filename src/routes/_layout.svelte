@@ -28,6 +28,8 @@
 	import { getProvider } from '../data/ethereum/provider'
 	import { onMount, setContext } from 'svelte'
 
+	const whenMounted = new Promise(r => onMount(r))
+
 	const ethereumNetwork = derived<[typeof ethereumChainID], Ethereum.Network>(
 		[ethereumChainID],
 		([$ethereumChainID], set) => {
@@ -36,7 +38,7 @@
 	)
 
 	const ethereumProvider = derived<[typeof ethereumNetwork, typeof preferredEthereumProvider], Ethereum.Provider>([ethereumNetwork, preferredEthereumProvider], async ([$ethereumNetwork, $preferredEthereumProvider], set) => {
-		await new Promise(r => onMount(r))
+		await whenMounted
 		set(await getProvider($ethereumNetwork, $preferredEthereumProvider, 'ethers'))
 	})
 	setContext('ethereumNetwork', ethereumNetwork)
