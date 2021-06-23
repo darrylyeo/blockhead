@@ -50,31 +50,24 @@ export async function getAllDeFiProtocolBalances({network, address}: {network: E
 		throw new Error(`Zapper doesn't yet support ${network.name}.`)
 
 	const supportedProtocolsByNetwork: {network: string, protocols}[] = await fromRaw(ProtocolBalances.balanceControllerGetSupportedV2BalancesRaw({ addresses: [address] }))
-console.log('supportedProtocolsByNetwork', networkName, supportedProtocolsByNetwork)
 	const supportedProtocols = supportedProtocolsByNetwork.find(({network}) => network === networkName)
-console.log('supportedProtocols', supportedProtocols, supportedProtocols?.protocols)
-	const supportedProtocolNames: Zapper.BalanceControllerGetProtocolBalancesV2ProtocolEnum[] = supportedProtocols?.protocols.map(({protocol}) => protocol) ?? []
-	// const supportedProtocolNames = Object.values(Zapper.BalanceControllerGetProtocolBalancesV2ProtocolEnum)
-console.log('supportedProtocolNames', supportedProtocolNames)
-	return await PromiseAllFulfilled<Zapper.BalanceControllerGetProtocolBalancesV2ProtocolEnum>(
+	const supportedProtocolNames: Zapper.BalanceControllerGetProtocolBalancesV2ProtocolEnum[] = supportedProtocols?.protocols.map(({protocol}) => protocol)
+		?? Object.values(Zapper.BalanceControllerGetProtocolBalancesV2ProtocolEnum)
+	return await PromiseAllFulfilled(
 		defiProtocolNames(supportedProtocolNames).map(protocol =>
 			queue.enqueue(() =>
 				ProtocolBalances.balanceControllerGetProtocolBalancesV2({
 					protocol,
-					address,
 					addresses: [address],
 					network: networkNamesByChainID[network.chainId]
 				})
-				.then(response => console.log('response', protocol, address, response)||Object.values(response)[0])
+				.then(response => console.log('Zapper balance', protocol, address, response) || Object.values(response)[0])
 				.catch(async response => console.error(await response.text()))
-				// fromRaw(ProtocolBalances.balanceControllerGetProtocolBalancesV2Raw({
-				// 	protocol,
-				// 	addresses: [address],
-				// 	network: networkNamesByChainID[network.chainId]
-				// }))
 			)
 		)
-	).then(defiBalances => defiBalances.filter(_ => _))
+	).then(defiBalances => defiBalances.filter(
+		<(_) => _ is Zapper.AddressBalanceResponse> (_ => _)
+	))
 }
 
 export async function getAllPoolStats({network, address}: {network: Ethereum.Network, address: Ethereum.Address}){
