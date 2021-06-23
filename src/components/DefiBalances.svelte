@@ -424,16 +424,16 @@
 			<Loader
 				loadingMessage="Reading {network.name} DeFi balances from {defiProvider}..."
 				errorMessage="Error getting {network.name} DeFi balances from {defiProvider}"
-				fromPromise={() => getDefiBalances(provider, address)}
+				fromPromise={provider && address && (() => getDefiBalances(provider, address))}
 				let:then={defiBalances}
-				showIf={defiBalances => defiBalances.length}
+				showIf={defiBalances => defiBalances?.length}
 				{isCollapsed}
 			>
 				<TokenIcon slot="loadingIcon" token="ETH" />
 				<!-- <svelte:fragment slot="loadingIcon"><TokenIcon slot="icon" {token} /></svelte:fragment> -->
 
 				<svelte:fragment slot="header" let:status>
-					{#if defiBalances.length}
+					{#if defiBalances?.length}
 						<slot name="header" {network} {quoteCurrency} {quoteTotal}></slot>
 					{/if}
 				</svelte:fragment>
