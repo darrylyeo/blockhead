@@ -7,7 +7,8 @@
 	import { networksByChainID } from '../../data/ethereum/networks'
 
 
-	const portfolioProvider = getContext<Ethereum.Provider>('ethereumProvider')
+	const ethereumProvider = getContext<SvelteStore<Ethereum.Provider>>('ethereumProvider')
+	$: portfolioProvider = $ethereumProvider
 	
 	const localPortfolios = getLocalPortfolios()
 	function addPortfolio(){
