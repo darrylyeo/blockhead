@@ -7,11 +7,13 @@ apis/MiscellaneousDataEndpointsApi.ts
 apis/ProtocolBalancesApi.ts
 apis/ProtocolStatsApi.ts
 apis/SupportedProtocolsApi.ts
+apis/TokenTransferApi.ts
 apis/ZapBridgeApi.ts
 apis/ZapInApi.ts
 apis/ZapOutApi.ts
 apis/index.ts
 index.ts
+models/AddressBalanceResponse.ts
 models/BaseTokenBalance.ts
 models/ClaimableTokenBalance.ts
 models/CollateralTokenBalance.ts

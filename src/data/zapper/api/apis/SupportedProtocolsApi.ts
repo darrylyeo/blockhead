@@ -21,37 +21,6 @@ import * as runtime from '../runtime';
 export class SupportedProtocolsApi extends runtime.BaseAPI {
 
     /**
-     * Gets the insurance types supported for retrieving stats on each supported network
-     * Supported Insurance Stats
-     */
-    async poolControllerGetSupportedInsuranceStatsRaw(): Promise<runtime.ApiResponse<void>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.apiKey) {
-            queryParameters["api_key"] = this.configuration.apiKey("api_key"); // api_key authentication
-        }
-
-        const response = await this.request({
-            path: `/v1/insurance-stats/supported`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * Gets the insurance types supported for retrieving stats on each supported network
-     * Supported Insurance Stats
-     */
-    async poolControllerGetSupportedInsuranceStats(): Promise<void> {
-        await this.poolControllerGetSupportedInsuranceStatsRaw();
-    }
-
-    /**
      * Gets the lending types supported for retrieving stats on each supported network
      * Supported Lending Stats
      */

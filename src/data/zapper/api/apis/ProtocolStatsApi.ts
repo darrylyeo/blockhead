@@ -20,11 +20,6 @@ export interface FarmFetcherControllerGetEthereumFarmsRequest {
     network?: FarmFetcherControllerGetEthereumFarmsNetworkEnum;
 }
 
-export interface PoolControllerGetInsuranceStatsRequest {
-    insuranceStatsType: PoolControllerGetInsuranceStatsInsuranceStatsTypeEnum;
-    network: PoolControllerGetInsuranceStatsNetworkEnum;
-}
-
 export interface PoolControllerGetLendingPoolStatsRequest {
     lendingPoolStatsType: PoolControllerGetLendingPoolStatsLendingPoolStatsTypeEnum;
     network: PoolControllerGetLendingPoolStatsNetworkEnum;
@@ -88,49 +83,6 @@ export class ProtocolStatsApi extends runtime.BaseAPI {
      */
     async farmFetcherControllerGetEthereumFarms(requestParameters: FarmFetcherControllerGetEthereumFarmsRequest): Promise<void> {
         await this.farmFetcherControllerGetEthereumFarmsRaw(requestParameters);
-    }
-
-    /**
-     * Retrieve insurance stats for a given protocol
-     * Insurance Stats
-     */
-    async poolControllerGetInsuranceStatsRaw(requestParameters: PoolControllerGetInsuranceStatsRequest): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.insuranceStatsType === null || requestParameters.insuranceStatsType === undefined) {
-            throw new runtime.RequiredError('insuranceStatsType','Required parameter requestParameters.insuranceStatsType was null or undefined when calling poolControllerGetInsuranceStats.');
-        }
-
-        if (requestParameters.network === null || requestParameters.network === undefined) {
-            throw new runtime.RequiredError('network','Required parameter requestParameters.network was null or undefined when calling poolControllerGetInsuranceStats.');
-        }
-
-        const queryParameters: any = {};
-
-        if (requestParameters.network !== undefined) {
-            queryParameters['network'] = requestParameters.network;
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.apiKey) {
-            queryParameters["api_key"] = this.configuration.apiKey("api_key"); // api_key authentication
-        }
-
-        const response = await this.request({
-            path: `/v1/insurance-stats/{insuranceStatsType}`.replace(`{${"insuranceStatsType"}}`, encodeURIComponent(String(requestParameters.insuranceStatsType))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * Retrieve insurance stats for a given protocol
-     * Insurance Stats
-     */
-    async poolControllerGetInsuranceStats(requestParameters: PoolControllerGetInsuranceStatsRequest): Promise<void> {
-        await this.poolControllerGetInsuranceStatsRaw(requestParameters);
     }
 
     /**
@@ -208,7 +160,7 @@ export class ProtocolStatsApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response);
     }
 
     /**
@@ -337,28 +289,12 @@ export enum FarmFetcherControllerGetEthereumFarmsNetworkEnum {
     * @export
     * @enum {string}
     */
-export enum PoolControllerGetInsuranceStatsInsuranceStatsTypeEnum {
-    Cover = 'cover'
-}
-/**
-    * @export
-    * @enum {string}
-    */
-export enum PoolControllerGetInsuranceStatsNetworkEnum {
-    Ethereum = 'ethereum',
-    Polygon = 'polygon',
-    Optimism = 'optimism',
-    Xdai = 'xdai',
-    BinanceSmartChain = 'binance-smart-chain',
-    Fantom = 'fantom'
-}
-/**
-    * @export
-    * @enum {string}
-    */
 export enum PoolControllerGetLendingPoolStatsLendingPoolStatsTypeEnum {
     Aave = 'aave',
-    Compound = 'compound'
+    Bzx = 'bzx',
+    Compound = 'compound',
+    Inverse = 'inverse',
+    Venus = 'venus'
 }
 /**
     * @export
@@ -378,7 +314,9 @@ export enum PoolControllerGetLendingPoolStatsNetworkEnum {
     */
 export enum PoolControllerGetPoolStatsPoolStatsTypeEnum {
     Balancer = 'balancer',
+    BalancerV2 = 'balancer-v2',
     Bancor = 'bancor',
+    BeltPools = 'belt-pools',
     Curve = 'curve',
     Dhedge = 'dhedge',
     Ellipsis = 'ellipsis',
@@ -388,6 +326,7 @@ export enum PoolControllerGetPoolStatsPoolStatsTypeEnum {
     Quickswap = 'quickswap',
     Sfinance = 'sfinance',
     Snowswap = 'snowswap',
+    Spookyswap = 'spookyswap',
     Sushiswap = 'sushiswap',
     UniswapV2 = 'uniswap-v2',
     Linkswap = 'linkswap',
@@ -413,7 +352,9 @@ export enum PoolControllerGetPoolStatsNetworkEnum {
     */
 export enum PoolControllerGetPoolStatsByAddressPoolStatsTypeEnum {
     Balancer = 'balancer',
+    BalancerV2 = 'balancer-v2',
     Bancor = 'bancor',
+    BeltPools = 'belt-pools',
     Curve = 'curve',
     Dhedge = 'dhedge',
     Ellipsis = 'ellipsis',
@@ -423,6 +364,7 @@ export enum PoolControllerGetPoolStatsByAddressPoolStatsTypeEnum {
     Quickswap = 'quickswap',
     Sfinance = 'sfinance',
     Snowswap = 'snowswap',
+    Spookyswap = 'spookyswap',
     Sushiswap = 'sushiswap',
     UniswapV2 = 'uniswap-v2',
     Linkswap = 'linkswap',
@@ -448,10 +390,18 @@ export enum PoolControllerGetPoolStatsByAddressNetworkEnum {
     */
 export enum PoolControllerGetVaultStatsVaultStatsTypeEnum {
     Badger = 'badger',
+    Beefy = 'beefy',
+    Bella = 'bella',
+    BeltVaults = 'belt-vaults',
+    Convex = 'convex',
+    Cover = 'cover',
     Harvest = 'harvest',
     Mushroom = 'mushroom',
     Pickle = 'pickle',
     Pooltogether = 'pooltogether',
+    Ribbon = 'ribbon',
+    Vesper = 'vesper',
+    Yaxis = 'yaxis',
     Yearn = 'yearn'
 }
 /**

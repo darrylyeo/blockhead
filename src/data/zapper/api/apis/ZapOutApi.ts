@@ -309,6 +309,7 @@ export enum ZapOutControllerGetZapOutApprovalStateProtocolEnum {
     Balancer = 'balancer',
     Curve = 'curve',
     Pancakeswap = 'pancakeswap',
+    Quickswap = 'quickswap',
     Sushiswap = 'sushiswap',
     UniswapV2 = 'uniswap-v2',
     Yearn = 'yearn'
@@ -333,6 +334,7 @@ export enum ZapOutControllerGetZapOutApprovalTransactionProtocolEnum {
     Balancer = 'balancer',
     Curve = 'curve',
     Pancakeswap = 'pancakeswap',
+    Quickswap = 'quickswap',
     Sushiswap = 'sushiswap',
     UniswapV2 = 'uniswap-v2',
     Yearn = 'yearn'
@@ -357,6 +359,7 @@ export enum ZapOutControllerGetZapOutTransactionProtocolEnum {
     Balancer = 'balancer',
     Curve = 'curve',
     Pancakeswap = 'pancakeswap',
+    Quickswap = 'quickswap',
     Sushiswap = 'sushiswap',
     UniswapV2 = 'uniswap-v2',
     Yearn = 'yearn'

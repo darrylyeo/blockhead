@@ -89,7 +89,7 @@ export class MiscellaneousDataEndpointsApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.VoidApiResponse(response);
     }
 
     /**
@@ -97,8 +97,7 @@ export class MiscellaneousDataEndpointsApi extends runtime.BaseAPI {
      * Fiat Currency Rates
      */
     async pricesControllerListFiatRates(): Promise<void> {
-        const response = await this.pricesControllerListFiatRatesRaw();
-        return await response.value();
+        await this.pricesControllerListFiatRatesRaw();
     }
 
     /**

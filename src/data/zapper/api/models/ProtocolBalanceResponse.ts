@@ -14,14 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    MetadataItem,
-    MetadataItemFromJSON,
-    MetadataItemFromJSONTyped,
-    MetadataItemToJSON,
-    ProductItem,
-    ProductItemFromJSON,
-    ProductItemFromJSONTyped,
-    ProductItemToJSON,
+    AddressBalanceResponse,
+    AddressBalanceResponseFromJSON,
+    AddressBalanceResponseFromJSONTyped,
+    AddressBalanceResponseToJSON,
 } from './';
 
 /**
@@ -29,53 +25,53 @@ import {
  * @export
  * @interface ProtocolBalanceResponse
  */
-export interface _ProtocolBalanceResponse {
-    /**
-     * Data on the specific balances
-     * @type {Array<ProductItem>}
-     * @memberof ProtocolBalanceResponse
-     */
-    products: Array<ProductItem>;
-    /**
-     * Metadata about the overall response
-     * @type {Array<MetadataItem>}
-     * @memberof ProtocolBalanceResponse
-     */
-    meta: Array<MetadataItem>;
-}
-export type ProtocolBalanceResponse = Record<string, _ProtocolBalanceResponse>
+export type ProtocolBalanceResponse = Record<string, AddressBalanceResponse>
+// /**
+//  * 
+//  * @export
+//  * @interface ProtocolBalanceResponse
+//  */
+// export interface ProtocolBalanceResponse {
+//     /**
+//      * 
+//      * @type {AddressBalanceResponse}
+//      * @memberof ProtocolBalanceResponse
+//      */
+//     yourAddress: AddressBalanceResponse;
+// }
 
 export function ProtocolBalanceResponseFromJSON(json: any): ProtocolBalanceResponse {
-    return ProtocolBalanceResponseFromJSONTyped(json, false);
+    return json;
+    // return ProtocolBalanceResponseFromJSONTyped(json, false);
 }
 
 export function ProtocolBalanceResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ProtocolBalanceResponse {
-    return json;
-
     if ((json === undefined) || (json === null)) {
         return json;
     }
-    return {
+    return json;
+    // return Object.fromEntries(Object.entries(json).map(([yourAddress, data]) => [
+    //     yourAddress,
+    //     AddressBalanceResponseFromJSON(data)
+    // ]));
+    // return {
         
-        'products': ((json['products'] as Array<any>).map(ProductItemFromJSON)),
-        'meta': ((json['meta'] as Array<any>).map(MetadataItemFromJSON)),
-    };
+    //     'yourAddress': AddressBalanceResponseFromJSON(json['yourAddress']),
+    // };
 }
 
 export function ProtocolBalanceResponseToJSON(value?: ProtocolBalanceResponse | null): any {
-    return value;
-
     if (value === undefined) {
         return undefined;
     }
     if (value === null) {
         return null;
     }
-    return {
+    return value;
+    // return {
         
-        'products': ((value.products as Array<any>).map(ProductItemToJSON)),
-        'meta': ((value.meta as Array<any>).map(MetadataItemToJSON)),
-    };
+    //     'yourAddress': AddressBalanceResponseToJSON(value.yourAddress),
+    // };
 }
 
 

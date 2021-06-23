@@ -6,6 +6,7 @@ export * from './MiscellaneousDataEndpointsApi';
 export * from './ProtocolBalancesApi';
 export * from './ProtocolStatsApi';
 export * from './SupportedProtocolsApi';
+export * from './TokenTransferApi';
 export * from './ZapBridgeApi';
 export * from './ZapInApi';
 export * from './ZapOutApi';

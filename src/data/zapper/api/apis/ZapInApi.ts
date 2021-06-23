@@ -312,11 +312,13 @@ export enum ZapInControllerGetZapInApprovalStateProtocolEnum {
     _1inch = '1inch',
     Pancakeswap = 'pancakeswap',
     Pooltogether = 'pooltogether',
+    Quickswap = 'quickswap',
     Sushiswap = 'sushiswap',
     UniswapV2 = 'uniswap-v2',
     Yearn = 'yearn',
     Pickle = 'pickle',
-    Harvest = 'harvest'
+    Harvest = 'harvest',
+    Mushroom = 'mushroom'
 }
 /**
     * @export
@@ -341,11 +343,13 @@ export enum ZapInControllerGetZapInApprovalTransactionProtocolEnum {
     _1inch = '1inch',
     Pancakeswap = 'pancakeswap',
     Pooltogether = 'pooltogether',
+    Quickswap = 'quickswap',
     Sushiswap = 'sushiswap',
     UniswapV2 = 'uniswap-v2',
     Yearn = 'yearn',
     Pickle = 'pickle',
-    Harvest = 'harvest'
+    Harvest = 'harvest',
+    Mushroom = 'mushroom'
 }
 /**
     * @export
@@ -370,11 +374,13 @@ export enum ZapInControllerGetZapInTransactionProtocolEnum {
     _1inch = '1inch',
     Pancakeswap = 'pancakeswap',
     Pooltogether = 'pooltogether',
+    Quickswap = 'quickswap',
     Sushiswap = 'sushiswap',
     UniswapV2 = 'uniswap-v2',
     Yearn = 'yearn',
     Pickle = 'pickle',
-    Harvest = 'harvest'
+    Harvest = 'harvest',
+    Mushroom = 'mushroom'
 }
 /**
     * @export

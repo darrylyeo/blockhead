@@ -24,6 +24,8 @@ export interface FarmStakingControllerGetApprovalStateRequest {
     farmStatsType: FarmStakingControllerGetApprovalStateFarmStatsTypeEnum;
     ownerAddress: string;
     rewardAddress: string;
+    poolIndex: number;
+    network?: FarmStakingControllerGetApprovalStateNetworkEnum;
 }
 
 export interface FarmStakingControllerGetApprovalTransactionRequest {
@@ -31,29 +33,37 @@ export interface FarmStakingControllerGetApprovalTransactionRequest {
     ownerAddress: string;
     rewardAddress: string;
     gasPrice: string;
+    poolIndex: number;
+    network?: FarmStakingControllerGetApprovalTransactionNetworkEnum;
 }
 
 export interface FarmStakingControllerGetClaimTransactionRequest {
     farmStatsType: FarmStakingControllerGetClaimTransactionFarmStatsTypeEnum;
     ownerAddress: string;
     rewardAddress: string;
+    poolIndex: number;
     gasPrice: string;
+    network?: FarmStakingControllerGetClaimTransactionNetworkEnum;
 }
 
 export interface FarmStakingControllerGetExitTransactionRequest {
     farmStatsType: FarmStakingControllerGetExitTransactionFarmStatsTypeEnum;
     ownerAddress: string;
     rewardAddress: string;
+    poolIndex: number;
     amount: string;
     gasPrice: string;
+    network?: FarmStakingControllerGetExitTransactionNetworkEnum;
 }
 
 export interface FarmStakingControllerGetStakeTransactionRequest {
     farmStatsType: FarmStakingControllerGetStakeTransactionFarmStatsTypeEnum;
     ownerAddress: string;
     rewardAddress: string;
+    poolIndex: number;
     amount: string;
     gasPrice: string;
+    network?: FarmStakingControllerGetStakeTransactionNetworkEnum;
 }
 
 /**
@@ -78,6 +88,10 @@ export class FarmTransactionsApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('rewardAddress','Required parameter requestParameters.rewardAddress was null or undefined when calling farmStakingControllerGetApprovalState.');
         }
 
+        if (requestParameters.poolIndex === null || requestParameters.poolIndex === undefined) {
+            throw new runtime.RequiredError('poolIndex','Required parameter requestParameters.poolIndex was null or undefined when calling farmStakingControllerGetApprovalState.');
+        }
+
         const queryParameters: any = {};
 
         if (requestParameters.ownerAddress !== undefined) {
@@ -86,6 +100,14 @@ export class FarmTransactionsApi extends runtime.BaseAPI {
 
         if (requestParameters.rewardAddress !== undefined) {
             queryParameters['rewardAddress'] = requestParameters.rewardAddress;
+        }
+
+        if (requestParameters.poolIndex !== undefined) {
+            queryParameters['poolIndex'] = requestParameters.poolIndex;
+        }
+
+        if (requestParameters.network !== undefined) {
+            queryParameters['network'] = requestParameters.network;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -133,6 +155,10 @@ export class FarmTransactionsApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('gasPrice','Required parameter requestParameters.gasPrice was null or undefined when calling farmStakingControllerGetApprovalTransaction.');
         }
 
+        if (requestParameters.poolIndex === null || requestParameters.poolIndex === undefined) {
+            throw new runtime.RequiredError('poolIndex','Required parameter requestParameters.poolIndex was null or undefined when calling farmStakingControllerGetApprovalTransaction.');
+        }
+
         const queryParameters: any = {};
 
         if (requestParameters.ownerAddress !== undefined) {
@@ -145,6 +171,14 @@ export class FarmTransactionsApi extends runtime.BaseAPI {
 
         if (requestParameters.gasPrice !== undefined) {
             queryParameters['gasPrice'] = requestParameters.gasPrice;
+        }
+
+        if (requestParameters.poolIndex !== undefined) {
+            queryParameters['poolIndex'] = requestParameters.poolIndex;
+        }
+
+        if (requestParameters.network !== undefined) {
+            queryParameters['network'] = requestParameters.network;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -189,6 +223,10 @@ export class FarmTransactionsApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('rewardAddress','Required parameter requestParameters.rewardAddress was null or undefined when calling farmStakingControllerGetClaimTransaction.');
         }
 
+        if (requestParameters.poolIndex === null || requestParameters.poolIndex === undefined) {
+            throw new runtime.RequiredError('poolIndex','Required parameter requestParameters.poolIndex was null or undefined when calling farmStakingControllerGetClaimTransaction.');
+        }
+
         if (requestParameters.gasPrice === null || requestParameters.gasPrice === undefined) {
             throw new runtime.RequiredError('gasPrice','Required parameter requestParameters.gasPrice was null or undefined when calling farmStakingControllerGetClaimTransaction.');
         }
@@ -203,8 +241,16 @@ export class FarmTransactionsApi extends runtime.BaseAPI {
             queryParameters['rewardAddress'] = requestParameters.rewardAddress;
         }
 
+        if (requestParameters.poolIndex !== undefined) {
+            queryParameters['poolIndex'] = requestParameters.poolIndex;
+        }
+
         if (requestParameters.gasPrice !== undefined) {
             queryParameters['gasPrice'] = requestParameters.gasPrice;
+        }
+
+        if (requestParameters.network !== undefined) {
+            queryParameters['network'] = requestParameters.network;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -249,6 +295,10 @@ export class FarmTransactionsApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('rewardAddress','Required parameter requestParameters.rewardAddress was null or undefined when calling farmStakingControllerGetExitTransaction.');
         }
 
+        if (requestParameters.poolIndex === null || requestParameters.poolIndex === undefined) {
+            throw new runtime.RequiredError('poolIndex','Required parameter requestParameters.poolIndex was null or undefined when calling farmStakingControllerGetExitTransaction.');
+        }
+
         if (requestParameters.amount === null || requestParameters.amount === undefined) {
             throw new runtime.RequiredError('amount','Required parameter requestParameters.amount was null or undefined when calling farmStakingControllerGetExitTransaction.');
         }
@@ -267,12 +317,20 @@ export class FarmTransactionsApi extends runtime.BaseAPI {
             queryParameters['rewardAddress'] = requestParameters.rewardAddress;
         }
 
+        if (requestParameters.poolIndex !== undefined) {
+            queryParameters['poolIndex'] = requestParameters.poolIndex;
+        }
+
         if (requestParameters.amount !== undefined) {
             queryParameters['amount'] = requestParameters.amount;
         }
 
         if (requestParameters.gasPrice !== undefined) {
             queryParameters['gasPrice'] = requestParameters.gasPrice;
+        }
+
+        if (requestParameters.network !== undefined) {
+            queryParameters['network'] = requestParameters.network;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -317,6 +375,10 @@ export class FarmTransactionsApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('rewardAddress','Required parameter requestParameters.rewardAddress was null or undefined when calling farmStakingControllerGetStakeTransaction.');
         }
 
+        if (requestParameters.poolIndex === null || requestParameters.poolIndex === undefined) {
+            throw new runtime.RequiredError('poolIndex','Required parameter requestParameters.poolIndex was null or undefined when calling farmStakingControllerGetStakeTransaction.');
+        }
+
         if (requestParameters.amount === null || requestParameters.amount === undefined) {
             throw new runtime.RequiredError('amount','Required parameter requestParameters.amount was null or undefined when calling farmStakingControllerGetStakeTransaction.');
         }
@@ -335,12 +397,20 @@ export class FarmTransactionsApi extends runtime.BaseAPI {
             queryParameters['rewardAddress'] = requestParameters.rewardAddress;
         }
 
+        if (requestParameters.poolIndex !== undefined) {
+            queryParameters['poolIndex'] = requestParameters.poolIndex;
+        }
+
         if (requestParameters.amount !== undefined) {
             queryParameters['amount'] = requestParameters.amount;
         }
 
         if (requestParameters.gasPrice !== undefined) {
             queryParameters['gasPrice'] = requestParameters.gasPrice;
+        }
+
+        if (requestParameters.network !== undefined) {
+            queryParameters['network'] = requestParameters.network;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -384,11 +454,35 @@ export enum FarmStakingControllerGetApprovalStateFarmStatsTypeEnum {
     * @export
     * @enum {string}
     */
+export enum FarmStakingControllerGetApprovalStateNetworkEnum {
+    Ethereum = 'ethereum',
+    Polygon = 'polygon',
+    Optimism = 'optimism',
+    Xdai = 'xdai',
+    BinanceSmartChain = 'binance-smart-chain',
+    Fantom = 'fantom'
+}
+/**
+    * @export
+    * @enum {string}
+    */
 export enum FarmStakingControllerGetApprovalTransactionFarmStatsTypeEnum {
     Masterchef = 'masterchef',
     SingleStaking = 'single-staking',
     Geyser = 'geyser',
     Gauge = 'gauge'
+}
+/**
+    * @export
+    * @enum {string}
+    */
+export enum FarmStakingControllerGetApprovalTransactionNetworkEnum {
+    Ethereum = 'ethereum',
+    Polygon = 'polygon',
+    Optimism = 'optimism',
+    Xdai = 'xdai',
+    BinanceSmartChain = 'binance-smart-chain',
+    Fantom = 'fantom'
 }
 /**
     * @export
@@ -404,6 +498,18 @@ export enum FarmStakingControllerGetClaimTransactionFarmStatsTypeEnum {
     * @export
     * @enum {string}
     */
+export enum FarmStakingControllerGetClaimTransactionNetworkEnum {
+    Ethereum = 'ethereum',
+    Polygon = 'polygon',
+    Optimism = 'optimism',
+    Xdai = 'xdai',
+    BinanceSmartChain = 'binance-smart-chain',
+    Fantom = 'fantom'
+}
+/**
+    * @export
+    * @enum {string}
+    */
 export enum FarmStakingControllerGetExitTransactionFarmStatsTypeEnum {
     Masterchef = 'masterchef',
     SingleStaking = 'single-staking',
@@ -414,9 +520,33 @@ export enum FarmStakingControllerGetExitTransactionFarmStatsTypeEnum {
     * @export
     * @enum {string}
     */
+export enum FarmStakingControllerGetExitTransactionNetworkEnum {
+    Ethereum = 'ethereum',
+    Polygon = 'polygon',
+    Optimism = 'optimism',
+    Xdai = 'xdai',
+    BinanceSmartChain = 'binance-smart-chain',
+    Fantom = 'fantom'
+}
+/**
+    * @export
+    * @enum {string}
+    */
 export enum FarmStakingControllerGetStakeTransactionFarmStatsTypeEnum {
     Masterchef = 'masterchef',
     SingleStaking = 'single-staking',
     Geyser = 'geyser',
     Gauge = 'gauge'
+}
+/**
+    * @export
+    * @enum {string}
+    */
+export enum FarmStakingControllerGetStakeTransactionNetworkEnum {
+    Ethereum = 'ethereum',
+    Polygon = 'polygon',
+    Optimism = 'optimism',
+    Xdai = 'xdai',
+    BinanceSmartChain = 'binance-smart-chain',
+    Fantom = 'fantom'
 }

@@ -336,6 +336,37 @@ export class ExchangeApi extends runtime.BaseAPI {
         await this.exchangeControllerGetExchangeQuoteRaw(requestParameters);
     }
 
+    /**
+     * Returns the exchanges supported by Zapper API.
+     * Supported exchanges
+     */
+    async exchangeControllerGetSupportedExchangesRaw(): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            queryParameters["api_key"] = this.configuration.apiKey("api_key"); // api_key authentication
+        }
+
+        const response = await this.request({
+            path: `/v1/exchange/supported`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Returns the exchanges supported by Zapper API.
+     * Supported exchanges
+     */
+    async exchangeControllerGetSupportedExchanges(): Promise<void> {
+        await this.exchangeControllerGetSupportedExchangesRaw();
+    }
+
 }
 
 /**

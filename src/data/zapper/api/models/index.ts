@@ -1,3 +1,4 @@
+export * from './AddressBalanceResponse';
 export * from './BaseTokenBalance';
 export * from './ClaimableTokenBalance';
 export * from './CollateralTokenBalance';
