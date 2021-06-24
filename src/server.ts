@@ -17,6 +17,7 @@ polka() // You can also use Express
 			session: (req, res) => {
 				const {
 					INFURA_PROJECT_ID,
+					ALCHEMY_API_KEY_MAINNET,
 					POCKET_NETWORK_PPK,
 					POCKET_NETWORK_PASSPHRASE,
 					COVALENT_API_KEY,
@@ -28,6 +29,7 @@ polka() // You can also use Express
 				return {
 					env: {
 						INFURA_PROJECT_ID,
+						ALCHEMY_API_KEY_MAINNET,
 						POCKET_NETWORK_PPK,
 						POCKET_NETWORK_PASSPHRASE,
 						COVALENT_API_KEY,

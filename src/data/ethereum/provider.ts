@@ -24,8 +24,8 @@ const providersCache: Partial<Record<Ethereum.ChainID, Partial<Record<Ethereum.P
 const getProviderAndInstance: Record<Ethereum.ProviderName, (network: Ethereum.Network) => Promise<{ instance: any, provider: any }>> = {
 	'Ethers': async network => {
 		const provider = getDefaultProvider(network.chainId, {
-			// alchemy: env.ALCHEMY_API_KEY,
-			// etherscan: env.ALCHEMY_API_KEY,
+			alchemy: env.ALCHEMY_API_KEY_MAINNET,
+			// etherscan: env.ETHERSCAN_API_KEY,
 			infura: env.INFURA_PROJECT_ID,
 			// pocket: {
 			// 	applicationId: env.POCKET_NETWORK_PPK,
@@ -42,6 +42,11 @@ const getProviderAndInstance: Record<Ethereum.ProviderName, (network: Ethereum.N
 			infura: env.INFURA_PROJECT_ID
 		})
 
+		return { instance: provider, provider }
+	},
+
+	'Alchemy': async network => {
+		const provider = new providers.AlchemyProvider(network.chainId, env.ALCHEMY_API_KEY_MAINNET)
 		return { instance: provider, provider }
 	},
 

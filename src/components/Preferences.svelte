@@ -64,6 +64,7 @@
 			<option value="Ethers">Ethers Quorum</option><!-- (Infura + Etherscan + Alchemy + Pocket) -->
 			<option value="Infura">Infura</option>
 			<option value="Pocket Network">Pocket Network</option>
+			<option value="Alchemy">Alchemy</option>
 			<option value="Portis">Infura (Portis)</option>
 		</select>
 	</label>
