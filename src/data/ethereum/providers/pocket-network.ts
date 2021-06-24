@@ -7,8 +7,8 @@ import { env } from '../../../config-secrets'
 
 // https://docs.pokt.network/docs/supported-networks-on-mainnet
 const pocketNetworkChainIDs: Record<Ethereum.ChainID, string> = {
-	1: '0021', // Mainnet Full Node
-	// 1: '0022', // Mainnet Archival
+	// 1: '0021', // Mainnet Full Node
+	1: '0022', // Mainnet Archival
 	3: '0023', // Ropsten Full Node
 	42: '0024', // Kovan Full Node
 	4: '0025', // Rinkeby Full Node
@@ -21,7 +21,7 @@ let pocketInstance
 let pocketAAT
 async function getPocketInstance(){
 	if(!pocketInstance || !pocketAAT){
-		const { Pocket, HttpProvider, Configuration } = await import('@pokt-network/web3-provider')
+		const { Pocket, HttpRpcProvider, Configuration } = await import('@pokt-network/pocket-js')
 
 		// The dispatcher provides information about your Pocket session so that your
 		// application can then connect to the decentralized network of nodes.
@@ -32,7 +32,7 @@ async function getPocketInstance(){
 		pocketInstance = new Pocket(
 			dispatchers,
 
-			new HttpProvider(dispatchers), // HttpRpcProvider
+			new HttpRpcProvider(dispatchers.join(',')),
 
 			// (optional) Configuration stores multiple properties used to interact with the Pocket Network. 
 			new Configuration(
@@ -56,7 +56,7 @@ async function getPocketInstance(){
 
 // This is only called once to setup the Pocket Instance and AAT
 async function unlockAAT(pocketInstance, aat, accountPPK, accountPassphrase) {
-	const { PocketAAT } = await import('@pokt-network/web3-provider')
+	const { PocketAAT } = await import('@pokt-network/pocket-js')
 
 	try {
 		const account = await pocketInstance.keybase.importPPKFromJSON(

@@ -27,10 +27,10 @@ const getProviderAndInstance: Record<Ethereum.ProviderName, (network: Ethereum.N
 			alchemy: env.ALCHEMY_API_KEY_MAINNET,
 			// etherscan: env.ETHERSCAN_API_KEY,
 			infura: env.INFURA_PROJECT_ID,
-			// pocket: {
-			// 	applicationId: env.POCKET_NETWORK_PPK,
-			// 	applicationSecretKey: env.POCKET_NETWORK_PASSPHRASE
-			// },
+			pocket: {
+				applicationId: env.POCKET_APP_PUBLIC_KEY,
+				applicationSecretKey: env.POCKET_SECRET_KEY
+			},
 			// quorum: 2
 		})
 
@@ -67,8 +67,23 @@ const getProviderAndInstance: Record<Ethereum.ProviderName, (network: Ethereum.N
 	},
 
 	'Pocket Network': async network => {
-		const { instance, provider } = await getPocketNetwork(network)
-		return { instance, provider }
+		const getUrl = providers.PocketProvider.getUrl
+		providers.PocketProvider.getUrl = (...args) => {
+			const connection = getUrl(...args)
+			connection.url = connection.url.replace('eth-mainnet.gateway.pokt.network', 'eth-archival.gateway.pokt.network')
+			return connection
+		}
+
+		const provider = new providers.PocketProvider(network.chainId, {
+			applicationId: env.POCKET_GATEWAY_ID,
+			applicationSecretKey: env.POCKET_SECRET_KEY,
+			loadBalancer: true
+		})
+		console.log('Pocket Network provider', provider)
+		return { instance: provider, provider }
+
+		// const { instance, provider } = await getPocketNetwork(network)
+		// return { instance, provider }
 	}
 }
 

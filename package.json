@@ -13,6 +13,7 @@
   "dependencies": {
     "@apollo/client": "^3.3.20",
     "@compound-finance/compound-js": "^0.2.13",
+    "@pokt-network/pocket-js": "^0.5.4-rc",
     "@pokt-network/web3-provider": "^0.0.6-rc",
     "@portis/web3": "^4.0.4",
     "@toruslabs/openlogin": "^0.9.0",

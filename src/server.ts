@@ -18,6 +18,9 @@ polka() // You can also use Express
 				const {
 					INFURA_PROJECT_ID,
 					ALCHEMY_API_KEY_MAINNET,
+					POCKET_GATEWAY_ID,
+					POCKET_APP_PUBLIC_KEY,
+					POCKET_SECRET_KEY,
 					POCKET_NETWORK_PPK,
 					POCKET_NETWORK_PASSPHRASE,
 					COVALENT_API_KEY,
@@ -30,6 +33,9 @@ polka() // You can also use Express
 					env: {
 						INFURA_PROJECT_ID,
 						ALCHEMY_API_KEY_MAINNET,
+						POCKET_GATEWAY_ID,
+						POCKET_APP_PUBLIC_KEY,
+						POCKET_SECRET_KEY,
 						POCKET_NETWORK_PPK,
 						POCKET_NETWORK_PASSPHRASE,
 						COVALENT_API_KEY,
