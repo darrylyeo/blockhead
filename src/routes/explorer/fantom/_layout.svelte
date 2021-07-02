@@ -22,7 +22,7 @@
 
 
 	import AddressField from '../../../components/AddressField.svelte'
-	import NetworkLoader from '../../../components/NetworkLoader.svelte'
+	import NetworkProviderLoader from '../../../components/NetworkProviderLoader.svelte'
 	import { fly } from 'svelte/transition'
 </script>
 
@@ -42,11 +42,11 @@
 		<button>Go</button>
 	</form>
 
-	<NetworkLoader
+	<NetworkProviderLoader
 		network={$explorerNetwork}
 		providerPromise={$explorerProvider && (async () => $explorerProvider)}
 		providerName={$preferredEthereumProvider}
 	>
 		<slot />
-	</NetworkLoader>
+	</NetworkProviderLoader>
 </section>
