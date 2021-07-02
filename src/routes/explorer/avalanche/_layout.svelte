@@ -22,8 +22,7 @@
 
 
 	import AddressField from '../../../components/AddressField.svelte'
-	import Loader from '../../../components/Loader.svelte'
-	import TokenIcon from '../../../components/TokenIcon.svelte'
+	import NetworkLoader from '../../../components/NetworkLoader.svelte'
 	import { fly } from 'svelte/transition'
 </script>
 
@@ -43,12 +42,11 @@
 		<button>Go</button>
 	</form>
 
-	<Loader
-		loadingMessage="Connecting to the {$explorerNetwork ? `${$explorerNetwork.name} ` : ''} blockchain via {$preferredEthereumProvider}..."
-		fromPromise={$explorerProvider && (async () => $explorerProvider)}
+	<NetworkLoader
+		network={$explorerNetwork}
+		providerPromise={$explorerProvider && (async () => $explorerProvider)}
+		providerName={$preferredEthereumProvider}
 	>
-		<TokenIcon slot="loadingIcon" token={$explorerNetwork.nativeCurrency.symbol} />
-
 		<slot />
-	</Loader>
+	</NetworkLoader>
 </section>
