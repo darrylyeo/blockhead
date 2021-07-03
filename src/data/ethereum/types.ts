@@ -11,9 +11,9 @@ export namespace Ethereum {
 		network: NetworkName,
 		networkId: NetworkID,
 		nativeCurrency: {
-			'name': string,
-			'symbol': TickerSymbol,
-			'decimals': Number
+			name: string,
+			symbol: TickerSymbol,
+			decimals: Number
 		},
 		rpc: string[],
 		faucets: string[],
@@ -39,14 +39,26 @@ export namespace Ethereum {
 	export type BlockNumber = number
 
 	export type ContractAddress = string
-}
-
-// https://github.com/ethereum-lists/chains
-// https://chainid.network
-export const evmNetworkByID: Record<Ethereum.NetworkID, Ethereum.NetworkName> = {
-	1: 'mainnet',
-	3: 'ropsten',
-	4: 'rinkeby',
-	5: 'goerli',
-	42: 'kovan'
+	export type Contract = {
+		name?: string,
+		address: ContractAddress,
+		abi?: object
+	}
+	export type ERC20Token = Contract & {
+		name: string,
+		symbol: TickerSymbol,
+		decimals: Number,
+		icon?: string
+	}
+	export type ERC721Token = Contract & {
+		name: string,
+		symbol: TickerSymbol,
+		icon?: string
+	}
+	export type ERC1155Token = Contract & {
+		name: string,
+		symbol: TickerSymbol,
+		icon?: string
+	}
+	export type NFT = ERC721Token | ERC1155Token
 }
