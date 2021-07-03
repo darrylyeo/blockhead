@@ -65,69 +65,12 @@
 	import TokenIcon from './TokenIcon.svelte'
 	import TokenValue from './TokenValue.svelte'
 	import TokenValueWithConversion from './TokenValueWithConversion.svelte'
-	
+
+
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
 	import { scaleFont } from '../transitions/scale-font'
 
-	type ZapperProtocolName = '1inch' | 'Aave' | 'Alchemix' | 'Alpha' | 'B.Protocol' | 'Badger' | 'Balancer' | 'Bancor' | 'BarnBridge' | 'Compound' | 'Cover' | 'Cream' | 'Curve' | 'DefiSaver' | 'DerivaDEX' | 'Dhedge' | 'Dodo' | 'Dynamic Set' | 'Empty Set' | 'Futureswap' | 'Harvest' | 'Hegic' | 'Idle' | 'KeeperDAO' | 'Linkswap' | 'Liquity' | 'Loopring' | 'Maker' | 'Mooniswap' | 'Mushroom' | 'Pickle' | 'PoolTogether' | 'Rari Capital' | 'RealT' | 'Reflexer' | 'S.Finance' | 'Saddle' | 'Shell' | 'Smoothy' | 'SnowSwap' | 'Sushiswap' | 'Swerve' | 'Synthetix' | 'TokenSets' | 'Uniswap' | 'Unit' | 'Value' | 'Vesper' | 'Yearn' | 'dForce' | 'dYdX' | 'xSigma' | 'AutoFarm' | 'Ellipsis' | 'Harvest' | 'PancakeSwap' | 'Venus' | 'Aave' | 'Curve' | 'PoolTogether' | 'Quickswap' | 'Synthetix'
-	| 'Aave V1' | 'Aave V2' | 'Synths' | 'Uniswap V1' | 'Uniswap V2'
-
-	const defiProtocolColors: Record<ZapperProtocolName & DefiSDK.ProtocolName, string[]> = {
-		'Aave': ['#77c0c7', '#b56da4'],
-		'Aave V1': ['#77c0c7', '#b56da4'],
-		'Aave V2': ['#77c0c7', '#b56da4'],
-		'Aave': ['#77c0c7', '#b56da4'],
-		'Aave • Uniswap Market': ['#77c0c7', '#b56da4'],
-		'Ampleforth': ['#5856d6'],
-		'Aragon': [],
-		'Balancer': ['#536dfe'], // unofficial
-		'Bancor': ['#070e1f'], // unofficial
-		'bZx bZx': ['#33dfcc', '#003cda'],
-		'Chi Gastoken by 1inch': ['#d21318', '#3d3d3c'],
-		'Compound': ['#01d395'],
-		'C.R.E.A.M.': ['#68e2dc'],
-		'Curve': [/*'#840000',*/ '#fd2700', '#f9ea02', '#91ff67'/*, '#0213fa'*/], // unofficial
-		'DDEX • Lending': ['#012d93', '#0367d8', '#00f6fa'], // unofficial
-		'DDEX • Margin': ['#012d93', '#0367d8', '#00f6fa'], // unofficial
-		'DDEX • Spot': ['#012d93', '#0367d8', '#00f6fa'], // unofficial
-		'DeFi Money Market': [],
-		'DODO': ['#fff700'],
-		'dYdX': ['#6966ff'],
-		'Empty Set': ['#312f32'],
-		'Idle': ['#0B50B0', '#0F6BEB', '#6FA4F2'],
-		'iearn.finance (v2/v3)': [],
-		'Harvest': ['#fffce6', '#bbe3e2'], // unofficial
-		'KeeperDAO': [],
-		'KIMCHI': [],
-		'KyberDAO': ['#31cb9e'],
-		'Chai': [],
-		'Dai Savings Protocol': ['#f4b731'],
-		'Loopring': ['#1c42ff'],
-		'Maker': ['#4fa89b', '#6bcdba'], // unofficial // ['#1AAB9B'],
-		'Maker Governance': ['#1AAB9B'],
-		'Multi-Collateral Dai': ['#f4b731'],
-		'Matic': [],
-		'Melon': [],
-		'mStable': ['#000000'],
-		'Nexus Mutual': [],
-		'Pickle Finance': [],
-		'PieDAO': ['#d90a9d', '#9811dc', '#7732f8', '#28d4ff'], // unofficial
-		'PoolTogether': ['#4a31a5'],
-		'SashimiSwap': [],
-		'SushiSwap': ['#016eda', '#d900c0'],
-		'Swerve': ['#86fce7'],
-		'Synthetix': ['#1e1a31'],
-		'Synths': ['#1e1a31'],
-		'TokenSets': ['#2D2CE5'/*, '#6BB1FF'*/],
-		'SetToken V2': ['#2D2CE5'/*, '#6BB1FF'*/],
-		'Uniswap V1': ['#ff007a'],
-		'Uniswap V2': ['#ff007a'],
-		'Uniswap V3': ['#ff007a'],
-		'Yearn': ['#0273f6', '#075fb9'],
-		'yearn.finance • Vaults': ['#0273f6', '#075fb9'], // unofficial
-		'0x Staking': []
-	}
 
 	const makeCardGradient = (colors = []) =>
 		`linear-gradient(155deg, ${colors.length == 1 ? [`${colors[0]}20`, `${colors[0]}55`] : colors.map(color => `${color}50`)}`
@@ -243,147 +186,45 @@
 			<div class="defi-balances" class:scrollable-list={defiProtocolBalances.length > 6}>
 				{#each defiProtocolBalances as {products, meta}, i}
 					{#each products as {label, assets, meta: productMeta}, j (label)}
-						<div transition:scaleFont|local animate:flip|local={{duration: 300, delay: Math.abs(i + j * 0.1) * 10}} class="card defi-protocol" style="--card-background-image: {makeCardGradient(defiProtocolColors[label])}); --primary-color: {defiProtocolColors[label]?.[defiProtocolColors[label].length / 2 | 0] ?? 'inherit'}">
-							{#if assets[0]?.protocolImg}
-								<img class="card-background" src={`https://zapper.fi/images/${assets[0].protocolImg}`} alt={label} width="20"/>
-							{:else if assets[0]?.protocolSymbol}
-								<span class="card-background"><TokenIcon token={assets[0].protocolSymbol} /></span>
-							{/if}
-							<div class="bar">
-								<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{label}">
-									<a href="apps/{defiAppsByProviderName.zapper[label]?.slug}/{address}">{label}</a>
-								</h5>
-								{#each meta as {label, type, value}}
-									{#if label === 'Assets'}
-										<TokenValue
-											token={zapperQuoteCurrency}
-											value={value * zapperFiatRate}
-											showPlainFiat={true}
-										/>
-									{:else if label === 'Debt' && value}
-										<TokenValue
-											token={zapperQuoteCurrency}
-											value={value * zapperFiatRate}
-											showPlainFiat={true}
-											isDebt={true}
-										/>
-									{/if}
-								{/each}
-								<!-- {#each meta as {label, type, value}}
-									{#if label !== 'Total' && !(['Assets', 'Debt'].includes(label) && value == 0)}
-										<div>
-											{label}
-											{#if type === 'dollar'}
-												<TokenValue
-													token={'USD'}
-													value={value}
-													isDebt={label === 'Debt'}
-													showPlainFiat={true}
-												/>
-											{:else}
-												{value}
-											{/if}
-										</div>
-									{/if}
-								{/each} -->
-							</div>
-							<hr>
-							<div class="defi-protocol-balances column">
-								{#each assets as {
-									type, category,
-									label,
-									symbol, tokenAddress, img, decimals, address,
-									balance, balanceUSD, balanceRaw, price,
-									protocol, protocolDisplay, protocolSymbol, protocolImg,
-									// type === 'vault' || type === 'pool'
-									tokens,
-									// type === 'vault'
-									apy,
-									// type === 'pool'
-									reserve, share, supply
-								}}
-									<div class="defi-protocol-balance column">
-										<div class="bar">
-											<TokenValueWithConversion
-												{showValues}
-
-												token={symbol}
-												tokenIcon={`https://zapper.fi/images/${img}`}
-												tokenAddress={tokenAddress || address}
-												value={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
-
-												convertedValue={balanceUSD * zapperFiatRate}
-												conversionCurrency={zapperQuoteCurrency}
-												conversionRate={price * zapperFiatRate}
-
-												isDebt={balanceUSD < 0}
+						{#each [defiAppsByProviderName.zapper[label]] as defiAppConfig}
+							<div
+								class="card defi-protocol"
+								style="
+									--card-background-image: {makeCardGradient(defiAppConfig?.colors)});
+									--primary-color: {defiAppConfig?.colors?.[defiAppConfig?.colors.length / 2 | 0] ?? 'inherit'}
+								"
+								transition:scaleFont|local
+								animate:flip|local={{duration: 300, delay: Math.abs(i + j * 0.1) * 10}}
+							>
+								{#if assets[0]?.protocolImg}
+									<img class="card-background" src={`https://zapper.fi/images/${assets[0].protocolImg}`} alt={label} width="20"/>
+								{:else if assets[0]?.protocolSymbol}
+									<span class="card-background"><TokenIcon token={assets[0].protocolSymbol} /></span>
+								{/if}
+								<div class="bar">
+									<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{label}">
+										<a href="apps/{defiAppConfig?.slug}/{address}">{label}</a>
+									</h5>
+									{#each meta as {label, type, value}}
+										{#if label === 'Assets'}
+											<TokenValue
+												token={zapperQuoteCurrency}
+												value={value * zapperFiatRate}
+												showPlainFiat={true}
 											/>
-											{#if showActions}
-												<div transition:scale>
-													{#if type === 'claimable'}
-														<button class="small">Claim</button>
-													{:else if type === 'pool'}
-														<button class="small">Remove Liquidity</button>
-													{:else if type === 'vault'}
-														<button class="small">Withdraw</button>
-													{:else if type === 'interest-bearing'}
-														<button class="small">Withdraw Collateral</button>
-													{:else if type === 'wallet'}
-														<!-- Don't count as part of total -->
-													{:else}
-														{type}
-													{/if}
-												</div>
-											{:else}
-												{#if label && label !== symbol}
-													<span class="card-annotation">{label}</span>
-												{:else}
-													<span class="card-annotation">{type} {type !== category ? category : ''}</span>
-												{/if}
-											{/if}
-										</div>
-
-										<!-- Underlying Assets -->
-										{#if showUnderlyingAssets && tokens?.length}
-											<div class="underlying">
-												{#each tokens as {
-													address, decimals, symbol, img,
-													balance, balanceUSD, balanceRaw, price,
-													reserve, weight,
-													isCToken
-												}}
-													<p class="underlying-asset" in:scaleFont>
-														<span class="underlying-symbol">┖</span>
-														<TokenValueWithConversion
-															{showValues}
-				
-															token={symbol}
-															tokenIcon={`https://zapper.fi/images/${img}`}
-															tokenAddress={tokenAddress || address}
-															value={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
-				
-															convertedValue={balanceUSD * zapperFiatRate}
-															conversionCurrency={zapperQuoteCurrency}
-															conversionRate={price * zapperFiatRate}
-
-															isDebt={balanceUSD < 0}
-														/>
-														{#if weight}
-															<small>({formatPercent(weight)})</small>
-														{/if}
-													</p>
-												{/each}
-											</div>
+										{:else if label === 'Debt' && value}
+											<TokenValue
+												token={zapperQuoteCurrency}
+												value={value * zapperFiatRate}
+												showPlainFiat={true}
+												isDebt={true}
+											/>
 										{/if}
-									</div>
-								{/each}
-							</div>
-							{#if showMetadata && productMeta?.length}
-								<dl class="metadata">
-									{#each productMeta as {label, type, value}}
-										{#if !(['Total', 'Assets', 'Debt'].includes(label) && value == 0)}
-											<dt>{label}</dt>
-											<dd>
+									{/each}
+									<!-- {#each meta as {label, type, value}}
+										{#if label !== 'Total' && !(['Assets', 'Debt'].includes(label) && value == 0)}
+											<div>
+												{label}
 												{#if type === 'dollar'}
 													<TokenValue
 														token={'USD'}
@@ -391,19 +232,131 @@
 														isDebt={label === 'Debt'}
 														showPlainFiat={true}
 													/>
-												{:else if type === 'pct'}
-													{formatPercent(value)}
-												{:else if type === 'number'}
-													{value}
 												{:else}
 													{value}
 												{/if}
-											</dd>
+											</div>
 										{/if}
+									{/each} -->
+								</div>
+								<hr>
+								<div class="defi-protocol-balances column">
+									{#each assets as {
+										type, category,
+										label,
+										symbol, tokenAddress, img, decimals, address,
+										balance, balanceUSD, balanceRaw, price,
+										protocol, protocolDisplay, protocolSymbol, protocolImg,
+										// type === 'vault' || type === 'pool'
+										tokens,
+										// type === 'vault'
+										apy,
+										// type === 'pool'
+										reserve, share, supply
+									}}
+										<div class="defi-protocol-balance column">
+											<div class="bar">
+												<TokenValueWithConversion
+													{showValues}
+
+													token={symbol}
+													tokenIcon={`https://zapper.fi/images/${img}`}
+													tokenAddress={tokenAddress || address}
+													value={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
+
+													convertedValue={balanceUSD * zapperFiatRate}
+													conversionCurrency={zapperQuoteCurrency}
+													conversionRate={price * zapperFiatRate}
+
+													isDebt={balanceUSD < 0}
+												/>
+												{#if showActions}
+													<div transition:scale>
+														{#if type === 'claimable'}
+															<button class="small">Claim</button>
+														{:else if type === 'pool'}
+															<button class="small">Remove Liquidity</button>
+														{:else if type === 'vault'}
+															<button class="small">Withdraw</button>
+														{:else if type === 'interest-bearing'}
+															<button class="small">Withdraw Collateral</button>
+														{:else if type === 'wallet'}
+															<!-- Don't count as part of total -->
+														{:else}
+															{type}
+														{/if}
+													</div>
+												{:else}
+													{#if label && label !== symbol}
+														<span class="card-annotation">{label}</span>
+													{:else}
+														<span class="card-annotation">{type} {type !== category ? category : ''}</span>
+													{/if}
+												{/if}
+											</div>
+
+											<!-- Underlying Assets -->
+											{#if showUnderlyingAssets && tokens?.length}
+												<div class="underlying">
+													{#each tokens as {
+														address, decimals, symbol, img,
+														balance, balanceUSD, balanceRaw, price,
+														reserve, weight,
+														isCToken
+													}}
+														<p class="underlying-asset" in:scaleFont>
+															<span class="underlying-symbol">┖</span>
+															<TokenValueWithConversion
+																{showValues}
+					
+																token={symbol}
+																tokenIcon={`https://zapper.fi/images/${img}`}
+																tokenAddress={tokenAddress || address}
+																value={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
+					
+																convertedValue={balanceUSD * zapperFiatRate}
+																conversionCurrency={zapperQuoteCurrency}
+																conversionRate={price * zapperFiatRate}
+
+																isDebt={balanceUSD < 0}
+															/>
+															{#if weight}
+																<small>({formatPercent(weight)})</small>
+															{/if}
+														</p>
+													{/each}
+												</div>
+											{/if}
+										</div>
 									{/each}
-								</dl>
-							{/if}
-						</div>
+								</div>
+								{#if showMetadata && productMeta?.length}
+									<dl class="metadata">
+										{#each productMeta as {label, type, value}}
+											{#if !(['Total', 'Assets', 'Debt'].includes(label) && value == 0)}
+												<dt>{label}</dt>
+												<dd>
+													{#if type === 'dollar'}
+														<TokenValue
+															token={'USD'}
+															value={value}
+															isDebt={label === 'Debt'}
+															showPlainFiat={true}
+														/>
+													{:else if type === 'pct'}
+														{formatPercent(value)}
+													{:else if type === 'number'}
+														{value}
+													{:else}
+														{value}
+													{/if}
+												</dd>
+											{/if}
+										{/each}
+									</dl>
+								{/if}
+							</div>
+						{/each}
 					{/each}
 				{/each}
 			</div>
@@ -461,47 +414,57 @@
 
 				<div class="defi-balances column">
 					{#each defiBalances as protocol, i (protocol.metadata.name + i)}
-						<div transition:scaleFont|local animate:flip|local={{duration: 300, delay: Math.abs(i) * 10}} class="card defi-protocol layout-{computedLayout}" style="--card-background-image: {makeCardGradient(defiProtocolColors[protocol.metadata.name])})">
-							<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{protocol.metadata.description}">
-								<img class="card-background" src={`https://${protocol.metadata.iconURL}`} alt={protocol.metadata.name} width="20"/>
-								<a href="apps/{defiAppsByProviderName.zerionDefiSDK[protocol.metadata.name]?.slug}/{address}">{protocol.metadata.name}</a>
-							</h5>
-							{#if computedLayout === 'vertical'}
-								<hr>
-							{/if}
-							<div class="defi-protocol-balances column">
-								{#each protocol.adapterBalances as adapterBalance}
-									<!-- {#if adapterBalance.metadata.adapterType === 'Debt'}
-										<h4>{adapterBalance.metadata.adapterType}</h4>
-									{/if} -->
-									{#each adapterBalance.balances as {base: baseBalance, underlying}}
-										<div class="column defi-protocol-balance">
-											<TokenValue
-												token={baseBalance.metadata.symbol}
-												tokenAddress={baseBalance.metadata.token}
-												value={formatUnits(baseBalance.amount, baseBalance.metadata.decimals)}
-												isDebt={adapterBalance.metadata.adapterType === 'Debt'}
-											/>
-											{#if underlying.length && showUnderlyingAssets}
-												<div class="underlying">
-													{#each underlying as underlyingBalance}
-														<p in:scaleFont>
-															<span class="underlying-symbol">┖</span>
-															<TokenValue
-																token={underlyingBalance.metadata.symbol}
-																tokenAddress={underlyingBalance.metadata.token}
-																value={formatUnits(underlyingBalance.amount, underlyingBalance.metadata.decimals)}
-																isDebt={adapterBalance.metadata.adapterType === 'Debt'}
-															/>
-														</p>
-													{/each}
-												</div>
-											{/if}
-										</div>
+						{#each [defiAppsByProviderName.zerionDefiSDK[protocol.metadata.name]] as defiAppConfig}
+							<div
+								class="card defi-protocol layout-{computedLayout}"
+								style="
+									--card-background-image: {makeCardGradient(defiProtocolColors[protocol.metadata.name])});
+									--primary-color: {defiAppConfig?.colors?.[defiAppConfig?.colors.length / 2 | 0] ?? 'inherit'}
+								"
+								transition:scaleFont|local
+								animate:flip|local={{duration: 300, delay: Math.abs(i) * 10}}
+							>
+								<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{protocol.metadata.description}">
+									<img class="card-background" src={`https://${protocol.metadata.iconURL}`} alt={protocol.metadata.name} width="20"/>
+									<a href="apps/{defiAppConfig?.slug}/{address}">{protocol.metadata.name}</a>
+								</h5>
+								{#if computedLayout === 'vertical'}
+									<hr>
+								{/if}
+								<div class="defi-protocol-balances column">
+									{#each protocol.adapterBalances as adapterBalance}
+										<!-- {#if adapterBalance.metadata.adapterType === 'Debt'}
+											<h4>{adapterBalance.metadata.adapterType}</h4>
+										{/if} -->
+										{#each adapterBalance.balances as {base: baseBalance, underlying}}
+											<div class="column defi-protocol-balance">
+												<TokenValue
+													token={baseBalance.metadata.symbol}
+													tokenAddress={baseBalance.metadata.token}
+													value={formatUnits(baseBalance.amount, baseBalance.metadata.decimals)}
+													isDebt={adapterBalance.metadata.adapterType === 'Debt'}
+												/>
+												{#if underlying.length && showUnderlyingAssets}
+													<div class="underlying">
+														{#each underlying as underlyingBalance}
+															<p in:scaleFont>
+																<span class="underlying-symbol">┖</span>
+																<TokenValue
+																	token={underlyingBalance.metadata.symbol}
+																	tokenAddress={underlyingBalance.metadata.token}
+																	value={formatUnits(underlyingBalance.amount, underlyingBalance.metadata.decimals)}
+																	isDebt={adapterBalance.metadata.adapterType === 'Debt'}
+																/>
+															</p>
+														{/each}
+													</div>
+												{/if}
+											</div>
+										{/each}
 									{/each}
-								{/each}
+								</div>
 							</div>
-						</div>
+						{/each}
 					{/each}
 				</div>
 			</Loader>

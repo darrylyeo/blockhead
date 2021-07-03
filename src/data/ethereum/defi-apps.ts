@@ -5,13 +5,15 @@ import type { ZapperDeFiProtocolName } from '../zapper/zapper'
 export type DefiAppConfig = {
 	name: DefiAppName,
 	slug: DefiAppSlug,
-	views: DefiAppView[]
 	links?: string[],
+	colors?: string[],
+	views: DefiAppView[]
 }
 
 export type DefiAppView = {
 	name?: string,
 	slug?: string,
+	colors?: string[],
 	chainId: Ethereum.ChainID,
 	erc20Tokens?: Ethereum.ERC20Token[],
 	nfts?: Ethereum.NFT[],
@@ -50,6 +52,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'Aave',
 		slug: 'aave',
 		links: [],
+		colors: ['#77c0c7', '#b56da4'],
 		views: [
 			{
 				name: 'Aave V1',
@@ -165,6 +168,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'Ampleforth',
 		slug: 'ampleforth',
 		links: [],
+		colors: ['#5856d6'],
 		views: [
 			{
 				chainId: 1,
@@ -235,6 +239,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'Balancer',
 		slug: 'balancer',
 		links: [],
+		colors: ['#536dfe'], // unofficial
 		views: [
 			{
 				chainId: 1,
@@ -251,6 +256,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'Bancor',
 		slug: 'bancor',
 		links: [],
+		colors: ['#070e1f'], // unofficial
 		views: [
 			{
 				chainId: 1,
@@ -338,6 +344,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'Bzx',
 		slug: 'bzx',
 		links: [],
+		colors: ['#33dfcc', '#003cda'],
 		views: [
 			{
 				chainId: 1,
@@ -382,6 +389,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'Compound',
 		slug: 'compound',
 		links: [],
+		colors: ['#01d395'],
 		views: [
 			{
 				name: 'Compound V1',
@@ -447,6 +455,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'C.R.E.A.M.',
 		slug: 'cream',
 		links: ['https://cream.finance'],
+		colors: ['#68e2dc'],
 		views: [
 			{
 				chainId: 1,
@@ -462,6 +471,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'Curve',
 		slug: 'curve',
 		links: [],
+		colors: [/*'#840000',*/ '#fd2700', '#f9ea02', '#91ff67'/*, '#0213fa'*/], // unofficial
 		views: [
 			{
 				chainId: 1,
@@ -477,6 +487,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'DDEX',
 		slug: 'ddex',
 		links: [],
+		colors: ['#012d93', '#0367d8', '#00f6fa'], // unofficial
 		views: [
 			{
 				chainId: 1,
@@ -575,6 +586,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'Dodo',
 		slug: 'dodo',
 		links: [],
+		colors: ['#fff700'],
 		views: [
 			{
 				chainId: 1,
@@ -604,6 +616,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'dYdX',
 		slug: 'dydx',
 		links: [],
+		colors: ['#6966ff'],
 		views: [
 			{
 				chainId: 1,
@@ -648,6 +661,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'Empty Set Dollar',
 		slug: 'esd',
 		links: [],
+		colors: ['#312f32'],
 		views: [
 			{
 				chainId: 1,
@@ -725,6 +739,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'Idle',
 		slug: 'idle',
 		links: [],
+		colors: ['#0B50B0', '#0F6BEB', '#6FA4F2'],
 		views: [
 			{
 				chainId: 1,
@@ -755,6 +770,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'Harvest',
 		slug: 'harvest',
 		links: [],
+		colors: ['#fffce6', '#bbe3e2'], // unofficial
 		views: [
 			{
 				chainId: 1,
@@ -814,6 +830,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'Kyber Network',
 		slug: 'kyber',
 		links: [],
+		colors: ['#31cb9e'],
 		views: [
 			{
 				name: 'KyberDAO',
@@ -845,6 +862,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'Livepeer',
 		slug: 'livepeer',
 		links: [],
+        colors: ['#1c42ff'],
 		views: [
 			{
 				chainId: 1,
@@ -891,8 +909,10 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'Maker',
 		slug: 'maker',
 		links: ['https://makerdao.com'],
+        colors: ['#4fa89b', '#6bcdba'], // unofficial // ['#1AAB9B'],
 		views: [
 			{
+				colors: ['#f4b731'],
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
@@ -903,6 +923,7 @@ export const defiApps: DefiAppConfig[] = [
 			{
 				name: 'Governance',
 				slug: 'governance',
+				colors: ['#1AAB9B'],
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
@@ -946,6 +967,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'mStable',
 		slug: 'mstable',
 		links: [],
+        colors: ['#000000'],
 		views: [
 			{
 				chainId: 1,
@@ -998,7 +1020,17 @@ export const defiApps: DefiAppConfig[] = [
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/1inch-exchange/one-inch-v2',
 					zapper: '1inch',
-					zerionDefiSDK: ['1inch Liquidity Protocol', '1inch LP • Staking', 'Chi Gastoken by 1inch'],
+					zerionDefiSDK: ['1inch Liquidity Protocol', '1inch LP • Staking'],
+				}
+			},
+			{
+				name: 'Ethereum',
+				slug: 'ethereum',
+				colors: ['#d21318', '#3d3d3c'],
+				chainId: 1,
+				erc20Tokens: [],
+				providers: {
+					zerionDefiSDK: ['Chi Gastoken by 1inch'],
 				}
 			},
 			{
@@ -1068,6 +1100,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'PieDAO',
 		slug: 'piedao',
 		links: [],
+        colors: ['#d90a9d', '#9811dc', '#7732f8', '#28d4ff'], // unofficial
 		views: [
 			{
 				chainId: 1,
@@ -1082,6 +1115,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'PoolTogether',
 		slug: 'pooltogether',
 		links: [],
+        colors: ['#4a31a5'],
 		views: [
 			{
 				chainId: 1,
@@ -1331,6 +1365,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'SushiSwap',
 		slug: 'sushiswap',
 		links: ['https://sushi.com'],
+        colors: ['#016eda', '#d900c0'],
 		views: [
 			{
 				name: 'Ethereum',
@@ -1411,6 +1446,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'Swerve',
 		slug: 'swerve',
 		links: [],
+        colors: ['#86fce7'],
 		views: [
 			{
 				chainId: 1,
@@ -1424,6 +1460,7 @@ export const defiApps: DefiAppConfig[] = [
 	},
 	{
 		name: 'Synthetix',
+        colors: ['#1e1a31'],
 		slug: 'synthetix',
 		links: [],
 		views: [
@@ -1456,6 +1493,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'TokenSets',
 		slug: 'tokensets',
 		links: [],
+        colors: ['#2D2CE5'/*, '#6BB1FF'*/],
 		views: [
 			{
 				chainId: 1,
@@ -1485,6 +1523,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'Uniswap',
 		slug: 'uniswap',
 		links: [],
+        colors: ['#ff007a'],
 		views: [
 			{
 				name: 'Uniswap V1',
@@ -1681,6 +1720,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'Yearn Finance',
 		slug: 'yearn',
 		links: [],
+        colors: ['#0273f6', '#075fb9'], // unofficial
 		views: [
 			{
 				chainId: 1,
