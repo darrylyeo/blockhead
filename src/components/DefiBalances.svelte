@@ -3,11 +3,14 @@
 	import type { DeFiProvider } from '../data/defi-provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import type { DefiSDK } from '../data/ethereum/price/defi-sdk'
+	import type { DefiAppConfig, DefiAppSlug } from '../data/ethereum/defi-apps'
+	import { defiAppsByProviderName } from '../data/ethereum/defi-apps'
 	import { getDefiBalances } from '../data/ethereum/price/defi-sdk'
-	import { getAllDeFiProtocolBalances, getFiatRates } from '../data/zapper/zapper'
+	import { getDeFiProtocolBalances, getFiatRates } from '../data/zapper/zapper'
 
 
 	// Data
+	export let defiApps: DefiAppConfig[]
 	export let network: Ethereum.Network
 	export let provider: Ethereum.Provider
 	export let address: string
@@ -25,8 +28,9 @@
 	export let quoteTotal
 	export let quoteTotalCurrency
 	$: quoteTotalCurrency = zapperQuoteCurrency
+
 	type TypeOfPromise<T> = T extends Promise<infer R> ? R : T
-	let zapperDefiProtocolBalances: TypeOfPromise<ReturnType<typeof getAllDeFiProtocolBalances>>
+	let zapperDefiProtocolBalances: TypeOfPromise<ReturnType<typeof getDeFiProtocolBalances>>
 	$: if(zapperDefiProtocolBalances)
 		quoteTotal = zapperDefiProtocolBalances.reduce((sum, {meta}) => sum + Number(
 			meta?.find(({label, type, value}) => label === 'Total')?.value ?? 0
@@ -51,6 +55,9 @@
 	
 	import { formatPercent } from '../utils/format-percent'
 	import { formatUnits } from '../utils/format-units'
+
+
+	$: defiBalancesDescription = defiApps?.map(({name}) => name).join('/') || `${network.name} DeFi`
 
 
 	import Loader from './Loader.svelte'
@@ -211,11 +218,17 @@
 	<!-- Zapper -->
 	{#if defiProvider === 'Zapper'}
 		<Loader
-			loadingMessage="Reading {network.name} DeFi balances from {defiProvider}..."
-			errorMessage="Error getting {network.name} DeFi balances from {defiProvider}."
+			loadingMessage="Reading {defiBalancesDescription} balances from {defiProvider}..."
+			errorMessage="Error getting {defiBalancesDescription} balances from {defiProvider}."
 			loadingIconName={defiProvider}
 			loadingIcon={'/logos/zapper-logomark.svg'}
-			fromPromise={() => getAllDeFiProtocolBalances({network, address})}
+			fromPromise={network && address && (
+				() => getDeFiProtocolBalances({
+					protocolNames: defiApps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zapper ?? [])),
+					network,
+					address
+				})
+			)}
 			bind:result={zapperDefiProtocolBalances}
 			let:then={defiProtocolBalances}
 			showIf={defiProtocolBalances => defiProtocolBalances.length}
@@ -237,7 +250,9 @@
 								<span class="card-background"><TokenIcon token={assets[0].protocolSymbol} /></span>
 							{/if}
 							<div class="bar">
-								<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{label}">{label}</h5>
+								<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{label}">
+									{label}
+								</h5>
 								{#each meta as {label, type, value}}
 									{#if label === 'Assets'}
 										<TokenValue
@@ -422,9 +437,15 @@
 	{#if defiProvider === 'Zerion DeFi SDK' && network.chainId === 1}
 		{#if provider}
 			<Loader
-				loadingMessage="Reading {network.name} DeFi balances from {defiProvider}..."
-				errorMessage="Error getting {network.name} DeFi balances from {defiProvider}."
-				fromPromise={provider && address && (() => getDefiBalances(provider, address))}
+				loadingMessage="Reading {defiBalancesDescription} balances from {defiProvider}..."
+				errorMessage="Error getting {defiBalancesDescription} balances from {defiProvider}."
+				fromPromise={provider && address && (
+					() => getDefiBalances({
+						protocolNames: defiApps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zerionDefiSDK ?? [])),
+						provider,
+						address
+					})
+				)}
 				let:then={defiBalances}
 				showIf={defiBalances => defiBalances?.length}
 				{isCollapsed}
@@ -438,10 +459,13 @@
 					{/if}
 				</svelte:fragment>
 
-				<div class="defi-balances">
-					{#each defiBalances as protocol, i (protocol.metadata.name)}
+				<div class="defi-balances column">
+					{#each defiBalances as protocol, i (protocol.metadata.name + i)}
 						<div transition:scaleFont|local animate:flip|local={{duration: 300, delay: Math.abs(i) * 10}} class="card defi-protocol layout-{computedLayout}" style="--card-background-image: {makeCardGradient(defiProtocolColors[protocol.metadata.name])})">
-							<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{protocol.metadata.description}"><img class="card-background" src={`https://${protocol.metadata.iconURL}`} alt={protocol.metadata.name} width="20"/> {protocol.metadata.name}</h5>
+							<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{protocol.metadata.description}">
+								<img class="card-background" src={`https://${protocol.metadata.iconURL}`} alt={protocol.metadata.name} width="20"/>
+								{protocol.metadata.name}
+							</h5>
 							{#if computedLayout === 'vertical'}
 								<hr>
 							{/if}

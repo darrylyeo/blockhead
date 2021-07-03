@@ -11,6 +11,9 @@ export const ProtocolStats = new Zapper.ProtocolStatsApi(config)
 export const MiscellaneousDataEndpoints = new Zapper.MiscellaneousDataEndpointsApi(config)
 
 
+export type ZapperDeFiProtocolName = `${Zapper.BalanceControllerGetProtocolBalancesV2ProtocolEnum}`
+
+
 const networkNamesByChainID: Record<Ethereum.ChainID, Zapper.PoolControllerGetPoolStatsNetworkEnum & Zapper.BalanceControllerGetProtocolBalancesV2NetworkEnum> = {
 	'1': 'ethereum',
 	'137': 'polygon',
@@ -35,34 +38,49 @@ function PromiseAllFulfilled<T>(promises: Promise<T>[]){
 const fromRaw = requestPromise => requestPromise.then(response => response.raw.json()).catch(async e => { throw e.json ? await e.json() : e.toString() })
 
 
-function defiProtocolNames(protocolNames: Zapper.BalanceControllerGetProtocolBalancesV2ProtocolEnum[]): Zapper.BalanceControllerGetProtocolBalancesV2ProtocolEnum[] {
+async function getSupportedProtocolNamesByNetwork(networkName: string, address: Ethereum.Address){
+	const supportedProtocolsByNetwork: {network: string, protocols}[] = await fromRaw(ProtocolBalances.balanceControllerGetSupportedV2BalancesRaw({ addresses: [address] }))
+
+	const supportedProtocols = supportedProtocolsByNetwork.find(({network}) => network === networkName)
+	console.log('supportedProtocolsByNetwork', supportedProtocols)
+
+	const supportedProtocolNames: ZapperDeFiProtocolName[] = supportedProtocols?.protocols.map(({protocol}) => protocol)
+		?? Object.values(Zapper.BalanceControllerGetProtocolBalancesV2ProtocolEnum)
+
+	return {supportedProtocols, supportedProtocolNames}
+}
+
+function filterDefiProtocolNames(protocolNames: ZapperDeFiProtocolName[]): ZapperDeFiProtocolName[] {
 	return [
-		...protocolNames.filter(protocol => !['tokens', 'nft', 'other', 'idle'].includes(protocol)),
+		...protocolNames.filter(protocol => !['tokens', 'nft', 'other'].includes(protocol)),
 		...protocolNames.filter(protocol => ['other'].includes(protocol))
 	]
 }
 
-
-export async function getAllDeFiProtocolBalances({network, address}: {network: Ethereum.Network, address: Ethereum.Address}){
+export async function getDeFiProtocolBalances({protocolNames, network, address}: {
+	protocolNames?: ZapperDeFiProtocolName[],
+	network: Ethereum.Network,
+	address: Ethereum.Address
+}){
 	const networkName = networkNamesByChainID[network.chainId]
 
 	if(!networkName)
 		throw new Error(`Zapper doesn't yet support ${network.name}.`)
 
-	const supportedProtocolsByNetwork: {network: string, protocols}[] = await fromRaw(ProtocolBalances.balanceControllerGetSupportedV2BalancesRaw({ addresses: [address] }))
-	const supportedProtocols = supportedProtocolsByNetwork.find(({network}) => network === networkName)
-	const supportedProtocolNames: Zapper.BalanceControllerGetProtocolBalancesV2ProtocolEnum[] = supportedProtocols?.protocols.map(({protocol}) => protocol)
-		?? Object.values(Zapper.BalanceControllerGetProtocolBalancesV2ProtocolEnum)
+	const {supportedProtocols, supportedProtocolNames} = await getSupportedProtocolNamesByNetwork(networkName, address)
+	protocolNames ??= supportedProtocolNames
+	supportedProtocols
+	
 	return await PromiseAllFulfilled(
-		defiProtocolNames(supportedProtocolNames).map(protocol =>
+		filterDefiProtocolNames(protocolNames).map(protocol =>
 			queue.enqueue(() =>
 				ProtocolBalances.balanceControllerGetProtocolBalancesV2({
 					protocol,
 					addresses: [address],
-					network: networkNamesByChainID[network.chainId]
+					network: networkName
 				})
 				.then(response => console.log('Zapper balance', protocol, address, response) || Object.values(response)[0])
-				.catch(async response => console.error(await response.text()))
+				// .catch(async response => console.error(await response.text()))
 			)
 		)
 	).then(defiBalances => defiBalances.filter(

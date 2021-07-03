@@ -155,9 +155,9 @@ export namespace DefiSDK {
 	export type ProtocolBalances = DefiSDK.ProtocolBalance[]
 }
 
-export const getDefiBalances = async (provider: Ethereum.Provider, userAddress: Ethereum.Address) => {
+export const getDefiBalances = async ({protocolNames, provider, address}: {protocolNames?: DefiSDK.ProtocolName[], provider: Ethereum.Provider, address: Ethereum.Address}) => {
 	const defiSDKContract = new ethers.Contract(defiSDKContractAddress, defiSDKABI, provider)
-	const protocolNames = await defiSDKContract.getProtocolNames() || DefiSDK.protocolNames
-	const defiBalances: DefiSDK.ProtocolBalances = await defiSDKContract.getProtocolBalances(userAddress, protocolNames)
+	protocolNames ||= await defiSDKContract.getProtocolNames() || DefiSDK.protocolNames
+	const defiBalances: DefiSDK.ProtocolBalances = await defiSDKContract.getProtocolBalances(address, protocolNames)
 	return defiBalances || []
 }
