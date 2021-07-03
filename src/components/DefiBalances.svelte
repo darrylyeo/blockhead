@@ -251,7 +251,7 @@
 							{/if}
 							<div class="bar">
 								<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{label}">
-									{label}
+									<a href="apps/{defiAppsByProviderName.zapper[label]?.slug}/{address}">{label}</a>
 								</h5>
 								{#each meta as {label, type, value}}
 									{#if label === 'Assets'}
@@ -464,7 +464,7 @@
 						<div transition:scaleFont|local animate:flip|local={{duration: 300, delay: Math.abs(i) * 10}} class="card defi-protocol layout-{computedLayout}" style="--card-background-image: {makeCardGradient(defiProtocolColors[protocol.metadata.name])})">
 							<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{protocol.metadata.description}">
 								<img class="card-background" src={`https://${protocol.metadata.iconURL}`} alt={protocol.metadata.name} width="20"/>
-								{protocol.metadata.name}
+								<a href="apps/{defiAppsByProviderName.zerionDefiSDK[protocol.metadata.name]?.slug}/{address}">{protocol.metadata.name}</a>
 							</h5>
 							{#if computedLayout === 'vertical'}
 								<hr>
