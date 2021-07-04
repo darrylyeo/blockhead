@@ -863,8 +863,8 @@ export const networks: Ethereum.Network[] = [
 			"decimals": 18
 		},
 		"rpc": [
-			`https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}`,
-			`wss://mainnet.infura.io/ws/v3/${INFURA_PROJECT_ID}`,
+			"https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}",
+			"wss://mainnet.infura.io/ws/v3/${INFURA_PROJECT_ID}",
 			"https://api.mycryptoapi.com/eth",
 			"https://cloudflare-eth.com"
 		],
@@ -3033,3 +3033,8 @@ for(const network of networks)
 	networksBySlug[network.slug] = network
 
 export const availableNetworks = [1, 137, 43114, 56, 250].map(chainID => networksByChainID[chainID])
+
+
+export function getNetworkRPC(network: Ethereum.Network){
+	return network.rpc[0].replace('${INFURA_PROJECT_ID}', env.INFURA_PROJECT_ID)
+}
