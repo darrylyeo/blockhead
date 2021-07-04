@@ -37,6 +37,7 @@
 	<ul>
 		<li><a aria-current="{segment === undefined ? 'page' : undefined}" href="."><span class="logo">Blockhead</span></a></li>
 		<li><a aria-current="{segment === 'portfolio' ? 'page' : undefined}" href="portfolio">Portfolio</a></li>
+		<li><a aria-current="{segment === 'transfer' ? 'page' : undefined}" href="transfer">Transfer</a></li>
 		<!-- <li><a aria-current="{segment === 'trade' ? 'page' : undefined}" href="trade">Trade</a></li> -->
 		<!-- <li><a aria-current="{segment === 'invest' ? 'page' : undefined}" href="invest">Invest</a></li> -->
 
