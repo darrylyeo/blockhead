@@ -74,6 +74,9 @@
 		gap: 1.25rem;
 	}
 
+	.row {
+		align-items: start;
+	}
 	/* .row {
 		display: flex;
 		align-items: stretch;
@@ -84,6 +87,10 @@
 		flex: 1 calc(50% - var(--padding-inner));
 		flex: 1 max(20rem, calc(50% - var(--padding-inner)));
 	} */
+
+	.column {
+		--padding-inner: 0.25em;
+	}
 
 	label > span {
 		display: block;
