@@ -155,9 +155,13 @@ export namespace DefiSDK {
 	export type ProtocolBalances = DefiSDK.ProtocolBalance[]
 }
 
-export const getDefiBalances = async ({protocolNames, provider, address}: {protocolNames?: DefiSDK.ProtocolName[], provider: Ethereum.Provider, address: Ethereum.Address}) => {
-	const defiSDKContract = new ethers.Contract(defiSDKContractAddress, defiSDKABI, provider)
-	protocolNames ||= await defiSDKContract.getProtocolNames() || DefiSDK.protocolNames
-	const defiBalances: DefiSDK.ProtocolBalances = await defiSDKContract.getProtocolBalances(address, protocolNames)
-	return defiBalances || []
+export const getDefiBalances = async ({protocolNames, network, provider, address}: {protocolNames?: DefiSDK.ProtocolName[], provider: Ethereum.Provider, address: Ethereum.Address}) => {
+	if(network.chainId === 1){
+		const defiSDKContract = new ethers.Contract(defiSDKContractAddress, defiSDKABI, provider)
+		protocolNames ||= await defiSDKContract.getProtocolNames() || DefiSDK.protocolNames
+		const defiBalances: DefiSDK.ProtocolBalances = await defiSDKContract.getProtocolBalances(address, protocolNames)
+		return defiBalances || []
+	}
+
+	throw new Error(`The Zerion DeFi SDK doesn't support the ${network.name} network.`)
 }

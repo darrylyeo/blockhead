@@ -382,7 +382,7 @@
 	{/if}
 
 	<!-- Zerion DeFi SDK -->
-	{#if defiProvider === 'Zerion DeFi SDK' && network.chainId === 1}
+	{#if defiProvider === 'Zerion DeFi SDK'}
 		{#if provider}
 			<Loader
 				loadingMessage="Reading {defiBalancesDescription} balances from {defiProvider}..."
@@ -390,6 +390,7 @@
 				fromPromise={provider && address && (
 					() => getDefiBalances({
 						protocolNames: defiApps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zerionDefiSDK ?? [])),
+						network,
 						provider,
 						address
 					})
@@ -397,9 +398,8 @@
 				let:then={defiBalances}
 				showIf={defiBalances => defiBalances?.length}
 				{isCollapsed}
-			>
-				<TokenIcon slot="loadingIcon" token="ETH" />
-				<!-- <svelte:fragment slot="loadingIcon"><TokenIcon slot="icon" {token} /></svelte:fragment> -->
+			>					
+				<TokenIcon slot="loadingIcon" token={network.nativeCurrency.symbol} />
 
 				<svelte:fragment slot="header" let:status>
 					{#if defiBalances?.length}
