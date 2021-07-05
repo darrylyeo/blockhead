@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { DefiAppConfig, DefiAppSlug } from '../../data/ethereum/defi-apps'
-	import { defiApps, defiAppsBySlug } from '../../data/ethereum/defi-apps'
+	import type { DefiAppConfig, DefiAppSlug} from '../../data/ethereum/defi-apps'
+	import { defiApps, defiAppsBySlug, featuredDefiApps, notFeaturedDefiApps } from '../../data/ethereum/defi-apps'
 	import { derived, writable } from 'svelte/store'
 	import { setContext } from 'svelte'
 
@@ -24,7 +24,7 @@
 
 
 	$: if(globalThis.document)
-		document.documentElement.style.setProperty('--primary-color', `var(--${tokenColors[$defiAppSlug] || tokenColors['ethereum']})`)
+		document.documentElement.style.setProperty('--primary-color', $defiAppConfig?.colors?.[$defiAppConfig.colors.length / 2 | 0] || `var(--${tokenColors['ethereum']})`)
 
 
 	const query = writable<string>('')
@@ -61,13 +61,19 @@
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 	<div class="bar">
-		<h1>{$defiAppConfig ? `${$defiAppConfig.name} Dashboard` : `DeFi Apps`}</h1>
+		<h1><a href="apps/{$defiAppSlug}">{$defiAppConfig ? `${$defiAppConfig.name} Dashboard` : `DeFi Apps`}</a></h1>
 		<label>
 			<span>DeFi App: </span>
 			<select bind:value={$defiAppSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`apps/${$defiAppSlug}${$query ? `/${$query}` : ''}`))}>
-				{#each defiApps as {name, slug}}
+				<option value="" selected>Select App...</option>
+				{#each featuredDefiApps as {name, slug}}
 					<option value={slug}>{name}</option>
 				{/each}
+				<optgroup label="Other">
+					{#each notFeaturedDefiApps as {name, slug}}
+						<option value={slug}>{name}</option>
+					{/each}
+				</optgroup>
 			</select>
 		</label>
 	</div>

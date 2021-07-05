@@ -8,16 +8,16 @@
 </script>
 
 <script lang="ts">
-	import type { Ethereum } from '../../../data/ethereum/types'
-	import type { DefiAppConfig } from '../../../data/ethereum/defi-apps'
-	import { networksByChainID } from '../../../data/ethereum/networks'
-	import { getProvider } from '../../../data/ethereum/provider'
+	// import type { Ethereum } from '../../../data/ethereum/types'
+	// import type { DefiAppConfig } from '../../../data/ethereum/defi-apps'
+	// import { networksByChainID } from '../../../data/ethereum/networks'
+	// import { getProvider } from '../../../data/ethereum/provider'
 
 
-	const defiAppConfig: SvelteStore<DefiAppConfig> = getContext('defiAppConfig')
+	// const defiAppConfig: SvelteStore<DefiAppConfig> = getContext('defiAppConfig')
 
 
-	import { preferredDeFiProvider, preferredEthereumProvider, preferredQuoteCurrency } from '../../../data/ethereum/preferences'
+	// import { preferredDeFiProvider, preferredEthereumProvider, preferredQuoteCurrency } from '../../../data/ethereum/preferences'
 
 
 	import type { Writable } from 'svelte/store'
@@ -29,22 +29,20 @@
 		$query = initialQuery
 
 
-	let showValues
-	let showUnderlyingAssets
+	// let showValues
+	// let showUnderlyingAssets
 
 
-	const isAddress = query => /^0x[0-9a-f]{40}$/i.test(query)
-	const isTransaction = query => /^0x[0-9a-f]{64}$/i.test(query)
-	const isBlockNumber = query => /^[0-9]+$/i.test(query)
+	// const isAddress = query => /^0x[0-9a-f]{40}$/i.test(query)
+	// const isTransaction = query => /^0x[0-9a-f]{64}$/i.test(query)
+	// const isBlockNumber = query => /^[0-9]+$/i.test(query)
 
 
-	import DefiBalances from '../../../components/DefiBalances.svelte'
-	import NetworkProviderLoader from '../../../components/NetworkProviderLoader.svelte'
-	import TokenValue from '../../../components/TokenValue.svelte'
+	// import DefiAppDashboard from '../../../components/DefiAppDashboard.svelte'
 </script>
 
 
-<style>
+<!-- <style>
 	.options {
 		position: sticky;
 		bottom: 0;
@@ -56,42 +54,28 @@
 		-webkit-backdrop-filter: var(--overlay-backdrop-filter);
 		backdrop-filter: var(--overlay-backdrop-filter);
 	}
+
+	.column {
+		display: grid;
+		align-items: start;
+		grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+	}
 </style>
 
 
 {#if $defiAppConfig && $query}
 	{#if isAddress($query)}
-		{#each $defiAppConfig.views as {chainId}}
-			{#each [networksByChainID[chainId]] as network}
-				<NetworkProviderLoader
-					{network}
-					providerName={$preferredEthereumProvider}
-					let:provider
-				>
-					<div class="column">
-						<DefiBalances
-							{network}
-							address={$query}
-							{provider}
-							defiApps={[$defiAppConfig]}
-							defiProvider={$preferredDeFiProvider}
-							quoteCurrency={$preferredQuoteCurrency}
-							{showValues}
-							{showUnderlyingAssets}
-						>
-							<svelte:fragment slot="header" let:quoteTotal let:quoteTotalCurrency>
-								<div class="bar">
-									<!-- <h4>{network.name}</h4> -->
-									{#if quoteTotal !== undefined}
-										<TokenValue token={quoteTotalCurrency || quoteCurrency} value={quoteTotal} showPlainFiat={true} />
-									{/if}
-								</div>
-							</svelte:fragment>
-						</DefiBalances>
-					</div>
-				</NetworkProviderLoader>
-			{/each}
-		{/each}
+		<div class="column">
+			<DefiAppDashboard
+				address={$query}
+				defiAppConfig={$defiAppConfig}
+				providerName={$preferredEthereumProvider}
+				defiProvider={$preferredDeFiProvider}
+				quoteCurrency={$preferredQuoteCurrency}
+				{showValues}
+				{showUnderlyingAssets}
+			/>
+		</div>
 	{:else}
 		<div class="card">
 			"{$query}" is not a valid address. ENS names will be supported soon!
@@ -115,4 +99,4 @@
 			</label>
 		</div>
 	</div>
-{/if}
+{/if} -->

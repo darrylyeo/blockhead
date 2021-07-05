@@ -1,15 +1,46 @@
 <script lang="ts">
-	import { defiApps } from '../../data/ethereum/defi-apps'
+	import { featuredDefiApps, notFeaturedDefiApps } from '../../data/ethereum/defi-apps'
 
 
-	import { scale } from 'svelte/transition'
+	import { cardStyle } from '../../utils/card-background'
+	import { fly, scale } from 'svelte/transition'
 </script>
 
 
-<section class="row">
-	{#each defiApps as {slug, name}, i}
-		<div class="card" transition:scale={{delay: i * 10}}>
-			<a href="apps/{slug}"><button>{name}</button></a>
-		</div>
-	{/each}
-</section>
+
+<style>
+	.row {
+		align-content: start;
+
+		/* display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+		align-items: stretch; */
+	}
+	.row > * {
+		flex: 1 auto;
+		text-align: center;
+	}
+</style>
+
+
+<div class="column" in:fly={{x: 300}} out:fly={{x: -300}}>
+	<h2>Featured Apps</h2>
+
+	<section class="row">
+		{#each featuredDefiApps as {name, slug, colors}, i}
+			<div class="card" transition:scale={{delay: i * 10}} style={cardStyle(colors)}>
+				<h3><a href="apps/{slug}">{name}</a></h3>
+			</div>
+		{/each}
+	</section>
+
+	<hr>
+
+	<section class="row">
+		{#each notFeaturedDefiApps as {name, slug, colors}, i}
+			<div class="card" transition:scale={{delay: i * 10}} style={cardStyle(colors)}>
+				<h4><a href="apps/{slug}">{name}</a></h4>
+			</div>
+		{/each}
+	</section>
+</div>
