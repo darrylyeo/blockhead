@@ -1,6 +1,8 @@
 import type { Ethereum } from './types'
 import type { DefiSDK } from './price/defi-sdk'
 import type { ZapperDeFiProtocolName } from '../zapper/zapper'
+import { erc20TokensByContractAddress, erc20TokensBySymbol } from './tokens/tokens'
+
 
 export type DefiAppConfig = {
 	name: DefiAppName,
@@ -33,14 +35,15 @@ export type DefiAppView = {
 export type DefiAppName = string // typeof defiApps[number]['name']
 export type DefiAppSlug = string // typeof defiApps[number]['slug']
 
+
 export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Autofarm',
 		slug: 'autofarm',
-		links: [],
+		links: ['https://autofarm.network'],
 		views: [
 			{
-				chainId: 1,
+				chainId: 56,
 				erc20Tokens: [],
 				providers: {
 					zapper: 'autofarm',
@@ -51,14 +54,29 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Aave',
 		slug: 'aave',
-		links: [],
+		links: ['https://aave.com'],
 		colors: ['#77c0c7', '#b56da4'],
 		views: [
+			{
+				name: 'Aave V2',
+				slug: 'v2',
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['AAVE']
+				],
+				providers: {
+					theGraph: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2',
+					zapper: 'aave',
+					zerionDefiSDK: ['Aave V2', 'Aave V2 • Stable Debt', 'Aave V2 • Variable Debt'],
+				}
+			},
 			{
 				name: 'Aave V1',
 				slug: 'v1',
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['LEND']
+				],
 				providers: {
 					zapper: 'aave',
 					zerionDefiSDK: ['Aave', 'Aave • Staking'],
@@ -72,17 +90,6 @@ export const defiApps: DefiAppConfig[] = [
 				providers: {
 					zapper: 'aave',
 					zerionDefiSDK: ['Aave • Uniswap Market'],
-				}
-			},
-			{
-				name: 'Aave V2',
-				slug: 'v2',
-				chainId: 1,
-				erc20Tokens: [],
-				providers: {
-					theGraph: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2',
-					zapper: 'aave',
-					zerionDefiSDK: ['Aave V2', 'Aave V2 • Stable Debt', 'Aave V2 • Variable Debt'],
 				}
 			},
 			{
@@ -111,11 +118,13 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Akropolis',
 		slug: 'akropolis',
-		links: [],
+		links: ['https://www.akropolis.io'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['AKRO']
+				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/in19farkt/akropolis-os-mainnet',
 					zerionDefiSDK: ['Akropolis • ADEL Staking', 'Akropolis • AKRO Staking'],
@@ -126,11 +135,15 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Alchemix',
 		slug: 'alchemix',
-		links: [],
+		links: ['https://alchemix.fi'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['ALCX'],
+					erc20TokensBySymbol['ALETH'],
+					erc20TokensBySymbol['ALUSD']
+				],
 				providers: {
 					zapper: 'alchemix',
 				}
@@ -140,13 +153,16 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Alpha',
 		slug: 'alpha',
-		links: [],
+		links: ['https://alphafinance.io'],
 		views: [
 			{
 				name: 'Alpha Homora V1',
 				slug: 'v1',
+				links: ['https://homora.alphafinance.io'],
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['ALPHA']
+				],
 				providers: {
 					zapper: 'alpha',
 					zerionDefiSDK: ['Alpha Homora'],
@@ -155,8 +171,11 @@ export const defiApps: DefiAppConfig[] = [
 			{
 				name: 'Alpha Homora V2',
 				slug: 'v2',
+				links: ['https://homora-v2.alphafinance.io'],
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['ALPHA']
+				],
 				providers: {
 					zapper: 'alpha',
 					zerionDefiSDK: ['Alpha Homora V2'],
@@ -167,26 +186,38 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Ampleforth',
 		slug: 'ampleforth',
-		links: [],
+		links: ['https://www.ampleforth.org'],
 		colors: ['#5856d6'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['AMPL']
+				],
 				providers: {
 					zerionDefiSDK: ['Ampleforth'],
 				}
+			},
+			{
+				name: 'Governance',
+				slug: 'governance',
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['FORTH']
+				],
 			}
 		]
 	},
 	{
 		name: 'Aragon',
 		slug: 'aragon',
-		links: [],
+		links: ['https://aragon.org'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['ANT']
+				],
 				providers: {
 					zerionDefiSDK: ['Aragon'],
 				}
@@ -196,14 +227,22 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Augur',
 		slug: 'augur',
-		links: [],
+		links: ['https://www.augur.net'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['REP']
+				],
 				providers: {
 					zapper: 'augur',
 				}
+			},
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['NTRUMP']
+				],
 			}
 		]
 	},
@@ -224,11 +263,15 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Badger',
 		slug: 'badger',
-		links: [],
+		links: ['https://badger.finance'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['BADGER'],
+					erc20TokensBySymbol['BBADGER'],
+					erc20TokensBySymbol['BDIGG']
+				],
 				providers: {
 					zapper: 'badger',
 				}
@@ -238,12 +281,14 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Balancer',
 		slug: 'balancer',
-		links: [],
+		links: ['https://balancer.fi', 'https://app.balancer.fi'],
 		colors: ['#536dfe'], // unofficial
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['BAL']
+				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer',
 					zapper: 'balancer',
@@ -255,12 +300,16 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Bancor',
 		slug: 'bancor',
-		links: [],
+		links: ['https://bancor.network', 'https://app.bancor.network'],
 		colors: ['#070e1f'], // unofficial
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['BNT'],
+					erc20TokensBySymbol['VBNT'],
+					erc20TokensBySymbol['USDB']
+				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/blocklytics/bancor',
 					zapper: 'bancor',
@@ -272,26 +321,27 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Berezka',
 		slug: 'berezka',
-		links: [],
+		links: ['https://www.berezka.io'],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'bancor',
 					zerionDefiSDK: ['Berezka'],
 				}
 			}
 		]
 	},
 	{
-		name: 'Barnbridge',
+		name: 'BarnBridge',
 		slug: 'barnbridge',
-		links: [],
+		links: ['https://barnbrodge.com'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['BOND']
+				],
 				providers: {
 					zapper: 'barnbridge',
 				}
@@ -301,25 +351,65 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Beefy',
 		slug: 'beefy',
-		links: [],
+		links: ['https://www.beefy.finance'],
 		views: [
 			{
-				chainId: 1,
+				name: 'Binance Smart Chain',
+				slug: 'bsc',
+				chainId: 56,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'beefy',
+				}
+			},
+			{
+				name: 'Huobi ECO Chain',
+				slug: 'heco',
+				chainId: 128,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'beefy',
+				}
+			},
+			{
+				name: 'Avalanche',
+				slug: 'avalanche',
+				chainId: 43114,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'beefy',
+				}
+			},
+			{
+				name: 'Polygon',
+				slug: 'polygon',
+				chainId: 137,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'beefy',
+				}
+			},
+			{
+				name: 'Fantom',
+				slug: 'fantom',
+				chainId: 250,
 				erc20Tokens: [],
 				providers: {
 					zapper: 'beefy',
 				}
 			}
-		]
+		],
 	},
 	{
 		name: 'Bella',
 		slug: 'bella',
-		links: [],
+		links: ['https://bella.fi'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['BEL']
+				],
 				providers: {
 					zapper: 'bella',
 				}
@@ -329,26 +419,55 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Belt',
 		slug: 'belt',
-		links: [],
+		links: ['https://belt.fi'],
 		views: [
 			{
-				chainId: 1,
+				name: 'Binance Smart Chain',
+				slug: 'bsc',
+				chainId: 56,
 				erc20Tokens: [],
 				providers: {
 					zapper: 'belt',
 				}
+			},
+			{
+				name: 'Huobi ECO Chain',
+				slug: 'heco',
+				chainId: 128,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'belt',
+				}
+			},
+		]
+	},
+	{
+		name: 'BitGo',
+		slug: 'bitgo',
+		links: ['https://www.bitgo.com'],
+		views: [
+			{
+				name: 'Wrapped Bitcoin',
+				slug: 'wbtc',
+				links: ['https://wbtc.network'],
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['WBTC']
+				]
 			}
 		]
 	},
 	{
-		name: 'Bzx',
+		name: 'bZx Protocol',
 		slug: 'bzx',
-		links: [],
+		links: ['https://bzx.network'],
 		colors: ['#33dfcc', '#003cda'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['BZRX']
+				],
 				providers: {
 					zapper: 'bzx',
 					zerionDefiSDK: ['bZx', 'bZx bZx', 'bZx • Staking', 'bZx • Vested Staking'],
@@ -359,22 +478,36 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Chai',
 		slug: 'chai',
-		links: [],
+		links: ['https://chai.money'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: ['0x06AF07097C9Eeb7fD685c692751D5C66dB49c215'],
-				links: ['https://chai.money'],
+				erc20Tokens: [
+					erc20TokensBySymbol['CHAI']
+				],
 				providers: {
-					zapper: 'convex',
+					zerionDefiSDK: ['Chai'],
 				}
+			}
+		]
+	},
+	{
+		name: 'Chainlink',
+		slug: 'chainlink',
+		links: ['https://chain.link'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['LINK'],
+				],
 			}
 		]
 	},
 	{
 		name: 'Cometh',
 		slug: 'cometh',
-		links: [],
+		links: ['https://www.cometh.io'],
 		views: [
 			{
 				chainId: 1,
@@ -386,16 +519,18 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
+		// https://compound.finance/docs#networks
 		name: 'Compound',
 		slug: 'compound',
-		links: [],
+		links: ['https://compound.finance'],
 		colors: ['#01d395'],
 		views: [
 			{
 				name: 'Compound V1',
 				slug: 'v1',
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+				],
 				providers: {
 					zapper: 'compound',
 					zerionDefiSDK: ['Compound'],
@@ -405,7 +540,21 @@ export const defiApps: DefiAppConfig[] = [
 				name: 'Compound V2',
 				slug: 'v2',
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['CCOMP'],
+					erc20TokensBySymbol['CWBTC'],
+					erc20TokensByContractAddress['0xc11b1268c1a384e55c48c2391d8d480264a3a7f4'], // cWBTC Legacy
+					erc20TokensByContractAddress['0xccf4429db6322d5c611ee964527d42e5d685dd6a'], // cWBTC
+					erc20TokensBySymbol['CUSDC'],
+					erc20TokensBySymbol['CUSDT'],
+					erc20TokensBySymbol['CSAI'],
+					erc20TokensBySymbol['CUNI'],
+					erc20TokensBySymbol['cSAI'],
+					erc20TokensBySymbol['CZRX'],
+					erc20TokensBySymbol['CBAT'],
+					erc20TokensBySymbol['CDAI'],
+					erc20TokensBySymbol['CETH'],
+				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/graphprotocol/compound-v2',
 					zapper: 'compound',
@@ -416,7 +565,14 @@ export const defiApps: DefiAppConfig[] = [
 				name: 'Compound Governance',
 				slug: 'governance',
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['COMP']
+				],
+				contracts: [
+					'0x3d9819210a31b4961b30ef54be2aed79b9c9cd3b', // Comptroller
+					'0xc0da02939e1441f497fd74f78ce7decb17b66529', // Governance
+					'0x6d903f6003cca6255d85cca4d3b5e5146dc33925', // Timelock
+				],
 				providers: {
 					zerionDefiSDK: ['Compound Governance'],
 				}
@@ -424,13 +580,27 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
-		name: 'Convex',
-		slug: 'convex',
-		links: [],
+		name: 'Connext',
+		slug: 'connext',
+		links: ['https://connext.network'],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
+			}
+		]
+	},
+	{
+		name: 'Convex',
+		slug: 'convex',
+		links: ['https://www.convexfinance.com'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['CVX'],
+					erc20TokensBySymbol['CVXCRV']
+				],
 				providers: {
 					zapper: 'convex',
 				}
@@ -438,13 +608,15 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
-		name: 'Cover',
+		name: 'Cover Protocol',
 		slug: 'cover',
-		links: [],
+		links: ['https://www.coverprotocol.com'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['COVER']
+				],
 				providers: {
 					zapper: 'cover',
 				}
@@ -459,7 +631,9 @@ export const defiApps: DefiAppConfig[] = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['CREAM']
+				],
 				providers: {
 					zapper: 'cream',
 					zerionDefiSDK: ['C.R.E.A.M.', 'C.R.E.A.M. • Staking'],
@@ -470,12 +644,14 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Curve',
 		slug: 'curve',
-		links: [],
+		links: ['https://curve.fi'],
 		colors: [/*'#840000',*/ '#fd2700', '#f9ea02', '#91ff67'/*, '#0213fa'*/], // unofficial
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['CRV']
+				],
 				providers: {
 					zapper: 'curve',
 					zerionDefiSDK: ['Curve', 'Curve • Liquidity Gauges', 'Curve • Vesting', 'Curve • Vote Escrowed CRV'],
@@ -486,7 +662,7 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'DDEX',
 		slug: 'ddex',
-		links: [],
+		links: ['https://ddex.io'],
 		colors: ['#012d93', '#0367d8', '#00f6fa'], // unofficial
 		views: [
 			{
@@ -501,11 +677,13 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'DeFi Money Market',
 		slug: 'dmm',
-		links: [],
+		links: ['https://defimoneymarket.com'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['DMG']
+				],
 				providers: {
 					zerionDefiSDK: ['DeFi Money Market']
 				}
@@ -529,7 +707,7 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'DerivaDEX',
 		slug: 'derivadex',
-		links: [],
+		links: ['https://derivadex.com'],
 		views: [
 			{
 				chainId: 1,
@@ -541,13 +719,15 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
-		name: 'Deversifi',
+		name: 'DeversiFi',
 		slug: 'deversifi',
-		links: [],
+		links: ['https://www.deversifi.com'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['DVF']
+				],
 				providers: {
 					zapper: 'deversifi',
 				}
@@ -555,13 +735,16 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
-		name: 'Dhedge',
+		name: 'dHEDGE',
 		slug: 'dhedge',
-		links: [],
+		links: ['https://www.dhedge.org'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['DHT'],
+					erc20TokensBySymbol['DTOP']
+				],
 				providers: {
 					zapper: 'dhedge',
 				}
@@ -569,13 +752,15 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
-		name: 'Dforce',
+		name: 'dForce',
 		slug: 'dforce',
-		links: [],
+		links: ['https://dforce.network'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['DF']
+				],
 				providers: {
 					zapper: 'dforce',
 				}
@@ -583,14 +768,16 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
-		name: 'Dodo',
+		name: 'DODO',
 		slug: 'dodo',
-		links: [],
+		links: ['https://dodoex.io'],
 		colors: ['#fff700'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['DODO']
+				],
 				providers: {
 					zapper: 'dodo',
 					zerionDefiSDK: ['DODO'],
@@ -599,23 +786,9 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
-		name: 'Dsd',
-		slug: 'dsd',
-		links: [],
-		views: [
-			{
-				chainId: 1,
-				erc20Tokens: [],
-				providers: {
-					zapper: 'dsd',
-				}
-			}
-		]
-	},
-	{
 		name: 'dYdX',
 		slug: 'dydx',
-		links: [],
+		links: ['https://dydx.exchange'],
 		colors: ['#6966ff'],
 		views: [
 			{
@@ -629,13 +802,31 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
-		name: '88mph',
-		slug: '88mph',
-		links: [],
+		name: 'Dynamic Set Dollar',
+		slug: 'dynamic-set-dollar',
+		links: ['https://dsd.finance'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensByContractAddress['0xbd2f0cd039e0bfcf88901c98c0bfac5ab27566e3'] // DSD
+				],
+				providers: {
+					zapper: 'dsd',
+				}
+			}
+		]
+	},
+	{
+		name: '88mph',
+		slug: '88mph',
+		links: ['https://88mph.app'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['MPH']
+				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/bacon-labs/eighty-eight-mph',
 					zapper: '88mph',
@@ -644,12 +835,37 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
-		name: 'Ellipsis',
-		slug: 'ellipsis',
-		links: [],
+		// https://docs.element.fi/developers/public-releases
+		// https://raw.githubusercontent.com/element-fi/elf-deploy/main/changelog/releases/mainnet/v1.0.0:2/addresses.json
+		name: 'Element Finance',
+		slug: 'element',
+		links: ['https://www.element.fi'],
 		views: [
 			{
 				chainId: 1,
+				erc20Tokens: [],
+				contracts: [
+					'0x62F161BF3692E4015BefB05A03a94A40f520d1c0', // trancheFactory
+					'0xEe4e158c03A10CBc8242350d74510779A364581C', // userProxy
+					'0xBA12222222228d8Ba445958a75a0704d566BF2C8', // balancerVault
+					'0x8E9aa87E45e92bad84D5F8DD1bff34Fb92637dE9', // weightedPoolFactory
+					'0xb7561f547F3207eDb42A6AfA42170Cd47ADD17BD', // convergentCurvePoolFactory
+
+					// yearn lusd3crv-f
+					'0xed279fdd11ca84beef15af5d39bb4d4bee23f0ca', // wrapped position
+					'0x5fA5B62c8AF877CB37031e0a3B2f34A78e3C56A6', // vault
+					// tranches
+				]
+			}
+		]
+	},
+	{
+		name: 'Ellipsis',
+		slug: 'ellipsis',
+		links: ['https://v2.ellipsis.finance'],
+		views: [
+			{
+				chainId: 56,
 				erc20Tokens: [],
 				providers: {
 					zapper: 'ellipsis',
@@ -659,13 +875,15 @@ export const defiApps: DefiAppConfig[] = [
 	},
 	{
 		name: 'Empty Set Dollar',
-		slug: 'esd',
-		links: [],
+		slug: 'empty-set-dollar',
+		links: ['https://www.emptyset.finance'],
 		colors: ['#312f32'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['ESD']
+				],
 				providers: {
 					zapper: 'esd',
 				}
@@ -679,7 +897,9 @@ export const defiApps: DefiAppConfig[] = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['MLN']
+				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme',
 					zerionDefiSDK: ['Enzyme', 'Melon']
@@ -688,13 +908,36 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
-		name: 'FinNexus',
-		slug: 'finnexus',
-		links: [],
+		name: 'Ethereum Name Service',
+		slug: 'ens',
+		links: ['https://ens.domains'],
+		colors: ['#5284ff'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				nfts: [
+					{
+						name: 'ENS: Base Registrar',
+						address: '0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85',
+						symbol: 'ENS'
+					}
+				],
+				providers: {
+					theGraph: 'https://thegraph.com/explorer/subgraph/ensdomains/ens',
+				}
+			}
+		]
+	},
+	{
+		name: 'FinNexus',
+		slug: 'finnexus',
+		links: ['https://www.finnexus.io'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['FNX']
+				],
 				providers: {
 					zerionDefiSDK: ['FinNexus']
 				}
@@ -710,7 +953,9 @@ export const defiApps: DefiAppConfig[] = [
 				name: 'Futureswap V1',
 				slug: 'v1',
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['FST']
+				],
 				providers: {
 					theGraph: 'https://www.airswap.io',
 					zapper: 'futureswap',
@@ -728,7 +973,9 @@ export const defiApps: DefiAppConfig[] = [
 				slug: 'protocol',
 				links: ['https://gnosis.io/protocol'],
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['GNO']
+				],
 				providers: {
 					zerionDefiSDK: ['Gnosis Protocol'],
 				}
@@ -738,16 +985,37 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Idle',
 		slug: 'idle',
-		links: [],
+		links: ['https://idle.finance'],
 		colors: ['#0B50B0', '#0F6BEB', '#6FA4F2'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['IDLEDAIYIELD'],
+					erc20TokensBySymbol['IDLESUSDYIELD'],
+					erc20TokensBySymbol['IDLEUSDCSAFE'],
+					erc20TokensBySymbol['IDLEUSDTYIELD'],
+					erc20TokensBySymbol['IDLEDAISAFE'],
+					erc20TokensBySymbol['IDLEUSDTSAFE'],
+					erc20TokensBySymbol['IDLETUSDYIELD'],
+					erc20TokensBySymbol['IDLEWBTCYIELD'],
+					erc20TokensBySymbol['IDLEUSDCYIELD'],
+				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/idle-finance/idle',
 					zapper: 'idle',
-					zerionDefiSDK: ['Idle', 'Idle • Early Rewards', 'Idle • Risk-Adjusted'],
+					zerionDefiSDK: ['Idle • Early Rewards', 'Idle • Risk-Adjusted'],
+				}
+			},
+			{
+				name: 'Governance',
+				slug: 'governance',
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['IDLE'],
+				],
+				providers: {
+					zerionDefiSDK: ['Idle']
 				}
 			}
 		]
@@ -755,11 +1023,13 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Inverse',
 		slug: 'inverse',
-		links: [],
+		links: ['https://inverse.finance'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['INV']
+				],
 				providers: {
 					zapper: 'inverse',
 				}
@@ -769,12 +1039,14 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Harvest',
 		slug: 'harvest',
-		links: [],
+		links: ['https://harvest.finance'],
 		colors: ['#fffce6', '#bbe3e2'], // unofficial
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['FARM']
+				],
 				providers: {
 					zapper: 'harvest',
 					zerionDefiSDK: ['Harvest', 'Harvest • Profit Sharing'],
@@ -785,11 +1057,15 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Hegic',
 		slug: 'hegic',
-		links: [],
+		links: ['https://www.hegic.co'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['HEGIC'],
+					erc20TokensBySymbol['RHEGIC2'],
+					erc20TokensBySymbol['ZHEGIC']
+				],
 				providers: {
 					zapper: 'hegic',
 					zerionDefiSDK: ['zlot.finance']
@@ -798,13 +1074,28 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
-		name: 'KeeperDAO',
-		slug: 'keeper-dao',
-		links: [],
+		name: 'Instadapp',
+		slug: 'instadapp',
+		links: ['https://instadapp.io'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['INST'],
+				]
+			}
+		]
+	},
+	{
+		name: 'KeeperDAO',
+		slug: 'keeper-dao',
+		links: ['https://keeperdao.com', 'https://app.keeperdao.com'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['ROOK'],
+				],
 				providers: {
 					zapper: 'keeper-dao',
 					zerionDefiSDK: ['KeeperDAO'],
@@ -815,11 +1106,13 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Kimchi Finance',
 		slug: 'kimchi',
-		links: [],
+		links: ['https://kimchi.finance'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['KIMCHI'],
+				],
 				providers: {
 					zerionDefiSDK: ['KIMCHI'],
 				}
@@ -829,25 +1122,35 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Kyber Network',
 		slug: 'kyber',
-		links: [],
+		links: ['https://kyber.org', 'https://kyber.network'],
 		colors: ['#31cb9e'],
 		views: [
 			{
-				name: 'KyberDAO',
-				slug: 'dao',
+				name: 'KyberDAO v2',
+				slug: 'dao-v2',
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['KNC'],
+				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/dynamic-amm/dynamic-amm',
 					zerionDefiSDK: ['KyberDAO'],
 				}
+			},
+			{
+				name: 'KyberDAO v1',
+				slug: 'dao-v1',
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['KNCL'],
+				]
 			}
 		]
 	},
 	{
 		name: 'Linkswap',
 		slug: 'linkswap',
-		links: [],
+		links: ['https://linkswap.app'],
 		views: [
 			{
 				chainId: 1,
@@ -861,12 +1164,14 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Livepeer',
 		slug: 'livepeer',
-		links: [],
+		links: ['https://livepeer.org'],
         colors: ['#1c42ff'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['LPT'],
+				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/livepeer/livepeer',
 					zerionDefiSDK: ['Livepeer'],
@@ -877,11 +1182,13 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Loopring',
 		slug: 'loopring',
-		links: [],
+		links: ['https://loopring.org', 'https://loopring.io', 'https://exchange.loopring.io'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['LRC'],
+				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/loopring',
 					zapper: 'loopring',
@@ -892,11 +1199,13 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Liquity',
 		slug: 'liquity',
-		links: [],
+		links: ['https://www.liquity.org'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['LQTY'],
+				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/liquity/liquity',
 					zapper: 'liquity',
@@ -925,7 +1234,9 @@ export const defiApps: DefiAppConfig[] = [
 				slug: 'governance',
 				colors: ['#1AAB9B'],
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['MKR'],
+				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/protofire/makerdao-governance',
 					zerionDefiSDK: ['Maker Governance'],
@@ -936,11 +1247,13 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Matic',
 		slug: 'matic',
-		links: [],
+		links: ['https://wallet.matic.network/staking'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['MATIC'],
+				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/maticnetwork/mainnet-root-subgraphs',
 					zerionDefiSDK: ['Matic'],
@@ -949,43 +1262,42 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
-		name: 'Mooniswap',
-		slug: 'mooniswap',
-		links: [],
-		views: [
-			{
-				chainId: 1,
-				erc20Tokens: [],
-				providers: {
-					zapper: 'mooniswap',
-					zerionDefiSDK: ['Mooniswap'],
-				}
-			}
-		]
-	},
-	{
 		name: 'mStable',
 		slug: 'mstable',
-		links: [],
+		links: ['https://mstable.org'],
         colors: ['#000000'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['MBTC'],
+					erc20TokensBySymbol['MUSD'],
+				],
 				providers: {
-					zerionDefiSDK: ['mStable', 'mStable • Staking', 'mStable V2'],
+					zerionDefiSDK: ['mStable', 'mStable V2'],
 				}
-			}
+			},
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['MTA'],
+				],
+				providers: {
+					zerionDefiSDK: ['mStable • Staking'],
+				}
+			},
 		]
 	},
 	{
 		name: 'Mushrooms Finance',
 		slug: 'mushrooms',
-		links: [],
+		links: ['https://mushrooms.finance'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['MM'],
+				],
 				providers: {
 					zapper: 'mushroom',
 				}
@@ -995,11 +1307,13 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Nexus Mutual',
 		slug: 'nexus-mutual',
-		links: [],
+		links: ['https://nexusmutual.io'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['WNXM'],
+				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/nexusmutual/nexus-mutual',
 					zerionDefiSDK: ['Nexus Mutual'],
@@ -1010,13 +1324,15 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: '1inch',
 		slug: '1inch',
-		links: [],
+		links: ['https://1inch.io'],
 		views: [
 			{
 				name: 'Ethereum',
 				slug: 'ethereum',
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['1INCH'],
+				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/1inch-exchange/one-inch-v2',
 					zapper: '1inch',
@@ -1028,7 +1344,9 @@ export const defiApps: DefiAppConfig[] = [
 				slug: 'ethereum',
 				colors: ['#d21318', '#3d3d3c'],
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensByContractAddress['0x0000000000004946c0e9f43f4dee607b0ef1fa1c'] // CHI
+				],
 				providers: {
 					zerionDefiSDK: ['Chi Gastoken by 1inch'],
 				}
@@ -1051,16 +1369,28 @@ export const defiApps: DefiAppConfig[] = [
 					zapper: '1inch',
 				}
 			},
+			{
+				name: 'Mooniswap (Liquity Protocol v1)',
+				slug: 'mooniswap',
+				chainId: 1,
+				links: ['https://mooniswap.exchange'],
+				providers: {
+					zapper: 'mooniswap',
+					zerionDefiSDK: ['Mooniswap'],
+				}
+			},
 		]
 	},
 	{
 		name: 'Opium Protocol',
 		slug: 'opium',
-		links: [],
+		links: ['https://opium.network'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['OPIUM'],
+				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/opiumprotocol/opium-network',
 				}
@@ -1070,7 +1400,7 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'PancakeSwap',
 		slug: 'pancakeswap',
-		links: [],
+		links: ['https://pancakeswap.finance'],
 		views: [
 			{
 				chainId: 56,
@@ -1082,13 +1412,23 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
+		name: 'Paraswap',
+		slug: 'paraswap',
+		links: ['https://paraswap.io'],
+		views: [
+			
+		]
+	},
+	{
 		name: 'Pickle Finance',
 		slug: 'pickle',
-		links: ['https://app.pickle.finance', 'https://app.pickle.finance'],
+		links: ['https://pickle.finance', 'https://app.pickle.finance'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['PICKLE'],
+				],
 				providers: {
 					zapper: 'pickle',
 					zerionDefiSDK: ['Pickle Finance', 'Pickle Finance • Farms', 'Pickle Finance • Staking'],
@@ -1099,12 +1439,20 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'PieDAO',
 		slug: 'piedao',
-		links: [],
+		links: ['https://pooltogether.com'],
         colors: ['#d90a9d', '#9811dc', '#7732f8', '#28d4ff'], // unofficial
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensByContractAddress['0xe4f726adc8e89c6a6017f01eada77865db22da14'], // BCP
+					erc20TokensBySymbol['DEFI+L'],
+					erc20TokensBySymbol['DEFI+S'],
+					erc20TokensBySymbol['DEFI++'],
+					erc20TokensBySymbol['BTC++'],
+					erc20TokensBySymbol['YPIE'],
+					erc20TokensBySymbol['DOUGH'],
+				],
 				providers: {
 					zerionDefiSDK: ['PieDAO', 'PieDAO ExperiPies'],
 				}
@@ -1112,14 +1460,47 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
+		name: 'Pods',
+		slug: 'pods',
+		links: ['https://www.pods.finance'],
+        colors: ['#b7156b', '#C41857', '#df1d2c'], // https://docs.pods.finance/interfacing-with-pods/brand-assets
+		views: [
+			// https://docs.pods.finance/developers/deployed-contracts
+			{
+				chainId: 137,
+				contracts: [
+					'0x2971c946d793f3b846A5AEC2Ac9EC945763a82a9', // ConfigurationManager
+					'0x4Add3C66196945ad9c9B35Bf8391D145A65E3337', // EmergencyStop
+					'0x3b2f5264ef121F7e269Be54b2A75d3E1c04b5430', // CapProvider
+					'0x19Cd96c3412E42EE1cAbD023e443aEdE7d209826', // PodPutBuilder
+					'0x70a21cbB30DE94E21A84A62f5F060C2Cd4daf824', // WPodPutBuilder
+					'0x343E548a47c386C73fa8738bc3488F32b0bBbeec', // PodCallBuilder
+					'0x3177D77699358e8015eFE1fFCB68a3C4ACa35547', // WPodCallBuilder
+					'0x35601f9C2458172D8d9f4B3Fa2CC33620af632f3', // OptionFactory
+					'0x94ea57A96e02f2F1b3dcB18105Cd6cFa36FB8Ab2', // NormalDistribution
+					'0xC6AB9Cdf5aaFDa905D9e2BE0692e5F575fcDc849', // BlackScholes
+					'0xab5627f4ECb905cE535ECf704eBB1Dc9405D66eA', // IVGuesser
+					'0xC51e13FdcEfc232bFc4741B2C0C24483110B5028', // IVProvider
+					'0x7f105cC52d66d8664cDdC935f8A8AE7941032d18', // PriceProvider
+					'0x712a6E19Dc4e709E025DDB22C030f51CDeFdbC43', // FeePoolBuilder
+					'0x7B4401FD0070cA78C7C93aa335D6000Ee0D629F7', // OptionAMMFactory
+					'0xB7dEF03006eC72Ef409C41fAEE2619e4bFdB547F', // OptionHelper
+				],
+			}
+		]
+	},
+	{
 		name: 'PoolTogether',
 		slug: 'pooltogether',
-		links: [],
+		links: ['https://pooltogether.com'],
         colors: ['#4a31a5'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['POOL'],
+					erc20TokensBySymbol['PCUSDC'],
+				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/pooltogether/pooltogether',
 					zapper: 'pooltogether',
@@ -1131,7 +1512,7 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'QuickSwap',
 		slug: 'quickswap',
-		links: [],
+		links: ['https://quickswap.exchange'],
 		views: [
 			{
 				chainId: 137,
@@ -1145,11 +1526,13 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Rari Capital',
 		slug: 'rari',
-		links: [],
+		links: ['https://www.rari.capital'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['RGT'],
+				],
 				providers: {
 					zapper: 'rari',
 				}
@@ -1159,11 +1542,13 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Rarible',
 		slug: 'rarible',
-		links: [],
+		links: ['https://rarible.com'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['RARI'],
+				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/rarible/protocol',
 				}
@@ -1173,7 +1558,7 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'RealT',
 		slug: 'realt',
-		links: [],
+		links: ['https://realt.co'],
 		views: [
 			{
 				chainId: 1,
@@ -1187,11 +1572,13 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Reflexer',
 		slug: 'reflexer',
-		links: [],
+		links: ['https://reflexer.finance'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['FLX'],
+				],
 				providers: {
 					zapper: 'reflexer',
 					zerionDefiSDK: ['Reflexer'],
@@ -1202,7 +1589,7 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Ribbon',
 		slug: 'ribbon',
-		links: [],
+		links: ['https://www.ribbon.finance', 'https://app.ribbon.finance'],
 		views: [
 			{
 				chainId: 1,
@@ -1216,7 +1603,7 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Sablier',
 		slug: 'sablier',
-		links: [],
+		links: ['https://sablier.finance'],
 		views: [
 			{
 				chainId: 1,
@@ -1230,7 +1617,7 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Saddle',
 		slug: 'saddle',
-		links: [],
+		links: ['https://saddle.finance'],
 		views: [
 			{
 				chainId: 1,
@@ -1245,11 +1632,13 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'SashimiSwap',
 		slug: 'sashimiswap',
-		links: [],
+		links: ['https://sashimi.cool'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['SASHIMI'],
+				],
 				providers: {
 					zerionDefiSDK: ['SashimiSwap'],
 				}
@@ -1259,7 +1648,7 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'S.finance',
 		slug: 'sfinance',
-		links: [],
+		links: ['https://s.finance'],
 		views: [
 			{
 				chainId: 1,
@@ -1280,7 +1669,7 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Shell',
 		slug: 'shell',
-		links: [],
+		links: ['https://www.shellprotocol.io'],
 		views: [
 			{
 				chainId: 1,
@@ -1294,11 +1683,13 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Smoothy',
 		slug: 'smoothy',
-		links: [],
+		links: ['https://www.smoothy.finance'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['SMTY'],
+				],
 				providers: {
 					zapper: 'smoothy',
 				}
@@ -1308,11 +1699,13 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'SnowSwap',
 		slug: 'snowswap',
-		links: [],
+		links: ['https://snowswap.org'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['SNOW'],
+				],
 				providers: {
 					zapper: 'snowswap',
 					zerionDefiSDK: ['SnowSwap'],
@@ -1321,9 +1714,9 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
-		name: 'Spookyswap',
+		name: 'SpookySwap',
 		slug: 'spookyswap',
-		links: [],
+		links: ['https://spookyswap.finance'],
 		views: [
 			{
 				chainId: 250,
@@ -1337,11 +1730,13 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Stake DAO',
 		slug: 'stake-dao',
-		links: [],
+		links: ['https://stakedao.org'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['SDT'],
+				],
 				providers: {
 					zerionDefiSDK: ['Stake DAO'],
 				}
@@ -1349,16 +1744,92 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
+		name: 'Streamr',
+		slug: 'streamr',
+		links: ['https://streamr.network'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensByContractAddress['0x0cf0ee63788a0849fe5297f3407f701e122cc023'], // DATA
+				],
+			}
+		]
+	},
+	{
+		// https://docs.superfluid.finance/superfluid/networks/networks
 		name: 'Superfluid',
 		slug: 'superfluid',
-		links: [],
+		links: ['https://www.superfluid.finance/home'],
 		views: [
 			{
 				chainId: 137,
-				erc20Tokens: [],
-				providers: {
-				}
-			}
+				erc20Tokens: [
+					{
+						chainId: 137,
+						address: '0x3aD736904E9e65189c3000c7DD2c8AC8bB7cD4e3',
+						name: 'Super MATIC',
+						symbol: 'MATICx',
+						decimals: 18,
+					},
+					{
+						chainId: 137,
+						address: '0x27e1e4E6BC79D93032abef01025811B7E4727e85',
+						name: 'Super WETH (PoS)',
+						symbol: 'ETHx',
+						decimals: 18,
+					},
+					{
+						chainId: 137,
+						address: '0xCAa7349CEA390F89641fe306D93591f87595dc1F',
+						name: 'Super USDC (PoS)',
+						symbol: 'USDCx',
+						decimals: 18,
+					},
+					{
+						chainId: 137,
+						address: '0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2',
+						name: 'Super DAI (PoS)',
+						symbol: 'DAIx',
+						decimals: 18,
+					},
+					{
+						chainId: 137,
+						address: '0x4086eBf75233e8492F1BCDa41C7f2A8288c2fB92',
+						name: 'Super WBTC (PoS)',
+						symbol: 'WBTCx',
+						decimals: 18,
+					},
+				],
+				contracts: [
+					'0xE0cc76334405EE8b39213E620587d815967af39C', // Resolver
+					'0x3E14dC1b13c488a8d5D310918780c983bD5982E7', // Host
+					'0x6EeE6060f715257b970700bc2656De21dEdF074C', // CFAv1
+					'0xB0aABBA4B2783A72C52956CDEF62d438ecA2d7a1', // IDAv1
+					'0x2C90719f25B10Fc5646c82DA3240C76Fa5BcCF34', // SuperTokenFactory
+				]
+			},
+			{
+				chainId: 100,
+				erc20Tokens: [
+					{
+						chainId: 100,
+						address: '0x59988e47A3503AaFaA0368b9deF095c818Fdca01',
+						name: 'Super xDAI',
+						symbol: 'xDAIx',
+						decimals: 18,
+					}
+				],
+				contracts: [
+					'0xD2009765189164b495c110D61e4D301729079911', // Resolver
+					'0x2dFe937cD98Ab92e59cF3139138f18c823a4efE7', // Host
+					'0xEbdA4ceF883A7B12c4E669Ebc58927FBa8447C7D', // CFAv1
+					'0x7888ac96F987Eb10E291F34851ae0266eF912081', // IDAv1
+					'0x23410e2659380784498509698ed70E414D384880', // SuperTokenFactory
+
+					'0x0872d200f74e4a45e830eccc9e8b8f605df7ce06', // WORK SuperToken
+				]
+			},
 		]
 	},
 	{
@@ -1371,7 +1842,9 @@ export const defiApps: DefiAppConfig[] = [
 				name: 'Ethereum',
 				slug: 'ethereum',
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['SUSHI'],
+				],
 				providers: {
 					zapper: 'sushiswap',
 					zerionDefiSDK: ['SushiSwap', 'SushiSwap • Staking'],
@@ -1445,12 +1918,14 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Swerve',
 		slug: 'swerve',
-		links: [],
+		links: ['https://swerve.fi'],
         colors: ['#86fce7'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['SWRV'],
+				],
 				providers: {
 					zapper: 'swerve',
 					zerionDefiSDK: ['Swerve', 'Swerve • Liquidity Gauges'],
@@ -1462,11 +1937,13 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'Synthetix',
         colors: ['#1e1a31'],
 		slug: 'synthetix',
-		links: [],
+		links: ['https://www.synthetix.io'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['SNX'],
+				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/synthetixio-team/synthetix',
 					zapper: 'synthetix',
@@ -1476,28 +1953,49 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
-		name: 'The Graph',
-		slug: 'the-graph',
-		links: [],
+		// https://docs.tellor.io/tellor/integration/reference-page
+		name: 'Tellor',
+		slug: 'tellor',
+		links: ['https://tellor.io'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
-				providers: {
-					zapper: 'the',
-				}
+				erc20Tokens: [
+					erc20TokensBySymbol['TRB'],
+				],
+				contracts: [
+					'0x88dF592F8eb5D7Bd38bFeF7dEb0fBc02cf3778a0', // Oracle
+					'0xB2b6c6232d38faE21656703cAC5A74e5314741D4', // Lens
+					'0xCA240cf523cD9163C2A8465B2642B04749704625', // Fellowship (trusted addresses)
+					'0xd53412ff046B13318C05e923919d8dB07C3cB3E9', // Rivendell (voting logic)
+				]
+			}
+		]
+	},
+	{
+		name: 'The Graph',
+		slug: 'the-graph',
+		links: ['https://thegraph.com'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['GRT'],
+				]
 			}
 		]
 	},
 	{
 		name: 'TokenSets',
 		slug: 'tokensets',
-		links: [],
+		links: ['https://www.tokensets.com'],
         colors: ['#2D2CE5'/*, '#6BB1FF'*/],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['DPI'],
+				],
 				providers: {
 					zapper: 'tokensets',
 					zerionDefiSDK: ['TokenSets', 'SetToken V2'],
@@ -1508,11 +2006,14 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'UMA',
 		slug: 'uma',
-		links: [],
+		links: ['https://umaproject.org'],
+		colors: ['#ff4a4a'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['UMA'],
+				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/umaprotocol/uma',
 				}
@@ -1520,32 +2021,43 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
-		name: 'Uniswap',
-		slug: 'uniswap',
-		links: [],
-        colors: ['#ff007a'],
+		// https://umbrella-network.readme.io/docs/umb-token-contracts
+		name: 'Umbrella',
+		slug: 'umbrella',
+		links: ['https://www.umb.network'],
 		views: [
 			{
-				name: 'Uniswap V1',
-				slug: 'v1',
+				name: 'Ethereum',
+				slug: 'ethereum',
 				chainId: 1,
-				erc20Tokens: [],
-				providers: {
-					zapper: 'uniswap',
-					zerionDefiSDK: ['Uniswap V1'],
-				}
+				erc20Tokens: [
+					erc20TokensBySymbol['UMB'],
+					{
+						name: 'Umbrella Reward #1',
+						address: '0x1b17dbb40fbed8735e7fe8c9eb02c20984fadfd6',
+						symbol: 'rUMB1',
+						decimals: 18
+					}
+				],
 			},
 			{
-				name: 'Uniswap V2',
-				slug: 'v2',
-				chainId: 1,
-				erc20Tokens: [],
-				providers: {
-					theGraph: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2',
-					zapper: 'uniswap',
-					zerionDefiSDK: ['Uniswap V2'],
-				}
-			},
+				name: 'Binance Smart Chain',
+				slug: 'bsc',
+				chainId: 56,
+				erc20Tokens: [
+				],
+				contracts: [
+					'0xb2C6c4162c0d2B6963C62A9133331b4D0359AA34', // Contract Registry
+				]
+			}
+		]
+	},
+	{
+		name: 'Uniswap',
+		slug: 'uniswap',
+		links: ['https://uniswap.org', 'https://app.uniswap.org'],
+        colors: ['#ff007a'],
+		views: [
 			{
 				name: 'Uniswap V3',
 				slug: 'v3',
@@ -1556,17 +2068,90 @@ export const defiApps: DefiAppConfig[] = [
 					zapper: 'uniswap',
 					// zerionDefiSDK: ['Uniswap V3'],
 				}
-			}
+			},
+			{
+				name: 'Uniswap V2',
+				slug: 'v2',
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['UNI'],
+				],
+				providers: {
+					theGraph: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2',
+					zapper: 'uniswap',
+					zerionDefiSDK: ['Uniswap V2'],
+				}
+			},
+			{
+				name: 'Uniswap V1',
+				slug: 'v1',
+				chainId: 1,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'uniswap',
+					zerionDefiSDK: ['Uniswap V1'],
+				}
+			},
 		]
 	},
 	{
-		name: 'Unit',
+		// https://github.com/unitprotocol/core/blob/master/CONTRACTS.md
+		name: 'Unit Protocol',
 		slug: 'unit',
-		links: [],
+		links: ['https://unit.xyz'],
 		views: [
 			{
+				name: 'Ethereum',
+				slug: 'ethereum',
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensByContractAddress['0x92e187a03b6cd19cb6af293ba17f2745fd2357d5'], // DUCK
+					erc20TokensBySymbol['USDP'],
+				],
+				contracts: [
+					// Core
+					'0xb1cFF81b9305166ff1EFc49A129ad2AfCd7BCf19', // Vault
+					'0x1456688345527bE1f37E9e627DA0837D6f08C925', // USDP
+					'0xB46F8CF42e504Efe8BEf895f848741daA55e9f1D', // VaultParameters
+					'0x203153522B9EAef4aE17c6e99851EE7b2F7D312E', // VaultManagerParameters
+					'0xaEF1ed4C492BF4C57221bE0706def67813D79955', // LiquidationAuction02
+					'0x0e13ab042eC5AB9Fc6F43979406088B9028F66fA', // CDPManager01
+					'0xaD3617D11f4c1d30603551eA75e9Ace9CB386e15', // CDPManager01_Fallback
+
+					// Helpers & Registries
+					'0x75fBFe26B21fd3EA008af0C764949f8214150C8f', // OracleRegistry
+					'0x4DD1A6DB148BEcDADAdFC407D23b725eDd3cfB6f', // ParametersBatchUpdater
+					'0xd51F509Fb80b4fF4D4Bfb4144eEd877F0F499AF6', // AssetParametersViewer
+					'0x3DB39B538Db1123389c77F888a213F1A6dd22EF3', // CollateralRegistry
+					'0x1a5Ff58BC3246Eb233fEA20D32b79B5F01eC650c', // CDPRegistry
+					'0xF7633FA353E74Edb211B1d22e23c96aE4d7b24C0', // ForceTransferAssetStore
+				],
+				providers: {
+					zapper: 'unit',
+				}
+			},
+			{
+				name: 'Binance Smart Chain',
+				slug: 'bsc',
+				chainId: 56,
+				erc20Tokens: [
+				],
+				contracts: [
+					// Core
+					'0xdacfeed000e12c356fb72ab5089e7dd80ff4dd93', // Vault
+					'0xdacd011a71f8c9619642bf482f1d4ceb338cffcf', // USDP
+					'0x56c7CA666d192332F72a5842E72eED5f59F0fb48', // VaultParameters
+					'0x99f2B13C28A4183a5d5e0fe02B1B5aeEe85FAF5A', // VaultManagerParameters
+					'0x852de08f3cD5b92dD8b3B92b321363D04EeEc39E', // LiquidationAuction02
+					'0x1337daC01Fc21Fa21D17914f96725f7a7b73868f', // CDPManager01
+					
+					// Helpers & Registries
+					'0xbea721ACe12e881cb44Dbe9361ffEd9141CE547F', // OracleRegistry
+					'0xA1ad3602697c15113E089C2723c15eBF3038465C', // CollateralRegistry
+					'0xE8372dcef80189c0F88631507f6466b3f60E24A4', // CDPRegistry
+					'0x7815ed0f9B00E7b34f52543779783023c7621fA1', // ForceTransferAssetStore
+					'0x11b1bd923f4D0669958e16A511567f540Bc21d2e', // PancakeV2Twap
+				],
 				providers: {
 					zapper: 'unit',
 				}
@@ -1574,13 +2159,15 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
-		name: 'USDC',
+		name: 'USDC by Circle',
 		slug: 'usdc',
-		links: [],
+		links: ['https://www.circle.com/en/usdc', 'https://www.centre.io/usdc'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['USDC'],
+				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/centrehq/usdc',
 				}
@@ -1595,8 +2182,11 @@ export const defiApps: DefiAppConfig[] = [
 			{
 				name: 'Axie Infinity',
 				slug: 'axie-infinity',
+				links: ['https://axieinfinity.com/'],
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['AXS'],
+				],
 				nfts: ['0xF5b0A3eFB8e8E4c201e2A935F110eAaF3FFEcb8d'],
 				contracts: ['0xf4985070ce32b6b1994329df787d1acc9a2dd9e2'],
 				providers: {
@@ -1606,8 +2196,11 @@ export const defiApps: DefiAppConfig[] = [
 			{
 				name: 'CryptoKitties',
 				slug: 'cryptokitties',
+				links: ['https://www.cryptokitties.co'],
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['WCK'],
+				],
 				nfts: ['0x06012c8cf97BEaD5deAe237070F9587f8E7A266d'],
 				contracts: ['0xb1690c08e213a35ed9bab7b318de14420fb57d8c'],
 				providers: {
@@ -1617,6 +2210,7 @@ export const defiApps: DefiAppConfig[] = [
 			{
 				name: 'CryptoPunks',
 				slug: 'cryptopunks',
+				links: ['https://www.larvalabs.com/cryptopunks'],
 				chainId: 1,
 				erc20Tokens: [],
 				nfts: ['0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB'],
@@ -1627,6 +2221,7 @@ export const defiApps: DefiAppConfig[] = [
 			{
 				name: 'Known Origin',
 				slug: 'known-origin',
+				links: ['https://knownorigin.io'],
 				chainId: 1,
 				erc20Tokens: [],
 				nfts: ['0xfbeef911dc5821886e1dda71586d90ed28174b7d'],
@@ -1637,6 +2232,7 @@ export const defiApps: DefiAppConfig[] = [
 			{
 				name: 'SuperRare',
 				slug: 'superrare',
+				links: ['https://superrare.com'],
 				chainId: 1,
 				erc20Tokens: [],
 				nfts: ['0x41a322b28d0ff354040e2cbc676f0320d8c8850d'],
@@ -1647,13 +2243,15 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
-		name: 'Value',
+		name: 'Value DeFi',
 		slug: 'value',
-		links: [],
+		links: ['https://valuedefi.io'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['VALUE'],
+				],
 				providers: {
 					zapper: 'value',
 				}
@@ -1663,7 +2261,7 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Venus',
 		slug: 'venus',
-		links: [],
+		links: ['https://www.venus.io'],
 		views: [
 			{
 				chainId: 1,
@@ -1677,11 +2275,14 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Vesper',
 		slug: 'vesper',
-		links: [],
+		links: ['https://vesper.finance'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['VSP'],
+					erc20TokensBySymbol['VUSD'],
+				],
 				providers: {
 					zapper: 'vesper',
 				}
@@ -1689,13 +2290,15 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
-		name: 'Xsigma',
+		name: 'xSigma',
 		slug: 'xsigma',
-		links: [],
+		links: ['https://www.xsigma.fi'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensByContractAddress['0x7777777777697cfeecf846a76326da79cc606517'], // SIG
+				],
 				providers: {
 					zapper: 'xsigma',
 				}
@@ -1703,13 +2306,16 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
-		name: 'Yaxis',
+		name: 'yAxis',
 		slug: 'yaxis',
-		links: [],
+		links: ['https://www.yaxis.io'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['YAXIS'],
+					erc20TokensBySymbol['SYAX'],
+				],
 				providers: {
 					zapper: 'yaxis',
 				}
@@ -1719,7 +2325,7 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'Yearn Finance',
 		slug: 'yearn',
-		links: [],
+		links: ['https://yearn.finance'],
         colors: ['#0273f6', '#075fb9'], // unofficial
 		views: [
 			{
@@ -1734,7 +2340,9 @@ export const defiApps: DefiAppConfig[] = [
 				name: 'Governance',
 				slug: 'governance',
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['YFI'],
+				],
 				providers: {
 					zapper: 'yearn',
 					zerionDefiSDK: ['ygov.finance (v1)', 'ygov.finance (v2)'],
@@ -1745,11 +2353,13 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: '0x',
 		slug: '0x',
-		links: [],
+		links: ['https://0x.org'],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['ZRX'],
+				],
 				providers: {
 					zerionDefiSDK: ['0x Staking'],
 				}
@@ -1768,3 +2378,40 @@ export const defiAppsByProviderName = {
 		defiAppConfig.views.flatMap(view => view.providers?.zerionDefiSDK?.map(name => [name, defiAppConfig]) ?? [])
 	))
 }
+
+
+export const featuredDefiApps = [
+	'aave',
+	'akropolis',
+	'badger',
+	'balancer',
+	'bitgo',
+	'chainlink',
+	'compound',
+	'connext',
+	'88mph',
+	'element',
+	'ens',
+	'enzyme',
+	'idle',
+	'instadapp',
+	'kyber',
+	'liquity',
+	'nexus-mutual',
+	'1inch',
+	'paraswap',
+	'pods',
+	'rarible',
+	'stake-dao',
+	'streamr',
+	'superfluid',
+	'tellor',
+	'uma',
+	'umbrella',
+	'uniswap',
+	'upshot',
+	'usdc',
+	'yearn'
+].map(slug => defiAppsBySlug[slug])
+
+export const notFeaturedDefiApps = defiApps.filter(defiAppConfig => !featuredDefiApps.includes(defiAppConfig))
