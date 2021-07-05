@@ -31,5 +31,5 @@
 
 	<slot name="header" slot="header" {network} {provider} />
 
-	<slot {provider} />
+	<slot {network} {provider} />
 </Loader>
