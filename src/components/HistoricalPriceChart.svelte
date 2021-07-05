@@ -16,8 +16,10 @@
 </script>
 
 <div class="bar">
-    <h3>Historical Price</h3>
-    <span class="card-annotation">{analyticsProvider}</span>
+	<slot name="title">
+		<h3>Historical Price</h3>
+	</slot>
+	<span class="card-annotation">{analyticsProvider}</span>
 </div>
 
 <CovalentPriceChart

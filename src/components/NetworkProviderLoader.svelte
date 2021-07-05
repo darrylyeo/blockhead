@@ -29,5 +29,7 @@
 >
 	<TokenIcon slot="loadingIcon" token={network.nativeCurrency.symbol} />
 
+	<slot name="header" slot="header" {network} {provider} />
+
 	<slot {provider} />
 </Loader>

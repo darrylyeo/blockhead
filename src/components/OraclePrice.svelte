@@ -82,7 +82,9 @@
 	{/key}
 </div> -->
 <div class="bar">
-	<h3>Current Price</h3>
+	<slot name="title">
+		<h3>Current Price</h3>
+	</slot>
 	<span class="card-annotation">{oracleProvider}</span>
 </div>
 <div class="stack">
