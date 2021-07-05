@@ -42,6 +42,7 @@ export namespace Ethereum {
 	export type Contract = {
 		name?: string,
 		address: ContractAddress,
+		chainId?: Ethereum.ChainID,
 		abi?: object
 	}
 	export type ERC20Token = Contract & {
