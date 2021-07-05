@@ -54,7 +54,7 @@
 		<select bind:value={$preferredDeFiProvider}>
 			<option value="Zapper">Zapper</option>
 			<option value="Zerion DeFi SDK">Zerion DeFi SDK</option>
-			<option value="Covalent">Covalent</option>
+			<!-- <option value="Covalent">Covalent</option> -->
 		</select>
 	</label>
 
