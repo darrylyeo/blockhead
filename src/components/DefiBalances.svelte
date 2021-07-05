@@ -60,9 +60,6 @@
 	$: defiBalancesDescription = defiApps?.map(({name}) => name).join('/') || `${network.name} DeFi`
 
 
-	let defiAppConfig
-
-
 	import Loader from './Loader.svelte'
 	import Loading from './Loading.svelte'
 	import TokenIcon from './TokenIcon.svelte'
@@ -70,13 +67,10 @@
 	import TokenValueWithConversion from './TokenValueWithConversion.svelte'
 
 
+	import { cardStyle } from '../utils/card-background'
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
 	import { scaleFont } from '../transitions/scale-font'
-
-
-	const makeCardGradient = (colors = []) =>
-		`linear-gradient(155deg, ${colors.length == 1 ? [`${colors[0]}20`, `${colors[0]}55`] : colors.map(color => `${color}50`)}`
 </script>
 
 <style>
@@ -194,10 +188,7 @@
 					}, j (label)}
 						<div
 							class="card defi-protocol"
-							style={(defiAppConfig = defiAppsByProviderName.zapper?.[label])?.colors ? `
-								--card-background-image: ${makeCardGradient(defiAppConfig.colors)});
-								--primary-color: ${defiAppConfig.colors[defiAppConfig.colors.length / 2 | 0] ?? 'inherit'}
-							` : ''}
+							style={cardStyle(defiAppsByProviderName.zapper?.[label]?.colors)}
 							transition:scaleFont|local
 							animate:flip|local={{duration: 300, delay: Math.abs(i + j * 0.1) * 10}}
 						>
@@ -423,10 +414,7 @@
 					}, i (metadata.name + i)}
 						<div
 							class="card defi-protocol layout-{computedLayout}"
-							style={(defiAppConfig = defiAppsByProviderName.zerionDefiSDK?.[metadata.name])?.colors ? `
-								--card-background-image: ${makeCardGradient(defiAppConfig.colors)});
-								--primary-color: ${defiAppConfig.colors[defiAppConfig.colors.length / 2 | 0] ?? 'inherit'}
-							` : ''}
+							style={cardStyle(defiAppsByProviderName.zerionDefiSDK?.[metadata.name]?.colors)}
 							transition:scaleFont|local
 							animate:flip|local={{duration: 300, delay: Math.abs(i) * 10}}
 						>
