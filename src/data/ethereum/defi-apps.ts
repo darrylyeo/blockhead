@@ -832,7 +832,7 @@ export const defiApps: DefiAppConfig[] = [
 			{
 				chainId: 1,
 				erc20Tokens: [
-					erc20TokensBySymbol['MPH']
+					erc20TokensByContractAddress['0x8888801af4d980682e47f1a9036e589479e835c5'] // MPH
 				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/bacon-labs/eighty-eight-mph',
