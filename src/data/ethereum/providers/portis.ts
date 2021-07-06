@@ -1,5 +1,6 @@
 import type { Ethereum } from '../types'
 import { PORTIS_DAPP_ID } from '../../../config'
+import { getNetworkRPC } from '../../ethereum/networks'
 
 export async function getPortis(network: Ethereum.Network){
 	const Portis = (await import('@portis/web3')).default
@@ -20,7 +21,7 @@ export async function getPortis(network: Ethereum.Network){
 		- registerPageByDefault
 	*/
 	return new Portis(PORTIS_DAPP_ID, portisNetworkNames[network.chainId] ?? {
-		nodeUrl: network.rpc[0],
+		nodeUrl: getNetworkRPC(network),
 		chainId: String(network.chainId),
 		// gasRelayHubAddress
 	})
