@@ -62,6 +62,7 @@
 	import OraclePrice from './OraclePrice.svelte'
 	import HistoricalPriceChart from './HistoricalPriceChart.svelte'
 	import TokenIcon from './TokenIcon.svelte'
+	import TokenName from './TokenName.svelte'
 	import TokenValue from './TokenValue.svelte'
 	import TokenValueWithConversion from './TokenValueWithConversion.svelte'
 	
@@ -70,8 +71,8 @@
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
 	import { scaleFont } from '../transitions/scale-font'
-import TokenName from './TokenName.svelte'
 </script>
+
 
 <style>
 	.defi-balances.scrollable-list {
@@ -205,6 +206,15 @@ import TokenName from './TokenName.svelte'
 
 	.defi-app-view {
 		--echart-height: 15rem;
+	}
+
+
+	iframe {
+		width: 100%;
+		height: 35rem;
+		max-height: 80vh;
+		justify-self: center;
+		border-radius: 0.5em;
 	}
 </style>
 
@@ -630,6 +640,33 @@ import TokenName from './TokenName.svelte'
 					{/if}
 				</div>
 			</NetworkProviderLoader>
+
+
+			{#if providers.theGraph}
+				<div class="card">
+					<div class="bar">
+						<h4><a href="https://thegraph.com/explorer/subgraph/{providers.theGraph.match(/[^/]+\/[^/]+$/)}">Subgraph ({providers.theGraph.match(/[^/]+\/[^/]+$/)})</a></h4>
+						<div class="card-annotation">The Graph</div>
+					</div>
+
+					<hr>
+
+					<div>
+				<iframe
+					title="{name} Subgraph GraphiQL Explorer"
+					src="https://embed.graphql.com/embed?{new URLSearchParams({
+						endpointURL: JSON.stringify(providers.theGraph),
+						// query: JSON.stringify('{}'),
+						// variables: JSON.stringify(''),
+						// response: JSON.stringify(''),
+						history: false,
+						prettify: true,
+						docs: true
+					})}"
+				/>
+					</div>
+				</div>
+			{/if}
 		</div>
 	{/each}
 	{/each}
