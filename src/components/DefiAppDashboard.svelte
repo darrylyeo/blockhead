@@ -241,8 +241,8 @@ import TokenName from './TokenName.svelte'
 
 				<div
 					class="column defi-app-view-items"
-					class:scrollable-list={!address && totalViewItems > 3}
 				>
+				<!-- class:scrollable-list={!address && totalViewItems > 3} -->
 					<!-- No address specified - general information -->
 					{#if !address}
 						<!-- ERC-20 Tokens -->
