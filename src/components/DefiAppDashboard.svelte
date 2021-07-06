@@ -659,7 +659,7 @@
 			</NetworkProviderLoader>
 
 
-			{#if providers.theGraph}
+			{#if providers?.theGraph}
 				<div class="card">
 					<div class="bar">
 						<h4><a href="https://thegraph.com/explorer/subgraph/{providers.theGraph.match(/[^/]+\/[^/]+$/)}">Subgraph ({providers.theGraph.match(/[^/]+\/[^/]+$/)})</a></h4>
