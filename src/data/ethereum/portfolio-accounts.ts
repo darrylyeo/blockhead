@@ -23,7 +23,8 @@ export class Account {
 		public id: Ethereum.Address | string,
 		public type: AccountType = isAddress(id) ? AccountType.Address : AccountType.ENS,
 		public nickname: string = '',
-		public networks: AccountNetworkSettings[] = getDefaultAccountNetworkSettings()
+		public networks: AccountNetworkSettings[] = getDefaultAccountNetworkSettings(),
+		public provider?: Ethereum.ProviderName,
 	){}
 
 	toJSON(){
@@ -106,6 +107,7 @@ export const getLocalPortfolios = () => localPortfolios ||= localStorageWritable
 
 import { Signer } from '@ethersproject/abstract-signer'
 import { providers } from 'ethers'
+import { getProvider } from './provider'
 
 export async function getAccountsFromProvider(provider: Ethereum.Provider | Signer){
 	const accounts =

@@ -1,12 +1,14 @@
 <script lang="ts">
 	import type { Ethereum } from '../../data/ethereum/types'
-	import { availableNetworks } from '../../data/ethereum/networks'
+	import { availableNetworks, getNetworkRPC } from '../../data/ethereum/networks'
 	import { Account, getLocalPortfolios } from '../../data/ethereum/portfolio-accounts'
 	import { usdStablecoinTokens } from '../../data/ethereum/tokens/tokens'
 
 
 	import { getProvider } from '../../data/ethereum/provider'
 	import { preferredEthereumProvider } from '../../data/ethereum/preferences'
+
+	import { Connext } from '../../data/connext/swaps'
 	
 	
 	const localPortfolios = getLocalPortfolios()
@@ -22,10 +24,15 @@
 	let toToken: Ethereum.ContractAddress
 	let toTokenAmount: number = 0
 
-	let transferSolution
+	let transferSolution: 'Connext' | '1inch' = 'Connext'
 
 
-	let conversionRate
+	$: connextSwap = Connext.mainnetSwaps.find(({fromAssetId, toAssetId}) => fromAssetId === fromToken && toAssetId === toToken)
+	$: conversionRate =
+		connextSwap && connextSwap.priceType === 'hardcoded' ?
+			connextSwap.hardcodedRate
+		:
+			undefined
 
 
 	let fromTokenAmountInput: HTMLElement
@@ -33,6 +40,8 @@
 	let toTokenAmountInput: HTMLElement
 	let toTokenSelect: HTMLElement
 
+
+	// import { startConnextTransfer } from '../../data/connext/connext'
 
 	async function onSubmit({
 		fromNetwork,
@@ -58,6 +67,36 @@
 		const fromNetworkProvider = await getProvider(fromNetwork, $preferredEthereumProvider, 'ethers')
 		const toNetworkProvider = await getProvider(toNetwork, $preferredEthereumProvider, 'ethers')
 
+
+		if(transferSolution === 'Connext'){
+			// await startConnextTransfer({
+			// 	fromNetwork,
+			// 	fromNetworkProvider,
+			// 	fromAccount,
+			// 	fromToken,
+			// 	fromTokenAmount,
+			
+			// 	toNetwork,
+			// 	toNetworkProvider,
+			// 	toAccount,
+			// 	toToken,
+			// 	toTokenAmount,
+			// })
+
+
+			// const { BrowserNode } = await import('@connext/vector-browser-node')
+			// const node = new BrowserNode({
+			// 	// routerPublicIdentifier, // optional, will set up channels if provided with supportedChains
+			// 	// supportedChains, // optional, will set up channels if provided with routerPublicIdentifier
+			// 	// iframeSrc, // defaults to hosted iframe app https://wallet.connext.network
+			// 	chainProviders: {
+			// 		[fromNetwork.chainId]: getNetworkRPC(fromNetwork),
+			// 		[toNetwork.chainId]: getNetworkRPC(toNetwork)
+			// 	}, // node URLs keyed by chainId
+			// 	// messagingUrl, // defaults to prod https://messaging.connext.network
+			// })
+			// await node.init() // function to intialize browser node
+		}
 	}
 
 
