@@ -258,6 +258,31 @@
 						<!-- ERC-20 Tokens -->
 						{#each erc20Tokens || [] as erc20Token}
 							<div class="card">
+								<div class="bar">
+									<h4>
+										{erc20Token.name}
+										(<TokenName
+											token={erc20Token.symbol}
+											tokenAddress={erc20Token.address}
+											tokenIcon={erc20Token.icon}
+											tokenName={erc20Token.name}
+										/>)
+									</h4>
+									<div class="card-annotation">ERC-20 Token</div>
+									<!-- <h4>
+										<TokenName
+											token={erc20Token.symbol}
+											tokenAddress={erc20Token.address}
+											tokenIcon={erc20Token.icon}
+											tokenName={erc20Token.name}
+										/>
+										({erc20Token.name})
+									</h4>
+									<div class="card-annotation">ERC-20 Token</div> -->
+								</div>
+
+								<hr>
+
 								<OraclePrice
 									oracleProvider={$preferredOracleProvider}
 									token={erc20Token.symbol}
@@ -267,15 +292,7 @@
 								>
 								<!-- blockNumber={$blockNumber} -->
 									<h4 slot="title">
-										{erc20Token.name}
-										(<TokenName
-											token={erc20Token.symbol}
-											tokenAddress={erc20Token.address}
-											tokenIcon={erc20Token.icon}
-											tokenName={erc20Token.name}
-										/>)
-										Token
-										<!-- - Current Price -->
+										Current Price
 									</h4>
 								</OraclePrice>
 
@@ -652,18 +669,18 @@
 					<hr>
 
 					<div>
-				<iframe
-					title="{name} Subgraph GraphiQL Explorer"
-					src="https://embed.graphql.com/embed?{new URLSearchParams({
-						endpointURL: JSON.stringify(providers.theGraph),
-						// query: JSON.stringify('{}'),
-						// variables: JSON.stringify(''),
-						// response: JSON.stringify(''),
-						history: false,
-						prettify: true,
-						docs: true
-					})}"
-				/>
+						<iframe
+							title="{name} Subgraph GraphiQL Explorer"
+							src="https://embed.graphql.com/embed?{new URLSearchParams({
+								endpointURL: JSON.stringify(providers.theGraph),
+								// query: JSON.stringify('{}'),
+								// variables: JSON.stringify(''),
+								// response: JSON.stringify(''),
+								history: false,
+								prettify: true,
+								docs: true
+							})}"
+						/>
 					</div>
 				</div>
 			{/if}
