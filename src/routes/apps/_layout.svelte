@@ -9,6 +9,7 @@
 	
 	const defiAppSlug = writable<DefiAppSlug>(segment)
 	setContext('defiAppSlug', defiAppSlug)
+	$: $defiAppSlug = segment
 
 	if(segment === undefined && globalThis.document)
 		goto(`apps/${$defiAppSlug}`)
