@@ -4,6 +4,9 @@ import { env } from '../../config-secrets'
 const { INFURA_PROJECT_ID } = env
 
 
+// https://github.com/ethereum-lists/chains
+// https://chainid.network
+
 export const networks: Ethereum.Network[] = [
 	{
 		"name": "Acala Mandala Testnet",
@@ -2213,6 +2216,28 @@ export const networks: Ethereum.Network[] = [
 		"faucets": [],
 		"explorers": [],
 		"infoURL": "https://www.newtonproject.org/"
+	},
+	{
+		"name": "Oasis Ethereum ParaTime",
+		"chainId": 69,
+		"shortName": "oasis",
+		"slug": "oasis-paratime",
+		"chain": "ETH",
+		"network": "mainnet",
+		"networkId": 69,
+		"nativeCurrency": {
+			"name": "Oasis Ether",
+			"symbol": "OETH",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://rpc.oasiseth.org:8545"
+		],
+		"faucets": [
+			"http://faucet.oasiseth.org"
+		],
+		"explorers": [],
+		"infoURL": "https://www.oasiseth.org"
 	},
 	{
 		"name": "OKExChain",
