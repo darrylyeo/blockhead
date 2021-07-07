@@ -71,23 +71,6 @@ export const defiApps: DefiAppConfig[] = [
 				}
 			},
 			{
-				name: 'Aave AMM',
-				slug: 'amm',
-				chainId: 1,
-				erc20Tokens: [],
-				providers: {
-					zapper: 'aave',
-					zerionDefiSDK: ['Aave • Uniswap Market'],
-				}
-			},
-			{
-				chainId: 137,
-				erc20Tokens: [],
-				providers: {
-					// zapper: 'aave'
-				}
-			},
-			{
 				name: 'Aave V1',
 				slug: 'v1',
 				chainId: 1,
@@ -95,10 +78,27 @@ export const defiApps: DefiAppConfig[] = [
 					erc20TokensBySymbol['LEND']
 				],
 				providers: {
-					zapper: 'aave',
-					zerionDefiSDK: ['Aave'],
+					// zapper: 'aave',
+					zerionDefiSDK: ['Aave', 'Aave • Uniswap Market'],
 				}
 			},
+			// {
+			// 	name: 'Aave AMM',
+			// 	slug: 'amm',
+			// 	chainId: 1,
+			// 	erc20Tokens: [],
+			// 	providers: {
+			// 		zapper: 'aave',
+			// 		zerionDefiSDK: ['Aave • Uniswap Market'],
+			// 	}
+			// },
+			// {
+			// 	chainId: 137,
+			// 	erc20Tokens: [],
+			// 	providers: {
+			// 		// zapper: 'aave'
+			// 	}
+			// },
 		]
 	},
 	{
