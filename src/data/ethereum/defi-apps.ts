@@ -1008,6 +1008,17 @@ export const defiApps: DefiAppConfig[] = [
 		colors: ['#0B50B0', '#0F6BEB', '#6FA4F2'],
 		views: [
 			{
+				name: 'Governance',
+				slug: 'governance',
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['IDLE'],
+				],
+				providers: {
+					zerionDefiSDK: ['Idle']
+				}
+			},
+			{
 				chainId: 1,
 				erc20Tokens: [
 					erc20TokensBySymbol['IDLEDAIYIELD'],
@@ -1024,17 +1035,6 @@ export const defiApps: DefiAppConfig[] = [
 					theGraph: 'https://api.thegraph.com/subgraphs/name/idle-finance/idle',
 					zapper: 'idle',
 					zerionDefiSDK: ['Idle • Early Rewards', 'Idle • Risk-Adjusted'],
-				}
-			},
-			{
-				name: 'Governance',
-				slug: 'governance',
-				chainId: 1,
-				erc20Tokens: [
-					erc20TokensBySymbol['IDLE'],
-				],
-				providers: {
-					zerionDefiSDK: ['Idle']
 				}
 			}
 		]
@@ -2106,7 +2106,7 @@ export const defiApps: DefiAppConfig[] = [
 				slug: 'v2',
 				chainId: 1,
 				erc20Tokens: [
-					erc20TokensBySymbol['UNI'],
+					erc20TokensByContractAddress['0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'], // UNI
 				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2',
