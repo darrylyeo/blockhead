@@ -565,7 +565,12 @@ export const getHistoricalPricesByAddresses = (
 ) =>
 	makeRequest<Covalent.HistoricalPrices[]>(`/v1/pricing/historical_by_addresses_v2/${chainID}/${quoteCurrency}/${contractAddresses.join(',')}`, {from, to, pageNumber, pageSize})
 
-// /v1/pricing/tickers/
+export const getSpotPrices = (
+	{tickers, pageNumber, pageSize}:
+	{tickers: TickerSymbol[] } & PaginationParameters
+) =>
+	makeRequest<Covalent.HistoricalPrices[]>(`/v1/pricing/tickers`, {tickers, pageNumber, pageSize})
+
 // /v1/pricing/volatility/
 // /v1/${chainID}/tokens/${address}/token_holders_changes/
 // /v1/${chainID}/tokens/${address}/token_holders/
