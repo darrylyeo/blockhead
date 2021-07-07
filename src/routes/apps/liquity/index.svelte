@@ -24,8 +24,13 @@
 
 
 <style>
+	.iframe-wrapper {
+		width: 100%;
+	}
+
 	iframe {
-		width: 90vw;
+		/* width: 90vw; */
+		width: 100%;
 		height: 80vh;
 		justify-self: center;
 		border-radius: 0.5em;
@@ -47,9 +52,11 @@
 
 		<hr>
 
-		<iframe
-			title="Liquity Frontend"
-			{src}
-		/>
+		<div class="iframe-wrapper">
+			<iframe
+				title="Liquity Frontend"
+				{src}
+			/>
+		</div>
 	</div>
 </section>
