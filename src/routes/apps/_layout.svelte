@@ -67,9 +67,11 @@
 			<span>DeFi App: </span>
 			<select bind:value={$defiAppSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`apps/${$defiAppSlug}${$query ? `/${$query}` : ''}`))}>
 				<option value="" selected>Select App...</option>
-				{#each featuredDefiApps as {name, slug}}
-					<option value={slug}>{name}</option>
-				{/each}
+				<optgroup label="Featured">
+					{#each featuredDefiApps as {name, slug}}
+						<option value={slug}>{name}</option>
+					{/each}
+				</optgroup>
 				<optgroup label="Other">
 					{#each notFeaturedDefiApps as {name, slug}}
 						<option value={slug}>{name}</option>
