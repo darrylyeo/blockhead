@@ -690,19 +690,21 @@
 </div>
 
 
-<div class="card bar options">
-	<div class="row">
-		<h3>Show</h3>
-		<label>
-			<select bind:value={showValues}>
-				<option value="original">Balances</option>
-				<option value="converted">Quotes</option>
-				<option value="both">Balances + Quotes</option>
-			</select>
-		</label>
-		<label>
-			<input type="checkbox" bind:checked={showUnderlyingAssets}>
-			<span>Underlying Assets</span>
-		</label>
+{#if address}
+	<div class="card bar options">
+		<div class="row">
+			<h3>Show</h3>
+			<label>
+				<select bind:value={showValues}>
+					<option value="original">Balances</option>
+					<option value="converted">Quotes</option>
+					<option value="both">Balances + Quotes</option>
+				</select>
+			</label>
+			<label>
+				<input type="checkbox" bind:checked={showUnderlyingAssets}>
+				<span>Underlying Assets</span>
+			</label>
+		</div>
 	</div>
-</div>
+{/if}
