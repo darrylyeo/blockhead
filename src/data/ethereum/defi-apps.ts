@@ -2011,7 +2011,7 @@ export const defiApps: DefiAppConfig[] = [
 			{
 				chainId: 1,
 				erc20Tokens: [
-					erc20TokensBySymbol['GRT'],
+					erc20TokensByContractAddress['0xc944e90c64b2c07662a292be6244bdf05cda44a7'], // GRT
 				]
 			}
 		]
