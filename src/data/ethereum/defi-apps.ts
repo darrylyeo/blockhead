@@ -2315,7 +2315,7 @@ export const defiApps: DefiAppConfig[] = [
 				chainId: 1,
 				erc20Tokens: [
 					erc20TokensBySymbol['VSP'],
-					erc20TokensBySymbol['VUSD'],
+					erc20TokensByContractAddress['0x677ddbd918637e5f2c79e164d402454de7da8619'], // VUSD
 				],
 				providers: {
 					zapper: 'vesper',
@@ -2425,7 +2425,6 @@ export const featuredDefiApps = [
 	'connext',
 	'curve',
 	'88mph',
-	'element',
 	'ens',
 	'enzyme',
 	'etherspot',
