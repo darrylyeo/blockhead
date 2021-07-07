@@ -13,6 +13,9 @@
 
 
 	let src
+
+
+	import { fly } from 'svelte/transition'
 </script>
 
 
@@ -27,7 +30,7 @@
 </style>
 
 
-<div class="column">
+<section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
 	<div class="bar">
 		<h3>Liquity Frontend</h3>
 
@@ -42,4 +45,4 @@
 		title="Liquity Frontend"
 		{src}
 	/>
-</div>
+</section>
