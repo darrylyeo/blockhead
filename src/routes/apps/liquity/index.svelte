@@ -22,8 +22,7 @@
 <style>
 	iframe {
 		width: 90vw;
-		height: 100%;
-		max-height: 80vh;
+		height: 80vh;
 		justify-self: center;
 		border-radius: 0.5em;
 	}
@@ -31,18 +30,22 @@
 
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
-	<div class="bar">
-		<h3>Liquity Frontend</h3>
+	<div class="card">
+		<div class="bar">
+			<h3>Liquity Frontend</h3>
 
-		<select bind:value={src}>
-			{#each Object.entries(liquityFrontends) as [name, url]}
-				<option value={url}>{name} ({url.replace('https://', '')})</option>
-			{/each}
-		</select>
+			<select bind:value={src}>
+				{#each Object.entries(liquityFrontends) as [name, url]}
+					<option value={url}>{name} ({url.replace('https://', '')})</option>
+				{/each}
+			</select>
+		</div>
+
+		<hr>
+
+		<iframe
+			title="Liquity Frontend"
+			{src}
+		/>
 	</div>
-
-	<iframe
-		title="Liquity Frontend"
-		{src}
-	/>
 </section>
