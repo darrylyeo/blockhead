@@ -66,7 +66,7 @@ export const defiApps: DefiAppConfig[] = [
 				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2',
-					zapper: 'aave',
+					zapper: 'aave-v2',
 					zerionDefiSDK: ['Aave V2', 'Aave V2 • Stable Debt', 'Aave V2 • Variable Debt', 'Aave • Staking'],
 				}
 			},
@@ -78,7 +78,7 @@ export const defiApps: DefiAppConfig[] = [
 					erc20TokensBySymbol['LEND']
 				],
 				providers: {
-					// zapper: 'aave',
+					zapper: 'aave',
 					zerionDefiSDK: ['Aave', 'Aave • Uniswap Market'],
 				}
 			},
