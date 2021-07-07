@@ -2441,6 +2441,7 @@ export const featuredDefiApps = [
 	'stake-dao',
 	'streamr',
 	'superfluid',
+	'sushiswap',
 	'swerve',
 	'tellor',
 	'the-graph',

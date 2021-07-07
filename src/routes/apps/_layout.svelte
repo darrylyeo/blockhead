@@ -57,12 +57,12 @@
 </style>
 
 <svelte:head>
-	<title>{$query ? `${$query} | ` : ''}{$defiAppConfig ? `${$defiAppConfig.name} Dashboard` : `DeFi Apps`} | Blockhead</title>
+	<title>{$query ? `${$query} | ` : ''}{$defiAppConfig ? `${$defiAppConfig.name} ${$query ? 'Account' : 'Dashboard'}` : `DeFi Apps`} | Blockhead</title>
 </svelte:head>
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 	<div class="bar">
-		<h1><a href="apps/{$defiAppSlug}" on:click={() => globalThis.requestAnimationFrame(() => goto(`apps/${$defiAppSlug}`))}>{$defiAppConfig ? `${$defiAppConfig.name} Dashboard` : `DeFi Apps`}</a></h1>
+		<h1><a href="apps/{$defiAppSlug}" on:click={() => globalThis.requestAnimationFrame(() => goto(`apps/${$defiAppSlug}`))}>{$defiAppConfig ? `${$defiAppConfig.name} ${$query ? 'Account' : 'Dashboard'}` : `DeFi Apps`}</a></h1>
 		<label>
 			<span>DeFi App: </span>
 			<select bind:value={$defiAppSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`apps/${$defiAppSlug}${$query ? `/${$query}` : ''}`))}>
