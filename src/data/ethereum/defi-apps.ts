@@ -932,7 +932,7 @@ export const defiApps: DefiAppConfig[] = [
 					}
 				],
 				providers: {
-					theGraph: 'https://thegraph.com/explorer/subgraph/ensdomains/ens',
+					theGraph: 'https://api.thegraph.com/subgraphs/name/ensdomains/ens',
 				}
 			}
 		]
