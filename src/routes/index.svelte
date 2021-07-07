@@ -73,6 +73,10 @@
 		gap: 1rem;
 	    justify-content: center;
 	}
+
+	footer {
+
+	}
 </style>
 
 <svelte:head>
@@ -84,7 +88,7 @@
 		<div class="centered">
 			<h1 class="logo">Blockhead</h1>
 		</div>
-		<h2>is a cross-chain crypto portfolio and explorer interface<br>for <span style="color: var(--ethereum-blue)">Ethereum</span>, <span style="color: var(--polygon-purple)">Polygon</span>, and the <span style="color: var(--bitcoin-gold)">EVM Multiverse</span></h2>
+		<h2>is a crypto portfolio, DeFi interface, and block explorer <br>for <span style="color: var(--ethereum-blue)">Ethereum</span>, <span style="color: var(--polygon-purple)">Polygon</span>, and the <span style="color: var(--bitcoin-gold)">EVM Multiverse</span></h2>
 	</header>
 
 	<section>
@@ -105,12 +109,13 @@
 	</section>
 
 	<div class="buttons">
-		<a href="portfolio"><button>Create Your Portfolio</button></a>
+		<a href="portfolio"><button>Create Portfolio</button></a>
 		<a href="explorer"><button>Explore Blockchains</button></a>
+		<a href="apps"><button>Browse Apps</button></a>
 	</div>
 	
 	<footer transition:scale>
-		<p><strong>Blockhead</strong> • created by <a href="https://darryl-yeo.com/blockhead">Darryl Yeo</a> • 2021</p>
-		<small><strong>Donate</strong>: darrylyeo.eth</small>
+		<p><strong>Blockhead</strong> • created by <a href="https://darryl-yeo.com/blockhead">Darryl Yeo</a> • 2020 – 2021</p>
+		<small><a href="https://gitcoin.co/grants/2966/blockhead" target="_blank">Gitcoin Grants</a> • <a href="https://twitter.com/0xblockhead" target="_blank">Twitter</a></small>
 	</footer>
 </main>
