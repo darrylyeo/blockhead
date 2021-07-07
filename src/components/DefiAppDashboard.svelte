@@ -675,11 +675,11 @@
 								endpointURL: JSON.stringify(providers.theGraph),
 								// query: JSON.stringify('{}'),
 								// variables: JSON.stringify(''),
-								// response: JSON.stringify(''),
+								// response: JSON.stringify(`This is a GraphQL explorer for the ${defiAppConfig.name} subgraph on Blockhead! Click on "Docs" in the top right to see the schema.`)),
 								history: false,
 								prettify: true,
 								docs: true
-							})}"
+							})}&response={globalThis.encodeURIComponent(JSON.stringify(`This is a GraphQL explorer for the ${defiAppConfig.name} subgraph on Blockhead! Click on "Docs" in the top right to see the schema.`))}"
 						/>
 					</div>
 				</div>
