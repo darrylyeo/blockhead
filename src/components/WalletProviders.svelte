@@ -2,7 +2,7 @@
 	import type { Ethereum } from '../data/ethereum/types'
 	import { getProvider, getProviderInstance } from '../data/ethereum/provider'
 	import { getTorusOpenLogin } from '../data/ethereum/providers/torus'
-	import { getAccountsFromProvider } from '../data/ethereum/portfolio-accounts'
+	import { connectedProviderAccounts, getAccountsFromProvider } from '../data/ethereum/portfolio-accounts'
 	import { preferredDeFiProvider, preferredAnalyticsProvider, preferredQuoteCurrency } from '../data/ethereum/preferences'
 
 
@@ -101,7 +101,8 @@
 			loadingMessage="Log into MetaMask via the pop-up window."
 			errorMessage="We couldn't connect your MetaMask Account."
 			startImmediately={false}
-			let:load fromPromise={() => loadMetaMaskProvider().then(getAccountsFromProvider)}
+			let:load fromPromise={() => loadMetaMaskProvider().then(provider => getAccountsFromProvider(provider, 'MetaMask'))}
+			bind:result={$connectedProviderAccounts['MetaMask']}
 			let:then={accounts}
 			let:cancel
 		>
@@ -150,7 +151,8 @@
 			loadingMessage="Log into Torus via the pop-up window."
 			errorMessage="We couldn't connect your Tor.us Account."
 			startImmediately={false}
-			let:load fromPromise={() => loadTorusProvider().then(getAccountsFromProvider)}
+			let:load fromPromise={() => loadTorusProvider().then(provider => getAccountsFromProvider(provider, 'Torus'))}
+			bind:result={$connectedProviderAccounts['Torus']}
 			let:then={accounts}
 			let:cancel whenCanceled={disconnectTorusProvider}
 		>
@@ -201,7 +203,8 @@
 			loadingMessage="Log into Portis via the pop-up window."
 			errorMessage="We couldn't connect your Portis.io Account."
 			startImmediately={false}
-			let:load fromPromise={() => loadPortisProvider().then(getAccountsFromProvider)}
+			let:load fromPromise={() => loadPortisProvider().then(provider => getAccountsFromProvider(provider, 'Portis'))}
+			bind:result={$connectedProviderAccounts['Portis']}
 			let:then={accounts}
 			let:cancel whenCanceled={disconnectPortisProvider}
 		>

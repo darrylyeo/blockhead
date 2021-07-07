@@ -21,10 +21,11 @@ export enum AccountType {
 export class Account {
 	constructor(
 		public id: Ethereum.Address | string,
+		public provider?: Ethereum.Provider,
+		public providerName?: Ethereum.ProviderName,
 		public type: AccountType = isAddress(id) ? AccountType.Address : AccountType.ENS,
 		public nickname: string = '',
 		public networks: AccountNetworkSettings[] = getDefaultAccountNetworkSettings(),
-		public provider?: Ethereum.ProviderName,
 	){}
 
 	toJSON(){
@@ -109,7 +110,7 @@ import { Signer } from '@ethersproject/abstract-signer'
 import { providers } from 'ethers'
 import { getProvider } from './provider'
 
-export async function getAccountsFromProvider(provider: Ethereum.Provider | Signer){
+export async function getAccountsFromProvider(provider: Ethereum.Provider | Signer, providerName: Ethereum.ProviderName){
 	const accounts =
 		provider instanceof providers.JsonRpcProvider ?
 			await provider.listAccounts()
@@ -117,8 +118,17 @@ export async function getAccountsFromProvider(provider: Ethereum.Provider | Sign
 			[await provider.getAddress()]
 		:
 			[]
-	return accounts.map(id => new Account(id))
+	return accounts.map(id => new Account(id, provider, providerName))
 }
+
+
+import { writable } from 'svelte/store'
+
+export let connectedProviderAccounts = writable<Partial<Record<Ethereum.ProviderName, Ethereum.Provider[]>>>({
+	'MetaMask': [],
+	'Portis': [],
+	'Torus': [],
+})
 
 
 // export const getEthersBalance = async provider => {
