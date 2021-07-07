@@ -59,7 +59,7 @@
 
 	import Loader from './Loader.svelte'
 	import NetworkProviderLoader from './NetworkProviderLoader.svelte'
-	import OraclePrice from './OraclePrice.svelte'
+	import CurrentPrice from './CurrentPrice.svelte'
 	import HistoricalPriceChart from './HistoricalPriceChart.svelte'
 	import TokenIcon from './TokenIcon.svelte'
 	import TokenName from './TokenName.svelte'
@@ -283,8 +283,8 @@
 
 								<hr>
 
-								<OraclePrice
-									oracleProvider={$preferredOracleProvider}
+								<CurrentPrice
+									priceProvider={$preferredOracleProvider}
 									token={erc20Token.symbol}
 									quoteCurrency={$preferredQuoteCurrency}
 									{provider}
@@ -294,7 +294,7 @@
 									<h4 slot="title">
 										Current Price
 									</h4>
-								</OraclePrice>
+								</CurrentPrice>
 
 								<hr>
 

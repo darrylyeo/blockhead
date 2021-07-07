@@ -36,8 +36,8 @@
 	</section>
 
 	<!-- <section class="card">
-		<OraclePrice
-			oracleProvider={$preferredOracleProvider}
+		<CurrentPrice
+			priceProvider={$preferredOracleProvider}
 			token={$explorerNetwork.nativeCurrency.symbol}
 			quoteCurrency={$preferredQuoteCurrency}
 			provider={$explorerProvider}

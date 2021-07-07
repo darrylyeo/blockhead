@@ -10,7 +10,7 @@
 	const ethereumProvider = getContext<SvelteStore<Ethereum.Provider>>('ethereumProvider')
 
 
-	import OraclePrice from '../../../components/OraclePrice.svelte'
+	import CurrentPrice from '../../../components/CurrentPrice.svelte'
 	import HistoricalPriceChart from '../../../components/HistoricalPriceChart.svelte'
 </script>
 
@@ -33,8 +33,8 @@
 
 <div class="row">
 	<section class="card">
-		<OraclePrice
-			oracleProvider={$preferredOracleProvider}
+		<CurrentPrice
+			priceProvider={$preferredOracleProvider}
 			{token}
 			quoteCurrency={$preferredQuoteCurrency}
 			provider={$ethereumProvider}

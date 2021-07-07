@@ -14,7 +14,7 @@
 
 
 	import EthereumBlockHeight from '../../../components/EthereumBlockHeight.svelte'
-	import OraclePrice from '../../../components/OraclePrice.svelte'
+	import CurrentPrice from '../../../components/CurrentPrice.svelte'
 	import HistoricalPriceChart from '../../../components/HistoricalPriceChart.svelte'
 </script>
 
@@ -37,8 +37,8 @@
 	</section>
 
 	<section class="card">
-		<OraclePrice
-			oracleProvider={$preferredOracleProvider}
+		<CurrentPrice
+			priceProvider={$preferredOracleProvider}
 			token={$explorerNetwork.nativeCurrency.symbol}
 			quoteCurrency={$preferredQuoteCurrency}
 			provider={$ethereumProvider}
