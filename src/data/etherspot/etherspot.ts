@@ -1,61 +1,63 @@
-import type { Ethereum } from '../ethereum/types'
-import type { Account } from '../ethereum/portfolio-accounts'
+export async function startEtherspotTransfer(){}
 
-import { Sdk } from 'etherspot'
+// import type { Ethereum } from '../ethereum/types'
+// import type { Account } from '../ethereum/portfolio-accounts'
 
-export async function startEtherspotTransfer({
-	fromNetwork,
-	fromNetworkProvider,
-	fromAccount,
-	fromToken,
-	fromTokenAmount,
+// import { Sdk } from 'etherspot'
 
-	toNetwork,
-	toNetworkProvider,
-	toAccount,
-	toToken,
-	toTokenAmount,
-}: {
-	fromNetwork: Ethereum.Network,
-	fromNetworkProvider: Ethereum.Provider,
-	fromAccount: Account,
-	fromToken: Ethereum.ContractAddress,
-	fromTokenAmount: number
+// export async function startEtherspotTransfer({
+// 	fromNetwork,
+// 	fromNetworkProvider,
+// 	fromAccount,
+// 	fromToken,
+// 	fromTokenAmount,
 
-	toNetwork: Ethereum.Network,
-	toNetworkProvider: Ethereum.Provider,
-	toAccount: Account,
-	toToken: Ethereum.ContractAddress,
-	toTokenAmount: number
-}){console.log('startEtherspotTransfer', 'fromNetworkProvider', fromNetworkProvider, 'toNetworkProvider', toNetworkProvider)
-	const fromAddress = fromAccount.id
-	const fromChainID = fromNetwork.chainId
-	const fromSigner = fromAccount.provider?.getSigner()
-	const toAddress = toAccount.id
-	const toChainID = toNetwork.chainId
+// 	toNetwork,
+// 	toNetworkProvider,
+// 	toAccount,
+// 	toToken,
+// 	toTokenAmount,
+// }: {
+// 	fromNetwork: Ethereum.Network,
+// 	fromNetworkProvider: Ethereum.Provider,
+// 	fromAccount: Account,
+// 	fromToken: Ethereum.ContractAddress,
+// 	fromTokenAmount: number
 
-	if(!fromSigner)
-		throw new Error(`The account with address ${fromAddress} isn't currently associated with a signer/private key.`)
+// 	toNetwork: Ethereum.Network,
+// 	toNetworkProvider: Ethereum.Provider,
+// 	toAccount: Account,
+// 	toToken: Ethereum.ContractAddress,
+// 	toTokenAmount: number
+// }){console.log('startEtherspotTransfer', 'fromNetworkProvider', fromNetworkProvider, 'toNetworkProvider', toNetworkProvider)
+// 	const fromAddress = fromAccount.id
+// 	const fromChainID = fromNetwork.chainId
+// 	const fromSigner = fromAccount.provider?.getSigner()
+// 	const toAddress = toAccount.id
+// 	const toChainID = toNetwork.chainId
 
-	const sdk = new Sdk(Object.assign(fromSigner, {address: fromAddress}))
+// 	if(!fromSigner)
+// 		throw new Error(`The account with address ${fromAddress} isn't currently associated with a signer/private key.`)
 
-	sdk.notifications$.subscribe(notification => console.log('notification:', notification))
+// 	const sdk = new Sdk(Object.assign(fromSigner, {address: fromAddress}))
 
-	await sdk.computeContractAccount()
+// 	sdk.notifications$.subscribe(notification => console.log('notification:', notification))
 
-	const { account } = sdk.state
+// 	await sdk.computeContractAccount()
 
-	console.log('contract account:', account)
+// 	const { account } = sdk.state
 
-	// top-up contract account (account.address)
+// 	console.log('contract account:', account)
 
-	// add transaction to gateway batch
-	await sdk.batchExecuteAccountTransaction({
-		to: toAddress,
-		value: toTokenAmount, // 100 wei
-	})
+// 	// top-up contract account (account.address)
 
-	console.log('gateway batch estimation:', await sdk.estimateGatewayBatch())
+// 	// add transaction to gateway batch
+// 	await sdk.batchExecuteAccountTransaction({
+// 		to: toAddress,
+// 		value: toTokenAmount, // 100 wei
+// 	})
 
-	console.log('submitted gateway batch:', await sdk.submitGatewayBatch())
-}
+// 	console.log('gateway batch estimation:', await sdk.estimateGatewayBatch())
+
+// 	console.log('submitted gateway batch:', await sdk.submitGatewayBatch())
+// }
