@@ -14,6 +14,7 @@
 
 
 	import EthereumBlockHeight from '../../../components/EthereumBlockHeight.svelte'
+	import CurrentPrice from '../../../components/CurrentPrice.svelte'
 	import HistoricalPriceChart from '../../../components/HistoricalPriceChart.svelte'
 </script>
 
@@ -35,7 +36,7 @@
 		/>
 	</section>
 
-	<!-- <section class="card">
+	<section class="card">
 		<CurrentPrice
 			priceProvider={$preferredOracleProvider}
 			token={$explorerNetwork.nativeCurrency.symbol}
@@ -44,7 +45,7 @@
 			network={$ethereumNetwork}
 			blockNumber={$blockNumber}
 		/>
-	</section> -->
+	</section>
 </div>
 
 <div class="row">
