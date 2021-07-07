@@ -52,7 +52,7 @@
 
 	<section class="row">
 		{#each notFeaturedDefiApps as {name, slug, colors}, i}
-			<div class="card" transition:scale={{delay: i * 10}} style={cardStyle(colors)}>
+			<div class="card" transition:scale={{delay: i * 10}}><!-- style={cardStyle(colors)} -->
 				<h4><a href="apps/{slug}" on:click={() => globalThis.requestAnimationFrame(() => goto(`apps/${slug}`))}>{name}</a></h4>
 			</div>
 		{/each}
