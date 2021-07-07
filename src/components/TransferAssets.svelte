@@ -11,7 +11,7 @@
 	import { Connext } from '../data/connext/swaps'
 	
 	
-	export let transferSolution: 'Connext' | 'Etherspot' | '1inch' = 'Connext'
+	export let transferSolution: 'Connext' | 'Etherspot' | '1inch' = 'Etherspot'
 
 
 	let defaultToAccount: Partial<Account> = {id: ''}
@@ -45,6 +45,7 @@
 
 
 	// import { startConnextTransfer } from '../data/connext/connext'
+	import { startEtherspotTransfer } from '../data/etherspot/etherspot'
 
 	async function onSubmit({
 		fromNetwork,
@@ -66,7 +67,7 @@
 		toAccount: Account,
 		toToken: Ethereum.ContractAddress,
 		toTokenAmount: number
-	}){
+	}){console.log('onSubmit', 'transferSolution', transferSolution)
 		const fromNetworkProvider = await getProvider(fromNetwork, $preferredEthereumProvider, 'ethers')
 		const toNetworkProvider = await getProvider(toNetwork, $preferredEthereumProvider, 'ethers')
 
@@ -99,6 +100,21 @@
 			// 	// messagingUrl, // defaults to prod https://messaging.connext.network
 			// })
 			// await node.init() // function to intialize browser node
+		}
+		else if(transferSolution === 'Etherspot'){
+			await startEtherspotTransfer({
+				fromNetwork,
+				fromNetworkProvider,
+				fromAccount,
+				fromToken,
+				fromTokenAmount,
+			
+				toNetwork,
+				toNetworkProvider,
+				toAccount,
+				toToken,
+				toTokenAmount,
+			})
 		}
 	}
 

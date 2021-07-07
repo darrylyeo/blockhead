@@ -938,6 +938,18 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
+		name: 'Etherspot',
+		slug: 'etherspot',
+		colors: ['#f43c48', '#f67033'],
+		links: ['https://etherspot.io'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [],
+			}
+		]
+	},
+	{
 		name: 'FinNexus',
 		slug: 'finnexus',
 		links: ['https://www.finnexus.io'],
@@ -2415,6 +2427,7 @@ export const featuredDefiApps = [
 	'element',
 	'ens',
 	'enzyme',
+	'etherspot',
 	'idle',
 	'instadapp',
 	'kyber',
