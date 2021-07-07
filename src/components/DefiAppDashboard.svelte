@@ -691,7 +691,7 @@
 
 
 {#if address}
-	<div class="card bar options">
+	<div class="card bar options" transition:scale>
 		<div class="row">
 			<h3>Show</h3>
 			<label>
