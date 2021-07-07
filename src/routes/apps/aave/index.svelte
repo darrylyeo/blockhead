@@ -1,4 +1,8 @@
 <script lang="ts">
+	import { defiAppsBySlug } from '../../../data/ethereum/defi-apps'
+
+
+	import { cardStyle } from '../../../utils/card-background'
 	import { fly } from 'svelte/transition'
 </script>
 
@@ -14,7 +18,7 @@
 
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
-	<div class="card">
+	<div class="card" style={cardStyle(defiAppsBySlug['aave'].colors)}>
 		<div class="bar">
 			<h3>Aave Governance v2</h3>
 			<div class="card-annotation">The Graph, IPFS</div>

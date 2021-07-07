@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { defiAppsBySlug } from '../../../data/ethereum/defi-apps'
+
+
 	// import { Decimal, Fees, LiquityStore, LQTYStake, StabilityDeposit, TransactionFailedError, Trove, TroveWithPendingRedistribution, UserTrove } from '@liquity/lib-base'
 	// import { BlockPolledLiquityStore, EthersLiquity, EthersTransactionCancelledError, EthersTransactionFailedError, PopulatableEthersLiquity, PopulatedEthersLiquityTransaction, PopulatedEthersRedemption, ReadableEthersLiquity, SendableEthersLiquity } from '@liquity/lib-ethers'
 
@@ -15,6 +18,7 @@
 	let src
 
 
+	import { cardStyle } from '../../../utils/card-background'
 	import { fly } from 'svelte/transition'
 </script>
 
@@ -30,7 +34,7 @@
 
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
-	<div class="card">
+	<div class="card" style={cardStyle(defiAppsBySlug['liquity'].colors)}>
 		<div class="bar">
 			<h3>Liquity Frontend</h3>
 
