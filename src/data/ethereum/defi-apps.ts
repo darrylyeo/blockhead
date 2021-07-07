@@ -532,30 +532,6 @@ export const defiApps: DefiAppConfig[] = [
 		colors: ['#01d395'],
 		views: [
 			{
-				name: 'Compound V2',
-				slug: 'v2',
-				colors: ['#27D3A2', '#9388FD'],
-				chainId: 1,
-				erc20Tokens: [
-					erc20TokensBySymbol['CCOMP'],
-					erc20TokensBySymbol['CUSDC'],
-					erc20TokensBySymbol['CUSDT'],
-					erc20TokensBySymbol['CDAI'],
-					erc20TokensBySymbol['CETH'],
-					erc20TokensBySymbol['CUNI'],
-					erc20TokensBySymbol['CZRX'],
-					erc20TokensBySymbol['CBAT'],
-					erc20TokensByContractAddress['0xccf4429db6322d5c611ee964527d42e5d685dd6a'], // cWBTC
-					erc20TokensByContractAddress['0xc11b1268c1a384e55c48c2391d8d480264a3a7f4'], // cWBTC Legacy
-					erc20TokensBySymbol['CSAI'],
-				],
-				providers: {
-					theGraph: 'https://api.thegraph.com/subgraphs/name/graphprotocol/compound-v2',
-					zapper: 'compound',
-					zerionDefiSDK: ['Compound'],
-				}
-			},
-			{
 				name: 'Compound Governance',
 				slug: 'governance',
 				chainId: 1,
@@ -569,6 +545,30 @@ export const defiApps: DefiAppConfig[] = [
 				],
 				providers: {
 					zerionDefiSDK: ['Compound Governance'],
+				}
+			},
+			{
+				name: 'Compound V2',
+				slug: 'v2',
+				colors: ['#27D3A2', '#9388FD'],
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['cCOMP'],
+					erc20TokensBySymbol['cUSDC'],
+					erc20TokensBySymbol['cUSDT'],
+					erc20TokensBySymbol['cDAI'],
+					erc20TokensBySymbol['cETH'],
+					erc20TokensBySymbol['cUNI'],
+					erc20TokensBySymbol['cZRX'],
+					erc20TokensBySymbol['cBAT'],
+					erc20TokensByContractAddress['0xccf4429db6322d5c611ee964527d42e5d685dd6a'], // cWBTC
+					erc20TokensByContractAddress['0xc11b1268c1a384e55c48c2391d8d480264a3a7f4'], // cWBTC Legacy
+					erc20TokensBySymbol['cSAI'],
+				],
+				providers: {
+					theGraph: 'https://api.thegraph.com/subgraphs/name/graphprotocol/compound-v2',
+					zapper: 'compound',
+					zerionDefiSDK: ['Compound'],
 				}
 			},
 			{
