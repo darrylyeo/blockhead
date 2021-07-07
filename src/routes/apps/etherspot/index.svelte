@@ -1,9 +1,12 @@
 <script lang="ts">
 	import TransferAssets from '../../../components/TransferAssets.svelte'
+
+
+	import { fly } from 'svelte/transition'
 </script>
 
 
-<div class="column">
+<section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
 	<div class="card">
 		<div class="bar">
 			<h3>Cross-Chain Transfer</h3>
@@ -16,4 +19,4 @@
 			transferSolution="Etherspot"
 		/>
 	</div>
-</div>
+</section>
