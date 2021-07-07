@@ -15,6 +15,8 @@
 	export let fromStore: <TData = unknown> () => Readable<Result<TData>>
 	export let showIf: (<TData = unknown> (then: TData) => boolean | any) | undefined
 	export let isCollapsed = false
+
+	export let whenErrored: (() => {}) | undefined
 	export let whenCanceled: (() => Promise<any>) | undefined
 
 	enum LoadingStatus {
@@ -60,6 +62,7 @@
 		}, _error => {
 			error = _error
 			status = LoadingStatus.Errored
+			whenErrored?.()
 		})
 	$: if(store && $store)
 		if($store.loading){
@@ -67,6 +70,7 @@
 		}else if($store.error){
 			error = $store.error
 			status = LoadingStatus.Errored
+			whenErrored?.()
 		}else if($store.data){
 			result = $store.data
 			status = LoadingStatus.Resolved
