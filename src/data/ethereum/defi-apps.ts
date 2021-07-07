@@ -1463,7 +1463,7 @@ export const defiApps: DefiAppConfig[] = [
 	},
 	{
 		name: 'PieDAO',
-		slug: 'piedao',
+		slug: 'pie-dao',
 		links: ['https://pooltogether.com'],
         colors: ['#d90a9d', '#9811dc', '#7732f8', '#28d4ff'], // unofficial
 		views: [
@@ -2437,12 +2437,12 @@ export const featuredDefiApps = [
 	'matic',
 	'nexus-mutual',
 	'1inch',
-	'paraswap',
-	'pods',
+	'pie-dao',
 	'rarible',
 	'stake-dao',
 	'streamr',
 	'superfluid',
+	'swerve',
 	'tellor',
 	'the-graph',
 	'uma',
