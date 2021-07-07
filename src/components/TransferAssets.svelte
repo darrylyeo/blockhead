@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import { availableNetworks, getNetworkRPC } from '../data/ethereum/networks'
-	import { Account, getLocalPortfolios } from '../data/ethereum/portfolio-accounts'
+	import { Account, getLocalPortfolios, connectedProviderAccounts } from '../data/ethereum/portfolio-accounts'
 	import { usdStablecoinTokens } from '../data/ethereum/tokens/tokens'
 
 
@@ -11,20 +11,23 @@
 	import { Connext } from '../data/connext/swaps'
 	
 	
-	const localPortfolios = getLocalPortfolios()
-	
-	
+	export let transferSolution: 'Connext' | 'Etherspot' | '1inch' = 'Connext'
+
+
+	let defaultToAccount: Partial<Account> = {id: ''}
+
 	let fromNetwork: Ethereum.Network
 	let fromAccount: Account
 	let fromToken: Ethereum.ContractAddress
 	let fromTokenAmount: number = 0
 	
 	let toNetwork: Ethereum.Network
-	let toAccount: Account
+	let toAccount: Account = defaultToAccount
 	let toToken: Ethereum.ContractAddress
 	let toTokenAmount: number = 0
-
-	let transferSolution: 'Connext' | '1inch' = 'Connext'
+	
+	
+	const localPortfolios = getLocalPortfolios()
 
 
 	$: connextSwap = Connext.mainnetSwaps.find(({fromAssetId, toAssetId}) => fromAssetId === fromToken && toAssetId === toToken)
@@ -100,11 +103,20 @@
 	}
 
 
+	import AddressField from './AddressField.svelte'
+
+
 	import { scale } from 'svelte/transition'
 </script>
 
 
 <style>
+	.columns {
+		display: grid;
+		gap: var(--padding-inner);
+		grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+	}
+
 	.row {
 		align-items: start;
 	}
@@ -119,7 +131,7 @@
 		flex: 1 max(20rem, calc(50% - var(--padding-inner)));
 	} */
 
-	.column {
+	label {
 		--padding-inner: 0.25em;
 	}
 
@@ -137,7 +149,7 @@
 </style>
 
 
-<form class="card" on:submit|preventDefault={() => onSubmit({
+<form class="column" on:submit|preventDefault={() => onSubmit({
 	fromNetwork,
 	fromAccount,
 	fromToken,
@@ -148,149 +160,174 @@
 	toToken,
 	toTokenAmount
 })}>
-	<div class="card">
-		<h3>From</h3>
+	<div class="columns">
+		<div class="card">
+			<h3>From</h3>
 
-		<div class="row">
-			<label class="column">
-				<span>Network</span>
-				<select bind:value={fromNetwork}>
-					{#each availableNetworks as network}
-						<option value={network}>{network.name}</option>
-					{/each}
-				</select>
-			</label>
+			<div class="row">
+				<label class="column">
+					<span>Network</span>
+					<select bind:value={fromNetwork}>
+						{#each availableNetworks as network}
+							<option value={network}>{network.name}</option>
+						{/each}
+					</select>
+				</label>
 
-			<label class="column">
-				<span>Account</span>
-				<select bind:value={fromAccount}>
-					{#each $localPortfolios as {name, accounts}, i (i)}
-						<optgroup label={name}>
-							{#each accounts as account}
-								<option value={account}>{account.id}</option>
+				<label class="column">
+					<span>Account</span>
+					<select bind:value={fromAccount}>
+						{#each $localPortfolios as {name, accounts}, i (i)}
+							<optgroup label={name}>
+								{#each accounts as account}
+									<option value={account}>{account.id}</option>
+								{/each}
+							</optgroup>
+						{/each}
+						{#each Object.entries($connectedProviderAccounts) as [providerName, accounts]}
+							{#if accounts?.length}
+								{#each accounts as account}
+									<optgroup label={providerName}>
+										<option value={account}>{account.id}</option>
+									</optgroup>
+								{/each}
+							{/if}
+						{/each}
+					</select>
+				</label>
+			</div>
+
+			<div class="row">
+				<label class="column">
+					<span>Amount</span>
+					<input type="number"
+						bind:this={fromTokenAmountInput}
+						bind:value={fromTokenAmount}
+						min={0}
+						max={fromAccount?.tokenBalances?.[network.chainId]?.[fromAsset]?.amount}
+						placeholder={0.00}
+						on:keydown={e => {
+							if(e.code.startsWith('Key')){
+								fromTokenSelect.focus()
+								fromTokenSelect.dispatchEvent(new KeyboardEvent(e.type, e))
+							}
+							if(e.code === 'Space')
+								fromTokenSelect.focus()
+						}}
+					/>
+					<input type="range"
+						bind:value={fromTokenAmount}
+						min={0}
+						max={fromAccount?.tokenBalances?.[network.chainId]?.[fromAsset]?.amount}
+						placeholder={0.00}
+					/>
+				</label>
+
+				<label class="column">
+					<span>Token</span>
+					<select
+						bind:this={fromTokenSelect}
+						bind:value={fromToken}
+					>
+						<optgroup label="USD-Pegged Stablecoins">
+							{#each usdStablecoinTokens as token, i (token.address)}
+								<option value={token}>{token.symbol} ({token.name})</option>
 							{/each}
 						</optgroup>
-					{/each}
-				</select>
-			</label>
+					</select>
+				</label>
+			</div>
 		</div>
 
-		<div class="row">
-			<label class="column">
-				<span>Amount</span>
-				<input type="number"
-					bind:this={fromTokenAmountInput}
-					bind:value={fromTokenAmount}
-					min={0}
-					max={fromAccount?.tokenBalances?.[network.chainId]?.[fromAsset]?.amount}
-					placeholder={0.00}
-					on:keydown={e => {
-						if(e.code.startsWith('Key')){
-							fromTokenSelect.focus()
-							fromTokenSelect.dispatchEvent(new KeyboardEvent(e.type, e))
-						}
-						if(e.code === 'Space')
-							fromTokenSelect.focus()
-					}}
-				/>
-				<input type="range"
-					bind:value={fromTokenAmount}
-					min={0}
-					max={fromAccount?.tokenBalances?.[network.chainId]?.[fromAsset]?.amount}
-					placeholder={0.00}
-				/>
-			</label>
+		{#if conversionRate !== undefined}
+			<div class="card" transition:scale>
+				<h3>Conversion Rate:</h3>
+				{conversionRate}
+			</div>
+		{/if}
 
-			<label class="column">
-				<span>Token</span>
-				<select
-					bind:this={fromTokenSelect}
-					bind:value={fromToken}
-				>
-					<optgroup label="USD-Pegged Stablecoins">
-						{#each usdStablecoinTokens as token, i (token.address)}
-							<option value={token}>{token.symbol} ({token.name})</option>
+		<div class="card">
+			<h3>To</h3>
+
+			<div class="row">
+				<label class="column">
+					<span>Network</span>
+					<select bind:value={toNetwork}>
+						{#each availableNetworks as network}
+							<option value={network}>{network.name}</option>
 						{/each}
-					</optgroup>
-				</select>
-			</label>
-		</div>
-	</div>
+					</select>
+				</label>
 
-	{#if conversionRate !== undefined}
-		<div class="card" transition:scale>
-			<h3>Conversion Rate:</h3>
-			{conversionRate}
-		</div>
-	{/if}
+				<label class="column">
+					<span>Account</span>
+					<select bind:value={toAccount}>
+						{#each $localPortfolios as {name, accounts}, i (i)}
+							<optgroup label={name}>
+								{#each accounts as account}
+									<option value={account}>{account.id}</option>
+								{/each}
+							</optgroup>
+						{/each}
+						{#each Object.entries($connectedProviderAccounts) as [providerName, accounts]}
+							{#if accounts?.length}
+								{#each accounts as account}
+									<optgroup label={providerName}>
+										<option value={account}>{account.id}</option>
+									</optgroup>
+								{/each}
+							{/if}
+						{/each}
+						<optgroup label="Other">
+							<option value={defaultToAccount}>Enter Address...</option>
+						</optgroup>
+					</select>
+					{#if toAccount === defaultToAccount}
+						<AddressField bind:value={defaultToAccount.id} required autofocus />
+					{/if}
+				</label>
+			</div>
 
-	<div class="card">
-		<h3>To</h3>
+			<div class="row">
+				<label class="column">
+					<span>Amount</span>
+					<input type="number"
+						bind:this={toTokenAmountInput}
+						bind:value={toTokenAmount}
+						min={0}
+						max={fromAccount?.tokenBalances?.[network.chainId]?.[fromAsset]?.amount * conversionRate}
+						placeholder={0.00}
+						on:keydown={e => {
+							if(e.code.startsWith('Key')){
+								toTokenSelect.focus()
+								toTokenSelect.dispatchEvent(new KeyboardEvent(e.type, e))
+							}
+							if(e.code === 'Space')
+								toTokenSelect.focus()
+						}}
+					/>
+					<input type="range"
+						bind:value={toTokenAmount}
+						min={0}
+						max={fromAccount?.tokenBalances?.[network.chainId]?.[fromAsset]?.amount * conversionRate}
+						placeholder={0.00}
+					/>
+				</label>
 
-		<div class="row">
-			<label class="column">
-				<span>Network</span>
-				<select bind:value={toNetwork}>
-					{#each availableNetworks as network}
-						<option value={network}>{network.name}</option>
-					{/each}
-				</select>
-			</label>
-
-			<label class="column">
-				<span>Account</span>
-				<select bind:value={toAccount}>
-					{#each $localPortfolios as {name, accounts}, i (i)}
-						<optgroup label={name}>
-							{#each accounts as account}
-								<option value={account}>{account.id}</option>
+				<label class="column">
+					<span>Token</span>
+					<select
+						bind:this={toTokenSelect}
+						bind:value={toToken}
+					>
+						<optgroup label="USD-Pegged Stablecoins">
+							{#each usdStablecoinTokens as token, i (token.address)}
+								<option value={token}>{token.symbol} ({token.name})</option>
 							{/each}
 						</optgroup>
-						<option value="other">Other</option>
-					{/each}
-				</select>
-			</label>
-		</div>
-
-		<div class="row">
-			<label class="column">
-				<span>Amount</span>
-				<input type="number"
-					bind:this={toTokenAmountInput}
-					bind:value={toTokenAmount}
-					min={0}
-					max={fromAccount?.tokenBalances?.[network.chainId]?.[fromAsset]?.amount * conversionRate}
-					placeholder={0.00}
-					on:keydown={e => {
-						if(e.code.startsWith('Key')){
-							toTokenSelect.focus()
-							toTokenSelect.dispatchEvent(new KeyboardEvent(e.type, e))
-						}
-						if(e.code === 'Space')
-							toTokenSelect.focus()
-					}}
-				/>
-				<input type="range"
-					bind:value={toTokenAmount}
-					min={0}
-					max={fromAccount?.tokenBalances?.[network.chainId]?.[fromAsset]?.amount * conversionRate}
-					placeholder={0.00}
-				/>
-			</label>
-
-			<label class="column">
-				<span>Token</span>
-				<select
-					bind:this={toTokenSelect}
-					bind:value={toToken}
-				>
-					<optgroup label="USD-Pegged Stablecoins">
-						{#each usdStablecoinTokens as token, i (token.address)}
-							<option value={token}>{token.symbol} ({token.name})</option>
-						{/each}
-					</optgroup>
-				</select>
-			</label>
+					</select>
+				</label>
+			</div>
 		</div>
 	</div>
 
