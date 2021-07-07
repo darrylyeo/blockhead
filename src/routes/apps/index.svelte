@@ -50,6 +50,8 @@
 
 	<hr>
 
+	<h2>Other Apps</h2>
+
 	<section class="row">
 		{#each notFeaturedDefiApps as {name, slug, colors}, i}
 			<div class="card" transition:scale={{delay: i * 10}}><!-- style={cardStyle(colors)} -->
