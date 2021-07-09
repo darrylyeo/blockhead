@@ -403,7 +403,7 @@
 
 				<svelte:fragment slot="header" let:status>
 					{#if defiBalances?.length}
-						<slot name="header" {network} {quoteCurrency} {quoteTotal}></slot>
+						<slot name="header" {network} {quoteCurrency}></slot><!-- {quoteTotal} -->
 					{/if}
 				</svelte:fragment>
 
