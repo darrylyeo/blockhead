@@ -218,7 +218,7 @@ export const defiApps: DefiAppConfig[] = [
 				}
 			},
 			{
-				name: 'Governance',
+				name: 'Ampleforth Governance',
 				slug: 'governance',
 				chainId: 1,
 				erc20Tokens: [
@@ -529,6 +529,25 @@ export const defiApps: DefiAppConfig[] = [
 				erc20Tokens: [
 					erc20TokensBySymbol['LINK'],
 				],
+			}
+		]
+	},
+	{
+		name: 'Circle',
+		slug: 'circle',
+		links: ['https://www.circle.com/en/usdc', 'https://www.centre.io/usdc'],
+        colors: ['#4ee498', '#68d7fa', '#5fbfff', '#b090f5'],
+		views: [
+			{
+				name: 'USDC',
+				slug: 'usdc',
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['USDC'],
+				],
+				providers: {
+					theGraph: 'https://api.thegraph.com/subgraphs/name/centrehq/usdc',
+				}
 			}
 		]
 	},
@@ -960,6 +979,21 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
+		name: 'EPNS',
+		slug: 'epns',
+		links: ['https://epns.io', 'https://incentives.epns.io'],
+		colors: ['#e20880', '#35c5f3', '#674c9f'],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					zapper: 'epns',
+					theGraph: 'https://api.thegraph.com/subgraphs/name/epnsproject/epnsprod',
+				}
+			}
+		]
+	},
+	{
 		name: 'Etherspot',
 		slug: 'etherspot',
 		colors: ['#f43c48', '#f67033'],
@@ -1007,11 +1041,13 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
-		name: 'Gnosis Protocol',
+		name: 'Gnosis',
 		slug: 'gnosis',
 		links: ['https://gnosis.io'],
 		views: [
 			{
+				name: 'Gnosis Protocol',
+				slug: 'protocol',
 				links: ['https://gnosis.io/protocol'],
 				chainId: 1,
 				erc20Tokens: [
@@ -1023,6 +1059,8 @@ export const defiApps: DefiAppConfig[] = [
 				}
 			},
 			{
+				name: 'Gnosis Protocol',
+				slug: 'protocol',
 				links: ['https://gnosis.io/protocol'],
 				chainId: 100,
 				providers: {
@@ -1179,11 +1217,50 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
-		name: 'Kyber Network',
+		name: 'Kyber',
 		slug: 'kyber',
 		links: ['https://kyber.org', 'https://kyber.network'],
 		colors: ['#31cb9e'],
 		views: [
+			{
+				name: 'Kyber Dynamic Market Maker',
+				slug: 'dmm',
+				links: ['https://dmm.exchange'],
+				chainId: 1,
+				contracts: [
+					'0x833e4083B7ae46CeA85695c4f7ed25CDAd8886dE', // Factory (DMMFactory)
+					'0x1c87257f5e8609940bc751a07bb085bb7f8cdbe6', // Router (DMMRouter02)
+					'0x6a65e062ce8290007301296f3c6ae446af7bdeec', // Migrator
+
+					// Farming
+					'0x306121f1344ac5f84760998484c0176d7bfb7134', // KNC-ETH
+					'0xce9874c42dce7fffbe5e48b026ff1182733266cb', // ETH-USDT
+					'0xd343d5dba2fba55eef58189619c05e33cab95ca1', // WBTC-USDT
+					'0x1cf68Bbc2b6D3C6CfE1BD3590CF0E10b06a05F17', // WBTC-ETH
+					'0x61639D6eC06C13a96B5eB9560b359D7c648C7759', // KNC-ETH
+				],
+				providers: {
+					theGraph: 'https://api.thegraph.com/subgraphs/name/dynamic-amm/dynamic-amm',
+				}
+			},
+			{
+				name: 'Kyber Dynamic Market Maker',
+				slug: 'dmm',
+				links: ['https://dmm.exchange'],
+				chainId: 137,
+				contracts: [
+					'0x5f1fe642060b5b9658c15721ea22e982643c095c', // Factory
+					'0x546C79662E028B661dFB4767664d0273184E4dD1', // Router
+
+					// Farming
+					'0xd8B9E9444fCBF26BEA4BAdd6142dD6a962BCA86A', // KNC-ETH
+					'0x37e6449B0e99BeFD2A708eA048d970F4FF4dC65d', // KNC-MATIC
+					'0x45963db838a070cF7BE8e7046fD63e23d376c665', // MATIC-DAI
+					'0x95D708e9eE04b0136b98579141624d19c89B9d68', // USDC-ETH
+					'0x3904aC366D348636694CB6720aa1540e76441b1B', // USDC-USDT
+					'0x7018C0bd73255C8966d0B26634E0BC0c7595D255', // USDC-DAI
+				]
+			},
 			{
 				name: 'KyberDAO v2',
 				slug: 'dao-v2',
@@ -1192,7 +1269,6 @@ export const defiApps: DefiAppConfig[] = [
 					erc20TokensBySymbol['KNC'],
 				],
 				providers: {
-					theGraph: 'https://api.thegraph.com/subgraphs/name/dynamic-amm/dynamic-amm',
 					zerionDefiSDK: ['KyberDAO'],
 				}
 			},
@@ -1224,7 +1300,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'Livepeer',
 		slug: 'livepeer',
 		links: ['https://livepeer.org'],
-        colors: ['#1c42ff'],
+        colors: ['#00EB88', '#00A55F'],
 		views: [
 			{
 				chainId: 1,
@@ -1242,6 +1318,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'Loopring',
 		slug: 'loopring',
 		links: ['https://loopring.org', 'https://loopring.io', 'https://exchange.loopring.io'],
+        colors: ['#1c42ff'],
 		views: [
 			{
 				chainId: 1,
@@ -1401,6 +1478,7 @@ export const defiApps: DefiAppConfig[] = [
 			{
 				chainId: 1,
 				erc20Tokens: [
+					erc20TokensBySymbol['NXM'],
 					erc20TokensBySymbol['WNXM'],
 				],
 				providers: {
@@ -1530,7 +1608,7 @@ export const defiApps: DefiAppConfig[] = [
 	{
 		name: 'PieDAO',
 		slug: 'pie-dao',
-		links: ['https://pooltogether.com'],
+		links: ['https://www.piedao.org'],
         colors: ['#d90a9d', '#9811dc', '#7732f8', '#28d4ff'], // unofficial
 		views: [
 			{
@@ -1699,6 +1777,7 @@ export const defiApps: DefiAppConfig[] = [
 		name: 'Sablier',
 		slug: 'sablier',
 		links: ['https://sablier.finance'],
+		colors: ['#f77423', '#fbce5b'],
 		views: [
 			{
 				chainId: 1,
@@ -2033,7 +2112,7 @@ export const defiApps: DefiAppConfig[] = [
 	},
 	{
 		name: 'Synthetix',
-        colors: ['#1e1a31'],
+        colors: ['#00d1ff', '#1e1a31'],
 		slug: 'synthetix',
 		links: ['https://www.synthetix.io'],
 		views: [
@@ -2169,8 +2248,8 @@ export const defiApps: DefiAppConfig[] = [
 				erc20Tokens: [],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-testing',
-					zapper: 'uniswap',
-					// zerionDefiSDK: ['Uniswap V3'],
+					zapper: 'uniswap-v3',
+					zerionDefiSDK: ['Uniswap V3'],
 				}
 			},
 			{
@@ -2182,7 +2261,7 @@ export const defiApps: DefiAppConfig[] = [
 				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2',
-					zapper: 'uniswap',
+					zapper: 'uniswap-v2',
 					zerionDefiSDK: ['Uniswap V2'],
 				}
 			},
@@ -2258,23 +2337,6 @@ export const defiApps: DefiAppConfig[] = [
 				],
 				providers: {
 					zapper: 'unit',
-				}
-			}
-		]
-	},
-	{
-		name: 'USDC by Circle',
-		slug: 'usdc',
-		links: ['https://www.circle.com/en/usdc', 'https://www.centre.io/usdc'],
-        colors: ['#4ee498', '#68d7fa', '#5fbfff', '#b090f5'],
-		views: [
-			{
-				chainId: 1,
-				erc20Tokens: [
-					erc20TokensBySymbol['USDC'],
-				],
-				providers: {
-					theGraph: 'https://api.thegraph.com/subgraphs/name/centrehq/usdc',
 				}
 			}
 		]
@@ -2443,7 +2505,7 @@ export const defiApps: DefiAppConfig[] = [
 				}
 			},
 			{
-				name: 'Governance',
+				name: 'Yearn Governance',
 				slug: 'governance',
 				chainId: 1,
 				erc20Tokens: [
@@ -2494,12 +2556,14 @@ export const featuredDefiApps = [
 	'balancer',
 	'bitgo',
 	'chainlink',
+	'circle',
 	'compound',
 	'connext',
 	'curve',
 	'88mph',
 	'ens',
 	'enzyme',
+	'epns',
 	'etherspot',
 	'gnosis',
 	'idle',
@@ -2514,18 +2578,19 @@ export const featuredDefiApps = [
 	'pods',
 	'pooltogether',
 	'rarible',
+	'sablier',
 	'stake-dao',
 	'streamr',
 	'superfluid',
 	'sushiswap',
 	'swerve',
+	'synthetix',
 	'tellor',
 	'the-graph',
 	'uma',
 	'umbrella',
 	'uniswap',
 	'upshot',
-	'usdc',
 	'yearn'
 ].map(slug => defiAppsBySlug[slug])
 
