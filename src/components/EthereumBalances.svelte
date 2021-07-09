@@ -64,7 +64,7 @@
 		gap: var(--padding-inner);
 	}
 	.ethereum-balances.show-amounts-and-values {
-		--column-width: 15rem;
+		--column-width: 16rem;
 		column-gap: calc(2 * var(--padding-inner));
 	}
 
