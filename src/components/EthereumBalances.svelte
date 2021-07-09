@@ -55,14 +55,16 @@
 	import { quintOut } from 'svelte/easing'
 </script>
 
-<style>	
+<style>
 	.ethereum-balances {
+		--column-width: 12rem;
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(var(--column-width), 1fr));
 		align-items: stretch;
 		gap: var(--padding-inner);
 	}
 	.ethereum-balances.show-amounts-and-values {
+		--column-width: 15rem;
 		column-gap: calc(2 * var(--padding-inner));
 	}
 
@@ -79,6 +81,7 @@
 	} */
 
 	.ethereum-balance {
+		min-height: 1.65em;
 		gap: var(--padding-inner);
 	}
 	.ethereum-balance.is-selectable {
@@ -156,6 +159,7 @@
 							convertedValue={quote}
 							conversionRate={quote_rate}
 							animationDelay={i * 10}
+							showParentheses={false}
 						/>
 						<!-- isDust={type === 'dust'} -->
 					</span>

@@ -5,6 +5,7 @@
 	export let showValues: 'original' | 'converted' | 'both' = 'original'
 	export let showDecimalPlaces = 3
 	export let showConversionRate = false
+	export let showParentheses = true
 
 	export let token: TickerSymbol
 	export let tokenAddress: Ethereum.ContractAddress
@@ -67,6 +68,7 @@
 	{/if}
 	{#if (showValues === 'converted' || showValues === 'both')}
 		<span class="value-converted" transition:scaleFont|local={{delay: 50 + animationDelay}}>
+			{#if showValues === 'both'}{#if showParentheses}({/if}{/if
 			}<TokenValue token={conversionCurrency} value={convertedValue} {showDecimalPlaces} showPlainFiat={true} {isDebt}
 			/>{#if showValues === 'converted' && conversionCurrency !== token}
 				<span class="worth" transition:scaleFont|local={{delay: animationDelay}}>
@@ -74,7 +76,7 @@
 				</span>
 			{/if
 			}{#if showConversionRate && conversionRate}<span class="rate"> at <TokenRate rate={conversionRate} quoteToken={conversionCurrency} baseToken={token} layout='horizontal'/></span>{/if
-			}{#if showValues === 'both'}){/if}
+			}{#if showValues === 'both' && showParentheses}){/if}
 		</span>
 	{/if}
 </span>
