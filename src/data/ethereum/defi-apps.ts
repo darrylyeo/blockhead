@@ -2,6 +2,7 @@ import type { Ethereum } from './types'
 import type { DefiSDK } from './price/defi-sdk'
 import type { ZapperDeFiProtocolName } from '../zapper/zapper'
 import { erc20TokensByContractAddress, erc20TokensBySymbol } from './tokens/tokens'
+import { providers } from 'ethers'
 
 
 export type DefiAppConfig = {
@@ -304,10 +305,15 @@ export const defiApps: DefiAppConfig[] = [
 		colors: ['#536dfe'], // unofficial
 		views: [
 			{
+				name: 'Balancer Governance',
+				slug: 'governance',
 				chainId: 1,
 				erc20Tokens: [
 					erc20TokensBySymbol['BAL']
-				],
+				]
+			},
+			{
+				chainId: 1,
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer',
 					zapper: 'balancer',
@@ -994,7 +1000,7 @@ export const defiApps: DefiAppConfig[] = [
 					erc20TokensBySymbol['FST']
 				],
 				providers: {
-					theGraph: 'https://www.airswap.io',
+					theGraph: 'https://api.thegraph.com/subgraphs/name/futureswap/futureswap-v1',
 					zapper: 'futureswap',
 				}
 			}
@@ -1013,6 +1019,23 @@ export const defiApps: DefiAppConfig[] = [
 				],
 				providers: {
 					zerionDefiSDK: ['Gnosis Protocol'],
+					theGraph: 'https://api.thegraph.com/subgraphs/name/gnosis/protocol'
+				}
+			},
+			{
+				links: ['https://gnosis.io/protocol'],
+				chainId: 100,
+				providers: {
+					theGraph: 'https://api.thegraph.com/subgraphs/name/gnosis/protocol-xdai'
+				}
+			},
+			{
+				name: 'Gnosis Safe',
+				slug: 'safe',
+				links: ['https://gnosis.io/protocol'],
+				chainId: 100,
+				providers: {
+					theGraph: 'https://api.thegraph.com/subgraphs/name/gjeanmart/gnosis-safe-mainnet'
 				}
 			}
 		]
@@ -1024,7 +1047,7 @@ export const defiApps: DefiAppConfig[] = [
 		colors: ['#0B50B0', '#0F6BEB', '#6FA4F2'],
 		views: [
 			{
-				name: 'Governance',
+				name: 'Idle Governance',
 				slug: 'governance',
 				chainId: 1,
 				erc20Tokens: [
@@ -1294,7 +1317,7 @@ export const defiApps: DefiAppConfig[] = [
 				}
 			},
 			{
-				name: 'Governance',
+				name: 'Maker Governance',
 				slug: 'governance',
 				colors: ['#1AAB9B'],
 				chainId: 1,
@@ -1554,6 +1577,9 @@ export const defiApps: DefiAppConfig[] = [
 					'0x7B4401FD0070cA78C7C93aa335D6000Ee0D629F7', // OptionAMMFactory
 					'0xB7dEF03006eC72Ef409C41fAEE2619e4bFdB547F', // OptionHelper
 				],
+				providers: {
+					theGraph: 'https://api.thegraph.com/subgraphs/name/pods-finance/pods'
+				}
 			}
 		]
 	},
@@ -2114,6 +2140,9 @@ export const defiApps: DefiAppConfig[] = [
 						decimals: 18
 					}
 				],
+				providers: {
+					theGraph: 'https://api.thegraph.com/subgraphs/name/cfengliu/umbrella'
+				}
 			},
 			{
 				name: 'Binance Smart Chain',
@@ -2460,6 +2489,7 @@ export const defiAppsByProviderName = {
 export const featuredDefiApps = [
 	'aave',
 	'akropolis',
+	'airswap',
 	'badger',
 	'balancer',
 	'bitgo',
@@ -2471,6 +2501,7 @@ export const featuredDefiApps = [
 	'ens',
 	'enzyme',
 	'etherspot',
+	'gnosis',
 	'idle',
 	'instadapp',
 	'kyber',
@@ -2480,6 +2511,8 @@ export const featuredDefiApps = [
 	'nexus-mutual',
 	'1inch',
 	'pie-dao',
+	'pods',
+	'pooltogether',
 	'rarible',
 	'stake-dao',
 	'streamr',
