@@ -40,15 +40,17 @@
 		undefined
 
 
-	$: getBalancesPromise = getTokenAddressBalances({address, nft: false, chainID: network.chainId, quoteCurrency: quoteCurrency})
+	let allBalances
+
 	export let balances: Covalent.ERC20TokenOrNFTContractWithBalance[] = []
-	$: getBalancesPromise.then(balances => (filterFunction ? balances.items.filter(filterFunction) : balances.items).sort(sortFunction))
-		.then(_ => balances = _)
+
+	$: if(allBalances)
+		balances = (filterFunction ? allBalances.filter(filterFunction) : allBalances).sort(sortFunction)
 
 	$: quoteTotal = balances.reduce((sum, item) => sum + item.quote, 0)
 	
 
-	import Loader from './Loader.svelte'
+	import EthereumBalancesLoader from './EthereumBalancesLoader.svelte'
 	import TokenValueWithConversion from './TokenValueWithConversion.svelte'
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
@@ -109,14 +111,14 @@
 </style>
 
 {#if address}
-	<Loader
-		loadingIcon={'/logos/covalent-logomark.svg'}
-		loadingIconName={'Covalent'}
-		loadingMessage="Retrieving {network.name} balances from {analyticsProvider}..."
-		errorMessage="Error retrieving {network.name} balances from {analyticsProvider}"
-		fromPromise={() => getBalancesPromise}
+	<EthereumBalancesLoader
+		{network}
+		{address}
+		{analyticsProvider}
+		{quoteCurrency}
 		showIf={() => balances.length}
 		{isCollapsed}
+		bind:balances={allBalances}
 	>
 		<svelte:fragment slot="header">
 			{#if balances.length}
@@ -166,5 +168,5 @@
 				{/each}
 			</div>
 		</div>
-	</Loader>
+	</EthereumBalancesLoader>
 {/if}
