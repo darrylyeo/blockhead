@@ -112,7 +112,7 @@
 		symbol: 'none',
 		// symbol: `https://tokens.1inch.exchange/0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.png`,
 		
-		color: `var(--${tokenColors[currency]}, hsla(0deg, 0%, 90%, 0.75))`,
+		color: `var(--${tokenColors[currency]}, var(--primary-color, hsla(0deg, 0%, 90%, 0.75)))`,
 		areaStyle: isMultiple ? {
 			color: 'transparent'
 		} : {
@@ -122,7 +122,7 @@
 				x2: 0, y2: 2,
 				colorStops: [{
 					offset: 0.05,
-					color: `var(--${tokenColors[currency]}, hsla(0deg, 0%, 90%, 0.75))`,
+					color: `var(--${tokenColors[currency]}, var(--primary-color, hsla(0deg, 0%, 90%, 0.75)))`,
 				}, {
 					offset: 1,
 					color: 'transparent'
