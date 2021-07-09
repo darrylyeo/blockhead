@@ -1,6 +1,6 @@
 {
-  "name": "TODO",
-  "description": "TODO",
+  "name": "Blockhead",
+  "description": "Blockhead",
   "version": "0.0.1",
   "scripts": {
     "dev": "sapper dev",
