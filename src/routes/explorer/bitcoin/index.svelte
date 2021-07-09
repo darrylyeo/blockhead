@@ -31,7 +31,7 @@
 
 <hr>
 
-<div class="row">
+<div>
 	<section class="card">
 		<CurrentPrice
 			priceProvider={$preferredOracleProvider}
@@ -43,7 +43,7 @@
 	</section>
 </div>
 
-<div class="row">
+<div>
 	<section class="card">
 		<HistoricalPriceChart
 			analyticsProvider={$preferredAnalyticsProvider}
