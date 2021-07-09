@@ -62,7 +62,8 @@
 	font-variant: tabular-nums;
 
 	-webkit-font-smoothing: antialiased;
-	text-rendering: optimizeLegibility;
+	/* text-rendering: optimizeLegibility; */
+	text-rendering: geometricPrecision;
 
 	--text-color: rgba(0, 0, 0, 0.8);
 	color: var(--text-color);
