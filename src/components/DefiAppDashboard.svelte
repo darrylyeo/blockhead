@@ -171,6 +171,8 @@
 		align-items: stretch;
 		grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
 		grid-auto-flow: dense;
+
+		--options-size: 0.8;
 	}
 	.defi-app-view:not(.is-single), .defi-app-view.full {
 		grid-column: 1 / -1;

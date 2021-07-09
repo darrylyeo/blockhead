@@ -15,6 +15,14 @@
 	import CovalentPriceChart from './CovalentPriceChart.svelte'
 </script>
 
+
+<style>
+	.options {
+		font-size: calc(var(--options-size, 1) * 1em);
+	}
+</style>
+
+
 <div class="bar">
 	<slot name="title">
 		<h3>Historical Price</h3>
@@ -29,7 +37,7 @@
 	{priceScale}
 />
 
-<div class="bar">
+<div class="options bar">
 	<h4>Show</h4>
 	<label>
 		<span>Price Scale</span>
