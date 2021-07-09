@@ -219,7 +219,7 @@
 
 
 	/* Svelte bug */
-	.defi-app-view :global(.value-with-conversion:not(:last-child)) {
+	.erc20-token :global(.value-with-conversion:not(:last-child)) {
 		display: none;
 	}
 
@@ -634,7 +634,7 @@
 						)
 					)}
 						{#each erc20Tokens as erc20Token}
-							<div class="card">
+							<div class="card erc20-token">
 								<div class="bar">
 									<h4>
 										{erc20Token.name}
