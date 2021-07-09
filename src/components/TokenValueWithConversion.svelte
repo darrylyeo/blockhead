@@ -22,6 +22,8 @@
 
 	export let conversionRate
 
+	export let animationDelay = 0
+
 	function sizeByVolume(size) {
 		return 1 + size * 0.0025
 	}
@@ -64,11 +66,10 @@
 		</span>
 	{/if}
 	{#if (showValues === 'converted' || showValues === 'both')}
-		<span class="value-converted" transition:scaleFont|local={{delay: 200}}>
-			{#if showValues === 'both'}({/if
+		<span class="value-converted" transition:scaleFont|local={{delay: 50 + animationDelay}}>
 			}<TokenValue token={conversionCurrency} value={convertedValue} {showDecimalPlaces} showPlainFiat={true} {isDebt}
 			/>{#if showValues === 'converted' && conversionCurrency !== token}
-				<span class="worth" transition:scaleFont|local>
+				<span class="worth" transition:scaleFont|local={{delay: animationDelay}}>
 					&nbsp;in <TokenName {token} {tokenAddress} {tokenIcon} {tokenName} />
 				</span>
 			{/if

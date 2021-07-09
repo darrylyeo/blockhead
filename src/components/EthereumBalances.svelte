@@ -142,7 +142,7 @@
 							}
 						}
 						in:scale
-						animate:flip|local={{duration: 500, delay: Math.abs(i) * 10, easing: quintOut}}
+						animate:flip|local={{duration: 500, delay: i * 10, easing: quintOut}}
 					>
 						<TokenValueWithConversion
 							{showValues}
@@ -155,6 +155,7 @@
 							conversionCurrency={quoteCurrency}
 							convertedValue={quote}
 							conversionRate={quote_rate}
+							animationDelay={i * 10}
 						/>
 						<!-- isDust={type === 'dust'} -->
 					</span>
