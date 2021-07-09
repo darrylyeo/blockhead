@@ -49,8 +49,8 @@
 
 	$: isSummary = detailLevel === 'summary'
 	$: isExhaustive = detailLevel === 'exhaustive'
-	$: contextIsSender = contextualAddress && contextualAddress.toLowerCase() === fromAddress.toLowerCase()
-	$: contextIsReceiver = contextualAddress && contextualAddress.toLowerCase() === toAddress.toLowerCase()
+	$: contextIsSender = contextualAddress && fromAddress && contextualAddress.toLowerCase() === fromAddress.toLowerCase()
+	$: contextIsReceiver = contextualAddress && toAddress && contextualAddress.toLowerCase() === toAddress.toLowerCase()
 
 
 	// export let provider: Ethereum.Provider
@@ -171,12 +171,12 @@
 				<TokenValueWithConversion {showValues} {token} {tokenAddress} {tokenIcon} {tokenName} {value} conversionCurrency={quoteToken} convertedValue={valueQuote} />
 			</span>
 		{/if}
-		{#if isSummary && contextIsReceiver}
+		{#if isSummary && contextIsReceiver && fromAddress}
 			<span class="sender" transition:fade|local>
 				<span>from</span>
 				<AddressWithLabel {network} address={fromAddress} label={fromAddressLabel} format="middle-truncated" />
 			</span>
-		{:else}
+		{:else if toAddress}
 			<span class="receiver" transition:fade|local>
 				<span>to</span>
 				<AddressWithLabel {network} address={toAddress} label={toAddressLabel} format="middle-truncated" />
