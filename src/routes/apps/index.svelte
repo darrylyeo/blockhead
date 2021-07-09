@@ -16,9 +16,9 @@
 		--padding-inner: 1.5rem;
 	}
 
-	.featured {
+	/* .featured {
 		font-size: 1.2em;
-	}
+	} */
 
 	.row {
 		align-content: start;
