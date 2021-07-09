@@ -11,4 +11,4 @@
 		address !== undefined
 </script>
 
-<input class="address-field" type="text" class:is-valid={isValid(address)} {placeholder} bind:value={address} {autofocus} {required} />
+<input class="address-field" type="search" class:is-valid={isValid(address)} {placeholder} bind:value={address} {autofocus} {required} />
