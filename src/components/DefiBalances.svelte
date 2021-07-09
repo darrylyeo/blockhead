@@ -181,14 +181,14 @@
 			</svelte:fragment>
 
 			<div class="defi-balances column" class:scrollable-list={defiProtocolBalances.length > 6}>
-				{#each defiProtocolBalances as {products, meta}, i}
+				{#each defiProtocolBalances as {protocolName, products, meta}, i}
 					{#each products as {
 						label, assets, meta: productMeta,
-						// _: defiAppConfig = defiAppsByProviderName.zapper?.[label]
+						// _: defiAppConfig = defiAppsByProviderName.zapper?.[protocolName]
 					}, j (label)}
 						<div
 							class="card defi-protocol"
-							style={cardStyle(defiAppsByProviderName.zapper?.[label]?.colors)}
+							style={cardStyle(defiAppsByProviderName.zapper?.[protocolName]?.colors)}
 							transition:scaleFont|local
 							animate:flip|local={{duration: 300, delay: Math.abs(i + j * 0.1) * 10}}
 						>
@@ -199,7 +199,7 @@
 							{/if}
 							<div class="bar">
 								<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{label}">
-									<a href="apps/{defiAppsByProviderName.zapper?.[label]?.slug}/{address}">{label}</a>
+									<a href="apps/{defiAppsByProviderName.zapper?.[protocolName]?.slug ?? protocolName}/{address}">{label}</a>
 								</h5>
 								{#each meta as {label, type, value}}
 									{#if label === 'Assets'}

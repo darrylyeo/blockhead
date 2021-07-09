@@ -76,7 +76,7 @@ export const getDeFiProtocolBalances = memoizedAsync(async ({protocolNames, netw
 
 	const {supportedProtocols, supportedProtocolNames} = await getSupportedProtocolNamesByNetwork(networkName, address)
 	protocolNames ??= supportedProtocolNames
-	supportedProtocols
+	// supportedProtocols
 	
 	return await PromiseAllFulfilled(
 		filterDefiProtocolNames(protocolNames).map(protocol =>
@@ -86,12 +86,15 @@ export const getDeFiProtocolBalances = memoizedAsync(async ({protocolNames, netw
 					addresses: [address],
 					network: networkName
 				})
-				.then(response => console.log('Zapper balance', protocol, address, response) || Object.values(response)[0])
+				.then(response => {
+					console.log('Zapper balance', protocol, address, response)
+					return {...Object.values(response)[0], protocolName: protocol}
+				})
 				// .catch(async response => console.error(await response.text()))
 			)
 		)
 	).then(defiBalances => defiBalances.filter(
-		<(_) => _ is Zapper.AddressBalanceResponse> (_ => _)
+		<(_) => _ is Zapper.AddressBalanceResponse & {protocolName: ZapperDeFiProtocolName}> (_ => _)
 	))
 })
 
