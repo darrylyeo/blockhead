@@ -29,7 +29,12 @@ export type DefiAppView = {
 		theGraph?: string,
 		zapper?: ZapperDeFiProtocolName,
 		zerionDefiSDK?: DefiSDK.ProtocolName[],
-	}
+	},
+	embeds?: {
+		name: string,
+		description?: string,
+		src: string
+	}[],
 }
 
 export type DefiAppName = string // typeof defiApps[number]['name']
@@ -99,6 +104,17 @@ export const defiApps: DefiAppConfig[] = [
 			// 		// zapper: 'aave'
 			// 	}
 			// },
+
+			{
+				name: 'Aave Governance v2',
+				slug: 'v1',
+				chainId: 1,
+				embeds: [{
+					name: 'Aavote',
+					description: 'Aavote - Aave Governance v2 Interface',
+					src: 'https://aavote.netlify.app'
+				}]
+			},
 		]
 	},
 	{
@@ -1232,7 +1248,34 @@ export const defiApps: DefiAppConfig[] = [
 					zapper: 'liquity',
 					zerionDefiSDK: ['Liquity'],
 				}
-			}
+			},
+			{
+				name: 'Liquity Frontend',
+				slug: 'frontend',
+				chainId: 1,
+				embeds: [
+					{
+						name: 'LiquityFi (eth.liquity.fi)',
+						src: 'https://eth.liquity.fi',
+					},
+					{
+						name: 'Liquity.App (liquity.app)',
+						src: 'https://liquity.app',
+					},
+					{
+						name: 'Lusd.eth.link (lusd.eth.link)',
+						src: 'https://lusd.eth.link',
+					},
+					{
+						name: 'Liquity Land (liquityland.com)',
+						src: 'https://liquityland.com',
+					},
+					{
+						name: 'LiquityApp (liquityapp.com)',
+						src: 'https://liquityapp.com',
+					},
+				]
+			},
 		]
 	},
 	{

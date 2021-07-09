@@ -52,6 +52,9 @@
 	
 	export let isCollapsed: boolean
 
+
+	let selectedEmbed
+
 	
 	import { formatPercent } from '../utils/format-percent'
 	import { formatUnits } from '../utils/format-units'
@@ -165,7 +168,7 @@
 		grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
 		grid-auto-flow: dense;
 	}
-	.defi-app-view:not(.is-single) {
+	.defi-app-view:not(.is-single), .defi-app-view.full {
 		grid-column: 1 / -1;
 	}
 	.defi-app-view.scrollable-list {
@@ -211,20 +214,26 @@
 
 	iframe {
 		width: 100%;
-		height: 35rem;
-		max-height: 80vh;
 		justify-self: center;
 		border-radius: 0.5em;
+	}
+	iframe.graphql-explorer {
+		height: 35rem;
+		max-height: 80vh;
+	}
+	iframe.embed {
+		height: 80vh;
 	}
 </style>
 
 
 <div class="column defi-app-views">
-	{#each defiAppConfig.views as {name, slug, chainId, colors, erc20Tokens, nfts, contracts, providers}}
-	{#each [(erc20Tokens?.length ?? 0) + (nfts?.length ?? 0) + (contracts?.length ?? 0)] as totalViewItems}
+	{#each defiAppConfig.views as {name, slug, chainId, colors, erc20Tokens, nfts, contracts, providers, embeds}}
+	{#each [(erc20Tokens?.length ?? 0) + (nfts?.length ?? 0) + (contracts?.length ?? 0) + (providers && 1)] as totalViewItems}
 		<div
 			class="card defi-app-view"
 			class:is-single={totalViewItems <= 1}
+			class:full={embeds?.length}
 			style={cardStyle(colors || defiAppConfig.colors)}
 		>
 			<NetworkProviderLoader
@@ -243,7 +252,15 @@
 							{/if}
 						</h3>
 
-						<div class="card-annotation">{network.name}</div>
+						{#if embeds?.length}
+							<select bind:value={selectedEmbed}>
+								{#each embeds as embed}
+									<option value={embed}>{embed.name}</option>
+								{/each}
+							</select>
+						{:else}
+							<div class="card-annotation">{network.name}</div>
+						{/if}
 					</div>
 
 					<hr>
@@ -670,6 +687,7 @@
 
 					<div>
 						<iframe
+							class="graphql-explorer"
 							title="{name} Subgraph GraphiQL Explorer"
 							src="https://embed.graphql.com/embed?{new URLSearchParams({
 								endpointURL: JSON.stringify(providers.theGraph),
@@ -683,6 +701,15 @@
 						/>
 					</div>
 				</div>
+			{/if}
+
+
+			{#if embeds?.length && (selectedEmbed = selectedEmbed || embeds[0])}
+				<iframe
+					class="embed"
+					title={selectedEmbed.description || selectedEmbed.name}
+					src={selectedEmbed.src}
+				/>
 			{/if}
 		</div>
 	{/each}
