@@ -7,6 +7,8 @@
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { TickerSymbol } from '../data/currency/currency'
 	import * as CryptoIcons from 'svelte-cryptoicon'
+	import { erc20TokensByContractAddress, erc20TokensBySymbol } from '../data/ethereum/tokens/tokens'
+
 
 	export let token: TickerSymbol
 	export let tokenAddress: Ethereum.ContractAddress | undefined
@@ -23,6 +25,8 @@
 		token && `https://zapper.fi/images/${token}-icon.png`,
 		tokenAddress && `https://tokens.1inch.exchange/${tokenAddress.toLowerCase()}.png`,
 		tokenAddress && `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${tokenAddress}/logo.png`,
+		tokenAddress && erc20TokensByContractAddress[tokenAddress.toLowerCase()]?.icon,
+		token && erc20TokensBySymbol[token]?.icon,
 	].filter(Boolean)
 
 	// let loadingError
