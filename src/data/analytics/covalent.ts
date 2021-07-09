@@ -427,11 +427,14 @@ const makeRequest = <T>(endpoint: string, params: any) =>
 
 				if(response.headers.get('content-type').includes('application/json')){
 					const {error, error_message, error_code}: Covalent.Response = await response.json()
+					console.error(error, endpoint, params)
 					throw new Error(error_message)
 				}
 				
+				const error = new DOMParser().parseFromString(await response.text(), 'text/html').documentElement.innerText.trim()
 				// throw new Error(await response.text())
-				throw new Error(new DOMParser().parseFromString(await response.text(), 'text/html').documentElement.innerText.trim())
+				console.error(error, endpoint, params)
+				throw new Error(error)
 			})
 			.then(({data}: Covalent.Response) => { 
 				console.log(data)
