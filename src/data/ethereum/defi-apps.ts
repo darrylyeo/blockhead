@@ -619,7 +619,6 @@ export const defiApps: DefiAppConfig[] = [
 				erc20Tokens: [
 				],
 				providers: {
-					zapper: 'compound',
 					zerionDefiSDK: ['Compound'],
 				}
 			},
