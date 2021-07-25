@@ -67,12 +67,17 @@ const getProviderAndInstance: Record<Ethereum.ProviderName, (network: Ethereum.N
 	},
 
 	'Pocket Network': async network => {
-		const getUrl = providers.PocketProvider.getUrl
-		providers.PocketProvider.getUrl = (...args) => {
-			const connection = getUrl(...args)
-			connection.url = connection.url.replace('eth-mainnet.gateway.pokt.network', 'eth-archival.gateway.pokt.network')
-			return connection
-		}
+		// const { instance, provider } = await getPocketNetwork(network)
+		// return { instance, provider }
+
+
+		// const getUrl = providers.PocketProvider.getUrl
+		// providers.PocketProvider.getUrl = (...args) => {
+		// 	const connection = getUrl(...args)
+		// 	// connection.url = connection.url.replace('eth-mainnet.gateway.pokt.network', 'eth-archival.gateway.pokt.network')
+		// 	connection.url = connection.url.replace('eth-mainnet.gateway.pokt.network', 'eth-trace.gateway.pokt.network')
+		// 	return connection
+		// }
 
 		const provider = new providers.PocketProvider(network.chainId, {
 			applicationId: env.POCKET_GATEWAY_ID,
@@ -82,8 +87,8 @@ const getProviderAndInstance: Record<Ethereum.ProviderName, (network: Ethereum.N
 		console.log('Pocket Network provider', provider)
 		return { instance: provider, provider }
 
-		// const { instance, provider } = await getPocketNetwork(network)
-		// return { instance, provider }
+		// const provider = new providers.PocketProvider(network.chainId, env.POCKET_GATEWAY_ID)
+		// return { instance: provider, provider }
 	}
 }
 
