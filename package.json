@@ -18,7 +18,7 @@
     "@connext/vector-sdk": "^0.0.3-beta.6",
     "@connext/vector-types": "^0.2.5-beta.18",
     "@connext/vector-utils": "^0.2.5-beta.18",
-    "@pokt-network/pocket-js": "^0.5.4-rc",
+    "@pokt-network/pocket-js": "^0.6.13-rc",
     "@pokt-network/web3-provider": "^0.0.6-rc",
     "@portis/web3": "^4.0.4",
     "@toruslabs/openlogin": "^0.9.0",
