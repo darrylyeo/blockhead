@@ -27,10 +27,10 @@ async function getPocketInstance(){
 		// application can then connect to the decentralized network of nodes.
 		// You can use one of our dispatchers or any node connected to the Pocket blockchain.
 		// https://docs.pokt.network/docs/known-dispatcher-list
-		const dispatchers = POCKET_NETWORK_DISPATCH_URLS.map(url => new URL(url))
+		const dispatchers = POCKET_NETWORK_DISPATCH_URLS
 
 		pocketInstance = new Pocket(
-			dispatchers,
+			dispatchers.map(url => new URL(url)),
 
 			new HttpRpcProvider(dispatchers.join(',')),
 
