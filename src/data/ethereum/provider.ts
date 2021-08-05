@@ -96,7 +96,13 @@ export const getProviderAndInstance = memoized(async (network: Ethereum.Network,
 	
 			// const provider = new providers.PocketProvider(network.chainId, env.POCKET_GATEWAY_ID)
 			// return { instance: provider, provider }
-		}
+		},
+
+		'Etherscan': async network => {
+			return {
+				provider: new providers.EtherscanProvider(network.chainId, env.ETHERSCAN_API_KEY)
+			}
+		},
 	}[providerName]?.(network)
 })
 
