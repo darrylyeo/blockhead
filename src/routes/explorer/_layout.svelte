@@ -4,7 +4,7 @@
 	import { networks, networksBySlug } from '../../data/ethereum/networks'
 	import { derived, writable } from 'svelte/store'
 	import { onMount, setContext } from 'svelte'
-	import { getProvider } from '../../data/ethereum/provider'
+	import { getEthersProvider } from '../../data/ethereum/provider'
 
 
 	const topNetworks = ['ethereum', 'polygon', 'bsc', 'avalanche', 'xdai', 'oasis-paratime', 'fantom', 'bitcoin'].map(slug => networksBySlug[slug])
@@ -33,7 +33,7 @@
 	const explorerProvider = derived<[typeof explorerNetwork, typeof preferredEthereumProvider], Ethereum.Provider>([explorerNetwork, preferredEthereumProvider], async ([$explorerNetwork, $preferredEthereumProvider], set) => {
 		await whenMounted
 		if($explorerNetwork)
-			set(await getProvider($explorerNetwork, $preferredEthereumProvider, 'ethers'))
+			set(await getEthersProvider($explorerNetwork, $preferredEthereumProvider))
 	})
 	setContext('explorerProvider', explorerProvider)
 

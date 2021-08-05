@@ -5,7 +5,7 @@
 	import { usdStablecoinTokens } from '../data/ethereum/tokens/tokens'
 
 
-	import { getProvider } from '../data/ethereum/provider'
+	import { getEthersProvider } from '../data/ethereum/provider'
 	import { preferredEthereumProvider } from '../data/ethereum/preferences'
 
 	import { Connext } from '../data/connext/swaps'
@@ -68,8 +68,8 @@
 		toToken: Ethereum.ContractAddress,
 		toTokenAmount: number
 	}){console.log('onSubmit', 'transferSolution', transferSolution)
-		const fromNetworkProvider = await getProvider(fromNetwork, $preferredEthereumProvider, 'ethers')
-		const toNetworkProvider = await getProvider(toNetwork, $preferredEthereumProvider, 'ethers')
+		const fromNetworkProvider = await getEthersProvider(fromNetwork, $preferredEthereumProvider)
+		const toNetworkProvider = await getEthersProvider(toNetwork, $preferredEthereumProvider)
 
 
 		if(transferSolution === 'Connext'){

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import { getProvider, getProviderInstance } from '../data/ethereum/provider'
-	import { getTorusOpenLogin } from '../data/ethereum/providers/torus'
+	import { getEthersProvider, getProviderAndInstance } from '../data/ethereum/provider'
 	import { connectedProviderAccounts, getAccountsFromProvider } from '../data/ethereum/portfolio-accounts'
 	import { preferredDeFiProvider, preferredAnalyticsProvider, preferredQuoteCurrency } from '../data/ethereum/preferences'
 
@@ -11,7 +10,7 @@
 	
 
 	const loadMetaMaskProvider = async () => {
-		const metaMaskProvider = await getProvider(network, 'MetaMask', 'ethers')
+		const metaMaskProvider = await getEthersProvider(network, 'MetaMask')
 
 		metaMaskProvider.on('accountsChanged', accounts => {
 			console.log('accountsChanged', accounts)
@@ -27,21 +26,19 @@
 
 
 	const loadTorusProvider = async () => {
-		return (await getTorusOpenLogin(network)).provider
+		return await getEthersProvider(network, 'Torus')
 	}
 	const disconnectTorusProvider = async () => {
-		const torusOpenLogin = await getProviderInstance(network, 'Torus')
-		torusOpenLogin.logout()
+		(await getProviderAndInstance(network, 'Torus')).disconnect()
 	}
 
 
 	const loadPortisProvider = async () => {
-		return await getProvider(network, 'Portis', 'ethers')
+		return await getEthersProvider(network, 'Portis')
 		// await portis.showPortis()
 	}
 	const disconnectPortisProvider = async () => {
-		const portis = await getProviderInstance(network, 'Portis')
-		await portis.logout()
+		(await getProviderAndInstance(network, 'Portis')).disconnect()
 	}
 
 	

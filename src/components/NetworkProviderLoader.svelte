@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import { getProvider } from '../data/ethereum/provider'
+	import { getEthersProvider } from '../data/ethereum/provider'
 	import { preferredEthereumProvider } from '../data/ethereum/preferences'
 	
 
@@ -14,7 +14,7 @@
 	onMount(() => isMounted = true)
 
 	$: if(isMounted)
-		providerPromise ||= (network && providerName && (() => getProvider(network, providerName, 'ethers')))
+		providerPromise ||= (network && providerName && (() => getEthersProvider(network, providerName)))
 
 
 	import Loader from './Loader.svelte'

@@ -11,7 +11,7 @@
 	// import type { Ethereum } from '../../../data/ethereum/types'
 	// import type { DefiAppConfig } from '../../../data/ethereum/defi-apps'
 	// import { networksByChainID } from '../../../data/ethereum/networks'
-	// import { getProvider } from '../../../data/ethereum/provider'
+	// import { getEthersProvider } from '../../../data/ethereum/provider'
 
 
 	// const defiAppConfig: SvelteStore<DefiAppConfig> = getContext('defiAppConfig')
