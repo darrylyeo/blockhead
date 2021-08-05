@@ -31,7 +31,6 @@ export namespace Ethereum {
 	export type NetworkName = 'mainnet' | 'ropsten' | 'rinkeby' | 'goerli' | 'kovan' | 'classic' | string
 
 	export type ProviderName = 'Ethers' | 'Infura' | 'Alchemy' | 'MetaMask' | 'Portis' | 'Pocket Network' | 'Torus'
-	export type ProviderLibrary = 'web3' | 'ethers'
 	export type Provider = Web3Provider
 
 	export type Address = string

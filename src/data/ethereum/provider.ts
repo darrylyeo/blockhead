@@ -1,6 +1,5 @@
 import type { Ethereum } from './types'
 import { getDefaultProvider, providers } from 'ethers'
-import { getWeb3 } from './web3'
 import { getMetaMask } from './providers/metamask'
 import { getTorusOpenLogin } from './providers/torus'
 import { getPortis } from './providers/portis'
