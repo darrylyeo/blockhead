@@ -1,4 +1,4 @@
-import type { Web3Provider } from '@ethersproject/providers'
+import type { BaseProvider } from '@ethersproject/providers'
 import type { TickerSymbol } from '../currency/currency'
 
 export namespace Ethereum {
@@ -31,7 +31,7 @@ export namespace Ethereum {
 	export type NetworkName = 'mainnet' | 'ropsten' | 'rinkeby' | 'goerli' | 'kovan' | 'classic' | string
 
 	export type ProviderName = 'Ethers' | 'Infura' | 'Alchemy' | 'MetaMask' | 'Portis' | 'Pocket Network' | 'Torus'
-	export type Provider = Web3Provider
+	export type Provider = BaseProvider
 
 	export type Address = string
 	export type TransactionID = string
