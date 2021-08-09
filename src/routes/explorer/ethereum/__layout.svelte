@@ -11,10 +11,6 @@
 
 	const query = getContext<Writable<string>>('query')
 
-	import { goto } from '@sapper/app'
-	$: if(globalThis.document && $query)
-		goto(`explorer/${$explorerNetwork.slug}/${$query}`)
-
 	$: currentQuery = $query
 
 
@@ -25,6 +21,7 @@
 	import NetworkProviderLoader from '../../../components/NetworkProviderLoader.svelte'
 	import { fly } from 'svelte/transition'
 </script>
+
 
 <style>
 	form {

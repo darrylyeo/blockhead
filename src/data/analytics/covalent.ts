@@ -3,9 +3,8 @@ import type { TickerSymbol } from '../currency/currency'
 import type { Ethereum } from '../ethereum/types'
 
 import { COVALENT_URL } from '../../config'
-import { env } from '../../config-secrets'
+import { COVALENT_API_KEY } from '../../config-secrets'
 import { ConcurrentPromiseQueue } from '../../utils/concurrent-promise-queue'
-const { COVALENT_API_KEY } = env
 
 // https://www.covalenthq.com/docs/api/
 export namespace Covalent {

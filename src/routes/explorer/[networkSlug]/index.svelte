@@ -36,28 +36,24 @@
 		/>
 	</section>
 
-	{#if ['mainnet', 'core'].includes($explorerNetwork.network)}
-		<section class="card">
-			<CurrentPrice
-				priceProvider={$preferredOracleProvider}
-				token={$explorerNetwork.nativeCurrency.symbol}
-				quoteCurrency={$preferredQuoteCurrency}
-				provider={$ethereumProvider}
-				network={$ethereumNetwork}
-				blockNumber={$blockNumber}
-			/>
-		</section>
-	{/if}
+	<section class="card">
+		<CurrentPrice
+			priceProvider={$preferredOracleProvider}
+			token={$explorerNetwork.nativeCurrency.symbol}
+			quoteCurrency={$preferredQuoteCurrency}
+			provider={$ethereumProvider}
+			network={$ethereumNetwork}
+			blockNumber={$blockNumber}
+		/>
+	</section>
 </div>
 
-{#if ['mainnet', 'core'].includes($explorerNetwork.network)}
-	<div class="row">
-		<section class="card">
-			<HistoricalPriceChart
-				analyticsProvider={$preferredAnalyticsProvider}
-				currencies={[$explorerNetwork.nativeCurrency.symbol]}
-				quoteCurrency={$preferredQuoteCurrency}
-			/>
-		</section>
-	</div>
-{/if}
+<div class="row">
+	<section class="card">
+		<HistoricalPriceChart
+			analyticsProvider={$preferredAnalyticsProvider}
+			currencies={[$explorerNetwork.nativeCurrency.symbol]}
+			quoteCurrency={$preferredQuoteCurrency}
+		/>
+	</section>
+</div>

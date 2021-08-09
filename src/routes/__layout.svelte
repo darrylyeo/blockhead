@@ -1,11 +1,17 @@
 <script context="module">
-	import { env } from '../config-secrets'
+	import '../fonts.css'
+	import '../app.css'
+
+
 		
 	// https://github.com/sveltejs/sapper/issues/122#issuecomment-619770615
-	export async function preload({params}, session){
-		if(session.env)
-			Object.assign(env, session.env)
-	}
+	// export async function load({session}){
+	// 	console.log('env', session, session.env)
+	// 	// if(session.env)
+	// 	// 	Object.assign(env, session.env)
+		
+	// 	return {}
+	// }
 </script>
 
 <script lang="ts">
@@ -155,4 +161,6 @@
 
 <Nav {segment}/>
 
-<slot></slot>
+<div class="stack">
+	<slot></slot>
+</div>

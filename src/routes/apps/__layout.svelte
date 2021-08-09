@@ -1,18 +1,33 @@
 <script lang="ts">
+	import { setContext } from 'svelte'
+	import { derived, writable } from 'svelte/store'
+	import { page } from '$app/stores'
+	import { browser } from '$app/env'
+	import { goto } from '$app/navigation'
+
+	// const defiAppSlug = derived<typeof page, string>(page, ($page, set) =>
+	// 	set($page.params.defiApp || '')
+	// )
+	// // $: $defiAppSlug = $page.params.defiApp
+	const defiAppSlug = writable<DefiAppSlug>($page.params.defiApp || '')
+	const query = writable<string>($page.params.query || '')
+	$: $defiAppSlug = $page.params.defiApp || ''
+	$: $query = $page.params.query || ''
+
+	setContext('defiAppSlug', defiAppSlug)
+	setContext('query', query)
+
+	let path = $page.path
+	$: if(browser){
+		const newPath = `/apps${$defiAppSlug ? `/${$defiAppSlug}${$query ? `/${$query}` : ''}` : ''}`
+		console.log(newPath, path)
+		if(newPath !== path)
+			goto(newPath, {keepfocus: true})
+	}
+
+
 	import type { DefiAppConfig, DefiAppSlug} from '../../data/ethereum/defi-apps'
 	import { defiApps, defiAppsBySlug, featuredDefiApps, notFeaturedDefiApps } from '../../data/ethereum/defi-apps'
-	import { derived, writable } from 'svelte/store'
-	import { setContext } from 'svelte'
-
-
-	export let segment: string = ''
-	
-	const defiAppSlug = writable<DefiAppSlug>(segment)
-	setContext('defiAppSlug', defiAppSlug)
-	$: $defiAppSlug = segment
-
-	if(segment === undefined && globalThis.document)
-		goto(`apps/${$defiAppSlug}`)
 
 
 	// App context stores
@@ -27,11 +42,6 @@
 	$: if(globalThis.document)
 		document.documentElement.style.setProperty('--primary-color', $defiAppConfig?.colors?.[$defiAppConfig.colors.length / 2 | 0] || `var(--${tokenColors['ethereum']})`)
 
-
-	const query = writable<string>('')
-	setContext('query', query)
-
-	import { goto } from '@sapper/app'
 
 	import { fly } from 'svelte/transition'
 	import { tokenColors } from '../../data/token-colors'
@@ -62,10 +72,10 @@
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 	<div class="bar">
-		<h1><a href="/apps/{$defiAppSlug}" on:click={() => globalThis.requestAnimationFrame(() => goto(`apps/${$defiAppSlug}`))}>{$defiAppConfig ? `${$defiAppConfig.name} ${$query ? 'Account' : 'Dashboard'}` : `DeFi Apps`}</a></h1>
+		<h1><a href="/apps/{$defiAppSlug}" on:click={() => globalThis.requestAnimationFrame(() => goto(`/apps/${$defiAppSlug}`))}>{$defiAppConfig ? `${$defiAppConfig.name} ${$query ? 'Account' : 'Dashboard'}` : `DeFi Apps`}</a></h1>
 		<label>
 			<span>DeFi App: </span>
-			<select bind:value={$defiAppSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`apps/${$defiAppSlug}${$query ? `/${$query}` : ''}`))}>
+			<select bind:value={$defiAppSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`/apps/${$defiAppSlug}${$query ? `/${$query}` : ''}`))}>
 				<option value="" selected>Select App...</option>
 				<optgroup label="Featured">
 					{#each featuredDefiApps as {name, slug}}

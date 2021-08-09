@@ -13,10 +13,6 @@
 
 	const query = getContext<Writable<string>>('query')
 
-	import { goto } from '@sapper/app'
-	$: if(globalThis.document && $query)
-		goto(`apps/${$defiAppSlug}/${$query}`)
-
 	$: currentQuery = $query
 
 
@@ -60,15 +56,21 @@
 			</div>
 		{/if}
 
-		<DefiAppDashboard
-			address={isAddress($query) ? $query : undefined}
-			defiAppConfig={$defiAppConfig}
-			providerName={$preferredEthereumProvider}
-			defiProvider={$preferredDeFiProvider}
-			quoteCurrency={$preferredQuoteCurrency}
-			{showValues}
-			{showUnderlyingAssets}
-		/>
+		<div class="stack">
+			{#key $defiAppConfig}
+				<div class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
+					<DefiAppDashboard
+						address={isAddress($query) ? $query : undefined}
+						defiAppConfig={$defiAppConfig}
+						providerName={$preferredEthereumProvider}
+						defiProvider={$preferredDeFiProvider}
+						quoteCurrency={$preferredQuoteCurrency}
+						{showValues}
+						{showUnderlyingAssets}
+					/>
+				</div>
+			{/key}
+		</div>
 	{/if}
 
 

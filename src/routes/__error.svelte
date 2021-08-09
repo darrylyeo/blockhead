@@ -1,8 +1,21 @@
+<script context="module" lang="ts">
+	export function load({error, status}: { error: Error, status: number }) {
+		return {
+			props: {
+				error,
+				status
+			}
+		};
+	}
+</script>
+
 <script lang="ts">
 	export let status: number
 	export let error: Error
 	
-	const dev = process.env.NODE_ENV === 'development'
+	
+	import { dev } from '$app/env'
+
 
 	import { fly } from 'svelte/transition'
 </script>
