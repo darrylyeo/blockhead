@@ -109,9 +109,9 @@
 	</section>
 
 	<div class="buttons">
-		<a href="portfolio"><button>Create Portfolio</button></a>
-		<a href="explorer"><button>Explore Blockchains</button></a>
-		<a href="apps"><button>Browse Apps</button></a>
+		<a href="/portfolio"><button>Create Portfolio</button></a>
+		<a href="/explorer"><button>Explore Blockchains</button></a>
+		<a href="/apps"><button>Browse Apps</button></a>
 	</div>
 	
 	<footer transition:scale>

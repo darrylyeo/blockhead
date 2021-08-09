@@ -28,7 +28,7 @@
 </style>
 
 {#if linked}
-	<a class="address" href="explorer/{network.slug}/{address}">
+	<a class="address" href="/explorer/{network.slug}/{address}">
 		<slot {formattedAddress}>
 			<span class="format">
 				{formattedAddress}

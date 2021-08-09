@@ -22,7 +22,7 @@
 </style>
 
 {#if linked}
-	<a class="block-number" href="explorer/{network.slug}/{blockNumber}">
+	<a class="block-number" href="/explorer/{network.slug}/{blockNumber}">
 		<slot {formattedBlockNumber}>
 			<span class="format">
 				{formattedBlockNumber}
