@@ -13,12 +13,14 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
+import type {
     BaseTokenBalance,
+    PoolTokenBalance,
+} from './';
+import {
     BaseTokenBalanceFromJSON,
     BaseTokenBalanceFromJSONTyped,
     BaseTokenBalanceToJSON,
-    PoolTokenBalance,
     PoolTokenBalanceFromJSON,
     PoolTokenBalanceFromJSONTyped,
     PoolTokenBalanceToJSON,
