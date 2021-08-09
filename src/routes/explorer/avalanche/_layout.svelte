@@ -13,7 +13,7 @@
 
 	import { goto } from '@sapper/app'
 	$: if(globalThis.document && $query)
-		goto(`explorer/${$explorerNetwork.slug}/${$query}`)
+		goto(`/explorer/${$explorerNetwork.slug}/${$query}`)
 
 	$: currentQuery = $query
 

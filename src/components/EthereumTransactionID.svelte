@@ -25,7 +25,7 @@
 </style>
 
 {#if linked}
-	<a class="transaction-id" href="explorer/{network.slug}/{transactionID}">{formattedTransactionID}</a>
+	<a class="transaction-id" href="/explorer/{network.slug}/{transactionID}">{formattedTransactionID}</a>
 {:else}
 	<span class="transaction-id">{formattedTransactionID}</span>
 {/if}

@@ -199,7 +199,7 @@
 							{/if}
 							<div class="bar">
 								<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{label}">
-									<a href="apps/{defiAppsByProviderName.zapper?.[protocolName]?.slug ?? protocolName}/{address}">{label}</a>
+									<a href="/apps/{defiAppsByProviderName.zapper?.[protocolName]?.slug ?? protocolName}/{address}">{label}</a>
 								</h5>
 								{#each meta as {label, type, value}}
 									{#if label === 'Assets'}
@@ -420,7 +420,7 @@
 						>
 							<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{metadata.description}">
 								<img class="card-background" src={`https://${metadata.iconURL}`} alt={metadata.name} width="20"/>
-								<a href="apps/{defiAppsByProviderName.zerionDefiSDK?.[metadata.name]?.slug}/{address}">{metadata.name}</a>
+								<a href="/apps/{defiAppsByProviderName.zerionDefiSDK?.[metadata.name]?.slug}/{address}">{metadata.name}</a>
 							</h5>
 							{#if computedLayout === 'vertical'}
 								<hr>

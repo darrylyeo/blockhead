@@ -43,7 +43,7 @@
 	<section class="row featured">
 		{#each featuredDefiApps as {name, slug, colors}, i}
 			<div class="card" transition:scale={{delay: i * 10}} style={cardStyle(colors)}>
-				<h3><a href="apps/{slug}" on:click={() => globalThis.requestAnimationFrame(() => goto(`apps/${slug}`))}>{name}</a></h3>
+				<h3><a href="/apps/{slug}" on:click={() => globalThis.requestAnimationFrame(() => goto(`/apps/${slug}`))}>{name}</a></h3>
 			</div>
 		{/each}
 	</section>
@@ -55,7 +55,7 @@
 	<section class="row">
 		{#each notFeaturedDefiApps as {name, slug, colors}, i}
 			<div class="card" transition:scale={{delay: i * 10}}><!-- style={cardStyle(colors)} -->
-				<h4><a href="apps/{slug}" on:click={() => globalThis.requestAnimationFrame(() => goto(`apps/${slug}`))}>{name}</a></h4>
+				<h4><a href="/apps/{slug}" on:click={() => globalThis.requestAnimationFrame(() => goto(`/apps/${slug}`))}>{name}</a></h4>
 			</div>
 		{/each}
 	</section>

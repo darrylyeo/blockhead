@@ -258,7 +258,7 @@
 					<div class="bar">
 						<h3 id={slug}>
 							{#if slug}
-								<a href="./#{slug}">{name}</a>
+								<a href="#{slug}">{name}</a>
 							{:else}
 								{name || defiAppConfig.name}
 							{/if}
@@ -343,7 +343,7 @@
 														{/if}
 														<div class="bar">
 															<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{label}">
-																<a href="apps/{defiAppsByProviderName.zapper?.[protocolName]?.slug ?? protocolName}/{address}">{label}</a>
+																<a href="/apps/{defiAppsByProviderName.zapper?.[protocolName]?.slug ?? protocolName}/{address}">{label}</a>
 															</h5>
 															{#each meta as {label, type, value}}
 																{#if label === 'Assets'}
@@ -575,7 +575,7 @@
 												<!-- style={cardStyle(colors || defiAppConfig.colors)} -->
 													<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{metadata.description}">
 														<img class="card-background" src={`https://${metadata.iconURL}`} alt={metadata.name} width="20"/>
-														<a href="apps/{defiAppsByProviderName.zerionDefiSDK?.[metadata.name]?.slug}/{address}">{metadata.name}</a>
+														<a href="/apps/{defiAppsByProviderName.zerionDefiSDK?.[metadata.name]?.slug}/{address}">{metadata.name}</a>
 													</h5>
 													{#if computedLayout === 'vertical'}
 														<hr>

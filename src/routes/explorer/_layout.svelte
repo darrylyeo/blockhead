@@ -18,7 +18,7 @@
 	const networkSlug = writable<string>(segment || 'ethereum')
 
 	if(segment === undefined && globalThis.document)
-		goto(`explorer/${$networkSlug}`)
+		goto(`/explorer/${$networkSlug}`)
 
 
 	// Explorer context stores
@@ -84,7 +84,7 @@
 		<h1>{$networkSlug ? `${networkDisplayName} Explorer` : `Explorer`}</h1>
 		<label>
 			<span>Blockchain: </span>
-			<select bind:value={$networkSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`explorer/${$networkSlug}${$query ? `/${$query}` : ''}`))}>
+			<select bind:value={$networkSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`/explorer/${$networkSlug}${$query ? `/${$query}` : ''}`))}>
 				{#each topNetworks as {name, slug}}
 					<option value={slug}>{name}</option>
 				{/each}

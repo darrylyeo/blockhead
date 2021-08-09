@@ -15,7 +15,7 @@
 
 	import { goto } from '@sapper/app'
 	$: if(globalThis.document && $query)
-		goto(`apps/${$defiAppSlug}/${$query}`)
+		goto(`/apps/${$defiAppSlug}/${$query}`)
 
 	$: currentQuery = $query
 
