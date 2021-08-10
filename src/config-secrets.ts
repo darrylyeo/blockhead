@@ -1,2 +1,12 @@
-// Cache for .env variables, set in preload() of top level _layout.svelte
-export const env: Record<string, string> = {}
+export const INFURA_PROJECT_ID = import.meta.env['VITE_INFURA_PROJECT_ID']
+export const ETHERSCAN_API_KEY = import.meta.env['VITE_ETHERSCAN_API_KEY']
+export const ALCHEMY_API_KEY_MAINNET = import.meta.env['VITE_ALCHEMY_API_KEY_MAINNET']
+export const POCKET_GATEWAY_ID = import.meta.env['VITE_POCKET_GATEWAY_ID']
+export const POCKET_APP_PUBLIC_KEY = import.meta.env['VITE_POCKET_APP_PUBLIC_KEY']
+export const POCKET_SECRET_KEY = import.meta.env['VITE_POCKET_SECRET_KEY']
+export const POCKET_NETWORK_PPK = import.meta.env['VITE_POCKET_NETWORK_PPK']
+export const POCKET_NETWORK_PASSPHRASE = import.meta.env['VITE_POCKET_NETWORK_PASSPHRASE']
+export const COVALENT_API_KEY = import.meta.env['VITE_COVALENT_API_KEY']
+export const ZAPPER_API_KEY = import.meta.env['VITE_ZAPPER_API_KEY']
+export const TORUS_PROJECT_ID = import.meta.env['VITE_TORUS_PROJECT_ID']
+export const TORUS_OPENLOGIN_SECRET = import.meta.env['VITE_TORUS_OPENLOGIN_SECRET']

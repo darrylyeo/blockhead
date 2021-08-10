@@ -11,10 +11,6 @@
 
 	const query = getContext<Writable<string>>('query')
 
-	import { goto } from '@sapper/app'
-	$: if(globalThis.document && $query)
-		goto(`/explorer/${$explorerNetwork.slug}/${$query}`)
-
 	$: currentQuery = $query
 
 
@@ -25,6 +21,7 @@
 	import NetworkProviderLoader from '../../../components/NetworkProviderLoader.svelte'
 	import { fly } from 'svelte/transition'
 </script>
+
 
 <style>
 	form {
@@ -38,7 +35,7 @@
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
 	<form on:submit|preventDefault={() => $query = currentQuery}>
-		<AddressField bind:address={currentQuery}/>
+		<AddressField bind:address={currentQuery} placeholder="C-Chain Address (0xabcd...6789) / Avvy Domain (avvy.avax)" />
 		<button>Go</button>
 	</form>
 

@@ -1,8 +1,6 @@
 import * as Zapper from './api'
-import { env } from '../../config-secrets'
+import { ZAPPER_API_KEY } from '../../config-secrets'
 import type { Ethereum } from '../ethereum/types'
-
-const { ZAPPER_API_KEY } = env
 
 const config = new Zapper.Configuration({ apiKey: () => ZAPPER_API_KEY })
 

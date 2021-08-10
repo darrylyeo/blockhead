@@ -10,11 +10,9 @@
 
 
 	import { onMount } from 'svelte'
-	let isMounted
-	onMount(() => isMounted = true)
-
-	$: if(isMounted)
+	onMount(() =>
 		providerPromise ||= (network && providerName && (() => getEthersProvider(network, providerName)))
+	)
 
 
 	import Loader from './Loader.svelte'
@@ -27,7 +25,7 @@
 	fromPromise={providerPromise}
 	let:then={provider}
 >
-	<TokenIcon slot="loadingIcon" token={network.nativeCurrency.symbol} />
+	<TokenIcon slot="loadingIcon" token={network?.nativeCurrency.symbol} />
 
 	<slot name="header" slot="header" {network} {provider} />
 

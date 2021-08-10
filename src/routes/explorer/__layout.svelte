@@ -1,8 +1,33 @@
 <script lang="ts">
+	import { writable } from 'svelte/store'
+	import { page } from '$app/stores'
+	import { browser } from '$app/env'
+	import { goto } from '$app/navigation'
+
+	const networkSlug = writable<string>($page.params.networkSlug || 'ethereum')
+	const query = writable<string>($page.params.query || '')
+	$: console.log('$page.params', $page.params)
+	$: console.log('$query', $query)
+	$: if('networkSlug' in $page.params)
+		$networkSlug = $page.params.networkSlug || 'ethereum'
+	$: $query = $page.params.query || ''
+
+	setContext('networkSlug', networkSlug)
+	setContext('query', query)
+
+	let path = $page.path
+	$: if(browser){
+		const newPath = `/explorer${$networkSlug ? `/${$networkSlug}${$query ? `/${$query}` : ''}` : ''}`
+		console.log(newPath, path)
+		if(newPath !== path)
+			goto(newPath, {keepfocus: true})
+	}
+
+
 	import type { Ethereum } from '../../data/ethereum/types'
 	import { preferredEthereumProvider } from '../../data/ethereum/preferences'
 	import { networks, networksBySlug } from '../../data/ethereum/networks'
-	import { derived, writable } from 'svelte/store'
+	import { derived } from 'svelte/store'
 	import { onMount, setContext } from 'svelte'
 	import { getEthersProvider } from '../../data/ethereum/provider'
 
@@ -12,18 +37,10 @@
 	const otherNetworks = networks.filter(network => !topNetworks.includes(network) && !topTestNetworks.includes(network))
 
 
-	export let segment: string
-	$: console.log('Explorer segment', segment)
-	
-	const networkSlug = writable<string>(segment || 'ethereum')
-
-	if(segment === undefined && globalThis.document)
-		goto(`/explorer/${$networkSlug}`)
-
-
 	// Explorer context stores
 
 	const explorerNetwork = derived<typeof networkSlug, Ethereum.Network>(networkSlug, ($networkSlug, set) => {
+		console.log('$networkSlug', $networkSlug)
 		if(networksBySlug[$networkSlug])
 			set(networksBySlug[$networkSlug])
 	})
@@ -53,11 +70,6 @@
 	$: if(globalThis.document)
 		document.documentElement.style.setProperty('--primary-color', `var(--${tokenColors[$networkSlug] || tokenColors['ethereum']})`)
 
-
-	const query = writable<string>('')
-	setContext('query', query)
-
-	import { goto } from '@sapper/app'
 
 	import { fly } from 'svelte/transition'
 	import { tokenColors } from '../../data/token-colors'

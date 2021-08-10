@@ -1,14 +1,7 @@
-<script context="module">
-	import { getContext } from 'svelte'
-
-	export async function preload({ params }) {
-		const { query } = params
-		return { initialQuery: query }
-	}
-</script>
-
 <script lang="ts">
 	import type { Ethereum } from '../../../data/ethereum/types'
+
+	import { getContext } from 'svelte'
 
 	const explorerNetwork: SvelteStore<Ethereum.Network> = getContext('explorerNetwork')
 	const explorerProvider: SvelteStore<Ethereum.Provider> = getContext('explorerProvider')
@@ -22,10 +15,6 @@
 
 	export let query = getContext<Writable<string>>('query')
 
-	export let initialQuery: string
-	$: if(initialQuery)
-		$query = initialQuery
-
 
 	const isAddress = query => /^0x[0-9a-f]{40}$/i.test(query)
 	const isTransaction = query => /^0x[0-9a-f]{64}$/i.test(query)
@@ -37,6 +26,7 @@
 	import EthereumBlock from '../../../components/EthereumBlock.svelte'
 	import EthereumTransaction from '../../../components/EthereumTransaction.svelte'
 </script>
+
 
 {#if $query}
 	{#if isAddress($query)}

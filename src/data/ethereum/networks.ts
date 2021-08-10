@@ -1,7 +1,6 @@
 import type { Ethereum } from './types'
 
-import { env } from '../../config-secrets'
-const { INFURA_PROJECT_ID } = env
+import { INFURA_PROJECT_ID } from '../../config-secrets'
 
 
 // https://github.com/ethereum-lists/chains
@@ -3061,5 +3060,5 @@ export const availableNetworks = [1, 137, 43114, 56, 250].map(chainID => network
 
 
 export function getNetworkRPC(network: Ethereum.Network){
-	return network.rpc[0].replace('${INFURA_PROJECT_ID}', env.INFURA_PROJECT_ID)
+	return network.rpc[0].replace('${INFURA_PROJECT_ID}', INFURA_PROJECT_ID)
 }
