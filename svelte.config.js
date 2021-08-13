@@ -29,7 +29,13 @@ const config = {
 					'echarts',
 				]
 			},
-		}
+
+			resolve: {
+				alias: {
+					process: 'process/browser',
+				}
+			}
+		},
 	}
 };
 

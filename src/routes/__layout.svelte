@@ -3,15 +3,12 @@
 	import '../app.css'
 
 
-		
-	// https://github.com/sveltejs/sapper/issues/122#issuecomment-619770615
-	// export async function load({session}){
-	// 	console.log('env', session, session.env)
-	// 	// if(session.env)
-	// 	// 	Object.assign(env, session.env)
-		
-	// 	return {}
-	// }
+	import process from 'process'
+	import { Buffer } from 'buffer'
+
+	globalThis.global = globalThis
+	globalThis.Buffer = Buffer
+	globalThis.process = process
 </script>
 
 <script lang="ts">
