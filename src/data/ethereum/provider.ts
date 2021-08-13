@@ -66,7 +66,7 @@ export const getProviderAndInstance = memoized(async (network: Ethereum.Network,
 			const instance = await getPortis(network)
 
 			return {
-				provider: instance.provider as providers.BaseProvider,
+				provider: new providers.Web3Provider(instance.provider),
 				instance,
 				disconnect(){
 					instance.logout()
