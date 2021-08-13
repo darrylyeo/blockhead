@@ -174,15 +174,17 @@ export namespace Audius {
 }
 
 
-const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)]
-
 let apiHosts
 const getAPIHosts = async () => {
 	return apiHosts ||= (await fetch('https://api.audius.co').then(r => r.json())).data
 }
 
 const getRandomAPIHost = async () => {
-	getRandom(await getAPIHosts())
+	const apiHosts = await getAPIHosts()
+	if(apiHosts?.length){
+		console.log(apiHosts)
+		return apiHosts[Math.floor(Math.random() * apiHosts.length)]
+	}
 }
 
 
@@ -205,7 +207,15 @@ const makeRequest = async <T>(endpoint: string, params: any = {}) =>
 			if(response.ok)
 				return await response.json() as T
 
-			throw new Error(await response.text())
+			if(response.headers.get('content-type').includes('application/json')){
+				const {error, success} = await response.json() ?? {}
+				console.error(error, endpoint, params)
+				throw new Error(Array.isArray(error) ? error.join('\n') : error)
+			}
+			
+			const error = new DOMParser().parseFromString(await response.text(), 'text/html').documentElement.innerText.trim()
+			console.error(error, endpoint, params)
+			throw new Error(error)
 		})
 
 
