@@ -202,7 +202,7 @@ const formatParams = params =>
 	)
 
 const makeRequest = async <T>(endpoint: string, params: any = {}) =>
-	await fetch(`${await getRandomAPIHost()}${endpoint}/?${`${formatParams({appName, ...params})}`}`)
+	await fetch(`${await getRandomAPIHost()}${endpoint}?${`${formatParams({appName, ...params})}`}`)
 		.then(async response => {
 			if(response.ok)
 				return await response.json() as T
