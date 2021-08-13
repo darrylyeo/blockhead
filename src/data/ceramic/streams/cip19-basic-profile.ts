@@ -1,0 +1,1 @@
+export const CIP19_BASIC_PROFILE_STREAM_ID = 'k3y52l7qbv1frxt706gqfzmq6cbqdkptzk8uudaryhlkf6ly9vx21hqu4r6k1jqio'
