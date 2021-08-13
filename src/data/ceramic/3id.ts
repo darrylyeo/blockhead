@@ -10,6 +10,7 @@ export function getThreeIdConnect() {
 
 
 import type { Ethereum } from '../ethereum/types'
+import toWeb3Provider from 'ethers-to-web3'
 
 export async function getDIDProviderFromEthereumProvider({
 	threeIdConnect = getThreeIdConnect(),
@@ -20,7 +21,7 @@ export async function getDIDProviderFromEthereumProvider({
 	ethereumProvider: Ethereum.Provider,
 	address: Ethereum.Address
 }) {
-	ethereumProvider = globalThis.ethereum // ethereumProvider
+	ethereumProvider = toWeb3Provider(ethereumProvider)
 
 	const authProvider = new EthereumAuthProvider(ethereumProvider, address, {})
 	await threeIdConnect.connect(authProvider)

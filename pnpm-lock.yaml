@@ -41,6 +41,7 @@ specifiers:
   eslint-config-prettier: ^8.1.0
   eslint-plugin-svelte3: ^3.2.0
   ethers: 5.4.4
+  ethers-to-web3: ^0.1.6
   etherspot: ^1.12.0
   events: ^3.3.0
   graphql: ^15.5.1
@@ -94,6 +95,7 @@ dependencies:
   dotenv: 10.0.0
   echarts: 5.1.2
   ethers: 5.4.4
+  ethers-to-web3: 0.1.6
   etherspot: 1.15.0_1762214cfcdcd7ebd7d98f8856ee87fe
   events: 3.3.0
   graphql: 15.5.1
@@ -5636,6 +5638,13 @@ packages:
       uuid: 3.4.0
     dev: false
     optional: true
+
+  /ethers-to-web3/0.1.6:
+    resolution: {integrity: sha512-UZn5+5byfcqpmYl/JlPiTEbTru/93OJWq8KM5ifARh17PBawPDsmrgfuLB7LBU86RF+LnKFUUebGZveJRvQjEg==}
+    dependencies:
+      eth-json-rpc-middleware: 6.0.0
+      json-rpc-engine: 5.4.0
+    dev: false
 
   /ethers/5.0.13:
     resolution: {integrity: sha512-xtSVE6r3ltLZ2EHtzA0rd1s2TQaLTC11qhSG+iYhOgno+lhyIXffBC8CzLkQEp51+GlRTn9/xCjly6JCn5qwMA==}
