@@ -244,6 +244,26 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
+		name: 'Audius',
+		slug: 'audius',
+		links: ['https://audius.org'],
+		colors: ['#cc0fe0', '#7e1bcc'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['AUDIO']
+				],
+				contracts: [
+					'0x819fd65026848d710fe40d8c0439f1220e069398',
+				],
+				providers: {
+					theGraph: 'https://api.thegraph.com/subgraphs/name/audius-infra/audius-network-mainnet'
+				}
+			}
+		]
+	},
+	{
 		name: 'Augur',
 		slug: 'augur',
 		links: ['https://www.augur.net'],
