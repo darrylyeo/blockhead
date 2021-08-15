@@ -174,6 +174,9 @@ export namespace Audius {
 }
 
 
+import { AUDIUS_APP_NAME } from '../../config-secrets'
+
+
 let apiHosts
 const getAPIHosts = async () => {
 	return apiHosts ||= (await fetch('https://api.audius.co').then(r => r.json())).data
@@ -186,9 +189,6 @@ const getRandomAPIHost = async () => {
 		return apiHosts[Math.floor(Math.random() * apiHosts.length)]
 	}
 }
-
-
-const appName = 'TEST' // 'blockhead.info'
 
 
 const formatParams = params =>
