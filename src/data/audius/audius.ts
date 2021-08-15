@@ -202,15 +202,16 @@ const formatParams = params =>
 	)
 
 const makeRequest = async <T>(endpoint: string, params: any = {}) =>
-	await fetch(`${await getRandomAPIHost()}${endpoint}?${`${formatParams({appName, ...params})}`}`)
+	await fetch(`${await getRandomAPIHost()}${endpoint}?${`${formatParams({appName: AUDIUS_APP_NAME, ...params})}`}`)
 		.then(async response => {
 			if(response.ok)
 				return await response.json() as T
 
 			if(response.headers.get('content-type').includes('application/json')){
-				const {error, success} = await response.json() ?? {}
-				console.error(error, endpoint, params)
-				throw new Error(Array.isArray(error) ? error.join('\n') : error)
+				const json = await response.json() ?? {}
+				const {message, error, success} = json
+				console.error(message || error, endpoint, params)
+				throw new Error(message || (Array.isArray(error) ? error.join('\n') : error) || json)
 			}
 			
 			const error = new DOMParser().parseFromString(await response.text(), 'text/html').documentElement.innerText.trim()
