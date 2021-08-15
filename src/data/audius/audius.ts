@@ -9,10 +9,7 @@ export namespace Audius {
 	export type User = {
 		"album_count": number,
 		"bio": string,
-		"cover_photo": {
-			"640x": string,
-			"2000x": string
-		},
+		"cover_photo": CoverPhoto,
 		"followee_count": number,
 		"follower_count": number,
 		"handle": string,
@@ -301,11 +298,11 @@ export const getTrack = (
 	makeRequest<Audius.TrackResponse>(`/v1/tracks/${trackId}`)
 
 
-export const streamTrack = (
+export const getTrackStreamURL = async (
 	{trackId}:
 	{trackId: string}
 ) =>
-	makeRequest<AudioBuffer>(`/v1/tracks/${trackId}/stream`)
+	`${await getRandomAPIHost()}/v1/tracks/${trackId}/stream`
 
 
 export const getTrailingAppNameMetrics = (
