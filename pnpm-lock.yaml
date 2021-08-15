@@ -30,7 +30,6 @@ specifiers:
   '@sveltejs/adapter-node': next
   '@sveltejs/adapter-static': next
   '@sveltejs/kit': next
-  '@toruslabs/openlogin': ^0.9.0
   '@typescript-eslint/eslint-plugin': ^4.19.0
   '@typescript-eslint/parser': ^4.19.0
   buffer: ^6.0.3
@@ -89,7 +88,6 @@ dependencies:
   '@ethersproject/units': 5.4.0
   '@ethersproject/wallet': 5.4.0
   '@portis/web3': 4.0.5
-  '@toruslabs/openlogin': 0.9.5
   buffer: 6.0.3
   dids: 2.4.0
   dotenv: 10.0.0
@@ -2138,62 +2136,6 @@ packages:
     dev: false
     optional: true
 
-  /@toruslabs/eccrypto/1.1.7:
-    resolution: {integrity: sha512-zU4GnrH21yDY179fgp5Ovi4YjLdHy3WXM3QHCHAomYNxa03eAw2lxNR2bZ7kb698yk40s4WMrbnauukgabXH4Q==}
-    requiresBuild: true
-    dependencies:
-      acorn: 8.4.1
-      elliptic: 6.5.4
-      es6-promise: 4.2.8
-      nan: 2.14.2
-    optionalDependencies:
-      secp256k1: 3.8.0
-    dev: false
-
-  /@toruslabs/http-helpers/1.4.0:
-    resolution: {integrity: sha512-lPRhTWeChQunds2CGV70xvaoFMMebZAqZLpTYZjUJfziumQjT12w9HWLIzlRfGFVKoYUsUiZLpGHl0JEwHCcqg==}
-    engines: {node: '>=14.17.0', npm: ~6.x}
-    peerDependencies:
-      '@babel/runtime': 7.x
-    dependencies:
-      deepmerge: 4.2.2
-    dev: false
-
-  /@toruslabs/openlogin-jrpc/0.9.5:
-    resolution: {integrity: sha512-jLvOMhsCZlpFT3lA2PZzaUlXbtwYEXRIUDWVXIWWquuRI5zgH9Pg19HtQ2+i46ikEDl+KAiEoGKo5QuuY6iDXA==}
-    peerDependencies:
-      '@babel/runtime': 7.x
-    dependencies:
-      '@toruslabs/openlogin-utils': 0.9.5
-      end-of-stream: 1.4.4
-      fast-safe-stringify: 2.0.8
-      once: 1.4.0
-      pump: 3.0.0
-    dev: false
-
-  /@toruslabs/openlogin-utils/0.9.5:
-    resolution: {integrity: sha512-1SvgRvxW+PARIppW/w9UxXgMtMTvnDucWznDhzJC8JlvdIObJBcmFkzL1gh2nctXEwJJeUIusXz/v6EsDCVkNA==}
-    peerDependencies:
-      '@babel/runtime': 7.x
-    dependencies:
-      base64url: 3.0.1
-      keccak: 3.0.1
-      randombytes: 2.1.0
-    dev: false
-
-  /@toruslabs/openlogin/0.9.5:
-    resolution: {integrity: sha512-wtYPpWQs+8BluA8NBowYzZ9COR1hi53W1QT43SDvlGy6JkMidyISK/waLpA5l2hTDGd2OFbcHaGVi41p9co6IQ==}
-    peerDependencies:
-      '@babel/runtime': 7.x
-    dependencies:
-      '@toruslabs/eccrypto': 1.1.7
-      '@toruslabs/http-helpers': 1.4.0
-      '@toruslabs/openlogin-jrpc': 0.9.5
-      '@toruslabs/openlogin-utils': 0.9.5
-      lodash.merge: 4.6.2
-      pump: 3.0.0
-    dev: false
-
   /@types/abstract-leveldown/5.0.2:
     resolution: {integrity: sha512-+jA1XXF3jsz+Z7FcuiNqgK53hTa/luglT2TyTpKPqoYbxVY+mCPF22Rm+q3KPBrMHJwNXFrTViHszBOfU4vftQ==}
     dev: false
@@ -2554,12 +2496,6 @@ packages:
     resolution: {integrity: sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==}
     engines: {node: '>=0.4.0'}
     hasBin: true
-
-  /acorn/8.4.1:
-    resolution: {integrity: sha512-asabaBSkEKosYKMITunzX177CXxQ4Q8BSSzMTKD+FefUhipQC70gfW5SiUDhYQ3vk8G+81HqQk7Fv9OXwwn9KA==}
-    engines: {node: '>=0.4.0'}
-    hasBin: true
-    dev: false
 
   /adm-zip/0.4.16:
     resolution: {integrity: sha512-TFi4HBKSGfIKsK5YCkKaaFG2m4PEDyViZmEwof3MTIgzimHLto6muaHVpbrljdIvIrFZzEq/p4nafOeLcYegrg==}
@@ -3412,11 +3348,6 @@ packages:
 
   /base64-js/1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
-    dev: false
-
-  /base64url/3.0.1:
-    resolution: {integrity: sha512-ir1UPr3dkwexU7FdV8qBBbNDRUhMmIekYMFZfi+C/sLNnRESKPl23nB9b2pltqfOQNnGzsDdId90AEtG5tCx4A==}
-    engines: {node: '>=6.0.0'}
     dev: false
 
   /bcrypt-pbkdf/1.0.2:
@@ -4494,6 +4425,7 @@ packages:
   /deepmerge/4.2.2:
     resolution: {integrity: sha512-FJ3UgI4gIl+PHZm53knsuSFpE+nESMr7M4v9QcgB7S63Kj/6WqMiFQJpBBYz1Pt+66bZpP3Q7Lye0Oo9MPKEdg==}
     engines: {node: '>=0.10.0'}
+    dev: true
 
   /defer-to-connect/1.1.3:
     resolution: {integrity: sha512-0ISdNousHvZT2EiFlZeZAHBUvSxmKswVCEf8hW7KWgG4a8MVEu/3Vb6uWYozkjylyCxe0JBIiRB1jV45S70WVQ==}
@@ -7996,6 +7928,7 @@ packages:
 
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
+    dev: true
 
   /lodash.once/4.1.1:
     resolution: {integrity: sha1-DdOXEhPHxW34gJd9UEyI+0cal6w=}
