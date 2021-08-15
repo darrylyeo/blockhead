@@ -45,6 +45,6 @@
 			 the blog data when we hover over the link or tap it on a touchscreen -->
 		<li><a rel=prefetch aria-current="{segment === 'explorer' ? 'page' : undefined}" href="/explorer">Explorer</a></li>
 		
-		<li><a aria-current="{segment === 'apps' ? 'page' : undefined}" href="/apps">DeFi Apps</a></li>
+		<li><a aria-current="{segment === 'apps' ? 'page' : undefined}" href="/apps">Apps</a></li>
 	</ul>
 </nav>

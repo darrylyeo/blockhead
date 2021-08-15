@@ -44,20 +44,6 @@ export type DefiAppSlug = string // typeof defiApps[number]['slug']
 
 export const defiApps: DefiAppConfig[] = [
 	{
-		name: 'Autofarm',
-		slug: 'autofarm',
-		links: ['https://autofarm.network'],
-		views: [
-			{
-				chainId: 56,
-				erc20Tokens: [],
-				providers: {
-					zapper: 'autofarm',
-				}
-			}
-		]
-	},
-	{
 		name: 'Aave',
 		slug: 'aave',
 		links: ['https://aave.com'],
@@ -244,6 +230,26 @@ export const defiApps: DefiAppConfig[] = [
 		]
 	},
 	{
+		name: 'Audius',
+		slug: 'audius',
+		links: ['https://audius.org'],
+		colors: ['#cc0fe0', '#7e1bcc'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['AUDIO']
+				],
+				contracts: [
+					'0x819fd65026848d710fe40d8c0439f1220e069398',
+				],
+				providers: {
+					theGraph: 'https://api.thegraph.com/subgraphs/name/audius-infra/audius-network-mainnet'
+				}
+			}
+		]
+	},
+	{
 		name: 'Augur',
 		slug: 'augur',
 		links: ['https://www.augur.net'],
@@ -262,6 +268,20 @@ export const defiApps: DefiAppConfig[] = [
 				erc20Tokens: [
 					erc20TokensBySymbol['NTRUMP']
 				],
+			}
+		]
+	},
+	{
+		name: 'Autofarm',
+		slug: 'autofarm',
+		links: ['https://autofarm.network'],
+		views: [
+			{
+				chainId: 56,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'autofarm',
+				}
 			}
 		]
 	},
@@ -500,6 +520,14 @@ export const defiApps: DefiAppConfig[] = [
 					zerionDefiSDK: ['bZx', 'bZx bZx', 'bZx • Staking', 'bZx • Vested Staking'],
 				}
 			}
+		]
+	},
+	{
+		name: 'Ceramic',
+		slug: 'ceramic',
+		links: ['https://ceramic.network'],
+		views: [
+			
 		]
 	},
 	{
@@ -2549,17 +2577,13 @@ export const defiAppsByProviderName = {
 
 export const featuredDefiApps = [
 	'aave',
-	'akropolis',
-	'airswap',
+	'audius',
 	'badger',
 	'balancer',
-	'bitgo',
 	'chainlink',
-	'circle',
 	'compound',
 	'connext',
 	'curve',
-	'88mph',
 	'ens',
 	'enzyme',
 	'epns',
@@ -2574,20 +2598,14 @@ export const featuredDefiApps = [
 	'nexus-mutual',
 	'1inch',
 	'pie-dao',
-	'pods',
 	'pooltogether',
-	'rarible',
 	'sablier',
-	'stake-dao',
-	'streamr',
 	'superfluid',
 	'sushiswap',
 	'swerve',
 	'synthetix',
 	'tellor',
 	'the-graph',
-	'uma',
-	'umbrella',
 	'uniswap',
 	'upshot',
 	'yearn'
