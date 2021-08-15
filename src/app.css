@@ -72,6 +72,9 @@
 	
 	--global-background-gradient-base-color: #f6f6f6;
 	background: linear-gradient(155deg, var(--global-background-gradient-base-color), var(--primary-color, var(--ethereum-blue)) 250%) fixed;
+
+	--invert-when-light: invert();
+	--invert-when-dark: none;
 }
 @media (prefers-color-scheme: dark) {
 	:root:not(.color-scheme-light) {
@@ -85,6 +88,9 @@
 
 		--text-color: #f7fdff;
 		--text-decoration-color: 247, 253, 255;
+
+		--invert-when-light: none;
+		--invert-when-dark: invert();
 	}
 }
 :root.color-scheme-dark {
@@ -98,6 +104,9 @@
 
 	--text-color: #f7fdff;
 	--text-decoration-color: 247, 253, 255;
+
+	--invert-when-light: none;
+	--invert-when-dark: invert();
 }
 
 a {
