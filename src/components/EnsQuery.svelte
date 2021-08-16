@@ -12,9 +12,7 @@
 	const queryENSDomain = (variables: ENSDomains$input) => {
 		const ENSDomainsVariables = () => variables
 
-		console.log(queryENSDomain, ENSDomainsVariables)
-
-		const result = query<ENSDomains>(graphql`
+		return query<ENSDomains>(graphql`
 			query ENSDomains($name: String!) {
 				domains(where: {name: $name}) {
 					id
@@ -52,8 +50,6 @@
 				}
 			}
 		`)
-		console.log(result)
-		return result
 	}
 
 	const queryENSDomainsContaining = (variables: ENSDomainsContaining$input) => {
