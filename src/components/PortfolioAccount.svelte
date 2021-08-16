@@ -32,32 +32,6 @@
 	export let nickname: string
 
 
-	let addressPromise
-	let ensNamePromise
-	// import ENS, { getEnsAddress } from '@ensdomains/ensjs'
-	// const ens = new ENS({ provider, ensAddress: getEnsAddress('1') })
-	$: if(type === AccountType.Address){
-		const address = addressOrENSName
-		addressPromise = Promise.resolve(address)
-		ensNamePromise = getDefaultProvider().lookupAddress(address)
-		// ensNamePromise = provider.lookupAddress(address)
-		// ensNamePromise = ens.getName(address).then(async name => {
-		// 	if(address === await ens.name(name).getAddress())
-		// 		return name 
-		// })
-	}else{
-		const ensName = addressOrENSName
-		addressPromise = getDefaultProvider().resolveName(ensName).then(address => {
-			if(address)
-				return address
-			throw new Error(`The ENS Name "${ensName}" couldn't be resolved to an address.`)
-		})
-		// addressPromise = provider.resolveName(addressOrENSName)
-		// addressPromise = ens.name(addressOrENSName).getAddress()
-		ensNamePromise = Promise.resolve(ensName)
-	}
-
-
 	// Computed Values
 	let tokenQuoteTotals = []
 	let defiQuoteTotals = []
@@ -71,12 +45,13 @@
 	import Address from './Address.svelte'
 	import Balance from './Balance.svelte'
 	import DefiBalances from './DefiBalances.svelte'
+	import EnsResolutionLoader from './EnsResolutionLoader.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
 	import EthereumNFTs from './EthereumNFTs.svelte'
-	import Loader from './Loader.svelte'
 	import HeightContainer from './HeightContainer.svelte'
 	import TokenValue from './TokenValue.svelte'
 </script>
+
 
 <style>
 	.account {
@@ -107,46 +82,46 @@
 	}
 </style>
 
-<div class="account column-block" class:is-editing={isEditing}>
-	<div class="bar">
-		<div class="row-inline">
-			{#if nickname}
-				<h3>{nickname}</h3>
-				{#await addressPromise then address}{#if address}
-					<small><Address network={networksByChainID[1]} {address} /></small>
-				{/if}{/await}
-			{:else if type === AccountType.ENS}
-				{#await ensNamePromise then ensName}{#if ensName}
-					<h3><Address network={networksByChainID[1]} address={ensName} /></h3>
-				{/if}{/await}
-				{#await addressPromise then address}{#if address}
-					<small><Address network={networksByChainID[1]} {address} /></small>
-				{/if}{/await}
-			{:else}
-				{#await addressPromise then address}{#if address}
-					<h3><Address network={networksByChainID[1]} {address} /></h3>
-				{/if}{/await}
-				{#await ensNamePromise then ensName}{#if ensName}
-					<small><Address network={networksByChainID[1]} address={ensName} /></small>
-				{/if}{/await}
-			{/if}
-		</div>
-		{#if quoteTotals.length}
-			<span class="account-total-value">
-				<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
-			</span>
-		{/if}
-		<slot></slot>
-	</div>
 
-	<Loader
-		fromPromise={() => addressPromise}
-		loadingIcon="/logos/ens.svg"
-		loadingIconName="ENS"
-		loadingMessage="Querying the Ethereum Name Service..."
-		errorMessage="Error resolving ENS Name"
-		let:then={address}
+<div class="account column-block" class:is-editing={isEditing}>
+	<EnsResolutionLoader
+		{addressOrENSName}
+		{provider}
+		passiveReverseResolution
+		let:address
+		let:ensName
 	>
+		<div slot="header" class="bar">
+			<div class="row-inline">
+				{#if nickname}
+					<h3>{nickname}</h3>
+					{#if address}
+						<small><Address network={networksByChainID[1]} {address} /></small>
+					{/if}
+				{:else if type === AccountType.ENS}
+					{#if ensName}
+						<h3><Address network={networksByChainID[1]} address={ensName} /></h3>
+					{/if}
+					{#if address}
+						<small><Address network={networksByChainID[1]} {address} /></small>
+					{/if}
+				{:else}
+					{#if address}
+						<h3><Address network={networksByChainID[1]} {address} /></h3>
+					{/if}
+					{#if ensName}
+						<small><Address network={networksByChainID[1]} address={ensName} /></small>
+					{/if}
+				{/if}
+			</div>
+			{#if quoteTotals.length}
+				<span class="account-total-value">
+					<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
+				</span>
+			{/if}
+			<slot></slot>
+		</div>
+
 		{#each showNetworks as {chainID, show, showBalances, showDeFi, showNFTs}, i}
 			{#each [networksByChainID[chainID]] as network}
 				{#if show}
@@ -269,5 +244,5 @@
 				{/if}
 			{/each}
 		{/each}
-	</Loader>
+	</EnsResolutionLoader>
 </div>
