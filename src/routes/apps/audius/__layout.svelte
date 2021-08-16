@@ -2,11 +2,11 @@
 	import { preferredDeFiProvider, preferredEthereumProvider, preferredQuoteCurrency } from '../../../data/ethereum/preferences'
     
 
-	import type { DefiAppSlug, DefiAppConfig } from '../../../data/ethereum/defi-apps';
+	import type { BlockchainAppSlug, BlockchainAppConfig } from '../../../data/blockchain-apps';
 	import { getContext } from 'svelte'
 
-	const defiAppSlug = getContext<SvelteStore<DefiAppSlug>>('defiAppSlug')
-	const defiAppConfig = getContext<SvelteStore<DefiAppConfig>>('defiAppConfig')
+	const blockchainAppSlug = getContext<SvelteStore<BlockchainAppSlug>>('blockchainAppSlug')
+	const blockchainAppConfig = getContext<SvelteStore<BlockchainAppConfig>>('blockchainAppConfig')
 
 
 	import type { Writable } from 'svelte/store'
@@ -36,7 +36,7 @@
 
 
 	import AddressField from '../../../components/AddressField.svelte'
-	import DefiAppDashboard from '../../../components/DefiAppDashboard.svelte'
+	import BlockchainAppDashboard from '../../../components/BlockchainAppDashboard.svelte'
 	import EnsResolutionLoader from '../../../components/EnsResolutionLoader.svelte'
 
 
@@ -99,9 +99,9 @@
 				let:ensName
 				let:isReverseResolving
 			>
-				<DefiAppDashboard
+				<BlockchainAppDashboard
 					{address}
-					defiAppConfig={$defiAppConfig}
+					blockchainAppConfig={$blockchainAppConfig}
 					providerName={$preferredEthereumProvider}
 					defiProvider={$preferredDeFiProvider}
 					quoteCurrency={$preferredQuoteCurrency}

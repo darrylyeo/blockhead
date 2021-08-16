@@ -5,21 +5,21 @@
 	import { browser } from '$app/env'
 	import { goto } from '$app/navigation'
 
-	// const defiAppSlug = derived<typeof page, string>(page, ($page, set) =>
-	// 	set($page.params.defiApp || '')
+	// const blockchainAppSlug = derived<typeof page, string>(page, ($page, set) =>
+	// 	set($page.params.blockchainApp || '')
 	// )
-	// // $: $defiAppSlug = $page.params.defiApp
-	const defiAppSlug = writable<DefiAppSlug>($page.params.defiApp || $page.path.match(/^\/apps\/([^/]+)/)?.[1] || '')
+	// // $: $blockchainAppSlug = $page.params.blockchainApp
+	const blockchainAppSlug = writable<BlockchainAppSlug>($page.params.blockchainApp || $page.path.match(/^\/apps\/([^/]+)/)?.[1] || '')
 	const addressOrENSName = writable<string>($page.params.addressOrENSName || '')
-	$: $defiAppSlug = $page.params.defiApp || $page.path.match(/^\/apps\/([^/]+)/)?.[1] || ''
+	$: $blockchainAppSlug = $page.params.blockchainApp || $page.path.match(/^\/apps\/([^/]+)/)?.[1] || ''
 	$: $addressOrENSName = $page.params.addressOrENSName || ''
 
-	setContext('defiAppSlug', defiAppSlug)
+	setContext('blockchainAppSlug', blockchainAppSlug)
 	setContext('addressOrENSName', addressOrENSName)
 
 	let path = $page.path
 	$: if(browser){
-		const newPath = `/apps${$defiAppSlug ? `/${$defiAppSlug}${$addressOrENSName ? `/address/${$addressOrENSName}` : ''}` : ''}`
+		const newPath = `/apps${$blockchainAppSlug ? `/${$blockchainAppSlug}${$addressOrENSName ? `/address/${$addressOrENSName}` : ''}` : ''}`
 		console.log(newPath, path)
 		if(newPath !== path)
 			goto(newPath, {keepfocus: true})
@@ -31,26 +31,26 @@
 
 	let currentView: 'Dashboard' | 'Explorer' | 'Account'
 	$: currentView = 
-		query || ($addressOrENSName && $defiAppConfig.name) === 'ENS' ? 'Explorer' :
+		query || ($addressOrENSName && $blockchainAppConfig.name) === 'ENS' ? 'Explorer' :
 		$addressOrENSName ? 'Account' :
 		'Dashboard'
 
 
-	import type { DefiAppConfig, DefiAppSlug} from '../../data/ethereum/defi-apps'
-	import { defiApps, defiAppsBySlug, featuredDefiApps, notFeaturedDefiApps } from '../../data/ethereum/defi-apps'
+	import type { BlockchainAppConfig, BlockchainAppSlug} from '../../data/blockchain-apps'
+	import { blockchainApps, blockchainAppsBySlug, featuredBlockchainApps, notFeaturedBlockchainApps } from '../../data/blockchain-apps'
 
 
 	// App context stores
 
-	const defiAppConfig = derived<typeof defiAppSlug, DefiAppConfig>(defiAppSlug, ($defiAppSlug, set) => {
-		if(defiAppsBySlug[$defiAppSlug])
-			set(defiAppsBySlug[$defiAppSlug])
+	const blockchainAppConfig = derived<typeof blockchainAppSlug, BlockchainAppConfig>(blockchainAppSlug, ($blockchainAppSlug, set) => {
+		if(blockchainAppsBySlug[$blockchainAppSlug])
+			set(blockchainAppsBySlug[$blockchainAppSlug])
 	})
-	setContext('defiAppConfig', defiAppConfig)
+	setContext('blockchainAppConfig', blockchainAppConfig)
 
 
 	$: if(globalThis.document)
-		document.documentElement.style.setProperty('--primary-color', $defiAppConfig?.colors?.[$defiAppConfig.colors.length / 2 | 0] || `var(--${tokenColors['ethereum']})`)
+		document.documentElement.style.setProperty('--primary-color', $blockchainAppConfig?.colors?.[$blockchainAppConfig.colors.length / 2 | 0] || `var(--${tokenColors['ethereum']})`)
 
 
 	import { fly } from 'svelte/transition'
@@ -79,24 +79,24 @@
 
 
 <svelte:head>
-	<title>{$addressOrENSName || query ? `${$addressOrENSName || query} | ` : ''}{$defiAppSlug && $defiAppConfig ? `${$defiAppConfig.name} ${currentView}` : `Apps`} | Blockhead</title>
+	<title>{$addressOrENSName || query ? `${$addressOrENSName || query} | ` : ''}{$blockchainAppSlug && $blockchainAppConfig ? `${$blockchainAppConfig.name} ${currentView}` : `Apps`} | Blockhead</title>
 </svelte:head>
 
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 	<div class="bar">
-		<h1><a href="/apps/{$defiAppSlug}">{$defiAppSlug && $defiAppConfig ? `${$defiAppConfig.name} ${currentView}` : `Blockchain/Web 3.0 Apps`}</a></h1>
+		<h1><a href="/apps/{$blockchainAppSlug}">{$blockchainAppSlug && $blockchainAppConfig ? `${$blockchainAppConfig.name} ${currentView}` : `Blockchain/Web 3.0 Apps`}</a></h1>
 		<label>
-			<span>DeFi App: </span>
-			<select bind:value={$defiAppSlug}>
+			<span>Blockchain App: </span>
+			<select bind:value={$blockchainAppSlug}>
 				<option value="" selected>Select App...</option>
 				<optgroup label="Featured">
-					{#each featuredDefiApps as {name, slug}}
+					{#each featuredBlockchainApps as {name, slug}}
 						<option value={slug}>{name}</option>
 					{/each}
 				</optgroup>
 				<optgroup label="Other">
-					{#each notFeaturedDefiApps as {name, slug}}
+					{#each notFeaturedBlockchainApps as {name, slug}}
 						<option value={slug}>{name}</option>
 					{/each}
 				</optgroup>
