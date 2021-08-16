@@ -3,7 +3,8 @@
 	import type { Ethereum } from '../data/ethereum/types'
 
 	export let provider: Ethereum.Provider
-	export let addressOrENSName: ENS.Domain | Ethereum.Address
+	export let addressOrENSName: Ethereum.Address | string
+	export let passiveForwardResolution = false
 	export let passiveReverseResolution = false
 
 
@@ -21,7 +22,13 @@
 
 	// import ENS, { getEnsAddress } from '@ensdomains/ensjs'
 	// const ens = new ENS({ provider, ensAddress: getEnsAddress('1') })
-	$: if(isReverseResolving){
+	$: if(!addressOrENSName){
+		address = undefined
+		ensName = undefined
+		isReverseResolving = undefined
+		addressPromise = undefined
+		ensNamePromise = undefined
+	}else if(isReverseResolving){
 		address = addressOrENSName
 		addressPromise = Promise.resolve(address)
 		ensNamePromise = provider?.lookupAddress(address)
@@ -47,7 +54,7 @@
 </script>
 
 
-{#if isReverseResolving && !passiveReverseResolution}
+{#if addressOrENSName && isReverseResolving && !passiveReverseResolution}
 	<Loader
 		fromPromise={ensNamePromise && (() => ensNamePromise)}
 		loadingIcon="/logos/ens.svg"
@@ -58,7 +65,7 @@
 		<slot slot="header" name="header" {address} {ensName} {isReverseResolving} />
 		<slot {address} {ensName} {isReverseResolving} />
 	</Loader>
-{:else}
+{:else if addressOrENSName && !isReverseResolving && !passiveForwardResolution}
 	<Loader
 		fromPromise={addressPromise && (() => addressPromise)}
 		loadingIcon="/logos/ens.svg"
@@ -69,4 +76,7 @@
 		<slot slot="header" name="header" {address} {ensName} {isReverseResolving} />
 		<slot {address} {ensName} {isReverseResolving} />
 	</Loader>
+{:else}
+	<slot name="header" {address} {ensName} {isReverseResolving} />
+	<slot {address} {ensName} {isReverseResolving} />
 {/if}
