@@ -130,7 +130,7 @@
 					<span class="card-annotation">ENS Name</span>
 				</div>
 				<div class="bar">
-					<p>The ENS name "{query}" hasn't been registered by anyone. Perhaps you could claim it for yourself!</p>
+					<p>The ENS name "{searchQuery}" hasn't been registered by anyone. Perhaps you could claim it for yourself!</p>
 					<a href="https://app.ens.domains/name/{searchQuery}" target="_blank"><button class="medium">Register On ENS</button></a>
 				</div>
 			</div>
