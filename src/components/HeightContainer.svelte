@@ -28,13 +28,15 @@
 	$: if(contentRect){
 		const newHeight = isOpen ? $contentRect.height : 0
 
-		if(newHeight > 0){
-			height.stiffness = 0.08
-			height.damping = 0.5
-		}else{
-			height.stiffness = 0.15
-			height.damping = 0.9
-		}
+		// if(newHeight > 0){
+		// 	height.stiffness = 0.08
+		// 	height.damping = 0.5
+		// }else{
+		// 	height.stiffness = 0.15
+		// 	height.damping = 0.9
+		// }
+		height.stiffness = 0.05
+		height.damping = 0.35
 
 		// $height = newHeight
 		height.set(newHeight, animate ? undefined : {hard: true})
