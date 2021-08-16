@@ -1,19 +1,18 @@
-import type { Ethereum } from './types'
-import type { DefiSDK } from './price/defi-sdk'
-import type { ZapperDeFiProtocolName } from '../zapper/zapper'
-import { erc20TokensByContractAddress, erc20TokensBySymbol } from './tokens/tokens'
-import { providers } from 'ethers'
+import type { Ethereum } from './ethereum/types'
+import type { DefiSDK } from './ethereum/price/defi-sdk'
+import type { ZapperDeFiProtocolName } from './zapper/zapper'
+import { erc20TokensByContractAddress, erc20TokensBySymbol } from './ethereum/tokens/tokens'
 
 
-export type DefiAppConfig = {
-	name: DefiAppName,
-	slug: DefiAppSlug,
+export type BlockchainAppConfig = {
+	name: BlockchainAppName,
+	slug: BlockchainAppSlug,
 	links?: string[],
 	colors?: string[],
-	views: DefiAppView[]
+	views: BlockchainAppView[]
 }
 
-export type DefiAppView = {
+export type BlockchainAppView = {
 	name?: string,
 	slug?: string,
 	colors?: string[],
@@ -38,11 +37,11 @@ export type DefiAppView = {
 	}[],
 }
 
-export type DefiAppName = string // typeof defiApps[number]['name']
-export type DefiAppSlug = string // typeof defiApps[number]['slug']
+export type BlockchainAppName = string // typeof blockchainApps[number]['name']
+export type BlockchainAppSlug = string // typeof blockchainApps[number]['slug']
 
 
-export const defiApps: DefiAppConfig[] = [
+export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Aave',
 		slug: 'aave',
@@ -2564,18 +2563,18 @@ export const defiApps: DefiAppConfig[] = [
 ] // as const
 
 
-export const defiAppsBySlug = Object.fromEntries(defiApps.map(defiAppConfig => [defiAppConfig.slug, defiAppConfig]))
-export const defiAppsByProviderName = {
-	zapper: Object.fromEntries(defiApps.flatMap(defiAppConfig =>
-		defiAppConfig.views.map(view => view.providers?.zapper ? [view.providers.zapper, defiAppConfig] : [])
+export const blockchainAppsBySlug = Object.fromEntries(blockchainApps.map(blockchainAppConfig => [blockchainAppConfig.slug, blockchainAppConfig]))
+export const blockchainAppsByProviderName = {
+	zapper: Object.fromEntries(blockchainApps.flatMap(blockchainAppConfig =>
+		blockchainAppConfig.views.map(view => view.providers?.zapper ? [view.providers.zapper, blockchainAppConfig] : [])
 	)),
-	zerionDefiSDK: Object.fromEntries(defiApps.flatMap(defiAppConfig =>
-		defiAppConfig.views.flatMap(view => view.providers?.zerionDefiSDK?.map(name => [name, defiAppConfig]) ?? [])
+	zerionDefiSDK: Object.fromEntries(blockchainApps.flatMap(blockchainAppConfig =>
+		blockchainAppConfig.views.flatMap(view => view.providers?.zerionDefiSDK?.map(name => [name, blockchainAppConfig]) ?? [])
 	))
 }
 
 
-export const featuredDefiApps = [
+export const featuredBlockchainApps = [
 	'aave',
 	'audius',
 	'badger',
@@ -2609,6 +2608,6 @@ export const featuredDefiApps = [
 	'uniswap',
 	'upshot',
 	'yearn'
-].map(slug => defiAppsBySlug[slug])
+].map(slug => blockchainAppsBySlug[slug])
 
-export const notFeaturedDefiApps = defiApps.filter(defiAppConfig => !featuredDefiApps.includes(defiAppConfig))
+export const notFeaturedBlockchainApps = blockchainApps.filter(blockchainAppConfig => !featuredBlockchainApps.includes(blockchainAppConfig))

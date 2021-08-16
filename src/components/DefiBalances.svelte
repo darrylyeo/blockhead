@@ -3,14 +3,14 @@
 	import type { DeFiProvider } from '../data/defi-provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import type { DefiSDK } from '../data/ethereum/price/defi-sdk'
-	import type { DefiAppConfig, DefiAppSlug } from '../data/ethereum/defi-apps'
-	import { defiAppsByProviderName } from '../data/ethereum/defi-apps'
+	import type { BlockchainAppConfig, BlockchainAppSlug } from '../data/blockchain-apps'
+	import { blockchainAppsByProviderName } from '../data/blockchain-apps'
 	import { getDefiBalances } from '../data/ethereum/price/defi-sdk'
 	import { getDeFiProtocolBalances, getFiatRates } from '../data/zapper/zapper'
 
 
 	// Data
-	export let defiApps: DefiAppConfig[]
+	export let blockchainApps: BlockchainAppConfig[]
 	export let network: Ethereum.Network
 	export let provider: Ethereum.Provider
 	export let address: string
@@ -57,7 +57,7 @@
 	import { formatUnits } from '../utils/format-units'
 
 
-	$: defiBalancesDescription = defiApps?.map(({name}) => name).join('/') || `${network.name} DeFi`
+	$: defiBalancesDescription = blockchainApps?.map(({name}) => name).join('/') || `${network.name} DeFi`
 
 
 	import Loader from './Loader.svelte'
@@ -164,7 +164,7 @@
 			loadingIcon={'/logos/zapper-logomark.svg'}
 			fromPromise={network && address && (
 				() => getDeFiProtocolBalances({
-					protocolNames: defiApps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zapper ?? [])),
+					protocolNames: blockchainApps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zapper ?? [])),
 					network,
 					address
 				})
@@ -184,11 +184,11 @@
 				{#each defiProtocolBalances as {protocolName, products, meta}, i}
 					{#each products as {
 						label, assets, meta: productMeta,
-						// _: defiAppConfig = defiAppsByProviderName.zapper?.[protocolName]
+						// _: blockchainAppConfig = blockchainAppsByProviderName.zapper?.[protocolName]
 					}, j (label)}
 						<div
 							class="card defi-protocol"
-							style={cardStyle(defiAppsByProviderName.zapper?.[protocolName]?.colors)}
+							style={cardStyle(blockchainAppsByProviderName.zapper?.[protocolName]?.colors)}
 							transition:scaleFont|local
 							animate:flip|local={{duration: 300, delay: Math.abs(i + j * 0.1) * 10}}
 						>
@@ -199,7 +199,7 @@
 							{/if}
 							<div class="bar">
 								<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{label}">
-									<a href="/apps/{defiAppsByProviderName.zapper?.[protocolName]?.slug ?? protocolName}/address/{address}">{label}</a>
+									<a href="/apps/{blockchainAppsByProviderName.zapper?.[protocolName]?.slug ?? protocolName}/address/{address}">{label}</a>
 								</h5>
 								{#each meta as {label, type, value}}
 									{#if label === 'Assets'}
@@ -389,7 +389,7 @@
 				errorMessage="Error getting {defiBalancesDescription} balances from {defiProvider}."
 				fromPromise={provider && address && (
 					() => getDefiBalances({
-						protocolNames: defiApps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zerionDefiSDK ?? [])),
+						protocolNames: blockchainApps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zerionDefiSDK ?? [])),
 						network,
 						provider,
 						address
@@ -410,17 +410,17 @@
 				<div class="defi-balances column">
 					{#each defiBalances as {
 						adapterBalances, metadata,
-						// _: defiAppConfig = defiAppsByProviderName.zerionDefiSDK?.[metadata.name]
+						// _: blockchainAppConfig = blockchainAppsByProviderName.zerionDefiSDK?.[metadata.name]
 					}, i (metadata.name + i)}
 						<div
 							class="card defi-protocol layout-{computedLayout}"
-							style={cardStyle(defiAppsByProviderName.zerionDefiSDK?.[metadata.name]?.colors)}
+							style={cardStyle(blockchainAppsByProviderName.zerionDefiSDK?.[metadata.name]?.colors)}
 							transition:scaleFont|local
 							animate:flip|local={{duration: 300, delay: Math.abs(i) * 10}}
 						>
 							<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{metadata.description}">
 								<img class="card-background" src={`https://${metadata.iconURL}`} alt={metadata.name} width="20"/>
-								<a href="/apps/{defiAppsByProviderName.zerionDefiSDK?.[metadata.name]?.slug}/address/{address}">{metadata.name}</a>
+								<a href="/apps/{blockchainAppsByProviderName.zerionDefiSDK?.[metadata.name]?.slug}/address/{address}">{metadata.name}</a>
 							</h5>
 							{#if computedLayout === 'vertical'}
 								<hr>

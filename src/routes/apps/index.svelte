@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { featuredDefiApps, notFeaturedDefiApps } from '../../data/ethereum/defi-apps'
+	import { featuredBlockchainApps, notFeaturedBlockchainApps } from '../../data/blockchain-apps'
 
 
 	import { cardStyle } from '../../utils/card-background'
@@ -38,7 +38,7 @@
 	<h2>Featured Apps</h2>
 
 	<section class="row featured">
-		{#each featuredDefiApps as {name, slug, colors}, i}
+		{#each featuredBlockchainApps as {name, slug, colors}, i}
 			<div class="card" transition:scale={{delay: i * 10}} style={cardStyle(colors)}>
 				<h3><a href="/apps/{slug}">{name}</a></h3>
 			</div>
@@ -50,7 +50,7 @@
 	<h2>Other Apps</h2>
 
 	<section class="row">
-		{#each notFeaturedDefiApps as {name, slug, colors}, i}
+		{#each notFeaturedBlockchainApps as {name, slug, colors}, i}
 			<div class="card" transition:scale={{delay: i * 10}}><!-- style={cardStyle(colors)} -->
 				<h4><a href="/apps/{slug}">{name}</a></h4>
 			</div>
