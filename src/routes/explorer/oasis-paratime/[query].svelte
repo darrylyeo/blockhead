@@ -21,7 +21,7 @@
 	const isBlockNumber = query => /^[0-9]+$/i.test(query)
 
 
-	import EnsQuery from '../../../components/EnsQuery.svelte'
+	import EnsSearchLoader from '../../../components/EnsSearchLoader.svelte'
 	import EthereumAccount from '../../../components/EthereumAccount.svelte'
 	import EthereumBlock from '../../../components/EthereumBlock.svelte'
 	import EthereumTransaction from '../../../components/EthereumTransaction.svelte'
@@ -44,6 +44,6 @@
 			<EthereumBlock network={$explorerNetwork} blockNumber={$query} provider={$explorerProvider} {analyticsProvider}/>
 		{/if}
 	{:else}
-		<EnsQuery network={$explorerNetwork} searchQuery={$query} />
+		<EnsSearchLoader network={$explorerNetwork} searchQuery={$query} />
 	{/if}
 {/if}
