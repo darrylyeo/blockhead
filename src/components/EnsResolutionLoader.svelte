@@ -8,6 +8,14 @@
 	export let passiveReverseResolution = false
 
 
+	import { preferredEthereumProvider } from '../data/ethereum/preferences'
+	import { getEthersProvider } from '../data/ethereum/provider'
+	import { networksByChainID } from '../data/ethereum/networks'
+
+	$: if(!provider)
+		getEthersProvider(networksByChainID[1], $preferredEthereumProvider).then(_ => provider = _)
+
+
 	import { isAddress } from '@ethersproject/address'
 
 
@@ -31,7 +39,11 @@
 	}else if(isReverseResolving){
 		address = addressOrENSName
 		addressPromise = Promise.resolve(address)
-		ensNamePromise = provider?.lookupAddress(address)
+		ensNamePromise = provider?.lookupAddress(address).then(ensName => {
+			if(ensName)
+				return ensName
+			throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name.`)
+		})
 			.then(_ => ensName = _)
 		// ensNamePromise = ens.getName(address).then(async name => {
 		// 	if(address === await ens.name(name).getAddress())
@@ -59,8 +71,8 @@
 		fromPromise={ensNamePromise && (() => ensNamePromise)}
 		loadingIcon="/logos/ens.svg"
 		loadingIconName="ENS"
-		loadingMessage="Querying the Ethereum Name Service..."
-		errorMessage={`Error reverse-resolving address "${address}"`}
+		loadingMessage="Reverse-resolving address to a name on the Ethereum Name Service..."
+		errorMessage={`Error reverse-resolving address to ENS name.`}
 	>
 		<slot slot="header" name="header" {address} {ensName} {isReverseResolving} />
 		<slot {address} {ensName} {isReverseResolving} />
@@ -70,8 +82,8 @@
 		fromPromise={addressPromise && (() => addressPromise)}
 		loadingIcon="/logos/ens.svg"
 		loadingIconName="ENS"
-		loadingMessage="Querying the Ethereum Name Service..."
-		errorMessage={`Error resolving ENS name "${ensName}"`}
+		loadingMessage="Resolving name to address on the Ethereum Name Service..."
+		errorMessage={`Error resolving ENS name to address.`}
 	>
 		<slot slot="header" name="header" {address} {ensName} {isReverseResolving} />
 		<slot {address} {ensName} {isReverseResolving} />
