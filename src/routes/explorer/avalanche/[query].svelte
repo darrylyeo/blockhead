@@ -27,22 +27,16 @@
 </script>
 
 
-{#if $query}
-	{#if isAddress($query)}
-		{#if $explorerProvider}
-			<EthereumAccount network={$explorerNetwork} address={$query} provider={$explorerProvider}/>
-		{/if}
-	{:else if isTransaction($query)}
-		{#if $explorerProvider}
-			<EthereumTransaction network={$explorerNetwork} layout="standalone" transactionID={$query} />
-			<!-- <EthereumTransaction network={$explorerNetwork} transactionID={$query} provider={$provider}/> -->
-			<!-- <EthereumTransaction network={$explorerNetwork} transactionID={$query} analyticsProvider={analyticsProvider}/> -->
-		{/if}
-	{:else if isBlockNumber($query)}
-		{#if $explorerProvider}
-			<EthereumBlock network={$explorerNetwork} blockNumber={$query} provider={$explorerProvider} {analyticsProvider}/>
-		{/if}
-	{:else}
+{#if $query && $explorerProvider}
+	{#if $query.endsWith('.avax')}
 		<div class="card">avvy.domains resolution coming soon!</div>
+	{:else if isTransaction($query)}
+		<EthereumTransaction network={$explorerNetwork} layout="standalone" transactionID={$query} />
+		<!-- <EthereumTransaction network={$explorerNetwork} transactionID={$query} provider={$provider}/> -->
+		<!-- <EthereumTransaction network={$explorerNetwork} transactionID={$query} analyticsProvider={analyticsProvider}/> -->
+	{:else if isBlockNumber($query)}
+		<EthereumBlock network={$explorerNetwork} blockNumber={$query} provider={$explorerProvider} {analyticsProvider}/>
+	{:else}
+		<EthereumAccount network={$explorerNetwork} addressOrENSName={$query} provider={$explorerProvider}/>
 	{/if}
 {/if}

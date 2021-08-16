@@ -20,30 +20,20 @@
 	const isTransaction = query => /^0x[0-9a-f]{64}$/i.test(query)
 	const isBlockNumber = query => /^[0-9]+$/i.test(query)
 
-
-	import EnsSearchLoader from '../../../components/EnsSearchLoader.svelte'
 	import EthereumAccount from '../../../components/EthereumAccount.svelte'
 	import EthereumBlock from '../../../components/EthereumBlock.svelte'
 	import EthereumTransaction from '../../../components/EthereumTransaction.svelte'
 </script>
 
 
-{#if $query}
-	{#if isAddress($query)}
-		{#if $explorerProvider}
-			<EthereumAccount network={$explorerNetwork} address={$query} provider={$explorerProvider}/>
-		{/if}
-	{:else if isTransaction($query)}
-		{#if $explorerProvider}
-			<EthereumTransaction network={$explorerNetwork} layout="standalone" transactionID={$query} />
-			<!-- <EthereumTransaction network={$explorerNetwork} transactionID={$query} provider={$provider}/> -->
-			<!-- <EthereumTransaction network={$explorerNetwork} transactionID={$query} analyticsProvider={analyticsProvider}/> -->
-		{/if}
+{#if $query && $explorerProvider}
+	{#if isTransaction($query)}
+		<EthereumTransaction network={$explorerNetwork} layout="standalone" transactionID={$query} />
+		<!-- <EthereumTransaction network={$explorerNetwork} transactionID={$query} provider={$provider}/> -->
+		<!-- <EthereumTransaction network={$explorerNetwork} transactionID={$query} analyticsProvider={analyticsProvider}/> -->
 	{:else if isBlockNumber($query)}
-		{#if $explorerProvider}
-			<EthereumBlock network={$explorerNetwork} blockNumber={$query} provider={$explorerProvider} {analyticsProvider}/>
-		{/if}
+		<EthereumBlock network={$explorerNetwork} blockNumber={$query} provider={$explorerProvider} {analyticsProvider}/>
 	{:else}
-		<EnsSearchLoader network={$explorerNetwork} searchQuery={$query} />
+		<EthereumAccount network={$explorerNetwork} addressOrENSName={$query} provider={$explorerProvider}/>
 	{/if}
 {/if}
