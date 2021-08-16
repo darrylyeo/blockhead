@@ -3,6 +3,12 @@
 	import '../app.css'
 
 
+	import houdiniEnvironment from '../data/ens/houdini-environment'
+	import { setEnvironment } from '$houdini'
+
+	setEnvironment(houdiniEnvironment)
+
+
 	import process from 'process'
 	import { Buffer } from 'buffer'
 

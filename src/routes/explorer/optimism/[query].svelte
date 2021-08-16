@@ -44,6 +44,6 @@
 			<EthereumBlock network={$explorerNetwork} blockNumber={$query} provider={$explorerProvider} {analyticsProvider}/>
 		{/if}
 	{:else}
-		<EnsQuery network={$explorerNetwork} query={$query} />
+		<EnsQuery network={$explorerNetwork} searchQuery={$query} />
 	{/if}
 {/if}

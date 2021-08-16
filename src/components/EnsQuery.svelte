@@ -1,16 +1,113 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import { queryENSDomain, queryENSDomainsContaining } from '../data/ens'
+
 
 	export let network: Ethereum.Network
-	export let query: string
-	
+	export let searchQuery: string
+
+
+	import type { ENSDomains, ENSDomains$input, ENSDomainsContaining, ENSDomainsContaining$input } from '$houdini'
+	import { query, graphql } from '$houdini'
+
+	const queryENSDomain = (variables: ENSDomains$input) => {
+		const ENSDomainsVariables = () => variables
+
+		console.log(queryENSDomain, ENSDomainsVariables)
+
+		const result = query<ENSDomains>(graphql`
+			query ENSDomains($name: String!) {
+				domains(where: {name: $name}) {
+					id
+					name
+					parent { id name }
+					subdomains { id name }
+					resolvedAddress { id }
+					owner { id }
+					resolver {
+						id
+						address
+						texts
+						coinTypes
+						events { id blockNumber transactionID }
+					}
+					ttl
+					isMigrated
+					events {
+						id
+						blockNumber
+						transactionID
+						... on Transfer {
+							owner { id }
+						}
+						... on NewOwner {
+							owner { id }
+						}
+						... on NewResolver {
+							resolver { id address }
+						}
+						... on NewTTL {
+							ttl
+						}
+					}
+				}
+			}
+		`)
+		console.log(result)
+		return result
+	}
+
+	const queryENSDomainsContaining = (variables: ENSDomainsContaining$input) => {
+		const ENSDomainsContainingVariables = () => variables
+
+		return query<ENSDomainsContaining>(graphql`
+			query ENSDomainsContaining($query: String!) {
+				domains(where: {name_contains: $query, name_not: $query}) {
+					id
+					name
+					parent { id name }
+					subdomains { id name }
+					resolvedAddress { id }
+					owner { id }
+					resolver {
+						id
+						address
+						texts
+						coinTypes
+						events { id blockNumber transactionID }
+					}
+					ttl
+					isMigrated
+					events {
+						id
+						blockNumber
+						transactionID
+						... on Transfer {
+							owner { id }
+						}
+						... on NewOwner {
+							owner { id }
+						}
+						... on NewResolver {
+							resolver { id address }
+						}
+						... on NewTTL {
+							ttl
+						}
+					}
+				}
+			}
+		`)
+	}
+
+
 	const sortByLength = (a, b) => a.name.length - b.name.length
-	
+
+
 	import Address from './Address.svelte'
 	import EnsDomain from './EnsDomain.svelte'
 	import Loader from './Loader.svelte'
 </script>
+
 
 <style>
 	.ens-query {
@@ -18,8 +115,9 @@
 	}
 </style>
 
+
 <Loader
-	fromStore={() => queryENSDomain(query)}
+	fromHoudiniQuery={() => queryENSDomain({name: searchQuery})}
 	loadingIcon="/logos/ens.svg"
 	loadingIconName="The Graph"
 	loadingMessage="Querying the Ethereum Name Service..."
@@ -32,18 +130,18 @@
 		{:else}
 			<div class="card">
 				<div class="bar">
-					<h2><Address {network} address={query} /></h2>
+					<h2><Address {network} address={searchQuery} /></h2>
 					<span class="card-annotation">ENS Name</span>
 				</div>
 				<div class="bar">
 					<p>The ENS name "{query}" hasn't been registered by anyone. Perhaps you could claim it for yourself!</p>
-					<a href="https://app.ens.domains/name/{query}" target="_blank"><button class="medium">Register On ENS</button></a>
+					<a href="https://app.ens.domains/name/{searchQuery}" target="_blank"><button class="medium">Register On ENS</button></a>
 				</div>
 			</div>
 		{/each}
 
 		<Loader
-			fromStore={() => queryENSDomainsContaining(query)}
+			fromHoudiniQuery={() => queryENSDomainsContaining({query: searchQuery})}
 			loadingIcon="/logos/ens.svg"
 			loadingIconName="The Graph"
 			loadingMessage="Querying the Ethereum Name Service for similar names..."
