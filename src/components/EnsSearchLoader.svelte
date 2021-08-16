@@ -113,7 +113,7 @@
 
 
 <Loader
-	fromHoudiniQuery={() => queryENSDomain({name: searchQuery})}
+	fromHoudiniQuery={searchQuery && (() => queryENSDomain({name: searchQuery}))}
 	loadingIcon="/logos/ens.svg"
 	loadingIconName="The Graph"
 	loadingMessage="Querying the Ethereum Name Service..."
