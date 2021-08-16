@@ -10,16 +10,16 @@
 	// )
 	// // $: $defiAppSlug = $page.params.defiApp
 	const defiAppSlug = writable<DefiAppSlug>($page.params.defiApp || $page.path.match(/^\/apps\/([^/]+)/)?.[1] || '')
-	const query = writable<string>($page.params.query || '')
+	const addressOrENSName = writable<string>($page.params.addressOrENSName || '')
 	$: $defiAppSlug = $page.params.defiApp || $page.path.match(/^\/apps\/([^/]+)/)?.[1] || ''
-	$: $query = $page.params.query || ''
+	$: $addressOrENSName = $page.params.addressOrENSName || ''
 
 	setContext('defiAppSlug', defiAppSlug)
-	setContext('query', query)
+	setContext('addressOrENSName', addressOrENSName)
 
 	let path = $page.path
 	$: if(browser){
-		const newPath = `/apps${$defiAppSlug ? `/${$defiAppSlug}${$query ? `/${$query}` : ''}` : ''}`
+		const newPath = `/apps${$defiAppSlug ? `/${$defiAppSlug}${$addressOrENSName ? `/${$addressOrENSName}` : ''}` : ''}`
 		console.log(newPath, path)
 		if(newPath !== path)
 			goto(newPath, {keepfocus: true})
@@ -48,6 +48,7 @@
 	import Preferences from '../../components/Preferences.svelte'
 </script>
 
+
 <style>
 	main {
 		max-width: var(--one-column-width);
@@ -66,16 +67,18 @@
 	}
 </style>
 
+
 <svelte:head>
-	<title>{$query ? `${$query} | ` : ''}{$defiAppConfig ? `${$defiAppConfig.name} ${$query ? 'Account' : 'Dashboard'}` : `DeFi Apps`} | Blockhead</title>
+	<title>{$addressOrENSName ? `${$addressOrENSName} | ` : ''}{$defiAppConfig ? `${$defiAppConfig.name} ${$addressOrENSName ? 'Account' : 'Dashboard'}` : `DeFi Apps`} | Blockhead</title>
 </svelte:head>
+
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 	<div class="bar">
-		<h1><a href="/apps/{$defiAppSlug}" on:click={() => globalThis.requestAnimationFrame(() => goto(`/apps/${$defiAppSlug}`))}>{$defiAppConfig ? `${$defiAppConfig.name} ${$query ? 'Account' : 'Dashboard'}` : `DeFi Apps`}</a></h1>
+		<h1><a href="/apps/{$defiAppSlug}" on:click={() => globalThis.requestAnimationFrame(() => goto(`/apps/${$defiAppSlug}`))}>{$defiAppConfig ? `${$defiAppConfig.name} ${$addressOrENSName ? 'Account' : 'Dashboard'}` : `DeFi Apps`}</a></h1>
 		<label>
 			<span>DeFi App: </span>
-			<select bind:value={$defiAppSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`/apps/${$defiAppSlug}${$query ? `/${$query}` : ''}`))}>
+			<select bind:value={$defiAppSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`/apps/${$defiAppSlug}${$addressOrENSName ? `/${$addressOrENSName}` : ''}`))}>
 				<option value="" selected>Select App...</option>
 				<optgroup label="Featured">
 					{#each featuredDefiApps as {name, slug}}

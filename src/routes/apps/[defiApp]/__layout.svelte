@@ -11,22 +11,18 @@
 
 	import type { Writable } from 'svelte/store'
 
-	const query = getContext<Writable<string>>('query')
+	const addressOrENSName = getContext<Writable<string>>('addressOrENSName')
 
-	$: currentQuery = $query
+	$: currentAddressOrENSName = $addressOrENSName
 
 
 	let showValues
 	let showUnderlyingAssets
 
 
-	const isAddress = query => /^0x[0-9a-f]{40}$/i.test(query)
-	const isTransaction = query => /^0x[0-9a-f]{64}$/i.test(query)
-	const isBlockNumber = query => /^[0-9]+$/i.test(query)
-
-
 	import AddressField from '../../../components/AddressField.svelte'
 	import DefiAppDashboard from '../../../components/DefiAppDashboard.svelte'
+	import EnsResolutionLoader from '../../../components/EnsResolutionLoader.svelte'
 
 
 	import { fly } from 'svelte/transition'
@@ -43,36 +39,38 @@
 
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
-	<form on:submit|preventDefault={() => $query = currentQuery}>
-		<AddressField bind:address={currentQuery}/>
+	<form on:submit|preventDefault={() => $addressOrENSName = currentAddressOrENSName}>
+		<AddressField bind:address={currentAddressOrENSName}/>
 		<button>Go</button>
 	</form>
 
 
-	{#if $defiAppConfig}
-		{#if $query && !isAddress($query)}
-			<div class="card">
-				"{$query}" is not a valid address. ENS names will be supported soon!
+	<EnsResolutionLoader
+		addressOrENSName={$addressOrENSName}
+		passiveForwardResolution
+		passiveReverseResolution
+		let:address
+		let:ensName
+		let:isReverseResolving
+	>
+		{#if $defiAppConfig}
+			<div class="stack">
+				{#key $defiAppConfig}
+					<div class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
+						<DefiAppDashboard
+							{address}
+							defiAppConfig={$defiAppConfig}
+							providerName={$preferredEthereumProvider}
+							defiProvider={$preferredDeFiProvider}
+							quoteCurrency={$preferredQuoteCurrency}
+							{showValues}
+							{showUnderlyingAssets}
+						/>
+					</div>
+				{/key}
 			</div>
 		{/if}
-
-		<div class="stack">
-			{#key $defiAppConfig}
-				<div class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
-					<DefiAppDashboard
-						address={isAddress($query) ? $query : undefined}
-						defiAppConfig={$defiAppConfig}
-						providerName={$preferredEthereumProvider}
-						defiProvider={$preferredDeFiProvider}
-						quoteCurrency={$preferredQuoteCurrency}
-						{showValues}
-						{showUnderlyingAssets}
-					/>
-				</div>
-			{/key}
-		</div>
-	{/if}
-
+	</EnsResolutionLoader>
 
 	<slot />
 </section>
