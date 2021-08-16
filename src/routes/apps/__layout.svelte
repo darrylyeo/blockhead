@@ -87,7 +87,7 @@
 	<div class="bar">
 		<h1><a href="/apps/{$blockchainAppSlug}">{$blockchainAppSlug && $blockchainAppConfig ? `${$blockchainAppConfig.name} ${currentView}` : `Blockchain/Web 3.0 Apps`}</a></h1>
 		<label>
-			<span>DeFi App: </span>
+			<span>Blockchain App: </span>
 			<select bind:value={$blockchainAppSlug}>
 				<option value="" selected>Select App...</option>
 				<optgroup label="Featured">
