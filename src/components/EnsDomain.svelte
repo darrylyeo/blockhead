@@ -35,10 +35,12 @@
 		margin: calc(-0.5 * var(--padding-inner));
 		justify-content: space-evenly;
 	}
-	.subdomains > :global(*) {
+	.subdomains > :global(.ens-name) {
 		padding: calc(0.5 * var(--padding-inner));
 		flex: 0 auto;
 		max-width: 20em;
+	    overflow: hidden;
+		text-overflow: ellipsis;
 	}
 </style>
 
