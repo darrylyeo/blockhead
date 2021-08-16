@@ -26,6 +26,13 @@
 	}
 
 
+	let currentView: 'Dashboard' | 'Explorer' | 'Account'
+	$: currentView = 
+		$page.params.query || ($addressOrENSName && $defiAppConfig.name) === 'ENS' ? 'Explorer' :
+		$addressOrENSName ? 'Account' :
+		'Dashboard'
+
+
 	import type { DefiAppConfig, DefiAppSlug} from '../../data/ethereum/defi-apps'
 	import { defiApps, defiAppsBySlug, featuredDefiApps, notFeaturedDefiApps } from '../../data/ethereum/defi-apps'
 
@@ -75,7 +82,7 @@
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 	<div class="bar">
-		<h1><a href="/apps/{$defiAppSlug}">{$defiAppConfig ? `${$defiAppConfig.name} ${$addressOrENSName ? 'Account' : 'Dashboard'}` : `DeFi Apps`}</a></h1>
+		<h1><a href="/apps/{$defiAppSlug}">{$defiAppConfig ? `${$defiAppConfig.name} ${currentView}` : `DeFi Apps`}</a></h1>
 		<label>
 			<span>DeFi App: </span>
 			<select bind:value={$defiAppSlug}>
