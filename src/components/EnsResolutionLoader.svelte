@@ -35,7 +35,7 @@
 		addressPromise = provider?.resolveName(ensName).then(address => {
 			if(address)
 				return address
-			throw new Error(`The ENS Name "${ensName}" couldn't be resolved to an address.`)
+			throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address.`)
 		})
 			.then(_ => address = _)
 		// addressPromise = ens.name(addressOrENSName).getAddress()
