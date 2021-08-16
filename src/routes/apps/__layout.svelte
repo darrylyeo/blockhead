@@ -26,9 +26,12 @@
 	}
 
 
+	$: query = $page.params.query
+
+
 	let currentView: 'Dashboard' | 'Explorer' | 'Account'
 	$: currentView = 
-		$page.params.query || ($addressOrENSName && $defiAppConfig.name) === 'ENS' ? 'Explorer' :
+		query || ($addressOrENSName && $defiAppConfig.name) === 'ENS' ? 'Explorer' :
 		$addressOrENSName ? 'Account' :
 		'Dashboard'
 
