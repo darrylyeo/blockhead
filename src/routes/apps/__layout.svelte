@@ -19,7 +19,7 @@
 
 	let path = $page.path
 	$: if(browser){
-		const newPath = `/apps${$defiAppSlug ? `/${$defiAppSlug}${$addressOrENSName ? `/${$addressOrENSName}` : ''}` : ''}`
+		const newPath = `/apps${$defiAppSlug ? `/${$defiAppSlug}${$addressOrENSName ? `/address/${$addressOrENSName}` : ''}` : ''}`
 		console.log(newPath, path)
 		if(newPath !== path)
 			goto(newPath, {keepfocus: true})
@@ -78,7 +78,7 @@
 		<h1><a href="/apps/{$defiAppSlug}" on:click={() => globalThis.requestAnimationFrame(() => goto(`/apps/${$defiAppSlug}`))}>{$defiAppConfig ? `${$defiAppConfig.name} ${$addressOrENSName ? 'Account' : 'Dashboard'}` : `DeFi Apps`}</a></h1>
 		<label>
 			<span>DeFi App: </span>
-			<select bind:value={$defiAppSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`/apps/${$defiAppSlug}${$addressOrENSName ? `/${$addressOrENSName}` : ''}`))}>
+			<select bind:value={$defiAppSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`/apps/${$defiAppSlug}${$addressOrENSName ? `/address/${$addressOrENSName}` : ''}`))}>
 				<option value="" selected>Select App...</option>
 				<optgroup label="Featured">
 					{#each featuredDefiApps as {name, slug}}

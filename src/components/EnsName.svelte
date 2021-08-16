@@ -28,7 +28,7 @@
 
 
 {#if linked}
-	<a class="ens-name" href="/apps/ens/{formattedENSName}">
+	<a class="ens-name" href="/apps/ens/address/{formattedENSName}">
 		<slot {formattedENSName}>
 			<span class="format">
 				{formattedENSName}
