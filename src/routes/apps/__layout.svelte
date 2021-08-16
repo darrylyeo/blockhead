@@ -9,9 +9,9 @@
 	// 	set($page.params.defiApp || '')
 	// )
 	// // $: $defiAppSlug = $page.params.defiApp
-	const defiAppSlug = writable<DefiAppSlug>($page.params.defiApp || '')
+	const defiAppSlug = writable<DefiAppSlug>($page.params.defiApp || $page.path.match(/^\/apps\/([^/]+)/)?.[1] || '')
 	const query = writable<string>($page.params.query || '')
-	$: $defiAppSlug = $page.params.defiApp || ''
+	$: $defiAppSlug = $page.params.defiApp || $page.path.match(/^\/apps\/([^/]+)/)?.[1] || ''
 	$: $query = $page.params.query || ''
 
 	setContext('defiAppSlug', defiAppSlug)
