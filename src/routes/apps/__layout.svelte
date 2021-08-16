@@ -75,10 +75,10 @@
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 	<div class="bar">
-		<h1><a href="/apps/{$defiAppSlug}" on:click={() => globalThis.requestAnimationFrame(() => goto(`/apps/${$defiAppSlug}`))}>{$defiAppConfig ? `${$defiAppConfig.name} ${$addressOrENSName ? 'Account' : 'Dashboard'}` : `DeFi Apps`}</a></h1>
+		<h1><a href="/apps/{$defiAppSlug}">{$defiAppConfig ? `${$defiAppConfig.name} ${$addressOrENSName ? 'Account' : 'Dashboard'}` : `DeFi Apps`}</a></h1>
 		<label>
 			<span>DeFi App: </span>
-			<select bind:value={$defiAppSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`/apps/${$defiAppSlug}${$addressOrENSName ? `/address/${$addressOrENSName}` : ''}`))}>
+			<select bind:value={$defiAppSlug}>
 				<option value="" selected>Select App...</option>
 				<optgroup label="Featured">
 					{#each featuredDefiApps as {name, slug}}
