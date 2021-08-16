@@ -45,6 +45,7 @@
 	import Address from './Address.svelte'
 	import Balance from './Balance.svelte'
 	import DefiBalances from './DefiBalances.svelte'
+	import EnsName from './EnsName.svelte'
 	import EnsResolutionLoader from './EnsResolutionLoader.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
 	import EthereumNFTs from './EthereumNFTs.svelte'
@@ -100,7 +101,7 @@
 					{/if}
 				{:else if type === AccountType.ENS}
 					{#if ensName}
-						<h3><Address network={networksByChainID[1]} address={ensName} /></h3>
+						<h3><EnsName {ensName} /></h3>
 					{/if}
 					{#if address}
 						<small><Address network={networksByChainID[1]} {address} /></small>
@@ -110,7 +111,7 @@
 						<h3><Address network={networksByChainID[1]} {address} /></h3>
 					{/if}
 					{#if ensName}
-						<small><Address network={networksByChainID[1]} address={ensName} /></small>
+						<small><EnsName {ensName} /></small>
 					{/if}
 				{/if}
 			</div>

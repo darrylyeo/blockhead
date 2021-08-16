@@ -99,7 +99,7 @@
 	const sortByLength = (a, b) => a.name.length - b.name.length
 
 
-	import Address from './Address.svelte'
+	import EnsName from './EnsName.svelte'
 	import EnsDomain from './EnsDomain.svelte'
 	import Loader from './Loader.svelte'
 </script>
@@ -126,7 +126,7 @@
 		{:else}
 			<div class="card">
 				<div class="bar">
-					<h2><Address {network} address={searchQuery} /></h2>
+					<h2><EnsName {network} ensName={searchQuery} /></h2>
 					<span class="card-annotation">ENS Name</span>
 				</div>
 				<div class="bar">

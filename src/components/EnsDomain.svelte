@@ -6,9 +6,11 @@
 	export let domain: ENS.Domain
 
 	import Address from './Address.svelte'
+	import EnsName from './EnsName.svelte'
 	import EnsDomainEvent from './EnsDomainEvent.svelte'
 	import EnsResolver from './EnsResolver.svelte'
 </script>
+
 
 <style>
 	.row {
@@ -40,9 +42,10 @@
 	}
 </style>
 
+
 <div class="card domain">
 	<div class="bar">
-		<h2><Address {network} address={domain.name} /></h2>
+		<h2><EnsName {network} ensName={domain.name} /></h2>
 		<span class="card-annotation">ENS Name</span>
 	</div>
 	<div class="row">
@@ -68,7 +71,7 @@
 		{#if domain.parent}
 			<div class="card">
 				<h3>Subdomain of</h3>
-				<Address {network} address={domain.parent.name || domain.parent.id} />
+				<EnsName {network} ensName={domain.parent.name || domain.parent.id} />
 			</div>
 		{/if}
 	</div>
@@ -83,7 +86,7 @@
 			<h3>Subdomains</h3>
 			<div class="subdomains">
 				{#each domain.subdomains as subdomain}
-					<Address {network} address={subdomain.name}/>
+					<EnsName {network} ensName={subdomain.name} />
 				{/each}
 			</div>
 		</div>

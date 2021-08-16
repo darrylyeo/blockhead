@@ -5,7 +5,6 @@
 	import type { PriceScale } from './PriceChart.svelte'
 	import { getERC20TokenTransfers, getTransactionsByAddress } from '../data/analytics/covalent'
 	import { preferredAnalyticsProvider, preferredQuoteCurrency } from '../data/ethereum/preferences'
-	import { networksByChainID } from '../data/ethereum/networks'
 
 
 	export let network: Ethereum.Network
@@ -100,6 +99,7 @@
 	import Address from './Address.svelte'
 	import Balance from './Balance.svelte'
 	import CovalentPriceChart from './CovalentPriceChart.svelte'
+	import EnsName from './EnsName.svelte'
 	import EnsResolutionLoader from './EnsResolutionLoader.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
 	import EthereumTransaction from './EthereumTransaction.svelte'
@@ -147,11 +147,11 @@
 						<h2><Address {network} {address} /></h2>
 					{/if}
 					{#if ensName}
-						<Address network={networksByChainID[1]} address={ensName} />
+						<EnsName {ensName} />
 					{/if}
 				{:else}
 					{#if ensName}
-						<h2><Address network={networksByChainID[1]} address={ensName} /></h2>
+						<h2><EnsName {ensName} /></h2>
 					{/if}
 					{#if address}
 						<Address {network} {address} />
