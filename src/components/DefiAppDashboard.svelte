@@ -2,9 +2,9 @@
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { DeFiProvider } from '../data/defi-provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
-	import type { DefiAppConfig, DefiAppSlug } from '../data/blockchain-apps'
+	import type { BlockchainAppConfig, BlockchainAppSlug } from '../data/blockchain-apps'
 	import type { Covalent } from '../data/analytics/covalent'
-	import { defiAppsByProviderName } from '../data/blockchain-apps'
+	import { blockchainAppsByProviderName } from '../data/blockchain-apps'
 	import { getDefiBalances } from '../data/ethereum/price/defi-sdk'
 	import { getDeFiProtocolBalances, getFiatRates } from '../data/zapper/zapper'
 	import { getTokenAddressBalances } from '../data/analytics/covalent'
@@ -13,7 +13,7 @@
 
 
 	// Data
-	export let defiAppConfig: DefiAppConfig
+	export let blockhainAppConfig: BlockchainAppConfig
 	export let address: string
 	export let providerName: Ethereum.ProviderName
 	export let defiProvider: DeFiProvider = 'Zapper'
@@ -240,13 +240,13 @@
 
 
 <div class="column defi-app-views">
-	{#each defiAppConfig.views as {name, slug, chainId, colors, erc20Tokens, nfts, contracts, providers, embeds}}
+	{#each blockhainAppConfig.views as {name, slug, chainId, colors, erc20Tokens, nfts, contracts, providers, embeds}}
 	{#each [(erc20Tokens?.length ?? 0) + (nfts?.length ?? 0) + (contracts?.length ?? 0) + (providers && Object.entries(providers).length)] as totalViewItems}
 		<div
 			class="card defi-app-view"
 			class:is-single={totalViewItems <= 1}
 			class:full={embeds?.length}
-			style={cardStyle(colors || defiAppConfig.colors)}
+			style={cardStyle(colors || blockhainAppConfig.colors)}
 		>
 			<NetworkProviderLoader
 				network={networksByChainID[chainId]}
@@ -260,7 +260,7 @@
 							{#if slug}
 								<a href="#{slug}">{name}</a>
 							{:else}
-								{name || defiAppConfig.name}
+								{name || blockhainAppConfig.name}
 							{/if}
 						</h3>
 
@@ -296,8 +296,8 @@
 							{#if providers?.zapper && defiProvider === 'Zapper'}
 								<div class="card">
 									<Loader
-										loadingMessage="Reading {defiAppConfig.name} balances from {defiProvider}..."
-										errorMessage="Error getting {defiAppConfig.name} balances from {defiProvider}."
+										loadingMessage="Reading {blockhainAppConfig.name} balances from {defiProvider}..."
+										errorMessage="Error getting {blockhainAppConfig.name} balances from {defiProvider}."
 										loadingIconName={defiProvider}
 										loadingIcon={'/logos/zapper-logomark.svg'}
 										fromPromise={network && address && (
@@ -328,14 +328,14 @@
 											{#each defiProtocolBalances as {protocolName, products, meta}, i}
 												{#each products as {
 													label, assets, meta: productMeta,
-													// _: defiAppConfig = defiAppsByProviderName.zapper?.[protocolName]
+													// _: blockhainAppConfig = blockchainAppsByProviderName.zapper?.[protocolName]
 												}, j (label)}
 													<div
 														class="card defi-protocol"
 														transition:scaleFont|local
 														animate:flip|local={{duration: 300, delay: Math.abs(i + j * 0.1) * 10}}
 													>
-													<!-- style={cardStyle(colors || defiAppConfig.colors)} -->
+													<!-- style={cardStyle(colors || blockhainAppConfig.colors)} -->
 														{#if assets[0]?.protocolImg}
 															<img class="card-background" src={`https://zapper.fi/images/${assets[0].protocolImg}`} alt={label} width="20"/>
 														{:else if assets[0]?.protocolSymbol}
@@ -343,7 +343,7 @@
 														{/if}
 														<div class="bar">
 															<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{label}">
-																<a href="/apps/{defiAppsByProviderName.zapper?.[protocolName]?.slug ?? protocolName}/address/{address}">{label}</a>
+																<a href="/apps/{blockchainAppsByProviderName.zapper?.[protocolName]?.slug ?? protocolName}/address/{address}">{label}</a>
 															</h5>
 															{#each meta as {label, type, value}}
 																{#if label === 'Assets'}
@@ -534,8 +534,8 @@
 							{#if providers?.zerionDefiSDK && defiProvider === 'Zerion DeFi SDK'}
 								<div class="card">
 									<Loader
-										loadingMessage="Reading {defiAppConfig.name} balances from {defiProvider}..."
-										errorMessage="Error getting {defiAppConfig.name} balances from {defiProvider}."
+										loadingMessage="Reading {blockhainAppConfig.name} balances from {defiProvider}..."
+										errorMessage="Error getting {blockhainAppConfig.name} balances from {defiProvider}."
 										fromPromise={provider && address && (
 											() => getDefiBalances({
 												protocolNames: providers?.zerionDefiSDK,
@@ -565,17 +565,17 @@
 										<div class="defi-balances column">
 											{#each defiBalances as {
 												adapterBalances, metadata,
-												// _: defiAppConfig = defiAppsByProviderName.zerionDefiSDK?.[metadata.name]
+												// _: blockhainAppConfig = blockchainAppsByProviderName.zerionDefiSDK?.[metadata.name]
 											}, i (metadata.name + i)}
 												<div
 													class="card defi-protocol layout-{computedLayout}"
 													transition:scaleFont|local
 													animate:flip|local={{duration: 300, delay: Math.abs(i) * 10}}
 												>
-												<!-- style={cardStyle(colors || defiAppConfig.colors)} -->
+												<!-- style={cardStyle(colors || blockhainAppConfig.colors)} -->
 													<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{metadata.description}">
 														<img class="card-background" src={`https://${metadata.iconURL}`} alt={metadata.name} width="20"/>
-														<a href="/apps/{defiAppsByProviderName.zerionDefiSDK?.[metadata.name]?.slug}/address/{address}">{metadata.name}</a>
+														<a href="/apps/{blockchainAppsByProviderName.zerionDefiSDK?.[metadata.name]?.slug}/address/{address}">{metadata.name}</a>
 													</h5>
 													{#if computedLayout === 'vertical'}
 														<hr>
@@ -779,11 +779,11 @@
 								endpointURL: JSON.stringify(providers.theGraph),
 								// query: JSON.stringify('{}'),
 								// variables: JSON.stringify(''),
-								// response: JSON.stringify(`This is a GraphQL explorer for the ${defiAppConfig.name} subgraph on Blockhead! Click on "Docs" in the top right to see the schema.`)),
+								// response: JSON.stringify(`This is a GraphQL explorer for the ${blockhainAppConfig.name} subgraph on Blockhead! Click on "Docs" in the top right to see the schema.`)),
 								history: false,
 								prettify: true,
 								docs: true
-							})}&response={globalThis.encodeURIComponent(JSON.stringify(`This is a GraphQL explorer for the ${defiAppConfig.name} subgraph on Blockhead! Click on "Docs" in the top right to see the schema.`))}"
+							})}&response={globalThis.encodeURIComponent(JSON.stringify(`This is a GraphQL explorer for the ${blockhainAppConfig.name} subgraph on Blockhead! Click on "Docs" in the top right to see the schema.`))}"
 						/>
 					</div>
 				</div>
