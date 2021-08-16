@@ -82,7 +82,7 @@
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 	<div class="bar">
-		<h1><a href="/apps/{$defiAppSlug}">{$defiAppConfig ? `${$defiAppConfig.name} ${currentView}` : `DeFi Apps`}</a></h1>
+		<h1><a href="/apps/{$defiAppSlug}">{$defiAppSlug && $defiAppConfig ? `${$defiAppConfig.name} ${currentView}` : `Blockchain/Web 3.0 Apps`}</a></h1>
 		<label>
 			<span>DeFi App: </span>
 			<select bind:value={$defiAppSlug}>
