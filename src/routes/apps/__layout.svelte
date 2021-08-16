@@ -79,7 +79,7 @@
 
 
 <svelte:head>
-	<title>{$addressOrENSName ? `${$addressOrENSName} | ` : ''}{$defiAppConfig ? `${$defiAppConfig.name} ${$addressOrENSName ? 'Account' : 'Dashboard'}` : `DeFi Apps`} | Blockhead</title>
+	<title>{$addressOrENSName || query ? `${$addressOrENSName || query} | ` : ''}{$defiAppSlug && $defiAppConfig ? `${$defiAppConfig.name} ${currentView}` : `Apps`} | Blockhead</title>
 </svelte:head>
 
 
