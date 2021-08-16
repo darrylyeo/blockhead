@@ -1,23 +1,30 @@
 <script lang="ts">
 	import type { Readable } from 'svelte/store'
 	import type { Result } from '../data/apollo-store'
+	import type { QueryResponse } from '$houdini'
+
 
 	export let startImmediately = true
+
 	export let loadingIcon: string
 	export let loadingIconName: string
 	export let loadingMessage: string
 	export let loadingIconWidth = 25
+
 	export let errorMessage: string
 	export let errorFunction: ((Error) => string) | undefined
 	export let hideError = false
 
 	export let fromPromise: <TData = unknown> () => Promise<TData>
 	export let fromStore: <TData = unknown> () => Readable<Result<TData>>
+	export let fromHoudiniQuery: <TData = unknown, TInput = unknown> () => QueryResponse<TData, TInput>
+
 	export let showIf: (<TData = unknown> (then: TData) => boolean | any) | undefined
 	export let isCollapsed = false
 
 	export let whenErrored: (() => {}) | undefined
 	export let whenCanceled: (() => Promise<any>) | undefined
+
 
 	enum LoadingStatus {
 		Idle = 'idle',
@@ -29,7 +36,13 @@
 
 	let promise: ReturnType<typeof fromPromise>
 	let store: ReturnType<typeof fromStore>
+	let houdiniQuery: ReturnType<typeof fromHoudiniQuery>
+	$: ({loading: houdiniLoading, error: houdiniError, data: houdiniData, refetch: houdiniRefetch} = houdiniQuery ?? {})
+
+
 	export let result: unknown
+
+
 	let error: unknown
 	$: if(error) console.error(error)
 
@@ -41,10 +54,13 @@
 			promise = fromPromise()
 		else if(fromStore)
 			store = fromStore()
+		else if(fromHoudiniQuery)
+			houdiniQuery = fromHoudiniQuery()
 	}
 
 	function load(){
 		started = true
+		// houdiniRefetch?.()
 	}
 
 	async function cancel(){
@@ -64,7 +80,7 @@
 			status = LoadingStatus.Errored
 			whenErrored?.()
 		})
-	$: if(store && $store)
+	$: if(store && store.subscribe)
 		if($store.loading){
 			status = LoadingStatus.Loading
 		}else if($store.error){
@@ -73,6 +89,17 @@
 			whenErrored?.()
 		}else if($store.data){
 			result = $store.data
+			status = LoadingStatus.Resolved
+		}
+	$: if(houdiniQuery)
+		if($houdiniLoading){
+			status = LoadingStatus.Loading
+		}else if($houdiniError){
+			error = $houdiniError
+			status = LoadingStatus.Errored
+			whenErrored?.()
+		}else if($houdiniData){
+			result = $houdiniData
 			status = LoadingStatus.Resolved
 		}
 
