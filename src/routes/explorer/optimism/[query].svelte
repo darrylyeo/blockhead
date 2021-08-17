@@ -22,15 +22,13 @@
 
 	import EthereumAccount from '../../../components/EthereumAccount.svelte'
 	import EthereumBlock from '../../../components/EthereumBlock.svelte'
-	import EthereumTransaction from '../../../components/EthereumTransaction.svelte'
+	import EthereumTransactionLoader from '../../../components/EthereumTransactionLoader.svelte'
 </script>
 
 
 {#if $query && $explorerProvider}
 	{#if isTransaction($query)}
-		<EthereumTransaction network={$explorerNetwork} layout="standalone" transactionID={$query} />
-		<!-- <EthereumTransaction network={$explorerNetwork} transactionID={$query} provider={$provider}/> -->
-		<!-- <EthereumTransaction network={$explorerNetwork} transactionID={$query} analyticsProvider={analyticsProvider}/> -->
+		<EthereumTransactionLoader network={$explorerNetwork} transactionID={$query} />
 	{:else if isBlockNumber($query)}
 		<EthereumBlock network={$explorerNetwork} blockNumber={$query} provider={$explorerProvider} {analyticsProvider}/>
 	{:else}
