@@ -59,14 +59,15 @@
 
 	import { formatUnits } from '@ethersproject/units'
 
-	const _formatUnits = value => {
+	const _formatUnits = (value, decimals) => {
 		try {
 			return value
 				? formatUnits(
 					typeof value === 'string' ?
 						value.replace(/\.0*$/, '')
 					:
-						value
+						value,
+					decimals
 				)
 				: 0
 		}catch(e){
