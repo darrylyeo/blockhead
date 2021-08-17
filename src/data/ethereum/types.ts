@@ -35,9 +35,14 @@ export namespace Ethereum {
 
 	export type TransactionProvider = 'Covalent' | 'Etherspot'
 
-	export type Address = string
 	export type TransactionID = string
+	export type TransactionIndex = number
+	export type TransactionNonce = number
+
 	export type BlockNumber = number
+	export type BlockHash = string
+
+	export type Address = string
 
 	export type ContractAddress = string
 	export type Contract = {
