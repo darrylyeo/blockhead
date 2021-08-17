@@ -9,10 +9,10 @@
 	export let quoteCurrency: QuoteCurrency = $preferredQuoteCurrency
 
 
-	import { getTransaction } from '../data/analytics/covalent'
+	import { getTransaction as getTransactionCovalent} from '../data/analytics/covalent'
 
 
-	import EthereumTransaction from './EthereumTransaction.svelte'
+	import EthereumTransactionCovalent from './EthereumTransactionCovalent.svelte'
 	import Loader from './Loader.svelte'
 </script>
 
@@ -22,7 +22,7 @@
 		loadingIcon="/logos/covalent-logomark.svg"
 		loadingMessage="Fetching transaction data via Covalent..."
 		fromPromise={() =>
-			getTransaction({
+			getTransactionCovalent({
 				chainID: network.chainId,
 				transactionHash: transactionID,
 				includeLogs: true
@@ -31,7 +31,7 @@
 		}
 		let:then={transaction}
 	>
-		<EthereumTransaction
+		<EthereumTransactionCovalent
 			{network}
 			{transaction}
 			{quoteCurrency}

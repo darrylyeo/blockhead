@@ -39,7 +39,7 @@
 	import EnsName from './EnsName.svelte'
 	import EnsResolutionLoader from './EnsResolutionLoader.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
-	import EthereumTransaction from './EthereumTransaction.svelte'
+	import EthereumTransactionCovalent from './EthereumTransactionCovalent.svelte'
 	import Loader from './Loader.svelte'
 	import TokenName from './TokenName.svelte'
 	import TokenValue from './TokenValue.svelte'
@@ -180,7 +180,7 @@
 					<div class="transactions-list column" class:scrollable-list={transactions.items.length > 7}>
 						{#each transactions.items as transaction}
 							<div class="card">
-								<EthereumTransaction
+								<EthereumTransactionCovalent
 									{network}
 									{transaction}
 									quoteCurrency={$preferredQuoteCurrency}
@@ -235,7 +235,7 @@
 					<div class="transactions-list column" class:scrollable-list={transactions.items.length > 7}>
 						{#each transactions.items as erc20TokenTransaction}
 							<div class="card">
-								<EthereumTransaction
+								<EthereumTransactionCovalent
 									{network}
 									{erc20TokenTransaction}
 									quoteCurrency={$preferredQuoteCurrency}
