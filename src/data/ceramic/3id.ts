@@ -17,7 +17,7 @@ export async function getDIDProviderFromEthereumProvider({
 	ethereumProvider,
 	address
 }: {
-	threeIdConnect: ThreeIdConnect
+	threeIdConnect?: ThreeIdConnect
 	ethereumProvider: Ethereum.Provider,
 	address: Ethereum.Address
 }) {
@@ -53,8 +53,8 @@ export async function getDID({
 	didResolverRegistry = getDIDResolverRegistry(ceramic),
 	didProvider
 }: {
-    ceramic: CeramicClient,
-    didResolverRegistry: ResolverRegistry,
+    ceramic?: CeramicClient,
+    didResolverRegistry?: ResolverRegistry,
     didProvider: DIDProvider
 }) {
 	const did = new DID({
