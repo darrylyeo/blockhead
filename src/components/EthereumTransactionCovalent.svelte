@@ -25,7 +25,7 @@
 
 	// Data
 
-	interface TransactionData {
+	type TransactionData = Partial<{
 		transactionID: Ethereum.TransactionID,
 		blockNumber: Ethereum.BlockNumber,
 		blockHash,
@@ -55,7 +55,7 @@
 
 		transfers: TransactionData[],
 		logEvents: Covalent.LogEvent[],
-	}
+	}>
 
 	import { formatUnits } from '@ethersproject/units'
 
@@ -171,7 +171,7 @@
 		: erc20TokenTransfer ?
 			convertCovalentERC20TokenTransfer(erc20TokenTransfer)
 		:
-			{}
+			{} as TransactionData
 	))
 
 
