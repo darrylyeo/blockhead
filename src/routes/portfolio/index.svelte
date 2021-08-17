@@ -86,4 +86,6 @@
 	<WalletProviders {network} {portfolioProvider} />
 </main>
 
-<Preferences />
+<Preferences
+	showDefiProvider
+/>

@@ -2,6 +2,13 @@
 	import { Covalent } from '../data/analytics/covalent'
 	import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '../data/currency/currency'
 	import { preferredColorScheme, preferredAnalyticsProvider, preferredOracleProvider, preferredEthereumProvider, preferredDeFiProvider, preferredTransactionProvider, preferredQuoteCurrency } from '../data/ethereum/preferences'
+
+
+	export let showDefiProvider = false
+	export let showTransactionProvider = false
+
+
+	import { scale } from 'svelte/transition'
 </script>
 
 <style>
@@ -50,15 +57,6 @@
 	</label> -->
 
 	<label>
-		<span>DeFi Provider:</span>
-		<select bind:value={$preferredDeFiProvider}>
-			<option value="Zapper">Zapper</option>
-			<option value="Zerion DeFi SDK">Zerion DeFi SDK</option>
-			<!-- <option value="Covalent">Covalent</option> -->
-		</select>
-	</label>
-
-	<label>
 		<span>Blockchain Provider:</span>
 		<select bind:value={$preferredEthereumProvider}>
 			<option value="Ethers">Ethers Quorum</option><!-- (Infura + Etherscan + Alchemy + Pocket) -->
@@ -70,13 +68,26 @@
 		</select>
 	</label>
 
-	<label>
-		<span>Transaction Provider:</span>
-		<select bind:value={$preferredTransactionProvider}>
-			<option value="Covalent">Covalent</option>
-			<option value="Etherspot">Etherspot</option>
-		</select>
-	</label>
+	{#if showDefiProvider}
+		<label transition:scale>
+			<span>DeFi Provider:</span>
+			<select bind:value={$preferredDeFiProvider}>
+				<option value="Zapper">Zapper</option>
+				<option value="Zerion DeFi SDK">Zerion DeFi SDK</option>
+				<!-- <option value="Covalent">Covalent</option> -->
+			</select>
+		</label>
+	{/if}
+
+	{#if showTransactionProvider}
+		<label transition:scale>
+			<span>Transaction Provider:</span>
+			<select bind:value={$preferredTransactionProvider}>
+				<option value="Covalent">Covalent</option>
+				<option value="Etherspot">Etherspot</option>
+			</select>
+		</label>
+	{/if}
 
 	<label>
 		<span>Quote Currency:</span>
