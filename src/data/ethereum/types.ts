@@ -33,6 +33,8 @@ export namespace Ethereum {
 	export type ProviderName = 'Ethers' | 'Infura' | 'Alchemy' | 'MetaMask' | 'Portis' | 'Pocket Network' | 'Torus' | 'Etherscan'
 	export type Provider = BaseProvider
 
+	export type TransactionProvider = 'Covalent' | 'Etherspot'
+
 	export type Address = string
 	export type TransactionID = string
 	export type BlockNumber = number

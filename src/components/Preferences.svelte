@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Covalent } from '../data/analytics/covalent'
 	import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '../data/currency/currency'
-	import { preferredDeFiProvider, preferredAnalyticsProvider, preferredQuoteCurrency, preferredEthereumProvider, preferredOracleProvider, preferredColorScheme } from '../data/ethereum/preferences'
+	import { preferredColorScheme, preferredAnalyticsProvider, preferredOracleProvider, preferredEthereumProvider, preferredDeFiProvider, preferredTransactionProvider, preferredQuoteCurrency } from '../data/ethereum/preferences'
 </script>
 
 <style>
@@ -67,6 +67,14 @@
 			<option value="Infura">Infura</option>
 			<option value="Etherscan">Etherscan</option>
 			<option value="Portis">Infura (Portis)</option>
+		</select>
+	</label>
+
+	<label>
+		<span>Transaction Provider:</span>
+		<select bind:value={$preferredTransactionProvider}>
+			<option value="Covalent">Covalent</option>
+			<option value="Etherspot">Etherspot</option>
 		</select>
 	</label>
 
