@@ -119,4 +119,6 @@
 	</div>
 </main>
 
-<Preferences />
+<Preferences
+	showTransactionProvider
+/>
