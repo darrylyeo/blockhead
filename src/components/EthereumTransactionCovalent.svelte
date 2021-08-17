@@ -188,7 +188,7 @@
 
 	import AddressWithLabel from './AddressWithLabel.svelte'
 	import Date from './Date.svelte'
-	import EthereumLogEvent from './EthereumLogEvent.svelte'
+	import EthereumLogEventCovalent from './EthereumLogEventCovalent.svelte'
 	import EthereumTransactionID from './EthereumTransactionID.svelte'
 	import EthereumTransactionSummary from './EthereumTransactionSummary.svelte'
 	import TokenValueWithConversion from './TokenValueWithConversion.svelte'
@@ -360,7 +360,7 @@
 				<div class="log-events">
 					{#each logEvents as logEvent}
 						<div class="card">
-							<EthereumLogEvent
+							<EthereumLogEventCovalent
 								{network}
 								{logEvent}
 								{detailLevel}
@@ -372,7 +372,7 @@
 			{:else}
 				<div class="log-events column" class:scrollable-list={logEvents.length > 16}><!-- transition:fade|local -->
 					{#each logEvents as logEvent}
-						<EthereumLogEvent
+						<EthereumLogEventCovalent
 							{network}
 							{logEvent}
 							{detailLevel}
