@@ -357,7 +357,7 @@
 			{#if isStandaloneLayout}
 				<hr>
 				<h4>Smart Contract Log Events</h4>
-				<div class="log-events">
+				<div class="log-events column">
 					{#each logEvents as logEvent}
 						<div class="card">
 							<EthereumLogEventCovalent
