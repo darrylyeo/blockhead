@@ -8,6 +8,7 @@
 	let isPlaying = false
 
 
+	import AudiusTrackLoader from './AudiusTrackLoader.svelte'
 	import AudiusTrackPlayer from './AudiusTrackPlayer.svelte'
 	import AudiusUserSummary from './AudiusUserSummary.svelte'
 	import Date from './Date.svelte'
@@ -204,9 +205,11 @@
 			<hr>
 
 			<h4>Remix of</h4>
-			{#each track.remix_of?.tracks as remixedTrack}
-				<svelte:self track={remixedTrack} />
-			{/each}
+			<div class="column">
+				{#each track.remix_of?.tracks as remixedTrack}
+					<AudiusTrackLoader trackId={remixedTrack.parent_track_id} />
+				{/each}
+			</div>
 		{/if}
 	</div>
 {/if}
