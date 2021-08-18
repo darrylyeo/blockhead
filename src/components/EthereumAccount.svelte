@@ -33,76 +33,13 @@
 	let priceScale: PriceScale
 
 
-	import { formatEther, formatUnits } from '@ethersproject/units'
-
-	function convertCovalentTransaction(transaction: Covalent.Transaction){
-		return {
-			transactionID: transaction.tx_hash,
-			blockNumber: transaction.log_events?.[0]?.block_height,
-			date: transaction.block_signed_at,
-			isSuccessful: transaction.successful !== false,
-
-			fromAddress: transaction.from_address,
-			fromAddressLabel: transaction.from_address_label,
-			toAddress: transaction.to_address,
-			toAddressLabel: transaction.to_address_label,
-
-			token: network.nativeCurrency.symbol,
-			tokenName: network.nativeCurrency.name,
-
-			value: formatEther(transaction.value),
-			valueQuote: transaction.value_quote,
-
-			gasToken: network.nativeCurrency.symbol,
-			gasValue: formatUnits(transaction.gas_spent, 'gwei'),
-			gasValueQuote: transaction.gas_quote,
-
-			quoteToken: quoteCurrency,
-			// rate: transaction.value_quote / formatEther(transaction.value),
-
-			logEvents: transaction.log_events,
-		}
-	}
-	function convertCovalentERC20TokenTransaction(transaction: Covalent.ERC20TokenTransaction){
-		return {
-			...convertCovalentTransaction(transaction),
-			transfers: transaction.transfers.map(convertCovalentERC20TokenTransfer)
-		}
-	}
-	function convertCovalentERC20TokenTransfer(transfer: Covalent.ERC20TokenTransfer){
-		return {
-			transferID: transfer.tx_hash,
-			date: transfer.block_signed_at,
-			isSuccessful: transfer.successful !== false,
-
-			fromAddress: transfer.from_address,
-			fromAddressLabel: transfer.from_address_label,
-			toAddress: transfer.to_address,
-			toAddressLabel: transfer.to_address_label,
-
-			token: transfer.contract_ticker_symbol,
-			tokenName: transfer.contract_name,
-			tokenIcon: transfer.logo_url,
-			tokenAddress: transfer.contract_address,
-
-			value: formatUnits(transfer.delta, transfer.contract_decimals),
-			valueQuote: transfer.delta_quote,
-
-			quoteToken: quoteCurrency,
-			rate: transfer.quote_rate,
-
-			logEvents: transfer.log_events,
-		}
-	}
-
-
 	import Address from './Address.svelte'
 	import Balance from './Balance.svelte'
 	import CovalentPriceChart from './CovalentPriceChart.svelte'
 	import EnsName from './EnsName.svelte'
 	import EnsResolutionLoader from './EnsResolutionLoader.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
-	import EthereumTransaction from './EthereumTransaction.svelte'
+	import EthereumTransactionCovalent from './EthereumTransactionCovalent.svelte'
 	import Loader from './Loader.svelte'
 	import TokenName from './TokenName.svelte'
 	import TokenValue from './TokenValue.svelte'
@@ -142,7 +79,15 @@
 	>
 		<div slot="header" class="bar">
 			<div class="row-inline">
-				{#if isReverseResolving}
+				{#if address}
+					<h2><Address {network} {address} /></h2>
+					{#if ensName}
+						<EnsName {ensName} />
+					{/if}
+				{:else if ensName}
+					<h2><EnsName {ensName} /></h2>
+				{/if}
+				<!-- {#if isReverseResolving}
 					{#if address}
 						<h2><Address {network} {address} /></h2>
 					{/if}
@@ -156,7 +101,7 @@
 					{#if address}
 						<Address {network} {address} />
 					{/if}
-				{/if}
+				{/if} -->
 			</div>
 			<span class="card-annotation">Ethereum Account</span>
 		</div>
@@ -242,14 +187,18 @@
 
 					<div class="transactions-list column" class:scrollable-list={transactions.items.length > 7}>
 						{#each transactions.items as transaction}
-							<EthereumTransaction
-								{network}
-								contextualAddress={address}
-								{detailLevel}
-								{showValues}
-								{showFees}
-								{...convertCovalentTransaction(transaction)}
-							/>
+							<div class="card">
+								<EthereumTransactionCovalent
+									{network}
+									{transaction}
+									quoteCurrency={$preferredQuoteCurrency}
+									contextualAddress={address}
+									{detailLevel}
+									{showValues}
+									{showFees}
+									layout="inline"
+								/>
+							</div>
 						{:else}
 							<div class="card">No transactions yet.</div>
 						{/each}
@@ -292,15 +241,19 @@
 					</svelte:fragment>
 
 					<div class="transactions-list column" class:scrollable-list={transactions.items.length > 7}>
-						{#each transactions.items as transaction}
-							<EthereumTransaction
-								{network}
-								contextualAddress={address}
-								{detailLevel}
-								{showValues}
-								{showFees}
-								{...convertCovalentERC20TokenTransaction(transaction)}
-							/>
+						{#each transactions.items as erc20TokenTransaction}
+							<div class="card">
+								<EthereumTransactionCovalent
+									{network}
+									{erc20TokenTransaction}
+									quoteCurrency={$preferredQuoteCurrency}
+									contextualAddress={address}
+									{detailLevel}
+									{showValues}
+									{showFees}
+									layout="inline"
+								/>
+							</div>
 						{:else}
 							<div class="card">No transactions yet.</div>
 						{/each}

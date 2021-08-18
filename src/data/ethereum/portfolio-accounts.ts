@@ -108,17 +108,20 @@ export const getLocalPortfolios = () => localPortfolios ||= localStorageWritable
 
 import { Signer } from '@ethersproject/abstract-signer'
 import { providers } from 'ethers'
-import { getProvider } from './provider'
 
 export async function getAccountsFromProvider(provider: Ethereum.Provider | Signer, providerName: Ethereum.ProviderName){
-	const accounts =
+	const accounts = (
 		provider instanceof providers.JsonRpcProvider ?
 			await provider.listAccounts()
 		: provider instanceof Signer ?
 			[await provider.getAddress()]
+		: provider.selectedAddress ?
+			[provider.selectedAddress]
 		:
 			[]
-	return accounts.map(id => new Account(id, provider, providerName))
+	).map(id => new Account(id, provider, providerName))
+
+	return accounts
 }
 
 

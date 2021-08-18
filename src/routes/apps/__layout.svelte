@@ -109,4 +109,6 @@
 	</div>
 </main>
 
-<Preferences />
+<Preferences
+	showDefiProvider
+/>

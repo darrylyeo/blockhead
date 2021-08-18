@@ -1,3 +1,62 @@
+import { Sdk, randomPrivateKey, NetworkNames } from 'etherspot'
+import type { Ethereum } from '../ethereum/types'
+
+
+const CHAIN_ID_TO_NETWORK_NAME: Record<Ethereum.ChainID, NetworkNames> = {
+	1: NetworkNames.Mainnet,
+	3: NetworkNames.Ropsten,
+	4: NetworkNames.Rinkeby,
+	5: NetworkNames.Goerli,
+	42: NetworkNames.Kovan,
+	100: NetworkNames.Xdai,
+	77: NetworkNames.Sokol,
+	56: NetworkNames.Bsc,
+	97: NetworkNames.BscTest,
+	250: NetworkNames.Fantom,
+	4002: NetworkNames.FantomTest,
+	137: NetworkNames.Matic,
+	80001: NetworkNames.Mumbai,
+	4386: NetworkNames.Etherspot,
+	9999: NetworkNames.LocalA,
+	6666: NetworkNames.LocalB,
+	3333: NetworkNames.LocalH,
+}
+
+
+const etherspotInstances: Record<Ethereum.ChainID, Sdk> = {}
+
+export const getEtherspotInstance = ({
+	network
+}: {
+	network: Ethereum.Network
+}) =>
+	etherspotInstances[network.chainId] ||=
+		new Sdk({
+			privateKey: randomPrivateKey(),
+		}, {
+			networkName: CHAIN_ID_TO_NETWORK_NAME[network.chainId]
+		})
+
+
+export const getTransaction = async ({
+	network,
+	etherspotSdk = getEtherspotInstance({network}),
+	transactionID
+}: {
+	network: Ethereum.Network,
+	etherspotSdk?: Sdk,
+	transactionID: Ethereum.TransactionID
+} | {
+	network?: Ethereum.Network,
+	etherspotSdk: Sdk,
+	transactionID: Ethereum.TransactionID
+}) =>
+	await etherspotSdk.getTransaction({
+		hash: transactionID
+	})
+
+
+
 export async function startEtherspotTransfer(){}
 
 // import type { Ethereum } from '../ethereum/types'
