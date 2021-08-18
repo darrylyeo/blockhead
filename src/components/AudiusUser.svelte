@@ -54,6 +54,10 @@
 		gap: 0.5em;
 	}
 
+	/*.layout-full*/ .verified {
+		font-size: 0.65em;
+	}
+
 	.handle-and-location {
 		gap: 0.75em;
 	}
