@@ -97,6 +97,9 @@
 		margin-top: calc(var(--padding-outer) - var(--padding-inner));
 		height: min-content;
 	}
+	.player:not(:last-child) {
+		margin-bottom: calc(-1 * var(--padding-inner));
+	}
 </style>
 
 
