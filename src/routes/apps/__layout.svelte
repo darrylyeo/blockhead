@@ -17,13 +17,13 @@
 	setContext('blockchainAppSlug', blockchainAppSlug)
 	setContext('addressOrENSName', addressOrENSName)
 
-	let path = $page.path
-	$: if(browser){
-		const newPath = `/apps${$blockchainAppSlug ? `/${$blockchainAppSlug}${$addressOrENSName ? `/address/${$addressOrENSName}` : ''}` : ''}`
-		console.log(newPath, path)
-		if(newPath !== path)
-			goto(newPath, {keepfocus: true})
-	}
+	// let path = $page.path
+	// $: if(browser){
+	// 	const newPath = `/apps${$blockchainAppSlug ? `/${$blockchainAppSlug}${$addressOrENSName ? `/address/${$addressOrENSName}` : ''}` : ''}`
+	// 	console.log(newPath, path)
+	// 	if(newPath !== path)
+	// 		goto(newPath, {keepfocus: true})
+	// }
 
 
 	$: query = $page.params.query
@@ -88,7 +88,8 @@
 		<h1><a href="/apps/{$blockchainAppSlug}">{$blockchainAppSlug && $blockchainAppConfig ? `${$blockchainAppConfig.name} ${currentView}` : `Blockchain/Web 3.0 Apps`}</a></h1>
 		<label>
 			<span>Blockchain App: </span>
-			<select bind:value={$blockchainAppSlug}>
+			<!-- <select bind:value={$blockchainAppSlug}> -->
+			<select bind:value={$blockchainAppSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`/apps/${$blockchainAppSlug}${$addressOrENSName ? `/${$addressOrENSName}` : ''}`))}>
 				<option value="" selected>Select App...</option>
 				<optgroup label="Featured">
 					{#each featuredBlockchainApps as {name, slug}}
