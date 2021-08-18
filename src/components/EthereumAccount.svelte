@@ -79,7 +79,15 @@
 	>
 		<div slot="header" class="bar">
 			<div class="row-inline">
-				{#if isReverseResolving}
+				{#if address}
+					<h2><Address {network} {address} /></h2>
+					{#if ensName}
+						<EnsName {ensName} />
+					{/if}
+				{:else if ensName}
+					<h2><EnsName {ensName} /></h2>
+				{/if}
+				<!-- {#if isReverseResolving}
 					{#if address}
 						<h2><Address {network} {address} /></h2>
 					{/if}
@@ -93,7 +101,7 @@
 					{#if address}
 						<Address {network} {address} />
 					{/if}
-				{/if}
+				{/if} -->
 			</div>
 			<span class="card-annotation">Ethereum Account</span>
 		</div>
