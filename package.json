@@ -9,7 +9,8 @@
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
     "format": "prettier --write --plugin-search-dir=. .",
-    "generate:swagger-typescript-api": "npx swagger-typescript-api --path https://api.zapper.fi/api/json --output ./src/data/zapper/api/ --clean-output true --union-enums false --route-types true --enum-names-as-values true --extract-request-params true --extract-request-body true --modular true --single-http-client true --default-response {} --unwrap-response-data true",
+    "generate": "npx npm-run-all generate:*",
+    "generate:swagger-typescript-api": "swagger-typescript-api --path https://api.zapper.fi/api/json --output ./src/data/zapper/api/ --clean-output true --union-enums false --route-types true --enum-names-as-values true --extract-request-params true --extract-request-body true --modular true --single-http-client true --default-response {} --unwrap-response-data true",
     "generate:houdini": "npx houdini generate --pull-schema"
   },
   "type": "module",
@@ -76,6 +77,7 @@
     "svelte": "^3.34.0",
     "svelte-check": "^2.0.0",
     "svelte-preprocess": "^4.0.0",
+    "swagger-typescript-api": "^9.2.0",
     "tslib": "^2.0.0",
     "typescript": "^4.0.0"
   },

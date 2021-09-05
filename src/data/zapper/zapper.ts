@@ -4,24 +4,14 @@ import type {
 	PoolControllerGetPoolStatsByAddressParams,
 	ProtocolBalanceResponse
 } from './api/data-contracts'
-import { V1 } from './api/V1'
 
-import { ZAPPER_API_KEY } from '../../config-secrets'
 import type { Ethereum } from '../ethereum/types'
-
-
-const Zapper = new V1()
 
 
 export type ZapperDeFiNetwork =
 	| BalanceControllerGetProtocolBalancesV2Params['network']
 	| PoolControllerGetPoolStatsParams['network']
 	| PoolControllerGetPoolStatsByAddressParams['network']
-export type ZapperDeFiProtocolName =
-	| BalanceControllerGetProtocolBalancesV2Params['protocol']
-	| PoolControllerGetPoolStatsParams['poolStatsType']
-	| PoolControllerGetPoolStatsByAddressParams['poolStatsType']
-
 
 const networkNamesByChainID: Record<Ethereum.ChainID, ZapperDeFiNetwork> = {
 	'1': 'ethereum',
@@ -29,8 +19,222 @@ const networkNamesByChainID: Record<Ethereum.ChainID, ZapperDeFiNetwork> = {
 	'10': 'optimism',
 	'100': 'xdai',
 	'56': 'binance-smart-chain',
-	'250': 'fantom'
+	'250': 'fantom',
+	'43114': 'avalanche'
 }
+
+
+export type ZapperDeFiProtocolName =
+	| BalanceControllerGetProtocolBalancesV2Params['protocol']
+	| PoolControllerGetPoolStatsParams['poolStatsType']
+	| PoolControllerGetPoolStatsByAddressParams['poolStatsType']
+
+const ZapperDeFiProtocolNames: ZapperDeFiProtocolName[] = [
+	'1inch',
+	'88mph',
+	'aave',
+	'aave-amm',
+	'aave-v2',
+	'aavegotchi',
+	'abracadabra',
+	'adamant',
+	'alchemix',
+	'alpha-v1',
+	'alpha-v2',
+	'apy',
+	'armor',
+	'augur',
+	'autofarm',
+	'b-protocol',
+	'badger',
+	'balancer-v1',
+	'balancer-v2',
+	'bancor',
+	'barnbridge',
+	'barnbridge-smart-yield',
+	'based-money',
+	'basis-cash',
+	'basis-gold',
+	'beefy',
+	'bella',
+	'belt',
+	'benqi',
+	'bitcoin',
+	'boring-dao',
+	'bzx',
+	'compound',
+	'convex',
+	'cover',
+	'cream',
+	'cream-iron-bank',
+	'curve',
+	'defi-dollar',
+	'defi-swap',
+	'defisaver',
+	'derivadex',
+	'deversifi',
+	'dfi-money',
+	'dforce',
+	'dfyn',
+	'dhedge',
+	'dodo',
+	'dsd',
+	'dydx',
+	'element',
+	'ellipsis',
+	'epns',
+	'esd',
+	'frax',
+	'futureswap',
+	'harvest',
+	'hegic',
+	'idle',
+	'illuvium',
+	'index-coop',
+	'indexed',
+	'inverse',
+	'keep-network',
+	'keeper-dao',
+	'klondike',
+	'klondike-v2',
+	'kyber-dmm',
+	'linkswap',
+	'liquity',
+	'loopring',
+	'lydia',
+	'lyra',
+	'maker',
+	'mintr',
+	'mirror',
+	'mith-cash',
+	'mooniswap',
+	'mstable',
+	'mushroom',
+	'nft20',
+	'nftx',
+	'opyn',
+	'other',
+	'pancakeswap',
+	'pangolin',
+	'penguin',
+	'perpetual-protocol',
+	'pickle',
+	'pie-dao',
+	'pooltogether',
+	'popsicle',
+	'powerpool',
+	'quickswap',
+	'rari',
+	'rari-fuse',
+	'realt',
+	'reflexer',
+	'ribbon',
+	'sablier',
+	'saddle',
+	'sfinance',
+	'shared-stake',
+	'shell',
+	'smoothy',
+	'snowball',
+	'snowswap',
+	'spookyswap',
+	'stake-dao',
+	'superfluid',
+	'sushiswap',
+	'sushiswap-bentobox',
+	'sushiswap-kashi',
+	'swerve',
+	'synthetix',
+	'the-graph',
+	'tokemak',
+	'tokenlon',
+	'tokens',
+	'tokensets',
+	'traderjoe',
+	'uniswap',
+	'uniswap-v2',
+	'uniswap-v3',
+	'unit',
+	'value',
+	'venus',
+	'vesper',
+	'waultswap',
+	'xsigma',
+	'yam',
+	'yaxis',
+	'yearn',
+	'yieldyak',
+	'zlot'
+]
+
+
+import { V1 } from './api/V1'
+// import type { QueryParamsType } from './api/http-client'
+import type { FullRequestParams } from './api/http-client'
+import { HttpClient } from './api/http-client'
+
+import { ZAPPER_API_KEY } from '../../config-secrets'
+
+// class ZapperHttpClient extends HttpClient {
+// 	// toQueryString(rawQuery: QueryParamsType = {}){
+// 	// 	return super.toQueryString({
+// 	// 		...rawQuery,
+// 	// 		api_key: ZAPPER_API_KEY
+// 	// 	})
+// 	// }
+// 	public request = async ({query = {}, ...params}: FullRequestParams) => {
+// 	// public async request({query = {}, ...params}: FullRequestParams){
+// 		// console.dir(HttpClient, query, params)
+// 		return await HttpClient.prototype.request({
+// 			query: {
+// 				api_key: ZAPPER_API_KEY,
+// 				...query
+// 			},
+// 			...params
+// 		})
+// 	}
+// }
+// const Zapper = new V1(new ZapperHttpClient({
+// 	securityWorker: () => ({
+// 		format: 'json'
+// 	})
+// }))
+
+// const client = new HttpClient<{api_key: string}>({
+// 	securityWorker: ({api_key}) => ({
+// 		query: {
+// 			api_key
+// 		}
+// 	})
+// })
+// client.setSecurityData({
+// 	api_key: ZAPPER_API_KEY as string
+// })
+// const Zapper = new V1(client)
+
+// const Zapper = new V1(new HttpClient({
+// 	baseApiParams: {
+// 		query: {
+// 			api_key: ZAPPER_API_KEY
+// 		}
+// 	}
+// }))
+// { apiKey: () => ZAPPER_API_KEY }
+
+const client = new HttpClient()
+
+const request = client.request.bind(client)
+client.request = async ({query = {}, ...params}: FullRequestParams) => {
+	return await request({
+		query: {
+			...query,
+			api_key: ZAPPER_API_KEY
+		},
+		...params
+	})
+}
+
+const Zapper = new V1(client)
 
 
 import { memoizedAsync } from '../../utils/memoized'
@@ -50,10 +254,18 @@ function PromiseAllFulfilled<T>(promises: Promise<T>[]){
 
 
 const getSupportedProtocolNamesByNetwork = memoizedAsync(async (networkName: string, address: Ethereum.Address) => {
-	const supportedProtocolsByNetwork: {network: string, protocols}[] = await Zapper.balanceControllerGetSupportedV2Balances({ addresses: [address] })
+	// @ts-ignore
+	const supportedProtocolsByNetwork: {
+		network: string,
+		protocols: {
+			protocol: ZapperDeFiProtocolName,
+			meta: {img: string, label: string, supportedActions: string[], tags: string[]}[]
+		}[]
+	}[] = await Zapper.balanceControllerGetSupportedV2Balances({
+		'addresses[]': [address]
+	})
 
-	const supportedProtocols = supportedProtocolsByNetwork.find(({network}) => network === networkName)
-	console.log('supportedProtocolsByNetwork', supportedProtocols)
+	const supportedProtocols = supportedProtocolsByNetwork?.find(({network}) => network === networkName)
 
 	if(supportedProtocols){
 		const supportedProtocolNames: ZapperDeFiProtocolName[] = supportedProtocols.protocols.map(({protocol}) => protocol)
@@ -92,10 +304,9 @@ export const getDeFiProtocolBalances = memoizedAsync(async ({protocolNames, netw
 			queue.enqueue(() =>
 				Zapper.balanceControllerGetProtocolBalancesV2({
 					protocol,
-					addresses: [address],
+					'addresses[]': [address],
 					network: networkName
 				})
-				.then(response => response.json())
 				.then((response: ProtocolBalanceResponse) => {
 					console.log('Zapper balance', protocol, address, response)
 					return {...Object.values(response)[0], protocolName: protocol}
@@ -104,16 +315,16 @@ export const getDeFiProtocolBalances = memoizedAsync(async ({protocolNames, netw
 			)
 		)
 	).then(defiBalances => defiBalances.filter(
-		<(_) => _ is Zapper.AddressBalanceResponse & {protocolName: ZapperDeFiProtocolName}> (_ => _)
+		<(_) => _ is ProtocolBalanceResponse & {protocolName: ZapperDeFiProtocolName}> (_ => _)
 	))
 })
 
 export async function getAllPoolStats({network, address}: {network: Ethereum.Network, address: Ethereum.Address}){
 	return Promise.all(
-		Object.values(Zapper.PoolControllerGetPoolStatsPoolStatsTypeEnum).map(poolStatsType =>
+		ZapperDeFiProtocolNames.map(protocolName =>
 			queue.enqueue(() =>
-				ProtocolStats.poolControllerGetPoolStats({
-					poolStatsType,    
+				Zapper.poolControllerGetPoolStats({
+					poolStatsType: protocolName,    
 					network: networkNamesByChainID[network.chainId]
 				})
 			)
@@ -122,5 +333,7 @@ export async function getAllPoolStats({network, address}: {network: Ethereum.Net
 }
 
 export async function getFiatRates(){
-	return await MiscellaneousDataEndpoints.pricesControllerListFiatRates()
+	const result = await Zapper.pricesControllerListFiatRates()
+	// console.log('getFiatRates', result)
+	return result
 }
