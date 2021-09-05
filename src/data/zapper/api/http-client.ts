@@ -167,7 +167,7 @@ export class HttpClient<SecurityDataType = unknown> {
     baseUrl,
     cancelToken,
     ...params
-  }: FullRequestParams): Promise<HttpResponse<T, E>> => {
+  }: FullRequestParams): Promise<T> => {
     const secureParams =
       ((typeof secure === "boolean" ? secure : this.baseApiParams.secure) &&
         this.securityWorker &&
@@ -188,8 +188,8 @@ export class HttpClient<SecurityDataType = unknown> {
       body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
     }).then(async (response) => {
       const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      r.data = (null as unknown) as T;
+      r.error = (null as unknown) as E;
 
       const data = !responseFormat
         ? r
@@ -212,7 +212,7 @@ export class HttpClient<SecurityDataType = unknown> {
       }
 
       if (!response.ok) throw data;
-      return data;
+      return data.data;
     });
   };
 }

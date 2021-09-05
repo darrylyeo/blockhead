@@ -9,7 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-import {
+import type {
   ApprovalControllerGetApprovalStateParams,
   ApprovalControllerGetApprovalTransactionParams,
   BalanceControllerGetProtocolBalancesV2Params,
@@ -54,9 +54,15 @@ import {
   ZapOutLegacyControllerGetZapOutApprovalTransactionParams,
   ZapOutLegacyControllerGetZapOutTransactionParams,
 } from "./data-contracts";
-import { HttpClient, RequestParams } from "./http-client";
+import type { HttpClient, RequestParams } from "./http-client";
 
-export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
+export class V1<SecurityDataType = unknown> {
+  http: HttpClient<SecurityDataType>;
+
+  constructor(http: HttpClient<SecurityDataType>) {
+    this.http = http;
+  }
+
   /**
    * @description Retrieve supported tokens and their prices
    *
@@ -67,7 +73,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
    * @secure
    */
   pricesControllerListPrices = (query: PricesControllerListPricesParams, params: RequestParams = {}) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/prices`,
       method: "GET",
       query: query,
@@ -87,7 +93,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { tokenAddress, ...query }: PricesControllerGetTokenPricesParams,
     params: RequestParams = {},
   ) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/prices/${tokenAddress}`,
       method: "GET",
       query: query,
@@ -104,7 +110,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
    * @secure
    */
   pricesControllerListFiatRates = (params: RequestParams = {}) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/fiat-rates`,
       method: "GET",
       secure: true,
@@ -120,7 +126,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
    * @secure
    */
   approvalControllerGetApprovalState = (query: ApprovalControllerGetApprovalStateParams, params: RequestParams = {}) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/approval-state`,
       method: "GET",
       query: query,
@@ -140,7 +146,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     query: ApprovalControllerGetApprovalTransactionParams,
     params: RequestParams = {},
   ) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/approval-transaction`,
       method: "GET",
       query: query,
@@ -160,7 +166,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { protocol, ...query }: BalanceControllerGetProtocolBalancesV2Params,
     params: RequestParams = {},
   ) =>
-    this.request<ProtocolBalanceResponse, any>({
+    this.http.request<ProtocolBalanceResponse, any>({
       path: `/v1/protocols/${protocol}/balances`,
       method: "GET",
       query: query,
@@ -181,7 +187,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     query: BalanceControllerGetSupportedV2BalancesParams,
     params: RequestParams = {},
   ) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/protocols/balances/supported`,
       method: "GET",
       query: query,
@@ -198,7 +204,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
    * @secure
    */
   poolControllerGetSupportedPoolStatsTypes = (params: RequestParams = {}) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/pool-stats/supported`,
       method: "GET",
       secure: true,
@@ -217,7 +223,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { poolStatsType, ...query }: PoolControllerGetPoolStatsParams,
     params: RequestParams = {},
   ) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/pool-stats/${poolStatsType}`,
       method: "GET",
       query: query,
@@ -237,7 +243,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { poolStatsType, poolAddress, ...query }: PoolControllerGetPoolStatsByAddressParams,
     params: RequestParams = {},
   ) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/pool-stats/${poolStatsType}/${poolAddress}`,
       method: "GET",
       query: query,
@@ -254,7 +260,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
    * @secure
    */
   poolControllerGetSupportedVaultStatsTypes = (params: RequestParams = {}) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/vault-stats/supported`,
       method: "GET",
       secure: true,
@@ -273,7 +279,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { vaultStatsType, ...query }: PoolControllerGetVaultStatsParams,
     params: RequestParams = {},
   ) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/vault-stats/${vaultStatsType}`,
       method: "GET",
       query: query,
@@ -290,7 +296,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
    * @secure
    */
   poolControllerGetSupportedLendingStats = (params: RequestParams = {}) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/lending-stats/supported`,
       method: "GET",
       secure: true,
@@ -309,7 +315,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { lendingPoolStatsType, ...query }: PoolControllerGetLendingPoolStatsParams,
     params: RequestParams = {},
   ) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/lending-stats/${lendingPoolStatsType}`,
       method: "GET",
       query: query,
@@ -329,60 +335,10 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { protocol, ...query }: MarketControllerGetMarketDataParams,
     params: RequestParams = {},
   ) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/protocols/${protocol}/token-market-data`,
       method: "GET",
       query: query,
-      secure: true,
-      ...params,
-    });
-  /**
-   * @description Returns data about the amount received if a trade would be made. **Should be called whenever a price needs to be calculated.**
-   *
-   * @tags Exchange
-   * @name ExchangeControllerGetExchangePrice
-   * @summary Exchange Price
-   * @request GET:/v1/exchange/price
-   * @secure
-   */
-  exchangeControllerGetExchangePrice = (query: ExchangeControllerGetExchangePriceParams, params: RequestParams = {}) =>
-    this.request<void, any>({
-      path: `/v1/exchange/price`,
-      method: "GET",
-      query: query,
-      secure: true,
-      ...params,
-    });
-  /**
-   * @description Returns both the relative price for a trade as well as the call data used to sumbit a transaction for a trade. **Should only be called when a trade is ready to be submitted.**
-   *
-   * @tags Exchange
-   * @name ExchangeControllerGetExchangeQuote
-   * @summary Exchange Quote
-   * @request GET:/v1/exchange/quote
-   * @secure
-   */
-  exchangeControllerGetExchangeQuote = (query: ExchangeControllerGetExchangeQuoteParams, params: RequestParams = {}) =>
-    this.request<void, any>({
-      path: `/v1/exchange/quote`,
-      method: "GET",
-      query: query,
-      secure: true,
-      ...params,
-    });
-  /**
-   * @description Returns the exchanges supported by Zapper API.
-   *
-   * @tags Exchange
-   * @name ExchangeControllerGetSupportedExchanges
-   * @summary Supported exchanges
-   * @request GET:/v1/exchange/supported
-   * @secure
-   */
-  exchangeControllerGetSupportedExchanges = (params: RequestParams = {}) =>
-    this.request<void, any>({
-      path: `/v1/exchange/supported`,
-      method: "GET",
       secure: true,
       ...params,
     });
@@ -399,10 +355,60 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { protocol, ...query }: FarmsControllerGetFarmsMarketDataParams,
     params: RequestParams = {},
   ) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/protocols/${protocol}/farms`,
       method: "GET",
       query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description Returns data about the amount received if a trade would be made. **Should be called whenever a price needs to be calculated.**
+   *
+   * @tags Exchange
+   * @name ExchangeControllerGetExchangePrice
+   * @summary Exchange Price
+   * @request GET:/v1/exchange/price
+   * @secure
+   */
+  exchangeControllerGetExchangePrice = (query: ExchangeControllerGetExchangePriceParams, params: RequestParams = {}) =>
+    this.http.request<{}, any>({
+      path: `/v1/exchange/price`,
+      method: "GET",
+      query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description Returns both the relative price for a trade as well as the call data used to sumbit a transaction for a trade. **Should only be called when a trade is ready to be submitted.**
+   *
+   * @tags Exchange
+   * @name ExchangeControllerGetExchangeQuote
+   * @summary Exchange Quote
+   * @request GET:/v1/exchange/quote
+   * @secure
+   */
+  exchangeControllerGetExchangeQuote = (query: ExchangeControllerGetExchangeQuoteParams, params: RequestParams = {}) =>
+    this.http.request<{}, any>({
+      path: `/v1/exchange/quote`,
+      method: "GET",
+      query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description Returns the exchanges supported by Zapper API.
+   *
+   * @tags Exchange
+   * @name ExchangeControllerGetSupportedExchanges
+   * @summary Supported exchanges
+   * @request GET:/v1/exchange/supported
+   * @secure
+   */
+  exchangeControllerGetSupportedExchanges = (params: RequestParams = {}) =>
+    this.http.request<{}, any>({
+      path: `/v1/exchange/supported`,
+      method: "GET",
       secure: true,
       ...params,
     });
@@ -419,7 +425,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { farmStatsType, ...query }: FarmFetcherControllerGetEthereumFarmsParams,
     params: RequestParams = {},
   ) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/farms/${farmStatsType}`,
       method: "GET",
       query: query,
@@ -439,7 +445,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { farmStatsType, ...query }: FarmStakingControllerGetApprovalStateParams,
     params: RequestParams = {},
   ) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/farms/${farmStatsType}/approval-state`,
       method: "GET",
       query: query,
@@ -459,7 +465,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { farmStatsType, ...query }: FarmStakingControllerGetApprovalTransactionParams,
     params: RequestParams = {},
   ) =>
-    this.request<Transaction, any>({
+    this.http.request<Transaction, any>({
       path: `/v1/farms/${farmStatsType}/approval-transaction`,
       method: "GET",
       query: query,
@@ -480,7 +486,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { farmStatsType, ...query }: FarmStakingControllerGetStakeTransactionParams,
     params: RequestParams = {},
   ) =>
-    this.request<Transaction, any>({
+    this.http.request<Transaction, any>({
       path: `/v1/farms/${farmStatsType}/stake`,
       method: "GET",
       query: query,
@@ -501,7 +507,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { farmStatsType, ...query }: FarmStakingControllerGetClaimTransactionParams,
     params: RequestParams = {},
   ) =>
-    this.request<Transaction, any>({
+    this.http.request<Transaction, any>({
       path: `/v1/farms/${farmStatsType}/claim`,
       method: "GET",
       query: query,
@@ -522,7 +528,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { farmStatsType, ...query }: FarmStakingControllerGetExitTransactionParams,
     params: RequestParams = {},
   ) =>
-    this.request<Transaction, any>({
+    this.http.request<Transaction, any>({
       path: `/v1/farms/${farmStatsType}/exit`,
       method: "GET",
       query: query,
@@ -540,7 +546,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
    * @secure
    */
   gasPriceControllerGetGasPrice = (query: GasPriceControllerGetGasPriceParams, params: RequestParams = {}) =>
-    this.request<GasPricesResponse, any>({
+    this.http.request<GasPricesResponse, any>({
       path: `/v1/gas-price`,
       method: "GET",
       query: query,
@@ -571,7 +577,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
       | "vault",
     params: RequestParams = {},
   ) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/zap-in/${type}/supported`,
       method: "GET",
       secure: true,
@@ -590,7 +596,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { type, protocol, ...query }: ZapInControllerGetZapInApprovalStateParams,
     params: RequestParams = {},
   ) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/zap-in/${type}/${protocol}/approval-state`,
       method: "GET",
       query: query,
@@ -610,7 +616,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { type, protocol, ...query }: ZapInControllerGetZapInApprovalTransactionParams,
     params: RequestParams = {},
   ) =>
-    this.request<Transaction, any>({
+    this.http.request<Transaction, any>({
       path: `/v1/zap-in/${type}/${protocol}/approval-transaction`,
       method: "GET",
       query: query,
@@ -631,7 +637,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { type, protocol, ...query }: ZapInControllerGetZapInTransactionParams,
     params: RequestParams = {},
   ) =>
-    this.request<Transaction, any>({
+    this.http.request<Transaction, any>({
       path: `/v1/zap-in/${type}/${protocol}/transaction`,
       method: "GET",
       query: query,
@@ -650,7 +656,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
    * @secure
    */
   zapInLegacyControllerGetSupportedZapIns = (params: RequestParams = {}) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/zap-in/supported`,
       method: "GET",
       secure: true,
@@ -670,7 +676,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { protocol, ...query }: ZapInLegacyControllerGetZapInApprovalStateParams,
     params: RequestParams = {},
   ) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/zap-in/${protocol}/approval-state`,
       method: "GET",
       query: query,
@@ -691,7 +697,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { protocol, ...query }: ZapInLegacyControllerGetZapInApprovalTransactionParams,
     params: RequestParams = {},
   ) =>
-    this.request<Transaction, any>({
+    this.http.request<Transaction, any>({
       path: `/v1/zap-in/${protocol}/approval-transaction`,
       method: "GET",
       query: query,
@@ -713,7 +719,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { protocol, ...query }: ZapInLegacyControllerGetZapInTransactionParams,
     params: RequestParams = {},
   ) =>
-    this.request<Transaction, any>({
+    this.http.request<Transaction, any>({
       path: `/v1/zap-in/${protocol}/transaction`,
       method: "GET",
       query: query,
@@ -744,7 +750,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
       | "vault",
     params: RequestParams = {},
   ) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/zap-out/${type}/supported`,
       method: "GET",
       secure: true,
@@ -763,7 +769,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { type, protocol, ...query }: ZapOutControllerGetZapOutApprovalStateParams,
     params: RequestParams = {},
   ) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/zap-out/${type}/${protocol}/approval-state`,
       method: "GET",
       query: query,
@@ -783,7 +789,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { type, protocol, ...query }: ZapOutControllerGetZapOutApprovalTransactionParams,
     params: RequestParams = {},
   ) =>
-    this.request<Transaction, any>({
+    this.http.request<Transaction, any>({
       path: `/v1/zap-out/${type}/${protocol}/approval-transaction`,
       method: "GET",
       query: query,
@@ -804,7 +810,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { type, protocol, ...query }: ZapOutControllerGetZapOutTransactionParams,
     params: RequestParams = {},
   ) =>
-    this.request<Transaction, any>({
+    this.http.request<Transaction, any>({
       path: `/v1/zap-out/${type}/${protocol}/transaction`,
       method: "GET",
       query: query,
@@ -823,7 +829,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
    * @secure
    */
   zapOutLegacyControllerGetSupportedZapOuts = (params: RequestParams = {}) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/zap-out/supported`,
       method: "GET",
       secure: true,
@@ -843,7 +849,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { protocol, ...query }: ZapOutLegacyControllerGetZapOutApprovalStateParams,
     params: RequestParams = {},
   ) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/zap-out/${protocol}/approval-state`,
       method: "GET",
       query: query,
@@ -864,7 +870,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { protocol, ...query }: ZapOutLegacyControllerGetZapOutApprovalTransactionParams,
     params: RequestParams = {},
   ) =>
-    this.request<Transaction, any>({
+    this.http.request<Transaction, any>({
       path: `/v1/zap-out/${protocol}/approval-transaction`,
       method: "GET",
       query: query,
@@ -886,7 +892,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { protocol, ...query }: ZapOutLegacyControllerGetZapOutTransactionParams,
     params: RequestParams = {},
   ) =>
-    this.request<Transaction, any>({
+    this.http.request<Transaction, any>({
       path: `/v1/zap-out/${protocol}/transaction`,
       method: "GET",
       query: query,
@@ -907,7 +913,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { destinationNetwork, ...query }: ZapBridgeControllerGetZapInSupportedTokensParams,
     params: RequestParams = {},
   ) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/zap-bridge/${destinationNetwork}/supported-tokens`,
       method: "GET",
       query: query,
@@ -927,7 +933,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { destinationNetwork, ...query }: ZapBridgeControllerGetZapInApprovalStateParams,
     params: RequestParams = {},
   ) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/zap-bridge/${destinationNetwork}/approval-state`,
       method: "GET",
       query: query,
@@ -947,7 +953,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { destinationNetwork, ...query }: ZapBridgeControllerGetZapInApprovalTransactionParams,
     params: RequestParams = {},
   ) =>
-    this.request<Transaction, any>({
+    this.http.request<Transaction, any>({
       path: `/v1/zap-bridge/${destinationNetwork}/approval-transaction`,
       method: "GET",
       query: query,
@@ -968,7 +974,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { destinationNetwork, ...query }: ZapBridgeControllerGetZapInTransactionParams,
     params: RequestParams = {},
   ) =>
-    this.request<Transaction, any>({
+    this.http.request<Transaction, any>({
       path: `/v1/zap-bridge/${destinationNetwork}/transaction`,
       method: "GET",
       query: query,
@@ -989,7 +995,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     { stakedBalanceType, ...query }: StakingControllerGetStakedBalancesParams,
     params: RequestParams = {},
   ) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/staked-balance/${stakedBalanceType}`,
       method: "GET",
       query: query,
@@ -1006,7 +1012,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
    * @secure
    */
   tokenListControllerGetGasPrice = (params: RequestParams = {}) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/token-list`,
       method: "GET",
       secure: true,
@@ -1025,7 +1031,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     query: TokenTransferControllerGetTokenTransferTransactionParams,
     params: RequestParams = {},
   ) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/token-transfer/transaction`,
       method: "GET",
       query: query,
@@ -1043,7 +1049,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
    * @secure
    */
   transactionControllerGetTransactionsDeprecated = (address: string, params: RequestParams = {}) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/transactions/${address}`,
       method: "GET",
       secure: true,
@@ -1062,7 +1068,7 @@ export class V1<SecurityDataType = unknown> extends HttpClient<SecurityDataType>
     query: TransactionControllerGetTransactionsParams,
     params: RequestParams = {},
   ) =>
-    this.request<void, any>({
+    this.http.request<{}, any>({
       path: `/v1/transactions`,
       method: "GET",
       query: query,

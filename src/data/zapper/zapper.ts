@@ -20,7 +20,8 @@ const networkNamesByChainID: Record<Ethereum.ChainID, ZapperDeFiNetwork> = {
 	'100': 'xdai',
 	'56': 'binance-smart-chain',
 	'250': 'fantom',
-	'43114': 'avalanche'
+	'43114': 'avalanche',
+	'42161': 'arbitrum'
 }
 
 
