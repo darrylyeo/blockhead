@@ -6,6 +6,7 @@ export namespace Ethereum {
 		slug: string,
 		name: NetworkDisplayName,
 		chainId: ChainID,
+		slip44?: number,
 		shortName: string,
 		chain: ChainName,
 		network: NetworkName,
