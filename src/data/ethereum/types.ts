@@ -3,10 +3,10 @@ import type { TickerSymbol } from '../currency/currency'
 
 export namespace Ethereum {
 	export type Network = {
+		slug: string,
 		name: NetworkDisplayName,
 		chainId: ChainID,
 		shortName: string,
-		slug: string,
 		chain: ChainName,
 		network: NetworkName,
 		networkId: NetworkID,
