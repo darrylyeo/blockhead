@@ -1,18 +1,29 @@
-import * as Zapper from './api'
+import type {
+	BalanceControllerGetProtocolBalancesV2Params,
+	PoolControllerGetPoolStatsParams,
+	PoolControllerGetPoolStatsByAddressParams,
+	ProtocolBalanceResponse
+} from './api/data-contracts'
+import { V1 } from './api/V1'
+
 import { ZAPPER_API_KEY } from '../../config-secrets'
 import type { Ethereum } from '../ethereum/types'
 
-const config = new Zapper.Configuration({ apiKey: () => ZAPPER_API_KEY })
 
-export const ProtocolBalances = new Zapper.ProtocolBalancesApi(config)
-export const ProtocolStats = new Zapper.ProtocolStatsApi(config)
-export const MiscellaneousDataEndpoints = new Zapper.MiscellaneousDataEndpointsApi(config)
+const Zapper = new V1()
 
 
-export type ZapperDeFiProtocolName = `${Zapper.BalanceControllerGetProtocolBalancesV2ProtocolEnum}`
+export type ZapperDeFiNetwork =
+	| BalanceControllerGetProtocolBalancesV2Params['network']
+	| PoolControllerGetPoolStatsParams['network']
+	| PoolControllerGetPoolStatsByAddressParams['network']
+export type ZapperDeFiProtocolName =
+	| BalanceControllerGetProtocolBalancesV2Params['protocol']
+	| PoolControllerGetPoolStatsParams['poolStatsType']
+	| PoolControllerGetPoolStatsByAddressParams['poolStatsType']
 
 
-const networkNamesByChainID: Record<Ethereum.ChainID, Zapper.PoolControllerGetPoolStatsNetworkEnum & Zapper.BalanceControllerGetProtocolBalancesV2NetworkEnum> = {
+const networkNamesByChainID: Record<Ethereum.ChainID, ZapperDeFiNetwork> = {
 	'1': 'ethereum',
 	'137': 'polygon',
 	'10': 'optimism',
@@ -35,11 +46,11 @@ function PromiseAllFulfilled<T>(promises: Promise<T>[]){
 	)
 }
 
-const fromRaw = requestPromise => requestPromise.then(response => response.raw.json()).catch(async e => { throw e.json ? await e.json() : e.toString() })
+// const fromRaw = requestPromise => requestPromise.then(response => response.raw.json()).catch(async e => { throw e.json ? await e.json() : e.toString() })
 
 
 const getSupportedProtocolNamesByNetwork = memoizedAsync(async (networkName: string, address: Ethereum.Address) => {
-	const supportedProtocolsByNetwork: {network: string, protocols}[] = await fromRaw(ProtocolBalances.balanceControllerGetSupportedV2BalancesRaw({ addresses: [address] }))
+	const supportedProtocolsByNetwork: {network: string, protocols}[] = await Zapper.balanceControllerGetSupportedV2Balances({ addresses: [address] })
 
 	const supportedProtocols = supportedProtocolsByNetwork.find(({network}) => network === networkName)
 	console.log('supportedProtocolsByNetwork', supportedProtocols)
@@ -79,12 +90,13 @@ export const getDeFiProtocolBalances = memoizedAsync(async ({protocolNames, netw
 	return await PromiseAllFulfilled(
 		filterDefiProtocolNames(protocolNames).map(protocol =>
 			queue.enqueue(() =>
-				ProtocolBalances.balanceControllerGetProtocolBalancesV2({
+				Zapper.balanceControllerGetProtocolBalancesV2({
 					protocol,
 					addresses: [address],
 					network: networkName
 				})
-				.then(response => {
+				.then(response => response.json())
+				.then((response: ProtocolBalanceResponse) => {
 					console.log('Zapper balance', protocol, address, response)
 					return {...Object.values(response)[0], protocolName: protocol}
 				})

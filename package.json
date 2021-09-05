@@ -9,7 +9,7 @@
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
     "format": "prettier --write --plugin-search-dir=. .",
-    "generate": "npx @openapitools/openapi-generator-cli generate --input-spec https://api.zapper.fi/api/json --output ./src/data/zapper/api --generator-name typescript-fetch",
+    "generate:swagger-typescript-api": "npx swagger-typescript-api --path https://api.zapper.fi/api/json --output ./src/data/zapper/api/ --clean-output true --union-enums false --route-types true --enum-names-as-values true --extract-request-params true --extract-request-body true --modular true --single-http-client true --default-response {} --unwrap-response-data true",
     "generate:houdini": "npx houdini generate --pull-schema"
   },
   "type": "module",
