@@ -90,35 +90,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://aquachain.github.io"
 	},
 	{
-		"parent": {
-			"chain": "eip155-100",
-			"type": "L2"
-		},
-		"name": "Arbitrum on xDai",
-		"chainId": 200,
-		"shortName": "aox",
-		"chain": "AOX",
-		"network": "xdai",
-		"networkId": 200,
-		"nativeCurrency": {
-			"name": "xDAI",
-			"symbol": "xDAI",
-			"decimals": 18
-		},
-		"rpc": [
-			"https://arbitrum.xdaichain.com/"
-		],
-		"faucets": [],
-		"explorers": [
-			{
-				"name": "blockscout",
-				"url": "https://blockscout.com/xdai/arbitrum",
-				"standard": "EIP3091"
-			}
-		],
-		"infoURL": "https://xdaichain.com"
-	},
-	{
+		"slug": "arbitrum-one",
 		"name": "Arbitrum One",
 		"chainId": 42161,
 		"shortName": "arb1",
@@ -152,6 +124,37 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://arbitrum.io"
 	},
 	{
+		"parent": {
+			"chain": "eip155-100",
+			"type": "L2"
+		},
+		"slug": "arbitrum-xdai",
+		"name": "Arbitrum on xDai",
+		"chainId": 200,
+		"shortName": "aox",
+		"chain": "AOX",
+		"network": "xdai",
+		"networkId": 200,
+		"nativeCurrency": {
+			"name": "xDAI",
+			"symbol": "xDAI",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://arbitrum.xdaichain.com/"
+		],
+		"faucets": [],
+		"explorers": [
+			{
+				"name": "blockscout",
+				"url": "https://blockscout.com/xdai/arbitrum",
+				"standard": "EIP3091"
+			}
+		],
+		"infoURL": "https://xdaichain.com"
+	},
+	{
+		"slug": "arbitrum-rinkeby",
 		"name": "Arbitrum Testnet Rinkeby",
 		"chainId": 421611,
 		"shortName": "arb-rinkeby",
@@ -262,6 +265,27 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://athereum.ava.network"
 	},
 	{
+		"slug": "aurora",
+		"name": "Aurora",
+		"chainId": 1313161554,
+		"shortName": "aurora",
+		"chain": "NEAR",
+		"network": "mainnet",
+		"networkId": 1313161554,
+		"nativeCurrency": {
+			"name": "Ether",
+			"symbol": "aETH",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://rpc.mainnet.aurora.dev:8545"
+		],
+		"faucets": [],
+		"explorers": [],
+		"infoURL": "https://aurora.dev"
+	},
+	{
+		"slug": "aurora-betanet",
 		"name": "Aurora BetaNet",
 		"chainId": 1313161556,
 		"shortName": "aurora-betanet",
@@ -281,25 +305,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://aurora.dev"
 	},
 	{
-		"name": "Aurora MainNet",
-		"chainId": 1313161554,
-		"shortName": "aurora",
-		"chain": "NEAR",
-		"network": "mainnet",
-		"networkId": 1313161554,
-		"nativeCurrency": {
-			"name": "Ether",
-			"symbol": "aETH",
-			"decimals": 18
-		},
-		"rpc": [
-			"https://rpc.mainnet.aurora.dev:8545"
-		],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://aurora.dev"
-	},
-	{
+		"slug": "aurora-testnet",
 		"name": "Aurora TestNet",
 		"chainId": 1313161555,
 		"shortName": "aurora-testnet",
@@ -491,7 +497,8 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://bitcoin.org"
 	},
 	{
-		"name": "Blockchain Genesis Mainnet",
+		"slug": "blockchain-genesis",
+		"name": "Blockchain Genesis",
 		"chainId": 10101,
 		"shortName": "GEN",
 		"chain": "GEN",
@@ -573,7 +580,8 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://callisto.network"
 	},
 	{
-		"name": "Catecoin Chain Mainnet",
+		"slug": "catecoin",
+		"name": "Catecoin",
 		"chainId": 1618,
 		"shortName": "cate",
 		"chain": "Catechain",
@@ -660,6 +668,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://docs.celo.org/"
 	},
 	{
+		"slug": "cheapeth",
 		"name": "cheapETH",
 		"chainId": 777,
 		"shortName": "cth",
@@ -759,6 +768,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "http://www.coinex.org/"
 	},
 	{
+		"slug": "cryptokylin",
 		"name": "CryptoKylin Testnet",
 		"chainId": 95,
 		"shortName": "Kylin Testnet",
@@ -802,7 +812,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://crab.network/"
 	},
 	{
-		"slug": "pangolin-darwinia",
+		"slug": "darwinia-pangolin",
 		"name": "Darwinia Pangolin Testnet",
 		"chainId": 43,
 		"shortName": "darwinia",
@@ -820,6 +830,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://darwinia.network/"
 	},
 	{
+		"slug": "dax",
 		"name": "DAX CHAIN",
 		"chainId": 142,
 		"shortName": "dax",
@@ -859,6 +870,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "http://test.dbmbp.com"
 	},
 	{
+		"slug": "dweb",
 		"name": "Decentralized Web Mainnet",
 		"chainId": 124,
 		"shortName": "dwu",
@@ -1128,7 +1140,8 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://energyweb.org"
 	},
 	{
-		"name": "EOS Mainnet",
+		"slug": "eos",
+		"name": "EOS",
 		"chainId": 59,
 		"shortName": "EOS Mainnet",
 		"chain": "EOS",
@@ -1153,8 +1166,8 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://eoscommunity.org/"
 	},
 	{
-		"icon": "eraswap",
-		"name": "EraSwap Mainnet",
+		"slug": "eraswap",
+		"name": "EraSwap",
 		"chainId": 5197,
 		"shortName": "es",
 		"chain": "ESN",
@@ -1171,7 +1184,8 @@ export const networks: Ethereum.Network[] = [
 		],
 		"faucets": [],
 		"explorers": [],
-		"infoURL": "https://eraswap.info/"
+		"infoURL": "https://eraswap.info/",
+		"icon": "eraswap"
 	},
 	{
 		"slug": "etho",
@@ -1459,7 +1473,8 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://einc.io"
 	},
 	{
-		"name": "EtherLite Chain",
+		"slug": "etherlite",
+		"name": "EtherLite",
 		"chainId": 111,
 		"shortName": "ETL",
 		"chain": "ETL",
@@ -1565,6 +1580,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://expanse.tech"
 	},
 	{
+		"slug": "factory127-testnet",
 		"name": "Factory 127 Testnet",
 		"chainId": 721,
 		"slip44": 721,
@@ -1752,7 +1768,8 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.fusion.org/"
 	},
 	{
-		"name": "GateChain Mainnet",
+		"slug": "gatechain",
+		"name": "GateChain",
 		"chainId": 86,
 		"shortName": "gt",
 		"chain": "GT",
@@ -1779,6 +1796,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.gatechain.io"
 	},
 	{
+		"slug": "gatechain-testnet",
 		"name": "GateChain Testnet",
 		"chainId": 85,
 		"shortName": "gttest",
@@ -1806,6 +1824,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.gatechain.io"
 	},
 	{
+		"slug": "genechain",
 		"name": "GeneChain",
 		"chainId": 80,
 		"shortName": "GeneChain",
@@ -1831,6 +1850,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://scan.genechain.io/"
 	},
 	{
+		"slug": "genechain-adenine",
 		"name": "GeneChain Adenine Testnet",
 		"chainId": 8080,
 		"shortName": "GeneChainAdn",
@@ -1885,6 +1905,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://gochain.io"
 	},
 	{
+		"slug": "gochain-testnet",
 		"name": "GoChain Testnet",
 		"chainId": 31337,
 		"slip44": 6060,
@@ -1931,6 +1952,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.goodata.org"
 	},
 	{
+		"slug": "gooddata-testnet",
 		"name": "GoodData Testnet",
 		"chainId": 32,
 		"shortName": "GooDT",
@@ -1950,6 +1972,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.goodata.org"
 	},
 	{
+		"slug": "haic",
 		"name": "Haic",
 		"chainId": 803,
 		"shortName": "haic",
@@ -2164,6 +2187,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://hpbscan.org/"
 	},
 	{
+		"slug": "hoosmartchain",
 		"name": "HOO Smart Chain Testnet",
 		"chainId": 170,
 		"shortName": "hoosmartchain",
@@ -2391,7 +2415,8 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://karura.network"
 	},
 	{
-		"name": "KCC Mainnet",
+		"slug": "kcc",
+		"name": "KCC",
 		"chainId": 321,
 		"shortName": "kcs",
 		"chain": "KCC",
@@ -2417,6 +2442,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://kcc.io"
 	},
 	{
+		"slug": "kcc-testnet",
 		"name": "KCC Testnet",
 		"chainId": 322,
 		"shortName": "kcst",
@@ -2488,7 +2514,8 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.klaytn.com/"
 	},
 	{
-		"name": "Kortho Mainnet",
+		"slug": "kortho",
+		"name": "Kortho",
 		"chainId": 2559,
 		"shortName": "ktoc",
 		"chain": "Kortho Chain",
@@ -2527,6 +2554,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.kortho.io/"
 	},
 	{
+		"slug": "latam-resil",
 		"name": "Latam-Blockchain Resil Testnet",
 		"chainId": 172,
 		"shortName": "resil",
@@ -2653,6 +2681,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://mathchain.org"
 	},
 	{
+		"slug": "mdgl-testnet",
 		"name": "MDGL Testnet",
 		"chainId": 8029,
 		"shortName": "mdgl",
@@ -2713,7 +2742,8 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://metadium.com"
 	},
 	{
-		"name": "MetaDot Mainnet",
+		"slug": "metadot",
+		"name": "MetaDot",
 		"chainId": 16000,
 		"shortName": "mtt",
 		"chain": "MTT",
@@ -2732,6 +2762,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://metadot.network"
 	},
 	{
+		"slug": "metadot-testnet",
 		"name": "MetaDot Testnet",
 		"chainId": 16001,
 		"shortName": "mtttest",
@@ -2892,6 +2923,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": ""
 	},
 	{
+		"slug": "moonshadow",
 		"name": "Moonshadow",
 		"chainId": 1288,
 		"shortName": "mshadow",
@@ -2949,7 +2981,7 @@ export const networks: Ethereum.Network[] = [
 	},
 	{
 		"slug": "near",
-		"name": "NEAR MainNet",
+		"name": "NEAR",
 		"chainId": 1313161554,
 		"shortName": "near",
 		"chain": "NEAR",
@@ -3125,7 +3157,8 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.okex.com/okexchain"
 	},
 	{
-		"name": "Ontology Mainnet",
+		"slug": "ontology",
+		"name": "Ontology",
 		"chainId": 58,
 		"shortName": "Ontology Mainnet",
 		"chain": "Ontology",
@@ -3153,6 +3186,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://ont.io/"
 	},
 	{
+		"slug": "ontology-testnet",
 		"name": "Ontology Testnet",
 		"chainId": 5851,
 		"shortName": "Ontology Testnet",
@@ -3243,7 +3277,8 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://optimism.io"
 	},
 	{
-		"name": "Palm Mainnet",
+		"slug": "palm",
+		"name": "Palm",
 		"chainId": 11297108109,
 		"shortName": "palm",
 		"chain": "Palm",
@@ -3260,6 +3295,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://palm.io"
 	},
 	{
+		"slug": "palm-testnet",
 		"name": "Palm Testnet",
 		"chainId": 11297108099,
 		"shortName": "tpalm",
@@ -3383,8 +3419,8 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://poa.network"
 	},
 	{
-		"icon": "polis",
-		"name": "Polis Mainnet",
+		"slug": "polis-olympus",
+		"name": "Polis Olympus",
 		"chainId": 333999,
 		"shortName": "olympus",
 		"chain": "Olympus",
@@ -3402,11 +3438,12 @@ export const networks: Ethereum.Network[] = [
 			"https://faucet.polis.tech"
 		],
 		"explorers": [],
-		"infoURL": "https://polis.tech"
+		"infoURL": "https://polis.tech",
+		"icon": "polis"
 	},
 	{
-		"icon": "polis",
-		"name": "Polis Testnet",
+		"slug": "polis-sparta",
+		"name": "Polis Sparta Testnet",
 		"chainId": 333888,
 		"shortName": "sparta",
 		"chain": "Sparta",
@@ -3424,7 +3461,8 @@ export const networks: Ethereum.Network[] = [
 			"https://faucet.polis.tech"
 		],
 		"explorers": [],
-		"infoURL": "https://polis.tech"
+		"infoURL": "https://polis.tech",
+		"icon": "polis"
 	},
 	{
 		"slug": "polygon",
@@ -3485,7 +3523,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://matic.network/"
 	},
 	{
-		"icon": "polyjuice",
+		"slug": "polyjuice-testnet",
 		"name": "Polyjuice Testnet",
 		"chainId": 71393,
 		"shortName": "ckb",
@@ -3505,11 +3543,12 @@ export const networks: Ethereum.Network[] = [
 			"https://faucet.nervos.org/"
 		],
 		"explorers": [],
-		"infoURL": "https://github.com/nervosnetwork/godwoken"
+		"infoURL": "https://github.com/nervosnetwork/godwoken",
+		"icon": "polyjuice"
 	},
 	{
 		"slug": "primuschain",
-		"name": "PrimusChain mainnet",
+		"name": "PrimusChain",
 		"chainId": 78,
 		"shortName": "primuschain",
 		"chain": "PC",
@@ -3528,6 +3567,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://primusmoney.com"
 	},
 	{
+		"slug": "proton-testnet",
 		"name": "Proton Testnet",
 		"chainId": 110,
 		"shortName": "xpr",
@@ -3547,6 +3587,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://protonchain.com"
 	},
 	{
+		"slug": "quarkblockchain",
 		"name": "quarkblockchain",
 		"chainId": 20181205,
 		"shortName": "qki",
@@ -3567,6 +3608,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://quarkblockchain.org/"
 	},
 	{
+		"slug": "quarkchain-devnet-root",
 		"name": "QuarkChain Devnet Root",
 		"chainId": 110000,
 		"shortName": "qkc-d-r",
@@ -3586,6 +3628,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.quarkchain.io/"
 	},
 	{
+		"slug": "quarkchain-devnet-shard0",
 		"parent": {
 			"chain": "eip155-110000",
 			"type": "shard"
@@ -3609,6 +3652,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.quarkchain.io/"
 	},
 	{
+		"slug": "quarkchain-devnet-shard1",
 		"parent": {
 			"chain": "eip155-110000",
 			"type": "shard"
@@ -3632,6 +3676,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.quarkchain.io/"
 	},
 	{
+		"slug": "quarkchain-devnet-shard2",
 		"parent": {
 			"chain": "eip155-110000",
 			"type": "shard"
@@ -3655,6 +3700,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.quarkchain.io/"
 	},
 	{
+		"slug": "quarkchain-devnet-shard3",
 		"parent": {
 			"chain": "eip155-110000",
 			"type": "shard"
@@ -3678,6 +3724,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.quarkchain.io/"
 	},
 	{
+		"slug": "quarkchain-devnet-shard4",
 		"parent": {
 			"chain": "eip155-110000",
 			"type": "shard"
@@ -3701,6 +3748,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.quarkchain.io/"
 	},
 	{
+		"slug": "quarkchain-devnet-shard5",
 		"parent": {
 			"chain": "eip155-110000",
 			"type": "shard"
@@ -3724,6 +3772,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.quarkchain.io/"
 	},
 	{
+		"slug": "quarkchain-devnet-shard6",
 		"parent": {
 			"chain": "eip155-110000",
 			"type": "shard"
@@ -3747,6 +3796,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.quarkchain.io/"
 	},
 	{
+		"slug": "quarkchain-devnet-shard7",
 		"parent": {
 			"chain": "eip155-110000",
 			"type": "shard"
@@ -3770,7 +3820,8 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.quarkchain.io/"
 	},
 	{
-		"name": "QuarkChain Mainnet Root",
+		"slug": "quarkchain-root",
+		"name": "QuarkChain Root",
 		"chainId": 100000,
 		"shortName": "qkc-r",
 		"chain": "QuarkChain",
@@ -3789,11 +3840,12 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.quarkchain.io/"
 	},
 	{
+		"slug": "quarkchain-shard0",
 		"parent": {
 			"chain": "eip155-100000",
 			"type": "shard"
 		},
-		"name": "QuarkChain Mainnet Shard 0",
+		"name": "QuarkChain Shard 0",
 		"chainId": 100001,
 		"shortName": "qkc-s0",
 		"chain": "QuarkChain",
@@ -3812,11 +3864,12 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.quarkchain.io/"
 	},
 	{
+		"slug": "quarkchain-shard1",
 		"parent": {
 			"chain": "eip155-100000",
 			"type": "shard"
 		},
-		"name": "QuarkChain Mainnet Shard 1",
+		"name": "QuarkChain Shard 1",
 		"chainId": 100002,
 		"shortName": "qkc-s1",
 		"chain": "QuarkChain",
@@ -3835,11 +3888,12 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.quarkchain.io/"
 	},
 	{
+		"slug": "quarkchain-shard2",
 		"parent": {
 			"chain": "eip155-100000",
 			"type": "shard"
 		},
-		"name": "QuarkChain Mainnet Shard 2",
+		"name": "QuarkChain Shard 2",
 		"chainId": 100003,
 		"shortName": "qkc-s2",
 		"chain": "QuarkChain",
@@ -3858,11 +3912,12 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.quarkchain.io/"
 	},
 	{
+		"slug": "quarkchain-shard3",
 		"parent": {
 			"chain": "eip155-100000",
 			"type": "shard"
 		},
-		"name": "QuarkChain Mainnet Shard 3",
+		"name": "QuarkChain Shard 3",
 		"chainId": 100004,
 		"shortName": "qkc-s3",
 		"chain": "QuarkChain",
@@ -3881,11 +3936,12 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.quarkchain.io/"
 	},
 	{
+		"slug": "quarkchain-shard4",
 		"parent": {
 			"chain": "eip155-100000",
 			"type": "shard"
 		},
-		"name": "QuarkChain Mainnet Shard 4",
+		"name": "QuarkChain Shard 4",
 		"chainId": 100005,
 		"shortName": "qkc-s4",
 		"chain": "QuarkChain",
@@ -3904,11 +3960,12 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.quarkchain.io/"
 	},
 	{
+		"slug": "quarkchain-shard4",
 		"parent": {
 			"chain": "eip155-100000",
 			"type": "shard"
 		},
-		"name": "QuarkChain Mainnet Shard 5",
+		"name": "QuarkChain Shard 5",
 		"chainId": 100006,
 		"shortName": "qkc-s5",
 		"chain": "QuarkChain",
@@ -3927,11 +3984,12 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.quarkchain.io/"
 	},
 	{
+		"slug": "quarkchain-shard6",
 		"parent": {
 			"chain": "eip155-100000",
 			"type": "shard"
 		},
-		"name": "QuarkChain Mainnet Shard 6",
+		"name": "QuarkChain Shard 6",
 		"chainId": 100007,
 		"shortName": "qkc-s6",
 		"chain": "QuarkChain",
@@ -3950,11 +4008,12 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.quarkchain.io/"
 	},
 	{
+		"slug": "quarkchain-shard7",
 		"parent": {
 			"chain": "eip155-100000",
 			"type": "shard"
 		},
-		"name": "QuarkChain Mainnet Shard 7",
+		"name": "QuarkChain Shard 7",
 		"chainId": 100008,
 		"shortName": "qkc-s7",
 		"chain": "QuarkChain",
@@ -4037,6 +4096,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.rupx.io"
 	},
 	{
+		"slug": "sakura",
 		"name": "Sakura",
 		"chainId": 1022,
 		"shortName": "sku",
@@ -4074,6 +4134,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://web3games.blockspaper.com/en/"
 	},
 	{
+		"slug": "smartbch",
 		"name": "Smart Bitcoin Cash",
 		"chainId": 10000,
 		"shortName": "smartbch",
@@ -4095,6 +4156,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://smartbch.org/"
 	},
 	{
+		"slug": "smartbch-testnet",
 		"name": "Smart Bitcoin Cash Testnet",
 		"chainId": 10001,
 		"shortName": "smartbchtest",
@@ -4114,6 +4176,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "http://smartbch.org/"
 	},
 	{
+		"slug": "songbird-canary",
 		"name": "Songbird Canary-Network",
 		"chainId": 19,
 		"shortName": "sgb",
@@ -4151,7 +4214,8 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.soterone.com"
 	},
 	{
-		"name": "Syscoin Mainnet",
+		"slug": "syscoin",
+		"name": "Syscoin",
 		"chainId": 57,
 		"shortName": "sys",
 		"chain": "SYS",
@@ -4174,6 +4238,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.syscoin.org"
 	},
 	{
+		"slug": "syscoin-tanenbaum",
 		"name": "Syscoin Tanenbaum Testnet",
 		"chainId": 5700,
 		"shortName": "tsys",
@@ -4340,6 +4405,33 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://exp.thaifi.com"
 	},
 	{
+		"slug": "theta",
+		"name": "Theta",
+		"chainId": 361,
+		"shortName": "theta-mainnet",
+		"chain": "Theta",
+		"network": "mainnet",
+		"networkId": 361,
+		"nativeCurrency": {
+			"name": "Theta Fuel",
+			"symbol": "TFUEL",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://eth-rpc-api.thetatoken.org/rpc"
+		],
+		"faucets": [],
+		"explorers": [
+			{
+				"name": "Theta Mainnet Explorer",
+				"url": "https://explorer.thetatoken.org",
+				"standard": "EIP3091"
+			}
+		],
+		"infoURL": "https://www.thetatoken.org/"
+	},
+	{
+		"slug": "theta-amber",
 		"name": "Theta Amber Testnet",
 		"chainId": 364,
 		"shortName": "theta-amber",
@@ -4365,31 +4457,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.thetatoken.org/"
 	},
 	{
-		"name": "Theta Mainnet",
-		"chainId": 361,
-		"shortName": "theta-mainnet",
-		"chain": "Theta",
-		"network": "mainnet",
-		"networkId": 361,
-		"nativeCurrency": {
-			"name": "Theta Fuel",
-			"symbol": "TFUEL",
-			"decimals": 18
-		},
-		"rpc": [
-			"https://eth-rpc-api.thetatoken.org/rpc"
-		],
-		"faucets": [],
-		"explorers": [
-			{
-				"name": "Theta Mainnet Explorer",
-				"url": "https://explorer.thetatoken.org",
-				"standard": "EIP3091"
-			}
-		],
-		"infoURL": "https://www.thetatoken.org/"
-	},
-	{
+		"slug": "theta-sapphire",
 		"name": "Theta Sapphire Testnet",
 		"chainId": 363,
 		"shortName": "theta-sapphire",
@@ -4415,6 +4483,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.thetatoken.org/"
 	},
 	{
+		"slug": "theta-testnet",
 		"name": "Theta Testnet",
 		"chainId": 365,
 		"shortName": "theta-testnet",
@@ -4504,7 +4573,8 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://tomocoin.io"
 	},
 	{
-		"name": "TOOL Global Mainnet",
+		"slug": "tool-global",
+		"name": "TOOL Global",
 		"chainId": 8723,
 		"slip44": 479,
 		"shortName": "olo",
@@ -4530,6 +4600,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://ibdt.io"
 	},
 	{
+		"slug": "tool-global-testnet",
 		"name": "TOOL Global Testnet",
 		"chainId": 8724,
 		"slip44": 479,
@@ -4660,6 +4731,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://testnet.wanscan.org"
 	},
 	{
+		"slug": "web3games-testnet",
 		"name": "Web3Games Testnet",
 		"chainId": 102,
 		"shortName": "w3g",

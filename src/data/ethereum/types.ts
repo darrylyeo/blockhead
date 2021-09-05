@@ -21,9 +21,18 @@ export namespace Ethereum {
 		explorers: {
 			name: string,
 			url: string,
-			standard: string
+			standard: string,
+			icon?: string,
 		}[],
-		infoURL: string
+		infoURL: string,
+		icon?: string,
+		ens?: {
+			registry: ContractAddress
+		}
+		parent?: {
+			chain: `eip155-${ChainID}`,
+			type: 'L2' | 'shard'
+		},
 	}
 	export type ChainID = number
 	export type ChainName = string
