@@ -8,24 +8,6 @@ import { INFURA_PROJECT_ID } from '../../config-secrets'
 
 export const networks: Ethereum.Network[] = [
 	{
-		"slug": "acala-mandala",
-		"name": "Acala Mandala Testnet",
-		"chainId": 595,
-		"shortName": "maca",
-		"chain": "mACA",
-		"network": "testnet",
-		"networkId": 595,
-		"nativeCurrency": {
-			"name": "Acala Mandala Token",
-			"symbol": "mACA",
-			"decimals": 18
-		},
-		"rpc": [],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://acala.network"
-	},
-	{
 		"slug": "acala",
 		"name": "Acala Network",
 		"chainId": 787,
@@ -37,6 +19,24 @@ export const networks: Ethereum.Network[] = [
 		"nativeCurrency": {
 			"name": "Acala Token",
 			"symbol": "ACA",
+			"decimals": 18
+		},
+		"rpc": [],
+		"faucets": [],
+		"explorers": [],
+		"infoURL": "https://acala.network"
+	},
+	{
+		"slug": "acala-mandala",
+		"name": "Acala Mandala Testnet",
+		"chainId": 595,
+		"shortName": "maca",
+		"chain": "mACA",
+		"network": "testnet",
+		"networkId": 595,
+		"nativeCurrency": {
+			"name": "Acala Mandala Token",
+			"symbol": "mACA",
 			"decimals": 18
 		},
 		"rpc": [],
@@ -155,7 +155,7 @@ export const networks: Ethereum.Network[] = [
 	},
 	{
 		"slug": "arbitrum-rinkeby",
-		"name": "Arbitrum Testnet Rinkeby",
+		"name": "Arbitrum Rinkeby Testnet",
 		"chainId": 421611,
 		"shortName": "arb-rinkeby",
 		"chain": "ETH",
@@ -203,7 +203,7 @@ export const networks: Ethereum.Network[] = [
 	},
 	{
 		"slug": "artis-tau1",
-		"name": "ARTIS Testnet tau1",
+		"name": "ARTIS tau1 Testnet",
 		"chainId": 246785,
 		"shortName": "atstau",
 		"chain": "ARTIS",
@@ -285,26 +285,6 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://aurora.dev"
 	},
 	{
-		"slug": "aurora-betanet",
-		"name": "Aurora BetaNet",
-		"chainId": 1313161556,
-		"shortName": "aurora-betanet",
-		"chain": "NEAR",
-		"network": "betanet",
-		"networkId": 1313161556,
-		"nativeCurrency": {
-			"name": "Ether",
-			"symbol": "aETH",
-			"decimals": 18
-		},
-		"rpc": [
-			"https://rpc.betanet.aurora.dev:8545"
-		],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://aurora.dev"
-	},
-	{
 		"slug": "aurora-testnet",
 		"name": "Aurora TestNet",
 		"chainId": 1313161555,
@@ -319,6 +299,26 @@ export const networks: Ethereum.Network[] = [
 		},
 		"rpc": [
 			"https://rpc.testnet.aurora.dev:8545"
+		],
+		"faucets": [],
+		"explorers": [],
+		"infoURL": "https://aurora.dev"
+	},
+	{
+		"slug": "aurora-betanet",
+		"name": "Aurora BetaNet",
+		"chainId": 1313161556,
+		"shortName": "aurora-betanet",
+		"chain": "NEAR",
+		"network": "betanet",
+		"networkId": 1313161556,
+		"nativeCurrency": {
+			"name": "Ether",
+			"symbol": "aETH",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://rpc.betanet.aurora.dev:8545"
 		],
 		"faucets": [],
 		"explorers": [],
@@ -912,7 +912,7 @@ export const networks: Ethereum.Network[] = [
 	},
 	{
 		"slug": "diode-staging",
-		"name": "Diode Testnet Staging",
+		"name": "Diode Staging Testnet",
 		"chainId": 13,
 		"shortName": "dstg",
 		"chain": "DIODE",
@@ -1265,7 +1265,7 @@ export const networks: Ethereum.Network[] = [
 	},
 	{
 		"slug": "ethereumclassic-kotti",
-		"name": "Ethereum Classic Testnet Kotti",
+		"name": "Ethereum Classic Kotti Testnet",
 		"chainId": 6,
 		"shortName": "kot",
 		"chain": "ETC",
@@ -1283,7 +1283,7 @@ export const networks: Ethereum.Network[] = [
 	},
 	{
 		"slug": "ethereumclassic-morden",
-		"name": "Ethereum Classic Testnet Morden",
+		"name": "Ethereum Classic Morden Testnet",
 		"chainId": 62,
 		"shortName": "tetc",
 		"chain": "ETC",
@@ -1301,7 +1301,7 @@ export const networks: Ethereum.Network[] = [
 	},
 	{
 		"slug": "ethereumclassic-mordor",
-		"name": "Ethereum Classic Testnet Mordor",
+		"name": "Ethereum Classic Mordor Testnet",
 		"chainId": 63,
 		"shortName": "metc",
 		"chain": "ETC",
@@ -1319,7 +1319,7 @@ export const networks: Ethereum.Network[] = [
 	},
 	{
 		"slug": "ethereum-goerli",
-		"name": "Ethereum Testnet Görli",
+		"name": "Ethereum Görli Testnet",
 		"chainId": 5,
 		"shortName": "gor",
 		"chain": "ETH",
@@ -1347,7 +1347,7 @@ export const networks: Ethereum.Network[] = [
 	},
 	{
 		"slug": "ethereum-kovan",
-		"name": "Ethereum Testnet Kovan",
+		"name": "Ethereum Kovan Testnet",
 		"chainId": 42,
 		"shortName": "kov",
 		"chain": "ETH",
@@ -1374,7 +1374,7 @@ export const networks: Ethereum.Network[] = [
 	},
 	{
 		"slug": "ethereum-rinkeby",
-		"name": "Ethereum Testnet Rinkeby",
+		"name": "Ethereum Rinkeby Testnet",
 		"chainId": 4,
 		"shortName": "rin",
 		"chain": "ETH",
@@ -1406,7 +1406,7 @@ export const networks: Ethereum.Network[] = [
 	},
 	{
 		"slug": "ethereum-ropsten",
-		"name": "Ethereum Testnet Ropsten",
+		"name": "Ethereum Ropsten Testnet",
 		"chainId": 3,
 		"shortName": "rop",
 		"chain": "ETH",
@@ -1628,26 +1628,6 @@ export const networks: Ethereum.Network[] = [
 		"icon": "fantom"
 	},
 	{
-		"slug": "primuschain-firenze",
-		"name": "Firenze test network",
-		"chainId": 78110,
-		"shortName": "firenze",
-		"chain": "ETH",
-		"network": "testnet",
-		"networkId": 78110,
-		"nativeCurrency": {
-			"name": "Firenze Ether",
-			"symbol": "FIN",
-			"decimals": 18
-		},
-		"rpc": [
-			"https://ethnode.primusmoney.com/firenze"
-		],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://primusmoney.com"
-	},
-	{
 		"slug": "flare",
 		"name": "Flare",
 		"chainId": 14,
@@ -1667,7 +1647,7 @@ export const networks: Ethereum.Network[] = [
 	},
 	{
 		"slug": "flare-coston",
-		"name": "Flare Testnet Coston",
+		"name": "Flare Coston Testnet",
 		"chainId": 16,
 		"shortName": "cflr",
 		"chain": "FLR",
@@ -2375,7 +2355,7 @@ export const networks: Ethereum.Network[] = [
 	},
 	{
 		"slug": "joys-testnet",
-		"name": "Joys Digital TestNet",
+		"name": "Joys Digital Testnet",
 		"chainId": 99415706,
 		"shortName": "TOYS",
 		"chain": "TOYS",
@@ -2493,7 +2473,7 @@ export const networks: Ethereum.Network[] = [
 	},
 	{
 		"slug": "klaytn-baobab",
-		"name": "Klaytn Testnet Baobab",
+		"name": "Klaytn Baobab Testnet",
 		"chainId": 1001,
 		"shortName": "Baobab",
 		"chain": "KLAY",
@@ -2770,7 +2750,7 @@ export const networks: Ethereum.Network[] = [
 		"network": "devnet",
 		"networkId": 16001,
 		"nativeCurrency": {
-			"name": "MetaDot Token TestNet",
+			"name": "MetaDot Token Testnet",
 			"symbol": "MTT-test",
 			"decimals": 18
 		},
@@ -2846,7 +2826,7 @@ export const networks: Ethereum.Network[] = [
 	},
 	{
 		"slug": "moonbeam",
-		"name": "Moonbeam Polkadot",
+		"name": "Moonbeam (Polkadot)",
 		"chainId": 1284,
 		"shortName": "mbeam",
 		"chain": "MOON",
@@ -2864,7 +2844,7 @@ export const networks: Ethereum.Network[] = [
 	},
 	{
 		"slug": "moonbeam-moonbase-alpha",
-		"name": "Moonbeam Testnet Moonbase Alpha",
+		"name": "Moonbeam Moonbase Alpha Testnet",
 		"chainId": 1287,
 		"shortName": "mbase",
 		"chain": "MOON",
@@ -2999,7 +2979,7 @@ export const networks: Ethereum.Network[] = [
 	},
 	{
 		"slug": "near-testnet",
-		"name": "NEAR TestNet",
+		"name": "NEAR Testnet",
 		"chainId": 1313161555,
 		"shortName": "neart",
 		"chain": "NEAR",
@@ -3238,7 +3218,7 @@ export const networks: Ethereum.Network[] = [
 	},
 	{
 		"slug": "optimistic-goerli",
-		"name": "Optimistic Ethereum Testnet Goerli",
+		"name": "Optimism Goerli Testnet",
 		"chainId": 420,
 		"shortName": "ogor",
 		"chain": "ETH",
@@ -3258,7 +3238,7 @@ export const networks: Ethereum.Network[] = [
 	},
 	{
 		"slug": "optimistic-kovan",
-		"name": "Optimistic Ethereum Testnet Kovan",
+		"name": "Optimism Kovan Testnet",
 		"chainId": 69,
 		"shortName": "okov",
 		"chain": "ETH",
@@ -3495,7 +3475,7 @@ export const networks: Ethereum.Network[] = [
 	},
 	{
 		"slug": "polygon-mumbai",
-		"name": "Polygon Testnet Mumbai",
+		"name": "Polygon Mumbai Testnet",
 		"chainId": 80001,
 		"shortName": "maticmum",
 		"chain": "Polygon",
@@ -3567,6 +3547,26 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://primusmoney.com"
 	},
 	{
+		"slug": "primuschain-firenze",
+		"name": "PrimusChain Firenze Testnet",
+		"chainId": 78110,
+		"shortName": "firenze",
+		"chain": "ETH",
+		"network": "testnet",
+		"networkId": 78110,
+		"nativeCurrency": {
+			"name": "Firenze Ether",
+			"symbol": "FIN",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://ethnode.primusmoney.com/firenze"
+		],
+		"faucets": [],
+		"explorers": [],
+		"infoURL": "https://primusmoney.com"
+	},
+	{
 		"slug": "proton-testnet",
 		"name": "Proton Testnet",
 		"chainId": 110,
@@ -3606,218 +3606,6 @@ export const networks: Ethereum.Network[] = [
 		"faucets": [],
 		"explorers": [],
 		"infoURL": "https://quarkblockchain.org/"
-	},
-	{
-		"slug": "quarkchain-devnet-root",
-		"name": "QuarkChain Devnet Root",
-		"chainId": 110000,
-		"shortName": "qkc-d-r",
-		"chain": "QuarkChain",
-		"network": "devnet",
-		"networkId": 110000,
-		"nativeCurrency": {
-			"name": "QKC",
-			"symbol": "QKC",
-			"decimals": 18
-		},
-		"rpc": [
-			"http://jrpc.devnet.quarkchain.io:38391/"
-		],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://www.quarkchain.io/"
-	},
-	{
-		"slug": "quarkchain-devnet-shard0",
-		"parent": {
-			"chain": "eip155-110000",
-			"type": "shard"
-		},
-		"name": "QuarkChain Devnet Shard 0",
-		"chainId": 110001,
-		"shortName": "qkc-d-s0",
-		"chain": "QuarkChain",
-		"network": "devnet",
-		"networkId": 110001,
-		"nativeCurrency": {
-			"name": "QKC",
-			"symbol": "QKC",
-			"decimals": 18
-		},
-		"rpc": [
-			"http://jrpc.devnet.quarkchain.io:39000/"
-		],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://www.quarkchain.io/"
-	},
-	{
-		"slug": "quarkchain-devnet-shard1",
-		"parent": {
-			"chain": "eip155-110000",
-			"type": "shard"
-		},
-		"name": "QuarkChain Devnet Shard 1",
-		"chainId": 110002,
-		"shortName": "qkc-d-s1",
-		"chain": "QuarkChain",
-		"network": "devnet",
-		"networkId": 110002,
-		"nativeCurrency": {
-			"name": "QKC",
-			"symbol": "QKC",
-			"decimals": 18
-		},
-		"rpc": [
-			"http://jrpc.devnet.quarkchain.io:39001/"
-		],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://www.quarkchain.io/"
-	},
-	{
-		"slug": "quarkchain-devnet-shard2",
-		"parent": {
-			"chain": "eip155-110000",
-			"type": "shard"
-		},
-		"name": "QuarkChain Devnet Shard 2",
-		"chainId": 110003,
-		"shortName": "qkc-d-s2",
-		"chain": "QuarkChain",
-		"network": "devnet",
-		"networkId": 110003,
-		"nativeCurrency": {
-			"name": "QKC",
-			"symbol": "QKC",
-			"decimals": 18
-		},
-		"rpc": [
-			"http://jrpc.devnet.quarkchain.io:39002/"
-		],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://www.quarkchain.io/"
-	},
-	{
-		"slug": "quarkchain-devnet-shard3",
-		"parent": {
-			"chain": "eip155-110000",
-			"type": "shard"
-		},
-		"name": "QuarkChain Devnet Shard 3",
-		"chainId": 110004,
-		"shortName": "qkc-d-s3",
-		"chain": "QuarkChain",
-		"network": "devnet",
-		"networkId": 110004,
-		"nativeCurrency": {
-			"name": "QKC",
-			"symbol": "QKC",
-			"decimals": 18
-		},
-		"rpc": [
-			"http://jrpc.devnet.quarkchain.io:39003/"
-		],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://www.quarkchain.io/"
-	},
-	{
-		"slug": "quarkchain-devnet-shard4",
-		"parent": {
-			"chain": "eip155-110000",
-			"type": "shard"
-		},
-		"name": "QuarkChain Devnet Shard 4",
-		"chainId": 110005,
-		"shortName": "qkc-d-s4",
-		"chain": "QuarkChain",
-		"network": "devnet",
-		"networkId": 110005,
-		"nativeCurrency": {
-			"name": "QKC",
-			"symbol": "QKC",
-			"decimals": 18
-		},
-		"rpc": [
-			"http://jrpc.devnet.quarkchain.io:39004/"
-		],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://www.quarkchain.io/"
-	},
-	{
-		"slug": "quarkchain-devnet-shard5",
-		"parent": {
-			"chain": "eip155-110000",
-			"type": "shard"
-		},
-		"name": "QuarkChain Devnet Shard 5",
-		"chainId": 110006,
-		"shortName": "qkc-d-s5",
-		"chain": "QuarkChain",
-		"network": "devnet",
-		"networkId": 110006,
-		"nativeCurrency": {
-			"name": "QKC",
-			"symbol": "QKC",
-			"decimals": 18
-		},
-		"rpc": [
-			"http://jrpc.devnet.quarkchain.io:39005/"
-		],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://www.quarkchain.io/"
-	},
-	{
-		"slug": "quarkchain-devnet-shard6",
-		"parent": {
-			"chain": "eip155-110000",
-			"type": "shard"
-		},
-		"name": "QuarkChain Devnet Shard 6",
-		"chainId": 110007,
-		"shortName": "qkc-d-s6",
-		"chain": "QuarkChain",
-		"network": "devnet",
-		"networkId": 110007,
-		"nativeCurrency": {
-			"name": "QKC",
-			"symbol": "QKC",
-			"decimals": 18
-		},
-		"rpc": [
-			"http://jrpc.devnet.quarkchain.io:39006/"
-		],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://www.quarkchain.io/"
-	},
-	{
-		"slug": "quarkchain-devnet-shard7",
-		"parent": {
-			"chain": "eip155-110000",
-			"type": "shard"
-		},
-		"name": "QuarkChain Devnet Shard 7",
-		"chainId": 110008,
-		"shortName": "qkc-d-s7",
-		"chain": "QuarkChain",
-		"network": "devnet",
-		"networkId": 110008,
-		"nativeCurrency": {
-			"name": "QKC",
-			"symbol": "QKC",
-			"decimals": 18
-		},
-		"rpc": [
-			"http://jrpc.devnet.quarkchain.io:39007/"
-		],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://www.quarkchain.io/"
 	},
 	{
 		"slug": "quarkchain-root",
@@ -4026,6 +3814,218 @@ export const networks: Ethereum.Network[] = [
 		},
 		"rpc": [
 			"http://jrpc.mainnet.quarkchain.io:39007/"
+		],
+		"faucets": [],
+		"explorers": [],
+		"infoURL": "https://www.quarkchain.io/"
+	},
+	{
+		"slug": "quarkchain-devnet-root",
+		"name": "QuarkChain Devnet Root",
+		"chainId": 110000,
+		"shortName": "qkc-d-r",
+		"chain": "QuarkChain",
+		"network": "devnet",
+		"networkId": 110000,
+		"nativeCurrency": {
+			"name": "QKC",
+			"symbol": "QKC",
+			"decimals": 18
+		},
+		"rpc": [
+			"http://jrpc.devnet.quarkchain.io:38391/"
+		],
+		"faucets": [],
+		"explorers": [],
+		"infoURL": "https://www.quarkchain.io/"
+	},
+	{
+		"slug": "quarkchain-devnet-shard0",
+		"parent": {
+			"chain": "eip155-110000",
+			"type": "shard"
+		},
+		"name": "QuarkChain Devnet Shard 0",
+		"chainId": 110001,
+		"shortName": "qkc-d-s0",
+		"chain": "QuarkChain",
+		"network": "devnet",
+		"networkId": 110001,
+		"nativeCurrency": {
+			"name": "QKC",
+			"symbol": "QKC",
+			"decimals": 18
+		},
+		"rpc": [
+			"http://jrpc.devnet.quarkchain.io:39000/"
+		],
+		"faucets": [],
+		"explorers": [],
+		"infoURL": "https://www.quarkchain.io/"
+	},
+	{
+		"slug": "quarkchain-devnet-shard1",
+		"parent": {
+			"chain": "eip155-110000",
+			"type": "shard"
+		},
+		"name": "QuarkChain Devnet Shard 1",
+		"chainId": 110002,
+		"shortName": "qkc-d-s1",
+		"chain": "QuarkChain",
+		"network": "devnet",
+		"networkId": 110002,
+		"nativeCurrency": {
+			"name": "QKC",
+			"symbol": "QKC",
+			"decimals": 18
+		},
+		"rpc": [
+			"http://jrpc.devnet.quarkchain.io:39001/"
+		],
+		"faucets": [],
+		"explorers": [],
+		"infoURL": "https://www.quarkchain.io/"
+	},
+	{
+		"slug": "quarkchain-devnet-shard2",
+		"parent": {
+			"chain": "eip155-110000",
+			"type": "shard"
+		},
+		"name": "QuarkChain Devnet Shard 2",
+		"chainId": 110003,
+		"shortName": "qkc-d-s2",
+		"chain": "QuarkChain",
+		"network": "devnet",
+		"networkId": 110003,
+		"nativeCurrency": {
+			"name": "QKC",
+			"symbol": "QKC",
+			"decimals": 18
+		},
+		"rpc": [
+			"http://jrpc.devnet.quarkchain.io:39002/"
+		],
+		"faucets": [],
+		"explorers": [],
+		"infoURL": "https://www.quarkchain.io/"
+	},
+	{
+		"slug": "quarkchain-devnet-shard3",
+		"parent": {
+			"chain": "eip155-110000",
+			"type": "shard"
+		},
+		"name": "QuarkChain Devnet Shard 3",
+		"chainId": 110004,
+		"shortName": "qkc-d-s3",
+		"chain": "QuarkChain",
+		"network": "devnet",
+		"networkId": 110004,
+		"nativeCurrency": {
+			"name": "QKC",
+			"symbol": "QKC",
+			"decimals": 18
+		},
+		"rpc": [
+			"http://jrpc.devnet.quarkchain.io:39003/"
+		],
+		"faucets": [],
+		"explorers": [],
+		"infoURL": "https://www.quarkchain.io/"
+	},
+	{
+		"slug": "quarkchain-devnet-shard4",
+		"parent": {
+			"chain": "eip155-110000",
+			"type": "shard"
+		},
+		"name": "QuarkChain Devnet Shard 4",
+		"chainId": 110005,
+		"shortName": "qkc-d-s4",
+		"chain": "QuarkChain",
+		"network": "devnet",
+		"networkId": 110005,
+		"nativeCurrency": {
+			"name": "QKC",
+			"symbol": "QKC",
+			"decimals": 18
+		},
+		"rpc": [
+			"http://jrpc.devnet.quarkchain.io:39004/"
+		],
+		"faucets": [],
+		"explorers": [],
+		"infoURL": "https://www.quarkchain.io/"
+	},
+	{
+		"slug": "quarkchain-devnet-shard5",
+		"parent": {
+			"chain": "eip155-110000",
+			"type": "shard"
+		},
+		"name": "QuarkChain Devnet Shard 5",
+		"chainId": 110006,
+		"shortName": "qkc-d-s5",
+		"chain": "QuarkChain",
+		"network": "devnet",
+		"networkId": 110006,
+		"nativeCurrency": {
+			"name": "QKC",
+			"symbol": "QKC",
+			"decimals": 18
+		},
+		"rpc": [
+			"http://jrpc.devnet.quarkchain.io:39005/"
+		],
+		"faucets": [],
+		"explorers": [],
+		"infoURL": "https://www.quarkchain.io/"
+	},
+	{
+		"slug": "quarkchain-devnet-shard6",
+		"parent": {
+			"chain": "eip155-110000",
+			"type": "shard"
+		},
+		"name": "QuarkChain Devnet Shard 6",
+		"chainId": 110007,
+		"shortName": "qkc-d-s6",
+		"chain": "QuarkChain",
+		"network": "devnet",
+		"networkId": 110007,
+		"nativeCurrency": {
+			"name": "QKC",
+			"symbol": "QKC",
+			"decimals": 18
+		},
+		"rpc": [
+			"http://jrpc.devnet.quarkchain.io:39006/"
+		],
+		"faucets": [],
+		"explorers": [],
+		"infoURL": "https://www.quarkchain.io/"
+	},
+	{
+		"slug": "quarkchain-devnet-shard7",
+		"parent": {
+			"chain": "eip155-110000",
+			"type": "shard"
+		},
+		"name": "QuarkChain Devnet Shard 7",
+		"chainId": 110008,
+		"shortName": "qkc-d-s7",
+		"chain": "QuarkChain",
+		"network": "devnet",
+		"networkId": 110008,
+		"nativeCurrency": {
+			"name": "QKC",
+			"symbol": "QKC",
+			"decimals": 18
+		},
+		"rpc": [
+			"http://jrpc.devnet.quarkchain.io:39007/"
 		],
 		"faucets": [],
 		"explorers": [],
@@ -4652,7 +4652,7 @@ export const networks: Ethereum.Network[] = [
 	},
 	{
 		"slug": "ubiq-testnet",
-		"name": "Ubiq Network Testnet",
+		"name": "Ubiq Testnet",
 		"chainId": 9,
 		"shortName": "tubq",
 		"chain": "UBQ",
@@ -4839,6 +4839,26 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://xerom.org"
 	},
 	{
+		"slug": "xinfin",
+		"name": "XinFin",
+		"chainId": 50,
+		"shortName": "xdc",
+		"chain": "XDC",
+		"network": "mainnet",
+		"networkId": 50,
+		"nativeCurrency": {
+			"name": "XinFin",
+			"symbol": "XDC",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://rpc.xinfin.network"
+		],
+		"faucets": [],
+		"explorers": [],
+		"infoURL": "https://xinfin.org"
+	},
+	{
 		"slug": "xinfin-apothem",
 		"name": "XinFin Apothem Testnet",
 		"chainId": 51,
@@ -4853,26 +4873,6 @@ export const networks: Ethereum.Network[] = [
 		},
 		"rpc": [
 			"https://rpc.apothem.network"
-		],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://xinfin.org"
-	},
-	{
-		"slug": "xinfin",
-		"name": "XinFin Network",
-		"chainId": 50,
-		"shortName": "xdc",
-		"chain": "XDC",
-		"network": "mainnet",
-		"networkId": 50,
-		"nativeCurrency": {
-			"name": "XinFin",
-			"symbol": "XDC",
-			"decimals": 18
-		},
-		"rpc": [
-			"https://rpc.xinfin.network"
 		],
 		"faucets": [],
 		"explorers": [],
