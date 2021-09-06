@@ -26,15 +26,30 @@
 
 	import type { Ethereum } from '../../data/ethereum/types'
 	import { preferredEthereumProvider } from '../../data/ethereum/preferences'
-	import { networks, networksBySlug } from '../../data/ethereum/networks'
+	import { networks, networksBySlug, testnetsForMainnets, isTestnet } from '../../data/ethereum/networks'
 	import { derived } from 'svelte/store'
 	import { onMount, setContext } from 'svelte'
 	import { getEthersProvider } from '../../data/ethereum/provider'
 
 
-	const topNetworks = ['ethereum', 'polygon', 'bsc', 'avalanche', 'xdai', 'oasis-paratime', 'fantom', 'bitcoin'].map(slug => networksBySlug[slug])
-	const topTestNetworks = ['ethereum-kovan', 'ethereum-rinkeby', 'ethereum-ropsten', 'ethereum-goerli', 'polygon-mumbai', 'bsc-testnet', 'avalanche-fuji', 'optimistic-goerli', 'optimistic-kovan'].map(slug => networksBySlug[slug])
-	const otherNetworks = networks.filter(network => !topNetworks.includes(network) && !topTestNetworks.includes(network))
+	const topNetworks = [
+		'ethereum',
+		'polygon',
+		'avalanche',
+		'xdai',
+		'fantom',
+		'bsc',
+		'arbitrum-one',
+		'arbitrum-xdai',
+		'optimism',
+		// 'oasis-paratime',
+		'bitcoin'
+	].map(slug => networksBySlug[slug])
+
+	const otherNetworks = networks.filter(network =>
+		!topNetworks.includes(network)
+		&& !Object.values(testnetsForMainnets).some(testnetNetworks => testnetNetworks.includes(network))
+	)
 
 
 	// Explorer context stores
@@ -64,6 +79,11 @@
 	setContext('blockNumber', blockNumber)
 
 
+	// Preferences
+
+	let showTestnets = isTestnet($explorerNetwork)
+
+
 	$: networkDisplayName = $explorerNetwork ? $explorerNetwork.name : $networkSlug[0].toUpperCase() + $networkSlug.slice(1)
 
 	
@@ -76,6 +96,7 @@
 	import Preferences from '../../components/Preferences.svelte'
 </script>
 
+
 <style>
 	main {
 		max-width: var(--one-column-width);
@@ -87,27 +108,39 @@
 	}
 </style>
 
+
 <svelte:head>
 	<title>{$query ? `${$query} | ` : ''}{$networkSlug ? `${networkDisplayName} Explorer` : `Explorer`} | Blockhead</title>
 </svelte:head>
+
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 	<div class="bar">
 		<h1>{$networkSlug ? `${networkDisplayName} Explorer` : `Explorer`}</h1>
 		<label>
+			<span>Testnets: </span>
+			<input type="checkbox" bind:checked={showTestnets} />
+		</label>
+		<!-- svelte-ignore a11y-label-has-associated-control -->
+		<label>
 			<span>Blockchain: </span>
 			<select bind:value={$networkSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`/explorer/${$networkSlug}${$query ? `/${$query}` : ''}`))}>
-				{#each topNetworks as {name, slug}}
-					<option value={slug}>{name}</option>
+				{#each topNetworks as {name, slug, chainId}}
+					{#if showTestnets}
+					<!-- {#if showTestnets && topTestNetworks[slug]} -->
+						<optgroup label={name} style={tokenColors[slug] ? `--primary-color: var(--${tokenColors[slug]})` : ''}>
+							<option value={slug}>{name} Mainnet{chainId ? ` (${chainId})` : ''}</option>
+							{#each testnetsForMainnets[slug] ?? [] as {name, slug, chainId}}
+								<option value={slug}>{name}{chainId ? ` (${chainId})` : ''}</option>
+							{/each}
+						</optgroup>
+					{:else}
+						<option value={slug} style={tokenColors[slug] ? `--primary-color: var(--${tokenColors[slug]})` : ''}>{name}</option>
+					{/if}
 				{/each}
-				<optgroup label="Testnets">
-					{#each topTestNetworks as {name, slug, chainId}}
-						<option value={slug}>{name} ({chainId})</option>
-					{/each}
-				</optgroup>
 				<optgroup label="Other EVM Chains">
 					{#each otherNetworks as {name, slug, chainId}}
-						<option value={slug}>{name} ({chainId})</option>
+						<option value={slug}>{name}{chainId ? ` (${chainId})` : ''}</option>
 					{/each}
 				</optgroup>
 			</select>

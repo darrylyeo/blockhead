@@ -4888,9 +4888,49 @@ export const networksBySlug: Record<string, Ethereum.Network> = {}
 for(const network of networks)
 	networksBySlug[network.slug] = network
 
+
 export const availableNetworks = [1, 137, 43114, 56, 250].map(chainID => networksByChainID[chainID])
+
+
+export const testnetsForMainnets = Object.fromEntries<Ethereum.Network[]>(
+	Object.entries({
+		'ethereum': [
+			'ethereum-kovan',
+			'ethereum-rinkeby',
+			'ethereum-ropsten',
+			'ethereum-goerli',
+		],
+		'polygon': [
+			'polygon-mumbai',
+		],
+		'avalanche': [
+			'avalanche-fuji',
+		],
+		'bsc': [
+			'bsc-testnet',
+		],
+		'arbitrum-one': [
+			'arbitrum-rinkeby',
+		],
+		'optimism': [
+			'optimistic-goerli',
+			'optimistic-kovan',
+		],
+	}).map(([mainnetSlug, testnetSlugs]) =>
+		[mainnetSlug, testnetSlugs.map(slug => networksBySlug[slug])]
+	)
+)
+
+export const testnetNetworks = Object.values(testnetsForMainnets).flat()
 
 
 export function getNetworkRPC(network: Ethereum.Network){
 	return network.rpc[0].replace('${INFURA_PROJECT_ID}', INFURA_PROJECT_ID)
+}
+
+export function isTestnet(network: Ethereum.Network){
+	return network.network.includes('test')
+		|| network.slug.includes('testnet')
+		|| network.name.toLowerCase().includes('testnet')
+		|| testnetNetworks.includes(network)
 }
