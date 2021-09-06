@@ -3,7 +3,6 @@
 	import { getContext } from 'svelte'
 	import { preferredAnalyticsProvider, preferredQuoteCurrency, preferredOracleProvider } from '../../../data/ethereum/preferences'
 
-
 	const explorerNetwork = getContext<SvelteStore<Ethereum.Network>>('explorerNetwork')
 	const explorerProvider = getContext<SvelteStore<Ethereum.Provider>>('explorerProvider')
 	const blockNumber = getContext<SvelteStore<number>>('blockNumber')
@@ -11,6 +10,9 @@
 
 	const ethereumNetwork = getContext<SvelteStore<Ethereum.Network>>('ethereumNetwork')
 	const ethereumProvider = getContext<SvelteStore<Ethereum.Provider>>('ethereumProvider')
+
+
+	import { isTestnet } from '../../../data/ethereum/networks'
 
 
 	import EthereumBlockHeight from '../../../components/EthereumBlockHeight.svelte'
@@ -36,16 +38,18 @@
 		/>
 	</section>
 
-	<section class="card">
-		<CurrentPrice
-			priceProvider={$preferredOracleProvider}
-			token={$explorerNetwork.nativeCurrency.symbol}
-			quoteCurrency={$preferredQuoteCurrency}
-			provider={$ethereumProvider}
-			network={$ethereumNetwork}
-			blockNumber={$blockNumber}
-		/>
-	</section>
+	{#if !isTestnet($explorerNetwork)}
+		<section class="card">
+			<CurrentPrice
+				priceProvider={$preferredOracleProvider}
+				token={$explorerNetwork.nativeCurrency.symbol}
+				quoteCurrency={$preferredQuoteCurrency}
+				provider={$ethereumProvider}
+				network={$ethereumNetwork}
+				blockNumber={$blockNumber}
+			/>
+		</section>
+	{/if}
 </div>
 
 <div class="row">
