@@ -10,7 +10,8 @@
     "lint": "prettier --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
     "format": "prettier --write --plugin-search-dir=. .",
     "generate": "npx npm-run-all generate:*",
-    "generate:swagger-typescript-api": "swagger-typescript-api --path https://api.zapper.fi/api/json --output ./src/data/zapper/api/ --clean-output true --union-enums false --route-types true --enum-names-as-values true --extract-request-params true --extract-request-body true --modular true --single-http-client true --default-response {} --unwrap-response-data true",
+    "generate:swagger-typescript-api:zapper": "swagger-typescript-api --path https://api.zapper.fi/api/json --output ./src/data/zapper/api/ --clean-output true --union-enums false --route-types true --enum-names-as-values true --extract-request-params true --extract-request-body true --modular true --single-http-client true --default-response {} --unwrap-response-data true",
+    "generate:swagger-typescript-api:moralis": "swagger-typescript-api --path https://deep-index.moralis.io/api-docs/v2/swagger.json --output ./src/data/moralis/api/ --clean-output true --union-enums false --route-types true --enum-names-as-values true --extract-request-params true --extract-request-body true --single-http-client true --default-response {} --unwrap-response-data true",
     "generate:houdini": "npx houdini generate --pull-schema"
   },
   "type": "module",
