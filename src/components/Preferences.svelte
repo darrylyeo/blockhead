@@ -34,9 +34,9 @@
 	<label>
 		<span>Theme:</span>
 		<select bind:value={$preferredColorScheme}>
-			<option value="auto">Auto</option>
-			<option value="light">Light</option>
 			<option value="dark">Dark</option>
+			<option value="light">Light</option>
+			<option value="auto">Auto</option>
 		</select>
 	</label>
 
