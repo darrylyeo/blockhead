@@ -64,6 +64,7 @@
 			<option value="Pocket Network">Pocket Network</option>
 			<option value="Alchemy">Alchemy</option>
 			<option value="Infura">Infura</option>
+			<option value="Moralis">Moralis</option>
 			<option value="Etherscan">Etherscan</option>
 			<option value="Portis">Infura (Portis)</option>
 		</select>

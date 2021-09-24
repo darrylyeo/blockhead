@@ -4,6 +4,7 @@ import { getMetaMask } from './providers/metamask'
 import { getTorusOpenLogin } from './providers/torus'
 import { getPortis } from './providers/portis'
 // import { getPocketNetwork } from './providers/pocket-network'
+import { getMoralisJSONRPCEndpoint } from '../moralis/endpoints'
 import { ALCHEMY_API_KEY_MAINNET, ETHERSCAN_API_KEY, INFURA_PROJECT_ID, POCKET_APP_PUBLIC_KEY, POCKET_SECRET_KEY, POCKET_GATEWAY_ID } from '../../config-secrets'
 import { getNetworkRPC } from './networks'
 import { memoized } from '../../utils/memoized'
@@ -97,6 +98,17 @@ export const getProviderAndInstance = memoized(async (network: Ethereum.Network,
 	
 			// const provider = new providers.PocketProvider(network.chainId, POCKET_GATEWAY_ID)
 			// return { instance: provider, provider }
+		},
+
+		'Moralis': async network => {
+			return {
+				provider: new providers.WebSocketProvider(
+					getMoralisJSONRPCEndpoint({
+						network,
+						protocol: 'wss'
+					})
+				)
+			}
 		},
 
 		'Etherscan': async network => {
