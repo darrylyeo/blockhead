@@ -44,6 +44,7 @@
 		<span>Historical Data Provider:</span>
 		<select bind:value={$preferredAnalyticsProvider}>
 			<option value="Covalent">Covalent</option>
+			<option value="Moralis">Moralis</option>
 		</select>
 	</label> -->
 

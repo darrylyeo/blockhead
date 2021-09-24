@@ -1,1 +1,1 @@
-export type AnalyticsProvider = 'Covalent'
+export type AnalyticsProvider = 'Covalent' | 'Moralis'
