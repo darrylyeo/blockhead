@@ -1,4 +1,4 @@
-import { localStorageWritable } from '../local-storage'
+import { localStorageWritable } from '../../utils/localStorageWritable'
 import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '../currency/currency'
 
 
