@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { preferredDeFiProvider, preferredEthereumProvider, preferredQuoteCurrency } from '../../../data/ethereum/preferences'
+	import { preferences } from '../../../data/ethereum/preferences'
     
 
 	import type { BlockchainAppSlug, BlockchainAppConfig } from '../../../data/blockchain-apps';
@@ -61,9 +61,9 @@
 						<BlockchainAppDashboard
 							{address}
 							blockchainAppConfig={$blockchainAppConfig}
-							providerName={$preferredEthereumProvider}
-							defiProvider={$preferredDeFiProvider}
-							quoteCurrency={$preferredQuoteCurrency}
+							providerName={$preferences.rpcNetwork}
+							defiProvider={$preferences.defiProvider}
+							quoteCurrency={$preferences.quoteCurrency}
 							{showValues}
 							{showUnderlyingAssets}
 						/>

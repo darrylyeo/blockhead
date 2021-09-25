@@ -4,11 +4,12 @@
 	import type { AnalyticsProvider } from '../data/analytics/provider'
 	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
 	import { getTokenAddressBalances } from '../data/analytics/covalent'
+	import { preferences } from '../data/ethereum/preferences'
 
 	export let network: Ethereum.Network
 	export let address: string
-	export let analyticsProvider: AnalyticsProvider
-	export let quoteCurrency: QuoteCurrency
+	export let analyticsProvider: AnalyticsProvider = $preferences.analyticsProvider
+	export let quoteCurrency: QuoteCurrency = $preferences.quoteCurrency
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending'
 	export let showSmallValues = false
 	export let showValues

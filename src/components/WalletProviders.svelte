@@ -2,7 +2,7 @@
 	import type { Ethereum } from '../data/ethereum/types'
 	import { getEthersProvider, getProviderAndInstance } from '../data/ethereum/provider'
 	import { connectedProviderAccounts, getAccountsFromProvider } from '../data/ethereum/portfolio-accounts'
-	import { preferredDeFiProvider, preferredAnalyticsProvider, preferredQuoteCurrency } from '../data/ethereum/preferences'
+	import { preferences } from '../data/ethereum/preferences'
 
 
 	export let portfolioProvider
@@ -122,9 +122,9 @@
 			<Portfolio
 				name="MetaMask Wallet"
 				provider={portfolioProvider}
-				defiProvider={$preferredDeFiProvider}
-				analyticsProvider={$preferredAnalyticsProvider}
-				quoteCurrency={$preferredQuoteCurrency}
+				defiProvider={$preferences.defiProvider}
+				analyticsProvider={$preferences.analyticsProvider}
+				quoteCurrency={$preferences.quoteCurrency}
 				{accounts}
 			>
 				<h1 slot="title"><img src="/logos/metamask-icon.svg" alt="MetaMask" class="metamask-logo"> MetaMask Wallet</h1>
@@ -173,9 +173,9 @@
 			<Portfolio
 				name="Torus Wallet"
 				provider={portfolioProvider}
-				defiProvider={$preferredDeFiProvider}
-				analyticsProvider={$preferredAnalyticsProvider}
-				quoteCurrency={$preferredQuoteCurrency}
+				defiProvider={$preferences.defiProvider}
+				analyticsProvider={$preferences.analyticsProvider}
+				quoteCurrency={$preferences.quoteCurrency}
 				{accounts}
 			>
 				<h1 slot="title"><img src="/logos/torus-logo.svg" alt="Torus" class="torus-logo"> Wallet</h1>
@@ -224,9 +224,9 @@
 			<Portfolio
 				name="Portis Wallet"
 				provider={portfolioProvider}
-				defiProvider={$preferredDeFiProvider}
-				analyticsProvider={$preferredAnalyticsProvider}
-				quoteCurrency={$preferredQuoteCurrency}
+				defiProvider={$preferences.defiProvider}
+				analyticsProvider={$preferences.analyticsProvider}
+				quoteCurrency={$preferences.quoteCurrency}
 				{accounts}
 			>
 				<h1 slot="title"><img src="/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>

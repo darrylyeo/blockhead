@@ -31,13 +31,14 @@
 
 
 	import type { Ethereum } from '../data/ethereum/types'
-	import { ethereumChainID, preferredEthereumProvider } from '../data/ethereum/preferences'
 	import { networksByChainID } from '../data/ethereum/networks'
-	import { derived } from 'svelte/store'
+	import { derived, writable } from 'svelte/store'
 	import { getEthersProvider } from '../data/ethereum/provider'
 	import { onMount, setContext } from 'svelte'
 
 	const whenMounted = new Promise(r => onMount(r))
+
+	const ethereumChainID = writable(1)
 
 	const ethereumNetwork = derived<[typeof ethereumChainID], Ethereum.Network>(
 		[ethereumChainID],
@@ -46,17 +47,17 @@
 		}
 	)
 
-	const ethereumProvider = derived<[typeof ethereumNetwork, typeof preferredEthereumProvider], Ethereum.Provider>([ethereumNetwork, preferredEthereumProvider], async ([$ethereumNetwork, $preferredEthereumProvider], set) => {
+	const ethereumProvider = derived<[typeof ethereumNetwork, typeof preferences], Ethereum.Provider>([ethereumNetwork, preferences], async ([$ethereumNetwork, $preferences], set) => {
 		await whenMounted
-		set(await getEthersProvider($ethereumNetwork, $preferredEthereumProvider))
+		set(await getEthersProvider($ethereumNetwork, $preferences.rpcNetwork))
 	})
 	setContext('ethereumNetwork', ethereumNetwork)
 	setContext('ethereumProvider', ethereumProvider)
 
 
-	import { preferredColorScheme } from '../data/ethereum/preferences'
+	import { preferences } from '../data/ethereum/preferences'
 	$: if(globalThis.document)
-		globalThis.document.documentElement.className = `color-scheme-${$preferredColorScheme}`
+		globalThis.document.documentElement.className = `color-scheme-${$preferences.theme}`
 </script>
 
 <style>

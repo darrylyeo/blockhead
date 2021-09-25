@@ -1,12 +1,12 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import { getEthersProvider } from '../data/ethereum/provider'
-	import { preferredEthereumProvider } from '../data/ethereum/preferences'
+	import { preferences } from '../data/ethereum/preferences'
 	
 
 	export let network: Ethereum.Network
 	export let providerPromise: () => Promise<Ethereum.Provider>
-	export let providerName: Ethereum.ProviderName = $preferredEthereumProvider
+	export let providerName: Ethereum.ProviderName = $preferences.rpcNetwork
 
 
 	import { onMount } from 'svelte'

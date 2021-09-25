@@ -4,7 +4,7 @@
 	import type { Covalent } from '../data/analytics/covalent'
 	import type { PriceScale } from './PriceChart.svelte'
 	import { getERC20TokenTransfers, getTransactionsByAddress } from '../data/analytics/covalent'
-	import { preferredAnalyticsProvider, preferredQuoteCurrency } from '../data/ethereum/preferences'
+	import { preferences } from '../data/ethereum/preferences'
 
 
 	export let network: Ethereum.Network
@@ -18,7 +18,7 @@
 	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
 	let showSmallValues = false
 
-	$: quoteCurrency = $preferredQuoteCurrency
+	$: quoteCurrency = $preferences.quoteCurrency
 
 	let selectedToken: {
 		token: TickerSymbol,
@@ -110,8 +110,8 @@
 		<EthereumBalances
 			{network}
 			{address}
-			analyticsProvider={$preferredAnalyticsProvider}
-			quoteCurrency={$preferredQuoteCurrency}
+			analyticsProvider={$preferences.analyticsProvider}
+			quoteCurrency={$preferences.quoteCurrency}
 			{sortBy}
 			{showSmallValues}
 			{showValues}
@@ -153,14 +153,14 @@
 
 		<hr>
 
-		{#if $preferredAnalyticsProvider === 'Covalent'}
+		{#if $preferences.analyticsProvider === 'Covalent'}
 			{#if !selectedToken}
 				<!-- Regular Ethereum Transactions -->
 				<Loader
 					loadingIcon={'/logos/covalent-logomark.svg'}
 					loadingIconName={'Covalent'}
-					loadingMessage="Retrieving {network.name} transactions from {$preferredAnalyticsProvider}..."
-					errorMessage="Error retrieving {network.name} transactions from {$preferredAnalyticsProvider}"
+					loadingMessage="Retrieving {network.name} transactions from {$preferences.analyticsProvider}..."
+					errorMessage="Error retrieving {network.name} transactions from {$preferences.analyticsProvider}"
 					fromPromise={() => getTransactionsByAddress({chainID: network.chainId, address, includeLogs: true, quoteCurrency})}
 					let:then={transactions}
 				>
@@ -191,7 +191,7 @@
 								<EthereumTransactionCovalent
 									{network}
 									{transaction}
-									quoteCurrency={$preferredQuoteCurrency}
+									quoteCurrency={$preferences.quoteCurrency}
 									contextualAddress={address}
 									{detailLevel}
 									{showValues}
@@ -209,8 +209,8 @@
 				<Loader
 					loadingIcon={'/logos/covalent-logomark.svg'}
 					loadingIconName={'Covalent'}
-					loadingMessage="Retrieving ERC-20 transactions from {$preferredAnalyticsProvider}..."
-					errorMessage="Error retrieving ERC-20 transactions from {$preferredAnalyticsProvider}"
+					loadingMessage="Retrieving ERC-20 transactions from {$preferences.analyticsProvider}..."
+					errorMessage="Error retrieving ERC-20 transactions from {$preferences.analyticsProvider}"
 					fromPromise={() => getERC20TokenTransfers({chainID: network.chainId, address, contractAddress: selectedToken.tokenAddress, quoteCurrency})}
 					let:then={transactions}
 				>
@@ -246,7 +246,7 @@
 								<EthereumTransactionCovalent
 									{network}
 									{erc20TokenTransaction}
-									quoteCurrency={$preferredQuoteCurrency}
+									quoteCurrency={$preferences.quoteCurrency}
 									contextualAddress={address}
 									{detailLevel}
 									{showValues}
@@ -264,8 +264,8 @@
 
 		{#if balances?.length}
 			<CovalentPriceChart
-				analyticsProvider={$preferredAnalyticsProvider}
-				quoteCurrency={$preferredQuoteCurrency}
+				analyticsProvider={$preferences.analyticsProvider}
+				quoteCurrency={$preferences.quoteCurrency}
 				chainID={network.chainId}
 				currencies={
 					selectedToken ? [selectedToken.tokenAddress] :

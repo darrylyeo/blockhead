@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../../../data/ethereum/types'
 	import { getContext } from 'svelte'
-	import { preferredAnalyticsProvider, preferredQuoteCurrency, preferredOracleProvider } from '../../../data/ethereum/preferences'
+	import { preferences } from '../../../data/ethereum/preferences'
 
 	const explorerNetwork = getContext<SvelteStore<Ethereum.Network>>('explorerNetwork')
 	const explorerProvider = getContext<SvelteStore<Ethereum.Provider>>('explorerProvider')
@@ -41,9 +41,9 @@
 	{#if !isTestnet($explorerNetwork)}
 		<section class="card">
 			<CurrentPrice
-				priceProvider={$preferredOracleProvider}
+				priceProvider={$preferences.currentPriceProvider}
 				token={$explorerNetwork.nativeCurrency.symbol}
-				quoteCurrency={$preferredQuoteCurrency}
+				quoteCurrency={$preferences.quoteCurrency}
 				provider={$ethereumProvider}
 				network={$ethereumNetwork}
 				blockNumber={$blockNumber}
@@ -55,9 +55,9 @@
 <div class="row">
 	<section class="card">
 		<HistoricalPriceChart
-			analyticsProvider={$preferredAnalyticsProvider}
+			analyticsProvider={$preferences.analyticsProvider}
 			currencies={[$explorerNetwork.nativeCurrency.symbol]}
-			quoteCurrency={$preferredQuoteCurrency}
+			quoteCurrency={$preferences.quoteCurrency}
 		/>
 	</section>
 </div>

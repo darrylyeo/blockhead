@@ -25,7 +25,7 @@
 
 
 	import type { Ethereum } from '../../data/ethereum/types'
-	import { preferredEthereumProvider } from '../../data/ethereum/preferences'
+	import { preferences } from '../../data/ethereum/preferences'
 	import { networks, networksBySlug, testnetsForMainnets, isTestnet } from '../../data/ethereum/networks'
 	import { derived } from 'svelte/store'
 	import { onMount, setContext } from 'svelte'
@@ -62,10 +62,10 @@
 	setContext('explorerNetwork', explorerNetwork)
 
 	const whenMounted = new Promise(r => onMount(r))
-	const explorerProvider = derived<[typeof explorerNetwork, typeof preferredEthereumProvider], Ethereum.Provider>([explorerNetwork, preferredEthereumProvider], async ([$explorerNetwork, $preferredEthereumProvider], set) => {
+	const explorerProvider = derived<[typeof explorerNetwork, typeof preferences], Ethereum.Provider>([explorerNetwork, preferences], async ([$explorerNetwork, $preferences], set) => {
 		await whenMounted
 		if($explorerNetwork)
-			set(await getEthersProvider($explorerNetwork, $preferredEthereumProvider))
+			set(await getEthersProvider($explorerNetwork, $preferences.rpcNetwork))
 	})
 	setContext('explorerProvider', explorerProvider)
 

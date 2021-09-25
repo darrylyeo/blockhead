@@ -6,7 +6,7 @@
 
 
 	import { getEthersProvider } from '../data/ethereum/provider'
-	import { preferredEthereumProvider } from '../data/ethereum/preferences'
+	import { preferences } from '../data/ethereum/preferences'
 
 	import { Connext } from '../data/connext/swaps'
 	
@@ -68,8 +68,8 @@
 		toToken: Ethereum.ContractAddress,
 		toTokenAmount: number
 	}){console.log('onSubmit', 'transferSolution', transferSolution)
-		const fromNetworkProvider = await getEthersProvider(fromNetwork, $preferredEthereumProvider)
-		const toNetworkProvider = await getEthersProvider(toNetwork, $preferredEthereumProvider)
+		const fromNetworkProvider = await getEthersProvider(fromNetwork, $preferences.rpcNetwork)
+		const toNetworkProvider = await getEthersProvider(toNetwork, $preferences.rpcNetwork)
 
 
 		if(transferSolution === 'Connext'){

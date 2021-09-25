@@ -14,7 +14,7 @@
 	$: currentQuery = $query
 
 
-	import { preferredEthereumProvider } from '../../../data/ethereum/preferences'
+	import { preferences } from '../../../data/ethereum/preferences'
 
 
 	import AddressField from '../../../components/AddressField.svelte'
@@ -42,7 +42,7 @@
 	<NetworkProviderLoader
 		network={$explorerNetwork}
 		providerPromise={$explorerProvider && (async () => $explorerProvider)}
-		providerName={$preferredEthereumProvider}
+		providerName={$preferences.rpcNetwork}
 	>
 		<slot />
 	</NetworkProviderLoader>

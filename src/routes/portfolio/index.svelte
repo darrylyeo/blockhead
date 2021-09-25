@@ -3,9 +3,13 @@
 
 	import type { Ethereum } from '../../data/ethereum/types'
 	import { Portfolio, getLocalPortfolios } from '../../data/ethereum/portfolio-accounts'
-	import { ethereumChainID, preferredDeFiProvider, preferredAnalyticsProvider, preferredQuoteCurrency } from '../../data/ethereum/preferences'
+	import { preferences } from '../../data/ethereum/preferences'
 	import { networksByChainID } from '../../data/ethereum/networks'
 
+
+	import { writable } from 'svelte/store'
+
+	const ethereumChainID = writable(1)
 
 	const ethereumProvider = getContext<SvelteStore<Ethereum.Provider>>('ethereumProvider')
 	$: portfolioProvider = $ethereumProvider
@@ -69,9 +73,9 @@
 					bind:accounts
 					editable={true}
 					provider={portfolioProvider}
-					defiProvider={$preferredDeFiProvider}
-					analyticsProvider={$preferredAnalyticsProvider}
-					quoteCurrency={$preferredQuoteCurrency}
+					defiProvider={$preferences.defiProvider}
+					analyticsProvider={$preferences.analyticsProvider}
+					quoteCurrency={$preferences.quoteCurrency}
 					on:delete={e => deletePortfolio(i)}
 				/>
 			{/each}

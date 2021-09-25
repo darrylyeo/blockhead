@@ -7,8 +7,8 @@
 	const explorerProvider: SvelteStore<Ethereum.Provider> = getContext('explorerProvider')
 
 
-	import { preferredAnalyticsProvider } from '../../../data/ethereum/preferences'
-	$: analyticsProvider = $preferredAnalyticsProvider
+	import { preferences } from '../../../data/ethereum/preferences'
+	$: analyticsProvider = $preferences.analyticsProvider
 
 
 	import type { Writable } from 'svelte/store'

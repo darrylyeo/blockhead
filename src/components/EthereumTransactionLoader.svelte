@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { QuoteCurrency } from '../data/currency/currency'
-	import { preferredTransactionProvider, preferredQuoteCurrency } from '../data/ethereum/preferences'
+	import { preferences } from '../data/ethereum/preferences'
 
 
 	export let network: Ethereum.Network
@@ -9,8 +9,8 @@
 	export let transactionProvider: Ethereum.TransactionProvider
 	export let quoteCurrency: QuoteCurrency
 
-	$: _transactionProvider = transactionProvider || $preferredTransactionProvider
-	$: _quoteCurrency = quoteCurrency || $preferredQuoteCurrency
+	$: _transactionProvider = transactionProvider || $preferences.transactionProvider
+	$: _quoteCurrency = quoteCurrency || $preferences.quoteCurrency
 
 
 	import { getTransaction as getTransactionCovalent } from '../data/analytics/covalent'

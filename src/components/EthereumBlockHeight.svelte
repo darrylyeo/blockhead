@@ -14,7 +14,7 @@
 
 <div class="bar">
 	<h3>Block Height</h3>
-	<!-- <span class="card-annotation">{$preferredEthereumProvider}</span> -->
+	<!-- <span class="card-annotation">{$preferences.rpcNetwork}</span> -->
 </div>
 <Loader
 	loadingMessage="Retrieving statistics..."

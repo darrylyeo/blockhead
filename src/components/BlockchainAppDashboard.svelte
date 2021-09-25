@@ -9,7 +9,7 @@
 	import { getDeFiProtocolBalances, getFiatRates } from '../data/zapper/zapper'
 	import { getTokenAddressBalances } from '../data/analytics/covalent'
 	import { networksByChainID } from '../data/ethereum/networks'
-	import { preferredOracleProvider, preferredQuoteCurrency, preferredAnalyticsProvider } from '../data/ethereum/preferences'
+	import { preferences } from '../data/ethereum/preferences'
 
 
 	// Data
@@ -665,10 +665,10 @@
 										{#if !address}
 											<div class="column" transition:scale>
 												<CurrentPrice
-													priceProvider={$preferredOracleProvider}
+													priceProvider={$preferences.currentPriceProvider}
 													token={erc20Token.symbol}
 													tokenIcon={erc20Token.icon}
-													quoteCurrency={$preferredQuoteCurrency}
+													quoteCurrency={$preferences.quoteCurrency}
 													{provider}
 													{network}
 												>
@@ -682,7 +682,7 @@
 
 												<HistoricalPriceChart
 													currencies={[erc20Token.address]}
-													quoteCurrency={$preferredQuoteCurrency}
+													quoteCurrency={$preferences.quoteCurrency}
 												>
 													<h4 slot="title">
 														<!-- {erc20Token.name}
@@ -702,15 +702,15 @@
 												<EthereumBalancesLoader
 													{network}
 													{address}
-													analyticsProvider={$preferredAnalyticsProvider}
-													quoteCurrency={$preferredQuoteCurrency}
+													analyticsProvider={$preferences.analyticsProvider}
+													quoteCurrency={$preferences.quoteCurrency}
 													showIf={balances => balances}
 													let:balances
 												>
 													<svelte:fragment slot="header">
 														<div class="bar">
 															<h4>Current Balance</h4>
-															<div class="card-annotation">{$preferredAnalyticsProvider}</div>
+															<div class="card-annotation">{$preferences.analyticsProvider}</div>
 														</div>
 
 														<hr>

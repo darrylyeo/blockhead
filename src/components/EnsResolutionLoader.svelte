@@ -8,12 +8,12 @@
 	export let passiveReverseResolution = false
 
 
-	import { preferredEthereumProvider } from '../data/ethereum/preferences'
+	import { preferences } from '../data/ethereum/preferences'
 	import { getEthersProvider } from '../data/ethereum/provider'
 	import { networksByChainID } from '../data/ethereum/networks'
 
 	$: if(!provider)
-		getEthersProvider(networksByChainID[1], $preferredEthereumProvider).then(_ => provider = _)
+		getEthersProvider(networksByChainID[1], $preferences.rpcNetwork).then(_ => provider = _)
 
 
 	import { isAddress } from '@ethersproject/address'
