@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { DeFiProvider } from '../data/defi-provider'
-	import type { AnalyticsProvider } from '../data/analytics/provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
 
 	import { Account } from '../data/ethereum/portfolio-accounts'
@@ -59,7 +58,8 @@
 	
 	export let provider: Ethereum.Provider
 	export let defiProvider: DeFiProvider
-	export let analyticsProvider: AnalyticsProvider
+	export let tokenBalancesProvider
+	export let nftProvider
 	export let quoteCurrency: QuoteCurrency
 	
 	let showValues: 'original' | 'converted' | 'both' = 'original'
@@ -205,7 +205,8 @@ import { availableNetworks } from '../data/ethereum/networks';
 
 					{provider}
 					{defiProvider}
-					{analyticsProvider}
+					{tokenBalancesProvider}
+					{nftProvider}
 					{quoteCurrency}
 
 					{showValues}

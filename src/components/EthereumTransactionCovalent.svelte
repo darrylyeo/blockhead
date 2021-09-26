@@ -183,9 +183,6 @@
 	$: contextIsReceiver = contextualAddress && toAddress && contextualAddress.toLowerCase() === toAddress.toLowerCase()
 
 
-	// export let provider: Ethereum.Provider
-	// export let analyticsProvider: AnalyticsProvider
-
 	import AddressWithLabel from './AddressWithLabel.svelte'
 	import Date from './Date.svelte'
 	import EthereumLogEventCovalent from './EthereumLogEventCovalent.svelte'

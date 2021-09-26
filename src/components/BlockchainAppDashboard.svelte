@@ -702,7 +702,7 @@
 												<EthereumBalancesLoader
 													{network}
 													{address}
-													analyticsProvider={$preferences.analyticsProvider}
+													tokenBalancesProvider={$preferences.tokenBalancesProvider}
 													quoteCurrency={$preferences.quoteCurrency}
 													showIf={balances => balances}
 													let:balances
@@ -710,7 +710,7 @@
 													<svelte:fragment slot="header">
 														<div class="bar">
 															<h4>Current Balance</h4>
-															<div class="card-annotation">{$preferences.analyticsProvider}</div>
+															<div class="card-annotation">{$preferences.tokenBalancesProvider}</div>
 														</div>
 
 														<hr>

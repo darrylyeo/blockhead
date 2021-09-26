@@ -1,13 +1,12 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { Covalent } from '../data/analytics/covalent'
-	import type { AnalyticsProvider } from '../data/analytics/provider'
 	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
 	import { getTokenAddressBalances } from '../data/analytics/covalent'
 
 	export let network: Ethereum.Network
 	export let address: string
-	export let analyticsProvider: AnalyticsProvider
+	export let nftProvider = 'Covalent'
 	export let quoteCurrency: QuoteCurrency
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending'
 	export let showNFTMetadata = false
@@ -138,9 +137,9 @@
 {#if address}
 	<Loader
 		loadingIcon={'/logos/covalent-logomark.svg'}
-		loadingIconName={'Covalent'}
-		loadingMessage="Retrieving {network.name} NFTs from {analyticsProvider}..."
-		errorMessage="Error retrieving {network.name} NFTs from {analyticsProvider}"
+			loadingIconName={nftProvider}
+			loadingMessage="Retrieving {network.name} NFTs from {nftProvider}..."
+			errorMessage="Error retrieving {network.name} NFTs from {nftProvider}"
 		fromPromise={() => getBalancesPromise}
 		showIf={() => balances.length}
 		{isCollapsed}

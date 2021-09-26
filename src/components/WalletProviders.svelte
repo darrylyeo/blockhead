@@ -123,7 +123,8 @@
 				name="MetaMask Wallet"
 				provider={portfolioProvider}
 				defiProvider={$preferences.defiProvider}
-				analyticsProvider={$preferences.analyticsProvider}
+				tokenBalancesProvider={$preferences.tokenBalancesProvider}
+				nftProvider={$preferences.nftProvider}
 				quoteCurrency={$preferences.quoteCurrency}
 				{accounts}
 			>
@@ -174,8 +175,8 @@
 				name="Torus Wallet"
 				provider={portfolioProvider}
 				defiProvider={$preferences.defiProvider}
-				analyticsProvider={$preferences.analyticsProvider}
-				quoteCurrency={$preferences.quoteCurrency}
+				tokenBalancesProvider={$preferences.tokenBalancesProvider}
+				nftProvider={$preferences.nftProvider}
 				{accounts}
 			>
 				<h1 slot="title"><img src="/logos/torus-logo.svg" alt="Torus" class="torus-logo"> Wallet</h1>
@@ -225,8 +226,8 @@
 				name="Portis Wallet"
 				provider={portfolioProvider}
 				defiProvider={$preferences.defiProvider}
-				analyticsProvider={$preferences.analyticsProvider}
-				quoteCurrency={$preferences.quoteCurrency}
+				tokenBalancesProvider={$preferences.tokenBalancesProvider}
+				nftProvider={$preferences.nftProvider}
 				{accounts}
 			>
 				<h1 slot="title"><img src="/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>

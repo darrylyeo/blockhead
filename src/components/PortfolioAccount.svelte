@@ -3,7 +3,6 @@
 	// import type { CryptoPosition } from '../data/CryptoPosition'
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { DeFiProvider } from '../data/defi-provider'
-	import type { AnalyticsProvider } from '../data/analytics/provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import { networksByChainID } from '../data/ethereum/networks'
 	import { Covalent } from '../data/analytics/covalent'
@@ -18,7 +17,8 @@
 
 	export let provider: Ethereum.Provider
 	export let defiProvider: DeFiProvider
-	export let analyticsProvider: AnalyticsProvider
+	export let tokenBalancesProvider
+	export let nftProvider
 	export let quoteCurrency: QuoteCurrency
 
 	export let showValues: 'original' | 'converted' | 'both' = 'original'
@@ -33,6 +33,10 @@
 
 
 	// Computed Values
+	// export let portfolioData: Record<Ethereum.ChainID, {
+	// 	balances: ,
+	// 	quoteTotal: number,
+	// }>
 	let tokenQuoteTotals = []
 	let defiQuoteTotals = []
 	let nftQuoteTotals = []
@@ -137,11 +141,11 @@
 
 					<!-- Token Balances -->
 					{#if showBalances}
-						{#if analyticsProvider === 'Covalent' && Covalent.ChainIDs.includes(network.chainId)}
+						{#if tokenBalancesProvider === 'Covalent' && Covalent.ChainIDs.includes(network.chainId)}
 							<EthereumBalances
 								{network}
 								{address}
-								{analyticsProvider}
+								{tokenBalancesProvider}
 								{quoteCurrency}
 								{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets}
 								isCollapsed={isEditing}
@@ -212,7 +216,7 @@
 						<EthereumNFTs
 							{network}
 							{address}
-							{analyticsProvider}
+							{nftProvider}
 							{quoteCurrency}
 							{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets} {showNFTMetadata}
 							isCollapsed={isEditing}

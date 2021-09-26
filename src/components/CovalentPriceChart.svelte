@@ -1,12 +1,11 @@
 <script lang="ts">
-	import type { AnalyticsProvider } from '../data/analytics/provider'
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { Covalent } from '../data/analytics/covalent'
 	import { getHistoricalPricesByTickerSymbol, getHistoricalPricesByAddress } from '../data/analytics/covalent'
 	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
 	import type { PriceScale } from './PriceChart.svelte'
 	
-	export let analyticsProvider: AnalyticsProvider
+	export let historicalPriceProvider
 	export let currencies: (TickerSymbol | Ethereum.ContractAddress)[]
 	export let chainID: Ethereum.ChainID = 1
 	export let quoteCurrency: QuoteCurrency
@@ -18,11 +17,6 @@
 
 
 	const isAddress = query => /^0x[0-9a-f]{40}$/i.test(query)
-
-
-	$: historicalPriceLogo = ({
-		'Covalent': '/logos/covalent-logomark.svg'
-	})[analyticsProvider]
 
 
 	const PromiseAllFulfilled = promises =>
@@ -37,7 +31,7 @@
 	import PriceChart from './PriceChart.svelte'
 </script>
 
-{#if analyticsProvider === 'Covalent' && currencies}
+{#if historicalPriceProvider === 'Covalent' && currencies}
 	<Loader
 		fromPromise={
 			() => PromiseAllFulfilled(
@@ -59,9 +53,9 @@
 			)
 		}
 
-		loadingIcon={historicalPriceLogo}
-		loadingIconName={analyticsProvider}
-		loadingMessage="Retrieving price history from {analyticsProvider}..."
+		loadingIcon="/logos/covalent-logomark.svg"
+		loadingIconName={historicalPriceProvider}
+		loadingMessage="Retrieving price history from {historicalPriceProvider}..."
 		let:then={data}
 		showIf={data => data.length}
 	>

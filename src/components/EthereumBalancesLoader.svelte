@@ -9,13 +9,12 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { Covalent } from '../data/analytics/covalent'
-	import type { AnalyticsProvider } from '../data/analytics/provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
 
 
 	export let network: Ethereum.Network
 	export let address: string
-	export let analyticsProvider: AnalyticsProvider
+	export let tokenBalancesProvider
 	export let quoteCurrency: QuoteCurrency
 
 	export let showIf: (<TData = unknown> (then: TData) => boolean | any) | undefined
@@ -33,12 +32,12 @@
 </script>
 
 
-{#if analyticsProvider === 'Covalent'}
+{#if tokenBalancesProvider === 'Covalent'}
 	<Loader
 		loadingIcon={'/logos/covalent-logomark.svg'}
 		loadingIconName={'Covalent'}
-		loadingMessage="Retrieving {network.name} balances from {analyticsProvider}..."
-		errorMessage="Error retrieving {network.name} balances from {analyticsProvider}"
+		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
+		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"
 		fromPromise={() => getBalancesPromise}
 		{showIf}
 		{isCollapsed}

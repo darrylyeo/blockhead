@@ -50,8 +50,27 @@ type SerializedPreferences<T extends PreferencesConfig<infer TPreferenceSectionI
 }
 
 export const preferencesConfig: PreferencesConfig<
-	'appearance' | 'dataSources' | 'web3' | 'currencies',
-	'theme' | 'rpcNetwork' | 'defiProvider' | 'transactionProvider' | 'quoteCurrency'
+	| 'appearance'
+	| 'dataSources'
+	| 'web3'
+	| 'currencies',
+
+	| 'theme'
+	// | 'tokenIcons'
+
+	| 'rpcNetwork'
+	| 'currentPriceProvider'
+	| 'historicalPriceProvider'
+	| 'tokenBalancesProvider'
+	| 'defiProvider'
+	| 'nftProvider'
+	| 'transactionProvider'
+
+	// | 'ipfsGateway'
+	// | 'skynetGateway'
+	// | 'theGraphGateway'
+
+	| 'quoteCurrency'
 > = [
 	{
 		id: 'appearance',
@@ -126,53 +145,56 @@ export const preferencesConfig: PreferencesConfig<
 					}
 				]
 			},
-			// {
-			// 	id: 'historicalPriceProvider',
-			// 	name: 'Historical Price',
-			// 	type: 'single', // 'multiple'
-			// 	defaultOption: 'Covalent',
-			// 	options: [
-			// 		{
-			// 			id: 'onChain',
-			// 			name: 'On-Chain',
-			// 			options: [
-			// 			]
-			// 		},
-			// 		{
-			// 			id: 'offChain',
-			// 			name: 'Off-Chain',
-			// 			options: [
-			// 				{ id: 'Covalent', name: 'Covalent' },
-			// 				// { id: 'The Graph', name: 'The Graph' },
-			// 				// { id: 'Zapper', name: 'Zapper' },
-			// 				// { id: 'CoinGecko', name: 'CoinGecko' },
-			// 				// { id: 'Etherscan', name: 'Etherscan' },
-			// 			]
-			// 		}
-			// 	]
-			// },
-			// {
-			// 	id: 'tokenBalancesProvider',
-			// 	name: 'Token Balances',
-			// 	type: 'single',
-			// 	defaultOption: 'Zapper',
-			// 	options: [
-			// 		{
-			// 			id: 'onChain',
-			// 			name: 'On-Chain',
-			// 			options: [
-			// 				{ id: 'Zerion DeFi SDK', name: 'Zerion DeFi SDK' }
-			// 			]
-			// 		},
-			// 		{
-			// 			id: 'offChain',
-			// 			name: 'Off-Chain',
-			// 			options: [
-			// 				{ id: 'Zapper', name: 'Zapper' }
-			// 			]
-			// 		}
-			// 	]
-			// },
+			{
+				id: 'historicalPriceProvider',
+				name: 'Historical Price',
+				type: 'single', // 'multiple'
+				defaultOption: 'Covalent',
+				options: [
+					// {
+					// 	id: 'onChain',
+					// 	name: 'On-Chain',
+					// 	options: [
+					// 	]
+					// },
+					{
+						id: 'offChain',
+						name: 'Off-Chain',
+						options: [
+							{ id: 'Covalent', name: 'Covalent' },
+							// { id: 'The Graph', name: 'The Graph' },
+							// { id: 'Zapper', name: 'Zapper' },
+							// { id: 'CoinGecko', name: 'CoinGecko' },
+							// { id: 'Etherscan', name: 'Etherscan' },
+							// { id: 'TradingView', name: 'TradingView' },
+						]
+					}
+				]
+			},
+			{
+				id: 'tokenBalancesProvider',
+				name: 'Token Balances',
+				type: 'single',
+				defaultOption: 'Zapper',
+				options: [
+					// {
+					// 	id: 'onChain',
+					// 	name: 'On-Chain',
+					// 	options: [
+					//	{ id: 'RPC Provider', name: 'RPC Provider + Token List' },
+
+					// 	]
+					// },
+					{
+						id: 'offChain',
+						name: 'Off-Chain',
+						options: [
+							{ id: 'Covalent', name: 'Covalent' },
+							// { id: 'Zapper', name: 'Zapper' }
+						]
+					}
+				]
+			},
 			{
 				id: 'defiProvider',
 				name: 'DeFi Balances',
@@ -195,29 +217,29 @@ export const preferencesConfig: PreferencesConfig<
 					}
 				]
 			},
-			// {
-			// 	id: 'nftProvider',
-			// 	name: 'NFTs',
-			// 	type: 'single',
-			// 	defaultOption: 'Covalent',
-			// 	options: [
-			// 		// {
-			// 		// 	id: 'onChain',
-			// 		// 	name: 'On-Chain',
-			// 		// 	options: [
-			// 		// 	]
-			// 		// },
-			// 		{
-			// 			id: 'offChain',
-			// 			name: 'Off-Chain',
-			// 			options: [
-			// 				{ id: 'Covalent', name: 'Covalent' },
-			// 				// { id: 'Zapper', name: 'Zapper' },
-			// 				// { id: 'Moralis', name: 'Moralis' },
-			// 			]
-			// 		}
-			// 	]
-			// },
+			{
+				id: 'nftProvider',
+				name: 'NFTs',
+				type: 'single',
+				defaultOption: 'Covalent',
+				options: [
+					// {
+					// 	id: 'onChain',
+					// 	name: 'On-Chain',
+					// 	options: [
+					// 	]
+					// },
+					{
+						id: 'offChain',
+						name: 'Off-Chain',
+						options: [
+							{ id: 'Covalent', name: 'Covalent' },
+							// { id: 'Zapper', name: 'Zapper' },
+							// { id: 'Moralis', name: 'Moralis' },
+						]
+					}
+				]
+			},
 			{
 				id: 'transactionProvider',
 				name: 'Historical Transactions',
@@ -228,7 +250,7 @@ export const preferencesConfig: PreferencesConfig<
 					// 	id: 'onChain',
 					// 	name: 'On-Chain',
 					// 	options: [
-							
+					// 		{ id: 'RPC Provider', name: 'RPC Provider' },
 					// 	]
 					// },
 					{

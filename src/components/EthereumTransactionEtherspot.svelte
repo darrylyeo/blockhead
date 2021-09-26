@@ -157,9 +157,6 @@
 	$: contextIsReceiver = contextualAddress && toAddress && contextualAddress.toLowerCase() === toAddress.toLowerCase()
 
 
-	// export let provider: Ethereum.Provider
-	// export let analyticsProvider: AnalyticsProvider
-
 	import AddressWithLabel from './AddressWithLabel.svelte'
 	import Date from './Date.svelte'
 	import EthereumLogEventEtherspot from './EthereumLogEventEtherspot.svelte'
@@ -263,7 +260,11 @@
 				<span class="card-annotation">Ethereum Transaction</span>
 			</div>
 			<hr>
-			<h4>Initial Message</h4>
+	
+			<div class="bar">
+				<h4>Initial Message</h4>
+				{#if nonce}<p class="card-annotation">#{nonce}</p>{/if}
+			</div>
 		{/if}
 
 		{#if !(isSummary && transfers?.length && value == 0)}
@@ -363,7 +364,7 @@
 			{/if}
 			<div class="footer bar" transition:fade|local>
 				{#if isStandaloneLayout && blockNumber}
-					<EthereumTransactionSummary {network} {blockNumber} />
+					<EthereumTransactionSummary {network} {transactionIndex} {blockNumber} />
 				{:else if isInlineLayout}
 					<EthereumTransactionSummary {network} {transactionID} {blockNumber} />
 				{:else}

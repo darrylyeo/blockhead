@@ -1,14 +1,13 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { Covalent } from '../data/analytics/covalent'
-	import type { AnalyticsProvider } from '../data/analytics/provider'
 	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
 	import { getTokenAddressBalances } from '../data/analytics/covalent'
 	import { preferences } from '../data/ethereum/preferences'
 
 	export let network: Ethereum.Network
 	export let address: string
-	export let analyticsProvider: AnalyticsProvider = $preferences.analyticsProvider
+	export let tokenBalancesProvider = $preferences.tokenBalancesProvider
 	export let quoteCurrency: QuoteCurrency = $preferences.quoteCurrency
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending'
 	export let showSmallValues = false
@@ -115,7 +114,7 @@
 	<EthereumBalancesLoader
 		{network}
 		{address}
-		{analyticsProvider}
+		{tokenBalancesProvider}
 		{quoteCurrency}
 		showIf={() => balances.length}
 		{isCollapsed}

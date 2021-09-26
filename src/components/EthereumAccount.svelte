@@ -110,7 +110,7 @@
 		<EthereumBalances
 			{network}
 			{address}
-			analyticsProvider={$preferences.analyticsProvider}
+			tokenBalancesProvider={$preferences.tokenBalancesProvider}
 			quoteCurrency={$preferences.quoteCurrency}
 			{sortBy}
 			{showSmallValues}
@@ -153,14 +153,14 @@
 
 		<hr>
 
-		{#if $preferences.analyticsProvider === 'Covalent'}
+		{#if $preferences.tokenBalancesProvider === 'Covalent'}
 			{#if !selectedToken}
 				<!-- Regular Ethereum Transactions -->
 				<Loader
 					loadingIcon={'/logos/covalent-logomark.svg'}
 					loadingIconName={'Covalent'}
-					loadingMessage="Retrieving {network.name} transactions from {$preferences.analyticsProvider}..."
-					errorMessage="Error retrieving {network.name} transactions from {$preferences.analyticsProvider}"
+					loadingMessage="Retrieving {network.name} transactions from {$preferences.transactionProvider}..."
+					errorMessage="Error retrieving {network.name} transactions from {$preferences.transactionProvider}"
 					fromPromise={() => getTransactionsByAddress({chainID: network.chainId, address, includeLogs: true, quoteCurrency})}
 					let:then={transactions}
 				>
@@ -209,8 +209,8 @@
 				<Loader
 					loadingIcon={'/logos/covalent-logomark.svg'}
 					loadingIconName={'Covalent'}
-					loadingMessage="Retrieving ERC-20 transactions from {$preferences.analyticsProvider}..."
-					errorMessage="Error retrieving ERC-20 transactions from {$preferences.analyticsProvider}"
+					loadingMessage="Retrieving ERC-20 transactions from {$preferences.transactionProvider}..."
+					errorMessage="Error retrieving ERC-20 transactions from {$preferences.transactionProvider}"
 					fromPromise={() => getERC20TokenTransfers({chainID: network.chainId, address, contractAddress: selectedToken.tokenAddress, quoteCurrency})}
 					let:then={transactions}
 				>
@@ -264,7 +264,7 @@
 
 		{#if balances?.length}
 			<CovalentPriceChart
-				analyticsProvider={$preferences.analyticsProvider}
+				historicalPriceProvider={$preferences.priceProvider}
 				quoteCurrency={$preferences.quoteCurrency}
 				chainID={network.chainId}
 				currencies={
