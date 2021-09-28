@@ -51,26 +51,28 @@ type SerializedPreferences<T extends PreferencesConfig<infer TPreferenceSectionI
 
 export const preferencesConfig: PreferencesConfig<
 	| 'appearance'
-	| 'dataSources'
-	| 'web3'
-	| 'currencies',
+	| 'blockchainNodes'
+	| 'accountData'
+	| 'analytics'
+	| 'web3',
 
 	| 'theme'
 	// | 'tokenIcons'
 
 	| 'rpcNetwork'
-	| 'currentPriceProvider'
-	| 'historicalPriceProvider'
+	| 'rpcNetworkSend'
 	| 'tokenBalancesProvider'
 	| 'defiProvider'
 	| 'nftProvider'
+
+	| 'currentPriceProvider'
+	| 'historicalPriceProvider'
 	| 'transactionProvider'
+	| 'quoteCurrency'
 
 	// | 'ipfsGateway'
 	// | 'skynetGateway'
 	// | 'theGraphGateway'
-
-	| 'quoteCurrency'
 > = [
 	{
 		id: 'appearance',
@@ -100,8 +102,8 @@ export const preferencesConfig: PreferencesConfig<
 		]
 	},
 	{
-		id: 'dataSources',
-		name: 'Data Sources',
+		id: 'blockchainNodes',
+		name: 'Blockchain Nodes',
 		preferences: [
 			{
 				id: 'rpcNetwork',
@@ -118,59 +120,25 @@ export const preferencesConfig: PreferencesConfig<
 					// { id: 'Portis', name: 'Infura (Portis)' },
 				]
 			},
-			{
-				id: 'currentPriceProvider',
-				name: 'Current Price',
-				type: 'single',
-				defaultOption: 'Zapper',
-				options: [
-					{
-						id: 'onChain',
-						name: 'On-Chain',
-						options: [
-							{ id: 'Chainlink', name: 'Chainlink' },
-							// { id: 'Tellor', name: 'Tellor' },
-							// { id: 'Compound Price Feed', name: 'Open Price Feed' },
-						]
-					},
-					{
-						id: 'offChain',
-						name: 'Off-Chain',
-						options: [
-							{ id: 'Covalent', name: 'Covalent' },
-							// { id: 'Zapper', name: 'Zapper' },
-							// { id: 'CoinGecko', name: 'CoinGecko' },
-							// { id: 'Etherscan', name: 'Etherscan' },
-						]
-					}
-				]
-			},
-			{
-				id: 'historicalPriceProvider',
-				name: 'Historical Price',
-				type: 'single', // 'multiple'
-				defaultOption: 'Covalent',
-				options: [
-					// {
-					// 	id: 'onChain',
-					// 	name: 'On-Chain',
-					// 	options: [
-					// 	]
-					// },
-					{
-						id: 'offChain',
-						name: 'Off-Chain',
-						options: [
-							{ id: 'Covalent', name: 'Covalent' },
-							// { id: 'The Graph', name: 'The Graph' },
-							// { id: 'Zapper', name: 'Zapper' },
-							// { id: 'CoinGecko', name: 'CoinGecko' },
-							// { id: 'Etherscan', name: 'Etherscan' },
-							// { id: 'TradingView', name: 'TradingView' },
-						]
-					}
-				]
-			},
+			// {
+			// 	id: 'rpcNetworkSend',
+			// 	name: 'Sending Transactions',
+			// 	type: 'single', // 'multiple',
+			// 	defaultOption: 'Ethers',
+			// 	options: [
+			// 		{ id: 'Ethers', name: 'Ethers Quorum' }, // (Infura + Etherscan + Alchemy + Pocket)
+			// 		{ id: 'Pocket Network', name: 'Pocket Network' },
+			// 		{ id: 'Alchemy', name: 'Alchemy' },
+			// 		{ id: 'Infura', name: 'Infura' },
+			// 		{ id: 'Moralis', name: 'Moralis' },
+			// 	]
+			// },
+		]
+	},
+	{
+		id: 'accountData',
+		name: 'Account Data',
+		preferences: [
 			{
 				id: 'tokenBalancesProvider',
 				name: 'Token Balances',
@@ -263,6 +231,92 @@ export const preferencesConfig: PreferencesConfig<
 					}
 				]
 			}
+		],
+	},
+	{
+		id: 'analytics',
+		name: 'Analytics',
+		preferences: [
+			{
+				id: 'currentPriceProvider',
+				name: 'Current Price',
+				type: 'single',
+				defaultOption: 'Zapper',
+				options: [
+					{
+						id: 'onChain',
+						name: 'On-Chain',
+						options: [
+							{ id: 'Chainlink', name: 'Chainlink' },
+							// { id: 'Tellor', name: 'Tellor' },
+							// { id: 'Compound Price Feed', name: 'Open Price Feed' },
+						]
+					},
+					{
+						id: 'offChain',
+						name: 'Off-Chain',
+						options: [
+							{ id: 'Covalent', name: 'Covalent' },
+							// { id: 'Moralis', name: 'Moralis' },
+							// { id: 'Zapper', name: 'Zapper' },
+							// { id: 'CoinGecko', name: 'CoinGecko' },
+							// { id: 'Etherscan', name: 'Etherscan' },
+						]
+					}
+				]
+			},
+			{
+				id: 'historicalPriceProvider',
+				name: 'Historical Price',
+				type: 'single', // 'multiple'
+				defaultOption: 'Covalent',
+				options: [
+					// {
+					// 	id: 'onChain',
+					// 	name: 'On-Chain',
+					// 	options: [
+					// 	]
+					// },
+					{
+						id: 'offChain',
+						name: 'Off-Chain',
+						options: [
+							{ id: 'Covalent', name: 'Covalent' },
+							// { id: 'The Graph', name: 'The Graph' },
+							// { id: 'Zapper', name: 'Zapper' },
+							// { id: 'CoinGecko', name: 'CoinGecko' },
+							// { id: 'Etherscan', name: 'Etherscan' },
+							// { id: 'TradingView', name: 'TradingView' },
+						]
+					}
+				]
+			},
+			{
+				id: 'quoteCurrency',
+				name: 'Currency',
+				type: 'single',
+				defaultOption: 'USD',
+				options: [
+					{
+						id: 'fiat',
+						name: 'Fiat Currencies',
+						options: Object.values(fiatQuoteCurrencies).map(currency => ({
+							id: currency.isoCode,
+							name: `${currency.name} (${currency.symbol})`,
+							value: currency.isoCode
+						}))
+					},
+					{
+						id: 'crypto',
+						name: 'Cryptocurrencies',
+						options: Object.values(cryptoQuoteCurrencies).map(currency => ({
+							id: currency.isoCode,
+							name: `${currency.name} (${currency.symbol})`,
+							value: currency.isoCode
+						}))
+					}
+				]
+			}
 		]
 	},
 	// {
@@ -298,38 +352,6 @@ export const preferencesConfig: PreferencesConfig<
 	// 		},
 	// 	]
 	// },
-	{
-		id: 'currencies',
-		name: 'Currencies',
-		preferences: [
-			{
-				id: 'quoteCurrency',
-				name: 'Currency',
-				type: 'single',
-				defaultOption: 'USD',
-				options: [
-					{
-						id: 'fiat',
-						name: 'Fiat Currencies',
-						options: Object.values(fiatQuoteCurrencies).map(currency => ({
-							id: currency.isoCode,
-							name: `${currency.name} (${currency.symbol})`,
-							value: currency.isoCode
-						}))
-					},
-					{
-						id: 'crypto',
-						name: 'Cryptocurrencies',
-						options: Object.values(cryptoQuoteCurrencies).map(currency => ({
-							id: currency.isoCode,
-							name: `${currency.name} (${currency.symbol})`,
-							value: currency.isoCode
-						}))
-					}
-				]
-			}
-		]
-	}
 ] // as const
 
 
