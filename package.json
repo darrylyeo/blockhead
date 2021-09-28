@@ -47,7 +47,7 @@
     "buffer": "^6.0.3",
     "dids": "^2.4.0",
     "dotenv": "^10.0.0",
-    "echarts": "^5.1.2",
+    "echarts": "^5.2.1",
     "ethers": "5.4.4",
     "ethers-to-web3": "^0.1.6",
     "etherspot": "^1.12.0",

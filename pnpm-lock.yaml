@@ -38,7 +38,7 @@ specifiers:
   buffer: ^6.0.3
   dids: ^2.4.0
   dotenv: ^10.0.0
-  echarts: ^5.1.2
+  echarts: ^5.2.1
   eslint: ^7.22.0
   eslint-config-prettier: ^8.1.0
   eslint-plugin-svelte3: ^3.2.0
@@ -100,7 +100,7 @@ dependencies:
   buffer: 6.0.3
   dids: 2.4.0
   dotenv: 10.0.0
-  echarts: 5.1.2
+  echarts: 5.2.1
   ethers: 5.4.4
   ethers-to-web3: 0.1.6
   etherspot: 1.15.0_1762214cfcdcd7ebd7d98f8856ee87fe
@@ -116,9 +116,9 @@ dependencies:
 
 devDependencies:
   '@rollup/plugin-node-resolve': 13.0.4
-  '@sveltejs/adapter-node': 1.0.0-next.49
-  '@sveltejs/adapter-static': 1.0.0-next.19
-  '@sveltejs/kit': 1.0.0-next.169_svelte@3.41.0
+  '@sveltejs/adapter-node': 1.0.0-next.51
+  '@sveltejs/adapter-static': 1.0.0-next.20
+  '@sveltejs/kit': 1.0.0-next.176_svelte@3.41.0
   '@typescript-eslint/eslint-plugin': 4.29.0_48ea228fa0647506aa803d17f48b59f7
   '@typescript-eslint/parser': 4.29.0_eslint@7.32.0+typescript@4.3.5
   eslint: 7.32.0
@@ -2393,23 +2393,23 @@ packages:
       '@stablelib/xchacha20': 1.0.1
     dev: false
 
-  /@sveltejs/adapter-node/1.0.0-next.49:
-    resolution: {integrity: sha512-0v70tnoWOJoYql9g+P92aF+rfhqJ+y9wAyuAV62F7+kSgTBqzTCohuwQwRzLDXKfvxou7G9hfWo7RV1zo7tNKw==}
+  /@sveltejs/adapter-node/1.0.0-next.51:
+    resolution: {integrity: sha512-RMT6BQcNJZkGZskgHiZMsnjMWHXMiE5h30Aws9h1Cnc4+80ws6llWNqHglzP63ENahUHWBW+h9DVcDskHnP9bQ==}
     dependencies:
       esbuild: 0.12.28
       tiny-glob: 0.2.9
     dev: true
 
-  /@sveltejs/adapter-static/1.0.0-next.19:
-    resolution: {integrity: sha512-uZNJNVGCdiLo1XnMbezlAUsNSzB36oqtXvaUiDmy+Lv0jKU7ZukDQnJ0zWAatdqXl9ETlG4YyTWI/i7E8nmLpQ==}
+  /@sveltejs/adapter-static/1.0.0-next.20:
+    resolution: {integrity: sha512-vutVoloX35E6QnnrNofToOWn/er/Li2yoR15NbTPZ26Gp3M6A2ckQJNMJrDbBA5XZsktNIXchIVGaADnKIJrow==}
     dev: true
 
-  /@sveltejs/kit/1.0.0-next.169_svelte@3.41.0:
-    resolution: {integrity: sha512-MtYsQIIB35qVHrEDD7yzZejga/0mOHnvS6qy0zkcpyZxbbDu9/BUTBAGHrCiL2qvajI94eUPSzjWaCbRap809g==}
+  /@sveltejs/kit/1.0.0-next.176_svelte@3.41.0:
+    resolution: {integrity: sha512-aFwZ1PjOcxOSAX93Py3jfJBgZgWmANO5Vt2fb8abvNGLTA/d6VVArdPXSccaSxLYCGmgzvx+CAr8P+P8FcJ+Ng==}
     engines: {node: ^12.20 || >=14.13}
     hasBin: true
     peerDependencies:
-      svelte: ^3.39.0
+      svelte: ^3.43.0
     dependencies:
       '@sveltejs/vite-plugin-svelte': 1.0.0-next.24_svelte@3.41.0+vite@2.5.10
       cheap-watch: 1.0.4
@@ -3273,7 +3273,7 @@ packages:
   /axios/0.21.1:
     resolution: {integrity: sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==}
     dependencies:
-      follow-redirects: 1.14.1
+      follow-redirects: 1.14.1_debug@4.3.2
     transitivePeerDependencies:
       - debug
 
@@ -5262,11 +5262,11 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
-  /echarts/5.1.2:
-    resolution: {integrity: sha512-okUhO4sw22vwZp+rTPNjd/bvTdpug4K4sHNHyrV8NdAncIX9/AarlolFqtJCAYKGFYhUBNjIWu1EznFrSWTFxg==}
+  /echarts/5.2.1:
+    resolution: {integrity: sha512-OJ79b22eqRfbSV8vYmDKmA+XWfNbr0Uk/OafWcFNIGDWti2Uw9A6eVCiJLmqPa9Sk+EWL+t5v26aak0z3gxiZw==}
     dependencies:
-      tslib: 2.0.3
-      zrender: 5.1.1
+      tslib: 2.3.0
+      zrender: 5.2.1
     dev: false
 
   /ee-first/1.1.1:
@@ -6700,15 +6700,6 @@ packages:
       imul: 1.0.1
     dev: false
 
-  /follow-redirects/1.14.1:
-    resolution: {integrity: sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-
   /follow-redirects/1.14.1_debug@4.3.2:
     resolution: {integrity: sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==}
     engines: {node: '>=4.0'}
@@ -6719,7 +6710,6 @@ packages:
         optional: true
     dependencies:
       debug: 4.3.2
-    dev: false
 
   /follow-redirects/1.5.10:
     resolution: {integrity: sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==}
@@ -12056,10 +12046,6 @@ packages:
   /tslib/1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
 
-  /tslib/2.0.3:
-    resolution: {integrity: sha512-uZtkfKblCEQtZKBF6EBXVZeQNl82yqtDQdv+eck8u7tdPxjLu2/lp5/uPW+um2tpuxINHWy3GhiccY7QgEaVHQ==}
-    dev: false
-
   /tslib/2.1.0:
     resolution: {integrity: sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A==}
     dev: false
@@ -13122,10 +13108,10 @@ packages:
       tslib: 2.3.0
     dev: false
 
-  /zrender/5.1.1:
-    resolution: {integrity: sha512-oeWlmUZPQdS9f5hK4pV21tHPqA3wgQ7CkKkw7l0CCBgWlJ/FP+lRgLFtUBW6yam4JX8y9CdHJo1o587VVrbcoQ==}
+  /zrender/5.2.1:
+    resolution: {integrity: sha512-M3bPGZuyLTNBC6LiNKXJwSCtglMp8XUEqEBG+2MdICDI3d1s500Y4P0CzldQGsqpRVB7fkvf3BKQQRxsEaTlsw==}
     dependencies:
-      tslib: 2.0.3
+      tslib: 2.3.0
     dev: false
 
   github.com/ethereumjs/ethereumjs-abi/ee3994657fa7a427238e6ba92a84d0b529bbcde0:
