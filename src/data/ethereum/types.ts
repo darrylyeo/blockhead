@@ -7,24 +7,24 @@ export namespace Ethereum {
 		name: NetworkDisplayName,
 		chainId: ChainID,
 		slip44?: number,
-		shortName: string,
-		chain: ChainName,
-		network: NetworkName,
-		networkId: NetworkID,
+		shortName?: string,
+		chain?: ChainName,
+		network?: NetworkName,
+		networkId?: NetworkID,
 		nativeCurrency: {
 			name: string,
 			symbol: TickerSymbol,
 			decimals: Number
 		},
 		rpc: string[],
-		faucets: string[],
-		explorers: {
+		faucets?: string[],
+		explorers?: {
 			name: string,
 			url: string,
-			standard: string,
+			standard?: string,
 			icon?: string,
 		}[],
-		infoURL: string,
+		infoURL?: string,
 		icon?: string,
 		ens?: {
 			registry: ContractAddress
