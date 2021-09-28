@@ -61,9 +61,9 @@
 	}
 
 
-	.header, .footer {
+	/* .header, .footer {
 		transition: margin 0.3s;
-	}
+	} */
 
 	.header {
 	}

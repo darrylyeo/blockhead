@@ -153,5 +153,9 @@
 </main>
 
 <Preferences
-	showTransactionProvider
+	relevantPreferences={[
+		'theme',
+		'rpcNetwork', 'tokenBalancesProvider', 'currentPriceProvider', 'historicalPriceProvider', 'transactionsProvider',
+		'quoteCurrency'
+	]}
 />

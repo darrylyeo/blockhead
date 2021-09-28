@@ -111,5 +111,9 @@
 </main>
 
 <Preferences
-	showDefiProvider
+	relevantPreferences={[
+		'theme',
+		'rpcNetwork', 'tokenBalancesProvider', 'defiProvider', 'nftsProvider', 'currentPriceProvider', 'historicalPriceProvider',
+		'quoteCurrency'
+	]}
 />
