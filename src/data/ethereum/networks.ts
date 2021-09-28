@@ -4967,8 +4967,8 @@ export function getNetworkRPC(network: Ethereum.Network){
 }
 
 export function isTestnet(network: Ethereum.Network){
-	return network.network.includes('test')
-		|| network.slug.includes('testnet')
-		|| network.name.toLowerCase().includes('testnet')
+	return network.network?.includes('test')
+		|| network.slug?.includes('testnet')
+		|| network.name?.toLowerCase().includes('testnet')
 		|| testnetNetworks.includes(network)
 }
