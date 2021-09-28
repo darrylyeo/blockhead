@@ -2,21 +2,144 @@
 	import { preferences, preferencesConfig } from '../data/ethereum/preferences'
 
 
+	export let relevantPreferences = []
+
+
+	let isShowingAll = false
+
+
+	import { expoOut } from 'svelte/easing'
+	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
 </script>
 
 
 <style>
 	.preferences {
-		font-size: 0.9em;
-		--padding-inner: 1.25em;
+		--scrollbar-height: 2px;
 
+		--padding-inner: 1.25em;
+		height: 3.5rem;
+		padding: var(--padding-outer);
+
+		font-size: 0.85em;
+
+		overflow: auto hidden;
+
+		/* display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
+		gap: var(--padding-inner);
+		justify-content: start;
+		align-content: start; */
+		
+		gap: 1.5em;
 		align-items: stretch;
+
+		display: flex;
+		transition: background-color 0.25s, gap 0.25s;
+		/* transition: background-color 0.2s, height 0.2s ease-out; */
+	}
+	.preferences.is-showing-all {
+		gap: 2em;
+
+		/* height: 14em; */
+		height: max-content;
+		/* justify-content: center; */
+
+		background-color: rgba(var(--rgb-light-dark), 0.4);
+	}
+	.preferences::scrollbar {
+		height: var(--scrollbar-height);
+	}
+	.preferences::-webkit-scrollbar {
+		height: var(--scrollbar-height);
+	}
+
+	.preferences > * {
+		min-width: max-content;
+	}
+
+
+	.header, .footer {
+		transition: margin 0.3s;
+	}
+
+	.header {
+	}
+	.preferences:not(.is-showing-all) > .header {
+		position: sticky;
+		left: 0;
+		z-index: 1;
+
+		/* background: linear-gradient(to right, rgba(var(--rgb-light-dark), 0.2) calc(100% - var(--padding-outer)), transparent); */
+		background-color: rgba(var(--rgb-light-dark), 0.42);
+		box-shadow: 0 0 var(--padding-outer) calc(var(--padding-outer) / 2) rgba(var(--rgb-light-dark), 0.5);
+		left: calc(-1 * var(--padding-outer));
+		margin: calc(-1 * var(--padding-outer));
+		padding: var(--padding-outer);
+
+		margin-right: auto;
+
+		display: flex;
+		align-items: center;
+	}
+	.preferences.is-showing-all > .header {
+		margin-left: auto;
+	}
+
+	.footer {
+		position: sticky;
+		right: 0;
+		z-index: 1;
+	}
+	.preferences:not(.is-showing-all) > .footer {		
+		/* background: linear-gradient(to left, rgba(var(--rgb-light-dark), 0.2) calc(100% - var(--padding-outer)), transparent); */
+		background-color: rgba(var(--rgb-light-dark), 0.42);
+		box-shadow: 0 0 var(--padding-outer) calc(var(--padding-outer) / 2) rgba(var(--rgb-light-dark), 0.5);
+		right: calc(-1 * var(--padding-outer));
+		margin: calc(-1 * var(--padding-outer));
+		padding: var(--padding-outer);
+
+		margin-left: auto;
+
+		display: flex;
+		align-items: center;
+	}
+	.preferences.is-showing-all > .footer {
+		margin-right: auto;
 	}
 
 	.preference-section {
-		display: contents;
+		display: inline-flex;
+		max-height: inherit;
+		gap: 0.75em 1.5em;
+		align-content: stretch;
+
+		/* flex-direction: column;
+		flex-wrap: wrap; */
+
+		flex-direction: row;
 	}
+	.preferences.is-showing-all .preference-section {
+		flex-direction: column;
+	}
+
+	h4 {
+		line-height: 1.5;
+		/* text-align: center; */
+	}
+
+	.preference {
+		justify-content: space-between;
+	}
+	/* .preferences.is-showing-all .preference > * {
+		min-width: 50%;
+	}
+	.preferences.is-showing-all .preference > span {
+		text-align: right;
+	} */
+
 
 	/* label {
 		display: grid;
@@ -43,14 +166,27 @@
 </style>
 
 
-<div class="preferences bar">
-	<h3>Preferences</h3>
+<div class="preferences" class:is-showing-all={isShowingAll}>
+	<div class="header" on:click={() => isShowingAll = !isShowingAll}>
+		<h3>Preferences</h3>
+	</div>
+	<!-- <label class="header">
+		<h3>Preferences</h3>
+		<button class="medium" on:click={() => isShowingAll = !isShowingAll}>{isShowingAll ? 'Show Less' : 'Show All'}</button>
+	</label> -->
 
-	{#each preferencesConfig as preferencesSection (preferencesSection.id)}
-		<section class="preference-section row" transition:scale>
-			<!-- <h4>{preferencesSection.name}</h4> -->
-			{#each preferencesSection.preferences as {id, name, type, options} (id)}
-				<label>
+	{#each preferencesConfig as preferencesSection, i (preferencesSection.id)}
+		<!-- <section class="preference-section" transition:scale={{duration: 200, opacity: 0, delay: i * 20, easing: expoOut}} animate:flip={{duration: 250}}> -->
+		<section class="preference-section">
+			{#if isShowingAll}
+				<h4 in:scale={{duration: 300, easing: expoOut, /* delay: i * 20 */}}>{preferencesSection.name}</h4>
+			{/if}
+			{#each
+				preferencesSection.preferences
+					.filter(({id}) => isShowingAll || !(relevantPreferences.length && !relevantPreferences.includes(id)))
+				as {id, name, type, options}, j (id)
+			}
+				<label class="preference" transition:scale={{duration: 200, opacity: 0, /* delay: i * 20 + j * 10, */ easing: expoOut}} animate:flip={{duration: 250, easing: expoOut}}>
 					<span>{name}</span>
 					<select bind:value={$preferences[id]}><!--  multiple={type === 'multiple'} -->
 						{#each options as {id, name, options, value, disabled} (id)}
@@ -69,4 +205,8 @@
 			{/each}
 		</section>
 	{/each}
+
+	<div class="footer">
+		<button class="medium" on:click={() => isShowingAll = !isShowingAll}>{isShowingAll ? '✕' : '· · ·'}</button>
+	</div>
 </div>
