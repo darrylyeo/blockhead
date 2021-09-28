@@ -2784,6 +2784,22 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.meter.io"
 	},
 	{
+		"slug": "metis",
+		"name": "Metis",
+		"chainId": 435,
+		"nativeCurrency": {
+			"name": "Metis",
+			"symbol": "METIS",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://rocketfuel.metis.io/?owner=435"
+		],
+		"faucets": [],
+		"explorers": [],
+		"infoURL": "https://www.metis.io"
+	},
+	{
 		"slug": "mintme",
 		"name": "MintMe.com Coin",
 		"chainId": 24734,
