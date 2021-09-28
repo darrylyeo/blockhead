@@ -75,6 +75,11 @@
 
 	--invert-when-light: invert();
 	--invert-when-dark: none;
+
+	--is-light: 1;
+	--is-dark: calc(1 - var(--is-light));
+	--rgb-light-dark: calc(var(--is-light) * 255), calc(var(--is-light) * 255), calc(var(--is-light) * 255);
+	--rgb-light-dark-inverse: calc(var(--is-dark) * 255), calc(var(--is-dark) * 255), calc(var(--is-dark) * 255);
 }
 @media (prefers-color-scheme: dark) {
 	:root:not(.color-scheme-light) {
@@ -91,6 +96,8 @@
 
 		--invert-when-light: none;
 		--invert-when-dark: invert();
+
+		--is-light: 0;
 	}
 }
 :root.color-scheme-dark {
@@ -107,6 +114,8 @@
 
 	--invert-when-light: none;
 	--invert-when-dark: invert();
+
+	--is-light: 0;
 }
 
 a {
