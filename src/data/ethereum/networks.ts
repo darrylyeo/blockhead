@@ -4134,6 +4134,28 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://web3games.blockspaper.com/en/"
 	},
 	{
+		"slug": "skale-testnet",
+		"name": "SKALE Network Testnet",
+		"chainId": 344435,
+		"nativeCurrency": {
+			"name": "SKALE ETH",
+			"symbol": "skETH",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://dev-testnet-v1-0.skalelabs.com"
+		],
+		"faucets": [],
+		"explorers": [
+			{
+				"name": "Expedition",
+				"url": "https://expedition.dev/?rpcUrl=https://dev-testnet-v1-0.skalelabs.com"
+			}
+			
+		],
+		"infoURL": "https://skale.network/"
+	},
+	{
 		"slug": "smartbch",
 		"name": "Smart Bitcoin Cash",
 		"chainId": 10000,
