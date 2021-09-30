@@ -639,21 +639,11 @@
 									<div class="bar">
 										<h4>
 											{erc20Token.name}
-											(<TokenName
-												token={erc20Token.symbol}
-												tokenAddress={erc20Token.address}
-												tokenIcon={erc20Token.icon}
-												tokenName={erc20Token.name}
-											/>)
+											(<TokenName {erc20Token} />)
 										</h4>
 										<div class="card-annotation">ERC-20 Token</div>
 										<!-- <h4>
-											<TokenName
-												token={erc20Token.symbol}
-												tokenAddress={erc20Token.address}
-												tokenIcon={erc20Token.icon}
-												tokenName={erc20Token.name}
-											/>
+											<TokenName {erc20Token} />
 											({erc20Token.name})
 										</h4>
 										<div class="card-annotation">ERC-20 Token</div> -->
@@ -686,12 +676,7 @@
 												>
 													<h4 slot="title">
 														<!-- {erc20Token.name}
-														(<TokenName
-															token={erc20Token.symbol}
-															tokenAddress={erc20Token.address}
-															tokenIcon={erc20Token.icon}
-															tokenName={erc20Token.name}
-														/>)
+														(<TokenName {erc20Token} />)
 														- Historical Price -->
 														Historical Price
 													</h4>

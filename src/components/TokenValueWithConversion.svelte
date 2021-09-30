@@ -78,7 +78,7 @@
 			}<TokenValue symbol={conversionCurrency} value={convertedValue} {showDecimalPlaces} showPlainFiat={true} {isDebt}
 			/>{#if showValues === 'converted' && conversionCurrency !== symbol}
 				<span class="worth" transition:scaleFont|local={{delay: animationDelay}}>
-					&nbsp;in <TokenName token={symbol} tokenAddress={address} tokenIcon={icon} tokenName={name} />
+					&nbsp;in <TokenName {symbol} {address} {icon} {name} />
 				</span>
 			{/if
 			}{#if showConversionRate && conversionRate}<span class="rate"> at <TokenRate rate={conversionRate} quoteToken={conversionCurrency} baseToken={symbol} layout='horizontal'/></span>{/if
