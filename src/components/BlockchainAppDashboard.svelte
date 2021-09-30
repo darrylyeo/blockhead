@@ -318,7 +318,7 @@
 													<div class="bar">
 														<h4><!--DeFi -->Balances</h4>
 														{#if quoteTotal}
-															<TokenValue token={quoteTotalCurrency || quoteCurrency} value={quoteTotal} showPlainFiat={true} />
+															<TokenValue symbol={quoteTotalCurrency || quoteCurrency} value={quoteTotal} showPlainFiat={true} />
 														{/if}
 														<div class="card-annotation">{defiProvider}</div>
 													</div>
@@ -349,13 +349,13 @@
 																{#each meta as {label, type, value}}
 																	{#if label === 'Assets'}
 																		<TokenValue
-																			token={zapperQuoteCurrency}
+																			symbol={zapperQuoteCurrency}
 																			value={value * zapperFiatRate}
 																			showPlainFiat={true}
 																		/>
 																	{:else if label === 'Debt' && value}
 																		<TokenValue
-																			token={zapperQuoteCurrency}
+																			symbol={zapperQuoteCurrency}
 																			value={value * zapperFiatRate}
 																			showPlainFiat={true}
 																			isDebt={true}
@@ -368,8 +368,8 @@
 																			{label}
 																			{#if type === 'dollar'}
 																				<TokenValue
-																					token={'USD'}
-																					value={value}
+																					symbol={'USD'}
+																					{value}
 																					isDebt={label === 'Debt'}
 																					showPlainFiat={true}
 																				/>
@@ -400,9 +400,9 @@
 																			<TokenValueWithConversion
 																				{showValues}
 
-																				token={symbol}
-																				tokenIcon={`https://zapper.fi/images/${img}`}
-																				tokenAddress={tokenAddress || address}
+																				{symbol}
+																				icon={`https://zapper.fi/images/${img}`}
+																				address={tokenAddress || address}
 																				value={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
 
 																				convertedValue={balanceUSD * zapperFiatRate}
@@ -450,9 +450,9 @@
 																						<TokenValueWithConversion
 																							{showValues}
 												
-																							token={symbol}
-																							tokenIcon={`https://zapper.fi/images/${img}`}
-																							tokenAddress={tokenAddress || address}
+																							{symbol}
+																							icon={`https://zapper.fi/images/${img}`}
+																							address={tokenAddress || address}
 																							value={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
 												
 																							convertedValue={balanceUSD * zapperFiatRate}
@@ -479,7 +479,7 @@
 																			<dd>
 																				{#if type === 'dollar'}
 																					<TokenValue
-																						token={'USD'}
+																						symbol={'USD'}
 																						value={value}
 																						isDebt={label === 'Debt'}
 																						showPlainFiat={true}
@@ -516,8 +516,8 @@
 												{#each assets as {type, address, balance, balanceUSD, symbol, price, img, label, reserve}}
 													{type}
 													<TokenValue
-														token={symbol}
-														tokenAddress={address}
+														{symbol}
+														{address}
 														value={balance}
 													/>
 												{/each}
@@ -556,7 +556,7 @@
 													<div class="bar">
 														<h4><!--DeFi -->Balances</h4>
 														<!-- {#if quoteTotal}
-															<TokenValue token={quoteTotalCurrency || quoteCurrency} value={quoteTotal} showPlainFiat={true} />
+															<TokenValue symbol={quoteTotalCurrency || quoteCurrency} value={quoteTotal} showPlainFiat={true} />
 														{/if} -->
 														<div class="card-annotation">{defiProvider}</div>
 													</div>
@@ -589,8 +589,8 @@
 																{#each adapterBalance.balances as {base: baseBalance, underlying}}
 																	<div class="column defi-protocol-balance">
 																		<TokenValue
-																			token={baseBalance.metadata.symbol}
-																			tokenAddress={baseBalance.metadata.token}
+																			symbol={baseBalance.metadata.symbol}
+																			address={baseBalance.metadata.token}
 																			value={formatUnits(baseBalance.amount, baseBalance.metadata.decimals)}
 																			isDebt={adapterBalance.metadata.adapterType === 'Debt'}
 																		/>
@@ -600,8 +600,8 @@
 																					<p in:scaleFont>
 																						<span class="underlying-symbol">┖</span>
 																						<TokenValue
-																							token={underlyingBalance.metadata.symbol}
-																							tokenAddress={underlyingBalance.metadata.token}
+																							symbol={underlyingBalance.metadata.symbol}
+																							address={underlyingBalance.metadata.token}
 																							value={formatUnits(underlyingBalance.amount, underlyingBalance.metadata.decimals)}
 																							isDebt={adapterBalance.metadata.adapterType === 'Debt'}
 																						/>
@@ -725,10 +725,10 @@
 													}
 														<TokenValueWithConversion
 															{showValues}
-															token={contract_ticker_symbol || contract_name}
-															tokenAddress={contract_address}
-															tokenIcon={logo_url}
-															tokenName={contract_name}
+															symbol={contract_ticker_symbol || contract_name}
+															address={contract_address}
+															icon={logo_url}
+															name={contract_name}
 															value={balance * 0.1 ** contract_decimals}
 															isDust={false}
 															conversionCurrency={quoteCurrency}
@@ -737,10 +737,10 @@
 														/>
 													{:else}
 														<TokenValueWithConversion
-															token={erc20Token.symbol}
-															tokenAddress={erc20Token.address}
-															tokenIcon={erc20Token.icon}
-															tokenName={erc20Token.name}
+															symbol={erc20Token.symbol}
+															address={erc20Token.address}
+															icon={erc20Token.icon}
+															name={erc20Token.name}
 															value={0}
 															isDust={false}
 															conversionCurrency={quoteCurrency}

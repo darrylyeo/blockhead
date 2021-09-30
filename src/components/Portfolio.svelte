@@ -140,7 +140,7 @@ import { availableNetworks } from '../data/ethereum/networks';
 
 		{#if quoteTotals.length && state !== State.Editing}
 			<span class="account-total-value" transition:scale>
-				<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
+				<TokenValue symbol={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
 			</span>
 		{/if}
 

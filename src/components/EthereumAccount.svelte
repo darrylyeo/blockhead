@@ -123,7 +123,7 @@
 				<hr>
 
 				<div class="bar">
-					<h3>{network.name} Tokens (<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />)</h3>
+					<h3>{network.name} Tokens (<TokenValue symbol={quoteCurrency} value={quoteTotal} showPlainFiat={true} />)</h3>
 					<label>
 						<input type="checkbox" bind:checked={showSmallValues}>
 						<span>Show Small Values</span>

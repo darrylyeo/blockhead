@@ -121,7 +121,7 @@
 			</div>
 			{#if quoteTotals.length}
 				<span class="account-total-value">
-					<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
+					<TokenValue symbol={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
 				</span>
 			{/if}
 			<slot></slot>
@@ -155,7 +155,7 @@
 									<hr>
 									<div class="bar">
 										<h4><Address {network} {address}>{network.name} Balances</Address></h4>
-										<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
+										<TokenValue symbol={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
 										{#if isEditing}
 											<button class="small" on:click={() => showBalances = false}>Hide</button>
 										{/if}
@@ -200,7 +200,7 @@
 								<div class="bar">
 									<h4>{network.name} DeFi</h4>
 									{#if quoteTotal !== undefined}
-										<TokenValue token={quoteTotalCurrency || quoteCurrency} value={quoteTotal} showPlainFiat={true} />
+										<TokenValue symbol={quoteTotalCurrency || quoteCurrency} value={quoteTotal} showPlainFiat={true} />
 									{/if}
 									{#if isEditing}
 										<button class="small" on:click={() => showDeFi = false}>Hide</button>

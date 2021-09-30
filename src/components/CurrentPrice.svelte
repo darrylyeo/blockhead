@@ -27,6 +27,7 @@
 	import Address from './Address.svelte'
 </script>
 
+
 <style>
 	.rate {
 		font-size: 1.8em;
@@ -37,6 +38,7 @@
 		font-size: 0.8em;
 	}
 </style>
+
 
 <!-- {#if provider.network}
 	<Loader
@@ -112,13 +114,13 @@
 					<div class="rate">
 						<TokenValue
 							value={1}
-							{token}
+							symbol={token}
 							tween={false}
 						/>
 						=
 						<TokenValue
 							value={priceFeed.price}
-							token={quoteCurrency}
+							symbol={quoteCurrency}
 							showPlainFiat={true}
 						/>
 					</div>
@@ -164,14 +166,14 @@
 					<div class="rate">
 						<TokenValue
 							value={1}
-							{token}
-							tokenIcon={data.icon}
+							symbol={token}
+							icon={data.icon}
 							tween={false}
 						/>
 						=
 						<TokenValue
 							value={data.price}
-							token={/*quoteCurrency*/ 'USD'}
+							symbol={/*quoteCurrency*/ 'USD'}
 							showPlainFiat={true}
 						/>
 					</div>

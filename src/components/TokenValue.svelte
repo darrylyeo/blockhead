@@ -4,10 +4,16 @@
 	import type { TickerSymbol } from '../data/currency/currency'
 	import { fiatQuoteCurrencies } from '../data/currency/currency'
 
-	export let token: TickerSymbol
-	export let tokenAddress: Ethereum.ContractAddress
-	export let tokenIcon: string
-	export let tokenName: string
+	export let symbol: TickerSymbol
+	export let address: Ethereum.ContractAddress
+	export let name: string
+	export let icon: string
+
+	export let erc20Token: Ethereum.ERC20Token
+	$: symbol ||= erc20Token?.symbol
+	$: address ||= erc20Token?.address
+	$: name ||= erc20Token?.name
+	$: icon = erc20Token?.icon
 
 	export let value: number | string | BigNumberish = 0
 	export let price
@@ -16,7 +22,7 @@
 	export let isDebt = false
 
 	export let showPlainFiat = false
-	$: isFiat = showPlainFiat && token in fiatQuoteCurrencies
+	$: isFiat = showPlainFiat && symbol in fiatQuoteCurrencies
 
 	$: isNegative = value < 0
 
@@ -43,6 +49,7 @@
 	import TokenIcon from './TokenIcon.svelte'
 	import { expoOut, quintOut } from 'svelte/easing'
 </script>
+
 
 <style>
 	.token-value-container {
@@ -73,14 +80,15 @@
 	}
 </style>
 
-<span class="token-value-container" class:is-debt={isDebt} title="{value} {tokenName || token}{token && tokenName ? ` (${token})` : ``}">
+
+<span class="token-value-container" class:is-debt={isDebt} title="{value} {name || symbol}{symbol && name ? ` (${symbol})` : ``}">
 	{#if isFiat}
-		<span class="token-value">{isNegative ? '−' : ''}{formatValue($tweenedValue, token)}</span>
+		<span class="token-value">{isNegative ? '−' : ''}{formatValue($tweenedValue, symbol)}</span>
 	{:else}
-		<TokenIcon symbol={token} address={tokenAddress} icon={tokenIcon} />
+		<TokenIcon {symbol} {address} {icon} />
 		<span>
 			<span class="token-value">{isNegative ? '−' : ''}{formatValue($tweenedValue)}</span>
-			<span class="token-name">{token || '___'}</span>
+			<span class="token-name">{symbol || '___'}</span>
 		</span>
 	{/if}
 </span>

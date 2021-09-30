@@ -151,10 +151,10 @@
 					>
 						<TokenValueWithConversion
 							{showValues}
-							token={contract_ticker_symbol || contract_name}
-							tokenAddress={contract_address}
-							tokenIcon={logo_url}
-							tokenName={contract_name}
+							symbol={contract_ticker_symbol || contract_name}
+							address={contract_address}
+							icon={logo_url}
+							name={contract_name}
 							value={balance * 0.1 ** contract_decimals}
 							isDust={false}
 							conversionCurrency={quoteCurrency}

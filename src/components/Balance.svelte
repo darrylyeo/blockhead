@@ -1,12 +1,19 @@
 <script lang="ts">
+	import type { TickerSymbol } from 'src/data/currency/currency'
 	import type { Ethereum } from '../data/ethereum/types'
 	import * as ethers from 'ethers'
 
-	export let token = 'ETH'
-	export let tokenAddress: Ethereum.ContractAddress // = `${token.toLowerCase()}.thetoken.eth` // = `${token.toLowerCase()}.tokens.ethers.eth`
 
+	export let network: Ethereum.Network
 	export let provider: Ethereum.Provider
-	export let address: string
+	export let address: Ethereum.Address
+
+	export let symbol: TickerSymbol | undefined
+	export let contractAddress: Ethereum.ContractAddress | undefined // = `${symbol.toLowerCase()}.thetoken.eth` // = `${symbol.toLowerCase()}.tokens.ethers.eth`
+	export let erc20Token: Ethereum.ERC20Token | undefined
+
+	$: symbol ||= erc20Token?.symbol
+	$: contractAddress ||= erc20Token?.address
 
 
 	const erc20ABI = [
@@ -24,8 +31,8 @@
 		"event Transfer(address indexed from, address indexed to, uint amount)"
 	]
 	let erc20Contract
-	if(tokenAddress)
-		erc20Contract = new ethers.Contract(tokenAddress, erc20ABI, provider)
+	if(contractAddress)
+		erc20Contract = new ethers.Contract(contractAddress, erc20ABI, provider)
 
 
 	import Loader from './Loader.svelte'
@@ -35,16 +42,17 @@
 	import { scale } from 'svelte/transition'
 </script>
 
+
 <div class="stack">
-	{#if provider && address && (token === 'ETH' || erc20Contract)}
+	{#if provider && address && (symbol === 'ETH' || erc20Contract)}
 		<Loader
-			fromPromise={() => token === 'ETH' ? provider.getBalance(address) : erc20Contract.balanceOf(address)}
+			fromPromise={() => symbol === 'ETH' ? provider.getBalance(address) : erc20Contract.balanceOf(address)}
 			loadingMessage="Reading balance..."
 			let:then={balance}
 		>
-			<TokenIcon slot="loadingIcon" symbol={token} {tokenAddress} />
+			<TokenIcon slot="loadingIcon" {symbol} address={contractAddress} {erc20Token} />
 			<div class="card" in:scale>
-				<TokenValue {token} value={ethers?.utils.formatEther(balance)} />
+				<TokenValue {symbol} value={ethers?.utils.formatEther(balance)} />
 			</div>
 		</Loader>
 	{/if}

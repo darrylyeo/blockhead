@@ -7,10 +7,16 @@
 	export let showConversionRate = false
 	export let showParentheses = true
 
-	export let token: TickerSymbol
-	export let tokenAddress: Ethereum.ContractAddress
-	export let tokenIcon: string
-	export let tokenName: string
+	export let symbol: TickerSymbol
+	export let address: Ethereum.ContractAddress
+	export let name: string
+	export let icon: string
+
+	export let erc20Token: Ethereum.ERC20Token
+	$: symbol ||= erc20Token?.symbol
+	$: address ||= erc20Token?.address
+	$: name ||= erc20Token?.name
+	$: icon = erc20Token?.icon
 
 	export let value
 	export let isDust = false
@@ -63,19 +69,19 @@
 <span class="value-with-conversion" class:is-debt={isDebt} class:is-dust={isDust} class:is-small-value={isSmallValue} class:is-zero={isZero}>
 	{#if showValues === 'original' || showValues === 'both'}
 		<span class="value" transition:scaleFont|local><!-- style="font-size: {sizeByVolume(convertedValue)}em" -->
-			<TokenValue {token} {tokenAddress} {tokenIcon} {tokenName} {value} {showDecimalPlaces} {isDebt} />
+			<TokenValue {symbol} {address} {icon} {name} {value} {showDecimalPlaces} {isDebt} />
 		</span>
 	{/if}
 	{#if (showValues === 'converted' || showValues === 'both')}
 		<span class="value-converted" transition:scaleFont|local={{delay: 50 + animationDelay}}>
 			{#if showValues === 'both'}{#if showParentheses}({/if}{/if
-			}<TokenValue token={conversionCurrency} value={convertedValue} {showDecimalPlaces} showPlainFiat={true} {isDebt}
-			/>{#if showValues === 'converted' && conversionCurrency !== token}
+			}<TokenValue symbol={conversionCurrency} value={convertedValue} {showDecimalPlaces} showPlainFiat={true} {isDebt}
+			/>{#if showValues === 'converted' && conversionCurrency !== symbol}
 				<span class="worth" transition:scaleFont|local={{delay: animationDelay}}>
-					&nbsp;in <TokenName {token} {tokenAddress} {tokenIcon} {tokenName} />
+					&nbsp;in <TokenName token={symbol} tokenAddress={address} tokenIcon={icon} tokenName={name} />
 				</span>
 			{/if
-			}{#if showConversionRate && conversionRate}<span class="rate"> at <TokenRate rate={conversionRate} quoteToken={conversionCurrency} baseToken={token} layout='horizontal'/></span>{/if
+			}{#if showConversionRate && conversionRate}<span class="rate"> at <TokenRate rate={conversionRate} quoteToken={conversionCurrency} baseToken={symbol} layout='horizontal'/></span>{/if
 			}{#if showValues === 'both' && showParentheses}){/if}
 		</span>
 	{/if}
