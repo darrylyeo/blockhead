@@ -20,7 +20,7 @@
 	loadingMessage="Retrieving statistics..."
 	fromPromise={provider && (() => new Promise(r => provider.once('block', r)))}
 >
-	<TokenIcon slot="loadingIcon" token={network.nativeCurrency.symbol} />
+	<TokenIcon slot="loadingIcon" symbol={network.nativeCurrency.symbol} />
 
 	<p class="centered">
 		<span>The {network.name} blockchain is </span>

@@ -170,8 +170,13 @@
 							</EthereumBalances>
 						{:else if provider}
 							<div class="balances">
-								{#each ['ETH', 'USDC'] as token}
-									<Balance {provider} {token} {address} />
+								{#each [network.nativeCurrency.symbol] as symbol}
+									<Balance
+										{network}
+										{provider}
+										{address}
+										{symbol}
+									/>
 								{/each}
 							</div>
 						{/if}

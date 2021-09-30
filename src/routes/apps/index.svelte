@@ -58,8 +58,9 @@
 				<h3 class="row">
 					{#each views?.flatMap(view => view.erc20Tokens ?? []).slice(0, 1) as {logoURI, address, name, symbol}}
 						<TokenIcon
-							token={symbol}
-							tokenIcon={logoURI}
+							{name}
+							{symbol}
+							icon={logoURI}
 							tokenAddress={address}
 						/>
 					{/each}
@@ -79,7 +80,8 @@
 				<h3 class="row">
 					{#each views?.flatMap(view => view.erc20Tokens ?? []).slice(0, 1) as {logoURI, address, name, symbol}}
 						<TokenIcon
-							token={symbol}
+							{name}
+							{symbol}
 							tokenIcon={logoURI}
 							tokenAddress={address}
 						/>

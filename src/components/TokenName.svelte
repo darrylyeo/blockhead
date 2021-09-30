@@ -31,6 +31,6 @@
 </style>
 
 <span class="token-value-container" title="{tokenName || token}{token && tokenName ? ` (${token})` : ``}">
-	<TokenIcon {token} {tokenAddress} {tokenIcon} />
+	<TokenIcon symbol={token} {tokenAddress} {tokenIcon} />
 	<span class="token-name">{token}</span>
 </span>

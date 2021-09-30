@@ -10,57 +10,64 @@
 	import { erc20TokensByContractAddress, erc20TokensBySymbol } from '../data/ethereum/tokens/tokens'
 
 
-	export let token: TickerSymbol
-	export let tokenAddress: Ethereum.ContractAddress | undefined
-	export let tokenIcon: string
+	export let symbol: TickerSymbol
+	export let address: Ethereum.ContractAddress
+	export let name: string
+	export let icon: string
+
+	export let erc20Token: Ethereum.ERC20Token
+	$: symbol ||= erc20Token?.symbol
+	$: address ||= erc20Token?.address
+	$: name ||= erc20Token?.name
+	$: icon = erc20Token?.icon
 
 
-	let i = cachedIndex[tokenAddress || token] ||= 0
-	$: cachedIndex[tokenAddress || token] = i
-	$: imageSources = cachedImageSources[tokenAddress || token] ||= [
-		token === 'AVAX' && '/logos/avax-token.svg',
-		token === 'AAVE' && 'https://token-icons.s3.amazonaws.com/0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9.png',
-		tokenAddress && `https://token-icons.s3.amazonaws.com/${tokenAddress.toLowerCase()}.png`,
-		tokenIcon,
-		token && `https://zapper.fi/images/${token}-icon.png`,
-		tokenAddress && `https://tokens.1inch.exchange/${tokenAddress.toLowerCase()}.png`,
-		tokenAddress && `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${tokenAddress}/logo.png`,
-		tokenAddress && erc20TokensByContractAddress[tokenAddress.toLowerCase()]?.icon,
-		token && erc20TokensBySymbol[token]?.icon,
+	let i = cachedIndex[address || symbol] ||= 0
+	$: cachedIndex[address || symbol] = i
+	$: imageSources = cachedImageSources[address || symbol] ||= [
+		symbol === 'AVAX' && '/logos/avax-token.svg',
+		symbol === 'AAVE' && 'https://token-icons.s3.amazonaws.com/0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9.png',
+		address && `https://token-icons.s3.amazonaws.com/${address.toLowerCase()}.png`,
+		icon,
+		symbol && `https://zapper.fi/images/${symbol}-icon.png`,
+		address && `https://tokens.1inch.exchange/${address.toLowerCase()}.png`,
+		address && `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`,
+		address && erc20TokensByContractAddress[address.toLowerCase()]?.icon,
+		symbol && erc20TokensBySymbol[symbol]?.icon,
 	].filter(Boolean)
 
 	// let loadingError
 
-	$: Icon = token && !['DAI', 'LINK', 'LRC'].includes(token) && CryptoIcons[token[0].toUpperCase() + token.slice(1).toLowerCase()]
+	$: Icon = symbol && !['DAI', 'LINK', 'LRC'].includes(symbol) && CryptoIcons[symbol[0].toUpperCase() + symbol.slice(1).toLowerCase()]
 </script>
 
 
-{#if token?.includes(' / ')}
-	{#each token.split(' / ') as token}
+{#if symbol?.includes(' / ')}
+	{#each symbol.split(' / ') as token}
 		<svelte:self {token} />
 	{/each}
 {:else}
-	<picture class="token-icon" title={token + (tokenAddress ? ` (${tokenAddress})` : '')}>
+	<picture class="token-icon" title={symbol + (address ? ` (${address})` : '')}>
 		{#if Icon}
 			<svelte:component this={Icon} size="1.25em" />
-		<!-- {:else if !loadingError && (tokenAddress || tokenIcon || token)}
-			{#if tokenAddress}
-				<source src="https://token-icons.s3.amazonaws.com/{tokenAddress.toLowerCase()}.png">
-				<source src="https://tokens.1inch.exchange/{tokenAddress.toLowerCase()}.png">
-				<source src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/{tokenAddress}/logo.png">
+		<!-- {:else if !loadingError && (address || icon || token)}
+			{#if address}
+				<source src="https://token-icons.s3.amazonaws.com/{address.toLowerCase()}.png">
+				<source src="https://tokens.1inch.exchange/{address.toLowerCase()}.png">
+				<source src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/{address}/logo.png">
 			{/if}
-			{#if tokenIcon}
-				<source src={tokenIcon}>
+			{#if icon}
+				<source src={icon}>
 			{/if}
 			{#if token}
 				<source src="https://zapper.fi/images/{token}-icon.png">
 			{/if}
 			<img on:error={e => loadingError = e}>
-			<img src={tokenIcon || `https://zapper.fi/images/${token}-icon.png`} on:error={e => loadingError = e}> -->
+			<img src={icon || `https://zapper.fi/images/${token}-icon.png`} on:error={e => loadingError = e}> -->
 		{:else if imageSources[i]}
-			<img src={imageSources[i]} on:error={e => i++} alt={token} />
+			<img src={imageSources[i]} on:error={e => i++} alt={symbol} />
 		{:else}
-			<i class="placeholder-icon" data-icon={token?.slice(0, 4) ?? '?'}></i>
+			<i class="placeholder-icon" data-icon={symbol?.slice(0, 4) ?? '?'}></i>
 		{/if}
 	</picture>
 {/if}

@@ -195,7 +195,7 @@
 							{#if assets[0]?.protocolImg}
 								<img class="card-background" src={`https://zapper.fi/images/${assets[0].protocolImg}`} alt={label} width="20"/>
 							{:else if assets[0]?.protocolSymbol}
-								<span class="card-background"><TokenIcon token={assets[0].protocolSymbol} /></span>
+								<span class="card-background"><TokenIcon symbol={assets[0].protocolSymbol} /></span>
 							{/if}
 							<div class="bar">
 								<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{label}">
@@ -399,7 +399,7 @@
 				showIf={defiBalances => defiBalances?.length}
 				{isCollapsed}
 			>					
-				<TokenIcon slot="loadingIcon" token={network.nativeCurrency.symbol} />
+				<TokenIcon slot="loadingIcon" symbol={network.nativeCurrency.symbol} />
 
 				<svelte:fragment slot="header" let:status>
 					{#if defiBalances?.length}

@@ -42,7 +42,7 @@
 			loadingMessage="Reading balance..."
 			let:then={balance}
 		>
-			<TokenIcon slot="loadingIcon" {token} {tokenAddress} />
+			<TokenIcon slot="loadingIcon" symbol={token} {tokenAddress} />
 			<div class="card" in:scale>
 				<TokenValue {token} value={ethers?.utils.formatEther(balance)} />
 			</div>

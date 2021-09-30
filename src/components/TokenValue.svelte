@@ -77,7 +77,7 @@
 	{#if isFiat}
 		<span class="token-value">{isNegative ? '−' : ''}{formatValue($tweenedValue, token)}</span>
 	{:else}
-		<TokenIcon {token} {tokenAddress} {tokenIcon} />
+		<TokenIcon symbol={token} address={tokenAddress} icon={tokenIcon} />
 		<span>
 			<span class="token-value">{isNegative ? '−' : ''}{formatValue($tweenedValue)}</span>
 			<span class="token-name">{token || '___'}</span>

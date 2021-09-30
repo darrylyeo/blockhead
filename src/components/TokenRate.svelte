@@ -95,12 +95,12 @@
 	</span>
 	<span class="fraction {fractionLayout}">
 		<span>
-			<TokenIcon token={quoteToken} />
+			<TokenIcon symbol={quoteToken} />
 			<span class="token-name">{quoteToken}</span>
 		</span>
 		<span class="fraction-bar">/</span>
 		<span>
-			<TokenIcon token={baseToken} />
+			<TokenIcon symbol={baseToken} />
 			<span class="token-name">{baseToken}</span>
 		</span>
 	</span>

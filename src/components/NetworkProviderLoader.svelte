@@ -25,7 +25,7 @@
 	fromPromise={providerPromise}
 	let:then={provider}
 >
-	<TokenIcon slot="loadingIcon" token={network?.nativeCurrency.symbol} />
+	<TokenIcon slot="loadingIcon" symbol={network?.nativeCurrency.symbol} />
 
 	<slot name="header" slot="header" {network} {provider} />
 
