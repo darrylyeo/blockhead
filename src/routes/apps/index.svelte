@@ -82,7 +82,7 @@
 						<TokenIcon
 							{name}
 							{symbol}
-							tokenIcon={logoURI}
+							icon={logoURI}
 							tokenAddress={address}
 						/>
 					{/each}

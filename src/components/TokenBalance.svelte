@@ -85,7 +85,7 @@
 	{#if isFiat}
 		<span class="token-balance">{isNegative ? '−' : ''}{formatValue($tweenedValue, symbol)}</span>
 	{:else}
-		<TokenIcon {symbol} {address} {icon} />
+		<TokenIcon {symbol} {address} {name} {icon} {erc20Token} />
 		<span>
 			<span class="token-balance">{isNegative ? '−' : ''}{formatValue($tweenedValue)}</span>
 			<span class="token-name">{symbol || '___'}</span>

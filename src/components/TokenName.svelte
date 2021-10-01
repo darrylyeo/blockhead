@@ -41,6 +41,6 @@
 
 
 <span class="token-value-container" title="{name || symbol}{symbol && name ? ` (${symbol})` : ``}">
-	<TokenIcon {symbol} {address} {icon} />
+	<TokenIcon {symbol} {address} {name} {icon} {erc20Token} />
 	<span class="token-name">{symbol}</span>
 </span>
