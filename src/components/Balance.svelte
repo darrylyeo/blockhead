@@ -52,7 +52,7 @@
 		>
 			<TokenIcon slot="loadingIcon" {symbol} address={contractAddress} {erc20Token} />
 			<div class="card" in:scale>
-				<TokenBalance {symbol} balance={ethers?.utils.formatEther(balance)} />
+				<TokenBalance {symbol} address={contractAddress} {erc20Token} balance={ethers?.utils.formatEther(balance)} />
 			</div>
 		</Loader>
 	{/if}

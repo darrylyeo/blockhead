@@ -281,7 +281,18 @@
 								? isSuccessful ? 'received' : 'failed to receive'
 								: isSuccessful ? 'sent' : 'failed to send'}
 						</span>
-						<TokenBalanceWithConversion {showValues} symbol={token} address={tokenAddress} icon={tokenIcon} name={tokenName} balance={value} conversionCurrency={quoteToken} convertedValue={valueQuote} />
+						<TokenBalanceWithConversion
+							{showValues}
+
+							symbol={token}
+							address={tokenAddress}
+							name={tokenName}
+							icon={tokenIcon}
+
+							balance={value}
+							conversionCurrency={quoteToken}
+							convertedValue={valueQuote}
+						/>
 					</span>
 				{/if}
 				{#if isSummary && contextIsReceiver && fromAddress}
@@ -298,7 +309,15 @@
 				{#if showFees && gasValue !== undefined}
 					<span class="fee" transition:fade|local>
 						<span>for fee</span>
-						<TokenBalanceWithConversion {showValues} symbol={gasToken} balance={gasValue} conversionCurrency={quoteToken} convertedValue={gasValueQuote} />
+						<TokenBalanceWithConversion
+							{showValues}
+ 
+							symbol={gasToken}
+
+							balance={gasValue}
+							conversionCurrency={quoteToken}
+							convertedValue={gasValueQuote}
+						/>
 					</span>
 				{/if}
 				{#if isSummary && date}

@@ -151,15 +151,18 @@
 					>
 						<TokenBalanceWithConversion
 							{showValues}
+
 							symbol={contract_ticker_symbol || contract_name}
 							address={contract_address}
-							icon={logo_url}
 							name={contract_name}
+							icon={logo_url}
+
 							balance={balance * 0.1 ** contract_decimals}
 							isDust={false}
 							conversionCurrency={quoteCurrency}
 							convertedValue={quote}
 							conversionRate={quote_rate}
+
 							animationDelay={i * 10}
 							showParentheses={false}
 						/>

@@ -256,10 +256,10 @@
 												{showValues}
 
 												{symbol}
-												icon={`https://zapper.fi/images/${img}`}
 												address={tokenAddress || address}
-												balance={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
+												icon={`https://zapper.fi/images/${img}`}
 
+												balance={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
 												convertedValue={balanceUSD * zapperFiatRate}
 												conversionCurrency={zapperQuoteCurrency}
 												conversionRate={price * zapperFiatRate}
@@ -304,12 +304,12 @@
 														<span class="underlying-symbol">┖</span>
 														<TokenBalanceWithConversion
 															{showValues}
-				
+
 															{symbol}
-															icon={`https://zapper.fi/images/${img}`}
 															address={tokenAddress || address}
+															icon={`https://zapper.fi/images/${img}`}
+
 															balance={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
-				
 															convertedValue={balanceUSD * zapperFiatRate}
 															conversionCurrency={zapperQuoteCurrency}
 															conversionRate={price * zapperFiatRate}
@@ -367,8 +367,7 @@
 				{#each assets as {type, address, balance, balanceUSD, symbol, price, img, label, reserve}}
 					{type}
 					<TokenBalance
-						{symbol}
-						{address}
+						{symbol} {address}
 						{balance}
 					/>
 				{/each}

@@ -318,7 +318,11 @@
 													<div class="bar">
 														<h4><!--DeFi -->Balances</h4>
 														{#if quoteTotal}
-															<TokenBalance symbol={quoteTotalCurrency || quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
+															<TokenBalance
+																symbol={quoteTotalCurrency || quoteCurrency}
+																balance={quoteTotal}
+																showPlainFiat={true}
+															/>
 														{/if}
 														<div class="card-annotation">{defiProvider}</div>
 													</div>
@@ -401,10 +405,10 @@
 																				{showValues}
 
 																				{symbol}
-																				icon={`https://zapper.fi/images/${img}`}
 																				address={tokenAddress || address}
-																				balance={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
+																				icon={`https://zapper.fi/images/${img}`}
 
+																				balance={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
 																				convertedValue={balanceUSD * zapperFiatRate}
 																				conversionCurrency={zapperQuoteCurrency}
 																				conversionRate={price * zapperFiatRate}
@@ -449,12 +453,12 @@
 																						<span class="underlying-symbol">┖</span>
 																						<TokenBalanceWithConversion
 																							{showValues}
-												
+
 																							{symbol}
-																							icon={`https://zapper.fi/images/${img}`}
 																							address={tokenAddress || address}
+																							icon={`https://zapper.fi/images/${img}`}
+
 																							balance={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
-												
 																							convertedValue={balanceUSD * zapperFiatRate}
 																							conversionCurrency={zapperQuoteCurrency}
 																							conversionRate={price * zapperFiatRate}
@@ -516,8 +520,7 @@
 												{#each assets as {type, address, balance, balanceUSD, symbol, price, img, label, reserve}}
 													{type}
 													<TokenBalance
-														{symbol}
-														{address}
+														{symbol} {address}
 														{balance}
 													/>
 												{/each}
@@ -556,7 +559,11 @@
 													<div class="bar">
 														<h4><!--DeFi -->Balances</h4>
 														<!-- {#if quoteTotal}
-															<TokenBalance symbol={quoteTotalCurrency || quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
+															<TokenBalance
+																symbol={quoteTotalCurrency || quoteCurrency}
+																balance={quoteTotal}
+																showPlainFiat={true}
+															/>
 														{/if} -->
 														<div class="card-annotation">{defiProvider}</div>
 													</div>
@@ -710,10 +717,12 @@
 													}
 														<TokenBalanceWithConversion
 															{showValues}
+
 															symbol={contract_ticker_symbol || contract_name}
 															address={contract_address}
-															icon={logo_url}
 															name={contract_name}
+															icon={logo_url}
+
 															balance={balance * 0.1 ** contract_decimals}
 															isDust={false}
 															conversionCurrency={quoteCurrency}
@@ -724,8 +733,9 @@
 														<TokenBalanceWithConversion
 															symbol={erc20Token.symbol}
 															address={erc20Token.address}
-															icon={erc20Token.icon}
 															name={erc20Token.name}
+															icon={erc20Token.icon}
+
 															balance={0}
 															isDust={false}
 															conversionCurrency={quoteCurrency}
