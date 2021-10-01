@@ -85,7 +85,7 @@
 	import AddressField from './AddressField.svelte'
 	import Loading from './Loading.svelte'
 	import PortfolioAccount from './PortfolioAccount.svelte'
-	import TokenValue from './TokenValue.svelte'
+	import TokenBalance from './TokenBalance.svelte'
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
 import { availableNetworks } from '../data/ethereum/networks';
@@ -140,7 +140,7 @@ import { availableNetworks } from '../data/ethereum/networks';
 
 		{#if quoteTotals.length && state !== State.Editing}
 			<span class="account-total-value" transition:scale>
-				<TokenValue symbol={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
+				<TokenBalance symbol={quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
 			</span>
 		{/if}
 

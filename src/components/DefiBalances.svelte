@@ -63,8 +63,8 @@
 	import Loader from './Loader.svelte'
 	import Loading from './Loading.svelte'
 	import TokenIcon from './TokenIcon.svelte'
-	import TokenValue from './TokenValue.svelte'
-	import TokenValueWithConversion from './TokenValueWithConversion.svelte'
+	import TokenBalance from './TokenBalance.svelte'
+	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
 
 
 	import { cardStyle } from '../utils/card-background'
@@ -203,15 +203,15 @@
 								</h5>
 								{#each meta as {label, type, value}}
 									{#if label === 'Assets'}
-										<TokenValue
+										<TokenBalance
 											symbol={zapperQuoteCurrency}
-											value={value * zapperFiatRate}
+											balance={value * zapperFiatRate}
 											showPlainFiat={true}
 										/>
 									{:else if label === 'Debt' && value}
-										<TokenValue
+										<TokenBalance
 											symbol={zapperQuoteCurrency}
-											value={value * zapperFiatRate}
+											balance={value * zapperFiatRate}
 											showPlainFiat={true}
 											isDebt={true}
 										/>
@@ -222,9 +222,9 @@
 										<div>
 											{label}
 											{#if type === 'dollar'}
-												<TokenValue
+												<TokenBalance
 													{'USD'}
-													value={value}
+													balance={value}
 													isDebt={label === 'Debt'}
 													showPlainFiat={true}
 												/>
@@ -252,13 +252,13 @@
 								}}
 									<div class="defi-protocol-balance column">
 										<div class="bar">
-											<TokenValueWithConversion
+											<TokenBalanceWithConversion
 												{showValues}
 
 												{symbol}
 												icon={`https://zapper.fi/images/${img}`}
 												address={tokenAddress || address}
-												value={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
+												balance={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
 
 												convertedValue={balanceUSD * zapperFiatRate}
 												conversionCurrency={zapperQuoteCurrency}
@@ -302,13 +302,13 @@
 												}}
 													<p class="underlying-asset" in:scaleFont>
 														<span class="underlying-symbol">┖</span>
-														<TokenValueWithConversion
+														<TokenBalanceWithConversion
 															{showValues}
 				
 															{symbol}
 															icon={`https://zapper.fi/images/${img}`}
 															address={tokenAddress || address}
-															value={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
+															balance={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
 				
 															convertedValue={balanceUSD * zapperFiatRate}
 															conversionCurrency={zapperQuoteCurrency}
@@ -333,9 +333,9 @@
 											<dt>{label}</dt>
 											<dd>
 												{#if type === 'dollar'}
-													<TokenValue
+													<TokenBalance
 														symbol={'USD'}
-														{value}
+														balance={value}
 														isDebt={label === 'Debt'}
 														showPlainFiat={true}
 													/>
@@ -366,10 +366,10 @@
 				<h4>{label}</h4>
 				{#each assets as {type, address, balance, balanceUSD, symbol, price, img, label, reserve}}
 					{type}
-					<TokenValue
+					<TokenBalance
 						{symbol}
 						{address}
-						value={balance}
+						{balance}
 					/>
 				{/each}
 				{#each meta as {label, type, value}}
@@ -432,10 +432,10 @@
 									{/if} -->
 									{#each adapterBalance.balances as {base: baseBalance, underlying}}
 										<div class="column defi-protocol-balance">
-											<TokenValue
+											<TokenBalance
 												symbol={baseBalance.metadata.symbol}
 												address={baseBalance.metadata.token}
-												value={formatUnits(baseBalance.amount, baseBalance.metadata.decimals)}
+												balance={formatUnits(baseBalance.amount, baseBalance.metadata.decimals)}
 												isDebt={adapterBalance.metadata.adapterType === 'Debt'}
 											/>
 											{#if underlying.length && showUnderlyingAssets}
@@ -443,10 +443,10 @@
 													{#each underlying as underlyingBalance}
 														<p in:scaleFont>
 															<span class="underlying-symbol">┖</span>
-															<TokenValue
+															<TokenBalance
 																symbol={underlyingBalance.metadata.symbol}
 																address={underlyingBalance.metadata.token}
-																value={formatUnits(underlyingBalance.amount, underlyingBalance.metadata.decimals)}
+																balance={formatUnits(underlyingBalance.amount, underlyingBalance.metadata.decimals)}
 																isDebt={adapterBalance.metadata.adapterType === 'Debt'}
 															/>
 														</p>

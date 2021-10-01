@@ -18,10 +18,10 @@
 	$: name ||= erc20Token?.name
 	$: icon = erc20Token?.icon
 
-	export let value
+	export let balance
 	export let isDust = false
 	$: isSmallValue = Math.abs(convertedValue) < 1e-3
-	$: isZero = value == 0
+	$: isZero = balance == 0
 	export let isDebt = false
 
 	export let conversionCurrency: QuoteCurrency
@@ -37,19 +37,19 @@
 	
 	import TokenName from './TokenName.svelte'
 	import TokenRate from './TokenRate.svelte'
-	import TokenValue from './TokenValue.svelte'
+	import TokenBalance from './TokenBalance.svelte'
 	import { scaleFont } from '../transitions/scale-font'
 </script>
 
 <style>
-	.value, .value-converted {
+	.balance, .balance-converted {
 		font-size: 1.1em;
 	}
-	.value + .value-converted, .worth, .rate {
+	.balance + .balance-converted, .worth, .rate {
 		font-size: 0.85em;
 	}
 
-	.value-converted {
+	.balance-converted {
 		white-space: nowrap;
 	}
 
@@ -66,16 +66,16 @@
 	}
 </style>
 
-<span class="value-with-conversion" class:is-debt={isDebt} class:is-dust={isDust} class:is-small-value={isSmallValue} class:is-zero={isZero}>
+<span class="token-balance-with-conversion" class:is-debt={isDebt} class:is-dust={isDust} class:is-small-value={isSmallValue} class:is-zero={isZero}>
 	{#if showValues === 'original' || showValues === 'both'}
-		<span class="value" transition:scaleFont|local><!-- style="font-size: {sizeByVolume(convertedValue)}em" -->
-			<TokenValue {symbol} {address} {icon} {name} {value} {showDecimalPlaces} {isDebt} />
+		<span class="balance" transition:scaleFont|local><!-- style="font-size: {sizeByVolume(convertedValue)}em" -->
+			<TokenBalance {symbol} {address} {icon} {name} {balance} {showDecimalPlaces} {isDebt} />
 		</span>
 	{/if}
 	{#if (showValues === 'converted' || showValues === 'both')}
-		<span class="value-converted" transition:scaleFont|local={{delay: 50 + animationDelay}}>
+		<span class="balance-converted" transition:scaleFont|local={{delay: 50 + animationDelay}}>
 			{#if showValues === 'both'}{#if showParentheses}({/if}{/if
-			}<TokenValue symbol={conversionCurrency} value={convertedValue} {showDecimalPlaces} showPlainFiat={true} {isDebt}
+			}<TokenBalance symbol={conversionCurrency} balance={convertedValue} {showDecimalPlaces} showPlainFiat={true} {isDebt}
 			/>{#if showValues === 'converted' && conversionCurrency !== symbol}
 				<span class="worth" transition:scaleFont|local={{delay: animationDelay}}>
 					&nbsp;in <TokenName {symbol} {address} {icon} {name} />

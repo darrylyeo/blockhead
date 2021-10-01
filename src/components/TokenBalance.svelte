@@ -15,7 +15,7 @@
 	$: name ||= erc20Token?.name
 	$: icon = erc20Token?.icon
 
-	export let value: number | string | BigNumberish = 0
+	export let balance: number | string | BigNumberish = 0
 	export let price
 	export let showDecimalPlaces = 3 // 2 + Math.round(Math.log10(price || 1))
 
@@ -24,7 +24,7 @@
 	export let showPlainFiat = false
 	$: isFiat = showPlainFiat && symbol in fiatQuoteCurrencies
 
-	$: isNegative = value < 0
+	$: isNegative = balance < 0
 
 	export let tween = true
 
@@ -43,7 +43,7 @@
 			return Math.pow(10, logFrom + t * (logTo - logFrom))
 		}
 	})
-	$: tweenedValue.set(Math.abs(value || 0))
+	$: tweenedValue.set(Math.abs(balance || 0))
 
 
 	import TokenIcon from './TokenIcon.svelte'
@@ -52,7 +52,7 @@
 
 
 <style>
-	.token-value-container {
+	.token-balance-container {
 		display: inline-grid;
 		grid-auto-flow: column;
 		justify-content: start;
@@ -61,7 +61,7 @@
 		gap: var(--padding-inner);
 	}
 
-	.token-value-container > * {
+	.token-balance-container > * {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
@@ -71,7 +71,7 @@
 		font-weight: 300;
 		font-size: 0.8em;
 	}
-	.token-value {
+	.token-balance {
 		font-weight: 500;
 	}
 
@@ -81,13 +81,13 @@
 </style>
 
 
-<span class="token-value-container" class:is-debt={isDebt} title="{value} {name || symbol}{symbol && name ? ` (${symbol})` : ``}">
+<span class="token-balance-container" class:is-debt={isDebt} title="{balance} {name || symbol}{symbol && name ? ` (${symbol})` : ``}">
 	{#if isFiat}
-		<span class="token-value">{isNegative ? '−' : ''}{formatValue($tweenedValue, symbol)}</span>
+		<span class="token-balance">{isNegative ? '−' : ''}{formatValue($tweenedValue, symbol)}</span>
 	{:else}
 		<TokenIcon {symbol} {address} {icon} />
 		<span>
-			<span class="token-value">{isNegative ? '−' : ''}{formatValue($tweenedValue)}</span>
+			<span class="token-balance">{isNegative ? '−' : ''}{formatValue($tweenedValue)}</span>
 			<span class="token-name">{symbol || '___'}</span>
 		</span>
 	{/if}

@@ -70,8 +70,8 @@
 	import HistoricalPriceChart from './HistoricalPriceChart.svelte'
 	import TokenIcon from './TokenIcon.svelte'
 	import TokenName from './TokenName.svelte'
-	import TokenValue from './TokenValue.svelte'
-	import TokenValueWithConversion from './TokenValueWithConversion.svelte'
+	import TokenBalance from './TokenBalance.svelte'
+	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
 	
 
 	import { cardStyle } from '../utils/card-background'
@@ -219,7 +219,7 @@
 
 
 	/* Svelte bug */
-	.erc20-token :global(.value-with-conversion:not(:last-child)) {
+	.erc20-token :global(.token-balance-with-conversion:not(:last-child)) {
 		display: none;
 	}
 
@@ -318,7 +318,7 @@
 													<div class="bar">
 														<h4><!--DeFi -->Balances</h4>
 														{#if quoteTotal}
-															<TokenValue symbol={quoteTotalCurrency || quoteCurrency} value={quoteTotal} showPlainFiat={true} />
+															<TokenBalance symbol={quoteTotalCurrency || quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
 														{/if}
 														<div class="card-annotation">{defiProvider}</div>
 													</div>
@@ -348,15 +348,15 @@
 																</h5>
 																{#each meta as {label, type, value}}
 																	{#if label === 'Assets'}
-																		<TokenValue
+																		<TokenBalance
 																			symbol={zapperQuoteCurrency}
-																			value={value * zapperFiatRate}
+																			balance={value * zapperFiatRate}
 																			showPlainFiat={true}
 																		/>
 																	{:else if label === 'Debt' && value}
-																		<TokenValue
+																		<TokenBalance
 																			symbol={zapperQuoteCurrency}
-																			value={value * zapperFiatRate}
+																			balance={value * zapperFiatRate}
 																			showPlainFiat={true}
 																			isDebt={true}
 																		/>
@@ -367,9 +367,9 @@
 																		<div>
 																			{label}
 																			{#if type === 'dollar'}
-																				<TokenValue
+																				<TokenBalance
 																					symbol={'USD'}
-																					{value}
+																					balance={value}
 																					isDebt={label === 'Debt'}
 																					showPlainFiat={true}
 																				/>
@@ -397,13 +397,13 @@
 																}}
 																	<div class="defi-protocol-balance column">
 																		<div class="bar">
-																			<TokenValueWithConversion
+																			<TokenBalanceWithConversion
 																				{showValues}
 
 																				{symbol}
 																				icon={`https://zapper.fi/images/${img}`}
 																				address={tokenAddress || address}
-																				value={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
+																				balance={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
 
 																				convertedValue={balanceUSD * zapperFiatRate}
 																				conversionCurrency={zapperQuoteCurrency}
@@ -447,13 +447,13 @@
 																				}}
 																					<p class="underlying-asset" in:scaleFont>
 																						<span class="underlying-symbol">┖</span>
-																						<TokenValueWithConversion
+																						<TokenBalanceWithConversion
 																							{showValues}
 												
 																							{symbol}
 																							icon={`https://zapper.fi/images/${img}`}
 																							address={tokenAddress || address}
-																							value={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
+																							balance={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
 												
 																							convertedValue={balanceUSD * zapperFiatRate}
 																							conversionCurrency={zapperQuoteCurrency}
@@ -478,9 +478,9 @@
 																			<dt>{label}</dt>
 																			<dd>
 																				{#if type === 'dollar'}
-																					<TokenValue
+																					<TokenBalance
 																						symbol={'USD'}
-																						value={value}
+																						balance={value}
 																						isDebt={label === 'Debt'}
 																						showPlainFiat={true}
 																					/>
@@ -515,10 +515,10 @@
 												<h4>{label}</h4>
 												{#each assets as {type, address, balance, balanceUSD, symbol, price, img, label, reserve}}
 													{type}
-													<TokenValue
+													<TokenBalance
 														{symbol}
 														{address}
-														value={balance}
+														{balance}
 													/>
 												{/each}
 												{#each meta as {label, type, value}}
@@ -556,7 +556,7 @@
 													<div class="bar">
 														<h4><!--DeFi -->Balances</h4>
 														<!-- {#if quoteTotal}
-															<TokenValue symbol={quoteTotalCurrency || quoteCurrency} value={quoteTotal} showPlainFiat={true} />
+															<TokenBalance symbol={quoteTotalCurrency || quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
 														{/if} -->
 														<div class="card-annotation">{defiProvider}</div>
 													</div>
@@ -588,10 +588,10 @@
 																{/if} -->
 																{#each adapterBalance.balances as {base: baseBalance, underlying}}
 																	<div class="column defi-protocol-balance">
-																		<TokenValue
+																		<TokenBalance
 																			symbol={baseBalance.metadata.symbol}
 																			address={baseBalance.metadata.token}
-																			value={formatUnits(baseBalance.amount, baseBalance.metadata.decimals)}
+																			balance={formatUnits(baseBalance.amount, baseBalance.metadata.decimals)}
 																			isDebt={adapterBalance.metadata.adapterType === 'Debt'}
 																		/>
 																		{#if underlying.length && showUnderlyingAssets}
@@ -599,10 +599,10 @@
 																				{#each underlying as underlyingBalance}
 																					<p in:scaleFont>
 																						<span class="underlying-symbol">┖</span>
-																						<TokenValue
+																						<TokenBalance
 																							symbol={underlyingBalance.metadata.symbol}
 																							address={underlyingBalance.metadata.token}
-																							value={formatUnits(underlyingBalance.amount, underlyingBalance.metadata.decimals)}
+																							balance={formatUnits(underlyingBalance.amount, underlyingBalance.metadata.decimals)}
 																							isDebt={adapterBalance.metadata.adapterType === 'Debt'}
 																						/>
 																					</p>
@@ -708,25 +708,25 @@
 														as {type, balance, quote, quote_rate, contract_name, contract_address, contract_decimals, contract_ticker_symbol, logo_url},
 														i (i)
 													}
-														<TokenValueWithConversion
+														<TokenBalanceWithConversion
 															{showValues}
 															symbol={contract_ticker_symbol || contract_name}
 															address={contract_address}
 															icon={logo_url}
 															name={contract_name}
-															value={balance * 0.1 ** contract_decimals}
+															balance={balance * 0.1 ** contract_decimals}
 															isDust={false}
 															conversionCurrency={quoteCurrency}
 															convertedValue={quote}
 															conversionRate={quote_rate}
 														/>
 													{:else}
-														<TokenValueWithConversion
+														<TokenBalanceWithConversion
 															symbol={erc20Token.symbol}
 															address={erc20Token.address}
 															icon={erc20Token.icon}
 															name={erc20Token.name}
-															value={0}
+															balance={0}
 															isDust={false}
 															conversionCurrency={quoteCurrency}
 															convertedValue={0}

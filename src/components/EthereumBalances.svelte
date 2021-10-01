@@ -51,7 +51,7 @@
 	
 
 	import EthereumBalancesLoader from './EthereumBalancesLoader.svelte'
-	import TokenValueWithConversion from './TokenValueWithConversion.svelte'
+	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
 	import { quintOut } from 'svelte/easing'
@@ -103,7 +103,7 @@
 		box-shadow: var(--primary-color) 0 0 0 2px inset;
 	}
 
-	.ethereum-balance :global(.value-with-conversion) {
+	.ethereum-balance :global(.token-balance-with-conversion) {
 		display: flex;
 		justify-content: space-between;
 		align-items: baseline;
@@ -149,13 +149,13 @@
 						in:scale
 						animate:flip|local={{duration: 500, delay: i * 10, easing: quintOut}}
 					>
-						<TokenValueWithConversion
+						<TokenBalanceWithConversion
 							{showValues}
 							symbol={contract_ticker_symbol || contract_name}
 							address={contract_address}
 							icon={logo_url}
 							name={contract_name}
-							value={balance * 0.1 ** contract_decimals}
+							balance={balance * 0.1 ** contract_decimals}
 							isDust={false}
 							conversionCurrency={quoteCurrency}
 							convertedValue={quote}

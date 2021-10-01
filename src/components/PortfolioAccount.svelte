@@ -54,7 +54,7 @@
 	import EthereumBalances from './EthereumBalances.svelte'
 	import EthereumNFTs from './EthereumNFTs.svelte'
 	import HeightContainer from './HeightContainer.svelte'
-	import TokenValue from './TokenValue.svelte'
+	import TokenBalance from './TokenBalance.svelte'
 </script>
 
 
@@ -121,7 +121,7 @@
 			</div>
 			{#if quoteTotals.length}
 				<span class="account-total-value">
-					<TokenValue symbol={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
+					<TokenBalance symbol={quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
 				</span>
 			{/if}
 			<slot></slot>
@@ -155,7 +155,7 @@
 									<hr>
 									<div class="bar">
 										<h4><Address {network} {address}>{network.name} Balances</Address></h4>
-										<TokenValue symbol={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
+										<TokenBalance symbol={quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
 										{#if isEditing}
 											<button class="small" on:click={() => showBalances = false}>Hide</button>
 										{/if}
@@ -200,7 +200,7 @@
 								<div class="bar">
 									<h4>{network.name} DeFi</h4>
 									{#if quoteTotal !== undefined}
-										<TokenValue symbol={quoteTotalCurrency || quoteCurrency} value={quoteTotal} showPlainFiat={true} />
+										<TokenBalance symbol={quoteTotalCurrency || quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
 									{/if}
 									{#if isEditing}
 										<button class="small" on:click={() => showDeFi = false}>Hide</button>

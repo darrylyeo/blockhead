@@ -37,7 +37,7 @@
 
 	import Loader from './Loader.svelte'
 	import TokenIcon from './TokenIcon.svelte'
-	import TokenValue from './TokenValue.svelte'
+	import TokenBalance from './TokenBalance.svelte'
 
 	import { scale } from 'svelte/transition'
 </script>
@@ -52,7 +52,7 @@
 		>
 			<TokenIcon slot="loadingIcon" {symbol} address={contractAddress} {erc20Token} />
 			<div class="card" in:scale>
-				<TokenValue {symbol} value={ethers?.utils.formatEther(balance)} />
+				<TokenBalance {symbol} balance={ethers?.utils.formatEther(balance)} />
 			</div>
 		</Loader>
 	{/if}

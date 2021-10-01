@@ -23,7 +23,7 @@
 
 	import Loader from './Loader.svelte'
 	import TokenRate from './TokenRate.svelte'
-	import TokenValue from './TokenValue.svelte'
+	import TokenBalance from './TokenBalance.svelte'
 	import Address from './Address.svelte'
 </script>
 
@@ -112,14 +112,14 @@
 					}}
 				>
 					<div class="rate">
-						<TokenValue
-							value={1}
+						<TokenBalance
+							balance={1}
 							symbol={token}
 							tween={false}
 						/>
 						=
-						<TokenValue
-							value={priceFeed.price}
+						<TokenBalance
+							balance={priceFeed.price}
 							symbol={quoteCurrency}
 							showPlainFiat={true}
 						/>
@@ -164,15 +164,15 @@
 					</svelte:fragment>
 
 					<div class="rate">
-						<TokenValue
-							value={1}
+						<TokenBalance
+							balance={1}
 							symbol={token}
 							icon={data.icon}
 							tween={false}
 						/>
 						=
-						<TokenValue
-							value={data.price}
+						<TokenBalance
+							balance={data.price}
 							symbol={/*quoteCurrency*/ 'USD'}
 							showPlainFiat={true}
 						/>

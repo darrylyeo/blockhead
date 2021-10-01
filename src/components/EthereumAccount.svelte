@@ -42,7 +42,7 @@
 	import EthereumTransactionCovalent from './EthereumTransactionCovalent.svelte'
 	import Loader from './Loader.svelte'
 	import TokenName from './TokenName.svelte'
-	import TokenValue from './TokenValue.svelte'
+	import TokenBalance from './TokenBalance.svelte'
 </script>
 
 
@@ -58,7 +58,7 @@
 	h3 {
 		line-height: 1.6;
 	}
-	/* .transactions :global(.token-value-container) {
+	/* .transactions :global(.token-balance-container) {
 		font-size: 1.1em;
 	} */
 
@@ -123,7 +123,7 @@
 				<hr>
 
 				<div class="bar">
-					<h3>{network.name} Tokens (<TokenValue symbol={quoteCurrency} value={quoteTotal} showPlainFiat={true} />)</h3>
+					<h3>{network.name} Tokens (<TokenBalance symbol={quoteCurrency} balance={quoteTotal} showPlainFiat={true} />)</h3>
 					<label>
 						<input type="checkbox" bind:checked={showSmallValues}>
 						<span>Show Small Values</span>
