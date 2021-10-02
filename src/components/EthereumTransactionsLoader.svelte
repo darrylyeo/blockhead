@@ -10,8 +10,8 @@
 	export let quoteCurrency: TickerSymbol
 	export let transactionProvider
 
-	$: quoteCurrency ||= $preferences.quoteCurrency
-	$: transactionProvider ||= $preferences.transactionProvider
+	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
+	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
 
 
 	import { getTransactionsByAddress } from '../data/analytics/covalent'

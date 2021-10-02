@@ -12,7 +12,7 @@
 	export let provider: Ethereum.Provider
 
 	export let tokenBalancesProvider
-	$: tokenBalancesProvider ||= $preferences.tokenBalancesProvider
+	$: tokenBalancesProvider = $$props.tokenBalancesProvider || $preferences.tokenBalancesProvider
 
 
 	let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'summary'
