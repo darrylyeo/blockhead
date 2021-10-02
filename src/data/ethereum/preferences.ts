@@ -143,7 +143,7 @@ export const preferencesConfig: PreferencesConfig<
 				id: 'tokenBalancesProvider',
 				name: 'Token Balances',
 				type: 'single',
-				defaultOption: 'Zapper',
+				defaultOption: 'Covalent',
 				options: [
 					// {
 					// 	id: 'onChain',
