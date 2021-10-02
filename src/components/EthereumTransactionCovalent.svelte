@@ -38,17 +38,14 @@
 		toAddress: Ethereum.Address,
 		toAddressLabel: string,
 
-		token: TickerSymbol,
-		tokenAddress: Ethereum.ContractAddress,
-		tokenIcon: string,
-		tokenName: string,
+		token: Ethereum.ERC20Token,
 
 		value,
 		valueQuote,
 
-		gasToken: string,
+		gasToken: Ethereum.ERC20Token,
+		gasSpent,
 		gasValue,
-		gasValueQuote,
 
 		quoteToken,
 		rate,
@@ -87,15 +84,14 @@
 		toAddress: transaction.to_address,
 		toAddressLabel: transaction.to_address_label,
 
-		token: network.nativeCurrency.symbol,
-		tokenName: network.nativeCurrency.name,
+		token: network.nativeCurrency,
 
 		value: _formatUnits(transaction.value, network.nativeCurrency.decimals),
 		valueQuote: transaction.value_quote,
 
-		gasToken: network.nativeCurrency.symbol,
-		gasValue: _formatUnits(transaction.gas_spent, 'gwei'),
-		gasValueQuote: transaction.gas_quote,
+		gasToken: network.nativeCurrency,
+		gasSpent: _formatUnits(transaction.gas_spent, 'gwei'),
+		gasValue: transaction.gas_quote,
 
 		quoteToken: quoteCurrency,
 		// rate: transaction.value_quote / _formatUnits(transaction.value, network.nativeCurrency.decimals),
@@ -118,10 +114,13 @@
 		toAddress: transfer.to_address,
 		toAddressLabel: transfer.to_address_label,
 
-		token: transfer.contract_ticker_symbol,
-		tokenName: transfer.contract_name,
-		tokenIcon: transfer.logo_url,
-		tokenAddress: transfer.contract_address,
+		token: {
+			symbol: transfer.contract_ticker_symbol,
+			address: transfer.contract_address,
+			name: transfer.contract_name,
+			icon: transfer.logo_url,
+			decimals: transfer.contract_decimals
+		},
 
 		value: _formatUnits(transfer.delta, transfer.contract_decimals),
 		valueQuote: transfer.delta_quote,
@@ -147,16 +146,13 @@
 		toAddressLabel,
 
 		token,
-		tokenAddress,
-		tokenIcon,
-		tokenName,
 
 		value,
 		valueQuote,
 
 		gasToken,
-		gasValue,
-		gasValueQuote,
+		gasSpent: gasValue,
+		gasValue: gasValueQuote,
 
 		quoteToken,
 		rate,
@@ -306,10 +302,7 @@
 						<TokenBalanceWithConversion
 							{showValues}
 
-							symbol={token}
-							address={tokenAddress}
-							name={tokenName}
-							icon={tokenIcon}
+							erc20Token={token}
 
 							balance={value}
 							conversionCurrency={quoteToken} 
@@ -334,7 +327,7 @@
 						<TokenBalanceWithConversion
 							{showValues}
 
-							symbol={gasToken}
+							erc20Token={gasToken}
 
 							balance={gasValue}
 							conversionCurrency={quoteToken}
