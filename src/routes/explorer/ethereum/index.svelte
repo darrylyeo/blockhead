@@ -38,7 +38,7 @@
 
 	<section class="card">
 		<CurrentPrice
-			priceProvider={$preferences.oracleProvider}
+			priceProvider={$preferences.currentPriceProvider}
 			token={$explorerNetwork.nativeCurrency.symbol}
 			quoteCurrency={$preferences.quoteCurrency}
 			provider={$ethereumProvider}
@@ -51,7 +51,7 @@
 <div class="row">
 	<section class="card">
 		<HistoricalPriceChart
-			analyticsProvider={$preferences.analyticsProvider}
+			historicalPriceProvider={$preferences.historicalPriceProvider}
 			currencies={[$explorerNetwork.nativeCurrency.symbol]}
 			quoteCurrency={$preferences.quoteCurrency}
 		/>

@@ -46,7 +46,7 @@
 <div>
 	<section class="card">
 		<HistoricalPriceChart
-			analyticsProvider={$preferences.analyticsProvider}
+			historicalPriceProvider={$preferences.historicalPriceProvider}
 			currencies={[token]}
 			quoteCurrency={$preferences.quoteCurrency}
 		/>

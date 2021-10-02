@@ -8,7 +8,7 @@
 
 
 	import { preferences } from '../../../data/ethereum/preferences'
-	$: analyticsProvider = $preferences.analyticsProvider
+	$: transactionProvider = $preferences.transactionProvider
 
 
 	import type { Writable } from 'svelte/store'
@@ -28,9 +28,9 @@
 
 {#if $query && $explorerProvider}
 	{#if isTransaction($query)}
-		<EthereumTransactionLoader network={$explorerNetwork} transactionID={$query} />
+		<EthereumTransactionLoader network={$explorerNetwork} transactionID={$query} provider={$explorerProvider} />
 	{:else if isBlockNumber($query)}
-		<EthereumBlock network={$explorerNetwork} blockNumber={$query} provider={$explorerProvider} {analyticsProvider}/>
+		<EthereumBlock network={$explorerNetwork} blockNumber={$query} provider={$explorerProvider} {transactionProvider}/>
 	{:else}
 		<EthereumAccount network={$explorerNetwork} addressOrENSName={$query} provider={$explorerProvider}/>
 	{/if}

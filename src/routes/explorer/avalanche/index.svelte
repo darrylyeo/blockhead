@@ -51,7 +51,7 @@
 <div class="row">
 	<section class="card">
 		<HistoricalPriceChart
-			analyticsProvider={$preferences.analyticsProvider}
+			historicalPriceProvider={$preferences.historicalPriceProvider}
 			currencies={[$explorerNetwork.nativeCurrency.symbol]}
 			quoteCurrency={$preferences.quoteCurrency}
 		/>

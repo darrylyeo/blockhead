@@ -74,7 +74,7 @@
 					editable={true}
 					provider={portfolioProvider}
 					defiProvider={$preferences.defiProvider}
-					analyticsProvider={$preferences.analyticsProvider}
+					tokenBalancesProvider={$preferences.tokenBalancesProvider}
 					quoteCurrency={$preferences.quoteCurrency}
 					on:delete={e => deletePortfolio(i)}
 				/>
