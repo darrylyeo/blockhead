@@ -14,12 +14,7 @@
 	export let showValues
 
 	export let isSelectable = false
-	export let selectedToken: {
-		token: TickerSymbol,
-		tokenAddress: Ethereum.ContractAddress,
-		tokenIcon: string,
-		tokenName: string
-	} | undefined = undefined
+	export let selectedToken: Ethereum.ERC20Token | undefined
 
 	export let quoteTotal
 
@@ -42,12 +37,18 @@
 
 	let allBalances
 
-	export let balances: Covalent.ERC20TokenOrNFTContractWithBalance[] = []
+	export let balances: {
+		token: Ethereum.ERC20Token,
+		balance: Covalent.ERC20TokenOrNFTContractWithBalance['balance'],
+		type: Covalent.ERC20TokenOrNFTContractWithBalance['type'],
+		value: Covalent.ERC20TokenOrNFTContractWithBalance['quote'],
+		rate: Covalent.ERC20TokenOrNFTContractWithBalance['quote_rate'],
+	}[] = []
 
 	$: if(allBalances)
 		balances = (filterFunction ? allBalances.filter(filterFunction) : allBalances).sort(sortFunction)
 
-	$: quoteTotal = balances.reduce((sum, item) => sum + item.quote, 0)
+	$: quoteTotal = balances.reduce((sum, item) => sum + item.value, 0)
 	
 
 	import EthereumBalancesLoader from './EthereumBalancesLoader.svelte'
@@ -130,21 +131,16 @@
 			<div class="ethereum-balances card" class:show-amounts-and-values={showValues === 'both'}>
 				{#each
 					balances
-					as {type, balance, quote, quote_rate, contract_name, contract_address, contract_decimals, contract_ticker_symbol, logo_url},
-					i (contract_address || contract_ticker_symbol || contract_name)
+					as {type, token, balance, value, rate},
+					i (token.address || token.symbol || token.name)
 				}
 					<span
 						class="ethereum-balance"
 						class:is-selectable={isSelectable}
-						class:is-selected={selectedToken?.tokenAddress === contract_address}
+						class:is-selected={selectedToken?.address === token.address}
 						tabindex={isSelectable ? 0 : undefined}
 						on:click={() =>
-							selectedToken = selectedToken?.tokenAddress === contract_address ? undefined : {
-								token: contract_ticker_symbol || contract_name,
-								tokenAddress: contract_address,
-								tokenIcon: logo_url,
-								tokenName: contract_name,
-							}
+							selectedToken = selectedToken?.address === token.address ? undefined : token
 						}
 						in:scale
 						animate:flip|local={{duration: 500, delay: i * 10, easing: quintOut}}
@@ -152,16 +148,13 @@
 						<TokenBalanceWithConversion
 							{showValues}
 
-							symbol={contract_ticker_symbol || contract_name}
-							address={contract_address}
-							name={contract_name}
-							icon={logo_url}
+							erc20Token={token}
 
-							balance={balance * 0.1 ** contract_decimals}
+							balance={balance * 0.1 ** token.decimals}
 							isDust={false}
 							conversionCurrency={quoteCurrency}
-							convertedValue={quote}
-							conversionRate={quote_rate}
+							convertedValue={value}
+							conversionRate={rate}
 
 							animationDelay={i * 10}
 							showParentheses={false}

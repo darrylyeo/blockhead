@@ -710,31 +710,25 @@
 						
 													{#each
 														[
-															balances?.find(balance => balance.contract_address.toLowerCase() === erc20Token.address.toLowerCase())
+															balances?.find(balance => balance.token.address.toLowerCase() === erc20Token.address.toLowerCase())
 														].filter(_ => _)
-														as {type, balance, quote, quote_rate, contract_name, contract_address, contract_decimals, contract_ticker_symbol, logo_url},
+														as {type, token, balance, value, rate},
 														i (i)
 													}
 														<TokenBalanceWithConversion
 															{showValues}
 
-															symbol={contract_ticker_symbol || contract_name}
-															address={contract_address}
-															name={contract_name}
-															icon={logo_url}
+															erc20Token={token}
 
-															balance={balance * 0.1 ** contract_decimals}
-															isDust={false}
+															balance={balance * 0.1 ** token.decimals}
+															isDust={type === 'dust'}
 															conversionCurrency={quoteCurrency}
-															convertedValue={quote}
-															conversionRate={quote_rate}
+															convertedValue={value}
+															conversionRate={rate}
 														/>
 													{:else}
 														<TokenBalanceWithConversion
-															symbol={erc20Token.symbol}
-															address={erc20Token.address}
-															name={erc20Token.name}
-															icon={erc20Token.icon}
+															{erc20Token}
 
 															balance={0}
 															isDust={false}

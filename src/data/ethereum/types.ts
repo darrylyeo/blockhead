@@ -14,7 +14,7 @@ export namespace Ethereum {
 		nativeCurrency: {
 			name: string,
 			symbol: TickerSymbol,
-			decimals: Number
+			decimals: number
 		},
 		rpc: string[],
 		faucets?: string[],
@@ -64,7 +64,7 @@ export namespace Ethereum {
 	export type ERC20Token = Contract & {
 		name: string,
 		symbol: TickerSymbol,
-		decimals: Number,
+		decimals: number,
 		icon?: string
 	}
 	export type ERC721Token = Contract & {

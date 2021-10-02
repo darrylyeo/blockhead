@@ -21,11 +21,13 @@
 	export let isCollapsed: boolean
 
 
-
-	export let balances: Covalent.ERC20TokenOrNFTContractWithBalance[] = []
-
-	$: getBalancesPromise = memoizedTokenAddressBalances({address, nft: false, chainID: network.chainId, quoteCurrency})
-		.then(_ => balances = _.items)
+	export let balances: {
+		type: Covalent.ERC20TokenOrNFTContractWithBalance['type'],
+		token: Ethereum.ERC20Token,
+		balance: Covalent.ERC20TokenOrNFTContractWithBalance['balance'],
+		value: Covalent.ERC20TokenOrNFTContractWithBalance['quote'],
+		rate: Covalent.ERC20TokenOrNFTContractWithBalance['quote_rate'],
+	}[] = []
 
 
 	import Loader from './Loader.svelte'
@@ -38,9 +40,35 @@
 		loadingIconName={'Covalent'}
 		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
 		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"
-		fromPromise={() => getBalancesPromise}
+		fromPromise={async () =>
+			(await memoizedTokenAddressBalances({
+				address,
+				nft: false,
+				chainID: network.chainId,
+				quoteCurrency
+			}))
+			.items
+			.map(({
+				type,
+				balance, quote, quote_rate,
+				contract_name, contract_address, contract_decimals, contract_ticker_symbol, logo_url, contract_logo_url,
+			}) => ({
+				type,
+				token: {
+					symbol: contract_ticker_symbol || contract_name,
+					address: contract_address,
+					name: contract_name,
+					icon: contract_logo_url || logo_url,
+					decimals: contract_decimals,
+				},
+				balance,
+				value: quote,
+				rate: quote_rate
+			}))
+		}
 		{showIf}
 		{isCollapsed}
+		bind:balances
 		let:then={balances}
 	>
 		<slot name="header" slot="header" {balances}></slot>
