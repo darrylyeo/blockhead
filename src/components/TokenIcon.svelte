@@ -19,7 +19,7 @@
 	$: symbol ||= erc20Token?.symbol
 	$: address ||= erc20Token?.address
 	$: name ||= erc20Token?.name
-	$: icon = erc20Token?.icon
+	$: icon ||= erc20Token?.icon
 
 
 	let i = cachedIndex[address || symbol] ||= 0
@@ -65,7 +65,7 @@
 			<img on:error={e => loadingError = e}>
 			<img src={icon || `https://zapper.fi/images/${token}-icon.png`} on:error={e => loadingError = e}> -->
 		{:else if imageSources[i]}
-			<img src={imageSources[i]} on:error={e => i++} alt={symbol} />
+			<img src={imageSources[i]} on:error={e => i++} />
 		{:else}
 			<i class="placeholder-icon" data-icon={symbol?.slice(0, 4) ?? '?'}></i>
 		{/if}
@@ -80,7 +80,7 @@
 		align-items: center;
 	}
 	.token-icon + :global(.token-icon) {
-		margin-left: calc(-25% - var(--padding-inner));
+		margin-left: calc(-0.25em - var(--padding-inner));
 	}
 
 	source {
@@ -95,6 +95,7 @@
 
 	.placeholder-icon {
 		background-color: rgba(50, 50, 50, 0.75);
+		background-color: var(--primary-color);
 		color: #fff;
 
 		display: inline-flex;

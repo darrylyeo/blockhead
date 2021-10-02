@@ -16,7 +16,7 @@
 	$: symbol ||= erc20Token?.symbol
 	$: address ||= erc20Token?.address
 	$: name ||= erc20Token?.name
-	$: icon = erc20Token?.icon
+	$: icon ||= erc20Token?.icon
 
 	export let balance
 	export let isDust = false
