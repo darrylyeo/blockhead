@@ -62,8 +62,8 @@
 					decimals: contract_decimals,
 				},
 				balance,
-				value: quote,
-				rate: quote_rate
+				value: quote >= 10 ** contract_decimals ? quote / (10 ** contract_decimals) : quote,
+				rate: quote_rate >= 10 ** contract_decimals ? quote_rate / (10 ** contract_decimals) : quote_rate,
 			}))
 		}
 		{showIf}
