@@ -11,6 +11,9 @@
 	export let addressOrENSName: Ethereum.Address | string
 	export let provider: Ethereum.Provider
 
+	export let tokenBalancesProvider
+	$: tokenBalancesProvider ||= $preferences.tokenBalancesProvider
+
 
 	let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'summary'
 	let showValues: 'original' | 'converted' | 'both' = 'original'
@@ -20,12 +23,7 @@
 
 	$: quoteCurrency = $preferences.quoteCurrency
 
-	let selectedToken: {
-		token: TickerSymbol,
-		tokenAddress: Ethereum.ContractAddress,
-		tokenIcon: string,
-		tokenName: string
-	} | undefined
+	let selectedToken: Ethereum.ERC20Token | undefined
 
 
 	let balances: Covalent.ERC20TokenOrNFTContractWithBalance[]
@@ -40,6 +38,8 @@
 	import EnsResolutionLoader from './EnsResolutionLoader.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
 	import EthereumTransactionCovalent from './EthereumTransactionCovalent.svelte'
+	import EthereumTransactionsLoader from './EthereumTransactionsLoader.svelte'
+	import EthereumTransactionsERC20Loader from './EthereumTransactionsERC20Loader.svelte'
 	import Loader from './Loader.svelte'
 	import TokenName from './TokenName.svelte'
 	import TokenBalance from './TokenBalance.svelte'
@@ -110,14 +110,14 @@
 		<EthereumBalances
 			{network}
 			{address}
-			tokenBalancesProvider={$preferences.tokenBalancesProvider}
-			quoteCurrency={$preferences.quoteCurrency}
+			{tokenBalancesProvider}
+			{quoteCurrency}
 			{sortBy}
 			{showSmallValues}
 			{showValues}
 			isSelectable={true}
-			bind:selectedToken={selectedToken}
-			bind:balances={balances}
+			bind:selectedToken
+			bind:balances
 		>
 			<svelte:fragment slot="header" let:network let:quoteCurrency let:quoteTotal>
 				<hr>
@@ -153,22 +153,21 @@
 
 		<hr>
 
-		{#if $preferences.tokenBalancesProvider === 'Covalent'}
+		{#if tokenBalancesProvider === 'Covalent'}
 			{#if !selectedToken}
 				<!-- Regular Ethereum Transactions -->
-				<Loader
-					loadingIcon={'/logos/covalent-logomark.svg'}
-					loadingIconName={'Covalent'}
-					loadingMessage="Retrieving {network.name} transactions from {$preferences.transactionProvider}..."
-					errorMessage="Error retrieving {network.name} transactions from {$preferences.transactionProvider}"
-					fromPromise={() => getTransactionsByAddress({chainID: network.chainId, address, includeLogs: true, quoteCurrency})}
-					let:then={transactions}
+				<EthereumTransactionsLoader
+					{network}
+					{address}
+					{provider}
+					{quoteCurrency}
+					let:transactions
 				>
 					<svelte:fragment slot="header" let:status>
 						<div class="bar">
 							<h3>
 								Transactions
-								{#if status === 'resolved'}({transactions.items.length}){/if}
+								{#if status === 'resolved'}({transactions.length}){/if}
 							</h3>
 							<label>
 								<input type="checkbox" bind:checked={showFees}>
@@ -185,8 +184,8 @@
 						</div>
 					</svelte:fragment>
 
-					<div class="transactions-list column" class:scrollable-list={transactions.items.length > 7}>
-						{#each transactions.items as transaction}
+					<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
+						{#each transactions as transaction}
 							<div class="card">
 								<EthereumTransactionCovalent
 									{network}
@@ -203,24 +202,24 @@
 							<div class="card">No transactions yet.</div>
 						{/each}
 					</div>
-				</Loader>
+				</EthereumTransactionsLoader>
 			{:else}
 				<!-- ERC-20 Transactions -->
-				<Loader
-					loadingIcon={'/logos/covalent-logomark.svg'}
-					loadingIconName={'Covalent'}
-					loadingMessage="Retrieving ERC-20 transactions from {$preferences.transactionProvider}..."
-					errorMessage="Error retrieving ERC-20 transactions from {$preferences.transactionProvider}"
-					fromPromise={() => getERC20TokenTransfers({chainID: network.chainId, address, contractAddress: selectedToken.tokenAddress, quoteCurrency})}
-					let:then={transactions}
+				<EthereumTransactionsERC20Loader
+					{network}
+					{address}
+					{provider}
+					erc20Token={selectedToken}
+					{quoteCurrency}
+					let:transactions
 				>
 					<svelte:fragment slot="header" let:status>
 						<div class="bar">
 							<h3>
-								{selectedToken.tokenName}
-								(<TokenName name={selectedToken.tokenName} symbol={selectedToken.token} address={selectedToken.tokenAddress} icon={selectedToken.tokenIcon} />)
+								{selectedToken.name}
+								(<TokenName erc20Token={selectedToken} />)
 								Transactions
-								{#if status === 'resolved'}({transactions.items.length}){/if}
+								{#if status === 'resolved'}({transactions.length}){/if}
 							</h3>
 							{#if detailLevel !== 'exhaustive'}
 								<label>
@@ -240,8 +239,8 @@
 						</div>
 					</svelte:fragment>
 
-					<div class="transactions-list column" class:scrollable-list={transactions.items.length > 7}>
-						{#each transactions.items as erc20TokenTransaction}
+					<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
+						{#each transactions as erc20TokenTransaction}
 							<div class="card">
 								<EthereumTransactionCovalent
 									{network}
@@ -258,7 +257,7 @@
 							<div class="card">No transactions yet.</div>
 						{/each}
 					</div>
-				</Loader>
+				</EthereumTransactionsERC20Loader>
 			{/if}
 		{/if}
 

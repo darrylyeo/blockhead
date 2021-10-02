@@ -22,31 +22,29 @@
 	export let isCollapsed: boolean
 
 
-	let filterFunction: (b: Covalent.ERC20TokenOrNFTContractWithBalance) => boolean
-	$: filterFunction = showSmallValues
-		? b => b.type !== 'nft' // undefined
-		: b => b.type !== 'nft' && !(/*b.type === 'dust' || */ b.quote < 1e-3)
-
-	let sortFunction: (a: Covalent.ERC20TokenOrNFTContractWithBalance, b: Covalent.ERC20TokenOrNFTContractWithBalance) => number
-	$: sortFunction =
-		sortBy === 'value-descending' ? (a, b) => b.quote - a.quote || b.balance - a.balance :
-		sortBy === 'value-ascending' ? (a, b) => a.quote - b.quote || a.balance - b.balance :
-		sortBy === 'ticker-ascending' ? (a, b) => a.contract_ticker_symbol.localeCompare(b.contract_ticker_symbol) :
-		undefined
-
-
-	let allBalances
-
-	export let balances: {
+	type TokenWithBalance = {
 		token: Ethereum.ERC20Token,
 		balance: Covalent.ERC20TokenOrNFTContractWithBalance['balance'],
 		type: Covalent.ERC20TokenOrNFTContractWithBalance['type'],
 		value: Covalent.ERC20TokenOrNFTContractWithBalance['quote'],
 		rate: Covalent.ERC20TokenOrNFTContractWithBalance['quote_rate'],
-	}[] = []
+	}
 
-	$: if(allBalances)
-		balances = (filterFunction ? allBalances.filter(filterFunction) : allBalances).sort(sortFunction)
+	export let balances: TokenWithBalance[] = []
+
+	export let filteredBalances: TokenWithBalance[]
+	$: filteredBalances = balances
+		.filter(
+			showSmallValues
+				? b => b.type !== 'nft' // undefined
+				: b => b.type !== 'nft' && !(/*b.type === 'dust' || */ b.value < 1e-3)
+			)
+		.sort(
+			sortBy === 'value-descending' ? (a, b) => b.value - a.value || b.balance - a.balance :
+			sortBy === 'value-ascending' ? (a, b) => a.value - b.value || a.balance - b.balance :
+			sortBy === 'ticker-ascending' ? (a, b) => a.token.symbol.localeCompare(b.token.symbol) :
+			undefined
+		)
 
 	$: quoteTotal = balances.reduce((sum, item) => sum + item.value, 0)
 	
@@ -119,7 +117,7 @@
 		{quoteCurrency}
 		showIf={() => balances.length}
 		{isCollapsed}
-		bind:balances={allBalances}
+		bind:balances
 	>
 		<svelte:fragment slot="header">
 			{#if balances.length}
@@ -127,10 +125,10 @@
 			{/if}
 		</svelte:fragment>
 
-		<div class:scrollable-list={balances.length > 45}>
+		<div class:scrollable-list={filteredBalances.length > 45}>
 			<div class="ethereum-balances card" class:show-amounts-and-values={showValues === 'both'}>
 				{#each
-					balances
+					filteredBalances
 					as {type, token, balance, value, rate},
 					i (token.address || token.symbol || token.name)
 				}
