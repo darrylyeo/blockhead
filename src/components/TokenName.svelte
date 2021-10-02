@@ -9,10 +9,10 @@
 	export let icon: string
 
 	export let erc20Token: Ethereum.ERC20Token
-	$: symbol ||= erc20Token?.symbol
-	$: address ||= erc20Token?.address
-	$: name ||= erc20Token?.name
-	$: icon ||= erc20Token?.icon
+	$: symbol = $$props.symbol || erc20Token?.symbol
+	$: address = $$props.address || erc20Token?.address
+	$: name = $$props.name || erc20Token?.name
+	$: icon = $$props.icon || erc20Token?.icon
 
 
 	import TokenIcon from './TokenIcon.svelte'

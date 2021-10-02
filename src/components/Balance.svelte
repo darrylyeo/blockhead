@@ -12,8 +12,8 @@
 	export let contractAddress: Ethereum.ContractAddress | undefined // = `${symbol.toLowerCase()}.thetoken.eth` // = `${symbol.toLowerCase()}.tokens.ethers.eth`
 	export let erc20Token: Ethereum.ERC20Token | undefined
 
-	$: symbol ||= erc20Token?.symbol
-	$: contractAddress ||= erc20Token?.address
+	$: symbol = $$props.symbol || erc20Token?.symbol
+	$: contractAddress = $$props.address || erc20Token?.address
 
 
 	const erc20ABI = [
