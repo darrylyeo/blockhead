@@ -4,6 +4,10 @@
 	import type { QueryResponse } from '$houdini'
 
 
+	type LoaderResult = $$Generic<unknown>
+	type LoaderError = $$Generic<{message: string} | unknown>
+
+
 	export let startImmediately = true
 
 	export let loadingIcon: string
@@ -15,11 +19,11 @@
 	export let errorFunction: ((Error) => string) | undefined
 	export let hideError = false
 
-	export let fromPromise: <TData = unknown> () => Promise<TData>
-	export let fromStore: <TData = unknown> () => Readable<Result<TData>>
-	export let fromHoudiniQuery: <TData = unknown, TInput = unknown> () => QueryResponse<TData, TInput>
+	export let fromPromise:() => Promise<LoaderResult>
+	export let fromStore: () => Readable<Result<LoaderResult>>
+	export let fromHoudiniQuery: () => QueryResponse<LoaderResult>
 
-	export let showIf: (<TData = unknown> (then: TData) => boolean | any) | undefined
+	export let showIf: ((then: LoaderResult) => boolean | any) | undefined
 	export let isCollapsed = false
 
 	export let whenErrored: (() => {}) | undefined
@@ -40,10 +44,33 @@
 	$: ({loading: houdiniLoading, error: houdiniError, data: houdiniData, refetch: houdiniRefetch} = houdiniQuery ?? {})
 
 
-	export let result: unknown
+	export let result: LoaderResult
+
+	type $$Slots = {
+		default: {
+			then: LoaderResult,
+			status: LoadingStatus,
+			load: typeof load,
+			cancel: typeof cancel
+		},
+		header: {
+			then: LoaderResult,
+			status: LoadingStatus,
+			load: typeof load,
+			cancel: typeof cancel
+		},
+		error: {
+			error: string
+		},
+		errorMessage,
+		errorActions: {
+			load: typeof load,
+			cancel: typeof cancel
+		}
+	}
 
 
-	let error: unknown
+	let error: LoaderError
 	$: if(error) console.error(error)
 
 	let started = startImmediately
@@ -105,16 +132,19 @@
 
 	$: isHidden = showIf && status === LoadingStatus.Resolved && !showIf(result)
 
+
 	import { fade, scale } from 'svelte/transition'
 	import HeightContainer from './HeightContainer.svelte'
 	import Loading from './Loading.svelte'
 </script>
+
 
 <style>
 	.loader:empty {
 		display: none;
 	}
 </style>
+
 
 {#if !isHidden}
 	<slot name="header" {status} {load} {cancel} />
