@@ -367,11 +367,23 @@ export const preferencesConfig: PreferencesConfig<
 // V2
 export const localStoragePreferences = localStorageWritable<SerializedPreferences<typeof preferencesConfig>>(
 	'localPreferences',
-	Object.fromEntries(
-		preferencesConfig
-			.flatMap(preferenceGroup => preferenceGroup.preferences)
-			.map(preference => [preference.id, preference.defaultOption])
-	)
+	{}
+	// Object.fromEntries(
+	// 	preferencesConfig
+	// 		.flatMap(preferenceGroup => preferenceGroup.preferences)
+	// 		.map(preference => [preference.id, preference.defaultOption])
+	// )
 )
+localStoragePreferences.update(preferences => {
+	for(const preferenceGroup of preferencesConfig)
+		for(const preference of preferenceGroup.preferences)
+			if(!preference.options
+				.flatMap(optionOrGroup => optionOrGroup.options ? optionOrGroup.options : optionOrGroup)
+				.find((option) => preferences[preference.id] === (option.id || option.value))
+			)
+				preferences[preference.id] = preference.defaultOption
+
+	return preferences
+})
 
 export const preferences = localStoragePreferences
