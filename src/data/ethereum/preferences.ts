@@ -158,6 +158,7 @@ export const preferencesConfig: PreferencesConfig<
 						name: 'Off-Chain',
 						options: [
 							{ id: 'Covalent', name: 'Covalent' },
+							{ id: 'Moralis', name: 'Moralis Web3 API' },
 							// { id: 'Zapper', name: 'Zapper' }
 						]
 					}
