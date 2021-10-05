@@ -30,6 +30,7 @@
 
 
 	import { formatValue } from '../utils/format-value'
+	import { formatAddress } from '../utils/formatAddress'
 
 
 	import { tweened } from 'svelte/motion'
@@ -88,7 +89,7 @@
 		<TokenIcon {symbol} {address} {name} {icon} {erc20Token} />
 		<span>
 			<span class="token-balance">{isNegative ? '−' : ''}{formatValue($tweenedValue)}</span>
-			<span class="token-name">{symbol || '___'}</span>
+			<span class="token-name">{symbol || formatAddress(address, 'middle-truncated')}</span>
 		</span>
 	{/if}
 </span>
