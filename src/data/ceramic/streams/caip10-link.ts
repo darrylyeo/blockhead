@@ -8,7 +8,7 @@ type CAIP10AccountID = string
 
 type BlockchainName = string
 
-import type { Ethereum } from 'src/data/ethereum/types'
+import type { Ethereum } from '../../../data/ethereum/types'
 
 const caip2NamespaceForBlockchain: Record<string, string> = {
 	'Ethereum': 'eip155',
