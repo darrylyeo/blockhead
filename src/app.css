@@ -5,6 +5,7 @@
 	text-decoration-color: inherit;
 	min-width: 0;
 	gap: inherit;
+	scroll-behavior: smooth;
 }
 
 :root {
@@ -151,6 +152,13 @@ pre, code {
 	user-select: all;
 }
 
+output {
+	font-family: var(--monospace-fonts);
+	white-space: pre-wrap;
+	word-break: break-all;
+	user-select: all;
+}
+
 
 button {
 	-webkit-appearance: none;
@@ -257,6 +265,15 @@ section {
 }
 
 
+mark, .mark {
+	background: none;
+	color: currentColor;
+	text-shadow: 1px 1px 0.25rem var(--primary-color);
+	text-shadow: 0 1px 0.2em var(--primary-color);
+	/* text-outline: 1px 2px var(--primary-color); */
+}
+
+
 hr {
 	background: none;
 	border: none;
@@ -318,6 +335,14 @@ main {
 	grid: 1 / 1 / -1 / -1;
 	opacity: 0.1;
 } */
+.card:focus, .card:target {
+	/* background-color: rgb(var(--rgb-light-dark-inverse), 0.2); */
+	box-shadow: var(--card-box-shadow), 0 0 0 2px var(--primary-color) inset;
+	outline: none;
+}
+a.card {
+	text-decoration: none;
+}
 
 .card-annotation {
 	opacity: 0.4;

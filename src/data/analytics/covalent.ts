@@ -336,6 +336,7 @@ export namespace Covalent {
 
 	export type Transaction = {
 		block_signed_at: date_time
+		block_height: int64,
 		tx_hash: string
 		tx_offset: int32
 		successful: boolean

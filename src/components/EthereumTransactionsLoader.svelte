@@ -21,7 +21,7 @@
 </script>
 
 
-{#if $preferences.transactionProvider === 'Covalent'}
+{#if transactionProvider === 'Covalent'}
 	<Loader
 		loadingIcon={'/logos/covalent-logomark.svg'}
 		loadingIconName={transactionProvider}

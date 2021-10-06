@@ -27,6 +27,7 @@
 
 	type TransactionData = Partial<{
 		transactionID: Ethereum.TransactionID,
+		transactionIndex: Ethereum.TransactionIndex,
 		blockNumber: Ethereum.BlockNumber,
 		blockHash,
 		date,
@@ -44,7 +45,9 @@
 		valueQuote,
 
 		gasToken: Ethereum.ERC20Token,
+		gasOffered,
 		gasSpent,
+		gasRate,
 		gasValue,
 
 		quoteToken,
@@ -75,8 +78,11 @@
 
 	const convertCovalentTransaction = (transaction: Covalent.Transaction) => ({
 		transactionID: transaction.tx_hash,
-		blockNumber: transaction.log_events?.[0]?.block_height,
+		transactionIndex: transaction.tx_offset,
+		blockNumber: transaction.block_height, // transaction.log_events?.[0]?.block_height,
+		// blockHash: 
 		date: transaction.block_signed_at,
+
 		isSuccessful: transaction.successful !== false,
 
 		fromAddress: transaction.from_address,
@@ -90,13 +96,15 @@
 		valueQuote: transaction.value_quote,
 
 		gasToken: network.nativeCurrency,
+		gasOffered: transaction.gas_offered,
 		gasSpent: _formatUnits(transaction.gas_spent, 'gwei'),
+		gasRate: transaction.gas_quote_rate,
 		gasValue: transaction.gas_quote,
 
 		quoteToken: quoteCurrency,
 		// rate: transaction.value_quote / _formatUnits(transaction.value, network.nativeCurrency.decimals),
 
-		logEvents: transaction.log_events,
+		logEvents: transaction.log_events?.sort((logEvent1, logEvent2) => logEvent1.log_offset - logEvent2.log_offset),
 	}) as TransactionData
 
 	const convertCovalentERC20TokenTransaction = (transaction: Covalent.ERC20TokenTransaction) => ({
@@ -128,12 +136,13 @@
 		quoteToken: quoteCurrency,
 		rate: transfer.quote_rate,
 
-		logEvents: transfer.log_events,
+		logEvents: transfer.log_events?.sort((logEvent1, logEvent2) => logEvent1.log_offset - logEvent2.log_offset),
 	}) as TransactionData
 
 
 	$: ({
 		transactionID,
+		transactionIndex,
 		blockNumber,
 		blockHash,
 		date,
@@ -175,8 +184,19 @@
 	$: isExhaustive = detailLevel === 'exhaustive'
 	$: isStandaloneLayout = layout === 'standalone'
 	$: isInlineLayout = layout === 'inline'
+
 	$: contextIsSender = contextualAddress && fromAddress && contextualAddress.toLowerCase() === fromAddress.toLowerCase()
 	$: contextIsReceiver = contextualAddress && toAddress && contextualAddress.toLowerCase() === toAddress.toLowerCase()
+
+	$: isContractCall = value == 0 && (logEvents?.length || erc20TokenTransaction)
+
+
+	// let logEventIsHidden = {}
+	// $: if(detailLevel, true)
+	// 	logEventIsHidden = {}
+	// let visibleLogEvents = logEvents
+	// $: if(logEventIsHidden, true)
+	// 	visibleLogEvents = logEvents //.filter(logEvent => logEventIsHidden[logEvent.log_offset])
 
 
 	import AddressWithLabel from './AddressWithLabel.svelte'
@@ -228,7 +248,7 @@
 	}
 	.transaction.layout-inline .log-events {
 		font-size: 0.75em;
-		padding: var(--padding-outer);
+		padding: 0.66em 1em;
 	}
 
 
@@ -275,7 +295,7 @@
 </style>
 
 {#if network && (transaction || erc20TokenTransaction || erc20TokenTransfer)}
-	<div class="transaction layout-{layout} column" class:card={isStandaloneLayout} class:unsuccessful={!isSuccessful} transition:fade|local>
+	<div class="transaction layout-{layout} column" class:card={isStandaloneLayout} class:unsuccessful={!isSuccessful}><!-- transition:fade|local -->
 		{#if isStandaloneLayout}
 			<div class="bar">
 				<h2><EthereumTransactionID {network} {transactionID} /></h2>
@@ -288,11 +308,21 @@
 		{#if !(isSummary && transfers?.length && value == 0)}
 			<div class="container inner-layout-{innerLayout}" class:card={isStandaloneLayout}>
 				{#if !(isSummary && (contextIsSender || contextIsReceiver))}
-					<span class="sender" transition:fade|local>
-						<AddressWithLabel {network} address={fromAddress} label={fromAddressLabel} format="middle-truncated" />
+					<span class="sender" class:mark={contextIsSender}><!-- transition:fade|local -->
+						<AddressWithLabel
+							{network}
+							address={fromAddress}
+							label={fromAddressLabel}
+							format="middle-truncated"
+							alwaysShowAddress={isExhaustive}
+						/>
 					</span>
 				{/if}
-				{#if value}
+				{#if isContractCall && !isExhaustive}
+					<span class="action">
+						{isSuccessful ? 'called smart contract' : 'failed to call smart contract'}
+					</span>
+				{:else if value}
 					<span>
 						<span class="action">
 							{isSummary && contextIsReceiver
@@ -311,18 +341,30 @@
 					</span>
 				{/if}
 				{#if isSummary && contextIsReceiver && fromAddress}
-					<span class="sender" transition:fade|local>
+					<span class="sender"><!-- transition:fade|local -->
 						<span>from</span>
-						<AddressWithLabel {network} address={fromAddress} label={fromAddressLabel} format="middle-truncated" />
+						<AddressWithLabel
+							{network}
+							address={fromAddress}
+							label={fromAddressLabel}
+							format="middle-truncated"
+							alwaysShowAddress={isExhaustive}
+						/>
 					</span>
 				{:else if toAddress}
-					<span class="receiver" transition:fade|local>
-						<span>to</span>
-						<AddressWithLabel {network} address={toAddress} label={toAddressLabel} format="middle-truncated" />
+					<span class="receiver" class:mark={contextIsReceiver}><!-- transition:fade|local -->
+						{#if !(isContractCall && !isExhaustive)}<span>to</span>{/if}
+						<AddressWithLabel
+							{network}
+							address={toAddress}
+							label={toAddressLabel}
+							format="middle-truncated"
+							alwaysShowAddress={isExhaustive}
+						/>
 					</span>
 				{/if}
-				{#if showFees && gasValue !== undefined}
-					<span class="fee" transition:fade|local>
+				{#if (showFees || isExhaustive) && gasValue !== undefined}
+					<span class="fee"><!-- transition:fade|local -->
 						<span>for fee</span>
 						<TokenBalanceWithConversion
 							{showValues}
@@ -362,12 +404,12 @@
 			</div>
 		{/if}
 
-		{#if isExhaustive && logEvents?.length}
+		{#if !isSummary && logEvents?.length}
 			{#if isStandaloneLayout}
 				<hr>
 				<h4>Smart Contract Log Events</h4>
 				<div class="log-events column">
-					{#each logEvents as logEvent}
+					{#each logEvents as logEvent (logEvent.log_offset)}
 						<div class="card">
 							<EthereumLogEventCovalent
 								{network}
@@ -379,8 +421,8 @@
 					{/each}
 				</div>
 			{:else}
-				<div class="log-events column" class:scrollable-list={logEvents.length > 16}><!-- transition:fade|local -->
-					{#each logEvents as logEvent}
+				<div class="log-events column" class:scrollable-list={isExhaustive && logEvents.length > 16}><!-- transition:fade|local -->
+					{#each logEvents as logEvent (logEvent.log_offset)}
 						<EthereumLogEventCovalent
 							{network}
 							{logEvent}
@@ -389,6 +431,18 @@
 						/>
 					{/each}
 				</div>
+			<!-- {:else if visibleLogEvents.length}
+				<div class="log-events column" class:scrollable-list={visibleLogEvents.length > 16}><!-- transition:fade|local -- >
+					{#each visibleLogEvents as logEvent (logEvent.log_offset)}
+						<EthereumLogEventCovalent
+							{network}
+							{logEvent}
+							{detailLevel}
+							{contextualAddress}
+							bind:isHidden={logEventIsHidden[logEvent.log_offset]}
+						/>
+					{/each}
+				</div> -->
 			{/if}
 		{/if}
 
@@ -396,14 +450,14 @@
 			{#if isStandaloneLayout}
 				<hr>
 			{/if}
-			<div class="footer bar" transition:fade|local>
-				{#if isStandaloneLayout && blockNumber}
-					<EthereumTransactionSummary {network} {blockNumber} />
-				{:else if isInlineLayout}
-					<EthereumTransactionSummary {network} {transactionID} {blockNumber} />
-				{:else}
-					<span />
-				{/if}
+			<div class="footer bar"><!-- transition:fade|local -->
+				<EthereumTransactionSummary
+					{network}
+					{transactionID}
+					{transactionIndex}
+					{blockNumber}
+					showTransactionID={isStandaloneLayout || isExhaustive}
+				/>
 				{#if date}
 					<Date {date} layout="horizontal" />
 				{/if}
