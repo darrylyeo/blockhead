@@ -269,7 +269,7 @@ mark, .mark {
 	background: none;
 	color: currentColor;
 	text-shadow: 1px 1px 0.25rem var(--primary-color);
-	text-shadow: 0 1px 0.2em var(--primary-color);
+	text-shadow: 0 0.5px 0.2em var(--primary-color);
 	/* text-outline: 1px 2px var(--primary-color); */
 }
 
