@@ -11,11 +11,7 @@ export namespace Ethereum {
 		chain?: ChainName,
 		network?: NetworkName,
 		networkId?: NetworkID,
-		nativeCurrency: {
-			name: string,
-			symbol: TickerSymbol,
-			decimals: number
-		},
+		nativeCurrency: NativeCurrency,
 		rpc: string[],
 		faucets?: string[],
 		explorers?: {
@@ -40,7 +36,12 @@ export namespace Ethereum {
 	export type NetworkID = number
 	export type NetworkName = 'mainnet' | 'ropsten' | 'rinkeby' | 'goerli' | 'kovan' | 'classic' | string
 
-	export type ProviderName = 'Ethers' | 'Infura' | 'Alchemy' | 'MetaMask' | 'Portis' | 'Pocket Network' | 'Torus' | 'Etherscan'
+	export type NativeCurrency = {
+		name: string,
+		symbol: TickerSymbol,
+		decimals: number
+	}
+
 	export type Provider = BaseProvider
 
 	export type TransactionProvider = 'Covalent' | 'Etherspot'
