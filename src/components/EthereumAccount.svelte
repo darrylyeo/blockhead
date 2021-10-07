@@ -41,6 +41,7 @@
 	import EnsResolutionLoader from './EnsResolutionLoader.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
 	import EthereumTransactionCovalent from './EthereumTransactionCovalent.svelte'
+	import EthereumTransactionEtherspot from './EthereumTransactionEtherspot.svelte'
 	import EthereumTransactionsLoader from './EthereumTransactionsLoader.svelte'
 	import EthereumTransactionsERC20Loader from './EthereumTransactionsERC20Loader.svelte'
 	import Loader from './Loader.svelte'
@@ -193,6 +194,19 @@
 						{#if transactionProvider === 'Covalent'}
 							<a class="card" id={transaction.tx_hash} href="#{transaction.tx_hash}">
 								<EthereumTransactionCovalent
+									{network}
+									{transaction}
+									{quoteCurrency}
+									contextualAddress={address}
+									{detailLevel}
+									{showValues}
+									{showFees}
+									layout="inline"
+								/>
+							</a>
+						{:else if transactionProvider === 'Etherspot'}
+							<a class="card" id={transaction.hash} href="#{transaction.hash}">
+								<EthereumTransactionEtherspot
 									{network}
 									{transaction}
 									{quoteCurrency}

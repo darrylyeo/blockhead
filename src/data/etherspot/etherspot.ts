@@ -56,6 +56,31 @@ export const getTransaction = async ({
 	})
 
 
+export const getTransactions = async ({
+	network,
+	address,
+	etherspotSdk = getEtherspotInstance({network})
+}: {
+	network: Ethereum.Network,
+	address: Ethereum.Address,
+	etherspotSdk?: Sdk
+} | {
+	network?: Ethereum.Network,
+	address: Ethereum.Address,
+	etherspotSdk: Sdk
+}) => {
+	try {
+		const { items } = await etherspotSdk.getTransactions({
+			account: address
+		})
+		return items
+	}catch(e){
+		console.error(e)
+		throw e?.errors?.map(e => e?.constraints?.type).join('\n')
+	}
+}
+
+
 
 export async function startEtherspotTransfer(){}
 

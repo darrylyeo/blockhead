@@ -15,6 +15,7 @@
 
 
 	import { getTransactionsByAddress } from '../data/analytics/covalent'
+	import { getTransactions as getTransactionsEtherspot } from '../data/etherspot/etherspot'
 
 
 	import Loader from './Loader.svelte'
@@ -44,4 +45,18 @@
 			<slot {transactions} />
 		{/if}
 	</Loader>
+{:else if transactionProvider === 'Etherspot'}
+	<Loader
+		loadingIcon="/logos/etherspot-icon.png"
+		loadingMessage="Retrieving {network.name} transactions from {transactionProvider}..."
+		errorMessage="Error retrieving {network.name} transactions from {transactionProvider}"
+		fromPromise={() => getTransactionsEtherspot({network, address})}
+		let:then={transactions}
+	>
+		<slot name="header" slot="header" {status} {transactions} />
+		{#if transactions}
+			<slot {transactions} />
+		{/if}	
+	</Loader>
+{:else if transactionProvider === 'Moralis'}
 {/if}
