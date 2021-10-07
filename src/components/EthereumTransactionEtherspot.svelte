@@ -39,15 +39,12 @@
 		toAddress: Ethereum.Address,
 		toAddressLabel: string,
 
-		token: TickerSymbol,
-		tokenAddress: Ethereum.ContractAddress,
-		tokenIcon: string,
-		tokenName: string,
+		token: Ethereum.NativeCurrency,
 
 		value,
 		valueQuote,
 
-		gasToken: string,
+		gasToken: Ethereum.NativeCurrency | Ethereum.ERC20Token,
 		gasValue,
 		gasValueQuote,
 
@@ -92,13 +89,12 @@
 		toAddress: transaction.to,
 		// toAddressLabel: transaction.to,
 
-		token: network.nativeCurrency.symbol,
-		tokenName: network.nativeCurrency.name,
+		token: network.nativeCurrency,
 
 		value: _formatUnits(transaction.value, network.nativeCurrency.decimals),
 		// valueQuote: transaction.value_quote,
 
-		gasToken: network.nativeCurrency.symbol,
+		gasToken: network.nativeCurrency,
 		gasValue: _formatUnits(transaction.gasUsed, 'gwei'),
 		gasValueQuote: transaction.gasPrice.mul(transaction.gasUsed),
 
@@ -125,9 +121,6 @@
 		toAddressLabel,
 
 		token,
-		tokenAddress,
-		tokenIcon,
-		tokenName,
 
 		value,
 		valueQuote,
@@ -260,7 +253,7 @@
 				<span class="card-annotation">Ethereum Transaction</span>
 			</div>
 			<hr>
-	
+
 			<div class="bar">
 				<h4>Initial Message</h4>
 				{#if nonce}<p class="card-annotation">#{nonce}</p>{/if}
@@ -284,10 +277,7 @@
 						<TokenBalanceWithConversion
 							{showValues}
 
-							symbol={token}
-							address={tokenAddress}
-							name={tokenName}
-							icon={tokenIcon}
+							erc20Token={token}
 
 							balance={value}
 							conversionCurrency={quoteToken}
@@ -311,8 +301,8 @@
 						<span>for fee</span>
 						<TokenBalanceWithConversion
 							{showValues}
- 
-							symbol={gasToken}
+
+							erc20Token={gasToken}
 
 							balance={gasValue}
 							conversionCurrency={quoteToken}
@@ -381,14 +371,14 @@
 			{#if isStandaloneLayout}
 				<hr>
 			{/if}
-			<div class="footer bar" transition:fade|local>
-				{#if isStandaloneLayout && blockNumber}
-					<EthereumTransactionSummary {network} {transactionIndex} {blockNumber} />
-				{:else if isInlineLayout}
-					<EthereumTransactionSummary {network} {transactionID} {blockNumber} />
-				{:else}
-					<span />
-				{/if}
+			<div class="footer bar"><!-- transition:fade|local -->
+				<EthereumTransactionSummary
+					{network}
+					{transactionID}
+					{transactionIndex}
+					{blockNumber}
+					showTransactionID={isStandaloneLayout || isExhaustive}
+				/>
 				{#if date}
 					<Date {date} layout="horizontal" />
 				{/if}
