@@ -7,10 +7,11 @@
 	export let network: Ethereum.Network
 	export let transactionID: Ethereum.TransactionID
 	export let transactionProvider: Ethereum.TransactionProvider
+	export let provider: Ethereum.Provider
 	export let quoteCurrency: QuoteCurrency
 
-	$: _transactionProvider = transactionProvider || $preferences.transactionProvider
-	$: _quoteCurrency = quoteCurrency || $preferences.quoteCurrency
+	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
+	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
 
 
 	import { getTransaction as getTransactionCovalent } from '../data/analytics/covalent'
@@ -25,10 +26,10 @@
 
 {#if transactionID}
 	<div class="stack">
-		{#if _transactionProvider === 'Covalent'}
+		{#if transactionProvider === 'Covalent'}
 			<Loader
 				loadingIcon="/logos/covalent-logomark.svg"
-				loadingMessage="Fetching transaction data via {_transactionProvider}..."
+				loadingMessage="Fetching transaction data via {transactionProvider}..."
 				fromPromise={() =>
 					getTransactionCovalent({
 						chainID: network.chainId,
@@ -42,23 +43,23 @@
 				<EthereumTransactionCovalent
 					{network}
 					{transaction}
-					quoteCurrency={_quoteCurrency}
+					quoteCurrency={quoteCurrency}
 					detailLevel="exhaustive"
 					showValues="both"
 					layout="standalone"
 				/>
 			</Loader>
-		{:else if _transactionProvider === 'Etherspot'}
+		{:else if transactionProvider === 'Etherspot'}
 			<Loader
 				loadingIcon="/logos/etherspot-icon.png"
-				loadingMessage="Fetching transaction data via {_transactionProvider}..."
+				loadingMessage="Fetching transaction data via {transactionProvider}..."
 				fromPromise={() => getTransactionEtherspot({network, transactionID})}
 				let:then={transaction}
 			>
 				<EthereumTransactionEtherspot
 					{network}
 					{transaction}
-					quoteCurrency={_quoteCurrency}
+					quoteCurrency={quoteCurrency}
 					detailLevel="exhaustive"
 					showValues="both"
 					layout="standalone"
