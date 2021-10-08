@@ -4,15 +4,25 @@
 
 
 	export let network: Ethereum.Network
-	export let logEvent: Covalent.LogEvent
+	export let logEvent: Ethereum.TransactionLogEvent
+	export let contextualAddress: Ethereum.Address
 
-	export let contextualAddress: Ethereum.Address // used for summary
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
+	export let isCard = false
 
 
 	$: isSummary = detailLevel === 'summary'
 	$: isExhaustive = detailLevel === 'exhaustive'
 
+
+	$: indexedParams = logEvent.decoded?.params.filter(param => param.indexed)
+	$: eventSignatureIsTopic = indexedParams && logEvent.topics && indexedParams.length === logEvent.topics.length - 1
+	$: paramsToTopic = indexedParams && logEvent.topics && new WeakMap(
+		indexedParams.map((param, i, {length}) => {
+			const topicIndex = logEvent.topics.length + i - length
+			return [param, {topicIndex, topicHash: logEvent.topics[topicIndex]}]
+		})
+	)
 
 	$: paramsContainingContextualAddress = new Set(
 		contextualAddress
@@ -24,8 +34,9 @@
 	)
 
 	$: isToken =
-		logEvent.sender_contract_ticker_symbol &&
-		logEvent.sender_address
+		logEvent.contract &&
+		logEvent.contract.symbol &&
+		logEvent.contract.address
 	$: isTokenTransfer =
 		logEvent.decoded &&
 		logEvent.decoded.name === 'Transfer' &&
@@ -40,19 +51,20 @@
 		isTokenTransfer &&
 		logEvent.decoded.params[1]?.value === '0x0000000000000000000000000000000000000000'
 
-	$: if(logEvent.sender_address_label === 'null') logEvent.sender_address_label = ''
-	$: if(logEvent.sender_contract_ticker_symbol === 'null') logEvent.sender_contract_ticker_symbol = ''
-
 
 	export let isHidden
-	$: isHidden = !(logEvent.decoded && (isExhaustive || paramsContainingContextualAddress.size))
+	$: isHidden = !isExhaustive && !(logEvent.decoded && paramsContainingContextualAddress.size)
 
 
 	const hiddenEllipsis = '︙' // '• • •'
 
 
+	import { formatTransactionHash } from '../utils/formatTransactionHash'
+
+
 	import Address from './Address.svelte'
 	import AddressWithLabel from './AddressWithLabel.svelte'
+	import EthereumTopic from './EthereumTopic.svelte'
 	import TokenName from './TokenName.svelte'
 </script>
 
@@ -95,6 +107,10 @@
 		justify-self: end;
 	}
 
+	.column {
+		gap: 0.2em;
+	}
+
 	.parameters {
 		display: flex;
 		flex-wrap: wrap;
@@ -104,6 +120,24 @@
 	.parameter {
 		flex: 0 auto;
 		display: inline-block;
+	}
+	.parameter-name {
+		opacity: 0.6;
+	}
+
+
+	.topics {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0 var(--padding-inner);
+		font-size: 0.9em;
+	}
+	.topic-wrapper {
+		flex: 0 auto;
+		display: inline-block;
+	}
+	.topic-hash {
+		opacity: 0.6;
 	}
 
 	.mint {
@@ -131,9 +165,9 @@
 </style>
 
 
-<article class="log-event" class:hidden={isHidden}>
+<article class="log-event" class:card={isCard} class:hidden={isHidden}>
 	{#if isExhaustive}
-		<span class="log-event-index">{isHidden ? hiddenEllipsis : logEvent.log_offset}</span>
+		<span class="log-event-index">{isHidden ? hiddenEllipsis : logEvent.indexInTransaction}</span>
 	{/if}
 	<header class="log-event-contract-and-name">
 		<span class="log-event-contract">
@@ -141,23 +175,23 @@
 				{hiddenEllipsis}
 			{:else if isToken}
 				<TokenName
-					symbol={logEvent.sender_contract_ticker_symbol}
-					address={logEvent.sender_address}
-					name={logEvent.sender_address_label}
-					icon={logEvent.sender_address_icon}
+					symbol={logEvent.contract.symbol}
+					address={logEvent.contract.address}
+					name={logEvent.contract.name}
+					icon={logEvent.contract.icon}
 				/>
 			{:else}
 				<span class="address">
 					<AddressWithLabel
 						{network}
-						address={logEvent.sender_address}
+						address={logEvent.contract.address}
 						label={
-							logEvent.sender_address_label && logEvent.sender_contract_ticker_symbol ?
-								`${logEvent.sender_address_label} (${logEvent.sender_contract_ticker_symbol})`
+							logEvent.contract.label && logEvent.contract.symbol ?
+								`${logEvent.contract.label} (${logEvent.contract.symbol})`
 							:
-								logEvent.sender_address_label
+								logEvent.contract.label
 							||
-								logEvent.sender_contract_ticker_symbol
+							logEvent.contract.symbol
 						}
 						format="middle-truncated"
 						alwaysShowAddress={isExhaustive}
@@ -166,33 +200,64 @@
 			{/if}
 		</span>
 		<h4 class="log-event-name" class:mark={isExhaustive && paramsContainingContextualAddress.size} title={logEvent.decoded?.name}>
-			{isHidden
-				? hiddenEllipsis
-				: logEvent.decoded?.name.replace(/[A-Z]+/g, m => ` ${m}`).replace(/_/g, ' ').trim()
-			}
+			{#if isHidden}
+				{hiddenEllipsis}
+			{:else}
+				<EthereumTopic
+					{...eventSignatureIsTopic ? {
+						topicIndex: 0,
+						topicHash: logEvent.topics[0]
+					} : {}}
+					parameterName={logEvent.decoded?.signature.replace('(', `(\n\t`).replace(/, ?/g, `,\n\t`).replace(')', `\n)`)}
+					parameterType="signature"
+				>
+					{logEvent.decoded?.name.replace(/[A-Z]+/g, m => ` ${m}`).replace(/_/g, ' ').trim()}
+				</EthereumTopic>
+			{/if}
 		</h4>
 	</header>
-	{#if !isHidden && logEvent.decoded?.params?.length}
-		<span class="parameters">
-			{#each logEvent.decoded.params as param}
-				<span
-					class="parameter"
-					class:mark={(isTokenMint && param.name === 'from') || (isTokenBurn && param.name === 'to')}
-					class:mint={isTokenMint && param.name === 'from'}
-					class:burn={isTokenBurn && param.name === 'to'}
-				>
-					<span class="parameter-name" title={param.name}>{param.name.replace(/[A-Z]+/g, m => ` ${m.toLowerCase()}`).replace(/_/g, ' ').trim()}</span>
-					{#if isTokenMint && param.name === 'from'}🌱{/if}
-					{#if isTokenBurn && param.name === 'to'}🔥{/if}
-					{#if param.type === 'address'}
-						<span class="address" class:mark={paramsContainingContextualAddress.has(param)}>
-							<Address {network} address={param.value} format="middle-truncated" />
+	{#if !isHidden}
+		<div class="column">
+			{#if logEvent.decoded?.params?.length}
+				<span class="parameters">
+					{#each logEvent.decoded.params as param}
+						<span
+							class="parameter"
+							class:mark={(isTokenMint && param.name === 'from') || (isTokenBurn && param.name === 'to')}
+							class:mint={isTokenMint && param.name === 'from'}
+							class:burn={isTokenBurn && param.name === 'to'}
+						>
+							<span class="parameter-name" title="{param.type} {param.name}">
+								<EthereumTopic
+									{...paramsToTopic.get(param) ?? {}}
+									parameterType={param.type}
+									parameterName={param.name}
+								>
+									{param.name.replace(/[A-Z]+/g, m => ` ${m.toLowerCase()}`).replace(/_/g, ' ').trim()}
+								</EthereumTopic>
+							</span>
+							{#if isTokenMint && param.name === 'from'}🌱{/if}
+							{#if isTokenBurn && param.name === 'to'}🔥{/if}
+							{#if param.type === 'address'}
+								<span class="address" class:mark={paramsContainingContextualAddress.has(param)}>
+									<Address {network} address={param.value} format="middle-truncated" />
+								</span>
+							{:else}
+								<output class="parameter-value" title={param.value}>{param.value}</output>
+							{/if}
 						</span>
-					{:else}
-						<output class="parameter-value" title={param.value}>{param.value}</output>
-					{/if}
+					{/each}
 				</span>
-			{/each}
-		</span>
+			{:else if logEvent.topics?.length}
+				<span class="topics">
+					{#each logEvent.topics as topic, i}
+						<span class="topic-wrapper">
+							<span class="topic-index">Topic {i}</span>
+							<output class="topic-hash">{formatTransactionHash(topic, 'middle-truncated')}</output>
+						</span>
+					{/each}
+				</span>
+			{/if}
+		</div>
 	{/if}
 </article>

@@ -79,4 +79,68 @@ export namespace Ethereum {
 		icon?: string
 	}
 	export type NFT = ERC721Token | ERC1155Token
+
+	export type GasAmount = number
+	export type GasRate = number
+
+	export type Transaction = {
+		network: Network,
+
+		transactionID: TransactionID,
+		nonce: TransactionNonce,
+		transactionIndex: TransactionIndex,
+		blockNumber: BlockNumber,
+		blockHash: BlockHash,
+		date: number,
+
+		isSuccessful: boolean,
+
+		fromAddress: Address,
+		fromAddressLabel?: string,
+		toAddress: Address,
+		toAddressLabel?: string,
+
+		value: number,
+
+		gasToken: NativeCurrency | ERC20Token,
+		gasOffered?: GasAmount,
+		gasSpent: GasAmount,
+		gasRate: GasRate,
+		gasValue: number,
+
+		logEvents?: TransactionLogEvent[]
+	}
+	export type TransactionLogEvent = {
+		indexInTransaction: number
+		transactionHash: TransactionID
+
+		indexInBlock: number
+		blockNumber?: BlockNumber
+		blockHash?: BlockHash
+
+		topics: TopicHash[]
+		data: string
+
+		contract: Partial<Ethereum.Contract & Ethereum.ERC20Token & Ethereum.ERC721Token & Ethereum.ERC1155Token> & {
+			label: string
+		}
+
+		removed?: boolean
+
+		decoded: TransactionLogEventDecoded
+	}
+	export type TransactionLogEventDecoded = {
+		name: string
+		signature: string
+		params: ContractFunctionParameter[]
+	}
+	export type ContractFunctionParameter = {
+		name: ContractFunctionParameterName
+		type: 'address' | 'uint256' | 'bytes32'
+		indexed: boolean
+		decoded: boolean
+		value: any
+	}
+	export type ContractFunctionParameterName = string
+	export type TopicHash = string
 }

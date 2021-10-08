@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import type { TickerSymbol } from '../data/currency/currency'
 	import type { Covalent } from '../data/analytics/covalent'
 	import type { QuoteCurrency } from '../data/currency/currency'
 
@@ -25,37 +24,24 @@
 
 	// Data
 
-	type TransactionData = Partial<{
-		transactionID: Ethereum.TransactionID,
-		transactionIndex: Ethereum.TransactionIndex,
-		blockNumber: Ethereum.BlockNumber,
-		blockHash,
-		date,
+	type Transaction = Ethereum.Transaction & {
+		convertedValue: number,
+		quoteCurrency: QuoteCurrency,
+		conversionRate: number,
 
-		isSuccessful: boolean,
+		gasConvertedValue: number,
+		gasConversionRate: number,
+	}
+	type TransactionWithERC20Transfers = Ethereum.Transaction & {
+		convertedValue: number,
+		quoteCurrency: QuoteCurrency,
+		conversionRate: number,
 
-		fromAddress: Ethereum.Address,
-		fromAddressLabel: string,
-		toAddress: Ethereum.Address,
-		toAddressLabel: string,
-
-		token: Ethereum.ERC20Token,
-
-		value,
-		valueQuote,
-
-		gasToken: Ethereum.ERC20Token,
-		gasOffered,
-		gasSpent,
-		gasRate,
-		gasValue,
-
-		quoteToken,
-		rate,
-
-		transfers: TransactionData[],
-		logEvents: Covalent.LogEvent[],
-	}>
+		transfers: ERC20Transfer[]
+	}
+	type ERC20Transfer = Omit<Transaction, 'gasToken'> & {
+		transferredToken: Ethereum.ERC20Token,
+	}
 
 	import { formatUnits } from '@ethersproject/units'
 
@@ -76,72 +62,187 @@
 		}
 	}
 
-	const convertCovalentTransaction = (transaction: Covalent.Transaction) => ({
-		transactionID: transaction.tx_hash,
-		transactionIndex: transaction.tx_offset,
-		blockNumber: transaction.block_height, // transaction.log_events?.[0]?.block_height,
-		// blockHash: 
-		date: transaction.block_signed_at,
+	const convertCovalentTransaction = ({
+		block_signed_at,
+		block_height,
+		tx_hash,
+		tx_offset,
+		successful,
+		from_address,
+		from_address_label,
+		to_address,
+		to_address_label,
+		value,
+		value_quote,
+		gas_offered,
+		gas_spent,
+		gas_price,
+		gas_quote,
+		gas_quote_rate,
+		log_events
+	}: Covalent.Transaction) => ({
+		network,
 
-		isSuccessful: transaction.successful !== false,
+		transactionID: tx_hash,
+		nonce: undefined,
+		transactionIndex: tx_offset,
+		blockNumber: block_height,
+		blockHash: undefined,
+		date: block_signed_at,
 
-		fromAddress: transaction.from_address,
-		fromAddressLabel: transaction.from_address_label,
-		toAddress: transaction.to_address,
-		toAddressLabel: transaction.to_address_label,
+		isSuccessful: successful,
 
-		token: network.nativeCurrency,
+		fromAddress: from_address,
+		fromAddressLabel: from_address_label,
+		toAddress: to_address,
+		toAddressLabel: to_address_label,
 
-		value: _formatUnits(transaction.value, network.nativeCurrency.decimals),
-		valueQuote: transaction.value_quote,
+		value: _formatUnits(value, network.nativeCurrency.decimals),
 
 		gasToken: network.nativeCurrency,
-		gasOffered: transaction.gas_offered,
-		gasSpent: _formatUnits(transaction.gas_spent, 'gwei'),
-		gasRate: transaction.gas_quote_rate,
-		gasValue: transaction.gas_quote,
+		gasOffered: gas_offered,
+		gasSpent: _formatUnits(gas_spent, 'gwei'),
+		gasRate: gas_price,
 
-		quoteToken: quoteCurrency,
-		// rate: transaction.value_quote / _formatUnits(transaction.value, network.nativeCurrency.decimals),
+		logEvents: log_events
+			?.map(({
+				block_signed_at,
+				block_height,
+				tx_offset,
+				log_offset,
+				tx_hash,
+				_raw_log_topics_bytes,
+				raw_log_topics,
+				sender_contract_decimals,
+				sender_name,
+				sender_contract_ticker_symbol,
+				sender_address,
+				sender_address_label,
+				sender_logo_url,
+				raw_log_data,
+				decoded
+			}) => ({
+				indexInTransaction: log_offset,
+				transactionHash: tx_hash,
 
-		logEvents: transaction.log_events?.sort((logEvent1, logEvent2) => logEvent1.log_offset - logEvent2.log_offset),
-	}) as TransactionData
+				indexInBlock: tx_offset,
+				blockNumber: block_height,
+				// blockHash,
+
+				topics: raw_log_topics,
+				data: raw_log_data,
+
+				contract: {
+					name: sender_name,
+					address: sender_address,
+					symbol: sender_contract_ticker_symbol,
+					decimals: sender_contract_decimals,
+					icon: sender_logo_url === 'null' ? null : sender_logo_url,
+					label: sender_address_label === 'null' ? null : sender_address_label,
+				},
+
+				decoded: decoded && {
+					name: decoded.name,
+					signature: decoded.signature,
+					params: decoded.params?.map(({
+						name,
+						type,
+						value,
+						indexed,
+						decoded
+					}) => ({
+						name,
+						type,
+						value: value ?? '', // value === null, decoded === false
+						indexed,
+						decoded
+					})) ?? []
+				}
+			}))
+			.sort((logEvent1, logEvent2) => logEvent1.indexInTransaction - logEvent2.indexInTransaction),
+
+
+		convertedValue: value_quote,
+		quoteCurrency,
+		conversionRate: value_quote / _formatUnits(value, network.nativeCurrency.decimals),
+
+		gasConvertedValue: gas_quote,
+		gasConversionRate: gas_quote_rate,
+	}) as Transaction
 
 	const convertCovalentERC20TokenTransaction = (transaction: Covalent.ERC20TokenTransaction) => ({
 		...convertCovalentTransaction(transaction),
-		transfers: transaction.transfers // ?.map(convertCovalentERC20TokenTransfer)
-	}) as TransactionData
+		transfers: transaction.transfers.map(transfer =>
+			convertCovalentERC20TokenTransfer(transfer, transaction.successful)
+		)
+	}) as TransactionWithERC20Transfers
 
-	const convertCovalentERC20TokenTransfer = (transfer: Covalent.ERC20TokenTransfer) => ({
-		transferID: transfer.tx_hash,
-		date: transfer.block_signed_at,
-		isSuccessful: transfer.successful !== false,
+	const convertCovalentERC20TokenTransfer = ({
+		block_signed_at,
+		tx_hash,
+		from_address,
+		from_address_label,
+		to_address,
+		to_address_label,
+		contract_decimals,
+		contract_name,
+		contract_ticker_symbol,
+		contract_address,
+		logo_url,
+		transfer_type,
+		delta,
+		balance,
+		quote_rate,
+		delta_quote,
+		balance_quote,
+		method_calls
+	}: Covalent.ERC20TokenTransfer,
+		isSuccessful: boolean
+	) => ({
+		network,
 
-		fromAddress: transfer.from_address,
-		fromAddressLabel: transfer.from_address_label,
-		toAddress: transfer.to_address,
-		toAddressLabel: transfer.to_address_label,
+		transactionID: tx_hash,
+		nonce: undefined,
+		blockHash: undefined,
+		date: block_signed_at,
 
-		token: {
-			symbol: transfer.contract_ticker_symbol,
-			address: transfer.contract_address,
-			name: transfer.contract_name,
-			icon: transfer.logo_url,
-			decimals: transfer.contract_decimals
+		isSuccessful,
+
+		fromAddress: from_address,
+		fromAddressLabel: from_address_label,
+		toAddress: to_address,
+		toAddressLabel: to_address_label,
+
+		value: _formatUnits(delta, contract_decimals),
+
+		transferredToken: {
+			symbol: contract_ticker_symbol,
+			address: contract_address,
+			name: contract_name,
+			icon: logo_url,
+			decimals: contract_decimals
 		},
 
-		value: _formatUnits(transfer.delta, transfer.contract_decimals),
-		valueQuote: transfer.delta_quote,
+		convertedValue: delta_quote,
+		quoteCurrency,
+		conversionRate: quote_rate,
 
-		quoteToken: quoteCurrency,
-		rate: transfer.quote_rate,
-
-		logEvents: transfer.log_events?.sort((logEvent1, logEvent2) => logEvent1.log_offset - logEvent2.log_offset),
-	}) as TransactionData
+		logEvents: method_calls?.map(({method, sender_address}) => ({
+			contract: {
+				address: sender_address
+			},
+			decoded: {
+				name: method
+			}
+		}))
+	}) as ERC20Transfer
 
 
 	$: ({
+		network,
+
 		transactionID,
+		nonce,
 		transactionIndex,
 		blockNumber,
 		blockHash,
@@ -154,30 +255,40 @@
 		toAddress,
 		toAddressLabel,
 
-		token,
-
 		value,
-		valueQuote,
 
 		gasToken,
-		gasSpent: gasValue,
-		gasValue: gasValueQuote,
+		gasOffered,
+		gasSpent,
+		gasRate,
+		gasValue,
 
-		quoteToken,
-		rate,
+		logEvents,
 
+		// Transaction | TransactionWithERC20Transfers
+		convertedValue,
+		quoteCurrency,
+		conversionRate,
+
+		// Transaction
+		gasConvertedValue,
+		gasConversionRate,
+
+		// TransactionWithERC20Transfers
 		transfers,
-		logEvents
-	} = (
+
+		// ERC20Transfer
+		transferredToken
+	} = ((
 		transaction ?
 			convertCovalentTransaction(transaction)
 		: erc20TokenTransaction ?
 			convertCovalentERC20TokenTransaction(erc20TokenTransaction)
 		: erc20TokenTransfer ?
-			convertCovalentERC20TokenTransfer(erc20TokenTransfer)
+			erc20TokenTransfer
 		:
-			{} as TransactionData
-	))
+			{}
+	)) as Transaction & TransactionWithERC20Transfers & ERC20Transfer)
 
 
 	$: isSummary = detailLevel === 'summary'
@@ -196,7 +307,7 @@
 	// 	logEventIsHidden = {}
 	// let visibleLogEvents = logEvents
 	// $: if(logEventIsHidden, true)
-	// 	visibleLogEvents = logEvents //.filter(logEvent => logEventIsHidden[logEvent.log_offset])
+	// 	visibleLogEvents = logEvents //.filter(logEvent => logEventIsHidden[logEvent.indexInTransaction])
 
 
 	import AddressWithLabel from './AddressWithLabel.svelte'
@@ -292,7 +403,11 @@
 	.log-events.scrollable-list {
 		height: 20rem;
 	}
+	.transaction.layout-standalone .log-events.scrollable-list {
+		height: 54vh;
+	}
 </style>
+
 
 {#if network && (transaction || erc20TokenTransaction || erc20TokenTransfer)}
 	<div class="transaction layout-{layout} column" class:card={isStandaloneLayout} class:unsuccessful={!isSuccessful}><!-- transition:fade|local -->
@@ -302,7 +417,7 @@
 				<span class="card-annotation">Ethereum Transaction</span>
 			</div>
 			<hr>
-			<h4>Initial Message</h4>
+			<h4>Signed Transaction Data</h4>
 		{/if}
 
 		{#if !(isSummary && transfers?.length && value == 0)}
@@ -332,11 +447,11 @@
 						<TokenBalanceWithConversion
 							{showValues}
 
-							erc20Token={token}
+							erc20Token={gasToken || transferredToken}
 
 							balance={value}
-							conversionCurrency={quoteToken} 
-							convertedValue={valueQuote}
+							conversionCurrency={quoteCurrency} 
+							{convertedValue}
 						/>
 					</span>
 				{/if}
@@ -363,7 +478,7 @@
 						/>
 					</span>
 				{/if}
-				{#if (showFees || isExhaustive) && gasValue !== undefined}
+				{#if (showFees || isExhaustive) && gasSpent !== undefined}
 					<span class="fee"><!-- transition:fade|local -->
 						<span>for fee</span>
 						<TokenBalanceWithConversion
@@ -371,9 +486,9 @@
 
 							erc20Token={gasToken}
 
-							balance={gasValue}
-							conversionCurrency={quoteToken}
-							convertedValue={gasValueQuote}
+							balance={gasSpent}
+							conversionCurrency={quoteCurrency}
+							convertedValue={gasConvertedValue}
 						/>
 					</span>
 				{/if}
@@ -393,10 +508,13 @@
 					<svelte:self
 						{network}
 						{erc20TokenTransfer}
+						{quoteCurrency}
+
 						{contextualAddress}
 						{detailLevel}
 						{showValues}
 						showFees={false}
+
 						layout="inline"
 						innerLayout="row"
 					/>
@@ -407,46 +525,36 @@
 		{#if !isSummary && logEvents?.length}
 			{#if isStandaloneLayout}
 				<hr>
-				<h4>Smart Contract Log Events</h4>
-				<div class="log-events column">
-					{#each logEvents as logEvent (logEvent.log_offset)}
-						<div class="card">
-							<EthereumLogEventCovalent
-								{network}
-								{logEvent}
-								{detailLevel}
-								{contextualAddress}
-							/>
-						</div>
-					{/each}
-				</div>
-			{:else}
-				<div class="log-events column" class:scrollable-list={isExhaustive && logEvents.length > 16}><!-- transition:fade|local -->
-					{#each logEvents as logEvent (logEvent.log_offset)}
-						<EthereumLogEventCovalent
-							{network}
-							{logEvent}
-							{detailLevel}
-							{contextualAddress}
-						/>
-					{/each}
-				</div>
-			<!-- {:else if visibleLogEvents.length}
-				<div class="log-events column" class:scrollable-list={visibleLogEvents.length > 16}><!-- transition:fade|local -- >
-					{#each visibleLogEvents as logEvent (logEvent.log_offset)}
-						<EthereumLogEventCovalent
-							{network}
-							{logEvent}
-							{detailLevel}
-							{contextualAddress}
-							bind:isHidden={logEventIsHidden[logEvent.log_offset]}
-						/>
-					{/each}
-				</div> -->
+				<h4>Smart Contract Event Logs</h4>
 			{/if}
+			<div class="log-events column" class:scrollable-list={isExhaustive && logEvents.length > (isStandaloneLayout ? 8 : 16)}><!-- transition:fade|local -->
+				{#each logEvents as logEvent (logEvent.indexInTransaction)}
+					<div class="card">
+						<EthereumLogEventCovalent
+							{network}
+							{logEvent}
+							{detailLevel}
+							{contextualAddress}
+						/>
+					</div>
+				{/each}
+			</div>
+			<!-- {#if visibleLogEvents.length}
+				<div class="log-events column" class:scrollable-list={visibleLogEvents.length > 16}><!-- transition:fade|local -- >
+					{#each visibleLogEvents as logEvent (logEvent.indexInTransaction)}
+						<EthereumLogEventCovalent
+							{network}
+							{logEvent}
+							{detailLevel}
+							{contextualAddress}
+							bind:isHidden={logEventIsHidden[logEvent.indexInTransaction]}
+						/>
+					{/each}
+				</div>
+			{/if} -->
 		{/if}
 
-		{#if !isSummary && (transactionID || blockNumber)}
+		{#if !isSummary && (transaction || erc20TokenTransaction)}
 			{#if isStandaloneLayout}
 				<hr>
 			{/if}

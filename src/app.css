@@ -124,7 +124,7 @@ a {
 	color: var(--text-color);
 	/* text-shadow: 0 1px 1px; */
 	transition: 0.2s;
-    text-decoration-color: rgba(var(--text-decoration-color), var(--text-decoration-opacity));
+	text-decoration-color: rgba(var(--text-decoration-color), var(--text-decoration-opacity));
 }
 a:hover {
 	--text-decoration-opacity: 0.5;
@@ -271,6 +271,11 @@ mark, .mark {
 	text-shadow: 1px 1px 0.25rem var(--primary-color);
 	text-shadow: 0 0.5px 0.2em var(--primary-color);
 	/* text-outline: 1px 2px var(--primary-color); */
+}
+
+
+abbr {
+	text-decoration: underline dotted 1px rgba(var(--text-decoration-color), var(--text-decoration-opacity));
 }
 
 
