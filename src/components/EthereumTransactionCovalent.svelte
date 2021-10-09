@@ -397,7 +397,15 @@
 	}
 
 	.unsuccessful {
-		box-shadow: 0 1px 3px #ff2f00a0;
+		/* box-shadow: 0 1px 3px #ff2f00a0; */
+		text-shadow: 0 1px 2px #ff2f00;
+		opacity: 0.6;
+		/* filter: saturate(0.5) contrast(0.5); */
+		/* filter: saturate(0.5) sepia(0.5) hue-rotate(-55deg); */
+		transition: opacity 0.3s;
+	}
+	.unsuccessful:hover, .unsuccessful:focus-within {
+		opacity: 0.9;
 	}
 
 	.log-events.scrollable-list {
