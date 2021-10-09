@@ -3,12 +3,12 @@
 	import { getBlock } from '../data/analytics/covalent'
 	import { preferences } from '../data/ethereum/preferences'
 
-	
+
 	export let network: Ethereum.Network
-    export let blockNumber: Ethereum.BlockNumber
+	export let blockNumber: Ethereum.BlockNumber
 	export let provider: Ethereum.Provider
 	export let transactionProvider
-	$: _transactionProvider = transactionProvider || $preferences.transactionProvider
+	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
 
 
 	import Date from './Date.svelte'
@@ -17,14 +17,15 @@
 	import TokenIcon from './TokenIcon.svelte'
 </script>
 
+
 <div class="card">
 	<div class="bar">
-        <h2><EthereumBlockNumber {network} {blockNumber}>Block #{blockNumber}</EthereumBlockNumber></h2>
+		<h2><EthereumBlockNumber {network} {blockNumber}>Block #{blockNumber}</EthereumBlockNumber></h2>
 		<span class="card-annotation">{network.name} Block</span>
 	</div>
 
 
-	{#if _transactionProvider === 'Covalent'}
+	{#if transactionProvider === 'Covalent'}
 		<Loader
 			loadingIcon={'/logos/covalent-logomark.svg'}
 			loadingIconName={transactionProvider}
