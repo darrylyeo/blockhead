@@ -13,7 +13,7 @@
 
 	// View options
 
-	export let contextualAddress: Ethereum.Address // used for summary
+	export let contextualAddress: Ethereum.Address
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
 	export let showValues: 'original' | 'converted' | 'both' = 'original'
 	export let showFees = false
@@ -101,8 +101,9 @@
 
 		gasToken: network.nativeCurrency,
 		gasOffered: gas_offered,
-		gasSpent: _formatUnits(gas_spent, 'gwei'),
+		gasSpent: gas_spent,
 		gasRate: gas_price,
+		gasValue: _formatUnits(gas_spent * gas_price, 'gwei'),
 
 		logEvents: log_events
 			?.map(({
@@ -491,6 +492,7 @@
 						<span>for fee</span>
 						<TokenBalanceWithConversion
 							{showValues}
+							showDecimalPlaces={isExhaustive ? 9 : 6}
 
 							erc20Token={gasToken}
 
@@ -537,14 +539,14 @@
 			{/if}
 			<div class="log-events column" class:scrollable-list={isExhaustive && logEvents.length > (isStandaloneLayout ? 8 : 16)}><!-- transition:fade|local -->
 				{#each logEvents as logEvent (logEvent.indexInTransaction)}
-					<div class="card">
-						<EthereumLogEventCovalent
-							{network}
-							{logEvent}
-							{detailLevel}
-							{contextualAddress}
-						/>
-					</div>
+					<EthereumLogEventCovalent
+						{network}
+						{logEvent}
+						{contextualAddress}
+
+						{detailLevel}
+						isCard={isStandaloneLayout}
+					/>
 				{/each}
 			</div>
 			<!-- {#if visibleLogEvents.length}
