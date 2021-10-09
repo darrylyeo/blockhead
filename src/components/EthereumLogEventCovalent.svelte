@@ -136,7 +136,7 @@
 		flex: 0 auto;
 		display: inline-block;
 	}
-	.topic-hash {
+	.topic-index {
 		opacity: 0.6;
 	}
 
@@ -208,10 +208,10 @@
 						topicIndex: 0,
 						topicHash: logEvent.topics[0]
 					} : {}}
-					parameterName={logEvent.decoded?.signature.replace('(', `(\n\t`).replace(/, ?/g, `,\n\t`).replace(')', `\n)`)}
+					parameterName={logEvent.decoded?.signature.replace('(', `(\n\t`).replace(/, ?/g, `,\n\t`).replace(')', `\n)`) ?? '[Undecoded]'}
 					parameterType="signature"
 				>
-					{logEvent.decoded?.name.replace(/[A-Z]+/g, m => ` ${m}`).replace(/_/g, ' ').trim()}
+					{logEvent.decoded?.name.replace(/[A-Z]+/g, m => ` ${m}`).replace(/_/g, ' ').trim() ?? '[Undecoded]'}
 				</EthereumTopic>
 			{/if}
 		</h4>
@@ -242,6 +242,8 @@
 								<span class="address" class:mark={paramsContainingContextualAddress.has(param)}>
 									<Address {network} address={param.value} format="middle-truncated" />
 								</span>
+							{:else if param.type === 'uint256'}
+								<output class="parameter-value" title={param.value._isBigNumber ? param.value._hex : param.value}>{param.value._isBigNumber ? param.value._hex : param.value}</output>
 							{:else}
 								<output class="parameter-value" title={param.value}>{param.value}</output>
 							{/if}
@@ -252,7 +254,7 @@
 				<span class="topics">
 					{#each logEvent.topics as topic, i}
 						<span class="topic-wrapper">
-							<span class="topic-index">Topic {i}</span>
+							<span class="topic-index">[Topic {i}]</span>
 							<output class="topic-hash">{formatTransactionHash(topic, 'middle-truncated')}</output>
 						</span>
 					{/each}

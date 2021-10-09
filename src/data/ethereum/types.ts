@@ -1,3 +1,4 @@
+import type { BigNumberish } from '@ethersproject/bignumber'
 import type { BaseProvider } from '@ethersproject/providers'
 import type { TickerSymbol } from '../currency/currency'
 
@@ -80,8 +81,8 @@ export namespace Ethereum {
 	}
 	export type NFT = ERC721Token | ERC1155Token
 
-	export type GasAmount = number
-	export type GasRate = number
+	export type GasAmount = BigNumberish
+	export type GasRate = BigNumberish
 
 	export type Transaction = {
 		network: Network,
@@ -106,7 +107,7 @@ export namespace Ethereum {
 		gasOffered?: GasAmount,
 		gasSpent: GasAmount,
 		gasRate: GasRate,
-		gasValue: number,
+		gasValue: BigNumberish,
 
 		logEvents?: TransactionLogEvent[]
 	}
@@ -114,7 +115,7 @@ export namespace Ethereum {
 		indexInTransaction: number
 		transactionHash: TransactionID
 
-		indexInBlock: number
+		indexInBlock?: number
 		blockNumber?: BlockNumber
 		blockHash?: BlockHash
 
