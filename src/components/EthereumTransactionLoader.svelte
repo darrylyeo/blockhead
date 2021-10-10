@@ -28,10 +28,12 @@
 
 	import { getTransaction as getTransactionCovalent } from '../data/analytics/covalent'
 	import { getTransaction as getTransactionEtherspot } from '../data/etherspot/etherspot'
+	import { MoralisWeb3Api, chainCodeFromNetwork } from '../data/moralis/moralis-web3-api'
 
 
 	import EthereumTransactionCovalent from './EthereumTransactionCovalent.svelte'
 	import EthereumTransactionEtherspot from './EthereumTransactionEtherspot.svelte'
+	import EthereumTransactionMoralis from './EthereumTransactionMoralis.svelte'
 	import Loader from './Loader.svelte'
 </script>
 
@@ -80,6 +82,33 @@
 				<slot name="header" slot="header" {status} {transaction} />
 
 				<EthereumTransactionEtherspot
+					{network}
+					{transaction}
+					{quoteCurrency}
+
+					{contextualAddress}
+					{detailLevel}
+					{showValues}
+					{showFees}
+					
+					{layout}
+					{innerLayout}
+				/>
+			</Loader>
+		{:else if transactionProvider === 'Moralis'}
+			<Loader
+				loadingIcon="/logos/moralis-icon.svg"
+				loadingMessage="Fetching transaction data via {transactionProvider}..."
+				fromPromise={() => MoralisWeb3Api.transaction.getTransaction({
+					chain: chainCodeFromNetwork(network),
+					transactionHash: transactionID,
+				})}
+				let:then={transaction}
+				let:status
+			>
+				<slot name="header" slot="header" {status} {transaction} />
+
+				<EthereumTransactionMoralis
 					{network}
 					{transaction}
 					{quoteCurrency}
