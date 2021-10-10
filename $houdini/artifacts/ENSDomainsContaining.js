@@ -1,7 +1,7 @@
 export default {
     name: "ENSDomainsContaining",
     kind: "HoudiniQuery",
-    hash: "4650d3892e1f4ea0e155d35deb87159b9b23f113f791564116c653b4e4ece76a",
+    hash: "c062907ad7793e4ba3d57f615eea1b7fa37c99b59087fd2d8367a940394c3df2",
 
     raw: `query ENSDomainsContaining($query: String!) {
   domains(where: {name_contains: $query, name_not: $query}) {
@@ -36,6 +36,7 @@ export default {
       }
     }
     ttl
+    labelhash
     isMigrated
     events {
       __typename
@@ -212,6 +213,11 @@ export default {
                 ttl: {
                     type: "BigInt",
                     keyRaw: "ttl"
+                },
+
+                labelhash: {
+                    type: "Bytes",
+                    keyRaw: "labelhash"
                 },
 
                 isMigrated: {

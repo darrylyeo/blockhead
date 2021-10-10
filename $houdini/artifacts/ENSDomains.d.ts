@@ -35,6 +35,7 @@ export type ENSDomains$result = {
             })[]
         } | null,
         readonly ttl: string | null,
+        readonly labelhash: string | null,
         readonly isMigrated: boolean,
         readonly events: ({
             readonly __typename: string | null,

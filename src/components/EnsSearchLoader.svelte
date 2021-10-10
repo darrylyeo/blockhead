@@ -31,6 +31,7 @@
 						events { id blockNumber transactionID }
 					}
 					ttl
+					labelhash
 					isMigrated
 					events {
 						__typename
@@ -77,6 +78,7 @@
 						events { id blockNumber transactionID }
 					}
 					ttl
+					labelhash
 					isMigrated
 					events {
 						__typename
@@ -147,9 +149,8 @@
 			loadingIcon="/logos/ens.svg"
 			loadingIconName="The Graph"
 			loadingMessage="Querying the Ethereum Name Service Subgraph for similar names..."
-			result={{}}
-			let:then={{domains}}
-			showIf={({domains} = {}) => domains.length}
+			let:then={result}
+			showIf={result => result?.domains.length}
 		>
 			<svelte:fragment slot="header" let:status>
 				{#if status === 'resolved'}
@@ -158,7 +159,7 @@
 				{/if}
 			</svelte:fragment>
 
-			{#each domains.sort(sortByLength) as domain (domain.id)}
+			{#each result.domains.sort(sortByLength) as domain (domain.id)}
 				<EnsDomain {network} {domain}/>
 			{/each}
 		</Loader>
