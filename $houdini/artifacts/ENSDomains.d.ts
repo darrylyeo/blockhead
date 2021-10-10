@@ -8,6 +8,8 @@ export type ENSDomains$result = {
         readonly __typename: string | null,
         readonly id: string,
         readonly name: string | null,
+        readonly labelName: string | null,
+        readonly labelhash: string | null,
         readonly parent: {
             readonly id: string,
             readonly name: string | null
@@ -25,7 +27,13 @@ export type ENSDomains$result = {
         readonly resolver: {
             readonly __typename: string | null,
             readonly id: string,
+            readonly domain: {
+                readonly id: string
+            } | null,
             readonly address: string,
+            readonly addr: {
+                readonly id: string
+            } | null,
             readonly texts: (string)[] | null,
             readonly coinTypes: (number)[] | null,
             readonly events: ({
@@ -35,7 +43,6 @@ export type ENSDomains$result = {
             })[]
         } | null,
         readonly ttl: string | null,
-        readonly labelhash: string | null,
         readonly isMigrated: boolean,
         readonly events: ({
             readonly __typename: string | null,

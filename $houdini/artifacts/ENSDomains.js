@@ -1,13 +1,15 @@
 export default {
     name: "ENSDomains",
     kind: "HoudiniQuery",
-    hash: "6e1a55e7c20c0af08d71d269bdc765e272c197152eb9f0e785767ee13df2230a",
+    hash: "f76a42fb155ca394f88930219ceb959225912ad0321822d7208591a0873cfbfa",
 
     raw: `query ENSDomains($name: String!) {
   domains(where: {name: $name}) {
     __typename
     id
     name
+    labelName
+    labelhash
     parent {
       id
       name
@@ -25,7 +27,13 @@ export default {
     resolver {
       __typename
       id
+      domain {
+        id
+      }
       address
+      addr {
+        id
+      }
       texts
       coinTypes
       events {
@@ -36,7 +44,6 @@ export default {
       }
     }
     ttl
-    labelhash
     isMigrated
     events {
       __typename
@@ -89,6 +96,16 @@ export default {
                 name: {
                     type: "String",
                     keyRaw: "name"
+                },
+
+                labelName: {
+                    type: "String",
+                    keyRaw: "labelName"
+                },
+
+                labelhash: {
+                    type: "Bytes",
+                    keyRaw: "labelhash"
                 },
 
                 parent: {
@@ -164,9 +181,33 @@ export default {
                             keyRaw: "id"
                         },
 
+                        domain: {
+                            type: "Domain",
+                            keyRaw: "domain",
+
+                            fields: {
+                                id: {
+                                    type: "ID",
+                                    keyRaw: "id"
+                                }
+                            }
+                        },
+
                         address: {
                             type: "Bytes",
                             keyRaw: "address"
+                        },
+
+                        addr: {
+                            type: "Account",
+                            keyRaw: "addr",
+
+                            fields: {
+                                id: {
+                                    type: "ID",
+                                    keyRaw: "id"
+                                }
+                            }
                         },
 
                         texts: {
@@ -213,11 +254,6 @@ export default {
                 ttl: {
                     type: "BigInt",
                     keyRaw: "ttl"
-                },
-
-                labelhash: {
-                    type: "Bytes",
-                    keyRaw: "labelhash"
                 },
 
                 isMigrated: {

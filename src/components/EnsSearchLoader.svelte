@@ -18,6 +18,8 @@
 					__typename
 					id
 					name
+					labelName
+					labelhash
 					parent { id name }
 					subdomains { id name }
 					resolvedAddress { id }
@@ -25,13 +27,14 @@
 					resolver {
 						__typename
 						id
+						domain { id }
 						address
+						addr { id }
 						texts
 						coinTypes
 						events { id blockNumber transactionID }
 					}
 					ttl
-					labelhash
 					isMigrated
 					events {
 						__typename
@@ -65,6 +68,8 @@
 					__typename
 					id
 					name
+					labelName
+					labelhash
 					parent { id name }
 					subdomains { id name }
 					resolvedAddress { id }
@@ -72,13 +77,14 @@
 					resolver {
 						__typename
 						id
+						domain { id }
 						address
+						addr { id }
 						texts
 						coinTypes
 						events { id blockNumber transactionID }
 					}
 					ttl
-					labelhash
 					isMigrated
 					events {
 						__typename
