@@ -1,4 +1,10 @@
 import type { Config } from 'houdini-common';
+export declare enum CachePolicy {
+    CacheOrNetwork = "CacheOrNetwork",
+    CacheOnly = "CacheOnly",
+    NetworkOnly = "NetworkOnly",
+    CacheAndNetwork = "CacheAndNetwork"
+}
 export declare type Fragment<_Result> = {
     readonly shape?: _Result;
 };
@@ -9,17 +15,24 @@ export declare type Operation<_Result, _Input> = {
 export declare type Session = any;
 export declare type Maybe<T> = T | null | undefined;
 export declare type DocumentArtifact = FragmentArtifact | QueryArtifact | MutationArtifact | SubscriptionArtifact;
+export declare enum ArtifactKind {
+    Query = "HoudiniQuery",
+    Subcription = "HoudiniSubscription",
+    Mutation = "HoudiniMutation",
+    Fragment = "HoudiniFragment"
+}
 export declare type QueryArtifact = BaseCompiledDocument & {
-    kind: 'HoudiniQuery';
+    kind: ArtifactKind.Query;
+    policy?: CachePolicy;
 };
 export declare type MutationArtifact = BaseCompiledDocument & {
-    kind: 'HoudiniMutation';
+    kind: ArtifactKind.Mutation;
 };
 export declare type FragmentArtifact = BaseCompiledDocument & {
-    kind: 'HoudiniFragment';
+    kind: ArtifactKind.Fragment;
 };
 export declare type SubscriptionArtifact = BaseCompiledDocument & {
-    kind: 'HoudiniSubscription';
+    kind: ArtifactKind.Subcription;
 };
 export declare enum RefetchUpdateMode {
     append = "append",
@@ -71,6 +84,7 @@ export declare type TaggedGraphqlQuery = {
     };
     artifact: QueryArtifact;
     config: Config;
+    source: DataSource;
 };
 declare type Filter = {
     [key: string]: string | boolean | number;
@@ -79,6 +93,10 @@ export declare type ListWhen = {
     must?: Filter;
     must_not?: Filter;
 };
+export declare enum DataSource {
+    Cache = "cache",
+    Network = "network"
+}
 export declare type MutationOperation = {
     action: 'insert' | 'remove' | 'delete';
     list?: string;

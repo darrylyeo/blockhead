@@ -1,10 +1,11 @@
 export default {
     name: "ENSDomains",
     kind: "HoudiniQuery",
-    hash: "8269f38416e74bb443dba1b8b6d2e8170ca73ad53a546dd3c78ad107fe6f3644",
+    hash: "bf4570fa5bb46a1d8439751f1debe534c3c4d6053a3316b54d02070dee8798c4",
 
     raw: `query ENSDomains($name: String!) {
   domains(where: {name: $name}) {
+    __typename
     id
     name
     parent {
@@ -22,6 +23,7 @@ export default {
       id
     }
     resolver {
+      __typename
       id
       address
       texts
@@ -36,6 +38,7 @@ export default {
     ttl
     isMigrated
     events {
+      __typename
       id
       blockNumber
       transactionID
@@ -72,6 +75,11 @@ export default {
             keyRaw: "domains(where: {name: $name})",
 
             fields: {
+                __typename: {
+                    type: "String",
+                    keyRaw: "__typename"
+                },
+
                 id: {
                     type: "ID",
                     keyRaw: "id"
@@ -145,6 +153,11 @@ export default {
                     keyRaw: "resolver",
 
                     fields: {
+                        __typename: {
+                            type: "String",
+                            keyRaw: "__typename"
+                        },
+
                         id: {
                             type: "ID",
                             keyRaw: "id"
@@ -211,6 +224,11 @@ export default {
                     keyRaw: "events",
 
                     fields: {
+                        __typename: {
+                            type: "String",
+                            keyRaw: "__typename"
+                        },
+
                         id: {
                             type: "ID",
                             keyRaw: "id"
@@ -258,11 +276,6 @@ export default {
                         ttl: {
                             type: "BigInt",
                             keyRaw: "ttl"
-                        },
-
-                        __typename: {
-                            type: "String",
-                            keyRaw: "__typename"
                         }
                     },
 
@@ -278,5 +291,7 @@ export default {
         },
 
         types: {}
-    }
+    },
+
+    policy: "NetworkOnly"
 };

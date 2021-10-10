@@ -15,6 +15,7 @@
 		return query<ENSDomains>(graphql`
 			query ENSDomains($name: String!) {
 				domains(where: {name: $name}) {
+					__typename
 					id
 					name
 					parent { id name }
@@ -22,6 +23,7 @@
 					resolvedAddress { id }
 					owner { id }
 					resolver {
+						__typename
 						id
 						address
 						texts
@@ -31,6 +33,7 @@
 					ttl
 					isMigrated
 					events {
+						__typename
 						id
 						blockNumber
 						transactionID
@@ -58,6 +61,7 @@
 		return query<ENSDomainsContaining>(graphql`
 			query ENSDomainsContaining($query: String!) {
 				domains(where: {name_contains: $query, name_not: $query}) {
+					__typename
 					id
 					name
 					parent { id name }
@@ -65,6 +69,7 @@
 					resolvedAddress { id }
 					owner { id }
 					resolver {
+						__typename
 						id
 						address
 						texts
@@ -74,6 +79,7 @@
 					ttl
 					isMigrated
 					events {
+						__typename
 						id
 						blockNumber
 						transactionID
@@ -116,7 +122,7 @@
 	fromHoudiniQuery={searchQuery && (() => queryENSDomain({name: searchQuery}))}
 	loadingIcon="/logos/ens.svg"
 	loadingIconName="The Graph"
-	loadingMessage="Querying the Ethereum Name Service..."
+	loadingMessage="Querying the Ethereum Name Service Subgraph..."
 	result={{}}
 	let:then={{domains}}
 >
@@ -140,7 +146,7 @@
 			fromHoudiniQuery={() => queryENSDomainsContaining({query: searchQuery})}
 			loadingIcon="/logos/ens.svg"
 			loadingIconName="The Graph"
-			loadingMessage="Querying the Ethereum Name Service for similar names..."
+			loadingMessage="Querying the Ethereum Name Service Subgraph for similar names..."
 			result={{}}
 			let:then={{domains}}
 			showIf={({domains} = {}) => domains.length}

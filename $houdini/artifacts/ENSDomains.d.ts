@@ -5,6 +5,7 @@ export type ENSDomains = {
 
 export type ENSDomains$result = {
     readonly domains: ({
+        readonly __typename: string | null,
         readonly id: string,
         readonly name: string | null,
         readonly parent: {
@@ -22,6 +23,7 @@ export type ENSDomains$result = {
             readonly id: string
         },
         readonly resolver: {
+            readonly __typename: string | null,
             readonly id: string,
             readonly address: string,
             readonly texts: (string)[] | null,
@@ -35,6 +37,7 @@ export type ENSDomains$result = {
         readonly ttl: string | null,
         readonly isMigrated: boolean,
         readonly events: ({
+            readonly __typename: string | null,
             readonly id: string,
             readonly blockNumber: number,
             readonly transactionID: string

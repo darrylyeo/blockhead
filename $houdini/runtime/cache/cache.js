@@ -8,10 +8,29 @@ export class Cache {
         this._data = new Map();
         // associate list names with the handler that wraps the list
         this._lists = new Map();
+        // for server-side requests we need to be able to flag the cache as disabled so we dont write to it
+        this._disabled = false;
+        // the number of ticks of the garbage collector that a piece of data will
+        this.cacheBufferSize = 10;
         this._config = config;
+        if (config.cacheBufferSize) {
+            this.cacheBufferSize = config.cacheBufferSize;
+        }
+        // the cache should always be disabled on the server
+        try {
+            this._disabled = typeof window === 'undefined';
+        }
+        catch {
+            this._disabled = true;
+        }
     }
     // save the response in the local store and notify any subscribers
     write({ selection, data, variables = {}, parent = rootID, applyUpdates = false, }) {
+        // if the cache is disabled we shouldn't write anything
+        if (this._disabled) {
+            return;
+        }
+        // keep track of all of the subscription specs we have to write to because of this operation
         const specs = [];
         // recursively walk down the payload and update the store. calls to update atomic fields
         // will build up different specs of subscriptions that need to be run against the current state
@@ -97,7 +116,7 @@ export class Cache {
             }
         }
         // remove the entry from the cache
-        return this.clear(id);
+        return this.deleteID(id);
     }
     // grab the record specified by {id}.
     // note: this is hidden behind the adapter because it will make entries in the
@@ -119,8 +138,9 @@ export class Cache {
             record: this.record.bind(this),
             getRecord: this.getRecord.bind(this),
             getData: this.getData.bind(this),
-            clear: this.clear.bind(this),
+            deleteID: this.deleteID.bind(this),
             computeID: this.computeID.bind(this),
+            isDataAvailable: this.isDataAvailable.bind(this),
         };
     }
     computeID(type, data) {
@@ -449,7 +469,7 @@ export class Cache {
                     this.record(id).forgetSubscribers(...subscribers);
                 }
                 // if there was a change in the list
-                if (contentChanged) {
+                if (contentChanged || (oldIDs.length === 0 && newIDs.length === 0)) {
                     // update the cached value
                     record.writeListLink(key, linkedIDs);
                 }
@@ -743,8 +763,75 @@ export class Cache {
         }
         return evaluated;
     }
-    clear(id) {
+    clear() {
+        this._data = new Map();
+        this._lists = new Map();
+    }
+    disable() {
+        this._disabled = true;
+    }
+    deleteID(id) {
         return this._data.delete(id);
+    }
+    isDataAvailable(target, variables, parentID = rootID) {
+        // if the cache is disabled we dont have to look at anything else
+        if (this._disabled) {
+            return false;
+        }
+        // look up the parent
+        const record = this.record(parentID);
+        // every field in the selection needs to be present
+        for (const selection of Object.values(target)) {
+            const fieldName = this.evaluateKey(selection.keyRaw, variables);
+            // a single field could show up in the 3 places: as a field, a linked record, or a linked list
+            // if the field has a value, we're good
+            if (typeof record.getField(fieldName) !== 'undefined') {
+                continue;
+            }
+            // if the field has no value and there are no subselections and we dont have a value, we are missing data
+            else if (!selection.fields) {
+                return false;
+            }
+            // if we have a null linked record
+            const linked = record.linkedRecordID(fieldName);
+            if (typeof linked !== 'undefined') {
+                // if we have a null value we're good
+                if (linked === null) {
+                    continue;
+                }
+                // if we have a valid id, walk down
+                if (!this.isDataAvailable(selection.fields, variables, linked)) {
+                    return false;
+                }
+            }
+            // look up the linked list
+            const hasListLinks = record.listLinks[fieldName];
+            if (hasListLinks) {
+                // we need to look at every linked record
+                for (const linkedRecord of record.flatLinkedList(fieldName)) {
+                    if (!linkedRecord) {
+                        continue;
+                    }
+                    // if the linked record doesn't have the field then we are missing data
+                    if (!this.isDataAvailable(selection.fields, variables, linkedRecord.id)) {
+                        return false;
+                    }
+                }
+            }
+            // if we dont have a linked record or linked list, we dont have the data
+            if (typeof linked === 'undefined' && typeof hasListLinks === 'undefined') {
+                return false;
+            }
+        }
+        // if we got this far, we have the information
+        return true;
+    }
+    collectGarbage() {
+        // visit every field of every record we know about, and if there are no
+        // active subscribers decrement their reference count
+        for (const id of this._data.keys()) {
+            this.record(id).onGcTick();
+        }
     }
 }
 // the list of characters that make up a valid graphql variable name

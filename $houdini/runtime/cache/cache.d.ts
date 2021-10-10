@@ -3,9 +3,11 @@ import { GraphQLValue, SubscriptionSelection, SubscriptionSpec } from '../types'
 import { ListHandler } from './list';
 export declare class Cache {
     _config: Config;
-    constructor(config: Config);
     private _data;
     private _lists;
+    private _disabled;
+    readonly cacheBufferSize: number;
+    constructor(config: Config);
     write({ selection, data, variables, parent, applyUpdates, }: {
         selection: SubscriptionSelection;
         data: {
@@ -39,7 +41,11 @@ export declare class Cache {
     private insertSubscribers;
     private unsubscribeSelection;
     private evaluateKey;
-    private clear;
+    clear(): void;
+    disable(): void;
+    private deleteID;
+    private isDataAvailable;
+    collectGarbage(): void;
 }
 export declare type CacheProxy = {
     record: Cache['record'];
@@ -49,8 +55,9 @@ export declare type CacheProxy = {
     evaluateKey: Cache['evaluateKey'];
     getRecord: Cache['getRecord'];
     getData: Cache['getData'];
-    clear: Cache['clear'];
+    deleteID: Cache['deleteID'];
     computeID: Cache['computeID'];
+    isDataAvailable: Cache['isDataAvailable'];
 };
 export declare const rootID = "_ROOT_";
 export declare type LinkedList<_Result = string> = (_Result | null | LinkedList<_Result>)[];

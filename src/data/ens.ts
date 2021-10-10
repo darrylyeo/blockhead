@@ -89,6 +89,7 @@ export function queryENSDomain(name) {
 		query: gql`
 			query ENSDomain($name: String!) {
 				domains(where: {name: $name}) {
+					__typename
 					id
 					name
 					parent { id name }
@@ -96,6 +97,7 @@ export function queryENSDomain(name) {
 					resolvedAddress { id }
 					owner { id }
 					resolver {
+						__typename
 						id
 						address
 						texts
@@ -136,6 +138,7 @@ export function queryENSDomainsContaining(query) {
 		query: gql`
 			query ENSDomainContaining($query: String!) {
 				domains(where: {name_contains: $query, name_not: $query}) {
+					__typename
 					id
 					name
 					parent { id name }
@@ -143,6 +146,7 @@ export function queryENSDomainsContaining(query) {
 					resolvedAddress { id }
 					owner { id }
 					resolver {
+						__typename
 						id
 						address
 						texts

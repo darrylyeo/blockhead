@@ -16,7 +16,7 @@ export function marshalInputs({ artifact, config, input, rootType = '@root', }) 
     return Object.fromEntries(Object.entries(input).map(([fieldName, value]) => {
         var _a, _b;
         // look up the type for the field
-        const type = fields[fieldName];
+        const type = fields === null || fields === void 0 ? void 0 : fields[fieldName];
         // if we don't have type information for this field, just use it directly
         // it's most likely a non-custom scalars or enums
         if (!type) {
@@ -27,7 +27,7 @@ export function marshalInputs({ artifact, config, input, rootType = '@root', }) 
             return [fieldName, config.scalars[type].marshal(value)];
         }
         // if the type doesn't require marshaling and isn't a referenced type
-        if (isScalar(config, type)) {
+        if (isScalar(config, type) || !artifact.input.types[type]) {
             return [fieldName, value];
         }
         // we ran into an object type that should be referenced by the artifact
@@ -53,15 +53,7 @@ export function unmarshalSelection(config, selection, data) {
         if (!type) {
             return [fieldName, value];
         }
-        // is the type something that requires marshaling
-        if ((_b = (_a = config.scalars) === null || _a === void 0 ? void 0 : _a[type]) === null || _b === void 0 ? void 0 : _b.marshal) {
-            return [fieldName, config.scalars[type].unmarshal(value)];
-        }
-        // if the type doesn't require marshaling and isn't a referenced type
-        // if the type is a scalar that doesn't require marshaling
-        if (isScalar(config, type)) {
-            return [fieldName, value];
-        }
+        // if there is a sub selection, walk down the selection
         if (fields) {
             return [
                 fieldName,
@@ -69,7 +61,13 @@ export function unmarshalSelection(config, selection, data) {
                 unmarshalSelection(config, fields, value),
             ];
         }
-        return [];
+        // is the type something that requires marshaling
+        if ((_b = (_a = config.scalars) === null || _a === void 0 ? void 0 : _a[type]) === null || _b === void 0 ? void 0 : _b.marshal) {
+            return [fieldName, config.scalars[type].unmarshal(value)];
+        }
+        // if the type doesn't require marshaling and isn't a referenced type
+        // then the type is a scalar that doesn't require marshaling
+        return [fieldName, value];
     }));
 }
 // we can't use config.isScalar because that would require bundling in houdini-common

@@ -162,7 +162,7 @@ export class ListHandler {
         this.cache.internal.notifySubscribers(subscribers, variables);
         // if we are removing from a connection, delete the embedded edge holding the record
         if (this.connection) {
-            this.cache.internal.clear(targetID);
+            this.cache.internal.deleteID(targetID);
         }
     }
     remove(data, variables = {}) {
