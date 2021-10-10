@@ -227,6 +227,7 @@ export const preferencesConfig: PreferencesConfig<
 						name: 'Off-Chain',
 						options: [
 							{ id: 'Covalent', name: 'Covalent' },
+							{ id: 'Moralis', name: 'Moralis' },
 							{ id: 'Etherspot', name: 'Etherspot' },
 						]
 					}

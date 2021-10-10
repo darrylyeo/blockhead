@@ -41,6 +41,7 @@
 	import EnsResolutionLoader from './EnsResolutionLoader.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
 	import EthereumTransactionCovalent from './EthereumTransactionCovalent.svelte'
+	import EthereumTransactionMoralis from './EthereumTransactionMoralis.svelte'
 	import EthereumTransactionEtherspot from './EthereumTransactionEtherspot.svelte'
 	import EthereumTransactionsLoader from './EthereumTransactionsLoader.svelte'
 	import EthereumTransactionsERC20Loader from './EthereumTransactionsERC20Loader.svelte'
@@ -204,6 +205,19 @@
 									layout="inline"
 								/>
 							</a>
+						{:else if transactionProvider === 'Moralis'}
+							<a class="card" id={transaction.hash} href="#{transaction.hash}">
+								<EthereumTransactionMoralis
+									{network}
+									{transaction}
+									{quoteCurrency}
+									contextualAddress={address}
+									{detailLevel}
+									{showValues}
+									{showFees}
+									layout="inline"
+								/>
+							</a>
 						{:else if transactionProvider === 'Etherspot'}
 							<a class="card" id={transaction.hash} href="#{transaction.hash}">
 								<EthereumTransactionEtherspot
@@ -266,6 +280,19 @@
 						{#if transactionProvider === 'Covalent'}
 							<a class="card" id={erc20TokenTransaction.tx_hash} href="#{erc20TokenTransaction.tx_hash}">
 								<EthereumTransactionCovalent
+									{network}
+									{erc20TokenTransaction}
+									{quoteCurrency}
+									contextualAddress={address}
+									{detailLevel}
+									{showValues}
+									{showFees}
+									layout="inline"
+								/>
+							</a>
+						{:else if transactionProvider === 'Moralis'}
+							<a class="card" id={erc20TokenTransaction.hash} href="#{erc20TokenTransaction.hash}">
+								<EthereumTransactionMoralis
 									{network}
 									{erc20TokenTransaction}
 									{quoteCurrency}
