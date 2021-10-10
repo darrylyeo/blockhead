@@ -23,6 +23,8 @@
 		max-width: 100%;
 		overflow: hidden;
 		text-overflow: ellipsis; */
+
+		white-space: nowrap;
 	}
 </style>
 
@@ -30,15 +32,19 @@
 {#if linked}
 	<a class="address" href="/explorer/{network.slug}/{address}">
 		<slot {formattedAddress}>
-			<span class="format">
-				{formattedAddress}
-			</span>
+			{#if format === 'middle-truncated'}
+				<abbr class="format" title={address}>{formattedAddress}</abbr>
+			{:else}
+				<span class="format">{formattedAddress}</span>
+			{/if}
 		</slot>
 	</a>
 {:else}
 	<slot {formattedAddress}>
-		<span class="address format">
-			{formattedAddress}
-		</span>
+		{#if format === 'middle-truncated'}
+			<abbr class="address format" title={address}>{formattedAddress}</abbr>
+		{:else}
+			<span class="address format">{formattedAddress}</span>
+		{/if}
 	</slot>
 {/if}
