@@ -29,7 +29,17 @@
 
 {#if $query && $explorerProvider}
 	{#if isTransaction($query)}
-		<EthereumTransactionLoader network={$explorerNetwork} transactionID={$query} provider={$explorerProvider} />
+		<EthereumTransactionLoader
+			network={$explorerNetwork}
+			transactionID={$query}
+			provider={$explorerProvider}
+
+			detailLevel="exhaustive"
+			showValues="both"
+			showFees={true}
+
+			layout="standalone"
+		/>
 	{:else if isBlockNumber($query)}
 		<EthereumBlock network={$explorerNetwork} blockNumber={$query} provider={$explorerProvider} {transactionProvider}/>
 	{:else}

@@ -10,6 +10,18 @@
 	export let provider: Ethereum.Provider
 	export let quoteCurrency: QuoteCurrency
 
+
+	// View options
+
+	export let contextualAddress: Ethereum.Address
+	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
+	export let showValues: 'original' | 'converted' | 'both' = 'original'
+	export let showFees = false
+
+	export let layout: 'standalone' | 'inline' = 'inline'
+	export let innerLayout: 'columns' | 'row' = 'row'
+
+
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
 	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
 
@@ -39,14 +51,22 @@
 					.then(({items: [transaction]}) => transaction)
 				}
 				let:then={transaction}
+				let:status
 			>
+				<slot name="header" slot="header" {status} {transaction} />
+
 				<EthereumTransactionCovalent
 					{network}
 					{transaction}
-					quoteCurrency={quoteCurrency}
-					detailLevel="exhaustive"
-					showValues="both"
-					layout="standalone"
+					{quoteCurrency}
+
+					{contextualAddress}
+					{detailLevel}
+					{showValues}
+					{showFees}
+					
+					{layout}
+					{innerLayout}
 				/>
 			</Loader>
 		{:else if transactionProvider === 'Etherspot'}
@@ -55,14 +75,22 @@
 				loadingMessage="Fetching transaction data via {transactionProvider}..."
 				fromPromise={() => getTransactionEtherspot({network, transactionID})}
 				let:then={transaction}
+				let:status
 			>
+				<slot name="header" slot="header" {status} {transaction} />
+
 				<EthereumTransactionEtherspot
 					{network}
 					{transaction}
-					quoteCurrency={quoteCurrency}
-					detailLevel="exhaustive"
-					showValues="both"
-					layout="standalone"
+					{quoteCurrency}
+
+					{contextualAddress}
+					{detailLevel}
+					{showValues}
+					{showFees}
+					
+					{layout}
+					{innerLayout}
 				/>
 			</Loader>
 		{/if}
