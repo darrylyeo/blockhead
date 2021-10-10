@@ -40,88 +40,92 @@
 
 {#if transactionID}
 	<div class="stack">
-		{#if transactionProvider === 'Covalent'}
-			<Loader
-				loadingIcon="/logos/covalent-logomark.svg"
-				loadingMessage="Fetching transaction data via {transactionProvider}..."
-				fromPromise={() =>
-					getTransactionCovalent({
-						chainID: network.chainId,
-						transactionHash: transactionID,
-						includeLogs: true
-					})
-					.then(({items: [transaction]}) => transaction)
-				}
-				let:then={transaction}
-				let:status
-			>
-				<slot name="header" slot="header" {status} {transaction} />
+		{#key transactionProvider}
+			<div class="column">
+				{#if transactionProvider === 'Covalent'}
+					<Loader
+						loadingIcon="/logos/covalent-logomark.svg"
+						loadingMessage="Fetching transaction data via {transactionProvider}..."
+						fromPromise={() =>
+							getTransactionCovalent({
+								chainID: network.chainId,
+								transactionHash: transactionID,
+								includeLogs: true
+							})
+							.then(({items: [transaction]}) => transaction)
+						}
+						let:then={transaction}
+						let:status
+					>
+						<slot name="header" slot="header" {status} {transaction} />
 
-				<EthereumTransactionCovalent
-					{network}
-					{transaction}
-					{quoteCurrency}
+						<EthereumTransactionCovalent
+							{network}
+							{transaction}
+							{quoteCurrency}
 
-					{contextualAddress}
-					{detailLevel}
-					{showValues}
-					{showFees}
-					
-					{layout}
-					{innerLayout}
-				/>
-			</Loader>
-		{:else if transactionProvider === 'Etherspot'}
-			<Loader
-				loadingIcon="/logos/etherspot-icon.png"
-				loadingMessage="Fetching transaction data via {transactionProvider}..."
-				fromPromise={() => getTransactionEtherspot({network, transactionID})}
-				let:then={transaction}
-				let:status
-			>
-				<slot name="header" slot="header" {status} {transaction} />
+							{contextualAddress}
+							{detailLevel}
+							{showValues}
+							{showFees}
 
-				<EthereumTransactionEtherspot
-					{network}
-					{transaction}
-					{quoteCurrency}
+							{layout}
+							{innerLayout}
+						/>
+					</Loader>
+				{:else if transactionProvider === 'Etherspot'}
+					<Loader
+						loadingIcon="/logos/etherspot-icon.png"
+						loadingMessage="Fetching transaction data via {transactionProvider}..."
+						fromPromise={() => getTransactionEtherspot({network, transactionID})}
+						let:then={transaction}
+						let:status
+					>
+						<slot name="header" slot="header" {status} {transaction} />
 
-					{contextualAddress}
-					{detailLevel}
-					{showValues}
-					{showFees}
-					
-					{layout}
-					{innerLayout}
-				/>
-			</Loader>
-		{:else if transactionProvider === 'Moralis'}
-			<Loader
-				loadingIcon="/logos/moralis-icon.svg"
-				loadingMessage="Fetching transaction data via {transactionProvider}..."
-				fromPromise={() => MoralisWeb3Api.transaction.getTransaction({
-					chain: chainCodeFromNetwork(network),
-					transactionHash: transactionID,
-				})}
-				let:then={transaction}
-				let:status
-			>
-				<slot name="header" slot="header" {status} {transaction} />
+						<EthereumTransactionEtherspot
+							{network}
+							{transaction}
+							{quoteCurrency}
 
-				<EthereumTransactionMoralis
-					{network}
-					{transaction}
-					{quoteCurrency}
+							{contextualAddress}
+							{detailLevel}
+							{showValues}
+							{showFees}
 
-					{contextualAddress}
-					{detailLevel}
-					{showValues}
-					{showFees}
-					
-					{layout}
-					{innerLayout}
-				/>
-			</Loader>
-		{/if}
+							{layout}
+							{innerLayout}
+						/>
+					</Loader>
+				{:else if transactionProvider === 'Moralis'}
+					<Loader
+						loadingIcon="/logos/moralis-icon.svg"
+						loadingMessage="Fetching transaction data via {transactionProvider}..."
+						fromPromise={() => MoralisWeb3Api.transaction.getTransaction({
+							chain: chainCodeFromNetwork(network),
+							transactionHash: transactionID,
+						})}
+						let:then={transaction}
+						let:status
+					>
+						<slot name="header" slot="header" {status} {transaction} />
+
+						<EthereumTransactionMoralis
+							{network}
+							{transaction}
+							{quoteCurrency}
+
+							{contextualAddress}
+							{detailLevel}
+							{showValues}
+							{showFees}
+
+							{layout}
+							{innerLayout}
+						/>
+					</Loader>
+				{/if}
+			</div>
+		{/key}
 	</div>
 {/if}
