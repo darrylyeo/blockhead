@@ -753,7 +753,7 @@
 
 
 				{#if providers?.theGraph && !address}
-					<div class="card">
+					<div class="card" id="subgraph">
 						<div class="bar">
 							<h4><a href="https://thegraph.com/explorer/subgraph/{providers.theGraph.match(/[^/]+\/[^/]+$/)}">Subgraph ({providers.theGraph.match(/[^/]+\/[^/]+$/)})</a></h4>
 							<div class="card-annotation">The Graph</div>
