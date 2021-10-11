@@ -230,22 +230,26 @@
 				{/if}
 			</div>
 
-			{#if showTransactions}
-				<label transition:scale>
-					<input type="checkbox" bind:checked={showFees}>
-					<span>Show Fees</span>
-				</label>
-				<label transition:scale>
-					<span>View</span>
-					<select bind:value={detailLevel}>
-						<option value="summary">Summary</option>
-						<option value="detailed">Detailed</option>
-						<option value="exhaustive">Exhaustive</option>
-					</select>
-				</label>
-			{:else}
-				<button class="small" on:click={() => showTransactions = true} transition:scale>Show</button>
-			{/if}
+			<div class="stack">
+				{#if showTransactions}
+					<div class="row">
+						<label transition:scale>
+							<input type="checkbox" bind:checked={showFees}>
+							<span>Show Fees</span>
+						</label>
+						<label transition:scale>
+							<span>View</span>
+							<select bind:value={detailLevel}>
+								<option value="summary">Summary</option>
+								<option value="detailed">Detailed</option>
+								<option value="exhaustive">Exhaustive</option>
+							</select>
+						</label>
+					</div>
+				{:else}
+					<button class="small" on:click={() => showTransactions = true} transition:scale>Show</button>
+				{/if}
+			</div>
 			<!-- <button class="small" on:click={() => showTransactions = !showTransactions}>{showTransactions ? 'Hide' : 'Show'} transactions</button> -->
 		</div>
 
