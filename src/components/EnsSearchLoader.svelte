@@ -142,13 +142,12 @@
 	fromHoudiniQuery={searchQuery && (() => queryENSDomain({name: searchQuery}))}
 	loadingIcon="/logos/ens.svg"
 	loadingIconName="The Graph"
-	loadingMessage="Querying the Ethereum Name Service Subgraph..."
-	result={{}}
-	let:then={{domains}}
+	loadingMessage='Searching for "{searchQuery}" in the Ethereum Name Service subgraph...'
+	let:then={result}
 >
 	<div class="ens-query column">
-		{#each domains.sort(sortByLength) as domain (domain.id)}
-			<EnsDomain {network} {domain}/>
+		{#each result.domains.sort(sortByLength) as domain (domain.id)}
+			<EnsDomain {network} {domain} />
 		{:else}
 			<div class="card">
 				<div class="bar">
@@ -166,12 +165,12 @@
 			fromHoudiniQuery={() => queryENSDomainsContaining({query: searchQuery})}
 			loadingIcon="/logos/ens.svg"
 			loadingIconName="The Graph"
-			loadingMessage="Querying the Ethereum Name Service Subgraph for similar names..."
+			loadingMessage="Searching the Ethereum Name Service subgraph for similar names..."
 			let:then={result}
 			showIf={result => result?.domains.length}
 		>
 			<svelte:fragment slot="header" let:status>
-				{#if status === 'resolved'}
+				{#if status === 'resolved' && result?.domains.length}
 					<hr>
 					<h2>Similar ENS Names</h2>
 				{/if}
