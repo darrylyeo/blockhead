@@ -229,7 +229,7 @@ input[type="checkbox"] {
 	width: 1.2em;
 	height: 1.2em;
 	transform: translateY(0.2em);
-    /* display: inline-flex;
+	/* display: inline-flex;
 	align-items: center; */
 }
 
@@ -292,9 +292,11 @@ dl {
 	/* grid-template-columns: minmax(min-content, 1fr) minmax(min-content, 1fr); */
 	grid-template-columns: minmax(min-content, 1fr) 1fr;
 	align-items: center;
+	align-items: start;
 	margin: 0 auto;
 }
 dt {
+	color: rgba(var(--rgb-light-dark-inverse), 0.6);
 	font-weight: bold;
 	text-align: right;
 }
@@ -329,6 +331,8 @@ main {
 	box-shadow: var(--card-box-shadow);
 
 	transition: 0.4s;
+
+	break-inside: avoid;
 }
 .card:hover {
 	/* background-image: none; */

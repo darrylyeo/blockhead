@@ -44,6 +44,7 @@
     "@fontsource/ubuntu": "^4.5.0",
     "@portis/web3": "^4.0.5",
     "@web3api/client-js": "^0.0.1-prealpha.44",
+    "bip44-constants": "^65.0.0",
     "buffer": "^6.0.3",
     "dids": "^2.4.0",
     "dotenv": "^10.0.0",

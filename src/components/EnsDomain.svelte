@@ -157,6 +157,21 @@
 		{/if}
 	</div> -->
 
+	{#if domain.resolver}
+		<hr>
+
+		<div class="bar">
+			<h3>Record Resolver</h3>
+
+			<span class="card-annotation">
+				<a href="/apps/ens#subgraph">ENS Subgraph</a> › {domain.resolver.__typename.replace(/[A-Z]/g, m => ` ${m}`).trim()} › <output>{formatTransactionHash(domain.resolver.id, 'middle-truncated')}</output>
+			</span>
+		</div>
+
+		<EnsResolver {network} resolver={domain.resolver} ensName={domain.name} />
+	{/if}
+	
+
 	{#if domain.subdomains && domain.subdomains.length}
 		<hr>
 
