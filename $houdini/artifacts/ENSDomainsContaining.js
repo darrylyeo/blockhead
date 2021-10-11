@@ -1,7 +1,7 @@
 export default {
     name: "ENSDomainsContaining",
     kind: "HoudiniQuery",
-    hash: "e36c8ec1b4015916e66a21b6f46257e7a30f780422cac23aef95dc6517de0d13",
+    hash: "7594a606aac656ace1fe68069d20efd50fdbfee97273fd734f378b62a15be7c3",
 
     raw: `query ENSDomainsContaining($query: String!) {
   domains(where: {name_contains: $query, name_not: $query}) {
@@ -19,9 +19,11 @@ export default {
       name
     }
     resolvedAddress {
+      __typename
       id
     }
     owner {
+      __typename
       id
     }
     resolver {
@@ -147,6 +149,11 @@ export default {
                     keyRaw: "resolvedAddress",
 
                     fields: {
+                        __typename: {
+                            type: "String",
+                            keyRaw: "__typename"
+                        },
+
                         id: {
                             type: "ID",
                             keyRaw: "id"
@@ -159,6 +166,11 @@ export default {
                     keyRaw: "owner",
 
                     fields: {
+                        __typename: {
+                            type: "String",
+                            keyRaw: "__typename"
+                        },
+
                         id: {
                             type: "ID",
                             keyRaw: "id"

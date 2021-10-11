@@ -19,9 +19,11 @@ export type ENSDomains$result = {
             readonly name: string | null
         })[],
         readonly resolvedAddress: {
+            readonly __typename: string | null,
             readonly id: string
         } | null,
         readonly owner: {
+            readonly __typename: string | null,
             readonly id: string
         },
         readonly resolver: {
@@ -69,6 +71,12 @@ export type ENSDomains$result = {
             readonly ttl: string,
             readonly __typename: "NewTTL"
         })))[]
+    })[],
+    readonly registrations: ({
+        readonly __typename: string | null,
+        readonly registrationDate: string,
+        readonly expiryDate: string,
+        readonly labelName: string | null
     })[]
 };
 

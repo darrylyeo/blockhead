@@ -19,9 +19,11 @@ export type ENSDomainsContaining$result = {
             readonly name: string | null
         })[],
         readonly resolvedAddress: {
+            readonly __typename: string | null,
             readonly id: string
         } | null,
         readonly owner: {
+            readonly __typename: string | null,
             readonly id: string
         },
         readonly resolver: {

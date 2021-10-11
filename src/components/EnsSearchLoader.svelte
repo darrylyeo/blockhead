@@ -22,8 +22,14 @@
 					labelhash
 					parent { id name }
 					subdomains { id name }
-					resolvedAddress { id }
-					owner { id }
+					resolvedAddress {
+						__typename
+						id
+					}
+					owner {
+						__typename
+						id
+					}
 					resolver {
 						__typename
 						id
@@ -72,8 +78,14 @@
 					labelhash
 					parent { id name }
 					subdomains { id name }
-					resolvedAddress { id }
-					owner { id }
+					resolvedAddress {
+						__typename
+						id
+					}
+					owner {
+						__typename
+						id
+					}
 					resolver {
 						__typename
 						id

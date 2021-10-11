@@ -1,7 +1,7 @@
 export default {
     name: "ENSDomains",
     kind: "HoudiniQuery",
-    hash: "f76a42fb155ca394f88930219ceb959225912ad0321822d7208591a0873cfbfa",
+    hash: "2093d09642b3601f73bfc0080af7df4896421f751538af00940b9985d48d569d",
 
     raw: `query ENSDomains($name: String!) {
   domains(where: {name: $name}) {
@@ -19,9 +19,11 @@ export default {
       name
     }
     resolvedAddress {
+      __typename
       id
     }
     owner {
+      __typename
       id
     }
     resolver {
@@ -71,6 +73,13 @@ export default {
       }
       __typename
     }
+  }
+  registrations(where: {domain: $name}) {
+    __typename
+    registrationDate
+    expiryDate
+    labelName
+    id
   }
 }
 `,
@@ -147,6 +156,11 @@ export default {
                     keyRaw: "resolvedAddress",
 
                     fields: {
+                        __typename: {
+                            type: "String",
+                            keyRaw: "__typename"
+                        },
+
                         id: {
                             type: "ID",
                             keyRaw: "id"
@@ -159,6 +173,11 @@ export default {
                     keyRaw: "owner",
 
                     fields: {
+                        __typename: {
+                            type: "String",
+                            keyRaw: "__typename"
+                        },
+
                         id: {
                             type: "ID",
                             keyRaw: "id"
@@ -322,6 +341,38 @@ export default {
                     },
 
                     abstract: true
+                }
+            }
+        },
+
+        registrations: {
+            type: "Registration",
+            keyRaw: "registrations(where: {domain: $name})",
+
+            fields: {
+                __typename: {
+                    type: "String",
+                    keyRaw: "__typename"
+                },
+
+                registrationDate: {
+                    type: "BigInt",
+                    keyRaw: "registrationDate"
+                },
+
+                expiryDate: {
+                    type: "BigInt",
+                    keyRaw: "expiryDate"
+                },
+
+                labelName: {
+                    type: "String",
+                    keyRaw: "labelName"
+                },
+
+                id: {
+                    type: "ID",
+                    keyRaw: "id"
                 }
             }
         }
