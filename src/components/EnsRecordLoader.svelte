@@ -43,14 +43,14 @@
 				_contentHash[ensName] = contentHash = content
 			})
 
-			for(const textRecordKey of resolverTextRecordKeys){
+			for(const textRecordKey of resolverTextRecordKeys ?? []){
 				resolver?.getText(textRecordKey).then(content => {
 					textRecords[textRecordKey] = content
 					textRecords = textRecords
 				})
 			}
 
-			for(const coinType of resolverCoinTypes){
+			for(const coinType of resolverCoinTypes ?? []){
 				resolver?.getAddress(coinType).then(content => {
 					cryptoAddressRecords[coinType] = content
 					cryptoAddressRecords = cryptoAddressRecords
