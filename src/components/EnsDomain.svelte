@@ -11,6 +11,8 @@
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
 	export let showValues: 'original' | 'converted' | 'both' = 'original'
 	export let showFees = false
+
+	export let showResolver = false
 	export let showTransactions = false
 
 
@@ -161,14 +163,28 @@
 		<hr>
 
 		<div class="bar">
-			<h3>Record Resolver</h3>
+			<div class="row">
+				<h3>Record Resolver</h3>
 
-			<span class="card-annotation">
-				<a href="/apps/ens#subgraph">ENS Subgraph</a> › {domain.resolver.__typename.replace(/[A-Z]/g, m => ` ${m}`).trim()} › <output>{formatTransactionHash(domain.resolver.id, 'middle-truncated')}</output>
-			</span>
+				<!-- {#if showResolver}
+					<button class="small" on:click={() => showResolver = false} transition:scale>Hide</button>
+				{/if} -->
+			</div>
+
+			<div class="stack">
+				{#if showResolver}
+					<span class="card-annotation" transition:scale>
+						<a href="/apps/ens#subgraph">ENS Subgraph</a> › {domain.resolver.__typename.replace(/[A-Z]/g, m => ` ${m}`).trim()} › <output>{formatTransactionHash(domain.resolver.id, 'middle-truncated')}</output>
+					</span>
+				{:else}
+					<button class="small" on:click={() => showResolver = true} transition:scale>Show</button>
+				{/if}
+			</div>
 		</div>
 
-		<EnsResolver {network} resolver={domain.resolver} ensName={domain.name} />
+		{#if showResolver}
+			<EnsResolver {network} resolver={domain.resolver} ensName={domain.name} />
+		{/if}
 	{/if}
 	
 
