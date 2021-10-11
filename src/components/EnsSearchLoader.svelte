@@ -135,6 +135,18 @@
 	.ens-query {
 		gap: 1.5em;
 	}
+
+	.similar {
+		display: flex;
+		font-size: 0.8em;
+		flex-wrap: wrap;
+	}
+	.similar > :global(*) {
+		flex: 1 25rem;
+	}
+	/* .similar {
+		font-size: 0.8em;
+	} */
 </style>
 
 
@@ -176,9 +188,11 @@
 				{/if}
 			</svelte:fragment>
 
-			{#each result.domains.sort(sortByLength) as domain (domain.id)}
-				<EnsDomain {network} {domain}/>
-			{/each}
+			<div class="similar column scrollable-list">
+				{#each result.domains.sort(sortByLength) as domain (domain.id)}
+					<EnsDomain {network} {domain} />
+				{/each}
+			</div>
 		</Loader>
 	</div>
 </Loader>
