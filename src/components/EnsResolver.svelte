@@ -74,9 +74,10 @@
 	}
 	.records > * {
 		flex: 1 20rem;
+		flex: 1 auto;
 		--padding-inner: 0.85em;
 	}
-	@media (min-width: 40rem) {
+	/* @media (min-width: 40rem) {
 		.records {
 			display: block;
 			columns: 2;
@@ -84,10 +85,10 @@
 		.records > * + * {
 			margin-top: var(--padding-inner);
 		}
-	}
+	} */
 
 	dl {
-		grid-template-columns: min(8em, 50%) 1fr;
+		grid-template-columns: min(7.5em, 50%) 1fr;
 		margin: 0;
 	}
 	dt {
@@ -150,80 +151,82 @@
 		</svelte:fragment>
 
 		<div class="records">
-			<div class="card column">
-				<h3>Text Records</h3>
+			{#if Object.entries(textRecords).length}
+				<div class="card column">
+					<h3>Text Records</h3>
 
-				<hr>
+					<hr>
 
-				{#each [
-					...orderedTextRecordKeys
-						.filter(key => key in textRecords)
-						.map(key => [key, textRecords[key]]),
-					...Object.entries(textRecords)
-						.filter(([key]) => !orderedTextRecordKeys.includes(key))
-						.sort((a, b) => a[0].localeCompare(b[0])) 
-				].sort((a, b) => a[1] === null ? 1 : b[1] === null ? -1 : 0)
-				as
-				[key, value]}
-					<dl class="text-record">
-						<dt>
-							{#if descriptions[key]}
-								<abbr title={descriptions[key]}>{key}</abbr>
-							{:else}
-								{key}
-							{/if}
-						</dt>
-						<dd>
-							{#if key === 'name'}
-								<h3>{value}</h3>
-							{:else if key === 'description' || key === 'notice' || key === 'metaverse'}
-								<p>{value}</p>
-							{:else if key === 'email'}
-								<output><a href="mailto:{value}" target="_blank">{value}</a></output>
-							{:else if key === 'keywords'}
-								<div class="keywords row">
-									{#each value.split(', ') as value}
-										<span class="keyword">{value}</span>
-									{/each}
-								</div>
-							{:else if key === 'url' || key === 'website'}
-								<output><a href="{value}" target="_blank" referrerpolicy="norefferer">{value}</a></output>
-							{:else if key === 'com.discord'}
-								<output>{value}</output>
-							{:else if key === 'com.github'}
-								<output><a href="https://github.com/{value}" target="_blank">{value}</a></output>
-							{:else if key === 'com.linkedin'}
-								<output><a href="https://www.linkedin.com/in/{value}" target="_blank">{value}</a></output>
-							{:else if key === 'com.reddit'}
-								<output><a href="https://reddit.com/u/{value}" target="_blank">{value}</a></output>
-							{:else if key === 'org.telegram'}
-								<output><a href="https://t.me/{value}" target="_blank">{value}</a></output>
-							{:else if key === 'com.twitter'}
-								<output><a href="https://twitter.com/{value}" target="_blank">{value}</a></output>
-							{:else if (/^com\./).test(key)}
-								{value}
-							{:else if value === null}
-								<span class="not-set" />
-							{:else}
-								<output>{value}</output>
-							{/if}
-						</dd>
-					</dl>
-				{/each}
-				<!-- {#each resolver.texts as textRecordKey}
-					<span class="text-record">
-						<span>{textRecordKey}</span>
-						<span>{records[textRecordKey]}</span>
-					</span>
-				{/each} -->
-			</div>
+					{#each [
+						...orderedTextRecordKeys
+							.filter(key => key in textRecords)
+							.map(key => [key, textRecords[key]]),
+						...Object.entries(textRecords)
+							.filter(([key]) => !orderedTextRecordKeys.includes(key))
+							.sort((a, b) => a[0].localeCompare(b[0]))
+					].sort((a, b) => a[1] === null ? 1 : b[1] === null ? -1 : 0)
+					as
+					[key, value]}
+						<dl class="text-record">
+							<dt>
+								{#if descriptions[key]}
+									<abbr title={descriptions[key]}>{key}</abbr>
+								{:else}
+									{key}
+								{/if}
+							</dt>
+							<dd>
+								{#if key === 'name'}
+									<h3>{value}</h3>
+								{:else if key === 'description' || key === 'notice' || key === 'metaverse'}
+									<p>{value}</p>
+								{:else if key === 'email'}
+									<output><a href="mailto:{value}" target="_blank">{value}</a></output>
+								{:else if key === 'keywords'}
+									<div class="keywords row">
+										{#each value.split(', ') as value}
+											<span class="keyword">{value}</span>
+										{/each}
+									</div>
+								{:else if key === 'url' || key === 'website'}
+									<output><a href="{value}" target="_blank" referrerpolicy="norefferer">{value}</a></output>
+								{:else if key === 'com.discord'}
+									<output>{value}</output>
+								{:else if key === 'com.github'}
+									<output><a href="https://github.com/{value}" target="_blank">{value}</a></output>
+								{:else if key === 'com.linkedin'}
+									<output><a href="https://www.linkedin.com/in/{value}" target="_blank">{value}</a></output>
+								{:else if key === 'com.reddit'}
+									<output><a href="https://reddit.com/u/{value}" target="_blank">{value}</a></output>
+								{:else if key === 'org.telegram'}
+									<output><a href="https://t.me/{value}" target="_blank">{value}</a></output>
+								{:else if key === 'com.twitter'}
+									<output><a href="https://twitter.com/{value}" target="_blank">{value}</a></output>
+								{:else if (/^com\./).test(key)}
+									{value}
+								{:else if value === null}
+									<span class="not-set" />
+								{:else}
+									<output>{value}</output>
+								{/if}
+							</dd>
+						</dl>
+					{/each}
+					<!-- {#each resolver.texts as textRecordKey}
+						<span class="text-record">
+							<span>{textRecordKey}</span>
+							<span>{records[textRecordKey]}</span>
+						</span>
+					{/each} -->
+				</div>
+			{/if}
 
-			<div class="card column">
-				<h3>Content Records</h3>
+			{#if contentHash}
+				<div class="card column">
+					<h3>Content Records</h3>
 
-				<hr>
+					<hr>
 
-				{#if contentHash}
 					<dl class="content-hash">
 						<dt><abbr title={descriptions['contentHash']}>Content Hash</abbr></dt>
 						<dd>
@@ -236,32 +239,34 @@
 							</output>
 						</dd>
 					</dl>
-				{/if}
-			</div>
+				</div>
+			{/if}
 
-			<div class="card column">
-				<h3>Blockchain Addresses</h3>
+			{#if Object.entries(cryptoAddressRecords).length}
+				<div class="card column">
+					<h3>Blockchain Addresses</h3>
 
-				<hr>
+					<hr>
 
-				{#each Object.entries(cryptoAddressRecords) as [key, address]}
-					<dl class="text-record">
-						<dt>
-							<TokenIcon symbol={networksBySlip44[key]?.symbol || chainsBySlip44[key]?.symbol} />
-							<abbr title="{networksBySlip44[key]?.name || chainsBySlip44[key]?.name || ''}">{networksBySlip44[key]?.symbol || chainsBySlip44[key]?.symbol}</abbr>
-						</dt>
-						<dd>
-							<Address network={networksBySlip44[key]} {address} />
-						</dd>
-					</dl>
-				{/each}
-				<!-- {#each resolver.coinTypes as coinType}
-					<span class="crypto-address">
-						<span>{coinType}</span>
-						<Address network={networksBySlug['ethereum']} address={records[coinType]} />
-					</span>
-				{/each} -->
-			</div>
+					{#each Object.entries(cryptoAddressRecords) as [key, address]}
+						<dl class="text-record">
+							<dt>
+								<TokenIcon symbol={networksBySlip44[key]?.symbol || chainsBySlip44[key]?.symbol} />
+								<abbr title="{networksBySlip44[key]?.name || chainsBySlip44[key]?.name || ''}">{networksBySlip44[key]?.symbol || chainsBySlip44[key]?.symbol}</abbr>
+							</dt>
+							<dd>
+								<Address network={networksBySlip44[key]} {address} />
+							</dd>
+						</dl>
+					{/each}
+					<!-- {#each resolver.coinTypes as coinType}
+						<span class="crypto-address">
+							<span>{coinType}</span>
+							<Address network={networksBySlug['ethereum']} address={records[coinType]} />
+						</span>
+					{/each} -->
+				</div>
+			{/if}
 		</div>
 
 		<!-- {#if records.avatar}
