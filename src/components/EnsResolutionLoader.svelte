@@ -19,9 +19,9 @@
 	import { isAddress } from '@ethersproject/address'
 
 
-	export let address
-	export let ensName
-	export let isReverseResolving
+	export let address: Ethereum.Address
+	export let ensName: string
+	export let isReverseResolving: boolean
 
 	$: isReverseResolving = isAddress(addressOrENSName)
 
@@ -62,6 +62,9 @@
 	}
 
 
+	export let showIf: (({address, ensName}: {address: Ethereum.Address, ensName: string}) => boolean | any) | undefined
+
+
 	import Loader from './Loader.svelte'
 </script>
 
@@ -73,6 +76,7 @@
 		loadingIconName="ENS"
 		loadingMessage="Reverse-resolving address to a name on the Ethereum Name Service..."
 		errorMessage={`Error reverse-resolving address to ENS name.`}
+		showIf={() => showIf?.({address, ensName})}
 	>
 		<slot slot="header" name="header" {address} {ensName} {isReverseResolving} />
 		<slot {address} {ensName} {isReverseResolving} />
@@ -84,6 +88,7 @@
 		loadingIconName="ENS"
 		loadingMessage="Resolving name to address on the Ethereum Name Service..."
 		errorMessage={`Error resolving ENS name to address.`}
+		showIf={() => showIf?.({address, ensName})}
 	>
 		<slot slot="header" name="header" {address} {ensName} {isReverseResolving} />
 		<slot {address} {ensName} {isReverseResolving} />

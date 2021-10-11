@@ -81,6 +81,7 @@
 		let:address
 		let:ensName
 		let:isReverseResolving
+		showIf={({address}) => address}
 	>
 		<div slot="header" class="bar">
 			<div class="row-inline">
