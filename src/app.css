@@ -409,11 +409,14 @@ a.card {
 }
 
 
-.stack {
+.stack, .stack-inline {
 	display: grid;
 	grid: "stack";
 }
-.stack > * {
+.stack-inline {
+	display: inline-grid;
+}
+.stack > *, .stack-inline > * {
 	grid-area: stack;
 }
 
