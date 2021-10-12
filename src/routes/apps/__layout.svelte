@@ -85,9 +85,22 @@
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 	<div class="bar">
-		<h1><a href="/apps/{$blockchainAppSlug}">{$blockchainAppSlug && $blockchainAppConfig ? `${$blockchainAppConfig.name} ${currentView}` : `Blockchain/Web 3.0 Apps`}</a></h1>
+		<h1>
+			<a href="/apps/{$blockchainAppSlug}" class="stack-inline">
+				{#if $blockchainAppSlug && $blockchainAppConfig}
+					<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>
+						<span class="stack-inline">{#key $blockchainAppConfig}<mark in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{$blockchainAppConfig.name}</mark>{/key}</span>
+						<span class="stack-inline">{#key currentView}<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{currentView}</span>{/key}</span>
+					</span>
+				{:else}
+					<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>
+						Blockchain/Web 3.0 Apps
+					</span>
+				{/if}
+			</a>
+		</h1>
 		<label>
-			<span>Blockchain App: </span>
+			<span>App</span>
 			<!-- <select bind:value={$blockchainAppSlug}> -->
 			<select bind:value={$blockchainAppSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`/apps/${$blockchainAppSlug}${$addressOrENSName ? `/${$addressOrENSName}` : ''}`))}>
 				<option value="" selected>Select App...</option>
@@ -113,7 +126,7 @@
 <Preferences
 	relevantPreferences={[
 		'theme',
-		'rpcNetwork', 'tokenBalancesProvider', 'defiProvider', 'nftsProvider', 'currentPriceProvider', 'historicalPriceProvider',
+		'rpcNetwork', 'defiProvider', 'nftsProvider', 'currentPriceProvider', 'historicalPriceProvider', 'transactionProvider',
 		'quoteCurrency'
 	]}
 />

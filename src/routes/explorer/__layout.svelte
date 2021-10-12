@@ -96,6 +96,7 @@
 	import { fly } from 'svelte/transition'
 	import { tokenColors } from '../../data/token-colors'
 	import Preferences from '../../components/Preferences.svelte'
+	import TokenIcon from '../../components/TokenIcon.svelte'
 </script>
 
 
@@ -118,7 +119,13 @@
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 	<div class="bar">
-		<h1>{$networkSlug ? `${networkDisplayName} Explorer` : `Explorer`}</h1>
+		<div class="row">
+			<TokenIcon erc20Token={$explorerNetwork.nativeCurrency} />
+			<h1>
+				<span class="stack-inline">{#key $networkSlug}<b in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{$networkSlug ? `${networkDisplayName} ` : ``}</b>{/key}</span>
+				Explorer
+			</h1>
+		</div>
 		<label>
 			<span>Testnets: </span>
 			<input type="checkbox" bind:checked={showTestnets} />
@@ -157,7 +164,10 @@
 <Preferences
 	relevantPreferences={[
 		'theme',
-		'rpcNetwork', 'tokenBalancesProvider', 'currentPriceProvider', 'historicalPriceProvider', 'transactionsProvider',
+		...($query
+			? ['rpcNetwork', 'tokenBalancesProvider', 'transactionProvider']
+			: ['rpcNetwork', 'currentPriceProvider', 'historicalPriceProvider']
+		),
 		'quoteCurrency'
 	]}
 />
