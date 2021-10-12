@@ -251,6 +251,9 @@ select {
 	border-radius: 0.5rem;
 	padding: 0.25em 0.4em;
 }
+select:not(:focus) {
+	cursor: context-menu;
+}
 
 section {
 	display: grid;

@@ -14,7 +14,13 @@
 		gap: var(--padding-inner);
 
 		--hover-intensity: 4px;
+
+		cursor: progress;
 	}
+	.loading :global(*) {
+		cursor: inherit !important;
+	}
+
 	.icon {
 		display: inline-flex;
 		place-items: center;
