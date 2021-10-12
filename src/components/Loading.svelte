@@ -27,6 +27,8 @@
 		font-size: 1.5em;
 
 		align-items: center;
+
+		filter: drop-shadow(var(--card-shadow));
 	}
 	.spin {
 		animation: Spin 1s linear infinite;
