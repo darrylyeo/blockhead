@@ -42,7 +42,8 @@
 		ensNamePromise = provider?.lookupAddress(address).then(ensName => {
 			if(ensName)
 				return ensName
-			throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name.`)
+			// throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name.`)
+			throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name (or there's an issue with the${$preferences.rpcNetwork === 'Auto' ? `` : ` ${$preferences.rpcNetwork}`} JSON-RPC connection).`)
 		})
 			.then(_ => ensName = _)
 		// ensNamePromise = ens.getName(address).then(async name => {
@@ -54,7 +55,8 @@
 		addressPromise = provider?.resolveName(ensName).then(address => {
 			if(address)
 				return address
-			throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address.`)
+			// throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address.`)
+			throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address (or there's an issue with the${$preferences.rpcNetwork === 'Auto' ? `` : ` ${$preferences.rpcNetwork}`} JSON-RPC connection).`)
 		})
 			.then(_ => address = _)
 		// addressPromise = ens.name(addressOrENSName).getAddress()
@@ -63,6 +65,9 @@
 
 
 	export let showIf: (({address, ensName}: {address: Ethereum.Address, ensName: string}) => boolean | any) | undefined
+
+
+	$: viaRPC = $preferences.rpcNetwork === 'Auto' ? '' : ` via ${$preferences.rpcNetwork}`
 
 
 	import Loader from './Loader.svelte'
@@ -74,8 +79,8 @@
 		fromPromise={ensNamePromise && (() => ensNamePromise)}
 		loadingIcon="/logos/ens.svg"
 		loadingIconName="ENS"
-		loadingMessage="Reverse-resolving address to a name on the Ethereum Name Service..."
-		errorMessage={`Error reverse-resolving address to ENS name.`}
+		loadingMessage="Reverse-resolving address to a name on the Ethereum Name Service{viaRPC}"
+		errorMessage={`Error reverse-resolving address to ENS name${viaRPC}.`}
 		showIf={() => showIf?.({address, ensName})}
 	>
 		<slot slot="header" name="header" {address} {ensName} {isReverseResolving} />
@@ -86,8 +91,8 @@
 		fromPromise={addressPromise && (() => addressPromise)}
 		loadingIcon="/logos/ens.svg"
 		loadingIconName="ENS"
-		loadingMessage="Resolving name to address on the Ethereum Name Service..."
-		errorMessage={`Error resolving ENS name to address.`}
+		loadingMessage="Resolving name to address on the Ethereum Name Service{viaRPC}..."
+		errorMessage={`Error resolving ENS name to address${viaRPC}.`}
 		showIf={() => showIf?.({address, ensName})}
 	>
 		<slot slot="header" name="header" {address} {ensName} {isReverseResolving} />
