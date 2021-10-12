@@ -110,7 +110,7 @@
 		
 		<span>
 			producing hash
-			<output class="block-hash"><abbr title="Block {block.blockNumber} hash: {block.hash}">{formatTransactionHash(block.hash, 'middle-truncated')}</abbr></output>
+			<output class="block-hash"><abbr title="Block hash: {block.hash}">{formatTransactionHash(block.hash, 'middle-truncated')}</abbr></output>
 		</span>
 	</div>
 
