@@ -13,3 +13,4 @@ export const TORUS_OPENLOGIN_SECRET = import.meta.env['VITE_TORUS_OPENLOGIN_SECR
 export const AUDIUS_APP_NAME = import.meta.env['VITE_AUDIUS_APP_NAME'] as string
 export const MORALIS_GATEWAY_ID = import.meta.env['VITE_MORALIS_GATEWAY_ID'] as string
 export const MORALIS_WEB3_API_KEY = import.meta.env['VITE_MORALIS_WEB3_API_KEY'] as string
+export const NFTPORT_API_KEY = import.meta.env['NFTPORT_API_KEY'] as string
