@@ -41,6 +41,7 @@
 		'bsc',
 		'arbitrum-one',
 		'arbitrum-xdai',
+		'metis',
 		'optimism',
 		// 'oasis-paratime',
 		'bitcoin'
