@@ -162,7 +162,9 @@
 	</div>
 
 	<div class="stack">
-		<slot />
+		{#key $networkSlug}
+			<slot />
+		{/key}
 	</div>
 </main>
 
