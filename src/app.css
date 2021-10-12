@@ -365,6 +365,11 @@ a.card {
 	text-transform: uppercase;
 }
 
+.card .footer {
+	opacity: 0.8;
+	font-size: 0.66em;
+}
+
 
 .row, .row-inline, .bar {
 	display: flex;

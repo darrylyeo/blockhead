@@ -34,9 +34,9 @@
 		border-radius: 0.33em;
 	}
 
-	.muted {
-		opacity: 0.75;
-	}
+	/* .muted {
+		opacity: 0.8;
+	} */
 </style>
 
 

@@ -202,13 +202,6 @@
 	}
 
 
-	.transaction .footer {
-		/* justify-items: end;
-		gap: var(--padding-inner); */
-		opacity: 0.7;
-		font-size: 0.66em;
-	}
-
 	.container.inner-layout-row {
 		display: flex;
 		justify-content: space-between;
