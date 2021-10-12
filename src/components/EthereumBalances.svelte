@@ -11,7 +11,7 @@
 	export let quoteCurrency: QuoteCurrency = $preferences.quoteCurrency
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending'
 	export let showSmallValues = false
-	export let showValues
+	export let showValues: 'original' | 'converted' | 'both' = 'original'
 
 	export let isSelectable = false
 	export let selectedToken: Ethereum.ERC20Token | undefined
