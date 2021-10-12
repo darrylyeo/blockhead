@@ -103,7 +103,7 @@
 		gasOffered: gas_offered,
 		gasSpent: gas_spent,
 		gasRate: gas_price,
-		gasValue: _formatUnits(gas_spent * gas_price, 'gwei'),
+		gasValue: formatUnits(gas_spent * gas_price, network.nativeCurrency.decimals),
 
 		logEvents: log_events
 			?.map(({
@@ -487,7 +487,7 @@
 
 							erc20Token={gasToken}
 
-							balance={gasSpent}
+							balance={gasValue}
 							conversionCurrency={quoteCurrency}
 							convertedValue={gasConvertedValue}
 						/>

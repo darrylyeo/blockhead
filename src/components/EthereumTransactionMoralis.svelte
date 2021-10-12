@@ -46,8 +46,8 @@
 		valueQuote,
 
 		gasToken: Ethereum.ERC20Token,
+		gasSpent,
 		gasValue,
-		gasValueQuote,
 
 		quoteToken,
 		rate,
@@ -94,8 +94,9 @@
 		value: _formatUnits(transaction.value, network.nativeCurrency.decimals),
 
 		gasToken: network.nativeCurrency,
-		gasValue: _formatUnits(transaction.receipt_gas_used, 'gwei'),
-		gasValueQuote: Number(transaction.gas_price) * Number(transaction.receipt_gas_used),
+		gasRate: transaction.gas_price,
+		gasSpent: transaction.receipt_gas_used,
+		gasValue: _formatUnits(Number(transaction.receipt_gas_used) * Number(transaction.gas_price), network.nativeCurrency.decimals),
 		// receipt_root
 
 		logEvents: transaction.logs,
@@ -124,7 +125,6 @@
 
 		gasToken,
 		gasValue,
-		gasValueQuote,
 
 		quoteToken,
 		rate,
