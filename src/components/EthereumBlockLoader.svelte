@@ -38,6 +38,7 @@
 
 	import Date from './Date.svelte'
 	import EthereumBlock from './EthereumBlock.svelte'
+	import EthereumBlockNavigation from './EthereumBlockNavigation.svelte'
 	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
 	import Loader from './Loader.svelte'
 	import TokenIcon from './TokenIcon.svelte'
@@ -204,6 +205,7 @@
 				{showTransactions}
 			/>
 		</Loader>
+
 	{:else if transactionProvider === 'RPC Provider'}
 		<Loader
 			loadingIconName={transactionProvider}
@@ -250,4 +252,14 @@
 			{/if}
 		</Loader>
 	{/if}
+</div>
+
+
+<div class="navigation column">
+	<EthereumBlockNavigation
+		{network}
+		{provider}
+		blockNumber={Number(blockNumber)}
+		showBeforeAndAfter
+	/>
 </div>

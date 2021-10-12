@@ -122,7 +122,7 @@
 
 
 	/* Fixed layout (supports inner position: sticky elements) */
-	:global(nav) {
+	:global(#svelte > nav) {
 		position: fixed;
 		width: 100%;
 		top: 0;
@@ -145,7 +145,7 @@
 
 
 
-	:global(nav) {
+	:global(#svelte > nav) {
 		-webkit-backdrop-filter: var(--overlay-backdrop-filter);
 		backdrop-filter: var(--overlay-backdrop-filter);
 		border-bottom: 1px solid rgba(0, 0, 0, 0.2);
