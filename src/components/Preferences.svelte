@@ -174,6 +174,11 @@
 		font-size: 0.8em;
 		text-transform: uppercase;
 	} */
+
+
+	select[multiple] {
+		height: 1.8em;
+	}
 </style>
 
 
@@ -203,19 +208,35 @@
 			}
 				<label class="preference" transition:scale={{duration: 200, opacity: 0, /* delay: i * 20 + j * 10, */ easing: expoOut}} animate:flip={{duration: 250, easing: expoOut}}>
 					<span>{name}</span>
-					<select bind:value={$preferences[id]}><!--  multiple={type === 'multiple'} -->
-						{#each options as {id, name, options, value, disabled} (id)}
-							{#if options}
-								<optgroup label={name}>
-									{#each options as {id, name, value, disabled} (id)}
-										<option value={value || id} disabled={disabled}>{resolveName(name)}</option>
-									{/each}
-								</optgroup>
-							{:else}
-								<option value={value || id} disabled={disabled}>{resolveName(name)}</option>
-							{/if}
-						{/each}
-					</select>
+					{#if type === 'multiple'}
+						<select bind:value={$preferences[id]} multiple>
+							{#each options as {id, name, options, value, disabled} (id)}
+								{#if options}
+									<optgroup label={name}>
+										{#each options as {id, name, value, disabled} (id)}
+											<option value={value || id} disabled={disabled}>{resolveName(name)}</option>
+										{/each}
+									</optgroup>
+								{:else}
+									<option value={value || id} disabled={disabled}>{resolveName(name)}</option>
+								{/if}
+							{/each}
+						</select>
+					{:else}
+						<select bind:value={$preferences[id]}><!--  multiple={type === 'multiple'} -->
+							{#each options as {id, name, options, value, disabled} (id)}
+								{#if options}
+									<optgroup label={name}>
+										{#each options as {id, name, value, disabled} (id)}
+											<option value={value || id} disabled={disabled}>{resolveName(name)}</option>
+										{/each}
+									</optgroup>
+								{:else}
+									<option value={value || id} disabled={disabled}>{resolveName(name)}</option>
+								{/if}
+							{/each}
+						</select>
+					{/if}
 				</label>
 			{/each}
 		</section>
