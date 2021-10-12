@@ -89,21 +89,15 @@
 </div> -->
 
 {#if !isHidden}
-	<div class="bar">
-		<slot name="title">
-			<h3>Current Price</h3>
-		</slot>
-		<span class="card-annotation">{currentPriceProvider}</span>
-	</div>
 	<div class="stack">
-		{#key blockNumber}
-			{#if currentPriceProvider === 'Chainlink'}
+		{#if currentPriceProvider === 'Chainlink'}
+			<div class="column">
 				<Loader
 					loadingIcon={'/logos/chainlink.svg'}
 					loadingIconName={currentPriceProvider}
 					loadingMessage="Retrieving price from {currentPriceProvider}..."
 					errorMessage="{token} price not available"
-					fromPromise={provider && network && (() => getChainlinkPriceFeed(provider, network, token, quoteCurrency))}
+					fromPromise={provider && network && blockNumber && (() => getChainlinkPriceFeed(provider, network, token, quoteCurrency))}
 					let:then={priceFeed}
 					whenErrored={async () => {
 						await new Promise(r => setTimeout(r, 1000))
@@ -111,6 +105,20 @@
 							currentPriceProvider = 'Covalent'
 					}}
 				>
+					<div slot="header" class="bar" let:status>
+						<slot name="title">
+							<h3>Current Price</h3>
+						</slot>
+
+						<span class="card-annotation">
+							{currentPriceProvider}
+							{#if status === 'resolved'}
+								›
+								<Address {network} address={priceFeed.contractAddress}>{token}/{quoteCurrency} Price Feed</Address>
+							{/if}
+						</span>
+					</div>
+
 					<div class="rate">
 						<TokenBalance
 							balance={1}
@@ -133,11 +141,13 @@
 						/>
 					</div> -->
 					<footer class="bar">
-						<Address {network} address={priceFeed.contractAddress}>{token}/{quoteCurrency} Price Feed</Address>
+						<span />
 						<span class="card-annotation">Updated {priceFeed.updatedAt.toLocaleTimeString()}</span>
 					</footer>
 				</Loader>
-			{:else if currentPriceProvider === 'Covalent'}
+			</div>
+		{:else if currentPriceProvider === 'Covalent'}
+			<div class="column">
 				<Loader
 					loadingIcon={'/logos/covalent-logomark.svg'}
 					loadingIconName={currentPriceProvider}
@@ -156,6 +166,16 @@
 					}}
 					let:then={data}
 				>
+					<div slot="header" class="bar">
+						<slot name="title">
+							<h3>Current Price</h3>
+						</slot>
+
+						<span class="card-annotation">
+							{currentPriceProvider}
+						</span>
+					</div>
+
 					<svelte:fragment slot="errorActions" let:cancel>
 						<button class="small" on:click={() => {
 							cancel()
@@ -190,8 +210,8 @@
 						<span class="card-annotation">Updated {new Date(data.updatedAt).toLocaleTimeString()}</span>
 					</footer>
 				</Loader>
-			{/if}
-		{/key}
+			</div>
+		{/if}
 	</div>
 
 	<!-- {#if isMounted}
