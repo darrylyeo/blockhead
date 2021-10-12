@@ -113,14 +113,15 @@ export const preferencesConfig: PreferencesConfig<
 				id: 'rpcNetwork',
 				name: 'On-Chain Data',
 				type: 'single', // 'multiple',
-				defaultOption: 'Ethers',
+				defaultOption: 'Auto',
 				options: [
-					{ id: 'Ethers', name: 'Ethers Quorum' }, // (Infura + Etherscan + Alchemy + Pocket)
+					{ id: 'Auto', name: 'Auto' },
 					{ id: 'Pocket Network', name: 'Pocket Network' },
 					{ id: 'Alchemy', name: 'Alchemy' },
-					{ id: 'Infura', name: 'Infura' },
 					{ id: 'Moralis', name: 'Moralis' },
+					{ id: 'Infura', name: 'Infura' },
 					{ id: 'Etherscan', name: 'Etherscan' },
+					{ id: 'Ethers', name: 'Ethers Quorum' }, // (Infura + Etherscan + Alchemy + Pocket)
 					// { id: 'Portis', name: 'Infura (Portis)' },
 				]
 			},

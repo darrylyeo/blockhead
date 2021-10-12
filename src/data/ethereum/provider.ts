@@ -11,6 +11,14 @@ import { memoized } from '../../utils/memoized'
 
 export const getProviderAndInstance = memoized(async (network: Ethereum.Network, providerName: Ethereum.ProviderName) => {
 	return await {
+		'Auto': async network => {
+			return {
+				provider: new providers.JsonRpcProvider(
+					getNetworkRPC(network)
+				)
+			}
+		},
+
 		'Ethers': async network => {
 			return {
 				provider: getDefaultProvider(network.chainId, {
