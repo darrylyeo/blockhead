@@ -126,7 +126,8 @@
 								.then(({ usdPrice }) =>
 									usdPrice >= 10 ** decimals ? usdPrice / (10 ** decimals) : usdPrice
 								)
-								.catch(e => console.error(e?.error?.message))
+								.catch(e => undefined)
+								// .catch(e => console.error(e?.error?.message))
 						: quoteCurrency === network.nativeCurrency.symbol ?
 							await MoralisWeb3Api.erc20.getTokenPrice({
 								chain,
@@ -135,8 +136,8 @@
 								.then(({ nativePrice: { value } }) =>
 									value >= 10 ** decimals ? value / (10 ** decimals) : value
 								)
-								.catch(e => console.error(e?.error?.message))
-								
+								.catch(e => undefined)
+								// .catch(e => console.error(e?.error?.message))
 						:
 							undefined
 					) ?? 0
