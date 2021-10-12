@@ -21,17 +21,10 @@
 		display: inline-flex;
 		align-items: baseline;
 		justify-items: start;
-		gap: 0.75ch;
+		/* gap: 0.75ch; */
 	}
 	.transaction > * {
 		flex: 0 auto;
-	}
-
-	.transaction :global(.block-number) {
-		display: inline-block;
-		background-color: var(--card-background-color);
-		padding: 0.15em 0.4em;
-		border-radius: 0.33em;
 	}
 
 	/* .muted {

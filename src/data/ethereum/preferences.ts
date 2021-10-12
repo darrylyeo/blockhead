@@ -211,17 +211,17 @@ export const preferencesConfig: PreferencesConfig<
 			},
 			{
 				id: 'transactionProvider',
-				name: 'Historical Transactions',
+				name: 'Transactions/Blocks',
 				type: 'single',
 				defaultOption: 'Covalent',
 				options: [
-					// {
-					// 	id: 'onChain',
-					// 	name: 'On-Chain',
-					// 	options: [
-					// 		{ id: 'RPC Provider', name: 'RPC Provider' },
-					// 	]
-					// },
+					{
+						id: 'onChain',
+						name: 'On-Chain',
+						options: [
+							{ id: 'RPC Provider', name: 'RPC Provider' },
+						]
+					},
 					{
 						id: 'offChain',
 						name: 'Off-Chain',

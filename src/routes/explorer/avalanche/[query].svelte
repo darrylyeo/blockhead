@@ -22,7 +22,7 @@
 
 
 	import EthereumAccount from '../../../components/EthereumAccount.svelte'
-	import EthereumBlock from '../../../components/EthereumBlock.svelte'
+	import EthereumBlockLoader from '../../../components/EthereumBlockLoader.svelte'
 	import EthereumTransactionLoader from '../../../components/EthereumTransactionLoader.svelte'
 </script>
 
@@ -43,7 +43,12 @@
 			layout="standalone"
 		/>
 	{:else if isBlockNumber($query)}
-		<EthereumBlock network={$explorerNetwork} blockNumber={$query} provider={$explorerProvider} {transactionProvider}/>
+		<EthereumBlockLoader
+			network={$explorerNetwork}
+			blockNumber={$query}
+			provider={$explorerProvider}
+			{transactionProvider}
+		/>
 	{:else}
 		<EthereumAccount network={$explorerNetwork} addressOrENSName={$query} provider={$explorerProvider}/>
 	{/if}
