@@ -7,6 +7,8 @@
 
 	let isShowingAll = false
 
+	const isShowingPreference = ({id}) => isShowingAll || !(relevantPreferences.length && !relevantPreferences.includes(id))
+
 
 	import { expoOut } from 'svelte/easing'
 	import { flip } from 'svelte/animate'
@@ -121,6 +123,9 @@
 
 		flex-direction: row;
 	}
+	/* .preference:not(.is-showing-all) .preference-section:empty {
+		display: none;
+	} */
 	.preferences.is-showing-all .preference-section {
 		flex-direction: column;
 	}
@@ -175,15 +180,19 @@
 		<button class="medium" on:click={() => isShowingAll = !isShowingAll}>{isShowingAll ? 'Show Less' : 'Show All'}</button>
 	</label> -->
 
-	{#each preferencesConfig as preferencesSection, i (preferencesSection.id)}
+	{#each isShowingAll
+		? preferencesConfig
+		: preferencesConfig.filter(preferencesSection => preferencesSection.preferences.some(isShowingPreference))
+		as
+		preferencesSection, i (preferencesSection.id)
+	}
 		<!-- <section class="preference-section" transition:scale={{duration: 200, opacity: 0, delay: i * 20, easing: expoOut}} animate:flip={{duration: 250}}> -->
 		<section class="preference-section">
 			{#if isShowingAll}
 				<h4 in:scale={{duration: 300, easing: expoOut, /* delay: i * 20 */}}>{preferencesSection.name}</h4>
 			{/if}
 			{#each
-				preferencesSection.preferences
-					.filter(({id}) => isShowingAll || !(relevantPreferences.length && !relevantPreferences.includes(id)))
+				preferencesSection.preferences.filter(isShowingPreference)
 				as {id, name, type, options}, j (id)
 			}
 				<label class="preference" transition:scale={{duration: 200, opacity: 0, /* delay: i * 20 + j * 10, */ easing: expoOut}} animate:flip={{duration: 250, easing: expoOut}}>
