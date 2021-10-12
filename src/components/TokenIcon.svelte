@@ -26,6 +26,10 @@
 	$: cachedIndex[address || symbol] = i
 	$: imageSources = cachedImageSources[address || symbol] ||= [
 		symbol === 'AVAX' && '/logos/avax-token.svg',
+		symbol === 'MATIC' && '/logos/matic-token.svg',
+		symbol === 'FTM' && '/logos/fantom-token.svg',
+		symbol === 'METIS' && '/logos/metis-token.png',
+		symbol === 'skETH' && '/logos/skale-token.svg',
 		symbol === 'AAVE' && 'https://token-icons.s3.amazonaws.com/0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9.png',
 		address && `https://token-icons.s3.amazonaws.com/${address.toLowerCase()}.png`,
 		icon,
@@ -38,7 +42,7 @@
 
 	// let loadingError
 
-	$: Icon = symbol && !['DAI', 'LINK', 'LRC'].includes(symbol) && CryptoIcons[symbol[0].toUpperCase() + symbol.slice(1).toLowerCase()]
+	$: Icon = symbol && !['DAI', 'LINK', 'LRC', 'AMP', 'DOGE', 'MATIC'].includes(symbol) && CryptoIcons[symbol[0].toUpperCase() + symbol.slice(1).toLowerCase()]
 </script>
 
 
@@ -110,5 +114,10 @@
 		font-size: 0.37em;
 		font-style: normal;
 		font-weight: 500;
+	}
+
+	/* ETH SVG off-center correction */
+	picture[title="ETH"] :global(circle + g) {
+		transform: translateX(-.498px);
 	}
 </style>
