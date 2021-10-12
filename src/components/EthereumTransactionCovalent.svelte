@@ -346,14 +346,6 @@
 	.transaction :global(.token-rate) {
 		font-weight: 500;
 	}
-	.container :global(.date) {
-		font-size: 0.66em;
-		opacity: 0.7;
-		align-self: center;
-		align-items: flex-end;
-		justify-content: center;
-		height: 1em;
-	}
 
 	.log-events {
 		font-size: 0.9em;
@@ -387,6 +379,13 @@
 	}
 	.container.inner-layout-columns .value {
 		font-size: 1.5em;
+	}
+
+	.container .date {
+		opacity: 0.8;
+		font-size: 0.66em;
+		align-self: center;
+		text-align: end;
 	}
 
 	.unsuccessful {
@@ -495,7 +494,7 @@
 					</span>
 				{/if}
 				{#if isSummary && date}
-					<Date {date} />
+					<span class="date"><Date {date} layout="vertical" format="relative" /></span>
 				{/if}
 			</div>
 		{/if}
