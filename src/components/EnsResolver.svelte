@@ -248,14 +248,18 @@
 
 					<hr>
 
-					{#each Object.entries(cryptoAddressRecords) as [key, address]}
+					{#each Object.entries(cryptoAddressRecords).sort((a, b) => a[1] === null ? 1 : b[1] === null ? -1 : 0) as [key, address]}
 						<dl class="text-record">
 							<dt>
 								<TokenIcon symbol={networksBySlip44[key]?.symbol || chainsBySlip44[key]?.symbol} />
 								<abbr title="{networksBySlip44[key]?.name || chainsBySlip44[key]?.name || ''}">{networksBySlip44[key]?.symbol || chainsBySlip44[key]?.symbol}</abbr>
 							</dt>
 							<dd>
-								<Address network={networksBySlip44[key]} {address} />
+								{#if address === null}
+									<span class="not-set" />
+								{:else}
+									<Address network={networksBySlip44[key]} {address} />
+								{/if}
 							</dd>
 						</dl>
 					{/each}
