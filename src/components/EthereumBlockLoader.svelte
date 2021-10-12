@@ -262,4 +262,24 @@
 		blockNumber={Number(blockNumber)}
 		showBeforeAndAfter
 	/>
+
+	{#if navigationNetworks && transactionProvider === 'Moralis' && block?.timestamp}
+		{#each navigationNetworks.filter(_network => _network !== network) as network}
+			{#await MoralisWeb3Api.dateToBlock.getDateToBlock({
+				chain: chainCodeFromNetwork(network),
+				date: block.timestamp
+			}) then {block: blockNumber, timestamp}}
+				{#if blockNumber > 1}
+					<EthereumBlockNavigation
+						{network}
+						blockNumber={blockNumber > 1 ? Number(blockNumber) : undefined}
+					/>
+				{/if}
+			{:catch error}
+				{#if error?.message}
+					{(console.error(error), error.message)}
+				{/if}
+			{/await}
+		{/each}
+	{/if}
 </div>
