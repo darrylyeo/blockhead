@@ -30,7 +30,7 @@ jobs:
       - name: Build project
         run: |
           npm i
-          npm build
+          npm run build
 
       - name: Deploy to Skynet
         uses: SkynetLabs/deploy-to-skynet-action@v2
