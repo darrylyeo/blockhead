@@ -129,7 +129,7 @@ export const networks: Ethereum.Network[] = [
 			"type": "L2"
 		},
 		"slug": "arbitrum-xdai",
-		"name": "Arbitrum on xDai",
+		"name": "Arbitrum on xDAI",
 		"chainId": 200,
 		"shortName": "aox",
 		"chain": "AOX",
