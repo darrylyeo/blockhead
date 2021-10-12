@@ -48,14 +48,21 @@
 <style>
 	.navigation {
 		--padding-inner: 0.25em;
-	}
-	.navigation {
+
 		/* margin: 0 calc(-1 * var(--padding-outer)); */
 		margin-top: auto;
 		padding: var(--padding-outer);
 
 		backdrop-filter: var(--overlay-backdrop-filter);
 		border-radius: var(--card-border-radius);
+	}
+	.navigation {
+		position: sticky;
+		bottom: 4rem;
+		margin: 0 calc(-1 * var(--padding-outer));
+		z-index: 1;
+		font-size: 0.8em;
+		background-color: rgba(0, 0, 0, 0.25);
 	}
 	/* .navigation {
 		position: sticky;

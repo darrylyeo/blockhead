@@ -24,6 +24,10 @@
 
 
 <style>
+	section {
+		min-height: 50vh;
+	}
+
 	form {
 		display: grid;
 		grid-template-columns: 1fr auto;
