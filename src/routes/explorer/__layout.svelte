@@ -83,7 +83,10 @@
 
 	// Preferences
 
-	let showTestnets = isTestnet($explorerNetwork)
+	let showTestnets = false
+	$: _isTestnet = isTestnet($explorerNetwork)
+	$: if(_isTestnet)
+		showTestnets = true
 
 
 	$: networkDisplayName = $explorerNetwork ? $explorerNetwork.name : $networkSlug[0].toUpperCase() + $networkSlug.slice(1)
@@ -126,10 +129,12 @@
 				Explorer
 			</h1>
 		</div>
-		<label>
-			<span>Testnets: </span>
-			<input type="checkbox" bind:checked={showTestnets} />
-		</label>
+		<small>
+			<label>
+				<span>Testnets: </span>
+				<input type="checkbox" bind:checked={showTestnets} disabled={_isTestnet} />
+			</label>
+		</small>
 		<!-- svelte-ignore a11y-label-has-associated-control -->
 		<label>
 			<span>Blockchain: </span>
