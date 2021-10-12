@@ -416,8 +416,13 @@
 				<h2><EthereumTransactionID {network} {transactionID} /></h2>
 				<span class="card-annotation">Ethereum Transaction</span>
 			</div>
+
 			<hr>
-			<h4>Signed Transaction Data</h4>
+
+			<div class="bar">
+				<h4>Signed Transaction Data</h4>
+				{#if nonce}<p class="card-annotation">Nonce #{nonce}</p>{/if}
+			</div>
 		{/if}
 
 		{#if !(isSummary && transfers?.length && value == 0)}

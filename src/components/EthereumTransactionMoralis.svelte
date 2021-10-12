@@ -245,11 +245,12 @@
 				<h2><EthereumTransactionID {network} {transactionID} /></h2>
 				<span class="card-annotation">Ethereum Transaction</span>
 			</div>
+
 			<hr>
 
 			<div class="bar">
 				<h4>Signed Transaction Data</h4>
-				{#if nonce}<p class="card-annotation">#{nonce}</p>{/if}
+				{#if nonce}<p class="card-annotation">Nonce #{nonce}</p>{/if}
 			</div>
 		{/if}
 
@@ -298,6 +299,7 @@
 							erc20Token={gasToken}
 
 							balance={gasValue}
+
 							conversionCurrency={quoteToken}
 						/>
 					</span>
