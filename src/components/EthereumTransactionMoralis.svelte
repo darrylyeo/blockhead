@@ -248,7 +248,7 @@
 			<hr>
 
 			<div class="bar">
-				<h4>Initial Message</h4>
+				<h4>Signed Transaction Data</h4>
 				{#if nonce}<p class="card-annotation">#{nonce}</p>{/if}
 			</div>
 		{/if}
@@ -332,7 +332,7 @@
 		{#if !isSummary && logEvents?.length}
 			{#if isStandaloneLayout}
 				<hr>
-				<h4>Smart Contract Log Events</h4>
+				<h4>Smart Contract Event Logs</h4>
 				<div class="log-events column">
 					{#each logEvents.sort((event1, event2) => event1.log_index - event2.log_index) as logEvent}
 						<div class="card">
