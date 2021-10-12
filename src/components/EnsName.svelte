@@ -10,12 +10,18 @@
 	export let linked = true
 
 
-	$: formattedENSName = ensName.trim().toLowerCase()
+	let textRecords: Record<string, string> = {}
+
+
+	$: formattedENSName = textRecords?.display ?? ensName.trim().toLowerCase()
+
+
+	import EnsRecordLoader from './EnsRecordLoader.svelte'
 </script>
 
 
 <style>
-	.format {
+	.ens-name {
 		font-family: var(--monospace-fonts), var(--base-fonts);
 		font-size: 0.95em;
 
@@ -27,18 +33,16 @@
 </style>
 
 
-{#if linked}
-	<a class="ens-name" href="/apps/ens/address/{formattedENSName}">
-		<slot {formattedENSName}>
-			<span class="format">
-				{formattedENSName}
-			</span>
-		</slot>
-	</a>
-{:else}
-	<slot {formattedENSName}>
-		<span class="ens-name format">
-			{formattedENSName}
-		</span>
-	</slot>
-{/if}
+<EnsRecordLoader
+	resolverTextRecordKeys={['name', 'avatar', 'description', 'notice', 'display', 'location', 'url']}
+	passive={true}
+	bind:textRecords
+/>
+
+<span class="ens-name" title={`${formattedENSName}${textRecords ? Object.entries(textRecords).map(([key, value]) => `${key} ${value}`) : ``}`}>
+	{#if linked}
+		<a class="ens-name" href="/apps/ens/address/{formattedENSName}">{formattedENSName}</a>
+	{:else}
+		{formattedENSName}
+	{/if}
+</span>
