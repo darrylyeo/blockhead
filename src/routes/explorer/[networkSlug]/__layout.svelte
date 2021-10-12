@@ -25,16 +25,32 @@
 	import type { Writable } from 'svelte/store'
 
 	const query = getContext<Writable<string>>('query')
-
 	$: currentQuery = $query
 	
 
 	import { preferences } from '../../../data/ethereum/preferences'
 
+	const relevantPreferences = getContext<Writable<string[]>>('relevantPreferences')
+	$: $relevantPreferences = [
+		'theme',
+		...(
+			!$query ? ['rpcNetwork', 'currentPriceProvider', 'historicalPriceProvider'] :
+			_isTransaction ? ['rpcNetwork', 'transactionProvider', 'quoteCurrency'] :
+			_isBlockNumber ? ['rpcNetwork', 'transactionProvider', 'quoteCurrency'] :
+			['rpcNetwork', 'tokenBalancesProvider', 'transactionProvider', 'quoteCurrency']
+			// _isAddress ? ['rpcNetwork', 'tokenBalancesProvider', 'transactionProvider', 'quoteCurrency'] :
+			// []
+		),
+	]
+
 
 	const isAddress = query => /^0x[0-9a-f]{40}$/i.test(query)
 	const isTransaction = query => /^0x[0-9a-f]{64}$/i.test(query)
 	const isBlockNumber = query => /^[0-9]+$/i.test(query)
+
+	$: _isAddress = isAddress($query)
+	$: _isTransaction = isTransaction($query)
+	$: _isBlockNumber = isBlockNumber($query)
 
 
 	import AddressField from '../../../components/AddressField.svelte'
@@ -82,7 +98,7 @@
 	>
 		{#if $explorerProvider}
 			{#if $query}
-				{#if isTransaction($query)}
+				{#if _isTransaction}
 					<div class="column">
 						<EthereumTransactionLoader
 							network={$explorerNetwork}
@@ -96,7 +112,7 @@
 							layout="standalone"
 						/>
 					</div>
-				{:else if isBlockNumber($query)}
+				{:else if _isBlockNumber}
 					<div class="column">
 						<EthereumBlockLoader
 							network={$explorerNetwork}

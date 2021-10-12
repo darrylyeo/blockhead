@@ -24,8 +24,21 @@
 	}
 
 
-	import type { Ethereum } from '../../data/ethereum/types'
 	import { preferences } from '../../data/ethereum/preferences'
+
+	const relevantPreferences = writable<string[]>()
+	$: $relevantPreferences = $relevantPreferences || [
+		'theme',
+		...($query
+			? ['rpcNetwork', 'tokenBalancesProvider', 'transactionProvider']
+			: ['rpcNetwork', 'currentPriceProvider', 'historicalPriceProvider']
+		),
+		'quoteCurrency'
+	]
+	setContext('relevantPreferences', relevantPreferences)
+
+
+	import type { Ethereum } from '../../data/ethereum/types'
 	import { networks, networksBySlug, testnetsForMainnets, isTestnet } from '../../data/ethereum/networks'
 	import { derived } from 'svelte/store'
 	import { onMount, setContext } from 'svelte'
@@ -169,12 +182,5 @@
 </main>
 
 <Preferences
-	relevantPreferences={[
-		'theme',
-		...($query
-			? ['rpcNetwork', 'tokenBalancesProvider', 'transactionProvider']
-			: ['rpcNetwork', 'currentPriceProvider', 'historicalPriceProvider']
-		),
-		'quoteCurrency'
-	]}
+	relevantPreferences={$relevantPreferences}
 />
