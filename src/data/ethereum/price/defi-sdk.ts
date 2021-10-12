@@ -8,7 +8,107 @@ const defiSDKContractAddress = '0x06FE76B2f432fdfEcAEf1a7d4f6C3d41B5861672'
 
 
 export namespace DefiSDK {
-	export type ProtocolName = 'Aave' | 'Aave • Uniswap Market' | 'Ampleforth' | 'Aragon' | 'Balancer' | 'Bancor' | 'bZx bZx' | 'Chi Gastoken by 1inch' | 'Compound' | 'C.R.E.A.M.' | 'Curve' | 'DDEX • Lending' | 'DDEX • Margin' | 'DDEX • Spot' | 'DeFi Money Market' | 'DODO' | 'dYdX' | 'Idle' | 'iearn.finance (v2/v3)' | 'Harvest' | 'KeeperDAO' | 'KIMCHI' | 'KyberDAO' | 'Chai' | 'Dai Savings Protocol' | 'Maker Governance' | 'Multi-Collateral Dai' | 'Matic' | 'Melon' | 'mStable' | 'Nexus Mutual' | 'Pickle Finance' | 'PieDAO' | 'PoolTogether' | 'SashimiSwap' | 'SushiSwap' | 'Swerve' | 'Synthetix' | 'TokenSets' | 'SetToken V2' | 'Uniswap V1' | 'Uniswap V2' | 'yearn.finance • Vaults' | '0x Staking'
+	export const protocolNames = [
+		'0x Staking',
+		'1inch Liquidity Protocol',
+		'1inch LP • Staking',
+		'Aave',
+		'Aave • Staking',
+		'Aave • Uniswap Market',
+		'Aave V2',
+		'Aave V2 • Stable Debt',
+		'Aave V2 • Variable Debt',
+		'Akropolis • ADEL Staking',
+		'Akropolis • AKRO Staking',
+		'Alpha Homora',
+		'Alpha Homora V2',
+		'Ampleforth',
+		'Aragon',
+		'Balancer',
+		'Bancor',
+		'Bancor • Liquidity Protection',
+		'Bancor • Locked BNT',
+		'Berezka',
+		'bZx',
+		'bZx bZx',
+		'bZx • Staking',
+		'bZx • Vested Staking',
+		'C.R.E.A.M.',
+		'C.R.E.A.M. • Staking',
+		'Chai',
+		'Chi Gastoken by 1inch',
+		'Cometh • Staking',
+		'Cometh • Tube',
+		'Compound',
+		'Compound Governance',
+		'Curve',
+		'Curve • Liquidity Gauges',
+		'Curve • Vesting',
+		'Curve • Vote Escrowed CRV',
+		'Dai Savings Protocol',
+		'Dai Savings Rate',
+		'DDEX • Lending',
+		'DDEX • Margin',
+		'DDEX • Spot',
+		'DeFi Money Market',
+		'DODO',
+		'dYdX',
+		'Enzyme',
+		'FinNexus',
+		'Gnosis Protocol',
+		'Harvest',
+		'Harvest • Profit Sharing',
+		'Idle',
+		'Idle • Early Rewards',
+		'Idle • Risk-Adjusted',
+		'iearn.finance (v2)',
+		'iearn.finance (v2/v3)',
+		'iearn.finance (v3)',
+		'KeeperDAO',
+		'KIMCHI',
+		'KyberDAO',
+		'Liquity',
+		'Livepeer',
+		'Maker Governance',
+		'Matic',
+		'Melon',
+		'Mooniswap',
+		'mStable',
+		'mStable • Staking',
+		'mStable V2',
+		'Multi-Collateral Dai',
+		'Mushrooms Finance',
+		'Mushrooms Finance • Staking',
+		'Nexus Mutual',
+		'Pickle Finance',
+		'Pickle Finance • Farms',
+		'Pickle Finance • Staking',
+		'PieDAO',
+		'PieDAO ExperiPies',
+		'PoolTogether',
+		'PoolTogether V3',
+		'Reflexer',
+		'Saddle',
+		'SashimiSwap',
+		'SetToken V2',
+		'SnowSwap',
+		'Stake DAO',
+		'SushiSwap',
+		'SushiSwap • Staking',
+		'Swerve',
+		'Swerve • Liquidity Gauges',
+		'Synthetix',
+		'TokenSets',
+		'Uniswap V1',
+		'Uniswap V2',
+		'Yearn Token Vaults',
+		'yearn.finance • Vaults',
+		'ygov.finance (v1)',
+		'ygov.finance (v2)',
+		'zlot.finance'
+	] as const
+
+	export type ProtocolName = typeof protocolNames[number]
 
 	export type ProtocolMetadata = {
 		name: ProtocolName
@@ -55,9 +155,13 @@ export namespace DefiSDK {
 	export type ProtocolBalances = DefiSDK.ProtocolBalance[]
 }
 
-export const getDefiBalances = async (provider: Ethereum.Provider, userAddress: Ethereum.Address) => {
-	const defiSDKContract = new ethers.Contract(defiSDKContractAddress, defiSDKABI, provider)
-	const defiBalances: DefiSDK.ProtocolBalances = await defiSDKContract.getProtocolBalances(userAddress, await defiSDKContract.getProtocolNames())
-	console.log(userAddress, defiBalances)
-	return defiBalances
+export const getDefiBalances = async ({protocolNames, network, provider, address}: {protocolNames?: DefiSDK.ProtocolName[], provider: Ethereum.Provider, address: Ethereum.Address}) => {
+	if(network.chainId === 1){
+		const defiSDKContract = new ethers.Contract(defiSDKContractAddress, defiSDKABI, provider)
+		protocolNames ||= await defiSDKContract.getProtocolNames() || DefiSDK.protocolNames
+		const defiBalances: DefiSDK.ProtocolBalances = await defiSDKContract.getProtocolBalances(address, protocolNames)
+		return defiBalances || []
+	}
+
+	throw new Error(`The Zerion DeFi SDK doesn't support the ${network.name} network.`)
 }

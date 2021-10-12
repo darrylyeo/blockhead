@@ -1,77 +1,134 @@
 import type { Ethereum } from './types'
-import { getEthersJS } from './ethers'
-import { getWeb3 } from './web3'
+import { getDefaultProvider, providers } from 'ethers'
 import { getMetaMask } from './providers/metamask'
+import { getTorusOpenLogin } from './providers/torus'
 import { getPortis } from './providers/portis'
 // import { getPocketNetwork } from './providers/pocket-network'
+import { getMoralisJSONRPCEndpoint } from '../moralis/endpoints'
+import { ALCHEMY_API_KEY_MAINNET, ETHERSCAN_API_KEY, INFURA_PROJECT_ID, POCKET_APP_PUBLIC_KEY, POCKET_SECRET_KEY, POCKET_GATEWAY_ID } from '../../config-secrets'
+import { getNetworkRPC } from './networks'
+import { memoized } from '../../utils/memoized'
 
-type ProviderCache = {
-	// Provider object (e.g. Portis instance)
-	instance: any,
+export const getProviderAndInstance = memoized(async (network: Ethereum.Network, providerName: Ethereum.ProviderName) => {
+	return await {
+		'Auto': async network => {
+			return {
+				provider: new providers.JsonRpcProvider(
+					getNetworkRPC(network)
+				)
+			}
+		},
+
+		'Ethers': async network => {
+			return {
+				provider: getDefaultProvider(network.chainId, {
+					alchemy: ALCHEMY_API_KEY_MAINNET,
+					etherscan: ETHERSCAN_API_KEY,
+					infura: INFURA_PROJECT_ID,
+					pocket: {
+						applicationId: POCKET_APP_PUBLIC_KEY,
+						applicationSecretKey: POCKET_SECRET_KEY
+					},
+					// quorum: 2
+				})
+			}
+		},
+
+		'Infura': async network => {
+			return {
+				provider: new providers.InfuraProvider(network.chainId, {
+					infura: INFURA_PROJECT_ID
+				})
+			}
+		},
 	
-	// Web3 provider object
-	provider: any,
+		'Alchemy': async network => {
+			return {
+				provider: new providers.AlchemyProvider(network.chainId, ALCHEMY_API_KEY_MAINNET)
+			}
+		},
 	
-	// Web3 provider object wrapped by web3 or ethers library
-	wrapped: Partial<Record<Ethereum.ProviderLibrary, Ethereum.Provider>>
-}
+		'MetaMask': async network => {
+			const provider: providers.BaseProvider = await getMetaMask(network)
 
-// Cache provider objects by EthereumNetwork, ProviderName, ProviderLibrary
-const providersCache: Partial<Record<Ethereum.Network, Partial<Record<Ethereum.ProviderName, ProviderCache>> >> = {}
-
-const getProviderAndInstance: Record<Ethereum.ProviderName, (network: Ethereum.Network) => Promise<{ instance: any, provider: any }>> = {
-	'MetaMask': async network => {
-		const instance = await getMetaMask(network)
-		return { instance, provider: instance }
-	},
-
-	'Portis': async network => {
-		const instance = await getPortis(network)
-		const { provider } = instance
-		return { instance, provider }
-	},
-
-	'Pocket Network': async network => {
-		return { instance: {}, provider: {} }
-		// const { instance, provider } = await getPocketNetwork(network)
-		// return { instance, provider }
-	}
-}
-
-async function getCachedProvider(network: Ethereum.Network = 'mainnet', providerName: Ethereum.ProviderName){
-	if(!(network in providersCache))
-		providersCache[network] = {}
+			return {
+				provider,
+				disconnect(){
+					
+				}
+			}
+		},
 	
-	if(!(providerName in providersCache[network])){
-		const { instance, provider } = await getProviderAndInstance[providerName](network)
-		providersCache[network][providerName] = {
-			instance,
-			provider,
-			wrapped: {}
-		}
-	}
+		'Torus': async network => {
+			const { instance, provider } = await getTorusOpenLogin(network)
+
+			return {
+				provider,
+				instance,
+				disconnect(){
+					instance.logout()
+				}
+			}
+		},
 	
-	return providersCache[network][providerName]
-}
+		'Portis': async network => {
+			const instance = await getPortis(network)
 
-export async function getProviderInstance(network: Ethereum.Network, providerName: Ethereum.ProviderName){
-	const { instance } = await getCachedProvider(network, providerName)
+			return {
+				provider: new providers.Web3Provider(instance.provider),
+				instance,
+				disconnect(){
+					instance.logout()
+				}
+			}
+		},
+	
+		'Pocket Network': async network => {
+			// const { instance, provider } = await getPocketNetwork(network)
+			// return { instance, provider }
+	
+	
+			// const getUrl = providers.PocketProvider.getUrl
+			// providers.PocketProvider.getUrl = (...args) => {
+			// 	const connection = getUrl(...args)
+			// 	// connection.url = connection.url.replace('eth-mainnet.gateway.pokt.network', 'eth-archival.gateway.pokt.network')
+			// 	connection.url = connection.url.replace('eth-mainnet.gateway.pokt.network', 'eth-trace.gateway.pokt.network')
+			// 	return connection
+			// }
+	
+			return {
+				provider: new providers.PocketProvider(network.chainId, {
+					applicationId: POCKET_GATEWAY_ID,
+					applicationSecretKey: POCKET_SECRET_KEY,
+					loadBalancer: true
+				})
+			}
+	
+			// const provider = new providers.PocketProvider(network.chainId, POCKET_GATEWAY_ID)
+			// return { instance: provider, provider }
+		},
 
-	return instance
-}
+		'Moralis': async network => {
+			return {
+				provider: new providers.WebSocketProvider(
+					getMoralisJSONRPCEndpoint({
+						network,
+						protocol: 'wss'
+					})
+				)
+			}
+		},
 
-export async function getProvider(network: Ethereum.Network, providerName: Ethereum.ProviderName, library: Ethereum.ProviderLibrary = 'ethers'){
-	const { provider, wrapped } = await getCachedProvider(network, providerName)
+		'Etherscan': async network => {
+			return {
+				provider: new providers.EtherscanProvider(network.chainId, ETHERSCAN_API_KEY)
+			}
+		},
+	}[providerName]?.(network)
+})
 
-	if(!(library in wrapped)){
-		if(library === 'ethers'){
-			const ethers = await getEthersJS()
-			wrapped[library] = new ethers.providers.Web3Provider(provider)
-		}else if(library === 'web3'){
-			const Web3 = await getWeb3()
-			wrapped[library] = new Web3(provider)
-		}
-	}
 
-	return wrapped[library]
+export const getEthersProvider = async (network: Ethereum.Network, providerName: Ethereum.ProviderName) => {
+	const { provider } = await getProviderAndInstance(network, providerName)
+	return provider
 }

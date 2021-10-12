@@ -1,0 +1,113 @@
+/*
+@font-face {
+	font-family: 'JetBrains Mono';
+	src:
+		url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/web/JetBrainsMono-Light.eot') format('embedded-opentype'),
+		url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/web/JetBrainsMono-Light.woff2') format('woff2'),
+		url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/web/JetBrainsMono-Light.woff') format('woff'),
+		url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/ttf/JetBrainsMono-Light.ttf') format('truetype');
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'JetBrains Mono';
+	src:
+		url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/web/JetBrainsMono-Regular.eot') format('embedded-opentype'),
+		url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/web/JetBrainsMono-Regular.woff2') format('woff2'),
+		url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/web/JetBrainsMono-Regular.woff') format('woff'),
+		url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/ttf/JetBrainsMono-Regular.ttf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'JetBrains Mono';
+	src:
+		url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/web/JetBrainsMono-Medium.eot') format('embedded-opentype'),
+		url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/web/JetBrainsMono-Medium.woff2') format('woff2'),
+		url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/web/JetBrainsMono-Medium.woff') format('woff'),
+		url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/ttf/JetBrainsMono-Medium.ttf') format('truetype');
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'JetBrains Mono';
+	src:
+		url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/web/JetBrainsMono-Bold.eot') format('embedded-opentype'),
+		url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/web/JetBrainsMono-Bold.woff2') format('woff2'),
+		url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/web/JetBrainsMono-Bold.woff') format('woff'),
+		url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/ttf/JetBrainsMono-Bold.ttf') format('truetype');
+	font-weight: 700;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'JetBrains Mono';
+	src:
+		url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/web/JetBrainsMono-ExtraBold.eot') format('embedded-opentype'),
+		url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/web/JetBrainsMono-ExtraBold.woff2') format('woff2'),
+		url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/web/JetBrainsMono-ExtraBold.woff') format('woff'),
+		url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/ttf/JetBrainsMono-ExtraBold.ttf') format('truetype');
+	font-weight: 800;
+	font-style: normal;
+}
+*/
+
+
+@import '@fontsource/fira-code';
+
+@import '@fontsource/ubuntu';
+
+
+
+@font-face {
+	font-family: 'Pally';
+	src: url('/Pally-Variable.ttf') format('truetype');
+	font-weight: 300;
+	font-style: normal;
+	font-variation-settings: 'wght' 300 'ordn' 0;
+}
+@font-face {
+	font-family: 'Pally';
+	src: url('/Pally-Variable.ttf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+	font-variation-settings: 'wght' 400 'ordn' 0;
+}
+@font-face {
+	font-family: 'Pally';
+	src: url('/Pally-Variable.ttf') format('truetype');
+	font-weight: 500;
+	font-style: normal;
+	font-variation-settings: 'wght' 500 'ordn' 0;
+}
+@font-face {
+	font-family: 'Pally';
+	src: url('/Pally-Variable.ttf') format('truetype');
+	font-weight: 600;
+	font-style: normal;
+	font-variation-settings: 'wght' 600 'ordn' 0;
+}
+@font-face {
+	font-family: 'Pally';
+	src: url('/Pally-Variable.ttf') format('truetype');
+	font-weight: 700;
+	font-style: normal;
+	font-variation-settings: 'wght' 700 'ordn' 0;
+}
+@font-face {
+	font-family: 'Pally';
+	src: url('/Pally-Variable.ttf') format('truetype');
+	font-weight: 800;
+	font-style: normal;
+	font-variation-settings: 'wght' 800 'ordn' 0;
+}
+@font-face {
+	font-family: 'Pally';
+	src: url('/Pally-Variable.ttf') format('truetype');
+	font-weight: 900;
+	font-style: normal;
+	font-variation-settings: 'wght' 900 'ordn' 0;
+}

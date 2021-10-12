@@ -14,11 +14,19 @@
 		gap: var(--padding-inner);
 
 		--hover-intensity: 4px;
+
+		cursor: progress;
 	}
+	.loading :global(*) {
+		cursor: inherit !important;
+	}
+
 	.icon {
 		display: inline-flex;
 		place-items: center;
 		font-size: 1.5em;
+
+		align-items: center;
 	}
 	.spin {
 		animation: Spin 1s linear infinite;

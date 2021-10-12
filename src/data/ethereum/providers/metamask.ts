@@ -1,14 +1,14 @@
 import type { Ethereum } from '../types'
-import { evmNetworkByID } from '../types'
 
 export async function getMetaMask(network: Ethereum.Network){
-    const ethereum = globalThis.ethereum
+	const ethereum = globalThis.ethereum
+	if(!ethereum?.isMetaMask)
+		throw new Error('MetaMask is not available. Check your browser extension settings.')
 
-    if(!ethereum?.isMetaMask)
-        throw new Error('MetaMask is not available. Check your browser extension settings.')
+	if(ethereum.chainId != network.chainId)
+		throw new Error(`Please switch the network in MetaMask to "${network.name}" (chain ID ${network.chainId}).`)
 
-    if(evmNetworkByID[Number(ethereum.chainId)] !== network)
-        throw new Error(`Please switch the network in MetaMask to "${network}".`)
+	await ethereum.enable()
 
-    return ethereum
+	return ethereum
 }

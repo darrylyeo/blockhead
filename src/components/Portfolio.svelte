@@ -1,172 +1,274 @@
 <script lang="ts">
-	import type { CryptoAddress } from '../data/CryptoAddress'
-	// import type { CryptoPosition } from '../data/CryptoPosition'
-	
-	export let name = 'Your Portfolio'
+	import type { Ethereum } from '../data/ethereum/types'
+	import type { DeFiProvider } from '../data/defi-provider'
+	import type { QuoteCurrency } from '../data/currency/currency'
+
+	import { Account } from '../data/ethereum/portfolio-accounts'
+
+
+	// Portfolio management
+
+	export let name = ''
+	export let accounts: Account[]
+
 	export let editable = false
-	export let accounts: CryptoAddress[]
 
-	export let provider
+	enum State {
+		Idle = 'idle',
+		Editing = 'editing',
+		Adding = 'adding'
+	}
+	let state = State.Idle
+	$: if(editable && name === '')
+		state = State.Editing
 
-	let newWalletAddress = ''
 
-	let isEditing = false
-	const toggleEdit = () => isEditing = !isEditing
+	import { createEventDispatcher } from 'svelte'
+	const dispatch = createEventDispatcher()
 
-	let isAddingWallet = false
-	const showAddWallet = () => isAddingWallet = true
+
+	// Wallet management
 
 	function isValid(address){
 		return address !== ''
 	}
 
-	function addWallet(newWalletAddress){
+	let newWalletAddress = ''
+
+	function addAccount(newWalletAddress){
 		if(!isValid(newWalletAddress))
 			return
 
-		if(accounts.includes(newWalletAddress))
+		if(accounts.some(account => account.id.toLowerCase() === newWalletAddress.toLowerCase()))
 			return
 
-		const newAccount = newWalletAddress
-		accounts = [...accounts, newAccount] // accounts.push(newAccount)
-
-		isAddingWallet = false
-		newWalletAddress = ''
+		const newAccount = new Account(newWalletAddress)
+		accounts = [newAccount, ...accounts]
+		quoteTotals = [, ...quoteTotals]
 	}
 
-	function deleteWallet(i){
+	function deleteAccount(i){
 		delayStartIndex = i
 		accounts = [...accounts.slice(0, i), ...accounts.slice(i + 1)]
+		quoteTotals = [...quoteTotals.slice(0, i), ...quoteTotals.slice(i + 1)]
 	}
-
+	
+	
+	// Balances view options
+	
+	export let provider: Ethereum.Provider
+	export let defiProvider: DeFiProvider
+	export let tokenBalancesProvider
+	export let nftProvider
+	export let quoteCurrency: QuoteCurrency
+	
+	let showValues: 'original' | 'converted' | 'both' = 'original'
+	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
+	let showSmallValues = false
 	let showUnderlyingAssets = false
+	let showNFTMetadata = false
+
+
+	// Computed Values
+	let quoteTotals = []
+	export let quoteTotal
+	$: quoteTotal = quoteTotals.reduce((sum, quoteTotal) => sum + quoteTotal, 0)
+
+
+	// Options menu
+	let showOptions = true
+	const toggleShowOptions = () => showOptions = !showOptions
 
 
 	let delayStartIndex = 0
 
-	import Address from './Address.svelte'
 	import AddressField from './AddressField.svelte'
-	import Balance from './Balance.svelte'
-	import DefiBalances from './DefiBalances.svelte'
 	import Loading from './Loading.svelte'
+	import PortfolioAccount from './PortfolioAccount.svelte'
+	import TokenBalance from './TokenBalance.svelte'
 	import { flip } from 'svelte/animate'
+	import { scale } from 'svelte/transition'
+import { availableNetworks } from '../data/ethereum/networks';
 </script>
 
 <style>
-	.portfolio {
-		display: grid;
-		gap: var(--padding-inner);
-		grid-template-columns: 100%;
-	}
-
-	section {
-		/* display: grid;
-		grid-auto-flow: column;
-		grid-auto-columns: 1fr auto; */
-		/* display: flex; */
-		gap: var(--padding-inner);
-	}
-
-	section > * {
-		flex: 1;
-	}
-
 	.edit-controls {
 		flex: 0 auto;
+		font-size: 0.7em;
 	}
 
-	.account {
-		--padding-inner: 0.5em;
-		display: grid;
-		gap: var(--padding-inner);
+	.options {
+		position: sticky;
+		bottom: 0;
+
+		margin: 0 calc(-1 * var(--padding-outer));
+		z-index: 1;
+
+		font-size: 0.8em;
+
+		-webkit-backdrop-filter: var(--overlay-backdrop-filter);
+		backdrop-filter: var(--overlay-backdrop-filter);
 	}
 
 	form {
 		display: contents;
 	}
 
-	form :global(.address-field) {
-		width: 16rem;
+	.account-total-value {
+		font-size: 1.21em;
 	}
 
-	.balances {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--padding-inner);
-	}
-	.balances > :global(*) {
-		flex: 0 auto;
-	}
-
-	.account :global(.defi-balances) {
-		--padding-inner: 0.5em;
-		display: grid;
-		gap: var(--padding-inner);
-		grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+	.portfolio h1 {
+		flex: 1 16rem;
 	}
 </style>
 
 
-<div class="bar">
-	<h1>{name}</h1>
-	<label>
-		<input type="checkbox" bind:checked={showUnderlyingAssets}>
-		<span>Show Underlying Assets</span>
-	</label>
-	{#if editable}
-		{#if isAddingWallet}
-			<form on:submit|preventDefault={() => addWallet(newWalletAddress)}>
-				<AddressField bind:address={newWalletAddress} autofocus required/>
-				<button>Add</button>
-				<button>Cancel</button>
-			</form>
-		{:else if isEditing}
-			<button on:click={toggleEdit}>Done</button>
-		{:else}
-			<button on:click={toggleEdit}>Edit</button>
-			<button on:click={showAddWallet}>+ Add Wallet</button>
+<div class="portfolio column">
+	<header class="bar">
+		<slot name="title">
+			<h1 class="row" on:dblclick={editable && (() => state = State.Editing)}>
+				{#if state !== State.Editing}
+					{name || '[Untitled Portfolio]'}
+				{:else}
+					<form on:submit={() => state = State.Idle}>
+						<input type="text" bind:value={name} placeholder="My Portfolio" autofocus />
+					</form>
+				{/if}
+			</h1>
+		</slot>
+
+		{#if quoteTotals.length && state !== State.Editing}
+			<span class="account-total-value" transition:scale>
+				<TokenBalance symbol={quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
+			</span>
 		{/if}
-	{/if}
-	<slot></slot>
-</div>
-<div class="portfolio">
-	{#if accounts}
-		{#each accounts as address, i (address)}
-			<section class="card" animate:flip|local={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
-				<div class="bar">
-					<div class="account">
-						<h3><Address {address} /></h3>
-						{#if provider}
-							<div class="balances">
-								{#each ['ETH'] as token}
-									<div class="card">
-										<Balance {provider} {token} {address} />
-									</div>
-								{/each}
-							</div>
-							<DefiBalances {provider} {address} {showUnderlyingAssets} />
-						{:else}
-							<Loading>Connecting to the blockchain...</Loading>
+
+		{#if editable}
+			<div class="stack">
+				{#if state !== State.Editing}
+					<div class="bar" transition:scale>
+						{#if state === State.Idle}
+							<button on:click={() => state = State.Adding} transition:scale>+ Add Wallet</button>
 						{/if}
+						<button on:click={() => state = State.Editing}>Edit</button>
 					</div>
-					{#if isEditing}
-						<div class="edit-controls">
-							<button on:click={() => deleteWallet(i)}>Delete</button>
-						</div>
-					{/if}
-				</div>
-			</section>
-		{:else}
-			<div class="card">
-				<p>Your Blockhead Portfolio is empty!</p>
-				{#if editable}
-					<p>You can <a on:click={showAddWallet}>add a new wallet address manually</a>, or import an address by connecting a wallet service!</p>
+				{:else}
+					<div class="bar" transition:scale>
+						<button class="destructive" on:click={() => dispatch('delete')}>Delete Portfolio</button>
+						<button on:click={() => state = State.Idle}>Done</button>
+					</div>
 				{/if}
 			</div>
+		{/if}
+		<!-- <button on:click={toggleShowOptions}>Options</button> -->
+
+		<slot name="actions"></slot>
+	</header>
+
+	{#if accounts}
+		{#if state === State.Adding || !accounts.length}
+			<div class="stack" transition:scale>
+				{#if state === State.Adding}
+					<div class="card" transition:scale>
+						<div class="bar">
+							<div>
+								<h3>Add Wallet</h3>
+							</div>
+							<small>{availableNetworks.map(network => network.name).join(', ')}</small>
+						</div>
+						<div class="bar">
+							<form class="bar" on:submit|preventDefault={() => {addAccount(newWalletAddress); state = State.Idle; newWalletAddress = ''}}>
+								<AddressField bind:address={newWalletAddress} autofocus required/>
+								<button class="medium" disabled={!isValid(newWalletAddress)}>Add</button>
+							</form>
+							<button class="medium" on:click={() => state = State.Idle}>Cancel</button>
+						</div>
+					</div>
+				{:else if !accounts.length}
+					<div class="card" transition:scale|local>
+						<h3>Your Blockhead Portfolio is empty!</h3>
+						{#if editable}
+							<p>You can <a on:click={() => isAddingWallet = true}>add a new wallet address manually</a>, or import an address by connecting a wallet service!</p>
+						{/if}
+					</div>
+				{/if}
+			</div>
+		{/if}
+		{#each accounts as {id, type, nickname, networks}, i (id)}
+			<section class="card" transition:scale|local animate:flip|local={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
+				<PortfolioAccount
+					addressOrENSName={id}
+					{type}
+					bind:nickname
+					bind:showNetworks={networks}
+
+					{provider}
+					{defiProvider}
+					{tokenBalancesProvider}
+					{nftProvider}
+					{quoteCurrency}
+
+					{showValues}
+					{sortBy}
+					{showSmallValues}
+					{showUnderlyingAssets}
+					{showNFTMetadata}
+					isEditing={state === State.Editing}
+
+					bind:quoteTotal={quoteTotals[i]}
+				>
+					{#if state === State.Editing}
+						<div class="row edit-controls" transition:scale>
+							<button class="destructive" on:click={() => deleteAccount(i)}>Delete Account</button>
+						</div>
+					{/if}
+				</PortfolioAccount>
+			</section>
 		{/each}
 	{:else}
 		<slot name="loading">
 			<Loading>Loading your accounts...</Loading>
 		</slot>
+	{/if}
+
+	{#if showOptions && accounts.length && state !== State.Editing}
+		<div class="card bar options" transition:scale>
+			<div class="row">
+				<h3>Show</h3>
+				<label>
+					<select bind:value={showValues}>
+						<option value="original">Balances</option>
+						<option value="converted">Quotes</option>
+						<option value="both">Balances + Quotes</option>
+						<!-- <option value="original">Token Amounts</option>
+						<option value="converted">Quote Values</option>
+						<option value="both">Amounts and Values</option> -->
+					</select>
+				</label>
+				<label>
+					<input type="checkbox" bind:checked={showSmallValues}>
+					<span>Small Values</span>
+				</label>
+				<label>
+					<input type="checkbox" bind:checked={showUnderlyingAssets}>
+					<span>Underlying Assets</span>
+				</label>
+				<label>
+					<input type="checkbox" bind:checked={showNFTMetadata}>
+					<span>NFT Metadata</span>
+				</label>
+			</div>
+			<div class="row">
+				<h3>Sort</h3>
+				<label>
+					<select bind:value={sortBy}>
+						<option value="ticker-ascending">Alphabetical</option>
+						<option value="value-descending">Highest Value</option>
+						<option value="value-ascending">Lowest Value</option>
+					</select>
+				</label>
+			</div>
+		</div>
 	{/if}
 </div>

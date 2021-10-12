@@ -1,0 +1,2486 @@
+directive @derivedFrom(field: String) on FIELD_DEFINITION
+
+directive @entity on OBJECT
+
+directive @subgraphId(id: String) on OBJECT
+
+type AbiChanged implements ResolverEvent {
+  blockNumber: Int!
+  contentType: BigInt!
+  id: ID!
+  resolver: Resolver!
+  transactionID: Bytes!
+}
+
+input AbiChanged_filter {
+  blockNumber: Int
+  blockNumber_gt: Int
+  blockNumber_gte: Int
+  blockNumber_in: [Int!]
+  blockNumber_lt: Int
+  blockNumber_lte: Int
+  blockNumber_not: Int
+  blockNumber_not_in: [Int!]
+  contentType: BigInt
+  contentType_gt: BigInt
+  contentType_gte: BigInt
+  contentType_in: [BigInt!]
+  contentType_lt: BigInt
+  contentType_lte: BigInt
+  contentType_not: BigInt
+  contentType_not_in: [BigInt!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  resolver: String
+  resolver_contains: String
+  resolver_ends_with: String
+  resolver_gt: String
+  resolver_gte: String
+  resolver_in: [String!]
+  resolver_lt: String
+  resolver_lte: String
+  resolver_not: String
+  resolver_not_contains: String
+  resolver_not_ends_with: String
+  resolver_not_in: [String!]
+  resolver_not_starts_with: String
+  resolver_starts_with: String
+  transactionID: Bytes
+  transactionID_contains: Bytes
+  transactionID_in: [Bytes!]
+  transactionID_not: Bytes
+  transactionID_not_contains: Bytes
+  transactionID_not_in: [Bytes!]
+}
+
+enum AbiChanged_orderBy {
+  blockNumber
+  contentType
+  id
+  resolver
+  transactionID
+}
+
+type Account {
+  domains(first: Int = 100, orderBy: Domain_orderBy, orderDirection: OrderDirection, skip: Int = 0, where: Domain_filter): [Domain!]!
+  id: ID!
+  registrations(first: Int = 100, orderBy: Registration_orderBy, orderDirection: OrderDirection, skip: Int = 0, where: Registration_filter): [Registration!]
+}
+
+input Account_filter {
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+}
+
+enum Account_orderBy {
+  domains
+  id
+  registrations
+}
+
+type AddrChanged implements ResolverEvent {
+  addr: Account!
+  blockNumber: Int!
+  id: ID!
+  resolver: Resolver!
+  transactionID: Bytes!
+}
+
+input AddrChanged_filter {
+  addr: String
+  addr_contains: String
+  addr_ends_with: String
+  addr_gt: String
+  addr_gte: String
+  addr_in: [String!]
+  addr_lt: String
+  addr_lte: String
+  addr_not: String
+  addr_not_contains: String
+  addr_not_ends_with: String
+  addr_not_in: [String!]
+  addr_not_starts_with: String
+  addr_starts_with: String
+  blockNumber: Int
+  blockNumber_gt: Int
+  blockNumber_gte: Int
+  blockNumber_in: [Int!]
+  blockNumber_lt: Int
+  blockNumber_lte: Int
+  blockNumber_not: Int
+  blockNumber_not_in: [Int!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  resolver: String
+  resolver_contains: String
+  resolver_ends_with: String
+  resolver_gt: String
+  resolver_gte: String
+  resolver_in: [String!]
+  resolver_lt: String
+  resolver_lte: String
+  resolver_not: String
+  resolver_not_contains: String
+  resolver_not_ends_with: String
+  resolver_not_in: [String!]
+  resolver_not_starts_with: String
+  resolver_starts_with: String
+  transactionID: Bytes
+  transactionID_contains: Bytes
+  transactionID_in: [Bytes!]
+  transactionID_not: Bytes
+  transactionID_not_contains: Bytes
+  transactionID_not_in: [Bytes!]
+}
+
+enum AddrChanged_orderBy {
+  addr
+  blockNumber
+  id
+  resolver
+  transactionID
+}
+
+type AuthorisationChanged implements ResolverEvent {
+  blockNumber: Int!
+  id: ID!
+  isAuthorized: Boolean!
+  owner: Bytes!
+  resolver: Resolver!
+  target: Bytes!
+  transactionID: Bytes!
+}
+
+input AuthorisationChanged_filter {
+  blockNumber: Int
+  blockNumber_gt: Int
+  blockNumber_gte: Int
+  blockNumber_in: [Int!]
+  blockNumber_lt: Int
+  blockNumber_lte: Int
+  blockNumber_not: Int
+  blockNumber_not_in: [Int!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  isAuthorized: Boolean
+  isAuthorized_in: [Boolean!]
+  isAuthorized_not: Boolean
+  isAuthorized_not_in: [Boolean!]
+  owner: Bytes
+  owner_contains: Bytes
+  owner_in: [Bytes!]
+  owner_not: Bytes
+  owner_not_contains: Bytes
+  owner_not_in: [Bytes!]
+  resolver: String
+  resolver_contains: String
+  resolver_ends_with: String
+  resolver_gt: String
+  resolver_gte: String
+  resolver_in: [String!]
+  resolver_lt: String
+  resolver_lte: String
+  resolver_not: String
+  resolver_not_contains: String
+  resolver_not_ends_with: String
+  resolver_not_in: [String!]
+  resolver_not_starts_with: String
+  resolver_starts_with: String
+  target: Bytes
+  target_contains: Bytes
+  target_in: [Bytes!]
+  target_not: Bytes
+  target_not_contains: Bytes
+  target_not_in: [Bytes!]
+  transactionID: Bytes
+  transactionID_contains: Bytes
+  transactionID_in: [Bytes!]
+  transactionID_not: Bytes
+  transactionID_not_contains: Bytes
+  transactionID_not_in: [Bytes!]
+}
+
+enum AuthorisationChanged_orderBy {
+  blockNumber
+  id
+  isAuthorized
+  owner
+  resolver
+  target
+  transactionID
+}
+
+scalar BigDecimal
+
+scalar BigInt
+
+input Block_height {
+  hash: Bytes
+  number: Int
+}
+
+scalar Bytes
+
+type ContenthashChanged implements ResolverEvent {
+  blockNumber: Int!
+  hash: Bytes!
+  id: ID!
+  resolver: Resolver!
+  transactionID: Bytes!
+}
+
+input ContenthashChanged_filter {
+  blockNumber: Int
+  blockNumber_gt: Int
+  blockNumber_gte: Int
+  blockNumber_in: [Int!]
+  blockNumber_lt: Int
+  blockNumber_lte: Int
+  blockNumber_not: Int
+  blockNumber_not_in: [Int!]
+  hash: Bytes
+  hash_contains: Bytes
+  hash_in: [Bytes!]
+  hash_not: Bytes
+  hash_not_contains: Bytes
+  hash_not_in: [Bytes!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  resolver: String
+  resolver_contains: String
+  resolver_ends_with: String
+  resolver_gt: String
+  resolver_gte: String
+  resolver_in: [String!]
+  resolver_lt: String
+  resolver_lte: String
+  resolver_not: String
+  resolver_not_contains: String
+  resolver_not_ends_with: String
+  resolver_not_in: [String!]
+  resolver_not_starts_with: String
+  resolver_starts_with: String
+  transactionID: Bytes
+  transactionID_contains: Bytes
+  transactionID_in: [Bytes!]
+  transactionID_not: Bytes
+  transactionID_not_contains: Bytes
+  transactionID_not_in: [Bytes!]
+}
+
+enum ContenthashChanged_orderBy {
+  blockNumber
+  hash
+  id
+  resolver
+  transactionID
+}
+
+type Domain {
+  events(first: Int = 100, orderBy: DomainEvent_orderBy, orderDirection: OrderDirection, skip: Int = 0, where: DomainEvent_filter): [DomainEvent!]!
+  id: ID!
+  isMigrated: Boolean!
+  labelName: String
+  labelhash: Bytes
+  name: String
+  owner: Account!
+  parent: Domain
+  resolvedAddress: Account
+  resolver: Resolver
+  subdomains(first: Int = 100, orderBy: Domain_orderBy, orderDirection: OrderDirection, skip: Int = 0, where: Domain_filter): [Domain!]!
+  ttl: BigInt
+}
+
+interface DomainEvent {
+  blockNumber: Int!
+  domain: Domain!
+  id: ID!
+  transactionID: Bytes!
+}
+
+input DomainEvent_filter {
+  blockNumber: Int
+  blockNumber_gt: Int
+  blockNumber_gte: Int
+  blockNumber_in: [Int!]
+  blockNumber_lt: Int
+  blockNumber_lte: Int
+  blockNumber_not: Int
+  blockNumber_not_in: [Int!]
+  domain: String
+  domain_contains: String
+  domain_ends_with: String
+  domain_gt: String
+  domain_gte: String
+  domain_in: [String!]
+  domain_lt: String
+  domain_lte: String
+  domain_not: String
+  domain_not_contains: String
+  domain_not_ends_with: String
+  domain_not_in: [String!]
+  domain_not_starts_with: String
+  domain_starts_with: String
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  transactionID: Bytes
+  transactionID_contains: Bytes
+  transactionID_in: [Bytes!]
+  transactionID_not: Bytes
+  transactionID_not_contains: Bytes
+  transactionID_not_in: [Bytes!]
+}
+
+enum DomainEvent_orderBy {
+  blockNumber
+  domain
+  id
+  transactionID
+}
+
+input Domain_filter {
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  isMigrated: Boolean
+  isMigrated_in: [Boolean!]
+  isMigrated_not: Boolean
+  isMigrated_not_in: [Boolean!]
+  labelName: String
+  labelName_contains: String
+  labelName_ends_with: String
+  labelName_gt: String
+  labelName_gte: String
+  labelName_in: [String!]
+  labelName_lt: String
+  labelName_lte: String
+  labelName_not: String
+  labelName_not_contains: String
+  labelName_not_ends_with: String
+  labelName_not_in: [String!]
+  labelName_not_starts_with: String
+  labelName_starts_with: String
+  labelhash: Bytes
+  labelhash_contains: Bytes
+  labelhash_in: [Bytes!]
+  labelhash_not: Bytes
+  labelhash_not_contains: Bytes
+  labelhash_not_in: [Bytes!]
+  name: String
+  name_contains: String
+  name_ends_with: String
+  name_gt: String
+  name_gte: String
+  name_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_not: String
+  name_not_contains: String
+  name_not_ends_with: String
+  name_not_in: [String!]
+  name_not_starts_with: String
+  name_starts_with: String
+  owner: String
+  owner_contains: String
+  owner_ends_with: String
+  owner_gt: String
+  owner_gte: String
+  owner_in: [String!]
+  owner_lt: String
+  owner_lte: String
+  owner_not: String
+  owner_not_contains: String
+  owner_not_ends_with: String
+  owner_not_in: [String!]
+  owner_not_starts_with: String
+  owner_starts_with: String
+  parent: String
+  parent_contains: String
+  parent_ends_with: String
+  parent_gt: String
+  parent_gte: String
+  parent_in: [String!]
+  parent_lt: String
+  parent_lte: String
+  parent_not: String
+  parent_not_contains: String
+  parent_not_ends_with: String
+  parent_not_in: [String!]
+  parent_not_starts_with: String
+  parent_starts_with: String
+  resolvedAddress: String
+  resolvedAddress_contains: String
+  resolvedAddress_ends_with: String
+  resolvedAddress_gt: String
+  resolvedAddress_gte: String
+  resolvedAddress_in: [String!]
+  resolvedAddress_lt: String
+  resolvedAddress_lte: String
+  resolvedAddress_not: String
+  resolvedAddress_not_contains: String
+  resolvedAddress_not_ends_with: String
+  resolvedAddress_not_in: [String!]
+  resolvedAddress_not_starts_with: String
+  resolvedAddress_starts_with: String
+  resolver: String
+  resolver_contains: String
+  resolver_ends_with: String
+  resolver_gt: String
+  resolver_gte: String
+  resolver_in: [String!]
+  resolver_lt: String
+  resolver_lte: String
+  resolver_not: String
+  resolver_not_contains: String
+  resolver_not_ends_with: String
+  resolver_not_in: [String!]
+  resolver_not_starts_with: String
+  resolver_starts_with: String
+  ttl: BigInt
+  ttl_gt: BigInt
+  ttl_gte: BigInt
+  ttl_in: [BigInt!]
+  ttl_lt: BigInt
+  ttl_lte: BigInt
+  ttl_not: BigInt
+  ttl_not_in: [BigInt!]
+}
+
+enum Domain_orderBy {
+  events
+  id
+  isMigrated
+  labelName
+  labelhash
+  name
+  owner
+  parent
+  resolvedAddress
+  resolver
+  subdomains
+  ttl
+}
+
+type InterfaceChanged implements ResolverEvent {
+  blockNumber: Int!
+  id: ID!
+  implementer: Bytes!
+  interfaceID: Bytes!
+  resolver: Resolver!
+  transactionID: Bytes!
+}
+
+input InterfaceChanged_filter {
+  blockNumber: Int
+  blockNumber_gt: Int
+  blockNumber_gte: Int
+  blockNumber_in: [Int!]
+  blockNumber_lt: Int
+  blockNumber_lte: Int
+  blockNumber_not: Int
+  blockNumber_not_in: [Int!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  implementer: Bytes
+  implementer_contains: Bytes
+  implementer_in: [Bytes!]
+  implementer_not: Bytes
+  implementer_not_contains: Bytes
+  implementer_not_in: [Bytes!]
+  interfaceID: Bytes
+  interfaceID_contains: Bytes
+  interfaceID_in: [Bytes!]
+  interfaceID_not: Bytes
+  interfaceID_not_contains: Bytes
+  interfaceID_not_in: [Bytes!]
+  resolver: String
+  resolver_contains: String
+  resolver_ends_with: String
+  resolver_gt: String
+  resolver_gte: String
+  resolver_in: [String!]
+  resolver_lt: String
+  resolver_lte: String
+  resolver_not: String
+  resolver_not_contains: String
+  resolver_not_ends_with: String
+  resolver_not_in: [String!]
+  resolver_not_starts_with: String
+  resolver_starts_with: String
+  transactionID: Bytes
+  transactionID_contains: Bytes
+  transactionID_in: [Bytes!]
+  transactionID_not: Bytes
+  transactionID_not_contains: Bytes
+  transactionID_not_in: [Bytes!]
+}
+
+enum InterfaceChanged_orderBy {
+  blockNumber
+  id
+  implementer
+  interfaceID
+  resolver
+  transactionID
+}
+
+type MulticoinAddrChanged implements ResolverEvent {
+  addr: Bytes!
+  blockNumber: Int!
+  coinType: Int!
+  id: ID!
+  resolver: Resolver!
+  transactionID: Bytes!
+}
+
+input MulticoinAddrChanged_filter {
+  addr: Bytes
+  addr_contains: Bytes
+  addr_in: [Bytes!]
+  addr_not: Bytes
+  addr_not_contains: Bytes
+  addr_not_in: [Bytes!]
+  blockNumber: Int
+  blockNumber_gt: Int
+  blockNumber_gte: Int
+  blockNumber_in: [Int!]
+  blockNumber_lt: Int
+  blockNumber_lte: Int
+  blockNumber_not: Int
+  blockNumber_not_in: [Int!]
+  coinType: Int
+  coinType_gt: Int
+  coinType_gte: Int
+  coinType_in: [Int!]
+  coinType_lt: Int
+  coinType_lte: Int
+  coinType_not: Int
+  coinType_not_in: [Int!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  resolver: String
+  resolver_contains: String
+  resolver_ends_with: String
+  resolver_gt: String
+  resolver_gte: String
+  resolver_in: [String!]
+  resolver_lt: String
+  resolver_lte: String
+  resolver_not: String
+  resolver_not_contains: String
+  resolver_not_ends_with: String
+  resolver_not_in: [String!]
+  resolver_not_starts_with: String
+  resolver_starts_with: String
+  transactionID: Bytes
+  transactionID_contains: Bytes
+  transactionID_in: [Bytes!]
+  transactionID_not: Bytes
+  transactionID_not_contains: Bytes
+  transactionID_not_in: [Bytes!]
+}
+
+enum MulticoinAddrChanged_orderBy {
+  addr
+  blockNumber
+  coinType
+  id
+  resolver
+  transactionID
+}
+
+type NameChanged implements ResolverEvent {
+  blockNumber: Int!
+  id: ID!
+  name: String!
+  resolver: Resolver!
+  transactionID: Bytes!
+}
+
+input NameChanged_filter {
+  blockNumber: Int
+  blockNumber_gt: Int
+  blockNumber_gte: Int
+  blockNumber_in: [Int!]
+  blockNumber_lt: Int
+  blockNumber_lte: Int
+  blockNumber_not: Int
+  blockNumber_not_in: [Int!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  name: String
+  name_contains: String
+  name_ends_with: String
+  name_gt: String
+  name_gte: String
+  name_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_not: String
+  name_not_contains: String
+  name_not_ends_with: String
+  name_not_in: [String!]
+  name_not_starts_with: String
+  name_starts_with: String
+  resolver: String
+  resolver_contains: String
+  resolver_ends_with: String
+  resolver_gt: String
+  resolver_gte: String
+  resolver_in: [String!]
+  resolver_lt: String
+  resolver_lte: String
+  resolver_not: String
+  resolver_not_contains: String
+  resolver_not_ends_with: String
+  resolver_not_in: [String!]
+  resolver_not_starts_with: String
+  resolver_starts_with: String
+  transactionID: Bytes
+  transactionID_contains: Bytes
+  transactionID_in: [Bytes!]
+  transactionID_not: Bytes
+  transactionID_not_contains: Bytes
+  transactionID_not_in: [Bytes!]
+}
+
+enum NameChanged_orderBy {
+  blockNumber
+  id
+  name
+  resolver
+  transactionID
+}
+
+type NameRegistered implements RegistrationEvent {
+  blockNumber: Int!
+  expiryDate: BigInt!
+  id: ID!
+  registrant: Account!
+  registration: Registration!
+  transactionID: Bytes!
+}
+
+input NameRegistered_filter {
+  blockNumber: Int
+  blockNumber_gt: Int
+  blockNumber_gte: Int
+  blockNumber_in: [Int!]
+  blockNumber_lt: Int
+  blockNumber_lte: Int
+  blockNumber_not: Int
+  blockNumber_not_in: [Int!]
+  expiryDate: BigInt
+  expiryDate_gt: BigInt
+  expiryDate_gte: BigInt
+  expiryDate_in: [BigInt!]
+  expiryDate_lt: BigInt
+  expiryDate_lte: BigInt
+  expiryDate_not: BigInt
+  expiryDate_not_in: [BigInt!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  registrant: String
+  registrant_contains: String
+  registrant_ends_with: String
+  registrant_gt: String
+  registrant_gte: String
+  registrant_in: [String!]
+  registrant_lt: String
+  registrant_lte: String
+  registrant_not: String
+  registrant_not_contains: String
+  registrant_not_ends_with: String
+  registrant_not_in: [String!]
+  registrant_not_starts_with: String
+  registrant_starts_with: String
+  registration: String
+  registration_contains: String
+  registration_ends_with: String
+  registration_gt: String
+  registration_gte: String
+  registration_in: [String!]
+  registration_lt: String
+  registration_lte: String
+  registration_not: String
+  registration_not_contains: String
+  registration_not_ends_with: String
+  registration_not_in: [String!]
+  registration_not_starts_with: String
+  registration_starts_with: String
+  transactionID: Bytes
+  transactionID_contains: Bytes
+  transactionID_in: [Bytes!]
+  transactionID_not: Bytes
+  transactionID_not_contains: Bytes
+  transactionID_not_in: [Bytes!]
+}
+
+enum NameRegistered_orderBy {
+  blockNumber
+  expiryDate
+  id
+  registrant
+  registration
+  transactionID
+}
+
+type NameRenewed implements RegistrationEvent {
+  blockNumber: Int!
+  expiryDate: BigInt!
+  id: ID!
+  registration: Registration!
+  transactionID: Bytes!
+}
+
+input NameRenewed_filter {
+  blockNumber: Int
+  blockNumber_gt: Int
+  blockNumber_gte: Int
+  blockNumber_in: [Int!]
+  blockNumber_lt: Int
+  blockNumber_lte: Int
+  blockNumber_not: Int
+  blockNumber_not_in: [Int!]
+  expiryDate: BigInt
+  expiryDate_gt: BigInt
+  expiryDate_gte: BigInt
+  expiryDate_in: [BigInt!]
+  expiryDate_lt: BigInt
+  expiryDate_lte: BigInt
+  expiryDate_not: BigInt
+  expiryDate_not_in: [BigInt!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  registration: String
+  registration_contains: String
+  registration_ends_with: String
+  registration_gt: String
+  registration_gte: String
+  registration_in: [String!]
+  registration_lt: String
+  registration_lte: String
+  registration_not: String
+  registration_not_contains: String
+  registration_not_ends_with: String
+  registration_not_in: [String!]
+  registration_not_starts_with: String
+  registration_starts_with: String
+  transactionID: Bytes
+  transactionID_contains: Bytes
+  transactionID_in: [Bytes!]
+  transactionID_not: Bytes
+  transactionID_not_contains: Bytes
+  transactionID_not_in: [Bytes!]
+}
+
+enum NameRenewed_orderBy {
+  blockNumber
+  expiryDate
+  id
+  registration
+  transactionID
+}
+
+type NameTransferred implements RegistrationEvent {
+  blockNumber: Int!
+  id: ID!
+  newOwner: Account!
+  registration: Registration!
+  transactionID: Bytes!
+}
+
+input NameTransferred_filter {
+  blockNumber: Int
+  blockNumber_gt: Int
+  blockNumber_gte: Int
+  blockNumber_in: [Int!]
+  blockNumber_lt: Int
+  blockNumber_lte: Int
+  blockNumber_not: Int
+  blockNumber_not_in: [Int!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  newOwner: String
+  newOwner_contains: String
+  newOwner_ends_with: String
+  newOwner_gt: String
+  newOwner_gte: String
+  newOwner_in: [String!]
+  newOwner_lt: String
+  newOwner_lte: String
+  newOwner_not: String
+  newOwner_not_contains: String
+  newOwner_not_ends_with: String
+  newOwner_not_in: [String!]
+  newOwner_not_starts_with: String
+  newOwner_starts_with: String
+  registration: String
+  registration_contains: String
+  registration_ends_with: String
+  registration_gt: String
+  registration_gte: String
+  registration_in: [String!]
+  registration_lt: String
+  registration_lte: String
+  registration_not: String
+  registration_not_contains: String
+  registration_not_ends_with: String
+  registration_not_in: [String!]
+  registration_not_starts_with: String
+  registration_starts_with: String
+  transactionID: Bytes
+  transactionID_contains: Bytes
+  transactionID_in: [Bytes!]
+  transactionID_not: Bytes
+  transactionID_not_contains: Bytes
+  transactionID_not_in: [Bytes!]
+}
+
+enum NameTransferred_orderBy {
+  blockNumber
+  id
+  newOwner
+  registration
+  transactionID
+}
+
+type NewOwner implements DomainEvent {
+  blockNumber: Int!
+  domain: Domain!
+  id: ID!
+  owner: Account!
+  transactionID: Bytes!
+}
+
+input NewOwner_filter {
+  blockNumber: Int
+  blockNumber_gt: Int
+  blockNumber_gte: Int
+  blockNumber_in: [Int!]
+  blockNumber_lt: Int
+  blockNumber_lte: Int
+  blockNumber_not: Int
+  blockNumber_not_in: [Int!]
+  domain: String
+  domain_contains: String
+  domain_ends_with: String
+  domain_gt: String
+  domain_gte: String
+  domain_in: [String!]
+  domain_lt: String
+  domain_lte: String
+  domain_not: String
+  domain_not_contains: String
+  domain_not_ends_with: String
+  domain_not_in: [String!]
+  domain_not_starts_with: String
+  domain_starts_with: String
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  owner: String
+  owner_contains: String
+  owner_ends_with: String
+  owner_gt: String
+  owner_gte: String
+  owner_in: [String!]
+  owner_lt: String
+  owner_lte: String
+  owner_not: String
+  owner_not_contains: String
+  owner_not_ends_with: String
+  owner_not_in: [String!]
+  owner_not_starts_with: String
+  owner_starts_with: String
+  transactionID: Bytes
+  transactionID_contains: Bytes
+  transactionID_in: [Bytes!]
+  transactionID_not: Bytes
+  transactionID_not_contains: Bytes
+  transactionID_not_in: [Bytes!]
+}
+
+enum NewOwner_orderBy {
+  blockNumber
+  domain
+  id
+  owner
+  transactionID
+}
+
+type NewResolver implements DomainEvent {
+  blockNumber: Int!
+  domain: Domain!
+  id: ID!
+  resolver: Resolver!
+  transactionID: Bytes!
+}
+
+input NewResolver_filter {
+  blockNumber: Int
+  blockNumber_gt: Int
+  blockNumber_gte: Int
+  blockNumber_in: [Int!]
+  blockNumber_lt: Int
+  blockNumber_lte: Int
+  blockNumber_not: Int
+  blockNumber_not_in: [Int!]
+  domain: String
+  domain_contains: String
+  domain_ends_with: String
+  domain_gt: String
+  domain_gte: String
+  domain_in: [String!]
+  domain_lt: String
+  domain_lte: String
+  domain_not: String
+  domain_not_contains: String
+  domain_not_ends_with: String
+  domain_not_in: [String!]
+  domain_not_starts_with: String
+  domain_starts_with: String
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  resolver: String
+  resolver_contains: String
+  resolver_ends_with: String
+  resolver_gt: String
+  resolver_gte: String
+  resolver_in: [String!]
+  resolver_lt: String
+  resolver_lte: String
+  resolver_not: String
+  resolver_not_contains: String
+  resolver_not_ends_with: String
+  resolver_not_in: [String!]
+  resolver_not_starts_with: String
+  resolver_starts_with: String
+  transactionID: Bytes
+  transactionID_contains: Bytes
+  transactionID_in: [Bytes!]
+  transactionID_not: Bytes
+  transactionID_not_contains: Bytes
+  transactionID_not_in: [Bytes!]
+}
+
+enum NewResolver_orderBy {
+  blockNumber
+  domain
+  id
+  resolver
+  transactionID
+}
+
+type NewTTL implements DomainEvent {
+  blockNumber: Int!
+  domain: Domain!
+  id: ID!
+  transactionID: Bytes!
+  ttl: BigInt!
+}
+
+input NewTTL_filter {
+  blockNumber: Int
+  blockNumber_gt: Int
+  blockNumber_gte: Int
+  blockNumber_in: [Int!]
+  blockNumber_lt: Int
+  blockNumber_lte: Int
+  blockNumber_not: Int
+  blockNumber_not_in: [Int!]
+  domain: String
+  domain_contains: String
+  domain_ends_with: String
+  domain_gt: String
+  domain_gte: String
+  domain_in: [String!]
+  domain_lt: String
+  domain_lte: String
+  domain_not: String
+  domain_not_contains: String
+  domain_not_ends_with: String
+  domain_not_in: [String!]
+  domain_not_starts_with: String
+  domain_starts_with: String
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  transactionID: Bytes
+  transactionID_contains: Bytes
+  transactionID_in: [Bytes!]
+  transactionID_not: Bytes
+  transactionID_not_contains: Bytes
+  transactionID_not_in: [Bytes!]
+  ttl: BigInt
+  ttl_gt: BigInt
+  ttl_gte: BigInt
+  ttl_in: [BigInt!]
+  ttl_lt: BigInt
+  ttl_lte: BigInt
+  ttl_not: BigInt
+  ttl_not_in: [BigInt!]
+}
+
+enum NewTTL_orderBy {
+  blockNumber
+  domain
+  id
+  transactionID
+  ttl
+}
+
+enum OrderDirection {
+  asc
+  desc
+}
+
+type PubkeyChanged implements ResolverEvent {
+  blockNumber: Int!
+  id: ID!
+  resolver: Resolver!
+  transactionID: Bytes!
+  x: Bytes!
+  y: Bytes!
+}
+
+input PubkeyChanged_filter {
+  blockNumber: Int
+  blockNumber_gt: Int
+  blockNumber_gte: Int
+  blockNumber_in: [Int!]
+  blockNumber_lt: Int
+  blockNumber_lte: Int
+  blockNumber_not: Int
+  blockNumber_not_in: [Int!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  resolver: String
+  resolver_contains: String
+  resolver_ends_with: String
+  resolver_gt: String
+  resolver_gte: String
+  resolver_in: [String!]
+  resolver_lt: String
+  resolver_lte: String
+  resolver_not: String
+  resolver_not_contains: String
+  resolver_not_ends_with: String
+  resolver_not_in: [String!]
+  resolver_not_starts_with: String
+  resolver_starts_with: String
+  transactionID: Bytes
+  transactionID_contains: Bytes
+  transactionID_in: [Bytes!]
+  transactionID_not: Bytes
+  transactionID_not_contains: Bytes
+  transactionID_not_in: [Bytes!]
+  x: Bytes
+  x_contains: Bytes
+  x_in: [Bytes!]
+  x_not: Bytes
+  x_not_contains: Bytes
+  x_not_in: [Bytes!]
+  y: Bytes
+  y_contains: Bytes
+  y_in: [Bytes!]
+  y_not: Bytes
+  y_not_contains: Bytes
+  y_not_in: [Bytes!]
+}
+
+enum PubkeyChanged_orderBy {
+  blockNumber
+  id
+  resolver
+  transactionID
+  x
+  y
+}
+
+type Query {
+  """Access to subgraph metadata"""
+  _meta(block: Block_height): _Meta_
+  abiChanged(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): AbiChanged
+  abiChangeds(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: AbiChanged_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: AbiChanged_filter
+  ): [AbiChanged!]!
+  account(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): Account
+  accounts(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: Account_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: Account_filter
+  ): [Account!]!
+  addrChanged(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): AddrChanged
+  addrChangeds(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: AddrChanged_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: AddrChanged_filter
+  ): [AddrChanged!]!
+  authorisationChanged(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): AuthorisationChanged
+  authorisationChangeds(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: AuthorisationChanged_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: AuthorisationChanged_filter
+  ): [AuthorisationChanged!]!
+  contenthashChanged(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): ContenthashChanged
+  contenthashChangeds(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: ContenthashChanged_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: ContenthashChanged_filter
+  ): [ContenthashChanged!]!
+  domain(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): Domain
+  domainEvent(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): DomainEvent
+  domainEvents(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: DomainEvent_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: DomainEvent_filter
+  ): [DomainEvent!]!
+  domains(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: Domain_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: Domain_filter
+  ): [Domain!]!
+  interfaceChanged(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): InterfaceChanged
+  interfaceChangeds(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: InterfaceChanged_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: InterfaceChanged_filter
+  ): [InterfaceChanged!]!
+  multicoinAddrChanged(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): MulticoinAddrChanged
+  multicoinAddrChangeds(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: MulticoinAddrChanged_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: MulticoinAddrChanged_filter
+  ): [MulticoinAddrChanged!]!
+  nameChanged(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): NameChanged
+  nameChangeds(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: NameChanged_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: NameChanged_filter
+  ): [NameChanged!]!
+  nameRegistered(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): NameRegistered
+  nameRegistereds(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: NameRegistered_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: NameRegistered_filter
+  ): [NameRegistered!]!
+  nameRenewed(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): NameRenewed
+  nameReneweds(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: NameRenewed_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: NameRenewed_filter
+  ): [NameRenewed!]!
+  nameTransferred(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): NameTransferred
+  nameTransferreds(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: NameTransferred_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: NameTransferred_filter
+  ): [NameTransferred!]!
+  newOwner(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): NewOwner
+  newOwners(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: NewOwner_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: NewOwner_filter
+  ): [NewOwner!]!
+  newResolver(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): NewResolver
+  newResolvers(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: NewResolver_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: NewResolver_filter
+  ): [NewResolver!]!
+  newTTL(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): NewTTL
+  newTTLs(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: NewTTL_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: NewTTL_filter
+  ): [NewTTL!]!
+  pubkeyChanged(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): PubkeyChanged
+  pubkeyChangeds(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: PubkeyChanged_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: PubkeyChanged_filter
+  ): [PubkeyChanged!]!
+  registration(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): Registration
+  registrationEvent(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): RegistrationEvent
+  registrationEvents(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: RegistrationEvent_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: RegistrationEvent_filter
+  ): [RegistrationEvent!]!
+  registrations(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: Registration_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: Registration_filter
+  ): [Registration!]!
+  resolver(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): Resolver
+  resolverEvent(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): ResolverEvent
+  resolverEvents(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: ResolverEvent_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: ResolverEvent_filter
+  ): [ResolverEvent!]!
+  resolvers(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: Resolver_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: Resolver_filter
+  ): [Resolver!]!
+  textChanged(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): TextChanged
+  textChangeds(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: TextChanged_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: TextChanged_filter
+  ): [TextChanged!]!
+  transfer(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): Transfer
+  transfers(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: Transfer_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: Transfer_filter
+  ): [Transfer!]!
+}
+
+type Registration {
+  domain: Domain
+  events(first: Int = 100, orderBy: RegistrationEvent_orderBy, orderDirection: OrderDirection, skip: Int = 0, where: RegistrationEvent_filter): [RegistrationEvent!]!
+  expiryDate: BigInt!
+  id: ID!
+  labelName: String
+  registrant: Account!
+  registrationDate: BigInt!
+}
+
+interface RegistrationEvent {
+  blockNumber: Int!
+  id: ID!
+  registration: Registration!
+  transactionID: Bytes!
+}
+
+input RegistrationEvent_filter {
+  blockNumber: Int
+  blockNumber_gt: Int
+  blockNumber_gte: Int
+  blockNumber_in: [Int!]
+  blockNumber_lt: Int
+  blockNumber_lte: Int
+  blockNumber_not: Int
+  blockNumber_not_in: [Int!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  registration: String
+  registration_contains: String
+  registration_ends_with: String
+  registration_gt: String
+  registration_gte: String
+  registration_in: [String!]
+  registration_lt: String
+  registration_lte: String
+  registration_not: String
+  registration_not_contains: String
+  registration_not_ends_with: String
+  registration_not_in: [String!]
+  registration_not_starts_with: String
+  registration_starts_with: String
+  transactionID: Bytes
+  transactionID_contains: Bytes
+  transactionID_in: [Bytes!]
+  transactionID_not: Bytes
+  transactionID_not_contains: Bytes
+  transactionID_not_in: [Bytes!]
+}
+
+enum RegistrationEvent_orderBy {
+  blockNumber
+  id
+  registration
+  transactionID
+}
+
+input Registration_filter {
+  domain: String
+  domain_contains: String
+  domain_ends_with: String
+  domain_gt: String
+  domain_gte: String
+  domain_in: [String!]
+  domain_lt: String
+  domain_lte: String
+  domain_not: String
+  domain_not_contains: String
+  domain_not_ends_with: String
+  domain_not_in: [String!]
+  domain_not_starts_with: String
+  domain_starts_with: String
+  expiryDate: BigInt
+  expiryDate_gt: BigInt
+  expiryDate_gte: BigInt
+  expiryDate_in: [BigInt!]
+  expiryDate_lt: BigInt
+  expiryDate_lte: BigInt
+  expiryDate_not: BigInt
+  expiryDate_not_in: [BigInt!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  labelName: String
+  labelName_contains: String
+  labelName_ends_with: String
+  labelName_gt: String
+  labelName_gte: String
+  labelName_in: [String!]
+  labelName_lt: String
+  labelName_lte: String
+  labelName_not: String
+  labelName_not_contains: String
+  labelName_not_ends_with: String
+  labelName_not_in: [String!]
+  labelName_not_starts_with: String
+  labelName_starts_with: String
+  registrant: String
+  registrant_contains: String
+  registrant_ends_with: String
+  registrant_gt: String
+  registrant_gte: String
+  registrant_in: [String!]
+  registrant_lt: String
+  registrant_lte: String
+  registrant_not: String
+  registrant_not_contains: String
+  registrant_not_ends_with: String
+  registrant_not_in: [String!]
+  registrant_not_starts_with: String
+  registrant_starts_with: String
+  registrationDate: BigInt
+  registrationDate_gt: BigInt
+  registrationDate_gte: BigInt
+  registrationDate_in: [BigInt!]
+  registrationDate_lt: BigInt
+  registrationDate_lte: BigInt
+  registrationDate_not: BigInt
+  registrationDate_not_in: [BigInt!]
+}
+
+enum Registration_orderBy {
+  domain
+  events
+  expiryDate
+  id
+  labelName
+  registrant
+  registrationDate
+}
+
+type Resolver {
+  addr: Account
+  address: Bytes!
+  coinTypes: [Int!]
+  contentHash: Bytes
+  domain: Domain
+  events(first: Int = 100, orderBy: ResolverEvent_orderBy, orderDirection: OrderDirection, skip: Int = 0, where: ResolverEvent_filter): [ResolverEvent!]!
+  id: ID!
+  texts: [String!]
+}
+
+interface ResolverEvent {
+  blockNumber: Int!
+  id: ID!
+  resolver: Resolver!
+  transactionID: Bytes!
+}
+
+input ResolverEvent_filter {
+  blockNumber: Int
+  blockNumber_gt: Int
+  blockNumber_gte: Int
+  blockNumber_in: [Int!]
+  blockNumber_lt: Int
+  blockNumber_lte: Int
+  blockNumber_not: Int
+  blockNumber_not_in: [Int!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  resolver: String
+  resolver_contains: String
+  resolver_ends_with: String
+  resolver_gt: String
+  resolver_gte: String
+  resolver_in: [String!]
+  resolver_lt: String
+  resolver_lte: String
+  resolver_not: String
+  resolver_not_contains: String
+  resolver_not_ends_with: String
+  resolver_not_in: [String!]
+  resolver_not_starts_with: String
+  resolver_starts_with: String
+  transactionID: Bytes
+  transactionID_contains: Bytes
+  transactionID_in: [Bytes!]
+  transactionID_not: Bytes
+  transactionID_not_contains: Bytes
+  transactionID_not_in: [Bytes!]
+}
+
+enum ResolverEvent_orderBy {
+  blockNumber
+  id
+  resolver
+  transactionID
+}
+
+input Resolver_filter {
+  addr: String
+  addr_contains: String
+  addr_ends_with: String
+  addr_gt: String
+  addr_gte: String
+  addr_in: [String!]
+  addr_lt: String
+  addr_lte: String
+  addr_not: String
+  addr_not_contains: String
+  addr_not_ends_with: String
+  addr_not_in: [String!]
+  addr_not_starts_with: String
+  addr_starts_with: String
+  address: Bytes
+  address_contains: Bytes
+  address_in: [Bytes!]
+  address_not: Bytes
+  address_not_contains: Bytes
+  address_not_in: [Bytes!]
+  coinTypes: [Int!]
+  coinTypes_contains: [Int!]
+  coinTypes_not: [Int!]
+  coinTypes_not_contains: [Int!]
+  contentHash: Bytes
+  contentHash_contains: Bytes
+  contentHash_in: [Bytes!]
+  contentHash_not: Bytes
+  contentHash_not_contains: Bytes
+  contentHash_not_in: [Bytes!]
+  domain: String
+  domain_contains: String
+  domain_ends_with: String
+  domain_gt: String
+  domain_gte: String
+  domain_in: [String!]
+  domain_lt: String
+  domain_lte: String
+  domain_not: String
+  domain_not_contains: String
+  domain_not_ends_with: String
+  domain_not_in: [String!]
+  domain_not_starts_with: String
+  domain_starts_with: String
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  texts: [String!]
+  texts_contains: [String!]
+  texts_not: [String!]
+  texts_not_contains: [String!]
+}
+
+enum Resolver_orderBy {
+  addr
+  address
+  coinTypes
+  contentHash
+  domain
+  events
+  id
+  texts
+}
+
+type Subscription {
+  """Access to subgraph metadata"""
+  _meta(block: Block_height): _Meta_
+  abiChanged(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): AbiChanged
+  abiChangeds(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: AbiChanged_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: AbiChanged_filter
+  ): [AbiChanged!]!
+  account(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): Account
+  accounts(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: Account_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: Account_filter
+  ): [Account!]!
+  addrChanged(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): AddrChanged
+  addrChangeds(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: AddrChanged_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: AddrChanged_filter
+  ): [AddrChanged!]!
+  authorisationChanged(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): AuthorisationChanged
+  authorisationChangeds(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: AuthorisationChanged_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: AuthorisationChanged_filter
+  ): [AuthorisationChanged!]!
+  contenthashChanged(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): ContenthashChanged
+  contenthashChangeds(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: ContenthashChanged_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: ContenthashChanged_filter
+  ): [ContenthashChanged!]!
+  domain(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): Domain
+  domainEvent(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): DomainEvent
+  domainEvents(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: DomainEvent_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: DomainEvent_filter
+  ): [DomainEvent!]!
+  domains(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: Domain_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: Domain_filter
+  ): [Domain!]!
+  interfaceChanged(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): InterfaceChanged
+  interfaceChangeds(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: InterfaceChanged_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: InterfaceChanged_filter
+  ): [InterfaceChanged!]!
+  multicoinAddrChanged(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): MulticoinAddrChanged
+  multicoinAddrChangeds(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: MulticoinAddrChanged_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: MulticoinAddrChanged_filter
+  ): [MulticoinAddrChanged!]!
+  nameChanged(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): NameChanged
+  nameChangeds(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: NameChanged_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: NameChanged_filter
+  ): [NameChanged!]!
+  nameRegistered(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): NameRegistered
+  nameRegistereds(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: NameRegistered_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: NameRegistered_filter
+  ): [NameRegistered!]!
+  nameRenewed(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): NameRenewed
+  nameReneweds(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: NameRenewed_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: NameRenewed_filter
+  ): [NameRenewed!]!
+  nameTransferred(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): NameTransferred
+  nameTransferreds(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: NameTransferred_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: NameTransferred_filter
+  ): [NameTransferred!]!
+  newOwner(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): NewOwner
+  newOwners(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: NewOwner_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: NewOwner_filter
+  ): [NewOwner!]!
+  newResolver(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): NewResolver
+  newResolvers(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: NewResolver_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: NewResolver_filter
+  ): [NewResolver!]!
+  newTTL(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): NewTTL
+  newTTLs(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: NewTTL_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: NewTTL_filter
+  ): [NewTTL!]!
+  pubkeyChanged(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): PubkeyChanged
+  pubkeyChangeds(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: PubkeyChanged_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: PubkeyChanged_filter
+  ): [PubkeyChanged!]!
+  registration(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): Registration
+  registrationEvent(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): RegistrationEvent
+  registrationEvents(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: RegistrationEvent_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: RegistrationEvent_filter
+  ): [RegistrationEvent!]!
+  registrations(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: Registration_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: Registration_filter
+  ): [Registration!]!
+  resolver(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): Resolver
+  resolverEvent(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): ResolverEvent
+  resolverEvents(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: ResolverEvent_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: ResolverEvent_filter
+  ): [ResolverEvent!]!
+  resolvers(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: Resolver_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: Resolver_filter
+  ): [Resolver!]!
+  textChanged(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): TextChanged
+  textChangeds(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: TextChanged_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: TextChanged_filter
+  ): [TextChanged!]!
+  transfer(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): Transfer
+  transfers(
+    """
+    The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: Transfer_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: Transfer_filter
+  ): [Transfer!]!
+}
+
+type TextChanged implements ResolverEvent {
+  blockNumber: Int!
+  id: ID!
+  key: String!
+  resolver: Resolver!
+  transactionID: Bytes!
+}
+
+input TextChanged_filter {
+  blockNumber: Int
+  blockNumber_gt: Int
+  blockNumber_gte: Int
+  blockNumber_in: [Int!]
+  blockNumber_lt: Int
+  blockNumber_lte: Int
+  blockNumber_not: Int
+  blockNumber_not_in: [Int!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  key: String
+  key_contains: String
+  key_ends_with: String
+  key_gt: String
+  key_gte: String
+  key_in: [String!]
+  key_lt: String
+  key_lte: String
+  key_not: String
+  key_not_contains: String
+  key_not_ends_with: String
+  key_not_in: [String!]
+  key_not_starts_with: String
+  key_starts_with: String
+  resolver: String
+  resolver_contains: String
+  resolver_ends_with: String
+  resolver_gt: String
+  resolver_gte: String
+  resolver_in: [String!]
+  resolver_lt: String
+  resolver_lte: String
+  resolver_not: String
+  resolver_not_contains: String
+  resolver_not_ends_with: String
+  resolver_not_in: [String!]
+  resolver_not_starts_with: String
+  resolver_starts_with: String
+  transactionID: Bytes
+  transactionID_contains: Bytes
+  transactionID_in: [Bytes!]
+  transactionID_not: Bytes
+  transactionID_not_contains: Bytes
+  transactionID_not_in: [Bytes!]
+}
+
+enum TextChanged_orderBy {
+  blockNumber
+  id
+  key
+  resolver
+  transactionID
+}
+
+type Transfer implements DomainEvent {
+  blockNumber: Int!
+  domain: Domain!
+  id: ID!
+  owner: Account!
+  transactionID: Bytes!
+}
+
+input Transfer_filter {
+  blockNumber: Int
+  blockNumber_gt: Int
+  blockNumber_gte: Int
+  blockNumber_in: [Int!]
+  blockNumber_lt: Int
+  blockNumber_lte: Int
+  blockNumber_not: Int
+  blockNumber_not_in: [Int!]
+  domain: String
+  domain_contains: String
+  domain_ends_with: String
+  domain_gt: String
+  domain_gte: String
+  domain_in: [String!]
+  domain_lt: String
+  domain_lte: String
+  domain_not: String
+  domain_not_contains: String
+  domain_not_ends_with: String
+  domain_not_in: [String!]
+  domain_not_starts_with: String
+  domain_starts_with: String
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  owner: String
+  owner_contains: String
+  owner_ends_with: String
+  owner_gt: String
+  owner_gte: String
+  owner_in: [String!]
+  owner_lt: String
+  owner_lte: String
+  owner_not: String
+  owner_not_contains: String
+  owner_not_ends_with: String
+  owner_not_in: [String!]
+  owner_not_starts_with: String
+  owner_starts_with: String
+  transactionID: Bytes
+  transactionID_contains: Bytes
+  transactionID_in: [Bytes!]
+  transactionID_not: Bytes
+  transactionID_not_contains: Bytes
+  transactionID_not_in: [Bytes!]
+}
+
+enum Transfer_orderBy {
+  blockNumber
+  domain
+  id
+  owner
+  transactionID
+}
+
+type _Block_ {
+  """The hash of the block"""
+  hash: Bytes
+
+  """The block number"""
+  number: Int!
+}
+
+"""The type for the top-level _meta field"""
+type _Meta_ {
+  """
+  Information about a specific subgraph block. The hash of the block
+  will be null if the _meta field has a block constraint that asks for
+  a block number. It will be filled if the _meta field has no block constraint
+  and therefore asks for the latest  block
+  
+  """
+  block: _Block_!
+
+  """The deployment ID"""
+  deployment: String!
+
+  """If `true`, the subgraph encountered indexing errors at some past block"""
+  hasIndexingErrors: Boolean!
+}
+
+enum _SubgraphErrorPolicy_ {
+  """Data will be returned even if the subgraph has indexing errors"""
+  allow
+
+  """
+  If the subgraph has indexing errors, data will be omitted. The default.
+  """
+  deny
+}
