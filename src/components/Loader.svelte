@@ -137,6 +137,10 @@
 	$: isHidden = showIf && status === LoadingStatus.Resolved && !showIf(result)
 
 
+	export let debug: string
+	$: if(debug && result) console.log(debug, result)
+
+
 	import { fade, scale } from 'svelte/transition'
 	import HeightContainer from './HeightContainer.svelte'
 	import Loading from './Loading.svelte'
