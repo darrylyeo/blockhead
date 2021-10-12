@@ -174,7 +174,7 @@
 					<div class="bar">
 						<h3>
 							Transactions
-							{#if status === 'resolved'}({transactions.length}){/if}
+							{#if status === 'resolved'}({transactions.length}{transactions.length === 100 ? '+' : ''}){/if}
 						</h3>
 						<label>
 							<input type="checkbox" bind:checked={showFees}>
@@ -256,7 +256,7 @@
 							{selectedToken.name}
 							(<TokenName erc20Token={selectedToken} />)
 							Transactions
-							{#if status === 'resolved'}({transactions.length}){/if}
+							{#if status === 'resolved'}({transactions.length}{transactions.length === 100 ? '+' : ''}){/if}
 						</h3>
 						{#if detailLevel !== 'exhaustive'}
 							<label>
