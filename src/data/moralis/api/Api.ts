@@ -328,6 +328,26 @@ export interface Block {
   transactions: BlockTransaction[];
 }
 
+export interface BlockDate {
+  /**
+   * The date of the block
+   * @example 2020-01-01T00:00:00+00:00
+   */
+  date: number;
+
+  /**
+   * The blocknumber
+   * @example 9193266
+   */
+  block: number;
+
+  /**
+   * The timestamp of the block
+   * @example 1577836811
+   */
+  timestamp: number;
+}
+
 export interface TransactionCollection {
   /**
    * The total number of matches for this query
@@ -576,6 +596,35 @@ export interface Nft {
   symbol: string;
 }
 
+export interface NftMetadata {
+  /**
+   * The address of the contract of the NFT
+   * @example 0x057Ec652A4F150f7FF94f089A38008f49a0DF88e
+   */
+  token_address: string;
+
+  /**
+   * The token id of the NFT
+   * @example 15
+   */
+  token_id: string;
+
+  /**
+   * The type of NFT contract standard
+   * @example ERC721
+   */
+  contract_type: string;
+
+  /** The uri to the metadata of the token */
+  token_uri: string;
+
+  /** The metadata of the token */
+  metadata: string;
+
+  /** when the metadata was last updated */
+  synced_at: string;
+}
+
 export interface NftCollection {
   /**
    * The total number of matches for this query
@@ -595,6 +644,27 @@ export interface NftCollection {
    */
   page_size?: number;
   result?: Nft[];
+}
+
+export interface NftMetadataCollection {
+  /**
+   * The total number of matches for this query
+   * @example 2000
+   */
+  total?: number;
+
+  /**
+   * The page of the current result
+   * @example 2
+   */
+  page?: number;
+
+  /**
+   * The number of results per page
+   * @example 100
+   */
+  page_size?: number;
+  result?: NftMetadata[];
 }
 
 export interface NftOwner {
@@ -761,6 +831,12 @@ export interface NftTransfer {
 
   /** The log index */
   log_index: number;
+
+  /**
+   * The operator present only for ERC1155 Transfers
+   * @example 0x057Ec652A4F150f7FF94f089A38008f49a0DF88e
+   */
+  operator?: string;
 }
 
 export interface NftTransferCollection {
@@ -1064,6 +1140,20 @@ export interface Resolve {
   address: string;
 }
 
+export interface ReservesCollection {
+  /**
+   * reserve0
+   * @example 1177323085102288091856004
+   */
+  reserve0: string;
+
+  /**
+   * reserve1
+   * @example 9424175928981149993184
+   */
+  reserve1: string;
+}
+
 export interface GetBlockParams {
   /** The chain to query */
   chain?: ChainList;
@@ -1075,6 +1165,17 @@ export interface GetBlockParams {
   blockNumberOrHash: string;
 }
 
+export interface GetDateToBlockParams {
+  /** The chain to query */
+  chain?: ChainList;
+
+  /** web3 provider url to user when using local dev chain */
+  providerUrl?: string;
+
+  /** Unix date in miliseconds or a datestring (any format that is accepted by momentjs) */
+  date: string;
+}
+
 export interface GetLogsByAddressParams {
   /** The chain to query */
   chain?: ChainList;
@@ -1082,14 +1183,47 @@ export interface GetLogsByAddressParams {
   /** The subdomain of the moralis server to use (Only use when selecting local devchain as chain) */
   subdomain?: string;
 
-  /** The block number */
+  /**
+   * The block number
+   * * Provide the param 'block_numer' or ('from_block' and / or 'to_block')
+   * * If 'block_numer' is provided in conbinaison with 'from_block' and / or 'to_block', 'block_number' will will be used
+   *
+   */
   block_number?: string;
 
-  /** The minimum block number from where to get the logs */
+  /**
+   * The minimum block number from where to get the logs
+   * * Provide the param 'block_numer' or ('from_block' and / or 'to_block')
+   * * If 'block_numer' is provided in conbinaison with 'from_block' and / or 'to_block', 'block_number' will will be used
+   *
+   */
   from_block?: string;
 
-  /** The maximum block number to where to get the logs */
+  /**
+   * The maximum block number from where to get the logs
+   * * Provide the param 'block_numer' or ('from_block' and / or 'to_block')
+   * * If 'block_numer' is provided in conbinaison with 'from_block' and / or 'to_block', 'block_number' will will be used
+   *
+   */
   to_block?: string;
+
+  /**
+   * The date from where to get the logs (any format that is accepted by momentjs)
+   * * Provide the param 'from_block' or 'from_date'
+   * * If 'from_date' and 'from_block' are provided, 'from_block' will be used.
+   * * If 'from_date' and the block params are provided, the block params will be used. Please refer to the blocks params sections (block_number,from_block and to_block) on how to use them
+   *
+   */
+  from_date?: string;
+
+  /**
+   * Get the logs to this date (any format that is accepted by momentjs)
+   * * Provide the param 'to_block' or 'to_date'
+   * * If 'to_date' and 'to_block' are provided, 'to_block' will be used.
+   * * If 'to_date' and the block params are provided, the block params will be used. Please refer to the blocks params sections (block_number,from_block and to_block) on how to use them
+   *
+   */
+  to_date?: string;
 
   /** topic0 */
   topic0?: string;
@@ -1145,16 +1279,38 @@ export interface GetContractEventsParams {
   providerUrl?: string;
 
   /**
-   * from_block
+   * The minimum block number from where to get the logs
+   * * Provide the param 'from_block' or 'from_date'
+   * * If 'from_date' and 'from_block' are provided, 'from_block' will be used.
+   *
    * @min 0
    */
   from_block?: number;
 
   /**
-   * to_block
+   * The maximum block number from where to get the logs.
+   * * Provide the param 'to_block' or 'to_date'
+   * * If 'to_date' and 'to_block' are provided, 'to_block' will be used.
+   *
    * @min 0
    */
   to_block?: number;
+
+  /**
+   * The date from where to get the logs (any format that is accepted by momentjs)
+   * * Provide the param 'from_block' or 'from_date'
+   * * If 'from_date' and 'from_block' are provided, 'from_block' will be used.
+   *
+   */
+  from_date?: string;
+
+  /**
+   * Get the logs to this date (any format that is accepted by momentjs)
+   * * Provide the param 'to_block' or 'to_date'
+   * * If 'to_date' and 'to_block' are provided, 'to_block' will be used.
+   *
+   */
+  to_date?: any;
 
   /** The topic of the event */
   topic: string;
@@ -1202,16 +1358,38 @@ export interface GetTransactionsParams {
   subdomain?: string;
 
   /**
-   * from_block
+   * The minimum block number from where to get the transactions
+   * * Provide the param 'from_block' or 'from_date'
+   * * If 'from_date' and 'from_block' are provided, 'from_block' will be used.
+   *
    * @min 0
    */
   from_block?: number;
 
   /**
-   * to_block
+   * The maximum block number from where to get the transactions.
+   * * Provide the param 'to_block' or 'to_date'
+   * * If 'to_date' and 'to_block' are provided, 'to_block' will be used.
+   *
    * @min 0
    */
   to_block?: number;
+
+  /**
+   * The date from where to get the transactions (any format that is accepted by momentjs)
+   * * Provide the param 'from_block' or 'from_date'
+   * * If 'from_date' and 'from_block' are provided, 'from_block' will be used.
+   *
+   */
+  from_date?: string;
+
+  /**
+   * Get the transactions to this date (any format that is accepted by momentjs)
+   * * Provide the param 'to_block' or 'to_date'
+   * * If 'to_date' and 'to_block' are provided, 'to_block' will be used.
+   *
+   */
+  to_date?: any;
 
   /**
    * offset
@@ -1271,16 +1449,38 @@ export interface GetTokenTransfersParams {
   subdomain?: string;
 
   /**
-   * from_block
+   * The minimum block number from where to get the transactions
+   * * Provide the param 'from_block' or 'from_date'
+   * * If 'from_date' and 'from_block' are provided, 'from_block' will be used.
+   *
    * @min 0
    */
   from_block?: number;
 
   /**
-   * to_block
+   * The maximum block number from where to get the transactions.
+   * * Provide the param 'to_block' or 'to_date'
+   * * If 'to_date' and 'to_block' are provided, 'to_block' will be used.
+   *
    * @min 0
    */
   to_block?: number;
+
+  /**
+   * The date from where to get the transactions (any format that is accepted by momentjs)
+   * * Provide the param 'from_block' or 'from_date'
+   * * If 'from_date' and 'from_block' are provided, 'from_block' will be used.
+   *
+   */
+  from_date?: string;
+
+  /**
+   * Get the transactions to this date (any format that is accepted by momentjs)
+   * * Provide the param 'to_block' or 'to_date'
+   * * If 'to_date' and 'to_block' are provided, 'to_block' will be used.
+   *
+   */
+  to_date?: any;
 
   /**
    * offset
@@ -1362,44 +1562,6 @@ export interface GetNftTransfersParams {
   address: string;
 }
 
-export interface GetHistoricalNftTransfersParams {
-  /** The chain to query */
-  chain?: ChainList;
-
-  /** The subdomain of the moralis server to use (Only use when selecting local devchain as chain) */
-  subdomain?: string;
-
-  /** web3 provider url to user when using local dev chain */
-  providerUrl?: string;
-
-  /**
-   * from_block
-   * @min 0
-   */
-  from_block?: number;
-
-  /**
-   * to_block
-   * @min 0
-   */
-  to_block?: number;
-
-  /**
-   * offset
-   * @min 0
-   */
-  offset?: number;
-
-  /**
-   * limit
-   * @min 0
-   */
-  limit?: number;
-
-  /** address */
-  address: string;
-}
-
 export interface GetNfTsForContractParams {
   /** The chain to query */
   chain?: ChainList;
@@ -1467,6 +1629,69 @@ export interface GetTokenPriceParams {
   /** The factory name or address of the token exchange */
   exchange?: string;
 
+  /**
+   * to_block
+   * @min 0
+   */
+  to_block?: number;
+
+  /** The address of the token contract */
+  address: string;
+}
+
+export interface GetTokenAdressTransfersParams {
+  /** The chain to query */
+  chain?: ChainList;
+
+  /** The subdomain of the moralis server to use (Only use when selecting local devchain as chain) */
+  subdomain?: string;
+
+  /**
+   * The minimum block number from where to get the transfers
+   * * Provide the param 'from_block' or 'from_date'
+   * * If 'from_date' and 'from_block' are provided, 'from_block' will be used.
+   *
+   * @min 0
+   */
+  from_block?: number;
+
+  /**
+   * The maximum block number from where to get the transfers.
+   * * Provide the param 'to_block' or 'to_date'
+   * * If 'to_date' and 'to_block' are provided, 'to_block' will be used.
+   *
+   * @min 0
+   */
+  to_block?: number;
+
+  /**
+   * The date from where to get the transfers (any format that is accepted by momentjs)
+   * * Provide the param 'from_block' or 'from_date'
+   * * If 'from_date' and 'from_block' are provided, 'from_block' will be used.
+   *
+   */
+  from_date?: string;
+
+  /**
+   * Get the transfers to this date (any format that is accepted by momentjs)
+   * * Provide the param 'to_block' or 'to_date'
+   * * If 'to_date' and 'to_block' are provided, 'to_block' will be used.
+   *
+   */
+  to_date?: any;
+
+  /**
+   * offset
+   * @min 0
+   */
+  offset?: number;
+
+  /**
+   * limit
+   * @min 0
+   */
+  limit?: number;
+
   /** The address of the token contract */
   address: string;
 }
@@ -1486,6 +1711,46 @@ export interface GetTokenAllowanceParams {
 
   /** The address of the token contract */
   address: string;
+}
+
+export interface SearchNfTsParams {
+  /** The chain to query */
+  chain?: ChainList;
+
+  /**
+   * The format of the token id
+   * @example decimal
+   */
+  format?: "decimal" | "hex";
+
+  /** The search string */
+  q: string;
+
+  /**
+   * What fields the search should match on. To look into the entire metadata set the value to 'global'. To have a better response time you can look into a specific field like name
+   * @example name
+   */
+  filter?:
+    | "name"
+    | "description"
+    | "attributes"
+    | "global"
+    | "name,description"
+    | "name,attributes"
+    | "description,attributes"
+    | "name,description,attributes";
+
+  /**
+   * offset
+   * @min 0
+   */
+  offset?: number;
+
+  /**
+   * limit
+   * @min 0
+   */
+  limit?: number;
 }
 
 export interface GetAllTokenIdsParams {
@@ -1681,6 +1946,65 @@ export interface ResolveDomainParams {
   domain: string;
 }
 
+export interface GetPairReservesParams {
+  /** The chain to query */
+  chain?: ChainList;
+
+  /** To get the reserves at this block number */
+  to_block?: string;
+
+  /**
+   * Get the reserves to this date (any format that is accepted by momentjs)
+   * * Provide the param 'to_block' or 'to_date'
+   * * If 'to_date' and 'to_block' are provided, 'to_block' will be used.
+   *
+   */
+  to_date?: any;
+
+  /** web3 provider url to user when using local dev chain */
+  provider_url?: string;
+
+  /**
+   * Liquidity pair address
+   * @example 0xa2107fa5b38d9bbd2c461d6edf11b11a50f6b974
+   */
+  pairAddress: string;
+}
+
+export interface GetPairAddressParams {
+  /** The chain to query */
+  chain?: ChainList;
+
+  /** To get the reserves at this block number */
+  to_block?: string;
+
+  /**
+   * Get the reserves to this date (any format that is accepted by momentjs)
+   * * Provide the param 'to_block' or 'to_date'
+   * * If 'to_date' and 'to_block' are provided, 'to_block' will be used.
+   *
+   */
+  to_date?: any;
+
+  /**
+   * The factory name or address of the token exchange
+   * @example uniswapv2
+   */
+  exchange: "uniswapv2" | "uniswapv3" | "sushiswapv2" | "pancakeswapv2" | "pancakeswapv1" | "quickswap";
+
+  /**
+   * Token0 address
+   * @example 0x2b591e99afe9f32eaa6214f7b7629768c40eeb39
+   */
+  token0Address: string;
+
+  /**
+   * Token1 address
+   * @example 0xdac17f958d2ee523a2206206994597c13d831ec7
+   */
+  token1Address: string;
+}
+
 export namespace Block {
   /**
    * @description Gets the contents of a block by block hash
@@ -1714,6 +2038,24 @@ export namespace Block {
   }
 }
 
+export namespace DateToBlock {
+  /**
+   * @description Gets the closest block of the provided date
+   * @tags native
+   * @name GetDateToBlock
+   * @summary Gets the closest block of the provided date
+   * @request GET:/dateToBlock
+   * @secure
+   */
+  export namespace GetDateToBlock {
+    export type RequestParams = {};
+    export type RequestQuery = { chain?: ChainList; providerUrl?: string; date: string };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = BlockDate;
+  }
+}
+
 export namespace Address {
   /**
    * @description Gets the logs from an address
@@ -1731,6 +2073,8 @@ export namespace Address {
       block_number?: string;
       from_block?: string;
       to_block?: string;
+      from_date?: string;
+      to_date?: string;
       topic0?: string;
       topic1?: string;
       topic2?: string;
@@ -1756,6 +2100,8 @@ export namespace Address {
       providerUrl?: string;
       from_block?: number;
       to_block?: number;
+      from_date?: string;
+      to_date?: any;
       topic: string;
       offset?: number;
       limit?: number;
@@ -1794,6 +2140,8 @@ export namespace Address {
       subdomain?: string;
       from_block?: number;
       to_block?: number;
+      from_date?: string;
+      to_date?: any;
       offset?: number;
       limit?: number;
     };
@@ -1846,6 +2194,8 @@ export namespace Address {
       subdomain?: string;
       from_block?: number;
       to_block?: number;
+      from_date?: string;
+      to_date?: any;
       offset?: number;
       limit?: number;
     };
@@ -1895,29 +2245,6 @@ export namespace Address {
     export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = NftTransferCollection;
-  }
-  /**
-   * @description Gets NFT token transactions in descending order based on block number
-   * @tags account
-   * @name GetHistoricalNftTransfers
-   * @summary Gets NFT transfers of a ERC721 or ERC1155 token
-   * @request GET:/{address}/nft/transfers/verbose
-   * @secure
-   */
-  export namespace GetHistoricalNftTransfers {
-    export type RequestParams = { address: string };
-    export type RequestQuery = {
-      chain?: ChainList;
-      subdomain?: string;
-      providerUrl?: string;
-      from_block?: number;
-      to_block?: number;
-      offset?: number;
-      limit?: number;
-    };
-    export type RequestBody = never;
-    export type RequestHeaders = {};
-    export type ResponseBody = HistoricalNftTransfer[];
   }
   /**
    * @description Gets NFTs owned by the given address * Use the token_address param to get results for a specific contract only * Note results will include all indexed NFTs * Any request which includes the token_address param will start the indexing process for that NFT collection the very first time it is requested
@@ -2001,10 +2328,34 @@ export namespace Erc20 {
    */
   export namespace GetTokenPrice {
     export type RequestParams = { address: string };
-    export type RequestQuery = { chain?: ChainList; providerUrl?: string; exchange?: string };
+    export type RequestQuery = { chain?: ChainList; providerUrl?: string; exchange?: string; to_block?: number };
     export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = Erc20Price;
+  }
+  /**
+   * @description Gets ERC20 token contract transactions in descending order based on block number
+   * @tags token
+   * @name GetTokenAdressTransfers
+   * @summary Gets erc20 transactions of a token contract
+   * @request GET:/erc20/{address}/transfers
+   * @secure
+   */
+  export namespace GetTokenAdressTransfers {
+    export type RequestParams = { address: string };
+    export type RequestQuery = {
+      chain?: ChainList;
+      subdomain?: string;
+      from_block?: number;
+      to_block?: number;
+      from_date?: string;
+      to_date?: any;
+      offset?: number;
+      limit?: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = Erc20Transaction[];
   }
   /**
    * @description Gets the amount which the spender is allowed to withdraw from the spender
@@ -2029,6 +2380,36 @@ export namespace Erc20 {
 }
 
 export namespace Nft {
+  /**
+   * @description Gets NFTs that match a given metadata search.
+   * @tags token
+   * @name SearchNfTs
+   * @summary Retrieves the NFT data based on a metadata search
+   * @request GET:/nft/search
+   * @secure
+   */
+  export namespace SearchNfTs {
+    export type RequestParams = {};
+    export type RequestQuery = {
+      chain?: ChainList;
+      format?: "decimal" | "hex";
+      q: string;
+      filter?:
+        | "name"
+        | "description"
+        | "attributes"
+        | "global"
+        | "name,description"
+        | "name,attributes"
+        | "description,attributes"
+        | "name,description,attributes";
+      offset?: number;
+      limit?: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = NftMetadataCollection;
+  }
   /**
    * @description Gets data, including metadata (where available), for all token ids for the given contract address. * Results are sorted by the block the token id was minted (descending) and limited to 100 per page by default * Requests for contract addresses not yet indexed will automatically start the indexing process for that NFT collection
    * @tags token
@@ -2181,6 +2562,47 @@ export namespace Resolve {
     export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = Resolve;
+  }
+}
+
+export namespace PairAddress {
+  /**
+   * @description Get the liquidity reserves for a given pair address
+   * @tags defi
+   * @name GetPairReserves
+   * @summary Get liquidity pair reserves
+   * @request GET:/{pair_address}/reserves
+   * @secure
+   */
+  export namespace GetPairReserves {
+    export type RequestParams = { pairAddress: string };
+    export type RequestQuery = { chain?: ChainList; to_block?: string; to_date?: any; provider_url?: string };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = ReservesCollection;
+  }
+}
+
+export namespace Token0Address {
+  /**
+   * @description Fetches and returns pair data of the provided token0+token1 combination. The token0 and token1 options are interchangable (ie. there is no different outcome in "token0=WETH and token1=USDT" or "token0=USDT and token1=WETH")
+   * @tags defi
+   * @name GetPairAddress
+   * @summary Get pair address based on token0 and token1 address
+   * @request GET:/{token0_address}/{token1_address}/pairAddress
+   * @secure
+   */
+  export namespace GetPairAddress {
+    export type RequestParams = { token0Address: string; token1Address: string };
+    export type RequestQuery = {
+      chain?: ChainList;
+      to_block?: string;
+      to_date?: any;
+      exchange: "uniswapv2" | "uniswapv3" | "sushiswapv2" | "pancakeswapv2" | "pancakeswapv1" | "quickswap";
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = ReservesCollection;
   }
 }
 
@@ -2446,6 +2868,26 @@ export class Api<SecurityDataType extends unknown> {
         ...params,
       }),
   };
+  dateToBlock = {
+    /**
+     * @description Gets the closest block of the provided date
+     *
+     * @tags native
+     * @name GetDateToBlock
+     * @summary Gets the closest block of the provided date
+     * @request GET:/dateToBlock
+     * @secure
+     */
+    getDateToBlock: (query: GetDateToBlockParams, params: RequestParams = {}) =>
+      this.http.request<BlockDate, any>({
+        path: `/dateToBlock`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+  };
   address = {
     /**
      * @description Gets the logs from an address
@@ -2631,25 +3073,6 @@ export class Api<SecurityDataType extends unknown> {
       }),
 
     /**
-     * @description Gets NFT token transactions in descending order based on block number
-     *
-     * @tags account
-     * @name GetHistoricalNftTransfers
-     * @summary Gets NFT transfers of a ERC721 or ERC1155 token
-     * @request GET:/{address}/nft/transfers/verbose
-     * @secure
-     */
-    getHistoricalNftTransfers: ({ address, ...query }: GetHistoricalNftTransfersParams, params: RequestParams = {}) =>
-      this.http.request<HistoricalNftTransfer[], any>({
-        path: `/${address}/nft/transfers/verbose`,
-        method: "GET",
-        query: query,
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
      * @description Gets NFTs owned by the given address * Use the token_address param to get results for a specific contract only * Note results will include all indexed NFTs * Any request which includes the token_address param will start the indexing process for that NFT collection the very first time it is requested
      *
      * @tags account
@@ -2747,6 +3170,28 @@ export class Api<SecurityDataType extends unknown> {
       }),
 
     /**
+     * @description Gets ERC20 token contract transactions in descending order based on block number
+     *
+     * @tags token
+     * @name GetTokenAdressTransfers
+     * @summary Gets erc20 transactions of a token contract
+     * @request GET:/erc20/{address}/transfers
+     * @secure
+     */
+    getTokenAdressTransfers: (
+      { address, ...query }: GetTokenAdressTransfersParams,
+      params: RequestParams = {},
+    ) =>
+      this.http.request<Erc20Transaction[], any>({
+        path: `/erc20/${address}/transfers`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
      * @description Gets the amount which the spender is allowed to withdraw from the spender
      *
      * @tags token
@@ -2766,6 +3211,25 @@ export class Api<SecurityDataType extends unknown> {
       }),
   };
   nft = {
+    /**
+     * @description Gets NFTs that match a given metadata search.
+     *
+     * @tags token
+     * @name SearchNfTs
+     * @summary Retrieves the NFT data based on a metadata search
+     * @request GET:/nft/search
+     * @secure
+     */
+    searchNfTs: (query: SearchNfTsParams, params: RequestParams = {}) =>
+      this.http.request<NftMetadataCollection, any>({
+        path: `/nft/search`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
     /**
      * @description Gets data, including metadata (where available), for all token ids for the given contract address. * Results are sorted by the block the token id was minted (descending) and limited to 100 per page by default * Requests for contract addresses not yet indexed will automatically start the indexing process for that NFT collection
      *
@@ -2915,6 +3379,46 @@ export class Api<SecurityDataType extends unknown> {
     resolveDomain: ({ domain, ...query }: ResolveDomainParams, params: RequestParams = {}) =>
       this.http.request<Resolve, any>({
         path: `/resolve/${domain}`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+  };
+  pairAddress = {
+    /**
+     * @description Get the liquidity reserves for a given pair address
+     *
+     * @tags defi
+     * @name GetPairReserves
+     * @summary Get liquidity pair reserves
+     * @request GET:/{pair_address}/reserves
+     * @secure
+     */
+    getPairReserves: ({ pairAddress, ...query }: GetPairReservesParams, params: RequestParams = {}) =>
+      this.http.request<ReservesCollection, any>({
+        path: `/${pairAddress}/reserves`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+  };
+  token0Address = {
+    /**
+     * @description Fetches and returns pair data of the provided token0+token1 combination. The token0 and token1 options are interchangable (ie. there is no different outcome in "token0=WETH and token1=USDT" or "token0=USDT and token1=WETH")
+     *
+     * @tags defi
+     * @name GetPairAddress
+     * @summary Get pair address based on token0 and token1 address
+     * @request GET:/{token0_address}/{token1_address}/pairAddress
+     * @secure
+     */
+    getPairAddress: ({ token0Address, token1Address, ...query }: GetPairAddressParams, params: RequestParams = {}) =>
+      this.http.request<ReservesCollection, any>({
+        path: `/{token0_address}/{token1_address}/pairAddress`,
         method: "GET",
         query: query,
         secure: true,
