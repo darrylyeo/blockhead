@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { preferences, preferencesConfig } from '../data/ethereum/preferences'
+	import { preferences, preferencesConfig, resetPreferences } from '../data/ethereum/preferences'
 
 
 	export let relevantPreferences = []
@@ -74,6 +74,8 @@
 	} */
 
 	.header {
+		gap: 0.75em 1.5em;
+		justify-items: start;
 	}
 	.preferences:not(.is-showing-all) > .header {
 		position: sticky;
@@ -183,8 +185,11 @@
 
 
 <div class="preferences" class:is-showing-all={isShowingAll}>
-	<div class="header" on:click={() => isShowingAll = !isShowingAll}>
+	<div class="header column" on:click={() => isShowingAll = !isShowingAll}>
 		<h3>Preferences</h3>
+		{#if isShowingAll}
+			<button class="small" on:click={resetPreferences}>Reset All</button>
+		{/if}
 	</div>
 	<!-- <label class="header">
 		<h3>Preferences</h3>

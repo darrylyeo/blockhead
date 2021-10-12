@@ -388,7 +388,7 @@ export const localStoragePreferences = localStorageWritable<SerializedPreference
 	// 		.map(preference => [preference.id, preference.defaultOption])
 	// )
 )
-localStoragePreferences.update(preferences => {
+const resolveDefaultPreferences = (preferences = {}) => {
 	for(const preferenceGroup of preferencesConfig)
 		for(const preference of preferenceGroup.preferences)
 			if(!preference.options
@@ -398,6 +398,9 @@ localStoragePreferences.update(preferences => {
 				preferences[preference.id] = preference.defaultOption
 
 	return preferences
-})
+}
+localStoragePreferences.update(resolveDefaultPreferences)
+
+export const resetPreferences = () => localStoragePreferences.set(resolveDefaultPreferences({}))
 
 export const preferences = localStoragePreferences
