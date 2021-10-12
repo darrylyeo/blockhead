@@ -45,9 +45,11 @@
 	import EthereumTransactionEtherspot from './EthereumTransactionEtherspot.svelte'
 	import EthereumTransactionsLoader from './EthereumTransactionsLoader.svelte'
 	import EthereumTransactionsERC20Loader from './EthereumTransactionsERC20Loader.svelte'
-	import Loader from './Loader.svelte'
 	import TokenName from './TokenName.svelte'
 	import TokenBalance from './TokenBalance.svelte'
+
+
+	import { scale } from 'svelte/transition'
 </script>
 
 
@@ -158,159 +160,164 @@
 		</EthereumBalances>
 
 		<hr>
+		<div class="stack">
+			{#if !selectedToken}
+				<div class="column" transition:scale>
+					<!-- Regular Ethereum Transactions -->
+					<EthereumTransactionsLoader
+						{network}
+						{address}
+						{provider}
+						{transactionProvider}
+						{quoteCurrency}
+						includeLogs={detailLevel === 'exhaustive'}
+						let:transactions
+					>
+						<svelte:fragment slot="header" let:status>
+							<div class="bar">
+								<h3>
+									Transactions
+									{#if status === 'resolved'}({transactions.length}{transactions.length === 100 ? '+' : ''}){/if}
+								</h3>
+								<label>
+									<input type="checkbox" bind:checked={showFees}>
+									<span>Show Fees</span>
+								</label>
+								<label>
+									<span>View</span>
+									<select bind:value={detailLevel}>
+										<option value="summary">Summary</option>
+										<option value="detailed">Detailed</option>
+										<option value="exhaustive">Exhaustive</option>
+									</select>
+								</label>
+							</div>
+						</svelte:fragment>
 
-		{#if !selectedToken}
-			<!-- Regular Ethereum Transactions -->
-			<EthereumTransactionsLoader
-				{network}
-				{address}
-				{provider}
-				{transactionProvider}
-				{quoteCurrency}
-				includeLogs={detailLevel === 'exhaustive'}
-				let:transactions
-			>
-				<svelte:fragment slot="header" let:status>
-					<div class="bar">
-						<h3>
-							Transactions
-							{#if status === 'resolved'}({transactions.length}{transactions.length === 100 ? '+' : ''}){/if}
-						</h3>
-						<label>
-							<input type="checkbox" bind:checked={showFees}>
-							<span>Show Fees</span>
-						</label>
-						<label>
-							<span>View</span>
-							<select bind:value={detailLevel}>
-								<option value="summary">Summary</option>
-								<option value="detailed">Detailed</option>
-								<option value="exhaustive">Exhaustive</option>
-							</select>
-						</label>
-					</div>
-				</svelte:fragment>
-
-				<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
-					{#each transactions as transaction}
-						{#if transactionProvider === 'Covalent'}
-							<a class="card" id={transaction.tx_hash} href="#{transaction.tx_hash}">
-								<EthereumTransactionCovalent
-									{network}
-									{transaction}
-									{quoteCurrency}
-									contextualAddress={address}
-									{detailLevel}
-									{showValues}
-									{showFees}
-									layout="inline"
-								/>
-							</a>
-						{:else if transactionProvider === 'Moralis'}
-							<a class="card" id={transaction.hash} href="#{transaction.hash}">
-								<EthereumTransactionMoralis
-									{network}
-									{transaction}
-									{quoteCurrency}
-									contextualAddress={address}
-									{detailLevel}
-									{showValues}
-									{showFees}
-									layout="inline"
-								/>
-							</a>
-						{:else if transactionProvider === 'Etherspot'}
-							<a class="card" id={transaction.hash} href="#{transaction.hash}">
-								<EthereumTransactionEtherspot
-									{network}
-									{transaction}
-									{quoteCurrency}
-									contextualAddress={address}
-									{detailLevel}
-									{showValues}
-									{showFees}
-									layout="inline"
-								/>
-							</a>
-						{/if}
-					{:else}
-						<div class="card">No transactions yet.</div>
-					{/each}
+						<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
+							{#each transactions as transaction}
+								{#if transactionProvider === 'Covalent'}
+									<a class="card" id={transaction.tx_hash} href="#{transaction.tx_hash}">
+										<EthereumTransactionCovalent
+											{network}
+											{transaction}
+											{quoteCurrency}
+											contextualAddress={address}
+											{detailLevel}
+											{showValues}
+											{showFees}
+											layout="inline"
+										/>
+									</a>
+								{:else if transactionProvider === 'Moralis'}
+									<a class="card" id={transaction.hash} href="#{transaction.hash}">
+										<EthereumTransactionMoralis
+											{network}
+											{transaction}
+											{quoteCurrency}
+											contextualAddress={address}
+											{detailLevel}
+											{showValues}
+											{showFees}
+											layout="inline"
+										/>
+									</a>
+								{:else if transactionProvider === 'Etherspot'}
+									<a class="card" id={transaction.hash} href="#{transaction.hash}">
+										<EthereumTransactionEtherspot
+											{network}
+											{transaction}
+											{quoteCurrency}
+											contextualAddress={address}
+											{detailLevel}
+											{showValues}
+											{showFees}
+											layout="inline"
+										/>
+									</a>
+								{/if}
+							{:else}
+								<div class="card">No transactions yet.</div>
+							{/each}
+						</div>
+					</EthereumTransactionsLoader>
 				</div>
-			</EthereumTransactionsLoader>
-		{:else}
-			<!-- ERC-20 Transactions -->
-			<EthereumTransactionsERC20Loader
-				{network}
-				{address}
-				{provider}
-				{transactionProvider}
-				erc20Token={selectedToken}
-				{quoteCurrency}
-				includeLogs={detailLevel === 'exhaustive'}
-				let:transactions
-			>
-				<svelte:fragment slot="header" let:status>
-					<div class="bar">
-						<h3>
-							{selectedToken.name}
-							(<TokenName erc20Token={selectedToken} />)
-							Transactions
-							{#if status === 'resolved'}({transactions.length}{transactions.length === 100 ? '+' : ''}){/if}
-						</h3>
-						{#if detailLevel !== 'exhaustive'}
-							<label>
-								<input type="checkbox" bind:checked={showFees}>
-								<span>Show Fees</span>
-							</label>
-						{/if}
-						<label>
-							<span>View</span>
-							<select bind:value={detailLevel}>
-								<option value="summary">Summary</option>
-								<option value="detailed">Detailed</option>
-								<option value="exhaustive">Exhaustive</option>
-							</select>
-						</label>
-						<button on:click={() => selectedToken = undefined}>Back</button>
-					</div>
-				</svelte:fragment>
+			{:else}{#key selectedToken}
+				<div class="column" transition:scale>
+					<!-- ERC-20 Transactions -->
+					<EthereumTransactionsERC20Loader
+						{network}
+						{address}
+						{provider}
+						{transactionProvider}
+						erc20Token={selectedToken}
+						{quoteCurrency}
+						includeLogs={detailLevel === 'exhaustive'}
+						let:transactions
+					>
+						<svelte:fragment slot="header" let:status>
+							<div class="bar">
+								<h3>
+									{selectedToken.name}
+									(<TokenName erc20Token={selectedToken} />)
+									Transactions
+									{#if status === 'resolved'}({transactions.length}{transactions.length === 100 ? '+' : ''}){/if}
+								</h3>
+								{#if detailLevel !== 'exhaustive'}
+									<label>
+										<input type="checkbox" bind:checked={showFees}>
+										<span>Show Fees</span>
+									</label>
+								{/if}
+								<label>
+									<span>View</span>
+									<select bind:value={detailLevel}>
+										<option value="summary">Summary</option>
+										<option value="detailed">Detailed</option>
+										<option value="exhaustive">Exhaustive</option>
+									</select>
+								</label>
+								<button on:click={() => selectedToken = undefined}>Back</button>
+							</div>
+						</svelte:fragment>
 
-				<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
-					{#each transactions as erc20TokenTransaction}
-						{#if transactionProvider === 'Covalent'}
-							<a class="card" id={erc20TokenTransaction.tx_hash} href="#{erc20TokenTransaction.tx_hash}">
-								<EthereumTransactionCovalent
-									{network}
-									{erc20TokenTransaction}
-									{quoteCurrency}
-									contextualAddress={address}
-									{detailLevel}
-									{showValues}
-									{showFees}
-									layout="inline"
-								/>
-							</a>
-						{:else if transactionProvider === 'Moralis'}
-							<a class="card" id={erc20TokenTransaction.hash} href="#{erc20TokenTransaction.hash}">
-								<EthereumTransactionMoralis
-									{network}
-									{erc20TokenTransaction}
-									{quoteCurrency}
-									contextualAddress={address}
-									{detailLevel}
-									{showValues}
-									{showFees}
-									layout="inline"
-								/>
-							</a>
-						{/if}
-					{:else}
-						<div class="card">No transactions yet.</div>
-					{/each}
+						<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
+							{#each transactions as erc20TokenTransaction}
+								{#if transactionProvider === 'Covalent'}
+									<a class="card" id={erc20TokenTransaction.tx_hash} href="#{erc20TokenTransaction.tx_hash}">
+										<EthereumTransactionCovalent
+											{network}
+											{erc20TokenTransaction}
+											{quoteCurrency}
+											contextualAddress={address}
+											{detailLevel}
+											{showValues}
+											{showFees}
+											layout="inline"
+										/>
+									</a>
+								{:else if transactionProvider === 'Moralis'}
+									<a class="card" id={erc20TokenTransaction.hash} href="#{erc20TokenTransaction.hash}">
+										<EthereumTransactionMoralis
+											{network}
+											{erc20TokenTransaction}
+											{quoteCurrency}
+											contextualAddress={address}
+											{detailLevel}
+											{showValues}
+											{showFees}
+											layout="inline"
+										/>
+									</a>
+								{/if}
+							{:else}
+								<div class="card">No transactions yet.</div>
+							{/each}
+						</div>
+					</EthereumTransactionsERC20Loader>
 				</div>
-			</EthereumTransactionsERC20Loader>
-		{/if}
+			{/key}{/if}
+		</div>
 
 		{#if balances?.length}
 			<CovalentPriceChart
