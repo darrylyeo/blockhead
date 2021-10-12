@@ -60,6 +60,7 @@
 
 
 	import { formatTransactionHash } from '../utils/formatTransactionHash'
+	import { formatUnits } from '@ethersproject/units'
 
 
 	import Address from './Address.svelte'
@@ -243,7 +244,9 @@
 									<Address {network} address={param.value} format="middle-truncated" />
 								</span>
 							{:else if param.type === 'uint256'}
-								<output class="parameter-value" title={param.value._isBigNumber ? param.value._hex : param.value}>{param.value._isBigNumber ? param.value._hex : param.value}</output>
+								{#if param.value || param.value === 0}
+									<output class="parameter-value" title={formatUnits(param.value, 0)}>{formatUnits(param.value, isToken ? logEvent.contract.decimals : 0)}</output>
+								{/if}
 							{:else}
 								<output class="parameter-value" title={param.value}>{param.value}</output>
 							{/if}
