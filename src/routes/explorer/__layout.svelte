@@ -164,7 +164,10 @@
 <Preferences
 	relevantPreferences={[
 		'theme',
-		'rpcNetwork', 'tokenBalancesProvider', 'currentPriceProvider', 'historicalPriceProvider', 'transactionsProvider',
+		...($query
+			? ['rpcNetwork', 'tokenBalancesProvider', 'transactionProvider']
+			: ['rpcNetwork', 'currentPriceProvider', 'historicalPriceProvider']
+		),
 		'quoteCurrency'
 	]}
 />

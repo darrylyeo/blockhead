@@ -126,7 +126,7 @@
 <Preferences
 	relevantPreferences={[
 		'theme',
-		'rpcNetwork', 'tokenBalancesProvider', 'defiProvider', 'nftsProvider', 'currentPriceProvider', 'historicalPriceProvider',
+		'rpcNetwork', 'defiProvider', 'nftsProvider', 'currentPriceProvider', 'historicalPriceProvider', 'transactionProvider',
 		'quoteCurrency'
 	]}
 />
