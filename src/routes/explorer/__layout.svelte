@@ -42,6 +42,7 @@
 		'arbitrum-one',
 		'arbitrum-xdai',
 		'metis',
+		'skale-testnet',
 		'optimism',
 		// 'oasis-paratime',
 		'bitcoin'
