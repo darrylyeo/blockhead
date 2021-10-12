@@ -314,7 +314,7 @@
 
 		{#if balances?.length}
 			<CovalentPriceChart
-				historicalPriceProvider={$preferences.priceProvider}
+				historicalPriceProvider={$preferences.historicalPriceProvider}
 				quoteCurrency={$preferences.quoteCurrency}
 				chainID={network.chainId}
 				currencies={
