@@ -134,6 +134,7 @@
 				}
 					<span
 						class="ethereum-balance"
+						class:mark={token.symbol === network.nativeCurrency.symbol}
 						class:is-selectable={isSelectable}
 						class:is-selected={selectedToken?.address === token.address}
 						tabindex={isSelectable ? 0 : undefined}
