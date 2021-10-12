@@ -1,11 +1,12 @@
 <script lang="ts">
 	import type { Readable } from 'svelte/store'
 	import type { Result } from '../data/apollo-store'
-	import type { QueryResponse } from '$houdini'
+	import type { QueryResponse } from '$houdini/runtime/query'
 
 
 	type LoaderResult = $$Generic<unknown>
 	type LoaderError = $$Generic<{message: string} | unknown>
+	type HoudiniQueryInput = $$Generic<unknown>
 
 
 	export let startImmediately = true
@@ -21,7 +22,7 @@
 
 	export let fromPromise:() => Promise<LoaderResult>
 	export let fromStore: () => Readable<Result<LoaderResult>>
-	export let fromHoudiniQuery: () => QueryResponse<LoaderResult>
+	export let fromHoudiniQuery: () => QueryResponse<LoaderResult, HoudiniQueryInput>
 
 	export let showIf: ((then: LoaderResult) => boolean | any) | undefined
 	export let isCollapsed = false
