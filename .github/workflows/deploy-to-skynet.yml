@@ -29,8 +29,8 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Build project
         run: |
-          pnpm i
-          pnpm build
+          npm i
+          npm build
 
       - name: Deploy to Skynet
         uses: SkynetLabs/deploy-to-skynet-action@v2
