@@ -15,7 +15,8 @@
 
 	export let contextualAddress: Ethereum.Address
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
-	export let showValues: 'original' | 'converted' | 'both' = 'original'
+	// export let showValues: 'original' | 'converted' | 'both' = 'original'
+	let showValues = 'original'
 	export let showFees = false
 
 	export let layout: 'standalone' | 'inline' = 'inline'
@@ -298,7 +299,6 @@
 
 							balance={gasValue}
 							conversionCurrency={quoteToken}
-							convertedValue={gasValueQuote}
 						/>
 					</span>
 				{/if}
