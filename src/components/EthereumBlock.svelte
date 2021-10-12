@@ -15,7 +15,7 @@
 
 
 	import { formatPercent } from '../utils/format-percent'
-	import { toUtf8String } from 'ethers/lib/utils'
+	import { toUtf8String } from 'ethers/lib/utils.js'
 	import { formatTransactionHash } from '../utils/formatTransactionHash'
 
 	const formatNumber = (number: number) =>

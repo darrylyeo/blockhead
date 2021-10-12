@@ -807,7 +807,7 @@ import {
 } from '@connext/vector-sdk'
 // '../../../node_modules/@connext/vector-sdk/dist/index'
 
-import { formatUnits } from 'ethers/lib/utils'
+import { formatUnits } from 'ethers/lib/utils.js'
 
 export async function startConnextTransfer({
 	fromNetwork,
