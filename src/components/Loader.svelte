@@ -87,6 +87,7 @@
 	}
 
 	function load(){
+		started = false
 		started = true
 		// houdiniRefetch?.()
 	}
@@ -96,7 +97,9 @@
 			await whenCanceled().catch(console.error)
 
 		status = LoadingStatus.Idle
-		started = startImmediately
+
+		if(startImmediately)
+			load()
 	}
 
 	$: if(promise)
