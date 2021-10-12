@@ -1,7 +1,9 @@
 <script context="module" lang="ts">
-	const _contentHash: Record<string, string> = {}
-	const _textRecords: Record<string, Record<string, string>> = {}
-	const _cryptoAddressRecords: Record<string, Record<string, string>> = {}
+	import { writable } from 'svelte/store'
+
+	const contentHashForEnsName = writable<Record<string, string>>({})
+	const textRecordsForEnsName = writable<Record<string, Record<string, string>>>({})
+	const cryptoAddressRecordsForEnsName = writable<Record<string, Record<string, string>>>({})
 </script>
 
 
@@ -16,6 +18,8 @@
 
 	export let resolverTextRecordKeys = []
 	export let resolverCoinTypes = []
+	
+	export let passive = false
 
 	
 	import { preferences } from '../data/ethereum/preferences'
@@ -26,36 +30,40 @@
 		getEthersProvider(networksByChainID[1], $preferences.rpcNetwork).then(_ => provider = _)
 
 
-	export let contentHash = _contentHash[ensName]
-	export let textRecords = _textRecords[ensName] ?? {}
-	export let cryptoAddressRecords = _cryptoAddressRecords[ensName] ?? {}
+	export let contentHash: string
+	$: contentHash = $contentHashForEnsName[ensName]
+
+	export let textRecords: Record<string, string>
+	$: textRecords = $textRecordsForEnsName[ensName] ?? ($textRecordsForEnsName[ensName] = {})
+
+	export let cryptoAddressRecords: Record<string, string>
+	$: cryptoAddressRecords = $cryptoAddressRecordsForEnsName[ensName] ?? ($cryptoAddressRecordsForEnsName[ensName] = {})
 
 	let resolver: Resolver
-	let isResolvingRecords = false
-	$: if(provider && ensName && !isResolvingRecords){
-		isResolvingRecords = true
 
-		textRecords = _textRecords[ensName] ||= {}
-		cryptoAddressRecords = _cryptoAddressRecords[ensName] ||= {}
-
+	// let isResolvingRecords = false
+	// $: if(provider && ensName && !isResolvingRecords){
+	// 	isResolvingRecords = true
+	$: if(provider && ensName){
 		provider.getResolver(ensName).then(resolver => {
 			resolver?.getContentHash().then(content => {
-				_contentHash[ensName] = contentHash = content
+				$contentHashForEnsName[ensName] = content
+				$contentHashForEnsName = $contentHashForEnsName
 			})
 
-			for(const textRecordKey of resolverTextRecordKeys ?? []){
-				resolver?.getText(textRecordKey).then(content => {
-					textRecords[textRecordKey] = content
-					textRecords = textRecords
-				})
-			}
+			for(const textRecordKey of resolverTextRecordKeys ?? [])
+				if(!(textRecordKey in $textRecordsForEnsName[ensName]))
+					resolver?.getText(textRecordKey).then(content => {
+						$textRecordsForEnsName[ensName][textRecordKey] = content
+						$textRecordsForEnsName = $textRecordsForEnsName
+					})
 
-			for(const coinType of resolverCoinTypes ?? []){
-				resolver?.getAddress(coinType).then(content => {
-					cryptoAddressRecords[coinType] = content
-					cryptoAddressRecords = cryptoAddressRecords
-				})
-			}
+			for(const coinType of resolverCoinTypes ?? [])
+				if(!(coinType in $cryptoAddressRecordsForEnsName[ensName]))
+					resolver?.getAddress(coinType).then(content => {
+						$cryptoAddressRecordsForEnsName[ensName][coinType] = content
+						$cryptoAddressRecordsForEnsName = $cryptoAddressRecordsForEnsName
+					})
 		})
 	}
 
@@ -79,16 +87,22 @@
 
 <slot name="header" />
 
-<div class="stack">
-	{#if Object.values(textRecords).length || Object.values(cryptoAddressRecords).length}
-		<div class="column">
-			<slot {contentHash} {textRecords} {cryptoAddressRecords} />
-		</div>
-	{:else}
-		<Loading iconAnimation="hover">
-			<img slot="icon" src="/logos/ens.svg" width="25" />
+{#if passive}
+	{#key contentHash}{#key textRecords}{#key cryptoAddressRecords}
+		<slot {contentHash} {textRecords} {cryptoAddressRecords} />
+	{/key}{/key}{/key}
+{:else}
+	<div class="stack">
+		{#if Object.values(textRecords).length || Object.values(cryptoAddressRecords).length}
+			<div class="column">
+				<slot {contentHash} {textRecords} {cryptoAddressRecords} />
+			</div>
+		{:else}
+			<Loading iconAnimation="hover">
+				<img slot="icon" src="/logos/ens.svg" width="25" />
 
-			Resolving ENS records...
-		</Loading>
-	{/if}
-</div>
+				Resolving ENS records...
+			</Loading>
+		{/if}
+	</div>
+{/if}
