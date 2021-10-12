@@ -191,7 +191,7 @@
 					transactions: transactions.sort((transaction1, transaction2) => transaction1.indexInBlock - transaction2.indexInBlock)
 				}))
 				.catch((e) => {
-					throw new Error(`Moralis hasn't yet indexed block #${blockNumber}.`) 
+					throw new Error(`Moralis hasn't yet indexed ${network.name} block #${blockNumber}.`) 
 				})
 			}
 			bind:result={block}
