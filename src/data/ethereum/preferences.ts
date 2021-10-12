@@ -4,8 +4,12 @@ import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '../currency/currency
 
 type PreferenceOption<
 	PreferenceOptionID extends string
-> =
-	{ id: PreferenceOptionID, name: string, value?, disabled?: boolean }
+> = {
+	id: PreferenceOptionID,
+	name: string | ((preferences: SerializedPreferences<typeof preferencesConfig>) => string),
+	value?,
+	disabled?: boolean
+}
 
 type PreferenceOptionGroup<
 	PreferenceID extends string,
@@ -219,7 +223,7 @@ export const preferencesConfig: PreferencesConfig<
 						id: 'onChain',
 						name: 'On-Chain',
 						options: [
-							{ id: 'RPC Provider', name: 'RPC Provider' },
+							{ id: 'RPC Provider', name: preferences => `On-Chain (${preferences.rpcNetwork})` },
 						]
 					},
 					{

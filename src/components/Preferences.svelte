@@ -10,6 +10,12 @@
 	const isShowingPreference = ({id}) => isShowingAll || !(relevantPreferences.length && !relevantPreferences.includes(id))
 
 
+	const resolveName = name =>
+		typeof name === 'function'
+			? name($preferences)
+			: name
+
+
 	import { expoOut } from 'svelte/easing'
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
@@ -202,11 +208,11 @@
 							{#if options}
 								<optgroup label={name}>
 									{#each options as {id, name, value, disabled} (id)}
-										<option value={value || id} disabled={disabled}>{name}</option>
+										<option value={value || id} disabled={disabled}>{resolveName(name)}</option>
 									{/each}
 								</optgroup>
 							{:else}
-								<option value={value || id} disabled={disabled}>{name}</option>
+								<option value={value || id} disabled={disabled}>{resolveName(name)}</option>
 							{/if}
 						{/each}
 					</select>
