@@ -54,9 +54,10 @@
 	/* font-size: 20px;
 	font-size: clamp(15px, 1.1vw, 20px); */
 	font-size: 16px;
-	font-size: clamp(14px, 1.05vw, 17px);
+	font-size: clamp(14px, 1.05vw, 16px);
 	font-family: var(--base-fonts);
 	line-height: 1.5;
+	letter-spacing: 0.03ch;
 
 	-webkit-font-feature-settings: "liga" on, "calt" on;
 	font-feature-settings: "liga" on, "calt" on;
@@ -459,6 +460,7 @@ a.card {
 	text-transform: uppercase;
 	/* font-variant: all-small-caps; */
 	letter-spacing: 0.175ch;
+	margin-right: -0.175ch;
 	/* line-height: 1; */
 
 	font-family: Pally, var(--base-fonts);
