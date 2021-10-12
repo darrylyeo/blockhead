@@ -34,7 +34,7 @@
 <div>
 	<section class="card">
 		<CurrentPrice
-			priceProvider={$preferences.currentPriceProvider}
+			currentPriceProvider={$preferences.currentPriceProvider}
 			{token}
 			quoteCurrency={$preferences.quoteCurrency}
 			provider={$ethereumProvider}

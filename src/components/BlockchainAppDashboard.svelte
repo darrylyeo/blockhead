@@ -662,7 +662,7 @@
 										{#if !address}
 											<div class="column" transition:scale>
 												<CurrentPrice
-													priceProvider={$preferences.currentPriceProvider}
+													currentPriceProvider={$preferences.currentPriceProvider}
 													token={erc20Token.symbol}
 													tokenIcon={erc20Token.icon}
 													quoteCurrency={$preferences.quoteCurrency}
