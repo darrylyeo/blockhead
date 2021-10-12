@@ -18,7 +18,7 @@
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
 
 
-	let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'summary'
+	let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
 	let showValues: 'original' | 'converted' | 'both' = 'original'
 	let showFees = false
 	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
