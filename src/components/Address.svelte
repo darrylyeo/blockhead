@@ -29,7 +29,7 @@
 </style>
 
 
-{#if linked}
+{#if linked && network}
 	<a class="address" href="/explorer/{network.slug}/{address}">
 		<slot {formattedAddress}>
 			{#if format === 'middle-truncated'}
