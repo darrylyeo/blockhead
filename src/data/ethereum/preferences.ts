@@ -248,7 +248,7 @@ export const preferencesConfig: PreferencesConfig<
 				id: 'currentPriceProvider',
 				name: 'Current Price',
 				type: 'single',
-				defaultOption: 'Zapper',
+				defaultOption: 'auto',
 				options: [
 					{
 						id: 'onChain',
@@ -268,6 +268,13 @@ export const preferencesConfig: PreferencesConfig<
 							// { id: 'Zapper', name: 'Zapper' },
 							// { id: 'CoinGecko', name: 'CoinGecko' },
 							// { id: 'Etherscan', name: 'Etherscan' },
+						]
+					},
+					{
+						id: 'auto',
+						name: 'Auto',
+						options: [
+							{ id: 'auto', name: 'Auto' },
 						]
 					}
 				]

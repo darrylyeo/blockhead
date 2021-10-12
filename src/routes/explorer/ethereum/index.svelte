@@ -38,7 +38,7 @@
 
 	<section class="card">
 		<CurrentPrice
-			priceProvider={$preferences.currentPriceProvider}
+			currentPriceProvider={$preferences.currentPriceProvider}
 			token={$explorerNetwork.nativeCurrency.symbol}
 			quoteCurrency={$preferences.quoteCurrency}
 			provider={$ethereumProvider}
