@@ -29,6 +29,7 @@
 		symbol === 'MATIC' && '/logos/matic-token.svg',
 		symbol === 'FTM' && '/logos/fantom-token.svg',
 		symbol === 'METIS' && '/logos/metis-token.png',
+		symbol === 'AETH' && '/logos/arbitrum.svg',
 		symbol === 'skETH' && '/logos/skale-token.svg',
 		symbol === 'AAVE' && 'https://token-icons.s3.amazonaws.com/0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9.png',
 		address && `https://token-icons.s3.amazonaws.com/${address.toLowerCase()}.png`,
