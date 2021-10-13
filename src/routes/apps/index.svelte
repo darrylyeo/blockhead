@@ -71,6 +71,7 @@
 							tokenAddress={address}
 						/>
 					{/each}
+					{#if name === 'ENS'}<img src="/logos/ens.svg" width="20" />{/if}
 					<span>{name}</span>
 				</h3>
 			</a>
