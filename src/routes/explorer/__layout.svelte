@@ -125,6 +125,14 @@
 	select {
 		max-width: 11.5rem;
 	}
+	.title {
+		gap: 0.66em;
+	}
+	.title-icon {
+		display: inline-flex;
+		align-items: center;
+		font-size: 1.5em;
+	}
 </style>
 
 
@@ -135,10 +143,10 @@
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 	<div class="bar">
-		<div class="row">
-			<TokenIcon erc20Token={$explorerNetwork.nativeCurrency} />
+		<div class="title row">
+			<span class="title-icon">{#key $networkSlug}<TokenIcon erc20Token={$explorerNetwork.nativeCurrency} />{/key}</span>
 			<h1>
-				<span class="stack-inline">{#key $networkSlug}<b in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{$networkSlug ? `${networkDisplayName} ` : ``}</b>{/key}</span>
+				<mark class="stack-inline">{#key $networkSlug}<b in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{$networkSlug ? `${networkDisplayName} ` : ``}</b>{/key}</mark>
 				Explorer
 			</h1>
 		</div>
