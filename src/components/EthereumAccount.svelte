@@ -9,6 +9,7 @@
 
 	export let network: Ethereum.Network
 	export let addressOrENSName: Ethereum.Address | string
+	export let filterQuery: Ethereum.Address | Ethereum.ContractAddress | Ethereum.BlockNumber
 	export let provider: Ethereum.Provider
 
 	export let tokenBalancesProvider
@@ -26,7 +27,17 @@
 
 	$: quoteCurrency = $preferences.quoteCurrency
 
+
 	let selectedToken: Ethereum.ERC20Token | undefined
+
+	import { isAddress } from '@ethersproject/address'
+
+	$: if(isAddress(filterQuery) && balances){
+		selectedToken = balances
+			.find(({token}) => token.address.toLowercase() === filterQuery.toLowerCase())
+	}
+	// $: if(selectedToken)
+	// 	filterQuery = selectedToken.address
 
 
 	let balances: Covalent.ERC20TokenOrNFTContractWithBalance[]
@@ -49,7 +60,7 @@
 	import TokenBalance from './TokenBalance.svelte'
 
 
-	import { scale } from 'svelte/transition'
+	import { fade } from 'svelte/transition'
 </script>
 
 
@@ -160,9 +171,10 @@
 		</EthereumBalances>
 
 		<hr>
+
 		<div class="stack">
 			{#if !selectedToken}
-				<div class="column" transition:scale>
+				<div class="column" transition:fade>
 					<!-- Regular Ethereum Transactions -->
 					<EthereumTransactionsLoader
 						{network}
@@ -243,7 +255,7 @@
 					</EthereumTransactionsLoader>
 				</div>
 			{:else}{#key selectedToken}
-				<div class="column" transition:scale>
+				<div class="column" transition:fade>
 					<!-- ERC-20 Transactions -->
 					<EthereumTransactionsERC20Loader
 						{network}
