@@ -270,6 +270,7 @@
 						</span>
 						<TokenBalanceWithConversion
 							{showValues}
+							showDecimalPlaces={isExhaustive ? 9 : 6}
 
 							erc20Token={token}
 
@@ -295,6 +296,7 @@
 						<span>for fee</span>
 						<TokenBalanceWithConversion
 							{showValues}
+							showDecimalPlaces={isExhaustive ? 9 : 6}
 
 							erc20Token={gasToken}
 
