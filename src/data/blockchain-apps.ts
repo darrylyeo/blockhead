@@ -2579,6 +2579,7 @@ export const featuredBlockchainApps = [
 	'aave',
 	'audius',
 	'balancer',
+	'bitgo',
 	'chainlink',
 	'compound',
 	'88mph',
@@ -2595,7 +2596,8 @@ export const featuredBlockchainApps = [
 	'uma',
 	'umbrella',
 	'uniswap',
-	'yearn'
+	'yearn',
+	'0x'
 ].map(slug => blockchainAppsBySlug[slug])
 
 export const notFeaturedBlockchainApps = blockchainApps.filter(blockchainAppConfig => !featuredBlockchainApps.includes(blockchainAppConfig))

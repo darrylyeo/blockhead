@@ -46,10 +46,10 @@
 	}
 
 	.featured-apps {
-		font-size: 0.95em;
+		font-size: 1.15em;
 	}
 	.other-apps {
-		font-size: 0.9em;
+		font-size: 0.95em;
 	}
 </style>
 
