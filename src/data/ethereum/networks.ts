@@ -2786,7 +2786,7 @@ export const networks: Ethereum.Network[] = [
 	{
 		"slug": "metis",
 		"name": "Metis",
-		"chainId": 435,
+		"chainId": 488, // 435
 		"nativeCurrency": {
 			"name": "Metis",
 			"symbol": "METIS",
@@ -2794,7 +2794,7 @@ export const networks: Ethereum.Network[] = [
 		},
 		"rpc": [
 			"https://dragonfire.metis.io/?owner=488",
-			"https://rocketfuel.metis.io/?owner=435"
+			// "https://rocketfuel.metis.io/?owner=435"
 		],
 		"faucets": [],
 		"explorers": [],
