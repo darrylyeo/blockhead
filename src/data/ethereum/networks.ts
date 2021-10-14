@@ -2793,6 +2793,7 @@ export const networks: Ethereum.Network[] = [
 			"decimals": 18
 		},
 		"rpc": [
+			"https://dragonfire.metis.io/?owner=488",
 			"https://rocketfuel.metis.io/?owner=435"
 		],
 		"faucets": [],
