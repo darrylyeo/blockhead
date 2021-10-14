@@ -65,7 +65,7 @@
 		}}
 		loadingIcon="/logos/ens.svg"
 		loadingIconName="ENS"
-		loadingMessage="Reverse-resolving address to a name on the Ethereum Name Service{viaRPC}"
+		loadingMessage="Reverse-resolving address to a name on the Ethereum Name Service{viaRPC}..."
 		errorMessage={`Error reverse-resolving address to ENS name${viaRPC}.`}
 		showIf={showIf ? () => showIf({address, ensName}) : undefined}
 		bind:result={ensName}
