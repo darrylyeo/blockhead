@@ -173,7 +173,7 @@ export const preferencesConfig: PreferencesConfig<
 				id: 'defiProvider',
 				name: 'DeFi Balances',
 				type: 'single',
-				defaultOption: 'Zapper',
+				defaultOption: 'Zerion DeFi SDK',
 				options: [
 					{
 						id: 'onChain',
