@@ -19,7 +19,8 @@ for(const [color, tokenNames] of Object.entries({
 	'fantom-blue': ['fantom', 'ftm', 'FTM'],
 	'arbitrum-blue': ['arbitrum-one', 'arbitrum-xdai', 'aETH'],
 	'metis-blue': ['metis', 'METIS'],
-	'skale-black': ['skale', 'skale-testnet', 'skETH']
+	'skale-black': ['skale', 'skale-testnet', 'skETH'],
+	'celo-gold': ['celo', 'CELO'],
 }))
 	for(const tokenName of tokenNames)
 		tokenColors[tokenName] = color

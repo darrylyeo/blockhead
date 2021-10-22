@@ -613,6 +613,7 @@ export const networks: Ethereum.Network[] = [
 			"decimals": 18
 		},
 		"rpc": [
+			"https://explorer.celo.org/api/eth-rpc",
 			"https://forno.celo.org",
 			"wss://forno.celo.org/ws"
 		],

@@ -57,6 +57,7 @@
 		'metis',
 		'skale-testnet',
 		'optimism',
+		'celo',
 		// 'oasis-paratime',
 		'bitcoin'
 	].map(slug => networksBySlug[slug])
