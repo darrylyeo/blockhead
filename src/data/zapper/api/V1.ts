@@ -10,8 +10,10 @@
  */
 
 import type {
+  AppDefinition,
   ApprovalControllerGetApprovalStateParams,
   ApprovalControllerGetApprovalTransactionParams,
+  BalanceControllerGetBalancesParams,
   BalanceControllerGetProtocolBalancesV2Params,
   BalanceControllerGetSupportedV2BalancesParams,
   ExchangeControllerGetExchangePriceParams,
@@ -154,20 +156,20 @@ export class V1<SecurityDataType = unknown> {
       ...params,
     });
   /**
-   * @description Gets balances of different supported protocols
+   * @description The old API is deprecated. Use the `?newBalances=true` query param to switch to the new API. Support for the old API will stop November 1st 2021.</br> Gets balances of different supported applications
    *
    * @tags Protocol Balances
    * @name BalanceControllerGetProtocolBalancesV2
-   * @summary Protocol Balances
-   * @request GET:/v1/protocols/{protocol}/balances
+   * @summary [DEPRECATION WARNING] (See below). Application Balances
+   * @request GET:/v1/protocols/{appId}/balances
    * @secure
    */
   balanceControllerGetProtocolBalancesV2 = (
-    { protocol, ...query }: BalanceControllerGetProtocolBalancesV2Params,
+    { appId, ...query }: BalanceControllerGetProtocolBalancesV2Params,
     params: RequestParams = {},
   ) =>
     this.http.request<ProtocolBalanceResponse, any>({
-      path: `/v1/protocols/${protocol}/balances`,
+      path: `/v1/protocols/${appId}/balances`,
       method: "GET",
       query: query,
       secure: true,
@@ -175,7 +177,7 @@ export class V1<SecurityDataType = unknown> {
       ...params,
     });
   /**
-   * @description Gets the protocols supported for each supported network
+   * @description Gets the applications supported for each supported network
    *
    * @tags Protocol Balances
    * @name BalanceControllerGetSupportedV2Balances
@@ -189,6 +191,21 @@ export class V1<SecurityDataType = unknown> {
   ) =>
     this.http.request<{}, any>({
       path: `/v1/protocols/balances/supported`,
+      method: "GET",
+      query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @name BalanceControllerGetBalances
+   * @request GET:/v1/balances
+   * @secure
+   */
+  balanceControllerGetBalances = (query: BalanceControllerGetBalancesParams, params: RequestParams = {}) =>
+    this.http.request<{}, any>({
+      path: `/v1/balances`,
       method: "GET",
       query: query,
       secure: true,
@@ -211,7 +228,7 @@ export class V1<SecurityDataType = unknown> {
       ...params,
     });
   /**
-   * @description Retrieve pool stats for a given protocol
+   * @description Retrieve pool stats for a given application
    *
    * @tags Protocol Stats
    * @name PoolControllerGetPoolStats
@@ -231,7 +248,7 @@ export class V1<SecurityDataType = unknown> {
       ...params,
     });
   /**
-   * @description Retrieve pool stats for a given protocol
+   * @description Retrieve pool stats for a given application
    *
    * @tags Protocol Stats
    * @name PoolControllerGetPoolStatsByAddress
@@ -267,7 +284,7 @@ export class V1<SecurityDataType = unknown> {
       ...params,
     });
   /**
-   * @description Retrieve vault stats for a given protocol
+   * @description Retrieve vault stats for a given application
    *
    * @tags Protocol Stats
    * @name PoolControllerGetVaultStats
@@ -303,7 +320,7 @@ export class V1<SecurityDataType = unknown> {
       ...params,
     });
   /**
-   * @description Retrieve lending stats for a given protocol
+   * @description Retrieve lending stats for a given application
    *
    * @tags Protocol Stats
    * @name PoolControllerGetLendingPoolStats
@@ -323,40 +340,74 @@ export class V1<SecurityDataType = unknown> {
       ...params,
     });
   /**
-   * @description Retrieve token market data for a given protocol
+   * @description Retrieves all app definitions.
+   *
+   * @tags Apps
+   * @name AppsControllerGetApps
+   * @summary List all apps
+   * @request GET:/v1/apps
+   * @secure
+   */
+  appsControllerGetApps = (params: RequestParams = {}) =>
+    this.http.request<AppDefinition, any>({
+      path: `/v1/apps`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Retrieves an app definition by identifier.
+   *
+   * @tags Apps
+   * @name AppsControllerGetApp
+   * @summary Get app by ID
+   * @request GET:/v1/apps/{appId}
+   * @secure
+   */
+  appsControllerGetApp = (appId: string, params: RequestParams = {}) =>
+    this.http.request<AppDefinition[], any>({
+      path: `/v1/apps/${appId}`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Retrieve token market data for a given application
    *
    * @tags Market Data
    * @name MarketControllerGetMarketData
-   * @summary Protocol Market Data
-   * @request GET:/v1/protocols/{protocol}/token-market-data
+   * @summary Application Market Data
+   * @request GET:/v1/protocols/{appId}/token-market-data
    * @secure
    */
   marketControllerGetMarketData = (
-    { protocol, ...query }: MarketControllerGetMarketDataParams,
+    { appId, ...query }: MarketControllerGetMarketDataParams,
     params: RequestParams = {},
   ) =>
     this.http.request<{}, any>({
-      path: `/v1/protocols/${protocol}/token-market-data`,
+      path: `/v1/protocols/${appId}/token-market-data`,
       method: "GET",
       query: query,
       secure: true,
       ...params,
     });
   /**
-   * @description Retrieve farms for a given protocol
+   * @description Retrieve farms for a given application
    *
    * @tags Farms Market Data
    * @name FarmsControllerGetFarmsMarketData
-   * @summary Protocol Farms
-   * @request GET:/v1/protocols/{protocol}/farms
+   * @summary Application Farms
+   * @request GET:/v1/protocols/{appId}/farms
    * @secure
    */
   farmsControllerGetFarmsMarketData = (
-    { protocol, ...query }: FarmsControllerGetFarmsMarketDataParams,
+    { appId, ...query }: FarmsControllerGetFarmsMarketDataParams,
     params: RequestParams = {},
   ) =>
     this.http.request<{}, any>({
-      path: `/v1/protocols/${protocol}/farms`,
+      path: `/v1/protocols/${appId}/farms`,
       method: "GET",
       query: query,
       secure: true,
@@ -433,7 +484,7 @@ export class V1<SecurityDataType = unknown> {
       ...params,
     });
   /**
-   * @description Retrieves an ERC20 approval status for a protocol zap-in
+   * @description Retrieves an ERC20 approval status for an application zap-in
    *
    * @tags Farm Transactions
    * @name FarmStakingControllerGetApprovalState
@@ -555,7 +606,7 @@ export class V1<SecurityDataType = unknown> {
       ...params,
     });
   /**
-   * @description Provides a list of networks to protocols that are supported by the Zap In routes.
+   * @description Provides a list of networks to app IDs that are supported by the Zap In routes.
    *
    * @tags Zap In
    * @name ZapInControllerGetSupportedZapIns
@@ -584,40 +635,40 @@ export class V1<SecurityDataType = unknown> {
       ...params,
     });
   /**
-   * @description Retrieves an ERC20 approval status for a protocol zap-in
+   * @description Retrieves an ERC20 approval status for an application zap-in
    *
    * @tags Zap In
    * @name ZapInControllerGetZapInApprovalState
    * @summary Zap In Approval State
-   * @request GET:/v1/zap-in/{type}/{protocol}/approval-state
+   * @request GET:/v1/zap-in/{type}/{appId}/approval-state
    * @secure
    */
   zapInControllerGetZapInApprovalState = (
-    { type, protocol, ...query }: ZapInControllerGetZapInApprovalStateParams,
+    { type, appId, ...query }: ZapInControllerGetZapInApprovalStateParams,
     params: RequestParams = {},
   ) =>
     this.http.request<{}, any>({
-      path: `/v1/zap-in/${type}/${protocol}/approval-state`,
+      path: `/v1/zap-in/${type}/${appId}/approval-state`,
       method: "GET",
       query: query,
       secure: true,
       ...params,
     });
   /**
-   * @description Builds an ERC20 approval transaction for a protocol zap-in
+   * @description Builds an ERC20 approval transaction for an application zap-in
    *
    * @tags Zap In
    * @name ZapInControllerGetZapInApprovalTransaction
    * @summary Zap In Approval Transaction
-   * @request GET:/v1/zap-in/{type}/{protocol}/approval-transaction
+   * @request GET:/v1/zap-in/{type}/{appId}/approval-transaction
    * @secure
    */
   zapInControllerGetZapInApprovalTransaction = (
-    { type, protocol, ...query }: ZapInControllerGetZapInApprovalTransactionParams,
+    { type, appId, ...query }: ZapInControllerGetZapInApprovalTransactionParams,
     params: RequestParams = {},
   ) =>
     this.http.request<Transaction, any>({
-      path: `/v1/zap-in/${type}/${protocol}/approval-transaction`,
+      path: `/v1/zap-in/${type}/${appId}/approval-transaction`,
       method: "GET",
       query: query,
       secure: true,
@@ -630,15 +681,15 @@ export class V1<SecurityDataType = unknown> {
    * @tags Zap In
    * @name ZapInControllerGetZapInTransaction
    * @summary Zap In Transaction
-   * @request GET:/v1/zap-in/{type}/{protocol}/transaction
+   * @request GET:/v1/zap-in/{type}/{appId}/transaction
    * @secure
    */
   zapInControllerGetZapInTransaction = (
-    { type, protocol, ...query }: ZapInControllerGetZapInTransactionParams,
+    { type, appId, ...query }: ZapInControllerGetZapInTransactionParams,
     params: RequestParams = {},
   ) =>
     this.http.request<Transaction, any>({
-      path: `/v1/zap-in/${type}/${protocol}/transaction`,
+      path: `/v1/zap-in/${type}/${appId}/transaction`,
       method: "GET",
       query: query,
       secure: true,
@@ -646,7 +697,7 @@ export class V1<SecurityDataType = unknown> {
       ...params,
     });
   /**
-   * @description Provides a list of networks to protocols that are supported by the Zap In routes. Use `/v1/zap-in/:type/supported` instead.
+   * @description Provides a list of networks to app IDs that are supported by the Zap In routes. Use `/v1/zap-in/:type/supported` instead.
    *
    * @tags Zap In
    * @name ZapInLegacyControllerGetSupportedZapIns
@@ -663,42 +714,42 @@ export class V1<SecurityDataType = unknown> {
       ...params,
     });
   /**
-   * @description Retrieves an ERC20 approval status for a protocol zap-in. Use `/v1/zap-in/:type/:protocol/approval-state` instead.
+   * @description Retrieves an ERC20 approval status for a protocol zap-in. Use `/v1/zap-in/:type/:appId/approval-state` instead.
    *
    * @tags Zap In
    * @name ZapInLegacyControllerGetZapInApprovalState
    * @summary Zap In Approval State (DEPRECATED)
-   * @request GET:/v1/zap-in/{protocol}/approval-state
+   * @request GET:/v1/zap-in/{appId}/approval-state
    * @deprecated
    * @secure
    */
   zapInLegacyControllerGetZapInApprovalState = (
-    { protocol, ...query }: ZapInLegacyControllerGetZapInApprovalStateParams,
+    { appId, ...query }: ZapInLegacyControllerGetZapInApprovalStateParams,
     params: RequestParams = {},
   ) =>
     this.http.request<{}, any>({
-      path: `/v1/zap-in/${protocol}/approval-state`,
+      path: `/v1/zap-in/${appId}/approval-state`,
       method: "GET",
       query: query,
       secure: true,
       ...params,
     });
   /**
-   * @description Builds an ERC20 approval transaction for a protocol zap-in. Use `/v1/zap-in/:type/:protocol/approval-transaction` instead.
+   * @description Builds an ERC20 approval transaction for a protocol zap-in. Use `/v1/zap-in/:type/:appId/approval-transaction` instead.
    *
    * @tags Zap In
    * @name ZapInLegacyControllerGetZapInApprovalTransaction
    * @summary Zap In Approval Transaction (DEPRECATED)
-   * @request GET:/v1/zap-in/{protocol}/approval-transaction
+   * @request GET:/v1/zap-in/{appId}/approval-transaction
    * @deprecated
    * @secure
    */
   zapInLegacyControllerGetZapInApprovalTransaction = (
-    { protocol, ...query }: ZapInLegacyControllerGetZapInApprovalTransactionParams,
+    { appId, ...query }: ZapInLegacyControllerGetZapInApprovalTransactionParams,
     params: RequestParams = {},
   ) =>
     this.http.request<Transaction, any>({
-      path: `/v1/zap-in/${protocol}/approval-transaction`,
+      path: `/v1/zap-in/${appId}/approval-transaction`,
       method: "GET",
       query: query,
       secure: true,
@@ -706,21 +757,21 @@ export class V1<SecurityDataType = unknown> {
       ...params,
     });
   /**
-   * @description Builds a zap-in transaction for usage with Web3, complete with best swap from 0x. Use `/v1/zap-in/:type/:protocol/transaction` instead.
+   * @description Builds a zap-in transaction for usage with Web3, complete with best swap from 0x. Use `/v1/zap-in/:type/:appId/transaction` instead.
    *
    * @tags Zap In
    * @name ZapInLegacyControllerGetZapInTransaction
    * @summary Zap In Transaction (DEPRECATED)
-   * @request GET:/v1/zap-in/{protocol}/transaction
+   * @request GET:/v1/zap-in/{appId}/transaction
    * @deprecated
    * @secure
    */
   zapInLegacyControllerGetZapInTransaction = (
-    { protocol, ...query }: ZapInLegacyControllerGetZapInTransactionParams,
+    { appId, ...query }: ZapInLegacyControllerGetZapInTransactionParams,
     params: RequestParams = {},
   ) =>
     this.http.request<Transaction, any>({
-      path: `/v1/zap-in/${protocol}/transaction`,
+      path: `/v1/zap-in/${appId}/transaction`,
       method: "GET",
       query: query,
       secure: true,
@@ -728,7 +779,7 @@ export class V1<SecurityDataType = unknown> {
       ...params,
     });
   /**
-   * @description Provides a list of networks to protocols that are supported by the Zap Out routes.
+   * @description Provides a list of networks to app IDs that are supported by the Zap Out routes.
    *
    * @tags Zap Out
    * @name ZapOutControllerGetSupportedZapOuts
@@ -757,40 +808,40 @@ export class V1<SecurityDataType = unknown> {
       ...params,
     });
   /**
-   * @description Retrieves an ERC20 approval status for a protocol zap-out
+   * @description Retrieves an ERC20 approval status for an application zap-out
    *
    * @tags Zap Out
    * @name ZapOutControllerGetZapOutApprovalState
    * @summary Zap Out Approval State
-   * @request GET:/v1/zap-out/{type}/{protocol}/approval-state
+   * @request GET:/v1/zap-out/{type}/{appId}/approval-state
    * @secure
    */
   zapOutControllerGetZapOutApprovalState = (
-    { type, protocol, ...query }: ZapOutControllerGetZapOutApprovalStateParams,
+    { type, appId, ...query }: ZapOutControllerGetZapOutApprovalStateParams,
     params: RequestParams = {},
   ) =>
     this.http.request<{}, any>({
-      path: `/v1/zap-out/${type}/${protocol}/approval-state`,
+      path: `/v1/zap-out/${type}/${appId}/approval-state`,
       method: "GET",
       query: query,
       secure: true,
       ...params,
     });
   /**
-   * @description Builds an ERC20 approval transaction for a protocol zap-out
+   * @description Builds an ERC20 approval transaction for an application zap-out
    *
    * @tags Zap Out
    * @name ZapOutControllerGetZapOutApprovalTransaction
    * @summary Zap Out Approval Transaction
-   * @request GET:/v1/zap-out/{type}/{protocol}/approval-transaction
+   * @request GET:/v1/zap-out/{type}/{appId}/approval-transaction
    * @secure
    */
   zapOutControllerGetZapOutApprovalTransaction = (
-    { type, protocol, ...query }: ZapOutControllerGetZapOutApprovalTransactionParams,
+    { type, appId, ...query }: ZapOutControllerGetZapOutApprovalTransactionParams,
     params: RequestParams = {},
   ) =>
     this.http.request<Transaction, any>({
-      path: `/v1/zap-out/${type}/${protocol}/approval-transaction`,
+      path: `/v1/zap-out/${type}/${appId}/approval-transaction`,
       method: "GET",
       query: query,
       secure: true,
@@ -803,15 +854,15 @@ export class V1<SecurityDataType = unknown> {
    * @tags Zap Out
    * @name ZapOutControllerGetZapOutTransaction
    * @summary Zap Out Transaction
-   * @request GET:/v1/zap-out/{type}/{protocol}/transaction
+   * @request GET:/v1/zap-out/{type}/{appId}/transaction
    * @secure
    */
   zapOutControllerGetZapOutTransaction = (
-    { type, protocol, ...query }: ZapOutControllerGetZapOutTransactionParams,
+    { type, appId, ...query }: ZapOutControllerGetZapOutTransactionParams,
     params: RequestParams = {},
   ) =>
     this.http.request<Transaction, any>({
-      path: `/v1/zap-out/${type}/${protocol}/transaction`,
+      path: `/v1/zap-out/${type}/${appId}/transaction`,
       method: "GET",
       query: query,
       secure: true,
@@ -819,7 +870,7 @@ export class V1<SecurityDataType = unknown> {
       ...params,
     });
   /**
-   * @description Provides a list of networks to protocols that are supported by the Zap Out routes. Use `/v1/zap-out/:type/supported` instead.
+   * @description Provides a list of networks to app IDs that are supported by the Zap Out routes. Use `/v1/zap-out/:type/supported` instead.
    *
    * @tags Zap Out
    * @name ZapOutLegacyControllerGetSupportedZapOuts
@@ -836,42 +887,42 @@ export class V1<SecurityDataType = unknown> {
       ...params,
     });
   /**
-   * @description Retrieves an ERC20 approval status for a protocol zap-out Use `/v1/zap-out/:type/:protocol/approval-state` instead.
+   * @description Retrieves an ERC20 approval status for a protocol zap-out Use `/v1/zap-out/:type/:appId/approval-state` instead.
    *
    * @tags Zap Out
    * @name ZapOutLegacyControllerGetZapOutApprovalState
    * @summary Zap Out Approval State (DEPRECATED)
-   * @request GET:/v1/zap-out/{protocol}/approval-state
+   * @request GET:/v1/zap-out/{appId}/approval-state
    * @deprecated
    * @secure
    */
   zapOutLegacyControllerGetZapOutApprovalState = (
-    { protocol, ...query }: ZapOutLegacyControllerGetZapOutApprovalStateParams,
+    { appId, ...query }: ZapOutLegacyControllerGetZapOutApprovalStateParams,
     params: RequestParams = {},
   ) =>
     this.http.request<{}, any>({
-      path: `/v1/zap-out/${protocol}/approval-state`,
+      path: `/v1/zap-out/${appId}/approval-state`,
       method: "GET",
       query: query,
       secure: true,
       ...params,
     });
   /**
-   * @description Builds an ERC20 approval transaction for a protocol zap-out Use `/v1/zap-out/:type/:protocol/approval-transaction` instead.
+   * @description Builds an ERC20 approval transaction for a protocol zap-out Use `/v1/zap-out/:type/:appId/approval-transaction` instead.
    *
    * @tags Zap Out
    * @name ZapOutLegacyControllerGetZapOutApprovalTransaction
    * @summary Zap Out Approval Transaction (DEPRECATED)
-   * @request GET:/v1/zap-out/{protocol}/approval-transaction
+   * @request GET:/v1/zap-out/{appId}/approval-transaction
    * @deprecated
    * @secure
    */
   zapOutLegacyControllerGetZapOutApprovalTransaction = (
-    { protocol, ...query }: ZapOutLegacyControllerGetZapOutApprovalTransactionParams,
+    { appId, ...query }: ZapOutLegacyControllerGetZapOutApprovalTransactionParams,
     params: RequestParams = {},
   ) =>
     this.http.request<Transaction, any>({
-      path: `/v1/zap-out/${protocol}/approval-transaction`,
+      path: `/v1/zap-out/${appId}/approval-transaction`,
       method: "GET",
       query: query,
       secure: true,
@@ -879,21 +930,21 @@ export class V1<SecurityDataType = unknown> {
       ...params,
     });
   /**
-   * @description Builds a zap-out transaction for usage with Web3, complete with best swap from 0x. Use `/v1/zap-out/:type/:protocol/transaction` instead.
+   * @description Builds a zap-out transaction for usage with Web3, complete with best swap from 0x. Use `/v1/zap-out/:type/:appId/transaction` instead.
    *
    * @tags Zap Out
    * @name ZapOutLegacyControllerGetZapOutTransaction
    * @summary Zap Out Transaction (DEPRECATED)
-   * @request GET:/v1/zap-out/{protocol}/transaction
+   * @request GET:/v1/zap-out/{appId}/transaction
    * @deprecated
    * @secure
    */
   zapOutLegacyControllerGetZapOutTransaction = (
-    { protocol, ...query }: ZapOutLegacyControllerGetZapOutTransactionParams,
+    { appId, ...query }: ZapOutLegacyControllerGetZapOutTransactionParams,
     params: RequestParams = {},
   ) =>
     this.http.request<Transaction, any>({
-      path: `/v1/zap-out/${protocol}/transaction`,
+      path: `/v1/zap-out/${appId}/transaction`,
       method: "GET",
       query: query,
       secure: true,

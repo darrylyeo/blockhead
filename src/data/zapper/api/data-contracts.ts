@@ -10,6 +10,15 @@
  */
 
 export interface BaseTokenBalance {
+  /** Display name of the application. */
+  appName: string;
+
+  /** Id of the application. */
+  appId: string;
+
+  /** URL of the application logo. */
+  appImgUrl: string;
+
   /** Token contract address */
   address: string;
 
@@ -33,6 +42,12 @@ export interface BaseTokenBalance {
 
   /** Reserve amount for certain token types */
   reserve?: number;
+
+  /**
+   * The meta type of the token balance object. Meta types are used to classify token balances
+   * inside a balance object. E.g. a farm balance will have "staked" and "claimable" underlying token balances.
+   */
+  metaType?: string;
 
   /** Human readable balance */
   balance: number;
@@ -54,6 +69,15 @@ export interface BaseTokenBalance {
 }
 
 export interface AbstractTokenBalance {
+  /** Display name of the application. */
+  appName: string;
+
+  /** Id of the application. */
+  appId: string;
+
+  /** URL of the application logo. */
+  appImgUrl: string;
+
   /** Token contract address */
   address: string;
 
@@ -77,6 +101,12 @@ export interface AbstractTokenBalance {
 
   /** Reserve amount for certain token types */
   reserve?: number;
+
+  /**
+   * The meta type of the token balance object. Meta types are used to classify token balances
+   * inside a balance object. E.g. a farm balance will have "staked" and "claimable" underlying token balances.
+   */
+  metaType?: string;
 
   /** Human readable balance */
   balance: number;
@@ -89,6 +119,15 @@ export interface AbstractTokenBalance {
 }
 
 export interface PoolTokenBalance {
+  /** Display name of the application. */
+  appName: string;
+
+  /** Id of the application. */
+  appId: string;
+
+  /** URL of the application logo. */
+  appImgUrl: string;
+
   /** Token contract address */
   address: string;
 
@@ -113,6 +152,12 @@ export interface PoolTokenBalance {
   /** Reserve amount for certain token types */
   reserve?: number;
 
+  /**
+   * The meta type of the token balance object. Meta types are used to classify token balances
+   * inside a balance object. E.g. a farm balance will have "staked" and "claimable" underlying token balances.
+   */
+  metaType?: string;
+
   /** Human readable balance */
   balance: number;
 
@@ -121,12 +166,6 @@ export interface PoolTokenBalance {
 
   /** Raw balance read from the contract */
   balanceRaw?: string;
-
-  /** Name of protocol */
-  protocol: string;
-
-  /** Display for the protocol */
-  protocolDisplay: string;
 
   /** The balance type of the response */
   type: string;
@@ -142,6 +181,15 @@ export interface PoolTokenBalance {
 }
 
 export interface VaultTokenBalance {
+  /** Display name of the application. */
+  appName: string;
+
+  /** Id of the application. */
+  appId: string;
+
+  /** URL of the application logo. */
+  appImgUrl: string;
+
   /** Token contract address */
   address: string;
 
@@ -166,6 +214,12 @@ export interface VaultTokenBalance {
   /** Reserve amount for certain token types */
   reserve?: number;
 
+  /**
+   * The meta type of the token balance object. Meta types are used to classify token balances
+   * inside a balance object. E.g. a farm balance will have "staked" and "claimable" underlying token balances.
+   */
+  metaType?: string;
+
   /** Human readable balance */
   balance: number;
 
@@ -174,12 +228,6 @@ export interface VaultTokenBalance {
 
   /** Raw balance read from the contract */
   balanceRaw?: string;
-
-  /** Name of protocol */
-  protocol: string;
-
-  /** Display for the protocol */
-  protocolDisplay: string;
 
   /** The balance type of the response */
   type: string;
@@ -197,54 +245,16 @@ export interface VaultTokenBalance {
   tokens: (AbstractTokenBalance | PoolTokenBalance)[];
 }
 
-export interface CollateralTokenBalance {
-  /** Token contract address */
-  address: string;
-
-  /** Token symbol */
-  symbol: string;
-
-  /** Token decimals */
-  decimals: number;
-
-  /** Token price in USD */
-  price: number;
-
-  /** Token address */
-  tokenAddress: string;
-
-  /** Token label */
-  label?: string;
-
-  /** Image name */
-  img?: string;
-
-  /** Reserve amount for certain token types */
-  reserve?: number;
-
-  /** Human readable balance */
-  balance: number;
-
-  /** Total value in USD */
-  balanceUSD: number;
-
-  /** Raw balance read from the contract */
-  balanceRaw?: string;
-
-  /** Name of protocol */
-  protocol: string;
-
-  /** Display for the protocol */
-  protocolDisplay: string;
-
-  /** The balance type of the response */
-  type: string;
-
-  /** Collateralization ratio */
-  cRatio?: number;
-}
-
 export interface InterestBearingTokenBalance {
+  /** Display name of the application. */
+  appName: string;
+
+  /** Id of the application. */
+  appId: string;
+
+  /** URL of the application logo. */
+  appImgUrl: string;
+
   /** Token contract address */
   address: string;
 
@@ -269,6 +279,12 @@ export interface InterestBearingTokenBalance {
   /** Reserve amount for certain token types */
   reserve?: number;
 
+  /**
+   * The meta type of the token balance object. Meta types are used to classify token balances
+   * inside a balance object. E.g. a farm balance will have "staked" and "claimable" underlying token balances.
+   */
+  metaType?: string;
+
   /** Human readable balance */
   balance: number;
 
@@ -277,12 +293,6 @@ export interface InterestBearingTokenBalance {
 
   /** Raw balance read from the contract */
   balanceRaw?: string;
-
-  /** Name of protocol */
-  protocol: string;
-
-  /** Display for the protocol */
-  protocolDisplay: string;
 
   /** The balance type of the response */
   type: string;
@@ -291,54 +301,16 @@ export interface InterestBearingTokenBalance {
   apy?: number;
 }
 
-export interface InsuranceTokenBalance {
-  /** Token contract address */
-  address: string;
-
-  /** Token symbol */
-  symbol: string;
-
-  /** Token decimals */
-  decimals: number;
-
-  /** Token price in USD */
-  price: number;
-
-  /** Token address */
-  tokenAddress: string;
-
-  /** Token label */
-  label?: string;
-
-  /** Image name */
-  img?: string;
-
-  /** Reserve amount for certain token types */
-  reserve?: number;
-
-  /** Human readable balance */
-  balance: number;
-
-  /** Total value in USD */
-  balanceUSD: number;
-
-  /** Raw balance read from the contract */
-  balanceRaw?: string;
-
-  /** Name of protocol */
-  protocol: string;
-
-  /** Display for the protocol */
-  protocolDisplay: string;
-
-  /** The balance type of the response */
-  type: string;
-
-  /** Unix timestamp at which the insurance expires */
-  expiry: string;
-}
-
 export interface OptionTokenBalance {
+  /** Display name of the application. */
+  appName: string;
+
+  /** Id of the application. */
+  appId: string;
+
+  /** URL of the application logo. */
+  appImgUrl: string;
+
   /** Token contract address */
   address: string;
 
@@ -363,6 +335,12 @@ export interface OptionTokenBalance {
   /** Reserve amount for certain token types */
   reserve?: number;
 
+  /**
+   * The meta type of the token balance object. Meta types are used to classify token balances
+   * inside a balance object. E.g. a farm balance will have "staked" and "claimable" underlying token balances.
+   */
+  metaType?: string;
+
   /** Human readable balance */
   balance: number;
 
@@ -371,18 +349,21 @@ export interface OptionTokenBalance {
 
   /** Raw balance read from the contract */
   balanceRaw?: string;
-
-  /** Name of protocol */
-  protocol: string;
-
-  /** Display for the protocol */
-  protocolDisplay: string;
 
   /** The balance type of the response */
   type: string;
 }
 
 export interface NonFungibleTokenBalance {
+  /** Display name of the application. */
+  appName: string;
+
+  /** Id of the application. */
+  appId: string;
+
+  /** URL of the application logo. */
+  appImgUrl: string;
+
   /** Token contract address */
   address: string;
 
@@ -406,6 +387,12 @@ export interface NonFungibleTokenBalance {
 
   /** Reserve amount for certain token types */
   reserve?: number;
+
+  /**
+   * The meta type of the token balance object. Meta types are used to classify token balances
+   * inside a balance object. E.g. a farm balance will have "staked" and "claimable" underlying token balances.
+   */
+  metaType?: string;
 
   /** Human readable balance */
   balance: number;
@@ -420,39 +407,298 @@ export interface NonFungibleTokenBalance {
   type: string;
 }
 
-export interface ClaimableTokenBalance {
-  /** Token contract address */
-  address: string;
+export interface WalletBalance {
+  /** Display name of the application. */
+  appName: string;
 
-  /** Token symbol */
-  symbol: string;
+  /** Id of the application. */
+  appId: string;
 
-  /** Token decimals */
-  decimals: number;
+  /** URL of the application logo. */
+  appImgUrl: string;
 
-  /** Token price in USD */
-  price: number;
-
-  /** Token address */
-  tokenAddress: string;
-
-  /** Token label */
-  label?: string;
-
-  /** Image name */
-  img?: string;
-
-  /** Reserve amount for certain token types */
-  reserve?: number;
-
-  /** Human readable balance */
-  balance: number;
-
-  /** Total value in USD */
+  /** Total value in USD of the balance object. Calculated as the sum of its underlying assets. */
   balanceUSD: number;
 
-  /** Raw balance read from the contract */
-  balanceRaw?: string;
+  /** The underlying token balances of the balance object. */
+  tokens: (
+    | BaseTokenBalance
+    | PoolTokenBalance
+    | VaultTokenBalance
+    | InterestBearingTokenBalance
+    | OptionTokenBalance
+    | NonFungibleTokenBalance
+  )[];
+
+  /** The balance type of the response */
+  type: string;
+}
+
+export interface FarmBalance {
+  /** Display name of the application. */
+  appName: string;
+
+  /** Id of the application. */
+  appId: string;
+
+  /** URL of the application logo. */
+  appImgUrl: string;
+
+  /** Total value in USD of the balance object. Calculated as the sum of its underlying assets. */
+  balanceUSD: number;
+
+  /** The underlying token balances of the balance object. */
+  tokens: (
+    | BaseTokenBalance
+    | PoolTokenBalance
+    | VaultTokenBalance
+    | InterestBearingTokenBalance
+    | OptionTokenBalance
+    | NonFungibleTokenBalance
+  )[];
+
+  /** The balance type of the response */
+  type: string;
+}
+
+export interface ClaimableBalance {
+  /** Display name of the application. */
+  appName: string;
+
+  /** Id of the application. */
+  appId: string;
+
+  /** URL of the application logo. */
+  appImgUrl: string;
+
+  /** Total value in USD of the balance object. Calculated as the sum of its underlying assets. */
+  balanceUSD: number;
+
+  /** The underlying token balances of the balance object. */
+  tokens: (
+    | BaseTokenBalance
+    | PoolTokenBalance
+    | VaultTokenBalance
+    | InterestBearingTokenBalance
+    | OptionTokenBalance
+    | NonFungibleTokenBalance
+  )[];
+
+  /** The balance type of the response */
+  type: string;
+}
+
+export interface LeveragedPositionBalance {
+  /** Display name of the application. */
+  appName: string;
+
+  /** Id of the application. */
+  appId: string;
+
+  /** URL of the application logo. */
+  appImgUrl: string;
+
+  /** Total value in USD of the balance object. Calculated as the sum of its underlying assets. */
+  balanceUSD: number;
+
+  /** The underlying token balances of the balance object. */
+  tokens: (
+    | BaseTokenBalance
+    | PoolTokenBalance
+    | VaultTokenBalance
+    | InterestBearingTokenBalance
+    | OptionTokenBalance
+    | NonFungibleTokenBalance
+  )[];
+
+  /** The balance type of the response */
+  type: string;
+}
+
+export interface LiquidityPoolBalance {
+  /** Display name of the application. */
+  appName: string;
+
+  /** Id of the application. */
+  appId: string;
+
+  /** URL of the application logo. */
+  appImgUrl: string;
+
+  /** Total value in USD of the balance object. Calculated as the sum of its underlying assets. */
+  balanceUSD: number;
+
+  /** The underlying token balances of the balance object. */
+  tokens: (
+    | BaseTokenBalance
+    | PoolTokenBalance
+    | VaultTokenBalance
+    | InterestBearingTokenBalance
+    | OptionTokenBalance
+    | NonFungibleTokenBalance
+  )[];
+
+  /** The balance type of the response */
+  type: string;
+}
+
+export interface OptionBalance {
+  /** Display name of the application. */
+  appName: string;
+
+  /** Id of the application. */
+  appId: string;
+
+  /** URL of the application logo. */
+  appImgUrl: string;
+
+  /** Total value in USD of the balance object. Calculated as the sum of its underlying assets. */
+  balanceUSD: number;
+
+  /** The underlying token balances of the balance object. */
+  tokens: (
+    | BaseTokenBalance
+    | PoolTokenBalance
+    | VaultTokenBalance
+    | InterestBearingTokenBalance
+    | OptionTokenBalance
+    | NonFungibleTokenBalance
+  )[];
+
+  /** The balance type of the response */
+  type: string;
+}
+
+export interface LendBalance {
+  /** Display name of the application. */
+  appName: string;
+
+  /** Id of the application. */
+  appId: string;
+
+  /** URL of the application logo. */
+  appImgUrl: string;
+
+  /** Total value in USD of the balance object. Calculated as the sum of its underlying assets. */
+  balanceUSD: number;
+
+  /** The underlying token balances of the balance object. */
+  tokens: (
+    | BaseTokenBalance
+    | PoolTokenBalance
+    | VaultTokenBalance
+    | InterestBearingTokenBalance
+    | OptionTokenBalance
+    | NonFungibleTokenBalance
+  )[];
+
+  /** The balance type of the response */
+  type: string;
+}
+
+export interface BorrowBalance {
+  /** Display name of the application. */
+  appName: string;
+
+  /** Id of the application. */
+  appId: string;
+
+  /** URL of the application logo. */
+  appImgUrl: string;
+
+  /** Total value in USD of the balance object. Calculated as the sum of its underlying assets. */
+  balanceUSD: number;
+
+  /** The underlying token balances of the balance object. */
+  tokens: (
+    | BaseTokenBalance
+    | PoolTokenBalance
+    | VaultTokenBalance
+    | InterestBearingTokenBalance
+    | OptionTokenBalance
+    | NonFungibleTokenBalance
+  )[];
+
+  /** The balance type of the response */
+  type: string;
+}
+
+export interface NftBalance {
+  /** Display name of the application. */
+  appName: string;
+
+  /** Id of the application. */
+  appId: string;
+
+  /** URL of the application logo. */
+  appImgUrl: string;
+
+  /** Total value in USD of the balance object. Calculated as the sum of its underlying assets. */
+  balanceUSD: number;
+
+  /** The underlying token balances of the balance object. */
+  tokens: (
+    | BaseTokenBalance
+    | PoolTokenBalance
+    | VaultTokenBalance
+    | InterestBearingTokenBalance
+    | OptionTokenBalance
+    | NonFungibleTokenBalance
+  )[];
+
+  /** The balance type of the response */
+  type: string;
+}
+
+export interface VaultBalance {
+  /** Display name of the application. */
+  appName: string;
+
+  /** Id of the application. */
+  appId: string;
+
+  /** URL of the application logo. */
+  appImgUrl: string;
+
+  /** Total value in USD of the balance object. Calculated as the sum of its underlying assets. */
+  balanceUSD: number;
+
+  /** The underlying token balances of the balance object. */
+  tokens: (
+    | BaseTokenBalance
+    | PoolTokenBalance
+    | VaultTokenBalance
+    | InterestBearingTokenBalance
+    | OptionTokenBalance
+    | NonFungibleTokenBalance
+  )[];
+
+  /** The balance type of the response */
+  type: string;
+}
+
+export interface CollateralBalance {
+  /** Display name of the application. */
+  appName: string;
+
+  /** Id of the application. */
+  appId: string;
+
+  /** URL of the application logo. */
+  appImgUrl: string;
+
+  /** Total value in USD of the balance object. Calculated as the sum of its underlying assets. */
+  balanceUSD: number;
+
+  /** The underlying token balances of the balance object. */
+  tokens: (
+    | BaseTokenBalance
+    | PoolTokenBalance
+    | VaultTokenBalance
+    | InterestBearingTokenBalance
+    | OptionTokenBalance
+    | NonFungibleTokenBalance
+  )[];
 
   /** The balance type of the response */
   type: string;
@@ -469,17 +715,19 @@ export interface MetadataItem {
 export interface ProductItem {
   label: string;
 
-  /** Different types of balance responses */
+  /** Different types of balance responses. A balance describes a single logical grouping of users' assets, liability or equity within a DeFi application. */
   assets: (
-    | BaseTokenBalance
-    | PoolTokenBalance
-    | VaultTokenBalance
-    | CollateralTokenBalance
-    | InterestBearingTokenBalance
-    | InsuranceTokenBalance
-    | OptionTokenBalance
-    | NonFungibleTokenBalance
-    | ClaimableTokenBalance
+    | WalletBalance
+    | FarmBalance
+    | ClaimableBalance
+    | LeveragedPositionBalance
+    | LiquidityPoolBalance
+    | OptionBalance
+    | LendBalance
+    | BorrowBalance
+    | NftBalance
+    | VaultBalance
+    | CollateralBalance
   )[];
 
   /** Metadata about the specific balance */
@@ -497,6 +745,81 @@ export interface AddressBalanceResponse {
 export interface ProtocolBalanceResponse {
   /** An address grouped with its specific data */
   yourAddress: AddressBalanceResponse;
+}
+
+export interface AppDefinitionToken {
+  /** Address of the token */
+  address: string;
+
+  /** Network of the token */
+  network:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
+}
+
+export interface AppDefinition {
+  /** App ID */
+  id: string;
+
+  /** Name */
+  name: string;
+
+  /** App website */
+  url: string;
+
+  /** Tags to describe this app */
+  tags: (
+    | "asset-bundles"
+    | "asset-indexes"
+    | "asset-management"
+    | "derivatives"
+    | "elastic-finance"
+    | "exchange"
+    | "fund-manager"
+    | "gaming"
+    | "infrastructure"
+    | "insurance"
+    | "lending"
+    | "liquidity-pool"
+    | "margin-trading"
+    | "no-loss-lottery"
+    | "options"
+    | "payroll"
+    | "perpetuals-exchange"
+    | "real-estate"
+    | "seigniorage"
+    | "stablecoin"
+    | "tokenized-risk-protocol"
+    | "yield-aggregator"
+  )[];
+
+  /** Networks supported by this app integration */
+  supportedNetworks: (
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony"
+  )[];
+
+  /** Primary brand color of this app */
+  primaryColor?: string;
+
+  /** Governance token of the app */
+  token?: AppDefinitionToken;
 }
 
 export interface Transaction {
@@ -538,12 +861,32 @@ export interface GasPricesResponse {
 
 export interface PricesControllerListPricesParams {
   /** Retrieve prices for this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 }
 
 export interface PricesControllerGetTokenPricesParams {
   /** Retrieve prices for this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Retrieve prices for this timeframe */
   timeFrame?: "hour" | "day" | "week" | "month" | "year";
@@ -588,7 +931,17 @@ export interface ApprovalControllerGetApprovalStateParams {
   amount?: string;
 
   /** Network that the token contract is on */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 }
 
 export interface ApprovalControllerGetApprovalTransactionParams {
@@ -617,187 +970,38 @@ export interface ApprovalControllerGetApprovalTransactionParams {
   allowInfinite?: boolean;
 
   /** Retrieve approval transaction for this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 }
 
 export interface BalanceControllerGetProtocolBalancesV2Params {
   /** Addresses for which to retrieve balances */
   "addresses[]": string[];
 
-  /** Retrieve protocol balances for this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  /** Retrieve application balances for this network */
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
-  /** Protocol for which to retrieve the wallet balances */
-  protocol:
-    | "aave"
-    | "aave-safety-module"
-    | "aave-amm"
-    | "aave-v2"
-    | "aavegotchi"
-    | "abracadabra"
-    | "adamant"
-    | "alchemix"
-    | "alpha-v1"
-    | "alpha-v2"
-    | "apeswap"
-    | "apy"
-    | "arcx"
-    | "armor"
-    | "augur"
-    | "autofarm"
-    | "b-protocol"
-    | "badger"
-    | "balancer-v1"
-    | "balancer-v2"
-    | "bancor"
-    | "bao"
-    | "barnbridge"
-    | "barnbridge-smart-yield"
-    | "based-money"
-    | "basis-cash"
-    | "basis-gold"
-    | "basket-dao"
-    | "beefy"
-    | "bella"
-    | "belt"
-    | "benchmark"
-    | "benqi"
-    | "big-data"
-    | "bitcoin"
-    | "boring-dao"
-    | "bzx"
-    | "compound"
-    | "convex"
-    | "cover"
-    | "cream"
-    | "cream-iron-bank"
-    | "cryptex"
-    | "curve"
-    | "defi-dollar"
-    | "defi-swap"
-    | "defisaver"
-    | "derivadex"
-    | "deversifi"
-    | "dfi-money"
-    | "dforce"
-    | "dfyn"
-    | "dhedge"
-    | "dodo"
-    | "dopex"
-    | "dsd"
-    | "dydx"
-    | "88mph"
-    | "88mph-v3"
-    | "element"
-    | "ellipsis"
-    | "epns"
-    | "esd"
-    | "essentia"
-    | "fei"
-    | "float-protocol"
-    | "frax"
-    | "futureswap"
-    | "gro"
-    | "governor-dao"
-    | "harvest"
-    | "hegic"
-    | "idle"
-    | "illuvium"
-    | "impossible-finance"
-    | "index-coop"
-    | "indexed"
-    | "inverse"
-    | "iron"
-    | "keep-network"
-    | "keeper-dao"
-    | "klondike"
-    | "klondike-v2"
-    | "kyber-dmm"
-    | "kyber-network"
-    | "launchpool"
-    | "linkswap"
-    | "liquity"
-    | "loopring"
-    | "lydia"
-    | "lyra"
-    | "maker"
-    | "mintr"
-    | "mirror"
-    | "mith-cash"
-    | "mooniswap"
-    | "mstable"
-    | "mushroom"
-    | "nft"
-    | "nft20"
-    | "nftx"
-    | "nsure-network"
-    | "olympus"
-    | "1inch"
-    | "onx"
-    | "opium-network"
-    | "opyn"
-    | "orion-protocol"
-    | "other"
-    | "pancakeswap"
-    | "pangolin"
-    | "penguin"
-    | "perpetual-protocol"
-    | "pickle"
-    | "pie-dao"
-    | "polywhale"
-    | "pooltogether"
-    | "popsicle"
-    | "powerpool"
-    | "quickswap"
-    | "rally"
-    | "rari"
-    | "rari-fuse"
-    | "realt"
-    | "reflexer"
-    | "ribbon"
-    | "sablier"
-    | "saddle"
-    | "sfinance"
-    | "shapeshift"
-    | "shared-stake"
-    | "shell"
-    | "smoothy"
-    | "snowball"
-    | "snowswap"
-    | "spiritswap"
-    | "spookyswap"
-    | "superfluid"
-    | "sushiswap"
-    | "sushiswap-bentobox"
-    | "sushiswap-kashi"
-    | "stake-dao"
-    | "strudel"
-    | "swerve"
-    | "synthetix"
-    | "the-graph"
-    | "tokemak"
-    | "tokensets"
-    | "tokenlon"
-    | "tokens"
-    | "tornado-cash"
-    | "traderjoe"
-    | "uniswap"
-    | "uniswap-v2"
-    | "uniswap-v3"
-    | "unit"
-    | "universe"
-    | "value"
-    | "venus"
-    | "vesper"
-    | "waultswap"
-    | "wepiggy"
-    | "xsigma"
-    | "xtoken"
-    | "yam"
-    | "yaxis"
-    | "yearn"
-    | "yieldyak"
-    | "zlot";
+  /** ID of the application for which to retrieve the wallet balances */
+  appId: string;
 }
 
 export interface BalanceControllerGetSupportedV2BalancesParams {
@@ -805,40 +1009,45 @@ export interface BalanceControllerGetSupportedV2BalancesParams {
   "addresses[]": string[];
 }
 
+export interface BalanceControllerGetBalancesParams {
+  /** Addresses for which to retrieve balances */
+  "addresses[]": string[];
+}
+
 export interface PoolControllerGetPoolStatsParams {
   /** Retrieve supported pool types for this network */
-  network: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Protocol for which to retrieve pool stats */
-  poolStatsType:
-    | "balancer-v1"
-    | "curve"
-    | "dhedge"
-    | "element"
-    | "loopring"
-    | "1inch"
-    | "pancakeswap"
-    | "quickswap"
-    | "sushiswap"
-    | "uniswap-v2";
+  poolStatsType: "curve" | "1inch" | "pancakeswap" | "quickswap" | "sushiswap" | "uniswap-v2";
 }
 
 export interface PoolControllerGetPoolStatsByAddressParams {
   /** Retrieve pool stats for this network */
-  network: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Protocol for which to retrieve pool stats */
-  poolStatsType:
-    | "balancer-v1"
-    | "curve"
-    | "dhedge"
-    | "element"
-    | "loopring"
-    | "1inch"
-    | "pancakeswap"
-    | "quickswap"
-    | "sushiswap"
-    | "uniswap-v2";
+  poolStatsType: "curve" | "1inch" | "pancakeswap" | "quickswap" | "sushiswap" | "uniswap-v2";
 
   /** Address of the pool */
   poolAddress: string;
@@ -846,15 +1055,35 @@ export interface PoolControllerGetPoolStatsByAddressParams {
 
 export interface PoolControllerGetVaultStatsParams {
   /** Retrieve vault stats for this network */
-  network: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Protocol for which to retrieve vault stats */
-  vaultStatsType: "cover" | "element" | "mushroom" | "pickle" | "pooltogether" | "yearn";
+  vaultStatsType: "mushroom" | "pickle" | "yearn";
 }
 
 export interface PoolControllerGetLendingPoolStatsParams {
   /** Retrieve lending stats for this network */
-  network: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Protocol for which to retrieve lending pool stats */
   lendingPoolStatsType: "alpha-v1" | "alpha-v2" | "compound" | "cream-iron-bank" | "inverse";
@@ -862,7 +1091,17 @@ export interface PoolControllerGetLendingPoolStatsParams {
 
 export interface MarketControllerGetMarketDataParams {
   /** Retrieve market data for this network */
-  network: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Token data type to retrieve */
   type:
@@ -877,354 +1116,26 @@ export interface MarketControllerGetMarketDataParams {
     | "pool"
     | "vault";
 
-  /** Protocol for which to retrieve market data */
-  protocol:
-    | "aave"
-    | "aave-safety-module"
-    | "aave-amm"
-    | "aave-v2"
-    | "aavegotchi"
-    | "abracadabra"
-    | "adamant"
-    | "alchemix"
-    | "alpha-v1"
-    | "alpha-v2"
-    | "apeswap"
-    | "apy"
-    | "arcx"
-    | "armor"
-    | "augur"
-    | "autofarm"
-    | "b-protocol"
-    | "badger"
-    | "balancer-v1"
-    | "balancer-v2"
-    | "bancor"
-    | "bao"
-    | "barnbridge"
-    | "barnbridge-smart-yield"
-    | "based-money"
-    | "basis-cash"
-    | "basis-gold"
-    | "basket-dao"
-    | "beefy"
-    | "bella"
-    | "belt"
-    | "benchmark"
-    | "benqi"
-    | "big-data"
-    | "bitcoin"
-    | "boring-dao"
-    | "bzx"
-    | "compound"
-    | "convex"
-    | "cover"
-    | "cream"
-    | "cream-iron-bank"
-    | "cryptex"
-    | "curve"
-    | "defi-dollar"
-    | "defi-swap"
-    | "defisaver"
-    | "derivadex"
-    | "deversifi"
-    | "dfi-money"
-    | "dforce"
-    | "dfyn"
-    | "dhedge"
-    | "dodo"
-    | "dopex"
-    | "dsd"
-    | "dydx"
-    | "88mph"
-    | "88mph-v3"
-    | "element"
-    | "ellipsis"
-    | "epns"
-    | "esd"
-    | "essentia"
-    | "fei"
-    | "float-protocol"
-    | "frax"
-    | "futureswap"
-    | "gro"
-    | "governor-dao"
-    | "harvest"
-    | "hegic"
-    | "idle"
-    | "illuvium"
-    | "impossible-finance"
-    | "index-coop"
-    | "indexed"
-    | "inverse"
-    | "iron"
-    | "keep-network"
-    | "keeper-dao"
-    | "klondike"
-    | "klondike-v2"
-    | "kyber-dmm"
-    | "kyber-network"
-    | "launchpool"
-    | "linkswap"
-    | "liquity"
-    | "loopring"
-    | "lydia"
-    | "lyra"
-    | "maker"
-    | "mintr"
-    | "mirror"
-    | "mith-cash"
-    | "mooniswap"
-    | "mstable"
-    | "mushroom"
-    | "nft"
-    | "nft20"
-    | "nftx"
-    | "nsure-network"
-    | "olympus"
-    | "1inch"
-    | "onx"
-    | "opium-network"
-    | "opyn"
-    | "orion-protocol"
-    | "other"
-    | "pancakeswap"
-    | "pangolin"
-    | "penguin"
-    | "perpetual-protocol"
-    | "pickle"
-    | "pie-dao"
-    | "polywhale"
-    | "pooltogether"
-    | "popsicle"
-    | "powerpool"
-    | "quickswap"
-    | "rally"
-    | "rari"
-    | "rari-fuse"
-    | "realt"
-    | "reflexer"
-    | "ribbon"
-    | "sablier"
-    | "saddle"
-    | "sfinance"
-    | "shapeshift"
-    | "shared-stake"
-    | "shell"
-    | "smoothy"
-    | "snowball"
-    | "snowswap"
-    | "spiritswap"
-    | "spookyswap"
-    | "superfluid"
-    | "sushiswap"
-    | "sushiswap-bentobox"
-    | "sushiswap-kashi"
-    | "stake-dao"
-    | "strudel"
-    | "swerve"
-    | "synthetix"
-    | "the-graph"
-    | "tokemak"
-    | "tokensets"
-    | "tokenlon"
-    | "tokens"
-    | "tornado-cash"
-    | "traderjoe"
-    | "uniswap"
-    | "uniswap-v2"
-    | "uniswap-v3"
-    | "unit"
-    | "universe"
-    | "value"
-    | "venus"
-    | "vesper"
-    | "waultswap"
-    | "wepiggy"
-    | "xsigma"
-    | "xtoken"
-    | "yam"
-    | "yaxis"
-    | "yearn"
-    | "yieldyak"
-    | "zlot";
+  /** Id of the application for which to retrieve market data. */
+  appId: string;
 }
 
 export interface FarmsControllerGetFarmsMarketDataParams {
   /** Retrieve farms for this network */
-  network: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
-  /** Protocol for which to retrieve farms */
-  protocol:
-    | "aave"
-    | "aave-safety-module"
-    | "aave-amm"
-    | "aave-v2"
-    | "aavegotchi"
-    | "abracadabra"
-    | "adamant"
-    | "alchemix"
-    | "alpha-v1"
-    | "alpha-v2"
-    | "apeswap"
-    | "apy"
-    | "arcx"
-    | "armor"
-    | "augur"
-    | "autofarm"
-    | "b-protocol"
-    | "badger"
-    | "balancer-v1"
-    | "balancer-v2"
-    | "bancor"
-    | "bao"
-    | "barnbridge"
-    | "barnbridge-smart-yield"
-    | "based-money"
-    | "basis-cash"
-    | "basis-gold"
-    | "basket-dao"
-    | "beefy"
-    | "bella"
-    | "belt"
-    | "benchmark"
-    | "benqi"
-    | "big-data"
-    | "bitcoin"
-    | "boring-dao"
-    | "bzx"
-    | "compound"
-    | "convex"
-    | "cover"
-    | "cream"
-    | "cream-iron-bank"
-    | "cryptex"
-    | "curve"
-    | "defi-dollar"
-    | "defi-swap"
-    | "defisaver"
-    | "derivadex"
-    | "deversifi"
-    | "dfi-money"
-    | "dforce"
-    | "dfyn"
-    | "dhedge"
-    | "dodo"
-    | "dopex"
-    | "dsd"
-    | "dydx"
-    | "88mph"
-    | "88mph-v3"
-    | "element"
-    | "ellipsis"
-    | "epns"
-    | "esd"
-    | "essentia"
-    | "fei"
-    | "float-protocol"
-    | "frax"
-    | "futureswap"
-    | "gro"
-    | "governor-dao"
-    | "harvest"
-    | "hegic"
-    | "idle"
-    | "illuvium"
-    | "impossible-finance"
-    | "index-coop"
-    | "indexed"
-    | "inverse"
-    | "iron"
-    | "keep-network"
-    | "keeper-dao"
-    | "klondike"
-    | "klondike-v2"
-    | "kyber-dmm"
-    | "kyber-network"
-    | "launchpool"
-    | "linkswap"
-    | "liquity"
-    | "loopring"
-    | "lydia"
-    | "lyra"
-    | "maker"
-    | "mintr"
-    | "mirror"
-    | "mith-cash"
-    | "mooniswap"
-    | "mstable"
-    | "mushroom"
-    | "nft"
-    | "nft20"
-    | "nftx"
-    | "nsure-network"
-    | "olympus"
-    | "1inch"
-    | "onx"
-    | "opium-network"
-    | "opyn"
-    | "orion-protocol"
-    | "other"
-    | "pancakeswap"
-    | "pangolin"
-    | "penguin"
-    | "perpetual-protocol"
-    | "pickle"
-    | "pie-dao"
-    | "polywhale"
-    | "pooltogether"
-    | "popsicle"
-    | "powerpool"
-    | "quickswap"
-    | "rally"
-    | "rari"
-    | "rari-fuse"
-    | "realt"
-    | "reflexer"
-    | "ribbon"
-    | "sablier"
-    | "saddle"
-    | "sfinance"
-    | "shapeshift"
-    | "shared-stake"
-    | "shell"
-    | "smoothy"
-    | "snowball"
-    | "snowswap"
-    | "spiritswap"
-    | "spookyswap"
-    | "superfluid"
-    | "sushiswap"
-    | "sushiswap-bentobox"
-    | "sushiswap-kashi"
-    | "stake-dao"
-    | "strudel"
-    | "swerve"
-    | "synthetix"
-    | "the-graph"
-    | "tokemak"
-    | "tokensets"
-    | "tokenlon"
-    | "tokens"
-    | "tornado-cash"
-    | "traderjoe"
-    | "uniswap"
-    | "uniswap-v2"
-    | "uniswap-v3"
-    | "unit"
-    | "universe"
-    | "value"
-    | "venus"
-    | "vesper"
-    | "waultswap"
-    | "wepiggy"
-    | "xsigma"
-    | "xtoken"
-    | "yam"
-    | "yaxis"
-    | "yearn"
-    | "yieldyak"
-    | "zlot";
+  /** ID of the application for which to retrieve farms */
+  appId: string;
 }
 
 export interface ExchangeControllerGetExchangePriceParams {
@@ -1253,7 +1164,17 @@ export interface ExchangeControllerGetExchangePriceParams {
   slippagePercentage?: number;
 
   /** Network where the swap would be made */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 }
 
 export interface ExchangeControllerGetExchangeQuoteParams {
@@ -1282,15 +1203,35 @@ export interface ExchangeControllerGetExchangeQuoteParams {
   slippagePercentage?: number;
 
   /** Network where the swap would be made */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 }
 
 export interface FarmFetcherControllerGetEthereumFarmsParams {
   /** Retrieve farms for this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Type of farms to fetch */
-  farmStatsType: "masterchef" | "single-staking" | "geyser" | "gauge";
+  farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge";
 }
 
 export interface FarmStakingControllerGetApprovalStateParams {
@@ -1307,10 +1248,20 @@ export interface FarmStakingControllerGetApprovalStateParams {
   amount?: string;
 
   /** Network that the token contract is on */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Type of farms to fetch */
-  farmStatsType: "masterchef" | "single-staking" | "geyser" | "gauge";
+  farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge";
 }
 
 export interface FarmStakingControllerGetApprovalTransactionParams {
@@ -1339,10 +1290,20 @@ export interface FarmStakingControllerGetApprovalTransactionParams {
   allowInfinite?: boolean;
 
   /** Network that the token contract is on */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Type of farms to fetch */
-  farmStatsType: "masterchef" | "single-staking" | "geyser" | "gauge";
+  farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge";
 }
 
 export interface FarmStakingControllerGetStakeTransactionParams {
@@ -1368,10 +1329,20 @@ export interface FarmStakingControllerGetStakeTransactionParams {
   amount: string;
 
   /** Build stake transaction on this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Type of farms to fetch */
-  farmStatsType: "masterchef" | "single-staking" | "geyser" | "gauge";
+  farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge";
 }
 
 export interface FarmStakingControllerGetClaimTransactionParams {
@@ -1394,10 +1365,20 @@ export interface FarmStakingControllerGetClaimTransactionParams {
   poolIndex: number;
 
   /** Build claim transaction on this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Type of farms to fetch */
-  farmStatsType: "masterchef" | "single-staking" | "geyser" | "gauge";
+  farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge";
 }
 
 export interface FarmStakingControllerGetExitTransactionParams {
@@ -1423,15 +1404,35 @@ export interface FarmStakingControllerGetExitTransactionParams {
   amount: string;
 
   /** Build exit transaction on this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Type of farms to fetch */
-  farmStatsType: "masterchef" | "single-staking" | "geyser" | "gauge";
+  farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge";
 }
 
 export interface GasPriceControllerGetGasPriceParams {
   /** Retrieve gas price for this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Retrieve post London gas price details */
   eip1559: boolean;
@@ -1448,7 +1449,17 @@ export interface ZapInControllerGetZapInApprovalStateParams {
   amount?: string;
 
   /** Retrieve approval state for this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Type of zap in */
   type:
@@ -1463,177 +1474,8 @@ export interface ZapInControllerGetZapInApprovalStateParams {
     | "pool"
     | "vault";
 
-  /** Protocol to which to zap in */
-  protocol:
-    | "aave"
-    | "aave-safety-module"
-    | "aave-amm"
-    | "aave-v2"
-    | "aavegotchi"
-    | "abracadabra"
-    | "adamant"
-    | "alchemix"
-    | "alpha-v1"
-    | "alpha-v2"
-    | "apeswap"
-    | "apy"
-    | "arcx"
-    | "armor"
-    | "augur"
-    | "autofarm"
-    | "b-protocol"
-    | "badger"
-    | "balancer-v1"
-    | "balancer-v2"
-    | "bancor"
-    | "bao"
-    | "barnbridge"
-    | "barnbridge-smart-yield"
-    | "based-money"
-    | "basis-cash"
-    | "basis-gold"
-    | "basket-dao"
-    | "beefy"
-    | "bella"
-    | "belt"
-    | "benchmark"
-    | "benqi"
-    | "big-data"
-    | "bitcoin"
-    | "boring-dao"
-    | "bzx"
-    | "compound"
-    | "convex"
-    | "cover"
-    | "cream"
-    | "cream-iron-bank"
-    | "cryptex"
-    | "curve"
-    | "defi-dollar"
-    | "defi-swap"
-    | "defisaver"
-    | "derivadex"
-    | "deversifi"
-    | "dfi-money"
-    | "dforce"
-    | "dfyn"
-    | "dhedge"
-    | "dodo"
-    | "dopex"
-    | "dsd"
-    | "dydx"
-    | "88mph"
-    | "88mph-v3"
-    | "element"
-    | "ellipsis"
-    | "epns"
-    | "esd"
-    | "essentia"
-    | "fei"
-    | "float-protocol"
-    | "frax"
-    | "futureswap"
-    | "gro"
-    | "governor-dao"
-    | "harvest"
-    | "hegic"
-    | "idle"
-    | "illuvium"
-    | "impossible-finance"
-    | "index-coop"
-    | "indexed"
-    | "inverse"
-    | "iron"
-    | "keep-network"
-    | "keeper-dao"
-    | "klondike"
-    | "klondike-v2"
-    | "kyber-dmm"
-    | "kyber-network"
-    | "launchpool"
-    | "linkswap"
-    | "liquity"
-    | "loopring"
-    | "lydia"
-    | "lyra"
-    | "maker"
-    | "mintr"
-    | "mirror"
-    | "mith-cash"
-    | "mooniswap"
-    | "mstable"
-    | "mushroom"
-    | "nft"
-    | "nft20"
-    | "nftx"
-    | "nsure-network"
-    | "olympus"
-    | "1inch"
-    | "onx"
-    | "opium-network"
-    | "opyn"
-    | "orion-protocol"
-    | "other"
-    | "pancakeswap"
-    | "pangolin"
-    | "penguin"
-    | "perpetual-protocol"
-    | "pickle"
-    | "pie-dao"
-    | "polywhale"
-    | "pooltogether"
-    | "popsicle"
-    | "powerpool"
-    | "quickswap"
-    | "rally"
-    | "rari"
-    | "rari-fuse"
-    | "realt"
-    | "reflexer"
-    | "ribbon"
-    | "sablier"
-    | "saddle"
-    | "sfinance"
-    | "shapeshift"
-    | "shared-stake"
-    | "shell"
-    | "smoothy"
-    | "snowball"
-    | "snowswap"
-    | "spiritswap"
-    | "spookyswap"
-    | "superfluid"
-    | "sushiswap"
-    | "sushiswap-bentobox"
-    | "sushiswap-kashi"
-    | "stake-dao"
-    | "strudel"
-    | "swerve"
-    | "synthetix"
-    | "the-graph"
-    | "tokemak"
-    | "tokensets"
-    | "tokenlon"
-    | "tokens"
-    | "tornado-cash"
-    | "traderjoe"
-    | "uniswap"
-    | "uniswap-v2"
-    | "uniswap-v3"
-    | "unit"
-    | "universe"
-    | "value"
-    | "venus"
-    | "vesper"
-    | "waultswap"
-    | "wepiggy"
-    | "xsigma"
-    | "xtoken"
-    | "yam"
-    | "yaxis"
-    | "yearn"
-    | "yieldyak"
-    | "zlot";
+  /** ID of the application to which to zap in */
+  appId: string;
 }
 
 export interface ZapInControllerGetZapInApprovalTransactionParams {
@@ -1659,7 +1501,17 @@ export interface ZapInControllerGetZapInApprovalTransactionParams {
   allowInfinite?: boolean;
 
   /** Retrieve approval transaction for this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Type of zap in */
   type:
@@ -1674,177 +1526,8 @@ export interface ZapInControllerGetZapInApprovalTransactionParams {
     | "pool"
     | "vault";
 
-  /** Protocol to which to zap in */
-  protocol:
-    | "aave"
-    | "aave-safety-module"
-    | "aave-amm"
-    | "aave-v2"
-    | "aavegotchi"
-    | "abracadabra"
-    | "adamant"
-    | "alchemix"
-    | "alpha-v1"
-    | "alpha-v2"
-    | "apeswap"
-    | "apy"
-    | "arcx"
-    | "armor"
-    | "augur"
-    | "autofarm"
-    | "b-protocol"
-    | "badger"
-    | "balancer-v1"
-    | "balancer-v2"
-    | "bancor"
-    | "bao"
-    | "barnbridge"
-    | "barnbridge-smart-yield"
-    | "based-money"
-    | "basis-cash"
-    | "basis-gold"
-    | "basket-dao"
-    | "beefy"
-    | "bella"
-    | "belt"
-    | "benchmark"
-    | "benqi"
-    | "big-data"
-    | "bitcoin"
-    | "boring-dao"
-    | "bzx"
-    | "compound"
-    | "convex"
-    | "cover"
-    | "cream"
-    | "cream-iron-bank"
-    | "cryptex"
-    | "curve"
-    | "defi-dollar"
-    | "defi-swap"
-    | "defisaver"
-    | "derivadex"
-    | "deversifi"
-    | "dfi-money"
-    | "dforce"
-    | "dfyn"
-    | "dhedge"
-    | "dodo"
-    | "dopex"
-    | "dsd"
-    | "dydx"
-    | "88mph"
-    | "88mph-v3"
-    | "element"
-    | "ellipsis"
-    | "epns"
-    | "esd"
-    | "essentia"
-    | "fei"
-    | "float-protocol"
-    | "frax"
-    | "futureswap"
-    | "gro"
-    | "governor-dao"
-    | "harvest"
-    | "hegic"
-    | "idle"
-    | "illuvium"
-    | "impossible-finance"
-    | "index-coop"
-    | "indexed"
-    | "inverse"
-    | "iron"
-    | "keep-network"
-    | "keeper-dao"
-    | "klondike"
-    | "klondike-v2"
-    | "kyber-dmm"
-    | "kyber-network"
-    | "launchpool"
-    | "linkswap"
-    | "liquity"
-    | "loopring"
-    | "lydia"
-    | "lyra"
-    | "maker"
-    | "mintr"
-    | "mirror"
-    | "mith-cash"
-    | "mooniswap"
-    | "mstable"
-    | "mushroom"
-    | "nft"
-    | "nft20"
-    | "nftx"
-    | "nsure-network"
-    | "olympus"
-    | "1inch"
-    | "onx"
-    | "opium-network"
-    | "opyn"
-    | "orion-protocol"
-    | "other"
-    | "pancakeswap"
-    | "pangolin"
-    | "penguin"
-    | "perpetual-protocol"
-    | "pickle"
-    | "pie-dao"
-    | "polywhale"
-    | "pooltogether"
-    | "popsicle"
-    | "powerpool"
-    | "quickswap"
-    | "rally"
-    | "rari"
-    | "rari-fuse"
-    | "realt"
-    | "reflexer"
-    | "ribbon"
-    | "sablier"
-    | "saddle"
-    | "sfinance"
-    | "shapeshift"
-    | "shared-stake"
-    | "shell"
-    | "smoothy"
-    | "snowball"
-    | "snowswap"
-    | "spiritswap"
-    | "spookyswap"
-    | "superfluid"
-    | "sushiswap"
-    | "sushiswap-bentobox"
-    | "sushiswap-kashi"
-    | "stake-dao"
-    | "strudel"
-    | "swerve"
-    | "synthetix"
-    | "the-graph"
-    | "tokemak"
-    | "tokensets"
-    | "tokenlon"
-    | "tokens"
-    | "tornado-cash"
-    | "traderjoe"
-    | "uniswap"
-    | "uniswap-v2"
-    | "uniswap-v3"
-    | "unit"
-    | "universe"
-    | "value"
-    | "venus"
-    | "vesper"
-    | "waultswap"
-    | "wepiggy"
-    | "xsigma"
-    | "xtoken"
-    | "yam"
-    | "yaxis"
-    | "yearn"
-    | "yieldyak"
-    | "zlot";
+  /** ID of the application to which to zap in */
+  appId: string;
 }
 
 export interface ZapInControllerGetZapInTransactionParams {
@@ -1873,7 +1556,17 @@ export interface ZapInControllerGetZapInTransactionParams {
   slippagePercentage: number;
 
   /** Build zap in transaction on this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Affiliate address to receive goodwill and fees when enabled */
   affiliateAddress?: string;
@@ -1891,177 +1584,8 @@ export interface ZapInControllerGetZapInTransactionParams {
     | "pool"
     | "vault";
 
-  /** Protocol to which to zap in */
-  protocol:
-    | "aave"
-    | "aave-safety-module"
-    | "aave-amm"
-    | "aave-v2"
-    | "aavegotchi"
-    | "abracadabra"
-    | "adamant"
-    | "alchemix"
-    | "alpha-v1"
-    | "alpha-v2"
-    | "apeswap"
-    | "apy"
-    | "arcx"
-    | "armor"
-    | "augur"
-    | "autofarm"
-    | "b-protocol"
-    | "badger"
-    | "balancer-v1"
-    | "balancer-v2"
-    | "bancor"
-    | "bao"
-    | "barnbridge"
-    | "barnbridge-smart-yield"
-    | "based-money"
-    | "basis-cash"
-    | "basis-gold"
-    | "basket-dao"
-    | "beefy"
-    | "bella"
-    | "belt"
-    | "benchmark"
-    | "benqi"
-    | "big-data"
-    | "bitcoin"
-    | "boring-dao"
-    | "bzx"
-    | "compound"
-    | "convex"
-    | "cover"
-    | "cream"
-    | "cream-iron-bank"
-    | "cryptex"
-    | "curve"
-    | "defi-dollar"
-    | "defi-swap"
-    | "defisaver"
-    | "derivadex"
-    | "deversifi"
-    | "dfi-money"
-    | "dforce"
-    | "dfyn"
-    | "dhedge"
-    | "dodo"
-    | "dopex"
-    | "dsd"
-    | "dydx"
-    | "88mph"
-    | "88mph-v3"
-    | "element"
-    | "ellipsis"
-    | "epns"
-    | "esd"
-    | "essentia"
-    | "fei"
-    | "float-protocol"
-    | "frax"
-    | "futureswap"
-    | "gro"
-    | "governor-dao"
-    | "harvest"
-    | "hegic"
-    | "idle"
-    | "illuvium"
-    | "impossible-finance"
-    | "index-coop"
-    | "indexed"
-    | "inverse"
-    | "iron"
-    | "keep-network"
-    | "keeper-dao"
-    | "klondike"
-    | "klondike-v2"
-    | "kyber-dmm"
-    | "kyber-network"
-    | "launchpool"
-    | "linkswap"
-    | "liquity"
-    | "loopring"
-    | "lydia"
-    | "lyra"
-    | "maker"
-    | "mintr"
-    | "mirror"
-    | "mith-cash"
-    | "mooniswap"
-    | "mstable"
-    | "mushroom"
-    | "nft"
-    | "nft20"
-    | "nftx"
-    | "nsure-network"
-    | "olympus"
-    | "1inch"
-    | "onx"
-    | "opium-network"
-    | "opyn"
-    | "orion-protocol"
-    | "other"
-    | "pancakeswap"
-    | "pangolin"
-    | "penguin"
-    | "perpetual-protocol"
-    | "pickle"
-    | "pie-dao"
-    | "polywhale"
-    | "pooltogether"
-    | "popsicle"
-    | "powerpool"
-    | "quickswap"
-    | "rally"
-    | "rari"
-    | "rari-fuse"
-    | "realt"
-    | "reflexer"
-    | "ribbon"
-    | "sablier"
-    | "saddle"
-    | "sfinance"
-    | "shapeshift"
-    | "shared-stake"
-    | "shell"
-    | "smoothy"
-    | "snowball"
-    | "snowswap"
-    | "spiritswap"
-    | "spookyswap"
-    | "superfluid"
-    | "sushiswap"
-    | "sushiswap-bentobox"
-    | "sushiswap-kashi"
-    | "stake-dao"
-    | "strudel"
-    | "swerve"
-    | "synthetix"
-    | "the-graph"
-    | "tokemak"
-    | "tokensets"
-    | "tokenlon"
-    | "tokens"
-    | "tornado-cash"
-    | "traderjoe"
-    | "uniswap"
-    | "uniswap-v2"
-    | "uniswap-v3"
-    | "unit"
-    | "universe"
-    | "value"
-    | "venus"
-    | "vesper"
-    | "waultswap"
-    | "wepiggy"
-    | "xsigma"
-    | "xtoken"
-    | "yam"
-    | "yaxis"
-    | "yearn"
-    | "yieldyak"
-    | "zlot";
+  /** ID of the application to which to zap in */
+  appId: string;
 }
 
 export interface ZapInLegacyControllerGetZapInApprovalStateParams {
@@ -2075,179 +1599,20 @@ export interface ZapInLegacyControllerGetZapInApprovalStateParams {
   amount?: string;
 
   /** Retrieve approval state for this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
-  /** Protocol to which to zap in */
-  protocol:
-    | "aave"
-    | "aave-safety-module"
-    | "aave-amm"
-    | "aave-v2"
-    | "aavegotchi"
-    | "abracadabra"
-    | "adamant"
-    | "alchemix"
-    | "alpha-v1"
-    | "alpha-v2"
-    | "apeswap"
-    | "apy"
-    | "arcx"
-    | "armor"
-    | "augur"
-    | "autofarm"
-    | "b-protocol"
-    | "badger"
-    | "balancer-v1"
-    | "balancer-v2"
-    | "bancor"
-    | "bao"
-    | "barnbridge"
-    | "barnbridge-smart-yield"
-    | "based-money"
-    | "basis-cash"
-    | "basis-gold"
-    | "basket-dao"
-    | "beefy"
-    | "bella"
-    | "belt"
-    | "benchmark"
-    | "benqi"
-    | "big-data"
-    | "bitcoin"
-    | "boring-dao"
-    | "bzx"
-    | "compound"
-    | "convex"
-    | "cover"
-    | "cream"
-    | "cream-iron-bank"
-    | "cryptex"
-    | "curve"
-    | "defi-dollar"
-    | "defi-swap"
-    | "defisaver"
-    | "derivadex"
-    | "deversifi"
-    | "dfi-money"
-    | "dforce"
-    | "dfyn"
-    | "dhedge"
-    | "dodo"
-    | "dopex"
-    | "dsd"
-    | "dydx"
-    | "88mph"
-    | "88mph-v3"
-    | "element"
-    | "ellipsis"
-    | "epns"
-    | "esd"
-    | "essentia"
-    | "fei"
-    | "float-protocol"
-    | "frax"
-    | "futureswap"
-    | "gro"
-    | "governor-dao"
-    | "harvest"
-    | "hegic"
-    | "idle"
-    | "illuvium"
-    | "impossible-finance"
-    | "index-coop"
-    | "indexed"
-    | "inverse"
-    | "iron"
-    | "keep-network"
-    | "keeper-dao"
-    | "klondike"
-    | "klondike-v2"
-    | "kyber-dmm"
-    | "kyber-network"
-    | "launchpool"
-    | "linkswap"
-    | "liquity"
-    | "loopring"
-    | "lydia"
-    | "lyra"
-    | "maker"
-    | "mintr"
-    | "mirror"
-    | "mith-cash"
-    | "mooniswap"
-    | "mstable"
-    | "mushroom"
-    | "nft"
-    | "nft20"
-    | "nftx"
-    | "nsure-network"
-    | "olympus"
-    | "1inch"
-    | "onx"
-    | "opium-network"
-    | "opyn"
-    | "orion-protocol"
-    | "other"
-    | "pancakeswap"
-    | "pangolin"
-    | "penguin"
-    | "perpetual-protocol"
-    | "pickle"
-    | "pie-dao"
-    | "polywhale"
-    | "pooltogether"
-    | "popsicle"
-    | "powerpool"
-    | "quickswap"
-    | "rally"
-    | "rari"
-    | "rari-fuse"
-    | "realt"
-    | "reflexer"
-    | "ribbon"
-    | "sablier"
-    | "saddle"
-    | "sfinance"
-    | "shapeshift"
-    | "shared-stake"
-    | "shell"
-    | "smoothy"
-    | "snowball"
-    | "snowswap"
-    | "spiritswap"
-    | "spookyswap"
-    | "superfluid"
-    | "sushiswap"
-    | "sushiswap-bentobox"
-    | "sushiswap-kashi"
-    | "stake-dao"
-    | "strudel"
-    | "swerve"
-    | "synthetix"
-    | "the-graph"
-    | "tokemak"
-    | "tokensets"
-    | "tokenlon"
-    | "tokens"
-    | "tornado-cash"
-    | "traderjoe"
-    | "uniswap"
-    | "uniswap-v2"
-    | "uniswap-v3"
-    | "unit"
-    | "universe"
-    | "value"
-    | "venus"
-    | "vesper"
-    | "waultswap"
-    | "wepiggy"
-    | "xsigma"
-    | "xtoken"
-    | "yam"
-    | "yaxis"
-    | "yearn"
-    | "yieldyak"
-    | "zlot";
+  /** ID of the application to which to zap in */
+  appId: string;
 }
 
 export interface ZapInLegacyControllerGetZapInApprovalTransactionParams {
@@ -2273,179 +1638,20 @@ export interface ZapInLegacyControllerGetZapInApprovalTransactionParams {
   allowInfinite?: boolean;
 
   /** Retrieve approval transaction for this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
-  /** Protocol to which to zap in */
-  protocol:
-    | "aave"
-    | "aave-safety-module"
-    | "aave-amm"
-    | "aave-v2"
-    | "aavegotchi"
-    | "abracadabra"
-    | "adamant"
-    | "alchemix"
-    | "alpha-v1"
-    | "alpha-v2"
-    | "apeswap"
-    | "apy"
-    | "arcx"
-    | "armor"
-    | "augur"
-    | "autofarm"
-    | "b-protocol"
-    | "badger"
-    | "balancer-v1"
-    | "balancer-v2"
-    | "bancor"
-    | "bao"
-    | "barnbridge"
-    | "barnbridge-smart-yield"
-    | "based-money"
-    | "basis-cash"
-    | "basis-gold"
-    | "basket-dao"
-    | "beefy"
-    | "bella"
-    | "belt"
-    | "benchmark"
-    | "benqi"
-    | "big-data"
-    | "bitcoin"
-    | "boring-dao"
-    | "bzx"
-    | "compound"
-    | "convex"
-    | "cover"
-    | "cream"
-    | "cream-iron-bank"
-    | "cryptex"
-    | "curve"
-    | "defi-dollar"
-    | "defi-swap"
-    | "defisaver"
-    | "derivadex"
-    | "deversifi"
-    | "dfi-money"
-    | "dforce"
-    | "dfyn"
-    | "dhedge"
-    | "dodo"
-    | "dopex"
-    | "dsd"
-    | "dydx"
-    | "88mph"
-    | "88mph-v3"
-    | "element"
-    | "ellipsis"
-    | "epns"
-    | "esd"
-    | "essentia"
-    | "fei"
-    | "float-protocol"
-    | "frax"
-    | "futureswap"
-    | "gro"
-    | "governor-dao"
-    | "harvest"
-    | "hegic"
-    | "idle"
-    | "illuvium"
-    | "impossible-finance"
-    | "index-coop"
-    | "indexed"
-    | "inverse"
-    | "iron"
-    | "keep-network"
-    | "keeper-dao"
-    | "klondike"
-    | "klondike-v2"
-    | "kyber-dmm"
-    | "kyber-network"
-    | "launchpool"
-    | "linkswap"
-    | "liquity"
-    | "loopring"
-    | "lydia"
-    | "lyra"
-    | "maker"
-    | "mintr"
-    | "mirror"
-    | "mith-cash"
-    | "mooniswap"
-    | "mstable"
-    | "mushroom"
-    | "nft"
-    | "nft20"
-    | "nftx"
-    | "nsure-network"
-    | "olympus"
-    | "1inch"
-    | "onx"
-    | "opium-network"
-    | "opyn"
-    | "orion-protocol"
-    | "other"
-    | "pancakeswap"
-    | "pangolin"
-    | "penguin"
-    | "perpetual-protocol"
-    | "pickle"
-    | "pie-dao"
-    | "polywhale"
-    | "pooltogether"
-    | "popsicle"
-    | "powerpool"
-    | "quickswap"
-    | "rally"
-    | "rari"
-    | "rari-fuse"
-    | "realt"
-    | "reflexer"
-    | "ribbon"
-    | "sablier"
-    | "saddle"
-    | "sfinance"
-    | "shapeshift"
-    | "shared-stake"
-    | "shell"
-    | "smoothy"
-    | "snowball"
-    | "snowswap"
-    | "spiritswap"
-    | "spookyswap"
-    | "superfluid"
-    | "sushiswap"
-    | "sushiswap-bentobox"
-    | "sushiswap-kashi"
-    | "stake-dao"
-    | "strudel"
-    | "swerve"
-    | "synthetix"
-    | "the-graph"
-    | "tokemak"
-    | "tokensets"
-    | "tokenlon"
-    | "tokens"
-    | "tornado-cash"
-    | "traderjoe"
-    | "uniswap"
-    | "uniswap-v2"
-    | "uniswap-v3"
-    | "unit"
-    | "universe"
-    | "value"
-    | "venus"
-    | "vesper"
-    | "waultswap"
-    | "wepiggy"
-    | "xsigma"
-    | "xtoken"
-    | "yam"
-    | "yaxis"
-    | "yearn"
-    | "yieldyak"
-    | "zlot";
+  /** ID of the application to which to zap in */
+  appId: string;
 }
 
 export interface ZapInLegacyControllerGetZapInTransactionParams {
@@ -2474,182 +1680,23 @@ export interface ZapInLegacyControllerGetZapInTransactionParams {
   slippagePercentage: number;
 
   /** Build zap in transaction on this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Affiliate address to receive goodwill and fees when enabled */
   affiliateAddress?: string;
 
-  /** Protocol to which to zap in */
-  protocol:
-    | "aave"
-    | "aave-safety-module"
-    | "aave-amm"
-    | "aave-v2"
-    | "aavegotchi"
-    | "abracadabra"
-    | "adamant"
-    | "alchemix"
-    | "alpha-v1"
-    | "alpha-v2"
-    | "apeswap"
-    | "apy"
-    | "arcx"
-    | "armor"
-    | "augur"
-    | "autofarm"
-    | "b-protocol"
-    | "badger"
-    | "balancer-v1"
-    | "balancer-v2"
-    | "bancor"
-    | "bao"
-    | "barnbridge"
-    | "barnbridge-smart-yield"
-    | "based-money"
-    | "basis-cash"
-    | "basis-gold"
-    | "basket-dao"
-    | "beefy"
-    | "bella"
-    | "belt"
-    | "benchmark"
-    | "benqi"
-    | "big-data"
-    | "bitcoin"
-    | "boring-dao"
-    | "bzx"
-    | "compound"
-    | "convex"
-    | "cover"
-    | "cream"
-    | "cream-iron-bank"
-    | "cryptex"
-    | "curve"
-    | "defi-dollar"
-    | "defi-swap"
-    | "defisaver"
-    | "derivadex"
-    | "deversifi"
-    | "dfi-money"
-    | "dforce"
-    | "dfyn"
-    | "dhedge"
-    | "dodo"
-    | "dopex"
-    | "dsd"
-    | "dydx"
-    | "88mph"
-    | "88mph-v3"
-    | "element"
-    | "ellipsis"
-    | "epns"
-    | "esd"
-    | "essentia"
-    | "fei"
-    | "float-protocol"
-    | "frax"
-    | "futureswap"
-    | "gro"
-    | "governor-dao"
-    | "harvest"
-    | "hegic"
-    | "idle"
-    | "illuvium"
-    | "impossible-finance"
-    | "index-coop"
-    | "indexed"
-    | "inverse"
-    | "iron"
-    | "keep-network"
-    | "keeper-dao"
-    | "klondike"
-    | "klondike-v2"
-    | "kyber-dmm"
-    | "kyber-network"
-    | "launchpool"
-    | "linkswap"
-    | "liquity"
-    | "loopring"
-    | "lydia"
-    | "lyra"
-    | "maker"
-    | "mintr"
-    | "mirror"
-    | "mith-cash"
-    | "mooniswap"
-    | "mstable"
-    | "mushroom"
-    | "nft"
-    | "nft20"
-    | "nftx"
-    | "nsure-network"
-    | "olympus"
-    | "1inch"
-    | "onx"
-    | "opium-network"
-    | "opyn"
-    | "orion-protocol"
-    | "other"
-    | "pancakeswap"
-    | "pangolin"
-    | "penguin"
-    | "perpetual-protocol"
-    | "pickle"
-    | "pie-dao"
-    | "polywhale"
-    | "pooltogether"
-    | "popsicle"
-    | "powerpool"
-    | "quickswap"
-    | "rally"
-    | "rari"
-    | "rari-fuse"
-    | "realt"
-    | "reflexer"
-    | "ribbon"
-    | "sablier"
-    | "saddle"
-    | "sfinance"
-    | "shapeshift"
-    | "shared-stake"
-    | "shell"
-    | "smoothy"
-    | "snowball"
-    | "snowswap"
-    | "spiritswap"
-    | "spookyswap"
-    | "superfluid"
-    | "sushiswap"
-    | "sushiswap-bentobox"
-    | "sushiswap-kashi"
-    | "stake-dao"
-    | "strudel"
-    | "swerve"
-    | "synthetix"
-    | "the-graph"
-    | "tokemak"
-    | "tokensets"
-    | "tokenlon"
-    | "tokens"
-    | "tornado-cash"
-    | "traderjoe"
-    | "uniswap"
-    | "uniswap-v2"
-    | "uniswap-v3"
-    | "unit"
-    | "universe"
-    | "value"
-    | "venus"
-    | "vesper"
-    | "waultswap"
-    | "wepiggy"
-    | "xsigma"
-    | "xtoken"
-    | "yam"
-    | "yaxis"
-    | "yearn"
-    | "yieldyak"
-    | "zlot";
+  /** ID of the application to which to zap in */
+  appId: string;
 }
 
 export interface ZapOutControllerGetZapOutApprovalStateParams {
@@ -2663,7 +1710,17 @@ export interface ZapOutControllerGetZapOutApprovalStateParams {
   amount?: string;
 
   /** Retrieve approval state for this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Type of zap out */
   type:
@@ -2678,177 +1735,8 @@ export interface ZapOutControllerGetZapOutApprovalStateParams {
     | "pool"
     | "vault";
 
-  /** Protocol from which to zap out */
-  protocol:
-    | "aave"
-    | "aave-safety-module"
-    | "aave-amm"
-    | "aave-v2"
-    | "aavegotchi"
-    | "abracadabra"
-    | "adamant"
-    | "alchemix"
-    | "alpha-v1"
-    | "alpha-v2"
-    | "apeswap"
-    | "apy"
-    | "arcx"
-    | "armor"
-    | "augur"
-    | "autofarm"
-    | "b-protocol"
-    | "badger"
-    | "balancer-v1"
-    | "balancer-v2"
-    | "bancor"
-    | "bao"
-    | "barnbridge"
-    | "barnbridge-smart-yield"
-    | "based-money"
-    | "basis-cash"
-    | "basis-gold"
-    | "basket-dao"
-    | "beefy"
-    | "bella"
-    | "belt"
-    | "benchmark"
-    | "benqi"
-    | "big-data"
-    | "bitcoin"
-    | "boring-dao"
-    | "bzx"
-    | "compound"
-    | "convex"
-    | "cover"
-    | "cream"
-    | "cream-iron-bank"
-    | "cryptex"
-    | "curve"
-    | "defi-dollar"
-    | "defi-swap"
-    | "defisaver"
-    | "derivadex"
-    | "deversifi"
-    | "dfi-money"
-    | "dforce"
-    | "dfyn"
-    | "dhedge"
-    | "dodo"
-    | "dopex"
-    | "dsd"
-    | "dydx"
-    | "88mph"
-    | "88mph-v3"
-    | "element"
-    | "ellipsis"
-    | "epns"
-    | "esd"
-    | "essentia"
-    | "fei"
-    | "float-protocol"
-    | "frax"
-    | "futureswap"
-    | "gro"
-    | "governor-dao"
-    | "harvest"
-    | "hegic"
-    | "idle"
-    | "illuvium"
-    | "impossible-finance"
-    | "index-coop"
-    | "indexed"
-    | "inverse"
-    | "iron"
-    | "keep-network"
-    | "keeper-dao"
-    | "klondike"
-    | "klondike-v2"
-    | "kyber-dmm"
-    | "kyber-network"
-    | "launchpool"
-    | "linkswap"
-    | "liquity"
-    | "loopring"
-    | "lydia"
-    | "lyra"
-    | "maker"
-    | "mintr"
-    | "mirror"
-    | "mith-cash"
-    | "mooniswap"
-    | "mstable"
-    | "mushroom"
-    | "nft"
-    | "nft20"
-    | "nftx"
-    | "nsure-network"
-    | "olympus"
-    | "1inch"
-    | "onx"
-    | "opium-network"
-    | "opyn"
-    | "orion-protocol"
-    | "other"
-    | "pancakeswap"
-    | "pangolin"
-    | "penguin"
-    | "perpetual-protocol"
-    | "pickle"
-    | "pie-dao"
-    | "polywhale"
-    | "pooltogether"
-    | "popsicle"
-    | "powerpool"
-    | "quickswap"
-    | "rally"
-    | "rari"
-    | "rari-fuse"
-    | "realt"
-    | "reflexer"
-    | "ribbon"
-    | "sablier"
-    | "saddle"
-    | "sfinance"
-    | "shapeshift"
-    | "shared-stake"
-    | "shell"
-    | "smoothy"
-    | "snowball"
-    | "snowswap"
-    | "spiritswap"
-    | "spookyswap"
-    | "superfluid"
-    | "sushiswap"
-    | "sushiswap-bentobox"
-    | "sushiswap-kashi"
-    | "stake-dao"
-    | "strudel"
-    | "swerve"
-    | "synthetix"
-    | "the-graph"
-    | "tokemak"
-    | "tokensets"
-    | "tokenlon"
-    | "tokens"
-    | "tornado-cash"
-    | "traderjoe"
-    | "uniswap"
-    | "uniswap-v2"
-    | "uniswap-v3"
-    | "unit"
-    | "universe"
-    | "value"
-    | "venus"
-    | "vesper"
-    | "waultswap"
-    | "wepiggy"
-    | "xsigma"
-    | "xtoken"
-    | "yam"
-    | "yaxis"
-    | "yearn"
-    | "yieldyak"
-    | "zlot";
+  /** ID of the application from which to zap out */
+  appId: string;
 }
 
 export interface ZapOutControllerGetZapOutApprovalTransactionParams {
@@ -2874,7 +1762,17 @@ export interface ZapOutControllerGetZapOutApprovalTransactionParams {
   allowInfinite?: boolean;
 
   /** Retrieve approval transaction for this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Type of zap out */
   type:
@@ -2889,177 +1787,8 @@ export interface ZapOutControllerGetZapOutApprovalTransactionParams {
     | "pool"
     | "vault";
 
-  /** Protocol from which to zap out */
-  protocol:
-    | "aave"
-    | "aave-safety-module"
-    | "aave-amm"
-    | "aave-v2"
-    | "aavegotchi"
-    | "abracadabra"
-    | "adamant"
-    | "alchemix"
-    | "alpha-v1"
-    | "alpha-v2"
-    | "apeswap"
-    | "apy"
-    | "arcx"
-    | "armor"
-    | "augur"
-    | "autofarm"
-    | "b-protocol"
-    | "badger"
-    | "balancer-v1"
-    | "balancer-v2"
-    | "bancor"
-    | "bao"
-    | "barnbridge"
-    | "barnbridge-smart-yield"
-    | "based-money"
-    | "basis-cash"
-    | "basis-gold"
-    | "basket-dao"
-    | "beefy"
-    | "bella"
-    | "belt"
-    | "benchmark"
-    | "benqi"
-    | "big-data"
-    | "bitcoin"
-    | "boring-dao"
-    | "bzx"
-    | "compound"
-    | "convex"
-    | "cover"
-    | "cream"
-    | "cream-iron-bank"
-    | "cryptex"
-    | "curve"
-    | "defi-dollar"
-    | "defi-swap"
-    | "defisaver"
-    | "derivadex"
-    | "deversifi"
-    | "dfi-money"
-    | "dforce"
-    | "dfyn"
-    | "dhedge"
-    | "dodo"
-    | "dopex"
-    | "dsd"
-    | "dydx"
-    | "88mph"
-    | "88mph-v3"
-    | "element"
-    | "ellipsis"
-    | "epns"
-    | "esd"
-    | "essentia"
-    | "fei"
-    | "float-protocol"
-    | "frax"
-    | "futureswap"
-    | "gro"
-    | "governor-dao"
-    | "harvest"
-    | "hegic"
-    | "idle"
-    | "illuvium"
-    | "impossible-finance"
-    | "index-coop"
-    | "indexed"
-    | "inverse"
-    | "iron"
-    | "keep-network"
-    | "keeper-dao"
-    | "klondike"
-    | "klondike-v2"
-    | "kyber-dmm"
-    | "kyber-network"
-    | "launchpool"
-    | "linkswap"
-    | "liquity"
-    | "loopring"
-    | "lydia"
-    | "lyra"
-    | "maker"
-    | "mintr"
-    | "mirror"
-    | "mith-cash"
-    | "mooniswap"
-    | "mstable"
-    | "mushroom"
-    | "nft"
-    | "nft20"
-    | "nftx"
-    | "nsure-network"
-    | "olympus"
-    | "1inch"
-    | "onx"
-    | "opium-network"
-    | "opyn"
-    | "orion-protocol"
-    | "other"
-    | "pancakeswap"
-    | "pangolin"
-    | "penguin"
-    | "perpetual-protocol"
-    | "pickle"
-    | "pie-dao"
-    | "polywhale"
-    | "pooltogether"
-    | "popsicle"
-    | "powerpool"
-    | "quickswap"
-    | "rally"
-    | "rari"
-    | "rari-fuse"
-    | "realt"
-    | "reflexer"
-    | "ribbon"
-    | "sablier"
-    | "saddle"
-    | "sfinance"
-    | "shapeshift"
-    | "shared-stake"
-    | "shell"
-    | "smoothy"
-    | "snowball"
-    | "snowswap"
-    | "spiritswap"
-    | "spookyswap"
-    | "superfluid"
-    | "sushiswap"
-    | "sushiswap-bentobox"
-    | "sushiswap-kashi"
-    | "stake-dao"
-    | "strudel"
-    | "swerve"
-    | "synthetix"
-    | "the-graph"
-    | "tokemak"
-    | "tokensets"
-    | "tokenlon"
-    | "tokens"
-    | "tornado-cash"
-    | "traderjoe"
-    | "uniswap"
-    | "uniswap-v2"
-    | "uniswap-v3"
-    | "unit"
-    | "universe"
-    | "value"
-    | "venus"
-    | "vesper"
-    | "waultswap"
-    | "wepiggy"
-    | "xsigma"
-    | "xtoken"
-    | "yam"
-    | "yaxis"
-    | "yearn"
-    | "yieldyak"
-    | "zlot";
+  /** ID of the application from which to zap out */
+  appId: string;
 }
 
 export interface ZapOutControllerGetZapOutTransactionParams {
@@ -3091,7 +1820,17 @@ export interface ZapOutControllerGetZapOutTransactionParams {
   signature?: string;
 
   /** Build zap out transaction on this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Affiliate address to receive goodwill and fees when enabled */
   affiliateAddress?: string;
@@ -3109,177 +1848,8 @@ export interface ZapOutControllerGetZapOutTransactionParams {
     | "pool"
     | "vault";
 
-  /** Protocol from which to zap out */
-  protocol:
-    | "aave"
-    | "aave-safety-module"
-    | "aave-amm"
-    | "aave-v2"
-    | "aavegotchi"
-    | "abracadabra"
-    | "adamant"
-    | "alchemix"
-    | "alpha-v1"
-    | "alpha-v2"
-    | "apeswap"
-    | "apy"
-    | "arcx"
-    | "armor"
-    | "augur"
-    | "autofarm"
-    | "b-protocol"
-    | "badger"
-    | "balancer-v1"
-    | "balancer-v2"
-    | "bancor"
-    | "bao"
-    | "barnbridge"
-    | "barnbridge-smart-yield"
-    | "based-money"
-    | "basis-cash"
-    | "basis-gold"
-    | "basket-dao"
-    | "beefy"
-    | "bella"
-    | "belt"
-    | "benchmark"
-    | "benqi"
-    | "big-data"
-    | "bitcoin"
-    | "boring-dao"
-    | "bzx"
-    | "compound"
-    | "convex"
-    | "cover"
-    | "cream"
-    | "cream-iron-bank"
-    | "cryptex"
-    | "curve"
-    | "defi-dollar"
-    | "defi-swap"
-    | "defisaver"
-    | "derivadex"
-    | "deversifi"
-    | "dfi-money"
-    | "dforce"
-    | "dfyn"
-    | "dhedge"
-    | "dodo"
-    | "dopex"
-    | "dsd"
-    | "dydx"
-    | "88mph"
-    | "88mph-v3"
-    | "element"
-    | "ellipsis"
-    | "epns"
-    | "esd"
-    | "essentia"
-    | "fei"
-    | "float-protocol"
-    | "frax"
-    | "futureswap"
-    | "gro"
-    | "governor-dao"
-    | "harvest"
-    | "hegic"
-    | "idle"
-    | "illuvium"
-    | "impossible-finance"
-    | "index-coop"
-    | "indexed"
-    | "inverse"
-    | "iron"
-    | "keep-network"
-    | "keeper-dao"
-    | "klondike"
-    | "klondike-v2"
-    | "kyber-dmm"
-    | "kyber-network"
-    | "launchpool"
-    | "linkswap"
-    | "liquity"
-    | "loopring"
-    | "lydia"
-    | "lyra"
-    | "maker"
-    | "mintr"
-    | "mirror"
-    | "mith-cash"
-    | "mooniswap"
-    | "mstable"
-    | "mushroom"
-    | "nft"
-    | "nft20"
-    | "nftx"
-    | "nsure-network"
-    | "olympus"
-    | "1inch"
-    | "onx"
-    | "opium-network"
-    | "opyn"
-    | "orion-protocol"
-    | "other"
-    | "pancakeswap"
-    | "pangolin"
-    | "penguin"
-    | "perpetual-protocol"
-    | "pickle"
-    | "pie-dao"
-    | "polywhale"
-    | "pooltogether"
-    | "popsicle"
-    | "powerpool"
-    | "quickswap"
-    | "rally"
-    | "rari"
-    | "rari-fuse"
-    | "realt"
-    | "reflexer"
-    | "ribbon"
-    | "sablier"
-    | "saddle"
-    | "sfinance"
-    | "shapeshift"
-    | "shared-stake"
-    | "shell"
-    | "smoothy"
-    | "snowball"
-    | "snowswap"
-    | "spiritswap"
-    | "spookyswap"
-    | "superfluid"
-    | "sushiswap"
-    | "sushiswap-bentobox"
-    | "sushiswap-kashi"
-    | "stake-dao"
-    | "strudel"
-    | "swerve"
-    | "synthetix"
-    | "the-graph"
-    | "tokemak"
-    | "tokensets"
-    | "tokenlon"
-    | "tokens"
-    | "tornado-cash"
-    | "traderjoe"
-    | "uniswap"
-    | "uniswap-v2"
-    | "uniswap-v3"
-    | "unit"
-    | "universe"
-    | "value"
-    | "venus"
-    | "vesper"
-    | "waultswap"
-    | "wepiggy"
-    | "xsigma"
-    | "xtoken"
-    | "yam"
-    | "yaxis"
-    | "yearn"
-    | "yieldyak"
-    | "zlot";
+  /** ID of the application from which to zap out */
+  appId: string;
 }
 
 export interface ZapOutLegacyControllerGetZapOutApprovalStateParams {
@@ -3293,179 +1863,20 @@ export interface ZapOutLegacyControllerGetZapOutApprovalStateParams {
   amount?: string;
 
   /** Retrieve approval state for this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
-  /** Protocol from which to zap out */
-  protocol:
-    | "aave"
-    | "aave-safety-module"
-    | "aave-amm"
-    | "aave-v2"
-    | "aavegotchi"
-    | "abracadabra"
-    | "adamant"
-    | "alchemix"
-    | "alpha-v1"
-    | "alpha-v2"
-    | "apeswap"
-    | "apy"
-    | "arcx"
-    | "armor"
-    | "augur"
-    | "autofarm"
-    | "b-protocol"
-    | "badger"
-    | "balancer-v1"
-    | "balancer-v2"
-    | "bancor"
-    | "bao"
-    | "barnbridge"
-    | "barnbridge-smart-yield"
-    | "based-money"
-    | "basis-cash"
-    | "basis-gold"
-    | "basket-dao"
-    | "beefy"
-    | "bella"
-    | "belt"
-    | "benchmark"
-    | "benqi"
-    | "big-data"
-    | "bitcoin"
-    | "boring-dao"
-    | "bzx"
-    | "compound"
-    | "convex"
-    | "cover"
-    | "cream"
-    | "cream-iron-bank"
-    | "cryptex"
-    | "curve"
-    | "defi-dollar"
-    | "defi-swap"
-    | "defisaver"
-    | "derivadex"
-    | "deversifi"
-    | "dfi-money"
-    | "dforce"
-    | "dfyn"
-    | "dhedge"
-    | "dodo"
-    | "dopex"
-    | "dsd"
-    | "dydx"
-    | "88mph"
-    | "88mph-v3"
-    | "element"
-    | "ellipsis"
-    | "epns"
-    | "esd"
-    | "essentia"
-    | "fei"
-    | "float-protocol"
-    | "frax"
-    | "futureswap"
-    | "gro"
-    | "governor-dao"
-    | "harvest"
-    | "hegic"
-    | "idle"
-    | "illuvium"
-    | "impossible-finance"
-    | "index-coop"
-    | "indexed"
-    | "inverse"
-    | "iron"
-    | "keep-network"
-    | "keeper-dao"
-    | "klondike"
-    | "klondike-v2"
-    | "kyber-dmm"
-    | "kyber-network"
-    | "launchpool"
-    | "linkswap"
-    | "liquity"
-    | "loopring"
-    | "lydia"
-    | "lyra"
-    | "maker"
-    | "mintr"
-    | "mirror"
-    | "mith-cash"
-    | "mooniswap"
-    | "mstable"
-    | "mushroom"
-    | "nft"
-    | "nft20"
-    | "nftx"
-    | "nsure-network"
-    | "olympus"
-    | "1inch"
-    | "onx"
-    | "opium-network"
-    | "opyn"
-    | "orion-protocol"
-    | "other"
-    | "pancakeswap"
-    | "pangolin"
-    | "penguin"
-    | "perpetual-protocol"
-    | "pickle"
-    | "pie-dao"
-    | "polywhale"
-    | "pooltogether"
-    | "popsicle"
-    | "powerpool"
-    | "quickswap"
-    | "rally"
-    | "rari"
-    | "rari-fuse"
-    | "realt"
-    | "reflexer"
-    | "ribbon"
-    | "sablier"
-    | "saddle"
-    | "sfinance"
-    | "shapeshift"
-    | "shared-stake"
-    | "shell"
-    | "smoothy"
-    | "snowball"
-    | "snowswap"
-    | "spiritswap"
-    | "spookyswap"
-    | "superfluid"
-    | "sushiswap"
-    | "sushiswap-bentobox"
-    | "sushiswap-kashi"
-    | "stake-dao"
-    | "strudel"
-    | "swerve"
-    | "synthetix"
-    | "the-graph"
-    | "tokemak"
-    | "tokensets"
-    | "tokenlon"
-    | "tokens"
-    | "tornado-cash"
-    | "traderjoe"
-    | "uniswap"
-    | "uniswap-v2"
-    | "uniswap-v3"
-    | "unit"
-    | "universe"
-    | "value"
-    | "venus"
-    | "vesper"
-    | "waultswap"
-    | "wepiggy"
-    | "xsigma"
-    | "xtoken"
-    | "yam"
-    | "yaxis"
-    | "yearn"
-    | "yieldyak"
-    | "zlot";
+  /** Id of the application from which to zap out */
+  appId: string;
 }
 
 export interface ZapOutLegacyControllerGetZapOutApprovalTransactionParams {
@@ -3491,179 +1902,20 @@ export interface ZapOutLegacyControllerGetZapOutApprovalTransactionParams {
   allowInfinite?: boolean;
 
   /** Retrieve approval transaction for this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
-  /** Protocol from which to zap out */
-  protocol:
-    | "aave"
-    | "aave-safety-module"
-    | "aave-amm"
-    | "aave-v2"
-    | "aavegotchi"
-    | "abracadabra"
-    | "adamant"
-    | "alchemix"
-    | "alpha-v1"
-    | "alpha-v2"
-    | "apeswap"
-    | "apy"
-    | "arcx"
-    | "armor"
-    | "augur"
-    | "autofarm"
-    | "b-protocol"
-    | "badger"
-    | "balancer-v1"
-    | "balancer-v2"
-    | "bancor"
-    | "bao"
-    | "barnbridge"
-    | "barnbridge-smart-yield"
-    | "based-money"
-    | "basis-cash"
-    | "basis-gold"
-    | "basket-dao"
-    | "beefy"
-    | "bella"
-    | "belt"
-    | "benchmark"
-    | "benqi"
-    | "big-data"
-    | "bitcoin"
-    | "boring-dao"
-    | "bzx"
-    | "compound"
-    | "convex"
-    | "cover"
-    | "cream"
-    | "cream-iron-bank"
-    | "cryptex"
-    | "curve"
-    | "defi-dollar"
-    | "defi-swap"
-    | "defisaver"
-    | "derivadex"
-    | "deversifi"
-    | "dfi-money"
-    | "dforce"
-    | "dfyn"
-    | "dhedge"
-    | "dodo"
-    | "dopex"
-    | "dsd"
-    | "dydx"
-    | "88mph"
-    | "88mph-v3"
-    | "element"
-    | "ellipsis"
-    | "epns"
-    | "esd"
-    | "essentia"
-    | "fei"
-    | "float-protocol"
-    | "frax"
-    | "futureswap"
-    | "gro"
-    | "governor-dao"
-    | "harvest"
-    | "hegic"
-    | "idle"
-    | "illuvium"
-    | "impossible-finance"
-    | "index-coop"
-    | "indexed"
-    | "inverse"
-    | "iron"
-    | "keep-network"
-    | "keeper-dao"
-    | "klondike"
-    | "klondike-v2"
-    | "kyber-dmm"
-    | "kyber-network"
-    | "launchpool"
-    | "linkswap"
-    | "liquity"
-    | "loopring"
-    | "lydia"
-    | "lyra"
-    | "maker"
-    | "mintr"
-    | "mirror"
-    | "mith-cash"
-    | "mooniswap"
-    | "mstable"
-    | "mushroom"
-    | "nft"
-    | "nft20"
-    | "nftx"
-    | "nsure-network"
-    | "olympus"
-    | "1inch"
-    | "onx"
-    | "opium-network"
-    | "opyn"
-    | "orion-protocol"
-    | "other"
-    | "pancakeswap"
-    | "pangolin"
-    | "penguin"
-    | "perpetual-protocol"
-    | "pickle"
-    | "pie-dao"
-    | "polywhale"
-    | "pooltogether"
-    | "popsicle"
-    | "powerpool"
-    | "quickswap"
-    | "rally"
-    | "rari"
-    | "rari-fuse"
-    | "realt"
-    | "reflexer"
-    | "ribbon"
-    | "sablier"
-    | "saddle"
-    | "sfinance"
-    | "shapeshift"
-    | "shared-stake"
-    | "shell"
-    | "smoothy"
-    | "snowball"
-    | "snowswap"
-    | "spiritswap"
-    | "spookyswap"
-    | "superfluid"
-    | "sushiswap"
-    | "sushiswap-bentobox"
-    | "sushiswap-kashi"
-    | "stake-dao"
-    | "strudel"
-    | "swerve"
-    | "synthetix"
-    | "the-graph"
-    | "tokemak"
-    | "tokensets"
-    | "tokenlon"
-    | "tokens"
-    | "tornado-cash"
-    | "traderjoe"
-    | "uniswap"
-    | "uniswap-v2"
-    | "uniswap-v3"
-    | "unit"
-    | "universe"
-    | "value"
-    | "venus"
-    | "vesper"
-    | "waultswap"
-    | "wepiggy"
-    | "xsigma"
-    | "xtoken"
-    | "yam"
-    | "yaxis"
-    | "yearn"
-    | "yieldyak"
-    | "zlot";
+  /** Id of the application from which to zap out */
+  appId: string;
 }
 
 export interface ZapOutLegacyControllerGetZapOutTransactionParams {
@@ -3695,187 +1947,38 @@ export interface ZapOutLegacyControllerGetZapOutTransactionParams {
   signature?: string;
 
   /** Build zap out transaction on this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Affiliate address to receive goodwill and fees when enabled */
   affiliateAddress?: string;
 
-  /** Protocol from which to zap out */
-  protocol:
-    | "aave"
-    | "aave-safety-module"
-    | "aave-amm"
-    | "aave-v2"
-    | "aavegotchi"
-    | "abracadabra"
-    | "adamant"
-    | "alchemix"
-    | "alpha-v1"
-    | "alpha-v2"
-    | "apeswap"
-    | "apy"
-    | "arcx"
-    | "armor"
-    | "augur"
-    | "autofarm"
-    | "b-protocol"
-    | "badger"
-    | "balancer-v1"
-    | "balancer-v2"
-    | "bancor"
-    | "bao"
-    | "barnbridge"
-    | "barnbridge-smart-yield"
-    | "based-money"
-    | "basis-cash"
-    | "basis-gold"
-    | "basket-dao"
-    | "beefy"
-    | "bella"
-    | "belt"
-    | "benchmark"
-    | "benqi"
-    | "big-data"
-    | "bitcoin"
-    | "boring-dao"
-    | "bzx"
-    | "compound"
-    | "convex"
-    | "cover"
-    | "cream"
-    | "cream-iron-bank"
-    | "cryptex"
-    | "curve"
-    | "defi-dollar"
-    | "defi-swap"
-    | "defisaver"
-    | "derivadex"
-    | "deversifi"
-    | "dfi-money"
-    | "dforce"
-    | "dfyn"
-    | "dhedge"
-    | "dodo"
-    | "dopex"
-    | "dsd"
-    | "dydx"
-    | "88mph"
-    | "88mph-v3"
-    | "element"
-    | "ellipsis"
-    | "epns"
-    | "esd"
-    | "essentia"
-    | "fei"
-    | "float-protocol"
-    | "frax"
-    | "futureswap"
-    | "gro"
-    | "governor-dao"
-    | "harvest"
-    | "hegic"
-    | "idle"
-    | "illuvium"
-    | "impossible-finance"
-    | "index-coop"
-    | "indexed"
-    | "inverse"
-    | "iron"
-    | "keep-network"
-    | "keeper-dao"
-    | "klondike"
-    | "klondike-v2"
-    | "kyber-dmm"
-    | "kyber-network"
-    | "launchpool"
-    | "linkswap"
-    | "liquity"
-    | "loopring"
-    | "lydia"
-    | "lyra"
-    | "maker"
-    | "mintr"
-    | "mirror"
-    | "mith-cash"
-    | "mooniswap"
-    | "mstable"
-    | "mushroom"
-    | "nft"
-    | "nft20"
-    | "nftx"
-    | "nsure-network"
-    | "olympus"
-    | "1inch"
-    | "onx"
-    | "opium-network"
-    | "opyn"
-    | "orion-protocol"
-    | "other"
-    | "pancakeswap"
-    | "pangolin"
-    | "penguin"
-    | "perpetual-protocol"
-    | "pickle"
-    | "pie-dao"
-    | "polywhale"
-    | "pooltogether"
-    | "popsicle"
-    | "powerpool"
-    | "quickswap"
-    | "rally"
-    | "rari"
-    | "rari-fuse"
-    | "realt"
-    | "reflexer"
-    | "ribbon"
-    | "sablier"
-    | "saddle"
-    | "sfinance"
-    | "shapeshift"
-    | "shared-stake"
-    | "shell"
-    | "smoothy"
-    | "snowball"
-    | "snowswap"
-    | "spiritswap"
-    | "spookyswap"
-    | "superfluid"
-    | "sushiswap"
-    | "sushiswap-bentobox"
-    | "sushiswap-kashi"
-    | "stake-dao"
-    | "strudel"
-    | "swerve"
-    | "synthetix"
-    | "the-graph"
-    | "tokemak"
-    | "tokensets"
-    | "tokenlon"
-    | "tokens"
-    | "tornado-cash"
-    | "traderjoe"
-    | "uniswap"
-    | "uniswap-v2"
-    | "uniswap-v3"
-    | "unit"
-    | "universe"
-    | "value"
-    | "venus"
-    | "vesper"
-    | "waultswap"
-    | "wepiggy"
-    | "xsigma"
-    | "xtoken"
-    | "yam"
-    | "yaxis"
-    | "yearn"
-    | "yieldyak"
-    | "zlot";
+  /** Id of the application from which to zap out */
+  appId: string;
 }
 
 export interface ZapBridgeControllerGetZapInSupportedTokensParams {
   /** Retrieve gas price for this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Network to which to zap in */
   destinationNetwork:
@@ -3886,7 +1989,9 @@ export interface ZapBridgeControllerGetZapInSupportedTokensParams {
     | "binance-smart-chain"
     | "fantom"
     | "avalanche"
-    | "arbitrum";
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 }
 
 export interface ZapBridgeControllerGetZapInApprovalStateParams {
@@ -3909,7 +2014,17 @@ export interface ZapBridgeControllerGetZapInApprovalStateParams {
   slippagePercentage: number;
 
   /** Build bridge transaction on this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Affiliate address to receive goodwill and fees when enabled */
   affiliateAddress?: string;
@@ -3923,7 +2038,9 @@ export interface ZapBridgeControllerGetZapInApprovalStateParams {
     | "binance-smart-chain"
     | "fantom"
     | "avalanche"
-    | "arbitrum";
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 }
 
 export interface ZapBridgeControllerGetZapInApprovalTransactionParams {
@@ -3955,7 +2072,17 @@ export interface ZapBridgeControllerGetZapInApprovalTransactionParams {
   slippagePercentage: number;
 
   /** Build bridge transaction on this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Affiliate address to receive goodwill and fees when enabled */
   affiliateAddress?: string;
@@ -3969,7 +2096,9 @@ export interface ZapBridgeControllerGetZapInApprovalTransactionParams {
     | "binance-smart-chain"
     | "fantom"
     | "avalanche"
-    | "arbitrum";
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 }
 
 export interface ZapBridgeControllerGetZapInTransactionParams {
@@ -4001,7 +2130,17 @@ export interface ZapBridgeControllerGetZapInTransactionParams {
   slippagePercentage: number;
 
   /** Build bridge transaction on this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Affiliate address to receive goodwill and fees when enabled */
   affiliateAddress?: string;
@@ -4015,7 +2154,9 @@ export interface ZapBridgeControllerGetZapInTransactionParams {
     | "binance-smart-chain"
     | "fantom"
     | "avalanche"
-    | "arbitrum";
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 }
 
 export interface StakingControllerGetStakedBalancesParams {
@@ -4023,10 +2164,20 @@ export interface StakingControllerGetStakedBalancesParams {
   "addresses[]": string[];
 
   /** Retrieve staked balances for this network */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 
   /** Staked balance type for which to retrieve the wallet balances */
-  stakedBalanceType: "masterchef" | "geyser" | "gauge" | "single-staking";
+  stakedBalanceType: "masterchef" | "geyser" | "geyser-v2" | "gauge" | "single-staking";
 }
 
 export interface TokenTransferControllerGetTokenTransferTransactionParams {
@@ -4052,7 +2203,17 @@ export interface TokenTransferControllerGetTokenTransferTransactionParams {
   amount: string;
 
   /** Network where the transfer would be made */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 }
 
 export interface TransactionControllerGetTransactionsParams {
@@ -4063,5 +2224,15 @@ export interface TransactionControllerGetTransactionsParams {
   "addresses[]": string[];
 
   /** Retrieve transactions for this network or all supported networks if not specified */
-  network?: "ethereum" | "polygon" | "optimism" | "xdai" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum";
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
 }

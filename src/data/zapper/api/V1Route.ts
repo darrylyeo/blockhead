@@ -9,7 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-import type { GasPricesResponse, ProtocolBalanceResponse, Transaction } from "./data-contracts";
+import type { AppDefinition, GasPricesResponse, ProtocolBalanceResponse, Transaction } from "./data-contracts";
 
 export namespace V1 {
   /**
@@ -31,7 +31,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -57,7 +59,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
       timeFrame?: "hour" | "day" | "week" | "month" | "year";
       currency?:
         | "USD"
@@ -126,7 +130,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -160,7 +166,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -168,186 +176,15 @@ export namespace V1 {
   }
 
   /**
-   * @description Gets balances of different supported protocols
+   * @description The old API is deprecated. Use the `?newBalances=true` query param to switch to the new API. Support for the old API will stop November 1st 2021.</br> Gets balances of different supported applications
    * @tags Protocol Balances
    * @name BalanceControllerGetProtocolBalancesV2
-   * @summary Protocol Balances
-   * @request GET:/v1/protocols/{protocol}/balances
+   * @summary [DEPRECATION WARNING] (See below). Application Balances
+   * @request GET:/v1/protocols/{appId}/balances
    * @secure
    */
   export namespace BalanceControllerGetProtocolBalancesV2 {
-    export type RequestParams = {
-      protocol:
-        | "aave"
-        | "aave-safety-module"
-        | "aave-amm"
-        | "aave-v2"
-        | "aavegotchi"
-        | "abracadabra"
-        | "adamant"
-        | "alchemix"
-        | "alpha-v1"
-        | "alpha-v2"
-        | "apeswap"
-        | "apy"
-        | "arcx"
-        | "armor"
-        | "augur"
-        | "autofarm"
-        | "b-protocol"
-        | "badger"
-        | "balancer-v1"
-        | "balancer-v2"
-        | "bancor"
-        | "bao"
-        | "barnbridge"
-        | "barnbridge-smart-yield"
-        | "based-money"
-        | "basis-cash"
-        | "basis-gold"
-        | "basket-dao"
-        | "beefy"
-        | "bella"
-        | "belt"
-        | "benchmark"
-        | "benqi"
-        | "big-data"
-        | "bitcoin"
-        | "boring-dao"
-        | "bzx"
-        | "compound"
-        | "convex"
-        | "cover"
-        | "cream"
-        | "cream-iron-bank"
-        | "cryptex"
-        | "curve"
-        | "defi-dollar"
-        | "defi-swap"
-        | "defisaver"
-        | "derivadex"
-        | "deversifi"
-        | "dfi-money"
-        | "dforce"
-        | "dfyn"
-        | "dhedge"
-        | "dodo"
-        | "dopex"
-        | "dsd"
-        | "dydx"
-        | "88mph"
-        | "88mph-v3"
-        | "element"
-        | "ellipsis"
-        | "epns"
-        | "esd"
-        | "essentia"
-        | "fei"
-        | "float-protocol"
-        | "frax"
-        | "futureswap"
-        | "gro"
-        | "governor-dao"
-        | "harvest"
-        | "hegic"
-        | "idle"
-        | "illuvium"
-        | "impossible-finance"
-        | "index-coop"
-        | "indexed"
-        | "inverse"
-        | "iron"
-        | "keep-network"
-        | "keeper-dao"
-        | "klondike"
-        | "klondike-v2"
-        | "kyber-dmm"
-        | "kyber-network"
-        | "launchpool"
-        | "linkswap"
-        | "liquity"
-        | "loopring"
-        | "lydia"
-        | "lyra"
-        | "maker"
-        | "mintr"
-        | "mirror"
-        | "mith-cash"
-        | "mooniswap"
-        | "mstable"
-        | "mushroom"
-        | "nft"
-        | "nft20"
-        | "nftx"
-        | "nsure-network"
-        | "olympus"
-        | "1inch"
-        | "onx"
-        | "opium-network"
-        | "opyn"
-        | "orion-protocol"
-        | "other"
-        | "pancakeswap"
-        | "pangolin"
-        | "penguin"
-        | "perpetual-protocol"
-        | "pickle"
-        | "pie-dao"
-        | "polywhale"
-        | "pooltogether"
-        | "popsicle"
-        | "powerpool"
-        | "quickswap"
-        | "rally"
-        | "rari"
-        | "rari-fuse"
-        | "realt"
-        | "reflexer"
-        | "ribbon"
-        | "sablier"
-        | "saddle"
-        | "sfinance"
-        | "shapeshift"
-        | "shared-stake"
-        | "shell"
-        | "smoothy"
-        | "snowball"
-        | "snowswap"
-        | "spiritswap"
-        | "spookyswap"
-        | "superfluid"
-        | "sushiswap"
-        | "sushiswap-bentobox"
-        | "sushiswap-kashi"
-        | "stake-dao"
-        | "strudel"
-        | "swerve"
-        | "synthetix"
-        | "the-graph"
-        | "tokemak"
-        | "tokensets"
-        | "tokenlon"
-        | "tokens"
-        | "tornado-cash"
-        | "traderjoe"
-        | "uniswap"
-        | "uniswap-v2"
-        | "uniswap-v3"
-        | "unit"
-        | "universe"
-        | "value"
-        | "venus"
-        | "vesper"
-        | "waultswap"
-        | "wepiggy"
-        | "xsigma"
-        | "xtoken"
-        | "yam"
-        | "yaxis"
-        | "yearn"
-        | "yieldyak"
-        | "zlot";
-    };
+    export type RequestParams = { appId: string };
     export type RequestQuery = {
       "addresses[]": string[];
       network?:
@@ -358,7 +195,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -366,7 +205,7 @@ export namespace V1 {
   }
 
   /**
-   * @description Gets the protocols supported for each supported network
+   * @description Gets the applications supported for each supported network
    * @tags Protocol Balances
    * @name BalanceControllerGetSupportedV2Balances
    * @summary Supported Protocols
@@ -374,6 +213,20 @@ export namespace V1 {
    * @secure
    */
   export namespace BalanceControllerGetSupportedV2Balances {
+    export type RequestParams = {};
+    export type RequestQuery = { "addresses[]": string[] };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = {};
+  }
+
+  /**
+   * No description
+   * @name BalanceControllerGetBalances
+   * @request GET:/v1/balances
+   * @secure
+   */
+  export namespace BalanceControllerGetBalances {
     export type RequestParams = {};
     export type RequestQuery = { "addresses[]": string[] };
     export type RequestBody = never;
@@ -398,7 +251,7 @@ export namespace V1 {
   }
 
   /**
-   * @description Retrieve pool stats for a given protocol
+   * @description Retrieve pool stats for a given application
    * @tags Protocol Stats
    * @name PoolControllerGetPoolStats
    * @summary Pool Stats
@@ -407,17 +260,7 @@ export namespace V1 {
    */
   export namespace PoolControllerGetPoolStats {
     export type RequestParams = {
-      poolStatsType:
-        | "balancer-v1"
-        | "curve"
-        | "dhedge"
-        | "element"
-        | "loopring"
-        | "1inch"
-        | "pancakeswap"
-        | "quickswap"
-        | "sushiswap"
-        | "uniswap-v2";
+      poolStatsType: "curve" | "1inch" | "pancakeswap" | "quickswap" | "sushiswap" | "uniswap-v2";
     };
     export type RequestQuery = {
       network:
@@ -428,7 +271,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -436,7 +281,7 @@ export namespace V1 {
   }
 
   /**
-   * @description Retrieve pool stats for a given protocol
+   * @description Retrieve pool stats for a given application
    * @tags Protocol Stats
    * @name PoolControllerGetPoolStatsByAddress
    * @summary Pool Stats
@@ -445,17 +290,7 @@ export namespace V1 {
    */
   export namespace PoolControllerGetPoolStatsByAddress {
     export type RequestParams = {
-      poolStatsType:
-        | "balancer-v1"
-        | "curve"
-        | "dhedge"
-        | "element"
-        | "loopring"
-        | "1inch"
-        | "pancakeswap"
-        | "quickswap"
-        | "sushiswap"
-        | "uniswap-v2";
+      poolStatsType: "curve" | "1inch" | "pancakeswap" | "quickswap" | "sushiswap" | "uniswap-v2";
       poolAddress: string;
     };
     export type RequestQuery = {
@@ -467,7 +302,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -491,7 +328,7 @@ export namespace V1 {
   }
 
   /**
-   * @description Retrieve vault stats for a given protocol
+   * @description Retrieve vault stats for a given application
    * @tags Protocol Stats
    * @name PoolControllerGetVaultStats
    * @summary Vault Stats
@@ -499,9 +336,7 @@ export namespace V1 {
    * @secure
    */
   export namespace PoolControllerGetVaultStats {
-    export type RequestParams = {
-      vaultStatsType: "cover" | "element" | "mushroom" | "pickle" | "pooltogether" | "yearn";
-    };
+    export type RequestParams = { vaultStatsType: "mushroom" | "pickle" | "yearn" };
     export type RequestQuery = {
       network:
         | "ethereum"
@@ -511,7 +346,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -535,7 +372,7 @@ export namespace V1 {
   }
 
   /**
-   * @description Retrieve lending stats for a given protocol
+   * @description Retrieve lending stats for a given application
    * @tags Protocol Stats
    * @name PoolControllerGetLendingPoolStats
    * @summary Lending Stats
@@ -555,7 +392,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -563,186 +402,47 @@ export namespace V1 {
   }
 
   /**
-   * @description Retrieve token market data for a given protocol
+   * @description Retrieves all app definitions.
+   * @tags Apps
+   * @name AppsControllerGetApps
+   * @summary List all apps
+   * @request GET:/v1/apps
+   * @secure
+   */
+  export namespace AppsControllerGetApps {
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = AppDefinition;
+  }
+
+  /**
+   * @description Retrieves an app definition by identifier.
+   * @tags Apps
+   * @name AppsControllerGetApp
+   * @summary Get app by ID
+   * @request GET:/v1/apps/{appId}
+   * @secure
+   */
+  export namespace AppsControllerGetApp {
+    export type RequestParams = { appId: string };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = AppDefinition[];
+  }
+
+  /**
+   * @description Retrieve token market data for a given application
    * @tags Market Data
    * @name MarketControllerGetMarketData
-   * @summary Protocol Market Data
-   * @request GET:/v1/protocols/{protocol}/token-market-data
+   * @summary Application Market Data
+   * @request GET:/v1/protocols/{appId}/token-market-data
    * @secure
    */
   export namespace MarketControllerGetMarketData {
-    export type RequestParams = {
-      protocol:
-        | "aave"
-        | "aave-safety-module"
-        | "aave-amm"
-        | "aave-v2"
-        | "aavegotchi"
-        | "abracadabra"
-        | "adamant"
-        | "alchemix"
-        | "alpha-v1"
-        | "alpha-v2"
-        | "apeswap"
-        | "apy"
-        | "arcx"
-        | "armor"
-        | "augur"
-        | "autofarm"
-        | "b-protocol"
-        | "badger"
-        | "balancer-v1"
-        | "balancer-v2"
-        | "bancor"
-        | "bao"
-        | "barnbridge"
-        | "barnbridge-smart-yield"
-        | "based-money"
-        | "basis-cash"
-        | "basis-gold"
-        | "basket-dao"
-        | "beefy"
-        | "bella"
-        | "belt"
-        | "benchmark"
-        | "benqi"
-        | "big-data"
-        | "bitcoin"
-        | "boring-dao"
-        | "bzx"
-        | "compound"
-        | "convex"
-        | "cover"
-        | "cream"
-        | "cream-iron-bank"
-        | "cryptex"
-        | "curve"
-        | "defi-dollar"
-        | "defi-swap"
-        | "defisaver"
-        | "derivadex"
-        | "deversifi"
-        | "dfi-money"
-        | "dforce"
-        | "dfyn"
-        | "dhedge"
-        | "dodo"
-        | "dopex"
-        | "dsd"
-        | "dydx"
-        | "88mph"
-        | "88mph-v3"
-        | "element"
-        | "ellipsis"
-        | "epns"
-        | "esd"
-        | "essentia"
-        | "fei"
-        | "float-protocol"
-        | "frax"
-        | "futureswap"
-        | "gro"
-        | "governor-dao"
-        | "harvest"
-        | "hegic"
-        | "idle"
-        | "illuvium"
-        | "impossible-finance"
-        | "index-coop"
-        | "indexed"
-        | "inverse"
-        | "iron"
-        | "keep-network"
-        | "keeper-dao"
-        | "klondike"
-        | "klondike-v2"
-        | "kyber-dmm"
-        | "kyber-network"
-        | "launchpool"
-        | "linkswap"
-        | "liquity"
-        | "loopring"
-        | "lydia"
-        | "lyra"
-        | "maker"
-        | "mintr"
-        | "mirror"
-        | "mith-cash"
-        | "mooniswap"
-        | "mstable"
-        | "mushroom"
-        | "nft"
-        | "nft20"
-        | "nftx"
-        | "nsure-network"
-        | "olympus"
-        | "1inch"
-        | "onx"
-        | "opium-network"
-        | "opyn"
-        | "orion-protocol"
-        | "other"
-        | "pancakeswap"
-        | "pangolin"
-        | "penguin"
-        | "perpetual-protocol"
-        | "pickle"
-        | "pie-dao"
-        | "polywhale"
-        | "pooltogether"
-        | "popsicle"
-        | "powerpool"
-        | "quickswap"
-        | "rally"
-        | "rari"
-        | "rari-fuse"
-        | "realt"
-        | "reflexer"
-        | "ribbon"
-        | "sablier"
-        | "saddle"
-        | "sfinance"
-        | "shapeshift"
-        | "shared-stake"
-        | "shell"
-        | "smoothy"
-        | "snowball"
-        | "snowswap"
-        | "spiritswap"
-        | "spookyswap"
-        | "superfluid"
-        | "sushiswap"
-        | "sushiswap-bentobox"
-        | "sushiswap-kashi"
-        | "stake-dao"
-        | "strudel"
-        | "swerve"
-        | "synthetix"
-        | "the-graph"
-        | "tokemak"
-        | "tokensets"
-        | "tokenlon"
-        | "tokens"
-        | "tornado-cash"
-        | "traderjoe"
-        | "uniswap"
-        | "uniswap-v2"
-        | "uniswap-v3"
-        | "unit"
-        | "universe"
-        | "value"
-        | "venus"
-        | "vesper"
-        | "waultswap"
-        | "wepiggy"
-        | "xsigma"
-        | "xtoken"
-        | "yam"
-        | "yaxis"
-        | "yearn"
-        | "yieldyak"
-        | "zlot";
-    };
+    export type RequestParams = { appId: string };
     export type RequestQuery = {
       network:
         | "ethereum"
@@ -752,7 +452,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
       type:
         | "base"
         | "claimable"
@@ -771,186 +473,15 @@ export namespace V1 {
   }
 
   /**
-   * @description Retrieve farms for a given protocol
+   * @description Retrieve farms for a given application
    * @tags Farms Market Data
    * @name FarmsControllerGetFarmsMarketData
-   * @summary Protocol Farms
-   * @request GET:/v1/protocols/{protocol}/farms
+   * @summary Application Farms
+   * @request GET:/v1/protocols/{appId}/farms
    * @secure
    */
   export namespace FarmsControllerGetFarmsMarketData {
-    export type RequestParams = {
-      protocol:
-        | "aave"
-        | "aave-safety-module"
-        | "aave-amm"
-        | "aave-v2"
-        | "aavegotchi"
-        | "abracadabra"
-        | "adamant"
-        | "alchemix"
-        | "alpha-v1"
-        | "alpha-v2"
-        | "apeswap"
-        | "apy"
-        | "arcx"
-        | "armor"
-        | "augur"
-        | "autofarm"
-        | "b-protocol"
-        | "badger"
-        | "balancer-v1"
-        | "balancer-v2"
-        | "bancor"
-        | "bao"
-        | "barnbridge"
-        | "barnbridge-smart-yield"
-        | "based-money"
-        | "basis-cash"
-        | "basis-gold"
-        | "basket-dao"
-        | "beefy"
-        | "bella"
-        | "belt"
-        | "benchmark"
-        | "benqi"
-        | "big-data"
-        | "bitcoin"
-        | "boring-dao"
-        | "bzx"
-        | "compound"
-        | "convex"
-        | "cover"
-        | "cream"
-        | "cream-iron-bank"
-        | "cryptex"
-        | "curve"
-        | "defi-dollar"
-        | "defi-swap"
-        | "defisaver"
-        | "derivadex"
-        | "deversifi"
-        | "dfi-money"
-        | "dforce"
-        | "dfyn"
-        | "dhedge"
-        | "dodo"
-        | "dopex"
-        | "dsd"
-        | "dydx"
-        | "88mph"
-        | "88mph-v3"
-        | "element"
-        | "ellipsis"
-        | "epns"
-        | "esd"
-        | "essentia"
-        | "fei"
-        | "float-protocol"
-        | "frax"
-        | "futureswap"
-        | "gro"
-        | "governor-dao"
-        | "harvest"
-        | "hegic"
-        | "idle"
-        | "illuvium"
-        | "impossible-finance"
-        | "index-coop"
-        | "indexed"
-        | "inverse"
-        | "iron"
-        | "keep-network"
-        | "keeper-dao"
-        | "klondike"
-        | "klondike-v2"
-        | "kyber-dmm"
-        | "kyber-network"
-        | "launchpool"
-        | "linkswap"
-        | "liquity"
-        | "loopring"
-        | "lydia"
-        | "lyra"
-        | "maker"
-        | "mintr"
-        | "mirror"
-        | "mith-cash"
-        | "mooniswap"
-        | "mstable"
-        | "mushroom"
-        | "nft"
-        | "nft20"
-        | "nftx"
-        | "nsure-network"
-        | "olympus"
-        | "1inch"
-        | "onx"
-        | "opium-network"
-        | "opyn"
-        | "orion-protocol"
-        | "other"
-        | "pancakeswap"
-        | "pangolin"
-        | "penguin"
-        | "perpetual-protocol"
-        | "pickle"
-        | "pie-dao"
-        | "polywhale"
-        | "pooltogether"
-        | "popsicle"
-        | "powerpool"
-        | "quickswap"
-        | "rally"
-        | "rari"
-        | "rari-fuse"
-        | "realt"
-        | "reflexer"
-        | "ribbon"
-        | "sablier"
-        | "saddle"
-        | "sfinance"
-        | "shapeshift"
-        | "shared-stake"
-        | "shell"
-        | "smoothy"
-        | "snowball"
-        | "snowswap"
-        | "spiritswap"
-        | "spookyswap"
-        | "superfluid"
-        | "sushiswap"
-        | "sushiswap-bentobox"
-        | "sushiswap-kashi"
-        | "stake-dao"
-        | "strudel"
-        | "swerve"
-        | "synthetix"
-        | "the-graph"
-        | "tokemak"
-        | "tokensets"
-        | "tokenlon"
-        | "tokens"
-        | "tornado-cash"
-        | "traderjoe"
-        | "uniswap"
-        | "uniswap-v2"
-        | "uniswap-v3"
-        | "unit"
-        | "universe"
-        | "value"
-        | "venus"
-        | "vesper"
-        | "waultswap"
-        | "wepiggy"
-        | "xsigma"
-        | "xtoken"
-        | "yam"
-        | "yaxis"
-        | "yearn"
-        | "yieldyak"
-        | "zlot";
-    };
+    export type RequestParams = { appId: string };
     export type RequestQuery = {
       network:
         | "ethereum"
@@ -960,7 +491,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -994,7 +527,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -1028,7 +563,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -1060,7 +597,7 @@ export namespace V1 {
    * @secure
    */
   export namespace FarmFetcherControllerGetEthereumFarms {
-    export type RequestParams = { farmStatsType: "masterchef" | "single-staking" | "geyser" | "gauge" };
+    export type RequestParams = { farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge" };
     export type RequestQuery = {
       network?:
         | "ethereum"
@@ -1070,7 +607,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -1078,7 +617,7 @@ export namespace V1 {
   }
 
   /**
-   * @description Retrieves an ERC20 approval status for a protocol zap-in
+   * @description Retrieves an ERC20 approval status for an application zap-in
    * @tags Farm Transactions
    * @name FarmStakingControllerGetApprovalState
    * @summary Farm Approval State
@@ -1086,7 +625,7 @@ export namespace V1 {
    * @secure
    */
   export namespace FarmStakingControllerGetApprovalState {
-    export type RequestParams = { farmStatsType: "masterchef" | "single-staking" | "geyser" | "gauge" };
+    export type RequestParams = { farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge" };
     export type RequestQuery = {
       ownerAddress: string;
       rewardAddress: string;
@@ -1100,7 +639,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -1116,7 +657,7 @@ export namespace V1 {
    * @secure
    */
   export namespace FarmStakingControllerGetApprovalTransaction {
-    export type RequestParams = { farmStatsType: "masterchef" | "single-staking" | "geyser" | "gauge" };
+    export type RequestParams = { farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge" };
     export type RequestQuery = {
       gasPrice: string;
       maxFeePerGas?: string;
@@ -1134,7 +675,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -1150,7 +693,7 @@ export namespace V1 {
    * @secure
    */
   export namespace FarmStakingControllerGetStakeTransaction {
-    export type RequestParams = { farmStatsType: "masterchef" | "single-staking" | "geyser" | "gauge" };
+    export type RequestParams = { farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge" };
     export type RequestQuery = {
       gasPrice: string;
       maxFeePerGas?: string;
@@ -1167,7 +710,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -1183,7 +728,7 @@ export namespace V1 {
    * @secure
    */
   export namespace FarmStakingControllerGetClaimTransaction {
-    export type RequestParams = { farmStatsType: "masterchef" | "single-staking" | "geyser" | "gauge" };
+    export type RequestParams = { farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge" };
     export type RequestQuery = {
       gasPrice: string;
       maxFeePerGas?: string;
@@ -1199,7 +744,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -1215,7 +762,7 @@ export namespace V1 {
    * @secure
    */
   export namespace FarmStakingControllerGetExitTransaction {
-    export type RequestParams = { farmStatsType: "masterchef" | "single-staking" | "geyser" | "gauge" };
+    export type RequestParams = { farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge" };
     export type RequestQuery = {
       gasPrice: string;
       maxFeePerGas?: string;
@@ -1232,7 +779,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -1258,7 +807,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
       eip1559: boolean;
     };
     export type RequestBody = never;
@@ -1267,7 +818,7 @@ export namespace V1 {
   }
 
   /**
-   * @description Provides a list of networks to protocols that are supported by the Zap In routes.
+   * @description Provides a list of networks to app IDs that are supported by the Zap In routes.
    * @tags Zap In
    * @name ZapInControllerGetSupportedZapIns
    * @summary Supported Zap Ins
@@ -1295,11 +846,11 @@ export namespace V1 {
   }
 
   /**
-   * @description Retrieves an ERC20 approval status for a protocol zap-in
+   * @description Retrieves an ERC20 approval status for an application zap-in
    * @tags Zap In
    * @name ZapInControllerGetZapInApprovalState
    * @summary Zap In Approval State
-   * @request GET:/v1/zap-in/{type}/{protocol}/approval-state
+   * @request GET:/v1/zap-in/{type}/{appId}/approval-state
    * @secure
    */
   export namespace ZapInControllerGetZapInApprovalState {
@@ -1315,176 +866,7 @@ export namespace V1 {
         | "option"
         | "pool"
         | "vault";
-      protocol:
-        | "aave"
-        | "aave-safety-module"
-        | "aave-amm"
-        | "aave-v2"
-        | "aavegotchi"
-        | "abracadabra"
-        | "adamant"
-        | "alchemix"
-        | "alpha-v1"
-        | "alpha-v2"
-        | "apeswap"
-        | "apy"
-        | "arcx"
-        | "armor"
-        | "augur"
-        | "autofarm"
-        | "b-protocol"
-        | "badger"
-        | "balancer-v1"
-        | "balancer-v2"
-        | "bancor"
-        | "bao"
-        | "barnbridge"
-        | "barnbridge-smart-yield"
-        | "based-money"
-        | "basis-cash"
-        | "basis-gold"
-        | "basket-dao"
-        | "beefy"
-        | "bella"
-        | "belt"
-        | "benchmark"
-        | "benqi"
-        | "big-data"
-        | "bitcoin"
-        | "boring-dao"
-        | "bzx"
-        | "compound"
-        | "convex"
-        | "cover"
-        | "cream"
-        | "cream-iron-bank"
-        | "cryptex"
-        | "curve"
-        | "defi-dollar"
-        | "defi-swap"
-        | "defisaver"
-        | "derivadex"
-        | "deversifi"
-        | "dfi-money"
-        | "dforce"
-        | "dfyn"
-        | "dhedge"
-        | "dodo"
-        | "dopex"
-        | "dsd"
-        | "dydx"
-        | "88mph"
-        | "88mph-v3"
-        | "element"
-        | "ellipsis"
-        | "epns"
-        | "esd"
-        | "essentia"
-        | "fei"
-        | "float-protocol"
-        | "frax"
-        | "futureswap"
-        | "gro"
-        | "governor-dao"
-        | "harvest"
-        | "hegic"
-        | "idle"
-        | "illuvium"
-        | "impossible-finance"
-        | "index-coop"
-        | "indexed"
-        | "inverse"
-        | "iron"
-        | "keep-network"
-        | "keeper-dao"
-        | "klondike"
-        | "klondike-v2"
-        | "kyber-dmm"
-        | "kyber-network"
-        | "launchpool"
-        | "linkswap"
-        | "liquity"
-        | "loopring"
-        | "lydia"
-        | "lyra"
-        | "maker"
-        | "mintr"
-        | "mirror"
-        | "mith-cash"
-        | "mooniswap"
-        | "mstable"
-        | "mushroom"
-        | "nft"
-        | "nft20"
-        | "nftx"
-        | "nsure-network"
-        | "olympus"
-        | "1inch"
-        | "onx"
-        | "opium-network"
-        | "opyn"
-        | "orion-protocol"
-        | "other"
-        | "pancakeswap"
-        | "pangolin"
-        | "penguin"
-        | "perpetual-protocol"
-        | "pickle"
-        | "pie-dao"
-        | "polywhale"
-        | "pooltogether"
-        | "popsicle"
-        | "powerpool"
-        | "quickswap"
-        | "rally"
-        | "rari"
-        | "rari-fuse"
-        | "realt"
-        | "reflexer"
-        | "ribbon"
-        | "sablier"
-        | "saddle"
-        | "sfinance"
-        | "shapeshift"
-        | "shared-stake"
-        | "shell"
-        | "smoothy"
-        | "snowball"
-        | "snowswap"
-        | "spiritswap"
-        | "spookyswap"
-        | "superfluid"
-        | "sushiswap"
-        | "sushiswap-bentobox"
-        | "sushiswap-kashi"
-        | "stake-dao"
-        | "strudel"
-        | "swerve"
-        | "synthetix"
-        | "the-graph"
-        | "tokemak"
-        | "tokensets"
-        | "tokenlon"
-        | "tokens"
-        | "tornado-cash"
-        | "traderjoe"
-        | "uniswap"
-        | "uniswap-v2"
-        | "uniswap-v3"
-        | "unit"
-        | "universe"
-        | "value"
-        | "venus"
-        | "vesper"
-        | "waultswap"
-        | "wepiggy"
-        | "xsigma"
-        | "xtoken"
-        | "yam"
-        | "yaxis"
-        | "yearn"
-        | "yieldyak"
-        | "zlot";
+      appId: string;
     };
     export type RequestQuery = {
       ownerAddress: string;
@@ -1498,7 +880,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -1506,11 +890,11 @@ export namespace V1 {
   }
 
   /**
-   * @description Builds an ERC20 approval transaction for a protocol zap-in
+   * @description Builds an ERC20 approval transaction for an application zap-in
    * @tags Zap In
    * @name ZapInControllerGetZapInApprovalTransaction
    * @summary Zap In Approval Transaction
-   * @request GET:/v1/zap-in/{type}/{protocol}/approval-transaction
+   * @request GET:/v1/zap-in/{type}/{appId}/approval-transaction
    * @secure
    */
   export namespace ZapInControllerGetZapInApprovalTransaction {
@@ -1526,176 +910,7 @@ export namespace V1 {
         | "option"
         | "pool"
         | "vault";
-      protocol:
-        | "aave"
-        | "aave-safety-module"
-        | "aave-amm"
-        | "aave-v2"
-        | "aavegotchi"
-        | "abracadabra"
-        | "adamant"
-        | "alchemix"
-        | "alpha-v1"
-        | "alpha-v2"
-        | "apeswap"
-        | "apy"
-        | "arcx"
-        | "armor"
-        | "augur"
-        | "autofarm"
-        | "b-protocol"
-        | "badger"
-        | "balancer-v1"
-        | "balancer-v2"
-        | "bancor"
-        | "bao"
-        | "barnbridge"
-        | "barnbridge-smart-yield"
-        | "based-money"
-        | "basis-cash"
-        | "basis-gold"
-        | "basket-dao"
-        | "beefy"
-        | "bella"
-        | "belt"
-        | "benchmark"
-        | "benqi"
-        | "big-data"
-        | "bitcoin"
-        | "boring-dao"
-        | "bzx"
-        | "compound"
-        | "convex"
-        | "cover"
-        | "cream"
-        | "cream-iron-bank"
-        | "cryptex"
-        | "curve"
-        | "defi-dollar"
-        | "defi-swap"
-        | "defisaver"
-        | "derivadex"
-        | "deversifi"
-        | "dfi-money"
-        | "dforce"
-        | "dfyn"
-        | "dhedge"
-        | "dodo"
-        | "dopex"
-        | "dsd"
-        | "dydx"
-        | "88mph"
-        | "88mph-v3"
-        | "element"
-        | "ellipsis"
-        | "epns"
-        | "esd"
-        | "essentia"
-        | "fei"
-        | "float-protocol"
-        | "frax"
-        | "futureswap"
-        | "gro"
-        | "governor-dao"
-        | "harvest"
-        | "hegic"
-        | "idle"
-        | "illuvium"
-        | "impossible-finance"
-        | "index-coop"
-        | "indexed"
-        | "inverse"
-        | "iron"
-        | "keep-network"
-        | "keeper-dao"
-        | "klondike"
-        | "klondike-v2"
-        | "kyber-dmm"
-        | "kyber-network"
-        | "launchpool"
-        | "linkswap"
-        | "liquity"
-        | "loopring"
-        | "lydia"
-        | "lyra"
-        | "maker"
-        | "mintr"
-        | "mirror"
-        | "mith-cash"
-        | "mooniswap"
-        | "mstable"
-        | "mushroom"
-        | "nft"
-        | "nft20"
-        | "nftx"
-        | "nsure-network"
-        | "olympus"
-        | "1inch"
-        | "onx"
-        | "opium-network"
-        | "opyn"
-        | "orion-protocol"
-        | "other"
-        | "pancakeswap"
-        | "pangolin"
-        | "penguin"
-        | "perpetual-protocol"
-        | "pickle"
-        | "pie-dao"
-        | "polywhale"
-        | "pooltogether"
-        | "popsicle"
-        | "powerpool"
-        | "quickswap"
-        | "rally"
-        | "rari"
-        | "rari-fuse"
-        | "realt"
-        | "reflexer"
-        | "ribbon"
-        | "sablier"
-        | "saddle"
-        | "sfinance"
-        | "shapeshift"
-        | "shared-stake"
-        | "shell"
-        | "smoothy"
-        | "snowball"
-        | "snowswap"
-        | "spiritswap"
-        | "spookyswap"
-        | "superfluid"
-        | "sushiswap"
-        | "sushiswap-bentobox"
-        | "sushiswap-kashi"
-        | "stake-dao"
-        | "strudel"
-        | "swerve"
-        | "synthetix"
-        | "the-graph"
-        | "tokemak"
-        | "tokensets"
-        | "tokenlon"
-        | "tokens"
-        | "tornado-cash"
-        | "traderjoe"
-        | "uniswap"
-        | "uniswap-v2"
-        | "uniswap-v3"
-        | "unit"
-        | "universe"
-        | "value"
-        | "venus"
-        | "vesper"
-        | "waultswap"
-        | "wepiggy"
-        | "xsigma"
-        | "xtoken"
-        | "yam"
-        | "yaxis"
-        | "yearn"
-        | "yieldyak"
-        | "zlot";
+      appId: string;
     };
     export type RequestQuery = {
       gasPrice: string;
@@ -1713,7 +928,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -1725,7 +942,7 @@ export namespace V1 {
    * @tags Zap In
    * @name ZapInControllerGetZapInTransaction
    * @summary Zap In Transaction
-   * @request GET:/v1/zap-in/{type}/{protocol}/transaction
+   * @request GET:/v1/zap-in/{type}/{appId}/transaction
    * @secure
    */
   export namespace ZapInControllerGetZapInTransaction {
@@ -1741,176 +958,7 @@ export namespace V1 {
         | "option"
         | "pool"
         | "vault";
-      protocol:
-        | "aave"
-        | "aave-safety-module"
-        | "aave-amm"
-        | "aave-v2"
-        | "aavegotchi"
-        | "abracadabra"
-        | "adamant"
-        | "alchemix"
-        | "alpha-v1"
-        | "alpha-v2"
-        | "apeswap"
-        | "apy"
-        | "arcx"
-        | "armor"
-        | "augur"
-        | "autofarm"
-        | "b-protocol"
-        | "badger"
-        | "balancer-v1"
-        | "balancer-v2"
-        | "bancor"
-        | "bao"
-        | "barnbridge"
-        | "barnbridge-smart-yield"
-        | "based-money"
-        | "basis-cash"
-        | "basis-gold"
-        | "basket-dao"
-        | "beefy"
-        | "bella"
-        | "belt"
-        | "benchmark"
-        | "benqi"
-        | "big-data"
-        | "bitcoin"
-        | "boring-dao"
-        | "bzx"
-        | "compound"
-        | "convex"
-        | "cover"
-        | "cream"
-        | "cream-iron-bank"
-        | "cryptex"
-        | "curve"
-        | "defi-dollar"
-        | "defi-swap"
-        | "defisaver"
-        | "derivadex"
-        | "deversifi"
-        | "dfi-money"
-        | "dforce"
-        | "dfyn"
-        | "dhedge"
-        | "dodo"
-        | "dopex"
-        | "dsd"
-        | "dydx"
-        | "88mph"
-        | "88mph-v3"
-        | "element"
-        | "ellipsis"
-        | "epns"
-        | "esd"
-        | "essentia"
-        | "fei"
-        | "float-protocol"
-        | "frax"
-        | "futureswap"
-        | "gro"
-        | "governor-dao"
-        | "harvest"
-        | "hegic"
-        | "idle"
-        | "illuvium"
-        | "impossible-finance"
-        | "index-coop"
-        | "indexed"
-        | "inverse"
-        | "iron"
-        | "keep-network"
-        | "keeper-dao"
-        | "klondike"
-        | "klondike-v2"
-        | "kyber-dmm"
-        | "kyber-network"
-        | "launchpool"
-        | "linkswap"
-        | "liquity"
-        | "loopring"
-        | "lydia"
-        | "lyra"
-        | "maker"
-        | "mintr"
-        | "mirror"
-        | "mith-cash"
-        | "mooniswap"
-        | "mstable"
-        | "mushroom"
-        | "nft"
-        | "nft20"
-        | "nftx"
-        | "nsure-network"
-        | "olympus"
-        | "1inch"
-        | "onx"
-        | "opium-network"
-        | "opyn"
-        | "orion-protocol"
-        | "other"
-        | "pancakeswap"
-        | "pangolin"
-        | "penguin"
-        | "perpetual-protocol"
-        | "pickle"
-        | "pie-dao"
-        | "polywhale"
-        | "pooltogether"
-        | "popsicle"
-        | "powerpool"
-        | "quickswap"
-        | "rally"
-        | "rari"
-        | "rari-fuse"
-        | "realt"
-        | "reflexer"
-        | "ribbon"
-        | "sablier"
-        | "saddle"
-        | "sfinance"
-        | "shapeshift"
-        | "shared-stake"
-        | "shell"
-        | "smoothy"
-        | "snowball"
-        | "snowswap"
-        | "spiritswap"
-        | "spookyswap"
-        | "superfluid"
-        | "sushiswap"
-        | "sushiswap-bentobox"
-        | "sushiswap-kashi"
-        | "stake-dao"
-        | "strudel"
-        | "swerve"
-        | "synthetix"
-        | "the-graph"
-        | "tokemak"
-        | "tokensets"
-        | "tokenlon"
-        | "tokens"
-        | "tornado-cash"
-        | "traderjoe"
-        | "uniswap"
-        | "uniswap-v2"
-        | "uniswap-v3"
-        | "unit"
-        | "universe"
-        | "value"
-        | "venus"
-        | "vesper"
-        | "waultswap"
-        | "wepiggy"
-        | "xsigma"
-        | "xtoken"
-        | "yam"
-        | "yaxis"
-        | "yearn"
-        | "yieldyak"
-        | "zlot";
+      appId: string;
     };
     export type RequestQuery = {
       gasPrice: string;
@@ -1929,7 +977,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
       affiliateAddress?: string;
     };
     export type RequestBody = never;
@@ -1938,7 +988,7 @@ export namespace V1 {
   }
 
   /**
-   * @description Provides a list of networks to protocols that are supported by the Zap In routes. Use `/v1/zap-in/:type/supported` instead.
+   * @description Provides a list of networks to app IDs that are supported by the Zap In routes. Use `/v1/zap-in/:type/supported` instead.
    * @tags Zap In
    * @name ZapInLegacyControllerGetSupportedZapIns
    * @summary Supported Zap Ins (DEPRECATED)
@@ -1955,187 +1005,16 @@ export namespace V1 {
   }
 
   /**
-   * @description Retrieves an ERC20 approval status for a protocol zap-in. Use `/v1/zap-in/:type/:protocol/approval-state` instead.
+   * @description Retrieves an ERC20 approval status for a protocol zap-in. Use `/v1/zap-in/:type/:appId/approval-state` instead.
    * @tags Zap In
    * @name ZapInLegacyControllerGetZapInApprovalState
    * @summary Zap In Approval State (DEPRECATED)
-   * @request GET:/v1/zap-in/{protocol}/approval-state
+   * @request GET:/v1/zap-in/{appId}/approval-state
    * @deprecated
    * @secure
    */
   export namespace ZapInLegacyControllerGetZapInApprovalState {
-    export type RequestParams = {
-      protocol:
-        | "aave"
-        | "aave-safety-module"
-        | "aave-amm"
-        | "aave-v2"
-        | "aavegotchi"
-        | "abracadabra"
-        | "adamant"
-        | "alchemix"
-        | "alpha-v1"
-        | "alpha-v2"
-        | "apeswap"
-        | "apy"
-        | "arcx"
-        | "armor"
-        | "augur"
-        | "autofarm"
-        | "b-protocol"
-        | "badger"
-        | "balancer-v1"
-        | "balancer-v2"
-        | "bancor"
-        | "bao"
-        | "barnbridge"
-        | "barnbridge-smart-yield"
-        | "based-money"
-        | "basis-cash"
-        | "basis-gold"
-        | "basket-dao"
-        | "beefy"
-        | "bella"
-        | "belt"
-        | "benchmark"
-        | "benqi"
-        | "big-data"
-        | "bitcoin"
-        | "boring-dao"
-        | "bzx"
-        | "compound"
-        | "convex"
-        | "cover"
-        | "cream"
-        | "cream-iron-bank"
-        | "cryptex"
-        | "curve"
-        | "defi-dollar"
-        | "defi-swap"
-        | "defisaver"
-        | "derivadex"
-        | "deversifi"
-        | "dfi-money"
-        | "dforce"
-        | "dfyn"
-        | "dhedge"
-        | "dodo"
-        | "dopex"
-        | "dsd"
-        | "dydx"
-        | "88mph"
-        | "88mph-v3"
-        | "element"
-        | "ellipsis"
-        | "epns"
-        | "esd"
-        | "essentia"
-        | "fei"
-        | "float-protocol"
-        | "frax"
-        | "futureswap"
-        | "gro"
-        | "governor-dao"
-        | "harvest"
-        | "hegic"
-        | "idle"
-        | "illuvium"
-        | "impossible-finance"
-        | "index-coop"
-        | "indexed"
-        | "inverse"
-        | "iron"
-        | "keep-network"
-        | "keeper-dao"
-        | "klondike"
-        | "klondike-v2"
-        | "kyber-dmm"
-        | "kyber-network"
-        | "launchpool"
-        | "linkswap"
-        | "liquity"
-        | "loopring"
-        | "lydia"
-        | "lyra"
-        | "maker"
-        | "mintr"
-        | "mirror"
-        | "mith-cash"
-        | "mooniswap"
-        | "mstable"
-        | "mushroom"
-        | "nft"
-        | "nft20"
-        | "nftx"
-        | "nsure-network"
-        | "olympus"
-        | "1inch"
-        | "onx"
-        | "opium-network"
-        | "opyn"
-        | "orion-protocol"
-        | "other"
-        | "pancakeswap"
-        | "pangolin"
-        | "penguin"
-        | "perpetual-protocol"
-        | "pickle"
-        | "pie-dao"
-        | "polywhale"
-        | "pooltogether"
-        | "popsicle"
-        | "powerpool"
-        | "quickswap"
-        | "rally"
-        | "rari"
-        | "rari-fuse"
-        | "realt"
-        | "reflexer"
-        | "ribbon"
-        | "sablier"
-        | "saddle"
-        | "sfinance"
-        | "shapeshift"
-        | "shared-stake"
-        | "shell"
-        | "smoothy"
-        | "snowball"
-        | "snowswap"
-        | "spiritswap"
-        | "spookyswap"
-        | "superfluid"
-        | "sushiswap"
-        | "sushiswap-bentobox"
-        | "sushiswap-kashi"
-        | "stake-dao"
-        | "strudel"
-        | "swerve"
-        | "synthetix"
-        | "the-graph"
-        | "tokemak"
-        | "tokensets"
-        | "tokenlon"
-        | "tokens"
-        | "tornado-cash"
-        | "traderjoe"
-        | "uniswap"
-        | "uniswap-v2"
-        | "uniswap-v3"
-        | "unit"
-        | "universe"
-        | "value"
-        | "venus"
-        | "vesper"
-        | "waultswap"
-        | "wepiggy"
-        | "xsigma"
-        | "xtoken"
-        | "yam"
-        | "yaxis"
-        | "yearn"
-        | "yieldyak"
-        | "zlot";
-    };
+    export type RequestParams = { appId: string };
     export type RequestQuery = {
       ownerAddress: string;
       sellTokenAddress: string;
@@ -2148,7 +1027,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -2156,187 +1037,16 @@ export namespace V1 {
   }
 
   /**
-   * @description Builds an ERC20 approval transaction for a protocol zap-in. Use `/v1/zap-in/:type/:protocol/approval-transaction` instead.
+   * @description Builds an ERC20 approval transaction for a protocol zap-in. Use `/v1/zap-in/:type/:appId/approval-transaction` instead.
    * @tags Zap In
    * @name ZapInLegacyControllerGetZapInApprovalTransaction
    * @summary Zap In Approval Transaction (DEPRECATED)
-   * @request GET:/v1/zap-in/{protocol}/approval-transaction
+   * @request GET:/v1/zap-in/{appId}/approval-transaction
    * @deprecated
    * @secure
    */
   export namespace ZapInLegacyControllerGetZapInApprovalTransaction {
-    export type RequestParams = {
-      protocol:
-        | "aave"
-        | "aave-safety-module"
-        | "aave-amm"
-        | "aave-v2"
-        | "aavegotchi"
-        | "abracadabra"
-        | "adamant"
-        | "alchemix"
-        | "alpha-v1"
-        | "alpha-v2"
-        | "apeswap"
-        | "apy"
-        | "arcx"
-        | "armor"
-        | "augur"
-        | "autofarm"
-        | "b-protocol"
-        | "badger"
-        | "balancer-v1"
-        | "balancer-v2"
-        | "bancor"
-        | "bao"
-        | "barnbridge"
-        | "barnbridge-smart-yield"
-        | "based-money"
-        | "basis-cash"
-        | "basis-gold"
-        | "basket-dao"
-        | "beefy"
-        | "bella"
-        | "belt"
-        | "benchmark"
-        | "benqi"
-        | "big-data"
-        | "bitcoin"
-        | "boring-dao"
-        | "bzx"
-        | "compound"
-        | "convex"
-        | "cover"
-        | "cream"
-        | "cream-iron-bank"
-        | "cryptex"
-        | "curve"
-        | "defi-dollar"
-        | "defi-swap"
-        | "defisaver"
-        | "derivadex"
-        | "deversifi"
-        | "dfi-money"
-        | "dforce"
-        | "dfyn"
-        | "dhedge"
-        | "dodo"
-        | "dopex"
-        | "dsd"
-        | "dydx"
-        | "88mph"
-        | "88mph-v3"
-        | "element"
-        | "ellipsis"
-        | "epns"
-        | "esd"
-        | "essentia"
-        | "fei"
-        | "float-protocol"
-        | "frax"
-        | "futureswap"
-        | "gro"
-        | "governor-dao"
-        | "harvest"
-        | "hegic"
-        | "idle"
-        | "illuvium"
-        | "impossible-finance"
-        | "index-coop"
-        | "indexed"
-        | "inverse"
-        | "iron"
-        | "keep-network"
-        | "keeper-dao"
-        | "klondike"
-        | "klondike-v2"
-        | "kyber-dmm"
-        | "kyber-network"
-        | "launchpool"
-        | "linkswap"
-        | "liquity"
-        | "loopring"
-        | "lydia"
-        | "lyra"
-        | "maker"
-        | "mintr"
-        | "mirror"
-        | "mith-cash"
-        | "mooniswap"
-        | "mstable"
-        | "mushroom"
-        | "nft"
-        | "nft20"
-        | "nftx"
-        | "nsure-network"
-        | "olympus"
-        | "1inch"
-        | "onx"
-        | "opium-network"
-        | "opyn"
-        | "orion-protocol"
-        | "other"
-        | "pancakeswap"
-        | "pangolin"
-        | "penguin"
-        | "perpetual-protocol"
-        | "pickle"
-        | "pie-dao"
-        | "polywhale"
-        | "pooltogether"
-        | "popsicle"
-        | "powerpool"
-        | "quickswap"
-        | "rally"
-        | "rari"
-        | "rari-fuse"
-        | "realt"
-        | "reflexer"
-        | "ribbon"
-        | "sablier"
-        | "saddle"
-        | "sfinance"
-        | "shapeshift"
-        | "shared-stake"
-        | "shell"
-        | "smoothy"
-        | "snowball"
-        | "snowswap"
-        | "spiritswap"
-        | "spookyswap"
-        | "superfluid"
-        | "sushiswap"
-        | "sushiswap-bentobox"
-        | "sushiswap-kashi"
-        | "stake-dao"
-        | "strudel"
-        | "swerve"
-        | "synthetix"
-        | "the-graph"
-        | "tokemak"
-        | "tokensets"
-        | "tokenlon"
-        | "tokens"
-        | "tornado-cash"
-        | "traderjoe"
-        | "uniswap"
-        | "uniswap-v2"
-        | "uniswap-v3"
-        | "unit"
-        | "universe"
-        | "value"
-        | "venus"
-        | "vesper"
-        | "waultswap"
-        | "wepiggy"
-        | "xsigma"
-        | "xtoken"
-        | "yam"
-        | "yaxis"
-        | "yearn"
-        | "yieldyak"
-        | "zlot";
-    };
+    export type RequestParams = { appId: string };
     export type RequestQuery = {
       gasPrice: string;
       maxFeePerGas?: string;
@@ -2353,7 +1063,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -2361,187 +1073,16 @@ export namespace V1 {
   }
 
   /**
-   * @description Builds a zap-in transaction for usage with Web3, complete with best swap from 0x. Use `/v1/zap-in/:type/:protocol/transaction` instead.
+   * @description Builds a zap-in transaction for usage with Web3, complete with best swap from 0x. Use `/v1/zap-in/:type/:appId/transaction` instead.
    * @tags Zap In
    * @name ZapInLegacyControllerGetZapInTransaction
    * @summary Zap In Transaction (DEPRECATED)
-   * @request GET:/v1/zap-in/{protocol}/transaction
+   * @request GET:/v1/zap-in/{appId}/transaction
    * @deprecated
    * @secure
    */
   export namespace ZapInLegacyControllerGetZapInTransaction {
-    export type RequestParams = {
-      protocol:
-        | "aave"
-        | "aave-safety-module"
-        | "aave-amm"
-        | "aave-v2"
-        | "aavegotchi"
-        | "abracadabra"
-        | "adamant"
-        | "alchemix"
-        | "alpha-v1"
-        | "alpha-v2"
-        | "apeswap"
-        | "apy"
-        | "arcx"
-        | "armor"
-        | "augur"
-        | "autofarm"
-        | "b-protocol"
-        | "badger"
-        | "balancer-v1"
-        | "balancer-v2"
-        | "bancor"
-        | "bao"
-        | "barnbridge"
-        | "barnbridge-smart-yield"
-        | "based-money"
-        | "basis-cash"
-        | "basis-gold"
-        | "basket-dao"
-        | "beefy"
-        | "bella"
-        | "belt"
-        | "benchmark"
-        | "benqi"
-        | "big-data"
-        | "bitcoin"
-        | "boring-dao"
-        | "bzx"
-        | "compound"
-        | "convex"
-        | "cover"
-        | "cream"
-        | "cream-iron-bank"
-        | "cryptex"
-        | "curve"
-        | "defi-dollar"
-        | "defi-swap"
-        | "defisaver"
-        | "derivadex"
-        | "deversifi"
-        | "dfi-money"
-        | "dforce"
-        | "dfyn"
-        | "dhedge"
-        | "dodo"
-        | "dopex"
-        | "dsd"
-        | "dydx"
-        | "88mph"
-        | "88mph-v3"
-        | "element"
-        | "ellipsis"
-        | "epns"
-        | "esd"
-        | "essentia"
-        | "fei"
-        | "float-protocol"
-        | "frax"
-        | "futureswap"
-        | "gro"
-        | "governor-dao"
-        | "harvest"
-        | "hegic"
-        | "idle"
-        | "illuvium"
-        | "impossible-finance"
-        | "index-coop"
-        | "indexed"
-        | "inverse"
-        | "iron"
-        | "keep-network"
-        | "keeper-dao"
-        | "klondike"
-        | "klondike-v2"
-        | "kyber-dmm"
-        | "kyber-network"
-        | "launchpool"
-        | "linkswap"
-        | "liquity"
-        | "loopring"
-        | "lydia"
-        | "lyra"
-        | "maker"
-        | "mintr"
-        | "mirror"
-        | "mith-cash"
-        | "mooniswap"
-        | "mstable"
-        | "mushroom"
-        | "nft"
-        | "nft20"
-        | "nftx"
-        | "nsure-network"
-        | "olympus"
-        | "1inch"
-        | "onx"
-        | "opium-network"
-        | "opyn"
-        | "orion-protocol"
-        | "other"
-        | "pancakeswap"
-        | "pangolin"
-        | "penguin"
-        | "perpetual-protocol"
-        | "pickle"
-        | "pie-dao"
-        | "polywhale"
-        | "pooltogether"
-        | "popsicle"
-        | "powerpool"
-        | "quickswap"
-        | "rally"
-        | "rari"
-        | "rari-fuse"
-        | "realt"
-        | "reflexer"
-        | "ribbon"
-        | "sablier"
-        | "saddle"
-        | "sfinance"
-        | "shapeshift"
-        | "shared-stake"
-        | "shell"
-        | "smoothy"
-        | "snowball"
-        | "snowswap"
-        | "spiritswap"
-        | "spookyswap"
-        | "superfluid"
-        | "sushiswap"
-        | "sushiswap-bentobox"
-        | "sushiswap-kashi"
-        | "stake-dao"
-        | "strudel"
-        | "swerve"
-        | "synthetix"
-        | "the-graph"
-        | "tokemak"
-        | "tokensets"
-        | "tokenlon"
-        | "tokens"
-        | "tornado-cash"
-        | "traderjoe"
-        | "uniswap"
-        | "uniswap-v2"
-        | "uniswap-v3"
-        | "unit"
-        | "universe"
-        | "value"
-        | "venus"
-        | "vesper"
-        | "waultswap"
-        | "wepiggy"
-        | "xsigma"
-        | "xtoken"
-        | "yam"
-        | "yaxis"
-        | "yearn"
-        | "yieldyak"
-        | "zlot";
-    };
+    export type RequestParams = { appId: string };
     export type RequestQuery = {
       gasPrice: string;
       maxFeePerGas?: string;
@@ -2559,7 +1100,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
       affiliateAddress?: string;
     };
     export type RequestBody = never;
@@ -2568,7 +1111,7 @@ export namespace V1 {
   }
 
   /**
-   * @description Provides a list of networks to protocols that are supported by the Zap Out routes.
+   * @description Provides a list of networks to app IDs that are supported by the Zap Out routes.
    * @tags Zap Out
    * @name ZapOutControllerGetSupportedZapOuts
    * @summary Supported Zap Outs
@@ -2596,11 +1139,11 @@ export namespace V1 {
   }
 
   /**
-   * @description Retrieves an ERC20 approval status for a protocol zap-out
+   * @description Retrieves an ERC20 approval status for an application zap-out
    * @tags Zap Out
    * @name ZapOutControllerGetZapOutApprovalState
    * @summary Zap Out Approval State
-   * @request GET:/v1/zap-out/{type}/{protocol}/approval-state
+   * @request GET:/v1/zap-out/{type}/{appId}/approval-state
    * @secure
    */
   export namespace ZapOutControllerGetZapOutApprovalState {
@@ -2616,176 +1159,7 @@ export namespace V1 {
         | "option"
         | "pool"
         | "vault";
-      protocol:
-        | "aave"
-        | "aave-safety-module"
-        | "aave-amm"
-        | "aave-v2"
-        | "aavegotchi"
-        | "abracadabra"
-        | "adamant"
-        | "alchemix"
-        | "alpha-v1"
-        | "alpha-v2"
-        | "apeswap"
-        | "apy"
-        | "arcx"
-        | "armor"
-        | "augur"
-        | "autofarm"
-        | "b-protocol"
-        | "badger"
-        | "balancer-v1"
-        | "balancer-v2"
-        | "bancor"
-        | "bao"
-        | "barnbridge"
-        | "barnbridge-smart-yield"
-        | "based-money"
-        | "basis-cash"
-        | "basis-gold"
-        | "basket-dao"
-        | "beefy"
-        | "bella"
-        | "belt"
-        | "benchmark"
-        | "benqi"
-        | "big-data"
-        | "bitcoin"
-        | "boring-dao"
-        | "bzx"
-        | "compound"
-        | "convex"
-        | "cover"
-        | "cream"
-        | "cream-iron-bank"
-        | "cryptex"
-        | "curve"
-        | "defi-dollar"
-        | "defi-swap"
-        | "defisaver"
-        | "derivadex"
-        | "deversifi"
-        | "dfi-money"
-        | "dforce"
-        | "dfyn"
-        | "dhedge"
-        | "dodo"
-        | "dopex"
-        | "dsd"
-        | "dydx"
-        | "88mph"
-        | "88mph-v3"
-        | "element"
-        | "ellipsis"
-        | "epns"
-        | "esd"
-        | "essentia"
-        | "fei"
-        | "float-protocol"
-        | "frax"
-        | "futureswap"
-        | "gro"
-        | "governor-dao"
-        | "harvest"
-        | "hegic"
-        | "idle"
-        | "illuvium"
-        | "impossible-finance"
-        | "index-coop"
-        | "indexed"
-        | "inverse"
-        | "iron"
-        | "keep-network"
-        | "keeper-dao"
-        | "klondike"
-        | "klondike-v2"
-        | "kyber-dmm"
-        | "kyber-network"
-        | "launchpool"
-        | "linkswap"
-        | "liquity"
-        | "loopring"
-        | "lydia"
-        | "lyra"
-        | "maker"
-        | "mintr"
-        | "mirror"
-        | "mith-cash"
-        | "mooniswap"
-        | "mstable"
-        | "mushroom"
-        | "nft"
-        | "nft20"
-        | "nftx"
-        | "nsure-network"
-        | "olympus"
-        | "1inch"
-        | "onx"
-        | "opium-network"
-        | "opyn"
-        | "orion-protocol"
-        | "other"
-        | "pancakeswap"
-        | "pangolin"
-        | "penguin"
-        | "perpetual-protocol"
-        | "pickle"
-        | "pie-dao"
-        | "polywhale"
-        | "pooltogether"
-        | "popsicle"
-        | "powerpool"
-        | "quickswap"
-        | "rally"
-        | "rari"
-        | "rari-fuse"
-        | "realt"
-        | "reflexer"
-        | "ribbon"
-        | "sablier"
-        | "saddle"
-        | "sfinance"
-        | "shapeshift"
-        | "shared-stake"
-        | "shell"
-        | "smoothy"
-        | "snowball"
-        | "snowswap"
-        | "spiritswap"
-        | "spookyswap"
-        | "superfluid"
-        | "sushiswap"
-        | "sushiswap-bentobox"
-        | "sushiswap-kashi"
-        | "stake-dao"
-        | "strudel"
-        | "swerve"
-        | "synthetix"
-        | "the-graph"
-        | "tokemak"
-        | "tokensets"
-        | "tokenlon"
-        | "tokens"
-        | "tornado-cash"
-        | "traderjoe"
-        | "uniswap"
-        | "uniswap-v2"
-        | "uniswap-v3"
-        | "unit"
-        | "universe"
-        | "value"
-        | "venus"
-        | "vesper"
-        | "waultswap"
-        | "wepiggy"
-        | "xsigma"
-        | "xtoken"
-        | "yam"
-        | "yaxis"
-        | "yearn"
-        | "yieldyak"
-        | "zlot";
+      appId: string;
     };
     export type RequestQuery = {
       ownerAddress: string;
@@ -2799,7 +1173,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -2807,11 +1183,11 @@ export namespace V1 {
   }
 
   /**
-   * @description Builds an ERC20 approval transaction for a protocol zap-out
+   * @description Builds an ERC20 approval transaction for an application zap-out
    * @tags Zap Out
    * @name ZapOutControllerGetZapOutApprovalTransaction
    * @summary Zap Out Approval Transaction
-   * @request GET:/v1/zap-out/{type}/{protocol}/approval-transaction
+   * @request GET:/v1/zap-out/{type}/{appId}/approval-transaction
    * @secure
    */
   export namespace ZapOutControllerGetZapOutApprovalTransaction {
@@ -2827,176 +1203,7 @@ export namespace V1 {
         | "option"
         | "pool"
         | "vault";
-      protocol:
-        | "aave"
-        | "aave-safety-module"
-        | "aave-amm"
-        | "aave-v2"
-        | "aavegotchi"
-        | "abracadabra"
-        | "adamant"
-        | "alchemix"
-        | "alpha-v1"
-        | "alpha-v2"
-        | "apeswap"
-        | "apy"
-        | "arcx"
-        | "armor"
-        | "augur"
-        | "autofarm"
-        | "b-protocol"
-        | "badger"
-        | "balancer-v1"
-        | "balancer-v2"
-        | "bancor"
-        | "bao"
-        | "barnbridge"
-        | "barnbridge-smart-yield"
-        | "based-money"
-        | "basis-cash"
-        | "basis-gold"
-        | "basket-dao"
-        | "beefy"
-        | "bella"
-        | "belt"
-        | "benchmark"
-        | "benqi"
-        | "big-data"
-        | "bitcoin"
-        | "boring-dao"
-        | "bzx"
-        | "compound"
-        | "convex"
-        | "cover"
-        | "cream"
-        | "cream-iron-bank"
-        | "cryptex"
-        | "curve"
-        | "defi-dollar"
-        | "defi-swap"
-        | "defisaver"
-        | "derivadex"
-        | "deversifi"
-        | "dfi-money"
-        | "dforce"
-        | "dfyn"
-        | "dhedge"
-        | "dodo"
-        | "dopex"
-        | "dsd"
-        | "dydx"
-        | "88mph"
-        | "88mph-v3"
-        | "element"
-        | "ellipsis"
-        | "epns"
-        | "esd"
-        | "essentia"
-        | "fei"
-        | "float-protocol"
-        | "frax"
-        | "futureswap"
-        | "gro"
-        | "governor-dao"
-        | "harvest"
-        | "hegic"
-        | "idle"
-        | "illuvium"
-        | "impossible-finance"
-        | "index-coop"
-        | "indexed"
-        | "inverse"
-        | "iron"
-        | "keep-network"
-        | "keeper-dao"
-        | "klondike"
-        | "klondike-v2"
-        | "kyber-dmm"
-        | "kyber-network"
-        | "launchpool"
-        | "linkswap"
-        | "liquity"
-        | "loopring"
-        | "lydia"
-        | "lyra"
-        | "maker"
-        | "mintr"
-        | "mirror"
-        | "mith-cash"
-        | "mooniswap"
-        | "mstable"
-        | "mushroom"
-        | "nft"
-        | "nft20"
-        | "nftx"
-        | "nsure-network"
-        | "olympus"
-        | "1inch"
-        | "onx"
-        | "opium-network"
-        | "opyn"
-        | "orion-protocol"
-        | "other"
-        | "pancakeswap"
-        | "pangolin"
-        | "penguin"
-        | "perpetual-protocol"
-        | "pickle"
-        | "pie-dao"
-        | "polywhale"
-        | "pooltogether"
-        | "popsicle"
-        | "powerpool"
-        | "quickswap"
-        | "rally"
-        | "rari"
-        | "rari-fuse"
-        | "realt"
-        | "reflexer"
-        | "ribbon"
-        | "sablier"
-        | "saddle"
-        | "sfinance"
-        | "shapeshift"
-        | "shared-stake"
-        | "shell"
-        | "smoothy"
-        | "snowball"
-        | "snowswap"
-        | "spiritswap"
-        | "spookyswap"
-        | "superfluid"
-        | "sushiswap"
-        | "sushiswap-bentobox"
-        | "sushiswap-kashi"
-        | "stake-dao"
-        | "strudel"
-        | "swerve"
-        | "synthetix"
-        | "the-graph"
-        | "tokemak"
-        | "tokensets"
-        | "tokenlon"
-        | "tokens"
-        | "tornado-cash"
-        | "traderjoe"
-        | "uniswap"
-        | "uniswap-v2"
-        | "uniswap-v3"
-        | "unit"
-        | "universe"
-        | "value"
-        | "venus"
-        | "vesper"
-        | "waultswap"
-        | "wepiggy"
-        | "xsigma"
-        | "xtoken"
-        | "yam"
-        | "yaxis"
-        | "yearn"
-        | "yieldyak"
-        | "zlot";
+      appId: string;
     };
     export type RequestQuery = {
       gasPrice: string;
@@ -3014,7 +1221,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -3026,7 +1235,7 @@ export namespace V1 {
    * @tags Zap Out
    * @name ZapOutControllerGetZapOutTransaction
    * @summary Zap Out Transaction
-   * @request GET:/v1/zap-out/{type}/{protocol}/transaction
+   * @request GET:/v1/zap-out/{type}/{appId}/transaction
    * @secure
    */
   export namespace ZapOutControllerGetZapOutTransaction {
@@ -3042,176 +1251,7 @@ export namespace V1 {
         | "option"
         | "pool"
         | "vault";
-      protocol:
-        | "aave"
-        | "aave-safety-module"
-        | "aave-amm"
-        | "aave-v2"
-        | "aavegotchi"
-        | "abracadabra"
-        | "adamant"
-        | "alchemix"
-        | "alpha-v1"
-        | "alpha-v2"
-        | "apeswap"
-        | "apy"
-        | "arcx"
-        | "armor"
-        | "augur"
-        | "autofarm"
-        | "b-protocol"
-        | "badger"
-        | "balancer-v1"
-        | "balancer-v2"
-        | "bancor"
-        | "bao"
-        | "barnbridge"
-        | "barnbridge-smart-yield"
-        | "based-money"
-        | "basis-cash"
-        | "basis-gold"
-        | "basket-dao"
-        | "beefy"
-        | "bella"
-        | "belt"
-        | "benchmark"
-        | "benqi"
-        | "big-data"
-        | "bitcoin"
-        | "boring-dao"
-        | "bzx"
-        | "compound"
-        | "convex"
-        | "cover"
-        | "cream"
-        | "cream-iron-bank"
-        | "cryptex"
-        | "curve"
-        | "defi-dollar"
-        | "defi-swap"
-        | "defisaver"
-        | "derivadex"
-        | "deversifi"
-        | "dfi-money"
-        | "dforce"
-        | "dfyn"
-        | "dhedge"
-        | "dodo"
-        | "dopex"
-        | "dsd"
-        | "dydx"
-        | "88mph"
-        | "88mph-v3"
-        | "element"
-        | "ellipsis"
-        | "epns"
-        | "esd"
-        | "essentia"
-        | "fei"
-        | "float-protocol"
-        | "frax"
-        | "futureswap"
-        | "gro"
-        | "governor-dao"
-        | "harvest"
-        | "hegic"
-        | "idle"
-        | "illuvium"
-        | "impossible-finance"
-        | "index-coop"
-        | "indexed"
-        | "inverse"
-        | "iron"
-        | "keep-network"
-        | "keeper-dao"
-        | "klondike"
-        | "klondike-v2"
-        | "kyber-dmm"
-        | "kyber-network"
-        | "launchpool"
-        | "linkswap"
-        | "liquity"
-        | "loopring"
-        | "lydia"
-        | "lyra"
-        | "maker"
-        | "mintr"
-        | "mirror"
-        | "mith-cash"
-        | "mooniswap"
-        | "mstable"
-        | "mushroom"
-        | "nft"
-        | "nft20"
-        | "nftx"
-        | "nsure-network"
-        | "olympus"
-        | "1inch"
-        | "onx"
-        | "opium-network"
-        | "opyn"
-        | "orion-protocol"
-        | "other"
-        | "pancakeswap"
-        | "pangolin"
-        | "penguin"
-        | "perpetual-protocol"
-        | "pickle"
-        | "pie-dao"
-        | "polywhale"
-        | "pooltogether"
-        | "popsicle"
-        | "powerpool"
-        | "quickswap"
-        | "rally"
-        | "rari"
-        | "rari-fuse"
-        | "realt"
-        | "reflexer"
-        | "ribbon"
-        | "sablier"
-        | "saddle"
-        | "sfinance"
-        | "shapeshift"
-        | "shared-stake"
-        | "shell"
-        | "smoothy"
-        | "snowball"
-        | "snowswap"
-        | "spiritswap"
-        | "spookyswap"
-        | "superfluid"
-        | "sushiswap"
-        | "sushiswap-bentobox"
-        | "sushiswap-kashi"
-        | "stake-dao"
-        | "strudel"
-        | "swerve"
-        | "synthetix"
-        | "the-graph"
-        | "tokemak"
-        | "tokensets"
-        | "tokenlon"
-        | "tokens"
-        | "tornado-cash"
-        | "traderjoe"
-        | "uniswap"
-        | "uniswap-v2"
-        | "uniswap-v3"
-        | "unit"
-        | "universe"
-        | "value"
-        | "venus"
-        | "vesper"
-        | "waultswap"
-        | "wepiggy"
-        | "xsigma"
-        | "xtoken"
-        | "yam"
-        | "yaxis"
-        | "yearn"
-        | "yieldyak"
-        | "zlot";
+      appId: string;
     };
     export type RequestQuery = {
       gasPrice: string;
@@ -3231,7 +1271,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
       affiliateAddress?: string;
     };
     export type RequestBody = never;
@@ -3240,7 +1282,7 @@ export namespace V1 {
   }
 
   /**
-   * @description Provides a list of networks to protocols that are supported by the Zap Out routes. Use `/v1/zap-out/:type/supported` instead.
+   * @description Provides a list of networks to app IDs that are supported by the Zap Out routes. Use `/v1/zap-out/:type/supported` instead.
    * @tags Zap Out
    * @name ZapOutLegacyControllerGetSupportedZapOuts
    * @summary Supported Zap Outs (DEPRECATED)
@@ -3257,187 +1299,16 @@ export namespace V1 {
   }
 
   /**
-   * @description Retrieves an ERC20 approval status for a protocol zap-out Use `/v1/zap-out/:type/:protocol/approval-state` instead.
+   * @description Retrieves an ERC20 approval status for a protocol zap-out Use `/v1/zap-out/:type/:appId/approval-state` instead.
    * @tags Zap Out
    * @name ZapOutLegacyControllerGetZapOutApprovalState
    * @summary Zap Out Approval State (DEPRECATED)
-   * @request GET:/v1/zap-out/{protocol}/approval-state
+   * @request GET:/v1/zap-out/{appId}/approval-state
    * @deprecated
    * @secure
    */
   export namespace ZapOutLegacyControllerGetZapOutApprovalState {
-    export type RequestParams = {
-      protocol:
-        | "aave"
-        | "aave-safety-module"
-        | "aave-amm"
-        | "aave-v2"
-        | "aavegotchi"
-        | "abracadabra"
-        | "adamant"
-        | "alchemix"
-        | "alpha-v1"
-        | "alpha-v2"
-        | "apeswap"
-        | "apy"
-        | "arcx"
-        | "armor"
-        | "augur"
-        | "autofarm"
-        | "b-protocol"
-        | "badger"
-        | "balancer-v1"
-        | "balancer-v2"
-        | "bancor"
-        | "bao"
-        | "barnbridge"
-        | "barnbridge-smart-yield"
-        | "based-money"
-        | "basis-cash"
-        | "basis-gold"
-        | "basket-dao"
-        | "beefy"
-        | "bella"
-        | "belt"
-        | "benchmark"
-        | "benqi"
-        | "big-data"
-        | "bitcoin"
-        | "boring-dao"
-        | "bzx"
-        | "compound"
-        | "convex"
-        | "cover"
-        | "cream"
-        | "cream-iron-bank"
-        | "cryptex"
-        | "curve"
-        | "defi-dollar"
-        | "defi-swap"
-        | "defisaver"
-        | "derivadex"
-        | "deversifi"
-        | "dfi-money"
-        | "dforce"
-        | "dfyn"
-        | "dhedge"
-        | "dodo"
-        | "dopex"
-        | "dsd"
-        | "dydx"
-        | "88mph"
-        | "88mph-v3"
-        | "element"
-        | "ellipsis"
-        | "epns"
-        | "esd"
-        | "essentia"
-        | "fei"
-        | "float-protocol"
-        | "frax"
-        | "futureswap"
-        | "gro"
-        | "governor-dao"
-        | "harvest"
-        | "hegic"
-        | "idle"
-        | "illuvium"
-        | "impossible-finance"
-        | "index-coop"
-        | "indexed"
-        | "inverse"
-        | "iron"
-        | "keep-network"
-        | "keeper-dao"
-        | "klondike"
-        | "klondike-v2"
-        | "kyber-dmm"
-        | "kyber-network"
-        | "launchpool"
-        | "linkswap"
-        | "liquity"
-        | "loopring"
-        | "lydia"
-        | "lyra"
-        | "maker"
-        | "mintr"
-        | "mirror"
-        | "mith-cash"
-        | "mooniswap"
-        | "mstable"
-        | "mushroom"
-        | "nft"
-        | "nft20"
-        | "nftx"
-        | "nsure-network"
-        | "olympus"
-        | "1inch"
-        | "onx"
-        | "opium-network"
-        | "opyn"
-        | "orion-protocol"
-        | "other"
-        | "pancakeswap"
-        | "pangolin"
-        | "penguin"
-        | "perpetual-protocol"
-        | "pickle"
-        | "pie-dao"
-        | "polywhale"
-        | "pooltogether"
-        | "popsicle"
-        | "powerpool"
-        | "quickswap"
-        | "rally"
-        | "rari"
-        | "rari-fuse"
-        | "realt"
-        | "reflexer"
-        | "ribbon"
-        | "sablier"
-        | "saddle"
-        | "sfinance"
-        | "shapeshift"
-        | "shared-stake"
-        | "shell"
-        | "smoothy"
-        | "snowball"
-        | "snowswap"
-        | "spiritswap"
-        | "spookyswap"
-        | "superfluid"
-        | "sushiswap"
-        | "sushiswap-bentobox"
-        | "sushiswap-kashi"
-        | "stake-dao"
-        | "strudel"
-        | "swerve"
-        | "synthetix"
-        | "the-graph"
-        | "tokemak"
-        | "tokensets"
-        | "tokenlon"
-        | "tokens"
-        | "tornado-cash"
-        | "traderjoe"
-        | "uniswap"
-        | "uniswap-v2"
-        | "uniswap-v3"
-        | "unit"
-        | "universe"
-        | "value"
-        | "venus"
-        | "vesper"
-        | "waultswap"
-        | "wepiggy"
-        | "xsigma"
-        | "xtoken"
-        | "yam"
-        | "yaxis"
-        | "yearn"
-        | "yieldyak"
-        | "zlot";
-    };
+    export type RequestParams = { appId: string };
     export type RequestQuery = {
       ownerAddress: string;
       sellTokenAddress: string;
@@ -3450,7 +1321,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -3458,187 +1331,16 @@ export namespace V1 {
   }
 
   /**
-   * @description Builds an ERC20 approval transaction for a protocol zap-out Use `/v1/zap-out/:type/:protocol/approval-transaction` instead.
+   * @description Builds an ERC20 approval transaction for a protocol zap-out Use `/v1/zap-out/:type/:appId/approval-transaction` instead.
    * @tags Zap Out
    * @name ZapOutLegacyControllerGetZapOutApprovalTransaction
    * @summary Zap Out Approval Transaction (DEPRECATED)
-   * @request GET:/v1/zap-out/{protocol}/approval-transaction
+   * @request GET:/v1/zap-out/{appId}/approval-transaction
    * @deprecated
    * @secure
    */
   export namespace ZapOutLegacyControllerGetZapOutApprovalTransaction {
-    export type RequestParams = {
-      protocol:
-        | "aave"
-        | "aave-safety-module"
-        | "aave-amm"
-        | "aave-v2"
-        | "aavegotchi"
-        | "abracadabra"
-        | "adamant"
-        | "alchemix"
-        | "alpha-v1"
-        | "alpha-v2"
-        | "apeswap"
-        | "apy"
-        | "arcx"
-        | "armor"
-        | "augur"
-        | "autofarm"
-        | "b-protocol"
-        | "badger"
-        | "balancer-v1"
-        | "balancer-v2"
-        | "bancor"
-        | "bao"
-        | "barnbridge"
-        | "barnbridge-smart-yield"
-        | "based-money"
-        | "basis-cash"
-        | "basis-gold"
-        | "basket-dao"
-        | "beefy"
-        | "bella"
-        | "belt"
-        | "benchmark"
-        | "benqi"
-        | "big-data"
-        | "bitcoin"
-        | "boring-dao"
-        | "bzx"
-        | "compound"
-        | "convex"
-        | "cover"
-        | "cream"
-        | "cream-iron-bank"
-        | "cryptex"
-        | "curve"
-        | "defi-dollar"
-        | "defi-swap"
-        | "defisaver"
-        | "derivadex"
-        | "deversifi"
-        | "dfi-money"
-        | "dforce"
-        | "dfyn"
-        | "dhedge"
-        | "dodo"
-        | "dopex"
-        | "dsd"
-        | "dydx"
-        | "88mph"
-        | "88mph-v3"
-        | "element"
-        | "ellipsis"
-        | "epns"
-        | "esd"
-        | "essentia"
-        | "fei"
-        | "float-protocol"
-        | "frax"
-        | "futureswap"
-        | "gro"
-        | "governor-dao"
-        | "harvest"
-        | "hegic"
-        | "idle"
-        | "illuvium"
-        | "impossible-finance"
-        | "index-coop"
-        | "indexed"
-        | "inverse"
-        | "iron"
-        | "keep-network"
-        | "keeper-dao"
-        | "klondike"
-        | "klondike-v2"
-        | "kyber-dmm"
-        | "kyber-network"
-        | "launchpool"
-        | "linkswap"
-        | "liquity"
-        | "loopring"
-        | "lydia"
-        | "lyra"
-        | "maker"
-        | "mintr"
-        | "mirror"
-        | "mith-cash"
-        | "mooniswap"
-        | "mstable"
-        | "mushroom"
-        | "nft"
-        | "nft20"
-        | "nftx"
-        | "nsure-network"
-        | "olympus"
-        | "1inch"
-        | "onx"
-        | "opium-network"
-        | "opyn"
-        | "orion-protocol"
-        | "other"
-        | "pancakeswap"
-        | "pangolin"
-        | "penguin"
-        | "perpetual-protocol"
-        | "pickle"
-        | "pie-dao"
-        | "polywhale"
-        | "pooltogether"
-        | "popsicle"
-        | "powerpool"
-        | "quickswap"
-        | "rally"
-        | "rari"
-        | "rari-fuse"
-        | "realt"
-        | "reflexer"
-        | "ribbon"
-        | "sablier"
-        | "saddle"
-        | "sfinance"
-        | "shapeshift"
-        | "shared-stake"
-        | "shell"
-        | "smoothy"
-        | "snowball"
-        | "snowswap"
-        | "spiritswap"
-        | "spookyswap"
-        | "superfluid"
-        | "sushiswap"
-        | "sushiswap-bentobox"
-        | "sushiswap-kashi"
-        | "stake-dao"
-        | "strudel"
-        | "swerve"
-        | "synthetix"
-        | "the-graph"
-        | "tokemak"
-        | "tokensets"
-        | "tokenlon"
-        | "tokens"
-        | "tornado-cash"
-        | "traderjoe"
-        | "uniswap"
-        | "uniswap-v2"
-        | "uniswap-v3"
-        | "unit"
-        | "universe"
-        | "value"
-        | "venus"
-        | "vesper"
-        | "waultswap"
-        | "wepiggy"
-        | "xsigma"
-        | "xtoken"
-        | "yam"
-        | "yaxis"
-        | "yearn"
-        | "yieldyak"
-        | "zlot";
-    };
+    export type RequestParams = { appId: string };
     export type RequestQuery = {
       gasPrice: string;
       maxFeePerGas?: string;
@@ -3655,7 +1357,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -3663,187 +1367,16 @@ export namespace V1 {
   }
 
   /**
-   * @description Builds a zap-out transaction for usage with Web3, complete with best swap from 0x. Use `/v1/zap-out/:type/:protocol/transaction` instead.
+   * @description Builds a zap-out transaction for usage with Web3, complete with best swap from 0x. Use `/v1/zap-out/:type/:appId/transaction` instead.
    * @tags Zap Out
    * @name ZapOutLegacyControllerGetZapOutTransaction
    * @summary Zap Out Transaction (DEPRECATED)
-   * @request GET:/v1/zap-out/{protocol}/transaction
+   * @request GET:/v1/zap-out/{appId}/transaction
    * @deprecated
    * @secure
    */
   export namespace ZapOutLegacyControllerGetZapOutTransaction {
-    export type RequestParams = {
-      protocol:
-        | "aave"
-        | "aave-safety-module"
-        | "aave-amm"
-        | "aave-v2"
-        | "aavegotchi"
-        | "abracadabra"
-        | "adamant"
-        | "alchemix"
-        | "alpha-v1"
-        | "alpha-v2"
-        | "apeswap"
-        | "apy"
-        | "arcx"
-        | "armor"
-        | "augur"
-        | "autofarm"
-        | "b-protocol"
-        | "badger"
-        | "balancer-v1"
-        | "balancer-v2"
-        | "bancor"
-        | "bao"
-        | "barnbridge"
-        | "barnbridge-smart-yield"
-        | "based-money"
-        | "basis-cash"
-        | "basis-gold"
-        | "basket-dao"
-        | "beefy"
-        | "bella"
-        | "belt"
-        | "benchmark"
-        | "benqi"
-        | "big-data"
-        | "bitcoin"
-        | "boring-dao"
-        | "bzx"
-        | "compound"
-        | "convex"
-        | "cover"
-        | "cream"
-        | "cream-iron-bank"
-        | "cryptex"
-        | "curve"
-        | "defi-dollar"
-        | "defi-swap"
-        | "defisaver"
-        | "derivadex"
-        | "deversifi"
-        | "dfi-money"
-        | "dforce"
-        | "dfyn"
-        | "dhedge"
-        | "dodo"
-        | "dopex"
-        | "dsd"
-        | "dydx"
-        | "88mph"
-        | "88mph-v3"
-        | "element"
-        | "ellipsis"
-        | "epns"
-        | "esd"
-        | "essentia"
-        | "fei"
-        | "float-protocol"
-        | "frax"
-        | "futureswap"
-        | "gro"
-        | "governor-dao"
-        | "harvest"
-        | "hegic"
-        | "idle"
-        | "illuvium"
-        | "impossible-finance"
-        | "index-coop"
-        | "indexed"
-        | "inverse"
-        | "iron"
-        | "keep-network"
-        | "keeper-dao"
-        | "klondike"
-        | "klondike-v2"
-        | "kyber-dmm"
-        | "kyber-network"
-        | "launchpool"
-        | "linkswap"
-        | "liquity"
-        | "loopring"
-        | "lydia"
-        | "lyra"
-        | "maker"
-        | "mintr"
-        | "mirror"
-        | "mith-cash"
-        | "mooniswap"
-        | "mstable"
-        | "mushroom"
-        | "nft"
-        | "nft20"
-        | "nftx"
-        | "nsure-network"
-        | "olympus"
-        | "1inch"
-        | "onx"
-        | "opium-network"
-        | "opyn"
-        | "orion-protocol"
-        | "other"
-        | "pancakeswap"
-        | "pangolin"
-        | "penguin"
-        | "perpetual-protocol"
-        | "pickle"
-        | "pie-dao"
-        | "polywhale"
-        | "pooltogether"
-        | "popsicle"
-        | "powerpool"
-        | "quickswap"
-        | "rally"
-        | "rari"
-        | "rari-fuse"
-        | "realt"
-        | "reflexer"
-        | "ribbon"
-        | "sablier"
-        | "saddle"
-        | "sfinance"
-        | "shapeshift"
-        | "shared-stake"
-        | "shell"
-        | "smoothy"
-        | "snowball"
-        | "snowswap"
-        | "spiritswap"
-        | "spookyswap"
-        | "superfluid"
-        | "sushiswap"
-        | "sushiswap-bentobox"
-        | "sushiswap-kashi"
-        | "stake-dao"
-        | "strudel"
-        | "swerve"
-        | "synthetix"
-        | "the-graph"
-        | "tokemak"
-        | "tokensets"
-        | "tokenlon"
-        | "tokens"
-        | "tornado-cash"
-        | "traderjoe"
-        | "uniswap"
-        | "uniswap-v2"
-        | "uniswap-v3"
-        | "unit"
-        | "universe"
-        | "value"
-        | "venus"
-        | "vesper"
-        | "waultswap"
-        | "wepiggy"
-        | "xsigma"
-        | "xtoken"
-        | "yam"
-        | "yaxis"
-        | "yearn"
-        | "yieldyak"
-        | "zlot";
-    };
+    export type RequestParams = { appId: string };
     export type RequestQuery = {
       gasPrice: string;
       maxFeePerGas?: string;
@@ -3862,7 +1395,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
       affiliateAddress?: string;
     };
     export type RequestBody = never;
@@ -3888,7 +1423,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestQuery = {
       network?:
@@ -3899,7 +1436,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -3924,7 +1463,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestQuery = {
       ownerAddress: string;
@@ -3941,7 +1482,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
       affiliateAddress?: string;
     };
     export type RequestBody = never;
@@ -3967,7 +1510,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestQuery = {
       gasPrice: string;
@@ -3987,7 +1532,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
       affiliateAddress?: string;
     };
     export type RequestBody = never;
@@ -4013,7 +1560,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestQuery = {
       gasPrice: string;
@@ -4033,7 +1582,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
       affiliateAddress?: string;
     };
     export type RequestBody = never;
@@ -4050,7 +1601,9 @@ export namespace V1 {
    * @secure
    */
   export namespace StakingControllerGetStakedBalances {
-    export type RequestParams = { stakedBalanceType: "masterchef" | "geyser" | "gauge" | "single-staking" };
+    export type RequestParams = {
+      stakedBalanceType: "masterchef" | "geyser" | "geyser-v2" | "gauge" | "single-staking";
+    };
     export type RequestQuery = {
       "addresses[]": string[];
       network?:
@@ -4061,7 +1614,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -4110,7 +1665,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
@@ -4155,7 +1712,9 @@ export namespace V1 {
         | "binance-smart-chain"
         | "fantom"
         | "avalanche"
-        | "arbitrum";
+        | "arbitrum"
+        | "celo"
+        | "harmony";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
