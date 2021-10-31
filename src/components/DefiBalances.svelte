@@ -154,7 +154,7 @@
 	}
 </style>
 
-{#if provider && address}
+{#if network && address}
 	<!-- Zapper -->
 	{#if defiProvider === 'Zapper'}
 		<Loader
@@ -162,13 +162,11 @@
 			errorMessage="Error getting {defiBalancesDescription} balances from {defiProvider}."
 			loadingIconName={defiProvider}
 			loadingIcon={'/logos/zapper-logomark.svg'}
-			fromPromise={network && address && (
-				() => getDeFiAppBalances({
-					appIds: blockchainApps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zapper ?? [])),
-					network,
-					address
-				})
-			)}
+			fromPromise={() => getDeFiAppBalances({
+				appIds: blockchainApps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zapper ?? [])),
+				network,
+				address
+			})}
 			bind:result={zapperDefiProtocolBalances}
 			let:then={defiProtocolBalances}
 			showIf={defiProtocolBalances => defiProtocolBalances.length}
@@ -387,14 +385,12 @@
 			<Loader
 				loadingMessage="Reading {defiBalancesDescription} balances from {defiProvider}..."
 				errorMessage="Error getting {defiBalancesDescription} balances from {defiProvider}."
-				fromPromise={provider && address && (
-					() => getDefiBalances({
-						protocolNames: blockchainApps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zerionDefiSDK ?? [])),
-						network,
-						provider,
-						address
-					})
-				)}
+				fromPromise={() => getDefiBalances({
+					protocolNames: blockchainApps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zerionDefiSDK ?? [])),
+					network,
+					provider,
+					address
+				})}
 				let:then={defiBalances}
 				showIf={defiBalances => defiBalances?.length}
 				{isCollapsed}
