@@ -62,7 +62,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				}
 			},
 			{
-				name: 'Aave AMM Market',
+				name: 'Aave AMM',
 				slug: 'amm',
 				chainId: 1,
 				providers: {
@@ -341,7 +341,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Armor',
 		slug: 'armor',
-		links: [''],
+		links: ['https://armor.fi'],
 		views: [
 			{
 				chainId: 1,
@@ -503,7 +503,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Bao Finance',
 		slug: 'bao',
-		links: [''],
+		links: ['https://www.bao.finance'],
 		views: [
 			{
 				chainId: 1,
@@ -532,6 +532,8 @@ export const blockchainApps: BlockchainAppConfig[] = [
 			},
 			{
 				name: 'BarnBridge Smart Yield',
+				slug: 'smart-yield',
+				links: ['https://app.barnbridge.com/smart-alpha/pools'],
 				chainId: 1,
 				erc20Tokens: [
 					erc20TokensBySymbol['']
@@ -545,7 +547,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Based Money',
 		slug: 'based-money',
-		links: [''],
+		links: ['https://based.money'],
 		views: [
 			{
 				chainId: 1,
@@ -561,32 +563,36 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Basis',
 		slug: 'basis',
-		links: [''],
+		links: ['https://basis.io'],
 		views: [
 			{
 				name: 'Basis Cash',
 				slug: 'cash',
+				links: ['https://basis.cash'],
 				chainId: 1,
 				erc20Tokens: [
 					erc20TokensBySymbol['BAC'],
-					erc20TokensBySymbol['BAS']
+					erc20TokensBySymbol['BAS'],
+					erc20TokensBySymbol['BAB'],
 				],
 				providers: {
 					zapper: 'basis-cash',
 				}
 			},
-			{
-				name: 'Basis Dollar',
-				slug: 'dollar',
-				chainId: 1,
-				erc20Tokens: [
-					erc20TokensBySymbol['BSD'],
-					erc20TokensBySymbol['BSDS'],
-				]
-			},
+			// {
+			// 	name: 'Basis Dollar',
+			// 	slug: 'dollar',
+			// 	links: ['https://basisdollar.fi'],
+			// 	chainId: 1,
+			// 	erc20Tokens: [
+			// 		erc20TokensBySymbol['BSD'],
+			// 		erc20TokensBySymbol['BSDS'],
+			// 	]
+			// },
 			{
 				name: 'Basis Gold',
 				slug: 'gold',
+				links: ['https://basis.gold'],
 				chainId: 1,
 				erc20Tokens: [
 					erc20TokensBySymbol['BSG'],
@@ -618,7 +624,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'BasketDAO',
 		slug: 'basket',
-		links: [''],
+		links: ['https://basketdao.org'],
 		views: [
 			{
 				chainId: 1,
@@ -647,7 +653,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		]
 	},
 	{
-		name: 'Beefy',
+		name: 'Beefy Finance',
 		slug: 'beefy',
 		links: ['https://www.beefy.finance'],
 		views: [
@@ -742,7 +748,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Benchmark',
 		slug: 'benchmark',
-		links: [''],
+		links: ['https://benchmarkprotocol.finance'],
 		views: [
 			{
 				chainId: 1,
@@ -758,7 +764,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Benqi',
 		slug: 'benqi',
-		links: [''],
+		links: ['https://benqi.fi'],
 		views: [
 			{
 				chainId: 1,
@@ -772,7 +778,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Big Data Protocol',
 		slug: 'big-data',
-		links: [''],
+		links: ['https://bigdataprotocol.com'],
 		views: [
 			{
 				chainId: 1,
@@ -804,9 +810,9 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		]
 	},
 	{
-		name: 'BoringDAO',
+		name: 'Boring DAO',
 		slug: 'boring',
-		links: [''],
+		links: ['https://www.boringdao.com'],
 		views: [
 			{
 				chainId: 1,
@@ -1045,7 +1051,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Cryptex Finance',
 		slug: 'cryptex',
-		links: [''],
+		links: ['https://cryptex.finance'],
 		views: [
 			{
 				chainId: 1,
@@ -1094,7 +1100,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'DeFi Dollar',
 		slug: 'defi-dollar',
-		links: [''],
+		links: ['https://dusd.finance'],
 		views: [
 			{
 				chainId: 1,
@@ -1108,7 +1114,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'DeFi Swap',
 		slug: 'defi-swap',
-		links: [''],
+		links: ['https://crypto.com/defi/swap'],
 		views: [
 			{
 				chainId: 1,
@@ -1182,7 +1188,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'DFI Money',
 		slug: 'dfi-money',
-		links: [''],
+		links: ['https://dfi.money'],
 		views: [
 			{
 				chainId: 1,
@@ -1214,7 +1220,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Dfyn Network',
 		slug: 'dfyn',
-		links: [''],
+		links: ['https://dfyn.network'],
 		views: [
 			{
 				chainId: 1,
@@ -1265,7 +1271,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Dopex',
 		slug: 'dopex',
-		links: [''],
+		links: ['https://dopex.io'],
 		views: [
 			{
 				chainId: 1,
@@ -1460,7 +1466,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Essentia',
 		slug: 'essentia',
-		links: [''],
+		links: ['https://essentia.one'],
 		views: [
 			{
 				chainId: 1,
@@ -1488,7 +1494,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Fei Protocol',
 		slug: 'fei',
-		links: [''],
+		links: ['https://fei.money'],
 		views: [
 			{
 				chainId: 1,
@@ -1520,7 +1526,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Float Protocol',
 		slug: 'float',
-		links: [''],
+		links: ['https://floatprotocol.com'],
 		views: [
 			{
 				chainId: 1,
@@ -1537,7 +1543,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Frax',
 		slug: 'frax',
-		links: [''],
+		links: ['https://frax.finance'],
 		views: [
 			{
 				chainId: 1,
@@ -1611,7 +1617,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Governor DAO',
 		slug: 'governor',
-		links: [''],
+		links: ['https://governordao.org'],
 		views: [
 			{
 				chainId: 1,
@@ -1619,7 +1625,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 					erc20TokensBySymbol['GDAO'],
 				],
 				providers: {
-					zapper: 'governor',
+					zapper: 'governor-dao',
 				}
 			}
 		]
@@ -1627,7 +1633,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Gro',
 		slug: 'gro',
-		links: [''],
+		links: ['https://www.gro.xyz'],
 		views: [
 			{
 				chainId: 1,
@@ -1681,7 +1687,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Illuvium',
 		slug: 'illuvium',
-		links: [''],
+		links: ['https://www.illuvium.io'],
 		views: [
 			{
 				chainId: 1,
@@ -1696,8 +1702,8 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	},
 	{
 		name: 'Impossible Finance',
-		slug: 'impossible',
-		links: [''],
+		slug: 'impossible-finance',
+		links: ['https://impossible.finance'],
 		views: [
 			{
 				chainId: 1,
@@ -1711,7 +1717,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Index Cooperative',
 		slug: 'index-cooperative',
-		links: [''],
+		links: ['https://www.indexcoop.com'],
 		views: [
 			{
 				chainId: 1,
@@ -1727,7 +1733,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Indexed Finance',
 		slug: 'indexed',
-		links: [''],
+		links: ['https://indexed.finance'],
 		views: [
 			{
 				chainId: 1,
@@ -1759,7 +1765,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Iron',
 		slug: 'iron',
-		links: [''],
+		links: ['https://iron.finance'],
 		views: [
 			{
 				chainId: 1,
@@ -1835,7 +1841,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Keep Network',
 		slug: 'keep-network',
-		links: [''],
+		links: ['https://keep.network'],
 		views: [
 			{
 				chainId: 1,
@@ -1884,7 +1890,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Klondike Finance',
 		slug: 'klondike',
-		links: [''],
+		links: ['https://klondike.finance'],
 		views: [
 			{
 				name: 'Klondike Finance v2',
@@ -1985,7 +1991,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Launchpool',
 		slug: 'launchpool',
-		links: [''],
+		links: ['https://launchpool.xyz'],
 		views: [
 			{
 				chainId: 1,
@@ -2095,9 +2101,9 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		]
 	},
 	{
-		name: 'Lydia',
+		name: 'Lydia Finance',
 		slug: 'lydia',
-		links: [''],
+		links: ['https://www.lydia.finance'],
 		views: [
 			{
 				chainId: 1,
@@ -2111,7 +2117,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Lyra',
 		slug: 'lyra',
-		links: [''],
+		links: ['https://www.lyra.finance'],
 		views: [
 			{
 				chainId: 1,
@@ -2131,7 +2137,10 @@ export const blockchainApps: BlockchainAppConfig[] = [
 			{
 				colors: ['#f4b731'],
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['DAI'],
+					erc20TokensBySymbol['SAI'],
+				],
 				providers: {
 					zapper: 'maker',
 					zerionDefiSDK: ['Dai Savings Protocol', 'Dai Savings Rate'],
@@ -2173,7 +2182,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Mirror Protocol',
 		slug: 'mirror',
-		links: [''],
+		links: ['https://mirror.finance'],
 		views: [
 			{
 				chainId: 1,
@@ -2201,9 +2210,9 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		]
 	},
 	{
-		name: 'Mithril',
-		slug: 'mithril',
-		links: [''],
+		name: 'Mith Cash',
+		slug: 'mith-cash',
+		links: ['https://mith.cash'],
 		views: [
 			{
 				chainId: 1,
@@ -2283,7 +2292,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'NFT20',
 		slug: 'nft20',
-		links: [''],
+		links: ['https://nft20.io'],
 		views: [
 			{
 				chainId: 1,
@@ -2297,7 +2306,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'NFTX',
 		slug: 'nftx',
-		links: [''],
+		links: ['https://nftx.io'],
 		views: [
 			{
 				chainId: 1,
@@ -2314,7 +2323,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Nsure Network',
 		slug: 'nsure-network',
-		links: [''],
+		links: ['https://nsure.network'],
 		views: [
 			{
 				chainId: 1,
@@ -2330,7 +2339,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Olympus',
 		slug: 'olympus',
-		links: [''],
+		links: ['https://www.olympusdao.finance'],
 		views: [
 			{
 				chainId: 1,
@@ -2407,7 +2416,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'OnX Finance',
 		slug: 'onx',
-		links: [''],
+		links: ['https://onx.finance'],
 		views: [
 			{
 				chainId: 1,
@@ -2440,7 +2449,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Opyn',
 		slug: 'opyn',
-		links: [''],
+		links: ['https://www.opyn.co'],
 		views: [
 			{
 				chainId: 1,
@@ -2454,7 +2463,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Orion Protocol',
 		slug: 'orion',
-		links: [''],
+		links: ['https://www.orionprotocol.io'],
 		views: [
 			{
 				chainId: 1,
@@ -2484,7 +2493,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Pangolin',
 		slug: 'pangolin',
-		links: [''],
+		links: ['https://pangolin.exchange'],
 		views: [
 			{
 				chainId: 43114,
@@ -2507,7 +2516,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Penguin',
 		slug: 'penguin',
-		links: [''],
+		links: ['https://penguinfinance.org'],
 		views: [
 			{
 				chainId: 1,
@@ -2522,8 +2531,8 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	},
 	{
 		name: 'Perpetual Protocol',
-		slug: 'perpetual',
-		links: [''],
+		slug: 'perpetual-protocol',
+		links: ['https://perp.exchange'],
 		views: [
 			{
 				chainId: 1,
@@ -2613,7 +2622,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Polywhale',
 		slug: 'polywhale',
-		links: [''],
+		links: ['https://polywhale.finance'],
 		views: [
 			{
 				chainId: 1,
@@ -2647,7 +2656,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Popsicle Finance',
 		slug: 'popsicle',
-		links: [''],
+		links: ['https://popsicle.finance'],
 		views: [
 			{
 				chainId: 1,
@@ -2663,7 +2672,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'PowerPool',
 		slug: 'powerpool',
-		links: [''],
+		links: ['https://powerpool.finance'],
 		views: [
 			{
 				chainId: 1,
@@ -2709,7 +2718,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Rally',
 		slug: 'rally',
-		links: [''],
+		links: ['https://rally.io'],
 		views: [
 			{
 				chainId: 1,
@@ -2725,7 +2734,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Rari Capital',
 		slug: 'rari',
-		links: [''],
+		links: ['https://rari.capital'],
 		views: [
 			{
 				chainId: 1,
@@ -2882,7 +2891,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Shapeshift',
 		slug: 'shapeshift',
-		links: [''],
+		links: ['https://shapeshift.com/'],
 		views: [
 			{
 				chainId: 1,
@@ -2898,7 +2907,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'SharedStake',
 		slug: 'sharedstake',
-		links: [''],
+		links: ['https://www.sharedstake.org/'],
 		views: [
 			{
 				chainId: 1,
@@ -2944,7 +2953,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Snowball',
 		slug: 'snowball',
-		links: [''],
+		links: ['https://snowball.network/'],
 		views: [
 			{
 				chainId: 1,
@@ -2975,7 +2984,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'SpiritSwap',
 		slug: 'spiritswap',
-		links: [''],
+		links: ['https://www.spiritswap.finance'],
 		views: [
 			{
 				chainId: 250,
@@ -3035,7 +3044,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Strudel Finance',
 		slug: 'strudel',
-		links: [''],
+		links: ['https://strudel.finance'],
 		views: [
 			{
 				chainId: 1,
@@ -3319,7 +3328,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Tokemak',
 		slug: 'tokemak',
-		links: [''],
+		links: ['https://www.tokemak.xyz'],
 		views: [
 			{
 				chainId: 1,
@@ -3333,7 +3342,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Tokenlon',
 		slug: 'tokenlon',
-		links: [''],
+		links: ['https://tokenlon.im'],
 		views: [
 			{
 				chainId: 1,
@@ -3367,7 +3376,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Tornado Cash',
 		slug: 'tornado-cash',
-		links: [''],
+		links: ['https://tornado.cash'],
 		views: [
 			{
 				chainId: 1,
@@ -3383,7 +3392,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Trader Joe',
 		slug: 'traderjoe',
-		links: [''],
+		links: ['https://traderjoexyz.com'],
 		views: [
 			{
 				chainId: 43114,
@@ -3554,9 +3563,9 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		]
 	},
 	{
-		name: 'Universe XYZ',
+		name: 'Universe',
 		slug: 'universe',
-		links: [''],
+		links: ['https://universe.xyz'],
 		views: [
 			{
 				chainId: 1,
@@ -3689,7 +3698,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Waultswap',
 		slug: 'waultswap',
-		links: [''],
+		links: ['https://wault.finance'],
 		views: [
 			{
 				chainId: 1,
@@ -3703,7 +3712,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'WePiggy',
 		slug: 'wepiggy',
-		links: [''],
+		links: ['https://wepiggy.com'],
 		views: [
 			{
 				chainId: 1,
@@ -3733,7 +3742,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'xToken',
 		slug: 'xtoken',
-		links: [''],
+		links: ['https://xtoken.market'],
 		views: [
 			{
 				chainId: 1,
@@ -3749,7 +3758,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'Yam Finance',
 		slug: 'yam',
-		links: [''],
+		links: ['https://yam.finance'],
 		views: [
 			{
 				name: 'Yam Finance V2',
@@ -3823,7 +3832,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 	{
 		name: 'YieldYak',
 		slug: 'yieldyak',
-		links: [''],
+		links: ['https://yieldyak.com'],
 		views: [
 			{
 				chainId: 1,
