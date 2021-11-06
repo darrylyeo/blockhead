@@ -20,11 +20,11 @@
 	export let errorFunction: ((Error) => string) | undefined
 	export let hideError = false
 
-	export let fromPromise:() => Promise<LoaderResult>
+	export let fromPromise: () => Promise<LoaderResult>
 	export let fromStore: () => Readable<Result<LoaderResult>>
 	export let fromHoudiniQuery: () => QueryResponse<LoaderResult, HoudiniQueryInput>
 
-	export let showIf: ((then: LoaderResult) => boolean | any) | undefined
+	export let showIf: (<T extends LoaderResult = LoaderResult>(then: T) => boolean | any) | undefined
 	export let isCollapsed = false
 
 	export let whenErrored: (() => {}) | undefined
@@ -80,8 +80,12 @@
 
 		if(fromPromise)
 			promise = fromPromise()
-		else if(fromStore)
-			store = fromStore()
+		else if(fromStore){
+			const _store = fromStore()
+			_store.then
+				? _store.then(_ => store = _)
+				: store = _store
+		}
 		else if(fromHoudiniQuery)
 			houdiniQuery = fromHoudiniQuery()
 	}
@@ -111,8 +115,10 @@
 			status = LoadingStatus.Errored
 			whenErrored?.()
 		})
-	$: if(store && store.subscribe)
+	$: if(store?.subscribe){
 		if($store.loading){
+			if($store.data)
+				result = $store.data
 			status = LoadingStatus.Loading
 		}else if($store.error){
 			error = $store.error
@@ -122,6 +128,7 @@
 			result = $store.data
 			status = LoadingStatus.Resolved
 		}
+	}
 	$: if(houdiniQuery)
 		if($houdiniLoading){
 			status = LoadingStatus.Loading
@@ -159,6 +166,11 @@
 
 	<!-- {#if !isCollapsed} -->
 		<HeightContainer class="loader stack" isOpen={!isCollapsed}>
+			{#if status === LoadingStatus.Resolved || (fromStore && status === LoadingStatus.Loading && result)}
+				<div class="column" transition:fade>
+					<slot then={result} {status} {load} {cancel} />
+				</div>
+			{/if}
 			{#if status === LoadingStatus.Idle}
 				<slot name="idle"></slot>
 			{:else if status === LoadingStatus.Loading}
@@ -170,10 +182,6 @@
 						{loadingMessage}
 					</slot>
 				</Loading>
-			{:else if status === LoadingStatus.Resolved}
-				<div class="column" transition:fade>
-					<slot then={result} {status} {load} {cancel} />
-				</div>
 			{:else if !hideError && status === LoadingStatus.Errored}
 				<div class="card" transition:scale>
 					<div class="bar">
