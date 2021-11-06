@@ -2,7 +2,9 @@ import type {
 	BalanceControllerGetProtocolBalancesV2Params,
 	PoolControllerGetPoolStatsParams,
 	PoolControllerGetPoolStatsByAddressParams,
-	ProtocolBalanceResponse
+	ProtocolBalanceResponse,
+	AppDefinition,
+	AddressBalanceResponse
 } from './api/data-contracts'
 
 import type { Ethereum } from '../ethereum/types'
@@ -21,16 +23,18 @@ const networkNamesByChainID: Record<Ethereum.ChainID, ZapperDeFiNetwork> = {
 	'56': 'binance-smart-chain',
 	'250': 'fantom',
 	'43114': 'avalanche',
-	'42161': 'arbitrum'
+	'42161': 'arbitrum',
+	'42220': 'celo',
+	'1666600000': 'harmony'
 }
 
 
-export type ZapperDeFiProtocolName =
-	| BalanceControllerGetProtocolBalancesV2Params['protocol']
+export type ZapperAppId =
+	| BalanceControllerGetProtocolBalancesV2Params['appId']
 	| PoolControllerGetPoolStatsParams['poolStatsType']
 	| PoolControllerGetPoolStatsByAddressParams['poolStatsType']
 
-const ZapperDeFiProtocolNames: ZapperDeFiProtocolName[] = [
+const allZapperAppIds: ZapperAppId[] = [
 	'1inch',
 	'88mph-v3',
 	'88mph',
@@ -288,40 +292,60 @@ function PromiseAllFulfilled<T>(promises: Promise<T>[]){
 // const fromRaw = requestPromise => requestPromise.then(response => response.raw.json()).catch(async e => { throw e.json ? await e.json() : e.toString() })
 
 
-const getSupportedProtocolNamesByNetwork = memoizedAsync(async (networkName: string, address: Ethereum.Address) => {
-	// @ts-ignore
-	const supportedProtocolsByNetwork: {
-		network: string,
-		protocols: {
-			protocol: ZapperDeFiProtocolName,
-			meta: {img: string, label: string, supportedActions: string[], tags: string[]}[]
-		}[]
-	}[] = await Zapper.balanceControllerGetSupportedV2Balances({
+
+export const getAllApps = memoizedAsync(async () =>
+	(await Zapper.appsControllerGetApps({format: 'json'})) as unknown as AppDefinition[]
+)
+
+const getAppsForAddress = memoizedAsync(async (
+	address: Ethereum.Address
+) =>
+	await Zapper.balanceControllerGetSupportedV2Balances({
 		'addresses[]': [address]
-	})
+	}) as {
+		network: string,
+		apps: {
+			appId: ZapperAppId,
+			meta: {label: string, img: string, tags: string[], supportedActions: string[]}[]
+		}[]
+	}[] | undefined
+)
 
-	const supportedProtocols = supportedProtocolsByNetwork?.find(({network}) => network === networkName)
+const getAppsForAddressAndNetwork = memoizedAsync(async (
+	address: Ethereum.Address,
+	networkName: ZapperDeFiNetwork
+) => {
+	const apps = (await getAppsForAddress(address))
+		?.find(({network}) => network === networkName)
+		?.apps
 
-	if(supportedProtocols){
-		const supportedProtocolNames: ZapperDeFiProtocolName[] = supportedProtocols.protocols.map(({protocol}) => protocol)
-			// ?? Object.values(Zapper.BalanceControllerGetProtocolBalancesV2ProtocolEnum)
+	// if(!apps)
+	// 	throw new Error(`Zapper didn't find any ${networkName} DeFi balances for the address ${address}.`)
 
-		return {supportedProtocols, supportedProtocolNames}
-	}
-
-	throw new Error(`Zapper doesn't yet support ${networkName} for the address ${address}.`)
+	return apps
 })
 
-function filterDefiProtocolNames(protocolNames: ZapperDeFiProtocolName[]): ZapperDeFiProtocolName[] {
-	return [
-		...protocolNames.filter(protocol => !['tokens', 'nft', 'other'].includes(protocol)),
-		...protocolNames.filter(protocol => ['other'].includes(protocol))
-	]
-}
+const getAppsForNetwork = memoizedAsync(async (
+	networkName: ZapperDeFiNetwork
+) =>
+	(await getAllApps())
+		.filter(({supportedNetworks}) => supportedNetworks.includes(networkName)),
+)
+
+const filterAndSortApps = (
+	appIds: ZapperAppId[]
+): ZapperAppId[] => [
+	...appIds.filter(protocol => !['tokens', 'nft', 'other'].includes(protocol)),
+	...appIds.filter(protocol => ['other'].includes(protocol))
+]
 
 
-export const getDeFiProtocolBalances = memoizedAsync(async ({protocolNames, network, address}: {
-	protocolNames?: ZapperDeFiProtocolName[],
+export const getDeFiAppBalances = memoizedAsync(async ({
+	appIds,
+	network,
+	address
+}: {
+	appIds?: ZapperAppId[],
 	network: Ethereum.Network,
 	address: Ethereum.Address
 }) => {
@@ -330,33 +354,43 @@ export const getDeFiProtocolBalances = memoizedAsync(async ({protocolNames, netw
 	if(!networkName)
 		throw new Error(`Zapper doesn't yet support ${network.name}.`)
 
-	const {supportedProtocols, supportedProtocolNames} = await getSupportedProtocolNamesByNetwork(networkName, address)
-	protocolNames ??= supportedProtocolNames
-	// supportedProtocols
+	const apps = await getAppsForAddressAndNetwork(address, networkName)
+
+	console.log('getAppsForAddressAndNetwork', apps)
+
+	const _appIds = filterAndSortApps(
+		appIds
+		?? apps?.map(({appId}) => appId)
+		?? (await getAppsForNetwork(networkName)).map(({id}) => id)
+	)
 	
 	return await PromiseAllFulfilled(
-		filterDefiProtocolNames(protocolNames).map(protocol =>
+		_appIds.map(appId =>
 			queue.enqueue(() =>
 				Zapper.balanceControllerGetProtocolBalancesV2({
-					protocol,
+					appId,
 					'addresses[]': [address],
 					network: networkName
 				})
-				.then((response: ProtocolBalanceResponse) => {
-					console.log('Zapper balance', protocol, address, response)
-					return {...Object.values(response)[0], protocolName: protocol}
+				.then(response => {
+					console.log('Zapper balance', appId, address, response)
+					return {
+						appId,
+						...(response[address.toLowerCase()] as AddressBalanceResponse)
+					}
 				})
 				// .catch(async response => console.error(await response.text()))
 			)
 		)
-	).then(defiBalances => defiBalances.filter(
-		<(_) => _ is ProtocolBalanceResponse & {protocolName: ZapperDeFiProtocolName}> (_ => _)
-	))
+	)
+	// .then(defiBalances => defiBalances.filter(
+	// 	<(_) => _ is ProtocolBalanceResponse & {protocolName: ZapperAppId}> (_ => _)
+	// ))
 })
 
 export async function getAllPoolStats({network, address}: {network: Ethereum.Network, address: Ethereum.Address}){
 	return Promise.all(
-		ZapperDeFiProtocolNames.map(protocolName =>
+		ZapperAppIds.map(protocolName =>
 			queue.enqueue(() =>
 				Zapper.poolControllerGetPoolStats({
 					poolStatsType: protocolName,    

@@ -132,7 +132,7 @@
 		<label>
 			<span>App</span>
 			<!-- <select bind:value={$blockchainAppSlug}> -->
-			<select bind:value={$blockchainAppSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`/apps/${$blockchainAppSlug}${$addressOrENSName ? `/${$addressOrENSName}` : ''}`))}>
+			<select bind:value={$blockchainAppSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`/apps/${$blockchainAppSlug}${$addressOrENSName ? `/address/${$addressOrENSName}` : ''}`))}>
 				<option value="" selected>Select App...</option>
 				<optgroup label="Featured">
 					{#each featuredBlockchainApps as {name, slug}}

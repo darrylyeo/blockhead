@@ -62,6 +62,14 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				}
 			},
 			{
+				name: 'Aave AMM',
+				slug: 'amm',
+				chainId: 1,
+				providers: {
+					zapper: 'aave-amm'
+				}
+			},
+			{
 				name: 'Aave V1',
 				slug: 'v1',
 				chainId: 1,
@@ -92,15 +100,69 @@ export const blockchainApps: BlockchainAppConfig[] = [
 			// },
 
 			{
-				name: 'Aave Governance v2',
+				name: 'Aave v2 Governance',
 				slug: 'v1',
 				chainId: 1,
 				embeds: [{
 					name: 'Aavote',
 					description: 'Aavote - Aave Governance v2 Interface',
 					src: 'https://aavote.netlify.app'
-				}]
+				}],
+				providers: {
+					zapper: 'aave-safety-module'
+				}
 			},
+		]
+	},
+	{
+		name: 'Aavegotchi',
+		slug: 'aavegotchi',
+		links: ['https://aavegotchi.com'],
+		colors: ['#fa34f3', '#5100B1'],
+		views: [
+			{
+				chainId: 137,
+				erc20Tokens: [
+					erc20TokensBySymbol['GHST']
+				],
+				providers: {
+					zapper: 'aavegotchi'
+				}
+			}
+		]
+	},
+	{
+		name: 'Abracadabra',
+		slug: 'abracadabra',
+		links: ['https://abracadabra.money'],
+		colors: ['#7b79f7'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['SPELL']
+				],
+				providers: {
+					zapper: 'abracadabra'
+				}
+			}
+		]
+	},
+	{
+		name: 'Adamant',
+		slug: 'adamant',
+		links: ['https://adamant.finance'],
+		colors: [],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['ADDY']
+				],
+				providers: {
+					theGraph: 'https://api.thegraph.com/subgraphs/name/airswap/airswap',
+				}
+			}
 		]
 	},
 	{
@@ -168,7 +230,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 					erc20TokensBySymbol['ALPHA']
 				],
 				providers: {
-					zapper: 'alpha',
+					zapper: 'alpha-v2',
 					zerionDefiSDK: ['Alpha Homora V2'],
 				}
 			},
@@ -181,7 +243,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 					erc20TokensBySymbol['ALPHA']
 				],
 				providers: {
-					zapper: 'alpha',
+					zapper: 'alpha-v1',
 					zerionDefiSDK: ['Alpha Homora'],
 				}
 			},
@@ -213,6 +275,37 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		]
 	},
 	{
+		name: 'Apeswap',
+		slug: 'apeswap',
+		links: ['https://apeswap.finance'],
+		colors: ['#a16552', '#ffb300'],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					zapper: 'apeswap'
+				}
+			},
+		]
+	},
+	{
+		name: 'APY.Finance',
+		slug: 'apy',
+		links: ['https://apy.finance'],
+		colors: ['#d153f4', '#4d43df'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['APY']
+				],
+				providers: {
+					zapper: 'apy'
+				}
+			}
+		]
+	},
+	{
 		name: 'Aragon',
 		slug: 'aragon',
 		links: ['https://aragon.org'],
@@ -224,6 +317,39 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				],
 				providers: {
 					zerionDefiSDK: ['Aragon'],
+				}
+			}
+		]
+	},
+	{
+		name: 'ARCx',
+		slug: 'arcx',
+		links: ['https://arcx.money'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensByContractAddress['0x1321f1f1aa541a56c31682c57b80ecfccd9bb288'], // ARCx
+					erc20TokensByContractAddress['0xed30dd7e50edf3581ad970efc5d9379ce2614adb'], // ARC Governance Old
+				],
+				providers: {
+					zapper: 'arcx'
+				}
+			}
+		]
+	},
+	{
+		name: 'Armor',
+		slug: 'armor',
+		links: ['https://armor.fi'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['ARMOR']
+				],
+				providers: {
+					zapper: 'armor'
 				}
 			}
 		]
@@ -324,6 +450,16 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		colors: ['#536dfe'], // unofficial
 		views: [
 			{
+				name: 'Balancer V2',
+				slug: 'v2',
+				chainId: 1,
+				providers: {
+					theGraph: 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer',
+					zapper: 'balancer-v2',
+					zerionDefiSDK: ['Balancer'],
+				}
+			},
+			{
 				name: 'Balancer Governance',
 				slug: 'governance',
 				chainId: 1,
@@ -332,10 +468,12 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				]
 			},
 			{
+				name: 'Balancer V1',
+				slug: 'v1',
 				chainId: 1,
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer',
-					zapper: 'balancer',
+					zapper: 'balancer-v1',
 					zerionDefiSDK: ['Balancer'],
 				}
 			}
@@ -363,6 +501,144 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		]
 	},
 	{
+		name: 'Bao Finance',
+		slug: 'bao',
+		links: ['https://www.bao.finance'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['BAO']
+				],
+				providers: {
+					zapper: 'bao',
+				}
+			}
+		]
+	},
+	{
+		name: 'BarnBridge',
+		slug: 'barnbridge',
+		links: ['https://barnbridge.com'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['BOND']
+				],
+				providers: {
+					zapper: 'barnbridge',
+				}
+			},
+			{
+				name: 'BarnBridge Smart Yield',
+				slug: 'smart-yield',
+				links: ['https://app.barnbridge.com/smart-alpha/pools'],
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['']
+				],
+				providers: {
+					zapper: 'barnbridge-smart-yield',
+				}
+			}
+		]
+	},
+	{
+		name: 'Based Money',
+		slug: 'based-money',
+		links: ['https://based.money'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['BASED']
+				],
+				providers: {
+					zapper: 'based-money',
+				}
+			}
+		]
+	},
+	{
+		name: 'Basis',
+		slug: 'basis',
+		links: ['https://basis.io'],
+		views: [
+			{
+				name: 'Basis Cash',
+				slug: 'cash',
+				links: ['https://basis.cash'],
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['BAC'],
+					erc20TokensBySymbol['BAS'],
+					erc20TokensBySymbol['BAB'],
+				],
+				providers: {
+					zapper: 'basis-cash',
+				}
+			},
+			// {
+			// 	name: 'Basis Dollar',
+			// 	slug: 'dollar',
+			// 	links: ['https://basisdollar.fi'],
+			// 	chainId: 1,
+			// 	erc20Tokens: [
+			// 		erc20TokensBySymbol['BSD'],
+			// 		erc20TokensBySymbol['BSDS'],
+			// 	]
+			// },
+			{
+				name: 'Basis Gold',
+				slug: 'gold',
+				links: ['https://basis.gold'],
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['BSG'],
+					erc20TokensBySymbol['BSGS'],
+				],
+				providers: {
+					zapper: 'basis-gold',
+				}
+			},
+			{
+				name: 'Basis Coin',
+				slug: 'coin',
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['BCS'],
+					erc20TokensBySymbol['BSGS'],
+				]
+			},
+			{
+				name: 'Basis Bond',
+				slug: 'bond',
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['BSB'],
+				]
+			}
+		]
+	},
+	{
+		name: 'BasketDAO',
+		slug: 'basket',
+		links: ['https://basketdao.org'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['BSKT'],
+					erc20TokensBySymbol['BDI']
+				],
+				providers: {
+					zapper: 'basket-dao',
+				}
+			}
+		]
+	},
+	{
 		name: 'Berezka',
 		slug: 'berezka',
 		links: ['https://www.berezka.io'],
@@ -377,23 +653,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		]
 	},
 	{
-		name: 'BarnBridge',
-		slug: 'barnbridge',
-		links: ['https://barnbrodge.com'],
-		views: [
-			{
-				chainId: 1,
-				erc20Tokens: [
-					erc20TokensBySymbol['BOND']
-				],
-				providers: {
-					zapper: 'barnbridge',
-				}
-			}
-		]
-	},
-	{
-		name: 'Beefy',
+		name: 'Beefy Finance',
 		slug: 'beefy',
 		links: ['https://www.beefy.finance'],
 		views: [
@@ -486,6 +746,52 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		]
 	},
 	{
+		name: 'Benchmark',
+		slug: 'benchmark',
+		links: ['https://benchmarkprotocol.finance'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['MARK']
+				],
+				providers: {
+					zapper: 'benchmark',
+				}
+			}
+		]
+	},
+	{
+		name: 'Benqi',
+		slug: 'benqi',
+		links: ['https://benqi.fi'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'benqi',
+				}
+			}
+		]
+	},
+	{
+		name: 'Big Data Protocol',
+		slug: 'big-data',
+		links: ['https://bigdataprotocol.com'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['BDP']
+				],
+				providers: {
+					zapper: 'big-data',
+				}
+			}
+		]
+	},
+	{
 		name: 'BitGo',
 		slug: 'bitgo',
 		links: ['https://www.bitgo.com'],
@@ -500,6 +806,24 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				erc20Tokens: [
 					erc20TokensBySymbol['WBTC']
 				]
+			}
+		]
+	},
+	{
+		name: 'Boring DAO',
+		slug: 'boring',
+		links: ['https://www.boringdao.com'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensByContractAddress['0xbc19712feb3a26080ebf6f2f7849b417fdd792ca'], // BoringDAO
+					erc20TokensBySymbol['OBTC'], // BoringDAO BTC
+					erc20TokensByContractAddress['0x3c9d6c1c73b31c837832c72e04d3152f051fc1a9'] // BoringDAO OLD
+				],
+				providers: {
+					zapper: 'boring-dao',
+				}
 			}
 		]
 	},
@@ -705,11 +1029,37 @@ export const blockchainApps: BlockchainAppConfig[] = [
 			{
 				chainId: 1,
 				erc20Tokens: [
-					erc20TokensBySymbol['CREAM']
+					erc20TokensBySymbol['CREAM'],
+					erc20TokensBySymbol['CRETH2']
 				],
 				providers: {
 					zapper: 'cream',
 					zerionDefiSDK: ['C.R.E.A.M.', 'C.R.E.A.M. • Staking'],
+				}
+			},
+			{
+				name: 'C.R.E.A.M. Iron Bank',
+				slug: 'iron-bank',
+				chainId: 1,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'cream-iron-bank',
+				}
+			}
+		]
+	},
+	{
+		name: 'Cryptex Finance',
+		slug: 'cryptex',
+		links: ['https://cryptex.finance'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['CTX'],
+				],
+				providers: {
+					zapper: 'cryptex',
 				}
 			}
 		]
@@ -743,6 +1093,34 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				erc20Tokens: [],
 				providers: {
 					zerionDefiSDK: ['DDEX • Lending', 'DDEX • Margin', 'DDEX • Spot'],
+				}
+			}
+		]
+	},
+	{
+		name: 'DeFi Dollar',
+		slug: 'defi-dollar',
+		links: ['https://dusd.finance'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'defi-dollar',
+				}
+			}
+		]
+	},
+	{
+		name: 'DeFi Swap',
+		slug: 'defi-swap',
+		links: ['https://crypto.com/defi/swap'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'defi-swap',
 				}
 			}
 		]
@@ -808,18 +1186,17 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		]
 	},
 	{
-		name: 'dHEDGE',
-		slug: 'dhedge',
-		links: ['https://www.dhedge.org'],
+		name: 'DFI Money',
+		slug: 'dfi-money',
+		links: ['https://dfi.money'],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [
-					erc20TokensBySymbol['DHT'],
-					erc20TokensBySymbol['DTOP']
+					erc20TokensBySymbol['YFII']
 				],
 				providers: {
-					zapper: 'dhedge',
+					zapper: 'dfi-money',
 				}
 			}
 		]
@@ -841,6 +1218,39 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		]
 	},
 	{
+		name: 'Dfyn Network',
+		slug: 'dfyn',
+		links: ['https://dfyn.network'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['YFII']
+				],
+				providers: {
+					zapper: 'dfyn',
+				}
+			}
+		]
+	},
+	{
+		name: 'dHEDGE',
+		slug: 'dhedge',
+		links: ['https://www.dhedge.org'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['DHT'],
+					erc20TokensBySymbol['DTOP']
+				],
+				providers: {
+					zapper: 'dhedge',
+				}
+			}
+		]
+	},
+	{
 		name: 'DODO',
 		slug: 'dodo',
 		links: ['https://dodoex.io'],
@@ -854,6 +1264,23 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				providers: {
 					zapper: 'dodo',
 					zerionDefiSDK: ['DODO'],
+				}
+			}
+		]
+	},
+	{
+		name: 'Dopex',
+		slug: 'dopex',
+		links: ['https://dopex.io'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['DPX'],
+					erc20TokensBySymbol['RDPX']
+				],
+				providers: {
+					zapper: 'dopex',
 				}
 			}
 		]
@@ -897,6 +1324,20 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		colors: ['#743ad5', '#d53a9d'],
 		views: [
 			{
+				name: '88mph V3',
+				slug: 'v3',
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensByContractAddress['0x8888801af4d980682e47f1a9036e589479e835c5'] // MPH
+				],
+				providers: {
+					theGraph: 'https://api.thegraph.com/subgraphs/name/bacon-labs/eighty-eight-mph',
+					zapper: '88mph-v3',
+				}
+			},
+			{
+				name: '88mph V1',
+				slug: 'v1',
 				chainId: 1,
 				erc20Tokens: [
 					erc20TokensByContractAddress['0x8888801af4d980682e47f1a9036e589479e835c5'] // MPH
@@ -930,7 +1371,10 @@ export const blockchainApps: BlockchainAppConfig[] = [
 					'0xed279fdd11ca84beef15af5d39bb4d4bee23f0ca', // wrapped position
 					'0x5fA5B62c8AF877CB37031e0a3B2f34A78e3C56A6', // vault
 					// tranches
-				]
+				],
+				providers: {
+					zapper: 'element'
+				}
 			}
 		]
 	},
@@ -1020,6 +1464,22 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		]
 	},
 	{
+		name: 'Essentia',
+		slug: 'essentia',
+		links: ['https://essentia.one'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['ESS']
+				],
+				providers: {
+					zapper: 'essentia',
+				}
+			}
+		]
+	},
+	{
 		name: 'Etherspot',
 		slug: 'etherspot',
 		colors: ['#f43c48', '#f67033'],
@@ -1028,6 +1488,22 @@ export const blockchainApps: BlockchainAppConfig[] = [
 			{
 				chainId: 1,
 				erc20Tokens: [],
+			}
+		]
+	},
+	{
+		name: 'Fei Protocol',
+		slug: 'fei',
+		links: ['https://fei.money'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['FEI']
+				],
+				providers: {
+					zapper: 'fei',
+				}
 			}
 		]
 	},
@@ -1043,6 +1519,40 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				],
 				providers: {
 					zerionDefiSDK: ['FinNexus']
+				}
+			}
+		]
+	},
+	{
+		name: 'Float Protocol',
+		slug: 'float',
+		links: ['https://floatprotocol.com'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['FLOAT'],
+					erc20TokensByContractAddress['0x24a6a37576377f63f194caa5f518a60f45b42921'] // BANK
+				],
+				providers: {
+					zapper: 'float-protocol',
+				}
+			}
+		]
+	},
+	{
+		name: 'Frax',
+		slug: 'frax',
+		links: ['https://frax.finance'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['FRAX'],
+					erc20TokensBySymbol['FSX'],
+				],
+				providers: {
+					zapper: 'frax',
 				}
 			}
 		]
@@ -1105,6 +1615,38 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		]
 	},
 	{
+		name: 'Governor DAO',
+		slug: 'governor',
+		links: ['https://governordao.org'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['GDAO'],
+				],
+				providers: {
+					zapper: 'governor-dao',
+				}
+			}
+		]
+	},
+	{
+		name: 'Gro',
+		slug: 'gro',
+		links: ['https://www.gro.xyz'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['GRO'],
+				],
+				providers: {
+					zapper: 'gro',
+				}
+			}
+		]
+	},
+	{
 		name: 'Idle Finance',
 		slug: 'idle',
 		links: ['https://idle.finance'],
@@ -1143,6 +1685,68 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		]
 	},
 	{
+		name: 'Illuvium',
+		slug: 'illuvium',
+		links: ['https://www.illuvium.io'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['ILV'],
+				],
+				providers: {
+					zapper: 'illuvium',
+				}
+			}
+		]
+	},
+	{
+		name: 'Impossible Finance',
+		slug: 'impossible-finance',
+		links: ['https://impossible.finance'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'impossible-finance',
+				}
+			}
+		]
+	},
+	{
+		name: 'Index Cooperative',
+		slug: 'index-cooperative',
+		links: ['https://www.indexcoop.com'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['INDEX']
+				],
+				providers: {
+					zapper: 'index-coop',
+				}
+			}
+		]
+	},
+	{
+		name: 'Indexed Finance',
+		slug: 'indexed',
+		links: ['https://indexed.finance'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensByContractAddress['0x86772b1409b61c639eaac9ba0acfbb6e238e5f83'] // NDX
+				],
+				providers: {
+					zapper: 'Indexed',
+				}
+			}
+		]
+	},
+	{
 		name: 'Inverse Finance',
 		slug: 'inverse',
 		links: ['https://inverse.finance'],
@@ -1154,6 +1758,20 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				],
 				providers: {
 					zapper: 'inverse',
+				}
+			}
+		]
+	},
+	{
+		name: 'Iron',
+		slug: 'iron',
+		links: ['https://iron.finance'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'iron',
 				}
 			}
 		]
@@ -1189,7 +1807,18 @@ export const blockchainApps: BlockchainAppConfig[] = [
 					erc20TokensBySymbol['ZHEGIC']
 				],
 				providers: {
-					zapper: 'hegic',
+					zapper: 'hegic'
+				}
+			},
+			{
+				name: 'zLOT Finance',
+				slug: 'zlot',
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['ZLOT']
+				],
+				providers: {
+					zapper: 'zlot',
 					zerionDefiSDK: ['zlot.finance']
 				}
 			}
@@ -1206,6 +1835,22 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				erc20Tokens: [
 					erc20TokensBySymbol['INST'],
 				]
+			}
+		]
+	},
+	{
+		name: 'Keep Network',
+		slug: 'keep-network',
+		links: ['https://keep.network'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['KEEP'],
+				],
+				providers: {
+					zapper: 'keep-network',
+				}
 			}
 		]
 	},
@@ -1243,6 +1888,37 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		]
 	},
 	{
+		name: 'Klondike Finance',
+		slug: 'klondike',
+		links: ['https://klondike.finance'],
+		views: [
+			{
+				name: 'Klondike Finance v2',
+				slug: 'v2',
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['KLONX'],
+				],
+				providers: {
+					zapper: 'klondike-v2',
+				}
+			},
+			{
+				name: 'Klondike Finance v1',
+				slug: 'v1',
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['KLON'],
+					erc20TokensBySymbol['KBTC'],
+					erc20TokensBySymbol['KBOND'],
+				],
+				providers: {
+					zapper: 'klondike',
+				}
+			}
+		]
+	},
+	{
 		name: 'Kyber',
 		slug: 'kyber',
 		links: ['https://kyber.org', 'https://kyber.network'],
@@ -1266,6 +1942,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 					'0x61639D6eC06C13a96B5eB9560b359D7c648C7759', // KNC-ETH
 				],
 				providers: {
+					zapper: 'kyber-dmm',
 					theGraph: 'https://api.thegraph.com/subgraphs/name/dynamic-amm/dynamic-amm',
 				}
 			},
@@ -1304,7 +1981,26 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				chainId: 1,
 				erc20Tokens: [
 					erc20TokensBySymbol['KNCL'],
-				]
+				],
+				providers: {
+					zapper: 'kyber-network',
+				}
+			}
+		]
+	},
+	{
+		name: 'Launchpool',
+		slug: 'launchpool',
+		links: ['https://launchpool.xyz'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['LPOOL'],
+				],
+				providers: {
+					zapper: 'launchpool',
+				}
 			}
 		]
 	},
@@ -1405,6 +2101,34 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		]
 	},
 	{
+		name: 'Lydia Finance',
+		slug: 'lydia',
+		links: ['https://www.lydia.finance'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'lydia',
+				}
+			}
+		]
+	},
+	{
+		name: 'Lyra',
+		slug: 'lyra',
+		links: ['https://www.lyra.finance'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'lyra',
+				}
+			}
+		]
+	},
+	{
 		name: 'Maker',
 		slug: 'maker',
 		links: ['https://makerdao.com'],
@@ -1413,7 +2137,10 @@ export const blockchainApps: BlockchainAppConfig[] = [
 			{
 				colors: ['#f4b731'],
 				chainId: 1,
-				erc20Tokens: [],
+				erc20Tokens: [
+					erc20TokensBySymbol['DAI'],
+					erc20TokensBySymbol['SAI'],
+				],
 				providers: {
 					zapper: 'maker',
 					zerionDefiSDK: ['Dai Savings Protocol', 'Dai Savings Rate'],
@@ -1453,6 +2180,53 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		]
 	},
 	{
+		name: 'Mirror Protocol',
+		slug: 'mirror',
+		links: ['https://mirror.finance'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['MIR'], // Mirror Protocol
+					erc20TokensBySymbol['MAAPL'], // Mirrored Apple
+					erc20TokensBySymbol['MAMZN'], // Mirrored Amazon
+					erc20TokensBySymbol['MBABA'], // Mirrored Alibaba
+					erc20TokensBySymbol['MGOOGL'], // Mirrored Google
+					erc20TokensBySymbol['MFB'], // Mirrored Facebook
+					erc20TokensBySymbol['MIAU'], // Mirrored iShares Go
+					erc20TokensBySymbol['MMSFT'], // Mirrored Microsoft
+					erc20TokensBySymbol['MNFLX'], // Mirrored Netflix
+					erc20TokensBySymbol['MQQQ'], // Mirrored Invesco QQ
+					erc20TokensBySymbol['MSLV'], // Mirrored iShares Si
+					erc20TokensBySymbol['MTSLA'], // Mirrored Tesla
+					erc20TokensBySymbol['MTWTR'], // Mirrored Twitter
+					erc20TokensBySymbol['MUSO'], // Mirrored United Sta
+					erc20TokensBySymbol['MVIXY'], // Mirrored ProShares
+				],
+				providers: {
+					zapper: 'mirror',
+				}
+			}
+		]
+	},
+	{
+		name: 'Mith Cash',
+		slug: 'mith-cash',
+		links: ['https://mith.cash'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['MITH'],
+					erc20TokensBySymbol['MIS']
+				],
+				providers: {
+					zapper: 'mith-cash',
+				}
+			}
+		]
+	},
+	{
 		name: 'mStable',
 		slug: 'mstable',
 		links: ['https://mstable.org'],
@@ -1465,6 +2239,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 					erc20TokensBySymbol['MUSD'],
 				],
 				providers: {
+					zapper: 'mstable',
 					zerionDefiSDK: ['mStable', 'mStable V2'],
 				}
 			},
@@ -1510,6 +2285,69 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/nexusmutual/nexus-mutual',
 					zerionDefiSDK: ['Nexus Mutual'],
+				}
+			}
+		]
+	},
+	{
+		name: 'NFT20',
+		slug: 'nft20',
+		links: ['https://nft20.io'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'nft20',
+				}
+			}
+		]
+	},
+	{
+		name: 'NFTX',
+		slug: 'nftx',
+		links: ['https://nftx.io'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['NFTX'],
+					erc20TokensByContractAddress['0x0fe629d1e84e171f8ff0c1ded2cc2221caa48a3f'], // NFTX Hashmasks Index
+				],
+				providers: {
+					zapper: 'nftx',
+				}
+			}
+		]
+	},
+	{
+		name: 'Nsure Network',
+		slug: 'nsure-network',
+		links: ['https://nsure.network'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['NSURE']
+				],
+				providers: {
+					zapper: 'nsure-network',
+				}
+			}
+		]
+	},
+	{
+		name: 'Olympus',
+		slug: 'olympus',
+		links: ['https://www.olympusdao.finance'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['OHM']
+				],
+				providers: {
+					zapper: 'olympus',
 				}
 			}
 		]
@@ -1576,6 +2414,22 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		]
 	},
 	{
+		name: 'OnX Finance',
+		slug: 'onx',
+		links: ['https://onx.finance'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['ONX']
+				],
+				providers: {
+					zapper: 'onx',
+				}
+			}
+		]
+	},
+	{
 		name: 'Opium Protocol',
 		slug: 'opium',
 		links: ['https://opium.network'],
@@ -1586,7 +2440,38 @@ export const blockchainApps: BlockchainAppConfig[] = [
 					erc20TokensBySymbol['OPIUM'],
 				],
 				providers: {
+					zapper: 'opium-network',
 					theGraph: 'https://api.thegraph.com/subgraphs/name/opiumprotocol/opium-network',
+				}
+			}
+		]
+	},
+	{
+		name: 'Opyn',
+		slug: 'opyn',
+		links: ['https://www.opyn.co'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'opyn',
+				}
+			}
+		]
+	},
+	{
+		name: 'Orion Protocol',
+		slug: 'orion',
+		links: ['https://www.orionprotocol.io'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['ORN']
+				],
+				providers: {
+					zapper: 'orion-protocol',
 				}
 			}
 		]
@@ -1606,12 +2491,58 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		]
 	},
 	{
+		name: 'Pangolin',
+		slug: 'pangolin',
+		links: ['https://pangolin.exchange'],
+		views: [
+			{
+				chainId: 43114,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'pangolin',
+				}
+			}
+		]
+	},
+	{
 		name: 'Paraswap',
 		slug: 'paraswap',
 		links: ['https://paraswap.io'],
 		colors: ['#0060D8'], // unofficial
 		views: [
 			
+		]
+	},
+	{
+		name: 'Penguin',
+		slug: 'penguin',
+		links: ['https://penguinfinance.org'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['FISH']
+				],
+				providers: {
+					zapper: 'penguin',
+				}
+			}
+		]
+	},
+	{
+		name: 'Perpetual Protocol',
+		slug: 'perpetual-protocol',
+		links: ['https://perp.exchange'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['PERP']
+				],
+				providers: {
+					zapper: 'perpetual-protocol',
+				}
+			}
 		]
 	},
 	{
@@ -1640,15 +2571,16 @@ export const blockchainApps: BlockchainAppConfig[] = [
 			{
 				chainId: 1,
 				erc20Tokens: [
-					erc20TokensByContractAddress['0xe4f726adc8e89c6a6017f01eada77865db22da14'], // BCP
-					erc20TokensBySymbol['DEFI+L'],
-					erc20TokensBySymbol['DEFI+S'],
-					erc20TokensBySymbol['DEFI++'],
-					erc20TokensBySymbol['BTC++'],
-					erc20TokensBySymbol['YPIE'],
-					erc20TokensBySymbol['DOUGH'],
+					erc20TokensByContractAddress['0xe4f726adc8e89c6a6017f01eada77865db22da14'], // BCP (PieDAO Balanced Cry)
+					erc20TokensBySymbol['DEFI+L'], // PieDAO DEFI Large C
+					erc20TokensBySymbol['DEFI+S'], // PieDAO DEFI Small C
+					erc20TokensBySymbol['DEFI++'], // PieDAO DEFI
+					erc20TokensBySymbol['BTC++'], // PieDAO BTC
+					erc20TokensBySymbol['YPIE'], // PieDAO Yearn Ecosys
+					erc20TokensBySymbol['DOUGH'], // PieDAO DOUGH v2
 				],
 				providers: {
+					zapper: 'pie-dao',
 					zerionDefiSDK: ['PieDAO', 'PieDAO ExperiPies'],
 				}
 			}
@@ -1688,6 +2620,20 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		]
 	},
 	{
+		name: 'Polywhale',
+		slug: 'polywhale',
+		links: ['https://polywhale.finance'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'polywhale',
+				}
+			}
+		]
+	},
+	{
 		name: 'PoolTogether',
 		slug: 'pooltogether',
 		links: ['https://pooltogether.com'],
@@ -1703,6 +2649,38 @@ export const blockchainApps: BlockchainAppConfig[] = [
 					theGraph: 'https://api.thegraph.com/subgraphs/name/pooltogether/pooltogether',
 					zapper: 'pooltogether',
 					zerionDefiSDK: ['PoolTogether', 'PoolTogether V3'],
+				}
+			}
+		]
+	},
+	{
+		name: 'Popsicle Finance',
+		slug: 'popsicle',
+		links: ['https://popsicle.finance'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['ICE']
+				],
+				providers: {
+					zapper: 'popsicle',
+				}
+			}
+		]
+	},
+	{
+		name: 'PowerPool',
+		slug: 'powerpool',
+		links: ['https://powerpool.finance'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['CVP'] // PowerPool Concentra
+				],
+				providers: {
+					zapper: 'powerpool',
 				}
 			}
 		]
@@ -1733,6 +2711,49 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				],
 				providers: {
 					zapper: 'rari',
+				}
+			}
+		]
+	},
+	{
+		name: 'Rally',
+		slug: 'rally',
+		links: ['https://rally.io'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['RLY']
+				],
+				providers: {
+					zapper: 'rally',
+				}
+			}
+		]
+	},
+	{
+		name: 'Rari Capital',
+		slug: 'rari',
+		links: ['https://rari.capital'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['RGT']
+				],
+				providers: {
+					zapper: 'rari',
+				}
+			},
+			{
+				name: 'Rari Fuse',
+				slug: 'fuse',
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['FUSE']
+				],
+				providers: {
+					zapper: 'rari-fuse',
 				}
 			}
 		]
@@ -1809,6 +2830,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
+					zapper: 'sablier',
 					theGraph: 'https://api.thegraph.com/subgraphs/name/sablierhq/sablier',
 				}
 			}
@@ -1867,6 +2889,38 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		]
 	},
 	{
+		name: 'Shapeshift',
+		slug: 'shapeshift',
+		links: ['https://shapeshift.com/'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					// erc20TokensBySymbol['FOX']
+				],
+				providers: {
+					zapper: 'shapeshift',
+				}
+			}
+		]
+	},
+	{
+		name: 'SharedStake',
+		slug: 'sharedstake',
+		links: ['https://www.sharedstake.org/'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensByContractAddress['0x84810bcf08744d5862b8181f12d17bfd57d3b078'] // SharedStake Governance Token (SGT)
+				],
+				providers: {
+					zapper: 'shared-stake',
+				}
+			}
+		]
+	},
+	{
 		name: 'Shell',
 		slug: 'shell',
 		links: ['https://www.shellprotocol.io'],
@@ -1897,6 +2951,20 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		]
 	},
 	{
+		name: 'Snowball',
+		slug: 'snowball',
+		links: ['https://snowball.network/'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'snowball',
+				}
+			}
+		]
+	},
+	{
 		name: 'SnowSwap',
 		slug: 'snowswap',
 		links: ['https://snowswap.org'],
@@ -1909,6 +2977,20 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				providers: {
 					zapper: 'snowswap',
 					zerionDefiSDK: ['SnowSwap'],
+				}
+			}
+		]
+	},
+	{
+		name: 'SpiritSwap',
+		slug: 'spiritswap',
+		links: ['https://www.spiritswap.finance'],
+		views: [
+			{
+				chainId: 250,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'spiritswap',
 				}
 			}
 		]
@@ -1939,6 +3021,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 					erc20TokensBySymbol['SDT'],
 				],
 				providers: {
+					zapper: 'stake-dao',
 					zerionDefiSDK: ['Stake DAO'],
 				}
 			}
@@ -1955,6 +3038,22 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				erc20Tokens: [
 					erc20TokensByContractAddress['0x0cf0ee63788a0849fe5297f3407f701e122cc023'], // DATA
 				],
+			}
+		]
+	},
+	{
+		name: 'Strudel Finance',
+		slug: 'strudel',
+		links: ['https://strudel.finance'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['TRDL']
+				],
+				providers: {
+					zapper: 'snowball',
+				}
 			}
 		]
 	},
@@ -2010,7 +3109,10 @@ export const blockchainApps: BlockchainAppConfig[] = [
 					'0x6EeE6060f715257b970700bc2656De21dEdF074C', // CFAv1
 					'0xB0aABBA4B2783A72C52956CDEF62d438ecA2d7a1', // IDAv1
 					'0x2C90719f25B10Fc5646c82DA3240C76Fa5BcCF34', // SuperTokenFactory
-				]
+				],
+				providers: {
+					zapper: 'superfluid'
+				}
 			},
 			{
 				chainId: 100,
@@ -2031,7 +3133,10 @@ export const blockchainApps: BlockchainAppConfig[] = [
 					'0x23410e2659380784498509698ed70E414D384880', // SuperTokenFactory
 
 					'0x0872d200f74e4a45e830eccc9e8b8f605df7ce06', // WORK SuperToken
-				]
+				],
+				providers: {
+					zapper: 'superfluid'
+				}
 			},
 		]
 	},
@@ -2051,6 +3156,24 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				providers: {
 					zapper: 'sushiswap',
 					zerionDefiSDK: ['SushiSwap', 'SushiSwap • Staking'],
+				}
+			},
+			{
+				name: 'Bentobox',
+				slug: 'bentobox',
+				chainId: 1,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'sushiswap-bentobox'
+				}
+			},
+			{
+				name: 'Kashi',
+				slug: 'kashi',
+				chainId: 1,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'sushiswap-kashi'
 				}
 			},
 			{
@@ -2152,6 +3275,15 @@ export const blockchainApps: BlockchainAppConfig[] = [
 					zapper: 'synthetix',
 					zerionDefiSDK: ['Synthetix'],
 				}
+			},
+			{
+				name: 'Synthetix Mintr',
+				slug: 'mintr',
+				chainId: 1,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'mintr',
+				}
 			}
 		]
 	},
@@ -2186,7 +3318,40 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				chainId: 1,
 				erc20Tokens: [
 					erc20TokensByContractAddress['0xc944e90c64b2c07662a292be6244bdf05cda44a7'], // GRT
-				]
+				],
+				providers: {
+					zapper: 'the-graph'
+				}
+			}
+		]
+	},
+	{
+		name: 'Tokemak',
+		slug: 'tokemak',
+		links: ['https://www.tokemak.xyz'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'tokemak',
+				}
+			}
+		]
+	},
+	{
+		name: 'Tokenlon',
+		slug: 'tokenlon',
+		links: ['https://tokenlon.im'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['LON']
+				],
+				providers: {
+					zapper: 'tokenlon',
+				}
 			}
 		]
 	},
@@ -2204,6 +3369,36 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				providers: {
 					zapper: 'tokensets',
 					zerionDefiSDK: ['TokenSets', 'SetToken V2'],
+				}
+			}
+		]
+	},
+	{
+		name: 'Tornado Cash',
+		slug: 'tornado-cash',
+		links: ['https://tornado.cash'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['TORN']
+				],
+				providers: {
+					zapper: 'tornado-cash',
+				}
+			}
+		]
+	},
+	{
+		name: 'Trader Joe',
+		slug: 'traderjoe',
+		links: ['https://traderjoexyz.com'],
+		views: [
+			{
+				chainId: 43114,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'traderjoe',
 				}
 			}
 		]
@@ -2368,6 +3563,22 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		]
 	},
 	{
+		name: 'Universe',
+		slug: 'universe',
+		links: ['https://universe.xyz'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['XYZ']
+				],
+				providers: {
+					zapper: 'universe',
+				}
+			}
+		]
+	},
+	{
 		name: 'Upshot',
 		slug: 'upshot',
 		links: ['https://upshot.io', 'https://app.upshot.io'],
@@ -2445,6 +3656,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				chainId: 1,
 				erc20Tokens: [
 					erc20TokensBySymbol['VALUE'],
+					erc20TokensBySymbol['VUSD'],
 				],
 				providers: {
 					zapper: 'value',
@@ -2484,6 +3696,34 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		]
 	},
 	{
+		name: 'Waultswap',
+		slug: 'waultswap',
+		links: ['https://wault.finance'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'waultswap',
+				}
+			}
+		]
+	},
+	{
+		name: 'WePiggy',
+		slug: 'wepiggy',
+		links: ['https://wepiggy.com'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'wepiggy',
+				}
+			}
+		]
+	},
+	{
 		name: 'xSigma',
 		slug: 'xsigma',
 		links: ['https://www.xsigma.fi'],
@@ -2495,6 +3735,51 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				],
 				providers: {
 					zapper: 'xsigma',
+				}
+			}
+		]
+	},
+	{
+		name: 'xToken',
+		slug: 'xtoken',
+		links: ['https://xtoken.market'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['XTK']
+				],
+				providers: {
+					zapper: 'xtoken',
+				}
+			}
+		]
+	},
+	{
+		name: 'Yam Finance',
+		slug: 'yam',
+		links: ['https://yam.finance'],
+		views: [
+			{
+				name: 'Yam Finance V2',
+				slug: 'v2',
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['YAMV2']
+				],
+				providers: {
+					zapper: 'yam',
+				}
+			},
+			{
+				name: 'Yam Finance V1',
+				slug: 'v1',
+				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['YAM']
+				],
+				providers: {
+					zapper: 'yam',
 				}
 			}
 		]
@@ -2540,6 +3825,20 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				providers: {
 					zapper: 'yearn',
 					zerionDefiSDK: ['ygov.finance (v1)', 'ygov.finance (v2)'],
+				}
+			}
+		]
+	},
+	{
+		name: 'YieldYak',
+		slug: 'yieldyak',
+		links: ['https://yieldyak.com'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [],
+				providers: {
+					zapper: 'yieldyak',
 				}
 			}
 		]
