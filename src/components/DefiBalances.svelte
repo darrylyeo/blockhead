@@ -6,7 +6,9 @@
 	import type { BlockchainAppConfig, BlockchainAppSlug } from '../data/blockchain-apps'
 	import { blockchainAppsByProviderName } from '../data/blockchain-apps'
 	import { getDefiBalances } from '../data/ethereum/price/defi-sdk'
-	import { getDeFiAppBalances, getFiatRates } from '../data/zapper/zapper'
+	import type { ZapperAppId } from '../data/zapper/zapper'
+	import type { AppDefinition } from '../data/zapper/api/data-contracts';
+	import { getAllApps, getDeFiAppBalances, getFiatRates } from '../data/zapper/zapper'
 
 
 	// Data
@@ -20,10 +22,15 @@
 
 	// Computed Values
 	let zapperFiatRates
+	$:console.log(zapperFiatRates)
 	$: if(defiProvider === 'Zapper' && quoteCurrency !== 'USD')
 		getFiatRates().then(_ => zapperFiatRates = _)
 	$: zapperQuoteCurrency = zapperFiatRates ? quoteCurrency : 'USD' 
 	$: zapperFiatRate = zapperFiatRates?.[quoteCurrency] ?? 1
+
+	let zapperApps: Record<ZapperAppId, AppDefinition>
+	$: if(defiProvider === 'Zapper')
+		getAllApps().then(_ => zapperApps = Object.fromEntries(_.map(app => [app.id, app])))
 
 	export let quoteTotal
 	export let quoteTotalCurrency
@@ -162,10 +169,11 @@
 			errorMessage="Error getting {defiBalancesDescription} balances from {defiProvider}."
 			loadingIconName={defiProvider}
 			loadingIcon={'/logos/zapper-logomark.svg'}
-			fromPromise={() => getDeFiAppBalances({
+			fromStore={() => getDeFiAppBalances({
 				appIds: blockchainApps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zapper ?? [])),
 				network,
-				address
+				address,
+				asStore: true
 			})}
 			bind:result={zapperDefiProtocolBalances}
 			let:then={defiProtocolBalances}
@@ -178,7 +186,7 @@
 				{/if}
 			</svelte:fragment>
 
-			<div class="defi-balances column" class:scrollable-list={defiProtocolBalances.length > 6}>
+			<div class="defi-balances column" class:scrollable-list={defiProtocolBalances.flatMap(({products}) => products).length > 6}>
 				{#each defiProtocolBalances as {appId, products, meta}, i}
 					{#each products as {
 						label, assets, meta: productMeta,
@@ -186,8 +194,8 @@
 					}, j (label)}
 						<div
 							class="card defi-protocol"
-							style={cardStyle(blockchainAppsByProviderName.zapper?.[appId]?.colors)}
-							transition:scaleFont|local
+							style={cardStyle(blockchainAppsByProviderName.zapper?.[appId]?.colors ?? zapperApps?.[appId]?.primaryColor ? [zapperApps[appId].primaryColor] : [])}
+							transition:scale
 							animate:flip|local={{duration: 300, delay: Math.abs(i + j * 0.1) * 10}}
 						>
 							{#if assets[0]?.appImgUrl}
@@ -293,13 +301,15 @@
 										{#if showUnderlyingAssets && tokens?.length}
 											<div class="underlying">
 												{#each tokens as {
+													// address, balance, balanceRaw, balanceUSD, category, decimals, img, label, metaType, network, price, symbol, tokenImageUrl, type,
+													// address, decimals, symbol, img,
+													label,
 													address, decimals, symbol, tokenImageUrl,
 													balance, balanceUSD, balanceRaw, price,
 													reserve, weight,
-													tokenImageUrl,
 													isCToken
 												}}
-													<p class="underlying-asset" in:scaleFont>
+													<abbr class="underlying-asset" in:scaleFont title={label}>
 														<span class="underlying-symbol">┖</span>
 														<TokenBalanceWithConversion
 															{showValues}
@@ -318,7 +328,8 @@
 														{#if weight}
 															<small>({formatPercent(weight)})</small>
 														{/if}
-													</p>
+														{#if label}{label}{/if}
+													</abbr>
 												{/each}
 											</div>
 										{/if}

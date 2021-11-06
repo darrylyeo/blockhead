@@ -6,7 +6,7 @@
 	import type { Covalent } from '../data/analytics/covalent'
 	import { blockchainAppsByProviderName } from '../data/blockchain-apps'
 	import { getDefiBalances } from '../data/ethereum/price/defi-sdk'
-	import { getDeFiProtocolBalances, getFiatRates } from '../data/zapper/zapper'
+	import { getDeFiAppBalances, getFiatRates } from '../data/zapper/zapper'
 	import { getTokenAddressBalances } from '../data/analytics/covalent'
 	import { networksByChainID } from '../data/ethereum/networks'
 	import { preferences } from '../data/ethereum/preferences'
@@ -32,7 +32,7 @@
 	$: quoteTotalCurrency = zapperQuoteCurrency
 
 	type TypeOfPromise<T> = T extends Promise<infer R> ? R : T
-	let zapperDefiProtocolBalances: TypeOfPromise<ReturnType<typeof getDeFiProtocolBalances>>
+	let zapperDefiProtocolBalances: TypeOfPromise<ReturnType<typeof getDeFiAppBalances>>
 	$: if(zapperDefiProtocolBalances)
 		quoteTotal = zapperDefiProtocolBalances.reduce((sum, {meta}) => sum + Number(
 			meta?.find(({label, type, value}) => label === 'Total')?.value ?? 0
@@ -301,13 +301,12 @@
 											errorMessage="Error getting {blockchainAppConfig.name} balances from {defiProvider}."
 											loadingIconName={defiProvider}
 											loadingIcon={'/logos/zapper-logomark.svg'}
-											fromPromise={network && address && (
-												() => getDeFiProtocolBalances({
-													protocolNames: providers?.zapper ? [providers.zapper] : [],
-													network,
-													address
-												})
-											)}
+											fromStore={() => getDeFiAppBalances({
+												appIds: providers?.zapper ? [providers.zapper] : [],
+												network,
+												address,
+												asStore: true
+											})}
 											bind:result={zapperDefiProtocolBalances}
 											let:then={defiProtocolBalances}
 											{isCollapsed}
@@ -329,11 +328,11 @@
 												<!-- {/if} -->
 											</svelte:fragment>
 
-											<div class="defi-balances column" class:scrollable-list={defiProtocolBalances.length > 6}>
-												{#each defiProtocolBalances as {protocolName, products, meta}, i}
+											<div class="defi-balances column" class:scrollable-list={defiProtocolBalances.flatMap(({products}) => products).length > 6}>
+												{#each defiProtocolBalances as {appId, products, meta}, i}
 													{#each products as {
 														label, assets, meta: productMeta,
-														// _: blockchainAppConfig = blockchainAppsByProviderName.zapper?.[protocolName]
+														// _: blockchainAppConfig = blockchainAppsByProviderName.zapper?.[appId]
 													}, j (label)}
 														<div
 															class="card defi-protocol"
@@ -341,14 +340,14 @@
 															animate:flip|local={{duration: 300, delay: Math.abs(i + j * 0.1) * 10}}
 														>
 														<!-- style={cardStyle(colors || blockchainAppConfig.colors)} -->
-															{#if assets[0]?.protocolImg}
-																<img class="card-background" src={`https://zapper.fi/images/${assets[0].protocolImg}`} alt={label} width="20"/>
-															{:else if assets[0]?.protocolSymbol}
-																<span class="card-background"><TokenIcon symbol={assets[0].protocolSymbol} /></span>
+															{#if assets[0]?.appImgUrl}
+																<img class="card-background" src={assets[0].appImgUrl} alt={label} width="20"/>
+															<!-- {:else if assets[0]?.symbol}
+																<span class="card-background"><TokenIcon symbol={assets[0].protocolSymbol} /></span> -->
 															{/if}
 															<div class="bar">
 																<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{label}">
-																	<a href="/apps/{blockchainAppsByProviderName.zapper?.[protocolName]?.slug ?? protocolName}/address/{address}">{label}</a>
+																	<a href="/apps/{blockchainAppsByProviderName.zapper?.[appId]?.slug ?? appId}/address/{address}">{label}</a>
 																</h5>
 																{#each meta as {label, type, value}}
 																	{#if label === 'Assets'}
@@ -435,8 +434,7 @@
 																				{#if label && label !== symbol}
 																					<span class="card-annotation">{label}</span>
 																				{:else}
-																					<span class="card-annotation">{type} {type !== category ? category : ''}</span>
-																				{/if}
+																				<span class="card-annotation">{type}{category && type !== category ? ` ${category}` : ''}</span>																				{/if}
 																			{/if}
 																		</div>
 
@@ -444,19 +442,19 @@
 																		{#if showUnderlyingAssets && tokens?.length}
 																			<div class="underlying">
 																				{#each tokens as {
-																					address, decimals, symbol, img,
+																					address, decimals, symbol, tokenImageUrl,
 																					balance, balanceUSD, balanceRaw, price,
 																					reserve, weight,
 																					isCToken
 																				}}
-																					<p class="underlying-asset" in:scaleFont>
+																					<abbr class="underlying-asset" in:scaleFont title={label}>
 																						<span class="underlying-symbol">┖</span>
 																						<TokenBalanceWithConversion
 																							{showValues}
 
 																							{symbol}
 																							address={tokenAddress || address}
-																							icon={`https://zapper.fi/images/${img}`}
+																							icon={tokenImageUrl}
 
 																							balance={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
 																							convertedValue={balanceUSD * zapperFiatRate}
@@ -468,7 +466,7 @@
 																						{#if weight}
 																							<small>({formatPercent(weight)})</small>
 																						{/if}
-																					</p>
+																					</abbr>
 																				{/each}
 																			</div>
 																		{/if}
@@ -542,7 +540,7 @@
 											errorMessage="Error getting {blockchainAppConfig.name} balances from {defiProvider}."
 											fromPromise={provider && address && (
 												() => getDefiBalances({
-													protocolNames: providers?.zerionDefiSDK,
+													appIds: providers?.zerionDefiSDK,
 													network,
 													provider,
 													address
