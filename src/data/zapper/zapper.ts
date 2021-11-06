@@ -276,9 +276,9 @@ client.request = async ({query = {}, ...params}: FullRequestParams) => {
 const Zapper = new V1(client)
 
 
-import { memoizedAsync } from '../../utils/memoized'
 
 import { ConcurrentPromiseQueue } from '../../utils/concurrent-promise-queue'
+
 const queue = new ConcurrentPromiseQueue(3)
 
 function PromiseAllFulfilled<T>(promises: Promise<T>[]){
@@ -289,13 +289,16 @@ function PromiseAllFulfilled<T>(promises: Promise<T>[]){
 	)
 }
 
-// const fromRaw = requestPromise => requestPromise.then(response => response.raw.json()).catch(async e => { throw e.json ? await e.json() : e.toString() })
+import { readable } from 'svelte/store'
+import type { Result } from 'svelte-apollo'
 
 
+import { memoizedAsync } from '../../utils/memoized'
 
 export const getAllApps = memoizedAsync(async () =>
 	(await Zapper.appsControllerGetApps({format: 'json'})) as unknown as AppDefinition[]
 )
+
 
 const getAppsForAddress = memoizedAsync(async (
 	address: Ethereum.Address
@@ -343,11 +346,13 @@ const filterAndSortApps = (
 export const getDeFiAppBalances = memoizedAsync(async ({
 	appIds,
 	network,
-	address
+	address,
+	asStore = false
 }: {
 	appIds?: ZapperAppId[],
 	network: Ethereum.Network,
-	address: Ethereum.Address
+	address: Ethereum.Address,
+	asStore?: boolean
 }) => {
 	const networkName = networkNamesByChainID[network.chainId]
 
@@ -356,7 +361,7 @@ export const getDeFiAppBalances = memoizedAsync(async ({
 
 	const apps = await getAppsForAddressAndNetwork(address, networkName)
 
-	console.log('getAppsForAddressAndNetwork', apps)
+	console.log('appIds', appIds)
 
 	const _appIds = filterAndSortApps(
 		appIds
@@ -364,25 +369,41 @@ export const getDeFiAppBalances = memoizedAsync(async ({
 		?? (await getAppsForNetwork(networkName)).map(({id}) => id)
 	)
 	
-	return await PromiseAllFulfilled(
-		_appIds.map(appId =>
-			queue.enqueue(() =>
-				Zapper.balanceControllerGetProtocolBalancesV2({
+	const promises = _appIds.map(appId =>
+		queue.enqueue(() =>
+			Zapper.balanceControllerGetProtocolBalancesV2({
+				appId,
+				'addresses[]': [address],
+				network: networkName
+			})
+			.then(response => {
+				console.log('Zapper balance', appId, address, response)
+				return {
 					appId,
-					'addresses[]': [address],
-					network: networkName
-				})
-				.then(response => {
-					console.log('Zapper balance', appId, address, response)
-					return {
-						appId,
-						...(response[address.toLowerCase()] as AddressBalanceResponse)
-					}
-				})
-				// .catch(async response => console.error(await response.text()))
-			)
+					...(response[address.toLowerCase()] as AddressBalanceResponse)
+				}
+			})
+			// .catch(async response => console.error(await response.text()))
 		)
 	)
+
+	return asStore
+		? readable<Result<({ appId: ZapperAppId } & AddressBalanceResponse)[]>>({loading: true}, set => {
+			let results = []
+
+			for(const promise of promises)
+				promise.then(result => set({
+					loading: true,
+					data:
+						results = [...results, result]
+				}))
+
+			PromiseAllFulfilled(promises).then(() => set({
+				loading: false,
+				data: results
+			}))
+		})
+		: await PromiseAllFulfilled(promises)
 	// .then(defiBalances => defiBalances.filter(
 	// 	<(_) => _ is ProtocolBalanceResponse & {protocolName: ZapperAppId}> (_ => _)
 	// ))
