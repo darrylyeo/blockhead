@@ -80,6 +80,8 @@
 	--global-background-gradient-base-color: #f6f6f6;
 	background: linear-gradient(155deg, var(--global-background-gradient-base-color), var(--primary-color, var(--ethereum-blue)) 250%) fixed;
 
+	accent-color: var(--primary-color);
+
 	--invert-when-light: invert();
 	--invert-when-dark: none;
 
