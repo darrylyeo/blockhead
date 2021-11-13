@@ -97,7 +97,7 @@
 
 	.nft-image {
 		width: 100%;
-		border-radius: 0.33em;
+		border-radius: 0.33rem;
 		margin: auto;
 		background-color: rgba(0, 0, 0, 0.1);
 		object-fit: contain;
@@ -183,11 +183,13 @@
 												].map(section => section.filter(Boolean).join('\n')).filter(Boolean).join('\n\n')
 											}>
 												<a class="bar" href={token_url || external_data?.external_url} target="_blank">
-													{#if external_data.image}
-														<img class="nft-image" src={external_data.image} alt={external_data.name} loading="lazy" />
-													{:else}
-														<img class="nft-image" />
-													{/if}
+													<picture>
+														{#if external_data.image}
+															<source src={external_data.image} loading="lazy" />
+														{/if}
+														<img class="nft-image" alt={`${external_data.name}${token_id ? ` #${token_id}` : ''}`} />
+														<!-- <img class="nft-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt={`${external_data.name}${token_id ? ` #${token_id}` : ''}`} /> -->
+													</picture>
 												</a>
 												<header class="bar">
 													<h5>{external_data.name}</h5>
