@@ -55,6 +55,7 @@
 	import EthereumNFTs from './EthereumNFTs.svelte'
 	import HeightContainer from './HeightContainer.svelte'
 	import TokenBalance from './TokenBalance.svelte'
+	import { tokenColors } from '../data/token-colors'
 </script>
 
 
@@ -130,127 +131,129 @@
 		{#each showNetworks as {chainID, show, showBalances, showDeFi, showNFTs}, i}
 			{#each [networksByChainID[chainID]] as network}
 				{#if show}
-					<HeightContainer class="column" isOpen={isEditing}>
-						<hr>
-						<div class="bar">
-							<h3><Address {network} {address}>{network.name}</Address></h3>
-							<span class="card-annotation">#{network.chainId}</span>
-							<button class="small" on:click={() => show = false}>Hide Network</button>
-						</div>
-					</HeightContainer>
+					<div class="column" style="{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}">
+						<HeightContainer class="column" isOpen={isEditing}>
+							<hr>
+							<div class="bar">
+								<h3><Address {network} {address}>{network.name}</Address></h3>
+								<span class="card-annotation">#{network.chainId}</span>
+								<button class="small" on:click={() => show = false}>Hide Network</button>
+							</div>
+						</HeightContainer>
 
-					<!-- Token Balances -->
-					{#if showBalances}
-						{#if tokenBalancesProvider === 'Covalent' && Covalent.ChainIDs.includes(network.chainId)}
-							<EthereumBalances
+						<!-- Token Balances -->
+						{#if showBalances}
+							{#if tokenBalancesProvider === 'Covalent' && Covalent.ChainIDs.includes(network.chainId)}
+								<EthereumBalances
+									{network}
+									{address}
+									{tokenBalancesProvider}
+									{quoteCurrency}
+									{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets}
+									isCollapsed={isEditing}
+									bind:quoteTotal={tokenQuoteTotals[i]}
+								>
+									<svelte:fragment slot="header" let:network let:quoteCurrency let:quoteTotal>
+										<hr>
+										<div class="bar">
+											<h4><Address {network} {address}>{network.name} Balances</Address></h4>
+											<TokenBalance symbol={quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
+											{#if isEditing}
+												<button class="small" on:click={() => showBalances = false}>Hide</button>
+											{/if}
+											<!-- {#if isEditing}
+												<label>
+													<input type="checkbox" bind:checked={showBalances}>
+													<span>Show Balances</span>
+												</label>
+											{/if} -->
+										</div>
+									</svelte:fragment>
+								</EthereumBalances>
+							{:else if provider}
+								<div class="balances">
+									{#each [network.nativeCurrency.symbol] as symbol}
+										<Balance
+											{network}
+											{provider}
+											{address}
+											{symbol}
+										/>
+									{/each}
+								</div>
+							{/if}
+						{/if}
+
+						<!-- DeFi Balances -->
+						{#if showDeFi}
+							<DefiBalances
 								{network}
+								{provider}
 								{address}
-								{tokenBalancesProvider}
+								{defiProvider}
 								{quoteCurrency}
-								{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets}
+								{showValues}
+								{showUnderlyingAssets}
 								isCollapsed={isEditing}
-								bind:quoteTotal={tokenQuoteTotals[i]}
+								bind:quoteTotal={defiQuoteTotals[i]}
 							>
-								<svelte:fragment slot="header" let:network let:quoteCurrency let:quoteTotal>
+								<svelte:fragment slot="header" let:quoteTotal let:quoteTotalCurrency>
 									<hr>
 									<div class="bar">
-										<h4><Address {network} {address}>{network.name} Balances</Address></h4>
-										<TokenBalance symbol={quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
+										<h4>{network.name} DeFi</h4>
+										{#if quoteTotal !== undefined}
+											<TokenBalance symbol={quoteTotalCurrency || quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
+										{/if}
 										{#if isEditing}
-											<button class="small" on:click={() => showBalances = false}>Hide</button>
+											<button class="small" on:click={() => showDeFi = false}>Hide</button>
 										{/if}
 										<!-- {#if isEditing}
 											<label>
-												<input type="checkbox" bind:checked={showBalances}>
-												<span>Show Balances</span>
+												<input type="checkbox" bind:checked={showDeFi}>
+												<span>Show DeFi</span>
 											</label>
 										{/if} -->
 									</div>
 								</svelte:fragment>
-							</EthereumBalances>
-						{:else if provider}
-							<div class="balances">
-								{#each [network.nativeCurrency.symbol] as symbol}
-									<Balance
-										{network}
-										{provider}
-										{address}
-										{symbol}
-									/>
-								{/each}
-							</div>
+							</DefiBalances>
 						{/if}
-					{/if}
 
-					<!-- DeFi Balances -->
-					{#if showDeFi}
-						<DefiBalances
-							{network}
-							{provider}
-							{address}
-							{defiProvider}
-							{quoteCurrency}
-							{showValues}
-							{showUnderlyingAssets}
-							isCollapsed={isEditing}
-							bind:quoteTotal={defiQuoteTotals[i]}
-						>
-							<svelte:fragment slot="header" let:quoteTotal let:quoteTotalCurrency>
-								<hr>
-								<div class="bar">
-									<h4>{network.name} DeFi</h4>
-									{#if quoteTotal !== undefined}
-										<TokenBalance symbol={quoteTotalCurrency || quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
-									{/if}
-									{#if isEditing}
-										<button class="small" on:click={() => showDeFi = false}>Hide</button>
-									{/if}
-									<!-- {#if isEditing}
-										<label>
-											<input type="checkbox" bind:checked={showDeFi}>
-											<span>Show DeFi</span>
-										</label>
-									{/if} -->
-								</div>
-							</svelte:fragment>
-						</DefiBalances>
-					{/if}
-
-					<!-- NFT Balances -->
-					{#if showNFTs}
-						<EthereumNFTs
-							{network}
-							{address}
-							{nftProvider}
-							{quoteCurrency}
-							{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets} {showNFTMetadata}
-							isCollapsed={isEditing}
-							bind:quoteTotal={nftQuoteTotals[i]}
-							let:nftContractCount
-							let:nftCount
-						>
-							<svelte:fragment slot="header">
-								<hr>
-								<div class="bar">
-									<h4>{network.name} NFTs</h4>
-									<span>
-										<strong>{nftCount}</strong> NFT{nftCount === 1 ? '' : 's'}
-										across
-										<strong>{nftContractCount}</strong> collection{nftContractCount === 1 ? '' : 's'}
-									</span>
-									{#if isEditing}
-										<button class="small" on:click={() => showNFTs = false}>Hide</button>
-									{/if}
-									<!-- {#if isEditing}
-										<label>
-											<input type="checkbox" bind:checked={showNFTs}>
-											<span>Show NFTs</span>
-										</label>
-									{/if} -->
-								</div>
-							</svelte:fragment>
-						</EthereumNFTs>
-					{/if}
+						<!-- NFT Balances -->
+						{#if showNFTs}
+							<EthereumNFTs
+								{network}
+								{address}
+								{nftProvider}
+								{quoteCurrency}
+								{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets} {showNFTMetadata}
+								isCollapsed={isEditing}
+								bind:quoteTotal={nftQuoteTotals[i]}
+								let:nftContractCount
+								let:nftCount
+							>
+								<svelte:fragment slot="header">
+									<hr>
+									<div class="bar">
+										<h4>{network.name} NFTs</h4>
+										<span>
+											<strong>{nftCount}</strong> NFT{nftCount === 1 ? '' : 's'}
+											across
+											<strong>{nftContractCount}</strong> collection{nftContractCount === 1 ? '' : 's'}
+										</span>
+										{#if isEditing}
+											<button class="small" on:click={() => showNFTs = false}>Hide</button>
+										{/if}
+										<!-- {#if isEditing}
+											<label>
+												<input type="checkbox" bind:checked={showNFTs}>
+												<span>Show NFTs</span>
+											</label>
+										{/if} -->
+									</div>
+								</svelte:fragment>
+							</EthereumNFTs>
+						{/if}
+					</div>
 				{/if}
 			{/each}
 		{/each}
