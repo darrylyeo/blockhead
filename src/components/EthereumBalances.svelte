@@ -10,6 +10,7 @@
 	export let tokenBalancesProvider = $preferences.tokenBalancesProvider
 	export let quoteCurrency: QuoteCurrency = $preferences.quoteCurrency
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending'
+	export let showNativeCurrency = true
 	export let showSmallValues = false
 	export let showValues: 'original' | 'converted' | 'both' = 'original'
 
@@ -34,19 +35,32 @@
 
 	export let filteredBalances: TokenWithBalance[]
 	$: filteredBalances = balances
-		.filter(
-			showSmallValues
-				? b => b.type !== 'nft' // undefined
-				: b => b.type !== 'nft' && !(/*b.type === 'dust' || */ b.value < 1e-3)
+		.filter(({type, value, token, balance}) =>
+			type !== 'nft' && (
+				(showNativeCurrency &&
+					tokensAreEqual(network.nativeCurrency, token)
+				) ||
+				!(!showSmallValues && (
+					// type === 'dust' ||
+					Math.abs(value) < 1e-3 || // isSmallValue
+					balance == 0 // isZero
+				))
 			)
+		)
 		.sort(
-			sortBy === 'value-descending' ? (a, b) => b.value - a.value || b.balance - a.balance :
-			sortBy === 'value-ascending' ? (a, b) => a.value - b.value || a.balance - b.balance :
-			sortBy === 'ticker-ascending' ? (a, b) => a.token.symbol.localeCompare(b.token.symbol) :
+			sortBy === 'value-descending' ? (a, b) => b.value - a.value || a.balance - b.balance :
+			sortBy === 'value-ascending' ? (a, b) => a.value - b.value || b.balance - a.balance :
+			sortBy === 'ticker-ascending' ? (a, b) => a.token.symbol?.localeCompare(b.token.symbol) :
 			undefined
 		)
 
 	$: quoteTotal = balances.reduce((sum, item) => sum + item.value, 0)
+
+
+	const tokensAreEqual = (token1, token2) =>
+		// token1.name === token2.name &&
+		token1.symbol === token2.symbol &&
+		token1.decimals === token2.decimals
 	
 
 	import EthereumBalancesLoader from './EthereumBalancesLoader.svelte'
@@ -134,7 +148,7 @@
 				}
 					<span
 						class="ethereum-balance"
-						class:mark={token.symbol === network.nativeCurrency.symbol}
+						class:mark={tokensAreEqual(network.nativeCurrency, token)}
 						class:is-selectable={isSelectable}
 						class:is-selected={selectedToken?.address === token.address}
 						tabindex={isSelectable ? 0 : undefined}
