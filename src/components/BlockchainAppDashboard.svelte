@@ -719,7 +719,6 @@
 															erc20Token={token}
 
 															balance={balance * 0.1 ** token.decimals}
-															isDust={type === 'dust'}
 															conversionCurrency={quoteCurrency}
 															convertedValue={value}
 															conversionRate={rate}
@@ -729,7 +728,6 @@
 															{erc20Token}
 
 															balance={0}
-															isDust={false}
 															conversionCurrency={quoteCurrency}
 															convertedValue={0}
 															conversionRate={0}

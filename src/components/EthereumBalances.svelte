@@ -150,7 +150,6 @@
 							erc20Token={token}
 
 							balance={balance * 0.1 ** token.decimals}
-							isDust={false}
 							conversionCurrency={quoteCurrency}
 							convertedValue={value}
 							conversionRate={rate}
@@ -158,7 +157,6 @@
 							animationDelay={i * 10}
 							showParentheses={false}
 						/>
-						<!-- isDust={type === 'dust'} -->
 					</span>
 				{/each}
 			</div>

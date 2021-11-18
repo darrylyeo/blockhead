@@ -2,6 +2,7 @@
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
 
+
 	export let showValues: 'original' | 'converted' | 'both' = 'original'
 	export let showDecimalPlaces = 3
 	export let showConversionRate = false
@@ -19,22 +20,25 @@
 	$: icon = $$props.icon || erc20Token?.icon
 
 	export let balance
-	export let isDust = false
-	$: isSmallValue = Math.abs(convertedValue) < 1e-3
-	$: isZero = balance == 0
 	export let isDebt = false
 
 	export let conversionCurrency: QuoteCurrency
 	export let convertedValue
-
 	export let conversionRate
 
+
+	$: isSmallValue = Math.abs(convertedValue) < 1e-3
+	$: isZero = balance == 0
+
+
 	export let animationDelay = 0
+
 
 	function sizeByVolume(size) {
 		return 1 + size * 0.0025
 	}
-	
+
+
 	import TokenName from './TokenName.svelte'
 	import TokenRate from './TokenRate.svelte'
 	import TokenBalance from './TokenBalance.svelte'
@@ -53,7 +57,7 @@
 		white-space: nowrap;
 	}
 
-	.is-dust, .is-small-value {
+	.is-small-value {
 		opacity: 0.55;
 	}
 	.is-zero {
@@ -66,7 +70,8 @@
 	}
 </style>
 
-<span class="token-balance-with-conversion" class:is-debt={isDebt} class:is-dust={isDust} class:is-small-value={isSmallValue} class:is-zero={isZero}>
+
+<span class="token-balance-with-conversion" class:is-debt={isDebt} class:is-small-value={isSmallValue} class:is-zero={isZero}>
 	{#if showValues === 'original' || showValues === 'both'}
 		<span class="balance" transition:scaleFont|local><!-- style="font-size: {sizeByVolume(convertedValue)}em" -->
 			<TokenBalance
