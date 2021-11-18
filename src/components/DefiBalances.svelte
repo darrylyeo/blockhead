@@ -177,13 +177,10 @@
 			})}
 			bind:result={zapperDefiProtocolBalances}
 			let:then={defiProtocolBalances}
-			showIf={defiProtocolBalances => defiProtocolBalances.length}
 			{isCollapsed}
 		>
 			<svelte:fragment slot="header" let:status>
-				{#if (status === 'resolved' && defiProtocolBalances.length) || status === 'error'}
-					<slot name="header" {quoteTotal} {quoteTotalCurrency}></slot>
-				{/if}
+				<slot name="header" {status} defiBalances={defiProtocolBalances} {quoteTotal} {quoteTotalCurrency} />
 			</svelte:fragment>
 
 			<div class="defi-balances column" class:scrollable-list={defiProtocolBalances.flatMap(({products}) => products).length > 6}>
@@ -409,9 +406,7 @@
 				<TokenIcon slot="loadingIcon" symbol={network.nativeCurrency.symbol} />
 
 				<svelte:fragment slot="header" let:status>
-					{#if defiBalances?.length}
-						<slot name="header" {network} {quoteCurrency}></slot><!-- {quoteTotal} -->
-					{/if}
+					<slot name="header" {status} {defiBalances} quoteTotal={undefined} {quoteTotalCurrency} />
 				</svelte:fragment>
 
 				<div class="defi-balances column">

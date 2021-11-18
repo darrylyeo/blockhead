@@ -199,23 +199,25 @@
 								isCollapsed={isEditing}
 								bind:quoteTotal={defiQuoteTotals[i]}
 							>
-								<svelte:fragment slot="header" let:quoteTotal let:quoteTotalCurrency>
-									<hr>
-									<div class="bar">
-										<h4>{network.name} DeFi</h4>
-										{#if quoteTotal !== undefined}
-											<TokenBalance symbol={quoteTotalCurrency || quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
-										{/if}
-										{#if isEditing}
-											<button class="small" on:click={() => showDeFi = false}>Hide</button>
-										{/if}
-										<!-- {#if isEditing}
-											<label>
-												<input type="checkbox" bind:checked={showDeFi}>
-												<span>Show DeFi</span>
-											</label>
-										{/if} -->
-									</div>
+								<svelte:fragment slot="header" let:status let:defiBalances let:quoteTotal let:quoteTotalCurrency>
+									{#if (status === 'resolved' && defiBalances?.length) || status === 'error'}
+										<hr>
+										<div class="bar">
+											<h4>{network.name} DeFi</h4>
+											{#if quoteTotal !== undefined}
+												<TokenBalance symbol={quoteTotalCurrency || quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
+											{/if}
+											{#if isEditing}
+												<button class="small" on:click={() => showDeFi = false}>Hide</button>
+											{/if}
+											<!-- {#if isEditing}
+												<label>
+													<input type="checkbox" bind:checked={showDeFi}>
+													<span>Show DeFi</span>
+												</label>
+											{/if} -->
+										</div>
+									{/if}
 								</svelte:fragment>
 							</DefiBalances>
 						{/if}
