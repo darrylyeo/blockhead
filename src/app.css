@@ -327,9 +327,11 @@ img {
 	grid-template-areas: 'stack';
 	place-items: center;
 
-	font-size: 0;
 	font-family: Pally, var(--base-fonts);
-	/* text-indent: -1000vw; */
+	
+	/* font-size: 0; */
+	/* visibility: hidden; */
+	text-indent: -1000vw;
 
 	position: relative;
 }
@@ -348,9 +350,13 @@ img:after {
 	font-weight: bold;
 	line-height: 1.25;
 	text-decoration: none;
-	/* text-indent: initial; */
+
+	/* visibility: visible;
+	background: inherit; */
+	text-indent: initial;
 
 	white-space: pre-line;
+    word-break: break-word;
 
 	opacity: 0.85;
 
