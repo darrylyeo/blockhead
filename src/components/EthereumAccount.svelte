@@ -138,35 +138,37 @@
 			bind:selectedToken
 			bind:balances
 		>
-			<svelte:fragment slot="header" let:network let:quoteCurrency let:quoteTotal>
-				<hr>
+			<svelte:fragment slot="header" let:quoteCurrency let:quoteTotal>
+				{#if balances.length}
+					<hr>
 
-				<div class="bar">
-					<h3>{network.name} Tokens (<TokenBalance symbol={quoteCurrency} balance={quoteTotal} showPlainFiat={true} />)</h3>
-					<label>
-						<input type="checkbox" bind:checked={showSmallValues}>
-						<span>Show Small Values</span>
-					</label>
-					<label>
-						<span>Sort</span>
-						<select bind:value={sortBy}>
-							<option value="ticker-ascending">Alphabetical</option>
-							<option value="value-descending">Highest Value</option>
-							<option value="value-ascending">Lowest Value</option>
-						</select>
-					</label>
-					<label>
-						<span>Show</span>
-						<select bind:value={showValues}>
-							<option value="original">Balances</option>
-							<option value="converted">Quotes</option>
-							<option value="both">Balances + Quotes</option>
-							<!-- <option value="original">Token Amounts</option>
-							<option value="converted">Quote Values</option>
-							<option value="both">Amounts and Values</option> -->
-						</select>
-					</label>
-				</div>
+					<div class="bar">
+						<h3>{network.name} Tokens (<TokenBalance symbol={quoteCurrency} balance={quoteTotal} showPlainFiat={true} />)</h3>
+						<label>
+							<input type="checkbox" bind:checked={showSmallValues}>
+							<span>Show Small Values</span>
+						</label>
+						<label>
+							<span>Sort</span>
+							<select bind:value={sortBy}>
+								<option value="ticker-ascending">Alphabetical</option>
+								<option value="value-descending">Highest Value</option>
+								<option value="value-ascending">Lowest Value</option>
+							</select>
+						</label>
+						<label>
+							<span>Show</span>
+							<select bind:value={showValues}>
+								<option value="original">Balances</option>
+								<option value="converted">Quotes</option>
+								<option value="both">Balances + Quotes</option>
+								<!-- <option value="original">Token Amounts</option>
+								<option value="converted">Quote Values</option>
+								<option value="both">Amounts and Values</option> -->
+							</select>
+						</label>
+					</div>
+				{/if}
 			</svelte:fragment>
 		</EthereumBalances>
 

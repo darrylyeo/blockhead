@@ -56,6 +56,7 @@
 	import { quintOut } from 'svelte/easing'
 </script>
 
+
 <style>
 	.ethereum-balances {
 		--column-width: 12rem;
@@ -109,6 +110,7 @@
 	}
 </style>
 
+
 {#if address}
 	<EthereumBalancesLoader
 		{network}
@@ -120,9 +122,7 @@
 		bind:balances
 	>
 		<svelte:fragment slot="header">
-			{#if balances.length}
-				<slot name="header" {network} {quoteCurrency} {quoteTotal}></slot>
-			{/if}
+			<slot name="header" {balances} {quoteCurrency} {quoteTotal} />
 		</svelte:fragment>
 
 		<div class:scrollable-list={filteredBalances.length > 45}>

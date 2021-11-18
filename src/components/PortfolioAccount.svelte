@@ -153,21 +153,23 @@
 									isCollapsed={isEditing}
 									bind:quoteTotal={tokenQuoteTotals[i]}
 								>
-									<svelte:fragment slot="header" let:network let:quoteCurrency let:quoteTotal>
-										<hr>
-										<div class="bar">
-											<h4><Address {network} {address}>{network.name} Balances</Address></h4>
-											<TokenBalance symbol={quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
-											{#if isEditing}
-												<button class="small" on:click={() => showBalances = false}>Hide</button>
-											{/if}
-											<!-- {#if isEditing}
-												<label>
-													<input type="checkbox" bind:checked={showBalances}>
-													<span>Show Balances</span>
-												</label>
-											{/if} -->
-										</div>
+									<svelte:fragment slot="header" let:balances let:quoteCurrency let:quoteTotal>
+										{#if balances?.length}
+											<hr>
+											<div class="bar">
+												<h4><Address {network} {address}>{network.name} Balances</Address></h4>
+												<TokenBalance symbol={quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
+												{#if isEditing}
+													<button class="small" on:click={() => showBalances = false}>Hide</button>
+												{/if}
+												<!-- {#if isEditing}
+													<label>
+														<input type="checkbox" bind:checked={showBalances}>
+														<span>Show Balances</span>
+													</label>
+												{/if} -->
+											</div>
+										{/if}
 									</svelte:fragment>
 								</EthereumBalances>
 							{:else if provider}
