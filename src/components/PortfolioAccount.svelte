@@ -235,25 +235,27 @@
 								let:nftContractCount
 								let:nftCount
 							>
-								<svelte:fragment slot="header">
-									<hr>
-									<div class="bar">
-										<h4>{network.name} NFTs</h4>
-										<span>
-											<strong>{nftCount}</strong> NFT{nftCount === 1 ? '' : 's'}
-											across
-											<strong>{nftContractCount}</strong> collection{nftContractCount === 1 ? '' : 's'}
-										</span>
-										{#if isEditing}
-											<button class="small" on:click={() => showNFTs = false}>Hide</button>
-										{/if}
-										<!-- {#if isEditing}
-											<label>
-												<input type="checkbox" bind:checked={showNFTs}>
-												<span>Show NFTs</span>
-											</label>
-										{/if} -->
-									</div>
+								<svelte:fragment slot="header" let:balances>
+									{#if balances?.length}
+										<hr>
+										<div class="bar">
+											<h4>{network.name} NFTs</h4>
+											<span>
+												<strong>{nftCount}</strong> NFT{nftCount === 1 ? '' : 's'}
+												across
+												<strong>{nftContractCount}</strong> collection{nftContractCount === 1 ? '' : 's'}
+											</span>
+											{#if isEditing}
+												<button class="small" on:click={() => showNFTs = false}>Hide</button>
+											{/if}
+											<!-- {#if isEditing}
+												<label>
+													<input type="checkbox" bind:checked={showNFTs}>
+													<span>Show NFTs</span>
+												</label>
+											{/if} -->
+										</div>
+									{/if}
 								</svelte:fragment>
 							</EthereumNFTs>
 						{/if}

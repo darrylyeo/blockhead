@@ -137,17 +137,14 @@
 {#if address}
 	<Loader
 		loadingIcon={'/logos/covalent-logomark.svg'}
-			loadingIconName={nftProvider}
-			loadingMessage="Retrieving {network.name} NFTs from {nftProvider}..."
-			errorMessage="Error retrieving {network.name} NFTs from {nftProvider}"
+		loadingIconName={nftProvider}
+		loadingMessage="Retrieving {network.name} NFTs from {nftProvider}..."
+		errorMessage="Error retrieving {network.name} NFTs from {nftProvider}"
 		fromPromise={() => getBalancesPromise}
-		showIf={() => balances.length}
 		{isCollapsed}
 	>
 		<svelte:fragment slot="header">
-			{#if balances.length}
-				<slot name="header" {network} {quoteCurrency} {quoteTotal} {nftContractCount} {nftCount}></slot>
-			{/if}
+			<slot name="header" {balances} {quoteCurrency} {quoteTotal} {nftContractCount} {nftCount}></slot>
 		</svelte:fragment>
 
 		{#if balances}
