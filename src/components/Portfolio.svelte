@@ -4,6 +4,9 @@
 	import type { QuoteCurrency } from '../data/currency/currency'
 
 	import { Account } from '../data/ethereum/portfolio-accounts'
+	import { availableNetworks } from '../data/ethereum/networks'
+
+	import { preferences } from '../data/ethereum/preferences'
 
 
 	// Portfolio management
@@ -61,6 +64,11 @@
 	export let tokenBalancesProvider
 	export let nftProvider
 	export let quoteCurrency: QuoteCurrency
+
+	$: defiProvider = $$props.defiProvider || $preferences.defiProvider
+	$: tokenBalancesProvider = $$props.tokenBalancesProvider || $preferences.tokenBalancesProvider
+	$: nftProvider = $$props.nftProvider || $preferences.nftProvider
+	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
 	
 	let showValues: 'original' | 'converted' | 'both' = 'original'
 	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
@@ -88,8 +96,8 @@
 	import TokenBalance from './TokenBalance.svelte'
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
-import { availableNetworks } from '../data/ethereum/networks';
 </script>
+
 
 <style>
 	.edit-controls {
