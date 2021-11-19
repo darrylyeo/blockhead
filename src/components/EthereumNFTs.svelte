@@ -19,6 +19,10 @@
 	export let isCollapsed: boolean
 
 
+	import { memoizedAsync } from '../utils/memoized'
+
+	const getNftBalancesCovalent = memoizedAsync(getTokenAddressBalances)
+
 	let filterFunction: (b: Covalent.ERC20TokenOrNFTContractWithBalance) => boolean
 	$: filterFunction =
 		b => b.type === 'nft'
@@ -31,10 +35,7 @@
 		undefined
 
 
-	$: getBalancesPromise = getTokenAddressBalances({address, nft: true, chainID: network.chainId, quoteCurrency: quoteCurrency})
 	export let balances: Covalent.NFTContractWithBalance[] = []
-	$: getBalancesPromise.then(balances => (filterFunction ? balances.items.filter(filterFunction) : balances.items).sort(sortFunction) as Covalent.NFTContractWithBalance[])
-		.then(_ => balances = _)
 
 	$: quoteTotal = balances.reduce((sum, item) => sum + item.quote, 0)
 	$: nftContractCount = balances.length
@@ -150,7 +151,19 @@
 		loadingIconName={nftProvider}
 		loadingMessage="Retrieving {network.name} NFTs from {nftProvider}..."
 		errorMessage="Error retrieving {network.name} NFTs from {nftProvider}"
-		fromPromise={() => getBalancesPromise}
+		fromPromise={filterFunction && sortFunction && (() =>
+			getNftBalancesCovalent({
+				address,
+				nft: true,
+				chainID: network.chainId,
+				quoteCurrency: quoteCurrency
+			}).then(balances =>
+				(filterFunction ? balances.items.filter(filterFunction) : balances.items)
+					.sort(sortFunction)
+				// as Covalent.NFTContractWithBalance[]
+			)
+		)}
+		bind:result={balances}
 		{isCollapsed}
 	>
 		<svelte:fragment slot="header">
