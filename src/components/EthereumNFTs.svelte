@@ -61,13 +61,22 @@
 		// :
 		// 	attributes
 	}
-	
+
+
+	const formatTokenId = (tokenId: number | string) =>
+		String(tokenId).length > 12
+			? String(tokenId).slice(0, 6) + '⸱⸱⸱' + String(tokenId).slice(-6)
+			: String(tokenId)
+
+	const formatNFTNameAndTokenID = (name: string, tokenId: number) => `${name ? `${name.replace(new RegExp(`#${tokenId}$`), '')}\n` : ''}#${formatTokenId(tokenId)}`
+
 
 	import Address from './Address.svelte'
 	import Loader from './Loader.svelte'
 	import { flip } from 'svelte/animate'
 	import { quintOut } from 'svelte/easing'
 </script>
+
 
 <style>
 	.nft-contracts {
@@ -134,6 +143,7 @@
 	}
 </style>
 
+
 {#if address}
 	<Loader
 		loadingIcon={'/logos/covalent-logomark.svg'}
@@ -174,18 +184,19 @@
 										{#each [parseNFTAttributes(external_data.attributes)] as attributes}
 											<article class="nft column" title={
 												[
-													[`${contract_name ? `${contract_name} ` : ''}#${token_id}`, external_data.name],
+													[formatNFTNameAndTokenID(contract_name, token_id), external_data.name],
 													[external_data.description],
 													attributes.map(({trait_type, value}) => `${trait_type}: ${value}`)
 												].map(section => section.filter(Boolean).join('\n')).filter(Boolean).join('\n\n')
 											}>
 												<a class="bar" href={token_url || external_data?.external_url} target="_blank">
 													<picture>
-														{#if external_data.image}
-															<source src={external_data.image} loading="lazy" />
-														{/if}
-														<img class="nft-image" alt={`${external_data.name}${token_id ? ` #${token_id}` : ''}`} />
-														<!-- <img class="nft-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt={`${external_data.name}${token_id ? ` #${token_id}` : ''}`} /> -->
+														<img
+															class="nft-image"
+															src={external_data.image}
+															alt={formatNFTNameAndTokenID(external_data.name, token_id)}
+														/>
+														<!-- <img class="nft-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt={formatNFTNameAndTokenID(external_data.name, token_id)} /> -->
 													</picture>
 												</a>
 												<header class="bar">
