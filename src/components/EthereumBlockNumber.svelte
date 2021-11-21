@@ -89,6 +89,10 @@
 		font-size: 0.8em;
 		height: 1em;
 	}
+
+	a * {
+		pointer-events: none;
+	}
 </style>
 
 

@@ -9,7 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-import type {
+import {
   AppDefinition,
   ApprovalControllerGetApprovalStateParams,
   ApprovalControllerGetApprovalTransactionParams,
@@ -56,7 +56,7 @@ import type {
   ZapOutLegacyControllerGetZapOutApprovalTransactionParams,
   ZapOutLegacyControllerGetZapOutTransactionParams,
 } from "./data-contracts";
-import type { HttpClient, RequestParams } from "./http-client";
+import { HttpClient, RequestParams } from "./http-client";
 
 export class V1<SecurityDataType = unknown> {
   http: HttpClient<SecurityDataType>;
@@ -391,218 +391,6 @@ export class V1<SecurityDataType = unknown> {
       method: "GET",
       query: query,
       secure: true,
-      ...params,
-    });
-  /**
-   * @description Retrieve farms for a given application
-   *
-   * @tags Farms Market Data
-   * @name FarmsControllerGetFarmsMarketData
-   * @summary Application Farms
-   * @request GET:/v1/protocols/{appId}/farms
-   * @secure
-   */
-  farmsControllerGetFarmsMarketData = (
-    { appId, ...query }: FarmsControllerGetFarmsMarketDataParams,
-    params: RequestParams = {},
-  ) =>
-    this.http.request<{}, any>({
-      path: `/v1/protocols/${appId}/farms`,
-      method: "GET",
-      query: query,
-      secure: true,
-      ...params,
-    });
-  /**
-   * @description Returns data about the amount received if a trade would be made. **Should be called whenever a price needs to be calculated.**
-   *
-   * @tags Exchange
-   * @name ExchangeControllerGetExchangePrice
-   * @summary Exchange Price
-   * @request GET:/v1/exchange/price
-   * @secure
-   */
-  exchangeControllerGetExchangePrice = (query: ExchangeControllerGetExchangePriceParams, params: RequestParams = {}) =>
-    this.http.request<{}, any>({
-      path: `/v1/exchange/price`,
-      method: "GET",
-      query: query,
-      secure: true,
-      ...params,
-    });
-  /**
-   * @description Returns both the relative price for a trade as well as the call data used to sumbit a transaction for a trade. **Should only be called when a trade is ready to be submitted.**
-   *
-   * @tags Exchange
-   * @name ExchangeControllerGetExchangeQuote
-   * @summary Exchange Quote
-   * @request GET:/v1/exchange/quote
-   * @secure
-   */
-  exchangeControllerGetExchangeQuote = (query: ExchangeControllerGetExchangeQuoteParams, params: RequestParams = {}) =>
-    this.http.request<{}, any>({
-      path: `/v1/exchange/quote`,
-      method: "GET",
-      query: query,
-      secure: true,
-      ...params,
-    });
-  /**
-   * @description Returns the exchanges supported by Zapper API.
-   *
-   * @tags Exchange
-   * @name ExchangeControllerGetSupportedExchanges
-   * @summary Supported exchanges
-   * @request GET:/v1/exchange/supported
-   * @secure
-   */
-  exchangeControllerGetSupportedExchanges = (params: RequestParams = {}) =>
-    this.http.request<{}, any>({
-      path: `/v1/exchange/supported`,
-      method: "GET",
-      secure: true,
-      ...params,
-    });
-  /**
-   * @description Retrieves farms for a given farm type on the Ethereum mainnet network
-   *
-   * @tags Protocol Stats
-   * @name FarmFetcherControllerGetEthereumFarms
-   * @summary Farm Stats
-   * @request GET:/v1/farms/{farmStatsType}
-   * @secure
-   */
-  farmFetcherControllerGetEthereumFarms = (
-    { farmStatsType, ...query }: FarmFetcherControllerGetEthereumFarmsParams,
-    params: RequestParams = {},
-  ) =>
-    this.http.request<{}, any>({
-      path: `/v1/farms/${farmStatsType}`,
-      method: "GET",
-      query: query,
-      secure: true,
-      ...params,
-    });
-  /**
-   * @description Retrieves an ERC20 approval status for an application zap-in
-   *
-   * @tags Farm Transactions
-   * @name FarmStakingControllerGetApprovalState
-   * @summary Farm Approval State
-   * @request GET:/v1/farms/{farmStatsType}/approval-state
-   * @secure
-   */
-  farmStakingControllerGetApprovalState = (
-    { farmStatsType, ...query }: FarmStakingControllerGetApprovalStateParams,
-    params: RequestParams = {},
-  ) =>
-    this.http.request<{}, any>({
-      path: `/v1/farms/${farmStatsType}/approval-state`,
-      method: "GET",
-      query: query,
-      secure: true,
-      ...params,
-    });
-  /**
-   * @description Builds an ERC20 approval transaction for staking a token in a farm
-   *
-   * @tags Farm Transactions
-   * @name FarmStakingControllerGetApprovalTransaction
-   * @summary Farm Approval Transaction
-   * @request GET:/v1/farms/{farmStatsType}/approval-transaction
-   * @secure
-   */
-  farmStakingControllerGetApprovalTransaction = (
-    { farmStatsType, ...query }: FarmStakingControllerGetApprovalTransactionParams,
-    params: RequestParams = {},
-  ) =>
-    this.http.request<Transaction, any>({
-      path: `/v1/farms/${farmStatsType}/approval-transaction`,
-      method: "GET",
-      query: query,
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description Builds a staking transaction for usage with Web3
-   *
-   * @tags Farm Transactions
-   * @name FarmStakingControllerGetStakeTransaction
-   * @summary Farm Stake Transaction
-   * @request GET:/v1/farms/{farmStatsType}/stake
-   * @secure
-   */
-  farmStakingControllerGetStakeTransaction = (
-    { farmStatsType, ...query }: FarmStakingControllerGetStakeTransactionParams,
-    params: RequestParams = {},
-  ) =>
-    this.http.request<Transaction, any>({
-      path: `/v1/farms/${farmStatsType}/stake`,
-      method: "GET",
-      query: query,
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description Builds a claim transaction for usage with Web3
-   *
-   * @tags Farm Transactions
-   * @name FarmStakingControllerGetClaimTransaction
-   * @summary Farm Claim Transaction
-   * @request GET:/v1/farms/{farmStatsType}/claim
-   * @secure
-   */
-  farmStakingControllerGetClaimTransaction = (
-    { farmStatsType, ...query }: FarmStakingControllerGetClaimTransactionParams,
-    params: RequestParams = {},
-  ) =>
-    this.http.request<Transaction, any>({
-      path: `/v1/farms/${farmStatsType}/claim`,
-      method: "GET",
-      query: query,
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description Builds an exit transaction for usage with Web3
-   *
-   * @tags Farm Transactions
-   * @name FarmStakingControllerGetExitTransaction
-   * @summary Farm Exit Transaction
-   * @request GET:/v1/farms/{farmStatsType}/exit
-   * @secure
-   */
-  farmStakingControllerGetExitTransaction = (
-    { farmStatsType, ...query }: FarmStakingControllerGetExitTransactionParams,
-    params: RequestParams = {},
-  ) =>
-    this.http.request<Transaction, any>({
-      path: `/v1/farms/${farmStatsType}/exit`,
-      method: "GET",
-      query: query,
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description Retrieve a gas price aggregated from multiple different sources
-   *
-   * @tags Miscellaneous Data Endpoints
-   * @name GasPriceControllerGetGasPrice
-   * @summary Gas Price
-   * @request GET:/v1/gas-price
-   * @secure
-   */
-  gasPriceControllerGetGasPrice = (query: GasPriceControllerGetGasPriceParams, params: RequestParams = {}) =>
-    this.http.request<GasPricesResponse, any>({
-      path: `/v1/gas-price`,
-      method: "GET",
-      query: query,
-      secure: true,
-      format: "json",
       ...params,
     });
   /**
@@ -1027,6 +815,218 @@ export class V1<SecurityDataType = unknown> {
   ) =>
     this.http.request<Transaction, any>({
       path: `/v1/zap-bridge/${destinationNetwork}/transaction`,
+      method: "GET",
+      query: query,
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Returns data about the amount received if a trade would be made. **Should be called whenever a price needs to be calculated.**
+   *
+   * @tags Exchange
+   * @name ExchangeControllerGetExchangePrice
+   * @summary Exchange Price
+   * @request GET:/v1/exchange/price
+   * @secure
+   */
+  exchangeControllerGetExchangePrice = (query: ExchangeControllerGetExchangePriceParams, params: RequestParams = {}) =>
+    this.http.request<{}, any>({
+      path: `/v1/exchange/price`,
+      method: "GET",
+      query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description Returns both the relative price for a trade as well as the call data used to sumbit a transaction for a trade. **Should only be called when a trade is ready to be submitted.**
+   *
+   * @tags Exchange
+   * @name ExchangeControllerGetExchangeQuote
+   * @summary Exchange Quote
+   * @request GET:/v1/exchange/quote
+   * @secure
+   */
+  exchangeControllerGetExchangeQuote = (query: ExchangeControllerGetExchangeQuoteParams, params: RequestParams = {}) =>
+    this.http.request<{}, any>({
+      path: `/v1/exchange/quote`,
+      method: "GET",
+      query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description Returns the exchanges supported by Zapper API.
+   *
+   * @tags Exchange
+   * @name ExchangeControllerGetSupportedExchanges
+   * @summary Supported exchanges
+   * @request GET:/v1/exchange/supported
+   * @secure
+   */
+  exchangeControllerGetSupportedExchanges = (params: RequestParams = {}) =>
+    this.http.request<{}, any>({
+      path: `/v1/exchange/supported`,
+      method: "GET",
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description Retrieve farms for a given application
+   *
+   * @tags Farms Market Data
+   * @name FarmsControllerGetFarmsMarketData
+   * @summary Application Farms
+   * @request GET:/v1/protocols/{appId}/farms
+   * @secure
+   */
+  farmsControllerGetFarmsMarketData = (
+    { appId, ...query }: FarmsControllerGetFarmsMarketDataParams,
+    params: RequestParams = {},
+  ) =>
+    this.http.request<{}, any>({
+      path: `/v1/protocols/${appId}/farms`,
+      method: "GET",
+      query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description Retrieves farms for a given farm type on the Ethereum mainnet network
+   *
+   * @tags Protocol Stats
+   * @name FarmFetcherControllerGetEthereumFarms
+   * @summary Farm Stats
+   * @request GET:/v1/farms/{farmStatsType}
+   * @secure
+   */
+  farmFetcherControllerGetEthereumFarms = (
+    { farmStatsType, ...query }: FarmFetcherControllerGetEthereumFarmsParams,
+    params: RequestParams = {},
+  ) =>
+    this.http.request<{}, any>({
+      path: `/v1/farms/${farmStatsType}`,
+      method: "GET",
+      query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description Retrieves an ERC20 approval status for an application zap-in
+   *
+   * @tags Farm Transactions
+   * @name FarmStakingControllerGetApprovalState
+   * @summary Farm Approval State
+   * @request GET:/v1/farms/{farmStatsType}/approval-state
+   * @secure
+   */
+  farmStakingControllerGetApprovalState = (
+    { farmStatsType, ...query }: FarmStakingControllerGetApprovalStateParams,
+    params: RequestParams = {},
+  ) =>
+    this.http.request<{}, any>({
+      path: `/v1/farms/${farmStatsType}/approval-state`,
+      method: "GET",
+      query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description Builds an ERC20 approval transaction for staking a token in a farm
+   *
+   * @tags Farm Transactions
+   * @name FarmStakingControllerGetApprovalTransaction
+   * @summary Farm Approval Transaction
+   * @request GET:/v1/farms/{farmStatsType}/approval-transaction
+   * @secure
+   */
+  farmStakingControllerGetApprovalTransaction = (
+    { farmStatsType, ...query }: FarmStakingControllerGetApprovalTransactionParams,
+    params: RequestParams = {},
+  ) =>
+    this.http.request<Transaction, any>({
+      path: `/v1/farms/${farmStatsType}/approval-transaction`,
+      method: "GET",
+      query: query,
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Builds a staking transaction for usage with Web3
+   *
+   * @tags Farm Transactions
+   * @name FarmStakingControllerGetStakeTransaction
+   * @summary Farm Stake Transaction
+   * @request GET:/v1/farms/{farmStatsType}/stake
+   * @secure
+   */
+  farmStakingControllerGetStakeTransaction = (
+    { farmStatsType, ...query }: FarmStakingControllerGetStakeTransactionParams,
+    params: RequestParams = {},
+  ) =>
+    this.http.request<Transaction, any>({
+      path: `/v1/farms/${farmStatsType}/stake`,
+      method: "GET",
+      query: query,
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Builds a claim transaction for usage with Web3
+   *
+   * @tags Farm Transactions
+   * @name FarmStakingControllerGetClaimTransaction
+   * @summary Farm Claim Transaction
+   * @request GET:/v1/farms/{farmStatsType}/claim
+   * @secure
+   */
+  farmStakingControllerGetClaimTransaction = (
+    { farmStatsType, ...query }: FarmStakingControllerGetClaimTransactionParams,
+    params: RequestParams = {},
+  ) =>
+    this.http.request<Transaction, any>({
+      path: `/v1/farms/${farmStatsType}/claim`,
+      method: "GET",
+      query: query,
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Builds an exit transaction for usage with Web3
+   *
+   * @tags Farm Transactions
+   * @name FarmStakingControllerGetExitTransaction
+   * @summary Farm Exit Transaction
+   * @request GET:/v1/farms/{farmStatsType}/exit
+   * @secure
+   */
+  farmStakingControllerGetExitTransaction = (
+    { farmStatsType, ...query }: FarmStakingControllerGetExitTransactionParams,
+    params: RequestParams = {},
+  ) =>
+    this.http.request<Transaction, any>({
+      path: `/v1/farms/${farmStatsType}/exit`,
+      method: "GET",
+      query: query,
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Retrieve a gas price aggregated from multiple different sources
+   *
+   * @tags Miscellaneous Data Endpoints
+   * @name GasPriceControllerGetGasPrice
+   * @summary Gas Price
+   * @request GET:/v1/gas-price
+   * @secure
+   */
+  gasPriceControllerGetGasPrice = (query: GasPriceControllerGetGasPriceParams, params: RequestParams = {}) =>
+    this.http.request<GasPricesResponse, any>({
+      path: `/v1/gas-price`,
       method: "GET",
       query: query,
       secure: true,

@@ -84,11 +84,11 @@
 
 <span class="token-balance-container" class:is-debt={isDebt} title="{balance} {name || symbol}{symbol && name ? ` (${symbol})` : ``}">
 	{#if isFiat}
-		<span class="token-balance">{isNegative ? '−' : ''}{formatValue($tweenedValue, symbol)}</span>
+		<span class="token-balance">{isNegative ? '−' : ''}{formatValue($tweenedValue, symbol, showDecimalPlaces)}</span>
 	{:else}
 		<TokenIcon {symbol} {address} {name} {icon} {erc20Token} />
 		<span>
-			<span class="token-balance">{isNegative ? '−' : ''}{formatValue($tweenedValue)}</span>
+			<span class="token-balance">{isNegative ? '−' : ''}{formatValue($tweenedValue, undefined, showDecimalPlaces)}</span>
 			<span class="token-name">{symbol || formatAddress(address, 'middle-truncated')}</span>
 		</span>
 	{/if}

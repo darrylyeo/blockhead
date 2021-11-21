@@ -2,17 +2,14 @@
 	import type { Ethereum } from '../data/ethereum/types'
 	import { getEthersProvider } from '../data/ethereum/provider'
 	import { preferences } from '../data/ethereum/preferences'
-	
+
 
 	export let network: Ethereum.Network
 	export let providerPromise: () => Promise<Ethereum.Provider>
 	export let providerName: Ethereum.ProviderName = $preferences.rpcNetwork
 
 
-	import { onMount } from 'svelte'
-	onMount(() =>
-		providerPromise ||= (network && providerName && (() => getEthersProvider(network, providerName)))
-	)
+	let viaRPC = $preferences.rpcNetwork === 'Auto' ? '' : ` via ${$preferences.rpcNetwork}`
 
 
 	import Loader from './Loader.svelte'
@@ -21,8 +18,10 @@
 
 
 <Loader
-	loadingMessage="Connecting to the {network ? `${network.name} ` : ''} blockchain via {providerName}..."
-	fromPromise={providerPromise}
+	loadingMessage="Connecting to the {network ? `${network.name} ` : ''} blockchain{viaRPC}..."
+	fromPromise={network && providerName && (async () =>
+		await getEthersProvider(network, providerName)
+	)}
 	let:then={provider}
 >
 	<TokenIcon slot="loadingIcon" symbol={network?.nativeCurrency.symbol} />

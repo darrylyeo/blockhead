@@ -613,6 +613,7 @@ export const networks: Ethereum.Network[] = [
 			"decimals": 18
 		},
 		"rpc": [
+			"https://explorer.celo.org/api/eth-rpc",
 			"https://forno.celo.org",
 			"wss://forno.celo.org/ws"
 		],
@@ -2786,14 +2787,15 @@ export const networks: Ethereum.Network[] = [
 	{
 		"slug": "metis",
 		"name": "Metis",
-		"chainId": 435,
+		"chainId": 488, // 435
 		"nativeCurrency": {
 			"name": "Metis",
 			"symbol": "METIS",
 			"decimals": 18
 		},
 		"rpc": [
-			"https://rocketfuel.metis.io/?owner=435"
+			"https://dragonfire.metis.io/?owner=488",
+			// "https://rocketfuel.metis.io/?owner=435"
 		],
 		"faucets": [],
 		"explorers": [],
@@ -4967,7 +4969,7 @@ export const testnetNetworks = Object.values(testnetsForMainnets).flat()
 
 
 export function getNetworkRPC(network: Ethereum.Network){
-	return network.rpc[0].replace('${INFURA_PROJECT_ID}', INFURA_PROJECT_ID)
+	return network.rpc[0]?.replace('${INFURA_PROJECT_ID}', INFURA_PROJECT_ID) ?? ''
 }
 
 export function isTestnet(network: Ethereum.Network){

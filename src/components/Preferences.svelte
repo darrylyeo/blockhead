@@ -198,7 +198,7 @@
 
 	{#each isShowingAll
 		? preferencesConfig
-		: preferencesConfig.filter(preferencesSection => preferencesSection.preferences.some(isShowingPreference))
+		: (relevantPreferences, preferencesConfig.filter(preferencesSection => preferencesSection.preferences.some(isShowingPreference)))
 		as
 		preferencesSection, i (preferencesSection.id)
 	}

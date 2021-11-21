@@ -68,7 +68,7 @@
 		
 		gasToken: network.nativeCurrency,
 		gasOffered: transaction.gasLimit,
-		gasSpent: _formatUnits(transaction.gasUsed, 'gwei'),
+		gasSpent: _formatUnits(transaction.gasUsed, 'wei'),
 		gasRate: transaction.gasPrice,
 		gasValue: _formatUnits(transaction.gasPrice.mul(transaction.gasUsed), network.nativeCurrency.decimals),
 		
@@ -292,6 +292,7 @@
 						</span>
 						<TokenBalanceWithConversion
 							{showValues}
+							showDecimalPlaces={isExhaustive ? 9 : 6}
 
 							erc20Token={gasToken}
 
@@ -317,6 +318,7 @@
 						<span>for fee</span>
 						<TokenBalanceWithConversion
 							{showValues}
+							showDecimalPlaces={isExhaustive ? 9 : 6}
 
 							erc20Token={gasToken}
 

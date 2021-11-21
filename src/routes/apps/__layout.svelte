@@ -45,6 +45,8 @@
 	const blockchainAppConfig = derived<typeof blockchainAppSlug, BlockchainAppConfig>(blockchainAppSlug, ($blockchainAppSlug, set) => {
 		if(blockchainAppsBySlug[$blockchainAppSlug])
 			set(blockchainAppsBySlug[$blockchainAppSlug])
+		else
+			set(undefined)
 	})
 	setContext('blockchainAppConfig', blockchainAppConfig)
 
@@ -56,6 +58,7 @@
 	import { fly } from 'svelte/transition'
 	import { tokenColors } from '../../data/token-colors'
 	import Preferences from '../../components/Preferences.svelte'
+	import TokenIcon from '../../components/TokenIcon.svelte'
 </script>
 
 
@@ -75,6 +78,13 @@
 	.stack {
 		flex: 1;
 	}
+
+
+	.title-icon {
+		display: inline-flex;
+		align-items: center;
+		font-size: 1.5em;
+	}
 </style>
 
 
@@ -85,24 +95,44 @@
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 	<div class="bar">
-		<h1>
-			<a href="/apps/{$blockchainAppSlug}" class="stack-inline">
-				{#if $blockchainAppSlug && $blockchainAppConfig}
-					<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>
-						<span class="stack-inline">{#key $blockchainAppConfig}<mark in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{$blockchainAppConfig.name}</mark>{/key}</span>
-						<span class="stack-inline">{#key currentView}<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{currentView}</span>{/key}</span>
-					</span>
-				{:else}
-					<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>
-						Blockchain/Web 3.0 Apps
-					</span>
-				{/if}
-			</a>
-		</h1>
+		<div class="row">
+			<span class="title-icon">
+				{#key $blockchainAppConfig}
+					{#if $blockchainAppConfig}
+						{#each $blockchainAppConfig.views?.flatMap(view => view.erc20Tokens ?? []).slice(0, 1) as {logoURI, address, name, symbol}}
+							<TokenIcon
+								{name}
+								{symbol}
+								icon={logoURI}
+								tokenAddress={address}
+							/>
+						{/each}
+						{#if $blockchainAppConfig.name === 'ENS'}<img src="/logos/ens.svg" width="30" />{/if}
+					{:else}
+						<img src="/Blockhead-Logo.svg" width="30" />
+					{/if}
+				{/key}
+			</span>
+			<h1>
+				<a href="/apps/{$blockchainAppSlug}" class="stack-inline">
+					{#if $blockchainAppSlug && $blockchainAppConfig}
+						<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>
+							<span class="stack-inline">{#key $blockchainAppConfig}<mark in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{$blockchainAppConfig.name}</mark>{/key}</span>
+							<span class="stack-inline">{#key currentView}<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{currentView}</span>{/key}</span>
+						</span>
+					{:else}
+						<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>
+							Blockchain/Web 3.0 Apps
+						</span>
+					{/if}
+				</a>
+			</h1>
+		</div>
+
 		<label>
 			<span>App</span>
 			<!-- <select bind:value={$blockchainAppSlug}> -->
-			<select bind:value={$blockchainAppSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`/apps/${$blockchainAppSlug}${$addressOrENSName ? `/${$addressOrENSName}` : ''}`))}>
+			<select bind:value={$blockchainAppSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`/apps/${$blockchainAppSlug}${$addressOrENSName ? `/address/${$addressOrENSName}` : ''}`))}>
 				<option value="" selected>Select App...</option>
 				<optgroup label="Featured">
 					{#each featuredBlockchainApps as {name, slug}}

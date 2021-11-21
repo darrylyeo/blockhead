@@ -775,6 +775,9 @@ export interface AppDefinition {
   /** App website */
   url: string;
 
+  /** Is app integration deprecated */
+  deprecated: boolean;
+
   /** Tags to describe this app */
   tags: (
     | "asset-bundles"
@@ -1118,324 +1121,6 @@ export interface MarketControllerGetMarketDataParams {
 
   /** Id of the application for which to retrieve market data. */
   appId: string;
-}
-
-export interface FarmsControllerGetFarmsMarketDataParams {
-  /** Retrieve farms for this network */
-  network:
-    | "ethereum"
-    | "polygon"
-    | "optimism"
-    | "xdai"
-    | "binance-smart-chain"
-    | "fantom"
-    | "avalanche"
-    | "arbitrum"
-    | "celo"
-    | "harmony";
-
-  /** ID of the application for which to retrieve farms */
-  appId: string;
-}
-
-export interface ExchangeControllerGetExchangePriceParams {
-  /** Gas price in wei */
-  gasPrice: string;
-
-  /** Max gas fee */
-  maxFeePerGas?: string;
-
-  /** Max priority gas fee */
-  maxPriorityFeePerGas?: string;
-
-  /** Address of the token that is being sold */
-  sellTokenAddress: string;
-
-  /** Address of the token that is being bought */
-  buyTokenAddress: string;
-
-  /** Amount to sell */
-  sellAmount: string;
-
-  /** Address of the owner */
-  ownerAddress?: string;
-
-  /** Slippage percentage as a decimal value */
-  slippagePercentage?: number;
-
-  /** Network where the swap would be made */
-  network?:
-    | "ethereum"
-    | "polygon"
-    | "optimism"
-    | "xdai"
-    | "binance-smart-chain"
-    | "fantom"
-    | "avalanche"
-    | "arbitrum"
-    | "celo"
-    | "harmony";
-}
-
-export interface ExchangeControllerGetExchangeQuoteParams {
-  /** Gas price in wei */
-  gasPrice: string;
-
-  /** Max gas fee */
-  maxFeePerGas?: string;
-
-  /** Max priority gas fee */
-  maxPriorityFeePerGas?: string;
-
-  /** Address of the token that is being sold */
-  sellTokenAddress: string;
-
-  /** Address of the token that is being bought */
-  buyTokenAddress: string;
-
-  /** Amount to sell */
-  sellAmount: string;
-
-  /** Address of the owner */
-  ownerAddress?: string;
-
-  /** Slippage percentage as a decimal value */
-  slippagePercentage?: number;
-
-  /** Network where the swap would be made */
-  network?:
-    | "ethereum"
-    | "polygon"
-    | "optimism"
-    | "xdai"
-    | "binance-smart-chain"
-    | "fantom"
-    | "avalanche"
-    | "arbitrum"
-    | "celo"
-    | "harmony";
-}
-
-export interface FarmFetcherControllerGetEthereumFarmsParams {
-  /** Retrieve farms for this network */
-  network?:
-    | "ethereum"
-    | "polygon"
-    | "optimism"
-    | "xdai"
-    | "binance-smart-chain"
-    | "fantom"
-    | "avalanche"
-    | "arbitrum"
-    | "celo"
-    | "harmony";
-
-  /** Type of farms to fetch */
-  farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge";
-}
-
-export interface FarmStakingControllerGetApprovalStateParams {
-  /** Address of the staker */
-  ownerAddress: string;
-
-  /** Address of the reward contract */
-  rewardAddress: string;
-
-  /** Pool index if exists */
-  poolIndex: number;
-
-  /** Amount to validate against approved amount; defaults to user balance */
-  amount?: string;
-
-  /** Network that the token contract is on */
-  network?:
-    | "ethereum"
-    | "polygon"
-    | "optimism"
-    | "xdai"
-    | "binance-smart-chain"
-    | "fantom"
-    | "avalanche"
-    | "arbitrum"
-    | "celo"
-    | "harmony";
-
-  /** Type of farms to fetch */
-  farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge";
-}
-
-export interface FarmStakingControllerGetApprovalTransactionParams {
-  /** Gas price in wei */
-  gasPrice: string;
-
-  /** Max gas fee */
-  maxFeePerGas?: string;
-
-  /** Max priority gas fee */
-  maxPriorityFeePerGas?: string;
-
-  /** Address of the staker */
-  ownerAddress: string;
-
-  /** Address of the reward contract */
-  rewardAddress: string;
-
-  /** Pool index if exists */
-  poolIndex: number;
-
-  /** Amount to approve; defaults to user balance */
-  amount?: string;
-
-  /** Ignore the amount parameter and approve infinite allowance */
-  allowInfinite?: boolean;
-
-  /** Network that the token contract is on */
-  network?:
-    | "ethereum"
-    | "polygon"
-    | "optimism"
-    | "xdai"
-    | "binance-smart-chain"
-    | "fantom"
-    | "avalanche"
-    | "arbitrum"
-    | "celo"
-    | "harmony";
-
-  /** Type of farms to fetch */
-  farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge";
-}
-
-export interface FarmStakingControllerGetStakeTransactionParams {
-  /** Gas price in wei */
-  gasPrice: string;
-
-  /** Max gas fee */
-  maxFeePerGas?: string;
-
-  /** Max priority gas fee */
-  maxPriorityFeePerGas?: string;
-
-  /** Address of the staker */
-  ownerAddress: string;
-
-  /** Address of the reward contract */
-  rewardAddress: string;
-
-  /** Pool index if exists */
-  poolIndex: number;
-
-  /** Amount to stake in the base amount of the token */
-  amount: string;
-
-  /** Build stake transaction on this network */
-  network?:
-    | "ethereum"
-    | "polygon"
-    | "optimism"
-    | "xdai"
-    | "binance-smart-chain"
-    | "fantom"
-    | "avalanche"
-    | "arbitrum"
-    | "celo"
-    | "harmony";
-
-  /** Type of farms to fetch */
-  farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge";
-}
-
-export interface FarmStakingControllerGetClaimTransactionParams {
-  /** Gas price in wei */
-  gasPrice: string;
-
-  /** Max gas fee */
-  maxFeePerGas?: string;
-
-  /** Max priority gas fee */
-  maxPriorityFeePerGas?: string;
-
-  /** Address of the staker */
-  ownerAddress: string;
-
-  /** Address of the reward contract */
-  rewardAddress: string;
-
-  /** Pool index if exists */
-  poolIndex: number;
-
-  /** Build claim transaction on this network */
-  network?:
-    | "ethereum"
-    | "polygon"
-    | "optimism"
-    | "xdai"
-    | "binance-smart-chain"
-    | "fantom"
-    | "avalanche"
-    | "arbitrum"
-    | "celo"
-    | "harmony";
-
-  /** Type of farms to fetch */
-  farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge";
-}
-
-export interface FarmStakingControllerGetExitTransactionParams {
-  /** Gas price in wei */
-  gasPrice: string;
-
-  /** Max gas fee */
-  maxFeePerGas?: string;
-
-  /** Max priority gas fee */
-  maxPriorityFeePerGas?: string;
-
-  /** Address of the staker */
-  ownerAddress: string;
-
-  /** Address of the reward contract */
-  rewardAddress: string;
-
-  /** Pool index if exists */
-  poolIndex: number;
-
-  /** Amount to withdraw in the base amount of the token */
-  amount: string;
-
-  /** Build exit transaction on this network */
-  network?:
-    | "ethereum"
-    | "polygon"
-    | "optimism"
-    | "xdai"
-    | "binance-smart-chain"
-    | "fantom"
-    | "avalanche"
-    | "arbitrum"
-    | "celo"
-    | "harmony";
-
-  /** Type of farms to fetch */
-  farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge";
-}
-
-export interface GasPriceControllerGetGasPriceParams {
-  /** Retrieve gas price for this network */
-  network?:
-    | "ethereum"
-    | "polygon"
-    | "optimism"
-    | "xdai"
-    | "binance-smart-chain"
-    | "fantom"
-    | "avalanche"
-    | "arbitrum"
-    | "celo"
-    | "harmony";
-
-  /** Retrieve post London gas price details */
-  eip1559: boolean;
 }
 
 export interface ZapInControllerGetZapInApprovalStateParams {
@@ -2157,6 +1842,324 @@ export interface ZapBridgeControllerGetZapInTransactionParams {
     | "arbitrum"
     | "celo"
     | "harmony";
+}
+
+export interface ExchangeControllerGetExchangePriceParams {
+  /** Gas price in wei */
+  gasPrice: string;
+
+  /** Max gas fee */
+  maxFeePerGas?: string;
+
+  /** Max priority gas fee */
+  maxPriorityFeePerGas?: string;
+
+  /** Address of the token that is being sold */
+  sellTokenAddress: string;
+
+  /** Address of the token that is being bought */
+  buyTokenAddress: string;
+
+  /** Amount to sell */
+  sellAmount: string;
+
+  /** Address of the owner */
+  ownerAddress?: string;
+
+  /** Slippage percentage as a decimal value */
+  slippagePercentage?: number;
+
+  /** Network where the swap would be made */
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
+}
+
+export interface ExchangeControllerGetExchangeQuoteParams {
+  /** Gas price in wei */
+  gasPrice: string;
+
+  /** Max gas fee */
+  maxFeePerGas?: string;
+
+  /** Max priority gas fee */
+  maxPriorityFeePerGas?: string;
+
+  /** Address of the token that is being sold */
+  sellTokenAddress: string;
+
+  /** Address of the token that is being bought */
+  buyTokenAddress: string;
+
+  /** Amount to sell */
+  sellAmount: string;
+
+  /** Address of the owner */
+  ownerAddress?: string;
+
+  /** Slippage percentage as a decimal value */
+  slippagePercentage?: number;
+
+  /** Network where the swap would be made */
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
+}
+
+export interface FarmsControllerGetFarmsMarketDataParams {
+  /** Retrieve farms for this network */
+  network:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
+
+  /** ID of the application for which to retrieve farms */
+  appId: string;
+}
+
+export interface FarmFetcherControllerGetEthereumFarmsParams {
+  /** Retrieve farms for this network */
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
+
+  /** Type of farms to fetch */
+  farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge";
+}
+
+export interface FarmStakingControllerGetApprovalStateParams {
+  /** Address of the staker */
+  ownerAddress: string;
+
+  /** Address of the reward contract */
+  rewardAddress: string;
+
+  /** Pool index if exists */
+  poolIndex: number;
+
+  /** Amount to validate against approved amount; defaults to user balance */
+  amount?: string;
+
+  /** Network that the token contract is on */
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
+
+  /** Type of farms to fetch */
+  farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge";
+}
+
+export interface FarmStakingControllerGetApprovalTransactionParams {
+  /** Gas price in wei */
+  gasPrice: string;
+
+  /** Max gas fee */
+  maxFeePerGas?: string;
+
+  /** Max priority gas fee */
+  maxPriorityFeePerGas?: string;
+
+  /** Address of the staker */
+  ownerAddress: string;
+
+  /** Address of the reward contract */
+  rewardAddress: string;
+
+  /** Pool index if exists */
+  poolIndex: number;
+
+  /** Amount to approve; defaults to user balance */
+  amount?: string;
+
+  /** Ignore the amount parameter and approve infinite allowance */
+  allowInfinite?: boolean;
+
+  /** Network that the token contract is on */
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
+
+  /** Type of farms to fetch */
+  farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge";
+}
+
+export interface FarmStakingControllerGetStakeTransactionParams {
+  /** Gas price in wei */
+  gasPrice: string;
+
+  /** Max gas fee */
+  maxFeePerGas?: string;
+
+  /** Max priority gas fee */
+  maxPriorityFeePerGas?: string;
+
+  /** Address of the staker */
+  ownerAddress: string;
+
+  /** Address of the reward contract */
+  rewardAddress: string;
+
+  /** Pool index if exists */
+  poolIndex: number;
+
+  /** Amount to stake in the base amount of the token */
+  amount: string;
+
+  /** Build stake transaction on this network */
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
+
+  /** Type of farms to fetch */
+  farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge";
+}
+
+export interface FarmStakingControllerGetClaimTransactionParams {
+  /** Gas price in wei */
+  gasPrice: string;
+
+  /** Max gas fee */
+  maxFeePerGas?: string;
+
+  /** Max priority gas fee */
+  maxPriorityFeePerGas?: string;
+
+  /** Address of the staker */
+  ownerAddress: string;
+
+  /** Address of the reward contract */
+  rewardAddress: string;
+
+  /** Pool index if exists */
+  poolIndex: number;
+
+  /** Build claim transaction on this network */
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
+
+  /** Type of farms to fetch */
+  farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge";
+}
+
+export interface FarmStakingControllerGetExitTransactionParams {
+  /** Gas price in wei */
+  gasPrice: string;
+
+  /** Max gas fee */
+  maxFeePerGas?: string;
+
+  /** Max priority gas fee */
+  maxPriorityFeePerGas?: string;
+
+  /** Address of the staker */
+  ownerAddress: string;
+
+  /** Address of the reward contract */
+  rewardAddress: string;
+
+  /** Pool index if exists */
+  poolIndex: number;
+
+  /** Amount to withdraw in the base amount of the token */
+  amount: string;
+
+  /** Build exit transaction on this network */
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
+
+  /** Type of farms to fetch */
+  farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge";
+}
+
+export interface GasPriceControllerGetGasPriceParams {
+  /** Retrieve gas price for this network */
+  network?:
+    | "ethereum"
+    | "polygon"
+    | "optimism"
+    | "xdai"
+    | "binance-smart-chain"
+    | "fantom"
+    | "avalanche"
+    | "arbitrum"
+    | "celo"
+    | "harmony";
+
+  /** Retrieve post London gas price details */
+  eip1559: boolean;
 }
 
 export interface StakingControllerGetStakedBalancesParams {

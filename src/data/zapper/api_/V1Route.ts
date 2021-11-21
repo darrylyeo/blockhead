@@ -9,7 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-import type { AppDefinition, GasPricesResponse, ProtocolBalanceResponse, Transaction } from "./data-contracts";
+import { AppDefinition, GasPricesResponse, ProtocolBalanceResponse, Transaction } from "./data-contracts";
 
 export namespace V1 {
   /**
@@ -470,351 +470,6 @@ export namespace V1 {
     export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = {};
-  }
-
-  /**
-   * @description Retrieve farms for a given application
-   * @tags Farms Market Data
-   * @name FarmsControllerGetFarmsMarketData
-   * @summary Application Farms
-   * @request GET:/v1/protocols/{appId}/farms
-   * @secure
-   */
-  export namespace FarmsControllerGetFarmsMarketData {
-    export type RequestParams = { appId: string };
-    export type RequestQuery = {
-      network:
-        | "ethereum"
-        | "polygon"
-        | "optimism"
-        | "xdai"
-        | "binance-smart-chain"
-        | "fantom"
-        | "avalanche"
-        | "arbitrum"
-        | "celo"
-        | "harmony";
-    };
-    export type RequestBody = never;
-    export type RequestHeaders = {};
-    export type ResponseBody = {};
-  }
-
-  /**
-   * @description Returns data about the amount received if a trade would be made. **Should be called whenever a price needs to be calculated.**
-   * @tags Exchange
-   * @name ExchangeControllerGetExchangePrice
-   * @summary Exchange Price
-   * @request GET:/v1/exchange/price
-   * @secure
-   */
-  export namespace ExchangeControllerGetExchangePrice {
-    export type RequestParams = {};
-    export type RequestQuery = {
-      gasPrice: string;
-      maxFeePerGas?: string;
-      maxPriorityFeePerGas?: string;
-      sellTokenAddress: string;
-      buyTokenAddress: string;
-      sellAmount: string;
-      ownerAddress?: string;
-      slippagePercentage?: number;
-      network?:
-        | "ethereum"
-        | "polygon"
-        | "optimism"
-        | "xdai"
-        | "binance-smart-chain"
-        | "fantom"
-        | "avalanche"
-        | "arbitrum"
-        | "celo"
-        | "harmony";
-    };
-    export type RequestBody = never;
-    export type RequestHeaders = {};
-    export type ResponseBody = {};
-  }
-
-  /**
-   * @description Returns both the relative price for a trade as well as the call data used to sumbit a transaction for a trade. **Should only be called when a trade is ready to be submitted.**
-   * @tags Exchange
-   * @name ExchangeControllerGetExchangeQuote
-   * @summary Exchange Quote
-   * @request GET:/v1/exchange/quote
-   * @secure
-   */
-  export namespace ExchangeControllerGetExchangeQuote {
-    export type RequestParams = {};
-    export type RequestQuery = {
-      gasPrice: string;
-      maxFeePerGas?: string;
-      maxPriorityFeePerGas?: string;
-      sellTokenAddress: string;
-      buyTokenAddress: string;
-      sellAmount: string;
-      ownerAddress?: string;
-      slippagePercentage?: number;
-      network?:
-        | "ethereum"
-        | "polygon"
-        | "optimism"
-        | "xdai"
-        | "binance-smart-chain"
-        | "fantom"
-        | "avalanche"
-        | "arbitrum"
-        | "celo"
-        | "harmony";
-    };
-    export type RequestBody = never;
-    export type RequestHeaders = {};
-    export type ResponseBody = {};
-  }
-
-  /**
-   * @description Returns the exchanges supported by Zapper API.
-   * @tags Exchange
-   * @name ExchangeControllerGetSupportedExchanges
-   * @summary Supported exchanges
-   * @request GET:/v1/exchange/supported
-   * @secure
-   */
-  export namespace ExchangeControllerGetSupportedExchanges {
-    export type RequestParams = {};
-    export type RequestQuery = {};
-    export type RequestBody = never;
-    export type RequestHeaders = {};
-    export type ResponseBody = {};
-  }
-
-  /**
-   * @description Retrieves farms for a given farm type on the Ethereum mainnet network
-   * @tags Protocol Stats
-   * @name FarmFetcherControllerGetEthereumFarms
-   * @summary Farm Stats
-   * @request GET:/v1/farms/{farmStatsType}
-   * @secure
-   */
-  export namespace FarmFetcherControllerGetEthereumFarms {
-    export type RequestParams = { farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge" };
-    export type RequestQuery = {
-      network?:
-        | "ethereum"
-        | "polygon"
-        | "optimism"
-        | "xdai"
-        | "binance-smart-chain"
-        | "fantom"
-        | "avalanche"
-        | "arbitrum"
-        | "celo"
-        | "harmony";
-    };
-    export type RequestBody = never;
-    export type RequestHeaders = {};
-    export type ResponseBody = {};
-  }
-
-  /**
-   * @description Retrieves an ERC20 approval status for an application zap-in
-   * @tags Farm Transactions
-   * @name FarmStakingControllerGetApprovalState
-   * @summary Farm Approval State
-   * @request GET:/v1/farms/{farmStatsType}/approval-state
-   * @secure
-   */
-  export namespace FarmStakingControllerGetApprovalState {
-    export type RequestParams = { farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge" };
-    export type RequestQuery = {
-      ownerAddress: string;
-      rewardAddress: string;
-      poolIndex: number;
-      amount?: string;
-      network?:
-        | "ethereum"
-        | "polygon"
-        | "optimism"
-        | "xdai"
-        | "binance-smart-chain"
-        | "fantom"
-        | "avalanche"
-        | "arbitrum"
-        | "celo"
-        | "harmony";
-    };
-    export type RequestBody = never;
-    export type RequestHeaders = {};
-    export type ResponseBody = {};
-  }
-
-  /**
-   * @description Builds an ERC20 approval transaction for staking a token in a farm
-   * @tags Farm Transactions
-   * @name FarmStakingControllerGetApprovalTransaction
-   * @summary Farm Approval Transaction
-   * @request GET:/v1/farms/{farmStatsType}/approval-transaction
-   * @secure
-   */
-  export namespace FarmStakingControllerGetApprovalTransaction {
-    export type RequestParams = { farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge" };
-    export type RequestQuery = {
-      gasPrice: string;
-      maxFeePerGas?: string;
-      maxPriorityFeePerGas?: string;
-      ownerAddress: string;
-      rewardAddress: string;
-      poolIndex: number;
-      amount?: string;
-      allowInfinite?: boolean;
-      network?:
-        | "ethereum"
-        | "polygon"
-        | "optimism"
-        | "xdai"
-        | "binance-smart-chain"
-        | "fantom"
-        | "avalanche"
-        | "arbitrum"
-        | "celo"
-        | "harmony";
-    };
-    export type RequestBody = never;
-    export type RequestHeaders = {};
-    export type ResponseBody = Transaction;
-  }
-
-  /**
-   * @description Builds a staking transaction for usage with Web3
-   * @tags Farm Transactions
-   * @name FarmStakingControllerGetStakeTransaction
-   * @summary Farm Stake Transaction
-   * @request GET:/v1/farms/{farmStatsType}/stake
-   * @secure
-   */
-  export namespace FarmStakingControllerGetStakeTransaction {
-    export type RequestParams = { farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge" };
-    export type RequestQuery = {
-      gasPrice: string;
-      maxFeePerGas?: string;
-      maxPriorityFeePerGas?: string;
-      ownerAddress: string;
-      rewardAddress: string;
-      poolIndex: number;
-      amount: string;
-      network?:
-        | "ethereum"
-        | "polygon"
-        | "optimism"
-        | "xdai"
-        | "binance-smart-chain"
-        | "fantom"
-        | "avalanche"
-        | "arbitrum"
-        | "celo"
-        | "harmony";
-    };
-    export type RequestBody = never;
-    export type RequestHeaders = {};
-    export type ResponseBody = Transaction;
-  }
-
-  /**
-   * @description Builds a claim transaction for usage with Web3
-   * @tags Farm Transactions
-   * @name FarmStakingControllerGetClaimTransaction
-   * @summary Farm Claim Transaction
-   * @request GET:/v1/farms/{farmStatsType}/claim
-   * @secure
-   */
-  export namespace FarmStakingControllerGetClaimTransaction {
-    export type RequestParams = { farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge" };
-    export type RequestQuery = {
-      gasPrice: string;
-      maxFeePerGas?: string;
-      maxPriorityFeePerGas?: string;
-      ownerAddress: string;
-      rewardAddress: string;
-      poolIndex: number;
-      network?:
-        | "ethereum"
-        | "polygon"
-        | "optimism"
-        | "xdai"
-        | "binance-smart-chain"
-        | "fantom"
-        | "avalanche"
-        | "arbitrum"
-        | "celo"
-        | "harmony";
-    };
-    export type RequestBody = never;
-    export type RequestHeaders = {};
-    export type ResponseBody = Transaction;
-  }
-
-  /**
-   * @description Builds an exit transaction for usage with Web3
-   * @tags Farm Transactions
-   * @name FarmStakingControllerGetExitTransaction
-   * @summary Farm Exit Transaction
-   * @request GET:/v1/farms/{farmStatsType}/exit
-   * @secure
-   */
-  export namespace FarmStakingControllerGetExitTransaction {
-    export type RequestParams = { farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge" };
-    export type RequestQuery = {
-      gasPrice: string;
-      maxFeePerGas?: string;
-      maxPriorityFeePerGas?: string;
-      ownerAddress: string;
-      rewardAddress: string;
-      poolIndex: number;
-      amount: string;
-      network?:
-        | "ethereum"
-        | "polygon"
-        | "optimism"
-        | "xdai"
-        | "binance-smart-chain"
-        | "fantom"
-        | "avalanche"
-        | "arbitrum"
-        | "celo"
-        | "harmony";
-    };
-    export type RequestBody = never;
-    export type RequestHeaders = {};
-    export type ResponseBody = Transaction;
-  }
-
-  /**
-   * @description Retrieve a gas price aggregated from multiple different sources
-   * @tags Miscellaneous Data Endpoints
-   * @name GasPriceControllerGetGasPrice
-   * @summary Gas Price
-   * @request GET:/v1/gas-price
-   * @secure
-   */
-  export namespace GasPriceControllerGetGasPrice {
-    export type RequestParams = {};
-    export type RequestQuery = {
-      network?:
-        | "ethereum"
-        | "polygon"
-        | "optimism"
-        | "xdai"
-        | "binance-smart-chain"
-        | "fantom"
-        | "avalanche"
-        | "arbitrum"
-        | "celo"
-        | "harmony";
-      eip1559: boolean;
-    };
-    export type RequestBody = never;
-    export type RequestHeaders = {};
-    export type ResponseBody = GasPricesResponse;
   }
 
   /**
@@ -1590,6 +1245,351 @@ export namespace V1 {
     export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = Transaction;
+  }
+
+  /**
+   * @description Returns data about the amount received if a trade would be made. **Should be called whenever a price needs to be calculated.**
+   * @tags Exchange
+   * @name ExchangeControllerGetExchangePrice
+   * @summary Exchange Price
+   * @request GET:/v1/exchange/price
+   * @secure
+   */
+  export namespace ExchangeControllerGetExchangePrice {
+    export type RequestParams = {};
+    export type RequestQuery = {
+      gasPrice: string;
+      maxFeePerGas?: string;
+      maxPriorityFeePerGas?: string;
+      sellTokenAddress: string;
+      buyTokenAddress: string;
+      sellAmount: string;
+      ownerAddress?: string;
+      slippagePercentage?: number;
+      network?:
+        | "ethereum"
+        | "polygon"
+        | "optimism"
+        | "xdai"
+        | "binance-smart-chain"
+        | "fantom"
+        | "avalanche"
+        | "arbitrum"
+        | "celo"
+        | "harmony";
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = {};
+  }
+
+  /**
+   * @description Returns both the relative price for a trade as well as the call data used to sumbit a transaction for a trade. **Should only be called when a trade is ready to be submitted.**
+   * @tags Exchange
+   * @name ExchangeControllerGetExchangeQuote
+   * @summary Exchange Quote
+   * @request GET:/v1/exchange/quote
+   * @secure
+   */
+  export namespace ExchangeControllerGetExchangeQuote {
+    export type RequestParams = {};
+    export type RequestQuery = {
+      gasPrice: string;
+      maxFeePerGas?: string;
+      maxPriorityFeePerGas?: string;
+      sellTokenAddress: string;
+      buyTokenAddress: string;
+      sellAmount: string;
+      ownerAddress?: string;
+      slippagePercentage?: number;
+      network?:
+        | "ethereum"
+        | "polygon"
+        | "optimism"
+        | "xdai"
+        | "binance-smart-chain"
+        | "fantom"
+        | "avalanche"
+        | "arbitrum"
+        | "celo"
+        | "harmony";
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = {};
+  }
+
+  /**
+   * @description Returns the exchanges supported by Zapper API.
+   * @tags Exchange
+   * @name ExchangeControllerGetSupportedExchanges
+   * @summary Supported exchanges
+   * @request GET:/v1/exchange/supported
+   * @secure
+   */
+  export namespace ExchangeControllerGetSupportedExchanges {
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = {};
+  }
+
+  /**
+   * @description Retrieve farms for a given application
+   * @tags Farms Market Data
+   * @name FarmsControllerGetFarmsMarketData
+   * @summary Application Farms
+   * @request GET:/v1/protocols/{appId}/farms
+   * @secure
+   */
+  export namespace FarmsControllerGetFarmsMarketData {
+    export type RequestParams = { appId: string };
+    export type RequestQuery = {
+      network:
+        | "ethereum"
+        | "polygon"
+        | "optimism"
+        | "xdai"
+        | "binance-smart-chain"
+        | "fantom"
+        | "avalanche"
+        | "arbitrum"
+        | "celo"
+        | "harmony";
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = {};
+  }
+
+  /**
+   * @description Retrieves farms for a given farm type on the Ethereum mainnet network
+   * @tags Protocol Stats
+   * @name FarmFetcherControllerGetEthereumFarms
+   * @summary Farm Stats
+   * @request GET:/v1/farms/{farmStatsType}
+   * @secure
+   */
+  export namespace FarmFetcherControllerGetEthereumFarms {
+    export type RequestParams = { farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge" };
+    export type RequestQuery = {
+      network?:
+        | "ethereum"
+        | "polygon"
+        | "optimism"
+        | "xdai"
+        | "binance-smart-chain"
+        | "fantom"
+        | "avalanche"
+        | "arbitrum"
+        | "celo"
+        | "harmony";
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = {};
+  }
+
+  /**
+   * @description Retrieves an ERC20 approval status for an application zap-in
+   * @tags Farm Transactions
+   * @name FarmStakingControllerGetApprovalState
+   * @summary Farm Approval State
+   * @request GET:/v1/farms/{farmStatsType}/approval-state
+   * @secure
+   */
+  export namespace FarmStakingControllerGetApprovalState {
+    export type RequestParams = { farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge" };
+    export type RequestQuery = {
+      ownerAddress: string;
+      rewardAddress: string;
+      poolIndex: number;
+      amount?: string;
+      network?:
+        | "ethereum"
+        | "polygon"
+        | "optimism"
+        | "xdai"
+        | "binance-smart-chain"
+        | "fantom"
+        | "avalanche"
+        | "arbitrum"
+        | "celo"
+        | "harmony";
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = {};
+  }
+
+  /**
+   * @description Builds an ERC20 approval transaction for staking a token in a farm
+   * @tags Farm Transactions
+   * @name FarmStakingControllerGetApprovalTransaction
+   * @summary Farm Approval Transaction
+   * @request GET:/v1/farms/{farmStatsType}/approval-transaction
+   * @secure
+   */
+  export namespace FarmStakingControllerGetApprovalTransaction {
+    export type RequestParams = { farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge" };
+    export type RequestQuery = {
+      gasPrice: string;
+      maxFeePerGas?: string;
+      maxPriorityFeePerGas?: string;
+      ownerAddress: string;
+      rewardAddress: string;
+      poolIndex: number;
+      amount?: string;
+      allowInfinite?: boolean;
+      network?:
+        | "ethereum"
+        | "polygon"
+        | "optimism"
+        | "xdai"
+        | "binance-smart-chain"
+        | "fantom"
+        | "avalanche"
+        | "arbitrum"
+        | "celo"
+        | "harmony";
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = Transaction;
+  }
+
+  /**
+   * @description Builds a staking transaction for usage with Web3
+   * @tags Farm Transactions
+   * @name FarmStakingControllerGetStakeTransaction
+   * @summary Farm Stake Transaction
+   * @request GET:/v1/farms/{farmStatsType}/stake
+   * @secure
+   */
+  export namespace FarmStakingControllerGetStakeTransaction {
+    export type RequestParams = { farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge" };
+    export type RequestQuery = {
+      gasPrice: string;
+      maxFeePerGas?: string;
+      maxPriorityFeePerGas?: string;
+      ownerAddress: string;
+      rewardAddress: string;
+      poolIndex: number;
+      amount: string;
+      network?:
+        | "ethereum"
+        | "polygon"
+        | "optimism"
+        | "xdai"
+        | "binance-smart-chain"
+        | "fantom"
+        | "avalanche"
+        | "arbitrum"
+        | "celo"
+        | "harmony";
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = Transaction;
+  }
+
+  /**
+   * @description Builds a claim transaction for usage with Web3
+   * @tags Farm Transactions
+   * @name FarmStakingControllerGetClaimTransaction
+   * @summary Farm Claim Transaction
+   * @request GET:/v1/farms/{farmStatsType}/claim
+   * @secure
+   */
+  export namespace FarmStakingControllerGetClaimTransaction {
+    export type RequestParams = { farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge" };
+    export type RequestQuery = {
+      gasPrice: string;
+      maxFeePerGas?: string;
+      maxPriorityFeePerGas?: string;
+      ownerAddress: string;
+      rewardAddress: string;
+      poolIndex: number;
+      network?:
+        | "ethereum"
+        | "polygon"
+        | "optimism"
+        | "xdai"
+        | "binance-smart-chain"
+        | "fantom"
+        | "avalanche"
+        | "arbitrum"
+        | "celo"
+        | "harmony";
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = Transaction;
+  }
+
+  /**
+   * @description Builds an exit transaction for usage with Web3
+   * @tags Farm Transactions
+   * @name FarmStakingControllerGetExitTransaction
+   * @summary Farm Exit Transaction
+   * @request GET:/v1/farms/{farmStatsType}/exit
+   * @secure
+   */
+  export namespace FarmStakingControllerGetExitTransaction {
+    export type RequestParams = { farmStatsType: "masterchef" | "single-staking" | "geyser" | "geyser-v2" | "gauge" };
+    export type RequestQuery = {
+      gasPrice: string;
+      maxFeePerGas?: string;
+      maxPriorityFeePerGas?: string;
+      ownerAddress: string;
+      rewardAddress: string;
+      poolIndex: number;
+      amount: string;
+      network?:
+        | "ethereum"
+        | "polygon"
+        | "optimism"
+        | "xdai"
+        | "binance-smart-chain"
+        | "fantom"
+        | "avalanche"
+        | "arbitrum"
+        | "celo"
+        | "harmony";
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = Transaction;
+  }
+
+  /**
+   * @description Retrieve a gas price aggregated from multiple different sources
+   * @tags Miscellaneous Data Endpoints
+   * @name GasPriceControllerGetGasPrice
+   * @summary Gas Price
+   * @request GET:/v1/gas-price
+   * @secure
+   */
+  export namespace GasPriceControllerGetGasPrice {
+    export type RequestParams = {};
+    export type RequestQuery = {
+      network?:
+        | "ethereum"
+        | "polygon"
+        | "optimism"
+        | "xdai"
+        | "binance-smart-chain"
+        | "fantom"
+        | "avalanche"
+        | "arbitrum"
+        | "celo"
+        | "harmony";
+      eip1559: boolean;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = GasPricesResponse;
   }
 
   /**

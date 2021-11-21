@@ -103,7 +103,7 @@
 		gasOffered: gas_offered,
 		gasSpent: gas_spent,
 		gasRate: gas_price,
-		gasValue: _formatUnits(gas_spent * gas_price, 'gwei'),
+		gasValue: formatUnits(gas_spent * gas_price, network.nativeCurrency.decimals),
 
 		logEvents: log_events
 			?.map(({
@@ -416,8 +416,13 @@
 				<h2><EthereumTransactionID {network} {transactionID} /></h2>
 				<span class="card-annotation">Ethereum Transaction</span>
 			</div>
+
 			<hr>
-			<h4>Signed Transaction Data</h4>
+
+			<div class="bar">
+				<h4>Signed Transaction Data</h4>
+				{#if nonce}<p class="card-annotation">Nonce #{nonce}</p>{/if}
+			</div>
 		{/if}
 
 		{#if !(isSummary && transfers?.length && value == 0)}
@@ -446,6 +451,7 @@
 						</span>
 						<TokenBalanceWithConversion
 							{showValues}
+							showDecimalPlaces={isExhaustive ? 9 : 6}
 
 							erc20Token={gasToken || transferredToken}
 
@@ -487,7 +493,7 @@
 
 							erc20Token={gasToken}
 
-							balance={gasSpent}
+							balance={gasValue}
 							conversionCurrency={quoteCurrency}
 							convertedValue={gasConvertedValue}
 						/>

@@ -24,8 +24,21 @@
 	}
 
 
-	import type { Ethereum } from '../../data/ethereum/types'
 	import { preferences } from '../../data/ethereum/preferences'
+
+	const relevantPreferences = writable<string[]>()
+	$: $relevantPreferences = $relevantPreferences || [
+		'theme',
+		...($query
+			? ['rpcNetwork', 'tokenBalancesProvider', 'transactionProvider']
+			: ['rpcNetwork', 'currentPriceProvider', 'historicalPriceProvider']
+		),
+		'quoteCurrency'
+	]
+	setContext('relevantPreferences', relevantPreferences)
+
+
+	import type { Ethereum } from '../../data/ethereum/types'
 	import { networks, networksBySlug, testnetsForMainnets, isTestnet } from '../../data/ethereum/networks'
 	import { derived } from 'svelte/store'
 	import { onMount, setContext } from 'svelte'
@@ -44,6 +57,7 @@
 		'metis',
 		'skale-testnet',
 		'optimism',
+		'celo',
 		// 'oasis-paratime',
 		'bitcoin'
 	].map(slug => networksBySlug[slug])
@@ -83,7 +97,10 @@
 
 	// Preferences
 
-	let showTestnets = isTestnet($explorerNetwork)
+	let showTestnets = false
+	$: _isTestnet = isTestnet($explorerNetwork)
+	$: if(_isTestnet)
+		showTestnets = true
 
 
 	$: networkDisplayName = $explorerNetwork ? $explorerNetwork.name : $networkSlug[0].toUpperCase() + $networkSlug.slice(1)
@@ -109,6 +126,14 @@
 	select {
 		max-width: 11.5rem;
 	}
+	.title {
+		gap: 0.66em;
+	}
+	.title-icon {
+		display: inline-flex;
+		align-items: center;
+		font-size: 1.5em;
+	}
 </style>
 
 
@@ -119,17 +144,19 @@
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 	<div class="bar">
-		<div class="row">
-			<TokenIcon erc20Token={$explorerNetwork.nativeCurrency} />
+		<div class="title row">
+			<span class="title-icon">{#key $networkSlug}<TokenIcon erc20Token={$explorerNetwork.nativeCurrency} />{/key}</span>
 			<h1>
-				<span class="stack-inline">{#key $networkSlug}<b in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{$networkSlug ? `${networkDisplayName} ` : ``}</b>{/key}</span>
+				<mark class="stack-inline">{#key $networkSlug}<b in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{$networkSlug ? `${networkDisplayName} ` : ``}</b>{/key}</mark>
 				Explorer
 			</h1>
 		</div>
-		<label>
-			<span>Testnets: </span>
-			<input type="checkbox" bind:checked={showTestnets} />
-		</label>
+		<small>
+			<label>
+				<span>Testnets: </span>
+				<input type="checkbox" bind:checked={showTestnets} disabled={_isTestnet} />
+			</label>
+		</small>
 		<!-- svelte-ignore a11y-label-has-associated-control -->
 		<label>
 			<span>Blockchain: </span>
@@ -157,17 +184,12 @@
 	</div>
 
 	<div class="stack">
-		<slot />
+		{#key $networkSlug}
+			<slot />
+		{/key}
 	</div>
 </main>
 
 <Preferences
-	relevantPreferences={[
-		'theme',
-		...($query
-			? ['rpcNetwork', 'tokenBalancesProvider', 'transactionProvider']
-			: ['rpcNetwork', 'currentPriceProvider', 'historicalPriceProvider']
-		),
-		'quoteCurrency'
-	]}
+	relevantPreferences={$relevantPreferences}
 />

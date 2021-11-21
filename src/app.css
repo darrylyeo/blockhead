@@ -24,6 +24,10 @@
 	--avalanche-red: #f9273c;
 	--xdai-teal: #48a9a6;
 	--fantom-blue: #1969ff;
+	--arbitrum-blue: #28a0f0;
+	--metis-blue: #00dacd;
+	--skale-black: #000;
+	--celo-gold: #fbcc5c;
 
 	--up-green: #1af73d;
 	--down-red: #f7541a;
@@ -75,6 +79,8 @@
 	
 	--global-background-gradient-base-color: #f6f6f6;
 	background: linear-gradient(155deg, var(--global-background-gradient-base-color), var(--primary-color, var(--ethereum-blue)) 250%) fixed;
+
+	accent-color: var(--primary-color);
 
 	--invert-when-light: invert();
 	--invert-when-dark: none;

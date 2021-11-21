@@ -15,7 +15,8 @@
 
 	export let contextualAddress: Ethereum.Address
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
-	export let showValues: 'original' | 'converted' | 'both' = 'original'
+	// export let showValues: 'original' | 'converted' | 'both' = 'original'
+	let showValues = 'original'
 	export let showFees = false
 
 	export let layout: 'standalone' | 'inline' = 'inline'
@@ -46,8 +47,8 @@
 		valueQuote,
 
 		gasToken: Ethereum.ERC20Token,
+		gasSpent,
 		gasValue,
-		gasValueQuote,
 
 		quoteToken,
 		rate,
@@ -94,8 +95,9 @@
 		value: _formatUnits(transaction.value, network.nativeCurrency.decimals),
 
 		gasToken: network.nativeCurrency,
-		gasValue: _formatUnits(transaction.receipt_gas_used, 'gwei'),
-		gasValueQuote: Number(transaction.gas_price) * Number(transaction.receipt_gas_used),
+		gasRate: transaction.gas_price,
+		gasSpent: transaction.receipt_gas_used,
+		gasValue: _formatUnits(Number(transaction.receipt_gas_used) * Number(transaction.gas_price), network.nativeCurrency.decimals),
 		// receipt_root
 
 		logEvents: transaction.logs,
@@ -124,7 +126,6 @@
 
 		gasToken,
 		gasValue,
-		gasValueQuote,
 
 		quoteToken,
 		rate,
@@ -244,11 +245,12 @@
 				<h2><EthereumTransactionID {network} {transactionID} /></h2>
 				<span class="card-annotation">Ethereum Transaction</span>
 			</div>
+
 			<hr>
 
 			<div class="bar">
-				<h4>Initial Message</h4>
-				{#if nonce}<p class="card-annotation">#{nonce}</p>{/if}
+				<h4>Signed Transaction Data</h4>
+				{#if nonce}<p class="card-annotation">Nonce #{nonce}</p>{/if}
 			</div>
 		{/if}
 
@@ -268,6 +270,7 @@
 						</span>
 						<TokenBalanceWithConversion
 							{showValues}
+							showDecimalPlaces={isExhaustive ? 9 : 6}
 
 							erc20Token={token}
 
@@ -293,12 +296,13 @@
 						<span>for fee</span>
 						<TokenBalanceWithConversion
 							{showValues}
+							showDecimalPlaces={isExhaustive ? 9 : 6}
 
 							erc20Token={gasToken}
 
 							balance={gasValue}
+
 							conversionCurrency={quoteToken}
-							convertedValue={gasValueQuote}
 						/>
 					</span>
 				{/if}
@@ -332,7 +336,7 @@
 		{#if !isSummary && logEvents?.length}
 			{#if isStandaloneLayout}
 				<hr>
-				<h4>Smart Contract Log Events</h4>
+				<h4>Smart Contract Event Logs</h4>
 				<div class="log-events column">
 					{#each logEvents.sort((event1, event2) => event1.log_index - event2.log_index) as logEvent}
 						<div class="card">

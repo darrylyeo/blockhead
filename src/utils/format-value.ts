@@ -1,4 +1,4 @@
-export function formatValue(value: number, currency?: string){
+export function formatValue(value: number, currency?: string, showDecimals = 3){
 	try {
 		return globalThis.navigator
 			? new Intl.NumberFormat(globalThis.navigator.languages, {
@@ -6,8 +6,8 @@ export function formatValue(value: number, currency?: string){
 				// minimumFractionDigits: 2,
 				// minimumSignificantDigits: value < 1 ? 3 : undefined,
 				// maximumSignificantDigits: value < 1 ? 3 : undefined,
-				minimumFractionDigits: 3,
-				maximumFractionDigits: 3,
+				minimumFractionDigits: showDecimals,
+				maximumFractionDigits: showDecimals,
 			}).format(value)
 			: value
 	}catch(e){
