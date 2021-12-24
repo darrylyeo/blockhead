@@ -70,7 +70,7 @@
 
 <nav class="bar">
 	<ul>
-		<li><a aria-current="{$page.path === '/' ? 'page' : undefined}" href="/"><span class="logo">Blockhead</span></a></li>
+		<li><a aria-current="{$page.path === '/' ? 'page' : undefined}" href="/"><span class="logo">COINMARKETCASH</span></a></li>
 		<li><a aria-current="{$page.path.startsWith('/portfolio') ? 'page' : undefined}" href="/portfolio">Portfolio</a></li>
 		<li><a aria-current="{$page.path.startsWith('/explorer') ? 'page' : undefined}" href="/explorer">Explorer</a></li>
 		<li><a aria-current="{$page.path.startsWith('/apps') ? 'page' : undefined}" href="/apps">Apps</a></li>
@@ -79,15 +79,15 @@
 		<!-- <li><a aria-current="{$page.path.startsWith('/trade') ? 'page' : undefined}" href="/trade">Trade</a></li> -->
 		<!-- <li><a aria-current="{$page.path.startsWith('/invest') ? 'page' : undefined}" href="/invest">Invest</a></li> -->
 
-		<li class="right"><a href="https://gitcoin.co/grants/2966/blockhead" target="_blank">Gitcoin Grants</a></li>
-		<li class="right"><a href="https://discord.gg/966eXqqq7N" target="_blank">Discord</a></li>
-		<li class="right"><a href="https://twitter.com/0xblockhead" target="_blank">Twitter</a></li>
+		<li class="right"><a href="https://gitcoin.co/grants/2966/CoinmarketCash" target="_blank">Gitcoin Grants</a></li>
+		<li class="right"><a href="https://discord.gg/" target="_blank">Discord</a></li>
+		<li class="right"><a href="https://twitter.com/CoinMarketCash" target="_blank">Twitter</a></li>
 	</ul>
 
 	<!-- <div class="nav-right row">
-		<li><a href="https://gitcoin.co/grants/2966/blockhead" target="_blank">Gitcoin Grants</a></li>
+		<li><a href="https://gitcoin.co/grants/2966/CoinMarketCash" target="_blank">Gitcoin Grants</a></li>
 		<li><a href="https://discord.gg/966eXqqq7N" target="_blank">Discord</a></li>
-		<li><a href="https://twitter.com/0xblockhead" target="_blank">Twitter</a></li>
+		<li><a href="https://twitter.com/CoinMarketCash" target="_blank">Twitter</a></li>
 	</div> -->
 	<!-- <EthereumLatestBlockNumber /> -->
 </nav>
