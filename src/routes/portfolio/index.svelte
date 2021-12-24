@@ -61,7 +61,7 @@
 </style>
 
 <svelte:head>
-	<title>Portfolio | Blockhead</title>
+	<title>Portfolio | COINMARLETCASH</title>
 </svelte:head>
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
