@@ -212,6 +212,9 @@ button.small {
 button.destructive {
 	--primary-color: hsl(17deg 69% 43%);
 }
+button.cancel {
+	--primary-color: #777;
+}
 
 
 :-placeholder {

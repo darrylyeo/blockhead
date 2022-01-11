@@ -190,7 +190,7 @@
 						</slot>
 						<slot name="errorActions" {load} {cancel}>
 							<button class="small" on:click={load}>Retry</button>
-							<button class="small" on:click={cancel}>Cancel</button>
+							<button class="small cancel" on:click={cancel}>Cancel</button>
 						</slot>
 					</div>
 					<slot name="error" {error}>

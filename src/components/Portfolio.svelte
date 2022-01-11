@@ -190,7 +190,7 @@
 								<AddressField bind:address={newWalletAddress} autofocus required/>
 								<button class="medium" disabled={!isValid(newWalletAddress)}>Add</button>
 							</form>
-							<button class="medium" on:click={() => state = State.Idle}>Cancel</button>
+							<button class="medium cancel" on:click={() => state = State.Idle}>Cancel</button>
 						</div>
 					</div>
 				{:else if !accounts.length}
