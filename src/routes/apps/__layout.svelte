@@ -9,15 +9,15 @@
 	// 	set($page.params.blockchainApp || '')
 	// )
 	// // $: $blockchainAppSlug = $page.params.blockchainApp
-	const blockchainAppSlug = writable<BlockchainAppSlug>($page.params.blockchainApp || $page.path.match(/^\/apps\/([^/]+)/)?.[1] || '')
+	const blockchainAppSlug = writable<BlockchainAppSlug>($page.params.blockchainApp || $page.url.pathname.match(/^\/apps\/([^/]+)/)?.[1] || '')
 	const addressOrENSName = writable<string>($page.params.addressOrENSName || '')
-	$: $blockchainAppSlug = $page.params.blockchainApp || $page.path.match(/^\/apps\/([^/]+)/)?.[1] || ''
+	$: $blockchainAppSlug = $page.params.blockchainApp || $page.url.pathname.match(/^\/apps\/([^/]+)/)?.[1] || ''
 	$: $addressOrENSName = $page.params.addressOrENSName || ''
 
 	setContext('blockchainAppSlug', blockchainAppSlug)
 	setContext('addressOrENSName', addressOrENSName)
 
-	// let path = $page.path
+	// let path = $page.url.pathname
 	// $: if(browser){
 	// 	const newPath = `/apps${$blockchainAppSlug ? `/${$blockchainAppSlug}${$addressOrENSName ? `/address/${$addressOrENSName}` : ''}` : ''}`
 	// 	console.log(newPath, path)

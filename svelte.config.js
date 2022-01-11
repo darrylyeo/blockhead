@@ -25,7 +25,6 @@ const config = {
 			assets: 'build',
 			fallback: null
 		}),
-		ssr: false,
 
 		vite: {
 			ssr: {
@@ -58,6 +57,14 @@ const config = {
 				alias: {
 					'process': 'process/browser',
 					'$houdini': path.resolve('.', '$houdini')
+				}
+			},
+
+			server: {
+				fs: {
+					allow: [
+						'..'
+					],
 				}
 			}
 		},

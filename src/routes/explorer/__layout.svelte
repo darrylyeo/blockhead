@@ -15,7 +15,7 @@
 	setContext('networkSlug', networkSlug)
 	setContext('query', query)
 
-	let path = $page.path
+	let path = $page.url.pathname
 	$: if(browser){
 		const newPath = `/explorer${$networkSlug ? `/${$networkSlug}${$query ? `/${$query}` : ''}` : ''}`
 		console.log(newPath, path)
