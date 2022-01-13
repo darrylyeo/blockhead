@@ -12,6 +12,7 @@
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import { MoralisWeb3Api, chainCodeFromNetwork } from '../data/moralis/moralis-web3-api'
 
+	import { getTokenBalances } from '../data/zapper/zapper'
 
 	export let network: Ethereum.Network
 	export let address: string
@@ -72,10 +73,11 @@
 		bind:result={balances}
 		let:then={balances}
 	>
-		<slot name="header" slot="header" {balances}></slot>
+		<slot name="header" slot="header" {balances} />
 
 		<slot {balances} />
 	</Loader>
+
 {:else if tokenBalancesProvider === 'Moralis'}
 	<Loader
 		loadingIcon={'/logos/moralis-icon.svg'}
@@ -151,7 +153,29 @@
 		bind:result={balances}
 		let:then={balances}
 	>
-		<slot name="header" slot="header" {balances}></slot>
+		<slot name="header" slot="header" {balances} />
+
+		<slot {balances} />
+	</Loader>
+
+{:else if tokenBalancesProvider === 'Zapper'}
+	<Loader
+		loadingIcon={'/logos/zapper-logomark.svg'}
+		loadingIconName={tokenBalancesProvider}
+		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
+		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"
+		fromPromise={async () =>
+			await getTokenBalances({
+				network,
+				address
+			})
+		}
+		{showIf}
+		{isCollapsed}
+		bind:result={balances}
+		let:then={balances}
+	>
+		<slot name="header" slot="header" {balances} />
 
 		<slot {balances} />
 	</Loader>

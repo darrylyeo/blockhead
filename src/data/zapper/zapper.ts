@@ -427,3 +427,12 @@ export async function getFiatRates(){
 	// console.log('getFiatRates', result)
 	return result
 }
+
+export async function getTokenBalances({network, address}: {network: Ethereum.Network, address: Ethereum.Address}) {
+	const result = await Zapper.balanceControllerGetBalances({
+		// network,
+		'addresses[]': [address]
+	}) ?? []
+
+	return result
+}

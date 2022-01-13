@@ -40,7 +40,7 @@
 	// 	filterQuery = selectedToken.address
 
 
-	let balances: Covalent.ERC20TokenOrNFTContractWithBalance[]
+	let balances: Covalent.ERC20TokenOrNFTContractWithBalance[] = []
 
 	let priceScale: PriceScale
 
@@ -333,15 +333,14 @@
 			{/key}{/if}
 		</div>
 
-		{#if balances?.length}
+		{#if balances.length}
 			<CovalentPriceChart
 				historicalPriceProvider={$preferences.historicalPriceProvider}
 				quoteCurrency={$preferences.quoteCurrency}
 				chainID={network.chainId}
 				currencies={
 					selectedToken ? [selectedToken.tokenAddress] :
-					balances ? balances.map(tokenWithBalance => tokenWithBalance.contract_address) :
-					[]
+					balances.map(tokenWithBalance => tokenWithBalance.contract_address)
 				}
 				{priceScale}
 			>
