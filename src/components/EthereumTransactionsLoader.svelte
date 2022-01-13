@@ -53,7 +53,9 @@
 		loadingIcon="/logos/etherspot-icon.png"
 		loadingMessage="Retrieving {network.name} transactions from {transactionProvider}..."
 		errorMessage="Error retrieving {network.name} transactions from {transactionProvider}"
-		fromPromise={() => getTransactionsEtherspot({network, address})}
+		fromPromise={async () =>
+			await getTransactionsEtherspot({network, address})
+		}
 		let:then={transactions}
 	>
 		<slot name="header" slot="header" {status} {transactions} />
