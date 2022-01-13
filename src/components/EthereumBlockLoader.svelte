@@ -106,7 +106,7 @@
 
 			<div class="footer bar">
 				<span />
-				<Date date={block.timestamp} layout="horizontal" />
+				<Date date={block?.timestamp} layout="horizontal" />
 			</div>
 
 			<!-- {#each block.transactions ?? [] as transaction}
