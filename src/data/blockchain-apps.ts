@@ -157,7 +157,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 			{
 				chainId: 1,
 				erc20Tokens: [
-					erc20TokensBySymbol['ADDY']
+					// erc20TokensBySymbol['ADDY']
 				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/airswap/airswap',
@@ -524,7 +524,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 			{
 				chainId: 1,
 				erc20Tokens: [
-					erc20TokensBySymbol['BOND']
+					// erc20TokensBySymbol['BOND']
 				],
 				providers: {
 					zapper: 'barnbridge',
@@ -616,7 +616,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				slug: 'bond',
 				chainId: 1,
 				erc20Tokens: [
-					erc20TokensBySymbol['BSB'],
+					// erc20TokensBySymbol['BSB'],
 				]
 			}
 		]
@@ -1435,6 +1435,9 @@ export const blockchainApps: BlockchainAppConfig[] = [
 		views: [
 			{
 				chainId: 1,
+				erc20Tokens: [
+					erc20TokensBySymbol['ENS']
+				],
 				nfts: [
 					{
 						name: 'ENS: Base Registrar',
@@ -1549,7 +1552,7 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				chainId: 1,
 				erc20Tokens: [
 					erc20TokensBySymbol['FRAX'],
-					erc20TokensBySymbol['FSX'],
+					// erc20TokensBySymbol['FSX'],
 				],
 				providers: {
 					zapper: 'frax',
