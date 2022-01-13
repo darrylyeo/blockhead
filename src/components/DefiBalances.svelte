@@ -34,7 +34,7 @@
 
 	export let quoteTotal
 	export let quoteTotalCurrency
-	$: quoteTotalCurrency = zapperQuoteCurrency
+	$: quoteTotalCurrency = defiProvider === 'Zapper' ? zapperQuoteCurrency : undefined
 
 	type TypeOfPromise<T> = T extends Promise<infer R> ? R : T
 	let zapperDefiProtocolBalances: TypeOfPromise<ReturnType<typeof getDeFiAppBalances>>
@@ -163,7 +163,7 @@
 
 {#if network && address}
 	<!-- Zapper -->
-	{#if defiProvider === 'Zapper'}
+	{#if defiProvider === 'Zapper' || network.chainId !== 1}
 		<Loader
 			loadingMessage="Reading {defiBalancesDescription} balances from {defiProvider}..."
 			errorMessage="Error getting {defiBalancesDescription} balances from {defiProvider}."
@@ -388,7 +388,7 @@
 	{/if}
 
 	<!-- Zerion DeFi SDK -->
-	{#if defiProvider === 'Zerion DeFi SDK'}
+	{#if defiProvider === 'Zerion DeFi SDK'	&& network.chainId === 1}
 		{#if provider}
 			<Loader
 				loadingMessage="Reading {defiBalancesDescription} balances from {defiProvider}..."
@@ -400,7 +400,6 @@
 					address
 				})}
 				let:then={defiBalances}
-				showIf={defiBalances => defiBalances?.length}
 				{isCollapsed}
 			>					
 				<TokenIcon slot="loadingIcon" symbol={network.nativeCurrency.symbol} />
