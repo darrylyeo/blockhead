@@ -102,7 +102,6 @@
 						{#each $blockchainAppConfig.views?.flatMap(view => view.erc20Tokens ?? []).slice(0, 1) as erc20Token}
 							<TokenIcon {erc20Token} />
 						{/each}
-						{#if $blockchainAppConfig.name === 'ENS'}<img src="/logos/ens.svg" width="30" />{/if}
 					{:else}
 						<img src="/Blockhead-Logo.svg" width="30" />
 					{/if}
