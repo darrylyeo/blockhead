@@ -39,6 +39,33 @@
 	// import ENS, { getEnsAddress } from '@ensdomains/ensjs'
 	// const ens = new ENS({ provider, ensAddress: getEnsAddress('1') })
 
+	import { memoizedAsync } from '../utils/memoized'
+
+	const lookupAddress = memoizedAsync(async (address: Ethereum.Address, provider: Ethereum.Provider) => {
+		const ensName = await provider.lookupAddress(address)
+		if(ensName)
+			return ensName
+
+		// throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name.`)
+		throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name (or there's an issue with the${$preferences.rpcNetwork === 'Auto' ? `` : ` ${$preferences.rpcNetwork}`} JSON-RPC connection).`)
+
+		// ensNamePromise = ens.getName(address).then(async name => {
+		// 	if(address === await ens.name(name).getAddress())
+		// 		return name 
+		// })
+	})
+
+	const resolveName = memoizedAsync(async (ensName: string, provider: Ethereum.Provider) => {
+		const address = await provider.resolveName(ensName)
+		if(address)
+			return address
+
+		// throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address.`)
+		throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address (or there's an issue with the${$preferences.rpcNetwork === 'Auto' ? `` : ` ${$preferences.rpcNetwork}`} JSON-RPC connection).`)
+
+		// addressPromise = ens.name(addressOrENSName).getAddress()
+	})
+
 
 	export let showIf: (({address, ensName}: {address: Ethereum.Address, ensName: string}) => boolean | any) | undefined
 
@@ -51,18 +78,9 @@
 
 {#if addressOrENSName && isReverseResolving && !passiveReverseResolution}
 	<Loader
-		fromPromise={async () => {
-			const ensName = await provider?.lookupAddress(address)
-			if(ensName)
-				return ensName
-			// throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name.`)
-			throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name (or there's an issue with the${$preferences.rpcNetwork === 'Auto' ? `` : ` ${$preferences.rpcNetwork}`} JSON-RPC connection).`)
-
-			// ensNamePromise = ens.getName(address).then(async name => {
-			// 	if(address === await ens.name(name).getAddress())
-			// 		return name 
-			// })
-		}}
+		fromPromise={address && provider && (async () =>
+			await lookupAddress(address.toLowerCase(), provider)
+		)}
 		loadingIcon="/logos/ens.svg"
 		loadingIconName="ENS"
 		loadingMessage="Reverse-resolving address to a name on the Ethereum Name Service{viaRPC}..."
@@ -75,15 +93,9 @@
 	</Loader>
 {:else if addressOrENSName && !isReverseResolving && !passiveForwardResolution}
 	<Loader
-		fromPromise={async () => {
-			const address = await provider?.resolveName(ensName)
-			if(address)
-				return address
-			// throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address.`)
-			throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address (or there's an issue with the${$preferences.rpcNetwork === 'Auto' ? `` : ` ${$preferences.rpcNetwork}`} JSON-RPC connection).`)
-
-			// addressPromise = ens.name(addressOrENSName).getAddress()
-		}}
+		fromPromise={ensName && provider && (async () =>
+			await resolveName(ensName.toLowerCase(), provider)
+		)}
 		loadingIcon="/logos/ens.svg"
 		loadingIconName="ENS"
 		loadingMessage="Resolving name to address on the Ethereum Name Service{viaRPC}..."
