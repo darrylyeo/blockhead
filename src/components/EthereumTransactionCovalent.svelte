@@ -103,7 +103,7 @@
 		gasOffered: gas_offered,
 		gasSpent: gas_spent,
 		gasRate: gas_price,
-		gasValue: formatUnits(gas_spent * gas_price, network.nativeCurrency.decimals),
+		gasValue: _formatUnits(gas_spent * gas_price, network.nativeCurrency.decimals),
 
 		logEvents: log_events
 			?.map(({
