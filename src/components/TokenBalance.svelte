@@ -24,16 +24,15 @@
 	export let showPlainFiat = false
 	$: isFiat = showPlainFiat && symbol in fiatQuoteCurrencies
 
+	$: isZero = balance == 0
 	$: isNegative = balance < 0
+
 
 	export let tween = true
 
 
-	import { formatValue } from '../utils/format-value'
-	import { formatAddress } from '../utils/formatAddress'
-
-
 	import { tweened } from 'svelte/motion'
+
 	const tweenedValue = tweened(0, {
 		duration: tween ? 1000 : 0,
 		delay: tween ? 1 : 0,
@@ -45,6 +44,10 @@
 		}
 	})
 	$: tweenedValue.set(Math.abs(balance || 0))
+
+
+	import { formatValue } from '../utils/format-value'
+	import { formatAddress } from '../utils/formatAddress'
 
 
 	import TokenIcon from './TokenIcon.svelte'
@@ -79,10 +82,14 @@
 	.is-debt {
 		color: hsl(31deg 93% 54%);
 	}
+
+	.is-zero {
+		opacity: 0.55;
+	}
 </style>
 
 
-<span class="token-balance-container" class:is-debt={isDebt} title="{balance} {name || symbol}{symbol && name ? ` (${symbol})` : ``}">
+<span class="token-balance-container" class:is-debt={isDebt} class:is-zero={isZero} title="{balance} {name || symbol}{symbol && name ? ` (${symbol})` : ``}" draggable={true}>
 	{#if isFiat}
 		<span class="token-balance">{isNegative ? '−' : ''}{formatValue($tweenedValue, symbol, showDecimalPlaces)}</span>
 	{:else}

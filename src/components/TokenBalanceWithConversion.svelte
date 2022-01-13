@@ -61,8 +61,10 @@
 		opacity: 0.55;
 	}
 	.is-zero {
-		/* opacity: 0.2; */
 		opacity: 0.55;
+	}
+	.is-zero :global(.is-zero) {
+		opacity: initial;
 	}
 
 	.is-debt {
