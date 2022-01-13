@@ -73,14 +73,18 @@
 		{:else if imageSources[i]}
 			<img src={imageSources[i]} on:error={e => i++} />
 		{:else}
-			<i class="placeholder-icon" data-icon={symbol?.slice(0, 4) ?? '?'}></i>
+			<span class="placeholder-icon" data-icon={symbol ?? '?'} />
 		{/if}
 	</picture>
 {/if}
 
+
 <style>
 	.token-icon {
+		--token-size: 1.25em;
+
 		display: inline-flex;
+		width: var(--token-size);
 		height: 1em;
 		align-self: center;
 		align-items: center;
@@ -93,29 +97,43 @@
 		display: none;
 	}
 
-	img, .placeholder-icon {
-		width: 1.25em;
-		height: 1.25em;
+	img, .placeholder-icon, .token-icon > :global(svg) {
+		width: var(--token-size);
+		height: var(--token-size);
+		max-width: 100%;
+		aspect-ratio: 1;
 		border-radius: 0.3em;
+		object-fit: contain;
 	}
 
 	.placeholder-icon {
-		background-color: rgba(50, 50, 50, 0.75);
-		background-color: var(--primary-color);
+		/* background-color: rgba(50, 50, 50, 0.75);
+		background-color: var(--primary-color); */
+		background: radial-gradient(transparent -175%, var(--primary-color) 125%);
+		/* border: 0.1em dotted var(--primary-color); */
+		/* box-shadow: 0 0 0.125em 0.125em var(--primary-color) inset; */
+
 		color: #fff;
 
 		display: inline-flex;
-		place-items: center;
+		/* place-items: center; */
 		place-content: center;
+		text-align: center;
 		border-radius: 50%;
 		overflow: hidden;
+
+		line-height: var(--token-size);
+		padding: 0 0.1em;
 	}
 	.placeholder-icon:before {
 		content: attr(data-icon);
 
-		font-size: 0.37em;
-		font-style: normal;
-		font-weight: 500;
+		font-family: Pally, var(--base-fonts);
+		font-size: 0.5em;
+		font-weight: bold;
+
+		/* white-space: pre;
+		word-break: keep-all; */
 	}
 
 	/* ETH SVG off-center correction */

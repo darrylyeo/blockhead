@@ -71,6 +71,8 @@
 	/* text-rendering: optimizeLegibility; */
 	text-rendering: geometricPrecision;
 
+	word-break: break-word;
+
 	--text-color: rgba(0, 0, 0, 0.8);
 	color: var(--text-color);
 	--text-decoration-color: 51, 51, 51;
