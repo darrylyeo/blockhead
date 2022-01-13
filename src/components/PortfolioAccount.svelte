@@ -89,7 +89,7 @@
 </style>
 
 
-<div class="account column-block" class:is-editing={isEditing}>
+<article class="account card column-block" class:is-editing={isEditing}>
 	<EnsResolutionLoader
 		{addressOrENSName}
 		{provider}
@@ -97,7 +97,7 @@
 		let:address
 		let:ensName
 	>
-		<div slot="header" class="bar">
+		<header slot="header" class="bar">
 			<div class="row-inline">
 				{#if nickname}
 					<h3>{nickname}</h3>
@@ -126,12 +126,12 @@
 				</span>
 			{/if}
 			<slot></slot>
-		</div>
+		</header>
 
 		{#each showNetworks as {chainID, show, showBalances, showDeFi, showNFTs}, i}
 			{#each [networksByChainID[chainID]] as network}
 				{#if show}
-					<div class="column" style="{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}">
+					<section class="column" style="{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}">
 						<HeightContainer class="column" isOpen={isEditing}>
 							<hr>
 							<div class="bar">
@@ -202,7 +202,7 @@
 								<svelte:fragment slot="header" let:status let:defiBalances let:quoteTotal let:quoteTotalCurrency>
 									{#if (status === 'resolved' && defiBalances?.length) || status === 'error'}
 										<hr>
-										<div class="bar">
+										<header class="bar">
 											<h4>{network.name} DeFi</h4>
 											{#if quoteTotal !== undefined}
 												<TokenBalance symbol={quoteTotalCurrency || quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
@@ -216,7 +216,7 @@
 													<span>Show DeFi</span>
 												</label>
 											{/if} -->
-										</div>
+										</header>
 									{/if}
 								</svelte:fragment>
 							</DefiBalances>
@@ -238,7 +238,7 @@
 								<svelte:fragment slot="header" let:balances>
 									{#if balances?.length}
 										<hr>
-										<div class="bar">
+										<header class="bar">
 											<h4>{network.name} NFTs</h4>
 											<span>
 												<strong>{nftCount}</strong> NFT{nftCount === 1 ? '' : 's'}
@@ -254,14 +254,14 @@
 													<span>Show NFTs</span>
 												</label>
 											{/if} -->
-										</div>
+										</header>
 									{/if}
 								</svelte:fragment>
 							</EthereumNFTs>
 						{/if}
-					</div>
+					</section>
 				{/if}
 			{/each}
 		{/each}
 	</EnsResolutionLoader>
-</div>
+</article>

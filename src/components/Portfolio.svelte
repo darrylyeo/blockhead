@@ -132,7 +132,7 @@
 </style>
 
 
-<div class="portfolio column">
+<section class="portfolio column">
 	<header class="bar">
 		<slot name="title">
 			<h1 class="row" on:dblclick={editable && (() => state = State.Editing)}>
@@ -204,7 +204,7 @@
 			</div>
 		{/if}
 		{#each accounts as {id, type, nickname, networks}, i (id)}
-			<section class="card" transition:scale|local animate:flip|local={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
+			<div transition:scale|local animate:flip|local={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
 				<PortfolioAccount
 					addressOrENSName={id}
 					{type}
@@ -232,7 +232,7 @@
 						</div>
 					{/if}
 				</PortfolioAccount>
-			</section>
+			</div>
 		{/each}
 	{:else}
 		<slot name="loading">
@@ -279,4 +279,4 @@
 			</div>
 		</div>
 	{/if}
-</div>
+</section>
