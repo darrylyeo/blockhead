@@ -37,22 +37,6 @@ const config = {
 				]
 			},
 
-
-			// Directory import '/opt/build/repo/node_modules/@apollo/client/core' is not supported resolving ES modules imported from /opt/build/repo/.svelte-kit/output/server/app.js
-			// Did you mean to import @apollo/client/core/core.cjs.js?
-			// https://github.com/timhall/svelte-apollo/issues/97#issuecomment-857397762
-			optimizeDeps: {
-				include: [
-					"@apollo/client/core",
-					"@apollo/client/cache",
-					"@apollo/client/link/ws",
-					"@apollo/client/link/context",
-					"@apollo/client/link/error",
-					"@apollo/client/utilities",
-				],
-				exclude: ["@apollo/client", "svelte-apollo"],
-			},
-
 			resolve: {
 				alias: {
 					'process': 'process/browser',
@@ -60,6 +44,7 @@ const config = {
 				}
 			},
 
+			// The request url "$houdini/index.js" is outside of Vite serving allow list.
 			server: {
 				fs: {
 					allow: [
