@@ -41,7 +41,7 @@
 
 	import { memoizedAsync } from '../utils/memoized'
 
-	const lookupAddress = memoizedAsync(async (address: Ethereum.Address, provider: Ethereum.Provider) => {
+	const lookupAddress = memoizedAsync(async (address: Ethereum.Address) => {
 		const ensName = await provider.lookupAddress(address)
 		if(ensName)
 			return ensName
@@ -55,7 +55,7 @@
 		// })
 	})
 
-	const resolveName = memoizedAsync(async (ensName: string, provider: Ethereum.Provider) => {
+	const resolveName = memoizedAsync(async (ensName: string) => {
 		const address = await provider.resolveName(ensName)
 		if(address)
 			return address
@@ -79,7 +79,7 @@
 {#if addressOrENSName && isReverseResolving && !passiveReverseResolution}
 	<Loader
 		fromPromise={address && provider && (async () =>
-			await lookupAddress(address.toLowerCase(), provider)
+			await lookupAddress(address.toLowerCase())
 		)}
 		loadingIcon="/logos/ens.svg"
 		loadingIconName="ENS"
@@ -94,7 +94,7 @@
 {:else if addressOrENSName && !isReverseResolving && !passiveForwardResolution}
 	<Loader
 		fromPromise={ensName && provider && (async () =>
-			await resolveName(ensName.toLowerCase(), provider)
+			await resolveName(ensName.toLowerCase())
 		)}
 		loadingIcon="/logos/ens.svg"
 		loadingIconName="ENS"
