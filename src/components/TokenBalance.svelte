@@ -27,6 +27,8 @@
 	$: isZero = balance == 0
 	$: isNegative = balance < 0
 
+	$: compactLargeValues = !showPlainFiat
+
 
 	export let tween = true
 
@@ -91,11 +93,11 @@
 
 <span class="token-balance-container" class:is-debt={isDebt} class:is-zero={isZero} title="{balance} {name || symbol}{symbol && name ? ` (${symbol})` : ``}" draggable={true}>
 	{#if isFiat}
-		<span class="token-balance">{isNegative ? '−' : ''}{formatValue($tweenedValue, symbol, showDecimalPlaces)}</span>
+		<span class="token-balance">{isNegative ? '−' : ''}{formatValue($tweenedValue, symbol, showDecimalPlaces, compactLargeValues)}</span>
 	{:else}
 		<TokenIcon {symbol} {address} {name} {icon} {erc20Token} />
 		<span>
-			<span class="token-balance">{isNegative ? '−' : ''}{formatValue($tweenedValue, undefined, showDecimalPlaces)}</span>
+			<span class="token-balance">{isNegative ? '−' : ''}{formatValue($tweenedValue, undefined, showDecimalPlaces, compactLargeValues)}</span>
 			<span class="token-name">{symbol || formatAddress(address, 'middle-truncated')}</span>
 		</span>
 	{/if}
