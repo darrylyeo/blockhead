@@ -1,4 +1,5 @@
 <script lang="ts">
+
 	import type { Ethereum } from '../data/ethereum/types'
 
 
@@ -19,27 +20,11 @@
 	// const blockSymbol = '' // '🅱️' // 'B⃞' // '#'
 
 
-	import { tweened } from 'svelte/motion'
-	import { quintOut } from 'svelte/easing'
-
-	const tweenedBlockNumber = tweened(0, {
-		duration: tween ? 500 : 0,
-		delay: tween ? 1 : 0,
-		easing: quintOut,
-		interpolate: (from, to) => t => {
-			const logFrom = from != 0 ? Math.log10(from) : -1
-			const logTo = to != 0 ? Math.log10(to) : -1
-			const result = Math.round(Math.pow(10, logFrom + t * (logTo - logFrom)))
-			return from == 0 ? result.toString().padStart(logTo + 1, '0') : result
-		}
-	})
-	$: tweenedBlockNumber.set(blockNumber || 0)
-
-
 	import { tokenColors } from '../data/token-colors'
 
 
 	import TokenIcon from './TokenIcon.svelte'
+	import TweenedNumber from './TweenedNumber.svelte'
 </script>
 
 
@@ -102,7 +87,13 @@
 		<a class="block-number" href="/explorer/{network.slug}/{blockNumber}" style="{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}">
 			<span class="icon"><TokenIcon {...network.nativeCurrency} /></span>
 			{#if blockNumber !== undefined}
-				{formatBlockNumber($tweenedBlockNumber)}
+				<TweenedNumber
+					value={blockNumber}
+					formatter={formatBlockNumber}
+					showDecimalPlaces={0}
+					{tween}
+					padZero
+				/>
 			{:else}
 				•••
 			{/if}
@@ -111,7 +102,13 @@
 		<span class="block-number format" style="{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}">
 			<span class="icon"><TokenIcon {...network.nativeCurrency} /></span>
 			{#if blockNumber !== undefined}
-				{formatBlockNumber($tweenedBlockNumber)}
+				<TweenedNumber
+					value={blockNumber}
+					formatter={formatBlockNumber}
+					showDecimalPlaces={0}
+					{tween}
+					padZero
+				/>
 			{:else}
 				•••
 			{/if}

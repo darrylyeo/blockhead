@@ -33,27 +33,12 @@
 	export let tween = true
 
 
-	import { tweened } from 'svelte/motion'
-
-	const tweenedValue = tweened(0, {
-		duration: tween ? 1000 : 0,
-		delay: tween ? 1 : 0,
-		easing: quintOut,
-		interpolate: (from, to) => t => {
-			const logFrom = from ? Math.log10(from) : -showDecimalPlaces - 1
-			const logTo = to ? Math.log10(to) : -showDecimalPlaces - 1
-			return Math.pow(10, logFrom + t * (logTo - logFrom))
-		}
-	})
-	$: tweenedValue.set(Math.abs(balance || 0))
-
-
 	import { formatValue } from '../utils/formatValue'
 	import { formatAddress } from '../utils/formatAddress'
 
 
 	import TokenIcon from './TokenIcon.svelte'
-	import { expoOut, quintOut } from 'svelte/easing'
+	import TweenedNumber from './TweenedNumber.svelte'
 </script>
 
 
@@ -98,20 +83,33 @@
 <span class="token-balance-container" class:is-debt={isDebt} class:is-zero={isZero} title="{balance} {name || symbol}{symbol && name ? ` (${symbol})` : ``}" draggable={true}>
 	{#if isFiat}
 		<span class="token-balance">
-			{isNegative ? '−' : ''}{formatValue($tweenedValue, {
-				currency: symbol,
-				// showDecimalPlaces,
-				compactLargeValues
-			})}
+			{isNegative ? '−' : ''}<TweenedNumber
+				value={Math.abs(balance || 0)}
+				formatter={balance => formatValue(balance, {
+					currency: symbol,
+					// showDecimalPlaces,
+					compactLargeValues
+				})}
+				{showDecimalPlaces}
+				{tween}
+				duration={1000}
+			/>
 		</span>
 	{:else}
 		<TokenIcon {symbol} {address} {name} {icon} {erc20Token} />
 		<span>
 			<span class="token-balance">
-				{isNegative ? '−' : ''}{formatValue($tweenedValue, {
-					// showDecimalPlaces,
-					compactLargeValues
-				})}</span>
+				{isNegative ? '−' : ''}<TweenedNumber
+					value={Math.abs(balance || 0)}
+					formatter={balance => formatValue(balance, {
+						// showDecimalPlaces,
+						compactLargeValues
+					})}
+					{showDecimalPlaces}
+					{tween}
+					duration={1000}
+				/>
+			</span>
 			<span class="token-name">{symbol || formatAddress(address, 'middle-truncated')}</span>
 		</span>
 	{/if}
