@@ -13,6 +13,8 @@
 	export let showNativeCurrency = true
 	export let showSmallValues = false
 	export let showValues: 'original' | 'converted' | 'both' = 'original'
+	export let isScrollable = true
+	export let isHorizontal = false
 
 	export let isSelectable = false
 	export let selectedToken: Ethereum.ERC20Token | undefined
@@ -74,14 +76,23 @@
 <style>
 	.ethereum-balances {
 		--column-width: 12rem;
+		--column-gap: var(--padding-inner);
+
 		display: grid;
+		gap: var(--padding-inner) var(--column-gap);
 		grid-template-columns: repeat(auto-fit, minmax(var(--column-width), 1fr));
-		align-items: stretch;
-		gap: var(--padding-inner);
+	}
+	.ethereum-balances.horizontal {
+		grid-auto-flow: column;
+		grid-auto-columns: var(--column-width);
+		grid-template-rows: repeat(auto-fit, minmax(1.5em, 1fr));
+		overflow-x: auto;
+		max-height: 30rem;
+		scroll-snap-type: both proximity;
 	}
 	.ethereum-balances.show-amounts-and-values {
 		--column-width: 16rem;
-		column-gap: calc(2 * var(--padding-inner));
+		--column-gap: calc(3 * var(--padding-inner));
 	}
 
 	/* 
@@ -99,6 +110,10 @@
 	.ethereum-balance {
 		min-height: 1.65em;
 		gap: var(--padding-inner);
+
+		scroll-snap-align: start;
+		scroll-margin-left: var(--padding-outer);
+		scroll-margin-top: calc(var(--padding-inner));
 	}
 	.ethereum-balance.is-selectable {
 		--padding-outer: 0.25rem;
@@ -136,11 +151,11 @@
 		bind:balances
 	>
 		<svelte:fragment slot="header">
-			<slot name="header" {balances} {quoteCurrency} {quoteTotal} />
+			<slot name="header" {balances} {filteredBalances} {quoteCurrency} {quoteTotal} />
 		</svelte:fragment>
 
-		<div class:scrollable-list={filteredBalances.length > 45}>
-			<div class="ethereum-balances card" class:show-amounts-and-values={showValues === 'both'}>
+		<div class:scrollable-list={isScrollable && filteredBalances.length > 45}>
+			<div class="ethereum-balances card" class:horizontal={isHorizontal} class:show-amounts-and-values={showValues === 'both'}>
 				{#each
 					filteredBalances
 					as {type, token, balance, value, rate},
@@ -156,7 +171,7 @@
 							selectedToken = selectedToken?.address === token.address ? undefined : token
 						}
 						in:scale
-						animate:flip|local={{duration: 500, delay: i * 10, easing: quintOut}}
+						animate:flip|local={{duration: filteredBalances.length < 50 ? 500 : 0, delay: 300 * i / filteredBalances.length, easing: quintOut}}
 					>
 						<TokenBalanceWithConversion
 							{showValues}

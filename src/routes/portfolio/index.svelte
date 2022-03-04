@@ -53,10 +53,14 @@
 		height: 100vh;
 		overflow-y: auto;
 	}
-	main > :global(*) {
+	/* main > :global(*) {
 		flex: 1 30rem;
 		max-width: 45rem;
 		gap: 2.5rem;
+	} */
+
+	.portfolios {
+		min-width: 97%;
 	}
 </style>
 
@@ -87,7 +91,7 @@
 		{/if}
 	</section>
 	
-	<WalletProviders {network} {portfolioProvider} />
+	<!-- <WalletProviders {network} {portfolioProvider} /> -->
 </main>
 
 <Preferences

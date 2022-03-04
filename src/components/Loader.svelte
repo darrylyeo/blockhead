@@ -24,6 +24,7 @@
 	export let fromStore: () => Readable<Result<LoaderResult>>
 	export let fromHoudiniQuery: () => QueryResponse<LoaderResult, HoudiniQueryInput>
 
+	export let layoutClass = 'column'
 	export let showIf: (<T extends LoaderResult = LoaderResult>(then: T) => boolean | any) | undefined
 	export let isCollapsed = false
 
@@ -167,7 +168,7 @@
 	<!-- {#if !isCollapsed} -->
 		<HeightContainer class="loader stack" isOpen={!isCollapsed}>
 			{#if status === LoadingStatus.Resolved || (fromStore && status === LoadingStatus.Loading && result)}
-				<div class="column" transition:fade>
+				<div class={layoutClass} transition:fade>
 					<slot then={result} {status} {load} {cancel} />
 				</div>
 			{/if}

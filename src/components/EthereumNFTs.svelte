@@ -11,6 +11,7 @@
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending'
 	export let showNFTMetadata = false
 	export let showValues
+	export let isScrollable = true
 
 	export let quoteTotal
 	export let nftContractCount
@@ -171,7 +172,7 @@
 		</svelte:fragment>
 
 		{#if balances}
-			<div class="nft-contracts column" class:scrollable-list={balances?.length > 3}>
+			<div class="nft-contracts column" class:scrollable-list={isScrollable && balances?.length > 3}>
 				{#each
 					balances
 					as {balance, contract_name, contract_address, contract_ticker_symbol, logo_url, nft_data, supports_erc},
@@ -191,7 +192,7 @@
 						</div>
 						{#if nft_data}
 							<hr>
-							<div class="nfts" class:scrollable-list={nft_data?.length > 3}>
+							<div class="nfts" class:scrollable-list={isScrollable && nft_data?.length > 3}>
 								{#each nft_data as {token_id, token_url, external_data, supports_erc}}
 									{#if external_data}
 										{#each [parseNFTAttributes(external_data.attributes)] as attributes}

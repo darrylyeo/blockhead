@@ -68,6 +68,7 @@
 
 
 	export let showIf: (({address, ensName}: {address: Ethereum.Address, ensName: string}) => boolean | any) | undefined
+	export let layoutClass: string
 
 	$: viaRPC = $preferences.rpcNetwork === 'Auto' ? '' : ` via ${$preferences.rpcNetwork}`
 
@@ -86,6 +87,7 @@
 		loadingMessage="Reverse-resolving address to a name on the Ethereum Name Service{viaRPC}..."
 		errorMessage={`Error reverse-resolving address to ENS name${viaRPC}.`}
 		showIf={showIf ? () => showIf({address, ensName}) : undefined}
+		{layoutClass}
 		bind:result={ensName}
 	>
 		<slot slot="header" name="header" {address} {ensName} {isReverseResolving} />
@@ -101,6 +103,7 @@
 		loadingMessage="Resolving name to address on the Ethereum Name Service{viaRPC}..."
 		errorMessage={`Error resolving ENS name to address${viaRPC}.`}
 		showIf={showIf ? () => showIf({address, ensName}) : undefined}
+		{layoutClass}
 		bind:result={address}
 	>
 		<slot slot="header" name="header" {address} {ensName} {isReverseResolving} />

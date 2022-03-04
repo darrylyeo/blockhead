@@ -154,6 +154,10 @@ h5 {
 	font-size: 0.95em;
 }
 
+h3.row, h4.row {
+    --padding-inner: 1ch;
+}
+
 pre, code {
 	font-family: var(--monospace-fonts);
 	white-space: pre-wrap;
@@ -517,6 +521,110 @@ a.card {
 	scroll-snap-stop: always;
 	scroll-snap-align: start;
 }
+
+/* .scrollable-list {
+	display: block;
+	columns: 5;
+	height: 100%;
+	overflow-x: auto;
+} */
+
+
+:root {
+	--sticky-height-1: 3.5rem;
+	--sticky-height-2: 3rem;
+	--sticky-height-3: 3rem;
+	--sticky-gap: 0.333rem;
+}
+.sticky-layout {
+	--sticky-level: 1;
+	--sticky-top: 0;
+	--sticky-height: var(--sticky-height-1);
+	--sticky-header-outset: calc(1.5 * var(--padding-outer));
+}
+.sticky-layout .sticky-layout,
+.sticky-layout .sticky ~ * {
+	--sticky-level: 2;
+	--sticky-top: calc(var(--sticky-height-1) + var(--sticky-gap));
+	--sticky-height: var(--sticky-height-2);
+	--sticky-header-outset: calc(0.666 * var(--padding-inner));
+}
+.sticky-layout .sticky-layout .sticky-layout,
+.sticky-layout .sticky-layout .sticky ~ * {
+	--sticky-level: 3;
+	--sticky-top: calc(var(--sticky-height-1) + var(--sticky-gap) + var(--sticky-height-2) + var(--sticky-gap));
+	--sticky-height: var(--sticky-height-2);
+	--sticky-header-outset: calc(0.666 * var(--padding-inner));
+}
+/* .sticky-layout .sticky-layout .sticky-layout .sticky-layout,
+.sticky-layout .sticky-layout .sticky-layout .sticky ~ * {
+	top: calc(var(--sticky-height-1) + var(--sticky-gap) + var(--sticky-height-2) + var(--sticky-gap) + var(--sticky-height-3) + var(--sticky-gap));
+} */
+
+.sticky-layout {
+	/* margin-left: var(--sticky-header-outset);
+	margin-right: var(--sticky-header-outset); */
+}
+.sticky-layout .sticky {
+	position: sticky;
+	top: var(--sticky-top);
+	height: var(--sticky-height);
+	/* backdrop-filter: var(--overlay-backdrop-filter); */
+	z-index: calc(10 - var(--sticky-level));
+
+	/* margin: calc(-1 * var(--padding-outer) * 1);
+	margin-bottom: 0; */
+	/* border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0; */
+
+	/* margin-left: calc(-2 * var(--padding-outer));
+	margin-right: calc(-2 * var(--padding-outer));
+	margin-top: calc(-0.25 * var(--padding-outer)); */
+
+	/* margin-left: calc(-1 * var(--padding-outer) - var(--sticky-header-outset));
+	margin-right: calc(-1 * var(--padding-outer) - var(--sticky-header-outset)); */
+	/* margin-top: calc(-1 * var(--padding-outer)); */
+
+	/* padding-left: calc(1.25 * var(--padding-outer));
+	padding-right: calc(1.25 * var(--padding-outer)); */
+
+	margin-left: calc(-1 * var(--sticky-header-outset));
+	margin-right: calc(-1 * var(--sticky-header-outset));
+}
+.sticky-layout > .sticky {
+	/* margin-top: calc(-1 * var(--padding-outer)); */
+}
+.sticky-layout .sticky ~ * {
+	/* margin-left: calc(-1 * var(--padding-outer) - var(--sticky-header-outset));
+	margin-right: calc(-1 * var(--padding-outer) - var(--sticky-header-outset)); */
+}
+
+.sticky-layout .sticky-layout .sticky.card {
+	/* background-color: rgba(var(--rgb-light-dark), 0.2); */
+	/* backdrop-filter: blur(20px); */
+	/* padding-top: 0;
+	padding-bottom: 0; */
+	align-content: center;
+	/* padding-top: 0.66em;
+	padding-bottom: 0.66em; */
+}
+.sticky-layout .sticky-layout .sticky + * {
+	position: sticky;
+	top: var(--sticky-top);
+}
+
+.sticky-layout .sticky-layout .sticky-layout {
+	--sticky-header-outset: 0em;
+}
+.sticky-layout .sticky-layout .sticky-layout .sticky {
+	position: sticky;
+	top: calc(var(--sticky-height-1) + var(--sticky-gap) + var(--sticky-height-2) + var(--sticky-gap));
+	height: var(--sticky-height-3);
+	z-index: 1;
+}
+/* .sticky-layout .sticky-layout .sticky-layout .sticky + * {
+	position: sticky;
+} */
 
 
 .slot {

@@ -49,6 +49,7 @@
 	export let showUnderlyingAssets = true
 	export let showMetadata = true
 	export let showActions = false
+	export let isScrollable = false
 
 	type Layout = 'horizontal' | 'horizontal-alternate' | 'vertical'
 	export let layout: Layout | 'auto' = 'auto'
@@ -182,7 +183,7 @@
 			<svelte:fragment slot="header" let:status>
 				<slot name="header" {status} defiBalances={defiProtocolBalances} {quoteTotal} {quoteTotalCurrency} />
 			</svelte:fragment>
-
+			<div class="defi-balances column" class:scrollable-list={isScrollable && defiProtocolBalances.flatMap(({products}) => products).length > 6}>
 			<div class="defi-balances column" class:scrollable-list={defiProtocolBalances.flatMap(({products}) => products).length > 6}>
 				{#each defiProtocolBalances as {appId, products, meta}, i}
 					{#each products as {
