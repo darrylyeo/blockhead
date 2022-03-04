@@ -48,7 +48,7 @@
 	$: tweenedValue.set(Math.abs(balance || 0))
 
 
-	import { formatValue } from '../utils/format-value'
+	import { formatValue } from '../utils/formatValue'
 	import { formatAddress } from '../utils/formatAddress'
 
 
@@ -76,6 +76,10 @@
 	.token-name {
 		font-weight: 300;
 		font-size: 0.8em;
+		font-weight: 500;
+		opacity: 0.75;
+		/* font-weight: 900;
+		opacity: 0.5; */
 	}
 	.token-balance {
 		font-weight: 500;
@@ -93,11 +97,21 @@
 
 <span class="token-balance-container" class:is-debt={isDebt} class:is-zero={isZero} title="{balance} {name || symbol}{symbol && name ? ` (${symbol})` : ``}" draggable={true}>
 	{#if isFiat}
-		<span class="token-balance">{isNegative ? '−' : ''}{formatValue($tweenedValue, symbol, showDecimalPlaces, compactLargeValues)}</span>
+		<span class="token-balance">
+			{isNegative ? '−' : ''}{formatValue($tweenedValue, {
+				currency: symbol,
+				// showDecimalPlaces,
+				compactLargeValues
+			})}
+		</span>
 	{:else}
 		<TokenIcon {symbol} {address} {name} {icon} {erc20Token} />
 		<span>
-			<span class="token-balance">{isNegative ? '−' : ''}{formatValue($tweenedValue, undefined, showDecimalPlaces, compactLargeValues)}</span>
+			<span class="token-balance">
+				{isNegative ? '−' : ''}{formatValue($tweenedValue, {
+					// showDecimalPlaces,
+					compactLargeValues
+				})}</span>
 			<span class="token-name">{symbol || formatAddress(address, 'middle-truncated')}</span>
 		</span>
 	{/if}

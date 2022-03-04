@@ -1,14 +1,29 @@
-export function formatValue(value: number, currency?: string, showDecimals = 3, compactLargeValues = false){
+export const formatValue = (
+	value: number,
+	{
+		currency,
+		showDecimalPlaces, // = 3,
+		compactLargeValues = false,
+		locale = globalThis.navigator.languages as string[],
+	}: {
+		currency?: string,
+		showDecimalPlaces?: number,
+		compactLargeValues?: boolean,
+		locale?: string | string[]
+	}
+) => {
 	try {
 		return globalThis.navigator
-			? new Intl.NumberFormat(globalThis.navigator.languages, {
+			? new Intl.NumberFormat(locale, {
 				... currency ? {style: 'currency', currency} : {},
 				// minimumFractionDigits: 2,
 				// minimumSignificantDigits: value < 1 ? 3 : undefined,
 				// maximumSignificantDigits: value < 1 ? 3 : undefined,
 
-				// minimumFractionDigits: showDecimals,
-				// maximumFractionDigits: showDecimals,
+				... showDecimalPlaces !== undefined ? {
+					minimumFractionDigits: showDecimalPlaces,
+					maximumFractionDigits: showDecimalPlaces,
+				} : {},
 
 				// maximumSignificantDigits: 6,
 				// compactDisplay: 'short',
