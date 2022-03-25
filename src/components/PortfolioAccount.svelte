@@ -194,6 +194,10 @@
 	.is-zero {
 		opacity: 0.55;
 	}
+
+	label {
+		cursor: ns-resize;
+	}
 </style>
 
 
@@ -304,7 +308,7 @@
 									<!-- {#if balances.length || isGridLayout} -->
 										<hr>
 
-										<header class="bar card sticky">
+										<label class="bar card sticky">
 											<!-- <span class="card-background"><TokenIcon erc20Token={network.nativeCurrency} /></span> -->
 											<h4 class="row">
 												<TokenIcon erc20Token={network.nativeCurrency} />
@@ -325,7 +329,7 @@
 													<span>Show Balances</span>
 												</label>
 											{/if} -->
-										</header>
+										</label>
 									<!-- {/if} -->
 								</svelte:fragment>
 							</EthereumBalances>
@@ -360,7 +364,7 @@
 								<!-- {#if (status === 'resolved' && defiBalances?.length) || status === 'error' || isGridLayout} -->
 									<hr>
 
-									<header class="bar card sticky">
+									<label class="bar card sticky">
 										<!-- <span class="card-background"><TokenIcon erc20Token={network.nativeCurrency} /></span> -->
 										<h4 class="row">
 											<TokenIcon erc20Token={network.nativeCurrency} />
@@ -386,7 +390,7 @@
 												<span>Show DeFi</span>
 											</label>
 										{/if} -->
-									</header>
+									</label>
 								<!-- {/if} -->
 							</svelte:fragment>
 						</DefiBalances>
@@ -412,7 +416,7 @@
 								<!-- {#if balances?.length || isGridLayout} -->
 									<hr>
 
-									<header class="bar card sticky">
+									<label class="bar card sticky">
 										<h4 class="row">
 											<TokenIcon erc20Token={network.nativeCurrency} />
 											<span>{#if !isEditing}<mark>{network.name}</mark> {/if}NFTs</span>
@@ -433,7 +437,7 @@
 												<span>Show NFTs</span>
 											</label>
 										{/if} -->
-									</header>
+									</label>
 								<!-- {/if} -->
 							</svelte:fragment>
 						</EthereumNFTs>
