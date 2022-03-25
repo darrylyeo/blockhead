@@ -78,6 +78,7 @@
 	import HeightContainer from './HeightContainer.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import TokenIcon from './TokenIcon.svelte'
+	import TweenedNumber from './TweenedNumber.svelte'
 
 
 	import { tokenColors } from '../data/token-colors'
@@ -311,7 +312,7 @@
 											</h4>
 											<span>
 												<TokenBalance symbol={quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
-												| {filteredBalances.length} tokens
+												| <strong><TweenedNumber value={filteredBalances.length} /></strong> tokens
 											</span>
 											{#if isEditing}
 												<button class="small" on:click={() => showBalances = false}>Hide</button>
@@ -365,9 +366,15 @@
 											<TokenIcon erc20Token={network.nativeCurrency} />
 											<span>{#if !isEditing}<mark>{network.name}</mark> {/if}DeFi</span>
 										</h4>
-										{#if quoteTotal !== undefined}
-											<TokenBalance symbol={quoteTotalCurrency || quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
-										{/if}
+										<span class:is-zero={!defiBalances?.length}>
+											{#if quoteTotal !== undefined}
+												<TokenBalance symbol={quoteTotalCurrency || quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
+											{/if}
+											{#if quoteTotal !== undefined && defiBalances} | {/if}
+											{#if defiBalances}
+												<strong><TweenedNumber value={defiBalances.length} /></strong> app{defiBalances.length === 1 ? '' : 's'}
+											{/if}
+										</span>
 										{#if isEditing}
 											<button class="small" on:click={() => showDeFi = false}>Hide</button>
 										{:else}
@@ -411,9 +418,9 @@
 											<span>{#if !isEditing}<mark>{network.name}</mark> {/if}NFTs</span>
 										</h4>
 										<span class:is-zero={nftCount === 0}>
-											<strong>{nftCount}</strong> NFT{nftCount === 1 ? '' : 's'}
+											<strong><TweenedNumber value={nftCount} /></strong> NFT{nftCount === 1 ? '' : 's'}
 											<!-- across -->|
-											<strong>{nftContractCount}</strong> collection{nftContractCount === 1 ? '' : 's'}
+											<strong><TweenedNumber value={nftContractCount} /></strong> collection{nftContractCount === 1 ? '' : 's'}
 										</span>
 										{#if isEditing}
 											<button class="small" on:click={() => showNFTs = false}>Hide</button>
