@@ -21,7 +21,7 @@
 	export let nftProvider
 	export let quoteCurrency: QuoteCurrency
 
-	export let layout: 'column' | 'grid' = 'column'
+	export let layout: 'column' | 'grid' = 'grid'
 	// export let layout: 'column' | 'grid' = 'grid'
 	export let showValues: 'original' | 'converted' | 'both' = 'original'
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
