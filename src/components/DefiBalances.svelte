@@ -134,22 +134,6 @@
 		line-height: 1.5;
 	}
 
-	.card .card-background {
-		position: absolute;
-		opacity: 0.075;
-		width: 13em;
-		right: -1.5em;
-		top: -2em;
-		filter: contrast(10);
-		border-radius: 50%;
-		z-index: -1;
-		pointer-events: none;
-		user-select: none;
-	}
-	.card .card-background > :global(*) {
-		font-size: 13em;
-	}
-
 	.metadata {
 		font-size: 0.8em;
 		line-height: 1.25;
@@ -183,8 +167,8 @@
 			<svelte:fragment slot="header" let:status>
 				<slot name="header" {status} defiBalances={defiProtocolBalances} {quoteTotal} {quoteTotalCurrency} />
 			</svelte:fragment>
+
 			<div class="defi-balances column" class:scrollable-list={isScrollable && defiProtocolBalances.flatMap(({products}) => products).length > 6}>
-			<div class="defi-balances column" class:scrollable-list={defiProtocolBalances.flatMap(({products}) => products).length > 6}>
 				{#each defiProtocolBalances as {appId, products, meta}, i}
 					{#each products as {
 						label, assets, meta: productMeta,

@@ -443,6 +443,23 @@ a.card {
 }
 
 
+.card .card-background {
+	position: absolute;
+	opacity: 0.075;
+	width: 13em;
+	right: -1.5em;
+	top: -2em;
+	filter: contrast(10);
+	border-radius: 50%;
+	z-index: -1;
+	pointer-events: none;
+	user-select: none;
+}
+.card .card-background > * {
+	font-size: 13em;
+}
+
+
 .row, .row-inline, .bar {
 	display: flex;
 	align-items: center;
