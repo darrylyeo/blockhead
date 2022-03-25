@@ -8,7 +8,7 @@
 	export let showDecimalPlaces: number = 0
 
 	export let tween = true
-	export let duration = 500
+	export let duration = 1000
 	export let easing = quintOut // expoOut
 	export let padZero = true
 

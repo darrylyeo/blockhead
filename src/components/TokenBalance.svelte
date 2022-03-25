@@ -92,7 +92,6 @@
 				})}
 				{showDecimalPlaces}
 				{tween}
-				duration={1000}
 			/>
 		</span>
 	{:else}
@@ -107,7 +106,6 @@
 					})}
 					{showDecimalPlaces}
 					{tween}
-					duration={1000}
 				/>
 			</span>
 			<span class="token-name">{symbol || formatAddress(address, 'middle-truncated')}</span>

@@ -92,6 +92,7 @@
 					formatter={formatBlockNumber}
 					showDecimalPlaces={0}
 					{tween}
+					duration={500}
 					padZero
 				/>
 			{:else}
@@ -107,6 +108,7 @@
 					formatter={formatBlockNumber}
 					showDecimalPlaces={0}
 					{tween}
+					duration={500}
 					padZero
 				/>
 			{:else}
