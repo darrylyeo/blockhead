@@ -607,6 +607,8 @@ a.card {
 
 	margin-left: calc(-1 * var(--sticky-header-outset));
 	margin-right: calc(-1 * var(--sticky-header-outset));
+
+	overflow: hidden;
 }
 .sticky-layout > .sticky {
 	/* margin-top: calc(-1 * var(--padding-outer)); */
