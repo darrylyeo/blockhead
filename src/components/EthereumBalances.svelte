@@ -187,6 +187,8 @@
 							showParentheses={false}
 						/>
 					</span>
+				{:else}
+					No balances found.
 				{/each}
 			</div>
 		</div>
