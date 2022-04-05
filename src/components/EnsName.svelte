@@ -15,6 +15,14 @@
 
 	$: formattedENSName = textRecords?.display ?? ensName.trim().toLowerCase()
 
+	$: link = `/apps/ens/address/${formattedENSName}`
+
+
+	const onDragStart = (e: DragEvent) => {
+		e.dataTransfer.setData('text/plain', formattedENSName)
+		if(linked) e.dataTransfer.setData('text/uri-list', link)
+	}
+
 
 	import EnsRecordLoader from './EnsRecordLoader.svelte'
 </script>
@@ -39,9 +47,18 @@
 	bind:textRecords
 />
 
-<span class="ens-name" title={`${formattedENSName}${textRecords ? Object.entries(textRecords).map(([key, value]) => `${key} ${value}`) : ``}`} draggable={true}>
+<span
+	class="ens-name"
+	title={`${formattedENSName}${textRecords ? Object.entries(textRecords).map(([key, value]) => `${key} ${value}`) : ``}`}
+	draggable={true}
+	on:dragstart={onDragStart}
+>
 	{#if linked}
-		<a class="ens-name" href="/apps/ens/address/{formattedENSName}" draggable={true}>{formattedENSName}</a>
+		<a class="ens-name"
+			href={link}
+			draggable={true}
+			on:dragstart={onDragStart}
+		>{formattedENSName}</a>
 	{:else}
 		{formattedENSName}
 	{/if}

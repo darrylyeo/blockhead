@@ -29,12 +29,19 @@
 
 	$: compactLargeValues = !showPlainFiat
 
+	$: title = `${balance} ${name || symbol}${symbol && name ? ` (${symbol})` : ``}`
+
 
 	export let tween = true
 
 
 	import { formatValue } from '../utils/formatValue'
 	import { formatAddress } from '../utils/formatAddress'
+
+	
+	const onDragStart = (e: DragEvent) => {
+		e.dataTransfer.setData('text/plain', title)
+	}
 
 
 	import TokenIcon from './TokenIcon.svelte'
@@ -80,7 +87,14 @@
 </style>
 
 
-<span class="token-balance-container" class:is-debt={isDebt} class:is-zero={isZero} title="{balance} {name || symbol}{symbol && name ? ` (${symbol})` : ``}" draggable={true}>
+<span
+	class="token-balance-container"
+	class:is-debt={isDebt}
+	class:is-zero={isZero}
+	{title}
+	draggable={true}
+	on:dragstart={onDragStart}
+>
 	{#if isFiat}
 		<span class="token-balance">
 			{isNegative ? '−' : ''}<TweenedNumber

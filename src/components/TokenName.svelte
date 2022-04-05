@@ -14,6 +14,13 @@
 	$: name = $$props.name || erc20Token?.name
 	$: icon = $$props.icon || erc20Token?.icon
 
+	$: title = `${name || symbol}${symbol && name ? ` (${symbol})` : ``}`
+
+
+	const onDragStart = (e: DragEvent) => {
+		e.dataTransfer.setData('text/plain', title)
+	}
+
 
 	import TokenIcon from './TokenIcon.svelte'
 </script>
@@ -40,7 +47,12 @@
 </style>
 
 
-<span class="token-value-container" title="{name || symbol}{symbol && name ? ` (${symbol})` : ``}" draggable={true}>
+<span
+	class="token-value-container"
+	{title}
+	draggable={true}
+	on:dragstart={onDragStart}
+>
 	<TokenIcon {symbol} {address} {name} {icon} {erc20Token} />
 	<span class="token-name">{symbol}</span>
 </span>

@@ -12,7 +12,16 @@
 
 	import { formatAddress } from '../utils/formatAddress'
 	$: formattedAddress = formatAddress(address, format)
+
+
+	$: link = `/explorer/${network.slug}/${address}`
+
+	const onDragStart = (e: DragEvent) => {
+		e.dataTransfer.setData('text/plain', address)
+		if(linked) e.dataTransfer.setData('text/uri-list', link)
+	}
 </script>
+
 
 <style>
 	.format {
@@ -30,7 +39,12 @@
 
 
 {#if linked && network}
-	<a class="address" href="/explorer/{network.slug}/{address}" draggable={true}>
+	<a
+		class="address"
+		href={link}
+		draggable={true}
+		on:dragstart={onDragStart}
+	>
 		<slot {formattedAddress}>
 			{#if format === 'middle-truncated'}
 				<abbr class="format" title={address}>{formattedAddress}</abbr>
@@ -42,9 +56,19 @@
 {:else}
 	<slot {formattedAddress}>
 		{#if format === 'middle-truncated'}
-			<abbr class="address format" title={address} draggable={true}>{formattedAddress}</abbr>
+			<abbr
+				class="address format"
+				title={address}
+				draggable={true}
+				on:dragstart={onDragStart}
+
+			>{formattedAddress}</abbr>
 		{:else}
-			<span class="address format" draggable={true}>{formattedAddress}</span>
+			<span
+				class="address format"
+				draggable={true}
+				on:dragstart={onDragStart}
+			>{formattedAddress}</span>
 		{/if}
 	</slot>
 {/if}
