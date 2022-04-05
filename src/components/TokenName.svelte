@@ -40,7 +40,7 @@
 </style>
 
 
-<span class="token-value-container" title="{name || symbol}{symbol && name ? ` (${symbol})` : ``}">
+<span class="token-value-container" title="{name || symbol}{symbol && name ? ` (${symbol})` : ``}" draggable={true}>
 	<TokenIcon {symbol} {address} {name} {icon} {erc20Token} />
 	<span class="token-name">{symbol}</span>
 </span>

@@ -39,9 +39,9 @@
 	bind:textRecords
 />
 
-<span class="ens-name" title={`${formattedENSName}${textRecords ? Object.entries(textRecords).map(([key, value]) => `${key} ${value}`) : ``}`}>
+<span class="ens-name" title={`${formattedENSName}${textRecords ? Object.entries(textRecords).map(([key, value]) => `${key} ${value}`) : ``}`} draggable={true}>
 	{#if linked}
-		<a class="ens-name" href="/apps/ens/address/{formattedENSName}">{formattedENSName}</a>
+		<a class="ens-name" href="/apps/ens/address/{formattedENSName}" draggable={true}>{formattedENSName}</a>
 	{:else}
 		{formattedENSName}
 	{/if}

@@ -702,3 +702,26 @@ body::-webkit-scrollbar-button {
 	background: var(--primary-color);
 	border: none;
 }
+
+
+[draggable=true]:active {
+	cursor: grabbing;
+	will-change: transform;
+	animation: Dragging 0.45s infinite ease-in-out;
+}
+@keyframes Dragging {
+	50% {
+		opacity: 0.66;
+		transform: scale(0.96) translateY(2%);
+		/* filter: brightness(120%) invert() hue-rotate(0.5turn) */
+	}
+	/* 0%, 50%, 100% {
+		transform: rotate(0);
+	}
+	25% {
+		transform: rotate(-2deg);
+	}
+	75% {
+		transform: rotate(2deg);
+	} */
+}

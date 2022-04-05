@@ -84,7 +84,7 @@
 <!-- {#if format === 'full'}block{/if} -->
 {#key blockNumber}
 	{#if linked && blockNumber !== undefined}
-		<a class="block-number" href="/explorer/{network.slug}/{blockNumber}" style="{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}">
+		<a class="block-number" href="/explorer/{network.slug}/{blockNumber}" style="{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}" draggable={true}>
 			<span class="icon"><TokenIcon {...network.nativeCurrency} /></span>
 			{#if blockNumber !== undefined}
 				<TweenedNumber
@@ -100,7 +100,7 @@
 			{/if}
 		</a>
 	{:else}
-		<span class="block-number format" style="{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}">
+		<span class="block-number format" style="{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}" draggable={true}>
 			<span class="icon"><TokenIcon {...network.nativeCurrency} /></span>
 			{#if blockNumber !== undefined}
 				<TweenedNumber

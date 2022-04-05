@@ -30,7 +30,7 @@
 
 
 {#if linked && network}
-	<a class="address" href="/explorer/{network.slug}/{address}">
+	<a class="address" href="/explorer/{network.slug}/{address}" draggable={true}>
 		<slot {formattedAddress}>
 			{#if format === 'middle-truncated'}
 				<abbr class="format" title={address}>{formattedAddress}</abbr>
@@ -42,9 +42,9 @@
 {:else}
 	<slot {formattedAddress}>
 		{#if format === 'middle-truncated'}
-			<abbr class="address format" title={address}>{formattedAddress}</abbr>
+			<abbr class="address format" title={address} draggable={true}>{formattedAddress}</abbr>
 		{:else}
-			<span class="address format">{formattedAddress}</span>
+			<span class="address format" draggable={true}>{formattedAddress}</span>
 		{/if}
 	</slot>
 {/if}
