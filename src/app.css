@@ -221,6 +221,9 @@ button.destructive {
 button.cancel {
 	--primary-color: #777;
 }
+button.add {
+	cursor: copy;
+}
 
 
 :-placeholder {

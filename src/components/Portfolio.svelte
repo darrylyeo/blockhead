@@ -157,7 +157,7 @@
 				{#if state !== State.Editing}
 					<div class="bar" transition:scale>
 						{#if state === State.Idle}
-							<button on:click={() => state = State.Adding} transition:scale>+ Add Wallet</button>
+							<button class="add" on:click={() => state = State.Adding} transition:scale>+ Add Account</button>
 						{/if}
 						<button on:click={() => state = State.Editing}>Edit</button>
 					</div>
@@ -181,14 +181,14 @@
 					<div class="card" transition:scale>
 						<div class="bar">
 							<div>
-								<h3>Add Wallet</h3>
+								<h3>Add Ethereum/EVM Wallet</h3>
 							</div>
 							<small>{availableNetworks.map(network => network.name).join(', ')}</small>
 						</div>
 						<div class="bar">
 							<form class="bar" on:submit|preventDefault={() => {addAccount(newWalletAddress); state = State.Idle; newWalletAddress = ''}}>
 								<AddressField bind:address={newWalletAddress} autofocus required/>
-								<button class="medium" disabled={!isValid(newWalletAddress)}>Add</button>
+								<button class="medium add" disabled={!isValid(newWalletAddress)}>Add</button>
 							</form>
 							<button class="medium cancel" on:click={() => state = State.Idle}>Cancel</button>
 						</div>
@@ -197,7 +197,7 @@
 					<div class="card" transition:scale|local>
 						<h3>Your Blockhead Portfolio is empty!</h3>
 						{#if editable}
-							<p>You can <a on:click={() => isAddingWallet = true}>add a new wallet address manually</a>, or import an address by connecting a wallet service!</p>
+							<p>You can <a on:click={() => state = State.Adding}>add a new wallet address manually</a>, or import an address by connecting a wallet service!</p>
 						{/if}
 					</div>
 				{/if}
