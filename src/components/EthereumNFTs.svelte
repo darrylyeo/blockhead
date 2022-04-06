@@ -87,7 +87,7 @@
 			ratio < n ? numerator++ : denominator++
 		);
 
-		console.log('findClosestAspectRatio', {n, numerator, denominator})
+		// console.log('findClosestAspectRatio', {n, numerator, denominator})
 
 		const scaleFactor = Math.max(1, Math.round(Math.sqrt((target * target) / (numerator * denominator))))
 		return [numerator * scaleFactor, denominator * scaleFactor]
@@ -364,9 +364,9 @@
 				class:scrollable-list={(isScrollable && balances?.length > 3) || show3D}
 				class:showImagesOnly
 				class:show3D
-				on:contextmenu={() => showImagesOnly = !showImagesOnly}
-				on:dblclick={() => show3D = !show3D}
 			>
+			<!-- on:contextmenu={() => showImagesOnly = !showImagesOnly}
+			on:dblclick={() => show3D = !show3D} -->
 				{#each
 					balances
 					as {balance, contract_name, contract_address, contract_ticker_symbol, logo_url, nft_data, supports_erc},
@@ -398,8 +398,8 @@
 													class="nft"
 													class:column={!showImagesOnly}
 													class:stack={showImagesOnly}
-													style="order: {Math.random() * 1000 | 0}"
 												>
+												<!-- style="order: {Math.random() * 1000 | 0}" -->
 													<a href={token_url || external_data?.external_url} target="_blank">
 														<picture
 															title={
