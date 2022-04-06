@@ -283,8 +283,11 @@ section {
 
 :disabled, [disabled], .placeholder {
 	opacity: 0.33;
-	pointer-events: none;
+	/* pointer-events: none; */
 	touch-action: none;
+}
+:disabled, [disabled] {
+	cursor: not-allowed !important;
 }
 
 
