@@ -352,11 +352,11 @@ img {
 	position: relative;
 }
 img:after {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    inset: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	inset: 0;
 
 	padding: 0 10%;
 	text-align: center;
@@ -372,7 +372,7 @@ img:after {
 	text-indent: initial;
 
 	white-space: pre-line;
-    word-break: break-word;
+	word-break: break-word;
 
 	opacity: 0.85;
 
