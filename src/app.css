@@ -361,6 +361,7 @@ img:after {
 	padding: 0 10%;
 	text-align: center;
 	content: attr(alt);
+	border-radius: inherit;
 
 	font-size: 1.1rem;
 	font-weight: bold;
