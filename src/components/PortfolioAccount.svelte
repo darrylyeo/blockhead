@@ -211,6 +211,7 @@
 		layoutClass="column"
 		let:address
 		let:ensName
+		clip={false}
 	>
 		<header slot="header" class="bar card sticky">
 			<div class="row-inline">

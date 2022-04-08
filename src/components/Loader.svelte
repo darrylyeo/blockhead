@@ -24,12 +24,13 @@
 	export let fromStore: () => Readable<Result<LoaderResult>>
 	export let fromHoudiniQuery: () => QueryResponse<LoaderResult, HoudiniQueryInput>
 
+	export let whenErrored: (() => {}) | undefined
+	export let whenCanceled: (() => Promise<any>) | undefined
+
 	export let layoutClass = 'column'
 	export let showIf: (<T extends LoaderResult = LoaderResult>(then: T) => boolean | any) | undefined
 	export let isCollapsed = false
-
-	export let whenErrored: (() => {}) | undefined
-	export let whenCanceled: (() => Promise<any>) | undefined
+	export let clip = true
 
 
 	enum LoadingStatus {
@@ -150,8 +151,8 @@
 
 
 	import { fade, scale } from 'svelte/transition'
-	import HeightContainer from './HeightContainer.svelte'
 	import Loading from './Loading.svelte'
+	import SizeContainer from './SizeContainer.svelte'
 </script>
 
 
@@ -165,44 +166,49 @@
 {#if !isHidden}
 	<slot name="header" {status} {load} {cancel} />
 
-	<!-- {#if !isCollapsed} -->
-		<HeightContainer class="loader stack" isOpen={!isCollapsed}>
-			{#if status === LoadingStatus.Resolved || (fromStore && status === LoadingStatus.Loading && result)}
-				<div class={layoutClass} transition:fade>
-					<slot then={result} {status} {load} {cancel} />
+	<SizeContainer
+		class="loader stack"
+		isOpen={!isCollapsed}
+		{clip}
+	>
+		{#if status === LoadingStatus.Resolved || (fromStore && status === LoadingStatus.Loading && result)}
+			<div class={layoutClass} transition:fade>
+				<slot then={result} {status} {load} {cancel} />
+			</div>
+		{/if}
+		{#if status === LoadingStatus.Idle}
+			<slot name="idle"></slot>
+		{:else if status === LoadingStatus.Loading}
+			<Loading iconAnimation="hover">
+				<slot name="loadingIcon" slot="icon">
+					<img src={loadingIcon} alt={loadingIconName} width={loadingIconWidth}>
+				</slot>
+				<slot name="loadingMessage">
+					{loadingMessage}
+				</slot>
+			</Loading>
+		{:else if !hideError && status === LoadingStatus.Errored}
+			<div class="card" transition:scale>
+				<div class="bar">
+					<slot name="errorMessage">
+						<h4>{errorMessage || 'Error'}</h4>
+					</slot>
+					<slot name="errorActions" {load} {cancel}>
+						<button class="small" on:click={load}>Retry</button>
+						<button class="small cancel" on:click={cancel}>Cancel</button>
+					</slot>
 				</div>
-			{/if}
-			{#if status === LoadingStatus.Idle}
-				<slot name="idle"></slot>
-			{:else if status === LoadingStatus.Loading}
-				<Loading iconAnimation="hover">
-					<slot name="loadingIcon" slot="icon">
-						<img src={loadingIcon} alt={loadingIconName} width={loadingIconWidth}>
-					</slot>
-					<slot name="loadingMessage">
-						{loadingMessage}
-					</slot>
-				</Loading>
-			{:else if !hideError && status === LoadingStatus.Errored}
-				<div class="card" transition:scale>
-					<div class="bar">
-						<slot name="errorMessage">
-							<h4>{errorMessage || 'Error'}</h4>
-						</slot>
-						<slot name="errorActions" {load} {cancel}>
-							<button class="small" on:click={load}>Retry</button>
-							<button class="small cancel" on:click={cancel}>Cancel</button>
-						</slot>
-					</div>
-					<slot name="error" {error}>
-						<pre>{
-							errorFunction ? errorFunction(error) : 
-							typeof error === 'object' ? error.message ?? JSON.stringify(error) :
+				<slot name="error" {error}>
+					<pre>{
+						errorFunction
+							? errorFunction(error) : 
+						typeof error === 'object' ?
+							error.message ?? JSON.stringify(error)
+						:
 							error
-						}</pre>
-					</slot>
-				</div>
-			{/if}
-		</HeightContainer>
-	<!-- {/if} -->
+					}</pre>
+				</slot>
+			</div>
+		{/if}
+	</SizeContainer>
 {/if}
