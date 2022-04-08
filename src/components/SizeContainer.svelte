@@ -1,13 +1,23 @@
 <script lang="ts">
 	// External State
-	export let duration: string = ''
+	export let duration = 600
 	export let clip = false
 	export let isOpen = true
 	export let transitionWidth = false
 	export let transitionHeight = true
 	export let contentsOnly = false
+	export let containerClass = ''
 
-	$: ({ otherProps, duration, clip, isOpen, transitionWidth, transitionHeight, contentsOnly } = $$props)
+	export let contentClass = $$props.class
+	let otherProps
+	$: {
+		const {
+			duration, clip, isOpen, transitionWidth, transitionHeight, contentsOnly, containerClass, contentClass, class: _,
+			..._otherProps
+		} = $$props
+
+		otherProps = _otherProps
+	}
 
 
 	// Internal state
@@ -37,8 +47,27 @@
 		transition: var(--duration, 0.6s) cubic-bezier(0.16, 1, 0.3, 1);
 	}
 
+	.container:not(.isOpen) {
+		animation: Absolute forwards 0s var(--duration, 0.6s);
+	}
+	@keyframes Absolute {
+		to {
+			position: absolute;
+		}
+	}
+
 	.container.clip {
-		clip-path: inset(0);
+		/* clip-path: inset(0); */
+		overflow: hidden;
+	}
+
+	.container.inline {
+		display: inline-grid;
+		align-items: baseline;
+	}
+	.container.inline .content {
+		display: inline-block;
+		width: max-content;
 	}
 </style>
 
@@ -48,18 +77,20 @@
 {:else}
 	<div
 		bind:this={container}
-		class="container"
+		class="container {containerClass}"
+		class:isOpen
 		class:clip
+		class:inline={transitionWidth}
 		style={[
 			transitionWidth && `width: ${contentRect && isOpen ? `${Math.max($contentRect.width, 0)}px` : '0'};`,
 			transitionHeight && `height: ${contentRect && isOpen ? `${Math.max($contentRect.height, 0)}px` : '0'};`,
-			duration && `--duration: ${duration};`
+			duration && `--duration: ${duration}ms;`
 		].filter(Boolean).join(' ')}
 		tabindex={isOpen ? undefined : -1}
 	>
 		<div
+			class="content {contentClass ?? ''}"
 			bind:this={content}
-			style={transitionWidth ? `display: inline-block` : ''}
 			{...otherProps}
 		>
 			<slot />
