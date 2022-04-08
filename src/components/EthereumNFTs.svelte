@@ -376,6 +376,7 @@
 						class:is-single={nft_data ? nft_data.length <= 1 : true}
 						tabIndex={show3D ? 0 : undefined}
 						animate:flip|local={{duration: 500, delay: Math.abs(i) * 10, easing: quintOut}}
+						draggable={true}
 					>
 						<header class="bar">
 							<h4><Address {network} address={contract_address} let:formattedAddress>{contract_name || formattedAddress}</Address> ({balance})</h4>
@@ -398,9 +399,11 @@
 													class="nft"
 													class:column={!showImagesOnly}
 													class:stack={showImagesOnly}
+													draggable={true}
+													tabIndex={0}
 												>
 												<!-- style="order: {Math.random() * 1000 | 0}" -->
-													<a href={token_url || external_data?.external_url} target="_blank">
+													<a href={token_url || external_data?.external_url} target="_blank" draggable={false}>
 														<picture
 															title={
 																[
@@ -425,6 +428,7 @@
 																	figure.style.setProperty('--grid-item-width', w)
 																	figure.style.setProperty('--grid-item-height', h)
 																}}
+																draggable={false}
 															/>
 															<!-- <img class="nft-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt={formatNFTNameAndTokenID(external_data.name, token_id)} /> -->
 														</picture>

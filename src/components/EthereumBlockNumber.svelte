@@ -20,6 +20,14 @@
 	// const blockSymbol = '' // '🅱️' // 'B⃞' // '#'
 
 
+	$: link = `/explorer/${network.slug}/${blockNumber}`
+
+	const onDragStart = (e: DragEvent) => {
+		e.dataTransfer.setData('text/plain', `${blockNumber}`)
+		e.dataTransfer.setData('text/uri', link)
+	}
+
+
 	import { tokenColors } from '../data/token-colors'
 
 
@@ -84,7 +92,13 @@
 <!-- {#if format === 'full'}block{/if} -->
 {#key blockNumber}
 	{#if linked && blockNumber !== undefined}
-		<a class="block-number" href="/explorer/{network.slug}/{blockNumber}" style="{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}" draggable={true}>
+		<a
+			class="block-number"
+			href={link}
+			style="{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}"
+			draggable={true}
+			on:dragstart={onDragStart}
+		>
 			<span class="icon"><TokenIcon {...network.nativeCurrency} /></span>
 			{#if blockNumber !== undefined}
 				<TweenedNumber
