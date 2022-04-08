@@ -20,7 +20,7 @@
 
 
 	let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
-	let showValues: 'original' | 'converted' | 'both' = 'original'
+	let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	let showFees = false
 	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
 	let showSmallValues = false
@@ -58,6 +58,7 @@
 	import EthereumTransactionsERC20Loader from './EthereumTransactionsERC20Loader.svelte'
 	import TokenName from './TokenName.svelte'
 	import TokenBalance from './TokenBalance.svelte'
+	import TokenBalanceFormatSelect from './TokenBalanceFormatSelect.svelte'
 
 
 	import { fade } from 'svelte/transition'
@@ -133,7 +134,7 @@
 			{quoteCurrency}
 			{sortBy}
 			{showSmallValues}
-			{showValues}
+			{tokenBalanceFormat}
 			isSelectable={true}
 			bind:selectedToken
 			bind:balances
@@ -158,14 +159,10 @@
 						</label>
 						<label>
 							<span>Show</span>
-							<select bind:value={showValues}>
-								<option value="original">Balances</option>
-								<option value="converted">Quotes</option>
-								<option value="both">Balances + Quotes</option>
-								<!-- <option value="original">Token Amounts</option>
-								<option value="converted">Quote Values</option>
-								<option value="both">Amounts and Values</option> -->
-							</select>
+							<TokenBalanceFormatSelect
+								bind:tokenBalanceFormat
+								{quoteCurrency}
+							/>
 						</label>
 					</div>
 				{/if}
@@ -218,7 +215,7 @@
 											{quoteCurrency}
 											contextualAddress={address}
 											{detailLevel}
-											{showValues}
+											{tokenBalanceFormat}
 											{showFees}
 											layout="inline"
 										/>
@@ -231,7 +228,7 @@
 											{quoteCurrency}
 											contextualAddress={address}
 											{detailLevel}
-											{showValues}
+											{tokenBalanceFormat}
 											{showFees}
 											layout="inline"
 										/>
@@ -244,7 +241,7 @@
 											{quoteCurrency}
 											contextualAddress={address}
 											{detailLevel}
-											{showValues}
+											{tokenBalanceFormat}
 											{showFees}
 											layout="inline"
 										/>
@@ -305,7 +302,7 @@
 											{quoteCurrency}
 											contextualAddress={address}
 											{detailLevel}
-											{showValues}
+											{tokenBalanceFormat}
 											{showFees}
 											layout="inline"
 										/>
@@ -318,7 +315,7 @@
 											{quoteCurrency}
 											contextualAddress={address}
 											{detailLevel}
-											{showValues}
+											{tokenBalanceFormat}
 											{showFees}
 											layout="inline"
 										/>

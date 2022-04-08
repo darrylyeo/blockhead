@@ -3,7 +3,7 @@
 	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
 
 
-	export let showValues: 'original' | 'converted' | 'both' = 'original'
+	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	export let showDecimalPlaces = 3
 	export let showConversionRate = false
 	export let showParentheses = true
@@ -74,7 +74,7 @@
 
 
 <span class="token-balance-with-conversion" class:is-debt={isDebt} class:is-small-value={isSmallValue} class:is-zero={isZero}>
-	{#if showValues === 'original' || showValues === 'both'}
+	{#if tokenBalanceFormat === 'original' || tokenBalanceFormat === 'both'}
 		<span class="balance" transition:scaleFont|local><!-- style="font-size: {sizeByVolume(convertedValue)}em" -->
 			<TokenBalance
 				{symbol} {address} {name} {icon}
@@ -82,22 +82,22 @@
 			/>
 		</span>
 	{/if}
-	{#if (showValues === 'converted' || showValues === 'both')}
+	{#if (tokenBalanceFormat === 'converted' || tokenBalanceFormat === 'both')}
 		<span class="balance-converted" transition:scaleFont|local={{delay: 50 + animationDelay}}>
-			{#if showValues === 'both'}{#if showParentheses}({/if}{/if
+			{#if tokenBalanceFormat === 'both'}{#if showParentheses}({/if}{/if
 			}<TokenBalance
 				symbol={conversionCurrency}
 				balance={convertedValue}
 				{showDecimalPlaces}
 				showPlainFiat={true}
 				{isDebt}
-			/>{#if showValues === 'converted' && conversionCurrency !== symbol}
+			/>{#if tokenBalanceFormat === 'converted' && conversionCurrency !== symbol}
 				<span class="worth" transition:scaleFont|local={{delay: animationDelay}}>
 					&nbsp;in <TokenName {symbol} {address} {icon} {name} />
 				</span>
 			{/if
 			}{#if showConversionRate && conversionRate}<span class="rate"> at <TokenRate rate={conversionRate} quoteToken={conversionCurrency} baseToken={symbol} layout='horizontal'/></span>{/if
-			}{#if showValues === 'both' && showParentheses}){/if}
+			}{#if tokenBalanceFormat === 'both' && showParentheses}){/if}
 		</span>
 	{/if}
 </span>

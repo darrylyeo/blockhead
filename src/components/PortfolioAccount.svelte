@@ -23,11 +23,13 @@
 
 	export let layout: 'column' | 'grid' = 'grid'
 	// export let layout: 'column' | 'grid' = 'grid'
-	export let showValues: 'original' | 'converted' | 'both' = 'original'
+	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
 	export let showSmallValues = false
 	export let showUnderlyingAssets = false
 	export let showNFTMetadata = false
+	export let showImagesOnly = false
+	export let show3D = false
 
 	export let isEditing: boolean
 
@@ -299,7 +301,7 @@
 								{address}
 								{tokenBalancesProvider}
 								{quoteCurrency}
-								{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets}
+								{tokenBalanceFormat} {sortBy} {showSmallValues} {showUnderlyingAssets}
 								isCollapsed={(isGridLayout ? !gridLayoutIsChainExpanded[chainID] : !columnLayoutIsSectionExpanded[`${chainID}-${'tokens'}`]) || isEditing}
 								isScrollable={!isGridLayout} isHorizontal={!isGridLayout}
 								bind:quoteTotal={tokenQuoteTotals[i]}
@@ -355,7 +357,7 @@
 							{address}
 							{defiProvider}
 							{quoteCurrency}
-							{showValues} {showUnderlyingAssets}
+							{tokenBalanceFormat} {showUnderlyingAssets}
 							isCollapsed={(isGridLayout ? !gridLayoutIsChainExpanded[chainID] : !columnLayoutIsSectionExpanded[`${chainID}-${'defi'}`]) || isEditing}
 							isScrollable={!isGridLayout}
 							bind:quoteTotal={defiQuoteTotals[i]}
@@ -405,7 +407,7 @@
 							{address}
 							{nftProvider}
 							{quoteCurrency}
-							{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets} {showNFTMetadata}
+							{tokenBalanceFormat} {sortBy} {showSmallValues} {showUnderlyingAssets} {showNFTMetadata} {showImagesOnly} {show3D}
 							isCollapsed={(isGridLayout ? !gridLayoutIsChainExpanded[chainID] : !columnLayoutIsSectionExpanded[`${chainID}-${'nfts'}`]) || isEditing}
 							isScrollable={!isGridLayout}
 							bind:quoteTotal={nftQuoteTotals[i]}

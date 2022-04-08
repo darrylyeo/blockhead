@@ -106,7 +106,7 @@
 							provider={$explorerProvider}
 				
 							detailLevel="exhaustive"
-							showValues="both"
+							tokenBalanceFormat="both"
 							showFees={true}
 				
 							layout="standalone"

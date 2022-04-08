@@ -10,7 +10,7 @@
 	export let quoteCurrency: QuoteCurrency
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending'
 	export let showNFTMetadata = false
-	export let showValues
+	export let tokenBalanceFormat
 	export let showImagesOnly = false
 	export let show3D = false
 	export let isScrollable = true

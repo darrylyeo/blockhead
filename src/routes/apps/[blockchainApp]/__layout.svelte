@@ -16,7 +16,7 @@
 	$: currentAddressOrENSName = $addressOrENSName
 
 
-	let showValues
+	let tokenBalanceFormat
 	let showUnderlyingAssets
 
 
@@ -64,7 +64,7 @@
 							providerName={$preferences.rpcNetwork}
 							defiProvider={$preferences.defiProvider}
 							quoteCurrency={$preferences.quoteCurrency}
-							{showValues}
+							{tokenBalanceFormat}
 							{showUnderlyingAssets}
 						/>
 					</div>

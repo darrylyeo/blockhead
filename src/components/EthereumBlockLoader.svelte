@@ -15,7 +15,7 @@
 	
 	
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
-	export let showValues: 'original' | 'converted' | 'both' = 'original'
+	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	export let showFees = false
 	export let showTransactions = false
 
@@ -207,7 +207,7 @@
 				{provider}
 				{quoteCurrency}
 				{detailLevel}
-				{showValues}
+				{tokenBalanceFormat}
 				{showFees}
 				{showTransactions}
 			/>
@@ -250,7 +250,7 @@
 					{provider}
 					{quoteCurrency}
 					{detailLevel}
-					{showValues}
+					{tokenBalanceFormat}
 					{showFees}
 					{showTransactions}
 				/>

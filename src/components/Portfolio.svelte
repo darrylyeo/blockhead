@@ -70,7 +70,7 @@
 	$: nftProvider = $$props.nftProvider || $preferences.nftProvider
 	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
 	
-	let showValues: 'original' | 'converted' | 'both' = 'original'
+	let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
 	let showSmallValues = false
 	let showUnderlyingAssets = false
@@ -90,10 +90,14 @@
 
 	let delayStartIndex = 0
 
+
 	import AddressField from './AddressField.svelte'
 	import Loading from './Loading.svelte'
 	import PortfolioAccount from './PortfolioAccount.svelte'
 	import TokenBalance from './TokenBalance.svelte'
+	import TokenBalanceFormatSelect from './TokenBalanceFormatSelect.svelte'
+
+
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
 </script>
@@ -217,7 +221,7 @@
 					{nftProvider}
 					{quoteCurrency}
 
-					{showValues}
+					{tokenBalanceFormat}
 					{sortBy}
 					{showSmallValues}
 					{showUnderlyingAssets}
@@ -245,14 +249,10 @@
 			<div class="row">
 				<h3>Show</h3>
 				<label>
-					<select bind:value={showValues}>
-						<option value="original">Balances</option>
-						<option value="converted">Quotes</option>
-						<option value="both">Balances + Quotes</option>
-						<!-- <option value="original">Token Amounts</option>
-						<option value="converted">Quote Values</option>
-						<option value="both">Amounts and Values</option> -->
-					</select>
+					<TokenBalanceFormatSelect
+						bind:tokenBalanceFormat
+						{quoteCurrency}
+					/>
 				</label>
 				<label>
 					<input type="checkbox" bind:checked={showSmallValues}>

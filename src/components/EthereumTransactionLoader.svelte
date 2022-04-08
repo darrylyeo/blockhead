@@ -15,7 +15,7 @@
 
 	export let contextualAddress: Ethereum.Address
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
-	export let showValues: 'original' | 'converted' | 'both' = 'original'
+	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	export let showFees = false
 
 	export let layout: 'standalone' | 'inline' = 'inline'
@@ -66,7 +66,7 @@
 
 							{contextualAddress}
 							{detailLevel}
-							{showValues}
+							{tokenBalanceFormat}
 							{showFees}
 
 							{layout}
@@ -90,7 +90,7 @@
 
 							{contextualAddress}
 							{detailLevel}
-							{showValues}
+							{tokenBalanceFormat}
 							{showFees}
 
 							{layout}
@@ -117,7 +117,7 @@
 
 							{contextualAddress}
 							{detailLevel}
-							{showValues}
+							{tokenBalanceFormat}
 							{showFees}
 
 							{layout}

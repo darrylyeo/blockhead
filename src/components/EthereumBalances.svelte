@@ -12,7 +12,7 @@
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending'
 	export let showNativeCurrency = true
 	export let showSmallValues = false
-	export let showValues: 'original' | 'converted' | 'both' = 'original'
+	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	export let isScrollable = true
 	export let isHorizontal = false
 
@@ -155,7 +155,7 @@
 		</svelte:fragment>
 
 		<div class:scrollable-list={isScrollable && filteredBalances.length > 45}>
-			<div class="ethereum-balances card" class:horizontal={isHorizontal} class:show-amounts-and-values={showValues === 'both'}>
+			<div class="ethereum-balances card" class:horizontal={isHorizontal} class:show-amounts-and-values={tokenBalanceFormat === 'both'}>
 				{#each
 					filteredBalances
 					as {type, token, balance, value, rate},
@@ -174,7 +174,7 @@
 						animate:flip|local={{duration: filteredBalances.length < 50 ? 500 : 0, delay: 300 * i / filteredBalances.length, easing: quintOut}}
 					>
 						<TokenBalanceWithConversion
-							{showValues}
+							{tokenBalanceFormat}
 
 							erc20Token={token}
 

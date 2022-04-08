@@ -40,7 +40,7 @@
 
 
 	// View options
-	export let showValues: 'original' | 'converted' | 'both' = 'original'
+	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	export let showUnderlyingAssets = true
 	export let showMetadata = true
 	export let showActions = false
@@ -72,7 +72,8 @@
 	import TokenName from './TokenName.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
-	
+	import TokenBalanceFormatSelect from './TokenBalanceFormatSelect.svelte'
+
 
 	import { cardStyle } from '../utils/card-background'
 	import { flip } from 'svelte/animate'
@@ -385,7 +386,7 @@
 																	<div class="defi-protocol-balance column">
 																		<div class="bar">
 																			<TokenBalanceWithConversion
-																				{showValues}
+																				{tokenBalanceFormat}
 
 																				{symbol}
 																				address={tokenAddress || address}
@@ -434,7 +435,7 @@
 																					<abbr class="underlying-asset" in:scaleFont title={label}>
 																						<span class="underlying-symbol">┖</span>
 																						<TokenBalanceWithConversion
-																							{showValues}
+																							{tokenBalanceFormat}
 
 																							{symbol}
 																							address={tokenAddress || address}
@@ -698,7 +699,7 @@
 														i (i)
 													}
 														<TokenBalanceWithConversion
-															{showValues}
+															{tokenBalanceFormat}
 
 															erc20Token={token}
 
@@ -779,11 +780,10 @@
 		<div class="row">
 			<h3>Show</h3>
 			<label>
-				<select bind:value={showValues}>
-					<option value="original">Balances</option>
-					<option value="converted">Quotes</option>
-					<option value="both">Balances + Quotes</option>
-				</select>
+				<TokenBalanceFormatSelect
+					bind:tokenBalanceFormat
+					{quoteCurrency}
+				/>
 			</label>
 			<label>
 				<input type="checkbox" bind:checked={showUnderlyingAssets}>
