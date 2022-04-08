@@ -75,6 +75,8 @@
 	let showSmallValues = false
 	let showUnderlyingAssets = false
 	let showNFTMetadata = false
+	let showImagesOnly = false
+	let show3D = false
 
 
 	// Computed Values
@@ -104,6 +106,10 @@
 
 
 <style>
+	.portfolio {
+		scroll-snap-align: start;
+	}
+
 	.edit-controls {
 		flex: 0 auto;
 		font-size: 0.7em;
@@ -114,7 +120,7 @@
 		bottom: 0;
 
 		margin: 0 calc(-1 * var(--padding-outer));
-		z-index: 1;
+		z-index: 10;
 
 		font-size: 0.8em;
 
@@ -226,6 +232,8 @@
 					{showSmallValues}
 					{showUnderlyingAssets}
 					{showNFTMetadata}
+					{showImagesOnly}
+					{show3D}
 					isEditing={state === State.Editing}
 
 					bind:quoteTotal={quoteTotals[i]}
@@ -245,36 +253,58 @@
 	{/if}
 
 	{#if showOptions && accounts.length && state !== State.Editing}
-		<div class="card bar options" transition:scale>
+		<div class="card row spaced options" transition:scale>
 			<div class="row">
-				<h3>Show</h3>
+				<h3>Balances</h3>
+
 				<label>
+					<!-- <span>Show</span> -->
 					<TokenBalanceFormatSelect
 						bind:tokenBalanceFormat
 						{quoteCurrency}
 					/>
 				</label>
+
 				<label>
 					<input type="checkbox" bind:checked={showSmallValues}>
 					<span>Small Values</span>
 				</label>
+
 				<label>
-					<input type="checkbox" bind:checked={showUnderlyingAssets}>
-					<span>Underlying Assets</span>
-				</label>
-				<label>
-					<input type="checkbox" bind:checked={showNFTMetadata}>
-					<span>NFT Metadata</span>
-				</label>
-			</div>
-			<div class="row">
-				<h3>Sort</h3>
-				<label>
+					<span>Sort</span>
 					<select bind:value={sortBy}>
 						<option value="ticker-ascending">Alphabetical</option>
 						<option value="value-descending">Highest Value</option>
 						<option value="value-ascending">Lowest Value</option>
 					</select>
+				</label>
+			</div>
+
+			<div class="row">
+				<h3>DeFi</h3>
+
+				<label>
+					<input type="checkbox" bind:checked={showUnderlyingAssets}>
+					<span>Underlying Assets</span>
+				</label>
+			</div>
+
+			<div class="row">
+				<h3>NFTs</h3>
+
+				<label>
+					<input type="checkbox" bind:checked={showNFTMetadata}>
+					<span>Metadata</span>
+				</label>
+
+				<label>
+					<input type="checkbox" bind:checked={showImagesOnly}>
+					<span>Collections</span>
+				</label>
+
+				<label>
+					<input type="checkbox" bind:checked={show3D}>
+					<span>3D</span>
 				</label>
 			</div>
 		</div>

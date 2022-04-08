@@ -474,6 +474,9 @@ a.card {
 	flex-wrap: wrap;
 	gap: var(--padding-inner);
 }
+.row.spaced {
+	justify-content: space-between;
+}
 .row-inline {
 	gap: 1ch;
 	align-items: baseline;
