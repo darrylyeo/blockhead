@@ -81,7 +81,6 @@
 	text-shadow: 0px 2px 1px rgba(0, 0, 0, 0.1);
 	
 	--global-background-gradient-base-color: #f6f6f6;
-	background: linear-gradient(155deg, var(--global-background-gradient-base-color), var(--primary-color, var(--ethereum-blue)) 250%) fixed;
 
 	accent-color: var(--primary-color);
 
@@ -129,6 +128,18 @@
 
 	--is-light: 0;
 }
+
+:root {
+	overflow: hidden;
+
+	background: linear-gradient(155deg, var(--global-background-gradient-base-color), var(--primary-color, var(--ethereum-blue)) 250%) fixed;
+}
+
+body {
+	overflow: hidden auto;
+	height: 100vh;
+}
+
 
 a {
 	color: var(--text-color);
