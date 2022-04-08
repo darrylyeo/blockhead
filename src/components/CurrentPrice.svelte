@@ -26,10 +26,11 @@
 	let isHidden = false
 
 
-	import Loader from './Loader.svelte'
-	import TokenRate from './TokenRate.svelte'
-	import TokenBalance from './TokenBalance.svelte'
 	import Address from './Address.svelte'
+	import Date from './Date.svelte'
+	import Loader from './Loader.svelte'
+	// import TokenRate from './TokenRate.svelte'
+	import TokenBalance from './TokenBalance.svelte'
 </script>
 
 
@@ -147,7 +148,14 @@
 					</div> -->
 					<footer class="bar">
 						<span />
-						<span class="card-annotation">Updated {priceFeed.updatedAt.toLocaleTimeString()}</span>
+						<span class="card-annotation">
+							Updated
+							<Date
+								date={priceFeed.updatedAt}
+								format="relative"
+								layout="horizontal"
+							/>
+						</span>
 					</footer>
 				</Loader>
 			</div>
