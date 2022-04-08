@@ -6,13 +6,15 @@
 
 	export let network: Ethereum.Network
 	export let address: string
+
 	export let nftProvider = 'Covalent'
 	export let quoteCurrency: QuoteCurrency
+
+	export let showImagesOnly = false
+	export let show3D = false
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending'
 	export let showNFTMetadata = false
 	export let tokenBalanceFormat
-	export let showImagesOnly = false
-	export let show3D = false
 	export let isScrollable = true
 
 	export let quoteTotal
@@ -272,15 +274,18 @@
 	} */
 	.show3D .nft {
 		--angle: -0.075turn;
+		--grid-height: 8em;
 
 		overflow: visible;
-		height: 8em;
+		height: var(--grid-height);
 		transform: rotateX(var(--angle));
 		transform-origin: top;
 		display: grid;
 		grid-auto-flow: row reverse;
+
 		transition: var(--transition-duration);
 		will-change: transform;
+		animation-delay: var(--transition-duration);
 	}
 	.show3D .nft:focus-within,
 	.show3D:not(.showImagesOnly) .nft-contract:focus-within .nft,
@@ -297,10 +302,8 @@
 		mask-image: linear-gradient(white 20%, transparent 80%); */
 
 
-		--wipe-gradient-height: 0.25;
+		--wipe-gradient-height: 0.333;
 		--total-height: calc(2 + var(--wipe-gradient-height));
-
-		transition: var(--transition-duration);
 
 		-webkit-mask:
 			linear-gradient(
@@ -308,14 +311,21 @@
 				white calc(100% / var(--total-height)),
 				transparent calc(100% * (1 + var(--wipe-gradient-height)) / var(--total-height))
 			)
-			50% / 100% calc(100% * var(--total-height));
+			50% / 100% calc(100% * var(--total-height))
+			no-repeat;
 		mask:
 			linear-gradient(
 				178deg,
 				white calc(100% / var(--total-height)),
 				transparent calc(100% * (1 + var(--wipe-gradient-height)) / var(--total-height))
 			)
-			50% / 100% calc(100% * var(--total-height));
+			50% / 100% calc(100% * var(--total-height))
+			no-repeat;
+
+		-webkit-mask-position-y: calc(50% + var(--grid-height) / 2);
+		mask-position-y: calc(50% + var(--grid-height) / 2);
+
+		transition: var(--transition-duration);
 		will-change: transform;
 	}
 	.show3D .nft:focus-within picture,
@@ -379,7 +389,10 @@
 						draggable={true}
 					>
 						<header class="bar">
-							<h4><Address {network} address={contract_address} let:formattedAddress>{contract_name || formattedAddress}</Address> ({balance})</h4>
+							<h4>
+								<Address {network} address={contract_address} let:formattedAddress>{contract_name || formattedAddress}</Address>
+								{#if balance > 1}({balance}){/if}
+							</h4>
 							{#each [supports_erc.filter(erc => erc !== 'erc20')] as supports_erc}
 								{#if supports_erc?.length}
 									<span class="card-annotation">{supports_erc.filter(erc => erc !== 'erc20').join('/')}</span>
@@ -403,7 +416,12 @@
 													tabIndex={0}
 												>
 												<!-- style="order: {Math.random() * 1000 | 0}" -->
-													<a href={token_url || external_data?.external_url} target="_blank" draggable={false}>
+													<!-- <IPFSLink -->
+													<!-- <a
+														href={token_url || external_data?.external_url}
+														target="_blank"
+														draggable={false}
+													> -->
 														<picture
 															title={
 																[
@@ -436,7 +454,7 @@
 														<!-- {#if external_data.animation_url}
 															<iframe src={external_data.animation_url} lazy="true" />
 														{/if} -->
-													</a>
+													<!-- </a> -->
 													<figcaption class="column">
 														<header class="bar">
 															<div class="nft-name" class:row-inline={!showImagesOnly}>
