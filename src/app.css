@@ -207,6 +207,7 @@ button {
 	--glow: 0;
 	box-shadow: 0px var(--depth) rgba(0, 0, 0, 0.25), 0px var(--depth) var(--primary-color), 0 var(--depth) var(--glow) var(--primary-color);
 	transform: translateY(calc(-1 * var(--depth))) scale(var(--scale));
+	transform-origin: var(--button-transform-origin);
 	
 	transition: 0.2s;
 
@@ -567,6 +568,25 @@ a.card {
 	height: 100%;
 	overflow-x: auto;
 } */
+
+
+.align-start {
+	text-align: left;
+	justify-content: start;
+	transform-origin: left;
+	--button-transform-origin: left;
+}
+.align-end {
+	text-align: right;
+	justify-content: end;
+	transform-origin: right;
+	--button-transform-origin: right;
+}
+.align-top {
+	place-items: start stretch;
+	transform-origin: top;
+	--button-transform-origin: top;
+}
 
 
 :root {

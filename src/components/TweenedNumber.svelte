@@ -32,9 +32,14 @@
 
 
 	$: tweenedValue.set(value || 0)
+
+
+	import SizeContainer from './SizeContainer.svelte'
 </script>
 
 
-<slot tweenedValue={$tweenedValue || 0}>
-	{formatter ? formatter($tweenedValue) : $tweenedValue}
-</slot>
+<SizeContainer transitionWidth transitionHeight={false} {duration} containerClass="align-end">
+	<slot tweenedValue={$tweenedValue || 0}>
+		{formatter ? formatter($tweenedValue) : $tweenedValue}
+	</slot>
+</SizeContainer>
