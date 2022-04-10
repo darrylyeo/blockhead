@@ -59,6 +59,7 @@
 	import { tokenColors } from '../../data/token-colors'
 	import Preferences from '../../components/Preferences.svelte'
 	import TokenIcon from '../../components/TokenIcon.svelte'
+	import WidthContainer from '../../components/WidthContainer.svelte'
 </script>
 
 
@@ -111,8 +112,12 @@
 				<a href="/apps/{$blockchainAppSlug}" class="stack-inline">
 					{#if $blockchainAppSlug && $blockchainAppConfig}
 						<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>
-							<span class="stack-inline">{#key $blockchainAppConfig}<mark in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{$blockchainAppConfig.name}</mark>{/key}</span>
-							<span class="stack-inline">{#key currentView}<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{currentView}</span>{/key}</span>
+							<WidthContainer class="stack-inline">
+								{#key $blockchainAppConfig}<mark in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{$blockchainAppConfig.name}</mark>{/key}
+							</WidthContainer>
+							<WidthContainer class="stack-inline">
+								{#key currentView}<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{currentView}</span>{/key}
+							</WidthContainer>
 						</span>
 					{:else}
 						<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>

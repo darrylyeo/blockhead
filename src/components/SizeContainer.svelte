@@ -74,7 +74,7 @@
 		align-items: baseline;
 	}
 	.container.inline .content {
-		display: inline-block;
+		display: inline-grid;
 		width: max-content;
 	}
 </style>

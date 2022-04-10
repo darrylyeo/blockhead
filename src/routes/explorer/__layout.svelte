@@ -113,6 +113,7 @@
 	import { fly } from 'svelte/transition'
 	import { tokenColors } from '../../data/token-colors'
 	import Preferences from '../../components/Preferences.svelte'
+	import WidthContainer from '../../components/WidthContainer.svelte'
 	import TokenIcon from '../../components/TokenIcon.svelte'
 </script>
 
@@ -147,7 +148,9 @@
 		<div class="title row">
 			<span class="title-icon">{#key $networkSlug}<TokenIcon erc20Token={$explorerNetwork.nativeCurrency} />{/key}</span>
 			<h1>
-				<mark class="stack-inline">{#key $networkSlug}<b in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{$networkSlug ? `${networkDisplayName} ` : ``}</b>{/key}</mark>
+				<WidthContainer class="stack-inline align-end" clip>
+					{#key $networkSlug}<b in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}><WidthContainer>{$networkSlug ? `${networkDisplayName} ` : ``}</WidthContainer></b>{/key}
+				</WidthContainer>
 				Explorer
 			</h1>
 		</div>
