@@ -1,14 +1,20 @@
 <script lang="ts">
 	// External State
-	export let duration = 600
-	export let clip = false
 	export let isOpen = true
+
 	export let transitionWidth = false
 	export let transitionHeight = true
+
+	export let duration = 600
+	export let easing = 'cubic-bezier(0.16, 1, 0.3, 1)'
+
+	export let clip = false
+
 	export let contentsOnly = false
 	export let containerClass = ''
 
 	export let contentClass = $$props.class
+
 	let otherProps
 	$: {
 		const {
@@ -43,8 +49,10 @@
 
 <style>
 	.container {
+		display: grid;
+		align-content: start;
 		will-change: height;
-		transition: var(--duration, 0.6s) cubic-bezier(0.16, 1, 0.3, 1);
+		transition: var(--duration, 600ms) var(--easing, cubic-bezier(0.16, 1, 0.3, 1));
 	}
 
 	.container:not(.isOpen) {
@@ -77,19 +85,21 @@
 {:else}
 	<div
 		bind:this={container}
-		class="container {containerClass}"
+		class="container{containerClass ? ` ${containerClass}` : ''}"
 		class:isOpen
 		class:clip
 		class:inline={transitionWidth}
 		style={[
-			transitionWidth && `width: ${contentRect && isOpen ? `${Math.max($contentRect.width, 0)}px` : '0'};`,
-			transitionHeight && `height: ${contentRect && isOpen ? `${Math.max($contentRect.height, 0)}px` : '0'};`,
-			duration && `--duration: ${duration}ms;`
+			duration && `--duration: ${duration}ms;`,
+			easing && `--easing: ${easing};`,
+			transitionWidth && contentRect && `width: ${isOpen ? `${Math.max($contentRect.width, 0)}px` : '0'};`,
+			transitionHeight && contentRect && `height: ${isOpen ? `${Math.max($contentRect.height, 0)}px` : '0'};`,
 		].filter(Boolean).join(' ')}
+		aria-expanded={isOpen}
 		tabindex={isOpen ? undefined : -1}
 	>
 		<div
-			class="content {contentClass ?? ''}"
+			class="content{contentClass ? ` ${contentClass}` : ''}"
 			bind:this={content}
 			{...otherProps}
 		>
