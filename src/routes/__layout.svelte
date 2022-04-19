@@ -87,13 +87,15 @@
 		gap: var(--padding-inner);
 		padding: calc(var(--bleed-top) + var(--padding-outer)) var(--padding-outer) calc(var(--bleed-bottom) + var(--padding-outer));
 		align-content: start;
+
+		grid-template-columns: 100%;
 	}
 
 	:global(.preferences) {
 		position: fixed;
 		width: 100%;
 		bottom: 0;
-		z-index: 1;
+		z-index: 20;
 
 		-webkit-backdrop-filter: var(--overlay-backdrop-filter);
 		backdrop-filter: var(--overlay-backdrop-filter);

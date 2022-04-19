@@ -60,7 +60,8 @@
 	} */
 
 	.portfolios {
-		min-width: 97%;
+		padding: 0 0.5rem;
+		gap: 2.5rem;
 	}
 </style>
 
