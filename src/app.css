@@ -403,18 +403,6 @@ img:after {
 }
 
 
-
-main {
-	display: grid;
-	gap: var(--padding-inner);
-	margin: 0 auto;
-	padding: 2rem;
-
-	position: relative;
-	width: 100%;
-}
-
-
 .card {
 	display: grid;
 	gap: var(--padding-inner);
