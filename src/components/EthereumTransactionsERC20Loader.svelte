@@ -48,7 +48,7 @@
 	</Loader>
 {:else if transactionProvider === 'Moralis'}
 	<Loader
-		loadingIcon={'/logos/moralis-logo.svg'}
+		loadingIcon={'/logos/moralis-icon.svg'}
 		loadingIconName={transactionProvider}
 		loadingMessage="Retrieving ERC-20 transactions from {transactionProvider}..."
 		errorMessage="Error retrieving ERC-20 transactions from {transactionProvider}"
