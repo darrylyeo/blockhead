@@ -59,7 +59,7 @@
 	import { tokenColors } from '../../data/token-colors'
 	import Preferences from '../../components/Preferences.svelte'
 	import TokenIcon from '../../components/TokenIcon.svelte'
-	import WidthContainer from '../../components/WidthContainer.svelte'
+	import InlineContainer from '../../components/InlineContainer.svelte'
 </script>
 
 
@@ -112,12 +112,12 @@
 				<a href="/apps/{$blockchainAppSlug}" class="stack-inline">
 					{#if $blockchainAppSlug && $blockchainAppConfig}
 						<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>
-							<WidthContainer class="stack-inline">
+							<InlineContainer class="stack-inline">
 								{#key $blockchainAppConfig}<mark in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{$blockchainAppConfig.name}</mark>{/key}
-							</WidthContainer>
-							<WidthContainer class="stack-inline">
+							</InlineContainer>
+							<InlineContainer class="stack-inline">
 								{#key currentView}<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{currentView}</span>{/key}
-							</WidthContainer>
+							</InlineContainer>
 						</span>
 					{:else}
 						<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>

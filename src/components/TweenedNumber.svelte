@@ -34,15 +34,15 @@
 	$: tweenedValue.set(value || 0)
 
 
-	import WidthContainer from './WidthContainer.svelte'
+	import InlineContainer from './InlineContainer.svelte'
 </script>
 
 
-<WidthContainer
+<InlineContainer
 	{duration}
 	containerClass="align-end"
 >
 	<slot tweenedValue={$tweenedValue || 0}>
 		{formatter ? formatter($tweenedValue) : $tweenedValue}
 	</slot>
-</WidthContainer>
+</InlineContainer>
