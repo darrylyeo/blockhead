@@ -42,16 +42,18 @@
 </style>
 
 
-<time class="date" datetime={dateObject.toISOString()}>
-	<abbr class="layout-{layout}" title="{dateObject.toISOString()}">
-		{#if format === 'relative' || format === 'both'}
-			<span class="relative">{relativeTime}</span>
-		{/if}
-		{#if format === 'absolute' || format === 'both'}
-			<span class="absolute">
-				{#if format === 'both' && layout === 'horizontal'}({/if}<span class="day">{dateObject.toLocaleDateString()}</span>
-				{#if showTime}<span class="time">{dateObject.toLocaleTimeString()}</span>{/if}{#if format === 'both' && layout === 'horizontal'}){/if}
-			</span>
-		{/if}
-	</abbr>
-</time>
+{#if date}
+	<time class="date" datetime={dateObject.toISOString()}>
+		<abbr class="layout-{layout}" title="{dateObject.toISOString()}">
+			{#if format === 'relative' || format === 'both'}
+				<span class="relative">{relativeTime}</span>
+			{/if}
+			{#if format === 'absolute' || format === 'both'}
+				<span class="absolute">
+					{#if format === 'both' && layout === 'horizontal'}({/if}<span class="day">{dateObject.toLocaleDateString()}</span>
+					{#if showTime}<span class="time">{dateObject.toLocaleTimeString()}</span>{/if}{#if format === 'both' && layout === 'horizontal'}){/if}
+				</span>
+			{/if}
+		</abbr>
+	</time>
+{/if}
