@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { TickerSymbol } from 'src/data/currency/currency'
+	import type { TickerSymbol } from '../data/currency/currency'
 	import type { Ethereum } from '../data/ethereum/types'
 	import * as ethers from 'ethers'
 
