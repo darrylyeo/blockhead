@@ -142,7 +142,11 @@
 </style>
 
 
-<section class="portfolio column">
+<section
+	class="portfolio column"
+	on:keydown={e => { if(e.code === 'Escape') state = State.Idle }}
+	tabIndex={0}
+>
 	<header class="bar">
 		<slot name="title">
 			<h1 class="row" on:dblclick={editable && (() => state = State.Editing)}>
