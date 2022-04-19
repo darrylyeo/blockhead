@@ -1,7 +1,9 @@
-import preprocess from 'svelte-preprocess'
-import adapterStatic from '@sveltejs/adapter-static'
+import adapter from '@sveltejs/adapter-auto';
+// import adapterStatic from '@sveltejs/adapter-static'
+import preprocess from 'svelte-preprocess';
 
 
+// Houdini
 import houdini from 'houdini-preprocess'
 import path from 'path'
 
@@ -16,21 +18,19 @@ const config = {
 	],
 
 	kit: {
-		// hydrate the <div id='svelte'> element in src/app.html
-		target: '#svelte',
+		adapter: adapter(),
+		// adapter: adapterStatic({
+		// 	// default options are shown
+		// 	pages: 'build',
+		// 	assets: 'build',
+		// 	fallback: null
+		// }),
 
-		adapter: adapterStatic({
-			// default options are shown
-			pages: 'build',
-			assets: 'build',
-			fallback: null
-		}),
-
-		vite: {
+        vite: {
 			ssr: {
 				noExternal: [
-					// /node_modules/.pnpm/echarts@5.1.2/node_modules/echarts/core.js:20
-					// export * from './lib/export/core';
+					// /node_modules/.pnpm/echarts@5.3.2/node_modules/echarts/core.js:20
+					// export * from './lib/export/core.js';
 					// ^^^^^^
 					// SyntaxError: Unexpected token 'export'
 					'echarts',
@@ -38,21 +38,19 @@ const config = {
 			},
 
 			resolve: {
+				// Houdini
 				alias: {
-					'process': 'process/browser',
-					'$houdini': path.resolve('.', '$houdini')
-				}
-			},
+                    '$houdini': path.resolve('.', '$houdini')
+                }
+            },
 
-			// The request url "$houdini/index.js" is outside of Vite serving allow list.
-			server: {
-				fs: {
-					allow: [
-						'..'
-					],
-				}
-			}
-		},
+            server: {
+				// Houdini
+                fs: {
+                    allow: ['.']
+                }
+            }
+        }
 	}
 };
 
