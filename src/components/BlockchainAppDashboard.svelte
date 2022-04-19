@@ -624,7 +624,7 @@
 								|| (providers?.zerionDefiSDK && defiProvider === 'Zerion DeFi SDK')
 							)
 						)}
-							{#each erc20Tokens as erc20Token}
+							{#each erc20Tokens.filter(Boolean) as erc20Token}
 								<div class="card erc20-token">
 									<div class="bar">
 										<h4>
