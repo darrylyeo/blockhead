@@ -378,7 +378,7 @@
 			<!-- on:contextmenu={() => showImagesOnly = !showImagesOnly}
 			on:dblclick={() => show3D = !show3D} -->
 				{#each
-					balances
+					balances.filter(({ nft_data }) => nft_data?.length > 0)
 					as {balance, contract_name, contract_address, contract_ticker_symbol, logo_url, nft_data, supports_erc},
 					i (contract_address || contract_ticker_symbol || contract_name)
 				}
