@@ -11,6 +11,7 @@
 	export let duration = 1000
 	export let easing = quintOut // expoOut
 	export let padZero = true
+	export let clip = true
 
 
 	let tweenedValue: Tweened<number | string>
@@ -39,8 +40,9 @@
 
 
 <InlineContainer
-	{duration}
+	duration={duration / 2}
 	containerClass="align-end"
+	{clip}
 >
 	<slot tweenedValue={$tweenedValue || 0}>
 		{formatter ? formatter($tweenedValue) : $tweenedValue}
