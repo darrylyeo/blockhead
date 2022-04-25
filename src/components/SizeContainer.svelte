@@ -1,6 +1,7 @@
 <script lang="ts">
 	// External State
 	export let isOpen = true
+	export let renderOnlyWhenOpen = true
 
 	export let transitionWidth = false
 	export let transitionHeight = true
@@ -76,6 +77,8 @@
 	.container.inline .content {
 		display: inline-grid;
 		width: max-content;
+		grid-auto-flow: column;
+		gap: 0;
 	}
 </style>
 
@@ -103,7 +106,9 @@
 			bind:this={content}
 			{...otherProps}
 		>
-			<slot />
+			{#if renderOnlyWhenOpen ? isOpen : true}
+				<slot />
+			{/if}
 		</div>
 	</div>
 {/if}
