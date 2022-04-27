@@ -78,6 +78,8 @@
 	import EthereumBalances from './EthereumBalances.svelte'
 	import EthereumNFTs from './EthereumNFTs.svelte'
 	import HeightContainer from './HeightContainer.svelte'
+	import InlineContainer from './InlineContainer.svelte'
+	import SizeContainer from './SizeContainer.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import TokenIcon from './TokenIcon.svelte'
 	import TweenedNumber from './TweenedNumber.svelte'
@@ -236,13 +238,14 @@
 					{/if}
 				{/if}
 			</div>
+
 			{#if quoteTotals.length}
 				<span class="account-total-value">
 					<TokenBalance symbol={quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
 				</span>
 			{/if}
-			<!-- <slot /> -->
-			<div class="stack">
+
+			<InlineContainer containerClass="align-end" class="stack align-end">
 				{#if $matchesGridLayoutBreakpoint && !isEditing}
 					<div class="row" transition:scale>
 						<button class="small" on:click={() => layout = isGridLayout ? 'column' : 'grid'} transition:scale>{isGridLayout ? '⊟' : '⊞'}</button><!-- ▤ -->
@@ -252,8 +255,9 @@
 						</select>
 					</div>
 				{/if}
+
 				<slot />
-			</div>
+			</InlineContainer>
 		</header>
 
 		<!-- <hr> -->
@@ -280,7 +284,7 @@
 				class:sticky-layout={isEditing}
 				style="{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}"
 			>
-				<HeightContainer containerClass="header sticky" isOpen={isEditing}>
+				<SizeContainer containerClass="header sticky" isOpen={isEditing} renderOnlyWhenOpen={false}>
 					<header class="bar card">
 						<span class="card-background"><TokenIcon erc20Token={network.nativeCurrency} /></span>
 						<h3 class="row">
@@ -290,7 +294,7 @@
 						<span class="card-annotation">#{network.chainId}</span>
 						<button class="small" on:click={() => show = false}>Hide Network</button>
 					</header>
-				</HeightContainer>
+				</SizeContainer>
 
 				<div class="network-content {isGridLayout ? 'column grid-row' : 'column-block'} sticky-layout">
 					<!-- Token Balances -->
@@ -315,17 +319,19 @@
 											<!-- <span class="card-background"><TokenIcon erc20Token={network.nativeCurrency} /></span> -->
 											<h4 class="row">
 												<TokenIcon erc20Token={network.nativeCurrency} />
-												<Address {network} {address}>{#if !isEditing}<mark>{network.name}</mark> {/if}Balances</Address>
+												<Address {network} {address}><InlineContainer isOpen={!isEditing} clip><mark>{network.name}</mark>&nbsp;</InlineContainer>Balances</Address>
 											</h4>
 											<span>
 												<TokenBalance symbol={quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
 												| <strong><TweenedNumber value={filteredBalances.length} /></strong> tokens
 											</span>
-											{#if isEditing}
-												<button class="small" on:click={() => showBalances = false}>Hide</button>
-											{:else}
-												<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(chainID) : toggleColumnLayoutIsSectionExpanded(`${chainID}-${'tokens'}`)}>▼</button>
-											{/if}
+											<InlineContainer containerClass="align-end" class="stack align-end">
+												{#if isEditing}
+													<button class="small" on:click={() => showBalances = false} transition:scale>Hide</button>
+												{:else}
+													<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(chainID) : toggleColumnLayoutIsSectionExpanded(`${chainID}-${'tokens'}`)} transition:scale>▼</button>
+												{/if}
+											</InlineContainer>
 											<!-- {#if isEditing}
 												<label>
 													<input type="checkbox" bind:checked={showBalances}>
@@ -371,7 +377,7 @@
 										<!-- <span class="card-background"><TokenIcon erc20Token={network.nativeCurrency} /></span> -->
 										<h4 class="row">
 											<TokenIcon erc20Token={network.nativeCurrency} />
-											<span>{#if !isEditing}<mark>{network.name}</mark> {/if}DeFi</span>
+											<span><InlineContainer isOpen={!isEditing} clip><mark>{network.name}</mark>&nbsp;</InlineContainer>DeFi</span>
 										</h4>
 										<span class:is-zero={!defiBalances?.length}>
 											{#if quoteTotal !== undefined}
@@ -382,11 +388,13 @@
 												<strong><TweenedNumber value={defiBalances.length} /></strong> app{defiBalances.length === 1 ? '' : 's'}
 											{/if}
 										</span>
-										{#if isEditing}
-											<button class="small" on:click={() => showDeFi = false}>Hide</button>
-										{:else}
-											<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(chainID) : toggleColumnLayoutIsSectionExpanded(`${chainID}-${'defi'}`)}>▼</button>
-										{/if}
+										<InlineContainer containerClass="align-end" class="stack align-end">
+											{#if isEditing}
+												<button class="small" on:click={() => showDeFi = false} transition:scale>Hide</button>
+											{:else}
+												<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(chainID) : toggleColumnLayoutIsSectionExpanded(`${chainID}-${'defi'}`)} transition:scale>▼</button>
+											{/if}
+										</InlineContainer>
 										<!-- {#if isEditing}
 											<label>
 												<input type="checkbox" bind:checked={showDeFi}>
@@ -422,18 +430,20 @@
 									<label class="bar card sticky">
 										<h4 class="row">
 											<TokenIcon erc20Token={network.nativeCurrency} />
-											<span>{#if !isEditing}<mark>{network.name}</mark> {/if}NFTs</span>
+											<span><InlineContainer isOpen={!isEditing} clip><mark>{network.name}</mark>&nbsp;</InlineContainer>NFTs</span>
 										</h4>
 										<span class:is-zero={nftCount === 0}>
 											<strong><TweenedNumber value={nftCount} /></strong> NFT{nftCount === 1 ? '' : 's'}
 											<!-- across -->|
 											<strong><TweenedNumber value={nftContractCount} /></strong> collection{nftContractCount === 1 ? '' : 's'}
 										</span>
-										{#if isEditing}
-											<button class="small" on:click={() => showNFTs = false}>Hide</button>
-										{:else}
-											<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(chainID) : toggleColumnLayoutIsSectionExpanded(`${chainID}-${'nfts'}`)}>▼</button>
-										{/if}
+										<InlineContainer containerClass="align-end" class="stack align-end">
+											{#if isEditing}
+												<button class="small" on:click={() => showNFTs = false} transition:scale>Hide</button>
+											{:else}
+												<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(chainID) : toggleColumnLayoutIsSectionExpanded(`${chainID}-${'nfts'}`)} transition:scale>▼</button>
+											{/if}
+										</InlineContainer>
 										<!-- {#if isEditing}
 											<label>
 												<input type="checkbox" bind:checked={showNFTs}>

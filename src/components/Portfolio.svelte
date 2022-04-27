@@ -95,6 +95,8 @@
 
 	import AddressField from './AddressField.svelte'
 	import Loading from './Loading.svelte'
+	import InlineContainer from './InlineContainer.svelte'
+	import SizeContainer from './SizeContainer.svelte'
 	import PortfolioAccount from './PortfolioAccount.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import TokenBalanceFormatSelect from './TokenBalanceFormatSelect.svelte'
@@ -160,28 +162,50 @@
 			</h1>
 		</slot>
 
-		{#if quoteTotals.length && state !== State.Editing}
+		<InlineContainer isOpen={quoteTotals.length && state !== State.Editing}>
 			<span class="account-total-value" transition:scale>
-				<TokenBalance symbol={quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
+				<TokenBalance symbol={quoteCurrency} balance={quoteTotal} showPlainFiat={true} clip={false} />
 			</span>
-		{/if}
+		</InlineContainer>
+		<!-- {#if quoteTotals.length && state !== State.Editing}
+			<span class="account-total-value" transition:scale>
+				<TokenBalance symbol={quoteCurrency} balance={quoteTotal} showPlainFiat={true} clip={false} />
+			</span>
+		{/if} -->
 
 		{#if editable}
-			<div class="stack">
+			<div class="stack-inline">
+				<InlineContainer containerClass="align-end" isOpen={state !== State.Editing}>
+					<div class="bar align-end" transition:scale>
+						{#if state === State.Idle}
+							<button class="add" on:click={() => state = State.Adding} transition:scale>+ Add Account</button>
+						{/if}
+						<button on:click={() => state = State.Editing}>Edit</button>
+					</div>
+				</InlineContainer>
+				<InlineContainer containerClass="align-end" isOpen={state === State.Editing}>
+					<div class="bar align-end" transition:scale>
+						<button class="destructive" on:click={() => dispatch('delete')}>Delete Portfolio</button>
+						<button on:click={() => state = State.Idle}>Done</button>
+					</div>
+				</InlineContainer>
+			</div>
+
+			<!-- <InlineContainer containerClass="align-end" class="stack align-end">
 				{#if state !== State.Editing}
-					<div class="bar" transition:scale>
+					<div class="bar align-end" transition:scale>
 						{#if state === State.Idle}
 							<button class="add" on:click={() => state = State.Adding} transition:scale>+ Add Account</button>
 						{/if}
 						<button on:click={() => state = State.Editing}>Edit</button>
 					</div>
 				{:else}
-					<div class="bar" transition:scale>
+					<div class="bar align-end" transition:scale>
 						<button class="destructive" on:click={() => dispatch('delete')}>Delete Portfolio</button>
 						<button on:click={() => state = State.Idle}>Done</button>
 					</div>
 				{/if}
-			</div>
+			</InlineContainer> -->
 		{/if}
 		<!-- <button on:click={toggleShowOptions}>Options</button> -->
 
@@ -189,10 +213,10 @@
 	</header>
 
 	{#if accounts}
-		{#if state === State.Adding || !accounts.length}
-			<div class="stack" transition:scale>
+		<SizeContainer containerClass="align-bottom" isOpen={state === State.Adding || !accounts.length} clip>
+			<div class="stack">
 				{#if state === State.Adding}
-					<div class="card" transition:scale>
+					<div class="card" in:scale|local={{ start: 0.5 }} out:scale>
 						<div class="bar">
 							<div>
 								<h3>Add Ethereum/EVM Wallet</h3>
@@ -208,7 +232,7 @@
 						</div>
 					</div>
 				{:else if !accounts.length}
-					<div class="card" transition:scale|local>
+					<div class="card" in:scale|local={{ start: 0.5 }} out:scale>
 						<h3>Your Blockhead Portfolio is empty!</h3>
 						{#if editable}
 							<p>You can <a on:click={() => state = State.Adding}>add a new wallet address manually</a>, or import an address by connecting a wallet service!</p>
@@ -216,7 +240,8 @@
 					</div>
 				{/if}
 			</div>
-		{/if}
+		</SizeContainer>
+
 		{#each accounts as {id, type, nickname, networks}, i (id)}
 			<div transition:scale|local animate:flip|local={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
 				<PortfolioAccount
@@ -256,7 +281,7 @@
 		</slot>
 	{/if}
 
-	{#if showOptions && accounts.length && state !== State.Editing}
+	<SizeContainer isOpen={showOptions && accounts.length && state !== State.Editing}>
 		<div class="card row spaced options" transition:scale>
 			<div class="row">
 				<h3>Balances</h3>
@@ -312,5 +337,5 @@
 				</label>
 			</div>
 		</div>
-	{/if}
+	</SizeContainer>
 </section>

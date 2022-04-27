@@ -560,12 +560,14 @@ a.card {
 
 .align-start {
 	text-align: left;
+	justify-items: start;
 	justify-content: start;
 	transform-origin: left;
 	--button-transform-origin: left;
 }
 .align-end {
 	text-align: right;
+	justify-items: end;
 	justify-content: end;
 	transform-origin: right;
 	--button-transform-origin: right;
@@ -574,6 +576,11 @@ a.card {
 	place-items: start stretch;
 	transform-origin: top;
 	--button-transform-origin: top;
+}
+.align-bottom {
+	place-items: end stretch;
+	transform-origin: bottom;
+	--button-transform-origin: bottom;
 }
 
 
