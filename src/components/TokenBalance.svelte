@@ -66,6 +66,16 @@
 		white-space: nowrap;
 	}
 
+	.inline-no-wrap {
+		display: inline-grid;
+		grid-auto-flow: column;
+		gap: 0.45ch;
+		align-items: baseline;
+		width: max-content;
+	}
+	.token-balance {
+		font-weight: 500;
+	}
 	.token-name {
 		font-weight: 300;
 		font-size: 0.8em;
@@ -73,9 +83,6 @@
 		opacity: 0.75;
 		/* font-weight: 900;
 		opacity: 0.5; */
-	}
-	.token-balance {
-		font-weight: 500;
 	}
 
 	.is-debt {
@@ -100,11 +107,11 @@
 		<span class="token-balance">
 			{isNegative ? '−' : ''}<TweenedNumber
 				value={Math.abs(balance || 0)}
-				formatter={balance => formatValue(balance, {
+				format={{
 					currency: symbol,
 					// showDecimalPlaces,
 					compactLargeValues
-				})}
+				}}
 				{showDecimalPlaces}
 				{tween}
 				{clip}
@@ -112,14 +119,14 @@
 		</span>
 	{:else}
 		<TokenIcon {symbol} {address} {name} {icon} {erc20Token} />
-		<span>
+		<span class="inline-no-wrap">
 			<span class="token-balance">
 				{isNegative ? '−' : ''}<TweenedNumber
 					value={Math.abs(balance || 0)}
-					formatter={balance => formatValue(balance, {
+					format={{
 						// showDecimalPlaces,
 						compactLargeValues
-					})}
+					}}
 					{showDecimalPlaces}
 					{tween}
 					{clip}

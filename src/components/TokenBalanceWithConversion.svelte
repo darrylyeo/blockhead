@@ -31,6 +31,8 @@
 	$: isZero = balance == 0
 
 
+	export let tween = true
+	export let clip = true
 	export let animationDelay = 0
 
 
@@ -79,6 +81,7 @@
 			<TokenBalance
 				{symbol} {address} {name} {icon}
 				{balance} {showDecimalPlaces} {isDebt}
+				{tween} {clip}
 			/>
 		</span>
 	{/if}
@@ -91,6 +94,7 @@
 				{showDecimalPlaces}
 				showPlainFiat={true}
 				{isDebt}
+				{tween} {clip}
 			/>{#if tokenBalanceFormat === 'converted' && conversionCurrency !== symbol}
 				<span class="worth" transition:scaleFont|local={{delay: animationDelay}}>
 					&nbsp;in <TokenName {symbol} {address} {icon} {name} />

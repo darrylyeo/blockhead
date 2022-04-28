@@ -12,6 +12,7 @@
 	export let clip = false
 
 	export let contentsOnly = false
+	export let contentElementOnly = false
 	export let containerClass = ''
 
 	export let contentClass = $$props.class
@@ -39,11 +40,12 @@
 	let contentRect: SvelteStore<DOMRectReadOnly>
 
 	$: contentRect = content && readable<DOMRectReadOnly>(content.getBoundingClientRect(), set => {
+	// $: contentRect = content && readable<DOMRectReadOnly>({ width: 0, height: 0 }, set => {
 		const resizeObserver = new ResizeObserver(([observerEntry]) => {
 			set(observerEntry.contentRect)
 		})
 		resizeObserver.observe(content)
-		return () => resizeObserver.disconnect()
+		// return () => resizeObserver.disconnect()
 	})
 </script>
 
@@ -72,19 +74,26 @@
 
 	.container.inline {
 		display: inline-grid;
-		align-items: baseline;
 	}
-	.container.inline .content {
+	.content.inline {
 		display: inline-grid;
 		width: max-content;
 		grid-auto-flow: column;
 		gap: 0;
+		align-items: baseline;
 	}
 </style>
 
 
 {#if contentsOnly}
 	<slot />
+{:else if contentElementOnly}
+	<div
+		class="content{contentClass ? ` ${contentClass}` : ''}"
+		class:inline={transitionWidth}
+	>
+		<slot />
+	</div>
 {:else}
 	<div
 		bind:this={container}
@@ -103,6 +112,7 @@
 	>
 		<div
 			class="content{contentClass ? ` ${contentClass}` : ''}"
+			class:inline={transitionWidth}
 			bind:this={content}
 			{...otherProps}
 		>

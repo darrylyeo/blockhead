@@ -185,6 +185,8 @@
 
 							animationDelay={i * 10}
 							showParentheses={false}
+
+							tween={filteredBalances.length < 40}
 						/>
 					</span>
 				{:else}
