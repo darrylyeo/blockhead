@@ -11,8 +11,9 @@
 
 	export let clip = false
 
+	export let inline = false
 	export let contentsOnly = false
-	export let contentElementOnly = false
+	export let contentElementOnly = !transitionWidth && !transitionHeight
 	export let containerClass = ''
 
 	export let contentClass = $$props.class
@@ -39,8 +40,8 @@
 
 	let contentRect: SvelteStore<DOMRectReadOnly>
 
-	$: contentRect = content && readable<DOMRectReadOnly>(content.getBoundingClientRect(), set => {
-	// $: contentRect = content && readable<DOMRectReadOnly>({ width: 0, height: 0 }, set => {
+	// $: contentRect = content && readable<DOMRectReadOnly>(content.getBoundingClientRect(), set => {
+	$: contentRect = content && readable<DOMRectReadOnly>({}, set => {
 		const resizeObserver = new ResizeObserver(([observerEntry]) => {
 			set(observerEntry.contentRect)
 		})
@@ -90,7 +91,7 @@
 {:else if contentElementOnly}
 	<div
 		class="content{contentClass ? ` ${contentClass}` : ''}"
-		class:inline={transitionWidth}
+		class:inline
 	>
 		<slot />
 	</div>
@@ -100,7 +101,7 @@
 		class="container{containerClass ? ` ${containerClass}` : ''}"
 		class:isOpen
 		class:clip
-		class:inline={transitionWidth}
+		class:inline
 		style={[
 			duration && `--duration: ${duration}ms;`,
 			easing && `--easing: ${easing};`,
@@ -112,7 +113,7 @@
 	>
 		<div
 			class="content{contentClass ? ` ${contentClass}` : ''}"
-			class:inline={transitionWidth}
+			class:inline
 			bind:this={content}
 			{...otherProps}
 		>

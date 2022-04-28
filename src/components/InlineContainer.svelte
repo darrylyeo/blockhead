@@ -4,6 +4,7 @@
 
 
 <SizeContainer
+    inline
 	transitionWidth
 	transitionHeight={false}
     {...$$props}

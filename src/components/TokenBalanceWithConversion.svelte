@@ -31,9 +31,10 @@
 	$: isZero = balance == 0
 
 
+	export let animationDelay = 0
 	export let tween = true
 	export let clip = true
-	export let animationDelay = 0
+	export let transitionWidth = true
 
 
 	function sizeByVolume(size) {
@@ -81,7 +82,7 @@
 			<TokenBalance
 				{symbol} {address} {name} {icon}
 				{balance} {showDecimalPlaces} {isDebt}
-				{tween} {clip}
+				{tween} {clip} {transitionWidth}
 			/>
 		</span>
 	{/if}
@@ -90,11 +91,8 @@
 			{#if tokenBalanceFormat === 'both'}{#if showParentheses}({/if}{/if
 			}<TokenBalance
 				symbol={conversionCurrency}
-				balance={convertedValue}
-				{showDecimalPlaces}
-				showPlainFiat={true}
-				{isDebt}
-				{tween} {clip}
+				balance={convertedValue}{showDecimalPlaces} showPlainFiat={true} {isDebt}
+				{tween} {clip} {transitionWidth}
 			/>{#if tokenBalanceFormat === 'converted' && conversionCurrency !== symbol}
 				<span class="worth" transition:scaleFont|local={{delay: animationDelay}}>
 					&nbsp;in <TokenName {symbol} {address} {icon} {name} />

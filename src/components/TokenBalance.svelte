@@ -34,6 +34,7 @@
 
 	export let tween = true
 	export let clip = true
+	export let transitionWidth = true
 
 
 	import { formatValue } from '../utils/formatValue'
@@ -113,8 +114,7 @@
 					compactLargeValues
 				}}
 				{showDecimalPlaces}
-				{tween}
-				{clip}
+				{tween} {clip} {transitionWidth}
 			/>
 		</span>
 	{:else}
@@ -128,8 +128,7 @@
 						compactLargeValues
 					}}
 					{showDecimalPlaces}
-					{tween}
-					{clip}
+					{tween} {clip} {transitionWidth}
 				/>
 			</span>
 			<span class="token-name">{symbol || formatAddress(address, 'middle-truncated')}</span>

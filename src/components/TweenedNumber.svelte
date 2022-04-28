@@ -4,6 +4,8 @@
 
 
 	export let value: number
+
+	// Formatting
 	export let format: {
 		currency?: string,
 		showDecimalPlaces?: number,
@@ -14,12 +16,15 @@
 	export let padZero = true
 	export let formatParts = true
 
+	// Number tweening animation
 	export let tween = true
 	export let duration = 1000
-	export let sizeDuration = tween ? 500 : 0
 	export let easing = quintOut // expoOut
-
+	
+	// Container animation
 	export let clip = true
+	export let transitionWidth = true
+	export let sizeDuration = 500
 
 
 	let tweenedValue: Tweened<number | string>
@@ -50,10 +55,15 @@
 </script>
 
 
-<InlineContainer contentsOnly={sizeDuration === 0} duration={sizeDuration} {clip}>
+<InlineContainer
+	{transitionWidth}
+	duration={sizeDuration}
+	{clip}
+>
 	{#if formatParts}
 		{#each formatValue($tweenedValue, { ...format, toParts: true }) as { type, value }}
-			<InlineContainer contentElementOnly={sizeDuration === 0}
+			<InlineContainer
+				{transitionWidth}
 				duration={sizeDuration}
 				class="type-{type}"
 				containerClass={{
