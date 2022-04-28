@@ -9,6 +9,34 @@
 	setEnvironment(houdiniEnvironment)
 
 
+	// Svelte Query
+	import { QueryClient, QueryClientProvider, persistQueryClient, broadcastQueryClient, createWebStoragePersistor } from '@sveltestack/svelte-query'
+
+	const queryClient = new QueryClient({
+		defaultOptions: {
+			queries: {
+				keepPreviousData: true,
+				// staleTime: Infinity,
+				// cacheTime: Infinity,
+			},
+		}
+	})
+
+	const localStoragePersistor = createWebStoragePersistor({
+		storage: globalThis.localStorage
+	})
+	persistQueryClient({
+		queryClient,
+		persistor: localStoragePersistor,
+	})
+
+	broadcastQueryClient({
+		queryClient,
+		broadcastChannel: globalThis.location?.origin,
+	})
+
+
+
 	import process from 'process'
 	import { Buffer } from 'buffer'
 
@@ -104,8 +132,10 @@
 </style>
 
 
-<Nav {segment}/>
+<QueryClientProvider client={queryClient}>
+	<Nav {segment}/>
 
-<div class="stack">
-	<slot></slot>
-</div>
+	<div class="stack">
+		<slot></slot>
+	</div>
+</QueryClientProvider>
