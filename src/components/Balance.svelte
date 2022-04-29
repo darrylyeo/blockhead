@@ -48,7 +48,7 @@
 		<Loader
 			fromPromise={() => symbol === 'ETH' ? provider.getBalance(address) : erc20Contract.balanceOf(address)}
 			loadingMessage="Reading balance..."
-			let:then={balance}
+			let:result={balance}
 		>
 			<TokenIcon slot="loadingIcon" {symbol} address={contractAddress} {erc20Token} />
 			<div class="card" in:scale>

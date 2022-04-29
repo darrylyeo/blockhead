@@ -17,7 +17,7 @@
 		loadingIcon={'/logos/audius-icon.png'}
 		loadingMessage="Fetching user favorites from Audius network..."
 		fromPromise={() => getUserFavorites({userId}).then(({data: favorites}) => favorites)}
-		let:then={favorites}
+		let:result={favorites}
 		showIf={favorites => favorites.length}
 	>
 		<slot slot="header" name="header" />

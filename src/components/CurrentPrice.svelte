@@ -52,7 +52,7 @@
 		loadingIconName={currentPriceProvider}
 		loadingMessage="Retrieving price from Chainlink..."
 		fromPromise={blockNumber && () => getChainlinkPriceFeed(provider, token, quoteCurrency)}
-		let:then={priceFeed}
+		let:result={priceFeed}
 	>
 		<div slot="header" class="bar">
 			<h3>Current Price</h3>
@@ -76,7 +76,7 @@
 				loadingIconName={currentPriceProvider}
 				loadingMessage="Retrieving price from Chainlink..."
 				fromPromise={() => getChainlinkPriceFeed(provider, token, quoteCurrency)}
-				let:then={priceFeed}
+				let:result={priceFeed}
 			>
 				<div slot="header" class="bar">
 					<h3>Current Price</h3>
@@ -104,7 +104,7 @@
 					loadingMessage="Retrieving price from {_currentPriceProvider}..."
 					errorMessage="{token} price not available"
 					fromPromise={provider && network && blockNumber && (() => getChainlinkPriceFeed(provider, network, token, quoteCurrency))}
-					let:then={priceFeed}
+					let:result={priceFeed}
 					whenErrored={async () => {
 						await new Promise(r => setTimeout(r, 1000))
 						if(currentPriceProvider === 'auto')
@@ -177,7 +177,7 @@
 							}
 						throw new Error(`The ${token} spot price isn't currently indexed by Covalent.`)
 					}}
-					let:then={data}
+					let:result={data}
 				>
 					<div slot="header" class="bar">
 						<slot name="title">

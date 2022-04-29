@@ -15,7 +15,7 @@
 		loadingIcon={'/logos/audius-icon.png'}
 		loadingMessage="Fetching playlist data from Audius network..."
 		fromPromise={() => getPlaylist({playlistId}).then(({data: [playlist]}) => playlist)}
-		let:then={playlist}
+		let:result={playlist}
 	>
 		<AudiusPlaylist {playlist} />
 	</Loader>

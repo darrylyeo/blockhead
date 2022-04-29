@@ -56,7 +56,7 @@
 		loadingIcon="/logos/covalent-logomark.svg"
 		loadingIconName={historicalPriceProvider}
 		loadingMessage="Retrieving price history from {historicalPriceProvider}..."
-		let:then={data}
+		let:result={data}
 		showIf={data => data.length}
 	>
 		<slot name="header"></slot>

@@ -15,7 +15,7 @@
 		loadingIcon={'/logos/audius-icon.png'}
 		loadingMessage="Fetching user data from Audius network..."
 		fromPromise={() => getUser({userId}).then(({data: user}) => user)}
-		let:then={user}
+		let:result={user}
 	>
 		<slot slot="header" name="header" />
 

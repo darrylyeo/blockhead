@@ -40,7 +40,7 @@
 			}))
 				.items
 		}
-		let:then={transactions}
+		let:result={transactions}
 		let:status
 	>
 		<slot name="header" slot="header" {status} {transactions} />
@@ -72,7 +72,7 @@
 				})))
 				: transactions
 		}}
-		let:then={transactions}
+		let:result={transactions}
 		let:status
 	>
 		<slot name="header" slot="header" {status} {transactions} />

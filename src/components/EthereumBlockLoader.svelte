@@ -100,7 +100,7 @@
 					?.[0]
 			}
 			bind:result={block}
-			let:then={block}
+			let:result={block}
 		>
 			<hr>
 
@@ -196,7 +196,7 @@
 			}
 			bind:result={block}
 			showIf={block => block}
-			let:then={block}
+			let:result={block}
 		>
 			<hr>
 
@@ -236,7 +236,7 @@
 				}
 			})}
 			bind:result={block}
-			let:then={block}
+			let:result={block}
 		>
 			<TokenIcon slot="loadingIcon" symbol={network.nativeCurrency.symbol} />
 

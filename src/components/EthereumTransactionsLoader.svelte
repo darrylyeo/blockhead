@@ -40,7 +40,7 @@
 			}))
 				.items
 		}
-		let:then={transactions}
+		let:result={transactions}
 		let:status
 	>
 		<slot name="header" slot="header" {status} {transactions} />
@@ -56,7 +56,7 @@
 		fromPromise={async () =>
 			await getTransactionsEtherspot({network, address})
 		}
-		let:then={transactions}
+		let:result={transactions}
 	>
 		<slot name="header" slot="header" {status} {transactions} />
 		{#if transactions}
@@ -98,7 +98,7 @@
 					: transactions
 			).reverse()
 		}}
-		let:then={transactions}
+		let:result={transactions}
 		let:status
 	>
 		<slot name="header" slot="header" {status} {transactions} />

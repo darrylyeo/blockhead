@@ -293,7 +293,7 @@
 												asStore: true
 											})}
 											bind:result={zapperDefiProtocolBalances}
-											let:then={defiProtocolBalances}
+											let:result={defiProtocolBalances}
 											{isCollapsed}
 										>
 										<!-- showIf={defiProtocolBalances => defiProtocolBalances.length} -->
@@ -531,7 +531,7 @@
 													address
 												})
 											)}
-											let:then={defiBalances}
+											let:result={defiBalances}
 											{isCollapsed}
 										>
 										<!-- showIf={defiBalances => defiBalances?.length} -->

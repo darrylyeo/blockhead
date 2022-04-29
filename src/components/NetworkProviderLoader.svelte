@@ -22,7 +22,7 @@
 	fromPromise={network && providerName && (async () =>
 		await getEthersProvider(network, providerName)
 	)}
-	let:then={provider}
+	let:result={provider}
 >
 	<TokenIcon slot="loadingIcon" symbol={network?.nativeCurrency.symbol} />
 

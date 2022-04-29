@@ -242,7 +242,7 @@
 	>
 		{#if status === LoadingStatus.Resolved || (fromStore && status === LoadingStatus.Loading && result)}
 			<div class={layoutClass} transition:fade>
-				<slot then={result} {status} {load} {cancel} />
+				<slot {result} {status} {load} {cancel} />
 			</div>
 		{/if}
 		{#if status === LoadingStatus.Idle}

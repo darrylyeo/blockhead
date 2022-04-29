@@ -155,7 +155,7 @@
 	loadingIcon="/logos/ens.svg"
 	loadingIconName="The Graph"
 	loadingMessage='Searching for "{searchQuery}" in the Ethereum Name Service subgraph...'
-	let:then={result}
+	let:result={result}
 >
 	<div class="ens-query column">
 		{#each result.domains.sort(sortByLength) as domain (domain.id)}
@@ -178,7 +178,7 @@
 			loadingIcon="/logos/ens.svg"
 			loadingIconName="The Graph"
 			loadingMessage="Searching the Ethereum Name Service subgraph for similar names..."
-			let:then={result}
+			let:result={result}
 			showIf={result => result?.domains.length}
 		>
 			<svelte:fragment slot="header" let:status>

@@ -81,7 +81,7 @@
 		{showIf}
 		{isCollapsed}
 		bind:result={balances}
-		let:then={balances}
+		let:result={balances}
 	>
 		<slot name="header" slot="header" {balances} />
 
@@ -168,7 +168,7 @@
 		{showIf}
 		{isCollapsed}
 		bind:result={balances}
-		let:then={balances}
+		let:result={balances}
 	>
 		<slot name="header" slot="header" {balances} />
 
@@ -190,7 +190,7 @@
 		{showIf}
 		{isCollapsed}
 		bind:result={balances}
-		let:then={balances}
+		let:result={balances}
 	>
 		<slot name="header" slot="header" {balances} />
 

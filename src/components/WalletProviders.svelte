@@ -99,7 +99,7 @@
 			startImmediately={false}
 			let:load fromPromise={() => loadMetaMaskProvider().then(provider => getAccountsFromProvider(provider, 'MetaMask'))}
 			bind:result={$connectedProviderAccounts['MetaMask']}
-			let:then={accounts}
+			let:result={accounts}
 			let:cancel
 		>
 			<svelte:fragment slot="header" let:status>
@@ -146,7 +146,7 @@
 			startImmediately={false}
 			let:load fromPromise={() => loadTorusProvider().then(provider => getAccountsFromProvider(provider, 'Torus'))}
 			bind:result={$connectedProviderAccounts['Torus']}
-			let:then={accounts}
+			let:result={accounts}
 			let:cancel whenCanceled={disconnectTorusProvider}
 		>
 			<svelte:fragment slot="header" let:status>
@@ -195,7 +195,7 @@
 			startImmediately={false}
 			let:load fromPromise={() => loadPortisProvider().then(provider => getAccountsFromProvider(provider, 'Portis'))}
 			bind:result={$connectedProviderAccounts['Portis']}
-			let:then={accounts}
+			let:result={accounts}
 			let:cancel whenCanceled={disconnectPortisProvider}
 		>
 			<svelte:fragment slot="header" let:status>

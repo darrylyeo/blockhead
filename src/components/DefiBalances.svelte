@@ -161,7 +161,7 @@
 				asStore: true
 			})}
 			bind:result={zapperDefiProtocolBalances}
-			let:then={defiProtocolBalances}
+			let:result={defiProtocolBalances}
 			{isCollapsed}
 		>
 			<svelte:fragment slot="header" let:status>
@@ -384,7 +384,7 @@
 					provider,
 					address
 				})}
-				let:then={defiBalances}
+				let:result={defiBalances}
 				{isCollapsed}
 			>					
 				<TokenIcon slot="loadingIcon" symbol={network.nativeCurrency.symbol} />

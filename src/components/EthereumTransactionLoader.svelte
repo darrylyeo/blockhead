@@ -54,7 +54,7 @@
 							})
 							.then(({items: [transaction]}) => transaction)
 						}
-						let:then={transaction}
+						let:result={transaction}
 						let:status
 					>
 						<slot name="header" slot="header" {status} {transaction} />
@@ -78,7 +78,7 @@
 						loadingIcon="/logos/etherspot-icon.png"
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
 						fromPromise={() => getTransactionEtherspot({network, transactionID})}
-						let:then={transaction}
+						let:result={transaction}
 						let:status
 					>
 						<slot name="header" slot="header" {status} {transaction} />
@@ -105,7 +105,7 @@
 							chain: chainCodeFromNetwork(network),
 							transactionHash: transactionID,
 						})}
-						let:then={transaction}
+						let:result={transaction}
 						let:status
 					>
 						<slot name="header" slot="header" {status} {transaction} />
