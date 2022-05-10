@@ -2,9 +2,6 @@
 	import type { Ethereum } from '../data/ethereum/types'
 	import { preferences } from '../data/ethereum/preferences'
 
-	import { getBlock } from '../data/analytics/covalent'
-	import { chainCodeFromNetwork, MoralisWeb3Api } from '../data/moralis/moralis-web3-api'
-
 
 	export let network: Ethereum.Network
 	export let blockNumber: Ethereum.BlockNumber
@@ -33,6 +30,13 @@
 	let block
 
 	
+	import { useQuery } from '@sveltestack/svelte-query'
+
+	import { getBlock } from '../data/analytics/covalent'
+
+	import { chainCodeFromNetwork, MoralisWeb3Api } from '../data/moralis/moralis-web3-api'
+
+
 	import { toHex } from 'etherspot'
 
 
@@ -88,17 +92,26 @@
 			loadingIconName={transactionProvider}
 			loadingMessage="Retrieving block data from {transactionProvider}..."
 			errorMessage="Error retrieving block data from {transactionProvider}"
-			fromPromise={async () =>
-				(await getBlock({blockNumber, chainID: network.chainId}))
-					.items.map(({
-						height,
-						signed_at
-					}) => ({
-						blockNumber: height,
-						timestamp: signed_at
+			fromUseQuery={useQuery({
+				queryKey: ['Block', {
+					chainID: network.chainId,
+					blockNumber
+				}],
+				queryFn: async () => (
+					(await getBlock({
+						chainID: network.chainId,
+						blockNumber
 					}))
-					?.[0]
-			}
+						.items.map(({
+							height,
+							signed_at
+						}) => ({
+							blockNumber: height,
+							timestamp: signed_at
+						}))
+						?.[0]
+				)
+			})}
 			bind:result={block}
 			let:result={block}
 		>
@@ -149,51 +162,57 @@
 			loadingIconName={transactionProvider}
 			loadingMessage="Retrieving block data from {transactionProvider}..."
 			errorMessage="Error retrieving block data from {transactionProvider}"
-			fromPromise={async () =>
-				MoralisWeb3Api.block.getBlock({
-					chain: chainCodeFromNetwork(network),
-					blockNumberOrHash: blockNumber
-				}).then(({
-					timestamp,
-					number,
-					hash,
-					parent_hash,
-					nonce,
-					sha3_uncles,
-					logs_bloom,
-					transactions_root,
-					state_root,
-					receipts_root,
-					miner,
-					difficulty,
-					total_difficulty,
-					size,
-					extra_data,
-					gas_limit,
-					gas_used,
-					transaction_count,
-					transactions
-				}) => ({
-					hash: hash,
-					parentHash: parent_hash,
-					blockNumber: number,
-					timestamp: timestamp,
-					nonce,
+			fromUseQuery={useQuery({
+				queryKey: ['Block', {
+					chainID: network.chainId,
+					blockNumber
+				}],
+				queryFn: async () => (
+					MoralisWeb3Api.block.getBlock({
+						chain: chainCodeFromNetwork(network),
+						blockNumberOrHash: blockNumber
+					}).then(({
+						timestamp,
+						number,
+						hash,
+						parent_hash,
+						nonce,
+						sha3_uncles,
+						logs_bloom,
+						transactions_root,
+						state_root,
+						receipts_root,
+						miner,
+						difficulty,
+						total_difficulty,
+						size,
+						extra_data,
+						gas_limit,
+						gas_used,
+						transaction_count,
+						transactions
+					}) => ({
+						hash: hash,
+						parentHash: parent_hash,
+						blockNumber: number,
+						timestamp: timestamp,
+						nonce,
 
-					difficulty,
-					totalDifficulty: total_difficulty,
-					gasLimit: gas_limit,
-					gasUsed: gas_used,
+						difficulty,
+						totalDifficulty: total_difficulty,
+						gasLimit: gas_limit,
+						gasUsed: gas_used,
 
-					minerAddress: miner,
-					extraData: extra_data,
+						minerAddress: miner,
+						extraData: extra_data,
 
-					transactions: transactions.sort((transaction1, transaction2) => transaction1.indexInBlock - transaction2.indexInBlock)
-				}))
-				.catch((e) => {
-					throw new Error(`Moralis hasn't yet indexed ${network.name} block #${blockNumber}.`) 
-				})
-			}
+						transactions: transactions.sort((transaction1, transaction2) => transaction1.indexInBlock - transaction2.indexInBlock)
+					}))
+					.catch((e) => {
+						throw new Error(`Moralis hasn't yet indexed ${network.name} block #${blockNumber}.`) 
+					})
+				)
+			})}
 			bind:result={block}
 			showIf={block => block}
 			let:result={block}
@@ -218,20 +237,26 @@
 			loadingIconName={transactionProvider}
 			loadingMessage="Retrieving block data from {transactionProvider}..."
 			errorMessage="Error retrieving block data from {transactionProvider}"
-			fromPromise={provider && (async () => {
-				// for(let block; !block; block = await provider.getBlockWithTransactions(toHex(blockNumber)));
-				// console.log('block', block)
-				try {
-					const block = await provider.getBlockWithTransactions(toHex(blockNumber))
-					return block
-				}catch(e){
-					console.dir(e)
-					if(e.body){
-						const { error } = JSON.parse(e.body)
-						console.error(e, error)
-						throw error.message + Object.entries(error.data).map(([k, v]) => `\n${k}: ${v}`).join('')
-					}else{
-						throw e
+			fromUseQuery={provider && useQuery({
+				queryKey: ['Block', {
+					chainID: network.chainId,
+					blockNumber
+				}],
+				queryFn: async () =>  {
+					// for(let block; !block; block = await provider.getBlockWithTransactions(toHex(blockNumber)));
+					// console.log('block', block)
+					try {
+						const block = await provider.getBlockWithTransactions(toHex(blockNumber))
+						return block
+					}catch(e){
+						console.dir(e)
+						if(e.body){
+							const { error } = JSON.parse(e.body)
+							console.error(e, error)
+							throw error.message + Object.entries(error.data).map(([k, v]) => `\n${k}: ${v}`).join('')
+						}else{
+							throw e
+						}
 					}
 				}
 			})}

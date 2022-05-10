@@ -26,6 +26,8 @@
 	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
 
 
+	import { useQuery } from '@sveltestack/svelte-query'
+
 	import { getTransaction as getTransactionCovalent } from '../data/analytics/covalent'
 	import { getTransaction as getTransactionEtherspot } from '../data/etherspot/etherspot'
 	import { MoralisWeb3Api, chainCodeFromNetwork } from '../data/moralis/moralis-web3-api'
@@ -46,14 +48,20 @@
 					<Loader
 						loadingIcon="/logos/covalent-logomark.svg"
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
-						fromPromise={() =>
-							getTransactionCovalent({
+						fromUseQuery={useQuery({
+							queryKey: ['Transaction', {
 								chainID: network.chainId,
-								transactionHash: transactionID,
-								includeLogs: true
-							})
-							.then(({items: [transaction]}) => transaction)
-						}
+								transactionID,
+							}],
+							queryFn: async () => (
+								await getTransactionCovalent({
+									chainID: network.chainId,
+									transactionHash: transactionID,
+									includeLogs: true
+								})
+								.then(({ items: [transaction] }) => transaction)
+							)
+						})}
 						let:result={transaction}
 						let:status
 					>
@@ -77,7 +85,18 @@
 					<Loader
 						loadingIcon="/logos/etherspot-icon.png"
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
-						fromPromise={() => getTransactionEtherspot({network, transactionID})}
+						fromUseQuery={useQuery({
+							queryKey: ['Transaction', {
+								chainID: network.chainId,
+								transactionID,
+							}],
+							queryFn: async () => (
+								await getTransactionEtherspot({
+									network,
+									transactionID
+								})
+							)
+						})}
 						let:result={transaction}
 						let:status
 					>
@@ -101,9 +120,17 @@
 					<Loader
 						loadingIcon="/logos/moralis-icon.svg"
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
-						fromPromise={() => MoralisWeb3Api.transaction.getTransaction({
-							chain: chainCodeFromNetwork(network),
-							transactionHash: transactionID,
+						fromUseQuery={useQuery({
+							queryKey: ['Transaction', {
+								chainID: network.chainId,
+								transactionID,
+							}],
+							queryFn: async () => (
+								await MoralisWeb3Api.transaction.getTransaction({
+									chain: chainCodeFromNetwork(network),
+									transactionHash: transactionID,
+								})
+							)
 						})}
 						let:result={transaction}
 						let:status

@@ -17,7 +17,7 @@
 			queries: {
 				keepPreviousData: true,
 				// staleTime: Infinity,
-				// cacheTime: Infinity,
+				cacheTime: Infinity,
 			},
 		}
 	})

@@ -96,6 +96,9 @@
 	}
 
 
+	import { useQuery } from '@sveltestack/svelte-query'
+
+
 	import Address from './Address.svelte'
 	import Loader from './Loader.svelte'
 	import SizeContainer from './SizeContainer.svelte'
@@ -349,18 +352,27 @@
 		loadingIconName={nftProvider}
 		loadingMessage="Retrieving {network.name} NFTs from {nftProvider}..."
 		errorMessage="Error retrieving {network.name} NFTs from {nftProvider}"
-		fromPromise={filterFunction && sortFunction && (() =>
-			getNftBalancesCovalent({
-				address,
-				nft: true,
-				chainID: network.chainId,
-				quoteCurrency: quoteCurrency
-			}).then(balances =>
-				(filterFunction ? balances.items.filter(filterFunction) : balances.items)
-					.sort(sortFunction)
-				// as Covalent.NFTContractWithBalance[]
-			)
-		)}
+		fromUseQuery={
+			useQuery({
+				queryKey: ['NFTs', {
+					address,
+					chainID: network.chainId,
+					quoteCurrency: quoteCurrency
+				}],
+				queryFn: () => (
+					getNftBalancesCovalent({
+						address,
+						nft: true,
+						chainID: network.chainId,
+						quoteCurrency: quoteCurrency
+					}).then(balances =>
+						(filterFunction ? balances.items.filter(filterFunction) : balances.items)
+							.sort(sortFunction)
+						// as Covalent.NFTContractWithBalance[]
+					)
+				)
+			})
+		}
 		bind:result={balances}
 		{isCollapsed}
 	>

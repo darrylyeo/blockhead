@@ -36,6 +36,8 @@
 	}
 
 
+	import { useQuery } from '@sveltestack/svelte-query'
+
 	// import ENS, { getEnsAddress } from '@ensdomains/ensjs'
 	// const ens = new ENS({ provider, ensAddress: getEnsAddress('1') })
 
@@ -80,9 +82,16 @@
 
 {#if addressOrENSName && isReverseResolving && !passiveReverseResolution}
 	<Loader
-		fromPromise={address && provider && (async () =>
-			await lookupAddress(address.toLowerCase())
-		)}
+		fromUseQuery={
+			address && provider && useQuery({
+				queryKey: ['EnsReverseResolution', {
+					address
+				}],
+				queryFn: (async () =>
+					await lookupAddress(address.toLowerCase())
+				)
+			})
+		}
 		loadingIcon="/logos/ens.svg"
 		loadingIconName="ENS"
 		loadingMessage="Reverse-resolving address to a name on the Ethereum Name Service{viaRPC}..."
@@ -96,10 +105,20 @@
 		<slot {address} {ensName} {isReverseResolving} />
 	</Loader>
 {:else if addressOrENSName && !isReverseResolving && !passiveForwardResolution}
-	<Loader
-		fromPromise={ensName && provider && (async () =>
+		<!-- fromPromise={async () => (
 			await resolveName(ensName.toLowerCase())
-		)}
+		)} -->
+	<Loader
+		fromUseQuery={
+			ensName && provider && useQuery({
+				queryKey: ['EnsResolution', {
+					ensName
+				}],
+				queryFn: async () => (
+					await resolveName(ensName.toLowerCase())
+				)
+			})
+		}
 		loadingIcon="/logos/ens.svg"
 		loadingIconName="ENS"
 		loadingMessage="Resolving name to address on the Ethereum Name Service{viaRPC}..."
