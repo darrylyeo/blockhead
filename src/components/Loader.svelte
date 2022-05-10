@@ -7,6 +7,7 @@
 	type LoaderResult = $$Generic<unknown>
 	type LoaderError = $$Generic<{message: string} | unknown>
 	type HoudiniQueryInput = $$Generic<unknown>
+	type LoaderReturnResult = $$Generic<unknown>
 
 
 	export let startImmediately = true
@@ -26,6 +27,7 @@
 	export let fromUseQuery: UseQueryStoreResult<LoaderResult, LoaderError>
 	export let fromUseInfiniteQuery: UseInfiniteQueryStoreResult<LoaderResult[number], LoaderError>
 
+	export let then: ((result: LoaderResult) => LoaderReturnResult) = result => result
 	export let whenErrored: (() => {}) | undefined
 	export let whenCanceled: (() => Promise<any>) | undefined
 
@@ -59,7 +61,7 @@
 			cancel: typeof cancel
 		},
 		header: {
-			then: LoaderResult,
+			then: LoaderReturnResult,
 			status: LoadingStatus,
 			load: typeof load,
 			cancel: typeof cancel
@@ -242,7 +244,12 @@
 	>
 		{#if status === LoadingStatus.Resolved || (fromStore && status === LoadingStatus.Loading && result)}
 			<div class={layoutClass} transition:fade>
-				<slot {result} {status} {load} {cancel} />
+				<slot
+					result={then(result)}
+					{status}
+					{load}
+					{cancel}
+				/>
 			</div>
 		{/if}
 		{#if status === LoadingStatus.Idle}
