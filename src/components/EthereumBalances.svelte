@@ -19,9 +19,6 @@
 	export let isSelectable = false
 	export let selectedToken: Ethereum.ERC20Token | undefined
 
-	export let quoteTotal
-
-
 	export let isCollapsed: boolean
 
 
@@ -56,7 +53,19 @@
 			undefined
 		)
 
-	$: quoteTotal = balances.reduce((sum, item) => sum + item.value, 0)
+	export let summary: {
+		quoteTotal: number,
+		quoteCurrency: QuoteCurrency,
+		balancesCount: number,
+		filteredBalancesCount: number
+	}
+
+	$: summary = {
+		quoteTotal: balances.reduce((sum, item) => sum + item.value, 0),
+		quoteCurrency,
+		balancesCount: balances.length,
+		filteredBalancesCount: filteredBalances.length,
+	}
 
 
 	const tokensAreEqual = (token1, token2) =>
@@ -151,7 +160,7 @@
 		bind:balances
 	>
 		<svelte:fragment slot="header">
-			<slot name="header" {balances} {filteredBalances} {quoteCurrency} {quoteTotal} />
+			<slot name="header" {balances} {filteredBalances} {summary} />
 		</svelte:fragment>
 
 		<div class:scrollable-list={isScrollable && filteredBalances.length > 45}>

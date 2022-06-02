@@ -32,16 +32,37 @@
 	$: if(defiProvider === 'Zapper')
 		getAllApps().then(_ => zapperApps = Object.fromEntries(_.map(app => [app.id, app])))
 
-	export let quoteTotal
-	export let quoteTotalCurrency
-	$: quoteTotalCurrency = defiProvider === 'Zapper' ? zapperQuoteCurrency : undefined
+	export let summary: {
+		quoteTotal: number,
+		defiAppsCount: number,
+		quoteTotalCurrency: QuoteCurrency
+	}
 
 	type TypeOfPromise<T> = T extends Promise<infer R> ? R : T
-	let zapperDefiProtocolBalances: TypeOfPromise<ReturnType<typeof getDeFiAppBalances>>
-	$: if(zapperDefiProtocolBalances)
-		quoteTotal = zapperDefiProtocolBalances.reduce((sum, {meta}) => sum + Number(
-			meta?.find(({label, type, value}) => label === 'Total')?.value ?? 0
-		), 0) * zapperFiatRate
+	let zerionDefiBalances: TypeOfPromise<ReturnType<typeof getDefiBalances>>
+	let zapperDefiBalances: TypeOfPromise<ReturnType<typeof getDeFiAppBalances>>
+
+	$: summary =
+		zerionDefiBalances ?
+			{
+				quoteTotal: undefined,
+
+				defiAppsCount: zerionDefiBalances.length,
+
+				quoteTotalCurrency: undefined
+			}
+		: zapperDefiBalances ? 
+			{
+				quoteTotal: zapperDefiBalances.reduce((sum, {meta}) => sum + Number(
+					meta?.find(({label, type, value}) => label === 'Total')?.value ?? 0
+				), 0) * zapperFiatRate,
+
+				defiAppsCount: zapperDefiBalances.length,
+
+				quoteTotalCurrency: defiProvider === 'Zapper' ? zapperQuoteCurrency : undefined
+			}
+		:
+			undefined
 
 
 	// View options
@@ -160,12 +181,12 @@
 				address,
 				asStore: true
 			})}
-			bind:result={zapperDefiProtocolBalances}
+			bind:result={zapperDefiBalances}
 			let:result={defiProtocolBalances}
 			{isCollapsed}
 		>
 			<svelte:fragment slot="header" let:status>
-				<slot name="header" {status} defiBalances={defiProtocolBalances} {quoteTotal} {quoteTotalCurrency} />
+				<slot name="header" {status} defiBalances={defiProtocolBalances} {summary} />
 			</svelte:fragment>
 
 			<div class="defi-balances column" class:scrollable-list={isScrollable && defiProtocolBalances.flatMap(({products}) => products).length > 6}>
@@ -384,13 +405,14 @@
 					provider,
 					address
 				})}
+				bind:result={zerionDefiBalances}
 				let:result={defiBalances}
 				{isCollapsed}
 			>					
 				<TokenIcon slot="loadingIcon" symbol={network.nativeCurrency.symbol} />
 
 				<svelte:fragment slot="header" let:status>
-					<slot name="header" {status} {defiBalances} quoteTotal={undefined} {quoteTotalCurrency} />
+					<slot name="header" {status} {defiBalances} {summary} />
 				</svelte:fragment>
 
 				<div class="defi-balances column">

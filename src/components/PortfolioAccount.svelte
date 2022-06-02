@@ -41,13 +41,51 @@
 	// 	balances: ,
 	// 	quoteTotal: number,
 	// }>
-	let tokenQuoteTotals = []
-	let defiQuoteTotals = []
-	let nftQuoteTotals = []
-	// $: console.log(address, 'defiQuoteTotals', defiQuoteTotals, 'quoteTotals', quoteTotals)
-	$: quoteTotals = [...tokenQuoteTotals, ...defiQuoteTotals, ...nftQuoteTotals].filter(quoteTotal => quoteTotal !== undefined)
-	export let quoteTotal
-	$: quoteTotal = quoteTotals.reduce((sum, quoteTotal) => sum + quoteTotal, 0)
+	let balancesSummaries = []
+	let defiAppsSummaries = []
+	let nftsSummaries = []
+
+	export let summary: {
+		quoteTotal: number,
+		quoteTotalCurrency: QuoteCurrency,
+		balancesCount: number,
+		filteredBalancesCount: number,
+		defiAppsCount: number,
+		nftContractsCount: number,
+		nftsCount: number,
+	}
+
+	$: summary = {
+		quoteTotal:
+			[
+				...balancesSummaries.map(({ quoteTotal }) => quoteTotal),
+				...defiAppsSummaries.map(({ quoteTotal }) => quoteTotal),
+				...nftsSummaries.map(({ quoteTotal }) => quoteTotal),
+			]
+				.reduce((sum, n = 0) => sum + n, 0),
+
+		quoteTotalCurrency: quoteCurrency,
+
+		balancesCount:
+			balancesSummaries
+				.reduce((sum, { balancesCount = 0 } = {}) => sum + balancesCount, 0),
+		
+		filteredBalancesCount:
+			balancesSummaries
+				.reduce((sum, { filteredBalancesCount = 0 } = {}) => sum + filteredBalancesCount, 0),
+
+		defiAppsCount:
+			defiAppsSummaries
+				.reduce((sum, { defiAppsCount = 0 } = {}) => sum + defiAppsCount, 0),
+
+		nftContractsCount:
+			nftsSummaries
+				.reduce((sum, { nftContractsCount = 0 } = {}) => sum + nftContractsCount, 0),
+
+		nftsCount:
+			nftsSummaries
+				.reduce((sum, { nftsCount = 0 } = {}) => sum + nftsCount, 0),
+	}
 
 
 	import { matchesMediaQuery } from '../utils/matchesMediaQuery'
@@ -239,9 +277,27 @@
 				{/if}
 			</div>
 
-			{#if quoteTotals.length}
-				<span class="account-total-value">
-					<TokenBalance symbol={quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
+			{#if summary}
+				<span class="summary">
+					<span class="account-total-value">
+						<TokenBalance symbol={quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} />
+					</span>
+
+					{#if summary.filteredBalancesCount}
+						| <strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> token{summary.filteredBalancesCount === 1 ? '' : 's'}
+					{/if}
+
+					{#if summary.defiAppsCount}
+						| <strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}
+					{/if}
+
+					{#if summary.nftsCount}
+						| <strong><TweenedNumber value={summary.nftsCount} /></strong> NFT{summary.nftsCount === 1 ? '' : 's'}
+
+						{#if summary.nftContractsCount}
+							from <strong><TweenedNumber value={summary.nftContractsCount} /></strong> collection{summary.nftContractsCount === 1 ? '' : 's'}
+						{/if}
+					{/if}
 				</span>
 			{/if}
 
@@ -309,9 +365,9 @@
 								{tokenBalanceFormat} {sortBy} {showSmallValues} {showUnderlyingAssets}
 								isCollapsed={(isGridLayout ? !gridLayoutIsChainExpanded[chainID] : !columnLayoutIsSectionExpanded[`${chainID}-${'tokens'}`]) || isEditing}
 								isScrollable={!isGridLayout} isHorizontal={!isGridLayout}
-								bind:quoteTotal={tokenQuoteTotals[i]}
+								bind:summary={balancesSummaries[i]}
 							>
-								<svelte:fragment slot="header" let:balances let:filteredBalances let:quoteCurrency let:quoteTotal>
+								<svelte:fragment slot="header" let:summary>
 									<!-- {#if balances.length || isGridLayout} -->
 										<hr>
 
@@ -321,10 +377,12 @@
 												<TokenIcon erc20Token={network.nativeCurrency} />
 												<Address {network} {address}><InlineContainer isOpen={!isEditing} clip><mark>{network.name}</mark>&nbsp;</InlineContainer>Balances</Address>
 											</h4>
-											<span>
-												<TokenBalance symbol={quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
-												| <strong><TweenedNumber value={filteredBalances.length} /></strong> tokens
-											</span>
+											{#if summary}
+												<span class="summary">
+													<TokenBalance symbol={summary.quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} />
+													| <strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> tokens
+												</span>
+											{/if}
 											<InlineContainer containerClass="align-end" class="stack align-end">
 												{#if isEditing}
 													<button class="small" on:click={() => showBalances = false} transition:scale>Hide</button>
@@ -367,10 +425,10 @@
 							{tokenBalanceFormat} {showUnderlyingAssets}
 							isCollapsed={(isGridLayout ? !gridLayoutIsChainExpanded[chainID] : !columnLayoutIsSectionExpanded[`${chainID}-${'defi'}`]) || isEditing}
 							isScrollable={!isGridLayout}
-							bind:quoteTotal={defiQuoteTotals[i]}
+							bind:summary={defiAppsSummaries[i]}
 						>
-							<svelte:fragment slot="header" let:status let:defiBalances let:quoteTotal let:quoteTotalCurrency>
-								<!-- {#if (status === 'resolved' && defiBalances?.length) || status === 'error' || isGridLayout} -->
+							<svelte:fragment slot="header" let:status let:summary>
+								<!-- {#if (status === 'resolved' && summary?.defiAppsCount) || status === 'error' || isGridLayout} -->
 									<hr>
 
 									<label class="bar card sticky">
@@ -379,15 +437,17 @@
 											<TokenIcon erc20Token={network.nativeCurrency} />
 											<span><InlineContainer isOpen={!isEditing} clip><mark>{network.name}</mark>&nbsp;</InlineContainer>DeFi</span>
 										</h4>
-										<span class:is-zero={!defiBalances?.length}>
-											{#if quoteTotal !== undefined}
-												<TokenBalance symbol={quoteTotalCurrency || quoteCurrency} balance={quoteTotal} showPlainFiat={true} />
-											{/if}
-											{#if quoteTotal !== undefined && defiBalances} | {/if}
-											{#if defiBalances}
-												<strong><TweenedNumber value={defiBalances.length} /></strong> app{defiBalances.length === 1 ? '' : 's'}
-											{/if}
-										</span>
+										{#if summary}
+											<span class="summary" class:is-zero={!summary.defiAppsCount}>
+												<TokenBalance
+													symbol={summary.quoteTotalCurrency || quoteCurrency}
+													balance={summary.quoteTotal}
+													showPlainFiat={true}
+												/>
+												|
+												<strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}
+											</span>
+										{/if}
 										<InlineContainer containerClass="align-end" class="stack align-end">
 											{#if isEditing}
 												<button class="small" on:click={() => showDeFi = false} transition:scale>Hide</button>
@@ -419,11 +479,9 @@
 							{tokenBalanceFormat} {sortBy} {showSmallValues} {showUnderlyingAssets} {showNFTMetadata} {showImagesOnly} {show3D}
 							isCollapsed={(isGridLayout ? !gridLayoutIsChainExpanded[chainID] : !columnLayoutIsSectionExpanded[`${chainID}-${'nfts'}`]) || isEditing}
 							isScrollable={!isGridLayout}
-							bind:quoteTotal={nftQuoteTotals[i]}
-							let:nftContractCount
-							let:nftCount
+							bind:summary={nftsSummaries[i]}
 						>
-							<svelte:fragment slot="header" let:balances>
+							<svelte:fragment slot="header" let:summary>
 								<!-- {#if balances?.length || isGridLayout} -->
 									<hr>
 
@@ -432,11 +490,14 @@
 											<TokenIcon erc20Token={network.nativeCurrency} />
 											<span><InlineContainer isOpen={!isEditing} clip><mark>{network.name}</mark>&nbsp;</InlineContainer>NFTs</span>
 										</h4>
-										<span class:is-zero={nftCount === 0}>
-											<strong><TweenedNumber value={nftCount} /></strong> NFT{nftCount === 1 ? '' : 's'}
-											<!-- across -->|
-											<strong><TweenedNumber value={nftContractCount} /></strong> collection{nftContractCount === 1 ? '' : 's'}
-										</span>
+										{#if summary}
+											<span class="summary" class:is-zero={summary.nftsCount === 0}>
+												<strong><TweenedNumber value={summary.nftsCount} /></strong> NFT{summary.nftsCount === 1 ? '' : 's'}
+												|
+												<!-- across -->
+												<strong><TweenedNumber value={summary.nftContractsCount} /></strong> collection{summary.nftContractsCount === 1 ? '' : 's'}
+											</span>
+										{/if}
 										<InlineContainer containerClass="align-end" class="stack align-end">
 											{#if isEditing}
 												<button class="small" on:click={() => showNFTs = false} transition:scale>Hide</button>

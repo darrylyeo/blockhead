@@ -139,12 +139,12 @@
 			bind:selectedToken
 			bind:balances
 		>
-			<svelte:fragment slot="header" let:quoteCurrency let:quoteTotal>
+			<svelte:fragment slot="header" let:summary>
 				{#if balances.length}
 					<hr>
 
 					<div class="bar">
-						<h3>{network.name} Tokens (<TokenBalance symbol={quoteCurrency} balance={quoteTotal} showPlainFiat={true} />)</h3>
+						<h3>{network.name} Tokens (<TokenBalance symbol={summary.quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} />)</h3>
 						<label>
 							<input type="checkbox" bind:checked={showSmallValues}>
 							<span>Show Small Values</span>
@@ -161,7 +161,7 @@
 							<span>Show</span>
 							<TokenBalanceFormatSelect
 								bind:tokenBalanceFormat
-								{quoteCurrency}
+								quoteCurrency={summary.quoteCurrency}
 							/>
 						</label>
 					</div>

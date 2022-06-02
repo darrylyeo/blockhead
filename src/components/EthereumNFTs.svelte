@@ -17,10 +17,6 @@
 	export let tokenBalanceFormat
 	export let isScrollable = true
 
-	export let quoteTotal
-	export let nftContractCount
-	export let nftCount
-
 	export let isCollapsed: boolean
 
 
@@ -43,9 +39,20 @@
 
 	export let balances: Covalent.NFTContractWithBalance[] = []
 
-	$: quoteTotal = balances.reduce((sum, item) => sum + item.quote, 0)
-	$: nftContractCount = balances.length
-	$: nftCount = balances.reduce((sum, item) => sum + (item.nft_data?.length ?? 0), 0)
+	export let summary: {
+		quoteTotal: number,
+		quoteCurrency: QuoteCurrency,
+		nftContractsCount: number,
+		nftsCount: number,
+	}
+	$: summary = balances.length
+		? {
+			quoteTotal: balances.reduce((sum, item) => sum + item.quote, 0),
+			quoteCurrency,
+			nftContractsCount: balances.length,
+			nftsCount: balances.reduce((sum, item) => sum + (item.nft_data?.length ?? 0), 0)
+		}
+		: undefined
 
 
 	function parseNFTAttributes(attributes: Covalent.NFTAttributes | null): {
@@ -377,7 +384,7 @@
 		{isCollapsed}
 	>
 		<svelte:fragment slot="header">
-			<slot name="header" {balances} {quoteCurrency} {quoteTotal} {nftContractCount} {nftCount}></slot>
+			<slot name="header" {balances} {summary}></slot>
 		</svelte:fragment>
 
 		{#if balances}

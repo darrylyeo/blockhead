@@ -80,9 +80,39 @@
 
 
 	// Computed Values
-	let quoteTotals = []
-	export let quoteTotal
-	$: quoteTotal = quoteTotals.reduce((sum, quoteTotal) => sum + quoteTotal, 0)
+	let portfoliosSummaries = []
+
+	export let summary: {
+		quoteTotal: number,
+		quoteTotalCurrency: QuoteCurrency,
+		balancesCount: number,
+		defiAppsCount: number,
+		nftContractsCount: number,
+		nftsCount: number,
+	}
+	$: summary = {
+		quoteTotal:
+			portfoliosSummaries
+				.reduce((sum, { quoteTotal = 0 } = {}) => sum + quoteTotal, 0),
+
+		quoteTotalCurrency: quoteCurrency,
+
+		balancesCount:
+			portfoliosSummaries
+				.reduce((sum, { balancesCount = 0 } = {}) => sum + balancesCount, 0),
+
+		defiAppsCount:
+			portfoliosSummaries
+				.reduce((sum, { defiAppsCount = 0 } = {}) => sum + defiAppsCount, 0),
+
+		nftContractsCount:
+			portfoliosSummaries
+				.reduce((sum, { nftContractsCount = 0 } = {}) => sum + nftContractsCount, 0),
+
+		nftsCount:
+			portfoliosSummaries
+				.reduce((sum, { nftsCount = 0 } = {}) => sum + nftsCount, 0),
+	}
 
 
 	// Options menu
@@ -100,6 +130,7 @@
 	import PortfolioAccount from './PortfolioAccount.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import TokenBalanceFormatSelect from './TokenBalanceFormatSelect.svelte'
+	import TweenedNumber from './TweenedNumber.svelte'
 
 
 	import { flip } from 'svelte/animate'
@@ -162,9 +193,27 @@
 			</h1>
 		</slot>
 
-		<InlineContainer isOpen={quoteTotals.length && state !== State.Editing}>
-			<span class="account-total-value" transition:scale>
-				<TokenBalance symbol={quoteCurrency} balance={quoteTotal} showPlainFiat={true} clip={false} />
+		<InlineContainer isOpen={summary && state !== State.Editing}>
+			<span class="summary" transition:scale>
+				<span class="account-total-value">
+					<TokenBalance symbol={quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} />
+				</span>
+
+				<!-- {#if summary.filteredBalancesCount}
+					| <strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> token{summary.balancesCount === 1 ? '' : 's'}
+				{/if} -->
+
+				<!-- {#if summary.defiAppsCount}
+					| <strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}
+				{/if} -->
+
+				{#if summary.nftsCount}
+					| <strong><TweenedNumber value={summary.nftsCount} /></strong> NFT{summary.nftsCount === 1 ? '' : 's'}
+
+					<!-- {#if summary.nftContractsCount}
+						from <strong><TweenedNumber value={summary.nftContractsCount} /></strong> collection{summary.nftContractsCount === 1 ? '' : 's'}
+					{/if} -->
+				{/if}
 			</span>
 		</InlineContainer>
 		<!-- {#if quoteTotals.length && state !== State.Editing}
@@ -265,7 +314,7 @@
 					{show3D}
 					isEditing={state === State.Editing}
 
-					bind:quoteTotal={quoteTotals[i]}
+					bind:summary={portfoliosSummaries[i]}
 				>
 					{#if state === State.Editing}
 						<div class="row edit-controls" transition:scale>
