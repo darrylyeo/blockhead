@@ -55,10 +55,17 @@
 
 	type $$Slots = {
 		default: {
-			then: LoaderResult,
+			then: LoaderReturnResult,
 			status: LoadingStatus,
 			load: typeof load,
-			cancel: typeof cancel
+			cancel: typeof cancel,
+			result: LoaderResult
+			pagination?: {
+				hasPreviousPage: boolean,
+				hasNextPage: boolean,
+				fetchPreviousPage: () => void,
+				fetchNextPage: () => void,
+			}
 		},
 		header: {
 			then: LoaderReturnResult,
@@ -249,6 +256,12 @@
 					{status}
 					{load}
 					{cancel}
+					pagination={$fromUseInfiniteQuery && {
+						hasPreviousPage: $fromUseInfiniteQuery.hasPreviousPage,
+						hasNextPage: $fromUseInfiniteQuery.hasNextPage,
+						fetchPreviousPage: $fromUseInfiniteQuery.fetchPreviousPage,
+						fetchNextPage: $fromUseInfiniteQuery.fetchNextPage,
+					}}
 				/>
 			</div>
 		{/if}
