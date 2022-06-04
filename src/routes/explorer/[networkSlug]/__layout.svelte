@@ -5,8 +5,22 @@
 	const networkSlug = getContext<SvelteStore<string>>('networkSlug')
 
 	$: showCurrentBlockHeight = true
-	$: showCurrentPrice = ['ethereum', 'polygon', 'avalanche', 'fantom', 'bsc'].includes($networkSlug)
-	$: showHistoricalPrice = ['ethereum', 'polygon', 'avalanche', 'fantom', 'bsc'].includes($networkSlug)
+
+	$: showCurrentPrice = [
+		'ethereum',
+		'polygon',
+		'avalanche',
+		'fantom',
+		'bsc'
+	].includes($networkSlug)
+
+	$: showHistoricalPrice = [
+		'ethereum',
+		'polygon',
+		'avalanche',
+		'fantom',
+		'bsc'
+	].includes($networkSlug)
 
 	let placeholder
 	// $: placeholder = {
