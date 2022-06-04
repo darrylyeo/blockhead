@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { topNetworks, otherNetworks, getNetworkColor } from '../../data/ethereum/networks'
+	import { networksBySection, getNetworkColor } from '../../data/ethereum/networks'
 
 
-    import NetworkIcon from '../../components/NetworkIcon.svelte';
+	import NetworkIcon from '../../components/NetworkIcon.svelte'
 
 
 	import { cardStyle } from '../../utils/card-background'
@@ -42,43 +42,30 @@
 		opacity: calc(0.75 + 0.25 * var(--is-dark));
 	}
 
-	.featured-apps {
+	section.featured {
 		font-size: 1.15em;
 	}
-	.other-apps {
+	section:not(.featured) {
 		font-size: 0.9em;
 	}
 </style>
 
 
 <div class="column" in:fly={{x: 300}} out:fly={{x: -300}}>
-	<hr>
+	{#each networksBySection as {title, networks, isFeatured}, i}
+		<hr>
 
-	<h2>Featured Blockchain Networks</h2>
+		<h2>{title}</h2>
 
-	<section class="featured-apps row">
-		{#each topNetworks as network, i}
-			<a href="/explorer/{network.slug}" class="app card" transition:scale={{delay: i * 10}} style={cardStyle([getNetworkColor(network)])}>
-				<h3 class="row">
-                    <NetworkIcon {network} />
-					<span>{network.name}</span>
-				</h3>
-			</a>
-		{/each}
-	</section>
-
-	<hr>
-
-	<h2>Other Blockchain Networks</h2>
-
-	<section class="other-apps row">
-		{#each otherNetworks as network, i}
-			<a href="/explorer/{network.slug}" class="app card" transition:scale={{delay: i * 10}} style={cardStyle([getNetworkColor(network)])}>
-				<h3 class="row">
-                    <NetworkIcon {network} />
-					<span>{network.name}</span>
-				</h3>
-			</a>
-		{/each}
-	</section>
+		<section class="row" class:featured={isFeatured}>
+			{#each networks as network, i}
+				<a href="/explorer/{network.slug}" class="app card" transition:scale={{delay: i * 10}} style={cardStyle([getNetworkColor(network)])}>
+					<h3 class="row">
+						<NetworkIcon {network} />
+						<span>{network.name}</span>
+					</h3>
+				</a>
+			{/each}
+		</section>
+	{/each}
 </div>

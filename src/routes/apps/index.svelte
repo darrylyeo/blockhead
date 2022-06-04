@@ -42,11 +42,11 @@
 		opacity: calc(0.75 + 0.25 * var(--is-dark));
 	}
 
-	.featured-apps {
+	section.featured {
 		font-size: 1.15em;
 	}
-	.other-apps {
-		font-size: 0.95em;
+	section:not(.featured) {
+		font-size: 0.9em;
 	}
 </style>
 
@@ -56,7 +56,7 @@
 
 	<h2>Featured Apps</h2>
 
-	<section class="featured-apps row">
+	<section class="featured row">
 		{#each featuredBlockchainApps as {name, slug, colors, views}, i}
 			<a href="/apps/{slug}" class="app card" transition:scale={{delay: i * 10}} style={cardStyle(colors)}>
 				<h3 class="row">
@@ -75,7 +75,7 @@
 
 	<h2>Other Apps</h2>
 
-	<section class="other-apps row">
+	<section class="other row">
 		{#each notFeaturedBlockchainApps as {name, slug, colors, views}, i}
 			<a href="/apps/{slug}" class="app card" transition:scale={{delay: i * 10}} style={cardStyle(colors)}>
 				<h3 class="row">

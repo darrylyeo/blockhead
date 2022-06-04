@@ -40,7 +40,7 @@
 
 
 	import type { Ethereum } from '../../data/ethereum/types'
-	import { topNetworks, otherNetworks, networksBySlug, testnetsForMainnets, isTestnet, getNetworkColor } from '../../data/ethereum/networks'
+	import { networksBySection, networksBySlug, testnetsForMainnets, isTestnet, getNetworkColor } from '../../data/ethereum/networks'
 	import { derived } from 'svelte/store'
 	import { onMount, setContext } from 'svelte'
 	import { getEthersProvider } from '../../data/ethereum/provider'
@@ -155,25 +155,45 @@
 			<select bind:value={$networkSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`/explorer/${$networkSlug}${$query ? `/${$query}` : ''}`))}>
 				<option value="" selected>Select Network...</option>
 
-				{#each topNetworks as {name, slug, chainId}}
-					{#if showTestnets}
-					<!-- {#if showTestnets && topTestNetworks[slug]} -->
-						<optgroup label={name} style={tokenColors[slug] ? `--primary-color: var(--${tokenColors[slug]})` : ''}>
-							<option value={slug}>{name} Mainnet{chainId ? ` (${chainId})` : ''}</option>
-							{#each testnetsForMainnets[slug] ?? [] as {name, slug, chainId}}
-								<option value={slug}>{name}{chainId ? ` (${chainId})` : ''}</option>
-							{/each}
-						</optgroup>
-					{:else}
-						<option value={slug} style={tokenColors[slug] ? `--primary-color: var(--${tokenColors[slug]})` : ''}>{name}</option>
-					{/if}
+				{#each networksBySection as {title, networks}}
+					<optgroup label={title}>
+						{#each networks as network}
+							{#if showTestnets}
+								<option disabled>{network.name}</option>
+								<option value={network.slug}>{network.name} Mainnet{network.chainId ? ` (${network.chainId})` : ''}</option>
+
+								{#each testnetsForMainnets[network.slug] ?? [] as testnetNetwork}
+									<option value={testnetNetwork.slug}>{testnetNetwork.name}{testnetNetwork.chainId ? ` (${testnetNetwork.chainId})` : ''}</option>
+								{/each}
+							{:else}
+								<option value={network.slug} style={`--primary-color: ${getNetworkColor(network)}`}>{network.name}</option>
+							{/if}
+						{/each}
+					</optgroup>
 				{/each}
 
-				<optgroup label="Other EVM Chains">
-					{#each otherNetworks as {name, slug, chainId}}
-						<option value={slug}>{name}{chainId ? ` (${chainId})` : ''}</option>
+				<!-- {#if showTestnets}
+					{#each networksBySection as {title, networks}}
+						<option disabled>{title}</option>
+						{#each networks as network}
+							<optgroup label={network.name} style={`--primary-color: ${getNetworkColor(network)}`}>
+								<option value={network.slug}>{network.name} Mainnet{network.chainId ? ` (${network.chainId})` : ''}</option>
+
+								{#each testnetsForMainnets[network.slug] ?? [] as testnetNetwork}
+									<option value={testnetNetwork.slug}>{testnetNetwork.name}{testnetNetwork.chainId ? ` (${testnetNetwork.chainId})` : ''}</option>
+								{/each}
+							</optgroup>
+						{/each}
 					{/each}
-				</optgroup>
+				{:else}
+					{#each networksBySection as {title, networks}}
+						<optgroup label={title}>
+							{#each networks as network}
+								<option value={network.slug} style={`--primary-color: ${getNetworkColor(network)}`}>{network.name}</option>
+							{/each}
+						</optgroup>
+					{/each}
+				{/if} -->
 			</select>
 		</label>
 	</div>

@@ -4954,6 +4954,13 @@ const testnetSlugsForMainnetSlugs = {
 	'polygon': [
 		'polygon-mumbai',
 	],
+	'arbitrum-one': [
+		'arbitrum-rinkeby',
+	],
+	'optimism': [
+		'optimistic-goerli',
+		'optimistic-kovan',
+	],
 	'avalanche': [
 		'avalanche-fuji',
 	],
@@ -4964,34 +4971,24 @@ const testnetSlugsForMainnetSlugs = {
 		'celo-alfajores',
 		'celo-baklava',
 	],
-	'nahmii': [
-		'nahmii-testnet',
-	],
-	'metis': [
-		'metis-stardust',
-	],
-	'arbitrum': [
-		'arbitrum-rinkeby',
-	],
-	'reef': [
-		'reef-testnet',
-	],
-	'skale': [
-		'skale-testnet',
-	],
-	'aurora': [
-		'aurora-testnet',
-	],
-	'nervos': [
-		'nervos-godwoken',
-	],
-	'arbitrum-one': [
-		'arbitrum-rinkeby',
-	],
-	'optimism': [
-		'optimistic-goerli',
-		'optimistic-kovan',
-	],
+	// 'nahmii': [
+	// 	'nahmii-testnet',
+	// ],
+	// 'metis': [
+	// 	'metis-stardust',
+	// ],
+	// 'reef': [
+	// 	'reef-testnet',
+	// ],
+	// 'skale': [
+	// 	'skale-testnet',
+	// ],
+	// 'aurora': [
+	// 	'aurora-testnet',
+	// ],
+	// 'nervos': [
+	// 	'nervos-godwoken',
+	// ],
 }
 
 export const testnetsForMainnets = Object.fromEntries<Ethereum.Network[]>(
@@ -5008,7 +5005,7 @@ export const mainnetForTestnet = Object.fromEntries(
 
 export const testnetNetworks = Object.values(testnetsForMainnets).flat()
 
-export function isTestnet(network: Network){
+export function isTestnet(network: Ethereum.Network){
 	return network.network?.includes('test')
 		|| network.slug?.includes('testnet')
 		|| network.name?.toLowerCase().includes('testnet')
@@ -5018,27 +5015,50 @@ export function isTestnet(network: Network){
 
 export const availableNetworks = [1, 137, 43114, 56, 250].map(chainID => networksByChainID[chainID])
 
-export const topNetworks = [
+
+export const ethereumAndL2Networks = [
 	'ethereum',
 	'polygon',
 	'arbitrum-one',
 	'optimism',
 	'gnosis',
+	// 'skale-testnet',
+	// 'arbitrum-xdai',
+	// 'metis',
+	// 'oasis-paratime',
+].map(slug => networksBySlug[slug])
+
+export const evmL1Networks = [
 	'avalanche',
 	'bsc',
 	'celo',
 	// 'fantom',
-	// 'arbitrum-xdai',
-	// 'metis',
-	// 'skale-testnet',
-	// 'oasis-paratime',
-	// 'bitcoin'
 ].map(slug => networksBySlug[slug])
 
 export const otherNetworks = networks.filter(network =>
-	!topNetworks.includes(network)
+	!ethereumAndL2Networks.includes(network)
+	&& !evmL1Networks.includes(network)
 	&& !Object.values(testnetsForMainnets).some(testnetNetworks => testnetNetworks.includes(network))
 )
+
+export const networksBySection = [
+	{
+		title: 'Ethereum + Layer-Two Networks',
+		networks: ethereumAndL2Networks,
+		isFeatured: true,
+	},
+	{
+		title: 'EVM-Based Layer-One Networks',
+		networks: evmL1Networks,
+		isFeatured: true,
+	},
+	{
+		title: 'Other Networks',
+		networks: otherNetworks,
+		isFeatured: false,
+	},
+]
+
 
 export const networkColors = {
 	'arbitrum-one': '#28a0f0',
