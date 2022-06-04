@@ -68,7 +68,7 @@
 	import NetworkProviderLoader from './NetworkProviderLoader.svelte'
 	import CurrentPrice from './CurrentPrice.svelte'
 	import HistoricalPriceChart from './HistoricalPriceChart.svelte'
-	import TokenIcon from './TokenIcon.svelte'
+	import NetworkIcon from './NetworkIcon.svelte'
 	import TokenName from './TokenName.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
@@ -535,7 +535,7 @@
 											{isCollapsed}
 										>
 										<!-- showIf={defiBalances => defiBalances?.length} -->
-											<TokenIcon slot="loadingIcon" symbol={network.nativeCurrency.symbol} />
+											<NetworkIcon slot="loadingIcon" {network} />
 
 											<svelte:fragment slot="header" let:status>
 												<!-- {#if defiBalances?.length} -->

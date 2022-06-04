@@ -31,13 +31,15 @@
 	import { tokenColors } from '../data/token-colors'
 
 
-	import TokenIcon from './TokenIcon.svelte'
+	import NetworkIcon from './NetworkIcon.svelte'
 	import TweenedNumber from './TweenedNumber.svelte'
 </script>
 
 
 <style>
 	.block-number {
+		--icon-size: 1em;
+
 		display: inline-flex;
 		place-content: center;
 		place-items: center;
@@ -99,7 +101,8 @@
 			draggable={true}
 			on:dragstart={onDragStart}
 		>
-			<span class="icon"><TokenIcon {...network.nativeCurrency} /></span>
+			<NetworkIcon {network} />
+
 			{#if blockNumber !== undefined}
 				<TweenedNumber
 					value={blockNumber}
@@ -115,7 +118,8 @@
 		</a>
 	{:else}
 		<span class="block-number format" style="{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}" draggable={true}>
-			<span class="icon"><TokenIcon {...network.nativeCurrency} /></span>
+			<NetworkIcon {network} />
+
 			{#if blockNumber !== undefined}
 				<TweenedNumber
 					value={blockNumber}

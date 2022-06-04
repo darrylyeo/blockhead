@@ -91,7 +91,7 @@
 
 	import Loader from './Loader.svelte'
 	import Loading from './Loading.svelte'
-	import TokenIcon from './TokenIcon.svelte'
+	import NetworkIcon from './NetworkIcon.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
 
@@ -409,7 +409,7 @@
 				let:result={defiBalances}
 				{isCollapsed}
 			>					
-				<TokenIcon slot="loadingIcon" symbol={network.nativeCurrency.symbol} />
+				<NetworkIcon slot="loadingIcon" {network} />
 
 				<svelte:fragment slot="header" let:status>
 					<slot name="header" {status} {defiBalances} {summary} />

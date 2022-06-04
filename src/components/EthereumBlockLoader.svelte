@@ -45,7 +45,7 @@
 	import EthereumBlockNavigation from './EthereumBlockNavigation.svelte'
 	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
 	import Loader from './Loader.svelte'
-	import TokenIcon from './TokenIcon.svelte'
+	import NetworkIcon from './NetworkIcon.svelte'
 </script>
 
 
@@ -263,7 +263,7 @@
 			bind:result={block}
 			let:result={block}
 		>
-			<TokenIcon slot="loadingIcon" symbol={network.nativeCurrency.symbol} />
+			<NetworkIcon slot="loadingIcon" {network} />
 
 			<hr>
 

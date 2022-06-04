@@ -117,9 +117,9 @@
 	import EthereumNFTs from './EthereumNFTs.svelte'
 	import HeightContainer from './HeightContainer.svelte'
 	import InlineContainer from './InlineContainer.svelte'
+	import NetworkIcon from './NetworkIcon.svelte'
 	import SizeContainer from './SizeContainer.svelte'
 	import TokenBalance from './TokenBalance.svelte'
-	import TokenIcon from './TokenIcon.svelte'
 	import TweenedNumber from './TweenedNumber.svelte'
 
 
@@ -342,9 +342,9 @@
 			>
 				<SizeContainer containerClass="header sticky" isOpen={isEditing} renderOnlyWhenOpen={false}>
 					<header class="bar card">
-						<span class="card-background"><TokenIcon erc20Token={network.nativeCurrency} /></span>
+						<span class="card-background"><NetworkIcon {network} /></span>
 						<h3 class="row">
-							<TokenIcon erc20Token={network.nativeCurrency} />
+							<NetworkIcon {network} />
 							<Address {network} {address}>{network.name}</Address>
 						</h3>
 						<span class="card-annotation">#{network.chainId}</span>
@@ -372,9 +372,9 @@
 										<hr>
 
 										<label class="bar card sticky">
-											<!-- <span class="card-background"><TokenIcon erc20Token={network.nativeCurrency} /></span> -->
+											<!-- <span class="card-background"><NetworkIcon {network} /></span> -->
 											<h4 class="row">
-												<TokenIcon erc20Token={network.nativeCurrency} />
+												<NetworkIcon {network} />
 												<Address {network} {address}><InlineContainer isOpen={!isEditing} clip><mark>{network.name}</mark>&nbsp;</InlineContainer>Balances</Address>
 											</h4>
 											{#if summary}
@@ -432,9 +432,9 @@
 									<hr>
 
 									<label class="bar card sticky">
-										<!-- <span class="card-background"><TokenIcon erc20Token={network.nativeCurrency} /></span> -->
+										<!-- <span class="card-background"><NetworkIcon {network} /></span> -->
 										<h4 class="row">
-											<TokenIcon erc20Token={network.nativeCurrency} />
+											<NetworkIcon {network} />
 											<span><InlineContainer isOpen={!isEditing} clip><mark>{network.name}</mark>&nbsp;</InlineContainer>DeFi</span>
 										</h4>
 										{#if summary}
@@ -487,7 +487,8 @@
 
 									<label class="bar card sticky">
 										<h4 class="row">
-											<TokenIcon erc20Token={network.nativeCurrency} />
+											<!-- <span class="card-background"><NetworkIcon {network} /></span> -->
+											<NetworkIcon {network} />
 											<span><InlineContainer isOpen={!isEditing} clip><mark>{network.name}</mark>&nbsp;</InlineContainer>NFTs</span>
 										</h4>
 										{#if summary}

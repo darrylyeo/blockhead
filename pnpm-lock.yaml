@@ -61,7 +61,6 @@ specifiers:
   svelte: ^3.47.0
   svelte-apollo: ^0.4.0
   svelte-check: ^2.6.0
-  svelte-cryptoicon: ^0.16.1
   svelte-preprocess: ^4.10.5
   swagger-typescript-api: ^9.2.0
   tslib: ^2.3.1
@@ -114,7 +113,6 @@ dependencies:
   rxjs: 6.6.7
   subscriptions-transport-ws: 0.9.19_graphql@15.8.0
   svelte-apollo: 0.4.0_b249c6a4ecd09421fcf33d484b379f0b
-  svelte-cryptoicon: 0.16.1
 
 devDependencies:
   '@playwright/test': 1.21.1
@@ -13530,10 +13528,6 @@ packages:
       - stylus
       - sugarss
     dev: true
-
-  /svelte-cryptoicon/0.16.1:
-    resolution: {integrity: sha512-Ii2062N5hiMCq0bNiPXe7ImjFT/qERuSpuLk7ANAw5n3IKvWS1nF3cyAdUkBsYi9dxbVELkAURLCDt4ge7omAg==}
-    dev: false
 
   /svelte-hmr/0.14.12_svelte@3.47.0:
     resolution: {integrity: sha512-4QSW/VvXuqVcFZ+RhxiR8/newmwOCTlbYIezvkeN6302YFRE8cXy0naamHcjz8Y9Ce3ITTZtrHrIL0AGfyo61w==}

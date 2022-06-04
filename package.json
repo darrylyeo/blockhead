@@ -64,8 +64,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.6.2",
     "subscriptions-transport-ws": "^0.9.19",
-    "svelte-apollo": "^0.4.0",
-    "svelte-cryptoicon": "^0.16.1"
+    "svelte-apollo": "^0.4.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.21.0",

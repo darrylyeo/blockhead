@@ -13,7 +13,7 @@
 
 
 	import Loader from './Loader.svelte'
-	import TokenIcon from './TokenIcon.svelte'
+	import NetworkIcon from './NetworkIcon.svelte'
 </script>
 
 
@@ -24,7 +24,7 @@
 	)}
 	let:result={provider}
 >
-	<TokenIcon slot="loadingIcon" symbol={network?.nativeCurrency.symbol} />
+	<NetworkIcon slot="loadingIcon" {network} />
 
 	<slot name="header" slot="header" {network} {provider} />
 

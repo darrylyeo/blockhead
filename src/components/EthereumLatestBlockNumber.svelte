@@ -116,7 +116,7 @@
 	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
 	// import Loader from './Loader.svelte'
 	// import Loading from './Loading.svelte'
-	// import TokenIcon from './TokenIcon.svelte'
+	// import NetworkIcon from './NetworkIcon.svelte'
 </script>
 
 
@@ -130,13 +130,13 @@
 		loadingMessage=""
 		fromPromise={provider && (() => new Promise(r => provider.once('block', r)))}
 	>
-		<TokenIcon slot="loadingIcon" symbol={network.nativeCurrency.symbol} />
+		<NetworkIcon slot="loadingIcon" {network} />
 
 		{#if latestBlockNumber}
 			<EthereumBlockNumber {network} blockNumber={latestBlockNumber} />
 		{:else}
 			<Loading iconAnimation="hover">
-				<TokenIcon slot="icon" symbol={network.nativeCurrency.symbol} />
+				<NetworkIcon slot="icon" {network} />
 			</Loading>
 		{/if}
 	</Loader>

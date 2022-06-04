@@ -1,8 +1,3 @@
-<script context="module" lang="ts">
-	const cachedImageSources = {}
-	const cachedIndex = {}
-</script>
-
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { TickerSymbol } from '../data/currency/currency'
@@ -21,56 +16,7 @@
 	$: icon = $$props.icon || erc20Token?.icon
 
 
-	let i = cachedIndex[address || symbol] ||= 0
-	$: cachedIndex[address || symbol] = i
-	$: imageSources = cachedImageSources[address || symbol] ||= [
-		{
-			'AAVE': '/tokens/AAVE.svg',
-			'AETH': '/networks/Arbitrum.svg',
-			'AVAX': '/tokens/AVAX.svg',
-			'BNB': '/tokens/BNB.svg',
-			'BTC': '/tokens/BTC.svg',
-			'CELO': '/networks/Celo.svg',
-			'COMP': '/tokens/COMP.svg',
-			'DAI': '/tokens/DAI.svg',
-			'ENS': '/tokens/ENS.svg',
-			'ETH': '/tokens/ETH.svg',
-			'FTM': '/tokens/FTM.svg',
-			'MATIC': '/tokens/MATIC.svg',
-			'METIS': '/networks/Metis.png',
-			'MKR': '/tokens/MKR.svg',
-			'ONE': '/tokens/ONE.svg',
-			'skETH': '/networks/SKALE.svg',
-			'USDC': '/tokens/USDC.svg',
-			// 'USDC': '/tokens/USDC-filled.svg',
-			'USDT': '/tokens/USDT.svg',
-			'WBTC': '/tokens/WBTC.svg',
-		}[symbol],
-		// address && `https://token-icons.s3.amazonaws.com/${address.toLowerCase()}.png`,
-		icon,
-		// symbol && `https://zapper.fi/images/${symbol}-icon.png`,
-		// address && `https://tokens.1inch.exchange/${address.toLowerCase()}.png`,
-		// address && `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`,
-		address && erc20TokensByContractAddress[address.toLowerCase()]?.icon,
-		symbol && erc20TokensBySymbol[symbol]?.icon,
-	].filter(Boolean)
-
-	// let loadingError
-
-	// import {
-	// 	Usdc as USDC,
-	// 	Usdt as USDT,
-	// 	Bnb as BNB,
-	// } from 'svelte-cryptoicon'
-
-	// $: Icon = {
-	// 	USDC,
-	// 	USDT,
-	// 	BNB,
-	// }[symbol]
-
-	// $: Icon = symbol && !['DAI', 'LINK', 'LRC', 'AMP', 'DOGE', 'MATIC'].includes(symbol) && CryptoIcons[symbol[0].toUpperCase() + symbol.slice(1).toLowerCase()]
-	let Icon = undefined
+	import Icon from './Icon.svelte'
 </script>
 
 
@@ -79,91 +25,38 @@
 		<svelte:self {symbol} />
 	{/each}
 {:else}
-	<picture class="token-icon" title={symbol + (address ? ` (${address})` : '')}>
-		{#if Icon}
-			<svelte:component this={Icon} size="1.25em" />
-		<!-- {:else if !loadingError && (address || icon || token)}
-			{#if address}
-				<source src="https://token-icons.s3.amazonaws.com/{address.toLowerCase()}.png">
-				<source src="https://tokens.1inch.exchange/{address.toLowerCase()}.png">
-				<source src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/{address}/logo.png">
-			{/if}
-			{#if icon}
-				<source src={icon}>
-			{/if}
-			{#if token}
-				<source src="https://zapper.fi/images/{token}-icon.png">
-			{/if}
-			<img on:error={e => loadingError = e}>
-			<img src={icon || `https://zapper.fi/images/${token}-icon.png`} on:error={e => loadingError = e}> -->
-		{:else if imageSources[i]}
-			<img src={imageSources[i]} on:error={e => i++} />
-		{:else}
-			<span class="placeholder-icon" data-icon={symbol ?? '?'} />
-		{/if}
-	</picture>
+	<Icon
+		key={address || symbol}
+		imageSources={[
+			{
+				'AAVE': '/tokens/AAVE.svg',
+				'AVAX': '/tokens/AVAX.svg',
+				'BNB': '/tokens/BNB.svg',
+				'BTC': '/tokens/BTC.svg',
+				'COMP': '/tokens/COMP.svg',
+				'DAI': '/tokens/DAI.svg',
+				'ENS': '/tokens/ENS.svg',
+				'ETH': '/tokens/ETH.svg',
+				'FTM': '/tokens/FTM.svg',
+				'MATIC': '/tokens/MATIC.svg',
+				'MKR': '/tokens/MKR.svg',
+				'ONE': '/tokens/ONE.svg',
+				'USDC': '/tokens/USDC.svg',
+				// 'USDC': '/tokens/USDC-filled.svg',
+				'USDT': '/tokens/USDT.svg',
+				'WBTC': '/tokens/WBTC.svg',
+			}[symbol],
+			// address && `https://token-icons.s3.amazonaws.com/${address.toLowerCase()}.png`,
+			icon,
+			// symbol && `https://zapper.fi/images/${symbol}-icon.png`,
+			// address && `https://tokens.1inch.exchange/${address.toLowerCase()}.png`,
+			// address && `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`,
+			address && erc20TokensByContractAddress[address.toLowerCase()]?.icon,
+			symbol && erc20TokensBySymbol[symbol]?.icon,
+		].filter(Boolean)}
+		title={symbol + (address ? ` (${address})` : '')}
+		placeholder={symbol ?? '?'}
+	>
+		<slot />
+	</Icon>
 {/if}
-
-
-<style>
-	.token-icon {
-		--token-size: 1.25em;
-
-		display: inline-flex;
-		width: var(--token-size);
-		height: 1em;
-		align-self: center;
-		align-items: center;
-	}
-	.token-icon + :global(.token-icon) {
-		margin-left: calc(-0.25em - var(--padding-inner));
-	}
-
-	source {
-		display: none;
-	}
-
-	img, .placeholder-icon, .token-icon > :global(svg) {
-		width: var(--token-size);
-		height: var(--token-size);
-		max-width: 100%;
-		aspect-ratio: 1;
-		border-radius: 0.3em;
-		object-fit: contain;
-	}
-
-	.placeholder-icon {
-		/* background-color: rgba(50, 50, 50, 0.75);
-		background-color: var(--primary-color); */
-		background: radial-gradient(transparent -175%, var(--primary-color) 125%);
-		/* border: 0.1em dotted var(--primary-color); */
-		/* box-shadow: 0 0 0.125em 0.125em var(--primary-color) inset; */
-
-		color: #fff;
-
-		display: inline-flex;
-		/* place-items: center; */
-		place-content: center;
-		text-align: center;
-		border-radius: 50%;
-		overflow: hidden;
-
-		line-height: var(--token-size);
-		padding: 0 0.1em;
-	}
-	.placeholder-icon:before {
-		content: attr(data-icon);
-
-		font-family: Pally, var(--base-fonts);
-		font-size: 0.5em;
-		font-weight: bold;
-
-		/* white-space: pre;
-		word-break: keep-all; */
-	}
-
-	/* ETH SVG off-center correction */
-	picture[title="ETH"] :global(circle + g) {
-		transform: translateX(-.498px);
-	}
-</style>
