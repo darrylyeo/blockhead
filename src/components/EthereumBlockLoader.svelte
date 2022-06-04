@@ -62,7 +62,8 @@
 	}
 	.navigation {
 		position: sticky;
-		bottom: 4rem;
+		/* bottom: 4rem; */
+		bottom: 0;
 		margin: 0 calc(-1 * var(--padding-outer));
 		z-index: 1;
 		font-size: 0.8em;
