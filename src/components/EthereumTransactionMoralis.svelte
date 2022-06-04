@@ -71,7 +71,7 @@
 				)
 				: 0
 		}catch(e){
-			console.error(e)
+			console.warn(e)
 			return value
 		}
 	}

@@ -57,7 +57,7 @@
 				)
 				: 0
 		}catch(e){
-			console.error(e)
+			console.warn(e)
 			return value
 		}
 	}
@@ -411,6 +411,8 @@
 
 {#if network && (transaction || erc20TokenTransaction || erc20TokenTransfer)}
 	<div class="transaction layout-{layout} column" class:card={isStandaloneLayout} class:unsuccessful={!isSuccessful}><!-- transition:fade|local -->
+		{#if nonce}{nonce}{/if}
+
 		{#if isStandaloneLayout}
 			<div class="bar">
 				<h2><EthereumTransactionID {network} {transactionID} /></h2>
