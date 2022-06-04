@@ -119,7 +119,7 @@
 	<div class="including row">
 		<h4>including</h4>
 
-		{#if block.transactions.length}
+		{#if block.transactions?.length}
 			<span>
 				{block.transactions.length}
 				transactions
