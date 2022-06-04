@@ -4,12 +4,13 @@
 	import { browser } from '$app/env'
 	import { goto } from '$app/navigation'
 
-	const networkSlug = writable<string>($page.params.networkSlug || 'ethereum')
+	const networkSlug = writable<string>($page.params.networkSlug || '')
 	const query = writable<string>($page.params.query || '')
 	$: console.log('$page.params', $page.params)
 	$: console.log('$query', $query)
 	$: if('networkSlug' in $page.params)
-		$networkSlug = $page.params.networkSlug || 'ethereum'
+		$networkSlug = $page.params.networkSlug || ''
+
 	$: $query = $page.params.query || ''
 
 	setContext('networkSlug', networkSlug)
@@ -39,33 +40,10 @@
 
 
 	import type { Ethereum } from '../../data/ethereum/types'
-	import { networks, networksBySlug, testnetsForMainnets, isTestnet } from '../../data/ethereum/networks'
+	import { topNetworks, otherNetworks, networksBySlug, testnetsForMainnets, isTestnet, getNetworkColor } from '../../data/ethereum/networks'
 	import { derived } from 'svelte/store'
 	import { onMount, setContext } from 'svelte'
 	import { getEthersProvider } from '../../data/ethereum/provider'
-
-
-	const topNetworks = [
-		'ethereum',
-		'polygon',
-		'avalanche',
-		'xdai',
-		'fantom',
-		'bsc',
-		'arbitrum-one',
-		'arbitrum-xdai',
-		'metis',
-		'skale-testnet',
-		'optimism',
-		'celo',
-		// 'oasis-paratime',
-		'bitcoin'
-	].map(slug => networksBySlug[slug])
-
-	const otherNetworks = networks.filter(network =>
-		!topNetworks.includes(network)
-		&& !Object.values(testnetsForMainnets).some(testnetNetworks => testnetNetworks.includes(network))
-	)
 
 
 	// Explorer context stores
@@ -103,11 +81,14 @@
 		showTestnets = true
 
 
-	$: networkDisplayName = $explorerNetwork ? $explorerNetwork.name : $networkSlug[0].toUpperCase() + $networkSlug.slice(1)
+	$: networkDisplayName =
+		$explorerNetwork ? $explorerNetwork.name :
+		$networkSlug ? $networkSlug[0].toUpperCase() + $networkSlug.slice(1) :
+		'Networks'
 
-	
-	$: if(globalThis.document)
-		document.documentElement.style.setProperty('--primary-color', `var(--${tokenColors[$networkSlug] || tokenColors['ethereum']})`)
+
+	$: if(globalThis.document && $explorerNetwork)
+		document.documentElement.style.setProperty('--primary-color', getNetworkColor($explorerNetwork))
 
 
 	import { fly } from 'svelte/transition'
@@ -146,10 +127,18 @@
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 	<div class="bar">
 		<div class="title row">
-			<span class="title-icon">{#key $networkSlug}<NetworkIcon network={$explorerNetwork} />{/key}</span>
+			<span class="title-icon">
+				{#key $networkSlug}
+					{#if $networkSlug}
+						<NetworkIcon network={$explorerNetwork} />
+					{:else}
+						<img src="/Blockhead-Logo.svg" width="30" />
+					{/if}
+				{/key}
+			</span>
 			<h1>
 				<InlineContainer class="stack-inline align-end" clip>
-					{#key $networkSlug}<b in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}><InlineContainer>{$networkSlug ? `${networkDisplayName} ` : ``}</InlineContainer></b>{/key}
+					{#key $networkSlug}<b in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}><InlineContainer>{$networkSlug ? `${networkDisplayName} ` : `Blockchain `}</InlineContainer></b>{/key}
 				</InlineContainer>
 				Explorer
 			</h1>
@@ -164,6 +153,8 @@
 		<label>
 			<span>Blockchain: </span>
 			<select bind:value={$networkSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`/explorer/${$networkSlug}${$query ? `/${$query}` : ''}`))}>
+				<option value="" selected>Select Network...</option>
+
 				{#each topNetworks as {name, slug, chainId}}
 					{#if showTestnets}
 					<!-- {#if showTestnets && topTestNetworks[slug]} -->
@@ -177,6 +168,7 @@
 						<option value={slug} style={tokenColors[slug] ? `--primary-color: var(--${tokenColors[slug]})` : ''}>{name}</option>
 					{/if}
 				{/each}
+
 				<optgroup label="Other EVM Chains">
 					{#each otherNetworks as {name, slug, chainId}}
 						<option value={slug}>{name}{chainId ? ` (${chainId})` : ''}</option>

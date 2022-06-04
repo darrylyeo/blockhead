@@ -3,20 +3,17 @@
 
 
 	import TokenIcon from '../../components/TokenIcon.svelte'
+
+
 	import { cardStyle } from '../../utils/card-background'
 	import { fly, scale } from 'svelte/transition'
 </script>
-
 
 
 <style>
 	.column {
 		--padding-inner: 1.5rem;
 	}
-
-	/* .featured {
-		font-size: 1.2em;
-	} */
 
 	.row {
 		align-content: start;

@@ -4933,48 +4933,127 @@ for(const network of networks)
 	if(network.slip44)
 		networksBySlip44[network.slip44] = network
 
-export const availableNetworks = [1, 137, 43114, 56, 250].map(chainID => networksByChainID[chainID])
 
+const testnetSlugsForMainnetSlugs = {
+	'ethereum': [
+		'ethereum-kovan',
+		'ethereum-rinkeby',
+		'ethereum-ropsten',
+		'ethereum-goerli',
+	],
+	'polygon': [
+		'polygon-mumbai',
+	],
+	'avalanche': [
+		'avalanche-fuji',
+	],
+	'bsc': [
+		'bsc-testnet',
+	],
+	'celo': [
+		'celo-alfajores',
+		'celo-baklava',
+	],
+	'nahmii': [
+		'nahmii-testnet',
+	],
+	'metis': [
+		'metis-stardust',
+	],
+	'arbitrum': [
+		'arbitrum-rinkeby',
+	],
+	'reef': [
+		'reef-testnet',
+	],
+	'skale': [
+		'skale-testnet',
+	],
+	'aurora': [
+		'aurora-testnet',
+	],
+	'nervos': [
+		'nervos-godwoken',
+	],
+	'arbitrum-one': [
+		'arbitrum-rinkeby',
+	],
+	'optimism': [
+		'optimistic-goerli',
+		'optimistic-kovan',
+	],
+}
 
 export const testnetsForMainnets = Object.fromEntries<Ethereum.Network[]>(
-	Object.entries({
-		'ethereum': [
-			'ethereum-kovan',
-			'ethereum-rinkeby',
-			'ethereum-ropsten',
-			'ethereum-goerli',
-		],
-		'polygon': [
-			'polygon-mumbai',
-		],
-		'avalanche': [
-			'avalanche-fuji',
-		],
-		'bsc': [
-			'bsc-testnet',
-		],
-		'arbitrum-one': [
-			'arbitrum-rinkeby',
-		],
-		'optimism': [
-			'optimistic-goerli',
-			'optimistic-kovan',
-		],
-	}).map(([mainnetSlug, testnetSlugs]) =>
+	Object.entries(testnetSlugsForMainnetSlugs).map(([mainnetSlug, testnetSlugs]) =>
 		[mainnetSlug, testnetSlugs.map(slug => networksBySlug[slug])]
+	)
+)
+
+export const mainnetForTestnet = Object.fromEntries(
+	Object.entries(testnetSlugsForMainnetSlugs).flatMap(([mainnetSlug, testnetSlugs]) =>
+		testnetSlugs.map(slug => [slug, networksBySlug[mainnetSlug]])
 	)
 )
 
 export const testnetNetworks = Object.values(testnetsForMainnets).flat()
 
-
-export function getNetworkRPC(network: Ethereum.Network){
-	return network.rpc[0]?.replace('${INFURA_PROJECT_ID}', INFURA_PROJECT_ID) ?? ''
-}
-
-export function isTestnet(network: Ethereum.Network){
+export function isTestnet(network: Network){
 	return network.network?.includes('test')
 		|| network.slug?.includes('testnet')
 		|| network.name?.toLowerCase().includes('testnet')
 		|| testnetNetworks.includes(network)
+}
+
+
+export const availableNetworks = [1, 137, 43114, 56, 250].map(chainID => networksByChainID[chainID])
+
+export const topNetworks = [
+	'ethereum',
+	'polygon',
+	'arbitrum-one',
+	'optimism',
+	'xdai',
+	'avalanche',
+	'bsc',
+	'celo',
+	// 'fantom',
+	// 'arbitrum-xdai',
+	// 'metis',
+	// 'skale-testnet',
+	// 'oasis-paratime',
+	// 'bitcoin'
+].map(slug => networksBySlug[slug])
+
+export const otherNetworks = networks.filter(network =>
+	!topNetworks.includes(network)
+	&& !Object.values(testnetsForMainnets).some(testnetNetworks => testnetNetworks.includes(network))
+)
+
+export const networkColors = {
+	'ethereum': '#627eea',
+	'polygon': '#8248e5',
+	'harmony': '#00AEE9',
+	'arbitrum-one': '#28a0f0',
+	'nervos': '#3CC68A',
+	'nervos-godwoken': '#3CC68A',
+	'reef': '#962EE5',
+	'nahmii': '#E952AC',
+	'skale': '#393939',
+	'avalanche': '#f9273c',
+	'metis': '#00dacd',
+	'celo': '#35D07F', // #fbcc5c
+	'aurora': '#92D36F',
+	'bsc': '#FCD535',
+	'optimism': '#f01a37',
+	'xdai': '#48a9a6',
+	'fantom': '#1969ff',
+}
+
+export const getNetworkColor = network =>
+	networkColors[network.slug] ?? networkColors[mainnetForTestnet[network.slug]?.slug] ?? ''
+
+
+export function getNetworkRPC(network: Ethereum.Network){
+	return network.rpc[0]?.replace('${INFURA_PROJECT_ID}', INFURA_PROJECT_ID) ?? ''
 }
