@@ -56,9 +56,11 @@
 	import EthereumTransactionEtherspot from './EthereumTransactionEtherspot.svelte'
 	import EthereumTransactionsLoader from './EthereumTransactionsLoader.svelte'
 	import EthereumTransactionsERC20Loader from './EthereumTransactionsERC20Loader.svelte'
+	import InlineContainer from './InlineContainer.svelte'
 	import TokenName from './TokenName.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import TokenBalanceFormatSelect from './TokenBalanceFormatSelect.svelte'
+	import TweenedNumber from './TweenedNumber.svelte'
 
 
 	import { fade } from 'svelte/transition'
@@ -182,13 +184,15 @@
 						{transactionProvider}
 						{quoteCurrency}
 						includeLogs={detailLevel === 'exhaustive'}
+						showIf={transactions => transactions}
 						let:transactions
+						let:pagination
 					>
 						<svelte:fragment slot="header" let:status>
 							<div class="bar">
 								<h3>
 									Transactions
-									{#if status === 'resolved'}({transactions.length}{transactions.length === 100 ? '+' : ''}){/if}
+									<InlineContainer isOpen={status === 'resolved'}>(<TweenedNumber value={transactions.length} /><InlineContainer isOpen={pagination?.hasNextPage}>+</InlineContainer>)</InlineContainer>
 								</h3>
 								<label>
 									<input type="checkbox" bind:checked={showFees}>
@@ -265,6 +269,7 @@
 						{quoteCurrency}
 						includeLogs={detailLevel === 'exhaustive'}
 						let:transactions
+						let:pagination
 					>
 						<svelte:fragment slot="header" let:status>
 							<div class="bar">
@@ -272,7 +277,7 @@
 									{selectedToken.name}
 									(<TokenName erc20Token={selectedToken} />)
 									Transactions
-									{#if status === 'resolved'}({transactions.length}{transactions.length === 100 ? '+' : ''}){/if}
+									<InlineContainer isOpen={status === 'resolved'}>(<TweenedNumber value={transactions.length} /><InlineContainer isOpen={pagination?.hasNextPage}>+</InlineContainer>)</InlineContainer>
 								</h3>
 								{#if detailLevel !== 'exhaustive'}
 									<label>
