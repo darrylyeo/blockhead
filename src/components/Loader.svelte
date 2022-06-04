@@ -36,6 +36,8 @@
 	export let isCollapsed = false
 	export let clip = true
 
+	export let showStatusAndActions = false
+
 
 	enum LoadingStatus {
 		Idle = 'idle',
@@ -229,6 +231,7 @@
 
 
 	import { fade, scale } from 'svelte/transition'
+	import Date from './Date.svelte'
 	import Loading from './Loading.svelte'
 	import SizeContainer from './SizeContainer.svelte'
 </script>
@@ -237,6 +240,11 @@
 <style>
 	.loader:empty {
 		display: none;
+	}
+
+
+	footer {
+		font-size: 0.66em;
 	}
 </style>
 
@@ -300,4 +308,63 @@
 			</div>
 		{/if}
 	</SizeContainer>
+
+	<slot name="footer">
+		{#if showStatusAndActions}
+			<!-- <footer class="sticky-bottom card bar"> -->
+			<footer class="bar">
+				<slot name="footer-start" />
+
+				{#if fromUseQuery}
+					{#if $fromUseQuery.dataUpdatedAt}
+						<span>
+							Last updated
+							<Date
+								date={$fromUseQuery.dataUpdatedAt || $fromUseQuery.errorUpdatedAt}
+								format="relative"
+								layout="horizontal"
+							/>
+						</span>
+					{/if}
+
+					{#if status === LoadingStatus.Resolved || status === LoadingStatus.Errored}
+						<button class="small" on:click={load}>Reload</button>
+					{:else if status === LoadingStatus.Loading || status === LoadingStatus.Reloading || $fromUseQuery.isRefetching}
+						<span>Loading...</span>
+						<button class="small cancel" on:click={cancel}>Cancel</button>
+					{/if}
+				{/if}
+
+				{#if fromUseInfiniteQuery}
+					{#if $fromUseQuery.dataUpdatedAt}
+						<span>
+							Last updated
+							<Date
+								date={$fromUseInfiniteQuery.dataUpdatedAt || $fromUseInfiniteQuery.errorUpdatedAt}
+								format="relative"
+								layout="horizontal"
+							/>
+						</span>
+					{/if}
+
+					{#if status === LoadingStatus.Resolved || status === LoadingStatus.Errored}
+						<div class="row">
+							<button class="small" on:click={load}>Reload</button>
+
+							{#if $fromUseInfiniteQuery.hasPreviousPage}
+								<button class="small" on:click={() => $fromUseInfiniteQuery.fetchPreviousPage()}>Previous</button>
+							{/if}
+
+							{#if $fromUseInfiniteQuery.hasNextPage}
+								<button class="small" on:click={() => $fromUseInfiniteQuery.fetchNextPage()}>Next</button>
+							{/if}
+						</div>
+					{:else if status === LoadingStatus.Loading || status === LoadingStatus.Reloading || $fromUseQuery.isRefetching}
+						<span>Loading...</span>
+						<button class="small cancel" on:click={cancel}>Cancel</button>
+					{/if}
+				{/if}
+			</footer>
+		{/if}
+	</slot>
 {/if}
