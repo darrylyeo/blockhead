@@ -142,7 +142,7 @@
 	</div>
 </div>
 
-{#if block.transactions.length}
+{#if block.transactions?.length}
 	<hr>
 
 	<div class="bar">
