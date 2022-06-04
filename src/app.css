@@ -212,6 +212,7 @@ button {
 	transition: 0.2s;
 
 	cursor: pointer;
+	user-select: none;
 }
 button:hover, button:focus {
 	--scale: 1.015;
