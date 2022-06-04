@@ -266,9 +266,9 @@
 				for
 				<b style="color: var(--ethereum-blue)">Ethereum</b>,
 				<b style="color: var(--polygon-purple)">Polygon</b>,
-				<b style="color: var(--avalanche-red)">AVAX</b>,
+				<b style="color: var(--avalanche-red)">Avalanche</b>,
 				<b style="color: var(--binance-gold)">BSC</b>,
-				<b style="color: var(--xdai-teal); text-transform: none">xDAI</b>,
+				<b style="color: var(--gnosis-teal)">Gnosis Chain</b>,
 				<b style="color: var(--fantom-blue)">Fantom</b>
 				& the
 				<b class="metaverse">Web 3.0 Metaverse</b>

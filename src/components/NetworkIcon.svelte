@@ -13,6 +13,7 @@
 		'avalanche': '/tokens/AVAX.svg', // '/networks/Avalanche.svg',
 		'celo': '/networks/Celo.svg',
 		'ethereum': '/tokens/ETH.svg', // '/networks/Ethereum.svg',
+		'gnosis': '/networks/Gnosis.svg',
 		'harmony': '/networks/Harmony.svg',
 		'metis': '/networks/Metis.png',
 		'optimism': '/networks/Optimism.svg',

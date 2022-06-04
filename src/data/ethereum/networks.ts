@@ -4832,12 +4832,12 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "http://wegochain.io"
 	},
 	{
-		"slug": "xdai",
-		"name": "xDAI",
+		"slug": "gnosis",
+		"name": "Gnosis Chain",
 		"chainId": 100,
 		"slip44": 700,
-		"shortName": "xdai",
-		"chain": "XDAI",
+		"shortName": "gno",
+		"chain": "Gnosis",
 		"network": "mainnet",
 		"networkId": 100,
 		"nativeCurrency": {
@@ -4846,17 +4846,27 @@ export const networks: Ethereum.Network[] = [
 			"decimals": 18
 		},
 		"rpc": [
-			"https://rpc.xdaichain.com",
+			"https://rpc.gnosischain.com",
 			"https://xdai.poanetwork.dev",
-			"wss://rpc.xdaichain.com/wss",
-			"wss://xdai.poanetwork.dev/wss",
-			"http://xdai.poanetwork.dev",
 			"https://dai.poa.network",
+			"https://rpc.ankr.com/gnosis",
+			"https://gnosischain-rpc.gateway.pokt.network",
+			"wss://rpc.gnosischain.com/wss",
+			"wss://xdai.poanetwork.dev/wss",
 			"ws://xdai.poanetwork.dev:8546"
 		],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://forum.poa.network/c/xdai-chain"
+		"faucets": [
+			"https://faucet.gimlu.com/gnosis",
+			"https://stakely.io/faucet/gnosis-chain-xdai",
+			"https://faucet.prussia.dev/xdai"
+		],
+		"explorers": [{
+			"name": "blockscout",
+			"url": "https://blockscout.com/xdai/mainnet",
+			"icon": "blockscout",
+			"standard": "EIP3091"
+		}],
+		"infoURL": "https://developers.gnosischain.com",
 	},
 	{
 		"slug": "xerom",
@@ -5013,7 +5023,7 @@ export const topNetworks = [
 	'polygon',
 	'arbitrum-one',
 	'optimism',
-	'xdai',
+	'gnosis',
 	'avalanche',
 	'bsc',
 	'celo',
@@ -5031,23 +5041,22 @@ export const otherNetworks = networks.filter(network =>
 )
 
 export const networkColors = {
-	'ethereum': '#627eea',
-	'polygon': '#8248e5',
-	'harmony': '#00AEE9',
 	'arbitrum-one': '#28a0f0',
-	'nervos': '#3CC68A',
-	'nervos-godwoken': '#3CC68A',
-	'reef': '#962EE5',
-	'nahmii': '#E952AC',
-	'skale': '#393939',
-	'avalanche': '#f9273c',
-	'metis': '#00dacd',
-	'celo': '#35D07F', // #fbcc5c
 	'aurora': '#92D36F',
+	'avalanche': '#f9273c',
 	'bsc': '#FCD535',
-	'optimism': '#f01a37',
-	'xdai': '#48a9a6',
+	'celo': '#35D07F', // #fbcc5c
+	'ethereum': '#627eea',
 	'fantom': '#1969ff',
+	'gnosis': '#04795B',
+	'harmony': '#00AEE9',
+	'metis': '#00dacd',
+	'nahmii': '#E952AC',
+	'nervos': '#3CC68A',
+	'optimism': '#f01a37',
+	'polygon': '#8248e5',
+	'reef': '#962EE5',
+	'skale': '#393939',
 }
 
 export const getNetworkColor = network =>

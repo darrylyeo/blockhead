@@ -3216,8 +3216,8 @@ export const blockchainApps: BlockchainAppConfig[] = [
 				}
 			},
 			{
-				name: 'xDai',
-				slug: 'xdai',
+				name: 'Gnosis Chain',
+				slug: 'gnosis',
 				chainId: 100,
 				erc20Tokens: [],
 				providers: {
