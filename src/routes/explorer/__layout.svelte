@@ -98,7 +98,7 @@
 	// Preferences
 
 	let showTestnets = false
-	$: _isTestnet = isTestnet($explorerNetwork)
+	$: _isTestnet = $explorerNetwork && isTestnet($explorerNetwork)
 	$: if(_isTestnet)
 		showTestnets = true
 
