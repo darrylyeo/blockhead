@@ -35,7 +35,7 @@
 
 {#if tokenBalancesProvider === 'Covalent'}
 	<Loader
-		loadingIcon={'/logos/covalent-logomark.svg'}
+		loadingIcon={'/logos/Covalent.svg'}
 		loadingIconName={tokenBalancesProvider}
 		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
 		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"
@@ -96,7 +96,7 @@
 
 {:else if tokenBalancesProvider === 'Moralis'}
 	<Loader
-		loadingIcon={'/logos/moralis-icon.svg'}
+		loadingIcon={'/logos/Moralis.svg'}
 		loadingIconName={tokenBalancesProvider}
 		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
 		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"
@@ -190,7 +190,7 @@
 
 {:else if tokenBalancesProvider === 'Zapper'}
 	<Loader
-		loadingIcon={'/logos/zapper-logomark.svg'}
+		loadingIcon={'/logos/Zapper.svg'}
 		loadingIconName={tokenBalancesProvider}
 		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
 		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"

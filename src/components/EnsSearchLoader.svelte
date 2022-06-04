@@ -152,7 +152,7 @@
 
 <Loader
 	fromHoudiniQuery={searchQuery && (() => queryENSDomain({name: searchQuery}))}
-	loadingIcon="/logos/ens.svg"
+	loadingIcon="/logos/ENS.svg"
 	loadingIconName="The Graph"
 	loadingMessage='Searching for "{searchQuery}" in the Ethereum Name Service subgraph...'
 	let:result={result}
@@ -175,7 +175,7 @@
 
 		<Loader
 			fromHoudiniQuery={() => queryENSDomainsContaining({query: searchQuery})}
-			loadingIcon="/logos/ens.svg"
+			loadingIcon="/logos/ENS.svg"
 			loadingIconName="The Graph"
 			loadingMessage="Searching the Ethereum Name Service subgraph for similar names..."
 			let:result={result}

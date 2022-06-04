@@ -53,7 +53,7 @@
 			)
 		}
 
-		loadingIcon="/logos/covalent-logomark.svg"
+		loadingIcon="/logos/Covalent.svg"
 		loadingIconName={historicalPriceProvider}
 		loadingMessage="Retrieving price history from {historicalPriceProvider}..."
 		let:result={data}

@@ -92,7 +92,7 @@
 				)
 			})
 		}
-		loadingIcon="/logos/ens.svg"
+		loadingIcon="/logos/ENS.svg"
 		loadingIconName="ENS"
 		loadingMessage="Reverse-resolving address to a name on the Ethereum Name Service{viaRPC}..."
 		errorMessage={`Error reverse-resolving address to ENS name${viaRPC}.`}
@@ -119,7 +119,7 @@
 				)
 			})
 		}
-		loadingIcon="/logos/ens.svg"
+		loadingIcon="/logos/ENS.svg"
 		loadingIconName="ENS"
 		loadingMessage="Resolving name to address on the Ethereum Name Service{viaRPC}..."
 		errorMessage={`Error resolving ENS name to address${viaRPC}.`}

@@ -30,7 +30,7 @@
 
 <!-- {#if transactionProvider === 'Covalent'} -->
 	<Loader
-		loadingIcon={'/logos/covalent-logomark.svg'}
+		loadingIcon={'/logos/Covalent.svg'}
 		loadingIconName={transactionProvider}
 		loadingMessage="Retrieving ERC-20 transactions from {transactionProvider}..."
 		errorMessage="Error retrieving ERC-20 transactions from {transactionProvider}"

@@ -48,7 +48,7 @@
 
 
 <Loader
-	loadingIcon={'/logos/audius-icon.png'}
+	loadingIcon={'/logos/Audius.png'}
 	loadingMessage="Searching Audius for tracks, artists, and playlists..."
 	fromPromise={query && (() => searchAudius(query))}
 >

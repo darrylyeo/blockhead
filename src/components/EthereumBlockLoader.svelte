@@ -88,7 +88,7 @@
 
 	{#if transactionProvider === 'Covalent'}
 		<Loader
-			loadingIcon={'/logos/covalent-logomark.svg'}
+			loadingIcon={'/logos/Covalent.svg'}
 			loadingIconName={transactionProvider}
 			loadingMessage="Retrieving block data from {transactionProvider}..."
 			errorMessage="Error retrieving block data from {transactionProvider}"
@@ -158,7 +158,7 @@
 
 	{:else if transactionProvider === 'Moralis'}
 		<Loader
-			loadingIcon={'/logos/moralis-icon.svg'}
+			loadingIcon={'/logos/Moralis.svg'}
 			loadingIconName={transactionProvider}
 			loadingMessage="Retrieving block data from {transactionProvider}..."
 			errorMessage="Error retrieving block data from {transactionProvider}"

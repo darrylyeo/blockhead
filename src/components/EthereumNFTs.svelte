@@ -355,7 +355,7 @@
 
 {#if address}
 	<Loader
-		loadingIcon={'/logos/covalent-logomark.svg'}
+		loadingIcon={'/logos/Covalent.svg'}
 		loadingIconName={nftProvider}
 		loadingMessage="Retrieving {network.name} NFTs from {nftProvider}..."
 		errorMessage="Error retrieving {network.name} NFTs from {nftProvider}"

@@ -46,7 +46,7 @@
 			<div class="column">
 				{#if transactionProvider === 'Covalent'}
 					<Loader
-						loadingIcon="/logos/covalent-logomark.svg"
+						loadingIcon="/logos/Covalent.svg"
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
 						fromUseQuery={useQuery({
 							queryKey: ['Transaction', {
@@ -83,7 +83,7 @@
 					</Loader>
 				{:else if transactionProvider === 'Etherspot'}
 					<Loader
-						loadingIcon="/logos/etherspot-icon.png"
+						loadingIcon="/logos/Etherspot.png"
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
 						fromUseQuery={useQuery({
 							queryKey: ['Transaction', {
@@ -118,7 +118,7 @@
 					</Loader>
 				{:else if transactionProvider === 'Moralis'}
 					<Loader
-						loadingIcon="/logos/moralis-icon.svg"
+						loadingIcon="/logos/Moralis.svg"
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
 						fromUseQuery={useQuery({
 							queryKey: ['Transaction', {

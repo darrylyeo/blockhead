@@ -29,7 +29,7 @@
 
 {#if transactionProvider === 'Covalent'}
 	<Loader
-		loadingIcon={'/logos/covalent-logomark.svg'}
+		loadingIcon={'/logos/Covalent.svg'}
 		loadingIconName={transactionProvider}
 		loadingMessage="Retrieving {network.name} transactions from {transactionProvider}..."
 		errorMessage="Error retrieving {network.name} transactions from {transactionProvider}"
@@ -65,7 +65,7 @@
 	</Loader>
 {:else if transactionProvider === 'Etherspot'}
 	<Loader
-		loadingIcon="/logos/etherspot-icon.png"
+		loadingIcon="/logos/Etherspot.png"
 		loadingMessage="Retrieving {network.name} transactions from {transactionProvider}..."
 		errorMessage="Error retrieving {network.name} transactions from {transactionProvider}"
 		fromUseQuery={useQuery({
@@ -88,7 +88,7 @@
 	</Loader>
 {:else if transactionProvider === 'Moralis'}
 	<Loader
-		loadingIcon={'/logos/moralis-icon.svg'}
+		loadingIcon={'/logos/Moralis.svg'}
 		loadingIconName={transactionProvider}
 		loadingMessage="Retrieving {network.name} transactions from {transactionProvider}..."
 		errorMessage="Error retrieving {network.name} transactions from {transactionProvider}"

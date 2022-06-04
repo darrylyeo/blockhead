@@ -92,7 +92,7 @@
 <section class="wallet-providers column">
 	<div class="metamask column">
 		<Loader
-			loadingIcon={'/logos/metamask-icon.svg'}
+			loadingIcon={'/logos/MetaMask.svg'}
 			loadingIconName={'MetaMask'}
 			loadingMessage="Log into MetaMask via the pop-up window."
 			errorMessage="We couldn't connect your MetaMask Account."
@@ -139,7 +139,7 @@
 
 	<div class="torus column">
 		<Loader
-			loadingIcon={'/logos/torus-icon.svg'}
+			loadingIcon={'/logos/Torus.svg'}
 			loadingIconName={'Torus'}
 			loadingMessage="Log into Torus via the pop-up window."
 			errorMessage="We couldn't connect your Tor.us Account."
@@ -188,7 +188,7 @@
 
 	<div class="portis column">
 		<Loader
-			loadingIcon={'/logos/portis-icon.svg'}
+			loadingIcon={'/logos/Portis.svg'}
 			loadingIconName={'Portis'}
 			loadingMessage="Log into Portis via the pop-up window."
 			errorMessage="We couldn't connect your Portis.io Account."

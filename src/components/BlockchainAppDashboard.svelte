@@ -285,7 +285,7 @@
 											loadingMessage="Reading {blockchainAppConfig.name} balances from {defiProvider}..."
 											errorMessage="Error getting {blockchainAppConfig.name} balances from {defiProvider}."
 											loadingIconName={defiProvider}
-											loadingIcon={'/logos/zapper-logomark.svg'}
+											loadingIcon={'/logos/Zapper.svg'}
 											fromStore={() => getDeFiAppBalances({
 												appIds: providers?.zapper ? [providers.zapper] : [],
 												network,
@@ -493,7 +493,7 @@
 											</div>
 											<!-- {#if quoteCurrency !== 'USD'}
 												<small class="card row" transition:scale>
-													<img src="/logos/zapper-logomark.svg" width="25" height="25" />
+													<img src="/logos/Zapper.svg" width="25" height="25" />
 													Note: The Zapper API doesn't yet support currencies other than US Dollars.
 												</small>
 											{/if} -->

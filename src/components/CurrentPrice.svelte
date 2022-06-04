@@ -99,7 +99,7 @@
 		{#if _currentPriceProvider === 'Chainlink'}
 			<div class="column">
 				<Loader
-					loadingIcon={'/logos/chainlink.svg'}
+					loadingIcon={'/logos/Chainlink.svg'}
 					loadingIconName={_currentPriceProvider}
 					loadingMessage="Retrieving price from {_currentPriceProvider}..."
 					errorMessage="{token} price not available"
@@ -162,7 +162,7 @@
 		{:else if _currentPriceProvider === 'Covalent'}
 			<div class="column">
 				<Loader
-					loadingIcon={'/logos/covalent-logomark.svg'}
+					loadingIcon={'/logos/Covalent.svg'}
 					loadingIconName={_currentPriceProvider}
 					loadingMessage="Retrieving price from {_currentPriceProvider}..."
 					errorMessage="{token} price not available"

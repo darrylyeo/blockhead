@@ -6,7 +6,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { TickerSymbol } from '../data/currency/currency'
-	import * as CryptoIcons from 'svelte-cryptoicon'
 	import { erc20TokensByContractAddress, erc20TokensBySymbol } from '../data/ethereum/tokens/tokens'
 
 
@@ -25,26 +24,53 @@
 	let i = cachedIndex[address || symbol] ||= 0
 	$: cachedIndex[address || symbol] = i
 	$: imageSources = cachedImageSources[address || symbol] ||= [
-		symbol === 'AVAX' && '/logos/avax-token.svg',
-		symbol === 'MATIC' && '/logos/matic-token.svg',
-		symbol === 'FTM' && '/logos/fantom-token.svg',
-		symbol === 'METIS' && '/logos/metis-token.png',
-		symbol === 'AETH' && '/logos/arbitrum.svg',
-		symbol === 'skETH' && '/logos/skale-token.svg',
-		symbol === 'CELO' && '/logos/celo.svg',
-		symbol === 'AAVE' && 'https://token-icons.s3.amazonaws.com/0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9.png',
-		address && `https://token-icons.s3.amazonaws.com/${address.toLowerCase()}.png`,
+		{
+			'AAVE': '/tokens/AAVE.svg',
+			'AETH': '/networks/Arbitrum.svg',
+			'AVAX': '/tokens/AVAX.svg',
+			'BNB': '/tokens/BNB.svg',
+			'BTC': '/tokens/BTC.svg',
+			'CELO': '/networks/Celo.svg',
+			'COMP': '/tokens/COMP.svg',
+			'DAI': '/tokens/DAI.svg',
+			'ENS': '/tokens/ENS.svg',
+			'ETH': '/tokens/ETH.svg',
+			'FTM': '/tokens/FTM.svg',
+			'MATIC': '/tokens/MATIC.svg',
+			'METIS': '/networks/Metis.png',
+			'MKR': '/tokens/MKR.svg',
+			'ONE': '/tokens/ONE.svg',
+			'skETH': '/networks/SKALE.svg',
+			'USDC': '/tokens/USDC.svg',
+			// 'USDC': '/tokens/USDC-filled.svg',
+			'USDT': '/tokens/USDT.svg',
+			'WBTC': '/tokens/WBTC.svg',
+		}[symbol],
+		// address && `https://token-icons.s3.amazonaws.com/${address.toLowerCase()}.png`,
 		icon,
-		symbol && `https://zapper.fi/images/${symbol}-icon.png`,
-		address && `https://tokens.1inch.exchange/${address.toLowerCase()}.png`,
-		address && `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`,
+		// symbol && `https://zapper.fi/images/${symbol}-icon.png`,
+		// address && `https://tokens.1inch.exchange/${address.toLowerCase()}.png`,
+		// address && `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`,
 		address && erc20TokensByContractAddress[address.toLowerCase()]?.icon,
 		symbol && erc20TokensBySymbol[symbol]?.icon,
 	].filter(Boolean)
 
 	// let loadingError
 
-	$: Icon = symbol && !['DAI', 'LINK', 'LRC', 'AMP', 'DOGE', 'MATIC'].includes(symbol) && CryptoIcons[symbol[0].toUpperCase() + symbol.slice(1).toLowerCase()]
+	// import {
+	// 	Usdc as USDC,
+	// 	Usdt as USDT,
+	// 	Bnb as BNB,
+	// } from 'svelte-cryptoicon'
+
+	// $: Icon = {
+	// 	USDC,
+	// 	USDT,
+	// 	BNB,
+	// }[symbol]
+
+	// $: Icon = symbol && !['DAI', 'LINK', 'LRC', 'AMP', 'DOGE', 'MATIC'].includes(symbol) && CryptoIcons[symbol[0].toUpperCase() + symbol.slice(1).toLowerCase()]
+	let Icon = undefined
 </script>
 
 
