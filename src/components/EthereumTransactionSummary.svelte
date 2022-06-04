@@ -33,7 +33,7 @@
 </style>
 
 
-<p class="transaction" title="Transaction {transactionID}">
+<p class="transaction row-inline" title="Transaction {transactionID}">
 	{#if transactionID || blockNumber}
 		<span class="muted">Transaction</span>
 	{/if}

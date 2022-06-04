@@ -478,7 +478,7 @@ a.card {
 	justify-content: space-between;
 }
 .row-inline {
-	gap: 1ch;
+	gap: 0.5ch;
 	align-items: baseline;
 }
 .bar {
