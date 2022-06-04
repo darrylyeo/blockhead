@@ -5,7 +5,7 @@ import { getTorusOpenLogin } from './providers/torus'
 import { getPortis } from './providers/portis'
 // import { getPocketNetwork } from './providers/pocket-network'
 import { getMoralisJSONRPCEndpoint } from '../moralis/endpoints'
-import { ALCHEMY_API_KEY_MAINNET, ETHERSCAN_API_KEY, INFURA_PROJECT_ID, POCKET_APP_PUBLIC_KEY, POCKET_SECRET_KEY, POCKET_GATEWAY_ID } from '../../config-secrets'
+import { env } from '../../env'
 import { getNetworkRPC } from './networks'
 import { memoized } from '../../utils/memoized'
 
@@ -22,12 +22,12 @@ export const getProviderAndInstance = memoized(async (network: Ethereum.Network,
 		'Ethers': async network => {
 			return {
 				provider: getDefaultProvider(network.chainId, {
-					alchemy: ALCHEMY_API_KEY_MAINNET,
-					etherscan: ETHERSCAN_API_KEY,
-					infura: INFURA_PROJECT_ID,
+					alchemy: env.ALCHEMY_API_KEY_MAINNET,
+					etherscan: env.ETHERSCAN_API_KEY,
+					infura: env.INFURA_PROJECT_ID,
 					pocket: {
-						applicationId: POCKET_APP_PUBLIC_KEY,
-						applicationSecretKey: POCKET_SECRET_KEY
+						applicationId: env.POCKET_APP_PUBLIC_KEY,
+						applicationSecretKey: env.POCKET_SECRET_KEY
 					},
 					// quorum: 2
 				})
@@ -37,14 +37,14 @@ export const getProviderAndInstance = memoized(async (network: Ethereum.Network,
 		'Infura': async network => {
 			return {
 				provider: new providers.InfuraProvider(network.chainId, {
-					infura: INFURA_PROJECT_ID
+					infura: env.INFURA_PROJECT_ID
 				})
 			}
 		},
 	
 		'Alchemy': async network => {
 			return {
-				provider: new providers.AlchemyProvider(network.chainId, ALCHEMY_API_KEY_MAINNET)
+				provider: new providers.AlchemyProvider(network.chainId, env.ALCHEMY_API_KEY_MAINNET)
 			}
 		},
 	
@@ -98,8 +98,8 @@ export const getProviderAndInstance = memoized(async (network: Ethereum.Network,
 	
 			return {
 				provider: new providers.PocketProvider(network.chainId, {
-					applicationId: POCKET_GATEWAY_ID,
-					applicationSecretKey: POCKET_SECRET_KEY,
+					applicationId: env.POCKET_GATEWAY_ID,
+					applicationSecretKey: env.POCKET_SECRET_KEY,
 					loadBalancer: true
 				})
 			}
@@ -121,7 +121,7 @@ export const getProviderAndInstance = memoized(async (network: Ethereum.Network,
 
 		'Etherscan': async network => {
 			return {
-				provider: new providers.EtherscanProvider(network.chainId, ETHERSCAN_API_KEY)
+				provider: new providers.EtherscanProvider(network.chainId, env.ETHERSCAN_API_KEY)
 			}
 		},
 	}[providerName]?.(network)

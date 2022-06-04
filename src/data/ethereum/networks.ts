@@ -1,6 +1,6 @@
 import type { Ethereum } from './types'
 
-import { INFURA_PROJECT_ID } from '../../config-secrets'
+import { env } from '../../env'
 
 
 // https://github.com/ethereum-lists/chains
@@ -5084,5 +5084,5 @@ export const getNetworkColor = network =>
 
 
 export function getNetworkRPC(network: Ethereum.Network){
-	return network.rpc[0]?.replace('${INFURA_PROJECT_ID}', INFURA_PROJECT_ID) ?? ''
+	return network.rpc[0]?.replace('${INFURA_PROJECT_ID}', env.INFURA_PROJECT_ID) ?? ''
 }

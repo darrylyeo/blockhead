@@ -2,7 +2,7 @@ import type { Ethereum } from '../types'
 // import { Pocket, Configuration, HttpRpcProvider, PocketAAT, PocketRpcProvider } from '@pokt-network/pocket-js'
 // import { Pocket, Configuration, HttpProvider, HttpRpcProvider, PocketAAT, PocketProvider, PocketRpcProvider } from '@pokt-network/web3-provider'
 import { POCKET_NETWORK_DISPATCH_URLS, POCKET_NETWORK_APP_AUTH_TOKEN } from '../../../config'
-import { POCKET_NETWORK_PPK, POCKET_NETWORK_PASSPHRASE } from '../../../config-secrets'
+import { env } from '../../../env'
 
 
 // https://docs.pokt.network/docs/supported-networks-on-mainnet
@@ -90,7 +90,7 @@ export async function getPocketNetwork(network: Ethereum.Network){
 }
 
 
-// unlockAAT(POCKET_NETWORK_APP_AUTH_TOKEN, POCKET_NETWORK_PPK, POCKET_NETWORK_PASSPHRASE).then(async pocketAAT => {
+// unlockAAT(env.POCKET_NETWORK_APP_AUTH_TOKEN, env.POCKET_NETWORK_PPK, env.POCKET_NETWORK_PASSPHRASE).then(async pocketAAT => {
 // 	// See https://docs.pokt.network/docs/supported-networks-on-mainnet for blockchain choices
 // 	const blockchain = "0021" // Ethereum mainnet
 	

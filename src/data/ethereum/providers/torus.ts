@@ -1,7 +1,7 @@
 // import OpenLogin, { OPENLOGIN_NETWORK } from '@toruslabs/openlogin'
 import { getDefaultProvider } from '@ethersproject/providers'
 import { Wallet } from '@ethersproject/wallet'
-import { TORUS_PROJECT_ID, TORUS_OPENLOGIN_SECRET } from '../../../config-secrets'
+import { env } from '../../../env'
 import { loadScript } from '../../../utils/load-script'
 import type { Ethereum } from '../types'
 
@@ -15,7 +15,7 @@ export async function getTorusOpenLogin(network: Ethereum.Network){
 	}
 
 	const torusOpenLogin = new OpenLogin({
-		clientId: TORUS_PROJECT_ID,
+		clientId: env.TORUS_PROJECT_ID,
 		network: networkTypeByChainID[network.chainId],
 		uxMode: 'popup'
 	})
