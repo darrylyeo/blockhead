@@ -12,10 +12,13 @@
 
 
 	// import { preferences } from '../data/ethereum/preferences'
-	// import { getEthersProvider } from '../data/ethereum/provider'
+	// import { getEthersProvider } from '../data/providers'
 
 	// $: if(network && !provider){
-	// 	getEthersProvider(network, $preferences.rpcNetwork)
+	// 	getEthersProvider({
+	// 		network,
+	// 		networkProvider: $preferences.rpcNetwork
+	// 	})
 	// 		.then(_ => provider = _)
 	// }
 
@@ -92,13 +95,16 @@
 
 
 	import { preferences } from '../data/ethereum/preferences'
-	import { getEthersProvider } from '../data/ethereum/provider'
+	import { getEthersProvider } from '../data/providers'
 	// import { onDestroy } from 'svelte'
 
 	$: if(network && !blockHeightForNetwork[network.chainId]){
 		const { chainId } = network
 
-		getEthersProvider(network, $preferences.rpcNetwork).then((provider: Ethereum.Provider) => {
+		getEthersProvider({
+			network,
+			networkProvider: $preferences.rpcNetwork
+		}).then((provider: Ethereum.Provider) => {
 			const onBlock = (blockNumber) => {
 				blockHeightForNetwork = {
 					...blockHeightForNetwork,

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import { getEthersProvider } from '../data/ethereum/provider'
+	import { getEthersProvider } from '../data/providers'
 	import { preferences } from '../data/ethereum/preferences'
 
 
@@ -20,7 +20,10 @@
 <Loader
 	loadingMessage="Connecting to the {network ? `${network.name} ` : ''} blockchain{viaRPC}..."
 	fromPromise={network && providerName && (async () =>
-		await getEthersProvider(network, providerName)
+		await getEthersProvider({
+			network,
+			networkProvider: providerName
+		})
 	)}
 	let:result={provider}
 >

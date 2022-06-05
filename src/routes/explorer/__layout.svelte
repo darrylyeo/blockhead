@@ -43,7 +43,7 @@
 	import { networksBySection, networksBySlug, testnetsForMainnets, isTestnet, getNetworkColor } from '../../data/ethereum/networks'
 	import { derived } from 'svelte/store'
 	import { onMount, setContext } from 'svelte'
-	import { getEthersProvider } from '../../data/ethereum/provider'
+	import { getEthersProvider } from '../../data/providers'
 
 
 	// Explorer context stores
@@ -59,7 +59,10 @@
 	const explorerProvider = derived<[typeof explorerNetwork, typeof preferences], Ethereum.Provider>([explorerNetwork, preferences], async ([$explorerNetwork, $preferences], set) => {
 		await whenMounted
 		if($explorerNetwork)
-			set(await getEthersProvider($explorerNetwork, $preferences.rpcNetwork))
+			set(await getEthersProvider({
+				network: $explorerNetwork,
+				networkProvider: $preferences.rpcNetwork
+			}))
 	})
 	setContext('explorerProvider', explorerProvider)
 

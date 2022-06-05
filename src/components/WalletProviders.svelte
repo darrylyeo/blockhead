@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import { getEthersProvider, getProviderAndInstance } from '../data/ethereum/provider'
+	import { getWalletProvider, getWalletProviderAndInstance } from '../data/ethereum/provider'
 	import { connectedProviderAccounts, getAccountsFromProvider } from '../data/ethereum/portfolio-accounts'
 
 
@@ -9,7 +9,7 @@
 	
 
 	const loadMetaMaskProvider = async () => {
-		const metaMaskProvider = await getEthersProvider(network, 'MetaMask')
+		const metaMaskProvider = await getWalletProvider(network, 'MetaMask')
 
 		metaMaskProvider.on('accountsChanged', accounts => {
 			console.log('accountsChanged', accounts)
@@ -25,19 +25,19 @@
 
 
 	const loadTorusProvider = async () => {
-		return await getEthersProvider(network, 'Torus')
+		return await getWalletProvider(network, 'Torus')
 	}
 	const disconnectTorusProvider = async () => {
-		(await getProviderAndInstance(network, 'Torus')).disconnect()
+		(await getWalletProviderAndInstance(network, 'Torus')).disconnect()
 	}
 
 
 	const loadPortisProvider = async () => {
-		return await getEthersProvider(network, 'Portis')
+		return await getWalletProvider(network, 'Portis')
 		// await portis.showPortis()
 	}
 	const disconnectPortisProvider = async () => {
-		(await getProviderAndInstance(network, 'Portis')).disconnect()
+		(await getWalletProviderAndInstance(network, 'Portis')).disconnect()
 	}
 
 	

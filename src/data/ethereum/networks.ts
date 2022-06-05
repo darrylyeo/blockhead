@@ -1224,8 +1224,8 @@ export const networks: Ethereum.Network[] = [
 			"decimals": 18
 		},
 		"rpc": [
-			"https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}",
-			"wss://mainnet.infura.io/ws/v3/${INFURA_PROJECT_ID}",
+			`https://mainnet.infura.io/v3/${env.INFURA_PROJECT_ID}`,
+			`wss://mainnet.infura.io/ws/v3/${env.INFURA_PROJECT_ID}`,
 			"https://api.mycryptoapi.com/eth",
 			"https://cloudflare-eth.com"
 		],
@@ -1362,8 +1362,8 @@ export const networks: Ethereum.Network[] = [
 		"rpc": [
 			"https://kovan.poa.network",
 			"http://kovan.poa.network:8545",
-			"https://kovan.infura.io/v3/${INFURA_PROJECT_ID}",
-			"wss://kovan.infura.io/ws/v3/${INFURA_PROJECT_ID}",
+			`https://kovan.infura.io/v3/${env.INFURA_PROJECT_ID}`,
+			`wss://kovan.infura.io/ws/v3/${env.INFURA_PROJECT_ID}`,
 			"ws://kovan.poa.network:8546"
 		],
 		"faucets": [
@@ -1387,8 +1387,8 @@ export const networks: Ethereum.Network[] = [
 			"decimals": 18
 		},
 		"rpc": [
-			"https://rinkeby.infura.io/v3/${INFURA_PROJECT_ID}",
-			"wss://rinkeby.infura.io/ws/v3/${INFURA_PROJECT_ID}"
+			`https://rinkeby.infura.io/v3/${env.INFURA_PROJECT_ID}`,
+			`wss://rinkeby.infura.io/ws/v3/${env.INFURA_PROJECT_ID}`
 		],
 		"faucets": [
 			"https://faucet.rinkeby.io"
@@ -1419,8 +1419,8 @@ export const networks: Ethereum.Network[] = [
 			"decimals": 18
 		},
 		"rpc": [
-			"https://ropsten.infura.io/v3/${INFURA_PROJECT_ID}",
-			"wss://ropsten.infura.io/ws/v3/${INFURA_PROJECT_ID}"
+			`https://ropsten.infura.io/v3/${env.INFURA_PROJECT_ID}`,
+			"wss://ropsten.infura.io/ws/v3/${env.INFURA_PROJECT_ID}"
 		],
 		"faucets": [
 			"https://faucet.ropsten.be?${ADDRESS}"
@@ -5084,5 +5084,5 @@ export const getNetworkColor = network =>
 
 
 export function getNetworkRPC(network: Ethereum.Network){
-	return network.rpc[0]?.replace('${INFURA_PROJECT_ID}', env.INFURA_PROJECT_ID) ?? ''
+	return network.rpc[0]?.replace('${env.INFURA_PROJECT_ID}', env.INFURA_PROJECT_ID) ?? ''
 }

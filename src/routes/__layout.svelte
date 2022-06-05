@@ -62,7 +62,7 @@
 	import type { Ethereum } from '../data/ethereum/types'
 	import { networksByChainID } from '../data/ethereum/networks'
 	import { derived, writable } from 'svelte/store'
-	import { getEthersProvider } from '../data/ethereum/provider'
+	import { getEthersProvider } from '../data/providers'
 	import { onMount, setContext } from 'svelte'
 
 	const whenMounted = new Promise(r => onMount(r))
@@ -78,7 +78,10 @@
 
 	const ethereumProvider = derived<[typeof ethereumNetwork, typeof preferences], Ethereum.Provider>([ethereumNetwork, preferences], async ([$ethereumNetwork, $preferences], set) => {
 		await whenMounted
-		set(await getEthersProvider($ethereumNetwork, $preferences.rpcNetwork))
+		set(await getEthersProvider({
+			network: $ethereumNetwork,
+			networkProvider: $preferences.rpcNetwork
+		}))
 	})
 	setContext('ethereumNetwork', ethereumNetwork)
 	setContext('ethereumProvider', ethereumProvider)

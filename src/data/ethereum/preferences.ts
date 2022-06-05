@@ -1,6 +1,9 @@
 import { localStorageWritable } from '../../utils/localStorageWritable'
 import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '../currency/currency'
 
+import { NetworkProvider } from '../providers-types'
+import { networkProviderConfigs } from '../providers'
+
 
 type PreferenceOption<
 	PreferenceOptionID extends string
@@ -113,17 +116,17 @@ export const preferencesConfig: PreferencesConfig<
 				id: 'rpcNetwork',
 				name: 'On-Chain Data',
 				type: 'single', // 'multiple',
-				defaultOption: 'Auto',
-				options: [
-					{ id: 'Auto', name: 'Auto' },
-					{ id: 'Pocket Network', name: 'Pocket Network' },
-					{ id: 'Alchemy', name: 'Alchemy' },
-					{ id: 'Moralis', name: 'Moralis' },
-					{ id: 'Infura', name: 'Infura' },
-					{ id: 'Etherscan', name: 'Etherscan' },
-					{ id: 'Ethers', name: 'Ethers Quorum' }, // (Infura + Etherscan + Alchemy + Pocket)
-					// { id: 'Portis', name: 'Infura (Portis)' },
-				]
+				defaultOption: NetworkProvider.Default,
+				options: networkProviderConfigs.map(({ provider, name }) => ({ id: provider, name }))
+				// options: [
+				// 	{ id: 'Auto', name: 'Auto' },
+				// 	{ id: 'Pocket Network', name: 'Pocket Network' },
+				// 	{ id: 'Alchemy', name: 'Alchemy' },
+				// 	{ id: 'Moralis', name: 'Moralis' },
+				// 	{ id: 'Infura', name: 'Infura' },
+				// 	{ id: 'Etherscan', name: 'Etherscan' },
+				// 	{ id: 'Ethers', name: 'Ethers Quorum' }, // (Infura + Etherscan + Alchemy + Pocket)
+				// ]
 			},
 			// {
 			// 	id: 'rpcNetworkSend',
