@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import { getWalletProvider, getWalletProviderAndInstance } from '../data/ethereum/provider'
+	import { getWalletProvider, getWalletProviderAndInstance } from '../data/ethereum/wallets/wallets'
 	import { connectedProviderAccounts, getAccountsFromProvider } from '../data/ethereum/portfolio-accounts'
 
 
