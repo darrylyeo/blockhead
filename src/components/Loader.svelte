@@ -28,7 +28,8 @@
 	export let fromUseInfiniteQuery: UseInfiniteQueryStoreResult<LoaderResult[number], LoaderError>
 
 	export let then: ((result: LoaderResult) => LoaderReturnResult) = result => result
-	export let whenErrored: (() => {}) | undefined
+	export let whenLoaded: ((result: LoaderResult) => void) | undefined
+	export let whenErrored: ((error: LoaderError) => void) | undefined
 	export let whenCanceled: (() => Promise<any>) | undefined
 
 	export let layoutClass = 'column'
@@ -149,7 +150,6 @@
 		}, _error => {
 			error = _error
 			status = LoadingStatus.Errored
-			whenErrored?.()
 		})
 
 	$: if(store?.subscribe){
@@ -161,7 +161,6 @@
 		else if($store.error){
 			error = $store.error
 			status = LoadingStatus.Errored
-			whenErrored?.()
 		}
 		else if($store.data){
 			result = $store.data
@@ -177,7 +176,6 @@
 		else if($houdiniError){
 			error = $houdiniError
 			status = LoadingStatus.Errored
-			whenErrored?.()
 		}
 		else if($houdiniData){
 			result = $houdiniData
@@ -222,6 +220,9 @@
 		else if($fromUseInfiniteQuery.isRefetching){
 			status = LoadingStatus.Reloading
 		}
+
+	$: if(result) whenLoaded?.(result)
+	$: if(error) whenErrored?.(error)
 
 	$: isHidden = showIf && status === LoadingStatus.Resolved && !showIf(result)
 
