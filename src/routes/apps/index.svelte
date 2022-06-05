@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { web3AppsBySection } from '../../data/blockchain-apps'
+	import { web3AppsBySection } from '../../data/web3Apps'
 
 
 	import TokenIcon from '../../components/TokenIcon.svelte'

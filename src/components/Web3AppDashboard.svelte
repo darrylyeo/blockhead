@@ -2,9 +2,9 @@
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { DeFiProvider } from '../data/defi-provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
-	import type { BlockchainAppConfig, BlockchainAppSlug } from '../data/blockchain-apps'
+	import type { Web3AppConfig, Web3AppSlug } from '../data/web3Apps'
 	import type { Covalent } from '../data/analytics/covalent'
-	import { blockchainAppsByProviderName } from '../data/blockchain-apps'
+	import { web3AppsByProviderName } from '../data/web3Apps'
 	import { getDefiBalances } from '../data/ethereum/price/defi-sdk'
 	import { getDeFiAppBalances, getFiatRates } from '../data/zapper/zapper'
 	import { getTokenAddressBalances } from '../data/analytics/covalent'
@@ -13,7 +13,7 @@
 
 
 	// Data
-	export let blockchainAppConfig: BlockchainAppConfig
+	export let web3AppConfig: Web3AppConfig
 	export let address: string
 	export let providerName: Ethereum.ProviderName
 	export let defiProvider: DeFiProvider = 'Zapper'
@@ -224,15 +224,15 @@
 </style>
 
 
-{#if blockchainAppConfig}
+{#if web3AppConfig}
 	<div class="column defi-app-views">
-		{#each blockchainAppConfig.views as {name, slug, chainId, colors, erc20Tokens, nfts, contracts, providers, embeds}}
+		{#each web3AppConfig.views as {name, slug, chainId, colors, erc20Tokens, nfts, contracts, providers, embeds}}
 		{#each [(erc20Tokens?.length ?? 0) + (nfts?.length ?? 0) + (contracts?.length ?? 0) + (providers && Object.entries(providers).length)] as totalViewItems}
 			<div
 				class="card defi-app-view"
 				class:is-single={totalViewItems <= 1}
 				class:full={embeds?.length}
-				style={cardStyle(colors || blockchainAppConfig.colors)}
+				style={cardStyle(colors || web3AppConfig.colors)}
 			>
 				<NetworkProviderLoader
 					network={networksByChainID[chainId]}
@@ -246,7 +246,7 @@
 								{#if slug}
 									<a href="#{slug}">{name}</a>
 								{:else}
-									{name || blockchainAppConfig.name}
+									{name || web3AppConfig.name}
 								{/if}
 							</h3>
 
@@ -282,8 +282,8 @@
 								{#if providers?.zapper && defiProvider === 'Zapper'}
 									<div class="card">
 										<Loader
-											loadingMessage="Reading {blockchainAppConfig.name} balances from {defiProvider}..."
-											errorMessage="Error getting {blockchainAppConfig.name} balances from {defiProvider}."
+											loadingMessage="Reading {web3AppConfig.name} balances from {defiProvider}..."
+											errorMessage="Error getting {web3AppConfig.name} balances from {defiProvider}."
 											loadingIconName={defiProvider}
 											loadingIcon={'/logos/Zapper.svg'}
 											fromStore={() => getDeFiAppBalances({
@@ -317,14 +317,14 @@
 												{#each defiProtocolBalances as {appId, products, meta}, i}
 													{#each products as {
 														label, assets, meta: productMeta,
-														// _: blockchainAppConfig = blockchainAppsByProviderName.zapper?.[appId]
+														// _: web3AppConfig = web3AppsByProviderName.zapper?.[appId]
 													}, j (label)}
 														<div
 															class="card defi-protocol"
 															transition:scaleFont|local
 															animate:flip|local={{duration: 300, delay: Math.abs(i + j * 0.1) * 10}}
 														>
-														<!-- style={cardStyle(colors || blockchainAppConfig.colors)} -->
+														<!-- style={cardStyle(colors || web3AppConfig.colors)} -->
 															{#if assets[0]?.appImgUrl}
 																<img class="card-background" src={assets[0].appImgUrl} alt={label} width="20"/>
 															<!-- {:else if assets[0]?.symbol}
@@ -332,7 +332,7 @@
 															{/if}
 															<div class="bar">
 																<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{label}">
-																	<a href="/apps/{blockchainAppsByProviderName.zapper?.[appId]?.slug ?? appId}/address/{address}">{label}</a>
+																	<a href="/apps/{web3AppsByProviderName.zapper?.[appId]?.slug ?? appId}/address/{address}">{label}</a>
 																</h5>
 																{#each meta as {label, type, value}}
 																	{#if label === 'Assets'}
@@ -521,8 +521,8 @@
 								{#if providers?.zerionDefiSDK && defiProvider === 'Zerion DeFi SDK'}
 									<div class="card">
 										<Loader
-											loadingMessage="Reading {blockchainAppConfig.name} balances from {defiProvider}..."
-											errorMessage="Error getting {blockchainAppConfig.name} balances from {defiProvider}."
+											loadingMessage="Reading {web3AppConfig.name} balances from {defiProvider}..."
+											errorMessage="Error getting {web3AppConfig.name} balances from {defiProvider}."
 											fromPromise={provider && address && (
 												() => getDefiBalances({
 													appIds: providers?.zerionDefiSDK,
@@ -556,17 +556,17 @@
 											<div class="defi-balances column">
 												{#each defiBalances as {
 													adapterBalances, metadata,
-													// _: blockchainAppConfig = blockchainAppsByProviderName.zerionDefiSDK?.[metadata.name]
+													// _: web3AppConfig = web3AppsByProviderName.zerionDefiSDK?.[metadata.name]
 												}, i (metadata.name + i)}
 													<div
 														class="card defi-protocol layout-{computedLayout}"
 														transition:scaleFont|local
 														animate:flip|local={{duration: 300, delay: Math.abs(i) * 10}}
 													>
-													<!-- style={cardStyle(colors || blockchainAppConfig.colors)} -->
+													<!-- style={cardStyle(colors || web3AppConfig.colors)} -->
 														<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{metadata.description}">
 															<img class="card-background" src={`https://${metadata.iconURL}`} alt={metadata.name} width="20"/>
-															<a href="/apps/{blockchainAppsByProviderName.zerionDefiSDK?.[metadata.name]?.slug}/address/{address}">{metadata.name}</a>
+															<a href="/apps/{web3AppsByProviderName.zerionDefiSDK?.[metadata.name]?.slug}/address/{address}">{metadata.name}</a>
 														</h5>
 														{#if computedLayout === 'vertical'}
 															<hr>
@@ -750,11 +750,11 @@
 									endpointURL: JSON.stringify(providers.theGraph),
 									// query: JSON.stringify('{}'),
 									// variables: JSON.stringify(''),
-									// response: JSON.stringify(`This is a GraphQL explorer for the ${blockchainAppConfig.name} subgraph on Blockhead! Click on "Docs" in the top right to see the schema.`)),
+									// response: JSON.stringify(`This is a GraphQL explorer for the ${web3AppConfig.name} subgraph on Blockhead! Click on "Docs" in the top right to see the schema.`)),
 									history: false,
 									prettify: true,
 									docs: true
-								})}&response={globalThis.encodeURIComponent(JSON.stringify(`This is a GraphQL explorer for the ${blockchainAppConfig.name} subgraph on Blockhead! Click on "Docs" in the top right to see the schema.`))}"
+								})}&response={globalThis.encodeURIComponent(JSON.stringify(`This is a GraphQL explorer for the ${web3AppConfig.name} subgraph on Blockhead! Click on "Docs" in the top right to see the schema.`))}"
 							/>
 						</div>
 					</div>

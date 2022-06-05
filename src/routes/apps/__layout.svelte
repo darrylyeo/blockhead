@@ -5,21 +5,21 @@
 	import { browser } from '$app/env'
 	import { goto } from '$app/navigation'
 
-	// const blockchainAppSlug = derived<typeof page, string>(page, ($page, set) =>
-	// 	set($page.params.blockchainApp || '')
+	// const web3AppSlug = derived<typeof page, string>(page, ($page, set) =>
+	// 	set($page.params.web3App || '')
 	// )
-	// // $: $blockchainAppSlug = $page.params.blockchainApp
-	const blockchainAppSlug = writable<BlockchainAppSlug>($page.params.blockchainApp || $page.url.pathname.match(/^\/apps\/([^/]+)/)?.[1] || '')
+	// // $: $web3AppSlug = $page.params.web3App
+	const web3AppSlug = writable<Web3AppSlug>($page.params.web3App || $page.url.pathname.match(/^\/apps\/([^/]+)/)?.[1] || '')
 	const addressOrENSName = writable<string>($page.params.addressOrENSName || '')
-	$: $blockchainAppSlug = $page.params.blockchainApp || $page.url.pathname.match(/^\/apps\/([^/]+)/)?.[1] || ''
+	$: $web3AppSlug = $page.params.web3App || $page.url.pathname.match(/^\/apps\/([^/]+)/)?.[1] || ''
 	$: $addressOrENSName = $page.params.addressOrENSName || ''
 
-	setContext('blockchainAppSlug', blockchainAppSlug)
+	setContext('web3AppSlug', web3AppSlug)
 	setContext('addressOrENSName', addressOrENSName)
 
 	// let path = $page.url.pathname
 	// $: if(browser){
-	// 	const newPath = `/apps${$blockchainAppSlug ? `/${$blockchainAppSlug}${$addressOrENSName ? `/address/${$addressOrENSName}` : ''}` : ''}`
+	// 	const newPath = `/apps${$web3AppSlug ? `/${$web3AppSlug}${$addressOrENSName ? `/address/${$addressOrENSName}` : ''}` : ''}`
 	// 	console.log(newPath, path)
 	// 	if(newPath !== path)
 	// 		goto(newPath, {keepfocus: true})
@@ -31,28 +31,28 @@
 
 	let currentView: 'Dashboard' | 'Explorer' | 'Account'
 	$: currentView = 
-		query || ($addressOrENSName && $blockchainAppConfig.name) === 'ENS' ? 'Explorer' :
+		query || ($addressOrENSName && $web3AppConfig.name) === 'ENS' ? 'Explorer' :
 		$addressOrENSName ? 'Account' :
 		'Dashboard'
 
 
-	import type { BlockchainAppConfig, BlockchainAppSlug} from '../../data/blockchain-apps'
-	import { web3AppsBySection, blockchainAppsBySlug } from '../../data/blockchain-apps'
+	import type { Web3AppConfig, Web3AppSlug} from '../../data/web3Apps'
+	import { web3AppsBySection, web3AppsBySlug } from '../../data/web3Apps'
 
 
 	// App context stores
 
-	const blockchainAppConfig = derived<typeof blockchainAppSlug, BlockchainAppConfig>(blockchainAppSlug, ($blockchainAppSlug, set) => {
-		if(blockchainAppsBySlug[$blockchainAppSlug])
-			set(blockchainAppsBySlug[$blockchainAppSlug])
+	const web3AppConfig = derived<typeof web3AppSlug, Web3AppConfig>(web3AppSlug, ($web3AppSlug, set) => {
+		if(web3AppsBySlug[$web3AppSlug])
+			set(web3AppsBySlug[$web3AppSlug])
 		else
 			set(undefined)
 	})
-	setContext('blockchainAppConfig', blockchainAppConfig)
+	setContext('web3AppConfig', web3AppConfig)
 
 
 	$: if(globalThis.document)
-		document.documentElement.style.setProperty('--primary-color', $blockchainAppConfig?.colors?.[$blockchainAppConfig.colors.length / 2 | 0] || `var(--${tokenColors['ethereum']})`)
+		document.documentElement.style.setProperty('--primary-color', $web3AppConfig?.colors?.[$web3AppConfig.colors.length / 2 | 0] || `var(--${tokenColors['ethereum']})`)
 
 
 	import { fly } from 'svelte/transition'
@@ -90,7 +90,7 @@
 
 
 <svelte:head>
-	<title>{$addressOrENSName || query ? `${$addressOrENSName || query} | ` : ''}{$blockchainAppSlug && $blockchainAppConfig ? `${$blockchainAppConfig.name} ${currentView}` : `Apps`} | Blockhead</title>
+	<title>{$addressOrENSName || query ? `${$addressOrENSName || query} | ` : ''}{$web3AppSlug && $web3AppConfig ? `${$web3AppConfig.name} ${currentView}` : `Apps`} | Blockhead</title>
 </svelte:head>
 
 
@@ -98,9 +98,9 @@
 	<div class="bar">
 		<div class="row">
 			<span class="title-icon">
-				{#key $blockchainAppConfig}
-					{#if $blockchainAppConfig}
-						{#each $blockchainAppConfig.views?.flatMap(view => view.erc20Tokens ?? []).slice(0, 1) as erc20Token}
+				{#key $web3AppConfig}
+					{#if $web3AppConfig}
+						{#each $web3AppConfig.views?.flatMap(view => view.erc20Tokens ?? []).slice(0, 1) as erc20Token}
 							<TokenIcon {erc20Token} />
 						{/each}
 					{:else}
@@ -109,11 +109,11 @@
 				{/key}
 			</span>
 			<h1>
-				<a href="/apps/{$blockchainAppSlug}" class="stack-inline">
-					{#if $blockchainAppSlug && $blockchainAppConfig}
+				<a href="/apps/{$web3AppSlug}" class="stack-inline">
+					{#if $web3AppSlug && $web3AppConfig}
 						<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>
 							<InlineContainer class="stack-inline">
-								{#key $blockchainAppConfig}<mark in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{$blockchainAppConfig.name}</mark>{/key}
+								{#key $web3AppConfig}<mark in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{$web3AppConfig.name}</mark>{/key}
 							</InlineContainer>
 							<InlineContainer class="stack-inline">
 								{#key currentView}<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{currentView}</span>{/key}
@@ -130,7 +130,7 @@
 
 		<label>
 			<span>App</span>
-			<select bind:value={$blockchainAppSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`/apps/${$blockchainAppSlug}${$addressOrENSName ? `/address/${$addressOrENSName}` : ''}`))}>
+			<select bind:value={$web3AppSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`/apps/${$web3AppSlug}${$addressOrENSName ? `/address/${$addressOrENSName}` : ''}`))}>
 				<option value="" selected>Select App...</option>
 
 				{#each web3AppsBySection as {title, apps}}

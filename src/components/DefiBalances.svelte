@@ -3,8 +3,8 @@
 	import type { DeFiProvider } from '../data/defi-provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import type { DefiSDK } from '../data/ethereum/price/defi-sdk'
-	import type { BlockchainAppConfig, BlockchainAppSlug } from '../data/blockchain-apps'
-	import { blockchainAppsByProviderName } from '../data/blockchain-apps'
+	import type { Web3AppConfig, Web3AppSlug } from '../data/web3Apps'
+	import { web3AppsByProviderName } from '../data/web3Apps'
 	import { getDefiBalances } from '../data/ethereum/price/defi-sdk'
 	import type { ZapperAppId } from '../data/zapper/zapper'
 	import type { AppDefinition } from '../data/zapper/api/data-contracts';
@@ -12,7 +12,7 @@
 
 
 	// Data
-	export let blockchainApps: BlockchainAppConfig[]
+	export let web3Apps: Web3AppConfig[]
 	export let network: Ethereum.Network
 	export let provider: Ethereum.Provider
 	export let address: string
@@ -86,7 +86,7 @@
 	import { formatUnits } from '../utils/format-units'
 
 
-	$: defiBalancesDescription = blockchainApps?.map(({name}) => name).join('/') || `${network.name} DeFi`
+	$: defiBalancesDescription = web3Apps?.map(({name}) => name).join('/') || `${network.name} DeFi`
 
 
 	import Loader from './Loader.svelte'
@@ -176,7 +176,7 @@
 			loadingIconName={defiProvider}
 			loadingIcon={'/logos/Zapper.svg'}
 			fromStore={() => getDeFiAppBalances({
-				appIds: blockchainApps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zapper ?? [])),
+				appIds: web3Apps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zapper ?? [])),
 				network,
 				address,
 				asStore: true
@@ -193,11 +193,11 @@
 				{#each defiProtocolBalances as {appId, products, meta}, i}
 					{#each products as {
 						label, assets, meta: productMeta,
-						// _: blockchainAppConfig = blockchainAppsByProviderName.zapper?.[appId]
+						// _: web3AppConfig = web3AppsByProviderName.zapper?.[appId]
 					}, j (label)}
 						<div
 							class="card defi-protocol"
-							style={cardStyle(blockchainAppsByProviderName.zapper?.[appId]?.colors ?? zapperApps?.[appId]?.primaryColor ? [zapperApps[appId].primaryColor] : [])}
+							style={cardStyle(web3AppsByProviderName.zapper?.[appId]?.colors ?? zapperApps?.[appId]?.primaryColor ? [zapperApps[appId].primaryColor] : [])}
 							transition:scale
 							animate:flip|local={{duration: 300, delay: Math.abs(i + j * 0.1) * 10}}
 						>
@@ -208,7 +208,7 @@
 							{/if}
 							<div class="bar">
 								<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{label}">
-									<a href="/apps/{blockchainAppsByProviderName.zapper?.[appId]?.slug ?? appId}/address/{address}">{label}</a>
+									<a href="/apps/{web3AppsByProviderName.zapper?.[appId]?.slug ?? appId}/address/{address}">{label}</a>
 								</h5>
 								{#each meta as {label, type, value}}
 									{#if label === 'Assets'}
@@ -400,7 +400,7 @@
 				loadingMessage="Reading {defiBalancesDescription} balances from {defiProvider}..."
 				errorMessage="Error getting {defiBalancesDescription} balances from {defiProvider}."
 				fromPromise={() => getDefiBalances({
-					protocolNames: blockchainApps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zerionDefiSDK ?? [])),
+					protocolNames: web3Apps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zerionDefiSDK ?? [])),
 					network,
 					provider,
 					address
@@ -418,17 +418,17 @@
 				<div class="defi-balances column">
 					{#each defiBalances as {
 						adapterBalances, metadata,
-						// _: blockchainAppConfig = blockchainAppsByProviderName.zerionDefiSDK?.[metadata.name]
+						// _: web3AppConfig = web3AppsByProviderName.zerionDefiSDK?.[metadata.name]
 					}, i (metadata.name + i)}
 						<div
 							class="card defi-protocol layout-{computedLayout}"
-							style={cardStyle(blockchainAppsByProviderName.zerionDefiSDK?.[metadata.name]?.colors)}
+							style={cardStyle(web3AppsByProviderName.zerionDefiSDK?.[metadata.name]?.colors)}
 							transition:scaleFont|local
 							animate:flip|local={{duration: 300, delay: Math.abs(i) * 10}}
 						>
 							<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{metadata.description}">
 								<img class="card-background" src={`https://${metadata.iconURL}`} alt={metadata.name} width="20"/>
-								<a href="/apps/{blockchainAppsByProviderName.zerionDefiSDK?.[metadata.name]?.slug}/address/{address}">{metadata.name}</a>
+								<a href="/apps/{web3AppsByProviderName.zerionDefiSDK?.[metadata.name]?.slug}/address/{address}">{metadata.name}</a>
 							</h5>
 							{#if computedLayout === 'vertical'}
 								<hr>

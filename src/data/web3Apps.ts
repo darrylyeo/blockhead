@@ -4,15 +4,15 @@ import type { ZapperDeFiProtocolName } from './zapper/zapper'
 import { erc20TokensByContractAddress, erc20TokensBySymbol } from './ethereum/tokens/tokens'
 
 
-export type BlockchainAppConfig = {
-	name: BlockchainAppName,
-	slug: BlockchainAppSlug,
+export type Web3AppConfig = {
+	name: Web3AppName,
+	slug: Web3AppSlug,
 	links?: string[],
 	colors?: string[],
-	views: BlockchainAppView[]
+	views: Web3AppView[]
 }
 
-export type BlockchainAppView = {
+export type Web3AppView = {
 	name?: string,
 	slug?: string,
 	colors?: string[],
@@ -37,11 +37,11 @@ export type BlockchainAppView = {
 	}[],
 }
 
-export type BlockchainAppName = string // typeof blockchainApps[number]['name']
-export type BlockchainAppSlug = string // typeof blockchainApps[number]['slug']
+export type Web3AppName = string // typeof web3Apps[number]['name']
+export type Web3AppSlug = string // typeof web3Apps[number]['slug']
 
 
-export const blockchainApps: BlockchainAppConfig[] = [
+export const web3Apps: Web3AppConfig[] = [
 	{
 		name: 'Aave',
 		slug: 'aave',
@@ -3865,13 +3865,13 @@ export const blockchainApps: BlockchainAppConfig[] = [
 ] // as const
 
 
-export const blockchainAppsBySlug = Object.fromEntries(blockchainApps.map(blockchainAppConfig => [blockchainAppConfig.slug, blockchainAppConfig]))
-export const blockchainAppsByProviderName = {
-	zapper: Object.fromEntries(blockchainApps.flatMap(blockchainAppConfig =>
-		blockchainAppConfig.views.map(view => view.providers?.zapper ? [view.providers.zapper, blockchainAppConfig] : [])
+export const web3AppsBySlug = Object.fromEntries(web3Apps.map(web3AppConfig => [web3AppConfig.slug, web3AppConfig]))
+export const web3AppsByProviderName = {
+	zapper: Object.fromEntries(web3Apps.flatMap(web3AppConfig =>
+		web3AppConfig.views.map(view => view.providers?.zapper ? [view.providers.zapper, web3AppConfig] : [])
 	)),
-	zerionDefiSDK: Object.fromEntries(blockchainApps.flatMap(blockchainAppConfig =>
-		blockchainAppConfig.views.flatMap(view => view.providers?.zerionDefiSDK?.map(name => [name, blockchainAppConfig]) ?? [])
+	zerionDefiSDK: Object.fromEntries(web3Apps.flatMap(web3AppConfig =>
+		web3AppConfig.views.flatMap(view => view.providers?.zerionDefiSDK?.map(name => [name, web3AppConfig]) ?? [])
 	))
 }
 
@@ -3900,9 +3900,9 @@ const featuredWeb3Apps = [
 	'uniswap',
 	'yearn',
 	'0x'
-].map(slug => blockchainAppsBySlug[slug])
+].map(slug => web3AppsBySlug[slug])
 
-const otherWeb3Apps = blockchainApps.filter(blockchainAppConfig => !featuredWeb3Apps.includes(blockchainAppConfig))
+const otherWeb3Apps = web3Apps.filter(web3AppConfig => !featuredWeb3Apps.includes(web3AppConfig))
 
 export const web3AppsBySection = [
 	{
