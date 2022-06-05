@@ -49,7 +49,7 @@ specifiers:
   eslint-plugin-svelte3: ^3.2.1
   ethers: 5.4.4
   ethers-to-web3: ^0.1.6
-  etherspot: ^1.12.0
+  etherspot: ^1.33.2
   events: ^3.3.0
   graphql: ^15.5.1
   houdini: ^0.11.1
@@ -110,7 +110,7 @@ dependencies:
   echarts: 5.3.2
   ethers: 5.4.4
   ethers-to-web3: 0.1.6
-  etherspot: 1.30.0_1762214cfcdcd7ebd7d98f8856ee87fe
+  etherspot: 1.33.2_1762214cfcdcd7ebd7d98f8856ee87fe
   events: 3.3.0
   graphql: 15.8.0
   key-did-resolver: 1.4.4
@@ -1546,8 +1546,8 @@ packages:
       - supports-color
     dev: false
 
-  /@etherspot/contracts/1.4.0:
-    resolution: {integrity: sha512-aVIKpG7+8gJkkJZTPhImxSSEanZZW4RkFTUeHwDmdJ1zjJaE84hFAMaLNxHQjOQ+vELUV9WShUg3gs2EmfK6ZA==}
+  /@etherspot/contracts/1.6.0:
+    resolution: {integrity: sha512-6J2ph/F8xZda+pavzF/LcOFf3shwg68f5E+DVo0mCUOhTSWkysfKZW6enQ6Vcakg+3tLsGfSBLe8+g7lNV7nUg==}
     dev: false
 
   /@ethersproject/abi/5.0.0-beta.153:
@@ -4740,7 +4740,7 @@ packages:
   /axios/0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.14.9
+      follow-redirects: 1.14.9_debug@4.3.4
     transitivePeerDependencies:
       - debug
 
@@ -8220,15 +8220,15 @@ packages:
       - utf-8-validate
     dev: false
 
-  /etherspot/1.30.0_1762214cfcdcd7ebd7d98f8856ee87fe:
-    resolution: {integrity: sha512-llzhJ1k/v0d9lIV/fg4s4qiB/L6RpvMDrlnHnPlM1c5/Mdt+pFM4UjqVII8wyOxBOqVnMiN9qbxLI4foxhW3Lw==}
+  /etherspot/1.33.2_1762214cfcdcd7ebd7d98f8856ee87fe:
+    resolution: {integrity: sha512-tZY9+99KazDWKdVED/g3EcP5EHJy6OKdUHe2TKpnQ53GVYDS6HqZgEvhph8VjbNi0dXNsHUr9Uu9ol9g67FcDw==}
     peerDependencies:
-      ethers: ^5.5.2
+      ethers: ^5.6.8
       reflect-metadata: ^0.1.13
       rxjs: ^6.6.2
     dependencies:
       '@apollo/client': 3.4.0_801623529d64824f70c9ac72231d9734
-      '@etherspot/contracts': 1.4.0
+      '@etherspot/contracts': 1.6.0
       '@nerdwallet/apollo-cache-policies': 1.2.1_@apollo+client@3.4.0
       class-transformer: 0.4.0
       class-validator: 0.13.1
@@ -8637,6 +8637,7 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dev: false
 
   /follow-redirects/1.14.9_debug@4.3.4:
     resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
@@ -8648,7 +8649,6 @@ packages:
         optional: true
     dependencies:
       debug: 4.3.4
-    dev: false
 
   /follow-redirects/1.5.10:
     resolution: {integrity: sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==}
