@@ -27,47 +27,19 @@
 
 	$: network = networksByChainID[$ethereumChainID]
 
-	const addToPortfolio = account => {
-
-	}
-
 
 	import PortfolioComponent from '../../components/Portfolio.svelte'
 	import Preferences from '../../components/Preferences.svelte'
-	import WalletProviders from '../../components/WalletProviders.svelte'
+	import ConnectedAccounts from '../../components/ConnectedAccounts.svelte'
+	// import WalletProviders from '../../components/WalletProviders.svelte'
 	import { fly } from 'svelte/transition'
 </script>
 
-<style>
-	main {
-		/* display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
-		justify-items: center; */
-
-		display: flex;
-		justify-content: center;
-		flex-wrap: wrap;
-		gap: 2rem;
-		
-		/* Override scroll container to support position: sticky */
-		height: 100vh;
-		overflow-y: auto;
-	}
-	/* main > :global(*) {
-		flex: 1 30rem;
-		max-width: 45rem;
-		gap: 2.5rem;
-	} */
-
-	.portfolios {
-		padding: 0 0.5rem;
-		gap: 2.5rem;
-	}
-</style>
 
 <svelte:head>
 	<title>Portfolio | Blockhead</title>
 </svelte:head>
+
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 	<section class="portfolios column">
@@ -93,6 +65,12 @@
 	</section>
 	
 	<!-- <WalletProviders {network} {portfolioProvider} /> -->
+
+	<aside>
+		<section class="column">
+			<ConnectedAccounts />
+		</section>
+	</aside>
 </main>
 
 <Preferences
@@ -102,3 +80,38 @@
 		'quoteCurrency'
 	]}
 />
+
+
+<style>
+	main {
+		/* display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+		justify-items: center; */
+
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 2rem;
+		
+		/* Override scroll container to support position: sticky */
+		height: 100vh;
+		overflow-y: auto;
+	}
+	/* main > :global(*) {
+		flex: 1 30rem;
+		max-width: 45rem;
+		gap: 2.5rem;
+	} */
+
+	aside {
+		position: sticky;
+		top: 0;
+		align-self: start;
+		/* overflow: hidden auto; */
+	}
+
+	.portfolios {
+		padding: 0 0.5rem 60vh;
+		gap: 3rem;
+	}
+</style>

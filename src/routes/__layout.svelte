@@ -119,7 +119,13 @@
 		padding: calc(var(--bleed-top) + var(--padding-outer)) var(--padding-outer) calc(var(--bleed-bottom) + var(--padding-outer));
 		align-content: start;
 
-		grid-template-columns: 100%;
+		grid-template-columns: 1fr;
+		column-gap: 1.5em;
+	}
+
+	.stack > :global(main > aside) {
+		grid-column: 2;
+		width: 21rem;
 	}
 
 	:global(.preferences) {
