@@ -59,7 +59,7 @@ specifiers:
   prettier-plugin-svelte: ^2.7.0
   process: ^0.11.10
   reflect-metadata: ^0.1.13
-  rxjs: ^7.5.5
+  rxjs: ^6.6.2
   subscriptions-transport-ws: ^0.9.19
   svelte: ^3.48.0
   svelte-apollo: ^0.5.0
@@ -110,13 +110,13 @@ dependencies:
   echarts: 5.3.2
   ethers: 5.6.8
   ethers-to-web3: 0.1.6
-  etherspot: 1.33.2_c73f1359ffa7f4638226babbecb3a1ba
+  etherspot: 1.33.2_58fa55e68b45c501f51bf3e72fcb7c51
   events: 3.3.0
   graphql: 16.5.0
   key-did-resolver: 2.0.4
   process: 0.11.10
   reflect-metadata: 0.1.13
-  rxjs: 7.5.5
+  rxjs: 6.6.7
   subscriptions-transport-ws: 0.9.19_graphql@16.5.0
   svelte-apollo: 0.5.0_ecd4f829374febb473319a1cde620107
 
@@ -7189,7 +7189,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /etherspot/1.33.2_c73f1359ffa7f4638226babbecb3a1ba:
+  /etherspot/1.33.2_58fa55e68b45c501f51bf3e72fcb7c51:
     resolution: {integrity: sha512-tZY9+99KazDWKdVED/g3EcP5EHJy6OKdUHe2TKpnQ53GVYDS6HqZgEvhph8VjbNi0dXNsHUr9Uu9ol9g67FcDw==}
     peerDependencies:
       ethers: ^5.6.8
@@ -7205,7 +7205,7 @@ packages:
       ethers: 5.6.8
       graphql: 15.5.3
       reflect-metadata: 0.1.13
-      rxjs: 7.5.5
+      rxjs: 6.6.7
       subscriptions-transport-ws: 0.9.18_graphql@15.5.3
       validator: 13.7.0
     transitivePeerDependencies:
