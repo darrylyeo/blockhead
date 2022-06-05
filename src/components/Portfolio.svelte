@@ -78,7 +78,7 @@
 
 
 	// Computed Values
-	let portfoliosSummaries = []
+	let accountsSummaries = {}
 
 	export let summary: {
 		quoteTotal: number,
@@ -90,25 +90,30 @@
 	}
 	$: summary = {
 		quoteTotal:
-			portfoliosSummaries
+			accounts
+				.map(({ id }) => accountsSummaries[id])
 				.reduce((sum, { quoteTotal = 0 } = {}) => sum + quoteTotal, 0),
 
 		quoteTotalCurrency: quoteCurrency,
 
 		balancesCount:
-			portfoliosSummaries
+			accounts
+				.map(({ id }) => accountsSummaries[id])
 				.reduce((sum, { balancesCount = 0 } = {}) => sum + balancesCount, 0),
 
 		defiAppsCount:
-			portfoliosSummaries
+			accounts
+				.map(({ id }) => accountsSummaries[id])
 				.reduce((sum, { defiAppsCount = 0 } = {}) => sum + defiAppsCount, 0),
 
 		nftContractsCount:
-			portfoliosSummaries
+			accounts
+				.map(({ id }) => accountsSummaries[id])
 				.reduce((sum, { nftContractsCount = 0 } = {}) => sum + nftContractsCount, 0),
 
 		nftsCount:
-			portfoliosSummaries
+			accounts
+				.map(({ id }) => accountsSummaries[id])
 				.reduce((sum, { nftsCount = 0 } = {}) => sum + nftsCount, 0),
 	}
 
@@ -312,7 +317,7 @@
 					{show3D}
 					isEditing={state === State.Editing}
 
-					bind:summary={portfoliosSummaries[i]}
+					bind:summary={accountsSummaries[id]}
 				>
 					{#if state === State.Editing}
 						<div class="row edit-controls" transition:scale>
