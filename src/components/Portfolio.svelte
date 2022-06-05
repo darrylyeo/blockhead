@@ -181,6 +181,7 @@
 <section
 	class="portfolio column"
 	on:keydown={e => { if(e.code === 'Escape') state = State.Idle }}
+	on:dragenter={e => state = State.Adding}
 	tabIndex={0}
 >
 	<header class="bar">
