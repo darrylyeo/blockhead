@@ -3144,8 +3144,8 @@ export const web3Apps: Web3AppConfig[] = [
 		]
 	},
 	{
-		name: 'SushiSwap',
-		slug: 'sushiswap',
+		name: 'Sushi',
+		slug: 'sushi',
 		links: ['https://sushi.com'],
         colors: ['#016eda', '#d900c0'],
 		views: [
@@ -3805,7 +3805,7 @@ export const web3Apps: Web3AppConfig[] = [
 		]
 	},
 	{
-		name: 'Yearn Finance',
+		name: 'Yearn',
 		slug: 'yearn',
 		links: ['https://yearn.finance'],
         colors: ['#0273f6', '#075fb9'], // unofficial
@@ -3876,43 +3876,96 @@ export const web3AppsByProviderName = {
 }
 
 
-const featuredWeb3Apps = [
+const infrastructureApps = [
 	'ens',
-	'aave',
-	'audius',
-	'balancer',
-	'bitgo',
+	'the-graph',
+	'epns',
 	'chainlink',
-	'compound',
-	'88mph',
-	'enzyme',
 	'livepeer',
-	'matic',
-	'maker',
+	'tellor',
+	// 'umbrella',
+].map(slug => web3AppsBySlug[slug])
+
+const decentralizedExchanges = [
+	'balancer',
+	'curve',
+	// 'kyber',
 	'1inch',
 	'paraswap',
-	'rarible',
-	'superfluid',
-	'tellor',
-	'the-graph',
-	'uma',
-	'umbrella',
+	'sushi',
 	'uniswap',
-	'yearn',
 	'0x'
 ].map(slug => web3AppsBySlug[slug])
 
-const otherWeb3Apps = web3Apps.filter(web3AppConfig => !featuredWeb3Apps.includes(web3AppConfig))
+const defiPrimitives = [
+	'aave',
+	'compound',
+	'maker',
+	'superfluid',
+	'synthetix',
+	// 'uma',
+	'yearn',
+].map(slug => web3AppsBySlug[slug])
+
+const crossChainInfrastructure = [
+	'matic',
+	'connext',
+	'etherspot',
+].map(slug => web3AppsBySlug[slug])
+
+const institutionalDefi = [
+	'circle',
+	'bitgo',
+	'nexus-mutual',
+].map(slug => web3AppsBySlug[slug])
+
+const socialApps = [
+	'audius',
+	// 'lens',
+	'rarible',
+].map(slug => web3AppsBySlug[slug])
 
 export const web3AppsBySection = [
 	{
-		title: 'Featured Apps',
-		apps: featuredWeb3Apps,
-		isFeatured: true
+		title: 'Web3 Infrastructure',
+		apps: infrastructureApps,
+		isFeatured: true,
+	},
+	{
+		title: 'Decentralized Exchanges',
+		apps: decentralizedExchanges,
+		isFeatured: true,
+	},
+	{
+		title: 'DeFi Primitives',
+		apps: defiPrimitives,
+		isFeatured: true,
+	},
+	{
+		title: 'Institutional DeFi',
+		apps: institutionalDefi,
+		isFeatured: true,
+	},
+	{
+		title: 'Cross-Chain Infrastructure',
+		apps: crossChainInfrastructure,
+		isFeatured: true,
+	},
+	{
+		title: 'Social Apps',
+		apps: socialApps,
+		isFeatured: true,
 	},
 	{
 		title: 'Other Apps',
-		apps: otherWeb3Apps,
+		apps: web3Apps.filter(appConfig => ![
+			...infrastructureApps,
+			...crossChainInfrastructure,
+			...defiPrimitives,
+			...decentralizedExchanges,
+			...institutionalDefi,
+			...socialApps,
+		].includes(appConfig)),
 		isFeatured: false
 	}
 ]
