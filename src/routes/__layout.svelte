@@ -30,10 +30,10 @@
 		persistor: localStoragePersistor,
 	})
 
-	broadcastQueryClient({
-		queryClient,
-		broadcastChannel: globalThis.location?.origin,
-	})
+	// broadcastQueryClient({
+	// 	queryClient,
+	// 	broadcastChannel: globalThis.location?.origin,
+	// })
 
 
 
