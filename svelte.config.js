@@ -19,12 +19,12 @@ const config = {
 
 	kit: {
 		// adapter: adapter(),
-		adapter: adapterStatic({
+		adapter: adapterStatic(/*{
 			// default options are shown
 			pages: 'build',
 			assets: 'build',
 			fallback: null
-		}),
+		}*/),
 
         vite: {
 			ssr: {
