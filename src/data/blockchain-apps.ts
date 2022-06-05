@@ -3876,7 +3876,7 @@ export const blockchainAppsByProviderName = {
 }
 
 
-export const featuredBlockchainApps = [
+const featuredWeb3Apps = [
 	'ens',
 	'aave',
 	'audius',
@@ -3902,4 +3902,17 @@ export const featuredBlockchainApps = [
 	'0x'
 ].map(slug => blockchainAppsBySlug[slug])
 
-export const notFeaturedBlockchainApps = blockchainApps.filter(blockchainAppConfig => !featuredBlockchainApps.includes(blockchainAppConfig))
+const otherWeb3Apps = blockchainApps.filter(blockchainAppConfig => !featuredWeb3Apps.includes(blockchainAppConfig))
+
+export const web3AppsBySection = [
+	{
+		title: 'Featured Apps',
+		apps: featuredWeb3Apps,
+		isFeatured: true
+	},
+	{
+		title: 'Other Apps',
+		apps: otherWeb3Apps,
+		isFeatured: false
+	}
+]

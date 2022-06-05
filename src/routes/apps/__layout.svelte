@@ -37,7 +37,7 @@
 
 
 	import type { BlockchainAppConfig, BlockchainAppSlug} from '../../data/blockchain-apps'
-	import { blockchainApps, blockchainAppsBySlug, featuredBlockchainApps, notFeaturedBlockchainApps } from '../../data/blockchain-apps'
+	import { web3AppsBySection, blockchainAppsBySlug } from '../../data/blockchain-apps'
 
 
 	// App context stores
@@ -130,19 +130,16 @@
 
 		<label>
 			<span>App</span>
-			<!-- <select bind:value={$blockchainAppSlug}> -->
 			<select bind:value={$blockchainAppSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`/apps/${$blockchainAppSlug}${$addressOrENSName ? `/address/${$addressOrENSName}` : ''}`))}>
 				<option value="" selected>Select App...</option>
-				<optgroup label="Featured">
-					{#each featuredBlockchainApps as {name, slug}}
-						<option value={slug}>{name}</option>
-					{/each}
-				</optgroup>
-				<optgroup label="Other">
-					{#each notFeaturedBlockchainApps as {name, slug}}
-						<option value={slug}>{name}</option>
-					{/each}
-				</optgroup>
+
+				{#each web3AppsBySection as {title, apps}}
+					<optgroup label={title}>
+						{#each apps as app}
+							<option value={app.slug} style={`--primary-color: ${app.colors?.[0]}`}>{app.name}</option>
+						{/each}
+					</optgroup>
+				{/each}
 			</select>
 		</label>
 	</div>

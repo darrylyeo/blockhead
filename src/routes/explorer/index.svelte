@@ -25,18 +25,18 @@
 		justify-content: center;
 	}
 
-	.app {
+	.item {
 		text-decoration: none;
 	}
-	.app:hover {
+	.item:hover {
 		transform: scale(1.04);
 	}
 
-	.app h3 {
+	.item h3 {
 		gap: 0.66em;
 	}
 
-	.app span {
+	.item span {
 		color: rgba(var(--rgb-light-dark-inverse), calc(0.6 + 0.3 * var(--is-dark)));
 		text-shadow: 0 0 0 var(--primary-color);
 		opacity: calc(0.75 + 0.25 * var(--is-dark));
@@ -59,7 +59,7 @@
 
 		<section class="row" class:featured={isFeatured}>
 			{#each networks as network, i}
-				<a href="/explorer/{network.slug}" class="app card" transition:scale={{delay: i * 10}} style={cardStyle([getNetworkColor(network)])}>
+				<a href="/explorer/{network.slug}" class="item card" transition:scale={{delay: i * 10}} style={cardStyle([getNetworkColor(network)])}>
 					<h3 class="row">
 						<NetworkIcon {network} />
 						<span>{network.name}</span>

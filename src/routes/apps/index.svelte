@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { featuredBlockchainApps, notFeaturedBlockchainApps } from '../../data/blockchain-apps'
+	import { web3AppsBySection } from '../../data/blockchain-apps'
 
 
 	import TokenIcon from '../../components/TokenIcon.svelte'
@@ -25,18 +25,18 @@
 		justify-content: center;
 	}
 
-	.app {
+	.item {
 		text-decoration: none;
 	}
-	.app:hover {
+	.item:hover {
 		transform: scale(1.04);
 	}
 
-	.app h3 {
+	.item h3 {
 		gap: 0.66em;
 	}
 
-	.app span {
+	.item span {
 		color: rgba(var(--rgb-light-dark-inverse), calc(0.6 + 0.3 * var(--is-dark)));
 		text-shadow: 0 0 0 var(--primary-color);
 		opacity: calc(0.75 + 0.25 * var(--is-dark));
@@ -52,41 +52,22 @@
 
 
 <div class="column" in:fly={{x: 300}} out:fly={{x: -300}}>
-	<hr>
+	{#each web3AppsBySection as {title, apps, isFeatured}, i}
+		<hr>
 
-	<h2>Featured Apps</h2>
+		<h2>{title}</h2>
 
-	<section class="featured row">
-		{#each featuredBlockchainApps as {name, slug, colors, views}, i}
-			<a href="/apps/{slug}" class="app card" transition:scale={{delay: i * 10}} style={cardStyle(colors)}>
-				<h3 class="row">
-					{#each views?.flatMap(view => view.erc20Tokens ?? []).slice(0, 1) as erc20Token}
-						{#if erc20Token}
+		<section class="row" class:featured={isFeatured}>
+			{#each apps as app, i}
+				<a href="/apps/{app.slug}" class="item card" transition:scale={{delay: i * 10}} style={cardStyle(app.colors)}>
+					<h3 class="row">
+						{#each app.views?.flatMap(view => view.erc20Tokens ?? []).filter(Boolean).slice(0, 1) as erc20Token}
 							<TokenIcon {erc20Token} />
-						{/if}
-					{/each}
-					<span>{name}</span>
-				</h3>
-			</a>
-		{/each}
-	</section>
-
-	<hr>
-
-	<h2>Other Apps</h2>
-
-	<section class="other row">
-		{#each notFeaturedBlockchainApps as {name, slug, colors, views}, i}
-			<a href="/apps/{slug}" class="app card" transition:scale={{delay: i * 10}} style={cardStyle(colors)}>
-				<h3 class="row">
-					{#each views?.flatMap(view => view.erc20Tokens ?? []).slice(0, 1) as erc20Token}
-						{#if erc20Token}
-							<TokenIcon {erc20Token} />
-						{/if}
-					{/each}
-					<span>{name}</span>
-				</h3>
-			</a>
-		{/each}
-	</section>
+						{/each}
+						<span>{app.name}</span>
+					</h3>
+				</a>
+			{/each}
+		</section>
+	{/each}
 </div>
