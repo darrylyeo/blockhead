@@ -121,7 +121,7 @@
 						</span>
 					{:else}
 						<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>
-							Blockchain/Web 3.0 Apps
+							Web3 Apps/Services
 						</span>
 					{/if}
 				</a>
