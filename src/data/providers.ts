@@ -13,6 +13,7 @@ import { networksBySlug } from './ethereum/networks'
 // APIs
 import { getDefaultProvider, providers } from 'ethers'
 import { getMoralisJSONRPCEndpoint } from './moralis/endpoints'
+import { figmentProviderConfigs } from './figment'
 
 type NetworkProviderConfig = {
 	provider: NetworkProvider,
@@ -110,6 +111,32 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		get: ({ network }) =>
 			new providers.EtherscanProvider(network.chainId, env.ETHERSCAN_API_KEY)
 	},
+
+	{
+		provider: NetworkProvider.Figment,
+		name: 'Figment DataHub',
+		icon: '/apps/Figment.svg',
+
+		get: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+			nodeType = NetworkProviderNodeType.Default,
+		}) => {
+			const figmentProviderConfig = figmentProviderConfigs.find(figmentProviderConfig =>
+				figmentProviderConfig.networkSlug === network.slug &&
+				figmentProviderConfig.connectionType === connectionType &&
+				figmentProviderConfig.nodeType === nodeType,
+			)
+
+			if(figmentProviderConfig)
+				return new providers.JsonRpcProvider(
+					`${figmentProviderConfig.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${figmentProviderConfig.subdomain}.datahub.figment.io/apikey/${env.FIGMENT_DATA_HUB_APP_API_KEY}`,
+					network.chainId
+				)
+			else
+				throw new Error(`Couldn't find a Figment node matching the configuration`)
+		}
+	},
 ]
 
 export const networkProviderConfigByProvider = Object.fromEntries(networkProviderConfigs.map(networkProviderConfig => [networkProviderConfig.provider, networkProviderConfig]))
@@ -117,21 +144,28 @@ export const networkProviderConfigByProvider = Object.fromEntries(networkProvide
 export const networkProviderConfigByNetworkSlug = Object.fromEntries(Object.entries({
 	"arbitrum-one": [
 		NetworkProvider.PocketNetwork,
+		NetworkProvider.Figment,
 	],
 	"avalanche": [
 		NetworkProvider.PocketNetwork,
+		NetworkProvider.Figment,
 	],
 	"avalanche-fuji": [
+		NetworkProvider.Figment,
 	],
 	"bsc": [
+		NetworkProvider.Figment,
 	],
 	"celo": [
+		NetworkProvider.Figment,
 	],
 	"celo-alfajores": [
+		NetworkProvider.Figment,
 	],
 	"ethereum": [
 		NetworkProvider.Alchemy,
 		NetworkProvider.PocketNetwork,
+		NetworkProvider.Figment,
 	],
 	"ethereum-ropsten": [
 		// RpcProvider.Alchemy,
@@ -140,23 +174,28 @@ export const networkProviderConfigByNetworkSlug = Object.fromEntries(Object.entr
 	"ethereum-rinkeby": [
 		NetworkProvider.Alchemy,
 		NetworkProvider.PocketNetwork,
+		NetworkProvider.Figment,
 	],
 	"ethereum-goerli": [
 		// RpcProvider.Alchemy,
 		NetworkProvider.PocketNetwork,
 	],
 	"fantom": [
+		NetworkProvider.Figment,
 	],
 	"harmony-shard0": [
 		NetworkProvider.PocketNetwork
 	],
 	"harmony-shard1": [],
 	"oasis-paratime": [
+		NetworkProvider.Figment,
 	],
 	"polygon": [
 		NetworkProvider.PocketNetwork,
+		NetworkProvider.Figment,
 	],
 	"polygon-mumbai": [
+		NetworkProvider.Figment,
 	],
 })
 	.map(([slug, networkProviders]) =>

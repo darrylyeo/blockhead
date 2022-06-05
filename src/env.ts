@@ -4,6 +4,7 @@ export const env = {
     AUDIUS_APP_NAME: String(import.meta.env.VITE_AUDIUS_APP_NAME || ''),
     COVALENT_API_KEY: String(import.meta.env.VITE_COVALENT_API_KEY || ''),
     ETHERSCAN_API_KEY: String(import.meta.env.VITE_ETHERSCAN_API_KEY || ''),
+    FIGMENT_DATA_HUB_APP_API_KEY: String(import.meta.env.VITE_FIGMENT_DATA_HUB_APP_API_KEY || ''),
     INFURA_PROJECT_ID: String(import.meta.env.VITE_INFURA_PROJECT_ID || ''),
     MORALIS_GATEWAY_ID: String(import.meta.env.VITE_MORALIS_GATEWAY_ID || ''),
     MORALIS_WEB3_API_KEY: String(import.meta.env.VITE_MORALIS_WEB3_API_KEY || ''),

@@ -4,6 +4,7 @@ export enum NetworkProvider {
 	Infura = 'Infura',
 	Alchemy = 'Alchemy',
 	PocketNetwork = 'PocketNetwork',
+	Figment = 'Figment',
     Etherscan = 'Etherscan',
     Moralis = 'Moralis',
 }
