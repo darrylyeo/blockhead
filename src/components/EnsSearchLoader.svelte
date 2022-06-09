@@ -15,15 +15,27 @@
 		return query<ENSDomains>(graphql`
 			query ENSDomains($name: String!) {
 				domains(where: {name: $name}) {
+					__typename
 					id
 					name
+					labelName
+					labelhash
 					parent { id name }
 					subdomains { id name }
-					resolvedAddress { id }
-					owner { id }
-					resolver {
+					resolvedAddress {
+						__typename
 						id
+					}
+					owner {
+						__typename
+						id
+					}
+					resolver {
+						__typename
+						id
+						domain { id }
 						address
+						addr { id }
 						texts
 						coinTypes
 						events { id blockNumber transactionID }
@@ -31,6 +43,7 @@
 					ttl
 					isMigrated
 					events {
+						__typename
 						id
 						blockNumber
 						transactionID
@@ -58,15 +71,27 @@
 		return query<ENSDomainsContaining>(graphql`
 			query ENSDomainsContaining($query: String!) {
 				domains(where: {name_contains: $query, name_not: $query}) {
+					__typename
 					id
 					name
+					labelName
+					labelhash
 					parent { id name }
 					subdomains { id name }
-					resolvedAddress { id }
-					owner { id }
-					resolver {
+					resolvedAddress {
+						__typename
 						id
+					}
+					owner {
+						__typename
+						id
+					}
+					resolver {
+						__typename
+						id
+						domain { id }
 						address
+						addr { id }
 						texts
 						coinTypes
 						events { id blockNumber transactionID }
@@ -74,6 +99,7 @@
 					ttl
 					isMigrated
 					events {
+						__typename
 						id
 						blockNumber
 						transactionID
@@ -109,20 +135,31 @@
 	.ens-query {
 		gap: 1.5em;
 	}
+
+	.similar {
+		display: flex;
+		font-size: 0.8em;
+		flex-wrap: wrap;
+	}
+	.similar > :global(*) {
+		flex: 1 25rem;
+	}
+	/* .similar {
+		font-size: 0.8em;
+	} */
 </style>
 
 
 <Loader
 	fromHoudiniQuery={searchQuery && (() => queryENSDomain({name: searchQuery}))}
-	loadingIcon="/logos/ens.svg"
+	loadingIcon="/logos/ENS.svg"
 	loadingIconName="The Graph"
-	loadingMessage="Querying the Ethereum Name Service..."
-	result={{}}
-	let:then={{domains}}
+	loadingMessage='Searching for "{searchQuery}" in the Ethereum Name Service subgraph...'
+	let:result={result}
 >
 	<div class="ens-query column">
-		{#each domains.sort(sortByLength) as domain (domain.id)}
-			<EnsDomain {network} {domain}/>
+		{#each result.domains.sort(sortByLength) as domain (domain.id)}
+			<EnsDomain {network} {domain} />
 		{:else}
 			<div class="card">
 				<div class="bar">
@@ -138,23 +175,24 @@
 
 		<Loader
 			fromHoudiniQuery={() => queryENSDomainsContaining({query: searchQuery})}
-			loadingIcon="/logos/ens.svg"
+			loadingIcon="/logos/ENS.svg"
 			loadingIconName="The Graph"
-			loadingMessage="Querying the Ethereum Name Service for similar names..."
-			result={{}}
-			let:then={{domains}}
-			showIf={({domains} = {}) => domains.length}
+			loadingMessage="Searching the Ethereum Name Service subgraph for similar names..."
+			let:result={result}
+			showIf={result => result?.domains.length}
 		>
 			<svelte:fragment slot="header" let:status>
-				{#if status === 'resolved'}
+				{#if status === 'resolved' && result?.domains.length}
 					<hr>
 					<h2>Similar ENS Names</h2>
 				{/if}
 			</svelte:fragment>
 
-			{#each domains.sort(sortByLength) as domain (domain.id)}
-				<EnsDomain {network} {domain}/>
-			{/each}
+			<div class="similar column scrollable-list">
+				{#each result.domains.sort(sortByLength) as domain (domain.id)}
+					<EnsDomain {network} {domain} />
+				{/each}
+			</div>
 		</Loader>
 	</div>
 </Loader>

@@ -64,7 +64,7 @@ function getDefaultAccountNetworkSettings(){
 }
 
 
-import { localStorageWritable } from '../local-storage'
+import { localStorageWritable } from '../../utils/localStorageWritable'
 
 // Local storage v1 'localAccounts' (deprecated)
 let localAccounts

@@ -1,9 +1,8 @@
 <script lang="ts">
-	import type { AnalyticsProvider } from '../data/analytics/provider'
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
 
-	export let analyticsProvider: AnalyticsProvider = 'Covalent'
+	export let historicalPriceProvider = 'Covalent'
 	export let currencies: (TickerSymbol | Ethereum.ContractAddress)[]
 	export let quoteCurrency: QuoteCurrency
 
@@ -27,11 +26,11 @@
 	<slot name="title">
 		<h3>Historical Price</h3>
 	</slot>
-	<span class="card-annotation">{analyticsProvider}</span>
+	<span class="card-annotation">{historicalPriceProvider}</span>
 </div>
 
 <CovalentPriceChart
-	{analyticsProvider}
+	{historicalPriceProvider}
 	{currencies}
 	{quoteCurrency}
 	{priceScale}

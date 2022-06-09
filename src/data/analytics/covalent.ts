@@ -3,7 +3,8 @@ import type { TickerSymbol } from '../currency/currency'
 import type { Ethereum } from '../ethereum/types'
 
 import { COVALENT_URL } from '../../config'
-import { COVALENT_API_KEY } from '../../config-secrets'
+import { env } from '../../env'
+
 import { ConcurrentPromiseQueue } from '../../utils/concurrent-promise-queue'
 
 // https://www.covalenthq.com/docs/api/
@@ -13,13 +14,13 @@ export namespace Covalent {
 	type int32 = number
 	type int64 = number
 	type double = number
-	type date_time = Date
+	type date_time = number // Date
 
 	export type Day = string // 'YYYY-MM-DD'
 
 	// https://covalenthq.com/docs/networks
-	export const MainnetChainIDs = [1, 137, 43114, 56, 250] as const
-	export const TestnetChainIDs = [80001, 43113, 42, 97, 1287, 4002] as const
+	export const MainnetChainIDs = [1, 137, 43114, 56, 250, 30, 42161, 11297108109, 8217, 128, 1285] as const
+	export const TestnetChainIDs = [80001, 43113, 42, 97, 1287, 4002, 31, 421611, 11297108099, 1001, 256, 71393] as const
 	export const ChainIDs = [...MainnetChainIDs, ...TestnetChainIDs] as const
 	export type ChainID = typeof ChainIDs[number]
 
@@ -228,7 +229,7 @@ export namespace Covalent {
 		}
 	}
 
-	export type MakerVaultAtion = {
+	export type MakerVaultAction = {
 		act_at: Date
 		act: 'GENERATE' | 'DEPOSIT' | 'OPEN' | 'WITHDRAW' | 'LIQUIDATE' | 'PAY_BACK' | 'GIVE'
 		description: string
@@ -256,7 +257,7 @@ export namespace Covalent {
 		vault_source: string
 		ratio: string
 		liq_price: string
-		breakdown_acts: MakerVaultAtion[]
+		breakdown_acts: MakerVaultAction[]
 	}
 	export type MakerBalances = {
 		count_vaults: int32
@@ -307,27 +308,35 @@ export namespace Covalent {
 	}
 
 	export type Parameter = {
-		name: string
-		type: string
-		indexed: boolean
-		decoded: boolean
-		value: any
+		name: string // The name of the parameter.
+		type: string // The type of the parameter.
+		indexed: boolean // The index of the parameter.
+		decoded: boolean // The decoded value of the parameter.
+		value: any // The value of the parameter.
+	}
+	export type DecodedLogEvent = {
+		name: string // The name of the decoded item.
+		signature: string // The signature of the decoded item.
+		params: Parameter[] // The parameters of the decoded item.
 	}
 	export type LogEvent = {
-		block_signed_at: date_time
-		block_height: int64
-		tx_offset: int64
-		log_offset: int64
-		tx_hash: string
-		raw_log_topics: string[]
-		sender_address: string
-		sender_address_label: string
-		raw_log_data: string
-		decoded: {
-			name: string
-			signature: string
-			params: Parameter[]
+		block_signed_at: date_time // The signed time of the block.
+		block_height: int64 // The height of the block.
+		tx_offset: int64 // The transaction offset.
+		log_offset: int64 // The log offset.
+		tx_hash: string // The transaction hash.
+		_raw_log_topics_bytes: {
+			empty: boolean
 		}
+		raw_log_topics: string[],
+		sender_contract_decimals: int32 // Smart contract decimals.
+		sender_name: string // Smart contract name.
+		sender_contract_ticker_symbol: string // Smart contract ticker symbol.
+		sender_address: string // The address of the sender.
+		sender_address_label: string // The label of the sender address.
+		sender_logo_url: string // Smart contract URL.
+		raw_log_data: string // The log events in raw.
+		decoded: DecodedLogEvent // The decoded item.
 	}
 	export type LogEvents = {
 		items: LogEvent[]
@@ -335,21 +344,22 @@ export namespace Covalent {
 	}
 
 	export type Transaction = {
-		block_signed_at: date_time
-		tx_hash: string
-		tx_offset: int32
-		successful: boolean
-		from_address: string
-		from_address_label: string
-		to_address: string
-		to_address_label: string
+		block_signed_at: date_time // The signed time of the block.
+		block_height: int32 // The height of the block.
+		tx_hash: string // The transaction hash.
+		tx_offset: int32 // The transaction offset.
+		successful: boolean // The transaction status.
+		from_address: string // The address where the transaction is from.
+		from_address_label: string // The label of from address.
+		to_address: string // The address where the transaction is to.
+		to_address_label: string // The label of to address.
 		value: number // The value attached to this tx.
-		value_quote: float // The value attached in quote-currency to this tx.
+		value_quote: double // The value attached in quote-currency to this tx.
 		gas_offered: int64 // The gas offered for this tx.
 		gas_spent: int64 // The gas spent for this tx.
 		gas_price: int64 // The gas price at the time of this tx.
-		gas_quote: float // The gas spent in quote-currency denomination.
-		gas_quote_rate: float // Historical ETH price at the time of tx.
+		gas_quote: double // The gas spent in quote-currency denomination.
+		gas_quote_rate: double // Historical ETH price at the time of tx.
 		log_events?: LogEvent[]
 	}
 	export type Transactions = AddressData & {
@@ -357,13 +367,29 @@ export namespace Covalent {
 		pagination: Pagination
 	}
 
-	export type ERC20TokenTransfer = Transaction & TokenContract & {
-		transfer_type: string
-		delta: number
-		balance: number
-		quote_rate: float
-		delta_quote: float
-		balance_quote: float
+	export type ERC20TokenTransfer = {
+		block_signed_at: date_time // The signed time of the block.
+		tx_hash: string // The transaction hash.
+		from_address: string // The address where the transfer is from.
+		from_address_label: string // The label of from address.
+		to_address: string // The address where the transfer is to.
+		to_address_label: string // The label of to address.
+		contract_decimals: int32 // Smart contract decimals.
+		contract_name: string // Smart contract name.
+		contract_ticker_symbol: string // Smart contract ticker symbol.
+		contract_address: string // Smart contract address.
+		logo_url: string // Smart contract URL.
+		transfer_type: 'IN' | 'OUT' // IN/OUT.
+		delta: number // The delta attached to this transfer.
+		balance: number // The transfer balance. Use contract_decimals to scale this balance for display purposes.
+		quote_rate: double // The current spot exchange rate in quote-currency.
+		delta_quote: double // The current delta converted to fiat in quote-currency.
+		balance_quote: double // The current balance converted to fiat in quote-currency.
+		method_calls: MethodCall[] // Additional details on which transfer events were invoked. Defaults to true.
+	}
+	type MethodCall = {
+		sender_address: string // The address of the sender.
+		method: string // The name of the decoded item.
 	}
 	export type ERC20TokenTransaction = Transaction & {
 		transfers: ERC20TokenTransfer[]
@@ -419,7 +445,7 @@ const formatParams = params =>
 
 const makeRequest = <T>(endpoint: string, params: any) =>
 	queue.enqueue(() =>
-		fetch(`${COVALENT_URL}${endpoint}/?${`${formatParams({key: COVALENT_API_KEY, ...params})}`}`)
+		fetch(`${COVALENT_URL}${endpoint}/?${`${formatParams({key: env.COVALENT_API_KEY, ...params})}`}`)
 			.then(async response => {
 				if(response.ok)
 					return response.json()

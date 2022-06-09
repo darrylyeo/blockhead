@@ -1,6 +1,10 @@
 // externals
 import { get } from 'svelte/store';
+// locals
+import { CachePolicy, DataSource, } from './types';
 import { marshalInputs } from './scalars';
+import cache from './cache';
+import { rootID } from './cache/cache';
 export class Environment {
     constructor(networkFn, subscriptionHandler) {
         this.fetch = networkFn;
@@ -19,7 +23,7 @@ export function getEnvironment() {
 }
 // This function is responsible for simulating the fetch context, getting the current session and executing the fetchQuery.
 // It is mainly used for mutations, refetch and possible other client side operations in the future.
-export async function executeQuery(artifact, variables, sessionStore) {
+export async function executeQuery(artifact, variables, sessionStore, cached) {
     // We use get from svelte/store here to subscribe to the current value and unsubscribe after.
     // Maybe there can be a better solution and subscribing only once?
     const session = get(sessionStore);
@@ -35,31 +39,21 @@ export async function executeQuery(artifact, variables, sessionStore) {
             query: new URLSearchParams(),
         },
     };
-    // pull the query text out of the compiled artifact
-    const { raw: text, hash } = artifact;
-    const res = await fetchQuery(fetchCtx, {
-        text,
-        hash,
+    const [res] = await fetchQuery({
+        context: fetchCtx,
+        artifact,
+        session,
         variables,
-    }, session);
+        cached,
+    });
     // we could have gotten a null response
-    if (res.errors) {
+    if (res.errors && res.errors.length > 0) {
         throw res.errors;
     }
     if (!res.data) {
         throw new Error('Encountered empty data response in payload');
     }
     return res;
-}
-// fetchQuery is used by the preprocess-generated runtime to send an operation to the server
-export async function fetchQuery(ctx, { text, hash, variables, }, session) {
-    // grab the current environment
-    const environment = getEnvironment();
-    // if there is no environment
-    if (!environment) {
-        return { data: {}, errors: [{ message: 'could not find houdini environment' }] };
-    }
-    return await environment.sendRequest(ctx, { text, hash, variables }, session);
 }
 // convertKitPayload is responsible for taking the result of kit's load
 export async function convertKitPayload(context, loader, page, session) {
@@ -88,6 +82,54 @@ export async function convertKitPayload(context, loader, page, session) {
     }
     // we shouldn't get here
     throw new Error('Could not handle response from loader: ' + JSON.stringify(result));
+}
+export async function fetchQuery({ context, artifact, variables, session, cached = true, }) {
+    // grab the current environment
+    const environment = getEnvironment();
+    // if there is no environment
+    if (!environment) {
+        return [{ data: {}, errors: [{ message: 'could not find houdini environment' }] }, null];
+    }
+    // enforce cache policies for queries
+    if (cached && artifact.kind === 'HoudiniQuery') {
+        // tick the garbage collector asynchronously
+        setTimeout(() => {
+            cache.collectGarbage();
+        }, 0);
+        // this function is called as the first step in requesting data. If the policy prefers
+        // cached data, we need to load data from the cache (if its available). If the policy
+        // prefers network data we need to send a request (the onLoad of the component will
+        // resolve the next data)
+        if ([
+            CachePolicy.CacheOrNetwork,
+            CachePolicy.CacheOnly,
+            CachePolicy.CacheAndNetwork,
+        ].includes(artifact.policy) &&
+            cache.internal.isDataAvailable(artifact.selection, variables)) {
+            console.log('using cached data');
+            return [
+                {
+                    data: cache.internal.getData(cache.internal.record(rootID), artifact.selection, variables),
+                    errors: [],
+                },
+                DataSource.Cache,
+            ];
+        }
+        // if the policy is cacheOnly and we got this far, we need to return null
+        else if (artifact.policy === CachePolicy.CacheOnly) {
+            return [
+                {
+                    data: null,
+                    errors: [],
+                },
+                null,
+            ];
+        }
+    }
+    return [
+        await environment.sendRequest(context, { text: artifact.raw, hash: artifact.hash, variables }, session),
+        DataSource.Network,
+    ];
 }
 export class RequestContext {
     constructor(ctx) {

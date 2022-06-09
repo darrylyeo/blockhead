@@ -1,5 +1,8 @@
 <script lang="ts">
-	import { featuredBlockchainApps, notFeaturedBlockchainApps } from '../../data/blockchain-apps'
+	import { web3AppsBySection } from '../../data/web3Apps'
+
+
+	import TokenIcon from '../../components/TokenIcon.svelte'
 
 
 	import { cardStyle } from '../../utils/card-background'
@@ -7,53 +10,64 @@
 </script>
 
 
-
 <style>
 	.column {
 		--padding-inner: 1.5rem;
 	}
 
-	/* .featured {
-		font-size: 1.2em;
-	} */
-
 	.row {
 		align-content: start;
 		--padding-inner: 1rem;
-
-		/* display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-		align-items: stretch; */
 	}
 	.row > * {
 		flex: 1 auto;
 		text-align: center;
+		justify-content: center;
+	}
+
+	.item {
+		text-decoration: none;
+	}
+	.item:hover {
+		transform: scale(1.04);
+	}
+
+	.item h3 {
+		gap: 0.66em;
+	}
+
+	.item span {
+		color: rgba(var(--rgb-light-dark-inverse), calc(0.6 + 0.3 * var(--is-dark)));
+		text-shadow: 0 0 0 var(--primary-color);
+		opacity: calc(0.75 + 0.25 * var(--is-dark));
+	}
+
+	section.featured {
+		font-size: 1.15em;
+	}
+	section:not(.featured) {
+		font-size: 0.9em;
 	}
 </style>
 
 
 <div class="column" in:fly={{x: 300}} out:fly={{x: -300}}>
-	<hr>
+	{#each web3AppsBySection as {title, apps, isFeatured}, i}
+		<hr>
 
-	<h2>Featured Apps</h2>
+		<h2>{title}</h2>
 
-	<section class="row featured">
-		{#each featuredBlockchainApps as {name, slug, colors}, i}
-			<div class="card" transition:scale={{delay: i * 10}} style={cardStyle(colors)}>
-				<h3><a href="/apps/{slug}">{name}</a></h3>
-			</div>
-		{/each}
-	</section>
-
-	<hr>
-
-	<h2>Other Apps</h2>
-
-	<section class="row">
-		{#each notFeaturedBlockchainApps as {name, slug, colors}, i}
-			<div class="card" transition:scale={{delay: i * 10}}><!-- style={cardStyle(colors)} -->
-				<h4><a href="/apps/{slug}">{name}</a></h4>
-			</div>
-		{/each}
-	</section>
+		<section class="row" class:featured={isFeatured}>
+			{#each apps as app, i}
+				<a href="/apps/{app.slug}" class="item card" transition:scale={{delay: i * 10}} style={cardStyle(app.colors)}>
+					<h3 class="row">
+						{#each app.views?.flatMap(view => view.erc20Tokens ?? []).filter(Boolean).slice(0, 1) as erc20Token}
+							<TokenIcon {erc20Token} />
+						{/each}
+						<span>{app.name}</span>
+					</h3>
+				</a>
+			{/each}
+		</section>
+	{/each}
 </div>

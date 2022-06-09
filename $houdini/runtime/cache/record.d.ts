@@ -15,6 +15,7 @@ export declare class Record {
     };
     private cache;
     private referenceCounts;
+    private lifetimes;
     constructor(cache: Cache, id: string);
     allSubscribers(): SubscriptionSpec[];
     getField(fieldName: string): GraphQLValue;
@@ -35,4 +36,5 @@ export declare class Record {
     removeAllSubscriptionVersions(keyRaw: string, spec: SubscriptionSpec): void;
     private forgetSubscribers_walk;
     removeSubscribers(fields: string[], sets: SubscriptionSpec['set'][]): void;
+    onGcTick(): void;
 }

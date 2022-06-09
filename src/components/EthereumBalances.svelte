@@ -1,73 +1,107 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { Covalent } from '../data/analytics/covalent'
-	import type { AnalyticsProvider } from '../data/analytics/provider'
 	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
 	import { getTokenAddressBalances } from '../data/analytics/covalent'
+	import { preferences } from '../data/ethereum/preferences'
 
 	export let network: Ethereum.Network
 	export let address: string
-	export let analyticsProvider: AnalyticsProvider
-	export let quoteCurrency: QuoteCurrency
+	export let tokenBalancesProvider = $preferences.tokenBalancesProvider
+	export let quoteCurrency: QuoteCurrency = $preferences.quoteCurrency
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending'
+	export let showNativeCurrency = true
 	export let showSmallValues = false
-	export let showValues
+	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
+	export let isScrollable = true
+	export let isHorizontal = false
 
 	export let isSelectable = false
-	export let selectedToken: {
-		token: TickerSymbol,
-		tokenAddress: Ethereum.ContractAddress,
-		tokenIcon: string,
-		tokenName: string
-	} | undefined = undefined
-
-	export let quoteTotal
-
+	export let selectedToken: Ethereum.ERC20Token | undefined
 
 	export let isCollapsed: boolean
 
 
-	let filterFunction: (b: Covalent.ERC20TokenOrNFTContractWithBalance) => boolean
-	$: filterFunction = showSmallValues
-		? b => b.type !== 'nft' // undefined
-		: b => b.type !== 'nft' && !(/*b.type === 'dust' || */ b.quote < 1e-3)
+	type TokenWithBalance = {
+		token: Ethereum.ERC20Token,
+		balance: Covalent.ERC20TokenOrNFTContractWithBalance['balance'],
+		type: Covalent.ERC20TokenOrNFTContractWithBalance['type'],
+		value: Covalent.ERC20TokenOrNFTContractWithBalance['quote'],
+		rate: Covalent.ERC20TokenOrNFTContractWithBalance['quote_rate'],
+	}
 
-	let sortFunction: (a: Covalent.ERC20TokenOrNFTContractWithBalance, b: Covalent.ERC20TokenOrNFTContractWithBalance) => number
-	$: sortFunction =
-		sortBy === 'value-descending' ? (a, b) => b.quote - a.quote || b.balance - a.balance :
-		sortBy === 'value-ascending' ? (a, b) => a.quote - b.quote || a.balance - b.balance :
-		sortBy === 'ticker-ascending' ? (a, b) => a.contract_ticker_symbol.localeCompare(b.contract_ticker_symbol) :
-		undefined
+	export let balances: TokenWithBalance[] = []
+
+	export let filteredBalances: TokenWithBalance[]
+	$: filteredBalances = balances
+		.filter(({type, value, token, balance}) =>
+			type !== 'nft' && (
+				(showNativeCurrency &&
+					tokensAreEqual(network.nativeCurrency, token)
+				) ||
+				!(!showSmallValues && (
+					// type === 'dust' ||
+					Math.abs(value) < 1e-3 || // isSmallValue
+					balance == 0 // isZero
+				))
+			)
+		)
+		.sort(
+			sortBy === 'value-descending' ? (a, b) => b.value - a.value || a.balance - b.balance :
+			sortBy === 'value-ascending' ? (a, b) => a.value - b.value || b.balance - a.balance :
+			sortBy === 'ticker-ascending' ? (a, b) => a.token.symbol?.localeCompare(b.token.symbol) :
+			undefined
+		)
+
+	export let summary: {
+		quoteTotal: number,
+		quoteCurrency: QuoteCurrency,
+		balancesCount: number,
+		filteredBalancesCount: number
+	}
+
+	$: summary = {
+		quoteTotal: balances.reduce((sum, item) => sum + item.value, 0),
+		quoteCurrency,
+		balancesCount: balances.length,
+		filteredBalancesCount: filteredBalances.length,
+	}
 
 
-	let allBalances
-
-	export let balances: Covalent.ERC20TokenOrNFTContractWithBalance[] = []
-
-	$: if(allBalances)
-		balances = (filterFunction ? allBalances.filter(filterFunction) : allBalances).sort(sortFunction)
-
-	$: quoteTotal = balances.reduce((sum, item) => sum + item.quote, 0)
+	const tokensAreEqual = (token1, token2) =>
+		// token1.name === token2.name &&
+		token1.symbol === token2.symbol &&
+		token1.decimals === token2.decimals
 	
 
 	import EthereumBalancesLoader from './EthereumBalancesLoader.svelte'
-	import TokenValueWithConversion from './TokenValueWithConversion.svelte'
+	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
 	import { quintOut } from 'svelte/easing'
 </script>
 
+
 <style>
 	.ethereum-balances {
 		--column-width: 12rem;
+		--column-gap: var(--padding-inner);
+
 		display: grid;
+		gap: var(--padding-inner) var(--column-gap);
 		grid-template-columns: repeat(auto-fit, minmax(var(--column-width), 1fr));
-		align-items: stretch;
-		gap: var(--padding-inner);
+	}
+	.ethereum-balances.horizontal {
+		grid-auto-flow: column;
+		grid-auto-columns: var(--column-width);
+		grid-template-rows: repeat(auto-fit, minmax(1.5em, 1fr));
+		overflow-x: auto;
+		max-height: 30rem;
+		scroll-snap-type: both proximity;
 	}
 	.ethereum-balances.show-amounts-and-values {
 		--column-width: 16rem;
-		column-gap: calc(2 * var(--padding-inner));
+		--column-gap: calc(3 * var(--padding-inner));
 	}
 
 	/* 
@@ -85,6 +119,10 @@
 	.ethereum-balance {
 		min-height: 1.65em;
 		gap: var(--padding-inner);
+
+		scroll-snap-align: start;
+		scroll-margin-left: var(--padding-outer);
+		scroll-margin-top: calc(var(--padding-inner));
 	}
 	.ethereum-balance.is-selectable {
 		--padding-outer: 0.25rem;
@@ -103,68 +141,65 @@
 		box-shadow: var(--primary-color) 0 0 0 2px inset;
 	}
 
-	.ethereum-balance :global(.value-with-conversion) {
+	.ethereum-balance :global(.token-balance-with-conversion) {
 		display: flex;
 		justify-content: space-between;
 		align-items: baseline;
 	}
 </style>
 
+
 {#if address}
 	<EthereumBalancesLoader
 		{network}
 		{address}
-		{analyticsProvider}
+		{tokenBalancesProvider}
 		{quoteCurrency}
 		showIf={() => balances.length}
 		{isCollapsed}
-		bind:balances={allBalances}
+		bind:balances
 	>
 		<svelte:fragment slot="header">
-			{#if balances.length}
-				<slot name="header" {network} {quoteCurrency} {quoteTotal}></slot>
-			{/if}
+			<slot name="header" {balances} {filteredBalances} {summary} />
 		</svelte:fragment>
 
-		<div class:scrollable-list={balances.length > 45}>
-			<div class="ethereum-balances card" class:show-amounts-and-values={showValues === 'both'}>
+		<div class:scrollable-list={isScrollable && filteredBalances.length > 45}>
+			<div class="ethereum-balances card" class:horizontal={isHorizontal} class:show-amounts-and-values={tokenBalanceFormat === 'both'}>
 				{#each
-					balances
-					as {type, balance, quote, quote_rate, contract_name, contract_address, contract_decimals, contract_ticker_symbol, logo_url},
-					i (contract_address || contract_ticker_symbol || contract_name)
+					filteredBalances
+					as {type, token, balance, value, rate},
+					i (token.address || token.symbol || token.name)
 				}
 					<span
 						class="ethereum-balance"
+						class:mark={tokensAreEqual(network.nativeCurrency, token)}
 						class:is-selectable={isSelectable}
-						class:is-selected={selectedToken?.tokenAddress === contract_address}
+						class:is-selected={selectedToken?.address === token.address}
 						tabindex={isSelectable ? 0 : undefined}
 						on:click={() =>
-							selectedToken = selectedToken?.tokenAddress === contract_address ? undefined : {
-								token: contract_ticker_symbol || contract_name,
-								tokenAddress: contract_address,
-								tokenIcon: logo_url,
-								tokenName: contract_name,
-							}
+							selectedToken = selectedToken?.address === token.address ? undefined : token
 						}
 						in:scale
-						animate:flip|local={{duration: 500, delay: i * 10, easing: quintOut}}
+						animate:flip|local={{duration: filteredBalances.length < 50 ? 500 : 0, delay: 300 * i / filteredBalances.length, easing: quintOut}}
 					>
-						<TokenValueWithConversion
-							{showValues}
-							token={contract_ticker_symbol || contract_name}
-							tokenAddress={contract_address}
-							tokenIcon={logo_url}
-							tokenName={contract_name}
-							value={balance * 0.1 ** contract_decimals}
-							isDust={false}
+						<TokenBalanceWithConversion
+							{tokenBalanceFormat}
+
+							erc20Token={token}
+
+							balance={balance * 0.1 ** token.decimals}
 							conversionCurrency={quoteCurrency}
-							convertedValue={quote}
-							conversionRate={quote_rate}
+							convertedValue={value}
+							conversionRate={rate}
+
 							animationDelay={i * 10}
 							showParentheses={false}
+
+							transitionWidth={filteredBalances.length < 40}
 						/>
-						<!-- isDust={type === 'dust'} -->
 					</span>
+				{:else}
+					No balances found.
 				{/each}
 			</div>
 		</div>

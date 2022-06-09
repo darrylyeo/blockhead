@@ -1,13 +1,9 @@
 <script lang="ts">
-	import type { Transaction } from '../data/etherspot/etherspot'
 	import type { Ethereum } from '../data/ethereum/types'
-
+	import type { Transaction } from '../data/etherspot/etherspot'
 
 	export let network: Ethereum.Network
 	export let logEvent: Transaction['logs'][number]
-
-
-	import Address from './Address.svelte'
 </script>
 
 
@@ -15,11 +11,11 @@
 	.log-event {
 		display: grid;
 		grid-template-columns: 1rem 1fr;
+		align-items: center;
 		gap: var(--padding-inner);
 		--padding-inner: 1.25em;
 	}
 	.log-event-index {
-		display: inline-block;
 		font-size: 1em;
 		text-align: end;
 	}
@@ -47,7 +43,7 @@
 			{#each logEvent.topics as topic, i}
 				<span class="topic-wrapper">
 					<span class="topic-index">Topic {i}</span>
-					<span class="topic-value">{topic}</span>
+					<output class="topic-value">{topic}</output>
 				</span>
 			{/each}
 		</span>

@@ -5,8 +5,11 @@ export type ENSDomains = {
 
 export type ENSDomains$result = {
     readonly domains: ({
+        readonly __typename: string | null,
         readonly id: string,
         readonly name: string | null,
+        readonly labelName: string | null,
+        readonly labelhash: string | null,
         readonly parent: {
             readonly id: string,
             readonly name: string | null
@@ -16,14 +19,23 @@ export type ENSDomains$result = {
             readonly name: string | null
         })[],
         readonly resolvedAddress: {
+            readonly __typename: string | null,
             readonly id: string
         } | null,
         readonly owner: {
+            readonly __typename: string | null,
             readonly id: string
         },
         readonly resolver: {
+            readonly __typename: string | null,
             readonly id: string,
+            readonly domain: {
+                readonly id: string
+            } | null,
             readonly address: string,
+            readonly addr: {
+                readonly id: string
+            } | null,
             readonly texts: (string)[] | null,
             readonly coinTypes: (number)[] | null,
             readonly events: ({
@@ -35,6 +47,7 @@ export type ENSDomains$result = {
         readonly ttl: string | null,
         readonly isMigrated: boolean,
         readonly events: ({
+            readonly __typename: string | null,
             readonly id: string,
             readonly blockNumber: number,
             readonly transactionID: string
@@ -58,6 +71,12 @@ export type ENSDomains$result = {
             readonly ttl: string,
             readonly __typename: "NewTTL"
         })))[]
+    })[],
+    readonly registrations: ({
+        readonly __typename: string | null,
+        readonly registrationDate: string,
+        readonly expiryDate: string,
+        readonly labelName: string | null
     })[]
 };
 

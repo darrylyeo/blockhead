@@ -1,12 +1,15 @@
 export default {
     name: "ENSDomainsContaining",
     kind: "HoudiniQuery",
-    hash: "afd374d6c60d085a974b875fb5d24c6a55d4043b28a8527a07082ed4127bfcff",
+    hash: "7594a606aac656ace1fe68069d20efd50fdbfee97273fd734f378b62a15be7c3",
 
     raw: `query ENSDomainsContaining($query: String!) {
   domains(where: {name_contains: $query, name_not: $query}) {
+    __typename
     id
     name
+    labelName
+    labelhash
     parent {
       id
       name
@@ -16,14 +19,23 @@ export default {
       name
     }
     resolvedAddress {
+      __typename
       id
     }
     owner {
+      __typename
       id
     }
     resolver {
+      __typename
       id
+      domain {
+        id
+      }
       address
+      addr {
+        id
+      }
       texts
       coinTypes
       events {
@@ -36,6 +48,7 @@ export default {
     ttl
     isMigrated
     events {
+      __typename
       id
       blockNumber
       transactionID
@@ -72,6 +85,11 @@ export default {
             keyRaw: "domains(where: {name_contains: $query, name_not: $query})",
 
             fields: {
+                __typename: {
+                    type: "String",
+                    keyRaw: "__typename"
+                },
+
                 id: {
                     type: "ID",
                     keyRaw: "id"
@@ -80,6 +98,16 @@ export default {
                 name: {
                     type: "String",
                     keyRaw: "name"
+                },
+
+                labelName: {
+                    type: "String",
+                    keyRaw: "labelName"
+                },
+
+                labelhash: {
+                    type: "Bytes",
+                    keyRaw: "labelhash"
                 },
 
                 parent: {
@@ -121,6 +149,11 @@ export default {
                     keyRaw: "resolvedAddress",
 
                     fields: {
+                        __typename: {
+                            type: "String",
+                            keyRaw: "__typename"
+                        },
+
                         id: {
                             type: "ID",
                             keyRaw: "id"
@@ -133,6 +166,11 @@ export default {
                     keyRaw: "owner",
 
                     fields: {
+                        __typename: {
+                            type: "String",
+                            keyRaw: "__typename"
+                        },
+
                         id: {
                             type: "ID",
                             keyRaw: "id"
@@ -145,14 +183,43 @@ export default {
                     keyRaw: "resolver",
 
                     fields: {
+                        __typename: {
+                            type: "String",
+                            keyRaw: "__typename"
+                        },
+
                         id: {
                             type: "ID",
                             keyRaw: "id"
                         },
 
+                        domain: {
+                            type: "Domain",
+                            keyRaw: "domain",
+
+                            fields: {
+                                id: {
+                                    type: "ID",
+                                    keyRaw: "id"
+                                }
+                            }
+                        },
+
                         address: {
                             type: "Bytes",
                             keyRaw: "address"
+                        },
+
+                        addr: {
+                            type: "Account",
+                            keyRaw: "addr",
+
+                            fields: {
+                                id: {
+                                    type: "ID",
+                                    keyRaw: "id"
+                                }
+                            }
                         },
 
                         texts: {
@@ -211,6 +278,11 @@ export default {
                     keyRaw: "events",
 
                     fields: {
+                        __typename: {
+                            type: "String",
+                            keyRaw: "__typename"
+                        },
+
                         id: {
                             type: "ID",
                             keyRaw: "id"
@@ -258,11 +330,6 @@ export default {
                         ttl: {
                             type: "BigInt",
                             keyRaw: "ttl"
-                        },
-
-                        __typename: {
-                            type: "String",
-                            keyRaw: "__typename"
                         }
                     },
 
@@ -278,5 +345,7 @@ export default {
         },
 
         types: {}
-    }
+    },
+
+    policy: "NetworkOnly"
 };

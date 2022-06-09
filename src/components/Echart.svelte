@@ -1,17 +1,83 @@
 <script lang="ts">
 	import * as echarts from 'echarts/core'
-	import { BarChart, LineChart } from 'echarts/charts'
-	import { DataZoomComponent, CalendarComponent, GridComponent, LegendComponent, TitleComponent, TimelineComponent, ToolboxComponent, TooltipComponent, VisualMapComponent } from 'echarts/components'
+
+	import type {
+		BarSeriesOption,
+		LineSeriesOption,
+		SunburstSeriesOption,
+		TreemapSeriesOption
+	} from 'echarts/charts'
+
+	import {
+		BarChart,
+		LineChart,
+		SunburstChart,
+		TreemapChart
+	} from 'echarts/charts'
+
+	import type {
+		TitleComponentOption,
+		TooltipComponentOption,
+		GridComponentOption,
+		LegendComponentOption,
+	} from 'echarts/components'
+
+	import {
+		DataZoomComponent,
+		CalendarComponent,
+		GridComponent,
+		LegendComponent,
+		TitleComponent,
+		TimelineComponent,
+		ToolboxComponent,
+		TooltipComponent,
+		VisualMapComponent
+	} from 'echarts/components'
+
 	import { SVGRenderer } from 'echarts/renderers'
+
+	// import { UniversalTransition } from 'echarts/features'
+
 	echarts.use([
-		BarChart, LineChart,
-		DataZoomComponent, CalendarComponent, GridComponent, LegendComponent, TitleComponent, TimelineComponent, ToolboxComponent, TooltipComponent, VisualMapComponent,
-		SVGRenderer
+		BarChart,
+		LineChart,
+		SunburstChart,
+		TreemapChart,
+
+		DataZoomComponent,
+		CalendarComponent,
+		GridComponent,
+		LegendComponent,
+		TitleComponent,
+		TimelineComponent,
+		ToolboxComponent,
+		TooltipComponent,
+		VisualMapComponent,
+
+		SVGRenderer,
+
+		// UniversalTransition
 	])
 
+
+	// import type { EChartsOption } from 'echarts/types/dist/shared'
+
+	export let options: echarts.ComposeOption<
+		& TitleComponentOption
+		& TooltipComponentOption
+		& GridComponentOption
+		& LegendComponentOption
+		& (
+			| BarSeriesOption
+			| LineSeriesOption
+			| SunburstSeriesOption
+			| TreemapSeriesOption
+		)
+	> // EChartsOption
+
+	
 	import { colorTheme } from '../data/color-theme'
 
-	export let options
 
 	let chartContainer
 	let chart: echarts.ECharts
@@ -34,10 +100,12 @@
 		}catch(e){
 			console.error(e)
 		}
-	
+
+
 	import { onDestroy } from 'svelte'
 	onDestroy(() => chart?.dispose())
 </script>
+
 
 <style>
 	.chart {
@@ -51,5 +119,6 @@
 		font-family: inherit !important;
 	}
 </style>
+
 
 <div class="chart" bind:this={chartContainer}></div>

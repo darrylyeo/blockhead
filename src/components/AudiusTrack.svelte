@@ -8,6 +8,7 @@
 	let isPlaying = false
 
 
+	import AudiusTrackLoader from './AudiusTrackLoader.svelte'
 	import AudiusTrackPlayer from './AudiusTrackPlayer.svelte'
 	import AudiusUserSummary from './AudiusUserSummary.svelte'
 	import Date from './Date.svelte'
@@ -95,6 +96,9 @@
 		margin: calc(-1 * var(--padding-outer));
 		margin-top: calc(var(--padding-outer) - var(--padding-inner));
 		height: min-content;
+	}
+	.player:not(:last-child) {
+		margin-bottom: calc(-1 * var(--padding-inner));
 	}
 </style>
 
@@ -204,9 +208,11 @@
 			<hr>
 
 			<h4>Remix of</h4>
-			{#each track.remix_of?.tracks as remixedTrack}
-				<svelte:self track={remixedTrack} />
-			{/each}
+			<div class="column">
+				{#each track.remix_of?.tracks as remixedTrack}
+					<AudiusTrackLoader trackId={remixedTrack.parent_track_id} />
+				{/each}
+			</div>
 		{/if}
 	</div>
 {/if}

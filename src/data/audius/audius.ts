@@ -171,7 +171,7 @@ export namespace Audius {
 }
 
 
-import { AUDIUS_APP_NAME } from '../../config-secrets'
+import { env } from '../../env'
 
 
 let apiHosts
@@ -199,7 +199,7 @@ const formatParams = params =>
 	)
 
 const makeRequest = async <T>(endpoint: string, params: any = {}) =>
-	await fetch(`${await getRandomAPIHost()}${endpoint}?${`${formatParams({appName: AUDIUS_APP_NAME, ...params})}`}`)
+	await fetch(`${await getRandomAPIHost()}${endpoint}?${`${formatParams({appName: env.AUDIUS_APP_NAME, ...params})}`}`)
 		.then(async response => {
 			if(response.ok)
 				return await response.json() as T

@@ -1,31 +1,33 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import { getEthersProvider } from '../data/ethereum/provider'
-	import { preferredEthereumProvider } from '../data/ethereum/preferences'
-	
+	import { getEthersProvider } from '../data/providers'
+	import { preferences } from '../data/ethereum/preferences'
+
 
 	export let network: Ethereum.Network
 	export let providerPromise: () => Promise<Ethereum.Provider>
-	export let providerName: Ethereum.ProviderName = $preferredEthereumProvider
+	export let providerName: Ethereum.ProviderName = $preferences.rpcNetwork
 
 
-	import { onMount } from 'svelte'
-	onMount(() =>
-		providerPromise ||= (network && providerName && (() => getEthersProvider(network, providerName)))
-	)
+	let viaRPC = $preferences.rpcNetwork === 'Auto' ? '' : ` via ${$preferences.rpcNetwork}`
 
 
 	import Loader from './Loader.svelte'
-	import TokenIcon from './TokenIcon.svelte'
+	import NetworkIcon from './NetworkIcon.svelte'
 </script>
 
 
 <Loader
-	loadingMessage="Connecting to the {network ? `${network.name} ` : ''} blockchain via {providerName}..."
-	fromPromise={providerPromise}
-	let:then={provider}
+	loadingMessage="Connecting to the {network ? `${network.name} ` : ''} blockchain{viaRPC}..."
+	fromPromise={network && providerName && (async () =>
+		await getEthersProvider({
+			network,
+			networkProvider: providerName
+		})
+	)}
+	let:result={provider}
 >
-	<TokenIcon slot="loadingIcon" token={network?.nativeCurrency.symbol} />
+	<NetworkIcon slot="loadingIcon" {network} />
 
 	<slot name="header" slot="header" {network} {provider} />
 

@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { preferredDeFiProvider, preferredEthereumProvider, preferredQuoteCurrency } from '../../../data/ethereum/preferences'
+	import { preferences } from '../../../data/ethereum/preferences'
     
 
-	import type { BlockchainAppSlug, BlockchainAppConfig } from '../../../data/blockchain-apps';
+	import type { Web3AppSlug, Web3AppConfig } from '../../../data/web3Apps';
 	import { getContext } from 'svelte'
 
-	const blockchainAppSlug = getContext<SvelteStore<BlockchainAppSlug>>('blockchainAppSlug')
-	const blockchainAppConfig = getContext<SvelteStore<BlockchainAppConfig>>('blockchainAppConfig')
+	const web3AppSlug = getContext<SvelteStore<Web3AppSlug>>('web3AppSlug')
+	const web3AppConfig = getContext<SvelteStore<Web3AppConfig>>('web3AppConfig')
 
 
 	import type { Writable } from 'svelte/store'
@@ -16,7 +16,7 @@
 	$: currentAddressOrENSName = $addressOrENSName
 
 
-	let showValues
+	let tokenBalanceFormat
 	let showUnderlyingAssets
 
 
@@ -36,7 +36,7 @@
 
 
 	import AddressField from '../../../components/AddressField.svelte'
-	import BlockchainAppDashboard from '../../../components/BlockchainAppDashboard.svelte'
+	import Web3AppDashboard from '../../../components/Web3AppDashboard.svelte'
 	import EnsResolutionLoader from '../../../components/EnsResolutionLoader.svelte'
 
 
@@ -99,13 +99,13 @@
 				let:ensName
 				let:isReverseResolving
 			>
-				<BlockchainAppDashboard
+				<Web3AppDashboard
 					{address}
-					blockchainAppConfig={$blockchainAppConfig}
-					providerName={$preferredEthereumProvider}
-					defiProvider={$preferredDeFiProvider}
-					quoteCurrency={$preferredQuoteCurrency}
-					{showValues}
+					web3AppConfig={$web3AppConfig}
+					providerName={$preferences.rpcNetwork}
+					defiProvider={$preferences.defiProvider}
+					quoteCurrency={$preferences.quoteCurrency}
+					{tokenBalanceFormat}
 					{showUnderlyingAssets}
 				/>
 			</EnsResolutionLoader>

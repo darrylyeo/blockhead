@@ -5,8 +5,11 @@ export type ENSDomainsContaining = {
 
 export type ENSDomainsContaining$result = {
     readonly domains: ({
+        readonly __typename: string | null,
         readonly id: string,
         readonly name: string | null,
+        readonly labelName: string | null,
+        readonly labelhash: string | null,
         readonly parent: {
             readonly id: string,
             readonly name: string | null
@@ -16,14 +19,23 @@ export type ENSDomainsContaining$result = {
             readonly name: string | null
         })[],
         readonly resolvedAddress: {
+            readonly __typename: string | null,
             readonly id: string
         } | null,
         readonly owner: {
+            readonly __typename: string | null,
             readonly id: string
         },
         readonly resolver: {
+            readonly __typename: string | null,
             readonly id: string,
+            readonly domain: {
+                readonly id: string
+            } | null,
             readonly address: string,
+            readonly addr: {
+                readonly id: string
+            } | null,
             readonly texts: (string)[] | null,
             readonly coinTypes: (number)[] | null,
             readonly events: ({
@@ -35,6 +47,7 @@ export type ENSDomainsContaining$result = {
         readonly ttl: string | null,
         readonly isMigrated: boolean,
         readonly events: ({
+            readonly __typename: string | null,
             readonly id: string,
             readonly blockNumber: number,
             readonly transactionID: string

@@ -22,7 +22,7 @@
 	export let priceScale: PriceScale = 'logarithmic' // isMultiple ? 'logarithmic' : 'linear'
 
 
-	import { formatValue } from '../utils/format-value'
+	import { formatValue } from '../utils/formatValue'
 
 	function formatTimestamp(timestamp){
 		return new Date(timestamp).toLocaleDateString()
@@ -92,7 +92,7 @@
 
 		position: 'right',
 		axisLabel: {
-			formatter: value => formatValue(value, quoteCurrency),
+			formatter: value => formatValue(value, { currency: quoteCurrency }),
 		},
 	},
 	series: data?.map(({currency, prices}) => ({
@@ -134,7 +134,7 @@
 		},
 		endLabel: {
 			show: true,
-			formatter: ({value: [time, price]}) => formatValue(price, quoteCurrency),
+			formatter: ({value: [time, price]}) => formatValue(price, { currency: quoteCurrency }),
 			fontSize: 6,
 			textBorderColor: 'transparent'
 		},
@@ -157,7 +157,7 @@
 		label: {
 			formatter: ({axisDimension, value}) =>
 				axisDimension === 'x' ? formatTimestamp(value) :
-				axisDimension === 'y' ? formatValue(value, quoteCurrency) :
+				axisDimension === 'y' ? formatValue(value, { currency: quoteCurrency }) :
 				'',
 			backgroundColor: 'rgba(250, 250, 250, 0.5)'
 		}

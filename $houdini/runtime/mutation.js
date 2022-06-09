@@ -27,7 +27,7 @@ export function mutation(document) {
                 input: variables,
                 artifact: document.artifact,
                 config: config,
-            }), sessionStore);
+            }), sessionStore, false);
             cache.write({
                 selection: artifact.selection,
                 data: result.data,

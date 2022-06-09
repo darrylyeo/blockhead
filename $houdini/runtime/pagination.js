@@ -8,7 +8,7 @@ import cache from './cache';
 // @ts-ignore: this file will get generated and does not exist in the source code
 import { getSession } from './adapter.mjs';
 // this has to be in a separate file since config isn't defined in cache/index.ts
-import { extractPageInfo } from './utils';
+import { countPage, extractPageInfo } from './utils';
 export function paginatedQuery(document) {
     // make sure we got a query document
     if (document.kind !== 'HoudiniQuery') {
@@ -21,15 +21,16 @@ export function paginatedQuery(document) {
         throw new Error('paginatedQuery must be passed a query with @paginate.');
     }
     // pass the artifact to the base query operation
-    const { data, loading, ...restOfQueryResponse } = query(document);
+    const { data, loading, refetch, ...restOfQueryResponse } = query(document);
     return {
         data,
         ...paginationHandlers({
             initialValue: document.initialValue.data,
             store: data,
             artifact,
-            queryVariables: document.variables,
+            queryVariables: () => document.variables,
             documentLoading: loading,
+            refetch,
         }),
         ...restOfQueryResponse,
     };
@@ -57,12 +58,12 @@ export function paginatedFragment(document, initialValue) {
             store: data,
             artifact: paginationArtifact,
             queryVariables: paginationArtifact.refetch.embedded
-                ? { id: cache.internal.computeID(fragmentArtifact.rootType, initialValue) }
-                : {},
+                ? () => ({ id: cache.internal.computeID(fragmentArtifact.rootType, initialValue) })
+                : () => ({}),
         }),
     };
 }
-function paginationHandlers({ initialValue, artifact, store, queryVariables, documentLoading, }) {
+function paginationHandlers({ initialValue, artifact, store, queryVariables, documentLoading, refetch, }) {
     var _a;
     // start with the defaults and no meaningful page info
     let loadPreviousPage = defaultLoadPreviousPage;
@@ -73,7 +74,9 @@ function paginationHandlers({ initialValue, artifact, store, queryVariables, doc
         hasNextPage: false,
         hasPreviousPage: false,
     }, () => { });
+    // loading state
     let paginationLoadingState = writable(false);
+    let refetchQuery;
     // if the artifact supports cursor based pagination
     if (((_a = artifact.refetch) === null || _a === void 0 ? void 0 : _a.method) === 'cursor') {
         // generate the cursor handlers
@@ -83,9 +86,12 @@ function paginationHandlers({ initialValue, artifact, store, queryVariables, doc
             store,
             queryVariables,
             loading: paginationLoadingState,
+            refetch,
         });
         // always track pageInfo
         pageInfo = cursor.pageInfo;
+        // always use the refetch fn
+        refetchQuery = cursor.refetch;
         // if we are implementing forward pagination
         if (artifact.refetch.update === 'append') {
             loadNextPage = cursor.loadNextPage;
@@ -97,11 +103,16 @@ function paginationHandlers({ initialValue, artifact, store, queryVariables, doc
     }
     // the artifact supports offset-based pagination, only loadNextPage is valid
     else {
-        loadNextPage = offsetPaginationHandler({
+        const offset = offsetPaginationHandler({
+            initialValue,
             artifact,
             queryVariables,
             loading: paginationLoadingState,
+            refetch,
+            store,
         });
+        loadNextPage = offset.loadPage;
+        refetchQuery = offset.refetch;
     }
     // if no loading state was provided just use a store that's always false
     if (!documentLoading) {
@@ -109,9 +120,9 @@ function paginationHandlers({ initialValue, artifact, store, queryVariables, doc
     }
     // merge the pagination and document loading state
     const loading = derived([paginationLoadingState, documentLoading], ($loadingStates) => $loadingStates[0] || $loadingStates[1]);
-    return { loadNextPage, loadPreviousPage, pageInfo, loading };
+    return { loadNextPage, loadPreviousPage, pageInfo, loading, refetch: refetchQuery };
 }
-function cursorHandlers({ initialValue, artifact, store, queryVariables: extraVariables, loading, }) {
+function cursorHandlers({ initialValue, artifact, store, queryVariables: extraVariables, loading, refetch, }) {
     // pull out the context accessors
     const variables = getVariables();
     const sessionStore = getSession();
@@ -126,7 +137,7 @@ function cursorHandlers({ initialValue, artifact, store, queryVariables: extraVa
         };
     const pageInfo = writable(initialPageInfo);
     // hold onto the current value
-    let value;
+    let value = initialValue;
     store.subscribe((val) => {
         pageInfo.set(extractPageInfo(val, artifact.refetch.path));
         value = val;
@@ -146,7 +157,7 @@ function cursorHandlers({ initialValue, artifact, store, queryVariables: extraVa
             throw missingPageSizeError(functionName);
         }
         // send the query
-        const result = await executeQuery(artifact, queryVariables, sessionStore);
+        const result = await executeQuery(artifact, queryVariables, sessionStore, false);
         // if the query is embedded in a node field (paginated fragments)
         // make sure we look down one more for the updated page info
         const resultPath = [...artifact.refetch.path];
@@ -166,6 +177,7 @@ function cursorHandlers({ initialValue, artifact, store, queryVariables: extraVa
         loading.set(false);
     };
     return {
+        loading,
         loadNextPage: async (pageCount) => {
             // we need to find the connection object holding the current page info
             const currentPageInfo = extractPageInfo(value, artifact.refetch.path);
@@ -209,46 +221,119 @@ function cursorHandlers({ initialValue, artifact, store, queryVariables: extraVa
             });
         },
         pageInfo: { subscribe: pageInfo.subscribe },
+        async refetch(input) {
+            // if this document shouldn't be refetched, don't do anything
+            if (!refetch) {
+                return;
+            }
+            // if the input is different than the query variables then we just do everything like normal
+            if (input && JSON.stringify(variables()) !== JSON.stringify(input)) {
+                return refetch(input);
+            }
+            // we are updating the current set of items, count the number of items that currently exist
+            // and ask for the full data set
+            const count = countPage(artifact.refetch.path.concat('edges'), value);
+            // build up the variables to pass to the query
+            const queryVariables = {
+                ...variables(),
+                ...extraVariables,
+                // reverse cursors need the last entries in the list
+                [artifact.refetch.update === 'prepend' ? 'last' : 'first']: count,
+            };
+            // set the loading state to true
+            loading.set(true);
+            // send the query
+            const result = await executeQuery(artifact, queryVariables, sessionStore, false);
+            // update cache with the result
+            cache.write({
+                selection: artifact.selection,
+                data: result.data,
+                variables: queryVariables,
+                // overwrite the current data
+                applyUpdates: false,
+            });
+            // we're not loading any more
+            loading.set(false);
+        },
     };
 }
-function offsetPaginationHandler({ artifact, queryVariables: extraVariables, loading, }) {
+function offsetPaginationHandler({ artifact, queryVariables: extraVariables, loading, refetch, initialValue, store, }) {
     var _a;
     // we need to track the most recent offset for this handler
     let currentOffset = ((_a = artifact.refetch) === null || _a === void 0 ? void 0 : _a.start) || 0;
     // grab the context getters
     const variables = getVariables();
     const sessionStore = getSession();
-    return async (limit) => {
-        // build up the variables to pass to the query
-        const queryVariables = {
-            ...variables(),
-            ...extraVariables,
-            offset: currentOffset,
-        };
-        if (limit) {
-            queryVariables.limit = limit;
-        }
-        // if we made it this far without a limit argument and there's no default page size,
-        // they made a mistake
-        if (!queryVariables.limit && !artifact.refetch.pageSize) {
-            throw missingPageSizeError('loadNextPage');
-        }
-        // set the loading state to true
-        loading.set(true);
-        // send the query
-        const result = await executeQuery(artifact, queryVariables, sessionStore);
-        // update cache with the result
-        cache.write({
-            selection: artifact.selection,
-            data: result.data,
-            variables: queryVariables,
-            applyUpdates: true,
-        });
-        // add the page size to the offset so we load the next page next time
-        const pageSize = queryVariables.limit || artifact.refetch.pageSize;
-        currentOffset += pageSize;
-        // we're not loading any more
-        loading.set(false);
+    // hold onto the current value
+    let value = initialValue;
+    store.subscribe((val) => {
+        value = val;
+    });
+    return {
+        loadPage: async (limit) => {
+            // build up the variables to pass to the query
+            const queryVariables = {
+                ...variables(),
+                ...extraVariables,
+                offset: currentOffset,
+            };
+            if (limit) {
+                queryVariables.limit = limit;
+            }
+            // if we made it this far without a limit argument and there's no default page size,
+            // they made a mistake
+            if (!queryVariables.limit && !artifact.refetch.pageSize) {
+                throw missingPageSizeError('loadNextPage');
+            }
+            // set the loading state to true
+            loading.set(true);
+            // send the query
+            const result = await executeQuery(artifact, queryVariables, sessionStore, false);
+            // update cache with the result
+            cache.write({
+                selection: artifact.selection,
+                data: result.data,
+                variables: queryVariables,
+                applyUpdates: true,
+            });
+            // add the page size to the offset so we load the next page next time
+            const pageSize = queryVariables.limit || artifact.refetch.pageSize;
+            currentOffset += pageSize;
+            // we're not loading any more
+            loading.set(false);
+        },
+        async refetch(input) {
+            // if this document shouldn't be refetched, don't do anything
+            if (!refetch) {
+                return;
+            }
+            // if the input is different than the query variables then we just do everything like normal
+            if (input && JSON.stringify(variables()) !== JSON.stringify(input)) {
+                return refetch(input);
+            }
+            // we are updating the current set of items, count the number of items that currently exist
+            // and ask for the full data set
+            const count = countPage(artifact.refetch.path, value);
+            // build up the variables to pass to the query
+            const queryVariables = {
+                ...variables(),
+                ...extraVariables,
+                limit: count,
+            };
+            // set the loading state to true
+            loading.set(true);
+            // send the query
+            const result = await executeQuery(artifact, queryVariables, sessionStore, false);
+            // update cache with the result
+            cache.write({
+                selection: artifact.selection,
+                data: result.data,
+                variables: queryVariables,
+                applyUpdates: true,
+            });
+            // we're not loading any more
+            loading.set(false);
+        },
     };
 }
 function defaultLoadNextPage() {
