@@ -8,6 +8,7 @@ export const env = {
     INFURA_PROJECT_ID: String(import.meta.env.VITE_INFURA_PROJECT_ID || ''),
     MORALIS_GATEWAY_ID: String(import.meta.env.VITE_MORALIS_GATEWAY_ID || ''),
     MORALIS_WEB3_API_KEY: String(import.meta.env.VITE_MORALIS_WEB3_API_KEY || ''),
+    NFTPORT_API_KEY: String(import.meta.env.VITE_NFTPORT_API_KEY || ''),
     POCKET_APP_PUBLIC_KEY: String(import.meta.env.VITE_POCKET_APP_PUBLIC_KEY || ''),
     POCKET_NETWORK_PORTAL_ID: String(import.meta.env.VITE_POCKET_NETWORK_PORTAL_ID || ''),
     POCKET_NETWORK_PASSPHRASE: String(import.meta.env.VITE_POCKET_NETWORK_PASSPHRASE || ''),
