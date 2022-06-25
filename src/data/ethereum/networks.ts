@@ -1,6 +1,6 @@
 import type { Ethereum } from './types'
 
-import { INFURA_PROJECT_ID } from '../../config-secrets'
+import { env } from '../../env'
 
 
 // https://github.com/ethereum-lists/chains
@@ -1224,8 +1224,8 @@ export const networks: Ethereum.Network[] = [
 			"decimals": 18
 		},
 		"rpc": [
-			"https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}",
-			"wss://mainnet.infura.io/ws/v3/${INFURA_PROJECT_ID}",
+			`https://mainnet.infura.io/v3/${env.INFURA_PROJECT_ID}`,
+			`wss://mainnet.infura.io/ws/v3/${env.INFURA_PROJECT_ID}`,
 			"https://api.mycryptoapi.com/eth",
 			"https://cloudflare-eth.com"
 		],
@@ -1362,8 +1362,8 @@ export const networks: Ethereum.Network[] = [
 		"rpc": [
 			"https://kovan.poa.network",
 			"http://kovan.poa.network:8545",
-			"https://kovan.infura.io/v3/${INFURA_PROJECT_ID}",
-			"wss://kovan.infura.io/ws/v3/${INFURA_PROJECT_ID}",
+			`https://kovan.infura.io/v3/${env.INFURA_PROJECT_ID}`,
+			`wss://kovan.infura.io/ws/v3/${env.INFURA_PROJECT_ID}`,
 			"ws://kovan.poa.network:8546"
 		],
 		"faucets": [
@@ -1387,8 +1387,8 @@ export const networks: Ethereum.Network[] = [
 			"decimals": 18
 		},
 		"rpc": [
-			"https://rinkeby.infura.io/v3/${INFURA_PROJECT_ID}",
-			"wss://rinkeby.infura.io/ws/v3/${INFURA_PROJECT_ID}"
+			`https://rinkeby.infura.io/v3/${env.INFURA_PROJECT_ID}`,
+			`wss://rinkeby.infura.io/ws/v3/${env.INFURA_PROJECT_ID}`
 		],
 		"faucets": [
 			"https://faucet.rinkeby.io"
@@ -1419,8 +1419,8 @@ export const networks: Ethereum.Network[] = [
 			"decimals": 18
 		},
 		"rpc": [
-			"https://ropsten.infura.io/v3/${INFURA_PROJECT_ID}",
-			"wss://ropsten.infura.io/ws/v3/${INFURA_PROJECT_ID}"
+			`https://ropsten.infura.io/v3/${env.INFURA_PROJECT_ID}`,
+			"wss://ropsten.infura.io/ws/v3/${env.INFURA_PROJECT_ID}"
 		],
 		"faucets": [
 			"https://faucet.ropsten.be?${ADDRESS}"
@@ -4832,12 +4832,12 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "http://wegochain.io"
 	},
 	{
-		"slug": "xdai",
-		"name": "xDAI",
+		"slug": "gnosis",
+		"name": "Gnosis Chain",
 		"chainId": 100,
 		"slip44": 700,
-		"shortName": "xdai",
-		"chain": "XDAI",
+		"shortName": "gno",
+		"chain": "Gnosis",
 		"network": "mainnet",
 		"networkId": 100,
 		"nativeCurrency": {
@@ -4846,17 +4846,27 @@ export const networks: Ethereum.Network[] = [
 			"decimals": 18
 		},
 		"rpc": [
-			"https://rpc.xdaichain.com",
+			"https://rpc.gnosischain.com",
 			"https://xdai.poanetwork.dev",
-			"wss://rpc.xdaichain.com/wss",
-			"wss://xdai.poanetwork.dev/wss",
-			"http://xdai.poanetwork.dev",
 			"https://dai.poa.network",
+			"https://rpc.ankr.com/gnosis",
+			"https://gnosischain-rpc.gateway.pokt.network",
+			"wss://rpc.gnosischain.com/wss",
+			"wss://xdai.poanetwork.dev/wss",
 			"ws://xdai.poanetwork.dev:8546"
 		],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://forum.poa.network/c/xdai-chain"
+		"faucets": [
+			"https://faucet.gimlu.com/gnosis",
+			"https://stakely.io/faucet/gnosis-chain-xdai",
+			"https://faucet.prussia.dev/xdai"
+		],
+		"explorers": [{
+			"name": "blockscout",
+			"url": "https://blockscout.com/xdai/mainnet",
+			"icon": "blockscout",
+			"standard": "EIP3091"
+		}],
+		"infoURL": "https://developers.gnosischain.com",
 	},
 	{
 		"slug": "xerom",
@@ -4933,48 +4943,146 @@ for(const network of networks)
 	if(network.slip44)
 		networksBySlip44[network.slip44] = network
 
-export const availableNetworks = [1, 137, 43114, 56, 250].map(chainID => networksByChainID[chainID])
 
+const testnetSlugsForMainnetSlugs = {
+	'ethereum': [
+		'ethereum-kovan',
+		'ethereum-rinkeby',
+		'ethereum-ropsten',
+		'ethereum-goerli',
+	],
+	'polygon': [
+		'polygon-mumbai',
+	],
+	'arbitrum-one': [
+		'arbitrum-rinkeby',
+	],
+	'optimism': [
+		'optimistic-goerli',
+		'optimistic-kovan',
+	],
+	'avalanche': [
+		'avalanche-fuji',
+	],
+	'bsc': [
+		'bsc-testnet',
+	],
+	'celo': [
+		'celo-alfajores',
+		'celo-baklava',
+	],
+	// 'nahmii': [
+	// 	'nahmii-testnet',
+	// ],
+	// 'metis': [
+	// 	'metis-stardust',
+	// ],
+	// 'reef': [
+	// 	'reef-testnet',
+	// ],
+	// 'skale': [
+	// 	'skale-testnet',
+	// ],
+	// 'aurora': [
+	// 	'aurora-testnet',
+	// ],
+	// 'nervos': [
+	// 	'nervos-godwoken',
+	// ],
+}
 
 export const testnetsForMainnets = Object.fromEntries<Ethereum.Network[]>(
-	Object.entries({
-		'ethereum': [
-			'ethereum-kovan',
-			'ethereum-rinkeby',
-			'ethereum-ropsten',
-			'ethereum-goerli',
-		],
-		'polygon': [
-			'polygon-mumbai',
-		],
-		'avalanche': [
-			'avalanche-fuji',
-		],
-		'bsc': [
-			'bsc-testnet',
-		],
-		'arbitrum-one': [
-			'arbitrum-rinkeby',
-		],
-		'optimism': [
-			'optimistic-goerli',
-			'optimistic-kovan',
-		],
-	}).map(([mainnetSlug, testnetSlugs]) =>
+	Object.entries(testnetSlugsForMainnetSlugs).map(([mainnetSlug, testnetSlugs]) =>
 		[mainnetSlug, testnetSlugs.map(slug => networksBySlug[slug])]
 	)
 )
 
+export const mainnetForTestnet = Object.fromEntries(
+	Object.entries(testnetSlugsForMainnetSlugs).flatMap(([mainnetSlug, testnetSlugs]) =>
+		testnetSlugs.map(slug => [slug, networksBySlug[mainnetSlug]])
+	)
+)
+
 export const testnetNetworks = Object.values(testnetsForMainnets).flat()
-
-
-export function getNetworkRPC(network: Ethereum.Network){
-	return network.rpc[0]?.replace('${INFURA_PROJECT_ID}', INFURA_PROJECT_ID) ?? ''
-}
 
 export function isTestnet(network: Ethereum.Network){
 	return network.network?.includes('test')
 		|| network.slug?.includes('testnet')
 		|| network.name?.toLowerCase().includes('testnet')
 		|| testnetNetworks.includes(network)
+}
+
+
+export const availableNetworks = [1, 137, 43114, 56, 250].map(chainID => networksByChainID[chainID])
+
+
+export const ethereumAndL2Networks = [
+	'ethereum',
+	'polygon',
+	'arbitrum-one',
+	'optimism',
+	'gnosis',
+	// 'skale-testnet',
+	// 'arbitrum-xdai',
+	// 'metis',
+	// 'oasis-paratime',
+].map(slug => networksBySlug[slug])
+
+export const evmL1Networks = [
+	'avalanche',
+	'bsc',
+	'celo',
+	// 'fantom',
+].map(slug => networksBySlug[slug])
+
+export const otherNetworks = networks.filter(network =>
+	!ethereumAndL2Networks.includes(network)
+	&& !evmL1Networks.includes(network)
+	&& !Object.values(testnetsForMainnets).some(testnetNetworks => testnetNetworks.includes(network))
+)
+
+export const networksBySection = [
+	{
+		title: 'Ethereum + Layer-Two Networks',
+		networks: ethereumAndL2Networks,
+		isFeatured: true,
+	},
+	{
+		title: 'EVM-Based Layer-One Networks',
+		networks: evmL1Networks,
+		isFeatured: true,
+	},
+	{
+		title: 'Other Networks',
+		networks: otherNetworks,
+		isFeatured: false,
+	},
+]
+
+
+export const networkColors = {
+	'arbitrum-one': '#28a0f0',
+	'aurora': '#92D36F',
+	'avalanche': '#f9273c',
+	'bsc': '#FCD535',
+	'celo': '#35D07F', // #fbcc5c
+	'ethereum': '#627eea',
+	'fantom': '#1969ff',
+	'gnosis': '#04795B',
+	'harmony': '#00AEE9',
+	'metis': '#00dacd',
+	'nahmii': '#E952AC',
+	'nervos': '#3CC68A',
+	'optimism': '#f01a37',
+	'polygon': '#8248e5',
+	'reef': '#962EE5',
+	'skale': '#393939',
+}
+
+export const getNetworkColor = network =>
+	networkColors[network.slug] ?? networkColors[mainnetForTestnet[network.slug]?.slug] ?? ''
+
+
+export function getNetworkRPC(network: Ethereum.Network){
+	return network.rpc[0]?.replace('${env.INFURA_PROJECT_ID}', env.INFURA_PROJECT_ID) ?? ''
 }

@@ -20,7 +20,7 @@
 
 
 	let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
-	let showValues: 'original' | 'converted' | 'both' = 'original'
+	let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	let showFees = false
 	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
 	let showSmallValues = false
@@ -40,7 +40,7 @@
 	// 	filterQuery = selectedToken.address
 
 
-	let balances: Covalent.ERC20TokenOrNFTContractWithBalance[]
+	let balances: Covalent.ERC20TokenOrNFTContractWithBalance[] = []
 
 	let priceScale: PriceScale
 
@@ -56,8 +56,11 @@
 	import EthereumTransactionEtherspot from './EthereumTransactionEtherspot.svelte'
 	import EthereumTransactionsLoader from './EthereumTransactionsLoader.svelte'
 	import EthereumTransactionsERC20Loader from './EthereumTransactionsERC20Loader.svelte'
+	import InlineContainer from './InlineContainer.svelte'
 	import TokenName from './TokenName.svelte'
 	import TokenBalance from './TokenBalance.svelte'
+	import TokenBalanceFormatSelect from './TokenBalanceFormatSelect.svelte'
+	import TweenedNumber from './TweenedNumber.svelte'
 
 
 	import { fade } from 'svelte/transition'
@@ -133,40 +136,38 @@
 			{quoteCurrency}
 			{sortBy}
 			{showSmallValues}
-			{showValues}
+			{tokenBalanceFormat}
 			isSelectable={true}
 			bind:selectedToken
 			bind:balances
 		>
-			<svelte:fragment slot="header" let:network let:quoteCurrency let:quoteTotal>
-				<hr>
+			<svelte:fragment slot="header" let:summary>
+				{#if balances.length}
+					<hr>
 
-				<div class="bar">
-					<h3>{network.name} Tokens (<TokenBalance symbol={quoteCurrency} balance={quoteTotal} showPlainFiat={true} />)</h3>
-					<label>
-						<input type="checkbox" bind:checked={showSmallValues}>
-						<span>Show Small Values</span>
-					</label>
-					<label>
-						<span>Sort</span>
-						<select bind:value={sortBy}>
-							<option value="ticker-ascending">Alphabetical</option>
-							<option value="value-descending">Highest Value</option>
-							<option value="value-ascending">Lowest Value</option>
-						</select>
-					</label>
-					<label>
-						<span>Show</span>
-						<select bind:value={showValues}>
-							<option value="original">Balances</option>
-							<option value="converted">Quotes</option>
-							<option value="both">Balances + Quotes</option>
-							<!-- <option value="original">Token Amounts</option>
-							<option value="converted">Quote Values</option>
-							<option value="both">Amounts and Values</option> -->
-						</select>
-					</label>
-				</div>
+					<div class="bar">
+						<h3>{network.name} Tokens (<TokenBalance symbol={summary.quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} />)</h3>
+						<label>
+							<input type="checkbox" bind:checked={showSmallValues}>
+							<span>Show Small Values</span>
+						</label>
+						<label>
+							<span>Sort</span>
+							<select bind:value={sortBy}>
+								<option value="ticker-ascending">Alphabetical</option>
+								<option value="value-descending">Highest Value</option>
+								<option value="value-ascending">Lowest Value</option>
+							</select>
+						</label>
+						<label>
+							<span>Show</span>
+							<TokenBalanceFormatSelect
+								bind:tokenBalanceFormat
+								quoteCurrency={summary.quoteCurrency}
+							/>
+						</label>
+					</div>
+				{/if}
 			</svelte:fragment>
 		</EthereumBalances>
 
@@ -183,13 +184,15 @@
 						{transactionProvider}
 						{quoteCurrency}
 						includeLogs={detailLevel === 'exhaustive'}
+						showIf={transactions => transactions}
 						let:transactions
+						let:pagination
 					>
 						<svelte:fragment slot="header" let:status>
 							<div class="bar">
 								<h3>
 									Transactions
-									{#if status === 'resolved'}({transactions.length}{transactions.length === 100 ? '+' : ''}){/if}
+									<InlineContainer isOpen={status === 'resolved'}>(<TweenedNumber value={transactions.length} /><InlineContainer isOpen={pagination?.hasNextPage}>+</InlineContainer>)</InlineContainer>
 								</h3>
 								<label>
 									<input type="checkbox" bind:checked={showFees}>
@@ -216,7 +219,7 @@
 											{quoteCurrency}
 											contextualAddress={address}
 											{detailLevel}
-											{showValues}
+											{tokenBalanceFormat}
 											{showFees}
 											layout="inline"
 										/>
@@ -229,7 +232,7 @@
 											{quoteCurrency}
 											contextualAddress={address}
 											{detailLevel}
-											{showValues}
+											{tokenBalanceFormat}
 											{showFees}
 											layout="inline"
 										/>
@@ -242,7 +245,7 @@
 											{quoteCurrency}
 											contextualAddress={address}
 											{detailLevel}
-											{showValues}
+											{tokenBalanceFormat}
 											{showFees}
 											layout="inline"
 										/>
@@ -266,6 +269,7 @@
 						{quoteCurrency}
 						includeLogs={detailLevel === 'exhaustive'}
 						let:transactions
+						let:pagination
 					>
 						<svelte:fragment slot="header" let:status>
 							<div class="bar">
@@ -273,7 +277,7 @@
 									{selectedToken.name}
 									(<TokenName erc20Token={selectedToken} />)
 									Transactions
-									{#if status === 'resolved'}({transactions.length}{transactions.length === 100 ? '+' : ''}){/if}
+									<InlineContainer isOpen={status === 'resolved'}>(<TweenedNumber value={transactions.length} /><InlineContainer isOpen={pagination?.hasNextPage}>+</InlineContainer>)</InlineContainer>
 								</h3>
 								{#if detailLevel !== 'exhaustive'}
 									<label>
@@ -303,7 +307,7 @@
 											{quoteCurrency}
 											contextualAddress={address}
 											{detailLevel}
-											{showValues}
+											{tokenBalanceFormat}
 											{showFees}
 											layout="inline"
 										/>
@@ -316,7 +320,7 @@
 											{quoteCurrency}
 											contextualAddress={address}
 											{detailLevel}
-											{showValues}
+											{tokenBalanceFormat}
 											{showFees}
 											layout="inline"
 										/>
@@ -331,15 +335,14 @@
 			{/key}{/if}
 		</div>
 
-		{#if balances?.length}
+		{#if balances.length}
 			<CovalentPriceChart
 				historicalPriceProvider={$preferences.historicalPriceProvider}
 				quoteCurrency={$preferences.quoteCurrency}
 				chainID={network.chainId}
 				currencies={
 					selectedToken ? [selectedToken.tokenAddress] :
-					balances ? balances.map(tokenWithBalance => tokenWithBalance.contract_address) :
-					[]
+					balances.map(tokenWithBalance => tokenWithBalance.contract_address)
 				}
 				{priceScale}
 			>

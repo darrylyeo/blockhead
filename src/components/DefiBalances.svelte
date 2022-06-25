@@ -3,8 +3,8 @@
 	import type { DeFiProvider } from '../data/defi-provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import type { DefiSDK } from '../data/ethereum/price/defi-sdk'
-	import type { BlockchainAppConfig, BlockchainAppSlug } from '../data/blockchain-apps'
-	import { blockchainAppsByProviderName } from '../data/blockchain-apps'
+	import type { Web3AppConfig, Web3AppSlug } from '../data/web3Apps'
+	import { web3AppsByProviderName } from '../data/web3Apps'
 	import { getDefiBalances } from '../data/ethereum/price/defi-sdk'
 	import type { ZapperAppId } from '../data/zapper/zapper'
 	import type { AppDefinition } from '../data/zapper/api/data-contracts';
@@ -12,7 +12,7 @@
 
 
 	// Data
-	export let blockchainApps: BlockchainAppConfig[]
+	export let web3Apps: Web3AppConfig[]
 	export let network: Ethereum.Network
 	export let provider: Ethereum.Provider
 	export let address: string
@@ -32,23 +32,45 @@
 	$: if(defiProvider === 'Zapper')
 		getAllApps().then(_ => zapperApps = Object.fromEntries(_.map(app => [app.id, app])))
 
-	export let quoteTotal
-	export let quoteTotalCurrency
-	$: quoteTotalCurrency = zapperQuoteCurrency
+	export let summary: {
+		quoteTotal: number,
+		defiAppsCount: number,
+		quoteTotalCurrency: QuoteCurrency
+	}
 
 	type TypeOfPromise<T> = T extends Promise<infer R> ? R : T
-	let zapperDefiProtocolBalances: TypeOfPromise<ReturnType<typeof getDeFiAppBalances>>
-	$: if(zapperDefiProtocolBalances)
-		quoteTotal = zapperDefiProtocolBalances.reduce((sum, {meta}) => sum + Number(
-			meta?.find(({label, type, value}) => label === 'Total')?.value ?? 0
-		), 0) * zapperFiatRate
+	let zerionDefiBalances: TypeOfPromise<ReturnType<typeof getDefiBalances>>
+	let zapperDefiBalances: TypeOfPromise<ReturnType<typeof getDeFiAppBalances>>
+
+	$: summary =
+		zerionDefiBalances ?
+			{
+				quoteTotal: undefined,
+
+				defiAppsCount: zerionDefiBalances.length,
+
+				quoteTotalCurrency: undefined
+			}
+		: zapperDefiBalances ? 
+			{
+				quoteTotal: zapperDefiBalances.reduce((sum, {meta}) => sum + Number(
+					meta?.find(({label, type, value}) => label === 'Total')?.value ?? 0
+				), 0) * zapperFiatRate,
+
+				defiAppsCount: zapperDefiBalances.length,
+
+				quoteTotalCurrency: defiProvider === 'Zapper' ? zapperQuoteCurrency : undefined
+			}
+		:
+			undefined
 
 
 	// View options
-	export let showValues: 'original' | 'converted' | 'both' = 'original'
+	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	export let showUnderlyingAssets = true
 	export let showMetadata = true
 	export let showActions = false
+	export let isScrollable = false
 
 	type Layout = 'horizontal' | 'horizontal-alternate' | 'vertical'
 	export let layout: Layout | 'auto' = 'auto'
@@ -64,12 +86,12 @@
 	import { formatUnits } from '../utils/format-units'
 
 
-	$: defiBalancesDescription = blockchainApps?.map(({name}) => name).join('/') || `${network.name} DeFi`
+	$: defiBalancesDescription = web3Apps?.map(({name}) => name).join('/') || `${network.name} DeFi`
 
 
 	import Loader from './Loader.svelte'
 	import Loading from './Loading.svelte'
-	import TokenIcon from './TokenIcon.svelte'
+	import NetworkIcon from './NetworkIcon.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
 
@@ -133,22 +155,6 @@
 		line-height: 1.5;
 	}
 
-	.card .card-background {
-		position: absolute;
-		opacity: 0.075;
-		width: 13em;
-		right: -1.5em;
-		top: -2em;
-		filter: contrast(10);
-		border-radius: 50%;
-		z-index: -1;
-		pointer-events: none;
-		user-select: none;
-	}
-	.card .card-background > :global(*) {
-		font-size: 13em;
-	}
-
 	.metadata {
 		font-size: 0.8em;
 		line-height: 1.25;
@@ -163,38 +169,35 @@
 
 {#if network && address}
 	<!-- Zapper -->
-	{#if defiProvider === 'Zapper'}
+	{#if defiProvider === 'Zapper' || network.chainId !== 1}
 		<Loader
 			loadingMessage="Reading {defiBalancesDescription} balances from {defiProvider}..."
 			errorMessage="Error getting {defiBalancesDescription} balances from {defiProvider}."
 			loadingIconName={defiProvider}
-			loadingIcon={'/logos/zapper-logomark.svg'}
+			loadingIcon={'/logos/Zapper.svg'}
 			fromStore={() => getDeFiAppBalances({
-				appIds: blockchainApps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zapper ?? [])),
+				appIds: web3Apps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zapper ?? [])),
 				network,
 				address,
 				asStore: true
 			})}
-			bind:result={zapperDefiProtocolBalances}
-			let:then={defiProtocolBalances}
-			showIf={defiProtocolBalances => defiProtocolBalances.length}
+			bind:result={zapperDefiBalances}
+			let:result={defiProtocolBalances}
 			{isCollapsed}
 		>
 			<svelte:fragment slot="header" let:status>
-				{#if (status === 'resolved' && defiProtocolBalances.length) || status === 'error'}
-					<slot name="header" {quoteTotal} {quoteTotalCurrency}></slot>
-				{/if}
+				<slot name="header" {status} defiBalances={defiProtocolBalances} {summary} />
 			</svelte:fragment>
 
-			<div class="defi-balances column" class:scrollable-list={defiProtocolBalances.flatMap(({products}) => products).length > 6}>
+			<div class="defi-balances column" class:scrollable-list={isScrollable && defiProtocolBalances.flatMap(({products}) => products).length > 6}>
 				{#each defiProtocolBalances as {appId, products, meta}, i}
 					{#each products as {
 						label, assets, meta: productMeta,
-						// _: blockchainAppConfig = blockchainAppsByProviderName.zapper?.[appId]
+						// _: web3AppConfig = web3AppsByProviderName.zapper?.[appId]
 					}, j (label)}
 						<div
 							class="card defi-protocol"
-							style={cardStyle(blockchainAppsByProviderName.zapper?.[appId]?.colors ?? zapperApps?.[appId]?.primaryColor ? [zapperApps[appId].primaryColor] : [])}
+							style={cardStyle(web3AppsByProviderName.zapper?.[appId]?.colors ?? zapperApps?.[appId]?.primaryColor ? [zapperApps[appId].primaryColor] : [])}
 							transition:scale
 							animate:flip|local={{duration: 300, delay: Math.abs(i + j * 0.1) * 10}}
 						>
@@ -205,7 +208,7 @@
 							{/if}
 							<div class="bar">
 								<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{label}">
-									<a href="/apps/{blockchainAppsByProviderName.zapper?.[appId]?.slug ?? appId}/address/{address}">{label}</a>
+									<a href="/apps/{web3AppsByProviderName.zapper?.[appId]?.slug ?? appId}/address/{address}">{label}</a>
 								</h5>
 								{#each meta as {label, type, value}}
 									{#if label === 'Assets'}
@@ -259,7 +262,7 @@
 									<div class="defi-protocol-balance column">
 										<div class="bar">
 											<TokenBalanceWithConversion
-												{showValues}
+												{tokenBalanceFormat}
 
 												{symbol}
 												address={tokenAddress || address}
@@ -312,7 +315,7 @@
 													<abbr class="underlying-asset" in:scaleFont title={label}>
 														<span class="underlying-symbol">┖</span>
 														<TokenBalanceWithConversion
-															{showValues}
+															{tokenBalanceFormat}
 
 															{symbol}
 															address={tokenAddress || address}
@@ -367,7 +370,7 @@
 			</div>
 			<!-- {#if quoteCurrency !== 'USD'}
 				<small class="card row" transition:scale>
-					<img src="/logos/zapper-logomark.svg" width="25" height="25" />
+					<img src="/logos/Zapper.svg" width="25" height="25" />
 					Note: The Zapper API doesn't yet support currencies other than US Dollars.
 				</small>
 			{/if} -->
@@ -391,43 +394,41 @@
 	{/if}
 
 	<!-- Zerion DeFi SDK -->
-	{#if defiProvider === 'Zerion DeFi SDK'}
+	{#if defiProvider === 'Zerion DeFi SDK'	&& network.chainId === 1}
 		{#if provider}
 			<Loader
 				loadingMessage="Reading {defiBalancesDescription} balances from {defiProvider}..."
 				errorMessage="Error getting {defiBalancesDescription} balances from {defiProvider}."
 				fromPromise={() => getDefiBalances({
-					protocolNames: blockchainApps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zerionDefiSDK ?? [])),
+					protocolNames: web3Apps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zerionDefiSDK ?? [])),
 					network,
 					provider,
 					address
 				})}
-				let:then={defiBalances}
-				showIf={defiBalances => defiBalances?.length}
+				bind:result={zerionDefiBalances}
+				let:result={defiBalances}
 				{isCollapsed}
 			>					
-				<TokenIcon slot="loadingIcon" symbol={network.nativeCurrency.symbol} />
+				<NetworkIcon slot="loadingIcon" {network} />
 
 				<svelte:fragment slot="header" let:status>
-					{#if defiBalances?.length}
-						<slot name="header" {network} {quoteCurrency}></slot><!-- {quoteTotal} -->
-					{/if}
+					<slot name="header" {status} {defiBalances} {summary} />
 				</svelte:fragment>
 
 				<div class="defi-balances column">
 					{#each defiBalances as {
 						adapterBalances, metadata,
-						// _: blockchainAppConfig = blockchainAppsByProviderName.zerionDefiSDK?.[metadata.name]
+						// _: web3AppConfig = web3AppsByProviderName.zerionDefiSDK?.[metadata.name]
 					}, i (metadata.name + i)}
 						<div
 							class="card defi-protocol layout-{computedLayout}"
-							style={cardStyle(blockchainAppsByProviderName.zerionDefiSDK?.[metadata.name]?.colors)}
+							style={cardStyle(web3AppsByProviderName.zerionDefiSDK?.[metadata.name]?.colors)}
 							transition:scaleFont|local
 							animate:flip|local={{duration: 300, delay: Math.abs(i) * 10}}
 						>
 							<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{metadata.description}">
 								<img class="card-background" src={`https://${metadata.iconURL}`} alt={metadata.name} width="20"/>
-								<a href="/apps/{blockchainAppsByProviderName.zerionDefiSDK?.[metadata.name]?.slug}/address/{address}">{metadata.name}</a>
+								<a href="/apps/{web3AppsByProviderName.zerionDefiSDK?.[metadata.name]?.slug}/address/{address}">{metadata.name}</a>
 							</h5>
 							{#if computedLayout === 'vertical'}
 								<hr>

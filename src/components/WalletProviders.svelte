@@ -1,8 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import { getEthersProvider, getProviderAndInstance } from '../data/ethereum/provider'
+	import { getWalletProvider, getWalletProviderAndInstance } from '../data/ethereum/wallets/wallets'
 	import { connectedProviderAccounts, getAccountsFromProvider } from '../data/ethereum/portfolio-accounts'
-	import { preferences } from '../data/ethereum/preferences'
 
 
 	export let portfolioProvider
@@ -10,7 +9,7 @@
 	
 
 	const loadMetaMaskProvider = async () => {
-		const metaMaskProvider = await getEthersProvider(network, 'MetaMask')
+		const metaMaskProvider = await getWalletProvider(network, 'MetaMask')
 
 		metaMaskProvider.on('accountsChanged', accounts => {
 			console.log('accountsChanged', accounts)
@@ -26,19 +25,19 @@
 
 
 	const loadTorusProvider = async () => {
-		return await getEthersProvider(network, 'Torus')
+		return await getWalletProvider(network, 'Torus')
 	}
 	const disconnectTorusProvider = async () => {
-		(await getProviderAndInstance(network, 'Torus')).disconnect()
+		(await getWalletProviderAndInstance(network, 'Torus')).disconnect()
 	}
 
 
 	const loadPortisProvider = async () => {
-		return await getEthersProvider(network, 'Portis')
+		return await getWalletProvider(network, 'Portis')
 		// await portis.showPortis()
 	}
 	const disconnectPortisProvider = async () => {
-		(await getProviderAndInstance(network, 'Portis')).disconnect()
+		(await getWalletProviderAndInstance(network, 'Portis')).disconnect()
 	}
 
 	
@@ -93,14 +92,14 @@
 <section class="wallet-providers column">
 	<div class="metamask column">
 		<Loader
-			loadingIcon={'/logos/metamask-icon.svg'}
+			loadingIcon={'/logos/MetaMask.svg'}
 			loadingIconName={'MetaMask'}
 			loadingMessage="Log into MetaMask via the pop-up window."
 			errorMessage="We couldn't connect your MetaMask Account."
 			startImmediately={false}
 			let:load fromPromise={() => loadMetaMaskProvider().then(provider => getAccountsFromProvider(provider, 'MetaMask'))}
 			bind:result={$connectedProviderAccounts['MetaMask']}
-			let:then={accounts}
+			let:result={accounts}
 			let:cancel
 		>
 			<svelte:fragment slot="header" let:status>
@@ -122,10 +121,6 @@
 			<Portfolio
 				name="MetaMask Wallet"
 				provider={portfolioProvider}
-				defiProvider={$preferences.defiProvider}
-				tokenBalancesProvider={$preferences.tokenBalancesProvider}
-				nftProvider={$preferences.nftProvider}
-				quoteCurrency={$preferences.quoteCurrency}
 				{accounts}
 			>
 				<h1 slot="title"><img src="/logos/metamask-icon.svg" alt="MetaMask" class="metamask-logo"> MetaMask Wallet</h1>
@@ -144,14 +139,14 @@
 
 	<div class="torus column">
 		<Loader
-			loadingIcon={'/logos/torus-icon.svg'}
+			loadingIcon={'/logos/Torus.svg'}
 			loadingIconName={'Torus'}
 			loadingMessage="Log into Torus via the pop-up window."
 			errorMessage="We couldn't connect your Tor.us Account."
 			startImmediately={false}
 			let:load fromPromise={() => loadTorusProvider().then(provider => getAccountsFromProvider(provider, 'Torus'))}
 			bind:result={$connectedProviderAccounts['Torus']}
-			let:then={accounts}
+			let:result={accounts}
 			let:cancel whenCanceled={disconnectTorusProvider}
 		>
 			<svelte:fragment slot="header" let:status>
@@ -174,9 +169,6 @@
 			<Portfolio
 				name="Torus Wallet"
 				provider={portfolioProvider}
-				defiProvider={$preferences.defiProvider}
-				tokenBalancesProvider={$preferences.tokenBalancesProvider}
-				nftProvider={$preferences.nftProvider}
 				{accounts}
 			>
 				<h1 slot="title"><img src="/logos/torus-logo.svg" alt="Torus" class="torus-logo"> Wallet</h1>
@@ -196,14 +188,14 @@
 
 	<div class="portis column">
 		<Loader
-			loadingIcon={'/logos/portis-icon.svg'}
+			loadingIcon={'/logos/Portis.svg'}
 			loadingIconName={'Portis'}
 			loadingMessage="Log into Portis via the pop-up window."
 			errorMessage="We couldn't connect your Portis.io Account."
 			startImmediately={false}
 			let:load fromPromise={() => loadPortisProvider().then(provider => getAccountsFromProvider(provider, 'Portis'))}
 			bind:result={$connectedProviderAccounts['Portis']}
-			let:then={accounts}
+			let:result={accounts}
 			let:cancel whenCanceled={disconnectPortisProvider}
 		>
 			<svelte:fragment slot="header" let:status>
@@ -225,9 +217,6 @@
 			<Portfolio
 				name="Portis Wallet"
 				provider={portfolioProvider}
-				defiProvider={$preferences.defiProvider}
-				tokenBalancesProvider={$preferences.tokenBalancesProvider}
-				nftProvider={$preferences.nftProvider}
 				{accounts}
 			>
 				<h1 slot="title"><img src="/logos/portis-black.svg" alt="Portis" class="portis-logo"> Wallet</h1>

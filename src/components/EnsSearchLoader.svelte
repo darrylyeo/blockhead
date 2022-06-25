@@ -152,10 +152,10 @@
 
 <Loader
 	fromHoudiniQuery={searchQuery && (() => queryENSDomain({name: searchQuery}))}
-	loadingIcon="/logos/ens.svg"
+	loadingIcon="/logos/ENS.svg"
 	loadingIconName="The Graph"
 	loadingMessage='Searching for "{searchQuery}" in the Ethereum Name Service subgraph...'
-	let:then={result}
+	let:result={result}
 >
 	<div class="ens-query column">
 		{#each result.domains.sort(sortByLength) as domain (domain.id)}
@@ -175,10 +175,10 @@
 
 		<Loader
 			fromHoudiniQuery={() => queryENSDomainsContaining({query: searchQuery})}
-			loadingIcon="/logos/ens.svg"
+			loadingIcon="/logos/ENS.svg"
 			loadingIconName="The Graph"
 			loadingMessage="Searching the Ethereum Name Service subgraph for similar names..."
-			let:then={result}
+			let:result={result}
 			showIf={result => result?.domains.length}
 		>
 			<svelte:fragment slot="header" let:status>

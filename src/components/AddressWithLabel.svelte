@@ -29,7 +29,9 @@
 
 <span class="address-with-label">
 	{#if label}
-		<span class="label">{label}</span>
+		<Address {network} {address} {format} {linked}>
+			<span class="label">{label}</span>
+		</Address>
 	{/if}
 	{#if !label || alwaysShowAddress}
 		<span class="address">

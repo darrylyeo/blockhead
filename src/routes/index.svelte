@@ -266,9 +266,9 @@
 				for
 				<b style="color: var(--ethereum-blue)">Ethereum</b>,
 				<b style="color: var(--polygon-purple)">Polygon</b>,
-				<b style="color: var(--avalanche-red)">AVAX</b>,
+				<b style="color: var(--avalanche-red)">Avalanche</b>,
 				<b style="color: var(--binance-gold)">BSC</b>,
-				<b style="color: var(--xdai-teal); text-transform: none">xDAI</b>,
+				<b style="color: var(--gnosis-teal)">Gnosis Chain</b>,
 				<b style="color: var(--fantom-blue)">Fantom</b>
 				& the
 				<b class="metaverse">Web 3.0 Metaverse</b>
@@ -320,7 +320,7 @@
 	</div>
 	
 	<footer transition:scale={{delay: 1000}}>
-		<p><strong>Blockhead</strong> • created by <a href="https://darryl-yeo.com/blockhead">Darryl Yeo</a> • 2020 – 2021</p>
+		<p><strong>Blockhead</strong> • created by <a href="https://darryl-yeo.com/blockhead">Darryl Yeo</a> • 2020 – 2022</p>
 		<small><a href="https://gitcoin.co/grants/2966/blockhead" target="_blank">Gitcoin Grants</a> • <a href="https://discord.gg/966eXqqq7N" target="_blank">Discord</a> • <a href="https://twitter.com/0xblockhead" target="_blank">Twitter</a></small>
 		<!-- <img src="/Blockhead-Logo.svg" alt="Blockhead Logo" width="40" /> -->
 	</footer>

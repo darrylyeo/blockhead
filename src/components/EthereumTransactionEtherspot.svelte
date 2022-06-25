@@ -15,7 +15,7 @@
 
 	export let contextualAddress: Ethereum.Address
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
-	export let showValues: 'original' | 'converted' | 'both' = 'original'
+	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	export let showFees = false
 
 	export let layout: 'standalone' | 'inline' = 'inline'
@@ -291,7 +291,7 @@
 								: isSuccessful ? 'sent' : 'failed to send'}
 						</span>
 						<TokenBalanceWithConversion
-							{showValues}
+							{tokenBalanceFormat}
 							showDecimalPlaces={isExhaustive ? 9 : 6}
 
 							erc20Token={gasToken}
@@ -317,7 +317,7 @@
 					<span class="fee" transition:fade|local>
 						<span>for fee</span>
 						<TokenBalanceWithConversion
-							{showValues}
+							{tokenBalanceFormat}
 							showDecimalPlaces={isExhaustive ? 9 : 6}
 
 							erc20Token={gasToken}
@@ -346,7 +346,7 @@
 						{erc20TokenTransfer}
 						{contextualAddress}
 						{detailLevel}
-						{showValues}
+						{tokenBalanceFormat}
 						showFees={false}
 						layout="inline"
 						innerLayout="row"

@@ -12,7 +12,7 @@
 <style>
 	.log-event {
 		display: grid;
-		grid-template-columns: 1rem 1fr;
+		grid-template-columns: minmax(1rem, auto) 1fr;
 		align-items: baseline;
 		gap: var(--padding-inner);
 		--padding-inner: 1.25em;

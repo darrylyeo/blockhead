@@ -11,6 +11,8 @@ export const formatRelativeTime = (d1: number, d2: number = Date.now(), style: '
 	let elapsed = Math.abs(d1 - d2)
 	const sign = Math.sign(d1 - d2)
 
+	if(elapsed < 1000) return 'just now'
+
 	const result = []
 	for (const [unit, amount] of units)
 		if (Math.abs(elapsed) >= amount){
@@ -23,5 +25,6 @@ export const formatRelativeTime = (d1: number, d2: number = Date.now(), style: '
 			
 			elapsed %= amount
 		}
+
 	return [...result.slice(0, -1).map(string => string.replace(/ [^ ]+?$/, '')), result[result.length - 1]].join(', ').replace(/\./g, '')
 }

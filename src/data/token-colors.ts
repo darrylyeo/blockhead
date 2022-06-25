@@ -15,7 +15,7 @@ for(const [color, tokenNames] of Object.entries({
 	'optimism-red': ['optimism', 'Optimism', 'OP', 'OETH', 'oeth', 'op'],
 	'binance-gold': ['BSC', 'Binance Smart Chain', 'bsc', 'BNB', 'bnb'],
 	'avalanche-red': ['avalanche', 'Avalanche', 'AVAX'],
-	'xdai-teal': ['xdai', 'xDAI'],
+	'gnosis-teal': ['gnosis', 'GNO', 'xdai', 'xDAI'],
 	'fantom-blue': ['fantom', 'ftm', 'FTM'],
 	'arbitrum-blue': ['arbitrum-one', 'arbitrum-xdai', 'aETH'],
 	'metis-blue': ['metis', 'METIS'],

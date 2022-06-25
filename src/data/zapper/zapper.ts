@@ -212,13 +212,13 @@ import { V1 } from './api/V1'
 import type { FullRequestParams } from './api/http-client'
 import { HttpClient } from './api/http-client'
 
-import { ZAPPER_API_KEY } from '../../config-secrets'
+import { env } from '../../env'
 
 // class ZapperHttpClient extends HttpClient {
 // 	// toQueryString(rawQuery: QueryParamsType = {}){
 // 	// 	return super.toQueryString({
 // 	// 		...rawQuery,
-// 	// 		api_key: ZAPPER_API_KEY
+// 	// 		api_key: env.ZAPPER_API_KEY
 // 	// 	})
 // 	// }
 // 	public request = async ({query = {}, ...params}: FullRequestParams) => {
@@ -226,7 +226,7 @@ import { ZAPPER_API_KEY } from '../../config-secrets'
 // 		// console.dir(HttpClient, query, params)
 // 		return await HttpClient.prototype.request({
 // 			query: {
-// 				api_key: ZAPPER_API_KEY,
+// 				api_key: env.ZAPPER_API_KEY,
 // 				...query
 // 			},
 // 			...params
@@ -247,18 +247,18 @@ import { ZAPPER_API_KEY } from '../../config-secrets'
 // 	})
 // })
 // client.setSecurityData({
-// 	api_key: ZAPPER_API_KEY as string
+// 	api_key: env.ZAPPER_API_KEY as string
 // })
 // const Zapper = new V1(client)
 
 // const Zapper = new V1(new HttpClient({
 // 	baseApiParams: {
 // 		query: {
-// 			api_key: ZAPPER_API_KEY
+// 			api_key: env.ZAPPER_API_KEY
 // 		}
 // 	}
 // }))
-// { apiKey: () => ZAPPER_API_KEY }
+// { apiKey: () => env.ZAPPER_API_KEY }
 
 const client = new HttpClient()
 
@@ -267,7 +267,7 @@ client.request = async ({query = {}, ...params}: FullRequestParams) => {
 	return await request({
 		query: {
 			...query,
-			api_key: ZAPPER_API_KEY
+			api_key: env.ZAPPER_API_KEY
 		},
 		...params
 	})
@@ -425,5 +425,14 @@ export async function getAllPoolStats({network, address}: {network: Ethereum.Net
 export async function getFiatRates(){
 	const result = await Zapper.pricesControllerListFiatRates()
 	// console.log('getFiatRates', result)
+	return result
+}
+
+export async function getTokenBalances({network, address}: {network: Ethereum.Network, address: Ethereum.Address}) {
+	const result = await Zapper.balanceControllerGetBalances({
+		// network,
+		'addresses[]': [address]
+	}) ?? []
+
 	return result
 }

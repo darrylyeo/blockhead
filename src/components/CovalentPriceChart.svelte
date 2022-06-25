@@ -53,10 +53,10 @@
 			)
 		}
 
-		loadingIcon="/logos/covalent-logomark.svg"
+		loadingIcon="/logos/Covalent.svg"
 		loadingIconName={historicalPriceProvider}
 		loadingMessage="Retrieving price history from {historicalPriceProvider}..."
-		let:then={data}
+		let:result={data}
 		showIf={data => data.length}
 	>
 		<slot name="header"></slot>

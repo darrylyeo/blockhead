@@ -3,6 +3,7 @@
 	import type { TickerSymbol } from '../data/currency/currency'
 	import { preferences } from '../data/ethereum/preferences'
 
+
 	export let network: Ethereum.Network
 	export let address: Ethereum.Address
 	export let provider: Ethereum.Provider
@@ -17,6 +18,8 @@
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
 
 
+	import { useInfiniteQuery } from '@sveltestack/svelte-query'
+
 	import { getERC20TokenTransfers } from '../data/analytics/covalent'
 	import { chainCodeFromNetwork, MoralisWeb3Api } from '../data/moralis/moralis-web3-api'
 
@@ -25,57 +28,37 @@
 </script>
 
 
-{#if transactionProvider === 'Covalent'}
+<!-- {#if transactionProvider === 'Covalent'} -->
 	<Loader
-		loadingIcon={'/logos/covalent-logomark.svg'}
+		loadingIcon={'/logos/Covalent.svg'}
 		loadingIconName={transactionProvider}
 		loadingMessage="Retrieving ERC-20 transactions from {transactionProvider}..."
 		errorMessage="Error retrieving ERC-20 transactions from {transactionProvider}"
-		fromPromise={async () => 
-			(await getERC20TokenTransfers({
+		fromUseInfiniteQuery={useInfiniteQuery({
+			queryKey: ['TransactionsERC20Transfer', {
+				transactionProvider,
 				chainID: network.chainId,
 				address,
-				contractAddress: erc20Token.address,
-				quoteCurrency
-			}))
-				.items
-		}
-		let:then={transactions}
+				quoteCurrency,
+			}],
+			queryFn: async ({ pageParam: pageNumber }) => (
+				await getERC20TokenTransfers({
+					chainID: network.chainId,
+					address,
+					contractAddress: erc20Token.address,
+					quoteCurrency,
+					pageNumber: pageNumber ?? 0,
+					pageSize: 100,
+				})
+			),
+			getPreviousPageParam: (firstPage, allPages) => firstPage.pagination?.page_number > 0 ? firstPage.pagination.page_number - 1 : undefined,
+			getNextPageParam: (lastPage, allPages) => lastPage.pagination?.has_more ? lastPage.pagination.page_number + 1 : undefined
+		})}
+		let:result
 		let:status
+		let:pagination
 	>
-		<slot name="header" slot="header" {status} {transactions} />
-		<slot {transactions} />
+		<slot name="header" slot="header" {status} />
+		<slot transactions={result?.pages?.flatMap(page => page.items) ?? []} {pagination} />
 	</Loader>
-{:else if transactionProvider === 'Moralis'}
-	<Loader
-		loadingIcon={'/logos/moralis-logo.svg'}
-		loadingIconName={transactionProvider}
-		loadingMessage="Retrieving ERC-20 transactions from {transactionProvider}..."
-		errorMessage="Error retrieving ERC-20 transactions from {transactionProvider}"
-		fromPromise={async () => {
-			const { result: transactions, page, page_size, total } = (await MoralisWeb3Api.address.getTokenTransfers({
-				chain: chainCodeFromNetwork(network),
-				from_block: 0,
-				// to_block: ,
-				// offset,
-				// limit,
-				address
-			}))
-
-			return includeLogs
-				? await Promise.all(transactions.map(async transaction => ({
-					value_: transaction.value,
-					...(await MoralisWeb3Api.transaction.getTransaction({
-						chain: chainCodeFromNetwork(network),
-						transactionHash: transaction.hash
-					}))
-				})))
-				: transactions
-		}}
-		let:then={transactions}
-		let:status
-	>
-		<slot name="header" slot="header" {status} {transactions} />
-		<slot {transactions} />
-	</Loader>
-{/if}
+<!-- {/if} -->
