@@ -35,7 +35,7 @@ export namespace Ethereum {
 	export type ChainName = string
 	export type NetworkDisplayName = string
 	export type NetworkID = number
-	export type NetworkName = 'mainnet' | 'ropsten' | 'rinkeby' | 'goerli' | 'kovan' | 'classic' | string
+	export type NetworkName = 'mainnet' | 'ropsten' | 'rinkeby' | 'goerli' | 'kovan' | 'classic' | 'polygon' | string
 
 	export type NativeCurrency = {
 		name: string,

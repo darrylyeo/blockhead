@@ -462,7 +462,6 @@ const makeRequest = <T>(endpoint: string, params: any) =>
 				throw new Error(error)
 			})
 			.then(({data}: Covalent.Response) => { 
-				console.log(data)
 				return data as T
 			})
 	)
