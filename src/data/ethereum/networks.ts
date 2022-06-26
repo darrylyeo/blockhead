@@ -5013,7 +5013,7 @@ export function isTestnet(network: Ethereum.Network){
 }
 
 
-export const availableNetworks = [1, 137, 43114, 56, 250].map(chainID => networksByChainID[chainID])
+export const availableNetworks = [1, 137, 10, 100].map(chainID => networksByChainID[chainID])
 
 
 export const ethereumAndL2Networks = [
