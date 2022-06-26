@@ -46,7 +46,8 @@
 	<title>{status} Error</title>
 </svelte:head>
 
-<main in:fly={{x: 300}} out:fly={{x: -300}}>
+<!-- <main in:fly={{x: 300}} out:fly={{x: -300}}> -->
+<main>
 	<h1>{status} Error</h1>
 
 	<p>{error.message}</p>

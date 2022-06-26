@@ -234,7 +234,8 @@
 	<title>Blockhead</title>
 </svelte:head>
 
-<main in:fly={{x: 300}} out:fly={{x: -300}}>
+<!-- <main in:fly={{x: 300}} out:fly={{x: -300}}> -->
+<main>
 	<header>
 		<h2 class="description top" transition:scale={{delay: 150}}>
 			<b>Track</b>,

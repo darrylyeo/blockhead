@@ -41,7 +41,8 @@
 </svelte:head>
 
 
-<main in:fly={{x: 300}} out:fly={{x: -300}}>
+<!-- <main in:fly={{x: 300}} out:fly={{x: -300}}> -->
+<main>
 	<section class="portfolios column">
 		{#if localPortfolios}
 			{#each $localPortfolios as {name, accounts}, i (i)}
