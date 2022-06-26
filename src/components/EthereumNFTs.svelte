@@ -1,13 +1,17 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { Covalent } from '../data/analytics/covalent'
-	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
+	import type { QuoteCurrency } from '../data/currency/currency'
+	import type { Nftport } from '../data/analytics/nftport'
+  import type { TickerSymbol } from '../data/currency/currency'
 	import { getTokenAddressBalances } from '../data/analytics/covalent'
+	import { NftportApi } from '../data/analytics/nftport'
+	import { memoizedAsync } from '../utils/memoized'
 
 	export let network: Ethereum.Network
 	export let address: string
 
-	export let nftProvider = 'Covalent'
+	export let nftProvider
 	export let quoteCurrency: QuoteCurrency
 
 	export let showImagesOnly = false
@@ -19,8 +23,24 @@
 
 	export let isCollapsed: boolean
 
-
-	import { memoizedAsync } from '../utils/memoized'
+	type integer = number
+	type ERCTokenStandard = 'erc20' | 'erc721' | 'erc1155'
+	type NFT = {
+		token_id: integer
+		token_url: string
+		name: string
+		description: string
+		image: string
+		owner: string
+	}
+	type NFTContract = {
+	  type: 'nft'
+		contract_address: Ethereum.ContractAddress
+		nft_data: NFT[]
+		contract_name?: string
+		contract_ticker_symbol?: TickerSymbol
+		supports_erc: ERCTokenStandard[]
+	}
 
 	// const getNftBalancesCovalent = getTokenAddressBalances
 	const getNftBalancesCovalent = memoizedAsync(getTokenAddressBalances)
@@ -38,6 +58,7 @@
 
 
 	export let balances: Covalent.NFTContractWithBalance[] = []
+	export let nftContracts: NFTContract[] = []
 
 	export let summary: {
 		quoteTotal: number,
@@ -96,16 +117,80 @@
 			ratio < n ? numerator++ : denominator++
 		);
 
-		// console.log('findClosestAspectRatio', {n, numerator, denominator})
-
 		const scaleFactor = Math.max(1, Math.round(Math.sqrt((target * target) / (numerator * denominator))))
 		return [numerator * scaleFactor, denominator * scaleFactor]
 	}
 
+	const networkSlugToNftportChain: Map<Ethereum.NetworkName, Nftport.AccountRequestSupportedChain> = 
+		new Map<Ethereum.NetworkName, Nftport.AccountRequestSupportedChain>([
+			["ethereum", "ethereum"],
+			["polygon", "polygon"],
+			["ethereum-rinkeby", "rinkeby"]
+		])
+
+	const getNftBalancesNftport = async (): Promise<NFTContract[]> => {
+		if (!Array.from(networkSlugToNftportChain.keys()).some(slug => slug === network.slug)) {
+			throw new Error(`NFTPort does not support the given network: ${network.name}`)
+		}
+		const response: Nftport.AccountNftsResponse = await NftportApi.v0.accountNftsV0AccountsAccountAddressGet({
+			accountAddress: address,
+			include: ['default', 'metadata', 'contract_information'],
+			chain: networkSlugToNftportChain.get(network.slug)
+		})
+		const contractAddressToContract: Map<string, NFTContract> = new Map<string, NFTContract>()
+		response.nfts.forEach(nft => {
+			const nftContract: NFTContract | undefined = contractAddressToContract.get(nft.contract_address)
+			const nft_data = nftContract ? nftContract.nft_data : []
+			let image: string = nft.cached_file_url || nft.file_url
+			if (image) {
+				for (let transform of [
+					(url: string): string | undefined => url && url.startsWith("Qm") ? "https://ipfs.io/ipfs/" + url : undefined,
+					(url: string): string | undefined => url && url.startsWith("ipfs://") ? url.replace("ipfs://", "https://ipfs.io/ipfs/") : undefined,
+					(url: string): string | undefined => url && url.startsWith("http") ? url : undefined,
+				]) {
+					for (let file_url of [nft.cached_file_url, nft.file_url]) {
+						if (transform(file_url)) {
+							image = transform(file_url)
+						}
+					}
+				}
+			}
+
+			nft_data.push({
+				token_id: Number(nft.token_id),
+				token_url: nft.metadata_url,
+				name: nft.name,
+				description: nft.description ? nft.description : nft.metadata ? nft.metadata["description"] : undefined,
+				image,
+				owner: address
+			})
+			if (nft.contract) {
+				contractAddressToContract.set(
+					nft.contract_address, {
+						type: 'nft',
+						contract_name: nft.contract.name,
+						contract_ticker_symbol: nft.contract.symbol,
+						contract_address: nft.contract_address,
+						supports_erc: [nft.contract.type.toLowerCase() as ERCTokenStandard],
+						nft_data,
+					}
+				)
+			} else {
+				contractAddressToContract.set(
+					nft.contract_address, {
+						type: 'nft',
+						contract_name: nft.metadata ? nft.metadata["name"] : undefined,
+						contract_address: nft.contract_address,
+						nft_data,
+						supports_erc: [],
+					}
+				)
+			}
+		})
+		return Array.from(contractAddressToContract.values())
+	}
 
 	import { useQuery } from '@sveltestack/svelte-query'
-
-
 	import Address from './Address.svelte'
 	import Loader from './Loader.svelte'
 	import SizeContainer from './SizeContainer.svelte'
@@ -354,165 +439,282 @@
 
 
 {#if address}
-	<Loader
-		loadingIcon={'/logos/Covalent.svg'}
-		loadingIconName={nftProvider}
-		loadingMessage="Retrieving {network.name} NFTs from {nftProvider}..."
-		errorMessage="Error retrieving {network.name} NFTs from {nftProvider}"
-		fromUseQuery={
-			useQuery({
-				queryKey: ['NFTs', {
-					address,
-					chainID: network.chainId,
-					quoteCurrency: quoteCurrency
-				}],
-				queryFn: () => (
-					getNftBalancesCovalent({
+	{#if nftProvider === 'Covalent' }
+		<Loader
+			loadingIcon={'/logos/Covalent.svg'}
+			loadingIconName={nftProvider}
+			loadingMessage="Retrieving {network.name} NFTs from {nftProvider}..."
+			errorMessage="Error retrieving {network.name} NFTs from {nftProvider}"
+			fromUseQuery={
+				useQuery({
+					queryKey: ['NFTs', {
+						nftProvider,
 						address,
-						nft: true,
 						chainID: network.chainId,
 						quoteCurrency: quoteCurrency
-					}).then(balances =>
-						(filterFunction ? balances.items.filter(filterFunction) : balances.items)
-							.sort(sortFunction)
-						// as Covalent.NFTContractWithBalance[]
+					}],
+					queryFn: () => (
+						getNftBalancesCovalent({
+							address,
+							nft: true,
+							chainID: network.chainId,
+							quoteCurrency: quoteCurrency
+						}).then(balances => {
+							return (filterFunction ? balances.items.filter(filterFunction) : balances.items)
+								.sort(sortFunction)
+							// as Covalent.NFTContractWithBalance[]
+						})
 					)
-				)
-			})
-		}
-		bind:result={balances}
-		{isCollapsed}
-	>
-		<svelte:fragment slot="header">
-			<slot name="header" {balances} {summary}></slot>
-		</svelte:fragment>
+				})
+			}
+			bind:result={balances}
+			{isCollapsed}
+		>
+			<svelte:fragment slot="header">
+				<slot name="header" {balances} {summary}></slot>
+			</svelte:fragment>
 
-		{#if balances}
-			<div
-				class="nft-contracts column"
-				class:scrollable-list={(isScrollable && balances?.length > 3) || show3D}
-				class:showImagesOnly
-				class:show3D
-			>
-			<!-- on:contextmenu={() => showImagesOnly = !showImagesOnly}
-			on:dblclick={() => show3D = !show3D} -->
-				{#each
-					balances.filter(({ nft_data }) => nft_data?.length > 0)
-					as {balance, contract_name, contract_address, contract_ticker_symbol, logo_url, nft_data, supports_erc},
-					i (contract_address || contract_ticker_symbol || contract_name)
-				}
-					<div class="nft-contract card column"
-						class:is-single={nft_data ? nft_data.length <= 1 : true}
-						tabIndex={show3D ? 0 : undefined}
-						animate:flip|local={{duration: 500, delay: Math.abs(i) * 10, easing: quintOut}}
-						draggable={true}
-					>
-						<header class="bar">
-							<h4>
-								<Address {network} address={contract_address} let:formattedAddress>{contract_name || formattedAddress}</Address>
-								{#if balance > 1}({balance}){/if}
-							</h4>
-							{#each [supports_erc.filter(erc => erc !== 'erc20')] as supports_erc}
-								{#if supports_erc?.length}
-									<span class="card-annotation">{supports_erc.filter(erc => erc !== 'erc20').join('/')}</span>
-								{/if}
-							{/each}
-						</header>
-
-						{#if nft_data}
-							<hr />
-
-							<div class="nfts" class:scrollable-list={isScrollable && nft_data?.length > 3 && !show3D}>
-								{#each nft_data as {token_id, token_url, token_balance, external_data, supports_erc, burned}}
-									{#if external_data}
-										{#each [parseNFTAttributes(external_data.attributes)] as attributes}
-											<SizeContainer contentsOnly={showImagesOnly}>
-												<figure
-													class="nft"
-													class:column={!showImagesOnly}
-													class:stack={showImagesOnly}
-													draggable={true}
-													tabIndex={0}
-												>
-												<!-- style="order: {Math.random() * 1000 | 0}" -->
-													<!-- <IPFSLink -->
-													<!-- <a
-														href={token_url || external_data?.external_url}
-														target="_blank"
-														draggable={false}
-													> -->
-														<picture
-															title={
-																[
-																	[formatNFTNameAndTokenID(contract_name, token_id), external_data.name],
-																	[external_data.description],
-																	attributes.map(({trait_type, value}) => `${trait_type}: ${value}`)
-																].map(section => section.filter(Boolean).join('\n')).filter(Boolean).join('\n\n')
-															}
-														>
-															{#if external_data.image}<source src={external_data.image} />{/if}
-															{#if external_data.image_256}<source src={external_data.image_256} media="(min-width: 256px)" />{/if}
-															{#if external_data.image_512}<source src={external_data.image_512} media="(min-width: 512px)" />{/if}
-															{#if external_data.image_1024}<source src={external_data.image_1024} media="(min-width: 1024px)" />{/if}
-															<img
-																class="nft-image"
-																src={external_data.image_256 || external_data.image}
-																alt={formatNFTNameAndTokenID(external_data.name, token_id)}
-																loading="lazy"
-																on:load={e => {
-																	const [w, h] = findClosestAspectRatio(e.target.naturalWidth / e.target.naturalHeight)
-																	const figure = e.target.closest('figure')
-																	figure.style.setProperty('--grid-item-width', w)
-																	figure.style.setProperty('--grid-item-height', h)
-																}}
-																draggable={false}
-															/>
-															<!-- <img class="nft-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt={formatNFTNameAndTokenID(external_data.name, token_id)} /> -->
-														</picture>
-
-														<!-- {#if external_data.animation_url}
-															<iframe src={external_data.animation_url} lazy="true" />
-														{/if} -->
-													<!-- </a> -->
-													<figcaption class="column">
-														<header class="bar">
-															<div class="nft-name" class:row-inline={!showImagesOnly}>
-																{#if external_data.name}<h5>{external_data.name}</h5>{/if}
-																{#if token_balance > 1}
-																	<span class="nft-count">×{token_balance}</span>
-																{/if}
-															</div>
-															{#if String(token_id).length < 6}
-																<span class="card-annotation token-id">#{token_id}</span>
-															{/if}
-														</header>
-														{#if showNFTMetadata && attributes.length}
-															{#if external_data.description}
-																<p class="description">{external_data.description}</p>
-															{/if}
-															<dl class="attributes">
-																{#each attributes as {key, display_type, trait_type, value}}
-																	<dt>{trait_type}</dt>
-																	<dd>{value}</dd>
-																{/each}
-															</dl>
-														{/if}
-													</figcaption>
-												</figure>
-											</SizeContainer>
-										{/each}
-									{:else}
-										<div class="nft column" title={`${contract_name ? `${contract_name} ` : ''}#${token_id}`}>
-											<div class="nft-image" />
-											<span class="card-annotation token-id">#{token_id}</span>
-										</div>
+			{#if balances}
+				<div
+					class="nft-contracts column"
+					class:scrollable-list={(isScrollable && balances?.length > 3) || show3D}
+					class:showImagesOnly
+					class:show3D
+				>
+				<!-- on:contextmenu={() => showImagesOnly = !showImagesOnly}
+				on:dblclick={() => show3D = !show3D} -->
+					{#each
+						balances.filter(({ nft_data }) => nft_data?.length > 0)
+						as {balance, contract_name, contract_address, contract_ticker_symbol, logo_url, nft_data, supports_erc},
+						i (contract_address || contract_ticker_symbol || contract_name)
+					}
+						<div class="nft-contract card column"
+							class:is-single={nft_data ? nft_data.length <= 1 : true}
+							tabIndex={show3D ? 0 : undefined}
+							animate:flip|local={{duration: 500, delay: Math.abs(i) * 10, easing: quintOut}}
+							draggable={true}
+						>
+							<header class="bar">
+								<h4>
+									<Address {network} address={contract_address} let:formattedAddress>{contract_name || formattedAddress}</Address>
+									{#if balance > 1}({balance}){/if}
+								</h4>
+								{#each [supports_erc.filter(erc => erc !== 'erc20')] as supports_erc}
+									{#if supports_erc?.length}
+										<span class="card-annotation">{supports_erc.filter(erc => erc !== 'erc20').join('/')}</span>
 									{/if}
 								{/each}
-							</div>
-						{/if}
-					</div>
-				{/each}
-			</div>
-		{/if}
-	</Loader>
+							</header>
+
+							{#if nft_data}
+								<hr />
+
+								<div class="nfts" class:scrollable-list={isScrollable && nft_data?.length > 3 && !show3D}>
+									{#each nft_data as {token_id, token_url, token_balance, external_data, supports_erc, burned}}
+										{#if external_data}
+											{#each [parseNFTAttributes(external_data.attributes)] as attributes}
+												<SizeContainer contentsOnly={showImagesOnly}>
+													<figure
+														class="nft"
+														class:column={!showImagesOnly}
+														class:stack={showImagesOnly}
+														draggable={true}
+														tabIndex={0}
+													>
+													<!-- style="order: {Math.random() * 1000 | 0}" -->
+														<!-- <IPFSLink -->
+														<!-- <a
+															href={token_url || external_data?.external_url}
+															target="_blank"
+															draggable={false}
+														> -->
+															<picture
+																title={
+																	[
+																		[formatNFTNameAndTokenID(contract_name, token_id), external_data.name],
+																		[external_data.description],
+																		attributes.map(({trait_type, value}) => `${trait_type}: ${value}`)
+																	].map(section => section.filter(Boolean).join('\n')).filter(Boolean).join('\n\n')
+																}
+															>
+																{#if external_data.image}<source src={external_data.image} />{/if}
+																{#if external_data.image_256}<source src={external_data.image_256} media="(min-width: 256px)" />{/if}
+																{#if external_data.image_512}<source src={external_data.image_512} media="(min-width: 512px)" />{/if}
+																{#if external_data.image_1024}<source src={external_data.image_1024} media="(min-width: 1024px)" />{/if}
+																<img
+																	class="nft-image"
+																	src={external_data.image_256 || external_data.image}
+																	alt={formatNFTNameAndTokenID(external_data.name, token_id)}
+																	loading="lazy"
+																	on:load={e => {
+																		const [w, h] = findClosestAspectRatio(e.target.naturalWidth / e.target.naturalHeight)
+																		const figure = e.target.closest('figure')
+																		figure.style.setProperty('--grid-item-width', w)
+																		figure.style.setProperty('--grid-item-height', h)
+																	}}
+																	draggable={false}
+																/>
+																<!-- <img class="nft-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt={formatNFTNameAndTokenID(external_data.name, token_id)} /> -->
+															</picture>
+
+															<!-- {#if external_data.animation_url}
+																<iframe src={external_data.animation_url} lazy="true" />
+															{/if} -->
+														<!-- </a> -->
+														<figcaption class="column">
+															<header class="bar">
+																<div class="nft-name" class:row-inline={!showImagesOnly}>
+																	{#if external_data.name}<h5>{external_data.name}</h5>{/if}
+																	{#if token_balance > 1}
+																		<span class="nft-count">×{token_balance}</span>
+																	{/if}
+																</div>
+																{#if String(token_id).length < 6}
+																	<span class="card-annotation token-id">#{token_id}</span>
+																{/if}
+															</header>
+															{#if showNFTMetadata && attributes.length}
+																{#if external_data.description}
+																	<p class="description">{external_data.description}</p>
+																{/if}
+																<dl class="attributes">
+																	{#each attributes as {key, display_type, trait_type, value}}
+																		<dt>{trait_type}</dt>
+																		<dd>{value}</dd>
+																	{/each}
+																</dl>
+															{/if}
+														</figcaption>
+													</figure>
+												</SizeContainer>
+											{/each}
+										{:else}
+											<div class="nft column" title={`${contract_name ? `${contract_name} ` : ''}#${token_id}`}>
+												<div class="nft-image" />
+												<span class="card-annotation token-id">#{token_id}</span>
+											</div>
+										{/if}
+									{/each}
+								</div>
+							{/if}
+						</div>
+					{/each}
+				</div>
+			{/if}
+		</Loader>
+	{:else if nftProvider === 'NFTPort'}
+		<Loader
+			loadingIcon={'/logos/NFTPort.svg'}
+			loadingIconName={nftProvider}
+			loadingMessage="Retrieving {network.name} NFTs from {nftProvider}..."
+			errorMessage="Error retrieving {network.name} NFTs from {nftProvider}"
+			fromUseQuery={
+				useQuery({
+					queryKey: ['NFTs', {
+						nftProvider,
+						address,
+						chainID: network.chainId,
+						quoteCurrency: quoteCurrency
+					}],
+					queryFn: getNftBalancesNftport
+				})
+			}
+			bind:result={nftContracts}
+			{isCollapsed}
+		>
+			<svelte:fragment slot="header">
+				<slot name="header" {nftContracts} {summary}></slot>
+			</svelte:fragment>
+
+			{#if nftContracts}
+				<div
+					class="nft-contracts column"
+					class:scrollable-list={(isScrollable && nftContracts?.length > 3) || show3D}
+					class:showImagesOnly
+					class:show3D
+				>
+				<!-- on:contextmenu={() => showImagesOnly = !showImagesOnly}
+				on:dblclick={() => show3D = !show3D} -->
+					{#each
+						nftContracts.filter(({ nft_data }) => nft_data?.length > 0)
+						as {contract_name, contract_address, contract_ticker_symbol, nft_data, supports_erc},
+						i (contract_address || contract_ticker_symbol || contract_name)
+					}
+						<div class="nft-contract card column"
+							class:is-single={nft_data ? nft_data.length <= 1 : true}
+							tabIndex={show3D ? 0 : undefined}
+							animate:flip|local={{duration: 500, delay: Math.abs(i) * 10, easing: quintOut}}
+							draggable={true}
+						>
+							<header class="bar">
+								<h4>
+									<Address {network} address={contract_address} let:formattedAddress>{contract_name || formattedAddress}</Address>
+								</h4>
+								{#each [supports_erc.filter(erc => erc !== 'erc20')] as supports_erc}
+									{#if supports_erc?.length}
+										<span class="card-annotation">{supports_erc.filter(erc => erc !== 'erc20').join('/')}</span>
+									{/if}
+								{/each}
+							</header>
+
+							{#if nft_data}
+								<hr />
+								<div class="nfts" class:scrollable-list={isScrollable && nft_data?.length > 3 && !show3D}>
+									{#each nft_data as {token_id, name, description, image}}
+										<SizeContainer contentsOnly={showImagesOnly}>
+											<figure
+												class="nft"
+												class:column={!showImagesOnly}
+												class:stack={showImagesOnly}
+												draggable={true}
+												tabIndex={0}
+											>
+												<picture
+													title={
+														[
+															[formatNFTNameAndTokenID(contract_name, token_id), name],
+															[description],
+														].map(section => section.filter(Boolean).join('\n')).filter(Boolean).join('\n\n')
+													}
+												>
+													<img
+														class="nft-image"
+														src={image}
+														alt={formatNFTNameAndTokenID(name, token_id)}
+														loading="lazy"
+														on:load={e => {
+															const [w, h] = findClosestAspectRatio(e.target.naturalWidth / e.target.naturalHeight)
+															const figure = e.target.closest('figure')
+															figure.style.setProperty('--grid-item-width', w)
+															figure.style.setProperty('--grid-item-height', h)
+														}}
+														draggable={false}
+													/>
+												</picture>
+												<figcaption class="column">
+													<header class="bar">
+														<div class="nft-name" class:row-inline={!showImagesOnly}>
+															{#if name}<h5>{name}</h5>{/if}
+														</div>
+														{#if String(token_id).length < 6}
+															<span class="card-annotation token-id">#{token_id}</span>
+														{/if}
+													</header>
+													{#if showNFTMetadata}
+														{#if description}
+															<p class="description">{description}</p>
+														{/if}
+													{/if}
+												</figcaption>
+											</figure>
+										</SizeContainer>
+									{/each}
+								</div>
+							{/if}
+						</div>
+					{/each}
+				</div>
+			{/if}
+		</Loader>
+	{/if}
 {/if}

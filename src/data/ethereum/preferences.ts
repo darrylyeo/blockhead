@@ -198,7 +198,7 @@ export const preferencesConfig: PreferencesConfig<
 				id: 'nftProvider',
 				name: 'NFTs',
 				type: 'single',
-				defaultOption: 'Covalent',
+				defaultOption: 'NFTPort',
 				options: [
 					// {
 					// 	id: 'onChain',
@@ -211,6 +211,7 @@ export const preferencesConfig: PreferencesConfig<
 						name: 'Off-Chain',
 						options: [
 							{ id: 'Covalent', name: 'Covalent' },
+							{ id: 'NFTPort',  name: 'NFTPort' }
 							// { id: 'Zapper', name: 'Zapper' },
 							// { id: 'Moralis', name: 'Moralis' },
 						]
