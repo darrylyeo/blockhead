@@ -1,8 +1,43 @@
 <script lang="ts">
+	// Types/constants
 	import type { Ethereum } from '../../../data/ethereum/types'
+
+
+	// Params/Context
+
+	import { networkSlug, query } from '../_explorerParams'
+
+	import { explorerNetwork, explorerProvider, explorerBlockNumber } from '../_explorerContext'
+
 	import { getContext } from 'svelte'
 
-	const networkSlug = getContext<SvelteStore<string>>('networkSlug')
+	const ethereumNetwork = getContext<SvelteStore<Ethereum.Network>>('ethereumNetwork')
+	const ethereumProvider = getContext<SvelteStore<Ethereum.Provider>>('ethereumProvider')
+
+	import type { Writable } from 'svelte/store'
+
+	const relevantPreferences = getContext<Writable<string[]>>('relevantPreferences')
+	$: $relevantPreferences = [
+		'theme',
+		...(
+			!$query ? ['rpcNetwork', 'currentPriceProvider', 'historicalPriceProvider'] :
+			_isTransaction ? ['rpcNetwork', 'transactionProvider', 'quoteCurrency'] :
+			_isBlockNumber ? ['rpcNetwork', 'transactionProvider', 'quoteCurrency'] :
+			['rpcNetwork', 'tokenBalancesProvider', 'transactionProvider', 'quoteCurrency']
+			// _isAddress ? ['rpcNetwork', 'tokenBalancesProvider', 'transactionProvider', 'quoteCurrency'] :
+			// []
+		),
+	]
+
+
+	// External stores
+
+	import { preferences } from '../../../data/ethereum/preferences'
+
+
+	// Internal state
+		
+	$: currentQuery = $query
 
 	$: showCurrentBlockHeight = true
 
@@ -28,36 +63,6 @@
 	// }
 
 
-	const explorerNetwork = getContext<SvelteStore<Ethereum.Network>>('explorerNetwork')
-	const explorerProvider = getContext<SvelteStore<Ethereum.Provider>>('explorerProvider')
-	const blockNumber = getContext<SvelteStore<number>>('blockNumber')
-
-	const ethereumNetwork = getContext<SvelteStore<Ethereum.Network>>('ethereumNetwork')
-	const ethereumProvider = getContext<SvelteStore<Ethereum.Provider>>('ethereumProvider')
-
-
-	import type { Writable } from 'svelte/store'
-
-	const query = getContext<Writable<string>>('query')
-	$: currentQuery = $query
-	
-
-	import { preferences } from '../../../data/ethereum/preferences'
-
-	const relevantPreferences = getContext<Writable<string[]>>('relevantPreferences')
-	$: $relevantPreferences = [
-		'theme',
-		...(
-			!$query ? ['rpcNetwork', 'currentPriceProvider', 'historicalPriceProvider'] :
-			_isTransaction ? ['rpcNetwork', 'transactionProvider', 'quoteCurrency'] :
-			_isBlockNumber ? ['rpcNetwork', 'transactionProvider', 'quoteCurrency'] :
-			['rpcNetwork', 'tokenBalancesProvider', 'transactionProvider', 'quoteCurrency']
-			// _isAddress ? ['rpcNetwork', 'tokenBalancesProvider', 'transactionProvider', 'quoteCurrency'] :
-			// []
-		),
-	]
-
-
 	const isAddress = query => /^0x[0-9a-f]{40}$/i.test(query)
 	const isTransaction = query => /^0x[0-9a-f]{64}$/i.test(query)
 	const isBlockNumber = query => /^[0-9]+$/i.test(query)
@@ -66,6 +71,8 @@
 	$: _isTransaction = isTransaction($query)
 	$: _isBlockNumber = isBlockNumber($query)
 
+
+	// Components
 
 	import AddressField from '../../../components/AddressField.svelte'
 	import NetworkProviderLoader from '../../../components/NetworkProviderLoader.svelte'
@@ -77,6 +84,8 @@
 	import EthereumAccount from '../../../components/EthereumAccount.svelte'
 	import EthereumBlockLoader from '../../../components/EthereumBlockLoader.svelte'
 	import EthereumTransactionLoader from '../../../components/EthereumTransactionLoader.svelte'
+
+	// Transitions
 
 	import { fly } from 'svelte/transition'
 </script>
@@ -148,7 +157,7 @@
 								<EthereumBlockHeight
 									network={$explorerNetwork}
 									provider={$explorerProvider}
-									blockNumber={$blockNumber}
+									blockNumber={$explorerBlockNumber}
 								/>
 							</section>
 						{/if}
@@ -161,7 +170,7 @@
 									quoteCurrency={$preferences.quoteCurrency}
 									provider={$ethereumProvider}
 									network={$ethereumNetwork}
-									blockNumber={$blockNumber}
+									blockNumber={$explorerBlockNumber}
 								/>
 							</section>
 						{/if}
