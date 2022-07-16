@@ -1,11 +1,8 @@
 <script lang="ts">
-	import { getContext } from 'svelte'
-	import type { Writable } from 'svelte/store'
-
-	const addressOrEnsName = getContext<Writable<string>>('addressOrEnsName')
+	import { addressOrEnsName } from '../_appsParams'
 
 
-	$: currentQuery = $addressOrEnsName
+	$: currentAddressOrEnsName = $addressOrEnsName
 
 
 	import AddressField from '../../../components/AddressField.svelte'
@@ -26,8 +23,8 @@
 
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
-	<form on:submit|preventDefault={() => $addressOrEnsName = currentQuery}>
-		<AddressField bind:address={currentQuery}/>
+	<form on:submit|preventDefault={() => $addressOrEnsName = currentAddressOrEnsName}>
+		<AddressField bind:address={currentAddressOrEnsName}/>
 		<button>Go</button>
 	</form>
 

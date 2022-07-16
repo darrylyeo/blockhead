@@ -1,48 +1,41 @@
 <script lang="ts">
+	// Constants
 	import { preferences } from '../../../data/ethereum/preferences'
-    
-
-	import type { Web3AppSlug, Web3AppConfig } from '../../../data/web3Apps';
-	import { getContext } from 'svelte'
-
-	const web3AppSlug = getContext<SvelteStore<Web3AppSlug>>('web3AppSlug')
-	const web3AppConfig = getContext<SvelteStore<Web3AppConfig>>('web3AppConfig')
 
 
-	import type { Writable } from 'svelte/store'
+	// Params
+	import { addressOrEnsName, audiusQuery } from '../_appsParams'
 
-	const addressOrEnsName = getContext<Writable<string>>('addressOrEnsName')
 
-	$: currentAddressOrENSName = $addressOrEnsName
+	// Context
+	import { web3AppConfig, currentView } from '../_appsContext'
 
+
+	// Internal state
+
+	$: currentAddressOrEnsName = $addressOrEnsName
+	$: currentQuery = $audiusQuery
 
 	let tokenBalanceFormat
 	let showUnderlyingAssets
 
 
-	import { page } from '$app/stores'
-	import { goto } from '$app/navigation'
-
-	$: ({ query } = $page.params)
-
-	$: currentQuery = query
-
-
-	let currentView: 'Dashboard' | 'Explorer' | 'Account'
-	$: currentView =
-		!($addressOrEnsName || query) ? 'Dashboard' :
-		$addressOrEnsName ? 'Account' :
-		'Explorer'
-
+	// Components
 
 	import AddressField from '../../../components/AddressField.svelte'
 	import Web3AppDashboard from '../../../components/Web3AppDashboard.svelte'
 	import EnsResolutionLoader from '../../../components/EnsResolutionLoader.svelte'
 
 
+	// Transitions
+
 	import { fly } from 'svelte/transition'
-	import { scale } from 'svelte/transition'
 </script>
+
+
+<head>
+	<title>{$addressOrEnsName ? `${$addressOrEnsName} | ` : ''}{`${$web3AppConfig.name} ${$currentView}`} | Blockhead</title>
+</head>
 
 
 <style>
@@ -56,7 +49,7 @@
 
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
-	{#if currentView === 'Dashboard'}
+	{#if $currentView === 'Dashboard'}
 		<div class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
 			<hr>
 
@@ -64,30 +57,30 @@
 		</div>
 	{/if}
 
-	{#if currentView === 'Dashboard' || currentView === 'Explorer'}
-		<form on:submit|preventDefault={() => goto(`/apps/audius${currentQuery ? `/search/${currentQuery}` : ''}`, {keepfocus: true})}>
+	{#if $currentView === 'Dashboard' || $currentView === 'Explorer'}
+		<form on:submit|preventDefault={() => $audiusQuery = currentQuery}>
 			<input type="search" bind:value={currentQuery} placeholder="Search Audius tracks, artists, and playlists..." />
 			<button>Search</button>
 		</form>
 	{/if}
 
 	<div class="column">
-		{#if currentView === 'Explorer'}
+		{#if $currentView === 'Explorer'}
 			<div class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
 				<hr>
 
 				<slot />
 			</div>
 		{/if}
-		{#if currentView === 'Dashboard'}
+		{#if $currentView === 'Dashboard'}
 			<hr>
 
 			<h2>Dashboard</h2>
 		{/if}
 
-		{#if currentView === 'Dashboard' || currentView === 'Account'}
-			<form on:submit|preventDefault={() => $addressOrEnsName = currentAddressOrENSName}>
-				<AddressField bind:address={currentAddressOrENSName}/>
+		{#if $currentView === 'Dashboard' || $currentView === 'Account'}
+			<form on:submit|preventDefault={() => $addressOrEnsName = currentAddressOrEnsName}>
+				<AddressField bind:address={currentAddressOrEnsName}/>
 				<button>Go</button>
 			</form>
 

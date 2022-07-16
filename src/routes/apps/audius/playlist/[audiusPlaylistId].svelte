@@ -1,19 +1,17 @@
 <script lang="ts">
-	import { page } from '$app/stores'
+	// Params
+	import { audiusPlaylistId } from '../../_appsParams'
 
-	$: ({playlistId} = $page.params)
 
-
+	// Components
 	import AudiusPlaylistLoader from '../../../../components/AudiusPlaylistLoader.svelte'
 	import AudiusPlaylistTracksLoader from '../../../../components/AudiusPlaylistTracksLoader.svelte'
 </script>
 
 
-{#if playlistId}
-	<AudiusPlaylistLoader {playlistId} />
-{/if}
+<AudiusPlaylistLoader playlistId={$audiusPlaylistId} />
 
 <div class="card">
 	<h3>Tracks</h3>
-	<AudiusPlaylistTracksLoader {playlistId} />
+	<AudiusPlaylistTracksLoader playlistId={$audiusPlaylistId} />
 </div>

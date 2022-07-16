@@ -1,29 +1,32 @@
 <script lang="ts">
+	// Constants
 	import { preferences } from '../../../data/ethereum/preferences'
-    
-
-	import type { Web3AppSlug, Web3AppConfig } from '../../../data/web3Apps';
-	import { getContext } from 'svelte'
-
-	const web3AppSlug = getContext<SvelteStore<Web3AppSlug>>('web3AppSlug')
-	const web3AppConfig = getContext<SvelteStore<Web3AppConfig>>('web3AppConfig')
 
 
-	import type { Writable } from 'svelte/store'
+	// Params
+	import { addressOrEnsName } from '../_appsParams'
 
-	const addressOrEnsName = getContext<Writable<string>>('addressOrEnsName')
 
-	$: currentAddressOrENSName = $addressOrEnsName
+	// Context
+	import { web3AppConfig } from '../_appsContext'
 
+
+	// Internal state
+
+	$: currentAddressOrEnsName = $addressOrEnsName
 
 	let tokenBalanceFormat
 	let showUnderlyingAssets
 
 
+	// Components
+
 	import AddressField from '../../../components/AddressField.svelte'
 	import Web3AppDashboard from '../../../components/Web3AppDashboard.svelte'
 	import EnsResolutionLoader from '../../../components/EnsResolutionLoader.svelte'
 
+
+	// Transitions
 
 	import { fly } from 'svelte/transition'
 </script>
@@ -40,8 +43,8 @@
 
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
-	<form on:submit|preventDefault={() => $addressOrEnsName = currentAddressOrENSName}>
-		<AddressField bind:address={currentAddressOrENSName}/>
+	<form on:submit|preventDefault={() => $addressOrEnsName = currentAddressOrEnsName}>
+		<AddressField bind:address={currentAddressOrEnsName}/>
 		<button>Go</button>
 	</form>
 

@@ -1,65 +1,62 @@
 <script lang="ts">
-	import { setContext } from 'svelte'
-	import { derived, writable } from 'svelte/store'
+	// Params two-way binding
+
 	import { page } from '$app/stores'
 	import { browser } from '$app/env'
-	import { goto } from '$app/navigation'
+	import { goto, beforeNavigate } from '$app/navigation'
 
-	// const web3AppSlug = derived<typeof page, string>(page, ($page, set) =>
-	// 	set($page.params.web3App || '')
-	// )
-	// // $: $web3AppSlug = $page.params.web3App
-	const web3AppSlug = writable<Web3AppSlug>($page.params.web3App || $page.url.pathname.match(/^\/apps\/([^/]+)/)?.[1] || '')
-	const addressOrEnsName = writable<string>($page.params.addressOrEnsName || '')
-	$: $web3AppSlug = $page.params.web3App || $page.url.pathname.match(/^\/apps\/([^/]+)/)?.[1] || ''
-	$: $addressOrEnsName = $page.params.addressOrEnsName || ''
+	import {
+		web3AppSlug,
+		addressOrEnsName,
+		audiusQuery,
+		audiusPlaylistId,
+		audiusTrackId,
+		audiusUserId,
+		derivedPath
+	} from './_appsParams'
 
-	setContext('web3AppSlug', web3AppSlug)
-	setContext('addressOrEnsName', addressOrEnsName)
+	$: if($page.url.pathname.startsWith('/apps')){
+		$web3AppSlug = $page.params.web3AppSlug || $page.url.pathname.match(/^\/apps\/([^/]+)/)?.[1] || ''
+		$addressOrEnsName = $page.params.addressOrEnsName || ''
+		$audiusQuery = $page.params.audiusQuery || ''
+		$audiusPlaylistId = $page.params.audiusPlaylistId || ''
+		$audiusTrackId = $page.params.audiusTrackId || ''
+		$audiusUserId = $page.params.audiusUserId || ''
+	}
 
-	// let path = $page.url.pathname
-	// $: if(browser){
-	// 	const newPath = `/apps${$web3AppSlug ? `/${$web3AppSlug}${$addressOrEnsName ? `/address/${$addressOrEnsName}` : ''}` : ''}`
-	// 	console.log(newPath, path)
-	// 	if(newPath !== path)
-	// 		goto(newPath, {keepfocus: true})
-	// }
+	$: if(browser)
+		goto($derivedPath, {keepfocus: true})
 
-
-	$: query = $page.params.query
-
-
-	let currentView: 'Dashboard' | 'Explorer' | 'Account'
-	$: currentView = 
-		query || ($addressOrEnsName && $web3AppConfig.name) === 'ENS' ? 'Explorer' :
-		$addressOrEnsName ? 'Account' :
-		'Dashboard'
-
-
-	import type { Web3AppConfig, Web3AppSlug} from '../../data/web3Apps'
-	import { web3AppsBySection, web3AppsBySlug } from '../../data/web3Apps'
-
-
-	// App context stores
-
-	const web3AppConfig = derived<typeof web3AppSlug, Web3AppConfig>(web3AppSlug, ($web3AppSlug, set) => {
-		if(web3AppsBySlug[$web3AppSlug])
-			set(web3AppsBySlug[$web3AppSlug])
-		else
-			set(undefined)
+	beforeNavigate(({from, to, cancel}) => {
+		if(from.pathname === to.pathname)
+			cancel()
 	})
-	setContext('web3AppConfig', web3AppConfig)
+	
 
+	// Context
+
+	import { web3AppConfig, currentView } from './_appsContext'
+
+	import { web3AppsBySection } from '../../data/web3Apps'
+
+
+	// Side effects
 
 	$: if(globalThis.document)
 		document.documentElement.style.setProperty('--primary-color', $web3AppConfig?.colors?.[$web3AppConfig.colors.length / 2 | 0] || `var(--${tokenColors['ethereum']})`)
 
 
-	import { fly } from 'svelte/transition'
-	import { tokenColors } from '../../data/token-colors'
+	// Components
+
 	import Preferences from '../../components/Preferences.svelte'
 	import TokenIcon from '../../components/TokenIcon.svelte'
 	import InlineContainer from '../../components/InlineContainer.svelte'
+
+
+	// Style/transitions
+
+	import { fly } from 'svelte/transition'
+	import { tokenColors } from '../../data/token-colors'
 </script>
 
 
@@ -90,7 +87,7 @@
 
 
 <svelte:head>
-	<title>{$addressOrEnsName || query ? `${$addressOrEnsName || query} | ` : ''}{$web3AppSlug && $web3AppConfig ? `${$web3AppConfig.name} ${currentView}` : `Apps`} | Blockhead</title>
+	<title>{$addressOrEnsName ? `${$addressOrEnsName} | ` : ''}{$web3AppSlug && $web3AppConfig ? `${$web3AppConfig.name} ${$currentView}` : `Apps`} | Blockhead</title>
 </svelte:head>
 
 
@@ -117,7 +114,7 @@
 								{#key $web3AppConfig}<mark in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{$web3AppConfig.name}</mark>{/key}
 							</InlineContainer>
 							<InlineContainer class="stack-inline">
-								{#key currentView}<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{currentView}</span>{/key}
+								{#key $currentView}<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{$currentView}</span>{/key}
 							</InlineContainer>
 						</span>
 					{:else}
@@ -131,7 +128,7 @@
 
 		<label>
 			<span>App</span>
-			<select bind:value={$web3AppSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`/apps/${$web3AppSlug}${$addressOrEnsName ? `/address/${$addressOrEnsName}` : ''}`))}>
+			<select bind:value={$web3AppSlug}>
 				<option value="" selected>Select App...</option>
 
 				{#each web3AppsBySection as {title, apps}}
