@@ -10,16 +10,16 @@
 	// )
 	// // $: $web3AppSlug = $page.params.web3App
 	const web3AppSlug = writable<Web3AppSlug>($page.params.web3App || $page.url.pathname.match(/^\/apps\/([^/]+)/)?.[1] || '')
-	const addressOrENSName = writable<string>($page.params.addressOrENSName || '')
+	const addressOrEnsName = writable<string>($page.params.addressOrEnsName || '')
 	$: $web3AppSlug = $page.params.web3App || $page.url.pathname.match(/^\/apps\/([^/]+)/)?.[1] || ''
-	$: $addressOrENSName = $page.params.addressOrENSName || ''
+	$: $addressOrEnsName = $page.params.addressOrEnsName || ''
 
 	setContext('web3AppSlug', web3AppSlug)
-	setContext('addressOrENSName', addressOrENSName)
+	setContext('addressOrEnsName', addressOrEnsName)
 
 	// let path = $page.url.pathname
 	// $: if(browser){
-	// 	const newPath = `/apps${$web3AppSlug ? `/${$web3AppSlug}${$addressOrENSName ? `/address/${$addressOrENSName}` : ''}` : ''}`
+	// 	const newPath = `/apps${$web3AppSlug ? `/${$web3AppSlug}${$addressOrEnsName ? `/address/${$addressOrEnsName}` : ''}` : ''}`
 	// 	console.log(newPath, path)
 	// 	if(newPath !== path)
 	// 		goto(newPath, {keepfocus: true})
@@ -31,8 +31,8 @@
 
 	let currentView: 'Dashboard' | 'Explorer' | 'Account'
 	$: currentView = 
-		query || ($addressOrENSName && $web3AppConfig.name) === 'ENS' ? 'Explorer' :
-		$addressOrENSName ? 'Account' :
+		query || ($addressOrEnsName && $web3AppConfig.name) === 'ENS' ? 'Explorer' :
+		$addressOrEnsName ? 'Account' :
 		'Dashboard'
 
 
@@ -90,7 +90,7 @@
 
 
 <svelte:head>
-	<title>{$addressOrENSName || query ? `${$addressOrENSName || query} | ` : ''}{$web3AppSlug && $web3AppConfig ? `${$web3AppConfig.name} ${currentView}` : `Apps`} | Blockhead</title>
+	<title>{$addressOrEnsName || query ? `${$addressOrEnsName || query} | ` : ''}{$web3AppSlug && $web3AppConfig ? `${$web3AppConfig.name} ${currentView}` : `Apps`} | Blockhead</title>
 </svelte:head>
 
 
@@ -131,7 +131,7 @@
 
 		<label>
 			<span>App</span>
-			<select bind:value={$web3AppSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`/apps/${$web3AppSlug}${$addressOrENSName ? `/address/${$addressOrENSName}` : ''}`))}>
+			<select bind:value={$web3AppSlug} on:input={() => globalThis.requestAnimationFrame(() => goto(`/apps/${$web3AppSlug}${$addressOrEnsName ? `/address/${$addressOrEnsName}` : ''}`))}>
 				<option value="" selected>Select App...</option>
 
 				{#each web3AppsBySection as {title, apps}}

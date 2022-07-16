@@ -3,7 +3,7 @@
 	import type { Ethereum } from '../data/ethereum/types'
 
 	export let provider: Ethereum.Provider
-	export let addressOrENSName: Ethereum.Address | string
+	export let addressOrEnsName: Ethereum.Address | string
 	export let passiveForwardResolution = false
 	export let passiveReverseResolution = false
 
@@ -26,16 +26,16 @@
 	export let ensName: string
 	export let isReverseResolving: boolean
 
-	$: isReverseResolving = isAddress(addressOrENSName)
+	$: isReverseResolving = isAddress(addressOrEnsName)
 
-	$: if(!addressOrENSName){
+	$: if(!addressOrEnsName){
 		address = undefined
 		ensName = undefined
 		isReverseResolving = undefined
 	}else if(isReverseResolving){
-		address = addressOrENSName
+		address = addressOrEnsName
 	}else{
-		ensName = addressOrENSName
+		ensName = addressOrEnsName
 	}
 
 
@@ -68,7 +68,7 @@
 		// throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address.`)
 		throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address (or there's an issue with the${$preferences.rpcNetwork === 'Auto' ? `` : ` ${$preferences.rpcNetwork}`} JSON-RPC connection).`)
 
-		// addressPromise = ens.name(addressOrENSName).getAddress()
+		// addressPromise = ens.name(addressOrEnsName).getAddress()
 	})
 
 
@@ -83,7 +83,7 @@
 </script>
 
 
-{#if addressOrENSName && isReverseResolving && !passiveReverseResolution}
+{#if addressOrEnsName && isReverseResolving && !passiveReverseResolution}
 	<Loader
 		fromUseQuery={
 			address && provider && useQuery({
@@ -107,7 +107,7 @@
 		<slot slot="header" name="header" {address} {ensName} {isReverseResolving} />
 		<slot {address} {ensName} {isReverseResolving} />
 	</Loader>
-{:else if addressOrENSName && !isReverseResolving && !passiveForwardResolution}
+{:else if addressOrEnsName && !isReverseResolving && !passiveForwardResolution}
 		<!-- fromPromise={async () => (
 			await resolveName(ensName.toLowerCase())
 		)} -->

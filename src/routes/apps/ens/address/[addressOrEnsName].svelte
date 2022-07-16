@@ -4,7 +4,7 @@
 
 	import { page } from '$app/stores'
 
-	$: addressOrENSName = $page.params.addressOrENSName
+	$: addressOrEnsName = $page.params.addressOrEnsName
 
 
 	import EnsResolutionLoader from '../../../../components/EnsResolutionLoader.svelte'
@@ -13,7 +13,7 @@
 
 
 <EnsResolutionLoader
-	{addressOrENSName}
+	{addressOrEnsName}
 	passiveForwardResolution
 	let:ensName
 >

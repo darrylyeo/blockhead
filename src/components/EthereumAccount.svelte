@@ -8,7 +8,7 @@
 
 
 	export let network: Ethereum.Network
-	export let addressOrENSName: Ethereum.Address | string
+	export let addressOrEnsName: Ethereum.Address | string
 	export let filterQuery: Ethereum.Address | Ethereum.ContractAddress | Ethereum.BlockNumber
 	export let provider: Ethereum.Provider
 
@@ -91,7 +91,7 @@
 
 <div class="ethereum-account card">
 	<EnsResolutionLoader
-		{addressOrENSName}
+		{addressOrEnsName}
 		{provider}
 		passiveReverseResolution
 		let:address

@@ -11,9 +11,9 @@
 
 	import type { Writable } from 'svelte/store'
 
-	const addressOrENSName = getContext<Writable<string>>('addressOrENSName')
+	const addressOrEnsName = getContext<Writable<string>>('addressOrEnsName')
 
-	$: currentAddressOrENSName = $addressOrENSName
+	$: currentAddressOrENSName = $addressOrEnsName
 
 
 	let tokenBalanceFormat
@@ -30,8 +30,8 @@
 
 	let currentView: 'Dashboard' | 'Explorer' | 'Account'
 	$: currentView =
-		!($addressOrENSName || query) ? 'Dashboard' :
-		$addressOrENSName ? 'Account' :
+		!($addressOrEnsName || query) ? 'Dashboard' :
+		$addressOrEnsName ? 'Account' :
 		'Explorer'
 
 
@@ -86,13 +86,13 @@
 		{/if}
 
 		{#if currentView === 'Dashboard' || currentView === 'Account'}
-			<form on:submit|preventDefault={() => $addressOrENSName = currentAddressOrENSName}>
+			<form on:submit|preventDefault={() => $addressOrEnsName = currentAddressOrENSName}>
 				<AddressField bind:address={currentAddressOrENSName}/>
 				<button>Go</button>
 			</form>
 
 			<EnsResolutionLoader
-				addressOrENSName={$addressOrENSName}
+				addressOrEnsName={$addressOrEnsName}
 				passiveForwardResolution
 				passiveReverseResolution
 				let:address

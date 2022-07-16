@@ -11,7 +11,7 @@
 
 	// Balances view options
 
-	export let addressOrENSName: Ethereum.Address | string
+	export let addressOrEnsName: Ethereum.Address | string
 	export let type: AccountType
 	export let showNetworks: AccountNetworkSettings[]
 
@@ -245,7 +245,7 @@
 
 <article class="account card column sticky-layout" class:is-editing={isEditing} class:grid-layout={isGridLayout}>
 	<EnsResolutionLoader
-		{addressOrENSName}
+		{addressOrEnsName}
 		{provider}
 		passiveReverseResolution
 		layoutClass="column"

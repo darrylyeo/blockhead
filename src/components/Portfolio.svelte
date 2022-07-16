@@ -298,7 +298,7 @@
 		{#each accounts as {id, type, nickname, networks}, i (id)}
 			<div transition:scale|local animate:flip|local={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
 				<PortfolioAccount
-					addressOrENSName={id}
+					addressOrEnsName={id}
 					{type}
 					bind:nickname
 					bind:showNetworks={networks}

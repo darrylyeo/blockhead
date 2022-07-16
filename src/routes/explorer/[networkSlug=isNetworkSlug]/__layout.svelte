@@ -147,7 +147,7 @@
 						</div>
 					{:else}
 						<div class="column">
-							<EthereumAccount network={$explorerNetwork} addressOrENSName={$query} provider={$explorerProvider}/>
+							<EthereumAccount network={$explorerNetwork} addressOrEnsName={$query} provider={$explorerProvider}/>
 						</div>
 					{/if}
 				{:else}
