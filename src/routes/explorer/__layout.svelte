@@ -3,7 +3,7 @@
 
 	import { page } from '$app/stores'
 	import { browser } from '$app/env'
-	import { goto } from '$app/navigation'
+	import { goto, beforeNavigate } from '$app/navigation'
 
 	import {
 		networkSlug,
@@ -11,11 +11,18 @@
 		derivedPath
 	} from './_explorerParams'
 
-	$: $networkSlug = $page.params.networkSlug || ''
-	$: $query = $page.params.query || ''
+	$: if($page.url.pathname.startsWith('/explorer')){
+		$networkSlug = $page.params.networkSlug || ''
+		$query = $page.params.query || ''
+	}
 
-	$: if(browser && $page.url.pathname.startsWith('/explorer') && $derivedPath !== $page.url.pathname)
+	$: if(browser)
 		goto($derivedPath, {keepfocus: true})
+
+	beforeNavigate(({from, to, cancel}) => {
+		if(from.pathname === to.pathname)
+			cancel()
+	})
 
 
 	// Context
