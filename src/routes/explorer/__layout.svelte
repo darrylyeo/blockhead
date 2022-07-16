@@ -14,7 +14,7 @@
 	$: $networkSlug = $page.params.networkSlug || ''
 	$: $query = $page.params.query || ''
 
-	$: if(browser && $derivedPath !== $page.url.pathname)
+	$: if(browser && $page.url.pathname.startsWith('/explorer') && $derivedPath !== $page.url.pathname)
 		goto($derivedPath, {keepfocus: true})
 
 
@@ -110,7 +110,7 @@
 			</span>
 			<h1>
 				<InlineContainer class="stack-inline align-end" clip>
-					{#key $networkSlug}<b in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}><InlineContainer>{$networkSlug ? `${networkDisplayName} ` : `Blockchain `}</InlineContainer></b>{/key}
+					{#key $networkSlug}<b in:fly|local={{y: 20, duration: 200}} out:fly|local={{y: -20, duration: 200}}><InlineContainer>{$networkSlug ? `${networkDisplayName} ` : `Blockchain `}</InlineContainer></b>{/key}
 				</InlineContainer>
 				Explorer
 			</h1>
@@ -171,9 +171,7 @@
 	</div>
 
 	<div class="stack">
-		{#key $networkSlug}
-			<slot />
-		{/key}
+		<slot />
 	</div>
 </main>
 
