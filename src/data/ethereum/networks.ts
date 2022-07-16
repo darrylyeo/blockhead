@@ -5064,6 +5064,7 @@ export const networkColors = {
 	'arbitrum-one': '#28a0f0',
 	'aurora': '#92D36F',
 	'avalanche': '#f9273c',
+	'bitcoin': '#f7931a',
 	'bsc': '#FCD535',
 	'celo': '#35D07F', // #fbcc5c
 	'ethereum': '#627eea',
