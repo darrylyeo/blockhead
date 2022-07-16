@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { goto } from '$app/navigation'
-	import { onMount } from 'svelte'
+	import { query } from '../_explorerParams'
 
-	onMount(() => goto('/explorer/bitcoin'))
+
+	// $query = ''
 </script>

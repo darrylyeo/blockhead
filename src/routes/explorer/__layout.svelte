@@ -12,7 +12,7 @@
 	} from './_explorerParams'
 
 	$: if($page.url.pathname.startsWith('/explorer')){
-		$networkSlug = $page.params.networkSlug || ''
+		$networkSlug = $page.params.networkSlug || $page.url.pathname.match(/^\/explorer\/([^/]+)/)?.[1] || ''
 		$query = $page.params.query || ''
 	}
 
