@@ -83,7 +83,7 @@
 </script>
 
 
-{#if addressOrEnsName && isReverseResolving && !passiveReverseResolution}
+{#if addressOrEnsName && isReverseResolving}
 	<Loader
 		fromUseQuery={
 			address && provider && useQuery({
@@ -102,12 +102,13 @@
 		showIf={showIf ? () => showIf({address, ensName}) : undefined}
 		{layoutClass}
 		{clip}
+		passive={passiveReverseResolution}
 		bind:result={ensName}
 	>
 		<slot slot="header" name="header" {address} {ensName} {isReverseResolving} />
 		<slot {address} {ensName} {isReverseResolving} />
 	</Loader>
-{:else if addressOrEnsName && !isReverseResolving && !passiveForwardResolution}
+{:else if addressOrEnsName && !isReverseResolving}
 		<!-- fromPromise={async () => (
 			await resolveName(ensName.toLowerCase())
 		)} -->
@@ -129,12 +130,10 @@
 		showIf={showIf ? () => showIf({address, ensName}) : undefined}
 		{layoutClass}
 		{clip}
+		passive={passiveForwardResolution}
 		bind:result={address}
 	>
 		<slot slot="header" name="header" {address} {ensName} {isReverseResolving} />
 		<slot {address} {ensName} {isReverseResolving} />
 	</Loader>
-{:else}
-	<slot name="header" {address} {ensName} {isReverseResolving} />
-	<slot {address} {ensName} {isReverseResolving} />
 {/if}
