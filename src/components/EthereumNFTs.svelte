@@ -3,10 +3,9 @@
 	import type { Covalent } from '../data/analytics/covalent'
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import type { Nftport } from '../data/analytics/nftport'
-  import type { TickerSymbol } from '../data/currency/currency'
+	import type { TickerSymbol } from '../data/currency/currency'
 	import { getTokenAddressBalances } from '../data/analytics/covalent'
 	import { NftportApi } from '../data/analytics/nftport'
-	import { memoizedAsync } from '../utils/memoized'
 
 	export let network: Ethereum.Network
 	export let address: string
@@ -41,13 +40,6 @@
 		contract_ticker_symbol?: TickerSymbol
 		supports_erc: ERCTokenStandard[]
 	}
-
-	// const getNftBalancesCovalent = getTokenAddressBalances
-	const getNftBalancesCovalent = memoizedAsync(getTokenAddressBalances)
-
-	let filterFunction: (b: Covalent.ERC20TokenOrNFTContractWithBalance) => boolean
-	$: filterFunction =
-		b => b.type === 'nft'
 
 	let sortFunction: (a: Covalent.ERC20TokenOrNFTContractWithBalance, b: Covalent.ERC20TokenOrNFTContractWithBalance) => number
 	$: sortFunction =
@@ -453,20 +445,25 @@
 						chainID: network.chainId,
 						quoteCurrency: quoteCurrency
 					}],
-					queryFn: () => (
-						getNftBalancesCovalent({
+					queryFn: async () => (
+						await getTokenAddressBalances({
 							address,
 							nft: true,
 							chainID: network.chainId,
 							quoteCurrency: quoteCurrency
-						}).then(balances => {
-							return (filterFunction ? balances.items.filter(filterFunction) : balances.items)
-								.sort(sortFunction)
-							// as Covalent.NFTContractWithBalance[]
 						})
 					)
 				})
 			}
+			then={result => (
+				result.items
+					.filter(balance => balance.type === 'nft')
+					.map(nftContract => ({
+						...nftContract,
+						supports_erc: nftContract.supports_erc?.filter(erc => erc !== 'erc20')
+					}))
+					.sort(sortFunction)
+			)}
 			bind:result={balances}
 			{isCollapsed}
 		>
@@ -499,11 +496,9 @@
 									<Address {network} address={contract_address} let:formattedAddress>{contract_name || formattedAddress}</Address>
 									{#if balance > 1}({balance}){/if}
 								</h4>
-								{#each [supports_erc.filter(erc => erc !== 'erc20')] as supports_erc}
-									{#if supports_erc?.length}
-										<span class="card-annotation">{supports_erc.filter(erc => erc !== 'erc20').join('/')}</span>
-									{/if}
-								{/each}
+								{#if supports_erc?.length}
+									<span class="card-annotation">{supports_erc.join('/')}</span>
+								{/if}
 							</header>
 
 							{#if nft_data}
@@ -650,11 +645,9 @@
 								<h4>
 									<Address {network} address={contract_address} let:formattedAddress>{contract_name || formattedAddress}</Address>
 								</h4>
-								{#each [supports_erc.filter(erc => erc !== 'erc20')] as supports_erc}
-									{#if supports_erc?.length}
-										<span class="card-annotation">{supports_erc.filter(erc => erc !== 'erc20').join('/')}</span>
-									{/if}
-								{/each}
+								{#if supports_erc?.length}
+									<span class="card-annotation">{supports_erc.join('/')}</span>
+								{/if}
 							</header>
 
 							{#if nft_data}
