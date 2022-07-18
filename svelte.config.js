@@ -5,7 +5,6 @@ import preprocess from 'svelte-preprocess';
 
 // Houdini
 import houdini from 'houdini-preprocess'
-import path from 'path'
 
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -25,32 +24,6 @@ const config = {
 		// 	assets: 'build',
 		// 	fallback: null
 		// }},
-
-        vite: {
-			ssr: {
-				noExternal: [
-					// /node_modules/.pnpm/echarts@5.3.2/node_modules/echarts/core.js:20
-					// export * from './lib/export/core.js';
-					// ^^^^^^
-					// SyntaxError: Unexpected token 'export'
-					'echarts',
-				]
-			},
-
-			resolve: {
-				// Houdini
-				alias: {
-                    '$houdini': path.resolve('.', '$houdini')
-                }
-            },
-
-            server: {
-				// Houdini
-                fs: {
-                    allow: ['.']
-                }
-            }
-        }
 	}
 };
 
