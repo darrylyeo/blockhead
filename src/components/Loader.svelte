@@ -27,7 +27,7 @@
 	export let fromUseQuery: UseQueryStoreResult<LoaderResult, LoaderError>
 	export let fromUseInfiniteQuery: UseInfiniteQueryStoreResult<LoaderResult[number], LoaderError>
 
-	export let then: ((result: LoaderResult) => LoaderReturnResult) = result => result
+	export let then: ((result: LoaderResult) => LoaderReturnResult) = result => result as LoaderReturnResult
 	export let whenLoaded: ((result: LoaderResult) => void) | undefined
 	export let whenErrored: ((error: LoaderError) => void) | undefined
 	export let whenCanceled: (() => Promise<any>) | undefined
@@ -55,7 +55,7 @@
 	let houdiniQuery: ReturnType<typeof fromHoudiniQuery>
 
 
-	export let result: LoaderResult
+	export let result: LoaderReturnResult
 
 	type $$Slots = {
 		default: {
@@ -146,7 +146,7 @@
 
 	$: if(promise)
 		promise.then(_result => {
-			result = _result
+			result = then(_result)
 			status = LoadingStatus.Resolved
 		}, _error => {
 			error = _error
@@ -156,15 +156,15 @@
 	$: if(store?.subscribe){
 		if($store.loading){
 			if($store.data)
-				result = $store.data
+				result = then($store.data)
 			status = LoadingStatus.Loading
 		}
 		else if($store.error){
-			error = $store.error
+			error = then($store.error)
 			status = LoadingStatus.Errored
 		}
 		else if($store.data){
-			result = $store.data
+			result = then($store.data)
 			status = LoadingStatus.Resolved
 		}
 	}
@@ -179,7 +179,7 @@
 			status = LoadingStatus.Errored
 		}
 		else if($houdiniData){
-			result = $houdiniData
+			result = then($houdiniData)
 			status = LoadingStatus.Resolved
 		}
 
@@ -191,7 +191,7 @@
 			status = LoadingStatus.Loading
 		}
 		else if($fromUseQuery.isSuccess){
-			result = $fromUseQuery.data
+			result = then($fromUseQuery.data)
 			status = LoadingStatus.Resolved
 		}
 		else if($fromUseQuery.isError){
@@ -211,7 +211,7 @@
 		}
 		else if($fromUseInfiniteQuery.isSuccess){
 			console.log('fromUseInfiniteQuery', $fromUseInfiniteQuery, $fromUseInfiniteQuery.data)
-			result = $fromUseInfiniteQuery.data // .pages
+			result = then($fromUseInfiniteQuery.data) // .pages
 			status = LoadingStatus.Resolved
 		}
 		else if($fromUseInfiniteQuery.isError){
@@ -261,7 +261,7 @@
 
 	{#if passive}
 		<slot
-			result={then(result)}
+			{result}
 			{status}
 			{load}
 			{cancel}
@@ -281,7 +281,7 @@
 			{#if status === LoadingStatus.Resolved || (fromStore && status === LoadingStatus.Loading && result)}
 				<div class={layoutClass} transition:fade>
 					<slot
-						result={then(result)}
+						{result}
 						{status}
 						{load}
 						{cancel}
