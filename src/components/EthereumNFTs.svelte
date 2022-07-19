@@ -67,7 +67,6 @@
 		}
 		: undefined
 
-
 	function parseNFTAttributes(attributes: Covalent.NFTAttributes | null): {
 		key?: string
 		display_type?: string
@@ -88,6 +87,15 @@
 		// :
 		// 	attributes
 	}
+
+	const networkSlugToNftportChain: Record<Ethereum.NetworkName, Nftport.AccountRequestSupportedChain> = {
+		'ethereum': 'ethereum',
+		'polygon': 'polygon',
+		'ethereum-rinkeby': 'rinkeby',
+	}
+
+	const parseIpfs = (hashOrUri: string | undefined) =>
+		hashOrUri?.replace(/^(Qm.+)$/, 'https://ipfs.io/ipfs/$1').replace(/^ipfs:\/\/(.+)$/, 'https://ipfs.io/ipfs/$1')
 
 
 	const formatTokenId = (tokenId: number | string) =>
@@ -111,75 +119,6 @@
 
 		const scaleFactor = Math.max(1, Math.round(Math.sqrt((target * target) / (numerator * denominator))))
 		return [numerator * scaleFactor, denominator * scaleFactor]
-	}
-
-	const networkSlugToNftportChain: Map<Ethereum.NetworkName, Nftport.AccountRequestSupportedChain> = 
-		new Map<Ethereum.NetworkName, Nftport.AccountRequestSupportedChain>([
-			["ethereum", "ethereum"],
-			["polygon", "polygon"],
-			["ethereum-rinkeby", "rinkeby"]
-		])
-
-	const getNftBalancesNftport = async (): Promise<NFTContract[]> => {
-		if (!Array.from(networkSlugToNftportChain.keys()).some(slug => slug === network.slug)) {
-			throw new Error(`NFTPort does not support the given network: ${network.name}`)
-		}
-		const response: Nftport.AccountNftsResponse = await NftportApi.v0.accountNftsV0AccountsAccountAddressGet({
-			accountAddress: address,
-			include: ['default', 'metadata', 'contract_information'],
-			chain: networkSlugToNftportChain.get(network.slug)
-		})
-		const contractAddressToContract: Map<string, NFTContract> = new Map<string, NFTContract>()
-		response.nfts.forEach(nft => {
-			const nftContract: NFTContract | undefined = contractAddressToContract.get(nft.contract_address)
-			const nft_data = nftContract ? nftContract.nft_data : []
-			let image: string = nft.cached_file_url || nft.file_url
-			if (image) {
-				for (let transform of [
-					(url: string): string | undefined => url && url.startsWith("Qm") ? "https://ipfs.io/ipfs/" + url : undefined,
-					(url: string): string | undefined => url && url.startsWith("ipfs://") ? url.replace("ipfs://", "https://ipfs.io/ipfs/") : undefined,
-					(url: string): string | undefined => url && url.startsWith("http") ? url : undefined,
-				]) {
-					for (let file_url of [nft.cached_file_url, nft.file_url]) {
-						if (transform(file_url)) {
-							image = transform(file_url)
-						}
-					}
-				}
-			}
-
-			nft_data.push({
-				token_id: Number(nft.token_id),
-				token_url: nft.metadata_url,
-				name: nft.name,
-				description: nft.description ? nft.description : nft.metadata ? nft.metadata["description"] : undefined,
-				image,
-				owner: address
-			})
-			if (nft.contract) {
-				contractAddressToContract.set(
-					nft.contract_address, {
-						type: 'nft',
-						contract_name: nft.contract.name,
-						contract_ticker_symbol: nft.contract.symbol,
-						contract_address: nft.contract_address,
-						supports_erc: [nft.contract.type.toLowerCase() as ERCTokenStandard],
-						nft_data,
-					}
-				)
-			} else {
-				contractAddressToContract.set(
-					nft.contract_address, {
-						type: 'nft',
-						contract_name: nft.metadata ? nft.metadata["name"] : undefined,
-						contract_address: nft.contract_address,
-						nft_data,
-						supports_erc: [],
-					}
-				)
-			}
-		})
-		return Array.from(contractAddressToContract.values())
 	}
 
 	import { useQuery } from '@sveltestack/svelte-query'
@@ -611,9 +550,60 @@
 						chainID: network.chainId,
 						quoteCurrency: quoteCurrency
 					}],
-					queryFn: getNftBalancesNftport
+					queryFn: async () => {
+						const chain = networkSlugToNftportChain[network.slug]
+						if(!chain)
+							throw new Error(`NFTPort does not support the ${network.name} network.`)
+
+						return await NftportApi.v0.accountNftsV0AccountsAccountAddressGet({
+							accountAddress: address,
+							include: ['default', 'metadata', 'contract_information'],
+							chain
+						})
+					}
 				})
 			}
+			then={response => {
+				// const contractsByAddress: Map<string, NFTContract> = new Map<string, NFTContract>()
+				const contractsByAddress = {}
+
+				console.log('response.nfts', response.nfts)
+
+				for(const nft of response.nfts){
+					// const nftContract: NFTContract | undefined = contractsByAddress[nft.contract_address]
+					const nftContract = contractsByAddress[nft.contract_address]
+					const nft_data = nftContract ? nftContract?.nft_data : []
+
+					nft_data.push({
+						token_id: Number(nft.token_id),
+						token_url: nft.metadata_url,
+						name: nft.name || nft.metadata?.['name'],
+						description: nft.description || nft.metadata?.['description'],
+						image: parseIpfs(nft.cached_file_url || nft.file_url || nft.metadata?.['image']),
+						owner: address
+					})
+
+					contractsByAddress[nft.contract_address] =
+						nft.contract
+							? {
+								type: 'nft',
+								contract_name: nft.contract.name,
+								contract_ticker_symbol: nft.contract.symbol,
+								contract_address: nft.contract_address,
+								supports_erc: [nft.contract.type.toLowerCase()], // as ERCTokenStandard[]
+								nft_data,
+							}
+							: {
+								type: 'nft',
+								contract_name: nft.metadata?.['name'],
+								contract_address: nft.contract_address,
+								nft_data,
+								supports_erc: [],
+							}
+				}
+
+				return Object.values(contractsByAddress)
+			}}
 			bind:result={nftContracts}
 			{isCollapsed}
 		>
