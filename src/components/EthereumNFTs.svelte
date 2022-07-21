@@ -24,6 +24,12 @@
 
 	type integer = number
 	type ERCTokenStandard = 'erc20' | 'erc721' | 'erc1155'
+	type NftAttribute = {
+		key?: string
+		display_type?: string
+		trait_type: string
+		value: string | number
+	}
 	type NFT = {
 		token_id: integer
 		token_url: string
@@ -31,6 +37,7 @@
 		description: string
 		image: string
 		owner: string
+		attributes: NftAttribute[]
 	}
 	type NFTContract = {
 	  type: 'nft'
@@ -67,26 +74,14 @@
 		}
 		: undefined
 
-	function parseNFTAttributes(attributes: Covalent.NFTAttributes | null): {
-		key?: string
-		display_type?: string
-		trait_type: string
-		value: string | number
-	}[] {
-		return attributes === null ?
+	const parseNFTAttributes = (attributes: Covalent.NFTAttributes | null): NftAttribute[] => (
+		!attributes ?
 			[]
 		: Array.isArray(attributes) ?
 			attributes
 		:
 			Object.entries(attributes).map(([trait_type, value]) => ({trait_type, value}))
-
-		// return attributes === null ?
-		// 	{}
-		// : Array.isArray(attributes) ?
-		// 	Object.fromEntries(attributes.map(({trait_type, value}) => [trait_type, value]))
-		// :
-		// 	attributes
-	}
+	)
 
 	const networkSlugToNftportChain: Record<Ethereum.NetworkName, Nftport.AccountRequestSupportedChain> = {
 		'ethereum': 'ethereum',
@@ -446,7 +441,7 @@
 								<div class="nfts" class:scrollable-list={isScrollable && nft_data?.length > 3 && !show3D}>
 									{#each nft_data as {token_id, token_url, token_balance, external_data, supports_erc, burned}}
 										{#if external_data}
-											{#each [parseNFTAttributes(external_data.attributes)] as attributes}
+											{#each [parseNFTAttributes(external_data?.attributes)] as attributes}
 												<SizeContainer contentsOnly={showImagesOnly}>
 													<figure
 														class="nft"
@@ -507,16 +502,18 @@
 																	<span class="card-annotation token-id">#{token_id}</span>
 																{/if}
 															</header>
-															{#if showNFTMetadata && attributes.length}
+															{#if showNFTMetadata}
 																{#if external_data.description}
 																	<p class="description">{external_data.description}</p>
 																{/if}
-																<dl class="attributes">
-																	{#each attributes as {key, display_type, trait_type, value}}
-																		<dt>{trait_type}</dt>
-																		<dd>{value}</dd>
-																	{/each}
-																</dl>
+																{#if attributes.length}
+																	<dl class="attributes">
+																		{#each attributes as {trait_type, value}}
+																			<dt>{trait_type}</dt>
+																			<dd>{value}</dd>
+																		{/each}
+																	</dl>
+																{/if}
 															{/if}
 														</figcaption>
 													</figure>
@@ -579,27 +576,21 @@
 						token_url: nft.metadata_url,
 						name: nft.name || nft.metadata?.['name'],
 						description: nft.description || nft.metadata?.['description'],
-						image: parseIpfs(nft.cached_file_url || nft.file_url || nft.metadata?.['image']),
-						owner: address
+						image: parseIpfs(nft.cached_file_url || nft.file_url || nft.metadata?.['image'] || nft.metadata?.['ipfs_image'] || nft.metadata?.['google_image']),
+						owner: address,
+						attributes: parseNFTAttributes(nft.metadata?.['attributes']),
 					})
 
-					contractsByAddress[nft.contract_address] =
-						nft.contract
-							? {
-								type: 'nft',
-								contract_name: nft.contract.name,
-								contract_ticker_symbol: nft.contract.symbol,
-								contract_address: nft.contract_address,
-								supports_erc: [nft.contract.type.toLowerCase()], // as ERCTokenStandard[]
-								nft_data,
-							}
-							: {
-								type: 'nft',
-								contract_name: nft.metadata?.['name'],
-								contract_address: nft.contract_address,
-								nft_data,
-								supports_erc: [],
-							}
+					contractsByAddress[nft.contract_address] = {
+						...contractsByAddress[nft.contract_address],
+						type: 'nft',
+						contract_address: nft.contract_address,
+						contract_name: nft.contract?.name,
+						contract_ticker_symbol: nft.contract?.symbol,
+						supports_erc: nft.contract?.type && [nft.contract.type.toLowerCase()], // as ERCTokenStandard[]
+						metadata: nft.contract?.metadata,
+						nft_data,
+					}
 				}
 
 				return Object.values(contractsByAddress)
@@ -634,6 +625,7 @@
 							<header class="bar">
 								<h4>
 									<Address {network} address={contract_address} let:formattedAddress>{contract_name || formattedAddress}</Address>
+									{#if nft_data.length > 1}({nft_data.length}){/if}
 								</h4>
 								{#if supports_erc?.length}
 									<span class="card-annotation">{supports_erc.join('/')}</span>
@@ -643,7 +635,7 @@
 							{#if nft_data}
 								<hr />
 								<div class="nfts" class:scrollable-list={isScrollable && nft_data?.length > 3 && !show3D}>
-									{#each nft_data as {token_id, name, description, image}}
+									{#each nft_data as {token_id, name, description, image, attributes}}
 										<SizeContainer contentsOnly={showImagesOnly}>
 											<figure
 												class="nft"
@@ -686,6 +678,14 @@
 													{#if showNFTMetadata}
 														{#if description}
 															<p class="description">{description}</p>
+														{/if}
+														{#if attributes.length}
+															<dl class="attributes">
+																{#each attributes as {trait_type, value}}
+																	<dt>{trait_type}</dt>
+																	<dd>{value}</dd>
+																{/each}
+															</dl>
 														{/if}
 													{/if}
 												</figcaption>
