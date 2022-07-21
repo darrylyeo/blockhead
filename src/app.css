@@ -684,6 +684,13 @@ a.card {
 } */
 
 
+.sticky-bottom {
+	position: sticky;
+	bottom: 0;
+	z-index: 10;
+}
+
+
 .slot {
 	display: inline-flex;
 	align-items: center;
