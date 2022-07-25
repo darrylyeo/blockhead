@@ -552,26 +552,45 @@
 						if(!chain)
 							throw new Error(`NFTPort does not support the ${network.name} network.`)
 
-						return await NftportApi.v0.accountNftsV0AccountsAccountAddressGet({
-							accountAddress: address,
-							include: ['default', 'metadata', 'contract_information'],
-							chain
-						})
+						return await Promise.all([
+							NftportApi.v0.accountNftsV0AccountsAccountAddressGet({
+								accountAddress: address,
+								include: ['default', 'metadata', 'contract_information'],
+								chain
+							}),
+							NftportApi.v0.accountContractsV0AccountsContractsAccountAddressGet({
+								accountAddress: address,
+								type: 'owns_contract_nfts',
+								include: ['default', 'metadata', 'contract_information'],
+								chain
+							})
+						])
+						//
 					}
 				})
 			}
-			then={response => {
+			then={([nftsResponse, nftContractsResponse]) => {
 				// const contractsByAddress: Map<string, NFTContract> = new Map<string, NFTContract>()
-				const contractsByAddress = {}
+				const contractsByAddress = Object.fromEntries(
+					nftContractsResponse.contracts.map(nftContract => [
+						nftContract.address,
+						{
+							contract_address: nftContract.address,
+							contract_name: nftContract.name,
+							contract_ticker_symbol: nftContract.symbol,
+							supports_erc: [nftContract.type.toLowerCase()], // as ERCTokenStandard[]
+							metadata: nftContract.metadata,
+						}
+					])
+				)
 
-				console.log('response.nfts', response.nfts)
+				const nftsByContractAddress = {}
 
-				for(const nft of response.nfts){
+				for(const nft of nftsResponse.nfts){
 					// const nftContract: NFTContract | undefined = contractsByAddress[nft.contract_address]
-					const nftContract = contractsByAddress[nft.contract_address]
-					const nft_data = nftContract ? nftContract?.nft_data : []
+					const nfts = nftsByContractAddress[nft.contract_address] ||= []
 
-					nft_data.push({
+					nfts.push({
 						token_id: Number(nft.token_id),
 						token_url: nft.metadata_url,
 						name: nft.name || nft.metadata?.['name'],
@@ -581,19 +600,32 @@
 						attributes: parseNFTAttributes(nft.metadata?.['attributes']),
 					})
 
-					contractsByAddress[nft.contract_address] = {
-						...contractsByAddress[nft.contract_address],
-						type: 'nft',
-						contract_address: nft.contract_address,
-						contract_name: nft.contract?.name,
-						contract_ticker_symbol: nft.contract?.symbol,
-						supports_erc: nft.contract?.type && [nft.contract.type.toLowerCase()], // as ERCTokenStandard[]
-						metadata: nft.contract?.metadata,
-						nft_data,
-					}
+					// contractsByAddress[nft.contract_address] = {
+					// 	contract_address: nft.contract_address,
+					// 	contract_name: nft.contract?.name,
+					// 	contract_ticker_symbol: nft.contract?.symbol,
+					// 	supports_erc: nft.contract?.type && [nft.contract.type.toLowerCase()], // as ERCTokenStandard[]
+					// 	metadata: nft.contract?.metadata,
+					// 	// {
+					// 	// 	description: nft.contract?.metadata.description
+					// 	// 	thumbnail_url
+					// 	// 	cached_thumbnail_url
+					// 	// 	banner_url
+					// 	// 	cached_banner_url
+					// 	// },
+					// 	nft_data,
+					// }
 				}
 
-				return Object.values(contractsByAddress)
+				return Object.entries(nftsByContractAddress).map(([contractAddress, nfts]) => ({
+					...contractsByAddress[contractAddress],
+					nft_data: nfts
+				}))
+
+				return Object.entries(contractsByAddress).map(([contractAddress, contract]) => ({
+					...contract,
+					nft_data: nftsByContractAddress[contractAddress]
+				}))
 			}}
 			bind:result={nftContracts}
 			{isCollapsed}
@@ -613,7 +645,7 @@
 				on:dblclick={() => show3D = !show3D} -->
 					{#each
 						nftContracts.filter(({ nft_data }) => nft_data?.length > 0)
-						as {contract_name, contract_address, contract_ticker_symbol, nft_data, supports_erc},
+						as {contract_name, contract_address, contract_ticker_symbol, nft_data, supports_erc, metadata},
 						i (contract_address || contract_ticker_symbol || contract_name)
 					}
 						<div class="nft-contract card column"
@@ -622,13 +654,23 @@
 							animate:flip|local={{duration: 500, delay: Math.abs(i) * 10, easing: quintOut}}
 							draggable={true}
 						>
-							<header class="bar">
-								<h4>
-									<Address {network} address={contract_address} let:formattedAddress>{contract_name || formattedAddress}</Address>
-									{#if nft_data.length > 1}({nft_data.length}){/if}
-								</h4>
-								{#if supports_erc?.length}
-									<span class="card-annotation">{supports_erc.join('/')}</span>
+							<header class="column">
+								<div class="bar">
+									<div class="row">
+										{#if metadata?.thumbnail_url || metadata?.cached_thumbnail}
+											<img src={metadata.thumbnail_url || metadata.cached_thumbnail} height="24" style="width: fit-content" />
+										{/if}
+										<h4>
+											<Address {network} address={contract_address} let:formattedAddress>{contract_name || formattedAddress}</Address>
+											{#if nft_data.length > 1}({nft_data.length}){/if}
+										</h4>
+									</div>
+									{#if supports_erc?.length}
+										<span class="card-annotation">{supports_erc.join('/')}</span>
+									{/if}
+								</div>
+								{#if showNFTMetadata}
+									{#if metadata?.description}<p>{metadata.description}</p>{/if}
 								{/if}
 							</header>
 

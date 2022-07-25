@@ -94,6 +94,9 @@ export namespace Covalent {
 			name: string
 			description: string
 			image: string
+			image_256?: string
+			image_512?: string
+			image_1024?: string
 			external_url: string
 			attributes: NFTAttributes
 		}
