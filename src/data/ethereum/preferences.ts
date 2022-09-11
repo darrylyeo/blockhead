@@ -167,6 +167,7 @@ export const preferencesConfig: PreferencesConfig<
 						options: [
 							{ id: 'Covalent', name: 'Covalent' },
 							{ id: 'Moralis', name: 'Moralis Web3 API' },
+							{ id: 'QuickNode', name: 'QuickNode' },
 							{ id: 'Zapper', name: 'Zapper' }
 						]
 					}
