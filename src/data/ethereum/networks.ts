@@ -2977,24 +2977,24 @@ export const networks: Ethereum.Network[] = [
 		"explorers": [],
 		"infoURL": "https://near.org/"
 	},
-	{
-		"slug": "near",
-		"name": "NEAR",
-		"chainId": 1313161554,
-		"shortName": "near",
-		"chain": "NEAR",
-		"network": "mainnet",
-		"networkId": 1313161554,
-		"nativeCurrency": {
-			"name": "NEAR",
-			"symbol": "NEAR",
-			"decimals": 24
-		},
-		"rpc": [],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://near.org/"
-	},
+	// {
+	// 	"slug": "near",
+	// 	"name": "NEAR",
+	// 	"chainId": 1313161554,
+	// 	"shortName": "near",
+	// 	"chain": "NEAR",
+	// 	"network": "mainnet",
+	// 	"networkId": 1313161554,
+	// 	"nativeCurrency": {
+	// 		"name": "NEAR",
+	// 		"symbol": "NEAR",
+	// 		"decimals": 24
+	// 	},
+	// 	"rpc": [],
+	// 	"faucets": [],
+	// 	"explorers": [],
+	// 	"infoURL": "https://near.org/"
+	// },
 	{
 		"slug": "near-testnet",
 		"name": "NEAR Testnet",
@@ -5013,7 +5013,7 @@ export function isTestnet(network: Ethereum.Network){
 }
 
 
-export const availableNetworks = [1, 137, 10, 100].map(chainID => networksByChainID[chainID])
+export const availableNetworks = [1, 137, 10, 100, 1313161554].map(chainID => networksByChainID[chainID])
 
 
 export const ethereumAndL2Networks = [
@@ -5035,6 +5035,10 @@ export const evmL1Networks = [
 	// 'fantom',
 ].map(slug => networksBySlug[slug])
 
+export const evmL2Networks = [
+	'aurora',
+].map(slug => networksBySlug[slug])
+
 export const otherNetworks = networks.filter(network =>
 	!ethereumAndL2Networks.includes(network)
 	&& !evmL1Networks.includes(network)
@@ -5050,6 +5054,11 @@ export const networksBySection = [
 	{
 		title: 'EVM-Based Layer-One Networks',
 		networks: evmL1Networks,
+		isFeatured: true,
+	},
+	{
+		title: 'EVM-Based Rollups',
+		networks: evmL2Networks,
 		isFeatured: true,
 	},
 	{
