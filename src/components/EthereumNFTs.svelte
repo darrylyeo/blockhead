@@ -355,6 +355,8 @@
 		-webkit-mask-position-y: calc(50% + var(--grid-height) / 2);
 		mask-position-y: calc(50% + var(--grid-height) / 2);
 
+		backdrop-filter: blur(6px);
+
 		transition: var(--transition-duration);
 		will-change: transform;
 	}
