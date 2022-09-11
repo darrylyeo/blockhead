@@ -281,18 +281,27 @@
 		box-shadow: 0 0 1px 1px var(--card-background-color) inset;
 		transition: var(--transition-duration);
 	}
-	/* .show3D .nft-contract:before {
+	.show3D .nft-contract:before {
+		--angle: -0.075turn;
 		content: '';
 		position: absolute;
 		inset: 0;
-		background-color: var(--card-background-color);
+		transform: rotateX(var(--angle));
+		transform-origin: top;
+		/* background-color: var(--card-background-color); */
 		border-radius: inherit;
+		transition: 2s;
 
-		--parallax-factor: 1.1;
+
+		/* --parallax-factor: 1.1;
 		transform: translateZ(calc(var(--perspective) * (1 - var(--parallax-factor)))) scale(var(--parallax-factor));
 		transition: transform 0.3s;
-		z-index: calc(100 * var(--parallax-factor));
-	} */
+		z-index: calc(100 * var(--parallax-factor)); */
+	}
+	.show3D .nft-contract:not(:focus-within):before {
+		transform-origin: top;
+		backdrop-filter: blur(10px);
+	}
 	.show3D .nft {
 		--angle: -0.075turn;
 		--grid-height: 8em;
