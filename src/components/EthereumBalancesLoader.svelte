@@ -225,6 +225,9 @@
 					chainID: network.chainId,
 				}],
 				queryFn: async () => {
+					if(network.chainId !== 1)
+						throw new Error('QuickNode only supports fetching token balances on Ethereum.')
+
 					const quickNodeProvider = await getEthersProvider({ network, networkProvider: NetworkProvider.QuickNode })
 					// as {
 					// 	owner: string,
