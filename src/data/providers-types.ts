@@ -7,6 +7,7 @@ export enum NetworkProvider {
 	Figment = 'Figment',
     Etherscan = 'Etherscan',
     Moralis = 'Moralis',
+	QuickNode = 'QuickNode',
 }
 
 export enum NetworkProviderConnectionType {

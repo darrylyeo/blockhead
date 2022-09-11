@@ -137,6 +137,21 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 				throw new Error(`Couldn't find a Figment node matching the configuration`)
 		}
 	},
+
+	{
+		provider: NetworkProvider.QuickNode,
+		name: 'QuickNode',
+		icon: '/apps/QuickNode.png',
+
+		get: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+		}) => new providers.JsonRpcProvider(
+			`${connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${env.QUICKNODE_ENDPOINT_NAME}.quiknode.pro/${env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN}/`,
+			network.chainId
+		)
+		
+	}
 ]
 
 export const networkProviderConfigByProvider = Object.fromEntries(networkProviderConfigs.map(networkProviderConfig => [networkProviderConfig.provider, networkProviderConfig]))
