@@ -4,9 +4,9 @@
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import { MoralisWeb3Api, chainCodeFromNetwork } from '../data/moralis/moralis-web3-api'
 
-	import { NetworkProvider } from '../data/providers-types'
-	import { getEthersProvider } from '../data/providers'
 	import { getTokenBalances } from '../data/zapper/zapper'
+	import { getWalletTokenBalance } from '../data/quicknode'
+
 
 	export let network: Ethereum.Network
 	export let address: string
@@ -225,24 +225,7 @@
 					chainID: network.chainId,
 				}],
 				queryFn: async () => {
-					if(network.chainId !== 1)
-						throw new Error('QuickNode only supports fetching token balances on Ethereum.')
-
-					const quickNodeProvider = await getEthersProvider({ network, networkProvider: NetworkProvider.QuickNode })
-					// as {
-					// 	owner: string,
-					// 	assets: {
-					// 		"address": string,
-					// 		"name": string,
-					// 		"decimals": number,
-					// 		"symbol": string,
-					// 		"logoURI": string,
-					// 		"chain": string,
-					// 		"network": string,
-					// 		"amount": string
-					// 	}[]
-					// }
-					const { owner, assets } = await quickNodeProvider.send('qn_getWalletTokenBalance', { wallet: address })
+					const { owner, assets } = await getWalletTokenBalance({ address })
 
 					return assets.map(({amount, logoURI, ...token}) => ({
 						balance: amount,
