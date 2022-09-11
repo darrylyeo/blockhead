@@ -654,6 +654,10 @@
 							animate:flip|local={{duration: 500, delay: Math.abs(i) * 10, easing: quintOut}}
 							draggable={true}
 						>
+							{#if metadata?.banner_url || metadata?.cached_banner_url}
+								<img class="cover-image" src={metadata.banner_url || metadata.cached_banner_url} />
+							{/if}
+
 							<header class="column">
 								<div class="bar">
 									<div class="row">
