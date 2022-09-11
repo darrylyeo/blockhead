@@ -35,7 +35,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 	},
 
 	// {
-	// 	type: NetworkProvider.Default,
+	// 	provider: NetworkProvider.Default,
 	// 	name: 'Default',
 	// 	get: ({ network }) => getDefaultProvider(network.chainId, {
 	// 		alchemy: env.ALCHEMY_API_KEY_MAINNET,
@@ -49,7 +49,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 	// },
 
 	{
-		type: NetworkProvider.Infura,
+		provider: NetworkProvider.Infura,
 		name: 'Infura',
 		icon: '/apps/Infura.svg',
 
