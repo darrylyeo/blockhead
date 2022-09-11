@@ -578,7 +578,7 @@
 							contract_address: nftContract.address,
 							contract_name: nftContract.name,
 							contract_ticker_symbol: nftContract.symbol,
-							supports_erc: [nftContract.type.toLowerCase()], // as ERCTokenStandard[]
+							supports_erc: [nftContract.type?.toLowerCase()], // as ERCTokenStandard[]
 							metadata: nftContract.metadata,
 						}
 					])
