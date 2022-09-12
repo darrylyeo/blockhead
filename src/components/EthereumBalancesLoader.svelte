@@ -224,16 +224,20 @@
 					address,
 					chainID: network.chainId,
 				}],
-				queryFn: async () => {
-					const { owner, assets } = await getWalletTokenBalance({ address })
-
-					return assets.map(({amount, logoURI, ...token}) => ({
-						balance: amount,
-						token: {icon: logoURI, ...token}
-					}))
-				}
+				queryFn: async () => (
+					await getWalletTokenBalance({
+						network,
+						address
+					})
+				)
 			})
 		}
+		then={({owner, assets}) => (
+			assets.map(({amount, logoURI, ...token}) => ({
+				balance: amount,
+				token: {icon: logoURI, ...token}
+			}))
+		)}
 		{showIf}
 		{isCollapsed}
 		bind:result={balances}

@@ -11,6 +11,7 @@ const getQuickNodeProvider = async ({
 	await getEthersProvider({ network, networkProvider: NetworkProvider.QuickNode }) as JsonRpcProvider
 
 
+// https://www.quicknode.com/docs/ethereum/qn_getWalletTokenBalance
 export const getWalletTokenBalance = async ({
 	network,
 	address
@@ -26,14 +27,14 @@ export const getWalletTokenBalance = async ({
 	return await provider.send('qn_getWalletTokenBalance', { wallet: address }) as {
 		owner: string,
 		assets: {
-			'address': string,
-			'name': string,
-			'decimals': number,
-			'symbol': string,
-			'logoURI': string,
-			'chain': string,
-			'network': string,
-			'amount': string
+			address: string,
+			name: string,
+			decimals: number,
+			symbol: string,
+			logoURI: string,
+			chain: string,
+			network: string,
+			amount: string
 		}[]
 	}
 }
