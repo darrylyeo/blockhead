@@ -1,24 +1,11 @@
-<script context="module" lang="ts">
-	export function load({error, status}: { error: Error, status: number }) {
-		return {
-			props: {
-				error,
-				status
-			}
-		};
-	}
-</script>
-
 <script lang="ts">
-	export let status: number
-	export let error: Error
-	
-	
+	import { page } from '$app/stores'
 	import { dev } from '$app/env'
 
 
 	import { fly } from 'svelte/transition'
 </script>
+
 
 <style>
 	h1, p {
@@ -42,17 +29,19 @@
 	}
 </style>
 
+
 <svelte:head>
-	<title>{status} Error</title>
+	<title>{$page.status} Error</title>
 </svelte:head>
+
 
 <!-- <main in:fly={{x: 300}} out:fly={{x: -300}}> -->
 <main>
-	<h1>{status} Error</h1>
+	<h1>{$page.status} Error</h1>
 
-	<p>{error.message}</p>
+	<p>{$page.error.message}</p>
 
-	{#if dev && error.stack}
-		<pre>{error.stack}</pre>
+	{#if dev && $page.error.stack}
+		<pre>{$page.error.stack}</pre>
 	{/if}
 </main>
