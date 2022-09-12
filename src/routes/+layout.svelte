@@ -93,7 +93,7 @@
 		padding: 0 var(--padding-outer);
 	}
 
-	.stack > :global(main) {
+	:global(body > .stack > main) {
 		--bleed-top: 3.5rem;
 		--bleed-bottom: 3.25rem;
 
@@ -110,12 +110,12 @@
 		column-gap: 1.5em;
 	}
 
-	.stack > :global(main > aside) {
+	:global(body > .stack > main > aside) {
 		grid-column: 2;
 		width: 21rem;
 	}
 
-	:global(.preferences) {
+	:global(body > .stack > .preferences) {
 		position: fixed;
 		width: 100%;
 		bottom: 0;
