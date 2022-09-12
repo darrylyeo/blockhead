@@ -1,8 +1,8 @@
-import { localStorageWritable } from '../../utils/localStorageWritable'
-import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '../currency/currency'
+import { localStorageWritable } from '../utils/localStorageWritable'
+import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '../data/currency/currency'
 
-import { NetworkProvider } from '../providers-types'
-import { networkProviderConfigs } from '../providers'
+import { NetworkProvider } from '../data/providers-types'
+import { networkProviderConfigs } from '../data/providers'
 
 
 type PreferenceOption<

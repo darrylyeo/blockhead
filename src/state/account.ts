@@ -1,6 +1,6 @@
 
 import type { Signer } from 'ethers'
-import type { WalletConnection } from './ethereum/wallets'
+import type { WalletConnection } from '../data/ethereum/wallets'
 
 
 export type ConnectedAccount = {

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import { getEthersProvider } from '../data/providers'
-	import { preferences } from '../data/ethereum/preferences'
+	import { preferences } from '../state/preferences'
 
 
 	export let network: Ethereum.Network

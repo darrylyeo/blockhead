@@ -2,8 +2,8 @@
 	import { getContext } from 'svelte'
 
 	import type { Ethereum } from '../../data/ethereum/types'
-	import { Portfolio, getLocalPortfolios } from '../../data/ethereum/portfolio-accounts'
-	import { preferences } from '../../data/ethereum/preferences'
+	import { Portfolio, getLocalPortfolios } from '../../state/portfolio-accounts'
+	import { preferences } from '../../state/preferences'
 	import { networksByChainID } from '../../data/ethereum/networks'
 
 

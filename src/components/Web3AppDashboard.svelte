@@ -9,7 +9,7 @@
 	import { getDeFiAppBalances, getFiatRates } from '../data/zapper/zapper'
 	import { getTokenAddressBalances } from '../data/analytics/covalent'
 	import { networksByChainID } from '../data/ethereum/networks'
-	import { preferences } from '../data/ethereum/preferences'
+	import { preferences } from '../state/preferences'
 
 
 	// Data

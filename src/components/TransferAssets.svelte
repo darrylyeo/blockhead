@@ -1,12 +1,12 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import { availableNetworks, getNetworkRPC } from '../data/ethereum/networks'
-	import { Account, getLocalPortfolios, connectedProviderAccounts } from '../data/ethereum/portfolio-accounts'
+	import { Account, getLocalPortfolios, connectedProviderAccounts } from '../state/portfolio-accounts'
 	import { usdStablecoinTokens } from '../data/ethereum/tokens/tokens'
 
 
 	import { getEthersProvider } from '../data/providers'
-	import { preferences } from '../data/ethereum/preferences'
+	import { preferences } from '../state/preferences'
 
 	import { Connext } from '../data/connext/swaps'
 	

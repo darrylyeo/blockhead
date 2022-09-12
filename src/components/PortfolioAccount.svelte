@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { AccountNetworkSettings, AccountType } from '../data/ethereum/portfolio-accounts'
+	import { AccountNetworkSettings, AccountType } from '../state/portfolio-accounts'
 	// import type { CryptoPosition } from '../data/CryptoPosition'
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { DeFiProvider } from '../data/defi-provider'

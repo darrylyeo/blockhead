@@ -74,7 +74,7 @@
 	setContext('ethereumProvider', ethereumProvider)
 
 
-	import { preferences } from '../data/ethereum/preferences'
+	import { preferences } from '../state/preferences'
 	$: if(globalThis.document)
 		globalThis.document.documentElement.className = `color-scheme-${$preferences.theme}`
 </script>

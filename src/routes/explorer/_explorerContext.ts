@@ -14,7 +14,7 @@ import { getEthersProvider } from '../../data/providers'
 
 import { networkSlug } from './_explorerParams'
 
-import { preferences } from '../../data/ethereum/preferences'
+import { preferences } from '../../state/preferences'
 
 
 // Derived stores

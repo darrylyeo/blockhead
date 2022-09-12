@@ -7,7 +7,7 @@
 	import { getSpotPrices } from '../data/analytics/covalent'
 
 
-	import { preferences } from '../data/ethereum/preferences'
+	import { preferences } from '../state/preferences'
 
 	export let currentPriceProvider: CurrentPriceProvider | 'auto' = 'auto'
 	$: currentPriceProvider = $$props.currentPriceProvider || $preferences.currentPriceProvider
