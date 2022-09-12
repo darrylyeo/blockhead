@@ -65,7 +65,7 @@ specifiers:
   svelte-apollo: ^0.4.0
   svelte-check: ^2.9.0
   svelte-preprocess: ^4.10.7
-  swagger-typescript-api: ^9.2.0
+  swagger-typescript-api: ^9.3.1
   tslib: ^2.3.1
   typescript: ^4.7.4
   vite: ^3.1.0
