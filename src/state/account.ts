@@ -1,6 +1,6 @@
 
 import type { Signer } from 'ethers'
-import type { WalletConnection } from '../data/ethereum/wallets'
+import type { WalletConnection, WalletType } from '../data/ethereum/wallets'
 
 
 export type ConnectedAccount = {
@@ -9,3 +9,10 @@ export type ConnectedAccount = {
 	address: string
 	chainId: number
 }
+
+
+import { localStorageWritable } from '../utils/localStorageWritable'
+
+export const accountConnections = localStorageWritable<{
+	walletType: WalletType
+}[]>('accountConnections', [])

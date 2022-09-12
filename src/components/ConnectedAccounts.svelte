@@ -1,12 +1,6 @@
 <script lang="ts">
-	import type { WalletType } from '../data/ethereum/wallets'
-
-	import { localStorageWritable } from '../utils/localStorageWritable'
-	
-	
-	const accountConnections = localStorageWritable<{
-		walletType: WalletType
-	}[]>('accountConnections', [])
+	// External state
+	import { accountConnections } from '../state/account'
 
 	
 	import ConnectAccount from './ConnectAccount.svelte'
