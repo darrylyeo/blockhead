@@ -1,9 +1,5 @@
 <script lang="ts">
-	throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
-
 	import Nav from '../components/Nav.svelte'
-
-	export let segment: string
 	
 	
 	// import { getDefaultProvider } from '@ethersproject/providers'
@@ -96,7 +92,7 @@
 
 
 <QueryClientProvider client={queryClient}>
-	<Nav {segment}/>
+	<Nav />
 
 	<div class="stack">
 		<slot></slot>
