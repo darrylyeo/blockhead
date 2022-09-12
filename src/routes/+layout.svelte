@@ -1,4 +1,41 @@
 <script lang="ts">
+	import '../fonts.css'
+	import '../app.css'
+
+
+	import houdiniEnvironment from '../data/ens/houdini-environment'
+	import { setEnvironment } from '$houdini'
+
+	setEnvironment(houdiniEnvironment)
+
+
+	// Svelte Query
+	import { QueryClient, persistQueryClient, broadcastQueryClient, createWebStoragePersistor, QueryClientProvider } from '@sveltestack/svelte-query'
+
+	export const queryClient = new QueryClient({
+		defaultOptions: {
+			queries: {
+				keepPreviousData: true,
+				// staleTime: Infinity,
+				cacheTime: Infinity,
+			},
+		}
+	})
+
+	const localStoragePersistor = createWebStoragePersistor({
+		storage: globalThis.localStorage
+	})
+	persistQueryClient({
+		queryClient,
+		persistor: localStoragePersistor,
+	})
+
+	// broadcastQueryClient({
+		// 	queryClient,
+		// 	broadcastChannel: globalThis.location?.origin,
+	// })
+
+
 	import Nav from '../components/Nav.svelte'
 	
 	
