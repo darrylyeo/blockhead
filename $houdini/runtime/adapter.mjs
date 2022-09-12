@@ -1,6 +1,6 @@
 import { goto as go } from '$app/navigation'
 import { getStores } from '$app/stores'
-import { browser } from '$app/env'
+import { browser } from '$app/environment'
 
 export function getSession() {
     return getStores().session

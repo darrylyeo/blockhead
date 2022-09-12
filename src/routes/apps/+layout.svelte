@@ -2,7 +2,7 @@
 	// Params two-way binding
 
 	import { page } from '$app/stores'
-	import { browser } from '$app/env'
+	import { browser } from '$app/environment'
 	import { goto, beforeNavigate } from '$app/navigation'
 
 	import {
