@@ -32,6 +32,7 @@ specifiers:
   '@playwright/test': ^1.22.2
   '@portis/web3': ^4.0.5
   '@sveltejs/adapter-auto': 1.0.0-next.72
+  '@sveltejs/adapter-static': 1.0.0-next.43
   '@sveltejs/kit': 1.0.0-next.480
   '@sveltestack/svelte-query': ^1.6.0
   '@typescript-eslint/eslint-plugin': ^5.27.0
@@ -123,6 +124,7 @@ dependencies:
 devDependencies:
   '@playwright/test': 1.22.2
   '@sveltejs/adapter-auto': 1.0.0-next.72
+  '@sveltejs/adapter-static': 1.0.0-next.43
   '@sveltejs/kit': 1.0.0-next.480_svelte@3.50.1+vite@3.1.0
   '@typescript-eslint/eslint-plugin': 5.27.0_7y3rtqm3ievhd4dejnmbzfej7i
   '@typescript-eslint/parser': 5.27.0_he2ccbldppg44uulnyq4rwocfa
@@ -2553,6 +2555,10 @@ packages:
       tiny-glob: 0.2.9
     dev: true
 
+  /@sveltejs/adapter-static/1.0.0-next.43:
+    resolution: {integrity: sha512-PAgSp1GA8HkYE4p30/sBvJme2nefhcTBJafqQdMNoUksWZF2WzuL8OEO8wa9ndE6cghcGk3j6Ve0Oskg/wtTOw==}
+    dev: true
+
   /@sveltejs/adapter-vercel/1.0.0-next.73:
     resolution: {integrity: sha512-wYm80tDSkwa9YfXHCHqMFMHmGYsQjVWj2oLbQdijQ2k8dnQPq908Pla3IES1cLwtT+fIMbZyh3Xly7mt06FwJg==}
     dependencies:
@@ -3758,7 +3764,7 @@ packages:
   /axios/0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.14.9_debug@4.3.4
+      follow-redirects: 1.14.9
     transitivePeerDependencies:
       - debug
 
@@ -7869,7 +7875,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-    dev: false
 
   /follow-redirects/1.14.9_debug@4.3.4:
     resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
@@ -7881,6 +7886,7 @@ packages:
         optional: true
     dependencies:
       debug: 4.3.4
+    dev: false
 
   /follow-redirects/1.5.10:
     resolution: {integrity: sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==}

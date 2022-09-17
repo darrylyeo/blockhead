@@ -1,5 +1,5 @@
-import adapter from '@sveltejs/adapter-auto';
-// import adapterStatic from '@sveltejs/adapter-static'
+// import adapter from '@sveltejs/adapter-auto';
+import adapterStatic from '@sveltejs/adapter-static'
 import preprocess from 'svelte-preprocess';
 
 
@@ -17,13 +17,13 @@ const config = {
 	],
 
 	kit: {
-		adapter: adapter(),
-		// adapter: adapterStatic({
-		// 	// default options are shown
-		// 	pages: 'build',
-		// 	assets: 'build',
-		// 	fallback: null
-		// }},
+		// adapter: adapter(),
+		adapter: adapterStatic({
+			// default options are shown
+			pages: 'build',
+			assets: 'build',
+			fallback: null
+		}),
 	}
 };
 
