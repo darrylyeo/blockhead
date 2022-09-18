@@ -9,7 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-import {
+import type {
 	BalanceControllerGetAppBalancesParams,
 	BalanceControllerGetBalancesParams,
 	BalanceControllerGetSupportedBalancesParams,
@@ -28,7 +28,7 @@ import {
 	PricesControllerListPricesV3Params,
 	TransactionControllerGetTransactionsParams
 } from './data-contracts';
-import { HttpClient, RequestParams } from './http-client';
+import type { HttpClient, RequestParams } from './http-client';
 
 export class V2<SecurityDataType = unknown> {
 	http: HttpClient<SecurityDataType>;
