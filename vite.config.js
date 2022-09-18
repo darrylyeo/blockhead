@@ -12,10 +12,6 @@ const config = {
 			// ^^^^^^
 			// SyntaxError: Unexpected token 'export'
 			'echarts',
-
-			// Error - No "exports" main defined in /var/task/node_modules/devalue/package.json
-			// https://github.com/Rich-Harris/devalue/issues/36
-			'devalue',
 		]
 	},
 
