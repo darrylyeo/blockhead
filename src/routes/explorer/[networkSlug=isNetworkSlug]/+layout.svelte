@@ -49,13 +49,13 @@
 		'bsc'
 	].includes($networkSlug)
 
-	$: showHistoricalPrice = [
-		'ethereum',
-		'polygon',
-		'avalanche',
-		'fantom',
-		'bsc'
-	].includes($networkSlug)
+	// $: showHistoricalPrice = [
+	// 	'ethereum',
+	// 	'polygon',
+	// 	'avalanche',
+	// 	'fantom',
+	// 	'bsc'
+	// ].includes($networkSlug)
 
 	let placeholder
 	// $: placeholder = {
@@ -77,7 +77,7 @@
 	import AddressField from '../../../components/AddressField.svelte'
 	import NetworkProviderLoader from '../../../components/NetworkProviderLoader.svelte'
 
-	import HistoricalPriceChart from '../../../components/HistoricalPriceChart.svelte'
+	// import HistoricalPriceChart from '../../../components/HistoricalPriceChart.svelte'
 	import CurrentPrice from '../../../components/CurrentPrice.svelte'
 	import EthereumBlockHeight from '../../../components/EthereumBlockHeight.svelte'
 
@@ -176,7 +176,7 @@
 						{/if}
 					</div>
 
-					{#if showHistoricalPrice}
+					<!-- {#if showHistoricalPrice}
 						<div class="row">
 							<section class="card">
 								<HistoricalPriceChart
@@ -186,7 +186,7 @@
 								/>
 							</section>
 						</div>
-					{/if}
+					{/if} -->
 				{/if}
 			{/if}
 		</NetworkProviderLoader>
