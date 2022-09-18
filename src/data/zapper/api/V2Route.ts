@@ -19,6 +19,7 @@ export namespace V2 {
 	 * @summary Token Prices
 	 * @request GET:/v2/prices
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	export namespace PricesControllerListPricesV3 {
 		export type RequestParams = {};
@@ -42,7 +43,7 @@ export namespace V2 {
 		};
 		export type RequestBody = never;
 		export type RequestHeaders = {};
-		export type ResponseBody = {};
+		export type ResponseBody = unknown;
 	}
 
 	/**
@@ -52,6 +53,7 @@ export namespace V2 {
 	 * @summary Token Prices
 	 * @request GET:/v2/prices/{tokenAddress}
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	export namespace PricesControllerGetTokenPrices {
 		export type RequestParams = { tokenAddress: string };
@@ -98,7 +100,7 @@ export namespace V2 {
 		};
 		export type RequestBody = never;
 		export type RequestHeaders = {};
-		export type ResponseBody = {};
+		export type ResponseBody = unknown;
 	}
 
 	/**
@@ -108,6 +110,7 @@ export namespace V2 {
 	 * @summary Gas Price
 	 * @request GET:/v2/gas-prices
 	 * @secure
+	 * @response `200` `GasPricesResponse`
 	 */
 	export namespace GasPriceControllerGetGasPrice {
 		export type RequestParams = {};
@@ -142,6 +145,7 @@ export namespace V2 {
 	 * @summary Application Positions
 	 * @request GET:/v2/apps/{appId}/positions
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	export namespace PositionControllerGetContractPositions {
 		export type RequestParams = { appId: string };
@@ -166,7 +170,7 @@ export namespace V2 {
 		};
 		export type RequestBody = never;
 		export type RequestHeaders = {};
-		export type ResponseBody = {};
+		export type ResponseBody = unknown;
 	}
 
 	/**
@@ -176,6 +180,7 @@ export namespace V2 {
 	 * @summary Application Tokens
 	 * @request GET:/v2/apps/{appId}/tokens
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	export namespace PositionControllerGetTokens {
 		export type RequestParams = { appId: string };
@@ -200,7 +205,7 @@ export namespace V2 {
 		};
 		export type RequestBody = never;
 		export type RequestHeaders = {};
-		export type ResponseBody = {};
+		export type ResponseBody = unknown;
 	}
 
 	/**
@@ -209,13 +214,14 @@ export namespace V2 {
 	 * @name AppsControllerGetApps
 	 * @request GET:/v2/apps
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	export namespace AppsControllerGetApps {
 		export type RequestParams = {};
 		export type RequestQuery = {};
 		export type RequestBody = never;
 		export type RequestHeaders = {};
-		export type ResponseBody = {};
+		export type ResponseBody = unknown;
 	}
 
 	/**
@@ -224,13 +230,14 @@ export namespace V2 {
 	 * @name AppsControllerGetApp
 	 * @request GET:/v2/apps/{appId}
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	export namespace AppsControllerGetApp {
 		export type RequestParams = { appId: string };
 		export type RequestQuery = {};
 		export type RequestBody = never;
 		export type RequestHeaders = {};
-		export type ResponseBody = {};
+		export type ResponseBody = unknown;
 	}
 
 	/**
@@ -239,13 +246,14 @@ export namespace V2 {
 	 * @name NftControllerGetNetWorth
 	 * @request GET:/v2/nft/balances/net-worth
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	export namespace NftControllerGetNetWorth {
 		export type RequestParams = {};
 		export type RequestQuery = { 'addresses[]': string[] };
 		export type RequestBody = never;
 		export type RequestHeaders = {};
-		export type ResponseBody = {};
+		export type ResponseBody = unknown;
 	}
 
 	/**
@@ -254,6 +262,7 @@ export namespace V2 {
 	 * @name NftControllerGetBalanceCollections
 	 * @request GET:/v2/nft/balances/collections
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	export namespace NftControllerGetBalanceCollections {
 		export type RequestParams = {};
@@ -267,7 +276,7 @@ export namespace V2 {
 		};
 		export type RequestBody = never;
 		export type RequestHeaders = {};
-		export type ResponseBody = {};
+		export type ResponseBody = unknown;
 	}
 
 	/**
@@ -276,6 +285,7 @@ export namespace V2 {
 	 * @name NftControllerGetBalanceCollectionsTotals
 	 * @request GET:/v2/nft/balances/collections-totals
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	export namespace NftControllerGetBalanceCollectionsTotals {
 		export type RequestParams = {};
@@ -287,7 +297,7 @@ export namespace V2 {
 		};
 		export type RequestBody = never;
 		export type RequestHeaders = {};
-		export type ResponseBody = {};
+		export type ResponseBody = unknown;
 	}
 
 	/**
@@ -296,6 +306,7 @@ export namespace V2 {
 	 * @name NftControllerGetBalanceTokens
 	 * @request GET:/v2/nft/balances/tokens
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	export namespace NftControllerGetBalanceTokens {
 		export type RequestParams = {};
@@ -309,7 +320,7 @@ export namespace V2 {
 		};
 		export type RequestBody = never;
 		export type RequestHeaders = {};
-		export type ResponseBody = {};
+		export type ResponseBody = unknown;
 	}
 
 	/**
@@ -318,6 +329,7 @@ export namespace V2 {
 	 * @name NftControllerGetBalanceTokensTotals
 	 * @request GET:/v2/nft/balances/tokens-totals
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	export namespace NftControllerGetBalanceTokensTotals {
 		export type RequestParams = {};
@@ -329,7 +341,7 @@ export namespace V2 {
 		};
 		export type RequestBody = never;
 		export type RequestHeaders = {};
-		export type ResponseBody = {};
+		export type ResponseBody = unknown;
 	}
 
 	/**
@@ -339,6 +351,7 @@ export namespace V2 {
 	 * @summary Historical Transactions
 	 * @request GET:/v2/transactions
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	export namespace TransactionControllerGetTransactions {
 		export type RequestParams = {};
@@ -364,7 +377,7 @@ export namespace V2 {
 		};
 		export type RequestBody = never;
 		export type RequestHeaders = {};
-		export type ResponseBody = {};
+		export type ResponseBody = unknown;
 	}
 
 	/**
@@ -373,6 +386,7 @@ export namespace V2 {
 	 * @name BalanceControllerGetAppBalances
 	 * @request GET:/v2/apps/{appId}/balances
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	export namespace BalanceControllerGetAppBalances {
 		export type RequestParams = { appId: string };
@@ -397,7 +411,7 @@ export namespace V2 {
 		};
 		export type RequestBody = never;
 		export type RequestHeaders = {};
-		export type ResponseBody = {};
+		export type ResponseBody = unknown;
 	}
 
 	/**
@@ -406,13 +420,14 @@ export namespace V2 {
 	 * @name BalanceControllerGetSupportedBalances
 	 * @request GET:/v2/apps/balances/supported
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	export namespace BalanceControllerGetSupportedBalances {
 		export type RequestParams = {};
 		export type RequestQuery = { 'addresses[]': string[] };
 		export type RequestBody = never;
 		export type RequestHeaders = {};
-		export type ResponseBody = {};
+		export type ResponseBody = unknown;
 	}
 
 	/**
@@ -422,6 +437,7 @@ export namespace V2 {
 	 * @summary Balances
 	 * @request GET:/v2/balances
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	export namespace BalanceControllerGetBalances {
 		export type RequestParams = {};
@@ -448,7 +464,7 @@ export namespace V2 {
 		};
 		export type RequestBody = never;
 		export type RequestHeaders = {};
-		export type ResponseBody = {};
+		export type ResponseBody = unknown;
 	}
 
 	/**
@@ -458,6 +474,7 @@ export namespace V2 {
 	 * @summary Exchange Price
 	 * @request GET:/v2/exchange/price
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	export namespace ExchangeControllerGetExchangePrice {
 		export type RequestParams = {};
@@ -489,7 +506,7 @@ export namespace V2 {
 		};
 		export type RequestBody = never;
 		export type RequestHeaders = {};
-		export type ResponseBody = {};
+		export type ResponseBody = unknown;
 	}
 
 	/**
@@ -499,6 +516,7 @@ export namespace V2 {
 	 * @summary Exchange Quote
 	 * @request GET:/v2/exchange/quote
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	export namespace ExchangeControllerGetExchangeQuote {
 		export type RequestParams = {};
@@ -530,7 +548,7 @@ export namespace V2 {
 		};
 		export type RequestBody = never;
 		export type RequestHeaders = {};
-		export type ResponseBody = {};
+		export type ResponseBody = unknown;
 	}
 
 	/**
@@ -540,12 +558,13 @@ export namespace V2 {
 	 * @summary Supported exchanges
 	 * @request GET:/v2/exchange/supported
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	export namespace ExchangeControllerGetSupportedExchanges {
 		export type RequestParams = {};
 		export type RequestQuery = {};
 		export type RequestBody = never;
 		export type RequestHeaders = {};
-		export type ResponseBody = {};
+		export type ResponseBody = unknown;
 	}
 }

@@ -45,12 +45,13 @@ export class V2<SecurityDataType = unknown> {
 	 * @summary Token Prices
 	 * @request GET:/v2/prices
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	pricesControllerListPricesV3 = (
 		query: PricesControllerListPricesV3Params,
 		params: RequestParams = {}
 	) =>
-		this.http.request<{}, any>({
+		this.http.request<unknown, any>({
 			path: `/v2/prices`,
 			method: 'GET',
 			query: query,
@@ -65,12 +66,13 @@ export class V2<SecurityDataType = unknown> {
 	 * @summary Token Prices
 	 * @request GET:/v2/prices/{tokenAddress}
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	pricesControllerGetTokenPrices = (
 		{ tokenAddress, ...query }: PricesControllerGetTokenPricesParams,
 		params: RequestParams = {}
 	) =>
-		this.http.request<{}, any>({
+		this.http.request<unknown, any>({
 			path: `/v2/prices/${tokenAddress}`,
 			method: 'GET',
 			query: query,
@@ -85,6 +87,7 @@ export class V2<SecurityDataType = unknown> {
 	 * @summary Gas Price
 	 * @request GET:/v2/gas-prices
 	 * @secure
+	 * @response `200` `GasPricesResponse`
 	 */
 	gasPriceControllerGetGasPrice = (
 		query: GasPriceControllerGetGasPriceParams,
@@ -106,12 +109,13 @@ export class V2<SecurityDataType = unknown> {
 	 * @summary Application Positions
 	 * @request GET:/v2/apps/{appId}/positions
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	positionControllerGetContractPositions = (
 		{ appId, ...query }: PositionControllerGetContractPositionsParams,
 		params: RequestParams = {}
 	) =>
-		this.http.request<{}, any>({
+		this.http.request<unknown, any>({
 			path: `/v2/apps/${appId}/positions`,
 			method: 'GET',
 			query: query,
@@ -126,12 +130,13 @@ export class V2<SecurityDataType = unknown> {
 	 * @summary Application Tokens
 	 * @request GET:/v2/apps/{appId}/tokens
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	positionControllerGetTokens = (
 		{ appId, ...query }: PositionControllerGetTokensParams,
 		params: RequestParams = {}
 	) =>
-		this.http.request<{}, any>({
+		this.http.request<unknown, any>({
 			path: `/v2/apps/${appId}/tokens`,
 			method: 'GET',
 			query: query,
@@ -145,9 +150,10 @@ export class V2<SecurityDataType = unknown> {
 	 * @name AppsControllerGetApps
 	 * @request GET:/v2/apps
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	appsControllerGetApps = (params: RequestParams = {}) =>
-		this.http.request<{}, any>({
+		this.http.request<unknown, any>({
 			path: `/v2/apps`,
 			method: 'GET',
 			secure: true,
@@ -160,9 +166,10 @@ export class V2<SecurityDataType = unknown> {
 	 * @name AppsControllerGetApp
 	 * @request GET:/v2/apps/{appId}
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	appsControllerGetApp = (appId: string, params: RequestParams = {}) =>
-		this.http.request<{}, any>({
+		this.http.request<unknown, any>({
 			path: `/v2/apps/${appId}`,
 			method: 'GET',
 			secure: true,
@@ -175,9 +182,10 @@ export class V2<SecurityDataType = unknown> {
 	 * @name NftControllerGetNetWorth
 	 * @request GET:/v2/nft/balances/net-worth
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	nftControllerGetNetWorth = (query: NftControllerGetNetWorthParams, params: RequestParams = {}) =>
-		this.http.request<{}, any>({
+		this.http.request<unknown, any>({
 			path: `/v2/nft/balances/net-worth`,
 			method: 'GET',
 			query: query,
@@ -191,12 +199,13 @@ export class V2<SecurityDataType = unknown> {
 	 * @name NftControllerGetBalanceCollections
 	 * @request GET:/v2/nft/balances/collections
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	nftControllerGetBalanceCollections = (
 		query: NftControllerGetBalanceCollectionsParams,
 		params: RequestParams = {}
 	) =>
-		this.http.request<{}, any>({
+		this.http.request<unknown, any>({
 			path: `/v2/nft/balances/collections`,
 			method: 'GET',
 			query: query,
@@ -210,12 +219,13 @@ export class V2<SecurityDataType = unknown> {
 	 * @name NftControllerGetBalanceCollectionsTotals
 	 * @request GET:/v2/nft/balances/collections-totals
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	nftControllerGetBalanceCollectionsTotals = (
 		query: NftControllerGetBalanceCollectionsTotalsParams,
 		params: RequestParams = {}
 	) =>
-		this.http.request<{}, any>({
+		this.http.request<unknown, any>({
 			path: `/v2/nft/balances/collections-totals`,
 			method: 'GET',
 			query: query,
@@ -229,12 +239,13 @@ export class V2<SecurityDataType = unknown> {
 	 * @name NftControllerGetBalanceTokens
 	 * @request GET:/v2/nft/balances/tokens
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	nftControllerGetBalanceTokens = (
 		query: NftControllerGetBalanceTokensParams,
 		params: RequestParams = {}
 	) =>
-		this.http.request<{}, any>({
+		this.http.request<unknown, any>({
 			path: `/v2/nft/balances/tokens`,
 			method: 'GET',
 			query: query,
@@ -248,12 +259,13 @@ export class V2<SecurityDataType = unknown> {
 	 * @name NftControllerGetBalanceTokensTotals
 	 * @request GET:/v2/nft/balances/tokens-totals
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	nftControllerGetBalanceTokensTotals = (
 		query: NftControllerGetBalanceTokensTotalsParams,
 		params: RequestParams = {}
 	) =>
-		this.http.request<{}, any>({
+		this.http.request<unknown, any>({
 			path: `/v2/nft/balances/tokens-totals`,
 			method: 'GET',
 			query: query,
@@ -268,12 +280,13 @@ export class V2<SecurityDataType = unknown> {
 	 * @summary Historical Transactions
 	 * @request GET:/v2/transactions
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	transactionControllerGetTransactions = (
 		query: TransactionControllerGetTransactionsParams,
 		params: RequestParams = {}
 	) =>
-		this.http.request<{}, any>({
+		this.http.request<unknown, any>({
 			path: `/v2/transactions`,
 			method: 'GET',
 			query: query,
@@ -287,12 +300,13 @@ export class V2<SecurityDataType = unknown> {
 	 * @name BalanceControllerGetAppBalances
 	 * @request GET:/v2/apps/{appId}/balances
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	balanceControllerGetAppBalances = (
 		{ appId, ...query }: BalanceControllerGetAppBalancesParams,
 		params: RequestParams = {}
 	) =>
-		this.http.request<{}, any>({
+		this.http.request<unknown, any>({
 			path: `/v2/apps/${appId}/balances`,
 			method: 'GET',
 			query: query,
@@ -306,12 +320,13 @@ export class V2<SecurityDataType = unknown> {
 	 * @name BalanceControllerGetSupportedBalances
 	 * @request GET:/v2/apps/balances/supported
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	balanceControllerGetSupportedBalances = (
 		query: BalanceControllerGetSupportedBalancesParams,
 		params: RequestParams = {}
 	) =>
-		this.http.request<{}, any>({
+		this.http.request<unknown, any>({
 			path: `/v2/apps/balances/supported`,
 			method: 'GET',
 			query: query,
@@ -326,12 +341,13 @@ export class V2<SecurityDataType = unknown> {
 	 * @summary Balances
 	 * @request GET:/v2/balances
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	balanceControllerGetBalances = (
 		query: BalanceControllerGetBalancesParams,
 		params: RequestParams = {}
 	) =>
-		this.http.request<{}, any>({
+		this.http.request<unknown, any>({
 			path: `/v2/balances`,
 			method: 'GET',
 			query: query,
@@ -346,12 +362,13 @@ export class V2<SecurityDataType = unknown> {
 	 * @summary Exchange Price
 	 * @request GET:/v2/exchange/price
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	exchangeControllerGetExchangePrice = (
 		query: ExchangeControllerGetExchangePriceParams,
 		params: RequestParams = {}
 	) =>
-		this.http.request<{}, any>({
+		this.http.request<unknown, any>({
 			path: `/v2/exchange/price`,
 			method: 'GET',
 			query: query,
@@ -366,12 +383,13 @@ export class V2<SecurityDataType = unknown> {
 	 * @summary Exchange Quote
 	 * @request GET:/v2/exchange/quote
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	exchangeControllerGetExchangeQuote = (
 		query: ExchangeControllerGetExchangeQuoteParams,
 		params: RequestParams = {}
 	) =>
-		this.http.request<{}, any>({
+		this.http.request<unknown, any>({
 			path: `/v2/exchange/quote`,
 			method: 'GET',
 			query: query,
@@ -386,9 +404,10 @@ export class V2<SecurityDataType = unknown> {
 	 * @summary Supported exchanges
 	 * @request GET:/v2/exchange/supported
 	 * @secure
+	 * @response `200` `unknown`
 	 */
 	exchangeControllerGetSupportedExchanges = (params: RequestParams = {}) =>
-		this.http.request<{}, any>({
+		this.http.request<unknown, any>({
 			path: `/v2/exchange/supported`,
 			method: 'GET',
 			secure: true,
