@@ -6,4 +6,4 @@ globalThis.Buffer = Buffer
 globalThis.process = process
 
 
-export const prerender = true
+// export const prerender = true
