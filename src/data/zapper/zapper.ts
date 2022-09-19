@@ -771,11 +771,24 @@ export const getDefiBalancesForApps = memoizedAsync(async ({
 	// ))
 })
 
-export async function getTokenBalances({network, address}: {network: Ethereum.Network, address: Ethereum.Address}) {
-	const result = await Zapper.balanceControllerGetBalances({
-		// network,
-		'addresses[]': [address]
-	}) ?? []
+export async function getTokenBalances({
+	network,
+	address
+}: {
+	network: Ethereum.Network,
+	address: Ethereum.Address
+}) {
+	// const result = await Zapper.balanceControllerGetBalances({
+	// 	'networks[]': [networkNamesByChainID[network.chainId]],
+	// 	'addresses[]': [address]
+	// }) ?? []
+	const result = await getDefiBalancesForApp({
+		appId: 'tokens',
+		networkName: networkNamesByChainID[network.chainId],
+		address,
+	})
+
+	console.log('getTokenBalances', result)
 
 	return result
 }

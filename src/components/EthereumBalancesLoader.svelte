@@ -18,7 +18,7 @@
 
 
 	export let balances: {
-		type: Covalent.ERC20TokenOrNFTContractWithBalance['type'],
+		type?: Covalent.ERC20TokenOrNFTContractWithBalance['type'],
 		token: Ethereum.ERC20Token,
 		balance: Covalent.ERC20TokenOrNFTContractWithBalance['balance'],
 		value: Covalent.ERC20TokenOrNFTContractWithBalance['quote'],
@@ -196,12 +196,44 @@
 		loadingIconName={tokenBalancesProvider}
 		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
 		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"
-		fromPromise={async () =>
-			await getTokenBalances({
-				network,
-				address
+		fromUseQuery={
+			useQuery({
+				queryKey: ['Balances', {
+					tokenBalancesProvider,
+					address,
+					chainID: network.chainId,
+				}],
+				queryFn: async () => (
+					await getTokenBalances({
+						network,
+						address
+					})
+				)
 			})
 		}
+		then={({products}) => products[0]?.assets.map(
+			({
+				address,
+				decimals,
+				symbol,
+				balance,
+				balanceUSD,
+				balanceRaw,
+				price,
+				displayProps
+			}) => ({
+				token: {
+					symbol,
+					name: displayProps.label,
+					address,
+					icon: displayProps.images[0],
+					decimals,
+				},
+				balance: balanceRaw,
+				value: balanceUSD,
+				rate: price
+			})
+		) ?? []}
 		{showIf}
 		{isCollapsed}
 		bind:result={balances}
