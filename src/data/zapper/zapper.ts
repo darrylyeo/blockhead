@@ -263,13 +263,14 @@ import { env } from '../../env'
 const client = new HttpClient()
 
 const request = client.request.bind(client)
-client.request = async ({query = {}, ...params}: FullRequestParams) => {
+client.request = async ({ query = {}, ...params }: FullRequestParams) => {
 	return await request({
+		...params,
 		query: {
 			...query,
 			api_key: env.ZAPPER_API_KEY
 		},
-		...params
+		format: 'json',
 	})
 }
 

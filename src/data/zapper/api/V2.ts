@@ -56,7 +56,6 @@ export class V2<SecurityDataType = unknown> {
 			method: 'GET',
 			query: query,
 			secure: true,
-			format: 'json',
 			...params
 		});
 	/**
@@ -78,7 +77,6 @@ export class V2<SecurityDataType = unknown> {
 			method: 'GET',
 			query: query,
 			secure: true,
-			format: 'json',
 			...params
 		});
 	/**
@@ -122,7 +120,6 @@ export class V2<SecurityDataType = unknown> {
 			method: 'GET',
 			query: query,
 			secure: true,
-			format: 'json',
 			...params
 		});
 	/**
@@ -144,7 +141,6 @@ export class V2<SecurityDataType = unknown> {
 			method: 'GET',
 			query: query,
 			secure: true,
-			format: 'json',
 			...params
 		});
 	/**
@@ -161,7 +157,6 @@ export class V2<SecurityDataType = unknown> {
 			path: `/v2/apps`,
 			method: 'GET',
 			secure: true,
-			format: 'json',
 			...params
 		});
 	/**
@@ -178,7 +173,6 @@ export class V2<SecurityDataType = unknown> {
 			path: `/v2/apps/${appId}`,
 			method: 'GET',
 			secure: true,
-			format: 'json',
 			...params
 		});
 	/**
@@ -196,7 +190,6 @@ export class V2<SecurityDataType = unknown> {
 			method: 'GET',
 			query: query,
 			secure: true,
-			format: 'json',
 			...params
 		});
 	/**
@@ -217,7 +210,6 @@ export class V2<SecurityDataType = unknown> {
 			method: 'GET',
 			query: query,
 			secure: true,
-			format: 'json',
 			...params
 		});
 	/**
@@ -238,7 +230,6 @@ export class V2<SecurityDataType = unknown> {
 			method: 'GET',
 			query: query,
 			secure: true,
-			format: 'json',
 			...params
 		});
 	/**
@@ -259,7 +250,6 @@ export class V2<SecurityDataType = unknown> {
 			method: 'GET',
 			query: query,
 			secure: true,
-			format: 'json',
 			...params
 		});
 	/**
@@ -280,7 +270,6 @@ export class V2<SecurityDataType = unknown> {
 			method: 'GET',
 			query: query,
 			secure: true,
-			format: 'json',
 			...params
 		});
 	/**
@@ -302,7 +291,6 @@ export class V2<SecurityDataType = unknown> {
 			method: 'GET',
 			query: query,
 			secure: true,
-			format: 'json',
 			...params
 		});
 	/**
@@ -323,7 +311,6 @@ export class V2<SecurityDataType = unknown> {
 			method: 'GET',
 			query: query,
 			secure: true,
-			format: 'json',
 			...params
 		});
 	/**
@@ -344,7 +331,6 @@ export class V2<SecurityDataType = unknown> {
 			method: 'GET',
 			query: query,
 			secure: true,
-			format: 'json',
 			...params
 		});
 	/**
@@ -366,7 +352,6 @@ export class V2<SecurityDataType = unknown> {
 			method: 'GET',
 			query: query,
 			secure: true,
-			format: 'json',
 			...params
 		});
 	/**
@@ -388,7 +373,6 @@ export class V2<SecurityDataType = unknown> {
 			method: 'GET',
 			query: query,
 			secure: true,
-			format: 'json',
 			...params
 		});
 	/**
@@ -410,7 +394,6 @@ export class V2<SecurityDataType = unknown> {
 			method: 'GET',
 			query: query,
 			secure: true,
-			format: 'json',
 			...params
 		});
 	/**
@@ -428,7 +411,6 @@ export class V2<SecurityDataType = unknown> {
 			path: `/v2/exchange/supported`,
 			method: 'GET',
 			secure: true,
-			format: 'json',
 			...params
 		});
 }
