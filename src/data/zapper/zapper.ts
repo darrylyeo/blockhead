@@ -771,12 +771,6 @@ export const getDefiBalancesForApps = memoizedAsync(async ({
 	// ))
 })
 
-export async function getFiatRates(){
-	const result = await Zapper.pricesControllerListFiatRates()
-	// console.log('getFiatRates', result)
-	return result
-}
-
 export async function getTokenBalances({network, address}: {network: Ethereum.Network, address: Ethereum.Address}) {
 	const result = await Zapper.balanceControllerGetBalances({
 		// network,

@@ -6,7 +6,7 @@
 	import type { Covalent } from '../data/analytics/covalent'
 	import { web3AppsByProviderName } from '../data/web3Apps'
 	import { getDefiBalances } from '../data/ethereum/price/defi-sdk'
-	import { getDefiBalancesForApps, getFiatRates } from '../data/zapper/zapper'
+	import { getDefiBalancesForApps } from '../data/zapper/zapper'
 	import { getTokenAddressBalances } from '../data/analytics/covalent'
 	import { networksByChainID } from '../data/ethereum/networks'
 	import { preferences } from '../data/ethereum/preferences'
@@ -22,8 +22,8 @@
 
 	// Computed Values
 	let zapperFiatRates
-	$: if(defiProvider === 'Zapper' && quoteCurrency !== 'USD')
-		getFiatRates().then(_ => zapperFiatRates = _)
+	// $: if(defiProvider === 'Zapper' && quoteCurrency !== 'USD')
+	// 	getFiatRates().then(_ => zapperFiatRates = _)
 	$: zapperQuoteCurrency = zapperFiatRates ? quoteCurrency : 'USD' 
 	$: zapperFiatRate = zapperFiatRates?.[quoteCurrency] ?? 1
 
@@ -32,7 +32,7 @@
 	$: quoteTotalCurrency = zapperQuoteCurrency
 
 
-	let zapperDefiProtocolBalances: Awaited<ReturnType<typeof getDefiBalancesForApps>>
+	let zapperDefiProtocolBalances: Awaited<ReturnType<typeof getDefiBalancesForApp>>
 	$: if(zapperDefiProtocolBalances)
 		quoteTotal = zapperDefiProtocolBalances.reduce((sum, {meta}) => sum + Number(
 			meta?.find(({label, type, value}) => label === 'Total')?.value ?? 0

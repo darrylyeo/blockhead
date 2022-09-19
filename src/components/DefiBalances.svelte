@@ -7,7 +7,7 @@
 	import { web3AppsByProviderName } from '../data/web3Apps'
 	import { getDefiBalances } from '../data/ethereum/price/defi-sdk'
 	import type { ZapperAppId, ZapperAppConfig } from '../data/zapper/zapper'
-	import { getAllApps, getDefiBalancesForApps, getFiatRates } from '../data/zapper/zapper'
+	import { getAllApps, getDefiBalancesForApps } from '../data/zapper/zapper'
 
 
 	// Data
@@ -22,8 +22,8 @@
 	// Computed Values
 	let zapperFiatRates
 	$:console.log(zapperFiatRates)
-	$: if(defiProvider === 'Zapper' && quoteCurrency !== 'USD')
-		getFiatRates().then(_ => zapperFiatRates = _)
+	// $: if(defiProvider === 'Zapper' && quoteCurrency !== 'USD')
+	// 	getFiatRates().then(_ => zapperFiatRates = _)
 	$: zapperQuoteCurrency = zapperFiatRates ? quoteCurrency : 'USD' 
 	$: zapperFiatRate = zapperFiatRates?.[quoteCurrency] ?? 1
 
