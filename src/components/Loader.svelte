@@ -22,7 +22,7 @@
 	export let hideError = false
 
 	export let fromPromise: () => Promise<LoaderResult>
-	export let fromStore: () => Readable<Result<LoaderResult>>
+	export let fromStore: () => Readable<Result<LoaderResult>> | Promise<Readable<Result<LoaderResult>>>
 	export let fromHoudiniQuery: () => QueryResponse<LoaderResult, HoudiniQueryInput>
 	export let fromUseQuery: UseQueryStoreResult<LoaderResult, LoaderError>
 	export let fromUseInfiniteQuery: UseInfiniteQueryStoreResult<LoaderResult[number], LoaderError>

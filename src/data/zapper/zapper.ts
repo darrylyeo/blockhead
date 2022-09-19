@@ -1,40 +1,36 @@
 import type {
-	BalanceControllerGetProtocolBalancesV2Params,
-	PoolControllerGetPoolStatsParams,
-	PoolControllerGetPoolStatsByAddressParams,
-	ProtocolBalanceResponse,
-	AppDefinition,
-	AddressBalanceResponse
+	BalanceControllerGetAppBalancesParams,
 } from './api/data-contracts'
 
 import type { Ethereum } from '../ethereum/types'
 
 
-export type ZapperDeFiNetwork =
-	| BalanceControllerGetProtocolBalancesV2Params['network']
-	| PoolControllerGetPoolStatsParams['network']
-	| PoolControllerGetPoolStatsByAddressParams['network']
+// Networks
 
-const networkNamesByChainID: Record<Ethereum.ChainID, ZapperDeFiNetwork> = {
-	'1': 'ethereum',
-	'137': 'polygon',
-	'10': 'optimism',
-	'100': 'xdai',
-	'56': 'binance-smart-chain',
-	'250': 'fantom',
-	'43114': 'avalanche',
-	'42161': 'arbitrum',
-	'42220': 'celo',
-	'1666600000': 'harmony'
+export type ZapperSupportedNetwork =
+	| BalanceControllerGetAppBalancesParams['network']
+
+const networkNamesByChainID: Record<Ethereum.ChainID, ZapperSupportedNetwork> = {
+	1: 'ethereum',
+	137: 'polygon',
+	10: 'optimism',
+	100: 'gnosis',
+	56: 'binance-smart-chain',
+	250: 'fantom',
+	43114: 'avalanche',
+	42161: 'arbitrum',
+	42220: 'celo',
+	1666600000: 'harmony',
+	1285: 'moonriver',
+	// : 'cronos',
+	1313161554: 'aurora',
+	// : 'evmos',
 }
 
 
-export type ZapperAppId =
-	| BalanceControllerGetProtocolBalancesV2Params['appId']
-	| PoolControllerGetPoolStatsParams['poolStatsType']
-	| PoolControllerGetPoolStatsByAddressParams['poolStatsType']
+// App names
 
-const allZapperAppIds: ZapperAppId[] = [
+const allZapperAppIds = [
 	'1inch',
 	'88mph-v3',
 	'88mph',
@@ -204,10 +200,338 @@ const allZapperAppIds: ZapperAppId[] = [
 	'yearn',
 	'yieldyak',
 	'zlot',
-]
+] as const
+
+export type ZapperAppId = typeof allZapperAppIds[number]
 
 
-import { V1 } from './api/V1'
+// App config
+
+export type ZapperAppConfig = {
+	id: ZapperAppId;
+	tags?: string[];
+	keywords?: string[];
+	name: string;
+	url: string;
+	links?: Links;
+	description: string;
+	groups?: Group[];
+	supportedNetworks?: {
+		network: ZapperSupportedNetwork;
+		actions?: (string)[];
+	}[];
+	primaryColor?: string;
+	token?: Token | null;
+	compatibleAddressFormats: Partial<Record<ZapperSupportedNetwork, 'evm' | string>>;
+	presentationConfig?: PresentationConfig;
+}
+type Links = Partial<Record<
+	| 'github'
+	| 'twitter'
+	| 'discord'
+	| 'telegram'
+	| 'medium'
+	| 'learn',
+	string
+>>
+type Group = {
+	type?: string;
+	id: string;
+	label: string;
+	isHiddenFromExplore?: boolean;
+	groupLabel?: string;
+	isHiddenFromExplorer?: boolean;
+	groupLabels?: string;
+}
+type Token = {
+	address: string;
+	network: string;
+}
+type PresentationConfig = {
+	tabs?: Tabs[];
+}
+type Tabs = {
+	label: string;
+	viewType: string;
+	views?: View[];
+	groupIds?: (string)[];
+	options?: (Option)[];
+}
+type View = {
+	viewType: string;
+	label: string;
+	groupIds?: string[];
+	views?: Subview[];
+}
+type Subview = {
+	viewType: string;
+	label: string;
+	groupIds?: string[];
+}
+type Option = {
+	label: string;
+	viewType: string;
+	views?: Subview[];
+}
+
+
+// Supported apps
+
+export type ZapperSupportedApp = {
+	appId: ZapperAppId
+	meta: {
+		label: string
+		img: string
+		supportedActions: string[] // 'view'
+		tags: string[]
+	}[]
+}
+
+
+// App balances
+
+export type ZapperAppBalanceResponse = {
+	balances: Record<Ethereum.Address, ZapperAppBalance>;
+}
+export type ZapperAppBalance = {
+	products?: Products[];
+	meta?: AppMeta[];
+}
+type Products = {
+	label: string;
+	assets?: Asset[];
+	meta?: ProductMeta[];
+}
+type Asset = {
+	address: string;
+	type: string;
+	appId: string;
+	groupId: string;
+	network: string;
+	tokens?: TokenBreakdown[];
+	balanceUSD: number;
+	dataProps: DataProps;
+	displayProps: DisplayProps;
+	key?: string;
+	symbol?: string;
+	decimals?: number;
+	supply?: number;
+	price?: number;
+	pricePerShare?: number | number[];
+	balance?: number;
+	balanceRaw?: string;
+}
+type TokenBreakdown = {
+	metaType?: string;
+	id?: string;
+	networkId?: number;
+	address: string;
+	name?: string;
+	symbol: string;
+	decimals: number;
+	coingeckoId?: string;
+	status?: string;
+	hide?: boolean;
+	canExchange?: boolean;
+	verified?: boolean;
+	updatedAt?: string;
+	createdAt?: string;
+	price: number;
+	dailyVolume?: number;
+	totalSupply?: string;
+	networkEnumValue?: string;
+	type: string;
+	network: string;
+	balance: number;
+	balanceRaw: string;
+	balanceUSD: number;
+	appId?: string;
+	groupId?: string;
+	supply?: number;
+	pricePerShare?: number[] | number;
+	tokens?: TokenBreakdown1[];
+	dataProps?: DataProps1;
+	displayProps?: DisplayProps1;
+	apt_address?: null;
+	apt_networkId?: null;
+	key?: string;
+}
+type TokenBreakdown1 = {
+	id?: string;
+	networkId?: number;
+	address: string;
+	name?: string;
+	symbol: string;
+	decimals: number;
+	coingeckoId?: string;
+	status?: string;
+	hide?: boolean;
+	canExchange?: boolean;
+	verified?: boolean;
+	updatedAt?: string;
+	createdAt?: string;
+	price: number;
+	dailyVolume?: number;
+	totalSupply?: string;
+	networkEnumValue?: string;
+	type: string;
+	network: string;
+	balance: number;
+	balanceRaw: string;
+	balanceUSD: number;
+	key?: string;
+	appId?: string;
+	supply?: number;
+	tokens?: TokenBreakdown2[];
+	groupId?: string;
+	dataProps?: DataProps2;
+	displayProps?: DisplayProps2;
+	pricePerShare?: number[];
+	apt_address?: null;
+	apt_networkId?: null;
+}
+type TokenBreakdown2 = {
+	id: string;
+	address: string;
+	name: string;
+	symbol: string;
+	decimals: number;
+	coingeckoId: string;
+	hide: boolean;
+	canExchange: boolean;
+	updatedAt: string;
+	createdAt: string;
+	price: number;
+	networkId: number;
+	status: string;
+	totalSupply: string;
+	dailyVolume: number;
+	verified: boolean;
+	apt_address?: null;
+	apt_networkId?: null;
+	networkEnumValue: string;
+	type: string;
+	network: string;
+	balance: number;
+	balanceRaw: string;
+	balanceUSD: number;
+}
+type DataProps2 = {
+	reserve: number;
+	liquidity: number;
+}
+type DisplayProps2 = {
+	label: string;
+	secondaryLabel: SecondaryLabelOrValue;
+	images?: string[];
+	statsItems?: StatsItems[];
+}
+type SecondaryLabelOrValue = {
+	type: string;
+	value: number;
+}
+type StatsItems = {
+	label: string;
+	value: SecondaryLabelOrValue;
+}
+type DataProps1 = {
+	fee?: number;
+	poolId?: string;
+	volume?: number;
+	weights?: number[];
+	reserves?: number[];
+	liquidity?: number;
+	volumeChangePercentage?: number;
+	isBlocked?: boolean;
+	reserve?: number;
+	exchangeable?: boolean;
+	poolType?: string;
+	swapAddress?: string;
+	gaugeAddresses?: string[];
+	apy?: number;
+}
+type DisplayProps1 = {
+	label: string;
+	images?: string[];
+	statsItems?: StatsItems1[];
+	secondaryLabel?: string | SecondaryLabelOrValue;
+}
+type StatsItems1 = {
+	label: string;
+	value: SecondaryLabelOrValue | string | SecondaryLabelOrValue | string | SecondaryLabelOrValue | string | SecondaryLabelOrValue | string;
+}
+type DataProps = {
+	poolIndex?: number;
+	liquidity?: number;
+	isActive?: boolean;
+	dailyROI?: number;
+	weeklyROI?: number;
+	yearlyROI?: number;
+	fee?: number;
+	volume?: number;
+	volumeChangePercentage?: number;
+	isBlocked?: boolean;
+	reserves?: number[];
+	weight?: number[];
+	apy?: number;
+	reserve?: number;
+	faucetAddresses?: string[];
+	exchangeable?: boolean;
+	lensAddress?: string;
+	implementation?: string;
+	supplyApy?: number;
+	borrowApy?: number;
+	comptrollerAddress?: string;
+	supply?: number;
+	borrow?: number;
+	incentivesControllerAddress?: string;
+	protocolDataProviderAddress?: string;
+	poolType?: string;
+	swapAddress?: string;
+	gaugeAddresses?: string[];
+	feeTier?: number;
+	rangeStart?: number;
+	rangeEnd?: number;
+	poolAddress?: string;
+	assetStandard?: string;
+	cRatio?: number;
+	liquidationThreshold?: number;
+	enabledAsCollateral?: boolean;
+	deposited?: number;
+	remaining?: number;
+}
+type DisplayProps = {
+	label: string;
+	secondaryLabel?: SecondaryLabelOrValue1 | string | string | SecondaryLabelOrValue;
+	images?: string[];
+	statsItems?: StatsItems2[];
+	tertiaryLabel?: string;
+	labelDetailed?: string;
+	balanceDisplayMode?: string;
+}
+type SecondaryLabelOrValue1 = {
+	type: string;
+	value: number;
+}
+type StatsItems2 = {
+	label: string;
+	value: SecondaryLabelOrValue | string | SecondaryLabelOrValue | string | SecondaryLabelOrValue | string | SecondaryLabelOrValue | string | SecondaryLabelOrValue | string | SecondaryLabelOrValue | string | SecondaryLabelOrValue | string;
+}
+type ProductMeta = {
+	label: string;
+	value: number;
+	type: string;
+}
+type AppMeta = {
+	label: string;
+	value: number;
+	type: string;
+}
+
+
+// Swagger API Client
+
+import { V2 } from './api/V2'
 // import type { QueryParamsType } from './api/http-client'
 import type { FullRequestParams } from './api/http-client'
 import { HttpClient } from './api/http-client'
@@ -233,7 +557,7 @@ import { env } from '../../env'
 // 		})
 // 	}
 // }
-// const Zapper = new V1(new ZapperHttpClient({
+// const Zapper = new V2(new ZapperHttpClient({
 // 	securityWorker: () => ({
 // 		format: 'json'
 // 	})
@@ -249,9 +573,9 @@ import { env } from '../../env'
 // client.setSecurityData({
 // 	api_key: env.ZAPPER_API_KEY as string
 // })
-// const Zapper = new V1(client)
+// const Zapper = new V2(client)
 
-// const Zapper = new V1(new HttpClient({
+// const Zapper = new V2(new HttpClient({
 // 	baseApiParams: {
 // 		query: {
 // 			api_key: env.ZAPPER_API_KEY
@@ -274,19 +598,28 @@ client.request = async ({ query = {}, ...params }: FullRequestParams) => {
 	})
 }
 
-const Zapper = new V1(client)
+export const Zapper = new V2(client)
+
+// export const Zapper = new V2(new HttpClient({
+// 	baseApiParams: {
+// 		headers: {
+// 			'Authorization': env.ZAPPER_API_KEY
+// 		}
+// 	}
+// }))
 
 
+// Utils
 
 import { ConcurrentPromiseQueue } from '../../utils/concurrent-promise-queue'
 
 const queue = new ConcurrentPromiseQueue(3)
 
-function PromiseAllFulfilled<T>(promises: Promise<T>[]){
+function PromiseAllFulfilled<T>(promises: Promise<T>[]) {
 	return Promise.allSettled<T>(promises).then(results =>
 		Object.values(results)
-			.filter(({status}) => status === 'fulfilled')
-			.map(({value}) => value as T)
+			.filter(({ status }) => status === 'fulfilled')
+			.map(({ value }) => value as T)
 	)
 }
 
@@ -296,31 +629,33 @@ import type { Result } from 'svelte-apollo'
 
 import { memoizedAsync } from '../../utils/memoized'
 
-export const getAllApps = memoizedAsync(async () =>
-	(await Zapper.appsControllerGetApps({format: 'json'})) as unknown as AppDefinition[]
-)
 
+// Methods
+
+export const getAllApps = memoizedAsync(async () =>
+	(await Zapper.appsControllerGetApps({ format: 'json' })) as ZapperAppConfig[]
+)
 
 const getAppsForAddress = memoizedAsync(async (
 	address: Ethereum.Address
 ) =>
-	await Zapper.balanceControllerGetSupportedV2Balances({
+	await Zapper.balanceControllerGetSupportedBalances({
 		'addresses[]': [address]
 	}) as {
-		network: string,
-		apps: {
-			appId: ZapperAppId,
-			meta: {label: string, img: string, tags: string[], supportedActions: string[]}[]
-		}[]
+		network: ZapperSupportedNetwork
+		apps: ZapperSupportedApp[]
 	}[] | undefined
 )
 
-const getAppsForAddressAndNetwork = memoizedAsync(async (
+const getAppsForAddressAndNetwork = memoizedAsync(async ({
+	address,
+	networkName
+}: {
 	address: Ethereum.Address,
-	networkName: ZapperDeFiNetwork
-) => {
+	networkName: ZapperSupportedNetwork
+}) => {
 	const apps = (await getAppsForAddress(address))
-		?.find(({network}) => network === networkName)
+		?.find(({ network }) => network === networkName)
 		?.apps
 
 	// if(!apps)
@@ -330,21 +665,50 @@ const getAppsForAddressAndNetwork = memoizedAsync(async (
 })
 
 const getAppsForNetwork = memoizedAsync(async (
-	networkName: ZapperDeFiNetwork
+	networkName: ZapperSupportedNetwork
 ) =>
 	(await getAllApps())
-		.filter(({supportedNetworks}) => supportedNetworks.includes(networkName)),
+		.filter(({ supportedNetworks }) => supportedNetworks.some(({ network }) => network === networkName)),
 )
 
 const filterAndSortApps = (
 	appIds: ZapperAppId[]
 ): ZapperAppId[] => [
-	...appIds.filter(protocol => !['tokens', 'nft', 'other'].includes(protocol)),
-	...appIds.filter(protocol => ['other'].includes(protocol))
-]
+		...appIds.filter(protocol => !['tokens', 'nft', 'other'].includes(protocol)),
+		...appIds.filter(protocol => ['other'].includes(protocol))
+	]
+
+const allResponses = []
+
+export const getDefiBalancesForApp = memoizedAsync(async ({
+	appId,
+	networkName,
+	address,
+}: {
+	appId: ZapperAppId,
+	networkName: ZapperSupportedNetwork,
+	address: Ethereum.Address,
+}): Promise<{ appId: ZapperAppId } & ZapperAppBalance> => {
+	const response = await Zapper.balanceControllerGetAppBalances({
+		appId,
+		'addresses[]': [address],
+		network: networkName
+	}) as ZapperAppBalanceResponse
+
+	console.log('Zapper balance', appId, address, response)
+
+	allResponses.push(response)
+	console.log('allResponses', allResponses)
+
+	return {
+		appId,
+		...(response.balances[address.toLowerCase()])
+	}
+	// .catch(async response => console.error(await response.text()))
+})
 
 
-export const getDeFiAppBalances = memoizedAsync(async ({
+export const getDefiBalancesForApps = memoizedAsync(async ({
 	appIds,
 	network,
 	address,
@@ -357,42 +721,39 @@ export const getDeFiAppBalances = memoizedAsync(async ({
 }) => {
 	const networkName = networkNamesByChainID[network.chainId]
 
-	if(!networkName)
+	if (!networkName)
 		throw new Error(`Zapper doesn't yet support ${network.name}.`)
-
-	const apps = await getAppsForAddressAndNetwork(address, networkName)
 
 	console.log('appIds', appIds)
 
+	const apps = await getAppsForAddressAndNetwork({
+		address,
+		networkName
+	})
+
+	console.log('apps', apps)
+
 	const _appIds = filterAndSortApps(
 		appIds
-		?? apps?.map(({appId}) => appId)
-		?? (await getAppsForNetwork(networkName)).map(({id}) => id)
+		?? apps?.map(({ appId }) => appId)
+		?? (await getAppsForNetwork(networkName)).map(({ id }) => id)
 	)
-	
+
 	const promises = _appIds.map(appId =>
-		queue.enqueue(() =>
-			Zapper.balanceControllerGetProtocolBalancesV2({
+		queue.enqueue(async () =>
+			getDefiBalancesForApp({
 				appId,
-				'addresses[]': [address],
-				network: networkName
+				networkName,
+				address
 			})
-			.then(response => {
-				console.log('Zapper balance', appId, address, response)
-				return {
-					appId,
-					...(response[address.toLowerCase()] as AddressBalanceResponse)
-				}
-			})
-			// .catch(async response => console.error(await response.text()))
 		)
 	)
 
 	return asStore
-		? readable<Result<({ appId: ZapperAppId } & AddressBalanceResponse)[]>>({loading: true}, set => {
+		? readable<Result<{ appId: ZapperAppId } & ZapperAppBalance>[]>({ loading: true }, set => {
 			let results = []
 
-			for(const promise of promises)
+			for (const promise of promises)
 				promise.then(result => set({
 					loading: true,
 					data:
@@ -409,19 +770,6 @@ export const getDeFiAppBalances = memoizedAsync(async ({
 	// 	<(_) => _ is ProtocolBalanceResponse & {protocolName: ZapperAppId}> (_ => _)
 	// ))
 })
-
-export async function getAllPoolStats({network, address}: {network: Ethereum.Network, address: Ethereum.Address}){
-	return Promise.all(
-		ZapperAppIds.map(protocolName =>
-			queue.enqueue(() =>
-				Zapper.poolControllerGetPoolStats({
-					poolStatsType: protocolName,    
-					network: networkNamesByChainID[network.chainId]
-				})
-			)
-		)
-	)
-}
 
 export async function getFiatRates(){
 	const result = await Zapper.pricesControllerListFiatRates()

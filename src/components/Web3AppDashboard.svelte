@@ -6,7 +6,7 @@
 	import type { Covalent } from '../data/analytics/covalent'
 	import { web3AppsByProviderName } from '../data/web3Apps'
 	import { getDefiBalances } from '../data/ethereum/price/defi-sdk'
-	import { getDeFiAppBalances, getFiatRates } from '../data/zapper/zapper'
+	import { getDefiBalancesForApps, getFiatRates } from '../data/zapper/zapper'
 	import { getTokenAddressBalances } from '../data/analytics/covalent'
 	import { networksByChainID } from '../data/ethereum/networks'
 	import { preferences } from '../data/ethereum/preferences'
@@ -31,8 +31,8 @@
 	export let quoteTotalCurrency
 	$: quoteTotalCurrency = zapperQuoteCurrency
 
-	type TypeOfPromise<T> = T extends Promise<infer R> ? R : T
-	let zapperDefiProtocolBalances: TypeOfPromise<ReturnType<typeof getDeFiAppBalances>>
+
+	let zapperDefiProtocolBalances: Awaited<ReturnType<typeof getDefiBalancesForApps>>
 	$: if(zapperDefiProtocolBalances)
 		quoteTotal = zapperDefiProtocolBalances.reduce((sum, {meta}) => sum + Number(
 			meta?.find(({label, type, value}) => label === 'Total')?.value ?? 0
@@ -286,8 +286,8 @@
 											errorMessage="Error getting {web3AppConfig.name} balances from {defiProvider}."
 											loadingIconName={defiProvider}
 											loadingIcon={'/logos/Zapper.svg'}
-											fromStore={() => getDeFiAppBalances({
-												appIds: providers?.zapper ? [providers.zapper] : [],
+											fromStore={() => getDefiBalancesForApps({
+												appIds: [providers?.zapper],
 												network,
 												address,
 												asStore: true

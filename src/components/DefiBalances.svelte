@@ -6,9 +6,8 @@
 	import type { Web3AppConfig, Web3AppSlug } from '../data/web3Apps'
 	import { web3AppsByProviderName } from '../data/web3Apps'
 	import { getDefiBalances } from '../data/ethereum/price/defi-sdk'
-	import type { ZapperAppId } from '../data/zapper/zapper'
-	import type { AppDefinition } from '../data/zapper/api/data-contracts';
-	import { getAllApps, getDeFiAppBalances, getFiatRates } from '../data/zapper/zapper'
+	import type { ZapperAppId, ZapperAppConfig } from '../data/zapper/zapper'
+	import { getAllApps, getDefiBalancesForApps, getFiatRates } from '../data/zapper/zapper'
 
 
 	// Data
@@ -28,7 +27,7 @@
 	$: zapperQuoteCurrency = zapperFiatRates ? quoteCurrency : 'USD' 
 	$: zapperFiatRate = zapperFiatRates?.[quoteCurrency] ?? 1
 
-	let zapperApps: Record<ZapperAppId, AppDefinition>
+	let zapperApps: Partial<Record<ZapperAppId, ZapperAppConfig>>
 	$: if(defiProvider === 'Zapper')
 		getAllApps().then(_ => zapperApps = Object.fromEntries(_.map(app => [app.id, app])))
 
@@ -38,9 +37,8 @@
 		quoteTotalCurrency: QuoteCurrency
 	}
 
-	type TypeOfPromise<T> = T extends Promise<infer R> ? R : T
-	let zerionDefiBalances: TypeOfPromise<ReturnType<typeof getDefiBalances>>
-	let zapperDefiBalances: TypeOfPromise<ReturnType<typeof getDeFiAppBalances>>
+	let zerionDefiBalances: Awaited<ReturnType<typeof getDefiBalances>>
+	let zapperDefiBalances: Awaited<ReturnType<typeof getDefiBalancesForApps>>
 
 	$: summary =
 		zerionDefiBalances ?
@@ -175,8 +173,8 @@
 			errorMessage="Error getting {defiBalancesDescription} balances from {defiProvider}."
 			loadingIconName={defiProvider}
 			loadingIcon={'/logos/Zapper.svg'}
-			fromStore={() => getDeFiAppBalances({
-				appIds: web3Apps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zapper ?? [])),
+			fromStore={() => getDefiBalancesForApps({
+				// appIds: web3Apps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zapper ?? [])),
 				network,
 				address,
 				asStore: true
