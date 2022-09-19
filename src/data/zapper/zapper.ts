@@ -7,8 +7,7 @@ import type { Ethereum } from '../ethereum/types'
 
 // Networks
 
-export type ZapperSupportedNetwork =
-	| BalanceControllerGetAppBalancesParams['network']
+export type ZapperSupportedNetwork = BalanceControllerGetAppBalancesParams['network']
 
 const networkNamesByChainID: Record<Ethereum.ChainID, ZapperSupportedNetwork> = {
 	1: 'ethereum',
@@ -532,63 +531,16 @@ type AppMeta = {
 // Swagger API Client
 
 import { V2 } from './api/V2'
-// import type { QueryParamsType } from './api/http-client'
-import type { FullRequestParams } from './api/http-client'
 import { HttpClient } from './api/http-client'
-
+import type { FullRequestParams } from './api/http-client'
 import { env } from '../../env'
-
-// class ZapperHttpClient extends HttpClient {
-// 	// toQueryString(rawQuery: QueryParamsType = {}){
-// 	// 	return super.toQueryString({
-// 	// 		...rawQuery,
-// 	// 		api_key: env.ZAPPER_API_KEY
-// 	// 	})
-// 	// }
-// 	public request = async ({query = {}, ...params}: FullRequestParams) => {
-// 	// public async request({query = {}, ...params}: FullRequestParams){
-// 		// console.dir(HttpClient, query, params)
-// 		return await HttpClient.prototype.request({
-// 			query: {
-// 				api_key: env.ZAPPER_API_KEY,
-// 				...query
-// 			},
-// 			...params
-// 		})
-// 	}
-// }
-// const Zapper = new V2(new ZapperHttpClient({
-// 	securityWorker: () => ({
-// 		format: 'json'
-// 	})
-// }))
-
-// const client = new HttpClient<{api_key: string}>({
-// 	securityWorker: ({api_key}) => ({
-// 		query: {
-// 			api_key
-// 		}
-// 	})
-// })
-// client.setSecurityData({
-// 	api_key: env.ZAPPER_API_KEY as string
-// })
-// const Zapper = new V2(client)
-
-// const Zapper = new V2(new HttpClient({
-// 	baseApiParams: {
-// 		query: {
-// 			api_key: env.ZAPPER_API_KEY
-// 		}
-// 	}
-// }))
-// { apiKey: () => env.ZAPPER_API_KEY }
 
 const client = new HttpClient()
 
 const request = client.request.bind(client)
-client.request = async ({ query = {}, ...params }: FullRequestParams) => {
-	return await request({
+
+client.request = async ({ query = {}, ...params }: FullRequestParams) =>
+	await request({
 		...params,
 		query: {
 			...query,
@@ -596,17 +548,8 @@ client.request = async ({ query = {}, ...params }: FullRequestParams) => {
 		},
 		format: 'json',
 	})
-}
 
 export const Zapper = new V2(client)
-
-// export const Zapper = new V2(new HttpClient({
-// 	baseApiParams: {
-// 		headers: {
-// 			'Authorization': env.ZAPPER_API_KEY
-// 		}
-// 	}
-// }))
 
 
 // Utils
@@ -615,13 +558,12 @@ import { ConcurrentPromiseQueue } from '../../utils/concurrent-promise-queue'
 
 const queue = new ConcurrentPromiseQueue(3)
 
-function PromiseAllFulfilled<T>(promises: Promise<T>[]) {
-	return Promise.allSettled<T>(promises).then(results =>
+const PromiseAllFulfilled = <T>(promises: Promise<T>[]) =>
+	Promise.allSettled<T>(promises).then(results =>
 		Object.values(results)
 			.filter(({ status }) => status === 'fulfilled')
 			.map(({ value }) => value as T)
 	)
-}
 
 import { readable } from 'svelte/store'
 import type { Result } from 'svelte-apollo'
@@ -678,8 +620,6 @@ const filterAndSortApps = (
 		...appIds.filter(protocol => ['other'].includes(protocol))
 	]
 
-const allResponses = []
-
 export const getDefiBalancesForApp = memoizedAsync(async ({
 	appId,
 	networkName,
@@ -695,16 +635,10 @@ export const getDefiBalancesForApp = memoizedAsync(async ({
 		network: networkName
 	}) as ZapperAppBalanceResponse
 
-	console.log('Zapper balance', appId, address, response)
-
-	allResponses.push(response)
-	console.log('allResponses', allResponses)
-
 	return {
 		appId,
 		...(response.balances[address.toLowerCase()])
 	}
-	// .catch(async response => console.error(await response.text()))
 })
 
 
@@ -724,14 +658,10 @@ export const getDefiBalancesForApps = memoizedAsync(async ({
 	if (!networkName)
 		throw new Error(`Zapper doesn't yet support ${network.name}.`)
 
-	console.log('appIds', appIds)
-
 	const apps = await getAppsForAddressAndNetwork({
 		address,
 		networkName
 	})
-
-	console.log('apps', apps)
 
 	const _appIds = filterAndSortApps(
 		appIds
@@ -766,29 +696,23 @@ export const getDefiBalancesForApps = memoizedAsync(async ({
 			}))
 		})
 		: await PromiseAllFulfilled(promises)
-	// .then(defiBalances => defiBalances.filter(
-	// 	<(_) => _ is ProtocolBalanceResponse & {protocolName: ZapperAppId}> (_ => _)
-	// ))
 })
 
-export async function getTokenBalances({
+export const getTokenBalances = async({
 	network,
 	address
 }: {
 	network: Ethereum.Network,
 	address: Ethereum.Address
-}) {
-	// const result = await Zapper.balanceControllerGetBalances({
-	// 	'networks[]': [networkNamesByChainID[network.chainId]],
-	// 	'addresses[]': [address]
-	// }) ?? []
-	const result = await getDefiBalancesForApp({
+}) => {
+	const networkName = networkNamesByChainID[network.chainId]
+
+	if (!networkName)
+		throw new Error(`Zapper doesn't yet support ${network.name}.`)
+	
+	return await getDefiBalancesForApp({
 		appId: 'tokens',
 		networkName: networkNamesByChainID[network.chainId],
 		address,
 	})
-
-	console.log('getTokenBalances', result)
-
-	return result
 }
