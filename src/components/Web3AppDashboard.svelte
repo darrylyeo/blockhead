@@ -32,7 +32,7 @@
 	$: quoteTotalCurrency = zapperQuoteCurrency
 
 
-	let zapperDefiProtocolBalances: Awaited<ReturnType<typeof getDefiBalancesForApp>>
+	let zapperDefiProtocolBalances: Awaited<ReturnType<typeof getDefiBalancesForApps>>
 	$: if(zapperDefiProtocolBalances)
 		quoteTotal = zapperDefiProtocolBalances.reduce((sum, {meta}) => sum + Number(
 			meta?.find(({label, type, value}) => label === 'Total')?.value ?? 0
@@ -271,7 +271,7 @@
 						<!-- No address specified - general information -->
 						{#if !address}
 							{#each contracts || [] as contract}
-								
+								{contract}
 							{/each}
 
 
