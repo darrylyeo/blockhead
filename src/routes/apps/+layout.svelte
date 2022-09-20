@@ -28,7 +28,7 @@
 		goto($derivedPath, {keepfocus: true})
 
 	beforeNavigate(({from, to, cancel}) => {
-		if(from.pathname === to.pathname)
+		if(from.url.pathname === to.url.pathname)
 			cancel()
 	})
 	
