@@ -411,7 +411,7 @@ img:after {
 	align-content: start;
 	padding: var(--padding-outer);
 
-	/* background-image: var(--card-background-image); */
+	background-image: var(--card-background-image);
 	background-color: var(--card-background-color);
 	/* background-image: radial-gradient(circle, transparent -75%, var(--card-background-color)); */
 	border-radius: var(--card-border-radius);
