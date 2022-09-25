@@ -28,8 +28,6 @@
     "@ceramicnetwork/stream-caip10-link": "^1.0.7",
     "@ceramicnetwork/stream-tile": "^1.0.7",
     "@ceramicnetwork/streamid": "^1.0.2",
-    "@ceramicstudio/idx": "^0.12.1",
-    "@ceramicstudio/idx-constants": "^1.0.0",
     "@coinbase/wallet-sdk": "^3.2.0",
     "@compound-finance/compound-js": "^0.2.13",
     "@connext/vector-browser-node": "^0.2.5-beta.18",

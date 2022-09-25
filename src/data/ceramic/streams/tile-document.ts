@@ -2,9 +2,9 @@
 
 
 import type CeramicClient from '@ceramicnetwork/http-client'
-import type { IDX } from '@ceramicstudio/idx'
+// import type { IDX } from '@ceramicstudio/idx'
 import { getCeramic } from '../ceramic'
-import { getIDX } from '../idx'
+// import { getIDX } from '../idx'
 
 
 import type { StreamID, CommitID } from '@ceramicnetwork/streamid'
@@ -28,13 +28,13 @@ export async function getTileDocument({
 
 export async function createTileDocument<T = Record<string, any>>({
 	ceramic = getCeramic(),
-	idx = getIDX(ceramic),
+	// idx = getIDX(ceramic),
 	content,
 	metadata,
 	options
 }: {
     ceramic: CeramicClient,
-    idx: IDX,
+    // idx: IDX,
 	content?: T,
 	metadata?: TileMetadataArgs,
 	options?: CreateOpts
