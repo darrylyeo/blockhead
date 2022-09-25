@@ -769,6 +769,34 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "http://www.coinex.org/"
 	},
 	{
+		"slug": "cronos",
+		"name": "Cronos",
+		"chainId": 25,
+		"shortName": "cro",
+		"chain": "CRO",
+		"networkId": 25,
+		"nativeCurrency": {
+			"name": "Cronos",
+			"symbol": "CRO",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://evm.cronos.org",
+			"https://cronos-rpc.heavenswail.one",
+			"https://cronosrpc-1.xstaking.sg",
+			"https://cronos-rpc.elk.finance"
+		],
+		"faucets": [],
+		"infoURL": "https://cronos.org/",
+		"explorers": [
+			{
+				"name": "Cronos Explorer",
+				"url": "https://cronos.org/explorer",
+				"standard": "none"
+			}
+		]
+	},
+	{
 		"slug": "cryptokylin",
 		"name": "CryptoKylin Testnet",
 		"chainId": 95,
@@ -5013,7 +5041,7 @@ export function isTestnet(network: Ethereum.Network){
 }
 
 
-export const availableNetworks = [1, 137, 10, 100, 1313161554].map(chainID => networksByChainID[chainID])
+export const availableNetworks = [1, 137, 10, 100, 1313161554, 25].map(chainID => networksByChainID[chainID])
 
 
 export const ethereumAndL2Networks = [
@@ -5032,6 +5060,7 @@ export const evmL1Networks = [
 	'avalanche',
 	'bsc',
 	'celo',
+	'cronos',
 	// 'fantom',
 ].map(slug => networksBySlug[slug])
 
@@ -5076,6 +5105,7 @@ export const networkColors = {
 	'bitcoin': '#f7931a',
 	'bsc': '#FCD535',
 	'celo': '#35D07F', // #fbcc5c
+	'cronos': '#002D74',
 	'ethereum': '#627eea',
 	'fantom': '#1969ff',
 	'gnosis': '#04795B',
