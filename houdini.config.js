@@ -21,7 +21,8 @@ const config = {
 			unmarshal: value => value?.toString(),
 			marshal: value => value,
 		}
-	}
+	},
+	schemaPollInterval: null
 }
 
 export default config
