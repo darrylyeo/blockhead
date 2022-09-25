@@ -32,7 +32,7 @@
 	
 	import { useQuery } from '@sveltestack/svelte-query'
 
-	import { getBlock } from '../data/analytics/covalent'
+	import { getBlock } from '../api/covalent'
 
 	import { chainCodeFromNetwork, MoralisWeb3Api } from '../data/moralis/moralis-web3-api'
 

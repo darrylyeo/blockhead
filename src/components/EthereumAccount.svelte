@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { TickerSymbol } from '../data/currency/currency'
-	import type { Covalent } from '../data/analytics/covalent'
+	import type { Covalent } from '../api/covalent'
 	import type { PriceScale } from './PriceChart.svelte'
-	import { getERC20TokenTransfers, getTransactionsByAddress } from '../data/analytics/covalent'
+	import { getERC20TokenTransfers, getTransactionsByAddress } from '../api/covalent'
 	import { preferences } from '../state/preferences'
 
 

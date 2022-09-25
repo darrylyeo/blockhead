@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import type { Covalent } from '../data/analytics/covalent'
-	import { getHistoricalPricesByTickerSymbol, getHistoricalPricesByAddress } from '../data/analytics/covalent'
+	import type { Covalent } from '../api/covalent'
+	import { getHistoricalPricesByTickerSymbol, getHistoricalPricesByAddress } from '../api/covalent'
 	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
 	import type { PriceScale } from './PriceChart.svelte'
 	

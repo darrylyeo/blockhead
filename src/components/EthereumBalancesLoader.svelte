@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import type { Covalent } from '../data/analytics/covalent'
+	import type { Covalent } from '../api/covalent'
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import { MoralisWeb3Api, chainCodeFromNetwork } from '../data/moralis/moralis-web3-api'
 
@@ -28,7 +28,7 @@
 
 	import { useQuery } from '@sveltestack/svelte-query'
 
-	import { getTokenAddressBalances } from '../data/analytics/covalent'
+	import { getTokenAddressBalances } from '../api/covalent'
 
 
 	import Loader from './Loader.svelte'
