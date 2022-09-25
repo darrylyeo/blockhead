@@ -98,6 +98,7 @@ export namespace Covalent {
 			image_512?: string
 			image_1024?: string
 			external_url: string
+			animation_url: string
 			attributes: NFTAttributes
 		}
 

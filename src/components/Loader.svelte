@@ -27,7 +27,7 @@
 	export let fromUseQuery: UseQueryStoreResult<LoaderResult, LoaderError>
 	export let fromUseInfiniteQuery: UseInfiniteQueryStoreResult<LoaderResult[number], LoaderError>
 
-	export let then: ((result: LoaderResult) => LoaderReturnResult) = result => result as LoaderReturnResult
+	export let then: ((result: LoaderResult) => LoaderReturnResult) = result => result as unknown as LoaderReturnResult
 	export let whenLoaded: ((result: LoaderResult) => void) | undefined
 	export let whenErrored: ((error: LoaderError) => void) | undefined
 	export let whenCanceled: (() => Promise<any>) | undefined
@@ -59,11 +59,10 @@
 
 	type $$Slots = {
 		default: {
-			then: LoaderReturnResult,
 			status: LoadingStatus,
 			load: typeof load,
 			cancel: typeof cancel,
-			result: LoaderResult
+			result: LoaderReturnResult
 			pagination?: {
 				hasPreviousPage: boolean,
 				hasNextPage: boolean,
@@ -72,7 +71,6 @@
 			}
 		},
 		header: {
-			then: LoaderReturnResult,
 			status: LoadingStatus,
 			load: typeof load,
 			cancel: typeof cancel

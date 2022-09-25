@@ -18,7 +18,7 @@ export type Web3AppView = {
 	colors?: string[],
 	chainId: Ethereum.ChainID,
 	erc20Tokens?: Ethereum.ERC20Token[],
-	nfts?: Ethereum.NFT[],
+	nfts?: Ethereum.NftContract[],
 	contracts?: Ethereum.ContractAddress[],
 	tags?: [{
 		name: '',

@@ -56,30 +56,62 @@ export namespace Ethereum {
 
 	export type Address = string
 
-	export type ContractAddress = string
+	export type ContractAddress = Address
 	export type Contract = {
 		name?: string,
 		address: ContractAddress,
 		chainId?: Ethereum.ChainID,
 		abi?: object
 	}
+
 	export type ERC20Token = Contract & {
 		name: string,
 		symbol: TickerSymbol,
 		decimals: number,
 		icon?: string
 	}
-	export type ERC721Token = Contract & {
+	export type ERC721TokenContract = Contract & {
 		name: string,
 		symbol: TickerSymbol,
 		icon?: string
 	}
-	export type ERC1155Token = Contract & {
+	export type ERC1155TokenContract = Contract & {
 		name: string,
 		symbol: TickerSymbol,
 		icon?: string
 	}
-	export type NFT = ERC721Token | ERC1155Token
+	export type NftContract = (ERC721TokenContract | ERC1155TokenContract) & {
+		ercTokenStandards?: ERCTokenStandard[]
+
+		metadata: {
+			description?: string
+			bannerImage?: string
+			logoImage?: string
+		}
+	}
+	export type Nft = {
+		contract?: NftContract,
+		tokenId: number
+		tokenUri?: string
+		name: string
+		description: string
+		image: string
+		owner: string
+		
+		metadata: {
+			name?: string,
+			attributes?: NftAttribute[]
+			animationUrl?: string,
+			[key: string]: any,
+		}
+	}
+	export type NftAttribute = {
+		key?: string
+		displayType?: string
+		traitType: string
+		value: string | number
+	}
+	export type ERCTokenStandard = 'erc20' | 'erc721' | 'erc1155'
 
 	export type GasAmount = BigNumberish
 	export type GasRate = BigNumberish
@@ -122,7 +154,7 @@ export namespace Ethereum {
 		topics: TopicHash[]
 		data: string
 
-		contract: Partial<Ethereum.Contract & Ethereum.ERC20Token & Ethereum.ERC721Token & Ethereum.ERC1155Token> & {
+		contract: Partial<Ethereum.Contract & Ethereum.ERC20Token & Ethereum.ERC721TokenContract & Ethereum.ERC1155TokenContract> & {
 			label: string
 		}
 
