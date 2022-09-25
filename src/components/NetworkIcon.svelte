@@ -12,6 +12,7 @@
 		'aurora': '/networks/Aurora.svg',
 		'avalanche': '/tokens/AVAX.svg', // '/networks/Avalanche.svg',
 		'celo': '/networks/Celo.svg',
+		'cronos': '/networks/Cronos.svg',
 		'ethereum': '/tokens/ETH.svg', // '/networks/Ethereum.svg',
 		'gnosis': '/networks/Gnosis.svg',
 		'harmony': '/networks/Harmony.svg',
