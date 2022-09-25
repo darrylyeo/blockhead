@@ -136,4 +136,7 @@
 		<slot slot="header" name="header" {address} {ensName} {isReverseResolving} />
 		<slot {address} {ensName} {isReverseResolving} />
 	</Loader>
+{:else}
+	<slot name="header" {address} {ensName} {isReverseResolving} />
+	<slot {address} {ensName} {isReverseResolving} />
 {/if}

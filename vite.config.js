@@ -1,9 +1,12 @@
 import { sveltekit } from '@sveltejs/kit/vite'
-import path from 'path'
+import houdini from 'houdini/vite'
 
 /** @type {import('vite').UserConfig} */
 const config = {
-	plugins: [sveltekit()],
+	plugins: [
+		houdini(),
+		sveltekit()
+	],
 
 	ssr: {
 		noExternal: [
@@ -14,20 +17,6 @@ const config = {
 			'echarts',
 		]
 	},
-
-	resolve: {
-		// Houdini
-		alias: {
-			'$houdini': path.resolve('.', '$houdini')
-		}
-	},
-
-	server: {
-		// Houdini
-		fs: {
-			allow: ['.']
-		}
-	}
 }
 
 export default config
