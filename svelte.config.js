@@ -10,17 +10,17 @@ const config = {
 	preprocess: preprocess(),
 
 	kit: {
-		adapter: adapter(),
 		// adapter: adapterStatic({
 		// 	// default options are shown
 		// 	pages: 'build',
 		// 	assets: 'build',
 		// 	fallback: null
-		// }},
+		// }),
+		adapter: adapter(),
 
 		alias: {
 			$houdini: './$houdini',
-		}
+		},
 	}
 };
 
