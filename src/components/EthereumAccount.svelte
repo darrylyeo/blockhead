@@ -125,7 +125,7 @@
 					{/if}
 				{/if} -->
 			</div>
-			<span class="card-annotation">Ethereum Account</span>
+			<span class="card-annotation">{network.name} Account</span>
 		</div>
 
 		<!-- <Balance {provider} {address} /> -->
