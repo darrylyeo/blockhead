@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "vite dev",
-    "build": "npm run clean:houdini; vite build",
+    "build": "vite build",
     "package": "svelte-kit package",
     "preview": "vite preview",
     "test": "playwright test",
