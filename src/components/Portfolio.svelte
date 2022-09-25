@@ -1,10 +1,12 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { DeFiProvider } from '../data/defi-provider'
-	import type { AnalyticsProvider } from '../data/analytics/provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
 
-	import { Account } from '../data/ethereum/portfolio-accounts'
+	import { Account } from '../state/portfolio-accounts'
+	import { availableNetworks } from '../data/ethereum/networks'
+
+	import { preferences } from '../state/preferences'
 
 
 	// Portfolio management
@@ -45,13 +47,11 @@
 
 		const newAccount = new Account(newWalletAddress)
 		accounts = [newAccount, ...accounts]
-		quoteTotals = [, ...quoteTotals]
 	}
 
 	function deleteAccount(i){
 		delayStartIndex = i
 		accounts = [...accounts.slice(0, i), ...accounts.slice(i + 1)]
-		quoteTotals = [...quoteTotals.slice(0, i), ...quoteTotals.slice(i + 1)]
 	}
 	
 	
@@ -59,20 +59,63 @@
 	
 	export let provider: Ethereum.Provider
 	export let defiProvider: DeFiProvider
-	export let analyticsProvider: AnalyticsProvider
+	export let tokenBalancesProvider
+	export let nftProvider
 	export let quoteCurrency: QuoteCurrency
+
+	$: defiProvider = $$props.defiProvider || $preferences.defiProvider
+	$: tokenBalancesProvider = $$props.tokenBalancesProvider || $preferences.tokenBalancesProvider
+	$: nftProvider = $$props.nftProvider || $preferences.nftProvider
+	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
 	
-	let showValues: 'original' | 'converted' | 'both' = 'original'
+	let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
 	let showSmallValues = false
 	let showUnderlyingAssets = false
 	let showNFTMetadata = false
+	let showImagesOnly = false
+	let show3D = false
 
 
 	// Computed Values
-	let quoteTotals = []
-	export let quoteTotal
-	$: quoteTotal = quoteTotals.reduce((sum, quoteTotal) => sum + quoteTotal, 0)
+	let accountsSummaries = {}
+
+	export let summary: {
+		quoteTotal: number,
+		quoteTotalCurrency: QuoteCurrency,
+		balancesCount: number,
+		defiAppsCount: number,
+		nftContractsCount: number,
+		nftsCount: number,
+	}
+	$: summary = {
+		quoteTotal:
+			accounts
+				.map(({ id }) => accountsSummaries[id])
+				.reduce((sum, { quoteTotal = 0 } = {}) => sum + quoteTotal, 0),
+
+		quoteTotalCurrency: quoteCurrency,
+
+		balancesCount:
+			accounts
+				.map(({ id }) => accountsSummaries[id])
+				.reduce((sum, { balancesCount = 0 } = {}) => sum + balancesCount, 0),
+
+		defiAppsCount:
+			accounts
+				.map(({ id }) => accountsSummaries[id])
+				.reduce((sum, { defiAppsCount = 0 } = {}) => sum + defiAppsCount, 0),
+
+		nftContractsCount:
+			accounts
+				.map(({ id }) => accountsSummaries[id])
+				.reduce((sum, { nftContractsCount = 0 } = {}) => sum + nftContractsCount, 0),
+
+		nftsCount:
+			accounts
+				.map(({ id }) => accountsSummaries[id])
+				.reduce((sum, { nftsCount = 0 } = {}) => sum + nftsCount, 0),
+	}
 
 
 	// Options menu
@@ -82,27 +125,34 @@
 
 	let delayStartIndex = 0
 
+
 	import AddressField from './AddressField.svelte'
 	import Loading from './Loading.svelte'
+	import InlineContainer from './InlineContainer.svelte'
+	import SizeContainer from './SizeContainer.svelte'
 	import PortfolioAccount from './PortfolioAccount.svelte'
-	import TokenValue from './TokenValue.svelte'
+	import TokenBalance from './TokenBalance.svelte'
+	import TokenBalanceFormatSelect from './TokenBalanceFormatSelect.svelte'
+	import TweenedNumber from './TweenedNumber.svelte'
+
+
 	import { flip } from 'svelte/animate'
-	import { scale } from 'svelte/transition'
-import { availableNetworks } from '../data/ethereum/networks';
+	import { fly, scale } from 'svelte/transition'
 </script>
 
+
 <style>
+	.portfolio {
+		scroll-snap-align: start;
+	}
+
 	.edit-controls {
 		flex: 0 auto;
 		font-size: 0.7em;
 	}
 
 	.options {
-		position: sticky;
-		bottom: 0;
-
 		margin: 0 calc(-1 * var(--padding-outer));
-		z-index: 1;
 
 		font-size: 0.8em;
 
@@ -124,7 +174,12 @@ import { availableNetworks } from '../data/ethereum/networks';
 </style>
 
 
-<div class="portfolio column">
+<section
+	class="portfolio column"
+	on:keydown={e => { if(e.code === 'Escape') state = State.Idle }}
+	on:dragenter={e => state = State.Adding}
+	tabIndex={0}
+>
 	<header class="bar">
 		<slot name="title">
 			<h1 class="row" on:dblclick={editable && (() => state = State.Editing)}>
@@ -138,28 +193,68 @@ import { availableNetworks } from '../data/ethereum/networks';
 			</h1>
 		</slot>
 
-		{#if quoteTotals.length && state !== State.Editing}
-			<span class="account-total-value" transition:scale>
-				<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
+		<InlineContainer isOpen={summary && state !== State.Editing}>
+			<span class="summary" transition:scale>
+				<span class="account-total-value">
+					<TokenBalance symbol={quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} />
+				</span>
+
+				<!-- {#if summary.filteredBalancesCount}
+					| <strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> token{summary.balancesCount === 1 ? '' : 's'}
+				{/if} -->
+
+				<!-- {#if summary.defiAppsCount}
+					| <strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}
+				{/if} -->
+
+				{#if summary.nftsCount}
+					| <strong><TweenedNumber value={summary.nftsCount} /></strong> NFT{summary.nftsCount === 1 ? '' : 's'}
+
+					<!-- {#if summary.nftContractsCount}
+						from <strong><TweenedNumber value={summary.nftContractsCount} /></strong> collection{summary.nftContractsCount === 1 ? '' : 's'}
+					{/if} -->
+				{/if}
 			</span>
-		{/if}
+		</InlineContainer>
+		<!-- {#if quoteTotals.length && state !== State.Editing}
+			<span class="account-total-value" transition:scale>
+				<TokenBalance symbol={quoteCurrency} balance={quoteTotal} showPlainFiat={true} clip={false} />
+			</span>
+		{/if} -->
 
 		{#if editable}
-			<div class="stack">
-				{#if state !== State.Editing}
-					<div class="bar" transition:scale>
+			<div class="stack-inline">
+				<InlineContainer containerClass="align-end" isOpen={state !== State.Editing}>
+					<div class="bar align-end" transition:scale>
 						{#if state === State.Idle}
-							<button on:click={() => state = State.Adding} transition:scale>+ Add Wallet</button>
+							<button class="add" on:click={() => state = State.Adding} transition:scale>+ Add Account</button>
+						{/if}
+						<button on:click={() => state = State.Editing}>Edit</button>
+					</div>
+				</InlineContainer>
+				<InlineContainer containerClass="align-end" isOpen={state === State.Editing}>
+					<div class="bar align-end" transition:scale>
+						<button class="destructive" on:click={() => dispatch('delete')}>Delete Portfolio</button>
+						<button on:click={() => state = State.Idle}>Done</button>
+					</div>
+				</InlineContainer>
+			</div>
+
+			<!-- <InlineContainer containerClass="align-end" class="stack align-end">
+				{#if state !== State.Editing}
+					<div class="bar align-end" transition:scale>
+						{#if state === State.Idle}
+							<button class="add" on:click={() => state = State.Adding} transition:scale>+ Add Account</button>
 						{/if}
 						<button on:click={() => state = State.Editing}>Edit</button>
 					</div>
 				{:else}
-					<div class="bar" transition:scale>
+					<div class="bar align-end" transition:scale>
 						<button class="destructive" on:click={() => dispatch('delete')}>Delete Portfolio</button>
 						<button on:click={() => state = State.Idle}>Done</button>
 					</div>
 				{/if}
-			</div>
+			</InlineContainer> -->
 		{/if}
 		<!-- <button on:click={toggleShowOptions}>Options</button> -->
 
@@ -167,55 +262,59 @@ import { availableNetworks } from '../data/ethereum/networks';
 	</header>
 
 	{#if accounts}
-		{#if state === State.Adding || !accounts.length}
-			<div class="stack" transition:scale>
+		<SizeContainer containerClass="align-bottom" isOpen={state === State.Adding || !accounts.length} clip>
+			<div class="stack">
 				{#if state === State.Adding}
-					<div class="card" transition:scale>
+					<div class="card" in:scale|local={{ start: 0.5 }} out:scale>
 						<div class="bar">
 							<div>
-								<h3>Add Wallet</h3>
+								<h3>Add Ethereum/EVM Wallet</h3>
 							</div>
 							<small>{availableNetworks.map(network => network.name).join(', ')}</small>
 						</div>
 						<div class="bar">
 							<form class="bar" on:submit|preventDefault={() => {addAccount(newWalletAddress); state = State.Idle; newWalletAddress = ''}}>
 								<AddressField bind:address={newWalletAddress} autofocus required/>
-								<button class="medium" disabled={!isValid(newWalletAddress)}>Add</button>
+								<button class="medium add" disabled={!isValid(newWalletAddress)}>Add</button>
 							</form>
-							<button class="medium" on:click={() => state = State.Idle}>Cancel</button>
+							<button class="medium cancel" on:click={() => state = State.Idle}>Cancel</button>
 						</div>
 					</div>
 				{:else if !accounts.length}
-					<div class="card" transition:scale|local>
+					<div class="card" in:scale|local={{ start: 0.5 }} out:scale>
 						<h3>Your Blockhead Portfolio is empty!</h3>
 						{#if editable}
-							<p>You can <a on:click={() => isAddingWallet = true}>add a new wallet address manually</a>, or import an address by connecting a wallet service!</p>
+							<p>You can <a on:click={() => state = State.Adding}>add a new wallet address manually</a>, or import an address by connecting a wallet service!</p>
 						{/if}
 					</div>
 				{/if}
 			</div>
-		{/if}
+		</SizeContainer>
+
 		{#each accounts as {id, type, nickname, networks}, i (id)}
-			<section class="card" transition:scale|local animate:flip|local={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
+			<div transition:scale|local animate:flip|local={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
 				<PortfolioAccount
-					addressOrENSName={id}
+					addressOrEnsName={id}
 					{type}
 					bind:nickname
 					bind:showNetworks={networks}
 
 					{provider}
 					{defiProvider}
-					{analyticsProvider}
+					{tokenBalancesProvider}
+					{nftProvider}
 					{quoteCurrency}
 
-					{showValues}
+					{tokenBalanceFormat}
 					{sortBy}
 					{showSmallValues}
 					{showUnderlyingAssets}
 					{showNFTMetadata}
+					{showImagesOnly}
+					{show3D}
 					isEditing={state === State.Editing}
 
-					bind:quoteTotal={quoteTotals[i]}
+					bind:summary={accountsSummaries[id]}
 				>
 					{#if state === State.Editing}
 						<div class="row edit-controls" transition:scale>
@@ -223,7 +322,7 @@ import { availableNetworks } from '../data/ethereum/networks';
 						</div>
 					{/if}
 				</PortfolioAccount>
-			</section>
+			</div>
 		{/each}
 	{:else}
 		<slot name="loading">
@@ -231,36 +330,26 @@ import { availableNetworks } from '../data/ethereum/networks';
 		</slot>
 	{/if}
 
-	{#if showOptions && accounts.length && state !== State.Editing}
-		<div class="card bar options" transition:scale>
+	<SizeContainer containerClass="sticky-bottom" isOpen={showOptions && accounts.length && state !== State.Editing}>
+		<div class="options card row spaced" transition:fly={{ y: 100 }}>
 			<div class="row">
-				<h3>Show</h3>
+				<h3>Balances</h3>
+
 				<label>
-					<select bind:value={showValues}>
-						<option value="original">Balances</option>
-						<option value="converted">Quotes</option>
-						<option value="both">Balances + Quotes</option>
-						<!-- <option value="original">Token Amounts</option>
-						<option value="converted">Quote Values</option>
-						<option value="both">Amounts and Values</option> -->
-					</select>
+					<!-- <span>Show</span> -->
+					<TokenBalanceFormatSelect
+						bind:tokenBalanceFormat
+						{quoteCurrency}
+					/>
 				</label>
+
 				<label>
 					<input type="checkbox" bind:checked={showSmallValues}>
 					<span>Small Values</span>
 				</label>
+
 				<label>
-					<input type="checkbox" bind:checked={showUnderlyingAssets}>
-					<span>Underlying Assets</span>
-				</label>
-				<label>
-					<input type="checkbox" bind:checked={showNFTMetadata}>
-					<span>NFT Metadata</span>
-				</label>
-			</div>
-			<div class="row">
-				<h3>Sort</h3>
-				<label>
+					<span>Sort</span>
 					<select bind:value={sortBy}>
 						<option value="ticker-ascending">Alphabetical</option>
 						<option value="value-descending">Highest Value</option>
@@ -268,6 +357,34 @@ import { availableNetworks } from '../data/ethereum/networks';
 					</select>
 				</label>
 			</div>
+
+			<div class="row">
+				<h3>DeFi</h3>
+
+				<label>
+					<input type="checkbox" bind:checked={showUnderlyingAssets}>
+					<span>Underlying Assets</span>
+				</label>
+			</div>
+
+			<div class="row">
+				<h3>NFTs</h3>
+
+				<label>
+					<input type="checkbox" bind:checked={showNFTMetadata}>
+					<span>Metadata</span>
+				</label>
+
+				<label>
+					<input type="checkbox" bind:checked={showImagesOnly}>
+					<span>Collections</span>
+				</label>
+
+				<label>
+					<input type="checkbox" bind:checked={show3D}>
+					<span>3D</span>
+				</label>
+			</div>
 		</div>
-	{/if}
-</div>
+	</SizeContainer>
+</section>

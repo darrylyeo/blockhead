@@ -4,31 +4,43 @@
 	import type { Covalent } from '../data/analytics/covalent'
 	import type { PriceScale } from './PriceChart.svelte'
 	import { getERC20TokenTransfers, getTransactionsByAddress } from '../data/analytics/covalent'
-	import { preferredAnalyticsProvider, preferredQuoteCurrency } from '../data/ethereum/preferences'
+	import { preferences } from '../state/preferences'
 
 
 	export let network: Ethereum.Network
-	export let addressOrENSName: Ethereum.Address | string
+	export let addressOrEnsName: Ethereum.Address | string
+	export let filterQuery: Ethereum.Address | Ethereum.ContractAddress | Ethereum.BlockNumber
 	export let provider: Ethereum.Provider
 
+	export let tokenBalancesProvider
+	export let transactionProvider
 
-	let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'summary'
-	let showValues: 'original' | 'converted' | 'both' = 'original'
+	$: tokenBalancesProvider = $$props.tokenBalancesProvider || $preferences.tokenBalancesProvider
+	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
+
+
+	let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
+	let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	let showFees = false
 	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
 	let showSmallValues = false
 
-	$: quoteCurrency = $preferredQuoteCurrency
-
-	let selectedToken: {
-		token: TickerSymbol,
-		tokenAddress: Ethereum.ContractAddress,
-		tokenIcon: string,
-		tokenName: string
-	} | undefined
+	$: quoteCurrency = $preferences.quoteCurrency
 
 
-	let balances: Covalent.ERC20TokenOrNFTContractWithBalance[]
+	let selectedToken: Ethereum.ERC20Token | undefined
+
+	import { isAddress } from '@ethersproject/address'
+
+	$: if(isAddress(filterQuery) && balances){
+		selectedToken = balances
+			.find(({token}) => token.address.toLowercase() === filterQuery.toLowerCase())
+	}
+	// $: if(selectedToken)
+	// 	filterQuery = selectedToken.address
+
+
+	let balances: Covalent.ERC20TokenOrNFTContractWithBalance[] = []
 
 	let priceScale: PriceScale
 
@@ -40,9 +52,18 @@
 	import EnsResolutionLoader from './EnsResolutionLoader.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
 	import EthereumTransactionCovalent from './EthereumTransactionCovalent.svelte'
-	import Loader from './Loader.svelte'
+	import EthereumTransactionMoralis from './EthereumTransactionMoralis.svelte'
+	import EthereumTransactionEtherspot from './EthereumTransactionEtherspot.svelte'
+	import EthereumTransactionsLoader from './EthereumTransactionsLoader.svelte'
+	import EthereumTransactionsERC20Loader from './EthereumTransactionsERC20Loader.svelte'
+	import InlineContainer from './InlineContainer.svelte'
 	import TokenName from './TokenName.svelte'
-	import TokenValue from './TokenValue.svelte'
+	import TokenBalance from './TokenBalance.svelte'
+	import TokenBalanceFormatSelect from './TokenBalanceFormatSelect.svelte'
+	import TweenedNumber from './TweenedNumber.svelte'
+
+
+	import { fade } from 'svelte/transition'
 </script>
 
 
@@ -58,7 +79,7 @@
 	h3 {
 		line-height: 1.6;
 	}
-	/* .transactions :global(.token-value-container) {
+	/* .transactions :global(.token-balance-container) {
 		font-size: 1.1em;
 	} */
 
@@ -70,16 +91,25 @@
 
 <div class="ethereum-account card">
 	<EnsResolutionLoader
-		{addressOrENSName}
+		{addressOrEnsName}
 		{provider}
 		passiveReverseResolution
 		let:address
 		let:ensName
 		let:isReverseResolving
+		showIf={({address}) => address}
 	>
 		<div slot="header" class="bar">
 			<div class="row-inline">
-				{#if isReverseResolving}
+				{#if address}
+					<h2><Address {network} {address} /></h2>
+					{#if ensName}
+						<EnsName {ensName} />
+					{/if}
+				{:else if ensName}
+					<h2><EnsName {ensName} /></h2>
+				{/if}
+				<!-- {#if isReverseResolving}
 					{#if address}
 						<h2><Address {network} {address} /></h2>
 					{/if}
@@ -93,7 +123,7 @@
 					{#if address}
 						<Address {network} {address} />
 					{/if}
-				{/if}
+				{/if} -->
 			</div>
 			<span class="card-annotation">Ethereum Account</span>
 		</div>
@@ -102,167 +132,217 @@
 		<EthereumBalances
 			{network}
 			{address}
-			analyticsProvider={$preferredAnalyticsProvider}
-			quoteCurrency={$preferredQuoteCurrency}
+			{tokenBalancesProvider}
+			{quoteCurrency}
 			{sortBy}
 			{showSmallValues}
-			{showValues}
+			{tokenBalanceFormat}
 			isSelectable={true}
-			bind:selectedToken={selectedToken}
-			bind:balances={balances}
+			bind:selectedToken
+			bind:balances
 		>
-			<svelte:fragment slot="header" let:network let:quoteCurrency let:quoteTotal>
-				<hr>
+			<svelte:fragment slot="header" let:summary>
+				{#if balances.length}
+					<hr>
 
-				<div class="bar">
-					<h3>{network.name} Tokens (<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />)</h3>
-					<label>
-						<input type="checkbox" bind:checked={showSmallValues}>
-						<span>Show Small Values</span>
-					</label>
-					<label>
-						<span>Sort</span>
-						<select bind:value={sortBy}>
-							<option value="ticker-ascending">Alphabetical</option>
-							<option value="value-descending">Highest Value</option>
-							<option value="value-ascending">Lowest Value</option>
-						</select>
-					</label>
-					<label>
-						<span>Show</span>
-						<select bind:value={showValues}>
-							<option value="original">Balances</option>
-							<option value="converted">Quotes</option>
-							<option value="both">Balances + Quotes</option>
-							<!-- <option value="original">Token Amounts</option>
-							<option value="converted">Quote Values</option>
-							<option value="both">Amounts and Values</option> -->
-						</select>
-					</label>
-				</div>
+					<div class="bar">
+						<h3>{network.name} Tokens (<TokenBalance symbol={summary.quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} />)</h3>
+						<label>
+							<input type="checkbox" bind:checked={showSmallValues}>
+							<span>Show Small Values</span>
+						</label>
+						<label>
+							<span>Sort</span>
+							<select bind:value={sortBy}>
+								<option value="ticker-ascending">Alphabetical</option>
+								<option value="value-descending">Highest Value</option>
+								<option value="value-ascending">Lowest Value</option>
+							</select>
+						</label>
+						<label>
+							<span>Show</span>
+							<TokenBalanceFormatSelect
+								bind:tokenBalanceFormat
+								quoteCurrency={summary.quoteCurrency}
+							/>
+						</label>
+					</div>
+				{/if}
 			</svelte:fragment>
 		</EthereumBalances>
 
 		<hr>
 
-		{#if $preferredAnalyticsProvider === 'Covalent'}
+		<div class="stack">
 			{#if !selectedToken}
-				<!-- Regular Ethereum Transactions -->
-				<Loader
-					loadingIcon={'/logos/covalent-logomark.svg'}
-					loadingIconName={'Covalent'}
-					loadingMessage="Retrieving {network.name} transactions from {$preferredAnalyticsProvider}..."
-					errorMessage="Error retrieving {network.name} transactions from {$preferredAnalyticsProvider}"
-					fromPromise={() => getTransactionsByAddress({chainID: network.chainId, address, includeLogs: true, quoteCurrency})}
-					let:then={transactions}
-				>
-					<svelte:fragment slot="header" let:status>
-						<div class="bar">
-							<h3>
-								Transactions
-								{#if status === 'resolved'}({transactions.items.length}){/if}
-							</h3>
-							<label>
-								<input type="checkbox" bind:checked={showFees}>
-								<span>Show Fees</span>
-							</label>
-							<label>
-								<span>View</span>
-								<select bind:value={detailLevel}>
-									<option value="summary">Summary</option>
-									<option value="detailed">Detailed</option>
-									<option value="exhaustive">Exhaustive</option>
-								</select>
-							</label>
-						</div>
-					</svelte:fragment>
-
-					<div class="transactions-list column" class:scrollable-list={transactions.items.length > 7}>
-						{#each transactions.items as transaction}
-							<div class="card">
-								<EthereumTransactionCovalent
-									{network}
-									{transaction}
-									quoteCurrency={$preferredQuoteCurrency}
-									contextualAddress={address}
-									{detailLevel}
-									{showValues}
-									{showFees}
-									layout="inline"
-								/>
-							</div>
-						{:else}
-							<div class="card">No transactions yet.</div>
-						{/each}
-					</div>
-				</Loader>
-			{:else}
-				<!-- ERC-20 Transactions -->
-				<Loader
-					loadingIcon={'/logos/covalent-logomark.svg'}
-					loadingIconName={'Covalent'}
-					loadingMessage="Retrieving ERC-20 transactions from {$preferredAnalyticsProvider}..."
-					errorMessage="Error retrieving ERC-20 transactions from {$preferredAnalyticsProvider}"
-					fromPromise={() => getERC20TokenTransfers({chainID: network.chainId, address, contractAddress: selectedToken.tokenAddress, quoteCurrency})}
-					let:then={transactions}
-				>
-					<svelte:fragment slot="header" let:status>
-						<div class="bar">
-							<h3>
-								{selectedToken.tokenName}
-								(<TokenName tokenName={selectedToken.tokenName} token={selectedToken.token} tokenAddress={selectedToken.tokenAddress} tokenIcon={selectedToken.tokenIcon} />)
-								Transactions
-								{#if status === 'resolved'}({transactions.items.length}){/if}
-							</h3>
-							{#if detailLevel !== 'exhaustive'}
+				<div class="column" transition:fade>
+					<!-- Regular Ethereum Transactions -->
+					<EthereumTransactionsLoader
+						{network}
+						{address}
+						{provider}
+						{transactionProvider}
+						{quoteCurrency}
+						includeLogs={detailLevel === 'exhaustive'}
+						showIf={transactions => transactions}
+						let:transactions
+						let:pagination
+					>
+						<svelte:fragment slot="header" let:status>
+							<div class="bar">
+								<h3>
+									Transactions
+									<InlineContainer isOpen={status === 'resolved'}>(<TweenedNumber value={transactions.length} /><InlineContainer isOpen={pagination?.hasNextPage}>+</InlineContainer>)</InlineContainer>
+								</h3>
 								<label>
 									<input type="checkbox" bind:checked={showFees}>
 									<span>Show Fees</span>
 								</label>
-							{/if}
-							<label>
-								<span>View</span>
-								<select bind:value={detailLevel}>
-									<option value="summary">Summary</option>
-									<option value="detailed">Detailed</option>
-									<option value="exhaustive">Exhaustive</option>
-								</select>
-							</label>
-							<button on:click={() => selectedToken = undefined}>Back</button>
-						</div>
-					</svelte:fragment>
-
-					<div class="transactions-list column" class:scrollable-list={transactions.items.length > 7}>
-						{#each transactions.items as erc20TokenTransaction}
-							<div class="card">
-								<EthereumTransactionCovalent
-									{network}
-									{erc20TokenTransaction}
-									quoteCurrency={$preferredQuoteCurrency}
-									contextualAddress={address}
-									{detailLevel}
-									{showValues}
-									{showFees}
-									layout="inline"
-								/>
+								<label>
+									<span>View</span>
+									<select bind:value={detailLevel}>
+										<option value="summary">Summary</option>
+										<option value="detailed">Detailed</option>
+										<option value="exhaustive">Exhaustive</option>
+									</select>
+								</label>
 							</div>
-						{:else}
-							<div class="card">No transactions yet.</div>
-						{/each}
-					</div>
-				</Loader>
-			{/if}
-		{/if}
+						</svelte:fragment>
 
-		{#if balances?.length}
+						<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
+							{#each transactions as transaction}
+								{#if transactionProvider === 'Covalent'}
+									<a class="card" id={transaction.tx_hash} href="#{transaction.tx_hash}">
+										<EthereumTransactionCovalent
+											{network}
+											{transaction}
+											{quoteCurrency}
+											contextualAddress={address}
+											{detailLevel}
+											{tokenBalanceFormat}
+											{showFees}
+											layout="inline"
+										/>
+									</a>
+								{:else if transactionProvider === 'Moralis'}
+									<a class="card" id={transaction.hash} href="#{transaction.hash}">
+										<EthereumTransactionMoralis
+											{network}
+											{transaction}
+											{quoteCurrency}
+											contextualAddress={address}
+											{detailLevel}
+											{tokenBalanceFormat}
+											{showFees}
+											layout="inline"
+										/>
+									</a>
+								{:else if transactionProvider === 'Etherspot'}
+									<a class="card" id={transaction.hash} href="#{transaction.hash}">
+										<EthereumTransactionEtherspot
+											{network}
+											{transaction}
+											{quoteCurrency}
+											contextualAddress={address}
+											{detailLevel}
+											{tokenBalanceFormat}
+											{showFees}
+											layout="inline"
+										/>
+									</a>
+								{/if}
+							{:else}
+								<div class="card">No transactions yet.</div>
+							{/each}
+						</div>
+					</EthereumTransactionsLoader>
+				</div>
+			{:else}{#key selectedToken}
+				<div class="column" transition:fade>
+					<!-- ERC-20 Transactions -->
+					<EthereumTransactionsERC20Loader
+						{network}
+						{address}
+						{provider}
+						{transactionProvider}
+						erc20Token={selectedToken}
+						{quoteCurrency}
+						includeLogs={detailLevel === 'exhaustive'}
+						let:transactions
+						let:pagination
+					>
+						<svelte:fragment slot="header" let:status>
+							<div class="bar">
+								<h3>
+									{selectedToken.name}
+									(<TokenName erc20Token={selectedToken} />)
+									Transactions
+									<InlineContainer isOpen={status === 'resolved'}>(<TweenedNumber value={transactions.length} /><InlineContainer isOpen={pagination?.hasNextPage}>+</InlineContainer>)</InlineContainer>
+								</h3>
+								{#if detailLevel !== 'exhaustive'}
+									<label>
+										<input type="checkbox" bind:checked={showFees}>
+										<span>Show Fees</span>
+									</label>
+								{/if}
+								<label>
+									<span>View</span>
+									<select bind:value={detailLevel}>
+										<option value="summary">Summary</option>
+										<option value="detailed">Detailed</option>
+										<option value="exhaustive">Exhaustive</option>
+									</select>
+								</label>
+								<button on:click={() => selectedToken = undefined}>Back</button>
+							</div>
+						</svelte:fragment>
+
+						<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
+							{#each transactions as erc20TokenTransaction}
+								{#if transactionProvider === 'Covalent'}
+									<a class="card" id={erc20TokenTransaction.tx_hash} href="#{erc20TokenTransaction.tx_hash}">
+										<EthereumTransactionCovalent
+											{network}
+											{erc20TokenTransaction}
+											{quoteCurrency}
+											contextualAddress={address}
+											{detailLevel}
+											{tokenBalanceFormat}
+											{showFees}
+											layout="inline"
+										/>
+									</a>
+								{:else if transactionProvider === 'Moralis'}
+									<a class="card" id={erc20TokenTransaction.hash} href="#{erc20TokenTransaction.hash}">
+										<EthereumTransactionMoralis
+											{network}
+											{erc20TokenTransaction}
+											{quoteCurrency}
+											contextualAddress={address}
+											{detailLevel}
+											{tokenBalanceFormat}
+											{showFees}
+											layout="inline"
+										/>
+									</a>
+								{/if}
+							{:else}
+								<div class="card">No transactions yet.</div>
+							{/each}
+						</div>
+					</EthereumTransactionsERC20Loader>
+				</div>
+			{/key}{/if}
+		</div>
+
+		{#if balances.length}
 			<CovalentPriceChart
-				analyticsProvider={$preferredAnalyticsProvider}
-				quoteCurrency={$preferredQuoteCurrency}
+				historicalPriceProvider={$preferences.historicalPriceProvider}
+				quoteCurrency={$preferences.quoteCurrency}
 				chainID={network.chainId}
 				currencies={
 					selectedToken ? [selectedToken.tokenAddress] :
-					balances ? balances.map(tokenWithBalance => tokenWithBalance.contract_address) :
-					[]
+					balances.map(tokenWithBalance => tokenWithBalance.contract_address)
 				}
 				{priceScale}
 			>

@@ -19,7 +19,7 @@
 		})
 
 	const height = spring()
-	export let animate = true
+	export let springAnimate = false // true
 
 	// $: if(contentRect)
 	// 	$height = isOpen ? $contentRect.height : 0
@@ -28,16 +28,22 @@
 	$: if(contentRect){
 		const newHeight = isOpen ? $contentRect.height : 0
 
-		if(newHeight > 0){
-			height.stiffness = 0.08
-			height.damping = 0.5
-		}else{
-			height.stiffness = 0.15
-			height.damping = 0.9
-		}
+		// if(newHeight > 0){
+		// 	height.stiffness = 0.08
+		// 	height.damping = 0.5
+		// }else{
+		// 	height.stiffness = 0.15
+		// 	height.damping = 0.9
+		// }
+
+		height.stiffness = 0.05
+		height.damping = 0.35
+
+		// height.stiffness = 0.1
+		// height.damping = 0.7
 
 		// $height = newHeight
-		height.set(newHeight, animate ? undefined : {hard: true})
+		height.set(newHeight, springAnimate ? undefined : {hard: true})
 		previousHeight = newHeight
 	}
 
@@ -52,7 +58,11 @@
 				transform: isOpen ? null : `translateY(var(--padding-inner))`,
 			})
 		// })
+	
+
+	export let containerClass = ''
 </script>
+
 
 <style>
 	.container {
@@ -70,10 +80,16 @@
 			overflow: hidden;
 		}
 	}
+
+	.container.regular-animate {
+		transition: margin-top 150ms, transform 150ms, height 1000ms cubic-bezier(0, 1, 0, 1);
+		transition: 600ms cubic-bezier(0.16, 1, 0.3, 1);
+	}
 </style>
 
-<div class="container" bind:this={container}>
-	<div bind:this={content} {...$$props}>
+
+<div class="container {containerClass}" bind:this={container} class:regular-animate={!springAnimate} tabindex={isOpen ? undefined : -1}>
+	<section bind:this={content} {...$$props}>
 		<slot />
-	</div>
+	</section>
 </div>

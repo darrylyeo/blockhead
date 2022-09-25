@@ -30,17 +30,7 @@
 	img {
 		border-radius: 0.25em;
 	}
-	.cover-image {
-		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		object-position: center;
-		opacity: 0.1;
-		pointer-events: none;
-		z-index: -1;
-	}
+
 	.profile-picture {
 		width: 5em;
 		height: 5em;
@@ -52,6 +42,10 @@
 
 	.name {
 		gap: 0.5em;
+	}
+
+	/*.layout-full*/ .verified {
+		font-size: 0.65em;
 	}
 
 	.handle-and-location {
@@ -103,7 +97,11 @@
 		{/if}
 		<div class="columns">
 			{#if user.profile_picture}
-				<img class="profile-picture" srcset={Object.entries(user.profile_picture).map(([size, src]) => `${src}`).join(', ')} alt="{user.name} - Profile Picture" />
+				<img class="profile-picture" srcset={
+					user.handle === 'Audius'
+						? 'https://content-node.audius.co/ipfs/QmbQ8HbsuPMaWu1TK1KB5B5JWMvxE65Rdb87hTwQFwvi6W/150x150.jpg, https://content-node.audius.co/ipfs/QmbQ8HbsuPMaWu1TK1KB5B5JWMvxE65Rdb87hTwQFwvi6W/480x480.jpg, https://content-node.audius.co/ipfs/QmbQ8HbsuPMaWu1TK1KB5B5JWMvxE65Rdb87hTwQFwvi6W/1000x1000.jpg'
+						: Object.entries(user.profile_picture).map(([size, src]) => `${src}`).join(', ')
+				} alt="{user.name} - Profile Picture" />
 			{:else}
 				<span class="profile-picture" />
 			{/if}

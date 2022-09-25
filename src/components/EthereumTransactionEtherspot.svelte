@@ -2,20 +2,20 @@
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { TickerSymbol } from '../data/currency/currency'
 	import type { QuoteCurrency } from '../data/currency/currency'
-	import type { Transaction } from 'etherspot'
+	import { Transaction as EtherspotTranaction, TransactionAssetCategories } from 'etherspot'
 	import { TransactionStatuses } from 'etherspot'
 
 
 	export let network: Ethereum.Network
-	export let transaction: Transaction
+	export let transaction: EtherspotTranaction
 	export let quoteCurrency: QuoteCurrency
 
 
 	// View options
 
-	export let contextualAddress: Ethereum.Address // used for summary
+	export let contextualAddress: Ethereum.Address
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
-	export let showValues: 'original' | 'converted' | 'both' = 'original'
+	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	export let showFees = false
 
 	export let layout: 'standalone' | 'inline' = 'inline'
@@ -24,39 +24,11 @@
 
 	// Data
 
-	type TransactionData = Partial<{
-		transactionID: Ethereum.TransactionID,
-		blockNumber: Ethereum.BlockNumber,
-		blockHash: Ethereum.BlockHash,
-		transactionIndex: Ethereum.TransactionIndex,
-		nonce: Ethereum.TransactionNonce,
-		date,
-
-		isSuccessful: boolean,
-
-		fromAddress: Ethereum.Address,
-		fromAddressLabel: string,
-		toAddress: Ethereum.Address,
-		toAddressLabel: string,
-
-		token: TickerSymbol,
-		tokenAddress: Ethereum.ContractAddress,
-		tokenIcon: string,
-		tokenName: string,
-
-		value,
-		valueQuote,
-
-		gasToken: string,
-		gasValue,
-		gasValueQuote,
-
-		quoteToken,
-		rate,
-
-		transfers: TransactionData[],
-		logEvents: Transaction['logs'],
-	}>
+	type Transaction = Ethereum.Transaction & {
+		cumulativeGasSpent: EtherspotTranaction['cumulativeGasUsed'],
+		inputData: EtherspotTranaction['input'],
+		transferredToken?: Ethereum.ERC20Token
+	}
 
 	import { formatUnits } from '@ethersproject/units'
 
@@ -77,44 +49,89 @@
 		}
 	}
 
-	const convertEtherspotTransaction = (transaction: Transaction) => ({
+	const convertEtherspotTransaction = (transaction: EtherspotTranaction) => ({
+		network,
+
 		transactionID: transaction.hash,
+		nonce: transaction.nonce,
+		transactionIndex: transaction.transactionIndex,
 		blockNumber: transaction.blockNumber,
 		blockHash: transaction.blockHash,
-		transactionIndex: transaction.transactionIndex,
-		nonce: transaction.nonce,
 		date: transaction.timestamp,
 
 		isSuccessful: transaction.status === TransactionStatuses.Completed,
 
 		fromAddress: transaction.from,
-		// fromAddressLabel: transaction.from,
 		toAddress: transaction.to,
-		// toAddressLabel: transaction.to,
-
-		token: network.nativeCurrency.symbol,
-		tokenName: network.nativeCurrency.name,
 
 		value: _formatUnits(transaction.value, network.nativeCurrency.decimals),
-		// valueQuote: transaction.value_quote,
+		
+		gasToken: network.nativeCurrency,
+		gasOffered: transaction.gasLimit,
+		gasSpent: _formatUnits(transaction.gasUsed, 'wei'),
+		gasRate: transaction.gasPrice,
+		gasValue: _formatUnits(transaction.gasPrice.mul(transaction.gasUsed), network.nativeCurrency.decimals),
+		
+		logEvents: transaction.logs.map(({
+			address,
+			blockHash,
+			blockNumber,
+			data,
+			decoded,
+			logIndex,
+			topics,
+			transactionHash,
+			transactionIndex
+		} : {
+			address: string,
+			blockHash: string,
+			blockNumber: number,
+			data: string,
+			decoded: Ethereum.TransactionLogEventDecoded,
+			logIndex: number,
+			topics: string[],
+			transactionHash: string,
+			transactionIndex: number
+		}) => ({
+			indexInTransaction: logIndex,
+			transactionHash,
 
-		gasToken: network.nativeCurrency.symbol,
-		gasValue: _formatUnits(transaction.gasUsed, 'gwei'),
-		gasValueQuote: transaction.gasPrice.mul(transaction.gasUsed),
+			indexInBlock: transactionIndex,
+			blockNumber,
+			blockHash,
 
-		quoteToken: quoteCurrency,
-		// rate: transaction.value_quote / _formatUnits(transaction.value, network.nativeCurrency.decimals),
+			topics,
+			data,
 
-		logEvents: transaction.logs,
-	}) as TransactionData
+			contract: {
+				address
+			},
 
+			decoded
+		} as Ethereum.TransactionLogEvent)),
+		
+		// Etherspot
+
+		cumulativeGasSpent: transaction.cumulativeGasUsed,
+		// transaction.logsBloom
+
+		inputData: transaction.input,
+
+		transferredToken: transaction.asset?.category === TransactionAssetCategories.Token ? {
+			name: transaction.asset.name,
+			decimals: transaction.asset.decimal,
+			address: transaction.asset.contract,
+		} : undefined
+	}) as Transaction
 
 	$: ({
+		network,
+
 		transactionID,
+		nonce,
+		transactionIndex,
 		blockNumber,
 		blockHash,
-		transactionIndex,
-		nonce,
 		date,
 
 		isSuccessful,
@@ -124,29 +141,26 @@
 		toAddress,
 		toAddressLabel,
 
-		token,
-		tokenAddress,
-		tokenIcon,
-		tokenName,
-
 		value,
-		valueQuote,
 
 		gasToken,
+		gasOffered,
+		gasSpent,
+		gasRate,
 		gasValue,
-		gasValueQuote,
+		cumulativeGasSpent,
+		
+		logEvents,
 
-		quoteToken,
-		rate,
+		inputData: transaction.input,
 
-		transfers,
-		logEvents
-	} = (
+		transferredToken
+	} = ((
 		transaction ?
 			convertEtherspotTransaction(transaction)
 		:
-			{} as TransactionData
-	))
+			{}
+	) as Transaction))
 
 
 	$: isSummary = detailLevel === 'summary'
@@ -157,15 +171,12 @@
 	$: contextIsReceiver = contextualAddress && toAddress && contextualAddress.toLowerCase() === toAddress.toLowerCase()
 
 
-	// export let provider: Ethereum.Provider
-	// export let analyticsProvider: AnalyticsProvider
-
 	import AddressWithLabel from './AddressWithLabel.svelte'
 	import Date from './Date.svelte'
-	import EthereumLogEventEtherspot from './EthereumLogEventEtherspot.svelte'
+	import EthereumLogEventEtherspot from './EthereumLogEventCovalent.svelte'
 	import EthereumTransactionID from './EthereumTransactionID.svelte'
 	import EthereumTransactionSummary from './EthereumTransactionSummary.svelte'
-	import TokenValueWithConversion from './TokenValueWithConversion.svelte'
+	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
 	import { fade, scale } from 'svelte/transition'
 	import { scaleFont } from '../transitions/scale-font'
 </script>
@@ -213,13 +224,6 @@
 	}
 
 
-	.transaction .footer {
-		/* justify-items: end;
-		gap: var(--padding-inner); */
-		opacity: 0.7;
-		font-size: 0.66em;
-	}
-
 	.container.inner-layout-row {
 		display: flex;
 		justify-content: space-between;
@@ -255,6 +259,7 @@
 	}
 </style>
 
+
 {#if network && transaction}
 	<div class="transaction layout-{layout} column" class:card={isStandaloneLayout} class:unsuccessful={!isSuccessful} transition:fade|local>
 		{#if isStandaloneLayout}
@@ -262,8 +267,13 @@
 				<h2><EthereumTransactionID {network} {transactionID} /></h2>
 				<span class="card-annotation">Ethereum Transaction</span>
 			</div>
+
 			<hr>
-			<h4>Initial Message</h4>
+
+			<div class="bar">
+				<h4>Signed Transaction Data</h4>
+				{#if nonce}<p class="card-annotation">Nonce #{nonce}</p>{/if}
+			</div>
 		{/if}
 
 		{#if !(isSummary && transfers?.length && value == 0)}
@@ -280,7 +290,16 @@
 								? isSuccessful ? 'received' : 'failed to receive'
 								: isSuccessful ? 'sent' : 'failed to send'}
 						</span>
-						<TokenValueWithConversion {showValues} {token} {tokenAddress} {tokenIcon} {tokenName} {value} conversionCurrency={quoteToken} convertedValue={valueQuote} />
+						<TokenBalanceWithConversion
+							{tokenBalanceFormat}
+							showDecimalPlaces={isExhaustive ? 9 : 6}
+
+							erc20Token={gasToken}
+
+							balance={value}
+						/>
+						<!-- conversionCurrency={quoteCurrency}
+						convertedValue={convertedValue} -->
 					</span>
 				{/if}
 				{#if isSummary && contextIsReceiver && fromAddress}
@@ -297,7 +316,16 @@
 				{#if showFees && gasValue !== undefined}
 					<span class="fee" transition:fade|local>
 						<span>for fee</span>
-						<TokenValueWithConversion {showValues} token={gasToken} value={gasValue} conversionCurrency={quoteToken} convertedValue={gasValueQuote} />
+						<TokenBalanceWithConversion
+							{tokenBalanceFormat}
+							showDecimalPlaces={isExhaustive ? 9 : 6}
+
+							erc20Token={gasToken}
+
+							balance={gasValue}
+						/>
+						<!-- conversionCurrency={quoteCurrency}
+						convertedValue={convertedValue} -->
 					</span>
 				{/if}
 				{#if isSummary && date}
@@ -306,7 +334,7 @@
 			</div>
 		{/if}
 
-		{#if transfers?.length}
+		<!-- {#if transfers?.length}
 			{#if isStandaloneLayout}
 				<hr>
 				<h4>ERC-20 Token Transfers</h4>
@@ -318,20 +346,20 @@
 						{erc20TokenTransfer}
 						{contextualAddress}
 						{detailLevel}
-						{showValues}
+						{tokenBalanceFormat}
 						showFees={false}
 						layout="inline"
 						innerLayout="row"
 					/>
 				{/each}
 			</div>
-		{/if}
+		{/if} -->
 
 		{#if isExhaustive && logEvents?.length}
 			{#if isStandaloneLayout}
 				<hr>
 				<h4>Smart Contract Log Events</h4>
-				<div class="log-events">
+				<div class="log-events column">
 					{#each logEvents as logEvent}
 						<div class="card">
 							<EthereumLogEventEtherspot
@@ -361,14 +389,14 @@
 			{#if isStandaloneLayout}
 				<hr>
 			{/if}
-			<div class="footer bar" transition:fade|local>
-				{#if isStandaloneLayout && blockNumber}
-					<EthereumTransactionSummary {network} {blockNumber} />
-				{:else if isInlineLayout}
-					<EthereumTransactionSummary {network} {transactionID} {blockNumber} />
-				{:else}
-					<span />
-				{/if}
+			<div class="footer bar"><!-- transition:fade|local -->
+				<EthereumTransactionSummary
+					{network}
+					{transactionID}
+					{transactionIndex}
+					{blockNumber}
+					showTransactionID={isStandaloneLayout || isExhaustive}
+				/>
 				{#if date}
 					<Date {date} layout="horizontal" />
 				{/if}
