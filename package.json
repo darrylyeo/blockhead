@@ -24,7 +24,7 @@
     "@apollo/client": "^3.2.0",
     "@ceramicnetwork/3id-did-resolver": "^1.2.7",
     "@ceramicnetwork/common": "^1.1.0",
-    "@ceramicnetwork/http-client": "^1.0.7",
+    "@ceramicnetwork/http-client": "^1.5.7",
     "@ceramicnetwork/stream-caip10-link": "^1.0.7",
     "@ceramicnetwork/stream-tile": "^1.0.7",
     "@ceramicnetwork/streamid": "^1.0.2",
