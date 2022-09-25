@@ -267,12 +267,15 @@
 				for
 				<b style="color: var(--ethereum-blue)">Ethereum</b>,
 				<b style="color: var(--polygon-purple)">Polygon</b>,
-				<b style="color: var(--avalanche-red)">Avalanche</b>,
-				<b style="color: var(--binance-gold)">BSC</b>,
+				<!-- <b style="color: var(--avalanche-red)">Avalanche</b>, -->
+				<!-- <b style="color: var(--binance-gold)">BSC</b>, -->
 				<b style="color: var(--gnosis-teal)">Gnosis Chain</b>,
-				<b style="color: var(--fantom-blue)">Fantom</b>
+				<b style="color: var(--optimism-red)">Optimism</b>,
+				<!-- <b style="color: var(--fantom-blue)">Fantom</b> -->
+				<b style="color: var(--aurora-green)">Aurora</b>,
+				<b style="color: var(--cronos-blue); filter: brightness(1.75)">Cronos</b>
 				& the
-				<b class="metaverse">Web 3.0 Metaverse</b>
+				<b class="metaverse">Web3 Metaverse</b>
 				<!-- <b style="color: var(--bitcoin-gold)">EVM Multiverse</b> -->
 			</span>
 		</p>
@@ -288,15 +291,15 @@
 			<div class="card" transition:scale={{delay: 500}}>
 				<h3><b>Visualize</b> your activity</h3>
 				<hr>
-				<p>Contextualize your web 3.0 interactions with <b>intuitive charts</b> & <b>visualizations</b>.</p>
+				<p>Contextualize your web3 interactions with <b>intuitive charts</b> & <b>visualizations</b>.</p>
 			</div>
 			<div class="card" transition:scale={{delay: 400}}>
 				<h3><b>Explore</b> the metaverse</h3>
 				<hr>
-				<p>Find <b>apps</b>, <b>services</b> & <b>communities</b> enabling <b>portable, shared experiences</b>.</p>
+				<p>Discover <b>apps</b>, <b>services</b> & <b>communities</b> enabling <b>portable, shared experiences</b>.</p>
 			</div>
 			<div class="card" transition:scale={{delay: 600}}>
-				<h3>On <b>Unstoppable</b> Web 3.0</h3>
+				<h3><b>Unstoppable</b> Web3 Tech</h3>
 				<hr>
 				<p>Built upon <b>math</b>, <b>cryptography</b> & open, <b>incentive-aligned</b> computer networks.</p>
 			</div>
