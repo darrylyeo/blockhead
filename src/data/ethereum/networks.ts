@@ -5011,9 +5011,10 @@ const testnetSlugsForMainnetSlugs = {
 	// 'skale': [
 	// 	'skale-testnet',
 	// ],
-	// 'aurora': [
-	// 	'aurora-testnet',
-	// ],
+	'aurora': [
+		'aurora-testnet',
+		'aurora-betanet',
+	],
 	// 'nervos': [
 	// 	'nervos-godwoken',
 	// ],
@@ -5071,6 +5072,7 @@ export const evmL2Networks = [
 export const otherNetworks = networks.filter(network =>
 	!ethereumAndL2Networks.includes(network)
 	&& !evmL1Networks.includes(network)
+	&& !evmL2Networks.includes(network)
 	&& !Object.values(testnetsForMainnets).some(testnetNetworks => testnetNetworks.includes(network))
 )
 
