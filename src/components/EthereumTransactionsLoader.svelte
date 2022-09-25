@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { TickerSymbol } from '../data/currency/currency'
-	import { preferences } from '../data/ethereum/preferences'
+	import { preferences } from '../state/preferences'
 
 	export let network: Ethereum.Network
 	export let address: Ethereum.Address | undefined
@@ -18,7 +18,7 @@
 
 	import { useQuery, useInfiniteQuery } from '@sveltestack/svelte-query'
 
-	import { getTransactionsByAddress } from '../data/analytics/covalent'
+	import { getTransactionsByAddress } from '../api/covalent'
 	import { getTransactions as getTransactionsEtherspot } from '../data/etherspot/etherspot'
 	import { chainCodeFromNetwork, MoralisWeb3Api } from '../data/moralis/moralis-web3-api'
 

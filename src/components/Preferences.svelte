@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { preferences, preferencesConfig, resetPreferences } from '../data/ethereum/preferences'
+	import { preferences, preferencesConfig, resetPreferences } from '../state/preferences'
 
 
 	export let relevantPreferences = []

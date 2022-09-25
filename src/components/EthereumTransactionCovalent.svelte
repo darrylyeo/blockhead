@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import type { Covalent } from '../data/analytics/covalent'
+	import type { Covalent } from '../api/covalent'
 	import type { QuoteCurrency } from '../data/currency/currency'
 
 
@@ -416,7 +416,7 @@
 		{#if isStandaloneLayout}
 			<div class="bar">
 				<h2><EthereumTransactionID {network} {transactionID} /></h2>
-				<span class="card-annotation">Ethereum Transaction</span>
+				<span class="card-annotation">{network.name} Transaction</span>
 			</div>
 
 			<hr>

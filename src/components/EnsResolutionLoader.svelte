@@ -8,7 +8,7 @@
 	export let passiveReverseResolution = false
 
 
-	import { preferences } from '../data/ethereum/preferences'
+	import { preferences } from '../state/preferences'
 	import { getEthersProvider } from '../data/providers'
 	import { networksByChainID } from '../data/ethereum/networks'
 
@@ -136,4 +136,7 @@
 		<slot slot="header" name="header" {address} {ensName} {isReverseResolving} />
 		<slot {address} {ensName} {isReverseResolving} />
 	</Loader>
+{:else}
+	<slot name="header" {address} {ensName} {isReverseResolving} />
+	<slot {address} {ensName} {isReverseResolving} />
 {/if}

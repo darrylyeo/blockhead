@@ -243,7 +243,7 @@
 		{#if isStandaloneLayout}
 			<div class="bar">
 				<h2><EthereumTransactionID {network} {transactionID} /></h2>
-				<span class="card-annotation">Ethereum Transaction</span>
+				<span class="card-annotation">{network.name} Transaction</span>
 			</div>
 
 			<hr>

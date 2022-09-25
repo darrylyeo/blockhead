@@ -3,10 +3,10 @@
 	import type { DeFiProvider } from '../data/defi-provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
 
-	import { Account } from '../data/ethereum/portfolio-accounts'
+	import { Account } from '../state/portfolio-accounts'
 	import { availableNetworks } from '../data/ethereum/networks'
 
-	import { preferences } from '../data/ethereum/preferences'
+	import { preferences } from '../state/preferences'
 
 
 	// Portfolio management

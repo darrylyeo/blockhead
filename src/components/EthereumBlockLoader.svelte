@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import { preferences } from '../data/ethereum/preferences'
+	import { preferences } from '../state/preferences'
 
 
 	export let network: Ethereum.Network
@@ -32,7 +32,7 @@
 	
 	import { useQuery } from '@sveltestack/svelte-query'
 
-	import { getBlock } from '../data/analytics/covalent'
+	import { getBlock } from '../api/covalent'
 
 	import { chainCodeFromNetwork, MoralisWeb3Api } from '../data/moralis/moralis-web3-api'
 

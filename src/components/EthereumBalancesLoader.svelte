@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import type { Covalent } from '../data/analytics/covalent'
+	import type { Covalent } from '../api/covalent'
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import { MoralisWeb3Api, chainCodeFromNetwork } from '../data/moralis/moralis-web3-api'
 
@@ -18,7 +18,7 @@
 
 
 	export let balances: {
-		type: Covalent.ERC20TokenOrNFTContractWithBalance['type'],
+		type?: Covalent.ERC20TokenOrNFTContractWithBalance['type'],
 		token: Ethereum.ERC20Token,
 		balance: Covalent.ERC20TokenOrNFTContractWithBalance['balance'],
 		value: Covalent.ERC20TokenOrNFTContractWithBalance['quote'],
@@ -28,7 +28,7 @@
 
 	import { useQuery } from '@sveltestack/svelte-query'
 
-	import { getTokenAddressBalances } from '../data/analytics/covalent'
+	import { getTokenAddressBalances } from '../api/covalent'
 
 
 	import Loader from './Loader.svelte'
@@ -196,12 +196,44 @@
 		loadingIconName={tokenBalancesProvider}
 		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
 		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"
-		fromPromise={async () =>
-			await getTokenBalances({
-				network,
-				address
+		fromUseQuery={
+			useQuery({
+				queryKey: ['Balances', {
+					tokenBalancesProvider,
+					address,
+					chainID: network.chainId,
+				}],
+				queryFn: async () => (
+					await getTokenBalances({
+						network,
+						address
+					})
+				)
 			})
 		}
+		then={({products}) => products[0]?.assets.map(
+			({
+				address,
+				decimals,
+				symbol,
+				balance,
+				balanceUSD,
+				balanceRaw,
+				price,
+				displayProps
+			}) => ({
+				token: {
+					symbol,
+					name: displayProps.label,
+					address,
+					icon: displayProps.images[0],
+					decimals,
+				},
+				balance: balanceRaw,
+				value: balanceUSD,
+				rate: price
+			})
+		) ?? []}
 		{showIf}
 		{isCollapsed}
 		bind:result={balances}

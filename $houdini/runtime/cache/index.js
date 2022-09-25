@@ -1,4 +1,3 @@
-import config from "../../../houdini.config.js"
 import { Cache } from './cache';
 let cache;
 try {
