@@ -147,7 +147,15 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 			network,
 			connectionType = NetworkProviderConnectionType.RPC,
 		}) => new providers.JsonRpcProvider(
-			`${connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${env.QUICKNODE_ENDPOINT_NAME}.quiknode.pro/${env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN}/`,
+			`${connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${{
+				1: env.QUICKNODE_ENDPOINT_NAME_1,
+				10: env.QUICKNODE_ENDPOINT_NAME_10,
+				137: env.QUICKNODE_ENDPOINT_NAME_137,
+			}[network.chainId]}.quiknode.pro/${{
+				1: env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_1,
+				10: env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_10,
+				137: env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_137,
+			}[network.chainId]}/`,
 			network.chainId
 		)
 		
@@ -181,6 +189,7 @@ export const networkProviderConfigByNetworkSlug = Object.fromEntries(Object.entr
 		NetworkProvider.Alchemy,
 		NetworkProvider.PocketNetwork,
 		NetworkProvider.Figment,
+		NetworkProvider.QuickNode,
 	],
 	"ethereum-ropsten": [
 		// RpcProvider.Alchemy,
@@ -208,10 +217,14 @@ export const networkProviderConfigByNetworkSlug = Object.fromEntries(Object.entr
 	"polygon": [
 		NetworkProvider.PocketNetwork,
 		NetworkProvider.Figment,
+		NetworkProvider.QuickNode,
 	],
 	"polygon-mumbai": [
 		NetworkProvider.Figment,
 	],
+	"optimism": [
+		NetworkProvider.QuickNode,
+	]
 })
 	.map(([slug, networkProviders]) =>
 		[
