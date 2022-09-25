@@ -13,10 +13,10 @@
 
 {#if userId}
 	<Loader
-		loadingIcon={'/logos/audius-icon.png'}
+		loadingIcon={'/logos/Audius.png'}
 		loadingMessage="Fetching tracks from Audius network..."
 		fromPromise={() => getUserTracks({userId}).then(({data: tracks}) => tracks)}
-		let:then={tracks}
+		let:result={tracks}
 		showIf={tracks => tracks.length}
 	>
 		<slot slot="header" name="header" />

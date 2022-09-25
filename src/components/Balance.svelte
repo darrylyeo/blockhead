@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { TickerSymbol } from 'src/data/currency/currency'
+	import type { TickerSymbol } from '../data/currency/currency'
 	import type { Ethereum } from '../data/ethereum/types'
 	import * as ethers from 'ethers'
 
@@ -48,7 +48,7 @@
 		<Loader
 			fromPromise={() => symbol === 'ETH' ? provider.getBalance(address) : erc20Contract.balanceOf(address)}
 			loadingMessage="Reading balance..."
-			let:then={balance}
+			let:result={balance}
 		>
 			<TokenIcon slot="loadingIcon" {symbol} address={contractAddress} {erc20Token} />
 			<div class="card" in:scale>

@@ -11,11 +11,14 @@
 	// export let provider: Ethereum.Provider
 
 
-	// import { preferences } from '../data/ethereum/preferences'
-	// import { getEthersProvider } from '../data/ethereum/provider'
+	// import { preferences } from '../state/preferences'
+	// import { getEthersProvider } from '../data/providers'
 
 	// $: if(network && !provider){
-	// 	getEthersProvider(network, $preferences.rpcNetwork)
+	// 	getEthersProvider({
+	// 		network,
+	// 		networkProvider: $preferences.rpcNetwork
+	// 	})
 	// 		.then(_ => provider = _)
 	// }
 
@@ -91,14 +94,17 @@
 	}
 
 
-	import { preferences } from '../data/ethereum/preferences'
-	import { getEthersProvider } from '../data/ethereum/provider'
+	import { preferences } from '../state/preferences'
+	import { getEthersProvider } from '../data/providers'
 	// import { onDestroy } from 'svelte'
 
 	$: if(network && !blockHeightForNetwork[network.chainId]){
 		const { chainId } = network
 
-		getEthersProvider(network, $preferences.rpcNetwork).then((provider: Ethereum.Provider) => {
+		getEthersProvider({
+			network,
+			networkProvider: $preferences.rpcNetwork
+		}).then((provider: Ethereum.Provider) => {
 			const onBlock = (blockNumber) => {
 				blockHeightForNetwork = {
 					...blockHeightForNetwork,
@@ -116,7 +122,7 @@
 	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
 	// import Loader from './Loader.svelte'
 	// import Loading from './Loading.svelte'
-	// import TokenIcon from './TokenIcon.svelte'
+	// import NetworkIcon from './NetworkIcon.svelte'
 </script>
 
 
@@ -130,13 +136,13 @@
 		loadingMessage=""
 		fromPromise={provider && (() => new Promise(r => provider.once('block', r)))}
 	>
-		<TokenIcon slot="loadingIcon" symbol={network.nativeCurrency.symbol} />
+		<NetworkIcon slot="loadingIcon" {network} />
 
 		{#if latestBlockNumber}
 			<EthereumBlockNumber {network} blockNumber={latestBlockNumber} />
 		{:else}
 			<Loading iconAnimation="hover">
-				<TokenIcon slot="icon" symbol={network.nativeCurrency.symbol} />
+				<NetworkIcon slot="icon" {network} />
 			</Loading>
 		{/if}
 	</Loader>

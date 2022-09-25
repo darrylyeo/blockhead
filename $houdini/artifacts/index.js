@@ -1,3 +1,3 @@
 
- export { default as ENSDomains} from './ENSDomains'
- export { default as ENSDomainsContaining} from './ENSDomainsContaining'
+ export { default as ENSDomainQuery} from './ENSDomainQuery'
+ export { default as ENSDomainsContainingQuery} from './ENSDomainsContainingQuery'

@@ -58,7 +58,11 @@
 				transform: isOpen ? null : `translateY(var(--padding-inner))`,
 			})
 		// })
+	
+
+	export let containerClass = ''
 </script>
+
 
 <style>
 	.container {
@@ -83,8 +87,9 @@
 	}
 </style>
 
-<div class="container" bind:this={container} class:regular-animate={!springAnimate}>
-	<div bind:this={content} {...$$props}>
+
+<div class="container {containerClass}" bind:this={container} class:regular-animate={!springAnimate} tabindex={isOpen ? undefined : -1}>
+	<section bind:this={content} {...$$props}>
 		<slot />
-	</div>
+	</section>
 </div>

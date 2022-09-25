@@ -75,8 +75,7 @@ export const getTransactions = async ({
 		})
 		return items
 	}catch(e){
-		console.error(e)
-		throw e?.errors?.map(e => e?.constraints?.type).join('\n')
+		throw e?.errors?.map(e => e?.constraints?.type).join('\n') ?? e
 	}
 }
 

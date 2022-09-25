@@ -15,7 +15,7 @@
 
 	export let contextualAddress: Ethereum.Address
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
-	export let showValues: 'original' | 'converted' | 'both' = 'original'
+	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	export let showFees = false
 
 	export let layout: 'standalone' | 'inline' = 'inline'
@@ -57,7 +57,7 @@
 				)
 				: 0
 		}catch(e){
-			console.error(e)
+			console.warn(e)
 			return value
 		}
 	}
@@ -103,7 +103,7 @@
 		gasOffered: gas_offered,
 		gasSpent: gas_spent,
 		gasRate: gas_price,
-		gasValue: formatUnits(gas_spent * gas_price, network.nativeCurrency.decimals),
+		gasValue: _formatUnits(gas_spent * gas_price, network.nativeCurrency.decimals),
 
 		logEvents: log_events
 			?.map(({
@@ -411,6 +411,8 @@
 
 {#if network && (transaction || erc20TokenTransaction || erc20TokenTransfer)}
 	<div class="transaction layout-{layout} column" class:card={isStandaloneLayout} class:unsuccessful={!isSuccessful}><!-- transition:fade|local -->
+		{#if nonce}{nonce}{/if}
+
 		{#if isStandaloneLayout}
 			<div class="bar">
 				<h2><EthereumTransactionID {network} {transactionID} /></h2>
@@ -450,7 +452,7 @@
 								: isSuccessful ? 'sent' : 'failed to send'}
 						</span>
 						<TokenBalanceWithConversion
-							{showValues}
+							{tokenBalanceFormat}
 							showDecimalPlaces={isExhaustive ? 9 : 6}
 
 							erc20Token={gasToken || transferredToken}
@@ -488,7 +490,7 @@
 					<span class="fee"><!-- transition:fade|local -->
 						<span>for fee</span>
 						<TokenBalanceWithConversion
-							{showValues}
+							{tokenBalanceFormat}
 							showDecimalPlaces={isExhaustive ? 9 : 6}
 
 							erc20Token={gasToken}
@@ -519,7 +521,7 @@
 
 						{contextualAddress}
 						{detailLevel}
-						{showValues}
+						{tokenBalanceFormat}
 						showFees={false}
 
 						layout="inline"

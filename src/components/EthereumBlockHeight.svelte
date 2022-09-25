@@ -9,7 +9,7 @@
 
 	// import Loader from './Loader.svelte'
 	// import EthereumBlockNumber from './EthereumBlockNumber.svelte'
-	// import TokenIcon from './TokenIcon.svelte'
+	// import NetworkIcon from './NetworkIcon.svelte'
 
 	import EthereumLatestBlockNumber from './EthereumLatestBlockNumber.svelte'
 </script>
@@ -22,7 +22,7 @@
 	loadingMessage="Retrieving statistics..."
 	fromPromise={provider && (() => new Promise(r => provider.once('block', r)))}
 >
-	<TokenIcon slot="loadingIcon" symbol={network.nativeCurrency.symbol} />
+	<NetworkIcon slot="loadingIcon" {network} />
 
 	<p class="centered">
 		<span>The {network.name} blockchain is </span>

@@ -22,12 +22,15 @@
 	export let passive = false
 
 	
-	import { preferences } from '../data/ethereum/preferences'
-	import { getEthersProvider } from '../data/ethereum/provider'
+	import { preferences } from '../state/preferences'
+	import { getEthersProvider } from '../data/providers'
 	import { networksByChainID } from '../data/ethereum/networks'
 
 	$: if(!provider)
-		getEthersProvider(networksByChainID[1], $preferences.rpcNetwork).then(_ => provider = _)
+		getEthersProvider({
+			network: networksByChainID[1],
+			networkProvider: $preferences.rpcNetwork
+		}).then(_ => provider = _)
 
 
 	export let contentHash: string

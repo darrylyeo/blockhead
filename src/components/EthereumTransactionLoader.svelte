@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { QuoteCurrency } from '../data/currency/currency'
-	import { preferences } from '../data/ethereum/preferences'
+	import { preferences } from '../state/preferences'
 
 
 	export let network: Ethereum.Network
@@ -15,7 +15,7 @@
 
 	export let contextualAddress: Ethereum.Address
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
-	export let showValues: 'original' | 'converted' | 'both' = 'original'
+	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	export let showFees = false
 
 	export let layout: 'standalone' | 'inline' = 'inline'
@@ -25,6 +25,8 @@
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
 	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
 
+
+	import { useQuery } from '@sveltestack/svelte-query'
 
 	import { getTransaction as getTransactionCovalent } from '../data/analytics/covalent'
 	import { getTransaction as getTransactionEtherspot } from '../data/etherspot/etherspot'
@@ -44,17 +46,23 @@
 			<div class="column">
 				{#if transactionProvider === 'Covalent'}
 					<Loader
-						loadingIcon="/logos/covalent-logomark.svg"
+						loadingIcon="/logos/Covalent.svg"
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
-						fromPromise={() =>
-							getTransactionCovalent({
+						fromUseQuery={useQuery({
+							queryKey: ['Transaction', {
 								chainID: network.chainId,
-								transactionHash: transactionID,
-								includeLogs: true
-							})
-							.then(({items: [transaction]}) => transaction)
-						}
-						let:then={transaction}
+								transactionID,
+							}],
+							queryFn: async () => (
+								await getTransactionCovalent({
+									chainID: network.chainId,
+									transactionHash: transactionID,
+									includeLogs: true
+								})
+								.then(({ items: [transaction] }) => transaction)
+							)
+						})}
+						let:result={transaction}
 						let:status
 					>
 						<slot name="header" slot="header" {status} {transaction} />
@@ -66,7 +74,7 @@
 
 							{contextualAddress}
 							{detailLevel}
-							{showValues}
+							{tokenBalanceFormat}
 							{showFees}
 
 							{layout}
@@ -75,10 +83,21 @@
 					</Loader>
 				{:else if transactionProvider === 'Etherspot'}
 					<Loader
-						loadingIcon="/logos/etherspot-icon.png"
+						loadingIcon="/logos/Etherspot.png"
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
-						fromPromise={() => getTransactionEtherspot({network, transactionID})}
-						let:then={transaction}
+						fromUseQuery={useQuery({
+							queryKey: ['Transaction', {
+								chainID: network.chainId,
+								transactionID,
+							}],
+							queryFn: async () => (
+								await getTransactionEtherspot({
+									network,
+									transactionID
+								})
+							)
+						})}
+						let:result={transaction}
 						let:status
 					>
 						<slot name="header" slot="header" {status} {transaction} />
@@ -90,7 +109,7 @@
 
 							{contextualAddress}
 							{detailLevel}
-							{showValues}
+							{tokenBalanceFormat}
 							{showFees}
 
 							{layout}
@@ -99,13 +118,21 @@
 					</Loader>
 				{:else if transactionProvider === 'Moralis'}
 					<Loader
-						loadingIcon="/logos/moralis-icon.svg"
+						loadingIcon="/logos/Moralis.svg"
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
-						fromPromise={() => MoralisWeb3Api.transaction.getTransaction({
-							chain: chainCodeFromNetwork(network),
-							transactionHash: transactionID,
+						fromUseQuery={useQuery({
+							queryKey: ['Transaction', {
+								chainID: network.chainId,
+								transactionID,
+							}],
+							queryFn: async () => (
+								await MoralisWeb3Api.transaction.getTransaction({
+									chain: chainCodeFromNetwork(network),
+									transactionHash: transactionID,
+								})
+							)
 						})}
-						let:then={transaction}
+						let:result={transaction}
 						let:status
 					>
 						<slot name="header" slot="header" {status} {transaction} />
@@ -117,7 +144,7 @@
 
 							{contextualAddress}
 							{detailLevel}
-							{showValues}
+							{tokenBalanceFormat}
 							{showFees}
 
 							{layout}

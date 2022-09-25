@@ -70,14 +70,14 @@
 
 <nav class="bar">
 	<ul>
-		<li><a aria-current="{$page.path === '/' ? 'page' : undefined}" href="/"><span class="logo">Blockhead</span></a></li>
-		<li><a aria-current="{$page.path.startsWith('/portfolio') ? 'page' : undefined}" href="/portfolio">Portfolio</a></li>
-		<li><a aria-current="{$page.path.startsWith('/explorer') ? 'page' : undefined}" href="/explorer">Explorer</a></li>
-		<li><a aria-current="{$page.path.startsWith('/apps') ? 'page' : undefined}" href="/apps">Apps</a></li>
+		<li><a aria-current="{$page.url.pathname === '/' ? 'page' : undefined}" href="/"><span class="logo">Blockhead</span></a></li>
+		<li><a aria-current="{$page.url.pathname.startsWith('/portfolio') ? 'page' : undefined}" href="/portfolio">Portfolio</a></li>
+		<li><a aria-current="{$page.url.pathname.startsWith('/explorer') ? 'page' : undefined}" href="/explorer">Explorer</a></li>
+		<li><a aria-current="{$page.url.pathname.startsWith('/apps') ? 'page' : undefined}" href="/apps">Apps</a></li>
 		
-		<!-- <li><a aria-current="{$page.path.startsWith('/transfer') ? 'page' : undefined}" href="/transfer">Transfer</a></li> -->
-		<!-- <li><a aria-current="{$page.path.startsWith('/trade') ? 'page' : undefined}" href="/trade">Trade</a></li> -->
-		<!-- <li><a aria-current="{$page.path.startsWith('/invest') ? 'page' : undefined}" href="/invest">Invest</a></li> -->
+		<!-- <li><a aria-current="{$page.url.pathname.startsWith('/transfer') ? 'page' : undefined}" href="/transfer">Transfer</a></li> -->
+		<!-- <li><a aria-current="{$page.url.pathname.startsWith('/trade') ? 'page' : undefined}" href="/trade">Trade</a></li> -->
+		<!-- <li><a aria-current="{$page.url.pathname.startsWith('/invest') ? 'page' : undefined}" href="/invest">Invest</a></li> -->
 
 		<li class="right"><a href="https://gitcoin.co/grants/2966/blockhead" target="_blank">Gitcoin Grants</a></li>
 		<li class="right"><a href="https://discord.gg/966eXqqq7N" target="_blank">Discord</a></li>

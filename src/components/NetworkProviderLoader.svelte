@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import { getEthersProvider } from '../data/ethereum/provider'
-	import { preferences } from '../data/ethereum/preferences'
+	import { getEthersProvider } from '../data/providers'
+	import { preferences } from '../state/preferences'
 
 
 	export let network: Ethereum.Network
@@ -13,18 +13,21 @@
 
 
 	import Loader from './Loader.svelte'
-	import TokenIcon from './TokenIcon.svelte'
+	import NetworkIcon from './NetworkIcon.svelte'
 </script>
 
 
 <Loader
 	loadingMessage="Connecting to the {network ? `${network.name} ` : ''} blockchain{viaRPC}..."
 	fromPromise={network && providerName && (async () =>
-		await getEthersProvider(network, providerName)
+		await getEthersProvider({
+			network,
+			networkProvider: providerName
+		})
 	)}
-	let:then={provider}
+	let:result={provider}
 >
-	<TokenIcon slot="loadingIcon" symbol={network?.nativeCurrency.symbol} />
+	<NetworkIcon slot="loadingIcon" {network} />
 
 	<slot name="header" slot="header" {network} {provider} />
 

@@ -7,7 +7,7 @@
 	import { getSpotPrices } from '../data/analytics/covalent'
 
 
-	import { preferences } from '../data/ethereum/preferences'
+	import { preferences } from '../state/preferences'
 
 	export let currentPriceProvider: CurrentPriceProvider | 'auto' = 'auto'
 	$: currentPriceProvider = $$props.currentPriceProvider || $preferences.currentPriceProvider
@@ -26,10 +26,11 @@
 	let isHidden = false
 
 
-	import Loader from './Loader.svelte'
-	import TokenRate from './TokenRate.svelte'
-	import TokenBalance from './TokenBalance.svelte'
 	import Address from './Address.svelte'
+	import Date from './Date.svelte'
+	import Loader from './Loader.svelte'
+	// import TokenRate from './TokenRate.svelte'
+	import TokenBalance from './TokenBalance.svelte'
 </script>
 
 
@@ -51,7 +52,7 @@
 		loadingIconName={currentPriceProvider}
 		loadingMessage="Retrieving price from Chainlink..."
 		fromPromise={blockNumber && () => getChainlinkPriceFeed(provider, token, quoteCurrency)}
-		let:then={priceFeed}
+		let:result={priceFeed}
 	>
 		<div slot="header" class="bar">
 			<h3>Current Price</h3>
@@ -75,7 +76,7 @@
 				loadingIconName={currentPriceProvider}
 				loadingMessage="Retrieving price from Chainlink..."
 				fromPromise={() => getChainlinkPriceFeed(provider, token, quoteCurrency)}
-				let:then={priceFeed}
+				let:result={priceFeed}
 			>
 				<div slot="header" class="bar">
 					<h3>Current Price</h3>
@@ -98,12 +99,12 @@
 		{#if _currentPriceProvider === 'Chainlink'}
 			<div class="column">
 				<Loader
-					loadingIcon={'/logos/chainlink.svg'}
+					loadingIcon={'/logos/Chainlink.svg'}
 					loadingIconName={_currentPriceProvider}
 					loadingMessage="Retrieving price from {_currentPriceProvider}..."
 					errorMessage="{token} price not available"
 					fromPromise={provider && network && blockNumber && (() => getChainlinkPriceFeed(provider, network, token, quoteCurrency))}
-					let:then={priceFeed}
+					let:result={priceFeed}
 					whenErrored={async () => {
 						await new Promise(r => setTimeout(r, 1000))
 						if(currentPriceProvider === 'auto')
@@ -147,14 +148,21 @@
 					</div> -->
 					<footer class="bar">
 						<span />
-						<span class="card-annotation">Updated {priceFeed.updatedAt.toLocaleTimeString()}</span>
+						<span class="card-annotation">
+							Updated
+							<Date
+								date={priceFeed.updatedAt}
+								format="relative"
+								layout="horizontal"
+							/>
+						</span>
 					</footer>
 				</Loader>
 			</div>
 		{:else if _currentPriceProvider === 'Covalent'}
 			<div class="column">
 				<Loader
-					loadingIcon={'/logos/covalent-logomark.svg'}
+					loadingIcon={'/logos/Covalent.svg'}
 					loadingIconName={_currentPriceProvider}
 					loadingMessage="Retrieving price from {_currentPriceProvider}..."
 					errorMessage="{token} price not available"
@@ -169,7 +177,7 @@
 							}
 						throw new Error(`The ${token} spot price isn't currently indexed by Covalent.`)
 					}}
-					let:then={data}
+					let:result={data}
 				>
 					<div slot="header" class="bar">
 						<slot name="title">

@@ -1,6 +1,6 @@
 import type CeramicClient from '@ceramicnetwork/http-client'
 import type { DID } from 'dids'
-import { getCeramic } from '../ceramic'
+import { getCeramicClient } from '../client'
 
 
 type CAIP10AccountID = string
@@ -32,7 +32,7 @@ export function getCAIP10AccountID({
 import { Caip10Link } from '@ceramicnetwork/stream-caip10-link'
 
 export async function getCAIP10Link({
-	ceramic = getCeramic(),
+	ceramic: ceramicClient = getCeramicClient(),
 	address,
 	blockchainName,
 	caip10AccountID = getCAIP10AccountID({address, blockchainName})
@@ -43,7 +43,7 @@ export async function getCAIP10Link({
 	caip10AccountID: CAIP10AccountID
 }){
 	const caip10Link = await Caip10Link.fromAccount(
-		ceramic,
+		ceramicClient,
 		caip10AccountID,
 	)
 	// const linkedDid = caip10Link.did

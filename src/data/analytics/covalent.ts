@@ -3,7 +3,8 @@ import type { TickerSymbol } from '../currency/currency'
 import type { Ethereum } from '../ethereum/types'
 
 import { COVALENT_URL } from '../../config'
-import { COVALENT_API_KEY } from '../../config-secrets'
+import { env } from '../../env'
+
 import { ConcurrentPromiseQueue } from '../../utils/concurrent-promise-queue'
 
 // https://www.covalenthq.com/docs/api/
@@ -93,6 +94,9 @@ export namespace Covalent {
 			name: string
 			description: string
 			image: string
+			image_256?: string
+			image_512?: string
+			image_1024?: string
 			external_url: string
 			attributes: NFTAttributes
 		}
@@ -444,7 +448,7 @@ const formatParams = params =>
 
 const makeRequest = <T>(endpoint: string, params: any) =>
 	queue.enqueue(() =>
-		fetch(`${COVALENT_URL}${endpoint}/?${`${formatParams({key: COVALENT_API_KEY, ...params})}`}`)
+		fetch(`${COVALENT_URL}${endpoint}/?${`${formatParams({key: env.COVALENT_API_KEY, ...params})}`}`)
 			.then(async response => {
 				if(response.ok)
 					return response.json()
@@ -461,7 +465,6 @@ const makeRequest = <T>(endpoint: string, params: any) =>
 				throw new Error(error)
 			})
 			.then(({data}: Covalent.Response) => { 
-				console.log(data)
 				return data as T
 			})
 	)

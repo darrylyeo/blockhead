@@ -1,4 +1,5 @@
 <script lang="ts">
+
 	import type { Ethereum } from '../data/ethereum/types'
 
 
@@ -19,32 +20,26 @@
 	// const blockSymbol = '' // '🅱️' // 'B⃞' // '#'
 
 
-	import { tweened } from 'svelte/motion'
-	import { quintOut } from 'svelte/easing'
+	$: link = `/explorer/${network.slug}/${blockNumber}`
 
-	const tweenedBlockNumber = tweened(0, {
-		duration: tween ? 500 : 0,
-		delay: tween ? 1 : 0,
-		easing: quintOut,
-		interpolate: (from, to) => t => {
-			const logFrom = from != 0 ? Math.log10(from) : -1
-			const logTo = to != 0 ? Math.log10(to) : -1
-			const result = Math.round(Math.pow(10, logFrom + t * (logTo - logFrom)))
-			return from == 0 ? result.toString().padStart(logTo + 1, '0') : result
-		}
-	})
-	$: tweenedBlockNumber.set(blockNumber || 0)
+	const onDragStart = (e: DragEvent) => {
+		e.dataTransfer.setData('text/plain', `${blockNumber}`)
+		e.dataTransfer.setData('text/uri', link)
+	}
 
 
 	import { tokenColors } from '../data/token-colors'
 
 
-	import TokenIcon from './TokenIcon.svelte'
+	import NetworkIcon from './NetworkIcon.svelte'
+	import TweenedNumber from './TweenedNumber.svelte'
 </script>
 
 
 <style>
 	.block-number {
+		--icon-size: 1em;
+
 		display: inline-flex;
 		place-content: center;
 		place-items: center;
@@ -99,19 +94,41 @@
 <!-- {#if format === 'full'}block{/if} -->
 {#key blockNumber}
 	{#if linked && blockNumber !== undefined}
-		<a class="block-number" href="/explorer/{network.slug}/{blockNumber}" style="{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}">
-			<span class="icon"><TokenIcon {...network.nativeCurrency} /></span>
+		<a
+			class="block-number"
+			href={link}
+			style="{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}"
+			draggable={true}
+			on:dragstart={onDragStart}
+		>
+			<NetworkIcon {network} />
+
 			{#if blockNumber !== undefined}
-				{formatBlockNumber($tweenedBlockNumber)}
+				<TweenedNumber
+					value={blockNumber}
+					formatter={formatBlockNumber}
+					showDecimalPlaces={0}
+					{tween}
+					duration={500}
+					padZero
+				/>
 			{:else}
 				•••
 			{/if}
 		</a>
 	{:else}
-		<span class="block-number format" style="{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}">
-			<span class="icon"><TokenIcon {...network.nativeCurrency} /></span>
+		<span class="block-number format" style="{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}" draggable={true}>
+			<NetworkIcon {network} />
+
 			{#if blockNumber !== undefined}
-				{formatBlockNumber($tweenedBlockNumber)}
+				<TweenedNumber
+					value={blockNumber}
+					formatter={formatBlockNumber}
+					showDecimalPlaces={0}
+					{tween}
+					duration={500}
+					padZero
+				/>
 			{:else}
 				•••
 			{/if}

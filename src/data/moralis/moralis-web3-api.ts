@@ -1,10 +1,10 @@
-import { MORALIS_WEB3_API_KEY } from '../../config-secrets'
+import { env } from '../../env'
 import { HttpClient, Api } from './api/Api'
 
 export const MoralisWeb3Api = new Api(new HttpClient({
 	baseApiParams: {
 		headers: {
-			'x-api-key': MORALIS_WEB3_API_KEY
+			'x-api-key': env.MORALIS_WEB3_API_KEY
 		}
 	}
 }))

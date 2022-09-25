@@ -24,31 +24,30 @@
 	export let showPlainFiat = false
 	$: isFiat = showPlainFiat && symbol in fiatQuoteCurrencies
 
+	$: isZero = balance == 0
 	$: isNegative = balance < 0
 
+	$: compactLargeValues = !showPlainFiat
+
+	$: title = `${balance} ${name || symbol}${symbol && name ? ` (${symbol})` : ``}`
+
+
 	export let tween = true
+	export let clip = true
+	export let transitionWidth = true
 
 
-	import { formatValue } from '../utils/format-value'
+	import { formatValue } from '../utils/formatValue'
 	import { formatAddress } from '../utils/formatAddress'
 
-
-	import { tweened } from 'svelte/motion'
-	const tweenedValue = tweened(0, {
-		duration: tween ? 1000 : 0,
-		delay: tween ? 1 : 0,
-		easing: quintOut,
-		interpolate: (from, to) => t => {
-			const logFrom = from ? Math.log10(from) : -showDecimalPlaces - 1
-			const logTo = to ? Math.log10(to) : -showDecimalPlaces - 1
-			return Math.pow(10, logFrom + t * (logTo - logFrom))
-		}
-	})
-	$: tweenedValue.set(Math.abs(balance || 0))
+	
+	const onDragStart = (e: DragEvent) => {
+		e.dataTransfer.setData('text/plain', title)
+	}
 
 
 	import TokenIcon from './TokenIcon.svelte'
-	import { expoOut, quintOut } from 'svelte/easing'
+	import TweenedNumber from './TweenedNumber.svelte'
 </script>
 
 
@@ -68,27 +67,70 @@
 		white-space: nowrap;
 	}
 
-	.token-name {
-		font-weight: 300;
-		font-size: 0.8em;
+	.inline-no-wrap {
+		display: inline-grid;
+		grid-auto-flow: column;
+		gap: 0.45ch;
+		align-items: baseline;
+		width: max-content;
 	}
 	.token-balance {
 		font-weight: 500;
+	}
+	.token-name {
+		font-weight: 300;
+		font-size: 0.8em;
+		font-weight: 500;
+		opacity: 0.75;
+		/* font-weight: 900;
+		opacity: 0.5; */
 	}
 
 	.is-debt {
 		color: hsl(31deg 93% 54%);
 	}
+
+	.is-zero {
+		opacity: 0.55;
+	}
 </style>
 
 
-<span class="token-balance-container" class:is-debt={isDebt} title="{balance} {name || symbol}{symbol && name ? ` (${symbol})` : ``}">
+<span
+	class="token-balance-container"
+	class:is-debt={isDebt}
+	class:is-zero={isZero}
+	{title}
+	draggable={true}
+	on:dragstart={onDragStart}
+>
 	{#if isFiat}
-		<span class="token-balance">{isNegative ? '−' : ''}{formatValue($tweenedValue, symbol, showDecimalPlaces)}</span>
+		<span class="token-balance">
+			{isNegative ? '−' : ''}<TweenedNumber
+				value={Math.abs(balance || 0)}
+				format={{
+					currency: symbol,
+					// showDecimalPlaces,
+					compactLargeValues
+				}}
+				{showDecimalPlaces}
+				{tween} {clip} {transitionWidth}
+			/>
+		</span>
 	{:else}
 		<TokenIcon {symbol} {address} {name} {icon} {erc20Token} />
-		<span>
-			<span class="token-balance">{isNegative ? '−' : ''}{formatValue($tweenedValue, undefined, showDecimalPlaces)}</span>
+		<span class="inline-no-wrap">
+			<span class="token-balance">
+				{isNegative ? '−' : ''}<TweenedNumber
+					value={Math.abs(balance || 0)}
+					format={{
+						// showDecimalPlaces,
+						compactLargeValues
+					}}
+					{showDecimalPlaces}
+					{tween} {clip} {transitionWidth}
+				/>
+			</span>
 			<span class="token-name">{symbol || formatAddress(address, 'middle-truncated')}</span>
 		</span>
 	{/if}

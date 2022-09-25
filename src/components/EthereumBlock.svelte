@@ -9,7 +9,7 @@
 
 
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
-	export let showValues: 'original' | 'converted' | 'both' = 'original'
+	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	export let showFees = false
 	export let showTransactions = false
 
@@ -119,7 +119,7 @@
 	<div class="including row">
 		<h4>including</h4>
 
-		{#if block.transactions.length}
+		{#if block.transactions?.length}
 			<span>
 				{block.transactions.length}
 				transactions
@@ -142,7 +142,7 @@
 	</div>
 </div>
 
-{#if block.transactions.length}
+{#if block.transactions?.length}
 	<hr>
 
 	<div class="bar">
