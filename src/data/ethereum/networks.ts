@@ -274,7 +274,7 @@ export const networks: Ethereum.Network[] = [
 		"networkId": 1313161554,
 		"nativeCurrency": {
 			"name": "Ether",
-			"symbol": "aETH",
+			"symbol": "ETH",
 			"decimals": 18
 		},
 		"rpc": [
