@@ -41,7 +41,7 @@ export function getDIDResolverRegistry(ceramic: CeramicClient) {
 }
 
 
-import { getCeramic } from './ceramic'
+import { getCeramicClient } from './client'
 
 import type CeramicClient from '@ceramicnetwork/http-client'
 import type { DIDProvider } from '@ceramicnetwork/common'
@@ -49,11 +49,11 @@ import type { ResolverRegistry } from 'did-resolver'
 import { DID } from 'dids'
 
 export async function getDID({
-	ceramic = getCeramic(),
-	didResolverRegistry = getDIDResolverRegistry(ceramic),
+	ceramicClient = getCeramicClient(),
+	didResolverRegistry = getDIDResolverRegistry(ceramicClient),
 	didProvider
 }: {
-    ceramic?: CeramicClient,
+    ceramicClient?: CeramicClient,
     didResolverRegistry?: ResolverRegistry,
     didProvider: DIDProvider
 }) {

@@ -1,4 +1,4 @@
-import Ceramic from '@ceramicnetwork/http-client'
+import CeramicClient from '@ceramicnetwork/http-client'
 
 type CeramicNode = {
 	id: string,
@@ -39,6 +39,6 @@ const ceramicNodes: CeramicNode[] = [
 	},
 ]
 
-export const getCeramic = (ceramicNode = ceramicNodes.find(node => node.hasWriteAccess)) => (
-	new Ceramic(ceramicNode.url)
+export const getCeramicClient = (ceramicNode = ceramicNodes.find(node => node.hasWriteAccess)) => (
+	new CeramicClient(ceramicNode.url)
 )
