@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Readable } from 'svelte/store'
 	import type { Result } from '../data/apollo-store'
-	import type { QueryResponse } from '$houdini/runtime/query'
+	import type { QueryStore } from '$houdini'
 	import type { UseQueryStoreResult, UseInfiniteQueryStoreResult } from '@sveltestack/svelte-query'
 
 	type LoaderResult = $$Generic<unknown>
@@ -23,7 +23,7 @@
 
 	export let fromPromise: () => Promise<LoaderResult>
 	export let fromStore: () => Readable<Result<LoaderResult>> | Promise<Readable<Result<LoaderResult>>>
-	export let fromHoudiniQuery: () => QueryResponse<LoaderResult, HoudiniQueryInput>
+	export let fromHoudiniQuery: () => QueryStore<LoaderResult, HoudiniQueryInput>
 	export let fromUseQuery: UseQueryStoreResult<LoaderResult, LoaderError>
 	export let fromUseInfiniteQuery: UseInfiniteQueryStoreResult<LoaderResult[number], LoaderError>
 
@@ -169,17 +169,16 @@
 		}
 	}
 
-	$: ({loading: houdiniLoading, error: houdiniError, data: houdiniData, refetch: houdiniRefetch} = houdiniQuery ?? {})
 	$: if(houdiniQuery)
-		if($houdiniLoading){
+		if($houdiniQuery.loading){
 			status = LoadingStatus.Loading
 		}
-		else if($houdiniError){
-			error = $houdiniError
+		else if($houdiniQuery.error){
+			error = $houdiniQuery.error
 			status = LoadingStatus.Errored
 		}
-		else if($houdiniData){
-			result = then($houdiniData)
+		else if($houdiniQuery.data){
+			result = then($houdiniQuery.data)
 			status = LoadingStatus.Resolved
 		}
 

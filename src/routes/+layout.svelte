@@ -3,12 +3,6 @@
 	import '../app.css'
 
 
-	import houdiniEnvironment from '../data/ens/houdini-environment'
-	import { setEnvironment } from '$houdini'
-
-	setEnvironment(houdiniEnvironment)
-
-
 	// Svelte Query
 	import { QueryClient, persistQueryClient, broadcastQueryClient, createWebStoragePersistor, QueryClientProvider } from '@sveltestack/svelte-query'
 
