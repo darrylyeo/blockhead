@@ -19,7 +19,7 @@ export namespace Covalent {
 	export type Day = string // 'YYYY-MM-DD'
 
 	// https://covalenthq.com/docs/networks
-	export const MainnetChainIDs = [1, 137, 43114, 56, 250, 30, 42161, 11297108109, 8217, 128, 1285] as const
+	export const MainnetChainIDs = [1, 137, 43114, 56, 250, 2020, 30, 42161, 11297108109, 8217, 128, 1285, 25, 1313161554] as const
 	export const TestnetChainIDs = [80001, 43113, 42, 97, 1287, 4002, 31, 421611, 11297108099, 1001, 256, 71393] as const
 	export const ChainIDs = [...MainnetChainIDs, ...TestnetChainIDs] as const
 	export type ChainID = typeof ChainIDs[number]
