@@ -155,10 +155,10 @@
 		{address}
 		{tokenBalancesProvider}
 		{quoteCurrency}
-		showIf={() => balances.length}
 		{isCollapsed}
 		bind:balances
 	>
+		<!-- showIf={() => balances.length} -->
 		<svelte:fragment slot="header">
 			<slot name="header" {balances} {filteredBalances} {summary} />
 		</svelte:fragment>
