@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import type { Covalent } from '../data/analytics/covalent'
+	import type { Covalent } from '../api/covalent'
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import type { Nftport } from '../data/analytics/nftport'
 	import type { TickerSymbol } from '../data/currency/currency'
-	import { getTokenAddressBalances } from '../data/analytics/covalent'
+	import { getTokenAddressBalances } from '../api/covalent'
 	import { NftportApi } from '../data/analytics/nftport'
 
 	export let network: Ethereum.Network

@@ -20,7 +20,7 @@
 
 	import { useInfiniteQuery } from '@sveltestack/svelte-query'
 
-	import { getERC20TokenTransfers } from '../data/analytics/covalent'
+	import { getERC20TokenTransfers } from '../api/covalent'
 	import { chainCodeFromNetwork, MoralisWeb3Api } from '../data/moralis/moralis-web3-api'
 
 

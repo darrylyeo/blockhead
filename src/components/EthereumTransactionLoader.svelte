@@ -28,7 +28,7 @@
 
 	import { useQuery } from '@sveltestack/svelte-query'
 
-	import { getTransaction as getTransactionCovalent } from '../data/analytics/covalent'
+	import { getTransaction as getTransactionCovalent } from '../api/covalent'
 	import { getTransaction as getTransactionEtherspot } from '../data/etherspot/etherspot'
 	import { MoralisWeb3Api, chainCodeFromNetwork } from '../data/moralis/moralis-web3-api'
 

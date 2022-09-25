@@ -1,11 +1,11 @@
 import type { Token } from 'graphql'
-import type { TickerSymbol } from '../currency/currency'
-import type { Ethereum } from '../ethereum/types'
+import type { TickerSymbol } from '../data/currency/currency'
+import type { Ethereum } from '../data/ethereum/types'
 
-import { COVALENT_URL } from '../../config'
-import { env } from '../../env'
+import { COVALENT_URL } from '../config'
+import { env } from '../env'
 
-import { ConcurrentPromiseQueue } from '../../utils/concurrent-promise-queue'
+import { ConcurrentPromiseQueue } from '../utils/concurrent-promise-queue'
 
 // https://www.covalenthq.com/docs/api/
 export namespace Covalent {

@@ -4,7 +4,7 @@
 	import type { CurrentPriceProvider } from '../data/ethereum/price/price-feed-provider'
 	import { getChainlinkPriceFeed } from '../data/ethereum/price/chainlink'
 	// import { getCompoundPriceFeed } from '.../../../data/ethereum/price/compound-price-feed'
-	import { getSpotPrices } from '../data/analytics/covalent'
+	import { getSpotPrices } from '../api/covalent'
 
 
 	import { preferences } from '../state/preferences'

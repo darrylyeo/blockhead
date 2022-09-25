@@ -3,11 +3,11 @@
 	import type { DeFiProvider } from '../data/defi-provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import type { Web3AppConfig, Web3AppSlug } from '../data/web3Apps'
-	import type { Covalent } from '../data/analytics/covalent'
+	import type { Covalent } from '../api/covalent'
 	import { web3AppsByProviderName } from '../data/web3Apps'
 	import { getDefiBalances } from '../data/ethereum/price/defi-sdk'
 	import { getDefiBalancesForApps } from '../data/zapper/zapper'
-	import { getTokenAddressBalances } from '../data/analytics/covalent'
+	import { getTokenAddressBalances } from '../api/covalent'
 	import { networksByChainID } from '../data/ethereum/networks'
 	import { preferences } from '../state/preferences'
 
