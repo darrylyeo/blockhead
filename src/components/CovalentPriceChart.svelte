@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import type { Covalent } from '../data/analytics/covalent'
-	import { getHistoricalPricesByTickerSymbol, getHistoricalPricesByAddress } from '../data/analytics/covalent'
+	import type { Covalent } from '../api/covalent'
+	import { getHistoricalPricesByTickerSymbol, getHistoricalPricesByAddress } from '../api/covalent'
 	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
 	import type { PriceScale } from './PriceChart.svelte'
 	
@@ -53,10 +53,10 @@
 			)
 		}
 
-		loadingIcon="/logos/covalent-logomark.svg"
+		loadingIcon="/logos/Covalent.svg"
 		loadingIconName={historicalPriceProvider}
 		loadingMessage="Retrieving price history from {historicalPriceProvider}..."
-		let:then={data}
+		let:result={data}
 		showIf={data => data.length}
 	>
 		<slot name="header"></slot>

@@ -33,7 +33,7 @@
 	}
 
 	import Address from './Address.svelte'
-	import TokenValue from './TokenValue.svelte'
+	import TokenBalance from './TokenBalance.svelte'
 	import TokenRate from './TokenRate.svelte'
 </script>
 
@@ -109,7 +109,7 @@
 					<Address address={makerId} format="middle-truncated" linked={false} />
 					<span class="action-{makerAction[tx.aggressor]}">{makerAction[tx.aggressor]}</span>
 					<span style="font-size: {sizeByVolume(size)}em">
-						<TokenValue value={size} token={quoteName} />
+						<TokenBalance balance={size} symbol={quoteName} />
 					</span>
 				</p>
 			{/each}
@@ -130,7 +130,7 @@
 			</span>
 			<span>
 				<span style="font-size: {sizeByVolume(size)}em">
-					<TokenValue value={size} token={quoteName} />
+					<TokenBalance balance={size} symbol={quoteName} />
 				</span>
 			</span>
 		</div>

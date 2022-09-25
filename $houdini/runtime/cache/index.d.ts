@@ -1,3 +1,3 @@
 import { Cache } from './cache';
-declare const _default: Cache;
-export default _default;
+declare let cache: Cache;
+export default cache;

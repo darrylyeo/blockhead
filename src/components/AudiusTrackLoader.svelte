@@ -12,10 +12,10 @@
 
 {#if trackId}
 	<Loader
-		loadingIcon={'/logos/audius-icon.png'}
+		loadingIcon={'/logos/Audius.png'}
 		loadingMessage="Fetching track from Audius network..."
 		fromPromise={() => getTrack({trackId}).then(({data: track}) => track)}
-		let:then={track}
+		let:result={track}
 	>
 		<AudiusTrack {track} />
 	</Loader>

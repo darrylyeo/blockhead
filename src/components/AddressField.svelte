@@ -5,8 +5,8 @@
 
 	export let autofocus = false
 	export let required = false
-	export let placeholder = 'Address (0xabcd...6789) / ENS Domain (mywallet.eth)'
 
+	export let placeholder = 'Address (0xabcd...6789) / Transaction ID (0xabcdef...456789) / Block Number (12345678) / ENS Domain (vitalik.eth)'
 	const isValid = address =>
 		address !== undefined
 </script>

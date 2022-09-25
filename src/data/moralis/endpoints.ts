@@ -16,12 +16,12 @@ const endpointForNetwork: Record<Ethereum.ChainID, string> = {
 } as const
 
 
-import { MORALIS_GATEWAY_ID } from '../../config-secrets'
+import { env } from '../../env'
 
 export const getMoralisJSONRPCEndpoint = ({
 	network,
 	protocol = 'https',
-	endpointID = MORALIS_GATEWAY_ID,
+	endpointID = env.MORALIS_GATEWAY_ID,
 	region = 'nyc',
 	isArchiveNode = true,
 }: {

@@ -1,17 +1,17 @@
 <script lang="ts">
-	import { AccountNetworkSettings, AccountType } from '../data/ethereum/portfolio-accounts'
+	import { AccountNetworkSettings, AccountType } from '../state/portfolio-accounts'
 	// import type { CryptoPosition } from '../data/CryptoPosition'
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { DeFiProvider } from '../data/defi-provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import { networksByChainID } from '../data/ethereum/networks'
-	import { Covalent } from '../data/analytics/covalent'
+	import { Covalent } from '../api/covalent'
 	import { getDefaultProvider } from '@ethersproject/providers'
 
 
 	// Balances view options
 
-	export let addressOrENSName: Ethereum.Address | string
+	export let addressOrEnsName: Ethereum.Address | string
 	export let type: AccountType
 	export let showNetworks: AccountNetworkSettings[]
 
@@ -21,11 +21,15 @@
 	export let nftProvider
 	export let quoteCurrency: QuoteCurrency
 
-	export let showValues: 'original' | 'converted' | 'both' = 'original'
+	export let layout: 'column' | 'grid' = 'grid'
+	// export let layout: 'column' | 'grid' = 'grid'
+	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
 	export let showSmallValues = false
 	export let showUnderlyingAssets = false
 	export let showNFTMetadata = false
+	export let showImagesOnly = false
+	export let show3D = false
 
 	export let isEditing: boolean
 
@@ -37,13 +41,71 @@
 	// 	balances: ,
 	// 	quoteTotal: number,
 	// }>
-	let tokenQuoteTotals = []
-	let defiQuoteTotals = []
-	let nftQuoteTotals = []
-	// $: console.log(address, 'defiQuoteTotals', defiQuoteTotals, 'quoteTotals', quoteTotals)
-	$: quoteTotals = [...tokenQuoteTotals, ...defiQuoteTotals, ...nftQuoteTotals].filter(quoteTotal => quoteTotal !== undefined)
-	export let quoteTotal
-	$: quoteTotal = quoteTotals.reduce((sum, quoteTotal) => sum + quoteTotal, 0)
+	let balancesSummaries = []
+	let defiAppsSummaries = []
+	let nftsSummaries = []
+
+	export let summary: {
+		quoteTotal: number,
+		quoteTotalCurrency: QuoteCurrency,
+		balancesCount: number,
+		filteredBalancesCount: number,
+		defiAppsCount: number,
+		nftContractsCount: number,
+		nftsCount: number,
+	}
+
+	$: summary = {
+		quoteTotal:
+			[
+				...balancesSummaries.map(({ quoteTotal }) => quoteTotal),
+				...defiAppsSummaries.map(({ quoteTotal }) => quoteTotal),
+				...nftsSummaries.map(({ quoteTotal }) => quoteTotal),
+			]
+				.reduce((sum, n = 0) => sum + n, 0),
+
+		quoteTotalCurrency: quoteCurrency,
+
+		balancesCount:
+			balancesSummaries
+				.reduce((sum, { balancesCount = 0 } = {}) => sum + balancesCount, 0),
+		
+		filteredBalancesCount:
+			balancesSummaries
+				.reduce((sum, { filteredBalancesCount = 0 } = {}) => sum + filteredBalancesCount, 0),
+
+		defiAppsCount:
+			defiAppsSummaries
+				.reduce((sum, { defiAppsCount = 0 } = {}) => sum + defiAppsCount, 0),
+
+		nftContractsCount:
+			nftsSummaries
+				.reduce((sum, { nftContractsCount = 0 } = {}) => sum + nftContractsCount, 0),
+
+		nftsCount:
+			nftsSummaries
+				.reduce((sum, { nftsCount = 0 } = {}) => sum + nftsCount, 0),
+	}
+
+
+	import { matchesMediaQuery } from '../utils/matchesMediaQuery'
+
+	const gridLayoutBreakpoint = '(min-width: 62rem)'
+	const matchesGridLayoutBreakpoint = matchesMediaQuery(gridLayoutBreakpoint)
+
+	$: isGridLayout = (layout === 'grid' || isEditing) && $matchesGridLayoutBreakpoint
+
+
+	let gridLayoutIsChainExpanded: Record<Ethereum.ChainID, boolean> = {}
+
+	const toggleGridLayoutIsChainExpanded = (chainID: Ethereum.ChainID) =>
+		gridLayoutIsChainExpanded = {...gridLayoutIsChainExpanded, [chainID]: !gridLayoutIsChainExpanded[chainID]}
+
+
+	let columnLayoutIsSectionExpanded: Record<`${Ethereum.ChainID}-${'balances' | 'defi' | 'nfts'}`, boolean> = {}
+
+	const toggleColumnLayoutIsSectionExpanded = (key: string) =>
+		columnLayoutIsSectionExpanded = {...columnLayoutIsSectionExpanded, [key]: !columnLayoutIsSectionExpanded[key]}
 
 
 	import Address from './Address.svelte'
@@ -54,7 +116,16 @@
 	import EthereumBalances from './EthereumBalances.svelte'
 	import EthereumNFTs from './EthereumNFTs.svelte'
 	import HeightContainer from './HeightContainer.svelte'
-	import TokenValue from './TokenValue.svelte'
+	import InlineContainer from './InlineContainer.svelte'
+	import NetworkIcon from './NetworkIcon.svelte'
+	import SizeContainer from './SizeContainer.svelte'
+	import TokenBalance from './TokenBalance.svelte'
+	import TweenedNumber from './TweenedNumber.svelte'
+
+
+	import { tokenColors } from '../data/token-colors'
+
+	import { scale } from 'svelte/transition'
 </script>
 
 
@@ -72,31 +143,117 @@
 		--padding-inner: 0.5em;
 	}
 
-	.account :global(.defi-balances) {
+	/* .account :global(.defi-balances) {
 		--padding-inner: 0.5em;
 		display: grid;
 		gap: var(--padding-inner);
-		grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-	}
+		grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));;
+	} */
 
-	h4 {
+	/* h4 {
 		transition: padding-left 0.15s;
 	}
 	.is-editing h4 {
 		padding-left: calc(1.5 * var(--padding-outer));
+	} */
+
+
+	.network {
+		scroll-snap-align: start;
+		scroll-margin-top: calc(var(--bleed-top) + var(--padding-outer) + 4.5rem);
+	}
+
+	/* .network.grid-row {
+		display: grid;
+		/* grid-template:
+			auto
+			/ 1fr 1fr 1fr; * /
+		/* grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); * /
+		gap: 1.75em;
+		/* align-items: start; * /
+	} */
+	/* @media (min-width: 62rem) {
+		.network.grid-row {
+			grid-template:
+				"Tokens DeFi NFTs" auto
+				/ 1fr 1fr 1fr;
+		}
+	}
+	.network.grid-row .token-balances {
+		grid-area: Tokens;
+	}
+	.network.grid-row .defi-balances {
+		grid-area: DeFi;
+	}
+	.network.grid-row .nft-balances {
+		grid-area: NFTs;
+	} */
+
+	@media (min-width: 62rem) {
+		.grid-row {
+			display: grid;
+			grid-template:
+				"Tokens DeFi NFTs" auto
+				/ [Tokens] 1fr [DeFi] 1fr [NFTs] 1fr;
+			gap: 1.5em;
+		}
+
+		.grid-row > :global(.token-balances) {
+			grid-column-start: Tokens;
+		}
+		.grid-row > :global(.defi-balances) {
+			grid-column-start: DeFi;
+		}
+		.grid-row > :global(.nft-balances) {
+			grid-column-start: NFTs;
+		}
+	}
+
+	.network.grid-row > section {
+		/* max-height: 50vh; */
+		/* overflow-y: auto;
+		position: sticky;
+		top: 4.5rem; */
+	}
+
+	.network > :global(section) {
+		--padding-inner: 0.5rem;
+	}
+
+	.network.grid-row hr {
+		display: none;
+	}
+	hr {
+		display: none;
+	}
+
+
+	header, .account :global(.header) {
+		grid-column: 1 / -1;
+	}
+
+
+	.is-zero {
+		opacity: 0.55;
+	}
+
+	label {
+		cursor: ns-resize;
 	}
 </style>
 
 
-<div class="account column-block" class:is-editing={isEditing}>
+<article class="account card column sticky-layout" class:is-editing={isEditing} class:grid-layout={isGridLayout}>
 	<EnsResolutionLoader
-		{addressOrENSName}
+		{addressOrEnsName}
 		{provider}
 		passiveReverseResolution
+		layoutClass="column"
 		let:address
 		let:ensName
+		clip={false}
 	>
-		<div slot="header" class="bar">
+		<header slot="header" class="bar card sticky">
 			<div class="row-inline">
 				{#if nickname}
 					<h3>{nickname}</h3>
@@ -119,135 +276,250 @@
 					{/if}
 				{/if}
 			</div>
-			{#if quoteTotals.length}
-				<span class="account-total-value">
-					<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
+
+			{#if summary}
+				<span class="summary">
+					<span class="account-total-value">
+						<TokenBalance symbol={quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} />
+					</span>
+
+					{#if summary.filteredBalancesCount}
+						| <strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> token{summary.filteredBalancesCount === 1 ? '' : 's'}
+					{/if}
+
+					{#if summary.defiAppsCount}
+						| <strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}
+					{/if}
+
+					{#if summary.nftsCount}
+						| <strong><TweenedNumber value={summary.nftsCount} /></strong> NFT{summary.nftsCount === 1 ? '' : 's'}
+
+						{#if summary.nftContractsCount}
+							from <strong><TweenedNumber value={summary.nftContractsCount} /></strong> collection{summary.nftContractsCount === 1 ? '' : 's'}
+						{/if}
+					{/if}
 				</span>
 			{/if}
-			<slot></slot>
-		</div>
 
-		{#each showNetworks as {chainID, show, showBalances, showDeFi, showNFTs}, i}
-			{#each [networksByChainID[chainID]] as network}
-				{#if show}
-					<HeightContainer class="column" isOpen={isEditing}>
-						<hr>
-						<div class="bar">
-							<h3><Address {network} {address}>{network.name}</Address></h3>
-							<span class="card-annotation">#{network.chainId}</span>
-							<button class="small" on:click={() => show = false}>Hide Network</button>
-						</div>
-					</HeightContainer>
+			<InlineContainer containerClass="align-end" class="stack align-end">
+				{#if $matchesGridLayoutBreakpoint && !isEditing}
+					<div class="row" transition:scale>
+						<button class="small" on:click={() => layout = isGridLayout ? 'column' : 'grid'} transition:scale>{isGridLayout ? '⊟' : '⊞'}</button><!-- ▤ -->
+						<select bind:value={layout}>
+							<option value="column">Column</option>
+							<option value="grid">Grid</option>
+						</select>
+					</div>
+				{/if}
 
+				<slot />
+			</InlineContainer>
+		</header>
+
+		<!-- <hr> -->
+
+		{#each
+			showNetworks
+				?.filter(({show}) => show)
+				.map(networkSettings => ({
+					networkSettings,
+					network: networksByChainID[networkSettings.chainID]
+				}))
+				?? []
+			as {
+				networkSettings: {chainID, show, showBalances, showDeFi, showNFTs },
+				network
+			},
+			i (chainID)
+		}
+			<!-- {#if isGridLayout}<hr>{/if} -->
+
+			<section
+				class="network"
+				class:column={layout === 'column'}
+				class:sticky-layout={isEditing}
+				style="{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}"
+			>
+				<SizeContainer containerClass="header sticky" isOpen={isEditing} renderOnlyWhenOpen={false}>
+					<header class="bar card">
+						<span class="card-background"><NetworkIcon {network} /></span>
+						<h3 class="row">
+							<NetworkIcon {network} />
+							<Address {network} {address}>{network.name}</Address>
+						</h3>
+						<span class="card-annotation">#{network.chainId}</span>
+						<button class="small" on:click={() => show = false}>Hide Network</button>
+					</header>
+				</SizeContainer>
+
+				<div class="network-content {isGridLayout ? 'column grid-row' : 'column-block'} sticky-layout">
 					<!-- Token Balances -->
-					{#if showBalances}
-						{#if tokenBalancesProvider === 'Covalent' && Covalent.ChainIDs.includes(network.chainId)}
+					{#if showBalances}<section class="token-balances column">
+					<!-- <HeightContainer containerClass="token-balances" class="column" isOpen={showBalances}> -->
+						<!-- {#if tokenBalancesProvider === 'Covalent' && Covalent.ChainIDs.includes(network.chainId)} -->
 							<EthereumBalances
 								{network}
 								{address}
 								{tokenBalancesProvider}
 								{quoteCurrency}
-								{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets}
-								isCollapsed={isEditing}
-								bind:quoteTotal={tokenQuoteTotals[i]}
+								{tokenBalanceFormat} {sortBy} {showSmallValues} {showUnderlyingAssets}
+								isCollapsed={(isGridLayout ? !gridLayoutIsChainExpanded[chainID] : !columnLayoutIsSectionExpanded[`${chainID}-${'tokens'}`]) || isEditing}
+								isScrollable={!isGridLayout} isHorizontal={!isGridLayout}
+								bind:summary={balancesSummaries[i]}
 							>
-								<svelte:fragment slot="header" let:network let:quoteCurrency let:quoteTotal>
-									<hr>
-									<div class="bar">
-										<h4><Address {network} {address}>{network.name} Balances</Address></h4>
-										<TokenValue token={quoteCurrency} value={quoteTotal} showPlainFiat={true} />
-										{#if isEditing}
-											<button class="small" on:click={() => showBalances = false}>Hide</button>
-										{/if}
-										<!-- {#if isEditing}
-											<label>
-												<input type="checkbox" bind:checked={showBalances}>
-												<span>Show Balances</span>
-											</label>
-										{/if} -->
-									</div>
+								<svelte:fragment slot="header" let:summary>
+									<!-- {#if balances.length || isGridLayout} -->
+										<hr>
+
+										<label class="bar card sticky">
+											<!-- <span class="card-background"><NetworkIcon {network} /></span> -->
+											<h4 class="row">
+												<NetworkIcon {network} />
+												<Address {network} {address}><InlineContainer isOpen={!isEditing} clip><mark>{network.name}</mark>&nbsp;</InlineContainer>Balances</Address>
+											</h4>
+											{#if summary}
+												<span class="summary">
+													<TokenBalance symbol={summary.quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} />
+													| <strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> tokens
+												</span>
+											{/if}
+											<InlineContainer containerClass="align-end" class="stack align-end">
+												{#if isEditing}
+													<button class="small" on:click={() => showBalances = false} transition:scale>Hide</button>
+												{:else}
+													<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(chainID) : toggleColumnLayoutIsSectionExpanded(`${chainID}-${'tokens'}`)} transition:scale>▼</button>
+												{/if}
+											</InlineContainer>
+											<!-- {#if isEditing}
+												<label>
+													<input type="checkbox" bind:checked={showBalances}>
+													<span>Show Balances</span>
+												</label>
+											{/if} -->
+										</label>
+									<!-- {/if} -->
 								</svelte:fragment>
 							</EthereumBalances>
-						{:else if provider}
-							<div class="balances">
-								{#each ['ETH', 'USDC'] as token}
-									<Balance {provider} {token} {address} />
-								{/each}
-							</div>
-						{/if}
-					{/if}
+						<!-- {:else if provider}
+							{#each [network.nativeCurrency.symbol] as symbol}
+								<Balance
+									{network}
+									{provider}
+									{address}
+									{symbol}
+								/>
+							{/each}
+						{/if} -->
+					</section>{/if}
+					<!-- </HeightContainer> -->
 
 					<!-- DeFi Balances -->
-					{#if showDeFi}
+					{#if showDeFi}<section class="defi-balances column">
+					<!-- <HeightContainer containerClass="defi-balances" class="column" isOpen={showDeFi}> -->
 						<DefiBalances
 							{network}
 							{provider}
 							{address}
 							{defiProvider}
 							{quoteCurrency}
-							{showValues}
-							{showUnderlyingAssets}
-							isCollapsed={isEditing}
-							bind:quoteTotal={defiQuoteTotals[i]}
+							{tokenBalanceFormat} {showUnderlyingAssets}
+							isCollapsed={(isGridLayout ? !gridLayoutIsChainExpanded[chainID] : !columnLayoutIsSectionExpanded[`${chainID}-${'defi'}`]) || isEditing}
+							isScrollable={!isGridLayout}
+							bind:summary={defiAppsSummaries[i]}
 						>
-							<svelte:fragment slot="header" let:quoteTotal let:quoteTotalCurrency>
-								<hr>
-								<div class="bar">
-									<h4>{network.name} DeFi</h4>
-									{#if quoteTotal !== undefined}
-										<TokenValue token={quoteTotalCurrency || quoteCurrency} value={quoteTotal} showPlainFiat={true} />
-									{/if}
-									{#if isEditing}
-										<button class="small" on:click={() => showDeFi = false}>Hide</button>
-									{/if}
-									<!-- {#if isEditing}
-										<label>
-											<input type="checkbox" bind:checked={showDeFi}>
-											<span>Show DeFi</span>
-										</label>
-									{/if} -->
-								</div>
+							<svelte:fragment slot="header" let:status let:summary>
+								<!-- {#if (status === 'resolved' && summary?.defiAppsCount) || status === 'error' || isGridLayout} -->
+									<hr>
+
+									<label class="bar card sticky">
+										<!-- <span class="card-background"><NetworkIcon {network} /></span> -->
+										<h4 class="row">
+											<NetworkIcon {network} />
+											<span><InlineContainer isOpen={!isEditing} clip><mark>{network.name}</mark>&nbsp;</InlineContainer>DeFi</span>
+										</h4>
+										{#if summary}
+											<span class="summary" class:is-zero={!summary.defiAppsCount}>
+												<TokenBalance
+													symbol={summary.quoteTotalCurrency || quoteCurrency}
+													balance={summary.quoteTotal}
+													showPlainFiat={true}
+												/>
+												|
+												<strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}
+											</span>
+										{/if}
+										<InlineContainer containerClass="align-end" class="stack align-end">
+											{#if isEditing}
+												<button class="small" on:click={() => showDeFi = false} transition:scale>Hide</button>
+											{:else}
+												<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(chainID) : toggleColumnLayoutIsSectionExpanded(`${chainID}-${'defi'}`)} transition:scale>▼</button>
+											{/if}
+										</InlineContainer>
+										<!-- {#if isEditing}
+											<label>
+												<input type="checkbox" bind:checked={showDeFi}>
+												<span>Show DeFi</span>
+											</label>
+										{/if} -->
+									</label>
+								<!-- {/if} -->
 							</svelte:fragment>
 						</DefiBalances>
-					{/if}
+					</section>{/if}
+					<!-- </HeightContainer> -->
 
 					<!-- NFT Balances -->
-					{#if showNFTs}
+					{#if showNFTs}<section class="nft-balances column">
+					<!-- <HeightContainer containerClass="nft-balances" class="column" isOpen={showNFTs}> -->
 						<EthereumNFTs
 							{network}
 							{address}
 							{nftProvider}
 							{quoteCurrency}
-							{showValues} {sortBy} {showSmallValues} {showUnderlyingAssets} {showNFTMetadata}
-							isCollapsed={isEditing}
-							bind:quoteTotal={nftQuoteTotals[i]}
-							let:nftContractCount
-							let:nftCount
+							{tokenBalanceFormat} {sortBy} {showSmallValues} {showUnderlyingAssets} {showNFTMetadata} {showImagesOnly} {show3D}
+							isCollapsed={(isGridLayout ? !gridLayoutIsChainExpanded[chainID] : !columnLayoutIsSectionExpanded[`${chainID}-${'nfts'}`]) || isEditing}
+							isScrollable={!isGridLayout}
+							bind:summary={nftsSummaries[i]}
 						>
-							<svelte:fragment slot="header">
-								<hr>
-								<div class="bar">
-									<h4>{network.name} NFTs</h4>
-									<span>
-										<strong>{nftCount}</strong> NFT{nftCount === 1 ? '' : 's'}
-										across
-										<strong>{nftContractCount}</strong> collection{nftContractCount === 1 ? '' : 's'}
-									</span>
-									{#if isEditing}
-										<button class="small" on:click={() => showNFTs = false}>Hide</button>
-									{/if}
-									<!-- {#if isEditing}
-										<label>
-											<input type="checkbox" bind:checked={showNFTs}>
-											<span>Show NFTs</span>
-										</label>
-									{/if} -->
-								</div>
+							<svelte:fragment slot="header" let:summary>
+								<!-- {#if balances?.length || isGridLayout} -->
+									<hr>
+
+									<label class="bar card sticky">
+										<h4 class="row">
+											<!-- <span class="card-background"><NetworkIcon {network} /></span> -->
+											<NetworkIcon {network} />
+											<span><InlineContainer isOpen={!isEditing} clip><mark>{network.name}</mark>&nbsp;</InlineContainer>NFTs</span>
+										</h4>
+										{#if summary}
+											<span class="summary" class:is-zero={summary.nftsCount === 0}>
+												<strong><TweenedNumber value={summary.nftsCount} /></strong> NFT{summary.nftsCount === 1 ? '' : 's'}
+												|
+												<!-- across -->
+												<strong><TweenedNumber value={summary.nftContractsCount} /></strong> collection{summary.nftContractsCount === 1 ? '' : 's'}
+											</span>
+										{/if}
+										<InlineContainer containerClass="align-end" class="stack align-end">
+											{#if isEditing}
+												<button class="small" on:click={() => showNFTs = false} transition:scale>Hide</button>
+											{:else}
+												<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(chainID) : toggleColumnLayoutIsSectionExpanded(`${chainID}-${'nfts'}`)} transition:scale>▼</button>
+											{/if}
+										</InlineContainer>
+										<!-- {#if isEditing}
+											<label>
+												<input type="checkbox" bind:checked={showNFTs}>
+												<span>Show NFTs</span>
+											</label>
+										{/if} -->
+									</label>
+								<!-- {/if} -->
 							</svelte:fragment>
 						</EthereumNFTs>
-					{/if}
-				{/if}
-			{/each}
+					</section>{/if}
+					<!-- </HeightContainer> -->
+				</div>
+			</section>
 		{/each}
 	</EnsResolutionLoader>
-</div>
+</article>

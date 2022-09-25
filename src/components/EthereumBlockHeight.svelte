@@ -7,25 +7,33 @@
 	export let blockNumber: number
 
 
-	import Loader from './Loader.svelte'
-	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
-	import TokenIcon from './TokenIcon.svelte'
+	// import Loader from './Loader.svelte'
+	// import EthereumBlockNumber from './EthereumBlockNumber.svelte'
+	// import NetworkIcon from './NetworkIcon.svelte'
+
+	import EthereumLatestBlockNumber from './EthereumLatestBlockNumber.svelte'
 </script>
 
 <div class="bar">
 	<h3>Block Height</h3>
 	<!-- <span class="card-annotation">{$preferences.rpcNetwork}</span> -->
 </div>
-<Loader
+<!-- <Loader
 	loadingMessage="Retrieving statistics..."
 	fromPromise={provider && (() => new Promise(r => provider.once('block', r)))}
 >
-	<TokenIcon slot="loadingIcon" token={network.nativeCurrency.symbol} />
+	<NetworkIcon slot="loadingIcon" {network} />
 
 	<p class="centered">
 		<span>The {network.name} blockchain is </span>
-		<EthereumBlockNumber {network} {blockNumber} format="number-only" />
+		<EthereumBlockNumber {network} {blockNumber} />
 		<span> blocks long.</span>
 	</p>
-</Loader>
+</Loader> -->
 
+
+<p class="centered">
+	<span>The {network.name} blockchain is </span>
+	<EthereumLatestBlockNumber {network} {provider} />
+	<span> blocks long.</span>
+</p>

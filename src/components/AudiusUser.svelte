@@ -30,17 +30,7 @@
 	img {
 		border-radius: 0.25em;
 	}
-	.cover-image {
-		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		object-position: center;
-		opacity: 0.1;
-		pointer-events: none;
-		z-index: -1;
-	}
+
 	.profile-picture {
 		width: 5em;
 		height: 5em;

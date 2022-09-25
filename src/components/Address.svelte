@@ -1,19 +1,27 @@
 <script lang="ts">
 	import type { CryptoAddress } from '../data/CryptoAddress'
 	import type { Ethereum } from '../data/ethereum/types'
-	
+
+
 	export let network: Ethereum.Network
 	export let address: CryptoAddress = ''
 
 	export let format: 'full' | 'middle-truncated' = 'full'
 	export let linked = true
 
-	$: formattedAddress =
-		format === 'middle-truncated' ?
-			address.slice(0, 6) + '…' + address.slice(-4)
-		:
-			address
+
+	import { formatAddress } from '../utils/formatAddress'
+	$: formattedAddress = formatAddress(address, format)
+
+
+	$: link = `/explorer/${network.slug}/${address}`
+
+	const onDragStart = (e: DragEvent) => {
+		e.dataTransfer.setData('text/plain', address)
+		if(linked) e.dataTransfer.setData('text/uri-list', link)
+	}
 </script>
+
 
 <style>
 	.format {
@@ -24,21 +32,43 @@
 		max-width: 100%;
 		overflow: hidden;
 		text-overflow: ellipsis; */
+
+		white-space: nowrap;
 	}
 </style>
 
-{#if linked}
-	<a class="address" href="/explorer/{network.slug}/{address}">
+
+{#if linked && network}
+	<a
+		class="address"
+		href={link}
+		draggable={true}
+		on:dragstart={onDragStart}
+	>
 		<slot {formattedAddress}>
-			<span class="format">
-				{formattedAddress}
-			</span>
+			{#if format === 'middle-truncated'}
+				<abbr class="format" title={address}>{formattedAddress}</abbr>
+			{:else}
+				<span class="format">{formattedAddress}</span>
+			{/if}
 		</slot>
 	</a>
 {:else}
 	<slot {formattedAddress}>
-		<span class="address format">
-			{formattedAddress}
-		</span>
+		{#if format === 'middle-truncated'}
+			<abbr
+				class="address format"
+				title={address}
+				draggable={true}
+				on:dragstart={onDragStart}
+
+			>{formattedAddress}</abbr>
+		{:else}
+			<span
+				class="address format"
+				draggable={true}
+				on:dragstart={onDragStart}
+			>{formattedAddress}</span>
+		{/if}
 	</slot>
 {/if}

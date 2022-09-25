@@ -2,13 +2,29 @@
 	import type { TickerSymbol } from '../data/currency/currency'
 	import type { Ethereum } from '../data/ethereum/types'
 
-	export let token: TickerSymbol
-	export let tokenAddress: Ethereum.ContractAddress
-	export let tokenIcon: string
-	export let tokenName: string
+
+	export let symbol: TickerSymbol
+	export let address: Ethereum.ContractAddress
+	export let name: string
+	export let icon: string
+
+	export let erc20Token: Ethereum.ERC20Token
+	$: symbol = $$props.symbol || erc20Token?.symbol
+	$: address = $$props.address || erc20Token?.address
+	$: name = $$props.name || erc20Token?.name
+	$: icon = $$props.icon || erc20Token?.icon
+
+	$: title = `${name || symbol}${symbol && name ? ` (${symbol})` : ``}`
+
+
+	const onDragStart = (e: DragEvent) => {
+		e.dataTransfer.setData('text/plain', title)
+	}
+
 
 	import TokenIcon from './TokenIcon.svelte'
 </script>
+
 
 <style>
 	.token-value-container {
@@ -30,7 +46,13 @@
 	}
 </style>
 
-<span class="token-value-container" title="{tokenName || token}{token && tokenName ? ` (${token})` : ``}">
-	<TokenIcon {token} {tokenAddress} {tokenIcon} />
-	<span class="token-name">{token}</span>
+
+<span
+	class="token-value-container"
+	{title}
+	draggable={true}
+	on:dragstart={onDragStart}
+>
+	<TokenIcon {symbol} {address} {name} {icon} {erc20Token} />
+	<span class="token-name">{symbol}</span>
 </span>

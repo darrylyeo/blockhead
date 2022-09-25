@@ -3,87 +3,135 @@
 	import type { Ethereum } from '../data/ethereum/types'
 
 	export let provider: Ethereum.Provider
-	export let addressOrENSName: Ethereum.Address | string
+	export let addressOrEnsName: Ethereum.Address | string
 	export let passiveForwardResolution = false
 	export let passiveReverseResolution = false
 
 
-	import { preferences } from '../data/ethereum/preferences'
-	import { getEthersProvider } from '../data/ethereum/provider'
+	import { preferences } from '../state/preferences'
+	import { getEthersProvider } from '../data/providers'
 	import { networksByChainID } from '../data/ethereum/networks'
 
 	$: if(!provider)
-		getEthersProvider(networksByChainID[1], $preferences.rpcNetwork).then(_ => provider = _)
+		getEthersProvider({
+			network: networksByChainID[1],
+			networkProvider: $preferences.rpcNetwork
+		}).then(_ => provider = _)
 
 
 	import { isAddress } from '@ethersproject/address'
 
 
-	export let address
-	export let ensName
-	export let isReverseResolving
+	export let address: Ethereum.Address
+	export let ensName: string
+	export let isReverseResolving: boolean
 
-	$: isReverseResolving = isAddress(addressOrENSName)
+	$: isReverseResolving = isAddress(addressOrEnsName)
 
-	let addressPromise
-	let ensNamePromise
-
-	// import ENS, { getEnsAddress } from '@ensdomains/ensjs'
-	// const ens = new ENS({ provider, ensAddress: getEnsAddress('1') })
-	$: if(!addressOrENSName){
+	$: if(!addressOrEnsName){
 		address = undefined
 		ensName = undefined
 		isReverseResolving = undefined
-		addressPromise = undefined
-		ensNamePromise = undefined
 	}else if(isReverseResolving){
-		address = addressOrENSName
-		addressPromise = Promise.resolve(address)
-		ensNamePromise = provider?.lookupAddress(address).then(ensName => {
-			if(ensName)
-				return ensName
-			throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name.`)
-		})
-			.then(_ => ensName = _)
+		address = addressOrEnsName
+	}else{
+		ensName = addressOrEnsName
+	}
+
+
+	import { useQuery } from '@sveltestack/svelte-query'
+
+	// import ENS, { getEnsAddress } from '@ensdomains/ensjs'
+	// const ens = new ENS({ provider, ensAddress: getEnsAddress('1') })
+
+	import { memoizedAsync } from '../utils/memoized'
+
+	const lookupAddress = memoizedAsync(async (address: Ethereum.Address) => {
+		const ensName = await provider.lookupAddress(address)
+		if(ensName)
+			return ensName
+
+		// throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name.`)
+		throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name (or there's an issue with the${$preferences.rpcNetwork === 'Auto' ? `` : ` ${$preferences.rpcNetwork}`} JSON-RPC connection).`)
+
 		// ensNamePromise = ens.getName(address).then(async name => {
 		// 	if(address === await ens.name(name).getAddress())
 		// 		return name 
 		// })
-	}else{
-		ensName = addressOrENSName
-		addressPromise = provider?.resolveName(ensName).then(address => {
-			if(address)
-				return address
-			throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address.`)
-		})
-			.then(_ => address = _)
-		// addressPromise = ens.name(addressOrENSName).getAddress()
-		ensNamePromise = Promise.resolve(ensName)
-	}
+	})
+
+	const resolveName = memoizedAsync(async (ensName: string) => {
+		const address = await provider.resolveName(ensName)
+		if(address)
+			return address
+
+		// throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address.`)
+		throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address (or there's an issue with the${$preferences.rpcNetwork === 'Auto' ? `` : ` ${$preferences.rpcNetwork}`} JSON-RPC connection).`)
+
+		// addressPromise = ens.name(addressOrEnsName).getAddress()
+	})
+
+
+	export let showIf: (({address, ensName}: {address: Ethereum.Address, ensName: string}) => boolean | any) | undefined
+	export let layoutClass: string
+	export let clip = true
+
+	$: viaRPC = $preferences.rpcNetwork === 'Auto' ? '' : ` via ${$preferences.rpcNetwork}`
 
 
 	import Loader from './Loader.svelte'
 </script>
 
 
-{#if addressOrENSName && isReverseResolving && !passiveReverseResolution}
+{#if addressOrEnsName && isReverseResolving}
 	<Loader
-		fromPromise={ensNamePromise && (() => ensNamePromise)}
-		loadingIcon="/logos/ens.svg"
+		fromUseQuery={
+			address && provider && useQuery({
+				queryKey: ['EnsReverseResolution', {
+					address
+				}],
+				queryFn: (async () =>
+					await lookupAddress(address.toLowerCase())
+				)
+			})
+		}
+		loadingIcon="/logos/ENS.svg"
 		loadingIconName="ENS"
-		loadingMessage="Reverse-resolving address to a name on the Ethereum Name Service..."
-		errorMessage={`Error reverse-resolving address to ENS name.`}
+		loadingMessage="Reverse-resolving address to a name on the Ethereum Name Service{viaRPC}..."
+		errorMessage={`Error reverse-resolving address to ENS name${viaRPC}.`}
+		showIf={showIf ? () => showIf({address, ensName}) : undefined}
+		{layoutClass}
+		{clip}
+		passive={passiveReverseResolution}
+		bind:result={ensName}
 	>
 		<slot slot="header" name="header" {address} {ensName} {isReverseResolving} />
 		<slot {address} {ensName} {isReverseResolving} />
 	</Loader>
-{:else if addressOrENSName && !isReverseResolving && !passiveForwardResolution}
+{:else if addressOrEnsName && !isReverseResolving}
+		<!-- fromPromise={async () => (
+			await resolveName(ensName.toLowerCase())
+		)} -->
 	<Loader
-		fromPromise={addressPromise && (() => addressPromise)}
-		loadingIcon="/logos/ens.svg"
+		fromUseQuery={
+			ensName && provider && useQuery({
+				queryKey: ['EnsResolution', {
+					ensName
+				}],
+				queryFn: async () => (
+					await resolveName(ensName.toLowerCase())
+				)
+			})
+		}
+		loadingIcon="/logos/ENS.svg"
 		loadingIconName="ENS"
-		loadingMessage="Resolving name to address on the Ethereum Name Service..."
-		errorMessage={`Error resolving ENS name to address.`}
+		loadingMessage="Resolving name to address on the Ethereum Name Service{viaRPC}..."
+		errorMessage={`Error resolving ENS name to address${viaRPC}.`}
+		showIf={showIf ? () => showIf({address, ensName}) : undefined}
+		{layoutClass}
+		{clip}
+		passive={passiveForwardResolution}
+		bind:result={address}
 	>
 		<slot slot="header" name="header" {address} {ensName} {isReverseResolving} />
 		<slot {address} {ensName} {isReverseResolving} />

@@ -4,11 +4,16 @@
 	import type { CurrentPriceProvider } from '../data/ethereum/price/price-feed-provider'
 	import { getChainlinkPriceFeed } from '../data/ethereum/price/chainlink'
 	// import { getCompoundPriceFeed } from '.../../../data/ethereum/price/compound-price-feed'
-	import { getSpotPrices } from '../data/analytics/covalent'
+	import { getSpotPrices } from '../api/covalent'
 
 
-	/*export*/ let priceProvider: CurrentPriceProvider | 'auto' = 'auto'
-	let currentPriceProvider = priceProvider === 'auto' ? 'Chainlink' : priceProvider
+	import { preferences } from '../state/preferences'
+
+	export let currentPriceProvider: CurrentPriceProvider | 'auto' = 'auto'
+	$: currentPriceProvider = $$props.currentPriceProvider || $preferences.currentPriceProvider
+
+	let _currentPriceProvider
+	$: _currentPriceProvider = currentPriceProvider === 'auto' ? 'Chainlink' : currentPriceProvider
 
 	export let token: TickerSymbol
 	export let quoteCurrency: QuoteCurrency
@@ -21,11 +26,13 @@
 	let isHidden = false
 
 
-	import Loader from './Loader.svelte'
-	import TokenRate from './TokenRate.svelte'
-	import TokenValue from './TokenValue.svelte'
 	import Address from './Address.svelte'
+	import Date from './Date.svelte'
+	import Loader from './Loader.svelte'
+	// import TokenRate from './TokenRate.svelte'
+	import TokenBalance from './TokenBalance.svelte'
 </script>
+
 
 <style>
 	.rate {
@@ -38,17 +45,18 @@
 	}
 </style>
 
+
 <!-- {#if provider.network}
 	<Loader
 		loadingIcon={priceFeedLogo}
-		loadingIconName={priceProvider}
+		loadingIconName={currentPriceProvider}
 		loadingMessage="Retrieving price from Chainlink..."
 		fromPromise={blockNumber && () => getChainlinkPriceFeed(provider, token, quoteCurrency)}
-		let:then={priceFeed}
+		let:result={priceFeed}
 	>
 		<div slot="header" class="bar">
 			<h3>Current Price</h3>
-			<span class="card-annotation">{priceProvider}</span>
+			<span class="card-annotation">{currentPriceProvider}</span>
 		</div>
 
 		<TokenRate
@@ -65,14 +73,14 @@
 		{#if provider.network}
 			<Loader
 				loadingIcon={priceFeedLogo}
-				loadingIconName={priceProvider}
+				loadingIconName={currentPriceProvider}
 				loadingMessage="Retrieving price from Chainlink..."
 				fromPromise={() => getChainlinkPriceFeed(provider, token, quoteCurrency)}
-				let:then={priceFeed}
+				let:result={priceFeed}
 			>
 				<div slot="header" class="bar">
 					<h3>Current Price</h3>
-					<span class="card-annotation">{priceProvider}</span>
+					<span class="card-annotation">{currentPriceProvider}</span>
 				</div>
 				<TokenRate
 					rate={priceFeed.price}
@@ -87,38 +95,46 @@
 </div> -->
 
 {#if !isHidden}
-	<div class="bar">
-		<slot name="title">
-			<h3>Current Price</h3>
-		</slot>
-		<span class="card-annotation">{currentPriceProvider}</span>
-	</div>
 	<div class="stack">
-		{#key blockNumber}
-			{#if currentPriceProvider === 'Chainlink'}
+		{#if _currentPriceProvider === 'Chainlink'}
+			<div class="column">
 				<Loader
-					loadingIcon={'/logos/chainlink.svg'}
-					loadingIconName={currentPriceProvider}
-					loadingMessage="Retrieving price from {currentPriceProvider}..."
+					loadingIcon={'/logos/Chainlink.svg'}
+					loadingIconName={_currentPriceProvider}
+					loadingMessage="Retrieving price from {_currentPriceProvider}..."
 					errorMessage="{token} price not available"
-					fromPromise={provider && network && (() => getChainlinkPriceFeed(provider, network, token, quoteCurrency))}
-					let:then={priceFeed}
+					fromPromise={provider && network && blockNumber && (() => getChainlinkPriceFeed(provider, network, token, quoteCurrency))}
+					let:result={priceFeed}
 					whenErrored={async () => {
 						await new Promise(r => setTimeout(r, 1000))
-						if(priceProvider === 'auto')
-							currentPriceProvider = 'Covalent'
+						if(currentPriceProvider === 'auto')
+							_currentPriceProvider = 'Covalent'
 					}}
 				>
+					<div slot="header" class="bar" let:status>
+						<slot name="title">
+							<h3>Current Price</h3>
+						</slot>
+
+						<span class="card-annotation">
+							{_currentPriceProvider}
+							{#if status === 'resolved'}
+								›
+								<Address {network} address={priceFeed.contractAddress}>{token}/{quoteCurrency} Price Feed</Address>
+							{/if}
+						</span>
+					</div>
+
 					<div class="rate">
-						<TokenValue
-							value={1}
-							{token}
+						<TokenBalance
+							balance={1}
+							symbol={token}
 							tween={false}
 						/>
 						=
-						<TokenValue
-							value={priceFeed.price}
-							token={quoteCurrency}
+						<TokenBalance
+							balance={priceFeed.price}
+							symbol={quoteCurrency}
 							showPlainFiat={true}
 						/>
 					</div>
@@ -131,15 +147,24 @@
 						/>
 					</div> -->
 					<footer class="bar">
-						<Address {network} address={priceFeed.contractAddress}>{token}/{quoteCurrency} Price Feed</Address>
-						<span class="card-annotation">Updated {priceFeed.updatedAt.toLocaleTimeString()}</span>
+						<span />
+						<span class="card-annotation">
+							Updated
+							<Date
+								date={priceFeed.updatedAt}
+								format="relative"
+								layout="horizontal"
+							/>
+						</span>
 					</footer>
 				</Loader>
-			{:else if currentPriceProvider === 'Covalent'}
+			</div>
+		{:else if _currentPriceProvider === 'Covalent'}
+			<div class="column">
 				<Loader
-					loadingIcon={'/logos/covalent-logomark.svg'}
-					loadingIconName={currentPriceProvider}
-					loadingMessage="Retrieving price from {currentPriceProvider}..."
+					loadingIcon={'/logos/Covalent.svg'}
+					loadingIconName={_currentPriceProvider}
+					loadingMessage="Retrieving price from {_currentPriceProvider}..."
 					errorMessage="{token} price not available"
 					fromPromise={async () => {
 						const data = await getSpotPrices({tickers: [token]})
@@ -152,8 +177,18 @@
 							}
 						throw new Error(`The ${token} spot price isn't currently indexed by Covalent.`)
 					}}
-					let:then={data}
+					let:result={data}
 				>
+					<div slot="header" class="bar">
+						<slot name="title">
+							<h3>Current Price</h3>
+						</slot>
+
+						<span class="card-annotation">
+							{_currentPriceProvider}
+						</span>
+					</div>
+
 					<svelte:fragment slot="errorActions" let:cancel>
 						<button class="small" on:click={() => {
 							cancel()
@@ -162,16 +197,16 @@
 					</svelte:fragment>
 
 					<div class="rate">
-						<TokenValue
-							value={1}
-							{token}
-							tokenIcon={data.icon}
+						<TokenBalance
+							balance={1}
+							symbol={token}
+							icon={data.icon}
 							tween={false}
 						/>
 						=
-						<TokenValue
-							value={data.price}
-							token={/*quoteCurrency*/ 'USD'}
+						<TokenBalance
+							balance={data.price}
+							symbol={/*quoteCurrency*/ 'USD'}
 							showPlainFiat={true}
 						/>
 					</div>
@@ -188,8 +223,8 @@
 						<span class="card-annotation">Updated {new Date(data.updatedAt).toLocaleTimeString()}</span>
 					</footer>
 				</Loader>
-			{/if}
-		{/key}
+			</div>
+		{/if}
 	</div>
 
 	<!-- {#if isMounted}
