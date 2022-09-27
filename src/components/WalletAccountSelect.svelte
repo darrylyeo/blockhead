@@ -5,7 +5,6 @@
 
 
 	export let account: Account
-	$: console.log('account', account)
 </script>
 
 

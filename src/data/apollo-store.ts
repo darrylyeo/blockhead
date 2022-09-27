@@ -48,7 +48,7 @@ export function readableFromApolloRequest<TData = unknown>(
 					const error = new ApolloError({ graphQLErrors: result.errors })
 					set({ loading: false, data: undefined, error })
 				} else {
-					console.log('result.data', result.data)
+					// console.log('result.data', result.data)
 					set({ loading: false, data: result.data, error: undefined })
 				}
 			},

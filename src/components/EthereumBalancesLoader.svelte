@@ -121,7 +121,6 @@
 							address
 							// to_block: 
 						})
-						console.log([nativeBalance, ...tokenBalances])
 
 						const result = [
 							{

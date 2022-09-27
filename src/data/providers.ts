@@ -278,7 +278,7 @@ export const getEthersProvider = async ({
 		nodeType
 	})
 
-	console.log('ethersProvider', ethersProvider)
+	// console.log('ethersProvider', ethersProvider)
 
 	return ethersProvider
 }

@@ -154,7 +154,7 @@ const connectEip1193 = async (provider: Provider) => {
 			// provider.request = (request) => provider.sendPromise(request.method, request.params)
 			provider.request = async (request) => await new Promise((resolve, reject) => {
 				provider.sendAsync(request, (error, result) => {
-					console.log('sendAsync', error, result)
+					// console.log('sendAsync', error, result)
 					error ? reject(error) : resolve(result)
 				})
 			})

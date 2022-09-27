@@ -21,7 +21,6 @@
 
 	// Computed Values
 	let zapperFiatRates
-	$:console.log(zapperFiatRates)
 	// $: if(defiProvider === 'Zapper' && quoteCurrency !== 'USD')
 	// 	getFiatRates().then(_ => zapperFiatRates = _)
 	$: zapperQuoteCurrency = zapperFiatRates ? quoteCurrency : 'USD' 
