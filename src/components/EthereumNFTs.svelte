@@ -224,7 +224,6 @@
 	import SizeContainer from './SizeContainer.svelte'
 	import { flip } from 'svelte/animate'
 	import { quintOut } from 'svelte/easing'
-	import type { AccountContractsResponse, AccountNftsResponse } from '../data/analytics/nftport/api/Api'
 
 
 	import { CovalentIcon, NFTPortIcon } from '../assets/icons'
@@ -242,6 +241,12 @@
 	}
 	.nft-contracts.scrollable-list {
 		height: 39.5rem;
+	}
+
+	.nft-contract-logo {
+		width: fit-content;
+		height: 1.75em;
+		border-radius: 0.3em;
 	}
 
 	.nfts {
@@ -543,21 +548,21 @@
 						animate:flip|local={{duration: 500, delay: Math.abs(i) * 10, easing: quintOut}}
 						draggable={true}
 					>
-						{#if metadata.bannerImage}
+						{#if metadata.bannerImage && !show3D}
 							<img class="cover-image" src={metadata.bannerImage} />
 						{/if}
 
 						<header class="column">
 							<div class="bar">
-								<div class="row">
+								<h5 class="row">
 									{#if metadata.logoImage}
 										<img src={metadata.logoImage} height="24" style="width: fit-content" />
 									{/if}
-									<h4>
+									<span>
 										<Address {network} {address} let:formattedAddress>{name || formattedAddress}</Address>
 										{#if nfts.length > 1}({nfts.length}){/if}
-									</h4>
-								</div>
+									</span>
+								</h5>
 								{#if ercTokenStandards?.length}
 									<span class="card-annotation">{ercTokenStandards.join('/')}</span>
 								{/if}
@@ -623,38 +628,38 @@
 														<!-- <img class="nft-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt={formatNFTNameAndTokenID(metadata.name, token_id)} /> -->
 													</picture>
 
-													<!-- {#if metadata.animation_url}
-														<iframe src={metadata.animation_url} lazy="true" />
-													{/if} -->
-												<!-- </a> -->
-												<figcaption class="column">
-													<header class="bar">
-														<div class="nft-name" class:row-inline={!showImagesOnly}>
-															{#if metadata.name}<h5>{metadata.name}</h5>{/if}
-															{#if erc1155Balance > 1}
-																<span class="nft-count">×{erc1155Balance}</span>
+														<!-- {#if metadata.animation_url}
+															<iframe src={metadata.animation_url} lazy="true" />
+														{/if} -->
+													<!-- </a> -->
+													<figcaption class="column">
+														<header class="bar">
+															<div class="nft-name" class:row-inline={!showImagesOnly}>
+																{#if metadata.name}<h6>{metadata.name}</h6>{/if}
+																{#if erc1155Balance > 1}
+																	<span class="nft-count">×{erc1155Balance}</span>
+																{/if}
+															</div>
+															{#if String(tokenId).length < 6}
+																<span class="card-annotation token-id">#{tokenId}</span>
 															{/if}
-														</div>
-														{#if String(tokenId).length < 6}
-															<span class="card-annotation token-id">#{tokenId}</span>
+														</header>
+														{#if showNFTMetadata}
+															{#if metadata.description}
+																<p class="description">{metadata.description}</p>
+															{/if}
+															{#if metadata.attributes.length}
+																<dl class="attributes">
+																	{#each metadata.attributes as {traitType, value}}
+																		<dt>{traitType}</dt>
+																		<dd>{value}</dd>
+																	{/each}
+																</dl>
+															{/if}
 														{/if}
-													</header>
-													{#if showNFTMetadata}
-														{#if metadata.description}
-															<p class="description">{metadata.description}</p>
-														{/if}
-														{#if metadata.attributes.length}
-															<dl class="attributes">
-																{#each metadata.attributes as {traitType, value}}
-																	<dt>{traitType}</dt>
-																	<dd>{value}</dd>
-																{/each}
-															</dl>
-														{/if}
-													{/if}
-												</figcaption>
-											</figure>
-										</SizeContainer>
+													</figcaption>
+												</figure>
+											</SizeContainer>
 									{:else}
 										<div class="nft column" title={`${name ? `${name} ` : ''}#${tokenId}`}>
 											<div class="nft-image" />
@@ -746,15 +751,15 @@
 
 						<header class="column">
 							<div class="bar">
-								<div class="row">
+								<h5 class="row">
 									{#if metadata.logoImage}
-										<img src={metadata.logoImage} height="24" style="width: fit-content" />
+										<img class="nft-contract-logo" src={metadata.logoImage} />
 									{/if}
-									<h4>
+									<span>
 										<Address {network} {address} let:formattedAddress>{name || formattedAddress}</Address>
 										{#if nfts.length > 1}({nfts.length}){/if}
-									</h4>
-								</div>
+									</span>
+								</h5>
 								{#if ercTokenStandards?.length}
 									<span class="card-annotation">{ercTokenStandards.join('/')}</span>
 								{/if}
@@ -808,7 +813,7 @@
 											<figcaption class="column">
 												<header class="bar">
 													<div class="nft-name" class:row-inline={!showImagesOnly}>
-														{#if name}<h5>{name}</h5>{/if}
+														{#if name}<h6>{name}</h6>{/if}
 													</div>
 													{#if String(tokenId).length < 6}
 														<span class="card-annotation token-id">#{tokenId}</span>

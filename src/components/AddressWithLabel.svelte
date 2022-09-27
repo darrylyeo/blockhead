@@ -20,7 +20,7 @@
 	}
 
 	.label {
-		font-weight: 100;
+		/* font-weight: 100; */
 	}
 	.label + .address {
 		font-size: 0.8em;

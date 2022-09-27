@@ -32,6 +32,7 @@
 		--icon-size: 1.25em;
 	}
 
+	picture:empty,
 	picture:has(picture:empty) {
 		display: none;
 	}
