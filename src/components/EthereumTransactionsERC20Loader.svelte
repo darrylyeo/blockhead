@@ -25,12 +25,15 @@
 
 
 	import Loader from './Loader.svelte'
+
+
+	import { CovalentIcon } from '../assets/icons'
 </script>
 
 
 <!-- {#if transactionProvider === 'Covalent'} -->
 	<Loader
-		loadingIcon={'/logos/Covalent.svg'}
+		loadingIcon={CovalentIcon}
 		loadingIconName={transactionProvider}
 		loadingMessage="Retrieving ERC-20 transactions from {transactionProvider}..."
 		errorMessage="Error retrieving ERC-20 transactions from {transactionProvider}"

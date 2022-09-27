@@ -224,7 +224,10 @@
 	import SizeContainer from './SizeContainer.svelte'
 	import { flip } from 'svelte/animate'
 	import { quintOut } from 'svelte/easing'
-	import type { AccountContractsResponse, AccountNftsResponse } from 'src/data/analytics/nftport/api/Api';
+	import type { AccountContractsResponse, AccountNftsResponse } from '../data/analytics/nftport/api/Api'
+
+
+	import { CovalentIcon, NFTPortIcon } from '../assets/icons'
 </script>
 
 
@@ -480,7 +483,7 @@
 
 {#if nftProvider === 'Covalent'}
 	<Loader
-		loadingIcon={'/logos/Covalent.svg'}
+		loadingIcon={CovalentIcon}
 		loadingIconName={nftProvider}
 		loadingMessage="Retrieving {network.name} NFTs from {nftProvider}..."
 		errorMessage="Error retrieving {network.name} NFTs from {nftProvider}"
@@ -668,7 +671,7 @@
 	</Loader>
 {:else if nftProvider === 'NFTPort'}
 	<Loader
-		loadingIcon={'/logos/NFTPort.svg'}
+		loadingIcon={NFTPortIcon}
 		loadingIconName={nftProvider}
 		loadingMessage="Retrieving {network.name} NFTs from {nftProvider}..."
 		errorMessage="Error retrieving {network.name} NFTs from {nftProvider}"

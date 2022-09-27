@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { AudiusIcon } from '../assets/icons'
+
 	export let userId: string
 
 
@@ -13,7 +15,7 @@
 
 {#if userId}
 	<Loader
-		loadingIcon={'/logos/Audius.png'}
+		loadingIcon={AudiusIcon}
 		loadingMessage="Fetching tracks from Audius network..."
 		fromPromise={() => getUserTracks({userId}).then(({data: tracks}) => tracks)}
 		let:result={tracks}

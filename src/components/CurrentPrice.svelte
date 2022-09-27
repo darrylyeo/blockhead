@@ -31,6 +31,9 @@
 	import Loader from './Loader.svelte'
 	// import TokenRate from './TokenRate.svelte'
 	import TokenBalance from './TokenBalance.svelte'
+
+
+	import { ChainlinkIcon, CovalentIcon } from '../assets/icons'
 </script>
 
 
@@ -48,7 +51,7 @@
 
 <!-- {#if provider.network}
 	<Loader
-		loadingIcon={priceFeedLogo}
+		loadingIcon={priceFeedIcon}
 		loadingIconName={currentPriceProvider}
 		loadingMessage="Retrieving price from Chainlink..."
 		fromPromise={blockNumber && () => getChainlinkPriceFeed(provider, token, quoteCurrency)}
@@ -72,7 +75,7 @@
 	{#key blockNumber}
 		{#if provider.network}
 			<Loader
-				loadingIcon={priceFeedLogo}
+				loadingIcon={priceFeedIcon}
 				loadingIconName={currentPriceProvider}
 				loadingMessage="Retrieving price from Chainlink..."
 				fromPromise={() => getChainlinkPriceFeed(provider, token, quoteCurrency)}
@@ -99,7 +102,7 @@
 		{#if _currentPriceProvider === 'Chainlink'}
 			<div class="column">
 				<Loader
-					loadingIcon={'/logos/Chainlink.svg'}
+					loadingIcon={ChainlinkIcon}
 					loadingIconName={_currentPriceProvider}
 					loadingMessage="Retrieving price from {_currentPriceProvider}..."
 					errorMessage="{token} price not available"
@@ -162,7 +165,7 @@
 		{:else if _currentPriceProvider === 'Covalent'}
 			<div class="column">
 				<Loader
-					loadingIcon={'/logos/Covalent.svg'}
+					loadingIcon={CovalentIcon}
 					loadingIconName={_currentPriceProvider}
 					loadingMessage="Retrieving price from {_currentPriceProvider}..."
 					errorMessage="{token} price not available"
@@ -230,7 +233,7 @@
 	<!-- {#if isMounted}
 		{#await getCompoundPriceFeed(token, quoteCurrency)}
 			<Loading>
-				<img slot="icon" src="/logos/chainlink" alt="Chainlink" width="50">
+				<img slot="icon" src={ChainlinkIcon} alt="Chainlink" width="50">
 				Retrieving price...
 			</Loading>
 		{:then rate}

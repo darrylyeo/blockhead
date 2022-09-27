@@ -82,6 +82,9 @@
 
 
 	import Loader from './Loader.svelte'
+
+
+	import { ENSIcon } from '../assets/icons'
 </script>
 
 
@@ -97,7 +100,7 @@
 				)
 			})
 		}
-		loadingIcon="/logos/ENS.svg"
+		loadingIcon={ENSIcon}
 		loadingIconName="ENS"
 		loadingMessage="Reverse-resolving address to a name on the Ethereum Name Service{viaRPC}..."
 		errorMessage={`Error reverse-resolving address to ENS name${viaRPC}.`}
@@ -125,7 +128,7 @@
 				)
 			})
 		}
-		loadingIcon="/logos/ENS.svg"
+		loadingIcon={ENSIcon}
 		loadingIconName="ENS"
 		loadingMessage="Resolving name to address on the Ethereum Name Service{viaRPC}..."
 		errorMessage={`Error resolving ENS name to address${viaRPC}.`}

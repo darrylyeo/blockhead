@@ -7,12 +7,15 @@
 
 	import AudiusTrack from './AudiusTrack.svelte'
 	import Loader from './Loader.svelte'
+
+
+	import { AudiusIcon } from '../assets/icons'
 </script>
 
 
 {#if trackId}
 	<Loader
-		loadingIcon={'/logos/Audius.png'}
+		loadingIcon={AudiusIcon}
 		loadingMessage="Fetching track from Audius network..."
 		fromPromise={() => getTrack({trackId}).then(({data: track}) => track)}
 		let:result={track}

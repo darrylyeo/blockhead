@@ -97,6 +97,9 @@
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
 	import { scaleFont } from '../transitions/scale-font'
+
+
+	import { ZapperIcon } from '../assets/icons'
 </script>
 
 <style>
@@ -171,7 +174,7 @@
 			loadingMessage="Reading {defiBalancesDescription} balances from {defiProvider}..."
 			errorMessage="Error getting {defiBalancesDescription} balances from {defiProvider}."
 			loadingIconName={defiProvider}
-			loadingIcon={'/logos/Zapper.svg'}
+			loadingIcon={ZapperIcon}
 			fromStore={() => getDefiBalancesForApps({
 				// appIds: web3Apps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zapper ?? [])),
 				network,
@@ -367,7 +370,7 @@
 			</div>
 			<!-- {#if quoteCurrency !== 'USD'}
 				<small class="card row" transition:scale>
-					<img src="/logos/Zapper.svg" width="25" height="25" />
+					<img src={ZapperIcon} width="25" height="25" />
 					Note: The Zapper API doesn't yet support currencies other than US Dollars.
 				</small>
 			{/if} -->

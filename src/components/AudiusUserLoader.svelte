@@ -7,12 +7,15 @@
 
 	import AudiusUser from './AudiusUser.svelte'
 	import Loader from './Loader.svelte'
+
+
+	import { AudiusIcon } from '../assets/icons'
 </script>
 
 
 {#if userId}
 	<Loader
-		loadingIcon={'/logos/Audius.png'}
+		loadingIcon={AudiusIcon}
 		loadingMessage="Fetching user data from Audius network..."
 		fromPromise={() => getUser({userId}).then(({data: user}) => user)}
 		let:result={user}
