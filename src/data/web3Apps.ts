@@ -2690,7 +2690,7 @@ export const web3Apps: Web3AppConfig[] = [
 		name: 'Ethereum',
 		slug: 'ethereum',
 		links: ['https://ethereum.org'],
-		colors: [],
+		colors: ['#627eea'],
 		views: [
 			{
 				chainId: 1,
