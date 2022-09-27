@@ -102,8 +102,8 @@
 </svelte:head>
 
 
-<!-- <main in:fly={{x: 300}} out:fly={{x: -300}}> -->
-<main>
+<main in:fly={{x: 300}} out:fly={{x: -300}}>
+<!-- <main> -->
 	<div class="bar">
 		<div class="title row">
 			<span class="title-icon">
