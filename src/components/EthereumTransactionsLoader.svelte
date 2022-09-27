@@ -24,12 +24,15 @@
 
 
 	import Loader from './Loader.svelte'
+
+
+	import { CovalentIcon, EtherspotIcon, MoralisIcon } from '../assets/icons'
 </script>
 
 
 {#if transactionProvider === 'Covalent'}
 	<Loader
-		loadingIcon={'/logos/Covalent.svg'}
+		loadingIcon={CovalentIcon}
 		loadingIconName={transactionProvider}
 		loadingMessage="Retrieving {network.name} transactions from {transactionProvider}..."
 		errorMessage="Error retrieving {network.name} transactions from {transactionProvider}"
@@ -65,7 +68,7 @@
 	</Loader>
 {:else if transactionProvider === 'Etherspot'}
 	<Loader
-		loadingIcon="/logos/Etherspot.png"
+		loadingIcon={EtherspotIcon}
 		loadingMessage="Retrieving {network.name} transactions from {transactionProvider}..."
 		errorMessage="Error retrieving {network.name} transactions from {transactionProvider}"
 		fromUseQuery={useQuery({
@@ -88,7 +91,7 @@
 	</Loader>
 {:else if transactionProvider === 'Moralis'}
 	<Loader
-		loadingIcon={'/logos/Moralis.svg'}
+		loadingIcon={MoralisIcon}
 		loadingIconName={transactionProvider}
 		loadingMessage="Retrieving {network.name} transactions from {transactionProvider}..."
 		errorMessage="Error retrieving {network.name} transactions from {transactionProvider}"

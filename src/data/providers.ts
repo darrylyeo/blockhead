@@ -149,11 +149,11 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		}) => new providers.JsonRpcProvider(
 			`${connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${{
 				1: env.QUICKNODE_ENDPOINT_NAME_1,
-				100: env.QUICKNODE_ENDPOINT_NAME_100,
+				10: env.QUICKNODE_ENDPOINT_NAME_10,
 				137: env.QUICKNODE_ENDPOINT_NAME_137,
 			}[network.chainId]}.quiknode.pro/${{
 				1: env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_1,
-				100: env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_100,
+				10: env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_10,
 				137: env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_137,
 			}[network.chainId]}/`,
 			network.chainId
@@ -278,7 +278,7 @@ export const getEthersProvider = async ({
 		nodeType
 	})
 
-	console.log('ethersProvider', ethersProvider)
+	// console.log('ethersProvider', ethersProvider)
 
 	return ethersProvider
 }

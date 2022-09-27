@@ -37,6 +37,9 @@
 	import EthereumTransactionEtherspot from './EthereumTransactionEtherspot.svelte'
 	import EthereumTransactionMoralis from './EthereumTransactionMoralis.svelte'
 	import Loader from './Loader.svelte'
+
+
+	import { CovalentIcon, EtherspotIcon, MoralisIcon } from '../assets/icons'
 </script>
 
 
@@ -46,7 +49,7 @@
 			<div class="column">
 				{#if transactionProvider === 'Covalent'}
 					<Loader
-						loadingIcon="/logos/Covalent.svg"
+						loadingIcon={CovalentIcon}
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
 						fromUseQuery={useQuery({
 							queryKey: ['Transaction', {
@@ -83,7 +86,7 @@
 					</Loader>
 				{:else if transactionProvider === 'Etherspot'}
 					<Loader
-						loadingIcon="/logos/Etherspot.png"
+						loadingIcon={EtherspotIcon}
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
 						fromUseQuery={useQuery({
 							queryKey: ['Transaction', {
@@ -118,7 +121,7 @@
 					</Loader>
 				{:else if transactionProvider === 'Moralis'}
 					<Loader
-						loadingIcon="/logos/Moralis.svg"
+						loadingIcon={MoralisIcon}
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
 						fromUseQuery={useQuery({
 							queryKey: ['Transaction', {

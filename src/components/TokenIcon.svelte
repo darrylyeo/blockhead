@@ -17,6 +17,7 @@
 
 
 	import Icon from './Icon.svelte'
+	import { tokenIcons } from '../assets/tokenIcons'
 </script>
 
 
@@ -28,24 +29,7 @@
 	<Icon
 		key={address || symbol}
 		imageSources={[
-			{
-				'AAVE': '/tokens/AAVE.svg',
-				'AVAX': '/tokens/AVAX.svg',
-				'BNB': '/tokens/BNB.svg',
-				'BTC': '/tokens/BTC.svg',
-				'COMP': '/tokens/COMP.svg',
-				'DAI': '/tokens/DAI.svg',
-				'ENS': '/tokens/ENS.svg',
-				'ETH': '/tokens/ETH.svg',
-				'FTM': '/tokens/FTM.svg',
-				'MATIC': '/tokens/MATIC.svg',
-				'MKR': '/tokens/MKR.svg',
-				'ONE': '/tokens/ONE.svg',
-				'USDC': '/tokens/USDC.svg',
-				// 'USDC': '/tokens/USDC-filled.svg',
-				'USDT': '/tokens/USDT.svg',
-				'WBTC': '/tokens/WBTC.svg',
-			}[symbol],
+			tokenIcons[symbol],
 			// address && `https://token-icons.s3.amazonaws.com/${address.toLowerCase()}.png`,
 			icon,
 			// symbol && `https://zapper.fi/images/${symbol}-icon.png`,

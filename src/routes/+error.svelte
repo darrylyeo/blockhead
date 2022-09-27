@@ -35,8 +35,8 @@
 </svelte:head>
 
 
-<!-- <main in:fly={{x: 300}} out:fly={{x: -300}}> -->
-<main>
+<main in:fly={{x: 300}} out:fly={{x: -300}}>
+<!-- <main> -->
 	<h1>{$page.status} Error</h1>
 
 	<p>{$page.error.message}</p>

@@ -33,11 +33,13 @@ type WalletConfig = {
 }
 
 
+import { CoinbaseWalletIcon, MetaMaskIcon, RainbowIcon, WalletConnectIcon } from '../../assets/walletIcons'
+
 export const wallets: WalletConfig[] = [
 	{
 		type: WalletType.MetaMask,
 		name: 'MetaMask',
-		icon: '/wallets/MetaMask.svg',
+		icon: MetaMaskIcon,
 
 		connectionTypes: [
 			WalletConnectionType.InjectedEthereum,
@@ -51,7 +53,7 @@ export const wallets: WalletConfig[] = [
 	// {
 	// 	type: WalletType.Tally,
 	// 	name: 'Tally',
-	// 	icon: '/wallets/Tally.svg',
+	// 	icon: TallyIcon,
 
 	// 	connectionTypes: [
 	// 		WalletConnectionType.InjectedEip1193,
@@ -66,7 +68,7 @@ export const wallets: WalletConfig[] = [
 	{
 		type: WalletType.CoinbaseWallet,
 		name: 'Coinbase Wallet',
-		icon: '/wallets/CoinbaseWallet.svg',
+		icon: CoinbaseWalletIcon,
 
 		connectionTypes: [
 			WalletConnectionType.InjectedEthereum,
@@ -80,7 +82,7 @@ export const wallets: WalletConfig[] = [
 	// {
 	// 	type: WalletType.MEW,
 	// 	name: 'MyEtherWallet',
-	// 	icon: '/wallets/MyEtherWallet.svg',
+	// 	icon: MyEtherWalletIcon,
 
 	// 	connectionTypes: [
 	// 		WalletConnectionType.InjectedEthereum,
@@ -95,7 +97,7 @@ export const wallets: WalletConfig[] = [
 	{
 		type: WalletType.Rainbow,
 		name: 'Rainbow',
-		icon: '/wallets/Rainbow.svg',
+		icon: RainbowIcon,
 
 		connectionTypes: [
 			WalletConnectionType.WalletConnect,
@@ -104,7 +106,7 @@ export const wallets: WalletConfig[] = [
 	{
 		type: WalletType.WalletConnect,
 		name: 'WalletConnect',
-		icon: '/wallets/WalletConnect.svg',
+		icon: WalletConnectIcon,
 
 		connectionTypes: [
 			WalletConnectionType.WalletConnect,
@@ -113,7 +115,7 @@ export const wallets: WalletConfig[] = [
 	// {
 	// 	type: WalletType.OtherWallet,
 	// 	name: 'Auto-Detect', // name: 'Other Wallet',
-	// 	icon: '/Blockhead-Logo.svg',
+	// 	icon: ,
 
 	// 	connectionTypes: [
 	// 		WalletConnectionType.InjectedEthereum,
@@ -154,7 +156,7 @@ const connectEip1193 = async (provider: Provider) => {
 			// provider.request = (request) => provider.sendPromise(request.method, request.params)
 			provider.request = async (request) => await new Promise((resolve, reject) => {
 				provider.sendAsync(request, (error, result) => {
-					console.log('sendAsync', error, result)
+					// console.log('sendAsync', error, result)
 					error ? reject(error) : resolve(result)
 				})
 			})

@@ -67,7 +67,7 @@
 		toAccount: Account,
 		toToken: Ethereum.ContractAddress,
 		toTokenAmount: number
-	}){console.log('onSubmit', 'transferSolution', transferSolution)
+	}){//console.log('onSubmit', 'transferSolution', transferSolution)
 		const fromNetworkProvider = await getEthersProvider({
 			network: fromNetwork,
 			networkProvider: $preferences.rpcNetwork

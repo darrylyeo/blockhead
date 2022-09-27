@@ -29,6 +29,9 @@
 
 	import Loader from './Loader.svelte'
 	import PriceChart from './PriceChart.svelte'
+
+
+	import { CovalentIcon } from '../assets/icons'
 </script>
 
 {#if historicalPriceProvider === 'Covalent' && currencies}
@@ -53,7 +56,7 @@
 			)
 		}
 
-		loadingIcon="/logos/Covalent.svg"
+		loadingIcon={CovalentIcon}
 		loadingIconName={historicalPriceProvider}
 		loadingMessage="Retrieving price history from {historicalPriceProvider}..."
 		let:result={data}

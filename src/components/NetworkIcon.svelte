@@ -7,22 +7,25 @@
 	// export let defaultToTokenIcon = true
 
 
+	import { ArbitrumIcon, AuroraIcon, CeloIcon, CronosIcon, GnosisIcon, HarmonyIcon, MetisIcon, OptimismIcon, SKALEIcon } from '../assets/networkIcons'
+	import { tokenIcons } from '../assets/tokenIcons'
+
 	const networkIcons: Record<Ethereum.NetworkName, string> = {
-		'arbitrum-one': '/networks/Arbitrum.svg',
-		'aurora': '/networks/Aurora.svg',
-		'avalanche': '/tokens/AVAX.svg', // '/networks/Avalanche.svg',
-		'celo': '/networks/Celo.svg',
-		'cronos': '/networks/Cronos.svg',
-		'ethereum': '/tokens/ETH.svg', // '/networks/Ethereum.svg',
-		'gnosis': '/networks/Gnosis.svg',
-		'harmony': '/networks/Harmony.svg',
-		'metis': '/networks/Metis.png',
-		'optimism': '/networks/Optimism.svg',
-		'nahmii': '/networks/Nahmii.svg',
-		'nervos': '/networks/Nervos.svg',
-		'polygon': '/tokens/MATIC.svg', // '/networks/Polygon.svg',
-		'reef': '/networks/Reef.svg',
-		'skale': '/networks/SKALE.svg',
+		'arbitrum-one': ArbitrumIcon,
+		'aurora': AuroraIcon,
+		'avalanche': tokenIcons.AVAX, // AvalancheIcon,
+		'celo': CeloIcon,
+		'cronos': CronosIcon,
+		'ethereum': tokenIcons.ETH, // EthereumIcon,
+		'gnosis': GnosisIcon,
+		'harmony': HarmonyIcon,
+		'metis': MetisIcon,
+		'optimism': OptimismIcon,
+		// 'nahmii': NahmiiIcon,
+		// 'nervos': NervosIcon,
+		'polygon': tokenIcons.MATIC, // PolygonIcon,
+		// 'reef': ReefIcon,
+		'skale': SKALEIcon,
 	}
 
 	$: imageSource = networkIcons[network.slug]

@@ -2,6 +2,7 @@
 	import type { ENS } from '../data/ens'
 	import type { Ethereum } from '../data/ethereum/types'
 
+
 	export let provider: Ethereum.Provider
 	export let addressOrEnsName: Ethereum.Address | string
 	export let passiveForwardResolution = false
@@ -10,6 +11,7 @@
 
 	import { preferences } from '../state/preferences'
 	import { getEthersProvider } from '../data/providers'
+	import { NetworkProvider } from '../data/providers-types'
 	import { networksByChainID } from '../data/ethereum/networks'
 
 	$: if(!provider)
@@ -52,7 +54,7 @@
 			return ensName
 
 		// throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name.`)
-		throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name (or there's an issue with the${$preferences.rpcNetwork === 'Auto' ? `` : ` ${$preferences.rpcNetwork}`} JSON-RPC connection).`)
+		throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name (or there's an issue with the${$preferences.rpcNetwork === NetworkProvider.Default ? `` : ` ${$preferences.rpcNetwork}`} JSON-RPC connection).`)
 
 		// ensNamePromise = ens.getName(address).then(async name => {
 		// 	if(address === await ens.name(name).getAddress())
@@ -66,7 +68,7 @@
 			return address
 
 		// throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address.`)
-		throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address (or there's an issue with the${$preferences.rpcNetwork === 'Auto' ? `` : ` ${$preferences.rpcNetwork}`} JSON-RPC connection).`)
+		throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address (or there's an issue with the${$preferences.rpcNetwork === NetworkProvider.Default ? `` : ` ${$preferences.rpcNetwork}`} JSON-RPC connection).`)
 
 		// addressPromise = ens.name(addressOrEnsName).getAddress()
 	})
@@ -76,10 +78,13 @@
 	export let layoutClass: string
 	export let clip = true
 
-	$: viaRPC = $preferences.rpcNetwork === 'Auto' ? '' : ` via ${$preferences.rpcNetwork}`
+	$: viaRPC = $preferences.rpcNetwork === NetworkProvider.Default ? '' : ` via ${$preferences.rpcNetwork}`
 
 
 	import Loader from './Loader.svelte'
+
+
+	import { ENSIcon } from '../assets/icons'
 </script>
 
 
@@ -95,7 +100,7 @@
 				)
 			})
 		}
-		loadingIcon="/logos/ENS.svg"
+		loadingIcon={ENSIcon}
 		loadingIconName="ENS"
 		loadingMessage="Reverse-resolving address to a name on the Ethereum Name Service{viaRPC}..."
 		errorMessage={`Error reverse-resolving address to ENS name${viaRPC}.`}
@@ -123,7 +128,7 @@
 				)
 			})
 		}
-		loadingIcon="/logos/ENS.svg"
+		loadingIcon={ENSIcon}
 		loadingIconName="ENS"
 		loadingMessage="Resolving name to address on the Ethereum Name Service{viaRPC}..."
 		errorMessage={`Error resolving ENS name to address${viaRPC}.`}

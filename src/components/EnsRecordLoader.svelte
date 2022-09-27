@@ -85,6 +85,9 @@
 
 	import Loading from './Loading.svelte'
 	import TokenIcon from './TokenIcon.svelte'
+
+
+	import { ENSIcon } from '../assets/icons'
 </script>
 
 
@@ -102,7 +105,7 @@
 			</div>
 		{:else}
 			<Loading iconAnimation="hover">
-				<img slot="icon" src="/logos/ens.svg" width="25" />
+				<img slot="icon" src={ENSIcon} width="25" />
 
 				Resolving ENS records...
 			</Loading>

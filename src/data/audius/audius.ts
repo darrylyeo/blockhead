@@ -182,7 +182,7 @@ const getAPIHosts = async () => {
 const getRandomAPIHost = async () => {
 	const apiHosts = await getAPIHosts()
 	if(apiHosts?.length){
-		console.log(apiHosts)
+		// console.log(apiHosts)
 		return apiHosts[Math.floor(Math.random() * apiHosts.length)]
 	}
 }

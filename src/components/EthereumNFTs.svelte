@@ -224,7 +224,9 @@
 	import SizeContainer from './SizeContainer.svelte'
 	import { flip } from 'svelte/animate'
 	import { quintOut } from 'svelte/easing'
-	import type { AccountContractsResponse, AccountNftsResponse } from 'src/data/analytics/nftport/api/Api';
+
+
+	import { CovalentIcon, NFTPortIcon } from '../assets/icons'
 </script>
 
 
@@ -480,7 +482,7 @@
 
 {#if nftProvider === 'Covalent'}
 	<Loader
-		loadingIcon={'/logos/Covalent.svg'}
+		loadingIcon={CovalentIcon}
 		loadingIconName={nftProvider}
 		loadingMessage="Retrieving {network.name} NFTs from {nftProvider}..."
 		errorMessage="Error retrieving {network.name} NFTs from {nftProvider}"
@@ -620,38 +622,39 @@
 														<!-- <img class="nft-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt={formatNFTNameAndTokenID(metadata.name, token_id)} /> -->
 													</picture>
 
-													<!-- {#if metadata.animation_url}
-														<iframe src={metadata.animation_url} lazy="true" />
-													{/if} -->
-												<!-- </a> -->
-												<figcaption class="column">
-													<header class="bar">
-														<div class="nft-name" class:row-inline={!showImagesOnly}>
-															{#if metadata.name}<h5>{metadata.name}</h5>{/if}
-															{#if erc1155Balance > 1}
-																<span class="nft-count">×{erc1155Balance}</span>
+														<!-- {#if external_data.animation_url}
+															<iframe src={external_data.animation_url} lazy="true" />
+														{/if} -->
+													<!-- </a> -->
+													<figcaption class="column">
+														<header class="bar">
+															<div class="nft-name" class:row-inline={!showImagesOnly}>
+																{#if external_data.name}<h5>{external_data.name}</h5>{/if}
+																{#if token_balance > 1}
+																	<span class="nft-count">×{token_balance}</span>
+																{/if}
+															</div>
+															{#if String(token_id).length < 6}
+																<span class="card-annotation token-id">#{token_id}</span>
 															{/if}
-														</div>
-														{#if String(tokenId).length < 6}
-															<span class="card-annotation token-id">#{tokenId}</span>
+														</header>
+														{#if showNFTMetadata}
+															{#if external_data.description}
+																<p class="description">{external_data.description}</p>
+															{/if}
+															{#if attributes.length}
+																<dl class="attributes">
+																	{#each attributes as {trait_type, value}}
+																		<dt>{trait_type}</dt>
+																		<dd>{value}</dd>
+																	{/each}
+																</dl>
+															{/if}
 														{/if}
-													</header>
-													{#if showNFTMetadata}
-														{#if metadata.description}
-															<p class="description">{metadata.description}</p>
-														{/if}
-														{#if metadata.attributes.length}
-															<dl class="attributes">
-																{#each metadata.attributes as {traitType, value}}
-																	<dt>{traitType}</dt>
-																	<dd>{value}</dd>
-																{/each}
-															</dl>
-														{/if}
-													{/if}
-												</figcaption>
-											</figure>
-										</SizeContainer>
+													</figcaption>
+												</figure>
+											</SizeContainer>
+										{/each}
 									{:else}
 										<div class="nft column" title={`${name ? `${name} ` : ''}#${tokenId}`}>
 											<div class="nft-image" />
@@ -668,7 +671,7 @@
 	</Loader>
 {:else if nftProvider === 'NFTPort'}
 	<Loader
-		loadingIcon={'/logos/NFTPort.svg'}
+		loadingIcon={NFTPortIcon}
 		loadingIconName={nftProvider}
 		loadingMessage="Retrieving {network.name} NFTs from {nftProvider}..."
 		errorMessage="Error retrieving {network.name} NFTs from {nftProvider}"

@@ -3,7 +3,7 @@ export enum NetworkProvider {
 	Ethers = 'Ethers',
 	Infura = 'Infura',
 	Alchemy = 'Alchemy',
-	PocketNetwork = 'PocketNetwork',
+	PocketNetwork = 'Pocket Network',
 	Figment = 'Figment',
     Etherscan = 'Etherscan',
     Moralis = 'Moralis',

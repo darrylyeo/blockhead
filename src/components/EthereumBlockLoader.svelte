@@ -46,6 +46,9 @@
 	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
 	import Loader from './Loader.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
+
+
+	import { CovalentIcon, MoralisIcon } from '../assets/icons'
 </script>
 
 
@@ -89,7 +92,7 @@
 
 	{#if transactionProvider === 'Covalent'}
 		<Loader
-			loadingIcon={'/logos/Covalent.svg'}
+			loadingIcon={CovalentIcon}
 			loadingIconName={transactionProvider}
 			loadingMessage="Retrieving block data from {transactionProvider}..."
 			errorMessage="Error retrieving block data from {transactionProvider}"
@@ -159,7 +162,7 @@
 
 	{:else if transactionProvider === 'Moralis'}
 		<Loader
-			loadingIcon={'/logos/Moralis.svg'}
+			loadingIcon={MoralisIcon}
 			loadingIconName={transactionProvider}
 			loadingMessage="Retrieving block data from {transactionProvider}..."
 			errorMessage="Error retrieving block data from {transactionProvider}"

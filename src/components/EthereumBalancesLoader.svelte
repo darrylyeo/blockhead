@@ -32,12 +32,15 @@
 
 
 	import Loader from './Loader.svelte'
+
+
+	import { CovalentIcon, MoralisIcon, QuickNodeIcon, ZapperIcon } from '../assets/icons'
 </script>
 
 
 {#if tokenBalancesProvider === 'Covalent'}
 	<Loader
-		loadingIcon={'/logos/Covalent.svg'}
+		loadingIcon={CovalentIcon}
 		loadingIconName={tokenBalancesProvider}
 		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
 		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"
@@ -98,7 +101,7 @@
 
 {:else if tokenBalancesProvider === 'Moralis'}
 	<Loader
-		loadingIcon={'/logos/Moralis.svg'}
+		loadingIcon={MoralisIcon}
 		loadingIconName={tokenBalancesProvider}
 		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
 		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"
@@ -121,7 +124,6 @@
 							address
 							// to_block: 
 						})
-						console.log([nativeBalance, ...tokenBalances])
 
 						const result = [
 							{
@@ -192,7 +194,7 @@
 
 {:else if tokenBalancesProvider === 'Zapper'}
 	<Loader
-		loadingIcon={'/logos/Zapper.svg'}
+		loadingIcon={ZapperIcon}
 		loadingIconName={tokenBalancesProvider}
 		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
 		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"
@@ -245,7 +247,7 @@
 	</Loader>
 {:else if tokenBalancesProvider === 'QuickNode'}
 	<Loader
-		loadingIcon={'/logos/QuickNode.png'}
+		loadingIcon={QuickNodeIcon}
 		loadingIconName={tokenBalancesProvider}
 		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
 		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"
