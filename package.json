@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
+    "build:static": "vite build --mode static",
     "package": "svelte-kit package",
     "preview": "vite preview",
     "test": "playwright test",
@@ -48,6 +49,7 @@
     "@fontsource/ubuntu": "^4.5.0",
     "@portis/web3": "^4.0.5",
     "@self.id/web": "^0.4.3",
+    "@sveltejs/adapter-static": "1.0.0-next.43",
     "@sveltestack/svelte-query": "^1.6.0",
     "@walletconnect/web3-provider": "^1.7.8",
     "@web3api/client-js": "^0.0.1-prealpha.44",
