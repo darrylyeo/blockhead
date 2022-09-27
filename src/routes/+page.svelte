@@ -93,7 +93,10 @@
 		position: relative;
 		display: inline-block;
 
-		transition: var(--transition), font-size 0s;
+		transition:
+			color var(--transition),
+			transform var(--transition),
+			text-shadow var(--transition);
 	}
 	.logo::after, b::after {
 		color: rgba(var(--rgb-light-dark), 0.1);
@@ -103,7 +106,7 @@
 		left: 0;
 		text-shadow: 0 1px 0.05em rgba(var(--rgb-light-dark-inverse), 0.15);
 
-		transition: var(--transition), font-size 0s;
+		transition: inherit;
 	}
 	@supports (-webkit-background-clip: text) {
 		.logo {
