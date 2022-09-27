@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../../../data/ethereum/types'
 	import { getContext } from 'svelte'
-	import { preferences } from '../../../data/ethereum/preferences'
+	import { preferences } from '../../../state/preferences'
 
 
 	const token = 'BTC'

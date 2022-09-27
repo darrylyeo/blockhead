@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { TickerSymbol } from '../data/currency/currency'
-	import { preferences } from '../data/ethereum/preferences'
+	import { preferences } from '../state/preferences'
 
 
 	export let network: Ethereum.Network
@@ -20,17 +20,20 @@
 
 	import { useInfiniteQuery } from '@sveltestack/svelte-query'
 
-	import { getERC20TokenTransfers } from '../data/analytics/covalent'
+	import { getERC20TokenTransfers } from '../api/covalent'
 	import { chainCodeFromNetwork, MoralisWeb3Api } from '../data/moralis/moralis-web3-api'
 
 
 	import Loader from './Loader.svelte'
+
+
+	import { CovalentIcon } from '../assets/icons'
 </script>
 
 
 <!-- {#if transactionProvider === 'Covalent'} -->
 	<Loader
-		loadingIcon={'/logos/Covalent.svg'}
+		loadingIcon={CovalentIcon}
 		loadingIconName={transactionProvider}
 		loadingMessage="Retrieving ERC-20 transactions from {transactionProvider}..."
 		errorMessage="Error retrieving ERC-20 transactions from {transactionProvider}"

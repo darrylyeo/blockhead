@@ -3,13 +3,13 @@
 	import type { DeFiProvider } from '../data/defi-provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import type { Web3AppConfig, Web3AppSlug } from '../data/web3Apps'
-	import type { Covalent } from '../data/analytics/covalent'
+	import type { Covalent } from '../api/covalent'
 	import { web3AppsByProviderName } from '../data/web3Apps'
 	import { getDefiBalances } from '../data/ethereum/price/defi-sdk'
 	import { getDefiBalancesForApps } from '../data/zapper/zapper'
-	import { getTokenAddressBalances } from '../data/analytics/covalent'
+	import { getTokenAddressBalances } from '../api/covalent'
 	import { networksByChainID } from '../data/ethereum/networks'
-	import { preferences } from '../data/ethereum/preferences'
+	import { preferences } from '../state/preferences'
 
 
 	// Data
@@ -73,6 +73,9 @@
 	import TokenBalance from './TokenBalance.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
 	import TokenBalanceFormatSelect from './TokenBalanceFormatSelect.svelte'
+
+	
+	import { ZapperIcon } from '../assets/icons'
 
 
 	import { cardStyle } from '../utils/card-background'
@@ -285,7 +288,7 @@
 											loadingMessage="Reading {web3AppConfig.name} balances from {defiProvider}..."
 											errorMessage="Error getting {web3AppConfig.name} balances from {defiProvider}."
 											loadingIconName={defiProvider}
-											loadingIcon={'/logos/Zapper.svg'}
+											loadingIcon={ZapperIcon}
 											fromStore={() => getDefiBalancesForApps({
 												appIds: [providers?.zapper],
 												network,
@@ -493,7 +496,7 @@
 											</div>
 											<!-- {#if quoteCurrency !== 'USD'}
 												<small class="card row" transition:scale>
-													<img src="/logos/Zapper.svg" width="25" height="25" />
+													<img src={ZapperIcon} width="25" height="25" />
 													Note: The Zapper API doesn't yet support currencies other than US Dollars.
 												</small>
 											{/if} -->

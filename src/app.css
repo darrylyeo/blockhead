@@ -30,6 +30,7 @@
 	--skale-black: #000;
 	--celo-gold: #fbcc5c;
 	--aurora-green: #92D36F;
+	--cronos-blue: #002D74;
 
 	--up-green: #1af73d;
 	--down-red: #f7541a;
@@ -166,8 +167,11 @@ h1 {
 h5 {
 	font-size: 0.95em;
 }
+h6 {
+	font-size: 0.9em;
+}
 
-h3.row, h4.row {
+h3.row, h4.row, h5.row, h6.row {
     --padding-inner: 1ch;
 }
 

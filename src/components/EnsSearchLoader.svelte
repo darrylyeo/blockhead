@@ -129,6 +129,9 @@
 	import EnsName from './EnsName.svelte'
 	import EnsDomain from './EnsDomain.svelte'
 	import Loader from './Loader.svelte'
+
+
+	import { ENSIcon } from '../assets/icons'
 </script>
 
 
@@ -154,7 +157,7 @@
 	<!-- fromHoudiniQuery={searchQuery && (() => queryENSDomain({name: searchQuery}))} -->
 <Loader
 	fromHoudiniQuery={searchQuery && (() => ensDomainQuery)}
-	loadingIcon="/logos/ENS.svg"
+	loadingIcon={ENSIcon}
 	loadingIconName="The Graph"
 	loadingMessage='Searching for "{searchQuery}" in the Ethereum Name Service subgraph...'
 	let:result={result}
@@ -178,7 +181,7 @@
 			<!-- fromHoudiniQuery={() => queryENSDomainsContaining({query: searchQuery})} -->
 		<Loader
 			fromHoudiniQuery={() => ensDomainsContainingQuery}
-			loadingIcon="/logos/ENS.svg"
+			loadingIcon={ENSIcon}
 			loadingIconName="The Graph"
 			loadingMessage="Searching the Ethereum Name Service subgraph for similar names..."
 			let:result={result}

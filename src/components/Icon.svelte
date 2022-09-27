@@ -32,6 +32,11 @@
 		--icon-size: 1.25em;
 	}
 
+	picture:empty,
+	picture:has(picture:empty) {
+		display: none;
+	}
+
 	.icon {
 		display: inline-flex;
 		width: var(--icon-size);

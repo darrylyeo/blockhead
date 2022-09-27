@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { AccountNetworkSettings, AccountType } from '../data/ethereum/portfolio-accounts'
+	import { AccountNetworkSettings, AccountType } from '../state/portfolio-accounts'
 	// import type { CryptoPosition } from '../data/CryptoPosition'
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { DeFiProvider } from '../data/defi-provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import { networksByChainID } from '../data/ethereum/networks'
-	import { Covalent } from '../data/analytics/covalent'
+	import { Covalent } from '../api/covalent'
 	import { getDefaultProvider } from '@ethersproject/providers'
 
 

@@ -9,7 +9,7 @@
 	}
 </style>
 
-<!-- <main in:fly={{x: 300}} out:fly={{x: -300}}> -->
-<main>
+<main in:fly={{x: 300}} out:fly={{x: -300}}>
+<!-- <main> -->
 	<VegaDEX />
 </main>

@@ -20,8 +20,8 @@
 	}
 </style>
 
-<!-- <main in:fly={{x: 300}} out:fly={{x: -300}}> -->
-<main>
+<main in:fly={{x: 300}} out:fly={{x: -300}}>
+<!-- <main> -->
 	<h1>Trade</h1>
 
 	<p>Looking to explore different assets? Choose your adventure below!</p>

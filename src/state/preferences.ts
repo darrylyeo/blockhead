@@ -1,8 +1,8 @@
-import { localStorageWritable } from '../../utils/localStorageWritable'
-import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '../currency/currency'
+import { localStorageWritable } from '../utils/localStorageWritable'
+import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '../data/currency/currency'
 
-import { NetworkProvider } from '../providers-types'
-import { networkProviderConfigs } from '../providers'
+import { NetworkProvider } from '../data/providers-types'
+import { networkProviderConfigs } from '../data/providers'
 
 
 type PreferenceOption<
@@ -116,7 +116,7 @@ export const preferencesConfig: PreferencesConfig<
 				id: 'rpcNetwork',
 				name: 'On-Chain Data',
 				type: 'single', // 'multiple',
-				defaultOption: NetworkProvider.Figment,
+				defaultOption: NetworkProvider.Default,
 				options: networkProviderConfigs.map(({ provider, name }) => ({ id: provider, name }))
 				// options: [
 				// 	{ id: 'Auto', name: 'Auto' },

@@ -26,6 +26,8 @@ export const networkNamesByChainID: Record<Ethereum.ChainID, ZapperSupportedNetw
 	// : 'evmos',
 }
 
+export const chainIdByNetworkName = Object.fromEntries(Object.entries(networkNamesByChainID).map(([id, networkName]) => [networkName, id]))
+
 
 // App names
 

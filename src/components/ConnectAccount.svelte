@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import type { WalletType } from '../data/ethereum/wallets'
-	import type { ConnectedAccount } from '../data/account'
+	import type { ConnectedAccount } from '../state/account'
 
 	import { wallets, walletsByType } from '../data/ethereum/wallets'
 	import { networksByChainID, getNetworkColor } from '../data/ethereum/networks'

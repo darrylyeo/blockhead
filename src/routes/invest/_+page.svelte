@@ -8,8 +8,8 @@
 	}
 </style>
 
-<!-- <main in:fly={{x: 300}} out:fly={{x: -300}}> -->
-<main>
+<main in:fly={{x: 300}} out:fly={{x: -300}}>
+<!-- <main> -->
 	<h1>Invest</h1>
 	<section>
 		<a href="/invest/compound"><button>Compound</button></a>

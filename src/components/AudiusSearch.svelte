@@ -27,6 +27,9 @@
 	import AudiusTrack from './AudiusTrack.svelte'
 	import AudiusPlaylist from './AudiusPlaylist.svelte'
 	import Loader from '../components/Loader.svelte'
+
+
+	import { AudiusIcon } from '../assets/icons'
 </script>
 
 
@@ -48,7 +51,7 @@
 
 
 <Loader
-	loadingIcon={'/logos/Audius.png'}
+	loadingIcon={AudiusIcon}
 	loadingMessage="Searching Audius for tracks, artists, and playlists..."
 	fromPromise={query && (() => searchAudius(query))}
 >

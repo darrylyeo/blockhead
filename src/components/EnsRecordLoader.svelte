@@ -22,7 +22,7 @@
 	export let passive = false
 
 	
-	import { preferences } from '../data/ethereum/preferences'
+	import { preferences } from '../state/preferences'
 	import { getEthersProvider } from '../data/providers'
 	import { networksByChainID } from '../data/ethereum/networks'
 
@@ -85,6 +85,9 @@
 
 	import Loading from './Loading.svelte'
 	import TokenIcon from './TokenIcon.svelte'
+
+
+	import { ENSIcon } from '../assets/icons'
 </script>
 
 
@@ -102,7 +105,7 @@
 			</div>
 		{:else}
 			<Loading iconAnimation="hover">
-				<img slot="icon" src="/logos/ens.svg" width="25" />
+				<img slot="icon" src={ENSIcon} width="25" />
 
 				Resolving ENS records...
 			</Loading>

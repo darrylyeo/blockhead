@@ -1,6 +1,6 @@
-import type { Ethereum } from './types'
+import type { Ethereum } from '../data/ethereum/types'
 import { isAddress } from '@ethersproject/address'
-import { availableNetworks } from './networks'
+import { availableNetworks } from '../data/ethereum/networks'
 
 export class Portfolio {
 	constructor(
@@ -64,7 +64,7 @@ function getDefaultAccountNetworkSettings(){
 }
 
 
-import { localStorageWritable } from '../../utils/localStorageWritable'
+import { localStorageWritable } from '../utils/localStorageWritable'
 
 // Local storage v1 'localAccounts' (deprecated)
 let localAccounts

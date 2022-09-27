@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import { preferences } from '../data/ethereum/preferences'
+	import { preferences } from '../state/preferences'
 
 
 	export let network: Ethereum.Network
@@ -32,7 +32,7 @@
 	
 	import { useQuery } from '@sveltestack/svelte-query'
 
-	import { getBlock } from '../data/analytics/covalent'
+	import { getBlock } from '../api/covalent'
 
 	import { chainCodeFromNetwork, MoralisWeb3Api } from '../data/moralis/moralis-web3-api'
 
@@ -46,6 +46,9 @@
 	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
 	import Loader from './Loader.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
+
+
+	import { CovalentIcon, MoralisIcon } from '../assets/icons'
 </script>
 
 
@@ -89,7 +92,7 @@
 
 	{#if transactionProvider === 'Covalent'}
 		<Loader
-			loadingIcon={'/logos/Covalent.svg'}
+			loadingIcon={CovalentIcon}
 			loadingIconName={transactionProvider}
 			loadingMessage="Retrieving block data from {transactionProvider}..."
 			errorMessage="Error retrieving block data from {transactionProvider}"
@@ -159,7 +162,7 @@
 
 	{:else if transactionProvider === 'Moralis'}
 		<Loader
-			loadingIcon={'/logos/Moralis.svg'}
+			loadingIcon={MoralisIcon}
 			loadingIconName={transactionProvider}
 			loadingMessage="Retrieving block data from {transactionProvider}..."
 			errorMessage="Error retrieving block data from {transactionProvider}"

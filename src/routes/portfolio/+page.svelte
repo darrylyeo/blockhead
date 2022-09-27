@@ -2,8 +2,8 @@
 	import { getContext } from 'svelte'
 
 	import type { Ethereum } from '../../data/ethereum/types'
-	import { Portfolio, getLocalPortfolios } from '../../data/ethereum/portfolio-accounts'
-	import { preferences } from '../../data/ethereum/preferences'
+	import { Portfolio, getLocalPortfolios } from '../../state/portfolio-accounts'
+	import { preferences } from '../../state/preferences'
 	import { networksByChainID } from '../../data/ethereum/networks'
 
 
@@ -41,8 +41,8 @@
 </svelte:head>
 
 
-<!-- <main in:fly={{x: 300}} out:fly={{x: -300}}> -->
-<main>
+<main in:fly={{x: 300}} out:fly={{x: -300}}>
+<!-- <main> -->
 	<section class="portfolios column">
 		{#if localPortfolios}
 			{#each $localPortfolios as {name, accounts}, i (i)}
