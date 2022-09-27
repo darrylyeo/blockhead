@@ -240,7 +240,7 @@
 <!-- <main in:fly={{x: 300}} out:fly={{x: -300}}> -->
 <main>
 	<header>
-		<h2 class="description top" transition:scale={{delay: 150}}>
+		<h2 class="description top" in:scale={{delay: 150}}>
 			<b>Track</b>,
 			<b>visualize</b>
 			&
@@ -254,10 +254,10 @@
 			<b>decentralized world wide web</b>
 			with
 		</h2>
-		<div class="logo-wrapper" transition:scale={{delay: 200}}>
+		<div class="logo-wrapper" in:scale={{delay: 200}}>
 			<h1 class="logo" data-text="Blockhead">Blockhead</h1>
 		</div>
-		<p class="description bottom" transition:scale={{delay: 250}}>
+		<p class="description bottom" in:scale={{delay: 250}}>
 			<span>
 				 a
 				<b>crypto portfolio</b>,
@@ -286,32 +286,32 @@
 
 	<section>
 		<div class="columns">
-			<div class="card" transition:scale={{delay: 350}}>
+			<div class="card" in:scale={{delay: 350}}>
 				<h3><b>Track</b> your crypto</h3>
 				<hr>
 				<p>See <b>tokens</b>, <b>NFTs</b>, & <b>DeFi balances</b> across your blockchain accounts in one place.</p>
 			</div>
-			<div class="card" transition:scale={{delay: 500}}>
+			<div class="card" in:scale={{delay: 500}}>
 				<h3><b>Visualize</b> your activity</h3>
 				<hr>
 				<p>Contextualize your web3 interactions with <b>intuitive charts</b> & <b>visualizations</b>.</p>
 			</div>
-			<div class="card" transition:scale={{delay: 400}}>
+			<div class="card" in:scale={{delay: 400}}>
 				<h3><b>Explore</b> the metaverse</h3>
 				<hr>
 				<p>Discover <b>apps</b>, <b>services</b> & <b>communities</b> enabling <b>portable, shared experiences</b>.</p>
 			</div>
-			<div class="card" transition:scale={{delay: 600}}>
+			<div class="card" in:scale={{delay: 600}}>
 				<h3><b>Unstoppable</b> Web3 Tech</h3>
 				<hr>
 				<p>Built upon <b>math</b>, <b>cryptography</b> & open, <b>incentive-aligned</b> computer networks.</p>
 			</div>
-			<div class="card" transition:scale={{delay: 450}}>
+			<div class="card" in:scale={{delay: 450}}>
 				<h3><b>You</b> control the data</h3>
 				<hr>
 				<p><b>Choose which data sources</b> power this user interface in the <b>Preferences</b> below!</p>
 			</div>
-			<div class="card" transition:scale={{delay: 700}}>
+			<div class="card" in:scale={{delay: 700}}>
 				<h3>To <b>Ethereum</b> & Beyond!</h3>
 				<hr>
 				<!-- <p>Hop between any of the supported <b>Ethereum Virtual Machine</b>-based chains!</p> -->
@@ -321,12 +321,12 @@
 	</section>
 
 	<div class="buttons">
-		<a href="/portfolio" transition:scale={{delay: 800}}><button>Create Portfolio</button></a>
-		<a href="/explorer" transition:scale={{delay: 850}}><button>Explore Blockchains</button></a>
-		<a href="/apps" transition:scale={{delay: 900}}><button>Browse Apps</button></a>
+		<a href="/portfolio" in:scale={{delay: 800}}><button>Create Portfolio</button></a>
+		<a href="/explorer" in:scale={{delay: 850}}><button>Explore Blockchains</button></a>
+		<a href="/apps" in:scale={{delay: 900}}><button>Browse Apps</button></a>
 	</div>
 	
-	<footer transition:scale={{delay: 1000}}>
+	<footer in:scale={{delay: 1000}}>
 		<p><strong>Blockhead</strong> • created by <a href="https://darryl-yeo.com/blockhead">Darryl Yeo</a> • 2020 – 2022</p>
 		<small><a href="https://gitcoin.co/grants/2966/blockhead" target="_blank">Gitcoin Grants</a> • <a href="https://discord.gg/966eXqqq7N" target="_blank">Discord</a> • <a href="https://twitter.com/0xblockhead" target="_blank">Twitter</a></small>
 		<!-- <img src="/Blockhead-Logo.svg" alt="Blockhead Logo" width="40" /> -->
