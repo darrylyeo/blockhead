@@ -60,6 +60,7 @@
 	
 	import { formatPercent } from '../utils/format-percent'
 	import { formatUnits } from '../utils/format-units'
+	import { formatKebabCase } from '../utils/formatKebabCase'
 
 
 	import Loader from './Loader.svelte'
@@ -422,7 +423,7 @@
 																				{#if label && label !== symbol}
 																					<span class="card-annotation">{label}</span>
 																				{:else}
-																				<span class="card-annotation">{type}{category && type !== category ? ` ${category}` : ''}</span>																				{/if}
+																				<span class="card-annotation">{formatKebabCase(type)}{category && type !== category ? ` ${category}` : ''}</span>																				{/if}
 																			{/if}
 																		</div>
 
