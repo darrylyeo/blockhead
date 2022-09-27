@@ -167,8 +167,11 @@ h1 {
 h5 {
 	font-size: 0.95em;
 }
+h6 {
+	font-size: 0.9em;
+}
 
-h3.row, h4.row {
+h3.row, h4.row, h5.row, h6.row {
     --padding-inner: 1ch;
 }
 
