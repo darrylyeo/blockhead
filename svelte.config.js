@@ -3,7 +3,7 @@ import preprocess from 'svelte-preprocess'
 import adapterAuto from '@sveltejs/adapter-auto'
 import adapterStatic from '@sveltejs/adapter-static'
 
-const isStatic = process.env.npm_lifecycle_event === 'build:static'
+const isStatic = !!process.env.SVELTE_BUILD_STATIC
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {

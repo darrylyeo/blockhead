@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "build:static": "vite build --mode static",
+    "build:static": "SVELTE_BUILD_STATIC=1 vite build --mode static",
     "package": "svelte-kit package",
     "preview": "vite preview",
     "test": "playwright test",
