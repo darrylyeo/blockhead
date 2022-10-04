@@ -62,7 +62,7 @@
     "ethers-to-web3": "^0.1.6",
     "etherspot": "^1.33.2",
     "events": "^3.3.0",
-    "graphql": "^15.5.1",
+    "graphql": "^16.6.0",
     "key-did-resolver": "^1.2.1",
     "process": "^0.11.10",
     "reflect-metadata": "^0.1.13",
