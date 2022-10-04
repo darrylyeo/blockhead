@@ -2,7 +2,7 @@
 const config = {
 	module: 'esm',
 	framework: 'kit',
-	// apiUrl: 'https://api.thegraph.com/subgraphs/name/ensdomains/ens',
+	apiUrl: 'https://api.thegraph.com/subgraphs/name/ensdomains/ens',
 	schemaPath: './src/data/ens/ens-subgraph.graphql',
 	client: './src/data/ens/client.ts',
 	scalars: {
