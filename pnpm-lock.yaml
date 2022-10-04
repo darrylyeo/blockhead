@@ -52,7 +52,7 @@ specifiers:
   etherspot: ^1.33.2
   events: ^3.3.0
   graphql: ^15.5.1
-  houdini: ^0.16.5
+  houdini: ^0.16.6
   key-did-resolver: ^1.2.1
   pnpm: ^7.12.2
   prettier: ^2.6.2
@@ -130,7 +130,7 @@ devDependencies:
   eslint: 8.24.0
   eslint-config-prettier: 8.5.0_eslint@8.24.0
   eslint-plugin-svelte3: 4.0.0_snydkosur25h6rjxszquwacaua
-  houdini: 0.16.5
+  houdini: 0.16.6
   pnpm: 7.12.2
   prettier: 2.7.1
   prettier-plugin-svelte: 2.7.0_nk6d2fkgcllkkdynqbuearcure
@@ -4077,7 +4077,7 @@ packages:
   /axios/0.27.2:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@4.3.4
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
@@ -8370,6 +8370,7 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dev: false
 
   /follow-redirects/1.15.2_debug@4.3.4:
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
@@ -8381,7 +8382,6 @@ packages:
         optional: true
     dependencies:
       debug: 4.3.4
-    dev: false
 
   /follow-redirects/1.5.10:
     resolution: {integrity: sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==}
@@ -9150,8 +9150,8 @@ packages:
     resolution: {integrity: sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==}
     dev: false
 
-  /houdini/0.16.5:
-    resolution: {integrity: sha512-H+PfEgDHqJ5c38cjvVQ9lV++B+61GC6D/HuvXa1DJhNVHiUxUTGkWTQa8szkk86ugL6H3DA8uTSZ1ga189fMWw==}
+  /houdini/0.16.6:
+    resolution: {integrity: sha512-ZrI9kDsRCQa5ameWY9JHEaFxuMpESDytJk9+Z54nDB5VW/K0ANUIw2/tKsJ+d1H1/CuW1/py7rAiVmUmqvgFPw==}
     hasBin: true
     dependencies:
       '@babel/parser': 7.19.1
