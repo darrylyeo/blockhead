@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@3id/connect': ^0.1.6
-  '@apollo/client': ^3.2.0
+  '@apollo/client': ^3.7.0
   '@ceramicnetwork/3id-did-resolver': ^2.1.8
   '@ceramicnetwork/common': ^2.7.0
   '@ceramicnetwork/http-client': ^2.4.0
@@ -62,7 +62,7 @@ specifiers:
   rxjs: ^6.6.2
   subscriptions-transport-ws: ^0.9.19
   svelte: ^3.50.1
-  svelte-apollo: ^0.4.0
+  svelte-apollo: ^0.5.0
   svelte-check: ^2.9.0
   svelte-preprocess: ^4.10.7
   swagger-typescript-api: ^10.0.1
@@ -72,7 +72,7 @@ specifiers:
 
 dependencies:
   '@3id/connect': 0.1.6
-  '@apollo/client': 3.6.9_sjo4l3svo4ga2s3qm6qrvpw6rq
+  '@apollo/client': 3.7.0_sjo4l3svo4ga2s3qm6qrvpw6rq
   '@ceramicnetwork/3id-did-resolver': 2.1.8
   '@ceramicnetwork/common': 2.7.0
   '@ceramicnetwork/http-client': 2.4.0
@@ -118,7 +118,7 @@ dependencies:
   reflect-metadata: 0.1.13
   rxjs: 6.6.7
   subscriptions-transport-ws: 0.9.19_graphql@16.6.0
-  svelte-apollo: 0.4.0_tan36b2ugh2fanfwdvn6zbpsui
+  svelte-apollo: 0.5.0_afoaqcusgywjo7cyl4bdqg7tuy
 
 devDependencies:
   '@playwright/test': 1.26.0
@@ -252,23 +252,26 @@ packages:
       zen-observable-ts: 1.1.0
     dev: false
 
-  /@apollo/client/3.6.9_sjo4l3svo4ga2s3qm6qrvpw6rq:
-    resolution: {integrity: sha512-Y1yu8qa2YeaCUBVuw08x8NHenFi0sw2I3KCu7Kw9mDSu86HmmtHJkCAifKVrN2iPgDTW/BbP3EpSV8/EQCcxZA==}
+  /@apollo/client/3.7.0_sjo4l3svo4ga2s3qm6qrvpw6rq:
+    resolution: {integrity: sha512-hp4OvrH1ZIQACRYcIrh/C0WFnY7IM7G6nlTpC8DSTEWxfZQ2kvpvDY0I/hYmCs0oAVrg26g3ANEdOzGWTcYbPg==}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
       graphql-ws: ^5.5.5
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
       subscriptions-transport-ws: ^0.9.0 || ^0.11.0
     peerDependenciesMeta:
       graphql-ws:
         optional: true
       react:
         optional: true
+      react-dom:
+        optional: true
       subscriptions-transport-ws:
         optional: true
     dependencies:
       '@graphql-typed-document-node/core': 3.1.1_graphql@16.6.0
-      '@wry/context': 0.6.1
+      '@wry/context': 0.7.0
       '@wry/equality': 0.5.3
       '@wry/trie': 0.3.2
       graphql: 16.6.0
@@ -276,6 +279,7 @@ packages:
       hoist-non-react-statics: 3.3.2
       optimism: 0.16.1
       prop-types: 15.8.1
+      response-iterator: 0.2.6
       subscriptions-transport-ws: 0.9.19_graphql@16.6.0
       symbol-observable: 4.0.0
       ts-invariant: 0.10.3
@@ -3535,6 +3539,13 @@ packages:
 
   /@wry/context/0.6.1:
     resolution: {integrity: sha512-LOmVnY1iTU2D8tv4Xf6MVMZZ+juIJ87Kt/plMijjN20NMAXGmH4u8bS1t0uT74cZ5gwpocYueV58YwyI8y+GKw==}
+    engines: {node: '>=8'}
+    dependencies:
+      tslib: 2.4.0
+    dev: false
+
+  /@wry/context/0.7.0:
+    resolution: {integrity: sha512-LcDAiYWRtwAoSOArfk7cuYvFXytxfVrdX7yxoUmK7pPITLk5jYh2F8knCwS7LjgYL8u1eidPlKKV6Ikqq0ODqQ==}
     engines: {node: '>=8'}
     dependencies:
       tslib: 2.4.0
@@ -12678,6 +12689,11 @@ packages:
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
 
+  /response-iterator/0.2.6:
+    resolution: {integrity: sha512-pVzEEzrsg23Sh053rmDUvLSkGXluZio0qu8VT6ukrYuvtjVfCbDZH9d6PGXb8HZfzdNZt8feXv/jvUzlhRgLnw==}
+    engines: {node: '>=0.8'}
+    dev: false
+
   /responselike/1.0.2:
     resolution: {integrity: sha512-/Fpe5guzJk1gPqdJLJR5u7eG/gNY4nImjbRDaVWVMRhne55TCmj2i9Q+54PBRfatRC8v/rIiv9BN0pMd9OV5EQ==}
     dependencies:
@@ -13716,14 +13732,14 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  /svelte-apollo/0.4.0_tan36b2ugh2fanfwdvn6zbpsui:
-    resolution: {integrity: sha512-VbianysptRx9wy6vQPd2lIRBVKV0XPtrSvqcMctihc5xGl1TVffNp8qsiSlqx2jnOlvOGUSK8xl4GW7C6bzSjw==}
+  /svelte-apollo/0.5.0_afoaqcusgywjo7cyl4bdqg7tuy:
+    resolution: {integrity: sha512-B4RoSAGGeuQS8pgoo5wQ+41DonoEewHkcx6qH6zjsd2nOZNNVETVRLleTph9rRmHuCtXZxvzupNfthWH+lG+9g==}
     peerDependencies:
-      '@apollo/client': ^3.2.0
-      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
-      svelte: ^3.0.0
+      '@apollo/client': ^3
+      graphql: '*'
+      svelte: ^3
     dependencies:
-      '@apollo/client': 3.6.9_sjo4l3svo4ga2s3qm6qrvpw6rq
+      '@apollo/client': 3.7.0_sjo4l3svo4ga2s3qm6qrvpw6rq
       graphql: 16.6.0
       svelte: 3.50.1
     dev: false
