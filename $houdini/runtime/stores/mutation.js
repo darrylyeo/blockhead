@@ -11,7 +11,7 @@ export class MutationStore extends BaseStore {
         this.store = writable(this.nullState);
     }
     async mutate(variables, { metadata, fetch, ...mutationConfig } = {}) {
-        var _a;
+        var _a, _b;
         const config = await this.getConfig();
         this.store.update((c) => {
             return { ...c, isFetching: true };
@@ -96,7 +96,7 @@ export class MutationStore extends BaseStore {
             // update the store value
             this.store.set(storeData);
             // return the value to the caller
-            return storeData.data;
+            return (_b = storeData.data) !== null && _b !== void 0 ? _b : {};
         }
         catch (error) {
             this.store.update((s) => ({

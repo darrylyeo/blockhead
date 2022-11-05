@@ -11,6 +11,6 @@ export declare class SubscriptionStore<_Data, _Input extends {}> extends BaseSto
         artifact: SubscriptionArtifact;
     });
     subscribe(...args: Parameters<Writable<_Data | null>['subscribe']>): import("svelte/store").Unsubscriber;
-    listen(variables: _Input): Promise<void>;
+    listen(variables?: _Input): Promise<void>;
     unlisten(): void;
 }

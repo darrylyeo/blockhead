@@ -33,6 +33,13 @@ const config = {
 				"@apollo/client/utilities",
 
 				'@3id/connect',
+
+				// import { addEventListener, normalizeEvent } from "zrender/lib/core/event.js";
+				//          ^^^^^^^^^^^^^^^^
+				// SyntaxError: Named export 'addEventListener' not found. The requested module 'zrender/lib/core/event.js' is a CommonJS module, which may not support all module.exports as named exports.
+				// CommonJS modules can always be imported via the default export, for example using:
+				// import pkg from 'zrender/lib/core/event.js';
+				'zrender',
 			],
 			exclude: ["@apollo/client", "svelte-apollo"],
 		},

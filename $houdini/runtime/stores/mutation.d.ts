@@ -12,7 +12,7 @@ export declare class MutationStore<_Data extends GraphQLObject, _Input extends {
     mutate(variables: _Input, { metadata, fetch, ...mutationConfig }?: {
         metadata?: App.Metadata;
         fetch?: typeof globalThis.fetch;
-    } & MutationConfig<_Data, _Input, _Optimistic>): Promise<_Data | null>;
+    } & MutationConfig<_Data, _Input, _Optimistic>): Promise<_Data>;
     subscribe(...args: Parameters<Readable<MutationResult<_Data, _Input>>['subscribe']>): import("svelte/store").Unsubscriber;
     private get nullState();
 }

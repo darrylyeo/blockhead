@@ -127,8 +127,7 @@ If this is leftovers from old versions of houdini, you can safely remove this \`
                 if (isBrowser && this.subscriptionSpec) {
                     cache.unsubscribe(this.subscriptionSpec, this.lastVariables || {});
                 }
-                // clear the variable counter
-                this.lastVariables = null;
+                // clear the active subscription
                 this.subscriptionSpec = null;
             }
             // we're done

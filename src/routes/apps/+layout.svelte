@@ -98,9 +98,10 @@
 			<span class="title-icon">
 				{#key $web3AppConfig}
 					{#if $web3AppConfig}
-						{#each $web3AppConfig.views?.flatMap(view => view.erc20Tokens ?? []).slice(0, 1) as erc20Token}
+						{@const erc20Token = $web3AppConfig.views?.flatMap(view => view.erc20Tokens ?? [])[0]}
+						{#if erc20Token}
 							<TokenIcon {erc20Token} />
-						{/each}
+						{/if}
 					{:else}
 						<img src="/Blockhead-Logo.svg" width="30" />
 					{/if}

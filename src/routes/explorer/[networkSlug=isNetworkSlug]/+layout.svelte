@@ -121,73 +121,75 @@
 			providerName={$preferences.rpcNetwork}
 		>
 			{#if $explorerProvider}
-				{#if $query}
-					{#if _isTransaction}
-						<div class="column">
-							<EthereumTransactionLoader
-								network={$explorerNetwork}
-								transactionID={$query}
-								provider={$explorerProvider}
-					
-								detailLevel="exhaustive"
-								tokenBalanceFormat="both"
-								showFees={true}
-					
-								layout="standalone"
-							/>
-						</div>
-					{:else if _isBlockNumber}
-						<div class="column">
-							<EthereumBlockLoader
-								network={$explorerNetwork}
-								blockNumber={$query}
-								provider={$explorerProvider}
-								transactionProvider={$preferences.transactionProvider}
-							/>
-						</div>
-					{:else}
-						<div class="column">
-							<EthereumAccount network={$explorerNetwork} addressOrEnsName={$query} provider={$explorerProvider}/>
-						</div>
-					{/if}
-				{:else}
-					<div class="row">
-						{#if showCurrentBlockHeight}
-							<section class="card">
-								<EthereumBlockHeight
+				{#key $query}
+					{#if $query}
+						{#if _isTransaction}
+							<div class="column">
+								<EthereumTransactionLoader
 									network={$explorerNetwork}
+									transactionID={$query}
 									provider={$explorerProvider}
-									blockNumber={$explorerBlockNumber}
-								/>
-							</section>
-						{/if}
 
-						{#if showCurrentPrice}
-							<section class="card">
-								<CurrentPrice
-									currentPriceProvider={$preferences.currentPriceProvider}
-									token={$explorerNetwork.nativeCurrency.symbol}
-									quoteCurrency={$preferences.quoteCurrency}
-									provider={$ethereumProvider}
-									network={$ethereumNetwork}
-									blockNumber={$explorerBlockNumber}
-								/>
-							</section>
-						{/if}
-					</div>
+									detailLevel="exhaustive"
+									tokenBalanceFormat="both"
+									showFees={true}
 
-					{#if showHistoricalPrice}
+									layout="standalone"
+								/>
+							</div>
+						{:else if _isBlockNumber}
+							<div class="column">
+								<EthereumBlockLoader
+									network={$explorerNetwork}
+									blockNumber={$query}
+									provider={$explorerProvider}
+									transactionProvider={$preferences.transactionProvider}
+								/>
+							</div>
+						{:else}
+							<div class="column">
+								<EthereumAccount network={$explorerNetwork} addressOrEnsName={$query} provider={$explorerProvider}/>
+							</div>
+						{/if}
+					{:else}
 						<div class="row">
-							<section class="card">
-								<HistoricalPriceChart
-									historicalPriceProvider={$preferences.historicalPriceProvider}
-									currencies={[$explorerNetwork.nativeCurrency.symbol]}
-									quoteCurrency={$preferences.quoteCurrency}
-								/>
-							</section>
+							{#if showCurrentBlockHeight}
+								<section class="card">
+									<EthereumBlockHeight
+										network={$explorerNetwork}
+										provider={$explorerProvider}
+										blockNumber={$explorerBlockNumber}
+									/>
+								</section>
+							{/if}
+
+							{#if showCurrentPrice}
+								<section class="card">
+									<CurrentPrice
+										currentPriceProvider={$preferences.currentPriceProvider}
+										token={$explorerNetwork.nativeCurrency.symbol}
+										quoteCurrency={$preferences.quoteCurrency}
+										provider={$ethereumProvider}
+										network={$ethereumNetwork}
+										blockNumber={$explorerBlockNumber}
+									/>
+								</section>
+							{/if}
 						</div>
+
+						{#if showHistoricalPrice}
+							<div class="row">
+								<section class="card">
+									<HistoricalPriceChart
+										historicalPriceProvider={$preferences.historicalPriceProvider}
+										currencies={[$explorerNetwork.nativeCurrency.symbol]}
+										quoteCurrency={$preferences.quoteCurrency}
+									/>
+								</section>
+							</div>
+						{/if}
 					{/if}
-				{/if}
+				{/key}
 			{/if}
 		</NetworkProviderLoader>
 	{/if}
