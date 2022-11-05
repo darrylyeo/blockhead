@@ -4,9 +4,9 @@
 	export let gatewayUrl = 'https://ipfs.io'
 
 
-	export let content
-
 	$: ipfsUrl = `${gatewayUrl}/ipfs/${contentId}`
+
+	export let content
 
 
 	import { useQuery } from '@sveltestack/svelte-query'
@@ -17,32 +17,35 @@
 </script>
 
 
-<Loader
-	fromUseQuery={
-		useQuery({
-			queryKey: ['IPFS', {
-				contentId,
-				type
-			}],
-			queryFn: async () => (
-				await fetch()
-					.then(result =>
-						type === 'json' ?
-							result.json()
-						: type === 'text' ?
-							result.text()
-						:
-							result.text()
-					)
-			)
-		})
-	}
-	loadingIcon={IpfsIcon}
-	loadingIconName="IPFS"
-	loadingMessage={`Fetching content from IPFS via ${new URL(gatewayUrl).hostname}...`}
-	errorMessage={`Couldn't fetch content on ${'Sourcify'}.`}
-	bind:result={content}
->
-	<slot slot="header" name="header" {content} {ipfsUrl} />
-	<slot {content} {ipfsUrl} />
-</Loader>
+{#if contentId}
+	<Loader
+		fromUseQuery={
+			useQuery({
+				queryKey: ['IPFS', {
+					contentId,
+					type,
+					gatewayUrl
+				}],
+				queryFn: async () => (
+					await fetch(ipfsUrl)
+						.then(result =>
+							type === 'json' ?
+								result.json()
+							: type === 'text' ?
+								result.text()
+							:
+								result.text()
+						)
+				)
+			})
+		}
+		loadingIcon={IpfsIcon}
+		loadingIconName="IPFS"
+		loadingMessage={`Fetching content from IPFS via ${new URL(gatewayUrl).hostname}...`}
+		errorMessage={`Couldn't fetch content on ${'Sourcify'}.`}
+		bind:result={content}
+	>
+		<slot slot="header" name="header" {content} {ipfsUrl} />
+		<slot {content} {ipfsUrl} />
+	</Loader>
+{/if}
