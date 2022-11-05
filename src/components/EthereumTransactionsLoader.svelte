@@ -102,13 +102,13 @@
 				address,
 				quoteCurrency,
 			}],
-			queryFn: async ({ pageParam: { offset, limit } = { offset: 0, limit: 100 } }) => (
+			queryFn: async ({ pageParam }) => (
 				await MoralisWeb3Api.address.getTransactions({
 					chain: chainCodeFromNetwork(network),
 					from_block: 0,
 					// to_block: ,
-					offset,
-					limit,
+					offset: pageParam?.offset ?? 0,
+					limit: pageParam?.limit ?? 100,
 					address
 				})
 			),

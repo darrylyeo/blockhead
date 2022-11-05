@@ -64,6 +64,8 @@ export namespace Ethereum {
 		abi?: object
 	}
 
+	export type ContractBytecode = `0x${string}`
+
 	export type ERC20Token = Contract & {
 		name: string,
 		symbol: TickerSymbol,
