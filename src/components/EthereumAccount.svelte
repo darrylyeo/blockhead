@@ -29,6 +29,9 @@
 
 
 	let showContractSourcePath = 'EVM Bytecode'
+	// TODO: refactor one-off whenLoaded side effect
+	let hasLoadedMetadata = false
+	$: addressOrEnsName && (hasLoadedMetadata = false)
 
 
 	let selectedToken: Ethereum.ERC20Token | undefined
@@ -162,12 +165,27 @@
 					<EthereumContractMetadataLoader
 						{address}
 						{network}
+						whenLoaded={async contractMetadata => {
+							if(!contractMetadata || hasLoadedMetadata) return
+							hasLoadedMetadata = true
+
+							// Uncaught ReferenceError: contractMetadata is not defined
+							await new Promise(r => setTimeout(r))
+
+							// Auto-set to target source path
+
+							const contractName = Object.values(contractMetadata.settings.compilationTarget)?.[0]
+
+							const targetSourcePath = Object.keys(contractMetadata.sources)
+								.find(sourcePath => sourcePath.match(new RegExp(`(?:^|[/])${contractName}[.]`)))
+
+							if(targetSourcePath)
+								showContractSourcePath = targetSourcePath
+						}}
 						let:contractMetadata
 						let:sourcifyUrl
 					>
-						{@const contractName = contractMetadata && Object.values(contractMetadata?.settings.compilationTarget)?.[0]}
-
-						<header class="bar" slot="header">
+						<header class="bar" slot="header" let:contractMetadata>
 							<h3>Contract Code</h3>
 
 							<label>
@@ -177,6 +195,7 @@
 
 									{#if contractMetadata}
 										<optgroup label="Source Code">
+											<!-- Uncaught ReferenceError: contractMetadata is not defined -->
 											{#each Object.entries(contractMetadata?.sources) as [sourcePath, source]}
 												<option value={sourcePath}>{sourcePath}</option>
 											{/each}

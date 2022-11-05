@@ -7,6 +7,9 @@
 	export let network: Ethereum.Network
 
 
+	export let whenLoaded: (contractMetadata: ContractMetadata<string>) => void
+
+
 	export let contractMetadata: ContractMetadata<string>
 
 
@@ -47,6 +50,7 @@
 	loadingIconName="Sourcify"
 	loadingMessage={`Looking up contract metadata on ${'Sourcify'}...`}
 	errorMessage={`Couldn't find contract metadata on ${'Sourcify'}.`}
+	{whenLoaded}
 	bind:result={contractMetadata}
 >
 	<slot slot="header" name="header" {address} {contractMetadata} {sourcifyUrl} />
