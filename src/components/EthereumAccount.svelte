@@ -162,10 +162,11 @@
 						{address}
 						{network}
 						let:contractMetadata
+						let:sourcifyUrl
 					>
 						{@const contractName = contractMetadata && Object.values(contractMetadata?.settings.compilationTarget)?.[0]}
 
-						<header class="bar" slot="header" let:contractMetadata>
+						<header class="bar" slot="header">
 							<h3>Contract Code</h3>
 
 							<label>
@@ -215,11 +216,11 @@
 										{#if source.content}
 											<pre class="scrollable-list" style="max-height: 30em">{source.content}</pre>
 
-											<!-- <hr>
+											<hr>
 
-											<footer class="footer">
-												Verified via <a href="" target="_blank">Sourcify</a>
-											</footer> -->
+											<footer class="footer bar">
+												<a href={sourcifyUrl} target="_blank">Sourcify</a>
+											</footer>
 										{:else if source.urls?.length}
 											{@const ipfsUrl = source.urls
 												.find(url => url.includes('dweb:'))?.replace(/^dweb:\/ipfs\/(.+)$/, 'https://ipfs.io/ipfs/$1')}
@@ -227,12 +228,13 @@
 											{#await fetch(ipfsUrl).then(r => r.text()) then sourceCode}
 												<pre class="scrollable-list" style="max-height: 30em">{sourceCode}</pre>
 
-												<!-- <hr>
+												<hr>
 	
-												<footer class="footer">
-													<class="card-annotation">
-													IPFS › {ipfsUrl}
-												</footer> -->
+												<footer class="footer bar">
+													<a href={sourcifyUrl} target="_blank">Sourcify</a>
+
+													<span>IPFS › <a href={ipfsUrl} target="_blank">{ipfsUrl.match(/[^/]+$/)}</a></span>
+												</footer>
 											{/await}
 										{/if}
 									</section>

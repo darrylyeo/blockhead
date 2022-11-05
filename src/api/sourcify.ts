@@ -57,14 +57,30 @@ export type ContractMetadata<SourcePath extends string> = {
 	"version": number
 }
 
-export const getContractMetadata = async ({
+
+export const getSourcifyUrl = ({
 	contractAddress,
 	chainId,
 	match = 'full_match',
 }: {
 	contractAddress: Ethereum.ContractAddress,
 	chainId: Ethereum.ChainID,
-	match: 'full_match' | 'partial_match'
+	match?: 'full_match' | 'partial_match'
 }) =>
-	await fetch(`https://repo.sourcify.dev/contracts/${match}/${chainId}/${contractAddress}/metadata.json`)
+	`https://repo.sourcify.dev/contracts/${match}/${chainId}/${contractAddress}`
+
+export const getContractMetadata = async ({
+	contractAddress,
+	chainId,
+	match,
+}: {
+	contractAddress: Ethereum.ContractAddress,
+	chainId: Ethereum.ChainID,
+	match?: 'full_match' | 'partial_match'
+}) =>
+	await fetch(`${getSourcifyUrl({
+		contractAddress,
+		chainId,
+		match,
+	})}/metadata.json`)
 		.then(r => r.json()) as ContractMetadata<string>

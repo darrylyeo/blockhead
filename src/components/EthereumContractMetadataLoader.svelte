@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import { type ContractMetadata, getContractMetadata } from '../api/sourcify'
+	import { type ContractMetadata, getContractMetadata, getSourcifyUrl } from '../api/sourcify'
 	
 	
 	export let address: Ethereum.ContractAddress
@@ -8,6 +8,12 @@
 
 
 	export let contractMetadata: ContractMetadata<string>
+
+
+	$: sourcifyUrl = getSourcifyUrl({
+		contractAddress: address,
+		chainId: network.chainId
+	})
 
 
 	import { useQuery } from '@sveltestack/svelte-query'
@@ -39,6 +45,6 @@
 	errorMessage={`Couldn't find contract metadata on ${'Sourcify'}.`}
 	bind:result={contractMetadata}
 >
-	<slot slot="header" name="header" {address} {contractMetadata} />
-	<slot {address} {contractMetadata} />
+	<slot slot="header" name="header" {address} {contractMetadata} {sourcifyUrl} />
+	<slot {address} {contractMetadata} {sourcifyUrl} />
 </Loader>
