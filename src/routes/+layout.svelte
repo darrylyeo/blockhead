@@ -107,6 +107,14 @@
 	:global(body > .stack > main > aside) {
 		grid-column: 2;
 		width: 21rem;
+
+		backdrop-filter: var(--overlay-backdrop-filter);
+	}
+
+	@media (max-width: 50rem) {
+		:global(body > .stack > main > aside) {
+			grid-area: 1 / 1;
+		}
 	}
 
 	:global(body > .stack > .preferences) {
