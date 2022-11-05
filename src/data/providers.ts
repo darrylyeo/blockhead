@@ -15,6 +15,11 @@ import { getDefaultProvider, providers } from 'ethers'
 import { getMoralisJSONRPCEndpoint } from './moralis/endpoints'
 import { figmentProviderConfigs } from './figment'
 
+
+// Icons
+import { AlchemyIcon, EtherscanIcon, FigmentIcon, InfuraIcon, MoralisIcon, PocketIcon, QuickNodeIcon } from '../assets/icons'
+
+
 type NetworkProviderConfig = {
 	provider: NetworkProvider,
 	name: string,
@@ -51,7 +56,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 	{
 		provider: NetworkProvider.Infura,
 		name: 'Infura',
-		icon: '/apps/Infura.svg',
+		icon: InfuraIcon,
 
 		get: ({ network }) => new providers.InfuraProvider(network.chainId, {
 			infura: env.INFURA_PROJECT_ID
@@ -61,7 +66,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 	{
 		provider: NetworkProvider.Alchemy,
 		name: 'Alchemy',
-		icon: '/apps/Alchemy.svg',
+		icon: AlchemyIcon,
 
 		get: ({ network }) =>
 			new providers.AlchemyProvider(
@@ -76,7 +81,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 	{
 		provider: NetworkProvider.PocketNetwork,
 		name: 'Pocket Network',
-		icon: '/apps/Pocket.svg',
+		icon: PocketIcon,
 
 		get: ({ network }) =>
 			new providers.PocketProvider(network.chainId, {
@@ -89,7 +94,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 	{
 		provider: NetworkProvider.Moralis,
 		name: 'Moralis',
-		icon: '/apps/Moralis.svg',
+		icon: MoralisIcon,
 
 		get: ({
 			network,
@@ -106,7 +111,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 	{
 		provider: NetworkProvider.Etherscan,
 		name: 'Etherscan',
-		icon: '/apps/Etherscan.svg',
+		icon: EtherscanIcon,
 
 		get: ({ network }) =>
 			new providers.EtherscanProvider(network.chainId, env.ETHERSCAN_API_KEY)
@@ -115,7 +120,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 	{
 		provider: NetworkProvider.Figment,
 		name: 'Figment DataHub',
-		icon: '/apps/Figment.svg',
+		icon: FigmentIcon,
 
 		get: ({
 			network,
@@ -141,7 +146,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 	{
 		provider: NetworkProvider.QuickNode,
 		name: 'QuickNode',
-		icon: '/apps/QuickNode.png',
+		icon: QuickNodeIcon,
 
 		get: ({
 			network,
