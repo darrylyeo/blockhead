@@ -28,6 +28,9 @@
 	$: quoteCurrency = $preferences.quoteCurrency
 
 
+	let showContractSourcePath = 'EVM Bytecode'
+
+
 	let selectedToken: Ethereum.ERC20Token | undefined
 
 	import { isAddress } from '@ethersproject/address'
@@ -51,6 +54,8 @@
 	import EnsName from './EnsName.svelte'
 	import EnsResolutionLoader from './EnsResolutionLoader.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
+	import EthereumContractBytecodeLoader from './EthereumContractBytecodeLoader.svelte'
+	import EthereumContractMetadataLoader from './EthereumContractMetadataLoader.svelte'
 	import EthereumTransactionCovalent from './EthereumTransactionCovalent.svelte'
 	import EthereumTransactionMoralis from './EthereumTransactionMoralis.svelte'
 	import EthereumTransactionEtherspot from './EthereumTransactionEtherspot.svelte'
@@ -125,8 +130,121 @@
 					{/if}
 				{/if} -->
 			</div>
-			<span class="card-annotation">{network.name} Account</span>
+			<span class="card-annotation">
+				{network.name} 
+				{#await provider.getCode(address)}
+					Address
+				{:then contractCode}
+					{#if contractCode === '0x'}
+						Account
+					{:else}
+						<abbr title={contractCode}>Contract</abbr>
+					{/if}
+				{:catch}
+					Address
+				{/await}
+			</span>
 		</div>
+
+		<!-- {#await provider.getCode(address) then contractCode}
+			{#if contractCode !== '0x'} -->
+			<EthereumContractBytecodeLoader
+				{address}
+				{provider}
+				{network}
+				showIf={contractCode => !!contractCode}
+				let:contractCode
+			>
+				<hr>
+
+				<section>
+					<EthereumContractMetadataLoader
+						{address}
+						{network}
+						let:contractMetadata
+					>
+						{@const contractName = contractMetadata && Object.values(contractMetadata?.settings.compilationTarget)?.[0]}
+
+						<header class="bar" slot="header" let:contractMetadata>
+							<h3>Contract Code</h3>
+
+							<label>
+								<span>View: </span>
+								<select bind:value={showContractSourcePath}>
+									<option value="EVM Bytecode">EVM Bytecode</option>
+
+									{#if contractMetadata}
+										<optgroup label="Source Code">
+											{#each Object.entries(contractMetadata?.sources) as [sourcePath, source]}
+												<option value={sourcePath}>{sourcePath}</option>
+											{/each}
+										</optgroup>
+									{/if}
+								</select>
+							</label>
+						</header>
+
+						<div class="stack">
+							{#key showContractSourcePath}
+								{#if showContractSourcePath === 'EVM Bytecode'}
+									<pre class="card scrollable-list" style="max-height: 7.5em" transition:fade>{contractCode}</pre>
+								{:else}
+									{@const source = contractMetadata?.sources[showContractSourcePath]}
+
+									<section class="card" transition:fade>
+										<header class="bar">
+											<h4>
+												<abbr title="keccak256 hash: {contractMetadata?.sources?.keccak256}">
+													{showContractSourcePath.match(/[^/]+$/)?.[0]}
+												</abbr>
+											</h4>
+
+											<abbr class="card-annotation" title="{contractMetadata?.language} {contractMetadata?.compiler?.version}">
+												{contractMetadata?.language}
+												<!-- {contractMetadata?.compiler?.version} -->
+												<!-- {#if contractMetadata?.language === 'Solidity'}
+													Contract
+													Interface
+													Library
+												{/if} -->
+											</abbr>
+										</header>
+
+										<hr>
+
+										{#if source.content}
+											<pre class="scrollable-list" style="max-height: 30em">{source.content}</pre>
+
+											<!-- <hr>
+
+											<footer class="footer">
+												Verified via <a href="" target="_blank">Sourcify</a>
+											</footer> -->
+										{:else if source.urls?.length}
+											{@const ipfsUrl = source.urls
+												.find(url => url.includes('dweb:'))?.replace(/^dweb:\/ipfs\/(.+)$/, 'https://ipfs.io/ipfs/$1')}
+
+											{#await fetch(ipfsUrl).then(r => r.text()) then sourceCode}
+												<pre class="scrollable-list" style="max-height: 30em">{sourceCode}</pre>
+
+												<!-- <hr>
+	
+												<footer class="footer">
+													<class="card-annotation">
+													IPFS › {ipfsUrl}
+												</footer> -->
+											{/await}
+										{/if}
+									</section>
+								{/if}
+							{/key}
+						</div>
+					</EthereumContractMetadataLoader>
+
+				</section>
+			</EthereumContractBytecodeLoader>
+			<!-- {/if}
+		{/await} -->
 
 		<!-- <Balance {provider} {address} /> -->
 		<EthereumBalances
@@ -146,7 +264,7 @@
 					<hr>
 
 					<div class="bar">
-						<h3>{network.name} Tokens (<TokenBalance symbol={summary.quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} />)</h3>
+						<h3>Balances (<TokenBalance symbol={summary.quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} />)</h3>
 						<label>
 							<input type="checkbox" bind:checked={showSmallValues}>
 							<span>Show Small Values</span>
