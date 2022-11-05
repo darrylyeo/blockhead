@@ -189,7 +189,7 @@
 						<div class="stack">
 							{#key showContractSourcePath}
 								{#if showContractSourcePath === 'EVM Bytecode'}
-									<pre class="card scrollable-list" style="max-height: 7.5em" transition:fade>{contractCode}</pre>
+									<pre class="card scrollable-list" style="height: 7.5em" transition:fade>{contractCode}</pre>
 								{:else}
 									{@const source = contractMetadata?.sources[showContractSourcePath]}
 
@@ -215,7 +215,7 @@
 										<hr>
 
 										{#if source.content}
-											<pre class="scrollable-list" style="max-height: 30em">{source.content}</pre>
+											<pre class="scrollable-list" style="height: 30em">{source.content}</pre>
 
 											<hr>
 
@@ -223,8 +223,7 @@
 												<a href={sourcifyUrl} target="_blank">Sourcify</a>
 											</footer>
 										{:else if source.urls?.length}
-											{@const ipfsCid = source.urls
-												.find(url => url.includes('dweb:'))?.match(/^dweb:\/ipfs\/(.+)$/)?.[1]}
+											{@const ipfsCid = source.urls.find(url => url.includes('dweb:'))?.match(/^dweb:\/ipfs\/(.+)$/)?.[1]}
 
 											<IpfsLoader
 												contentId={ipfsCid}
@@ -232,7 +231,7 @@
 												let:content={sourceCode}
 												let:ipfsUrl
 											>
-												<pre class="scrollable-list" style="max-height: 30em">{sourceCode}</pre>
+												<pre class="scrollable-list" style="height: 30em">{sourceCode}</pre>
 
 												<hr>
 
