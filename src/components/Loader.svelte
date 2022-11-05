@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Readable } from 'svelte/store'
 	import type { Result } from '../data/apollo-store'
-	import type { QueryResponse } from '$houdini/runtime/query'
+	import type { QueryStore } from '$houdini'
 	import type { UseQueryStoreResult, UseInfiniteQueryStoreResult } from '@sveltestack/svelte-query'
 
 	type LoaderResult = $$Generic<unknown>
@@ -22,12 +22,12 @@
 	export let hideError = false
 
 	export let fromPromise: () => Promise<LoaderResult>
-	export let fromStore: () => Readable<Result<LoaderResult>>
-	export let fromHoudiniQuery: () => QueryResponse<LoaderResult, HoudiniQueryInput>
+	export let fromStore: () => Readable<Result<LoaderResult>> | Promise<Readable<Result<LoaderResult>>>
+	export let fromHoudiniQuery: () => QueryStore<LoaderResult, HoudiniQueryInput>
 	export let fromUseQuery: UseQueryStoreResult<LoaderResult, LoaderError>
 	export let fromUseInfiniteQuery: UseInfiniteQueryStoreResult<LoaderResult[number], LoaderError>
 
-	export let then: ((result: LoaderResult) => LoaderReturnResult) = result => result
+	export let then: ((result: LoaderResult) => LoaderReturnResult) = result => result as unknown as LoaderReturnResult
 	export let whenLoaded: ((result: LoaderResult) => void) | undefined
 	export let whenErrored: ((error: LoaderError) => void) | undefined
 	export let whenCanceled: (() => Promise<any>) | undefined
@@ -55,15 +55,14 @@
 	let houdiniQuery: ReturnType<typeof fromHoudiniQuery>
 
 
-	export let result: LoaderResult
+	export let result: LoaderReturnResult
 
 	type $$Slots = {
 		default: {
-			then: LoaderReturnResult,
 			status: LoadingStatus,
 			load: typeof load,
 			cancel: typeof cancel,
-			result: LoaderResult
+			result: LoaderReturnResult
 			pagination?: {
 				hasPreviousPage: boolean,
 				hasNextPage: boolean,
@@ -72,7 +71,6 @@
 			}
 		},
 		header: {
-			then: LoaderReturnResult,
 			status: LoadingStatus,
 			load: typeof load,
 			cancel: typeof cancel
@@ -146,7 +144,7 @@
 
 	$: if(promise)
 		promise.then(_result => {
-			result = _result
+			result = then(_result)
 			status = LoadingStatus.Resolved
 		}, _error => {
 			error = _error
@@ -156,30 +154,29 @@
 	$: if(store?.subscribe){
 		if($store.loading){
 			if($store.data)
-				result = $store.data
+				result = then($store.data)
 			status = LoadingStatus.Loading
 		}
 		else if($store.error){
-			error = $store.error
+			error = then($store.error)
 			status = LoadingStatus.Errored
 		}
 		else if($store.data){
-			result = $store.data
+			result = then($store.data)
 			status = LoadingStatus.Resolved
 		}
 	}
 
-	$: ({loading: houdiniLoading, error: houdiniError, data: houdiniData, refetch: houdiniRefetch} = houdiniQuery ?? {})
 	$: if(houdiniQuery)
-		if($houdiniLoading){
+		if($houdiniQuery.loading){
 			status = LoadingStatus.Loading
 		}
-		else if($houdiniError){
-			error = $houdiniError
+		else if($houdiniQuery.error){
+			error = $houdiniQuery.error
 			status = LoadingStatus.Errored
 		}
-		else if($houdiniData){
-			result = $houdiniData
+		else if($houdiniQuery.data){
+			result = then($houdiniQuery.data)
 			status = LoadingStatus.Resolved
 		}
 
@@ -191,7 +188,7 @@
 			status = LoadingStatus.Loading
 		}
 		else if($fromUseQuery.isSuccess){
-			result = $fromUseQuery.data
+			result = then($fromUseQuery.data)
 			status = LoadingStatus.Resolved
 		}
 		else if($fromUseQuery.isError){
@@ -211,7 +208,7 @@
 		}
 		else if($fromUseInfiniteQuery.isSuccess){
 			console.log('fromUseInfiniteQuery', $fromUseInfiniteQuery, $fromUseInfiniteQuery.data)
-			result = $fromUseInfiniteQuery.data // .pages
+			result = then($fromUseInfiniteQuery.data) // .pages
 			status = LoadingStatus.Resolved
 		}
 		else if($fromUseInfiniteQuery.isError){
@@ -261,7 +258,7 @@
 
 	{#if passive}
 		<slot
-			result={then(result)}
+			{result}
 			{status}
 			{load}
 			{cancel}
@@ -281,7 +278,7 @@
 			{#if status === LoadingStatus.Resolved || (fromStore && status === LoadingStatus.Loading && result)}
 				<div class={layoutClass} transition:fade>
 					<slot
-						result={then(result)}
+						{result}
 						{status}
 						{load}
 						{cancel}

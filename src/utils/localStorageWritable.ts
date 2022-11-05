@@ -11,7 +11,7 @@ export function localStorageWritable<T>(localStorageKey, value: T): Writable<T> 
 	
 	return {
 		set(value) {
-			console.log('Set', localStorageKey, value)
+			// console.log('Set', localStorageKey, value)
 			globalThis.localStorage?.setItem(localStorageKey, JSON.stringify(value))
 			store.set(value)
 		},

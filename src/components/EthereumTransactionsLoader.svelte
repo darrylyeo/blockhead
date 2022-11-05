@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { TickerSymbol } from '../data/currency/currency'
-	import { preferences } from '../data/ethereum/preferences'
+	import { preferences } from '../state/preferences'
 
 	export let network: Ethereum.Network
 	export let address: Ethereum.Address | undefined
@@ -18,18 +18,21 @@
 
 	import { useQuery, useInfiniteQuery } from '@sveltestack/svelte-query'
 
-	import { getTransactionsByAddress } from '../data/analytics/covalent'
+	import { getTransactionsByAddress } from '../api/covalent'
 	import { getTransactions as getTransactionsEtherspot } from '../data/etherspot/etherspot'
 	import { chainCodeFromNetwork, MoralisWeb3Api } from '../data/moralis/moralis-web3-api'
 
 
 	import Loader from './Loader.svelte'
+
+
+	import { CovalentIcon, EtherspotIcon, MoralisIcon } from '../assets/icons'
 </script>
 
 
 {#if transactionProvider === 'Covalent'}
 	<Loader
-		loadingIcon={'/logos/Covalent.svg'}
+		loadingIcon={CovalentIcon}
 		loadingIconName={transactionProvider}
 		loadingMessage="Retrieving {network.name} transactions from {transactionProvider}..."
 		errorMessage="Error retrieving {network.name} transactions from {transactionProvider}"
@@ -65,7 +68,7 @@
 	</Loader>
 {:else if transactionProvider === 'Etherspot'}
 	<Loader
-		loadingIcon="/logos/Etherspot.png"
+		loadingIcon={EtherspotIcon}
 		loadingMessage="Retrieving {network.name} transactions from {transactionProvider}..."
 		errorMessage="Error retrieving {network.name} transactions from {transactionProvider}"
 		fromUseQuery={useQuery({
@@ -88,7 +91,7 @@
 	</Loader>
 {:else if transactionProvider === 'Moralis'}
 	<Loader
-		loadingIcon={'/logos/Moralis.svg'}
+		loadingIcon={MoralisIcon}
 		loadingIconName={transactionProvider}
 		loadingMessage="Retrieving {network.name} transactions from {transactionProvider}..."
 		errorMessage="Error retrieving {network.name} transactions from {transactionProvider}"

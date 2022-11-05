@@ -6,120 +6,121 @@
 	export let searchQuery: string
 
 
-	import type { ENSDomains, ENSDomains$input, ENSDomainsContaining, ENSDomainsContaining$input } from '$houdini'
-	import { query, graphql } from '$houdini'
+	// import { queryENSDomain, queryENSDomainsContaining } from '../data/ens'
 
-	const queryENSDomain = (variables: ENSDomains$input) => {
-		const ENSDomainsVariables = () => variables
+	import {
+		graphql,
+		type ENSDomainQuery$input, type ENSDomainQueryStore as _ENSDomainQueryStore,
+		type ENSDomainsContainingQuery$input, type ENSDomainsContainingQueryStore as _ENSDomainsContainingQueryStore
+	} from '$houdini'
 
-		return query<ENSDomains>(graphql`
-			query ENSDomains($name: String!) {
-				domains(where: {name: $name}) {
+	export const ENSDomainQueryVariables = ({ props: { searchQuery }}) => ({ name: searchQuery }) as ENSDomainQuery$input
+
+	const ensDomainQuery: _ENSDomainQueryStore = graphql`
+		query ENSDomainQuery($name: String!) {
+			domains(where: {name: $name}) {
+				__typename
+				id
+				name
+				labelName
+				labelhash
+				parent { id name }
+				subdomains { id name }
+				resolvedAddress {
 					__typename
 					id
-					name
-					labelName
-					labelhash
-					parent { id name }
-					subdomains { id name }
-					resolvedAddress {
-						__typename
-						id
+				}
+				owner {
+					__typename
+					id
+				}
+				resolver {
+					__typename
+					id
+					domain { id }
+					address
+					addr { id }
+					texts
+					coinTypes
+					events { id blockNumber transactionID }
+				}
+				ttl
+				isMigrated
+				events {
+					__typename
+					id
+					blockNumber
+					transactionID
+					... on Transfer {
+						owner { id }
 					}
-					owner {
-						__typename
-						id
+					... on NewOwner {
+						owner { id }
 					}
-					resolver {
-						__typename
-						id
-						domain { id }
-						address
-						addr { id }
-						texts
-						coinTypes
-						events { id blockNumber transactionID }
+					... on NewResolver {
+						resolver { id address }
 					}
-					ttl
-					isMigrated
-					events {
-						__typename
-						id
-						blockNumber
-						transactionID
-						... on Transfer {
-							owner { id }
-						}
-						... on NewOwner {
-							owner { id }
-						}
-						... on NewResolver {
-							resolver { id address }
-						}
-						... on NewTTL {
-							ttl
-						}
+					... on NewTTL {
+						ttl
 					}
 				}
 			}
-		`)
-	}
+		}
+	`
 
-	const queryENSDomainsContaining = (variables: ENSDomainsContaining$input) => {
-		const ENSDomainsContainingVariables = () => variables
+	export const ENSDomainsContainingQueryVariables = ({ props: { searchQuery }}) => ({query: searchQuery}) as ENSDomainsContainingQuery$input
 
-		return query<ENSDomainsContaining>(graphql`
-			query ENSDomainsContaining($query: String!) {
-				domains(where: {name_contains: $query, name_not: $query}) {
+	const ensDomainsContainingQuery: _ENSDomainsContainingQueryStore = graphql`
+		query ENSDomainsContainingQuery($query: String!) {
+			domains(where: {name_contains: $query, name_not: $query}) {
+				__typename
+				id
+				name
+				labelName
+				labelhash
+				parent { id name }
+				subdomains { id name }
+				resolvedAddress {
 					__typename
 					id
-					name
-					labelName
-					labelhash
-					parent { id name }
-					subdomains { id name }
-					resolvedAddress {
-						__typename
-						id
+				}
+				owner {
+					__typename
+					id
+				}
+				resolver {
+					__typename
+					id
+					domain { id }
+					address
+					addr { id }
+					texts
+					coinTypes
+					events { id blockNumber transactionID }
+				}
+				ttl
+				isMigrated
+				events {
+					__typename
+					id
+					blockNumber
+					transactionID
+					... on Transfer {
+						owner { id }
 					}
-					owner {
-						__typename
-						id
+					... on NewOwner {
+						owner { id }
 					}
-					resolver {
-						__typename
-						id
-						domain { id }
-						address
-						addr { id }
-						texts
-						coinTypes
-						events { id blockNumber transactionID }
+					... on NewResolver {
+						resolver { id address }
 					}
-					ttl
-					isMigrated
-					events {
-						__typename
-						id
-						blockNumber
-						transactionID
-						... on Transfer {
-							owner { id }
-						}
-						... on NewOwner {
-							owner { id }
-						}
-						... on NewResolver {
-							resolver { id address }
-						}
-						... on NewTTL {
-							ttl
-						}
+					... on NewTTL {
+						ttl
 					}
 				}
 			}
-		`)
-	}
+		}
+	`
 
 
 	const sortByLength = (a, b) => a.name.length - b.name.length
@@ -128,6 +129,9 @@
 	import EnsName from './EnsName.svelte'
 	import EnsDomain from './EnsDomain.svelte'
 	import Loader from './Loader.svelte'
+
+
+	import { ENSIcon } from '../assets/icons'
 </script>
 
 
@@ -150,9 +154,10 @@
 </style>
 
 
+	<!-- fromHoudiniQuery={searchQuery && (() => queryENSDomain({name: searchQuery}))} -->
 <Loader
-	fromHoudiniQuery={searchQuery && (() => queryENSDomain({name: searchQuery}))}
-	loadingIcon="/logos/ENS.svg"
+	fromHoudiniQuery={searchQuery && (() => ensDomainQuery)}
+	loadingIcon={ENSIcon}
 	loadingIconName="The Graph"
 	loadingMessage='Searching for "{searchQuery}" in the Ethereum Name Service subgraph...'
 	let:result={result}
@@ -173,9 +178,10 @@
 			</div>
 		{/each}
 
+			<!-- fromHoudiniQuery={() => queryENSDomainsContaining({query: searchQuery})} -->
 		<Loader
-			fromHoudiniQuery={() => queryENSDomainsContaining({query: searchQuery})}
-			loadingIcon="/logos/ENS.svg"
+			fromHoudiniQuery={() => ensDomainsContainingQuery}
+			loadingIcon={ENSIcon}
 			loadingIconName="The Graph"
 			loadingMessage="Searching the Ethereum Name Service subgraph for similar names..."
 			let:result={result}

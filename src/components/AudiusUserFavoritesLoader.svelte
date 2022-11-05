@@ -9,12 +9,13 @@
 	import AudiusTrackLoader from './AudiusTrackLoader.svelte'
 	import AudiusPlaylistLoader from './AudiusPlaylistLoader.svelte'
 	import Loader from './Loader.svelte'
+	import { AudiusIcon } from '../assets/icons'
 </script>
 
 
 {#if userId}
 	<Loader
-		loadingIcon={'/logos/Audius.png'}
+		loadingIcon={AudiusIcon}
 		loadingMessage="Fetching user favorites from Audius network..."
 		fromPromise={() => getUserFavorites({userId}).then(({data: favorites}) => favorites)}
 		let:result={favorites}

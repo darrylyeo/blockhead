@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import type { Covalent } from '../data/analytics/covalent'
-	import { getHistoricalPricesByTickerSymbol, getHistoricalPricesByAddress } from '../data/analytics/covalent'
+	import type { Covalent } from '../api/covalent'
+	import { getHistoricalPricesByTickerSymbol, getHistoricalPricesByAddress } from '../api/covalent'
 	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
 	import type { PriceScale } from './PriceChart.svelte'
 	
@@ -29,6 +29,9 @@
 
 	import Loader from './Loader.svelte'
 	import PriceChart from './PriceChart.svelte'
+
+
+	import { CovalentIcon } from '../assets/icons'
 </script>
 
 {#if historicalPriceProvider === 'Covalent' && currencies}
@@ -53,7 +56,7 @@
 			)
 		}
 
-		loadingIcon="/logos/Covalent.svg"
+		loadingIcon={CovalentIcon}
 		loadingIconName={historicalPriceProvider}
 		loadingMessage="Retrieving price history from {historicalPriceProvider}..."
 		let:result={data}

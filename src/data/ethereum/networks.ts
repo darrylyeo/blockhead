@@ -274,7 +274,7 @@ export const networks: Ethereum.Network[] = [
 		"networkId": 1313161554,
 		"nativeCurrency": {
 			"name": "Ether",
-			"symbol": "aETH",
+			"symbol": "ETH",
 			"decimals": 18
 		},
 		"rpc": [
@@ -767,6 +767,34 @@ export const networks: Ethereum.Network[] = [
 		"faucets": [],
 		"explorers": [],
 		"infoURL": "http://www.coinex.org/"
+	},
+	{
+		"slug": "cronos",
+		"name": "Cronos",
+		"chainId": 25,
+		"shortName": "cro",
+		"chain": "CRO",
+		"networkId": 25,
+		"nativeCurrency": {
+			"name": "Cronos",
+			"symbol": "CRO",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://evm.cronos.org",
+			"https://cronos-rpc.heavenswail.one",
+			"https://cronosrpc-1.xstaking.sg",
+			"https://cronos-rpc.elk.finance"
+		],
+		"faucets": [],
+		"infoURL": "https://cronos.org/",
+		"explorers": [
+			{
+				"name": "Cronos Explorer",
+				"url": "https://cronos.org/explorer",
+				"standard": "none"
+			}
+		]
 	},
 	{
 		"slug": "cryptokylin",
@@ -2977,24 +3005,24 @@ export const networks: Ethereum.Network[] = [
 		"explorers": [],
 		"infoURL": "https://near.org/"
 	},
-	{
-		"slug": "near",
-		"name": "NEAR",
-		"chainId": 1313161554,
-		"shortName": "near",
-		"chain": "NEAR",
-		"network": "mainnet",
-		"networkId": 1313161554,
-		"nativeCurrency": {
-			"name": "NEAR",
-			"symbol": "NEAR",
-			"decimals": 24
-		},
-		"rpc": [],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://near.org/"
-	},
+	// {
+	// 	"slug": "near",
+	// 	"name": "NEAR",
+	// 	"chainId": 1313161554,
+	// 	"shortName": "near",
+	// 	"chain": "NEAR",
+	// 	"network": "mainnet",
+	// 	"networkId": 1313161554,
+	// 	"nativeCurrency": {
+	// 		"name": "NEAR",
+	// 		"symbol": "NEAR",
+	// 		"decimals": 24
+	// 	},
+	// 	"rpc": [],
+	// 	"faucets": [],
+	// 	"explorers": [],
+	// 	"infoURL": "https://near.org/"
+	// },
 	{
 		"slug": "near-testnet",
 		"name": "NEAR Testnet",
@@ -4983,9 +5011,10 @@ const testnetSlugsForMainnetSlugs = {
 	// 'skale': [
 	// 	'skale-testnet',
 	// ],
-	// 'aurora': [
-	// 	'aurora-testnet',
-	// ],
+	'aurora': [
+		'aurora-testnet',
+		'aurora-betanet',
+	],
 	// 'nervos': [
 	// 	'nervos-godwoken',
 	// ],
@@ -5013,7 +5042,7 @@ export function isTestnet(network: Ethereum.Network){
 }
 
 
-export const availableNetworks = [1, 137, 10, 100].map(chainID => networksByChainID[chainID])
+export const availableNetworks = [1, 137, 10, 100, 1313161554, 25].map(chainID => networksByChainID[chainID])
 
 
 export const ethereumAndL2Networks = [
@@ -5032,12 +5061,18 @@ export const evmL1Networks = [
 	'avalanche',
 	'bsc',
 	'celo',
+	'cronos',
 	// 'fantom',
+].map(slug => networksBySlug[slug])
+
+export const evmL2Networks = [
+	'aurora',
 ].map(slug => networksBySlug[slug])
 
 export const otherNetworks = networks.filter(network =>
 	!ethereumAndL2Networks.includes(network)
 	&& !evmL1Networks.includes(network)
+	&& !evmL2Networks.includes(network)
 	&& !Object.values(testnetsForMainnets).some(testnetNetworks => testnetNetworks.includes(network))
 )
 
@@ -5050,6 +5085,11 @@ export const networksBySection = [
 	{
 		title: 'EVM-Based Layer-One Networks',
 		networks: evmL1Networks,
+		isFeatured: true,
+	},
+	{
+		title: 'EVM-Based Rollups',
+		networks: evmL2Networks,
 		isFeatured: true,
 	},
 	{
@@ -5067,6 +5107,7 @@ export const networkColors = {
 	'bitcoin': '#f7931a',
 	'bsc': '#FCD535',
 	'celo': '#35D07F', // #fbcc5c
+	'cronos': '#002D74',
 	'ethereum': '#627eea',
 	'fantom': '#1969ff',
 	'gnosis': '#04795B',

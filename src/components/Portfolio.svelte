@@ -3,10 +3,10 @@
 	import type { DeFiProvider } from '../data/defi-provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
 
-	import { Account } from '../data/ethereum/portfolio-accounts'
+	import { Account } from '../state/portfolio-accounts'
 	import { availableNetworks } from '../data/ethereum/networks'
 
-	import { preferences } from '../data/ethereum/preferences'
+	import { preferences } from '../state/preferences'
 
 
 	// Portfolio management
@@ -137,7 +137,7 @@
 
 
 	import { flip } from 'svelte/animate'
-	import { scale } from 'svelte/transition'
+	import { fly, scale } from 'svelte/transition'
 </script>
 
 
@@ -152,11 +152,7 @@
 	}
 
 	.options {
-		position: sticky;
-		bottom: 0;
-
 		margin: 0 calc(-1 * var(--padding-outer));
-		z-index: 10;
 
 		font-size: 0.8em;
 
@@ -334,8 +330,8 @@
 		</slot>
 	{/if}
 
-	<SizeContainer isOpen={showOptions && accounts.length && state !== State.Editing}>
-		<div class="card row spaced options" transition:scale>
+	<SizeContainer containerClass="sticky-bottom" isOpen={showOptions && accounts.length && state !== State.Editing}>
+		<div class="options card row spaced" transition:fly={{ y: 100 }}>
 			<div class="row">
 				<h3>Balances</h3>
 

@@ -29,6 +29,8 @@
 	--metis-blue: #00dacd;
 	--skale-black: #000;
 	--celo-gold: #fbcc5c;
+	--aurora-green: #92D36F;
+	--cronos-blue: #002D74;
 
 	--up-green: #1af73d;
 	--down-red: #f7541a;
@@ -165,8 +167,11 @@ h1 {
 h5 {
 	font-size: 0.95em;
 }
+h6 {
+	font-size: 0.9em;
+}
 
-h3.row, h4.row {
+h3.row, h4.row, h5.row, h6.row {
     --padding-inner: 1ch;
 }
 
@@ -426,8 +431,10 @@ img:after {
 }
 /* .card:before {
 	content: '';
+	position: absolute;
+	inset: 0;
 	background-image: var(--card-background-image);
-	grid: 1 / 1 / -1 / -1;
+	background-attachment: fixed;
 	opacity: 0.1;
 } */
 .card:focus, .card:target {
@@ -466,6 +473,18 @@ a.card {
 }
 .card .card-background > * {
 	font-size: 13em;
+}
+
+.card .cover-image {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	object-position: center;
+	opacity: 0.1;
+	pointer-events: none;
+	z-index: -1;
 }
 
 
@@ -682,6 +701,13 @@ a.card {
 /* .sticky-layout .sticky-layout .sticky-layout .sticky + * {
 	position: sticky;
 } */
+
+
+.sticky-bottom {
+	position: sticky;
+	bottom: 0;
+	z-index: 10;
+}
 
 
 .slot {

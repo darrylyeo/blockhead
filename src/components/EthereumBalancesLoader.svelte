@@ -1,10 +1,12 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import type { Covalent } from '../data/analytics/covalent'
+	import type { Covalent } from '../api/covalent'
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import { MoralisWeb3Api, chainCodeFromNetwork } from '../data/moralis/moralis-web3-api'
 
 	import { getTokenBalances } from '../data/zapper/zapper'
+	import { getWalletTokenBalance } from '../data/quicknode'
+
 
 	export let network: Ethereum.Network
 	export let address: string
@@ -16,7 +18,7 @@
 
 
 	export let balances: {
-		type: Covalent.ERC20TokenOrNFTContractWithBalance['type'],
+		type?: Covalent.ERC20TokenOrNFTContractWithBalance['type'],
 		token: Ethereum.ERC20Token,
 		balance: Covalent.ERC20TokenOrNFTContractWithBalance['balance'],
 		value: Covalent.ERC20TokenOrNFTContractWithBalance['quote'],
@@ -26,16 +28,19 @@
 
 	import { useQuery } from '@sveltestack/svelte-query'
 
-	import { getTokenAddressBalances } from '../data/analytics/covalent'
+	import { getTokenAddressBalances } from '../api/covalent'
 
 
 	import Loader from './Loader.svelte'
+
+
+	import { CovalentIcon, MoralisIcon, QuickNodeIcon, ZapperIcon } from '../assets/icons'
 </script>
 
 
 {#if tokenBalancesProvider === 'Covalent'}
 	<Loader
-		loadingIcon={'/logos/Covalent.svg'}
+		loadingIcon={CovalentIcon}
 		loadingIconName={tokenBalancesProvider}
 		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
 		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"
@@ -96,7 +101,7 @@
 
 {:else if tokenBalancesProvider === 'Moralis'}
 	<Loader
-		loadingIcon={'/logos/Moralis.svg'}
+		loadingIcon={MoralisIcon}
 		loadingIconName={tokenBalancesProvider}
 		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
 		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"
@@ -119,7 +124,6 @@
 							address
 							// to_block: 
 						})
-						console.log([nativeBalance, ...tokenBalances])
 
 						const result = [
 							{
@@ -190,16 +194,84 @@
 
 {:else if tokenBalancesProvider === 'Zapper'}
 	<Loader
-		loadingIcon={'/logos/Zapper.svg'}
+		loadingIcon={ZapperIcon}
 		loadingIconName={tokenBalancesProvider}
 		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
 		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"
-		fromPromise={async () =>
-			await getTokenBalances({
-				network,
-				address
+		fromUseQuery={
+			useQuery({
+				queryKey: ['Balances', {
+					tokenBalancesProvider,
+					address,
+					chainID: network.chainId,
+				}],
+				queryFn: async () => (
+					await getTokenBalances({
+						network,
+						address
+					})
+				)
 			})
 		}
+		then={({products}) => products[0]?.assets.map(
+			({
+				address,
+				decimals,
+				symbol,
+				balance,
+				balanceUSD,
+				balanceRaw,
+				price,
+				displayProps
+			}) => ({
+				token: {
+					symbol,
+					name: displayProps.label,
+					address,
+					icon: displayProps.images[0],
+					decimals,
+				},
+				balance: balanceRaw,
+				value: balanceUSD,
+				rate: price
+			})
+		) ?? []}
+		{showIf}
+		{isCollapsed}
+		bind:result={balances}
+		let:result={balances}
+	>
+		<slot name="header" slot="header" {balances} />
+
+		<slot {balances} />
+	</Loader>
+{:else if tokenBalancesProvider === 'QuickNode'}
+	<Loader
+		loadingIcon={QuickNodeIcon}
+		loadingIconName={tokenBalancesProvider}
+		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
+		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"
+		fromUseQuery={
+			useQuery({
+				queryKey: ['Balances', {
+					tokenBalancesProvider,
+					address,
+					chainID: network.chainId,
+				}],
+				queryFn: async () => (
+					await getWalletTokenBalance({
+						network,
+						address
+					})
+				)
+			})
+		}
+		then={({owner, assets}) => (
+			assets.map(({amount, logoURI, ...token}) => ({
+				balance: amount,
+				token: {icon: logoURI, ...token}
+			}))
+		)}
 		{showIf}
 		{isCollapsed}
 		bind:result={balances}

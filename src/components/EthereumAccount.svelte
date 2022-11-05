@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { TickerSymbol } from '../data/currency/currency'
-	import type { Covalent } from '../data/analytics/covalent'
+	import type { Covalent } from '../api/covalent'
 	import type { PriceScale } from './PriceChart.svelte'
-	import { getERC20TokenTransfers, getTransactionsByAddress } from '../data/analytics/covalent'
-	import { preferences } from '../data/ethereum/preferences'
+	import { getERC20TokenTransfers, getTransactionsByAddress } from '../api/covalent'
+	import { preferences } from '../state/preferences'
 
 
 	export let network: Ethereum.Network
@@ -125,7 +125,7 @@
 					{/if}
 				{/if} -->
 			</div>
-			<span class="card-annotation">Ethereum Account</span>
+			<span class="card-annotation">{network.name} Account</span>
 		</div>
 
 		<!-- <Balance {provider} {address} /> -->

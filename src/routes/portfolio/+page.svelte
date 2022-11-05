@@ -1,0 +1,118 @@
+<script lang="ts">
+	import { getContext } from 'svelte'
+
+	import type { Ethereum } from '../../data/ethereum/types'
+	import { Portfolio, getLocalPortfolios } from '../../state/portfolio-accounts'
+	import { preferences } from '../../state/preferences'
+	import { networksByChainID } from '../../data/ethereum/networks'
+
+
+	import { writable } from 'svelte/store'
+
+	const ethereumChainID = writable(1)
+
+	const ethereumProvider = getContext<SvelteStore<Ethereum.Provider>>('ethereumProvider')
+	$: portfolioProvider = $ethereumProvider
+	
+	const localPortfolios = getLocalPortfolios()
+	function addPortfolio(){
+		$localPortfolios = [...$localPortfolios, new Portfolio()]
+	}
+	function deletePortfolio(i){
+		$localPortfolios = [...$localPortfolios.slice(0, i), ...$localPortfolios.slice(i + 1)]
+	}
+
+	$: if(localPortfolios && !$localPortfolios.length)
+		addPortfolio()
+
+	$: network = networksByChainID[$ethereumChainID]
+
+
+	import PortfolioComponent from '../../components/Portfolio.svelte'
+	import Preferences from '../../components/Preferences.svelte'
+	import ConnectedAccounts from '../../components/ConnectedAccounts.svelte'
+	// import WalletProviders from '../../components/WalletProviders.svelte'
+	import { fly } from 'svelte/transition'
+</script>
+
+
+<svelte:head>
+	<title>Portfolio | Blockhead</title>
+</svelte:head>
+
+
+<main in:fly={{x: 300}} out:fly={{x: -300}}>
+<!-- <main> -->
+	<section class="portfolios column">
+		{#if localPortfolios}
+			{#each $localPortfolios as {name, accounts}, i (i)}
+				<PortfolioComponent
+					bind:name
+					bind:accounts
+					editable={true}
+					provider={portfolioProvider}
+					defiProvider={$preferences.defiProvider}
+					tokenBalancesProvider={$preferences.tokenBalancesProvider}
+					quoteCurrency={$preferences.quoteCurrency}
+					on:delete={e => deletePortfolio(i)}
+				/>
+			{/each}
+			{#if $localPortfolios[$localPortfolios.length - 1]?.accounts.length}
+				<button on:click={() => addPortfolio()}>+ Create Another Portfolio</button>
+			{/if}
+		{:else}
+			Please enable LocalStorage in your browser.
+		{/if}
+	</section>
+	
+	<!-- <WalletProviders {network} {portfolioProvider} /> -->
+
+	<aside>
+		<section class="column">
+			<ConnectedAccounts />
+		</section>
+	</aside>
+</main>
+
+<Preferences
+	relevantPreferences={[
+		'theme',
+		'rpcNetwork', 'tokenBalancesProvider', 'defiProvider', 'nftProvider',
+		'quoteCurrency'
+	]}
+/>
+
+
+<style>
+	main {
+		/* display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+		justify-items: center; */
+
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 2rem;
+		
+		/* Override scroll container to support position: sticky */
+		height: 100vh;
+		overflow-y: auto;
+	}
+	/* main > :global(*) {
+		flex: 1 30rem;
+		max-width: 45rem;
+		gap: 2.5rem;
+	} */
+
+	aside {
+		position: sticky;
+		top: 0;
+		align-self: start;
+		/* overflow: hidden auto; */
+	}
+
+	.portfolios {
+		padding: 0 0.5rem 60vh;
+		gap: 3rem;
+	}
+</style>

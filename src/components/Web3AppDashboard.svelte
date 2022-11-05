@@ -3,13 +3,13 @@
 	import type { DeFiProvider } from '../data/defi-provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import type { Web3AppConfig, Web3AppSlug } from '../data/web3Apps'
-	import type { Covalent } from '../data/analytics/covalent'
+	import type { Covalent } from '../api/covalent'
 	import { web3AppsByProviderName } from '../data/web3Apps'
 	import { getDefiBalances } from '../data/ethereum/price/defi-sdk'
-	import { getDeFiAppBalances, getFiatRates } from '../data/zapper/zapper'
-	import { getTokenAddressBalances } from '../data/analytics/covalent'
+	import { getDefiBalancesForApps } from '../data/zapper/zapper'
+	import { getTokenAddressBalances } from '../api/covalent'
 	import { networksByChainID } from '../data/ethereum/networks'
-	import { preferences } from '../data/ethereum/preferences'
+	import { preferences } from '../state/preferences'
 
 
 	// Data
@@ -22,8 +22,8 @@
 
 	// Computed Values
 	let zapperFiatRates
-	$: if(defiProvider === 'Zapper' && quoteCurrency !== 'USD')
-		getFiatRates().then(_ => zapperFiatRates = _)
+	// $: if(defiProvider === 'Zapper' && quoteCurrency !== 'USD')
+	// 	getFiatRates().then(_ => zapperFiatRates = _)
 	$: zapperQuoteCurrency = zapperFiatRates ? quoteCurrency : 'USD' 
 	$: zapperFiatRate = zapperFiatRates?.[quoteCurrency] ?? 1
 
@@ -31,8 +31,8 @@
 	export let quoteTotalCurrency
 	$: quoteTotalCurrency = zapperQuoteCurrency
 
-	type TypeOfPromise<T> = T extends Promise<infer R> ? R : T
-	let zapperDefiProtocolBalances: TypeOfPromise<ReturnType<typeof getDeFiAppBalances>>
+
+	let zapperDefiProtocolBalances: Awaited<ReturnType<typeof getDefiBalancesForApps>>
 	$: if(zapperDefiProtocolBalances)
 		quoteTotal = zapperDefiProtocolBalances.reduce((sum, {meta}) => sum + Number(
 			meta?.find(({label, type, value}) => label === 'Total')?.value ?? 0
@@ -60,6 +60,7 @@
 	
 	import { formatPercent } from '../utils/format-percent'
 	import { formatUnits } from '../utils/format-units'
+	import { formatKebabCase } from '../utils/formatKebabCase'
 
 
 	import Loader from './Loader.svelte'
@@ -73,6 +74,9 @@
 	import TokenBalance from './TokenBalance.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
 	import TokenBalanceFormatSelect from './TokenBalanceFormatSelect.svelte'
+
+	
+	import { ZapperIcon } from '../assets/icons'
 
 
 	import { cardStyle } from '../utils/card-background'
@@ -271,7 +275,7 @@
 						<!-- No address specified - general information -->
 						{#if !address}
 							{#each contracts || [] as contract}
-								
+								{contract}
 							{/each}
 
 
@@ -285,9 +289,9 @@
 											loadingMessage="Reading {web3AppConfig.name} balances from {defiProvider}..."
 											errorMessage="Error getting {web3AppConfig.name} balances from {defiProvider}."
 											loadingIconName={defiProvider}
-											loadingIcon={'/logos/Zapper.svg'}
-											fromStore={() => getDeFiAppBalances({
-												appIds: providers?.zapper ? [providers.zapper] : [],
+											loadingIcon={ZapperIcon}
+											fromStore={() => getDefiBalancesForApps({
+												appIds: [providers?.zapper],
 												network,
 												address,
 												asStore: true
@@ -419,7 +423,7 @@
 																				{#if label && label !== symbol}
 																					<span class="card-annotation">{label}</span>
 																				{:else}
-																				<span class="card-annotation">{type}{category && type !== category ? ` ${category}` : ''}</span>																				{/if}
+																				<span class="card-annotation">{formatKebabCase(type)}{category && type !== category ? ` ${category}` : ''}</span>																				{/if}
 																			{/if}
 																		</div>
 
@@ -493,7 +497,7 @@
 											</div>
 											<!-- {#if quoteCurrency !== 'USD'}
 												<small class="card row" transition:scale>
-													<img src="/logos/Zapper.svg" width="25" height="25" />
+													<img src={ZapperIcon} width="25" height="25" />
 													Note: The Zapper API doesn't yet support currencies other than US Dollars.
 												</small>
 											{/if} -->

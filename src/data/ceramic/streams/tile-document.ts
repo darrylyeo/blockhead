@@ -2,9 +2,9 @@
 
 
 import type CeramicClient from '@ceramicnetwork/http-client'
-import type { IDX } from '@ceramicstudio/idx'
-import { getCeramic } from '../ceramic'
-import { getIDX } from '../idx'
+// import type { IDX } from '@ceramicstudio/idx'
+import { getCeramicClient } from '../client'
+// import { getIDX } from '../idx'
 
 
 import type { StreamID, CommitID } from '@ceramicnetwork/streamid'
@@ -14,32 +14,32 @@ import { TileDocument } from '@ceramicnetwork/stream-tile'
 
 
 export async function getTileDocument({
-	ceramic = getCeramic(),
+	ceramicClient = getCeramicClient(),
 	streamID = 'kjzl6cwe1jw147ww5d8pswh1hjh686mut8v1br10dar8l9a3n1wf8z38l0bg8qa'
 }: {
-    ceramic: CeramicClient,
+    ceramicClient: CeramicClient,
     streamID: StreamID | CommitID
 }) {
-	const tileDocument = await TileDocument.load(ceramic, streamID)
+	const tileDocument = await TileDocument.load(ceramicClient, streamID)
 	console.log(tileDocument, tileDocument.content)
 	return tileDocument
 }
 
 
 export async function createTileDocument<T = Record<string, any>>({
-	ceramic = getCeramic(),
-	idx = getIDX(ceramic),
+	ceramicClient = getCeramicClient(),
+	// idx = getIDX(ceramic),
 	content,
 	metadata,
 	options
 }: {
-    ceramic: CeramicClient,
-    idx: IDX,
+    ceramicClient: CeramicClient,
+    // idx: IDX,
 	content?: T,
 	metadata?: TileMetadataArgs,
 	options?: CreateOpts
 }){
-	const tileDocument = await TileDocument.create<T>(ceramic, content, metadata, options)
+	const tileDocument = await TileDocument.create<T>(ceramicClient, content, metadata, options)
 	return tileDocument
 }
 

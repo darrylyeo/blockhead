@@ -11,7 +11,7 @@
 	// export let provider: Ethereum.Provider
 
 
-	// import { preferences } from '../data/ethereum/preferences'
+	// import { preferences } from '../state/preferences'
 	// import { getEthersProvider } from '../data/providers'
 
 	// $: if(network && !provider){
@@ -94,7 +94,7 @@
 	}
 
 
-	import { preferences } from '../data/ethereum/preferences'
+	import { preferences } from '../state/preferences'
 	import { getEthersProvider } from '../data/providers'
 	// import { onDestroy } from 'svelte'
 

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import type { Covalent } from '../data/analytics/covalent'
+	import type { Covalent } from '../api/covalent'
 	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
-	import { getTokenAddressBalances } from '../data/analytics/covalent'
-	import { preferences } from '../data/ethereum/preferences'
+	import { getTokenAddressBalances } from '../api/covalent'
+	import { preferences } from '../state/preferences'
 
 	export let network: Ethereum.Network
 	export let address: string
@@ -155,10 +155,10 @@
 		{address}
 		{tokenBalancesProvider}
 		{quoteCurrency}
-		showIf={() => balances.length}
 		{isCollapsed}
 		bind:balances
 	>
+		<!-- showIf={() => balances.length} -->
 		<svelte:fragment slot="header">
 			<slot name="header" {balances} {filteredBalances} {summary} />
 		</svelte:fragment>

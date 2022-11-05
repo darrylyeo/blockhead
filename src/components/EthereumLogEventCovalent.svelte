@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Covalent } from '../data/analytics/covalent'
+	import type { Covalent } from '../api/covalent'
 	import type { Ethereum } from '../data/ethereum/types'
 
 

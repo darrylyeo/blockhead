@@ -35,7 +35,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 	},
 
 	// {
-	// 	type: NetworkProvider.Default,
+	// 	provider: NetworkProvider.Default,
 	// 	name: 'Default',
 	// 	get: ({ network }) => getDefaultProvider(network.chainId, {
 	// 		alchemy: env.ALCHEMY_API_KEY_MAINNET,
@@ -49,7 +49,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 	// },
 
 	{
-		type: NetworkProvider.Infura,
+		provider: NetworkProvider.Infura,
 		name: 'Infura',
 		icon: '/apps/Infura.svg',
 
@@ -137,6 +137,29 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 				throw new Error(`Couldn't find a Figment node matching the configuration`)
 		}
 	},
+
+	{
+		provider: NetworkProvider.QuickNode,
+		name: 'QuickNode',
+		icon: '/apps/QuickNode.png',
+
+		get: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+		}) => new providers.JsonRpcProvider(
+			`${connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${{
+				1: env.QUICKNODE_ENDPOINT_NAME_1,
+				10: env.QUICKNODE_ENDPOINT_NAME_10,
+				137: env.QUICKNODE_ENDPOINT_NAME_137,
+			}[network.chainId]}.quiknode.pro/${{
+				1: env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_1,
+				10: env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_10,
+				137: env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_137,
+			}[network.chainId]}/`,
+			network.chainId
+		)
+		
+	}
 ]
 
 export const networkProviderConfigByProvider = Object.fromEntries(networkProviderConfigs.map(networkProviderConfig => [networkProviderConfig.provider, networkProviderConfig]))
@@ -166,6 +189,7 @@ export const networkProviderConfigByNetworkSlug = Object.fromEntries(Object.entr
 		NetworkProvider.Alchemy,
 		NetworkProvider.PocketNetwork,
 		NetworkProvider.Figment,
+		NetworkProvider.QuickNode,
 	],
 	"ethereum-ropsten": [
 		// RpcProvider.Alchemy,
@@ -193,10 +217,14 @@ export const networkProviderConfigByNetworkSlug = Object.fromEntries(Object.entr
 	"polygon": [
 		NetworkProvider.PocketNetwork,
 		NetworkProvider.Figment,
+		NetworkProvider.QuickNode,
 	],
 	"polygon-mumbai": [
 		NetworkProvider.Figment,
 	],
+	"optimism": [
+		NetworkProvider.QuickNode,
+	]
 })
 	.map(([slug, networkProviders]) =>
 		[
@@ -250,7 +278,7 @@ export const getEthersProvider = async ({
 		nodeType
 	})
 
-	console.log('ethersProvider', ethersProvider)
+	// console.log('ethersProvider', ethersProvider)
 
 	return ethersProvider
 }
