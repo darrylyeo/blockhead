@@ -36,6 +36,10 @@
 					contractAddress: address,
 					chainId: network.chainId
 				})
+				.catch(e => {
+					console.error(e)
+					return undefined
+				})
 			)
 		})
 	}

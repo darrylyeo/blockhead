@@ -188,9 +188,7 @@
 
 						<div class="stack">
 							{#key showContractSourcePath}
-								{#if showContractSourcePath === 'EVM Bytecode'}
-									<pre class="card scrollable-list" style="height: 7.5em" transition:fade>{contractCode}</pre>
-								{:else}
+								{#if contractMetadata && showContractSourcePath !== 'EVM Bytecode'}
 									{@const source = contractMetadata?.sources[showContractSourcePath]}
 
 									<section class="card" transition:fade>
@@ -255,6 +253,8 @@
 											</IpfsLoader>
 										{/if}
 									</section>
+								{:else}
+									<pre class="card scrollable-list" style="height: 7.5em" transition:fade>{contractCode}</pre>
 								{/if}
 							{/key}
 						</div>
