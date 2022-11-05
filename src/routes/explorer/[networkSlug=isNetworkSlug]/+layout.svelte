@@ -81,7 +81,7 @@
 	import CurrentPrice from '../../../components/CurrentPrice.svelte'
 	import EthereumBlockHeight from '../../../components/EthereumBlockHeight.svelte'
 
-	import EthereumAccount from '../../../components/EthereumAccount.svelte'
+	import EthereumAccountOrContract from '../../../components/EthereumAccountOrContract.svelte'
 	import EthereumBlockLoader from '../../../components/EthereumBlockLoader.svelte'
 	import EthereumTransactionLoader from '../../../components/EthereumTransactionLoader.svelte'
 
@@ -148,7 +148,7 @@
 							</div>
 						{:else}
 							<div class="column">
-								<EthereumAccount network={$explorerNetwork} addressOrEnsName={$query} provider={$explorerProvider}/>
+								<EthereumAccountOrContract network={$explorerNetwork} addressOrEnsName={$query} provider={$explorerProvider}/>
 							</div>
 						{/if}
 					{:else}
