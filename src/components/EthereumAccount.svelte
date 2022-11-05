@@ -62,6 +62,7 @@
 	import EthereumTransactionsLoader from './EthereumTransactionsLoader.svelte'
 	import EthereumTransactionsERC20Loader from './EthereumTransactionsERC20Loader.svelte'
 	import InlineContainer from './InlineContainer.svelte'
+	import IpfsLoader from './IpfsLoader.svelte'
 	import TokenName from './TokenName.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import TokenBalanceFormatSelect from './TokenBalanceFormatSelect.svelte'
@@ -222,20 +223,25 @@
 												<a href={sourcifyUrl} target="_blank">Sourcify</a>
 											</footer>
 										{:else if source.urls?.length}
-											{@const ipfsUrl = source.urls
-												.find(url => url.includes('dweb:'))?.replace(/^dweb:\/ipfs\/(.+)$/, 'https://ipfs.io/ipfs/$1')}
+											{@const ipfsCid = source.urls
+												.find(url => url.includes('dweb:'))?.match(/^dweb:\/ipfs\/(.+)$/)?.[1]}
 
-											{#await fetch(ipfsUrl).then(r => r.text()) then sourceCode}
+											<IpfsLoader
+												contentId={ipfsCid}
+												format="text"
+												let:content={sourceCode}
+												let:ipfsUrl
+											>
 												<pre class="scrollable-list" style="max-height: 30em">{sourceCode}</pre>
 
 												<hr>
-	
+
 												<footer class="footer bar">
 													<a href={sourcifyUrl} target="_blank">Sourcify</a>
 
-													<span>IPFS › <a href={ipfsUrl} target="_blank">{ipfsUrl.match(/[^/]+$/)}</a></span>
+													<span>IPFS › <a href={ipfsUrl} target="_blank">{ipfsCid}</a></span>
 												</footer>
-											{/await}
+											</IpfsLoader>
 										{/if}
 									</section>
 								{/if}
