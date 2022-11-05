@@ -195,11 +195,17 @@
 
 									<section class="card" transition:fade>
 										<header class="bar">
-											<h4>
-												<abbr title="keccak256 hash: {contractMetadata?.sources?.keccak256}">
-													{showContractSourcePath.match(/[^/]+$/)?.[0]}
-												</abbr>
-											</h4>
+											<abbr
+												class="row-inline"
+												title={[
+													showContractSourcePath,
+													source.license && `License: ${source.license}`,
+													source.keccak256 && `keccak256 hash: ${source.keccak256}`
+												].filter(Boolean).join('\n\n')}
+											>
+												<h4>{showContractSourcePath.match(/[^/]+$/)?.[0]}</h4>
+												{#if source.license}<small><span class="card-annotation">{source.license}</span></small>{/if}
+											</abbr>
 
 											<abbr class="card-annotation" title="{contractMetadata?.language} {contractMetadata?.compiler?.version}">
 												{contractMetadata?.language}
@@ -221,6 +227,8 @@
 
 											<footer class="footer bar">
 												<a href={sourcifyUrl} target="_blank">Sourcify</a>
+
+												<!-- {#if source.license}<span>License: {source.license}</span>{/if} -->
 											</footer>
 										{:else if source.urls?.length}
 											{@const ipfsCid = source.urls.find(url => url.includes('dweb:'))?.match(/^dweb:\/ipfs\/(.+)$/)?.[1]}
@@ -235,9 +243,13 @@
 
 												<hr>
 
-												<footer class="footer bar">
-													<a href={sourcifyUrl} target="_blank">Sourcify</a>
+												<footer class="footer row spaced">
+													<span>
+														<a href={sourcifyUrl} target="_blank">Sourcify</a>
+													</span>
 
+													<!-- {#if source.license}<span>License: {source.license}</span>{/if} -->
+													
 													<span>IPFS › <a href={ipfsUrl} target="_blank">{ipfsCid}</a></span>
 												</footer>
 											</IpfsLoader>
