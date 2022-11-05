@@ -299,12 +299,12 @@ section {
 }
 
 
-:disabled, [disabled], .placeholder {
+:disabled, .placeholder {
 	opacity: 0.33;
 	/* pointer-events: none; */
 	touch-action: none;
 }
-:disabled, [disabled] {
+:disabled {
 	cursor: not-allowed !important;
 }
 
@@ -437,7 +437,7 @@ img:after {
 	background-attachment: fixed;
 	opacity: 0.1;
 } */
-.card:focus, .card:target {
+.card:focus, .card:target, form.card:focus-within {
 	/* background-color: rgb(var(--rgb-light-dark-inverse), 0.2); */
 	box-shadow: var(--card-box-shadow), 0 0 0 2px var(--primary-color) inset;
 	outline: none;

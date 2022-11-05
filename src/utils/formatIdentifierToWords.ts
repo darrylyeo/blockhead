@@ -1,2 +1,2 @@
-export const formatIdentifierToWords = (str: string) =>
-	str.replace(/[A-Z]+/g, m => ` ${m.toLowerCase()}`).replace(/_/g, ' ').trim()
+export const formatIdentifierToWords = (str: string, titlecase = false) =>
+	str.replace(/^.|[A-Z]+/g, m => ` ${titlecase ? m.toUpperCase() : m.toLowerCase()}`).replace(/_/g, ' ').trim()

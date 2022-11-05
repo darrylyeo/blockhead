@@ -1,29 +1,31 @@
 import type { Ethereum } from '../data/ethereum/types'
 
 
+export type SolidityJsonAbi = {
+	inputs?: {
+		indexed?: boolean;
+		internalType: string;
+		name: string;
+		type: string;
+	}[];
+	stateMutability?: string;
+	type: 'constructor' | 'event' | 'function';
+	anonymous?: boolean;
+	name?: string;
+	outputs?: {
+		internalType: string;
+		name: string;
+		type: string;
+	}[];
+}[]
+
 export type ContractMetadata<SourcePath extends string> = {
 	"compiler": {
 		"version": string
 	},
 	"language": "Solidity" | string,
 	"output": {
-		"abi": {
-			inputs?: {
-				indexed?: boolean;
-				internalType: string;
-				name: string;
-				type: string;
-			}[];
-			stateMutability?: string;
-			type: string;
-			anonymous?: boolean;
-			name?: string;
-			outputs?: {
-				internalType: string;
-				name: string;
-				type: string;
-			}[];
-		},
+		"abi": SolidityJsonAbi,
 		"devdoc": {
 			"kind": "dev" | string,
 			"methods": {},

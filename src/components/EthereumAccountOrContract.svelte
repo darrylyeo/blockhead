@@ -2,6 +2,7 @@
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { TickerSymbol } from '../data/currency/currency'
 	import type { Covalent } from '../api/covalent'
+	import type { ContractMetadata } from '../api/sourcify'
 	import type { PriceScale } from './PriceChart.svelte'
 	import { getERC20TokenTransfers, getTransactionsByAddress } from '../api/covalent'
 	import { preferences } from '../state/preferences'
@@ -51,6 +52,10 @@
 	let priceScale: PriceScale
 
 
+	const getContractName = (contractMetadata: ContractMetadata<string>) =>
+		Object.values(contractMetadata.settings.compilationTarget)?.[0] as string
+
+
 	import Address from './Address.svelte'
 	import Balance from './Balance.svelte'
 	import CovalentPriceChart from './CovalentPriceChart.svelte'
@@ -59,6 +64,7 @@
 	import EthereumBalances from './EthereumBalances.svelte'
 	import EthereumContractBytecodeLoader from './EthereumContractBytecodeLoader.svelte'
 	import EthereumContractMetadataLoader from './EthereumContractMetadataLoader.svelte'
+	import EthereumTransactionForm from './EthereumTransactionForm.svelte'
 	import EthereumTransactionCovalent from './EthereumTransactionCovalent.svelte'
 	import EthereumTransactionMoralis from './EthereumTransactionMoralis.svelte'
 	import EthereumTransactionEtherspot from './EthereumTransactionEtherspot.svelte'
@@ -174,7 +180,7 @@
 
 							// Auto-set to target source path
 
-							const contractName = Object.values(contractMetadata.settings.compilationTarget)?.[0]
+							const contractName = getContractName(contractMetadata)
 
 							const targetSourcePath = Object.keys(contractMetadata.sources)
 								.find(sourcePath => sourcePath.match(new RegExp(`(?:^|[/])${contractName}[.]`)))
@@ -277,8 +283,18 @@
 								{/if}
 							{/key}
 						</div>
-					</EthereumContractMetadataLoader>
 
+						{#if contractMetadata}
+							<hr>
+
+							<EthereumTransactionForm
+								{network}
+								contractName={getContractName(contractMetadata)}
+								contractAddress={address}
+								abi={contractMetadata.output.abi}
+							/>
+						{/if}
+					</EthereumContractMetadataLoader>
 				</section>
 			</EthereumContractBytecodeLoader>
 			<!-- {/if}
