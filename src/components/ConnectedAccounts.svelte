@@ -1,6 +1,6 @@
 <script lang="ts">
 	// External state
-	import { accountConnections } from '../state/account'
+	import { accountConnections, connectedAccounts } from '../state/account'
 
 	
 	import ConnectAccount from './ConnectAccount.svelte'
@@ -28,6 +28,7 @@
 		<ConnectAccount
 			bind:walletType
 			on:disconnect={() => $accountConnections = [...$accountConnections.slice(0, i), ...$accountConnections.slice(i + 1)]}
+			bind:account={$connectedAccounts[i]}
 		/>
 	{/each}
 </HeightContainer>
