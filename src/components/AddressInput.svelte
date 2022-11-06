@@ -15,7 +15,8 @@
 
 	// Methods/hooks/lifecycle
 	const onChange = () => {
-		address = inputElement?.valid ? _address : ''
+		if(inputElement?.valid)
+			address = _address
 	}
 
 	const onInput = () => {
