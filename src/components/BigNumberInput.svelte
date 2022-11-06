@@ -36,6 +36,8 @@
 	// Methods/hooks/lifecycle
 	const onInput = () => {
 		inputValue = inputValue.replace(/[^\d.]/g, '').replace(/(.*[.].*)[.]/g, '$1')
+
+		value = parse(inputValue, decimals)
 	}
 
 	const onChange = () => {
