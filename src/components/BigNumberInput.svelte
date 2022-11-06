@@ -39,8 +39,6 @@
 	}
 
 	const onChange = () => {
-		// inputValue = value ? format(value) : ''
-		console.log(inputValue)
 		value = parse(inputValue, decimals)
 
 		if(max && value?.gt(max))
@@ -83,8 +81,9 @@
 		{required}
 		on:input={onInput}
 		on:change={onChange}
-		placeholder={min && max ? `${min} to ${max}` : '0'}
+		placeholder={max.gt(2 ** 16) ? '0' : max.toString()}
 	/>
+	<!-- placeholder={min && max ? `${min} to ${max}` : '0'} -->
 
 	{#if max}
 		<button
