@@ -13,7 +13,7 @@
 	// let isResolvingEns = false
 
 
-	const pattern = `0x[0-9a-f]{40}|.+[.](eth|[a-z]{2,})`
+	const pattern = `0x[0-9a-fA-F]{40}|.+[.](eth|[a-zA-Z]{2,})`
 
 
 	// Methods/hooks/lifecycle
