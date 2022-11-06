@@ -636,6 +636,42 @@ export const web3Apps: Web3AppConfig[] = [
 		]
 	},
 	{
+		name: 'Apecoin DAO',
+		slug: 'apecoin',
+		links: ['https://apecoin.com'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					{
+						icon: 'https://assets.coingecko.com/coins/images/24383/thumb/apecoin.jpg?1647476455',
+						chainId: 1,
+						address: '0x4d224452801ACEd8B2F0aebE155379bb5D594381',
+						name: 'ApeCoin',
+						symbol: 'APE',
+						decimals: 18
+					},
+				],
+			},
+			{
+				chainId: 5,
+				erc20Tokens: [
+					{
+						icon: 'https://assets.coingecko.com/coins/images/24383/thumb/apecoin.jpg?1647476455',
+						chainId: 5,
+						address: '0x328507DC29C95c170B56a1b3A758eB7a9E73455c',
+						name: 'ApeCoin',
+						symbol: 'APE',
+						decimals: 18
+					},
+				],
+				contracts: [
+					'0x831e0c7A89Dbc52a1911b78ebf4ab905354C96Ce',
+				]
+			}
+		]
+	},
+	{
 		name: 'Argo Finance',
 		slug: 'argo-finance',
 		links: ['https://www.argofinance.money'],
@@ -8409,6 +8445,10 @@ const socialApps = [
 	'rarible',
 ].map(slug => web3AppsBySlug[slug])
 
+const collectibleCommunities = [
+	'apecoin',
+].map(slug => web3AppsBySlug[slug])
+
 export const web3AppsBySection = [
 	{
 		title: 'Web3 Infrastructure',
@@ -8441,6 +8481,11 @@ export const web3AppsBySection = [
 		isFeatured: true,
 	},
 	{
+		title: 'Collectible Communities',
+		apps: collectibleCommunities,
+		isFeatured: true,
+	},
+	{
 		title: 'Other Apps',
 		apps: web3Apps.filter(appConfig => ![
 			...infrastructureApps,
@@ -8449,6 +8494,7 @@ export const web3AppsBySection = [
 			...decentralizedExchanges,
 			...institutionalDefi,
 			...socialApps,
+			...collectibleCommunities
 		].includes(appConfig)),
 		isFeatured: false
 	}
