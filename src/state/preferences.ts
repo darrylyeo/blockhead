@@ -128,19 +128,19 @@ export const preferencesConfig: PreferencesConfig<
 				// 	{ id: 'Ethers', name: 'Ethers Quorum' }, // (Infura + Etherscan + Alchemy + Pocket)
 				// ]
 			},
-			// {
-			// 	id: 'rpcNetworkSend',
-			// 	name: 'Sending Transactions',
-			// 	type: 'single', // 'multiple',
-			// 	defaultOption: 'Ethers',
-			// 	options: [
-			// 		{ id: 'Ethers', name: 'Ethers Quorum' }, // (Infura + Etherscan + Alchemy + Pocket)
-			// 		{ id: 'Pocket Network', name: 'Pocket Network' },
-			// 		{ id: 'Alchemy', name: 'Alchemy' },
-			// 		{ id: 'Infura', name: 'Infura' },
-			// 		{ id: 'Moralis', name: 'Moralis' },
-			// 	]
-			// },
+			{
+				id: 'transactionRelay',
+				name: 'Transaction Relay',
+				type: 'single', // 'multiple',
+				defaultOption: 'Ethers',
+				options: [
+					{ id: 'Ethers', name: 'Ethers Quorum' }, // (Infura + Etherscan + Alchemy + Pocket)
+					{ id: 'Pocket Network', name: 'Pocket Network' },
+					{ id: 'Alchemy', name: 'Alchemy' },
+					{ id: 'Infura', name: 'Infura' },
+					{ id: 'Moralis', name: 'Moralis' },
+				]
+			},
 		]
 	},
 	{
