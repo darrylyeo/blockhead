@@ -1,29 +1,40 @@
 import type { Ethereum } from '../data/ethereum/types'
 
 
+export type SolidityJsonAbi = SolidityJsonAbiPart[]
+
+export type SolidityJsonAbiPart = {
+	inputs?: {
+		indexed?: boolean;
+		internalType: string;
+		name: string;
+		type: string;
+		components?: TupleComponent[]
+	}[];
+	stateMutability?: 'pure' | 'view' | 'nonpayable' | 'payable';
+	type: 'constructor' | 'event' | 'function' | 'receive' | 'fallback';
+	anonymous?: boolean;
+	name?: string;
+	outputs?: {
+		internalType: string;
+		name: string;
+		type: string;
+	}[];
+}
+
+type TupleComponent = {
+	name: 'string';
+	type: 'string';
+	components?: TupleComponent[];
+}[]
+
 export type ContractMetadata<SourcePath extends string> = {
 	"compiler": {
 		"version": string
 	},
 	"language": "Solidity" | string,
 	"output": {
-		"abi": {
-			inputs?: {
-				indexed?: boolean;
-				internalType: string;
-				name: string;
-				type: string;
-			}[];
-			stateMutability?: string;
-			type: string;
-			anonymous?: boolean;
-			name?: string;
-			outputs?: {
-				internalType: string;
-				name: string;
-				type: string;
-			}[];
-		},
+		"abi": SolidityJsonAbi,
 		"devdoc": {
 			"kind": "dev" | string,
 			"methods": {},
@@ -56,6 +67,13 @@ export type ContractMetadata<SourcePath extends string> = {
 	}>,
 	"version": number
 }
+
+
+export const isReadable = (part: SolidityJsonAbiPart) =>
+	part.type === 'function' && part.stateMutability === 'view'
+
+export const isWritable = (part: SolidityJsonAbiPart) =>
+	part.type === 'function' && (part.stateMutability === 'nonpayable' || part.stateMutability === 'payable')
 
 
 export const getSourcifyUrl = ({

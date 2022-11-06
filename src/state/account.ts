@@ -11,8 +11,11 @@ export type ConnectedAccount = {
 }
 
 
+import { writable } from 'svelte/store'
 import { localStorageWritable } from '../utils/localStorageWritable'
 
 export const accountConnections = localStorageWritable<{
 	walletType: WalletType
 }[]>('accountConnections', [])
+
+export const connectedAccounts = writable<ConnectedAccount[]>([])

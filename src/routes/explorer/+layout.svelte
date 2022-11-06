@@ -66,6 +66,7 @@
 
 	// Components
 
+	import ConnectedAccounts from '../../components/ConnectedAccounts.svelte'
 	import Preferences from '../../components/Preferences.svelte'
 	import InlineContainer from '../../components/InlineContainer.svelte'
 	import NetworkIcon from '../../components/NetworkIcon.svelte'
@@ -181,6 +182,12 @@
 		<slot />
 	</div>
 </main>
+
+<aside hidden>
+	<section class="column">
+		<ConnectedAccounts />
+	</section>
+</aside>
 
 <Preferences
 	relevantPreferences={$relevantPreferences}

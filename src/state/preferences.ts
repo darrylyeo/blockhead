@@ -128,19 +128,19 @@ export const preferencesConfig: PreferencesConfig<
 				// 	{ id: 'Ethers', name: 'Ethers Quorum' }, // (Infura + Etherscan + Alchemy + Pocket)
 				// ]
 			},
-			// {
-			// 	id: 'rpcNetworkSend',
-			// 	name: 'Sending Transactions',
-			// 	type: 'single', // 'multiple',
-			// 	defaultOption: 'Ethers',
-			// 	options: [
-			// 		{ id: 'Ethers', name: 'Ethers Quorum' }, // (Infura + Etherscan + Alchemy + Pocket)
-			// 		{ id: 'Pocket Network', name: 'Pocket Network' },
-			// 		{ id: 'Alchemy', name: 'Alchemy' },
-			// 		{ id: 'Infura', name: 'Infura' },
-			// 		{ id: 'Moralis', name: 'Moralis' },
-			// 	]
-			// },
+			{
+				id: 'transactionRelay',
+				name: 'Transaction Relay',
+				type: 'single', // 'multiple',
+				defaultOption: 'Ethers',
+				options: [
+					{ id: 'Ethers', name: 'Ethers Quorum' }, // (Infura + Etherscan + Alchemy + Pocket)
+					{ id: 'Pocket Network', name: 'Pocket Network' },
+					{ id: 'Alchemy', name: 'Alchemy' },
+					{ id: 'Infura', name: 'Infura' },
+					{ id: 'Moralis', name: 'Moralis' },
+				]
+			},
 		]
 	},
 	{
@@ -239,6 +239,29 @@ export const preferencesConfig: PreferencesConfig<
 							{ id: 'Covalent', name: 'Covalent' },
 							{ id: 'Moralis', name: 'Moralis' },
 							{ id: 'Etherspot', name: 'Etherspot' },
+						]
+					}
+				]
+			},
+			{
+				id: 'contractSourceProvider',
+				name: 'Contract Source Code',
+				type: 'single',
+				defaultOption: 'Sourcify',
+				options: [
+					{
+						id: 'web3',
+						name: 'Web3 Hosted',
+						options: [
+							{ id: 'Sourcify', name: 'Sourcify' },
+						]
+					},
+					{
+						id: 'centralized',
+						name: 'Centrally Hosted',
+						options: [
+							{ id: 'Etherscan', name: 'Etherscan' },
+							{ id: 'Tenderly', name: 'Tenderly' },
 						]
 					}
 				]

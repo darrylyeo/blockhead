@@ -59,6 +59,7 @@
 	const hiddenEllipsis = '︙' // '• • •'
 
 
+	import { formatIdentifierToWords } from '../utils/formatIdentifierToWords'
 	import { formatTransactionHash } from '../utils/formatTransactionHash'
 	import { formatUnits } from '@ethersproject/units'
 
@@ -212,7 +213,7 @@
 					parameterName={logEvent.decoded?.signature.replace('(', `(\n\t`).replace(/, ?/g, `,\n\t`).replace(')', `\n)`) ?? '[Undecoded]'}
 					parameterType="signature"
 				>
-					{logEvent.decoded?.name.replace(/[A-Z]+/g, m => ` ${m}`).replace(/_/g, ' ').trim() ?? '[Undecoded]'}
+					{formatIdentifierToWords(logEvent.decoded?.name) ?? '[Undecoded]'}
 				</EthereumTopic>
 			{/if}
 		</h4>
@@ -234,7 +235,7 @@
 									parameterType={param.type}
 									parameterName={param.name}
 								>
-									{param.name.replace(/[A-Z]+/g, m => ` ${m.toLowerCase()}`).replace(/_/g, ' ').trim()}
+									{formatIdentifierToWords(param.name)}
 								</EthereumTopic>
 							</span>
 							{#if isTokenMint && param.name === 'from'}🌱{/if}
