@@ -13,16 +13,20 @@
 	// let isResolvingEns = false
 
 
+	const pattern = `0x[0-9a-f]{40}|.+[.](eth|[a-z]{2,})`
+
+
 	// Methods/hooks/lifecycle
-	const onChange = () => {
-		if(inputElement?.valid)
-			address = _address
-	}
 
 	const onInput = () => {
-		address = _address.trim()
+		_address = _address.trim()
+	}
 
-		_address = address
+	const onChange = () => {
+		address = new RegExp(pattern).test(_address) || _address === '' ? _address : ''
+		// address = inputElement?.valid || _address === '' ? _address : ''
+
+		// _address = address
 	}
 
 
@@ -44,8 +48,8 @@
 	bind:this={inputElement}
 	bind:value={_address}
 	placeholder="0x0000000000000000000000000000000000000000 / ens.eth"
-	pattern={`0x[0-9a-f]{40}|.+[.](eth|[a-z]{2,})`}
-	on:change={onChange}
+	{pattern}
 	on:input={onInput}
+	on:change={onChange}
 />
 <!-- placeholder="0xabc...6789 / ens.eth" -->
