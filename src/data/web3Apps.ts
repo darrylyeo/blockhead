@@ -7657,7 +7657,10 @@ export const web3Apps: Web3AppConfig[] = [
 					theGraph: 'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-testing',
 					zapper: 'uniswap-v3',
 					zerionDefiSDK: ['Uniswap V3']
-				}
+				},
+				contracts: [
+					'0x1F98431c8aD98523631AE4a59f267346ea31F984' // UniswapV3Factory
+				]
 			},
 			{
 				name: 'Uniswap V2',
