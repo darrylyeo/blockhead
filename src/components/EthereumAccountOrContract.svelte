@@ -246,7 +246,7 @@
 										<hr>
 
 										{#if source.content}
-											<pre class="scrollable-list" style="height: 30em">{source.content}</pre>
+											<code class="scrollable-list" style="height: 30em">{source.content}</code>
 
 											<hr>
 
@@ -264,7 +264,7 @@
 												let:content={sourceCode}
 												let:ipfsUrl
 											>
-												<pre class="scrollable-list" style="height: 30em">{sourceCode}</pre>
+												<code class="scrollable-list" style="height: 30em">{sourceCode}</code>
 
 												<hr>
 
@@ -281,7 +281,7 @@
 										{/if}
 									</section>
 								{:else}
-									<pre class="card scrollable-list" style="height: 7.5em" transition:fade>{contractCode}</pre>
+									<code class="card scrollable-list" style="height: 7.5em" transition:fade>{contractCode}</code>
 								{/if}
 							{/key}
 						</div>
