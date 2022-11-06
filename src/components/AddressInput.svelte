@@ -20,6 +20,8 @@
 
 	const onInput = () => {
 		_address = _address.trim()
+
+		address = _address
 	}
 
 	const onChange = () => {
