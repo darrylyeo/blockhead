@@ -1,3 +1,5 @@
+import type { Transaction, BigNumber } from 'ethers'
+import type { Ethereum } from '../data/ethereum/types'
 import { env } from '../env'
 
 
@@ -6,7 +8,7 @@ const TENDERLY_URL = `https://api.tenderly.co/api/v1/account/${env.TENDERLY_USER
 const makeRequest = <T>(endpoint: string, params: any, method: 'GET' | 'POST' = 'GET') =>
 	fetch(`${TENDERLY_URL}${endpoint}`, {
 		method,
-		body: params,
+		body: JSON.stringify(params),
 		headers: {
 			'Content-Type': 'application/json',
 			'X-Access-Key': env.TENDERLY_ACCESS_TOKEN ?? '',
@@ -14,28 +16,56 @@ const makeRequest = <T>(endpoint: string, params: any, method: 'GET' | 'POST' = 
 	})
 	.then(r => r.json())
 
-
-export const getSimulations = async ({
-
-}: {
-
-}) =>
-	await makeRequest(`/simulations`, {
-	})
-
-
 export const simulateTransaction = async ({
-
+	network_id,
+	from,
+	to,
+	input,
+	gas,
+	gas_price,
+	value,
+	save_if_fails,
 }: {
-
+	network_id: number,
+	from: Ethereum.Address,
+	to: Ethereum.ContractAddress,
+	input: Transaction['data'],
+	gas: number,
+	gas_price: number,
+	value: number,
+	save_if_fails: boolean
 }) =>
 	await makeRequest(`/simulate`, {
-
+		network_id,
+		from,
+		to,
+		input,
+		gas,
+		gas_price,
+		value,
+		save_if_fails,
 	}, 'POST')
-	.then(response => {
-		console.log(response)
-		if(response.data.simulation.status)
-			throw new Error(response.data.simulation.error)
-		
-		return response.data.simulation
+	.then(({data, error}) => {
+		if(error)
+			throw new Error(error.message)
+
+		return data as {
+			simulation: {
+				status: boolean,
+				error: {
+					data: string
+					message: string
+					slug: string
+				}
+			}
+		}
 	})
+
+
+// export const getSimulations = async ({
+
+// }: {
+
+// }) =>
+// 	await makeRequest(`/simulations`, {
+// 	})
