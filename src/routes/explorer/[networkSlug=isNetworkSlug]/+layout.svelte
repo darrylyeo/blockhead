@@ -23,7 +23,7 @@
 			!$query ? ['rpcNetwork', 'currentPriceProvider', 'historicalPriceProvider'] :
 			_isTransaction ? ['rpcNetwork', 'transactionProvider', 'quoteCurrency'] :
 			_isBlockNumber ? ['rpcNetwork', 'transactionProvider', 'quoteCurrency'] :
-			['rpcNetwork', 'tokenBalancesProvider', 'transactionProvider', 'quoteCurrency']
+			['rpcNetwork', 'contractSourceProvider', 'tokenBalancesProvider', 'transactionProvider', 'quoteCurrency']
 			// _isAddress ? ['rpcNetwork', 'tokenBalancesProvider', 'transactionProvider', 'quoteCurrency'] :
 			// []
 		),

@@ -242,6 +242,29 @@ export const preferencesConfig: PreferencesConfig<
 						]
 					}
 				]
+			},
+			{
+				id: 'contractSourceProvider',
+				name: 'Contract Source Code',
+				type: 'single',
+				defaultOption: 'Sourcify',
+				options: [
+					{
+						id: 'web3',
+						name: 'Web3 Hosted',
+						options: [
+							{ id: 'Sourcify', name: 'Sourcify' },
+						]
+					},
+					{
+						id: 'centralized',
+						name: 'Centrally Hosted',
+						options: [
+							{ id: 'Etherscan', name: 'Etherscan' },
+							{ id: 'Tenderly', name: 'Tenderly' },
+						]
+					}
+				]
 			}
 		],
 	},
