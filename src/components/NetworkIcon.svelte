@@ -7,7 +7,7 @@
 	// export let defaultToTokenIcon = true
 
 
-	import { ArbitrumIcon, AuroraIcon, CeloIcon, CronosIcon, GnosisIcon, HarmonyIcon, MetisIcon, OptimismIcon, SKALEIcon } from '../assets/networkIcons'
+	import { ArbitrumIcon, AuroraIcon, CeloIcon, CronosIcon, EvmosIcon, GnosisIcon, HarmonyIcon, MetisIcon, OptimismIcon, SKALEIcon } from '../assets/networkIcons'
 	import { tokenIcons } from '../assets/tokenIcons'
 
 	const networkIcons: Record<Ethereum.NetworkName, string> = {
@@ -17,6 +17,7 @@
 		'celo': CeloIcon,
 		'cronos': CronosIcon,
 		'ethereum': tokenIcons.ETH, // EthereumIcon,
+		'evmos': EvmosIcon,
 		'gnosis': GnosisIcon,
 		'harmony': HarmonyIcon,
 		'metis': MetisIcon,

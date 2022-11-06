@@ -1568,6 +1568,47 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://ethersocial.org"
 	},
 	{
+		"slug": "evmos",
+		"name": "Evmos",
+		"chain": "Evmos",
+		"rpc": [
+			"https://eth.bd.evmos.org:8545",
+			"https://evmos-mainnet.gateway.pokt.network/v1/lb/627586ddea1b320039c95205",
+			"https://evmos-json-rpc.stakely.io",
+			"https://jsonrpc-evmos-ia.cosmosia.notional.ventures",
+			"https://json-rpc.evmos.blockhunters.org",
+			"https://evmos-json-rpc.agoranodes.com",
+			"https://evmos-mainnet.public.blastapi.io",
+			"https://evmos-evm.publicnode.com",
+			"https://jsonrpc-evmos.goldenratiostaking.net"
+		],
+		"faucets": [],
+		"nativeCurrency": {
+			"name": "Evmos",
+			"symbol": "EVMOS",
+			"decimals": 18
+		},
+		"infoURL": "https://evmos.org",
+		"shortName": "evmos",
+		"chainId": 9001,
+		"networkId": 9001,
+		"icon": "evmos",
+		"explorers": [
+			{
+				"name": "Evmos EVM Explorer (Blockscout)",
+				"url": "https://evm.evmos.org",
+				"standard": "none",
+				"icon": "evmos"
+			},
+			{
+				"name": "Evmos Cosmos Explorer (Mintscan)",
+				"url": "https://www.mintscan.io/evmos",
+				"standard": "none",
+				"icon": "evmos"
+			}
+		],
+	},
+	{
 		"slug": "evrice",
 		"name": "Evrice Network",
 		"chainId": 1010,
@@ -5042,7 +5083,7 @@ export function isTestnet(network: Ethereum.Network){
 }
 
 
-export const availableNetworks = [1, 137, 10, 100, 1313161554, 25].map(chainID => networksByChainID[chainID])
+export const availableNetworks = [1, 137, 10, 100, 1313161554, 25, 9001].map(chainID => networksByChainID[chainID])
 
 
 export const ethereumAndL2Networks = [
@@ -5063,6 +5104,7 @@ export const evmL1Networks = [
 	'celo',
 	'cronos',
 	// 'fantom',
+	'evmos'
 ].map(slug => networksBySlug[slug])
 
 export const evmL2Networks = [
