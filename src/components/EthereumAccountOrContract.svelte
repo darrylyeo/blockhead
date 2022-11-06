@@ -291,6 +291,7 @@
 
 							<EthereumTransactionForm
 								{network}
+								{provider}
 								contractName={getContractName(contractMetadata)}
 								contractAddress={address}
 								abi={contractMetadata.output.abi}

@@ -10,9 +10,11 @@
 
 
 	export let network: Ethereum.Network
+	export let provider: Ethereum.Provider
 	export let contractAddress: Ethereum.ContractAddress
 	export let contractName: string
 	export let abi: SolidityJsonAbi
+
 
 	$: readableMethods = abi.filter(isReadable)
 	$: writableMethods = abi.filter(isWritable)
@@ -45,8 +47,8 @@
 	import { TenderlyIcon } from '../assets/icons'
 
 
+	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
-	import { flip } from 'svelte/animate';
 </script>
 
 
@@ -112,7 +114,7 @@
 				new Contract(
 					contractAddress,
 					abi,
-					isWritable(selectedMethod) ? signer : undefined
+					isWritable(selectedMethod) ? signer : provider
 				)
 			)}
 			contractMethod={method.name}
