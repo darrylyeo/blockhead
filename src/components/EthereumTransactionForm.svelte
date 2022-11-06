@@ -7,7 +7,6 @@
 		isWritable,
 	} from '../api/sourcify'
 	import type { ConnectedAccount } from '../state/account'
-	import { walletsByType } from '../data/ethereum/wallets';
 
 
 	export let network: Ethereum.Network
@@ -30,19 +29,20 @@
 
 	let inputValues = {}
 
-	let isSimulation = false
-
 
 	import { formatIdentifierToWords } from '../utils/formatIdentifierToWords'
 
 
+	import Address from './Address.svelte'
 	import AddressInput from './AddressInput.svelte'
 	import AddressWithLabel from './AddressWithLabel.svelte'
 	import ConnectedAccountSelect from './ConnectedAccountSelect.svelte'
-	import NetworkIcon from './NetworkIcon.svelte'
 	import BigNumberInput from './BigNumberInput.svelte'
 	import HeightContainer from './HeightContainer.svelte'
+	import NetworkIcon from './NetworkIcon.svelte'
+	import TokenBalance from './TokenBalance.svelte'
 	import TransactionFlow from './TransactionFlow.svelte'
+	import { TenderlyIcon } from '../assets/icons'
 
 
 	import { scale } from 'svelte/transition'
@@ -71,12 +71,16 @@
 	.input-index {
 		opacity: 0.8;
 	}
+
+	.tenderly {
+		--primary-color: #6e5e9b;
+	}
 </style>
 
 
 <section class="column">
 	<header class="bar">
-		<h3>Interactions</h3>
+		<h3>Smart Contract Interactions</h3>
 
 		<label>
 			<span>{selectedMethod ? isReadable(selectedMethod) ? 'Query' : isWritable(selectedMethod) ? 'Action' : 'Method' : 'Method'}</span> 
@@ -104,13 +108,15 @@
 			account={selectedAccount}
 			{network}
 
-			createTransaction={async ({ network, address, signer }) =>
-				await new Contract(
-					address,
+			getContract={({ signer }) => (
+				new Contract(
+					contractAddress,
 					abi,
 					isWritable(selectedMethod) ? signer : undefined
-				)[method.name](...args)
-			}
+				)
+			)}
+			contractMethod={method.name}
+			contractArgs={args}
 
 			onTransactionSuccess={async tx => {
 				console.log(tx)
@@ -138,7 +144,7 @@
 					{#if method.stateMutability === 'nonpayable' || method.stateMutability === 'payable'}
 						<label>
 							<span>From</span>
-							<ConnectedAccountSelect bind:selectedAccount required />
+							<ConnectedAccountSelect bind:selectedAccount required={true} />
 						</label>
 					{/if}
 				</header>
@@ -218,41 +224,99 @@
 						{/if}
 					</label>
 
-					<button>Next ›</button>
+					<button type="submit" class="medium">Next ›</button>
 				</footer>
 			</svelte:fragment>
 
-			<!-- <svelte:fragment slot="confirming" let:actions={{ back }}> -->
-			<svelte:fragment slot="confirming-body" let:network>
-				{#each method.inputs as input, i (`${method.name || i}/${input.name}`)}
-					{@const inputKey = `${method.name || i}/${input.name}`}
-					{@const arg = inputValues[inputKey]}
-
-					<label class="input-param" transition:scale={{ duration: 300, start: 0.8, delay: i * 25 }}>
+			<svelte:fragment slot="confirming" let:walletName let:walletIcon let:actions>
+				<article class="card">
+					<header class="row spaced">
+						<span class="row">
+							<img src={walletIcon} width="25" />
+							<Address {network} address={selectedAccount.address} format="middle-truncated" />
+						</span>
+						
 						<span>
-							{#if input.name}
-								<abbr title={input.name}>{formatIdentifierToWords(input.name, true)}</abbr>
+							will
+							{#if payableAmount?.gt(0)}
+								send
+								<TokenBalance
+									erc20Token={network.nativeCurrency}
+									balance={payableAmount}
+								/>
+								to
 							{:else}
-								<span class="input-index">Input {i + 1}</span>
+								call
 							{/if}
 						</span>
 
-						<output>{arg}</output>
+						<span>
+							<AddressWithLabel
+								{network}
+								label={contractName}
+								address={contractAddress}
+								format="middle-truncated"
+								linked
+							/>
+							›
+							<abbr title={method.name}>{formatIdentifierToWords(method.name, true)}</abbr>
+						</span>
 
-						<abbr class="card-annotation" title="{input.type} ({input.indexed ? `indexed ` : ''}{input.internalType})">{input.type}</abbr>
-					</label>
-				{/each}
+						{#if method.inputs.length}
+							with {method.inputs.length} parameters:
+						{/if}
+					</header>
+
+					{#if method.inputs.length}
+						<hr>
+
+						{#each method.inputs as input, i (`${method.name || i}/${input.name}`)}
+							{@const inputKey = `${method.name || i}/${input.name}`}
+							{@const arg = inputValues[inputKey]}
+
+							<label class="input-param" transition:scale={{ duration: 300, start: 0.8, delay: i * 25 }}>
+								<span>
+									{#if input.name}
+										<abbr title={input.name}>{formatIdentifierToWords(input.name, true)}</abbr>
+									{:else}
+										<span class="input-index">Input {i + 1}</span>
+									{/if}
+								</span>
+
+								<output>{arg}</output>
+
+								<abbr class="card-annotation" title="{input.type} ({input.indexed ? `indexed ` : ''}{input.internalType})">{input.type}</abbr>
+							</label>
+						{/each}
+					{/if}
+				</article>
+
+				<div class="row spaced">
+					<button type="button" class="medium cancel" on:click={actions.back}>‹ Back</button>
+
+					<div class="row">
+						{#if isReadable(method)}
+							<button type="button" class="medium" on:click={actions.query}>Query</button>
+						{:else if isWritable(method)}
+							<button type="button" class="tenderly medium" on:click={actions.simulate}><img src={TenderlyIcon} width="16" /> Simulate Transaction ›</button>
+
+							<button type="button" class="medium" on:click={actions.sign}><img src={walletIcon} width="16" /> Sign & Broadcast Transaction ›</button>
+						{:else}
+						{/if}
+					</div>
+				</div>
 			</svelte:fragment>
 
-			<svelte:fragment slot="confirming-actions" let:network let:actions>
-				{#if isReadable(method)}
-					<button type="button" class="medium" on:click={() => actions.query}>Query</button>
-				{:else if isWritable(method)}
-					<button type="button" class="medium" on:click={() => actions.simulate}>Simulate Transaction ›</button>
 
-					<button type="button" class="medium" on:click={() => actions.sign}>Sign & Broadcast Transaction ›</button>
-				{:else}
-				{/if}
+			<svelte:fragment slot="simulating-actions" let:actions>
+				<div class="row spaced">
+					<button type="button" class="medium cancel" on:click={actions.confirm}>‹ Back</button>
+
+					<div class="row">
+						<button type="button" class="medium destructive" on:click={actions.cancel}>« Start Over</button>
+						<button type="button" class="tenderly medium" on:click={actions.simulate}><img src={TenderlyIcon} width="16" /> Simulate Again</button>
+					</div>
+				</div>
 			</svelte:fragment>
 
 			<!-- <svelte:fragment slot="pending"> -->

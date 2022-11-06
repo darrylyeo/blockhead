@@ -191,6 +191,10 @@ output {
 
 
 button {
+	display: inline-flex;
+	align-items: center;
+	gap: 1ch;
+
 	-webkit-appearance: none;
 	background-color: var(--primary-color);
 	color: #fff;

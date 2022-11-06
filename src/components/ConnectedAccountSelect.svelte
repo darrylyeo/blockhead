@@ -11,7 +11,7 @@
 
 
 <select class="connected-account-select" bind:value={selectedAccount} {required}>
-	<option value={undefined} disabled>Choose account...</option>
+	<option value="" disabled>Choose account...</option>
 
 	<!-- <optgroup label="Connected"> -->
 		{#each $connectedAccounts as connectedAccount}

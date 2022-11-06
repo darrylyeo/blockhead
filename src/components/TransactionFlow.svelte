@@ -17,7 +17,7 @@
 	// Constants/types
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { ConnectedAccount } from '../state/account'
-	import type { Transaction, ContractReceipt, Signer } from 'ethers'
+	import type { UnsignedTransaction, Contract, ContractReceipt, Signer, Transaction } from 'ethers'
 
 	import { walletsByType } from '../data/ethereum/wallets'
 	
@@ -26,11 +26,13 @@
 	export let network: Ethereum.Network
 	export let account: ConnectedAccount
 
-	export let createTransaction: (params: {
+	export let getContract: (params: {
 		network: Ethereum.Network,
-		address: Ethereum.Address,
 		signer: Signer
-	}) => Promise<Transaction>
+	}) => Contract
+
+	export let contractMethod: string
+	export let contractArgs: any[]
 
 	export let onTransactionSuccess
 
@@ -41,14 +43,24 @@
 
 	let formElement: HTMLFormElement
 
-	const isValid = () => formElement?.checkValidity()
+	$: contract = account && getContract({
+		network,
+		signer: account.signer
+	})
 
+	$: walletConfig = walletsByType[account?.walletConnection?.walletType]
+	$: walletName = walletConfig?.name ?? ''
+	$: walletIcon = walletConfig?.icon ?? ''
+
+	let unsignedTx: UnsignedTransaction
 	let tx: Transaction
 	let txReceipt: ContractReceipt
 	let errorMessage: string
 
 	
 	// Methods/hooks/lifecycle
+
+	import { simulateTransaction } from '../api/tenderly'
 
 	const actions = {
 		back: () => currentStep--,
@@ -61,58 +73,59 @@
 		cancel: () => currentStep = Steps.Idle
 	}
 
-	$: if(account && currentStep === Steps.TransactionSigning)(async () => {
-		const { address, signer } = account
+	// $: if(account && currentStep === Steps.TransactionSigning)(async () => {
+	// 	const { address, signer } = account
 
-		console.log('signer', signer)
+	// 	try {
+			
 
-		try {
-			tx = await createTransaction({
-				network,
-				address,
-				signer
-			})
-		}catch(e){
-			errorMessage = e.message
-			currentStep = Steps.TransactionFailed
-		}
+	// 		// tx = unsignedTx.sign()
+	// 	}catch(e){
+	// 	}
+	// // })()
+
+	// // $: if(tx)(async () => {
+	// if(tx){
+	// 	console.log('tx', tx)
+
+	// 	currentStep = Steps.TransactionPending
+
+	// 	try {
+	// 		txReceipt = await tx.wait?.(1)
+	// 		console.log('txReceipt', txReceipt)
+	// 	}catch(e){
+	// 		errorMessage = e.message
+	// 		currentStep = Steps.TransactionReverted
+	// 		return
+	// 	}
+
+	// 	currentStep = Steps.TransactionSuccess
+
+	// 	onTransactionSuccess?.(tx, txReceipt)
+	// 	// if(onTransactionSuccess)
+	// 	// 	try {
+	// 	// 		await onTransactionSuccess(tx)
+	// 	// 	}catch(e){
+	// 	// 		errorMessage = e.message
+	// 	// 		currentStep = Steps.TransactionFailed
+	// 	// 		return
+	// 	// 	}
+	// }
 	// })()
-
-	// $: if(tx)(async () => {
-	if(tx){
-		console.log('tx', tx)
-
-		currentStep = Steps.TransactionPending
-
-		try {
-			txReceipt = await tx.wait?.(1)
-			console.log('txReceipt', txReceipt)
-		}catch(e){
-			errorMessage = e.message
-			currentStep = Steps.TransactionReverted
-			return
-		}
-
-		currentStep = Steps.TransactionSuccess
-
-		onTransactionSuccess?.(tx, txReceipt)
-		// if(onTransactionSuccess)
-		// 	try {
-		// 		await onTransactionSuccess(tx)
-		// 	}catch(e){
-		// 		errorMessage = e.message
-		// 		currentStep = Steps.TransactionFailed
-		// 		return
-		// 	}
-	}
-	})()
 
 	$: if(errorMessage)
 		console.error(errorMessage)
 
+	const isValid = () => formElement?.checkValidity()
+
 
 	// Formatting
 	import { formatAddress } from '../utils/formatAddress'
+
+
+	// Components
+	import Loader from './Loader.svelte'
+	import { TenderlyIcon } from '../assets/icons'
 
 
 	// Styles/animation
@@ -142,59 +155,100 @@
 		</form>
 	{:else if currentStep === Steps.Confirming}
 		<form
-			class="card column centered"
+			class="card column"
 			transition:fly={{ x: 50 * Math.sign(steps[0] - steps[1]), duration: 300 }}
 		>
+			<header class="bar">
+				<h4>Confirm Transaction</h4>
+				<span class="card-annotation">{network.name} Smart Contract Call</span>
+			</header>
+
 			<slot
 				name="confirming"
 				{actions}
-			>
-				<header class="bar">
-					<h3 class="row">
-						<img src={walletsByType[account.walletConnection.walletType].icon} width="25" />
+				{walletName}
+				{walletIcon}
+			/>
+		</form>
+	{:else if currentStep === Steps.TransactionSimulating}
+		<section
+			class="card column"
+			transition:fly={{ x: 50 * Math.sign(steps[0] - steps[1]), duration: 300 }}
+		>
+			<Loader
+				loadingIcon={TenderlyIcon}
+				loadingMessage="Simulating transaction on Tenderly..."
+				errorMessage="The simulated transaction failed."
+				fromPromise={async () => {
+					const populatedTx = await contract.populateTransaction[contractMethod](...contractArgs)
+					// const estimatedGas = await contract.estimateGas[contractMethod](...contractArgs)
+					// console.log({estimatedGas})
 
-						<slot name="confirming-message" {network}>
-							Confirm Transaction
-						</slot>
-					</h3>
+					return await simulateTransaction({
+						network_id: network.chainId,
+						from: account.address,
+						to: contract.address,
+						input: populatedTx.data,
+						gas: 21204,
+						gas_price: 1,
+						value: 0,
+						save_if_fails: true,
+					})
+				}}
+				let:result
+			>
+				<header slot="header" class="bar">
+					<h4>Transaction Simulator</h4>
+					<span class="card-annotation">Tenderly</span>
 				</header>
 
 				<hr>
 
-				<slot name="confirming-body" {network} />
+				{result}
+			</Loader>
 
-				<hr>
+			<hr>
 
-				<div class="row spaced">
-					<button type="button" class="medium cancel" on:click={actions.back}>‹ Edit</button>
-
-					<div class="stack">
-						<button type="button" class="medium" on:click={actions.sign}>
-							Sign & Broadcast Transaction
-						</button>
-					</div>
-				</div>
-			</slot>
-		</form>
+			<slot
+				name="simulating-actions"
+				{actions}
+			/>
+		</section>
 	{:else if currentStep === Steps.TransactionSigning}
-		<div
-			class="card column centered"
+		<section
+			class="card column"
 			transition:fly={{ x: 50 * Math.sign(steps[0] - steps[1]), duration: 300 }}
 		>
-			<slot
-				name="signing"
-				{actions}
+			<Loader
+				fromPromise={async () => {
+					const estimatedGas = await contract.estimateGas[contractMethod](...contractArgs)
+					console.log({estimatedGas})
+					try {
+						return await contract[contractMethod](...contractArgs)
+					}catch(e){
+						errorMessage = e.message
+						currentStep = Steps.TransactionFailed
+					}
+				}}
+				loadingIcon={walletIcon}
+				loadingMessage="Sign the transaction with {walletName} ({formatAddress(account.address)})."
+				let:result={tx}
 			>
-				<h3><img src={walletsByType[account.walletConnection.walletType].icon} width="25" /> Sign Transaction</h3>
+				<header slot="header" class="bar">
+					<h4>Sign Transaction</h4>
+					<span class="card-annotation">{walletName}</span>
+				</header>
+			</Loader>
 
-				<p>Sign the transaction with {walletsByType[account.walletConnection.walletType].name} ({formatAddress(account.address)}).</p>
-			</slot>
+			<hr>
 
-			<button type="button" class="medium" on:click={actions.back}>Go Back</button>
-		</div>
+			<footer class="row">
+				<button type="button" class="medium cancel" on:click={actions.back}>‹ Back</button>
+			</footer>
+		</section>
 	{:else if currentStep === Steps.TransactionPending}
 		<div
-			class="card column centered"
+			class="card column"
 			in:fly={{ x: 50 * Math.sign(steps[0] - steps[1]), duration: 300 }}
 			out:scale
 		>
@@ -202,7 +256,7 @@
 				name="pending"
 				{actions}
 			>
-				<h3>Waiting...</h3>
+				<h4>Waiting...</h4>
 
 				<p><slot name="pending-message" {network} /></p>
 
@@ -215,10 +269,10 @@
 		</div>
 	{:else if currentStep === Steps.TransactionFailed || currentStep === Steps.TransactionReverted}
 		<div
-			class="card column centered"
+			class="card column"
 			transition:scale
 		>
-			<h3>Transaction Failed</h3>
+			<h4>Transaction Failed</h4>
 
 			<output>{errorMessage}</output>
 
@@ -229,14 +283,14 @@
 			{/if}
 
 			
-			<div class="row spaced centered">
+			<div class="row spaced">
 				<button class="medium" on:click={actions.retry}>Try Again</button>
 				<button class="medium cancel" on:click={actions.cancel}>Cancel</button>
 			</div>
 		</div>
 	{:else if currentStep === Steps.TransactionSuccess}
 		<div
-			class="card column centered"
+			class="card column"
 			transition:scale
 			>
 			<slot
@@ -245,7 +299,7 @@
 				{network}
 				{tx}
 			>
-				<h3>Success!</h3>
+				<h4>Success!</h4>
 
 				<p><slot name="success-message" {network} {tx} /></p>
 
