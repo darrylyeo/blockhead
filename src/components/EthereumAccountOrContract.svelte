@@ -197,7 +197,9 @@
 							<label>
 								<span>View: </span>
 								<select bind:value={showContractSourcePath}>
-									<option value="EVM Bytecode">EVM Bytecode</option>
+									<optgroup label="On-Chain">
+										<option value="EVM Bytecode">EVM Bytecode</option>
+									</optgroup>
 
 									{#if contractMetadata}
 										<optgroup label="Source Code">
