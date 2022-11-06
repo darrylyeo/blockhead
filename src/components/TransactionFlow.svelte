@@ -126,6 +126,7 @@
 
 
 	// Components
+	import EthereumSimulatedTransactionTenderly from './EthereumSimulatedTransactionTenderly.svelte'
 	import Loader from './Loader.svelte'
 	import { TenderlyIcon } from '../assets/icons'
 
@@ -204,9 +205,23 @@
 					<span class="card-annotation">Tenderly</span>
 				</header>
 
-				<hr>
+				{#if result}
+					<section class="card">
+						{#if result.simulation?.status}
+							<p>The simulated transaction executed successfully!</p>
+						{:else}
+							<p>The simulated transaction failed to execute and was reverted.</p>
+						{/if}
 
-				{result}
+						<hr>
+
+						<EthereumSimulatedTransactionTenderly
+							{network}
+							contextualAddress={account.address}
+							data={result}
+						/>
+					</section>
+				{/if}
 			</Loader>
 
 			<slot
