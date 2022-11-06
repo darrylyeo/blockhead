@@ -7,6 +7,8 @@
 		isWritable,
 	} from '../api/sourcify'
 	import type { ConnectedAccount } from '../state/account'
+	import { networkProviderConfigByProvider } from '../data/providers'
+	import { preferences } from '../state/preferences'
 
 
 	export let network: Ethereum.Network
@@ -298,7 +300,7 @@
 
 					<div class="row">
 						{#if isReadable(method)}
-							<button type="button" class="medium" on:click={actions.query}>Query</button>
+							<button type="button" class="medium" on:click={actions.query}><img src={networkProviderConfigByProvider[$preferences.rpcNetwork]?.icon} width="16" /> Query Contract ›</button>
 						{:else if isWritable(method)}
 							<button type="button" class="tenderly medium" on:click={actions.simulate}><img src={TenderlyIcon} width="16" /> Simulate Transaction ›</button>
 
