@@ -303,9 +303,12 @@ section {
 }
 
 
-:disabled, .placeholder {
+:disabled,
+form:invalid input[type="submit"],
+form:invalid button[type="submit"],
+.placeholder {
 	opacity: 0.33;
-	/* pointer-events: none; */
+	cursor: not-allowed !important;
 	touch-action: none;
 }
 :disabled {
