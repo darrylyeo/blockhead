@@ -1,15 +1,18 @@
 import type { Ethereum } from '../data/ethereum/types'
 
 
-export type SolidityJsonAbi = {
+export type SolidityJsonAbi = SolidityJsonAbiPart[]
+
+export type SolidityJsonAbiPart = {
 	inputs?: {
 		indexed?: boolean;
 		internalType: string;
 		name: string;
 		type: string;
+		components?: TupleComponent[]
 	}[];
-	stateMutability?: string;
-	type: 'constructor' | 'event' | 'function';
+	stateMutability?: 'pure' | 'view' | 'nonpayable' | 'payable';
+	type: 'constructor' | 'event' | 'function' | 'receive' | 'fallback';
 	anonymous?: boolean;
 	name?: string;
 	outputs?: {
@@ -17,6 +20,12 @@ export type SolidityJsonAbi = {
 		name: string;
 		type: string;
 	}[];
+}
+
+type TupleComponent = {
+	name: 'string';
+	type: 'string';
+	components?: TupleComponent[];
 }[]
 
 export type ContractMetadata<SourcePath extends string> = {
@@ -58,6 +67,13 @@ export type ContractMetadata<SourcePath extends string> = {
 	}>,
 	"version": number
 }
+
+
+export const isReadable = (part: SolidityJsonAbiPart) =>
+	part.type === 'function' && part.stateMutability === 'view'
+
+export const isWritable = (part: SolidityJsonAbiPart) =>
+	part.type === 'function' && (part.stateMutability === 'nonpayable' || part.stateMutability === 'payable')
 
 
 export const getSourcifyUrl = ({

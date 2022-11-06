@@ -2,6 +2,8 @@
 	export enum Steps {
 		Idle,
 		Confirming,
+		Querying,
+		TransactionSimulating,
 		TransactionSigning,
 		TransactionPending,
 		TransactionFailed,
@@ -51,7 +53,11 @@
 	const actions = {
 		back: () => currentStep--,
 		next: () => currentStep++,
-		restart: () => currentStep = Steps.Confirming,
+		confirm: () => currentStep = Steps.Confirming,
+		query: () => currentStep = Steps.Querying,
+		simulate: () => currentStep = Steps.TransactionSimulating,
+		sign: () => currentStep = Steps.TransactionSigning,
+		retry: () => currentStep = Steps.Confirming,
 		cancel: () => currentStep = Steps.Idle
 	}
 
@@ -123,9 +129,9 @@
 		<form
 			bind:this={formElement}
 			class="card column"
-			on:submit|preventDefault={actions.next}
+			on:submit|preventDefault={actions.confirm}
 			disabled={currentStep !== Steps.Idle}
-			transition:fly={{ x: 50 * Math.sign(steps[0] - steps[1]) }}
+			transition:fly={{ x: 50 * Math.sign(steps[0] - steps[1]), duration: 300 }}
 			on:invalid={e => console.warn('invalid', e)}
 		>
 			<slot
@@ -137,29 +143,34 @@
 	{:else if currentStep === Steps.Confirming}
 		<form
 			class="card column centered"
-			on:submit|preventDefault={actions.next}
-			transition:fly={{ x: 50 * Math.sign(steps[0] - steps[1]) }}
+			transition:fly={{ x: 50 * Math.sign(steps[0] - steps[1]), duration: 300 }}
 		>
 			<slot
 				name="confirming"
 				{actions}
 			>
-				<h3 class="row">
-					<img src={walletsByType[account.walletConnection.walletType].icon} width="25" />
+				<header class="bar">
+					<h3 class="row">
+						<img src={walletsByType[account.walletConnection.walletType].icon} width="25" />
 
-					<slot name="confirming-message" {network}>
-						Sign Transaction
-					</slot>
-				</h3>
+						<slot name="confirming-message" {network}>
+							Confirm Transaction
+						</slot>
+					</h3>
+				</header>
+
+				<hr>
+
+				<slot name="confirming-body" {network} />
 
 				<hr>
 
 				<div class="row spaced">
-					<button type="button" class="medium cancel" on:click={actions.back}>Go Back</button>
+					<button type="button" class="medium cancel" on:click={actions.back}>‹ Edit</button>
 
 					<div class="stack">
-						<button type="submit" class="medium">
-							Sign Transaction
+						<button type="button" class="medium" on:click={actions.sign}>
+							Sign & Broadcast Transaction
 						</button>
 					</div>
 				</div>
@@ -168,7 +179,7 @@
 	{:else if currentStep === Steps.TransactionSigning}
 		<div
 			class="card column centered"
-			transition:fly={{ x: 50 * Math.sign(steps[0] - steps[1]) }}
+			transition:fly={{ x: 50 * Math.sign(steps[0] - steps[1]), duration: 300 }}
 		>
 			<slot
 				name="signing"
@@ -184,7 +195,7 @@
 	{:else if currentStep === Steps.TransactionPending}
 		<div
 			class="card column centered"
-			in:fly={{ x: 50 * Math.sign(steps[0] - steps[1]) }}
+			in:fly={{ x: 50 * Math.sign(steps[0] - steps[1]), duration: 300 }}
 			out:scale
 		>
 			<slot
@@ -219,7 +230,7 @@
 
 			
 			<div class="row spaced centered">
-				<button class="medium" on:click={actions.restart}>Try Again</button>
+				<button class="medium" on:click={actions.retry}>Try Again</button>
 				<button class="medium cancel" on:click={actions.cancel}>Cancel</button>
 			</div>
 		</div>
