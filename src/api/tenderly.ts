@@ -1,7 +1,11 @@
 import type { Transaction, BigNumber } from 'ethers'
 import type { Ethereum } from '../data/ethereum/types'
-import { env } from '../env'
 
+
+
+
+
+import { env } from '../env'
 
 const TENDERLY_URL = `https://api.tenderly.co/api/v1/account/${env.TENDERLY_USER}/project/${env.TENDERLY_PROJECT}`
 
@@ -45,11 +49,11 @@ export const simulateTransaction = async ({
 		value,
 		save_if_fails,
 	}, 'POST')
-	.then(({data, error}) => {
-		if(error)
-			throw new Error(error.message)
+	.then(response => {
+		if(response.error)
+			throw new Error(response.error.message)
 
-		return data as {
+		return response as {
 			simulation: {
 				status: boolean,
 				error: {
