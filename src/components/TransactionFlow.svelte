@@ -73,6 +73,8 @@
 		cancel: () => currentStep = Steps.Idle
 	}
 
+	$: contractMethod, actions.cancel()
+
 	// $: if(account && currentStep === Steps.TransactionSigning)(async () => {
 	// 	const { address, signer } = account
 
@@ -206,8 +208,6 @@
 
 				{result}
 			</Loader>
-
-			<hr>
 
 			<slot
 				name="simulating-actions"
