@@ -14,3 +14,6 @@
   to = "https://blockhead.info"
   status = 301
   force = true
+
+[functions]
+  external_node_modules = ["ethers", "etherspot"]
