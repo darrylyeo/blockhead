@@ -70,7 +70,7 @@ specifiers:
   eslint-plugin-svelte3: ^4.0.0
   ethers: ^5.7.2
   ethers-to-web3: ^0.1.6
-  etherspot: ^1.33.2
+  etherspot: ^1.40.0
   events: ^3.3.0
   graphql: ^16.6.0
   houdini: ^0.16.6
@@ -152,7 +152,7 @@ dependencies:
   echarts: 5.4.0
   ethers: 5.7.2
   ethers-to-web3: 0.1.6
-  etherspot: 1.36.7_iglaol3n74tm3lzvbxrf4nvlie
+  etherspot: 1.40.0_iglaol3n74tm3lzvbxrf4nvlie
   events: 3.3.0
   graphql: 16.6.0
   key-did-resolver: 1.4.4
@@ -1385,8 +1385,8 @@ packages:
       - supports-color
     dev: false
 
-  /@etherspot/contracts/1.9.0:
-    resolution: {integrity: sha512-/uznl02r/GiQTkDbQJGQoNKm3HTq6Ud0p1tGbbKlmK/MLd/XgtCkOzCwebfVqx99CzjQG3ue//9cSvCJau0iyA==}
+  /@etherspot/contracts/1.9.4:
+    resolution: {integrity: sha512-xLQhOUhoBSD52UEqLtcp4tp4Nd0a/g3iq6s/a5uucRcpCfR1Lrsk4o19oddhyqQ64rUb3YRo5+G47UTYQQnhlA==}
     dev: false
 
   /@ethersproject/abi/5.0.0-beta.153:
@@ -2242,6 +2242,32 @@ packages:
   /@kitql/helper/0.5.0:
     resolution: {integrity: sha512-qTDsv8qmbvSyZLb75hE9N4AnmZHtCi8JxgHYAj4dbgViEjs6HVYJKqHabGR7rZCAVQj7LwWu+cTfh52QhlNMcg==}
     dev: true
+
+  /@lifi/sdk/1.6.0:
+    resolution: {integrity: sha512-C6TjVLnIcb2DJI4FAyVWuTTIsgIJE3eXaQCwJwNWz54TXyCAgIdr4DM6lPmE8RwYWAL5xpwPkNTBnzccy3sowg==}
+    dependencies:
+      '@ethersproject/abi': 5.7.0
+      '@ethersproject/contracts': 5.7.0
+      '@lifi/types': 1.15.0
+      axios: 0.27.2
+      bignumber.js: 9.1.0
+      eth-rpc-errors: 4.0.3
+      ethers: 5.7.2
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - utf-8-validate
+    dev: false
+
+  /@lifi/types/1.15.0:
+    resolution: {integrity: sha512-Rvar7KFa4XfWTg45eFWHU9RA12YA0vmd9WlYgHVterRpfAbTKfhBxN4XeCRmUh9oXS2+IfEOKNXTv4CbvohwKw==}
+    requiresBuild: true
+    dependencies:
+      ethers: 5.7.2
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+    dev: false
 
   /@logdna/browser/1.1.4:
     resolution: {integrity: sha512-bczEg+4qP9shbZnhSFkp02NQp2lVBPItij2XFOArWkN+WCNWDfsMG2gUrlJH+6q0VvHBS5DsSkZarXCp3Po32Q==}
@@ -4130,11 +4156,10 @@ packages:
   /axios/0.27.2:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
-    dev: true
 
   /babel-code-frame/6.26.0:
     resolution: {integrity: sha512-XqYMR2dfdGMW+hd0IUZ2PwK+fGeFkOxZJ0wY+JaQAHzt1Zx8LcvpiZD2NiGkEG8qx0CfkAOr5xt76d1e8vG90g==}
@@ -7537,6 +7562,12 @@ packages:
       fast-safe-stringify: 2.1.1
     dev: false
 
+  /eth-rpc-errors/4.0.3:
+    resolution: {integrity: sha512-Z3ymjopaoft7JDoxZcEb3pwdGh7yiYMhOwm2doUt6ASXlMavpNlK6Cre0+IMl2VSGyEU9rkiperQhp5iRxn5Pg==}
+    dependencies:
+      fast-safe-stringify: 2.1.1
+    dev: false
+
   /eth-sig-util/1.4.2:
     resolution: {integrity: sha512-iNZ576iTOGcfllftB73cPB5AN+XUQAT/T8xzsILsghXC1o8gJUqe3RHlcDqagu+biFpYQ61KQrZZJza8eRSYqw==}
     deprecated: Deprecated in favor of '@metamask/eth-sig-util'
@@ -8016,15 +8047,16 @@ packages:
       - utf-8-validate
     dev: false
 
-  /etherspot/1.36.7_iglaol3n74tm3lzvbxrf4nvlie:
-    resolution: {integrity: sha512-2wF4qusKRqIqBa/iOlV9uva/CeQAtdYrn3LRZtNwMnyAp8GOaC5pojcMye1E3a3eyZHgKpVAaQ01sm4LkUhppQ==}
+  /etherspot/1.40.0_iglaol3n74tm3lzvbxrf4nvlie:
+    resolution: {integrity: sha512-/rTpfIyWunDNhOXyy5PkXJJYR+iTh6d/tvYFntcRlbA6xZCZzoPRZWJw1ZsH7vsR+gk3guS5hH8DHJz+CHnfTA==}
     peerDependencies:
       ethers: ^5.6.8
       reflect-metadata: ^0.1.13
       rxjs: ^6.6.2
     dependencies:
       '@apollo/client': 3.4.0_qalcguu5msbe64gjvrzcghmxgq
-      '@etherspot/contracts': 1.9.0
+      '@etherspot/contracts': 1.9.4
+      '@lifi/sdk': 1.6.0
       '@nerdwallet/apollo-cache-policies': 1.2.1_@apollo+client@3.4.0
       class-transformer: 0.4.0
       class-validator: 0.13.1
@@ -8037,6 +8069,7 @@ packages:
       validator: 13.7.0
     transitivePeerDependencies:
       - bufferutil
+      - debug
       - react
       - utf-8-validate
     dev: false
@@ -8431,7 +8464,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-    dev: false
 
   /follow-redirects/1.15.2_debug@4.3.4:
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
@@ -8443,6 +8475,7 @@ packages:
         optional: true
     dependencies:
       debug: 4.3.4
+    dev: false
 
   /follow-redirects/1.5.10:
     resolution: {integrity: sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==}
@@ -8502,7 +8535,6 @@ packages:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       mime-types: 2.1.35
-    dev: true
 
   /formdata-polyfill/4.0.10:
     resolution: {integrity: sha512-buewHzMvYL29jdeQTVILecSaZKnt/RJWjoZCF5OW60Z67/GmSLBkOFM7qh1PI3zFNtJbaZL5eQu1vLfazOwj4g==}
