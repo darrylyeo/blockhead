@@ -16,4 +16,8 @@
   force = true
 
 [functions]
-  external_node_modules = ["ethers", "etherspot"]
+  external_node_modules = [
+    "ethers",
+    "etherspot",
+    "@ethersproject/bytes"
+  ]
