@@ -16,6 +16,7 @@ specifiers:
   '@connext/vector-sdk': ^0.0.3-beta.6
   '@connext/vector-types': ^0.2.5-beta.18
   '@connext/vector-utils': ^0.2.5-beta.18
+  '@etherspot/contracts': ^1.9.4
   '@ethersproject/abi': ^5.7.0
   '@ethersproject/abstract-provider': ^5.7.0
   '@ethersproject/abstract-signer': ^5.7.0
@@ -48,6 +49,7 @@ specifiers:
   '@ethersproject/wordlists': ^5.7.0
   '@fontsource/fira-code': ^4.5.1
   '@fontsource/ubuntu': ^4.5.0
+  '@lifi/sdk': ^1.6.3
   '@playwright/test': ^1.22.2
   '@portis/web3': ^4.0.5
   '@self.id/web': ^0.4.3
@@ -107,6 +109,7 @@ dependencies:
   '@connext/vector-sdk': 0.0.3-beta.7_ethers@5.7.2
   '@connext/vector-types': 0.2.5-beta.21
   '@connext/vector-utils': 0.2.5-beta.21
+  '@etherspot/contracts': 1.9.4
   '@ethersproject/abi': 5.7.0
   '@ethersproject/abstract-provider': 5.7.0
   '@ethersproject/abstract-signer': 5.7.0
@@ -139,6 +142,7 @@ dependencies:
   '@ethersproject/wordlists': 5.7.0
   '@fontsource/fira-code': 4.5.11
   '@fontsource/ubuntu': 4.5.11
+  '@lifi/sdk': 1.6.3
   '@portis/web3': 4.0.7
   '@self.id/web': 0.4.3
   '@sveltejs/adapter-static': 1.0.0-next.43
@@ -2259,6 +2263,22 @@ packages:
       - utf-8-validate
     dev: false
 
+  /@lifi/sdk/1.6.3:
+    resolution: {integrity: sha512-lNW+7gBURd8TSV3CGjju4q1KwfFgqkwfSIkWNkMbprA94S41xPGX+x4q0L5eR7z/w5DosoIR9HD3R1YmhzhvHw==}
+    dependencies:
+      '@ethersproject/abi': 5.7.0
+      '@ethersproject/contracts': 5.7.0
+      '@lifi/types': 1.15.0
+      axios: 1.1.3
+      bignumber.js: 9.1.0
+      eth-rpc-errors: 4.0.3
+      ethers: 5.7.2
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - utf-8-validate
+    dev: false
+
   /@lifi/types/1.15.0:
     resolution: {integrity: sha512-Rvar7KFa4XfWTg45eFWHU9RA12YA0vmd9WlYgHVterRpfAbTKfhBxN4XeCRmUh9oXS2+IfEOKNXTv4CbvohwKw==}
     requiresBuild: true
@@ -4160,6 +4180,16 @@ packages:
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
+
+  /axios/1.1.3:
+    resolution: {integrity: sha512-00tXVRwKx/FZr/IDVFt4C+f9FYairX517WoGCL6dpOntqLkZofjhu43F/Xl44UOpqa+9sLFDrG/XAnFsUYgkDA==}
+    dependencies:
+      follow-redirects: 1.15.2
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
 
   /babel-code-frame/6.26.0:
     resolution: {integrity: sha512-XqYMR2dfdGMW+hd0IUZ2PwK+fGeFkOxZJ0wY+JaQAHzt1Zx8LcvpiZD2NiGkEG8qx0CfkAOr5xt76d1e8vG90g==}
@@ -12237,6 +12267,10 @@ packages:
       ipaddr.js: 1.9.1
     dev: false
     optional: true
+
+  /proxy-from-env/1.1.0:
+    resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
+    dev: false
 
   /prr/1.0.1:
     resolution: {integrity: sha512-yPw4Sng1gWghHQWj0B3ZggWUm4qVbPwPFcRG8KyxiU7J2OHFSoEHKS+EZ3fv5l1t9CyCiop6l/ZYeWbrgoQejw==}
