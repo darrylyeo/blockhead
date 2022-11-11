@@ -17,36 +17,14 @@ specifiers:
   '@connext/vector-types': ^0.2.5-beta.18
   '@connext/vector-utils': ^0.2.5-beta.18
   '@etherspot/contracts': ^1.9.4
-  '@ethersproject/abi': ^5.7.0
   '@ethersproject/abstract-provider': ^5.7.0
   '@ethersproject/abstract-signer': ^5.7.0
   '@ethersproject/address': ^5.7.0
-  '@ethersproject/base64': ^5.7.0
-  '@ethersproject/basex': ^5.7.0
   '@ethersproject/bignumber': ^5.7.0
-  '@ethersproject/bytes': ^5.7.0
-  '@ethersproject/constants': ^5.7.0
   '@ethersproject/contracts': ^5.7.0
-  '@ethersproject/hash': ^5.7.0
-  '@ethersproject/hdnode': ^5.7.0
-  '@ethersproject/json-wallets': ^5.7.0
-  '@ethersproject/keccak256': ^5.7.0
-  '@ethersproject/logger': ^5.7.0
-  '@ethersproject/networks': ^5.7.1
-  '@ethersproject/pbkdf2': ^5.7.0
-  '@ethersproject/properties': ^5.7.0
   '@ethersproject/providers': ^5.7.2
-  '@ethersproject/random': ^5.7.0
-  '@ethersproject/rlp': ^5.7.0
-  '@ethersproject/sha2': ^5.7.0
-  '@ethersproject/signing-key': ^5.7.0
-  '@ethersproject/solidity': ^5.7.0
-  '@ethersproject/strings': ^5.7.0
-  '@ethersproject/transactions': ^5.7.0
   '@ethersproject/units': ^5.7.0
   '@ethersproject/wallet': ^5.7.0
-  '@ethersproject/web': ^5.7.1
-  '@ethersproject/wordlists': ^5.7.0
   '@fontsource/fira-code': ^4.5.1
   '@fontsource/ubuntu': ^4.5.0
   '@lifi/sdk': ^1.6.3
@@ -110,36 +88,14 @@ dependencies:
   '@connext/vector-types': 0.2.5-beta.21
   '@connext/vector-utils': 0.2.5-beta.21
   '@etherspot/contracts': 1.9.4
-  '@ethersproject/abi': 5.7.0
   '@ethersproject/abstract-provider': 5.7.0
   '@ethersproject/abstract-signer': 5.7.0
   '@ethersproject/address': 5.7.0
-  '@ethersproject/base64': 5.7.0
-  '@ethersproject/basex': 5.7.0
   '@ethersproject/bignumber': 5.7.0
-  '@ethersproject/bytes': 5.7.0
-  '@ethersproject/constants': 5.7.0
   '@ethersproject/contracts': 5.7.0
-  '@ethersproject/hash': 5.7.0
-  '@ethersproject/hdnode': 5.7.0
-  '@ethersproject/json-wallets': 5.7.0
-  '@ethersproject/keccak256': 5.7.0
-  '@ethersproject/logger': 5.7.0
-  '@ethersproject/networks': 5.7.1
-  '@ethersproject/pbkdf2': 5.7.0
-  '@ethersproject/properties': 5.7.0
   '@ethersproject/providers': 5.7.2
-  '@ethersproject/random': 5.7.0
-  '@ethersproject/rlp': 5.7.0
-  '@ethersproject/sha2': 5.7.0
-  '@ethersproject/signing-key': 5.7.0
-  '@ethersproject/solidity': 5.7.0
-  '@ethersproject/strings': 5.7.0
-  '@ethersproject/transactions': 5.7.0
   '@ethersproject/units': 5.7.0
   '@ethersproject/wallet': 5.7.0
-  '@ethersproject/web': 5.7.1
-  '@ethersproject/wordlists': 5.7.0
   '@fontsource/fira-code': 4.5.11
   '@fontsource/ubuntu': 4.5.11
   '@lifi/sdk': 1.6.3
@@ -13383,7 +13339,7 @@ packages:
     dependencies:
       command-exists: 1.2.9
       commander: 3.0.2
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2
       fs-extra: 0.30.0
       js-sha3: 0.8.0
       memorystream: 0.3.1
