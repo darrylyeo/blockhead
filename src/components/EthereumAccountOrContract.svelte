@@ -29,12 +29,6 @@
 	$: quoteCurrency = $preferences.quoteCurrency
 
 
-	let showContractSourcePath = 'EVM Bytecode'
-	// TODO: refactor one-off whenLoaded side effect
-	let hasLoadedMetadata = false
-	$: addressOrEnsName && (hasLoadedMetadata = false)
-
-
 	let selectedToken: Ethereum.ERC20Token | undefined
 
 	import { isAddress } from '@ethersproject/address'
@@ -62,16 +56,13 @@
 	import EnsName from './EnsName.svelte'
 	import EnsResolutionLoader from './EnsResolutionLoader.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
-	import EthereumContractBytecodeLoader from './EthereumContractBytecodeLoader.svelte'
-	import EthereumContractMetadataLoader from './EthereumContractMetadataLoader.svelte'
-	import EthereumTransactionForm from './EthereumTransactionForm.svelte'
+	import EthereumContractExplorer from './EthereumContractExplorer.svelte'
 	import EthereumTransactionCovalent from './EthereumTransactionCovalent.svelte'
 	import EthereumTransactionMoralis from './EthereumTransactionMoralis.svelte'
 	import EthereumTransactionEtherspot from './EthereumTransactionEtherspot.svelte'
 	import EthereumTransactionsLoader from './EthereumTransactionsLoader.svelte'
 	import EthereumTransactionsERC20Loader from './EthereumTransactionsERC20Loader.svelte'
 	import InlineContainer from './InlineContainer.svelte'
-	import IpfsLoader from './IpfsLoader.svelte'
 	import TokenName from './TokenName.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import TokenBalanceFormatSelect from './TokenBalanceFormatSelect.svelte'
@@ -156,152 +147,12 @@
 			</span>
 		</div>
 
-		<!-- {#await provider.getCode(address) then contractCode}
-			{#if contractCode !== '0x'} -->
-			<EthereumContractBytecodeLoader
-				{address}
-				{provider}
-				{network}
-				showIf={contractCode => !!contractCode}
-				let:contractCode
-			>
-				<hr>
-
-				<section>
-					<EthereumContractMetadataLoader
-						{address}
-						{network}
-						whenLoaded={async contractMetadata => {
-							if(!contractMetadata || hasLoadedMetadata) return
-							hasLoadedMetadata = true
-
-							// Uncaught ReferenceError: contractMetadata is not defined
-							await new Promise(r => setTimeout(r))
-
-							// Auto-set to target source path
-
-							const contractName = getContractName(contractMetadata)
-
-							const targetSourcePath = Object.keys(contractMetadata.sources)
-								.find(sourcePath => sourcePath.match(new RegExp(`(?:^|[/])${contractName}[.]`)))
-
-							if(targetSourcePath)
-								showContractSourcePath = targetSourcePath
-						}}
-						let:contractMetadata
-						let:sourcifyUrl
-					>
-						<header class="bar" slot="header" let:contractMetadata>
-							<h3>Contract Code</h3>
-
-							<label>
-								<span>View: </span>
-								<select bind:value={showContractSourcePath}>
-									<optgroup label="On-Chain">
-										<option value="EVM Bytecode">EVM Bytecode</option>
-									</optgroup>
-
-									{#if contractMetadata}
-										<optgroup label="Source Code">
-											<!-- Uncaught ReferenceError: contractMetadata is not defined -->
-											{#each Object.entries(contractMetadata?.sources) as [sourcePath, source]}
-												<option value={sourcePath}>{sourcePath}</option>
-											{/each}
-										</optgroup>
-									{/if}
-								</select>
-							</label>
-						</header>
-
-						<div class="stack">
-							{#key showContractSourcePath}
-								{#if contractMetadata && showContractSourcePath !== 'EVM Bytecode'}
-									{@const source = contractMetadata?.sources[showContractSourcePath]}
-
-									<section class="card" transition:fade>
-										<header class="bar">
-											<abbr
-												class="row-inline"
-												title={[
-													showContractSourcePath,
-													source.license && `License: ${source.license}`,
-													source.keccak256 && `keccak256 hash: ${source.keccak256}`
-												].filter(Boolean).join('\n\n')}
-											>
-												<h4>{showContractSourcePath.match(/[^/]+$/)?.[0]}</h4>
-												{#if source.license}<small><span class="card-annotation">{source.license}</span></small>{/if}
-											</abbr>
-
-											<abbr class="card-annotation" title="{contractMetadata?.language} {contractMetadata?.compiler?.version}">
-												{contractMetadata?.language}
-												<!-- {contractMetadata?.compiler?.version} -->
-												<!-- {#if contractMetadata?.language === 'Solidity'}
-													Contract
-													Interface
-													Library
-												{/if} -->
-											</abbr>
-										</header>
-
-										<hr>
-
-										{#if source.content}
-											<code class="scrollable-list" style="height: 30em">{source.content}</code>
-
-											<hr>
-
-											<footer class="footer bar">
-												<a href={sourcifyUrl} target="_blank">Sourcify</a>
-
-												<!-- {#if source.license}<span>License: {source.license}</span>{/if} -->
-											</footer>
-										{:else if source.urls?.length}
-											{@const ipfsCid = source.urls.find(url => url.includes('dweb:'))?.match(/^dweb:\/ipfs\/(.+)$/)?.[1]}
-
-											<IpfsLoader
-												contentId={ipfsCid}
-												format="text"
-												let:content={sourceCode}
-												let:ipfsUrl
-											>
-												<code class="scrollable-list" style="height: 30em">{sourceCode}</code>
-
-												<hr>
-
-												<footer class="footer row spaced">
-													<span>
-														<a href={sourcifyUrl} target="_blank">Sourcify</a>
-													</span>
-
-													<!-- {#if source.license}<span>License: {source.license}</span>{/if} -->
-													
-													<span>IPFS › <a href={ipfsUrl} target="_blank">{ipfsCid}</a></span>
-												</footer>
-											</IpfsLoader>
-										{/if}
-									</section>
-								{:else}
-									<code class="card scrollable-list" style="height: 7.5em" transition:fade>{contractCode}</code>
-								{/if}
-							{/key}
-						</div>
-
-						{#if contractMetadata}
-							<hr>
-
-							<EthereumTransactionForm
-								{network}
-								{provider}
-								contractName={getContractName(contractMetadata)}
-								contractAddress={address}
-								abi={contractMetadata.output.abi}
-							/>
-						{/if}
-					</EthereumContractMetadataLoader>
-				</section>
-			</EthereumContractBytecodeLoader>
-			<!-- {/if}
-		{/await} -->
+		<EthereumContractExplorer
+			{address}
+			{network}
+			{provider}
+			{transactionProvider}
+		/>
 
 		<!-- <Balance {provider} {address} /> -->
 		<EthereumBalances
