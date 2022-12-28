@@ -181,7 +181,7 @@
 			<Loader
 				loadingIcon={TenderlyIcon}
 				loadingMessage="Simulating transaction on Tenderly..."
-				errorMessage="The simulated transaction failed."
+				errorMessage="The transaction failed to be simulated."
 				fromPromise={async () => {
 					const populatedTx = await contract.populateTransaction[contractMethod](...contractArgs)
 					// const estimatedGas = await contract.estimateGas[contractMethod](...contractArgs)
