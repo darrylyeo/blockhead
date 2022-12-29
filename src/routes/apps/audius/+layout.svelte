@@ -34,7 +34,7 @@
 
 
 <head>
-	<title>{$addressOrEnsName ? `${$addressOrEnsName} | ` : ''}{`${$web3AppConfig.name} ${$currentView}`} | Blockhead</title>
+	<title>{$addressOrEnsName ? `${$addressOrEnsName} | ` : ''}{`${$web3AppConfig?.name} ${$currentView}`} | Blockhead</title>
 </head>
 
 
