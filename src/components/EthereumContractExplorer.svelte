@@ -56,7 +56,7 @@
 		showIf={contractCode => !!contractCode}
 		let:contractCode
 	>
-		<hr>
+		<slot slot="header" name="header" />
 
 		<section>
 			<EthereumContractMetadataLoader

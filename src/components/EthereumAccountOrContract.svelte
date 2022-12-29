@@ -152,7 +152,11 @@
 			{network}
 			{provider}
 			{transactionProvider}
-		/>
+		>
+			<svelte:fragment slot="header">
+				<hr>
+			</svelte:fragment>
+		</EthereumContractExplorer>
 
 		<!-- <Balance {provider} {address} /> -->
 		<EthereumBalances
