@@ -37,9 +37,6 @@
 	import { chainCodeFromNetwork, MoralisWeb3Api } from '../data/moralis/moralis-web3-api'
 
 
-	import { toHex } from 'etherspot'
-
-
 	import Date from './Date.svelte'
 	import EthereumBlock from './EthereumBlock.svelte'
 	import EthereumBlockNavigation from './EthereumBlockNavigation.svelte'
@@ -250,7 +247,7 @@
 					// for(let block; !block; block = await provider.getBlockWithTransactions(toHex(blockNumber)));
 					// console.log('block', block)
 					try {
-						const block = await provider.getBlockWithTransactions(toHex(blockNumber))
+						const block = await provider.getBlockWithTransactions(blockNumber)
 						return block
 					}catch(e){
 						console.dir(e)
