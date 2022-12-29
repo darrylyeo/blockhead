@@ -24,6 +24,7 @@
 		Object.values(contractMetadata.settings.compilationTarget)?.[0] as string
 
 
+	import Address from './Address.svelte'
 	import EthereumContractBytecodeLoader from './EthereumContractBytecodeLoader.svelte'
 	import EthereumContractMetadataLoader from './EthereumContractMetadataLoader.svelte'
 	import EthereumTransactionForm from './EthereumTransactionForm.svelte'
@@ -82,7 +83,9 @@
 				let:sourcifyUrl
 			>
 				<header class="bar" slot="header" let:contractMetadata>
-					<h3>Contract Code</h3>
+					<h3>
+						<Address {network} {address}>Contract Code</Address>
+					</h3>
 
 					<label>
 						<span>View: </span>
