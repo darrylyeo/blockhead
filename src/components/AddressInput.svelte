@@ -13,7 +13,7 @@
 	// let isResolvingEns = false
 
 
-	const pattern = `0x[0-9a-fA-F]{40}|.+[.](eth|[a-zA-Z]{2,})`
+	const pattern = /0x[0-9a-fA-F]{40}|.+[.](eth|[a-zA-Z]{2,})/
 
 
 	// Methods/hooks/lifecycle
@@ -25,7 +25,7 @@
 	}
 
 	const onChange = () => {
-		address = new RegExp(pattern).test(_address) || _address === '' ? _address : ''
+		address = pattern.test(_address) || _address === '' ? _address : ''
 		// address = inputElement?.valid || _address === '' ? _address : ''
 
 		// _address = address
@@ -50,7 +50,7 @@
 	bind:this={inputElement}
 	bind:value={_address}
 	placeholder="0x0000000000000000000000000000000000000000 / ens.eth"
-	{pattern}
+	pattern={pattern.source}
 	on:input={onInput}
 	on:change={onChange}
 />
