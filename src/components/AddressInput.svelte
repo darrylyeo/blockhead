@@ -19,16 +19,17 @@
 	// Methods/hooks/lifecycle
 
 	const onInput = () => {
-		_address = _address.trim()
+		// _address = _address.trim()
 
-		address = _address
+		// address = _address
 	}
 
 	const onChange = () => {
-		address = pattern.test(_address) || _address === '' ? _address : ''
 		// address = inputElement?.valid || _address === '' ? _address : ''
+		// address = pattern.test(_address) || _address === '' ? _address : ''
+		address = _address.match(pattern)?.[0] || _address || ''
 
-		// _address = address
+		_address = address
 	}
 
 
