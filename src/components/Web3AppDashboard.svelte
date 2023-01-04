@@ -230,8 +230,9 @@
 
 {#if web3AppConfig}
 	<div class="column defi-app-views">
-		{#each web3AppConfig.views as {name, slug, chainId, colors, erc20Tokens, nfts, contracts, providers, embeds}}
-		{#each [(erc20Tokens?.length ?? 0) + (nfts?.length ?? 0) + (contracts?.length ?? 0) + (providers && Object.entries(providers).length)] as totalViewItems}
+		{#each web3AppConfig.views as {name, slug, links, chainId, colors, erc20Tokens, nfts, contracts, providers, embeds}}
+			{@const totalViewItems = (erc20Tokens?.length ?? 0) + (nfts?.length ?? 0) + (contracts?.length ?? 0) + (providers && Object.entries(providers).length)}
+
 			<div
 				class="card defi-app-view"
 				class:is-single={totalViewItems <= 1}
@@ -777,7 +778,6 @@
 					/>
 				{/if}
 			</div>
-		{/each}
 		{/each}
 	</div>
 {/if}
