@@ -1288,7 +1288,6 @@ export const web3Apps: Web3AppConfig[] = [
 		links: ['https://www.beefy.finance'],
 		views: [
 			{
-				name: 'Binance Smart Chain',
 				slug: 'bsc',
 				chainId: 56,
 				erc20Tokens: [],
@@ -1297,7 +1296,6 @@ export const web3Apps: Web3AppConfig[] = [
 				}
 			},
 			{
-				name: 'Huobi ECO Chain',
 				slug: 'heco',
 				chainId: 128,
 				erc20Tokens: [],
@@ -1306,7 +1304,6 @@ export const web3Apps: Web3AppConfig[] = [
 				}
 			},
 			{
-				name: 'Avalanche',
 				slug: 'avalanche',
 				chainId: 43114,
 				erc20Tokens: [],
@@ -1315,7 +1312,6 @@ export const web3Apps: Web3AppConfig[] = [
 				}
 			},
 			{
-				name: 'Polygon',
 				slug: 'polygon',
 				chainId: 137,
 				erc20Tokens: [],
@@ -1324,7 +1320,6 @@ export const web3Apps: Web3AppConfig[] = [
 				}
 			},
 			{
-				name: 'Fantom',
 				slug: 'fantom',
 				chainId: 250,
 				erc20Tokens: [],
@@ -1389,7 +1384,6 @@ export const web3Apps: Web3AppConfig[] = [
 		links: ['https://belt.fi'],
 		views: [
 			{
-				name: 'Binance Smart Chain',
 				slug: 'bsc',
 				chainId: 56,
 				erc20Tokens: [],
@@ -1398,7 +1392,6 @@ export const web3Apps: Web3AppConfig[] = [
 				}
 			},
 			{
-				name: 'Huobi ECO Chain',
 				slug: 'heco',
 				chainId: 128,
 				erc20Tokens: [],
@@ -4945,7 +4938,6 @@ export const web3Apps: Web3AppConfig[] = [
 		colors: ['#94a6c3', '#d82122', '#0a192b'],
 		views: [
 			{
-				name: 'Ethereum',
 				slug: 'ethereum',
 				chainId: 1,
 				erc20Tokens: [
@@ -4984,7 +4976,6 @@ export const web3Apps: Web3AppConfig[] = [
 				}
 			},
 			{
-				name: 'Binance Smart Chain',
 				slug: 'bsc',
 				chainId: 56,
 				erc20Tokens: [],
@@ -4993,7 +4984,6 @@ export const web3Apps: Web3AppConfig[] = [
 				}
 			},
 			{
-				name: 'Polygon',
 				slug: 'polygon',
 				chainId: 137,
 				erc20Tokens: [],
@@ -6891,7 +6881,6 @@ export const web3Apps: Web3AppConfig[] = [
 		colors: ['#016eda', '#d900c0'],
 		views: [
 			{
-				name: 'Ethereum',
 				slug: 'ethereum',
 				chainId: 1,
 				erc20Tokens: [
@@ -6928,7 +6917,6 @@ export const web3Apps: Web3AppConfig[] = [
 				}
 			},
 			{
-				name: 'Fantom',
 				slug: 'fantom',
 				chainId: 250,
 				erc20Tokens: [],
@@ -6937,7 +6925,6 @@ export const web3Apps: Web3AppConfig[] = [
 				}
 			},
 			{
-				name: 'Binance Smart Chain',
 				slug: 'bsc',
 				chainId: 56,
 				erc20Tokens: [],
@@ -6946,7 +6933,6 @@ export const web3Apps: Web3AppConfig[] = [
 				}
 			},
 			{
-				name: 'Polygon',
 				slug: 'polygon',
 				chainId: 137,
 				erc20Tokens: [],
@@ -6955,7 +6941,6 @@ export const web3Apps: Web3AppConfig[] = [
 				}
 			},
 			{
-				name: 'HECO',
 				slug: 'heco',
 				chainId: 128,
 				erc20Tokens: [],
@@ -6964,7 +6949,6 @@ export const web3Apps: Web3AppConfig[] = [
 				}
 			},
 			{
-				name: 'Gnosis Chain',
 				slug: 'gnosis',
 				chainId: 100,
 				erc20Tokens: [],
@@ -6973,7 +6957,6 @@ export const web3Apps: Web3AppConfig[] = [
 				}
 			},
 			{
-				name: 'Harmony',
 				slug: 'harmony',
 				chainId: 1666600000,
 				erc20Tokens: [],
@@ -6982,7 +6965,6 @@ export const web3Apps: Web3AppConfig[] = [
 				}
 			},
 			{
-				name: 'Avalanche',
 				slug: 'avalanche',
 				chainId: 43114,
 				erc20Tokens: [],
@@ -7629,7 +7611,6 @@ export const web3Apps: Web3AppConfig[] = [
 		colors: ['#2B28B7', '#000000'], // #06f398
 		views: [
 			{
-				name: 'Ethereum',
 				slug: 'ethereum',
 				chainId: 1,
 				erc20Tokens: [
@@ -7653,7 +7634,6 @@ export const web3Apps: Web3AppConfig[] = [
 				}
 			},
 			{
-				name: 'Binance Smart Chain',
 				slug: 'bsc',
 				chainId: 56,
 				erc20Tokens: [],
@@ -7741,7 +7721,6 @@ export const web3Apps: Web3AppConfig[] = [
 		links: ['https://unit.xyz'],
 		views: [
 			{
-				name: 'Ethereum',
 				slug: 'ethereum',
 				chainId: 1,
 				erc20Tokens: [

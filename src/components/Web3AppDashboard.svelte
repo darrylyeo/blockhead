@@ -246,13 +246,17 @@
 				>
 					<svelte:fragment slot="header">
 						<div class="bar">
-							<h3 id={slug}>
-								{#if slug}
-									<a href="#{slug}">{name}</a>
-								{:else}
-									{name || web3AppConfig.name}
-								{/if}
-							</h3>
+							<span class="row-inline">
+								<h3 id={slug} class="row-inline">
+									<NetworkIcon {network} />
+									›
+									{#if slug}
+										<a href="#{slug}">{name || web3AppConfig.name}</a>
+									{:else}
+										{name || web3AppConfig.name}
+									{/if}
+								</h3>
+							</span>
 
 							{#if embeds?.length}
 								<select bind:value={selectedEmbed}>
@@ -261,7 +265,7 @@
 									{/each}
 								</select>
 							{:else}
-								<div class="card-annotation">{network.name}</div>
+								<div class="card-annotation">{network.name} App</div>
 							{/if}
 						</div>
 
