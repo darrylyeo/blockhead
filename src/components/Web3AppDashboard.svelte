@@ -232,6 +232,7 @@
 	<div class="column defi-app-views">
 		{#each web3AppConfig.views as {name, slug, links, chainId, colors, erc20Tokens, nfts, contracts, providers, embeds}}
 			{@const totalViewItems = (erc20Tokens?.length ?? 0) + (nfts?.length ?? 0) + (contracts?.length ?? 0) + (providers && Object.entries(providers).length)}
+			{@const _links = links ?? web3AppConfig?.links}
 
 			<div
 				class="card defi-app-view"
@@ -257,6 +258,12 @@
 										{name || web3AppConfig.name}
 									{/if}
 								</h3>
+
+								{#if _links?.length}
+									<span>
+										({#each _links as href, i}<a {href} target="_blank">{new URL(href)?.host.replace(/^www[.]/, '')}</a>{#if i < _links.length - 1}{', '}{/if}{/each})
+									</span>
+								{/if}
 							</span>
 
 							{#if embeds?.length}
