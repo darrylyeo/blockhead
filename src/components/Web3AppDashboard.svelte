@@ -687,6 +687,14 @@
 														Historical Price
 													</h4>
 												</HistoricalPriceChart>
+
+												<hr>
+
+												<EthereumContractExplorer
+													{network}
+													{address}
+													{provider}
+												/>
 											</div>
 										{:else}
 											<div class="card" transition:scale>
