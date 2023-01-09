@@ -3,6 +3,7 @@
 	import type { Ethereum } from '../data/ethereum/types'
 
 
+	export let network: EthereumNetwork
 	export let symbol: TickerSymbol
 	export let address: Ethereum.ContractAddress
 	export let name: string

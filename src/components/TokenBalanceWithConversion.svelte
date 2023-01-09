@@ -8,6 +8,7 @@
 	export let showConversionRate = false
 	export let showParentheses = true
 
+	export let network: Ethereum.Network
 	export let symbol: TickerSymbol
 	export let address: Ethereum.ContractAddress
 	export let name: string
@@ -95,7 +96,7 @@
 				{tween} {clip} {transitionWidth}
 			/>{#if tokenBalanceFormat === 'converted' && conversionCurrency !== symbol}
 				<span class="worth" transition:scaleFont|local={{delay: animationDelay}}>
-					&nbsp;in <TokenName {symbol} {address} {icon} {name} />
+					&nbsp;in <TokenName {network} {symbol} {address} {icon} {name} />
 				</span>
 			{/if
 			}{#if showConversionRate && conversionRate}<span class="rate"> at <TokenRate rate={conversionRate} quoteToken={conversionCurrency} baseToken={symbol} layout='horizontal'/></span>{/if

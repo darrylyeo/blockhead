@@ -404,6 +404,7 @@
 																			<TokenBalanceWithConversion
 																				{tokenBalanceFormat}
 
+																				{network}
 																				{symbol}
 																				address={tokenAddress || address}
 																				icon={`https://zapper.fi/images/${img}`}
@@ -453,6 +454,7 @@
 																						<TokenBalanceWithConversion
 																							{tokenBalanceFormat}
 
+																							{network}
 																							{symbol}
 																							address={tokenAddress || address}
 																							icon={tokenImageUrl}
@@ -645,11 +647,11 @@
 									<div class="bar">
 										<h4>
 											{erc20Token.name}
-											(<TokenName {erc20Token} />)
+											(<TokenName {network} {erc20Token} />)
 										</h4>
 										<div class="card-annotation">ERC-20 Token</div>
 										<!-- <h4>
-											<TokenName {erc20Token} />
+											<TokenName {network} {erc20Token} />
 											({erc20Token.name})
 										</h4>
 										<div class="card-annotation">ERC-20 Token</div> -->
@@ -682,7 +684,7 @@
 												>
 													<h4 slot="title">
 														<!-- {erc20Token.name}
-														(<TokenName {erc20Token} />)
+														(<TokenName {network} {erc20Token} />)
 														- Historical Price -->
 														Historical Price
 													</h4>
@@ -725,6 +727,7 @@
 														<TokenBalanceWithConversion
 															{tokenBalanceFormat}
 
+															{network}
 															erc20Token={token}
 
 															balance={balance * 0.1 ** token.decimals}
@@ -734,6 +737,7 @@
 														/>
 													{:else}
 														<TokenBalanceWithConversion
+															{network}
 															{erc20Token}
 
 															balance={0}

@@ -305,7 +305,7 @@
 							<div class="bar">
 								<h3>
 									{selectedToken.name}
-									(<TokenName erc20Token={selectedToken} />)
+									(<TokenName {network} erc20Token={selectedToken} />)
 									Transactions
 									<InlineContainer isOpen={status === 'resolved'}>(<TweenedNumber value={transactions.length} /><InlineContainer isOpen={pagination?.hasNextPage}>+</InlineContainer>)</InlineContainer>
 								</h3>

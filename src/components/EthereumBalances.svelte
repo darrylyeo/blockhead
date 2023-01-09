@@ -185,6 +185,7 @@
 						<TokenBalanceWithConversion
 							{tokenBalanceFormat}
 
+							{network}
 							erc20Token={token}
 
 							balance={balance * 0.1 ** token.decimals}

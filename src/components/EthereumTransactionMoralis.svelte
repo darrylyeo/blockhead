@@ -272,6 +272,7 @@
 							{tokenBalanceFormat}
 							showDecimalPlaces={isExhaustive ? 9 : 6}
 
+							{network}
 							erc20Token={token}
 
 							balance={value}
@@ -298,6 +299,7 @@
 							{tokenBalanceFormat}
 							showDecimalPlaces={isExhaustive ? 9 : 6}
 
+							{network}
 							erc20Token={gasToken}
 
 							balance={gasValue}
