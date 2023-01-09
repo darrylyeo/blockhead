@@ -319,7 +319,7 @@
 														<h4><!--DeFi -->Balances</h4>
 														{#if quoteTotal}
 															<TokenBalance
-																symbol={quoteTotalCurrency || quoteCurrency}
+																{network} symbol={quoteTotalCurrency || quoteCurrency}
 																balance={quoteTotal}
 																showPlainFiat={true}
 															/>
@@ -344,7 +344,7 @@
 															{#if assets[0]?.appImgUrl}
 																<img class="card-background" src={assets[0].appImgUrl} alt={label} width="20"/>
 															<!-- {:else if assets[0]?.symbol}
-																<span class="card-background"><TokenIcon symbol={assets[0].protocolSymbol} /></span> -->
+																<span class="card-background"><TokenIcon {network} symbol={assets[0].protocolSymbol} /></span> -->
 															{/if}
 															<div class="bar">
 																<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{label}">
@@ -353,13 +353,13 @@
 																{#each meta as {label, type, value}}
 																	{#if label === 'Assets'}
 																		<TokenBalance
-																			symbol={zapperQuoteCurrency}
+																			{network} symbol={zapperQuoteCurrency}
 																			balance={value * zapperFiatRate}
 																			showPlainFiat={true}
 																		/>
 																	{:else if label === 'Debt' && value}
 																		<TokenBalance
-																			symbol={zapperQuoteCurrency}
+																			{network} symbol={zapperQuoteCurrency}
 																			balance={value * zapperFiatRate}
 																			showPlainFiat={true}
 																			isDebt={true}
@@ -597,8 +597,7 @@
 																{#each adapterBalance.balances as {base: baseBalance, underlying}}
 																	<div class="column defi-protocol-balance">
 																		<TokenBalance
-																			symbol={baseBalance.metadata.symbol}
-																			address={baseBalance.metadata.token}
+																			{network} symbol={baseBalance.metadata.symbol} address={baseBalance.metadata.token}
 																			balance={formatUnits(baseBalance.amount, baseBalance.metadata.decimals)}
 																			isDebt={adapterBalance.metadata.adapterType === 'Debt'}
 																		/>
@@ -608,8 +607,7 @@
 																					<p in:scaleFont>
 																						<span class="underlying-symbol">┖</span>
 																						<TokenBalance
-																							symbol={underlyingBalance.metadata.symbol}
-																							address={underlyingBalance.metadata.token}
+																							{network} symbol={underlyingBalance.metadata.symbol} address={underlyingBalance.metadata.token}
 																							balance={formatUnits(underlyingBalance.amount, underlyingBalance.metadata.decimals)}
 																							isDebt={adapterBalance.metadata.adapterType === 'Debt'}
 																						/>

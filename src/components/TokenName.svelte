@@ -54,6 +54,6 @@
 	draggable={true}
 	on:dragstart={onDragStart}
 >
-	<TokenIcon {symbol} {address} {name} {icon} {erc20Token} />
+	<TokenIcon {network} {symbol} {address} {name} {icon} {erc20Token} />
 	<span class="token-name">{symbol}</span>
 </span>

@@ -245,7 +245,7 @@
 							{#if payableAmount?.gt(0)}
 								send
 								<TokenBalance
-									erc20Token={network.nativeCurrency}
+									{network} erc20Token={network.nativeCurrency}
 									balance={payableAmount}
 								/>
 								to

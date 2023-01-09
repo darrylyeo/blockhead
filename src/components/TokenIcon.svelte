@@ -2,14 +2,17 @@
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { TickerSymbol } from '../data/currency/currency'
 	import { erc20TokensByContractAddress, erc20TokensBySymbol } from '../data/ethereum/tokens/tokens'
+	import { networksByChainID } from '../data/ethereum/networks'
 
 
+	export let network: Ethereum.Network
 	export let symbol: TickerSymbol
 	export let address: Ethereum.ContractAddress
 	export let name: string
 	export let icon: string
 
 	export let erc20Token: Ethereum.ERC20Token
+	$: network = $$props.network || erc20Token?.chainId && networksByChainID[erc20Token?.chainId]
 	$: symbol = $$props.symbol || erc20Token?.symbol
 	$: address = $$props.address || erc20Token?.address
 	$: name = $$props.name || erc20Token?.name

@@ -81,7 +81,7 @@
 	{#if tokenBalanceFormat === 'original' || tokenBalanceFormat === 'both'}
 		<span class="balance" transition:scaleFont|local><!-- style="font-size: {sizeByVolume(convertedValue)}em" -->
 			<TokenBalance
-				{symbol} {address} {name} {icon}
+				{network} {symbol} {address} {name} {icon}
 				{balance} {showDecimalPlaces} {isDebt}
 				{tween} {clip} {transitionWidth}
 			/>
@@ -91,7 +91,7 @@
 		<span class="balance-converted" transition:scaleFont|local={{delay: 50 + animationDelay}}>
 			{#if tokenBalanceFormat === 'both'}{#if showParentheses}({/if}{/if
 			}<TokenBalance
-				symbol={conversionCurrency}
+				{network} symbol={conversionCurrency}
 				balance={convertedValue}{showDecimalPlaces} showPlainFiat={true} {isDebt}
 				{tween} {clip} {transitionWidth}
 			/>{#if tokenBalanceFormat === 'converted' && conversionCurrency !== symbol}

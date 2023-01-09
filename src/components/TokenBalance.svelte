@@ -4,6 +4,7 @@
 	import type { TickerSymbol } from '../data/currency/currency'
 	import { fiatQuoteCurrencies } from '../data/currency/currency'
 
+	export let network: Ethereum.Network
 	export let symbol: TickerSymbol
 	export let address: Ethereum.ContractAddress
 	export let name: string
@@ -118,7 +119,8 @@
 			/>
 		</span>
 	{:else}
-		<TokenIcon {symbol} {address} {name} {icon} {erc20Token} />
+		<TokenIcon {network} {symbol} {address} {name} {icon} {erc20Token} />
+
 		<span class="inline-no-wrap">
 			<span class="token-balance">
 				{isNegative ? '−' : ''}<TweenedNumber

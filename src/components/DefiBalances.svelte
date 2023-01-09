@@ -219,9 +219,9 @@
 									{#if assets[0]?.appImgUrl}
 										<img class="card-background" src={assets[0].appImgUrl} alt={label} width="20"/>
 									<!-- {:else if assets[0]?.symbol}
-										<span class="card-background"><TokenIcon symbol={assets[0].protocolSymbol} /></span> -->
+										<span class="card-background"><TokenIcon {network} symbol={assets[0].protocolSymbol} /></span> -->
 									{/if}
-									{#if erc20Token}<TokenIcon {erc20Token} />{/if}
+									{#if erc20Token}<TokenIcon {network} {erc20Token} />{/if}
 									<span>
 										<a href="/apps/{web3AppConfig?.slug ?? appId}/address/{address}">{web3AppConfig?.name ?? label}</a>
 										{#if web3AppConfig?.name && web3AppConfig.name !== label} › {label}{/if}
@@ -236,7 +236,7 @@
 										/>
 									{:else if label === 'Debt' && value}
 										<TokenBalance
-											symbol={zapperQuoteCurrency}
+											{network} symbol={zapperQuoteCurrency}
 											balance={value * zapperFiatRate}
 											showPlainFiat={true}
 											isDebt={true}
@@ -576,9 +576,9 @@
 									<img class="card-background" src={`https://${metadata.iconURL}`} alt={metadata.name} />
 									<!-- <img src={`https://${metadata.iconURL}`} alt={metadata.name} width="20" />
 								{:else if erc20Token}
-									<span class="card-background"><TokenIcon {erc20Token} /></span> -->
+									<span class="card-background"><TokenIcon {network} {erc20Token} /></span> -->
 								{:else}
-									<TokenIcon {erc20Token} />
+									<TokenIcon {network} {erc20Token} />
 								{/if}
 								<a href="/apps/{web3AppConfig?.slug}/address/{address}">{metadata.name}</a>
 							</h5>
@@ -593,8 +593,7 @@
 									{#each adapterBalance.balances as {base: baseBalance, underlying}}
 										<div class="column defi-protocol-balance">
 											<TokenBalance
-												symbol={baseBalance.metadata.symbol}
-												address={baseBalance.metadata.token}
+												{network} symbol={baseBalance.metadata.symbol} address={baseBalance.metadata.token}
 												balance={formatUnits(baseBalance.amount, baseBalance.metadata.decimals)}
 												isDebt={adapterBalance.metadata.adapterType === 'Debt'}
 											/>

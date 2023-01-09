@@ -50,9 +50,13 @@
 			loadingMessage="Reading balance..."
 			let:result={balance}
 		>
-			<TokenIcon slot="loadingIcon" {symbol} address={contractAddress} {erc20Token} />
+			<TokenIcon slot="loadingIcon" {network} {symbol} address={contractAddress} {erc20Token} />
+
 			<div class="card" in:scale>
-				<TokenBalance {symbol} address={contractAddress} {erc20Token} balance={ethers?.utils.formatEther(balance)} />
+				<TokenBalance
+					{network} {symbol} address={contractAddress} {erc20Token}
+					balance={ethers?.utils.formatEther(balance)}
+				/>
 			</div>
 		</Loader>
 	{/if}

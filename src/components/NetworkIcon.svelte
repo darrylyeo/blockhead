@@ -38,7 +38,7 @@
 
 
 <!-- {#if defaultToTokenIcon}
-	<TokenIcon erc20Token={network.nativeCurrency}>
+	<TokenIcon {network} erc20Token={network.nativeCurrency}>
 		<Icon
 			key={network.slug}
 			imageSources={[
@@ -62,7 +62,7 @@
 		placeholder={network.name}
 	>
 		<slot>
-			<TokenIcon erc20Token={network.nativeCurrency} />
+			<TokenIcon {network} erc20Token={network.nativeCurrency} />
 		</slot>
 	</Icon>
 <!-- {/if} -->

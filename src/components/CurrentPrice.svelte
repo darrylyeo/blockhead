@@ -130,14 +130,14 @@
 
 					<div class="rate">
 						<TokenBalance
+							{network} symbol={token}
 							balance={1}
-							symbol={token}
 							tween={false}
 						/>
 						=
 						<TokenBalance
-							balance={priceFeed.price}
 							symbol={quoteCurrency}
+							balance={priceFeed.price}
 							showPlainFiat={true}
 						/>
 					</div>
@@ -201,15 +201,16 @@
 
 					<div class="rate">
 						<TokenBalance
-							balance={1}
+							{network}
 							symbol={token}
 							icon={data.icon}
+							balance={1}
 							tween={false}
 						/>
 						=
 						<TokenBalance
-							balance={data.price}
 							symbol={/*quoteCurrency*/ 'USD'}
+							balance={data.price}
 							showPlainFiat={true}
 						/>
 					</div>
