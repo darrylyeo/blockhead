@@ -23,6 +23,7 @@
 	}
 
 
+	import Address from './Address.svelte'
 	import TokenIcon from './TokenIcon.svelte'
 </script>
 
@@ -48,12 +49,17 @@
 </style>
 
 
-<span
-	class="token-value-container"
-	{title}
-	draggable={true}
-	on:dragstart={onDragStart}
+<Address
+	{network}
+	{address}
 >
-	<TokenIcon {network} {symbol} {address} {name} {icon} {erc20Token} />
-	<span class="token-name">{symbol}</span>
-</span>
+	<span
+		class="token-value-container"
+		{title}
+		draggable={true}
+		on:dragstart={onDragStart}
+	>
+		<TokenIcon {network} {symbol} {address} {name} {icon} {erc20Token} />
+		<span class="token-name">{symbol}</span>
+	</span>
+</Address>
