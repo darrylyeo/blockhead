@@ -38,15 +38,12 @@
 	export let transitionWidth = true
 
 
-	import { formatValue } from '../utils/formatValue'
-	import { formatAddress } from '../utils/formatAddress'
-
-	
 	const onDragStart = (e: DragEvent) => {
 		e.dataTransfer.setData('text/plain', title)
 	}
 
 
+	import Address from './Address.svelte'
 	import TokenIcon from './TokenIcon.svelte'
 	import TweenedNumber from './TweenedNumber.svelte'
 </script>
@@ -133,7 +130,14 @@
 					{tween} {clip} {transitionWidth}
 				/>
 			</span>
-			<span class="token-name">{symbol || formatAddress(address, 'middle-truncated')}</span>
+			<Address
+				{network}
+				{address}
+				format="middle-truncated"
+				let:formattedAddress
+			>
+				<span class="token-name">{symbol || formattedAddress}</span>
+			</Address>
 		</span>
 	{/if}
 </span>
