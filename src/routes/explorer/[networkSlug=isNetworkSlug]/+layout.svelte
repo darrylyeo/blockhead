@@ -57,7 +57,7 @@
 		'bsc'
 	].includes($networkSlug)
 
-	let placeholder
+	let placeholder: string
 	// $: placeholder = {
 	// 	'avalanche': 'C-Chain Address (0xabcd...6789) / Avvy Domain (avvy.avax)'
 	// }
@@ -74,7 +74,7 @@
 
 	// Components
 
-	import AddressField from '../../../components/AddressField.svelte'
+	import ExplorerInput from '../../../components/ExplorerInput.svelte'
 	import NetworkProviderLoader from '../../../components/NetworkProviderLoader.svelte'
 
 	import HistoricalPriceChart from '../../../components/HistoricalPriceChart.svelte'
@@ -110,7 +110,7 @@
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
 	<form on:submit|preventDefault={() => $query = currentQuery}>
-		<AddressField bind:address={currentQuery} {placeholder} />
+		<ExplorerInput bind:value={currentQuery} {placeholder} />
 		<button>Go</button>
 	</form>
 

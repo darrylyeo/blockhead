@@ -21,7 +21,7 @@
 
 	// Components
 
-	import AddressField from '../../../components/AddressField.svelte'
+	import ExplorerInput from '../../../components/ExplorerInput.svelte'
 	import Web3AppDashboard from '../../../components/Web3AppDashboard.svelte'
 	import EnsResolutionLoader from '../../../components/EnsResolutionLoader.svelte'
 
@@ -44,10 +44,9 @@
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
 	<form on:submit|preventDefault={() => $addressOrEnsName = currentAddressOrEnsName}>
-		<AddressField bind:address={currentAddressOrEnsName}/>
+		<ExplorerInput bind:value={currentAddressOrEnsName} />
 		<button>Go</button>
 	</form>
-
 
 	<EnsResolutionLoader
 		addressOrEnsName={$addressOrEnsName}
