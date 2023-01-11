@@ -13,7 +13,7 @@
 	// let isResolvingEns = false
 
 
-	const pattern = /0x[0-9a-fA-F]{40}|.+[.](eth|[a-zA-Z]{2,})/
+	const pattern = /(?<ensName>(?:[^. ]+[^ ])*?(?:eth|xyz|luxe|kred|art|club|test))/g
 
 
 	// Methods/hooks/lifecycle
