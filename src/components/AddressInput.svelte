@@ -6,7 +6,7 @@
 
 
 	// Internal state
-	let _address: string = address
+	let value: string = address
 
 	let inputElement
 
@@ -21,23 +21,23 @@
 	// Methods/hooks/lifecycle
 
 	const onInput = () => {
-		// _address = _address.trim()
+		// value = value.trim()
 
-		// address = _address
+		// address = value
 	}
 
 	const onChange = () => {
-		// address = inputElement?.valid || _address === '' ? _address : ''
-		// address = pattern.test(_address) || _address === '' ? _address : ''
-		address = _address.match(pattern)?.[0] || _address || ''
+		// address = inputElement?.valid || value === '' ? value : ''
+		// address = pattern.test(value) || value === '' ? value : ''
+		address = value.match(pattern)?.[0] || value || ''
 
 		// address =
-		// 	_address.match(/(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))/)?.[0]
-		// 	|| _address.match(/(?<address>0x[0-9a-fA-F]{40})/)?.[0]
-		// 	|| _address
+		// 	value.match(/(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))/)?.[0]
+		// 	|| value.match(/(?<address>0x[0-9a-fA-F]{40})/)?.[0]
+		// 	|| value
 		// 	|| ''
 
-		_address = address
+		value = address
 	}
 
 
@@ -60,11 +60,11 @@
 	type="text"
 	{required}
 	bind:this={inputElement}
-	bind:value={_address}
+	bind:value
 	placeholder="0x0000000000000000000000000000000000000000 / ens.eth"
 	pattern={pattern.source}
 	on:input={onInput}
 	on:change={onChange}
-	data-format={findMatchedCaptureGroup(new RegExp(`^${pattern.source}$`), _address)}
+	data-format={findMatchedCaptureGroup(new RegExp(`^${pattern.source}$`), value)}
 />
 <!-- placeholder="0xabc...6789 / ens.eth" -->
