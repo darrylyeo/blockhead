@@ -378,7 +378,7 @@
 												<Address {network} {address}><InlineContainer isOpen={!isEditing} clip><mark>{network.name}</mark>&nbsp;</InlineContainer>Balances</Address>
 											</h4>
 											{#if summary}
-												<span class="summary">
+												<span class="summary" class:is-zero={!summary.filteredBalancesCount}>
 													<TokenBalance symbol={summary.quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} />
 													| <strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> tokens
 												</span>
@@ -492,7 +492,7 @@
 											<span><InlineContainer isOpen={!isEditing} clip><mark>{network.name}</mark>&nbsp;</InlineContainer>NFTs</span>
 										</h4>
 										{#if summary}
-											<span class="summary" class:is-zero={summary.nftsCount === 0}>
+											<span class="summary" class:is-zero={!summary.nftsCount}>
 												<strong><TweenedNumber value={summary.nftsCount} /></strong> NFT{summary.nftsCount === 1 ? '' : 's'}
 												|
 												<!-- across -->
