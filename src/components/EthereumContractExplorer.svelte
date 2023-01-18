@@ -110,6 +110,12 @@
 					{#key showContractSourcePath}
 						{#if contractMetadata && showContractSourcePath !== 'EVM Bytecode'}
 							{@const source = contractMetadata?.sources[showContractSourcePath]}
+							{@const sourceFile = showContractSourcePath.match(/[^/]+$/)?.[0]}
+							{@const sourceFileName = sourceFile?.replace(/.sol$/, '')}
+							{@const solidityDefinitionType =
+								contractMetadata?.language === 'Solidity' &&
+								source.content?.match(new RegExp(`((?:abstract )?library|contract|interface|function|constant|struct|enum|type|error)\\s+(${sourceFileName})`))?.[1]
+							}
 
 							<section class="card" transition:fade>
 								<header class="bar">
@@ -121,18 +127,14 @@
 											source.keccak256 && `keccak256 hash: ${source.keccak256}`
 										].filter(Boolean).join('\n\n')}
 									>
-										<h4>{showContractSourcePath.match(/[^/]+$/)?.[0]}</h4>
+										<h4>{sourceFile}</h4>
 										{#if source.license}<small><span class="card-annotation">{source.license}</span></small>{/if}
 									</abbr>
 
 									<abbr class="card-annotation" title="{contractMetadata?.language} {contractMetadata?.compiler?.version}">
 										{contractMetadata?.language}
 										<!-- {contractMetadata?.compiler?.version} -->
-										<!-- {#if contractMetadata?.language === 'Solidity'}
-											Contract
-											Interface
-											Library
-										{/if} -->
+										{#if solidityDefinitionType}{solidityDefinitionType}{/if}
 									</abbr>
 								</header>
 
