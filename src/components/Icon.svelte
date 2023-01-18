@@ -10,13 +10,19 @@
 	export let title = ''
 	export let placeholder = '?'
 
+	export let isGrayscale = false
+
 
 	let i = cachedIndex[key] ||= 0
 	$: cachedIndex[key] = i
 </script>
 
 
-<picture class="icon" {title}>
+<picture
+	class="icon"
+	class:isGrayscale={isGrayscale}
+	{title}
+>
 	{#if imageSources[i]}
 		<img src={imageSources[i]} on:error={e => i++} />
 	{:else}
@@ -94,5 +100,9 @@
 	/* ETH SVG off-center correction */
 	picture[title="ETH"] :global(circle + g) {
 		transform: translateX(-.498px);
+	}
+
+	.isGrayscale {
+		filter: grayscale(66%);
 	}
 </style>

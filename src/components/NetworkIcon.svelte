@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
+	import { isTestnet, mainnetForTestnet } from '../data/ethereum/networks'
 
 
 	export let network: Ethereum.Network
@@ -29,7 +30,7 @@
 		'skale': SKALEIcon,
 	}
 
-	$: imageSource = networkIcons[network.slug]
+	$: imageSource = networkIcons[network.slug] || networkIcons[mainnetForTestnet[network.slug]?.slug]
 
 
 	import Icon from './Icon.svelte'
@@ -60,6 +61,7 @@
 		].filter(Boolean)}
 		title={network.name}
 		placeholder={network.name}
+		isGrayscale={isTestnet(network)}
 	>
 		<slot>
 			<TokenIcon {network} erc20Token={network.nativeCurrency} />
