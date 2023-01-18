@@ -156,6 +156,12 @@
 			<svelte:fragment slot="header">
 				<hr>
 			</svelte:fragment>
+
+			<slot slot="title" name="contract-title" {network} {address}>
+				<h3>
+					<Address {network} {address}>Contract Code</Address>
+				</h3>
+			</slot>
 		</EthereumContractExplorer>
 
 		<!-- <Balance {provider} {address} /> -->

@@ -4,8 +4,9 @@
 	import { preferences } from '../state/preferences'
 
 
-	export let address: Ethereum.Address
+	export let name: string
 	export let network: Ethereum.Network
+	export let address: Ethereum.Address
 	export let provider: Ethereum.Provider
 
 	export let transactionProvider
@@ -83,9 +84,9 @@
 				let:sourcifyUrl
 			>
 				<header class="bar" slot="header" let:contractMetadata>
-					<h3>
-						<Address {network} {address}>Contract Code</Address>
-					</h3>
+					<slot name="title" contractName={name} {network} {address}>
+						<h4><Address {network} {address} format="middle-truncated" let:formattedAddress>{name || formattedAddress}</Address></h4>
+					</slot>
 
 					<label>
 						<span>View: </span>
