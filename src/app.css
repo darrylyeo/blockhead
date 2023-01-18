@@ -270,6 +270,9 @@ input {
 /* input.is-valid {
 	border: 2px solid green;
 } */
+input[type="number"] {
+	font-family: var(--monospace-fonts);
+}
 
 input[type="checkbox"] {
 	width: 1.2em;
