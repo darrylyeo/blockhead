@@ -9,6 +9,7 @@
 	export let format: {
 		currency?: string,
 		showDecimalPlaces?: number,
+		useGrouping?: boolean,
 		compactLargeValues?: boolean,
 		locale?: string | string[]
 	}

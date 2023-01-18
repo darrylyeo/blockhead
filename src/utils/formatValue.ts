@@ -3,12 +3,14 @@ export const formatValue = (
 	{
 		currency,
 		showDecimalPlaces, // = 3,
+		useGrouping = true,
 		compactLargeValues = false,
 		locale,
 		toParts = false,
 	}: {
 		currency?: string,
 		showDecimalPlaces?: number,
+		useGrouping?: boolean,
 		compactLargeValues?: boolean,
 		locale?: string | string[],
 		toParts: boolean
@@ -28,7 +30,7 @@ export const formatValue = (
 
 			// maximumSignificantDigits: 6,
 			// compactDisplay: 'short',
-			// useGrouping: true,
+			useGrouping,
 			notation: compactLargeValues && value >= 1e7 ? 'compact' : 'standard'
 		})
 
