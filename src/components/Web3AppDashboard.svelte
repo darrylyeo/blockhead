@@ -63,9 +63,11 @@
 	import { formatKebabCase } from '../utils/formatKebabCase'
 
 
+	import Address from './Address.svelte'
 	import Loader from './Loader.svelte'
 	import HeightContainer from './HeightContainer.svelte'
 	import EthereumBalancesLoader from './EthereumBalancesLoader.svelte'
+	import EthereumAccountOrContract from './EthereumAccountOrContract.svelte';
 	import EthereumContractExplorer from './EthereumContractExplorer.svelte'
 	import NetworkProviderLoader from './NetworkProviderLoader.svelte'
 	import CurrentPrice from './CurrentPrice.svelte'
@@ -287,8 +289,39 @@
 					<!-- class:scrollable-list={!address && totalViewItems > 3} -->
 						<!-- No address specified - general information -->
 						{#if !address}
-							{#each contracts || [] as contract}
-								{contract}
+							<!-- {#each [
+								...(contracts ?? []),
+								...(erc20Tokens?.map(({ address }) => address) ?? []),
+								...(nfts?.map(({ address }) => address) ?? []),
+							] as contractAddress} -->
+							{#each contracts ?? [] as {
+								name,
+								address: contractAddress
+							}}
+								<EthereumAccountOrContract
+									{network}
+									addressOrEnsName={contractAddress}
+									{provider}
+								>
+									<svelte:fragment slot="title" let:network let:address>
+										<h3>
+											<Address {network} {address} let:formattedAddress>{name || formattedAddress}</Address>
+										</h3>
+									</svelte:fragment>
+
+									<svelte:fragment slot="contract-title" let:network let:address>
+										<h4>
+											<Address {network} {address}>Contract Code</Address>
+										</h4>
+									</svelte:fragment>
+								</EthereumAccountOrContract>
+								<!-- <section class="card">
+									<EthereumContractExplorer
+										{network}
+										address={contractAddress}
+										{provider}
+									/>
+								</section> -->
 							{/each}
 
 
