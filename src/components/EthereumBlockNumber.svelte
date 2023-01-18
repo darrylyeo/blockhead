@@ -107,7 +107,10 @@
 				<TweenedNumber
 					value={blockNumber}
 					formatter={formatBlockNumber}
-					showDecimalPlaces={0}
+					format={{
+						showDecimalPlaces: 0,
+						useGrouping: false,
+					}}
 					{tween}
 					duration={500}
 					padZero
@@ -124,7 +127,10 @@
 				<TweenedNumber
 					value={blockNumber}
 					formatter={formatBlockNumber}
-					showDecimalPlaces={0}
+					format={{
+						showDecimalPlaces: 0,
+						useGrouping: false,
+					}}
 					{tween}
 					duration={500}
 					padZero
