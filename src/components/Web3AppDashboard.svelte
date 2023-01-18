@@ -66,6 +66,7 @@
 	import Loader from './Loader.svelte'
 	import HeightContainer from './HeightContainer.svelte'
 	import EthereumBalancesLoader from './EthereumBalancesLoader.svelte'
+	import EthereumContractExplorer from './EthereumContractExplorer.svelte'
 	import NetworkProviderLoader from './NetworkProviderLoader.svelte'
 	import CurrentPrice from './CurrentPrice.svelte'
 	import HistoricalPriceChart from './HistoricalPriceChart.svelte'
@@ -752,8 +753,24 @@
 							{/each}
 						{/if}
 
-						{#each nfts || [] as nftContract}
-							
+						{#each nfts ?? [] as { address: contractAddress }}
+							{#if !address}
+								<section class="card">
+									<EthereumContractExplorer
+										{network}
+										address={contractAddress}
+										{provider}
+									/>
+								</section>
+							{:else}
+								<!-- <section class="card">
+									<EthereumNFTs
+										{network}
+										{address}
+										{provider}
+									/>
+								</section> -->
+							{/if}
 						{/each}
 					</div>
 				</NetworkProviderLoader>
