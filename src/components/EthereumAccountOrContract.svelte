@@ -107,14 +107,16 @@
 	>
 		<div slot="header" class="bar">
 			<div class="row-inline">
-				{#if address}
-					<h2><Address {network} {address} /></h2>
-					{#if ensName}
-						<EnsName {ensName} />
+				<slot name="title" {network} {address} {ensName}>
+					{#if address}
+						<h2><Address {network} {address} /></h2>
+						{#if ensName}
+							<EnsName {ensName} />
+						{/if}
+					{:else if ensName}
+						<h2><EnsName {ensName} /></h2>
 					{/if}
-				{:else if ensName}
-					<h2><EnsName {ensName} /></h2>
-				{/if}
+				</slot>
 				<!-- {#if isReverseResolving}
 					{#if address}
 						<h2><Address {network} {address} /></h2>
