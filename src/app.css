@@ -318,8 +318,11 @@ form:invalid button[type="submit"],
 	cursor: not-allowed !important;
 	touch-action: none;
 }
-:disabled {
-	cursor: not-allowed !important;
+
+
+:invalid {
+	/* border: red 2px solid; */
+	outline-color: red;
 }
 
 
