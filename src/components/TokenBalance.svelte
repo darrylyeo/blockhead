@@ -108,10 +108,9 @@
 				value={Math.abs(balance || 0)}
 				format={{
 					currency: symbol,
-					// showDecimalPlaces,
+					showDecimalPlaces,
 					compactLargeValues
 				}}
-				{showDecimalPlaces}
 				{tween} {clip} {transitionWidth}
 			/>
 		</span>
@@ -123,10 +122,9 @@
 				{isNegative ? '−' : ''}<TweenedNumber
 					value={Math.abs(balance || 0)}
 					format={{
-						// showDecimalPlaces,
+						showDecimalPlaces,
 						compactLargeValues
 					}}
-					{showDecimalPlaces}
 					{tween} {clip} {transitionWidth}
 				/>
 			</span>
