@@ -28,6 +28,11 @@
 				}],
 				queryFn: async () => (
 					await fetch(ipfsUrl)
+						.then(async result => {
+							if(!(result.status >= 200 && result.status < 300))
+								throw await result.text()
+							return result
+						})
 						.then(result =>
 							type === 'json' ?
 								result.json()
