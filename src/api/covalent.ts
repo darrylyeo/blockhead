@@ -90,7 +90,7 @@ export namespace Covalent {
 		token_price_wei: integer
 		token_quote_rate_eth: string
 		
-		external_data: {
+		external_data?: {
 			name: string
 			description: string
 			image: string

@@ -76,14 +76,14 @@
 		nfts: nftContractWithBalance.nft_data.map(nft => ({
 			tokenId: nft.token_id,
 			tokenUri: nft.token_url, 
-			name: nft.external_data.name,
-			description: nft.external_data.description,
-			image: nft.external_data.image,
+			name: nft.external_data?.name,
+			description: nft.external_data?.description,
+			image: nft.external_data?.image,
 
 			
 			metadata: {
 				...nft.external_data,
-				attributes: normalizeNFTAttributes(nft.external_data.attributes),
+				attributes: normalizeNFTAttributes(nft.external_data?.attributes),
 			},
 
 			owner: nft.owner,
