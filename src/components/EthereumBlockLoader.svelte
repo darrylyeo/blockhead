@@ -26,8 +26,7 @@
 		networksBySlug['bsc'],
 	]
 
-	import { promiseAllFulfilled } from '../utils/promiseAllFulfilled'
-	import { readable } from 'svelte/store'
+	import { parallelLoaderStore } from '../utils/parallelLoaderStore'
 
 
 	let block
@@ -309,35 +308,15 @@
 	<Loader
 		loadingIconName={'Moralis'}
 		loadingIcon={MoralisIcon}
-		fromStore={otherNetworks && block?.timestamp && (() => readable({ loading: true }, set => {
-			const promiseMap = new Map(
-				otherNetworks.map(network => [
-					network,
-					MoralisWeb3Api.dateToBlock.getDateToBlock({
-						chain: chainCodeFromNetwork(network),
-						date: block.timestamp
-					})
-				])
-			)
-
+		fromStore={otherNetworks && block?.timestamp && (() =>
 			// <Awaited<ReturnType<typeof MoralisWeb3Api.dateToBlock.getDateToBlock>>[]>
-			let results = new Map
-
-			for (const [network, promise] of promiseMap.entries())
-				promise.then(result => {
-					results.set(network, result)
-					set({
-						loading: true,
-						data: results
-					})
+			parallelLoaderStore(otherNetworks, network => (
+				MoralisWeb3Api.dateToBlock.getDateToBlock({
+					chain: chainCodeFromNetwork(network),
+					date: block.timestamp
 				})
-				.catch(console.error)
-
-			promiseAllFulfilled([...promiseMap.values()]).then(() => set({
-				loading: false,
-				data: results
-			}))
-		}))}
+			))
+		)}
 		then={closestBlockByNetwork => [...closestBlockByNetwork?.entries()].filter(([network, { block: blockNumber }]) => blockNumber > 0) ?? []}
 		let:result={networksAndClosestBlock}
 		showIf={networksAndClosestBlock => networksAndClosestBlock?.length}
