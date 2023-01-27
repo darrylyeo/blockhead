@@ -728,15 +728,9 @@ export const Zapper = new V2(client)
 // Utils
 
 import { ConcurrentPromiseQueue } from '../../utils/concurrent-promise-queue'
+import { promiseAllFulfilled } from '../../utils/promiseAllFulfilled'
 
 const queue = new ConcurrentPromiseQueue(3)
-
-const PromiseAllFulfilled = <T>(promises: Promise<T>[]) =>
-	Promise.allSettled<T>(promises).then(results =>
-		Object.values(results)
-			.filter(({ status }) => status === 'fulfilled')
-			.map(({ value }) => value as T)
-	)
 
 import { readable } from 'svelte/store'
 import type { Result } from 'svelte-apollo'
@@ -863,12 +857,12 @@ export const getDefiBalancesForApps = memoizedAsync(async ({
 						results = [...results, result]
 				}))
 
-			PromiseAllFulfilled(promises).then(() => set({
+			promiseAllFulfilled(promises).then(() => set({
 				loading: false,
 				data: results
 			}))
 		})
-		: await PromiseAllFulfilled(promises)
+		: await promiseAllFulfilled(promises)
 })
 
 export const getTokenBalances = async({

@@ -19,12 +19,7 @@
 	const isAddress = query => /^0x[0-9a-f]{40}$/i.test(query)
 
 
-	const PromiseAllFulfilled = promises =>
-		Promise.allSettled(promises).then(results =>
-			Object.values(results)
-				.filter(({status}) => status === 'fulfilled')
-				.map(({value}) => value)
-		)
+	import { promiseAllFulfilled } from '../utils/promiseAllFulfilled'
 
 
 	import Loader from './Loader.svelte'
@@ -37,7 +32,7 @@
 {#if historicalPriceProvider === 'Covalent' && currencies}
 	<Loader
 		fromPromise={
-			() => PromiseAllFulfilled(
+			() => promiseAllFulfilled(
 				currencies.map(async currency => {
 					if(currency.toLowerCase() === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
 						currency = 'ETH'
