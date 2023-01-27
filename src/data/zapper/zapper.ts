@@ -737,6 +737,7 @@ import type { Result } from 'svelte-apollo'
 
 
 import { memoizedAsync } from '../../utils/memoized'
+import { parallelLoaderStore } from '../../utils/parallelLoaderStore'
 
 
 // Methods
@@ -835,6 +836,20 @@ export const getDefiBalancesForApps = memoizedAsync(async ({
 		?? apps?.map(({ appId }) => appId)
 		?? (await getAppsForNetwork(networkName)).map(({ id }) => id)
 	)
+
+	const get = (appId: typeof _appIds[number]) => (
+		queue.enqueue(async () =>
+			getDefiBalancesForApp({
+				appId,
+				networkName,
+				address
+			})
+		)
+	)
+
+	return asStore
+		? parallelLoaderStore(_appIds, get)
+		: await promiseAllFulfilled(_appIds.map(get))
 
 	const promises = _appIds.map(appId =>
 		queue.enqueue(async () =>

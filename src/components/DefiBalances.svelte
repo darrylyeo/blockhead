@@ -190,7 +190,7 @@
 				address,
 				asStore: true
 			})}
-			then={zapperDefiBalances => zapperDefiBalances.filter(({ products } ) => products.length)}
+			then={zapperDefiBalances => [...zapperDefiBalances.values()].filter(({ products } ) => products.length)}
 			bind:result={zapperDefiBalances}
 			let:result={zapperDefiBalances}
 			{isCollapsed}
