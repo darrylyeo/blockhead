@@ -17,14 +17,9 @@
 	export let showTransactions = false
 
 
-	import { networksBySlug } from '../data/ethereum/networks'
+	import { availableNetworks } from '../data/ethereum/networks'
 
-	export let navigationNetworks: Ethereum.Network[] = [
-		networksBySlug['ethereum'],
-		networksBySlug['polygon'],
-		networksBySlug['avalanche'],
-		networksBySlug['bsc'],
-	]
+	
 
 	import { parallelLoaderStore } from '../utils/parallelLoaderStore'
 
@@ -302,8 +297,8 @@
 	/>
 </div>
 
-{#if navigationNetworks && transactionProvider === 'Moralis' && block?.timestamp}
-	{@const otherNetworks = navigationNetworks.filter(_network => _network !== network)}
+{#if availableNetworks && transactionProvider === 'Moralis' && block?.timestamp}
+	{@const otherNetworks = availableNetworks.filter(_network => _network !== network)}
 
 	<Loader
 		loadingIconName={'Moralis'}
