@@ -5083,7 +5083,16 @@ export function isTestnet(network: Ethereum.Network){
 }
 
 
-export const availableNetworks = [1, 137, 10, 100, 1313161554, 25, 9001].map(chainID => networksByChainID[chainID])
+export const availableNetworks = [
+	'ethereum',
+	'polygon',
+	'gnosis',
+	'arbitrum-one',
+	'optimism',
+	'avalanche',
+	'fantom',
+	'bsc',
+].map(slug => networksBySlug[slug])
 
 
 export const ethereumAndL2Networks = [
