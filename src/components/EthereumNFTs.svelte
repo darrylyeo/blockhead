@@ -411,6 +411,7 @@
 	}
 	.show3D .nft-contract:not(:focus-within):before {
 		transform-origin: top;
+		-webkit-backdrop-filter: blur(10px);
 		backdrop-filter: blur(10px);
 	}
 	.show3D .nft {
@@ -466,6 +467,7 @@
 		-webkit-mask-position-y: calc(50% + var(--grid-height) / 2);
 		mask-position-y: calc(50% + var(--grid-height) / 2);
 
+		-webkit-backdrop-filter: blur(6px);
 		backdrop-filter: blur(6px);
 
 		transition: var(--transition-duration);

@@ -82,6 +82,7 @@
 		border-radius: 0.3em;
 	}
 	.log-event:not(.hidden):hover {
+		-webkit-backdrop-filter: contrast(1.05);
 		backdrop-filter: contrast(1.05);
 	}
 

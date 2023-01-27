@@ -108,6 +108,7 @@
 		grid-column: 2;
 		width: 21rem;
 
+		-webkit-backdrop-filter: var(--overlay-backdrop-filter);
 		backdrop-filter: var(--overlay-backdrop-filter);
 	}
 
