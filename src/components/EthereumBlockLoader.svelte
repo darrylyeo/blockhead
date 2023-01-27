@@ -26,6 +26,9 @@
 		networksBySlug['bsc'],
 	]
 
+	import { promiseAllFulfilled } from '../utils/promiseAllFulfilled'
+	import { readable } from 'svelte/store'
+
 
 	let block
 
@@ -57,17 +60,20 @@
 		margin-top: auto;
 		padding: var(--padding-outer);
 
+		background-color: rgba(0, 0, 0, 0.25);
+		-webkit-backdrop-filter: var(--overlay-backdrop-filter);
 		backdrop-filter: var(--overlay-backdrop-filter);
 		border-radius: var(--card-border-radius);
-	}
-	.navigation {
-		position: sticky;
-		/* bottom: 4rem; */
-		bottom: 0;
 		margin: 0 calc(-1 * var(--padding-outer));
+	}
+	.navigation.currentNetwork {
+		position: sticky;
+		bottom: 4rem;
+		/* bottom: 0; */
 		z-index: 1;
+	}
+	.navigation.otherNetworks {
 		font-size: 0.8em;
-		background-color: rgba(0, 0, 0, 0.25);
 	}
 	/* .navigation {
 		position: sticky;
@@ -288,31 +294,66 @@
 </div>
 
 
-<div class="navigation column">
+<div class="navigation currentNetwork column">
 	<EthereumBlockNavigation
 		{network}
 		{provider}
 		blockNumber={Number(blockNumber)}
 		showBeforeAndAfter
 	/>
-
-	{#if navigationNetworks && transactionProvider === 'Moralis' && block?.timestamp}
-		{#each navigationNetworks.filter(_network => _network !== network) as network}
-			{#await MoralisWeb3Api.dateToBlock.getDateToBlock({
-				chain: chainCodeFromNetwork(network),
-				date: block.timestamp
-			}) then {block: blockNumber, timestamp}}
-				{#if blockNumber > 1}
-					<EthereumBlockNavigation
-						{network}
-						blockNumber={blockNumber > 1 ? Number(blockNumber) : undefined}
-					/>
-				{/if}
-			{:catch error}
-				{#if error?.message}
-					{(console.error(error), error.message)}
-				{/if}
-			{/await}
-		{/each}
-	{/if}
 </div>
+
+{#if navigationNetworks && transactionProvider === 'Moralis' && block?.timestamp}
+	{@const otherNetworks = navigationNetworks.filter(_network => _network !== network)}
+
+	<Loader
+		loadingIconName={'Moralis'}
+		loadingIcon={MoralisIcon}
+		fromStore={otherNetworks && block?.timestamp && (() => readable({ loading: true }, set => {
+			const promiseMap = new Map(
+				otherNetworks.map(network => [
+					network,
+					MoralisWeb3Api.dateToBlock.getDateToBlock({
+						chain: chainCodeFromNetwork(network),
+						date: block.timestamp
+					})
+				])
+			)
+
+			// <Awaited<ReturnType<typeof MoralisWeb3Api.dateToBlock.getDateToBlock>>[]>
+			let results = new Map
+
+			for (const [network, promise] of promiseMap.entries())
+				promise.then(result => {
+					results.set(network, result)
+					set({
+						loading: true,
+						data: results
+					})
+				})
+				.catch(console.error)
+
+			promiseAllFulfilled([...promiseMap.values()]).then(() => set({
+				loading: false,
+				data: results
+			}))
+		}))}
+		then={closestBlockByNetwork => [...closestBlockByNetwork?.entries()].filter(([network, { block: blockNumber }]) => blockNumber > 0) ?? []}
+		let:result={networksAndClosestBlock}
+		showIf={networksAndClosestBlock => networksAndClosestBlock?.length}
+		clip={false}
+	>
+		<svelte:fragment slot="loadingMessage">
+			Finding blocks produced around the same time as {network.name} › Block {block.blockNumber}...
+		</svelte:fragment>
+
+		<div class="navigation otherNetworks column">
+			{#each networksAndClosestBlock as [network, {block: blockNumber, timestamp}]}
+				<EthereumBlockNavigation
+					{network}
+					blockNumber={blockNumber > 1 ? Number(blockNumber) : undefined}
+				/>
+			{/each}
+		</div>
+	</Loader>
+{/if}
