@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
+	import { updatesByNetwork } from '../data/ethereum/updates'
 
 	export let network: Ethereum.Network
 	export let block: Ethereum.Block
@@ -30,6 +31,9 @@
 	}
 
 
+	$: lastUpdate = updatesByNetwork.get(network)?.find(upgrade => block.blockNumber > upgrade.blockNumber)
+
+
 	import Address from './Address.svelte'
 	import Date from './Date.svelte'
 	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
@@ -38,7 +42,6 @@
 
 	import { scale } from 'svelte/transition'
 </script>
-
 
 
 <style>
@@ -73,40 +76,76 @@
 </style>
 
 
+{#key network}
+
 <div class="bar">
 	<h3>Network Consensus</h3>
-	{#if network.chainId === 1}
-		<span class="consensus-mechanism card-annotation">
-			Proof of Work
-			(<a href="https://eth.wiki/en/concepts/ethash/ethash" target="_blank">Ethash</a>)
+	{#if lastUpdate}
+		<span>
+			<span class="consensus-mechanism card-annotation">
+				<a href={lastUpdate.links[0]} target="_blank">{lastUpdate.name}</a>
+			</span>
+
+			<span class="consensus-mechanism card-annotation">
+				{lastUpdate.consensus.type}
+				(<a href={lastUpdate.consensus.links[0]} target="_blank">{lastUpdate.consensus.algorithm}</a>)
+			</span>
 		</span>
 	{/if}
 </div>
 
 <div class="consensus card column">
 	<div class="row">
-		<span class="miner">
-			<abbr title={'A network node that finds valid proof-of-work for new blocks, by repeated pass hashing (Ethash).\n\nSource: https://ethereum.org/en/glossary/#miner'}>Miner</abbr>
-			{#if block.minerAddress}
-				<span class="miner-address">
-					<Address 
-						{network}
-						address={block.minerAddress}
-						format="middle-truncated"
-					/>
-				</span>
-			{/if}
-		</span>
+		{#if lastUpdate?.consensus.type === 'Proof of Work'}
+			<span class="miner">
+				<abbr title={'A network node that finds valid proof-of-work for new blocks, by repeated pass hashing (Ethash).\n\nSource: https://ethereum.org/en/glossary/#miner'}>Miner</abbr>
 
-		<span>
-			discovered <abbr title={'The random value in a block that was used to satisfy the proof-of-work.\n\nSource: https://ethereum.org/en/glossary/#nonce'}>nonce</abbr>
-			<output class="nonce">{block.nonce}</output>
-		</span>
+				{#if block.minerAddress}
+					<span class="miner-address">
+						<Address 
+							{network}
+							address={block.minerAddress}
+							format="middle-truncated"
+						/>
+					</span>
+				{/if}
+			</span>
 
-		<span>
-			at <abbr title={'A network-wide setting that controls how much computation is required to produce a proof-of-work.\n\nSource: https://ethereum.org/en/glossary/#difficulty'}>difficulty</abbr>
-			<output class="difficulty">{block.difficulty}</output>
-		</span>
+			<span>
+				discovered <abbr title={'The random value in a block that was used to satisfy the proof-of-work.\n\nSource: https://ethereum.org/en/glossary/#nonce'}>nonce</abbr>
+				<output class="nonce">{block.nonce}</output>
+			</span>
+
+			<span>
+				at <abbr title={'A network-wide setting that controls how much computation is required to produce a proof-of-work.\n\nSource: https://ethereum.org/en/glossary/#difficulty'}>difficulty</abbr>
+				<output class="difficulty">{block.difficulty}</output>
+			</span>
+
+		{:else if lastUpdate?.consensus.type === 'Proof of Stake'}
+			<span class="validator">
+				<abbr title={'A node in a proof-of-stake system responsible for storing data, processing transactions, and adding new blocks to the blockchain.\n\nSource: https://ethereum.org/en/glossary/#validator'}>Validator</abbr>
+
+				{#if block.minerAddress}
+					<span class="validator-address">
+						<Address 
+							{network}
+							address={block.minerAddress}
+							format="middle-truncated"
+						/>
+					</span>
+
+					<span>
+						received fee
+						<output class="nonce">{block.nonce}</output>
+					</span>
+
+					<!-- <span>
+						proposing block
+						<output class="nonce">{block.nonce}</output>
+					</span> -->
+				{/if}
+			</span>
+		{/if}
 		
 		<span>
 			producing hash
@@ -207,3 +246,5 @@
 	</span>
 	<Date date={block.timestamp} layout="horizontal" />
 </div>
+
+{/key}
