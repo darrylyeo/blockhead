@@ -1,16 +1,9 @@
-export const animationKey = <T>(element: HTMLElement, key: T) => {
-	let previousKey = key
+import { createKeyChangeAction } from './createKeyChangeAction'
 
-	return {
-		update(key: T) {
-			if(previousKey !== key){
-				const { className } = element
-				element.className = ''
-				void element.offsetWidth
-				element.className = className
+export const animationKey = createKeyChangeAction((element) => {
+	const { className } = element
+	element.className = ''
+	void element.offsetWidth
+	element.className = className
+})
 
-				previousKey = key
-			}
-		}
-	}
-}
