@@ -45,7 +45,7 @@
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
 	<form on:submit|preventDefault={() => $addressOrEnsName = currentAddressOrEnsName}>
 		<ExplorerInput bind:value={currentAddressOrEnsName} />
-		<button>Go</button>
+		<button type="submit">Go</button>
 	</form>
 
 	<EnsResolutionLoader

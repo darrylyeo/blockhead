@@ -81,7 +81,7 @@
 		{#if $currentView === 'Dashboard' || $currentView === 'Account'}
 			<form on:submit|preventDefault={() => $addressOrEnsName = currentAddressOrEnsName}>
 				<AddressField bind:address={currentAddressOrEnsName}/>
-				<button>Go</button>
+				<button type="submit">Go</button>
 			</form>
 
 			<EnsResolutionLoader

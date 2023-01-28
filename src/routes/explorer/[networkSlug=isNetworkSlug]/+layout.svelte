@@ -111,7 +111,7 @@
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
 	<form on:submit|preventDefault={() => $query = currentQuery}>
 		<ExplorerInput bind:value={currentQuery} {placeholder} network={$explorerNetwork} />
-		<button>Go</button>
+		<button type="submit">Go</button>
 	</form>
 
 	{#if $explorerNetwork}
