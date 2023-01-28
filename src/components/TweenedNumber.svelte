@@ -87,7 +87,9 @@
 
 
 <style>
-	:global(.type-fraction) {
+	:global(.type-fraction),
+	:global(.type-group),
+	:global(.type-decimal) {
 		opacity: 0.66;
 		font-size: 0.9em;
 	}
