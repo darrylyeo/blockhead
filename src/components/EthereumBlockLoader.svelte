@@ -260,7 +260,7 @@
 						console.dir(e)
 						if(e.body){
 							const { error } = JSON.parse(e.body)
-							console.error(e, error)
+							// console.error(e, error)
 							throw error.message + Object.entries(error.data).map(([k, v]) => `\n${k}: ${v}`).join('')
 						}else{
 							throw e

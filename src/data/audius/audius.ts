@@ -207,12 +207,12 @@ const makeRequest = async <T>(endpoint: string, params: any = {}) =>
 			if(response.headers.get('content-type').includes('application/json')){
 				const json = await response.json() ?? {}
 				const {message, error, success} = json
-				console.error(message || error, endpoint, params)
+				// console.error(message || error, endpoint, params)
 				throw new Error(message || (Array.isArray(error) ? error.join('\n') : error) || json)
 			}
 			
 			const error = new DOMParser().parseFromString(await response.text(), 'text/html').documentElement.innerText.trim()
-			console.error(error, endpoint, params)
+			// console.error(error, endpoint, params)
 			throw new Error(error)
 		})
 

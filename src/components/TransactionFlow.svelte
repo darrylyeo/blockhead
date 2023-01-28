@@ -115,8 +115,8 @@
 	// }
 	// })()
 
-	$: if(errorMessage)
-		console.error(errorMessage)
+	// $: if(errorMessage)
+	// 	console.error(errorMessage)
 
 	const isValid = () => formElement?.checkValidity()
 

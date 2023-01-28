@@ -36,7 +36,7 @@ export const formatValue = (
 
 		return toParts ? formatter.formatToParts(value) : formatter.format(value)
 	}catch(e){
-		console.error(e)
+		// console.error(e)
 
 		return toParts
 			? [{type: 'integer', value: value?.toString()}] as Intl.NumberFormatPart[]

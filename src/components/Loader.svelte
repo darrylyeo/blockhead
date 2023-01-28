@@ -87,7 +87,7 @@
 
 
 	let error: LoaderError
-	$: if(error) console.error(error)
+	// $: if(error) console.error(error)
 
 	let started = startImmediately
 	$: if(started){
@@ -134,7 +134,7 @@
 
 	async function cancel(){
 		if(whenCanceled)
-			await whenCanceled().catch(console.error)
+			await whenCanceled().catch(() => {}) // .catch(console.error)
 
 		status = LoadingStatus.Idle
 
