@@ -26,6 +26,7 @@
 		})
 	)}
 	let:result={provider}
+	clip={false}
 >
 	<NetworkIcon slot="loadingIcon" {network} />
 
