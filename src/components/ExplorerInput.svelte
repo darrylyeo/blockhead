@@ -1,9 +1,14 @@
 <script lang="ts">
+	import type { Ethereum } from '../data/ethereum/types'
+
+
 	export let value: string = ''
 
 	export let required = false
 	export let autofocus = false
 	export let placeholder = 'Address (0xabcd...6789) / Transaction ID (0xabcdef...456789) / Block Number (12345678) / ENS Domain (vitalik.eth)'
+
+	export let network: Ethereum.Network
 
 
 	const explorerInputTypes = {
@@ -94,7 +99,7 @@
 					{@const type = explorerInputTypes[findMatches(_value)[0]?.type]}
 					<option
 						value={_value}
-						label={`Portfolio › ${name}  |  ${type.label}`}
+						label={`Portfolio › ${name}${type ? ` | ${network ? `${network.name} › ` : ''}${type.label}` : ''}`}
 					/>
 				{/each}
 			</optgroup>
@@ -120,7 +125,7 @@
 			{/if} -->
 			<option
 				value={_value}
-				label={`History | ${type?.label ?? ''}`}
+				label={`History${type ? ` | ${network ? `${network.name} › ` : ''}${type.label}` : ''}`}
 			/>
 				<!-- label={
 					type
