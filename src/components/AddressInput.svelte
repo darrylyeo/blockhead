@@ -2,6 +2,8 @@
 	// External state
 	export let address: string = ''
 
+	export let name: string
+	export let placeholder = "0x0000000000000000000000000000000000000000 / ens.eth"
 	export let required = false
 
 
@@ -58,10 +60,11 @@
 
 <input
 	type="text"
-	{required}
 	bind:this={inputElement}
 	bind:value
-	placeholder="0x0000000000000000000000000000000000000000 / ens.eth"
+	{name}
+	{required}
+	{placeholder}
 	pattern={pattern.source}
 	on:input={onInput}
 	on:change={onChange}

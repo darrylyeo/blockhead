@@ -263,7 +263,7 @@ input, textarea {
 	background-color: rgba(255, 255, 255, 0.975)
 }
 
-input {
+input, textarea {
 	border-radius: 0.5rem;
 	padding: 0.3em 0.7em;
 	flex-basis: 20rem;
@@ -281,6 +281,7 @@ input[type="checkbox"] {
 	transform: translateY(0.2em);
 	/* display: inline-flex;
 	align-items: center; */
+	flex-basis: auto;
 }
 
 h1 input, h2 input {

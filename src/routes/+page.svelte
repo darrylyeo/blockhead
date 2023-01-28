@@ -1,5 +1,6 @@
 <script>
 	import Preferences from '../components/Preferences.svelte'
+	import ContactForm from './ContactForm.svelte'
 
 
 	import { fly, scale, fade } from 'svelte/transition'
@@ -331,6 +332,8 @@
 		<small><a href="https://gitcoin.co/grants/2966/blockhead" target="_blank">Gitcoin Grants</a> • <a href="https://discord.gg/966eXqqq7N" target="_blank">Discord</a> • <a href="https://twitter.com/0xblockhead" target="_blank">Twitter</a></small>
 		<!-- <img src="/Blockhead-Logo.svg" alt="Blockhead Logo" width="40" /> -->
 	</footer>
+
+	<ContactForm />
 </main>
 
 <Preferences relevantPreferences={['theme', 'rpcNetwork', 'quoteCurrency']}/>
