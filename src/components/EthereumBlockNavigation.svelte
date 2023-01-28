@@ -14,12 +14,9 @@
 	// let latestBlockNumber: Ethereum.BlockNumber
 
 
-	let navElement
+	let navElement: HTMLElement
 
-	import type { Writable } from 'svelte/store'
-	import { getContext } from 'svelte'
-	const networkSlug = getContext<Writable<string>>('networkSlug')
-	const query = getContext<Writable<string>>('query')
+	import { networkSlug, query } from '../routes/explorer/_explorerParams'
 
 
 	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
