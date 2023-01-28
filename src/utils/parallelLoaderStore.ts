@@ -21,7 +21,8 @@ export const parallelLoaderStore = <T, Result>(items: T[], asyncMap: (item: T) =
 					data: results
 				})
 			})
-			.catch(console.error)
+			.catch(() => {})
+			// .catch(console.error)
 
 		promiseAllFulfilled([...promiseMap.values()]).then(() => set({
 			loading: false,
