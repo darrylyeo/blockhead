@@ -112,6 +112,8 @@
 			}}
 			transition:fly={{ x: -50, duration: 300 }}
 		>
+			<input type="hidden" name="form-name" value="contact" />
+
 			<header class="bar">
 				<h3>Stay updated!</h3>
 				<span class="card-annotation">drop your ENS for a surprise</span>

@@ -9,5 +9,16 @@
 	</head>
 	<body>
 		%sveltekit.body%
+
+		<!-- A little help for the Netlify post-processing bots -->
+		<form name="contact" netlify netlify-honeypot="blockhead" hidden>
+			<input type="text" name="name" />
+			<input type="email" name="email" required />
+			<input type="text" name="blockhead" hidden />
+			<input type="text"  name="ethereum-address" />
+			<input type="text" name="referral" required />
+			<input type="checkbox" name="role" />
+			<textarea name="message"></textarea>
+		</form>
 	</body>
 </html>
