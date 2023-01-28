@@ -195,20 +195,21 @@
 
 		<InlineContainer isOpen={summary && state !== State.Editing}>
 			<span class="summary" transition:scale>
-				<span class="account-total-value">
-					<TokenBalance symbol={quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} />
-				</span>
+				<span class="account-total-value"><TokenBalance symbol={quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} /></span>
 
 				<!-- {#if summary.filteredBalancesCount}
-					| <strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> token{summary.balancesCount === 1 ? '' : 's'}
+					│
+					<strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> token{summary.balancesCount === 1 ? '' : 's'}
 				{/if} -->
 
 				<!-- {#if summary.defiAppsCount}
-					| <strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}
+					│
+					<strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}
 				{/if} -->
 
 				{#if summary.nftsCount}
-					| <strong><TweenedNumber value={summary.nftsCount} /></strong> NFT{summary.nftsCount === 1 ? '' : 's'}
+					│
+					<strong><TweenedNumber value={summary.nftsCount} /></strong> NFT{summary.nftsCount === 1 ? '' : 's'}
 
 					<!-- {#if summary.nftContractsCount}
 						from <strong><TweenedNumber value={summary.nftContractsCount} /></strong> collection{summary.nftContractsCount === 1 ? '' : 's'}
