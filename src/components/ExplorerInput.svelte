@@ -99,7 +99,7 @@
 					{@const type = explorerInputTypes[findMatches(_value)[0]?.type]}
 					<option
 						value={_value}
-						label={`Portfolio › ${name}${type ? ` | ${network ? `${network.name} › ` : ''}${type.label}` : ''}`}
+						label={`Portfolio › ${name}${type ? ` │ ${network ? `${network.name} › ` : ''}${type.label}` : ''}`}
 					/>
 				{/each}
 			</optgroup>
@@ -125,13 +125,13 @@
 			{/if} -->
 			<option
 				value={_value}
-				label={`History${type ? ` | ${network ? `${network.name} › ` : ''}${type.label}` : ''}`}
+				label={`History${type ? ` │ ${network ? `${network.name} › ` : ''}${type.label}` : ''}`}
 			/>
 				<!-- label={
 					type
 						// ? `${type.label} (Explore › History)`
 						// ? `Explore › History (${type.label})`
-						? `Explore › History | ${type.label}`
+						? `Explore › History │ ${type.label}`
 						: 'Explore › History'
 				} -->
 		</optgroup>
