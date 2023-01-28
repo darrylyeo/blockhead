@@ -632,6 +632,8 @@ a.card {
 	--sticky-top: 0;
 	--sticky-height: var(--sticky-height-1);
 	--sticky-header-outset: calc(1.5 * var(--padding-outer));
+
+	isolation: isolate;
 }
 .sticky-layout .sticky-layout,
 .sticky-layout .sticky ~ * {
@@ -660,7 +662,7 @@ a.card {
 	position: sticky;
 	top: var(--sticky-top);
 	height: var(--sticky-height);
-	/* backdrop-filter: var(--overlay-backdrop-filter); */
+	backdrop-filter: var(--overlay-backdrop-filter);
 	z-index: calc(10 - var(--sticky-level));
 
 	/* margin: calc(-1 * var(--padding-outer) * 1);
