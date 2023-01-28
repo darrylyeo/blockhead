@@ -91,6 +91,8 @@
 		--bleed-top: 3.5rem;
 		--bleed-bottom: 3.25rem;
 
+		isolation: isolate;
+
 		margin: 0 auto;
 		width: 100%;
 		min-height: 100vh;
