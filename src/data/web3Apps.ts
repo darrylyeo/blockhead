@@ -186,8 +186,8 @@ export const web3Apps: Web3AppConfig[] = [
 	{
 		name: 'Across',
 		slug: 'across',
-		links: [''],
-		colors: [''],
+		links: [],
+		colors: [],
 		views: [
 			{
 				chainId: 1,
