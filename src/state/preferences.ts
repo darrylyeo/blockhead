@@ -151,7 +151,7 @@ export const preferencesConfig: PreferencesConfig<
 				id: 'tokenBalancesProvider',
 				name: 'Token Balances',
 				type: 'single',
-				defaultOption: 'Covalent',
+				defaultOption: 'Zapper',
 				options: [
 					// {
 					// 	id: 'onChain',
@@ -177,7 +177,7 @@ export const preferencesConfig: PreferencesConfig<
 				id: 'defiProvider',
 				name: 'DeFi Balances',
 				type: 'single',
-				defaultOption: 'Zerion DeFi SDK',
+				defaultOption: 'Zapper',
 				options: [
 					{
 						id: 'onChain',
@@ -199,7 +199,7 @@ export const preferencesConfig: PreferencesConfig<
 				id: 'nftProvider',
 				name: 'NFTs',
 				type: 'single',
-				defaultOption: 'NFTPort',
+				defaultOption: 'Covalent',
 				options: [
 					// {
 					// 	id: 'onChain',
