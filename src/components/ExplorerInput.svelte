@@ -27,8 +27,8 @@
 	}
 	type ExplorerInputType = keyof typeof explorerInputTypes
 
-	const pattern = /^(?:(?<empty>)|(?<address>0x[0-9a-fA-F]{40})|(?<transaction>0x[0-9a-fA-F]{64})|(?<blockNumber>[0-9]+)|(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test)))$/
-	const subpattern = /(?<address>0x[0-9a-fA-F]{40})|(?<transaction>0x[0-9a-fA-F]{64})|(?<blockNumber>[0-9]+)|(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))/g
+	const pattern = /^(?:(?<empty>)|(?<address>0x[0-9a-fA-F]{40})|(?<transaction>0x[0-9a-fA-F]{64})|(?<blockNumber>0|[1-9][0-9]*)|(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test)))$/
+	const subpattern = /(?<address>0x[0-9a-fA-F]{40})|(?<transaction>0x[0-9a-fA-F]{64})|(?<blockNumber>0|[1-9][0-9]*)|(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))/g
 
 	const findMatches = (value: string) =>
 		[...value.matchAll(subpattern)]
