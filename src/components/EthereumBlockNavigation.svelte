@@ -98,7 +98,7 @@
 	}} -->
 		{#if blockNumber !== 0 && !(showBeforeAndAfter && blockNumberBefore === 0)}
 			<span class="first-block" style="--block-number: {0}" transition:scaleFont>
-				<span title="Genesis {network.name} Block"><EthereumBlockNumber {network} blockNumber={0} /></span>
+				<span title="{network.name} Genesis Block"><EthereumBlockNumber {network} blockNumber={0} /></span>
 				<span>«</span>
 				<!-- <span>🔗</span> -->
 			</span>
