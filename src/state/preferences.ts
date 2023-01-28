@@ -153,21 +153,20 @@ export const preferencesConfig: PreferencesConfig<
 				type: 'single',
 				defaultOption: 'Zapper',
 				options: [
-					// {
-					// 	id: 'onChain',
-					// 	name: 'On-Chain',
-					// 	options: [
-					//	{ id: 'RPC Provider', name: 'RPC Provider + Token List' },
-
-					// 	]
-					// },
+					{
+						id: 'onChain',
+						name: 'On-Chain',
+						options: [
+							// { id: 'RPC Provider', name: 'RPC Provider + Token List' },
+							{ id: 'QuickNode', name: 'QuickNode' },
+						]
+					},
 					{
 						id: 'offChain',
 						name: 'Off-Chain',
 						options: [
 							{ id: 'Covalent', name: 'Covalent' },
 							{ id: 'Moralis', name: 'Moralis Web3 API' },
-							{ id: 'QuickNode', name: 'QuickNode' },
 							{ id: 'Zapper', name: 'Zapper' }
 						]
 					}
