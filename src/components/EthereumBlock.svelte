@@ -31,7 +31,7 @@
 	}
 
 
-	$: lastUpdate = updatesByNetwork.get(network)?.find(upgrade => block.blockNumber > upgrade.blockNumber)
+	$: lastUpdate = updatesByNetwork.get(network)?.find(upgrade => block.blockNumber >= upgrade.blockNumber)
 
 
 	import Address from './Address.svelte'
@@ -80,16 +80,11 @@
 
 <div class="bar">
 	<h3>Network Consensus</h3>
-	{#if lastUpdate}
-		<span>
-			<span class="consensus-mechanism card-annotation">
-				<a href={lastUpdate.links[0]} target="_blank">{lastUpdate.name}</a>
-			</span>
 
-			<span class="consensus-mechanism card-annotation">
-				{lastUpdate.consensus.type}
-				(<a href={lastUpdate.consensus.links[0]} target="_blank">{lastUpdate.consensus.algorithm}</a>)
-			</span>
+	{#if lastUpdate}
+		<span class="card-annotation">
+			{lastUpdate.consensus.type}
+			(<a href={lastUpdate.consensus.links[0]} target="_blank">{lastUpdate.consensus.algorithm}</a>)
 		</span>
 	{/if}
 </div>

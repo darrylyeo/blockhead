@@ -18,13 +18,15 @@
 
 
 	import { availableNetworks } from '../data/ethereum/networks'
+	import { updatesByNetwork } from '../data/ethereum/updates'
 
-	
 
 	import { parallelLoaderStore } from '../utils/parallelLoaderStore'
 
 
 	let block
+
+	$: lastUpdate = block && updatesByNetwork.get(network)?.find(upgrade => block?.blockNumber >= upgrade.blockNumber)
 
 	
 	import { useQuery } from '@sveltestack/svelte-query'
@@ -81,10 +83,15 @@
 	} */
 </style>
 
+
 <div class="block card">
 	<div class="bar">
 		<h2><EthereumBlockNumber {network} {blockNumber} /></h2>
-		<span class="card-annotation">{network.name} {blockNumber == 0 ? 'Genesis Block' : 'Block'}</span>
+		<span class="card-annotation">
+			{network.name} {blockNumber == 0 ? 'Genesis Block' : 'Block'}
+
+			{#if lastUpdate}(<a href={lastUpdate.links[0]} target="_blank">{lastUpdate.name}</a>){/if}
+		</span>
 	</div>
 
 	{#if transactionProvider === 'Covalent'}
