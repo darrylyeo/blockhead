@@ -1,8 +1,9 @@
 import type { ParamMatcher } from '@sveltejs/kit'
 
-import { isAddress } from '@ethersproject/address'
+// import { isAddress } from '@ethersproject/address'
 
 const isEthereumAddress: ParamMatcher = (param) =>
-	isAddress(param)
+	/^0x[0-9a-f]{40}$/i.test(param)
+	// isAddress(param)
 
 export const match = isEthereumAddress
