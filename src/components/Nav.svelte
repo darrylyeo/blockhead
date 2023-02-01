@@ -11,12 +11,19 @@
 		font-size: 1.2em;
 		font-weight: 300;
 		overflow: auto hidden;
+		
+		white-space: nowrap;
+		word-break: keep-all;
+	}
+	nav::-webkit-scrollbar {
+		display: none;
 	}
 
 	ul {
 		list-style-type: none;
 		display: flex;
-		align-items: stretch;
+		align-items: baseline;
+		min-width: min-content;
 	}
 	li {
 		display: flex;
@@ -28,17 +35,17 @@
 		font-size: 0.75em;
 	}
 	li.right a {
-		padding: 0.33rem;
+		padding: 0.33rem 0.66rem;
 	}
-	@media (max-width: 43rem) {
+	/* @media (max-width: 43rem) {
 		li.right {
 			display: none;
 		}
-	}
+	} */
 
 	a {
 		text-decoration: none;
-		padding: 0.75rem;
+		padding: 0.75rem 1.25rem;
 		transition: 0.2s, font-weight 0.2s;
 		display: flex;
 		align-items: center;
@@ -52,6 +59,7 @@
 
 	.logo {
 		font-size: 1.1em;
+		margin: 0 -0.25rem;
 	}
 
 
@@ -68,7 +76,7 @@
 </style>
 
 
-<nav class="bar">
+<nav>
 	<ul>
 		<li><a aria-current="{$page.url.pathname === '/' ? 'page' : undefined}" href="/"><span class="logo">Blockhead</span></a></li>
 		<li><a aria-current="{$page.url.pathname.startsWith('/portfolio') ? 'page' : undefined}" href="/portfolio">Portfolio</a></li>
