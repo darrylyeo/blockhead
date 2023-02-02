@@ -3,12 +3,13 @@
 	import type { WalletType } from '../data/ethereum/wallets'
 	import type { ConnectedAccount } from '../state/account'
 
-	import { wallets, walletsByType } from '../data/ethereum/wallets'
+	import { walletsByType } from '../data/ethereum/wallets'
 	import { networksByChainID, getNetworkColor } from '../data/ethereum/networks'
 
 
 	// External state
 	export let autoconnect = true
+	export let walletType: WalletType
 
 
 	// Internal state
@@ -17,7 +18,6 @@
 
 	// Shared state
 	export let address: string
-	export let walletType: WalletType
 
 	$: if(account?.walletConnection?.walletType)
 		walletType = account.walletConnection.walletType
@@ -43,7 +43,6 @@
 	import Address from './Address.svelte'
 	import Loader from './Loader.svelte'
 	import Icon from './Icon.svelte'
-	import HeightContainer from './HeightContainer.svelte'
 	
 
 	// Styles/animation
@@ -51,133 +50,117 @@
 </script>
 
 
-<HeightContainer class="stack">
-	{#if walletType}
-		<div class="column" transition:scale>
-			<Loader 
-				fromPromise={async () =>
-					await getWalletConnection({
-						walletType,
-						// chainId,
+<div class="column" transition:scale>
+	<Loader 
+		fromPromise={async () =>
+			await getWalletConnection({
+				walletType,
+				// chainId,
+			})
+		}
+		loadingIcon={walletsByType[walletType]?.icon}
+		loadingMessage={`Detecting ${walletsByType[walletType]?.name} connection...`}
+		let:result={walletConnection}
+	>
+		<Loader
+			fromStore={() => readable({loading: true}, set => {(async () => { // readable<Result<ConnectedAccount>>
+				try {
+					const accounts = await walletConnection.connect()
+
+					const account = {
+						walletConnection,
+						signer: getSigner(walletConnection.provider),
+						address: accounts?.[0],
+						chainId: undefined,
+					}
+
+					set({
+						loading: false,
+						data: account
+					})
+
+					const stores = walletConnection.subscribe()
+
+					stores.accounts.subscribe($accounts => set({
+						loading: false,
+						data: {
+							...account,
+							address: $accounts[0]
+						}
+					}))
+
+					stores.chainId.subscribe($chainId => set({
+						loading: false,
+						data: {
+							...account,
+							chainId: $chainId
+						}
+					}))
+				}catch(e){
+					set({
+						loading: false,
+						error: e
 					})
 				}
-				loadingIcon={walletsByType[walletType]?.icon}
-				loadingMessage={`Detecting ${walletsByType[walletType]?.name} connection...`}
-				let:result={walletConnection}
-			>
-				<Loader
-					fromStore={() => readable({loading: true}, set => {(async () => { // readable<Result<ConnectedAccount>>
-						try {
-							const accounts = await walletConnection.connect()
+			})()})}
 
-							const account = {
-								walletConnection,
-								signer: getSigner(walletConnection.provider),
-								address: accounts?.[0],
-								chainId: undefined,
-							}
+			loadingIcon={walletsByType[walletType]?.icon}
+			loadingMessage={`Connecting to ${walletsByType[walletType]?.name} via ${walletConnection.connectionType}...`}
 
-							set({
-								loading: false,
-								data: account
-							})
+			whenLoaded={() => dispatch('connect')}
 
-							const stores = walletConnection.subscribe()
+			errorMessage={`Couldn't connect your ${walletsByType[walletType]?.name} account.`}
 
-							stores.accounts.subscribe($accounts => set({
-								loading: false,
-								data: {
-									...account,
-									address: $accounts[0]
-								}
-							}))
+			whenCanceled={async () => {
+				dispatch('cancel')
+			}}
 
-							stores.chainId.subscribe($chainId => set({
-								loading: false,
-								data: {
-									...account,
-									chainId: $chainId
-								}
-							}))
-						}catch(e){
-							set({
-								loading: false,
-								error: e
-							})
-						}
-					})()})}
+			bind:result={account}
+			let:result={account}
+		>
+			{#if account}
+				<article
+					class="wallet-connection card bar"
 
-					loadingIcon={walletsByType[walletType]?.icon}
-					loadingMessage={`Connecting to ${walletsByType[walletType]?.name} via ${walletConnection.connectionType}...`}
+					title="{account.walletConnection.walletType} via {account.walletConnection.connectionType}"
 
-					whenLoaded={() => dispatch('connect')}
+					draggable={true}
+					on:dragstart={onDragStart}
 
-					errorMessage={`Couldn't connect your ${walletsByType[walletType]?.name} account.`}
-
-					whenCanceled={async () => {
-						walletType = undefined
-					}}
-
-					bind:result={account}
-					let:result={account}
+					style="--primary-color: {getNetworkColor(networksByChainID[account.chainId])}"
 				>
-					{#if account}
-						<article
-							class="wallet-connection card bar"
+					<div class="row">
+						<Icon imageSources={[walletsByType[account.walletConnection.walletType]?.icon]} />
 
-							title="{account.walletConnection.walletType} via {account.walletConnection.connectionType}"
+						<div class="column align-start">
+							{#if account.address}
+								<Address
+									address={account.address} network={networksByChainID[account.chainId]}
+									format="middle-truncated"
+								/>
+							{:else}
+								<span class="disconnected">Disconnected</span>
+							{/if}
 
-							draggable={true}
-							on:dragstart={onDragStart}
-
-							style="--primary-color: {getNetworkColor(networksByChainID[account.chainId])}"
-						>
-							<div class="row">
-								<Icon imageSources={[walletsByType[account.walletConnection.walletType]?.icon]} />
-
-								<div class="column align-start">
-									{#if account.address}
-										<Address
-											address={account.address} network={networksByChainID[account.chainId]}
-											format="middle-truncated"
-										/>
-									{:else}
-										<span class="disconnected">Disconnected</span>
-									{/if}
-
-									<span>
-										{walletsByType[account.walletConnection.walletType].name}
-										<small>({account.walletConnection.connectionType})</small>
-									</span>
-								</div>
-							</div>
-							
-							<button
-								class="small align-end"
-								on:click={async () => {
-									await account?.walletConnection.disconnect?.()
-									dispatch('disconnect')
-									walletType = undefined
-								}}
-							>✕</button>
-						</article>
-					{/if}
-				</Loader>
-			</Loader>
-		</div>
-	{:else}
-		<div class="card" transition:scale>
-			<div class="wallets">
-				{#each wallets as {type, name, icon}}
-					<button class="wallet medium row" on:click={() => walletType = type}>
-						<Icon imageSources={[icon]} title={name} />
-						{name}
-					</button>
-				{/each}
-			</div>
-		</div>
-	{/if}
-</HeightContainer>
+							<span>
+								{walletsByType[account.walletConnection.walletType].name}
+								<small>({account.walletConnection.connectionType})</small>
+							</span>
+						</div>
+					</div>
+					
+					<button
+						class="small align-end"
+						on:click={async () => {
+							await account?.walletConnection.disconnect?.()
+							dispatch('disconnect')
+						}}
+					>✕</button>
+				</article>
+			{/if}
+		</Loader>
+	</Loader>
+</div>
 
 
 <style>
@@ -201,22 +184,6 @@
 		font-weight: 200;
 		font-size: 0.75em;
 		opacity: 0.8;
-	}
-
-
-	.wallets {
-		--grid-gap: 0.66rem;
-		
-		display: flex;
-		flex-wrap: wrap;
-		margin: calc(-0.5 * var(--grid-gap));
-		gap: 0;
-	}
-	.wallet {
-		justify-content: center;
-		flex: 1 auto;
-		gap: 0.5em;
-		margin: calc(0.5 * var(--grid-gap));
 	}
 
 	small {
