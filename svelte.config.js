@@ -20,8 +20,6 @@ const config = {
 				})
 				: adapterAuto(),
 
-		trailingSlash: isStatic ? 'always' : 'never',
-
 		alias: {
 			$houdini: './$houdini',
 		},
