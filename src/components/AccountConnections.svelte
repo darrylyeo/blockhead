@@ -18,16 +18,30 @@
 	// Internal state
 	let state = State.Idle
 
+	$: triggerEvent('AccountConnections/ChangeState', {
+		state
+	})
+
 
 	// Actions
 
+	import { triggerEvent } from '../events/triggerEvent'
+
 	const addAccountConnection = (walletType: WalletType) => {
 		$accountConnections = [...$accountConnections, { walletType }]
+
+		triggerEvent('AccountConnections/AddConnection', {
+			walletType
+		})
 	}
 
 	const removeAccountConnection = (i: number) => {
 		const deletedAccountConnection = $accountConnections[i]
 		$accountConnections = [...$accountConnections.slice(0, i), ...$accountConnections.slice(i + 1)]
+
+		triggerEvent('AccountConnections/DeleteConnection', {
+			walletType: deletedAccountConnection.walletType
+		})
 	}
 
 	// Components

@@ -1,5 +1,6 @@
 import type { Ethereum } from '../data/ethereum/types'
 import type { State as PortfolioState } from '../components/Portfolio.svelte'
+import type { WalletType } from '../data/ethereum/wallets'
 
 export type Events = {
 	'Home/LogoMousedown': {},
@@ -37,6 +38,16 @@ export type Events = {
 		chainId: Ethereum.ChainID,
 		sectionType: 'Balances' | 'DeFi' | 'NFTs',
 		sectionIsShowing: boolean,
+	},
+
+	'AccountConnections/ChangeState': {
+		state: PortfolioState
+	},
+	'AccountConnections/AddConnection': {
+		walletType: WalletType,
+	},
+	'AccountConnections/DeleteConnection': {
+		walletType: WalletType,
 	},
 }
 
