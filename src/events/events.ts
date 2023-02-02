@@ -1,3 +1,6 @@
+import type { Ethereum } from '../data/ethereum/types'
+import type { State as PortfolioState } from '../components/Portfolio.svelte'
+
 export type Events = {
 	'Home/LogoMousedown': {},
 
@@ -12,6 +15,18 @@ export type Events = {
 	'Portfolios/DeletePortfolio': {
 		portfolioAccountsCount: number,
 		newPortfolioCount: number,
+	},
+
+	'Portfolio/ChangeState': {
+		state: PortfolioState
+	},
+	'Portfolio/AddAccount': {
+		accountChainIds: Ethereum.ChainID[],
+		newPortfolioAccountsCount: number,
+	},
+	'Portfolio/DeleteAccount': {
+		accountChainIds: Ethereum.ChainID[],
+		newPortfolioAccountsCount: number,
 	},
 }
 
