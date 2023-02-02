@@ -31,7 +31,7 @@
 	}
 
 	// Components
-	import ConnectAccount from './ConnectAccount.svelte'
+	import AccountConnection from './AccountConnection.svelte'
 	import HeightContainer from './HeightContainer.svelte'
 	import Icon from './Icon.svelte'
 
@@ -101,7 +101,7 @@
 	</HeightContainer>
 
 	{#each $accountConnections as { walletType }, i}
-		<ConnectAccount
+		<AccountConnection
 			{walletType}
 			bind:account={$connectedAccounts[i]}
 			on:disconnect={() => removeAccountConnection(i)}
