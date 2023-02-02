@@ -352,14 +352,15 @@
 					showDeFi = !showDeFi
 				else if(sectionType === 'NFTs')
 					showNFTs = !showNFTs
-				
+
+				// Value isn't yet mutated, invert
 				triggerEvent('PortfolioAccount/ToggleSection', {
 					chainId: chainID,
 					sectionType,
 					sectionIsShowing: {
-						'Balances': showBalances,
-						'DeFi': showDeFi,
-						'NFTs': showNFTs,
+						'Balances': !showBalances,
+						'DeFi': !showDeFi,
+						'NFTs': !showNFTs,
 					}[sectionType],
 				})
 			}}
