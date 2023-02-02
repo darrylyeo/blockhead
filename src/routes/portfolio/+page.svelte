@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getContext } from 'svelte'
-
+	
 	import type { Ethereum } from '../../data/ethereum/types'
 	import { Portfolio, getLocalPortfolios } from '../../state/portfolio-accounts'
 	import { preferences } from '../../state/preferences'
@@ -15,15 +15,31 @@
 	$: portfolioProvider = $ethereumProvider
 	
 	const localPortfolios = getLocalPortfolios()
-	function addPortfolio(){
+
+
+	import { triggerEvent } from '../../events/triggerEvent'
+
+	const addPortfolio = () => {
 		$localPortfolios = [...$localPortfolios, new Portfolio()]
+
+		triggerEvent('Portfolios/AddPortfolio', {
+			newPortfolioCount: $localPortfolios.length
+		})
 	}
-	function deletePortfolio(i){
+
+	const deletePortfolio = (i: number) => {
+		const deletedPortfolio = $localPortfolios[i]
 		$localPortfolios = [...$localPortfolios.slice(0, i), ...$localPortfolios.slice(i + 1)]
+
+		triggerEvent('Portfolios/DeletePortfolio', {
+			portfolioAccountsCount: deletedPortfolio.accounts.length,
+			newPortfolioCount: $localPortfolios.length,
+		})
 	}
 
 	$: if(localPortfolios && !$localPortfolios.length)
 		addPortfolio()
+
 
 	$: network = networksByChainID[$ethereumChainID]
 
@@ -57,6 +73,7 @@
 					on:delete={e => deletePortfolio(i)}
 				/>
 			{/each}
+
 			{#if $localPortfolios[$localPortfolios.length - 1]?.accounts.length}
 				<button on:click={() => addPortfolio()}>+ Create Another Portfolio</button>
 			{/if}
