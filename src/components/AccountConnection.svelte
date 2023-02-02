@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Constants/types
-	import type { WalletType } from '../data/ethereum/wallets'
+	import type { WalletConnection, WalletType } from '../data/ethereum/wallets'
 	import type { ConnectedAccount } from '../state/account'
 
 	import { walletsByType } from '../data/ethereum/wallets'
@@ -31,39 +31,11 @@
 	const dispatch = createEventDispatcher()
 
 	import { readable } from 'svelte/store'
-	import type { Result } from 'svelte-apollo'
 
-
-	const onDragStart = (e: DragEvent) => {
-		e.dataTransfer.setData('text/plain', account.address)
-	}
-
-
-	// Components
-	import Address from './Address.svelte'
-	import Loader from './Loader.svelte'
-	import Icon from './Icon.svelte'
-	
-
-	// Styles/animation
-	import { scale } from 'svelte/transition'
-</script>
-
-
-<div class="column" transition:scale>
-	<Loader 
-		fromPromise={async () =>
-			await getWalletConnection({
-				walletType,
-				// chainId,
-			})
-		}
-		loadingIcon={walletsByType[walletType]?.icon}
-		loadingMessage={`Detecting ${walletsByType[walletType]?.name} connection...`}
-		let:result={walletConnection}
-	>
-		<Loader
-			fromStore={() => readable({loading: true}, set => {(async () => { // readable<Result<ConnectedAccount>>
+	const getAccountConnectionStore = (walletConnection: WalletConnection) =>
+		readable(
+			{loading: true},
+			set => void (async () => { // readable<Result<ConnectedAccount>>
 				try {
 					const accounts = await walletConnection.connect()
 
@@ -102,7 +74,40 @@
 						error: e
 					})
 				}
-			})()})}
+			})()
+		)
+
+
+	const onDragStart = (e: DragEvent) => {
+		e.dataTransfer.setData('text/plain', account.address)
+	}
+
+
+	// Components
+	import Address from './Address.svelte'
+	import Loader from './Loader.svelte'
+	import Icon from './Icon.svelte'
+	
+
+	// Styles/animation
+	import { scale } from 'svelte/transition'
+</script>
+
+
+<div class="column" transition:scale>
+	<Loader 
+		fromPromise={async () =>
+			await getWalletConnection({
+				walletType,
+				// chainId,
+			})
+		}
+		loadingIcon={walletsByType[walletType]?.icon}
+		loadingMessage={`Detecting ${walletsByType[walletType]?.name} connection...`}
+		let:result={walletConnection}
+	>
+		<Loader
+			fromStore={() => getAccountConnectionStore(walletConnection)}
 
 			loadingIcon={walletsByType[walletType]?.icon}
 			loadingMessage={`Connecting to ${walletsByType[walletType]?.name} via ${walletConnection.connectionType}...`}
