@@ -140,7 +140,7 @@ export type WalletConnection = {
 	walletType: WalletType,
 	connectionType: WalletConnectionType,
 	provider: Provider,
-	connect?: () => void,
+	connect: () => void,
 	switchNetwork?: (network: Ethereum.Network) => void,
 	subscribe?: () => {
 		accounts: Readable<string[]>;
@@ -379,7 +379,7 @@ export const getWalletConnection = async ({
 			case WalletConnectionType.WalletConnect: {
 				const WalletConnectProvider = (await import('@walletconnect/web3-provider')).default
 
-				const provider: WalletConnectProvider = new WalletConnectProvider({
+				let provider: WalletConnectProvider = new WalletConnectProvider({
 					rpc: {
 						[chainId]: jsonRpcUri || '',
 					},
@@ -397,6 +397,18 @@ export const getWalletConnection = async ({
 					provider,
 
 					connect: async () => {
+						provider = new WalletConnectProvider({
+							rpc: {
+								[chainId]: jsonRpcUri || '',
+							},
+							bridge: walletConnectBridgeUri,
+		
+							// Restrict WalletConnect options to the selected wallet
+							...walletConfig.walletConnectMobileLinks
+								? { qrcodeModalOptions: { mobileLinks: walletConfig.walletConnectMobileLinks } }
+								: {},
+						})
+
 						try {
 							return await provider.enable()
 						}catch(e){

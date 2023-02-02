@@ -1,4 +1,7 @@
 <script>
+	import { triggerEvent } from '../events/triggerEvent'
+
+
 	import Preferences from '../components/Preferences.svelte'
 	import ContactForm from './ContactForm.svelte'
 
@@ -255,7 +258,11 @@
 			<b>decentralized world wide web</b>
 			with
 		</h2>
-		<div class="logo-wrapper" in:scale={{delay: 200}}>
+		<div
+			class="logo-wrapper"
+			in:scale={{delay: 200}}
+			on:mousedown={(e) => triggerEvent('Home/LogoMousedown')}
+		>
 			<h1 class="logo" data-text="Blockhead">Blockhead</h1>
 		</div>
 		<p class="description bottom" in:scale={{delay: 250}}>

@@ -1,3 +1,12 @@
+<script context="module" lang="ts">
+	export enum State {
+		Idle = 'idle',
+		Editing = 'editing',
+		Adding = 'adding'
+	}
+</script>
+
+
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { DeFiProvider } from '../data/defi-provider'
@@ -16,14 +25,15 @@
 
 	export let editable = false
 
-	enum State {
-		Idle = 'idle',
-		Editing = 'editing',
-		Adding = 'adding'
-	}
+
+	import { triggerEvent } from '../events/triggerEvent'
+
+
 	let state = State.Idle
 	$: if(editable && name === '')
 		state = State.Editing
+
+	$: triggerEvent('Portfolio/ChangeState', { state })
 
 
 	import { createEventDispatcher } from 'svelte'
@@ -38,7 +48,7 @@
 
 	let newWalletAddress = ''
 
-	function addAccount(newWalletAddress){
+	const addAccount = (newWalletAddress: Ethereum.Address) => {
 		if(!isValid(newWalletAddress))
 			return
 
@@ -47,11 +57,23 @@
 
 		const newAccount = new Account(newWalletAddress)
 		accounts = [newAccount, ...accounts]
+
+		triggerEvent('Portfolio/AddAccount', {
+			accountChainIds: newAccount.networks.map(({ chainID }) => chainID),
+			newPortfolioAccountsCount: accounts.length,
+		})
 	}
 
-	function deleteAccount(i){
+	const deleteAccount = (i: number) => {
 		delayStartIndex = i
+
+		const deletedAccount = accounts[i]
 		accounts = [...accounts.slice(0, i), ...accounts.slice(i + 1)]
+
+		triggerEvent('Portfolio/DeleteAccount', {
+			accountChainIds: deletedAccount.networks.map(({ chainID }) => chainID),
+			newPortfolioAccountsCount: accounts.length,
+		})
 	}
 	
 	
