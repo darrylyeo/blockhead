@@ -81,19 +81,19 @@
 
 					const stores = walletConnection.subscribe()
 
-					stores.accounts.subscribe($accounts => set({
+					stores.accounts.subscribe(accounts => set({
 						loading: false,
 						data: {
 							...account,
-							address: $accounts[0]
+							address: accounts[0]
 						}
 					}))
 
-					stores.chainId.subscribe($chainId => set({
+					stores.chainId.subscribe(chainId => set({
 						loading: false,
 						data: {
 							...account,
-							chainId: $chainId
+							chainId
 						}
 					}))
 				}catch(e){
