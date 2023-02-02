@@ -66,7 +66,7 @@
 
 	// Components
 
-	import ConnectedAccounts from '../../components/ConnectedAccounts.svelte'
+	import AccountConnections from '../../components/AccountConnections.svelte'
 	import Preferences from '../../components/Preferences.svelte'
 	import InlineContainer from '../../components/InlineContainer.svelte'
 	import NetworkIcon from '../../components/NetworkIcon.svelte'
@@ -185,7 +185,7 @@
 
 <aside hidden>
 	<section class="column">
-		<ConnectedAccounts />
+		<AccountConnections />
 	</section>
 </aside>
 

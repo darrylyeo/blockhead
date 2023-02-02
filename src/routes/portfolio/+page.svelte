@@ -46,7 +46,7 @@
 
 	import PortfolioComponent from '../../components/Portfolio.svelte'
 	import Preferences from '../../components/Preferences.svelte'
-	import ConnectedAccounts from '../../components/ConnectedAccounts.svelte'
+	import AccountConnections from '../../components/AccountConnections.svelte'
 	// import WalletProviders from '../../components/WalletProviders.svelte'
 	import { fly } from 'svelte/transition'
 </script>
@@ -86,7 +86,7 @@
 
 	<aside>
 		<section class="column">
-			<ConnectedAccounts />
+			<AccountConnections />
 		</section>
 	</aside>
 </main>
