@@ -88,6 +88,9 @@
 	}
 
 
+	import { triggerEvent } from '../events/triggerEvent'
+
+
 	import { matchesMediaQuery } from '../utils/matchesMediaQuery'
 
 	const gridLayoutBreakpoint = '(min-width: 62rem)'
@@ -333,6 +336,34 @@
 			},
 			i (chainID)
 		}
+			{@const toggleNetwork = () => {
+				show = !show
+				
+				triggerEvent('PortfolioAccount/ToggleNetwork', {
+					chainId: chainID,
+					networkIsShowing: show,
+				})
+			}}
+
+			{@const toggleSection = (sectionType) => { // 'Balances' | 'DeFi' | 'NFTs'
+				if(sectionType === 'Balances')
+					showBalances = !showBalances
+				else if(sectionType === 'DeFi')
+					showDeFi = !showDeFi
+				else if(sectionType === 'NFTs')
+					showNFTs = !showNFTs
+				
+				triggerEvent('PortfolioAccount/ToggleSection', {
+					chainId: chainID,
+					sectionType,
+					sectionIsShowing: {
+						'Balances': showBalances,
+						'DeFi': showDeFi,
+						'NFTs': showNFTs,
+					}[sectionType],
+				})
+			}}
+
 			<!-- {#if isGridLayout}<hr>{/if} -->
 
 			<section
@@ -349,7 +380,7 @@
 							<Address {network} {address}>{network.name}</Address>
 						</h3>
 						<span class="card-annotation">#{network.chainId}</span>
-						<button class="small" on:click={() => show = false}>Hide Network</button>
+						<button class="small" on:click={() => toggleNetwork()}>Hide Network</button>
 					</header>
 				</SizeContainer>
 
@@ -387,7 +418,7 @@
 											{/if}
 											<InlineContainer containerClass="align-end" class="stack align-end">
 												{#if isEditing}
-													<button class="small" on:click={() => showBalances = false} transition:scale>Hide</button>
+													<button class="small" on:click={() => toggleSection('Balances')} transition:scale>Hide</button>
 												{:else}
 													<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(chainID) : toggleColumnLayoutIsSectionExpanded(`${chainID}-${'tokens'}`)} transition:scale>▼</button>
 												{/if}
@@ -452,7 +483,7 @@
 										{/if}
 										<InlineContainer containerClass="align-end" class="stack align-end">
 											{#if isEditing}
-												<button class="small" on:click={() => showDeFi = false} transition:scale>Hide</button>
+												<button class="small" on:click={() => toggleSection('DeFi')} transition:scale>Hide</button>
 											{:else}
 												<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(chainID) : toggleColumnLayoutIsSectionExpanded(`${chainID}-${'defi'}`)} transition:scale>▼</button>
 											{/if}
@@ -503,7 +534,7 @@
 										{/if}
 										<InlineContainer containerClass="align-end" class="stack align-end">
 											{#if isEditing}
-												<button class="small" on:click={() => showNFTs = false} transition:scale>Hide</button>
+												<button class="small" on:click={() => toggleSection('NFTs')} transition:scale>Hide</button>
 											{:else}
 												<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(chainID) : toggleColumnLayoutIsSectionExpanded(`${chainID}-${'nfts'}`)} transition:scale>▼</button>
 											{/if}

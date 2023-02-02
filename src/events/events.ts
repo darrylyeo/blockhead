@@ -28,6 +28,16 @@ export type Events = {
 		accountChainIds: Ethereum.ChainID[],
 		newPortfolioAccountsCount: number,
 	},
+
+	'PortfolioAccount/ToggleNetwork': {
+		chainId: Ethereum.ChainID,
+		networkIsShowing: boolean,
+	}
+	'PortfolioAccount/ToggleSection': {
+		chainId: Ethereum.ChainID,
+		sectionType: 'Balances' | 'DeFi' | 'NFTs',
+		sectionIsShowing: boolean,
+	},
 }
 
 export type EventType = keyof Events
