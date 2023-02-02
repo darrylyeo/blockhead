@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { preferences, preferencesConfig, resetPreferences } from '../state/preferences'
+	import { triggerEvent } from '../events/triggerEvent'
 
 
 	export let relevantPreferences = []
@@ -52,7 +53,11 @@
 				<label class="preference" transition:scale={{duration: 200, opacity: 0, /* delay: i * 20 + j * 10, */ easing: expoOut}} animate:flip={{duration: 250, easing: expoOut}}>
 					<span>{name}</span>
 					{#if type === 'multiple'}
-						<select bind:value={$preferences[id]} multiple>
+						<select
+							multiple
+							bind:value={$preferences[id]}
+							on:change={(e) => triggerEvent('Preferences/Change', { preferenceKey: id, preferenceValue: e.target.value })}
+						>
 							{#each options as {id, name, options, value, disabled} (id)}
 								{#if options}
 									<optgroup label={name}>
@@ -66,7 +71,15 @@
 							{/each}
 						</select>
 					{:else}
-						<select bind:value={$preferences[id]}><!--  multiple={type === 'multiple'} -->
+						<select
+							bind:value={$preferences[id]}
+							on:change={(e) => triggerEvent('Preferences/Change', {
+								preferenceSectionKey: preferencesSection.id,
+								preferenceKey: id,
+								preferenceValue: e.target.value
+							})}
+						>
+						<!--  multiple={type === 'multiple'} -->
 							{#each options as {id, name, options, value, disabled} (id)}
 								{#if options}
 									<optgroup label={name}>
