@@ -33,7 +33,11 @@
 	$: if(editable && name === '')
 		state = State.Editing
 
-	$: triggerEvent('Portfolio/ChangeState', { state })
+	let previousState: State
+	$: {
+		triggerEvent('Portfolio/ChangeState', { fromState: previousState, toState: state })
+		previousState = state
+	}
 
 
 	import { createEventDispatcher } from 'svelte'

@@ -18,9 +18,11 @@
 	// Internal state
 	let state = State.Idle
 
-	$: triggerEvent('AccountConnections/ChangeState', {
-		state
-	})
+	let previousState: State
+	$: {
+		triggerEvent('AccountConnections/ChangeState', { fromState: previousState, toState: state })
+		previousState = state
+	}
 
 
 	// Actions
