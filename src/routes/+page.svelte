@@ -323,33 +323,35 @@
 	</section>
 
 	<section>
-		<p class="description bottom" in:scale={{delay: 250}}>
+		<header>
+			<p class="description bottom" in:scale={{delay: 250}}>
 
-			<span>
-				 a
-				<b>crypto portfolio</b>,
-				<b>DeFi dashboard</b>,
-				<b>NFT viewer</b>
-				&
-				<b>data explorer</b>
-			</span>
-			<span>
-				for
-				<b style="color: var(--ethereum-blue)">Ethereum</b>,
-				<b style="color: var(--polygon-purple)">Polygon</b>,
-				<b style="color: var(--gnosis-teal)">Gnosis Chain</b>,
-				<b style="color: var(--arbitrum-blue)">Arbitrum</b>,
-				<b style="color: var(--optimism-red)">Optimism</b>,
-				<!-- <b style="color: var(--binance-gold)">BSC</b>, -->
-				<!-- <b style="color: var(--avalanche-red)">Avalanche</b>, -->
-				<b style="color: var(--fantom-blue)">Fantom</b>
-				<!-- <b style="color: var(--aurora-green)">Aurora</b>, -->
-				<!-- <b style="color: var(--cronos-blue); filter: brightness(1.75)">Cronos</b> -->
-				& the
-				<b class="metaverse">Web3 Metaverse</b>
-				<!-- <b style="color: var(--bitcoin-gold)">EVM Multiverse</b> -->
-			</span>
-		</p>
+				<span>
+					a
+					<b>crypto portfolio</b>,
+					<b>DeFi dashboard</b>,
+					<b>NFT viewer</b>
+					&
+					<b>data explorer</b>
+				</span>
+				<span>
+					for
+					<b style="color: var(--ethereum-blue)">Ethereum</b>,
+					<b style="color: var(--polygon-purple)">Polygon</b>,
+					<b style="color: var(--gnosis-teal)">Gnosis Chain</b>,
+					<b style="color: var(--arbitrum-blue)">Arbitrum</b>,
+					<b style="color: var(--optimism-red)">Optimism</b>,
+					<!-- <b style="color: var(--binance-gold)">BSC</b>, -->
+					<!-- <b style="color: var(--avalanche-red)">Avalanche</b>, -->
+					<b style="color: var(--fantom-blue)">Fantom</b>
+					<!-- <b style="color: var(--aurora-green)">Aurora</b>, -->
+					<!-- <b style="color: var(--cronos-blue); filter: brightness(1.75)">Cronos</b> -->
+					& the
+					<b class="metaverse">Web3 Metaverse</b>
+					<!-- <b style="color: var(--bitcoin-gold)">EVM Multiverse</b> -->
+				</span>
+			</p>
+		</header>
 
 		<br>
 
