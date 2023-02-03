@@ -1,79 +1,79 @@
 export type ENSDomainQuery = {
-    readonly "input": ENSDomainQuery$input,
-    readonly "result": ENSDomainQuery$result | undefined
+    readonly "input": ENSDomainQuery$input;
+    readonly "result": ENSDomainQuery$result | undefined;
 };
 
 export type ENSDomainQuery$result = {
     readonly domains: ({
-        readonly __typename: string | null,
-        readonly id: string,
-        readonly name: string | null,
-        readonly labelName: string | null,
-        readonly labelhash: string | null,
+        readonly __typename: string | null;
+        readonly id: string;
+        readonly name: string | null;
+        readonly labelName: string | null;
+        readonly labelhash: string | null;
         readonly parent: {
-            readonly id: string,
-            readonly name: string | null
-        } | null,
+            readonly id: string;
+            readonly name: string | null;
+        } | null;
         readonly subdomains: ({
-            readonly id: string,
-            readonly name: string | null
-        })[],
+            readonly id: string;
+            readonly name: string | null;
+        })[];
         readonly resolvedAddress: {
-            readonly __typename: string | null,
-            readonly id: string
-        } | null,
+            readonly __typename: string | null;
+            readonly id: string;
+        } | null;
         readonly owner: {
-            readonly __typename: string | null,
-            readonly id: string
-        },
+            readonly __typename: string | null;
+            readonly id: string;
+        };
         readonly resolver: {
-            readonly __typename: string | null,
-            readonly id: string,
+            readonly __typename: string | null;
+            readonly id: string;
             readonly domain: {
-                readonly id: string
-            } | null,
-            readonly address: string,
+                readonly id: string;
+            } | null;
+            readonly address: string;
             readonly addr: {
-                readonly id: string
-            } | null,
-            readonly texts: (string)[] | null,
-            readonly coinTypes: (string)[] | null,
+                readonly id: string;
+            } | null;
+            readonly texts: (string)[] | null;
+            readonly coinTypes: (string)[] | null;
             readonly events: ({
-                readonly id: string,
-                readonly blockNumber: number,
-                readonly transactionID: string
-            })[]
-        } | null,
-        readonly ttl: string | null,
-        readonly isMigrated: boolean,
+                readonly id: string;
+                readonly blockNumber: number;
+                readonly transactionID: string;
+            })[];
+        } | null;
+        readonly ttl: string | null;
+        readonly isMigrated: boolean;
         readonly events: ({
-            readonly __typename: string | null,
-            readonly id: string,
-            readonly blockNumber: number,
-            readonly transactionID: string
+            readonly __typename: string | null;
+            readonly id: string;
+            readonly blockNumber: number;
+            readonly transactionID: string;
         } & (({
             readonly owner: {
-                readonly id: string
-            },
-            readonly __typename: "Transfer"
+                readonly id: string;
+            };
+            readonly __typename: "Transfer";
         }) | ({
             readonly owner: {
-                readonly id: string
-            },
-            readonly __typename: "NewOwner"
+                readonly id: string;
+            };
+            readonly __typename: "NewOwner";
         }) | ({
             readonly resolver: {
-                readonly id: string,
-                readonly address: string
-            },
-            readonly __typename: "NewResolver"
+                readonly id: string;
+                readonly address: string;
+            };
+            readonly __typename: "NewResolver";
         }) | ({
-            readonly ttl: string,
-            readonly __typename: "NewTTL"
-        })))[]
-    })[]
+            readonly ttl: string;
+            readonly __typename: "NewTTL";
+        })))[];
+    })[];
 };
 
 export type ENSDomainQuery$input = {
-    name: string
+    name: string;
 };

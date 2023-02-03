@@ -1,37 +1,49 @@
-import { getMockConfig } from './test';
-export function defaultConfigValues(file) {
-    return {
-        defaultKeys: ['id'],
-        ...file,
-        types: {
-            Node: {
-                keys: ['id'],
-                resolve: {
-                    queryField: 'node',
-                    arguments: (node) => ({ id: node.id }),
-                },
-            },
-            ...file.types,
-        },
-    };
+let mockConfig = null;
+function getMockConfig() {
+  return mockConfig;
 }
-export function keyFieldsForType(configFile, type) {
-    var _a, _b;
-    return ((_b = (_a = configFile.types) === null || _a === void 0 ? void 0 : _a[type]) === null || _b === void 0 ? void 0 : _b.keys) || configFile.defaultKeys;
+function setMockConfig(config) {
+  mockConfig = config;
 }
-export function computeID(configFile, type, data) {
-    const fields = keyFieldsForType(configFile, type);
-    let id = '';
-    for (const field of fields) {
-        id += data[field] + '__';
+function defaultConfigValues(file) {
+  return {
+    defaultKeys: ["id"],
+    ...file,
+    types: {
+      Node: {
+        keys: ["id"],
+        resolve: {
+          queryField: "node",
+          arguments: (node) => ({ id: node.id })
+        }
+      },
+      ...file.types
     }
-    return id.slice(0, -2);
+  };
 }
-export async function getCurrentConfig() {
-    const mockConfig = getMockConfig();
-    if (mockConfig) {
-        return mockConfig;
-    }
-    // @ts-ignore
-    return defaultConfigValues((await import('../../../houdini.config.js')).default);
+function keyFieldsForType(configFile, type) {
+  return configFile.types?.[type]?.keys || configFile.defaultKeys;
 }
+function computeID(configFile, type, data) {
+  const fields = keyFieldsForType(configFile, type);
+  let id = "";
+  for (const field of fields) {
+    id += data[field] + "__";
+  }
+  return id.slice(0, -2);
+}
+async function getCurrentConfig() {
+  const mockConfig2 = getMockConfig();
+  if (mockConfig2) {
+    return mockConfig2;
+  }
+  return defaultConfigValues((await import("../../../houdini.config.js")).default);
+}
+export {
+  computeID,
+  defaultConfigValues,
+  getCurrentConfig,
+  getMockConfig,
+  keyFieldsForType,
+  setMockConfig
+};

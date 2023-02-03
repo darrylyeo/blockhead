@@ -80,45 +80,18 @@ export default {
     rootType: "Query",
 
     selection: {
-        domains: {
-            type: "Domain",
-            keyRaw: "domains(where: {name: $name})",
+        fields: {
+            domains: {
+                type: "Domain",
+                keyRaw: "domains(where: {name: $name})",
 
-            fields: {
-                __typename: {
-                    type: "String",
-                    keyRaw: "__typename"
-                },
-
-                id: {
-                    type: "ID",
-                    keyRaw: "id"
-                },
-
-                name: {
-                    type: "String",
-                    keyRaw: "name",
-                    nullable: true
-                },
-
-                labelName: {
-                    type: "String",
-                    keyRaw: "labelName",
-                    nullable: true
-                },
-
-                labelhash: {
-                    type: "Bytes",
-                    keyRaw: "labelhash",
-                    nullable: true
-                },
-
-                parent: {
-                    type: "Domain",
-                    keyRaw: "parent",
-                    nullable: true,
-
+                selection: {
                     fields: {
+                        __typename: {
+                            type: "String",
+                            keyRaw: "__typename"
+                        },
+
                         id: {
                             type: "ID",
                             keyRaw: "id"
@@ -128,197 +101,96 @@ export default {
                             type: "String",
                             keyRaw: "name",
                             nullable: true
-                        }
-                    }
-                },
-
-                subdomains: {
-                    type: "Domain",
-                    keyRaw: "subdomains",
-
-                    fields: {
-                        id: {
-                            type: "ID",
-                            keyRaw: "id"
                         },
 
-                        name: {
+                        labelName: {
                             type: "String",
-                            keyRaw: "name",
+                            keyRaw: "labelName",
                             nullable: true
-                        }
-                    }
-                },
-
-                resolvedAddress: {
-                    type: "Account",
-                    keyRaw: "resolvedAddress",
-                    nullable: true,
-
-                    fields: {
-                        __typename: {
-                            type: "String",
-                            keyRaw: "__typename"
                         },
 
-                        id: {
-                            type: "ID",
-                            keyRaw: "id"
-                        }
-                    }
-                },
-
-                owner: {
-                    type: "Account",
-                    keyRaw: "owner",
-
-                    fields: {
-                        __typename: {
-                            type: "String",
-                            keyRaw: "__typename"
+                        labelhash: {
+                            type: "Bytes",
+                            keyRaw: "labelhash",
+                            nullable: true
                         },
 
-                        id: {
-                            type: "ID",
-                            keyRaw: "id"
-                        }
-                    }
-                },
-
-                resolver: {
-                    type: "Resolver",
-                    keyRaw: "resolver",
-                    nullable: true,
-
-                    fields: {
-                        __typename: {
-                            type: "String",
-                            keyRaw: "__typename"
-                        },
-
-                        id: {
-                            type: "ID",
-                            keyRaw: "id"
-                        },
-
-                        domain: {
+                        parent: {
                             type: "Domain",
-                            keyRaw: "domain",
+                            keyRaw: "parent",
                             nullable: true,
 
-                            fields: {
-                                id: {
-                                    type: "ID",
-                                    keyRaw: "id"
+                            selection: {
+                                fields: {
+                                    id: {
+                                        type: "ID",
+                                        keyRaw: "id"
+                                    },
+
+                                    name: {
+                                        type: "String",
+                                        keyRaw: "name",
+                                        nullable: true
+                                    }
                                 }
                             }
                         },
 
-                        address: {
-                            type: "Bytes",
-                            keyRaw: "address"
+                        subdomains: {
+                            type: "Domain",
+                            keyRaw: "subdomains",
+
+                            selection: {
+                                fields: {
+                                    id: {
+                                        type: "ID",
+                                        keyRaw: "id"
+                                    },
+
+                                    name: {
+                                        type: "String",
+                                        keyRaw: "name",
+                                        nullable: true
+                                    }
+                                }
+                            }
                         },
 
-                        addr: {
+                        resolvedAddress: {
                             type: "Account",
-                            keyRaw: "addr",
+                            keyRaw: "resolvedAddress",
                             nullable: true,
 
-                            fields: {
-                                id: {
-                                    type: "ID",
-                                    keyRaw: "id"
+                            selection: {
+                                fields: {
+                                    __typename: {
+                                        type: "String",
+                                        keyRaw: "__typename"
+                                    },
+
+                                    id: {
+                                        type: "ID",
+                                        keyRaw: "id"
+                                    }
                                 }
                             }
-                        },
-
-                        texts: {
-                            type: "String",
-                            keyRaw: "texts",
-                            nullable: true
-                        },
-
-                        coinTypes: {
-                            type: "BigInt",
-                            keyRaw: "coinTypes",
-                            nullable: true
-                        },
-
-                        events: {
-                            type: "ResolverEvent",
-                            keyRaw: "events",
-
-                            fields: {
-                                id: {
-                                    type: "ID",
-                                    keyRaw: "id"
-                                },
-
-                                blockNumber: {
-                                    type: "Int",
-                                    keyRaw: "blockNumber"
-                                },
-
-                                transactionID: {
-                                    type: "Bytes",
-                                    keyRaw: "transactionID"
-                                },
-
-                                __typename: {
-                                    type: "String",
-                                    keyRaw: "__typename"
-                                }
-                            },
-
-                            abstract: true
-                        }
-                    }
-                },
-
-                ttl: {
-                    type: "BigInt",
-                    keyRaw: "ttl",
-                    nullable: true
-                },
-
-                isMigrated: {
-                    type: "Boolean",
-                    keyRaw: "isMigrated"
-                },
-
-                events: {
-                    type: "DomainEvent",
-                    keyRaw: "events",
-
-                    fields: {
-                        __typename: {
-                            type: "String",
-                            keyRaw: "__typename"
-                        },
-
-                        id: {
-                            type: "ID",
-                            keyRaw: "id"
-                        },
-
-                        blockNumber: {
-                            type: "Int",
-                            keyRaw: "blockNumber"
-                        },
-
-                        transactionID: {
-                            type: "Bytes",
-                            keyRaw: "transactionID"
                         },
 
                         owner: {
                             type: "Account",
                             keyRaw: "owner",
 
-                            fields: {
-                                id: {
-                                    type: "ID",
-                                    keyRaw: "id"
+                            selection: {
+                                fields: {
+                                    __typename: {
+                                        type: "String",
+                                        keyRaw: "__typename"
+                                    },
+
+                                    id: {
+                                        type: "ID",
+                                        keyRaw: "id"
+                                    }
                                 }
                             }
                         },
@@ -326,27 +198,289 @@ export default {
                         resolver: {
                             type: "Resolver",
                             keyRaw: "resolver",
+                            nullable: true,
 
-                            fields: {
-                                id: {
-                                    type: "ID",
-                                    keyRaw: "id"
-                                },
+                            selection: {
+                                fields: {
+                                    __typename: {
+                                        type: "String",
+                                        keyRaw: "__typename"
+                                    },
 
-                                address: {
-                                    type: "Bytes",
-                                    keyRaw: "address"
+                                    id: {
+                                        type: "ID",
+                                        keyRaw: "id"
+                                    },
+
+                                    domain: {
+                                        type: "Domain",
+                                        keyRaw: "domain",
+                                        nullable: true,
+
+                                        selection: {
+                                            fields: {
+                                                id: {
+                                                    type: "ID",
+                                                    keyRaw: "id"
+                                                }
+                                            }
+                                        }
+                                    },
+
+                                    address: {
+                                        type: "Bytes",
+                                        keyRaw: "address"
+                                    },
+
+                                    addr: {
+                                        type: "Account",
+                                        keyRaw: "addr",
+                                        nullable: true,
+
+                                        selection: {
+                                            fields: {
+                                                id: {
+                                                    type: "ID",
+                                                    keyRaw: "id"
+                                                }
+                                            }
+                                        }
+                                    },
+
+                                    texts: {
+                                        type: "String",
+                                        keyRaw: "texts",
+                                        nullable: true
+                                    },
+
+                                    coinTypes: {
+                                        type: "BigInt",
+                                        keyRaw: "coinTypes",
+                                        nullable: true
+                                    },
+
+                                    events: {
+                                        type: "ResolverEvent",
+                                        keyRaw: "events",
+
+                                        selection: {
+                                            fields: {
+                                                id: {
+                                                    type: "ID",
+                                                    keyRaw: "id"
+                                                },
+
+                                                blockNumber: {
+                                                    type: "Int",
+                                                    keyRaw: "blockNumber"
+                                                },
+
+                                                transactionID: {
+                                                    type: "Bytes",
+                                                    keyRaw: "transactionID"
+                                                },
+
+                                                __typename: {
+                                                    type: "String",
+                                                    keyRaw: "__typename"
+                                                }
+                                            }
+                                        },
+
+                                        abstract: true
+                                    }
                                 }
                             }
                         },
 
                         ttl: {
                             type: "BigInt",
-                            keyRaw: "ttl"
-                        }
-                    },
+                            keyRaw: "ttl",
+                            nullable: true
+                        },
 
-                    abstract: true
+                        isMigrated: {
+                            type: "Boolean",
+                            keyRaw: "isMigrated"
+                        },
+
+                        events: {
+                            type: "DomainEvent",
+                            keyRaw: "events",
+
+                            selection: {
+                                abstractFields: {
+                                    fields: {
+                                        Transfer: {
+                                            owner: {
+                                                type: "Account",
+                                                keyRaw: "owner",
+
+                                                selection: {
+                                                    fields: {
+                                                        id: {
+                                                            type: "ID",
+                                                            keyRaw: "id"
+                                                        }
+                                                    }
+                                                }
+                                            },
+
+                                            __typename: {
+                                                type: "String",
+                                                keyRaw: "__typename"
+                                            },
+
+                                            id: {
+                                                type: "ID",
+                                                keyRaw: "id"
+                                            },
+
+                                            blockNumber: {
+                                                type: "Int",
+                                                keyRaw: "blockNumber"
+                                            },
+
+                                            transactionID: {
+                                                type: "Bytes",
+                                                keyRaw: "transactionID"
+                                            }
+                                        },
+
+                                        NewOwner: {
+                                            owner: {
+                                                type: "Account",
+                                                keyRaw: "owner",
+
+                                                selection: {
+                                                    fields: {
+                                                        id: {
+                                                            type: "ID",
+                                                            keyRaw: "id"
+                                                        }
+                                                    }
+                                                }
+                                            },
+
+                                            __typename: {
+                                                type: "String",
+                                                keyRaw: "__typename"
+                                            },
+
+                                            id: {
+                                                type: "ID",
+                                                keyRaw: "id"
+                                            },
+
+                                            blockNumber: {
+                                                type: "Int",
+                                                keyRaw: "blockNumber"
+                                            },
+
+                                            transactionID: {
+                                                type: "Bytes",
+                                                keyRaw: "transactionID"
+                                            }
+                                        },
+
+                                        NewResolver: {
+                                            resolver: {
+                                                type: "Resolver",
+                                                keyRaw: "resolver",
+
+                                                selection: {
+                                                    fields: {
+                                                        id: {
+                                                            type: "ID",
+                                                            keyRaw: "id"
+                                                        },
+
+                                                        address: {
+                                                            type: "Bytes",
+                                                            keyRaw: "address"
+                                                        }
+                                                    }
+                                                }
+                                            },
+
+                                            __typename: {
+                                                type: "String",
+                                                keyRaw: "__typename"
+                                            },
+
+                                            id: {
+                                                type: "ID",
+                                                keyRaw: "id"
+                                            },
+
+                                            blockNumber: {
+                                                type: "Int",
+                                                keyRaw: "blockNumber"
+                                            },
+
+                                            transactionID: {
+                                                type: "Bytes",
+                                                keyRaw: "transactionID"
+                                            }
+                                        },
+
+                                        NewTTL: {
+                                            ttl: {
+                                                type: "BigInt",
+                                                keyRaw: "ttl"
+                                            },
+
+                                            __typename: {
+                                                type: "String",
+                                                keyRaw: "__typename"
+                                            },
+
+                                            id: {
+                                                type: "ID",
+                                                keyRaw: "id"
+                                            },
+
+                                            blockNumber: {
+                                                type: "Int",
+                                                keyRaw: "blockNumber"
+                                            },
+
+                                            transactionID: {
+                                                type: "Bytes",
+                                                keyRaw: "transactionID"
+                                            }
+                                        }
+                                    },
+
+                                    typeMap: {}
+                                },
+
+                                fields: {
+                                    __typename: {
+                                        type: "String",
+                                        keyRaw: "__typename"
+                                    },
+
+                                    id: {
+                                        type: "ID",
+                                        keyRaw: "id"
+                                    },
+
+                                    blockNumber: {
+                                        type: "Int",
+                                        keyRaw: "blockNumber"
+                                    },
+
+                                    transactionID: {
+                                        type: "Bytes",
+                                        keyRaw: "transactionID"
+                                    }
+                                }
+                            },
+
+                            abstract: true
+                        }
+                    }
                 }
             }
         }

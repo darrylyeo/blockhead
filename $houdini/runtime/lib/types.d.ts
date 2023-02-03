@@ -1,56 +1,53 @@
-import type { LoadEvent } from '@sveltejs/kit';
-import type { QueryStore, MutationStore, SubscriptionStore, FragmentStore } from '../stores';
-export type { ConfigFile } from './config';
 export declare enum CachePolicy {
     CacheOrNetwork = "CacheOrNetwork",
     CacheOnly = "CacheOnly",
     NetworkOnly = "NetworkOnly",
     CacheAndNetwork = "CacheAndNetwork"
 }
-export declare type Fragment<_Result> = {
+export type Fragment<_Result> = {
     readonly shape?: _Result;
 };
-export declare type Operation<_Result, _Input> = {
+export type Operation<_Result, _Input> = {
     readonly result: _Result;
     readonly input: _Input;
 };
-export declare type Maybe<T> = T | null | undefined;
-export declare type DocumentArtifact = FragmentArtifact | QueryArtifact | MutationArtifact | SubscriptionArtifact;
+export type Maybe<T> = T | null | undefined;
+export type DocumentArtifact = FragmentArtifact | QueryArtifact | MutationArtifact | SubscriptionArtifact;
 export declare enum ArtifactKind {
     Query = "HoudiniQuery",
-    Subcription = "HoudiniSubscription",
+    Subscription = "HoudiniSubscription",
     Mutation = "HoudiniMutation",
     Fragment = "HoudiniFragment"
 }
 export declare const CompiledFragmentKind = ArtifactKind.Fragment;
 export declare const CompiledMutationKind = ArtifactKind.Mutation;
 export declare const CompiledQueryKind = ArtifactKind.Query;
-export declare const CompiledSubscriptionKind = ArtifactKind.Subcription;
-export declare type CompiledDocumentKind = ArtifactKind;
-export declare type QueryArtifact = BaseCompiledDocument & {
+export declare const CompiledSubscriptionKind = ArtifactKind.Subscription;
+export type CompiledDocumentKind = ArtifactKind;
+export type QueryArtifact = BaseCompiledDocument & {
     kind: ArtifactKind.Query;
     policy?: CachePolicy;
     partial?: boolean;
 };
-export declare type MutationArtifact = BaseCompiledDocument & {
+export type MutationArtifact = BaseCompiledDocument & {
     kind: ArtifactKind.Mutation;
 };
-export declare type FragmentArtifact = BaseCompiledDocument & {
+export type FragmentArtifact = BaseCompiledDocument & {
     kind: ArtifactKind.Fragment;
 };
-export declare type SubscriptionArtifact = BaseCompiledDocument & {
-    kind: ArtifactKind.Subcription;
+export type SubscriptionArtifact = BaseCompiledDocument & {
+    kind: ArtifactKind.Subscription;
 };
 export declare enum RefetchUpdateMode {
     append = "append",
     prepend = "prepend",
     replace = "replace"
 }
-export declare type InputObject = {
+export type InputObject = {
     fields: Record<string, string>;
     types: Record<string, Record<string, string>>;
 };
-export declare type BaseCompiledDocument = {
+export type BaseCompiledDocument = {
     name: string;
     raw: string;
     hash: string;
@@ -69,14 +66,13 @@ export declare type BaseCompiledDocument = {
         direction?: 'forward' | 'backwards';
     };
 };
-export declare type GraphQLTagResult = QueryStore<any, any> | FragmentStore<any> | MutationStore<any, any, any> | SubscriptionStore<any, any>;
-export declare type HoudiniFetchContext = {
+export type HoudiniFetchContext = {
     variables: () => {};
 };
-declare type Filter = {
+type Filter = {
     [key: string]: string | boolean | number;
 };
-export declare type ListWhen = {
+export type ListWhen = {
     must?: Filter;
     must_not?: Filter;
 };
@@ -94,7 +90,7 @@ export declare enum DataSource {
      */
     Ssr = "ssr"
 }
-export declare type MutationOperation = {
+export type MutationOperation = {
     action: 'insert' | 'remove' | 'delete' | 'toggle';
     list?: string;
     type?: string;
@@ -103,45 +99,75 @@ export declare type MutationOperation = {
         value: string;
     };
     position?: 'first' | 'last';
+    target?: 'all';
     when?: ListWhen;
 };
-export declare type GraphQLObject = {
+export type GraphQLObject = {
     [key: string]: GraphQLValue;
 };
-export declare type GraphQLValue = number | string | boolean | null | GraphQLObject | GraphQLValue[] | undefined;
-export declare type SubscriptionSelection = {
-    [field: string]: {
-        type: string;
-        nullable?: boolean;
-        keyRaw: string;
-        operations?: MutationOperation[];
-        list?: {
-            name: string;
-            connection: boolean;
+export type GraphQLValue = number | string | boolean | null | GraphQLObject | GraphQLValue[] | undefined;
+export type SubscriptionSelection = {
+    fields?: {
+        [fieldName: string]: {
             type: string;
-        };
-        update?: RefetchUpdateMode;
-        filters?: {
-            [key: string]: {
-                kind: 'Boolean' | 'String' | 'Float' | 'Int' | 'Variable';
-                value: string | number | boolean;
+            nullable?: boolean;
+            keyRaw: string;
+            operations?: MutationOperation[];
+            list?: {
+                name: string;
+                connection: boolean;
+                type: string;
             };
+            update?: RefetchUpdateMode;
+            filters?: {
+                [key: string]: {
+                    kind: 'Boolean' | 'String' | 'Float' | 'Int' | 'Variable';
+                    value: string | number | boolean;
+                };
+            };
+            selection?: SubscriptionSelection;
+            abstract?: boolean;
         };
-        fields?: SubscriptionSelection;
-        abstract?: boolean;
+    };
+    abstractFields?: {
+        fields: {
+            [typeName: string]: SubscriptionSelection['fields'];
+        };
+        typeMap: {
+            [typeName: string]: string;
+        };
     };
 };
-export declare type SubscriptionSpec = {
+export type SubscriptionSpec = {
     rootType: string;
     selection: SubscriptionSelection;
     set: (data: any) => void;
     parentID?: string;
     variables?: () => any;
 };
-export declare type VariableFunction<_Params extends Record<string, string>, _Input> = (event: LoadEvent<_Params>) => _Input | Promise<_Input>;
-export declare type AfterLoadFunction<_Params extends Record<string, string>, _Data, _Input, _ReturnType extends Record<string, any>> = (args: {
-    event: LoadEvent<_Params>;
-    data: _Data;
-    input: _Input;
-}) => _ReturnType;
-export declare type BeforeLoadFunction<_Params extends Record<string, string>, _ReturnType extends Record<string, any> | void> = (event: LoadEvent<_Params>) => _ReturnType;
+export type FetchQueryResult<_Data> = {
+    result: RequestPayload<_Data | null>;
+    source: DataSource | null;
+    partial: boolean;
+};
+export type QueryResult<_Data, _Input, _Extra = {}> = {
+    data: _Data | null;
+    errors: {
+        message: string;
+    }[] | null;
+    fetching: boolean;
+    partial: boolean;
+    source: DataSource | null;
+    variables: _Input;
+} & _Extra;
+export type RequestPayload<_Data = any> = {
+    data: _Data | null;
+    errors: {
+        message: string;
+    }[] | null;
+};
+export type RequestPayloadMagic<_Data = any> = {
+    ssr: boolean;
+    body: RequestPayload<_Data>;
+};
+export {};

@@ -1,39 +1,40 @@
-export var CachePolicy;
-(function (CachePolicy) {
-    CachePolicy["CacheOrNetwork"] = "CacheOrNetwork";
-    CachePolicy["CacheOnly"] = "CacheOnly";
-    CachePolicy["NetworkOnly"] = "NetworkOnly";
-    CachePolicy["CacheAndNetwork"] = "CacheAndNetwork";
-})(CachePolicy || (CachePolicy = {}));
-export var ArtifactKind;
-(function (ArtifactKind) {
-    ArtifactKind["Query"] = "HoudiniQuery";
-    ArtifactKind["Subcription"] = "HoudiniSubscription";
-    ArtifactKind["Mutation"] = "HoudiniMutation";
-    ArtifactKind["Fragment"] = "HoudiniFragment";
-})(ArtifactKind || (ArtifactKind = {}));
-export const CompiledFragmentKind = ArtifactKind.Fragment;
-export const CompiledMutationKind = ArtifactKind.Mutation;
-export const CompiledQueryKind = ArtifactKind.Query;
-export const CompiledSubscriptionKind = ArtifactKind.Subcription;
-export var RefetchUpdateMode;
-(function (RefetchUpdateMode) {
-    RefetchUpdateMode["append"] = "append";
-    RefetchUpdateMode["prepend"] = "prepend";
-    RefetchUpdateMode["replace"] = "replace";
-})(RefetchUpdateMode || (RefetchUpdateMode = {}));
-export var DataSource;
-(function (DataSource) {
-    /**
-     * from the browser cache
-     */
-    DataSource["Cache"] = "cache";
-    /**
-     * from a browser side `fetch`
-     */
-    DataSource["Network"] = "network";
-    /**
-     * from a server side `fetch`
-     */
-    DataSource["Ssr"] = "ssr";
-})(DataSource || (DataSource = {}));
+var CachePolicy = /* @__PURE__ */ ((CachePolicy2) => {
+  CachePolicy2["CacheOrNetwork"] = "CacheOrNetwork";
+  CachePolicy2["CacheOnly"] = "CacheOnly";
+  CachePolicy2["NetworkOnly"] = "NetworkOnly";
+  CachePolicy2["CacheAndNetwork"] = "CacheAndNetwork";
+  return CachePolicy2;
+})(CachePolicy || {});
+var ArtifactKind = /* @__PURE__ */ ((ArtifactKind2) => {
+  ArtifactKind2["Query"] = "HoudiniQuery";
+  ArtifactKind2["Subscription"] = "HoudiniSubscription";
+  ArtifactKind2["Mutation"] = "HoudiniMutation";
+  ArtifactKind2["Fragment"] = "HoudiniFragment";
+  return ArtifactKind2;
+})(ArtifactKind || {});
+const CompiledFragmentKind = "HoudiniFragment" /* Fragment */;
+const CompiledMutationKind = "HoudiniMutation" /* Mutation */;
+const CompiledQueryKind = "HoudiniQuery" /* Query */;
+const CompiledSubscriptionKind = "HoudiniSubscription" /* Subscription */;
+var RefetchUpdateMode = /* @__PURE__ */ ((RefetchUpdateMode2) => {
+  RefetchUpdateMode2["append"] = "append";
+  RefetchUpdateMode2["prepend"] = "prepend";
+  RefetchUpdateMode2["replace"] = "replace";
+  return RefetchUpdateMode2;
+})(RefetchUpdateMode || {});
+var DataSource = /* @__PURE__ */ ((DataSource2) => {
+  DataSource2["Cache"] = "cache";
+  DataSource2["Network"] = "network";
+  DataSource2["Ssr"] = "ssr";
+  return DataSource2;
+})(DataSource || {});
+export {
+  ArtifactKind,
+  CachePolicy,
+  CompiledFragmentKind,
+  CompiledMutationKind,
+  CompiledQueryKind,
+  CompiledSubscriptionKind,
+  DataSource,
+  RefetchUpdateMode
+};

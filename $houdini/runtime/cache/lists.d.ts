@@ -6,7 +6,7 @@ export declare class ListManager {
     constructor(cache: Cache, rootID: string);
     lists: Map<string, Map<string, ListCollection>>;
     private listsByField;
-    get(listName: string, id?: string | {}): ListCollection | null | undefined;
+    get(listName: string, id?: string, allLists?: boolean): ListCollection | null | undefined;
     remove(listName: string, id: string): void;
     add(list: {
         name: string;

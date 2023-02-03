@@ -2,8 +2,8 @@ import { Cache } from './cache';
 export declare class GarbageCollector {
     cache: Cache;
     private lifetimes;
-    readonly cacheBufferSize: number;
-    constructor(cache: Cache, bufferSize?: number);
+    get cacheBufferSize(): number;
+    constructor(cache: Cache);
     resetLifetime(id: string, field: string): void;
     tick(): void;
 }

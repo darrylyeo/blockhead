@@ -1,12 +1,13 @@
-import { ConfigFile } from '../lib';
+import { ConfigFile } from '../lib/config';
 import { GraphQLObject, GraphQLValue, SubscriptionSelection, SubscriptionSpec } from '../lib/types';
 import { GarbageCollector } from './gc';
 import { ListCollection, ListManager } from './lists';
+import { SchemaManager } from './schema';
 import { InMemoryStorage, Layer, LayerID } from './storage';
 import { InMemorySubscriptions } from './subscription';
 export declare class Cache {
     _internal_unstable: CacheInternal;
-    constructor(config: ConfigFile);
+    constructor(config?: ConfigFile);
     write({ layer: layerID, notifySubscribers, ...args }: {
         data: {
             [key: string]: GraphQLValue;
@@ -25,7 +26,7 @@ export declare class Cache {
     };
     subscribe(spec: SubscriptionSpec, variables?: {}): void;
     unsubscribe(spec: SubscriptionSpec, variables?: {}): void;
-    list(name: string, parentID?: string | {}): ListCollection;
+    list(name: string, parentID?: string, allLists?: boolean): ListCollection;
     delete(id: string): void;
     setConfig(config: ConfigFile): void;
 }
@@ -37,16 +38,17 @@ declare class CacheInternal {
     lists: ListManager;
     cache: Cache;
     lifetimes: GarbageCollector;
-    constructor({ config, storage, subscriptions, lists, cache, lifetimes, }: {
+    schema: SchemaManager;
+    constructor({ storage, subscriptions, lists, cache, lifetimes, schema, }: {
         storage: InMemoryStorage;
-        config: ConfigFile;
         subscriptions: InMemorySubscriptions;
         lists: ListManager;
         cache: Cache;
         lifetimes: GarbageCollector;
+        schema: SchemaManager;
     });
     setConfig(config: ConfigFile): void;
-    writeSelection({ data, selection, variables, root, parent, applyUpdates, layer, toNotify, forceNotify, }: {
+    writeSelection({ data, selection, variables, parent, applyUpdates, layer, toNotify, forceNotify, }: {
         data: {
             [key: string]: GraphQLValue;
         };
@@ -104,5 +106,5 @@ declare class CacheInternal {
     collectGarbage(): void;
 }
 export declare const rootID = "_ROOT_";
-export declare type LinkedList<_Result = string> = (_Result | null | LinkedList<_Result>)[];
+export type LinkedList<_Result = string> = (_Result | null | LinkedList<_Result>)[];
 export {};

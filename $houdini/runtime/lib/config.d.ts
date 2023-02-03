@@ -1,33 +1,22 @@
-/// <reference types="node" />
-import type { GraphQLSchema } from 'graphql';
+import { GraphQLSchema } from 'graphql';
 import { CachePolicy } from './types';
-export declare type ScalarSpec = {
-    type: string;
-    marshal?: (val: any) => any;
-    unmarshal?: (val: any) => any;
-};
-declare type ScalarMap = {
-    [typeName: string]: ScalarSpec;
-};
-export declare type ConfigFile = {
-    /**
-     * A relative path from your houdini.config.js to the file that exports your client as its default value
-     */
-    client: string;
-    /**
-     * @deprecated use include instead. although you might not need it at all, check the default value.
-     */
-    sourceGlob?: string;
+export declare function getMockConfig(): ConfigFile | null;
+export declare function setMockConfig(config: ConfigFile | null): void;
+export declare function defaultConfigValues(file: ConfigFile): ConfigFile;
+export declare function keyFieldsForType(configFile: ConfigFile, type: string): string[];
+export declare function computeID(configFile: ConfigFile, type: string, data: any): string;
+export declare function getCurrentConfig(): Promise<ConfigFile>;
+export type ConfigFile = {
     /**
      * A glob pointing to all files that houdini should consider. Note, this must include .js files
      * for inline queries to work
      * @default `src/** /*.{svelte,graphql,gql,ts,js}`
      */
-    include?: string;
+    include?: string | string[];
     /**
      * A pattern used to remove matches from files that satisfy the include value
      */
-    exclude?: string;
+    exclude?: string | string[];
     /**
      * A static representation of your schema
      * @example path: `schema.graphql`
@@ -45,11 +34,7 @@ export declare type ConfigFile = {
     /**
      * A url to use to pull the schema. For more information: https://www.houdinigraphql.com/api/cli#generate
      */
-    apiUrl?: string;
-    /**
-     * A boolean that tells the preprocessor to treat every component as a non-route. This is useful for projects built with the static-adapter
-     */
-    static?: boolean;
+    apiUrl?: string | ((env: Record<string, string | undefined>) => string);
     /**
      * An object describing custom scalars for your project. For more information: https://www.houdinigraphql.com/api/config#custom-scalars
      */
@@ -59,11 +44,12 @@ export declare type ConfigFile = {
      */
     definitionsPath?: string;
     /**
-     * One of "kit" or "svelte". Used to tell the preprocessor what kind of loading paradigm to generate for you. (default: kit)
+     * One of "kit" or "svelte". Used to tell the preprocessor what kind of loading paradigm to generate for you. (default: `kit`)
+     * @deprecated please follow the steps here: http://www.houdinigraphql.com/guides/release-notes#0170
      */
     framework?: 'kit' | 'svelte';
     /**
-     * One of "esm" or "commonjs". Tells the artifact generator what kind of modules to create. (default: esm)
+     * One of "esm" or "commonjs". Tells the artifact generator what kind of modules to create. (default: `esm`)
      */
     module?: 'esm' | 'commonjs';
     /**
@@ -75,9 +61,17 @@ export declare type ConfigFile = {
      */
     defaultCachePolicy?: CachePolicy;
     /**
-     * Specifies wether or not the cache should always use partial data. For more information: https://www.houdinigraphql.com/guides/caching-data#partial-data
+     * Specifies whether or not the cache should always use partial data. For more information: https://www.houdinigraphql.com/guides/caching-data#partial-data
      */
     defaultPartial?: boolean;
+    /**
+     * Specifies whether mutations should append or prepend list. For more information: https://www.houdinigraphql.com/api/graphql (default: `append`)
+     */
+    defaultListPosition?: 'append' | 'prepend';
+    /**
+     * Specifies whether mutation should apply a specific target list. When you set `all`, it's like adding the directive `@allLists` to all _insert fragment (default: `null`)
+     */
+    defaultListTarget?: 'all' | null;
     /**
      * A list of fields to use when computing a record’s id. The default value is ['id']. For more information: https://www.houdinigraphql.com/guides/caching-data#custom-ids
      */
@@ -92,8 +86,9 @@ export declare type ConfigFile = {
     logLevel?: string;
     /**
      * A flag to specify the default fragment masking behavior.
+     * @default `enable`
      */
-    disableMasking?: boolean;
+    defaultFragmentMasking?: 'enable' | 'disable';
     /**
      * Configures the houdini plugin's schema polling behavior. By default, houdini will poll your APIs
      * during development in order to keep it's definition of your schema up to date. The schemaPollingInterval
@@ -108,34 +103,29 @@ export declare type ConfigFile = {
      * directly. If the value is a function, the current environment will be passed to your function so you can perform any
      * logic you need
      */
-    schemaPollHeaders?: Record<string, string | ((env: NodeJS.ProcessEnv) => string)>;
+    schemaPollHeaders?: Record<string, string | ((env: Record<string, string | undefined>) => string)> | ((env: Record<string, string | undefined>) => Record<string, string>);
     /**
-     * The name of the file used to define page queries.
-     * @default +page.gql
+     * An object describing the plugins enabled for the project
      */
-    pageQueryFilename?: string;
+    plugins?: HoudiniPluginConfig;
     /**
-     * The absolute path pointing to your SvelteKit project.
+     * The relative path from your houdini config file pointing to your application.
      * @default process.cwd()
      */
     projectDir?: string;
     /**
-     * The default prefix of your global stores.
-     *
-     * _Note: it's nice to have a prefix so that your editor finds all your stores by just typings this prefix_
-     * @default GQL_
+     * For now, the cache's imperative API is considered unstable. In order to suppress the warning,
+     * you must enable this flag.
      */
-    globalStorePrefix?: string;
-    /**
-     * With this enabled, errors in your query will not be thrown as exceptions. You will have to handle
-     * error state in your route components or by hand in your load (or the onError hook)
-     */
-    quietQueryErrors?: boolean;
+    acceptImperativeInstability?: boolean;
 };
-export declare type TypeConfig = {
+type ScalarMap = {
+    [typeName: string]: ScalarSpec;
+};
+export type TypeConfig = {
     [typeName: string]: {
         keys?: string[];
-        resolve: {
+        resolve?: {
             queryField: string;
             arguments?: (data: any) => {
                 [key: string]: any;
@@ -143,8 +133,11 @@ export declare type TypeConfig = {
         };
     };
 };
-export declare function defaultConfigValues(file: ConfigFile): ConfigFile;
-export declare function keyFieldsForType(configFile: ConfigFile, type: string): string[];
-export declare function computeID(configFile: ConfigFile, type: string, data: any): string;
-export declare function getCurrentConfig(): Promise<ConfigFile>;
+export type ScalarSpec = {
+    type: string;
+    marshal?: (val: any) => any;
+    unmarshal?: (val: any) => any;
+};
+export interface HoudiniPluginConfig {
+}
 export {};

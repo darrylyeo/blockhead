@@ -9,7 +9,8 @@ export const AbiChanged_orderBy = {
 export const Account_orderBy = {
     "domains": "domains",
     "id": "id",
-    "registrations": "registrations"
+    "registrations": "registrations",
+    "wrappedDomains": "wrappedDomains"
 };
 
 export const AddrChanged_orderBy = {
@@ -55,11 +56,22 @@ export const Domain_orderBy = {
     "name": "name",
     "owner": "owner",
     "parent": "parent",
+    "registration": "registration",
     "resolvedAddress": "resolvedAddress",
     "resolver": "resolver",
     "subdomainCount": "subdomainCount",
     "subdomains": "subdomains",
-    "ttl": "ttl"
+    "ttl": "ttl",
+    "wrappedDomain": "wrappedDomain"
+};
+
+export const FusesSet_orderBy = {
+    "blockNumber": "blockNumber",
+    "domain": "domain",
+    "expiry": "expiry",
+    "fuses": "fuses",
+    "id": "id",
+    "transactionID": "transactionID"
 };
 
 export const InterfaceChanged_orderBy = {
@@ -110,6 +122,25 @@ export const NameTransferred_orderBy = {
     "id": "id",
     "newOwner": "newOwner",
     "registration": "registration",
+    "transactionID": "transactionID"
+};
+
+export const NameUnwrapped_orderBy = {
+    "blockNumber": "blockNumber",
+    "domain": "domain",
+    "id": "id",
+    "owner": "owner",
+    "transactionID": "transactionID"
+};
+
+export const NameWrapped_orderBy = {
+    "blockNumber": "blockNumber",
+    "domain": "domain",
+    "expiry": "expiry",
+    "fuses": "fuses",
+    "id": "id",
+    "name": "name",
+    "owner": "owner",
     "transactionID": "transactionID"
 };
 
@@ -193,10 +224,36 @@ export const TextChanged_orderBy = {
     "id": "id",
     "key": "key",
     "resolver": "resolver",
-    "transactionID": "transactionID"
+    "transactionID": "transactionID",
+    "value": "value"
 };
 
 export const Transfer_orderBy = {
+    "blockNumber": "blockNumber",
+    "domain": "domain",
+    "id": "id",
+    "owner": "owner",
+    "transactionID": "transactionID"
+};
+
+export const VersionChanged_orderBy = {
+    "blockNumber": "blockNumber",
+    "id": "id",
+    "resolver": "resolver",
+    "transactionID": "transactionID",
+    "version": "version"
+};
+
+export const WrappedDomain_orderBy = {
+    "domain": "domain",
+    "expiryDate": "expiryDate",
+    "fuses": "fuses",
+    "id": "id",
+    "labelName": "labelName",
+    "owner": "owner"
+};
+
+export const WrappedTransfer_orderBy = {
     "blockNumber": "blockNumber",
     "domain": "domain",
     "id": "id",

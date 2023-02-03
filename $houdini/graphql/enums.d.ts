@@ -15,7 +15,8 @@ export declare enum AbiChanged_orderBy {
 export declare enum Account_orderBy {
     domains = "domains",
     id = "id",
-    registrations = "registrations"
+    registrations = "registrations",
+    wrappedDomains = "wrappedDomains"
 }
  
 export declare enum AddrChanged_orderBy {
@@ -54,16 +55,27 @@ export declare enum Domain_orderBy {
     name = "name",
     owner = "owner",
     parent = "parent",
+    registration = "registration",
     resolvedAddress = "resolvedAddress",
     resolver = "resolver",
     subdomainCount = "subdomainCount",
     subdomains = "subdomains",
-    ttl = "ttl"
+    ttl = "ttl",
+    wrappedDomain = "wrappedDomain"
 }
  
 export declare enum DomainEvent_orderBy {
     blockNumber = "blockNumber",
     domain = "domain",
+    id = "id",
+    transactionID = "transactionID"
+}
+ 
+export declare enum FusesSet_orderBy {
+    blockNumber = "blockNumber",
+    domain = "domain",
+    expiry = "expiry",
+    fuses = "fuses",
     id = "id",
     transactionID = "transactionID"
 }
@@ -116,6 +128,25 @@ export declare enum NameTransferred_orderBy {
     id = "id",
     newOwner = "newOwner",
     registration = "registration",
+    transactionID = "transactionID"
+}
+ 
+export declare enum NameUnwrapped_orderBy {
+    blockNumber = "blockNumber",
+    domain = "domain",
+    id = "id",
+    owner = "owner",
+    transactionID = "transactionID"
+}
+ 
+export declare enum NameWrapped_orderBy {
+    blockNumber = "blockNumber",
+    domain = "domain",
+    expiry = "expiry",
+    fuses = "fuses",
+    id = "id",
+    name = "name",
+    owner = "owner",
     transactionID = "transactionID"
 }
  
@@ -199,10 +230,36 @@ export declare enum TextChanged_orderBy {
     id = "id",
     key = "key",
     resolver = "resolver",
-    transactionID = "transactionID"
+    transactionID = "transactionID",
+    value = "value"
 }
  
 export declare enum Transfer_orderBy {
+    blockNumber = "blockNumber",
+    domain = "domain",
+    id = "id",
+    owner = "owner",
+    transactionID = "transactionID"
+}
+ 
+export declare enum VersionChanged_orderBy {
+    blockNumber = "blockNumber",
+    id = "id",
+    resolver = "resolver",
+    transactionID = "transactionID",
+    version = "version"
+}
+ 
+export declare enum WrappedDomain_orderBy {
+    domain = "domain",
+    expiryDate = "expiryDate",
+    fuses = "fuses",
+    id = "id",
+    labelName = "labelName",
+    owner = "owner"
+}
+ 
+export declare enum WrappedTransfer_orderBy {
     blockNumber = "blockNumber",
     domain = "domain",
     id = "id",

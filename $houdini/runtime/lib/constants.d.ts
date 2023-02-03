@@ -1,4 +1,4 @@
-export declare const siteURL = "https://houdinigraphql.com";
+export declare const siteURL = "SITE_URL";
 /**
  * @param focus example "#0160"
  */

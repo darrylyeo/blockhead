@@ -8,15 +8,13 @@
 
 	// import { queryENSDomain, queryENSDomainsContaining } from '../data/ens'
 
-	import {
-		graphql,
-		type ENSDomainQuery$input, type ENSDomainQueryStore as _ENSDomainQueryStore,
-		type ENSDomainsContainingQuery$input, type ENSDomainsContainingQueryStore as _ENSDomainsContainingQueryStore
-	} from '$houdini'
+	import { graphql } from '$houdini'
 
-	export const ENSDomainQueryVariables = ({ props: { searchQuery }}) => ({ name: searchQuery }) as ENSDomainQuery$input
-
-	const ensDomainQuery: _ENSDomainQueryStore = graphql`
+	/* @type { import('./$houdini').ENSDomainQuery } */
+	export const _ENSDomainQueryVariables = ({ props: { searchQuery } }) => ({
+		name: searchQuery
+	})
+	const ensDomainQuery = graphql(`
 		query ENSDomainQuery($name: String!) {
 			domains(where: {name: $name}) {
 				__typename
@@ -66,11 +64,13 @@
 				}
 			}
 		}
-	`
+	`)
 
-	export const ENSDomainsContainingQueryVariables = ({ props: { searchQuery }}) => ({query: searchQuery}) as ENSDomainsContainingQuery$input
-
-	const ensDomainsContainingQuery: _ENSDomainsContainingQueryStore = graphql`
+	/* @type { import('./$houdini').ENSDomainsContainingQuery } */
+	export const _ENSDomainsContainingQueryVariables = ({ props: { searchQuery } }) => ({
+		query: searchQuery
+	})
+	const ensDomainsContainingQuery = graphql(`
 		query ENSDomainsContainingQuery($query: String!) {
 			domains(where: {name_contains: $query, name_not: $query}) {
 				__typename
@@ -120,7 +120,7 @@
 				}
 			}
 		}
-	`
+	`)
 
 
 	const sortByLength = (a, b) => a.name.length - b.name.length

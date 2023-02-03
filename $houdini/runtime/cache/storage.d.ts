@@ -52,15 +52,15 @@ export declare class Layer {
     writeLayer(layer: Layer): void;
     private addFieldOperation;
 }
-declare type GraphQLField = GraphQLValue | LinkedList;
-declare type EntityMap<_Value> = {
+type GraphQLField = GraphQLValue | LinkedList;
+type EntityMap<_Value> = {
     [id: string]: {
         [field: string]: _Value;
     };
 };
-declare type EntityFieldMap = EntityMap<GraphQLField>;
-declare type LinkMap = EntityMap<string | null | LinkedList>;
-declare type OperationMap = {
+type EntityFieldMap = EntityMap<GraphQLField>;
+type LinkMap = EntityMap<string | null | LinkedList>;
+type OperationMap = {
     [id: string]: {
         deleted?: boolean;
         undoDeletesInList?: string[];
@@ -69,22 +69,22 @@ declare type OperationMap = {
         };
     };
 };
-declare type LinkedList<_Result = string> = (_Result | null | LinkedList<_Result>)[];
-declare type InsertOperation = {
+type LinkedList<_Result = string> = (_Result | null | LinkedList<_Result>)[];
+type InsertOperation = {
     kind: OperationKind.insert;
     location: OperationLocation;
     id: string;
 };
-declare type RemoveOperation = {
+type RemoveOperation = {
     kind: OperationKind.remove;
     id: string;
 };
-declare type DeleteOperation = {
+type DeleteOperation = {
     kind: OperationKind.delete;
     target: string;
 };
-declare type ListOperation = InsertOperation | RemoveOperation;
-declare type Operation = ListOperation | DeleteOperation;
+type ListOperation = InsertOperation | RemoveOperation;
+type Operation = ListOperation | DeleteOperation;
 export declare enum OperationLocation {
     start = "start",
     end = "end"
@@ -94,5 +94,5 @@ export declare enum OperationKind {
     insert = "insert",
     remove = "remove"
 }
-export declare type LayerID = number;
+export type LayerID = number;
 export {};

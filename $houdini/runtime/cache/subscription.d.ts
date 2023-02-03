@@ -16,22 +16,23 @@ export declare class InMemorySubscriptions {
             [key: string]: GraphQLValue;
         };
     }): void;
-    addFieldSubscription({ id, key, selection, spec, parentType, variables, }: {
+    addFieldSubscription({ id, key, field, spec, parentType, variables, }: {
         id: string;
         key: string;
-        selection: SubscriptionSelection[string];
+        field: Required<SubscriptionSelection>['fields'][string];
         spec: SubscriptionSpec;
         parentType: string;
         variables: GraphQLObject;
     }): void;
-    addMany({ parent, selection, variables, subscribers, }: {
+    addMany({ parent, selection, variables, subscribers, parentType, }: {
         parent: string;
         selection: SubscriptionSelection;
         variables: {};
         subscribers: SubscriptionSpec[];
+        parentType: string;
     }): void;
     get(id: string, field: string): SubscriptionSpec[];
-    remove(id: string, fields: SubscriptionSelection, targets: SubscriptionSpec[], variables: {}, visited?: string[]): void;
+    remove(id: string, selection: SubscriptionSelection, targets: SubscriptionSpec[], variables: {}, visited?: string[]): void;
     private removeSubscribers;
     removeAllSubscribers(id: string, targets?: SubscriptionSpec[], visited?: string[]): void;
 }
