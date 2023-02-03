@@ -20,7 +20,7 @@
 
 		max-width: var(--one-column-width);
 		text-align: center;
-		gap: 2.5rem;
+		gap: 5rem;
 
 		min-height: 100vh;
 		align-content: center;
@@ -38,6 +38,8 @@
 		gap: var(--padding-inner);
 		--padding-inner: 2.5rem;
 
+		justify-content: center;
+
 		cursor: default;
 		user-select: none;
 
@@ -46,11 +48,14 @@
 	}
 
 	section {
+		padding: 1rem;
 		/* transform-origin: top; */
 		/* transform: rotateX(0.01turn); */
 		transform-origin: bottom;
+		gap: 1rem;
 	}
 	.buttons {
+		--padding-inner: 0.75rem;
 		transform: rotateX(-0.01turn);
 		transform-origin: top;
 	}
@@ -60,6 +65,21 @@
 		text-shadow:
 			0 1px 1px rgba(var(--rgb-light-dark-inverse), 0.15),
 			0 0 2.5em rgba(var(--rgb-light-dark-inverse), 0.2);
+	}
+
+	#top {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		min-height: calc(100vh - 10rem);
+		gap: 2rem;
+		grid-template-rows: auto;
+	}
+	#top > :first-child {
+		margin-top: auto;
+	}
+	#top > :last-child {
+		margin-bottom: auto;
 	}
 
 
@@ -89,6 +109,7 @@
 		--is-active: 1;
 		--transition: 0.15s;
 	}
+
 	.logo, b {
 		--z: calc((1 - var(--is-active)) * 0.1em + var(--is-hovered) * 0.5rem);
 		font-size: inherit;
@@ -166,6 +187,7 @@
 		flex-wrap: wrap;
 		gap: 1rem;
 		color: rgba(var(--rgb-light-dark-inverse), 0.7);
+		font-size: 0.98em;
 	}
 	.columns > .card {
 		justify-content: center;
@@ -235,6 +257,15 @@
 	footer {
 		color: rgba(var(--rgb-light-dark-inverse), 0.7);
 	}
+
+	.icon {
+		font-size: 1.1em;
+	}
+
+	.learn-more {
+		position: sticky;
+		top: calc(100% - 1rem);
+	}
 </style>
 
 <svelte:head>
@@ -243,29 +274,55 @@
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 <!-- <main> -->
-	<header>
-		<h2 class="description top" in:scale={{delay: 150}}>
-			<b>Track</b>,
-			<b>visualize</b>
-			&
-			<b>explore</b>
+	<section id="top">
+		<header>
+			<h2 class="description top" in:scale={{delay: 150}}>
+				<b>Track</b>,
+				<b>visualize</b>
+				&
+				<b>explore</b>
+				<br>
+				<!-- the
+				<b>blockchain</b>/<b>web 3.0</b>
+				<b>metaverse</b> -->
+				<!-- <b>blockchains</b> & -->
+				the
+				<b>decentralized world wide web</b>
+				with
+			</h2>
+			<div
+				class="logo-wrapper"
+				in:scale={{delay: 200}}
+				on:mousedown={(e) => triggerEvent('Home/LogoMousedown')}
+			>
+				<h1 class="logo" data-text="Blockhead">Blockhead</h1>
+			</div>
+		</header>
+
+		<section>
+			<div class="buttons">
+				<a href="/portfolio" style="--primary-color: var(--ethereum-blue);" in:scale={{delay: 800}}><button class="large row"><span class="icon">📊</span> Create Portfolio ›</button></a>
+				<a href="/explorer" style="--primary-color: var(--arbitrum-blue);" in:scale={{delay: 850}}><button class="large row"><span class="icon">🧭</span> Explore Blockchains ›</button></a>
+				<a href="/apps" style="--primary-color: var(--gnosis-teal);" in:scale={{delay: 900}}><button class="large row"><span class="icon">📲</span> Browse Apps ›</button></a>
+			</div>
+		</section>
+
+		<footer in:scale={{delay: 1000}}>
+			<p><strong>Blockhead</strong> • created by <a href="https://darryl-yeo.com/blockhead">Darryl Yeo</a> • 2020 – 2023</p>
+			<small><a href="https://gitcoin.co/grants/2966/blockhead" target="_blank">Gitcoin Grants</a> • <a href="https://discord.gg/966eXqqq7N" target="_blank">Discord</a> • <a href="https://twitter.com/0xblockhead" target="_blank">Twitter</a></small>
+			<!-- <img src="/Blockhead-Logo.svg" alt="Blockhead Logo" width="40" /> -->
+		</footer>
+
+		<p class="learn-more card-annotation">
+			Learn more
 			<br>
-			<!-- the
-			<b>blockchain</b>/<b>web 3.0</b>
-			<b>metaverse</b> -->
-			<!-- <b>blockchains</b> & -->
-			the
-			<b>decentralized world wide web</b>
-			with
-		</h2>
-		<div
-			class="logo-wrapper"
-			in:scale={{delay: 200}}
-			on:mousedown={(e) => triggerEvent('Home/LogoMousedown')}
-		>
-			<h1 class="logo" data-text="Blockhead">Blockhead</h1>
-		</div>
+			﹀
+		</p>
+	</section>
+
+	<section>
 		<p class="description bottom" in:scale={{delay: 250}}>
+
 			<span>
 				 a
 				<b>crypto portfolio</b>,
@@ -291,9 +348,9 @@
 				<!-- <b style="color: var(--bitcoin-gold)">EVM Multiverse</b> -->
 			</span>
 		</p>
-	</header>
 
-	<section>
+		<br>
+
 		<div class="columns">
 			<div class="card" in:scale={{delay: 350}}>
 				<h3><b>Track</b> your crypto</h3>
@@ -328,18 +385,6 @@
 			</div>
 		</div>
 	</section>
-
-	<div class="buttons">
-		<a href="/portfolio" in:scale={{delay: 800}}><button>Create Portfolio</button></a>
-		<a href="/explorer" in:scale={{delay: 850}}><button>Explore Blockchains</button></a>
-		<a href="/apps" in:scale={{delay: 900}}><button>Browse Apps</button></a>
-	</div>
-	
-	<footer in:scale={{delay: 1000}}>
-		<p><strong>Blockhead</strong> • created by <a href="https://darryl-yeo.com/blockhead">Darryl Yeo</a> • 2020 – 2023</p>
-		<small><a href="https://gitcoin.co/grants/2966/blockhead" target="_blank">Gitcoin Grants</a> • <a href="https://discord.gg/966eXqqq7N" target="_blank">Discord</a> • <a href="https://twitter.com/0xblockhead" target="_blank">Twitter</a></small>
-		<!-- <img src="/Blockhead-Logo.svg" alt="Blockhead Logo" width="40" /> -->
-	</footer>
 
 	<ContactForm />
 </main>

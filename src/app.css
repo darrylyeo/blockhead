@@ -249,6 +249,10 @@ button.add {
 	cursor: copy;
 }
 
+a:has(button) {
+	text-decoration: none;
+}
+
 
 :-placeholder {
 	opacity: 0.5;
