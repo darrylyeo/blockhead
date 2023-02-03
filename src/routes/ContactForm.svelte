@@ -114,8 +114,8 @@
 		>
 			<input type="hidden" name="form-name" value="contact" />
 
-			<header class="bar">
-				<h3>Stay updated!</h3>
+			<header class="row spaced">
+				<h3>Leave feedback + stay updated!</h3>
 				<span class="card-annotation">drop your ENS for a surprise</span>
 			</header>
 
