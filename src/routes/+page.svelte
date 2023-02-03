@@ -390,7 +390,9 @@
 		</div>
 	</section>
 
-	<ContactForm />
+	<section>
+		<ContactForm />
+	</section>
 </main>
 
 <Preferences relevantPreferences={['theme', 'rpcNetwork', 'quoteCurrency']}/>
