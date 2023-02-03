@@ -110,7 +110,6 @@
 			fromStore={() => getAccountConnectionStore(walletConnection)}
 
 			loadingIcon={walletsByType[walletType]?.icon}
-			loadingMessage={`Connecting to ${walletsByType[walletType]?.name} via ${walletConnection.connectionType}...`}
 
 			whenLoaded={() => dispatch('connect')}
 
@@ -123,6 +122,13 @@
 			bind:result={account}
 			let:result={account}
 		>
+			<svelte:fragment slot="loadingMessage">
+				<p>
+					Connecting to {walletsByType[walletType]?.name}...
+					<br><small>(using {walletConnection.connectionType})</small>
+				</p>
+			</svelte:fragment>
+
 			{#if account}
 				<article
 					class="wallet-connection card bar"
