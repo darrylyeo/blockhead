@@ -3,8 +3,9 @@
 	export let address: string = ''
 
 	export let name: string
-	export let placeholder = "0x0000000000000000000000000000000000000000 / ens.eth"
 	export let required = false
+	export let placeholder = "0x0000000000000000000000000000000000000000 / ens.eth"
+	export let autofocus = false
 
 
 	// Internal state
@@ -64,6 +65,7 @@
 	bind:value
 	{name}
 	{required}
+	{autofocus}
 	{placeholder}
 	pattern={pattern.source}
 	on:input={onInput}

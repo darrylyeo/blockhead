@@ -152,7 +152,7 @@
 	let delayStartIndex = 0
 
 
-	import AddressField from './AddressField.svelte'
+	import AddressInput from './AddressInput.svelte'
 	import Loading from './Loading.svelte'
 	import InlineContainer from './InlineContainer.svelte'
 	import SizeContainer from './SizeContainer.svelte'
@@ -303,7 +303,12 @@
 						</div>
 						<div class="bar">
 							<form class="bar" on:submit|preventDefault={() => {addAccount(newWalletAddress); state = State.Idle; newWalletAddress = ''}}>
-								<AddressField bind:address={newWalletAddress} autofocus required/>
+								<AddressInput
+									bind:address={newWalletAddress}
+									placeholder="Address (0xabcd...6789) / ENS Domain (vitalik.eth)"
+									autofocus
+									required
+								/>
 								<button class="medium add" disabled={!isValid(newWalletAddress)}>Add</button>
 							</form>
 							<button class="medium cancel" on:click={() => state = State.Idle}>Cancel</button>
