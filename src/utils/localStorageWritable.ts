@@ -2,17 +2,20 @@ import type { Writable } from 'svelte/store'
 import { writable, get } from 'svelte/store'
 
 // Writable Svelte store that syncs JSON value to localStorage
-export function localStorageWritable<T>(localStorageKey, value: T): Writable<T> {
-	const store = writable(value)
-
+export const localStorageWritable = <Value, SerializedValue = Value>(
+	localStorageKey: string,
+	value: SerializedValue,
+	deserialize: ((_: SerializedValue) => Value) = _ => _ as unknown as Value,
+	serialize: ((_: Value) => SerializedValue) = _ => _ as unknown as SerializedValue,
+) => {
 	const json = globalThis.localStorage?.getItem(localStorageKey)
-	if(json)
-		store.set(JSON.parse(json))
-	
+
+	const store = writable(deserialize(json ? JSON.parse(json) : value))
+
 	return {
 		set(value) {
 			// console.log('Set', localStorageKey, value)
-			globalThis.localStorage?.setItem(localStorageKey, JSON.stringify(value))
+			globalThis.localStorage?.setItem(localStorageKey, JSON.stringify(serialize(value)))
 			store.set(value)
 		},
 
@@ -22,5 +25,5 @@ export function localStorageWritable<T>(localStorageKey, value: T): Writable<T> 
 		},
 
 		subscribe: store.subscribe
-	}
+	} as Writable<Value>
 }
