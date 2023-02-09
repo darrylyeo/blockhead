@@ -601,6 +601,41 @@ a.card {
 } */
 
 
+.row-scrollable {
+	display: flex;
+	align-items: center;
+
+	--scroll-fade: var(--padding-outer);
+
+	overflow: auto clip;
+	overflow-clip-margin: var(--scroll-fade);
+
+	margin: 0 calc(-1 * var(--scroll-fade));
+	padding: 0 var(--scroll-fade);
+
+	-webkit-mask-image: linear-gradient(
+		to right,
+		transparent,
+		white var(--scroll-fade),
+		white calc(100% - var(--scroll-fade)),
+		transparent
+	);
+	mask-image: linear-gradient(
+		to right,
+		transparent,
+		white var(--scroll-fade),
+		white calc(100% - var(--scroll-fade)),
+		transparent
+	);
+}
+.row-scrollable::-webkit-scrollbar {
+	display: none;
+}
+.row-scrollable > * {
+	min-width: max-content;
+}
+
+
 .align-start {
 	text-align: left;
 	justify-items: start;
