@@ -8,7 +8,7 @@
 
 <script lang="ts">
 	// External state
-	import { accountConnections, connectedAccounts } from '../state/account'
+	import { accountConnections, createAccountConnection } from '../state/account'
 
 
 	// Constants
@@ -30,7 +30,7 @@
 	import { triggerEvent } from '../events/triggerEvent'
 
 	const addAccountConnection = (walletType: WalletType) => {
-		$accountConnections = [...$accountConnections, { walletType }]
+		$accountConnections = [createAccountConnection({ walletType }), ...$accountConnections]
 
 		triggerEvent('AccountConnections/AddConnection', {
 			walletType
@@ -116,10 +116,10 @@
 		</div>
 	</HeightContainer>
 
-	{#each $accountConnections as { walletType }, i}
+	{#each $accountConnections as { id, walletType, state }, i (id)}
 		<AccountConnection
-			{walletType}
-			bind:account={$connectedAccounts[i]}
+			bind:walletType
+			bind:state
 			on:disconnect={() => removeAccountConnection(i)}
 			on:cancel={() => removeAccountConnection(i)}
 		/>

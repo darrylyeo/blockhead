@@ -6,7 +6,7 @@
 		isReadable,
 		isWritable,
 	} from '../api/sourcify'
-	import type { ConnectedAccount } from '../state/account'
+	import type { AccountConnectionState } from '../state/account'
 	import { networkProviderConfigByProvider } from '../data/providers'
 	import { preferences } from '../state/preferences'
 
@@ -24,7 +24,7 @@
 
 	import { BigNumber, Contract } from 'ethers'
 
-	let selectedAccount: ConnectedAccount
+	let selectedAccount: AccountConnectionState
 
 	let selectedMethod: SolidityJsonAbiPart
 	$: selectedMethod ??= writableMethods.sort((a, b) => b.inputs.length - a.inputs.length)[0]
@@ -109,7 +109,7 @@
 		{@const args = method.inputs.map((input, i) => inputValues[`${method.name || i}/${input.name}`])}
 
 		<TransactionFlow
-			account={selectedAccount}
+			accountConnectionState={selectedAccount}
 			{network}
 
 			getContract={({ signer }) => (

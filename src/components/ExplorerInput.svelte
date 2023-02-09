@@ -53,7 +53,7 @@
 	$: matchedType = findMatchedCaptureGroup<'empty' | 'address' | 'transaction' | 'blockNumber' | 'ensName'>(pattern, value) ?? ''	
 
 
-	import { connectedAccounts } from '../state/account'
+	import { accountConnections } from '../state/account'
 	import { getLocalPortfolios } from '../state/portfolio-accounts'
 
 
@@ -106,12 +106,12 @@
 		{/each}
 	{/if}
 
-	{#if $connectedAccounts?.length}
+	{#if $accountConnections?.length}
 		<optgroup label="Connected Accounts">
-			{#each $connectedAccounts as connectedAccount}
+			{#each $accountConnections as accountConnection}
 				<option
-					value={connectedAccount.address}
-					label={connectedAccount.walletConnection.walletType}
+					value={accountConnection.state?.address}
+					label={accountConnection.walletType}
 				/>
 			{/each}
 		</optgroup>

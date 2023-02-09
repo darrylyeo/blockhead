@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import type { WalletConnection, WalletType } from '../data/ethereum/wallets'
-	import type { ConnectedAccount } from '../state/account'
+	import type { AccountConnectionState } from '../state/account'
 
 	import { walletsByType } from '../data/ethereum/wallets'
 	import { networksByChainID, getNetworkColor } from '../data/ethereum/networks'
@@ -13,14 +13,12 @@
 
 
 	// Internal state
-	export let account: ConnectedAccount
+	export let state: AccountConnectionState = {}
 
 
 	// Shared state
-	export let address: string
-
-	$: if(account?.walletConnection?.walletType)
-		walletType = account.walletConnection.walletType
+	$: if(state?.walletConnection?.walletType)
+		walletType = state.walletConnection.walletType
 
 
 	// Methods/hooks/lifecycle
@@ -39,7 +37,7 @@
 				try {
 					const accounts = await walletConnection.connect()
 
-					const account = {
+					const accountConnectionState = {
 						walletConnection,
 						signer: getSigner(walletConnection.provider),
 						address: accounts?.[0],
@@ -48,7 +46,7 @@
 
 					set({
 						loading: false,
-						data: account
+						data: accountConnectionState
 					})
 
 					const stores = walletConnection.subscribe()
@@ -56,7 +54,7 @@
 					stores.accounts.subscribe(accounts => set({
 						loading: false,
 						data: {
-							...account,
+							...accountConnectionState,
 							address: accounts[0]
 						}
 					}))
@@ -64,7 +62,7 @@
 					stores.chainId.subscribe(chainId => set({
 						loading: false,
 						data: {
-							...account,
+							...accountConnectionState,
 							chainId
 						}
 					}))
@@ -79,7 +77,7 @@
 
 
 	const onDragStart = (e: DragEvent) => {
-		e.dataTransfer.setData('text/plain', account.address)
+		e.dataTransfer.setData('text/plain', state.address)
 	}
 
 
@@ -119,51 +117,50 @@
 				dispatch('cancel')
 			}}
 
-			bind:result={account}
-			let:result={account}
+			bind:result={state}
 		>
 			<svelte:fragment slot="loadingMessage">
 				<p>
 					Connecting to {walletsByType[walletType]?.name}...
-					<br><small>(using {walletConnection.connectionType})</small>
+					<br><small>(using {walletConnection?.connectionType})</small>
 				</p>
 			</svelte:fragment>
 
-			{#if account}
+			{#if state}
 				<article
-					class="wallet-connection card bar"
+					class="wallet-connection card"
 
-					title="{account.walletConnection.walletType} via {account.walletConnection.connectionType}"
+					title="{state.walletConnection?.walletType} via {state.walletConnection?.connectionType}"
 
-					draggable={true}
+					draggable={!!state.address}
 					on:dragstart={onDragStart}
 
-					style="--primary-color: {getNetworkColor(networksByChainID[account.chainId])}"
+					style="--primary-color: {getNetworkColor(networksByChainID[state.chainId])}"
 				>
-					<div class="row">
-						<Icon imageSources={[walletsByType[account.walletConnection.walletType]?.icon]} />
+					<Icon imageSources={[walletsByType[state.walletConnection?.walletType]?.icon]} />
 
-						<div class="column align-start">
-							{#if account.address}
-								<Address
-									address={account.address} network={networksByChainID[account.chainId]}
-									format="middle-truncated"
-								/>
-							{:else}
-								<span class="disconnected">Disconnected</span>
-							{/if}
+					<div class="column align-start">
+						{#if state.address}
+							<Address
+								address={state.address} network={networksByChainID[state.chainId]}
+								format="middle-truncated"
+							/>
+						{:else}
+							<span class="disconnected">Disconnected</span>
+						{/if}
 
+						{#if state.walletConnection}
 							<span>
-								{walletsByType[account.walletConnection.walletType].name}
-								<small>({account.walletConnection.connectionType})</small>
+								{walletsByType[state.walletConnection?.walletType].name}
+								<small>({state.walletConnection?.connectionType})</small>
 							</span>
-						</div>
+						{/if}
 					</div>
-					
+
 					<button
 						class="small align-end"
 						on:click={async () => {
-							await account?.walletConnection.disconnect?.()
+							await state?.walletConnection?.disconnect?.()
 							dispatch('disconnect')
 						}}
 					>✕</button>
@@ -176,6 +173,8 @@
 
 <style>
 	.wallet-connection {
+		display: flex;
+		align-items: center;
 		padding: 0.5em;
 		text-align: left;
 
@@ -195,6 +194,9 @@
 		font-weight: 200;
 		font-size: 0.75em;
 		opacity: 0.8;
+	}
+	.align-end {
+		margin-left: auto;
 	}
 
 	small {

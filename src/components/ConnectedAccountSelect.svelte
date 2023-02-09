@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { formatAddress } from '../utils/formatAddress'
-	import { connectedAccounts, type ConnectedAccount } from '../state/account'
+	import { accountConnections, type AccountConnectionState } from '../state/account'
 
 
 	export let required: boolean
 
 
-	export let selectedAccount: ConnectedAccount
+	export let selectedAccount: AccountConnectionState
 </script>
 
 
@@ -14,8 +14,8 @@
 	<option value="" disabled>Choose account...</option>
 
 	<!-- <optgroup label="Connected"> -->
-		{#each $connectedAccounts as connectedAccount}
-			<option value={connectedAccount}>{connectedAccount.walletConnection.walletType}: {formatAddress(connectedAccount.address)}</option>
+		{#each $accountConnections as accountConnection}
+			<option value={accountConnection.state}>{accountConnection.walletType}: {formatAddress(accountConnection.state?.address)}</option>
 		{/each}
 	<!-- </optgroup> -->
 </select>

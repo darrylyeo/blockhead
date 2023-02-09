@@ -16,7 +16,7 @@
 <script lang="ts">
 	// Constants/types
 	import type { Ethereum } from '../data/ethereum/types'
-	import type { ConnectedAccount } from '../state/account'
+	import type { AccountConnectionState } from '../state/account'
 	import type { UnsignedTransaction, Contract, ContractReceipt, Signer, Transaction } from 'ethers'
 
 	import { walletsByType } from '../data/ethereum/wallets'
@@ -24,7 +24,7 @@
 
 	// External state
 	export let network: Ethereum.Network
-	export let account: ConnectedAccount
+	export let accountConnectionState: AccountConnectionState
 
 	export let getContract: (params: {
 		network: Ethereum.Network,
@@ -43,12 +43,12 @@
 
 	let formElement: HTMLFormElement
 
-	$: contract = account && getContract({
+	$: contract = accountConnectionState && getContract({
 		network,
-		signer: account.signer
+		signer: accountConnectionState.signer
 	})
 
-	$: walletConfig = walletsByType[account?.walletConnection?.walletType]
+	$: walletConfig = walletsByType[accountConnectionState?.walletConnection?.walletType]
 	$: walletName = walletConfig?.name ?? ''
 	$: walletIcon = walletConfig?.icon ?? ''
 
@@ -189,7 +189,7 @@
 
 					return await simulateTransaction({
 						network_id: network.chainId,
-						from: account.address,
+						from: accountConnectionState.address,
 						to: contract.address,
 						input: populatedTx.data,
 						gas: 21204,
@@ -217,7 +217,7 @@
 
 						<EthereumSimulatedTransactionTenderly
 							{network}
-							contextualAddress={account.address}
+							contextualAddress={accountConnectionState.address}
 							data={result}
 						/>
 					</section>
@@ -246,7 +246,7 @@
 					}
 				}}
 				loadingIcon={walletIcon}
-				loadingMessage="Sign the transaction with {walletName} ({formatAddress(account.address)})."
+				loadingMessage="Sign the transaction with {walletName} ({formatAddress(accountConnectionState.address)})."
 				let:result={tx}
 			>
 				<header slot="header" class="bar">
