@@ -254,7 +254,7 @@
 				<InlineContainer containerClass="align-end" isOpen={state !== State.Editing}>
 					<div class="bar align-end" transition:scale>
 						{#if state === State.Idle}
-							<button class="add" on:click={() => state = State.Adding} transition:scale>＋Add Account</button>
+							<button class="add" on:click={() => state = State.Adding} transition:scale>＋ Add Account</button>
 						{/if}
 						<InlineContainer containerClass="align-end" isOpen={accounts.length > 0}>
 							<button on:click={() => state = State.Editing} transition:scale>Edit</button>
@@ -273,7 +273,7 @@
 				{#if state !== State.Editing}
 					<div class="bar align-end" transition:scale>
 						{#if state === State.Idle}
-							<button class="add" on:click={() => state = State.Adding} transition:scale>＋Add Account</button>
+							<button class="add" on:click={() => state = State.Adding} transition:scale>＋ Add Account</button>
 						{/if}
 						<button on:click={() => state = State.Editing}>Edit</button>
 					</div>
