@@ -85,7 +85,7 @@
 				class="add medium"
 				on:click={() => state = State.Adding}
 				transition:scale
-			>+ Connect Wallet</button>
+			>＋ Connect Wallet</button>
 		{:else if state === State.Adding}
 			<button
 				class="cancel medium"

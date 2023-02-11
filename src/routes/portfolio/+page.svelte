@@ -75,7 +75,7 @@
 			{/each}
 
 			{#if $localPortfolios[$localPortfolios.length - 1]?.accounts.length}
-				<button on:click={() => addPortfolio()}>+ Create Another Portfolio</button>
+				<button on:click={() => addPortfolio()}>＋ Create Another Portfolio</button>
 			{/if}
 		{:else}
 			Please enable LocalStorage in your browser.
