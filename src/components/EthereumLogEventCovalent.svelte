@@ -215,7 +215,7 @@
 					parameterName={logEvent.decoded?.signature.replace('(', `(\n\t`).replace(/, ?/g, `,\n\t`).replace(')', `\n)`) ?? '[Undecoded]'}
 					parameterType="signature"
 				>
-					{formatIdentifierToWords(logEvent.decoded?.name) ?? '[Undecoded]'}
+					{logEvent.decoded ? formatIdentifierToWords(logEvent.decoded.name) : '[Undecoded]'}
 				</EthereumTopic>
 			{/if}
 		</h4>
