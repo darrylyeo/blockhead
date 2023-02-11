@@ -123,6 +123,7 @@
 </HeightContainer>
 
 <section
+	class="scroll-snap-area"
 	class:row-scrollable={layout === 'row'}
 	class:column={layout === 'column'}
 >
