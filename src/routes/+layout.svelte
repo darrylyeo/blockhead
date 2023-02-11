@@ -101,17 +101,6 @@
 		gap: var(--padding-inner);
 		padding: calc(var(--bleed-top) + var(--padding-outer)) var(--padding-outer) calc(var(--bleed-bottom) + var(--padding-outer));
 		align-content: start;
-
-		grid-template-columns: 1fr;
-		column-gap: 1.5em;
-	}
-
-	:global(body > .stack > main > aside) {
-		grid-column: 2;
-		width: 21rem;
-
-		-webkit-backdrop-filter: var(--overlay-backdrop-filter);
-		backdrop-filter: var(--overlay-backdrop-filter);
 	}
 
 	@media (max-width: 50rem) {

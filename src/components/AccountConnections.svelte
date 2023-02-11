@@ -40,6 +40,7 @@
 	const removeAccountConnection = (i: number) => {
 		const deletedAccountConnection = $accountConnections[i]
 		$accountConnections = [...$accountConnections.slice(0, i), ...$accountConnections.slice(i + 1)]
+		console.log({$accountConnections})
 
 		triggerEvent('AccountConnections/DeleteConnection', {
 			walletType: deletedAccountConnection.walletType
@@ -50,6 +51,11 @@
 	import AccountConnection from './AccountConnection.svelte'
 	import HeightContainer from './HeightContainer.svelte'
 	import Icon from './Icon.svelte'
+	import InlineContainer from './InlineContainer.svelte'
+
+
+	// Style
+	export let layout: 'row' | 'column' = 'row'
 
 
 	// Transitions
@@ -117,12 +123,17 @@
 		</div>
 	</HeightContainer>
 
-	{#each $accountConnections as { id, walletType, state }, i (id)}
-		<AccountConnection
-			bind:walletType
-			bind:state
-			on:disconnect={() => removeAccountConnection(i)}
-			on:cancel={() => removeAccountConnection(i)}
-		/>
-	{/each}
+	<section
+		class:row-scrollable={layout === 'row'}
+		class:column={layout === 'column'}
+	>
+		{#each $accountConnections as { id, walletType, state }, i (id)}
+			<AccountConnection
+				bind:walletType
+				bind:state
+				on:disconnect={() => removeAccountConnection(i)}
+				on:cancel={() => removeAccountConnection(i)}
+			/>
+		{/each}
+	</section>
 </HeightContainer>

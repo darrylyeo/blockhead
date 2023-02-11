@@ -48,6 +48,16 @@
 	import Preferences from '../../components/Preferences.svelte'
 	import AccountConnections from '../../components/AccountConnections.svelte'
 	// import WalletProviders from '../../components/WalletProviders.svelte'
+
+
+	// Style
+
+	import { matchesMediaQuery } from '../../utils/matchesMediaQuery'
+
+	const matchesLayoutBreakpoint = matchesMediaQuery('(min-width: 100rem)')
+	let layout: 'row' | 'column'
+	$: layout = $matchesLayoutBreakpoint ? 'row' : 'column'
+
 	import { fly } from 'svelte/transition'
 </script>
 
@@ -58,7 +68,6 @@
 
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
-<!-- <main> -->
 	<section class="portfolios column">
 		{#if localPortfolios}
 			{#each $localPortfolios as {name, accounts}, i (i)}
@@ -84,10 +93,11 @@
 	
 	<!-- <WalletProviders {network} {portfolioProvider} /> -->
 
-	<aside>
-		<section class="column">
-			<AccountConnections />
-		</section>
+	<aside
+		class="account-connections column sticky"
+		class:scrollable-list={layout === 'row'}
+	>
+		<AccountConnections layout={{'column': 'row', 'row': 'column'}[layout]} />
 	</aside>
 </main>
 
@@ -102,34 +112,52 @@
 
 <style>
 	main {
-		/* display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
-		justify-items: center; */
-
-		display: flex;
+		display: grid;
 		justify-content: center;
-		flex-wrap: wrap;
-		gap: 2rem;
+		grid-template:
+			'AccountConnections'
+			'Portfolios'
+			/ minmax(0, 1fr);
+		gap: 2rem 1.5rem !important;
 		
 		/* Override scroll container to support position: sticky */
 		height: 100vh;
 		overflow-y: auto;
 	}
-	/* main > :global(*) {
-		flex: 1 30rem;
-		max-width: 45rem;
-		gap: 2.5rem;
-	} */
+	@media (min-width: 100rem) {
+		main {
+			grid-template:
+				'Portfolios AccountConnections'
+				/ 1fr 19rem;
+		}
+	}
 
-	aside {
-		position: sticky;
-		top: 0;
+	.portfolios {
+		isolation: isolate;
+		grid-area: Portfolios;
+	}
+
+	.account-connections {
+		grid-area: AccountConnections;
+		isolation: isolate;
+
+		/* position: sticky;
+		top: 0; */
 		align-self: start;
-		/* overflow: hidden auto; */
+	}
+	@media (min-width: 100rem) {
+		.account-connections {
+			height: calc(100vh - var(--bleed-top) - var(--bleed-bottom) - 2rem);
+		}
 	}
 
 	.portfolios {
 		padding: 0 0.5rem 60vh;
 		gap: 3rem;
+	}
+
+	.sticky {
+		isolation: isolate;
+		z-index: 30000;
 	}
 </style>
