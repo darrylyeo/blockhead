@@ -588,7 +588,8 @@ a.card {
 	justify-content: start;
 	contain: strict;
 }
-.scrollable-list > * {
+.scrollable-list > *,
+.scroll-snap-item {
 	scroll-snap-stop: always;
 	scroll-snap-align: start;
 }
