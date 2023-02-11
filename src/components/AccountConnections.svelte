@@ -103,9 +103,10 @@
 			transition:scale
 		>
 			<div class="wallets">
-				{#each wallets as {type, name, icon}}
+				{#each wallets as {type, name, icon, colors}}
 					<button
 						class="wallet medium row"
+						style="--primary-color: {colors[colors.length - 1]}"
 						on:click={() => { addAccountConnection(type); state = State.Idle }}
 					>
 						<Icon imageSources={[icon]} title={name} />
