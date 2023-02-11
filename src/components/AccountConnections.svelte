@@ -102,38 +102,36 @@
 	</div>
 </header>
 
-<HeightContainer class="column">
-	<HeightContainer class="stack" isOpen={state === State.Adding}>
-		<div class="card"
-			on:keydown={e => { if(e.code === 'Escape') state = State.Idle }}
-			transition:scale
-		>
-			<div class="wallets">
-				{#each wallets as {type, name, icon, colors}}
-					<button
-						class="wallet medium row"
-						style="--primary-color: {colors[colors.length - 1]}"
-						on:click={() => { addAccountConnection(type); state = State.Idle }}
-					>
-						<Icon imageSources={[icon]} title={name} />
-						{name}
-					</button>
-				{/each}
-			</div>
-		</div>
-	</HeightContainer>
-
-	<section
-		class:row-scrollable={layout === 'row'}
-		class:column={layout === 'column'}
+<HeightContainer class="stack" isOpen={state === State.Adding}>
+	<div class="card"
+		on:keydown={e => { if(e.code === 'Escape') state = State.Idle }}
+		transition:scale
 	>
-		{#each $accountConnections as { id, walletType, state }, i (id)}
-			<AccountConnection
-				bind:walletType
-				bind:state
-				on:disconnect={() => removeAccountConnection(i)}
-				on:cancel={() => removeAccountConnection(i)}
-			/>
-		{/each}
-	</section>
+		<div class="wallets">
+			{#each wallets as {type, name, icon, colors}}
+				<button
+					class="wallet medium row"
+					style="--primary-color: {colors[colors.length - 1]}"
+					on:click={() => { addAccountConnection(type); state = State.Idle }}
+				>
+					<Icon imageSources={[icon]} title={name} />
+					{name}
+				</button>
+			{/each}
+		</div>
+	</div>
 </HeightContainer>
+
+<section
+	class:row-scrollable={layout === 'row'}
+	class:column={layout === 'column'}
+>
+	{#each $accountConnections as { id, walletType, state }, i (id)}
+		<AccountConnection
+			bind:walletType
+			bind:state
+			on:disconnect={() => removeAccountConnection(i)}
+			on:cancel={() => removeAccountConnection(i)}
+		/>
+	{/each}
+</section>

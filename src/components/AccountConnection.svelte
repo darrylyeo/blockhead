@@ -94,7 +94,7 @@
 </script>
 
 
-<div class="column" transition:scale>
+<div class="column scroll-snap-item" transition:scale>
 	<Loader 
 		fromPromise={async () =>
 			await getWalletConnection({
