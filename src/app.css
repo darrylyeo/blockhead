@@ -577,6 +577,11 @@ a.card {
 } */
 
 
+.scroll-snap-area {
+	scroll-snap-type: both proximity;
+	scroll-padding: var(--padding-inner);
+}
+
 .scrollable-list {
 	height: 30rem;
 	max-height: 100%;
