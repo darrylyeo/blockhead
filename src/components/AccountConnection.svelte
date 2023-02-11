@@ -102,6 +102,11 @@
 		}
 		loadingIcon={walletsByType[walletType]?.icon}
 		loadingMessage={`Detecting ${walletsByType[walletType]?.name} connection...`}
+
+		errorMessage={`Error detecting ${walletsByType[walletType]?.name} connection.`}
+
+		whenCanceled={async () => dispatch('cancel')}
+
 		let:result={walletConnection}
 	>
 		<Loader
@@ -113,9 +118,7 @@
 
 			errorMessage={`Couldn't connect your ${walletsByType[walletType]?.name} account.`}
 
-			whenCanceled={async () => {
-				dispatch('cancel')
-			}}
+			whenCanceled={async () => dispatch('cancel')}
 
 			bind:result={state}
 		>
