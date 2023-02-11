@@ -84,11 +84,13 @@
 	// Components
 	import Address from './Address.svelte'
 	import Loader from './Loader.svelte'
+	import NetworkIcon from './NetworkIcon.svelte'
 	import Icon from './Icon.svelte'
 	
 
 	// Styles/animation
 	import { scale } from 'svelte/transition'
+	import { cardStyle } from '../utils/card-background'
 </script>
 
 
@@ -130,6 +132,8 @@
 			</svelte:fragment>
 
 			{#if state}
+				{@const walletConfig = walletsByType[state.walletConnection?.walletType]}
+
 				<article
 					class="wallet-connection card"
 
@@ -138,9 +142,12 @@
 					draggable={!!state.address}
 					on:dragstart={onDragStart}
 
-					style="--primary-color: {getNetworkColor(networksByChainID[state.chainId])}"
+					style={cardStyle([...walletConfig?.colors ?? [], getNetworkColor(networksByChainID[state.chainId])])}
 				>
-					<Icon imageSources={[walletsByType[state.walletConnection?.walletType]?.icon]} />
+					<div class="wallet-icon-container stack">
+						<Icon imageSources={[walletConfig?.icon]} />
+						{#key state.chainId}{#if state.chainId}<div class="network-icon" transition:scale><NetworkIcon network={networksByChainID[state.chainId]} /></div>{/if}{/key}
+					</div>
 
 					<div class="column align-start">
 						{#if state.address}
@@ -154,7 +161,7 @@
 
 						{#if state.walletConnection}
 							<span>
-								{walletsByType[state.walletConnection?.walletType].name}
+								{walletConfig.name}
 								<small>({state.walletConnection?.connectionType})</small>
 							</span>
 						{/if}
@@ -201,6 +208,16 @@
 	.align-end {
 		margin-left: auto;
 	}
+
+	.wallet-icon-container {
+		aspect-ratio: 1;
+	}
+	.network-icon {
+		display: flex;
+		--icon-size: 1em;
+		place-self: end;
+	}
+
 
 	small {
 		font-size: 0.75em;
