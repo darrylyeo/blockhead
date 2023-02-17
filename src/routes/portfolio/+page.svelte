@@ -94,7 +94,7 @@
 	<!-- <WalletProviders {network} {portfolioProvider} /> -->
 
 	<aside
-		class="account-connections column sticky"
+		class="account-connections column"
 		class:scrollable-list={layout === 'row'}
 	>
 		<AccountConnections layout={{'column': 'row', 'row': 'column'}[layout]} />
@@ -141,12 +141,12 @@
 		grid-area: AccountConnections;
 		isolation: isolate;
 
-		/* position: sticky;
-		top: 0; */
 		align-self: start;
 	}
 	@media (min-width: 100rem) {
 		.account-connections {
+			position: sticky;
+			top: 0;
 			height: calc(100vh - var(--bleed-top) - var(--bleed-bottom) - 2rem);
 		}
 	}
