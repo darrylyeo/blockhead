@@ -194,7 +194,7 @@ output {
 button {
 	display: inline-flex;
 	align-items: center;
-	gap: 1ch;
+	gap: 0.75ch;
 
 	-webkit-appearance: none;
 	background-color: var(--primary-color);
@@ -851,4 +851,9 @@ body::-webkit-scrollbar-button {
 	75% {
 		transform: rotate(2deg);
 	} */
+}
+
+
+[data-before]:before {
+	content: attr(data-before);
 }

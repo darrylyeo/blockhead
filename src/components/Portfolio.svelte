@@ -254,17 +254,17 @@
 				<InlineContainer containerClass="align-end" isOpen={state !== State.Editing}>
 					<div class="bar align-end" transition:scale>
 						{#if state === State.Idle}
-							<button class="add" on:click={() => state = State.Adding} transition:scale>＋ Add Account</button>
+							<button class="add" data-before="+" on:click={() => state = State.Adding} transition:scale>Add Account</button>
 						{/if}
 						<InlineContainer containerClass="align-end" isOpen={accounts.length > 0}>
-							<button on:click={() => state = State.Editing} transition:scale>Edit</button>
+							<button data-before="✎" on:click={() => state = State.Editing} transition:scale>Edit</button>
 						</InlineContainer>
 					</div>
 				</InlineContainer>
 				<InlineContainer containerClass="align-end" isOpen={state === State.Editing}>
 					<div class="bar align-end" transition:scale>
-						<button class="destructive" on:click={() => dispatch('delete')}>Delete Portfolio</button>
-						<button on:click={() => state = State.Idle}>Done</button>
+						<button class="destructive" data-before="☒" on:click={() => dispatch('delete')}>Delete Portfolio</button>
+						<button data-before="✓" on:click={() => state = State.Idle}>Done</button>
 					</div>
 				</InlineContainer>
 			</div>
@@ -273,14 +273,14 @@
 				{#if state !== State.Editing}
 					<div class="bar align-end" transition:scale>
 						{#if state === State.Idle}
-							<button class="add" on:click={() => state = State.Adding} transition:scale>＋ Add Account</button>
+							<button data-before="＋" class="add" on:click={() => state = State.Adding} transition:scale>Add Account</button>
 						{/if}
-						<button on:click={() => state = State.Editing}>Edit</button>
+						<button data-before="✎" on:click={() => state = State.Editing}>Edit</button>
 					</div>
 				{:else}
 					<div class="bar align-end" transition:scale>
-						<button class="destructive" on:click={() => dispatch('delete')}>Delete Portfolio</button>
-						<button on:click={() => state = State.Idle}>Done</button>
+						<button class="destructive" data-before="☒" on:click={() => dispatch('delete')}>Delete Portfolio</button>
+						<button data-before="💾" on:click={() => state = State.Idle}>Done</button>
 					</div>
 				{/if}
 			</InlineContainer> -->
@@ -352,7 +352,7 @@
 				>
 					{#if state === State.Editing}
 						<div class="row edit-controls" transition:scale>
-							<button class="destructive" on:click={() => deleteAccount(i)}>Delete Account</button>
+							<button class="destructive" data-before="☒" on:click={() => deleteAccount(i)}>Delete Account</button>
 						</div>
 					{/if}
 				</PortfolioAccount>
