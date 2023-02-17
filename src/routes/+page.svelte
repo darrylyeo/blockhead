@@ -253,13 +253,12 @@
 	button {
 		font-size: 1.3em;
 	}
+	button:before {
+		font-size: 1.1em;
+	}
 
 	footer {
 		color: rgba(var(--rgb-light-dark-inverse), 0.7);
-	}
-
-	.icon {
-		font-size: 1.1em;
 	}
 
 	.learn-more {
@@ -301,9 +300,9 @@
 
 		<section>
 			<div class="buttons">
-				<a href="/portfolio" style="--primary-color: var(--ethereum-blue);" in:scale={{delay: 800}}><button class="large row"><span class="icon">📊</span> Create Portfolio ›</button></a>
-				<a href="/explorer" style="--primary-color: var(--arbitrum-blue);" in:scale={{delay: 850}}><button class="large row"><span class="icon">🧭</span> Explore Blockchains ›</button></a>
-				<a href="/apps" style="--primary-color: var(--gnosis-teal);" in:scale={{delay: 900}}><button class="large row"><span class="icon">📲</span> Browse Apps ›</button></a>
+				<a href="/portfolio" style="--primary-color: var(--ethereum-blue);" in:scale={{delay: 800}}><button class="large row" data-before="📊">Create Portfolio ›</button></a>
+				<a href="/explorer" style="--primary-color: var(--arbitrum-blue);" in:scale={{delay: 850}}><button class="large row" data-before="🧭">Explore Blockchains ›</button></a>
+				<a href="/apps" style="--primary-color: var(--gnosis-teal);" in:scale={{delay: 900}}><button class="large row" data-before="📲">Browse Apps ›</button></a>
 			</div>
 		</section>
 
