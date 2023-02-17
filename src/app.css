@@ -288,6 +288,55 @@ input[type="checkbox"] {
 	flex-basis: auto;
 }
 
+label input:is([type="checkbox"], [type="radio"]) {
+	display: none;
+}
+label input:is([type="checkbox"], [type="radio"]) ~ span {
+	background-color: rgba(255, 255, 255, calc(0.2 + var(--is-light) * 0.8));
+	padding: 0.2em 0.4em;
+	border-radius: 0.25em;
+	transition: 0.15s;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.3em;
+}
+label input:is([type="checkbox"], [type="radio"]):checked ~ span {
+	/* box-shadow: 0 0 0 1px rgba(var(--rgb-light-dark-inverse), 0.33); */
+	box-shadow: 0 0 0 1.5px var(--primary-color);
+	scale: 1.025;
+}
+label input:is([type="checkbox"], [type="radio"]):not(:checked) ~ span {
+	opacity: 0.66;
+}
+label:hover input:is([type="checkbox"], [type="radio"]) ~ span {
+	scale: 1.02;
+}
+label:active input:is([type="checkbox"], [type="radio"]) ~ span {
+	scale: 0.99;
+}
+label:hover input:is([type="checkbox"], [type="radio"]):not(:checked) ~ span {
+	opacity: 0.66;
+}
+label input:is([type="checkbox"], [type="radio"]) ~ span:before {
+	font-size: 1.4em;
+	line-height: 0;
+	speak: none;
+}
+label input:is([type="checkbox"]):not(:checked) ~ span:before {
+	content: "⃞";
+	
+}
+label input[type="checkbox"]:checked ~ span:before {
+	content: "✓⃞";
+}
+label input:is([type="radio"]):not(:checked) ~ span:before {
+	content: "⃝";
+}
+label input:is([type="radio"]):checked ~ span:before {
+	content: "✓⃝";
+}
+
 h1 input, h2 input {
 	font-size: 0.7em;
 	animation: From 0.3s;
