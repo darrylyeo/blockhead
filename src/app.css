@@ -322,10 +322,11 @@ label input:is([type="checkbox"], [type="radio"]) ~ span:before {
 	font-size: 1.4em;
 	line-height: 0;
 	speak: none;
+	transition: 0.1s ease-out;
 }
 label input:is([type="checkbox"]):not(:checked) ~ span:before {
 	content: "⃞";
-	
+	opacity: 0.5;
 }
 label input[type="checkbox"]:checked ~ span:before {
 	content: "✓⃞";
