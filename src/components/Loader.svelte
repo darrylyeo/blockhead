@@ -306,7 +306,7 @@
 				</div>
 			{/if}
 			{#if status === LoadingStatus.Idle}
-				<slot name="idle"></slot>
+				<slot name="idle" {load}></slot>
 			{:else if status === LoadingStatus.Loading}
 				<Loading iconAnimation="hover">
 					<slot name="loadingIcon" slot="icon">
