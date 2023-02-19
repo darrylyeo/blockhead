@@ -128,9 +128,10 @@
 	class:row-scrollable={layout === 'row'}
 	class:column={layout === 'column'}
 >
-	{#each $accountConnections as { id, walletType, state }, i (id)}
+	{#each $accountConnections as { id, walletType, autoconnect, state }, i (id)}
 		<AccountConnection
 			bind:walletType
+			bind:autoconnect
 			bind:state
 			on:disconnect={() => removeAccountConnection(i)}
 			on:cancel={() => removeAccountConnection(i)}
