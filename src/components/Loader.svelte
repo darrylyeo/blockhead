@@ -75,10 +75,24 @@
 			load: typeof load,
 			cancel: typeof cancel
 		},
+		idle: {
+
+		},
+		loadingIcon: {
+
+		},
+		loading: {
+
+		},
+		'footer-start': {
+
+		},
 		error: {
 			error: string
 		},
-		errorMessage,
+		errorMessage: {
+			
+		},
 		errorActions: {
 			load: typeof load,
 			cancel: typeof cancel
