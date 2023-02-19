@@ -60,6 +60,7 @@
 	{transitionWidth}
 	duration={sizeDuration}
 	{clip}
+	containerClass="align-end"
 >
 	{#if formatParts}
 		{#each formatValue($tweenedValue, { ...format, toParts: true }) as { type, value }}
