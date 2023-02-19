@@ -36,7 +36,7 @@
 	export let showIf: (<T extends LoaderResult = LoaderResult>(then: T) => boolean | any) | undefined
 	export let isCollapsed = false
 	export let clip = true
-	export let passive
+	export let passive = false
 
 	export let showStatusAndActions = false
 
