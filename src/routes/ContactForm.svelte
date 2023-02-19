@@ -46,35 +46,18 @@
 	}
 
 	.checkboxes {
+		font-size: 0.87em;
 		justify-content: center;
 		gap: 0.75rem;
-	}
-	input[type="checkbox"] {
-		display: none;
-	}
-	input[type="checkbox"] ~ span {
-		background-color: rgba(var(--rgb-light-dark-inverse), 0.2);
-		padding: 0.2em 0.5em;
-		border-radius: 0.25em;
-		transition: 0.2s;
-		cursor: pointer;
 	}
 	input[type="checkbox"]:not(:checked) ~ span {
 		opacity: 0.5;
 	}
-	label:hover input[type="checkbox"] ~ span {
-		scale: 1.02;
-	}
-	label:active input[type="checkbox"] ~ span {
-		scale: 0.99;
-	}
 	label:hover input[type="checkbox"]:not(:checked) ~ span {
 		opacity: 0.66;
 	}
-	input[type="checkbox"]:checked ~ span {
-		box-shadow: 0 0 0 1px rgba(var(--rgb-light-dark-inverse), 0.33);
-		box-shadow: 0 0 0 1.5px var(--primary-color);
-		scale: 1.025;
+	input[type="checkbox"] ~ span:before {
+		font-family: var(--base-fonts);
 	}
 
 	.thank-you .emoji {
