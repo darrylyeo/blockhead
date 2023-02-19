@@ -75,7 +75,7 @@
 
 
 <style>
-	:global(body > nav) {
+	:global(:is(body > nav)) {
 		position: fixed;
 		width: 100%;
 		top: 0;
@@ -87,7 +87,7 @@
 		padding: 0 var(--padding-outer);
 	}
 
-	:global(body > .stack > main) {
+	:global(:is(body > .stack > main)) {
 		--bleed-top: 3.5rem;
 		--bleed-bottom: 3.25rem;
 
@@ -104,12 +104,12 @@
 	}
 
 	@media (max-width: 50rem) {
-		:global(body > .stack > main > aside) {
+		:global(:is(body > .stack > main > aside)) {
 			grid-area: 1 / 1;
 		}
 	}
 
-	:global(body > .stack > .preferences) {
+	:global(:is(body > .stack > .preferences)) {
 		position: fixed;
 		width: 100%;
 		bottom: 0;
