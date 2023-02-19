@@ -1,6 +1,6 @@
 
 import type { Signer } from 'ethers'
-import type { WalletType, WalletConnection } from '../data/ethereum/wallets'
+import type { WalletType, WalletConnection, Provider } from '../data/ethereum/wallets'
 
 export type AccountConnection = {
 	id: string,
@@ -61,3 +61,59 @@ export const accountConnections = localStorageWritable(
 	accountConnectionsJson => accountConnectionsJson.map(createAccountConnection),
 	accountConnections => accountConnections.map(serializeAccountConnection)
 )
+
+
+import { Web3Provider } from '@ethersproject/providers'
+
+const getSigner = (provider: Provider) =>
+	new Web3Provider(provider).getSigner() // Object.assign(signer, { address: accounts[0] }),
+
+
+import { readable } from 'svelte/store'
+import type { Result } from '../data/apollo-store'
+
+export const getAccountConnectionState = (walletConnection: WalletConnection) =>
+	readable<Result<AccountConnectionState>>(
+		{loading: true},
+		set => void (async () => {
+			const accounts = await walletConnection.connect()
+
+			const accountConnectionState: AccountConnectionState = {
+				walletConnection,
+				signer: getSigner(walletConnection.provider),
+				address: accounts?.[0],
+				chainId: undefined,
+			}
+
+			set({
+				loading: false,
+				data: accountConnectionState
+			})
+
+			if(walletConnection.subscribe){
+				const stores = walletConnection.subscribe()
+
+				stores.accounts.subscribe(accounts => set({
+					loading: false,
+					data: {
+						...accountConnectionState,
+						address: accounts[0]
+					}
+				}))
+
+				stores.chainId.subscribe(chainId => set({
+					loading: false,
+					data: {
+						...accountConnectionState,
+						chainId
+					}
+				}))
+			}
+		})()
+		.catch(error => {
+			set({
+				loading: false,
+				error
+			})
+		})
+	)

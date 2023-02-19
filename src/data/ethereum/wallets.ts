@@ -163,7 +163,7 @@ import type { ExternalProvider } from '@ethersproject/providers'
 import type { CoinbaseWalletProvider } from '@coinbase/wallet-sdk'
 import type WalletConnectProvider from '@walletconnect/web3-provider'
 
-type Provider = ExternalProvider | WalletConnectProvider | CoinbaseWalletProvider
+export type Provider = ExternalProvider | WalletConnectProvider | CoinbaseWalletProvider
 
 export type WalletConnection = {
 	walletType: WalletType,
@@ -464,9 +464,3 @@ export const getWalletConnection = async ({
 
 	throw new Error('No provider found')
 }
-
-
-import { Web3Provider } from '@ethersproject/providers'
-
-export const getSigner = (provider: Provider) =>
-	new Web3Provider(provider).getSigner() // Object.assign(signer, { address: accounts[0] }),

@@ -1,18 +1,15 @@
 <script lang="ts">
 	// Constants/types
-	import type { WalletConnection, WalletType } from '../data/ethereum/wallets'
-	import type { AccountConnectionState } from '../state/account'
+	import type { WalletType } from '../data/ethereum/wallets'
+	import { type AccountConnectionState, getAccountConnectionState } from '../state/account'
 
 	import { walletsByType } from '../data/ethereum/wallets'
 	import { networksByChainID, getNetworkColor } from '../data/ethereum/networks'
 
 
 	// External state
-	export let autoconnect = true
 	export let walletType: WalletType
-
-
-	// Internal state
+	export let autoconnect = true
 	export let state: AccountConnectionState = {}
 
 
@@ -23,57 +20,10 @@
 
 	// Methods/hooks/lifecycle
 
-	import { getWalletConnection, getSigner } from '../data/ethereum/wallets'
+	import { getWalletConnection } from '../data/ethereum/wallets'
 
 	import { createEventDispatcher } from 'svelte'
 	const dispatch = createEventDispatcher()
-
-	import { readable } from 'svelte/store'
-
-	const getAccountConnectionStore = (walletConnection: WalletConnection) =>
-		readable(
-			{loading: true},
-			set => void (async () => { // readable<Result<ConnectedAccount>>
-				try {
-					const accounts = await walletConnection.connect()
-
-					const accountConnectionState = {
-						walletConnection,
-						signer: getSigner(walletConnection.provider),
-						address: accounts?.[0],
-						chainId: undefined,
-					}
-
-					set({
-						loading: false,
-						data: accountConnectionState
-					})
-
-					const stores = walletConnection.subscribe()
-
-					stores.accounts.subscribe(accounts => set({
-						loading: false,
-						data: {
-							...accountConnectionState,
-							address: accounts[0]
-						}
-					}))
-
-					stores.chainId.subscribe(chainId => set({
-						loading: false,
-						data: {
-							...accountConnectionState,
-							chainId
-						}
-					}))
-				}catch(e){
-					set({
-						loading: false,
-						error: e
-					})
-				}
-			})()
-		)
 
 
 	const onDragStart = (e: DragEvent) => {
@@ -95,7 +45,7 @@
 
 
 <div class="column scroll-snap-item" transition:scale>
-	<Loader 
+	<Loader
 		fromPromise={async () =>
 			await getWalletConnection({
 				walletType,
@@ -112,7 +62,7 @@
 		let:result={walletConnection}
 	>
 		<Loader
-			fromStore={() => getAccountConnectionStore(walletConnection)}
+			fromStore={() => getAccountConnectionState(walletConnection)}
 
 			loadingIcon={walletsByType[walletType]?.icon}
 
