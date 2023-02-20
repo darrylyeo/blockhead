@@ -5,7 +5,8 @@ import type { WalletType, WalletConnection, Provider } from '../data/ethereum/wa
 export type AccountConnection = {
 	id: string,
 	walletType: WalletType,
-	state?: AccountConnectionState
+	state?: AccountConnectionState,
+	autoconnect?: boolean,
 }
 
 export type AccountConnectionState = {
@@ -19,7 +20,8 @@ export type AccountConnectionState = {
 type SerializedAccountConnection = {
 	id?: string,
 	walletType: WalletType,
-	state?: Omit<AccountConnectionState, 'walletConnection' | 'signer'>
+	state?: Omit<AccountConnectionState, 'walletConnection' | 'signer'>,
+	autoconnect?: boolean,
 }
 
 
@@ -27,10 +29,12 @@ export const createAccountConnection = ({
 	id = crypto.randomUUID(),
 	walletType,
 	state = {},
+	autoconnect = false,
 }: SerializedAccountConnection) => ({
 	id,
 	walletType,
 	state,
+	autoconnect,
 	// toJSON(){
 	// 	return serializeAccountConnection(this)
 	// }
@@ -42,7 +46,8 @@ export const serializeAccountConnection = ({
 	state: {
 		address,
 		chainId,
-	} = {}
+	} = {},
+	autoconnect,
 }: AccountConnection) => ({
 	id,
 	walletType,
@@ -50,6 +55,7 @@ export const serializeAccountConnection = ({
 		address,
 		chainId,
 	},
+	autoconnect,
 }) as SerializedAccountConnection
 
 
