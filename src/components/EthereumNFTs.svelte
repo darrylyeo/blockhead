@@ -551,14 +551,14 @@
 						draggable={true}
 					>
 						{#if metadata.bannerImage && !show3D}
-							<img class="cover-image" src={metadata.bannerImage} />
+							<img class="cover-image" src={metadata.bannerImage} on:error={e => e.target.hidden = true} />
 						{/if}
 
 						<header class="column">
 							<div class="bar">
 								<h5 class="row">
 									{#if metadata.logoImage}
-										<img src={metadata.logoImage} height="24" style="width: fit-content" />
+										<img src={metadata.logoImage} height="24" style="width: fit-content" on:error={e => e.target.hidden = true} />
 									{/if}
 									<span>
 										<Address {network} {address} let:formattedAddress>{name || formattedAddress}</Address>
@@ -748,14 +748,14 @@
 						draggable={true}
 					>
 						{#if metadata.bannerImage}
-							<img class="cover-image" src={metadata.bannerImage} />
+							<img class="cover-image" src={metadata.bannerImage} on:error={e => e.target.hidden = true} />
 						{/if}
 
 						<header class="column">
 							<div class="bar">
 								<h5 class="row">
 									{#if metadata.logoImage}
-										<img class="nft-contract-logo" src={metadata.logoImage} />
+										<img class="nft-contract-logo" src={metadata.logoImage} on:error={e => e.target.hidden = true} />
 									{/if}
 									<span>
 										<Address {network} {address} let:formattedAddress>{name || formattedAddress}</Address>

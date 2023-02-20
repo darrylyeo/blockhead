@@ -907,3 +907,7 @@ body::-webkit-scrollbar-button {
 [data-before]:before {
 	content: attr(data-before);
 }
+
+[hidden] {
+	display: none !important;
+}
