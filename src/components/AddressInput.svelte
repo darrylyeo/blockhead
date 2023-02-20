@@ -23,9 +23,16 @@
 
 	// Methods/hooks/lifecycle
 
-	const onInput = () => {
-		// value = value.trim()
+	const onInput = (e: InputEvent) => {
+		if([
+			'insertFromDrop',
+			'insertFromPaste'
+		].includes(e.inputType)){
+			address = value.match(pattern)?.[0] || value || ''
+			value = address
+		}
 
+		// value = value.trim()
 		// address = value
 	}
 
