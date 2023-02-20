@@ -4,7 +4,7 @@
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { DeFiProvider } from '../data/defi-provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
-	import { networksByChainID } from '../data/ethereum/networks'
+	import { getNetworkColor, networksByChainID } from '../data/ethereum/networks'
 	import { Covalent } from '../api/covalent'
 	import { getDefaultProvider } from '@ethersproject/providers'
 
@@ -129,6 +129,7 @@
 	import { tokenColors } from '../data/token-colors'
 
 	import { scale } from 'svelte/transition'
+	import { cardStyle } from '../utils/card-background'
 </script>
 
 
@@ -374,7 +375,7 @@
 				style="{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}"
 			>
 				<SizeContainer containerClass="header sticky" isOpen={isEditing} renderOnlyWhenOpen={false}>
-					<header class="bar card">
+					<header class="bar card" style={cardStyle([getNetworkColor(network)])}>
 						<span class="card-background"><NetworkIcon {network} /></span>
 						<h3 class="row">
 							<NetworkIcon {network} />
