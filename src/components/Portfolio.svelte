@@ -46,16 +46,9 @@
 
 	// Wallet management
 
-	function isValid(address){
-		return address !== ''
-	}
-
 	let newWalletAddress = ''
 
 	const addAccount = (newWalletAddress: Ethereum.Address) => {
-		if(!isValid(newWalletAddress))
-			return
-
 		if(accounts.some(account => account.id.toLowerCase() === newWalletAddress.toLowerCase()))
 			return
 
@@ -309,7 +302,7 @@
 									autofocus
 									required
 								/>
-								<button class="medium add" disabled={!isValid(newWalletAddress)}>Add</button>
+								<button type="submit" class="medium add">Add</button>
 							</form>
 							<button class="medium cancel" on:click={() => state = State.Idle}>Cancel</button>
 						</div>
