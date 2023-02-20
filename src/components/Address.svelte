@@ -14,7 +14,7 @@
 	$: formattedAddress = formatAddress(address, format)
 
 
-	$: link = `/explorer/${network.slug}/${address}`
+	$: link = network ? `/explorer/${network.slug}/${address}` : ''
 
 	const onDragStart = (e: DragEvent) => {
 		e.dataTransfer.setData('text/plain', address)
