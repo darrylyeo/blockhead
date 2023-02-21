@@ -36,8 +36,11 @@
 	.collapsible[data-state="closed"] > div {
 		/* transform: rotateX(-20deg); */
 		translate: 0 var(--padding-inner) -100px;
+
 		opacity: 0;
 		filter: blur(1rem);
+
+		visibility: hidden;
 		pointer-events: none;
 	}
 
