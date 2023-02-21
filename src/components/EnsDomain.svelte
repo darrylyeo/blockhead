@@ -23,9 +23,11 @@
 
 
 	import Address from './Address.svelte'
+	import Collapsible from './Collapsible.svelte'
 	import EnsName from './EnsName.svelte'
 	import EnsDomainEvent from './EnsDomainEvent.svelte'
 	import EnsResolver from './EnsResolver.svelte'
+	import InlineContainer from './InlineContainer.svelte'
 
 
 	import { scale } from 'svelte/transition'
@@ -218,53 +220,43 @@
 	{#if domain.events}
 		<hr>
 
-		<div class="bar">
-			<div class="row">
-				<h3>
-					Transaction History
-					({domain.events.length}{domain.events.length === 100 ? '+' : ''})
-				</h3>
+		<Collapsible let:isOpen>
+			<h3 slot="title">
+				Transaction History
+				({domain.events.length}{domain.events.length === 100 ? '+' : ''})
+			</h3>
 
-				{#if showTransactions}
-					<button class="small" on:click={() => showTransactions = false} transition:scale>Hide</button>
-				{/if}
-			</div>
+			<svelte:fragment slot="toolbar-items" let:isOpen>
+				<InlineContainer {isOpen} class="row align-end">
+					<label>
+						<input type="checkbox" bind:checked={showFees}>
+						<span>Show Fees</span>
+					</label>
 
-			<div class="stack">
-				{#if showTransactions}
-					<div class="row">
-						<label transition:scale>
-							<input type="checkbox" bind:checked={showFees}>
-							<span>Show Fees</span>
-						</label>
-						<label transition:scale>
-							<span>View</span>
-							<select bind:value={detailLevel}>
-								<option value="summary">Summary</option>
-								<option value="detailed">Detailed</option>
-								<option value="exhaustive">Exhaustive</option>
-							</select>
-						</label>
-					</div>
-				{:else}
-					<button class="small" on:click={() => showTransactions = true} transition:scale>Show</button>
-				{/if}
-			</div>
-			<!-- <button class="small" on:click={() => showTransactions = !showTransactions}>{showTransactions ? 'Hide' : 'Show'} transactions</button> -->
-		</div>
+					<label>
+						<span>View</span>
+						<select bind:value={detailLevel}>
+							<option value="summary">Summary</option>
+							<option value="detailed">Detailed</option>
+							<option value="exhaustive">Exhaustive</option>
+						</select>
+					</label>
+				</InlineContainer>
+			</svelte:fragment>
 
-		{#if showTransactions}
-			<div class="column" class:scrollable-list={domain.events.length > 4}>
-				{#each [...domain.events].reverse() as event (event.id)}
-					<EnsDomainEvent
-						{network}
-						{event}
+			{#if isOpen}
+				<div class="column" class:scrollable-list={domain.events.length > 4}>
+					{#each [...domain.events].reverse() as event (event.id)}
+						<EnsDomainEvent
+							{network}
+							{event}
 
-						{detailLevel}
-					/>
-				{/each}
-			</div>
-		{/if}
+							{detailLevel}
+						/>
+					{/each}
+				</div>
+			{/if}
+		</Collapsible>
 	{/if}
 
 	<!-- <hr>
