@@ -97,4 +97,6 @@
 	<div>
 		<slot {isOpen} {toggle} />
 	</div>
+
+	<slot name="footer" {isOpen} {toggle} />
 </div>
