@@ -54,11 +54,11 @@
 		margin: calc(-1 * var(--padding-inner));
 		padding: var(--padding-inner);
 	}
-	label[data-state="open"],
+	.container[data-state="open"] label,
 	details[open] summary {
 		cursor: zoom-out;
 	}
-	label[data-state="closed"],
+	.container[data-state="closed"] label,
 	details:not([open]) summary {
 		cursor: zoom-in;
 	}
@@ -80,7 +80,7 @@
 		data-state={isOpen ? 'open' : 'closed'}
 	>
 		<slot name="header" {isOpen} {toggle}>
-			<label class="bar" data-state={isOpen ? 'open' : 'closed'}>
+			<label class="bar">
 				<slot name="title">
 					<h4>{title}</h4>
 				</slot>
@@ -127,7 +127,7 @@
 		bind:open={isOpen}
 	>
 		<slot name="header" {isOpen} {toggle}>
-			<summary class="bar" data-state={isOpen ? 'open' : 'closed'} >
+			<summary class="bar">
 				<slot name="title">
 					<h4>{title}</h4>
 				</slot>
