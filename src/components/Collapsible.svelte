@@ -11,10 +11,6 @@
 
 
 <style>
-	.collapsible-container[data-state="closed"] {
-		gap: 0;
-	}
-
 	.collapsible {
 		display: grid;
 
@@ -23,52 +19,58 @@
 
 		perspective: 1000px;
 
-		transition: grid-template-rows 0.3s ease-out;
+		transition: 0.5s var(--ease-out-expo);
+		/* transition-property: grid-template-rows, gap; */
 	}
 	.collapsible[data-state="open"] {
-		grid-template-rows: 1fr;
+		grid-template-rows: max-content 1fr;
 	}
 	.collapsible[data-state="closed"] {
-		grid-template-rows: 0fr;
+		grid-template-rows: max-content 0fr;
+		gap: 0;
 	}
 
 	.collapsible > div {
 		min-height: 0;
+		overflow: clip;
+		transform-origin: top;
 	}
 	.collapsible[data-state="closed"] > div {
+		/* transform: rotateX(-20deg); */
+		translate: 0 var(--padding-inner) -100px;
 		opacity: 0;
-		filter: blur(20px);
-		translate: 0 0 -100px;
+		filter: blur(1rem);
 		pointer-events: none;
-		/* rotate: 2turn; */
 	}
 
+	label {
+		margin: calc(-1 * var(--padding-inner));
+		padding: var(--padding-inner);
+	}
 	label[data-state="open"] {
 		cursor: zoom-out;
 	}
 	label[data-state="closed"] {
 		cursor: zoom-in;
 	}
+	label:hover {
+		filter: brightness(1.1);
+	}
 	label:active {
 		scale: 0.992;
 		opacity: 0.75;
-		transition-duration: 0.1s;
+		transition-duration: 0.15s;
 	}
 </style>
 
 
 <div
-	class="collapsible-container column {$$props.class}"
+	class="collapsible {$$props.class}"
+	id={ariaId}
 	data-state={isOpen ? 'open' : 'closed'}
+	aria-labelledby="collapsible-header"
+	role="region"
 >
-
-	<div
-		class="collapsible"
-		id={ariaId}
-		data-state={isOpen ? 'open' : 'closed'}
-		aria-labelledby="collapsible-header"
-		role="region"
-	>
 	<slot name="header" {isOpen} {toggle}>
 		<label class="bar" data-state={isOpen ? 'open' : 'closed'}>
 			<slot name="title">
@@ -77,14 +79,22 @@
 
 			<button
 				class="small"
+				data-after={isOpen ? '⏶' : '⏷'}
 				aria-controls={ariaId}
 				aria-expanded={isOpen ? 'true' : 'false'}
 				on:click={toggle}
 			>{isOpen ? 'Hide' : 'Show'}</button>
+			<!-- <button
+				class="small"
+				data-after={isOpen ? '▲' : '▼'}
+				aria-controls={ariaId}
+				aria-expanded={isOpen ? 'true' : 'false'}
+				on:click={toggle}
+			/> -->
 		</label>
 	</slot>
-		<div>
-			<slot {isOpen} {toggle} />
-		</div>
+
+	<div>
+		<slot {isOpen} {toggle} />
 	</div>
 </div>
