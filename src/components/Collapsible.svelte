@@ -14,9 +14,6 @@
 	.collapsible {
 		display: grid;
 
-		overflow: clip;
-		overflow-clip-margin: 1rem;
-
 		perspective: 1000px;
 
 		transition: 0.5s var(--ease-out-expo);
@@ -33,6 +30,7 @@
 	.collapsible > div {
 		min-height: 0;
 		overflow: clip;
+		overflow-clip-margin: var(--padding-outer);
 		transform-origin: top;
 	}
 	.collapsible[data-state="closed"] > div {
