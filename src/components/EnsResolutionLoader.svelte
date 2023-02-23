@@ -1,25 +1,28 @@
 <script lang="ts">
 	import type { ENS } from '../data/ens'
 	import type { Ethereum } from '../data/ethereum/types'
+	import { NetworkProvider } from '../data/providers-types'
+	import { getEthersProvider } from '../data/providers'
+	import { networksByChainID } from '../data/ethereum/networks'
+	import { preferences } from '../state/preferences'
 
 
+	export let network = networksByChainID[1]
+	export let providerName: NetworkProvider
 	export let provider: Ethereum.Provider
 	export let addressOrEnsName: Ethereum.Address | string
 	export let passiveForwardResolution = false
 	export let passiveReverseResolution = false
 
+	$: providerName = $$props.providerName ?? $preferences.rpcNetwork
 
-	import { preferences } from '../state/preferences'
-	import { getEthersProvider } from '../data/providers'
-	import { NetworkProvider } from '../data/providers-types'
-	import { networksByChainID } from '../data/ethereum/networks'
-
-	$: if(!provider)
+	$: if(network && providerName && !provider)
 		getEthersProvider({
-			network: networksByChainID[1],
-			networkProvider: $preferences.rpcNetwork
+			network,
+			networkProvider: providerName,
 		}).then(_ => provider = _)
 
+	$: viaRPC = providerName === NetworkProvider.Default ? '' : ` via ${providerName}`
 
 	import { isAddress } from '@ethersproject/address'
 
@@ -54,7 +57,7 @@
 			return ensName
 
 		// throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name.`)
-		throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name (or there's an issue with the${$preferences.rpcNetwork === NetworkProvider.Default ? `` : ` ${$preferences.rpcNetwork}`} JSON-RPC connection).`)
+		throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name (or there's an issue with the${providerName === NetworkProvider.Default ? `` : ` ${providerName}`} JSON-RPC connection).`)
 
 		// ensNamePromise = ens.getName(address).then(async name => {
 		// 	if(address === await ens.name(name).getAddress())
@@ -68,7 +71,7 @@
 			return address
 
 		// throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address.`)
-		throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address (or there's an issue with the${$preferences.rpcNetwork === NetworkProvider.Default ? `` : ` ${$preferences.rpcNetwork}`} JSON-RPC connection).`)
+		throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address (or there's an issue with the${providerName === NetworkProvider.Default ? `` : ` ${providerName}`} JSON-RPC connection).`)
 
 		// addressPromise = ens.name(addressOrEnsName).getAddress()
 	})
@@ -77,8 +80,6 @@
 	export let showIf: (({address, ensName}: {address: Ethereum.Address, ensName: string}) => boolean | any) | undefined
 	export let layoutClass: string
 	export let clip = true
-
-	$: viaRPC = $preferences.rpcNetwork === NetworkProvider.Default ? '' : ` via ${$preferences.rpcNetwork}`
 
 
 	import Loader from './Loader.svelte'
