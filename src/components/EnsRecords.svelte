@@ -80,7 +80,7 @@
 
 
 	import Address from './Address.svelte'
-	import EnsRecordLoader from './EnsRecordLoader.svelte'
+	import EnsRecordsLoader from './EnsRecordsLoader.svelte'
 	import TokenIcon from './TokenIcon.svelte'
 
 	import { flip } from 'svelte/animate'
@@ -142,7 +142,7 @@
 </style>
 
 
-<EnsRecordLoader
+<EnsRecordsLoader
 	{network}
 	{providerName}
 	{provider}
@@ -289,4 +289,4 @@
 	<!-- {#if records.avatar}
 		<img src={records.avatar} />
 	{/if} -->
-</EnsRecordLoader>
+</EnsRecordsLoader>

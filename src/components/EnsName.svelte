@@ -24,7 +24,7 @@
 	}
 
 
-	import EnsRecordLoader from './EnsRecordLoader.svelte'
+	import EnsRecordsLoader from './EnsRecordsLoader.svelte'
 </script>
 
 
@@ -41,7 +41,7 @@
 </style>
 
 
-<EnsRecordLoader
+<EnsRecordsLoader
 	resolverTextRecordKeys={['name', 'avatar', 'description', 'notice', 'display', 'location', 'url']}
 	passive={true}
 	let:textRecords
@@ -62,4 +62,4 @@
 			{formattedENSName}
 		{/if}
 	</span>
-</EnsRecordLoader>
+</EnsRecordsLoader>
