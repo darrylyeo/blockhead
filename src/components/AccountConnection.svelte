@@ -175,7 +175,7 @@
 							</div>
 						</div> -->
 
-						<HeightContainer class="column">
+						<div class="column">
 							<div class="bar">
 								<h4>{walletConfig.name}</h4>
 
@@ -200,7 +200,7 @@
 									}}
 								>Delete</button>
 							</div>
-						</HeightContainer>
+						</div>
 					{/if}
 				</article>
 			</svelte:fragment>
@@ -234,10 +234,10 @@
 						{/if}
 
 						{#if state.walletConnection}
-							<span>
+							<div class="overflow-ellipsis">
 								{walletConfig.name}
 								<small>({state.walletConnection?.connectionType})</small>
-							</span>
+							</div>
 						{/if}
 					</div>
 
@@ -247,7 +247,8 @@
 							await state?.walletConnection?.disconnect?.()
 							dispatch('disconnect')
 						}}
-					>✕</button>
+						data-before="✕"
+					/>
 				</article>
 			{/if}
 		</Loader>
@@ -257,24 +258,27 @@
 
 <style>
 	.wallet-connection {
-		display: flex;
+		display: grid;
+		grid-template-columns: auto 1fr;
+		grid-auto-flow: column;
 		align-items: center;
 		padding: 0.5em;
 		text-align: left;
+		line-height: 1.25;
 
 		--icon-size: 2.5em;
 	}
-	.wallet-connection .column {
-		gap: 0em;
+	.wallet-connection > :global(*) {
+		--padding-inner: 0.33rem;
+		gap: 0.33rem;
 	}
-	.wallet-connection .column > * {
-		overflow: hidden;
-		text-overflow: ellipsis;
+	.wallet-connection .column > :global(:nth-child(1)) {
+		line-height: 1;
 	}
-	.wallet-connection .column > :first-child {
+	.wallet-connection h4 {
 		font-weight: 600;
 	}
-	.wallet-connection .column > :nth-child(2) {
+	.wallet-connection :global(.column > :nth-child(2)) {
 		font-weight: 200;
 		font-size: 0.75em;
 		opacity: 0.8;
