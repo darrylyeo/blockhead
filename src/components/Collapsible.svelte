@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let type: 'label' | 'details' = 'details'
 
-	export let title: string
+	export let title = ''
 
 	export let isOpen = false
 
@@ -83,7 +83,7 @@
 		'label': 'div',
 		'details': 'details'
 	}[type]}
-	class="container {$$props.class}"
+	class="container {$$props.containerClass ?? ''}"
 	{...{
 		'label': {
 			'data-state': isOpen ? 'open' : 'closed',
@@ -139,7 +139,7 @@
 	</slot>
 
 	<div
-		class="collapsible"
+		class="collapsible {$$props.class ?? ''}"
 		{...type === 'label' ? {
 			id: ariaId,
 		} : {}}
