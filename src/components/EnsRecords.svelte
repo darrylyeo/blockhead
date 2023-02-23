@@ -160,8 +160,11 @@
 
 	<div class="records">
 		{#if textRecords?.size}
-			<div class="card column">
-				<h3>Text Records</h3>
+			<section class="card column">
+				<header class="bar">
+					<h3>Text Records</h3>
+					<a class="card-annotation" href="https://eips.ethereum.org/EIPS/eip-634" target="_blank" rel="noreferrer"><abbr>EIP-634</abbr></a>
+				</header>
 
 				<hr>
 
@@ -227,13 +230,16 @@
 						<span>{records[textRecordKey]}</span>
 					</span>
 				{/each} -->
-			</div>
+			</section>
 		{/if}
 
 		{#if contentHash}
 			<div class="card column">
-				<h3>Content Records</h3>
-
+				<header class="bar">
+					<h3>Content Records</h3>
+					<a class="card-annotation" href="https://eips.ethereum.org/EIPS/eip-1577" target="_blank" rel="noreferrer"><abbr>EIP-1577</abbr></a>
+				</header>
+			
 				<hr>
 
 				<dl class="content-hash">
@@ -253,7 +259,10 @@
 
 		{#if cryptoAddressRecords?.size}
 			<div class="card column">
-				<h3>Blockchain Addresses</h3>
+				<header class="bar">
+					<h3>Blockchain Addresses</h3>
+					<a class="card-annotation" href="https://eips.ethereum.org/EIPS/eip-2304" target="_blank" rel="noreferrer"><abbr>EIP-2304</abbr></a>
+				</header>
 
 				<hr>
 
