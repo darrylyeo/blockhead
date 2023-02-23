@@ -5,7 +5,7 @@
 
 	export let network: Ethereum.Network
 	export let domain: ENS.Domain
-	export let registrations
+	// export let registrations
 
 
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
@@ -13,10 +13,9 @@
 	export let showFees = false
 
 	export let showResolver = false
-	export let showTransactions = false
 
 
-	let sortSubdomains
+	let sortSubdomains: (d1: ENS.Domain['subdomains'], d2: ENS.Domain['subdomains']) => number
 
 
 	import { formatTransactionHash } from '../utils/formatTransactionHash'
@@ -208,7 +207,7 @@
 	{/if}
 	
 
-	{#if domain.subdomains && domain.subdomains.length}
+	{#if domain.subdomains?.length}
 		<hr>
 
 		<div class="bar">
@@ -226,7 +225,7 @@
 
 		<div class="card">
 			<div class="subdomains">
-				{#each domain.subdomains.sort(sortSubdomains) || domain.subdomains.sort(sortSubdomains) as subdomain, i (subdomain.name)}
+				{#each domain.subdomains.sort(sortSubdomains) as subdomain, i (subdomain.name)}
 					<span class="subdomain" animate:flip|local={{duration: 500, delay: Math.random() * domain.subdomains.length * 5, easing: quintOut}}>
 						<EnsName {network} ensName={subdomain.name} />
 					</span>
