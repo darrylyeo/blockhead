@@ -8,6 +8,7 @@
 
 
 	import Address from './Address.svelte'
+	import EthereumContractExplorer from './EthereumContractExplorer.svelte'
 </script>
 
 
@@ -20,4 +21,15 @@
 			<abbr title={`A resolver is a contract that maps from name to resource (e.g., cryptocurrency addresses, content hash, etc). Resolvers are pointed to by the resolver field of the registry.\n\nSource: https://docs.ens.domains/terminology`}>ENS Resolver</abbr>
 		</span>
 	</div>
+
+	<hr>
+
+	<EthereumContractExplorer
+		{network}
+		address={resolver.address}
+	>
+		<h4 slot="title" let:address>
+			<Address {network} {address}>Contract Code</Address>
+		</h4>
+	</EthereumContractExplorer>
 </div>
