@@ -12,7 +12,8 @@
 	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	export let showFees = false
 
-	export let showResolver = false
+	export let showRecordResolver = false
+	export let showRecords = false
 
 
 	let sortSubdomains: (d1: ENS.Domain['subdomains'], d2: ENS.Domain['subdomains']) => number
@@ -191,7 +192,7 @@
 		<Collapsible
 			type="details"
 			class="column"
-			bind:isOpen={showResolver}
+			bind:isOpen={showRecordResolver}
 			let:isOpen
 		>
 			<h3 slot="title">Record Resolver</h3>
@@ -204,26 +205,77 @@
 
 			{#if isOpen}
 				<EnsResolver {network} resolver={domain.resolver} />
-
-				<hr>
-
-				{#if domain.resolver.address !== '0x0000000000000000000000000000000000000000'}
-					<EnsRecords
-						{network}
-						resolver={domain.resolver}
-						ensName={domain.name}
-					>
-						<header slot="header" class="bar" let:providerName>
-							<h3>Records</h3>
-
-							<span class="card-annotation">{providerName}</span>
-						</header>
-					</EnsRecords>
-				{:else}
-					<p><output>{domain.name}</output> isn't currently associated with a record resolver.</p>
-				{/if}
 			{/if}
 		</Collapsible>
+
+		<hr>
+
+		{#if domain.resolver.address !== '0x0000000000000000000000000000000000000000'}
+			<EnsRecords
+				{network}
+				resolver={domain.resolver}
+				ensName={domain.name}
+				isCollapsed={!showRecords}
+			>
+				<header slot="header" class="bar" let:providerName>
+					<h3>Records</h3>
+
+					<div class="row">
+						<span class="card-annotation">{providerName}</span>
+
+						<button
+							class="small"
+							data-after={showRecords ? '⏶' : '⏷'}
+							on:click={() => showRecords = !showRecords}
+						>{showRecords ? 'Hide' : 'Show'}</button>
+					</div>
+				</header>
+			</EnsRecords>
+		{:else}
+			<p><output>{domain.name}</output> isn't currently associated with a record resolver.</p>
+		{/if}
+
+		<!-- {#if showRecords}
+			<hr>
+
+			{#if domain.resolver.address !== '0x0000000000000000000000000000000000000000'}
+				<EnsRecords
+					{network}
+					resolver={domain.resolver}
+					ensName={domain.name}
+				>
+					<header slot="header" class="bar" let:providerName>
+						<h3>Records</h3>
+
+						<span class="card-annotation">{providerName}</span>
+					</header>
+				</EnsRecords>
+			{:else}
+				<p><output>{domain.name}</output> isn't currently associated with a record resolver.</p>
+			{/if}
+		{/if} -->
+
+		<!-- <Collapsible
+			type="details"
+			class="column"
+			bind:isOpen={showRecords}
+		>
+			{#if domain.resolver.address !== '0x0000000000000000000000000000000000000000'}
+				<EnsRecords
+					{network}
+					resolver={domain.resolver}
+					ensName={domain.name}
+				>
+					<header slot="header" class="bar" let:providerName>
+						<h3>Records</h3>
+
+						<span class="card-annotation">{providerName}</span>
+					</header>
+				</EnsRecords>
+			{:else}
+				<p><output>{domain.name}</output> isn't currently associated with a record resolver.</p>
+			{/if}
+		</Collapsible> -->
 	{/if}
 	
 

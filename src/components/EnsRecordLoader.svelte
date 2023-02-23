@@ -18,6 +18,7 @@
 	export let resolverTextRecordKeys: TextRecordKey[] = []
 	export let resolverCoinTypes: CoinType[] = []
 	
+	export let isCollapsed = false
 	export let passive = false
 
 
@@ -63,7 +64,6 @@
 
 
 <Loader
-	{passive}
 	loadingIconName={'ENS'}
 	loadingIcon={ENSIcon}
 	loadingMessage={'Getting ENS Resolver...'}
@@ -79,6 +79,8 @@
 			)
 		})
 	) : undefined}
+	{passive}
+	{isCollapsed}
 	let:result={resolver}
 >
 	<svelte:fragment slot="header">

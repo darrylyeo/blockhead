@@ -164,7 +164,12 @@
 >
 	<div class="ens-query column">
 		{#each result.domains.sort(sortByLength) as domain (domain.id)}
-			<EnsDomain {network} {domain} showResolver />
+			<EnsDomain
+				{network}
+				{domain}
+				showRecordResolver
+				showRecords
+			/>
 		{:else}
 			<div class="card">
 				<div class="bar">
