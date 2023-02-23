@@ -25,6 +25,7 @@
 	import Collapsible from './Collapsible.svelte'
 	import EnsName from './EnsName.svelte'
 	import EnsDomainEvent from './EnsDomainEvent.svelte'
+	import EnsRecords from './EnsRecords.svelte'
 	import EnsResolver from './EnsResolver.svelte'
 	import InlineContainer from './InlineContainer.svelte'
 
@@ -189,6 +190,7 @@
 
 		<Collapsible
 			type="details"
+			class="column"
 			bind:isOpen={showResolver}
 			let:isOpen
 		>
@@ -201,7 +203,25 @@
 			</svelte:fragment>
 
 			{#if isOpen}
-				<EnsResolver {network} resolver={domain.resolver} ensName={domain.name} />
+				<EnsResolver {network} resolver={domain.resolver} />
+
+				<hr>
+
+				{#if domain.resolver.address !== '0x0000000000000000000000000000000000000000'}
+					<EnsRecords
+						{network}
+						resolver={domain.resolver}
+						ensName={domain.name}
+					>
+						<header slot="header" class="bar" let:providerName>
+							<h3>Records</h3>
+
+							<span class="card-annotation">{providerName}</span>
+						</header>
+					</EnsRecords>
+				{:else}
+					<p><output>{domain.name}</output> isn't currently associated with a record resolver.</p>
+				{/if}
 			{/if}
 		</Collapsible>
 	{/if}

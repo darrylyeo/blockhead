@@ -10,10 +10,10 @@
 	export let linked = true
 
 
-	let textRecords: Record<string, string> = {}
+	let textRecords: Map<string, string>
 
 
-	$: formattedENSName = textRecords?.display ?? ensName.trim().toLowerCase()
+	$: formattedENSName = textRecords?.get('display') ?? ensName.trim().toLowerCase()
 
 	$: link = `/apps/ens/address/${formattedENSName}`
 
@@ -44,22 +44,22 @@
 <EnsRecordLoader
 	resolverTextRecordKeys={['name', 'avatar', 'description', 'notice', 'display', 'location', 'url']}
 	passive={true}
-	bind:textRecords
-/>
-
-<span
-	class="ens-name"
-	title={`${formattedENSName}${textRecords ? Object.entries(textRecords).map(([key, value]) => `${key} ${value}`) : ``}`}
-	draggable={true}
-	on:dragstart={onDragStart}
+	let:textRecords
 >
-	{#if linked}
-		<a class="ens-name"
-			href={link}
-			draggable={true}
-			on:dragstart={onDragStart}
-		>{formattedENSName}</a>
-	{:else}
-		{formattedENSName}
-	{/if}
-</span>
+	<span
+		class="ens-name"
+		title={`${formattedENSName}${textRecords ? [...textRecords.entries()].map(([key, value]) => `${key} ${value}`) : ''}`}
+		draggable={true}
+		on:dragstart={onDragStart}
+	>
+		{#if linked}
+			<a class="ens-name"
+				href={link}
+				draggable={true}
+				on:dragstart={onDragStart}
+			>{formattedENSName}</a>
+		{:else}
+			{formattedENSName}
+		{/if}
+	</span>
+</EnsRecordLoader>

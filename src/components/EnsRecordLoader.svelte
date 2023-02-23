@@ -1,114 +1,145 @@
-<script context="module" lang="ts">
-	import { writable } from 'svelte/store'
-
-	const contentHashForEnsName = writable<Record<string, string>>({})
-	const textRecordsForEnsName = writable<Record<string, Record<string, string>>>({})
-	const cryptoAddressRecordsForEnsName = writable<Record<string, Record<string, string>>>({})
-</script>
-
-
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import type { Resolver } from '@ethersproject/providers'
+	import { NetworkProvider } from '../data/providers-types'
+	import { getEthersProvider } from '../data/providers'
+	import { networksByChainID } from '../data/ethereum/networks'
+	import { preferences } from '../state/preferences'
+
+	type ContentHash = $$Generic<string>
+	type TextRecordKey = $$Generic<string>
+	type CoinType = $$Generic<number>
 
 
-    export let network: Ethereum.Network
-    export let provider: Ethereum.Provider
-    export let ensName: string
+	export let network = networksByChainID[1]
+	export let providerName: NetworkProvider
+	export let provider: Ethereum.Provider
+	export let ensName: string
 
-	export let resolverTextRecordKeys = []
-	export let resolverCoinTypes = []
+	export let resolverTextRecordKeys: TextRecordKey[] = []
+	export let resolverCoinTypes: CoinType[] = []
 	
 	export let passive = false
 
-	
-	import { preferences } from '../state/preferences'
-	import { getEthersProvider } from '../data/providers'
-	import { networksByChainID } from '../data/ethereum/networks'
 
-	$: if(!provider)
+	// Computed
+
+	$: providerName = $$props.providerName ?? $preferences.rpcNetwork
+
+	$: if(network && providerName && !provider)
 		getEthersProvider({
-			network: networksByChainID[1],
-			networkProvider: $preferences.rpcNetwork
+			network,
+			networkProvider: providerName,
 		}).then(_ => provider = _)
 
+	$: viaRPC = providerName === NetworkProvider.Default ? '' : ` via ${providerName}`
 
-	export let contentHash: string
-	$: contentHash = $contentHashForEnsName[ensName]
 
-	export let textRecords: Record<string, string>
-	$: textRecords = $textRecordsForEnsName[ensName] ?? ($textRecordsForEnsName[ensName] = {})
+	export let contentHash: ContentHash
+	export let textRecords: Map<TextRecordKey, string>
+	export let cryptoAddressRecords: Map<CoinType, string>
 
-	export let cryptoAddressRecords: Record<string, string>
-	$: cryptoAddressRecords = $cryptoAddressRecordsForEnsName[ensName] ?? ($cryptoAddressRecordsForEnsName[ensName] = {})
-
-	let resolver: Resolver
-
-	// let isResolvingRecords = false
-	// $: if(provider && ensName && !isResolvingRecords){
-	// 	isResolvingRecords = true
-	$: if(provider && ensName){
-		provider.getResolver(ensName).then(resolver => {
-			resolver?.getContentHash().then(content => {
-				$contentHashForEnsName[ensName] = content
-				$contentHashForEnsName = $contentHashForEnsName
-			})
-
-			for(const textRecordKey of resolverTextRecordKeys ?? [])
-				if(!(textRecordKey in $textRecordsForEnsName[ensName]))
-					resolver?.getText(textRecordKey).then(content => {
-						$textRecordsForEnsName[ensName][textRecordKey] = content
-						$textRecordsForEnsName = $textRecordsForEnsName
-					})
-
-			for(const coinType of resolverCoinTypes ?? [])
-				if(!(coinType in $cryptoAddressRecordsForEnsName[ensName]))
-					resolver?.getAddress(coinType).then(content => {
-						$cryptoAddressRecordsForEnsName[ensName][coinType] = content
-						$cryptoAddressRecordsForEnsName = $cryptoAddressRecordsForEnsName
-					})
-		})
+	type $$Slots = {
+		default: {
+			contentHash: typeof contentHash,
+			textRecords: typeof textRecords,
+			cryptoAddressRecords: typeof cryptoAddressRecords,
+			providerName: NetworkProvider,
+		},
+		header: {
+			providerName: NetworkProvider,
+		}
 	}
 
-	// console.log('resolver', resolver, resolverTextRecordKeys, resolverCoinTypes)
-	// console.log(resolverTextRecordKeys.map(async (textRecordKey) => [textRecordKey, await resolver.getText(textRecordKey)]))
-	// $: if(resolver){
-	// 	Promise.all([
-	// 		(async () => ['contentHash', await resolver.getContentHash()])(),
-	// 		...resolverTextRecordKeys.map(async (textRecordKey) => [textRecordKey, await resolver.getText(textRecordKey)]),
-	// 		...resolverCoinTypes.map(async (coinType, i) => [coinType, await resolver.getAddress(coinType)]),
-	// 	])
-	// 	.then(Object.fromEntries)
-	// 	.then(_ => records = _)
-	// }
+
+	import { parallelLoaderStore } from '../utils/parallelLoaderStore'
+	import { useQuery } from '@sveltestack/svelte-query'
 
 
-	import Loading from './Loading.svelte'
-	import TokenIcon from './TokenIcon.svelte'
+	import Loader from './Loader.svelte'
 
 
 	import { ENSIcon } from '../assets/icons'
 </script>
 
 
-<slot name="header" />
+<Loader
+	{passive}
+	loadingIconName={'ENS'}
+	loadingIcon={ENSIcon}
+	loadingMessage={'Getting ENS Resolver...'}
+	fromUseQuery={provider && ensName ? (
+		useQuery({
+			queryKey: ['EnsResolver', {
+				chainID: network.chainId,
+				providerName,
+				ensName,
+			}],
+			queryFn: async () => (
+				await provider.getResolver(ensName)
+			)
+		})
+	) : undefined}
+	let:result={resolver}
+>
+	<svelte:fragment slot="header">
+		<slot name="header" {providerName} />
+	</svelte:fragment>
 
-{#if passive}
-	{#key contentHash}{#key textRecords}{#key cryptoAddressRecords}
-		<slot {contentHash} {textRecords} {cryptoAddressRecords} />
-	{/key}{/key}{/key}
-{:else}
-	<div class="stack">
-		{#if Object.values(textRecords).length || Object.values(cryptoAddressRecords).length}
-			<div class="column">
-				<slot {contentHash} {textRecords} {cryptoAddressRecords} />
-			</div>
-		{:else}
-			<Loading iconAnimation="hover">
-				<img slot="icon" src={ENSIcon} width="25" />
+	<Loader
+		{passive}
+		loadingIconName={'ENS'}
+		loadingIcon={ENSIcon}
+		loadingMessage={`Fetching content hash${viaRPC}...`}
+		fromUseQuery={resolver && (
+			useQuery({
+				queryKey: ['EnsContentHash', {
+					chainID: network.chainId,
+					provider: provider.name,
+					ensName,
+				}],
+				queryFn: async () => {
+					if(!resolver.getContentHash)
+						throw `getContentHash is not supported.`
+					console.log({resolver}, resolver?.getContentHash)
+					return await resolver.getContentHash()
+				}
+			})
+		)}
+		errorMessage={`Failed to fetch content hash${viaRPC}.`}
+		showIf={() => false}
+		bind:result={contentHash}
+	/>
 
-				Resolving ENS records...
-			</Loading>
-		{/if}
-	</div>
-{/if}
+	<Loader
+		{passive}
+		loadingIconName={'ENS'}
+		loadingIcon={ENSIcon}
+		loadingMessage={`Resolving ENS records${viaRPC}...`}
+		fromStore={(() =>
+			parallelLoaderStore(resolverTextRecordKeys ?? [], async textRecordKey => (
+				await resolver?.getText(textRecordKey)
+			))
+		)}
+		showIf={() => false}
+		bind:result={textRecords}
+	/>
+
+	<Loader
+		{passive}
+		loadingIconName={'ENS'}
+		loadingIcon={ENSIcon}
+		loadingMessage={`Resolving crypto addresses${viaRPC}...`}
+		fromStore={(() =>
+			parallelLoaderStore(resolverCoinTypes ?? [], async coinType => (
+				await resolver?.getAddress(coinType)
+			))
+		)}
+		showIf={() => false}
+		bind:result={cryptoAddressRecords}
+	/>
+
+	<slot
+		{contentHash} {textRecords} {cryptoAddressRecords}
+		{providerName}
+	/>
+</Loader>
