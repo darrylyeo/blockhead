@@ -195,8 +195,8 @@
 			let:result={zapperDefiBalances}
 			{isCollapsed}
 		>
-			<svelte:fragment slot="header" let:status>
-				<slot name="header" {status} defiBalances={zapperDefiBalances} {summary} />
+			<svelte:fragment slot="header" let:status let:loadingMessage let:errorMessage>
+				<slot name="header" {zapperDefiBalances} {summary} {status} {loadingMessage} {errorMessage} />
 			</svelte:fragment>
 
 			<div class="defi-balances column" class:scrollable-list={isScrollable && zapperDefiBalances.flatMap(({products}) => products).length > 6}>
@@ -554,8 +554,8 @@
 			>					
 				<NetworkIcon slot="loadingIcon" {network} />
 
-				<svelte:fragment slot="header" let:status>
-					<slot name="header" {status} {defiBalances} {summary} />
+				<svelte:fragment slot="header" let:status let:loadingMessage let:errorMessage>
+					<slot name="header" {defiBalances} {summary} {status} {loadingMessage} {errorMessage} />
 				</svelte:fragment>
 
 				<div class="defi-balances column">
