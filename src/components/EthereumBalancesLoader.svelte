@@ -95,7 +95,7 @@
 		bind:result={balances}
 		let:result={balances}
 	>
-		<slot name="header" slot="header" {balances} {status} />
+		<slot name="header" slot="header" let:loadingMessage let:errorMessage {balances} {status} {loadingMessage} {errorMessage} />
 
 		<slot {balances} />
 	</Loader>
@@ -189,7 +189,7 @@
 		bind:result={balances}
 		let:result={balances}
 	>
-		<slot name="header" slot="header" {balances} {status} />
+		<slot name="header" slot="header" let:loadingMessage let:errorMessage {balances} {status} {loadingMessage} {errorMessage} />
 
 		<slot {balances} />
 	</Loader>
@@ -244,7 +244,7 @@
 		bind:result={balances}
 		let:result={balances}
 	>
-		<slot name="header" slot="header" {balances} {status} />
+		<slot name="header" slot="header" let:loadingMessage let:errorMessage {balances} {status} {loadingMessage} {errorMessage} />
 
 		<slot {balances} />
 	</Loader>
@@ -281,7 +281,7 @@
 		bind:result={balances}
 		let:result={balances}
 	>
-		<slot name="header" slot="header" {balances} {status} />
+		<slot name="header" slot="header" let:loadingMessage let:errorMessage {balances} {status} {loadingMessage} {errorMessage} />
 
 		<slot {balances} />
 	</Loader>

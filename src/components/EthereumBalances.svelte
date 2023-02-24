@@ -76,6 +76,8 @@
 
 	import EthereumBalancesLoader from './EthereumBalancesLoader.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
+
+
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
 	import { quintOut } from 'svelte/easing'
@@ -159,8 +161,8 @@
 		bind:balances
 	>
 		<!-- showIf={() => balances.length} -->
-		<svelte:fragment slot="header" let:status>
-			<slot name="header" {balances} {filteredBalances} {summary} {status} />
+		<svelte:fragment slot="header" let:status let:loadingMessage let:errorMessage>
+			<slot name="header" {balances} {filteredBalances} {summary} {status} {loadingMessage} {errorMessage} />
 		</svelte:fragment>
 
 		<div class:scrollable-list={isScrollable && filteredBalances.length > 45}>
