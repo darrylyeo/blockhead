@@ -521,8 +521,8 @@
 		bind:result={nftContractsWithBalances}
 		{isCollapsed}
 	>
-		<svelte:fragment slot="header">
-			<slot name="header" {nftContractsWithBalances} {summary}></slot>
+		<svelte:fragment slot="header" let:status let:loadingMessage let:errorMessage>
+			<slot name="header" {nftContractsWithBalances} {summary} {status} {loadingMessage} {errorMessage} />
 		</svelte:fragment>
 
 		{#if nftContractsWithBalances}
@@ -718,8 +718,8 @@
 		bind:result={nftContractsWithBalances}
 		{isCollapsed}
 	>
-		<svelte:fragment slot="header">
-			<slot name="header" {nftContractsWithBalances} {summary}></slot>
+		<svelte:fragment slot="header" let:status let:loadingMessage let:errorMessage>
+			<slot name="header" {nftContractsWithBalances} {summary} {status} {loadingMessage} {errorMessage} />
 		</svelte:fragment>
 
 		{#if nftContractsWithBalances}
