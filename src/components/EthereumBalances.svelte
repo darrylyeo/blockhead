@@ -159,8 +159,8 @@
 		bind:balances
 	>
 		<!-- showIf={() => balances.length} -->
-		<svelte:fragment slot="header">
-			<slot name="header" {balances} {filteredBalances} {summary} />
+		<svelte:fragment slot="header" let:status>
+			<slot name="header" {balances} {filteredBalances} {summary} {status} />
 		</svelte:fragment>
 
 		<div class:scrollable-list={isScrollable && filteredBalances.length > 45}>

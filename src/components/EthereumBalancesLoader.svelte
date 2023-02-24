@@ -91,10 +91,11 @@
 		}
 		{showIf}
 		{isCollapsed}
+		let:status
 		bind:result={balances}
 		let:result={balances}
 	>
-		<slot name="header" slot="header" {balances} />
+		<slot name="header" slot="header" {balances} {status} />
 
 		<slot {balances} />
 	</Loader>
@@ -184,10 +185,11 @@
 		}
 		{showIf}
 		{isCollapsed}
+		let:status
 		bind:result={balances}
 		let:result={balances}
 	>
-		<slot name="header" slot="header" {balances} />
+		<slot name="header" slot="header" {balances} {status} />
 
 		<slot {balances} />
 	</Loader>
@@ -238,10 +240,11 @@
 		) ?? []}
 		{showIf}
 		{isCollapsed}
+		let:status
 		bind:result={balances}
 		let:result={balances}
 	>
-		<slot name="header" slot="header" {balances} />
+		<slot name="header" slot="header" {balances} {status} />
 
 		<slot {balances} />
 	</Loader>
@@ -274,10 +277,11 @@
 		)}
 		{showIf}
 		{isCollapsed}
+		let:status
 		bind:result={balances}
 		let:result={balances}
 	>
-		<slot name="header" slot="header" {balances} />
+		<slot name="header" slot="header" {balances} {status} />
 
 		<slot {balances} />
 	</Loader>
