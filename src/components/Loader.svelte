@@ -72,6 +72,8 @@
 		},
 		header: {
 			status: LoadingStatus,
+			loadingMessage: string,
+			errorMessage: string,
 			load: typeof load,
 			cancel: typeof cancel
 		},
@@ -268,12 +270,21 @@
 
 
 {#if !isHidden}
-	<slot name="header" {status} {load} {cancel} />
+	<slot
+		name="header"
+		{status}
+		{loadingMessage}
+		{errorMessage}
+		{load}
+		{cancel}
+	/>
 
 	{#if passive}
 		<slot
 			{result}
 			{status}
+			{loadingMessage}
+			{errorMessage}
 			{load}
 			{cancel}
 			pagination={$fromUseInfiniteQuery && {
@@ -294,6 +305,8 @@
 					<slot
 						{result}
 						{status}
+						{loadingMessage}
+						{errorMessage}
 						{load}
 						{cancel}
 						pagination={$fromUseInfiniteQuery && {
