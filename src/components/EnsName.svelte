@@ -46,20 +46,20 @@
 	passive={true}
 	let:textRecords
 >
-	<span
-		class="ens-name"
-		title={`${formattedENSName}${textRecords ? [...textRecords.entries()].map(([key, value]) => `${key} ${value}`) : ''}`}
-		draggable={true}
-		on:dragstart={onDragStart}
-	>
-		{#if linked}
-			<a class="ens-name"
-				href={link}
-				draggable={true}
-				on:dragstart={onDragStart}
-			>{formattedENSName}</a>
-		{:else}
+	{@const title = `${formattedENSName}${textRecords ? [...textRecords.entries()].map(([key, value]) => `${key} ${value}`).join('\n') : ''}`}
+
+	<span class="ens-name-container row-inline {$$props.class}">
+		<svelte:element
+			this={linked ? 'a' : 'span'}
+			class="ens-name"
+			{title}
+			{...linked ? {
+				href: link
+			} : {}}
+			draggable={true}
+			on:dragstart={onDragStart}
+		>
 			{formattedENSName}
-		{/if}
+		</svelte:element>
 	</span>
 </EnsRecordsLoader>
