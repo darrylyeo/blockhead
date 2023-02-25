@@ -181,7 +181,7 @@
 			status = LoadingStatus.Loading
 		}
 		else if($store.error){
-			error = then($store.error)
+			error = $store.error
 			status = LoadingStatus.Errored
 		}
 		else if($store.data){
