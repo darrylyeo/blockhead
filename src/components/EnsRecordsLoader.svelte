@@ -4,6 +4,7 @@
 	import { getEthersProvider } from '../data/providers'
 	import { networksByChainID } from '../data/ethereum/networks'
 	import { preferences } from '../state/preferences'
+	import type { Resolver } from '@ethersproject/providers'
 
 	type ContentHash = $$Generic<string>
 	type TextRecordKey = $$Generic<string>
@@ -17,7 +18,7 @@
 
 	export let resolverTextRecordKeys: TextRecordKey[] = []
 	export let resolverCoinTypes: CoinType[] = []
-	
+
 	export let isCollapsed = false
 	export let passive = false
 
@@ -33,6 +34,31 @@
 		}).then(_ => provider = _)
 
 	$: viaRPC = providerName === NetworkProvider.Default ? '' : ` via ${providerName}`
+
+
+	// Methods
+
+	import { memoizedAsync } from '../utils/memoized'
+
+	const resolveEnsTextRecord = memoizedAsync(async ({
+		resolver,
+		textRecordKey
+	}: {
+		resolver: Resolver,
+		textRecordKey: string
+	}) => (
+		await resolver?.getText(textRecordKey)
+	))
+
+	const resolveEnsCryptoAddress = memoizedAsync(async ({
+		resolver,
+		coinType
+	}: {
+		resolver: Resolver,
+		coinType: number
+	}) => (
+		await resolver?.getAddress(coinType)
+	))
 
 
 	export let contentHash: ContentHash
@@ -119,7 +145,7 @@
 		loadingMessage={`Resolving ENS records${viaRPC}...`}
 		fromStore={(() =>
 			parallelLoaderStore(resolverTextRecordKeys ?? [], async textRecordKey => (
-				await resolver?.getText(textRecordKey)
+				await resolveEnsTextRecord({ resolver, textRecordKey })
 			))
 		)}
 		showIf={() => false}
@@ -133,7 +159,7 @@
 		loadingMessage={`Resolving crypto addresses${viaRPC}...`}
 		fromStore={(() =>
 			parallelLoaderStore(resolverCoinTypes ?? [], async coinType => (
-				await resolver?.getAddress(coinType)
+				await resolveEnsCryptoAddress({ resolver, coinType })
 			))
 		)}
 		showIf={() => false}
