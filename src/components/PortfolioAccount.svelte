@@ -270,7 +270,12 @@
 </style>
 
 
-<article class="account card column sticky-layout" class:is-editing={isEditing} class:grid-layout={isGridLayout}>
+<article
+	id={addressOrEnsName}
+	class="account card column sticky-layout"
+	class:is-editing={isEditing}
+	class:grid-layout={isGridLayout}
+>
 	<EnsResolutionLoader
 		{addressOrEnsName}
 		{provider}

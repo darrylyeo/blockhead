@@ -43,12 +43,17 @@
 	import { createEventDispatcher } from 'svelte'
 	const dispatch = createEventDispatcher()
 
+	import { goto } from '$app/navigation'
+
 
 	// Wallet management
+
 
 	let newWalletAddress = ''
 
 	const addAccount = (newWalletAddress: Ethereum.Address) => {
+		goto(`#${newWalletAddress}`)
+
 		if(accounts.some(account => account.id.toLowerCase() === newWalletAddress.toLowerCase()))
 			return
 
