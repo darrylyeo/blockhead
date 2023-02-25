@@ -4,13 +4,19 @@
 
 
 <script lang="ts">
+	import type { TransitionConfig } from 'svelte/transition'
+
+
 	export let key
 	export let imageSources = []
 
 	export let title = ''
 	export let placeholder = ''
-
+	
 	export let isGrayscale = false
+
+	export let transition: (node: Element, params: any) => TransitionConfig = () => ({})
+	export let transitionConfig: any
 
 
 	let i = cachedIndex[key] ||= 0
@@ -22,6 +28,7 @@
 	class="icon"
 	class:isGrayscale={isGrayscale}
 	{title}
+	transition:transition={transitionConfig}
 >
 	{#if imageSources[i]}
 		<img src={imageSources[i]} on:error={e => i++} />
