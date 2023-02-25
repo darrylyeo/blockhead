@@ -16,6 +16,9 @@
 	export let showRecords = false
 
 
+	$: hasSetResolver = domain.resolver?.address !== '0x0000000000000000000000000000000000000000'
+
+
 	let sortSubdomains: (d1: ENS.Domain['subdomains'], d2: ENS.Domain['subdomains']) => number
 
 
@@ -204,13 +207,19 @@
 			</svelte:fragment>
 
 			{#if isOpen}
-				<EnsResolver {network} resolver={domain.resolver} />
+				{#if hasSetResolver}
+					<EnsResolver {network} resolver={domain.resolver} />
+				{:else}
+					<div class="card">
+						<p><EnsName ensName={domain.name} /> isn't currently associated with a record resolver.</p>
+					</div>
+				{/if}
 			{/if}
 		</Collapsible>
 
-		<hr>
+		{#if hasSetResolver}
+			<hr>
 
-		{#if domain.resolver.address !== '0x0000000000000000000000000000000000000000'}
 			<EnsRecords
 				{network}
 				resolver={domain.resolver}
@@ -231,8 +240,6 @@
 					</div>
 				</header>
 			</EnsRecords>
-		{:else}
-			<p><output>{domain.name}</output> isn't currently associated with a record resolver.</p>
 		{/if}
 
 		<!-- {#if showRecords}
