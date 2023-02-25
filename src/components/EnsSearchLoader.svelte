@@ -173,7 +173,7 @@
 		{:else}
 			<div class="card">
 				<div class="bar">
-					<h2><EnsName {network} ensName={searchQuery} /></h2>
+					<h2><EnsName {network} ensName={searchQuery} showAvatar showName /></h2>
 					<span class="card-annotation">ENS Name</span>
 				</div>
 				<div class="bar">
