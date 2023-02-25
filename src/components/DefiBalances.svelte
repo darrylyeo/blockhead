@@ -103,7 +103,7 @@
 	import { scaleFont } from '../transitions/scale-font'
 
 
-	import { ZapperIcon } from '../assets/icons'
+	import { ZapperIcon, ZerionIcon } from '../assets/icons'
 </script>
 
 <style>
@@ -541,6 +541,7 @@
 		{#if provider}
 			<Loader
 				loadingMessage="Reading {defiBalancesDescription} balances from {defiProvider}..."
+				loadingIcon={ZerionIcon}
 				errorMessage="Error getting {defiBalancesDescription} balances from {defiProvider}."
 				fromPromise={() => getDefiBalances({
 					protocolNames: web3Apps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zerionDefiSDK ?? [])),
@@ -552,7 +553,7 @@
 				let:result={defiBalances}
 				{isCollapsed}
 			>					
-				<NetworkIcon slot="loadingIcon" {network} />
+				<!-- <NetworkIcon slot="loadingIcon" {network} /> -->
 
 				<svelte:fragment slot="header" let:status let:loadingMessage let:errorMessage>
 					<slot name="header" {defiBalances} {summary} {status} {loadingMessage} {errorMessage} />
