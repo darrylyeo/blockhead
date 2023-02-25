@@ -294,7 +294,7 @@
 					{/if}
 				{:else if type === AccountType.ENS}
 					{#if ensName}
-						<h3><EnsName {ensName} /></h3>
+						<h3><EnsName {ensName} showAvatar /></h3>
 					{/if}
 					{#if address}
 						<small><Address network={networksByChainID[1]} {address} /></small>
@@ -304,7 +304,7 @@
 						<h3><Address network={networksByChainID[1]} {address} /></h3>
 					{/if}
 					{#if ensName}
-						<small><EnsName {ensName} /></small>
+						<small><EnsName {ensName} showAvatar /></small>
 					{/if}
 				{/if}
 			</div>
