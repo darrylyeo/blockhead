@@ -21,6 +21,9 @@
 
 		cursor: progress;
 	}
+	.loading[data-layout="icon"] {
+		animation: HoverIcon 1.5s infinite;
+	}
 	.loading :global(*) {
 		cursor: inherit !important;
 	}
@@ -54,11 +57,20 @@
 	@keyframes Hover {
 		from, to {
 			transform: perspective(1000px) translateZ(calc(-1 * var(--hover-intensity)));
-			opacity: 0.5;
 		}
 		50% {
 			transform: perspective(1000px) translateZ(var(--hover-intensity));
+		}
+	}
+
+	@keyframes HoverIcon {
+		from, to {
+			transform: perspective(1000px) translateZ(calc(-1 * var(--hover-intensity)));
 			opacity: 1;
+		}
+		50% {
+			transform: perspective(1000px) translateZ(var(--hover-intensity));
+			opacity: 0.5;
 		}
 	}
 </style>
