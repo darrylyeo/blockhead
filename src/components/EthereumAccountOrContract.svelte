@@ -111,10 +111,10 @@
 					{#if address}
 						<h2><Address {network} {address} /></h2>
 						{#if ensName}
-							<EnsName {ensName} />
+							<EnsName {ensName} showAvatar />
 						{/if}
 					{:else if ensName}
-						<h2><EnsName {ensName} /></h2>
+						<h2><EnsName {ensName} showAvatar /></h2>
 					{/if}
 				</slot>
 				<!-- {#if isReverseResolving}
@@ -122,11 +122,11 @@
 						<h2><Address {network} {address} /></h2>
 					{/if}
 					{#if ensName}
-						<EnsName {ensName} />
+						<EnsName {ensName} showAvatar />
 					{/if}
 				{:else}
 					{#if ensName}
-						<h2><EnsName {ensName} /></h2>
+						<h2><EnsName {ensName} showAvatar /></h2>
 					{/if}
 					{#if address}
 						<Address {network} {address} />
