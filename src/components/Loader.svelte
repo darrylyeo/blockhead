@@ -1,11 +1,12 @@
 <script lang="ts">
 	import type { Readable } from 'svelte/store'
-	import type { Result } from '../data/apollo-store'
+	import type { Result, Error as ApolloStoreError } from '../data/apollo-store'
+	import type { ApolloError } from '@apollo/client'
 	import type { QueryStore } from '$houdini'
 	import type { UseQueryStoreResult, UseInfiniteQueryStoreResult } from '@sveltestack/svelte-query'
 
 	type LoaderResult = $$Generic<unknown>
-	type LoaderError = $$Generic<{message: string} | unknown>
+	type LoaderError = $$Generic<{message: string} | Error | ApolloStoreError | ApolloError>
 	type HoudiniQueryInput = $$Generic<unknown>
 	type LoaderReturnResult = $$Generic<unknown>
 
@@ -18,14 +19,14 @@
 	export let loadingIconWidth = 25
 
 	export let errorMessage: string
-	export let errorFunction: ((Error) => string) | undefined
+	export let errorFunction: ((error: LoaderError) => string) | undefined
 	export let hideError = false
 
-	export let fromPromise: () => Promise<LoaderResult>
-	export let fromStore: () => Readable<Result<LoaderResult>> | Promise<Readable<Result<LoaderResult>>>
-	export let fromHoudiniQuery: () => QueryStore<LoaderResult, HoudiniQueryInput>
-	export let fromUseQuery: UseQueryStoreResult<LoaderResult, LoaderError>
-	export let fromUseInfiniteQuery: UseInfiniteQueryStoreResult<LoaderResult[number], LoaderError>
+	export let fromPromise: (() => Promise<LoaderResult>) | undefined
+	export let fromStore: (() => Readable<Result<LoaderResult>> | Promise<Readable<Result<LoaderResult>>>) | undefined
+	export let fromHoudiniQuery: (() => QueryStore<LoaderResult, HoudiniQueryInput>) | undefined
+	export let fromUseQuery: (UseQueryStoreResult<LoaderResult, LoaderError>) | undefined
+	export let fromUseInfiniteQuery: (UseInfiniteQueryStoreResult<LoaderResult[number], LoaderError>) | undefined
 
 	export let then: ((result: LoaderResult) => LoaderReturnResult) = result => result as unknown as LoaderReturnResult
 	export let whenLoaded: ((result: LoaderResult) => void) | undefined
@@ -33,7 +34,7 @@
 	export let whenCanceled: (() => Promise<any>) | undefined
 
 	export let layoutClass = 'column'
-	export let showIf: (<T extends LoaderResult = LoaderResult>(then: T) => boolean | any) | undefined
+	export let showIf: ((then: LoaderReturnResult) => boolean | any) | undefined
 	export let isCollapsed = false
 	export let clip = true
 	export let passive = false
@@ -50,9 +51,9 @@
 	}
 	let status: LoadingStatus = LoadingStatus.Idle
 
-	let promise: ReturnType<typeof fromPromise>
-	let store: ReturnType<typeof fromStore>
-	let houdiniQuery: ReturnType<typeof fromHoudiniQuery>
+	let promise: ReturnType<NonNullable<typeof fromPromise>>
+	let store: ReturnType<NonNullable<typeof fromStore>>
+	let houdiniQuery: ReturnType<NonNullable<typeof fromHoudiniQuery>>
 
 
 	export let result: LoaderReturnResult
@@ -80,17 +81,23 @@
 		idle: {
 
 		},
-		loadingIcon: {
-
-		},
 		loading: {
 
 		},
-		'footer-start': {
+		loadingIcon: {
+
+		},
+		loadingMessage: {
+
+		},
+		footer: {
+
+		},
+		'footerStart': {
 
 		},
 		error: {
-			error: string
+			error: LoaderError
 		},
 		errorMessage: {
 			
@@ -98,7 +105,7 @@
 		errorActions: {
 			load: typeof load,
 			cancel: typeof cancel
-		}
+		},
 	}
 
 
@@ -359,7 +366,7 @@
 		{#if showStatusAndActions}
 			<!-- <footer class="sticky-bottom card bar"> -->
 			<footer class="bar">
-				<slot name="footer-start" />
+				<slot name="footerStart" />
 
 				{#if fromUseQuery}
 					{#if $fromUseQuery.dataUpdatedAt}
