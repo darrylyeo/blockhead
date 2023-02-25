@@ -1,18 +1,28 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { ContractMetadata } from '../api/sourcify'
+	import type { NetworkProvider } from '../data/providers-types'
+	import { getEthersProvider } from '../data/providers'
 	import { preferences } from '../state/preferences'
 
 
 	export let name: string
 	export let network: Ethereum.Network
 	export let address: Ethereum.Address
+	export let providerName: NetworkProvider
 	export let provider: Ethereum.Provider
 
 	export let transactionProvider
 
-	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
+	$: providerName = $$props.providerName ?? $preferences.rpcNetwork
 
+	$: if(network && providerName && !provider)
+		getEthersProvider({
+			network,
+			networkProvider: providerName,
+		}).then(_ => provider = _)
+
+	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
 
 
 	let showContractSourcePath = 'EVM Bytecode'
