@@ -8,7 +8,7 @@
 	export let imageSources = []
 
 	export let title = ''
-	export let placeholder = '?'
+	export let placeholder = ''
 
 	export let isGrayscale = false
 
@@ -27,7 +27,7 @@
 		<img src={imageSources[i]} on:error={e => i++} />
 	{:else}
 		<slot>
-			<span class="placeholder-icon" data-placeholder={placeholder} />
+			{#if placeholder}<span class="placeholder-icon" data-placeholder={placeholder} />{/if}
 		</slot>
 	{/if}
 </picture>
