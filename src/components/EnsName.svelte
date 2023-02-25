@@ -9,6 +9,9 @@
 
 	export let linked = true
 
+	export let showAvatar = false
+	export let showName = false
+
 
 	let textRecords: Map<string, string>
 
@@ -25,6 +28,11 @@
 
 
 	import EnsRecordsLoader from './EnsRecordsLoader.svelte'
+	import Icon from './Icon.svelte'
+	// import InlineContainer from './InlineContainer.svelte'
+
+	// import { scale } from 'svelte/transition'
+	import { scaleFont } from '../transitions/scale-font'
 </script>
 
 
@@ -32,23 +40,59 @@
 	.ens-name {
 		font-family: var(--monospace-fonts), var(--base-fonts);
 		font-size: 0.95em;
+	}
 
-		/* display: inline-block;
-		max-width: 100%;
-		overflow: hidden;
-		text-overflow: ellipsis; */
+	.ens-name-container :global(.ens-text-record-name ~ .ens-name) {
+		font-size: 0.6em;
 	}
 </style>
 
 
 <EnsRecordsLoader
-	resolverTextRecordKeys={['name', 'avatar', 'description', 'notice', 'display', 'location', 'url']}
-	passive={true}
+	{ensName}
+	resolveTextRecordKeys={[showAvatar && 'avatar', showName && 'name'].filter(Boolean)}
+	passive
 	let:textRecords
 >
 	{@const title = `${formattedENSName}${textRecords ? [...textRecords.entries()].map(([key, value]) => `${key} ${value}`).join('\n') : ''}`}
 
 	<span class="ens-name-container row-inline {$$props.class}">
+		{#if textRecords?.get('avatar')}
+			{@const avatarUri = textRecords.get('avatar')}
+			{#if avatarUri?.match(/^https?:\/\//)}
+				<Icon
+					key="ENSName/avatar/{ensName}"
+					imageSources={[avatarUri]}
+					title={textRecords.get('name') ?? formattedENSName}
+					placeholder=""
+					transition={scaleFont}
+					transitionConfig={{ duration: 300 }}
+				/>
+				<!-- transition={scale}
+				transitionConfig={{ start: 0.8, duration: 200 }} -->
+			{/if}
+		{/if}
+
+		<!-- <InlineContainer isOpen={textRecords?.get('avatar')}>
+			{@const avatarUri = textRecords?.get('avatar')}
+			{#if avatarUri?.match(/^https?:\/\//)}
+				<Icon
+					key="ENSName/avatar/{ensName}"
+					imageSources={[avatarUri]}
+					title={textRecords.get('name') ?? formattedENSName}
+					placeholder=""
+				/>
+			{/if}
+		</InlineContainer> -->
+
+		{#if textRecords?.get('name')}
+			<h4 class="ens-text-record-name" transition:scaleFont={{ duration: 400 }}>{textRecords.get('name')}</h4>
+		{/if}
+
+		<!-- <InlineContainer containerClass="ens-text-record-name" isOpen={!!textRecords?.get('name')} clip>
+			<h4>{textRecords?.get('name')}</h4>
+		</InlineContainer> -->
+
 		<svelte:element
 			this={linked ? 'a' : 'span'}
 			class="ens-name"
