@@ -1,8 +1,12 @@
 <script lang="ts">
 	import { fly, scale } from 'svelte/transition'
 
+	export let layout: 'card' | 'icon' = 'card'
+
+	export let title: string
 	export let iconAnimation: 'spin' | 'hover' = 'spin'
 </script>
+
 
 <style>
 	.loading {
@@ -48,14 +52,28 @@
 	}
 
 	@keyframes Hover {
-		from, to { transform: perspective(1000px) translateZ(calc(-1 * var(--hover-intensity))); }
-		50% { transform: perspective(1000px) translateZ(var(--hover-intensity)); }
+		from, to {
+			transform: perspective(1000px) translateZ(calc(-1 * var(--hover-intensity)));
+			opacity: 0.5;
+		}
+		50% {
+			transform: perspective(1000px) translateZ(var(--hover-intensity));
+			opacity: 1;
+		}
 	}
 </style>
 
-<div class="loading card" transition:scale><!-- in:fly={{x: -100}} out:fly={{x: 100}} -->
+
+<div
+	class="loading"
+	class:card={layout === 'card'}
+	data-layout={layout}
+	{title}
+	transition:scale
+><!-- in:fly={{x: -100}} out:fly={{x: 100}} -->
 	<span class="icon {iconAnimation}">
 		<slot name="icon">🧭</slot>
 	</span>
-	<slot></slot>
+
+	<slot />
 </div>
