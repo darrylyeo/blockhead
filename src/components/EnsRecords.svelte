@@ -147,8 +147,9 @@
 	{providerName}
 	{provider}
 	{ensName}
-	resolverTextRecordKeys={resolver.texts}
-	resolverCoinTypes={resolver.coinTypes}
+	resolveContentHash
+	resolveTextRecordKeys={resolver.texts}
+	resolveCoinTypes={resolver.coinTypes}
 	{isCollapsed}
 	let:contentHash
 	let:textRecords

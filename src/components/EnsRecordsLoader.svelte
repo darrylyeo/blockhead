@@ -16,8 +16,9 @@
 	export let provider: Ethereum.Provider
 	export let ensName: string
 
-	export let resolverTextRecordKeys: TextRecordKey[] = []
-	export let resolverCoinTypes: CoinType[] = []
+	export let resolveContentHash = false
+	export let resolveTextRecordKeys: TextRecordKey[] = []
+	export let resolveCoinTypes: CoinType[] = []
 
 	export let isCollapsed = false
 	export let passive = false
@@ -113,58 +114,64 @@
 		<slot name="header" {providerName} />
 	</svelte:fragment>
 
-	<Loader
-		{passive}
-		loadingIconName={'ENS'}
-		loadingIcon={ENSIcon}
-		loadingMessage={`Fetching content hash${viaRPC}...`}
-		fromUseQuery={resolver && (
-			useQuery({
-				queryKey: ['EnsContentHash', {
-					chainID: network.chainId,
-					provider: provider.name,
-					ensName,
-				}],
-				queryFn: async () => {
-					if(!resolver.getContentHash)
-						throw `getContentHash is not supported.`
-					console.log({resolver}, resolver?.getContentHash)
-					return await resolver.getContentHash()
-				}
-			})
-		)}
-		errorMessage={`Failed to fetch content hash${viaRPC}.`}
-		showIf={() => false}
-		bind:result={contentHash}
-	/>
+	{#if resolveContentHash}
+		<Loader
+			{passive}
+			loadingIconName={'ENS'}
+			loadingIcon={ENSIcon}
+			loadingMessage={`Fetching content hash${viaRPC}...`}
+			fromUseQuery={resolver && (
+				useQuery({
+					queryKey: ['EnsContentHash', {
+						chainID: network.chainId,
+						provider: provider.name,
+						ensName,
+					}],
+					queryFn: async () => {
+						if(!resolver.getContentHash)
+							throw `getContentHash is not supported.`
+						console.log({resolver}, resolver?.getContentHash)
+						return await resolver.getContentHash()
+					}
+				})
+			)}
+			errorMessage={`Failed to fetch content hash${viaRPC}.`}
+			showIf={() => false}
+			bind:result={contentHash}
+		/>
+	{/if}
 
-	<Loader
-		{passive}
-		loadingIconName={'ENS'}
-		loadingIcon={ENSIcon}
-		loadingMessage={`Resolving ENS records${viaRPC}...`}
-		fromStore={(() =>
-			parallelLoaderStore(resolverTextRecordKeys ?? [], async textRecordKey => (
-				await resolveEnsTextRecord({ resolver, textRecordKey })
-			))
-		)}
-		showIf={() => false}
-		bind:result={textRecords}
-	/>
+	{#if resolveTextRecordKeys?.length}
+		<Loader
+			{passive}
+			loadingIconName={'ENS'}
+			loadingIcon={ENSIcon}
+			loadingMessage={`Resolving ENS records${viaRPC}...`}
+			fromStore={(() =>
+				parallelLoaderStore(resolveTextRecordKeys, async textRecordKey => (
+					await resolveEnsTextRecord({ resolver, textRecordKey })
+				))
+			)}
+			showIf={() => false}
+			bind:result={textRecords}
+		/>
+	{/if}
 
-	<Loader
-		{passive}
-		loadingIconName={'ENS'}
-		loadingIcon={ENSIcon}
-		loadingMessage={`Resolving crypto addresses${viaRPC}...`}
-		fromStore={(() =>
-			parallelLoaderStore(resolverCoinTypes ?? [], async coinType => (
-				await resolveEnsCryptoAddress({ resolver, coinType })
-			))
-		)}
-		showIf={() => false}
-		bind:result={cryptoAddressRecords}
-	/>
+	{#if resolveEnsCryptoAddress?.length}
+		<Loader
+			{passive}
+			loadingIconName={'ENS'}
+			loadingIcon={ENSIcon}
+			loadingMessage={`Resolving crypto addresses${viaRPC}...`}
+			fromStore={(() =>
+				parallelLoaderStore(resolveCoinTypes ?? [], async coinType => (
+					await resolveEnsCryptoAddress({ resolver, coinType })
+				))
+			)}
+			showIf={() => false}
+			bind:result={cryptoAddressRecords}
+		/>
+	{/if}
 
 	<slot
 		{contentHash} {textRecords} {cryptoAddressRecords}
