@@ -1,5 +1,4 @@
-import type { BigNumberish } from '@ethersproject/bignumber'
-import type { BaseProvider } from '@ethersproject/providers'
+import type { Provider as EthersProvider } from 'ethers'
 import type { TickerSymbol } from '../currency/currency'
 
 export namespace Ethereum {
@@ -43,7 +42,7 @@ export namespace Ethereum {
 		decimals: number
 	}
 
-	export type Provider = BaseProvider
+	export type Provider = EthersProvider
 
 	export type TransactionProvider = 'Covalent' | 'Etherspot'
 
@@ -115,8 +114,8 @@ export namespace Ethereum {
 	}
 	export type ERCTokenStandard = 'erc20' | 'erc721' | 'erc1155'
 
-	export type GasAmount = BigNumberish
-	export type GasRate = BigNumberish
+	export type GasAmount = BigInt
+	export type GasRate = BigInt
 
 	export type Transaction = {
 		network: Network,
@@ -141,7 +140,7 @@ export namespace Ethereum {
 		gasOffered?: GasAmount,
 		gasSpent: GasAmount,
 		gasRate: GasRate,
-		gasValue: BigNumberish,
+		gasValue: BigInt,
 
 		logEvents?: TransactionLogEvent[]
 	}

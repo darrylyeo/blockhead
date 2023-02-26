@@ -1,7 +1,6 @@
 // Types
 import type { Ethereum } from './ethereum/types'
-import type { Provider } from '@ethersproject/abstract-provider'
-import type { JsonRpcProvider } from '@ethersproject/providers'
+import type { Provider } from 'ethers'
 import { NetworkProvider, NetworkProviderConnectionType, NetworkProviderNodeType } from './providers-types'
 
 
@@ -15,7 +14,15 @@ import { memoizedAsync } from '../utils/memoized'
 
 
 // APIs
-import { getDefaultProvider, providers } from 'ethers'
+import {
+	getDefaultProvider,
+	JsonRpcProvider,
+	WebSocketProvider,
+	AlchemyProvider,
+	EtherscanProvider,
+	InfuraProvider,
+	PocketProvider,
+} from 'ethers'
 import { getMoralisJSONRPCEndpoint } from './moralis/endpoints'
 import { figmentProviderConfigs } from './figment'
 
@@ -40,7 +47,12 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 	{
 		provider: NetworkProvider.Default,
 		name: 'Default RPC Provider',
-		get: ({ network }) => new providers.JsonRpcProvider(network.providers?.[0], network.chainId)
+		get: ({ network }) => (
+			new JsonRpcProvider(
+				network.providers?.[0],
+				network.chainId
+			)
+		)
 	},
 
 	// {
@@ -61,38 +73,41 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		provider: NetworkProvider.Infura,
 		name: 'Infura',
 		icon: InfuraIcon,
-
-		get: ({ network }) => new providers.InfuraProvider(network.chainId, {
-			infura: env.INFURA_PROJECT_ID
-		})
+		get: ({ network }) => (
+			new InfuraProvider(
+				network.chainId,
+				env.INFURA_PROJECT_ID,
+				env.INFURA_PROJECT_SECRET
+			)
+		)
 	},
 
 	{
 		provider: NetworkProvider.Alchemy,
 		name: 'Alchemy',
 		icon: AlchemyIcon,
-
-		get: ({ network }) =>
-			new providers.AlchemyProvider(
+		get: ({ network }) => (
+			new AlchemyProvider(
 				network.chainId,
 				{
 					'ethereum': env.ALCHEMY_API_KEY_MAINNET,
 					'ethereum-rinkeby': env.ALCHEMY_API_KEY_RINKEBY
 				}[network.slug]
 			)
+		)
 	},
 
 	{
 		provider: NetworkProvider.PocketNetwork,
 		name: 'Pocket Network',
 		icon: PocketIcon,
-
-		get: ({ network }) =>
-			new providers.PocketProvider(network.chainId, {
-				applicationId: env.POCKET_NETWORK_PORTAL_ID,
-				applicationSecretKey: env.POCKET_NETWORK_SECRET_KEY,
-				loadBalancer: true
-			})
+		get: ({ network }) => (
+			new PocketProvider(
+				network.chainId,
+				env.POCKET_NETWORK_PORTAL_ID,
+				env.POCKET_NETWORK_SECRET_KEY
+			)
+		)
 	},
 
 	{
@@ -103,13 +118,19 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		get: ({
 			network,
 			connectionType = NetworkProviderConnectionType.WebSocket,
-		}) =>
-			new providers.WebSocketProvider(
+		}) => (
+			new ({
+				[NetworkProviderConnectionType.RPC]: JsonRpcProvider,
+				[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
+				[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
+			}[connectionType])(
 				getMoralisJSONRPCEndpoint({
 					network,
 					protocol: 'wss'
-				})
+				}),
+				network.chainId,
 			)
+		)
 	},
 
 	{
@@ -117,8 +138,12 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		name: 'Etherscan',
 		icon: EtherscanIcon,
 
-		get: ({ network }) =>
-			new providers.EtherscanProvider(network.chainId, env.ETHERSCAN_API_KEY)
+		get: ({ network }) => (
+			new EtherscanProvider(
+				network.chainId,
+				env.ETHERSCAN_API_KEY
+			)
+		)
 	},
 
 	{
@@ -134,16 +159,22 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 			const figmentProviderConfig = figmentProviderConfigs.find(figmentProviderConfig =>
 				figmentProviderConfig.networkSlug === network.slug &&
 				figmentProviderConfig.connectionType === connectionType &&
-				figmentProviderConfig.nodeType === nodeType,
+				figmentProviderConfig.nodeType === nodeType
 			)
 
-			if(figmentProviderConfig)
-				return new providers.JsonRpcProvider(
+			if(!figmentProviderConfig)
+				throw new Error(`Couldn't find a Figment node matching the configuration`)
+
+			return (
+				new ({
+					[NetworkProviderConnectionType.RPC]: JsonRpcProvider,
+					[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
+					[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
+				}[connectionType])(
 					`${figmentProviderConfig.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${figmentProviderConfig.subdomain}.datahub.figment.io/apikey/${env.FIGMENT_DATA_HUB_APP_API_KEY}`,
 					network.chainId
 				)
-			else
-				throw new Error(`Couldn't find a Figment node matching the configuration`)
+			)
 		}
 	},
 
@@ -155,7 +186,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		get: ({
 			network,
 			connectionType = NetworkProviderConnectionType.RPC,
-		}) => new providers.JsonRpcProvider(
+		}) => new JsonRpcProvider(
 			`${connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${{
 				1: env.QUICKNODE_ENDPOINT_NAME_1,
 				10: env.QUICKNODE_ENDPOINT_NAME_10,

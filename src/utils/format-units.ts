@@ -1,5 +1,4 @@
-import type { BigNumberish } from '@ethersproject/bignumber'
-import { formatUnits as ethersFormatUnits } from '@ethersproject/units'
+import { type BigNumberish, formatUnits as ethersFormatUnits } from 'ethers'
 
 export function formatUnits(value: BigNumberish, decimals: string | BigNumberish){
 	try {

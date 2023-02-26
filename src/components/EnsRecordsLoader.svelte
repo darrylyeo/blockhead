@@ -4,7 +4,7 @@
 	import { getEthersProvider } from '../data/providers'
 	import { networksByChainID } from '../data/ethereum/networks'
 	import { preferences } from '../state/preferences'
-	import type { Resolver } from '@ethersproject/providers'
+	import type { Resolver } from 'ethers'
 
 	type ContentHash = $$Generic<string>
 	type TextRecordKey = $$Generic<string>

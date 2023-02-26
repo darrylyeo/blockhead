@@ -1,6 +1,5 @@
 // import OpenLogin, { OPENLOGIN_NETWORK } from '@toruslabs/openlogin'
-import { getDefaultProvider } from '@ethersproject/providers'
-import { Wallet } from '@ethersproject/wallet'
+import { getDefaultProvider, Wallet } from 'ethers'
 import { env } from '../../../env'
 import { loadScript } from '../../../utils/load-script'
 import type { Ethereum } from '../types'

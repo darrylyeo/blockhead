@@ -61,7 +61,7 @@
 
 	import { formatIdentifierToWords } from '../utils/formatIdentifierToWords'
 	import { formatTransactionHash } from '../utils/formatTransactionHash'
-	import { formatUnits } from '@ethersproject/units'
+	import { formatUnits } from 'ethers'
 
 
 	import Address from './Address.svelte'

@@ -1,17 +1,16 @@
 <script lang="ts">
 	// Types
 	import type { Ethereum } from '../data/ethereum/types'
-	import type { BigNumber } from 'ethers'
 
 
 	// External state
 	export let availableTokens: Ethereum.ERC20Token[]
 
 	export let token: Ethereum.ERC20Token
-	export let amount: BigNumber
+	export let amount: BigInt
 
-	export let min: BigNumber
-	export let max: BigNumber
+	export let min: BigInt
+	export let max: BigInt
 	export let stepDecimals = token?.decimals // 3
 
 	export let autoFallback = false

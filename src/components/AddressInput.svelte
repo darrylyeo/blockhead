@@ -55,7 +55,7 @@
 
 
 	// Components
-	// import { isAddress } from '@ethersproject/address'
+	// import { isAddress } from 'ethers'
 </script>
 
 

@@ -1,16 +1,14 @@
 <script lang="ts">
 	// Formatting
-	import { BigNumber, utils } from 'ethers'
-
-	const { formatUnits, parseUnits } = utils
+	import { formatUnits, parseUnits } from 'ethers'
 
 	const truncate = (n: string, decimals: number) =>
 		n.match(new RegExp(`^\\d*(?:\.\\d{0,${decimals}})?`))[0]
 
-	const format = (n: BigNumber | undefined, decimals: number): string =>
+	const format = (n: BigInt | undefined, decimals: number): string =>
 		n ? truncate(formatUnits(n, decimals), decimals) : ''
 
-	const parse = (n: string | number, decimals: number): BigNumber | undefined => {
+	const parse = (n: string | number, decimals: number): BigInt | undefined => {
 		try {
 			return parseUnits(truncate(String(n), decimals), decimals)
 		}catch(e) {
@@ -20,10 +18,10 @@
 
 
 	// External state
-	export let value: BigNumber | undefined
+	export let value: BigInt | undefined
 
-	export let min: BigNumber | undefined
-	export let max: BigNumber | undefined
+	export let min: BigInt | undefined
+	export let max: BigInt | undefined
 	export let decimals = 0
 
 	export let required = false
@@ -43,9 +41,9 @@
 	const onChange = () => {
 		value = parse(inputValue, decimals)
 
-		if(max && value?.gt(max))
+		if(max && value && value > max)
 			value = max
-		else if(min && value?.lt(min))
+		else if(min && value && value > min)
 			value = min
 
 		inputValue = format(value, decimals)
@@ -83,7 +81,7 @@
 		{required}
 		on:input={onInput}
 		on:change={onChange}
-		placeholder={max.gt(2 ** 16) ? '0' : max.toString()}
+		placeholder={max > 2n ** 16n ? '0' : max.toString()}
 	/>
 	<!-- placeholder={min && max ? `${min} to ${max}` : '0'} -->
 
@@ -92,7 +90,7 @@
 			type="button"
 			class="max small"
 			on:click={setMax}
-			disabled={parse(inputValue, decimals)?.eq(max)}
+			disabled={parse(inputValue, decimals) === max}
 		>max</button>
 	{/if}
 </div>

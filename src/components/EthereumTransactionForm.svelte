@@ -22,14 +22,14 @@
 	$: writableMethods = abi.filter(isWritable)
 
 
-	import { BigNumber, Contract } from 'ethers'
+	import { Contract } from 'ethers'
 
 	let selectedAccount: AccountConnectionState
 
 	let selectedMethod: SolidityJsonAbiPart
 	$: selectedMethod ??= writableMethods.sort((a, b) => b.inputs.length - a.inputs.length)[0]
 
-	let payableAmount = BigNumber.from(0)
+	let payableAmount = 0n
 
 	let inputValues = {}
 
@@ -176,22 +176,22 @@
 										required
 									/>
 								{:else if input.type.startsWith('int')}
-									{@const numBits = parseInt(input.type.match(/\d+/)?.[0])}
+									{@const numBits = BigInt(input.type.match(/\d+/)?.[0])}
 
 									<BigNumberInput
 										required
 										bind:value={inputValues[inputKey]}
-										min={BigNumber.from(2).pow(numBits - 1).mul(-1)}
-										max={BigNumber.from(2).pow(numBits - 1).sub(1)}
+										min={2n ** (numBits - 1n) * -1n}
+										max={2n ** (numBits - 1n) - 1n}
 									/>
 								{:else if input.type.startsWith('uint')}
-									{@const numBits = parseInt(input.type.match(/\d+/)?.[0])}
+									{@const numBits = BigInt(input.type.match(/\d+/)?.[0])}
 
 									<BigNumberInput
 										required
 										bind:value={inputValues[inputKey]}
-										min={BigNumber.from(0)}
-										max={BigNumber.from(2).pow(numBits).sub(1)}
+										min={0n}
+										max={2n ** numBits - 1n}
 									/>
 								{:else}
 									<input
@@ -242,7 +242,7 @@
 						
 						<span>
 							will
-							{#if payableAmount?.gt(0)}
+							{#if payableAmount > 0}
 								send
 								<TokenBalance
 									{network} erc20Token={network.nativeCurrency}

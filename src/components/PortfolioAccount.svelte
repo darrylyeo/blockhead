@@ -6,7 +6,7 @@
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import { getNetworkColor, networksByChainID } from '../data/ethereum/networks'
 	import { Covalent } from '../api/covalent'
-	import { getDefaultProvider } from '@ethersproject/providers'
+	import { getDefaultProvider } from 'ethers'
 
 
 	// Balances view options

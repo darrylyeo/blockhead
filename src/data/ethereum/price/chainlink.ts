@@ -1,6 +1,5 @@
 import type { Ethereum } from '../types'
-import { formatUnits } from '@ethersproject/units'
-import { Contract } from '@ethersproject/contracts'
+import { Contract, formatUnits } from 'ethers'
 import type { QuoteCurrency, TickerSymbol } from '../../currency/currency'
 
 

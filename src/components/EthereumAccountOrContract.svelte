@@ -31,7 +31,7 @@
 
 	let selectedToken: Ethereum.ERC20Token | undefined
 
-	import { isAddress } from '@ethersproject/address'
+	import { isAddress } from 'ethers'
 
 	$: if(isAddress(filterQuery) && balances){
 		selectedToken = balances

@@ -43,7 +43,7 @@
 		transferredToken: Ethereum.ERC20Token,
 	}
 
-	import { formatUnits } from '@ethersproject/units'
+	import { formatUnits } from 'ethers'
 
 	const _formatUnits = (value, decimals) => {
 		try {

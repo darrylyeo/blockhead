@@ -1,4 +1,4 @@
-import type { Transaction, BigNumber } from 'ethers'
+import type { Transaction } from 'ethers'
 import type { Ethereum } from '../data/ethereum/types'
 
 

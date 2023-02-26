@@ -24,7 +24,7 @@
 
 	$: viaRPC = providerName === NetworkProvider.Default ? '' : ` via ${providerName}`
 
-	import { isAddress } from '@ethersproject/address'
+	import { isAddress } from 'ethers'
 
 
 	export let address: Ethereum.Address

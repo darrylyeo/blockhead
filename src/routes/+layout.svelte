@@ -33,7 +33,7 @@
 	import Nav from '../components/Nav.svelte'
 	
 	
-	// import { getDefaultProvider } from '@ethersproject/providers'
+	// import { getDefaultProvider } from 'ethers'
 	// import { setContext } from 'svelte'
 	// import { writable } from 'svelte/store'
 	// const provider = writable<Ethereum.Provider>(getDefaultProvider('mainnet', {}))

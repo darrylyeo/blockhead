@@ -69,10 +69,10 @@ export const accountConnections = localStorageWritable(
 )
 
 
-import { Web3Provider } from '@ethersproject/providers'
+import { BrowserProvider } from 'ethers'
 
 const getSigner = (provider: Provider) =>
-	new Web3Provider(provider).getSigner() // Object.assign(signer, { address: accounts[0] }),
+	new BrowserProvider(provider).getSigner() // Object.assign(signer, { address: accounts[0] }),
 
 
 import { readable } from 'svelte/store'

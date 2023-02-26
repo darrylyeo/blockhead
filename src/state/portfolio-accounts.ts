@@ -1,5 +1,5 @@
 import type { Ethereum } from '../data/ethereum/types'
-import { isAddress } from '@ethersproject/address'
+import { isAddress } from 'ethers'
 import { availableNetworks } from '../data/ethereum/networks'
 
 export class Portfolio {
@@ -106,12 +106,12 @@ let localPortfolios
 export const getLocalPortfolios = () => localPortfolios ||= localStorageWritable<Portfolio[]>('localPortfoliosV3', getLocalPortfoliosFromV2() || [new Portfolio('Your Portfolio')])
 
 
-import { Signer } from '@ethersproject/abstract-signer'
-import { providers } from 'ethers'
+import type { Signer } from 'ethers'
+import { JsonRpcProvider } from 'ethers'
 
 export async function getAccountsFromProvider(provider: Ethereum.Provider | Signer, providerName: Ethereum.ProviderName){
 	const accounts = (
-		provider instanceof providers.JsonRpcProvider ?
+		provider instanceof JsonRpcProvider ?
 			await provider.listAccounts()
 		: provider instanceof Signer ?
 			[await provider.getAddress()]

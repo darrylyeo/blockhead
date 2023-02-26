@@ -57,7 +57,7 @@
 		logEvents: BlockTransaction['logs'],
 	}>
 
-	import { formatUnits } from '@ethersproject/units'
+	import { formatUnits } from 'ethers'
 
 	const _formatUnits = (value, decimals) => {
 		try {
