@@ -189,7 +189,7 @@
 							{/if}
 						</dt>
 						<dd>
-							{#if value === null}
+							{#if value === null || value === undefined}
 								<span class="not-set" />
 							{:else if key === 'name'}
 								<h3>{value}</h3>
