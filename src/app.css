@@ -292,6 +292,10 @@ input[type="checkbox"] {
 	flex-basis: auto;
 }
 
+label {
+	cursor: pointer;
+}
+
 label input:is([type="checkbox"], [type="radio"]) {
 	display: none;
 }
