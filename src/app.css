@@ -434,6 +434,8 @@ dt {
 
 iframe {
 	border: none;
+	width: 100%;
+	min-height: 50rem;
 }
 
 
