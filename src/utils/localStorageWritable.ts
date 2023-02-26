@@ -12,6 +12,14 @@ export const localStorageWritable = <Value, SerializedValue = Value>(
 
 	const store = writable(deserialize(json ? JSON.parse(json) : value))
 
+	globalThis.addEventListener?.('storage', e => {
+		if(e.key === localStorageKey) {
+			const json = e.newValue
+			if(json)
+				store.set(deserialize(JSON.parse(json)))
+		}
+	})
+
 	return {
 		set(value) {
 			// console.log('Set', localStorageKey, value)
