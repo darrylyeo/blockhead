@@ -73,6 +73,7 @@
 	import CurrentPrice from './CurrentPrice.svelte'
 	import HistoricalPriceChart from './HistoricalPriceChart.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
+	import GraphiqlExplorer from './GraphiqlExplorer.svelte'
 	import TokenName from './TokenName.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
@@ -215,15 +216,15 @@
 		display: none;
 	}
 
+	.defi-app-views :global(.graphiql-explorer) {
+		height: 35rem;
+		max-height: 80vh;
+	}
 
 	iframe {
 		width: 100%;
 		justify-self: center;
 		border-radius: 0.5em;
-	}
-	iframe.graphql-explorer {
-		height: 35rem;
-		max-height: 80vh;
 	}
 	iframe.embed {
 		height: 80vh;
@@ -819,19 +820,38 @@
 						<hr>
 
 						<div>
-							<iframe
-								class="graphql-explorer"
-								title="{name} Subgraph GraphiQL Explorer"
+							<GraphiqlExplorer
+								title="{web3AppConfig.name} Subgraph GraphiQL Explorer"
+								endpointUrl="{providers.theGraph}/graphql"
+								query={`# This is a GraphiQL explorer for the ${web3AppConfig.name} subgraph on Blockhead!\n# Click on "Explorer" in the top left to  "Docs" in the top right to see the schema.\n`}
+								variables={{}}
+							/>
+
+							<!-- <iframe
+								class="graphiql-explorer"
+								title="{web3AppConfig.name} Subgraph GraphiQL Explorer"
 								src="https://embed.graphql.com/embed?{new URLSearchParams({
 									endpointURL: JSON.stringify(providers.theGraph),
 									// query: JSON.stringify('{}'),
-									// variables: JSON.stringify(''),
-									// response: JSON.stringify(`This is a GraphQL explorer for the ${web3AppConfig.name} subgraph on Blockhead! Click on "Docs" in the top right to see the schema.`)),
-									history: false,
-									prettify: true,
-									docs: true
+									variables: JSON.stringify(''),
+									response: JSON.stringify(`This is a GraphQL explorer for the ${web3AppConfig.name} subgraph on Blockhead! Click on "Docs" in the top right to see the schema.`),
+									history: String(false),
+									prettify: String(true),
+									docs: String(true),
 								})}&response={globalThis.encodeURIComponent(JSON.stringify(`This is a GraphQL explorer for the ${web3AppConfig.name} subgraph on Blockhead! Click on "Docs" in the top right to see the schema.`))}"
-							/>
+							/> -->
+
+							<!-- <iframe
+								class="graphiql-explorer"
+								
+								src="{providers.theGraph}/graphql?{new URLSearchParams({
+									variables: JSON.stringify({}),
+									response: JSON.stringify(`This is a GraphQL explorer for the ${web3AppConfig.name} subgraph on Blockhead! Click on "Docs" in the top right to see the schema.`),
+									history: String(false),
+									prettify: String(true),
+									docs: String(true),
+								})}"
+							/> -->
 						</div>
 					</div>
 				{/if}
