@@ -78,6 +78,10 @@
 	h4 {
 		display: inline-block;
 	}
+
+	.entity-id {
+		font-family: var(--monospace-fonts), var(--base-fonts);
+	}
 </style>
 
 
@@ -93,7 +97,7 @@
 		<h3>Current Status</h3>
 
 		<span class="card-annotation">
-			<a href="/apps/ens#subgraph">ENS Subgraph</a> › {domain.__typename.replace(/[A-Z]/g, m => ` ${m}`).trim()} › <output>{formatTransactionHash(domain.id, 'middle-truncated')}</output>
+			<a href="/apps/ens#subgraph">The Graph › ENS</a> › {domain.__typename.replace(/[A-Z]/g, m => ` ${m}`).trim()} › <span class="entity-id" title="Entity ID {domain.id}">{formatTransactionHash(domain.id, 'middle-truncated')}</span>
 		</span>
 	</div>
 
@@ -178,7 +182,7 @@
 
 			<svelte:fragment slot="header-right">
 				<span class="card-annotation" transition:scale>
-					<a href="/apps/ens#subgraph">ENS Subgraph</a> › {domain.resolver.__typename.replace(/[A-Z]/g, m => ` ${m}`).trim()} › <output>{formatTransactionHash(domain.resolver.id, 'middle-truncated')}</output>
+					<a href="/apps/ens#subgraph">The Graph › ENS</a> › {domain.resolver.__typename.replace(/[A-Z]/g, m => ` ${m}`).trim()} › <span class="emtity-id">{formatTransactionHash(domain.resolver.id, 'middle-truncated')}</span>
 				</span>
 			</svelte:fragment>
 

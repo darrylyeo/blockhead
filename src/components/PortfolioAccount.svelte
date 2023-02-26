@@ -117,7 +117,7 @@
 	import EnsName from './EnsName.svelte'
 	import EnsResolutionLoader from './EnsResolutionLoader.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
-	import EthereumNFTs from './EthereumNFTs.svelte'
+	import EthereumNfts from './EthereumNfts.svelte'
 	import HeightContainer from './HeightContainer.svelte'
 	import InlineContainer from './InlineContainer.svelte'
 	import Loading from './Loading.svelte'
@@ -608,7 +608,7 @@
 					<!-- NFT Balances -->
 					{#if showNFTs}<section class="nft-balances column">
 					<!-- <HeightContainer containerClass="nft-balances" class="column" isOpen={showNFTs}> -->
-						<EthereumNFTs
+						<EthereumNfts
 							{network}
 							{address}
 							{nftProvider}
@@ -684,7 +684,7 @@
 									</label>
 								<!-- {/if} -->
 							</svelte:fragment>
-						</EthereumNFTs>
+						</EthereumNfts>
 					</section>{/if}
 					<!-- </HeightContainer> -->
 				</div>

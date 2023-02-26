@@ -797,7 +797,7 @@
 								</section>
 							{:else}
 								<!-- <section class="card">
-									<EthereumNFTs
+									<EthereumNfts
 										{network}
 										{address}
 										{provider}
