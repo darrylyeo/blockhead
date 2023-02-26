@@ -1,31 +1,19 @@
 <script lang="ts">
 	import { page } from '$app/stores'
-	import { dev } from '$app/environment'
+
+
+	$: console.error($page.error)
 
 
 	import { fly } from 'svelte/transition'
+	import Preferences from '../components/Preferences.svelte'
 </script>
 
 
 <style>
-	h1, p {
-		margin: 0 auto;
-	}
-
-	h1 {
-		font-size: 2.8em;
-		font-weight: 700;
-		margin: 0 0 0.5em 0;
-	}
-
-	p {
-		margin: 1em auto;
-	}
-
-	@media (min-width: 480px) {
-		h1 {
-			font-size: 4em;
-		}
+	main {
+		max-width: var(--one-column-width);
+		grid-template-columns: 100%;
 	}
 </style>
 
@@ -36,12 +24,25 @@
 
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
-<!-- <main> -->
-	<h1>{$page.status} Error</h1>
+	<section class="card">
+		<div class="bar">
+			<h3>Whoops! Something went wrong loading the page.</h3>
+			<span class="card-annotation">{$page.status} Error</span>
+		</div>
 
-	<p>{$page.error.message}</p>
+		{#if $page.error}
+			<hr>
 
-	{#if dev && $page.error.stack}
-		<pre>{$page.error.stack}</pre>
-	{/if}
+			<pre>{$page.error.message}</pre>
+
+			{#if $page.error.stack}
+				<details>
+					<summary>Stack Trace</summary>
+					<pre>{$page.error.stack}</pre>
+				</details>
+			{/if}
+		{/if}
+	</section>
 </main>
+
+<Preferences isShowingAll />
