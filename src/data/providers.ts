@@ -10,6 +10,10 @@ import { env } from '../env'
 import { networksBySlug } from './ethereum/networks'
 
 
+// Utils
+import { memoizedAsync } from '../utils/memoized'
+
+
 // APIs
 import { getDefaultProvider, providers } from 'ethers'
 import { getMoralisJSONRPCEndpoint } from './moralis/endpoints'
@@ -264,7 +268,7 @@ export const networkProviderConfigByNetworkSlug = Object.fromEntries(Object.entr
 // }
 
 
-export const getEthersProvider = async ({
+export const getEthersProvider = memoizedAsync(async ({
 	network,
 	networkProvider,
 	connectionType = NetworkProviderConnectionType.RPC,
@@ -286,4 +290,4 @@ export const getEthersProvider = async ({
 	// console.log('ethersProvider', ethersProvider)
 
 	return ethersProvider
-}
+})
