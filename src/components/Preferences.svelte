@@ -23,10 +23,16 @@
 
 
 <form class="preferences" class:is-showing-all={isShowingAll}>
-	<header class="column" on:click={() => isShowingAll = !isShowingAll}>
-		<h3>Preferences</h3>
+	<header class="column">
+		<label for="preferences-button"><h3>Preferences</h3></label>
+
 		{#if isShowingAll}
-			<button type="button" class="small" on:click={resetPreferences}>Reset All</button>
+			<button
+				type="button"
+				class="small destructive"
+				data-before="↻"
+				on:click={resetPreferences}
+			>Reset All</button>
 		{/if}
 	</header>
 	<!-- <label class="header">
@@ -98,7 +104,20 @@
 	{/each}
 
 	<footer>
-		<button type="button" class="medium" on:click={() => isShowingAll = !isShowingAll}>{isShowingAll ? '✕' : '· · ·'}</button>
+		<!-- <button
+			type="button"
+			class="medium"
+			class:cancel={isShowingAll}
+			data-before={isShowingAll ? '✕' : '· · ·'}
+			on:click={() => isShowingAll = !isShowingAll}
+		/> -->
+		<button
+			id="preferences-button"
+			type="button"
+			class="medium"
+			data-before={isShowingAll ? '✓' : '· · ·'}
+			on:click={() => isShowingAll = !isShowingAll}
+		/>
 	</footer>
 </form>
 
