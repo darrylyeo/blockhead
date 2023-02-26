@@ -30,18 +30,24 @@
 			<span class="card-annotation">{$page.status} Error</span>
 		</div>
 
-		{#if $page.error}
-			<hr>
+		<hr>
 
-			<pre>{$page.error.message}</pre>
+		<div class="bar">
+			{#if $page.error}
+				<pre>{$page.error.message}</pre>
 
-			{#if $page.error.stack}
-				<details>
-					<summary>Stack Trace</summary>
-					<pre>{$page.error.stack}</pre>
-				</details>
+				{#if $page.error.stack}
+					<details>
+						<summary>Stack Trace</summary>
+						<pre>{$page.error.stack}</pre>
+					</details>
+				{/if}
+			{:else}
+				<span />
 			{/if}
-		{/if}
+
+			<a href="./"><button class="small" data-before="↻" on:click={() => globalThis.navigation.reload()}>Reload</button></a>
+		</div>
 	</section>
 </main>
 
