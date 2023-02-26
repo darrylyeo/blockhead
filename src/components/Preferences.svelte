@@ -5,8 +5,7 @@
 
 	export let relevantPreferences = []
 
-
-	let isShowingAll = false
+	export let isShowingAll = false
 
 	const isShowingPreference = ({id}) => isShowingAll || !(relevantPreferences.length && !relevantPreferences.includes(id))
 
