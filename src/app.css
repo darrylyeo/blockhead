@@ -907,6 +907,9 @@ body::-webkit-scrollbar-button {
 [data-before]:before {
 	content: attr(data-before);
 }
+[data-after]:after {
+	content: attr(data-after);
+}
 
 [hidden] {
 	display: none !important;
