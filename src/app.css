@@ -892,10 +892,13 @@ body::-webkit-scrollbar-button {
 }
 
 
-[draggable=true]:active {
+[draggable=true]:active:where(:not(:has([draggable=true]:active))) {
 	cursor: grabbing;
 	will-change: transform;
 	animation: Dragging 0.45s infinite ease-in-out;
+}
+[draggable=true]:active:where(:has([draggable=true]:active)) {
+	animation: DraggingParent 0.9s infinite ease-in-out;
 }
 @keyframes Dragging {
 	50% {
@@ -913,7 +916,11 @@ body::-webkit-scrollbar-button {
 		transform: rotate(2deg);
 	} */
 }
-
+@keyframes DraggingParent {
+	50% {
+		transform: scale(0.999) translateY(-1px);
+	}
+}
 
 [data-before]:before {
 	content: attr(data-before);
