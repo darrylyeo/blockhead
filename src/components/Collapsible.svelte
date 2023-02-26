@@ -22,12 +22,14 @@
 		transition: 0.5s var(--ease-out-expo);
 		/* transition-property: grid-template-rows, gap; */
 	}
-	.container:is(details) {
-		display: contents;
+	details.container {
+		display: block;
 	}
+	details.container[open],
 	.container[data-state="open"] {
 		grid-template-rows: max-content 1fr;
 	}
+	details.container:not([open]),
 	.container[data-state="closed"] {
 		grid-template-rows: max-content 0fr;
 		gap: 0;
@@ -62,8 +64,10 @@
 	}
 	.container:is([data-state="closed"],
 	details:not([open])) > .collapsible {
+		margin-bottom: calc(-1 * var(--padding-inner));
+
 		/* transform: rotateX(-20deg); */
-		translate: 0 var(--padding-inner) -100px;
+		translate: 0 0 -100px;
 
 		opacity: 0;
 		filter: blur(1rem);
@@ -84,6 +88,7 @@
 		'details': 'details'
 	}[type]}
 	class="container {$$props.containerClass ?? ''}"
+	class:column-block={type === 'details'}
 	{...{
 		'label': {
 			'data-state': isOpen ? 'open' : 'closed',
