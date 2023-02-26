@@ -34,7 +34,7 @@
 	import InlineContainer from './InlineContainer.svelte'
 
 
-	import { scale } from 'svelte/transition'
+	import { fade, scale } from 'svelte/transition'
 	import { flip } from 'svelte/animate'
 	import { quintOut } from 'svelte/easing'
 </script>
@@ -168,30 +168,6 @@
 	{#if domain.resolver}
 		<hr>
 
-		<!-- <Collapsible
-			bind:isOpen={showResolver}
-			let:isOpen
-			let:toggle
-		>
-			<header slot="header" class="bar">
-				<h3>Record Resolver</h3>
-
-				<div class="stack">
-					{#if isOpen}
-						<span class="card-annotation" transition:scale>
-							<a href="/apps/ens#subgraph">ENS Subgraph</a> › {domain.resolver.__typename.replace(/[A-Z]/g, m => ` ${m}`).trim()} › <output>{formatTransactionHash(domain.resolver.id, 'middle-truncated')}</output>
-						</span>
-					{:else}
-						<button class="small" on:click={toggle} transition:scale>Show</button>
-					{/if}
-				</div>
-			</header>
-
-			{#if isOpen}
-				<EnsResolver {network} resolver={domain.resolver} ensName={domain.name} />
-			{/if}
-		</Collapsible> -->
-
 		<Collapsible
 			type="details"
 			class="column"
@@ -241,48 +217,6 @@
 				</header>
 			</EnsRecords>
 		{/if}
-
-		<!-- {#if showRecords}
-			<hr>
-
-			{#if domain.resolver.address !== '0x0000000000000000000000000000000000000000'}
-				<EnsRecords
-					{network}
-					resolver={domain.resolver}
-					ensName={domain.name}
-				>
-					<header slot="header" class="bar" let:providerName>
-						<h3>Records</h3>
-
-						<span class="card-annotation">{providerName}</span>
-					</header>
-				</EnsRecords>
-			{:else}
-				<p><output>{domain.name}</output> isn't currently associated with a record resolver.</p>
-			{/if}
-		{/if} -->
-
-		<!-- <Collapsible
-			type="details"
-			class="column"
-			bind:isOpen={showRecords}
-		>
-			{#if domain.resolver.address !== '0x0000000000000000000000000000000000000000'}
-				<EnsRecords
-					{network}
-					resolver={domain.resolver}
-					ensName={domain.name}
-				>
-					<header slot="header" class="bar" let:providerName>
-						<h3>Records</h3>
-
-						<span class="card-annotation">{providerName}</span>
-					</header>
-				</EnsRecords>
-			{:else}
-				<p><output>{domain.name}</output> isn't currently associated with a record resolver.</p>
-			{/if}
-		</Collapsible> -->
 	{/if}
 	
 
@@ -323,21 +257,23 @@
 			</h3>
 
 			<svelte:fragment slot="toolbar-items" let:isOpen>
-				<InlineContainer {isOpen} class="row align-end">
-					<label>
-						<input type="checkbox" bind:checked={showFees}>
-						<span>Show Fees</span>
-					</label>
+				{#if isOpen}
+					<div class="row align-end" transition:scale={{ start: 0.8, duration: 250 }}>
+						<label>
+							<input type="checkbox" bind:checked={showFees}>
+							<span>Show Fees</span>
+						</label>
 
-					<label>
-						<span>View</span>
-						<select bind:value={detailLevel}>
-							<option value="summary">Summary</option>
-							<option value="detailed">Detailed</option>
-							<option value="exhaustive">Exhaustive</option>
-						</select>
-					</label>
-				</InlineContainer>
+						<label>
+							<span>View</span>
+							<select bind:value={detailLevel}>
+								<option value="summary">Summary</option>
+								<option value="detailed">Detailed</option>
+								<option value="exhaustive">Exhaustive</option>
+							</select>
+						</label>
+					</div>
+				{/if}
 			</svelte:fragment>
 
 			{#if isOpen}
