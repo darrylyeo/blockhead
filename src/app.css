@@ -7,6 +7,8 @@
 	gap: inherit;
 	scroll-behavior: smooth;
 	transform-style: inherit;
+	transition-duration: inherit;
+	transition-timing-function: inherit;
 }
 
 :root {
