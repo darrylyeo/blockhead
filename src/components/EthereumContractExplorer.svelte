@@ -42,8 +42,9 @@
 	import IpfsLoader from './IpfsLoader.svelte'
 
 
-	import { fade } from 'svelte/transition'
+	import { fade, fly } from 'svelte/transition'
 </script>
+
 
 <style>
 	.bar {
@@ -57,6 +58,7 @@
 		line-height: 1.6;
 	}
 </style>
+
 
 <!-- {#await provider.getCode(address) then contractCode}
 	{#if contractCode !== '0x'} -->
@@ -128,7 +130,7 @@
 								source.content?.match(new RegExp(`((?:abstract )?library|contract|interface|function|constant|struct|enum|type|error)\\s+(${sourceFileName})`))?.[1]
 							}
 
-							<section class="card" transition:fade>
+							<section class="card" in:fly={{ x: 10, duration: 200 }} out:fly={{ x: -10, duration: 200 }}>
 								<header class="bar">
 									<abbr
 										class="row-inline"
