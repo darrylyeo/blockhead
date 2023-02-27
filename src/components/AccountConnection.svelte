@@ -53,9 +53,9 @@
 			})
 		}
 		loadingIcon={walletsByType[walletType]?.icon}
-		loadingMessage={`Detecting ${walletsByType[walletType]?.name} connection...`}
+		loadingMessage={`Finding ${walletsByType[walletType]?.name} connection...`}
 
-		errorMessage={`Error detecting ${walletsByType[walletType]?.name} connection.`}
+		errorMessage={`Couldn't find ${walletsByType[walletType]?.name} connection.`}
 
 		whenCanceled={async () => dispatch('cancel')}
 
