@@ -9,8 +9,9 @@
 	type LoaderError = $$Generic<{message: string} | Error | ApolloStoreError | ApolloError>
 	type HoudiniQueryInput = $$Generic<unknown>
 	type LoaderReturnResult = $$Generic<unknown>
+	type LoaderLayout = $$Generic<'default' | 'passive' | 'collapsible'>
 
-	export let layout: 'default' | 'passive' = 'default'
+	export let layout: LoaderLayout = 'default'
 
 	export let startImmediately = true
 
@@ -57,6 +58,13 @@
 
 	export let result: LoaderReturnResult
 
+	type CollapsibleSlotProps = LoaderLayout extends 'collapsible'
+		? {
+			isOpen: boolean,
+			toggle: () => boolean,
+		}
+		: {}
+
 	type $$Slots = {
 		default: {
 			status: LoadingStatus,
@@ -69,14 +77,14 @@
 				fetchPreviousPage: () => void,
 				fetchNextPage: () => void,
 			}
-		},
+		} & CollapsibleSlotProps,
 		header: {
 			status: LoadingStatus,
 			loadingMessage: string,
 			errorMessage: string,
 			load: typeof load,
-			cancel: typeof cancel
-		},
+			cancel: typeof cancel,
+		} & CollapsibleSlotProps,
 		idle: {
 
 		},
@@ -252,6 +260,7 @@
 
 
 	import { fade, scale } from 'svelte/transition'
+	import Collapsible from './Collapsible.svelte'
 	import Date from './Date.svelte'
 	import Loading from './Loading.svelte'
 	import SizeContainer from './SizeContainer.svelte'
@@ -276,36 +285,51 @@
 
 
 {#if !isHidden}
-	<slot
-		name="header"
-		{status}
-		{loadingMessage}
-		{errorMessage}
-		{load}
-		{cancel}
-	/>
-
-	{#if layout === 'passive'}
-		<slot
-			{result}
-			{status}
-			{loadingMessage}
-			{errorMessage}
-			{load}
-			{cancel}
-			pagination={$fromUseInfiniteQuery && {
-				hasPreviousPage: $fromUseInfiniteQuery.hasPreviousPage,
-				hasNextPage: $fromUseInfiniteQuery.hasNextPage,
-				fetchPreviousPage: $fromUseInfiniteQuery.fetchPreviousPage,
-				fetchNextPage: $fromUseInfiniteQuery.fetchNextPage,
-			}}
-		/>
-	{:else}
-		<SizeContainer
+	{#if layout === 'collapsible'}
+		<Collapsible
 			class="loader stack"
 			{isOpen}
 			{clip}
+			let:isOpen let:toggle
 		>
+			<svelte:fragment slot="header" let:isOpen let:toggle>
+				<slot
+					name="header"
+					{status}
+					{loadingMessage}
+					{errorMessage}
+					{load}
+					{cancel}
+					{isOpen} {toggle}
+				>
+					<!-- <slot name="title">
+						<div class="row">
+							<slot name="toolbar" {isOpen} {toggle}>
+								{#if $$slots['toolbar-items']}
+									<div role="toolbar">
+										<slot name="toolbar-items" {isOpen} {toggle} />
+									</div>
+								{/if}
+							</slot>
+			
+							<slot name="header-right" {isOpen} {toggle} />
+			
+							<button
+								class="small"
+								data-after={isOpen ? '⏶' : '⏷'}
+								on:click={toggle}
+							>{isOpen ? 'Hide' : 'Show'}</button>
+						</div>
+					</slot> -->
+
+					<button
+						class="small"
+						data-after={isOpen ? '⏶' : '⏷'}
+						on:click={toggle}
+					>{isOpen ? 'Hide' : 'Show'}</button>
+				</slot>
+			</svelte:fragment>
+
 			{#if status === LoadingStatus.Resolved || (fromStore && status === LoadingStatus.Loading && result)}
 				<div class="column" transition:fade>
 					<slot
@@ -321,7 +345,9 @@
 							fetchPreviousPage: $fromUseInfiniteQuery.fetchPreviousPage,
 							fetchNextPage: $fromUseInfiniteQuery.fetchNextPage,
 						}}
+						{isOpen}
 					/>
+					<!-- {toggle} --><!-- ReferenceError: toggle is not defined -->
 				</div>
 			{/if}
 			{#if status === LoadingStatus.Idle}
@@ -358,7 +384,92 @@
 					</slot>
 				</div>
 			{/if}
-		</SizeContainer>
+		</Collapsible>
+	{:else}
+		<slot
+			name="header"
+			{status}
+			{loadingMessage}
+			{errorMessage}
+			{load}
+			{cancel}
+		/>
+
+		{#if layout === 'passive'}
+			<slot
+				{result}
+				{status}
+				{loadingMessage}
+				{errorMessage}
+				{load}
+				{cancel}
+				pagination={$fromUseInfiniteQuery && {
+					hasPreviousPage: $fromUseInfiniteQuery.hasPreviousPage,
+					hasNextPage: $fromUseInfiniteQuery.hasNextPage,
+					fetchPreviousPage: $fromUseInfiniteQuery.fetchPreviousPage,
+					fetchNextPage: $fromUseInfiniteQuery.fetchNextPage,
+				}}
+			/>
+		{:else if layout === 'default'}
+			<SizeContainer
+				class="loader stack"
+				{isOpen}
+				{clip}
+			>
+				{#if status === LoadingStatus.Resolved || (fromStore && status === LoadingStatus.Loading && result)}
+					<div class="column" transition:fade>
+						<slot
+							{result}
+							{status}
+							{loadingMessage}
+							{errorMessage}
+							{load}
+							{cancel}
+							pagination={$fromUseInfiniteQuery && {
+								hasPreviousPage: $fromUseInfiniteQuery.hasPreviousPage,
+								hasNextPage: $fromUseInfiniteQuery.hasNextPage,
+								fetchPreviousPage: $fromUseInfiniteQuery.fetchPreviousPage,
+								fetchNextPage: $fromUseInfiniteQuery.fetchNextPage,
+							}}
+						/>
+					</div>
+				{/if}
+				{#if status === LoadingStatus.Idle}
+					<slot name="idle" {load}></slot>
+				{:else if status === LoadingStatus.Loading}
+					<Loading iconAnimation="hover">
+						<slot name="loadingIcon" slot="icon">
+							<img src={loadingIcon} alt={loadingIconName} width={loadingIconWidth}>
+						</slot>
+						<slot name="loadingMessage">
+							{loadingMessage}
+						</slot>
+					</Loading>
+				{:else if !hideError && status === LoadingStatus.Errored}
+					<div class="card" transition:scale>
+						<div class="bar">
+							<slot name="errorMessage">
+								<h4>{errorMessage || 'Error'}</h4>
+							</slot>
+							<slot name="errorActions" {load} {cancel}>
+								<button class="small" on:click={load}>Retry</button>
+								<button class="small cancel" on:click={cancel}>Cancel</button>
+							</slot>
+						</div>
+						<slot name="error" {error}>
+							<pre>{
+								errorFunction
+									? errorFunction(error) :
+								typeof error === 'object' ?
+									error.message ?? JSON.stringify(error)
+								:
+									error
+							}</pre>
+						</slot>
+					</div>
+				{/if}
+			</SizeContainer>
+		{/if}
 	{/if}
 
 	<slot name="footer">
