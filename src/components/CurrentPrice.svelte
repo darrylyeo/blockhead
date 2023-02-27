@@ -162,7 +162,7 @@
 					</footer>
 				</Loader>
 			</div>
-		{:else if _currentPriceProvider === 'Covalent'}
+		<!-- {:else if _currentPriceProvider === 'Covalent'}
 			<div class="column">
 				<Loader
 					loadingIcon={CovalentIcon}
@@ -221,13 +221,13 @@
 							baseToken={token}
 							layout="horizontal"
 						/>
-					</div> -->
+					</div> -- >
 					<footer class="bar">
 						<span>Rank #{data.rank}</span>
 						<span class="card-annotation">Updated {new Date(data.updatedAt).toLocaleTimeString()}</span>
 					</footer>
 				</Loader>
-			</div>
+			</div> -->
 		{/if}
 	</div>
 

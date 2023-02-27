@@ -31,7 +31,7 @@
 </script>
 
 
-{#if historicalPriceProvider === 'Covalent' && currencies}
+<!-- {#if historicalPriceProvider === 'Covalent' && currencies}
 	<Loader
 		fromStore={() =>
 			parallelLoaderStore(currencies, async currency => {
@@ -68,7 +68,7 @@
 			{priceScale}
 		/>
 	</Loader>
-{/if}
+{/if} -->
 
 <!-- () => Promise.all(
 	currencies.map(async currency => {

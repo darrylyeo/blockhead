@@ -286,17 +286,17 @@ export const preferencesConfig: PreferencesConfig<
 							// { id: 'Compound Price Feed', name: 'Open Price Feed' },
 						]
 					},
-					{
-						id: 'offChain',
-						name: 'Off-Chain',
-						options: [
-							{ id: 'Covalent', name: 'Covalent' },
-							// { id: 'Moralis', name: 'Moralis' },
-							// { id: 'Zapper', name: 'Zapper' },
-							// { id: 'CoinGecko', name: 'CoinGecko' },
-							// { id: 'Etherscan', name: 'Etherscan' },
-						]
-					},
+					// {
+					// 	id: 'offChain',
+					// 	name: 'Off-Chain',
+					// 	options: [
+					// 		// { id: 'Covalent', name: 'Covalent' },
+					// 		// { id: 'Moralis', name: 'Moralis' },
+					// 		// { id: 'Zapper', name: 'Zapper' },
+					// 		// { id: 'CoinGecko', name: 'CoinGecko' },
+					// 		// { id: 'Etherscan', name: 'Etherscan' },
+					// 	]
+					// },
 					{
 						id: 'auto',
 						name: 'Auto',
@@ -310,7 +310,7 @@ export const preferencesConfig: PreferencesConfig<
 				id: 'historicalPriceProvider',
 				name: 'Historical Price',
 				type: 'single', // 'multiple'
-				defaultOption: 'Covalent',
+				defaultOption: '',
 				options: [
 					// {
 					// 	id: 'onChain',
@@ -322,7 +322,7 @@ export const preferencesConfig: PreferencesConfig<
 						id: 'offChain',
 						name: 'Off-Chain',
 						options: [
-							{ id: 'Covalent', name: 'Covalent' },
+							// { id: 'Covalent', name: 'Covalent' },
 							// { id: 'The Graph', name: 'The Graph' },
 							// { id: 'Zapper', name: 'Zapper' },
 							// { id: 'CoinGecko', name: 'CoinGecko' },
