@@ -379,8 +379,9 @@
 				quoteCurrency={$preferences.quoteCurrency}
 				chainID={network.chainId}
 				currencies={
-					selectedToken ? [selectedToken.tokenAddress] :
-					balances.map(tokenWithBalance => tokenWithBalance.contract_address)
+					selectedToken?.tokenAddress
+						? [selectedToken.tokenAddress]
+						: balances.map(tokenWithBalance => tokenWithBalance.contract_address).filter(Boolean)
 				}
 				{priceScale}
 			>
