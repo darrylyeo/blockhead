@@ -282,7 +282,7 @@ export const getWalletConnection = async ({
 }): Promise<WalletConnection> => {
 	const walletConfig = walletsByType[walletType]
 
-	for (const connectionType of walletConfig.connectionTypes) {
+	for (const connectionType of walletConfig?.connectionTypes ?? []) {
 		switch (connectionType) {
 			case WalletConnectionType.InjectedEip1193: {
 				const provider = globalThis[walletConfig.injectedEip1193ProviderGlobal]
