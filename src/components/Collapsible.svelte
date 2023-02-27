@@ -6,6 +6,22 @@
 	export let isOpen = false
 
 
+	type SharedSlotProps = {
+		isOpen: boolean,
+		toggle: () => boolean,
+	}
+
+	type $$Slots = {
+		'default': SharedSlotProps,
+		'header': SharedSlotProps,
+		'title': SharedSlotProps,
+		'toolbar': SharedSlotProps,
+		'toolbar-items': SharedSlotProps,
+		'header-right': SharedSlotProps,
+		'footer': SharedSlotProps,
+	}
+
+
 	const ariaId = crypto.randomUUID()
 
 
@@ -108,7 +124,7 @@
 			}[type]}
 			class="bar"
 		>
-			<slot name="title">
+			<slot name="title" {isOpen} {toggle}>
 				<h4>{title}</h4>
 			</slot>
 
