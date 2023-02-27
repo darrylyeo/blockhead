@@ -33,7 +33,6 @@
 	export let whenErrored: ((error: LoaderError) => void) | undefined
 	export let whenCanceled: (() => Promise<any>) | undefined
 
-	export let layoutClass = 'column'
 	export let showIf: ((then: LoaderReturnResult) => boolean | any) | undefined
 	export let isCollapsed = false
 	export let clip = true
@@ -308,7 +307,7 @@
 			{clip}
 		>
 			{#if status === LoadingStatus.Resolved || (fromStore && status === LoadingStatus.Loading && result)}
-				<div class={layoutClass} transition:fade>
+				<div class="column" transition:fade>
 					<slot
 						{result}
 						{status}

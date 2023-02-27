@@ -78,7 +78,6 @@
 
 
 	export let showIf: (({address, ensName}: {address: Ethereum.Address, ensName: string}) => boolean | any) | undefined
-	export let layoutClass: string
 	export let clip = true
 
 
@@ -106,7 +105,6 @@
 		loadingMessage="Reverse-resolving address to a name on the Ethereum Name Service{viaRPC}..."
 		errorMessage={`Error reverse-resolving address to ENS name${viaRPC}.`}
 		showIf={showIf ? () => showIf({address, ensName}) : undefined}
-		{layoutClass}
 		{clip}
 		passive={passiveReverseResolution}
 		bind:result={ensName}
@@ -134,7 +132,6 @@
 		loadingMessage="Resolving name to address on the Ethereum Name Service{viaRPC}..."
 		errorMessage={`Error resolving ENS name to address${viaRPC}.`}
 		showIf={showIf ? () => showIf({address, ensName}) : undefined}
-		{layoutClass}
 		{clip}
 		passive={passiveForwardResolution}
 		bind:result={address}

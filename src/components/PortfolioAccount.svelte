@@ -280,7 +280,6 @@
 		{addressOrEnsName}
 		{provider}
 		passiveReverseResolution
-		layoutClass="column"
 		let:address
 		let:ensName
 		clip={false}
