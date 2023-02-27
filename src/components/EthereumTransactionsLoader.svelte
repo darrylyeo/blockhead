@@ -32,6 +32,7 @@
 
 {#if transactionProvider === 'Covalent'}
 	<Loader
+		layout="collapsible"
 		loadingIcon={CovalentIcon}
 		loadingIconName={transactionProvider}
 		loadingMessage="Retrieving {network.name} transactions from {transactionProvider}..."
