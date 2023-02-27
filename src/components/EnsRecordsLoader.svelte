@@ -20,8 +20,8 @@
 	export let resolveTextRecordKeys: TextRecordKey[] = []
 	export let resolveCoinTypes: CoinType[] = []
 
+	export let layout: 'default' | 'passive' = 'default'
 	export let isOpen = true
-	export let passive = false
 
 
 	// Computed
@@ -91,6 +91,7 @@
 
 
 <Loader
+	{layout}
 	loadingIconName={'ENS'}
 	loadingIcon={ENSIcon}
 	loadingMessage={'Getting ENS Resolver...'}
@@ -106,7 +107,6 @@
 			)
 		})
 	) : undefined}
-	{passive}
 	{isOpen}
 	let:result={resolver}
 >
@@ -116,7 +116,7 @@
 
 	{#if resolveContentHash}
 		<Loader
-			{passive}
+			{layout}
 			loadingIconName={'ENS'}
 			loadingIcon={ENSIcon}
 			loadingMessage={`Fetching content hash${viaRPC}...`}
@@ -143,7 +143,7 @@
 
 	{#if resolveTextRecordKeys?.length}
 		<Loader
-			{passive}
+			{layout}
 			loadingIconName={'ENS'}
 			loadingIcon={ENSIcon}
 			loadingMessage={`Resolving ENS records${viaRPC}...`}
@@ -159,7 +159,7 @@
 
 	{#if resolveEnsCryptoAddress?.length}
 		<Loader
-			{passive}
+			{layout}
 			loadingIconName={'ENS'}
 			loadingIcon={ENSIcon}
 			loadingMessage={`Resolving crypto addresses${viaRPC}...`}

@@ -90,6 +90,7 @@
 
 {#if addressOrEnsName && isReverseResolving}
 	<Loader
+		layout={passiveReverseResolution ? 'passive' : 'default'}
 		fromUseQuery={
 			address && provider && useQuery({
 				queryKey: ['EnsReverseResolution', {
@@ -106,7 +107,6 @@
 		errorMessage={`Error reverse-resolving address to ENS name${viaRPC}.`}
 		showIf={showIf ? () => showIf({address, ensName}) : undefined}
 		{clip}
-		passive={passiveReverseResolution}
 		bind:result={ensName}
 	>
 		<slot slot="header" name="header" {address} {ensName} {isReverseResolving} />
@@ -117,6 +117,7 @@
 			await resolveName(ensName.toLowerCase())
 		)} -->
 	<Loader
+		layout={passiveForwardResolution ? 'passive' : 'default'}
 		fromUseQuery={
 			ensName && provider && useQuery({
 				queryKey: ['EnsResolution', {
@@ -133,7 +134,6 @@
 		errorMessage={`Error resolving ENS name to address${viaRPC}.`}
 		showIf={showIf ? () => showIf({address, ensName}) : undefined}
 		{clip}
-		passive={passiveForwardResolution}
 		bind:result={address}
 	>
 		<slot slot="header" name="header" {address} {ensName} {isReverseResolving} />

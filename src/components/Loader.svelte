@@ -10,6 +10,7 @@
 	type HoudiniQueryInput = $$Generic<unknown>
 	type LoaderReturnResult = $$Generic<unknown>
 
+	export let layout: 'default' | 'passive' = 'default'
 
 	export let startImmediately = true
 
@@ -36,7 +37,6 @@
 	export let showIf: ((then: LoaderReturnResult) => boolean | any) | undefined
 	export let isOpen = true
 	export let clip = true
-	export let passive = false
 
 	export let showStatusAndActions = false
 
@@ -285,7 +285,7 @@
 		{cancel}
 	/>
 
-	{#if passive}
+	{#if layout === 'passive'}
 		<slot
 			{result}
 			{status}

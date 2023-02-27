@@ -49,9 +49,9 @@
 
 
 <EnsRecordsLoader
+	layout="passive"
 	{ensName}
 	resolveTextRecordKeys={[showAvatar && 'avatar', showName && 'name'].filter(Boolean)}
-	passive
 	let:textRecords
 >
 	{@const title = `${formattedENSName}${textRecords ? [...textRecords.entries()].map(([key, value]) => `${key} ${value}`).join('\n') : ''}`}
