@@ -59,7 +59,7 @@
 	import EthereumContractExplorer from './EthereumContractExplorer.svelte'
 	import EthereumTransactionCovalent from './EthereumTransactionCovalent.svelte'
 	import EthereumTransactionMoralis from './EthereumTransactionMoralis.svelte'
-	import EthereumTransactionEtherspot from './EthereumTransactionEtherspot.svelte'
+	// import EthereumTransactionEtherspot from './EthereumTransactionEtherspot.svelte'
 	import EthereumTransactionsLoader from './EthereumTransactionsLoader.svelte'
 	import EthereumTransactionsERC20Loader from './EthereumTransactionsERC20Loader.svelte'
 	import InlineContainer from './InlineContainer.svelte'
@@ -275,7 +275,7 @@
 											layout="inline"
 										/>
 									</a>
-								{:else if transactionProvider === 'Etherspot'}
+								<!-- {:else if transactionProvider === 'Etherspot'}
 									<a class="card" id={transaction.hash} href="#{transaction.hash}">
 										<EthereumTransactionEtherspot
 											{network}
@@ -287,7 +287,7 @@
 											{showFees}
 											layout="inline"
 										/>
-									</a>
+									</a> -->
 								{/if}
 							{:else}
 								<div class="card">No transactions yet.</div>

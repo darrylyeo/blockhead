@@ -29,12 +29,12 @@
 	import { useQuery } from '@sveltestack/svelte-query'
 
 	import { getTransaction as getTransactionCovalent } from '../api/covalent'
-	import { getTransaction as getTransactionEtherspot } from '../data/etherspot/etherspot'
+	// import { getTransaction as getTransactionEtherspot } from '../data/etherspot/etherspot'
 	import { MoralisWeb3Api, chainCodeFromNetwork } from '../data/moralis/moralis-web3-api'
 
 
 	import EthereumTransactionCovalent from './EthereumTransactionCovalent.svelte'
-	import EthereumTransactionEtherspot from './EthereumTransactionEtherspot.svelte'
+	// import EthereumTransactionEtherspot from './EthereumTransactionEtherspot.svelte'
 	import EthereumTransactionMoralis from './EthereumTransactionMoralis.svelte'
 	import Loader from './Loader.svelte'
 
@@ -84,7 +84,7 @@
 							{innerLayout}
 						/>
 					</Loader>
-				{:else if transactionProvider === 'Etherspot'}
+				<!-- {:else if transactionProvider === 'Etherspot'}
 					<Loader
 						loadingIcon={EtherspotIcon}
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
@@ -118,7 +118,7 @@
 							{layout}
 							{innerLayout}
 						/>
-					</Loader>
+					</Loader> -->
 				{:else if transactionProvider === 'Moralis'}
 					<Loader
 						loadingIcon={MoralisIcon}

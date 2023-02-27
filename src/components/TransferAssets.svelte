@@ -45,7 +45,7 @@
 
 
 	// import { startConnextTransfer } from '../data/connext/connext'
-	import { startEtherspotTransfer } from '../data/etherspot/etherspot'
+	// import { startEtherspotTransfer } from '../data/etherspot/etherspot'
 
 	async function onSubmit({
 		fromNetwork,
@@ -108,19 +108,19 @@
 			// await node.init() // function to intialize browser node
 		}
 		else if(transferSolution === 'Etherspot'){
-			await startEtherspotTransfer({
-				fromNetwork,
-				fromNetworkProvider,
-				fromAccount,
-				fromToken,
-				fromTokenAmount,
+			// await startEtherspotTransfer({
+			// 	fromNetwork,
+			// 	fromNetworkProvider,
+			// 	fromAccount,
+			// 	fromToken,
+			// 	fromTokenAmount,
 			
-				toNetwork,
-				toNetworkProvider,
-				toAccount,
-				toToken,
-				toTokenAmount,
-			})
+			// 	toNetwork,
+			// 	toNetworkProvider,
+			// 	toAccount,
+			// 	toToken,
+			// 	toTokenAmount,
+			// })
 		}
 	}
 

@@ -237,7 +237,7 @@ export const preferencesConfig: PreferencesConfig<
 						options: [
 							{ id: 'Covalent', name: 'Covalent' },
 							{ id: 'Moralis', name: 'Moralis' },
-							{ id: 'Etherspot', name: 'Etherspot' },
+							// { id: 'Etherspot', name: 'Etherspot' },
 						]
 					}
 				]

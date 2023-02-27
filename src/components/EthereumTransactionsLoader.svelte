@@ -19,7 +19,7 @@
 	import { useQuery, useInfiniteQuery } from '@sveltestack/svelte-query'
 
 	import { getTransactionsByAddress } from '../api/covalent'
-	import { getTransactions as getTransactionsEtherspot } from '../data/etherspot/etherspot'
+	// import { getTransactions as getTransactionsEtherspot } from '../data/etherspot/etherspot'
 	import { chainCodeFromNetwork, MoralisWeb3Api } from '../data/moralis/moralis-web3-api'
 
 
