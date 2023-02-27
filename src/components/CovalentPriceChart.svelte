@@ -27,33 +27,34 @@
 
 
 	import { CovalentIcon } from '../assets/icons'
+	import { parallelLoaderStore } from '../utils/parallelLoaderStore';
 </script>
+
 
 {#if historicalPriceProvider === 'Covalent' && currencies}
 	<Loader
-		fromPromise={
-			() => promiseAllFulfilled(
-				currencies.map(async currency => {
-					if(currency.toLowerCase() === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
-						currency = 'ETH'
-					
-					const _isAddress = isAddress(currency)
+		fromStore={() =>
+			parallelLoaderStore(currencies, async currency => {
+				if(currency.toLowerCase() === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+					currency = 'ETH'
+				
+				const _isAddress = isAddress(currency)
 
-					const data = _isAddress
-						? await getHistoricalPricesByAddress({chainID, contractAddress: currency, quoteCurrency, from: fromDate, to: toDate})
-						: await getHistoricalPricesByTickerSymbol({tickerSymbol: currency, quoteCurrency, from: fromDate, to: toDate})
+				const data = _isAddress
+					? await getHistoricalPricesByAddress({chainID, contractAddress: currency, quoteCurrency, from: fromDate, to: toDate})
+					: await getHistoricalPricesByTickerSymbol({tickerSymbol: currency, quoteCurrency, from: fromDate, to: toDate})
 
-					return {
-						currency: _isAddress ? data.contract_ticker_symbol : currency,
-						prices: data.prices.map(({date, price}) => ({time: date, price}))
-					}
-				})
-			)
+				return {
+					currency: _isAddress ? data.contract_ticker_symbol : currency,
+					prices: data.prices.map(({date, price}) => ({time: date, price}))
+				}
+			})
 		}
 
 		loadingIcon={CovalentIcon}
 		loadingIconName={historicalPriceProvider}
 		loadingMessage="Retrieving price history from {historicalPriceProvider}..."
+		then={data => [...data.values()]}
 		let:result={data}
 		showIf={data => data.length}
 	>
