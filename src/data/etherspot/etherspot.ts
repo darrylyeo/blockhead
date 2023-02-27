@@ -1,4 +1,5 @@
 import { Sdk, randomPrivateKey, NetworkNames } from 'etherspot'
+import { memoized } from '../../utils/memoized'
 import type { Ethereum } from '../ethereum/types'
 
 
@@ -23,24 +24,22 @@ const CHAIN_ID_TO_NETWORK_NAME: Record<Ethereum.ChainID, NetworkNames> = {
 }
 
 
-const etherspotInstances: Record<Ethereum.ChainID, Sdk> = {}
-
-export const getEtherspotInstance = ({
+export const getEtherspotInstance = memoized(({
 	network
 }: {
 	network: Ethereum.Network
-}) =>
-	etherspotInstances[network.chainId] ||=
-		new Sdk({
-			privateKey: randomPrivateKey(),
-		}, {
-			networkName: CHAIN_ID_TO_NETWORK_NAME[network.chainId]
-		})
+}) => (
+	new Sdk({
+		privateKey: randomPrivateKey(),
+	}, {
+		networkName: CHAIN_ID_TO_NETWORK_NAME[network.chainId]
+	})
+))
 
 
 export const getTransaction = async ({
 	network,
-	etherspotSdk = getEtherspotInstance({network}),
+	etherspotSdk = getEtherspotInstance({ network }),
 	transactionID
 }: {
 	network: Ethereum.Network,
