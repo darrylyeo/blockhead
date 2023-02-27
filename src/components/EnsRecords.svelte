@@ -14,7 +14,7 @@
 	export let resolver: ENS.Resolver
 	export let ensName: string
 
-	export let isCollapsed: boolean
+	export let isOpen: boolean
 
 	$: providerName = $$props.providerName ?? $preferences.rpcNetwork
 
@@ -150,7 +150,7 @@
 	resolveContentHash
 	resolveTextRecordKeys={resolver.texts}
 	resolveCoinTypes={resolver.coinTypes}
-	{isCollapsed}
+	{isOpen}
 	let:contentHash
 	let:textRecords
 	let:cryptoAddressRecords

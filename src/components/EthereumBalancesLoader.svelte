@@ -14,7 +14,7 @@
 	export let quoteCurrency: QuoteCurrency
 
 	export let showIf: (<TData = unknown> (then: TData) => boolean | any) | undefined
-	export let isCollapsed: boolean
+	export let isOpen: boolean
 
 
 	export let balances: {
@@ -90,7 +90,7 @@
 			})
 		}
 		{showIf}
-		{isCollapsed}
+		{isOpen}
 		let:status
 		bind:result={balances}
 		let:result={balances}
@@ -184,7 +184,7 @@
 			})
 		}
 		{showIf}
-		{isCollapsed}
+		{isOpen}
 		let:status
 		bind:result={balances}
 		let:result={balances}
@@ -239,7 +239,7 @@
 			})
 		) ?? []}
 		{showIf}
-		{isCollapsed}
+		{isOpen}
 		let:status
 		bind:result={balances}
 		let:result={balances}
@@ -276,7 +276,7 @@
 			}))
 		)}
 		{showIf}
-		{isCollapsed}
+		{isOpen}
 		let:status
 		bind:result={balances}
 		let:result={balances}

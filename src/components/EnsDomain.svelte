@@ -204,7 +204,7 @@
 				{network}
 				resolver={domain.resolver}
 				ensName={domain.name}
-				isCollapsed={!showRecords}
+				isOpen={showRecords}
 			>
 				<header slot="header" class="bar" let:providerName>
 					<h3>Records</h3>

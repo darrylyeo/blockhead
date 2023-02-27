@@ -20,7 +20,7 @@
 	export let resolveTextRecordKeys: TextRecordKey[] = []
 	export let resolveCoinTypes: CoinType[] = []
 
-	export let isCollapsed = false
+	export let isOpen = true
 	export let passive = false
 
 
@@ -107,7 +107,7 @@
 		})
 	) : undefined}
 	{passive}
-	{isCollapsed}
+	{isOpen}
 	let:result={resolver}
 >
 	<svelte:fragment slot="header">

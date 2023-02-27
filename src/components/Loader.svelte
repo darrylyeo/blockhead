@@ -34,7 +34,7 @@
 	export let whenCanceled: (() => Promise<any>) | undefined
 
 	export let showIf: ((then: LoaderReturnResult) => boolean | any) | undefined
-	export let isCollapsed = false
+	export let isOpen = true
 	export let clip = true
 	export let passive = false
 
@@ -303,7 +303,7 @@
 	{:else}
 		<SizeContainer
 			class="loader stack"
-			isOpen={!isCollapsed}
+			{isOpen}
 			{clip}
 		>
 			{#if status === LoadingStatus.Resolved || (fromStore && status === LoadingStatus.Loading && result)}

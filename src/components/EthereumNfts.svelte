@@ -20,7 +20,7 @@
 	export let tokenBalanceFormat
 	export let isScrollable = true
 
-	export let isCollapsed: boolean
+	export let isOpen: boolean
 
 	type NftWithBalance = Ethereum.Nft & {
 		erc1155Balance?: number
@@ -519,7 +519,7 @@
 				.sort(sortFunction)
 		)}
 		bind:result={nftContractsWithBalances}
-		{isCollapsed}
+		{isOpen}
 	>
 		<svelte:fragment slot="header" let:status let:loadingMessage let:errorMessage>
 			<slot name="header" {nftContractsWithBalances} {summary} {status} {loadingMessage} {errorMessage} />
@@ -716,7 +716,7 @@
 			normalizeNftportNftsAndContracts({nftsResponse, nftContractsResponse})
 		)}
 		bind:result={nftContractsWithBalances}
-		{isCollapsed}
+		{isOpen}
 	>
 		<svelte:fragment slot="header" let:status let:loadingMessage let:errorMessage>
 			<slot name="header" {nftContractsWithBalances} {summary} {status} {loadingMessage} {errorMessage} />

@@ -19,7 +19,7 @@
 	export let isSelectable = false
 	export let selectedToken: Ethereum.ERC20Token | undefined
 
-	export let isCollapsed: boolean
+	export let isOpen: boolean
 
 
 	type TokenWithBalance = {
@@ -157,7 +157,7 @@
 		{address}
 		{tokenBalancesProvider}
 		{quoteCurrency}
-		{isCollapsed}
+		{isOpen}
 		bind:balances
 	>
 		<!-- showIf={() => balances.length} -->

@@ -52,7 +52,7 @@
 		? showUnderlyingAssets ? 'vertical' : 'horizontal' // 'horizontal-alternate'
 		: layout
 	
-	export let isCollapsed: boolean
+	export let isOpen: boolean
 
 
 	let selectedEmbed
@@ -345,7 +345,7 @@
 											})}
 											bind:result={zapperDefiProtocolBalances}
 											let:result={defiProtocolBalances}
-											{isCollapsed}
+											{isOpen}
 										>
 										<!-- showIf={defiProtocolBalances => defiProtocolBalances.length} -->
 											<svelte:fragment slot="header" let:status>
@@ -585,7 +585,7 @@
 												})
 											)}
 											let:result={defiBalances}
-											{isCollapsed}
+											{isOpen}
 										>
 										<!-- showIf={defiBalances => defiBalances?.length} -->
 											<NetworkIcon slot="loadingIcon" {network} />

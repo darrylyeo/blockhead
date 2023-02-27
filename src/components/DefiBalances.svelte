@@ -77,7 +77,7 @@
 		? showUnderlyingAssets ? 'vertical' : 'horizontal' // 'horizontal-alternate'
 		: layout
 	
-	export let isCollapsed: boolean
+	export let isOpen: boolean
 
 	
 	import { formatPercent } from '../utils/format-percent'
@@ -193,7 +193,7 @@
 			then={zapperDefiBalances => [...zapperDefiBalances.values()].filter(({ products } ) => products.length)}
 			bind:result={zapperDefiBalances}
 			let:result={zapperDefiBalances}
-			{isCollapsed}
+			{isOpen}
 		>
 			<svelte:fragment slot="header" let:status let:loadingMessage let:errorMessage>
 				<slot name="header" {zapperDefiBalances} {summary} {status} {loadingMessage} {errorMessage} />
@@ -551,7 +551,7 @@
 				})}
 				bind:result={zerionDefiBalances}
 				let:result={defiBalances}
-				{isCollapsed}
+				{isOpen}
 			>					
 				<!-- <NetworkIcon slot="loadingIcon" {network} /> -->
 
