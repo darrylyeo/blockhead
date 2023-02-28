@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { CryptoAddress } from '../data/CryptoAddress'
+	import type { NetworkAccountAddress } from '../data/address'
 	import type { Ethereum } from '../data/networks/types'
 	
 
 	export let network: Ethereum.Network
-	export let address: CryptoAddress
+	export let address: NetworkAccountAddress
 	export let label: string
 
 	export let format: 'full' | 'middle-truncated'
