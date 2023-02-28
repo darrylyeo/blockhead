@@ -8,11 +8,12 @@
 	export let label: string
 
 	export let format: 'full' | 'middle-truncated'
-	export let linked
+	export let linked: boolean
 	export let alwaysShowAddress = false
 
 	import Address from './Address.svelte'
 </script>
+
 
 <style>
 	.address-with-label {
@@ -26,6 +27,7 @@
 		font-size: 0.8em;
 	}
 </style>
+
 
 <span class="address-with-label">
 	{#if label}
