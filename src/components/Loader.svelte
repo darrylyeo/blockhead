@@ -42,6 +42,9 @@
 
 	export let showStatusAndActions = false
 
+	export let containerClass: string
+	export let contentClass: string
+
 
 	enum LoadingStatus {
 		Idle = 'idle',
@@ -289,7 +292,8 @@
 	{#if layout === 'collapsible'}
 		<Collapsible
 			type={collapsibleType}
-			class="loader stack"
+			{containerClass}
+			class="loader stack {contentClass}"
 			{isOpen}
 			{clip}
 			let:isOpen let:toggle
@@ -414,7 +418,8 @@
 			/>
 		{:else if layout === 'default'}
 			<SizeContainer
-				class="loader stack"
+				{containerClass}
+				class="loader stack {contentClass}"
 				{isOpen}
 				{clip}
 			>
