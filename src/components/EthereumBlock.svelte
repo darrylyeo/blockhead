@@ -15,7 +15,7 @@
 	export let showTransactions = false
 
 
-	import { formatPercent } from '../utils/format-percent'
+	import { formatPercent } from '../utils/formatPercent'
 	import { toUtf8String } from 'ethers'
 	import { formatTransactionHash } from '../utils/formatTransactionHash'
 

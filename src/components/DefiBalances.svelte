@@ -79,7 +79,7 @@
 	export let isOpen: boolean
 
 	
-	import { formatPercent } from '../utils/format-percent'
+	import { formatPercent } from '../utils/formatPercent'
 	import { formatUnits } from '../utils/format-units'
 	import { formatKebabCase } from '../utils/formatKebabCase';
 
