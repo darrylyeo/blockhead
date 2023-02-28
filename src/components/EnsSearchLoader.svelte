@@ -6,7 +6,7 @@
 	export let searchQuery: string
 
 
-	// import { queryENSDomain, queryENSDomainsContaining } from '../data/ens'
+	// import { queryENSDomain, queryENSDomainsContaining } from '../api/ens'
 
 	import { graphql } from '$houdini'
 

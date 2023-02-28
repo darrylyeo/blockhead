@@ -1,5 +1,5 @@
 async function getCurrentClient() {
-  return (await import("../../../../src/data/ens/client.ts")).default;
+  return (await import("../../../../src/api/ens/client.ts")).default;
 }
 export {
   getCurrentClient

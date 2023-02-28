@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ENS } from '../data/ens'
+	import type { ENS } from '../api/ens'
 	import type { Ethereum } from '../data/networks/types'
 	import { NetworkProvider } from '../data/networkProviders/types'
 	import { getEthersProvider } from '../data/networkProviders'

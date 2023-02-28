@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
-	import type { ENS } from '../data/ens'
+	import type { ENS } from '../api/ens'
 	import { networksByChainID } from '../data/networks'
 
 
