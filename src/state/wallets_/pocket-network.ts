@@ -1,8 +1,29 @@
-import type { Ethereum } from '../../networks/types'
+import type {  } from '../../data/networks/types'
 // import { Pocket, Configuration, HttpRpcProvider, PocketAAT, PocketRpcProvider } from '@pokt-network/pocket-js'
 // import { Pocket, Configuration, HttpProvider, HttpRpcProvider, PocketAAT, PocketProvider, PocketRpcProvider } from '@pokt-network/web3-provider'
-import { POCKET_NETWORK_DISPATCH_URLS, POCKET_NETWORK_APP_AUTH_TOKEN } from '../../../config'
-import { env } from '../../../env'
+
+
+const POCKET_NETWORK_DISPATCH_URLS = [
+	'https://node1.mainnet.pokt.network:443',
+	'https://node2.mainnet.pokt.network:443',
+	'https://node3.mainnet.pokt.network:443',
+	'https://node4.mainnet.pokt.network:443',
+	'https://node5.mainnet.pokt.network:443',
+	'https://node6.mainnet.pokt.network:443',
+	'https://node7.mainnet.pokt.network:443',
+	'https://node8.mainnet.pokt.network:443',
+	'https://node9.mainnet.pokt.network:443',
+	'https://node10.mainnet.pokt.network:443',
+	'https://seed1.mainnet.pokt.network:443',
+	'https://seed2.mainnet.pokt.network:443',
+]
+
+const POCKET_NETWORK_APP_AUTH_TOKEN = {
+	"version": "0.0.1",
+	"clientPublicKey": "bdbfc70cb8c9529903d1b4bba0a69c4b434bf40ea3b968baa4b81af1ef8c5e03",
+	"applicationPublicKey": "98c2e1be1e4aac38ffffb9c1b95d8d0e4ab7dd7a6b073085dac8e4d6eda5b592",
+	"applicationSignature": "8e0bfcdff2dcd41e44484bfc17ee5b7f2e5e76b6815b079a1cc12abf6620250709f25e1162c0830d1650799e7e9917f0083987caee8ea4bcee6abb53536e0703"
+}
 
 
 // https://docs.pokt.network/docs/supported-networks-on-mainnet

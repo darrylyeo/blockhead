@@ -1,6 +1,8 @@
 import { readable } from 'svelte/store'
 import { SubscriptionClient } from 'subscriptions-transport-ws'
-import { THE_GRAPH_UNISWAP_API_URL } from '../config'
+
+
+const THE_GRAPH_UNISWAP_API_URL = 'wss://api.thegraph.com/explorer/graphql'
 
 
 // Lazy instantiate (incompatible with Sapper SSR)

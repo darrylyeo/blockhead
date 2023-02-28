@@ -1,7 +1,8 @@
-import { THE_GRAPH_ENS_URL } from '../config'
-
 import { ApolloClient, createHttpLink, gql, InMemoryCache } from '@apollo/client/core'
 import { apolloRequestStore } from '../utils/apolloRequestStore'
+
+
+const THE_GRAPH_ENS_URL = 'https://api.thegraph.com/subgraphs/name/ensdomains/ens'
 
 
 // Lazy instantiate (incompatible with Sapper SSR)

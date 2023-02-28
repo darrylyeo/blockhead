@@ -2,10 +2,13 @@ import type { Token } from 'graphql'
 import type { TickerSymbol } from '../data/currencies'
 import type { Ethereum } from '../data/networks/types'
 
-import { COVALENT_URL } from '../config'
 import { env } from '../env'
 
 import { ConcurrentPromiseQueue } from '../utils/ConcurrentPromiseQueue'
+
+
+const COVALENT_URL = `https://api.covalenthq.com`
+
 
 // https://www.covalenthq.com/docs/api/
 export namespace Covalent {

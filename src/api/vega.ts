@@ -4,7 +4,8 @@ import { ApolloClient, HttpLink, InMemoryCache, split } from '@apollo/client/cor
 import { getMainDefinition } from '@apollo/client/utilities'
 import { WebSocketLink } from '@apollo/client/link/ws'
 
-import { VEGA_NODE_URL } from '../config'
+
+const VEGA_NODE_URL = 'lb.n.vega.xyz' // 'n06.n.vega.xyz'
 
 
 // Everything must be lazy instantiated; web sockets are incompatible with Sapper SSR
