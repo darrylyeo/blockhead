@@ -111,7 +111,7 @@
 	} */
 
 	dl {
-		grid-template-columns: min(7.5em, 50%) 1fr;
+		grid-template-columns: min(8em, 50%) 1fr;
 		margin: 0;
 	}
 	dt {
@@ -136,8 +136,8 @@
 	}
 
 	.not-set:after {
-		content: '[not set]';
-		opacity: 0.6;
+		content: '—';
+		opacity: 0.3;
 	}
 </style>
 
@@ -189,7 +189,7 @@
 							{/if}
 						</dt>
 						<dd>
-							{#if value === null || value === undefined}
+							{#if !value}
 								<span class="not-set" />
 							{:else if key === 'name'}
 								<h3>{value}</h3>
