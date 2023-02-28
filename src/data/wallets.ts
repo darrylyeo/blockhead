@@ -159,11 +159,11 @@ export const walletsByType = Object.fromEntries(wallets.map(wallet => [wallet.ty
 import type { Readable } from 'svelte/store'
 import type { Ethereum } from './networks/types'
 
-import type { ExternalProvider } from '@ethersproject/providers'
+import type { Provider as EthersProvider } from 'ethers'
 import type { CoinbaseWalletProvider } from '@coinbase/wallet-sdk'
 import type WalletConnectProvider from '@walletconnect/web3-provider'
 
-export type Provider = ExternalProvider | WalletConnectProvider | CoinbaseWalletProvider
+export type Provider = EthersProvider | WalletConnectProvider | CoinbaseWalletProvider
 
 export type WalletConnection = {
 	walletType: WalletType,
