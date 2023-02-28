@@ -95,6 +95,10 @@
 	::-webkit-details-marker {
 		display: none;
 	}
+
+	[role="toolbar"] {
+		font-size: 0.8em;
+	}
 </style>
 
 
