@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
+	import type { NetworkAccountAddress } from '../data/address'
 	import { NetworkProvider } from '../data/networkProviders/types'
 	import { getEthersProvider } from '../data/networkProviders'
 	import { networksByChainID } from '../data/networks'
@@ -48,7 +49,7 @@
 		resolver: Resolver,
 		textRecordKey: string
 	}) => (
-		await resolver?.getText(textRecordKey)
+		await resolver?.getText(textRecordKey) as NetworkAccountAddress
 	))
 
 	const resolveEnsCryptoAddress = memoizedAsync(async ({
@@ -63,7 +64,7 @@
 
 
 	export let contentHash: ContentHash
-	export let textRecords: Map<TextRecordKey, string>
+	export let textRecords: Map<TextRecordKey, NetworkAccountAddress>
 	export let cryptoAddressRecords: Map<CoinType, string>
 
 	type $$Slots = {
