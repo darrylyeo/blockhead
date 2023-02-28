@@ -1,6 +1,6 @@
 import { Sdk, randomPrivateKey, NetworkNames } from 'etherspot'
-import { memoized } from '../../utils/memoized'
-import type { Ethereum } from '../networks/types'
+import { memoized } from '../utils/memoized'
+import type { Ethereum } from '../data/networks/types'
 
 
 const CHAIN_ID_TO_NETWORK_NAME: Record<Ethereum.ChainID, NetworkNames> = {

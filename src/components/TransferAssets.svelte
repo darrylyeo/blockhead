@@ -45,7 +45,7 @@
 
 
 	// import { startConnextTransfer } from '../data/connext/connext'
-	// import { startEtherspotTransfer } from '../data/etherspot/etherspot'
+	// import { startEtherspotTransfer } from '../api/etherspot'
 
 	async function onSubmit({
 		fromNetwork,

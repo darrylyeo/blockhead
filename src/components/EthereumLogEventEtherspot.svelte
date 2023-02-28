@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
-	import type { Transaction } from '../data/etherspot/etherspot'
+	import type { Transaction } from '../api/etherspot'
 
 	export let network: Ethereum.Network
 	export let logEvent: Transaction['logs'][number]
