@@ -22,6 +22,10 @@
 
 	export let isOpen: boolean
 
+	export let containerClass: string
+	export let contentClass: string
+
+
 	type NftWithBalance = Ethereum.Nft & {
 		erc1155Balance?: number
 	}
@@ -522,6 +526,8 @@
 		)}
 		bind:result={nftContractsWithBalances}
 		{isOpen}
+		{containerClass}
+		{contentClass}
 	>
 		<svelte:fragment slot="header" let:status let:loadingMessage let:errorMessage>
 			<slot name="header" {nftContractsWithBalances} {summary} {status} {loadingMessage} {errorMessage} />
@@ -721,6 +727,8 @@
 		)}
 		bind:result={nftContractsWithBalances}
 		{isOpen}
+		{containerClass}
+		{contentClass}
 	>
 		<svelte:fragment slot="header" let:status let:loadingMessage let:errorMessage>
 			<slot name="header" {nftContractsWithBalances} {summary} {status} {loadingMessage} {errorMessage} />

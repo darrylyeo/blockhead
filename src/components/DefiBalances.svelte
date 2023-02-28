@@ -78,6 +78,9 @@
 	
 	export let isOpen: boolean
 
+	export let containerClass: string
+	export let contentClass: string
+
 	
 	import { formatPercent } from '../utils/formatPercent'
 	import { formatUnits } from '../utils/formatUnits'
@@ -195,6 +198,8 @@
 			bind:result={zapperDefiBalances}
 			let:result={zapperDefiBalances}
 			{isOpen}
+			{containerClass}
+			{contentClass}
 		>
 			<svelte:fragment slot="header" let:status let:loadingMessage let:errorMessage>
 				<slot name="header" {zapperDefiBalances} {summary} {status} {loadingMessage} {errorMessage} />
@@ -555,6 +560,8 @@
 				bind:result={zerionDefiBalances}
 				let:result={defiBalances}
 				{isOpen}
+				{containerClass}
+				{contentClass}
 			>
 				<!-- <NetworkIcon slot="loadingIcon" {network} /> -->
 

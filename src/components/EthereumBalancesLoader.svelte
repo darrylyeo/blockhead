@@ -16,6 +16,9 @@
 	export let showIf: (<TData = unknown> (then: TData) => boolean | any) | undefined
 	export let isOpen: boolean
 
+	export let containerClass: string
+	export let contentClass: string
+
 
 	export let balances: {
 		type?: Covalent.ERC20TokenOrNFTContractWithBalance['type'],
@@ -93,6 +96,8 @@
 		}
 		{showIf}
 		{isOpen}
+		{containerClass}
+		{contentClass}
 		let:status
 		bind:result={balances}
 		let:result={balances}
@@ -189,6 +194,8 @@
 		}
 		{showIf}
 		{isOpen}
+		{containerClass}
+		{contentClass}
 		let:status
 		bind:result={balances}
 		let:result={balances}
@@ -244,6 +251,8 @@
 		) ?? []}
 		{showIf}
 		{isOpen}
+		{containerClass}
+		{contentClass}
 		let:status
 		bind:result={balances}
 		let:result={balances}
@@ -281,6 +290,8 @@
 		)}
 		{showIf}
 		{isOpen}
+		{containerClass}
+		{contentClass}
 		let:status
 		bind:result={balances}
 		let:result={balances}

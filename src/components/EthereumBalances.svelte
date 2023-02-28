@@ -21,6 +21,9 @@
 
 	export let isOpen: boolean
 
+	export let containerClass: string
+	export let contentClass: string
+
 
 	type TokenWithBalance = {
 		token: Ethereum.ERC20Token,
@@ -158,6 +161,8 @@
 		{tokenBalancesProvider}
 		{quoteCurrency}
 		{isOpen}
+		{containerClass}
+		{contentClass}
 		bind:balances
 	>
 		<!-- showIf={() => balances.length} -->
