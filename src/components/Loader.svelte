@@ -12,6 +12,7 @@
 	type LoaderLayout = $$Generic<'default' | 'passive' | 'collapsible'>
 
 	export let layout: LoaderLayout = 'default'
+	export let collapsibleType: 'label' | 'details' = 'details'
 
 	export let startImmediately = true
 
@@ -287,6 +288,7 @@
 {#if !isHidden}
 	{#if layout === 'collapsible'}
 		<Collapsible
+			type={collapsibleType}
 			class="loader stack"
 			{isOpen}
 			{clip}
