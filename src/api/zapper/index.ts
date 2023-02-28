@@ -727,7 +727,7 @@ export const Zapper = new V2(client)
 
 // Utils
 
-import { ConcurrentPromiseQueue } from '../../utils/concurrent-promise-queue'
+import { ConcurrentPromiseQueue } from '../../utils/ConcurrentPromiseQueue'
 import { promiseAllFulfilled } from '../../utils/promiseAllFulfilled'
 
 const queue = new ConcurrentPromiseQueue(3)

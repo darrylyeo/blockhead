@@ -1,9 +1,11 @@
+type QueueItem<T> = {asyncFunction: () => Promise<T>, resolve: (value: T) => void, reject: (reason: any) => void}
+
 export class ConcurrentPromiseQueue {
-	queue = []
-	countQueued = 0
+	queue: QueueItem<any>[] = []
+	countQueued: number = 0
 
 	constructor(
-		public maxConcurrent = 3
+		public maxConcurrent: number = 3
 	){}
 	
 	public enqueue<T>(asyncFunction: () => Promise<T>){
@@ -16,7 +18,7 @@ export class ConcurrentPromiseQueue {
 
 	private dequeue(){
 		while(this.queue.length && this.countQueued < this.maxConcurrent){
-			const {asyncFunction, resolve, reject} = this.queue.shift()
+			const { asyncFunction, resolve, reject } = this.queue.shift()!
 
 			this.countQueued++
 

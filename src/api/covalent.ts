@@ -5,7 +5,7 @@ import type { Ethereum } from '../data/networks/types'
 import { COVALENT_URL } from '../config'
 import { env } from '../env'
 
-import { ConcurrentPromiseQueue } from '../utils/concurrent-promise-queue'
+import { ConcurrentPromiseQueue } from '../utils/ConcurrentPromiseQueue'
 
 // https://www.covalenthq.com/docs/api/
 export namespace Covalent {
