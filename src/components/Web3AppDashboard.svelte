@@ -578,7 +578,7 @@
 											errorMessage="Error getting {web3AppConfig.name} balances from {defiProvider}."
 											fromPromise={provider && address && (
 												() => getDefiBalances({
-													appIds: providers?.zerionDefiSDK,
+													protocolNames: providers?.zerionDefiSDK,
 													network,
 													provider,
 													address
