@@ -1,5 +1,5 @@
 import type { Token } from 'graphql'
-import type { TickerSymbol } from '../data/currency/currency'
+import type { TickerSymbol } from '../data/currencies'
 import type { Ethereum } from '../data/networks/types'
 
 import { COVALENT_URL } from '../config'

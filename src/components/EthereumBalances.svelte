@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
 	import type { Covalent } from '../api/covalent'
-	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
+	import type { QuoteCurrency, TickerSymbol } from '../data/currencies'
 	import { getTokenAddressBalances } from '../api/covalent'
 	import { preferences } from '../state/preferences'
 

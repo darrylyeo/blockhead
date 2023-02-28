@@ -3,7 +3,7 @@
 </script>
 
 <script lang="ts">
-	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
+	import type { QuoteCurrency, TickerSymbol } from '../data/currencies'
 	
 	type TimePrice = {
 		time: number,

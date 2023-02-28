@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
 	import type { Covalent } from '../api/covalent'
-	import type { QuoteCurrency } from '../data/currency/currency'
+	import type { QuoteCurrency } from '../data/currencies'
 	import type { Nftport } from '../api/nftport'
-	import type { TickerSymbol } from '../data/currency/currency'
+	import type { TickerSymbol } from '../data/currencies'
 	import { getTokenAddressBalances } from '../api/covalent'
 	import { NftportApi } from '../api/nftport'
 

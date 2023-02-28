@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
-	import type { TickerSymbol } from '../data/currency/currency'
-	import type { QuoteCurrency } from '../data/currency/currency'
+	import type { TickerSymbol } from '../data/currencies'
+	import type { QuoteCurrency } from '../data/currencies'
 	import { Transaction as EtherspotTranaction, TransactionAssetCategories } from 'etherspot'
 	import { TransactionStatuses } from 'etherspot'
 

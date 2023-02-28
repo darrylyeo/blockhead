@@ -3,7 +3,7 @@
 	// import type { CryptoPosition } from '../data/CryptoPosition'
 	import type { Ethereum } from '../data/networks/types'
 	import type { DeFiProvider } from '../data/defi-provider'
-	import type { QuoteCurrency } from '../data/currency/currency'
+	import type { QuoteCurrency } from '../data/currencies'
 	import { getNetworkColor, networksByChainID } from '../data/networks'
 	import { Covalent } from '../api/covalent'
 	import { getDefaultProvider } from 'ethers'

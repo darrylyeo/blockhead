@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
-	import type { TickerSymbol } from '../data/currency/currency'
+	import type { TickerSymbol } from '../data/currencies'
 	import type { Covalent } from '../api/covalent'
 	import type { ContractMetadata } from '../api/sourcify'
 	import type { PriceScale } from './PriceChart.svelte'

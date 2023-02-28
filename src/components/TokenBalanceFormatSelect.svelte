@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { QuoteCurrency } from '../data/currency/currency'
+	import type { QuoteCurrency } from '../data/currencies'
 
 
-	import { fiatQuoteCurrencies } from '../data/currency/currency'
+	import { fiatQuoteCurrencies } from '../data/currencies'
 
 
 	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'

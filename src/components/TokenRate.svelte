@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { TickerSymbol } from '../data/currency/currency'
+	import type { TickerSymbol } from '../data/currencies'
 
 	export let rate = 0.0
 	export let quoteToken: TickerSymbol

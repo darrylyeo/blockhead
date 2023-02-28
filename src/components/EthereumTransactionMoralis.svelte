@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
-	import type { TickerSymbol } from '../data/currency/currency'
-	import type { QuoteCurrency } from '../data/currency/currency'
+	import type { TickerSymbol } from '../data/currencies'
+	import type { QuoteCurrency } from '../data/currencies'
 	import type { BlockTransaction, Erc20Transaction } from '../api/moralis/api/Api'
 
 

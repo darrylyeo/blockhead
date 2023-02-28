@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
 	import type { DeFiProvider } from '../data/defi-provider'
-	import type { QuoteCurrency } from '../data/currency/currency'
+	import type { QuoteCurrency } from '../data/currencies'
 	import type { Web3AppConfig, Web3AppSlug } from '../data/web3Apps'
 	import type { Covalent } from '../api/covalent'
 	import { web3AppsByProviderName } from '../data/web3Apps'

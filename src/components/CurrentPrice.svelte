@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
-	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
+	import type { QuoteCurrency, TickerSymbol } from '../data/currencies'
 	import type { CurrentPriceProvider } from '../data/priceProvider'
 	import { getChainlinkPriceFeed } from '../api/chainlink'
 	// import { getCompoundPriceFeed } from '.../../../data/ethereum/price/compound-price-feed'

@@ -1,5 +1,5 @@
 import type { Provider as EthersProvider } from 'ethers'
-import type { TickerSymbol } from '../currency/currency'
+import type { TickerSymbol } from '../currencies'
 
 export namespace Ethereum {
 	export type Network = {

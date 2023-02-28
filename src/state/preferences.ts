@@ -1,5 +1,5 @@
 import { localStorageWritable } from '../utils/localStorageWritable'
-import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '../data/currency/currency'
+import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '../data/currencies'
 
 import { NetworkProvider } from '../data/networkProviders/types'
 import { networkProviderConfigs } from '../data/networkProviders'

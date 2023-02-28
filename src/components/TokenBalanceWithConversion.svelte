@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
-	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
+	import type { QuoteCurrency, TickerSymbol } from '../data/currencies'
 
 
 	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { BigNumberish } from 'ethers'
 	import type { Ethereum } from '../data/networks/types'
-	import type { TickerSymbol } from '../data/currency/currency'
-	import { fiatQuoteCurrencies } from '../data/currency/currency'
+	import type { TickerSymbol } from '../data/currencies'
+	import { fiatQuoteCurrencies } from '../data/currencies'
 
 	export let network: Ethereum.Network
 	export let symbol: TickerSymbol

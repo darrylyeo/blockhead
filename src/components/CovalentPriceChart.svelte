@@ -2,7 +2,7 @@
 	import type { Ethereum } from '../data/networks/types'
 	import type { Covalent } from '../api/covalent'
 	import { getHistoricalPricesByTickerSymbol, getHistoricalPricesByAddress } from '../api/covalent'
-	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
+	import type { QuoteCurrency, TickerSymbol } from '../data/currencies'
 	import type { PriceScale } from './PriceChart.svelte'
 	
 	export let historicalPriceProvider
