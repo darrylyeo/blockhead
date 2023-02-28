@@ -2,7 +2,7 @@
 	import type { Ethereum } from '../data/networks/types'
 	import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
 	import type { CurrentPriceProvider } from '../data/ethereum/price/price-feed-provider'
-	import { getChainlinkPriceFeed } from '../data/ethereum/price/chainlink'
+	import { getChainlinkPriceFeed } from '../api/chainlink'
 	// import { getCompoundPriceFeed } from '.../../../data/ethereum/price/compound-price-feed'
 	import { getSpotPrices } from '../api/covalent'
 

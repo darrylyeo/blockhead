@@ -1,6 +1,6 @@
-import type { Ethereum } from '../../networks/types'
+import type { Ethereum } from '../data/networks/types'
 import { Contract, formatUnits } from 'ethers'
-import type { QuoteCurrency, TickerSymbol } from '../../currency/currency'
+import type { QuoteCurrency, TickerSymbol } from '../data/currency/currency'
 
 
 type AssetPair = string
