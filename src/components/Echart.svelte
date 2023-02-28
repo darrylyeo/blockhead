@@ -76,7 +76,7 @@
 	> // EChartsOption
 
 	
-	import { colorTheme } from '../data/color-theme'
+	import { colorTheme } from '../utils/colorTheme'
 
 
 	let chartContainer
