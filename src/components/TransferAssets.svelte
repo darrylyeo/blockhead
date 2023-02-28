@@ -8,7 +8,7 @@
 	import { getEthersProvider } from '../data/networkProviders'
 	import { preferences } from '../state/preferences'
 
-	import { Connext } from '../data/connext/swaps'
+	import { Connext } from '../api/connext/swaps'
 	
 	
 	export let transferSolution: 'Connext' | 'Etherspot' | '1inch' = 'Etherspot'
@@ -44,7 +44,7 @@
 	let toTokenSelect: HTMLElement
 
 
-	// import { startConnextTransfer } from '../data/connext/connext'
+	// import { startConnextTransfer } from '../api/connext'
 	// import { startEtherspotTransfer } from '../api/etherspot'
 
 	async function onSubmit({

@@ -1,4 +1,4 @@
-import type { Ethereum } from '../networks/types'
+import type { Ethereum } from '../../data/networks/types'
 
 
 export namespace Connext {
