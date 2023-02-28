@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { AccountNetworkSettings, AccountType } from '../state/portfolio-accounts'
-	// import type { CryptoPosition } from '../data/CryptoPosition'
 	import type { Ethereum } from '../data/networks/types'
 	import type { DeFiProvider } from '../data/defi-provider'
 	import type { QuoteCurrency } from '../data/currencies'
