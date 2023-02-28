@@ -2,7 +2,7 @@ import type {
 	BalanceControllerGetAppBalancesParams,
 } from './api/data-contracts'
 
-import type { Ethereum } from '../ethereum/types'
+import type { Ethereum } from '../../data/ethereum/types'
 
 
 // Networks

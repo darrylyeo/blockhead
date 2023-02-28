@@ -4,7 +4,7 @@
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import { MoralisWeb3Api, chainCodeFromNetwork } from '../api/moralis/web3Api'
 
-	import { getTokenBalances } from '../data/zapper/zapper'
+	import { getTokenBalances } from '../api/zapper'
 	import { getWalletTokenBalance } from '../data/quicknode'
 
 

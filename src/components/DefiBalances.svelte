@@ -6,8 +6,8 @@
 	import { web3AppsByProviderName } from '../data/web3Apps'
 	import { networksByChainID } from '../data/ethereum/networks'
 	import { getDefiBalances } from '../api/zerion/defiSdk'
-	import type { ZapperAppId, ZapperAppConfig, ZapperAppBalance } from '../data/zapper/zapper'
-	import { getAllApps, getDefiBalancesForApps, chainIdByNetworkName } from '../data/zapper/zapper'
+	import type { ZapperAppId, ZapperAppConfig, ZapperAppBalance } from '../api/zapper'
+	import { getAllApps, getDefiBalancesForApps, chainIdByNetworkName } from '../api/zapper'
 
 
 	// Data
