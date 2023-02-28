@@ -2,7 +2,7 @@
 	export let userId: string
 
 
-	import { getUser } from '../data/audius/audius'
+	import { getUser } from '../api/audius'
 
 
 	import AudiusUser from './AudiusUser.svelte'

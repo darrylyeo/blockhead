@@ -2,8 +2,8 @@
 	export let playlistId: string
 	
 	
-	import type { Audius } from '../data/audius/audius'
-	import { getPlaylistTracks } from '../data/audius/audius'
+	import type { Audius } from '../api/audius'
+	import { getPlaylistTracks } from '../api/audius'
 	
 	
 	import AudiusTrack from './AudiusTrack.svelte'

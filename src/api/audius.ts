@@ -171,7 +171,7 @@ export namespace Audius {
 }
 
 
-import { env } from '../../env'
+import { env } from '../env'
 
 
 let apiHosts

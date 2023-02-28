@@ -2,8 +2,8 @@
 	export let query: string
 
 
-	import type { Audius } from '../data/audius/audius'
-	import { searchUsers, searchTracks, searchPlaylists } from '../data/audius/audius'
+	import type { Audius } from '../api/audius'
+	import { searchUsers, searchTracks, searchPlaylists } from '../api/audius'
 
 	let users: Audius.User[]
 	let tracks: Audius.Track[]

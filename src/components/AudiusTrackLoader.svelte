@@ -2,7 +2,7 @@
 	export let trackId: string
 
 
-	import { getTrack } from '../data/audius/audius'
+	import { getTrack } from '../api/audius'
 
 
 	import AudiusTrack from './AudiusTrack.svelte'

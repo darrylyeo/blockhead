@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Audius } from '../data/audius/audius'
+	import type { Audius } from '../api/audius'
 
 
 	export let track: Audius.Track

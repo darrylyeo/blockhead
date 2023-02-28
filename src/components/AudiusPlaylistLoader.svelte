@@ -2,7 +2,7 @@
 	export let playlistId: string
 	
 	
-	import { getPlaylist } from '../data/audius/audius'
+	import { getPlaylist } from '../api/audius'
 	
 	
 	import AudiusPlaylist from './AudiusPlaylist.svelte'

@@ -4,8 +4,8 @@
 	export let userId: string
 
 
-	import type { Audius } from '../data/audius/audius'
-	import { getUserTracks } from '../data/audius/audius'
+	import type { Audius } from '../api/audius'
+	import { getUserTracks } from '../api/audius'
 
 
 	import AudiusTrack from './AudiusTrack.svelte'
