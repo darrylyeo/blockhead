@@ -23,7 +23,7 @@ import {
 	InfuraProvider,
 	PocketProvider,
 } from 'ethers'
-import { getMoralisJSONRPCEndpoint } from './moralis/endpoints'
+import { getMoralisJSONRPCEndpoint } from '../api/moralis/endpoints'
 import { figmentProviderConfigs } from './figment'
 
 

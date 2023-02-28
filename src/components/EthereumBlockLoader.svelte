@@ -33,7 +33,7 @@
 
 	import { getBlock } from '../api/covalent'
 
-	import { chainCodeFromNetwork, MoralisWeb3Api } from '../data/moralis/moralis-web3-api'
+	import { chainCodeFromNetwork, MoralisWeb3Api } from '../api/moralis/web3Api'
 
 
 	import Date from './Date.svelte'

@@ -20,7 +20,7 @@
 
 	import { getTransactionsByAddress } from '../api/covalent'
 	// import { getTransactions as getTransactionsEtherspot } from '../data/etherspot/etherspot'
-	import { chainCodeFromNetwork, MoralisWeb3Api } from '../data/moralis/moralis-web3-api'
+	import { chainCodeFromNetwork, MoralisWeb3Api } from '../api/moralis/web3Api'
 
 
 	import Loader from './Loader.svelte'

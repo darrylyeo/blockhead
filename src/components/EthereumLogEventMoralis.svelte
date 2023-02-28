@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/ethereum/types'
-	import type { Log } from '../data/moralis/api/Api'
+	import type { Log } from '../api/moralis/api/Api'
 
 	export let network: Ethereum.Network
 	export let logEvent: Log

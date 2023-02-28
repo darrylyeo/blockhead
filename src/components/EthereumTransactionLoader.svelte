@@ -30,7 +30,7 @@
 
 	import { getTransaction as getTransactionCovalent } from '../api/covalent'
 	// import { getTransaction as getTransactionEtherspot } from '../data/etherspot/etherspot'
-	import { MoralisWeb3Api, chainCodeFromNetwork } from '../data/moralis/moralis-web3-api'
+	import { MoralisWeb3Api, chainCodeFromNetwork } from '../api/moralis/web3Api'
 
 
 	import EthereumTransactionCovalent from './EthereumTransactionCovalent.svelte'

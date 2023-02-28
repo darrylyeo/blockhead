@@ -2,7 +2,7 @@
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { Covalent } from '../api/covalent'
 	import type { QuoteCurrency } from '../data/currency/currency'
-	import { MoralisWeb3Api, chainCodeFromNetwork } from '../data/moralis/moralis-web3-api'
+	import { MoralisWeb3Api, chainCodeFromNetwork } from '../api/moralis/web3Api'
 
 	import { getTokenBalances } from '../data/zapper/zapper'
 	import { getWalletTokenBalance } from '../data/quicknode'

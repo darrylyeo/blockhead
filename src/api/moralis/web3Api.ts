@@ -10,7 +10,7 @@ export const MoralisWeb3Api = new Api(new HttpClient({
 }))
 
 
-import type { Ethereum } from '../ethereum/types'
+import type { Ethereum } from '../../data/ethereum/types'
 
 export const chainCodeFromNetwork = (network: Ethereum.Network) =>
 	`0x${network.chainId.toString(16)}`

@@ -2,7 +2,7 @@
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { TickerSymbol } from '../data/currency/currency'
 	import type { QuoteCurrency } from '../data/currency/currency'
-	import type { BlockTransaction, Erc20Transaction } from '../data/moralis/api/Api'
+	import type { BlockTransaction, Erc20Transaction } from '../api/moralis/api/Api'
 
 
 	export let network: Ethereum.Network
