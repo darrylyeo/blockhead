@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
-	import { getEthersProvider } from '../data/providers'
+	import { getEthersProvider } from '../data/networkProviders'
 	import { preferences } from '../state/preferences'
 
 

@@ -1,4 +1,4 @@
-import { NetworkProviderConnectionType, NetworkProviderNodeType } from './providers-types'
+import { NetworkProviderConnectionType, NetworkProviderNodeType } from './types'
 
 
 // https://datahub.figment.io/apps

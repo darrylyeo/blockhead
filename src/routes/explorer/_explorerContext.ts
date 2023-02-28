@@ -7,7 +7,7 @@ import { networksBySlug } from '../../data/networks'
 
 
 // Functions
-import { getEthersProvider } from '../../data/providers'
+import { getEthersProvider } from '../../data/networkProviders'
 
 
 // External stores

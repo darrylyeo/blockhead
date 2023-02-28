@@ -7,7 +7,7 @@
 		isWritable,
 	} from '../api/sourcify'
 	import type { AccountConnectionState } from '../state/account'
-	import { networkProviderConfigByProvider } from '../data/providers'
+	import { networkProviderConfigByProvider } from '../data/networkProviders'
 	import { preferences } from '../state/preferences'
 
 

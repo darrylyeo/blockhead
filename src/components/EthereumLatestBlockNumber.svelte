@@ -12,7 +12,7 @@
 
 
 	// import { preferences } from '../state/preferences'
-	// import { getEthersProvider } from '../data/providers'
+	// import { getEthersProvider } from '../data/networkProviders'
 
 	// $: if(network && !provider){
 	// 	getEthersProvider({
@@ -95,7 +95,7 @@
 
 
 	import { preferences } from '../state/preferences'
-	import { getEthersProvider } from '../data/providers'
+	import { getEthersProvider } from '../data/networkProviders'
 	// import { onDestroy } from 'svelte'
 
 	$: if(network && !blockHeightForNetwork[network.chainId]){

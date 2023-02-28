@@ -5,7 +5,7 @@
 	import { usdStablecoinTokens } from '../data/tokens'
 
 
-	import { getEthersProvider } from '../data/providers'
+	import { getEthersProvider } from '../data/networkProviders'
 	import { preferences } from '../state/preferences'
 
 	import { Connext } from '../data/connext/swaps'

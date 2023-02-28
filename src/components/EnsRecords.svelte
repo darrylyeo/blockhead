@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { ENS } from '../data/ens'
 	import type { Ethereum } from '../data/networks/types'
-	import type { NetworkProvider } from '../data/providers-types'
+	import type { NetworkProvider } from '../data/networkProviders/types'
 	import { networksByChainID, networksBySlip44 } from '../data/networks'
 	import { chainsBySlip44 } from '../data/slip44'
-	import { getEthersProvider } from '../data/providers'
+	import { getEthersProvider } from '../data/networkProviders'
 	import { preferences } from '../state/preferences'
 
 

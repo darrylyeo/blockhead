@@ -43,7 +43,7 @@
 	import type { Ethereum } from '../data/networks/types'
 	import { networksByChainID } from '../data/networks'
 	import { derived, writable } from 'svelte/store'
-	import { getEthersProvider } from '../data/providers'
+	import { getEthersProvider } from '../data/networkProviders'
 	import { onMount, setContext } from 'svelte'
 
 	const whenMounted = new Promise(r => onMount(r))

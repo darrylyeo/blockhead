@@ -1,16 +1,16 @@
 // Types
-import type { Ethereum } from './networks/types'
+import type { Ethereum } from '../networks/types'
 import type { Provider } from 'ethers'
-import { NetworkProvider, NetworkProviderConnectionType, NetworkProviderNodeType } from './providers-types'
+import { NetworkProvider, NetworkProviderConnectionType, NetworkProviderNodeType } from './types'
 
 
 // Constants
-import { env } from '../env'
-import { networksBySlug } from './networks'
+import { env } from '../../env'
+import { networksBySlug } from '../networks'
 
 
 // Utils
-import { memoizedAsync } from '../utils/memoized'
+import { memoizedAsync } from '../../utils/memoized'
 
 
 // APIs
@@ -23,12 +23,12 @@ import {
 	InfuraProvider,
 	PocketProvider,
 } from 'ethers'
-import { getMoralisJSONRPCEndpoint } from '../api/moralis/endpoints'
+import { getMoralisJSONRPCEndpoint } from '../../api/moralis/endpoints'
 import { figmentProviderConfigs } from './figment'
 
 
 // Icons
-import { AlchemyIcon, EtherscanIcon, FigmentIcon, InfuraIcon, MoralisIcon, PocketIcon, QuickNodeIcon } from '../assets/icons'
+import { AlchemyIcon, EtherscanIcon, FigmentIcon, InfuraIcon, MoralisIcon, PocketIcon, QuickNodeIcon } from '../../assets/icons'
 
 
 type NetworkProviderConfig = {
