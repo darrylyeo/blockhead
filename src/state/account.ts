@@ -76,7 +76,7 @@ const getSigner = (provider: Provider) =>
 
 
 import { readable } from 'svelte/store'
-import type { Result } from '../data/apollo-store'
+import type { Result } from '../utils/apolloRequestStore'
 
 export const getAccountConnectionState = (walletConnection: WalletConnection) =>
 	readable<Result<AccountConnectionState>>(

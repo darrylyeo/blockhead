@@ -3,7 +3,6 @@
 
 import type { FetchResult, Observable, ObservableQuery } from '@apollo/client'
 import { ApolloError } from '@apollo/client/core'
-import type { Readable } from 'svelte/store'
 import { readable } from 'svelte/store'
 
 
@@ -25,15 +24,16 @@ export interface Data<TData = unknown> {
 
 export type Result<TData = unknown> = Loading | Error | Data<TData>
 
-export function readableFromApolloRequest<TData = unknown>(
+
+export const apolloRequestStore = <TData = unknown>(
 	observable: Observable<FetchResult<TData>>,
 	initialValue: Result<TData> = {
 		loading: true,
 		data: undefined,
 		error: undefined,
 	}
-): Readable<Result<TData>> {
-	const store = readable<Result<TData>>(initialValue, set => {
+) => (
+	readable<Result<TData>>(initialValue, set => {
 		const skipDuplicate = initialValue?.data !== undefined
 		let skipped = false
 
@@ -52,12 +52,10 @@ export function readableFromApolloRequest<TData = unknown>(
 					set({ loading: false, data: result.data, error: undefined })
 				}
 			},
-            error =>
-                set({ loading: false, data: undefined, error })
+			error =>
+				set({ loading: false, data: undefined, error })
 		)
 
 		return () => subscription.unsubscribe()
 	})
-
-	return store
-}
+)

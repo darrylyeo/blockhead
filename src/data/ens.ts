@@ -1,7 +1,7 @@
 import { THE_GRAPH_ENS_URL } from '../config'
 
 import { ApolloClient, createHttpLink, gql, InMemoryCache } from '@apollo/client/core'
-import { readableFromApolloRequest } from './apollo-store'
+import { apolloRequestStore } from '../utils/apolloRequestStore'
 
 
 // Lazy instantiate (incompatible with Sapper SSR)
@@ -85,7 +85,7 @@ export namespace ENS {
 
 
 export function queryENSDomain(name) {
-	return readableFromApolloRequest<{domains: ENS.Domain[]}>(getENSClient().subscribe({
+	return apolloRequestStore<{domains: ENS.Domain[]}>(getENSClient().subscribe({
 		query: gql`
 			query ENSDomain($name: String!) {
 				domains(where: {name: $name}) {
@@ -134,7 +134,7 @@ export function queryENSDomain(name) {
 }
 
 export function queryENSDomainsContaining(query) {
-	return readableFromApolloRequest<{domains: ENS.Domain[]}>(getENSClient().subscribe({
+	return apolloRequestStore<{domains: ENS.Domain[]}>(getENSClient().subscribe({
 		query: gql`
 			query ENSDomainContaining($query: String!) {
 				domains(where: {name_contains: $query, name_not: $query}) {
