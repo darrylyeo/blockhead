@@ -154,4 +154,4 @@ export const wallets: WalletConfig[] = [
 	// },
 ]
 
-export const walletsByType = Object.fromEntries(wallets.map(wallet => [wallet.type, wallet]))
+export const walletsByType: Record<WalletType, WalletConfig> = Object.fromEntries(wallets.map(wallet => [wallet.type, wallet]))
