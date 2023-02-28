@@ -19,7 +19,7 @@
 	import type { AccountConnectionState } from '../state/account'
 	import type { UnsignedTransaction, Contract, ContractReceipt, Signer, Transaction } from 'ethers'
 
-	import { walletsByType } from '../data/ethereum/wallets'
+	import { walletsByType } from '../data/wallets'
 	
 
 	// External state

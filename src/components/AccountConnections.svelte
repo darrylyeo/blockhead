@@ -12,7 +12,7 @@
 
 
 	// Constants
-	import { wallets, type WalletType } from '../data/ethereum/wallets'
+	import { wallets, type WalletType } from '../data/wallets'
 
 
 	// Internal state

@@ -1,9 +1,9 @@
 <script lang="ts">
 	// Constants/types
-	import type { WalletType } from '../data/ethereum/wallets'
+	import type { WalletType } from '../data/wallets'
 	import { type AccountConnectionState, getAccountConnectionState } from '../state/account'
 
-	import { walletsByType } from '../data/ethereum/wallets'
+	import { walletsByType } from '../data/wallets'
 	import { networksByChainID, getNetworkColor } from '../data/networks'
 
 
@@ -20,7 +20,7 @@
 
 	// Methods/hooks/lifecycle
 
-	import { getWalletConnection } from '../data/ethereum/wallets'
+	import { getWalletConnection } from '../data/wallets'
 
 	import { createEventDispatcher } from 'svelte'
 	const dispatch = createEventDispatcher()

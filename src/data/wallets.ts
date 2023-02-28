@@ -34,7 +34,7 @@ type WalletConfig = {
 }
 
 
-import { CoinbaseWalletIcon, MetaMaskIcon, RainbowIcon, WalletConnectIcon } from '../../assets/walletIcons'
+import { CoinbaseWalletIcon, MetaMaskIcon, RainbowIcon, WalletConnectIcon } from '../assets/walletIcons'
 
 export const wallets: WalletConfig[] = [
 	{
@@ -157,7 +157,7 @@ export const wallets: WalletConfig[] = [
 export const walletsByType = Object.fromEntries(wallets.map(wallet => [wallet.type, wallet]))
 
 import type { Readable } from 'svelte/store'
-import type { Ethereum } from '../networks/types'
+import type { Ethereum } from './networks/types'
 
 import type { ExternalProvider } from '@ethersproject/providers'
 import type { CoinbaseWalletProvider } from '@coinbase/wallet-sdk'
@@ -267,7 +267,7 @@ const switchNetworkEip1193 = async ({
 
 
 // import { env } from '../../env'
-import { getNetworkRPC, networksBySlug } from '../networks'
+import { getNetworkRPC, networksBySlug } from './networks'
 
 export const getWalletConnection = async ({
 	walletType,
