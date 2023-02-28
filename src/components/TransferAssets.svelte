@@ -2,7 +2,7 @@
 	import type { Ethereum } from '../data/networks/types'
 	import { availableNetworks, getNetworkRPC } from '../data/networks'
 	import { Account, getLocalPortfolios, connectedProviderAccounts } from '../state/portfolio-accounts'
-	import { usdStablecoinTokens } from '../data/ethereum/tokens/tokens'
+	import { usdStablecoinTokens } from '../data/tokens'
 
 
 	import { getEthersProvider } from '../data/providers'

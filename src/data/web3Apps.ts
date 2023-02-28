@@ -1,7 +1,7 @@
 import type { Ethereum } from './networks/types'
 import type { DefiSDK } from '../api/zerion/defiSdk'
 import type { ZapperAppId } from '../api/zapper'
-import { erc20TokensByContractAddress, erc20TokensBySymbol } from './ethereum/tokens/tokens'
+import { erc20TokensByContractAddress, erc20TokensBySymbol } from './tokens'
 
 
 export type Web3AppConfig = {

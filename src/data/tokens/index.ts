@@ -1,4 +1,4 @@
-import type { Ethereum } from '../../networks/types'
+import type { Ethereum } from '../networks/types'
 
 // https://tokens.coingecko.com/uniswap/all.json
 import coingeckoTokens from './coingecko-all-tokens.json'

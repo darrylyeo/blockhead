@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
 	import type { TickerSymbol } from '../data/currency/currency'
-	import { erc20TokensByContractAddress, erc20TokensBySymbol } from '../data/ethereum/tokens/tokens'
+	import { erc20TokensByContractAddress, erc20TokensBySymbol } from '../data/tokens'
 	import { networksByChainID } from '../data/networks'
 
 
