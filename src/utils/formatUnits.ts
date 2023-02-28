@@ -1,6 +1,6 @@
 import { type BigNumberish, formatUnits as ethersFormatUnits } from 'ethers'
 
-export function formatUnits(value: BigNumberish, decimals: string | BigNumberish){
+export const formatUnits = (value: BigNumberish, decimals: string | BigNumberish) => {
 	try {
 		return ethersFormatUnits(value ?? 0, decimals)
 	}catch(e){

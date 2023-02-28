@@ -59,7 +59,7 @@
 
 	
 	import { formatPercent } from '../utils/formatPercent'
-	import { formatUnits } from '../utils/format-units'
+	import { formatUnits } from '../utils/formatUnits'
 	import { formatKebabCase } from '../utils/formatKebabCase'
 
 
