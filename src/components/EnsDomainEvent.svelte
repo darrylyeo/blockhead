@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ENS } from '../data/ens'
-	import type { Ethereum } from '../data/ethereum/types'
+	import type { Ethereum } from '../data/networks/types'
 	
 	export let network: Ethereum.Network
 	export let event: ENS.DomainEvent

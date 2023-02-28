@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/ethereum/types'
+	import type { Ethereum } from '../data/networks/types'
 	import { getWalletProvider, getWalletProviderAndInstance } from '../data/ethereum/wallets/wallets'
 	import { connectedProviderAccounts, getAccountsFromProvider } from '../state/portfolio-accounts'
 

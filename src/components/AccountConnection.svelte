@@ -4,7 +4,7 @@
 	import { type AccountConnectionState, getAccountConnectionState } from '../state/account'
 
 	import { walletsByType } from '../data/ethereum/wallets'
-	import { networksByChainID, getNetworkColor } from '../data/ethereum/networks'
+	import { networksByChainID, getNetworkColor } from '../data/networks'
 
 
 	// External state

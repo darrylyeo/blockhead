@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/ethereum/types'
+	import type { Ethereum } from '../data/networks/types'
 	import type { ENS } from '../data/ens'
-	import { networksByChainID } from '../data/ethereum/networks'
+	import { networksByChainID } from '../data/networks'
 
 
 	export let network: Ethereum.Network = networksByChainID[1]

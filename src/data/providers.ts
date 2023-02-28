@@ -1,12 +1,12 @@
 // Types
-import type { Ethereum } from './ethereum/types'
+import type { Ethereum } from './networks/types'
 import type { Provider } from 'ethers'
 import { NetworkProvider, NetworkProviderConnectionType, NetworkProviderNodeType } from './providers-types'
 
 
 // Constants
 import { env } from '../env'
-import { networksBySlug } from './ethereum/networks'
+import { networksBySlug } from './networks'
 
 
 // Utils

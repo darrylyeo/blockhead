@@ -1,4 +1,4 @@
-import type { Ethereum } from '../data/ethereum/types'
+import type { Ethereum } from '../data/networks/types'
 
 
 export type SolidityJsonAbi = SolidityJsonAbiPart[]

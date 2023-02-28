@@ -1,9 +1,9 @@
 // Types
-import type { Ethereum } from '../../data/ethereum/types'
+import type { Ethereum } from '../../data/networks/types'
 
 
 // Constants
-import { networksBySlug } from '../../data/ethereum/networks'
+import { networksBySlug } from '../../data/networks'
 
 
 // Functions

@@ -1,4 +1,4 @@
-import type { Ethereum } from '../../data/ethereum/types'
+import type { Ethereum } from '../../data/networks/types'
 
 const endpointForNetwork: Record<Ethereum.ChainID, string> = {
 	1: 'eth/mainnet',

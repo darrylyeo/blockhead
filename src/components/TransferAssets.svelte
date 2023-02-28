@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/ethereum/types'
-	import { availableNetworks, getNetworkRPC } from '../data/ethereum/networks'
+	import type { Ethereum } from '../data/networks/types'
+	import { availableNetworks, getNetworkRPC } from '../data/networks'
 	import { Account, getLocalPortfolios, connectedProviderAccounts } from '../state/portfolio-accounts'
 	import { usdStablecoinTokens } from '../data/ethereum/tokens/tokens'
 

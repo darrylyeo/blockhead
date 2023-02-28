@@ -1,4 +1,4 @@
-import type { Ethereum } from '../types'
+import type { Ethereum } from '../../networks/types'
 // import { Pocket, Configuration, HttpRpcProvider, PocketAAT, PocketRpcProvider } from '@pokt-network/pocket-js'
 // import { Pocket, Configuration, HttpProvider, HttpRpcProvider, PocketAAT, PocketProvider, PocketRpcProvider } from '@pokt-network/web3-provider'
 import { POCKET_NETWORK_DISPATCH_URLS, POCKET_NETWORK_APP_AUTH_TOKEN } from '../../../config'

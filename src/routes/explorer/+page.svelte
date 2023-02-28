@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { networksBySection, getNetworkColor } from '../../data/ethereum/networks'
+	import { networksBySection, getNetworkColor } from '../../data/networks'
 
 
 	import NetworkIcon from '../../components/NetworkIcon.svelte'

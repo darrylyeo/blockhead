@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { networksByChainID } from '../../../../../data/ethereum/networks'
+	import { networksByChainID } from '../../../../../data/networks'
 
 
 	import { page } from '$app/stores'

@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../../../data/ethereum/types'
+	import type { Ethereum } from '../../../data/networks/types'
 
 
 	// Params/Context

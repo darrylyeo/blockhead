@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { CryptoAddress } from '../data/CryptoAddress'
-	import type { Ethereum } from '../data/ethereum/types'
+	import type { Ethereum } from '../data/networks/types'
 	
 
 	export let network: Ethereum.Network

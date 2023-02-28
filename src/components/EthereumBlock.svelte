@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/ethereum/types'
-	import { updatesByNetwork } from '../data/ethereum/updates'
+	import type { Ethereum } from '../data/networks/types'
+	import { updatesByNetwork } from '../data/networks/updates'
 
 	export let network: Ethereum.Network
 	export let block: Ethereum.Block

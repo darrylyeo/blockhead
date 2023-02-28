@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { getContext } from 'svelte'
 	
-	import type { Ethereum } from '../../data/ethereum/types'
+	import type { Ethereum } from '../../data/networks/types'
 	import { Portfolio, getLocalPortfolios } from '../../state/portfolio-accounts'
 	import { preferences } from '../../state/preferences'
-	import { networksByChainID } from '../../data/ethereum/networks'
+	import { networksByChainID } from '../../data/networks'
 
 
 	import { writable } from 'svelte/store'

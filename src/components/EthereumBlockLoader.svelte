@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/ethereum/types'
+	import type { Ethereum } from '../data/networks/types'
 	import { preferences } from '../state/preferences'
 
 
@@ -17,8 +17,8 @@
 	export let showTransactions = false
 
 
-	import { availableNetworks } from '../data/ethereum/networks'
-	import { updatesByNetwork } from '../data/ethereum/updates'
+	import { availableNetworks } from '../data/networks'
+	import { updatesByNetwork } from '../data/networks/updates'
 
 
 	import { parallelLoaderStore } from '../utils/parallelLoaderStore'

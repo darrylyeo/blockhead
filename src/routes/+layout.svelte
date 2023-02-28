@@ -40,8 +40,8 @@
 	// setContext('provider', provider)
 
 
-	import type { Ethereum } from '../data/ethereum/types'
-	import { networksByChainID } from '../data/ethereum/networks'
+	import type { Ethereum } from '../data/networks/types'
+	import { networksByChainID } from '../data/networks'
 	import { derived, writable } from 'svelte/store'
 	import { getEthersProvider } from '../data/providers'
 	import { onMount, setContext } from 'svelte'

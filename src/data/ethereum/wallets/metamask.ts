@@ -1,4 +1,4 @@
-import type { Ethereum } from '../types'
+import type { Ethereum } from '../../networks/types'
 
 export async function getMetaMask(network: Ethereum.Network){
 	const ethereum = globalThis.ethereum

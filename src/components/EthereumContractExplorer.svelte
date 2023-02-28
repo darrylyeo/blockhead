@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/ethereum/types'
+	import type { Ethereum } from '../data/networks/types'
 	import type { ContractMetadata } from '../api/sourcify'
 	import type { NetworkProvider } from '../data/providers-types'
 	import { getEthersProvider } from '../data/providers'

@@ -1,4 +1,4 @@
-import type { Ethereum } from '../types'
+import type { Ethereum } from '../../networks/types'
 
 
 import { providers } from 'ethers'

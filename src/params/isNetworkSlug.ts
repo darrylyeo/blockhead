@@ -1,6 +1,6 @@
 import type { ParamMatcher } from '@sveltejs/kit'
 
-import { networksBySlug } from '../data/ethereum/networks'
+import { networksBySlug } from '../data/networks'
 
 const isNetworkSlug: ParamMatcher = (param) =>
 	param in networksBySlug

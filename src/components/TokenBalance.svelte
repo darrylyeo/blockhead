@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { BigNumberish } from 'ethers'
-	import type { Ethereum } from '../data/ethereum/types'
+	import type { Ethereum } from '../data/networks/types'
 	import type { TickerSymbol } from '../data/currency/currency'
 	import { fiatQuoteCurrencies } from '../data/currency/currency'
 

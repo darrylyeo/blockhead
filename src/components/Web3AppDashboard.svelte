@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/ethereum/types'
+	import type { Ethereum } from '../data/networks/types'
 	import type { DeFiProvider } from '../data/defi-provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import type { Web3AppConfig, Web3AppSlug } from '../data/web3Apps'
@@ -8,7 +8,7 @@
 	import { getDefiBalances } from '../api/zerion/defiSdk'
 	import { getDefiBalancesForApps } from '../api/zapper'
 	import { getTokenAddressBalances } from '../api/covalent'
-	import { networksByChainID } from '../data/ethereum/networks'
+	import { networksByChainID } from '../data/networks'
 	import { preferences } from '../state/preferences'
 
 

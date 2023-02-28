@@ -1,4 +1,4 @@
-import { networksBySlug } from './networks'
+import { networksBySlug } from '.'
 
 export const consensusMechanisms = {
 	'ethash': {

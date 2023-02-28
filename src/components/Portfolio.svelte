@@ -8,12 +8,12 @@
 
 
 <script lang="ts">
-	import type { Ethereum } from '../data/ethereum/types'
+	import type { Ethereum } from '../data/networks/types'
 	import type { DeFiProvider } from '../data/defi-provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
 
 	import { Account } from '../state/portfolio-accounts'
-	import { availableNetworks } from '../data/ethereum/networks'
+	import { availableNetworks } from '../data/networks'
 
 	import { preferences } from '../state/preferences'
 

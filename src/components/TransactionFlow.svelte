@@ -15,7 +15,7 @@
 
 <script lang="ts">
 	// Constants/types
-	import type { Ethereum } from '../data/ethereum/types'
+	import type { Ethereum } from '../data/networks/types'
 	import type { AccountConnectionState } from '../state/account'
 	import type { UnsignedTransaction, Contract, ContractReceipt, Signer, Transaction } from 'ethers'
 

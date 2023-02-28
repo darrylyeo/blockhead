@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/ethereum/types'
+	import type { Ethereum } from '../data/networks/types'
 	import type { DeFiProvider } from '../data/defi-provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
 	import type { Web3AppConfig } from '../data/web3Apps'
 	import { web3AppsByProviderName } from '../data/web3Apps'
-	import { networksByChainID } from '../data/ethereum/networks'
+	import { networksByChainID } from '../data/networks'
 	import { getDefiBalances } from '../api/zerion/defiSdk'
 	import type { ZapperAppId, ZapperAppConfig, ZapperAppBalance } from '../api/zapper'
 	import { getAllApps, getDefiBalancesForApps, chainIdByNetworkName } from '../api/zapper'

@@ -46,7 +46,7 @@
 
 	// Side effects
 
-	import { networksBySection, testnetsForMainnets, isTestnet, getNetworkColor } from '../../data/ethereum/networks'
+	import { networksBySection, testnetsForMainnets, isTestnet, getNetworkColor } from '../../data/networks'
 
 	let showTestnets = false
 	$: _isTestnet = $explorerNetwork && isTestnet($explorerNetwork)

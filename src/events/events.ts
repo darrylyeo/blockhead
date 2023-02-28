@@ -1,4 +1,4 @@
-import type { Ethereum } from '../data/ethereum/types'
+import type { Ethereum } from '../data/networks/types'
 import type { State as PortfolioState } from '../components/Portfolio.svelte'
 import type { WalletType } from '../data/ethereum/wallets'
 

@@ -2,7 +2,7 @@
 import { getDefaultProvider, Wallet } from 'ethers'
 import { env } from '../../../env'
 import { loadScript } from '../../../utils/load-script'
-import type { Ethereum } from '../types'
+import type { Ethereum } from '../../networks/types'
 
 export async function getTorusOpenLogin(network: Ethereum.Network){
 	await loadScript('https://cdn.jsdelivr.net/npm/@toruslabs/openlogin@0')

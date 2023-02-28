@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/ethereum/types'
+	import type { Ethereum } from '../data/networks/types'
 	import type { TickerSymbol } from '../data/currency/currency'
 	import { erc20TokensByContractAddress, erc20TokensBySymbol } from '../data/ethereum/tokens/tokens'
-	import { networksByChainID } from '../data/ethereum/networks'
+	import { networksByChainID } from '../data/networks'
 
 
 	export let network: Ethereum.Network

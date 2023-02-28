@@ -1,5 +1,5 @@
 import type { Transaction } from 'ethers'
-import type { Ethereum } from '../data/ethereum/types'
+import type { Ethereum } from '../data/networks/types'
 
 
 

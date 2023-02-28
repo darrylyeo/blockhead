@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/ethereum/types'
+	import type { Ethereum } from '../data/networks/types'
 	import type { Transaction } from '../data/etherspot/etherspot'
 
 	export let network: Ethereum.Network

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/ethereum/types'
-	import { isTestnet, mainnetForTestnet } from '../data/ethereum/networks'
+	import type { Ethereum } from '../data/networks/types'
+	import { isTestnet, mainnetForTestnet } from '../data/networks'
 
 
 	export let network: Ethereum.Network

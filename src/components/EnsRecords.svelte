@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { ENS } from '../data/ens'
-	import type { Ethereum } from '../data/ethereum/types'
+	import type { Ethereum } from '../data/networks/types'
 	import type { NetworkProvider } from '../data/providers-types'
-	import { networksByChainID, networksBySlip44 } from '../data/ethereum/networks'
+	import { networksByChainID, networksBySlip44 } from '../data/networks'
 	import { chainsBySlip44 } from '../data/slip44'
 	import { getEthersProvider } from '../data/providers'
 	import { preferences } from '../state/preferences'

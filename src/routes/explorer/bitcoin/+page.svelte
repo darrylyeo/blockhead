@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Ethereum } from '../../../data/ethereum/types'
+	import type { Ethereum } from '../../../data/networks/types'
 	import { getContext } from 'svelte'
 	import { preferences } from '../../../state/preferences'
 

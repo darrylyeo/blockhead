@@ -1,6 +1,6 @@
-import type { Ethereum } from '../data/ethereum/types'
+import type { Ethereum } from '../data/networks/types'
 import { isAddress } from 'ethers'
-import { availableNetworks } from '../data/ethereum/networks'
+import { availableNetworks } from '../data/networks'
 
 export class Portfolio {
 	constructor(
