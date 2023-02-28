@@ -1,5 +1,5 @@
 import { env } from '../../env'
-import { HttpClient, Api } from './nftport/api/Api'
+import { HttpClient, Api } from './api/Api'
 
 export const NftportApi = new Api(new HttpClient({
 	baseApiParams: {

@@ -2,10 +2,10 @@
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { Covalent } from '../api/covalent'
 	import type { QuoteCurrency } from '../data/currency/currency'
-	import type { Nftport } from '../data/analytics/nftport'
+	import type { Nftport } from '../api/nftport'
 	import type { TickerSymbol } from '../data/currency/currency'
 	import { getTokenAddressBalances } from '../api/covalent'
-	import { NftportApi } from '../data/analytics/nftport'
+	import { NftportApi } from '../api/nftport'
 
 	export let network: Ethereum.Network
 	export let address: string
