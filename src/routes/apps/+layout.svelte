@@ -56,7 +56,7 @@
 	// Style/transitions
 
 	import { fly } from 'svelte/transition'
-	import { tokenColors } from '../../data/token-colors'
+	import { tokenColors } from '../../data/tokenColors'
 </script>
 
 

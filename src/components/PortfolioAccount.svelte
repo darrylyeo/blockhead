@@ -129,7 +129,7 @@
 
 	import { CovalentIcon, MoralisIcon, NFTPortIcon, QuickNodeIcon, ZapperIcon, ZerionIcon } from '../assets/icons'
 
-	import { tokenColors } from '../data/token-colors'
+	import { tokenColors } from '../data/tokenColors'
 
 	import { scale } from 'svelte/transition'
 	import { cardStyle } from '../utils/card-background'

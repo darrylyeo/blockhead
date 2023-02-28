@@ -1,4 +1,4 @@
-export const tokenColors = {}
+export const tokenColors: Record<string, string> = {}
 
 for(const [color, tokenNames] of Object.entries({
 	'usd-green': ['USD'],

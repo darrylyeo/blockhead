@@ -27,7 +27,7 @@
 	}
 
 
-	import { tokenColors } from '../data/token-colors'
+	import { tokenColors } from '../data/tokenColors'
 
 
 	import NetworkIcon from './NetworkIcon.svelte'

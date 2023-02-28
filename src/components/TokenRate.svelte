@@ -14,7 +14,7 @@
 		typeof value === 'string' ? value :
 		value.toString()
 
-	import { tokenColors } from '../data/token-colors'
+	import { tokenColors } from '../data/tokenColors'
 	import TokenIcon from './TokenIcon.svelte'
 </script>
 

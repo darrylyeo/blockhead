@@ -31,7 +31,7 @@
 
 	import Echart from './Echart.svelte'
 
-	import { tokenColors } from '../data/token-colors'
+	import { tokenColors } from '../data/tokenColors'
 </script>
 
 <Echart options={{

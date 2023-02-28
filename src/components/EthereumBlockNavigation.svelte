@@ -21,7 +21,7 @@
 
 	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
 	import EthereumLatestBlockNumber from './EthereumLatestBlockNumber.svelte'
-	import { tokenColors } from '../data/token-colors'
+	import { tokenColors } from '../data/tokenColors'
 	import { fade } from 'svelte/transition'
 	import { scaleFont } from '../transitions/scale-font'
 </script>
