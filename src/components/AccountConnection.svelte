@@ -20,7 +20,7 @@
 
 	// Methods/hooks/lifecycle
 
-	import { getWalletConnection } from '../data/wallets'
+	import { getWalletConnection } from '../state/walletConnection'
 
 	import { createEventDispatcher } from 'svelte'
 	const dispatch = createEventDispatcher()

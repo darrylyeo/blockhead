@@ -1,6 +1,6 @@
 
 import type { Signer } from 'ethers'
-import type { WalletType, WalletConnection, Provider } from '../data/wallets'
+import type { WalletType, WalletConnection, Provider } from './walletConnection'
 
 export type AccountConnection = {
 	id: string,
