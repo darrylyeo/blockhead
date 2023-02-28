@@ -2,11 +2,10 @@
 	import type { Ethereum } from '../data/ethereum/types'
 	import type { DeFiProvider } from '../data/defi-provider'
 	import type { QuoteCurrency } from '../data/currency/currency'
-	import type { DefiSDK } from '../data/ethereum/price/defi-sdk'
 	import type { Web3AppConfig } from '../data/web3Apps'
 	import { web3AppsByProviderName } from '../data/web3Apps'
-	import { getDefiBalances } from '../data/ethereum/price/defi-sdk'
 	import { networksByChainID } from '../data/ethereum/networks'
+	import { getDefiBalances } from '../api/zerion/defiSdk'
 	import type { ZapperAppId, ZapperAppConfig, ZapperAppBalance } from '../data/zapper/zapper'
 	import { getAllApps, getDefiBalancesForApps, chainIdByNetworkName } from '../data/zapper/zapper'
 
@@ -556,7 +555,7 @@
 				bind:result={zerionDefiBalances}
 				let:result={defiBalances}
 				{isOpen}
-			>					
+			>
 				<!-- <NetworkIcon slot="loadingIcon" {network} /> -->
 
 				<svelte:fragment slot="header" let:status let:loadingMessage let:errorMessage>

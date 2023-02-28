@@ -5,7 +5,7 @@
 	import type { Web3AppConfig, Web3AppSlug } from '../data/web3Apps'
 	import type { Covalent } from '../api/covalent'
 	import { web3AppsByProviderName } from '../data/web3Apps'
-	import { getDefiBalances } from '../data/ethereum/price/defi-sdk'
+	import { getDefiBalances } from '../api/zerion/defiSdk'
 	import { getDefiBalancesForApps } from '../data/zapper/zapper'
 	import { getTokenAddressBalances } from '../api/covalent'
 	import { networksByChainID } from '../data/ethereum/networks'
