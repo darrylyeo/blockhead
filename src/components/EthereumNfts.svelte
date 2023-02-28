@@ -490,6 +490,8 @@
 
 {#if nftProvider === 'Covalent'}
 	<Loader
+		layout="collapsible"
+		collapsibleType="label"
 		loadingIcon={CovalentIcon}
 		loadingIconName={nftProvider}
 		loadingMessage="Retrieving {network.name} NFTs from {nftProvider}..."
@@ -678,6 +680,8 @@
 	</Loader>
 {:else if nftProvider === 'NFTPort'}
 	<Loader
+		layout="collapsible"
+		collapsibleType="label"
 		loadingIcon={NFTPortIcon}
 		loadingIconName={nftProvider}
 		loadingMessage="Retrieving {network.name} NFTs from {nftProvider}..."

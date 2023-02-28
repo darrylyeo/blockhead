@@ -40,6 +40,8 @@
 
 {#if tokenBalancesProvider === 'Covalent'}
 	<Loader
+		layout="collapsible"
+		collapsibleType="label"
 		loadingIcon={CovalentIcon}
 		loadingIconName={tokenBalancesProvider}
 		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
@@ -102,6 +104,8 @@
 
 {:else if tokenBalancesProvider === 'Moralis'}
 	<Loader
+		layout="collapsible"
+		collapsibleType="details"
 		loadingIcon={MoralisIcon}
 		loadingIconName={tokenBalancesProvider}
 		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."

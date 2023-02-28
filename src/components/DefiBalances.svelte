@@ -180,6 +180,8 @@
 	<!-- Zapper -->
 	{#if defiProvider === 'Zapper' || network.chainId !== 1}
 		<Loader
+			layout="collapsible"
+			collapsibleType="label"
 			loadingMessage="Reading {defiBalancesDescription} balances from {defiProvider}..."
 			errorMessage="Error getting {defiBalancesDescription} balances from {defiProvider}."
 			loadingIconName={defiProvider}
@@ -540,6 +542,8 @@
 	{#if defiProvider === 'Zerion DeFi SDK'	&& network.chainId === 1}
 		{#if provider}
 			<Loader
+				layout="collapsible"
+				collapsibleType="label"
 				loadingMessage="Reading {defiBalancesDescription} balances from {defiProvider}..."
 				loadingIcon={ZerionIcon}
 				errorMessage="Error getting {defiBalancesDescription} balances from {defiProvider}."
