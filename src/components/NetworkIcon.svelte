@@ -4,7 +4,7 @@
 
 
 	export let network: Ethereum.Network
-	export let imageSources = []
+	export let imageSources: string[] = []
 	// export let defaultToTokenIcon = true
 
 
