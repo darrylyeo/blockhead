@@ -1,12 +1,15 @@
+import type { Branded, BrandedString } from '../../utils/branded'
 import type { Provider as EthersProvider } from 'ethers'
 import type { TickerSymbol } from '../currencies'
 
 export namespace Ethereum {
+	export type NetworkSlug = BrandedString<'NetworkSlug'>
+
 	export type Network = {
-		slug: string,
+		slug: NetworkSlug,
 		name: NetworkDisplayName,
 		chainId: ChainID,
-		slip44?: number,
+		slip44?: Slip44,
 		shortName?: string,
 		chain?: ChainName,
 		network?: NetworkName,
@@ -30,10 +33,11 @@ export namespace Ethereum {
 			type: 'L2' | 'shard'
 		},
 	}
-	export type ChainID = number
-	export type ChainName = string
-	export type NetworkDisplayName = string
-	export type NetworkID = number
+	export type ChainID = Branded<number, 'ChainId'>
+	export type Slip44 = Branded<number, 'Slip44'>
+	export type ChainName = BrandedString<'ChainName'>
+	export type NetworkDisplayName = BrandedString<'NetworkDisplayName'>
+	export type NetworkID = Branded<number, 'NetworkID'>
 	export type NetworkName = 'mainnet' | 'ropsten' | 'rinkeby' | 'goerli' | 'kovan' | 'classic' | 'polygon' | string
 
 	export type NativeCurrency = {
@@ -46,14 +50,14 @@ export namespace Ethereum {
 
 	export type TransactionProvider = 'Covalent' | 'Etherspot'
 
-	export type TransactionID = string
+	export type TransactionID = BrandedString<'TransactionID'>
 	export type TransactionIndex = number
 	export type TransactionNonce = number
 
 	export type BlockNumber = number
-	export type BlockHash = string
+	export type BlockHash = BrandedString<'BlockHash'>
 
-	export type Address = string
+	export type Address = BrandedString<'Address'>
 
 	export type ContractAddress = Address
 	export type Contract = {
@@ -176,5 +180,5 @@ export namespace Ethereum {
 		value: any
 	}
 	export type ContractFunctionParameterName = string
-	export type TopicHash = string
+	export type TopicHash = BrandedString<'TopicHash'>
 }
