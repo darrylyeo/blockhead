@@ -1,3 +1,4 @@
+/*
 import type { Ethereum } from '../../data/networks/types'
 
 const endpointForNetwork: Record<Ethereum.ChainID, string> = {
@@ -36,3 +37,4 @@ export const getMoralisJSONRPCEndpoint = ({
 
 	throw new Error(`The Moralis Speedy Node network does not yet support the ${network.name} network.`)	
 }
+*/

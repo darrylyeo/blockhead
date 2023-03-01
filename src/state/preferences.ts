@@ -122,7 +122,7 @@ export const preferencesConfig: PreferencesConfig<
 				// 	{ id: 'Auto', name: 'Auto' },
 				// 	{ id: 'Pocket Network', name: 'Pocket Network' },
 				// 	{ id: 'Alchemy', name: 'Alchemy' },
-				// 	{ id: 'Moralis', name: 'Moralis' },
+				// // 	{ id: 'Moralis', name: 'Moralis' },
 				// 	{ id: 'Infura', name: 'Infura' },
 				// 	{ id: 'Etherscan', name: 'Etherscan' },
 				// 	{ id: 'Ethers', name: 'Ethers Quorum' }, // (Infura + Etherscan + Alchemy + Pocket)

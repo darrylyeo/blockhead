@@ -23,7 +23,7 @@ import {
 	InfuraProvider,
 	PocketProvider,
 } from 'ethers'
-import { getMoralisJSONRPCEndpoint } from '../../api/moralis/endpoints'
+// import { getMoralisJSONRPCEndpoint } from '../../api/moralis/endpoints'
 import { figmentProviderConfigs } from './figment'
 import { infuraProviderConfigs } from './infura'
 import { tenderlyProviderConfigs } from './tenderly'
@@ -167,28 +167,28 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		// )
 	},
 
-	{
-		provider: NetworkProvider.Moralis,
-		name: 'Moralis',
-		icon: MoralisIcon,
+	// {
+	// 	provider: NetworkProvider.Moralis,
+	// 	name: 'Moralis',
+	// 	icon: MoralisIcon,
 
-		get: ({
-			network,
-			connectionType = NetworkProviderConnectionType.WebSocket,
-		}) => (
-			new ({
-				[NetworkProviderConnectionType.RPC]: JsonRpcProvider,
-				[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
-				[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
-			}[connectionType])(
-				getMoralisJSONRPCEndpoint({
-					network,
-					protocol: 'wss'
-				}),
-				network.chainId,
-			)
-		)
-	},
+	// 	get: ({
+	// 		network,
+	// 		connectionType = NetworkProviderConnectionType.WebSocket,
+	// 	}) => (
+	// 		new ({
+	// 			[NetworkProviderConnectionType.RPC]: JsonRpcProvider,
+	// 			[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
+	// 			[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
+	// 		}[connectionType])(
+	// 			getMoralisJSONRPCEndpoint({
+	// 				network,
+	// 				protocol: 'wss'
+	// 			}),
+	// 			network.chainId,
+	// 		)
+	// 	)
+	// },
 
 	{
 		provider: NetworkProvider.Etherscan,
