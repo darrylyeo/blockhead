@@ -4,6 +4,7 @@ import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '../data/currencies'
 import { NetworkProvider } from '../data/networkProviders/types'
 import { networkProviderConfigs } from '../data/networkProviders'
 import { DefiProvider } from '../data/defiProviders'
+import { PriceProvider } from '../data/priceProviders'
 
 
 type PreferenceOption<
@@ -282,7 +283,7 @@ export const preferencesConfig: PreferencesConfig<
 						id: 'onChain',
 						name: 'On-Chain',
 						options: [
-							{ id: 'Chainlink', name: 'Chainlink' },
+							{ id: PriceProvider.Chainlink, name: 'Chainlink' },
 							// { id: 'Tellor', name: 'Tellor' },
 							// { id: 'Compound Price Feed', name: 'Open Price Feed' },
 						]
@@ -291,7 +292,7 @@ export const preferencesConfig: PreferencesConfig<
 					// 	id: 'offChain',
 					// 	name: 'Off-Chain',
 					// 	options: [
-					// 		// { id: 'Covalent', name: 'Covalent' },
+					// 		// { id: PriceProvider.Covalent, name: 'Covalent' },
 					// 		// { id: 'Moralis', name: 'Moralis' },
 					// 		// { id: 'Zapper', name: 'Zapper' },
 					// 		// { id: 'CoinGecko', name: 'CoinGecko' },
@@ -317,13 +318,14 @@ export const preferencesConfig: PreferencesConfig<
 					// 	id: 'onChain',
 					// 	name: 'On-Chain',
 					// 	options: [
+					//	{ id: PriceProvider.Chainlink, name: 'Chainlink' },
 					// 	]
 					// },
 					{
 						id: 'offChain',
 						name: 'Off-Chain',
 						options: [
-							// { id: 'Covalent', name: 'Covalent' },
+							// { id: PriceProvider.Covalent, name: 'Covalent' },
 							// { id: 'The Graph', name: 'The Graph' },
 							// { id: 'Zapper', name: 'Zapper' },
 							// { id: 'CoinGecko', name: 'CoinGecko' },
@@ -401,7 +403,7 @@ export const preferencesConfig: PreferencesConfig<
 // export const preferences.rpcNetwork = localStorageWritable<Ethereum.ProviderName>('preferred-ethereum-provider', 'Ethers')
 // export const preferences.transactionProvider = localStorageWritable<Ethereum.TransactionProvider>('preferred-transaction-provider', 'Etherspot')
 // export const preferences.defiProvider = localStorageWritable<DefiProvider>('preferred-defi-provider', DefiProvider.Zapper)
-// export const preferences.currentPriceProvider = localStorageWritable<PriceFeedProvider>('preferred-price-feed-provider', 'Chainlink')
+// export const preferences.currentPriceProvider = localStorageWritable<PriceProvider>('preferred-price-feed-provider', PriceProvider.Chainlink)
 // export const preferences.analyticsProvider = localStorageWritable<AnalyticsProvider>('preferred-analytics-provider', 'Covalent')
 // export const preferences.quoteCurrency = localStorageWritable<QuoteCurrency>('preferred-quote-currency', 'USD')
 // export const preferences.theme = localStorageWritable<'auto' | 'dark' | 'light'>('preferred-color-scheme', 'auto')

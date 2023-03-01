@@ -4,8 +4,10 @@
 	import { getHistoricalPricesByTickerSymbol, getHistoricalPricesByAddress } from '../api/covalent'
 	import type { QuoteCurrency, TickerSymbol } from '../data/currencies'
 	import type { PriceScale } from './PriceChart.svelte'
-	
-	export let historicalPriceProvider
+	import { PriceProvider, priceProviderIcons } from '../data/priceProviders'
+
+
+	export let historicalPriceProvider: PriceProvider
 	export let currencies: (TickerSymbol | Ethereum.ContractAddress)[]
 	export let chainID: Ethereum.ChainID = 1
 	export let quoteCurrency: QuoteCurrency
@@ -31,7 +33,7 @@
 </script>
 
 
-<!-- {#if historicalPriceProvider === 'Covalent' && currencies}
+<!-- {#if historicalPriceProvider === PriceProvider.Covalent && currencies}
 	<Loader
 		fromStore={() =>
 			parallelLoaderStore(currencies, async currency => {
@@ -51,7 +53,7 @@
 			})
 		}
 
-		loadingIcon={CovalentIcon}
+		loadingIcon={priceProviderIcons[historicalPriceProvider]}
 		loadingIconName={historicalPriceProvider}
 		loadingMessage="Retrieving price history from {historicalPriceProvider}..."
 		then={data => [...data.values()]}

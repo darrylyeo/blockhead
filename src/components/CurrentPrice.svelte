@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
 	import type { QuoteCurrency, TickerSymbol } from '../data/currencies'
-	import type { CurrentPriceProvider } from '../data/priceProvider'
+	import { PriceProvider, priceProviderIcons } from '../data/priceProviders'
 	import { getChainlinkPriceFeed } from '../api/chainlink'
 	// import { getCompoundPriceFeed } from '.../../../data/ethereum/price/compound-price-feed'
 	import { getSpotPrices } from '../api/covalent'
@@ -9,11 +9,11 @@
 
 	import { preferences } from '../state/preferences'
 
-	export let currentPriceProvider: CurrentPriceProvider | 'auto' = 'auto'
+	export let currentPriceProvider: PriceProvider | 'auto' = 'auto'
 	$: currentPriceProvider = $$props.currentPriceProvider || $preferences.currentPriceProvider
 
-	let _currentPriceProvider
-	$: _currentPriceProvider = currentPriceProvider === 'auto' ? 'Chainlink' : currentPriceProvider
+	let _currentPriceProvider: PriceProvider
+	$: _currentPriceProvider = currentPriceProvider === 'auto' ? PriceProvider.Chainlink : currentPriceProvider
 
 	export let token: TickerSymbol
 	export let quoteCurrency: QuoteCurrency
@@ -31,9 +31,6 @@
 	import Loader from './Loader.svelte'
 	// import TokenRate from './TokenRate.svelte'
 	import TokenBalance from './TokenBalance.svelte'
-
-
-	import { ChainlinkIcon, CovalentIcon } from '../assets/icons'
 </script>
 
 
@@ -99,10 +96,10 @@
 
 {#if !isHidden}
 	<div class="stack">
-		{#if _currentPriceProvider === 'Chainlink'}
+		{#if _currentPriceProvider === PriceProvider.Chainlink}
 			<div class="column">
 				<Loader
-					loadingIcon={ChainlinkIcon}
+					loadingIcon={priceProviderIcons[_currentPriceProvider]}
 					loadingIconName={_currentPriceProvider}
 					loadingMessage="Retrieving price from {_currentPriceProvider}..."
 					errorMessage="{token} price not available"
@@ -111,7 +108,7 @@
 					whenErrored={async () => {
 						await new Promise(r => setTimeout(r, 1000))
 						if(currentPriceProvider === 'auto')
-							_currentPriceProvider = 'Covalent'
+							_currentPriceProvider = PriceProvider.Covalent
 					}}
 				>
 					<div slot="header" class="bar" let:status>
@@ -162,10 +159,10 @@
 					</footer>
 				</Loader>
 			</div>
-		<!-- {:else if _currentPriceProvider === 'Covalent'}
+		<!-- {:else if _currentPriceProvider === PriceProvider.Covalent}
 			<div class="column">
 				<Loader
-					loadingIcon={CovalentIcon}
+					loadingIcon={priceProviderIcons[_currentPriceProvider]}
 					loadingIconName={_currentPriceProvider}
 					loadingMessage="Retrieving price from {_currentPriceProvider}..."
 					errorMessage="{token} price not available"
