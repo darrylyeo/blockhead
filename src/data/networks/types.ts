@@ -114,6 +114,17 @@ export namespace Ethereum {
 		traitType: string
 		value: string | number
 	}
+	export type NftWithBalance = Nft & {
+		erc1155Balance?: number
+	}
+	export type NftContractWithBalance = NftContract & {
+		balance: number
+		quote?: number
+		quoteRate?: number
+
+		nfts: NftWithBalance[]
+	}
+
 	export type ERCTokenStandard = 'erc20' | 'erc721' | 'erc1155'
 
 	export type GasAmount = BigInt
