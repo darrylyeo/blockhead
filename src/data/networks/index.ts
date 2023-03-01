@@ -1,8 +1,5 @@
 import type { Ethereum } from './types'
 
-import { env } from '../../env'
-
-
 // https://github.com/ethereum-lists/chains
 // https://chainid.network/chains.json
 
@@ -103,7 +100,6 @@ export const networks: Ethereum.Network[] = [
 			"decimals": 18
 		},
 		"rpc": [
-			"https://mainnet.infura.io/v3/${INFURA_API_KEY}",
 			"https://arb-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}",
 			"https://arb1.arbitrum.io/rpc",
 			"wss://arb1.arbitrum.io/ws"
@@ -1252,8 +1248,6 @@ export const networks: Ethereum.Network[] = [
 			"decimals": 18
 		},
 		"rpc": [
-			`https://mainnet.infura.io/v3/${env.INFURA_API_KEY}`,
-			`wss://mainnet.infura.io/ws/v3/${env.INFURA_API_KEY}`,
 			"https://api.mycryptoapi.com/eth",
 			"https://cloudflare-eth.com"
 		],
@@ -1390,8 +1384,6 @@ export const networks: Ethereum.Network[] = [
 		"rpc": [
 			"https://kovan.poa.network",
 			"http://kovan.poa.network:8545",
-			`https://kovan.infura.io/v3/${env.INFURA_API_KEY}`,
-			`wss://kovan.infura.io/ws/v3/${env.INFURA_API_KEY}`,
 			"ws://kovan.poa.network:8546"
 		],
 		"faucets": [
@@ -1415,8 +1407,6 @@ export const networks: Ethereum.Network[] = [
 			"decimals": 18
 		},
 		"rpc": [
-			`https://rinkeby.infura.io/v3/${env.INFURA_API_KEY}`,
-			`wss://rinkeby.infura.io/ws/v3/${env.INFURA_API_KEY}`
 		],
 		"faucets": [
 			"https://faucet.rinkeby.io"
@@ -1447,8 +1437,6 @@ export const networks: Ethereum.Network[] = [
 			"decimals": 18
 		},
 		"rpc": [
-			`https://ropsten.infura.io/v3/${env.INFURA_API_KEY}`,
-			"wss://ropsten.infura.io/ws/v3/${env.INFURA_API_KEY}"
 		],
 		"faucets": [
 			"https://faucet.ropsten.be?${ADDRESS}"
@@ -5215,5 +5203,5 @@ export const getNetworkColor = network =>
 
 
 export function getNetworkRPC(network: Ethereum.Network){
-	return network.rpc[0]?.replace('${env.INFURA_API_KEY}', env.INFURA_API_KEY) ?? ''
+	return network.rpc[0] ?? ''
 }
