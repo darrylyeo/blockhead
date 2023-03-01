@@ -3,11 +3,12 @@
 	import type { Covalent } from '../api/covalent'
 	import type { QuoteCurrency, TickerSymbol } from '../data/currencies'
 	import { getTokenAddressBalances } from '../api/covalent'
+	import type { TokenBalancesProvider } from '../data/tokenBalancesProvider'
 	import { preferences } from '../state/preferences'
 
 	export let network: Ethereum.Network
 	export let address: string
-	export let tokenBalancesProvider = $preferences.tokenBalancesProvider
+	export let tokenBalancesProvider: TokenBalancesProvider = $preferences.tokenBalancesProvider
 	export let quoteCurrency: QuoteCurrency = $preferences.quoteCurrency
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending'
 	export let showNativeCurrency = true

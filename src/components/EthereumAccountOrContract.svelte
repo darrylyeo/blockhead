@@ -6,6 +6,7 @@
 	import type { PriceScale } from './PriceChart.svelte'
 	import { getERC20TokenTransfers, getTransactionsByAddress } from '../api/covalent'
 	import { preferences } from '../state/preferences'
+	import type { TokenBalancesProvider } from '../data/tokenBalancesProvider'
 
 
 	export let network: Ethereum.Network
@@ -13,7 +14,7 @@
 	export let filterQuery: Ethereum.Address | Ethereum.ContractAddress | Ethereum.BlockNumber
 	export let provider: Ethereum.Provider
 
-	export let tokenBalancesProvider
+	export let tokenBalancesProvider: TokenBalancesProvider
 	export let transactionProvider
 
 	$: tokenBalancesProvider = $$props.tokenBalancesProvider || $preferences.tokenBalancesProvider

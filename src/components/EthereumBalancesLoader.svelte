@@ -3,6 +3,7 @@
 	import type { Covalent } from '../api/covalent'
 	import type { QuoteCurrency } from '../data/currencies'
 	import { MoralisWeb3Api, chainCodeFromNetwork } from '../api/moralis/web3Api'
+	import { TokenBalancesProvider, tokenBalancesProviderIcons } from '../data/tokenBalancesProvider'
 
 	import { getTokenBalances } from '../api/zapper'
 	import { getWalletTokenBalance } from '../api/quicknode'
@@ -10,7 +11,7 @@
 
 	export let network: Ethereum.Network
 	export let address: string
-	export let tokenBalancesProvider
+	export let tokenBalancesProvider: TokenBalancesProvider
 	export let quoteCurrency: QuoteCurrency
 
 	export let showIf: (<TData = unknown> (then: TData) => boolean | any) | undefined
@@ -35,17 +36,14 @@
 
 
 	import Loader from './Loader.svelte'
-
-
-	import { CovalentIcon, MoralisIcon, QuickNodeIcon, ZapperIcon } from '../assets/icons'
 </script>
 
 
-{#if tokenBalancesProvider === 'Covalent'}
+{#if tokenBalancesProvider === TokenBalancesProvider.Covalent}
 	<Loader
 		layout="collapsible"
 		collapsibleType="label"
-		loadingIcon={CovalentIcon}
+		loadingIcon={tokenBalancesProviderIcons[tokenBalancesProvider]}
 		loadingIconName={tokenBalancesProvider}
 		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
 		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"
@@ -107,11 +105,11 @@
 		<slot {balances} />
 	</Loader>
 
-{:else if tokenBalancesProvider === 'Moralis'}
+{:else if tokenBalancesProvider === TokenBalancesProvider.Moralis}
 	<Loader
 		layout="collapsible"
 		collapsibleType="details"
-		loadingIcon={MoralisIcon}
+		loadingIcon={tokenBalancesProviderIcons[tokenBalancesProvider]}
 		loadingIconName={tokenBalancesProvider}
 		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
 		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"
@@ -205,9 +203,9 @@
 		<slot {balances} />
 	</Loader>
 
-{:else if tokenBalancesProvider === 'Zapper'}
+{:else if tokenBalancesProvider === TokenBalancesProvider.Zapper}
 	<Loader
-		loadingIcon={ZapperIcon}
+		loadingIcon={tokenBalancesProviderIcons[tokenBalancesProvider]}
 		loadingIconName={tokenBalancesProvider}
 		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
 		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"
@@ -261,9 +259,10 @@
 
 		<slot {balances} />
 	</Loader>
-{:else if tokenBalancesProvider === 'QuickNode'}
+
+{:else if tokenBalancesProvider === TokenBalancesProvider.QuickNode}
 	<Loader
-		loadingIcon={QuickNodeIcon}
+		loadingIcon={tokenBalancesProviderIcons[tokenBalancesProvider]}
 		loadingIconName={tokenBalancesProvider}
 		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
 		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"

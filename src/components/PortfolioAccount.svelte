@@ -4,6 +4,7 @@
 	import { DefiProvider, defiProviderIcons } from '../data/defiProviders'
 	import type { QuoteCurrency } from '../data/currencies'
 	import { getNetworkColor, networksByChainID } from '../data/networks'
+	import { type TokenBalancesProvider, tokenBalancesProviderIcons } from '../data/tokenBalancesProvider'
 	import { Covalent } from '../api/covalent'
 	import { getDefaultProvider } from 'ethers'
 
@@ -16,7 +17,7 @@
 
 	export let provider: Ethereum.Provider
 	export let defiProvider: DefiProvider
-	export let tokenBalancesProvider
+	export let tokenBalancesProvider: TokenBalancesProvider
 	export let nftProvider
 	export let quoteCurrency: QuoteCurrency
 
@@ -416,7 +417,7 @@
 					<!-- Token Balances -->
 					{#if showBalances}<section class="token-balances column">
 					<!-- <HeightContainer containerClass="token-balances" class="column" isOpen={showBalances}> -->
-						<!-- {#if tokenBalancesProvider === 'Covalent' && Covalent.ChainIDs.includes(network.chainId)} -->
+						<!-- {#if tokenBalancesProvider === TokenBalancesProvider.Covalent && Covalent.ChainIDs.includes(network.chainId)} -->
 							<EthereumBalances
 								{network}
 								{address}
@@ -446,12 +447,7 @@
 													>
 														<img
 															slot="icon"
-															src={{
-																'Covalent': CovalentIcon,
-																'Moralis': MoralisIcon,
-																'QuickNode': QuickNodeIcon,
-																'Zapper': ZapperIcon,
-															}[tokenBalancesProvider]}
+															src={tokenBalancesProviderIcons[tokenBalancesProvider]}
 															alt={tokenBalancesProvider}
 															width={20}
 														/>
@@ -461,12 +457,7 @@
 													<div class="error-icon-container stack" transition:scale>
 														<img
 															title={errorMessage}
-															src={{
-																'Covalent': CovalentIcon,
-																'Moralis': MoralisIcon,
-																'QuickNode': QuickNodeIcon,
-																'Zapper': ZapperIcon,
-															}[tokenBalancesProvider]}
+															src={tokenBalancesProviderIcons[tokenBalancesProvider]}
 															alt={tokenBalancesProvider}
 															width={20}
 														/>

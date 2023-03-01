@@ -5,6 +5,7 @@ import { NetworkProvider } from '../data/networkProviders/types'
 import { networkProviderConfigs } from '../data/networkProviders'
 import { DefiProvider } from '../data/defiProviders'
 import { PriceProvider } from '../data/priceProviders'
+import { TokenBalancesProvider } from '../data/tokenBalancesProvider'
 
 
 type PreferenceOption<
@@ -153,23 +154,23 @@ export const preferencesConfig: PreferencesConfig<
 				id: 'tokenBalancesProvider',
 				name: 'Token Balances',
 				type: 'single',
-				defaultOption: 'Zapper',
+				defaultOption: TokenBalancesProvider.Zapper,
 				options: [
 					{
 						id: 'onChain',
 						name: 'On-Chain',
 						options: [
 							// { id: 'RPC Provider', name: 'RPC Provider + Token List' },
-							{ id: 'QuickNode', name: 'QuickNode' },
+							{ id: TokenBalancesProvider.QuickNode, name: 'QuickNode' },
 						]
 					},
 					{
 						id: 'offChain',
 						name: 'Off-Chain',
 						options: [
-							{ id: 'Covalent', name: 'Covalent' },
-							{ id: 'Moralis', name: 'Moralis › Web3 API' },
-							{ id: 'Zapper', name: 'Zapper' }
+							{ id: TokenBalancesProvider.Covalent, name: 'Covalent' },
+							{ id: TokenBalancesProvider.Moralis, name: 'Moralis › Web3 API' },
+							{ id: TokenBalancesProvider.Zapper, name: 'Zapper' }
 						]
 					}
 				]
