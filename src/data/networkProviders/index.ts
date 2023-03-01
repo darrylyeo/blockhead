@@ -31,6 +31,7 @@ import { tenderlyProviderConfigs } from './tenderly'
 
 // Icons
 import { AlchemyIcon, EtherscanIcon, FigmentIcon, InfuraIcon, MoralisIcon, TenderlyIcon, PocketIcon, QuickNodeIcon } from '../../assets/icons'
+import { pocketProviderConfigs } from './pocket'
 
 
 type NetworkProviderConfig = {
@@ -130,13 +131,40 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		provider: NetworkProvider.PocketNetwork,
 		name: 'Pocket Network',
 		icon: PocketIcon,
-		get: ({ network }) => (
-			new PocketProvider(
-				network.chainId,
-				env.POCKET_NETWORK_PORTAL_ID,
-				env.POCKET_NETWORK_SECRET_KEY
+
+		get: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+			nodeType = NetworkProviderNodeType.Default,
+		}) => {
+			const config = pocketProviderConfigs.find(config =>
+				config.networkSlug === network.slug &&
+				config.connectionType === connectionType &&
+				config.nodeType === nodeType
 			)
-		)
+
+			if(!config)
+				throw new Error(`Couldn't find a Figment node matching the configuration`)
+
+			return (
+				new ({
+					[NetworkProviderConnectionType.RPC]: JsonRpcProvider,
+					[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
+					[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
+				}[connectionType])(
+					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.gateway.pokt.network/v1/lb/${env.POCKET_NETWORK_PORTAL_ID}`,
+					network.chainId
+				)
+			)
+		}
+
+		// get: ({ network }) => (
+		// 	new PocketProvider(
+		// 		network.chainId,
+		// 		env.POCKET_NETWORK_PORTAL_ID,
+		// 		env.POCKET_NETWORK_SECRET_KEY
+		// 	)
+		// )
 	},
 
 	{
