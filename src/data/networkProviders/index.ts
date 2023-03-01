@@ -62,7 +62,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 	// 	get: ({ network }) => getDefaultProvider(network.chainId, {
 	// 		alchemy: env.ALCHEMY_API_KEY_MAINNET,
 	// 		etherscan: env.ETHERSCAN_API_KEY,
-	// 		infura: env.INFURA_PROJECT_ID,
+	// 		infura: env.INFURA_API_KEY,
 	// 		pocket: {
 	// 			applicationId: env.POCKET_APP_PUBLIC_KEY,
 	// 			applicationSecretKey: env.POCKET_NETWORK_SECRET_KEY
@@ -77,8 +77,8 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		get: ({ network }) => (
 			new InfuraProvider(
 				network.chainId,
-				env.INFURA_PROJECT_ID,
-				env.INFURA_PROJECT_SECRET
+				env.INFURA_API_KEY,
+				env.INFURA_API_KEY_SECRET
 			)
 		)
 	},
