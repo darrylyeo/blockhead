@@ -1,9 +1,16 @@
+<script context="module">
+	const queue = new ConcurrentPromiseQueue(1)
+</script>
+
+
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
 	import type { QuoteCurrency } from '../data/currencies'
 	import { NftProvider, nftProviderIcons } from '../data/nftProviders'
 	
 	import { type Covalent, getTokenAddressBalances } from '../api/covalent'
+
+	import { NftService, type Nft } from '@liquality/wallet-sdk'
 
 	import { NftportApi } from '../api/nftport'
 	import type { AccountContractsResponse, AccountNftsResponse, AccountRequestSupportedChain } from '../api/nftport/api/Api'
@@ -39,6 +46,8 @@
 		: undefined
 
 
+	import { ConcurrentPromiseQueue } from '../utils/ConcurrentPromiseQueue'
+
 	const normalizeCovalentContractWithBalance = (nftContractWithBalance: Covalent.NFTContractWithBalance): Ethereum.NftWithBalance => ({
 		name: nftContractWithBalance.contract_name,
 		address: nftContractWithBalance.contract_address,
@@ -71,6 +80,54 @@
 			})
 		}),
 	})
+
+
+	const normalizeLiqualityNftsAndContracts = (nfts: Nft[]): Ethereum.NftContractWithBalance[] => {
+		if(!nfts)
+			return []
+
+		const contractsByAddress = Object.fromEntries(
+			nfts.map(nft => [
+				nft.contract.address,
+				{
+					address: nft.contract.address,
+					name: nft.contract.name,
+					symbol: nft.contract.symbol,
+					ercTokenStandards: [nft.contract.type?.toLowerCase()] as Ethereum.ERCTokenStandard[],
+					metadata: {
+					// 	description: nft.contract.metadata?.description,
+					// 	bannerImage: nft.contract.metadata?.banner_url || nft.contract.metadata?.cached_banner_url,
+					// 	logoImage: nft.contract.metadata?.thumbnail_url || nft.contract.metadata?.cached_thumbnail_url,
+					}
+				} as Ethereum.NftContract
+			])
+		)
+
+		const nftsByContractAddress: Record<Ethereum.Address, Ethereum.NftWithBalance[]> = {}
+
+		for(const nft of nfts ?? []){
+			const nftContract = contractsByAddress[nft.contract.address]
+			const nfts = nftsByContractAddress[nft.contract.address as Ethereum.ContractAddress] ||= []
+
+			nfts.push({
+				contract: nftContract,
+				owner: address,
+				tokenId: nft.id,
+				// tokenUri: nft.tokenUri,
+				metadata: nft.metadata ?? {},
+				erc1155Balance: nft.balance,
+			})
+		}
+
+		return Object.entries(nftsByContractAddress).map(([contractAddress, nfts]) => ({
+			...{
+				balance: nfts.length,
+				...contractsByAddress[contractAddress],
+			},
+			nfts
+		}))
+	}
+
 
 	const normalizeNftportNftsAndContracts = ({
 		nftsResponse,
@@ -218,6 +275,41 @@
 				.filter(balance => balance.type === 'nft')
 				.map(normalizeCovalentContractWithBalance)
 		)}
+		bind:result={nftContractsWithBalances}
+		{isOpen}
+		{containerClass}
+		{contentClass}
+	>
+		<svelte:fragment slot="header" let:status let:loadingMessage let:errorMessage>
+			<slot name="header" {nftContractsWithBalances} {summary} {status} {loadingMessage} {errorMessage} />
+		</svelte:fragment>
+
+		<slot {nftContractsWithBalances} />
+	</Loader>
+
+{:else if nftProvider === NftProvider.Liquality}
+	<Loader
+		layout="collapsible"
+		collapsibleType="label"
+		loadingIcon={nftProviderIcons[nftProvider]}
+		loadingIconName={nftProvider}
+		loadingMessage="Retrieving {network.name} NFTs from {nftProvider}..."
+		errorMessage="Error retrieving {network.name} NFTs from {nftProvider}"
+		fromUseQuery={
+			useQuery({
+				queryKey: ['NFTs', {
+					nftProvider,
+					address,
+					chainID: network.chainId,
+					quoteCurrency: quoteCurrency
+				}],
+				queryFn: () => queue.enqueue(async () => (
+					await import('../api/liquality'),
+					await NftService.getNfts(address, network.chainId)
+				))
+			})
+		}
+		then={normalizeLiqualityNftsAndContracts}
 		bind:result={nftContractsWithBalances}
 		{isOpen}
 		{containerClass}

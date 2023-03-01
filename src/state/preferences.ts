@@ -206,12 +206,13 @@ export const preferencesConfig: PreferencesConfig<
 				type: 'single',
 				defaultOption: 'Covalent',
 				options: [
-					// {
-					// 	id: 'onChain',
-					// 	name: 'On-Chain',
-					// 	options: [
-					// 	]
-					// },
+					{
+						id: 'onChain',
+						name: 'On-Chain',
+						options: [
+							{ id: NftProvider.Liquality, name: 'Liquality (Alchemy)' },
+						]
+					},
 					{
 						id: 'offChain',
 						name: 'Off-Chain',
