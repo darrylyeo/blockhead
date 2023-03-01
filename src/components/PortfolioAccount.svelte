@@ -128,8 +128,6 @@
 	import TweenedNumber from './TweenedNumber.svelte'
 
 
-	import { CovalentIcon, MoralisIcon, NFTPortIcon, QuickNodeIcon, ZapperIcon, ZerionIcon } from '../assets/icons'
-
 	import { tokenColors } from '../data/tokenColors'
 
 	import { scale } from 'svelte/transition'
