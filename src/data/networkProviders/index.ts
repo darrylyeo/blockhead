@@ -25,10 +25,11 @@ import {
 } from 'ethers'
 import { getMoralisJSONRPCEndpoint } from '../../api/moralis/endpoints'
 import { figmentProviderConfigs } from './figment'
+import { tenderlyProviderConfigs } from './tenderly'
 
 
 // Icons
-import { AlchemyIcon, EtherscanIcon, FigmentIcon, InfuraIcon, MoralisIcon, PocketIcon, QuickNodeIcon } from '../../assets/icons'
+import { AlchemyIcon, EtherscanIcon, FigmentIcon, InfuraIcon, MoralisIcon, TenderlyIcon, PocketIcon, QuickNodeIcon } from '../../assets/icons'
 
 
 type NetworkProviderConfig = {
@@ -172,6 +173,38 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 					[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
 				}[connectionType])(
 					`${figmentProviderConfig.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${figmentProviderConfig.subdomain}.datahub.figment.io/apikey/${env.FIGMENT_DATA_HUB_APP_API_KEY}`,
+					network.chainId
+				)
+			)
+		}
+	},
+
+	{
+		provider: NetworkProvider.Tenderly,
+		name: 'Tenderly › Web3 Gateway',
+		icon: TenderlyIcon,
+
+		get: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+			nodeType = NetworkProviderNodeType.Default,
+		}) => {
+			const config = tenderlyProviderConfigs.find(config =>
+				config.networkSlug === network.slug &&
+				config.connectionType === connectionType &&
+				config.nodeType === nodeType
+			)
+
+			if(!config)
+				throw new Error(`Couldn't find a Tenderly node matching the configuration`)
+
+			return (
+				new ({
+					[NetworkProviderConnectionType.RPC]: JsonRpcProvider,
+					[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
+					[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
+				}[connectionType])(
+					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.gateway.tenderly.co/${env.TENDERLY_WEB3_GATEWAY_API_KEY}`,
 					network.chainId
 				)
 			)

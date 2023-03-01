@@ -8,6 +8,7 @@ export enum NetworkProvider {
     Etherscan = 'Etherscan',
     Moralis = 'Moralis',
 	QuickNode = 'QuickNode',
+	Tenderly = 'Tenderly',
 }
 
 export enum NetworkProviderConnectionType {
