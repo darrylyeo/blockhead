@@ -1460,6 +1460,43 @@ export const networks: Ethereum.Network[] = [
 		}
 	},
 	{
+		"slug": "ethereum-sepolia",
+		"name": "Ethereum Sepolia Testnet",
+		"chainId": 11155111,
+		"shortName": "sep",
+		"chain": "ETH",
+		"network": "sepolia",
+		"networkId": 11155111,
+		"nativeCurrency": {
+			"name": "Sepolia Ether",
+			"symbol": "ETH",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://rpc.sepolia.org",
+			"https://rpc2.sepolia.org",
+			"https://rpc-sepolia.rockx.com",
+			"https://endpoints.omniatech.io/v1/eth/sepolia/public",
+			"https://ethereum-sepolia.blockpi.network/v1/rpc/public",
+		],
+		"faucets": [
+			"http://fauceth.komputing.org?chain=11155111\u0026address=${ADDRESS}"
+		],
+		"explorers": [
+			{
+				"name": "etherscan-sepolia",
+				"url": "https://sepolia.etherscan.io",
+				"standard": "EIP3091"
+			},
+			{
+				"name": "otterscan-sepolia",
+				"url": "https://sepolia.otterscan.io",
+				"standard": "EIP3091"
+			}
+		],
+		"infoURL": "https://sepolia.otterscan.io",
+	},
+	{
 		"slug": "ethergem",
 		"name": "EtherGem",
 		"chainId": 1987,
@@ -5015,10 +5052,11 @@ for(const network of networks)
 
 const testnetSlugsForMainnetSlugs = {
 	'ethereum': [
-		'ethereum-kovan',
+		'ethereum-sepolia',
+		'ethereum-goerli',
 		'ethereum-rinkeby',
 		'ethereum-ropsten',
-		'ethereum-goerli',
+		'ethereum-kovan',
 	],
 	'polygon': [
 		'polygon-mumbai',
