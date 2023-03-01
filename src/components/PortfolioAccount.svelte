@@ -249,6 +249,7 @@
 	.error-icon-container > :first-child {
 		/* opacity: 0.75; */
 		filter: contrast(0.95) grayscale(0.75);
+		align-self: stretch;
 	}
 	.error-icon-container > :last-child {
 		color: var(--primary-color);
