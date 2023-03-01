@@ -7,6 +7,7 @@
 
 	import { getTokenBalances } from '../api/zapper'
 	import { getWalletTokenBalance } from '../api/quicknode'
+	import { ERC20Service } from '@liquality/wallet-sdk'
 
 
 	export let network: Ethereum.Network
@@ -92,6 +93,57 @@
 				)
 			})
 		}
+		{showIf}
+		{isOpen}
+		{containerClass}
+		{contentClass}
+		let:status
+		bind:result={balances}
+		let:result={balances}
+	>
+		<slot name="header" slot="header" let:loadingMessage let:errorMessage {balances} {status} {loadingMessage} {errorMessage} />
+
+		<slot {balances} />
+	</Loader>
+
+{:else if tokenBalancesProvider === TokenBalancesProvider.Liquality}
+	<Loader
+		loadingIcon={tokenBalancesProviderIcons[tokenBalancesProvider]}
+		loadingIconName={tokenBalancesProvider}
+		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
+		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"
+		fromUseQuery={
+			useQuery({
+				queryKey: ['Balances', {
+					tokenBalancesProvider,
+					address,
+					chainID: network.chainId,
+				}],
+				queryFn: async () => (
+					await ERC20Service.listAccountTokens(
+						address,
+						network.chainId
+					)
+				)
+			})
+		}
+		then={assets => (
+			assets.map(({
+				formattedBalance,
+				tokenContractAddress,
+				tokenName,
+				tokenSymbol,
+				rawBalance,
+			}) => ({
+				token: {
+					name: tokenName,
+					symbol: tokenSymbol,
+					address: tokenContractAddress,
+					// icon: 
+				},
+				balance: formattedBalance, // parseInt(rawBalance),
+			}))
+		)}
 		{showIf}
 		{isOpen}
 		{containerClass}

@@ -25,6 +25,7 @@
     "@coinbase/wallet-sdk": "^3.6.4",
     "@fontsource/fira-code": "^4.5.13",
     "@fontsource/ubuntu": "^4.5.11",
+    "@liquality/wallet-sdk": "^2.1.0",
     "@sveltestack/svelte-query": "^1.6.0",
     "@walletconnect/web3-provider": "^1.8.0",
     "bip44-constants": "^65.0.0",

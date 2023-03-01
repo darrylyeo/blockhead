@@ -171,6 +171,7 @@ export const preferencesConfig: PreferencesConfig<
 						name: 'Off-Chain',
 						options: [
 							{ id: TokenBalancesProvider.Covalent, name: 'Covalent' },
+							{ id: TokenBalancesProvider.Liquality, name: 'Liquality (Alchemy)' },
 							{ id: TokenBalancesProvider.Moralis, name: 'Moralis › Web3 API' },
 							{ id: TokenBalancesProvider.Zapper, name: 'Zapper' }
 						]
