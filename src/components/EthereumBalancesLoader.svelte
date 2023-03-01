@@ -120,6 +120,7 @@
 					chainID: network.chainId,
 				}],
 				queryFn: async () => (
+					await import('../api/liquality'),
 					await ERC20Service.listAccountTokens(
 						address,
 						network.chainId
