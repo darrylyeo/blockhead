@@ -75,7 +75,7 @@ export namespace Covalent {
 	}
 	export type NFTContractWithBalance = TokenContractWithBalance & {
 		type: 'nft'
-		nft_data: NFTWithBalance[]
+		nft_data?: NFTWithBalance[]
 	}
 	export type NFTAttributes = Record<string, string> | {
 		key?: string

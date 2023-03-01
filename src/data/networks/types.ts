@@ -94,15 +94,15 @@ export namespace Ethereum {
 	}
 	export type Nft = {
 		contract?: NftContract,
+		owner: Ethereum.Address,
+
 		tokenId: number
 		tokenUri?: string
-		name: string
-		description: string
-		image: string
-		owner: string
 		
 		metadata: {
 			name?: string,
+			description?: string
+			image?: string
 			attributes?: NftAttribute[]
 			animationUrl?: string,
 			[key: string]: any,
