@@ -25,6 +25,7 @@ import {
 } from 'ethers'
 import { getMoralisJSONRPCEndpoint } from '../../api/moralis/endpoints'
 import { figmentProviderConfigs } from './figment'
+import { infuraProviderConfigs } from './infura'
 import { tenderlyProviderConfigs } from './tenderly'
 
 
@@ -74,13 +75,40 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		provider: NetworkProvider.Infura,
 		name: 'Infura',
 		icon: InfuraIcon,
-		get: ({ network }) => (
-			new InfuraProvider(
-				network.chainId,
-				env.INFURA_API_KEY,
-				env.INFURA_API_KEY_SECRET
+
+		get: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+			nodeType = NetworkProviderNodeType.Default,
+		}) => {
+			const config = infuraProviderConfigs.find(config =>
+				config.networkSlug === network.slug &&
+				config.connectionType === connectionType &&
+				config.nodeType === nodeType
 			)
-		)
+
+			if(!config)
+				throw new Error(`Couldn't find an Infura node matching the configuration.`)
+
+			return (
+				new ({
+					[NetworkProviderConnectionType.RPC]: JsonRpcProvider,
+					[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
+					[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
+				}[connectionType])(
+					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.infura.io/${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'ws/v3' : 'v3'}/${env.INFURA_API_KEY || '84842078b09946638c03157f83405213'}`,
+					network.chainId
+				)
+			)
+		}
+
+		// get: ({ network }) => (
+		// 	new InfuraProvider(
+		// 		network.chainId,
+		// 		env.INFURA_API_KEY,
+		// 		env.INFURA_API_KEY_SECRET
+		// 	)
+		// )
 	},
 
 	{
