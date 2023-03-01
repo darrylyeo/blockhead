@@ -5,6 +5,7 @@
 	import type { QuoteCurrency } from '../data/currencies'
 	import { getNetworkColor, networksByChainID } from '../data/networks'
 	import { type TokenBalancesProvider, tokenBalancesProviderIcons } from '../data/tokenBalancesProvider'
+	import { type NftProvider, nftProviderIcons } from '../data/nftProviders'
 	import { Covalent } from '../api/covalent'
 	import { getDefaultProvider } from 'ethers'
 
@@ -18,7 +19,7 @@
 	export let provider: Ethereum.Provider
 	export let defiProvider: DefiProvider
 	export let tokenBalancesProvider: TokenBalancesProvider
-	export let nftProvider
+	export let nftProvider: NftProvider
 	export let quoteCurrency: QuoteCurrency
 
 	export let layout: 'column' | 'grid' = 'grid'
@@ -618,10 +619,7 @@
 												>
 													<img
 														slot="icon"
-														src={{
-															'Covalent': CovalentIcon,
-															'NFTPort': NFTPortIcon,
-														}[nftProvider]}
+														src={nftProviderIcons[nftProvider]}
 														alt={nftProvider}
 														width={20}
 													/>
@@ -631,10 +629,7 @@
 												<div class="error-icon-container stack" transition:scale>
 													<img
 														title={errorMessage}
-														src={{
-															'Covalent': CovalentIcon,
-															'NFTPort': NFTPortIcon,
-														}[nftProvider]}
+														src={nftProviderIcons[nftProvider]}
 														alt={nftProvider}
 														width={20}
 													/>

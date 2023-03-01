@@ -4,13 +4,15 @@
 	import type { QuoteCurrency } from '../data/currencies'
 	import type { Nftport } from '../api/nftport'
 	import type { TickerSymbol } from '../data/currencies'
+	import { NftProvider, nftProviderIcons } from '../data/nftProviders'
 	import { getTokenAddressBalances } from '../api/covalent'
 	import { NftportApi } from '../api/nftport'
+
 
 	export let network: Ethereum.Network
 	export let address: string
 
-	export let nftProvider
+	export let nftProvider: NftProvider
 	export let quoteCurrency: QuoteCurrency
 
 	export let showImagesOnly = false
@@ -228,9 +230,6 @@
 	import SizeContainer from './SizeContainer.svelte'
 	import { flip } from 'svelte/animate'
 	import { quintOut } from 'svelte/easing'
-
-
-	import { CovalentIcon, NFTPortIcon } from '../assets/icons'
 </script>
 
 
@@ -492,11 +491,11 @@
 </style>
 
 
-{#if nftProvider === 'Covalent'}
+{#if nftProvider === NftProvider.Covalent}
 	<Loader
 		layout="collapsible"
 		collapsibleType="label"
-		loadingIcon={CovalentIcon}
+		loadingIcon={nftProviderIcons[nftProvider]}
 		loadingIconName={nftProvider}
 		loadingMessage="Retrieving {network.name} NFTs from {nftProvider}..."
 		errorMessage="Error retrieving {network.name} NFTs from {nftProvider}"
@@ -684,11 +683,12 @@
 			</div>
 		{/if}
 	</Loader>
-{:else if nftProvider === 'NFTPort'}
+
+{:else if nftProvider === NftProvider.NftPort}
 	<Loader
 		layout="collapsible"
 		collapsibleType="label"
-		loadingIcon={NFTPortIcon}
+		loadingIcon={nftProviderIcons[nftProvider]}
 		loadingIconName={nftProvider}
 		loadingMessage="Retrieving {network.name} NFTs from {nftProvider}..."
 		errorMessage="Error retrieving {network.name} NFTs from {nftProvider}"

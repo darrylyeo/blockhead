@@ -3,9 +3,10 @@ import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '../data/currencies'
 
 import { NetworkProvider } from '../data/networkProviders/types'
 import { networkProviderConfigs } from '../data/networkProviders'
-import { DefiProvider } from '../data/defiProviders'
-import { PriceProvider } from '../data/priceProviders'
 import { TokenBalancesProvider } from '../data/tokenBalancesProvider'
+import { DefiProvider } from '../data/defiProviders'
+import { NftProvider } from '../data/nftProviders'
+import { PriceProvider } from '../data/priceProviders'
 
 
 type PreferenceOption<
@@ -213,8 +214,8 @@ export const preferencesConfig: PreferencesConfig<
 						id: 'offChain',
 						name: 'Off-Chain',
 						options: [
-							{ id: 'Covalent', name: 'Covalent' },
-							{ id: 'NFTPort',  name: 'NFTPort' }
+							{ id: NftProvider.Covalent, name: 'Covalent' },
+							{ id: NftProvider.NftPort,  name: 'NFTPort' }
 							// { id: 'Zapper', name: 'Zapper' },
 							// { id: 'Moralis', name: 'Moralis' },
 						]
