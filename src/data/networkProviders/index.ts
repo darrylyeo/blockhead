@@ -157,13 +157,13 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 			connectionType = NetworkProviderConnectionType.RPC,
 			nodeType = NetworkProviderNodeType.Default,
 		}) => {
-			const figmentProviderConfig = figmentProviderConfigs.find(figmentProviderConfig =>
-				figmentProviderConfig.networkSlug === network.slug &&
-				figmentProviderConfig.connectionType === connectionType &&
-				figmentProviderConfig.nodeType === nodeType
+			const config = figmentProviderConfigs.find(config =>
+				config.networkSlug === network.slug &&
+				config.connectionType === connectionType &&
+				config.nodeType === nodeType
 			)
 
-			if(!figmentProviderConfig)
+			if(!config)
 				throw new Error(`Couldn't find a Figment node matching the configuration`)
 
 			return (
@@ -172,7 +172,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 					[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
 					[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
 				}[connectionType])(
-					`${figmentProviderConfig.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${figmentProviderConfig.subdomain}.datahub.figment.io/apikey/${env.FIGMENT_DATA_HUB_APP_API_KEY}`,
+					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.datahub.figment.io/apikey/${env.FIGMENT_DATA_HUB_APP_API_KEY}`,
 					network.chainId
 				)
 			)
