@@ -7,6 +7,7 @@
 	import { getERC20TokenTransfers, getTransactionsByAddress } from '../api/covalent'
 	import { preferences } from '../state/preferences'
 	import type { TokenBalancesProvider } from '../data/tokenBalancesProvider'
+	import { TransactionProvider } from '../data/transactionProvider'
 
 
 	export let network: Ethereum.Network
@@ -15,7 +16,7 @@
 	export let provider: Ethereum.Provider
 
 	export let tokenBalancesProvider: TokenBalancesProvider
-	export let transactionProvider
+	export let transactionProvider: TransactionProvider
 
 	$: tokenBalancesProvider = $$props.tokenBalancesProvider || $preferences.tokenBalancesProvider
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
@@ -250,7 +251,7 @@
 
 						<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
 							{#each transactions as transaction}
-								{#if transactionProvider === 'Covalent'}
+								{#if transactionProvider === TransactionProvider.Covalent}
 									<a class="card" id={transaction.tx_hash} href="#{transaction.tx_hash}">
 										<EthereumTransactionCovalent
 											{network}
@@ -263,7 +264,8 @@
 											layout="inline"
 										/>
 									</a>
-								{:else if transactionProvider === 'Moralis'}
+
+								{:else if transactionProvider === TransactionProvider.Moralis}
 									<a class="card" id={transaction.hash} href="#{transaction.hash}">
 										<EthereumTransactionMoralis
 											{network}
@@ -276,7 +278,8 @@
 											layout="inline"
 										/>
 									</a>
-								<!-- {:else if transactionProvider === 'Etherspot'}
+
+								<!-- {:else if transactionProvider === TransactionProvider.Etherspot}
 									<a class="card" id={transaction.hash} href="#{transaction.hash}">
 										<EthereumTransactionEtherspot
 											{network}
@@ -338,7 +341,7 @@
 
 						<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
 							{#each transactions as erc20TokenTransaction}
-								{#if transactionProvider === 'Covalent'}
+								{#if transactionProvider === TransactionProvider.Covalent}
 									<a class="card" id={erc20TokenTransaction.tx_hash} href="#{erc20TokenTransaction.tx_hash}">
 										<EthereumTransactionCovalent
 											{network}
@@ -351,7 +354,8 @@
 											layout="inline"
 										/>
 									</a>
-								{:else if transactionProvider === 'Moralis'}
+
+								{:else if transactionProvider === TransactionProvider.Moralis}
 									<a class="card" id={erc20TokenTransaction.hash} href="#{erc20TokenTransaction.hash}">
 										<EthereumTransactionMoralis
 											{network}

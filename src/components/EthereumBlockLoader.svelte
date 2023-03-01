@@ -1,11 +1,12 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
+	import { TransactionProvider, transactionProviderIcons } from '../data/transactionProvider'
 	import { preferences } from '../state/preferences'
 
 
 	export let network: Ethereum.Network
 	export let blockNumber: Ethereum.BlockNumber
-	export let transactionProvider
+	export let transactionProvider: TransactionProvider | 'RPC Provider'
 	export let provider: Ethereum.Provider
 	export let quoteCurrency
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
@@ -42,9 +43,6 @@
 	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
 	import Loader from './Loader.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
-
-
-	import { CovalentIcon, MoralisIcon } from '../assets/icons'
 </script>
 
 
@@ -94,9 +92,9 @@
 		</span>
 	</div>
 
-	{#if transactionProvider === 'Covalent'}
+	{#if transactionProvider === TransactionProvider.Covalent}
 		<Loader
-			loadingIcon={CovalentIcon}
+			loadingIcon={transactionProviderIcons[transactionProvider]}
 			loadingIconName={transactionProvider}
 			loadingMessage="Retrieving block data from {transactionProvider}..."
 			errorMessage="Error retrieving block data from {transactionProvider}"
@@ -164,9 +162,9 @@
 			{/each} -->
 		</Loader>
 
-	{:else if transactionProvider === 'Moralis'}
+	{:else if transactionProvider === TransactionProvider.Moralis}
 		<Loader
-			loadingIcon={MoralisIcon}
+			loadingIcon={transactionProviderIcons[transactionProvider]}
 			loadingIconName={transactionProvider}
 			loadingMessage="Retrieving block data from {transactionProvider}..."
 			errorMessage="Error retrieving block data from {transactionProvider}"
@@ -304,12 +302,12 @@
 	/>
 </div>
 
-{#if availableNetworks && transactionProvider === 'Moralis' && block?.timestamp}
+{#if availableNetworks && transactionProvider === TransactionProvider.Moralis && block?.timestamp}
 	{@const otherNetworks = availableNetworks.filter(_network => _network !== network)}
 
 	<Loader
 		loadingIconName={'Moralis'}
-		loadingIcon={MoralisIcon}
+		loadingIcon={transactionProviderIcons[transactionProvider]}
 		fromStore={otherNetworks && block?.timestamp && (() =>
 			// <Awaited<ReturnType<typeof MoralisWeb3Api.dateToBlock.getDateToBlock>>[]>
 			parallelLoaderStore(otherNetworks, network => (

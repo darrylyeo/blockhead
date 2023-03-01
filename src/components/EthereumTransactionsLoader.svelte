@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
 	import type { TickerSymbol } from '../data/currencies'
+	import { TransactionProvider, transactionProviderIcons } from '../data/transactionProvider'
 	import { preferences } from '../state/preferences'
 
 	export let network: Ethereum.Network
@@ -8,7 +9,7 @@
 	export let provider: Ethereum.Provider
 
 	export let quoteCurrency: TickerSymbol
-	export let transactionProvider
+	export let transactionProvider: TransactionProvider
 
 	export let includeLogs = true
 
@@ -24,16 +25,13 @@
 
 
 	import Loader from './Loader.svelte'
-
-
-	import { CovalentIcon, EtherspotIcon, MoralisIcon } from '../assets/icons'
 </script>
 
 
-{#if transactionProvider === 'Covalent'}
+{#if transactionProvider === TransactionProvider.Covalent}
 	<Loader
 		layout="collapsible"
-		loadingIcon={CovalentIcon}
+		loadingIcon={transactionProviderIcons[transactionProvider]}
 		loadingIconName={transactionProvider}
 		loadingMessage="Retrieving {network.name} transactions from {transactionProvider}..."
 		errorMessage="Error retrieving {network.name} transactions from {transactionProvider}"
@@ -67,9 +65,10 @@
 		<slot name="header" slot="header" {status} {transactions} />
 		<slot {transactions} {pagination} />
 	</Loader>
-{:else if transactionProvider === 'Etherspot'}
+
+{:else if transactionProvider === TransactionProvider.Etherspot}
 	<Loader
-		loadingIcon={EtherspotIcon}
+		loadingIcon={transactionProviderIcons[transactionProvider]}
 		loadingMessage="Retrieving {network.name} transactions from {transactionProvider}..."
 		errorMessage="Error retrieving {network.name} transactions from {transactionProvider}"
 		fromUseQuery={useQuery({
@@ -90,9 +89,10 @@
 		<slot name="header" slot="header" {status} {transactions} />
 		<slot {transactions} {pagination} />
 	</Loader>
-{:else if transactionProvider === 'Moralis'}
+
+{:else if transactionProvider === TransactionProvider.Moralis}
 	<Loader
-		loadingIcon={MoralisIcon}
+		loadingIcon={transactionProviderIcons[transactionProvider]}
 		loadingIconName={transactionProvider}
 		loadingMessage="Retrieving {network.name} transactions from {transactionProvider}..."
 		errorMessage="Error retrieving {network.name} transactions from {transactionProvider}"

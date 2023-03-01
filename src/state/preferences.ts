@@ -7,6 +7,7 @@ import { TokenBalancesProvider } from '../data/tokenBalancesProvider'
 import { DefiProvider } from '../data/defiProviders'
 import { NftProvider } from '../data/nftProviders'
 import { PriceProvider } from '../data/priceProviders'
+import { TransactionProvider } from '../data/transactionProvider'
 
 
 type PreferenceOption<
@@ -239,9 +240,9 @@ export const preferencesConfig: PreferencesConfig<
 						id: 'offChain',
 						name: 'Off-Chain',
 						options: [
-							{ id: 'Covalent', name: 'Covalent' },
-							{ id: 'Moralis', name: 'Moralis' },
-							// { id: 'Etherspot', name: 'Etherspot' },
+							{ id: TransactionProvider.Covalent, name: 'Covalent' },
+							{ id: TransactionProvider.Moralis, name: 'Moralis' },
+							// { id: TransactionProvider.Etherspot, name: 'Etherspot' },
 						]
 					}
 				]
@@ -403,7 +404,7 @@ export const preferencesConfig: PreferencesConfig<
 
 // V1
 // export const preferences.rpcNetwork = localStorageWritable<Ethereum.ProviderName>('preferred-ethereum-provider', 'Ethers')
-// export const preferences.transactionProvider = localStorageWritable<Ethereum.TransactionProvider>('preferred-transaction-provider', 'Etherspot')
+// export const preferences.transactionProvider = localStorageWritable<TransactionProvider>('preferred-transaction-provider', TransactionProvider.Etherspot)
 // export const preferences.defiProvider = localStorageWritable<DefiProvider>('preferred-defi-provider', DefiProvider.Zapper)
 // export const preferences.currentPriceProvider = localStorageWritable<PriceProvider>('preferred-price-feed-provider', PriceProvider.Chainlink)
 // export const preferences.analyticsProvider = localStorageWritable<AnalyticsProvider>('preferred-analytics-provider', 'Covalent')

@@ -1,12 +1,13 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
 	import type { QuoteCurrency } from '../data/currencies'
+	import { TransactionProvider, transactionProviderIcons } from '../data/transactionProvider'
 	import { preferences } from '../state/preferences'
 
 
 	export let network: Ethereum.Network
 	export let transactionID: Ethereum.TransactionID
-	export let transactionProvider: Ethereum.TransactionProvider
+	export let transactionProvider: TransactionProvider
 	export let provider: Ethereum.Provider
 	export let quoteCurrency: QuoteCurrency
 
@@ -37,9 +38,6 @@
 	// import EthereumTransactionEtherspot from './EthereumTransactionEtherspot.svelte'
 	import EthereumTransactionMoralis from './EthereumTransactionMoralis.svelte'
 	import Loader from './Loader.svelte'
-
-
-	import { CovalentIcon, EtherspotIcon, MoralisIcon } from '../assets/icons'
 </script>
 
 
@@ -47,9 +45,9 @@
 	<div class="stack">
 		{#key transactionProvider}
 			<div class="column">
-				{#if transactionProvider === 'Covalent'}
+				{#if transactionProvider === TransactionProvider.Covalent}
 					<Loader
-						loadingIcon={CovalentIcon}
+						loadingIcon={transactionProviderIcons[transactionProvider]}
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
 						fromUseQuery={useQuery({
 							queryKey: ['Transaction', {
@@ -84,9 +82,10 @@
 							{innerLayout}
 						/>
 					</Loader>
-				<!-- {:else if transactionProvider === 'Etherspot'}
+
+				<!-- {:else if transactionProvider === TransactionProvider.Etherspot}
 					<Loader
-						loadingIcon={EtherspotIcon}
+						loadingIcon={transactionProviderIcons[transactionProvider]}
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
 						fromUseQuery={useQuery({
 							queryKey: ['Transaction', {
@@ -119,9 +118,10 @@
 							{innerLayout}
 						/>
 					</Loader> -->
-				{:else if transactionProvider === 'Moralis'}
+
+				{:else if transactionProvider === TransactionProvider.Moralis}
 					<Loader
-						loadingIcon={MoralisIcon}
+						loadingIcon={transactionProviderIcons[transactionProvider]}
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
 						fromUseQuery={useQuery({
 							queryKey: ['Transaction', {

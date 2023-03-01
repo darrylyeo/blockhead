@@ -2,6 +2,7 @@
 	import type { Ethereum } from '../data/networks/types'
 	import type { TickerSymbol } from '../data/currencies'
 	import { preferences } from '../state/preferences'
+	import { TransactionProvider, transactionProviderIcons } from '../data/transactionProvider'
 
 
 	export let network: Ethereum.Network
@@ -11,7 +12,7 @@
 	export let erc20Token: Ethereum.ERC20Token
 
 	export let quoteCurrency: TickerSymbol
-	export let transactionProvider
+	export let transactionProvider: TransactionProvider
 	export let includeLogs = true
 
 	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
@@ -25,15 +26,12 @@
 
 
 	import Loader from './Loader.svelte'
-
-
-	import { CovalentIcon } from '../assets/icons'
 </script>
 
 
-<!-- {#if transactionProvider === 'Covalent'} -->
+<!-- {#if transactionProvider === TransactionProvider.Covalent} -->
 	<Loader
-		loadingIcon={CovalentIcon}
+		loadingIcon={transactionProviderIcons[transactionProvider]}
 		loadingIconName={transactionProvider}
 		loadingMessage="Retrieving ERC-20 transactions from {transactionProvider}..."
 		errorMessage="Error retrieving ERC-20 transactions from {transactionProvider}"

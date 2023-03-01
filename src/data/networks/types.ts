@@ -48,8 +48,6 @@ export namespace Ethereum {
 
 	export type Provider = EthersProvider
 
-	export type TransactionProvider = 'Covalent' | 'Etherspot'
-
 	export type TransactionID = BrandedString<'TransactionID'>
 	export type TransactionIndex = number
 	export type TransactionNonce = number
