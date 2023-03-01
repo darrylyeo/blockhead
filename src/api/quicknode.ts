@@ -1,6 +1,6 @@
-import type { Ethereum } from '../networks/types'
-import { NetworkProvider } from './types'
-import { getEthersProvider } from '.'
+import type { Ethereum } from '../data/networks/types'
+import { NetworkProvider } from '../data/networkProviders/types'
+import { getEthersProvider } from '../data/networkProviders'
 
 
 const getQuickNodeProvider = async ({

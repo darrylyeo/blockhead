@@ -5,7 +5,7 @@
 	import { MoralisWeb3Api, chainCodeFromNetwork } from '../api/moralis/web3Api'
 
 	import { getTokenBalances } from '../api/zapper'
-	import { getWalletTokenBalance } from '../data/networkProviders/quicknode'
+	import { getWalletTokenBalance } from '../api/quicknode'
 
 
 	export let network: Ethereum.Network
