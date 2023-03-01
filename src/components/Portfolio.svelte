@@ -9,7 +9,7 @@
 
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
-	import type { DeFiProvider } from '../data/defi-provider'
+	import type { DefiProvider } from '../data/defiProviders'
 	import type { QuoteCurrency } from '../data/currencies'
 
 	import { Account } from '../state/portfolio-accounts'
@@ -82,7 +82,7 @@
 	// Balances view options
 	
 	export let provider: Ethereum.Provider
-	export let defiProvider: DeFiProvider
+	export let defiProvider: DefiProvider
 	export let tokenBalancesProvider
 	export let nftProvider
 	export let quoteCurrency: QuoteCurrency

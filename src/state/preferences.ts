@@ -3,6 +3,7 @@ import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '../data/currencies'
 
 import { NetworkProvider } from '../data/networkProviders/types'
 import { networkProviderConfigs } from '../data/networkProviders'
+import { DefiProvider } from '../data/defiProviders'
 
 
 type PreferenceOption<
@@ -182,14 +183,14 @@ export const preferencesConfig: PreferencesConfig<
 						id: 'onChain',
 						name: 'On-Chain',
 						options: [
-							{ id: 'Zerion DeFi SDK', name: 'Zerion DeFi SDK' }
+							{ id: DefiProvider.ZerionDefiSdk, name: DefiProvider.ZerionDefiSdk }
 						]
 					},
 					{
 						id: 'offChain',
 						name: 'Off-Chain',
 						options: [
-							{ id: 'Zapper', name: 'Zapper' }
+							{ id: DefiProvider.Zapper, name: DefiProvider.Zapper }
 						]
 					}
 				]
@@ -399,7 +400,7 @@ export const preferencesConfig: PreferencesConfig<
 // V1
 // export const preferences.rpcNetwork = localStorageWritable<Ethereum.ProviderName>('preferred-ethereum-provider', 'Ethers')
 // export const preferences.transactionProvider = localStorageWritable<Ethereum.TransactionProvider>('preferred-transaction-provider', 'Etherspot')
-// export const preferences.defiProvider = localStorageWritable<DeFiProvider>('preferred-defi-provider', 'Zapper')
+// export const preferences.defiProvider = localStorageWritable<DefiProvider>('preferred-defi-provider', DefiProvider.Zapper)
 // export const preferences.currentPriceProvider = localStorageWritable<PriceFeedProvider>('preferred-price-feed-provider', 'Chainlink')
 // export const preferences.analyticsProvider = localStorageWritable<AnalyticsProvider>('preferred-analytics-provider', 'Covalent')
 // export const preferences.quoteCurrency = localStorageWritable<QuoteCurrency>('preferred-quote-currency', 'USD')

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { AccountNetworkSettings, AccountType } from '../state/portfolio-accounts'
 	import type { Ethereum } from '../data/networks/types'
-	import type { DeFiProvider } from '../data/defi-provider'
+	import { DefiProvider, defiProviderIcons } from '../data/defiProviders'
 	import type { QuoteCurrency } from '../data/currencies'
 	import { getNetworkColor, networksByChainID } from '../data/networks'
 	import { Covalent } from '../api/covalent'
@@ -15,7 +15,7 @@
 	export let showNetworks: AccountNetworkSettings[]
 
 	export let provider: Ethereum.Provider
-	export let defiProvider: DeFiProvider
+	export let defiProvider: DefiProvider
 	export let tokenBalancesProvider
 	export let nftProvider
 	export let quoteCurrency: QuoteCurrency
@@ -547,11 +547,7 @@
 												>
 													<img
 														slot="icon"
-														src={{
-															'Zerion DeFi SDK': ZerionIcon,
-															'Zapper': ZapperIcon,
-															'Covalent': CovalentIcon,
-														}[defiProvider]}
+														src={defiProviderIcons[defiProvider]}
 														alt={defiProvider}
 														width={20}
 													/>
@@ -561,11 +557,7 @@
 												<div class="error-icon-container stack" transition:scale>
 													<img
 														title={errorMessage}
-														src={{
-															'Zerion DeFi SDK': ZerionIcon,
-															'Zapper': ZapperIcon,
-															'Covalent': CovalentIcon,
-														}[defiProvider]}
+														src={defiProviderIcons[defiProvider]}
 														alt={defiProvider}
 														width={20}
 													/>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
-	import type { DeFiProvider } from '../data/defi-provider'
+	import { DefiProvider, defiProviderIcons } from '../data/defiProviders'
 	import type { QuoteCurrency } from '../data/currencies'
 	import type { Web3AppConfig, Web3AppSlug } from '../data/web3Apps'
 	import type { Covalent } from '../api/covalent'
@@ -16,13 +16,13 @@
 	export let web3AppConfig: Web3AppConfig
 	export let address: string
 	export let providerName: Ethereum.ProviderName
-	export let defiProvider: DeFiProvider = 'Zapper'
+	export let defiProvider: DefiProvider = DefiProvider.Zapper
 	export let quoteCurrency: QuoteCurrency
 
 
 	// Computed Values
 	let zapperFiatRates
-	// $: if(defiProvider === 'Zapper' && quoteCurrency !== 'USD')
+	// $: if(defiProvider === DefiProvider.Zapper && quoteCurrency !== 'USD')
 	// 	getFiatRates().then(_ => zapperFiatRates = _)
 	$: zapperQuoteCurrency = zapperFiatRates ? quoteCurrency : 'USD' 
 	$: zapperFiatRate = zapperFiatRates?.[quoteCurrency] ?? 1
@@ -328,15 +328,15 @@
 
 						<!-- Address specified - account balances -->
 						{:else}
-							<!-- {#each ['Zapper', 'Zerion DeFi SDK'].sort((a, b) => defiProvider === a ? -1 : 1) as defiProvider} -->
+							<!-- {#each Object.values(DefiProvider).sort((a, b) => defiProvider === a ? -1 : 1) as defiProvider} -->
 								<!-- Zapper -->
-								{#if providers?.zapper && defiProvider === 'Zapper'}
+								{#if providers?.zapper && defiProvider === DefiProvider.Zapper}
 									<div class="card">
 										<Loader
 											loadingMessage="Reading {web3AppConfig.name} balances from {defiProvider}..."
 											errorMessage="Error getting {web3AppConfig.name} balances from {defiProvider}."
 											loadingIconName={defiProvider}
-											loadingIcon={ZapperIcon}
+											loadingIcon={defiProviderIcons[defiProvider]}
 											fromStore={() => getDefiBalancesForApps({
 												appIds: [providers?.zapper],
 												network,
@@ -571,7 +571,7 @@
 								{/if}
 
 								<!-- Zerion DeFi SDK -->
-								{#if providers?.zerionDefiSDK && defiProvider === 'Zerion DeFi SDK'}
+								{#if providers?.zerionDefiSDK && defiProvider === DefiProvider.ZerionDefiSdk}
 									<div class="card">
 										<Loader
 											loadingMessage="Reading {web3AppConfig.name} balances from {defiProvider}..."
@@ -671,8 +671,8 @@
 						</div> -->
 						{#if erc20Tokens && !(
 							address && (
-								(providers?.zapper && defiProvider === 'Zapper')
-								|| (providers?.zerionDefiSDK && defiProvider === 'Zerion DeFi SDK')
+								(providers?.zapper && defiProvider === DefiProvider.Zapper)
+								|| (providers?.zerionDefiSDK && defiProvider === DefiProvider.ZerionDefiSdk)
 							)
 						)}
 							{#each erc20Tokens.filter(Boolean) as erc20Token}

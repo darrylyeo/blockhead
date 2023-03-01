@@ -328,7 +328,7 @@
 			<Portfolio
 				name="3ID Connect/IDX"
 				provider={portfolioProvider}
-				defiProvider={$preferredDeFiProvider}
+				defiProvider={$preferredDefiProvider}
 				analyticsProvider={$preferredAnalyticsProvider}
 				quoteCurrency={$preferredQuoteCurrency}
 				{accounts}

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
-	import type { DeFiProvider } from '../data/defi-provider'
+	import { DefiProvider, defiProviderIcons } from '../data/defiProviders'
 	import type { QuoteCurrency } from '../data/currencies'
 	import type { Web3AppConfig } from '../data/web3Apps'
 	import { web3AppsByProviderName } from '../data/web3Apps'
@@ -15,19 +15,19 @@
 	export let network: Ethereum.Network
 	export let provider: Ethereum.Provider
 	export let address: string
-	export let defiProvider: DeFiProvider = 'Zapper'
+	export let defiProvider: DefiProvider = DefiProvider.Zapper
 	export let quoteCurrency: QuoteCurrency
 
 
 	// Computed Values
 	let zapperFiatRates
-	// $: if(defiProvider === 'Zapper' && quoteCurrency !== 'USD')
+	// $: if(defiProvider === DefiProvider.Zapper && quoteCurrency !== 'USD')
 	// 	getFiatRates().then(_ => zapperFiatRates = _)
 	$: zapperQuoteCurrency = zapperFiatRates ? quoteCurrency : 'USD' 
 	$: zapperFiatRate = zapperFiatRates?.[quoteCurrency] ?? 1
 
 	let allZapperAppConfigs: Partial<Record<ZapperAppId, ZapperAppConfig>>
-	$: if(defiProvider === 'Zapper')
+	$: if(defiProvider === DefiProvider.Zapper)
 		getAllApps().then(_ => allZapperAppConfigs = Object.fromEntries(_.map(app => [app.id, app])))
 
 	export let summary: {
@@ -56,7 +56,7 @@
 
 				defiAppsCount: zapperDefiBalances.length,
 
-				quoteTotalCurrency: defiProvider === 'Zapper' ? zapperQuoteCurrency : undefined
+				quoteTotalCurrency: defiProvider === DefiProvider.Zapper ? zapperQuoteCurrency : undefined
 			}
 		:
 			undefined
@@ -103,9 +103,6 @@
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
 	import { scaleFont } from '../transitions/scale-font'
-
-
-	import { ZapperIcon, ZerionIcon } from '../assets/icons'
 </script>
 
 <style>
@@ -180,14 +177,14 @@
 
 {#if network && address}
 	<!-- Zapper -->
-	{#if defiProvider === 'Zapper' || network.chainId !== 1}
+	{#if defiProvider === DefiProvider.Zapper || network.chainId !== 1}
 		<Loader
 			layout="collapsible"
 			collapsibleType="label"
 			loadingMessage="Reading {defiBalancesDescription} balances from {defiProvider}..."
 			errorMessage="Error getting {defiBalancesDescription} balances from {defiProvider}."
 			loadingIconName={defiProvider}
-			loadingIcon={ZapperIcon}
+			loadingIcon={defiProviderIcons[defiProvider]}
 			fromStore={() => getDefiBalancesForApps({
 				// appIds: web3Apps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zapper ?? [])),
 				network,
@@ -543,13 +540,13 @@
 	{/if}
 
 	<!-- Zerion DeFi SDK -->
-	{#if defiProvider === 'Zerion DeFi SDK'	&& network.chainId === 1}
+	{#if defiProvider === DefiProvider.ZerionDefiSdk && network.chainId === 1}
 		{#if provider}
 			<Loader
 				layout="collapsible"
 				collapsibleType="label"
 				loadingMessage="Reading {defiBalancesDescription} balances from {defiProvider}..."
-				loadingIcon={ZerionIcon}
+				loadingIcon={defiProviderIcons[defiProvider]}
 				errorMessage="Error getting {defiBalancesDescription} balances from {defiProvider}."
 				fromPromise={() => getDefiBalances({
 					protocolNames: web3Apps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zerionDefiSDK ?? [])),
