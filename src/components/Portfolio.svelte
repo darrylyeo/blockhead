@@ -48,8 +48,7 @@
 
 	// Wallet management
 
-
-	let newWalletAddress = ''
+	let newWalletAddress = globalThis.location?.hash.slice(1) ?? ''
 
 	const addAccount = (newWalletAddress: Ethereum.Address) => {
 		goto(`#${newWalletAddress}`)
