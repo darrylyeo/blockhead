@@ -2715,21 +2715,6 @@ export const web3Apps: Web3AppConfig[] = [
 		]
 	},
 	{
-		name: 'EPNS',
-		slug: 'epns',
-		links: ['https://epns.io', 'https://incentives.epns.io'],
-		colors: ['#e20880', '#35c5f3', '#674c9f'],
-		views: [
-			{
-				chainId: 1,
-				providers: {
-					zapper: 'epns',
-					theGraph: 'https://api.thegraph.com/subgraphs/name/epnsproject/epnsprod'
-				}
-			}
-		]
-	},
-	{
 		name: 'Essentia',
 		slug: 'essentia',
 		links: ['https://essentia.one'],
@@ -5840,6 +5825,21 @@ export const web3Apps: Web3AppConfig[] = [
 		]
 	},
 	{
+		name: 'Push',
+		slug: 'push',
+		links: ['https://push.org', 'https://app.push.org'],
+		colors: ['#e20880', '#35c5f3', '#674c9f'],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					zapper: 'epns',
+					theGraph: 'https://api.thegraph.com/subgraphs/name/epnsproject/epnsprod'
+				}
+			}
+		]
+	},
+	{
 		name: 'Qi Dao',
 		slug: 'qi-dao',
 		links: ['https://www.mai.finance'],
@@ -8646,7 +8646,7 @@ export const web3AppsByProviderName = {
 const infrastructureApps = [
 	'ens',
 	'the-graph',
-	'epns',
+	// 'push',
 	'chainlink',
 	'livepeer',
 	'tellor',
