@@ -68,9 +68,17 @@
 	setContext('ethereumProvider', ethereumProvider)
 
 
+
+	// State
+
+	import { browser } from '$app/environment'
+
 	import { preferences } from '../state/preferences'
-	$: if(globalThis.document)
-		globalThis.document.documentElement.className = `color-scheme-${$preferences.theme}`
+
+	$: if(browser)
+		Object.assign(globalThis.document.documentElement?.dataset ?? {}, {
+			'colorScheme': $preferences.theme,
+		})
 </script>
 
 

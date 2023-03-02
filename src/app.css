@@ -100,7 +100,7 @@
 	--rgb-light-dark-inverse: calc(var(--is-dark) * 255), calc(var(--is-dark) * 255), calc(var(--is-dark) * 255);
 }
 @media (prefers-color-scheme: dark) {
-	:root:not(.color-scheme-light) {
+	:root:not([data-color-scheme="light"]) {
 		--card-background-color: rgba(255, 255, 255, 0.1);
 		--card-hover-background-color: rgba(255, 255, 255, 0.12);
 		/* --card-box-shadow: 0px 2px 4px rgba(255, 255, 555, 0.075); */
@@ -118,7 +118,7 @@
 		--is-light: 0;
 	}
 }
-:root.color-scheme-dark {
+:root[data-color-scheme="dark"] {
 	--card-background-color: rgba(255, 255, 255, 0.1);
 	--card-hover-background-color: rgba(255, 255, 255, 0.12);
 	/* --card-box-shadow: 0px 2px 4px rgba(255, 255, 555, 0.075); */
