@@ -24,6 +24,8 @@
 		previousState = state
 	}
 
+	let lastAddedConnectionIndex: number | undefined
+
 
 	// Actions
 
@@ -31,6 +33,8 @@
 
 	const addAccountConnection = (walletType: WalletType) => {
 		$accountConnections = [createAccountConnection({ walletType }), ...$accountConnections]
+
+		lastAddedConnectionIndex = 0
 
 		triggerEvent('AccountConnections/AddConnection', {
 			walletType
@@ -133,6 +137,8 @@
 			bind:walletType
 			bind:autoconnect
 			bind:state
+			isFirstConnection={i === lastAddedConnectionIndex}
+			on:connect={() => { if(i === lastAddedConnectionIndex) lastAddedConnectionIndex = undefined }}
 			on:disconnect={() => removeAccountConnection(i)}
 			on:cancel={() => removeAccountConnection(i)}
 		/>

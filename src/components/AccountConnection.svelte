@@ -14,6 +14,7 @@
 	// External state
 	export let walletType: WalletType
 	export let walletconnectTopic: string
+	export let isFirstConnection = false
 	export let autoconnect = false
 	export let state: AccountConnectionState = {}
 
@@ -81,7 +82,7 @@
 		let:result={walletConnection}
 	>
 		<Loader
-			startImmediately={autoconnect}
+			startImmediately={autoconnect || isFirstConnection}
 			fromStore={() => getAccountConnectionState(walletConnection)}
 
 			loadingIcon={walletsByType[walletType]?.icon}
