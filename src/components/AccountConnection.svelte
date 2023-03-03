@@ -1,4 +1,8 @@
 <script lang="ts">
+	// Context
+	import { preferences } from '../state/preferences'
+
+
 	// Constants/types
 	import { type WalletType, walletConnectionTypes } from '../data/wallets'
 	import { type AccountConnectionState, getAccountConnectionState } from '../state/account'
@@ -19,6 +23,15 @@
 		walletType = state.walletConnection.walletType
 
 
+	// Derived
+	import { matchesMediaQuery } from '../utils/matchesMediaQuery'
+	const prefersDark = matchesMediaQuery('(prefers-color-scheme: dark)') 
+
+	const theme = derived([preferences, prefersDark], ([$preferences, $prefersDark]) => ({
+		mode: $preferences.theme === 'auto' ? $prefersDark ? 'dark' : 'light' : $preferences.theme
+	}))
+
+
 	// Methods/hooks/lifecycle
 
 	import { getWalletConnection } from '../state/walletConnection'
@@ -30,6 +43,9 @@
 	const onDragStart = (e: DragEvent) => {
 		e.dataTransfer.setData('text/plain', state.address)
 	}
+
+
+	import { derived } from 'svelte/store'
 
 
 	// Components
@@ -51,6 +67,7 @@
 			await getWalletConnection({
 				walletType,
 				walletconnectTopic,
+				theme,
 				// chainId,
 			})
 		}

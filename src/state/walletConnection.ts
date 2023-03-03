@@ -128,11 +128,17 @@ const walletconnectMetadata = {
 export const getWalletConnection = async ({
 	walletType,
 	chainId = 1,
+	theme,
 	walletconnectTopic,
 	jsonRpcUri = getNetworkRPC(networksBySlug['ethereum']),
 }: {
 	walletType: WalletType,
 	chainId?: number,
+	theme?: SvelteStore<{
+		mode?: ConstructorParameters<typeof Web3Modal>[0]['themeMode'],
+		color?: ConstructorParameters<typeof Web3Modal>[0]['themeColor'],
+		background?: ConstructorParameters<typeof Web3Modal>[0]['themeBackground'],
+	}>,
 	walletconnectTopic?: string,
 	jsonRpcUri?: string,
 }): Promise<WalletConnection> => {
@@ -452,10 +458,10 @@ export const getWalletConnection = async ({
 										[WalletConnectionType.WalletConnect1_Web3Modal]: 1,
 										[WalletConnectionType.WalletConnect2_Web3Modal]: 2,
 									} as const)[connectionType],
-									// themeMode: ,
-									// themeColor: ,
-									// themeBackground: ,
-									// themeZIndex: ,
+									// themeMode: 'dark',
+									// themeColor: 'blue',
+									// themeBackground: 'gradient',
+									themeZIndex: 19,
 									standaloneChains: chains,
 									// defaultChain: ,
 									// mobileWallets: ,
@@ -463,18 +469,20 @@ export const getWalletConnection = async ({
 									// walletImages: ,
 									// chainImages: ,
 									// tokenImages: ,
-									// enableNetworkView: ,
-									// enableAccountView: ,
+									enableNetworkView: true,
+									enableAccountView: true,
 									// explorerAllowList: ,
 									// explorerDenyList: ,
 									// termsOfServiceUrl: ,
 									// privacyPolicyUrl: ,
 								})
-				
-								web3Modal.setTheme({
-									themeMode: "dark",
-									themeColor: "blue",
-									themeBackground: "gradient",
+
+								theme?.subscribe($theme => {
+									web3Modal.setTheme({
+										themeMode: $theme?.mode ?? 'dark',
+										themeColor: $theme?.color ?? 'blue',
+										themeBackground: $theme?.background ?? 'gradient',
+									})
 								})
 							}
 
