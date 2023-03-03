@@ -5,14 +5,19 @@ export enum WalletType {
 	Rainbow = 'Rainbow',
 	// Tally = 'Tally',
 	WalletConnect = 'WalletConnect',
-	OtherWallet = 'Other',
+	WalletConnect2 = 'WalletConnect2',
 }
 
 export enum WalletConnectionType {
 	InjectedEip1193 = 'injected EIP-1193 provider',
 	InjectedEthereum = 'injected ethereum', // 'injected ethereum provider',
 	InjectedWeb3 = 'injected web3', // 'injected web3 provider',
-	WalletConnect = 'WalletConnect',
+	WalletConnect1 = 'WalletConnect 1.0',
+	WalletConnect1_Web3Modal = 'WalletConnect 1.0 (Web3Modal)',
+	WalletConnect2_Web3Modal = 'WalletConnect 2.0 (Web3Modal)',
+	WalletConnect1_Web3Modal_Standalone = 'WalletConnect 1.0 (Web3Modal)',
+	WalletConnect2_Web3Modal_Standalone = 'WalletConnect 2.0 (Web3Modal)',
+	WalletConnect2_EthereumProvider = 'WalletConnect 2.0 (Ethereum provider)',
 	CoinbaseWalletSDK = 'Coinbase Wallet SDK',
 }
 
@@ -34,7 +39,13 @@ type WalletConfig = {
 }
 
 
-import { CoinbaseWalletIcon, MetaMaskIcon, RainbowIcon, WalletConnectIcon } from '../assets/walletIcons'
+import {
+	CoinbaseWalletIcon,
+	MetaMaskIcon,
+	RainbowIcon,
+	WalletConnectIcon,
+	WalletConnect2Icon,
+} from '../assets/walletIcons'
 
 export const wallets: WalletConfig[] = [
 	{
@@ -46,7 +57,7 @@ export const wallets: WalletConfig[] = [
 		connectionTypes: [
 			WalletConnectionType.InjectedEthereum,
 			WalletConnectionType.InjectedWeb3,
-			WalletConnectionType.WalletConnect,
+			WalletConnectionType.WalletConnect1,
 		],
 
 		injectedEip1193ProviderFlag: 'isMetaMask',
@@ -78,7 +89,7 @@ export const wallets: WalletConfig[] = [
 			WalletConnectionType.InjectedEthereum,
 			WalletConnectionType.InjectedWeb3,
 			WalletConnectionType.CoinbaseWalletSDK,
-			WalletConnectionType.WalletConnect,
+			WalletConnectionType.WalletConnect1,
 		],
 
 		injectedEip1193ProviderFlag: 'isCoinbaseWallet',
@@ -133,12 +144,35 @@ export const wallets: WalletConfig[] = [
 	// },
 	{
 		type: WalletType.WalletConnect,
-		name: 'WalletConnect',
+		name: 'WalletConnect 1.0',
 		icon: WalletConnectIcon,
 		colors: ['#3083FC'],
 
 		connectionTypes: [
-			WalletConnectionType.WalletConnect,
+			WalletConnectionType.WalletConnect1,
+		],
+	},
+	{
+		type: WalletType.WalletConnect,
+		name: 'WalletConnect 1.0 (Web3Modal)',
+		icon: WalletConnectIcon,
+		colors: ['#3083FC'],
+
+		connectionTypes: [
+			WalletConnectionType.WalletConnect1_Web3Modal,
+			WalletConnectionType.WalletConnect1_Web3Modal_Standalone,
+		],
+	},
+	{
+		type: WalletType.WalletConnect2,
+		name: 'WalletConnect 2.0 (Web3Modal)',
+		icon: WalletConnect2Icon,
+		colors: ['#3396ff', '#66b1ff'],
+
+		connectionTypes: [
+			// WalletConnectionType.WalletConnect2_Web3Modal,
+			WalletConnectionType.WalletConnect2_Web3Modal_Standalone,
+			// WalletConnectionType.WalletConnect2_EthereumProvider,
 		],
 	},
 	// {

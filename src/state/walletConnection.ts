@@ -19,12 +19,13 @@ export type WalletConnection = {
 	subscribe?: () => {
 		accounts: Readable<string[]>;
 		chainId: Readable<number>;
+		walletconnectTopic: Readable<string>;
 	},
 	disconnect?: () => void,
 }
 
 
-const connectEip1193 = async (provider: Provider) => {
+const connectEip1193 = async (provider: Provider): Promise<Ethereum.Address[] | undefined> => {
 	try {
 		if(!provider.request){
 			// provider.request = (request) => provider.sendPromise(request.method, request.params)
@@ -36,7 +37,7 @@ const connectEip1193 = async (provider: Provider) => {
 			})
 		}
 
-		return (await provider.request({ method: 'eth_requestAccounts' })) as string[] | undefined
+		return (await provider.request({ method: 'eth_requestAccounts' }))
 	}catch(e){
 		if(e.message.includes('User rejected the request'))
 			throw e
@@ -47,7 +48,7 @@ const connectEip1193 = async (provider: Provider) => {
 import { readable } from 'svelte/store'
 
 const subscribeEip1193 = (provider: Provider) => ({
-	accounts: readable<string[]>([], set => {
+	accounts: readable<Ethereum.Address[]>([], set => {
 		const onAccountsChanged = (accounts: string[]) => set(accounts)
 
 		provider.request({ method: 'eth_accounts' }).then(onAccountsChanged)
@@ -111,23 +112,35 @@ const switchNetworkEip1193 = async ({
 }
 
 
-// import { env } from '../../env'
-import { getNetworkRPC, networksBySlug } from '../data/networks'
+import { env } from '../env'
+import { availableNetworks, getNetworkRPC, networksBySlug } from '../data/networks'
+import type { SessionTypes } from '@walletconnect/types'
+import type { Web3Modal } from '@web3modal/standalone'
+import { parseCaip2Id } from '../utils/parseCaip2Id'
+import whee from '@walletconnect/sign-client'
+console.log({whee})
+
+const walletconnectMetadata = {
+	name: "Blockhead",
+	description: "Track, visualize, and explore all of crypto/DeFi/web3 in ONE interface!",
+	url: "https://blockhead.info",
+	icons: ['/Blockhead-Logo.svg'],
+}
 
 export const getWalletConnection = async ({
 	walletType,
 	chainId = 1,
+	walletconnectTopic,
 	jsonRpcUri = getNetworkRPC(networksBySlug['ethereum']),
-	walletConnectBridgeUri = '' // env.WALLET_CONNECT_BRIDGE_URI
 }: {
 	walletType: WalletType,
 	chainId?: number,
+	walletconnectTopic?: string,
 	jsonRpcUri?: string,
-	walletConnectBridgeUri?: string,
 }): Promise<WalletConnection> => {
 	const walletConfig = walletsByType[walletType]
 
-	for (const connectionType of walletConfig?.connectionTypes ?? []) {
+	for (const connectionType of walletConfig.connectionTypes) {
 		switch (connectionType) {
 			case WalletConnectionType.InjectedEip1193: {
 				const provider = globalThis[walletConfig.injectedEip1193ProviderGlobal]
@@ -249,14 +262,14 @@ export const getWalletConnection = async ({
 				}
 			}
 
-			case WalletConnectionType.WalletConnect: {
+			case WalletConnectionType.WalletConnect1: {
 				const WalletConnectProvider = (await import('@walletconnect/web3-provider')).default
 
 				let provider: WalletConnectProvider = new WalletConnectProvider({
 					rpc: {
 						[chainId]: jsonRpcUri || '',
 					},
-					bridge: walletConnectBridgeUri,
+					bridge: env.WALLETCONNECT1_BRIDGE_URI,
 
 					// Restrict WalletConnect options to the selected wallet
 					...walletConfig.walletConnectMobileLinks
@@ -266,7 +279,7 @@ export const getWalletConnection = async ({
 
 				return {
 					walletType,
-					connectionType: WalletConnectionType.WalletConnect,
+					connectionType: WalletConnectionType.WalletConnect1,
 					provider,
 
 					connect: async () => {
@@ -274,7 +287,7 @@ export const getWalletConnection = async ({
 							rpc: {
 								[chainId]: jsonRpcUri || '',
 							},
-							bridge: walletConnectBridgeUri,
+							bridge: env.WALLETCONNECT1_BRIDGE_URI,
 		
 							// Restrict WalletConnect options to the selected wallet
 							...walletConfig.walletConnectMobileLinks
@@ -296,6 +309,320 @@ export const getWalletConnection = async ({
 					subscribe: () => subscribeEip1193(provider),
 
 					switchNetwork: async (network: Ethereum.Network) => await switchNetworkEip1193({ provider, network }),
+
+					disconnect: async () => {
+						provider.qrcode = false
+						await provider.disconnect()
+					}
+				}
+			}
+
+			case WalletConnectionType.WalletConnect1_Web3Modal:
+			case WalletConnectionType.WalletConnect2_Web3Modal: {
+				const { Core } = (await import('@walletconnect/core'))
+				const { Web3Wallet } = (await import('@walletconnect/web3wallet'))
+
+				const core = new Core({
+					projectId: env.WALLETCONNECT2_PROJECT_ID,
+					// name: '',
+					// relayUrl: '',
+					// logger: 'whee',
+					// keychain: ,
+					// storage: ,
+					// storageOptions: ,
+				})
+
+				const provider = await Web3Wallet.init({
+					core,
+					metadata: walletconnectMetadata,
+				})
+
+				let session: SessionTypes.Struct
+
+				provider.on('session_proposal', async proposal => {
+					session = await provider.approveSession({
+						id: proposal.id,
+						namespaces: {
+							eip155: {
+								accounts: [],
+								methods: [
+									"eth_requestAccounts",
+									"eth_accounts",
+									"eth_chainId",
+									"eth_sendTransaction",
+									"eth_signTransaction",
+									"eth_sign",
+									"eth_signTypedData",
+									"personal_sign",
+								],
+								events: [
+									'accountsChanged',
+									'chainChanged',
+								],
+							},
+						},
+					})
+				})
+
+				return {
+					walletType,
+					connectionType,
+					provider,
+
+					connect: async () => (
+						await provider.core.pairing.pair({ uri: 'https://blockhead.info' })
+					),
+
+					subscribe: () => subscribeEip1193(provider),
+
+					switchNetwork: async (network: Ethereum.Network) => (
+						await provider.emitSessionEvent({
+							topic,
+							event: {
+								name: "accountsChanged",
+								data: ["0xab16a96D359eC26a11e2C2b3d8f8B8942d5Bfcdb"],
+							},
+							chainId: `eip155:${network.chainId}`,
+					  	})
+					),
+
+					disconnect: async () => (
+						await provider.disconnectSession({
+							topic,
+							reason: getSdkError('USER_DISCONNECTED'),
+						})
+					)
+				}
+			}
+
+			case WalletConnectionType.WalletConnect1_Web3Modal_Standalone:
+			case WalletConnectionType.WalletConnect2_Web3Modal_Standalone: {
+				const { default: SignClient } = (await import('@walletconnect/sign-client'))
+
+				const signClient = await SignClient.init({
+					projectId: env.WALLETCONNECT2_PROJECT_ID,
+					relayUrl: env.WALLETCONNECT2_RELAY_URL,
+					metadata: walletconnectMetadata,
+				})
+
+				for(const eventName of [
+					'session_proposal',
+					'session_request',
+					'session_update',
+					'session_delete',
+					'session_event',
+					'session_ping',
+					'session_expire',
+					'session_extend',
+					'proposal_expire',
+				] as const)
+					signClient.events.on?.(eventName, (e) => console.info(eventName, e))
+
+				const sessions = signClient.session.getAll()
+				console.log({sessions})
+
+				let session: SessionTypes.Struct // = walletconnectTopic && sessions.get(walletconnectTopic)
+
+				console.log('session', {walletconnectTopic, session})
+
+				let web3Modal: Web3Modal
+			
+				const onModalClose = (callback: () => void) => {
+					const unsubscribe = web3Modal?.subscribeModal(({ open }) => {
+						if(!open){
+							unsubscribe()
+							callback()
+						}
+					})
+				}
+
+				const chains = availableNetworks.map(network => `eip155:${network.chainId}`)
+
+				return {
+					walletType,
+					connectionType,
+					provider: signClient,
+
+					connect: () => new Promise(async (resolve, reject) => {
+						session ||= await (async () => {
+							const { Web3Modal } = (await import('@web3modal/standalone'))
+			
+							if(!web3Modal){
+								web3Modal = new Web3Modal({
+									projectId: env.WALLETCONNECT2_PROJECT_ID,
+									walletConnectVersion: ({
+										[WalletConnectionType.WalletConnect1_Web3Modal]: 1,
+										[WalletConnectionType.WalletConnect2_Web3Modal]: 2,
+									} as const)[connectionType],
+									// themeMode: ,
+									// themeColor: ,
+									// themeBackground: ,
+									// themeZIndex: ,
+									standaloneChains: chains,
+									// defaultChain: ,
+									// mobileWallets: ,
+									// desktopWallets: ,
+									// walletImages: ,
+									// chainImages: ,
+									// tokenImages: ,
+									// enableNetworkView: ,
+									// enableAccountView: ,
+									// explorerAllowList: ,
+									// explorerDenyList: ,
+									// termsOfServiceUrl: ,
+									// privacyPolicyUrl: ,
+								})
+				
+								web3Modal.setTheme({
+									themeMode: "dark",
+									themeColor: "blue",
+									themeBackground: "gradient",
+								})
+							}
+
+							const { uri, approval } = await signClient.connect({
+								requiredNamespaces: {
+									eip155: {
+										methods: [
+											'eth_requestAccounts',
+											'eth_accounts',
+											'eth_chainId',
+											'eth_sendTransaction',
+											'eth_signTransaction',
+											'eth_sign',
+											'eth_signTypedData',
+											'personal_sign',
+										],
+										chains,
+										events: [
+											'accountsChanged',
+											'chainChanged',
+										],
+									},
+								},
+							})
+
+							if(!uri)
+								throw new Error('Missing wc: uri')
+
+							onModalClose(() => requestAnimationFrame(() => reject(new Error('Closed Web3Modal'))))
+
+							await web3Modal.openModal({ uri, standaloneChains: chains })
+
+							const session = await approval()
+							console.log('approved', session, signClient.session, session === signClient.session)
+
+							console.log({signClient, session})
+							return session
+						})()
+
+						resolve(session?.namespaces.eip155.accounts.map(caip2Id => parseCaip2Id(caip2Id).address))
+
+						web3Modal?.closeModal()
+					}),
+
+					subscribe: () => ({
+						walletconnectTopic: readable<string>(
+							session?.topic,
+							set =>	{
+								set(session?.topic)
+							}
+						),
+
+						accounts: readable<Ethereum.Address[]>(
+							session?.namespaces.eip155.accounts.map(caip2Id => parseCaip2Id(caip2Id).address),
+							set => {
+								signClient.events.on?.('session_event', (e) => console.log(e))
+								signClient.events.on?.('session_update', (e) => console.log(e))
+
+							}
+						),
+					
+						chainId: readable<number>(
+							session?.namespaces.eip155.accounts.map(caip2Id => Number(parseCaip2Id(caip2Id).chainId))[0],
+							set => {}
+						),
+
+						isConnected: readable<boolean>(
+							true,
+							set => {
+								signClient.events.on?.('session_delete', () => set(false))
+								signClient.events.on?.('session_expire', () => set(false))
+							}
+						),
+					}),
+
+					switchNetwork: async (network: Ethereum.Network) => (
+						await signClient.emitSessionEvent({
+							topic: 'topic',
+							event: {
+								name: "accountsChanged",
+								data: ["0xab16a96D359eC26a11e2C2b3d8f8B8942d5Bfcdb"],
+							},
+							chainId: `eip155:${network.chainId}`,
+					  	})
+					),
+
+					disconnect: async () => {
+						web3Modal?.closeModal()
+
+						await signClient.disconnect({
+							topic: 'topic',
+							reason: '',
+						})
+					}
+				}
+			}
+
+			case WalletConnectionType.WalletConnect2_EthereumProvider: {
+				const { EthereumProvider } = (await import('@walletconnect/ethereum-provider'))
+
+				const provider = await EthereumProvider.init({
+					projectId: env.WALLETCONNECT2_PROJECT_ID,
+					chains: availableNetworks.map(network => network.chainId),
+					methods: [
+						"eth_requestAccounts",
+						"eth_accounts",
+						"eth_chainId",
+						"eth_sendTransaction",
+						"eth_signTransaction",
+						"eth_sign",
+						"eth_signTypedData",
+						"personal_sign",
+					],
+					events: [
+						'accountsChanged',
+						'chainChanged',
+					],
+					// rpcMap: Object.fromEntries(availableNetworks.map(network => [network.chainId, network.rpc[0]])),
+					metadata,
+					showQrModal: true,
+				})
+
+				console.log({provider})
+
+				return {
+					walletType,
+					connectionType: WalletConnectionType.WalletConnect2_EthereumProvider,
+					provider,
+
+					connect: async () => {
+						console.log('connecting...')
+						await provider.connect({
+							chains: availableNetworks.map(network => network.chainId),
+							// rpcMap: Object.fromEntries(availableNetworks.map(network => [network.chainId, network.rpc[0]])),
+							// pairingTopic, // OPTIONAL pairing topic
+						})
+						console.log('connected...')
+
+						return await provider.enable()
+					},
+
+					subscribe: () => subscribeEip1193(provider),
+
+					switchNetwork: async (network: Ethereum.Network) => (
+						await switchNetworkEip1193({ provider, network })
+					),
 
 					disconnect: async () => {
 						provider.qrcode = false

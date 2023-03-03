@@ -9,6 +9,7 @@
 
 	// External state
 	export let walletType: WalletType
+	export let walletconnectTopic: string
 	export let autoconnect = false
 	export let state: AccountConnectionState = {}
 
@@ -49,6 +50,7 @@
 		fromPromise={async () =>
 			await getWalletConnection({
 				walletType,
+				walletconnectTopic,
 				// chainId,
 			})
 		}

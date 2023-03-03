@@ -12,6 +12,7 @@ export type AccountConnection = {
 
 export type AccountConnectionState = {
 	walletConnection?: WalletConnection
+	walletconnectTopic?: string
 	signer?: Signer
 	address?: string
 	chainId?: number
@@ -45,6 +46,7 @@ export const serializeAccountConnection = ({
 	id,
 	walletType,
 	state: {
+		walletconnectTopic,
 		address,
 		chainId,
 	} = {},
@@ -53,6 +55,7 @@ export const serializeAccountConnection = ({
 	id,
 	walletType,
 	state: {
+		walletconnectTopic,
 		address,
 		chainId,
 	},
@@ -113,6 +116,14 @@ export const getAccountConnectionState = (walletConnection: WalletConnection) =>
 					data: {
 						...accountConnectionState,
 						chainId
+					}
+				}))
+
+				stores.walletconnectTopic?.subscribe(walletconnectTopic => set({
+					loading: false,
+					data: {
+						...accountConnectionState,
+						walletconnectTopic
 					}
 				}))
 			}

@@ -45,6 +45,15 @@ const config: UserConfig = {
 			exclude: ["@apollo/client", "svelte-apollo"],
 		},
 	},
+
+	// (WalletConnect 2.0)
+	// [vite] failed to connect to websocket.
+	// Check out your Vite / network configuration and https://vitejs.dev/config/server-options.html#server-hmr .
+	server: {
+		hmr: {
+			overlay: false
+		}
+	}
 }
 
 export default config
