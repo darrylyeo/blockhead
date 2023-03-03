@@ -117,8 +117,6 @@ import { availableNetworks, getNetworkRPC, networksBySlug } from '../data/networ
 import type { SessionTypes } from '@walletconnect/types'
 import type { Web3Modal } from '@web3modal/standalone'
 import { parseCaip2Id } from '../utils/parseCaip2Id'
-import whee from '@walletconnect/sign-client'
-console.log({whee})
 
 const walletconnectMetadata = {
 	name: "Blockhead",
@@ -397,11 +395,11 @@ export const getWalletConnection = async ({
 
 			case WalletConnectionType.WalletConnect1_Web3Modal_Standalone:
 			case WalletConnectionType.WalletConnect2_Web3Modal_Standalone: {
-				const { default: SignClient } = (await import('@walletconnect/sign-client'))
+				const { default: SignClient } = await import('@walletconnect/sign-client')
 
 				const signClient = await SignClient.init({
 					projectId: env.WALLETCONNECT2_PROJECT_ID,
-					relayUrl: env.WALLETCONNECT2_RELAY_URL,
+					// relayUrl: env.WALLETCONNECT2_RELAY_URL,
 					metadata: walletconnectMetadata,
 				})
 
@@ -445,7 +443,7 @@ export const getWalletConnection = async ({
 
 					connect: () => new Promise(async (resolve, reject) => {
 						session ||= await (async () => {
-							const { Web3Modal } = (await import('@web3modal/standalone'))
+							const { Web3Modal } = await import('@web3modal/standalone')
 			
 							if(!web3Modal){
 								web3Modal = new Web3Modal({

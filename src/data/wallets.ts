@@ -9,16 +9,52 @@ export enum WalletType {
 }
 
 export enum WalletConnectionType {
-	InjectedEip1193 = 'injected EIP-1193 provider',
-	InjectedEthereum = 'injected ethereum', // 'injected ethereum provider',
-	InjectedWeb3 = 'injected web3', // 'injected web3 provider',
-	WalletConnect1 = 'WalletConnect 1.0',
-	WalletConnect1_Web3Modal = 'WalletConnect 1.0 (Web3Modal)',
-	WalletConnect2_Web3Modal = 'WalletConnect 2.0 (Web3Modal)',
-	WalletConnect1_Web3Modal_Standalone = 'WalletConnect 1.0 (Web3Modal)',
-	WalletConnect2_Web3Modal_Standalone = 'WalletConnect 2.0 (Web3Modal)',
-	WalletConnect2_EthereumProvider = 'WalletConnect 2.0 (Ethereum provider)',
-	CoinbaseWalletSDK = 'Coinbase Wallet SDK',
+	InjectedEip1193 = 'InjectedEip1193',
+	InjectedEthereum = 'InjectedEthereum',
+	InjectedWeb3 = 'InjectedWeb3',
+	WalletConnect1 = 'WalletConnect1',
+	WalletConnect1_Web3Modal = 'WalletConnect1_Web3Modal',
+	WalletConnect2_Web3Modal = 'WalletConnect2_Web3Modal',
+	WalletConnect1_Web3Modal_Standalone = 'WalletConnect1_Web3Modal_Standalone',
+	WalletConnect2_Web3Modal_Standalone = 'WalletConnect2_Web3Modal_Standalone',
+	WalletConnect2_EthereumProvider = 'WalletConnect2_EthereumProvider',
+	CoinbaseWalletSDK = 'CoinbaseWalletSDK',
+}
+
+
+export const walletConnectionTypes: Record<WalletConnectionType, {
+	name: string
+}> = {
+	[WalletConnectionType.InjectedEip1193]: {
+		name: 'injected EIP-1193 provider',
+	},
+	[WalletConnectionType.InjectedEthereum]: {
+		name: 'injected ethereum', // 'injected ethereum provider',
+	},
+	[WalletConnectionType.InjectedWeb3]: {
+		name: 'injected web3', // 'injected web3 provider',
+	},
+	[WalletConnectionType.WalletConnect1]: {
+		name: 'WalletConnect 1.0',
+	},
+	[WalletConnectionType.WalletConnect1_Web3Modal]: {
+		name: 'WalletConnect 1.0 (Web3Modal)',
+	},
+	[WalletConnectionType.WalletConnect2_Web3Modal]: {
+		name: 'WalletConnect 2.0 (Web3Modal)',
+	},
+	[WalletConnectionType.WalletConnect1_Web3Modal_Standalone]: {
+		name: 'WalletConnect 1.0 (Web3Modal)',
+	},
+	[WalletConnectionType.WalletConnect2_Web3Modal_Standalone]: {
+		name: 'WalletConnect 2.0 (Web3Modal)',
+	},
+	[WalletConnectionType.WalletConnect2_EthereumProvider]: {
+		name: 'WalletConnect 2.0 (Ethereum provider)',
+	},
+	[WalletConnectionType.CoinbaseWalletSDK]: {
+		name: 'Coinbase Wallet SDK',
+	},
 }
 
 
@@ -103,7 +139,7 @@ export const wallets: WalletConfig[] = [
 	// 	connectionTypes: [
 	// 		WalletConnectionType.InjectedEthereum,
 	// 		WalletConnectionType.InjectedWeb3,
-	// 		WalletConnectionType.WalletConnect,
+	// 		WalletConnectionType.WalletConnect1,
 	// 	],
 
 	// 	injectedEip1193ProviderFlag: 'isMew',
@@ -125,7 +161,7 @@ export const wallets: WalletConfig[] = [
 		],
 
 		connectionTypes: [
-			WalletConnectionType.WalletConnect,
+			WalletConnectionType.WalletConnect1,
 		],
 	},
 	// {
@@ -135,7 +171,7 @@ export const wallets: WalletConfig[] = [
 	// 	colors: ['#3375BB'],
 
 	// 	connectionTypes: [
-	// 		WalletConnectionType.WalletConnect,
+	// 		WalletConnectionType.WalletConnect1,
 	// 		WalletConnectionType.InjectedEthereum,
 	// 	],
 
@@ -183,7 +219,7 @@ export const wallets: WalletConfig[] = [
 	// 	connectionTypes: [
 	// 		WalletConnectionType.InjectedEthereum,
 	// 		WalletConnectionType.InjectedWeb3,
-	// 		WalletConnectionType.WalletConnect,
+	// 		WalletConnectionType.WalletConnect1,
 	// 	],
 	// },
 ]

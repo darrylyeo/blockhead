@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Constants/types
-	import type { WalletType } from '../data/wallets'
+	import { type WalletType, walletConnectionTypes } from '../data/wallets'
 	import { type AccountConnectionState, getAccountConnectionState } from '../state/account'
 
 	import { walletsByType } from '../data/wallets'
@@ -78,9 +78,11 @@
 			bind:result={state}
 		>
 			<svelte:fragment slot="loadingMessage">
+				{@const walletConnectionTypeConfig = walletConnectionTypes[walletConnection?.connectionType]}
+
 				<p>
 					Connecting to {walletsByType[walletType]?.name}...
-					<br><small>(using {walletConnection?.connectionType})</small>
+					{#if walletConnectionTypeConfig}<br><small>(using {walletConnectionTypeConfig.name})</small>{/if}
 				</p>
 			</svelte:fragment>
 
@@ -209,17 +211,20 @@
 
 			{#if state}
 				{@const walletConfig = walletsByType[state.walletConnection?.walletType]}
+				{@const walletConnectionTypeConfig = walletConnectionTypes[state.walletConnection?.connectionType]}
 
 				<article
 					class="wallet-connection card"
 
-					title="{state.walletConnection?.walletType} via {state.walletConnection?.connectionType}"
+					title="{state.walletConnection?.walletType}{walletConnectionTypeConfig ? `via ${walletConnectionTypeConfig?.name}` : ''}"
 
 					draggable={!!state.address}
 					on:dragstart={onDragStart}
 
 					style={cardStyle([...walletConfig?.colors ?? [], getNetworkColor(networksByChainID[state.chainId])])}
 				>
+					<!-- style="--primary-color: {walletConfig.colors[0]}" -->
+					<!-- {getNetworkColor(networksByChainID[state.chainId])} -->
 					<div class="wallet-icon-container stack">
 						<Icon imageSources={[walletConfig?.icon]} />
 						{#key state.chainId}{#if state.chainId}<div class="network-icon" transition:scale><NetworkIcon network={networksByChainID[state.chainId]} /></div>{/if}{/key}
@@ -238,7 +243,7 @@
 						{#if state.walletConnection}
 							<div class="overflow-ellipsis">
 								{walletConfig.name}
-								<small>({state.walletConnection?.connectionType})</small>
+								<small>({walletConnectionTypeConfig?.name})</small>
 							</div>
 						{/if}
 					</div>
