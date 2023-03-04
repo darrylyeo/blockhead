@@ -161,7 +161,7 @@
 {:else if tokenBalancesProvider === TokenBalancesProvider.Moralis}
 	<Loader
 		layout="collapsible"
-		collapsibleType="details"
+		collapsibleType="label"
 		loadingIcon={tokenBalancesProviderIcons[tokenBalancesProvider]}
 		loadingIconName={tokenBalancesProvider}
 		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
