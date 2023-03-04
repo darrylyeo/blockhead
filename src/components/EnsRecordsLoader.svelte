@@ -95,7 +95,7 @@
 	{layout}
 	loadingIconName={'ENS'}
 	loadingIcon={ENSIcon}
-	loadingMessage={'Getting ENS Resolver...'}
+	loadingMessage={`Getting ENS Resolver${viaRPC}...`}
 	fromUseQuery={provider && ensName ? (
 		useQuery({
 			queryKey: ['EnsResolver', {
@@ -131,7 +131,7 @@
 					queryFn: async () => {
 						if(!resolver.getContentHash)
 							throw `getContentHash is not supported.`
-						console.log({resolver}, resolver?.getContentHash)
+
 						return await resolver.getContentHash()
 					}
 				})
