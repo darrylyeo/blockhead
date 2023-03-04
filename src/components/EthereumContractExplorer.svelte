@@ -64,6 +64,7 @@
 	{#if contractCode !== '0x'} -->
 	<EthereumContractBytecodeLoader
 		{address}
+		{providerName}
 		{provider}
 		{network}
 		showIf={contractCode => !!contractCode}

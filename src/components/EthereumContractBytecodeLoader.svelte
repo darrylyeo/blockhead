@@ -1,22 +1,35 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
 	import { NetworkProvider } from '../data/networkProviders/types';
-	import { networkProviderConfigByProvider } from '../data/networkProviders'
+	import { getEthersProvider, networkProviderConfigByProvider } from '../data/networkProviders'
 	import { preferences } from '../state/preferences'
 	
 	
 	export let address: Ethereum.ContractAddress
 	export let network: Ethereum.Network
+	export let providerName: NetworkProvider
 	export let provider: Ethereum.Provider
+
+	export let transactionProvider
+
+	$: providerName = $$props.providerName ?? $preferences.rpcNetwork
+
+	$: if(network && providerName && !provider)
+		getEthersProvider({
+			network,
+			networkProvider: providerName,
+		}).then(_ => provider = _)
+
+	$: viaRPC = providerName === NetworkProvider.Default ? '' : ` via ${providerName}`
+
+
+	export let showIf: ((contractCode: Ethereum.ContractBytecode) => boolean) | undefined
+
 
 	export let contractCode: Ethereum.ContractBytecode
 	
-	export let showIf: ((contractCode: Ethereum.ContractBytecode) => boolean) | undefined
-	
 
 	import { useQuery } from '@sveltestack/svelte-query'
-
-	$: viaRPC = $preferences.rpcNetwork === NetworkProvider.Default ? '' : ` via ${$preferences.rpcNetwork}`
 
 
 	import Loader from './Loader.svelte'
@@ -28,8 +41,9 @@
 	fromUseQuery={
 		useQuery({
 			queryKey: ['ContractBytecode', {
+				providerName,
+				chainId: network.chainId,
 				address,
-				chainId: network.chainId
 			}],
 			queryFn: async () => (
 				await provider.getCode(address)
