@@ -46,6 +46,7 @@
 <style>
 	.svelvet-container {
 		height: 20rem;
+		resize: both;
 	}
 
 	:global(.Svelvet) {
