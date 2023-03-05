@@ -118,7 +118,6 @@
 		{clip}
 		bind:result={address}
 	>
-	{console.log({address})||address}
 		<slot slot="header" name="header" {address} {ensName} {lensName} {isLens} {isReverseResolving} />
 		<slot {address} {ensName} {lensName} {isLens} {isReverseResolving} />
 	</Loader>
