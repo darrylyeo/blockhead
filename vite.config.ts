@@ -44,7 +44,7 @@ const config: UserConfig = {
 				// import pkg from 'zrender/lib/core/event.js';
 				'zrender',
 			],
-			exclude: ["@apollo/client", "svelte-apollo"],
+			exclude: ["@apollo/client", "svelte-apollo", '@liquality/wallet-sdk'],
 		},
 	},
 
