@@ -167,6 +167,7 @@
 			<EnsDomain
 				{network}
 				{domain}
+				showGraph
 				showRecordResolver
 				showRecords
 			/>
