@@ -384,6 +384,57 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://cchain.explorer.avax-test.network"
 	},
 	{
+		"slug": "base",
+		"name": "Base",
+		"chain": "ETH",
+		"rpc": [],
+		"faucets": [],
+		"nativeCurrency": {
+			"name": "Ether",
+			"symbol": "ETH",
+			"decimals": 18
+		},
+		"infoURL": "https://base.org",
+		"shortName": "base",
+		"chainId": 8453,
+		"networkId": 8453,
+		"status": "incubating"
+	},
+	{
+		"slug": "base-goerli",
+		"name": "Base Goerli Testnet",
+		"chain": "ETH",
+		"rpc": [
+			{
+				"url": "https://goerli.base.org"
+			}
+		],
+		"faucets": [
+			"https://www.coinbase.com/faucets/base-ethereum-goerli-faucet"
+		],
+		"nativeCurrency": {
+			"name": "Goerli Ether",
+			"symbol": "ETH",
+			"decimals": 18
+		},
+		"infoURL": "https://base.org",
+		"shortName": "basegor",
+		"chainId": 84531,
+		"networkId": 84531,
+		"explorers": [
+			{
+				"name": "basescan",
+				"url": "https://goerli.basescan.org",
+				"standard": "none"
+			},
+			{
+				"name": "basescout",
+				"url": "https://base-goerli.blockscout.com",
+				"standard": "none"
+			}
+		]
+	},
+	{
 		"slug": "beresheet-testnet",
 		"name": "Beresheet Testnet",
 		"chainId": 2022,
@@ -5059,6 +5110,9 @@ const testnetSlugsForMainnetSlugs = {
 	'avalanche': [
 		'avalanche-fuji',
 	],
+	'base': [
+		'base-goerli',
+	],
 	'bsc': [
 		'bsc-testnet',
 	],
@@ -5115,6 +5169,8 @@ export const availableNetworks = [
 	'gnosis',
 	'arbitrum-one',
 	'optimism',
+	// 'base',
+	'base-goerli',
 	'avalanche',
 	'fantom',
 	'bsc',
@@ -5135,6 +5191,7 @@ export const ethereumAndL2Networks = [
 
 export const evmL1Networks = [
 	'avalanche',
+	'base',
 	'bsc',
 	'celo',
 	'cronos',
