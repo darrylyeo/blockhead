@@ -7,7 +7,6 @@
 
 	import { getTokenBalances } from '../api/zapper'
 	import { getWalletTokenBalance } from '../api/quicknode'
-	import { ERC20Service } from '@liquality/wallet-sdk'
 
 
 	export let network: Ethereum.Network
@@ -119,13 +118,16 @@
 					address,
 					chainID: network.chainId,
 				}],
-				queryFn: async () => (
-					await import('../api/liquality'),
-					await ERC20Service.listAccountTokens(
+				queryFn: async () => {
+					const { ERC20Service } = await import('@liquality/wallet-sdk')
+
+					await import('../api/liquality')
+
+					return await ERC20Service.listAccountTokens(
 						address,
 						network.chainId
 					)
-				)
+				}
 			})
 		}
 		then={assets => (

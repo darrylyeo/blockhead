@@ -10,7 +10,7 @@
 	
 	import { type Covalent, getTokenAddressBalances } from '../api/covalent'
 
-	import { NftService, type Nft } from '@liquality/wallet-sdk'
+	import type { Nft } from '@liquality/wallet-sdk'
 
 	import { NftportApi } from '../api/nftport'
 	import type { AccountContractsResponse, AccountNftsResponse, AccountRequestSupportedChain } from '../api/nftport/api/Api'
@@ -303,10 +303,16 @@
 					chainID: network.chainId,
 					quoteCurrency: quoteCurrency
 				}],
-				queryFn: () => queue.enqueue(async () => (
-					await import('../api/liquality'),
-					await NftService.getNfts(address, network.chainId)
-				))
+				queryFn: async () => {
+					const { NftService } = await import('@liquality/wallet-sdk')
+
+					await import('../api/liquality')
+
+					return await NftService.getNfts(
+						address,
+						network.chainId
+					)
+				}
 			})
 		}
 		then={normalizeLiqualityNftsAndContracts}
