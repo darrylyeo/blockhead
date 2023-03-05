@@ -22,7 +22,10 @@
 	let sortSubdomains: (d1: ENS.Domain['subdomains'], d2: ENS.Domain['subdomains']) => number
 
 
+	import { formatAddress } from '../utils/formatAddress'
 	import { formatTransactionHash } from '../utils/formatTransactionHash'
+	import { isTruthy } from '../utils/isTruthy'
+	import { withProps } from '../utils/withProps'
 
 
 	import Address from './Address.svelte'
@@ -32,6 +35,7 @@
 	import EnsRecords from './EnsRecords.svelte'
 	import EnsResolver from './EnsResolver.svelte'
 	import InlineContainer from './InlineContainer.svelte'
+	import Svelvet from './Svelvet.svelte'
 
 
 	import { fade, scale } from 'svelte/transition'
@@ -71,7 +75,7 @@
 		/* padding: calc(0.5 * var(--padding-inner)); */
 		flex: 0 auto;
 		max-width: 20em;
-	    overflow: hidden;
+		overflow: hidden;
 		text-overflow: ellipsis;
 	}
 
@@ -90,6 +94,149 @@
 		<h2><EnsName {network} ensName={domain.name} /></h2>
 		<span class="card-annotation">ENS Domain{domain.isMigrated ? ` (ERC721)` : ''}</span>
 	</div>
+
+	<Svelvet
+		defaultNode={{
+			className: 'card',
+			bgColor: 'var(--card-background-color)',
+			borderRadius: 5,
+			borderColor: 'transparent',
+			width: 100,
+			height: 40,
+		}}
+		defaultEdge={{
+			labelBgColor: 'var(--card-background-color)',
+			edgeColor: 'white',
+			arrow: true,
+			arrowHeadSize: 10,
+			animate: true,
+		}}
+		nodes={[
+			domain.parent && {
+				id: 'domain.parent',
+				position: { x: -320, y: -80 },
+				data: {
+					label: domain.parent.name
+				},
+			},
+			{
+				id: 'domain',
+				position: { x: 0, y: 0 },
+				data: {
+					label: domain.name
+				},
+				childNodes: [
+					domain.resolver && 'domain.resolver',
+					domain.owner && 'domain.owner',
+					domain.parent && 'domain.parent',
+					domain.resolvedAddress && 'domain.resolvedAddress',
+				].filter(isTruthy),
+			},
+			...(domain.subdomains ?? []).map((subdomain, i, { length }) => ({
+				id: `domain.subdomain.${i}`,
+				position: { x: 320 - i * 320 / 3, y: 80 + i * 70 },
+				data: {
+					label: subdomain.name,
+				},
+			})),
+			domain.owner && {
+				id: 'domain.owner',
+				position: { x: 0, y: -150 },
+				data: {
+					custom: withProps(Address, {
+						address: domain.owner.id,
+						format: 'middle-truncated',
+					})
+				},
+			},
+			domain.resolver && {
+				id: 'domain.resolver', // domain.resolver.address
+				position: { x: -320, y: 80 },
+				data: {
+					custom: withProps(Address, {
+						address: domain.resolver.address,
+						format: 'middle-truncated',
+					})
+					// html: `
+					// 	<h4>Resolver</h4>
+					// 	<br>
+					// 	<p>${formatAddress(domain.resolver.address, 'middle-truncated')}</p>
+					// `,
+				},
+			},
+			domain.resolvedAddress && {
+				id: 'domain.resolvedAddress',
+				position: { x: 320, y: -80 },
+				data: {
+					custom: withProps(Address, {
+						address: domain.resolvedAddress.id,
+						format: 'middle-truncated',
+					})
+				},
+			},
+		].filter(isTruthy)
+			.map(node => ({
+				...{
+					className: 'card',
+					bgColor: 'var(--card-background-color)',
+					borderRadius: 5,
+					borderColor: 'transparent',
+					width: 180,
+					height: 58,
+				},
+				...node,
+			}))
+		}
+
+		edges={[
+			domain.parent && {
+				id: "domain|domain.parent",
+				source: 'domain',
+				target: 'domain.parent',
+				label: 'subdomain of',
+			},
+			domain.parent && {
+				id: "domain|domain.resolver",
+				source: 'domain',
+				target: 'domain.resolver',
+				label: 'resolves records via',
+			},
+			domain.resolvedAddress && {
+				id: "domain|domain.resolvedAddress",
+				source: 'domain',
+				target: 'domain.resolvedAddress',
+				label: 'resolves to',
+			},
+			domain.owner && {
+				id: "domain|domain.owner",
+				source: 'domain',
+				target: 'domain.owner',
+				label: 'owned by',
+			},
+			...(domain.subdomains ?? []).map((subdomain, i, { length }) => ({
+				id: `domain|domain.subdomain.${i}`,
+				source: 'domain',
+				target: `domain.subdomain.${i}`,
+				label: 'subdomain',
+			})),
+		].filter(isTruthy)
+			.map(edge => ({
+				...{
+					labelBgColor: 'rgba(var(--rgb-light-dark), 0.3)',
+					labelTextColor: 'rgba(var(--rgb-light-dark-inverse), 0.8)',
+					edgeColor: 'rgba(var(--rgb-light-dark-inverse), 0.3)',
+					arrow: true,
+					arrowHeadSize: 20,
+					noHandle: true,
+					// animate: true,
+				},
+				...edge,
+			}))
+		}
+
+		initialLocation={domain.subdomains?.length > 2 ? { x: 90, y: 80 } : { x: 90, y: 0 }}
+		initialZoom={domain.subdomains?.length > 2 ? 0.8 : 1}
+	/>
 
 	<hr>
 

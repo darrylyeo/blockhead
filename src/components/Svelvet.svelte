@@ -45,12 +45,13 @@
 
 <style>
 	.svelvet-container {
-		height: 20rem;
+		height: 28rem;
 		resize: both;
 	}
 
 	:global(.Svelvet) {
 		font: inherit !important;
+		gap: 0 !important;
 	}
 
 	:global(.Svelvet *) {
