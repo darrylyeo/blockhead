@@ -17,7 +17,7 @@
 
 
 	// const pattern = /^(?<address>0x[0-9a-fA-F]{40})|(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))$/g
-	const pattern = /(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))|(?<address>0x[0-9a-fA-F]{40})/
+	const pattern = /(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))|(?<lensName>(?:[^. ]+[.])(?:lens|test))|(?<address>0x[0-9a-fA-F]{40})/
 	// const pattern = /(?<ensName>(?:[^. ]+[.])+(?:eth|xyz|luxe|kred|art|club|test))|(?<address>0x[0-9a-fA-F]{40})|(?<ensTld>(?:eth|xyz|luxe|kred|art|club|test))/
 
 
