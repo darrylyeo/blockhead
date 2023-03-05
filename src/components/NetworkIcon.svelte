@@ -8,13 +8,14 @@
 	// export let defaultToTokenIcon = true
 
 
-	import { ArbitrumIcon, AuroraIcon, CeloIcon, CronosIcon, EvmosIcon, GnosisIcon, HarmonyIcon, MetisIcon, OptimismIcon, SKALEIcon } from '../assets/networkIcons'
+	import { ArbitrumIcon, AuroraIcon, BaseIcon, CeloIcon, CronosIcon, EvmosIcon, GnosisIcon, HarmonyIcon, MetisIcon, OptimismIcon, SKALEIcon } from '../assets/networkIcons'
 	import { tokenIcons } from '../assets/tokenIcons'
 
 	const networkIcons: Record<Ethereum.NetworkName, string> = {
 		'arbitrum-one': ArbitrumIcon,
 		'aurora': AuroraIcon,
 		'avalanche': tokenIcons.AVAX, // AvalancheIcon,
+		'base': BaseIcon,
 		'celo': CeloIcon,
 		'cronos': CronosIcon,
 		'ethereum': tokenIcons.ETH, // EthereumIcon,

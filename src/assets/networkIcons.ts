@@ -1,6 +1,7 @@
 export { default as ArbitrumIcon } from './networks/Arbitrum.svg'
 export { default as AuroraIcon } from './networks/Aurora.svg'
 export { default as AvalancheIcon } from './networks/Avalanche.svg'
+export { default as BaseIcon } from './networks/Base.svg'
 export { default as CeloIcon } from './networks/Celo.svg'
 export { default as CronosIcon } from './networks/Cronos.svg'
 export { default as EvmosIcon } from './networks/Evmos.svg'
