@@ -35,6 +35,8 @@ const config: UserConfig = {
 
 				'@3id/connect',
 
+				'@liquality/wallet-sdk',
+
 				// import { addEventListener, normalizeEvent } from "zrender/lib/core/event.js";
 				//          ^^^^^^^^^^^^^^^^
 				// SyntaxError: Named export 'addEventListener' not found. The requested module 'zrender/lib/core/event.js' is a CommonJS module, which may not support all module.exports as named exports.
