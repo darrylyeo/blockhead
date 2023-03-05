@@ -15,6 +15,7 @@ export class Portfolio {
 
 export enum AccountType {
 	ENS = 'ens',
+	Lens = 'lens',
 	Address = 'address'
 }
 
@@ -23,7 +24,7 @@ export class Account {
 		public id: Ethereum.Address | string,
 		public provider?: Ethereum.Provider,
 		public providerName?: Ethereum.ProviderName,
-		public type: AccountType = isAddress(id) ? AccountType.Address : AccountType.ENS,
+		public type: AccountType = isAddress(id) ? AccountType.Address : id.match(/[.](lens)$/) ? AccountType.Lens : AccountType.ENS,
 		public nickname: string = '',
 		public networks: AccountNetworkSettings[] = getDefaultAccountNetworkSettings(),
 	){}

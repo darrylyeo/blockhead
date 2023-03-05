@@ -302,7 +302,7 @@
 							<form class="bar" on:submit|preventDefault={() => {addAccount(newWalletAddress); state = State.Idle; newWalletAddress = ''}}>
 								<AddressInput
 									bind:address={newWalletAddress}
-									placeholder="Address (0xabcd...6789) / ENS Domain (vitalik.eth)"
+									placeholder="Address (0xabcd...6789) / ENS Domain (vitalik.eth) / Lens Handle (stani.lens)"
 									autofocus
 									required
 								/>

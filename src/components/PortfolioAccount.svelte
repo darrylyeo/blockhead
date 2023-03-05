@@ -282,11 +282,17 @@
 		passiveReverseResolution
 		let:address
 		let:ensName
+		let:lensName
 		clip={false}
 	>
 		<header slot="header" class="bar card sticky">
 			<div class="row-inline">
-				{#if nickname}
+				{#if lensName && type === AccountType.Lens}
+					<h3>{lensName}</h3>
+					{#if address}
+						<small><Address network={networksByChainID[1]} {address} /></small>
+					{/if}
+				{:else if nickname}
 					<h3>{nickname}</h3>
 					{#if address}
 						<small><Address network={networksByChainID[1]} {address} /></small>
