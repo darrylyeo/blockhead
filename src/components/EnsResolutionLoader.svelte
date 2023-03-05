@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { ENS } from '../api/ens'
+	import type { LensName } from '../api/lens'
 	import type { Ethereum } from '../data/networks/types'
 	import { NetworkProvider } from '../data/networkProviders/types'
 	import { getEthersProvider } from '../data/networkProviders'
@@ -30,13 +31,19 @@
 	export let address: Ethereum.Address
 	export let ensName: string
 	export let isReverseResolving: boolean
+	export let lensName: LensName
 
-	$: isReverseResolving = isAddress(addressOrEnsName)
+	$: isLens = !!addressOrEnsName?.match(/[.](lens)$/)
+	$: isReverseResolving = !isLens && isAddress(addressOrEnsName)
+	$: console.log({isLens, isReverseResolving})
 
 	$: if(!addressOrEnsName){
 		address = undefined
 		ensName = undefined
+		lensName = undefined
 		isReverseResolving = undefined
+	}else if(isLens){
+		lensName = addressOrEnsName as LensName
 	}else if(isReverseResolving){
 		address = addressOrEnsName
 	}else{
@@ -84,11 +91,38 @@
 	import Loader from './Loader.svelte'
 
 
-	import { ENSIcon } from '../assets/icons'
+	import { ENSIcon, LensIcon } from '../assets/icons'
 </script>
 
 
-{#if addressOrEnsName && isReverseResolving}
+{#if addressOrEnsName && isLens}
+	<Loader
+		layout={'default'}
+		fromUseQuery={
+			lensName && provider && useQuery({
+				queryKey: ['LensResolution', {
+					lensName,
+				}],
+				queryFn: (async () => {
+					const { getProfile } = await import('../api/lens')
+					const profile = await getProfile({lensName})
+					return profile.data.profile.ownedBy
+				})
+			})
+		}
+		loadingIcon={LensIcon}
+		loadingIconName="Lens Protocol"
+		loadingMessage="Resolving Lens handle to Polygon address..."
+		errorMessage={`Error resolving Lens handle to Polygon address.`}
+		showIf={showIf ? () => showIf({address, ensName, lensName}) : undefined}
+		{clip}
+		bind:result={address}
+	>
+	{console.log({address})||address}
+		<slot slot="header" name="header" {address} {ensName} {lensName} {isLens} {isReverseResolving} />
+		<slot {address} {ensName} {lensName} {isLens} {isReverseResolving} />
+	</Loader>
+{:else if addressOrEnsName && isReverseResolving}
 	<Loader
 		layout={passiveReverseResolution ? 'passive' : 'default'}
 		fromUseQuery={
@@ -109,8 +143,8 @@
 		{clip}
 		bind:result={ensName}
 	>
-		<slot slot="header" name="header" {address} {ensName} {isReverseResolving} />
-		<slot {address} {ensName} {isReverseResolving} />
+		<slot slot="header" name="header" {address} {ensName} {lensName} {isLens} {isReverseResolving} />
+		<slot {address} {ensName} {lensName} {isLens} {isReverseResolving} />
 	</Loader>
 {:else if addressOrEnsName && !isReverseResolving}
 		<!-- fromPromise={async () => (
@@ -136,8 +170,8 @@
 		{clip}
 		bind:result={address}
 	>
-		<slot slot="header" name="header" {address} {ensName} {isReverseResolving} />
-		<slot {address} {ensName} {isReverseResolving} />
+		<slot slot="header" name="header" {address} {ensName} {lensName} {isLens} {isReverseResolving} />
+		<slot {address} {ensName} {lensName} {isLens} {isReverseResolving} />
 	</Loader>
 {:else}
 	<slot name="header" {address} {ensName} {isReverseResolving} />
