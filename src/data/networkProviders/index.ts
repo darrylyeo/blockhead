@@ -280,10 +280,12 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 				1: env.QUICKNODE_ENDPOINT_NAME_1,
 				10: env.QUICKNODE_ENDPOINT_NAME_10,
 				137: env.QUICKNODE_ENDPOINT_NAME_137,
+				84531: env.QUICKNODE_ENDPOINT_NAME_84531,
 			}[network.chainId]}.quiknode.pro/${{
 				1: env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_1,
 				10: env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_10,
 				137: env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_137,
+				84531: env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_84531,
 			}[network.chainId]}/`,
 			network.chainId
 		)
@@ -399,6 +401,8 @@ export const getEthersProvider = memoizedAsync(async ({
 	connectionType?: NetworkProviderConnectionType,
 	nodeType?: NetworkProviderNodeType,
 }) => {
+	if(!globalThis.document) return ''
+
 	const providerConfig = networkProviderConfigByProvider[networkProvider]
 
 	const ethersProvider = providerConfig?.get({
