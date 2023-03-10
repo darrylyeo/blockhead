@@ -4,8 +4,9 @@ export enum WalletType {
 	// MEW = 'MEW',
 	Rainbow = 'Rainbow',
 	// Tally = 'Tally',
-	WalletConnect = 'WalletConnect',
-	WalletConnect2 = 'WalletConnect2',
+	WalletConnect1 = 'WalletConnect1',
+	WalletConnect1_Web3Modal = 'WalletConnect1_Web3Modal',
+	WalletConnect2_Web3Modal = 'WalletConnect2_Web3Modal',
 }
 
 export enum WalletConnectionType {
@@ -179,7 +180,7 @@ export const wallets: WalletConfig[] = [
 	// 	walletConnectMobileLinks: ['trust'],
 	// },
 	{
-		type: WalletType.WalletConnect,
+		type: WalletType.WalletConnect1,
 		name: 'WalletConnect 1.0',
 		icon: WalletConnectIcon,
 		colors: ['#3083FC'],
@@ -189,7 +190,7 @@ export const wallets: WalletConfig[] = [
 		],
 	},
 	{
-		type: WalletType.WalletConnect,
+		type: WalletType.WalletConnect1_Web3Modal,
 		name: 'WalletConnect 1.0 (Web3Modal)',
 		icon: WalletConnectIcon,
 		colors: ['#3083FC'],
@@ -200,7 +201,7 @@ export const wallets: WalletConfig[] = [
 		],
 	},
 	{
-		type: WalletType.WalletConnect2,
+		type: WalletType.WalletConnect2_Web3Modal,
 		name: 'WalletConnect 2.0 (Web3Modal)',
 		icon: WalletConnect2Icon,
 		colors: ['#3396ff', '#66b1ff'],
