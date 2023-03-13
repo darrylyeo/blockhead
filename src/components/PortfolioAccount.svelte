@@ -430,7 +430,7 @@
 								{tokenBalancesProvider}
 								{quoteCurrency}
 								{tokenBalanceFormat} {sortBy} {showSmallValues} {showUnderlyingAssets}
-								isOpen={(isGridLayout ? gridLayoutIsChainExpanded[chainID] : columnLayoutIsSectionExpanded[`${chainID}-${'tokens'}`]) && !isEditing}
+								isOpen={Boolean(isGridLayout ? gridLayoutIsChainExpanded[chainID] : columnLayoutIsSectionExpanded[`${chainID}-${'tokens'}`]) && !isEditing}
 								isScrollable={!isGridLayout} isHorizontal={!isGridLayout}
 								bind:summary={balancesSummaries[i]}
 							>
@@ -521,7 +521,7 @@
 							{defiProvider}
 							{quoteCurrency}
 							{tokenBalanceFormat} {showUnderlyingAssets}
-							isOpen={(isGridLayout ? gridLayoutIsChainExpanded[chainID] : columnLayoutIsSectionExpanded[`${chainID}-${'defi'}`]) && !isEditing}
+							isOpen={Boolean(isGridLayout ? gridLayoutIsChainExpanded[chainID] : columnLayoutIsSectionExpanded[`${chainID}-${'defi'}`]) && !isEditing}
 							isScrollable={!isGridLayout}
 							bind:summary={defiAppsSummaries[i]}
 						>
@@ -601,7 +601,7 @@
 							{nftProvider}
 							{quoteCurrency}
 							{sortBy} {showSmallValues} {showUnderlyingAssets} {showNFTMetadata} {showImagesOnly} {show3D}
-							isOpen={(isGridLayout ? gridLayoutIsChainExpanded[chainID] : columnLayoutIsSectionExpanded[`${chainID}-${'nfts'}`]) && !isEditing}
+							isOpen={Boolean(isGridLayout ? gridLayoutIsChainExpanded[chainID] : columnLayoutIsSectionExpanded[`${chainID}-${'nfts'}`]) && !isEditing}
 							isScrollable={!isGridLayout}
 							bind:summary={nftsSummaries[i]}
 						>
