@@ -48,6 +48,9 @@
 		height: 28rem;
 		resize: both;
 	}
+	.svelvet-container:active {
+		cursor: grabbing;
+	}
 
 	:global(.Svelvet) {
 		font: inherit !important;
@@ -61,5 +64,8 @@
 	:global(.Node) {
 		color: inherit !important;
 		font: inherit !important;
+	}
+	:global(.Node:active) {
+		cursor: grabbing !important;
 	}
 </style>
