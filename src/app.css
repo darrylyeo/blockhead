@@ -213,6 +213,7 @@ button {
 	font: inherit;
 	font-size: 1.15em;
 	font-weight: bold;
+	line-height: 1.5;
 	text-decoration: none;
 	text-shadow: 0px 2px 1px rgba(0, 0, 0, 0.1);
 
