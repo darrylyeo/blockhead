@@ -229,7 +229,7 @@
 						let:pagination
 					>
 						<svelte:fragment slot="header" let:status>
-							<div class="bar">
+							<summary class="bar">
 								<h3>
 									Transactions
 									<InlineContainer isOpen={status === 'resolved'}>(<TweenedNumber value={transactions.length} /><InlineContainer isOpen={pagination?.hasNextPage}>+</InlineContainer>)</InlineContainer>
@@ -246,7 +246,7 @@
 										<option value="exhaustive">Exhaustive</option>
 									</select>
 								</label>
-							</div>
+							</summary>
 						</svelte:fragment>
 
 						<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>

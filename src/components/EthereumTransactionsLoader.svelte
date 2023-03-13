@@ -68,6 +68,7 @@
 
 {:else if transactionProvider === TransactionProvider.Etherspot}
 	<Loader
+		layout="collapsible"
 		loadingIcon={transactionProviderIcons[transactionProvider]}
 		loadingMessage="Retrieving {network.name} transactions from {transactionProvider}..."
 		errorMessage="Error retrieving {network.name} transactions from {transactionProvider}"
@@ -92,6 +93,7 @@
 
 {:else if transactionProvider === TransactionProvider.Moralis}
 	<Loader
+		layout="collapsible"
 		loadingIcon={transactionProviderIcons[transactionProvider]}
 		loadingIconName={transactionProvider}
 		loadingMessage="Retrieving {network.name} transactions from {transactionProvider}..."
