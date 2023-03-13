@@ -421,7 +421,7 @@
 
 				<div class="network-content {isGridLayout ? 'column grid-row' : 'column-block'} sticky-layout">
 					<!-- Token Balances -->
-					{#if showBalances}<section class="token-balances column">
+					{#if showBalances}<section class="token-balances column-block">
 					<!-- <HeightContainer containerClass="token-balances" class="column" isOpen={showBalances}> -->
 						<!-- {#if tokenBalancesProvider === TokenBalancesProvider.Covalent && Covalent.ChainIDs.includes(network.chainId)} -->
 							<EthereumBalances
@@ -436,7 +436,7 @@
 							>
 								<svelte:fragment slot="header" let:summary let:status let:loadingMessage let:errorMessage>
 									<!-- {#if balances.length || isGridLayout} -->
-										<hr>
+										<!-- <hr> -->
 
 										<label class="bar card sticky">
 											<!-- <span class="card-background"><NetworkIcon {network} /></span> -->
@@ -512,7 +512,7 @@
 					<!-- </HeightContainer> -->
 
 					<!-- DeFi Balances -->
-					{#if showDeFi}<section class="defi-balances column">
+					{#if showDeFi}<section class="defi-balances column-block">
 					<!-- <HeightContainer containerClass="defi-balances" class="column" isOpen={showDeFi}> -->
 						<DefiBalances
 							{network}
@@ -527,7 +527,7 @@
 						>
 							<svelte:fragment slot="header" let:status let:summary let:loadingMessage let:errorMessage>
 								<!-- {#if (status === 'resolved' && summary?.defiAppsCount) || status === 'error' || isGridLayout} -->
-									<hr>
+									<!-- <hr> -->
 
 									<label class="bar card sticky">
 										<!-- <span class="card-background"><NetworkIcon {network} /></span> -->
@@ -593,7 +593,7 @@
 					<!-- </HeightContainer> -->
 
 					<!-- NFT Balances -->
-					{#if showNFTs}<section class="nft-balances column">
+					{#if showNFTs}<section class="nft-balances column-block">
 					<!-- <HeightContainer containerClass="nft-balances" class="column" isOpen={showNFTs}> -->
 						<EthereumNftBalances
 							{network}
@@ -607,7 +607,7 @@
 						>
 							<svelte:fragment slot="header" let:summary let:status let:loadingMessage let:errorMessage>
 								<!-- {#if balances?.length || isGridLayout} -->
-									<hr>
+									<!-- <hr> -->
 
 									<label class="bar card sticky">
 										<h4 class="row">

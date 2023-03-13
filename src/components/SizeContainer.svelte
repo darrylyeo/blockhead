@@ -67,6 +67,9 @@
 			position: absolute;
 		}
 	}
+	:global(.column-block) > .container:not(.isOpen) {
+		margin-top: 0;
+	}
 
 	.container.clip {
 		/* clip-path: inset(0); */

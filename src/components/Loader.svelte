@@ -337,7 +337,7 @@
 			</svelte:fragment>
 
 			{#if status === LoadingStatus.Resolved || (fromStore && status === LoadingStatus.Loading && result)}
-				<div class="column" transition:fade>
+				<div class="column-block" transition:fade>
 					<slot
 						{result}
 						{status}
@@ -424,7 +424,7 @@
 				{clip}
 			>
 				{#if status === LoadingStatus.Resolved || (fromStore && status === LoadingStatus.Loading && result)}
-					<div class="column" transition:fade>
+					<div class="column-block" transition:fade>
 						<slot
 							{result}
 							{status}
