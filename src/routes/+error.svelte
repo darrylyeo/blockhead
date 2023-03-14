@@ -46,7 +46,7 @@
 				<span />
 			{/if}
 
-			<a href="./"><button class="small" data-before="↻" on:click={() => globalThis.navigation.reload()}>Reload</button></a>
+			<a href=""><button class="small" data-before="↻" on:click={() => globalThis.navigation.reload()}>Reload</button></a>
 		</div>
 	</section>
 </main>
