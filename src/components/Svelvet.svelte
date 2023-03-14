@@ -37,7 +37,7 @@
 			bgColor="transparent"
 			snap={true}
 			snapTo={1}
-			{...$$props}
+			{...$$restProps}
 		/>
 	{/if}
 </div>
