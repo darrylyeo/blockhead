@@ -11,8 +11,13 @@
 
 
 <style>
-	.column {
-		--padding-inner: 1.5rem;
+	.grid {
+		gap: 1.5rem 2rem;
+		display: flex;
+		flex-wrap: wrap;
+	}
+	.grid > * {
+		flex: 1 auto;
 	}
 
 	.row {
@@ -42,32 +47,55 @@
 		opacity: calc(0.75 + 0.25 * var(--is-dark));
 	}
 
-	section.featured {
+	section {
+		padding-top: 1.5rem;
+		position: relative;
+		gap: 1rem;
+	}
+	section:before {
+		content: '';
+		position: absolute;
+		top: 0;
+		width: 100%;
+
+		background: none;
+		border: none;
+		border-top: currentColor 1px solid;
+		opacity: 0.2;
+	}
+
+	section.featured .content {
+		gap: 1.5rem;
 		font-size: 1.15em;
 	}
-	section:not(.featured) {
+	section:not(.featured) .content {
 		font-size: 0.9em;
 	}
 </style>
 
 
+
 <div class="column" in:fly={{x: 300}} out:fly={{x: -300}}>
-	{#each web3AppsBySection as {title, apps, isFeatured}, i}
-		<hr>
+	<!-- <hr> -->
 
-		<h2>{title}</h2>
+	<div class="grid">
+		{#each web3AppsBySection as {title, apps, isFeatured}, i}
+			<section class="column" class:featured={isFeatured}>
+				<h2>{title}</h2>
 
-		<section class="row" class:featured={isFeatured}>
-			{#each apps as app, i}
-				<a href="/apps/{app.slug}" class="item card" transition:scale={{delay: i * 10}} style={cardStyle(app.colors)}>
-					<h3 class="row">
-						{#each app.views?.flatMap(view => view.erc20Tokens ?? []).filter(Boolean).slice(0, 1) as erc20Token}
-							<TokenIcon {erc20Token} />
-						{/each}
-						<span>{app.name}</span>
-					</h3>
-				</a>
-			{/each}
-		</section>
-	{/each}
+				<div class="content row">
+					{#each apps as app, i}
+						<a href="/apps/{app.slug}" class="item card" transition:scale={{delay: i * 10}} style={cardStyle(app.colors)}>
+							<h3 class="row">
+								{#each app.views?.flatMap(view => view.erc20Tokens ?? []).filter(Boolean).slice(0, 1) as erc20Token}
+									<TokenIcon {erc20Token} />
+								{/each}
+								<span>{app.name}</span>
+							</h3>
+						</a>
+					{/each}
+				</div>
+			</section>
+		{/each}
+	</div>
 </div>
