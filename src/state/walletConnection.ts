@@ -13,7 +13,7 @@ export type Provider = EthersProvider | WalletConnectProvider | CoinbaseWalletPr
 export type WalletConnection = {
 	walletType: WalletType,
 	connectionType: WalletConnectionType,
-	provider: Provider,
+	provider?: Provider,
 	connect: () => void,
 	switchNetwork?: (network: Ethereum.Network) => void,
 	subscribe?: () => {
