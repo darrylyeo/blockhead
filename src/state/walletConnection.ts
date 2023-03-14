@@ -49,7 +49,7 @@ import { readable } from 'svelte/store'
 
 const subscribeEip1193 = (provider: Provider) => ({
 	accounts: readable<Ethereum.Address[]>([], set => {
-		const onAccountsChanged = (accounts: string[]) => set(accounts)
+		const onAccountsChanged = (accounts: string[]) => set(accounts as Ethereum.Address[])
 
 		provider.request({ method: 'eth_accounts' }).then(onAccountsChanged)
 
@@ -58,8 +58,8 @@ const subscribeEip1193 = (provider: Provider) => ({
 		return () => provider.off?.('accountsChanged', onAccountsChanged)
 	}),
 
-	chainId: readable<number>(undefined, set => {
-		const onChainIdChanged = (chainId: number | string) => set(Number(chainId))
+	chainId: readable<Ethereum.ChainID>(undefined, set => {
+		const onChainIdChanged = (chainId: number | string) => set(Number(chainId) as Ethereum.ChainID)
 
 		provider.request({ method: 'eth_chainId' }).then(onChainIdChanged)
 
