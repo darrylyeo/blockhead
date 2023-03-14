@@ -3,6 +3,9 @@
 
 
 	import EthereumLatestBlockNumber from './EthereumLatestBlockNumber.svelte'
+
+
+	import { GitcoinIcon } from '../assets/icons'
 </script>
 
 
@@ -22,7 +25,7 @@
 	ul {
 		list-style-type: none;
 		display: flex;
-		align-items: baseline;
+		align-items: stretch;
 		min-width: min-content;
 	}
 	li {
@@ -33,9 +36,11 @@
 	}
 	li.right {
 		font-size: 0.75em;
+		align-items: center;
 	}
 	li.right a {
-		padding: 0.33rem 0.66rem;
+		/* padding: 0.33rem 0.66rem; */
+		padding: 0.2rem 0.5rem 0;
 	}
 	/* @media (max-width: 43rem) {
 		li.right {
@@ -87,10 +92,10 @@
 		<!-- <li><a aria-current="{$page.url.pathname.startsWith('/trade') ? 'page' : undefined}" href="/trade">Trade</a></li> -->
 		<!-- <li><a aria-current="{$page.url.pathname.startsWith('/invest') ? 'page' : undefined}" href="/invest">Invest</a></li> -->
 
-		<li class="right"><a href="https://bounties.gitcoin.co/grants/2966/blockhead" target="_blank">Gitcoin Grants</a></li>
+		<li class="right"><a href="https://bounties.gitcoin.co/grants/2966/blockhead" target="_blank"><button class="medium" style="--primary-color: #00ae84"><img src={GitcoinIcon} width="16" /> Gitcoin Grants</button></a></li>
 		<!-- <li class="right"><a href="https://discord.gg/966eXqqq7N" target="_blank">Discord</a></li> -->
-		<li class="right"><a href="https://twitter.com/0xblockhead" target="_blank">Twitter</a></li>
-		<li class="right"><a href="/#contact" target="_blank">Feedback</a></li>
+		<li class="right"><a href="https://twitter.com/0xblockhead" target="_blank"><button class="medium" data-before="🐦" style="--primary-color: rgb(29, 155, 240)">Twitter</button></a></li>
+		<li class="right"><a href="/#contact" target="_blank"><button class="medium" data-before="💬" style="--primary-color: #627EEA">Feedback</button></a></li>
 	</ul>
 
 	<!-- <div class="nav-right row">
