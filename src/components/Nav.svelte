@@ -87,7 +87,7 @@
 		<!-- <li><a aria-current="{$page.url.pathname.startsWith('/trade') ? 'page' : undefined}" href="/trade">Trade</a></li> -->
 		<!-- <li><a aria-current="{$page.url.pathname.startsWith('/invest') ? 'page' : undefined}" href="/invest">Invest</a></li> -->
 
-		<li class="right"><a href="https://gitcoin.co/grants/2966/blockhead" target="_blank">Gitcoin Grants</a></li>
+		<li class="right"><a href="https://bounties.gitcoin.co/grants/2966/blockhead" target="_blank">Gitcoin Grants</a></li>
 		<!-- <li class="right"><a href="https://discord.gg/966eXqqq7N" target="_blank">Discord</a></li> -->
 		<li class="right"><a href="https://twitter.com/0xblockhead" target="_blank">Twitter</a></li>
 		<li class="right"><a href="/#contact" target="_blank">Feedback</a></li>
