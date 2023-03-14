@@ -104,15 +104,17 @@
 				bgColor: 'var(--card-background-color)',
 				borderRadius: 5,
 				borderColor: 'transparent',
-				width: 100,
-				height: 40,
+				width: 180,
+				height: 58,
 			}}
 			defaultEdge={{
-				labelBgColor: 'var(--card-background-color)',
-				edgeColor: 'white',
+				labelBgColor: 'rgba(var(--rgb-light-dark), 0.3)',
+				labelTextColor: 'rgba(var(--rgb-light-dark-inverse), 0.8)',
+				edgeColor: 'rgba(var(--rgb-light-dark-inverse), 0.3)',
 				arrow: true,
-				arrowHeadSize: 10,
-				animate: true,
+				arrowHeadSize: 20,
+				noHandle: true,
+				// animate: true,
 			}}
 			nodes={[
 				domain.parent && {
@@ -177,19 +179,7 @@
 						})
 					},
 				},
-			].filter(isTruthy)
-				.map(node => ({
-					...{
-						className: 'card',
-						bgColor: 'var(--card-background-color)',
-						borderRadius: 5,
-						borderColor: 'transparent',
-						width: 180,
-						height: 58,
-					},
-					...node,
-				}))
-			}
+			].filter(isTruthy)}
 
 			edges={[
 				domain.parent && {
@@ -222,20 +212,7 @@
 					target: `domain.subdomain.${i}`,
 					label: 'subdomain',
 				})),
-			].filter(isTruthy)
-				.map(edge => ({
-					...{
-						labelBgColor: 'rgba(var(--rgb-light-dark), 0.3)',
-						labelTextColor: 'rgba(var(--rgb-light-dark-inverse), 0.8)',
-						edgeColor: 'rgba(var(--rgb-light-dark-inverse), 0.3)',
-						arrow: true,
-						arrowHeadSize: 20,
-						noHandle: true,
-						// animate: true,
-					},
-					...edge,
-				}))
-			}
+			].filter(isTruthy)}
 
 			initialLocation={domain.subdomains?.length > 2 ? { x: 90, y: 80 } : { x: 90, y: 0 }}
 			initialZoom={domain.subdomains?.length > 2 ? 0.8 : 1}
