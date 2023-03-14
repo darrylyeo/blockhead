@@ -239,7 +239,7 @@
 				<article
 					class="wallet-connection card"
 
-					title="{state.walletConnection?.walletType}{walletConnectionTypeConfig ? `via ${walletConnectionTypeConfig?.name}` : ''}"
+					title="{walletConfig?.name ?? state.walletConnection?.walletType}{walletConnectionTypeConfig ? ` via ${walletConnectionTypeConfig?.name}` : ''}"
 
 					draggable={!!state.address}
 					on:dragstart={onDragStart}
