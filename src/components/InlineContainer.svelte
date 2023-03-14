@@ -7,7 +7,7 @@
 	inline
 	transitionWidth
 	transitionHeight={false}
-	{...$$props}
+	{...$$restProps}
 >
 	<slot />
 </SizeContainer>

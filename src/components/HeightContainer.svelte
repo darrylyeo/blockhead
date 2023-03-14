@@ -89,7 +89,7 @@
 
 
 <div class="container {containerClass}" bind:this={container} class:regular-animate={!springAnimate} tabindex={isOpen ? undefined : -1}>
-	<section bind:this={content} {...$$props}>
+	<section bind:this={content} {...$$restProps}>
 		<slot />
 	</section>
 </div>
