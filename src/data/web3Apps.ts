@@ -4310,6 +4310,26 @@ export const web3Apps: Web3AppConfig[] = [
 		colors: ['#4fa89b', '#6bcdba'], // unofficial // ['#1AAB9B'],
 		views: [
 			{
+				name: 'Maker Governance',
+				slug: 'governance',
+				colors: ['#1AAB9B'],
+				chainId: 1,
+				erc20Tokens: [
+					{
+						icon: 'https://assets.coingecko.com/coins/images/1364/thumb/Mark_Maker.png?1585191826',
+						chainId: 1,
+						address: '0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2',
+						name: 'Maker',
+						symbol: 'MKR',
+						decimals: 18
+					}
+				],
+				providers: {
+					theGraph: 'https://api.thegraph.com/subgraphs/name/protofire/makerdao-governance',
+					zerionDefiSDK: ['Maker Governance']
+				}
+			},
+			{
 				colors: ['#f4b731'],
 				chainId: 1,
 				erc20Tokens: [
@@ -4335,26 +4355,6 @@ export const web3Apps: Web3AppConfig[] = [
 					zerionDefiSDK: ['Dai Savings Protocol', 'Dai Savings Rate']
 				}
 			},
-			{
-				name: 'Maker Governance',
-				slug: 'governance',
-				colors: ['#1AAB9B'],
-				chainId: 1,
-				erc20Tokens: [
-					{
-						icon: 'https://assets.coingecko.com/coins/images/1364/thumb/Mark_Maker.png?1585191826',
-						chainId: 1,
-						address: '0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2',
-						name: 'Maker',
-						symbol: 'MKR',
-						decimals: 18
-					}
-				],
-				providers: {
-					theGraph: 'https://api.thegraph.com/subgraphs/name/protofire/makerdao-governance',
-					zerionDefiSDK: ['Maker Governance']
-				}
-			}
 		]
 	},
 	{
