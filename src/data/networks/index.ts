@@ -5255,8 +5255,8 @@ export const networkColors = {
 	'skale': '#393939',
 }
 
-export const getNetworkColor = network =>
-	networkColors[network.slug] ?? networkColors[mainnetForTestnet[network.slug]?.slug] ?? ''
+export const getNetworkColor = (network: Ethereum.Network | undefined) =>
+	networkColors[network?.slug] ?? networkColors[mainnetForTestnet[network?.slug]?.slug] ?? ''
 
 
 export function getNetworkRPC(network: Ethereum.Network){

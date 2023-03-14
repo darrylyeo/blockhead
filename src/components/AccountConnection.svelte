@@ -25,6 +25,8 @@
 
 
 	// Derived
+	import { derived } from 'svelte/store'
+
 	import { matchesMediaQuery } from '../utils/matchesMediaQuery'
 	const prefersDark = matchesMediaQuery('(prefers-color-scheme: dark)') 
 
@@ -46,7 +48,9 @@
 	}
 
 
-	import { derived } from 'svelte/store'
+	// Functions
+
+	import { isTruthy } from '../utils/isTruthy'
 
 
 	// Components
@@ -230,6 +234,7 @@
 			{#if state}
 				{@const walletConfig = walletsByType[state.walletConnection?.walletType]}
 				{@const walletConnectionTypeConfig = walletConnectionTypes[state.walletConnection?.connectionType]}
+				{@const network = state.chainId && networksByChainID[state.chainId]}
 
 				<article
 					class="wallet-connection card"
@@ -239,19 +244,19 @@
 					draggable={!!state.address}
 					on:dragstart={onDragStart}
 
-					style={cardStyle([...walletConfig?.colors ?? [], getNetworkColor(networksByChainID[state.chainId])])}
+					style={cardStyle([...walletConfig?.colors ?? [], getNetworkColor(network)].filter(isTruthy))}
 				>
 					<!-- style="--primary-color: {walletConfig.colors[0]}" -->
-					<!-- {getNetworkColor(networksByChainID[state.chainId])} -->
+					<!-- {getNetworkColor(network)} -->
 					<div class="wallet-icon-container stack">
 						<Icon imageSources={[walletConfig?.icon]} />
-						{#key state.chainId}{#if state.chainId}<div class="network-icon" transition:scale><NetworkIcon network={networksByChainID[state.chainId]} /></div>{/if}{/key}
+						{#key state.chainId}{#if network}<div class="network-icon" transition:scale><NetworkIcon {network} /></div>{/if}{/key}
 					</div>
 
 					<div class="column align-start">
 						{#if state.address}
 							<Address
-								address={state.address} network={networksByChainID[state.chainId]}
+								address={state.address} {network}
 								format="middle-truncated"
 							/>
 						{:else}
