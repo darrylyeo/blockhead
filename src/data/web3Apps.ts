@@ -8647,20 +8647,22 @@ const infrastructureApps = [
 	'ens',
 	'the-graph',
 	// 'push',
+].map(slug => web3AppsBySlug[slug])
+
+const oracleNetworks = [
 	'chainlink',
-	'livepeer',
 	'tellor',
 	// 'umbrella',
 ].map(slug => web3AppsBySlug[slug])
 
 const decentralizedExchanges = [
-	'balancer',
+	'uniswap',
 	'curve',
-	// 'kyber',
 	'1inch',
+	'balancer',
+	// 'kyber',
 	'paraswap',
 	'sushi',
-	'uniswap',
 	'0x'
 ].map(slug => web3AppsBySlug[slug])
 
@@ -8668,10 +8670,10 @@ const defiPrimitives = [
 	'aave',
 	'compound',
 	'maker',
-	'superfluid',
-	'synthetix',
-	// 'uma',
 	'yearn',
+	'synthetix',
+	'superfluid',
+	// 'uma',
 ].map(slug => web3AppsBySlug[slug])
 
 const crossChainInfrastructure = [
@@ -8689,6 +8691,7 @@ const institutionalDefi = [
 const socialApps = [
 	'audius',
 	// 'lens',
+	'livepeer',
 	'rarible',
 ].map(slug => web3AppsBySlug[slug])
 
@@ -8698,8 +8701,13 @@ const collectibleCommunities = [
 
 export const web3AppsBySection = [
 	{
-		title: 'Web3 Infrastructure',
+		title: 'Web3 Infrastucture',
 		apps: infrastructureApps,
+		isFeatured: true,
+	},
+	{
+		title: 'Oracle Networks',
+		apps: oracleNetworks,
 		isFeatured: true,
 	},
 	{
@@ -8736,6 +8744,7 @@ export const web3AppsBySection = [
 		title: 'Other Apps',
 		apps: web3Apps.filter(appConfig => ![
 			...infrastructureApps,
+			...oracleNetworks,
 			...crossChainInfrastructure,
 			...defiPrimitives,
 			...decentralizedExchanges,
