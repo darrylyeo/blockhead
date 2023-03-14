@@ -31,7 +31,7 @@
 		'skale': SKALEIcon,
 	}
 
-	$: imageSource = networkIcons[network.slug] || networkIcons[mainnetForTestnet[network.slug]?.slug]
+	$: imageSource = networkIcons[network?.slug] || networkIcons[mainnetForTestnet[network?.slug]?.slug]
 
 
 	import Icon from './Icon.svelte'
@@ -39,6 +39,7 @@
 </script>
 
 
+{#if network}
 <!-- {#if defaultToTokenIcon}
 	<TokenIcon {network} erc20Token={network.nativeCurrency}>
 		<Icon
@@ -69,3 +70,4 @@
 		</slot>
 	</Icon>
 <!-- {/if} -->
+{/if}
