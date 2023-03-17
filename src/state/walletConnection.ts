@@ -666,16 +666,24 @@ export const getWalletConnection = async ({
 					connectionType: WalletConnectionType.WebmaxJs,
 					// provider: ,
 
-					connect: async () => {
+					connect: (isInitiatedByUser = true) => new Promise(async (resolve, reject) => {
+						console.log({isInitiatedByUser})
 						signer = new IntmaxWalletSigner()
+
+						// If popup launched without user interaction, assume blocked by browser and fail after timeout
+						if(!isInitiatedByUser)
+							setTimeout(async () => {
+								reject('Failed to connect automatically (popup blocked).')
+								await signer.closeIntmaxWallet(globalThis.window)
+							}, 5000)
 
 						const account = await signer.connectToAccount()
 
-						return {
+						resolve({
 							accounts: [account.address],
 							chainId: account.chainId,
-						}
-					},
+						})
+					}),
 
 					subscribe: () => ({
 						accounts: readable<Ethereum.Address[]>([signer?._account.address], set => {
