@@ -18,7 +18,7 @@ export enum WalletConnectionType {
 	// WalletConnect2_Web3Modal = 'WalletConnect2_Web3Modal',
 	WalletConnect1_Web3Modal_Standalone = 'WalletConnect1_Web3Modal_Standalone',
 	WalletConnect2_Web3Modal_Standalone = 'WalletConnect2_Web3Modal_Standalone',
-	WalletConnect2_EthereumProvider = 'WalletConnect2_EthereumProvider',
+	// WalletConnect2_EthereumProvider = 'WalletConnect2_EthereumProvider',
 	CoinbaseWalletSDK = 'CoinbaseWalletSDK',
 }
 
@@ -50,9 +50,9 @@ export const walletConnectionTypes: Record<WalletConnectionType, {
 	[WalletConnectionType.WalletConnect2_Web3Modal_Standalone]: {
 		name: 'WalletConnect 2.0 (Web3Modal)',
 	},
-	[WalletConnectionType.WalletConnect2_EthereumProvider]: {
-		name: 'WalletConnect 2.0 (Ethereum provider)',
-	},
+	// [WalletConnectionType.WalletConnect2_EthereumProvider]: {
+	// 	name: 'WalletConnect 2.0 (Ethereum provider)',
+	// },
 	[WalletConnectionType.CoinbaseWalletSDK]: {
 		name: 'Coinbase Wallet SDK',
 	},

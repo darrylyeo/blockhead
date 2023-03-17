@@ -599,62 +599,62 @@ export const getWalletConnection = async ({
 				}
 			}
 
-			case WalletConnectionType.WalletConnect2_EthereumProvider: {
-				const { EthereumProvider } = (await import('@walletconnect/ethereum-provider'))
+			// case WalletConnectionType.WalletConnect2_EthereumProvider: {
+			// 	const { EthereumProvider } = (await import('@walletconnect/ethereum-provider'))
 
-				const provider = await EthereumProvider.init({
-					projectId: env.WALLETCONNECT2_PROJECT_ID,
-					chains: networks.map(network => network.chainId),
-					methods: [
-						"eth_requestAccounts",
-						"eth_accounts",
-						"eth_chainId",
-						"eth_sendTransaction",
-						"eth_signTransaction",
-						"eth_sign",
-						"eth_signTypedData",
-						"personal_sign",
-					],
-					events: [
-						'accountsChanged',
-						'chainChanged',
-					],
-					// rpcMap: Object.fromEntries(networks.map(network => [network.chainId, network.rpc[0]])),
-					// metadata,
-					showQrModal: true,
-				})
+			// 	const provider = await EthereumProvider.init({
+			// 		projectId: env.WALLETCONNECT2_PROJECT_ID,
+			// 		chains: networks.map(network => network.chainId),
+			// 		methods: [
+			// 			"eth_requestAccounts",
+			// 			"eth_accounts",
+			// 			"eth_chainId",
+			// 			"eth_sendTransaction",
+			// 			"eth_signTransaction",
+			// 			"eth_sign",
+			// 			"eth_signTypedData",
+			// 			"personal_sign",
+			// 		],
+			// 		events: [
+			// 			'accountsChanged',
+			// 			'chainChanged',
+			// 		],
+			// 		// rpcMap: Object.fromEntries(networks.map(network => [network.chainId, network.rpc[0]])),
+			// 		metadata: walletconnectMetadata,
+			// 		showQrModal: true,
+			// 	})
 
-				return {
-					walletType,
-					connectionType: WalletConnectionType.WalletConnect2_EthereumProvider,
-					provider,
+			// 	return {
+			// 		walletType,
+			// 		connectionType: WalletConnectionType.WalletConnect2_EthereumProvider,
+			// 		provider,
 
-					connect: async () => {
-						console.log('connecting...')
-						await provider.connect({
-							chains: networks.map(network => network.chainId),
-							// rpcMap: Object.fromEntries(networks.map(network => [network.chainId, network.rpc[0]])),
-							// pairingTopic, // OPTIONAL pairing topic
-						})
-						console.log('connected...')
+			// 		connect: async () => {
+			// 			console.log('connecting...')
+			// 			await provider.connect({
+			// 				chains: networks.map(network => network.chainId),
+			// 				// rpcMap: Object.fromEntries(networks.map(network => [network.chainId, network.rpc[0]])),
+			// 				// pairingTopic, // OPTIONAL pairing topic
+			// 			})
+			// 			console.log('connected...')
 
-						return {
-							accounts: await provider.enable() as Ethereum.Address[]
-						}
-					},
+			// 			return {
+			// 				accounts: await provider.enable() as Ethereum.Address[]
+			// 			}
+			// 		},
 
-					subscribe: () => subscribeEip1193(provider),
+			// 		subscribe: () => subscribeEip1193(provider),
 
-					switchNetwork: async (network: Ethereum.Network) => (
-						await switchNetworkEip1193({ provider, network })
-					),
+			// 		switchNetwork: async (network: Ethereum.Network) => (
+			// 			await switchNetworkEip1193({ provider, network })
+			// 		),
 
-					disconnect: async () => {
-						provider.qrcode = false
-						await provider.disconnect()
-					}
-				}
-			}
+			// 		disconnect: async () => {
+			// 			provider.qrcode = false
+			// 			await provider.disconnect()
+			// 		}
+			// 	}
+			// }
 		}
 	}
 
