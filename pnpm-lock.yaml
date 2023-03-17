@@ -47,6 +47,7 @@ specifiers:
   tslib: ^2.5.0
   typescript: ^4.9.5
   vite: ^4.1.4
+  webmax: ^0.1.9
 
 dependencies:
   '@apollo/client': 3.7.9_gdcq4dv6opitr3wbfwyjmanyra
@@ -74,6 +75,7 @@ dependencies:
   process: 0.11.10
   svelte-apollo: 0.5.0_albwwnhkjwmjo7ljvrjhp5pzbu
   svelvet: 6.0.12
+  webmax: 0.1.9
 
 devDependencies:
   '@playwright/test': 1.31.1
@@ -15832,6 +15834,13 @@ packages:
   /webidl-conversions/6.1.0:
     resolution: {integrity: sha512-qBIvFLGiBpLjfwmYAaHPXsn+ho5xZnGvyGvsarywGNc8VyQJUMHJ8OBKGGrPER0okBeMDaan4mNBlgBROxuI8w==}
     engines: {node: '>=10.4'}
+    dev: false
+
+  /webmax/0.1.9:
+    resolution: {integrity: sha512-8OUBJU/b4p2A7EKMo97/L/0tKd6ITw1Fd9dBO8PENAToBeH+FuA3pXaAC6fFrqhsKzcsQOp4Wsy/pRtcM0h/dQ==}
+    engines: {node: '>=14'}
+    dependencies:
+      bignumber.js: 9.1.1
     dev: false
 
   /webpack-dev-middleware/5.3.3_webpack@5.75.0:

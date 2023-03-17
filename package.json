@@ -45,7 +45,8 @@
     "key-did-resolver": "^1.4.4",
     "process": "^0.11.10",
     "svelte-apollo": "^0.5.0",
-    "svelvet": "^6.0.12"
+    "svelvet": "^6.0.12",
+    "webmax": "^0.1.9"
   },
   "devDependencies": {
     "@playwright/test": "^1.31.1",
