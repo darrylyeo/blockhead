@@ -113,7 +113,7 @@ const switchNetworkEip1193 = async ({
 
 
 import { env } from '../env'
-import { availableNetworks, getNetworkRPC, networksBySlug } from '../data/networks'
+import { availableNetworks, getNetworkRPC, networksByChainID, networksBySlug } from '../data/networks'
 import type { SessionTypes } from '@walletconnect/types'
 import type { Web3Modal } from '@web3modal/standalone'
 import { parseCaip2Id } from '../utils/parseCaip2Id'
@@ -127,13 +127,13 @@ const walletconnectMetadata = {
 
 export const getWalletConnection = async ({
 	walletType,
-	chainId = 1,
+	networks = [networksByChainID[1 as Ethereum.ChainID]], // availableNetworks
 	theme,
 	walletconnectTopic,
 	jsonRpcUri = getNetworkRPC(networksBySlug['ethereum']),
 }: {
 	walletType: WalletType,
-	chainId?: number,
+	networks?: Ethereum.Network[],
 	theme?: SvelteStore<{
 		mode?: ConstructorParameters<typeof Web3Modal>[0]['themeMode'],
 		color?: ConstructorParameters<typeof Web3Modal>[0]['themeColor'],
@@ -239,7 +239,7 @@ export const getWalletConnection = async ({
 
 				const provider: CoinbaseWalletProvider = sdk.makeWeb3Provider(
 					jsonRpcUri,
-					chainId
+					networks[0]?.chainId ?? 1,
 				)
 
 				return {
@@ -270,9 +270,7 @@ export const getWalletConnection = async ({
 				const WalletConnectProvider = (await import('@walletconnect/web3-provider')).default
 
 				let provider: WalletConnectProvider = new WalletConnectProvider({
-					rpc: {
-						[chainId]: jsonRpcUri || '',
-					},
+					rpc: Object.fromEntries(networks.map(network => [network.chainId, jsonRpcUri || network.rpc[0]])),
 					bridge: env.WALLETCONNECT1_BRIDGE_URI,
 
 					// Restrict WalletConnect options to the selected wallet
@@ -288,9 +286,7 @@ export const getWalletConnection = async ({
 
 					connect: async () => {
 						provider = new WalletConnectProvider({
-							rpc: {
-								[chainId]: jsonRpcUri || '',
-							},
+							rpc: Object.fromEntries(networks.map(network => [network.chainId, jsonRpcUri || network.rpc[0]])),
 							bridge: env.WALLETCONNECT1_BRIDGE_URI,
 		
 							// Restrict WalletConnect options to the selected wallet
@@ -440,7 +436,7 @@ export const getWalletConnection = async ({
 					})
 				}
 
-				const chains = availableNetworks.map(network => `eip155:${network.chainId}`)
+				const chains = networks.map(network => `eip155:${network.chainId}`)
 
 				return {
 					walletType,
@@ -585,7 +581,7 @@ export const getWalletConnection = async ({
 
 				const provider = await EthereumProvider.init({
 					projectId: env.WALLETCONNECT2_PROJECT_ID,
-					chains: availableNetworks.map(network => network.chainId),
+					chains: networks.map(network => network.chainId),
 					methods: [
 						"eth_requestAccounts",
 						"eth_accounts",
@@ -600,7 +596,7 @@ export const getWalletConnection = async ({
 						'accountsChanged',
 						'chainChanged',
 					],
-					// rpcMap: Object.fromEntries(availableNetworks.map(network => [network.chainId, network.rpc[0]])),
+					// rpcMap: Object.fromEntries(networks.map(network => [network.chainId, network.rpc[0]])),
 					metadata,
 					showQrModal: true,
 				})
@@ -615,8 +611,8 @@ export const getWalletConnection = async ({
 					connect: async () => {
 						console.log('connecting...')
 						await provider.connect({
-							chains: availableNetworks.map(network => network.chainId),
-							// rpcMap: Object.fromEntries(availableNetworks.map(network => [network.chainId, network.rpc[0]])),
+							chains: networks.map(network => network.chainId),
+							// rpcMap: Object.fromEntries(networks.map(network => [network.chainId, network.rpc[0]])),
 							// pairingTopic, // OPTIONAL pairing topic
 						})
 						console.log('connected...')
