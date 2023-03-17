@@ -655,6 +655,53 @@ export const getWalletConnection = async ({
 			// 		}
 			// 	}
 			// }
+
+			case WalletConnectionType.WebmaxJs: {
+				const { IntmaxWalletSigner } = await import('webmax')
+
+				let signer: IntmaxWalletSigner
+
+				return {
+					walletType,
+					connectionType: WalletConnectionType.WebmaxJs,
+					// provider: ,
+
+					connect: async () => {
+						signer = new IntmaxWalletSigner()
+
+						const account = await signer.connectToAccount()
+
+						return {
+							accounts: [account.address],
+							chainId: account.chainId,
+						}
+					},
+
+					subscribe: () => ({
+						accounts: readable<Ethereum.Address[]>([signer?._account.address], set => {
+							signer.getAddress()
+								.then(address => console.log({address})||set([address as Ethereum.Address]))
+
+							// provider.eventPromiseListener()
+					
+							// return () => {}
+						}),
+					
+						chainId: readable<Ethereum.ChainID>(undefined, set => {
+							signer.getChainId()
+								.then(chainId => set(chainId as Ethereum.ChainID))
+						}),
+					}),
+
+					switchNetwork: async (network: Ethereum.Network) => (
+						await signer.switchChain(network.chainId)
+					),
+
+					disconnect: async () => {
+						await signer.closeIntmaxWallet(globalThis.window)
+					}
+				}
+			}
 		}
 	}
 

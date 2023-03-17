@@ -3,6 +3,7 @@ export enum WalletType {
 	MetaMask = 'MetaMask',
 	// MEW = 'MEW',
 	Rainbow = 'Rainbow',
+	Intmax = 'Intmax',
 	// Tally = 'Tally',
 	WalletConnect1 = 'WalletConnect1',
 	WalletConnect1_Web3Modal = 'WalletConnect1_Web3Modal',
@@ -20,6 +21,7 @@ export enum WalletConnectionType {
 	WalletConnect2_Web3Modal_Standalone = 'WalletConnect2_Web3Modal_Standalone',
 	// WalletConnect2_EthereumProvider = 'WalletConnect2_EthereumProvider',
 	CoinbaseWalletSDK = 'CoinbaseWalletSDK',
+	WebmaxJs = 'WebmaxJs',
 }
 
 
@@ -56,6 +58,9 @@ export const walletConnectionTypes: Record<WalletConnectionType, {
 	[WalletConnectionType.CoinbaseWalletSDK]: {
 		name: 'Coinbase Wallet SDK',
 	},
+	[WalletConnectionType.WebmaxJs]: {
+		name: 'webmax.js',
+	},
 }
 
 
@@ -78,6 +83,7 @@ type WalletConfig = {
 
 import {
 	CoinbaseWalletIcon,
+	IntmaxIcon,
 	MetaMaskIcon,
 	RainbowIcon,
 	WalletConnectIcon,
@@ -210,6 +216,16 @@ export const wallets: WalletConfig[] = [
 			// WalletConnectionType.WalletConnect2_Web3Modal,
 			WalletConnectionType.WalletConnect2_Web3Modal_Standalone,
 			// WalletConnectionType.WalletConnect2_EthereumProvider,
+		],
+	},
+	{
+		type: WalletType.Intmax,
+		name: 'IntmaxWallet',
+		icon: IntmaxIcon,
+		colors: ['#14ded2', '#3680fe', '#d32dfd'],
+
+		connectionTypes: [
+			WalletConnectionType.WebmaxJs,
 		],
 	},
 	// {
