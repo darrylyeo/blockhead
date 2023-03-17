@@ -1,21 +1,23 @@
 
 import type { Signer } from 'ethers'
 import type { WalletType } from '../data/wallets'
-import type { WalletConnection, Provider } from './walletConnection'
+import type { WalletConnection, Provider, WalletconnectTopic } from './walletConnection'
 
 export type AccountConnection = {
 	id: string,
 	walletType: WalletType,
-	state?: AccountConnectionState,
+	walletconnectTopic?: WalletconnectTopic,
 	autoconnect?: boolean,
+	state?: AccountConnectionState,
 }
 
 export type AccountConnectionState = {
 	walletConnection?: WalletConnection
-	walletconnectTopic?: string
 	signer?: Signer
+
 	address?: string
 	chainId?: number
+	walletconnectTopic?: WalletconnectTopic,
 }
 
 
@@ -46,18 +48,18 @@ export const serializeAccountConnection = ({
 	id,
 	walletType,
 	state: {
-		walletconnectTopic,
 		address,
 		chainId,
+		walletconnectTopic,
 	} = {},
 	autoconnect,
 }: AccountConnection) => ({
 	id,
 	walletType,
 	state: {
-		walletconnectTopic,
 		address,
 		chainId,
+		walletconnectTopic,
 	},
 	autoconnect,
 }) as SerializedAccountConnection

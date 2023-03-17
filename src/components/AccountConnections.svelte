@@ -132,9 +132,10 @@
 	class:row-scrollable={layout === 'row'}
 	class:column={layout === 'column'}
 >
-	{#each $accountConnections as { id, walletType, autoconnect, state }, i (id)}
+	{#each $accountConnections as { id, walletType, walletconnectTopic, autoconnect, state }, i (id)}
 		<AccountConnection
 			bind:walletType
+			bind:walletconnectTopic
 			bind:autoconnect
 			bind:state
 			isFirstConnection={i === lastAddedConnectionIndex}

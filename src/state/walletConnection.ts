@@ -1,25 +1,36 @@
+import type { BrandedString } from '../utils/branded'
+import type { Readable } from 'svelte/store'
+
+
+import type { Ethereum } from '../data/networks/types'
 import { type WalletType, WalletConnectionType, walletsByType } from '../data/wallets'
 
 
-import type { Readable } from 'svelte/store'
-import type { Ethereum } from '../data/networks/types'
-
 import type { Provider as EthersProvider } from 'ethers'
+
+
 import type { CoinbaseWalletProvider } from '@coinbase/wallet-sdk'
+
+
 import type WalletConnectProvider from '@walletconnect/web3-provider'
+
+export type WalletconnectTopic = BrandedString<'WalletconnectTopic'>
+
 
 export type Provider = EthersProvider | WalletConnectProvider | CoinbaseWalletProvider
 
 export type WalletConnection = {
 	walletType: WalletType,
 	connectionType: WalletConnectionType,
+
 	provider?: Provider,
+
 	connect: () => Promise<Ethereum.Address[] | void>,
 	switchNetwork?: (network: Ethereum.Network) => void,
 	subscribe?: () => {
 		accounts: Readable<Ethereum.Address[]>;
 		chainId: Readable<Ethereum.ChainID>;
-		walletconnectTopic?: Readable<string>;
+		walletconnectTopic?: WalletconnectTopic,
 	},
 	disconnect?: () => void,
 }
@@ -127,19 +138,19 @@ const walletconnectMetadata = {
 
 export const getWalletConnection = async ({
 	walletType,
+	walletconnectTopic,
 	networks = [networksByChainID[1 as Ethereum.ChainID]], // availableNetworks
 	theme,
-	walletconnectTopic,
 	jsonRpcUri = getNetworkRPC(networksBySlug['ethereum']),
 }: {
 	walletType: WalletType,
+	walletconnectTopic?: WalletconnectTopic,
 	networks?: Ethereum.Network[],
 	theme?: SvelteStore<{
 		mode?: ConstructorParameters<typeof Web3Modal>[0]['themeMode'],
 		color?: ConstructorParameters<typeof Web3Modal>[0]['themeColor'],
 		background?: ConstructorParameters<typeof Web3Modal>[0]['themeBackground'],
 	}>,
-	walletconnectTopic?: string,
 	jsonRpcUri?: string,
 }): Promise<WalletConnection> => {
 	const walletConfig = walletsByType[walletType]
@@ -420,11 +431,8 @@ export const getWalletConnection = async ({
 					signClient.events.on?.(eventName, (e) => console.info(eventName, e))
 
 				const sessions = signClient.session.getAll()
-				console.log({sessions})
 
-				let session: SessionTypes.Struct // = walletconnectTopic && sessions.get(walletconnectTopic)
-
-				console.log('session', {walletconnectTopic, session})
+				let session: SessionTypes.Struct | void = walletconnectTopic ? sessions.find(session => session.topic === walletconnectTopic) : undefined
 
 				let web3Modal: Web3Modal
 			
@@ -513,9 +521,10 @@ export const getWalletConnection = async ({
 							await web3Modal.openModal({ uri, standaloneChains: chains })
 
 							const session = await approval()
-							console.log('approved', session, signClient.session, session === signClient.session)
 
+							console.log('approved', session, signClient.session, session === signClient.session)
 							console.log({signClient, session})
+
 							return session
 						})().catch(reject)
 
@@ -525,19 +534,13 @@ export const getWalletConnection = async ({
 					}),
 
 					subscribe: () => ({
-						walletconnectTopic: readable<string>(
-							session?.topic,
-							set =>	{
-								set(session?.topic)
-							}
-						),
+						walletconnectTopic: readable(session?.topic as WalletconnectTopic),
 
 						accounts: readable<Ethereum.Address[]>(
 							session?.namespaces.eip155.accounts.map(caip2Id => parseCaip2Id(caip2Id).address!),
 							set => {
 								signClient.events.on?.('session_event', (e) => console.log(e))
 								signClient.events.on?.('session_update', (e) => console.log(e))
-
 							}
 						),
 					
@@ -557,7 +560,7 @@ export const getWalletConnection = async ({
 
 					switchNetwork: async (network: Ethereum.Network) => (
 						await signClient.emitSessionEvent({
-							topic: 'topic',
+							topic: walletconnectTopic as string,
 							event: {
 								name: "accountsChanged",
 								data: ["0xab16a96D359eC26a11e2C2b3d8f8B8942d5Bfcdb"],
@@ -570,7 +573,7 @@ export const getWalletConnection = async ({
 						web3Modal?.closeModal()
 
 						await signClient.disconnect({
-							topic: 'topic',
+							topic: walletconnectTopic as string,
 							reason: '',
 						})
 					}
@@ -598,11 +601,9 @@ export const getWalletConnection = async ({
 						'chainChanged',
 					],
 					// rpcMap: Object.fromEntries(networks.map(network => [network.chainId, network.rpc[0]])),
-					metadata,
+					// metadata,
 					showQrModal: true,
 				})
-
-				console.log({provider})
 
 				return {
 					walletType,

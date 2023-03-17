@@ -5,7 +5,8 @@
 
 	// Constants/types
 	import { type WalletType, walletConnectionTypes } from '../data/wallets'
-	import { type AccountConnectionState, getAccountConnectionState } from '../state/account'
+	import type { AccountConnectionState } from '../state/account'
+	import type { WalletconnectTopic } from '../state/walletConnection'
 
 	import { walletsByType } from '../data/wallets'
 	import { networksByChainID, getNetworkColor } from '../data/networks'
@@ -13,7 +14,7 @@
 
 	// External state
 	export let walletType: WalletType
-	export let walletconnectTopic: string
+	export let walletconnectTopic: WalletconnectTopic | undefined
 	export let isFirstConnection = false
 	export let autoconnect = false
 	export let state: AccountConnectionState = {}
@@ -22,6 +23,9 @@
 	// Shared state
 	$: if(state?.walletConnection?.walletType)
 		walletType = state.walletConnection.walletType
+
+	$: if(state?.walletconnectTopic)
+		walletconnectTopic = state.walletconnectTopic
 
 
 	// Derived
@@ -38,6 +42,8 @@
 	// Methods/hooks/lifecycle
 
 	import { getWalletConnection } from '../state/walletConnection'
+
+	import { getAccountConnectionState } from '../state/account'
 
 	import { createEventDispatcher } from 'svelte'
 	const dispatch = createEventDispatcher()
