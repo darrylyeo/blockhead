@@ -452,8 +452,8 @@ export const getWalletConnection = async ({
 								web3Modal = new Web3Modal({
 									projectId: env.WALLETCONNECT2_PROJECT_ID,
 									walletConnectVersion: ({
-										[WalletConnectionType.WalletConnect1_Web3Modal]: 1,
-										[WalletConnectionType.WalletConnect2_Web3Modal]: 2,
+										[WalletConnectionType.WalletConnect1_Web3Modal_Standalone]: 1,
+										[WalletConnectionType.WalletConnect2_Web3Modal_Standalone]: 2,
 									} as const)[connectionType],
 									// themeMode: 'dark',
 									// themeColor: 'blue',
