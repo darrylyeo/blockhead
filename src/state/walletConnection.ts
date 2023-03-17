@@ -25,7 +25,7 @@ export type WalletConnection = {
 
 	provider?: Provider,
 
-	connect: () => Promise<Partial<{
+	connect: (isInitiatedByUser?: boolean) => Promise<Partial<{
 		accounts?: Ethereum.Address[],
 		chainId?: Ethereum.ChainID
 		walletconnectTopic?: WalletconnectTopic,

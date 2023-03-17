@@ -93,7 +93,10 @@
 	>
 		<Loader
 			startImmediately={autoconnect || isFirstConnection}
-			fromStore={() => getAccountConnectionState(walletConnection)}
+			fromStore={() => getAccountConnectionState({
+				walletConnection,
+				isInitiatedByUser: !autoconnect,
+			})}
 
 			loadingIcon={walletsByType[walletType]?.icon}
 
