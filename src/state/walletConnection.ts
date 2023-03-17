@@ -25,13 +25,19 @@ export type WalletConnection = {
 
 	provider?: Provider,
 
-	connect: () => Promise<Ethereum.Address[] | void>,
-	switchNetwork?: (network: Ethereum.Network) => void,
+	connect: () => Promise<Partial<{
+		accounts?: Ethereum.Address[],
+		chainId?: Ethereum.ChainID
+		walletconnectTopic?: WalletconnectTopic,
+	}>>
+
 	subscribe?: () => {
 		accounts: Readable<Ethereum.Address[]>;
 		chainId: Readable<Ethereum.ChainID>;
-		walletconnectTopic?: WalletconnectTopic,
 	},
+
+	switchNetwork?: (network: Ethereum.Network) => void,
+
 	disconnect?: () => void,
 }
 
@@ -41,17 +47,21 @@ const connectEip1193 = async (provider: Provider) => {
 		if(!provider.request){
 			// provider.request = (request) => provider.sendPromise(request.method, request.params)
 			provider.request = async (request) => await new Promise((resolve, reject) => {
-				provider.sendAsync(request, (error, result: Ethereum.Address[]) => {
-					// console.log('sendAsync', error, result)
-					error ? reject(error) : resolve(result)
+				provider.sendAsync(request, (error, accounts: Ethereum.Address[]) => {
+					// console.log('sendAsync', error, accounts)
+					error ? reject(error) : resolve(accounts)
 				})
 			})
 		}
 
-		return await provider.request({ method: 'eth_requestAccounts' }) as Ethereum.Address[]
+		return {
+			accounts: await provider.request({ method: 'eth_requestAccounts' }) as Ethereum.Address[]
+		}
 	}catch(e){
 		if(e.message.includes('User rejected the request'))
 			throw e
+
+		return {}
 	}
 }
 
@@ -260,10 +270,14 @@ export const getWalletConnection = async ({
 
 					connect: async () => {
 						try {
-							return await provider.request({ method: 'eth_requestAccounts' })
+							return {
+								accounts: await provider.request({ method: 'eth_requestAccounts' })
+							}
 						}catch(e){
 							if(e.message.includes('User denied account authorization'))
 								throw e
+
+							return {}
 						}
 					},
 
@@ -307,13 +321,17 @@ export const getWalletConnection = async ({
 						})
 
 						try {
-							return await provider.enable() as Ethereum.Address[]
+							return {
+								accounts: await provider.enable() as Ethereum.Address[]
+							}
 						}catch(e){
 							if(
 								e.message.includes('User closed WalletConnect modal') ||
 								e.message.includes('User closed modal')
 							)
 								throw e
+							
+							return {}
 						}
 					},
 
@@ -528,14 +546,15 @@ export const getWalletConnection = async ({
 							return session
 						})().catch(reject)
 
-						resolve(session?.namespaces.eip155.accounts.map(caip2Id => parseCaip2Id(caip2Id).address))
+						resolve({
+							accounts: session?.namespaces.eip155.accounts.map(caip2Id => parseCaip2Id(caip2Id).address!),
+							walletconnectTopic: session?.topic as WalletconnectTopic,
+						})
 
 						web3Modal?.closeModal()
 					}),
 
 					subscribe: () => ({
-						walletconnectTopic: readable(session?.topic as WalletconnectTopic),
-
 						accounts: readable<Ethereum.Address[]>(
 							session?.namespaces.eip155.accounts.map(caip2Id => parseCaip2Id(caip2Id).address!),
 							set => {
@@ -619,7 +638,9 @@ export const getWalletConnection = async ({
 						})
 						console.log('connected...')
 
-						return await provider.enable() as Ethereum.Address[]
+						return {
+							accounts: await provider.enable() as Ethereum.Address[]
+						}
 					},
 
 					subscribe: () => subscribeEip1193(provider),

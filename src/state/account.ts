@@ -88,13 +88,15 @@ export const getAccountConnectionState = (walletConnection: WalletConnection) =>
 	readable<Result<AccountConnectionState>>(
 		{loading: true},
 		set => void (async () => {
-			const accounts = await walletConnection.connect()
+			const { accounts, chainId, walletconnectTopic } = await walletConnection.connect()
 
 			const accountConnectionState: AccountConnectionState = {
 				walletConnection,
 				signer: walletConnection.provider && getSigner(walletConnection.provider),
+
 				address: accounts?.[0],
-				chainId: undefined,
+				chainId,
+				walletconnectTopic,
 			}
 
 			set({
@@ -118,14 +120,6 @@ export const getAccountConnectionState = (walletConnection: WalletConnection) =>
 					data: {
 						...accountConnectionState,
 						chainId
-					}
-				}))
-
-				stores.walletconnectTopic?.subscribe(walletconnectTopic => set({
-					loading: false,
-					data: {
-						...accountConnectionState,
-						walletconnectTopic
 					}
 				}))
 			}
