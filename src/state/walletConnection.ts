@@ -114,7 +114,7 @@ const switchNetworkEip1193 = async ({
 
 import { env } from '../env'
 import { availableNetworks, getNetworkRPC, networksByChainID, networksBySlug } from '../data/networks'
-import type { SessionTypes } from '@walletconnect/types'
+import type { PairingTypes, SessionTypes } from '@walletconnect/types'
 import type { Web3Modal } from '@web3modal/standalone'
 import { parseCaip2Id } from '../utils/parseCaip2Id'
 
@@ -317,83 +317,84 @@ export const getWalletConnection = async ({
 				}
 			}
 
-			case WalletConnectionType.WalletConnect1_Web3Modal:
-			case WalletConnectionType.WalletConnect2_Web3Modal: {
-				const { Core } = (await import('@walletconnect/core'))
-				const { Web3Wallet } = (await import('@walletconnect/web3wallet'))
+			// case WalletConnectionType.WalletConnect1_Web3Modal:
+			// case WalletConnectionType.WalletConnect2_Web3Modal: {
+			// 	const { Core } = (await import('@walletconnect/core'))
+			// 	const { Web3Wallet } = (await import('@walletconnect/web3wallet'))
 
-				const core = new Core({
-					projectId: env.WALLETCONNECT2_PROJECT_ID,
-					// name: '',
-					// relayUrl: '',
-					// logger: 'whee',
-					// keychain: ,
-					// storage: ,
-					// storageOptions: ,
-				})
+			// 	const core = new Core({
+			// 		projectId: env.WALLETCONNECT2_PROJECT_ID,
+			// 		// name: '',
+			// 		// relayUrl: '',
+			// 		// logger: 'whee',
+			// 		// keychain: ,
+			// 		// storage: ,
+			// 		// storageOptions: ,
+			// 	})
 
-				const provider = await Web3Wallet.init({
-					core,
-					metadata: walletconnectMetadata,
-				})
+			// 	const provider = await Web3Wallet.init({
+			// 		core,
+			// 		metadata: walletconnectMetadata,
+			// 	})
 
-				let session: SessionTypes.Struct
+			// 	let session: SessionTypes.Struct
+			// 	let pairing: PairingTypes.Struct
 
-				provider.on('session_proposal', async proposal => {
-					session = await provider.approveSession({
-						id: proposal.id,
-						namespaces: {
-							eip155: {
-								accounts: [],
-								methods: [
-									"eth_requestAccounts",
-									"eth_accounts",
-									"eth_chainId",
-									"eth_sendTransaction",
-									"eth_signTransaction",
-									"eth_sign",
-									"eth_signTypedData",
-									"personal_sign",
-								],
-								events: [
-									'accountsChanged',
-									'chainChanged',
-								],
-							},
-						},
-					})
-				})
+			// 	provider.on('session_proposal', async proposal => {
+			// 		session = await provider.approveSession({
+			// 			id: proposal.id,
+			// 			namespaces: {
+			// 				eip155: {
+			// 					accounts: [],
+			// 					methods: [
+			// 						"eth_requestAccounts",
+			// 						"eth_accounts",
+			// 						"eth_chainId",
+			// 						"eth_sendTransaction",
+			// 						"eth_signTransaction",
+			// 						"eth_sign",
+			// 						"eth_signTypedData",
+			// 						"personal_sign",
+			// 					],
+			// 					events: [
+			// 						'accountsChanged',
+			// 						'chainChanged',
+			// 					],
+			// 				},
+			// 			},
+			// 		})
+			// 	})
 
-				return {
-					walletType,
-					connectionType,
-					provider,
+			// 	return {
+			// 		walletType,
+			// 		connectionType,
+			// 		provider,
 
-					connect: async () => (
-						await provider.core.pairing.pair({ uri: 'https://blockhead.info' })
-					),
+			// 		connect: async () => {
+			// 			pairing = await provider.core.pairing.pair({ uri: 'https://blockhead.info' })
+			// 		},
 
-					subscribe: () => subscribeEip1193(provider),
+			// 		subscribe: () => subscribeEip1193(provider),
 
-					switchNetwork: async (network: Ethereum.Network) => (
-						await provider.emitSessionEvent({
-							topic,
-							event: {
-								name: "accountsChanged",
-								data: ["0xab16a96D359eC26a11e2C2b3d8f8B8942d5Bfcdb"],
-							},
-							chainId: `eip155:${network.chainId}`,
-					  	})
-					),
+			// 		switchNetwork: async (network: Ethereum.Network) => (
+			// 			await provider.emitSessionEvent({
+			// 				topic,
+			// 				event: {
+			// 					name: "accountsChanged",
+			// 					data: ["0xab16a96D359eC26a11e2C2b3d8f8B8942d5Bfcdb"],
+			// 				},
+			// 				chainId: `eip155:${network.chainId}`,
+			// 		  	})
+			// 		),
 
-					disconnect: async () => (
-						await provider.disconnectSession({
-							topic,
-							reason: getSdkError('USER_DISCONNECTED'),
-						})
-					)
-				}
-			}
+			// 		disconnect: async () => {
+			// 			await provider.disconnectSession({
+			// 				topic,
+			// 				reason: getSdkError('USER_DISCONNECTED'),
+			// 			})
+			// 		}
+			// 	}
+			// }
 
 			case WalletConnectionType.WalletConnect1_Web3Modal_Standalone:
 			case WalletConnectionType.WalletConnect2_Web3Modal_Standalone: {

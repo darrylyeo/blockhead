@@ -14,8 +14,8 @@ export enum WalletConnectionType {
 	InjectedEthereum = 'InjectedEthereum',
 	InjectedWeb3 = 'InjectedWeb3',
 	WalletConnect1 = 'WalletConnect1',
-	WalletConnect1_Web3Modal = 'WalletConnect1_Web3Modal',
-	WalletConnect2_Web3Modal = 'WalletConnect2_Web3Modal',
+	// WalletConnect1_Web3Modal = 'WalletConnect1_Web3Modal',
+	// WalletConnect2_Web3Modal = 'WalletConnect2_Web3Modal',
 	WalletConnect1_Web3Modal_Standalone = 'WalletConnect1_Web3Modal_Standalone',
 	WalletConnect2_Web3Modal_Standalone = 'WalletConnect2_Web3Modal_Standalone',
 	WalletConnect2_EthereumProvider = 'WalletConnect2_EthereumProvider',
@@ -38,12 +38,12 @@ export const walletConnectionTypes: Record<WalletConnectionType, {
 	[WalletConnectionType.WalletConnect1]: {
 		name: 'WalletConnect 1.0',
 	},
-	[WalletConnectionType.WalletConnect1_Web3Modal]: {
-		name: 'WalletConnect 1.0 (Web3Modal)',
-	},
-	[WalletConnectionType.WalletConnect2_Web3Modal]: {
-		name: 'WalletConnect 2.0 (Web3Modal)',
-	},
+	// [WalletConnectionType.WalletConnect1_Web3Modal]: {
+	// 	name: 'WalletConnect 1.0 (Web3Modal)',
+	// },
+	// [WalletConnectionType.WalletConnect2_Web3Modal]: {
+	// 	name: 'WalletConnect 2.0 (Web3Modal)',
+	// },
 	[WalletConnectionType.WalletConnect1_Web3Modal_Standalone]: {
 		name: 'WalletConnect 1.0 (Web3Modal)',
 	},
@@ -196,7 +196,7 @@ export const wallets: WalletConfig[] = [
 		colors: ['#3083FC'],
 
 		connectionTypes: [
-			WalletConnectionType.WalletConnect1_Web3Modal,
+			// WalletConnectionType.WalletConnect1_Web3Modal,
 			WalletConnectionType.WalletConnect1_Web3Modal_Standalone,
 		],
 	},
