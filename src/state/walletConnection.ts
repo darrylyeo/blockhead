@@ -520,7 +520,7 @@ export const getWalletConnection = async ({
 
 							console.log({signClient, session})
 							return session
-						})()
+						})().catch(reject)
 
 						resolve(session?.namespaces.eip155.accounts.map(caip2Id => parseCaip2Id(caip2Id).address))
 
