@@ -14,30 +14,30 @@ export type WalletConnection = {
 	walletType: WalletType,
 	connectionType: WalletConnectionType,
 	provider?: Provider,
-	connect: () => void,
+	connect: () => Promise<Ethereum.Address[] | void>,
 	switchNetwork?: (network: Ethereum.Network) => void,
 	subscribe?: () => {
-		accounts: Readable<string[]>;
-		chainId: Readable<number>;
-		walletconnectTopic: Readable<string>;
+		accounts: Readable<Ethereum.Address[]>;
+		chainId: Readable<Ethereum.ChainID>;
+		walletconnectTopic?: Readable<string>;
 	},
 	disconnect?: () => void,
 }
 
 
-const connectEip1193 = async (provider: Provider): Promise<Ethereum.Address[] | undefined> => {
+const connectEip1193 = async (provider: Provider) => {
 	try {
 		if(!provider.request){
 			// provider.request = (request) => provider.sendPromise(request.method, request.params)
 			provider.request = async (request) => await new Promise((resolve, reject) => {
-				provider.sendAsync(request, (error, result) => {
+				provider.sendAsync(request, (error, result: Ethereum.Address[]) => {
 					// console.log('sendAsync', error, result)
 					error ? reject(error) : resolve(result)
 				})
 			})
 		}
 
-		return (await provider.request({ method: 'eth_requestAccounts' }))
+		return await provider.request({ method: 'eth_requestAccounts' }) as Ethereum.Address[]
 	}catch(e){
 		if(e.message.includes('User rejected the request'))
 			throw e
@@ -98,7 +98,7 @@ const switchNetworkEip1193 = async ({
 							chainName: network.name,
 							rpcUrls: network.rpc,
 							nativeCurrency: network.nativeCurrency,
-							blockExplorerUrls: network.explorers.map(explorer => explorer.url)
+							blockExplorerUrls: network.explorers?.map(explorer => explorer.url)
 						},
 					],
 				})
@@ -296,7 +296,7 @@ export const getWalletConnection = async ({
 						})
 
 						try {
-							return await provider.enable()
+							return await provider.enable() as Ethereum.Address[]
 						}catch(e){
 							if(
 								e.message.includes('User closed WalletConnect modal') ||
@@ -532,7 +532,7 @@ export const getWalletConnection = async ({
 						),
 
 						accounts: readable<Ethereum.Address[]>(
-							session?.namespaces.eip155.accounts.map(caip2Id => parseCaip2Id(caip2Id).address),
+							session?.namespaces.eip155.accounts.map(caip2Id => parseCaip2Id(caip2Id).address!),
 							set => {
 								signClient.events.on?.('session_event', (e) => console.log(e))
 								signClient.events.on?.('session_update', (e) => console.log(e))
@@ -540,8 +540,8 @@ export const getWalletConnection = async ({
 							}
 						),
 					
-						chainId: readable<number>(
-							session?.namespaces.eip155.accounts.map(caip2Id => Number(parseCaip2Id(caip2Id).chainId))[0],
+						chainId: readable<Ethereum.ChainID>(
+							session?.namespaces.eip155.accounts.map(caip2Id => Number(parseCaip2Id(caip2Id).chainId) as Ethereum.ChainID)[0],
 							set => {}
 						),
 
@@ -617,7 +617,7 @@ export const getWalletConnection = async ({
 						})
 						console.log('connected...')
 
-						return await provider.enable()
+						return await provider.enable() as Ethereum.Address[]
 					},
 
 					subscribe: () => subscribeEip1193(provider),
