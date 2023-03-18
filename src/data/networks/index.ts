@@ -5170,7 +5170,6 @@ export const availableNetworks = [
 	'arbitrum-one',
 	'optimism',
 	// 'base',
-	'base-goerli',
 	'avalanche',
 	'fantom',
 	'bsc',
