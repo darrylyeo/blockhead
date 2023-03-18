@@ -1,4 +1,6 @@
 <script lang="ts">
+	import type { Ethereum } from '../../data/networks/types'
+
 	// Params two-way binding
 
 	import { page } from '$app/stores'
@@ -44,21 +46,31 @@
 	setContext('relevantPreferences', relevantPreferences)
 
 
-	// Side effects
+	// Internal state
 
-	import { networksBySection, testnetsForMainnets, isTestnet, getNetworkColor } from '../../data/networks'
+	let selectedNetwork: Ethereum.Network = $explorerNetwork
+
+	let _isTestnet: boolean
 
 	let showTestnets = false
+
+
+	// Side effects
+
+	$: if(selectedNetwork)
+		$networkSlug = selectedNetwork.slug
+
+	import { isTestnet, getNetworkColor, networksBySlug, networksByChainID } from '../../data/networks'
+
 	$: _isTestnet = $explorerNetwork && isTestnet($explorerNetwork)
+
 	$: if(_isTestnet)
 		showTestnets = true
-
 
 	$: networkDisplayName =
 		$explorerNetwork ? $explorerNetwork.name :
 		$networkSlug ? $networkSlug[0].toUpperCase() + $networkSlug.slice(1) :
 		'Networks'
-
 
 	$: if(globalThis.document && $explorerNetwork)
 		document.documentElement.style.setProperty('--primary-color', getNetworkColor($explorerNetwork))
@@ -67,6 +79,7 @@
 	// Components
 
 	import AccountConnections from '../../components/AccountConnections.svelte'
+	import NetworkSelect from '../../components/NetworkSelect.svelte'
 	import Preferences from '../../components/Preferences.svelte'
 	import InlineContainer from '../../components/InlineContainer.svelte'
 	import NetworkIcon from '../../components/NetworkIcon.svelte'
@@ -84,9 +97,6 @@
 		grid-template-columns: 100%;
 	}
 
-	select {
-		max-width: 11.5rem;
-	}
 	.title {
 		gap: 0.66em;
 	}
@@ -133,50 +143,11 @@
 
 		<!-- svelte-ignore a11y-label-has-associated-control -->
 		<label>
-			<span>Blockchain: </span>
-			<select bind:value={$networkSlug}>
-				<option value="" selected>Select Network...</option>
-
-				{#each networksBySection as {title, networks}}
-					<optgroup label={title}>
-						{#each networks as network}
-							{#if showTestnets}
-								<option disabled>{network.name}</option>
-								<option value={network.slug}>{network.name} Mainnet{network.chainId ? ` (${network.chainId})` : ''}</option>
-
-								{#each testnetsForMainnets[network.slug] ?? [] as testnetNetwork}
-									<option value={testnetNetwork.slug}>{testnetNetwork.name}{testnetNetwork.chainId ? ` (${testnetNetwork.chainId})` : ''}</option>
-								{/each}
-							{:else}
-								<option value={network.slug} style={`--primary-color: ${getNetworkColor(network)}`}>{network.name}</option>
-							{/if}
-						{/each}
-					</optgroup>
-				{/each}
-
-				<!-- {#if showTestnets}
-					{#each networksBySection as {title, networks}}
-						<option disabled>{title}</option>
-						{#each networks as network}
-							<optgroup label={network.name} style={`--primary-color: ${getNetworkColor(network)}`}>
-								<option value={network.slug}>{network.name} Mainnet{network.chainId ? ` (${network.chainId})` : ''}</option>
-
-								{#each testnetsForMainnets[network.slug] ?? [] as testnetNetwork}
-									<option value={testnetNetwork.slug}>{testnetNetwork.name}{testnetNetwork.chainId ? ` (${testnetNetwork.chainId})` : ''}</option>
-								{/each}
-							</optgroup>
-						{/each}
-					{/each}
-				{:else}
-					{#each networksBySection as {title, networks}}
-						<optgroup label={title}>
-							{#each networks as network}
-								<option value={network.slug} style={`--primary-color: ${getNetworkColor(network)}`}>{network.name}</option>
-							{/each}
-						</optgroup>
-					{/each}
-				{/if} -->
-			</select>
+			<span>Network: </span>
+			<NetworkSelect
+				bind:network={selectedNetwork}
+				{showTestnets}
+			/>
 		</label>
 	</div>
 
