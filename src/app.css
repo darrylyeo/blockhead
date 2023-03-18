@@ -838,6 +838,11 @@ a.card {
 }
 
 
+[role="toolbar"] {
+	font-size: 0.8em;
+}
+
+
 .slot {
 	display: inline-flex;
 	align-items: center;
