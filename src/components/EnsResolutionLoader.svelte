@@ -1,17 +1,20 @@
 <script lang="ts">
+	import type { Ethereum } from '../data/networks/types'
 	import type { ENS } from '../api/ens'
 	import type { LensName } from '../api/lens'
-	import type { Ethereum } from '../data/networks/types'
+	import type { PortfolioAccountId } from '../state/portfolio-accounts'
+
 	import { NetworkProvider } from '../data/networkProviders/types'
 	import { getEthersProvider } from '../data/networkProviders'
 	import { networksByChainID } from '../data/networks'
+
 	import { preferences } from '../state/preferences'
 
 
 	export let network = networksByChainID[1]
 	export let providerName: NetworkProvider
 	export let provider: Ethereum.Provider
-	export let addressOrEnsName: Ethereum.Address | string
+	export let addressOrEnsName: PortfolioAccountId
 	export let passiveForwardResolution = false
 	export let passiveReverseResolution = false
 
@@ -25,30 +28,36 @@
 
 	$: viaRPC = providerName === NetworkProvider.Default ? '' : ` via ${providerName}`
 
-	import { isAddress } from 'ethers'
+
+	export let address: Ethereum.Address | undefined
+	export let ensName: ENS.Name | undefined
+	export let lensName: LensName | undefined
+
+	export let isReverseResolving: boolean | undefined
 
 
-	export let address: Ethereum.Address
-	export let ensName: string
-	export let isReverseResolving: boolean
-	export let lensName: LensName
+	import { findMatchedCaptureGroup } from '../utils/findMatchedCaptureGroup';
 
-	$: isLens = !!addressOrEnsName?.match(/[.](lens)$/)
-	$: isReverseResolving = !isLens && isAddress(addressOrEnsName)
-	$: console.log({isLens, isReverseResolving})
+	$: type = findMatchedCaptureGroup<'ensName' | 'lensName' | 'address'>(
+		/(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))|(?<lensName>(?:[^. ]+[.])(?:lens|test))|(?<address>0x[0-9a-fA-F]{40})/,
+		addressOrEnsName
+	) ?? ''	
+
+
+	$: isReverseResolving = type === 'address'
 
 	$: if(!addressOrEnsName){
 		address = undefined
 		ensName = undefined
 		lensName = undefined
 		isReverseResolving = undefined
-	}else if(isLens){
-		lensName = addressOrEnsName as LensName
-	}else if(isReverseResolving){
-		address = addressOrEnsName
-	}else{
-		ensName = addressOrEnsName
 	}
+	else if(type === 'lensName')
+		lensName = addressOrEnsName as LensName
+	else if(isReverseResolving)
+		address = addressOrEnsName as Ethereum.Address
+	else
+		ensName = addressOrEnsName as ENS.Name
 
 
 	import { useQuery } from '@sveltestack/svelte-query'
@@ -95,7 +104,7 @@
 </script>
 
 
-{#if addressOrEnsName && isLens}
+{#if type === 'lensName'}
 	<Loader
 		layout={'default'}
 		fromUseQuery={
@@ -118,8 +127,8 @@
 		{clip}
 		bind:result={address}
 	>
-		<slot slot="header" name="header" {address} {ensName} {lensName} {isLens} {isReverseResolving} />
-		<slot {address} {ensName} {lensName} {isLens} {isReverseResolving} />
+		<slot slot="header" name="header" {address} {type} {ensName} {lensName} {isReverseResolving} />
+		<slot {address} {type} {ensName} {lensName} {isReverseResolving} />
 	</Loader>
 {:else if addressOrEnsName && isReverseResolving}
 	<Loader
@@ -142,8 +151,8 @@
 		{clip}
 		bind:result={ensName}
 	>
-		<slot slot="header" name="header" {address} {ensName} {lensName} {isLens} {isReverseResolving} />
-		<slot {address} {ensName} {lensName} {isLens} {isReverseResolving} />
+		<slot slot="header" name="header" {address} {type} {ensName} {lensName} {isReverseResolving} />
+		<slot {address} {type} {ensName} {lensName} {isReverseResolving} />
 	</Loader>
 {:else if addressOrEnsName && !isReverseResolving}
 		<!-- fromPromise={async () => (
@@ -169,10 +178,10 @@
 		{clip}
 		bind:result={address}
 	>
-		<slot slot="header" name="header" {address} {ensName} {lensName} {isLens} {isReverseResolving} />
-		<slot {address} {ensName} {lensName} {isLens} {isReverseResolving} />
+		<slot slot="header" name="header" {address} {type} {ensName} {lensName} {isReverseResolving} />
+		<slot {address} {type} {ensName} {lensName} {isReverseResolving} />
 	</Loader>
 {:else}
-	<slot name="header" {address} {ensName} {isReverseResolving} />
-	<slot {address} {ensName} {isReverseResolving} />
+	<slot name="header" {address} {type} {ensName} {isReverseResolving} />
+	<slot {address} {type} {ensName} {isReverseResolving} />
 {/if}

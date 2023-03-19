@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
 	import { availableNetworks, getNetworkRPC } from '../data/networks'
-	import { Account, getLocalPortfolios, connectedProviderAccounts } from '../state/portfolio-accounts'
+	import { type PortfolioAccount, getLocalPortfolios, connectedProviderAccounts } from '../state/portfolio-accounts'
 	import { usdStablecoinTokens } from '../data/tokens'
 
 
@@ -14,15 +14,15 @@
 	export let transferSolution: 'Connext' | 'Etherspot' | '1inch' = 'Etherspot'
 
 
-	let defaultToAccount: Partial<Account> = {id: ''}
+	let defaultToAccount: Partial<PortfolioAccount> & Pick<PortfolioAccount, 'id'> = {id: ''}
 
 	let fromNetwork: Ethereum.Network
-	let fromAccount: Account
+	let fromAccount: PortfolioAccount
 	let fromToken: Ethereum.ContractAddress
 	let fromTokenAmount: number = 0
 	
 	let toNetwork: Ethereum.Network
-	let toAccount: Account = defaultToAccount
+	let toAccount: PortfolioAccount = defaultToAccount
 	let toToken: Ethereum.ContractAddress
 	let toTokenAmount: number = 0
 	
@@ -59,12 +59,12 @@
 		toTokenAmount,
 	}: {
 		fromNetwork: Ethereum.Network,
-		fromAccount: Account,
+		fromAccount: PortfolioAccount,
 		fromToken: Ethereum.ContractAddress,
 		fromTokenAmount: number
 	
 		toNetwork: Ethereum.Network,
-		toAccount: Account,
+		toAccount: PortfolioAccount,
 		toToken: Ethereum.ContractAddress,
 		toTokenAmount: number
 	}){//console.log('onSubmit', 'transferSolution', transferSolution)

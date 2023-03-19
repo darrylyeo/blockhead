@@ -12,7 +12,7 @@
 	import type { DefiProvider } from '../data/defiProviders'
 	import type { QuoteCurrency } from '../data/currencies'
 
-	import { Account } from '../state/portfolio-accounts'
+	import type { Portfolio, PortfolioAccountId } from '../state/portfolio-accounts'
 	import { availableNetworks, getNetworkColor, networksByChainID } from '../data/networks'
 
 	import { preferences } from '../state/preferences'
@@ -20,8 +20,7 @@
 
 	// Portfolio management
 
-	export let name = ''
-	export let accounts: Account[]
+	export let portfolio: Portfolio
 
 	export let editable = false
 
@@ -30,7 +29,7 @@
 
 
 	let state = State.Idle
-	$: if(editable && name === '')
+	$: if(editable && portfolio.name === '')
 		state = State.Editing
 
 	let previousState: State
@@ -48,44 +47,44 @@
 
 	// Wallet management
 
-	let newWalletAddress = (globalThis.location?.hash.slice(1) ?? '') as Ethereum.Address
+	let newAccountId = globalThis.location?.hash.slice(1) ?? ''
 	let newNetworks = [networksByChainID[1 as Ethereum.ChainID]] as Ethereum.Network[]
 
-	const addAccount = (newWalletAddress: Ethereum.Address) => {
-		goto(`#${newWalletAddress}`)
+	const addAccount = ({
+		id,
+		nickname,
+		networks,
+	}: {
+		id: string,
+		nickname: string,
+		networks: Ethereum.Network[],
+	}) => {
+		goto(`#${newAccountId}`)
 
-		const existingAccount = accounts.find(account => account.id.toLowerCase() === newWalletAddress.toLowerCase())
+		portfolio.addAccount({
+			id: id as PortfolioAccountId,
+			nickname,
+			networks,
+		})
 
-		if(!existingAccount){
-			const newAccount = new Account(newWalletAddress, newNetworks)
-			accounts = [newAccount, ...accounts]
+		portfolio = portfolio
 
-			triggerEvent('Portfolio/AddAccount', {
-				accountChainIds: newAccount.networks.map(({ chainID }) => chainID),
-				newPortfolioAccountsCount: accounts.length,
-			})
-		}else{
-			for(const network of newNetworks)
-				existingAccount.addNetwork(network)
-
-			accounts = accounts
-
-			triggerEvent('Portfolio/AddAccount', {
-				accountChainIds: newNetworks.map(({ chainId }) => chainId),
-				newPortfolioAccountsCount: accounts.length,
-			})
-		}
+		triggerEvent('Portfolio/AddAccount', {
+			accountChainIds: networks.map(({ chainId }) => chainId),
+			newPortfolioAccountsCount: portfolio.accounts.length,
+		})
 	}
 
 	const deleteAccount = (i: number) => {
 		delayStartIndex = i
 
-		const deletedAccount = accounts[i]
-		accounts = [...accounts.slice(0, i), ...accounts.slice(i + 1)]
+		const deletedAccount = portfolio.deleteAccount(i)
+
+		portfolio = portfolio
 
 		triggerEvent('Portfolio/DeleteAccount', {
-			accountChainIds: deletedAccount.networks.map(({ chainID }) => chainID),
-			newPortfolioAccountsCount: accounts.length,
+			accountChainIds: deletedAccount.views.map(({ chainId }) => chainId),
+			newPortfolioAccountsCount: portfolio.accounts.length,
 		})
 	}
 	
@@ -125,29 +124,29 @@
 	}
 	$: summary = {
 		quoteTotal:
-			accounts
+			portfolio.accounts
 				.map(({ id }) => accountsSummaries[id])
 				.reduce((sum, { quoteTotal = 0 } = {}) => sum + quoteTotal, 0),
 
 		quoteTotalCurrency: quoteCurrency,
 
 		balancesCount:
-			accounts
+			portfolio.accounts
 				.map(({ id }) => accountsSummaries[id])
 				.reduce((sum, { balancesCount = 0 } = {}) => sum + balancesCount, 0),
 
 		defiAppsCount:
-			accounts
+			portfolio.accounts
 				.map(({ id }) => accountsSummaries[id])
 				.reduce((sum, { defiAppsCount = 0 } = {}) => sum + defiAppsCount, 0),
 
 		nftContractsCount:
-			accounts
+			portfolio.accounts
 				.map(({ id }) => accountsSummaries[id])
 				.reduce((sum, { nftContractsCount = 0 } = {}) => sum + nftContractsCount, 0),
 
 		nftsCount:
-			accounts
+			portfolio.accounts
 				.map(({ id }) => accountsSummaries[id])
 				.reduce((sum, { nftsCount = 0 } = {}) => sum + nftsCount, 0),
 	}
@@ -215,10 +214,10 @@
 		<slot name="title">
 			<h1 class="row" on:dblclick={editable && (() => state = State.Editing)}>
 				{#if state !== State.Editing}
-					{name || '[Untitled Portfolio]'}
+					{portfolio.name || '[Untitled Portfolio]'}
 				{:else}
 					<form on:submit={() => state = State.Idle}>
-						<input type="text" bind:value={name} placeholder="My Portfolio" autofocus />
+						<input type="text" bind:value={portfolio.name} placeholder="My Portfolio" autofocus />
 					</form>
 				{/if}
 			</h1>
@@ -261,7 +260,7 @@
 						{#if state === State.Idle}
 							<button class="add" data-before="+" on:click={() => state = State.Adding} transition:scale>Add Account</button>
 						{/if}
-						<InlineContainer containerClass="align-end" isOpen={accounts.length > 0}>
+						<InlineContainer containerClass="align-end" isOpen={portfolio.accounts.length > 0}>
 							<button data-before="✎" on:click={() => state = State.Editing} transition:scale>Edit</button>
 						</InlineContainer>
 					</div>
@@ -295,16 +294,21 @@
 		<slot name="actions"></slot>
 	</header>
 
-	{#if accounts}
-		<SizeContainer containerClass="align-bottom" isOpen={state === State.Adding || !accounts.length} clip>
+	{#if portfolio.accounts}
+		<SizeContainer containerClass="align-bottom" isOpen={state === State.Adding || !portfolio.accounts.length} clip>
 			<div class="stack">
 				{#if state === State.Adding}
 					<form
 						class="card"
 						on:submit|preventDefault={() => {
-							addAccount(newWalletAddress)
+							addAccount({
+								id: newAccountId,
+								nickname: '',
+								networks: newNetworks,
+							})
+
 							state = State.Idle
-							newWalletAddress = ''
+							newAccountId = ''
 						}}
 						in:scale|local={{ start: 0.5 }}
 						out:scale
@@ -336,8 +340,8 @@
 
 						<div class="bar">
 							<AddressInput
-								bind:address={newWalletAddress}
-								placeholder="Address (0xabcd...6789) / ENS Domain (vitalik.eth) / Lens Handle (stani.lens)"
+								bind:address={newAccountId}
+								placeholder="EVM Address (0xabcd...6789) / ENS Domain (vitalik.eth) / Lens Handle (stani.lens)"
 								autofocus
 								required
 							/>
@@ -345,7 +349,7 @@
 							<button type="button" class="medium cancel" on:click={() => state = State.Idle}>Cancel</button>
 						</div>
 					</form>
-				{:else if !accounts.length}
+				{:else if !portfolio.accounts.length}
 					<div class="card" in:scale|local={{ start: 0.5 }} out:scale>
 						<h3>Your Blockhead Portfolio is empty!</h3>
 						{#if editable}
@@ -356,13 +360,10 @@
 			</div>
 		</SizeContainer>
 
-		{#each accounts as {id, type, nickname, networks}, i (id)}
+		{#each portfolio.accounts as account, i (account.id)}
 			<div transition:scale|local animate:flip|local={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
 				<PortfolioAccount
-					addressOrEnsName={id}
-					{type}
-					bind:nickname
-					bind:showNetworks={networks}
+					bind:account
 
 					{provider}
 					{defiProvider}
@@ -379,7 +380,7 @@
 					{show3D}
 					isEditing={state === State.Editing}
 
-					bind:summary={accountsSummaries[id]}
+					bind:summary={accountsSummaries[account.id]}
 				>
 					{#if state === State.Editing}
 						<div class="row edit-controls" transition:scale>
@@ -395,7 +396,7 @@
 		</slot>
 	{/if}
 
-	<SizeContainer containerClass="sticky-bottom" isOpen={showOptions && accounts.length && state !== State.Editing}>
+	<SizeContainer containerClass="sticky-bottom" isOpen={showOptions && portfolio.accounts.length && state !== State.Editing}>
 		<div class="options card row spaced" transition:fly={{ y: 100 }}>
 			<div class="row">
 				<h3>Balances</h3>

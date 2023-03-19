@@ -2,7 +2,7 @@
 	import { getContext } from 'svelte'
 	
 	import type { Ethereum } from '../../data/networks/types'
-	import { Portfolio, getLocalPortfolios } from '../../state/portfolio-accounts'
+	import { getLocalPortfolios, createPortfolio } from '../../state/portfolio-accounts'
 	import { preferences } from '../../state/preferences'
 	import { networksByChainID } from '../../data/networks'
 
@@ -20,7 +20,7 @@
 	import { triggerEvent } from '../../events/triggerEvent'
 
 	const addPortfolio = () => {
-		$localPortfolios = [...$localPortfolios, new Portfolio()]
+		$localPortfolios = [...$localPortfolios, createPortfolio()]
 
 		triggerEvent('Portfolios/AddPortfolio', {
 			newPortfolioCount: $localPortfolios.length
@@ -70,10 +70,9 @@
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 	<section class="portfolios column">
 		{#if localPortfolios}
-			{#each $localPortfolios as {name, accounts}, i (i)}
+			{#each $localPortfolios as portfolio, i (i)}
 				<PortfolioComponent
-					bind:name
-					bind:accounts
+					bind:portfolio
 					editable={true}
 					provider={portfolioProvider}
 					defiProvider={$preferences.defiProvider}

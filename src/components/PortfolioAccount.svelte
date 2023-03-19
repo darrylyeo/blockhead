@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { AccountNetworkSettings, AccountType } from '../state/portfolio-accounts'
+	import type { PortfolioAccount } from '../state/portfolio-accounts'
 	import type { Ethereum } from '../data/networks/types'
 	import { DefiProvider, defiProviderIcons } from '../data/defiProviders'
 	import type { QuoteCurrency } from '../data/currencies'
@@ -12,9 +12,7 @@
 
 	// Balances view options
 
-	export let addressOrEnsName: Ethereum.Address | string
-	export let type: AccountType
-	export let showNetworks: AccountNetworkSettings[]
+	export let account: PortfolioAccount
 
 	export let provider: Ethereum.Provider
 	export let defiProvider: DefiProvider
@@ -271,15 +269,16 @@
 
 
 <article
-	id={addressOrEnsName}
+	id={account.id}
 	class="account card column sticky-layout"
 	class:is-editing={isEditing}
 	class:grid-layout={isGridLayout}
 >
 	<EnsResolutionLoader
-		{addressOrEnsName}
+		addressOrEnsName={account.id}
 		{provider}
 		passiveReverseResolution
+		let:type
 		let:address
 		let:ensName
 		let:lensName
@@ -287,7 +286,7 @@
 	>
 		<header slot="header" class="bar card sticky">
 			<div class="row-inline">
-				{#if lensName && type === AccountType.Lens}
+				{#if lensName && type === 'lensName'}
 					<h3>{lensName}</h3>
 					{#if address}
 						<small><Address network={networksByChainID[1]} {address} /></small>
@@ -297,7 +296,7 @@
 					{#if address}
 						<small><Address network={networksByChainID[1]} {address} /></small>
 					{/if}
-				{:else if type === AccountType.ENS}
+				{:else if type === 'ensName'}
 					{#if ensName}
 						<h3><EnsName {ensName} showAvatar /></h3>
 					{/if}
@@ -356,45 +355,36 @@
 
 		<!-- <hr> -->
 
-		{#each
-			showNetworks
-				?.filter(({show}) => show)
-				.map(networkSettings => ({
-					networkSettings,
-					network: networksByChainID[networkSettings.chainID]
-				}))
-				?? []
-			as {
-				networkSettings: {chainID, show, showBalances, showDeFi, showNFTs },
-				network
-			},
-			i (chainID)
-		}
-			{@const toggleNetwork = () => {
-				show = !show
-				
+		{#each account.views ?? [] as view, i (view.chainId)}
+			{@const network = networksByChainID[view.chainId]}
+
+			{@const deleteView = () => {
+				account.deleteView(view)
+
+				account = account
+
 				triggerEvent('PortfolioAccount/ToggleNetwork', {
-					chainId: chainID,
-					networkIsShowing: show,
+					chainId: view.chainId,
+					networkIsShowing: false,
 				})
 			}}
 
 			{@const toggleSection = (sectionType) => { // 'Balances' | 'DeFi' | 'NFTs'
 				if(sectionType === 'Balances')
-					showBalances = !showBalances
+					view.showBalances = !view.showBalances
 				else if(sectionType === 'DeFi')
-					showDeFi = !showDeFi
+					view.showDefi = !view.showDefi
 				else if(sectionType === 'NFTs')
-					showNFTs = !showNFTs
+					view.showNfts = !view.showNfts
 
 				// Value isn't yet mutated, invert
 				triggerEvent('PortfolioAccount/ToggleSection', {
-					chainId: chainID,
+					chainId: view.chainId,
 					sectionType,
 					sectionIsShowing: {
-						'Balances': !showBalances,
-						'DeFi': !showDeFi,
-						'NFTs': !showNFTs,
+						'Balances': !view.showBalances,
+						'DeFi': !view.showDefi,
+						'NFTs': !view.showNfts,
 					}[sectionType],
 				})
 			}}
@@ -415,13 +405,13 @@
 							<Address {network} {address}>{network.name}</Address>
 						</h3>
 						<span class="card-annotation">#{network.chainId}</span>
-						<button class="small" on:click={() => toggleNetwork()}>Hide Network</button>
+						<button class="small" on:click={deleteView}>Hide Network</button>
 					</header>
 				</SizeContainer>
 
 				<div class="network-content {isGridLayout ? 'column grid-row' : 'column-block'} sticky-layout">
 					<!-- Token Balances -->
-					{#if showBalances}<section class="token-balances column-block">
+					{#if view.showBalances}<section class="token-balances column-block">
 					<!-- <HeightContainer containerClass="token-balances" class="column" isOpen={showBalances}> -->
 						<!-- {#if tokenBalancesProvider === TokenBalancesProvider.Covalent && Covalent.ChainIDs.includes(network.chainId)} -->
 							<EthereumBalances
@@ -430,7 +420,7 @@
 								{tokenBalancesProvider}
 								{quoteCurrency}
 								{tokenBalanceFormat} {sortBy} {showSmallValues} {showUnderlyingAssets}
-								isOpen={Boolean(isGridLayout ? gridLayoutIsChainExpanded[chainID] : columnLayoutIsSectionExpanded[`${chainID}-${'tokens'}`]) && !isEditing}
+								isOpen={Boolean(isGridLayout ? gridLayoutIsChainExpanded[view.chainId] : columnLayoutIsSectionExpanded[`${view.chainId}-${'tokens'}`]) && !isEditing}
 								isScrollable={!isGridLayout} isHorizontal={!isGridLayout}
 								bind:summary={balancesSummaries[i]}
 							>
@@ -485,7 +475,7 @@
 												{#if isEditing}
 													<button class="small" on:click={() => toggleSection('Balances')} transition:scale>Hide</button>
 												{:else}
-													<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(chainID) : toggleColumnLayoutIsSectionExpanded(`${chainID}-${'tokens'}`)} transition:scale>▼</button>
+													<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'tokens'}`)} transition:scale>▼</button>
 												{/if}
 											</InlineContainer>
 											<!-- {#if isEditing}
@@ -512,7 +502,7 @@
 					<!-- </HeightContainer> -->
 
 					<!-- DeFi Balances -->
-					{#if showDeFi}<section class="defi-balances column-block">
+					{#if view.showDefi}<section class="defi-balances column-block">
 					<!-- <HeightContainer containerClass="defi-balances" class="column" isOpen={showDeFi}> -->
 						<DefiBalances
 							{network}
@@ -521,7 +511,7 @@
 							{defiProvider}
 							{quoteCurrency}
 							{tokenBalanceFormat} {showUnderlyingAssets}
-							isOpen={Boolean(isGridLayout ? gridLayoutIsChainExpanded[chainID] : columnLayoutIsSectionExpanded[`${chainID}-${'defi'}`]) && !isEditing}
+							isOpen={Boolean(isGridLayout ? gridLayoutIsChainExpanded[view.chainId] : columnLayoutIsSectionExpanded[`${view.chainId}-${'defi'}`]) && !isEditing}
 							isScrollable={!isGridLayout}
 							bind:summary={defiAppsSummaries[i]}
 						>
@@ -576,7 +566,7 @@
 											{#if isEditing}
 												<button class="small" on:click={() => toggleSection('DeFi')} transition:scale>Hide</button>
 											{:else}
-												<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(chainID) : toggleColumnLayoutIsSectionExpanded(`${chainID}-${'defi'}`)} transition:scale>▼</button>
+												<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'defi'}`)} transition:scale>▼</button>
 											{/if}
 										</InlineContainer>
 										<!-- {#if isEditing}
@@ -593,7 +583,7 @@
 					<!-- </HeightContainer> -->
 
 					<!-- NFT Balances -->
-					{#if showNFTs}<section class="nft-balances column-block">
+					{#if view.showNfts}<section class="nft-balances column-block">
 					<!-- <HeightContainer containerClass="nft-balances" class="column" isOpen={showNFTs}> -->
 						<EthereumNftBalances
 							{network}
@@ -601,7 +591,7 @@
 							{nftProvider}
 							{quoteCurrency}
 							{sortBy} {showSmallValues} {showUnderlyingAssets} {showNFTMetadata} {showImagesOnly} {show3D}
-							isOpen={Boolean(isGridLayout ? gridLayoutIsChainExpanded[chainID] : columnLayoutIsSectionExpanded[`${chainID}-${'nfts'}`]) && !isEditing}
+							isOpen={Boolean(isGridLayout ? gridLayoutIsChainExpanded[view.chainId] : columnLayoutIsSectionExpanded[`${view.chainId}-${'nfts'}`]) && !isEditing}
 							isScrollable={!isGridLayout}
 							bind:summary={nftsSummaries[i]}
 						>
@@ -653,7 +643,7 @@
 											{#if isEditing}
 												<button class="small" on:click={() => toggleSection('NFTs')} transition:scale>Hide</button>
 											{:else}
-												<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(chainID) : toggleColumnLayoutIsSectionExpanded(`${chainID}-${'nfts'}`)} transition:scale>▼</button>
+												<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'nfts'}`)} transition:scale>▼</button>
 											{/if}
 										</InlineContainer>
 										<!-- {#if isEditing}
