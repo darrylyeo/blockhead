@@ -1,5 +1,6 @@
 import { ApolloClient, createHttpLink, gql, InMemoryCache } from '@apollo/client/core'
 import { apolloRequestStore } from '../utils/apolloRequestStore'
+import type { BrandedString } from '../utils/branded'
 
 
 const THE_GRAPH_ENS_URL = 'https://api.thegraph.com/subgraphs/name/ensdomains/ens'
@@ -27,6 +28,8 @@ export namespace ENS {
 	export type BigInt = string
 	export type Bytes = string
 	export type String = string
+
+	export type Name = BrandedString<'EnsName'>
 
 	export type Account = {
 		id: string
@@ -61,7 +64,7 @@ export namespace ENS {
 
 	export type Domain = {
 		id: ID
-		name: String
+		name: Name
 		labelName: String
 		labelhash: Bytes
 		parent: Domain
