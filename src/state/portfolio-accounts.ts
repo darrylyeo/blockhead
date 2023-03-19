@@ -20,14 +20,23 @@ export enum AccountType {
 }
 
 export class Account {
+	networks: AccountNetworkSettings[]
+
 	constructor(
 		public id: Ethereum.Address | string,
+		networks: Ethereum.Network[] = [],
 		public provider?: Ethereum.Provider,
 		public providerName?: Ethereum.ProviderName,
 		public type: AccountType = isAddress(id) ? AccountType.Address : id.match(/[.](lens)$/) ? AccountType.Lens : AccountType.ENS,
 		public nickname: string = '',
-		public networks: AccountNetworkSettings[] = getDefaultAccountNetworkSettings(),
-	){}
+	){
+		this.networks = networks.map(network => new AccountNetworkSettings(network.chainId))
+	}
+
+	addNetwork(network: Ethereum.Network){
+		if(!this.networks.find(networkSettings => networkSettings.chainID === network.chainId))
+			this.networks.push(new AccountNetworkSettings(network.chainId))
+	}
 
 	toJSON(){
 		return {
@@ -120,7 +129,7 @@ export async function getAccountsFromProvider(provider: Ethereum.Provider | Sign
 			[provider.selectedAddress]
 		:
 			[]
-	).map(id => new Account(id, provider, providerName))
+	).map(id => new Account(id, undefined, provider, providerName))
 
 	return accounts
 }

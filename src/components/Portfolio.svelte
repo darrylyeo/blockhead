@@ -13,7 +13,7 @@
 	import type { QuoteCurrency } from '../data/currencies'
 
 	import { Account } from '../state/portfolio-accounts'
-	import { availableNetworks } from '../data/networks'
+	import { availableNetworks, getNetworkColor, networksByChainID } from '../data/networks'
 
 	import { preferences } from '../state/preferences'
 
@@ -48,21 +48,33 @@
 
 	// Wallet management
 
-	let newWalletAddress = globalThis.location?.hash.slice(1) ?? ''
+	let newWalletAddress = (globalThis.location?.hash.slice(1) ?? '') as Ethereum.Address
+	let newNetworks = [networksByChainID[1 as Ethereum.ChainID]] as Ethereum.Network[]
 
 	const addAccount = (newWalletAddress: Ethereum.Address) => {
 		goto(`#${newWalletAddress}`)
 
-		if(accounts.some(account => account.id.toLowerCase() === newWalletAddress.toLowerCase()))
-			return
+		const existingAccount = accounts.find(account => account.id.toLowerCase() === newWalletAddress.toLowerCase())
 
-		const newAccount = new Account(newWalletAddress)
-		accounts = [newAccount, ...accounts]
+		if(!existingAccount){
+			const newAccount = new Account(newWalletAddress, newNetworks)
+			accounts = [newAccount, ...accounts]
 
-		triggerEvent('Portfolio/AddAccount', {
-			accountChainIds: newAccount.networks.map(({ chainID }) => chainID),
-			newPortfolioAccountsCount: accounts.length,
-		})
+			triggerEvent('Portfolio/AddAccount', {
+				accountChainIds: newAccount.networks.map(({ chainID }) => chainID),
+				newPortfolioAccountsCount: accounts.length,
+			})
+		}else{
+			for(const network of newNetworks)
+				existingAccount.addNetwork(network)
+
+			accounts = accounts
+
+			triggerEvent('Portfolio/AddAccount', {
+				accountChainIds: newNetworks.map(({ chainId }) => chainId),
+				newPortfolioAccountsCount: accounts.length,
+			})
+		}
 	}
 
 	const deleteAccount = (i: number) => {
@@ -183,10 +195,6 @@
 		backdrop-filter: var(--overlay-backdrop-filter);
 	}
 
-	form {
-		display: contents;
-	}
-
 	.account-total-value {
 		font-size: 1.21em;
 	}
@@ -291,26 +299,52 @@
 		<SizeContainer containerClass="align-bottom" isOpen={state === State.Adding || !accounts.length} clip>
 			<div class="stack">
 				{#if state === State.Adding}
-					<div class="card" in:scale|local={{ start: 0.5 }} out:scale>
+					<form
+						class="card"
+						on:submit|preventDefault={() => {
+							addAccount(newWalletAddress)
+							state = State.Idle
+							newWalletAddress = ''
+						}}
+						in:scale|local={{ start: 0.5 }}
+						out:scale
+					>
 						<div class="bar">
 							<div>
-								<h3>Add Ethereum/EVM Wallet</h3>
+								<h3>Add Account</h3>
 							</div>
-							<small>{availableNetworks.map(network => network.name).join(', ')}</small>
+
+							<!-- <small>{availableNetworks.map(network => network.name).join(', ')}</small> -->
+
+							<div role="toolbar" class="row">
+								Networks:
+								{#each availableNetworks as network}
+									<label style="--primary-color: {getNetworkColor(network)}">
+										<input
+											type="checkbox"
+											bind:group={newNetworks}
+											name="networks[]"
+											value={network}
+											required={!newNetworks.length}
+										/>
+										<span>{network.name}</span>
+									</label>
+								{/each}
+								<!-- <input type="text" name="networks[]" bind:value={newNetworks} required hidden /> -->
+							</div>
 						</div>
+
 						<div class="bar">
-							<form class="bar" on:submit|preventDefault={() => {addAccount(newWalletAddress); state = State.Idle; newWalletAddress = ''}}>
-								<AddressInput
-									bind:address={newWalletAddress}
-									placeholder="Address (0xabcd...6789) / ENS Domain (vitalik.eth) / Lens Handle (stani.lens)"
-									autofocus
-									required
-								/>
-								<button type="submit" class="medium add">Add</button>
-							</form>
-							<button class="medium cancel" on:click={() => state = State.Idle}>Cancel</button>
+							<AddressInput
+								bind:address={newWalletAddress}
+								placeholder="Address (0xabcd...6789) / ENS Domain (vitalik.eth) / Lens Handle (stani.lens)"
+								autofocus
+								required
+							/>
+							<button type="submit" class="medium add">Add</button>
+							<button type="button" class="medium cancel" on:click={() => state = State.Idle}>Cancel</button>
 						</div>
-					</div>
+					</form>
 				{:else if !accounts.length}
 					<div class="card" in:scale|local={{ start: 0.5 }} out:scale>
 						<h3>Your Blockhead Portfolio is empty!</h3>
