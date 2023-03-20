@@ -339,6 +339,7 @@
 										] as network, i (network)}
 											<label
 												class="align-start"
+												title={`${network.name}\nChain ID: ${network.chainId}`}
 												style="--primary-color: {getNetworkColor(network)}"
 												transition:scale|local={{ duration: 300 }}
 												animate:flip|local={{ duration: 300 }}
