@@ -202,6 +202,12 @@
 	.portfolio h1 {
 		flex: 1 16rem;
 	}
+
+
+	form[name="add-account"] :global(select) {
+		max-width: 7.5rem;
+		position: relative;
+	}
 </style>
 
 
@@ -301,11 +307,12 @@
 				{#if state === State.Adding}
 					<form
 						class="card"
+						name="add-account"
 						on:submit|preventDefault={() => {
 							addAccount({
 								id: newAccountId,
 								nickname: '',
-								networks: newNetworks,
+								networks: [...newNetworks],
 							})
 
 							state = State.Idle
@@ -323,18 +330,31 @@
 
 							<div role="toolbar" class="row">
 								Networks:
-								{#each [...defaultAccountNetworks, ...newNetworks.filter(network => !defaultAccountNetworks.includes(network))] as network}
-									<label style="--primary-color: {getNetworkColor(network)}">
-										<input
-											type="checkbox"
-											bind:group={newNetworks}
-											name="networks[]"
-											value={network}
-											required={!newNetworks.length}
-										/>
-										<span>{network.name}</span>
-									</label>
-								{/each}
+
+								<InlineContainer class="align-end">
+									<div class="row">
+										{#each [
+											...defaultAccountNetworks,
+											...newNetworks.filter(network => !defaultAccountNetworks.includes(network))
+										] as network, i (network)}
+											<label
+												class="align-start"
+												style="--primary-color: {getNetworkColor(network)}"
+												transition:scale|local={{ duration: 300 }}
+												animate:flip|local={{ duration: 300 }}
+											>
+												<input
+													type="checkbox"
+													bind:group={newNetworks}
+													name="networks[]"
+													value={network}
+													required={!newNetworks.length}
+												/>
+												<span>{network.name}</span>
+											</label>
+										{/each}
+									</div>
+								</InlineContainer>
 
 								<NetworkSelect
 									on:change={({ detail: { network, target }}) => {
