@@ -12,6 +12,12 @@
 	export let quoteCurrency: QuoteCurrency
 
 
+	import type { Covalent } from '../api/covalent'
+	import type { BlockTransaction } from '../api/moralis/api/Api'
+
+	export let transaction: Covalent.Transaction | BlockTransaction
+
+
 	// View options
 
 	export let contextualAddress: Ethereum.Address
@@ -63,6 +69,7 @@
 								.then(({ items: [transaction] }) => transaction)
 							)
 						})}
+						bind:result={transaction}
 						let:result={transaction}
 						let:status
 					>
@@ -135,6 +142,7 @@
 								})
 							)
 						})}
+						bind:result={transaction}
 						let:result={transaction}
 						let:status
 					>
