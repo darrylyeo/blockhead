@@ -13,7 +13,7 @@
 	import type { QuoteCurrency } from '../data/currencies'
 
 	import type { Portfolio, PortfolioAccountId } from '../state/portfolio-accounts'
-	import { availableNetworks, getNetworkColor, networksByChainID } from '../data/networks'
+	import { defaultAccountNetworks, getNetworkColor, networksByChainID } from '../data/networks'
 
 	import { preferences } from '../state/preferences'
 
@@ -163,6 +163,7 @@
 	import AddressInput from './AddressInput.svelte'
 	import Loading from './Loading.svelte'
 	import InlineContainer from './InlineContainer.svelte'
+	import NetworkSelect from './NetworkSelect.svelte'
 	import SizeContainer from './SizeContainer.svelte'
 	import PortfolioAccount from './PortfolioAccount.svelte'
 	import TokenBalance from './TokenBalance.svelte'
@@ -322,7 +323,7 @@
 
 							<div role="toolbar" class="row">
 								Networks:
-								{#each availableNetworks as network}
+								{#each [...defaultAccountNetworks, ...newNetworks.filter(network => !defaultAccountNetworks.includes(network))] as network}
 									<label style="--primary-color: {getNetworkColor(network)}">
 										<input
 											type="checkbox"
@@ -334,6 +335,14 @@
 										<span>{network.name}</span>
 									</label>
 								{/each}
+
+								<NetworkSelect
+									on:change={({ detail: { network, target }}) => {
+										newNetworks = [...newNetworks, network]
+										target.value = ''
+									}}
+								/>
+
 								<!-- <input type="text" name="networks[]" bind:value={newNetworks} required hidden /> -->
 							</div>
 						</div>

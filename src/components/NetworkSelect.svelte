@@ -8,6 +8,10 @@
 	export let network: Ethereum.Network
 
 
+	import { createEventDispatcher } from 'svelte'
+	const dispatch = createEventDispatcher()
+
+
 	// Components
 	import NetworkIcon from './NetworkIcon.svelte'
 </script>
@@ -20,7 +24,13 @@
 </style>
 
 
-<select bind:value={network}>
+<select
+	bind:value={network}
+	on:change={(e) => {
+		// dispatchEvent(new CustomEvent('change', { detail: { network } }))
+		dispatch('change', { network, target: e.target })
+	}}
+>
 	<option value="" selected>Select Network...</option>
 
 	{#each networksBySection as {title, networks}}

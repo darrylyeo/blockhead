@@ -5175,6 +5175,12 @@ export const availableNetworks = [
 	'bsc',
 ].map(slug => networksBySlug[slug])
 
+export const defaultAccountNetworks = [
+	'ethereum',
+	'polygon',
+	'gnosis',
+].map(slug => networksBySlug[slug])
+
 
 export const ethereumAndL2Networks = [
 	'ethereum',
