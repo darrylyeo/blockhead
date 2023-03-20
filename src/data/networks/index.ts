@@ -4297,6 +4297,90 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://web3games.blockspaper.com/en/"
 	},
 	{
+		"slug": "shardeum-liberty1",
+		"name": "Shardeum Liberty 1.X",
+		"chain": "Shardeum",
+		"icon": "shardeum",
+		"rpc": [
+			"https://liberty10.shardeum.org"
+		],
+		"faucets": [
+			"https://faucet.liberty10.shardeum.org"
+		],
+		"nativeCurrency": {
+			"name": "Shardeum SHM",
+			"symbol": "SHM",
+			"decimals": 18
+		},
+		"infoURL": "https://docs.shardeum.org/",
+		"shortName": "Liberty10",
+		"chainId": 8080,
+		"networkId": 8080,
+		"explorers": [
+			{
+				"name": "Shardeum Scan",
+				"url": "https://explorer-liberty10.shardeum.org",
+				"standard": "none"
+			}
+		],
+	},
+	{
+		"slug": "shardeum-liberty2",
+		"name": "Shardeum Liberty 2.X",
+		"chain": "Shardeum",
+		"icon": "shardeum",
+		"rpc": [
+			"https://liberty20.shardeum.org"
+		],
+		"faucets": [
+			"https://faucet.liberty20.shardeum.org"
+		],
+		"nativeCurrency": {
+			"name": "Shardeum SHM",
+			"symbol": "SHM",
+			"decimals": 18
+		},
+		"infoURL": "https://docs.shardeum.org/",
+		"shortName": "Liberty20",
+		"chainId": 8081,
+		"networkId": 8081,
+		"explorers": [
+			{
+				"name": "Shardeum Scan",
+				"url": "https://explorer-liberty20.shardeum.org",
+				"standard": "none"
+			}
+		],
+	},
+	{
+		"slug": "shardeum-sphinx",
+		"name": "Shardeum Sphinx 1.X",
+		"chain": "Shardeum",
+		"icon": "shardeum",
+		"rpc": [
+			"https://sphinx.shardeum.org"
+		],
+		"faucets": [
+			"https://faucet-sphinx.shardeum.org/"
+		],
+		"nativeCurrency": {
+			"name": "Shardeum SHM",
+			"symbol": "SHM",
+			"decimals": 18
+		},
+		"infoURL": "https://docs.shardeum.org/",
+		"shortName": "Sphinx10",
+		"chainId": 8082,
+		"networkId": 8082,
+		"explorers": [
+			{
+				"name": "Shardeum Scan",
+				"url": "https://explorer-sphinx.shardeum.org",
+				"standard": "none"
+			}
+		]
+	},
+	{
 		"slug": "skale-testnet",
 		"name": "SKALE Network Testnet",
 		"chainId": 344435,
