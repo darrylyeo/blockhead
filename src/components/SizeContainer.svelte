@@ -14,7 +14,7 @@
 	export let inline = false
 	export let contentsOnly = false
 	export let contentElementOnly = !transitionWidth && !transitionHeight
-	export let containerClass = ''
+	export let containerClass = 'align-top'
 
 	export let contentClass = $$props.class
 
@@ -54,7 +54,6 @@
 <style>
 	.container {
 		display: grid;
-		align-content: start;
 		will-change: height;
 		transition: var(--duration, 600ms) var(--easing, cubic-bezier(0.16, 1, 0.3, 1));
 	}

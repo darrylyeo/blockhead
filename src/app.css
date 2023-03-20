@@ -746,6 +746,7 @@ a.card {
 }
 .align-bottom {
 	place-items: end stretch;
+	align-content: end;
 	transform-origin: bottom;
 	--button-transform-origin: bottom;
 }

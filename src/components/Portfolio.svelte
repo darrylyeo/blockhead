@@ -172,7 +172,7 @@
 
 
 	import { flip } from 'svelte/animate'
-	import { fly, scale } from 'svelte/transition'
+	import { blur, fly, scale } from 'svelte/transition'
 </script>
 
 
@@ -199,6 +199,10 @@
 		font-size: 1.21em;
 	}
 
+	header {
+		z-index: 1;
+	}
+
 	.portfolio h1 {
 		flex: 1 16rem;
 	}
@@ -212,9 +216,10 @@
 
 
 <section
-	class="portfolio column"
+	class="portfolio column-block"
 	on:keydown={e => { if(e.code === 'Escape') state = State.Idle }}
 	on:dragenter={e => state = State.Adding}
+	transition:scale={{ duration: 300, start: 0.95 }}
 	tabIndex={0}
 >
 	<header class="bar">
@@ -302,8 +307,8 @@
 	</header>
 
 	{#if portfolio.accounts}
-		<SizeContainer containerClass="align-bottom" isOpen={state === State.Adding || !portfolio.accounts.length} clip>
-			<div class="stack">
+		<SizeContainer containerClass="align-bottom" isOpen={state === State.Adding || !portfolio.accounts.length}>
+			<div class="stack align-bottom">
 				{#if state === State.Adding}
 					<form
 						class="card"
@@ -318,9 +323,10 @@
 							state = State.Idle
 							newAccountId = ''
 						}}
-						in:scale|local={{ start: 0.5 }}
-						out:scale
+						in:blur={{ duration: 200, opacity: 0, amount: 20 }}
+						out:scale={{ start: 0.95, duration: 150, opacity: 0 }}
 					>
+					<!-- in:scale={{ start: 0.95, duration: 300, opacity: 0 }} -->
 						<div class="bar">
 							<div>
 								<h3>Add Account</h3>
@@ -381,7 +387,11 @@
 						</div>
 					</form>
 				{:else if !portfolio.accounts.length}
-					<div class="card" in:scale|local={{ start: 0.5 }} out:scale>
+					<div
+						class="card"
+						in:scale|local={{ start: 0.95, duration: 300, opacity: 0 }}
+						out:scale={{ start: 0.95, duration: 150, opacity: 0 }}
+					>
 						<h3>Your Blockhead Portfolio is empty!</h3>
 						{#if editable}
 							<p>You can <a on:click={() => state = State.Adding}>add a new wallet address manually</a>, or import an address by connecting a wallet service!</p>
@@ -392,7 +402,10 @@
 		</SizeContainer>
 
 		{#each portfolio.accounts as account, i (account.id)}
-			<div transition:scale|local animate:flip|local={{duration: 300, delay: Math.abs(delayStartIndex - i) * 50}}>
+			<div
+				transition:scale|local={{ start: 0.8, duration: 300 }}
+				animate:flip|local={{ duration: 300, delay: Math.abs(delayStartIndex - i) * 50 }}
+			>
 				<PortfolioAccount
 					bind:account
 
