@@ -43,7 +43,7 @@
 	export let showStatusAndActions = false
 
 	export let containerClass: string
-	export let contentClass: string
+	export let contentClass = 'column-block'
 
 
 	enum LoadingStatus {
@@ -293,7 +293,7 @@
 		<Collapsible
 			type={collapsibleType}
 			{containerClass}
-			class="loader stack {contentClass}"
+			class="loader stack"
 			{isOpen}
 			{clip}
 			let:isOpen let:toggle
@@ -337,7 +337,7 @@
 			</svelte:fragment>
 
 			{#if status === LoadingStatus.Resolved || (fromStore && status === LoadingStatus.Loading && result)}
-				<div class="column-block" transition:fade>
+				<div class={contentClass} transition:fade>
 					<slot
 						{result}
 						{status}
@@ -419,12 +419,12 @@
 		{:else if layout === 'default'}
 			<SizeContainer
 				{containerClass}
-				class="loader stack {contentClass}"
+				class="loader stack"
 				{isOpen}
 				{clip}
 			>
 				{#if status === LoadingStatus.Resolved || (fromStore && status === LoadingStatus.Loading && result)}
-					<div class="column-block" transition:fade>
+					<div class={contentClass} transition:fade>
 						<slot
 							{result}
 							{status}
