@@ -59,9 +59,7 @@
 		nickname: string,
 		networks: Ethereum.Network[],
 	}) => {
-		goto(`#${newAccountId}`)
-
-		portfolio.addAccount({
+		const added = portfolio.addAccount({
 			id: id as PortfolioAccountId,
 			nickname,
 			networks,
@@ -73,6 +71,8 @@
 			accountChainIds: networks.map(({ chainId }) => chainId),
 			newPortfolioAccountsCount: portfolio.accounts.length,
 		})
+
+		goto(`#${newAccountId}`, { noScroll: added })
 	}
 
 	const deleteAccount = (i: number) => {

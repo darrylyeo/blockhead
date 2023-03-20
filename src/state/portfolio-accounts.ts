@@ -237,7 +237,7 @@ namespace V4 {
 		name: string,
 		accounts: PortfolioAccount[],
 
-		addAccount: (_: { id: PortfolioAccountId, nickname: string, networks: Ethereum.Network[] }) => void,
+		addAccount: (_: { id: PortfolioAccountId, nickname: string, networks: Ethereum.Network[] }) => boolean,
 		deleteAccount: (i: number) => PortfolioAccount,
 	}
 
@@ -264,9 +264,13 @@ namespace V4 {
 				})
 				
 				this.accounts.unshift(newAccount)
+				
+				return true
 			}else{
 				for(const network of networks)
 					existingAccount.addView(network)
+
+				return false
 			}
 		},
 
