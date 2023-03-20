@@ -25,7 +25,7 @@
 	import { parallelLoaderStore } from '../utils/parallelLoaderStore'
 
 
-	let block
+	export let block: Ethereum.Block
 
 	$: lastUpdate = block && updatesByNetwork.get(network)?.find(upgrade => block?.blockNumber >= upgrade.blockNumber)
 
