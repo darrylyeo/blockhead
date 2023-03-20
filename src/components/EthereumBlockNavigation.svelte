@@ -2,7 +2,7 @@
 	import type { Ethereum } from '../data/networks/types'
 	
 	export let network: Ethereum.Network
-	export let blockNumber: Ethereum.BlockNumber
+	export let blockNumber: Ethereum.BlockNumber | undefined
 	export let provider: Ethereum.Provider
 
 	export let showBeforeAndAfter = false
@@ -85,8 +85,8 @@
 		transition:fade
 		style="
 			{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}
-			--current-block-number: {blockNumber};
-			--latest-block-number: {latestBlockNumber ?? Math.max(blockNumber * 2, 2)};
+			--current-block-number: {blockNumber ?? 0};
+			--latest-block-number: {latestBlockNumber ?? Math.max((blockNumber ?? 0) * 2, 2)};
 		"
 	>
 	<!-- on:mousemove={e => {
@@ -112,9 +112,13 @@
 			</span>
 		{/if}
 
-		<span class="current-block" style="--block-number: {blockNumber ?? latestBlockNumber ? Math.ceil(latestBlockNumber / 2) : 1}" transition:scaleFont>
-			<span title="Current {network.name} Block"><EthereumBlockNumber {network} {blockNumber} /></span>
-		</span>
+		{#if blockNumber !== undefined}
+			<span class="current-block" style="--block-number: {blockNumber ?? (latestBlockNumber ? Math.ceil(latestBlockNumber / 2) : 1)}" transition:scaleFont>
+				<span title="Current {network.name} Block"><EthereumBlockNumber {network} {blockNumber} /></span>
+			</span>
+		{:else}
+			<span />
+		{/if}
 
 		{#if showBeforeAndAfter && blockNumber !== latestBlockNumber}
 			<span class="next-block" style="--block-number: {blockNumberAfter}" transition:scaleFont>
@@ -124,9 +128,8 @@
 			</span>
 		{/if}
 
-
-		{#if blockNumber !== latestBlockNumber && !(showBeforeAndAfter && blockNumberAfter === latestBlockNumber)}
-			<span class="latest-block" style="--block-number: {latestBlockNumber ?? blockNumber ? blockNumber * 2 : 2}" transition:scaleFont>
+		{#if !(blockNumber !== undefined && blockNumber === latestBlockNumber) && !(showBeforeAndAfter && blockNumberAfter === latestBlockNumber)}
+			<span class="latest-block" style="--block-number: {latestBlockNumber ?? (blockNumber ? blockNumber * 2 : 2)}" transition:scaleFont>
 				<!-- <span>🔗</span> -->
 				<span>»</span>
 				<span title="Latest {network.name} Block"><EthereumBlockNumber {network} blockNumber={latestBlockNumber} /></span>

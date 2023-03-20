@@ -18,11 +18,7 @@
 	export let showTransactions = false
 
 
-	import { availableNetworks } from '../data/networks'
 	import { updatesByNetwork } from '../data/networks/updates'
-
-
-	import { parallelLoaderStore } from '../utils/parallelLoaderStore'
 
 
 	export let block: Ethereum.Block
@@ -39,52 +35,15 @@
 
 	import Date from './Date.svelte'
 	import EthereumBlock from './EthereumBlock.svelte'
-	import EthereumBlockNavigation from './EthereumBlockNavigation.svelte'
 	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
 	import Loader from './Loader.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
 </script>
 
 
-<style>
-	.navigation {
-		--padding-inner: 0.25em;
-
-		/* margin: 0 calc(-1 * var(--padding-outer)); */
-		margin-top: auto;
-		padding: var(--padding-outer);
-
-		background-color: rgba(0, 0, 0, 0.25);
-		-webkit-backdrop-filter: var(--overlay-backdrop-filter);
-		backdrop-filter: var(--overlay-backdrop-filter);
-		border-radius: var(--card-border-radius);
-		margin: 0 calc(-1 * var(--padding-outer));
-	}
-	.navigation.currentNetwork {
-		position: sticky;
-		bottom: 4rem;
-		/* bottom: 0; */
-		z-index: 1;
-	}
-	.navigation.otherNetworks {
-		font-size: 0.8em;
-	}
-	/* .navigation {
-		position: sticky;
-		top: calc(100% - 8rem);
-		bottom: 3.5rem;
-
-		transition: 0.3s;
-	}
-	.navigation:not(:hover):not(:focus-within) {
-		transform: translateY(calc(100% - 1em - var(--padding-outer) * 2));
-	} */
-</style>
-
-
 <div class="block card">
 	<div class="bar">
-		<h2><EthereumBlockNumber {network} {blockNumber} /></h2>
+		<h2><EthereumBlockNumber {network} {blockNumber} tween={false} /></h2>
 		<span class="card-annotation">
 			{network.name} {blockNumber == 0 ? 'Genesis Block' : 'Block'}
 
@@ -291,48 +250,3 @@
 		</Loader>
 	{/if}
 </div>
-
-
-<div class="navigation currentNetwork column">
-	<EthereumBlockNavigation
-		{network}
-		{provider}
-		blockNumber={Number(blockNumber)}
-		showBeforeAndAfter
-	/>
-</div>
-
-{#if availableNetworks && transactionProvider === TransactionProvider.Moralis && block?.timestamp}
-	{@const otherNetworks = availableNetworks.filter(_network => _network !== network)}
-
-	<Loader
-		loadingIconName={'Moralis'}
-		loadingIcon={transactionProviderIcons[transactionProvider]}
-		fromStore={otherNetworks && block?.timestamp && (() =>
-			// <Awaited<ReturnType<typeof MoralisWeb3Api.dateToBlock.getDateToBlock>>[]>
-			parallelLoaderStore(otherNetworks, network => (
-				MoralisWeb3Api.dateToBlock.getDateToBlock({
-					chain: chainCodeFromNetwork(network),
-					date: block.timestamp
-				})
-			))
-		)}
-		then={closestBlockByNetwork => [...closestBlockByNetwork?.entries()].filter(([network, { block: blockNumber }]) => blockNumber > 0) ?? []}
-		let:result={networksAndClosestBlock}
-		showIf={networksAndClosestBlock => networksAndClosestBlock?.length}
-		clip={false}
-	>
-		<svelte:fragment slot="loadingMessage">
-			Finding blocks produced around the same time as {network.name} › Block {block.blockNumber}...
-		</svelte:fragment>
-
-		<div class="navigation otherNetworks column">
-			{#each networksAndClosestBlock as [network, {block: blockNumber, timestamp}]}
-				<EthereumBlockNavigation
-					{network}
-					blockNumber={blockNumber > 1 ? Number(blockNumber) : undefined}
-				/>
-			{/each}
-		</div>
-	</Loader>
-{/if}

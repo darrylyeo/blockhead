@@ -72,6 +72,27 @@
 	$: _isBlockNumber = isBlockNumber($query)
 
 
+	// Block Navigation
+
+	import type { Covalent } from '../../../api/covalent'
+	import type { BlockTransaction } from '../../../api/moralis/api/Api'
+
+	let navigationContext: {
+		transaction?: Covalent.Transaction | BlockTransaction,
+		transactionBlockNumber?: number,
+		block?: Ethereum.Block,
+	} = {}
+
+	$: navigationContext.transactionBlockNumber = navigationContext.transaction &&
+		Number((navigationContext.transaction as Covalent.Transaction).block_height
+		|| (navigationContext.transaction as BlockTransaction).block_number)
+
+	import { availableNetworks } from '../../../data/networks'
+	import { TransactionProvider, transactionProviderIcons } from '../../../data/transactionProvider'
+	import { parallelLoaderStore } from '../../../utils/parallelLoaderStore'
+	import { chainCodeFromNetwork, MoralisWeb3Api } from '../../../api/moralis/web3Api'
+
+
 	// Components
 
 	import ExplorerInput from '../../../components/ExplorerInput.svelte'
@@ -83,7 +104,10 @@
 
 	import EthereumAccountOrContract from '../../../components/EthereumAccountOrContract.svelte'
 	import EthereumBlockLoader from '../../../components/EthereumBlockLoader.svelte'
+	import EthereumBlockNavigation from '../../../components/EthereumBlockNavigation.svelte';
 	import EthereumTransactionLoader from '../../../components/EthereumTransactionLoader.svelte'
+	import Loader from '../../../components/Loader.svelte';
+
 
 	// Transitions
 
@@ -105,6 +129,40 @@
 	.row > * {
 		flex: 1 20rem;
 	}
+
+
+	.navigation {
+		--padding-inner: 0.25em;
+
+		/* margin: 0 calc(-1 * var(--padding-outer)); */
+		margin-top: auto;
+		padding: var(--padding-outer);
+
+		background-color: rgba(0, 0, 0, 0.25);
+		-webkit-backdrop-filter: var(--overlay-backdrop-filter);
+		backdrop-filter: var(--overlay-backdrop-filter);
+		border-radius: var(--card-border-radius);
+		margin: 0 calc(-1 * var(--padding-outer));
+	}
+	.navigation.currentNetwork {
+		position: sticky;
+		bottom: 4rem;
+		/* bottom: 0; */
+		z-index: 1;
+	}
+	.navigation.otherNetworks {
+		font-size: 0.8em;
+	}
+	/* .navigation {
+		position: sticky;
+		top: calc(100% - 8rem);
+		bottom: 3.5rem;
+
+		transition: 0.3s;
+	}
+	.navigation:not(:hover):not(:focus-within) {
+		transform: translateY(calc(100% - 1em - var(--padding-outer) * 2));
+	} */
 </style>
 
 
@@ -119,77 +177,140 @@
 			network={$explorerNetwork}
 			providerPromise={$explorerProvider && (async () => $explorerProvider)}
 			providerName={$preferences.rpcNetwork}
+			contentClass="column"
 		>
 			{#if $explorerProvider}
-				{#key $query}
-					{#if $query}
-						{#if _isTransaction}
-							<div class="column">
-								<EthereumTransactionLoader
-									network={$explorerNetwork}
-									transactionID={$query}
-									provider={$explorerProvider}
-
-									detailLevel="exhaustive"
-									tokenBalanceFormat="both"
-									showFees={true}
-
-									layout="standalone"
-								/>
-							</div>
-						{:else if _isBlockNumber}
-							<div class="column">
-								<EthereumBlockLoader
-									network={$explorerNetwork}
-									blockNumber={$query}
-									provider={$explorerProvider}
-									transactionProvider={$preferences.transactionProvider}
-								/>
-							</div>
-						{:else}
-							<div class="column">
-								<EthereumAccountOrContract network={$explorerNetwork} addressOrEnsName={$query} provider={$explorerProvider}/>
-							</div>
-						{/if}
-					{:else}
-						<div class="row">
-							{#if showCurrentBlockHeight}
-								<section class="card">
-									<EthereumBlockHeight
+				<div class="stack">
+					{#key $query}
+						{#if $query}
+							{#if _isTransaction}
+								<div class="column"in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
+									<EthereumTransactionLoader
 										network={$explorerNetwork}
+										transactionID={$query}
 										provider={$explorerProvider}
-										blockNumber={$explorerBlockNumber}
-									/>
-								</section>
-							{/if}
 
-							{#if showCurrentPrice}
-								<section class="card">
-									<CurrentPrice
-										currentPriceProvider={$preferences.currentPriceProvider}
-										token={$explorerNetwork.nativeCurrency.symbol}
-										quoteCurrency={$preferences.quoteCurrency}
-										provider={$ethereumProvider}
-										network={$ethereumNetwork}
-										blockNumber={$explorerBlockNumber}
-									/>
-								</section>
-							{/if}
-						</div>
+										detailLevel="exhaustive"
+										tokenBalanceFormat="both"
+										showFees={true}
 
-						{#if showHistoricalPrice}
-							<div class="row">
-								<section class="card">
-									<HistoricalPriceChart
-										historicalPriceProvider={$preferences.historicalPriceProvider}
-										currencies={[$explorerNetwork.nativeCurrency.symbol]}
-										quoteCurrency={$preferences.quoteCurrency}
+										layout="standalone"
+
+										bind:transaction={navigationContext.transaction}
 									/>
-								</section>
+								</div>
+							{:else if _isBlockNumber}
+								<div class="column" in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
+									<EthereumBlockLoader
+										network={$explorerNetwork}
+										blockNumber={$query}
+										provider={$explorerProvider}
+										transactionProvider={$preferences.transactionProvider}
+
+										bind:block={navigationContext.block}
+									/>
+								</div>
+							{:else}
+								<div class="column" in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
+									<EthereumAccountOrContract network={$explorerNetwork} addressOrEnsName={$query} provider={$explorerProvider}/>
+								</div>
+							{/if}
+						{:else}
+							<div class="column-block" in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
+								<div class="row">
+									{#if showCurrentBlockHeight}
+										<section class="card">
+											<EthereumBlockHeight
+												network={$explorerNetwork}
+												provider={$explorerProvider}
+												blockNumber={$explorerBlockNumber}
+											/>
+										</section>
+									{/if}
+
+									{#if showCurrentPrice}
+										<section class="card">
+											<CurrentPrice
+												currentPriceProvider={$preferences.currentPriceProvider}
+												token={$explorerNetwork.nativeCurrency.symbol}
+												quoteCurrency={$preferences.quoteCurrency}
+												provider={$ethereumProvider}
+												network={$ethereumNetwork}
+												blockNumber={$explorerBlockNumber}
+											/>
+										</section>
+									{/if}
+								</div>
+
+								{#if showHistoricalPrice}
+									<div class="row">
+										<section class="card">
+											<HistoricalPriceChart
+												historicalPriceProvider={$preferences.historicalPriceProvider}
+												currencies={[$explorerNetwork.nativeCurrency.symbol]}
+												quoteCurrency={$preferences.quoteCurrency}
+											/>
+										</section>
+									</div>
+								{/if}
 							</div>
 						{/if}
-					{/if}
-				{/key}
+					{/key}
+				</div>
+
+				<div class="navigation currentNetwork column">
+					<EthereumBlockNavigation
+						network={$explorerNetwork}
+						provider={$explorerProvider}
+						blockNumber={
+							_isBlockNumber ?
+								Number($query)
+							: _isTransaction ?
+								navigationContext.transactionBlockNumber
+							:
+								undefined
+						}
+						showBeforeAndAfter={_isBlockNumber}
+					/>
+				</div>
+				
+				{@const transactionProvider = $preferences.transactionProvider}
+				{#if _isBlockNumber && availableNetworks && transactionProvider === TransactionProvider.Moralis && navigationContext.block?.timestamp}
+					{@const network = $explorerNetwork}
+					{@const otherNetworks = availableNetworks.filter(_network => _network !== network)}
+				
+					<Loader
+						loadingIconName={'Moralis'}
+						loadingIcon={transactionProviderIcons[transactionProvider]}
+						fromStore={otherNetworks && navigationContext.block?.timestamp && (() =>
+							// <Awaited<ReturnType<typeof MoralisWeb3Api.dateToBlock.getDateToBlock>>[]>
+							parallelLoaderStore(otherNetworks, network => (
+								MoralisWeb3Api.dateToBlock.getDateToBlock({
+									chain: chainCodeFromNetwork(network),
+									date: navigationContext.block.timestamp
+								})
+							))
+						)}
+						then={closestBlockByNetwork => [...closestBlockByNetwork?.entries()].filter(([network, { block: blockNumber }]) => blockNumber > 0) ?? []}
+						let:result={networksAndClosestBlock}
+						clip={false}
+					>
+						<svelte:fragment slot="loadingMessage">
+							Finding blocks produced around the same time as {network.name} › Block {navigationContext.block.blockNumber}...
+						</svelte:fragment>
+				
+						{#if networksAndClosestBlock?.length}
+							<div class="navigation otherNetworks column">
+								{#each networksAndClosestBlock as [network, {block: blockNumber, timestamp}]}
+									<EthereumBlockNavigation
+										{network}
+										blockNumber={blockNumber > 1 ? Number(blockNumber) : undefined}
+									/>
+								{/each}
+							</div>
+						{/if}
+					</Loader>
+				{/if}
 			{/if}
 		</NetworkProviderLoader>
 	{/if}

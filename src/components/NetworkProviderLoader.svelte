@@ -27,6 +27,7 @@
 	)}
 	let:result={provider}
 	clip={false}
+	{...$$restProps}
 >
 	<NetworkIcon slot="loadingIcon" {network} />
 
