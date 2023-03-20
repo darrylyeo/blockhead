@@ -52,7 +52,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		name: 'Default RPC Provider',
 		get: ({ network }) => (
 			new JsonRpcProvider(
-				network.providers?.[0],
+				network.rpc?.[0],
 				network.chainId
 			)
 		)
