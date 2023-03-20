@@ -114,7 +114,10 @@
 				owner: address,
 				tokenId: nft.id,
 				// tokenUri: nft.tokenUri,
-				metadata: nft.metadata ?? {},
+				metadata: {
+					...nft.metadata,
+					name: nft.metadata ? String(nft.metadata.name) : undefined,
+				},
 				erc1155Balance: nft.balance,
 			})
 		}
