@@ -1,15 +1,19 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
-	import { getEthersProvider } from '../data/networkProviders'
-	import { preferences } from '../state/preferences'
+	import { NetworkProvider } from '../data/networkProviders/types'
 
 
 	export let network: Ethereum.Network
 	export let providerPromise: () => Promise<Ethereum.Provider>
-	export let providerName: Ethereum.ProviderName = $preferences.rpcNetwork
+	export let providerName: NetworkProvider
 
 
-	let viaRPC = $preferences.rpcNetwork === 'Auto' ? '' : ` via ${$preferences.rpcNetwork}`
+	import { getEthersProvider } from '../data/networkProviders'
+	import { preferences } from '../state/preferences'
+
+	$: providerName = $$props.providerName || $preferences.rpcNetwork
+
+	$: viaRPC = providerName === NetworkProvider.Default ? '' : ` via ${providerName}`
 
 
 	import Loader from './Loader.svelte'
@@ -18,13 +22,18 @@
 
 
 <Loader
-	loadingMessage="Connecting to the {network ? `${network.name} ` : ''} blockchain{viaRPC}..."
-	fromPromise={network && providerName && (async () =>
-		await getEthersProvider({
-			network,
-			networkProvider: providerName
-		})
-	)}
+	loadingMessage="Connecting to the {network ? `${network.name} ` : ''} network{viaRPC}..."
+	errorMessage="Error connecting to the {network ? `${network.name} ` : ''} network{viaRPC}. Try changing the On-Chain Data provider in Preferences."
+	fromPromise={
+		providerPromise || (
+			network && providerName && (async () =>
+				await getEthersProvider({
+					network,
+					networkProvider: providerName,
+				})
+			)
+		)
+	}
 	let:result={provider}
 	clip={false}
 	{...$$restProps}
