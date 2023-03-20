@@ -338,7 +338,7 @@
 
 								<NetworkSelect
 									on:change={({ detail: { network, target }}) => {
-										newNetworks = [...newNetworks, network]
+										newNetworks = newNetworks.includes(network) ? newNetworks.filter(_ => _ !== network) : [...newNetworks, network]
 										target.value = ''
 									}}
 									placeholder="Add Network..."
