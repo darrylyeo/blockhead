@@ -109,10 +109,12 @@
 	{#if $accountConnections?.length}
 		<optgroup label="Connected Accounts">
 			{#each $accountConnections as accountConnection}
-				<option
-					value={accountConnection.state?.address}
-					label={accountConnection.walletType}
-				/>
+				{#if accountConnection.state?.address}
+					<option
+						value={accountConnection.state.address}
+						label={accountConnection.walletType}
+					/>
+				{/if}
 			{/each}
 		</optgroup>
 	{/if}
