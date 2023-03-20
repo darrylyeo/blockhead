@@ -2,6 +2,8 @@
 	import type { Ethereum } from '../data/networks/types'
 	import { networksBySection, testnetsForMainnets, getNetworkColor, networksByChainID } from '../data/networks'
 
+
+	export let placeholder = 'Select Network...'
 	export let showTestnets = false
 
 
@@ -31,7 +33,7 @@
 		dispatch('change', { network, target: e.target })
 	}}
 >
-	<option value="" selected>Select Network...</option>
+	<option value="" selected>{placeholder}</option>
 
 	{#each networksBySection as {title, networks}}
 		<optgroup label={title}>

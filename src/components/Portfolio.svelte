@@ -341,6 +341,7 @@
 										newNetworks = [...newNetworks, network]
 										target.value = ''
 									}}
+									placeholder="Add Network..."
 								/>
 
 								<!-- <input type="text" name="networks[]" bind:value={newNetworks} required hidden /> -->
