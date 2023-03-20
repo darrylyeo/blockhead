@@ -28,6 +28,8 @@
 	
 	import { useQuery } from '@sveltestack/svelte-query'
 
+	import { toBeHex } from 'ethers'
+
 	import { getBlock } from '../api/covalent'
 
 	import { chainCodeFromNetwork, MoralisWeb3Api } from '../api/moralis/web3Api'
@@ -211,8 +213,8 @@
 					// for(let block; !block; block = await provider.getBlockWithTransactions(toHex(blockNumber)));
 					// console.log('block', block)
 					try {
-						const block = await provider.getBlockWithTransactions(blockNumber)
-						return block
+						// const block = await provider.getBlockWithTransactions(blockNumber)
+						return await provider.getBlock(toBeHex(blockNumber), true)
 					}catch(e){
 						console.dir(e)
 						if(e.body){
