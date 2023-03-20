@@ -4,6 +4,7 @@ export enum WalletType {
 	// MEW = 'MEW',
 	Rainbow = 'Rainbow',
 	Intmax = 'Intmax',
+	Liquality = 'Liquality',
 	// Tally = 'Tally',
 	WalletConnect1 = 'WalletConnect1',
 	WalletConnect1_Web3Modal = 'WalletConnect1_Web3Modal',
@@ -90,6 +91,9 @@ import {
 	WalletConnect2Icon,
 } from '../assets/walletIcons'
 
+import { LiqualityIcon } from '../assets/icons'
+
+
 export const wallets: WalletConfig[] = [
 	{
 		type: WalletType.MetaMask,
@@ -136,6 +140,24 @@ export const wallets: WalletConfig[] = [
 		],
 
 		injectedEip1193ProviderFlag: 'isCoinbaseWallet',
+	},
+	{
+		type: WalletType.Liquality,
+		name: 'Liquality Wallet',
+		icon: LiqualityIcon,
+		colors: [
+			'#1CE5C3',
+			'#5440D7',
+			'#8B2CE4',
+			'#D421EB',
+			'#AC39FD',
+		],
+
+		connectionTypes: [
+			WalletConnectionType.InjectedEthereum,
+		],
+
+		injectedEip1193ProviderFlag: 'isLiquality',
 	},
 	// {
 	// 	type: WalletType.MEW,
