@@ -337,8 +337,29 @@ label input:is([type="checkbox"]):not(:checked) ~ span:before {
 	content: "⃞";
 	opacity: 0.5;
 }
+label:active input:is([type="checkbox"]):not(:checked) ~ span:before {
+	/* content: "+⃞"; */
+	animation: CheckboxAdd 0s 0.075s forwards;
+}
+@keyframes CheckboxAdd {
+	to {
+		content: "+⃞";
+	}
+}
 label input[type="checkbox"]:checked ~ span:before {
 	content: "✓⃞";
+}
+/* label:not(:focus):not(:focus-within):hover input:is([type="checkbox"]):checked ~ span:before {
+	animation: CheckboxDelete 0s 0.33s forwards;
+}*/
+label:active input[type="checkbox"]:checked ~ span:before {
+	/* content: "☒"; */
+	animation: CheckboxDelete 0s 0.075s forwards;
+}
+@keyframes CheckboxDelete {
+	to {
+		content: "☒";
+	}
 }
 label input:is([type="radio"]):not(:checked) ~ span:before {
 	content: "⃝";
