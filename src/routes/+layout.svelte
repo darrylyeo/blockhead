@@ -134,21 +134,21 @@
 	additionalLinkTags: [
 		{
 			rel: 'icon',
-			href: 'favicon.png',
+			href: '/favicon.png',
 		},
 		{
 			rel: 'apple-touch-icon',
-			href: 'logo-192.png',
+			href: '/logo-192.png',
 			sizes: '192x192',
 		},
 		{
 			rel: 'apple-touch-icon',
-			href: 'logo-512.png',
+			href: '/logo-512.png',
 			sizes: '512x512',
 		},
 		{
 			rel: 'manifest',
-			href: 'manifest.json',
+			href: '/manifest.json',
 		},
 	]
 }} />
