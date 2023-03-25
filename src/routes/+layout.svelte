@@ -96,7 +96,62 @@
 		Object.assign(globalThis.document.documentElement?.dataset ?? {}, {
 			'colorScheme': $preferences.theme,
 		})
+
+
+	// Metadata
+	import { MetaTags } from 'svelte-meta-tags'
 </script>
+
+
+<MetaTags {...{
+	title: `Blockhead | track, visualize & explore all of crypto, DeFi & web3`,
+	titleTemplate: `%s | Blockhead`,
+	description: `Track, visualize & explore all of crypto, DeFi & web3 with Blockhead's crypto portfolio tracker, cross-EVM block explorer, and interfaces for your favorite dapps and web3 infrastructure.`,
+	openGraph: {
+		type: 'website',
+		url: 'https://blockhead.info',
+		title: `Blockhead | track, visualize & explore all of crypto, DeFi & web3`,
+		description: `Track, visualize & explore all of crypto, DeFi & web3 with Blockhead's crypto portfolio tracker, cross-EVM block explorer, and interfaces for your favorite dapps and web3 infrastructure.`,
+		images: [
+			{
+				url: 'Blockhead@1-1728x1080.png',
+				width: 1728,
+				height: 1080,
+				alt: 'Blockhead | track, visualize & explore all of crypto, DeFi & web3'
+			},
+		],
+		site_name: 'Blockhead | track, visualize & explore all of crypto, DeFi & web3',
+	},
+	twitter: {
+		handle: '@darryl__yeo',
+		site: '@0xBlockhead',
+		cardType: 'summary_large_image',
+		title: `Blockhead | track, visualize & explore all of crypto, DeFi & web3`,
+		description: `Track, visualize & explore all of crypto, DeFi & web3 with Blockhead's crypto portfolio tracker, cross-EVM block explorer, and interfaces for your favorite dapps and web3 infrastructure.`,
+		image: 'Blockhead@1-1728x1080.png',
+		imageAlt: 'Blockhead | track, visualize & explore all of crypto, DeFi & web3',
+	},
+	additionalLinkTags: [
+		{
+			rel: 'icon',
+			href: 'favicon.png',
+		},
+		{
+			rel: 'apple-touch-icon',
+			href: 'logo-192.png',
+			sizes: '192x192',
+		},
+		{
+			rel: 'apple-touch-icon',
+			href: 'logo-512.png',
+			sizes: '512x512',
+		},
+		{
+			rel: 'manifest',
+			href: 'manifest.json',
+		},
+	]
+}} />
 
 
 <style>

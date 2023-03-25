@@ -41,6 +41,7 @@ specifiers:
   svelte: ^3.55.1
   svelte-apollo: ^0.5.0
   svelte-check: ^3.0.4
+  svelte-meta-tags: ^2.7.0
   svelte-preprocess: ^4.10.7
   svelvet: ^6.0.12
   swagger-typescript-api: ^10.0.3
@@ -74,6 +75,7 @@ dependencies:
   key-did-resolver: 1.4.4
   process: 0.11.10
   svelte-apollo: 0.5.0_albwwnhkjwmjo7ljvrjhp5pzbu
+  svelte-meta-tags: 2.7.0_4x7phaipmicbaooxtnresslofa
   svelvet: 6.0.12
   webmax: 0.1.9
 
@@ -13777,6 +13779,14 @@ packages:
       loose-envify: 1.4.0
     dev: false
 
+  /schema-dts/1.1.2_typescript@4.9.5:
+    resolution: {integrity: sha512-MpNwH0dZJHinVxk9bT8XUdjKTxMYrA5bLtrrGmFA6PTLwlOKnhi67XoRd6/ty+Djt6ZC0slR57qFhZDNMI6DhQ==}
+    peerDependencies:
+      typescript: '>=4.1.0'
+    dependencies:
+      typescript: 4.9.5
+    dev: false
+
   /schema-utils/2.7.0:
     resolution: {integrity: sha512-0ilKFI6QQF5nxDZLFn2dMjvc4hjg/Wkg7rHd3jK6/A4a1Hl9VFdQWvgB1UMGoU94pad1P/8N7fMcEnLnSiju8A==}
     engines: {node: '>= 8.9.0'}
@@ -14574,6 +14584,17 @@ packages:
     dependencies:
       svelte: 3.55.1
     dev: true
+
+  /svelte-meta-tags/2.7.0_4x7phaipmicbaooxtnresslofa:
+    resolution: {integrity: sha512-52mNWYxyfQQobm0zIMs78fcQrabbvmqJ3HnkoyFQD5WwqUVN5fXVB75rY8T3ObnJZn/C2HTPq8eI8f3pjFNlFQ==}
+    peerDependencies:
+      svelte: ^3.44.0
+    dependencies:
+      schema-dts: 1.1.2_typescript@4.9.5
+      svelte: 3.55.1
+    transitivePeerDependencies:
+      - typescript
+    dev: false
 
   /svelte-preprocess/4.10.7_m73f5j6cepbqagrf7exwnq7j5a:
     resolution: {integrity: sha512-sNPBnqYD6FnmdBrUmBCaqS00RyCsCpj2BG58A1JBswNF7b0OKviwxqVrOL/CKyJrLSClrSeqQv5BXNg2RUbPOw==}

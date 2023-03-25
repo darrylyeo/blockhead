@@ -1,4 +1,8 @@
 <script lang="ts">
+	// Metadata
+	import { MetaTags } from 'svelte-meta-tags'
+
+
 	import { getContext } from 'svelte'
 	
 	import type { Ethereum } from '../../data/networks/types'
@@ -44,6 +48,7 @@
 	$: network = networksByChainID[$ethereumChainID]
 
 
+	// Components
 	import PortfolioComponent from '../../components/Portfolio.svelte'
 	import Preferences from '../../components/Preferences.svelte'
 	import AccountConnections from '../../components/AccountConnections.svelte'
@@ -62,9 +67,11 @@
 </script>
 
 
-<svelte:head>
-	<title>Portfolio | Blockhead</title>
-</svelte:head>
+<MetaTags {...{
+	title: 'Portfolio',
+	titleTemplate: '%s | Blockhead',
+	description: `Track your ERC-20 tokens, DeFi balances, and NFTs across multiple wallets & EVM chains with Blockhead's portfolio tracker.`,
+}} />
 
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>

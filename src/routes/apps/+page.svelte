@@ -1,4 +1,8 @@
 <script lang="ts">
+	// Metadata
+	import { MetaTags } from 'svelte-meta-tags'
+
+
 	import { web3AppsBySection } from '../../data/web3Apps'
 
 
@@ -8,6 +12,13 @@
 	import { cardStyle } from '../../utils/card-background'
 	import { fly, scale } from 'svelte/transition'
 </script>
+
+
+<MetaTags {...{
+	title: 'Explorer',
+	titleTemplate: '%s | Blockhead',
+	description: 'Explore transactions, blocks, accounts and smart contracts across Ethereum, Polygon, Gnosis Chain, and other EVM chains.',
+}} />
 
 
 <style>
@@ -75,7 +86,6 @@
 		flex: 10000;
 	}
 </style>
-
 
 
 <div class="column" in:fly={{x: 300}} out:fly={{x: -300}}>
