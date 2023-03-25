@@ -73,7 +73,7 @@
 			{#each $localPortfolios as portfolio, i (i)}
 				<PortfolioComponent
 					bind:portfolio
-					editable={true}
+					isEditable
 					provider={portfolioProvider}
 					defiProvider={$preferences.defiProvider}
 					tokenBalancesProvider={$preferences.tokenBalancesProvider}

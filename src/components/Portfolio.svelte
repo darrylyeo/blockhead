@@ -22,14 +22,14 @@
 
 	export let portfolio: Portfolio
 
-	export let editable = false
+	export let isEditable = true
 
 
 	import { triggerEvent } from '../events/triggerEvent'
 
 
 	let state = State.Idle
-	$: if(editable && portfolio.name === '')
+	$: if(isEditable && portfolio.name === '')
 		state = State.Editing
 
 	let previousState: State
@@ -101,7 +101,7 @@
 	$: tokenBalancesProvider = $$props.tokenBalancesProvider || $preferences.tokenBalancesProvider
 	$: nftProvider = $$props.nftProvider || $preferences.nftProvider
 	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
-	
+
 	let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
 	let showSmallValues = false
@@ -224,7 +224,7 @@
 >
 	<header class="bar">
 		<slot name="title">
-			<h1 class="row" on:dblclick={editable && (() => state = State.Editing)}>
+			<h1 class="row" on:dblclick={isEditable && (() => state = State.Editing)}>
 				{#if state !== State.Editing}
 					{portfolio.name || '[Untitled Portfolio]'}
 				{:else}
@@ -265,7 +265,7 @@
 			</span>
 		{/if} -->
 
-		{#if editable}
+		{#if isEditable}
 			<div class="stack-inline">
 				<InlineContainer containerClass="align-end" isOpen={state !== State.Editing}>
 					<div class="bar align-end" transition:scale>
@@ -276,6 +276,7 @@
 							<button data-before="✎" on:click={() => state = State.Editing} transition:scale>Edit</button>
 						</InlineContainer>
 					</div>
+
 				</InlineContainer>
 				<InlineContainer containerClass="align-end" isOpen={state === State.Editing}>
 					<div class="bar align-end" transition:scale>
@@ -393,7 +394,7 @@
 						out:scale={{ start: 0.95, duration: 150, opacity: 0 }}
 					>
 						<h3>Your Blockhead Portfolio is empty!</h3>
-						{#if editable}
+						{#if isEditable}
 							<p>You can <a on:click={() => state = State.Adding}>add a new wallet address manually</a>, or import an address by connecting a wallet service!</p>
 						{/if}
 					</div>
