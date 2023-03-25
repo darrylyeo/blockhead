@@ -114,7 +114,7 @@
 		description: `Track, visualize & explore all of crypto, DeFi & web3 with Blockhead's crypto portfolio tracker, cross-EVM block explorer, and interfaces for your favorite dapps and web3 infrastructure.`,
 		images: [
 			{
-				url: 'Blockhead@1-1728x1080.png',
+				url: 'https://blockhead.info/Blockhead@1-1728x1080.png',
 				width: 1728,
 				height: 1080,
 				alt: 'Blockhead | track, visualize & explore all of crypto, DeFi & web3'
