@@ -68,9 +68,9 @@
 		showTestnets = true
 
 	$: networkDisplayName =
-		$explorerNetwork ? $explorerNetwork.name :
+		$networkSlug && $explorerNetwork ? $explorerNetwork.name :
 		$networkSlug ? $networkSlug[0].toUpperCase() + $networkSlug.slice(1) :
-		'Networks'
+		'Network'
 
 	$: if(globalThis.document && $explorerNetwork)
 		document.documentElement.style.setProperty('--primary-color', getNetworkColor($explorerNetwork))
@@ -87,7 +87,7 @@
 
 	// Style/transitions
 
-	import { fly } from 'svelte/transition'
+	import { fly, scale } from 'svelte/transition'
 </script>
 
 
@@ -99,6 +99,7 @@
 
 	.title {
 		gap: 0.66em;
+		align-items: center;
 	}
 	.title-icon {
 		display: inline-flex;
@@ -109,7 +110,7 @@
 
 
 <svelte:head>
-	<title>{$query ? `${$query} | ` : ''}{$networkSlug ? `${networkDisplayName} Explorer` : `Explorer`} | Blockhead</title>
+	<title>{$query ? `${$query} | ` : ''}{networkDisplayName ? `${networkDisplayName} ` : ''} Explorer | Blockhead</title>
 </svelte:head>
 
 
@@ -117,19 +118,19 @@
 <!-- <main> -->
 	<div class="bar">
 		<div class="title row">
-			<span class="title-icon">
+			<span class="stack-inline">
 				{#key $networkSlug}
-					{#if $networkSlug}
-						<NetworkIcon network={$explorerNetwork} />
-					{:else}
-						<img src="/Blockhead-Logo.svg" width="30" />
-					{/if}
+					<span class="title-icon" in:scale|local={{ duration: 300 }} out:scale|local={{ duration: 300 }}>
+						{#if $networkSlug}
+							<NetworkIcon network={$explorerNetwork} />
+						{:else}
+							<img src="/Blockhead-Logo.svg" width="30" />
+						{/if}
+					</span>
 				{/key}
 			</span>
 			<h1>
-				<InlineContainer class="stack-inline align-end" clip>
-					{#key $networkSlug}<b in:fly|local={{y: 20, duration: 200}} out:fly|local={{y: -20, duration: 200}}><InlineContainer>{$networkSlug ? `${networkDisplayName} ` : `Blockchain `}</InlineContainer></b>{/key}
-				</InlineContainer>
+				<InlineContainer class="stack-inline align-end" clip>{#key $networkSlug}<b in:fly|local={{y: 20, duration: 200}} out:fly|local={{y: -20, duration: 200}}><InlineContainer isOpen={networkDisplayName}>{networkDisplayName} </InlineContainer></b>{/key}</InlineContainer>
 				Explorer
 			</h1>
 		</div>
