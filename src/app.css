@@ -140,6 +140,9 @@
 	overflow: hidden;
 
 	background: linear-gradient(155deg, var(--global-background-gradient-base-color), var(--primary-color, var(--ethereum-blue)) 250%) fixed;
+	transition:
+		--primary-color 1s var(--ease-out-expo),
+		--global-background-gradient-base-color 1s var(--ease-out-expo);
 }
 
 body {

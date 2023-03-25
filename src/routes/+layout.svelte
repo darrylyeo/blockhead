@@ -1,6 +1,23 @@
 <script lang="ts">
+	// CSS
 	import '../fonts.css'
 	import '../app.css'
+
+	for(const propertyDefinition of [
+		{
+			name: '--primary-color',
+			syntax: '<color>',
+			initialValue: 'white',
+			inherits: true,
+		},
+		{
+			name: '--global-background-gradient-base-color',
+			syntax: '<color>',
+			initialValue: 'white',
+			inherits: true,
+		},
+	])
+		globalThis.CSS?.registerProperty?.(propertyDefinition)
 
 
 	// Svelte Query
