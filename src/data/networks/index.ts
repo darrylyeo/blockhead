@@ -5269,9 +5269,9 @@ export const defaultAccountNetworks = [
 export const ethereumAndL2Networks = [
 	'ethereum',
 	'polygon',
+	'gnosis',
 	'arbitrum-one',
 	'optimism',
-	'gnosis',
 	// 'skale-testnet',
 	// 'arbitrum-xdai',
 	// 'metis',
