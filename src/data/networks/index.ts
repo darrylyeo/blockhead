@@ -5278,24 +5278,20 @@ export const ethereumAndL2Networks = [
 	// 'oasis-paratime',
 ].map(slug => networksBySlug[slug])
 
-export const evmL1Networks = [
+export const evmNetworks = [
+	'aurora',
 	'avalanche',
 	'base',
 	'bsc',
 	'celo',
 	'cronos',
-	// 'fantom',
-	'evmos'
-].map(slug => networksBySlug[slug])
-
-export const evmL2Networks = [
-	'aurora',
+	'evmos',
+	'fantom',
 ].map(slug => networksBySlug[slug])
 
 export const otherNetworks = networks.filter(network =>
 	!ethereumAndL2Networks.includes(network)
-	&& !evmL1Networks.includes(network)
-	&& !evmL2Networks.includes(network)
+	&& !evmNetworks.includes(network)
 	&& !Object.values(testnetsForMainnets).some(testnetNetworks => testnetNetworks.includes(network))
 )
 
@@ -5306,15 +5302,20 @@ export const networksBySection = [
 		isFeatured: true,
 	},
 	{
-		title: 'EVM-Based Layer-One Networks',
-		networks: evmL1Networks,
+		title: 'EVM-Based Networks',
+		networks: evmNetworks,
 		isFeatured: true,
 	},
-	{
-		title: 'EVM-Based Rollups',
-		networks: evmL2Networks,
-		isFeatured: true,
-	},
+	// {
+	// 	title: 'EVM-Based Layer-One Networks',
+	// 	networks: evmL1Networks,
+	// 	isFeatured: true,
+	// },
+	// {
+	// 	title: 'EVM-Based Rollups',
+	// 	networks: evmL2Networks,
+	// 	isFeatured: true,
+	// },
 	{
 		title: 'Other Networks',
 		networks: otherNetworks,
