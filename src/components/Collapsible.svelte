@@ -5,6 +5,8 @@
 
 	export let isOpen = false
 
+	export let renderOnlyWhenOpen = true
+
 
 	type SharedSlotProps = {
 		isOpen: boolean,
@@ -165,7 +167,9 @@
 			id: ariaId,
 		} : {}}
 	>
-		<slot {isOpen} {toggle} />
+		{#if renderOnlyWhenOpen ? isOpen : true}
+			<slot {isOpen} {toggle} />
+		{/if}
 	</div>
 
 	<slot name="footer" {isOpen} {toggle} />
