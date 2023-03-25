@@ -71,6 +71,9 @@
 	section:not(.featured) .content {
 		font-size: 0.9em;
 	}
+	section:not(.featured) .content:after {
+		flex: 10000;
+	}
 </style>
 
 

@@ -48,6 +48,10 @@
 	section:not(.featured) {
 		font-size: 0.9em;
 	}
+	section:not(.featured):after {
+		content: '';
+		flex: 10000;
+	}
 </style>
 
 
