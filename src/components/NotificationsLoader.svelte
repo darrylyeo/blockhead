@@ -13,9 +13,9 @@
 
 	import { useQuery } from '@sveltestack/svelte-query'
 
-	import { type Notification, getNotifications } from '../api/push'
+	import { type NotificationRawPayload, getNotifications } from '../api/push'
 	
-	export let notifications: Notification[]
+	export let notifications: NotificationRawPayload[]
 
 
 	import Loader from './Loader.svelte'
@@ -41,9 +41,13 @@
 					await getNotifications({
 						network,
 						address,
+						raw: true,
 						page: pageNumber ?? 1,
 						limit: 100000,
 					})
+						.then(notifications =>
+							notifications.sort((a, b) => b.payload.data.epoch - a.payload.data.epoch)
+						)
 				),
 				// getPreviousPageParam: (firstPage, allPages) => firstPage.length ? allPages.length - 1 : undefined
 				getNextPageParam: (lastPage, allPages) => lastPage.length ? allPages.length + 1 : undefined

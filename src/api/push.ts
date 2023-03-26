@@ -71,6 +71,8 @@ export const pushBlockchainNames: Record<typeof pushSupportedChainIds[number], B
 	420: '',
 } as const
 
+export const pushChainIdForBlockchainName: Record<BlockchainName, typeof pushSupportedChainIds[number]> = Object.fromEntries(Object.entries(pushBlockchainNames).map(([chainId, name]) => [name, chainId]))
+
 
 import * as PushAPI from '@pushprotocol/restapi'
 import { memoizedAsync } from '../utils/memoized'
@@ -104,5 +106,5 @@ export const getNotifications = async <IsRaw extends boolean>({
 	}) as IsRaw extends true ? NotificationRawPayload[] : Notification[]
 
 	// Filter manually by specified network
-	return notifications.filter(notification => notification.blockchain === pushBlockchainNames[network.chainId])
+	return notifications.filter(notification => (raw ? notification.source : notification.blockchain) === pushBlockchainNames[network.chainId])
 }

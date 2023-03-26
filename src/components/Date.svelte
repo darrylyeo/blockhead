@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let date: string | Date
+	export let date: number | string | Date
 
 
 	export let format: 'absolute' | 'relative' | 'both' = 'both'

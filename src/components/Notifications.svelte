@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
-	import { networksBySlug } from '../data/networks'
-	import type { NotificationsProvider } from '../data/notificationsProvider'
-	import { type Notification, pushSupportedChainIds } from '../api/push'
+	import { networksByChainID } from '../data/networks'
+	import type { NotificationsProvider } from '../data/notificationsProvider';
+	import { type NotificationRawPayload, pushChainIdForBlockchainName } from '../api/push'
 
 
 	export let network: Ethereum.Network
@@ -11,16 +11,16 @@
 	export let feedLayout: 'byChannel' | 'chronological' = 'byChannel'
 
 
-	let notifications: Notification[] = []
+	let notifications: NotificationRawPayload[] = []
 
 
 	// Computed Values
 
-	let notificationsByChannel: Record<string, Notification[]>
+	let notificationsByChannel: Record<string, NotificationRawPayload[]>
 	$: {
 		notificationsByChannel = {}
 		for(const notification of notifications ?? [])
-			(notificationsByChannel[notification.app] ??= []).push(notification)
+			(notificationsByChannel[notification.payload.data.app] ??= []).push(notification)
 	}
 
 	export let summary: {
@@ -36,6 +36,7 @@
 
 	// Components
 	import Collapsible from './Collapsible.svelte'
+	import Date from './Date.svelte'
 	import NotificationsLoader from './NotificationsLoader.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
 	import SizeContainer from './SizeContainer.svelte'
@@ -92,12 +93,12 @@
 			>
 				<h4 slot="title" class="row">
 					<img
-						src={notifications[0].icon} 
+						src={notifications[0].payload.data.icon} 
 						height="20"
 						style="width: fit-content"
 						on:error={e => e.target.hidden = true}
 					/>
-					<a href={notifications[0].url} target="_blank" rel="noreferrer">{channelName}</a>
+					<a href={notifications[0].payload.data.url} target="_blank" rel="noreferrer">{channelName}</a>
 				</h4>
 
 				<svelte:fragment slot="toolbar-items">
@@ -108,15 +109,19 @@
 
 				<hr>
 
-				{#each notifications as notification}<!-- (`${notification.blockchain}-${notification.sid}`) -->
-					{@const network = networksBySlug[pushSupportedChainIds[notification.blockchain] ?? 1]}
+				<!-- raw: false -->
+				<!-- {#each notifications as notification}<!-- (`${notification.blockchain}-${notification.sid}`) -- >
+					{@const network = networksByChainID[pushChainIdForBlockchainName[notification.blockchain] ?? 1]} -->
+				<!-- raw: true -->
+				{#each notifications as {source, sender, payload: notification, payload_id} (payload_id)}
+					{@const network = networksByChainID[pushChainIdForBlockchainName[source]]}
 
 					<article class="card">
 						<header class="bar">
 							<h5 class="row">
-								{#if notification.image}
+								{#if notification.data.aimg}
 									<img
-										src={notification.image} 
+										src={notification.data.aimg} 
 										height="20"
 										style="width: fit-content"
 										on:error={e => e.target.hidden = true}
@@ -124,40 +129,48 @@
 								{/if}
 								<!-- <NetworkIcon {network} /> -->
 
-								<!-- <span>{notification.title}</span> -->
+								<!-- <span>{notification.data.asub}</span> -->
 								<span>{notification.notification.body}</span>
 							</h5>
 
-							{#if notification.cta}
-								<a href={notification.cta} target="_blank" rel="noreferrer"><button class="small">Go ›</button></a>
+							{#if notification.data.acta}
+								<a href={notification.data.acta} target="_blank" rel="noreferrer"><button class="small">Go ›</button></a>
 							{/if}
 						</header>
 
-						{#if notification.message !== notification.notification.body}
+						{#if notification.data.amsg !== notification.notification.body}
 							<SizeContainer>
-								<p class="message">{notification.message}</p>
+								<p class="message">{notification.data.amsg}</p>
 							</SizeContainer>
 						{/if}
 
 						<footer class="bar">
 							<div class="row-inline">
-								<span>{notification.notification.title}</span>
+								<!-- <span>{notification.notification.title}</span> -->
 							</div>
+
+							{#if notification.data.epoch}
+								<Date date={notification.data.epoch * 1000} format="relative" />
+							{/if}
 						</footer>
 					</article>
 				{/each}
 			</Collapsible>
 		{/each}
 	{:else if feedLayout === 'chronological'}
-		{#each notifications as notification}<!-- (`${notification.blockchain}-${notification.sid}`) -->
-			{@const network = networksBySlug[pushSupportedChainIds[notification.blockchain] ?? 1]}
+		<!-- raw: false -->
+		<!-- {#each notifications as notification}<!-- (`${notification.blockchain}-${notification.sid}`) -- >
+			{@const network = networksByChainID[pushChainIdForBlockchainName[notification.blockchain] ?? 1]} -->
+		<!-- raw: true -->
+		{#each notifications as {source, sender, payload: notification, payload_id} (payload_id)}
+			{@const network = networksByChainID[pushChainIdForBlockchainName[source] ?? 1]}
 
 			<article class="card">
 				<header class="bar">
 					<h4 class="row">
-						{#if notification.image}
+						{#if notification.data.aimg}
 							<img
-								src={notification.image} 
+								src={notification.data.aimg} 
 								height="24"
 								style="width: fit-content"
 								on:error={e => e.target.hidden = true}
@@ -165,11 +178,11 @@
 						{/if}
 						<!-- <NetworkIcon {network} /> -->
 
-						<span>{notification.title}</span>
+						<span>{notification.data.asub}</span>
 					</h4>
 
-					{#if notification.cta}
-						<a href={notification.cta} target="_blank" rel="noreferrer"><button class="small">Go ›</button></a>
+					{#if notification.data.acta}
+						<a href={notification.data.acta} target="_blank" rel="noreferrer"><button class="small">Go ›</button></a>
 					{/if}
 				</header>
 
@@ -177,9 +190,9 @@
 
 				<p>{notification.notification.body}</p>
 
-				{#if notification.message !== notification.notification.body}
+				{#if notification.data.amsg !== notification.notification.body}
 					<SizeContainer>
-						<p class="message">{notification.message}</p>
+						<p class="message">{notification.data.amsg}</p>
 					</SizeContainer>
 				{/if}
 
@@ -197,8 +210,12 @@
 					</div>
 
 					<span class="card-annotation">
-						<a href={notification.url} target="_blank" rel="noreferrer">{notification.app}</a>
+						<a href={notification.data.url} target="_blank" rel="noreferrer">{notification.data.app}</a>
 					</span>
+
+					{#if notification.data.epoch}
+						<Date date={notification.data.epoch * 1000} format="relative" />
+					{/if}
 				</footer>
 			</article>
 		{/each}
