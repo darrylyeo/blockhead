@@ -8,6 +8,7 @@ import { DefiProvider } from '../data/defiProviders'
 import { NftProvider } from '../data/nftProviders'
 import { PriceProvider } from '../data/priceProviders'
 import { TransactionProvider } from '../data/transactionProvider'
+import { NotificationsProvider } from '../data/notificationsProvider'
 
 
 type PreferenceOption<
@@ -76,6 +77,8 @@ export const preferencesConfig: PreferencesConfig<
 	| 'tokenBalancesProvider'
 	| 'defiProvider'
 	| 'nftProvider'
+
+	| 'notificationsProvider'
 
 	| 'currentPriceProvider'
 	| 'historicalPriceProvider'
@@ -223,6 +226,15 @@ export const preferencesConfig: PreferencesConfig<
 							// { id: 'Moralis', name: 'Moralis' },
 						]
 					}
+				]
+			},
+			{
+				id: 'notificationsProvider',
+				name: 'Notifications',
+				type: 'single',
+				defaultOption: NotificationsProvider.Push,
+				options: [
+					{ id: NotificationsProvider.Push, name: 'Push' },
 				]
 			},
 			{
