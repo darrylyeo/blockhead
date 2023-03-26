@@ -35,6 +35,7 @@
 
 
 	// Components
+	import Collapsible from './Collapsible.svelte'
 	import NotificationsLoader from './NotificationsLoader.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
 </script>
@@ -82,22 +83,27 @@
 
 	{#if feedLayout === 'byChannel'}
 		{#each Object.entries(notificationsByChannel) as [channelName, notifications]}<!-- (`${notification.blockchain}-${notification.sid}`) -->
-			<article class="card">
-				<header class="bar">
-					<h4 class="row">
-						<img
-							src={notifications[0].icon} 
-							height="20"
-							style="width: fit-content"
-							on:error={e => e.target.hidden = true}
-						/>
-						<a href={notifications[0].url} target="_blank" rel="noreferrer">{channelName}</a>
-					</h4>
+			<Collapsible
+				type="label"
+				containerClass="card"
+				class="column-block"
+				showTriggerText={false}
+			>
+				<h4 slot="title" class="row">
+					<img
+						src={notifications[0].icon} 
+						height="20"
+						style="width: fit-content"
+						on:error={e => e.target.hidden = true}
+					/>
+					<a href={notifications[0].url} target="_blank" rel="noreferrer">{channelName}</a>
+				</h4>
 
+				<svelte:fragment slot="toolbar-items">
 					<span class="card-annotation">
 						{notifications.length}
 					</span>
-				</header>
+				</svelte:fragment>
 
 				<hr>
 
@@ -137,7 +143,7 @@
 						</footer>
 					</article>
 				{/each}
-			</article>
+			</Collapsible>
 		{/each}
 	{:else if feedLayout === 'chronological'}
 		{#each notifications as notification}<!-- (`${notification.blockchain}-${notification.sid}`) -->
