@@ -153,6 +153,7 @@ namespace V4 {
 		showBalances: boolean,
 		showDefi: boolean,
 		showNfts: boolean,
+		showFeed: boolean,
 	}
 
 	type SerializedPortfolioAccountView = {
@@ -160,36 +161,42 @@ namespace V4 {
 		showBalances?: boolean,
 		showDefi?: boolean,
 		showNfts?: boolean,
+		showFeed?: boolean,
 	}
 
 	const createPortfolioAccountView = ({
 		chainId,
 		showBalances = true,
 		showDefi = true,
-		showNfts = true
+		showNfts = true,
+		showFeed = true,
 	}: SerializedPortfolioAccountView): PortfolioAccountView => ({
 		chainId,
 		showBalances,
 		showDefi,
 		showNfts,
+		showFeed,
 	})
 
 	const serializePortfolioAccountView = ({
 		chainId,
 		showBalances = true,
 		showDefi = true,
-		showNfts = true
+		showNfts = true,
+		showFeed = true,
 	}: PortfolioAccountView): SerializedPortfolioAccountView => ({
 		chainId,
 		showBalances,
 		showDefi,
 		showNfts,
+		showFeed,
 	})
 
 	export type PortfolioAccount = {
 		id: PortfolioAccountId,
 		nickname: string,
 		views: PortfolioAccountView[],
+		showFeed: boolean,
 
 		addView: (network: Ethereum.Network) => void,
 		deleteView: (view: PortfolioAccountView) => void,
@@ -199,12 +206,14 @@ namespace V4 {
 		id: PortfolioAccountId,
 		nickname: string,
 		views: SerializedPortfolioAccountView[],
+		showFeed: boolean,
 	}
 
 	export const createPortfolioAccount = ({
 		id,
 		nickname = '',
 		views,
+		showFeed = true,
 	}: SerializedPortfolioAccount): PortfolioAccount => ({
 		id,
 		nickname,
@@ -226,10 +235,12 @@ namespace V4 {
 		id,
 		nickname,
 		views,
+		showFeed,
 	}: PortfolioAccount): SerializedPortfolioAccount => ({
 		id,
 		nickname,
 		views: views.map(serializePortfolioAccountView),
+		showFeed,
 	})
 
 
@@ -311,6 +322,7 @@ const getLocalPortfoliosV4 = () => (
 				showBalances,
 				showDefi: showDeFi,
 				showNfts: showNFTs,
+				showFeed: false,
 			})),
 		})),
 	} as V4.SerializedPortfolio))

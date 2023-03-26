@@ -6,6 +6,7 @@
 	import { getNetworkColor, networksByChainID } from '../data/networks'
 	import { type TokenBalancesProvider, tokenBalancesProviderIcons } from '../data/tokenBalancesProvider'
 	import { type NftProvider, nftProviderIcons } from '../data/nftProviders'
+	import { NotificationsProvider, notificationsProviderIcons } from '../data/notificationsProvider'
 	import { Covalent } from '../api/covalent'
 	import { getDefaultProvider } from 'ethers'
 
@@ -18,6 +19,7 @@
 	export let defiProvider: DefiProvider
 	export let tokenBalancesProvider: TokenBalancesProvider
 	export let nftProvider: NftProvider
+	export let notificationsProvider: NotificationsProvider
 	export let quoteCurrency: QuoteCurrency
 
 	export let layout: 'column' | 'grid' = 'grid'
@@ -29,6 +31,7 @@
 	export let showNFTMetadata = false
 	export let showImagesOnly = false
 	export let show3D = false
+	export let showFeed = false
 
 	export let isEditing: boolean
 
@@ -98,6 +101,16 @@
 	$: isGridLayout = (layout === 'grid' || isEditing) && $matchesGridLayoutBreakpoint
 
 
+	const toggleFeed = (showFeed: boolean) => {
+		account.showFeed = showFeed
+
+		account = account
+
+		triggerEvent('PortfolioAccount/ToggleFeed', {
+			isShowing: account.showFeed,
+		})
+	}
+
 	let gridLayoutIsChainExpanded: Record<Ethereum.ChainID, boolean> = {}
 
 	const toggleGridLayoutIsChainExpanded = (chainID: Ethereum.ChainID) =>
@@ -110,6 +123,7 @@
 		columnLayoutIsSectionExpanded = {...columnLayoutIsSectionExpanded, [key]: !columnLayoutIsSectionExpanded[key]}
 
 
+	// Components
 	import Address from './Address.svelte'
 	import Balance from './Balance.svelte'
 	import DefiBalances from './DefiBalances.svelte'
@@ -121,6 +135,7 @@
 	import InlineContainer from './InlineContainer.svelte'
 	import Loading from './Loading.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
+	import Notifications from './Notifications.svelte'
 	import SizeContainer from './SizeContainer.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import TweenedNumber from './TweenedNumber.svelte'
@@ -128,7 +143,7 @@
 
 	import { tokenColors } from '../data/tokenColors'
 
-	import { scale } from 'svelte/transition'
+	import { fade, scale } from 'svelte/transition'
 	import { cardStyle } from '../utils/card-background'
 </script>
 
@@ -195,11 +210,18 @@
 
 	@media (min-width: 62rem) {
 		.grid-row {
+			--account-gridRow-feedColumnWidth: 1fr;
+			--account-gridRow-marginRight: 1fr;
+
 			display: grid;
 			grid-template:
-				"Tokens DeFi NFTs" auto
-				/ [Tokens] 1fr [DeFi] 1fr [NFTs] 1fr;
+				"Tokens DeFi NFTs Feed" auto
+				/ [Tokens] 1fr [DeFi] 1fr [NFTs] 1fr [Feed] var(--account-gridRow-feedColumnWidth);
 			gap: 1.5em;
+		}
+		.grid-row[data-showing-feed="false"] {
+			--account-gridRow-feedColumnWidth: 0fr;
+			margin-right: -1.5em;
 		}
 
 		.grid-row > :global(.token-balances) {
@@ -210,6 +232,9 @@
 		}
 		.grid-row > :global(.nft-balances) {
 			grid-column-start: NFTs;
+		}
+		.grid-row > :global(.feed) {
+			grid-column-start: Feed;
 		}
 	}
 
@@ -376,6 +401,8 @@
 					view.showDefi = !view.showDefi
 				else if(sectionType === 'NFTs')
 					view.showNfts = !view.showNfts
+				else if(sectionType === 'Feed')
+					view.showFeed = !view.showFeed
 
 				// Value isn't yet mutated, invert
 				triggerEvent('PortfolioAccount/ToggleSection', {
@@ -385,6 +412,7 @@
 						'Balances': !view.showBalances,
 						'DeFi': !view.showDefi,
 						'NFTs': !view.showNfts,
+						'Feed': !view.showFeed,
 					}[sectionType],
 				})
 			}}
@@ -409,7 +437,10 @@
 					</header>
 				</SizeContainer>
 
-				<div class="network-content {isGridLayout ? 'column grid-row' : 'column-block'} sticky-layout">
+				<div
+					class="network-content {isGridLayout ? 'column grid-row' : 'column-block'} sticky-layout"
+					data-showing-feed={showFeed}
+				>
 					<!-- Token Balances -->
 					{#if view.showBalances}<section class="token-balances column-block">
 					<!-- <HeightContainer containerClass="token-balances" class="column" isOpen={showBalances}> -->
@@ -656,6 +687,71 @@
 								<!-- {/if} -->
 							</svelte:fragment>
 						</EthereumNftBalances>
+					</section>{/if}
+
+					{#if showFeed}<section class="feed" transition:fade|local={{duration: 300}}>
+						<Notifications
+							{network}
+							{address}
+							isOpen={Boolean(isGridLayout ? gridLayoutIsChainExpanded[view.chainId] : columnLayoutIsSectionExpanded[`${view.chainId}-${'feed'}`]) && !isEditing}
+							isScrollable={!isGridLayout}
+							showIf={notifications => notifications}
+						>
+							<svelte:fragment slot="header" let:summary let:status let:loadingMessage let:errorMessage>
+								<label class="bar card sticky">
+									<h4 class="row">
+										<img
+											src={notificationsProviderIcons[notificationsProvider]}
+											alt={notificationsProvider}
+											width={17.5}
+										/>
+										Feed
+									</h4>
+
+									<InlineContainer containerClass="align-end" class="stack align-end">
+										{#if status === 'loading'}
+											<Loading
+												layout="icon"
+												iconAnimation="hover"
+												title={loadingMessage}
+											>
+												<img
+													slot="icon"
+													src={notificationsProviderIcons[notificationsProvider]}
+													alt={notificationsProvider}
+													width={20}
+												/>
+											</Loading>
+											<!-- <span transition:scale>Loading...</span> -->
+										{:else if status === 'error'}
+											<div class="error-icon-container stack" transition:scale>
+												<img
+													title={errorMessage}
+													src={notificationsProviderIcons[notificationsProvider]}
+													alt={notificationsProvider}
+													width={20}
+												/>
+												<span>⚠︎</span>
+											</div>
+										{:else if summary}
+											<span class="summary" class:is-zero={!summary.notificationsCount}>
+												<strong><TweenedNumber value={summary.notificationsCount} /></strong> notification{summary.notificationsCount === 1 ? '' : 's'}
+												│
+												<!-- across -->
+												<strong><TweenedNumber value={summary.subscriptionsCount} /></strong> subscription{summary.subscriptionsCount === 1 ? '' : 's'}
+											</span>
+										{/if}
+									</InlineContainer>
+									<InlineContainer containerClass="align-end" class="stack align-end">
+										{#if isEditing}
+											<button class="small" on:click={() => toggleSection('Feed')} transition:scale>Hide</button>
+										{:else}
+											<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'feed'}`)} transition:scale>▼</button>
+										{/if}
+									</InlineContainer>
+								</label>
+							</svelte:fragment>
+						</Notifications>
 					</section>{/if}
 					<!-- </HeightContainer> -->
 				</div>

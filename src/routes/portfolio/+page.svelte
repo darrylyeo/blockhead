@@ -84,6 +84,7 @@
 					provider={portfolioProvider}
 					defiProvider={$preferences.defiProvider}
 					tokenBalancesProvider={$preferences.tokenBalancesProvider}
+					notificationsProvider={$preferences.notificationsProvider}
 					quoteCurrency={$preferences.quoteCurrency}
 					on:delete={e => deletePortfolio(i)}
 				/>

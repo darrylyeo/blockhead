@@ -30,13 +30,16 @@ export type Events = {
 		newPortfolioAccountsCount: number,
 	},
 
+	'PortfolioAccount/ToggleFeed': {
+		isShowing: boolean,
+	},
 	'PortfolioAccount/ToggleNetwork': {
 		chainId: Ethereum.ChainID,
 		networkIsShowing: boolean,
 	}
 	'PortfolioAccount/ToggleSection': {
 		chainId: Ethereum.ChainID,
-		sectionType: 'Balances' | 'DeFi' | 'NFTs',
+		sectionType: 'Balances' | 'DeFi' | 'NFTs' | 'Feed',
 		sectionIsShowing: boolean,
 	},
 

@@ -76,6 +76,7 @@
 	{notificationsProvider}
 	bind:notifications
 	let:notifications
+	{...$$restProps}
 >
 	<slot slot="header" name="header" let:status let:loadingMessage let:errorMessage {summary} {status} {loadingMessage} {errorMessage} />
 

@@ -10,6 +10,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
 	import type { DefiProvider } from '../data/defiProviders'
+	import type { NotificationsProvider } from '../data/notificationsProvider'
 	import type { QuoteCurrency } from '../data/currencies'
 
 	import type { Portfolio, PortfolioAccountId } from '../state/portfolio-accounts'
@@ -95,6 +96,7 @@
 	export let defiProvider: DefiProvider
 	export let tokenBalancesProvider
 	export let nftProvider
+	export let notificationsProvider: NotificationsProvider
 	export let quoteCurrency: QuoteCurrency
 
 	$: defiProvider = $$props.defiProvider || $preferences.defiProvider
@@ -109,6 +111,7 @@
 	let showNFTMetadata = false
 	let showImagesOnly = false
 	let show3D = false
+	let showFeed = false
 
 
 	// Computed Values
@@ -414,6 +417,7 @@
 					{defiProvider}
 					{tokenBalancesProvider}
 					{nftProvider}
+					{notificationsProvider}
 					{quoteCurrency}
 
 					{tokenBalanceFormat}
@@ -423,6 +427,8 @@
 					{showNFTMetadata}
 					{showImagesOnly}
 					{show3D}
+					{showFeed}
+
 					isEditing={state === State.Editing}
 
 					bind:summary={accountsSummaries[account.id]}
@@ -494,6 +500,15 @@
 				<label>
 					<input type="checkbox" bind:checked={show3D}>
 					<span>3D</span>
+				</label>
+			</div>
+
+			<div class="row">
+				<h3>Feed</h3>
+
+				<label>
+					<input type="checkbox" bind:checked={showFeed}>
+					<span>Show</span>
 				</label>
 			</div>
 		</div>
