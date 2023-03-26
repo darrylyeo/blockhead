@@ -18,16 +18,6 @@
 
 	export let contentClass = $$props.class
 
-	let otherProps
-	$: {
-		const {
-			duration, clip, isOpen, transitionWidth, transitionHeight, contentsOnly, containerClass, contentClass, class: _,
-			..._otherProps
-		} = $$props
-
-		otherProps = _otherProps
-	}
-
 
 	// Internal state
 	let container: HTMLElement
@@ -114,10 +104,10 @@
 		tabindex={isOpen ? undefined : -1}
 	>
 		<div
+			{...$$restProps}
 			class="content{contentClass ? ` ${contentClass}` : ''}"
 			class:inline
 			bind:this={content}
-			{...otherProps}
 		>
 			{#if renderOnlyWhenOpen ? isOpen : true}
 				<slot />
