@@ -1,5 +1,10 @@
 lockfileVersion: 5.4
 
+patchedDependencies:
+  '@pushprotocol/restapi@0.9.0':
+    hash: 7j4sjra7ilnkzqb7yqqre7jfra
+    path: patches/@pushprotocol__restapi@0.9.0.patch
+
 specifiers:
   '@apollo/client': ^3.7.9
   '@coinbase/wallet-sdk': ^3.6.4
@@ -57,7 +62,7 @@ dependencies:
   '@fontsource/fira-code': 4.5.13
   '@fontsource/ubuntu': 4.5.11
   '@liquality/wallet-sdk': 2.1.0_asrwtzmji6p7kwktnudh7bwnmm
-  '@pushprotocol/restapi': 0.9.0_dlogy6ugeiwi6cjoy4crypspn4
+  '@pushprotocol/restapi': 0.9.0_7j4sjra7ilnkzqb7yqqre7jfra_dlogy6ugeiwi6cjoy4crypspn4
   '@sveltestack/svelte-query': 1.6.0
   '@walletconnect/core': 2.4.6_z3vu5dg2hu3jqyh3anri5tms2q
   '@walletconnect/ethereum-provider': 2.4.6_rdvsic5jmi2x5d3og7i33d37we
@@ -3245,7 +3250,7 @@ packages:
     resolution: {integrity: sha512-Cr4OjIkipTtcXKjAsm8agyleBuDHvxzeBoa1v543lbv1YaIwQjESsVcmjiWiPEbC1FIeHOG/Op9kdCmAmiS3Kw==}
     dev: false
 
-  /@pushprotocol/restapi/0.9.0_dlogy6ugeiwi6cjoy4crypspn4:
+  /@pushprotocol/restapi/0.9.0_7j4sjra7ilnkzqb7yqqre7jfra_dlogy6ugeiwi6cjoy4crypspn4:
     resolution: {integrity: sha512-ngx6jJAg7KzRkJJy87x4CiIS8ZyUQpklellcQ3FQJtNf3XHO2CUVVcOsytJLQ430GYy628iW9rUFGJhtFOLLPA==}
     peerDependencies:
       ethers: ^5.6.8
@@ -3268,6 +3273,7 @@ packages:
       - '@types/node'
       - debug
     dev: false
+    patched: true
 
   /@react-aria/ssr/3.5.0_react@18.2.0:
     resolution: {integrity: sha512-h0MJdSWOd1qObLnJ8mprU31wI8tmKFJMuwT22MpWq6psisOOZaga6Ml4u6Ee6M6duWWISjXvqO4Sb/J0PBA+nQ==}

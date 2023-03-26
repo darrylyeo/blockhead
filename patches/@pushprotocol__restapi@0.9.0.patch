@@ -1,0 +1,28 @@
+diff --git a/src/lib/helpers/address.js b/src/lib/helpers/address.js
+index 87883f261ebe9e5371b435a0f5ed58929701fd77..e215f12cc2361a73a49e28218696dd418794ab44 100644
+--- a/src/lib/helpers/address.js
++++ b/src/lib/helpers/address.js
+@@ -7,19 +7,19 @@ function isValidETHAddress(address) {
+     if (address.includes('eip155:')) {
+         const splittedAddress = address.split(':');
+         if (splittedAddress.length === 3) {
+-            return ethers.utils.isAddress(splittedAddress[2]);
++            return ethers.isAddress(splittedAddress[2]);
+         }
+         if (splittedAddress.length === 2)
+-            return ethers.utils.isAddress(splittedAddress[1]);
++            return ethers.isAddress(splittedAddress[1]);
+     }
+-    return ethers.utils.isAddress(address);
++    return ethers.isAddress(address);
+ }
+ exports.isValidETHAddress = isValidETHAddress;
+ function isValidNFTCAIP10Address(realCAIP10) {
+     const walletComponent = realCAIP10.split(':');
+     if (isNaN(Number(walletComponent[1])))
+         return false;
+-    return (walletComponent.length === 3 && walletComponent[0] === 'eip155' && ethers.utils.isAddress(walletComponent[2]));
++    return (walletComponent.length === 3 && walletComponent[0] === 'eip155' && ethers.isAddress(walletComponent[2]));
+ }
+ exports.isValidNFTCAIP10Address = isValidNFTCAIP10Address;
+ const AddressValidators = {

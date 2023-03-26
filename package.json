@@ -73,6 +73,11 @@
     "typescript": "^4.9.5",
     "vite": "^4.2.1"
   },
+  "pnpm": {
+    "patchedDependencies": {
+      "@pushprotocol/restapi@0.9.0": "patches/@pushprotocol__restapi@0.9.0.patch"
+    }
+  },
   "engines": {
     "node": ">=16.0.0"
   }
