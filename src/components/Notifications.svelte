@@ -74,6 +74,7 @@
 	{network}
 	{address}
 	{notificationsProvider}
+	bind:notifications
 	let:notifications
 >
 	<slot slot="header" name="header" let:status let:loadingMessage let:errorMessage {summary} {status} {loadingMessage} {errorMessage} />

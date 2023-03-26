@@ -13,7 +13,9 @@
 
 	import { useQuery } from '@sveltestack/svelte-query'
 
-	import { getNotifications } from '../api/push'
+	import { type Notification, getNotifications } from '../api/push'
+	
+	export let notifications: Notification[]
 
 
 	import Loader from './Loader.svelte'
@@ -49,6 +51,7 @@
 		}
 		{...$$restProps}
 		let:status
+		bind:result={notifications}
 		let:result={notifications}
 	>
 		<slot name="header" slot="header" let:loadingMessage let:errorMessage {notifications} {status} {loadingMessage} {errorMessage} />
