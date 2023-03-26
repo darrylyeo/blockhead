@@ -81,6 +81,7 @@
 		overflow: clip;
 		overflow-clip-margin: var(--padding-outer);
 		transform-origin: top;
+		align-content: start;
 	}
 	.container:is([data-state="closed"],
 	details:not([open])) > .collapsible {
