@@ -7,6 +7,8 @@
 
 	export let renderOnlyWhenOpen = true
 
+	export let showTriggerText = true
+
 
 	type SharedSlotProps = {
 		isOpen: boolean,
@@ -143,13 +145,13 @@
 
 				<button
 					class="small"
-					data-after={isOpen ? '⏶' : '⏷'}
+					data-after={showTriggerText ? isOpen ? '⏶' : '⏷' : isOpen ? '▲' : '▼'}
 					{...type === 'label' ? {
 						'aria-controls': ariaId,
 						'aria-expanded': isOpen ? 'true' : 'false',
 					} : {}}
 					on:click={toggle}
-				>{isOpen ? 'Hide' : 'Show'}</button>
+				>{showTriggerText ? isOpen ? 'Hide' : 'Show' : ''}</button>
 				<!-- <button
 					class="small"
 					data-after={isOpen ? '▲' : '▼'}
