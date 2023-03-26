@@ -58,7 +58,8 @@ export type NotificationRawPayload = {
 
 import Constants, { ENV } from '@pushprotocol/restapi/src/lib/constants'
 
-export const pushSupportedChainIds = [...Constants.ETH_CHAINS, ...Constants.NON_ETH_CHAINS] as Ethereum.ChainID[]
+// export const pushSupportedChainIds = [...Constants.ETH_CHAINS, ...Constants.NON_ETH_CHAINS] as Ethereum.ChainID[]
+export const pushSupportedChainIds = [1, 5, 137, 80001, 56, 97, 10, 420] as Ethereum.ChainID[]
 
 export const pushBlockchainNames: Record<typeof pushSupportedChainIds[number], BlockchainName> = {
 	1: 'ETH_MAINNET',
