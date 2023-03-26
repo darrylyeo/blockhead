@@ -288,8 +288,11 @@
 		height: 0;
 	}
 
-	label {
-		cursor: ns-resize;
+	:global([data-state="closed"]) > label {
+		cursor: zoom-in;
+	}
+	:global([data-state="open"]) > label {
+		cursor: zoom-out;
 	}
 </style>
 
