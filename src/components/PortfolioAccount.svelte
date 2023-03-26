@@ -170,6 +170,9 @@
 		grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));;
 	} */
 
+	h4 {
+		white-space: nowrap;
+	}
 	/* h4 {
 		transition: padding-left 0.15s;
 	}
