@@ -38,6 +38,7 @@
 	import Collapsible from './Collapsible.svelte'
 	import NotificationsLoader from './NotificationsLoader.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
+	import SizeContainer from './SizeContainer.svelte'
 </script>
 
 
@@ -133,7 +134,9 @@
 						</header>
 
 						{#if notification.message !== notification.notification.body}
-							<p class="message">{notification.message}</p>
+							<SizeContainer>
+								<p class="message">{notification.message}</p>
+							</SizeContainer>
 						{/if}
 
 						<footer class="bar">
@@ -175,7 +178,9 @@
 				<p>{notification.notification.body}</p>
 
 				{#if notification.message !== notification.notification.body}
-					<p class="message">{notification.message}</p>
+					<SizeContainer>
+						<p class="message">{notification.message}</p>
+					</SizeContainer>
 				{/if}
 
 				<hr>
