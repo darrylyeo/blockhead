@@ -448,29 +448,38 @@
 	{/if}
 
 	<SizeContainer containerClass="sticky-bottom" isOpen={showOptions && portfolio.accounts.length && state !== State.Editing}>
-		<div class="options card row spaced" transition:fly={{ y: 100 }}>
+		<div role="toolbar" class="options card row spaced" transition:fly={{ y: 100 }}>
 			<div class="row">
 				<h3>Balances</h3>
 
-				<label>
-					<!-- <span>Show</span> -->
+				<!-- <label>
+					<!-- <span>Show</span> -- >
 					<TokenBalanceFormatSelect
 						bind:tokenBalanceFormat
 						{quoteCurrency}
 					/>
-				</label>
+				</label> -->
+				<TokenBalanceFormatSelect
+					type="checkboxes"
+					bind:tokenBalanceFormat
+					{quoteCurrency}
+				/>
 
 				<label>
 					<input type="checkbox" bind:checked={showSmallValues}>
-					<span>Small Values</span>
+					<!-- <span>Small Values</span> -->
+					<span>Small</span>
 				</label>
 
 				<label>
 					<span>Sort</span>
 					<select bind:value={sortBy}>
-						<option value="ticker-ascending">Alphabetical</option>
+						<!-- <option value="ticker-ascending">Alphabetical</option>
 						<option value="value-descending">Highest Value</option>
-						<option value="value-ascending">Lowest Value</option>
+						<option value="value-ascending">Lowest Value</option> -->
+						<option value="ticker-ascending">A–Z</option>
+						<option value="value-descending">Highest</option>
+						<option value="value-ascending">Lowest</option>
 					</select>
 				</label>
 			</div>
@@ -480,7 +489,8 @@
 
 				<label>
 					<input type="checkbox" bind:checked={showUnderlyingAssets}>
-					<span>Underlying Assets</span>
+					<!-- <span>Underlying Assets</span> -->
+					<span>Underlying</span>
 				</label>
 			</div>
 
