@@ -294,6 +294,10 @@
 	:global([data-state="open"]) > label {
 		cursor: zoom-out;
 	}
+
+	.summary {
+		font-size: 0.8em;
+	}
 </style>
 
 
