@@ -112,6 +112,7 @@
 	let showCollections = true
 	let show3D = false
 	let showFeed = false
+	let feedLayout: 'byChannel' | 'chronological' = 'byChannel'
 
 
 	// Computed Values
@@ -175,7 +176,7 @@
 
 
 	import { flip } from 'svelte/animate'
-	import { blur, fly, scale } from 'svelte/transition'
+	import { blur, fade, fly, scale } from 'svelte/transition'
 </script>
 
 
@@ -428,6 +429,7 @@
 					showImagesOnly={!showCollections}
 					{show3D}
 					{showFeed}
+					{feedLayout}
 
 					isEditing={state === State.Editing}
 
@@ -520,6 +522,16 @@
 					<input type="checkbox" bind:checked={showFeed}>
 					<span>Show</span>
 				</label>
+
+				<InlineContainer isOpen={showFeed} clip>
+					<label transition:fade|local={{duration: 300}}>
+						<!-- <span>View</span> -->
+						<select bind:value={feedLayout}>
+							<option value="byChannel">By Channel</option>
+							<option value="chronological">Chronological</option>
+						</select>
+					</label>
+				</InlineContainer>
 			</div>
 		</div>
 	</SizeContainer>

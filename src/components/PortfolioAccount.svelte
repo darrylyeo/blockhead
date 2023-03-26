@@ -32,6 +32,7 @@
 	export let showImagesOnly = false
 	export let show3D = false
 	export let showFeed = false
+	export let feedLayout: 'byChannel' | 'chronological' = 'byChannel'
 
 	export let isEditing: boolean
 
@@ -695,6 +696,7 @@
 							{address}
 							isOpen={Boolean(isGridLayout ? gridLayoutIsChainExpanded[view.chainId] : columnLayoutIsSectionExpanded[`${view.chainId}-${'feed'}`]) && !isEditing}
 							isScrollable={!isGridLayout}
+							{feedLayout}
 							showIf={notifications => notifications}
 						>
 							<svelte:fragment slot="header" let:summary let:status let:loadingMessage let:errorMessage>
@@ -738,7 +740,7 @@
 												<strong><TweenedNumber value={summary.notificationsCount} /></strong> notification{summary.notificationsCount === 1 ? '' : 's'}
 												│
 												<!-- across -->
-												<strong><TweenedNumber value={summary.subscriptionsCount} /></strong> subscription{summary.subscriptionsCount === 1 ? '' : 's'}
+												<strong><TweenedNumber value={summary.channelsCount} /></strong> channel{summary.channelsCount === 1 ? '' : 's'}
 											</span>
 										{/if}
 									</InlineContainer>

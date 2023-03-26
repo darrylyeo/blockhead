@@ -8,6 +8,7 @@
 	export let network: Ethereum.Network
 	export let address: Ethereum.Address
 	export let notificationsProvider: NotificationsProvider
+	export let feedLayout: 'byChannel' | 'chronological' = 'byChannel'
 
 
 	let notifications: Notification[] = []
@@ -24,12 +25,12 @@
 
 	export let summary: {
 		notificationsCount: number,
-		subscriptionsCount: number,
+		channelsCount: number,
 	}
 
 	$: summary = {
 		notificationsCount: notifications?.length,
-		subscriptionsCount: Object.keys(notificationsByChannel).length,
+		channelsCount: Object.keys(notificationsByChannel).length,
 	}
 
 
@@ -75,60 +76,120 @@
 	{address}
 	{notificationsProvider}
 	bind:notifications
-	let:notifications
 	{...$$restProps}
 >
 	<slot slot="header" name="header" let:status let:loadingMessage let:errorMessage {summary} {status} {loadingMessage} {errorMessage} />
 
-	{#each notifications as notification}<!-- (`${notification.blockchain}-${notification.sid}`) -->
-		{@const network = networksBySlug[pushSupportedChainIds[notification.blockchain] ?? 1]}
-
-		<article class="card">
-			<header class="bar">
-				<h4 class="row">
-					{#if notification.image}
+	{#if feedLayout === 'byChannel'}
+		{#each Object.entries(notificationsByChannel) as [channelName, notifications]}<!-- (`${notification.blockchain}-${notification.sid}`) -->
+			<article class="card">
+				<header class="bar">
+					<h4 class="row">
 						<img
-							src={notification.image} 
-							height="24"
+							src={notifications[0].icon} 
+							height="20"
 							style="width: fit-content"
 							on:error={e => e.target.hidden = true}
 						/>
+						<a href={notifications[0].url} target="_blank" rel="noreferrer">{channelName}</a>
+					</h4>
+
+					<span class="card-annotation">
+						{notifications.length}
+					</span>
+				</header>
+
+				<hr>
+
+				{#each notifications as notification}<!-- (`${notification.blockchain}-${notification.sid}`) -->
+					{@const network = networksBySlug[pushSupportedChainIds[notification.blockchain] ?? 1]}
+
+					<article class="card">
+						<header class="bar">
+							<h5 class="row">
+								{#if notification.image}
+									<img
+										src={notification.image} 
+										height="20"
+										style="width: fit-content"
+										on:error={e => e.target.hidden = true}
+									/>
+								{/if}
+								<!-- <NetworkIcon {network} /> -->
+
+								<!-- <span>{notification.title}</span> -->
+								<span>{notification.notification.body}</span>
+							</h5>
+
+							{#if notification.cta}
+								<a href={notification.cta} target="_blank" rel="noreferrer"><button class="small">Go ›</button></a>
+							{/if}
+						</header>
+
+						{#if notification.message !== notification.notification.body}
+							<p class="message">{notification.message}</p>
+						{/if}
+
+						<footer class="bar">
+							<div class="row-inline">
+								<span>{notification.notification.title}</span>
+							</div>
+						</footer>
+					</article>
+				{/each}
+			</article>
+		{/each}
+	{:else if feedLayout === 'chronological'}
+		{#each notifications as notification}<!-- (`${notification.blockchain}-${notification.sid}`) -->
+			{@const network = networksBySlug[pushSupportedChainIds[notification.blockchain] ?? 1]}
+
+			<article class="card">
+				<header class="bar">
+					<h4 class="row">
+						{#if notification.image}
+							<img
+								src={notification.image} 
+								height="24"
+								style="width: fit-content"
+								on:error={e => e.target.hidden = true}
+							/>
+						{/if}
+						<!-- <NetworkIcon {network} /> -->
+
+						<span>{notification.title}</span>
+					</h4>
+
+					{#if notification.cta}
+						<a href={notification.cta} target="_blank" rel="noreferrer"><button class="small">Go ›</button></a>
 					{/if}
-					<!-- <NetworkIcon {network} /> -->
+				</header>
 
-					<span>{notification.title}</span>
-				</h4>
+				<hr>
 
-				{#if notification.cta}
-					<a href={notification.cta} target="_blank" rel="noreferrer"><button class="small">Go ›</button></a>
+				<p>{notification.notification.body}</p>
+
+				{#if notification.message !== notification.notification.body}
+					<p class="message">{notification.message}</p>
 				{/if}
-			</header>
 
-			<hr>
+				<hr>
 
-			<p>{notification.notification.body}</p>
+				<footer class="bar">
+					<div class="row-inline">
+						<img
+							src={notification.icon} 
+							height="16"
+							style="width: fit-content"
+							on:error={e => e.target.hidden = true}
+						/>
+						<span>{notification.notification.title}</span>
+					</div>
 
-			{#if notification.message !== notification.notification.body}
-				<p class="message">{notification.message}</p>
-			{/if}
-
-			<hr>
-
-			<footer class="bar">
-				<div class="row-inline">
-					<img
-						src={notification.icon} 
-						height="16"
-						style="width: fit-content"
-						on:error={e => e.target.hidden = true}
-					/>
-					<span>{notification.notification.title}</span>
-				</div>
-
-				<span class="card-annotation">
-					<a href={notification.url} target="_blank" rel="noreferrer">{notification.app}</a>
-				</span>
-			</footer>
-		</article>
-	{/each}
+					<span class="card-annotation">
+						<a href={notification.url} target="_blank" rel="noreferrer">{notification.app}</a>
+					</span>
+				</footer>
+			</article>
+		{/each}
+	{/if}
 </NotificationsLoader>
