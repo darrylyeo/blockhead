@@ -48,6 +48,13 @@ const config: UserConfig = {
 		},
 	},
 
+	// Node polyfills
+	resolve: {
+		alias: {
+			stream: 'rollup-plugin-node-polyfills/polyfills/stream',
+		}
+	},
+
 	// (WalletConnect 2.0)
 	// [vite] failed to connect to websocket.
 	// Check out your Vite / network configuration and https://vitejs.dev/config/server-options.html#server-hmr .
