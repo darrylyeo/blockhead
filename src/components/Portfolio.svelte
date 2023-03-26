@@ -109,7 +109,7 @@
 	let showSmallValues = false
 	let showUnderlyingAssets = false
 	let showNFTMetadata = false
-	let showImagesOnly = false
+	let showCollections = true
 	let show3D = false
 	let showFeed = false
 
@@ -425,7 +425,7 @@
 					{showSmallValues}
 					{showUnderlyingAssets}
 					{showNFTMetadata}
-					{showImagesOnly}
+					showImagesOnly={!showCollections}
 					{show3D}
 					{showFeed}
 
@@ -498,13 +498,13 @@
 				<h3>NFTs</h3>
 
 				<label>
-					<input type="checkbox" bind:checked={showNFTMetadata}>
-					<span>Metadata</span>
+					<input type="checkbox" bind:checked={showCollections}>
+					<span>Collections</span>
 				</label>
 
 				<label>
-					<input type="checkbox" bind:checked={showImagesOnly}>
-					<span>Collections</span>
+					<input type="checkbox" bind:checked={showNFTMetadata}>
+					<span>Metadata</span>
 				</label>
 
 				<label>
