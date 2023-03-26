@@ -40,6 +40,7 @@
 	import NotificationsLoader from './NotificationsLoader.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
 	import SizeContainer from './SizeContainer.svelte'
+	import TweenedNumber from './TweenedNumber.svelte'
 </script>
 
 
@@ -48,6 +49,10 @@
 	img {
 		border-radius: 0.33rem;
 		object-fit: contain;
+	}
+
+	.count {
+		opacity: 0.4;
 	}
 
 	/* .message {
@@ -102,7 +107,7 @@
 				</h5>
 
 				<svelte:fragment slot="toolbar-items">
-					{notifications.length}
+					<span class="count"><TweenedNumber value={notifications.length} /></span>
 				</svelte:fragment>
 
 				<hr>
