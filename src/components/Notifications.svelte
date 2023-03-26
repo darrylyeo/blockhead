@@ -91,7 +91,7 @@
 				class="column-block"
 				showTriggerText={false}
 			>
-				<h4 slot="title" class="row">
+				<h5 slot="title" class="row">
 					<img
 						src={notifications[0].payload.data.icon} 
 						height="20"
@@ -99,7 +99,7 @@
 						on:error={e => e.target.hidden = true}
 					/>
 					<a href={notifications[0].payload.data.url} target="_blank" rel="noreferrer">{channelName}</a>
-				</h4>
+				</h5>
 
 				<svelte:fragment slot="toolbar-items">
 					<span class="card-annotation">
@@ -118,7 +118,7 @@
 
 					<article class="card">
 						<header class="bar">
-							<h5 class="row">
+							<h6 class="row">
 								{#if notification.data.aimg}
 									<img
 										src={notification.data.aimg} 
@@ -131,7 +131,7 @@
 
 								<!-- <span>{notification.data.asub}</span> -->
 								<span>{notification.notification.body}</span>
-							</h5>
+							</h6>
 
 							{#if notification.data.acta}
 								<a href={notification.data.acta} target="_blank" rel="noreferrer"><button class="small">Go ›</button></a>
@@ -150,7 +150,7 @@
 							</div>
 
 							{#if notification.data.epoch}
-								<Date date={notification.data.epoch * 1000} format="relative" />
+								<Date date={Number(notification.data.epoch) * 1000} format="relative" />
 							{/if}
 						</footer>
 					</article>
@@ -167,7 +167,7 @@
 
 			<article class="card">
 				<header class="bar">
-					<h4 class="row">
+					<h5 class="row">
 						{#if notification.data.aimg}
 							<img
 								src={notification.data.aimg} 
@@ -179,7 +179,7 @@
 						<!-- <NetworkIcon {network} /> -->
 
 						<span>{notification.data.asub}</span>
-					</h4>
+					</h5>
 
 					{#if notification.data.acta}
 						<a href={notification.data.acta} target="_blank" rel="noreferrer"><button class="small">Go ›</button></a>
@@ -214,7 +214,7 @@
 					</span>
 
 					{#if notification.data.epoch}
-						<Date date={notification.data.epoch * 1000} format="relative" />
+						<Date date={Number(notification.data.epoch) * 1000} format="relative" />
 					{/if}
 				</footer>
 			</article>
