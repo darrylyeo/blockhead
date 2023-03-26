@@ -102,9 +102,7 @@
 				</h5>
 
 				<svelte:fragment slot="toolbar-items">
-					<span class="card-annotation">
-						{notifications.length}
-					</span>
+					{notifications.length}
 				</svelte:fragment>
 
 				<hr>
@@ -113,15 +111,15 @@
 				<!-- {#each notifications as notification}<!-- (`${notification.blockchain}-${notification.sid}`) -- >
 					{@const network = networksByChainID[pushChainIdForBlockchainName[notification.blockchain] ?? 1]} -->
 				<!-- raw: true -->
-				{#each notifications as {source, sender, payload: notification, payload_id} (payload_id)}
-					{@const network = networksByChainID[pushChainIdForBlockchainName[source]]}
+				{#each notifications.slice(0, 100) as {source, sender, payload, payload_id} (payload_id)}
+					<!-- {@const network = networksByChainID[pushChainIdForBlockchainName[source]]} -->
 
-					<article class="card">
+					<article class="card" title="{payload.notification.title}">
 						<header class="bar">
 							<h6 class="row">
-								{#if notification.data.aimg}
+								{#if payload.data.aimg}
 									<img
-										src={notification.data.aimg} 
+										src={payload.data.aimg} 
 										height="20"
 										style="width: fit-content"
 										on:error={e => e.target.hidden = true}
@@ -129,18 +127,23 @@
 								{/if}
 								<!-- <NetworkIcon {network} /> -->
 
-								<!-- <span>{notification.data.asub}</span> -->
-								<span>{notification.notification.body}</span>
+								{#if payload.data.acta}
+									<!-- <a href={notification.data.acta} target="_blank" rel="noreferrer">{notification.data.asub}</a> -->
+									<a href={payload.data.acta} target="_blank" rel="noreferrer">{payload.notification.body}</a>
+								{:else}
+									<!-- <span>{notification.data.asub}</span> -->
+									<span>{payload.notification.body}</span>
+								{/if}
 							</h6>
 
-							{#if notification.data.acta}
+							<!-- {#if notification.data.acta}
 								<a href={notification.data.acta} target="_blank" rel="noreferrer"><button class="small">Go ›</button></a>
-							{/if}
+							{/if} -->
 						</header>
 
-						{#if notification.data.amsg !== notification.notification.body}
+						{#if payload.data.amsg !== payload.notification.body}
 							<SizeContainer>
-								<p class="message">{notification.data.amsg}</p>
+								<p class="message">{payload.data.amsg}</p>
 							</SizeContainer>
 						{/if}
 
@@ -149,8 +152,8 @@
 								<!-- <span>{notification.notification.title}</span> -->
 							</div>
 
-							{#if notification.data.epoch}
-								<Date date={Number(notification.data.epoch) * 1000} format="relative" />
+							{#if payload.data.epoch}
+								<Date date={Number(payload.data.epoch) * 1000} format="relative" />
 							{/if}
 						</footer>
 					</article>
@@ -162,15 +165,15 @@
 		<!-- {#each notifications as notification}<!-- (`${notification.blockchain}-${notification.sid}`) -- >
 			{@const network = networksByChainID[pushChainIdForBlockchainName[notification.blockchain] ?? 1]} -->
 		<!-- raw: true -->
-		{#each notifications as {source, sender, payload: notification, payload_id} (payload_id)}
-			{@const network = networksByChainID[pushChainIdForBlockchainName[source] ?? 1]}
+		{#each notifications.slice(0, 100) as {source, sender, payload, payload_id} (payload_id)}
+			<!-- {@const network = networksByChainID[pushChainIdForBlockchainName[source] ?? 1]} -->
 
-			<article class="card">
+			<article class="card" title="{payload.notification.title}">
 				<header class="bar">
 					<h5 class="row">
-						{#if notification.data.aimg}
+						{#if payload.data.aimg}
 							<img
-								src={notification.data.aimg} 
+								src={payload.data.aimg} 
 								height="24"
 								style="width: fit-content"
 								on:error={e => e.target.hidden = true}
@@ -178,43 +181,45 @@
 						{/if}
 						<!-- <NetworkIcon {network} /> -->
 
-						<span>{notification.data.asub}</span>
+						{#if payload.data.acta}
+							<a href={payload.data.acta} target="_blank" rel="noreferrer">{payload.data.asub}</a>
+						{:else}
+							<span>{payload.data.asub}</span>
+						{/if}
 					</h5>
 
-					{#if notification.data.acta}
+					<!-- {#if notification.data.acta}
 						<a href={notification.data.acta} target="_blank" rel="noreferrer"><button class="small">Go ›</button></a>
-					{/if}
+					{/if} -->
 				</header>
 
-				<hr>
-
-				<p>{notification.notification.body}</p>
-
-				{#if notification.data.amsg !== notification.notification.body}
-					<SizeContainer>
-						<p class="message">{notification.data.amsg}</p>
-					</SizeContainer>
-				{/if}
-
-				<hr>
+				<SizeContainer>
+					<p class="message">
+						{#if payload.data.amsg !== payload.notification.body}
+							<strong>{payload.notification.body}</strong>
+						{/if}
+						{payload.data.amsg}
+					</p>
+				</SizeContainer>
 
 				<footer class="bar">
 					<div class="row-inline">
 						<img
-							src={notification.icon} 
+							src={payload.icon} 
 							height="16"
 							style="width: fit-content"
 							on:error={e => e.target.hidden = true}
 						/>
-						<span>{notification.notification.title}</span>
+
+						<!-- <span>{notification.notification.title}</span> -->
+
+						<span class="card-annotation">
+							<a href={payload.data.url} target="_blank" rel="noreferrer">{payload.data.app}</a>
+						</span>
 					</div>
 
-					<span class="card-annotation">
-						<a href={notification.data.url} target="_blank" rel="noreferrer">{notification.data.app}</a>
-					</span>
-
-					{#if notification.data.epoch}
-						<Date date={Number(notification.data.epoch) * 1000} format="relative" />
+					{#if payload.data.epoch}
+						<Date date={Number(payload.data.epoch) * 1000} format="relative" />
 					{/if}
 				</footer>
 			</article>
