@@ -217,7 +217,7 @@
 							transition:scale
 							animate:flip|local={{duration: 300, delay: Math.abs(i + j * 0.1) * 10}}
 						>
-							<div class="bar">
+							<div class="bar wrap">
 								<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} class="row">
 									{#if assets[0]?.appImgUrl}
 										<img class="card-background" src={assets[0].appImgUrl} alt={label} width="20"/>

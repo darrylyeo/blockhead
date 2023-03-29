@@ -71,7 +71,7 @@
 				<span />
 			{/if}
 			<div class="column">
-				<div class="bar">
+				<div class="bar wrap">
 					<div class="row-inline">
 						<h3>
 							<a href="/apps/audius/playlist/{playlist.id}">{playlist.playlist_name}</a>
@@ -80,7 +80,7 @@
 					</div>
 					<p class="card-annotation">{playlist.is_album ? 'Album' : 'Playlist'}</p>
 				</div>
-				<div class="metadata row">
+				<div class="metadata row wrap">
 					{#if playlist.tracks?.length}
 						<span class="tracks">
 							<b>{playlist.tracks.length}</b> track{playlist.tracks.length === 1 ? '' : 's'}

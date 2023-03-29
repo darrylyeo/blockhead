@@ -86,7 +86,7 @@
 </style>
 
 
-<header class="bar">
+<header class="bar wrap">
 	<h2>Wallets</h2>
 
 	<div class="stack align-end" transition:scale>

@@ -72,7 +72,7 @@
 
 		<h2>{title}</h2>
 
-		<section class="row" class:featured={isFeatured}>
+		<section class="row wrap" class:featured={isFeatured}>
 			{#each networks as network, i}
 				<a href="/explorer/{network.slug}" class="item card" in:scale={{delay: i * 10}} style={cardStyle([getNetworkColor(network)])}>
 					<h3 class="row">

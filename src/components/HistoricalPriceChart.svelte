@@ -22,7 +22,7 @@
 </style>
 
 
-<div class="bar">
+<div class="bar wrap">
 	<slot name="title">
 		<h3>Historical Price</h3>
 	</slot>
@@ -36,7 +36,7 @@
 	{priceScale}
 />
 
-<div class="options bar">
+<div class="options bar wrap">
 	<h4>Show</h4>
 	<label>
 		<span>Price Scale</span>

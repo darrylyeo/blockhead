@@ -251,8 +251,8 @@
 					let:provider
 				>
 					<svelte:fragment slot="header">
-						<div class="bar">
-							<span class="row-inline">
+						<div class="bar wrap">
+							<span class="row-inline wrap">
 								<h3 id={slug} class="row-inline">
 									<NetworkIcon {network} />
 									›
@@ -350,7 +350,7 @@
 										<!-- showIf={defiProtocolBalances => defiProtocolBalances.length} -->
 											<svelte:fragment slot="header" let:status>
 												<!-- {#if (status === 'resolved' && defiProtocolBalances.length) || status === 'error'} -->
-													<div class="bar">
+													<div class="bar wrap">
 														<h4><!--DeFi -->Balances</h4>
 														{#if quoteTotal}
 															<TokenBalance
@@ -381,7 +381,7 @@
 															<!-- {:else if assets[0]?.symbol}
 																<span class="card-background"><TokenIcon {network} symbol={assets[0].protocolSymbol} /></span> -->
 															{/if}
-															<div class="bar">
+															<div class="bar wrap">
 																<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{label}">
 																	<a href="/apps/{web3AppsByProviderName.zapper?.[appId]?.slug ?? appId}/address/{address}">{label}</a>
 																</h5>
@@ -435,7 +435,7 @@
 																	reserve, share, supply
 																}}
 																	<div class="defi-protocol-balance column">
-																		<div class="bar">
+																		<div class="bar wrap">
 																			<TokenBalanceWithConversion
 																				{tokenBalanceFormat}
 
@@ -592,7 +592,7 @@
 
 											<svelte:fragment slot="header" let:status>
 												<!-- {#if defiBalances?.length} -->
-													<div class="bar">
+													<div class="bar wrap">
 														<h4><!--DeFi -->Balances</h4>
 														<!-- {#if quoteTotal}
 															<TokenBalance
@@ -666,7 +666,7 @@
 						{/if}
 
 						<!-- ERC-20 Tokens -->
-						<!-- <div class="bar">
+						<!-- <div class="bar wrap">
 							<h4>Token Balances</h4>
 						</div> -->
 						{#if erc20Tokens && !(
@@ -677,7 +677,7 @@
 						)}
 							{#each erc20Tokens.filter(Boolean) as erc20Token}
 								<div class="card erc20-token">
-									<div class="bar">
+									<div class="bar wrap">
 										<h4>
 											{erc20Token.name}
 											(<TokenName {network} {erc20Token} />)
@@ -742,7 +742,7 @@
 													let:balances
 												>
 													<svelte:fragment slot="header">
-														<div class="bar">
+														<div class="bar wrap">
 															<h4>Current Balance</h4>
 															<div class="card-annotation">{$preferences.tokenBalancesProvider}</div>
 														</div>
@@ -812,7 +812,7 @@
 
 				{#if providers?.theGraph && !address}
 					<div class="card" id="subgraph">
-						<div class="bar">
+						<div class="bar wrap">
 							<h4><a href="https://thegraph.com/explorer/subgraph/{providers.theGraph.match(/[^/]+\/[^/]+$/)}">Subgraph ({providers.theGraph.match(/[^/]+\/[^/]+$/)})</a></h4>
 							<div class="card-annotation">The Graph</div>
 						</div>
@@ -871,8 +871,8 @@
 
 
 {#if address}
-	<div class="card bar options" transition:scale>
-		<div class="row">
+	<div class="options card bar wrap" transition:scale>
+		<div class="row wrap">
 			<h3>Show</h3>
 			<label>
 				<TokenBalanceFormatSelect

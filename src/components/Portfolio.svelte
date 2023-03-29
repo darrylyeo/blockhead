@@ -226,7 +226,7 @@
 	transition:scale={{ duration: 300, start: 0.95 }}
 	tabIndex={0}
 >
-	<header class="bar">
+	<header class="bar wrap">
 		<slot name="title">
 			<h1 class="row" on:dblclick={isEditable && (() => state = State.Editing)}>
 				{#if state !== State.Editing}
@@ -450,8 +450,8 @@
 	{/if}
 
 	<SizeContainer containerClass="sticky-bottom" isOpen={showOptions && portfolio.accounts.length && state !== State.Editing}>
-		<div role="toolbar" class="options card row spaced" transition:fly={{ y: 100 }}>
-			<div class="row">
+		<div role="toolbar" class="options card row wrap spaced" transition:fly={{ y: 100 }}>
+			<div class="row wrap">
 				<h3>Balances</h3>
 
 				<!-- <label>
@@ -486,7 +486,7 @@
 				</label>
 			</div>
 
-			<div class="row">
+			<div class="row wrap">
 				<h3>DeFi</h3>
 
 				<label>
@@ -496,7 +496,7 @@
 				</label>
 			</div>
 
-			<div class="row">
+			<div class="row wrap">
 				<h3>NFTs</h3>
 
 				<label>
@@ -515,7 +515,7 @@
 				</label>
 			</div>
 
-			<div class="row">
+			<div class="row wrap">
 				<h3>Feed</h3>
 
 				<label>

@@ -93,7 +93,7 @@
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 <!-- <main> -->
-	<div class="bar">
+	<div class="bar wrap">
 		<div class="row">
 			<span class="title-icon">
 				{#key $web3AppConfig}

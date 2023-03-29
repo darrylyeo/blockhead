@@ -138,12 +138,12 @@
 				<span />
 			{/if}
 			<div class="column">
-				<div class="bar">
-					<div class="row-inline">
+				<div class="bar wrap">
+					<div class="row-inline wrap">
 						<h3>
 							<a href="/apps/audius/track/{track.id}">{track.title}</a>
 						</h3>
-						<span class="row">
+						<span class="row wrap">
 							<span class="user row">by <AudiusUserSummary user={track.user} /></span>
 							{#if track.release_date}
 								<span class="released">
@@ -154,7 +154,7 @@
 									/>
 								</span>
 							{/if}
-							</span>
+						</span>
 					</div>
 					<!-- <p class="card-annotation">Audius Track</p> -->
 					<span class="card-annotation">
@@ -166,7 +166,7 @@
 						{/if}
 					</span>
 				</div>
-				<div class="metadata row-inline">
+				<div class="metadata row-inline wrap">
 					{#if track.duration}
 						<span class="duration">
 							{Math.floor(track.duration / 60)}:{(track.duration % 60).toString().padStart(2, '0')}

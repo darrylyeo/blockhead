@@ -127,13 +127,13 @@
 				'label': 'label',
 				'details': 'summary'
 			}[type]}
-			class="bar"
+			class="bar wrap"
 		>
 			<slot name="title" {isOpen} {toggle}>
 				<h4>{title}</h4>
 			</slot>
 
-			<div class="row">
+			<div class="row wrap">
 				<slot name="toolbar" {isOpen} {toggle}>
 					{#if $$slots['toolbar-items']}
 						<div role="toolbar">

@@ -54,7 +54,7 @@
 		fromPromise={blockNumber && () => getChainlinkPriceFeed(provider, token, quoteCurrency)}
 		let:result={priceFeed}
 	>
-		<div slot="header" class="bar">
+		<div slot="header" class="bar wrap">
 			<h3>Current Price</h3>
 			<span class="card-annotation">{currentPriceProvider}</span>
 		</div>
@@ -78,7 +78,7 @@
 				fromPromise={() => getChainlinkPriceFeed(provider, token, quoteCurrency)}
 				let:result={priceFeed}
 			>
-				<div slot="header" class="bar">
+				<div slot="header" class="bar wrap">
 					<h3>Current Price</h3>
 					<span class="card-annotation">{currentPriceProvider}</span>
 				</div>
@@ -111,7 +111,7 @@
 							_currentPriceProvider = PriceProvider.Covalent
 					}}
 				>
-					<div slot="header" class="bar" let:status>
+					<div slot="header" class="bar wrap" let:status>
 						<slot name="title">
 							<h3>Current Price</h3>
 						</slot>
@@ -146,7 +146,7 @@
 							layout="horizontal"
 						/>
 					</div> -->
-					<footer class="bar">
+					<footer class="bar wrap">
 						<span />
 						<span class="card-annotation">
 							Updated
@@ -179,7 +179,7 @@
 					}}
 					let:result={data}
 				>
-					<div slot="header" class="bar">
+					<div slot="header" class="bar wrap">
 						<slot name="title">
 							<h3>Current Price</h3>
 						</slot>
@@ -219,7 +219,7 @@
 							layout="horizontal"
 						/>
 					</div> -- >
-					<footer class="bar">
+					<footer class="bar wrap">
 						<span>Rank #{data.rank}</span>
 						<span class="card-annotation">Updated {new Date(data.updatedAt).toLocaleTimeString()}</span>
 					</footer>

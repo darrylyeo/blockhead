@@ -116,7 +116,7 @@
 
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 <!-- <main> -->
-	<div class="bar">
+	<div class="bar wrap">
 		<div class="title row">
 			<span class="stack-inline">
 				{#key $networkSlug}

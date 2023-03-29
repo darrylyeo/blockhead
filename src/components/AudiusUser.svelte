@@ -106,7 +106,7 @@
 				<span class="profile-picture" />
 			{/if}
 			<div class="column">
-				<div class="bar">
+				<div class="bar wrap">
 					<!-- <a href="/apps/audius/user/{user.id}" class="name row">
 						<h3>{user.name}</h3>
 						<span class="tag">
@@ -148,7 +148,7 @@
 						{/if} -->
 					</p>
 				</div>
-				<p class="handle-and-location row">
+				<p class="handle-and-location row wrap">
 					<span class="handle">@{user.handle}</span>
 					<!-- {#if user.is_verified}
 						<span class="verified" title="Verified">✔</span>
@@ -158,7 +158,7 @@
 						<span class="location">{user.location}</span>
 					{/if}
 				</p>
-				<div class="metadata row">
+				<div class="metadata row wrap">
 					<!-- {#if user.location}
 						<span class="location">{user.location}</span>
 					{/if} -->

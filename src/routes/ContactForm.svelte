@@ -97,7 +97,7 @@
 		>
 			<input type="hidden" name="form-name" value="contact" />
 
-			<header class="row spaced">
+			<header class="row spaced wrap">
 				<h3>Leave feedback + stay updated!</h3>
 				<span class="card-annotation">drop your ENS for a surprise</span>
 			</header>
@@ -132,12 +132,12 @@
 
 			<!-- <fieldset class="column"> -->
 			<section class="column">
-				<header class="bar">
+				<header class="bar wrap">
 					<span>I identify as a:</span>
 					<span class="card-annotation">Select all that apply</span>
 				</header>
 
-				<div class="row checkboxes">
+				<div class="checkboxes row wrap">
 					<label class="row-inline"><input type="checkbox" name="role" value="crypto-investor"><span>crypto investor</span></label>
 					<label class="row-inline"><input type="checkbox" name="role" value="defi-user"><span>DeFi user</span></label>
 					<label class="row-inline"><input type="checkbox" name="role" value="nft-collector"><span>NFT collector</span></label>
@@ -157,7 +157,7 @@
 			<hr>
 
 			<section class="column">
-				<div class="bar">
+				<div class="bar wrap">
 					<span>Anything else?</span>
 					<span class="card-annotation">feedback / feature requests</span>
 				</div>

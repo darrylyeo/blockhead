@@ -366,7 +366,7 @@
 					{/if}
 
 					<header class="column">
-						<div class="bar">
+						<div class="bar wrap">
 							<h5 class="row">
 								{#if contract.metadata.logoImage}
 									<img
@@ -451,7 +451,7 @@
 										<!-- </a> -->
 
 										<figcaption class="column">
-											<header class="bar">
+											<header class="bar wrap">
 												<div class="nft-name" class:row-inline={!showImagesOnly}>
 													{#if nft.metadata.name}<h6>{nft.metadata.name}</h6>{/if}
 													{#if nft.erc1155Balance && nft.erc1155Balance > 1}

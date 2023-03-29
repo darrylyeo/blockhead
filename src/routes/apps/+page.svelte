@@ -96,7 +96,7 @@
 			<section class="column" class:featured={isFeatured}>
 				<h2>{title}</h2>
 
-				<div class="content row">
+				<div class="content row wrap">
 					{#each apps as app, i}
 						<a href="/apps/{app.slug}" class="item card" transition:scale={{delay: i * 10}} style={cardStyle(app.colors)}>
 							<h3 class="row">

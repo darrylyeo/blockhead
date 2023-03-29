@@ -92,7 +92,7 @@
 
 
 <div class="card domain">
-	<div class="bar">
+	<div class="bar wrap">
 		<h2><EnsName {network} ensName={domain.name} /></h2>
 		<span class="card-annotation">ENS Domain{domain.isMigrated ? ` (ERC721)` : ''}</span>
 	</div>
@@ -221,7 +221,7 @@
 
 	<hr>
 
-	<div class="bar">
+	<div class="bar wrap">
 		<h3>Current Status</h3>
 
 		<span class="card-annotation">
@@ -229,7 +229,7 @@
 		</span>
 	</div>
 
-	<div class="status card row">
+	<div class="status card row wrap">
 		{#if domain.parent}
 			{#if domain.parent.name}
 				<span>
@@ -334,7 +334,7 @@
 				ensName={domain.name}
 				isOpen={showRecords}
 			>
-				<header slot="header" class="bar" let:providerName>
+				<header slot="header" class="bar wrap" let:providerName>
 					<h3>Records</h3>
 
 					<div class="row">
@@ -390,7 +390,7 @@
 
 			<svelte:fragment slot="toolbar-items" let:isOpen>
 				{#if isOpen}
-					<div class="row align-end" transition:scale={{ start: 0.8, duration: 250 }}>
+					<div class="row wrap align-end" transition:scale={{ start: 0.8, duration: 250 }}>
 						<label>
 							<input type="checkbox" bind:checked={showFees}>
 							<span>Show Fees</span>

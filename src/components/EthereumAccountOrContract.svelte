@@ -107,7 +107,7 @@
 		let:isReverseResolving
 		showIf={({address}) => address}
 	>
-		<div slot="header" class="bar">
+		<div slot="header" class="bar wrap">
 			<div class="row-inline">
 				<slot name="title" {network} {address} {ensName}>
 					{#if address}
@@ -185,7 +185,7 @@
 				{#if balances.length}
 					<hr>
 
-					<div class="bar">
+					<div class="bar wrap">
 						<h3>Balances (<TokenBalance symbol={summary.quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} />)</h3>
 						<label>
 							<input type="checkbox" bind:checked={showSmallValues}>
@@ -229,7 +229,7 @@
 						let:pagination
 					>
 						<svelte:fragment slot="header" let:status>
-							<summary class="bar">
+							<summary class="bar wrap">
 								<h3>
 									Transactions
 									<InlineContainer isOpen={status === 'resolved'}>(<TweenedNumber value={transactions.length} /><InlineContainer isOpen={pagination?.hasNextPage}>+</InlineContainer>)</InlineContainer>
@@ -314,7 +314,7 @@
 						let:pagination
 					>
 						<svelte:fragment slot="header" let:status>
-							<div class="bar">
+							<div class="bar wrap">
 								<h3>
 									{selectedToken.name}
 									(<TokenName {network} erc20Token={selectedToken} />)
@@ -393,7 +393,7 @@
 				<svelte:fragment slot="header">
 					<hr>
 
-					<div class="bar">
+					<div class="bar wrap">
 						<h3>Chart</h3>
 						<label>
 							<span>Price Scale</span>

@@ -369,13 +369,15 @@
 				</Loading>
 			{:else if !hideError && status === LoadingStatus.Errored}
 				<div class="card" transition:scale>
-					<div class="bar">
+					<div class="bar wrap">
 						<slot name="errorMessage">
 							<h4>{errorMessage || 'Error'}</h4>
 						</slot>
 						<slot name="errorActions" {load} {cancel}>
-							<button class="small" on:click={load}>Retry</button>
-							<button class="small cancel" on:click={cancel}>Cancel</button>
+							<div class="row wrap">
+								<button class="small" on:click={load}>Retry</button>
+								<button class="small cancel" on:click={cancel}>Cancel</button>
+							</div>
 						</slot>
 					</div>
 					<slot name="error" {error}>
@@ -454,7 +456,7 @@
 					</Loading>
 				{:else if !hideError && status === LoadingStatus.Errored}
 					<div class="card" transition:scale>
-						<div class="bar">
+						<div class="bar wrap">
 							<slot name="errorMessage">
 								<h4>{errorMessage || 'Error'}</h4>
 							</slot>
@@ -482,7 +484,7 @@
 	<slot name="footer">
 		{#if showStatusAndActions}
 			<!-- <footer class="sticky-bottom card bar"> -->
-			<footer class="bar">
+			<footer class="bar wrap">
 				<slot name="footerStart" />
 
 				{#if fromUseQuery}
