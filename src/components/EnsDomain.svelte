@@ -55,7 +55,7 @@
 		/* display: flex;
 		flex-wrap: wrap; */
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(min(25rem, 100%), 1fr));
 		align-items: stretch;
 		gap: var(--padding-inner);
 	}

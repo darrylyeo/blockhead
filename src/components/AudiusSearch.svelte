@@ -41,7 +41,7 @@
 	.grid {
 		display: grid;
 		gap: var(--padding-inner);
-		grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(min(30rem, 100%), 1fr));
 	}
 
 	.scrollable-list {

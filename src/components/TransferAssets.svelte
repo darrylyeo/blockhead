@@ -136,7 +136,7 @@
 	.columns {
 		display: grid;
 		gap: var(--padding-inner);
-		grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
 	}
 
 	.row {

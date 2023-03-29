@@ -103,7 +103,7 @@
 		justify-items: start;
 		--padding-inner: 0.1em;
 		gap: var(--padding-inner);
-		grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(min(7rem, 100%), 1fr));
 	}
 
 	.underlying-symbol {
@@ -162,7 +162,7 @@
 	.defi-app-views {
 		display: grid;
 		align-items: stretch;
-		grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(min(25rem, 100%), 1fr));
 		grid-auto-flow: dense;
 
 		--options-size: 0.8;
@@ -176,7 +176,7 @@
 
 	.defi-app-view-items {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(min(25rem, 100%), 1fr));
 		grid-template-rows: masonry;
 		align-items: stretch;
 

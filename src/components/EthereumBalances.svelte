@@ -95,12 +95,12 @@
 
 		display: grid;
 		gap: var(--padding-inner) var(--column-gap);
-		grid-template-columns: repeat(auto-fit, minmax(var(--column-width), 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(min(var(--column-width), 100%), 1fr));
 	}
 	.ethereum-balances.horizontal {
 		grid-auto-flow: column;
 		grid-auto-columns: var(--column-width);
-		grid-template-rows: repeat(auto-fit, minmax(1.5em, 1fr));
+		grid-template-rows: repeat(auto-fit, minmax(min(1.5em, 100%), 1fr));
 		overflow-x: auto;
 		max-height: 30rem;
 		scroll-snap-type: both proximity;

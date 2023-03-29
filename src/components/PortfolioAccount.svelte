@@ -167,7 +167,7 @@
 		--padding-inner: 0.5em;
 		display: grid;
 		gap: var(--padding-inner);
-		grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));;
+		grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));;
 	} */
 
 	h4 {
@@ -191,7 +191,7 @@
 		/* grid-template:
 			auto
 			/ 1fr 1fr 1fr; * /
-		/* grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); * /
+		/* grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr)); * /
 		gap: 1.75em;
 		/* align-items: start; * /
 	} */
