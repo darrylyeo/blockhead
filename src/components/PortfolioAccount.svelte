@@ -321,7 +321,7 @@
 		clip={false}
 	>
 		<header slot="header" class="bar card sticky">
-			<div class="row-inline">
+			<div class="row-inline wrap">
 				{#if lensName && type === 'lensName'}
 					<h3>{lensName}</h3>
 					{#if address}

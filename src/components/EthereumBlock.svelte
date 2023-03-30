@@ -90,7 +90,7 @@
 </div>
 
 <div class="consensus card column">
-	<div class="row">
+	<div class="row wrap">
 		{#if lastUpdate?.consensus.type === 'Proof of Work'}
 			<span class="miner">
 				<abbr title={'A network node that finds valid proof-of-work for new blocks, by repeated pass hashing (Ethash).\n\nSource: https://ethereum.org/en/glossary/#miner'}>Miner</abbr>
@@ -150,7 +150,7 @@
 
 	<hr>
 
-	<div class="including row">
+	<div class="including row wrap">
 		<h4>including</h4>
 
 		{#if block.transactions?.length}
@@ -179,7 +179,7 @@
 {#if block.transactions?.length}
 	<hr>
 
-	<div class="bar">
+	<div class="bar wrap">
 		<div class="row">
 			<h3>
 				Transactions
@@ -231,7 +231,7 @@
 
 <hr>
 
-<div class="footer bar">
+<div class="footer bar wrap">
 	<span class="gas-stats">
 		<abbr title={'Gas Used\n\nGas: A virtual fuel used in Ethereum to execute smart contracts. The EVM uses an accounting mechanism to measure the consumption of gas and limit the consumption of computing resources.\n\nSource: https://ethereum.org/en/glossary/#gas'}>{formatNumber(block.gasUsed)}</abbr>
 		/
