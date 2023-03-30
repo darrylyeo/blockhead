@@ -221,7 +221,7 @@
 						// console.log('block', block)
 						try {
 							// const block = await provider.getBlockWithTransactions(blockNumber)
-							const block = await provider.getBlock(blockNumber, true)
+							const block = await provider.getBlock(Number(blockNumber), true)
 							return block
 						}catch(e){
 							console.dir(e)
