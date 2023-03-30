@@ -187,7 +187,7 @@
 								<div class="column"in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
 									<EthereumTransactionLoader
 										network={$explorerNetwork}
-										transactionID={$query}
+										transactionId={$query}
 										provider={$explorerProvider}
 
 										detailLevel="exhaustive"

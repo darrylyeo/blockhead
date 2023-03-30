@@ -25,7 +25,7 @@
 <div class="ens-domain-event card">
 	<EthereumTransactionLoader
 		{network}
-		transactionID={event.transactionID}
+		transactionId={event.transactionID}
 		contextualAddress={event.owner?.id || event.resolver?.address}
 
 		{detailLevel}

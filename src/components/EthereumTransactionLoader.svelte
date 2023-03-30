@@ -6,7 +6,7 @@
 
 
 	export let network: Ethereum.Network
-	export let transactionID: Ethereum.TransactionID
+	export let transactionId: Ethereum.TransactionID
 	export let transactionProvider: TransactionProvider
 	export let provider: Ethereum.Provider
 	export let quoteCurrency: QuoteCurrency
@@ -47,7 +47,7 @@
 </script>
 
 
-{#if transactionID}
+{#if transactionId}
 	<div class="stack">
 		{#key transactionProvider}
 			<div class="column">
@@ -58,12 +58,12 @@
 						fromUseQuery={useQuery({
 							queryKey: ['Transaction', {
 								chainID: network.chainId,
-								transactionID,
+								transactionId,
 							}],
 							queryFn: async () => (
 								await getTransactionCovalent({
 									chainID: network.chainId,
-									transactionHash: transactionID,
+									transactionHash: transactionId,
 									includeLogs: true
 								})
 								.then(({ items: [transaction] }) => transaction)
@@ -97,12 +97,12 @@
 						fromUseQuery={useQuery({
 							queryKey: ['Transaction', {
 								chainID: network.chainId,
-								transactionID,
+								transactionId,
 							}],
 							queryFn: async () => (
 								await getTransactionEtherspot({
 									network,
-									transactionID
+									transactionID: transactionId
 								})
 							)
 						})}
@@ -133,12 +133,12 @@
 						fromUseQuery={useQuery({
 							queryKey: ['Transaction', {
 								chainID: network.chainId,
-								transactionID,
+								transactionId,
 							}],
 							queryFn: async () => (
 								await MoralisWeb3Api.transaction.getTransaction({
 									chain: chainCodeFromNetwork(network),
-									transactionHash: transactionID,
+									transactionHash: transactionId,
 								})
 							)
 						})}
