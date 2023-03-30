@@ -57,7 +57,8 @@
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
 						fromUseQuery={useQuery({
 							queryKey: ['Transaction', {
-								chainID: network.chainId,
+								transactionProvider,
+								chainId: network.chainId,
 								transactionId,
 							}],
 							queryFn: async () => (
@@ -96,7 +97,8 @@
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
 						fromUseQuery={useQuery({
 							queryKey: ['Transaction', {
-								chainID: network.chainId,
+								transactionProvider,
+								chainId: network.chainId
 								transactionId,
 							}],
 							queryFn: async () => (
@@ -132,7 +134,8 @@
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
 						fromUseQuery={useQuery({
 							queryKey: ['Transaction', {
-								chainID: network.chainId,
+								transactionProvider,
+								chainId: network.chainId,
 								transactionId,
 							}],
 							queryFn: async () => (
