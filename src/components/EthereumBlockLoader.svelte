@@ -250,6 +250,10 @@
 					}
 				})}
 				bind:result={block}
+				then={block => (block && {
+					...block,
+					timestamp: block.timestamp * 1000,
+				})}
 				let:result={block}
 			>
 				<NetworkIcon slot="loadingIcon" {network} />
