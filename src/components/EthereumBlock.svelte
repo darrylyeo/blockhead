@@ -237,9 +237,9 @@
 	<span class="gas-stats">
 		<abbr title={'Gas Used\n\nGas: A virtual fuel used in Ethereum to execute smart contracts. The EVM uses an accounting mechanism to measure the consumption of gas and limit the consumption of computing resources.\n\nSource: https://ethereum.org/en/glossary/#gas'}>{formatNumber(block.gasUsed)}</abbr>
 		/
-		<abbr title={'Gas Limit\n\nThe maximum amount of gas a transaction or block may consume.\n\nSource: https://ethereum.org/en/glossary/#gas-limit'}>{formatNumber(block.gasLimit)}</abbr>
+		<abbr title={'Gas Limit\n\nThe maximum amount of gas a transaction or block may consume.\n\nSource: https://ethereum.org/en/glossary/#gas-limit'}>{formatNumber(Number(block.gasLimit))}</abbr>
 		computational gas units used
-		({formatPercent(block.gasUsed / block.gasLimit)})
+		({formatPercent(Number(block.gasUsed) / Number(block.gasLimit))})
 	</span>
 	<Date date={block.timestamp} layout="horizontal" />
 </div>
