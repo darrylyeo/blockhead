@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
 	import { TransactionProvider, transactionProviderIcons } from '../data/transactionProvider'
+	import type { QuoteCurrency } from '../data/currencies'
 	import { preferences } from '../state/preferences'
 
 
@@ -8,7 +9,8 @@
 	export let blockNumber: Ethereum.BlockNumber
 	export let transactionProvider: TransactionProvider | 'RPC Provider'
 	export let provider: Ethereum.Provider
-	export let quoteCurrency
+	export let quoteCurrency: QuoteCurrency
+
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
 	
 	
