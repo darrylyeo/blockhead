@@ -1,17 +1,28 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
 	import { TransactionProvider, transactionProviderIcons } from '../data/transactionProvider'
+	import type { NetworkProvider } from '../data/networkProviders/types'
 	import type { QuoteCurrency } from '../data/currencies'
+	import { getEthersProvider } from '../data/networkProviders'
 	import { preferences } from '../state/preferences'
 
 
 	export let network: Ethereum.Network
 	export let blockNumber: Ethereum.BlockNumber
 	export let transactionProvider: TransactionProvider | 'RPC Provider'
+	export let providerName: NetworkProvider
 	export let provider: Ethereum.Provider
 	export let quoteCurrency: QuoteCurrency
 
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
+
+	$: providerName = $$props.providerName ?? $preferences.rpcNetwork
+
+	$: if(network && providerName && !provider)
+		getEthersProvider({
+			network,
+			networkProvider: providerName,
+		}).then(_ => provider = _)
 	
 	
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
@@ -215,8 +226,9 @@
 				fromUseQuery={provider && useQuery({
 					queryKey: ['Block', {
 						transactionProvider,
+						providerName,
 						chainID: network.chainId,
-						blockNumber
+						blockNumber,
 					}],
 					queryFn: async () =>  {
 						// for(let block; !block; block = await provider.getBlockWithTransactions(toHex(blockNumber)));
