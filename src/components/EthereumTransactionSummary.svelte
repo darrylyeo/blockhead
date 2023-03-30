@@ -13,6 +13,7 @@
 
 	import EthereumTransactionID from './EthereumTransactionID.svelte'
 	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
+	import InlineContainer from './InlineContainer.svelte'
 </script>
 
 
@@ -27,21 +28,27 @@
 		flex: 0 auto;
 	}
 
-	/* .muted {
-		opacity: 0.8;
-	} */
+	.regular-font {
+		font-family: var(--base-fonts);
+	}
 </style>
 
 
 <p class="transaction row-inline wrap" title="Transaction {transactionID}">
-	{#if transactionID || blockNumber}
-		<span class="muted">Transaction</span>
-	{/if}
-	{#if transactionID && showTransactionID}<span class="transaction-id"><EthereumTransactionID {network} {transactionID} format="middle-truncated"/></span>
-	{/if}
+	<EthereumTransactionID
+		{network}
+		{transactionID}
+		format="middle-truncated"
+		linked
+		let:formattedTransactionId
+	>
+		{#if transactionID || blockNumber}<span class="regular-font">Transaction </span>{/if
+		}<InlineContainer isOpen={transactionID && showTransactionID} clip>{formattedTransactionId}</InlineContainer>
+	</EthereumTransactionID>
+
 	<span>
 		{#if transactionID && showTransactionID && transactionIndex !== undefined}<span class="muted">(</span>{/if
-		}{#if transactionIndex !== undefined}<a class="muted" href={transactionID && !showTransactionID ? `/explorer/${network.slug}/${transactionID}` : undefined}>#{transactionIndex}</a> {/if
+		}{#if transactionIndex !== undefined}{#if transactionID && !showTransactionID}<EthereumTransactionID>#{transactionIndex}</EthereumTransactionID>{:else}<span class="muted">#{transactionIndex}</span>{/if} {/if
 		}{#if blockNumber !== undefined}
 			<span class="muted">in block</span>
 			<EthereumBlockNumber {network} {blockNumber} format="number-only" />{
