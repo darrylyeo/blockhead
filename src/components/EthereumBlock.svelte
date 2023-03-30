@@ -1,12 +1,14 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
+	import type { QuoteCurrency } from '../data/currencies'
 	import { updatesByNetwork } from '../data/networks/updates'
+
 
 	export let network: Ethereum.Network
 	export let block: Ethereum.Block
 	export let transactionProvider
 	export let provider: Ethereum.Provider
-	export let quoteCurrency
+	export let quoteCurrency: QuoteCurrency
 
 
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
