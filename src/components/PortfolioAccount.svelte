@@ -474,7 +474,7 @@
 											<!-- <span class="card-background"><NetworkIcon {network} /></span> -->
 											<h4 class="row">
 												<NetworkIcon {network} />
-												<Address {network} {address}><InlineContainer isOpen={!isEditing && !showFeed} clip containerClass="align-end"><mark>{network.name}</mark>&nbsp;</InlineContainer>Balances</Address>
+												<Address {network} {address}><InlineContainer isOpen={!isEditing && !(showFeed && isGridLayout)} clip containerClass="align-end"><mark>{network.name}</mark>&nbsp;</InlineContainer>Balances</Address>
 											</h4>
 											<InlineContainer containerClass="align-end" class="stack align-end">
 												{#if status === 'loading'}
@@ -565,7 +565,7 @@
 										<!-- <span class="card-background"><NetworkIcon {network} /></span> -->
 										<h4 class="row">
 											<NetworkIcon {network} />
-											<span><InlineContainer isOpen={!isEditing && !showFeed} clip containerClass="align-end"><mark>{network.name}</mark>&nbsp;</InlineContainer>DeFi</span>
+											<span><InlineContainer isOpen={!isEditing && !(showFeed && isGridLayout)} clip containerClass="align-end"><mark>{network.name}</mark>&nbsp;</InlineContainer>DeFi</span>
 										</h4>
 										<InlineContainer containerClass="align-end" class="stack align-end">
 											{#if status === 'loading'}
@@ -645,7 +645,7 @@
 										<h4 class="row">
 											<!-- <span class="card-background"><NetworkIcon {network} /></span> -->
 											<NetworkIcon {network} />
-											<span><InlineContainer isOpen={!isEditing && !showFeed} clip containerClass="align-end"><mark>{network.name}</mark>&nbsp;</InlineContainer>NFTs</span>
+											<span><InlineContainer isOpen={!isEditing && !(showFeed && isGridLayout)} clip containerClass="align-end"><mark>{network.name}</mark>&nbsp;</InlineContainer>NFTs</span>
 										</h4>
 										<InlineContainer containerClass="align-end" class="stack align-end">
 											{#if status === 'loading'}
