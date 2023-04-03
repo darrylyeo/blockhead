@@ -177,7 +177,8 @@
 
 {#if network && address}
 	<!-- Zapper -->
-	{#if defiProvider === DefiProvider.Zapper || network.chainId !== 1}
+	<!-- {#if defiProvider === DefiProvider.Zapper || network.chainId !== 1} -->
+	{#if defiProvider === DefiProvider.Zapper}
 		<Loader
 			layout="collapsible"
 			collapsibleType="label"
