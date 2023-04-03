@@ -1,5 +1,5 @@
 import type { Branded, BrandedString } from '../../utils/branded'
-import type { Provider as EthersProvider } from 'ethers'
+import type { Provider as EthersProvider, Block as EthersBlock } from 'ethers'
 import type { TickerSymbol } from '../currencies'
 
 export namespace Ethereum {
@@ -54,6 +54,8 @@ export namespace Ethereum {
 
 	export type BlockNumber = number
 	export type BlockHash = BrandedString<'BlockHash'>
+
+	export type Block = EthersBlock
 
 	export type Address = BrandedString<'Address'>
 

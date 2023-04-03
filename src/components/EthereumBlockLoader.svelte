@@ -250,7 +250,9 @@
 				bind:result={block}
 				then={block => (block && {
 					...block,
-					timestamp: block.timestamp * 1000,
+					timestamp: block.date,
+					transactions: block.transactions,
+					prefetchedTransactions: block.prefetchedTransactions,
 				})}
 				let:result={block}
 			>

@@ -1,12 +1,13 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
+	import { TransactionProvider } from '../data/transactionProvider'
 	import type { QuoteCurrency } from '../data/currencies'
 	import { updatesByNetwork } from '../data/networks/updates'
 
 
 	export let network: Ethereum.Network
 	export let block: Ethereum.Block
-	export let transactionProvider
+	export let transactionProvider: TransactionProvider
 	export let provider: Ethereum.Provider
 	export let quoteCurrency: QuoteCurrency
 
@@ -33,12 +34,15 @@
 	}
 
 
+	$: transactions = block.prefetchedTransactions ?? block.transactions ?? []
+
 	$: lastUpdate = updatesByNetwork.get(network)?.find(upgrade => block.blockNumber >= upgrade.blockNumber)
 
 
 	import Address from './Address.svelte'
 	import Date from './Date.svelte'
 	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
+	import EthereumTransactionLoader from './EthereumTransactionLoader.svelte'
 	import EthereumTransactionMoralis from './EthereumTransactionMoralis.svelte'
 
 
@@ -178,7 +182,7 @@
 	</div>
 </div>
 
-{#if block.transactions?.length}
+{#if transactions.length}
 	<hr>
 
 	<div class="bar wrap">
@@ -213,20 +217,41 @@
 	</div>
 
 	{#if showTransactions}
-		<div class="transactions-list column" class:scrollable-list={block.transactions.length > 7}>
-			{#each block.transactions ?? [] as transaction}
-				<div class="card">
-					<EthereumTransactionMoralis
-						{network}
-						{transaction}
-						{provider}
-						{transactionProvider}
-						{quoteCurrency}
-						includeLogs={detailLevel === 'exhaustive'}
-						let:transaction
-					/>
-				</div>
-			{/each}
+		<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
+			{#if transactionProvider === TransactionProvider.Moralis}
+				{#each transactions as transaction, i (transaction.hash)}
+					<div class="card">
+						<EthereumTransactionMoralis
+							{network}
+							{transaction}
+							{provider}
+							{transactionProvider}
+							{quoteCurrency}
+							includeLogs={detailLevel === 'exhaustive'}
+							let:transaction
+						/>
+					</div>
+				{/each}
+
+			{:else}
+				{#each transactions as transaction, i (transaction.hash ?? transaction)}
+					<div class="card">
+						<EthereumTransactionLoader
+							transaction={typeof transaction === 'string' ? undefined : transaction}
+
+							{network}
+							{provider}
+							{transactionProvider}
+							transactionId={typeof transaction === 'string' ? transaction : transaction.hash}
+							{quoteCurrency}
+
+							{detailLevel}
+							{tokenBalanceFormat}
+							{showFees}
+						/>
+					</div>
+				{/each}
+			{/if}
 		</div>
 	{/if}
 {/if}
