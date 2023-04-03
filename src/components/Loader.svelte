@@ -260,7 +260,7 @@
 
 
 	export let debug: string
-	$: if(debug && result) console.log(debug, result)
+	$: if(debug && result) console.log(loadingMessage, result)
 
 
 	import { fade, scale } from 'svelte/transition'
