@@ -795,15 +795,61 @@
 							{/each}
 						{/if}
 
-						{#each nfts ?? [] as { address: contractAddress }}
+						{#each nfts ?? [] as { name, address: contractAddress }}
 							{#if !address}
-								<section class="card">
+								<EthereumAccountOrContract
+									{network}
+									addressOrEnsName={contractAddress}
+									{provider}
+								>
+									<svelte:fragment slot="title" let:network let:address>
+										<h3>
+											{#if address}
+												{#if name}
+													<Address {network} {address}>{name}</Address>
+												{:else}
+													<Address {network} {address} />
+												{/if}
+											{:else}
+												Contract
+											{/if}
+										</h3>
+									</svelte:fragment>
+
+									<svelte:fragment slot="contract-title" let:network let:address>
+										<h4>
+											<Address {network} {address}>Contract Code</Address>
+										</h4>
+									</svelte:fragment>
+								</EthereumAccountOrContract>
+
+								<!-- <section class="card">
 									<EthereumContractExplorer
 										{network}
 										address={contractAddress}
 										{provider}
-									/>
-								</section>
+									>
+										<svelte:fragment slot="title" let:network let:address>
+											<h3>
+												{#if address}
+													{#if name}
+														<Address {network} {address}>{name}</Address>
+													{:else}
+														<Address {network} {address} />
+													{/if}
+												{:else}
+													Contract
+												{/if}
+											</h3>
+										</svelte:fragment>
+
+										<svelte:fragment slot="contract-title" let:network let:address>
+											<h4>
+												<Address {network} {address}>Contract Code</Address>
+											</h4>
+										</svelte:fragment>
+									</EthereumContractExplorer>
+								</section> -->
 							{:else}
 								<!-- <section class="card">
 									<EthereumNfts
