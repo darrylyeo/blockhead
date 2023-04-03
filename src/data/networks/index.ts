@@ -5317,7 +5317,7 @@ export const networksBySection = [
 	// 	isFeatured: true,
 	// },
 	{
-		title: 'Other Networks',
+		title: 'Other Networks (Experimental)',
 		networks: otherNetworks,
 		isFeatured: false,
 	},
