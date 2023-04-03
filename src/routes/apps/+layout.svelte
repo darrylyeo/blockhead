@@ -55,7 +55,7 @@
 
 	// Style/transitions
 
-	import { fly } from 'svelte/transition'
+	import { fly, scale } from 'svelte/transition'
 	import { tokenColors } from '../../data/tokenColors'
 </script>
 
@@ -94,23 +94,29 @@
 <main in:fly={{x: 300}} out:fly={{x: -300}}>
 <!-- <main> -->
 	<div class="bar wrap">
-		<div class="row">
-			<span class="title-icon">
+		<div class="title row">
+			<span class="stack-inline">
 				{#key $web3AppConfig}
-					{#if $web3AppConfig}
-						{#if $web3AppConfig.icon}
-							<img src={$web3AppConfig.icon} width="30" />
-						{/if}
+					<span class="title-icon" in:scale|local={{ duration: 300 }} out:scale|local={{ duration: 300 }}>
+						{#if $web3AppConfig}
+							{#if $web3AppConfig.icon}
+								<img src={$web3AppConfig.icon} width="30" />
+							{:else}
+								{@const erc20Token = $web3AppConfig.views?.flatMap(view => view.erc20Tokens ?? [])[0]}
 
-						{@const erc20Token = $web3AppConfig.views?.flatMap(view => view.erc20Tokens ?? [])[0]}
-						{#if erc20Token}
-							<TokenIcon {erc20Token} />
+								{#if erc20Token}
+									<TokenIcon {erc20Token} />
+								{:else}
+									<img src="/Blockhead-Logo.svg" width="30" />
+								{/if}
+							{/if}
+						{:else}
+							<img src="/Blockhead-Logo.svg" width="30" />
 						{/if}
-					{:else}
-						<img src="/Blockhead-Logo.svg" width="30" />
-					{/if}
+					</span>
 				{/key}
 			</span>
+
 			<h1>
 				<a href="/apps/{$web3AppSlug}" class="stack-inline">
 					{#if $web3AppSlug && $web3AppConfig}
