@@ -241,7 +241,6 @@
 			status = LoadingStatus.Loading
 		}
 		else if($fromUseInfiniteQuery.isSuccess){
-			console.log('fromUseInfiniteQuery', $fromUseInfiniteQuery, $fromUseInfiniteQuery.data)
 			result = then($fromUseInfiniteQuery.data) // .pages
 			status = LoadingStatus.Resolved
 		}
