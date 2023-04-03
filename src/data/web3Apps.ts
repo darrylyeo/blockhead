@@ -4,6 +4,9 @@ import type { ZapperAppId } from '../api/zapper'
 import { erc20TokensByContractAddress, erc20TokensBySymbol } from './tokens'
 
 
+import { NounsIcon } from '../assets/icons'
+
+
 export type Web3AppConfig = {
 	name: Web3AppName,
 	slug: Web3AppSlug,
@@ -4926,6 +4929,34 @@ export const web3Apps: Web3AppConfig[] = [
 		]
 	},
 	{
+		name: 'Nouns DAO',
+		slug: 'nouns',
+		links: ['https://nouns.wtf'],
+		colors: ['#D53C5E'],
+		icon: NounsIcon,
+		views: [
+			{
+				chainId: 1,
+				contracts: [
+					{
+						name: 'Nouns DAO: Treasury',
+						address: '0x0BC3807Ec262cB779b38D65b38158acC3bfedE10',
+					}
+				],
+				nfts: [
+					{
+						name: 'Nouns',
+						address: '0x9c8ff314c9bc7f6e59a9d9225fb22946427edc03',
+						symbol: 'NOUN'
+					}
+				],
+				providers: {
+					theGraph: 'https://api.thegraph.com/subgraphs/name/nounsdao/nouns-subgraph',
+				}
+			}
+		]
+	},
+	{
 		name: 'Nsure Network',
 		slug: 'nsure-network',
 		links: ['https://nsure.network'],
@@ -8698,6 +8729,7 @@ const socialApps = [
 
 const collectibleCommunities = [
 	'apecoin',
+	'nouns',
 ].map(slug => web3AppsBySlug[slug])
 
 export const web3AppsBySection = [
