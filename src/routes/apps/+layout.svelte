@@ -121,10 +121,11 @@
 				<a href="/apps/{$web3AppSlug}" class="stack-inline">
 					{#if $web3AppSlug && $web3AppConfig}
 						<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>
-							<InlineContainer class="stack-inline">
+							<InlineContainer class="stack-inline" clip>
 								{#key $web3AppConfig}<mark in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{$web3AppConfig.name}</mark>{/key}
 							</InlineContainer>
-							<InlineContainer class="stack-inline">
+
+							<InlineContainer class="stack-inline" clip>
 								{#key $currentView}<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{$currentView}</span>{/key}
 							</InlineContainer>
 						</span>
