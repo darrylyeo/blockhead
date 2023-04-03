@@ -8774,7 +8774,7 @@ export const web3AppsBySection = [
 		isFeatured: true,
 	},
 	{
-		title: 'Other Apps',
+		title: 'Other Apps (Experimental)',
 		apps: web3Apps.filter(appConfig => ![
 			...infrastructureApps,
 			...oracleNetworks,
