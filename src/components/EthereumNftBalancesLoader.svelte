@@ -311,6 +311,9 @@
 					quoteCurrency: quoteCurrency
 				}],
 				queryFn: async () => {
+					if(![1, 137, 10, 100, 42161].includes(network.chainId))
+						throw `Liquality doesn't yet support ${network.name}.`
+
 					const { NftService } = await import('@liquality/wallet-sdk')
 
 					await import('../api/liquality')
