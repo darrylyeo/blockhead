@@ -29,6 +29,9 @@
 		rate: Covalent.ERC20TokenOrNFTContractWithBalance['quote_rate'],
 	}[] = []
 
+	$: loadingMessage = `Retrieving ${network.name} balances from ${tokenBalancesProvider}...`
+	$: errorMessage = `Couldn't retrieve ${network.name} balances from ${tokenBalancesProvider}.`
+
 
 	import { useQuery } from '@sveltestack/svelte-query'
 
@@ -45,8 +48,8 @@
 		collapsibleType="label"
 		loadingIcon={tokenBalancesProviderIcons[tokenBalancesProvider]}
 		loadingIconName={tokenBalancesProvider}
-		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
-		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"
+		{loadingMessage}
+		{errorMessage}
 		fromUseQuery={
 			useQuery({
 				queryKey: ['Balances', {
@@ -109,8 +112,8 @@
 	<Loader
 		loadingIcon={tokenBalancesProviderIcons[tokenBalancesProvider]}
 		loadingIconName={tokenBalancesProvider}
-		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
-		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"
+		{loadingMessage}
+		{errorMessage}
 		fromUseQuery={
 			useQuery({
 				queryKey: ['Balances', {
@@ -166,8 +169,8 @@
 		collapsibleType="label"
 		loadingIcon={tokenBalancesProviderIcons[tokenBalancesProvider]}
 		loadingIconName={tokenBalancesProvider}
-		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
-		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"
+		{loadingMessage}
+		{errorMessage}
 		fromUseQuery={
 			useQuery({
 				queryKey: ['Balances', {
@@ -262,8 +265,8 @@
 	<Loader
 		loadingIcon={tokenBalancesProviderIcons[tokenBalancesProvider]}
 		loadingIconName={tokenBalancesProvider}
-		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
-		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"
+		{loadingMessage}
+		{errorMessage}
 		fromUseQuery={
 			useQuery({
 				queryKey: ['Balances', {
@@ -319,8 +322,8 @@
 	<Loader
 		loadingIcon={tokenBalancesProviderIcons[tokenBalancesProvider]}
 		loadingIconName={tokenBalancesProvider}
-		loadingMessage="Retrieving {network.name} balances from {tokenBalancesProvider}..."
-		errorMessage="Error retrieving {network.name} balances from {tokenBalancesProvider}"
+		{loadingMessage}
+		{errorMessage}
 		fromUseQuery={
 			useQuery({
 				queryKey: ['Balances', {

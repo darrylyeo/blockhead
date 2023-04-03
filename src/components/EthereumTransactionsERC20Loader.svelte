@@ -19,6 +19,10 @@
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
 
 
+	$: loadingMessage = `Retrieving ERC-20 transactions from ${transactionProvider}...`
+	$: errorMessage = `Couldn't retrieve ERC-20 transactions from ${transactionProvider}.`
+
+
 	import { useInfiniteQuery } from '@sveltestack/svelte-query'
 
 	import { getERC20TokenTransfers } from '../api/covalent'
@@ -33,8 +37,8 @@
 	<Loader
 		loadingIcon={transactionProviderIcons[transactionProvider]}
 		loadingIconName={transactionProvider}
-		loadingMessage="Retrieving ERC-20 transactions from {transactionProvider}..."
-		errorMessage="Error retrieving ERC-20 transactions from {transactionProvider}"
+		{loadingMessage}
+		{errorMessage}
 		fromUseInfiniteQuery={useInfiniteQuery({
 			queryKey: ['TransactionsERC20Transfer', {
 				transactionProvider,

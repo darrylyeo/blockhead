@@ -17,6 +17,10 @@
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
 
 
+	$: loadingMessage = `Retrieving ${network.name} transactions from ${transactionProvider}...`
+	$: errorMessage = `Couldn't retrieve ${network.name} transactions from ${transactionProvider}.`
+
+
 	import { useQuery, useInfiniteQuery } from '@sveltestack/svelte-query'
 
 	import { getTransactionsByAddress } from '../api/covalent'
@@ -33,8 +37,8 @@
 		layout="collapsible"
 		loadingIcon={transactionProviderIcons[transactionProvider]}
 		loadingIconName={transactionProvider}
-		loadingMessage="Retrieving {network.name} transactions from {transactionProvider}..."
-		errorMessage="Error retrieving {network.name} transactions from {transactionProvider}"
+		{loadingMessage}
+		{errorMessage}
 		fromUseInfiniteQuery={useInfiniteQuery({
 			queryKey: ['Transactions', {
 				transactionProvider,
@@ -70,8 +74,8 @@
 	<Loader
 		layout="collapsible"
 		loadingIcon={transactionProviderIcons[transactionProvider]}
-		loadingMessage="Retrieving {network.name} transactions from {transactionProvider}..."
-		errorMessage="Error retrieving {network.name} transactions from {transactionProvider}"
+		{loadingMessage}
+		{errorMessage}
 		fromUseQuery={useQuery({
 			queryKey: ['Transactions', {
 				transactionProvider,
@@ -96,8 +100,8 @@
 		layout="collapsible"
 		loadingIcon={transactionProviderIcons[transactionProvider]}
 		loadingIconName={transactionProvider}
-		loadingMessage="Retrieving {network.name} transactions from {transactionProvider}..."
-		errorMessage="Error retrieving {network.name} transactions from {transactionProvider}"
+		{loadingMessage}
+		{errorMessage}
 		fromUseInfiniteQuery={useInfiniteQuery({
 			queryKey: ['Transactions', {
 				transactionProvider,

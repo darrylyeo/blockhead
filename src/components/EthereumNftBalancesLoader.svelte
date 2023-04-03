@@ -28,6 +28,10 @@
 	export let contentClass: string
 
 
+	$: loadingMessage = `Retrieving ${network.name} NFTs from ${nftProvider}...`
+	$: errorMessage = `Couldn't retrieve ${network.name} NFTs from ${nftProvider}.`
+
+
 	export let nftContractsWithBalances: Ethereum.NftContractWithBalance[] = []
 
 	export let summary: {
@@ -253,8 +257,8 @@
 		collapsibleType="label"
 		loadingIcon={nftProviderIcons[nftProvider]}
 		loadingIconName={nftProvider}
-		loadingMessage="Retrieving {network.name} NFTs from {nftProvider}..."
-		errorMessage="Error retrieving {network.name} NFTs from {nftProvider}"
+		{loadingMessage}
+		{errorMessage}
 		fromUseQuery={
 			useQuery({
 				queryKey: ['NFTs', {
@@ -296,8 +300,8 @@
 		collapsibleType="label"
 		loadingIcon={nftProviderIcons[nftProvider]}
 		loadingIconName={nftProvider}
-		loadingMessage="Retrieving {network.name} NFTs from {nftProvider}..."
-		errorMessage="Error retrieving {network.name} NFTs from {nftProvider}"
+		{loadingMessage}
+		{errorMessage}
 		fromUseQuery={
 			useQuery({
 				queryKey: ['NFTs', {
@@ -337,8 +341,8 @@
 		collapsibleType="label"
 		loadingIcon={nftProviderIcons[nftProvider]}
 		loadingIconName={nftProvider}
-		loadingMessage="Retrieving {network.name} NFTs from {nftProvider}..."
-		errorMessage="Error retrieving {network.name} NFTs from {nftProvider}"
+		{loadingMessage}
+		{errorMessage}
 		fromUseQuery={
 			useQuery({
 				queryKey: ['NFTs', {

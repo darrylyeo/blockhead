@@ -29,6 +29,10 @@
 	export let showTransactions = false
 
 
+	$: loadingMessage = `Retrieving block data from ${transactionProvider}...`
+	$: errorMessage = `Couldn't retrieve block data from ${transactionProvider}.`
+
+
 	import { updatesByNetwork } from '../data/networks/updates'
 
 
@@ -69,8 +73,8 @@
 			<Loader
 				loadingIcon={transactionProviderIcons[transactionProvider]}
 				loadingIconName={transactionProvider}
-				loadingMessage="Retrieving block data from {transactionProvider}..."
-				errorMessage="Error retrieving block data from {transactionProvider}"
+				{loadingMessage}
+				{errorMessage}
 				contentClass="column"
 				fromUseQuery={useQuery({
 					queryKey: ['Block', {
@@ -141,8 +145,8 @@
 			<Loader
 				loadingIcon={transactionProviderIcons[transactionProvider]}
 				loadingIconName={transactionProvider}
-				loadingMessage="Retrieving block data from {transactionProvider}..."
-				errorMessage="Error retrieving block data from {transactionProvider}"
+				{loadingMessage}
+				{errorMessage}
 				contentClass="column"
 				fromUseQuery={useQuery({
 					queryKey: ['Block', {
@@ -218,8 +222,8 @@
 		{:else if transactionProvider === TransactionProvider.RpcProvider}
 			<Loader
 				loadingIconName={transactionProvider}
-				loadingMessage="Retrieving block data from {transactionProvider}..."
-				errorMessage="Error retrieving block data from {transactionProvider}"
+				{loadingMessage}
+				{errorMessage}
 				contentClass="column"
 				fromUseQuery={provider && useQuery({
 					queryKey: ['Block', {
