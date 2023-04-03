@@ -9,12 +9,10 @@
 
 	export let network: Ethereum.Network
 	export let blockNumber: Ethereum.BlockNumber
-	export let transactionProvider: TransactionProvider | 'RPC Provider'
+	export let transactionProvider: TransactionProvider
 	export let providerName: NetworkProvider
 	export let provider: Ethereum.Provider
 	export let quoteCurrency: QuoteCurrency
-
-	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
 
 	$: providerName = $$props.providerName ?? $preferences.rpcNetwork
 
@@ -217,7 +215,7 @@
 				/>
 			</Loader>
 
-		{:else if transactionProvider === 'RPC Provider'}
+		{:else if transactionProvider === TransactionProvider.RpcProvider}
 			<Loader
 				loadingIconName={transactionProvider}
 				loadingMessage="Retrieving block data from {transactionProvider}..."

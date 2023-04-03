@@ -1,4 +1,5 @@
 export enum TransactionProvider {
+	RpcProvider = 'RPC Provider',
 	Covalent = 'Covalent',
 	Etherspot = 'Etherspot',
 	Moralis = 'Moralis',

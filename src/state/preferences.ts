@@ -247,7 +247,7 @@ export const preferencesConfig: PreferencesConfig<
 						id: 'onChain',
 						name: 'On-Chain',
 						options: [
-							{ id: 'RPC Provider', name: preferences => `On-Chain (${preferences.rpcNetwork})` },
+							{ id: TransactionProvider.RpcProvider, name: preferences => `On-Chain (${preferences.rpcNetwork})` },
 						]
 					},
 					{
