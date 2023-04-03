@@ -306,7 +306,15 @@
 								>
 									<svelte:fragment slot="title" let:network let:address>
 										<h3>
-											<Address {network} {address} let:formattedAddress>{name || formattedAddress}</Address>
+											{#if address}
+												{#if name}
+													<Address {network} {address}>{name}</Address>
+												{:else}
+													<Address {network} {address} />
+												{/if}
+											{:else}
+												Contract
+											{/if}
 										</h3>
 									</svelte:fragment>
 
