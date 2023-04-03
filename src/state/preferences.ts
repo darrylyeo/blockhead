@@ -64,7 +64,7 @@ type SerializedPreferences<T extends PreferencesConfig<infer TPreferenceSectionI
 
 export const preferencesConfig: PreferencesConfig<
 	| 'appearance'
-	| 'blockchainNodes'
+	| 'blockchainData'
 	| 'accountData'
 	| 'analytics'
 	| 'web3',
@@ -117,8 +117,8 @@ export const preferencesConfig: PreferencesConfig<
 		]
 	},
 	{
-		id: 'blockchainNodes',
-		name: 'Blockchain Nodes',
+		id: 'blockchainData',
+		name: 'Blockchain Data',
 		preferences: [
 			{
 				id: 'rpcNetwork',
@@ -149,6 +149,53 @@ export const preferencesConfig: PreferencesConfig<
 					{ id: 'Moralis', name: 'Moralis' },
 				]
 			},
+			{
+				id: 'transactionProvider',
+				name: 'Transactions/Blocks',
+				type: 'single',
+				defaultOption: TransactionProvider.Covalent,
+				options: [
+					{
+						id: 'onChain',
+						name: 'On-Chain',
+						options: [
+							{ id: TransactionProvider.RpcProvider, name: preferences => `On-Chain (${preferences.rpcNetwork})` },
+						]
+					},
+					{
+						id: 'offChain',
+						name: 'Off-Chain',
+						options: [
+							{ id: TransactionProvider.Covalent, name: 'Covalent' },
+							{ id: TransactionProvider.Moralis, name: 'Moralis' },
+							// { id: TransactionProvider.Etherspot, name: 'Etherspot' },
+						]
+					}
+				]
+			},
+			{
+				id: 'contractSourceProvider',
+				name: 'Contract Source Code',
+				type: 'single',
+				defaultOption: 'Sourcify',
+				options: [
+					{
+						id: 'web3',
+						name: 'Web3 Hosted',
+						options: [
+							{ id: 'Sourcify', name: 'Sourcify' },
+						]
+					},
+					{
+						id: 'centralized',
+						name: 'Centrally Hosted',
+						options: [
+							{ id: 'Etherscan', name: 'Etherscan' },
+							{ id: 'Tenderly', name: 'Tenderly' },
+						]
+					}
+				]
+			}
 		]
 	},
 	{
@@ -237,53 +284,6 @@ export const preferencesConfig: PreferencesConfig<
 					{ id: NotificationsProvider.Push, name: 'Push' },
 				]
 			},
-			{
-				id: 'transactionProvider',
-				name: 'Transactions/Blocks',
-				type: 'single',
-				defaultOption: TransactionProvider.Covalent,
-				options: [
-					{
-						id: 'onChain',
-						name: 'On-Chain',
-						options: [
-							{ id: TransactionProvider.RpcProvider, name: preferences => `On-Chain (${preferences.rpcNetwork})` },
-						]
-					},
-					{
-						id: 'offChain',
-						name: 'Off-Chain',
-						options: [
-							{ id: TransactionProvider.Covalent, name: 'Covalent' },
-							{ id: TransactionProvider.Moralis, name: 'Moralis' },
-							// { id: TransactionProvider.Etherspot, name: 'Etherspot' },
-						]
-					}
-				]
-			},
-			{
-				id: 'contractSourceProvider',
-				name: 'Contract Source Code',
-				type: 'single',
-				defaultOption: 'Sourcify',
-				options: [
-					{
-						id: 'web3',
-						name: 'Web3 Hosted',
-						options: [
-							{ id: 'Sourcify', name: 'Sourcify' },
-						]
-					},
-					{
-						id: 'centralized',
-						name: 'Centrally Hosted',
-						options: [
-							{ id: 'Etherscan', name: 'Etherscan' },
-							{ id: 'Tenderly', name: 'Tenderly' },
-						]
-					}
-				]
-			}
 		],
 	},
 	{
