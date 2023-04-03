@@ -67,7 +67,7 @@
 	$: summary = {
 		quoteTotal: balances.reduce((sum, item) => sum + item.value, 0),
 		quoteCurrency,
-		balancesCount: balances.length,
+		balancesCount: balances.filter(tokenWithBalance => tokenWithBalance.balance > 0).length,
 		filteredBalancesCount: filteredBalances.length,
 	}
 
