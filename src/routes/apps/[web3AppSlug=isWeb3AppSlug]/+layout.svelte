@@ -44,10 +44,10 @@
 	/* Nouns DAO */
 	[data-app="nouns"] :global(:is(.card, select, button, input)) {
 		--nouns-border: var(--primary-color) 0.25rem solid;
-		border-radius: 0;
 	}
-	[data-app="nouns"] :global(.card) {
+	[data-app="nouns"] :global(.card:has(.card)) {
 		position: relative;
+		border-radius: 0;
 		border: var(--nouns-border);
 	}
 	[data-app="nouns"] :global(.card:nth-last-child(n + 2):nth-child(2n + 1):before) {
