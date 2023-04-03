@@ -98,6 +98,10 @@
 			<span class="title-icon">
 				{#key $web3AppConfig}
 					{#if $web3AppConfig}
+						{#if $web3AppConfig.icon}
+							<img src={$web3AppConfig.icon} width="30" />
+						{/if}
+
 						{@const erc20Token = $web3AppConfig.views?.flatMap(view => view.erc20Tokens ?? [])[0]}
 						{#if erc20Token}
 							<TokenIcon {erc20Token} />

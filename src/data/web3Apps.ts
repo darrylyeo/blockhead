@@ -8,6 +8,7 @@ export type Web3AppConfig = {
 	name: Web3AppName,
 	slug: Web3AppSlug,
 	links?: string[],
+	icon?: string,
 	colors?: string[],
 	views: Web3AppView[]
 }
