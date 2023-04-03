@@ -147,7 +147,7 @@ export namespace Ethereum {
 		toAddress: Address,
 		toAddressLabel?: string,
 
-		value: number,
+		value: BigInt | string,
 
 		gasToken: NativeCurrency | ERC20Token,
 		gasOffered?: GasAmount,
