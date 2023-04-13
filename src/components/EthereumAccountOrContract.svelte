@@ -135,19 +135,22 @@
 					{/if}
 				{/if} -->
 			</div>
+
 			<span class="card-annotation">
-				{network.name} 
-				{#await provider.getCode(address)}
-					Address
-				{:then contractCode}
-					{#if contractCode === '0x'}
-						Account
-					{:else}
-						<abbr title={contractCode}>Contract</abbr>
-					{/if}
-				{:catch}
-					Address
-				{/await}
+				<slot name="annotation">
+					{network.name} 
+					{#await provider.getCode(address)}
+						Address
+					{:then contractCode}
+						{#if contractCode === '0x'}
+							Account
+						{:else}
+							<abbr title={contractCode}>Contract</abbr>
+						{/if}
+					{:catch}
+						Address
+					{/await}
+				</slot>
 			</span>
 		</div>
 
