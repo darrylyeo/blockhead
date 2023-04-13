@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/ethereum/types'
+	import type { Ethereum } from '../data/networks/types'
 	import type { Covalent } from '../api/covalent'
-	import type { QuoteCurrency } from '../data/currency/currency'
+	import type { QuoteCurrency } from '../data/currencies'
 
 
 	export let network: Ethereum.Network
