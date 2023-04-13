@@ -55,7 +55,6 @@
 	import AccountConnection from './AccountConnection.svelte'
 	import HeightContainer from './HeightContainer.svelte'
 	import Icon from './Icon.svelte'
-	import InlineContainer from './InlineContainer.svelte'
 
 
 	// Style
