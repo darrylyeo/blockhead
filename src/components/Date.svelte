@@ -8,7 +8,7 @@
 	export let updateInterval = 1000
 
 
-	$: dateObject = new Date(date)
+	$: dateObject = date instanceof Date ? date : new Date(date)
 
 
 	import { onDestroy } from 'svelte'
@@ -18,7 +18,7 @@
 
 	if(format !== 'absolute') (async () => {
 		while(isMounted){
-			dateObject = new Date(date)
+			dateObject = dateObject
 			await new Promise(resolve => setTimeout(resolve, updateInterval))
 		}
 	})()
