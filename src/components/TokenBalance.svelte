@@ -105,7 +105,7 @@
 	{#if isFiat}
 		<span class="token-balance">
 			{isNegative ? '−' : ''}<TweenedNumber
-				value={Math.abs(balance || 0)}
+				value={Math.abs(Number(balance) || 0)}
 				format={{
 					currency: symbol,
 					showDecimalPlaces,
@@ -120,7 +120,7 @@
 		<span class="inline-no-wrap">
 			<span class="token-balance">
 				{isNegative ? '−' : ''}<TweenedNumber
-					value={Math.abs(balance || 0)}
+					value={Math.abs(Number(balance) || 0)}
 					format={{
 						showDecimalPlaces,
 						compactLargeValues
