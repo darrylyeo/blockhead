@@ -60,7 +60,7 @@
 
 	import { formatUnits } from 'ethers'
 
-	const normalizeEthersTransaction = (transaction: TransactionResponse) => console.log({transaction})||({
+	const normalizeEthersTransaction = (transaction: TransactionResponse) => ({
 		network,
 
 		transactionID: transaction.hash as Ethereum.TransactionID,
@@ -79,9 +79,9 @@
 
 		gasToken: network.nativeCurrency,
 		gasOffered: transaction.gasLimit,
-		gasSpent: console.log('gasSpent', transaction.gasUsed)||transaction.gasUsed && formatUnits(transaction.gasUsed, 'wei'),
+		gasSpent: transaction.gasUsed && formatUnits(transaction.gasUsed, 'wei'),
 		gasRate: transaction.gasPrice,
-		gasValue: console.log('gasValue', transaction.gasPrice)||transaction.gasPrice && transaction.gasUsed && formatUnits(transaction.gasPrice * transaction.gasUsed, network.nativeCurrency.decimals),
+		gasValue: transaction.gasPrice && transaction.gasUsed && formatUnits(transaction.gasPrice * transaction.gasUsed, network.nativeCurrency.decimals),
 		
 		logEvents: transaction.logs?.map(({
 			address,
