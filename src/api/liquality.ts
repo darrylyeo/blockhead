@@ -12,3 +12,13 @@ setup({
 	fastGasPriceMultiplier: 2,
 	gasLimitMargin: 2000,
 })
+
+
+import type { Ethereum } from '../data/networks/types'
+
+export const liqualitySupportedNetworks: Ethereum.ChainID = [
+	1,
+	137,
+	10,
+	42161,
+]
