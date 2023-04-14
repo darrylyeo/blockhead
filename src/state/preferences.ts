@@ -206,7 +206,7 @@ export const preferencesConfig: PreferencesConfig<
 				id: 'tokenBalancesProvider',
 				name: 'Token Balances',
 				type: 'single',
-				defaultOption: TokenBalancesProvider.Covalent,
+				defaultOption: TokenBalancesProvider.Airstack,
 				options: [
 					{
 						id: 'onChain',
@@ -220,6 +220,7 @@ export const preferencesConfig: PreferencesConfig<
 						id: 'offChain',
 						name: 'Off-Chain',
 						options: [
+							{ id: TokenBalancesProvider.Airstack, name: 'Airstack' },
 							{ id: TokenBalancesProvider.Covalent, name: 'Covalent' },
 							{ id: TokenBalancesProvider.Liquality, name: 'Liquality (Alchemy)' },
 							{ id: TokenBalancesProvider.Moralis, name: 'Moralis › Web3 API' },

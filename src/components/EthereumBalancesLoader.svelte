@@ -34,7 +34,8 @@
 
 
 	import { useQuery } from '@sveltestack/svelte-query'
-
+	import { queryStore, gql } from '@urql/svelte'
+	import { airstackNetworkNames, getClient } from '../api/airstack'
 	import { getTokenAddressBalances } from '../api/covalent'
 
 
@@ -42,7 +43,135 @@
 </script>
 
 
-{#if tokenBalancesProvider === TokenBalancesProvider.Covalent}
+{#if tokenBalancesProvider === TokenBalancesProvider.Airstack}
+	<Loader
+		layout="collapsible"
+		collapsibleType="label"
+		loadingIcon={tokenBalancesProviderIcons[tokenBalancesProvider]}
+		loadingIconName={tokenBalancesProvider}
+		{loadingMessage}
+		{errorMessage}
+		fromStore={() => {
+			if(!(network.chainId in airstackNetworkNames))
+				throw new Error(`Airstack doesn't yet support ${network.name}.`)
+
+			return queryStore({
+				client: getClient(),
+				query: gql`
+					query TokenBalances(
+						$address: Identity!, 
+						$blockchain: TokenBlockchain!, 
+						$limit: Int!, 
+						$cursor: String!
+					) {
+						TokenBalances(
+							input: {
+								filter: {
+									owner: {_in: [$address]},
+									tokenType: { _in: [ERC20] }
+								},
+								blockchain: $blockchain,
+								limit: $limit,
+								cursor: $cursor
+							}
+						) {
+							TokenBalance {
+								tokenAddress
+								amount
+								tokenType
+								blockchain
+								chainId
+								formattedAmount
+								id
+								lastUpdatedBlock
+								lastUpdatedTimestamp
+								token {
+									address
+									baseURI
+									chainId
+									blockchain
+									contractMetaData {
+										description
+										externalLink
+										feeRecipient
+										image
+										name
+										sellerFeeBasisPoints
+									}
+									contractMetaDataURI
+									decimals
+									id
+									lastTransferBlock
+									lastTransferHash
+									lastTransferTimestamp
+									logo {
+										external
+										large
+										medium
+										original
+										small
+									}
+									name
+									projectDetails {
+										collectionName
+										description
+										discordUrl
+										externalUrl
+										twitterUrl
+									}
+									rawContractMetaData
+									symbol
+									tokenTraits
+									totalSupply
+									type
+								}
+							}
+							pageInfo {
+								nextCursor
+								prevCursor
+							}
+						}
+					}
+				`,
+				variables: {
+					address,
+					blockchain: airstackNetworkNames[network.chainId],
+					limit: 50,
+					cursor: '',
+				},
+			})
+		}}
+		then={data => {
+			console.log({data, chainId:network.chainId})
+
+			return data.TokenBalances.TokenBalance
+				.map(tokenWithBalance => ({
+					token: {
+						chainId: Number(tokenWithBalance.chainId),
+						address: tokenWithBalance.tokenAddress,
+						name: tokenWithBalance.token.name,
+						symbol: tokenWithBalance.token.symbol,
+						decimals: tokenWithBalance.token.decimals,
+					},
+					balance: tokenWithBalance.amount,
+					// balance: BigInt(tokenWithBalance.amount),
+				}))
+		}}
+		debug
+		{showIf}
+		{isOpen}
+		{containerClass}
+		{contentClass}
+		let:status
+		bind:result={balances}
+		let:result={balances}
+	>
+		<slot name="header" slot="header" let:loadingMessage let:errorMessage {balances} {status} {loadingMessage} {errorMessage} />
+
+		<slot {balances} />
+	</Loader>
+
+{:else if tokenBalancesProvider === TokenBalancesProvider.Covalent}
 	<Loader
 		layout="collapsible"
 		collapsibleType="label"

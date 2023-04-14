@@ -1,4 +1,5 @@
 export enum TokenBalancesProvider {
+	Airstack = 'Airstack',
 	Covalent = 'Covalent',
 	Liquality = 'Liquality',
 	Moralis = 'Moralis',
@@ -8,9 +9,10 @@ export enum TokenBalancesProvider {
 }
 
 
-import { CovalentIcon, LiqualityIcon, MoralisIcon, QuickNodeIcon, ZapperIcon, ZerionIcon } from '../assets/icons'
+import { AirstackIcon, CovalentIcon, LiqualityIcon, MoralisIcon, QuickNodeIcon, ZapperIcon, ZerionIcon } from '../assets/icons'
 
 export const tokenBalancesProviderIcons: Record<TokenBalancesProvider, string> = {
+	[TokenBalancesProvider.Airstack]: AirstackIcon,
 	[TokenBalancesProvider.Covalent]: CovalentIcon,
 	[TokenBalancesProvider.Liquality]: LiqualityIcon,
 	[TokenBalancesProvider.Moralis]: MoralisIcon,
