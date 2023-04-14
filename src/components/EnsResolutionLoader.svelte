@@ -36,9 +36,9 @@
 	export let isReverseResolving: boolean | undefined
 
 
-	import { findMatchedCaptureGroup } from '../utils/findMatchedCaptureGroup';
+	import { findMatchedCaptureGroupName } from '../utils/findMatchedCaptureGroup';
 
-	$: type = findMatchedCaptureGroup<'ensName' | 'lensName' | 'address'>(
+	$: type = findMatchedCaptureGroupName<'ensName' | 'lensName' | 'address'>(
 		/(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))|(?<lensName>(?:[^. ]+[.])(?:lens|test))|(?<address>0x[0-9a-fA-F]{40})/,
 		addressOrEnsName
 	) ?? ''	

@@ -48,9 +48,9 @@
 	})
 
 	
-	import { findMatchedCaptureGroup } from '../utils/findMatchedCaptureGroup';
+	import { findMatchedCaptureGroupName } from '../utils/findMatchedCaptureGroup';
 
-	$: matchedType = findMatchedCaptureGroup<'empty' | 'address' | 'transaction' | 'blockNumber' | 'ensName'>(pattern, value) ?? ''	
+	$: matchedType = findMatchedCaptureGroupName<'empty' | 'address' | 'transaction' | 'blockNumber' | 'ensName'>(pattern, value) ?? ''	
 
 
 	import { accountConnections } from '../state/account'

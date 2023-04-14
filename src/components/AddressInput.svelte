@@ -51,7 +51,7 @@
 	}
 
 
-	import { findMatchedCaptureGroup } from '../utils/findMatchedCaptureGroup'
+	import { findMatchedCaptureGroupName } from '../utils/findMatchedCaptureGroup'
 
 
 	// Components
@@ -77,6 +77,6 @@
 	pattern={pattern.source}
 	on:input={onInput}
 	on:change={onChange}
-	data-format={findMatchedCaptureGroup(new RegExp(`^${pattern.source}$`), value)}
+	data-format={findMatchedCaptureGroupName(new RegExp(`^${pattern.source}$`), value)}
 />
 <!-- placeholder="0xabc...6789 / ens.eth" -->
