@@ -30,6 +30,8 @@ specifiers:
   '@walletconnect/web3-provider': ^1.8.0
   '@walletconnect/web3wallet': ^1.4.0
   '@web3modal/standalone': ^2.1.1
+  array.prototype.group: ^1.1.2
+  array.prototype.grouptomap: ^1.1.2
   bip44-constants: ^65.0.0
   buffer: ^6.0.3
   echarts: ^5.4.1
@@ -76,6 +78,8 @@ dependencies:
   '@walletconnect/web3-provider': 1.8.0_@babel+core@7.21.3
   '@walletconnect/web3wallet': 1.4.0_z3vu5dg2hu3jqyh3anri5tms2q
   '@web3modal/standalone': 2.1.2_react@18.2.0
+  array.prototype.group: 1.1.2
+  array.prototype.grouptomap: 1.1.2
   bip44-constants: 65.0.0
   buffer: 6.0.3
   echarts: 5.4.1
@@ -5813,6 +5817,23 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.2.0
+      es-abstract: 1.21.1
+      es-shim-unscopables: 1.0.0
+    dev: false
+
+  /array.prototype.group/1.1.2:
+    resolution: {integrity: sha512-XTy3DE/Tz1nsrhPaYXgVTzQrRf1/0/RWySM5o5qC6BSBG7NWQ/AxggKNiLyLCRkLxM+mJoq5GEFosYZ846QlHw==}
+    dependencies:
+      call-bind: 1.0.2
+      define-properties: 1.2.0
+      es-abstract: 1.21.1
+      es-shim-unscopables: 1.0.0
+      get-intrinsic: 1.2.0
+    dev: false
+
+  /array.prototype.grouptomap/1.1.2:
+    resolution: {integrity: sha512-+Tdbn/xlmk1AjXuxqDCnsEZDHxUnMtn8LJp/VHtISnCq55NKp/F/62SxsbwJanAqWz+Uyv1pOB8SziCVmtgKTg==}
+    dependencies:
       es-abstract: 1.21.1
       es-shim-unscopables: 1.0.0
     dev: false
