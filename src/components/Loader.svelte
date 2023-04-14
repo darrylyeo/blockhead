@@ -258,8 +258,17 @@
 	$: isHidden = showIf && status === LoadingStatus.Resolved && !showIf(result)
 
 
-	export let debug: string
-	$: if(debug && result) console.log(loadingMessage, result)
+	export let debug: boolean
+	$: if(debug && result){
+		(console.groupCollapsed || console.log)(loadingMessage, { status })
+		// if(Array.isArray(result)){
+		// 	console.log({ status })
+		// 	console.table(result)
+		// }else{
+			console.log(result)
+		// }
+		console.groupEnd?.()
+	}
 
 
 	import { fade, scale } from 'svelte/transition'
