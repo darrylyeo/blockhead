@@ -142,7 +142,7 @@
 			})
 		}}
 		then={data => (
-			data.TokenBalances.TokenBalance
+			(data.TokenBalances.TokenBalance ?? [])
 				.map(tokenWithBalance => ({
 					token: {
 						chainId: Number(tokenWithBalance.chainId),
