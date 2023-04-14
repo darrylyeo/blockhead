@@ -276,7 +276,6 @@
 	.error-icon-container > :first-child {
 		/* opacity: 0.75; */
 		filter: contrast(0.95) grayscale(0.75);
-		align-self: stretch;
 	}
 	.error-icon-container > :last-child {
 		color: var(--primary-color);
@@ -487,7 +486,7 @@
 															slot="icon"
 															src={tokenBalancesProviderIcons[tokenBalancesProvider]}
 															alt={tokenBalancesProvider}
-															width={20}
+															height={20}
 														/>
 													</Loading>
 													<!-- <span transition:scale>Loading...</span> -->
@@ -497,7 +496,7 @@
 															title={errorMessage}
 															src={tokenBalancesProviderIcons[tokenBalancesProvider]}
 															alt={tokenBalancesProvider}
-															width={20}
+															height={20}
 														/>
 														<span>⚠︎</span>
 													</div>
@@ -578,7 +577,7 @@
 														slot="icon"
 														src={defiProviderIcons[defiProvider]}
 														alt={defiProvider}
-														width={20}
+														height={20}
 													/>
 												</Loading>
 												<!-- <span transition:scale>Loading...</span> -->
@@ -588,7 +587,7 @@
 														title={errorMessage}
 														src={defiProviderIcons[defiProvider]}
 														alt={defiProvider}
-														width={20}
+														height={20}
 													/>
 													<span>⚠︎</span>
 												</div>
@@ -658,7 +657,7 @@
 														slot="icon"
 														src={nftProviderIcons[nftProvider]}
 														alt={nftProvider}
-														width={20}
+														height={20}
 													/>
 												</Loading>
 												<!-- <span transition:scale>Loading...</span> -->
@@ -668,7 +667,7 @@
 														title={errorMessage}
 														src={nftProviderIcons[nftProvider]}
 														alt={nftProvider}
-														width={20}
+														height={20}
 													/>
 													<span>⚠︎</span>
 												</div>
@@ -731,7 +730,7 @@
 													slot="icon"
 													src={notificationsProviderIcons[notificationsProvider]}
 													alt={notificationsProvider}
-													width={20}
+													height={20}
 												/>
 											</Loading>
 											<!-- <span transition:scale>Loading...</span> -->
@@ -741,7 +740,7 @@
 													title={errorMessage}
 													src={notificationsProviderIcons[notificationsProvider]}
 													alt={notificationsProvider}
-													width={20}
+													height={20}
 												/>
 												<span>⚠︎</span>
 											</div>
