@@ -28,6 +28,7 @@
     "@liquality/wallet-sdk": "^2.1.0",
     "@pushprotocol/restapi": "^0.9.0",
     "@sveltestack/svelte-query": "^1.6.0",
+    "@urql/svelte": "^4.0.0",
     "@walletconnect/core": "^2.4.6",
     "@walletconnect/ethereum-provider": "^2.4.6",
     "@walletconnect/jsonrpc-ws-connection": "^1.0.9",

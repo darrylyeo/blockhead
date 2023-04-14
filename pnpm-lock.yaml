@@ -20,6 +20,7 @@ specifiers:
   '@sveltestack/svelte-query': ^1.6.0
   '@typescript-eslint/eslint-plugin': ^5.54.0
   '@typescript-eslint/parser': ^5.54.0
+  '@urql/svelte': ^4.0.0
   '@walletconnect/core': ^2.4.6
   '@walletconnect/ethereum-provider': ^2.4.6
   '@walletconnect/jsonrpc-ws-connection': ^1.0.9
@@ -65,6 +66,7 @@ dependencies:
   '@liquality/wallet-sdk': 2.1.0_tyvcecmxax3or5qniskhb3pamu
   '@pushprotocol/restapi': 0.9.0_7j4sjra7ilnkzqb7yqqre7jfra_dlogy6ugeiwi6cjoy4crypspn4
   '@sveltestack/svelte-query': 1.6.0
+  '@urql/svelte': 4.0.0_r2dmhsoch4c2pm3aejyiytps2u
   '@walletconnect/core': 2.4.6_z3vu5dg2hu3jqyh3anri5tms2q
   '@walletconnect/ethereum-provider': 2.4.6_rdvsic5jmi2x5d3og7i33d37we
   '@walletconnect/jsonrpc-ws-connection': 1.0.9
@@ -112,6 +114,17 @@ devDependencies:
   vite: 4.2.1_@types+node@18.15.10
 
 packages:
+
+  /@0no-co/graphql.web/1.0.0_graphql@16.6.0:
+    resolution: {integrity: sha512-JBq2pWyDchE1vVjj/+c4dzZ8stbpew4RrzpZ3vYdn1WJFGHfYg6YIX1fDdMKtSXJJM9FUlsoDOxemr9WMM2p+A==}
+    peerDependencies:
+      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+    peerDependenciesMeta:
+      graphql:
+        optional: true
+    dependencies:
+      graphql: 16.6.0
+    dev: false
 
   /@adobe/css-tools/4.2.0:
     resolution: {integrity: sha512-E09FiIft46CmH5Qnjb0wsW54/YQd69LsxeKUOWawmws1XWvyFGURnAChH0mlr7YPFR1ofwvUQfcL0J3lMxXqPA==}
@@ -4734,6 +4747,27 @@ packages:
     dependencies:
       '@typescript-eslint/types': 5.54.0
       eslint-visitor-keys: 3.3.0
+
+  /@urql/core/4.0.4_graphql@16.6.0:
+    resolution: {integrity: sha512-r1rB/VMVpCnfnMTTzCAs+HY+UqOHUgpZ+GimLtU4DCTP3C78DK+m4qr36M7KKleggrKgcpcC1TE8eFEVcKzfSQ==}
+    dependencies:
+      '@0no-co/graphql.web': 1.0.0_graphql@16.6.0
+      wonka: 6.3.1
+    transitivePeerDependencies:
+      - graphql
+    dev: false
+
+  /@urql/svelte/4.0.0_r2dmhsoch4c2pm3aejyiytps2u:
+    resolution: {integrity: sha512-8xIUkx7elP0JP3n5JFlaPi37JBbITxA2zsyyZw9rGDWKdGBPfo2p8lReRylpPVb9R4bghbG6hQMwoe8LzjcufQ==}
+    peerDependencies:
+      svelte: ^3.0.0
+    dependencies:
+      '@urql/core': 4.0.4_graphql@16.6.0
+      svelte: 3.57.0
+      wonka: 6.3.1
+    transitivePeerDependencies:
+      - graphql
+    dev: false
 
   /@walletconnect/auth-client/2.0.3_z3vu5dg2hu3jqyh3anri5tms2q:
     resolution: {integrity: sha512-PU28c1xmx27arRcd675/CdJrK5QHntdPaMLkqOKmrFmtgi5L/kS1vPFPJ3txT/eXyuIf3cQDsore6G4gr/iajw==}
@@ -16754,6 +16788,10 @@ packages:
     resolution: {integrity: sha512-HIanZn1zmduSF+BQhkE+YXIbEiH0xPr1012QbFEGB0xsKqJii0/SqJjyn8dFv6y36kOznMgMB+LGcbZTJ1xACQ==}
     dependencies:
       bs58check: 2.1.2
+    dev: false
+
+  /wonka/6.3.1:
+    resolution: {integrity: sha512-nJyGPcjuBiaLFn8QAlrHd+QjV9AlPO7snOWAhgx6aX0nQLMV6Wi0nqfrkmsXIH0efngbDOroOz2QyLnZMF16Hw==}
     dev: false
 
   /word-wrap/1.2.3:
