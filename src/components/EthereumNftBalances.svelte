@@ -30,6 +30,8 @@
 	}[sortBy]
 
 
+	import { resolveUri } from '../utils/resolveUri'
+
 	const formatTokenId = (tokenId: number | string) =>
 		String(tokenId).length > 12
 			? String(tokenId).slice(0, 6) + '⸱⸱⸱' + String(tokenId).slice(-6)
@@ -57,6 +59,7 @@
 	import Address from './Address.svelte'
 	import EthereumNftBalancesLoader from './EthereumNftBalancesLoader.svelte'
 	import SizeContainer from './SizeContainer.svelte'
+
 
 	import { flip } from 'svelte/animate'
 	import { quintOut } from 'svelte/easing'
@@ -425,13 +428,13 @@
 												].map(section => section.filter(Boolean).join('\n')).filter(Boolean).join('\n\n')
 											}
 										>
-											{#if nft.metadata['image']}<source src={nft.metadata['image']} />{/if}
-											{#if nft.metadata['image_256']}<source src={nft.metadata['image_256']} media="(min-width: 256px)" />{/if}
-											{#if nft.metadata['image_512']}<source src={nft.metadata['image_512']} media="(min-width: 512px)" />{/if}
-											{#if nft.metadata['image_1024']}<source src={nft.metadata['image_1024']} media="(min-width: 1024px)" />{/if}
+											{#if nft.metadata['image']}<source src={resolveUri({ src: nft.metadata['image'] })} />{/if}
+											{#if nft.metadata['image_256']}<source src={resolveUri({ src: nft.metadata['image_256'] })} media="(min-width: 256px)" />{/if}
+											{#if nft.metadata['image_512']}<source src={resolveUri({ src: nft.metadata['image_512'] })} media="(min-width: 512px)" />{/if}
+											{#if nft.metadata['image_1024']}<source src={resolveUri({ src: nft.metadata['image_1024'] })} media="(min-width: 1024px)" />{/if}
 											<img
 												class="nft-image"
-												src={nft.metadata['image_256'] || nft.metadata['image']}
+												src={resolveUri({ src: nft.metadata['image_256'] || nft.metadata['image'] })}
 												alt={formatNFTNameAndTokenID(nft.metadata.name ?? '', nft.tokenId)}
 												loading="lazy"
 												on:load={e => {
