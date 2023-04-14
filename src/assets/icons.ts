@@ -1,3 +1,4 @@
+export { default as AirstackIcon } from './icons/Airstack.svg'
 export { default as AlchemyIcon } from './icons/Alchemy.svg'
 export { default as AudiusIcon } from './icons/Audius.png'
 export { default as ChainlinkIcon } from './icons/Chainlink.svg'
