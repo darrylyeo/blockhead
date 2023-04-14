@@ -255,7 +255,7 @@ export const preferencesConfig: PreferencesConfig<
 				id: 'nftProvider',
 				name: 'NFTs',
 				type: 'single',
-				defaultOption: NftProvider.Covalent,
+				defaultOption: NftProvider.Airstack,
 				options: [
 					{
 						id: 'onChain',
@@ -268,6 +268,7 @@ export const preferencesConfig: PreferencesConfig<
 						id: 'offChain',
 						name: 'Off-Chain',
 						options: [
+							{ id: NftProvider.Airstack, name: 'Airstack' },
 							{ id: NftProvider.Covalent, name: 'Covalent' },
 							{ id: NftProvider.NftPort,  name: 'NFTPort' }
 							// { id: 'Zapper', name: 'Zapper' },
