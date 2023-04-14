@@ -213,6 +213,7 @@ export const preferencesConfig: PreferencesConfig<
 						name: 'On-Chain',
 						options: [
 							// { id: 'RPC Provider', name: 'RPC Provider + Token List' },
+							{ id: TokenBalancesProvider.Liquality, name: 'Liquality (Alchemy)' },
 							{ id: TokenBalancesProvider.QuickNode, name: 'QuickNode' },
 						]
 					},
@@ -222,7 +223,6 @@ export const preferencesConfig: PreferencesConfig<
 						options: [
 							{ id: TokenBalancesProvider.Airstack, name: 'Airstack' },
 							{ id: TokenBalancesProvider.Covalent, name: 'Covalent' },
-							{ id: TokenBalancesProvider.Liquality, name: 'Liquality (Alchemy)' },
 							{ id: TokenBalancesProvider.Moralis, name: 'Moralis › Web3 API' },
 							{ id: TokenBalancesProvider.Zapper, name: 'Zapper' }
 						]
