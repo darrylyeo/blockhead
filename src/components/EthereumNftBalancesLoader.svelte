@@ -86,7 +86,7 @@
 								name: nft.metaData.name,
 								description: nft.metaData.description,
 								image: nft.metaData.image,
-								attributes: nft.metaData.attributes,
+								attributes: normalizeNFTAttributes(nft.metaData.attributes),
 							}
 						},
 					})),
