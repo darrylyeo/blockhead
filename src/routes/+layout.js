@@ -11,7 +11,7 @@ globalThis.process = process
 // Shims
 
 import { shim as shimArrayPrototypeGroup } from 'array.prototype.group'
-import { shim as shimArrayPrototypeGroupToMap } from 'array.prototype.groupToMap'
+import { shim as shimArrayPrototypeGroupToMap } from 'array.prototype.grouptomap'
 
 shimArrayPrototypeGroup()
 shimArrayPrototypeGroupToMap()

@@ -60,7 +60,7 @@ const config: UserConfig = {
 		rollupOptions: {
 			external: [
 				'array.prototype.group',
-				'array.prototype.groupToMap'
+				'array.prototype.grouptomap'
 			]
 		}
 	},
