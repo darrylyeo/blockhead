@@ -4,6 +4,7 @@ import { env as dynamicPublicEnv } from '$env/dynamic/public';
 const publicEnv = {...staticPublicEnv, ...dynamicPublicEnv}
 
 export const env = {
+	AIRSTACK_API_KEY: publicEnv.PUBLIC_AIRSTACK_API_KEY || '',
 	ALCHEMY_API_KEY_MAINNET: publicEnv.PUBLIC_ALCHEMY_API_KEY_MAINNET || '',
 	ALCHEMY_API_KEY_RINKEBY: publicEnv.PUBLIC_ALCHEMY_API_KEY_RINKEBY || '',
 	AUDIUS_APP_NAME: publicEnv.PUBLIC_AUDIUS_APP_NAME || '',
