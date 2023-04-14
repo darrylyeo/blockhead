@@ -75,10 +75,9 @@
 				balance: contractsWithBalances.reduce((sum, item) => sum + Number(item.balance), 0),
 				quote: undefined,
 				quoteRate: undefined,
-				nfts: console.log({address: contractAddress, tokensWithBalances: contractsWithBalances})||contractsWithBalances
+				nfts: contractsWithBalances
 					.map(tokenWithBalance => tokenWithBalance.tokenNfts)
-					.filter(isTruthy)
-					.map(nft =>console.log({address: contractAddress, tokensWithBalances: contractsWithBalances,nft})||({
+					.map(nft => ({
 						owner: nft.address,
 						tokenId: nft.tokenId,
 						tokenUri: nft.tokenURI,
@@ -295,7 +294,6 @@
 
 
 	import Loader from './Loader.svelte'
-	import { isTruthy } from '../utils/isTruthy'
 </script>
 
 

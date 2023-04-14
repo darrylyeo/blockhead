@@ -141,10 +141,8 @@
 				},
 			})
 		}}
-		then={data => {
-			console.log({data, chainId:network.chainId})
-
-			return data.TokenBalances.TokenBalance
+		then={data => (
+			data.TokenBalances.TokenBalance
 				.map(tokenWithBalance => ({
 					token: {
 						chainId: Number(tokenWithBalance.chainId),
@@ -153,11 +151,9 @@
 						symbol: tokenWithBalance.token.symbol,
 						decimals: tokenWithBalance.token.decimals,
 					},
-					balance: tokenWithBalance.amount,
-					// balance: BigInt(tokenWithBalance.amount),
+					balance: tokenWithBalance.amount, // BigInt(tokenWithBalance.amount),
 				}))
-		}}
-		debug
+		)}
 		{showIf}
 		{isOpen}
 		{containerClass}
