@@ -24,7 +24,7 @@
 
 	// Data
 
-	type Transaction = Ethereum.Transaction & {
+	type TransactionWithConversions = Ethereum.Transaction & {
 		convertedValue: number,
 		quoteCurrency: QuoteCurrency,
 		conversionRate: number,
@@ -39,13 +39,13 @@
 
 		transfers: ERC20Transfer[]
 	}
-	type ERC20Transfer = Omit<Transaction, 'gasToken'> & {
+	type ERC20Transfer = Omit<TransactionWithConversions, 'gasToken' | 'nonce'> & {
 		transferredToken: Ethereum.ERC20Token,
 	}
 
 	import { formatUnits } from 'ethers'
 
-	const _formatUnits = (value, decimals) => {
+	const _formatUnits = (value: number | string, decimals: number) => {
 		try {
 			return value
 				? formatUnits(
@@ -62,181 +62,121 @@
 		}
 	}
 
-	const convertCovalentTransaction = ({
-		block_signed_at,
-		block_height,
-		tx_hash,
-		tx_offset,
-		successful,
-		from_address,
-		from_address_label,
-		to_address,
-		to_address_label,
-		value,
-		value_quote,
-		gas_offered,
-		gas_spent,
-		gas_price,
-		gas_quote,
-		gas_quote_rate,
-		log_events
-	}: Covalent.Transaction) => ({
+	const convertCovalentTransaction = (transaction: Covalent.Transaction) => ({
 		network,
 
-		transactionID: tx_hash,
+		transactionID: transaction.tx_hash as Ethereum.TransactionID,
 		nonce: undefined,
-		transactionIndex: tx_offset,
-		blockNumber: block_height,
+		transactionIndex: transaction.tx_offset,
+		blockNumber: transaction.block_height as Ethereum.BlockNumber,
 		blockHash: undefined,
-		date: block_signed_at,
+		date: transaction.block_signed_at,
 
-		isSuccessful: successful,
+		isSuccessful: transaction.successful,
 
-		fromAddress: from_address,
-		fromAddressLabel: from_address_label,
-		toAddress: to_address,
-		toAddressLabel: to_address_label,
+		fromAddress: transaction.from_address as Ethereum.Address,
+		fromAddressLabel: transaction.from_address_label,
+		toAddress: transaction.to_address as Ethereum.Address,
+		toAddressLabel: transaction.to_address_label,
 
-		value: _formatUnits(value, network.nativeCurrency.decimals),
+		value: _formatUnits(transaction.value, network.nativeCurrency.decimals), // transaction.value * 0.1 ** network.nativeCurrency.decimals,
 
 		gasToken: network.nativeCurrency,
-		gasOffered: gas_offered,
-		gasSpent: gas_spent,
-		gasRate: gas_price,
-		gasValue: _formatUnits(gas_spent * gas_price, network.nativeCurrency.decimals),
+		gasOffered: BigInt(transaction.gas_offered),
+		gasSpent: BigInt(transaction.gas_spent),
+		gasRate: BigInt(transaction.gas_price),
+		gasValue: _formatUnits(transaction.gas_spent * transaction.gas_price, network.nativeCurrency.decimals), // transaction.gas_spent * transaction.gas_price * 0.1 ** network.nativeCurrency.decimals,
 
-		logEvents: log_events
-			?.map(({
-				block_signed_at,
-				block_height,
-				tx_offset,
-				log_offset,
-				tx_hash,
-				_raw_log_topics_bytes,
-				raw_log_topics,
-				sender_contract_decimals,
-				sender_name,
-				sender_contract_ticker_symbol,
-				sender_address,
-				sender_address_label,
-				sender_logo_url,
-				raw_log_data,
-				decoded
-			}) => ({
-				indexInTransaction: log_offset,
-				transactionHash: tx_hash,
+		logEvents: transaction.log_events
+			?.map(logEvent => ({
+				indexInTransaction: logEvent.log_offset,
+				transactionHash: logEvent.tx_hash,
 
-				indexInBlock: tx_offset,
-				blockNumber: block_height,
-				// blockHash,
+				indexInBlock: logEvent.tx_offset,
+				blockNumber: logEvent.block_height,
+				// blockHash: ,
 
-				topics: raw_log_topics,
-				data: raw_log_data,
+				topics: logEvent.raw_log_topics,
+				data: logEvent.raw_log_data,
 
 				contract: {
-					name: sender_name,
-					address: sender_address,
-					symbol: sender_contract_ticker_symbol,
-					decimals: sender_contract_decimals,
-					icon: sender_logo_url === 'null' ? null : sender_logo_url,
-					label: sender_address_label === 'null' ? null : sender_address_label,
+					name: logEvent.sender_name,
+					address: logEvent.sender_address,
+					symbol: logEvent.sender_contract_ticker_symbol,
+					decimals: logEvent.sender_contract_decimals,
+					icon: logEvent.sender_logo_url === 'null' ? null : logEvent.sender_logo_url,
+					label: logEvent.sender_address_label === 'null' ? null : logEvent.sender_address_label,
 				},
 
-				decoded: decoded && {
-					name: decoded.name,
-					signature: decoded.signature,
-					params: decoded.params?.map(({
-						name,
-						type,
-						value,
-						indexed,
-						decoded
-					}) => ({
-						name,
-						type,
-						value: value ?? '', // value === null, decoded === false
-						indexed,
-						decoded
-					})) ?? []
+				decoded: logEvent.decoded && {
+					name: logEvent.decoded.name,
+					signature: logEvent.decoded.signature,
+					params: logEvent.decoded.params?.map(logEvent => ({
+						name: logEvent.name,
+						type: logEvent.type,
+						value: logEvent.value ?? '', // logEvent.value === null, logEvent.decoded === false
+						indexed: logEvent.indexed,
+						decoded: logEvent.decoded,
+					})) ?? [],
 				}
 			}))
 			.sort((logEvent1, logEvent2) => logEvent1.indexInTransaction - logEvent2.indexInTransaction),
 
 
-		convertedValue: value_quote,
+		convertedValue: transaction.value_quote,
 		quoteCurrency,
-		conversionRate: value_quote / _formatUnits(value, network.nativeCurrency.decimals),
+		conversionRate: transaction.value_quote / Number(_formatUnits(transaction.value, network.nativeCurrency.decimals)), // transaction.value_quote / Number(transaction.value * 0.1 ** network.nativeCurrency.decimals),
 
-		gasConvertedValue: gas_quote,
-		gasConversionRate: gas_quote_rate,
-	}) as Transaction
+		gasConvertedValue: transaction.gas_quote,
+		gasConversionRate: transaction.gas_quote_rate,
+	} as TransactionWithConversions)
 
 	const convertCovalentERC20TokenTransaction = (transaction: Covalent.ERC20TokenTransaction) => ({
 		...convertCovalentTransaction(transaction),
 		transfers: transaction.transfers.map(transfer =>
 			convertCovalentERC20TokenTransfer(transfer, transaction.successful)
 		)
-	}) as TransactionWithERC20Transfers
+	} as TransactionWithERC20Transfers)
 
-	const convertCovalentERC20TokenTransfer = ({
-		block_signed_at,
-		tx_hash,
-		from_address,
-		from_address_label,
-		to_address,
-		to_address_label,
-		contract_decimals,
-		contract_name,
-		contract_ticker_symbol,
-		contract_address,
-		logo_url,
-		transfer_type,
-		delta,
-		balance,
-		quote_rate,
-		delta_quote,
-		balance_quote,
-		method_calls
-	}: Covalent.ERC20TokenTransfer,
-		isSuccessful: boolean
+	const convertCovalentERC20TokenTransfer = (
+		transfer: Covalent.ERC20TokenTransfer,
+		isSuccessful: boolean,
 	) => ({
 		network,
 
-		transactionID: tx_hash,
-		nonce: undefined,
-		blockHash: undefined,
-		date: block_signed_at,
+		transactionID: transfer.tx_hash as Ethereum.TransactionID,
+		date: transfer.block_signed_at,
 
 		isSuccessful,
 
-		fromAddress: from_address,
-		fromAddressLabel: from_address_label,
-		toAddress: to_address,
-		toAddressLabel: to_address_label,
+		fromAddress: transfer.from_address,
+		fromAddressLabel: transfer.from_address_label,
+		toAddress: transfer.to_address,
+		toAddressLabel: transfer.to_address_label,
 
-		value: _formatUnits(delta, contract_decimals),
+		value: _formatUnits(transfer.delta, transfer.contract_decimals), // transfer.delta * 0.1 ** transfer.contract_decimals,
 
 		transferredToken: {
-			symbol: contract_ticker_symbol,
-			address: contract_address,
-			name: contract_name,
-			icon: logo_url,
-			decimals: contract_decimals
+			symbol: transfer.contract_ticker_symbol,
+			address: transfer.contract_address,
+			name: transfer.contract_name,
+			icon: transfer.logo_url,
+			decimals: transfer.contract_decimals
 		},
 
-		convertedValue: delta_quote,
+		convertedValue: transfer.delta_quote,
 		quoteCurrency,
-		conversionRate: quote_rate,
+		conversionRate: transfer.quote_rate,
 
-		logEvents: method_calls?.map(({method, sender_address}) => ({
+		logEvents: transfer.method_calls?.map(methodCall => ({
 			contract: {
-				address: sender_address
+				address: methodCall.sender_address
 			},
 			decoded: {
-				name: method
+				name: methodCall.method
 			}
-		}))
-	}) as ERC20Transfer
+		})),
+	} as ERC20Transfer)
 
 
 	$: ({
@@ -289,7 +229,7 @@
 			erc20TokenTransfer
 		:
 			{}
-	)) as Transaction & TransactionWithERC20Transfers & ERC20Transfer)
+	)) as TransactionWithConversions | TransactionWithERC20Transfers | ERC20Transfer)
 
 
 	$: isSummary = detailLevel === 'summary'

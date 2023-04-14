@@ -136,10 +136,10 @@ export namespace Ethereum {
 		network: Network,
 
 		transactionID: TransactionID,
-		nonce: TransactionNonce,
+		nonce?: TransactionNonce,
 		transactionIndex: TransactionIndex,
 		blockNumber: BlockNumber,
-		blockHash: BlockHash,
+		blockHash?: BlockHash,
 		date: number,
 
 		isSuccessful: boolean,
@@ -149,13 +149,13 @@ export namespace Ethereum {
 		toAddress: Address,
 		toAddressLabel?: string,
 
-		value: BigInt | string,
+		value: number | string, // BigInt
 
 		gasToken: NativeCurrency | ERC20Token,
 		gasOffered?: GasAmount,
 		gasSpent: GasAmount,
 		gasRate: GasRate,
-		gasValue: BigInt,
+		gasValue: number | string, // BigInt
 
 		logEvents?: TransactionLogEvent[]
 	}
