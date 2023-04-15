@@ -56,6 +56,7 @@
 	errorMessage={`Couldn't sign-in with Lens.`}
 	clip={false}
 	debug
+	let:status
 	let:result
 >
 	<svelte:fragment slot="idle" let:load>
@@ -88,6 +89,18 @@
 			</div>
 		</form>
 	</svelte:fragment>
+
+	<!-- <slot name="header" slot="header">
+		{#if status === 'resolved'}
+			<header class="bar wrap">
+				<slot name="title" />
+
+				<div role="toolbar" class="row wrap">
+					<slot name="toolbar" />
+				</div>
+			</header>
+		{/if}
+	</slot> -->
 
 	<slot accessToken={result?.accessToken} refreshToken={result?.refreshToken} />
 </Loader>

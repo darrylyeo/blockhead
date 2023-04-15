@@ -26,7 +26,7 @@
 	// Components
 	import AddressField from '../../../components/AddressField.svelte'
 	import ConnectedAccountSelect from '../../../components/ConnectedAccountSelect.svelte'
-	import LensLogin from '../../../components/LensLogin.svelte'
+	import LensAuthenticationLoader from '../../../components/LensAuthenticationLoader.svelte'
 
 
 	// Transitions
@@ -57,7 +57,7 @@
 	</form>
 
 	<section class="card column" style={$web3AppConfig?.colors && cardStyle([...$web3AppConfig.colors].reverse())}>
-		<LensLogin
+		<LensAuthenticationLoader
 			accountConnection={selectedLoginAccount}
 			let:accessToken
 			let:refreshToken
@@ -73,7 +73,7 @@
 			{#if accessToken}
 				<h3>You're signed in.</h3>
 			{/if}
-		</LensLogin>
+		</LensAuthenticationLoader>
 	</section>
 
 	<slot />
