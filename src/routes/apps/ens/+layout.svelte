@@ -29,7 +29,7 @@
 <style>
 	.accountId-form {
 		display: grid;
-		grid-template-columns: auto auto 1fr auto;
+		grid-template-columns: minmax(0, 1fr) auto 1fr auto;
 	}
 </style>
 
