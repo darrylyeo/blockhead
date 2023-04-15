@@ -21,7 +21,7 @@
 	export let passiveResolveToAddress = false
 
 	export let resolveToName: Omit<AccountIdType, AccountIdType.Address> | undefined = AccountIdType.ENS
-	export let passiveResolveToName = false
+	export let passiveResolveToName = true
 
 	export let providerName: NetworkProvider
 	export let provider: Ethereum.Provider
