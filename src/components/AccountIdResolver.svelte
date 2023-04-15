@@ -17,7 +17,7 @@
 	// External state
 	export let network = networksByChainID[1]
 	export let accountId: AccountId | undefined
-	export let passiveForwardResolution = false
+	export let passiveResolveToAddress = false
 	export let passiveReverseResolution = false
 
 	export let providerName: NetworkProvider
@@ -181,7 +181,7 @@
 
 {:else if accountId && !isReverseResolving}
 	<Loader
-		layout={passiveForwardResolution ? 'passive' : 'default'}
+		layout={passiveResolveToAddress ? 'passive' : 'default'}
 		fromUseQuery={
 			ensName && provider && useQuery({
 				queryKey: ['EnsResolution', {

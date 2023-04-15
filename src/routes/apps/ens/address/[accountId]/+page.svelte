@@ -14,7 +14,7 @@
 
 <AccountIdResolver
 	{accountId}
-	passiveForwardResolution
+	passiveResolveToAddress
 	let:ensName
 >
 	<EnsSearchLoader network={networksByChainID[1]} searchQuery={ensName} />

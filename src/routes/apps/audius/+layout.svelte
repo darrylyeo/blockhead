@@ -100,7 +100,7 @@
 
 			<AccountIdResolver
 				accountId={$accountId}
-				passiveForwardResolution
+				passiveResolveToAddress
 				passiveReverseResolution
 				let:address
 			>
