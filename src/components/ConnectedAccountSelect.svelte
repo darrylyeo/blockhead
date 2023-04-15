@@ -1,17 +1,34 @@
 <script lang="ts">
+	// Constants/types
+	import type { Ethereum } from '../data/networks/types'
+	import type { AccountConnectionState } from '../state/account'
+
+
+	// External state
+	export let required = false
+
+
+	// Functions
 	import { formatAddress } from '../utils/formatAddress'
-	import { accountConnections, type AccountConnectionState } from '../state/account'
+	import { accountConnections } from '../state/account'
 
 
-	export let required: boolean
+	// Shared state
+	export let address: Ethereum.Address | undefined
+	export let selectedAccount: AccountConnectionState | undefined = address && $accountConnections.find(accountConnection => accountConnection.state?.address?.toLowerCase() === address?.toLowerCase())?.state || undefined
 
 
-	export let selectedAccount: AccountConnectionState
+	// Computed
+	$: address = selectedAccount?.address
 </script>
 
 
-<select class="connected-account-select" bind:value={selectedAccount} {required}>
-	<option value="" disabled>Choose account...</option>
+<select
+	class="connected-account-select"
+	bind:value={selectedAccount}
+	{required}
+>
+	<option value="" selected disabled>Choose account...</option>
 
 	<!-- <optgroup label="Connected"> -->
 		{#each $accountConnections as accountConnection}
