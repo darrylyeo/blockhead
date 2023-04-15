@@ -22,6 +22,8 @@
 	$: if(address) selectedAccount = $accountConnections.find(accountConnection => accountConnection.state?.address?.toLowerCase() === address?.toLowerCase())?.state || selectedAccount
 	// $: address = selectedAccount?.address
 
+	$: selectedAccount ||= undefined
+
 
 	// Functions
 	import { formatAddress } from '../utils/formatAddress'
