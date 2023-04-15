@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PortfolioAccount } from '../state/portfolio-accounts'
 	import type { Ethereum } from '../data/networks/types'
+	import { AccountIdType } from '../data/accountId'
 	import { DefiProvider, defiProviderIcons } from '../data/defiProviders'
 	import type { QuoteCurrency } from '../data/currencies'
 	import { getNetworkColor, networksByChainID } from '../data/networks'
@@ -321,7 +322,7 @@
 	>
 		<header slot="header" class="bar card sticky">
 			<div class="row-inline wrap">
-				{#if lensName && type === 'lensName'}
+				{#if lensName && type === AccountIdType.Lens}
 					<h3>{lensName}</h3>
 					{#if address}
 						<small><Address network={networksByChainID[1]} {address} /></small>
@@ -331,14 +332,14 @@
 					{#if address}
 						<small><Address network={networksByChainID[1]} {address} /></small>
 					{/if}
-				{:else if type === 'ensName'}
+				{:else if type === AccountIdType.ENS}
 					{#if ensName}
 						<h3><EnsName {ensName} showAvatar /></h3>
 					{/if}
 					{#if address}
 						<small><Address network={networksByChainID[1]} {address} /></small>
 					{/if}
-				{:else}
+				{:else if type === AccountIdType.Address}
 					{#if address}
 						<h3><Address network={networksByChainID[1]} {address} /></h3>
 					{/if}
