@@ -23,6 +23,9 @@ const config: UserConfig = {
 		// The requested module '/node_modules/__' does not provide an export named 'default'
 		optimizeDeps: {
 			include: [
+				'array.prototype.group',
+				'array.prototype.grouptomap',
+
 				// Directory import '/opt/build/repo/node_modules/@apollo/client/core' is not supported resolving ES modules imported from /opt/build/repo/.svelte-kit/output/server/app.js
 				// Did you mean to import @apollo/client/core/core.cjs.js?
 				// https://github.com/timhall/svelte-apollo/issues/97#issuecomment-857397762
@@ -60,7 +63,7 @@ const config: UserConfig = {
 		rollupOptions: {
 			external: [
 				'array.prototype.group',
-				'array.prototype.grouptomap'
+				'array.prototype.grouptomap',
 			]
 		}
 	},
