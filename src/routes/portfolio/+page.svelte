@@ -100,12 +100,12 @@
 	
 	<!-- <WalletProviders {network} {portfolioProvider} /> -->
 
-	<aside
+	<!-- <aside
 		class="account-connections column"
 		class:scrollable-list={layout === 'row'}
 	>
 		<AccountConnections layout={{'column': 'row', 'row': 'column'}[layout]} />
-	</aside>
+	</aside> -->
 </main>
 
 <Preferences
@@ -118,7 +118,7 @@
 
 
 <style>
-	main {
+	/* main {
 		display: grid;
 		justify-content: center;
 		grid-template:
@@ -127,7 +127,7 @@
 			/ minmax(0, 1fr);
 		gap: 2rem 1.5rem !important;
 		
-		/* Override scroll container to support position: sticky */
+		/* Override scroll container to support position: sticky * /
 		height: 100vh;
 		overflow-y: auto;
 	}
@@ -137,6 +137,18 @@
 				'Portfolios AccountConnections'
 				/ 1fr 19rem;
 		}
+	} */
+
+	main {
+		display: grid;
+		justify-content: center;
+		grid-template:
+			'Portfolios' 1fr
+			/ 1fr;
+		
+		/* Override scroll container to support position: sticky */
+		height: 100vh;
+		overflow-y: auto;
 	}
 
 	.portfolios {

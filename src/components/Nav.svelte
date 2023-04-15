@@ -27,6 +27,7 @@
 		display: flex;
 		align-items: stretch;
 		min-width: min-content;
+		gap: 0;
 	}
 	li {
 		display: flex;
@@ -81,7 +82,7 @@
 </style>
 
 
-<nav>
+<nav class="bar row">
 	<ul>
 		<li><a aria-current="{$page.url.pathname === '/' ? 'page' : undefined}" href="/"><span class="logo">Blockhead</span></a></li>
 		<li><a aria-current="{$page.url.pathname.startsWith('/portfolio') ? 'page' : undefined}" href="/portfolio">Portfolio</a></li>
@@ -104,4 +105,6 @@
 		<li><a href="https://twitter.com/0xblockhead" target="_blank">Twitter</a></li>
 	</div> -->
 	<!-- <EthereumLatestBlockNumber /> -->
+
+	<slot name="toolbar" />
 </nav>

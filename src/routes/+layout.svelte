@@ -86,7 +86,7 @@
 
 
 
-	// State
+	// Global state
 
 	import { browser } from '$app/environment'
 
@@ -102,8 +102,18 @@
 	import { MetaTags } from 'svelte-meta-tags'
 
 
+	// Internal state
+	let showAccounts = false
+
+
 	// Components
 	import AccountConnections from '../components/AccountConnections.svelte'
+	import SizeContainer from '../components/SizeContainer.svelte'
+
+
+	// Transitions
+	import { fly } from 'svelte/transition'
+	import { quintOut } from 'svelte/easing'
 </script>
 
 
@@ -160,7 +170,21 @@
 
 
 <style>
+	/* :global(body) {
+		display: grid;
+		grid-template:
+			'Header Header' max-content
+			'Main Aside' 1fr
+			'Footer Footer' auto
+			/ minmax(0, 1fr) auto;
+	} */
 	:global(:is(body > nav)) {
+		/* grid-area: Header;
+
+		position: sticky;
+		top: 0;
+		z-index: 1; */
+
 		position: fixed;
 		width: 100%;
 		top: 0;
@@ -172,6 +196,10 @@
 		padding: 0 var(--padding-outer);
 	}
 
+	/* :global(:is(body > .stack)) {
+		grid-area: Main;
+	} */
+
 	:global(:is(body > .stack > main)) {
 		--bleed-top: 3.5rem;
 		--bleed-bottom: 3.25rem;
@@ -180,12 +208,20 @@
 
 		margin: 0 auto;
 		width: 100%;
+		min-width: var(--one-column-width);
 		min-height: 100vh;
 
 		display: grid;
 		gap: var(--padding-inner);
 		padding: calc(var(--bleed-top) + var(--padding-outer)) var(--padding-outer) calc(var(--bleed-bottom) + var(--padding-outer));
 		align-content: start;
+
+		transition: 0.4s var(--ease-out-expo);
+	}
+
+	[data-show-accounts="true"] :global(main) {
+		min-width: min(var(--one-column-width) + 22rem, 100vw);
+		padding-right: calc(22rem + var(--padding-outer));
 	}
 
 	@media (max-width: 50rem) {
@@ -195,6 +231,8 @@
 	}
 
 	:global(:is(body > .stack > .preferences)) {
+		/* grid-area: Footer; */
+
 		position: fixed;
 		width: 100%;
 		bottom: 0;
@@ -204,19 +242,79 @@
 		backdrop-filter: var(--overlay-backdrop-filter);
 		border-top: 1px solid rgba(0, 0, 0, 0.2);
 	}
+
+	aside {
+		/* grid-area: Aside; */
+		z-index: 1;
+
+		position: fixed;
+		right: 0;
+		top: 3.5rem;
+		bottom: 3.5rem;
+
+		overflow: auto;
+
+		width: min(22rem, 100vw);
+		padding: 1.5rem;
+
+		background-color: rgba(var(--rgb-light-dark), 0.33);
+		-webkit-backdrop-filter: var(--overlay-backdrop-filter);
+		backdrop-filter: var(--overlay-backdrop-filter);
+	}
+
+	[role="toolbar"] {
+		position: sticky;
+		right: 0;
+	}
+
+	.wallets-toggle span {
+		font-weight: bold;
+		opacity: 1 !important;
+		padding: 0.2em 0.6em;
+	}
+	.wallets-toggle span:before {
+		content: none !important;
+	}
 </style>
 
 
-<QueryClientProvider client={queryClient}>
-	<Nav />
+<svelte:window on:blockhead_addAccountConnection={e => showAccounts = true} />
 
-	<div class="stack">
+
+<QueryClientProvider client={queryClient}>
+	<Nav>
+		<svelte:fragment slot="toolbar">
+			<div role="toolbar">
+				<label class="wallets-toggle">
+					<input type="checkbox" bind:checked={showAccounts} />
+					<span data-after={showAccounts ? '⏶' : '⏷'}>Wallets</span>
+				</label>
+			</div>
+		</svelte:fragment>
+	</Nav>
+
+	{#if showAccounts}
+		<!-- <aside class="column" transition:slide={{ axis: 'x' }}> -->
+		<aside class="column" transition:fly={{ x: 400, opacity: 0, duration: 400, easing: quintOut }}>
+			<AccountConnections layout="column" />
+		</aside>
+	{:else}
+		<aside hidden>
+			<AccountConnections />
+		</aside>
+	{/if}
+
+	<div class="stack" data-show-accounts={showAccounts}>
 		<slot></slot>
 	</div>
-</QueryClientProvider>
 
-<aside hidden>
-	<section class="column">
-		<AccountConnections />
-	</section>
-</aside>
+	<!-- <SizeContainer transitionWidth transitionHeight={false} showIf={showAccounts}> -->
+		<!-- <aside hidden={!showAccounts}>
+			<section class="column" transition:slide={{ axis: 'x' }}>
+				<AccountConnections layout="column" />
+			</section>
+		</aside> -->
+	<!-- </SizeContainer> -->
+		
+	<!-- </SizeContainer> -->
+</QueryClientProvider>
