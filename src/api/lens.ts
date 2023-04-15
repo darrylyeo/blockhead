@@ -1,14 +1,30 @@
 import type { Ethereum } from '../data/networks/types'
 
-import type { BrandedString } from '../utils/branded'
-
-export type LensName = BrandedString<`${string}.${'lens' | 'test'}`>
-
 export enum LensInstance {
 	Polygon = 'Polygon',
 	PolygonMumbai = 'PolygonMumbai',
 	SandboxPolygonMumbai = 'SandboxPolygonMumbai',
 }
+
+export const lensInstances = {
+	[LensInstance.Polygon]: {
+		chainId: 137,
+		apiUrl: 'https://api.lens.dev',
+	},
+	[LensInstance.PolygonMumbai]: {
+		chainId: 80001,
+		apiUrl: 'https://api-mumbai.lens.dev',
+	},
+	[LensInstance.SandboxPolygonMumbai]: {
+		chainId: 80001,
+		apiUrl: 'https://api-sandbox-mumbai.lens.dev',
+	},
+}
+
+
+import type { BrandedString } from '../utils/branded'
+
+export type LensName = BrandedString<`${string}.${'lens' | 'test'}`>
 
 export type LensProfile = {}
 
@@ -23,11 +39,7 @@ export const getClient = ({
 	instance?: LensInstance
 }) => clients[instance] ||= (
 	new Client({
-		url: {
-			[LensInstance.Polygon]: 'https://api.lens.dev',
-			[LensInstance.PolygonMumbai]: 'https://api-mumbai.lens.dev',
-			[LensInstance.SandboxPolygonMumbai]: 'https://api-sandbox-mumbai.lens.dev',
-		}[instance],
+		url: lensInstances[instance].apiUrl,
 		exchanges: [
 			cacheExchange,
 			fetchExchange,
