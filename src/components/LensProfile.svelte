@@ -44,7 +44,7 @@
 	{/if}
 
 	<header class="bar wrap">
-		<h3 class="row">
+		<div class="row">
 			{#if profile.picture?.uri || profile.picture?.original?.url}
 				{#if profile.picture.contractAddress}
 					<Address
@@ -58,12 +58,20 @@
 				{/if}
 			{/if}
 
-			<LensName {instance} lensName={profile.handle} />
+			<span class="row-inline">
+				<h3>
+					<LensName {instance} lensName={profile.handle} />
+				</h3>
+
+				<small class="muted">
+					<Address {network} address={profile.ownedBy} />
+				</small>
+			</span>
 
 			{#if profile.isDefault}
 				<span class="default" title="Default Profile">✔</span>
 			{/if}
-		</h3>
+		</div>
 
 		<span class="card-annotation">
 			{#if profile.isDefault}Default {/if}Lens Profile
@@ -174,5 +182,13 @@
 		display: grid;
 		gap: var(--padding-inner);
 		grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
+	}
+
+	.muted {
+		opacity: 0.85;
+	}
+
+	small {
+		font-size: 0.75em;
 	}
 </style>
