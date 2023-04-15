@@ -10,11 +10,22 @@ globalThis.process = process
 
 // Shims
 
-import shimArrayPrototypeGroup from 'array.prototype.group'
-import shimArrayPrototypeGroupToMap from 'array.prototype.grouptomap'
+// import shimArrayPrototypeGroup from 'array.prototype.group'
+// import shimArrayPrototypeGroupToMap from 'array.prototype.grouptomap'
 
-shimArrayPrototypeGroup.shim()
-shimArrayPrototypeGroupToMap.shim()
+// shimArrayPrototypeGroup.shim()
+// shimArrayPrototypeGroupToMap.shim()
+
+Array.prototype.groupToMap ||= function(callbackFn, _this = this){
+	const map = new Map()
+	for (const item of _this) {
+		const key = callbackFn(item)
+		const group = map.get(key) || []
+		group.push(item)
+		map.set(key, group)
+	}
+	return map
+}
 
 
 // SvelteKit
