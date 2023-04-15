@@ -36,7 +36,7 @@ export const getClient = ({
 )
 
 
-export const getProfile = async ({
+export const getProfileByLensName = async ({
 	instance,
 	lensName,
 }: {

@@ -113,8 +113,8 @@
 					lensName,
 				}],
 				queryFn: async () => {
-					const { getProfile } = await import('../api/lens')
-					return await getProfile({ lensName })
+					const { getProfileByLensName } = await import('../api/lens')
+					return await getProfileByLensName({ lensName })
 				}
 			})
 		}
