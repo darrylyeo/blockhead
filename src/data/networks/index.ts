@@ -4314,6 +4314,52 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://clover.finance/sakura"
 	},
 	{
+		"slug": "scroll",
+		"name": "Scroll",
+		"chainId": 534352,
+		"chain": "ETH",
+		"rpc": [],
+		"faucets": [],
+		"nativeCurrency": {
+			"name": "Ether",
+			"symbol": "ETH",
+			"decimals": 18
+		},
+		"infoURL": "https://scroll.io",
+		"shortName": "scr",
+		"networkId": 534352,
+		"explorers": [
+			{
+				"url": "https://blockscout.scroll.io"
+			}
+		],
+		"parent": {
+			"type": "L2",
+			"chain": "eip155-1",
+			"bridges": []
+		}
+	},
+	{
+		"slug": "scroll-alpha",
+		"name": "Scroll Alpha Testnet",
+		"chainId": 534353,
+		"nativeCurrency": {
+			"name": "ETH",
+			"symbol": "ETH",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://alpha-rpc.scroll.io/l2"
+		],
+		"faucets": [],
+		"explorers": [
+			{
+				"url": "https://blockscout.scroll.io"
+			}
+		],
+		"infoURL": "https://scroll.io"
+	},
+	{
 		"slug": "sgc",
 		"name": "SGC Testnet",
 		"chainId": 102,
@@ -5260,6 +5306,9 @@ const testnetSlugsForMainnetSlugs = {
 	// 'nervos': [
 	// 	'nervos-godwoken',
 	// ],
+	'scroll': [
+		'scroll-alpha',
+	]
 }
 
 export const testnetsForMainnets = Object.fromEntries<Ethereum.Network[]>(
@@ -5308,6 +5357,7 @@ export const ethereumAndL2Networks = [
 	'polygon',
 	'gnosis',
 	'polygon-zkevm',
+	// 'scroll',
 	'arbitrum-one',
 	'optimism',
 	// 'skale-testnet',
