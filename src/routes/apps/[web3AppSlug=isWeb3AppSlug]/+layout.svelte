@@ -111,7 +111,7 @@
 	out:fly={{x: -100}}
 >
 	<form on:submit|preventDefault={() => $accountId = currentAccountId}>
-		<ExplorerInput bind:value={currentAccountId} />
+		<ExplorerInput bind:value={currentAccountId} placeholder="EVM Address (0xabcd...6789) / ENS Domain (vitalik.eth) / Lens Handle (stani.lens)" />
 		<button type="submit">Go</button>
 	</form>
 
