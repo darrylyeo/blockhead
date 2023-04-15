@@ -1,24 +1,29 @@
 <script lang="ts">
 	// Constants/types
+	import type { AccountId } from '../data/accountId'
 	import type { Ethereum } from '../data/networks/types'
 	import type { ENS } from '../api/ens'
 	import type { LensName } from '../api/lens'
-	import type { AccountId } from '../data/accountId'
 
 	import { NetworkProvider } from '../data/networkProviders/types'
 	import { getEthersProvider } from '../data/networkProviders'
 	import { networksByChainID } from '../data/networks'
 
+
+	// Context
 	import { preferences } from '../state/preferences'
 
 
+	// External state
 	export let network = networksByChainID[1]
-	export let providerName: NetworkProvider
-	export let provider: Ethereum.Provider
 	export let accountId: AccountId
 	export let passiveForwardResolution = false
 	export let passiveReverseResolution = false
 
+	export let providerName: NetworkProvider
+	export let provider: Ethereum.Provider
+
+	// (Computed)
 	$: providerName = $$props.providerName ?? $preferences.rpcNetwork
 
 	$: if(network && providerName && !provider)
@@ -27,26 +32,30 @@
 			networkProvider: providerName,
 		}).then(_ => provider = _)
 
-	$: viaRPC = providerName === NetworkProvider.Default ? '' : ` via ${providerName}`
 
+	// Internal state
+	let type: 'ensName' | 'lensName' | 'address' | undefined
+	let isReverseResolving: boolean | undefined
 
-	export let address: Ethereum.Address | undefined
-	export let ensName: ENS.Name | undefined
-	export let lensName: LensName | undefined
-
-	export let isReverseResolving: boolean | undefined
-
-
-	import { findMatchedCaptureGroupName } from '../utils/findMatchedCaptureGroup';
+	// (Computed)
+	import { findMatchedCaptureGroupName } from '../utils/findMatchedCaptureGroup'
 
 	$: type = findMatchedCaptureGroupName<'ensName' | 'lensName' | 'address'>(
 		/(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))|(?<lensName>(?:[^. ]+[.])(?:lens|test))|(?<address>0x[0-9a-fA-F]{40})/,
 		accountId
-	) ?? ''	
-
+	)
 
 	$: isReverseResolving = type === 'address'
 
+	$: viaRPC = providerName === NetworkProvider.Default ? '' : ` via ${providerName}`
+
+
+	// Shared state
+	export let address: Ethereum.Address | undefined
+	export let ensName: ENS.Name | undefined
+	export let lensName: LensName | undefined
+
+	// (Computed)
 	$: if(!accountId){
 		address = undefined
 		ensName = undefined
@@ -61,12 +70,12 @@
 		ensName = accountId as ENS.Name
 
 
+	// Actions
 	import { useQuery } from '@sveltestack/svelte-query'
+	import { memoizedAsync } from '../utils/memoized'
 
 	// import ENS, { getEnsAddress } from '@ensdomains/ensjs'
 	// const ens = new ENS({ provider, ensAddress: getEnsAddress('1') })
-
-	import { memoizedAsync } from '../utils/memoized'
 
 	const lookupAddress = memoizedAsync(async (address: Ethereum.Address) => {
 		const ensName = await provider.lookupAddress(address)
@@ -94,13 +103,13 @@
 	})
 
 
+	// View options
 	export let showIf: (({address, ensName}: {address: Ethereum.Address, ensName: string}) => boolean | any) | undefined
 	export let clip = true
 
 
+	// Components
 	import Loader from './Loader.svelte'
-
-
 	import { ENSIcon, LensIcon } from '../assets/icons'
 </script>
 
@@ -135,6 +144,7 @@
 		<slot slot="header" name="header" {address} {type} {ensName} {lensName} {isReverseResolving} />
 		<slot {address} {type} {ensName} {lensName} {isReverseResolving} />
 	</Loader>
+
 {:else if accountId && isReverseResolving}
 	<Loader
 		layout={passiveReverseResolution ? 'passive' : 'default'}
@@ -159,10 +169,8 @@
 		<slot slot="header" name="header" {address} {type} {ensName} {lensName} {isReverseResolving} />
 		<slot {address} {type} {ensName} {lensName} {isReverseResolving} />
 	</Loader>
+
 {:else if accountId && !isReverseResolving}
-		<!-- fromPromise={async () => (
-			await resolveName(ensName.toLowerCase())
-		)} -->
 	<Loader
 		layout={passiveForwardResolution ? 'passive' : 'default'}
 		fromUseQuery={
@@ -186,7 +194,9 @@
 		<slot slot="header" name="header" {address} {type} {ensName} {lensName} {isReverseResolving} />
 		<slot {address} {type} {ensName} {lensName} {isReverseResolving} />
 	</Loader>
+
 {:else}
 	<slot name="header" {address} {type} {ensName} {isReverseResolving} />
 	<slot {address} {type} {ensName} {isReverseResolving} />
+
 {/if}
