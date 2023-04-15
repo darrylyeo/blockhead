@@ -127,24 +127,34 @@
 	$: if(started){
 		status = LoadingStatus.Loading
 
-		if(fromPromise)
-			promise = fromPromise()
+		try {
+			if(fromPromise)
+				promise = fromPromise()
 
-		if(fromStore){
-			const _store = fromStore()
-			_store.then
-				? _store.then(_ => store = _)
-				: store = _store
+			if(fromStore){
+				const _store = fromStore()
+				_store.then
+					? _store
+						.then(_ => store = _)
+						.error(e => {
+							error = e
+							status = LoadingStatus.Errored
+						})
+					: store = _store
+			}
+
+			if(fromHoudiniQuery)
+				houdiniQuery = fromHoudiniQuery()
+
+			if(fromUseQuery)
+				fromUseQuery.setEnabled(true)
+
+			if(fromUseInfiniteQuery)
+				fromUseInfiniteQuery.setEnabled(true)
+		}catch(e){
+			error = e
+			status = LoadingStatus.Errored
 		}
-
-		if(fromHoudiniQuery)
-			houdiniQuery = fromHoudiniQuery()
-
-		if(fromUseQuery)
-			fromUseQuery.setEnabled(true)
-
-		if(fromUseInfiniteQuery)
-			fromUseInfiniteQuery.setEnabled(true)
 	}
 	else{
 		if(fromUseQuery)
