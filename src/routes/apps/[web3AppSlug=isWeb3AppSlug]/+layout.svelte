@@ -25,8 +25,8 @@
 
 
 	// Components
+	import AccountIdResolver from '../../../components/AccountIdResolver.svelte'
 	import ConnectedAccountSelect from '../../../components/ConnectedAccountSelect.svelte'
-	import EnsResolutionLoader from '../../../components/EnsResolutionLoader.svelte'
 	import ExplorerInput from '../../../components/ExplorerInput.svelte'
 	import Web3AppDashboard from '../../../components/Web3AppDashboard.svelte'
 
@@ -124,7 +124,7 @@
 		<button type="submit">Go</button>
 	</form>
 
-	<EnsResolutionLoader
+	<AccountIdResolver
 		accountId={$accountId}
 		passiveForwardResolution
 		passiveReverseResolution
@@ -149,7 +149,7 @@
 				{/key}
 			</div>
 		{/if}
-	</EnsResolutionLoader>
+	</AccountIdResolver>
 
 	<slot />
 </section>

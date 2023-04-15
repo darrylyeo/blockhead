@@ -125,11 +125,11 @@
 
 
 	// Components
+	import AccountIdResolver from './AccountIdResolver.svelte'
 	import Address from './Address.svelte'
 	import Balance from './Balance.svelte'
 	import DefiBalances from './DefiBalances.svelte'
 	import EnsName from './EnsName.svelte'
-	import EnsResolutionLoader from './EnsResolutionLoader.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
 	import EthereumNftBalances from './EthereumNftBalances.svelte'
 	import HeightContainer from './HeightContainer.svelte'
@@ -309,7 +309,7 @@
 	class:is-editing={isEditing}
 	class:grid-layout={isGridLayout}
 >
-	<EnsResolutionLoader
+	<AccountIdResolver
 		accountId={account.id}
 		{provider}
 		passiveReverseResolution
@@ -768,5 +768,5 @@
 				</div>
 			</section>
 		{/each}
-	</EnsResolutionLoader>
+	</AccountIdResolver>
 </article>

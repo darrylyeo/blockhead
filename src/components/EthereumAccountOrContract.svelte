@@ -52,11 +52,11 @@
 		Object.values(contractMetadata.settings.compilationTarget)?.[0] as string
 
 
+	import AccountIdResolver from './AccountIdResolver.svelte'
 	import Address from './Address.svelte'
 	import Balance from './Balance.svelte'
 	import CovalentPriceChart from './CovalentPriceChart.svelte'
 	import EnsName from './EnsName.svelte'
-	import EnsResolutionLoader from './EnsResolutionLoader.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
 	import EthereumContractExplorer from './EthereumContractExplorer.svelte'
 	import EthereumTransactionCovalent from './EthereumTransactionCovalent.svelte'
@@ -95,7 +95,7 @@
 
 
 <div class="ethereum-account card">
-	<EnsResolutionLoader
+	<AccountIdResolver
 		{accountId}
 		{provider}
 		passiveReverseResolution
@@ -422,5 +422,5 @@
 				</svelte:fragment>
 			</CovalentPriceChart>
 		{/if}
-	</EnsResolutionLoader>
+	</AccountIdResolver>
 </div>

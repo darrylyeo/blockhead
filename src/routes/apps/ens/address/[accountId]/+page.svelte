@@ -7,15 +7,15 @@
 	$: accountId = $page.params.accountId
 
 
-	import EnsResolutionLoader from '../../../../../components/EnsResolutionLoader.svelte'
+	import AccountIdResolver from '../../../../../components/AccountIdResolver.svelte'
 	import EnsSearchLoader from '../../../../../components/EnsSearchLoader.svelte'
 </script>
 
 
-<EnsResolutionLoader
+<AccountIdResolver
 	{accountId}
 	passiveForwardResolution
 	let:ensName
 >
 	<EnsSearchLoader network={networksByChainID[1]} searchQuery={ensName} />
-</EnsResolutionLoader>
+</AccountIdResolver>

@@ -26,9 +26,9 @@
 
 
 	// Components
+	import AccountIdResolver from '../../../components/AccountIdResolver.svelte'
 	import AddressField from '../../../components/AddressField.svelte'
 	import ConnectedAccountSelect from '../../../components/ConnectedAccountSelect.svelte'
-	import EnsResolutionLoader from '../../../components/EnsResolutionLoader.svelte'
 	import Web3AppDashboard from '../../../components/Web3AppDashboard.svelte'
 
 
@@ -98,7 +98,7 @@
 				<button type="submit">Go</button>
 			</form>
 
-			<EnsResolutionLoader
+			<AccountIdResolver
 				accountId={$accountId}
 				passiveForwardResolution
 				passiveReverseResolution
@@ -115,7 +115,7 @@
 					{tokenBalanceFormat}
 					{showUnderlyingAssets}
 				/>
-			</EnsResolutionLoader>
+			</AccountIdResolver>
 		{/if}
 	</div>
 </section>
