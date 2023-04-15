@@ -70,6 +70,21 @@
 		ensName = accountId as ENS.Name
 
 
+	// Output
+	type SharedSlotProps = {
+		type: AccountIdType | undefined,
+		address: Ethereum.Address | undefined,
+		ensName?: ENS.Name | undefined,
+		lensName?: LensName | undefined,
+		isReverseResolving: boolean,
+	}
+
+	type $$Slots = {
+		'default': SharedSlotProps,
+		'header': SharedSlotProps,
+	}
+
+
 	// Actions
 	import { useQuery } from '@sveltestack/svelte-query'
 	import { memoizedAsync } from '../utils/memoized'
