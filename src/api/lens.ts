@@ -113,7 +113,7 @@ export const getProfile = async ({
 	})
 )
 
-export const challenge = async ({
+export const generateChallenge = async ({
 	address,
 }: {
 	address: Ethereum.Address,
@@ -137,9 +137,9 @@ export const authenticate = async ({
 	address: Ethereum.Address,
 	signature: string,
 }) => (
-	await getClient().query(gql`
+	await getClient().mutation(gql`
 		mutation Authenticate(
-			$address: EthereumAddress!
+			$address: EthereumAddress!,
 			$signature: Signature!
 		) {
 			authenticate(request: {

@@ -8,10 +8,9 @@
 
 
 	// Actions
-	import { authenticate, challenge } from '../api/lens'
+	import { useQuery } from '@sveltestack/svelte-query'
 
-	import { createEventDispatcher } from 'svelte'
-	const dispatch = createEventDispatcher()
+	import { authenticate, generateChallenge } from '../api/lens'
 
 
 	// Components
@@ -23,35 +22,41 @@
 <Loader
 	{...$$restProps}
 	startImmediately={false}
-	fromPromise={accountConnection && (async () => {
-		const { signer, address, chainId } = accountConnection
+	fromUseQuery={accountConnection?.signer && useQuery({
+		queryKey: ['LensAccessToken', {
+			address: accountConnection.address,
+		}],
+		queryFn: async () => {
+			const { signer, address, chainId } = accountConnection
 
-		if(!signer || !address){
-			throw new Error(`Connect an account first.`)
-		}
+			if(!signer || !address) throw new Error(`Connect an account first.`)
 
-		const challengeInfo = await challenge({ address })
+			const challengeInfo = await generateChallenge({ address })
 
-		// ask the user to sign a message with the challenge info returned from the server
-		const signature = await signer.signMessage(challengeInfo.data.challenge.text)
+			// ask the user to sign a message with the challenge info returned from the server
+			const signature = await signer.signMessage(challengeInfo.data.challenge.text)
 
-		// authenticate the user
-		const authData = await authenticate({
-			address,
-			signature,
-		})
+			// authenticate the user
+			const { data, error } = await authenticate({
+				address,
+				signature,
+			})
 
-		// if user authentication is successful, you will receive an accessToken and refreshToken
-		const { data: { authenticate: { accessToken }}} = authData
+			if(error) throw new Error(error.message) // `${error.message}\n${error.stack}`
 
-		return accessToken
+			// if user authentication is successful, you will receive an accessToken and refreshToken
+			const { authenticate: { accessToken, refreshToken }} = data
+
+			return { accessToken, refreshToken }
+		},
+		staleTime: Infinity,
 	})}
 	loadingIcon={LensIcon}
 	loadingMessage={`Signing in with Lens...`}
 	errorMessage={`Couldn't sign-in with Lens.`}
-	whenCanceled={async () => dispatch('cancel')}
+	clip={false}
 	debug
-	let:result={token}
+	let:result
 >
 	<svelte:fragment slot="idle" let:load>
 		<form
@@ -64,19 +69,27 @@
 
 					<div role="toolbar" class="row wrap">
 						<slot name="toolbar" />
-
-						<button
-							type="submit"
-							class="lens"
-						>
-							<img src={LensIcon} width="20" />
-							Sign in
-						</button>
 					</div>
 				</header>
 			</slot>
+
+			<hr>
+
+			<div class="bar">
+				<span />
+
+				<button
+					type="submit"
+					class="lens"
+				>
+					<img src={LensIcon} width="20" />
+					Sign in ›
+				</button>
+			</div>
 		</form>
 	</svelte:fragment>
+
+	<slot accessToken={result?.accessToken} refreshToken={result?.refreshToken} />
 </Loader>
 
 

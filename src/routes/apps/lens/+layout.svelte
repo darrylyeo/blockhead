@@ -38,7 +38,7 @@
 <style>
 	.accountId-form {
 		display: grid;
-		grid-template-columns: auto auto 1fr auto;
+		grid-template-columns: minmax(0, 1fr) auto 1fr auto;
 	}
 </style>
 
@@ -51,13 +51,17 @@
 
 		<span>or</span>
 
-		<AddressField bind:address={currentAccountId} placeholder="EVM Address (0xabcd...6789) / ENS Domain (vitalik.eth) / Lens Handle (stani.lens)" />
+		<AddressField bind:address={currentAccountId} placeholder="Lens Handle (stani.lens) / ENS Domain (vitalik.eth) / EVM Address (0xabcd...6789)" />
 		
 		<button type="submit">Go</button>
 	</form>
 
 	<section class="card column" style={$web3AppConfig?.colors && cardStyle([...$web3AppConfig.colors].reverse())}>
-		<LensLogin selectedAccount={selectedLoginAccount}>
+		<LensLogin
+			accountConnection={selectedLoginAccount}
+			let:accessToken
+			let:refreshToken
+		>
 			<svelte:fragment slot="title">
 				<h3>Sign in with Lens</h3>
 			</svelte:fragment>
@@ -65,6 +69,10 @@
 			<svelte:fragment slot="toolbar">
 				<ConnectedAccountSelect address={selectedLoginAddress} bind:selectedAccount={selectedLoginAccount} required />
 			</svelte:fragment>
+
+			{#if accessToken}
+				<h3>You're signed in.</h3>
+			{/if}
 		</LensLogin>
 	</section>
 
