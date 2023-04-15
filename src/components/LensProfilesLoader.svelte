@@ -39,7 +39,7 @@
 			queryFn: async () => (
 				await getProfilesOwnedByAddress({
 					instance,
-					address
+					address,
 				})
 			),
 		})}
