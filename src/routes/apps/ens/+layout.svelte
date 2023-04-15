@@ -29,20 +29,20 @@
 <style>
 	.accountId-form {
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) auto 1fr auto;
+		grid-template-columns: 3fr auto 1fr auto;
 	}
 </style>
 
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
 	<form class="accountId-form row" on:submit|preventDefault={() => $accountId = currentAccountId}>
-		<label class="row inline">
-			<ConnectedAccountSelect address={$accountId} bind:selectedAccount />
-		</label>
+		<AddressField bind:address={currentAccountId} placeholder="EVM Address (0xabcd...6789) / ENS Domain (vitalik.eth) / Lens Handle (stani.lens)" />
 
 		<span>or</span>
 
-		<AddressField bind:address={currentAccountId} placeholder="EVM Address (0xabcd...6789) / ENS Domain (vitalik.eth) / Lens Handle (stani.lens)" />
+		<label class="row inline">
+			<ConnectedAccountSelect address={$accountId} bind:selectedAccount />
+		</label>
 
 		<button type="submit">Go</button>
 	</form>

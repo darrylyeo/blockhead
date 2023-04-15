@@ -50,7 +50,7 @@
 
 	.accountId-form {
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) auto 1fr auto;
+		grid-template-columns: 3fr auto 1fr auto;
 	}
 </style>
 
@@ -87,14 +87,14 @@
 
 		{#if $currentView === 'Dashboard' || $currentView === 'Account'}
 			<form class="accountId-form row" on:submit|preventDefault={() => $accountId = currentAccountId}>
+				<AddressField bind:address={currentAccountId} placeholder="EVM Address (0xabcd...6789) / ENS Domain (vitalik.eth) / Lens Handle (stani.lens)" />
+		
+				<span>or</span>
+
 				<label class="row inline">
 					<ConnectedAccountSelect address={$accountId} bind:selectedAccount />
 				</label>
-		
-				<span>or</span>
-		
-				<AddressField bind:address={currentAccountId} placeholder="EVM Address (0xabcd...6789) / ENS Domain (vitalik.eth) / Lens Handle (stani.lens)" />
-				
+
 				<button type="submit">Go</button>
 			</form>
 

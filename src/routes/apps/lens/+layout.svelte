@@ -38,21 +38,21 @@
 <style>
 	.accountId-form {
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) auto 1fr auto;
+		grid-template-columns: 3fr auto 1fr auto;
 	}
 </style>
 
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
 	<form class="accountId-form row" on:submit|preventDefault={() => $accountId = currentAccountId}>
+		<AddressField bind:address={currentAccountId} placeholder="Lens Handle (stani.lens) / ENS Domain (vitalik.eth) / EVM Address (0xabcd...6789)" />
+
+		<span>or</span>
+
 		<label class="row inline">
 			<ConnectedAccountSelect address={$accountId} bind:selectedAccount />
 		</label>
 
-		<span>or</span>
-
-		<AddressField bind:address={currentAccountId} placeholder="Lens Handle (stani.lens) / ENS Domain (vitalik.eth) / EVM Address (0xabcd...6789)" />
-		
 		<button type="submit">Go</button>
 	</form>
 
