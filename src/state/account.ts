@@ -1,4 +1,4 @@
-
+import type { Ethereum } from '../data/networks/types'
 import type { Signer } from 'ethers'
 import type { WalletType } from '../data/wallets'
 import type { WalletConnection, Provider, WalletconnectTopic } from './walletConnection'
@@ -15,7 +15,7 @@ export type AccountConnectionState = {
 	walletConnection?: WalletConnection
 	signer?: Signer
 
-	address?: string
+	address?: Ethereum.Address
 	chainId?: number
 	walletconnectTopic?: WalletconnectTopic,
 }
