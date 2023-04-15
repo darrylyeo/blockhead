@@ -127,7 +127,7 @@
 	<AccountIdResolver
 		accountId={$accountId}
 		passiveResolveToAddress
-		passiveReverseResolution
+		passiveResolveToName
 		let:address
 	>
 		{#if $web3AppConfig}

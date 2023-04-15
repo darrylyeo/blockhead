@@ -101,7 +101,7 @@
 			<AccountIdResolver
 				accountId={$accountId}
 				passiveResolveToAddress
-				passiveReverseResolution
+				passiveResolveToName
 				let:address
 			>
 				<Web3AppDashboard

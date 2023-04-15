@@ -18,7 +18,7 @@
 	export let network = networksByChainID[1]
 	export let accountId: AccountId | undefined
 	export let passiveResolveToAddress = false
-	export let passiveReverseResolution = false
+	export let passiveResolveToName = false
 
 	export let providerName: NetworkProvider
 	export let provider: Ethereum.Provider
@@ -156,7 +156,7 @@
 
 {:else if accountId && isReverseResolving}
 	<Loader
-		layout={passiveReverseResolution ? 'passive' : 'default'}
+		layout={passiveResolveToName ? 'passive' : 'default'}
 		fromUseQuery={
 			address && provider && useQuery({
 				queryKey: ['EnsReverseResolution', {

@@ -312,7 +312,7 @@
 	<AccountIdResolver
 		accountId={account.id}
 		{provider}
-		passiveReverseResolution
+		passiveResolveToName
 		let:type
 		let:address
 		let:ensName

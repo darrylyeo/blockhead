@@ -98,7 +98,7 @@
 	<AccountIdResolver
 		{accountId}
 		{provider}
-		passiveReverseResolution
+		passiveResolveToName
 		let:address
 		let:ensName
 		showIf={({address}) => address}
