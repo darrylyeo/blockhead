@@ -271,7 +271,7 @@
 	}
 
 	.error-icon-container {
-		aspect-ratio: 1;
+		align-items: center;
 	}
 	.error-icon-container > :first-child {
 		/* opacity: 0.75; */
