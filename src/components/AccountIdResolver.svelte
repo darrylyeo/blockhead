@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Constants/types
-	import type { AccountId } from '../data/accountId'
+	import { type AccountId, AccountIdType, resolveAccountIdType } from '../data/accountId'
 	import type { Ethereum } from '../data/networks/types'
 	import type { ENS } from '../api/ens'
 	import type { LensName } from '../api/lens'
@@ -16,7 +16,7 @@
 
 	// External state
 	export let network = networksByChainID[1]
-	export let accountId: AccountId
+	export let accountId: AccountId | undefined
 	export let passiveForwardResolution = false
 	export let passiveReverseResolution = false
 
@@ -34,16 +34,11 @@
 
 
 	// Internal state
-	let type: 'ensName' | 'lensName' | 'address' | undefined
+	let type: AccountIdType | undefined
 	let isReverseResolving: boolean | undefined
 
 	// (Computed)
-	import { findMatchedCaptureGroupName } from '../utils/findMatchedCaptureGroup'
-
-	$: type = findMatchedCaptureGroupName<'ensName' | 'lensName' | 'address'>(
-		/(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))|(?<lensName>(?:[^. ]+[.])(?:lens|test))|(?<address>0x[0-9a-fA-F]{40})/,
-		accountId
-	)
+	$: type = accountId && resolveAccountIdType(accountId)
 
 	$: isReverseResolving = type === 'address'
 
@@ -119,7 +114,7 @@
 
 
 	// View options
-	export let showIf: (({address, ensName}: {address: Ethereum.Address, ensName: string}) => boolean | any) | undefined
+	export let showIf: ((_: {address: Ethereum.Address | undefined, ensName: ENS.Name | undefined, lensName: LensName | undefined}) => boolean | any) | undefined
 	export let clip = true
 
 
