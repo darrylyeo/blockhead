@@ -129,8 +129,6 @@
 		passiveForwardResolution
 		passiveReverseResolution
 		let:address
-		let:ensName
-		let:isReverseResolving
 	>
 		{#if $web3AppConfig}
 			<div class="stack">

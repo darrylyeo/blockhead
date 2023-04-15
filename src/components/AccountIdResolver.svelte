@@ -71,7 +71,6 @@
 		address: Ethereum.Address | undefined,
 		ensName?: ENS.Name | undefined,
 		lensName?: LensName | undefined,
-		isReverseResolving: boolean,
 	}
 
 	type $$Slots = {
@@ -151,8 +150,8 @@
 		{clip}
 		bind:result={address}
 	>
-		<slot slot="header" name="header" {address} {type} {ensName} {lensName} {isReverseResolving} />
-		<slot {address} {type} {ensName} {lensName} {isReverseResolving} />
+		<slot slot="header" name="header" {address} {type} {ensName} {lensName} />
+		<slot {address} {type} {ensName} {lensName} />
 	</Loader>
 
 {:else if accountId && isReverseResolving}
@@ -176,8 +175,8 @@
 		{clip}
 		bind:result={ensName}
 	>
-		<slot slot="header" name="header" {address} {type} {ensName} {lensName} {isReverseResolving} />
-		<slot {address} {type} {ensName} {lensName} {isReverseResolving} />
+		<slot slot="header" name="header" {address} {type} {ensName} {lensName} />
+		<slot {address} {type} {ensName} {lensName} />
 	</Loader>
 
 {:else if accountId && !isReverseResolving}
@@ -201,12 +200,12 @@
 		{clip}
 		bind:result={address}
 	>
-		<slot slot="header" name="header" {address} {type} {ensName} {lensName} {isReverseResolving} />
-		<slot {address} {type} {ensName} {lensName} {isReverseResolving} />
+		<slot slot="header" name="header" {address} {type} {ensName} {lensName} />
+		<slot {address} {type} {ensName} {lensName} />
 	</Loader>
 
 {:else}
-	<slot name="header" {address} {type} {ensName} {isReverseResolving} />
-	<slot {address} {type} {ensName} {isReverseResolving} />
+	<slot name="header" {address} {type} {ensName} />
+	<slot {address} {type} {ensName} />
 
 {/if}

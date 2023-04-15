@@ -101,7 +101,6 @@
 		passiveReverseResolution
 		let:address
 		let:ensName
-		let:isReverseResolving
 		showIf={({address}) => address}
 	>
 		<div slot="header" class="bar wrap">
@@ -116,21 +115,6 @@
 						<h2><EnsName {ensName} showAvatar /></h2>
 					{/if}
 				</slot>
-				<!-- {#if isReverseResolving}
-					{#if address}
-						<h2><Address {network} {address} /></h2>
-					{/if}
-					{#if ensName}
-						<EnsName {ensName} showAvatar />
-					{/if}
-				{:else}
-					{#if ensName}
-						<h2><EnsName {ensName} showAvatar /></h2>
-					{/if}
-					{#if address}
-						<Address {network} {address} />
-					{/if}
-				{/if} -->
 			</div>
 
 			<span class="card-annotation">

@@ -103,8 +103,6 @@
 				passiveForwardResolution
 				passiveReverseResolution
 				let:address
-				let:ensName
-				let:isReverseResolving
 			>
 				<Web3AppDashboard
 					{address}
