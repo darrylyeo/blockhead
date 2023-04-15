@@ -27,6 +27,7 @@
     "@fontsource/ubuntu": "^4.5.11",
     "@liquality/wallet-sdk": "^2.1.0",
     "@pushprotocol/restapi": "^0.9.0",
+    "@pushprotocol/socket": "^0.4.2",
     "@sveltestack/svelte-query": "^1.6.0",
     "@urql/svelte": "^4.0.0",
     "@walletconnect/core": "^2.4.6",

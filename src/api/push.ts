@@ -93,7 +93,7 @@ export const getNotifications = async <IsRaw extends boolean>({
 	page?: number,
 	limit?: number,
 }) => {
-	if(!pushSupportedChainIds.includes(network.chainId))
+	if (!pushSupportedChainIds.includes(network.chainId))
 		throw new Error(`Push does not yet support ${network.name}.`)
 
 	const notifications = await getFeeds({
@@ -109,3 +109,64 @@ export const getNotifications = async <IsRaw extends boolean>({
 	// Filter manually by specified network
 	return notifications.filter(notification => (raw ? notification.source : notification.blockchain) === pushBlockchainNames[network.chainId])
 }
+
+
+import { createSocketConnection, EVENTS } from '@pushprotocol/socket'
+import { readable } from 'svelte/store'
+
+export const getNotificationsStore = ({
+	network,
+	address,
+}: {
+	network: Ethereum.Network,
+	address: Ethereum.Address,
+}) => readable({}, set => {
+	const state = {
+		isConnected: false,
+		notifications: [],
+		toggle: undefined,
+	}
+
+	const socket = createSocketConnection({
+		user: `eip155:5:${address}`, // CAIP-10 format
+		env: ENV.PROD,
+		socketOptions: { autoConnect: true }
+	})
+
+	socket?.on(EVENTS.CONNECT, () => {
+		Object.assign(state, {
+			isConnnected: true
+		})
+		set(state)
+	})
+
+	socket?.on(EVENTS.DISCONNECT, () => {
+		Object.assign(state, {
+			isConnnected: false
+		})
+		set(state)
+	})
+
+	socket?.on(EVENTS.USER_FEEDS, (feedItem) => {
+		state.notifications.push(feedItem)
+		set(state)
+	})
+
+	const toggle = () => {
+		if (socket?.connected) {
+			socket?.disconnect();
+		} else {
+			socket?.connect();
+		}
+	}
+
+	Object.assign(state, {
+		toggle,
+	})
+	set(state)
+
+	return () => {
+		socket?.off(EVENTS.CONNECT);
+		socket?.off(EVENTS.DISCONNECT);
+	}
+})

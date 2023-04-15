@@ -14,6 +14,7 @@ specifiers:
   '@liquality/wallet-sdk': ^2.1.0
   '@playwright/test': ^1.31.1
   '@pushprotocol/restapi': ^0.9.0
+  '@pushprotocol/socket': ^0.4.2
   '@sveltejs/adapter-auto': ^1.0.3
   '@sveltejs/adapter-static': ^1.0.6
   '@sveltejs/kit': ^1.14.0
@@ -67,6 +68,7 @@ dependencies:
   '@fontsource/ubuntu': 4.5.11
   '@liquality/wallet-sdk': 2.1.0_tyvcecmxax3or5qniskhb3pamu
   '@pushprotocol/restapi': 0.9.0_7j4sjra7ilnkzqb7yqqre7jfra_dlogy6ugeiwi6cjoy4crypspn4
+  '@pushprotocol/socket': 0.4.2_ethers@6.0.8
   '@sveltestack/svelte-query': 1.6.0
   '@urql/svelte': 4.0.0_r2dmhsoch4c2pm3aejyiytps2u
   '@walletconnect/core': 2.4.6_z3vu5dg2hu3jqyh3anri5tms2q
@@ -3281,6 +3283,20 @@ packages:
       - debug
     dev: false
     patched: true
+
+  /@pushprotocol/socket/0.4.2_ethers@6.0.8:
+    resolution: {integrity: sha512-Pcm0zCT9lB49stuFK+pMORD1UJkJjVzKXhWofQQxbIsUpG10pujZhVfoJtohDT99k+AN2EZLWCImU8j0rfwVlw==}
+    peerDependencies:
+      ethers: ^5.6.8
+    dependencies:
+      ethers: 6.0.8
+      socket.io-client: 4.6.1
+      tslib: 2.5.0
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+    dev: false
 
   /@react-aria/ssr/3.5.0_react@18.2.0:
     resolution: {integrity: sha512-h0MJdSWOd1qObLnJ8mprU31wI8tmKFJMuwT22MpWq6psisOOZaga6Ml4u6Ee6M6duWWISjXvqO4Sb/J0PBA+nQ==}
