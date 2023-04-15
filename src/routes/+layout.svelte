@@ -100,6 +100,10 @@
 
 	// Metadata
 	import { MetaTags } from 'svelte-meta-tags'
+
+
+	// Components
+	import AccountConnections from '../components/AccountConnections.svelte'
 </script>
 
 
@@ -210,3 +214,9 @@
 		<slot></slot>
 	</div>
 </QueryClientProvider>
+
+<aside hidden>
+	<section class="column">
+		<AccountConnections />
+	</section>
+</aside>

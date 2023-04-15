@@ -78,7 +78,6 @@
 
 	// Components
 
-	import AccountConnections from '../../components/AccountConnections.svelte'
 	import NetworkSelect from '../../components/NetworkSelect.svelte'
 	import Preferences from '../../components/Preferences.svelte'
 	import InlineContainer from '../../components/InlineContainer.svelte'
@@ -156,12 +155,6 @@
 		<slot />
 	</div>
 </main>
-
-<aside hidden>
-	<section class="column">
-		<AccountConnections />
-	</section>
-</aside>
 
 <Preferences
 	relevantPreferences={$relevantPreferences}
