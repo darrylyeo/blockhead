@@ -98,7 +98,7 @@ export const getAccountConnectionState = ({
 
 			const accountConnectionState: AccountConnectionState = {
 				walletConnection,
-				signer: walletConnection.provider && getSigner(walletConnection.provider),
+				signer: walletConnection.provider && await getSigner(walletConnection.provider),
 
 				address: accounts?.[0],
 				chainId,
