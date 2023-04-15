@@ -80,6 +80,7 @@
 	pattern={pattern.source}
 	data-type={matchedType}
 	list="ExplorerInputList"
+	on:focus={e => e.target.select()}
 />
 
 <datalist id="ExplorerInputList">
