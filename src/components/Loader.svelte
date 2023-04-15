@@ -136,7 +136,7 @@
 				_store.then
 					? _store
 						.then(_ => store = _)
-						.error(e => {
+						.error?.(e => {
 							error = e
 							status = LoadingStatus.Errored
 						})
