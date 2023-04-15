@@ -18,4 +18,5 @@
 	bind:value={address} 
 	{autofocus}
 	{required}
+	on:focus={e => e.target.select()}
 />
