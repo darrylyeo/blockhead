@@ -15,11 +15,12 @@
 
 	// Shared state
 	export let address: Ethereum.Address | undefined
-	export let selectedAccount: AccountConnectionState | undefined = address && $accountConnections.find(accountConnection => accountConnection.state?.address?.toLowerCase() === address?.toLowerCase())?.state || undefined
+	export let selectedAccount: AccountConnectionState | undefined
 
 
 	// Computed
-	$: address = selectedAccount?.address
+	$: selectedAccount = address && $accountConnections.find(accountConnection => accountConnection.state?.address?.toLowerCase() === address?.toLowerCase())?.state || undefined
+	// $: address = selectedAccount?.address
 </script>
 
 
