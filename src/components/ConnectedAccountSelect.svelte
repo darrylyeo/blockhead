@@ -19,7 +19,7 @@
 
 
 	// Computed
-	$: selectedAccount = address && $accountConnections.find(accountConnection => accountConnection.state?.address?.toLowerCase() === address?.toLowerCase())?.state || undefined
+	$: if(address) selectedAccount = $accountConnections.find(accountConnection => accountConnection.state?.address?.toLowerCase() === address?.toLowerCase())?.state || selectedAccount
 	// $: address = selectedAccount?.address
 </script>
 
