@@ -40,6 +40,36 @@
 		display: grid;
 		grid-template-columns: 3fr auto 1fr auto;
 	}
+
+	.layout {
+		display: grid;
+		grid-template:
+			'Main Aside'
+			/ 1fr 19.25rem;
+		gap: 1rem;
+		align-items: start;
+	}
+
+	@media (max-width: 55rem) {
+		.layout {
+			grid-template:
+				'Aside'
+				'Main'
+				/ minmax(0, 1fr);
+		}
+	}
+
+	aside {
+		grid-area: Aside;
+	}
+
+	.layout > :global(:nth-child(2)) {
+		grid-area: Main;
+	}
+
+	.layout :global(.connected-account-select) {
+		max-width: 7.5rem;
+	}
 </style>
 
 
@@ -56,25 +86,27 @@
 		<button type="submit">Go</button>
 	</form>
 
-	<section class="card column" style={$web3AppConfig?.colors && cardStyle([...$web3AppConfig.colors].reverse())}>
-		<LensAuthenticationLoader
-			accountConnection={selectedLoginAccount}
-			let:accessToken
-			let:refreshToken
-		>
-			<svelte:fragment slot="title">
-				<h3>Sign in with Lens</h3>
-			</svelte:fragment>
+	<div class="layout">
+		<aside class="card column" style={$web3AppConfig?.colors && cardStyle([...$web3AppConfig.colors].reverse())}>
+			<LensAuthenticationLoader
+				accountConnection={selectedLoginAccount}
+				let:accessToken
+				let:refreshToken
+			>
+				<svelte:fragment slot="title">
+					<h4>Sign in with Lens</h4>
+				</svelte:fragment>
+	
+				<svelte:fragment slot="toolbar">
+					<ConnectedAccountSelect address={selectedLoginAddress} bind:selectedAccount={selectedLoginAccount} required />
+				</svelte:fragment>
+	
+				{#if accessToken}
+					<h3>You're signed in.</h3>
+				{/if}
+			</LensAuthenticationLoader>
+		</aside>
 
-			<svelte:fragment slot="toolbar">
-				<ConnectedAccountSelect address={selectedLoginAddress} bind:selectedAccount={selectedLoginAccount} required />
-			</svelte:fragment>
-
-			{#if accessToken}
-				<h3>You're signed in.</h3>
-			{/if}
-		</LensAuthenticationLoader>
-	</section>
-
-	<slot />
+		<slot />
+	</div>
 </section>
