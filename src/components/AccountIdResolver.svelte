@@ -147,7 +147,7 @@
 		loadingIconName="Lens Protocol"
 		loadingMessage="Resolving Lens handle to Polygon address..."
 		errorMessage={`Error resolving Lens handle to Polygon address.`}
-		showIf={showIf ? () => showIf({address, ensName, lensName}) : undefined}
+		showIf={showIf && (() => showIf({address, ensName, lensName}))}
 		{clip}
 		bind:result={address}
 	>
@@ -172,7 +172,7 @@
 		loadingIconName="ENS"
 		loadingMessage="Reverse-resolving address to a name on the Ethereum Name Service{viaRPC}..."
 		errorMessage={`Error reverse-resolving address to ENS name${viaRPC}.`}
-		showIf={showIf ? () => showIf({address, ensName}) : undefined}
+		showIf={showIf && (() => showIf({address, ensName, lensName}))}
 		{clip}
 		bind:result={ensName}
 	>
@@ -197,7 +197,7 @@
 		loadingIconName="ENS"
 		loadingMessage="Resolving name to address on the Ethereum Name Service{viaRPC}..."
 		errorMessage={`Error resolving ENS name to address${viaRPC}.`}
-		showIf={showIf ? () => showIf({address, ensName}) : undefined}
+		showIf={showIf && (() => showIf({address, ensName, lensName}))}
 		{clip}
 		bind:result={address}
 	>
