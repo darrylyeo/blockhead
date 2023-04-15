@@ -1,6 +1,6 @@
 <script lang="ts">
-	// Constants
-	import { preferences } from '../../../state/preferences'
+	// Constants/types
+	import type { AccountConnectionState } from '../../../state/account'
 
 
 	// Params
@@ -9,26 +9,30 @@
 
 	// Context
 	import { web3AppConfig, currentView } from '../_appsContext'
+	import { preferences } from '../../../state/preferences'
 
 
 	// Internal state
-
-	$: currentAccountId = $accountId
-	$: currentQuery = $audiusQuery
+	let selectedAccount: AccountConnectionState
 
 	let tokenBalanceFormat
 	let showUnderlyingAssets
 
 
-	// Components
+	// Computed
+	$: if(selectedAccount?.address) $accountId = selectedAccount.address
+	$: currentAccountId = $accountId
+	$: currentQuery = $audiusQuery
 
+
+	// Components
 	import AddressField from '../../../components/AddressField.svelte'
-	import Web3AppDashboard from '../../../components/Web3AppDashboard.svelte'
+	import ConnectedAccountSelect from '../../../components/ConnectedAccountSelect.svelte'
 	import EnsResolutionLoader from '../../../components/EnsResolutionLoader.svelte'
+	import Web3AppDashboard from '../../../components/Web3AppDashboard.svelte'
 
 
 	// Transitions
-
 	import { fly } from 'svelte/transition'
 </script>
 
@@ -39,11 +43,14 @@
 
 
 <style>
-	form {
+	.audiusQuery-form {
 		display: grid;
 		grid-template-columns: 1fr auto;
-		gap: var(--padding-inner);
-		align-items: center;
+	}
+
+	.accountId-form {
+		display: grid;
+		grid-template-columns: auto auto 1fr auto;
 	}
 </style>
 
@@ -58,7 +65,7 @@
 	{/if}
 
 	{#if $currentView === 'Dashboard' || $currentView === 'Explorer'}
-		<form on:submit|preventDefault={() => $audiusQuery = currentQuery}>
+		<form class="audiusQuery-form" on:submit|preventDefault={() => $audiusQuery = currentQuery}>
 			<input type="search" bind:value={currentQuery} placeholder="Search Audius tracks, artists, and playlists..." />
 			<button>Search</button>
 		</form>
@@ -79,8 +86,15 @@
 		{/if}
 
 		{#if $currentView === 'Dashboard' || $currentView === 'Account'}
-			<form on:submit|preventDefault={() => $accountId = currentAccountId}>
-				<AddressField bind:address={currentAccountId}/>
+			<form class="accountId-form row" on:submit|preventDefault={() => $accountId = currentAccountId}>
+				<label class="row inline">
+					<ConnectedAccountSelect address={$accountId} bind:selectedAccount />
+				</label>
+		
+				<span>or</span>
+		
+				<AddressField bind:address={currentAccountId} placeholder="EVM Address (0xabcd...6789) / ENS Domain (vitalik.eth) / Lens Handle (stani.lens)" />
+				
 				<button type="submit">Go</button>
 			</form>
 
