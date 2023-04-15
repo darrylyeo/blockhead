@@ -4,14 +4,28 @@ import type { BrandedString } from '../utils/branded'
 
 export type LensName = BrandedString<`${string}.${'lens' | 'test'}`>
 
+export enum LensInstance {
+	Polygon = 'Polygon',
+	PolygonMumbai = 'PolygonMumbai',
+	SandboxPolygonMumbai = 'SandboxPolygonMumbai',
+}
+
 
 import { Client, cacheExchange, fetchExchange, gql } from '@urql/svelte'
 
-let client: Client
+const clients: Partial<Record<LensInstance, Client>> = {}
 
-export const getClient = () => client ||= (
+export const getClient = ({
+	instance = LensInstance.Polygon
+}: {
+	instance?: LensInstance
+}) => clients[instance] ||= (
 	new Client({
-		url: 'https://api.lens.dev',
+		url: {
+			[LensInstance.Polygon]: 'https://api.lens.dev',
+			[LensInstance.PolygonMumbai]: 'https://api-mumbai.lens.dev',
+			[LensInstance.SandboxPolygonMumbai]: 'https://api-sandbox-mumbai.lens.dev',
+		}[instance],
 		exchanges: [
 			cacheExchange,
 			fetchExchange,
@@ -21,11 +35,13 @@ export const getClient = () => client ||= (
 
 
 export const getProfile = async ({
+	instance,
 	lensName,
 }: {
+	instance?: LensInstance,
 	lensName: LensName,
 }) => (
-	await getClient().query(gql`
+	await getClient({ instance }).query(gql`
 		query Profile($handle: Handle!) {
 			profile(request: { handle: $handle }) {
 				id
@@ -114,11 +130,13 @@ export const getProfile = async ({
 )
 
 export const generateChallenge = async ({
+	instance,
 	address,
 }: {
+	instance?: LensInstance,
 	address: Ethereum.Address,
 }) => (
-	await getClient().query(gql`
+	await getClient({ instance }).query(gql`
 		query Challenge($address: EthereumAddress!) {
 			challenge(request: { address: $address }) {
 				text
@@ -131,15 +149,17 @@ export const generateChallenge = async ({
 
 
 export const authenticate = async ({
+	instance,
 	address,
 	signature,
 }: {
+	instance?: LensInstance,
 	address: Ethereum.Address,
 	signature: string,
 }) => (
-	await getClient().mutation(gql`
+	await getClient({ instance }).mutation(gql`
 		mutation Authenticate(
-			$address: EthereumAddress!,
+			$address: EthereumAddress!
 			$signature: Signature!
 		) {
 			authenticate(request: {
