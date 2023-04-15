@@ -72,6 +72,9 @@
 	}
 
 
+	$: animate = !showSmallValues && balances.length < 50
+
+
 	const tokensAreEqual = (token1, token2) =>
 		// token1.name === token2.name &&
 		token1.symbol === token2.symbol &&
@@ -187,8 +190,8 @@
 						on:click={() =>
 							selectedToken = selectedToken?.address === token.address ? undefined : token
 						}
-						in:scale
-						animate:flip|local={{duration: filteredBalances.length < 50 ? 500 : 0, delay: 300 * i / filteredBalances.length, easing: quintOut}}
+						in:scale={{ duration: animate ? 500 : 0 }}
+						animate:flip|local={{ duration: animate ? 500 : 0, delay: animate ? 300 * i / filteredBalances.length : 0, easing: quintOut }}
 					>
 						<TokenBalanceWithConversion
 							{tokenBalanceFormat}
