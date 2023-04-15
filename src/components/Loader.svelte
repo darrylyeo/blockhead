@@ -9,7 +9,7 @@
 	type LoaderError = $$Generic<{message: string} | Error | ApolloStoreError | ApolloError>
 	type HoudiniQueryInput = $$Generic<unknown>
 	type LoaderReturnResult = $$Generic<unknown>
-	type LoaderLayout = $$Generic<'default' | 'passive' | 'collapsible'>
+	type LoaderLayout = $$Generic<'default' | 'passive' | 'collapsible' | 'headless'>
 
 	export let layout: LoaderLayout = 'default'
 	export let collapsibleType: 'label' | 'details' = 'details'
@@ -36,7 +36,7 @@
 	export let whenErrored: ((error: LoaderError) => void) | undefined
 	export let whenCanceled: (() => Promise<any>) | undefined
 
-	export let showIf: ((then: LoaderReturnResult) => boolean | any) | undefined
+	export let showIf: ((then: LoaderReturnResult | undefined) => boolean | any) | undefined
 	export let isOpen = true
 	export let clip = true
 
@@ -265,7 +265,7 @@
 	$: if(result) whenLoaded?.(result)
 	$: if(error) whenErrored?.(error)
 
-	$: isHidden = showIf && status === LoadingStatus.Resolved && !showIf(result)
+	$: isHidden = layout === 'headless' || (status === LoadingStatus.Resolved && showIf && !showIf(result))
 
 
 	export let debug: boolean
