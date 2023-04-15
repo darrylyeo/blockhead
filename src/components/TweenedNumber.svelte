@@ -68,14 +68,14 @@
 				{transitionWidth}
 				duration={sizeDuration}
 				class="type-{type}"
-				containerClass={{
+				containerClass="part {{
 					'currency': 'align-end',
-					'integer': 'align-end',
+					'integer': 'type-integer align-end',
 					'group': 'align-end',
 					'compact': 'align-end',
 					'decimal': 'align-start',
 					'fraction': 'align-start',
-				}[type] ?? 'align-end'}
+				}[type] ?? 'align-end'}"
 				{clip}
 			>
 				{value}
@@ -88,9 +88,12 @@
 
 
 <style>
-	:global(.type-fraction),
-	:global(.type-group),
-	:global(.type-decimal) {
+	:global(:is(
+		.type-fraction,
+		.type-group,
+		.type-decimal,
+		.type-integer ~ .type-integer > .type-integer
+	)) {
 		opacity: 0.66;
 		font-size: 0.9em;
 	}
