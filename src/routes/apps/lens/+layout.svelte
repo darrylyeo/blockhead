@@ -1,6 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import type { AccountConnectionState } from '../../../state/account'
+	import type { Ethereum } from '../../../data/networks/types'
 
 
 	// Params
@@ -13,6 +14,8 @@
 
 	// Internal state
 	let selectedAccount: AccountConnectionState
+	let selectedLoginAddress: Ethereum.Address = $accountId
+	let selectedLoginAccount: AccountConnectionState
 
 
 	// Computed
@@ -54,7 +57,15 @@
 	</form>
 
 	<section class="card column" style={$web3AppConfig?.colors && cardStyle([...$web3AppConfig.colors].reverse())}>
-		<h3>Sign in with Lens</h3>
+		<LensLogin selectedAccount={selectedLoginAccount}>
+			<svelte:fragment slot="title">
+				<h3>Sign in with Lens</h3>
+			</svelte:fragment>
+
+			<svelte:fragment slot="toolbar">
+				<ConnectedAccountSelect address={selectedLoginAddress} bind:selectedAccount={selectedLoginAccount} required />
+			</svelte:fragment>
+		</LensLogin>
 	</section>
 
 	<slot />

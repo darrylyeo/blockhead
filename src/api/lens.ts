@@ -1,3 +1,5 @@
+import type { Ethereum } from '../data/networks/types'
+
 import type { BrandedString } from '../utils/branded'
 
 export type LensName = BrandedString<`${string}.${'lens' | 'test'}`>
@@ -108,5 +110,48 @@ export const getProfile = async ({
 		}
 	`, {
 		handle: lensName
+	})
+)
+
+export const challenge = async ({
+	address,
+}: {
+	address: Ethereum.Address,
+}) => (
+	await getClient().query(gql`
+		query Challenge($address: EthereumAddress!) {
+			challenge(request: { address: $address }) {
+				text
+			}
+		}
+	`, {
+		address
+	})
+)
+
+
+export const authenticate = async ({
+	address,
+	signature,
+}: {
+	address: Ethereum.Address,
+	signature: string,
+}) => (
+	await getClient().query(gql`
+		mutation Authenticate(
+			$address: EthereumAddress!
+			$signature: Signature!
+		) {
+			authenticate(request: {
+				address: $address,
+				signature: $signature
+			}) {
+				accessToken
+				refreshToken
+			}
+		}
+	`, {
+		address,
+		signature,
 	})
 )
