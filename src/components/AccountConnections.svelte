@@ -85,6 +85,9 @@
 </style>
 
 
+<svelte:window on:blockhead_addAccountConnection={e => addAccountConnection(e.detail.walletType)} />
+
+
 <header class="bar wrap">
 	<h2>Wallets</h2>
 
