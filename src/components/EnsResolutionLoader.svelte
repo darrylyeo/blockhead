@@ -108,17 +108,21 @@
 	<Loader
 		layout={'default'}
 		fromUseQuery={
-			lensName && provider && useQuery({
-				queryKey: ['LensResolution', {
+			lensName && useQuery({
+				queryKey: ['LensProfileByLensName', {
 					lensName,
 				}],
-				queryFn: (async () => {
+				queryFn: async () => {
 					const { getProfile } = await import('../api/lens')
-					const profile = await getProfile({lensName})
-					return profile.data.profile.ownedBy
-				})
+					return await getProfile({ lensName })
+				}
 			})
 		}
+		then={({data, error}) => {
+			if(error) throw error
+
+			return data.profile.ownedBy
+		}}
 		loadingIcon={LensIcon}
 		loadingIconName="Lens Protocol"
 		loadingMessage="Resolving Lens handle to Polygon address..."
