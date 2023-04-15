@@ -4,7 +4,7 @@ import type { ZapperAppId } from '../api/zapper'
 import { erc20TokensByContractAddress, erc20TokensBySymbol } from './tokens'
 
 
-import { NounsIcon } from '../assets/icons'
+import { LensIcon, NounsIcon } from '../assets/icons'
 
 
 export type Web3AppConfig = {
@@ -4076,6 +4076,20 @@ export const web3Apps: Web3AppConfig[] = [
 				providers: {
 					zapper: 'launchpool'
 				}
+			}
+		]
+	},
+	{
+		name: 'Lens',
+		slug: 'lens',
+		links: ['https://lens.xyz'],
+		colors: ['#00501e', '#abfe2c'],
+		icon: LensIcon,
+		views: [
+			{
+				chainId: 137,
+				nfts: [
+				],
 			}
 		]
 	},
@@ -8721,10 +8735,10 @@ const institutionalDefi = [
 ].map(slug => web3AppsBySlug[slug])
 
 const socialApps = [
+	'lens',
 	'audius',
-	// 'lens',
-	'livepeer',
-	'rarible',
+	// 'livepeer',
+	// 'rarible',
 ].map(slug => web3AppsBySlug[slug])
 
 const collectibleCommunities = [
@@ -8739,8 +8753,8 @@ export const web3AppsBySection = [
 		isFeatured: true,
 	},
 	{
-		title: 'Oracle Networks',
-		apps: oracleNetworks,
+		title: 'Social Apps',
+		apps: socialApps,
 		isFeatured: true,
 	},
 	{
@@ -8764,8 +8778,8 @@ export const web3AppsBySection = [
 		isFeatured: true,
 	},
 	{
-		title: 'Social Apps',
-		apps: socialApps,
+		title: 'Oracle Networks',
+		apps: oracleNetworks,
 		isFeatured: true,
 	},
 	{
