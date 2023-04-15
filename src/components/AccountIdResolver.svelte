@@ -1,8 +1,9 @@
 <script lang="ts">
+	// Constants/types
 	import type { Ethereum } from '../data/networks/types'
 	import type { ENS } from '../api/ens'
 	import type { LensName } from '../api/lens'
-	import type { PortfolioAccountId } from '../state/portfolio-accounts'
+	import type { AccountId } from '../data/accountId'
 
 	import { NetworkProvider } from '../data/networkProviders/types'
 	import { getEthersProvider } from '../data/networkProviders'
@@ -14,7 +15,7 @@
 	export let network = networksByChainID[1]
 	export let providerName: NetworkProvider
 	export let provider: Ethereum.Provider
-	export let accountId: PortfolioAccountId
+	export let accountId: AccountId
 	export let passiveForwardResolution = false
 	export let passiveReverseResolution = false
 

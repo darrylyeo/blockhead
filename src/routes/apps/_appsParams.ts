@@ -1,4 +1,4 @@
-import type { PortfolioAccountId } from '../../state/portfolio-accounts'
+import type { AccountId } from '../../data/accountId'
 
 
 import { derived, writable, type Readable } from 'svelte/store'
@@ -7,7 +7,7 @@ import { derived, writable, type Readable } from 'svelte/store'
 // Param stores
 
 export const web3AppSlug = writable('')
-export const accountId = writable<PortfolioAccountId | ''>('')
+export const accountId = writable<AccountId | ''>('')
 export const audiusQuery = writable('')
 export const audiusPlaylistId = writable('')
 export const audiusTrackId = writable('')

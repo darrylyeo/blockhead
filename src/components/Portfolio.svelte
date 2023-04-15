@@ -8,12 +8,13 @@
 
 
 <script lang="ts">
+	import type { AccountId } from '../data/accountId'
 	import type { Ethereum } from '../data/networks/types'
 	import type { DefiProvider } from '../data/defiProviders'
 	import type { NotificationsProvider } from '../data/notificationsProvider'
 	import type { QuoteCurrency } from '../data/currencies'
 
-	import type { Portfolio, PortfolioAccountId } from '../state/portfolio-accounts'
+	import type { Portfolio } from '../state/portfolio-accounts'
 	import { defaultAccountNetworks, getNetworkColor, networksByChainID } from '../data/networks'
 
 	import { preferences } from '../state/preferences'
@@ -61,7 +62,7 @@
 		networks: Ethereum.Network[],
 	}) => {
 		const added = portfolio.addAccount({
-			id: id as PortfolioAccountId,
+			id: id as AccountId,
 			nickname,
 			networks,
 		})

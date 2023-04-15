@@ -1,6 +1,5 @@
 import type { Ethereum } from '../data/networks/types'
-import type { ENS } from '../api/ens'
-import type { LensName } from '../api/lens'
+import type { AccountId } from '../data/accountId'
 
 
 import { memoized } from '../utils/memoized'
@@ -146,8 +145,6 @@ function getDefaultPortfolioAccountView(){
 // Local storage v4 'localPortfoliosV4'
 
 namespace V4 {
-	export type PortfolioAccountId = Ethereum.Address | ENS.Name | LensName
-
 	type PortfolioAccountView = {
 		chainId: Ethereum.ChainID,
 		showBalances: boolean,
@@ -193,7 +190,7 @@ namespace V4 {
 	})
 
 	export type PortfolioAccount = {
-		id: PortfolioAccountId,
+		id: AccountId,
 		nickname: string,
 		views: PortfolioAccountView[],
 		showFeed: boolean,
@@ -203,7 +200,7 @@ namespace V4 {
 	}
 
 	type SerializedPortfolioAccount = {
-		id: PortfolioAccountId,
+		id: AccountId,
 		nickname: string,
 		views: SerializedPortfolioAccountView[],
 		showFeed: boolean,
@@ -248,7 +245,7 @@ namespace V4 {
 		name: string,
 		accounts: PortfolioAccount[],
 
-		addAccount: (_: { id: PortfolioAccountId, nickname: string, networks: Ethereum.Network[] }) => boolean,
+		addAccount: (_: { id: AccountId, nickname: string, networks: Ethereum.Network[] }) => boolean,
 		deleteAccount: (i: number) => PortfolioAccount,
 	}
 
@@ -310,7 +307,7 @@ const getLocalPortfoliosV4 = () => (
 			nickname,
 			networks,
 		}) => ({
-			id: id as V4.PortfolioAccountId,
+			id: id as AccountId,
 			nickname,
 			views: networks.filter(({ show }) => show).map(({
 				chainID,
@@ -337,7 +334,6 @@ const localPortfoliosV4 = localStorageWritable(
 
 export type Portfolio = V4.Portfolio
 export type PortfolioAccount = V4.PortfolioAccount
-export type PortfolioAccountId = V4.PortfolioAccountId
 
 export const createPortfolio = V4.createPortfolio
 
