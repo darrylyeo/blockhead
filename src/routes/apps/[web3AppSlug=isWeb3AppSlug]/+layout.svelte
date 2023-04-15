@@ -13,7 +13,7 @@
 
 	// Internal state
 
-	$: currentAddressOrEnsName = $accountId
+	$: currentAccountId = $accountId
 
 	let tokenBalanceFormat
 	let showUnderlyingAssets
@@ -110,8 +110,8 @@
 	in:fly={{x: 100}}
 	out:fly={{x: -100}}
 >
-	<form on:submit|preventDefault={() => $accountId = currentAddressOrEnsName}>
-		<ExplorerInput bind:value={currentAddressOrEnsName} />
+	<form on:submit|preventDefault={() => $accountId = currentAccountId}>
+		<ExplorerInput bind:value={currentAccountId} />
 		<button type="submit">Go</button>
 	</form>
 

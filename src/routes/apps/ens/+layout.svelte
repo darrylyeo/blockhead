@@ -2,7 +2,7 @@
 	import { accountId } from '../_appsParams'
 
 
-	$: currentAddressOrEnsName = $accountId
+	$: currentAccountId = $accountId
 
 
 	import AddressField from '../../../components/AddressField.svelte'
@@ -23,8 +23,8 @@
 
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
-	<form on:submit|preventDefault={() => $accountId = currentAddressOrEnsName}>
-		<AddressField bind:address={currentAddressOrEnsName}/>
+	<form on:submit|preventDefault={() => $accountId = currentAccountId}>
+		<AddressField bind:address={currentAccountId}/>
 		<button type="submit">Go</button>
 	</form>
 

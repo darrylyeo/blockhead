@@ -13,7 +13,7 @@
 
 	// Internal state
 
-	$: currentAddressOrEnsName = $accountId
+	$: currentAccountId = $accountId
 	$: currentQuery = $audiusQuery
 
 	let tokenBalanceFormat
@@ -79,8 +79,8 @@
 		{/if}
 
 		{#if $currentView === 'Dashboard' || $currentView === 'Account'}
-			<form on:submit|preventDefault={() => $accountId = currentAddressOrEnsName}>
-				<AddressField bind:address={currentAddressOrEnsName}/>
+			<form on:submit|preventDefault={() => $accountId = currentAccountId}>
+				<AddressField bind:address={currentAccountId}/>
 				<button type="submit">Go</button>
 			</form>
 
