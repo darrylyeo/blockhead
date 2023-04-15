@@ -87,7 +87,7 @@
 
 
 <svelte:head>
-	<title>{$accountId ? `${$accountId} | ` : ''}{$web3AppSlug && $web3AppConfig ? `${$web3AppConfig.name} ${$currentView}` : `Apps`} | Blockhead</title>
+	<title>{$accountId ? `${$accountId} | ` : ''}{$web3AppSlug && $web3AppConfig ? `${$web3AppConfig.name}${$currentView === 'Dashboard' ? '' : ` ${$currentView}`}` : `Apps`} | Blockhead</title>
 </svelte:head>
 
 
@@ -125,9 +125,11 @@
 								{#key $web3AppConfig}<mark in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{$web3AppConfig.name}</mark>{/key}
 							</InlineContainer>
 
-							<InlineContainer class="stack-inline" clip>
-								{#key $currentView}<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{$currentView}</span>{/key}
-							</InlineContainer>
+							{#if $currentView !== 'Dashboard'}
+								<InlineContainer class="stack-inline" clip>
+									{#key $currentView}<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{$currentView}</span>{/key}
+								</InlineContainer>
+							{/if}
 						</span>
 					{:else}
 						<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>
