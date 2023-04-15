@@ -3609,7 +3609,7 @@ export const networks: Ethereum.Network[] = [
 	},
 	{
 		"slug": "polygon",
-		"name": "Polygon",
+		"name": "Polygon PoS",
 		"chainId": 137,
 		"shortName": "polygon",
 		"chain": "Polygon",
@@ -3664,6 +3664,43 @@ export const networks: Ethereum.Network[] = [
 			}
 		],
 		"infoURL": "https://matic.network/"
+	},
+	{
+		"slug": "polygon-zkevm",
+		"name": "Polygon zkEVM",
+		"chainId": 1101,
+		"shortName": "zkevm",
+		"chain": "Polygon",
+		"network": "mainnet",
+		"networkId": 1101,
+		"nativeCurrency": {
+			"name": "Ether",
+			"symbol": "ETH",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://rpc.ankr.com/polygon_zkevm",
+			"https://zkevm-rpc.com",
+		],
+		"faucets": [],
+		"explorers": [
+			{
+				"name": "blockscout",
+				"url": "https://zkevm.polygonscan.com",
+				"icon": "zkevm",
+				"standard": "EIP3091"
+			}
+		],
+		"infoURL": "https://polygon.technology/polygon-zkevm",
+		"parent": {
+			"type": "L2",
+			"chain": "eip155-1",
+			"bridges": [
+				{
+					"url": "https://bridge.zkevm-rpc.com"
+				}
+			]
+		}
 	},
 	{
 		"slug": "polyjuice-testnet",
@@ -5270,6 +5307,7 @@ export const ethereumAndL2Networks = [
 	'ethereum',
 	'polygon',
 	'gnosis',
+	'polygon-zkevm',
 	'arbitrum-one',
 	'optimism',
 	// 'skale-testnet',

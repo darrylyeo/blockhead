@@ -355,7 +355,10 @@ export const networkProviderConfigByNetworkSlug = Object.fromEntries(Object.entr
 	],
 	"optimism": [
 		NetworkProvider.QuickNode,
-	]
+	],
+	"polygon-zkevm": [
+		NetworkProvider.QuickNode,
+	],
 })
 	.map(([slug, networkProviders]) =>
 		[

@@ -27,6 +27,7 @@
 		// 'nahmii': NahmiiIcon,
 		// 'nervos': NervosIcon,
 		'polygon': tokenIcons.MATIC, // PolygonIcon,
+		'polygon-zkevm': tokenIcons.MATIC, // PolygonIcon,
 		// 'reef': ReefIcon,
 		'skale': SKALEIcon,
 	}
