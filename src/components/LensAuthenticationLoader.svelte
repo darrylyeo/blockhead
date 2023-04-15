@@ -81,7 +81,7 @@
 
 				<button
 					type="submit"
-					class="lens"
+					class="lens medium"
 				>
 					<img src={LensIcon} width="20" />
 					Sign in ›
