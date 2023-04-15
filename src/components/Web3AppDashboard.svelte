@@ -301,7 +301,7 @@
 							}}
 								<EthereumAccountOrContract
 									{network}
-									addressOrEnsName={contractAddress}
+									accountId={contractAddress}
 									{provider}
 								>
 									<svelte:fragment slot="title" let:network let:address>
@@ -799,7 +799,7 @@
 							{#if !address}
 								<EthereumAccountOrContract
 									{network}
-									addressOrEnsName={contractAddress}
+									accountId={contractAddress}
 									{provider}
 								>
 									<svelte:fragment slot="title" let:network let:address>

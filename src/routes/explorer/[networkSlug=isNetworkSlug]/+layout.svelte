@@ -212,7 +212,7 @@
 								</div>
 							{:else}
 								<div class="column" in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
-									<EthereumAccountOrContract network={$explorerNetwork} addressOrEnsName={$query} provider={$explorerProvider}/>
+									<EthereumAccountOrContract network={$explorerNetwork} accountId={$query} provider={$explorerProvider}/>
 								</div>
 							{/if}
 						{:else}

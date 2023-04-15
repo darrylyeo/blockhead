@@ -310,7 +310,7 @@
 	class:grid-layout={isGridLayout}
 >
 	<EnsResolutionLoader
-		addressOrEnsName={account.id}
+		accountId={account.id}
 		{provider}
 		passiveReverseResolution
 		let:type

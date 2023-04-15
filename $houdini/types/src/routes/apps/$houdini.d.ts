@@ -10,8 +10,8 @@ type EnsureDefined<T> = T extends null | undefined ? {} : T;
 type OptionalUnion<U extends Record<string, any>, A extends keyof U = U extends U ? keyof U : never> = U extends unknown ? { [P in Exclude<A, keyof U>]?: never } & U : never;
 export type Snapshot<T = any> = Kit.Snapshot<T>;
 type PageParentData = Omit<EnsureDefined<import('../$houdini').LayoutData>, keyof LayoutData> & EnsureDefined<LayoutData>;
-type LayoutRouteId = RouteId | "/apps" | "/apps/[web3AppSlug=isWeb3AppSlug]" | "/apps/[web3AppSlug=isWeb3AppSlug]/address/[addressOrEnsName]" | "/apps/audius" | "/apps/audius/playlist/[audiusPlaylistId]" | "/apps/audius/search/[audiusQuery]" | "/apps/audius/track/[audiusTrackId]" | "/apps/audius/user/[audiusUserId]" | "/apps/ens/address/[addressOrEnsName]"
-type LayoutParams = RouteParams & { web3AppSlug?: string,addressOrEnsName?: string,audiusPlaylistId?: string,audiusQuery?: string,audiusTrackId?: string,audiusUserId?: string }
+type LayoutRouteId = RouteId | "/apps" | "/apps/[web3AppSlug=isWeb3AppSlug]" | "/apps/[web3AppSlug=isWeb3AppSlug]/address/[accountId]" | "/apps/audius" | "/apps/audius/playlist/[audiusPlaylistId]" | "/apps/audius/search/[audiusQuery]" | "/apps/audius/track/[audiusTrackId]" | "/apps/audius/user/[audiusUserId]" | "/apps/ens/address/[accountId]"
+type LayoutParams = RouteParams & { web3AppSlug?: string,accountId?: string,audiusPlaylistId?: string,audiusQuery?: string,audiusTrackId?: string,audiusUserId?: string }
 type LayoutParentData = EnsureDefined<import('../$houdini').LayoutData>;
 						type MakeOptional<Target, Keys extends keyof Target> = Omit<Target, Keys> & {
 							[Key in Keys]?: Target[Key] | undefined | null

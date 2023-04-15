@@ -14,7 +14,7 @@
 	export let network = networksByChainID[1]
 	export let providerName: NetworkProvider
 	export let provider: Ethereum.Provider
-	export let addressOrEnsName: PortfolioAccountId
+	export let accountId: PortfolioAccountId
 	export let passiveForwardResolution = false
 	export let passiveReverseResolution = false
 
@@ -40,24 +40,24 @@
 
 	$: type = findMatchedCaptureGroupName<'ensName' | 'lensName' | 'address'>(
 		/(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))|(?<lensName>(?:[^. ]+[.])(?:lens|test))|(?<address>0x[0-9a-fA-F]{40})/,
-		addressOrEnsName
+		accountId
 	) ?? ''	
 
 
 	$: isReverseResolving = type === 'address'
 
-	$: if(!addressOrEnsName){
+	$: if(!accountId){
 		address = undefined
 		ensName = undefined
 		lensName = undefined
 		isReverseResolving = undefined
 	}
 	else if(type === 'lensName')
-		lensName = addressOrEnsName as LensName
+		lensName = accountId as LensName
 	else if(isReverseResolving)
-		address = addressOrEnsName as Ethereum.Address
+		address = accountId as Ethereum.Address
 	else
-		ensName = addressOrEnsName as ENS.Name
+		ensName = accountId as ENS.Name
 
 
 	import { useQuery } from '@sveltestack/svelte-query'
@@ -89,7 +89,7 @@
 		// throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address.`)
 		throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address (or there's an issue with the${providerName === NetworkProvider.Default ? `` : ` ${providerName}`} JSON-RPC connection).`)
 
-		// addressPromise = ens.name(addressOrEnsName).getAddress()
+		// addressPromise = ens.name(accountId).getAddress()
 	})
 
 
@@ -130,7 +130,7 @@
 		<slot slot="header" name="header" {address} {type} {ensName} {lensName} {isReverseResolving} />
 		<slot {address} {type} {ensName} {lensName} {isReverseResolving} />
 	</Loader>
-{:else if addressOrEnsName && isReverseResolving}
+{:else if accountId && isReverseResolving}
 	<Loader
 		layout={passiveReverseResolution ? 'passive' : 'default'}
 		fromUseQuery={
@@ -154,7 +154,7 @@
 		<slot slot="header" name="header" {address} {type} {ensName} {lensName} {isReverseResolving} />
 		<slot {address} {type} {ensName} {lensName} {isReverseResolving} />
 	</Loader>
-{:else if addressOrEnsName && !isReverseResolving}
+{:else if accountId && !isReverseResolving}
 		<!-- fromPromise={async () => (
 			await resolveName(ensName.toLowerCase())
 		)} -->

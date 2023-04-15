@@ -7,7 +7,7 @@
 
 	import {
 		web3AppSlug,
-		addressOrEnsName,
+		accountId,
 		audiusQuery,
 		audiusPlaylistId,
 		audiusTrackId,
@@ -17,7 +17,7 @@
 
 	$: if($page.url.pathname.startsWith('/apps')){
 		$web3AppSlug = $page.params.web3AppSlug || $page.url.pathname.match(/^\/apps\/([^/]+)/)?.[1] || ''
-		$addressOrEnsName = $page.params.addressOrEnsName || ''
+		$accountId = $page.params.accountId || ''
 		$audiusQuery = $page.params.audiusQuery || ''
 		$audiusPlaylistId = $page.params.audiusPlaylistId || ''
 		$audiusTrackId = $page.params.audiusTrackId || ''
@@ -87,7 +87,7 @@
 
 
 <svelte:head>
-	<title>{$addressOrEnsName ? `${$addressOrEnsName} | ` : ''}{$web3AppSlug && $web3AppConfig ? `${$web3AppConfig.name} ${$currentView}` : `Apps`} | Blockhead</title>
+	<title>{$accountId ? `${$accountId} | ` : ''}{$web3AppSlug && $web3AppConfig ? `${$web3AppConfig.name} ${$currentView}` : `Apps`} | Blockhead</title>
 </svelte:head>
 
 

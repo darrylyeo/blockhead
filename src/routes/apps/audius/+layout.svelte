@@ -4,7 +4,7 @@
 
 
 	// Params
-	import { addressOrEnsName, audiusQuery } from '../_appsParams'
+	import { accountId, audiusQuery } from '../_appsParams'
 
 
 	// Context
@@ -13,7 +13,7 @@
 
 	// Internal state
 
-	$: currentAddressOrEnsName = $addressOrEnsName
+	$: currentAddressOrEnsName = $accountId
 	$: currentQuery = $audiusQuery
 
 	let tokenBalanceFormat
@@ -34,7 +34,7 @@
 
 
 <head>
-	<title>{$addressOrEnsName ? `${$addressOrEnsName} | ` : ''}{`${$web3AppConfig?.name} ${$currentView}`} | Blockhead</title>
+	<title>{$accountId ? `${$accountId} | ` : ''}{`${$web3AppConfig?.name} ${$currentView}`} | Blockhead</title>
 </head>
 
 
@@ -79,13 +79,13 @@
 		{/if}
 
 		{#if $currentView === 'Dashboard' || $currentView === 'Account'}
-			<form on:submit|preventDefault={() => $addressOrEnsName = currentAddressOrEnsName}>
+			<form on:submit|preventDefault={() => $accountId = currentAddressOrEnsName}>
 				<AddressField bind:address={currentAddressOrEnsName}/>
 				<button type="submit">Go</button>
 			</form>
 
 			<EnsResolutionLoader
-				addressOrEnsName={$addressOrEnsName}
+				accountId={$accountId}
 				passiveForwardResolution
 				passiveReverseResolution
 				let:address

@@ -6,7 +6,7 @@ import { web3AppsBySlug, type Web3AppConfig } from '../../data/web3Apps'
 
 import {
 	web3AppSlug,
-	addressOrEnsName,
+	accountId,
 	audiusQuery,
 	audiusPlaylistId,
 	audiusTrackId,
@@ -24,23 +24,23 @@ export const web3AppConfig: Readable<Web3AppConfig> = derived(web3AppSlug, ($web
 
 export const currentView: Readable<'Dashboard' | 'Explorer' | 'Account'> = derived([
 	web3AppSlug,
-	addressOrEnsName,
+	accountId,
 	audiusQuery,
 	audiusPlaylistId,
 	audiusTrackId,
 	audiusUserId,
 ], ([
 	$web3AppSlug,
-	$addressOrEnsName,
+	$accountId,
 	$audiusQuery,
 	$audiusPlaylistId,
 	$audiusTrackId,
 	$audiusUserId,
 ], set) => set(
-	($web3AppSlug === 'ens' && $addressOrEnsName) || 
+	($web3AppSlug === 'ens' && $accountId) || 
 	($audiusQuery || $audiusPlaylistId || $audiusTrackId || $audiusUserId) ?
 		'Explorer'
-	: $addressOrEnsName ?
+	: $accountId ?
 		'Account'
 	:
 		'Dashboard'

@@ -4,7 +4,7 @@
 
 
 	// Params
-	import { addressOrEnsName } from '../_appsParams'
+	import { accountId } from '../_appsParams'
 
 
 	// Context
@@ -13,7 +13,7 @@
 
 	// Internal state
 
-	$: currentAddressOrEnsName = $addressOrEnsName
+	$: currentAddressOrEnsName = $accountId
 
 	let tokenBalanceFormat
 	let showUnderlyingAssets
@@ -110,13 +110,13 @@
 	in:fly={{x: 100}}
 	out:fly={{x: -100}}
 >
-	<form on:submit|preventDefault={() => $addressOrEnsName = currentAddressOrEnsName}>
+	<form on:submit|preventDefault={() => $accountId = currentAddressOrEnsName}>
 		<ExplorerInput bind:value={currentAddressOrEnsName} />
 		<button type="submit">Go</button>
 	</form>
 
 	<EnsResolutionLoader
-		addressOrEnsName={$addressOrEnsName}
+		accountId={$accountId}
 		passiveForwardResolution
 		passiveReverseResolution
 		let:address

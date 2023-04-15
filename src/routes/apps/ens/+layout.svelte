@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { addressOrEnsName } from '../_appsParams'
+	import { accountId } from '../_appsParams'
 
 
-	$: currentAddressOrEnsName = $addressOrEnsName
+	$: currentAddressOrEnsName = $accountId
 
 
 	import AddressField from '../../../components/AddressField.svelte'
@@ -23,7 +23,7 @@
 
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
-	<form on:submit|preventDefault={() => $addressOrEnsName = currentAddressOrEnsName}>
+	<form on:submit|preventDefault={() => $accountId = currentAddressOrEnsName}>
 		<AddressField bind:address={currentAddressOrEnsName}/>
 		<button type="submit">Go</button>
 	</form>
