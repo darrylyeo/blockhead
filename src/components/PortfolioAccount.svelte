@@ -135,6 +135,7 @@
 	import EthereumNftBalances from './EthereumNftBalances.svelte'
 	import HeightContainer from './HeightContainer.svelte'
 	import InlineContainer from './InlineContainer.svelte'
+	import LensName from './LensName.svelte'
 	import Loading from './Loading.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
 	import Notifications from './Notifications.svelte'
@@ -323,7 +324,7 @@
 		<header slot="header" class="bar card sticky">
 			<div class="row-inline wrap">
 				{#if lensName && type === AccountIdType.Lens}
-					<h3>{lensName}</h3>
+					<h3><LensName {lensName} /></h3>
 					{#if address}
 						<small><Address network={networksByChainID[1]} {address} /></small>
 					{/if}
