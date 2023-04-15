@@ -391,7 +391,7 @@
 															{/if}
 															<div class="bar wrap">
 																<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{label}">
-																	<a href="/apps/{web3AppsByProviderName.zapper?.[appId]?.slug ?? appId}/address/{address}">{label}</a>
+																	<a href="/apps/{web3AppsByProviderName.zapper?.[appId]?.slug ?? appId}/account/{address}">{label}</a>
 																</h5>
 																{#each meta as {label, type, value}}
 																	{#if label === 'Assets'}
@@ -627,7 +627,7 @@
 													<!-- style={cardStyle(colors || web3AppConfig.colors)} -->
 														<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} title="{metadata.description}">
 															<img class="card-background" src={`https://${metadata.iconURL}`} alt={metadata.name} width="20"/>
-															<a href="/apps/{web3AppsByProviderName.zerionDefiSDK?.[metadata.name]?.slug}/address/{address}">{metadata.name}</a>
+															<a href="/apps/{web3AppsByProviderName.zerionDefiSDK?.[metadata.name]?.slug}/account/{address}">{metadata.name}</a>
 														</h5>
 														{#if computedLayout === 'vertical'}
 															<hr>

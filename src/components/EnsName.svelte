@@ -18,7 +18,7 @@
 
 	$: formattedENSName = textRecords?.get('display') ?? ensName.trim().toLowerCase()
 
-	$: link = `/apps/ens/address/${formattedENSName}`
+	$: link = `/apps/ens/account/${formattedENSName}`
 
 
 	const onDragStart = (e: DragEvent) => {

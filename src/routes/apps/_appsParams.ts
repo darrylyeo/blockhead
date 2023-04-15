@@ -36,7 +36,7 @@ export const derivedPath: Readable<string> = derived([
 			`/${$web3AppSlug}${
 				// All web3 apps
 				$accountId ?
-					`/address/${$accountId}`
+					`/account/${$accountId}`
 
 				// Audius
 				: $web3AppSlug === 'audius' ?

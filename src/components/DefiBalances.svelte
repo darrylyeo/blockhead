@@ -227,7 +227,7 @@
 									{/if}
 									{#if erc20Token}<TokenIcon {network} {erc20Token} />{/if}
 									<span>
-										<a href="/apps/{web3AppConfig?.slug ?? appId}/address/{address}">{web3AppConfig?.name ?? label}</a>
+										<a href="/apps/{web3AppConfig?.slug ?? appId}/account/{address}">{web3AppConfig?.name ?? label}</a>
 										{#if web3AppConfig?.name && web3AppConfig.name !== label} › {label}{/if}
 									</span>
 								</h5>
@@ -589,7 +589,7 @@
 								{:else}
 									<TokenIcon {network} {erc20Token} />
 								{/if}
-								<a href="/apps/{web3AppConfig?.slug}/address/{address}">{metadata.name}</a>
+								<a href="/apps/{web3AppConfig?.slug}/account/{address}">{metadata.name}</a>
 							</h5>
 							{#if computedLayout === 'vertical'}
 								<hr>
