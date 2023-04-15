@@ -71,7 +71,7 @@
 	import TweenedNumber from './TweenedNumber.svelte'
 
 
-	import { fade } from 'svelte/transition'
+	import { fade, scale } from 'svelte/transition'
 </script>
 
 
@@ -79,9 +79,6 @@
 	.bar {
 		/* --padding-inner: 1.25em; */
 		--padding-inner: 1em;
-	}
-	label, button {
-		font-size: 0.9em;
 	}
 
 	h3 {
@@ -190,25 +187,28 @@
 
 					<div class="bar wrap">
 						<h3>Balances (<TokenBalance symbol={summary.quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} />)</h3>
-						<label>
-							<input type="checkbox" bind:checked={showSmallValues}>
-							<span>Show Small Values</span>
-						</label>
-						<label>
-							<span>Sort</span>
-							<select bind:value={sortBy}>
-								<option value="ticker-ascending">Alphabetical</option>
-								<option value="value-descending">Highest Value</option>
-								<option value="value-ascending">Lowest Value</option>
-							</select>
-						</label>
-						<label>
-							<span>Show</span>
+
+						<div role="toolbar" class="row wrap">
 							<TokenBalanceFormatSelect
+								type="checkboxes"
 								bind:tokenBalanceFormat
 								quoteCurrency={summary.quoteCurrency}
 							/>
-						</label>
+			
+							<label>
+								<input type="checkbox" bind:checked={showSmallValues}>
+								<span>Small</span>
+							</label>
+			
+							<label>
+								<span>Sort</span>
+								<select bind:value={sortBy}>
+									<option value="ticker-ascending">A–Z</option>
+									<option value="value-descending">Highest</option>
+									<option value="value-ascending">Lowest</option>
+								</select>
+							</label>
+						</div>
 					</div>
 				{/if}
 			</svelte:fragment>
@@ -237,18 +237,22 @@
 									Transactions
 									<InlineContainer isOpen={status === 'resolved'}>(<TweenedNumber value={transactions.length} /><InlineContainer isOpen={pagination?.hasNextPage}>+</InlineContainer>)</InlineContainer>
 								</h3>
-								<label>
-									<input type="checkbox" bind:checked={showFees}>
-									<span>Show Fees</span>
-								</label>
-								<label>
-									<span>View</span>
-									<select bind:value={detailLevel}>
-										<option value="summary">Summary</option>
-										<option value="detailed">Detailed</option>
-										<option value="exhaustive">Exhaustive</option>
-									</select>
-								</label>
+
+								<div role="toolbar" class="row wrap">
+									<label>
+										<input type="checkbox" bind:checked={showFees}>
+										<span>Fees</span>
+									</label>
+
+									<label>
+										<span>View</span>
+										<select bind:value={detailLevel}>
+											<option value="summary">Summary</option>
+											<option value="detailed">Detailed</option>
+											<option value="exhaustive">Exhaustive</option>
+										</select>
+									</label>
+								</div>
 							</summary>
 						</svelte:fragment>
 
@@ -324,20 +328,25 @@
 									Transactions
 									<InlineContainer isOpen={status === 'resolved'}>(<TweenedNumber value={transactions.length} /><InlineContainer isOpen={pagination?.hasNextPage}>+</InlineContainer>)</InlineContainer>
 								</h3>
-								{#if detailLevel !== 'exhaustive'}
+
+								<div role="toolbar" class="row wrap">
+									{#if detailLevel !== 'exhaustive'}
+										<label transition:scale|local>
+											<input type="checkbox" bind:checked={showFees}>
+											<span>Fees</span>
+										</label>
+									{/if}
+
 									<label>
-										<input type="checkbox" bind:checked={showFees}>
-										<span>Show Fees</span>
+										<span>View</span>
+										<select bind:value={detailLevel}>
+											<option value="summary">Summary</option>
+											<option value="detailed">Detailed</option>
+											<option value="exhaustive">Exhaustive</option>
+										</select>
 									</label>
-								{/if}
-								<label>
-									<span>View</span>
-									<select bind:value={detailLevel}>
-										<option value="summary">Summary</option>
-										<option value="detailed">Detailed</option>
-										<option value="exhaustive">Exhaustive</option>
-									</select>
-								</label>
+								</div>
+
 								<button on:click={() => selectedToken = undefined}>Back</button>
 							</div>
 						</svelte:fragment>
@@ -398,14 +407,17 @@
 
 					<div class="bar wrap">
 						<h3>Chart</h3>
-						<label>
-							<span>Price Scale</span>
-							<select bind:value={priceScale}>
-								<option value="logarithmic">Logarithmic</option>
-								<option value="linear">Linear</option>
-								<option value="linearFromZero">Linear From Zero</option>
-							</select>
-						</label>
+
+						<div role="toolbar">
+							<label>
+								<span>Price Scale</span>
+								<select bind:value={priceScale}>
+									<option value="logarithmic">Logarithmic</option>
+									<option value="linear">Linear</option>
+									<option value="linearFromZero">Linear From Zero</option>
+								</select>
+							</label>
+						</div>
 					</div>
 				</svelte:fragment>
 			</CovalentPriceChart>
