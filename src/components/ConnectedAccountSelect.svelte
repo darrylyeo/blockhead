@@ -29,7 +29,7 @@
 	bind:value={selectedAccount}
 	{required}
 >
-	<option value="" selected disabled>Choose account...</option>
+	<option value={undefined} selected disabled>Choose account...</option>
 
 	<!-- <optgroup label="Connected"> -->
 		{#each $accountConnections as accountConnection}
