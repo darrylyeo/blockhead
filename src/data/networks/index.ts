@@ -5429,7 +5429,9 @@ export const networkColors = {
 	'nervos': '#3CC68A',
 	'optimism': '#f01a37',
 	'polygon': '#8248e5',
+	'polygon-zkevm': '#8248e5',
 	'reef': '#962EE5',
+	'scroll': '#cba68d', // '#cba68d', '#e5d1b8', '#cba58c', '#d7af94',
 	'skale': '#393939',
 }
 
