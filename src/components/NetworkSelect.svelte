@@ -43,7 +43,7 @@
 					<option value={network}>{network.name} Mainnet{network.chainId ? ` (${network.chainId})` : ''}</option>
 
 					{#each testnetsForMainnets[network.slug] ?? [] as testnetNetwork}
-						<option value={testnetNetwork.slug}>{testnetNetwork.name}{testnetNetwork.chainId ? ` (${testnetNetwork.chainId})` : ''}</option>
+						<option value={testnetNetwork}>{testnetNetwork.name}{testnetNetwork.chainId ? ` (${testnetNetwork.chainId})` : ''}</option>
 					{/each}
 				{:else}
 					<option value={network} style={`--primary-color: ${getNetworkColor(network)}`}>{network.name}</option>
