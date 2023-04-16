@@ -120,35 +120,38 @@ export const getNotificationsStore = ({
 }: {
 	network: Ethereum.Network,
 	address: Ethereum.Address,
-}) => readable({}, set => {
+}) => readable({
+	loading: true,
+}, set => {
 	const state = {
-		isConnected: false,
-		notifications: [],
-		toggle: undefined,
+		loading: true,
+		data: {
+			isConnected: false,
+			notifications: [],
+			toggle: undefined,
+		},
+		error: undefined,
 	}
 
 	const socket = createSocketConnection({
-		user: `eip155:5:${address}`, // CAIP-10 format
+		user: `eip155:${network.chainId}:${address}`,
 		env: ENV.PROD,
 		socketOptions: { autoConnect: true }
 	})
 
 	socket?.on(EVENTS.CONNECT, () => {
-		Object.assign(state, {
-			isConnnected: true
-		})
+		state.data.isConnnected = true
 		set(state)
 	})
 
 	socket?.on(EVENTS.DISCONNECT, () => {
-		Object.assign(state, {
-			isConnnected: false
-		})
+		state.data.isConnnected = false
 		set(state)
 	})
 
 	socket?.on(EVENTS.USER_FEEDS, (feedItem) => {
-		state.notifications.push(feedItem)
+		state.data.notifications.push(feedItem)
+		state.loading = false
 		set(state)
 	})
 
@@ -160,13 +163,28 @@ export const getNotificationsStore = ({
 		}
 	}
 
-	Object.assign(state, {
-		toggle,
-	})
+	state.data.toggle = toggle
 	set(state)
+
+	toggle()
 
 	return () => {
 		socket?.off(EVENTS.CONNECT);
 		socket?.off(EVENTS.DISCONNECT);
 	}
 })
+
+
+
+// import type { Action } from 'svelte/action'
+// import { readable } from 'svelte/store';
+
+// export const pushAction: Action = () => {
+
+
+// 	return {
+// 		destroy() {
+
+// 		}
+// 	}
+// }
