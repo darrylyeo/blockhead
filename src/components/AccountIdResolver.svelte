@@ -112,7 +112,7 @@
 		then={({data, error}) => {
 			if(error) throw error
 
-			return data.profile.ownedBy
+			return data.profile?.ownedBy
 		}}
 		loadingIcon={LensIcon}
 		loadingIconName="Lens Protocol"
