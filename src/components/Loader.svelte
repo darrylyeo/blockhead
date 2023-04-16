@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Readable } from 'svelte/store'
-	import type { Result, Error as ApolloStoreError } from '../utils/apollo-store'
+	import type { Result, Error as ApolloStoreError } from '../utils/apolloRequestStore'
 	import type { ApolloError } from '@apollo/client'
 	import type { QueryStore } from '$houdini'
 	import type { UseQueryStoreResult, UseInfiniteQueryStoreResult } from '@sveltestack/svelte-query'
