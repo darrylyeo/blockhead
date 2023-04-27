@@ -109,7 +109,9 @@
 					{#if address}
 						<h2><Address {network} {address} /></h2>
 						{#if ensName}
-							<EnsName {ensName} showAvatar />
+							<span class="align-start" transition:scale|local>
+								<EnsName {ensName} showAvatar />
+							</span>
 						{/if}
 					{:else if ensName}
 						<h2><EnsName {ensName} showAvatar /></h2>
