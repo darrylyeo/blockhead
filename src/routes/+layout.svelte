@@ -143,7 +143,7 @@
 		title: `Blockhead・track, visualize & explore all of crypto, DeFi & web3・B⃞`,
 		description: `EVM networks, blocks, txs, accounts, contracts, dapps, NFTs, web3 infra`,
 		// description: `EVM networks/blocks/txs/accounts/contracts/dapps/NFTs/infra & more`,
-		image: 'Blockhead@1-1728x1080.png',
+		image: 'https://blockhead.info/Blockhead@1-1728x1080.png',
 		imageAlt: 'Blockhead | track, visualize & explore all of crypto, DeFi & web3',
 	},
 	additionalLinkTags: [
