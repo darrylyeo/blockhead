@@ -275,7 +275,7 @@
 				<InlineContainer containerClass="align-end" isOpen={state !== State.Editing}>
 					<div class="bar align-end" transition:scale>
 						{#if state === State.Idle}
-							<button class="add" data-before="+" on:click={() => state = State.Adding} transition:scale>Add Account</button>
+							<button class="add" data-before="＋" on:click={() => state = State.Adding} transition:scale>Add Account</button>
 						{/if}
 						<InlineContainer containerClass="align-end">
 							<button data-before="✎" on:click={() => state = State.Editing} transition:scale>Edit</button>
