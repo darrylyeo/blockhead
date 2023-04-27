@@ -583,8 +583,9 @@
 			</svelte:fragment>
 
 			<div class="defi-balances column">
-				{#each defiBalances as {
-					adapterBalances, metadata,
+				{#each defiBalances.filter(_ => _.metadata) as {
+					adapterBalances,
+					metadata,
 				}, i (metadata.name + i)}
 					{@const web3AppConfig = web3AppsByProviderName.zerionDefiSDK?.[metadata.name]}
 					{@const erc20Token = web3AppConfig?.views?.flatMap(view => view.erc20Tokens ?? [])[0]}
