@@ -40,6 +40,7 @@
 		nftContractsCount: number,
 		nftsCount: number,
 	}
+
 	$: summary = nftContractsWithBalances.length
 		? {
 			quoteTotal: nftContractsWithBalances.reduce((sum, item) => sum + (item.quote ?? 0), 0),

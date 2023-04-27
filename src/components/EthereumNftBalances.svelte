@@ -22,6 +22,15 @@
 	export let contentClass: string
 
 
+	// Computed
+	export let summary: {
+		quoteTotal: number,
+		quoteCurrency: QuoteCurrency,
+		nftContractsCount: number,
+		nftsCount: number,
+	}
+
+
 	let sortFunction: (a: Ethereum.NftContractWithBalance, b: Ethereum.NftContractWithBalance) => number
 	$: sortFunction = {
 		'value-descending': (a, b) => b.quote - a.quote || b.balance - a.balance,
@@ -332,6 +341,7 @@
 	{isOpen}
 	{containerClass}
 	{contentClass}
+	bind:summary
 	let:nftContractsWithBalances
 >
 	<svelte:fragment slot="header" let:summary let:status let:loadingMessage let:errorMessage>
