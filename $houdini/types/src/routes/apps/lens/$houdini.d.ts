@@ -9,15 +9,20 @@ type OutputDataShape<T> = MaybeWithVoid<Omit<App.PageData, RequiredKeys<T>> & Pa
 type EnsureDefined<T> = T extends null | undefined ? {} : T;
 type OptionalUnion<U extends Record<string, any>, A extends keyof U = U extends U ? keyof U : never> = U extends unknown ? { [P in Exclude<A, keyof U>]?: never } & U : never;
 export type Snapshot<T = any> = Kit.Snapshot<T>;
-type LayoutRouteId = RouteId
-type LayoutParams = RouteParams & {  }
-type LayoutParentData = EnsureDefined<{}>;
+type PageParentData = Omit<Omit<EnsureDefined<import('../../$houdini').LayoutData>, keyof import('../$houdini').LayoutData> & EnsureDefined<import('../$houdini').LayoutData>, keyof LayoutData> & EnsureDefined<LayoutData>;
+type LayoutRouteId = RouteId | "/apps/lens" | "/apps/lens/account/[accountId]"
+type LayoutParams = RouteParams & { accountId?: string }
+type LayoutParentData = Omit<EnsureDefined<import('../../$houdini').LayoutData>, keyof import('../$houdini').LayoutData> & EnsureDefined<import('../$houdini').LayoutData>;
 						type MakeOptional<Target, Keys extends keyof Target> = Omit<Target, Keys> & {
 							[Key in Keys]?: Target[Key] | undefined | null
 						}
 					
 
+export type PageServerData = null;
+export type PageLoad<OutputData extends OutputDataShape<PageParentData> = OutputDataShape<PageParentData>> = Kit.Load<RouteParams, PageServerData, PageParentData, OutputData, RouteId>;
+export type PageLoadEvent = Parameters<PageLoad>[0];
+export type PageData = Expand<Expand<Omit<PageParentData, keyof PageParentData & EnsureDefined<PageServerData>> & OptionalUnion<EnsureDefined<PageParentData & EnsureDefined<PageServerData>>>> & {  }>;
 export type LayoutServerData = null;
-export type LayoutLoad<OutputData extends Partial<App.PageData> & Record<string, any> | void = Partial<App.PageData> & Record<string, any> | void> = Kit.Load<LayoutParams, LayoutServerData, LayoutParentData, OutputData, LayoutRouteId>;
+export type LayoutLoad<OutputData extends OutputDataShape<LayoutParentData> = OutputDataShape<LayoutParentData>> = Kit.Load<LayoutParams, LayoutServerData, LayoutParentData, OutputData, LayoutRouteId>;
 export type LayoutLoadEvent = Parameters<LayoutLoad>[0];
 export type LayoutData = Expand<Expand<Omit<LayoutParentData, keyof LayoutParentData & EnsureDefined<LayoutServerData>> & OptionalUnion<EnsureDefined<LayoutParentData & EnsureDefined<LayoutServerData>>>> & {  }>;

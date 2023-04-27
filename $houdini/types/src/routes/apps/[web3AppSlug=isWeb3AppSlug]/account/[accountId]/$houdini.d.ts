@@ -1,8 +1,8 @@
 import type * as Kit from '@sveltejs/kit';
 
 type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never;
-type RouteParams = { accountId: string }
-type RouteId = '/apps/ens/address/[accountId]';
+type RouteParams = { web3AppSlug: string; accountId: string }
+type RouteId = '/apps/[web3AppSlug=isWeb3AppSlug]/account/[accountId]';
 type MaybeWithVoid<T> = {} extends T ? T | void : T;
 export type RequiredKeys<T> = { [K in keyof T]-?: {} extends { [P in K]: T[K] } ? never : K; }[keyof T];
 type OutputDataShape<T> = MaybeWithVoid<Omit<App.PageData, RequiredKeys<T>> & Partial<Pick<App.PageData, keyof T & keyof App.PageData>> & Record<string, any>>

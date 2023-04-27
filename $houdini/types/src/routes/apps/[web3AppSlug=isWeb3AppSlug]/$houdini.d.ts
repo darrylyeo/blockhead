@@ -10,7 +10,7 @@ type EnsureDefined<T> = T extends null | undefined ? {} : T;
 type OptionalUnion<U extends Record<string, any>, A extends keyof U = U extends U ? keyof U : never> = U extends unknown ? { [P in Exclude<A, keyof U>]?: never } & U : never;
 export type Snapshot<T = any> = Kit.Snapshot<T>;
 type PageParentData = Omit<Omit<EnsureDefined<import('../../$houdini').LayoutData>, keyof import('../$houdini').LayoutData> & EnsureDefined<import('../$houdini').LayoutData>, keyof LayoutData> & EnsureDefined<LayoutData>;
-type LayoutRouteId = RouteId | "/apps/[web3AppSlug=isWeb3AppSlug]" | "/apps/[web3AppSlug=isWeb3AppSlug]/address/[accountId]"
+type LayoutRouteId = RouteId | "/apps/[web3AppSlug=isWeb3AppSlug]" | "/apps/[web3AppSlug=isWeb3AppSlug]/account/[accountId]" | "/apps/[web3AppSlug=isWeb3AppSlug]/address/[accountId]"
 type LayoutParams = RouteParams & { web3AppSlug?: string,accountId?: string }
 type LayoutParentData = Omit<EnsureDefined<import('../../$houdini').LayoutData>, keyof import('../$houdini').LayoutData> & EnsureDefined<import('../$houdini').LayoutData>;
 						type MakeOptional<Target, Keys extends keyof Target> = Omit<Target, Keys> & {
