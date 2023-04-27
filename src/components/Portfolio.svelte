@@ -329,9 +329,10 @@
 							state = State.Idle
 							newAccountId = ''
 						}}
-						in:blur={{ duration: 200, opacity: 0, amount: 20 }}
+						in:fly={{ duration: 200, opacity: 0, y: -20 }}
 						out:scale={{ start: 0.95, duration: 150, opacity: 0 }}
 					>
+					<!-- in:blur={{ duration: 200, opacity: 0, amount: 20 }} -->
 					<!-- in:scale={{ start: 0.95, duration: 300, opacity: 0 }} -->
 						<div class="bar">
 							<div>
