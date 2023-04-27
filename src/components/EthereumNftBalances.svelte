@@ -237,7 +237,7 @@
 		box-shadow: 0 0 1px 1px var(--card-background-color) inset;
 		transition: var(--transition-duration);
 	}
-	.show3D .nft-contract:before {
+	.show3D:not(.showImagesOnly) .nft-contract:before {
 		--angle: -0.075turn;
 		content: '';
 		position: absolute;
@@ -254,7 +254,7 @@
 		transition: transform 0.3s;
 		z-index: calc(100 * var(--parallax-factor)); */
 	}
-	.show3D .nft-contract:not(:focus-within):before {
+	.show3D:not(.showImagesOnly) .nft-contract:not(:focus-within):before {
 		transform-origin: top;
 		-webkit-backdrop-filter: blur(10px);
 		backdrop-filter: blur(10px);
