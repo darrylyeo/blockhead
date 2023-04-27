@@ -453,7 +453,7 @@
 		bind:result={nftContractsWithBalances}
 		let:result={nftContractsWithBalances}
 	>
-		<slot name="header" slot="header" let:loadingMessage let:errorMessage {nftContractsWithBalances} {status} {loadingMessage} {errorMessage} />
+		<slot name="header" slot="header" let:loadingMessage let:errorMessage {nftContractsWithBalances} {summary} {status} {loadingMessage} {errorMessage} />
 
 		<slot {nftContractsWithBalances} />
 	</Loader>
