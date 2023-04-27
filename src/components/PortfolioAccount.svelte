@@ -326,26 +326,26 @@
 				{#if lensName && type === AccountIdType.Lens}
 					<h3><LensName {lensName} /></h3>
 					{#if address}
-						<small><Address network={networksByChainID[1]} {address} /></small>
+						<small class="align-start" transition:scale|local><Address network={networksByChainID[1]} {address} /></small>
 					{/if}
 				{:else if nickname}
 					<h3>{nickname}</h3>
 					{#if address}
-						<small><Address network={networksByChainID[1]} {address} /></small>
+						<small class="align-start" transition:scale|local><Address network={networksByChainID[1]} {address} /></small>
 					{/if}
 				{:else if type === AccountIdType.ENS}
 					{#if ensName}
 						<h3><EnsName {ensName} showAvatar /></h3>
 					{/if}
 					{#if address}
-						<small><Address network={networksByChainID[1]} {address} /></small>
+						<small class="align-start" transition:scale|local><Address network={networksByChainID[1]} {address} /></small>
 					{/if}
 				{:else if type === AccountIdType.Address}
 					{#if address}
 						<h3><Address network={networksByChainID[1]} {address} /></h3>
 					{/if}
 					{#if ensName}
-						<small><EnsName {ensName} showAvatar /></small>
+						<small class="align-start" transition:scale|local><EnsName {ensName} showAvatar /></small>
 					{/if}
 				{/if}
 			</div>
