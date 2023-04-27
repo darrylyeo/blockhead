@@ -5,16 +5,14 @@
 	import type { Web3AppConfig } from '../data/web3Apps'
 	import { web3AppsByProviderName } from '../data/web3Apps'
 	import { networksByChainID } from '../data/networks'
-	import { getDefiBalances } from '../api/zerion/defiSdk'
 	import type { ZapperAppId, ZapperAppConfig, ZapperAppBalance } from '../api/zapper'
-	import { getAllApps, getDefiBalancesForApps, chainIdByNetworkName } from '../api/zapper'
 
 
 	// Data
 	export let web3Apps: Web3AppConfig[]
 	export let network: Ethereum.Network
 	export let provider: Ethereum.Provider
-	export let address: string
+	export let address: Ethereum.Address
 	export let defiProvider: DefiProvider = DefiProvider.Zapper
 	export let quoteCurrency: QuoteCurrency
 
@@ -60,6 +58,12 @@
 			}
 		:
 			undefined
+
+
+	// Actions
+	import { useQuery } from '@sveltestack/svelte-query'
+	import { getDefiBalances } from '../api/zerion/defiSdk'
+	import { getAllApps, getDefiBalancesForApps, chainIdByNetworkName } from '../api/zapper'
 
 
 	// View options
@@ -551,14 +555,21 @@
 			loadingMessage="Reading {defiBalancesDescription} balances from {defiProvider}..."
 			loadingIcon={defiProviderIcons[defiProvider]}
 			errorMessage="Error getting {defiBalancesDescription} balances from {defiProvider}."
-			fromPromise={network && address && (() => (
-				getDefiBalances({
-					protocolNames: web3Apps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zerionDefiSDK ?? [])),
-					network,
-					provider,
-					address
-				})
-			))}
+			fromUseQuery={network && address && useQuery({
+				queryKey: ['DefiBalances', {
+					defiProvider,
+					address,
+					chainID: network.chainId,
+				}],
+				queryFn: async () => (
+					await getDefiBalances({
+						protocolNames: web3Apps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zerionDefiSDK ?? [])),
+						network,
+						provider,
+						address,
+					})
+				)
+			})}
 			bind:result={zerionDefiBalances}
 			let:result={defiBalances}
 			{isOpen}
