@@ -466,7 +466,7 @@
 		loadingIconName={nftProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromUseQuery={
+		fromUseQuery={address && network && (
 			useQuery({
 				queryKey: ['NFTs', {
 					nftProvider,
@@ -483,7 +483,7 @@
 					})
 				)
 			})
-		}
+		)}
 		then={result => (
 			result.items
 				.filter(balance => balance.type === 'nft')
@@ -509,7 +509,7 @@
 		loadingIconName={nftProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromUseQuery={
+		fromUseQuery={address && network && (
 			useQuery({
 				queryKey: ['NFTs', {
 					nftProvider,
@@ -531,7 +531,7 @@
 					)
 				}
 			})
-		}
+		)}
 		then={normalizeLiqualityNftsAndContracts}
 		bind:result={nftContractsWithBalances}
 		{isOpen}
@@ -553,7 +553,7 @@
 		loadingIconName={nftProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromUseQuery={
+		fromUseQuery={address && network && (
 			useQuery({
 				queryKey: ['NFTs', {
 					nftProvider,
@@ -582,7 +582,7 @@
 					//
 				}
 			})
-		}
+		)}
 		then={([nftsResponse, nftContractsResponse]) => (
 			normalizeNftportNftsAndContracts({nftsResponse, nftContractsResponse})
 		)}
