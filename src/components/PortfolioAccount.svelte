@@ -334,16 +334,12 @@
 						<small class="align-start" transition:scale|local><Address network={networksByChainID[1]} {address} /></small>
 					{/if}
 				{:else if type === AccountIdType.ENS}
-					{#if ensName}
-						<h3><EnsName {ensName} showAvatar /></h3>
-					{/if}
+					<h3><EnsName {ensName} showAvatar /></h3>
 					{#if address}
 						<small class="align-start" transition:scale|local><Address network={networksByChainID[1]} {address} /></small>
 					{/if}
 				{:else if type === AccountIdType.Address}
-					{#if address}
-						<h3><Address network={networksByChainID[1]} {address} /></h3>
-					{/if}
+					<h3><Address network={networksByChainID[1]} {address} /></h3>
 					{#if ensName}
 						<small class="align-start" transition:scale|local><EnsName {ensName} showAvatar /></small>
 					{/if}
