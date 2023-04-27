@@ -10,7 +10,7 @@
 
 
 	export let network: Ethereum.Network
-	export let address: string
+	export let address: Ethereum.Address
 	export let tokenBalancesProvider: TokenBalancesProvider
 	export let quoteCurrency: QuoteCurrency
 
@@ -51,7 +51,7 @@
 		loadingIconName={tokenBalancesProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromStore={() => {
+		fromStore={address && network && (() => {
 			if(!(network.chainId in airstackNetworkNames))
 				throw new Error(`Airstack doesn't yet support ${network.name}.`)
 
@@ -140,7 +140,7 @@
 					cursor: '',
 				},
 			})
-		}}
+		})}
 		then={data => (
 			(data.TokenBalances.TokenBalance ?? [])
 				.map(tokenWithBalance => ({
@@ -175,7 +175,7 @@
 		loadingIconName={tokenBalancesProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromUseQuery={
+		fromUseQuery={address && network && (
 			useQuery({
 				queryKey: ['Balances', {
 					tokenBalancesProvider,
@@ -219,7 +219,7 @@
 					}))
 				)
 			})
-		}
+		)}
 		{showIf}
 		{isOpen}
 		{containerClass}
@@ -239,7 +239,7 @@
 		loadingIconName={tokenBalancesProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromUseQuery={
+		fromUseQuery={address && network && (
 			useQuery({
 				queryKey: ['Balances', {
 					tokenBalancesProvider,
@@ -260,7 +260,7 @@
 					)
 				}
 			})
-		}
+		)}
 		then={assets => (
 			assets.map(({
 				formattedBalance,
@@ -299,7 +299,7 @@
 		loadingIconName={tokenBalancesProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromUseQuery={
+		fromUseQuery={address && network && (
 			useQuery({
 				queryKey: ['Balances', {
 					tokenBalancesProvider,
@@ -375,7 +375,7 @@
 					}
 				}
 			})
-		}
+		)}
 		{showIf}
 		{isOpen}
 		{containerClass}
@@ -395,7 +395,7 @@
 		loadingIconName={tokenBalancesProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromUseQuery={
+		fromUseQuery={address && network && (
 			useQuery({
 				queryKey: ['Balances', {
 					tokenBalancesProvider,
@@ -409,7 +409,7 @@
 					})
 				)
 			})
-		}
+		)}
 		then={({products}) => products[0]?.assets.map(
 			({
 				address,
@@ -452,7 +452,7 @@
 		loadingIconName={tokenBalancesProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromUseQuery={
+		fromUseQuery={address && network && (
 			useQuery({
 				queryKey: ['Balances', {
 					tokenBalancesProvider,
@@ -466,7 +466,7 @@
 					})
 				)
 			})
-		}
+		)}
 		then={({owner, assets}) => (
 			assets.map(({amount, logoURI, ...token}) => ({
 				balance: amount,
