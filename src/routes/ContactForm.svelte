@@ -204,9 +204,9 @@
 
 					<hr>
 
-					<a href="https://twitter.com/0xblockhead" target="_blank"><button type="button" class="medium" style="--primary-color: rgb(29, 155, 240)">Follow @0xBlockhead on Twitter</button></a>
+					<a href="https://twitter.com/0xBlockhead" target="_blank"><button type="button" class="medium" style="--primary-color: rgb(29, 155, 240)">Follow @0xBlockhead on Twitter</button></a>
 
-					<a href="https://twitter.com/0xblockhead" target="_blank"><button type="button" class="small" style="--primary-color: rgb(29, 155, 240)">Follow @darryl__yeo on Twitter</button></a>
+					<a href="https://twitter.com/darryl__yeo" target="_blank"><button type="button" class="small" style="--primary-color: rgb(29, 155, 240)">Follow @darryl__yeo on Twitter</button></a>
 
 					<p>
 						<button type="button" class="small cancel" on:click={() => status = 'idle'}>‹ Back</button>

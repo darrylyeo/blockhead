@@ -95,14 +95,14 @@
 
 		<li class="right"><a href="https://bounties.gitcoin.co/grants/2966/blockhead" target="_blank"><button class="medium" style="--primary-color: #00ae84"><img src={GitcoinIcon} width="16" /> Gitcoin Grants</button></a></li>
 		<!-- <li class="right"><a href="https://discord.gg/966eXqqq7N" target="_blank">Discord</a></li> -->
-		<li class="right"><a href="https://twitter.com/0xblockhead" target="_blank"><button class="medium" data-before="🐦" style="--primary-color: rgb(29, 155, 240)">Twitter</button></a></li>
+		<li class="right"><a href="https://twitter.com/0xBlockhead" target="_blank"><button class="medium" data-before="🐦" style="--primary-color: rgb(29, 155, 240)">Twitter</button></a></li>
 		<li class="right"><a href="/#contact" target="_blank"><button class="medium" data-before="💬" style="--primary-color: #627EEA">Feedback</button></a></li>
 	</ul>
 
 	<!-- <div class="nav-right row">
 		<li><a href="https://gitcoin.co/grants/2966/blockhead" target="_blank">Gitcoin Grants</a></li>
 		<li><a href="https://discord.gg/966eXqqq7N" target="_blank">Discord</a></li>
-		<li><a href="https://twitter.com/0xblockhead" target="_blank">Twitter</a></li>
+		<li><a href="https://twitter.com/0xBlockhead" target="_blank">Twitter</a></li>
 	</div> -->
 	<!-- <EthereumLatestBlockNumber /> -->
 

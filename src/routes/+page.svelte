@@ -305,7 +305,7 @@
 
 		<footer in:scale={{delay: 1000}}>
 			<p><strong>Blockhead</strong> • created by <a href="https://darryl-yeo.com/blockhead">Darryl Yeo</a> • 2020 – 2023</p>
-			<p><small><a href="https://gitcoin.co/grants/2966/blockhead" target="_blank">Gitcoin Grants</a> • <a href="https://discord.gg/966eXqqq7N" target="_blank">Discord</a> • <a href="https://twitter.com/0xblockhead" target="_blank">Twitter</a></small></p>
+			<p><small><a href="https://gitcoin.co/grants/2966/blockhead" target="_blank">Gitcoin Grants</a> • <a href="https://discord.gg/966eXqqq7N" target="_blank">Discord</a> • <a href="https://twitter.com/0xBlockhead" target="_blank">Twitter</a></small></p>
 			<br>
 			<p><small>Donate: <a href="/explorer/ethereum/blockhead.eth" target="_blank"><output>blockhead.eth</output></a></small></p>
 			<!-- <img src="/Blockhead-Logo.svg" alt="Blockhead Logo" width="40" /> -->
