@@ -1,4 +1,8 @@
 import type { Record } from "./public/record";
+import { ENSDomainsContainingQuery$result, ENSDomainsContainingQuery$input } from "../artifacts/ENSDomainsContainingQuery";
+import { ENSDomainsContainingQueryStore } from "../plugins/houdini-svelte/stores/ENSDomainsContainingQuery";
+import { ENSDomainQuery$result, ENSDomainQuery$input } from "../artifacts/ENSDomainQuery";
+import { ENSDomainQueryStore } from "../plugins/houdini-svelte/stores/ENSDomainQuery";
 import type { WrappedTransfer_orderBy } from "$houdini/graphql/enums";
 import type { VersionChanged_orderBy } from "$houdini/graphql/enums";
 import type { Transfer_orderBy } from "$houdini/graphql/enums";
@@ -29,6 +33,7 @@ import type { DomainEvent_orderBy } from "$houdini/graphql/enums";
 import type { WrappedDomain_orderBy } from "$houdini/graphql/enums";
 import type { Registration_orderBy } from "$houdini/graphql/enums";
 import type { OrderDirection } from "$houdini/graphql/enums";
+import type { ValueOf } from "$houdini/runtime/lib/types";
 import type { Domain_orderBy } from "$houdini/graphql/enums";
 
 type BlockChangedFilter = {
@@ -2274,6 +2279,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         Account: {
             idFields: {
@@ -2284,8 +2290,8 @@ export declare type CacheTypeDef = {
                     type: (Record<CacheTypeDef, "Domain">)[];
                     args: {
                         first?: number | null | undefined;
-                        orderBy?: Domain_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof Domain_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
                         where?: Domain_filter | null | undefined;
                     };
@@ -2298,8 +2304,8 @@ export declare type CacheTypeDef = {
                     type: (Record<CacheTypeDef, "Registration">)[] | null;
                     args: {
                         first?: number | null | undefined;
-                        orderBy?: Registration_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof Registration_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
                         where?: Registration_filter | null | undefined;
                     };
@@ -2308,13 +2314,14 @@ export declare type CacheTypeDef = {
                     type: (Record<CacheTypeDef, "WrappedDomain">)[] | null;
                     args: {
                         first?: number | null | undefined;
-                        orderBy?: WrappedDomain_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof WrappedDomain_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
                         where?: WrappedDomain_filter | null | undefined;
                     };
                 };
             };
+            fragments: [];
         };
         AddrChanged: {
             idFields: {
@@ -2342,6 +2349,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         AuthorisationChanged: {
             idFields: {
@@ -2377,6 +2385,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         ContenthashChanged: {
             idFields: {
@@ -2404,6 +2413,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         Domain: {
             idFields: {
@@ -2418,8 +2428,8 @@ export declare type CacheTypeDef = {
                     type: (Record<CacheTypeDef, "FusesSet"> | Record<CacheTypeDef, "NameUnwrapped"> | Record<CacheTypeDef, "NameWrapped"> | Record<CacheTypeDef, "NewOwner"> | Record<CacheTypeDef, "NewResolver"> | Record<CacheTypeDef, "NewTTL"> | Record<CacheTypeDef, "Transfer"> | Record<CacheTypeDef, "WrappedTransfer">)[];
                     args: {
                         first?: number | null | undefined;
-                        orderBy?: DomainEvent_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof DomainEvent_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
                         where?: DomainEvent_filter | null | undefined;
                     };
@@ -2472,8 +2482,8 @@ export declare type CacheTypeDef = {
                     type: (Record<CacheTypeDef, "Domain">)[];
                     args: {
                         first?: number | null | undefined;
-                        orderBy?: Domain_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof Domain_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
                         where?: Domain_filter | null | undefined;
                     };
@@ -2487,6 +2497,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         FusesSet: {
             idFields: {
@@ -2518,6 +2529,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         InterfaceChanged: {
             idFields: {
@@ -2549,6 +2561,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         MulticoinAddrChanged: {
             idFields: {
@@ -2580,6 +2593,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         NameChanged: {
             idFields: {
@@ -2607,6 +2621,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         NameRegistered: {
             idFields: {
@@ -2638,6 +2653,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         NameRenewed: {
             idFields: {
@@ -2665,6 +2681,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         NameTransferred: {
             idFields: {
@@ -2692,6 +2709,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         NameUnwrapped: {
             idFields: {
@@ -2719,6 +2737,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         NameWrapped: {
             idFields: {
@@ -2758,6 +2777,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         NewOwner: {
             idFields: {
@@ -2789,6 +2809,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         NewResolver: {
             idFields: {
@@ -2816,6 +2837,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         NewTTL: {
             idFields: {
@@ -2843,6 +2865,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         PubkeyChanged: {
             idFields: {
@@ -2874,6 +2897,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         __ROOT__: {
             idFields: {};
@@ -2889,7 +2913,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 abiChangeds: {
@@ -2897,10 +2921,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: AbiChanged_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof AbiChanged_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: AbiChanged_filter | null | undefined;
                     };
                 };
@@ -2909,7 +2933,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 accounts: {
@@ -2917,10 +2941,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: Account_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof Account_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: Account_filter | null | undefined;
                     };
                 };
@@ -2929,7 +2953,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 addrChangeds: {
@@ -2937,10 +2961,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: AddrChanged_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof AddrChanged_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: AddrChanged_filter | null | undefined;
                     };
                 };
@@ -2949,7 +2973,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 authorisationChangeds: {
@@ -2957,10 +2981,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: AuthorisationChanged_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof AuthorisationChanged_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: AuthorisationChanged_filter | null | undefined;
                     };
                 };
@@ -2969,7 +2993,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 contenthashChangeds: {
@@ -2977,10 +3001,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: ContenthashChanged_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof ContenthashChanged_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: ContenthashChanged_filter | null | undefined;
                     };
                 };
@@ -2989,7 +3013,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 domainEvent: {
@@ -2997,7 +3021,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 domainEvents: {
@@ -3005,10 +3029,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: DomainEvent_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof DomainEvent_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: DomainEvent_filter | null | undefined;
                     };
                 };
@@ -3017,10 +3041,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: Domain_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof Domain_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: Domain_filter | null | undefined;
                     };
                 };
@@ -3029,7 +3053,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 fusesSets: {
@@ -3037,10 +3061,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: FusesSet_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof FusesSet_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: FusesSet_filter | null | undefined;
                     };
                 };
@@ -3049,7 +3073,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 interfaceChangeds: {
@@ -3057,10 +3081,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: InterfaceChanged_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof InterfaceChanged_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: InterfaceChanged_filter | null | undefined;
                     };
                 };
@@ -3069,7 +3093,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 multicoinAddrChangeds: {
@@ -3077,10 +3101,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: MulticoinAddrChanged_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof MulticoinAddrChanged_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: MulticoinAddrChanged_filter | null | undefined;
                     };
                 };
@@ -3089,7 +3113,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 nameChangeds: {
@@ -3097,10 +3121,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: NameChanged_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof NameChanged_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: NameChanged_filter | null | undefined;
                     };
                 };
@@ -3109,7 +3133,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 nameRegistereds: {
@@ -3117,10 +3141,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: NameRegistered_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof NameRegistered_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: NameRegistered_filter | null | undefined;
                     };
                 };
@@ -3129,7 +3153,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 nameReneweds: {
@@ -3137,10 +3161,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: NameRenewed_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof NameRenewed_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: NameRenewed_filter | null | undefined;
                     };
                 };
@@ -3149,7 +3173,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 nameTransferreds: {
@@ -3157,10 +3181,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: NameTransferred_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof NameTransferred_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: NameTransferred_filter | null | undefined;
                     };
                 };
@@ -3169,7 +3193,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 nameUnwrappeds: {
@@ -3177,10 +3201,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: NameUnwrapped_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof NameUnwrapped_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: NameUnwrapped_filter | null | undefined;
                     };
                 };
@@ -3189,7 +3213,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 nameWrappeds: {
@@ -3197,10 +3221,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: NameWrapped_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof NameWrapped_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: NameWrapped_filter | null | undefined;
                     };
                 };
@@ -3209,7 +3233,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 newOwners: {
@@ -3217,10 +3241,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: NewOwner_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof NewOwner_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: NewOwner_filter | null | undefined;
                     };
                 };
@@ -3229,7 +3253,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 newResolvers: {
@@ -3237,10 +3261,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: NewResolver_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof NewResolver_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: NewResolver_filter | null | undefined;
                     };
                 };
@@ -3249,7 +3273,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 newTTLs: {
@@ -3257,10 +3281,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: NewTTL_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof NewTTL_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: NewTTL_filter | null | undefined;
                     };
                 };
@@ -3269,7 +3293,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 pubkeyChangeds: {
@@ -3277,10 +3301,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: PubkeyChanged_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof PubkeyChanged_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: PubkeyChanged_filter | null | undefined;
                     };
                 };
@@ -3289,7 +3313,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 registrationEvent: {
@@ -3297,7 +3321,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 registrationEvents: {
@@ -3305,10 +3329,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: RegistrationEvent_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof RegistrationEvent_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: RegistrationEvent_filter | null | undefined;
                     };
                 };
@@ -3317,10 +3341,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: Registration_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof Registration_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: Registration_filter | null | undefined;
                     };
                 };
@@ -3329,7 +3353,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 resolverEvent: {
@@ -3337,7 +3361,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 resolverEvents: {
@@ -3345,10 +3369,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: ResolverEvent_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof ResolverEvent_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: ResolverEvent_filter | null | undefined;
                     };
                 };
@@ -3357,10 +3381,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: Resolver_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof Resolver_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: Resolver_filter | null | undefined;
                     };
                 };
@@ -3369,7 +3393,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 textChangeds: {
@@ -3377,10 +3401,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: TextChanged_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof TextChanged_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: TextChanged_filter | null | undefined;
                     };
                 };
@@ -3389,7 +3413,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 transfers: {
@@ -3397,10 +3421,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: Transfer_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof Transfer_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: Transfer_filter | null | undefined;
                     };
                 };
@@ -3409,7 +3433,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 versionChangeds: {
@@ -3417,10 +3441,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: VersionChanged_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof VersionChanged_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: VersionChanged_filter | null | undefined;
                     };
                 };
@@ -3429,7 +3453,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 wrappedDomains: {
@@ -3437,10 +3461,10 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: WrappedDomain_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof WrappedDomain_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: WrappedDomain_filter | null | undefined;
                     };
                 };
@@ -3449,7 +3473,7 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                     };
                 };
                 wrappedTransfers: {
@@ -3457,14 +3481,15 @@ export declare type CacheTypeDef = {
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
-                        orderBy?: WrappedTransfer_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof WrappedTransfer_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
-                        subgraphError: _SubgraphErrorPolicy_;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: WrappedTransfer_filter | null | undefined;
                     };
                 };
             };
+            fragments: [];
         };
         Registration: {
             idFields: {
@@ -3483,8 +3508,8 @@ export declare type CacheTypeDef = {
                     type: (Record<CacheTypeDef, "NameRegistered"> | Record<CacheTypeDef, "NameRenewed"> | Record<CacheTypeDef, "NameTransferred">)[];
                     args: {
                         first?: number | null | undefined;
-                        orderBy?: RegistrationEvent_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof RegistrationEvent_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
                         where?: RegistrationEvent_filter | null | undefined;
                     };
@@ -3510,6 +3535,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         Resolver: {
             idFields: {
@@ -3540,8 +3566,8 @@ export declare type CacheTypeDef = {
                     type: (Record<CacheTypeDef, "AbiChanged"> | Record<CacheTypeDef, "AddrChanged"> | Record<CacheTypeDef, "AuthorisationChanged"> | Record<CacheTypeDef, "ContenthashChanged"> | Record<CacheTypeDef, "InterfaceChanged"> | Record<CacheTypeDef, "MulticoinAddrChanged"> | Record<CacheTypeDef, "NameChanged"> | Record<CacheTypeDef, "PubkeyChanged"> | Record<CacheTypeDef, "TextChanged"> | Record<CacheTypeDef, "VersionChanged">)[];
                     args: {
                         first?: number | null | undefined;
-                        orderBy?: ResolverEvent_orderBy | null | undefined;
-                        orderDirection?: OrderDirection | null | undefined;
+                        orderBy?: ValueOf<typeof ResolverEvent_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
                         skip?: number | null | undefined;
                         where?: ResolverEvent_filter | null | undefined;
                     };
@@ -3555,6 +3581,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         TextChanged: {
             idFields: {
@@ -3586,6 +3613,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         Transfer: {
             idFields: {
@@ -3613,6 +3641,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         VersionChanged: {
             idFields: {
@@ -3640,6 +3669,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         WrappedDomain: {
             idFields: {
@@ -3671,6 +3701,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         WrappedTransfer: {
             idFields: {
@@ -3698,6 +3729,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         _Block_: {
             idFields: never;
@@ -3715,6 +3747,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
         _Meta_: {
             idFields: never;
@@ -3732,7 +3765,9 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
             };
+            fragments: [];
         };
     };
     lists: {};
+    queries: [[ENSDomainQueryStore, ENSDomainQuery$result, ENSDomainQuery$input], [ENSDomainsContainingQueryStore, ENSDomainsContainingQuery$result, ENSDomainsContainingQuery$input]];
 };

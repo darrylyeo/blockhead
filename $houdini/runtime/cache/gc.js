@@ -14,6 +14,8 @@ class GarbageCollector {
     this.lifetimes.get(id).set(field, 0);
   }
   tick() {
+    const dt_tick = Date.now().valueOf();
+    const config_max_time = this.cache._internal_unstable.config.defaultLifetime;
     for (const [id, fieldMap] of this.lifetimes.entries()) {
       for (const [field, lifetime] of fieldMap.entries()) {
         if (this.cache._internal_unstable.subscriptions.get(id, field).length > 0) {
@@ -26,6 +28,13 @@ class GarbageCollector {
           fieldMap.delete(field);
           if ([...fieldMap.keys()].length === 0) {
             this.lifetimes.delete(id);
+          }
+          this.cache._internal_unstable.staleManager.delete(id, field);
+        }
+        if (config_max_time && config_max_time > 0) {
+          const dt_valueOf = this.cache.getFieldTime(id, field);
+          if (dt_valueOf && dt_tick - dt_valueOf > config_max_time) {
+            this.cache._internal_unstable.staleManager.markFieldStale(id, field);
           }
         }
       }

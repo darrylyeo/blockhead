@@ -1,5 +1,5 @@
-import { LoadEvent, RequestEvent } from '@sveltejs/kit';
-import { AfterLoadArgs, BeforeLoadArgs, OnErrorArgs } from './types';
+import type { LoadEvent, RequestEvent } from '@sveltejs/kit';
+import type { AfterLoadArgs, BeforeLoadArgs, OnErrorArgs } from './types';
 declare const sessionKeyName = "__houdini__session__";
 export declare class RequestContext {
     private loadEvent;

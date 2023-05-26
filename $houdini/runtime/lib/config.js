@@ -1,9 +1,11 @@
+import config from "../imports/config";
+import pluginConfigs from "../imports/pluginConfig";
 let mockConfig = null;
 function getMockConfig() {
   return mockConfig;
 }
-function setMockConfig(config) {
-  mockConfig = config;
+function setMockConfig(config2) {
+  mockConfig = config2;
 }
 function defaultConfigValues(file) {
   return {
@@ -22,7 +24,8 @@ function defaultConfigValues(file) {
   };
 }
 function keyFieldsForType(configFile, type) {
-  return configFile.types?.[type]?.keys || configFile.defaultKeys;
+  const withDefault = defaultConfigValues(configFile);
+  return withDefault.types?.[type]?.keys || withDefault.defaultKeys;
 }
 function computeID(configFile, type, data) {
   const fields = keyFieldsForType(configFile, type);
@@ -32,12 +35,21 @@ function computeID(configFile, type, data) {
   }
   return id.slice(0, -2);
 }
-async function getCurrentConfig() {
+let _configFile = null;
+function getCurrentConfig() {
   const mockConfig2 = getMockConfig();
   if (mockConfig2) {
     return mockConfig2;
   }
-  return defaultConfigValues((await import("../../../houdini.config.js")).default);
+  if (_configFile) {
+    return _configFile;
+  }
+  let configFile = defaultConfigValues(config);
+  for (const pluginConfig of pluginConfigs) {
+    configFile = pluginConfig(configFile);
+  }
+  _configFile = configFile;
+  return configFile;
 }
 export {
   computeID,

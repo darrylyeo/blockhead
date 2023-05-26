@@ -1,11 +1,11 @@
-import { GraphQLSchema } from 'graphql';
-import { CachePolicy } from './types';
+import type { GraphQLSchema } from 'graphql';
+import type { CachePolicies, PaginateModes } from './types';
 export declare function getMockConfig(): ConfigFile | null;
 export declare function setMockConfig(config: ConfigFile | null): void;
 export declare function defaultConfigValues(file: ConfigFile): ConfigFile;
 export declare function keyFieldsForType(configFile: ConfigFile, type: string): string[];
 export declare function computeID(configFile: ConfigFile, type: string, data: any): string;
-export declare function getCurrentConfig(): Promise<ConfigFile>;
+export declare function getCurrentConfig(): ConfigFile;
 export type ConfigFile = {
     /**
      * A glob pointing to all files that houdini should consider. Note, this must include .js files
@@ -32,10 +32,6 @@ export type ConfigFile = {
      */
     schema?: string | GraphQLSchema;
     /**
-     * A url to use to pull the schema. For more information: https://www.houdinigraphql.com/api/cli#generate
-     */
-    apiUrl?: string | ((env: Record<string, string | undefined>) => string);
-    /**
      * An object describing custom scalars for your project. For more information: https://www.houdinigraphql.com/api/config#custom-scalars
      */
     scalars?: ScalarMap;
@@ -43,11 +39,6 @@ export type ConfigFile = {
      * A path that the generator will use to write schema.graphql and documents.gql files containing all of the internal fragment and directive definitions used in the project.
      */
     definitionsPath?: string;
-    /**
-     * One of "kit" or "svelte". Used to tell the preprocessor what kind of loading paradigm to generate for you. (default: `kit`)
-     * @deprecated please follow the steps here: http://www.houdinigraphql.com/guides/release-notes#0170
-     */
-    framework?: 'kit' | 'svelte';
     /**
      * One of "esm" or "commonjs". Tells the artifact generator what kind of modules to create. (default: `esm`)
      */
@@ -59,11 +50,15 @@ export type ConfigFile = {
     /**
      * The default cache policy to use for queries. For more information: https://www.houdinigraphql.com/guides/caching-data
      */
-    defaultCachePolicy?: CachePolicy;
+    defaultCachePolicy?: CachePolicies;
     /**
      * Specifies whether or not the cache should always use partial data. For more information: https://www.houdinigraphql.com/guides/caching-data#partial-data
      */
     defaultPartial?: boolean;
+    /**
+     * Specifies after how long a data goes stale in miliseconds. (default: `undefined`)
+     */
+    defaultLifetime?: number;
     /**
      * Specifies whether mutations should append or prepend list. For more information: https://www.houdinigraphql.com/api/graphql (default: `append`)
      */
@@ -72,6 +67,10 @@ export type ConfigFile = {
      * Specifies whether mutation should apply a specific target list. When you set `all`, it's like adding the directive `@allLists` to all _insert fragment (default: `null`)
      */
     defaultListTarget?: 'all' | null;
+    /**
+     * Specifies whether the default paginate mode is Infinite or SinglePage. (default: `Infinite`)
+     */
+    defaultPaginateMode?: PaginateModes;
     /**
      * A list of fields to use when computing a record’s id. The default value is ['id']. For more information: https://www.houdinigraphql.com/guides/caching-data#custom-ids
      */
@@ -90,20 +89,9 @@ export type ConfigFile = {
      */
     defaultFragmentMasking?: 'enable' | 'disable';
     /**
-     * Configures the houdini plugin's schema polling behavior. By default, houdini will poll your APIs
-     * during development in order to keep it's definition of your schema up to date. The schemaPollingInterval
-     * config value sets the amount of time between each request in milliseconds (default 2 seconds).
-     * To limit the schema introspection to just on the start of the server, set schemaPollingInterval to 0.
-     * To disable the schema introspection, set schemaPollingInterval to null.
+     * Configure the dev environment to watch a remote schema for changes
      */
-    schemaPollInterval?: number | null;
-    /**
-     * An object containing the environment variables you want passed onto the api when polling for a new schema.
-     * The keys dictate the header names. If the value is a string, the corresponding environment variable will be used
-     * directly. If the value is a function, the current environment will be passed to your function so you can perform any
-     * logic you need
-     */
-    schemaPollHeaders?: Record<string, string | ((env: Record<string, string | undefined>) => string)> | ((env: Record<string, string | undefined>) => Record<string, string>);
+    watchSchema?: WatchSchemaConfig;
     /**
      * An object describing the plugins enabled for the project
      */
@@ -133,11 +121,32 @@ export type TypeConfig = {
         };
     };
 };
+export type WatchSchemaConfig = {
+    /**
+     * A url to use to pull the schema. For more information: https://www.houdinigraphql.com/api/cli#generate
+     */
+    url: string | ((env: Record<string, string | undefined>) => string);
+    /**
+     * sets the amount of time between each request in milliseconds (default 2 seconds).
+     * To limit the schema introspection to just on the start of the server, set interval to 0.
+     * To disable the schema introspection, set interval to null.
+     */
+    interval?: number | null;
+    /**
+     * An object containing the environment variables you want passed onto the api when polling for a new schema.
+     * The keys dictate the header names. If the value is a string, the corresponding environment variable will be used
+     * directly. If the value is a function, the current environment will be passed to your function so you can perform any
+     * logic you need
+     */
+    headers?: Record<string, string | ((env: Record<string, string | undefined>) => string)> | ((env: Record<string, string | undefined>) => Record<string, string>);
+};
 export type ScalarSpec = {
     type: string;
     marshal?: (val: any) => any;
     unmarshal?: (val: any) => any;
 };
 export interface HoudiniPluginConfig {
+}
+export interface HoudiniClientPluginConfig {
 }
 export {};

@@ -1,5 +1,6 @@
 import _cache from "./cache";
 import { Cache } from "./public";
+export * from "./client";
 export * from "./lib";
 function graphql(str) {
   if (globalThis?.process?.env?.HOUDINI_PLUGIN) {

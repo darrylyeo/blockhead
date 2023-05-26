@@ -1,6 +1,5 @@
-import { error, redirect } from "@sveltejs/kit";
 import { get } from "svelte/store";
-import { isBrowser } from "./adapter";
+import { isBrowser, error, redirect } from "./adapter";
 const sessionKeyName = "__houdini__session__";
 class RequestContext {
   loadEvent;

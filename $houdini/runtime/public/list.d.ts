@@ -1,5 +1,5 @@
-import { Cache } from './cache';
-import { CacheTypeDef, ListType, ValidLists, ListFilters } from './types';
+import type { Cache } from './cache';
+import type { CacheTypeDef, ListType, ValidLists, ListFilters } from './types';
 export declare class ListCollection<Def extends CacheTypeDef, ListName extends ValidLists<Def>> {
     #private;
     constructor({ parentID, allLists, when, cache, name, }: {

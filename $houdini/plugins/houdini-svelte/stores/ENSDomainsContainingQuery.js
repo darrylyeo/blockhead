@@ -1,5 +1,6 @@
-import { QueryStore } from '$houdini/plugins/houdini-svelte/runtime/stores'
+import { QueryStore } from '../runtime/stores/query'
 import artifact from '$houdini/artifacts/ENSDomainsContainingQuery'
+import { initClient } from '$houdini/plugins/houdini-svelte/runtime/client'
 
 export class ENSDomainsContainingQueryStore extends QueryStore {
 	constructor() {
@@ -12,6 +13,8 @@ export class ENSDomainsContainingQueryStore extends QueryStore {
 }
 
 export async function load_ENSDomainsContainingQuery(params) {
+	await initClient()
+
 	const store = new ENSDomainsContainingQueryStore()
 
 	await store.fetch(params)

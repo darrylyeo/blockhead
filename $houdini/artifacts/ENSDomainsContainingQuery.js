@@ -1,9 +1,9 @@
 export default {
-    name: "ENSDomainsContainingQuery",
-    kind: "HoudiniQuery",
-    hash: "b33b84a5c5cc0f06b897431a81e03cf153ca965a183d416ecc205da22b9e6865",
+    "name": "ENSDomainsContainingQuery",
+    "kind": "HoudiniQuery",
+    "hash": "6992fbb1c9fa19dd40c20004526d01c54baaace0a9cff4e39c81fa54c89faecd",
 
-    raw: `query ENSDomainsContainingQuery($query: String!) {
+    "raw": `query ENSDomainsContainingQuery($query: String!) {
   domains(where: {name_contains: $query, name_not: $query}) {
     __typename
     id
@@ -56,20 +56,24 @@ export default {
         owner {
           id
         }
+        id
       }
       ... on NewOwner {
         owner {
           id
         }
+        id
       }
       ... on NewResolver {
         resolver {
           id
           address
         }
+        id
       }
       ... on NewTTL {
         ttl
+        id
       }
       __typename
     }
@@ -77,425 +81,506 @@ export default {
 }
 `,
 
-    rootType: "Query",
+    "rootType": "Query",
 
-    selection: {
-        fields: {
-            domains: {
-                type: "Domain",
-                keyRaw: "domains(where: {name_contains: $query, name_not: $query})",
+    "selection": {
+        "fields": {
+            "domains": {
+                "type": "Domain",
+                "keyRaw": "domains(where: {name_contains: $query, name_not: $query})",
 
-                selection: {
-                    fields: {
-                        __typename: {
-                            type: "String",
-                            keyRaw: "__typename"
+                "selection": {
+                    "fields": {
+                        "__typename": {
+                            "type": "String",
+                            "keyRaw": "__typename",
+                            "visible": true
                         },
 
-                        id: {
-                            type: "ID",
-                            keyRaw: "id"
+                        "id": {
+                            "type": "ID",
+                            "keyRaw": "id",
+                            "visible": true
                         },
 
-                        name: {
-                            type: "String",
-                            keyRaw: "name",
-                            nullable: true
+                        "name": {
+                            "type": "String",
+                            "keyRaw": "name",
+                            "nullable": true,
+                            "visible": true
                         },
 
-                        labelName: {
-                            type: "String",
-                            keyRaw: "labelName",
-                            nullable: true
+                        "labelName": {
+                            "type": "String",
+                            "keyRaw": "labelName",
+                            "nullable": true,
+                            "visible": true
                         },
 
-                        labelhash: {
-                            type: "Bytes",
-                            keyRaw: "labelhash",
-                            nullable: true
+                        "labelhash": {
+                            "type": "Bytes",
+                            "keyRaw": "labelhash",
+                            "nullable": true,
+                            "visible": true
                         },
 
-                        parent: {
-                            type: "Domain",
-                            keyRaw: "parent",
-                            nullable: true,
+                        "parent": {
+                            "type": "Domain",
+                            "keyRaw": "parent",
+                            "nullable": true,
 
-                            selection: {
-                                fields: {
-                                    id: {
-                                        type: "ID",
-                                        keyRaw: "id"
+                            "selection": {
+                                "fields": {
+                                    "id": {
+                                        "type": "ID",
+                                        "keyRaw": "id",
+                                        "visible": true
                                     },
 
-                                    name: {
-                                        type: "String",
-                                        keyRaw: "name",
-                                        nullable: true
-                                    }
-                                }
-                            }
-                        },
-
-                        subdomains: {
-                            type: "Domain",
-                            keyRaw: "subdomains",
-
-                            selection: {
-                                fields: {
-                                    id: {
-                                        type: "ID",
-                                        keyRaw: "id"
-                                    },
-
-                                    name: {
-                                        type: "String",
-                                        keyRaw: "name",
-                                        nullable: true
-                                    }
-                                }
-                            }
-                        },
-
-                        resolvedAddress: {
-                            type: "Account",
-                            keyRaw: "resolvedAddress",
-                            nullable: true,
-
-                            selection: {
-                                fields: {
-                                    __typename: {
-                                        type: "String",
-                                        keyRaw: "__typename"
-                                    },
-
-                                    id: {
-                                        type: "ID",
-                                        keyRaw: "id"
-                                    }
-                                }
-                            }
-                        },
-
-                        owner: {
-                            type: "Account",
-                            keyRaw: "owner",
-
-                            selection: {
-                                fields: {
-                                    __typename: {
-                                        type: "String",
-                                        keyRaw: "__typename"
-                                    },
-
-                                    id: {
-                                        type: "ID",
-                                        keyRaw: "id"
-                                    }
-                                }
-                            }
-                        },
-
-                        resolver: {
-                            type: "Resolver",
-                            keyRaw: "resolver",
-                            nullable: true,
-
-                            selection: {
-                                fields: {
-                                    __typename: {
-                                        type: "String",
-                                        keyRaw: "__typename"
-                                    },
-
-                                    id: {
-                                        type: "ID",
-                                        keyRaw: "id"
-                                    },
-
-                                    domain: {
-                                        type: "Domain",
-                                        keyRaw: "domain",
-                                        nullable: true,
-
-                                        selection: {
-                                            fields: {
-                                                id: {
-                                                    type: "ID",
-                                                    keyRaw: "id"
-                                                }
-                                            }
-                                        }
-                                    },
-
-                                    address: {
-                                        type: "Bytes",
-                                        keyRaw: "address"
-                                    },
-
-                                    addr: {
-                                        type: "Account",
-                                        keyRaw: "addr",
-                                        nullable: true,
-
-                                        selection: {
-                                            fields: {
-                                                id: {
-                                                    type: "ID",
-                                                    keyRaw: "id"
-                                                }
-                                            }
-                                        }
-                                    },
-
-                                    texts: {
-                                        type: "String",
-                                        keyRaw: "texts",
-                                        nullable: true
-                                    },
-
-                                    coinTypes: {
-                                        type: "BigInt",
-                                        keyRaw: "coinTypes",
-                                        nullable: true
-                                    },
-
-                                    events: {
-                                        type: "ResolverEvent",
-                                        keyRaw: "events",
-
-                                        selection: {
-                                            fields: {
-                                                id: {
-                                                    type: "ID",
-                                                    keyRaw: "id"
-                                                },
-
-                                                blockNumber: {
-                                                    type: "Int",
-                                                    keyRaw: "blockNumber"
-                                                },
-
-                                                transactionID: {
-                                                    type: "Bytes",
-                                                    keyRaw: "transactionID"
-                                                },
-
-                                                __typename: {
-                                                    type: "String",
-                                                    keyRaw: "__typename"
-                                                }
-                                            }
-                                        },
-
-                                        abstract: true
-                                    }
-                                }
-                            }
-                        },
-
-                        ttl: {
-                            type: "BigInt",
-                            keyRaw: "ttl",
-                            nullable: true
-                        },
-
-                        isMigrated: {
-                            type: "Boolean",
-                            keyRaw: "isMigrated"
-                        },
-
-                        events: {
-                            type: "DomainEvent",
-                            keyRaw: "events",
-
-                            selection: {
-                                abstractFields: {
-                                    fields: {
-                                        Transfer: {
-                                            owner: {
-                                                type: "Account",
-                                                keyRaw: "owner",
-
-                                                selection: {
-                                                    fields: {
-                                                        id: {
-                                                            type: "ID",
-                                                            keyRaw: "id"
-                                                        }
-                                                    }
-                                                }
-                                            },
-
-                                            __typename: {
-                                                type: "String",
-                                                keyRaw: "__typename"
-                                            },
-
-                                            id: {
-                                                type: "ID",
-                                                keyRaw: "id"
-                                            },
-
-                                            blockNumber: {
-                                                type: "Int",
-                                                keyRaw: "blockNumber"
-                                            },
-
-                                            transactionID: {
-                                                type: "Bytes",
-                                                keyRaw: "transactionID"
-                                            }
-                                        },
-
-                                        NewOwner: {
-                                            owner: {
-                                                type: "Account",
-                                                keyRaw: "owner",
-
-                                                selection: {
-                                                    fields: {
-                                                        id: {
-                                                            type: "ID",
-                                                            keyRaw: "id"
-                                                        }
-                                                    }
-                                                }
-                                            },
-
-                                            __typename: {
-                                                type: "String",
-                                                keyRaw: "__typename"
-                                            },
-
-                                            id: {
-                                                type: "ID",
-                                                keyRaw: "id"
-                                            },
-
-                                            blockNumber: {
-                                                type: "Int",
-                                                keyRaw: "blockNumber"
-                                            },
-
-                                            transactionID: {
-                                                type: "Bytes",
-                                                keyRaw: "transactionID"
-                                            }
-                                        },
-
-                                        NewResolver: {
-                                            resolver: {
-                                                type: "Resolver",
-                                                keyRaw: "resolver",
-
-                                                selection: {
-                                                    fields: {
-                                                        id: {
-                                                            type: "ID",
-                                                            keyRaw: "id"
-                                                        },
-
-                                                        address: {
-                                                            type: "Bytes",
-                                                            keyRaw: "address"
-                                                        }
-                                                    }
-                                                }
-                                            },
-
-                                            __typename: {
-                                                type: "String",
-                                                keyRaw: "__typename"
-                                            },
-
-                                            id: {
-                                                type: "ID",
-                                                keyRaw: "id"
-                                            },
-
-                                            blockNumber: {
-                                                type: "Int",
-                                                keyRaw: "blockNumber"
-                                            },
-
-                                            transactionID: {
-                                                type: "Bytes",
-                                                keyRaw: "transactionID"
-                                            }
-                                        },
-
-                                        NewTTL: {
-                                            ttl: {
-                                                type: "BigInt",
-                                                keyRaw: "ttl"
-                                            },
-
-                                            __typename: {
-                                                type: "String",
-                                                keyRaw: "__typename"
-                                            },
-
-                                            id: {
-                                                type: "ID",
-                                                keyRaw: "id"
-                                            },
-
-                                            blockNumber: {
-                                                type: "Int",
-                                                keyRaw: "blockNumber"
-                                            },
-
-                                            transactionID: {
-                                                type: "Bytes",
-                                                keyRaw: "transactionID"
-                                            }
-                                        }
-                                    },
-
-                                    typeMap: {}
-                                },
-
-                                fields: {
-                                    __typename: {
-                                        type: "String",
-                                        keyRaw: "__typename"
-                                    },
-
-                                    id: {
-                                        type: "ID",
-                                        keyRaw: "id"
-                                    },
-
-                                    blockNumber: {
-                                        type: "Int",
-                                        keyRaw: "blockNumber"
-                                    },
-
-                                    transactionID: {
-                                        type: "Bytes",
-                                        keyRaw: "transactionID"
+                                    "name": {
+                                        "type": "String",
+                                        "keyRaw": "name",
+                                        "nullable": true,
+                                        "visible": true
                                     }
                                 }
                             },
 
-                            abstract: true
+                            "visible": true
+                        },
+
+                        "subdomains": {
+                            "type": "Domain",
+                            "keyRaw": "subdomains",
+
+                            "selection": {
+                                "fields": {
+                                    "id": {
+                                        "type": "ID",
+                                        "keyRaw": "id",
+                                        "visible": true
+                                    },
+
+                                    "name": {
+                                        "type": "String",
+                                        "keyRaw": "name",
+                                        "nullable": true,
+                                        "visible": true
+                                    }
+                                }
+                            },
+
+                            "visible": true
+                        },
+
+                        "resolvedAddress": {
+                            "type": "Account",
+                            "keyRaw": "resolvedAddress",
+                            "nullable": true,
+
+                            "selection": {
+                                "fields": {
+                                    "__typename": {
+                                        "type": "String",
+                                        "keyRaw": "__typename",
+                                        "visible": true
+                                    },
+
+                                    "id": {
+                                        "type": "ID",
+                                        "keyRaw": "id",
+                                        "visible": true
+                                    }
+                                }
+                            },
+
+                            "visible": true
+                        },
+
+                        "owner": {
+                            "type": "Account",
+                            "keyRaw": "owner",
+
+                            "selection": {
+                                "fields": {
+                                    "__typename": {
+                                        "type": "String",
+                                        "keyRaw": "__typename",
+                                        "visible": true
+                                    },
+
+                                    "id": {
+                                        "type": "ID",
+                                        "keyRaw": "id",
+                                        "visible": true
+                                    }
+                                }
+                            },
+
+                            "visible": true
+                        },
+
+                        "resolver": {
+                            "type": "Resolver",
+                            "keyRaw": "resolver",
+                            "nullable": true,
+
+                            "selection": {
+                                "fields": {
+                                    "__typename": {
+                                        "type": "String",
+                                        "keyRaw": "__typename",
+                                        "visible": true
+                                    },
+
+                                    "id": {
+                                        "type": "ID",
+                                        "keyRaw": "id",
+                                        "visible": true
+                                    },
+
+                                    "domain": {
+                                        "type": "Domain",
+                                        "keyRaw": "domain",
+                                        "nullable": true,
+
+                                        "selection": {
+                                            "fields": {
+                                                "id": {
+                                                    "type": "ID",
+                                                    "keyRaw": "id",
+                                                    "visible": true
+                                                }
+                                            }
+                                        },
+
+                                        "visible": true
+                                    },
+
+                                    "address": {
+                                        "type": "Bytes",
+                                        "keyRaw": "address",
+                                        "visible": true
+                                    },
+
+                                    "addr": {
+                                        "type": "Account",
+                                        "keyRaw": "addr",
+                                        "nullable": true,
+
+                                        "selection": {
+                                            "fields": {
+                                                "id": {
+                                                    "type": "ID",
+                                                    "keyRaw": "id",
+                                                    "visible": true
+                                                }
+                                            }
+                                        },
+
+                                        "visible": true
+                                    },
+
+                                    "texts": {
+                                        "type": "String",
+                                        "keyRaw": "texts",
+                                        "nullable": true,
+                                        "visible": true
+                                    },
+
+                                    "coinTypes": {
+                                        "type": "BigInt",
+                                        "keyRaw": "coinTypes",
+                                        "nullable": true,
+                                        "visible": true
+                                    },
+
+                                    "events": {
+                                        "type": "ResolverEvent",
+                                        "keyRaw": "events",
+
+                                        "selection": {
+                                            "fields": {
+                                                "id": {
+                                                    "type": "ID",
+                                                    "keyRaw": "id",
+                                                    "visible": true
+                                                },
+
+                                                "blockNumber": {
+                                                    "type": "Int",
+                                                    "keyRaw": "blockNumber",
+                                                    "visible": true
+                                                },
+
+                                                "transactionID": {
+                                                    "type": "Bytes",
+                                                    "keyRaw": "transactionID",
+                                                    "visible": true
+                                                },
+
+                                                "__typename": {
+                                                    "type": "String",
+                                                    "keyRaw": "__typename",
+                                                    "visible": true
+                                                }
+                                            }
+                                        },
+
+                                        "abstract": true,
+                                        "visible": true
+                                    }
+                                }
+                            },
+
+                            "visible": true
+                        },
+
+                        "ttl": {
+                            "type": "BigInt",
+                            "keyRaw": "ttl",
+                            "nullable": true,
+                            "visible": true
+                        },
+
+                        "isMigrated": {
+                            "type": "Boolean",
+                            "keyRaw": "isMigrated",
+                            "visible": true
+                        },
+
+                        "events": {
+                            "type": "DomainEvent",
+                            "keyRaw": "events",
+
+                            "selection": {
+                                "abstractFields": {
+                                    "fields": {
+                                        "Transfer": {
+                                            "owner": {
+                                                "type": "Account",
+                                                "keyRaw": "owner",
+
+                                                "selection": {
+                                                    "fields": {
+                                                        "id": {
+                                                            "type": "ID",
+                                                            "keyRaw": "id",
+                                                            "visible": true
+                                                        }
+                                                    }
+                                                },
+
+                                                "visible": true
+                                            },
+
+                                            "id": {
+                                                "type": "ID",
+                                                "keyRaw": "id",
+                                                "visible": true
+                                            },
+
+                                            "__typename": {
+                                                "type": "String",
+                                                "keyRaw": "__typename",
+                                                "visible": true
+                                            },
+
+                                            "blockNumber": {
+                                                "type": "Int",
+                                                "keyRaw": "blockNumber",
+                                                "visible": true
+                                            },
+
+                                            "transactionID": {
+                                                "type": "Bytes",
+                                                "keyRaw": "transactionID",
+                                                "visible": true
+                                            }
+                                        },
+
+                                        "NewOwner": {
+                                            "owner": {
+                                                "type": "Account",
+                                                "keyRaw": "owner",
+
+                                                "selection": {
+                                                    "fields": {
+                                                        "id": {
+                                                            "type": "ID",
+                                                            "keyRaw": "id",
+                                                            "visible": true
+                                                        }
+                                                    }
+                                                },
+
+                                                "visible": true
+                                            },
+
+                                            "id": {
+                                                "type": "ID",
+                                                "keyRaw": "id",
+                                                "visible": true
+                                            },
+
+                                            "__typename": {
+                                                "type": "String",
+                                                "keyRaw": "__typename",
+                                                "visible": true
+                                            },
+
+                                            "blockNumber": {
+                                                "type": "Int",
+                                                "keyRaw": "blockNumber",
+                                                "visible": true
+                                            },
+
+                                            "transactionID": {
+                                                "type": "Bytes",
+                                                "keyRaw": "transactionID",
+                                                "visible": true
+                                            }
+                                        },
+
+                                        "NewResolver": {
+                                            "resolver": {
+                                                "type": "Resolver",
+                                                "keyRaw": "resolver",
+
+                                                "selection": {
+                                                    "fields": {
+                                                        "id": {
+                                                            "type": "ID",
+                                                            "keyRaw": "id",
+                                                            "visible": true
+                                                        },
+
+                                                        "address": {
+                                                            "type": "Bytes",
+                                                            "keyRaw": "address",
+                                                            "visible": true
+                                                        }
+                                                    }
+                                                },
+
+                                                "visible": true
+                                            },
+
+                                            "id": {
+                                                "type": "ID",
+                                                "keyRaw": "id",
+                                                "visible": true
+                                            },
+
+                                            "__typename": {
+                                                "type": "String",
+                                                "keyRaw": "__typename",
+                                                "visible": true
+                                            },
+
+                                            "blockNumber": {
+                                                "type": "Int",
+                                                "keyRaw": "blockNumber",
+                                                "visible": true
+                                            },
+
+                                            "transactionID": {
+                                                "type": "Bytes",
+                                                "keyRaw": "transactionID",
+                                                "visible": true
+                                            }
+                                        },
+
+                                        "NewTTL": {
+                                            "ttl": {
+                                                "type": "BigInt",
+                                                "keyRaw": "ttl",
+                                                "visible": true
+                                            },
+
+                                            "id": {
+                                                "type": "ID",
+                                                "keyRaw": "id",
+                                                "visible": true
+                                            },
+
+                                            "__typename": {
+                                                "type": "String",
+                                                "keyRaw": "__typename",
+                                                "visible": true
+                                            },
+
+                                            "blockNumber": {
+                                                "type": "Int",
+                                                "keyRaw": "blockNumber",
+                                                "visible": true
+                                            },
+
+                                            "transactionID": {
+                                                "type": "Bytes",
+                                                "keyRaw": "transactionID",
+                                                "visible": true
+                                            }
+                                        }
+                                    },
+
+                                    "typeMap": {}
+                                },
+
+                                "fields": {
+                                    "__typename": {
+                                        "type": "String",
+                                        "keyRaw": "__typename",
+                                        "visible": true
+                                    },
+
+                                    "id": {
+                                        "type": "ID",
+                                        "keyRaw": "id",
+                                        "visible": true
+                                    },
+
+                                    "blockNumber": {
+                                        "type": "Int",
+                                        "keyRaw": "blockNumber",
+                                        "visible": true
+                                    },
+
+                                    "transactionID": {
+                                        "type": "Bytes",
+                                        "keyRaw": "transactionID",
+                                        "visible": true
+                                    }
+                                }
+                            },
+
+                            "abstract": true,
+                            "visible": true
                         }
                     }
-                }
+                },
+
+                "visible": true
             }
         }
     },
 
-    input: {
-        fields: {
-            query: "String"
-        },
-
-        types: {}
+    "pluginData": {
+        "houdini-svelte": {
+            "isManualLoad": true
+        }
     },
 
-    policy: "CacheOrNetwork",
-    partial: false
+    "input": {
+        "fields": {
+            "query": "String"
+        },
+
+        "types": {}
+    },
+
+    "policy": "CacheOrNetwork",
+    "partial": false
 };
 
 "HoudiniHash=6992fbb1c9fa19dd40c20004526d01c54baaace0a9cff4e39c81fa54c89faecd";

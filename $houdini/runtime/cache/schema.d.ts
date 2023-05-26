@@ -1,5 +1,5 @@
-import { ConfigFile } from '../lib';
-import { Cache } from './cache';
+import type { ConfigFile } from '../lib/config';
+import type { Cache } from './cache';
 export type TypeInfo = {
     type: string;
     nullable: boolean;

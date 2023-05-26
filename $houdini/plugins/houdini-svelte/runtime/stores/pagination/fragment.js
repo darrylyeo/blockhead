@@ -1,25 +1,25 @@
-import { keyFieldsForType, getCurrentConfig } from "$houdini/runtime/lib/config";
+import { getCurrentConfig, keyFieldsForType } from "$houdini/runtime/lib/config";
 import { siteURL } from "$houdini/runtime/lib/constants";
-import {
-  CompiledFragmentKind
-} from "$houdini/runtime/lib/types";
-import { derived, get, writable } from "svelte/store";
-import { BaseStore } from "../store";
-import { cursorHandlers } from "./cursor";
-import { offsetHandlers } from "./offset";
-import { nullPageInfo } from "./pageInfo";
-class BasePaginatedFragmentStore extends BaseStore {
+import { extractPageInfo } from "$houdini/runtime/lib/pageInfo";
+import { cursorHandlers, offsetHandlers } from "$houdini/runtime/lib/pagination";
+import { CompiledFragmentKind } from "$houdini/runtime/lib/types";
+import { derived, get } from "svelte/store";
+import { getClient, initClient } from "../../client";
+import { getSession } from "../../session";
+import { FragmentStore } from "../fragment";
+class BasePaginatedFragmentStore {
   paginated = true;
   paginationArtifact;
   name;
   kind = CompiledFragmentKind;
+  artifact;
   constructor(config) {
-    super();
     this.paginationArtifact = config.paginationArtifact;
     this.name = config.storeName;
+    this.artifact = config.artifact;
   }
-  async queryVariables(store) {
-    const config = await getCurrentConfig();
+  queryVariables(getState) {
+    const config = getCurrentConfig();
     const { targetType } = this.paginationArtifact.refetch || {};
     const typeConfig = config.types?.[targetType || ""];
     if (!typeConfig) {
@@ -28,7 +28,7 @@ class BasePaginatedFragmentStore extends BaseStore {
       );
     }
     let idVariables = {};
-    const value = get(store).data;
+    const value = getState();
     if (typeConfig.resolve?.arguments) {
       idVariables = typeConfig.resolve.arguments?.(value) || {};
     } else {
@@ -42,97 +42,144 @@ class BasePaginatedFragmentStore extends BaseStore {
 }
 class FragmentStoreCursor extends BasePaginatedFragmentStore {
   get(initialValue) {
-    const store = writable({
-      data: initialValue,
-      fetching: false,
-      pageInfo: nullPageInfo()
+    const base = new FragmentStore({
+      artifact: this.artifact,
+      storeName: this.name
     });
-    const loading = writable(false);
-    const handlers = this.storeHandlers(store, loading.set);
+    const store = base.get(initialValue);
+    const paginationStore = getClient().observe({
+      artifact: this.paginationArtifact,
+      initialValue: store.initialValue
+    });
+    const handlers = this.storeHandlers(
+      paginationStore,
+      initialValue,
+      () => get(store),
+      () => store.variables
+    );
     const subscribe = (run, invalidate) => {
-      const combined = derived(
-        [store, handlers.pageInfo],
-        ([$parent, $pageInfo]) => ({
-          ...$parent,
-          pageInfo: $pageInfo
-        })
-      );
+      const combined = derived([store, paginationStore], ([$parent, $pagination]) => {
+        return {
+          ...$pagination,
+          data: $parent,
+          pageInfo: extractPageInfo($parent, this.paginationArtifact.refetch.path)
+        };
+      });
       return combined.subscribe(run, invalidate);
     };
     return {
       kind: CompiledFragmentKind,
-      data: store,
       subscribe,
-      loading,
       fetch: handlers.fetch,
-      pageInfo: handlers.pageInfo
-    };
-  }
-  storeHandlers(store, setFetching) {
-    return cursorHandlers({
-      artifact: this.paginationArtifact,
-      fetch: async () => {
-        return {};
-      },
-      getValue: () => get(store).data,
-      queryVariables: () => this.queryVariables(store),
-      setFetching,
-      storeName: this.name,
-      getConfig: () => this.getConfig()
-    });
-  }
-}
-class FragmentStoreForwardCursor extends FragmentStoreCursor {
-  get(initialValue) {
-    const parent = super.get(initialValue);
-    const handlers = this.storeHandlers(
-      parent,
-      parent.loading.set
-    );
-    return {
-      ...parent,
-      loadNextPage: handlers.loadNextPage
-    };
-  }
-}
-class FragmentStoreBackwardCursor extends FragmentStoreCursor {
-  get(initialValue) {
-    const parent = super.get(initialValue);
-    const handlers = this.storeHandlers(
-      parent,
-      (fetching) => parent.data.update((p) => ({ ...p, fetching }))
-    );
-    return {
-      ...parent,
+      loadNextPage: handlers.loadNextPage,
       loadPreviousPage: handlers.loadPreviousPage
     };
+  }
+  storeHandlers(observer, initialValue, getState, getVariables) {
+    return cursorHandlers({
+      getState,
+      getVariables,
+      artifact: this.paginationArtifact,
+      fetchUpdate: async (args, updates) => {
+        await initClient();
+        return observer.send({
+          session: await getSession(),
+          ...args,
+          variables: {
+            ...args?.variables,
+            ...this.queryVariables(getState)
+          },
+          cacheParams: {
+            applyUpdates: updates,
+            disableSubscriptions: true
+          }
+        });
+      },
+      fetch: async (args) => {
+        await initClient();
+        return await observer.send({
+          session: await getSession(),
+          ...args,
+          variables: {
+            ...args?.variables,
+            ...this.queryVariables(getState)
+          },
+          cacheParams: {
+            disableSubscriptions: true
+          }
+        });
+      },
+      getSession
+    });
   }
 }
 class FragmentStoreOffset extends BasePaginatedFragmentStore {
   get(initialValue) {
-    const parent = writable({
-      data: initialValue,
-      fetching: false
+    const base = new FragmentStore({
+      artifact: this.artifact,
+      storeName: this.name
     });
-    const handlers = offsetHandlers({
+    const store = base.get(initialValue);
+    const paginationStore = getClient().observe({
       artifact: this.paginationArtifact,
-      fetch: async () => ({}),
-      getValue: () => get(parent).data,
-      setFetching: (fetching) => parent.update((p) => ({ ...p, fetching })),
-      queryVariables: () => this.queryVariables({ subscribe: parent.subscribe }),
-      storeName: this.name,
-      getConfig: () => this.getConfig()
+      initialValue: store.initialValue
     });
+    const getState = () => get(store);
+    const handlers = offsetHandlers({
+      getState,
+      getVariables: () => store.variables,
+      artifact: this.paginationArtifact,
+      fetch: async (args) => {
+        return paginationStore.send({
+          ...args,
+          session: await getSession(),
+          variables: {
+            ...this.queryVariables(getState),
+            ...args?.variables
+          },
+          cacheParams: {
+            disableSubscriptions: true
+          }
+        });
+      },
+      fetchUpdate: async (args) => {
+        await initClient();
+        return paginationStore.send({
+          session: await getSession(),
+          ...args,
+          variables: {
+            ...this.queryVariables(getState),
+            ...args?.variables
+          },
+          cacheParams: {
+            disableSubscriptions: true,
+            applyUpdates: ["append"]
+          }
+        });
+      },
+      getSession,
+      storeName: this.name
+    });
+    const subscribe = (run, invalidate) => {
+      const combined = derived([store, paginationStore], ([$parent, $pagination]) => {
+        return {
+          ...$pagination,
+          data: $parent
+        };
+      });
+      return combined.subscribe(run, invalidate);
+    };
     return {
-      ...parent,
       kind: CompiledFragmentKind,
+      data: derived(paginationStore, ($value) => $value.data),
+      subscribe,
       fetch: handlers.fetch,
-      loadNextPage: handlers.loadNextPage
+      loadNextPage: handlers.loadNextPage,
+      fetching: derived(paginationStore, ($store) => $store.fetching)
     };
   }
 }
 export {
-  FragmentStoreBackwardCursor,
-  FragmentStoreForwardCursor,
+  FragmentStoreCursor,
   FragmentStoreOffset
 };

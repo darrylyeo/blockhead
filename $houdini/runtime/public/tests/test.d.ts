@@ -1,9 +1,11 @@
+import { type SubscriptionSelection, type FragmentArtifact, type QueryArtifact } from '../../lib';
 import { Cache } from '../cache';
-import { Record } from '../record';
-type CacheTypeDef = {
+import type { Record } from '../record';
+export type CacheTypeDefTest = {
     types: {
         __ROOT__: {
             idFields: {};
+            fragments: [];
             fields: {
                 test: {
                     type: number | null;
@@ -14,23 +16,23 @@ type CacheTypeDef = {
                     args: never;
                 };
                 viewer: {
-                    type: Record<CacheTypeDef, 'User'> | null;
+                    type: Record<CacheTypeDefTest, 'User'> | null;
                     args: never;
                 };
                 pets: {
-                    type: (Record<CacheTypeDef, 'Cat'> | Record<CacheTypeDef, 'User'>)[];
+                    type: (Record<CacheTypeDefTest, 'Cat'> | Record<CacheTypeDefTest, 'User'>)[];
                     args: never;
                 };
                 listOfLists: {
-                    type: ((Record<CacheTypeDef, 'Cat'> | Record<CacheTypeDef, 'User'> | null | (null | Record<CacheTypeDef, 'User'>)[])[] | Record<CacheTypeDef, 'Cat'> | Record<CacheTypeDef, 'User'> | null)[];
+                    type: ((Record<CacheTypeDefTest, 'Cat'> | Record<CacheTypeDefTest, 'User'> | null | (null | Record<CacheTypeDefTest, 'User'>)[])[] | Record<CacheTypeDefTest, 'Cat'> | Record<CacheTypeDefTest, 'User'> | null)[];
                     args: never;
                 };
                 users: {
-                    type: Record<CacheTypeDef, 'User'>[] | null;
+                    type: Record<CacheTypeDefTest, 'User'>[] | null;
                     args: never;
                 };
                 pet: {
-                    type: Record<CacheTypeDef, 'Cat'> | Record<CacheTypeDef, 'User'>;
+                    type: Record<CacheTypeDefTest, 'Cat'> | Record<CacheTypeDefTest, 'User'>;
                     args: never;
                 };
             };
@@ -39,13 +41,26 @@ type CacheTypeDef = {
             idFields: {
                 id: string;
             };
+            fragments: [
+                [
+                    {
+                        artifact: FragmentArtifact;
+                    },
+                    {
+                        firstName: string;
+                    },
+                    {
+                        pattern: string;
+                    }
+                ]
+            ];
             fields: {
                 firstName: {
                     type: string;
                     args: never;
                 };
                 parent: {
-                    type: Record<CacheTypeDef, 'User'>;
+                    type: Record<CacheTypeDefTest, 'User'>;
                     args: never;
                 };
                 id: {
@@ -62,13 +77,14 @@ type CacheTypeDef = {
             idFields: {
                 id: string;
             };
+            fragments: [];
             fields: {
                 name: {
                     type: string | null;
                     args: never;
                 };
                 parent: {
-                    type: Record<CacheTypeDef, 'User'> | null;
+                    type: Record<CacheTypeDefTest, 'User'> | null;
                     args: never;
                 };
                 id: {
@@ -85,6 +101,7 @@ type CacheTypeDef = {
             idFields: {
                 id: string;
             };
+            fragments: [];
             fields: {
                 name: {
                     type: string | null;
@@ -97,6 +114,26 @@ type CacheTypeDef = {
             };
         };
     };
+    queries: [
+        [
+            {
+                artifact: QueryArtifact;
+            },
+            {
+                viewer: {
+                    id: string;
+                    firstName: string;
+                    __typename: string;
+                    parent: {
+                        id: string;
+                        firstName: string;
+                        __typename: string;
+                    };
+                };
+            },
+            any
+        ]
+    ];
     lists: {
         All_Pets: {
             types: 'User' | 'Cat';
@@ -110,5 +147,10 @@ type CacheTypeDef = {
         };
     };
 };
-export declare const testCache: () => Cache<CacheTypeDef>;
-export {};
+export declare const testCache: () => Cache<CacheTypeDefTest>;
+export declare const testFragment: (selection: SubscriptionSelection) => {
+    artifact: FragmentArtifact;
+};
+export declare const testQuery: (selection: SubscriptionSelection) => {
+    artifact: QueryArtifact;
+};

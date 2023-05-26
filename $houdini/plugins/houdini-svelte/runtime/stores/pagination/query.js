@@ -1,78 +1,107 @@
-import { derived, get } from "svelte/store";
-import {
-  QueryStore
-} from "../query";
-import { cursorHandlers } from "./cursor";
-import { offsetHandlers } from "./offset";
-import { nullPageInfo } from "./pageInfo";
-class CursorPaginatedStore extends QueryStore {
+import { extractPageInfo } from "$houdini/runtime/lib/pageInfo";
+import { cursorHandlers, offsetHandlers } from "$houdini/runtime/lib/pagination";
+import { get, derived } from "svelte/store";
+import { getClient, initClient } from "../../client";
+import { getSession } from "../../session";
+import { QueryStore } from "../query";
+class QueryStoreCursor extends QueryStore {
   paginated = true;
-  handlers;
   constructor(config) {
     super(config);
-    this.handlers = cursorHandlers({
-      artifact: this.artifact,
-      fetch: super.fetch.bind(this),
-      setFetching: this.setFetching.bind(this),
-      queryVariables: this.currentVariables.bind(this),
-      storeName: this.name,
-      getValue: () => get(this.store).data,
-      getConfig: () => this.getConfig()
+  }
+  #_handlers = null;
+  async #handlers() {
+    if (this.#_handlers) {
+      return this.#_handlers;
+    }
+    await initClient();
+    const paginationObserver = getClient().observe({
+      artifact: this.artifact
     });
+    this.#_handlers = cursorHandlers({
+      artifact: this.artifact,
+      getState: () => get(this.observer).data,
+      getVariables: () => get(this.observer).variables,
+      fetch: super.fetch.bind(this),
+      getSession,
+      fetchUpdate: async (args, updates) => {
+        return paginationObserver.send({
+          ...args,
+          cacheParams: {
+            applyUpdates: updates,
+            disableSubscriptions: true,
+            ...args?.cacheParams
+          }
+        });
+      }
+    });
+    return this.#_handlers;
   }
   async fetch(args) {
-    return this.handlers.fetch.call(this, args);
+    const handlers = await this.#handlers();
+    return await handlers.fetch.call(this, args);
   }
-  extraFields() {
-    return {
-      pageInfo: nullPageInfo()
-    };
+  async loadPreviousPage(args) {
+    const handlers = await this.#handlers();
+    return await handlers.loadPreviousPage(args);
+  }
+  async loadNextPage(args) {
+    const handlers = await this.#handlers();
+    return await handlers.loadNextPage(args);
   }
   subscribe(run, invalidate) {
-    const combined = derived(
-      [{ subscribe: super.subscribe.bind(this) }, this.handlers.pageInfo],
-      ([$parent, $pageInfo]) => ({
+    const combined = derived([{ subscribe: super.subscribe.bind(this) }], ([$parent]) => {
+      return {
         ...$parent,
-        pageInfo: $pageInfo
-      })
-    );
+        pageInfo: extractPageInfo($parent.data, this.artifact.refetch.path)
+      };
+    });
     return combined.subscribe(run, invalidate);
-  }
-}
-class QueryStoreForwardCursor extends CursorPaginatedStore {
-  async loadNextPage(args) {
-    return this.handlers.loadNextPage(args);
-  }
-}
-class QueryStoreBackwardCursor extends CursorPaginatedStore {
-  async loadPreviousPage(args) {
-    return this.handlers.loadPreviousPage(args);
   }
 }
 class QueryStoreOffset extends QueryStore {
   paginated = true;
-  handlers;
-  constructor(config) {
-    super(config);
-    this.handlers = offsetHandlers({
-      artifact: this.artifact,
-      fetch: super.fetch,
-      getValue: () => get(this.store).data,
-      setFetching: (...args) => this.setFetching(...args),
-      queryVariables: () => this.currentVariables(),
-      storeName: this.name,
-      getConfig: () => this.getConfig()
-    });
-  }
   async loadNextPage(args) {
-    return this.handlers.loadNextPage.call(this, args);
+    const handlers = await this.#handlers();
+    return await handlers.loadNextPage.call(this, args);
   }
-  fetch(args) {
-    return this.handlers.fetch.call(this, args);
+  async fetch(args) {
+    const handlers = await this.#handlers();
+    return await handlers.fetch.call(this, args);
+  }
+  #_handlers = null;
+  async #handlers() {
+    if (this.#_handlers) {
+      return this.#_handlers;
+    }
+    await initClient();
+    const paginationObserver = getClient().observe({
+      artifact: this.artifact
+    });
+    this.#_handlers = offsetHandlers({
+      artifact: this.artifact,
+      storeName: this.name,
+      fetch: super.fetch,
+      getState: () => get(this.observer).data,
+      getVariables: () => get(this.observer).variables,
+      getSession,
+      fetchUpdate: async (args) => {
+        await initClient();
+        return paginationObserver.send({
+          ...args,
+          variables: {
+            ...args?.variables
+          },
+          cacheParams: {
+            applyUpdates: ["append"]
+          }
+        });
+      }
+    });
+    return this.#_handlers;
   }
 }
 export {
-  QueryStoreBackwardCursor,
-  QueryStoreForwardCursor,
+  QueryStoreCursor,
   QueryStoreOffset
 };

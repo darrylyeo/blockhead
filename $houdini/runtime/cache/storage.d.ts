@@ -7,9 +7,9 @@ export declare class InMemoryStorage {
     get layerCount(): number;
     get nextRank(): number;
     createLayer(optimistic?: boolean): Layer;
-    insert(id: string, field: string, location: OperationLocation, target: string): void;
-    remove(id: string, field: string, target: string): void;
-    delete(id: string): void;
+    insert(id: string, field: string, location: OperationLocations, target: string): void;
+    remove(id: string, field: string, target: string, layerToUser?: Layer): void;
+    delete(id: string, layerToUser?: Layer): void;
     deleteField(id: string, field: string): void;
     getLayer(id: number): Layer;
     replaceID(replacement: {
@@ -21,7 +21,7 @@ export declare class InMemoryStorage {
         kind: 'link' | 'scalar' | 'unknown';
         displayLayers: number[];
     };
-    writeLink(id: string, field: string, value: string | LinkedList): number;
+    writeLink(id: string, field: string, value: string | NestedList): number;
     writeField(id: string, field: string, value: GraphQLValue): number;
     resolveLayer(id: number): void;
     get topLayer(): Layer;
@@ -37,7 +37,7 @@ export declare class Layer {
     get(id: string, field: string): [GraphQLField, 'link' | 'scalar'];
     getOperations(id: string, field: string): Operation[] | undefined;
     writeField(id: string, field: string, value: GraphQLField): LayerID;
-    writeLink(id: string, field: string, value: null | string | LinkedList): LayerID;
+    writeLink(id: string, field: string, value: null | string | NestedList): LayerID;
     isDisplayLayer(displayLayers: number[]): boolean;
     clear(): void;
     replaceID({ from, to }: {
@@ -47,19 +47,19 @@ export declare class Layer {
     removeUndefinedFields(): void;
     delete(id: string): void;
     deleteField(id: string, field: string): void;
-    insert(id: string, field: string, where: OperationLocation, target: string): void;
+    insert(id: string, field: string, where: OperationLocations, target: string): void;
     remove(id: string, field: string, target: string): void;
     writeLayer(layer: Layer): void;
     private addFieldOperation;
 }
-type GraphQLField = GraphQLValue | LinkedList;
+type GraphQLField = GraphQLValue | NestedList;
 type EntityMap<_Value> = {
     [id: string]: {
         [field: string]: _Value;
     };
 };
 type EntityFieldMap = EntityMap<GraphQLField>;
-type LinkMap = EntityMap<string | null | LinkedList>;
+type LinkMap = EntityMap<string | null | NestedList>;
 type OperationMap = {
     [id: string]: {
         deleted?: boolean;
@@ -69,30 +69,33 @@ type OperationMap = {
         };
     };
 };
-type LinkedList<_Result = string> = (_Result | null | LinkedList<_Result>)[];
+type NestedList<_Result = string> = (_Result | null | NestedList<_Result>)[];
 type InsertOperation = {
-    kind: OperationKind.insert;
-    location: OperationLocation;
+    kind: 'insert';
+    location: OperationLocations;
     id: string;
 };
 type RemoveOperation = {
-    kind: OperationKind.remove;
+    kind: 'remove';
     id: string;
 };
 type DeleteOperation = {
-    kind: OperationKind.delete;
+    kind: 'delete';
     target: string;
 };
 type ListOperation = InsertOperation | RemoveOperation;
 type Operation = ListOperation | DeleteOperation;
-export declare enum OperationLocation {
-    start = "start",
-    end = "end"
-}
-export declare enum OperationKind {
-    delete = "delete",
-    insert = "insert",
-    remove = "remove"
-}
+type ValuesOf<Target> = Target[keyof Target];
+export declare const OperationLocation: {
+    readonly start: "start";
+    readonly end: "end";
+};
+export type OperationLocations = ValuesOf<typeof OperationLocation>;
+export declare const OperationKind: {
+    readonly delete: "delete";
+    readonly insert: "insert";
+    readonly remove: "remove";
+};
+export type OperationKinds = ValuesOf<typeof OperationKind>;
 export type LayerID = number;
 export {};

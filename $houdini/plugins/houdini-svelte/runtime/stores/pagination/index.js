@@ -1,14 +1,8 @@
-import {
-  FragmentStoreBackwardCursor,
-  FragmentStoreForwardCursor,
-  FragmentStoreOffset
-} from "./fragment";
-import { QueryStoreBackwardCursor, QueryStoreForwardCursor, QueryStoreOffset } from "./query";
+import { FragmentStoreCursor, FragmentStoreOffset } from "./fragment";
+import { QueryStoreCursor, QueryStoreOffset } from "./query";
 export {
-  FragmentStoreBackwardCursor,
-  FragmentStoreForwardCursor,
+  FragmentStoreCursor,
   FragmentStoreOffset,
-  QueryStoreBackwardCursor,
-  QueryStoreForwardCursor,
+  QueryStoreCursor,
   QueryStoreOffset
 };

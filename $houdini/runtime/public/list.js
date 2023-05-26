@@ -1,5 +1,3 @@
-import { keyFieldsForType } from "../lib";
-import { _typeInfo } from "./cache";
 import { Record } from "./record";
 class ListCollection {
   #parentID;
@@ -27,7 +25,10 @@ class ListCollection {
     const { selection, data } = this.#listOperationPayload(records);
     for (const entry of data) {
       if (entry) {
-        this.#collection.append(selection, entry);
+        this.#collection.append({
+          selection,
+          data: entry
+        });
       }
     }
   }
@@ -38,7 +39,10 @@ class ListCollection {
     const { selection, data } = this.#listOperationPayload(records);
     for (const entry of data) {
       if (entry) {
-        this.#collection.prepend(selection, entry);
+        this.#collection.prepend({
+          selection,
+          data: entry
+        });
       }
     }
   }
@@ -49,7 +53,11 @@ class ListCollection {
     const { selection, data } = this.#listOperationPayload(records);
     for (const entry of data) {
       if (entry) {
-        this.#collection.toggleElement(selection, entry, {}, where);
+        this.#collection.toggleElement({
+          selection,
+          data: entry,
+          where
+        });
       }
     }
   }
@@ -60,7 +68,7 @@ class ListCollection {
     return new ListCollection({
       parentID: this.#parentID,
       allLists: this.#allLists,
-      when: this.#when,
+      when: filter,
       cache: this.#cache,
       name: this.#name
     });
@@ -96,36 +104,16 @@ class ListCollection {
     }
   }
   #listOperationPayload(records) {
-    const selection = {
-      abstractFields: {
-        fields: {},
-        typeMap: {}
-      }
-    };
+    let selection = this.#collection.selection;
+    const connectionSelection = selection.fields?.["edges"]?.selection?.fields?.node.selection;
+    if (connectionSelection) {
+      selection = connectionSelection;
+    }
     const data = [];
     for (const record of records) {
       if (!(record instanceof Record)) {
         throw new Error("You must provide a Record to a list operation");
       }
-      const keys = keyFieldsForType(this.#cache.config, record.type);
-      selection.abstractFields.fields[record.type] = keys.reduce(
-        (acc, key) => {
-          const keyInfo = _typeInfo(this.#cache, record.type, key);
-          return {
-            ...acc,
-            [key]: {
-              type: keyInfo.type,
-              keyRaw: key
-            }
-          };
-        },
-        {
-          __typename: {
-            type: "String",
-            keyRaw: "__typename"
-          }
-        }
-      );
       data.push({ __typename: record.type, ...record.idFields });
     }
     return {

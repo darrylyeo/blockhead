@@ -1,24 +1,28 @@
-import { defaultConfigValues, computeID, keyFieldsForType } from "../lib/config";
+import { computeKey, PendingValue } from "../lib";
+import { computeID, defaultConfigValues, keyFieldsForType, getCurrentConfig } from "../lib/config";
 import { deepEquals } from "../lib/deepEquals";
+import { flatten } from "../lib/flatten";
 import { getFieldsForType } from "../lib/selection";
+import { fragmentKey } from "../lib/types";
 import { GarbageCollector } from "./gc";
 import { ListManager } from "./lists";
-import { SchemaManager } from "./schema";
+import { StaleManager } from "./staleManager";
 import { InMemoryStorage } from "./storage";
-import { evaluateKey, flattenList } from "./stuff";
+import { evaluateKey } from "./stuff";
 import { InMemorySubscriptions } from "./subscription";
 class Cache {
   _internal_unstable;
-  constructor(config) {
+  constructor({ disabled, ...config } = {}) {
     this._internal_unstable = new CacheInternal({
       cache: this,
       storage: new InMemoryStorage(),
       subscriptions: new InMemorySubscriptions(this),
       lists: new ListManager(this, rootID),
       lifetimes: new GarbageCollector(this),
-      schema: new SchemaManager(this)
+      staleManager: new StaleManager(this),
+      disabled: disabled ?? typeof globalThis.window === "undefined"
     });
-    if (config) {
+    if (Object.keys(config).length > 0) {
       this.setConfig(defaultConfigValues(config));
     }
   }
@@ -28,30 +32,19 @@ class Cache {
     ...args
   }) {
     const layer = layerID ? this._internal_unstable.storage.getLayer(layerID) : this._internal_unstable.storage.topLayer;
-    const subscribers = this._internal_unstable.writeSelection({ ...args, layer });
-    const notified = [];
-    for (const spec of subscribers.concat(notifySubscribers)) {
-      if (!notified.includes(spec.set)) {
-        notified.push(spec.set);
-        spec.set(
-          this._internal_unstable.getSelection({
-            parent: spec.parentID || rootID,
-            selection: spec.selection,
-            variables: spec.variables?.() || {}
-          }).data
-        );
-      }
-    }
+    const subscribers = this._internal_unstable.writeSelection({ ...args, layer }).map((sub) => sub[0]);
+    this.#notifySubscribers(subscribers.concat(notifySubscribers));
     return subscribers;
   }
   read(...args) {
-    const { data, partial, hasData } = this._internal_unstable.getSelection(...args);
+    const { data, partial, stale, hasData } = this._internal_unstable.getSelection(...args);
     if (!hasData) {
-      return { data: null, partial: false };
+      return { data: null, partial: false, stale: false };
     }
     return {
       data,
-      partial
+      partial,
+      stale
     };
   }
   subscribe(spec, variables = {}) {
@@ -79,45 +72,133 @@ class Cache {
     }
     return handler;
   }
-  delete(id) {
+  delete(id, layer) {
     this._internal_unstable.subscriptions.removeAllSubscribers(id);
-    this._internal_unstable.lists.removeIDFromAllLists(id);
-    this._internal_unstable.storage.delete(id);
+    this._internal_unstable.lists.removeIDFromAllLists(id, layer);
+    this._internal_unstable.storage.delete(id, layer);
   }
   setConfig(config) {
     this._internal_unstable.setConfig(config);
   }
+  markTypeStale(options) {
+    if (!options) {
+      this._internal_unstable.staleManager.markAllStale();
+    } else if (!options.field) {
+      this._internal_unstable.staleManager.markTypeStale(options.type);
+    } else {
+      this._internal_unstable.staleManager.markTypeFieldStale(
+        options.type,
+        options.field,
+        options.when
+      );
+    }
+  }
+  markRecordStale(id, options) {
+    if (options.field) {
+      const key = computeKey({ field: options.field, args: options.when ?? {} });
+      this._internal_unstable.staleManager.markFieldStale(id, key);
+    } else {
+      this._internal_unstable.staleManager.markRecordStale(id);
+    }
+  }
+  getFieldTime(id, field) {
+    return this._internal_unstable.staleManager.getFieldTime(id, field);
+  }
+  config() {
+    return this._internal_unstable.config;
+  }
+  clearLayer(layerID) {
+    const layer = this._internal_unstable.storage.getLayer(layerID);
+    if (!layer) {
+      throw new Error("Cannot find layer with id: " + layerID);
+    }
+    const toNotify = [];
+    const allFields = [];
+    for (const target of [layer.fields, layer.links]) {
+      for (const [id, fields] of Object.entries(target)) {
+        allFields.push(
+          ...Object.entries(fields).map(([field, value]) => ({ id, field, value }))
+        );
+      }
+    }
+    const displayFields = [];
+    for (const pair of allFields) {
+      const { displayLayers } = this._internal_unstable.storage.get(pair.id, pair.field);
+      if (!displayLayers.includes(layerID)) {
+        continue;
+      }
+      displayFields.push(pair);
+    }
+    for (const [id, operation] of Object.entries(layer.operations)) {
+      if (operation.deleted) {
+        displayFields.push(
+          ...this._internal_unstable.subscriptions.activeFields(id).map((field) => ({ id, field }))
+        );
+      }
+      const fields = Object.keys(operation.fields ?? {});
+      if (fields.length > 0) {
+        displayFields.push(...fields.map((field) => ({ id, field })));
+      }
+    }
+    layer.clear();
+    for (const display of displayFields) {
+      const { field, id } = display;
+      const notify = !("value" in display) || this._internal_unstable.storage.get(id, field).value !== display.value;
+      if (notify) {
+        toNotify.push(
+          ...this._internal_unstable.subscriptions.get(id, field).map((sub) => sub[0])
+        );
+      }
+    }
+    this.#notifySubscribers(toNotify);
+  }
+  #notifySubscribers(subs) {
+    if (subs.length === 0) {
+      return;
+    }
+    const notified = [];
+    for (const spec of subs) {
+      if (!notified.includes(spec.set)) {
+        notified.push(spec.set);
+        spec.set(
+          this._internal_unstable.getSelection({
+            parent: spec.parentID || rootID,
+            selection: spec.selection,
+            variables: spec.variables?.() || {},
+            ignoreMasking: false
+          }).data
+        );
+      }
+    }
+  }
 }
 class CacheInternal {
   _disabled = false;
-  config = defaultConfigValues({
-    plugins: {
-      "houdini-svelte": {
-        client: ""
-      }
-    }
-  });
+  _config;
   storage;
   subscriptions;
   lists;
   cache;
   lifetimes;
-  schema;
+  staleManager;
   constructor({
     storage,
     subscriptions,
     lists,
     cache,
     lifetimes,
-    schema
+    staleManager,
+    disabled,
+    config
   }) {
     this.storage = storage;
     this.subscriptions = subscriptions;
     this.lists = lists;
     this.cache = cache;
     this.lifetimes = lifetimes;
-    this.schema = schema;
-    this._disabled = typeof globalThis.window === "undefined";
+    this.staleManager = staleManager;
+    this._config = config;
+    this._disabled = disabled;
     try {
       if (process.env.HOUDINI_TEST === "true") {
         this._disabled = false;
@@ -125,28 +206,34 @@ class CacheInternal {
     } catch {
     }
   }
+  get config() {
+    return this._config ?? getCurrentConfig();
+  }
   setConfig(config) {
-    this.config = config;
+    this._config = config;
   }
   writeSelection({
     data,
     selection,
     variables = {},
     parent = rootID,
-    applyUpdates = false,
+    applyUpdates,
     layer,
     toNotify = [],
-    forceNotify
+    forceNotify,
+    forceStale
   }) {
     if (this._disabled) {
       return [];
     }
-    let targetSelection = getFieldsForType(selection, data["__typename"]);
+    let targetSelection = getFieldsForType(
+      selection,
+      data["__typename"],
+      false
+    );
     for (const [field, value] of Object.entries(data)) {
       if (!selection || !targetSelection[field]) {
-        throw new Error(
-          "Could not find field listing in selection for " + field + " @ " + JSON.stringify(selection)
-        );
+        continue;
       }
       let {
         type: linkedType,
@@ -154,31 +241,42 @@ class CacheInternal {
         selection: fieldSelection,
         operations,
         abstract: isAbstract,
-        update,
-        nullable
+        updates
       } = targetSelection[field];
       const key = evaluateKey(keyRaw, variables);
-      this.schema.setFieldType({
-        parent,
-        key: keyRaw,
-        type: linkedType,
-        nullable,
-        link: !!fieldSelection
-      });
+      if (value && typeof value === "object" && "__typename" in value && value["__typename"]) {
+        linkedType = value["__typename"];
+      }
       const currentSubscribers = this.subscriptions.get(parent, key);
+      const specs = currentSubscribers.map((sub) => sub[0]);
       const { value: previousValue, displayLayers } = this.storage.get(parent, key);
       const displayLayer = layer.isDisplayLayer(displayLayers);
       if (displayLayer) {
         this.lifetimes.resetLifetime(parent, key);
+        if (forceStale) {
+          this.staleManager.markFieldStale(parent, key);
+        } else {
+          this.staleManager.setFieldTimeToNow(parent, key);
+        }
       }
       if (!fieldSelection) {
         let newValue = value;
-        if (Array.isArray(value) && applyUpdates && update) {
-          if (update === "append") {
-            newValue = (previousValue || []).concat(value);
-          } else if (update === "prepend") {
-            newValue = value.concat(previousValue || []);
+        if (updates && applyUpdates && Array.isArray(value)) {
+          for (const update of applyUpdates) {
+            if (!updates.includes(update)) {
+              continue;
+            }
+            if (update === "append") {
+              newValue = (previousValue || []).concat(value);
+            } else if (update === "prepend") {
+              newValue = value.concat(previousValue || []);
+            }
           }
+        }
+        if (updates && applyUpdates?.includes("prepend") && ["endCursor", "hasNextPage"].includes(key)) {
+          newValue = previousValue;
+        } else if (updates && applyUpdates?.includes("append") && ["startCursor", "hasPreviousPage"].includes(key)) {
+          newValue = previousValue;
         }
         const valueChanged = !deepEquals(newValue, previousValue);
         if (displayLayer && (valueChanged || forceNotify)) {
@@ -189,9 +287,9 @@ class CacheInternal {
         if (previousValue === null) {
           continue;
         }
-        const previousLinks = flattenList([previousValue]);
+        const previousLinks = flatten([previousValue]);
         for (const link of previousLinks) {
-          this.subscriptions.remove(link, fieldSelection, currentSubscribers, variables);
+          this.subscriptions.remove(link, fieldSelection, specs, variables);
         }
         layer.writeLink(parent, key, null);
         toNotify.push(...currentSubscribers);
@@ -202,7 +300,6 @@ class CacheInternal {
               "Encountered interface type without __typename in the payload"
             );
           }
-          linkedType = value.__typename;
         }
         const embedded = this.idFields(linkedType)?.filter(
           (field2) => typeof value[field2] === "undefined"
@@ -215,16 +312,10 @@ class CacheInternal {
         layer.writeLink(parent, key, linkedID);
         if (linkedID && displayLayer && (linkChange || forceNotify)) {
           if (previousValue && typeof previousValue === "string") {
-            this.subscriptions.remove(
-              previousValue,
-              fieldSelection,
-              currentSubscribers,
-              variables
-            );
+            this.subscriptions.remove(previousValue, fieldSelection, specs, variables);
           }
           this.subscriptions.addMany({
             parent: linkedID,
-            selection: fieldSelection,
             subscribers: currentSubscribers,
             variables,
             parentType: linkedType
@@ -245,7 +336,7 @@ class CacheInternal {
         }
       } else if (Array.isArray(value) && (typeof previousValue === "undefined" || Array.isArray(previousValue))) {
         let oldIDs = [...previousValue || []];
-        const emptyEdges = !update ? [] : oldIDs.map((id) => {
+        const emptyEdges = !updates ? [] : oldIDs.map((id) => {
           if (!id) {
             return "";
           }
@@ -273,7 +364,7 @@ class CacheInternal {
           layer,
           forceNotify
         });
-        if (applyUpdates && update) {
+        if (applyUpdates && updates) {
           if (key === "edges") {
             const newNodeIDs = [];
             for (const id of newIDs) {
@@ -301,12 +392,17 @@ class CacheInternal {
               return true;
             });
           }
-          if (update === "prepend") {
-            linkedIDs = newIDs.concat(oldIDs);
-          } else if (update === "append") {
-            linkedIDs = oldIDs.concat(newIDs);
-          } else if (update === "replace") {
-            linkedIDs = newIDs;
+          for (const update of applyUpdates) {
+            if (update !== "replace" && !updates.includes(update)) {
+              continue;
+            }
+            if (update === "prepend") {
+              linkedIDs = newIDs.concat(oldIDs);
+            } else if (update === "append") {
+              linkedIDs = oldIDs.concat(newIDs);
+            } else if (update === "replace") {
+              linkedIDs = newIDs;
+            }
           }
         } else {
           linkedIDs = nestedIDs;
@@ -319,7 +415,7 @@ class CacheInternal {
           if (linkedIDs.includes(lostID) || !lostID) {
             continue;
           }
-          this.subscriptions.remove(lostID, fieldSelection, currentSubscribers, variables);
+          this.subscriptions.remove(lostID, fieldSelection, specs, variables);
         }
         if (contentChanged || oldIDs.length === 0 && newIDs.length === 0) {
           layer.writeLink(parent, key, linkedIDs);
@@ -330,7 +426,6 @@ class CacheInternal {
           }
           this.subscriptions.addMany({
             parent: id,
-            selection: fieldSelection,
             subscribers: currentSubscribers,
             variables,
             parentType: linkedType
@@ -360,10 +455,19 @@ class CacheInternal {
               fieldSelection,
               target,
               variables,
-              operation.position || "last"
+              operation.position || "last",
+              layer
             );
+          } else if (operation.action === "toggle" && target instanceof Object && fieldSelection && operation.list) {
+            this.cache.list(operation.list, parentID, operation.target === "all").when(operation.when).toggleElement({
+              selection: fieldSelection,
+              data: target,
+              variables,
+              where: operation.position || "last",
+              layer
+            });
           } else if (operation.action === "remove" && target instanceof Object && fieldSelection && operation.list) {
-            this.cache.list(operation.list, parentID, operation.target === "all").when(operation.when).remove(target, variables);
+            this.cache.list(operation.list, parentID, operation.target === "all").when(operation.when).remove(target, variables, layer);
           } else if (operation.action === "delete" && operation.type) {
             if (typeof target !== "string") {
               throw new Error("Cannot delete a record with a non-string ID");
@@ -372,14 +476,7 @@ class CacheInternal {
             if (!targetID) {
               continue;
             }
-            this.cache.delete(targetID);
-          } else if (operation.action === "toggle" && target instanceof Object && fieldSelection && operation.list) {
-            this.cache.list(operation.list, parentID, operation.target === "all").when(operation.when).toggleElement(
-              fieldSelection,
-              target,
-              variables,
-              operation.position || "last"
-            );
+            this.cache.delete(targetID, layer);
           }
         }
       }
@@ -390,23 +487,84 @@ class CacheInternal {
     selection,
     parent = rootID,
     variables,
-    stepsFromConnection = null
+    stepsFromConnection = null,
+    ignoreMasking,
+    fullCheck = false,
+    loading: generateLoading
   }) {
     if (parent === null) {
-      return { data: null, partial: false, hasData: true };
+      return { data: null, partial: false, stale: false, hasData: true };
     }
     const target = {};
-    let hasData = false;
+    if (selection.fragments) {
+      target[fragmentKey] = {
+        loading: Boolean(generateLoading),
+        values: Object.fromEntries(
+          Object.entries(selection.fragments).filter(([, value]) => !generateLoading || value.loading).map(([key, value]) => [
+            key,
+            {
+              parent,
+              variables: evaluateFragmentVariables(
+                value.arguments,
+                variables ?? {}
+              )
+            }
+          ])
+        )
+      };
+    }
+    let hasData = !!selection.fragments;
     let partial = false;
     let cascadeNull = false;
+    let stale = false;
     const typename = this.storage.get(parent, "__typename").value;
-    let targetSelection = getFieldsForType(selection, typename);
+    let targetSelection = getFieldsForType(selection, typename, !!generateLoading);
     for (const [
       attributeName,
-      { type, keyRaw, selection: fieldSelection, nullable, list }
+      {
+        type,
+        keyRaw,
+        selection: fieldSelection,
+        nullable,
+        list,
+        visible,
+        directives,
+        loading: fieldLoading,
+        abstractHasRequired
+      }
     ] of Object.entries(targetSelection)) {
+      if (!visible && !ignoreMasking && !fullCheck) {
+        continue;
+      }
+      const includeDirective = directives?.find((d) => {
+        return d.name === "include";
+      });
+      if (includeDirective) {
+        if (!evaluateFragmentVariables(includeDirective.arguments, variables ?? {})["if"]) {
+          continue;
+        }
+      }
+      const skipDirective = directives?.find((d) => {
+        return d.name === "skip";
+      });
+      if (skipDirective) {
+        if (evaluateFragmentVariables(skipDirective.arguments, variables ?? {})["if"]) {
+          continue;
+        }
+      }
+      const fieldTarget = visible || ignoreMasking ? target : {};
       const key = evaluateKey(keyRaw, variables);
-      const { value } = this.storage.get(parent, key);
+      if (generateLoading && !fieldLoading) {
+        continue;
+      }
+      let { value } = this.storage.get(parent, key);
+      const dt_field = this.staleManager.getFieldTime(parent, key);
+      if (dt_field === null) {
+        stale = true;
+      }
+      if (generateLoading) {
+        value = void 0;
+      }
       let nextStep = stepsFromConnection;
       if (nextStep !== null) {
         if (nextStep >= 2) {
@@ -422,17 +580,20 @@ class CacheInternal {
       if (typeof value === "undefined" && !embeddedCursor) {
         partial = true;
       }
-      if (typeof value === "undefined" || value === null) {
-        target[attributeName] = null;
+      if (generateLoading && fieldLoading?.kind === "value") {
+        fieldTarget[attributeName] = PendingValue;
+        hasData = true;
+      } else if (!generateLoading && typeof value === "undefined" || value === null) {
+        fieldTarget[attributeName] = null;
         if (typeof value !== "undefined") {
           hasData = true;
         }
       } else if (!fieldSelection) {
         const fnUnmarshal = this.config?.scalars?.[type]?.unmarshal;
         if (fnUnmarshal) {
-          target[attributeName] = fnUnmarshal(value);
+          fieldTarget[attributeName] = fnUnmarshal(value);
         } else {
-          target[attributeName] = value;
+          fieldTarget[attributeName] = value;
         }
         hasData = true;
       } else if (Array.isArray(value)) {
@@ -440,11 +601,17 @@ class CacheInternal {
           fields: fieldSelection,
           variables,
           linkedList: value,
-          stepsFromConnection: nextStep
+          stepsFromConnection: nextStep,
+          ignoreMasking: !!ignoreMasking,
+          fullCheck,
+          loading: generateLoading
         });
-        target[attributeName] = listValue.data;
+        fieldTarget[attributeName] = listValue.data;
         if (listValue.partial) {
           partial = true;
+        }
+        if (listValue.stale) {
+          stale = true;
         }
         if (listValue.hasData || value.length === 0) {
           hasData = true;
@@ -454,23 +621,44 @@ class CacheInternal {
           parent: value,
           selection: fieldSelection,
           variables,
-          stepsFromConnection: nextStep
+          stepsFromConnection: nextStep,
+          ignoreMasking,
+          fullCheck,
+          loading: generateLoading
         });
-        target[attributeName] = objectFields.data;
+        fieldTarget[attributeName] = objectFields.data;
         if (objectFields.partial) {
           partial = true;
+        }
+        if (objectFields.stale) {
+          stale = true;
         }
         if (objectFields.hasData) {
           hasData = true;
         }
       }
-      if (target[attributeName] === null && !nullable && !embeddedCursor) {
-        cascadeNull = true;
+      if (generateLoading && fieldLoading?.list) {
+        fieldTarget[attributeName] = wrapInLists(
+          Array.from({ length: fieldLoading.list.count }).fill(
+            fieldTarget[attributeName]
+          ),
+          fieldLoading.list.depth - 1
+        );
+      }
+      if (fieldTarget[attributeName] === null && !nullable && !embeddedCursor) {
+        if (abstractHasRequired) {
+          target[attributeName] = {
+            __typename: "@required field missing; don't match this"
+          };
+        } else {
+          cascadeNull = true;
+        }
       }
     }
     return {
       data: cascadeNull ? null : target,
-      partial: hasData && partial,
+      partial: !generateLoading && hasData && partial,
+      stale: hasData && stale,
       hasData
     };
   }
@@ -494,10 +682,14 @@ class CacheInternal {
     fields,
     variables,
     linkedList,
-    stepsFromConnection
+    stepsFromConnection,
+    ignoreMasking,
+    fullCheck,
+    loading
   }) {
     const result = [];
     let partialData = false;
+    let stale = false;
     let hasValues = false;
     for (const entry of linkedList) {
       if (Array.isArray(entry)) {
@@ -505,7 +697,10 @@ class CacheInternal {
           fields,
           variables,
           linkedList: entry,
-          stepsFromConnection
+          stepsFromConnection,
+          ignoreMasking,
+          fullCheck,
+          loading
         });
         result.push(nestedValue.data);
         if (nestedValue.partial) {
@@ -517,15 +712,26 @@ class CacheInternal {
         result.push(entry);
         continue;
       }
-      const { data, partial, hasData } = this.getSelection({
+      const {
+        data,
+        partial,
+        stale: local_stale,
+        hasData
+      } = this.getSelection({
         parent: entry,
         selection: fields,
         variables,
-        stepsFromConnection
+        stepsFromConnection,
+        ignoreMasking,
+        fullCheck,
+        loading
       });
       result.push(data);
       if (partial) {
         partialData = true;
+      }
+      if (local_stale) {
+        stale = true;
       }
       if (hasData) {
         hasValues = true;
@@ -534,6 +740,7 @@ class CacheInternal {
     return {
       data: result,
       partial: partialData,
+      stale,
       hasData: hasValues
     };
   }
@@ -581,13 +788,12 @@ class CacheInternal {
       const embedded = this.idFields(linkedType)?.filter(
         (field) => typeof entry[field] === "undefined"
       ).length > 0;
-      const typename = entryObj.__typename;
       let innerType = linkedType;
-      if (abstract) {
-        if (!typename) {
-          throw new Error("Encountered interface type without __typename in the payload");
-        }
+      const typename = entryObj.__typename;
+      if (typename) {
         innerType = typename;
+      } else if (abstract) {
+        throw new Error("Encountered interface type without __typename in the payload");
       }
       if (!embedded) {
         const id = this.id(innerType, entry);
@@ -620,8 +826,55 @@ class CacheInternal {
     }
   }
 }
+function evaluateFragmentVariables(variables, args) {
+  return Object.fromEntries(
+    Object.entries(variables).map(([key, value]) => [key, fragmentVariableValue(value, args)])
+  );
+}
+function wrapInLists(target, count = 0) {
+  if (count === 0) {
+    return target;
+  }
+  return wrapInLists([target], count - 1);
+}
+function fragmentVariableValue(value, args) {
+  if (value.kind === "StringValue") {
+    return value.value;
+  }
+  if (value.kind === "BooleanValue") {
+    return value.value;
+  }
+  if (value.kind === "EnumValue") {
+    return value.value;
+  }
+  if (value.kind === "FloatValue") {
+    return parseFloat(value.value);
+  }
+  if (value.kind === "IntValue") {
+    return parseInt(value.value, 10);
+  }
+  if (value.kind === "NullValue") {
+    return null;
+  }
+  if (value.kind === "Variable") {
+    return args[value.name.value];
+  }
+  if (value.kind === "ListValue") {
+    return value.values.map((value2) => fragmentVariableValue(value2, args));
+  }
+  if (value.kind === "ObjectValue") {
+    return value.fields.reduce(
+      (obj, field) => ({
+        ...obj,
+        [field.name.value]: fragmentVariableValue(field.value, args)
+      }),
+      {}
+    );
+  }
+}
 const rootID = "_ROOT_";
 export {
   Cache,
+  evaluateFragmentVariables,
   rootID
 };

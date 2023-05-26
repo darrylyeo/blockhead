@@ -15,6 +15,7 @@ type PageParentData = Omit<Omit<EnsureDefined<import('../../../../$houdini').Lay
 						}
 					
 
+export type EntryGenerator = () => Promise<Array<RouteParams>> | Array<RouteParams>;
 export type PageServerData = null;
 export type PageLoad<OutputData extends OutputDataShape<PageParentData> = OutputDataShape<PageParentData>> = Kit.Load<RouteParams, PageServerData, PageParentData, OutputData, RouteId>;
 export type PageLoadEvent = Parameters<PageLoad>[0];

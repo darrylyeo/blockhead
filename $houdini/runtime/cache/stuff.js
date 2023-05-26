@@ -1,19 +1,4 @@
-function flattenList(source) {
-  const flat = [];
-  const unvisited = [source || []];
-  while (unvisited.length > 0) {
-    const target = unvisited.shift();
-    for (const id of target) {
-      if (Array.isArray(id)) {
-        unvisited.push(id);
-        continue;
-      }
-      flat.push(id);
-    }
-  }
-  return flat;
-}
-function evaluateKey(key, variables = {}) {
+function evaluateKey(key, variables = null) {
   let evaluated = "";
   let varName = "";
   let inString = false;
@@ -23,7 +8,7 @@ function evaluateKey(key, variables = {}) {
         varName += char;
         continue;
       }
-      const value = variables[varName.slice(1)];
+      const value = variables?.[varName.slice(1)];
       evaluated += typeof value !== "undefined" ? JSON.stringify(value) : "undefined";
       varName = "";
     }
@@ -40,6 +25,5 @@ function evaluateKey(key, variables = {}) {
 }
 const varChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789";
 export {
-  evaluateKey,
-  flattenList
+  evaluateKey
 };

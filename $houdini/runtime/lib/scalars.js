@@ -4,14 +4,14 @@ async function marshalSelection({
   selection,
   data
 }) {
-  const config = await getCurrentConfig();
+  const config = getCurrentConfig();
   if (data === null || typeof data === "undefined") {
     return data;
   }
   if (Array.isArray(data)) {
     return await Promise.all(data.map((val) => marshalSelection({ selection, data: val })));
   }
-  const targetSelection = getFieldsForType(selection, data["__typename"]);
+  const targetSelection = getFieldsForType(selection, data["__typename"], false);
   return Object.fromEntries(
     await Promise.all(
       Object.entries(data).map(async ([fieldName, value]) => {
@@ -39,12 +39,12 @@ async function marshalSelection({
     )
   );
 }
-async function marshalInputs({
+function marshalInputs({
   artifact,
   input,
+  config,
   rootType = "@root"
 }) {
-  const config = await getCurrentConfig();
   if (input === null || typeof input === "undefined") {
     return input;
   }
@@ -53,68 +53,25 @@ async function marshalInputs({
   }
   const fields = rootType === "@root" ? artifact.input.fields : artifact.input.types[rootType];
   if (Array.isArray(input)) {
-    return await Promise.all(
-      input.map(async (val) => await marshalInputs({ artifact, input: val, rootType }))
-    );
+    return input.map((val) => marshalInputs({ artifact, input: val, rootType, config }));
   }
   return Object.fromEntries(
-    await Promise.all(
-      Object.entries(input).map(async ([fieldName, value]) => {
-        const type = fields?.[fieldName];
-        if (!type) {
-          return [fieldName, value];
-        }
-        const marshalFn = config.scalars?.[type]?.marshal;
-        if (marshalFn) {
-          if (Array.isArray(value)) {
-            return [fieldName, value.map(marshalFn)];
-          }
-          return [fieldName, marshalFn(value)];
-        }
-        if (isScalar(config, type) || !artifact.input.types[type]) {
-          return [fieldName, value];
-        }
-        return [fieldName, await marshalInputs({ artifact, input: value, rootType: type })];
-      })
-    )
-  );
-}
-function unmarshalSelection(config, selection, data) {
-  if (data === null || typeof data === "undefined") {
-    return data;
-  }
-  if (Array.isArray(data)) {
-    return data.map((val) => unmarshalSelection(config, selection, val));
-  }
-  const targetSelection = getFieldsForType(selection, data["__typename"]);
-  return Object.fromEntries(
-    Object.entries(data).map(([fieldName, value]) => {
-      const { type, selection: selection2 } = targetSelection[fieldName];
+    Object.entries(input).map(([fieldName, value]) => {
+      const type = fields?.[fieldName];
       if (!type) {
         return [fieldName, value];
       }
-      if (selection2) {
-        return [
-          fieldName,
-          unmarshalSelection(config, selection2, value)
-        ];
+      const marshalFn = config.scalars?.[type]?.marshal;
+      if (marshalFn) {
+        if (Array.isArray(value)) {
+          return [fieldName, value.map(marshalFn)];
+        }
+        return [fieldName, marshalFn(value)];
       }
-      if (value === null) {
+      if (isScalar(config, type) || !artifact.input.types[type]) {
         return [fieldName, value];
       }
-      if (config.scalars?.[type]?.marshal) {
-        const unmarshalFn = config.scalars[type]?.unmarshal;
-        if (!unmarshalFn) {
-          throw new Error(
-            `scalar type ${type} is missing an \`unmarshal\` function. see https://github.com/AlecAivazis/houdini#%EF%B8%8Fcustom-scalars`
-          );
-        }
-        if (Array.isArray(value)) {
-          return [fieldName, value.map(unmarshalFn)];
-        }
-        return [fieldName, unmarshalFn(value)];
-      }
-      return [fieldName, value];
+      return [fieldName, marshalInputs({ artifact, input: value, rootType: type, config })];
     })
   );
 }
@@ -122,6 +79,9 @@ function isScalar(config, type) {
   return ["String", "Boolean", "Float", "ID", "Int"].concat(Object.keys(config.scalars || {})).includes(type);
 }
 function parseScalar(config, type, value) {
+  if (typeof value === "undefined") {
+    return void 0;
+  }
   if (type === "Boolean") {
     return value === "true";
   }
@@ -132,10 +92,18 @@ function parseScalar(config, type, value) {
     return value;
   }
   if (type === "Int") {
-    return parseInt(value, 10);
+    const result = parseInt(value, 10);
+    if (Number.isNaN(result)) {
+      return void 0;
+    }
+    return result;
   }
   if (type === "Float") {
-    return parseFloat(value);
+    const result = parseFloat(value);
+    if (Number.isNaN(result)) {
+      return void 0;
+    }
+    return result;
   }
   if (config.scalars?.[type]?.marshal) {
     return config.scalars[type]?.marshal(value);
@@ -146,6 +114,5 @@ export {
   isScalar,
   marshalInputs,
   marshalSelection,
-  parseScalar,
-  unmarshalSelection
+  parseScalar
 };

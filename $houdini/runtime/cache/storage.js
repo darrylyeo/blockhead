@@ -1,7 +1,7 @@
-import { flattenList } from "./stuff";
+import { flatten } from "../lib/flatten";
 class InMemoryStorage {
   data;
-  idCount = 0;
+  idCount = 1;
   rank = 0;
   constructor() {
     this.data = [];
@@ -21,11 +21,11 @@ class InMemoryStorage {
   insert(id, field, location, target) {
     return this.topLayer.insert(id, field, location, target);
   }
-  remove(id, field, target) {
-    return this.topLayer.remove(id, field, target);
+  remove(id, field, target, layerToUser = this.topLayer) {
+    return layerToUser.remove(id, field, target);
   }
-  delete(id) {
-    return this.topLayer.delete(id);
+  delete(id, layerToUser = this.topLayer) {
+    return layerToUser.delete(id);
   }
   deleteField(id, field) {
     return this.topLayer.deleteField(id, field);
@@ -198,7 +198,7 @@ class Layer {
   }
   writeLink(id, field, value) {
     const valueList = Array.isArray(value) ? value : [value];
-    for (const value2 of flattenList(valueList)) {
+    for (const value2 of flatten(valueList)) {
       if (!value2) {
         continue;
       }
@@ -350,17 +350,15 @@ function isInsertOperation(value) {
 function isRemoveOperation(value) {
   return !!value && value.kind === OperationKind.remove;
 }
-var OperationLocation = /* @__PURE__ */ ((OperationLocation2) => {
-  OperationLocation2["start"] = "start";
-  OperationLocation2["end"] = "end";
-  return OperationLocation2;
-})(OperationLocation || {});
-var OperationKind = /* @__PURE__ */ ((OperationKind2) => {
-  OperationKind2["delete"] = "delete";
-  OperationKind2["insert"] = "insert";
-  OperationKind2["remove"] = "remove";
-  return OperationKind2;
-})(OperationKind || {});
+const OperationLocation = {
+  start: "start",
+  end: "end"
+};
+const OperationKind = {
+  delete: "delete",
+  insert: "insert",
+  remove: "remove"
+};
 export {
   InMemoryStorage,
   Layer,

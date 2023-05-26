@@ -1,5 +1,5 @@
+import { flatten } from "../lib/flatten";
 import { rootID } from "./cache";
-import { flattenList } from "./stuff";
 class ListManager {
   rootID;
   cache;
@@ -64,10 +64,10 @@ class ListManager {
     this.lists.get(list.name).get(parentID).lists.push(handler);
     this.listsByField.get(parentID).get(list.key).push(handler);
   }
-  removeIDFromAllLists(id) {
+  removeIDFromAllLists(id, layer) {
     for (const fieldMap of this.lists.values()) {
       for (const list of fieldMap.values()) {
-        list.removeID(id);
+        list.removeID(id, void 0, layer);
       }
     }
   }
@@ -126,13 +126,23 @@ class List {
   when(when) {
     return this.manager.lists.get(this.name).get(this.recordID).when(when);
   }
-  append(selection, data, variables = {}) {
-    return this.addToList(selection, data, variables, "last");
+  append({
+    selection,
+    data,
+    variables = {},
+    layer
+  }) {
+    return this.addToList(selection, data, variables, "last", layer);
   }
-  prepend(selection, data, variables = {}) {
-    return this.addToList(selection, data, variables, "first");
+  prepend({
+    selection,
+    data,
+    variables = {},
+    layer
+  }) {
+    return this.addToList(selection, data, variables, "first", layer);
   }
-  addToList(selection, data, variables = {}, where) {
+  addToList(selection, data, variables = {}, where, layer) {
     const listType = this.listType(data);
     const dataID = this.cache._internal_unstable.id(listType, data);
     if (!this.validateWhen() || !dataID) {
@@ -151,7 +161,7 @@ class List {
                 edges: {
                   keyRaw: "edges",
                   type: "ConnectionEdge",
-                  update: where === "first" ? "prepend" : "append",
+                  updates: ["append", "prepend"],
                   selection: {
                     fields: {
                       node: {
@@ -187,7 +197,7 @@ class List {
           newEntries: {
             keyRaw: this.key,
             type: listType,
-            update: where === "first" ? "prepend" : "append",
+            updates: ["append", "prepend"],
             selection: {
               ...selection,
               fields: {
@@ -210,10 +220,11 @@ class List {
       data: insertData,
       variables,
       parent: this.recordID,
-      applyUpdates: true
+      applyUpdates: [where === "first" ? "prepend" : "append"],
+      layer: layer?.id
     });
   }
-  removeID(id, variables = {}) {
+  removeID(id, variables = {}, layer) {
     if (!this.validateWhen()) {
       return;
     }
@@ -233,7 +244,7 @@ class List {
         embeddedConnectionID,
         "edges"
       );
-      for (const edge of flattenList(edges) || []) {
+      for (const edge of flatten(edges) || []) {
         if (!edge) {
           continue;
         }
@@ -257,27 +268,28 @@ class List {
     this.cache._internal_unstable.subscriptions.remove(
       targetID,
       this.connection ? this.selection.fields.edges.selection : this.selection,
-      subscribers,
+      subscribers.map((sub) => sub[0]),
       variables
     );
-    this.cache._internal_unstable.storage.remove(parentID, targetKey, targetID);
-    for (const spec of subscribers) {
+    this.cache._internal_unstable.storage.remove(parentID, targetKey, targetID, layer);
+    for (const [spec] of subscribers) {
       spec.set(
         this.cache._internal_unstable.getSelection({
           parent: spec.parentID || this.manager.rootID,
           selection: spec.selection,
-          variables: spec.variables?.() || {}
+          variables: spec.variables?.() || {},
+          ignoreMasking: false
         }).data
       );
     }
     return true;
   }
-  remove(data, variables = {}) {
+  remove(data, variables = {}, layer) {
     const targetID = this.cache._internal_unstable.id(this.listType(data), data);
     if (!targetID) {
       return;
     }
-    return this.removeID(targetID, variables);
+    return this.removeID(targetID, variables, layer);
   }
   listType(data) {
     return data.__typename || this.type;
@@ -302,16 +314,22 @@ class List {
     }
     return ok;
   }
-  toggleElement(selection, data, variables = {}, where) {
-    if (!this.remove(data, variables)) {
-      this.addToList(selection, data, variables, where);
+  toggleElement({
+    selection,
+    data,
+    variables = {},
+    layer,
+    where
+  }) {
+    if (!this.remove(data, variables, layer)) {
+      this.addToList(selection, data, variables, where, layer);
     }
   }
   *[Symbol.iterator]() {
     let entries = [];
     let value = this.cache._internal_unstable.storage.get(this.recordID, this.key).value;
     if (!this.connection) {
-      entries = flattenList(value);
+      entries = flatten(value);
     } else {
       entries = this.cache._internal_unstable.storage.get(value, "edges").value;
     }
@@ -324,6 +342,9 @@ class ListCollection {
   lists = [];
   constructor(lists) {
     this.lists = lists;
+  }
+  get selection() {
+    return this.lists[0].selection;
   }
   append(...args) {
     this.lists.forEach((list) => list.append(...args));

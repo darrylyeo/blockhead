@@ -1,5 +1,6 @@
-import { SubscriptionSelection, ListWhen, SubscriptionSpec } from '../lib/types';
-import { Cache } from './cache';
+import type { SubscriptionSelection, ListWhen, SubscriptionSpec } from '../lib/types';
+import type { Cache } from './cache';
+import type { Layer } from './storage';
 export declare class ListManager {
     rootID: string;
     cache: Cache;
@@ -20,7 +21,7 @@ export declare class ListManager {
         filters?: List['filters'];
         abstract?: boolean;
     }): void;
-    removeIDFromAllLists(id: string): void;
+    removeIDFromAllLists(id: string, layer?: Layer): void;
     deleteField(parentID: string, field: string): void;
 }
 export declare class List {
@@ -40,21 +41,38 @@ export declare class List {
         manager: ListManager;
     });
     when(when?: ListWhen): ListCollection;
-    append(selection: SubscriptionSelection, data: {}, variables?: {}): void;
-    prepend(selection: SubscriptionSelection, data: {}, variables?: {}): void;
-    addToList(selection: SubscriptionSelection, data: {}, variables: {} | undefined, where: 'first' | 'last'): void;
-    removeID(id: string, variables?: {}): true | undefined;
-    remove(data: {}, variables?: {}): true | undefined;
+    append({ selection, data, variables, layer, }: {
+        selection: SubscriptionSelection;
+        data: {};
+        variables?: {};
+        layer?: Layer;
+    }): void;
+    prepend({ selection, data, variables, layer, }: {
+        selection: SubscriptionSelection;
+        data: {};
+        variables?: {};
+        layer?: Layer;
+    }): void;
+    addToList(selection: SubscriptionSelection, data: {}, variables: {} | undefined, where: 'first' | 'last', layer?: Layer): void;
+    removeID(id: string, variables?: {}, layer?: Layer): true | undefined;
+    remove(data: {}, variables?: {}, layer?: Layer): true | undefined;
     listType(data: {
         __typename?: string;
     }): string;
     validateWhen(when?: ListWhen): boolean;
-    toggleElement(selection: SubscriptionSelection, data: {}, variables: {} | undefined, where: 'first' | 'last'): void;
+    toggleElement({ selection, data, variables, layer, where, }: {
+        selection: SubscriptionSelection;
+        data: {};
+        variables?: {};
+        layer?: Layer;
+        where: 'first' | 'last';
+    }): void;
     [Symbol.iterator](): Generator<string, void, unknown>;
 }
 export declare class ListCollection {
     lists: List[];
     constructor(lists: List[]);
+    get selection(): SubscriptionSelection;
     append(...args: Parameters<List['append']>): void;
     prepend(...args: Parameters<List['prepend']>): void;
     addToList(...args: Parameters<List['addToList']>): void;
