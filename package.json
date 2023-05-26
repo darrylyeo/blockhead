@@ -20,6 +20,7 @@
     "clean:houdini": "rm -rf './$houdini'; rm ./src/**/*.graphql"
   },
   "type": "module",
+  "packageManager": "pnpm@8.5.1",
   "dependencies": {
     "@apollo/client": "^3.7.14",
     "@coinbase/wallet-sdk": "^3.6.6",
