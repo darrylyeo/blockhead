@@ -1,0 +1,71 @@
+diff --git a/package.json b/package.json
+index 9e894769cbd676a812b58ef19c9ac56bec0ce386..35ce1b7ff9794bab3003f84191caa0cc3e20f001 100644
+--- a/package.json
++++ b/package.json
+@@ -6,7 +6,7 @@
+     "registry": "https://registry.npmjs.org/"
+   },
+   "peerDependencies": {
+-    "ethers": "^5.6.8"
++    "ethers": "^6.4.0"
+   },
+   "dependencies": {
+     "@metamask/eth-sig-util": "^5.0.2",
+diff --git a/src/lib/chat/helpers/signature.js b/src/lib/chat/helpers/signature.js
+index 003a85d2aea575dec848fe5d5a6f6078070c6496..edf3d699d58d4fd89f8620dc66ba2687861dddf5 100644
+--- a/src/lib/chat/helpers/signature.js
++++ b/src/lib/chat/helpers/signature.js
+@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.verifyProfileSignature = exports.getTypedData = exports.getTypeInformation = exports.getDomainInformation = void 0;
+ const eth_sig_util_1 = require("@metamask/eth-sig-util");
+ const ethers = require("ethers");
+-const utils_1 = require("ethers/lib/utils");
+ /**
+  *
+  * @param chainId
+@@ -126,7 +125,7 @@ const verifyProfileSignature = (verificationProof, signedData, address, nftOwner
+     }
+     else {
+         // EIP191 sig validation
+-        const recoveredAddress = ethers.utils.recoverAddress((0, utils_1.hashMessage)(signedData), signature);
++        const recoveredAddress = ethers.recoverAddress((0, ethers.hashMessage)(signedData), signature);
+         if (recoveredAddress.toLowerCase() === address.toLowerCase() ||
+             recoveredAddress.toLowerCase() === nftOwner.toLowerCase()) {
+             return true;
+diff --git a/src/lib/helpers/address.js b/src/lib/helpers/address.js
+index f7f36c86be6289b0c2a8a4e8de62baf872ff0dbe..6f867fe4e11946f3420a1c1c7d95c2b09f35fa23 100644
+--- a/src/lib/helpers/address.js
++++ b/src/lib/helpers/address.js
+@@ -9,19 +9,19 @@ function isValidETHAddress(address) {
+     if (address.includes('eip155:')) {
+         const splittedAddress = address.split(':');
+         if (splittedAddress.length === 3) {
+-            return ethers.utils.isAddress(splittedAddress[2]);
++            return ethers.isAddress(splittedAddress[2]);
+         }
+         if (splittedAddress.length === 2)
+-            return ethers.utils.isAddress(splittedAddress[1]);
++            return ethers.isAddress(splittedAddress[1]);
+     }
+-    return ethers.utils.isAddress(address);
++    return ethers.isAddress(address);
+ }
+ exports.isValidETHAddress = isValidETHAddress;
+ function isValidNFTCAIP10Address(realCAIP10) {
+     const walletComponent = realCAIP10.split(':');
+     if (isNaN(Number(walletComponent[1])))
+         return false;
+-    return (walletComponent.length === 3 && walletComponent[0] === 'eip155' && ethers.utils.isAddress(walletComponent[2]));
++    return (walletComponent.length === 3 && walletComponent[0] === 'eip155' && ethers.isAddress(walletComponent[2]));
+ }
+ exports.isValidNFTCAIP10Address = isValidNFTCAIP10Address;
+ /**
+@@ -38,7 +38,7 @@ const isValidCAIP10NFTAddress = (wallet) => {
+             Number(walletComponent[4]) > 0 &&
+             !isNaN(Number(walletComponent[2])) &&
+             Number(walletComponent[2]) > 0 &&
+-            ethers.utils.isAddress(walletComponent[3]) &&
++            ethers.isAddress(walletComponent[3]) &&
+             walletComponent[1] === 'eip155');
+     }
+     catch (err) {

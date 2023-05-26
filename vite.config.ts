@@ -48,6 +48,11 @@ const config: UserConfig = {
 		},
 	},
 
+	// Node globals
+	define: {
+		'process.env': {}
+	},
+
 	// Node polyfills
 	resolve: {
 		alias: {
