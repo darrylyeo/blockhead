@@ -10,6 +10,7 @@ export enum NetworkProvider {
 	QuickNode = 'QuickNode',
 	Tenderly = 'Tenderly',
 	GatewayFm = 'Gateway.fm',
+	GetBlock = 'GetBlock',
 }
 
 export enum NetworkProviderConnectionType {

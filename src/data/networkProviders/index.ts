@@ -29,10 +29,11 @@ import { infuraProviderConfigs } from './infura'
 import { tenderlyProviderConfigs } from './tenderly'
 import { pocketProviderConfigs } from './pocket'
 import { gatewayFmProviderConfigs } from './gatewayFm'
+import { getBlockProviderConfigs } from './getBlock'
 
 
 // Icons
-import { AlchemyIcon, EtherscanIcon, FigmentIcon, GatewayFmIcon, InfuraIcon, MoralisIcon, TenderlyIcon, PocketIcon, QuickNodeIcon } from '../../assets/icons'
+import { AlchemyIcon, EtherscanIcon, FigmentIcon, GatewayFmIcon, GetBlockIcon, InfuraIcon, MoralisIcon, TenderlyIcon, PocketIcon, QuickNodeIcon } from '../../assets/icons'
 
 
 type NetworkProviderConfig = {
@@ -319,6 +320,38 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 					[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
 				}[connectionType])(
 					`${config.endpointUrl}?apiKey=${env.GATEWAY_FM_API_KEY}`,
+					network.chainId
+				)
+			)
+		}
+	},
+	
+	{
+		provider: NetworkProvider.GetBlock,
+		name: 'GetBlock',
+		icon: GetBlockIcon,
+
+		get: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+			nodeType = NetworkProviderNodeType.Default,
+		}) => {
+			const config = getBlockProviderConfigs.find(config =>
+				config.networkSlug === network.slug &&
+				config.connectionType === connectionType &&
+				config.nodeType === nodeType
+			)
+
+			if(!config)
+				throw new Error(`Couldn't find a GetBlock node matching the configuration.`)
+
+			return (
+				new ({
+					[NetworkProviderConnectionType.RPC]: JsonRpcProvider,
+					[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
+					[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
+				}[connectionType])(
+					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.getblock.io/${env.GETBLOCK_API_KEY}/${config.path}`,
 					network.chainId
 				)
 			)
