@@ -13,6 +13,9 @@ export declare const AbiChanged_orderBy: {
     readonly contentType: "contentType";
     readonly id: "id";
     readonly resolver: "resolver";
+    readonly resolver__address: "resolver__address";
+    readonly resolver__contentHash: "resolver__contentHash";
+    readonly resolver__id: "resolver__id";
     readonly transactionID: "transactionID";
 }
 
@@ -29,9 +32,13 @@ export type Account_orderBy$options = ValuesOf<typeof Account_orderBy>
  
 export declare const AddrChanged_orderBy: {
     readonly addr: "addr";
+    readonly addr__id: "addr__id";
     readonly blockNumber: "blockNumber";
     readonly id: "id";
     readonly resolver: "resolver";
+    readonly resolver__address: "resolver__address";
+    readonly resolver__contentHash: "resolver__contentHash";
+    readonly resolver__id: "resolver__id";
     readonly transactionID: "transactionID";
 }
 
@@ -43,6 +50,9 @@ export declare const AuthorisationChanged_orderBy: {
     readonly isAuthorized: "isAuthorized";
     readonly owner: "owner";
     readonly resolver: "resolver";
+    readonly resolver__address: "resolver__address";
+    readonly resolver__contentHash: "resolver__contentHash";
+    readonly resolver__id: "resolver__id";
     readonly target: "target";
     readonly transactionID: "transactionID";
 }
@@ -54,6 +64,9 @@ export declare const ContenthashChanged_orderBy: {
     readonly hash: "hash";
     readonly id: "id";
     readonly resolver: "resolver";
+    readonly resolver__address: "resolver__address";
+    readonly resolver__contentHash: "resolver__contentHash";
+    readonly resolver__id: "resolver__id";
     readonly transactionID: "transactionID";
 }
 
@@ -68,14 +81,36 @@ export declare const Domain_orderBy: {
     readonly labelhash: "labelhash";
     readonly name: "name";
     readonly owner: "owner";
+    readonly owner__id: "owner__id";
     readonly parent: "parent";
+    readonly parent__createdAt: "parent__createdAt";
+    readonly parent__id: "parent__id";
+    readonly parent__isMigrated: "parent__isMigrated";
+    readonly parent__labelName: "parent__labelName";
+    readonly parent__labelhash: "parent__labelhash";
+    readonly parent__name: "parent__name";
+    readonly parent__subdomainCount: "parent__subdomainCount";
+    readonly parent__ttl: "parent__ttl";
     readonly registration: "registration";
+    readonly registration__cost: "registration__cost";
+    readonly registration__expiryDate: "registration__expiryDate";
+    readonly registration__id: "registration__id";
+    readonly registration__labelName: "registration__labelName";
+    readonly registration__registrationDate: "registration__registrationDate";
     readonly resolvedAddress: "resolvedAddress";
+    readonly resolvedAddress__id: "resolvedAddress__id";
     readonly resolver: "resolver";
+    readonly resolver__address: "resolver__address";
+    readonly resolver__contentHash: "resolver__contentHash";
+    readonly resolver__id: "resolver__id";
     readonly subdomainCount: "subdomainCount";
     readonly subdomains: "subdomains";
     readonly ttl: "ttl";
     readonly wrappedDomain: "wrappedDomain";
+    readonly wrappedDomain__expiryDate: "wrappedDomain__expiryDate";
+    readonly wrappedDomain__fuses: "wrappedDomain__fuses";
+    readonly wrappedDomain__id: "wrappedDomain__id";
+    readonly wrappedDomain__name: "wrappedDomain__name";
 }
 
 export type Domain_orderBy$options = ValuesOf<typeof Domain_orderBy>
@@ -83,16 +118,49 @@ export type Domain_orderBy$options = ValuesOf<typeof Domain_orderBy>
 export declare const DomainEvent_orderBy: {
     readonly blockNumber: "blockNumber";
     readonly domain: "domain";
+    readonly domain__createdAt: "domain__createdAt";
+    readonly domain__id: "domain__id";
+    readonly domain__isMigrated: "domain__isMigrated";
+    readonly domain__labelName: "domain__labelName";
+    readonly domain__labelhash: "domain__labelhash";
+    readonly domain__name: "domain__name";
+    readonly domain__subdomainCount: "domain__subdomainCount";
+    readonly domain__ttl: "domain__ttl";
     readonly id: "id";
     readonly transactionID: "transactionID";
 }
 
 export type DomainEvent_orderBy$options = ValuesOf<typeof DomainEvent_orderBy>
  
+export declare const ExpiryExtended_orderBy: {
+    readonly blockNumber: "blockNumber";
+    readonly domain: "domain";
+    readonly domain__createdAt: "domain__createdAt";
+    readonly domain__id: "domain__id";
+    readonly domain__isMigrated: "domain__isMigrated";
+    readonly domain__labelName: "domain__labelName";
+    readonly domain__labelhash: "domain__labelhash";
+    readonly domain__name: "domain__name";
+    readonly domain__subdomainCount: "domain__subdomainCount";
+    readonly domain__ttl: "domain__ttl";
+    readonly expiryDate: "expiryDate";
+    readonly id: "id";
+    readonly transactionID: "transactionID";
+}
+
+export type ExpiryExtended_orderBy$options = ValuesOf<typeof ExpiryExtended_orderBy>
+ 
 export declare const FusesSet_orderBy: {
     readonly blockNumber: "blockNumber";
     readonly domain: "domain";
-    readonly expiry: "expiry";
+    readonly domain__createdAt: "domain__createdAt";
+    readonly domain__id: "domain__id";
+    readonly domain__isMigrated: "domain__isMigrated";
+    readonly domain__labelName: "domain__labelName";
+    readonly domain__labelhash: "domain__labelhash";
+    readonly domain__name: "domain__name";
+    readonly domain__subdomainCount: "domain__subdomainCount";
+    readonly domain__ttl: "domain__ttl";
     readonly fuses: "fuses";
     readonly id: "id";
     readonly transactionID: "transactionID";
@@ -106,6 +174,9 @@ export declare const InterfaceChanged_orderBy: {
     readonly implementer: "implementer";
     readonly interfaceID: "interfaceID";
     readonly resolver: "resolver";
+    readonly resolver__address: "resolver__address";
+    readonly resolver__contentHash: "resolver__contentHash";
+    readonly resolver__id: "resolver__id";
     readonly transactionID: "transactionID";
 }
 
@@ -117,6 +188,9 @@ export declare const MulticoinAddrChanged_orderBy: {
     readonly coinType: "coinType";
     readonly id: "id";
     readonly resolver: "resolver";
+    readonly resolver__address: "resolver__address";
+    readonly resolver__contentHash: "resolver__contentHash";
+    readonly resolver__id: "resolver__id";
     readonly transactionID: "transactionID";
 }
 
@@ -127,6 +201,9 @@ export declare const NameChanged_orderBy: {
     readonly id: "id";
     readonly name: "name";
     readonly resolver: "resolver";
+    readonly resolver__address: "resolver__address";
+    readonly resolver__contentHash: "resolver__contentHash";
+    readonly resolver__id: "resolver__id";
     readonly transactionID: "transactionID";
 }
 
@@ -137,7 +214,13 @@ export declare const NameRegistered_orderBy: {
     readonly expiryDate: "expiryDate";
     readonly id: "id";
     readonly registrant: "registrant";
+    readonly registrant__id: "registrant__id";
     readonly registration: "registration";
+    readonly registration__cost: "registration__cost";
+    readonly registration__expiryDate: "registration__expiryDate";
+    readonly registration__id: "registration__id";
+    readonly registration__labelName: "registration__labelName";
+    readonly registration__registrationDate: "registration__registrationDate";
     readonly transactionID: "transactionID";
 }
 
@@ -148,6 +231,11 @@ export declare const NameRenewed_orderBy: {
     readonly expiryDate: "expiryDate";
     readonly id: "id";
     readonly registration: "registration";
+    readonly registration__cost: "registration__cost";
+    readonly registration__expiryDate: "registration__expiryDate";
+    readonly registration__id: "registration__id";
+    readonly registration__labelName: "registration__labelName";
+    readonly registration__registrationDate: "registration__registrationDate";
     readonly transactionID: "transactionID";
 }
 
@@ -157,7 +245,13 @@ export declare const NameTransferred_orderBy: {
     readonly blockNumber: "blockNumber";
     readonly id: "id";
     readonly newOwner: "newOwner";
+    readonly newOwner__id: "newOwner__id";
     readonly registration: "registration";
+    readonly registration__cost: "registration__cost";
+    readonly registration__expiryDate: "registration__expiryDate";
+    readonly registration__id: "registration__id";
+    readonly registration__labelName: "registration__labelName";
+    readonly registration__registrationDate: "registration__registrationDate";
     readonly transactionID: "transactionID";
 }
 
@@ -166,8 +260,17 @@ export type NameTransferred_orderBy$options = ValuesOf<typeof NameTransferred_or
 export declare const NameUnwrapped_orderBy: {
     readonly blockNumber: "blockNumber";
     readonly domain: "domain";
+    readonly domain__createdAt: "domain__createdAt";
+    readonly domain__id: "domain__id";
+    readonly domain__isMigrated: "domain__isMigrated";
+    readonly domain__labelName: "domain__labelName";
+    readonly domain__labelhash: "domain__labelhash";
+    readonly domain__name: "domain__name";
+    readonly domain__subdomainCount: "domain__subdomainCount";
+    readonly domain__ttl: "domain__ttl";
     readonly id: "id";
     readonly owner: "owner";
+    readonly owner__id: "owner__id";
     readonly transactionID: "transactionID";
 }
 
@@ -176,11 +279,20 @@ export type NameUnwrapped_orderBy$options = ValuesOf<typeof NameUnwrapped_orderB
 export declare const NameWrapped_orderBy: {
     readonly blockNumber: "blockNumber";
     readonly domain: "domain";
-    readonly expiry: "expiry";
+    readonly domain__createdAt: "domain__createdAt";
+    readonly domain__id: "domain__id";
+    readonly domain__isMigrated: "domain__isMigrated";
+    readonly domain__labelName: "domain__labelName";
+    readonly domain__labelhash: "domain__labelhash";
+    readonly domain__name: "domain__name";
+    readonly domain__subdomainCount: "domain__subdomainCount";
+    readonly domain__ttl: "domain__ttl";
+    readonly expiryDate: "expiryDate";
     readonly fuses: "fuses";
     readonly id: "id";
     readonly name: "name";
     readonly owner: "owner";
+    readonly owner__id: "owner__id";
     readonly transactionID: "transactionID";
 }
 
@@ -189,9 +301,26 @@ export type NameWrapped_orderBy$options = ValuesOf<typeof NameWrapped_orderBy>
 export declare const NewOwner_orderBy: {
     readonly blockNumber: "blockNumber";
     readonly domain: "domain";
+    readonly domain__createdAt: "domain__createdAt";
+    readonly domain__id: "domain__id";
+    readonly domain__isMigrated: "domain__isMigrated";
+    readonly domain__labelName: "domain__labelName";
+    readonly domain__labelhash: "domain__labelhash";
+    readonly domain__name: "domain__name";
+    readonly domain__subdomainCount: "domain__subdomainCount";
+    readonly domain__ttl: "domain__ttl";
     readonly id: "id";
     readonly owner: "owner";
+    readonly owner__id: "owner__id";
     readonly parentDomain: "parentDomain";
+    readonly parentDomain__createdAt: "parentDomain__createdAt";
+    readonly parentDomain__id: "parentDomain__id";
+    readonly parentDomain__isMigrated: "parentDomain__isMigrated";
+    readonly parentDomain__labelName: "parentDomain__labelName";
+    readonly parentDomain__labelhash: "parentDomain__labelhash";
+    readonly parentDomain__name: "parentDomain__name";
+    readonly parentDomain__subdomainCount: "parentDomain__subdomainCount";
+    readonly parentDomain__ttl: "parentDomain__ttl";
     readonly transactionID: "transactionID";
 }
 
@@ -200,8 +329,19 @@ export type NewOwner_orderBy$options = ValuesOf<typeof NewOwner_orderBy>
 export declare const NewResolver_orderBy: {
     readonly blockNumber: "blockNumber";
     readonly domain: "domain";
+    readonly domain__createdAt: "domain__createdAt";
+    readonly domain__id: "domain__id";
+    readonly domain__isMigrated: "domain__isMigrated";
+    readonly domain__labelName: "domain__labelName";
+    readonly domain__labelhash: "domain__labelhash";
+    readonly domain__name: "domain__name";
+    readonly domain__subdomainCount: "domain__subdomainCount";
+    readonly domain__ttl: "domain__ttl";
     readonly id: "id";
     readonly resolver: "resolver";
+    readonly resolver__address: "resolver__address";
+    readonly resolver__contentHash: "resolver__contentHash";
+    readonly resolver__id: "resolver__id";
     readonly transactionID: "transactionID";
 }
 
@@ -210,6 +350,14 @@ export type NewResolver_orderBy$options = ValuesOf<typeof NewResolver_orderBy>
 export declare const NewTTL_orderBy: {
     readonly blockNumber: "blockNumber";
     readonly domain: "domain";
+    readonly domain__createdAt: "domain__createdAt";
+    readonly domain__id: "domain__id";
+    readonly domain__isMigrated: "domain__isMigrated";
+    readonly domain__labelName: "domain__labelName";
+    readonly domain__labelhash: "domain__labelhash";
+    readonly domain__name: "domain__name";
+    readonly domain__subdomainCount: "domain__subdomainCount";
+    readonly domain__ttl: "domain__ttl";
     readonly id: "id";
     readonly transactionID: "transactionID";
     readonly ttl: "ttl";
@@ -228,6 +376,9 @@ export declare const PubkeyChanged_orderBy: {
     readonly blockNumber: "blockNumber";
     readonly id: "id";
     readonly resolver: "resolver";
+    readonly resolver__address: "resolver__address";
+    readonly resolver__contentHash: "resolver__contentHash";
+    readonly resolver__id: "resolver__id";
     readonly transactionID: "transactionID";
     readonly x: "x";
     readonly y: "y";
@@ -238,11 +389,20 @@ export type PubkeyChanged_orderBy$options = ValuesOf<typeof PubkeyChanged_orderB
 export declare const Registration_orderBy: {
     readonly cost: "cost";
     readonly domain: "domain";
+    readonly domain__createdAt: "domain__createdAt";
+    readonly domain__id: "domain__id";
+    readonly domain__isMigrated: "domain__isMigrated";
+    readonly domain__labelName: "domain__labelName";
+    readonly domain__labelhash: "domain__labelhash";
+    readonly domain__name: "domain__name";
+    readonly domain__subdomainCount: "domain__subdomainCount";
+    readonly domain__ttl: "domain__ttl";
     readonly events: "events";
     readonly expiryDate: "expiryDate";
     readonly id: "id";
     readonly labelName: "labelName";
     readonly registrant: "registrant";
+    readonly registrant__id: "registrant__id";
     readonly registrationDate: "registrationDate";
 }
 
@@ -252,6 +412,11 @@ export declare const RegistrationEvent_orderBy: {
     readonly blockNumber: "blockNumber";
     readonly id: "id";
     readonly registration: "registration";
+    readonly registration__cost: "registration__cost";
+    readonly registration__expiryDate: "registration__expiryDate";
+    readonly registration__id: "registration__id";
+    readonly registration__labelName: "registration__labelName";
+    readonly registration__registrationDate: "registration__registrationDate";
     readonly transactionID: "transactionID";
 }
 
@@ -259,10 +424,19 @@ export type RegistrationEvent_orderBy$options = ValuesOf<typeof RegistrationEven
  
 export declare const Resolver_orderBy: {
     readonly addr: "addr";
+    readonly addr__id: "addr__id";
     readonly address: "address";
     readonly coinTypes: "coinTypes";
     readonly contentHash: "contentHash";
     readonly domain: "domain";
+    readonly domain__createdAt: "domain__createdAt";
+    readonly domain__id: "domain__id";
+    readonly domain__isMigrated: "domain__isMigrated";
+    readonly domain__labelName: "domain__labelName";
+    readonly domain__labelhash: "domain__labelhash";
+    readonly domain__name: "domain__name";
+    readonly domain__subdomainCount: "domain__subdomainCount";
+    readonly domain__ttl: "domain__ttl";
     readonly events: "events";
     readonly id: "id";
     readonly texts: "texts";
@@ -274,6 +448,9 @@ export declare const ResolverEvent_orderBy: {
     readonly blockNumber: "blockNumber";
     readonly id: "id";
     readonly resolver: "resolver";
+    readonly resolver__address: "resolver__address";
+    readonly resolver__contentHash: "resolver__contentHash";
+    readonly resolver__id: "resolver__id";
     readonly transactionID: "transactionID";
 }
 
@@ -284,6 +461,9 @@ export declare const TextChanged_orderBy: {
     readonly id: "id";
     readonly key: "key";
     readonly resolver: "resolver";
+    readonly resolver__address: "resolver__address";
+    readonly resolver__contentHash: "resolver__contentHash";
+    readonly resolver__id: "resolver__id";
     readonly transactionID: "transactionID";
     readonly value: "value";
 }
@@ -293,8 +473,17 @@ export type TextChanged_orderBy$options = ValuesOf<typeof TextChanged_orderBy>
 export declare const Transfer_orderBy: {
     readonly blockNumber: "blockNumber";
     readonly domain: "domain";
+    readonly domain__createdAt: "domain__createdAt";
+    readonly domain__id: "domain__id";
+    readonly domain__isMigrated: "domain__isMigrated";
+    readonly domain__labelName: "domain__labelName";
+    readonly domain__labelhash: "domain__labelhash";
+    readonly domain__name: "domain__name";
+    readonly domain__subdomainCount: "domain__subdomainCount";
+    readonly domain__ttl: "domain__ttl";
     readonly id: "id";
     readonly owner: "owner";
+    readonly owner__id: "owner__id";
     readonly transactionID: "transactionID";
 }
 
@@ -304,6 +493,9 @@ export declare const VersionChanged_orderBy: {
     readonly blockNumber: "blockNumber";
     readonly id: "id";
     readonly resolver: "resolver";
+    readonly resolver__address: "resolver__address";
+    readonly resolver__contentHash: "resolver__contentHash";
+    readonly resolver__id: "resolver__id";
     readonly transactionID: "transactionID";
     readonly version: "version";
 }
@@ -312,11 +504,20 @@ export type VersionChanged_orderBy$options = ValuesOf<typeof VersionChanged_orde
  
 export declare const WrappedDomain_orderBy: {
     readonly domain: "domain";
+    readonly domain__createdAt: "domain__createdAt";
+    readonly domain__id: "domain__id";
+    readonly domain__isMigrated: "domain__isMigrated";
+    readonly domain__labelName: "domain__labelName";
+    readonly domain__labelhash: "domain__labelhash";
+    readonly domain__name: "domain__name";
+    readonly domain__subdomainCount: "domain__subdomainCount";
+    readonly domain__ttl: "domain__ttl";
     readonly expiryDate: "expiryDate";
     readonly fuses: "fuses";
     readonly id: "id";
-    readonly labelName: "labelName";
+    readonly name: "name";
     readonly owner: "owner";
+    readonly owner__id: "owner__id";
 }
 
 export type WrappedDomain_orderBy$options = ValuesOf<typeof WrappedDomain_orderBy>
@@ -324,8 +525,17 @@ export type WrappedDomain_orderBy$options = ValuesOf<typeof WrappedDomain_orderB
 export declare const WrappedTransfer_orderBy: {
     readonly blockNumber: "blockNumber";
     readonly domain: "domain";
+    readonly domain__createdAt: "domain__createdAt";
+    readonly domain__id: "domain__id";
+    readonly domain__isMigrated: "domain__isMigrated";
+    readonly domain__labelName: "domain__labelName";
+    readonly domain__labelhash: "domain__labelhash";
+    readonly domain__name: "domain__name";
+    readonly domain__subdomainCount: "domain__subdomainCount";
+    readonly domain__ttl: "domain__ttl";
     readonly id: "id";
     readonly owner: "owner";
+    readonly owner__id: "owner__id";
     readonly transactionID: "transactionID";
 }
 

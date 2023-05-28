@@ -86,6 +86,9 @@ enum AbiChanged_orderBy {
   contentType
   id
   resolver
+  resolver__address
+  resolver__contentHash
+  resolver__id
   transactionID
 }
 
@@ -206,9 +209,13 @@ input AddrChanged_filter {
 
 enum AddrChanged_orderBy {
   addr
+  addr__id
   blockNumber
   id
   resolver
+  resolver__address
+  resolver__contentHash
+  resolver__id
   transactionID
 }
 
@@ -306,6 +313,9 @@ enum AuthorisationChanged_orderBy {
   isAuthorized
   owner
   resolver
+  resolver__address
+  resolver__contentHash
+  resolver__id
   target
   transactionID
 }
@@ -403,6 +413,9 @@ enum ContenthashChanged_orderBy {
   hash
   id
   resolver
+  resolver__address
+  resolver__contentHash
+  resolver__id
   transactionID
 }
 
@@ -489,6 +502,14 @@ input DomainEvent_filter {
 enum DomainEvent_orderBy {
   blockNumber
   domain
+  domain__createdAt
+  domain__id
+  domain__isMigrated
+  domain__labelName
+  domain__labelhash
+  domain__name
+  domain__subdomainCount
+  domain__ttl
   id
   transactionID
 }
@@ -683,21 +704,128 @@ enum Domain_orderBy {
   labelhash
   name
   owner
+  owner__id
   parent
+  parent__createdAt
+  parent__id
+  parent__isMigrated
+  parent__labelName
+  parent__labelhash
+  parent__name
+  parent__subdomainCount
+  parent__ttl
   registration
+  registration__cost
+  registration__expiryDate
+  registration__id
+  registration__labelName
+  registration__registrationDate
   resolvedAddress
+  resolvedAddress__id
   resolver
+  resolver__address
+  resolver__contentHash
+  resolver__id
   subdomainCount
   subdomains
   ttl
   wrappedDomain
+  wrappedDomain__expiryDate
+  wrappedDomain__fuses
+  wrappedDomain__id
+  wrappedDomain__name
+}
+
+type ExpiryExtended implements DomainEvent {
+  blockNumber: Int!
+  domain: Domain!
+  expiryDate: BigInt!
+  id: ID!
+  transactionID: Bytes!
+}
+
+input ExpiryExtended_filter {
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+  and: [ExpiryExtended_filter]
+  blockNumber: Int
+  blockNumber_gt: Int
+  blockNumber_gte: Int
+  blockNumber_in: [Int!]
+  blockNumber_lt: Int
+  blockNumber_lte: Int
+  blockNumber_not: Int
+  blockNumber_not_in: [Int!]
+  domain: String
+  domain_: Domain_filter
+  domain_contains: String
+  domain_contains_nocase: String
+  domain_ends_with: String
+  domain_ends_with_nocase: String
+  domain_gt: String
+  domain_gte: String
+  domain_in: [String!]
+  domain_lt: String
+  domain_lte: String
+  domain_not: String
+  domain_not_contains: String
+  domain_not_contains_nocase: String
+  domain_not_ends_with: String
+  domain_not_ends_with_nocase: String
+  domain_not_in: [String!]
+  domain_not_starts_with: String
+  domain_not_starts_with_nocase: String
+  domain_starts_with: String
+  domain_starts_with_nocase: String
+  expiryDate: BigInt
+  expiryDate_gt: BigInt
+  expiryDate_gte: BigInt
+  expiryDate_in: [BigInt!]
+  expiryDate_lt: BigInt
+  expiryDate_lte: BigInt
+  expiryDate_not: BigInt
+  expiryDate_not_in: [BigInt!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  or: [ExpiryExtended_filter]
+  transactionID: Bytes
+  transactionID_contains: Bytes
+  transactionID_gt: Bytes
+  transactionID_gte: Bytes
+  transactionID_in: [Bytes!]
+  transactionID_lt: Bytes
+  transactionID_lte: Bytes
+  transactionID_not: Bytes
+  transactionID_not_contains: Bytes
+  transactionID_not_in: [Bytes!]
+}
+
+enum ExpiryExtended_orderBy {
+  blockNumber
+  domain
+  domain__createdAt
+  domain__id
+  domain__isMigrated
+  domain__labelName
+  domain__labelhash
+  domain__name
+  domain__subdomainCount
+  domain__ttl
+  expiryDate
+  id
+  transactionID
 }
 
 type FusesSet implements DomainEvent {
   blockNumber: Int!
   domain: Domain!
-  expiry: BigInt!
-  fuses: BigInt!
+  fuses: Int!
   id: ID!
   transactionID: Bytes!
 }
@@ -735,22 +863,14 @@ input FusesSet_filter {
   domain_not_starts_with_nocase: String
   domain_starts_with: String
   domain_starts_with_nocase: String
-  expiry: BigInt
-  expiry_gt: BigInt
-  expiry_gte: BigInt
-  expiry_in: [BigInt!]
-  expiry_lt: BigInt
-  expiry_lte: BigInt
-  expiry_not: BigInt
-  expiry_not_in: [BigInt!]
-  fuses: BigInt
-  fuses_gt: BigInt
-  fuses_gte: BigInt
-  fuses_in: [BigInt!]
-  fuses_lt: BigInt
-  fuses_lte: BigInt
-  fuses_not: BigInt
-  fuses_not_in: [BigInt!]
+  fuses: Int
+  fuses_gt: Int
+  fuses_gte: Int
+  fuses_in: [Int!]
+  fuses_lt: Int
+  fuses_lte: Int
+  fuses_not: Int
+  fuses_not_in: [Int!]
   id: ID
   id_gt: ID
   id_gte: ID
@@ -775,7 +895,14 @@ input FusesSet_filter {
 enum FusesSet_orderBy {
   blockNumber
   domain
-  expiry
+  domain__createdAt
+  domain__id
+  domain__isMigrated
+  domain__labelName
+  domain__labelhash
+  domain__name
+  domain__subdomainCount
+  domain__ttl
   fuses
   id
   transactionID
@@ -870,6 +997,9 @@ enum InterfaceChanged_orderBy {
   implementer
   interfaceID
   resolver
+  resolver__address
+  resolver__contentHash
+  resolver__id
   transactionID
 }
 
@@ -960,6 +1090,9 @@ enum MulticoinAddrChanged_orderBy {
   coinType
   id
   resolver
+  resolver__address
+  resolver__contentHash
+  resolver__id
   transactionID
 }
 
@@ -1050,6 +1183,9 @@ enum NameChanged_orderBy {
   id
   name
   resolver
+  resolver__address
+  resolver__contentHash
+  resolver__id
   transactionID
 }
 
@@ -1150,7 +1286,13 @@ enum NameRegistered_orderBy {
   expiryDate
   id
   registrant
+  registrant__id
   registration
+  registration__cost
+  registration__expiryDate
+  registration__id
+  registration__labelName
+  registration__registrationDate
   transactionID
 }
 
@@ -1229,6 +1371,11 @@ enum NameRenewed_orderBy {
   expiryDate
   id
   registration
+  registration__cost
+  registration__expiryDate
+  registration__id
+  registration__labelName
+  registration__registrationDate
   transactionID
 }
 
@@ -1319,7 +1466,13 @@ enum NameTransferred_orderBy {
   blockNumber
   id
   newOwner
+  newOwner__id
   registration
+  registration__cost
+  registration__expiryDate
+  registration__id
+  registration__labelName
+  registration__registrationDate
   transactionID
 }
 
@@ -1409,18 +1562,27 @@ input NameUnwrapped_filter {
 enum NameUnwrapped_orderBy {
   blockNumber
   domain
+  domain__createdAt
+  domain__id
+  domain__isMigrated
+  domain__labelName
+  domain__labelhash
+  domain__name
+  domain__subdomainCount
+  domain__ttl
   id
   owner
+  owner__id
   transactionID
 }
 
 type NameWrapped implements DomainEvent {
   blockNumber: Int!
   domain: Domain!
-  expiry: BigInt!
-  fuses: BigInt!
+  expiryDate: BigInt!
+  fuses: Int!
   id: ID!
-  name: String!
+  name: String
   owner: Account!
   transactionID: Bytes!
 }
@@ -1458,22 +1620,22 @@ input NameWrapped_filter {
   domain_not_starts_with_nocase: String
   domain_starts_with: String
   domain_starts_with_nocase: String
-  expiry: BigInt
-  expiry_gt: BigInt
-  expiry_gte: BigInt
-  expiry_in: [BigInt!]
-  expiry_lt: BigInt
-  expiry_lte: BigInt
-  expiry_not: BigInt
-  expiry_not_in: [BigInt!]
-  fuses: BigInt
-  fuses_gt: BigInt
-  fuses_gte: BigInt
-  fuses_in: [BigInt!]
-  fuses_lt: BigInt
-  fuses_lte: BigInt
-  fuses_not: BigInt
-  fuses_not_in: [BigInt!]
+  expiryDate: BigInt
+  expiryDate_gt: BigInt
+  expiryDate_gte: BigInt
+  expiryDate_in: [BigInt!]
+  expiryDate_lt: BigInt
+  expiryDate_lte: BigInt
+  expiryDate_not: BigInt
+  expiryDate_not_in: [BigInt!]
+  fuses: Int
+  fuses_gt: Int
+  fuses_gte: Int
+  fuses_in: [Int!]
+  fuses_lt: Int
+  fuses_lte: Int
+  fuses_not: Int
+  fuses_not_in: [Int!]
   id: ID
   id_gt: ID
   id_gte: ID
@@ -1539,11 +1701,20 @@ input NameWrapped_filter {
 enum NameWrapped_orderBy {
   blockNumber
   domain
-  expiry
+  domain__createdAt
+  domain__id
+  domain__isMigrated
+  domain__labelName
+  domain__labelhash
+  domain__name
+  domain__subdomainCount
+  domain__ttl
+  expiryDate
   fuses
   id
   name
   owner
+  owner__id
   transactionID
 }
 
@@ -1655,9 +1826,26 @@ input NewOwner_filter {
 enum NewOwner_orderBy {
   blockNumber
   domain
+  domain__createdAt
+  domain__id
+  domain__isMigrated
+  domain__labelName
+  domain__labelhash
+  domain__name
+  domain__subdomainCount
+  domain__ttl
   id
   owner
+  owner__id
   parentDomain
+  parentDomain__createdAt
+  parentDomain__id
+  parentDomain__isMigrated
+  parentDomain__labelName
+  parentDomain__labelhash
+  parentDomain__name
+  parentDomain__subdomainCount
+  parentDomain__ttl
   transactionID
 }
 
@@ -1747,8 +1935,19 @@ input NewResolver_filter {
 enum NewResolver_orderBy {
   blockNumber
   domain
+  domain__createdAt
+  domain__id
+  domain__isMigrated
+  domain__labelName
+  domain__labelhash
+  domain__name
+  domain__subdomainCount
+  domain__ttl
   id
   resolver
+  resolver__address
+  resolver__contentHash
+  resolver__id
   transactionID
 }
 
@@ -1825,6 +2024,14 @@ input NewTTL_filter {
 enum NewTTL_orderBy {
   blockNumber
   domain
+  domain__createdAt
+  domain__id
+  domain__isMigrated
+  domain__labelName
+  domain__labelhash
+  domain__name
+  domain__subdomainCount
+  domain__ttl
   id
   transactionID
   ttl
@@ -1923,6 +2130,9 @@ enum PubkeyChanged_orderBy {
   blockNumber
   id
   resolver
+  resolver__address
+  resolver__contentHash
+  resolver__id
   transactionID
   x
   y
@@ -2127,6 +2337,34 @@ type Query {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: Domain_filter
   ): [Domain!]!
+  expiryExtended(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): ExpiryExtended
+  expiryExtendeds(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: ExpiryExtended_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: ExpiryExtended_filter
+  ): [ExpiryExtended!]!
   fusesSet(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -2821,6 +3059,11 @@ enum RegistrationEvent_orderBy {
   blockNumber
   id
   registration
+  registration__cost
+  registration__expiryDate
+  registration__id
+  registration__labelName
+  registration__registrationDate
   transactionID
 }
 
@@ -2929,11 +3172,20 @@ input Registration_filter {
 enum Registration_orderBy {
   cost
   domain
+  domain__createdAt
+  domain__id
+  domain__isMigrated
+  domain__labelName
+  domain__labelhash
+  domain__name
+  domain__subdomainCount
+  domain__ttl
   events
   expiryDate
   id
   labelName
   registrant
+  registrant__id
   registrationDate
 }
 
@@ -3013,6 +3265,9 @@ enum ResolverEvent_orderBy {
   blockNumber
   id
   resolver
+  resolver__address
+  resolver__contentHash
+  resolver__id
   transactionID
 }
 
@@ -3108,10 +3363,19 @@ input Resolver_filter {
 
 enum Resolver_orderBy {
   addr
+  addr__id
   address
   coinTypes
   contentHash
   domain
+  domain__createdAt
+  domain__id
+  domain__isMigrated
+  domain__labelName
+  domain__labelhash
+  domain__name
+  domain__subdomainCount
+  domain__ttl
   events
   id
   texts
@@ -3316,6 +3580,34 @@ type Subscription {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: Domain_filter
   ): [Domain!]!
+  expiryExtended(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): ExpiryExtended
+  expiryExtendeds(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: ExpiryExtended_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: ExpiryExtended_filter
+  ): [ExpiryExtended!]!
   fusesSet(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -4042,6 +4334,9 @@ enum TextChanged_orderBy {
   id
   key
   resolver
+  resolver__address
+  resolver__contentHash
+  resolver__id
   transactionID
   value
 }
@@ -4132,8 +4427,17 @@ input Transfer_filter {
 enum Transfer_orderBy {
   blockNumber
   domain
+  domain__createdAt
+  domain__id
+  domain__isMigrated
+  domain__labelName
+  domain__labelhash
+  domain__name
+  domain__subdomainCount
+  domain__ttl
   id
   owner
+  owner__id
   transactionID
 }
 
@@ -4211,6 +4515,9 @@ enum VersionChanged_orderBy {
   blockNumber
   id
   resolver
+  resolver__address
+  resolver__contentHash
+  resolver__id
   transactionID
   version
 }
@@ -4218,9 +4525,9 @@ enum VersionChanged_orderBy {
 type WrappedDomain {
   domain: Domain!
   expiryDate: BigInt!
-  fuses: BigInt!
+  fuses: Int!
   id: ID!
-  labelName: String
+  name: String
   owner: Account!
 }
 
@@ -4257,14 +4564,14 @@ input WrappedDomain_filter {
   expiryDate_lte: BigInt
   expiryDate_not: BigInt
   expiryDate_not_in: [BigInt!]
-  fuses: BigInt
-  fuses_gt: BigInt
-  fuses_gte: BigInt
-  fuses_in: [BigInt!]
-  fuses_lt: BigInt
-  fuses_lte: BigInt
-  fuses_not: BigInt
-  fuses_not_in: [BigInt!]
+  fuses: Int
+  fuses_gt: Int
+  fuses_gte: Int
+  fuses_in: [Int!]
+  fuses_lt: Int
+  fuses_lte: Int
+  fuses_not: Int
+  fuses_not_in: [Int!]
   id: ID
   id_gt: ID
   id_gte: ID
@@ -4273,26 +4580,26 @@ input WrappedDomain_filter {
   id_lte: ID
   id_not: ID
   id_not_in: [ID!]
-  labelName: String
-  labelName_contains: String
-  labelName_contains_nocase: String
-  labelName_ends_with: String
-  labelName_ends_with_nocase: String
-  labelName_gt: String
-  labelName_gte: String
-  labelName_in: [String!]
-  labelName_lt: String
-  labelName_lte: String
-  labelName_not: String
-  labelName_not_contains: String
-  labelName_not_contains_nocase: String
-  labelName_not_ends_with: String
-  labelName_not_ends_with_nocase: String
-  labelName_not_in: [String!]
-  labelName_not_starts_with: String
-  labelName_not_starts_with_nocase: String
-  labelName_starts_with: String
-  labelName_starts_with_nocase: String
+  name: String
+  name_contains: String
+  name_contains_nocase: String
+  name_ends_with: String
+  name_ends_with_nocase: String
+  name_gt: String
+  name_gte: String
+  name_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_not: String
+  name_not_contains: String
+  name_not_contains_nocase: String
+  name_not_ends_with: String
+  name_not_ends_with_nocase: String
+  name_not_in: [String!]
+  name_not_starts_with: String
+  name_not_starts_with_nocase: String
+  name_starts_with: String
+  name_starts_with_nocase: String
   or: [WrappedDomain_filter]
   owner: String
   owner_: Account_filter
@@ -4319,11 +4626,20 @@ input WrappedDomain_filter {
 
 enum WrappedDomain_orderBy {
   domain
+  domain__createdAt
+  domain__id
+  domain__isMigrated
+  domain__labelName
+  domain__labelhash
+  domain__name
+  domain__subdomainCount
+  domain__ttl
   expiryDate
   fuses
   id
-  labelName
+  name
   owner
+  owner__id
 }
 
 type WrappedTransfer implements DomainEvent {
@@ -4412,8 +4728,17 @@ input WrappedTransfer_filter {
 enum WrappedTransfer_orderBy {
   blockNumber
   domain
+  domain__createdAt
+  domain__id
+  domain__isMigrated
+  domain__labelName
+  domain__labelhash
+  domain__name
+  domain__subdomainCount
+  domain__ttl
   id
   owner
+  owner__id
   transactionID
 }
 

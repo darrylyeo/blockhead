@@ -23,6 +23,7 @@ import type { NameChanged_orderBy } from "$houdini/graphql/enums";
 import type { MulticoinAddrChanged_orderBy } from "$houdini/graphql/enums";
 import type { InterfaceChanged_orderBy } from "$houdini/graphql/enums";
 import type { FusesSet_orderBy } from "$houdini/graphql/enums";
+import type { ExpiryExtended_orderBy } from "$houdini/graphql/enums";
 import type { ContenthashChanged_orderBy } from "$houdini/graphql/enums";
 import type { AuthorisationChanged_orderBy } from "$houdini/graphql/enums";
 import type { AddrChanged_orderBy } from "$houdini/graphql/enums";
@@ -279,14 +280,14 @@ type WrappedDomain_filter = {
     expiryDate_lte?: string | null | undefined;
     expiryDate_not?: string | null | undefined;
     expiryDate_not_in?: (string)[] | null | undefined;
-    fuses?: string | null | undefined;
-    fuses_gt?: string | null | undefined;
-    fuses_gte?: string | null | undefined;
-    fuses_in?: (string)[] | null | undefined;
-    fuses_lt?: string | null | undefined;
-    fuses_lte?: string | null | undefined;
-    fuses_not?: string | null | undefined;
-    fuses_not_in?: (string)[] | null | undefined;
+    fuses?: number | null | undefined;
+    fuses_gt?: number | null | undefined;
+    fuses_gte?: number | null | undefined;
+    fuses_in?: (number)[] | null | undefined;
+    fuses_lt?: number | null | undefined;
+    fuses_lte?: number | null | undefined;
+    fuses_not?: number | null | undefined;
+    fuses_not_in?: (number)[] | null | undefined;
     id?: string | null | undefined;
     id_gt?: string | null | undefined;
     id_gte?: string | null | undefined;
@@ -295,26 +296,26 @@ type WrappedDomain_filter = {
     id_lte?: string | null | undefined;
     id_not?: string | null | undefined;
     id_not_in?: (string)[] | null | undefined;
-    labelName?: string | null | undefined;
-    labelName_contains?: string | null | undefined;
-    labelName_contains_nocase?: string | null | undefined;
-    labelName_ends_with?: string | null | undefined;
-    labelName_ends_with_nocase?: string | null | undefined;
-    labelName_gt?: string | null | undefined;
-    labelName_gte?: string | null | undefined;
-    labelName_in?: (string)[] | null | undefined;
-    labelName_lt?: string | null | undefined;
-    labelName_lte?: string | null | undefined;
-    labelName_not?: string | null | undefined;
-    labelName_not_contains?: string | null | undefined;
-    labelName_not_contains_nocase?: string | null | undefined;
-    labelName_not_ends_with?: string | null | undefined;
-    labelName_not_ends_with_nocase?: string | null | undefined;
-    labelName_not_in?: (string)[] | null | undefined;
-    labelName_not_starts_with?: string | null | undefined;
-    labelName_not_starts_with_nocase?: string | null | undefined;
-    labelName_starts_with?: string | null | undefined;
-    labelName_starts_with_nocase?: string | null | undefined;
+    name?: string | null | undefined;
+    name_contains?: string | null | undefined;
+    name_contains_nocase?: string | null | undefined;
+    name_ends_with?: string | null | undefined;
+    name_ends_with_nocase?: string | null | undefined;
+    name_gt?: string | null | undefined;
+    name_gte?: string | null | undefined;
+    name_in?: (string)[] | null | undefined;
+    name_lt?: string | null | undefined;
+    name_lte?: string | null | undefined;
+    name_not?: string | null | undefined;
+    name_not_contains?: string | null | undefined;
+    name_not_contains_nocase?: string | null | undefined;
+    name_not_ends_with?: string | null | undefined;
+    name_not_ends_with_nocase?: string | null | undefined;
+    name_not_in?: (string)[] | null | undefined;
+    name_not_starts_with?: string | null | undefined;
+    name_not_starts_with_nocase?: string | null | undefined;
+    name_starts_with?: string | null | undefined;
+    name_starts_with_nocase?: string | null | undefined;
     or?: (WrappedDomain_filter | null | undefined)[] | null | undefined;
     owner?: string | null | undefined;
     owner_?: Account_filter | null | undefined;
@@ -959,6 +960,67 @@ type ContenthashChanged_filter = {
     transactionID_not_in?: (string)[] | null | undefined;
 };
 
+type ExpiryExtended_filter = {
+    _change_block?: BlockChangedFilter | null | undefined;
+    and?: (ExpiryExtended_filter | null | undefined)[] | null | undefined;
+    blockNumber?: number | null | undefined;
+    blockNumber_gt?: number | null | undefined;
+    blockNumber_gte?: number | null | undefined;
+    blockNumber_in?: (number)[] | null | undefined;
+    blockNumber_lt?: number | null | undefined;
+    blockNumber_lte?: number | null | undefined;
+    blockNumber_not?: number | null | undefined;
+    blockNumber_not_in?: (number)[] | null | undefined;
+    domain?: string | null | undefined;
+    domain_?: Domain_filter | null | undefined;
+    domain_contains?: string | null | undefined;
+    domain_contains_nocase?: string | null | undefined;
+    domain_ends_with?: string | null | undefined;
+    domain_ends_with_nocase?: string | null | undefined;
+    domain_gt?: string | null | undefined;
+    domain_gte?: string | null | undefined;
+    domain_in?: (string)[] | null | undefined;
+    domain_lt?: string | null | undefined;
+    domain_lte?: string | null | undefined;
+    domain_not?: string | null | undefined;
+    domain_not_contains?: string | null | undefined;
+    domain_not_contains_nocase?: string | null | undefined;
+    domain_not_ends_with?: string | null | undefined;
+    domain_not_ends_with_nocase?: string | null | undefined;
+    domain_not_in?: (string)[] | null | undefined;
+    domain_not_starts_with?: string | null | undefined;
+    domain_not_starts_with_nocase?: string | null | undefined;
+    domain_starts_with?: string | null | undefined;
+    domain_starts_with_nocase?: string | null | undefined;
+    expiryDate?: string | null | undefined;
+    expiryDate_gt?: string | null | undefined;
+    expiryDate_gte?: string | null | undefined;
+    expiryDate_in?: (string)[] | null | undefined;
+    expiryDate_lt?: string | null | undefined;
+    expiryDate_lte?: string | null | undefined;
+    expiryDate_not?: string | null | undefined;
+    expiryDate_not_in?: (string)[] | null | undefined;
+    id?: string | null | undefined;
+    id_gt?: string | null | undefined;
+    id_gte?: string | null | undefined;
+    id_in?: (string)[] | null | undefined;
+    id_lt?: string | null | undefined;
+    id_lte?: string | null | undefined;
+    id_not?: string | null | undefined;
+    id_not_in?: (string)[] | null | undefined;
+    or?: (ExpiryExtended_filter | null | undefined)[] | null | undefined;
+    transactionID?: string | null | undefined;
+    transactionID_contains?: string | null | undefined;
+    transactionID_gt?: string | null | undefined;
+    transactionID_gte?: string | null | undefined;
+    transactionID_in?: (string)[] | null | undefined;
+    transactionID_lt?: string | null | undefined;
+    transactionID_lte?: string | null | undefined;
+    transactionID_not?: string | null | undefined;
+    transactionID_not_contains?: string | null | undefined;
+    transactionID_not_in?: (string)[] | null | undefined;
+};
+
 type FusesSet_filter = {
     _change_block?: BlockChangedFilter | null | undefined;
     and?: (FusesSet_filter | null | undefined)[] | null | undefined;
@@ -991,22 +1053,14 @@ type FusesSet_filter = {
     domain_not_starts_with_nocase?: string | null | undefined;
     domain_starts_with?: string | null | undefined;
     domain_starts_with_nocase?: string | null | undefined;
-    expiry?: string | null | undefined;
-    expiry_gt?: string | null | undefined;
-    expiry_gte?: string | null | undefined;
-    expiry_in?: (string)[] | null | undefined;
-    expiry_lt?: string | null | undefined;
-    expiry_lte?: string | null | undefined;
-    expiry_not?: string | null | undefined;
-    expiry_not_in?: (string)[] | null | undefined;
-    fuses?: string | null | undefined;
-    fuses_gt?: string | null | undefined;
-    fuses_gte?: string | null | undefined;
-    fuses_in?: (string)[] | null | undefined;
-    fuses_lt?: string | null | undefined;
-    fuses_lte?: string | null | undefined;
-    fuses_not?: string | null | undefined;
-    fuses_not_in?: (string)[] | null | undefined;
+    fuses?: number | null | undefined;
+    fuses_gt?: number | null | undefined;
+    fuses_gte?: number | null | undefined;
+    fuses_in?: (number)[] | null | undefined;
+    fuses_lt?: number | null | undefined;
+    fuses_lte?: number | null | undefined;
+    fuses_not?: number | null | undefined;
+    fuses_not_in?: (number)[] | null | undefined;
     id?: string | null | undefined;
     id_gt?: string | null | undefined;
     id_gte?: string | null | undefined;
@@ -1568,22 +1622,22 @@ type NameWrapped_filter = {
     domain_not_starts_with_nocase?: string | null | undefined;
     domain_starts_with?: string | null | undefined;
     domain_starts_with_nocase?: string | null | undefined;
-    expiry?: string | null | undefined;
-    expiry_gt?: string | null | undefined;
-    expiry_gte?: string | null | undefined;
-    expiry_in?: (string)[] | null | undefined;
-    expiry_lt?: string | null | undefined;
-    expiry_lte?: string | null | undefined;
-    expiry_not?: string | null | undefined;
-    expiry_not_in?: (string)[] | null | undefined;
-    fuses?: string | null | undefined;
-    fuses_gt?: string | null | undefined;
-    fuses_gte?: string | null | undefined;
-    fuses_in?: (string)[] | null | undefined;
-    fuses_lt?: string | null | undefined;
-    fuses_lte?: string | null | undefined;
-    fuses_not?: string | null | undefined;
-    fuses_not_in?: (string)[] | null | undefined;
+    expiryDate?: string | null | undefined;
+    expiryDate_gt?: string | null | undefined;
+    expiryDate_gte?: string | null | undefined;
+    expiryDate_in?: (string)[] | null | undefined;
+    expiryDate_lt?: string | null | undefined;
+    expiryDate_lte?: string | null | undefined;
+    expiryDate_not?: string | null | undefined;
+    expiryDate_not_in?: (string)[] | null | undefined;
+    fuses?: number | null | undefined;
+    fuses_gt?: number | null | undefined;
+    fuses_gte?: number | null | undefined;
+    fuses_in?: (number)[] | null | undefined;
+    fuses_lt?: number | null | undefined;
+    fuses_lte?: number | null | undefined;
+    fuses_not?: number | null | undefined;
+    fuses_not_in?: (number)[] | null | undefined;
     id?: string | null | undefined;
     id_gt?: string | null | undefined;
     id_gte?: string | null | undefined;
@@ -2425,7 +2479,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
                 events: {
-                    type: (Record<CacheTypeDef, "FusesSet"> | Record<CacheTypeDef, "NameUnwrapped"> | Record<CacheTypeDef, "NameWrapped"> | Record<CacheTypeDef, "NewOwner"> | Record<CacheTypeDef, "NewResolver"> | Record<CacheTypeDef, "NewTTL"> | Record<CacheTypeDef, "Transfer"> | Record<CacheTypeDef, "WrappedTransfer">)[];
+                    type: (Record<CacheTypeDef, "ExpiryExtended"> | Record<CacheTypeDef, "FusesSet"> | Record<CacheTypeDef, "NameUnwrapped"> | Record<CacheTypeDef, "NameWrapped"> | Record<CacheTypeDef, "NewOwner"> | Record<CacheTypeDef, "NewResolver"> | Record<CacheTypeDef, "NewTTL"> | Record<CacheTypeDef, "Transfer"> | Record<CacheTypeDef, "WrappedTransfer">)[];
                     args: {
                         first?: number | null | undefined;
                         orderBy?: ValueOf<typeof DomainEvent_orderBy> | null | undefined;
@@ -2499,6 +2553,34 @@ export declare type CacheTypeDef = {
             };
             fragments: [];
         };
+        ExpiryExtended: {
+            idFields: {
+                id: string;
+            };
+            fields: {
+                blockNumber: {
+                    type: number;
+                    args: never;
+                };
+                domain: {
+                    type: Record<CacheTypeDef, "Domain">;
+                    args: never;
+                };
+                expiryDate: {
+                    type: string;
+                    args: never;
+                };
+                id: {
+                    type: string;
+                    args: never;
+                };
+                transactionID: {
+                    type: string;
+                    args: never;
+                };
+            };
+            fragments: [];
+        };
         FusesSet: {
             idFields: {
                 id: string;
@@ -2512,12 +2594,8 @@ export declare type CacheTypeDef = {
                     type: Record<CacheTypeDef, "Domain">;
                     args: never;
                 };
-                expiry: {
-                    type: string;
-                    args: never;
-                };
                 fuses: {
-                    type: string;
+                    type: number;
                     args: never;
                 };
                 id: {
@@ -2752,12 +2830,12 @@ export declare type CacheTypeDef = {
                     type: Record<CacheTypeDef, "Domain">;
                     args: never;
                 };
-                expiry: {
+                expiryDate: {
                     type: string;
                     args: never;
                 };
                 fuses: {
-                    type: string;
+                    type: number;
                     args: never;
                 };
                 id: {
@@ -2765,7 +2843,7 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
                 name: {
-                    type: string;
+                    type: string | null;
                     args: never;
                 };
                 owner: {
@@ -3017,7 +3095,7 @@ export declare type CacheTypeDef = {
                     };
                 };
                 domainEvent: {
-                    type: Record<CacheTypeDef, "FusesSet"> | Record<CacheTypeDef, "NameUnwrapped"> | Record<CacheTypeDef, "NameWrapped"> | Record<CacheTypeDef, "NewOwner"> | Record<CacheTypeDef, "NewResolver"> | Record<CacheTypeDef, "NewTTL"> | Record<CacheTypeDef, "Transfer"> | Record<CacheTypeDef, "WrappedTransfer"> | null;
+                    type: Record<CacheTypeDef, "ExpiryExtended"> | Record<CacheTypeDef, "FusesSet"> | Record<CacheTypeDef, "NameUnwrapped"> | Record<CacheTypeDef, "NameWrapped"> | Record<CacheTypeDef, "NewOwner"> | Record<CacheTypeDef, "NewResolver"> | Record<CacheTypeDef, "NewTTL"> | Record<CacheTypeDef, "Transfer"> | Record<CacheTypeDef, "WrappedTransfer"> | null;
                     args: {
                         block?: Block_height | null | undefined;
                         id: string;
@@ -3025,7 +3103,7 @@ export declare type CacheTypeDef = {
                     };
                 };
                 domainEvents: {
-                    type: (Record<CacheTypeDef, "FusesSet"> | Record<CacheTypeDef, "NameUnwrapped"> | Record<CacheTypeDef, "NameWrapped"> | Record<CacheTypeDef, "NewOwner"> | Record<CacheTypeDef, "NewResolver"> | Record<CacheTypeDef, "NewTTL"> | Record<CacheTypeDef, "Transfer"> | Record<CacheTypeDef, "WrappedTransfer">)[];
+                    type: (Record<CacheTypeDef, "ExpiryExtended"> | Record<CacheTypeDef, "FusesSet"> | Record<CacheTypeDef, "NameUnwrapped"> | Record<CacheTypeDef, "NameWrapped"> | Record<CacheTypeDef, "NewOwner"> | Record<CacheTypeDef, "NewResolver"> | Record<CacheTypeDef, "NewTTL"> | Record<CacheTypeDef, "Transfer"> | Record<CacheTypeDef, "WrappedTransfer">)[];
                     args: {
                         block?: Block_height | null | undefined;
                         first?: number | null | undefined;
@@ -3046,6 +3124,26 @@ export declare type CacheTypeDef = {
                         skip?: number | null | undefined;
                         subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
                         where?: Domain_filter | null | undefined;
+                    };
+                };
+                expiryExtended: {
+                    type: Record<CacheTypeDef, "ExpiryExtended"> | null;
+                    args: {
+                        block?: Block_height | null | undefined;
+                        id: string;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
+                    };
+                };
+                expiryExtendeds: {
+                    type: (Record<CacheTypeDef, "ExpiryExtended">)[];
+                    args: {
+                        block?: Block_height | null | undefined;
+                        first?: number | null | undefined;
+                        orderBy?: ValueOf<typeof ExpiryExtended_orderBy> | null | undefined;
+                        orderDirection?: ValueOf<typeof OrderDirection> | null | undefined;
+                        skip?: number | null | undefined;
+                        subgraphError: ValueOf<typeof _SubgraphErrorPolicy_>;
+                        where?: ExpiryExtended_filter | null | undefined;
                     };
                 };
                 fusesSet: {
@@ -3685,14 +3783,14 @@ export declare type CacheTypeDef = {
                     args: never;
                 };
                 fuses: {
-                    type: string;
+                    type: number;
                     args: never;
                 };
                 id: {
                     type: string;
                     args: never;
                 };
-                labelName: {
+                name: {
                     type: string | null;
                     args: never;
                 };

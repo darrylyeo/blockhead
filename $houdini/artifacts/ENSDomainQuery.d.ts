@@ -83,7 +83,7 @@ export type ENSDomainQuery$input = {
 export type ENSDomainQuery$artifact = {
     "name": "ENSDomainQuery";
     "kind": "HoudiniQuery";
-    "hash": "ec2c1d4b422b59d9d935d3fec42e5f85324a27d664053ffc5990cc1b70bfe472";
+    "hash": "859325e52c45adb94128541744b7c0a9dabfdf05c2612757049f8fd8b57f2301";
     "raw": `query ENSDomainQuery($name: String!) {
   domains(where: {name: $name}) {
     __typename
@@ -567,9 +567,7 @@ export type ENSDomainQuery$artifact = {
         };
     };
     "pluginData": {
-        "houdini-svelte": {
-            "isManualLoad": true;
-        };
+        "houdini-svelte": {};
     };
     "input": {
         "fields": {

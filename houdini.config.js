@@ -2,10 +2,11 @@
 
 /** @type {import('houdini').ConfigFile} */
 const config = {
-	module: 'esm',
-	framework: 'kit',
-	apiUrl: 'https://api.thegraph.com/subgraphs/name/ensdomains/ens',
-	include: './src/**/*.{svelte,ts,js}', // don't look for .graphql files to avoid parsing the schema at schemaPath
+	watchSchema: {
+		url: 'https://api.thegraph.com/subgraphs/name/ensdomains/ens',
+		// interval: null
+	},
+	// include: './src/**/*.{svelte,ts,js}', // don't look for .graphql files to avoid parsing the schema at schemaPath
 	schemaPath: './src/api/ens/ens-subgraph.graphql',
 	plugins: {
 		'houdini-svelte': {
@@ -30,7 +31,6 @@ const config = {
 			marshal: value => value,
 		}
 	},
-	schemaPollInterval: null
 }
 
 export default config

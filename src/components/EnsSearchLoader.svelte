@@ -10,12 +10,12 @@
 
 	import { graphql } from '$houdini'
 
-	/* @type { import('./$houdini').ENSDomainQuery } */
+	/* @type { import('./$houdini')._ENSDomainQueryVariables } */
 	export const _ENSDomainQueryVariables = ({ props: { searchQuery } }) => ({
 		name: searchQuery
 	})
 	const ensDomainQuery = graphql(`
-		query ENSDomainQuery($name: String!) {
+		query ENSDomainQuery($name: String!) @load {
 			domains(where: {name: $name}) {
 				__typename
 				id
@@ -66,12 +66,12 @@
 		}
 	`)
 
-	/* @type { import('./$houdini').ENSDomainsContainingQuery } */
+	/* @type { import('./$houdini')._ENSDomainsContainingQueryVariables } */
 	export const _ENSDomainsContainingQueryVariables = ({ props: { searchQuery } }) => ({
 		query: searchQuery
 	})
 	const ensDomainsContainingQuery = graphql(`
-		query ENSDomainsContainingQuery($query: String!) {
+		query ENSDomainsContainingQuery($query: String!) @load {
 			domains(where: {name_contains: $query, name_not: $query}) {
 				__typename
 				id
