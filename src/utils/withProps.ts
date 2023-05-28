@@ -1,9 +1,8 @@
-import type { SvelteComponent } from 'svelte'
-import type { SvelteComponentDev } from 'svelte/internal'
+import type { ComponentType, ComponentConstructorOptions } from 'svelte'
 
-export const withProps = (Component: SvelteComponent | SvelteComponentDev, props = {}, events = {}) => (
+export const withProps = <T extends ComponentType>(Component: T, props = {}, events = {}) => (
 	class extends Component {
-		constructor(options) {
+		constructor(options: ComponentConstructorOptions<any>) {
 			Object.assign(options.props ??= {}, props)
 
 			super(options)
