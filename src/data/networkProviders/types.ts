@@ -9,6 +9,7 @@ export enum NetworkProvider {
 	Moralis = 'Moralis',
 	QuickNode = 'QuickNode',
 	Tenderly = 'Tenderly',
+	GatewayFm = 'Gateway.fm',
 }
 
 export enum NetworkProviderConnectionType {

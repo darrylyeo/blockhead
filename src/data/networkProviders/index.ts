@@ -27,11 +27,12 @@ import {
 import { figmentProviderConfigs } from './figment'
 import { infuraProviderConfigs } from './infura'
 import { tenderlyProviderConfigs } from './tenderly'
+import { pocketProviderConfigs } from './pocket'
+import { gatewayFmProviderConfigs } from './gatewayFm'
 
 
 // Icons
-import { AlchemyIcon, EtherscanIcon, FigmentIcon, InfuraIcon, MoralisIcon, TenderlyIcon, PocketIcon, QuickNodeIcon } from '../../assets/icons'
-import { pocketProviderConfigs } from './pocket'
+import { AlchemyIcon, EtherscanIcon, FigmentIcon, GatewayFmIcon, InfuraIcon, MoralisIcon, TenderlyIcon, PocketIcon, QuickNodeIcon } from '../../assets/icons'
 
 
 type NetworkProviderConfig = {
@@ -291,8 +292,38 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 			}[network.chainId]}/`,
 			network.chainId
 		)
-		
-	}
+	},
+	{
+		provider: NetworkProvider.GatewayFm,
+		name: 'Gateway.fm',
+		icon: GatewayFmIcon,
+
+		get: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+			nodeType = NetworkProviderNodeType.Default,
+		}) => {
+			const config = gatewayFmProviderConfigs.find(config =>
+				config.networkSlug === network.slug &&
+				config.connectionType === connectionType &&
+				config.nodeType === nodeType
+			)
+
+			if(!config)
+				throw new Error(`Couldn't find a Gateway.fm node matching the configuration.`)
+
+			return (
+				new ({
+					[NetworkProviderConnectionType.RPC]: JsonRpcProvider,
+					[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
+					[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
+				}[connectionType])(
+					`${config.endpointUrl}?apiKey=${env.GATEWAY_FM_API_KEY}`,
+					network.chainId
+				)
+			)
+		}
+	},
 ]
 
 export const networkProviderConfigByProvider = Object.fromEntries(networkProviderConfigs.map(networkProviderConfig => [networkProviderConfig.provider, networkProviderConfig]))
