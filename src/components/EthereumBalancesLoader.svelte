@@ -1,19 +1,21 @@
 <script lang="ts">
+	// Constants/types
 	import type { Ethereum } from '../data/networks/types'
-	import type { Covalent } from '../api/covalent'
 	import type { QuoteCurrency } from '../data/currencies'
-	import { MoralisWeb3Api, chainCodeFromNetwork } from '../api/moralis/web3Api'
 	import { TokenBalancesProvider, tokenBalancesProviderIcons } from '../data/tokenBalancesProvider'
 
-	import { getTokenBalances } from '../api/zapper'
-	import { getWalletTokenBalance } from '../api/quicknode'
+	import type { Covalent } from '../api/covalent'
+	import { chainCodeFromNetwork } from '../api/moralis/web3Api'
 
 
+	// External state
 	export let network: Ethereum.Network
 	export let address: Ethereum.Address
 	export let tokenBalancesProvider: TokenBalancesProvider
 	export let quoteCurrency: QuoteCurrency
 
+
+	// View options
 	export let showIf: (<TData = unknown> (then: TData) => boolean | any) | undefined
 	export let isOpen: boolean
 
@@ -21,6 +23,7 @@
 	export let contentClass: string
 
 
+	// Shared state
 	export let balances: {
 		type?: Covalent.ERC20TokenOrNFTContractWithBalance['type'],
 		token: Ethereum.ERC20Token,
@@ -33,12 +36,18 @@
 	$: errorMessage = `Couldn't retrieve ${network.name} balances from ${tokenBalancesProvider}.`
 
 
+	// Actions
 	import { useQuery } from '@sveltestack/svelte-query'
 	import { queryStore, gql } from '@urql/svelte'
+
 	import { airstackNetworkNames, getClient } from '../api/airstack'
 	import { getTokenAddressBalances } from '../api/covalent'
+	import { MoralisWeb3Api } from '../api/moralis/web3Api'
+	import { getWalletTokenBalance } from '../api/quicknode'
+	import { getTokenBalances } from '../api/zapper'
 
 
+	// Components
 	import Loader from './Loader.svelte'
 </script>
 
