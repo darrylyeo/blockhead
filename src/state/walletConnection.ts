@@ -26,13 +26,13 @@ export type WalletConnection = {
 	provider?: Provider,
 
 	connect: (isInitiatedByUser?: boolean) => Promise<Partial<{
-		accounts?: Ethereum.Address[],
+		accounts?: { address: Ethereum.Address, nickname?: string }[],
 		chainId?: Ethereum.ChainID
 		walletconnectTopic?: WalletconnectTopic,
 	}>>
 
 	subscribe?: () => {
-		accounts: Readable<Ethereum.Address[]>;
+		accounts: Readable<{ address: Ethereum.Address, nickname?: string }[]>;
 		chainId: Readable<Ethereum.ChainID>;
 	},
 
@@ -714,7 +714,7 @@ export const getWalletConnection = async ({
 			case WalletConnectionType.BananaWalletSdk: {
 				const { Banana, Chains } = await import('@rize-labs/banana-wallet-sdk')
 
-				const network = networksByChainID[5]
+				const network = networksByChainID[Chains.gnosis]
 
 				if(!Object.values(Chains).some(chainId => chainId === network.chainId))
 					throw new Error(`Banana Wallet SDK isn't yet deployed on ${network.name}.`)
