@@ -260,7 +260,7 @@ export const wallets: WalletConfig[] = [
 		type: WalletType.BananaWallet,
 		name: 'Banana Wallet',
 		icon: BananaWalletIcon,
-		colors: ['#ffcf4a', '#f8b42c', '#e67f1c'], // '#b95300'
+		colors: ['#ffcf4a', '#f8b42c'], // '#e67f1c', '#b95300'
 
 		connectionTypes: [
 			WalletConnectionType.BananaWalletSdk,
