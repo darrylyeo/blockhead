@@ -146,7 +146,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 			)
 
 			if(!config)
-				throw new Error(`Couldn't find a Figment node matching the configuration`)
+				throw new Error(`Couldn't find a Pocket Network node matching the configuration.`)
 
 			return (
 				new ({
@@ -222,7 +222,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 			)
 
 			if(!config)
-				throw new Error(`Couldn't find a Figment node matching the configuration`)
+				throw new Error(`Couldn't find a Figment node matching the configuration.`)
 
 			return (
 				new ({
@@ -254,7 +254,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 			)
 
 			if(!config)
-				throw new Error(`Couldn't find a Tenderly node matching the configuration`)
+				throw new Error(`Couldn't find a Tenderly node matching the configuration.`)
 
 			return (
 				new ({
