@@ -1,3 +1,4 @@
+export { default as BananaWalletIcon } from './wallets/BananaWallet.png'
 export { default as CoinbaseWalletIcon } from './wallets/CoinbaseWallet.svg'
 export { default as IntmaxIcon } from './wallets/Intmax.png'
 export { default as MetaMaskIcon } from './wallets/MetaMask.svg'

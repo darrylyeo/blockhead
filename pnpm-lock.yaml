@@ -27,6 +27,9 @@ dependencies:
   '@pushprotocol/socket':
     specifier: ^0.5.1
     version: 0.5.1(ethers@6.4.0)
+  '@rize-labs/banana-wallet-sdk':
+    specifier: ^0.1.20
+    version: 0.1.20
   '@sveltestack/svelte-query':
     specifier: ^1.6.0
     version: 1.6.0
@@ -182,6 +185,44 @@ packages:
         optional: true
     dependencies:
       graphql: 16.6.0
+    dev: false
+
+  /@account-abstraction/contracts@0.6.0:
+    resolution: {integrity: sha512-8ooRJuR7XzohMDM4MV34I12Ci2bmxfE9+cixakRL7lA4BAwJKQ3ahvd8FbJa9kiwkUPCUNtj+/zxDQWYYalLMQ==}
+    dev: false
+
+  /@account-abstraction/sdk@0.6.0:
+    resolution: {integrity: sha512-zZNOhMCNUTi8UkCks5x5GKAbuc7pjbsZzbCivfqlPRoldulG7ieauyVwQfnDxR3Qe0jsop7WWnShMmObe4sw/A==}
+    dependencies:
+      '@account-abstraction/contracts': 0.6.0
+      '@account-abstraction/utils': 0.6.0
+      '@ethersproject/abstract-provider': 5.7.0
+      '@ethersproject/abstract-signer': 5.7.0
+      '@ethersproject/networks': 5.7.1
+      '@ethersproject/properties': 5.7.0
+      '@ethersproject/providers': 5.7.2
+      '@types/debug': 4.1.8
+      debug: 4.3.4
+      ethers: 5.7.2
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  /@account-abstraction/utils@0.6.0:
+    resolution: {integrity: sha512-K99c3TNrKjxXDkLLAYOP6DCg0v0FGqQmSQh+NCC9R44k8OOzQ7aOrfOxAqhRYWvhZnNiI4+BVdSrkvyzAXaLJw==}
+    dependencies:
+      '@account-abstraction/contracts': 0.6.0
+      '@ethersproject/abi': 5.7.0
+      '@ethersproject/providers': 5.7.2
+      '@openzeppelin/contracts': 4.9.0
+      debug: 4.3.4
+      ethers: 5.7.2
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
     dev: false
 
   /@adobe/css-tools@4.2.0:
@@ -3114,6 +3155,10 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
 
+  /@openzeppelin/contracts@4.9.0:
+    resolution: {integrity: sha512-DUP74AFGKlic2sQb/CmgrN2aUPMFGxRrmCTUxLHsiU2RzwWqVuMPZBxiAyvlff6Pea77uylAX6B5x9W6evEbhA==}
+    dev: false
+
   /@pedrouid/environment@1.0.1:
     resolution: {integrity: sha512-HaW78NszGzRZd9SeoI3JD11JqY+lubnaOx7Pewj5pfjqWXOEATpeKIFb9Z4t2WBUK2iryiXX3lzWwmYWgUL0Ug==}
     dev: false
@@ -3247,6 +3292,26 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
       uncontrollable: 8.0.2(react@18.2.0)
       warning: 4.0.3
+    dev: false
+
+  /@rize-labs/banana-wallet-sdk@0.1.20:
+    resolution: {integrity: sha512-HK/kq8JdRFGbisi8tjYz1N5ATGZjIEd856jDEI2HHrQSB+4Xk6S4hoyJxM3l8kdQFxWJh6mokVCgGKzbQSOEjg==}
+    dependencies:
+      '@account-abstraction/contracts': 0.6.0
+      '@account-abstraction/sdk': 0.6.0
+      '@ethersproject/abi': 5.7.0
+      '@ethersproject/providers': 5.7.2
+      asn1.js: 5.4.1
+      axios: 1.4.0
+      crypto-browserify: 3.12.0
+      ethers: 5.7.2
+      typescript: 4.9.5
+      uuid: 9.0.0
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
     dev: false
 
   /@rollup/plugin-babel@5.3.1(@babel/core@7.21.8)(rollup@2.79.1):
@@ -6375,6 +6440,44 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
+  /browserify-cipher@1.0.1:
+    resolution: {integrity: sha512-sPhkz0ARKbf4rRQt2hTpAHqn47X3llLkUGn+xEJzLjwY8LRs2p0v7ljvI5EyoRO/mexrNunNECisZs+gw2zz1w==}
+    dependencies:
+      browserify-aes: 1.2.0
+      browserify-des: 1.0.2
+      evp_bytestokey: 1.0.3
+    dev: false
+
+  /browserify-des@1.0.2:
+    resolution: {integrity: sha512-BioO1xf3hFwz4kc6iBhI3ieDFompMhrMlnDFC4/0/vd5MokpuAc3R+LYbwTA9A5Yc9pq9UYPqffKpW2ObuwX5A==}
+    dependencies:
+      cipher-base: 1.0.4
+      des.js: 1.0.1
+      inherits: 2.0.4
+      safe-buffer: 5.2.1
+    dev: false
+
+  /browserify-rsa@4.1.0:
+    resolution: {integrity: sha512-AdEER0Hkspgno2aR97SAf6vi0y0k8NuOpGnVH3O99rcA5Q6sh8QxcngtHuJ6uXwnfAXNM4Gn1Gb7/MV1+Ymbog==}
+    dependencies:
+      bn.js: 5.2.1
+      randombytes: 2.1.0
+    dev: false
+
+  /browserify-sign@4.2.1:
+    resolution: {integrity: sha512-/vrA5fguVAKKAVTNJjgSm1tRQDHUU6DbwO9IROu/0WAzC8PKhucDSh18J0RMvVeHAn5puMd+QHC2erPRNf8lmg==}
+    dependencies:
+      bn.js: 5.2.1
+      browserify-rsa: 4.1.0
+      create-hash: 1.2.0
+      create-hmac: 1.1.7
+      elliptic: 6.5.4
+      inherits: 2.0.4
+      parse-asn1: 5.1.6
+      readable-stream: 3.6.2
+      safe-buffer: 5.2.1
+    dev: false
+
   /browserslist@4.21.5:
     resolution: {integrity: sha512-tUkiguQGW7S3IhB7N+c2MV/HZPSCPAAiYBZXLsBhFB/PCy6ZKKsZrmBayHV9fdGV/ARIfJ14NkxKzRDjvp7L6w==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
@@ -6934,6 +7037,13 @@ packages:
     hasBin: true
     dev: false
 
+  /create-ecdh@4.0.4:
+    resolution: {integrity: sha512-mf+TCx8wWc9VpuxfP2ht0iSISLZnt0JgWlrOKZiNqyUZWnjIaCIVNQArMHnCZKfEYRg6IM7A+NeJoN8gf/Ws0A==}
+    dependencies:
+      bn.js: 4.12.0
+      elliptic: 6.5.4
+    dev: false
+
   /create-hash@1.2.0:
     resolution: {integrity: sha512-z00bCGNHDG8mHAkP7CtT1qVu+bFQUPjYq/4Iv3C3kWjTFV10zIjfSoeqXo9Asws8gwSHDGj/hl2u4OGIjapeCg==}
     dependencies:
@@ -6987,6 +7097,22 @@ packages:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
+
+  /crypto-browserify@3.12.0:
+    resolution: {integrity: sha512-fz4spIh+znjO2VjL+IdhEpRJ3YN6sMzITSBijk6FK2UvTqruSQW+/cCZTSNsMiZNvUeq0CqurF+dAbyiGOY6Wg==}
+    dependencies:
+      browserify-cipher: 1.0.1
+      browserify-sign: 4.2.1
+      create-ecdh: 4.0.4
+      create-hash: 1.2.0
+      create-hmac: 1.1.7
+      diffie-hellman: 5.0.3
+      inherits: 2.0.4
+      pbkdf2: 3.1.2
+      public-encrypt: 4.0.3
+      randombytes: 2.1.0
+      randomfill: 1.0.4
+    dev: false
 
   /crypto-js@4.1.1:
     resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
@@ -7467,6 +7593,13 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
+  /des.js@1.0.1:
+    resolution: {integrity: sha512-Q0I4pfFrv2VPd34/vfLrFOoRmlYj3OV50i7fskps1jZWK1kApMWWT9G6RRUeYedLcBDIhnSDaUvJMb3AhUlaEA==}
+    dependencies:
+      inherits: 2.0.4
+      minimalistic-assert: 1.0.1
+    dev: false
+
   /destroy@1.2.0:
     resolution: {integrity: sha512-2sJGJTaXIIaR1w4iJSNoN0hnMY7Gpc/n8D4qSCJw8QqFWXf7cuAgnEHxBpweaVcPevC2l3KpjYCx3NypQQgaJg==}
     engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
@@ -7520,6 +7653,14 @@ packages:
   /diff-sequences@29.4.3:
     resolution: {integrity: sha512-ofrBgwpPhCD85kMKtE9RYFFq6OC1A89oW2vvgWZNCwxrUpRUILopY7lsYyMDSjc8g6U6aiO0Qubg6r4Wgt5ZnA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dev: false
+
+  /diffie-hellman@5.0.3:
+    resolution: {integrity: sha512-kqag/Nl+f3GwyK25fhUMYj81BUOrZ9IuJsjIcDE5icNM9FJHAVm3VcUDxdLPoQtTuUylWm6ZIknYJwwaPxsUzg==}
+    dependencies:
+      bn.js: 4.12.0
+      miller-rabin: 4.0.1
+      randombytes: 2.1.0
     dev: false
 
   /dijkstrajs@1.0.3:
@@ -11402,6 +11543,14 @@ packages:
       braces: 3.0.2
       picomatch: 2.3.1
 
+  /miller-rabin@4.0.1:
+    resolution: {integrity: sha512-115fLhvZVqWwHPbClyntxEVfVDfl9DLLTuJvq3g2O/Oxi8AiNouAHvDSzHS0viUJc+V5vm3eq91Xwqn9dp4jRA==}
+    hasBin: true
+    dependencies:
+      bn.js: 4.12.0
+      brorand: 1.1.0
+    dev: false
+
   /mime-db@1.52.0:
     resolution: {integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==}
     engines: {node: '>= 0.6'}
@@ -12050,6 +12199,16 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       callsites: 3.1.0
+
+  /parse-asn1@5.1.6:
+    resolution: {integrity: sha512-RnZRo1EPU6JBnra2vGHj0yhp6ebyjBZpmUCLHWiFhxlzvBCCpAuZ7elsBp1PVAbQN0/04VD/19rfzlBSwLstMw==}
+    dependencies:
+      asn1.js: 5.4.1
+      browserify-aes: 1.2.0
+      evp_bytestokey: 1.0.3
+      pbkdf2: 3.1.2
+      safe-buffer: 5.2.1
+    dev: false
 
   /parse-headers@2.0.5:
     resolution: {integrity: sha512-ft3iAoLOB/MlwbNXgzy43SWGP6sQki2jQvAyBg/zDFAgr9bfNWZIUj42Kw2eJIl8kEi4PbgE6U1Zau/HwI75HA==}
@@ -13168,6 +13327,17 @@ packages:
     resolution: {integrity: sha512-E/ZsdU4HLs/68gYzgGTkMicWTLPdAftJLfJFlLUAAKZGkStNU72sZjT66SnMDVOfOWY/YAoiD7Jxa9iHvngcag==}
     dev: false
 
+  /public-encrypt@4.0.3:
+    resolution: {integrity: sha512-zVpa8oKZSz5bTMTFClc1fQOnyyEzpl5ozpi1B5YcvBrdohMjH2rfsBtyXcuNuwjsDIXmBYlF2N5FlJYhR29t8Q==}
+    dependencies:
+      bn.js: 4.12.0
+      browserify-rsa: 4.1.0
+      create-hash: 1.2.0
+      parse-asn1: 5.1.6
+      randombytes: 2.1.0
+      safe-buffer: 5.2.1
+    dev: false
+
   /punycode@2.1.0:
     resolution: {integrity: sha512-Yxz2kRwT90aPiWEMHVYnEf4+rhwF1tBmmZ4KepCP+Wkium9JxtWnUm1nqGwpiAHr/tnTSeHqr3wb++jgSkXjhA==}
     engines: {node: '>=6'}
@@ -13274,6 +13444,13 @@ packages:
   /randombytes@2.1.0:
     resolution: {integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==}
     dependencies:
+      safe-buffer: 5.2.1
+    dev: false
+
+  /randomfill@1.0.4:
+    resolution: {integrity: sha512-87lcbR8+MhcWcUiQ+9e+Rwx8MyR2P7qnt15ynUlbm3TU/fjbgz4GsvfSUDTemtCCtVCqb4ZcEFlyPNTh9bBTLw==}
+    dependencies:
+      randombytes: 2.1.0
       safe-buffer: 5.2.1
     dev: false
 
@@ -15374,6 +15551,12 @@ packages:
     resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
+
+  /typescript@4.9.5:
+    resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: false
 
   /typescript@5.0.4:
     resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}

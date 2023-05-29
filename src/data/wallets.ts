@@ -5,6 +5,7 @@ export enum WalletType {
 	Rainbow = 'Rainbow',
 	Intmax = 'Intmax',
 	Liquality = 'Liquality',
+	BananaWallet = 'BananaWallet',
 	// Tally = 'Tally',
 	WalletConnect1 = 'WalletConnect1',
 	WalletConnect1_Web3Modal = 'WalletConnect1_Web3Modal',
@@ -23,6 +24,7 @@ export enum WalletConnectionType {
 	// WalletConnect2_EthereumProvider = 'WalletConnect2_EthereumProvider',
 	CoinbaseWalletSDK = 'CoinbaseWalletSDK',
 	WebmaxJs = 'WebmaxJs',
+	BananaWalletSdk = 'BananaWalletSdk',
 }
 
 
@@ -62,6 +64,9 @@ export const walletConnectionTypes: Record<WalletConnectionType, {
 	[WalletConnectionType.WebmaxJs]: {
 		name: 'webmax.js',
 	},
+	[WalletConnectionType.BananaWalletSdk]: {
+		name: 'Banana Wallet SDK',
+	},
 }
 
 
@@ -89,6 +94,7 @@ import {
 	RainbowIcon,
 	WalletConnectIcon,
 	WalletConnect2Icon,
+	BananaWalletIcon,
 } from '../assets/walletIcons'
 
 import { LiqualityIcon } from '../assets/icons'
@@ -248,6 +254,16 @@ export const wallets: WalletConfig[] = [
 
 		connectionTypes: [
 			WalletConnectionType.WebmaxJs,
+		],
+	},
+	{
+		type: WalletType.BananaWallet,
+		name: 'Banana Wallet',
+		icon: BananaWalletIcon,
+		colors: ['#ffcf4a', '#f8b42c', '#e67f1c'], // '#b95300'
+
+		connectionTypes: [
+			WalletConnectionType.BananaWalletSdk,
 		],
 	},
 	// {

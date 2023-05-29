@@ -710,6 +710,69 @@ export const getWalletConnection = async ({
 					}
 				}
 			}
+
+			case WalletConnectionType.BananaWalletSdk: {
+				const { Banana, Chains } = await import('@rize-labs/banana-wallet-sdk')
+
+				const network = networksByChainID[5]
+
+				if(!Object.values(Chains).some(chainId => chainId === network.chainId))
+					throw new Error(`Banana Wallet SDK isn't yet deployed on ${network.name}.`)
+
+				const sdk = new Banana(network.chainId)
+
+				return {
+					walletType,
+					connectionType: WalletConnectionType.BananaWalletSdk,
+
+					connect: async () => {
+						const username: string = sdk.getWalletName();
+
+						const wallet = username
+							? await sdk.connectWallet(username)
+							: await (async () => {
+								const username = globalThis.prompt('Choose a unique Banana Wallet username:')?.trim()
+
+								if(!username)
+									throw new Error('No username provided.')
+
+								if(await sdk.isWalletNameUnique(username) === false)
+									throw new Error(`The username "${username}" is taken.`)
+
+								return await sdk.createWallet(username)
+
+								// Variant: re-prompt if username is invalid
+								/*
+								let username
+
+								while(!username)
+									username = globalThis.prompt('Choose a Banana Wallet username:').trim()
+
+								while(await sdk.isWalletNameUnique(username) === false)
+									username = globalThis.prompt(`The username "${username}" is taken.\nChoose a Banana Wallet username:`).trim()
+
+								await sdk.createWallet(username)
+								*/
+							})()
+
+						const address = wallet.walletAddress
+
+						// const eoas = await sdk.getEOAAddress(username)
+
+						return {
+							accounts: [address],
+							chainId: network.chainId,
+						}
+					},
+
+					disconnect: async () => {
+						const { success, error } = await sdk.resetWallet()
+
+						if(error)
+							throw new Error(error)
+					},
+				}
+			}
 		}
 	}
 
