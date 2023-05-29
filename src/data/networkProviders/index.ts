@@ -319,7 +319,11 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 					[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
 					[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
 				}[connectionType])(
-					`${config.endpointUrl}?apiKey=${env.GATEWAY_FM_API_KEY}`,
+					`${config.endpointUrl}?apiKey=${{
+						'eu-north-1': env.GATEWAY_FM_API_KEY_EU_NORTH_1,
+						'eu-central-2': env.GATEWAY_FM_API_KEY_EU_CENTRAL_2,
+						'ap-southeast-1': env.GATEWAY_FM_API_KEY_AP_SOUTHEAST_1,
+					}[config.region]}`,
 					network.chainId
 				)
 			)
