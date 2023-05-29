@@ -270,6 +270,9 @@
 									address={state.account.address} {network}
 									format="middle-truncated"
 								/>
+								{#if state.account.nickname}
+									<small>"{state.account.nickname}"</small>
+								{/if}
 							</span>
 						{:else}
 							<span class="disconnected">Disconnected</span>

@@ -17,6 +17,7 @@ export type AccountConnectionState = {
 
 	account?: {
 		address?: Ethereum.Address,
+		nickname?: string,
 	}
 	chainId?: number
 	walletconnectTopic?: WalletconnectTopic,
