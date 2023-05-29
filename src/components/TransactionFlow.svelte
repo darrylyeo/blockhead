@@ -189,7 +189,7 @@
 
 					return await simulateTransaction({
 						network_id: network.chainId,
-						from: accountConnectionState.address,
+						from: accountConnectionState.account?.address,
 						to: contract.address,
 						input: populatedTx.data,
 						gas: 21204,
@@ -217,7 +217,7 @@
 
 						<EthereumSimulatedTransactionTenderly
 							{network}
-							contextualAddress={accountConnectionState.address}
+							contextualAddress={accountConnectionState.account?.address}
 							data={result}
 						/>
 					</section>
@@ -246,7 +246,7 @@
 					}
 				}}
 				loadingIcon={walletIcon}
-				loadingMessage="Sign the transaction with {walletName} ({formatAddress(accountConnectionState.address)})."
+				loadingMessage="Sign the transaction with {walletName} ({formatAddress(accountConnectionState.account?.address)})."
 				let:result={tx}
 			>
 				<header slot="header" class="bar">

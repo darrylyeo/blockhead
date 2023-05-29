@@ -8,7 +8,7 @@
 
 
 	// Computed
-	$: if(selectedAccount?.address) $accountId = selectedAccount.address
+	$: if(selectedAccount?.account?.address) $accountId = selectedAccount.account.address
 	$: currentAccountId = $accountId
 
 

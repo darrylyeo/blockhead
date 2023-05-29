@@ -24,12 +24,14 @@
 	startImmediately={false}
 	fromUseQuery={accountConnection?.signer && useQuery({
 		queryKey: ['LensAccessToken', {
-			address: accountConnection.address,
+			address: accountConnection.account?.address,
 		}],
 		queryFn: async () => {
-			const { signer, address, chainId } = accountConnection
+			const { signer, account, chainId } = accountConnection
 
-			if(!signer || !address) throw new Error(`Connect an account first.`)
+			if(!signer || !account?.address) throw new Error(`Connect an account first.`)
+
+			const { address } = account
 
 			const challengeInfo = await generateChallenge({ address })
 

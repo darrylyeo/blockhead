@@ -49,13 +49,15 @@ const connectEip1193 = async (provider: Provider) => {
 			provider.request = async (request) => await new Promise((resolve, reject) => {
 				provider.sendAsync(request, (error, accounts: Ethereum.Address[]) => {
 					// console.log('sendAsync', error, accounts)
-					error ? reject(error) : resolve(accounts)
+					error
+						? reject(error)
+						: resolve(accounts.map(address => ({ address })))
 				})
 			})
 		}
 
 		return {
-			accounts: await provider.request({ method: 'eth_requestAccounts' }) as Ethereum.Address[]
+			accounts: (await provider.request({ method: 'eth_requestAccounts' }) as Ethereum.Address[]).map(address => ({ address }))
 		}
 	}catch(e){
 		if(e.message.includes('User rejected the request'))
@@ -271,7 +273,7 @@ export const getWalletConnection = async ({
 					connect: async () => {
 						try {
 							return {
-								accounts: await provider.request({ method: 'eth_requestAccounts' })
+								accounts: (await provider.request({ method: 'eth_requestAccounts' })).map(address => ({ address }))
 							}
 						}catch(e){
 							if(e.message.includes('User denied account authorization'))
@@ -322,7 +324,7 @@ export const getWalletConnection = async ({
 
 						try {
 							return {
-								accounts: await provider.enable() as Ethereum.Address[]
+								accounts: (await provider.enable() as Ethereum.Address[]).map(address => ({ address }))
 							}
 						}catch(e){
 							if(
@@ -547,7 +549,7 @@ export const getWalletConnection = async ({
 						})().catch(reject)
 
 						resolve({
-							accounts: session?.namespaces.eip155.accounts.map(caip2Id => parseCaip2Id(caip2Id).address!),
+							accounts: session?.namespaces.eip155.accounts.map(caip2Id => ({ address: parseCaip2Id(caip2Id).address! })),
 							walletconnectTopic: session?.topic as WalletconnectTopic,
 						})
 
@@ -680,7 +682,7 @@ export const getWalletConnection = async ({
 						const account = await signer.connectToAccount()
 
 						resolve({
-							accounts: [account.address],
+							accounts: [{ address: account.address }],
 							chainId: account.chainId,
 						})
 					}),
@@ -760,7 +762,9 @@ export const getWalletConnection = async ({
 						// const eoas = await sdk.getEOAAddress(username)
 
 						return {
-							accounts: [address],
+							accounts: [{
+								address,
+							}],
 							chainId: network.chainId,
 						}
 					},

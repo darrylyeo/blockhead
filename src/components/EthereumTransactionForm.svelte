@@ -237,7 +237,7 @@
 					<header class="row spaced">
 						<span class="row">
 							<img src={walletIcon} width="25" />
-							<Address {network} address={selectedAccount.address} format="middle-truncated" />
+							<Address {network} address={selectedAccount.account?.address} format="middle-truncated" />
 						</span>
 						
 						<span>

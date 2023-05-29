@@ -50,7 +50,8 @@
 
 
 	const onDragStart = (e: DragEvent) => {
-		e.dataTransfer.setData('text/plain', state.address)
+		if(state.account?.address)
+			e.dataTransfer.setData('text/plain', state.account.address)
 	}
 
 
@@ -250,7 +251,7 @@
 
 					title="{walletConfig?.name ?? state.walletConnection?.walletType}{walletConnectionTypeConfig ? ` via ${walletConnectionTypeConfig?.name}` : ''}"
 
-					draggable={!!state.address}
+					draggable={!!state.account?.address}
 					on:dragstart={onDragStart}
 
 					style={cardStyle([...walletConfig?.colors ?? [], getNetworkColor(network)].filter(isTruthy))}
@@ -263,11 +264,13 @@
 					</div>
 
 					<div class="column align-start">
-						{#if state.address}
-							<Address
-								address={state.address} {network}
-								format="middle-truncated"
-							/>
+						{#if state.account?.address}
+							<span>
+								<Address
+									address={state.account.address} {network}
+									format="middle-truncated"
+								/>
+							</span>
 						{:else}
 							<span class="disconnected">Disconnected</span>
 						{/if}

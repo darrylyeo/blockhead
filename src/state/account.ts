@@ -15,7 +15,9 @@ export type AccountConnectionState = {
 	walletConnection?: WalletConnection
 	signer?: Signer
 
-	address?: Ethereum.Address
+	account?: {
+		address?: Ethereum.Address,
+	}
 	chainId?: number
 	walletconnectTopic?: WalletconnectTopic,
 }
@@ -48,7 +50,7 @@ export const serializeAccountConnection = ({
 	id,
 	walletType,
 	state: {
-		address,
+		account,
 		chainId,
 		walletconnectTopic,
 	} = {},
@@ -57,7 +59,7 @@ export const serializeAccountConnection = ({
 	id,
 	walletType,
 	state: {
-		address,
+		account,
 		chainId,
 		walletconnectTopic,
 	},
@@ -100,7 +102,7 @@ export const getAccountConnectionState = ({
 				walletConnection,
 				signer: walletConnection.provider && await getSigner(walletConnection.provider),
 
-				address: accounts?.[0],
+				account: accounts?.[0]!,
 				chainId,
 				walletconnectTopic,
 			}
@@ -117,7 +119,7 @@ export const getAccountConnectionState = ({
 					loading: false,
 					data: {
 						...accountConnectionState,
-						address: accounts[0]
+						account: accounts[0]
 					}
 				}))
 

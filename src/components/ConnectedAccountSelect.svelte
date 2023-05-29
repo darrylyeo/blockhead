@@ -19,7 +19,7 @@
 
 
 	// Computed
-	$: if(address) selectedAccount = $accountConnections.find(accountConnection => accountConnection.state?.address?.toLowerCase() === address?.toLowerCase())?.state || selectedAccount
+	$: if(address) selectedAccount = $accountConnections.find(accountConnection => accountConnection.state?.account?.address?.toLowerCase() === address?.toLowerCase())?.state || selectedAccount
 	// $: address = selectedAccount?.address
 
 	$: selectedAccount ||= undefined
@@ -61,7 +61,7 @@
 
 		<!-- <optgroup label="Connected"> -->
 			{#each $accountConnections as accountConnection}
-				<option value={accountConnection.state}>{accountConnection.walletType}: {formatAddress(accountConnection.state?.address)}</option>
+				<option value={accountConnection.state}>{accountConnection.walletType}: {formatAddress(accountConnection.state?.account?.address)}</option>
 			{/each}
 		<!-- </optgroup> -->
 
