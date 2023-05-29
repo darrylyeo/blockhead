@@ -1,4 +1,5 @@
 export enum TokenBalancesProvider {
+	RpcProvider = 'RPC Provider',
 	Airstack = 'Airstack',
 	Covalent = 'Covalent',
 	Liquality = 'Liquality',

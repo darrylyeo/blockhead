@@ -2,10 +2,16 @@
 	// Constants/types
 	import type { Ethereum } from '../data/networks/types'
 	import type { QuoteCurrency } from '../data/currencies'
+	import { networkProviderConfigByProvider } from '../data/networkProviders'
+	import type { NetworkProvider } from '../data/networkProviders/types'
 	import { TokenBalancesProvider, tokenBalancesProviderIcons } from '../data/tokenBalancesProvider'
 
 	import type { Covalent } from '../api/covalent'
 	import { chainCodeFromNetwork } from '../api/moralis/web3Api'
+
+
+	// Context
+	import { preferences } from '../state/preferences'
 
 
 	// External state
@@ -13,6 +19,11 @@
 	export let address: Ethereum.Address
 	export let tokenBalancesProvider: TokenBalancesProvider
 	export let quoteCurrency: QuoteCurrency
+
+	// (Computed)
+	export let providerName: NetworkProvider
+
+	$: providerName = $$props.providerName ?? $preferences.rpcNetwork
 
 
 	// View options
@@ -32,13 +43,15 @@
 		rate: Covalent.ERC20TokenOrNFTContractWithBalance['quote_rate'],
 	}[] = []
 
-	$: loadingMessage = `Retrieving ${network.name} balances from ${tokenBalancesProvider}...`
+	$: loadingMessage = `Retrieving ${network.name} balances from ${tokenBalancesProvider === TokenBalancesProvider.RpcProvider ? providerName : tokenBalancesProvider}...`
 	$: errorMessage = `Couldn't retrieve ${network.name} balances from ${tokenBalancesProvider}.`
 
 
 	// Actions
 	import { useQuery } from '@sveltestack/svelte-query'
 	import { queryStore, gql } from '@urql/svelte'
+
+	import { getEthersProvider } from '../data/networkProviders'
 
 	import { airstackNetworkNames, getClient } from '../api/airstack'
 	import { getTokenAddressBalances } from '../api/covalent'
@@ -52,7 +65,55 @@
 </script>
 
 
-{#if tokenBalancesProvider === TokenBalancesProvider.Airstack}
+{#if tokenBalancesProvider === TokenBalancesProvider.RpcProvider}
+	<Loader
+		layout="collapsible"
+		collapsibleType="label"
+		loadingIcon={networkProviderConfigByProvider[providerName].icon}
+		loadingIconName={tokenBalancesProvider}
+		{loadingMessage}
+		{errorMessage}
+		fromUseQuery={address && network && providerName && (
+			useQuery({
+				queryKey: ['Balances', {
+					tokenBalancesProvider,
+					providerName,
+					address,
+					chainID: network.chainId,
+				}],
+				queryFn: async () => {
+					const provider = await getEthersProvider({
+						network,
+						networkProvider: providerName,
+					})
+
+					if(!provider) throw new Error(`No provider found.`)
+
+					const balance = await provider.getBalance(address)
+
+					return [{
+						token: network.nativeCurrency,
+						balance: String(balance),
+					}]
+				}
+			})
+		)}
+		{showIf}
+		{isOpen}
+		{containerClass}
+		{contentClass}
+		let:status
+		bind:result={balances}
+		let:result={balances}
+		debug
+	>
+		<slot name="header" slot="header" let:loadingMessage let:errorMessage {balances} {status} {loadingMessage} {errorMessage} />
+
+		<slot {balances} />
+	</Loader>
+
+	
+{:else if tokenBalancesProvider === TokenBalancesProvider.Airstack}
 	<Loader
 		layout="collapsible"
 		collapsibleType="label"

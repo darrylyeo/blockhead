@@ -212,7 +212,7 @@ export const preferencesConfig: PreferencesConfig<
 						id: 'onChain',
 						name: 'On-Chain',
 						options: [
-							// { id: 'RPC Provider', name: 'RPC Provider + Token List' },
+							{ id: TokenBalancesProvider.RpcProvider, name: preferences => `On-Chain (${preferences.rpcNetwork})` }, // 'RPC Provider + Token List'
 							{ id: TokenBalancesProvider.Liquality, name: 'Liquality (Alchemy)' },
 							{ id: TokenBalancesProvider.QuickNode, name: 'QuickNode' },
 						]
