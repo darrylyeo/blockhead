@@ -764,6 +764,7 @@ export const getWalletConnection = async ({
 						return {
 							accounts: [{
 								address,
+								nickname: username,
 							}],
 							chainId: network.chainId,
 						}
