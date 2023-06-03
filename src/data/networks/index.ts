@@ -5444,4 +5444,5 @@ export function getNetworkRPC(network: Ethereum.Network){
 }
 
 export const networkRedirectsBySlug: Record<string, Ethereum.NetworkSlug> = {
+	'arbitrum': 'arbitrum-one',
 }
