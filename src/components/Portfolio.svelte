@@ -273,7 +273,7 @@
 		{#if isEditable}
 			<div class="stack-inline">
 				<InlineContainer containerClass="align-end" isOpen={state !== State.Editing}>
-					<div class="bar align-end" transition:scale>
+					<div class="bar align-end wrap" transition:scale>
 						{#if state === State.Idle}
 							<button class="add" data-before="＋" on:click={() => state = State.Adding} transition:scale>Add Account</button>
 						{/if}
@@ -284,7 +284,7 @@
 
 				</InlineContainer>
 				<InlineContainer containerClass="align-end" isOpen={state === State.Editing}>
-					<div class="bar align-end" transition:scale>
+					<div class="bar align-end wrap" transition:scale>
 						<button class="destructive" data-before="☒" on:click={() => dispatch('delete')}>Delete Portfolio</button>
 						<button data-before="✓" on:click={() => state = State.Idle}>Done</button>
 					</div>
@@ -334,18 +334,18 @@
 					>
 					<!-- in:blur={{ duration: 200, opacity: 0, amount: 20 }} -->
 					<!-- in:scale={{ start: 0.95, duration: 300, opacity: 0 }} -->
-						<div class="bar">
+						<div class="bar wrap">
 							<div>
 								<h3>Add Account</h3>
 							</div>
 
 							<!-- <small>{availableNetworks.map(network => network.name).join(', ')}</small> -->
 
-							<div role="toolbar" class="row">
+							<div role="toolbar" class="row wrap align-end">
 								Networks:
 
 								<InlineContainer class="align-end">
-									<div class="row">
+									<div class="row wrap">
 										{#each [
 											...defaultAccountNetworks,
 											...newNetworks.filter(network => !defaultAccountNetworks.includes(network))
