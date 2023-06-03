@@ -1,12 +1,63 @@
 <script lang="ts">
 	import { page } from '$app/stores'
 
-
 	$: console.error($page.error)
 
 
-	import { fly } from 'svelte/transition'
+	import { browser } from '$app/environment'
+
+	let previousEntry: NavigationHistoryEntry
+
+	$: if(browser)
+		previousEntry = globalThis.navigation?.entries().findLast(entry => entry.url !== globalThis.navigation.currentEntry.url)
+
+	const goBack = async (e: Event) => {
+		if(globalThis.navigation){
+			if(previousEntry){
+				// try {
+				// 	await globalThis.navigation.traverseTo(previousEntry.key).finished
+				// 	return e.preventDefault()
+				// }catch(e){
+				// 	console.error(e)
+				// }
+
+				try {
+					await globalThis.navigation.navigate(previousEntry.url, { history: "replace" }).finished
+					return e.preventDefault()
+				}catch(e){
+					console.error(e)
+				}
+			}
+
+			if(globalThis.navigation.canGoBack){
+				await globalThis.navigation.back().finished
+				return e.preventDefault()
+			}
+		}
+
+		if(globalThis.history){
+			globalThis.history.back()
+			return e.preventDefault()
+		}
+	}
+
+	const reload = async (e: Event) => {
+		if(globalThis.navigation){
+			await globalThis.navigation.reload().finished
+			return e.preventDefault()
+		}
+
+		if(globalThis.history){
+			globalThis.history.go()
+			return e.preventDefault()
+		}
+	}
+
+
 	import Preferences from '../components/Preferences.svelte'
+
+
+	import { fly } from 'svelte/transition'
 </script>
 
 
@@ -46,7 +97,8 @@
 				<span />
 			{/if}
 
-			<a href=""><button class="small" data-before="↻" on:click={() => globalThis.navigation.reload()}>Reload</button></a>
+			<a href={previousEntry?.url}><button class="small" data-before="←" on:click={goBack}>Back</button></a>
+			<a href=""><button class="small" data-before="↻" on:click={reload}>Reload</button></a>
 		</div>
 	</section>
 </main>
