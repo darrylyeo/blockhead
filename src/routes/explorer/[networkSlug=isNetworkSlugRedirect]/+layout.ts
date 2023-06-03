@@ -1,9 +1,7 @@
 import type { LayoutLoad } from './$types'
-import { redirect } from '@sveltejs/kit'
+import { redirect, resolvePath } from '@sveltejs/kit'
 
 import { networkRedirectsBySlug } from '../../../data/networks'
-
-// import { resolve_entry } from '@sveltejs/kit/src/utils/routing.js'
 
 export const load: LayoutLoad = ({ route, params }) => {
 	const newParams = {
@@ -11,5 +9,5 @@ export const load: LayoutLoad = ({ route, params }) => {
 		networkSlug: networkRedirectsBySlug[params.networkSlug]
 	}
 
-	throw redirect(308, route.id.replace(/\[(?:\.\.\.)?([A-Za-z0-9_]+)(?:=[A-Za-z0-9_]+)?\]/g, (_, param) => newParams[param]))
+	throw redirect(308, resolvePath(route.id, newParams))
 }
