@@ -438,13 +438,28 @@
 												].map(section => section.filter(Boolean).join('\n')).filter(Boolean).join('\n\n')
 											}
 										>
-											{#if nft.metadata['image']}<source src={resolveUri({ src: nft.metadata['image'] })} />{/if}
-											{#if nft.metadata['image_256']}<source src={resolveUri({ src: nft.metadata['image_256'] })} media="(min-width: 256px)" />{/if}
-											{#if nft.metadata['image_512']}<source src={resolveUri({ src: nft.metadata['image_512'] })} media="(min-width: 512px)" />{/if}
-											{#if nft.metadata['image_1024']}<source src={resolveUri({ src: nft.metadata['image_1024'] })} media="(min-width: 1024px)" />{/if}
+											{#each
+												[
+													[nft.metadata['image'], undefined],
+													[nft.metadata['image_256'], '(min-width: 256px)'],
+													[nft.metadata['image_512'], '(min-width: 512px)'],
+													[nft.metadata['image_1024'], '(min-width: 1024px)'],
+												].filter(([ uri, ]) => uri)
+												as [uri, media]
+											}
+												<source
+													src={resolveUri({
+														src: uri,
+													})}
+													media={media}
+												/>
+											{/each}
+
 											<img
 												class="nft-image"
-												src={resolveUri({ src: nft.metadata['image_256'] || nft.metadata['image'] })}
+												src={resolveUri({
+													src: nft.metadata['image_256'] || nft.metadata['image'],
+												})}
 												alt={formatNFTNameAndTokenID(nft.metadata.name ?? '', nft.tokenId)}
 												loading="lazy"
 												on:load={e => {
