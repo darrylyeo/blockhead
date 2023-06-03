@@ -208,7 +208,7 @@
 
 		margin: 0 auto;
 		width: 100%;
-		min-width: var(--one-column-width);
+		min-width: min(var(--one-column-width), 100vw);
 		min-height: 100vh;
 
 		display: grid;
@@ -219,9 +219,11 @@
 		transition: 0.4s var(--ease-out-expo);
 	}
 
-	[data-show-accounts="true"] :global(main) {
-		min-width: min(var(--one-column-width) + 22rem, 100vw);
-		padding-right: calc(22rem + var(--padding-outer));
+	@media (min-width: 50rem) {
+		[data-show-accounts="true"] :global(main) {
+			min-width: min(var(--one-column-width) + 22rem, 100vw);
+			padding-right: calc(22rem + var(--padding-outer));
+		}
 	}
 
 	@media (max-width: 50rem) {
