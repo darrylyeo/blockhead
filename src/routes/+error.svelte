@@ -97,7 +97,9 @@
 				<span />
 			{/if}
 
-			<a href={previousEntry?.url}><button class="small" data-before="←" on:click={goBack}>Back</button></a>
+			{#if !globalThis.navigation || globalThis.navigation.canGoBack}
+				<a href={previousEntry?.url}><button class="small" data-before="←" on:click={goBack}>Back</button></a>
+			{/if}
 			<a href=""><button class="small" data-before="↻" on:click={reload}>Reload</button></a>
 		</div>
 	</section>
