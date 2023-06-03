@@ -5442,3 +5442,6 @@ export const getNetworkColor = (network: Ethereum.Network | undefined) =>
 export function getNetworkRPC(network: Ethereum.Network){
 	return network.rpc[0] ?? ''
 }
+
+export const networkRedirectsBySlug: Record<string, Ethereum.NetworkSlug> = {
+}
