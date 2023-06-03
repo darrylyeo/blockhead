@@ -269,6 +269,7 @@ a:has(button) {
 input, select, textarea {
 	border: none;
 	font: inherit;
+	max-width: 100%;
 }
 input, textarea {
 	/* background-color: rgba(var(--rgb-light-dark-inverse), 0.975) */
