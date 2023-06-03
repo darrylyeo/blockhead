@@ -10,6 +10,9 @@ import { PriceProvider } from '../data/priceProviders'
 import { TransactionProvider } from '../data/transactionProvider'
 import { NotificationsProvider } from '../data/notificationsProvider'
 
+import { ipfsGateways } from '../api/ipfs'
+import { arweaveGateways } from '../api/arweave'
+
 
 type PreferenceOption<
 	PreferenceOptionID extends string
@@ -67,7 +70,7 @@ export const preferencesConfig: PreferencesConfig<
 	| 'blockchainData'
 	| 'accountData'
 	| 'analytics'
-	| 'web3',
+	| 'contentNetworks',
 
 	| 'theme'
 	// | 'tokenIcons'
@@ -382,19 +385,40 @@ export const preferencesConfig: PreferencesConfig<
 			}
 		]
 	},
+	{
+		id: 'contentNetworks',
+		name: 'Content Networks',
+		preferences: [
+			{
+				id: 'ipfsGateway',
+				name: 'IPFS Gateway',
+				type: 'single',
+				defaultOption: ipfsGateways[0],
+				options: [
+					...ipfsGateways.map(url => ({
+						id: url,
+						name: url,
+					})),
+				]
+			},
+			{
+				id: 'arweaveGateway',
+				name: 'Arweave Gateway',
+				type: 'single',
+				defaultOption: arweaveGateways[0],
+				options: [
+					...arweaveGateways.map(url => ({
+						id: url,
+						name: url,
+					})),
+				]
+			},
+		]
+	},
 	// {
 	// 	id: 'web3',
 	// 	name: 'Web 3.0',
 	// 	preferences: [
-	// 		{
-	// 			id: 'ipfsGateway',
-	// 			name: 'IPFS Gateway',
-	// 			type: 'single',
-	// 			defaultOption: 'ipfs.io',
-	// 			options: [
-	// 				{ id: 'ipfs.io', name: 'ipfs.io' }
-	// 			]
-	// 		},
 	// 		{
 	// 			id: 'skynetPortal',
 	// 			name: 'Skynet Portal',

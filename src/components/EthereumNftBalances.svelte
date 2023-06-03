@@ -4,6 +4,10 @@
 	import type { NftProvider } from '../data/nftProviders'
 
 
+	// Context
+	import { preferences } from '../state/preferences'
+
+
 	export let network: Ethereum.Network
 	export let address: Ethereum.Address
 
@@ -450,6 +454,8 @@
 												<source
 													src={resolveUri({
 														src: uri,
+														ipfsGateway: $preferences.ipfsGateway,
+														arweaveGateway: $preferences.arweaveGateway,
 													})}
 													media={media}
 												/>
@@ -459,6 +465,8 @@
 												class="nft-image"
 												src={resolveUri({
 													src: nft.metadata['image_256'] || nft.metadata['image'],
+													ipfsGateway: $preferences.ipfsGateway,
+													arweaveGateway: $preferences.arweaveGateway,
 												})}
 												alt={formatNFTNameAndTokenID(nft.metadata.name ?? '', nft.tokenId)}
 												loading="lazy"

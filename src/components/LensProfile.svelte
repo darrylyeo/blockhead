@@ -2,6 +2,7 @@
 	// Constants/types
 	import { type LensInstance, lensInstances, type LensProfile } from '../api/lens'
 	import { networksByChainID } from '../data/networks'
+	import { preferences } from '../state/preferences'
 	
 	
 	// External state
@@ -17,8 +18,16 @@
 	// (Computed)
 	$: network = networksByChainID[lensInstances[instance].chainId]
 
-	$: picture = resolveUri({ src: profile.picture?.uri || profile.picture?.original?.url })
-	$: coverPicture = resolveUri({ src: profile.coverPicture?.uri || profile.coverPicture?.original?.url })
+	$: picture = resolveUri({
+		src: profile.picture?.uri || profile.picture?.original?.url,
+		ipfsGateway: $preferences.ipfsGateway,
+		arweaveGateway: $preferences.arweaveGateway,
+	})
+	$: coverPicture = resolveUri({
+		src: profile.coverPicture?.uri || profile.coverPicture?.original?.url,
+		ipfsGateway: $preferences.ipfsGateway,
+		arweaveGateway: $preferences.arweaveGateway,
+	})
 
 
 	// Functions
