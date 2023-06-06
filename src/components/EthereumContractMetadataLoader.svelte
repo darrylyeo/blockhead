@@ -16,6 +16,19 @@
 	$: if(result) ({ contractMetadata, sourcifyUrl } = result)
 
 
+	// Output
+	type SharedSlotProps = {
+		address: typeof address,
+		contractMetadata: typeof contractMetadata | undefined,
+		sourcifyUrl: typeof sourcifyUrl | undefined,
+	}
+
+	type $$Slots = {
+		'default': SharedSlotProps,
+		'header': SharedSlotProps,
+	}
+
+
 	import { useQuery } from '@sveltestack/svelte-query'
 
 
