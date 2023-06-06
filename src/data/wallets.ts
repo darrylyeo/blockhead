@@ -1,15 +1,15 @@
 export enum WalletType {
-	CoinbaseWallet = 'Coinbase Wallet',
 	MetaMask = 'MetaMask',
-	// MEW = 'MEW',
-	Rainbow = 'Rainbow',
-	Intmax = 'Intmax',
-	Liquality = 'Liquality',
-	BananaWallet = 'BananaWallet',
-	// Tally = 'Tally',
 	WalletConnect1 = 'WalletConnect1',
 	WalletConnect1_Web3Modal = 'WalletConnect1_Web3Modal',
 	WalletConnect2_Web3Modal = 'WalletConnect2_Web3Modal',
+	BananaWallet = 'BananaWallet',
+	CoinbaseWallet = 'Coinbase Wallet',
+	Intmax = 'Intmax',
+	Liquality = 'Liquality',
+	// MEW = 'MEW',
+	Rainbow = 'Rainbow',
+	// Tally = 'Tally',
 }
 
 export enum WalletConnectionType {
@@ -116,22 +116,49 @@ export const wallets: WalletConfig[] = [
 		injectedEip1193ProviderFlag: 'isMetaMask',
 		walletConnectMobileLinks: ['metamask'],
 	},
-	// {
-	// 	type: WalletType.Tally,
-	// 	name: 'Tally',
-	// 	icon: TallyIcon,
-	// 	colors: ['#D08E39', '#002522'],
+	{
+		type: WalletType.WalletConnect2_Web3Modal,
+		name: 'WalletConnect 2.0 (Web3Modal)',
+		icon: WalletConnect2Icon,
+		colors: ['#3396ff', '#66b1ff'],
 
-	// 	connectionTypes: [
-	// 		WalletConnectionType.InjectedEip1193,
-	// 		WalletConnectionType.InjectedEthereum,
-	// 		WalletConnectionType.InjectedWeb3,
-	// 	],
+		connectionTypes: [
+			// WalletConnectionType.WalletConnect2_Web3Modal,
+			WalletConnectionType.WalletConnect2_Web3Modal_Standalone,
+			// WalletConnectionType.WalletConnect2_EthereumProvider,
+		],
+	},
+	{
+		type: WalletType.WalletConnect1_Web3Modal,
+		name: 'WalletConnect 1.0 (Web3Modal)',
+		icon: WalletConnectIcon,
+		colors: ['#3083FC'],
 
-	// 	injectedEip1193ProviderGlobal: 'tally',
-	// 	injectedEip1193ProviderFlag: 'isTally',
-	// 	walletConnectMobileLinks: ['tally'],
-	// },
+		connectionTypes: [
+			// WalletConnectionType.WalletConnect1_Web3Modal,
+			WalletConnectionType.WalletConnect1_Web3Modal_Standalone,
+		],
+	},
+	{
+		type: WalletType.WalletConnect1,
+		name: 'WalletConnect 1.0',
+		icon: WalletConnectIcon,
+		colors: ['#3083FC'],
+
+		connectionTypes: [
+			WalletConnectionType.WalletConnect1,
+		],
+	},
+	{
+		type: WalletType.BananaWallet,
+		name: 'Banana Wallet',
+		icon: BananaWalletIcon,
+		colors: ['#ffcf4a', '#f8b42c'], // '#e67f1c', '#b95300'
+
+		connectionTypes: [
+			WalletConnectionType.BananaWalletSdk,
+		],
+	},
 	{
 		type: WalletType.CoinbaseWallet,
 		name: 'Coinbase Wallet',
@@ -146,6 +173,16 @@ export const wallets: WalletConfig[] = [
 		],
 
 		injectedEip1193ProviderFlag: 'isCoinbaseWallet',
+	},
+	{
+		type: WalletType.Intmax,
+		name: 'IntmaxWallet',
+		icon: IntmaxIcon,
+		colors: ['#14ded2', '#3680fe', '#d32dfd'],
+
+		connectionTypes: [
+			WalletConnectionType.WebmaxJs,
+		],
 	},
 	{
 		type: WalletType.Liquality,
@@ -200,6 +237,22 @@ export const wallets: WalletConfig[] = [
 		],
 	},
 	// {
+	// 	type: WalletType.Tally,
+	// 	name: 'Tally',
+	// 	icon: TallyIcon,
+	// 	colors: ['#D08E39', '#002522'],
+
+	// 	connectionTypes: [
+	// 		WalletConnectionType.InjectedEip1193,
+	// 		WalletConnectionType.InjectedEthereum,
+	// 		WalletConnectionType.InjectedWeb3,
+	// 	],
+
+	// 	injectedEip1193ProviderGlobal: 'tally',
+	// 	injectedEip1193ProviderFlag: 'isTally',
+	// 	walletConnectMobileLinks: ['tally'],
+	// },
+	// {
 	// 	type: WalletType.Trust,
 	// 	name: 'Trust',
 	// 	icon: TrustWalletIcon,
@@ -213,59 +266,6 @@ export const wallets: WalletConfig[] = [
 	// 	injectedEip1193ProviderFlag: 'isTrust',
 	// 	walletConnectMobileLinks: ['trust'],
 	// },
-	{
-		type: WalletType.WalletConnect1,
-		name: 'WalletConnect 1.0',
-		icon: WalletConnectIcon,
-		colors: ['#3083FC'],
-
-		connectionTypes: [
-			WalletConnectionType.WalletConnect1,
-		],
-	},
-	{
-		type: WalletType.WalletConnect1_Web3Modal,
-		name: 'WalletConnect 1.0 (Web3Modal)',
-		icon: WalletConnectIcon,
-		colors: ['#3083FC'],
-
-		connectionTypes: [
-			// WalletConnectionType.WalletConnect1_Web3Modal,
-			WalletConnectionType.WalletConnect1_Web3Modal_Standalone,
-		],
-	},
-	{
-		type: WalletType.WalletConnect2_Web3Modal,
-		name: 'WalletConnect 2.0 (Web3Modal)',
-		icon: WalletConnect2Icon,
-		colors: ['#3396ff', '#66b1ff'],
-
-		connectionTypes: [
-			// WalletConnectionType.WalletConnect2_Web3Modal,
-			WalletConnectionType.WalletConnect2_Web3Modal_Standalone,
-			// WalletConnectionType.WalletConnect2_EthereumProvider,
-		],
-	},
-	{
-		type: WalletType.Intmax,
-		name: 'IntmaxWallet',
-		icon: IntmaxIcon,
-		colors: ['#14ded2', '#3680fe', '#d32dfd'],
-
-		connectionTypes: [
-			WalletConnectionType.WebmaxJs,
-		],
-	},
-	{
-		type: WalletType.BananaWallet,
-		name: 'Banana Wallet',
-		icon: BananaWalletIcon,
-		colors: ['#ffcf4a', '#f8b42c'], // '#e67f1c', '#b95300'
-
-		connectionTypes: [
-			WalletConnectionType.BananaWalletSdk,
-		],
-	},
 	// {
 	// 	type: WalletType.OtherWallet,
 	// 	name: 'Auto-Detect', // name: 'Other Wallet',
