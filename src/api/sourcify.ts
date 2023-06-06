@@ -79,26 +79,26 @@ export const isWritable = (part: SolidityJsonAbiPart) =>
 export const getSourcifyUrl = ({
 	contractAddress,
 	chainId,
-	match = 'full_match',
+	partialMatch = false,
 }: {
 	contractAddress: Ethereum.ContractAddress,
 	chainId: Ethereum.ChainID,
-	match?: 'full_match' | 'partial_match'
+	partialMatch?: boolean,
 }) =>
-	`https://repo.sourcify.dev/contracts/${match}/${chainId}/${contractAddress}`
+	`https://repo.sourcify.dev/contracts/${partialMatch ? 'partial_match' : 'full_match'}/${chainId}/${contractAddress}`
 
 export const getContractMetadata = async ({
 	contractAddress,
 	chainId,
-	match,
+	partialMatch,
 }: {
 	contractAddress: Ethereum.ContractAddress,
 	chainId: Ethereum.ChainID,
-	match?: 'full_match' | 'partial_match'
+	partialMatch?: boolean,
 }) =>
 	await fetch(`${getSourcifyUrl({
 		contractAddress,
 		chainId,
-		match,
+		partialMatch,
 	})}/metadata.json`)
 		.then(r => r.json()) as ContractMetadata<string>

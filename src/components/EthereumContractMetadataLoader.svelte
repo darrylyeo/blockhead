@@ -34,16 +34,22 @@
 				address,
 				chainId: network.chainId
 			}],
-			queryFn: (async () =>
-				await getContractMetadata({
-					contractAddress: address,
-					chainId: network.chainId
-				})
-				.catch(e => {
-					// console.error(e)
-					return undefined
-				})
-			)
+			queryFn: async () => {
+				try {
+					return await getContractMetadata({
+						contractAddress: address,
+						chainId: network.chainId,
+					})
+				}catch(e){
+					console.error(e)
+
+					return await getContractMetadata({
+						contractAddress: address,
+						chainId: network.chainId,
+						partialMatch: true,
+					})
+				}
+			}
 		})
 	}
 	loadingIcon={SourcifyIcon}
