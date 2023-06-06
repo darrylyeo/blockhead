@@ -5,7 +5,7 @@ import { ipfsGateways } from '../api/ipfs'
 import { findMatchedCaptureGroup } from './findMatchedCaptureGroup'
 
 
-const pattern = /^(?:ipfs:\/\/(?<ipfsCid>.*)|ar:\/\/(?<arweaveCid>.*))$/
+const pattern = /^(?:ipfs:\/\/(?<ipfs>(?<ipfsCid>[^/]+)(?<ipfsPath>.+)?)|ar:\/\/(?<arweaveCid>.+))$/
 
 
 export const resolveUri = ({
@@ -25,12 +25,20 @@ export const resolveUri = ({
 	for(const gateway of arweaveGateways)
 		src = src.replace(gateway, () => arweaveGateway)
 
-	const [type, match] = findMatchedCaptureGroup<'ipfsCid' | 'arweaveCid'>(pattern, src)
+	// const [type, contentId] = findMatchedCaptureGroup<'ipfsCid' | 'arweaveCid'>(pattern, src)
+	// return type === 'ipfsCid' ?
+	// 	`https://${ipfsGateway}/ipfs/${match}`
+	// : type === 'arweaveCid' ?
+	// 	`https://${arweaveGateway}/${match}`
+	// :
+	// 	src
 
-	return type === 'ipfsCid' ?
-		`https://${ipfsGateway}/ipfs/${match}`
-	: type === 'arweaveCid' ?
-		`https://${arweaveGateway}/${match}`
+	const { groups } = src.match(pattern) ?? {}
+
+	return groups?.ipfsCid ?
+		`https://${ipfsGateway}/ipfs/${groups.ipfsCid}${groups.ipfsPath ?? ''}`
+	: groups?.arweaveCid ?
+		`https://${arweaveGateway}/${groups.arweaveCid}`
 	:
 		src
 }
