@@ -76,7 +76,7 @@
 			<EthereumContractMetadataLoader
 				{address}
 				{network}
-				whenLoaded={async contractMetadata => {
+				whenLoaded={async ({ contractMetadata }) => {
 					if(!contractMetadata || hasLoadedMetadata) return
 					hasLoadedMetadata = true
 

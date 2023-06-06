@@ -1,22 +1,19 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
-	import { type ContractMetadata, getContractMetadata, getSourcifyUrl } from '../api/sourcify'
+	import { getContractMetadata } from '../api/sourcify'
 	
 	
 	export let address: Ethereum.ContractAddress
 	export let network: Ethereum.Network
 
 
-	export let whenLoaded: (contractMetadata: ContractMetadata<string>) => void
+	export let whenLoaded: (_: Awaited<ReturnType<typeof getContractMetadata>>) => void
 
 
-	export let contractMetadata: ContractMetadata<string>
-
-
-	$: sourcifyUrl = getSourcifyUrl({
-		contractAddress: address,
-		chainId: network.chainId
-	})
+	let result: Awaited<ReturnType<typeof getContractMetadata>>
+	export let contractMetadata: typeof result['contractMetadata']
+	export let sourcifyUrl: typeof result['sourcifyUrl']
+	$: if(result) ({ contractMetadata, sourcifyUrl } = result)
 
 
 	import { useQuery } from '@sveltestack/svelte-query'
@@ -57,7 +54,8 @@
 	loadingMessage={`Looking up contract metadata on ${'Sourcify'}...`}
 	errorMessage={`Couldn't find contract metadata on ${'Sourcify'}.`}
 	{whenLoaded}
-	bind:result={contractMetadata}
+	bind:result={result}
+	let:result={{contractMetadata, sourcifyUrl}}
 >
 	<slot slot="header" name="header" {address} {contractMetadata} {sourcifyUrl} />
 	<slot {address} {contractMetadata} {sourcifyUrl} />

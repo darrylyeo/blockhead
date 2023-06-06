@@ -95,10 +95,15 @@ export const getContractMetadata = async ({
 	contractAddress: Ethereum.ContractAddress,
 	chainId: Ethereum.ChainID,
 	partialMatch?: boolean,
-}) =>
-	await fetch(`${getSourcifyUrl({
+}) => {
+	const sourcifyUrl = getSourcifyUrl({
 		contractAddress,
 		chainId,
 		partialMatch,
-	})}/metadata.json`)
-		.then(r => r.json()) as ContractMetadata<string>
+	})
+
+	return {
+		sourcifyUrl,
+		contractMetadata: await fetch(`${sourcifyUrl}/metadata.json`).then(r => r.json()) as ContractMetadata<string>
+	}
+}
