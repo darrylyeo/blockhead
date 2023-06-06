@@ -5,7 +5,7 @@ import { ipfsGateways } from '../api/ipfs'
 import { findMatchedCaptureGroup } from './findMatchedCaptureGroup'
 
 
-const pattern = /^(?:ipfs:\/\/(?<ipfs>(?<ipfsCid>[^/]+)(?<ipfsPath>.+)?)|ar:\/\/(?<arweaveCid>.+))$/
+const pattern = /^(?:(?:ipfs|dweb):\/\/(?<ipfs>(?<ipfsCid>[^/]+)(?<ipfsPath>.+)?)|ar:\/\/(?<arweaveCid>.+))$/
 
 
 export const resolveUri = ({
