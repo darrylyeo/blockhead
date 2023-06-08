@@ -57,6 +57,10 @@
 	h3 {
 		line-height: 1.6;
 	}
+
+	.source-code {
+		display: block;
+	}
 </style>
 
 
@@ -165,15 +169,19 @@
 										<!-- {#if source.license}<span>License: {source.license}</span>{/if} -->
 									</footer>
 								{:else if source.urls?.length}
-									{@const ipfsCid = source.urls.find(url => url.includes('dweb:'))?.match(/^dweb:\/ipfs\/(.+)$/)?.[1]}
+									{@const ipfsCid = source.urls.find(url => url.startsWith('dweb:/'))?.match(/^dweb:\/ipfs\/(.+)$/)?.[1]}
+									<!-- {@const ipfsUrl = source.urls.find(url => url.startsWith('dweb:/'))} -->
 
 									<IpfsLoader
 										{ipfsCid}
 										format="text"
+										errorMessage="Couldn't fetch content on Sourcify."
 										let:content={sourceCode}
-										let:ipfsUrl
+										let:ipfsCid
+										let:resolvedIpfsUrl
+										let:ipfsGateway
 									>
-										<code class="scrollable-list" style="height: 30em">{sourceCode}</code>
+										<code class="source-code scrollable-list" style="height: 30em">{sourceCode}</code>
 
 										<hr>
 
@@ -184,7 +192,7 @@
 
 											<!-- {#if source.license}<span>License: {source.license}</span>{/if} -->
 											
-											<span>IPFS › <a href={ipfsUrl} target="_blank">{ipfsCid}</a></span>
+											<span><a href="https://{ipfsGateway}" title="IPFS Gateway: {ipfsGateway}" target="_blank">IPFS</a> › <a href={resolvedIpfsUrl} target="_blank">{ipfsCid}</a></span>
 										</footer>
 									</IpfsLoader>
 								{/if}
