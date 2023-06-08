@@ -168,7 +168,7 @@
 									{@const ipfsCid = source.urls.find(url => url.includes('dweb:'))?.match(/^dweb:\/ipfs\/(.+)$/)?.[1]}
 
 									<IpfsLoader
-										contentId={ipfsCid}
+										{ipfsCid}
 										format="text"
 										let:content={sourceCode}
 										let:ipfsUrl
