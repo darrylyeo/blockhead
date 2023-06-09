@@ -10,7 +10,7 @@ import { PriceProvider } from '../data/priceProviders'
 import { TransactionProvider } from '../data/transactionProvider'
 import { NotificationsProvider } from '../data/notificationsProvider'
 
-import { ipfsGateways } from '../api/ipfs'
+import { ipfsGateways } from '../data/ipfsGateways'
 import { arweaveGateways } from '../api/arweave'
 
 

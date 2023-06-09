@@ -1,5 +1,5 @@
 import { arweaveGateways } from '../api/arweave'
-import { ipfsGateways } from '../api/ipfs'
+import { ipfsGateways } from '../data/ipfsGateways'
 
 
 import { findMatchedCaptureGroup } from './findMatchedCaptureGroup'
