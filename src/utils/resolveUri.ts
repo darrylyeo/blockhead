@@ -1,4 +1,4 @@
-import { arweaveGateways } from '../api/arweave'
+import { arweaveGateways } from '../data/arweaveGateways'
 import { ipfsGateways } from '../data/ipfsGateways'
 
 
