@@ -1,4 +1,5 @@
 /// <reference path="../../../../../houdini.d.ts" />
+import type { Cache } from '../cache/cache';
 import type { DocumentArtifact, GraphQLVariables, GraphQLObject, NestedList } from '../lib/types';
 import type { ClientHooks, ClientPlugin } from './documentStore';
 import { DocumentStore } from './documentStore';
@@ -12,10 +13,12 @@ export type HoudiniClientConstructorArgs = {
     pipeline?: NestedList<ClientPlugin>;
     throwOnError?: ThrowOnErrorParams;
 };
-export type ObserveParams<_Data extends GraphQLObject, _Artifact extends DocumentArtifact = DocumentArtifact> = {
+export type ObserveParams<_Data extends GraphQLObject, _Artifact extends DocumentArtifact = DocumentArtifact, _Input extends GraphQLVariables = GraphQLVariables> = {
     artifact: _Artifact;
-    cache?: boolean;
+    enableCache?: boolean;
+    cache?: Cache;
     initialValue?: _Data | null;
+    initialVariables?: _Input;
     fetching?: boolean;
 };
 export declare class HoudiniClient {
@@ -23,6 +26,6 @@ export declare class HoudiniClient {
     readonly plugins: ClientPlugin[];
     readonly throwOnError_operations: ThrowOnErrorOperations[];
     constructor({ url, fetchParams, plugins, pipeline, throwOnError, }: HoudiniClientConstructorArgs);
-    observe<_Data extends GraphQLObject, _Input extends GraphQLVariables>({ artifact, cache, initialValue, fetching, }: ObserveParams<_Data>): DocumentStore<_Data, _Input>;
+    observe<_Data extends GraphQLObject, _Input extends GraphQLVariables>({ enableCache, fetching, ...rest }: ObserveParams<_Data, DocumentArtifact, _Input>): DocumentStore<_Data, _Input>;
 }
 export declare function createPluginHooks(plugins: ClientPlugin[]): ClientHooks[];

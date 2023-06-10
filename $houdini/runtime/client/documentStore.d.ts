@@ -1,21 +1,27 @@
 import type { HoudiniClient } from '.';
+import type { Cache } from '../cache/cache';
 import type { Layer } from '../cache/storage';
 import type { ConfigFile } from '../lib/config';
 import { Writable } from '../lib/store';
 import type { DocumentArtifact, QueryResult, GraphQLObject, SubscriptionSpec, CachePolicies, GraphQLVariables } from '../lib/types';
 export declare class DocumentStore<_Data extends GraphQLObject, _Input extends GraphQLVariables> extends Writable<QueryResult<_Data, _Input>> {
     #private;
+    readonly artifact: DocumentArtifact;
     pendingPromise: {
         then: (val: any) => void;
     } | null;
-    constructor({ artifact, plugins, pipeline, client, cache, initialValue, fetching, }: {
+    serverSideFallback?: boolean;
+    constructor({ artifact, plugins, pipeline, client, cache, enableCache, initialValue, initialVariables, fetching, }: {
         artifact: DocumentArtifact;
         plugins?: ClientHooks[];
         pipeline?: ClientHooks[];
         client: HoudiniClient | null;
-        cache?: boolean;
+        cache?: Cache;
+        enableCache?: boolean;
         initialValue?: _Data | null;
         fetching?: boolean;
+        serverSideFallback?: boolean;
+        initialVariables?: _Input;
     });
     send({ metadata, session, fetch, variables, policy, stuff, cacheParams, setup, silenceEcho, }?: SendParams): Promise<QueryResult<_Data, _Input>>;
     cleanup(): Promise<void>;
@@ -51,6 +57,7 @@ export type ClientPluginContext = {
         disableRead?: boolean;
         disableSubscriptions?: boolean;
         applyUpdates?: string[];
+        serverSideFallback?: boolean;
     };
     stuff: App.Stuff;
 };

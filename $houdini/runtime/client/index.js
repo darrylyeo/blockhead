@@ -46,18 +46,16 @@ class HoudiniClient {
     this.url = url;
   }
   observe({
-    artifact,
-    cache = true,
-    initialValue,
-    fetching = false
+    enableCache = true,
+    fetching = false,
+    ...rest
   }) {
     return new DocumentStore({
       client: this,
-      artifact,
       plugins: createPluginHooks(this.plugins),
-      cache,
-      initialValue,
-      fetching
+      fetching,
+      enableCache,
+      ...rest
     });
   }
 }

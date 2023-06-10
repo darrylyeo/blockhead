@@ -107,6 +107,12 @@ class Cache {
   config() {
     return this._internal_unstable.config;
   }
+  serialize() {
+    return this._internal_unstable.storage.serialize();
+  }
+  hydrate(...args) {
+    return this._internal_unstable.storage.hydrate(...args);
+  }
   clearLayer(layerID) {
     const layer = this._internal_unstable.storage.getLayer(layerID);
     if (!layer) {

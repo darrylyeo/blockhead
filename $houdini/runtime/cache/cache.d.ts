@@ -47,6 +47,8 @@ export declare class Cache {
     }): void;
     getFieldTime(id: string, field: string): number | null | undefined;
     config(): ConfigFile;
+    serialize(): string;
+    hydrate(...args: Parameters<InMemoryStorage['hydrate']>): void;
     clearLayer(layerID: Layer['id']): void;
 }
 declare class CacheInternal {

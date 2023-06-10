@@ -316,4 +316,5 @@ interface VariableNode {
 }
 export declare const PendingValue: unique symbol;
 export type LoadingType = typeof PendingValue;
+export declare function isPending(value: any): value is LoadingType;
 export {};

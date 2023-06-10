@@ -30,6 +30,9 @@ const DataSource = {
 };
 const fragmentKey = " $fragments";
 const PendingValue = Symbol("houdini_loading");
+function isPending(value) {
+  return typeof value === "symbol";
+}
 export {
   ArtifactKind,
   CachePolicy,
@@ -41,5 +44,6 @@ export {
   PaginateMode,
   PendingValue,
   RefetchUpdateMode,
-  fragmentKey
+  fragmentKey,
+  isPending
 };

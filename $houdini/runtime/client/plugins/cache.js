@@ -68,6 +68,9 @@ const cachePolicy = ({
     },
     afterNetwork(ctx, { resolve, value, marshalVariables }) {
       if (value.source !== DataSource.Cache && enabled && value.data && !ctx.cacheParams?.disableWrite) {
+        if (ctx.cacheParams && "serverSideFallback" in ctx.cacheParams) {
+          serverSideFallback = ctx.cacheParams?.serverSideFallback ?? serverSideFallback;
+        }
         const targetCache = serverSide && serverSideFallback ? new Cache({ disabled: false }) : localCache;
         let layer;
         if (!serverSide && ctx.cacheParams?.layer) {

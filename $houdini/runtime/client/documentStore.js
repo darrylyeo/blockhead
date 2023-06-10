@@ -9,20 +9,23 @@ const steps = {
   backwards: ["end", "afterNetwork"]
 };
 class DocumentStore extends Writable {
-  #artifact;
+  artifact;
   #client;
   #configFile;
   #plugins;
   #lastVariables;
   #lastContext = null;
   pendingPromise = null;
+  serverSideFallback;
   constructor({
     artifact,
     plugins,
     pipeline,
     client,
-    cache = true,
+    cache,
+    enableCache = true,
     initialValue,
+    initialVariables,
     fetching
   }) {
     fetching ??= artifact.kind === ArtifactKind.Query;
@@ -33,7 +36,7 @@ class DocumentStore extends Writable {
       stale: false,
       source: null,
       fetching,
-      variables: null
+      variables: initialVariables ?? null
     };
     super(initialState, () => {
       return () => {
@@ -41,13 +44,14 @@ class DocumentStore extends Writable {
         this.cleanup();
       };
     });
-    this.#artifact = artifact;
+    this.artifact = artifact;
     this.#client = client;
     this.#lastVariables = null;
     this.#configFile = getCurrentConfig();
     this.#plugins = pipeline ?? [
       cachePolicy({
-        enabled: cache,
+        cache,
+        enabled: enableCache,
         setFetching: (fetching2, data) => {
           this.update((state) => {
             const newState = { ...state, fetching: fetching2 };
@@ -74,9 +78,9 @@ class DocumentStore extends Writable {
   } = {}) {
     let context = new ClientPluginContextWrapper({
       config: this.#configFile,
-      text: this.#artifact.raw,
-      hash: this.#artifact.hash,
-      policy: policy ?? this.#artifact.policy,
+      text: this.artifact.raw,
+      hash: this.artifact.hash,
+      policy: policy ?? this.artifact.policy,
       variables: null,
       metadata,
       session,
@@ -89,7 +93,7 @@ class DocumentStore extends Writable {
         },
         ...stuff
       },
-      artifact: this.#artifact,
+      artifact: this.artifact,
       lastVariables: this.#lastVariables,
       cacheParams
     });

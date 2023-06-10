@@ -908,6 +908,12 @@ enum FusesSet_orderBy {
   transactionID
 }
 
+"""
+8 bytes signed integer
+
+"""
+scalar Int8
+
 type InterfaceChanged implements ResolverEvent {
   blockNumber: Int!
   id: ID!

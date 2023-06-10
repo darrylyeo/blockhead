@@ -25,6 +25,12 @@ export declare class InMemoryStorage {
     writeField(id: string, field: string, value: GraphQLValue): number;
     resolveLayer(id: number): void;
     get topLayer(): Layer;
+    serialize(): string;
+    hydrate(args?: {
+        rank: number;
+        fields: EntityFieldMap;
+        links: LinkMap;
+    }, layer?: Layer): void;
 }
 export declare class Layer {
     readonly id: LayerID;

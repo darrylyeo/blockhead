@@ -5,7 +5,7 @@ export declare class BaseStore<_Data extends GraphQLObject, _Input extends Graph
     #private;
     get artifact(): _Artifact;
     get name(): string;
-    constructor(params: ObserveParams<_Data, _Artifact> & {
+    constructor(params: ObserveParams<_Data, _Artifact, _Input> & {
         initialize?: boolean;
     });
     get observer(): DocumentStore<_Data, _Input>;

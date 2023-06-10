@@ -159,6 +159,23 @@ class InMemoryStorage {
     }
     return this.data[this.data.length - 1];
   }
+  serialize() {
+    return JSON.stringify({
+      rank: this.rank,
+      fields: this.topLayer.fields,
+      links: this.topLayer.links
+    });
+  }
+  hydrate(args, layer) {
+    if (!args) {
+      return;
+    }
+    const { rank, fields, links } = args;
+    this.rank = rank;
+    layer ??= this.createLayer(true);
+    layer.fields = fields;
+    layer.links = links;
+  }
 }
 class Layer {
   id;
