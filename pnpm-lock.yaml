@@ -94,9 +94,15 @@ dependencies:
   key-did-resolver:
     specifier: ^3.0.0
     version: 3.0.0
+  multiformats:
+    specifier: ^11.0.2
+    version: 11.0.2
   process:
     specifier: ^0.11.10
     version: 0.11.10
+  runes2:
+    specifier: ^1.1.2
+    version: 1.1.2
   svelte-apollo:
     specifier: ^0.5.0
     version: 0.5.0(@apollo/client@3.7.15)(graphql@16.6.0)(svelte@3.59.1)
@@ -106,6 +112,9 @@ dependencies:
   svelvet:
     specifier: ^6.0.12
     version: 6.0.12
+  uint8arrays:
+    specifier: ^4.0.3
+    version: 4.0.3
   webmax:
     specifier: ^0.2.0
     version: 0.2.0
@@ -14445,6 +14454,10 @@ packages:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
     dependencies:
       queue-microtask: 1.2.3
+
+  /runes2@1.1.2:
+    resolution: {integrity: sha512-v6XIdRpUKdFLNhgF2AC9XvntZsDzxyTpVlpQ8HD592XD6vHiW8jEcHFnTV5ztUjWJC5cGOcdi9YKIwxWVh0f9w==}
+    dev: false
 
   /rustbn.js@0.2.0:
     resolution: {integrity: sha512-4VlvkRUuCJvr2J6Y0ImW7NvTCriMi7ErOAqWk1y69vAdoNIzCF3yPmgeNzx+RQTLEDFq5sHfscn1MwHxP9hNfA==}
