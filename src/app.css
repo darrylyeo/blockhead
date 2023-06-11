@@ -744,6 +744,13 @@ a.card {
 	transform-origin: left;
 	--button-transform-origin: left;
 }
+.align-center {
+	text-align: center;
+	justify-items: center;
+	justify-content: center;
+	transform-origin: center;
+	--button-transform-origin: center;
+}
 .align-end {
 	text-align: right;
 	justify-items: end;
