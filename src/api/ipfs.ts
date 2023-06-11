@@ -1,1 +1,1 @@
-export type IpfsCid = `Qm${string}` | `bafy${string}`
+export type IpfsCid = `Qm${string}` | `bafy${string}` | `🚀${string}` | string
