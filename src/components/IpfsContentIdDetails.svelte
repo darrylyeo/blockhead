@@ -33,6 +33,7 @@
 
 
 	// Components
+	import BlockTransition from './BlockTransition.svelte'
 	import Collapsible from './Collapsible.svelte'
 	import InlineTransition from './InlineTransition.svelte'
 	import IpfsLoader from './IpfsLoader.svelte'
@@ -103,7 +104,7 @@
 		</header>
 
 		<div class="card">
-			<output class="decoded-cid row-inline wrap"><span title="Multibase"><InlineTransition align="center" value={multibase.name} /></span> - <span title="Version"><InlineTransition align="center" value="cidv{cid.version}" /></span> - <span title="Multicodec"><InlineTransition align="center" value={multicodec.name} /></span> - <span class="row-inline" title="Multihash">(<span title="Multicodec"><InlineTransition value={multihash.multicodec.name} /></span> : <span title="Size (bits)"><InlineTransition value={multihash.size * 8} /></span> : <span title="Digest (base16)">{digestBase16}<!--<InlineTransition style="width: auto" value={digestBase16} />--></span>)</span></output>
+			<output class="decoded-cid row-inline wrap"><span title="Multibase"><InlineTransition align="center" value={multibase.name} /></span> - <span title="Version"><InlineTransition align="center" value="cidv{cid.version}" /></span> - <span title="Multicodec"><InlineTransition align="center" value={multicodec.name} /></span> - <span class="row-inline" title="Multihash">(<span title="Multicodec"><InlineTransition value={multihash.multicodec.name} /></span> : <span title="Size (bits)"><InlineTransition value={multihash.size * 8} /></span> : <span title="Digest (base16)"><BlockTransition align="center" value={digestBase16} /></span>)</span></output>
 			<!-- <p>multibase - version - multicodec - multihash (name : size : digest)</p> -->
 		</div>
 
@@ -172,7 +173,8 @@
 						'Digest (base16)': digestBase16,
 					}) as [key, value]}
 							<dt><InlineTransition align="end" value={key} /></dt>
-							<dd><InlineTransition value={value} transitionWidth={false} containerStyle="width: auto" let:value><output>{value}</output></InlineTransition></dd>
+							<!-- <dd><BlockTransition element="output" value={value} /></dd> -->
+							<dd><output><BlockTransition value={value} /></dd>
 					{/each}
 				</dl>
 			</section>
