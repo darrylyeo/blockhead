@@ -206,14 +206,15 @@
 					{#each
 						getAllIpfsCidEncodings(cid)
 							.filter(({ version, base }) =>
-								showEncodings === 'common' ?
-									version === 0
-									|| ['base32', 'base36'].includes(base.name)
-									|| (version === cid.version && base.name === multibase.name)
-								: showEncodings === 'no-formatting-variants' ?
-									!base.name.match(/(?:upper|pad)$/)
-								:
-									true
+								(version === cid.version && base.name === multibase.name) || (
+									showEncodings === 'common' ?
+										version === 0
+										|| ['base32', 'base36'].includes(base.name)
+									: showEncodings === 'no-formatting-variants' ?
+										!base.name.match(/(?:upper|pad)$/)
+									:
+										true
+								)
 							)
 						as { version, base, ipfsCid }, i
 						(`${version}-${base.name}`)
