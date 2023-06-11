@@ -34,6 +34,7 @@
 
 	// Components
 	import Collapsible from './Collapsible.svelte'
+	import InlineTransition from './InlineTransition.svelte'
 	import IpfsLoader from './IpfsLoader.svelte'
 	import IpfsContentId from './IpfsContentId.svelte'
 	import Loader from './Loader.svelte'
@@ -65,7 +66,7 @@
 
 	<article class="card">
 		<header class="bar wrap">
-			<h2><IpfsContentId {ipfsContentId} /></h2>
+			<h2><InlineTransition key={ipfsContentId}><IpfsContentId {ipfsContentId} /></InlineTransition></h2>
 
 			<!-- <span class="card-annotation"><a href="https://github.com/multiformats/cid" target="_blank">IPFS Content ID (v{cid.version})</a></span> -->
 			<span class="card-annotation">IPFS Content</span>
@@ -102,7 +103,7 @@
 		</header>
 
 		<div class="card">
-			<output class="decoded-cid"><span title="Multibase">{multibase.name}</span> - <span title="Version">cidv{cid.version}</span> - <span title="Multicodec">{multicodec.name}</span> - <span class="row-inline" title="Multihash">(<span title="Multicodec">{multihash.multicodec.name}</span> : <span title="Size (bits)">{multihash.size * 8}</span> : <span title="Digest (base16)">{digestBase16}</span>)</span></output>
+			<output class="decoded-cid"><span title="Multibase"><InlineTransition align="center" value={multibase.name} /></span> - <span title="Version"><InlineTransition align="center" value="cidv{cid.version}" /></span> - <span title="Multicodec"><InlineTransition align="center" value={multicodec.name} /></span> - <span class="row-inline" title="Multihash">(<span title="Multicodec"><InlineTransition value={multihash.multicodec.name} /></span> : <span title="Size (bits)"><InlineTransition value={multihash.size * 8} /></span> : <span title="Digest (base16)"><InlineTransition value={digestBase16} /></span>)</span></output>
 			<!-- <p>multibase - version - multicodec - multihash (name : size : digest)</p> -->
 		</div>
 
@@ -123,7 +124,7 @@
 						'Prefix': cid.version === 0 ? null : multibase.prefix,
 					}) as [key, value]}
 						<dt>{key}</dt>
-						<dd>{#if key === 'Prefix' && value === null}<span class="faded">[implicit]</span>{:else}<output>{value}</output>{/if}</dd>
+						<dd><InlineTransition value={value} let:value>{#if key === 'Prefix' && value === null}<span class="faded">[implicit]</span>{:else}<output>{value}</output>{/if}</InlineTransition></dd>
 					{/each}
 				</dl>
 			</section>
@@ -145,7 +146,7 @@
 						'Description': { type: 'text', value: multicodec.description },
 					}) as [key, {type, value}]}
 						<dt>{key}</dt>
-						<dd><output data-type={type}>{value}</output></dd>
+						<dd><InlineTransition value={value} let:value><output data-type={type}>{value}</output></InlineTransition></dd>
 					{/each}
 				</dl>
 			</section>
@@ -170,8 +171,8 @@
 						[`Digest (${multibase.name})`]: multibase.encode(multihash.bytes),
 						'Digest (base16)': digestBase16,
 					}) as [key, value]}
-						<dt>{key}</dt>
-						<dd><output>{value}</output></dd>
+							<dt><InlineTransition align="end" value={key} /></dt>
+							<dd><InlineTransition value={value} transitionWidth={false} containerStyle="width: auto" let:value><output>{value}</output></InlineTransition></dd>
 					{/each}
 				</dl>
 			</section>
@@ -252,7 +253,7 @@
 					'binary': `${cid.byteLength} bytes`,
 				}) as [key, value]}
 					<dt>{key}</dt>
-					<dd>{value}</dd>
+					<dd><InlineTransition value={value} /></dd>
 				{/each}
 			</dl>
 		</section> -->
