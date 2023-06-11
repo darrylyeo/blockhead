@@ -15,6 +15,7 @@
 	export let contentsOnly = false
 	export let contentElementOnly = !transitionWidth && !transitionHeight
 	export let containerClass = 'align-top'
+	export let containerStyle = ''
 
 	export let contentClass = $$props.class
 
@@ -84,6 +85,7 @@
 	<div
 		class="content{contentClass ? ` ${contentClass}` : ''}"
 		class:inline
+		style={containerStyle}
 	>
 		<slot />
 	</div>
@@ -99,6 +101,7 @@
 			easing && `--easing: ${easing};`,
 			transitionWidth && contentRect && `width: ${isOpen ? `${Math.max($contentRect.width, 0)}px` : '0'};`,
 			transitionHeight && contentRect && `height: ${isOpen ? `${Math.max($contentRect.height, 0)}px` : '0'};`,
+			containerStyle,
 		].filter(Boolean).join(' ')}
 		aria-expanded={isOpen}
 		tabindex={isOpen ? undefined : -1}
