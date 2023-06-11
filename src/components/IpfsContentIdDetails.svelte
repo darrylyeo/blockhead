@@ -103,7 +103,7 @@
 		</header>
 
 		<div class="card">
-			<output class="decoded-cid"><span title="Multibase"><InlineTransition align="center" value={multibase.name} /></span> - <span title="Version"><InlineTransition align="center" value="cidv{cid.version}" /></span> - <span title="Multicodec"><InlineTransition align="center" value={multicodec.name} /></span> - <span class="row-inline" title="Multihash">(<span title="Multicodec"><InlineTransition value={multihash.multicodec.name} /></span> : <span title="Size (bits)"><InlineTransition value={multihash.size * 8} /></span> : <span title="Digest (base16)"><InlineTransition value={digestBase16} /></span>)</span></output>
+			<output class="decoded-cid row-inline wrap"><span title="Multibase"><InlineTransition align="center" value={multibase.name} /></span> - <span title="Version"><InlineTransition align="center" value="cidv{cid.version}" /></span> - <span title="Multicodec"><InlineTransition align="center" value={multicodec.name} /></span> - <span class="row-inline" title="Multihash">(<span title="Multicodec"><InlineTransition value={multihash.multicodec.name} /></span> : <span title="Size (bits)"><InlineTransition value={multihash.size * 8} /></span> : <span title="Digest (base16)">{digestBase16}<!--<InlineTransition style="width: auto" value={digestBase16} />--></span>)</span></output>
 			<!-- <p>multibase - version - multicodec - multihash (name : size : digest)</p> -->
 		</div>
 
@@ -263,17 +263,29 @@
 
 <style>
 	.decoded-cid {
+		justify-content: center;
+		gap: 0;
+
 		font-size: 0.89em;
 		text-align: center;
 
-		padding: 0.5rem 0;
-		line-height: 3.5;
+		padding: 0.5rem;
+		margin: calc(-1 * var(--padding-inner)) 0;
 	}
 	.decoded-cid span {
 		display: inline-block;
 		position: relative;
 		gap: 0;
-		line-height: 1.6;
+		max-width: 100%;
+	}
+	.decoded-cid > span {
+		padding-top: 1rem;
+		margin-top: var(--padding-inner);
+	}
+	.decoded-cid > span > span {
+		padding-bottom: 1rem;
+		margin-bottom: var(--padding-inner);
+		text-wrap: balance;
 	}
 	.decoded-cid > span:before,
 	.decoded-cid > span > span:after {
@@ -287,11 +299,12 @@
 
 		position: absolute;
 		white-space: nowrap;
-		inset: 0em;
+		/* inset: calc(50% - 1.5rem / 2) 0em; */
+		inset: 1rem 0em;
 		height: 0;
 		display: flex;
 		justify-content: center;
-		line-height: 2;
+		line-height: 2.5;
 		border-image: url('/src/assets/braces.svg') 50% 33% / 1rem / 0.25rem stretch;
 	}
 	.decoded-cid > span:before {
@@ -301,7 +314,7 @@
 		border-image-width: 0.5rem 0.5rem 0 0.5rem;
 	}
 	.decoded-cid > span > span:after {
-		font-size: 0.66em;
+		font-size: 0.6em;
 		align-items: start;
 		top: auto;
 		border-image-width: 0 0.5rem 0.5rem 0.5rem;
