@@ -11,6 +11,7 @@ import {
 	audiusPlaylistId,
 	audiusTrackId,
 	audiusUserId,
+	ipfsContentId
 } from './_appsParams'
 
 
@@ -29,6 +30,7 @@ export const currentView: Readable<'Dashboard' | 'Explorer' | 'Account'> = deriv
 	audiusPlaylistId,
 	audiusTrackId,
 	audiusUserId,
+	ipfsContentId,
 ], ([
 	$web3AppSlug,
 	$accountId,
@@ -36,9 +38,10 @@ export const currentView: Readable<'Dashboard' | 'Explorer' | 'Account'> = deriv
 	$audiusPlaylistId,
 	$audiusTrackId,
 	$audiusUserId,
+	$ipfsContentId,
 ], set) => set(
 	($web3AppSlug === 'ens' && $accountId) || 
-	($audiusQuery || $audiusPlaylistId || $audiusTrackId || $audiusUserId) ?
+	($audiusQuery || $audiusPlaylistId || $audiusTrackId || $audiusUserId || $ipfsContentId) ?
 		'Explorer'
 	: $accountId ?
 		'Account'

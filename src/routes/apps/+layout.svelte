@@ -12,6 +12,8 @@
 		audiusPlaylistId,
 		audiusTrackId,
 		audiusUserId,
+		ipfsContentId,
+		ipfsContentPath,
 		derivedPath
 	} from './_appsParams'
 
@@ -22,6 +24,8 @@
 		$audiusPlaylistId = $page.params.audiusPlaylistId || ''
 		$audiusTrackId = $page.params.audiusTrackId || ''
 		$audiusUserId = $page.params.audiusUserId || ''
+		$ipfsContentId = $page.params.ipfsContentId || ''
+		$ipfsContentPath = $page.params.ipfsContentPath || ''
 	}
 
 	$: if(browser)
@@ -162,9 +166,14 @@
 </main>
 
 <Preferences
-	relevantPreferences={[
-		'theme',
-		'rpcNetwork', 'defiProvider', 'nftsProvider', 'currentPriceProvider', 'historicalPriceProvider', 'transactionProvider',
-		'quoteCurrency'
-	]}
+	relevantPreferences={
+		$ipfsContentId ? [
+			'theme',
+			'ipfsGateway',
+		] : [
+			'theme',
+			'rpcNetwork', 'defiProvider', 'nftsProvider', 'currentPriceProvider', 'historicalPriceProvider', 'transactionProvider',
+			'quoteCurrency'
+		]
+	}
 />
