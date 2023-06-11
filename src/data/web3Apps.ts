@@ -4,7 +4,7 @@ import type { ZapperAppId } from '../api/zapper'
 import { erc20TokensByContractAddress, erc20TokensBySymbol } from './tokens'
 
 
-import { LensIcon, NounsIcon } from '../assets/icons'
+import { IpfsIcon, LensIcon, NounsIcon } from '../assets/icons'
 
 
 export type Web3AppConfig = {
@@ -3683,6 +3683,16 @@ export const web3Apps: Web3AppConfig[] = [
 					zapper: 'inverse'
 				}
 			}
+		]
+	},
+	{
+		name: 'IPFS',
+		slug: 'ipfs',
+		links: ['https://ipfs.tech'],
+		colors: ['#469ea2', '#6acad1', '#083b54'],
+		icon: IpfsIcon,
+		views: [
+
 		]
 	},
 	{
