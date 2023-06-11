@@ -13,7 +13,7 @@
 
 
 	// Internal state
-	let showAllEncodings = false
+	let showEncodings: 'common' | 'no-formatting-variants' | 'all' = 'common'
 
 
 	// Functions
@@ -188,7 +188,14 @@
 				<h4>Alternate Encodings</h4>
 
 				<div role="toolbar">
-					<label><input type="checkbox" bind:checked={showAllEncodings} /><span>Show All</span></label>
+					<label>
+						<span>Show</span>
+						<select bind:value={showEncodings}>
+							<option value="common">Common</option>
+							<option value="no-formatting-variants">All Bases</option>
+							<option value="all">All Bases + Formatting Variants</option>
+						</select>
+					</label>
 				</div>
 			</header>
 
@@ -199,12 +206,14 @@
 					{#each
 						getAllIpfsCidEncodings(cid)
 							.filter(({ version, base }) =>
-								showAllEncodings ?
-									true
-								:
+								showEncodings === 'common' ?
 									version === 0
 									|| ['base32', 'base36'].includes(base.name)
 									|| (version === cid.version && base.name === multibase.name)
+								: showEncodings === 'no-formatting-variants' ?
+									!base.name.match(/(?:upper|pad)$/)
+								:
+									true
 							)
 						as { version, base, ipfsCid }, i
 						(`${version}-${base.name}`)
