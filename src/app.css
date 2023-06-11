@@ -196,6 +196,9 @@ output {
 	word-break: break-word;
 	user-select: all;
 }
+output[data-type="text"] {
+	font-family: inherit;
+}
 
 
 button {
@@ -443,13 +446,16 @@ hr {
 }
 
 
-dl {
+dl, dl > div {
 	display: grid;
 	/* grid-template-columns: minmax(min-content, 1fr) minmax(min-content, 1fr); */
 	grid-template-columns: minmax(min-content, 1fr) 1fr;
 	align-items: center;
 	align-items: start;
 	margin: 0 auto;
+}
+dl > div {
+	grid-column: 1 / -1;
 }
 dt {
 	color: rgba(var(--rgb-light-dark-inverse), 0.6);
