@@ -7,7 +7,7 @@
     type TransitionParams = $$Generic<{delay?: number; duration?: number; easing?: EasingFunction}>
 
 
-    export let element = "span"
+    // export let element = "span"
     export let key: Key | undefined
     export let value: Value | undefined
 
@@ -21,4 +21,5 @@
 </script>
 
 
-<SizeContainer class="stack align-{align}" {...$$restProps}>{#key key ?? value}<svelte:element this={element} class="column align-{align}" transition:transition|local={transitionParams}><slot {key} {value}>{value}</slot></svelte:element>{/key}</SizeContainer>
+<!-- <SizeContainer class="stack align-{align}" {...$$restProps}>{#key key ?? value}<svelte:element this={element} class="column align-{align}" transition:transition|local={transitionParams}><slot {key} {value}>{value}</slot></svelte:element>{/key}</SizeContainer> -->
+<SizeContainer class="stack align-{align}" {...$$restProps}>{#key key ?? value}<span class="column align-{align}" transition:transition|local={transitionParams}><slot {key} {value}>{value}</slot></span>{/key}</SizeContainer>
