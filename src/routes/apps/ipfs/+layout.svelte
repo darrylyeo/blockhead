@@ -7,6 +7,10 @@
 	$: currentIpfsContentId = $ipfsContentId
 
 
+	// Components
+	import IpfsContentIdDetails from '../../../components/IpfsContentIdDetails.svelte'
+
+
 	// Transitions
 	import { fly } from 'svelte/transition'
 </script>
@@ -22,10 +26,19 @@
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
 	<form class="row" on:submit|preventDefault={() => $ipfsContentId = currentIpfsContentId}>
-		<input bind:value={currentIpfsContentId} placeholder="IPFS Content ID: v1 (bafy...) / v0 (Qm...)" />
+		<input bind:value={currentIpfsContentId} placeholder="IPFS Content ID: v0 (Qm...) / v1 (bafy..., k2..., 🚀...)" />
 
 		<button type="submit">Go</button>
 	</form>
+
+
+	{#if $ipfsContentId}
+		<IpfsContentIdDetails
+			ipfsContentId={$ipfsContentId}
+			ipfsContentPath={$ipfsContentPath}
+		/>
+	{/if}
+	
 
 	<slot />
 </section>
