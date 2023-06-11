@@ -377,7 +377,11 @@
 					{#if contract.metadata.bannerImage && !show3D}
 						<img
 							class="cover-image"
-							src={contract.metadata.bannerImage}
+							src={resolveUri({
+								uri: contract.metadata.bannerImage,
+								ipfsGateway: $preferences.ipfsGateway,
+								arweaveGateway: $preferences.arweaveGateway,
+							})}
 							on:error={e => e.target.hidden = true}
 						/>
 					{/if}
@@ -387,7 +391,11 @@
 							<h5 class="row">
 								{#if contract.metadata.logoImage}
 									<img
-										src={contract.metadata.logoImage}
+										src={resolveUri({
+											uri: contract.metadata.logoImage,
+											ipfsGateway: $preferences.ipfsGateway,
+											arweaveGateway: $preferences.arweaveGateway,
+										})}
 										height="24"
 										style="width: fit-content"
 										on:error={e => e.target.hidden = true}
