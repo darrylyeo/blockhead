@@ -169,12 +169,14 @@
 						// 'Multicodec Description': multihash.multicodec.description,
 						// 'Size': `${multihash.size * 8} bits`,
 						'Size (bits)': multihash.size * 8,
-						[`Digest (${multibase.name})`]: multibase.encode(multihash.bytes),
+						...multibase.name !== 'base16' && {
+							[`Digest (${multibase.name})`]: multibase.encode(multihash.bytes),
+						},
 						'Digest (base16)': digestBase16,
-					}) as [key, value]}
-							<dt><InlineTransition align="end" value={key} /></dt>
-							<!-- <dd><BlockTransition element="output" value={value} /></dd> -->
-							<dd><output><BlockTransition value={value} /></dd>
+					}) as [key, value] (key)}
+						<dt><InlineTransition align="end" value={key} /></dt>
+						<!-- <dd><BlockTransition element="output" value={value} /></dd> -->
+						<dd><output><BlockTransition value={value} /></dd>
 					{/each}
 				</dl>
 			</section>
