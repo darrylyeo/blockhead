@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Constants/types
-	import type { IpfsCid } from '../api/ipfs'
+	import type { IpfsCid } from '../api/ipfs/contentId'
 
 
 	// Context
@@ -17,7 +17,7 @@
 
 
 	// Functions
-	import { decodeIpfsCid, getAllIpfsCidEncodings, checkIpfsCidIsValidSubdomain } from '../api/ipfs'
+	import { decodeIpfsCid, getAllIpfsCidEncodings, checkIpfsCidIsValidSubdomain } from '../api/ipfs/contentId'
 	import { toString as uint8ArrayToString } from 'uint8arrays/to-string'
 
 	/**

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { IpfsCid } from '../api/ipfs'
+	import type { IpfsCid } from '../api/ipfs/contentId'
 
 
 	// Context
