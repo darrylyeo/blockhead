@@ -18,7 +18,7 @@
 	this={linked ? 'a' : 'span'}
 	class="ipfs-content-id"
 	{...linked ? {
-		href: `/apps/ipfs/content/${ipfsContentId}`
+		href: `/apps/ipfs/content/${encodeURIComponent(ipfsContentId)}`
 	} : {}}
 	title={ipfsContentId}
 >

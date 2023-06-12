@@ -61,9 +61,9 @@ export const derivedPath: Readable<string> = derived([
 				: $web3AppSlug === 'ipfs' ?
 					$ipfsContentId ?
 						$ipfsContentPath ?
-							`/content/${$ipfsContentId}/${$ipfsContentPath}`
+							`/content/${encodeURIComponent($ipfsContentId)}/${$ipfsContentPath}`
 						:
-							`/content/${$ipfsContentId}`
+							`/content/${encodeURIComponent($ipfsContentId)}`
 					:
 						''
 
