@@ -352,7 +352,7 @@
 	dl > div {
 		/* display: contents; */
 		width: 100%;
-		grid-template-columns: 14rem 1fr;
+		grid-template-columns: clamp(6.5rem, 30%, 12rem) 1fr;
 	}
 
 	.faded {
