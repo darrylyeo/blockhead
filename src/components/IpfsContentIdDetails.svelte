@@ -229,7 +229,7 @@
 							</dt>
 							<!-- <dd class:mark={isCurrentFormat}> -->
 							<dd>
-								<IpfsContentId ipfsContentId={ipfsCid} />
+								<output><IpfsContentId ipfsContentId={ipfsCid} linked={base.name !== 'identity'} /></output>
 
 								<!-- {#if isValidSubdomain !== undefined}
 									<!-- <span class="card-annotation">{isValidSubdomain ? 'subdomain gateway compatible' : 'subdomain gateway incompatible (DNS label too long)'}</span> -- >
