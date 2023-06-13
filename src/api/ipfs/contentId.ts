@@ -44,14 +44,25 @@ export const getAllIpfsCidEncodings = (cid: CID) => [
 			prefix: null,
 			name: 'base58btc',
 		},
-		ipfsCid: cid.toV0().toString(),
+		getIpfsCid: () => cid.toV0().toString(),
 	},
 	...Object.values(bases).map(base => ({
 		version: 1,
 		base,
-		ipfsCid: cid.toV1().toString(base),
+		getIpfsCid: () => cid.toV1().toString(base),
 	})),
-]
+].flatMap(({ version, base, getIpfsCid }) => {
+	try {
+		return [{
+			version,
+			base,
+			ipfsCid: getIpfsCid(),
+		}]
+	}catch(e){
+		console.info(e, { cid, version, base })
+	}
+	return []
+})
 
 // Label's max length in DNS (https://tools.ietf.org/html/rfc1034#page-7)
 const dnsLabelMaxLength = 63
