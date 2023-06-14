@@ -393,11 +393,11 @@ export const preferencesConfig: PreferencesConfig<
 				id: 'ipfsGateway',
 				name: 'IPFS Gateway',
 				type: 'single',
-				defaultOption: ipfsGateways[0],
+				defaultOption: ipfsGateways[0].gatewayProvider,
 				options: [
-					...ipfsGateways.map(url => ({
-						id: url,
-						name: url,
+					...ipfsGateways.map(ipfsGateway => ({
+						id: ipfsGateway.gatewayProvider,
+						name: `${ipfsGateway.name} (${ipfsGateway.gatewayDomain})`,
 					})),
 				]
 			},
