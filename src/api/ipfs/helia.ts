@@ -72,3 +72,27 @@ export const getLocalIpfsContent = async ({ ipfsCid, path, type = 'png' }: {ipfs
 			}))
 	}
 }
+
+
+export const encodeBytes = async (content: string | Blob | File) => {
+	const fs = await getLocalFilesystem()
+
+	// const bytes = new TextEncoder().encode(content)
+
+	const blob = await new Response(content).blob()
+	const buffer = await blob.arrayBuffer()
+	const bytes = new Uint8Array(buffer)
+
+	const cid = await fs.addBytes(bytes, {
+		onProgress: (e) => {
+			console.info('encodeContent progress', e)
+		}
+	})
+
+	return {
+		cid,
+		blob,
+		buffer,
+		bytes,
+	}
+}
