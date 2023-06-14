@@ -2,6 +2,10 @@
 	// Constants/types
 	import { type LensInstance, lensInstances, type LensProfile } from '../api/lens'
 	import { networksByChainID } from '../data/networks'
+	import { ipfsGatewaysByProvider } from '../data/ipfsGateways'
+
+
+	// Context
 	import { preferences } from '../state/preferences'
 	
 	
@@ -20,12 +24,12 @@
 
 	$: picture = resolveUri({
 		src: profile.picture?.uri || profile.picture?.original?.url,
-		ipfsGateway: $preferences.ipfsGateway,
+		ipfsGatewayDomain: ipfsGatewaysByProvider[$preferences.ipfsGateway].gatewayDomain,
 		arweaveGateway: $preferences.arweaveGateway,
 	})
 	$: coverPicture = resolveUri({
 		src: profile.coverPicture?.uri || profile.coverPicture?.original?.url,
-		ipfsGateway: $preferences.ipfsGateway,
+		ipfsGatewayDomain: ipfsGatewaysByProvider[$preferences.ipfsGateway].gatewayDomain,
 		arweaveGateway: $preferences.arweaveGateway,
 	})
 

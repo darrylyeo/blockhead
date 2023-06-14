@@ -32,7 +32,7 @@
 
 	$: resolvedIpfsUrl = resolveUri({
 		src: ipfsUrl ?? `ipfs://${ipfsCid}`,
-		ipfsGateway: ipfsGateway.gatewayDomain,
+		ipfsGatewayDomain: ipfsGateway.gatewayDomain,
 	})
 
 	// Shared state

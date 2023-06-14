@@ -10,17 +10,19 @@ const pattern = /^(?:(?:ipfs|dweb):\/\/(?<ipfs>(?<ipfsCid>[^/]+)(?<ipfsPath>.+)?
 
 export const resolveUri = ({
 	src,
-	ipfsGateway = ipfsGateways[0],
+	ipfsGatewayDomain,
 	arweaveGateway = arweaveGateways[0],
 }: {
 	src: string,
-	ipfsGateway?: string,
+	ipfsGatewayDomain?: string,
 	arweaveGateway?: string,
 }) => {
 	if(!src) return undefined
 
-	for(const gateway of ipfsGateways)
-		src = src.replace(gateway, () => ipfsGateway)
+	if(ipfsGatewayDomain)
+		for(const { gatewayDomain } of ipfsGateways)
+			if(gatewayDomain)
+				src = src.replace(gatewayDomain, () => ipfsGatewayDomain)
 
 	for(const gateway of arweaveGateways)
 		src = src.replace(gateway, () => arweaveGateway)
@@ -36,7 +38,7 @@ export const resolveUri = ({
 	const { groups } = src.match(pattern) ?? {}
 
 	return groups?.ipfsCid ?
-		`https://${ipfsGateway}/ipfs/${groups.ipfsCid}${groups.ipfsPath ?? ''}`
+		`https://${ipfsGatewayDomain}/ipfs/${groups.ipfsCid}${groups.ipfsPath ?? ''}`
 	: groups?.arweaveCid ?
 		`https://${arweaveGateway}/${groups.arweaveCid}`
 	:

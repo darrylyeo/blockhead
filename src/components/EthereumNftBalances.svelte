@@ -2,6 +2,7 @@
 	import type { Ethereum } from '../data/networks/types'
 	import type { QuoteCurrency } from '../data/currencies'
 	import type { NftProvider } from '../data/nftProviders'
+	import { ipfsGatewaysByProvider } from '../data/ipfsGateways'
 
 
 	// Context
@@ -379,7 +380,7 @@
 							class="cover-image"
 							src={resolveUri({
 								uri: contract.metadata.bannerImage,
-								ipfsGateway: $preferences.ipfsGateway,
+								ipfsGatewayDomain: ipfsGatewaysByProvider[$preferences.ipfsGateway].gatewayDomain,
 								arweaveGateway: $preferences.arweaveGateway,
 							})}
 							on:error={e => e.target.hidden = true}
@@ -393,7 +394,7 @@
 									<img
 										src={resolveUri({
 											uri: contract.metadata.logoImage,
-											ipfsGateway: $preferences.ipfsGateway,
+											ipfsGatewayDomain: ipfsGatewaysByProvider[$preferences.ipfsGateway].gatewayDomain,
 											arweaveGateway: $preferences.arweaveGateway,
 										})}
 										height="24"
@@ -462,7 +463,7 @@
 												<source
 													src={resolveUri({
 														src: uri,
-														ipfsGateway: $preferences.ipfsGateway,
+														ipfsGatewayDomain: ipfsGatewaysByProvider[$preferences.ipfsGateway].gatewayDomain,
 														arweaveGateway: $preferences.arweaveGateway,
 													})}
 													media={media}
@@ -473,7 +474,7 @@
 												class="nft-image"
 												src={resolveUri({
 													src: nft.metadata['image_256'] || nft.metadata['image'],
-													ipfsGateway: $preferences.ipfsGateway,
+													ipfsGatewayDomain: ipfsGatewaysByProvider[$preferences.ipfsGateway].gatewayDomain,
 													arweaveGateway: $preferences.arweaveGateway,
 												})}
 												alt={formatNFTNameAndTokenID(nft.metadata.name ?? '', nft.tokenId)}
