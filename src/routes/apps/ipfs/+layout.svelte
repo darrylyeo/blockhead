@@ -1,25 +1,14 @@
 <script lang="ts">
-	// Constants/types
-	import { IpfsGatewayProvider, ipfsGatewaysByProvider } from '../../../data/ipfsGateways'
-
-
 	// Params
 	import { ipfsContentId, ipfsContentPath } from '../_appsParams'
 
 
 	// Context
-	import { preferences } from '../../../state/preferences'
+	import { ipfsGateway } from './_context'
 
 
 	// Computed
 	$: currentIpfsContentId = $ipfsContentId
-
-
-	// Internal state
-	// (Computed)
-	let ipfsGatewayProvider: IpfsGatewayProvider
-	$: ipfsGatewayProvider = $$props.ipfsGateway ?? $preferences.ipfsGateway
-	$: ipfsGateway = ipfsGatewaysByProvider[ipfsGatewayProvider]
 
 
 	// Components
@@ -49,7 +38,7 @@
 
 	{#if $ipfsContentId}
 		<IpfsContentIdDetails
-			{ipfsGateway}
+			ipfsGateway={$ipfsGateway}
 			ipfsContentId={$ipfsContentId}
 			ipfsContentPath={$ipfsContentPath}
 		/>
