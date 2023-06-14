@@ -2,7 +2,7 @@ export enum IpfsGatewayProvider {
 	IpfsIo = 'IpfsIo',
 }
 
-type IpfsGatewayConfig = {
+export type IpfsGatewayConfig = {
 	gatewayProvider: IpfsGatewayProvider,
 	name: string,
 	icon?: string,
@@ -19,3 +19,7 @@ export const ipfsGateways: IpfsGatewayConfig[] = [
 		gatewayDomain: 'ipfs.io'
 	},
 ]
+
+export const ipfsGatewaysByProvider: Record<IpfsGatewayProvider, IpfsGatewayConfig> = Object.fromEntries(
+	ipfsGateways.map((ipfsGateway) => [ipfsGateway.gatewayProvider, ipfsGateway])
+)

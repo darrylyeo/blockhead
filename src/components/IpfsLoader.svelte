@@ -1,4 +1,7 @@
 <script lang="ts">
+	// Constants/types
+	import { IpfsGatewayProvider, ipfsGatewaysByProvider } from '../data/ipfsGateways'
+
 	import type { IpfsCid } from '../api/ipfs/contentId'
 
 
@@ -6,26 +9,30 @@
 	import { preferences } from '../state/preferences'
 
 
-	// Props
+	// External state
 
 	type ContentType = $$Generic<'text' | 'json'>
 
 	export let ipfsUrl: string | undefined
 
-	export let ipfsGateway: string | undefined
-	$: ipfsGateway = $$props.ipfsGateway ?? $preferences.ipfsGateway
+	export let ipfsGatewayProvider: IpfsGatewayProvider
+	$: ipfsGatewayProvider = $$props.ipfsGateway ?? $preferences.ipfsGateway
 
 	export let ipfsCid: IpfsCid | undefined
 
 	export let type: ContentType = 'text'
 
 
-	// Computed
+
+	// Internal state
+	// (Computed)
+	$: ipfsGateway = ipfsGatewaysByProvider[ipfsGatewayProvider]
+
 	import { resolveUri } from '../utils/resolveUri'
 
 	$: resolvedIpfsUrl = resolveUri({
 		src: ipfsUrl ?? `ipfs://${ipfsCid}`,
-		ipfsGateway: $preferences.ipfsGateway,
+		ipfsGateway: ipfsGateway.gatewayDomain,
 	})
 
 	// Shared state
@@ -82,7 +89,7 @@
 		}
 		loadingIcon={IpfsIcon}
 		loadingIconName="IPFS"
-		loadingMessage={`Fetching content from IPFS via ${ipfsGateway}...`}
+		loadingMessage={`Fetching content from IPFS via ${ipfsGateway.name}...`}
 		errorMessage={`Couldn't fetch content from IPFS.`}
 		{...$$restProps}
 		bind:result={content}
