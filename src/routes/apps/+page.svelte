@@ -101,7 +101,7 @@
 						<a href="/apps/{app.slug}" class="item card" transition:scale={{delay: i * 10}} style={cardStyle(app.colors)}>
 							<h3 class="row">
 								{#if app.icon}
-									<img src={app.icon} alt={app.name} width={30} />
+									<img src={app.icon} alt={app.name} width={24} />
 								{:else}
 									{#each app.views?.flatMap(view => view.erc20Tokens ?? []).filter(Boolean).slice(0, 1) as erc20Token}
 										<TokenIcon {erc20Token} />
