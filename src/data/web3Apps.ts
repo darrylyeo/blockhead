@@ -8968,6 +8968,7 @@ export const web3AppsByProviderName = {
 
 
 const infrastructureApps = [
+	'ipfs',
 	'ens',
 	'the-graph',
 	// 'push',
