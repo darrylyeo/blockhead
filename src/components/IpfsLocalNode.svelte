@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Types
-	import type { IpfsGatewayConfig } from '../data/ipfsGateways'
+	import { type IpfsGatewayConfig, IpfsGatewayProvider } from '../data/ipfsGateways'
 
 
 	// External state
@@ -76,29 +76,36 @@
 	
 		<!-- <section class="card"> -->
 		<section class="column">
-			<Collapsible>
+			<Collapsible type="label">
 				<h4 slot="title">Preview</h4>
 	
 				<!-- <hr> -->
 		
-				<IpfsLocalContentEncoder
-					{ipfsGateway}
-					{content}
-					let:cid
-				>
-					<!-- <article>
-						<div class="bar wrap">
-							<IpfsContentId ipfsContentId={cid?.toV1?.().toString()} />
-		
-							<span class="card-annotation">IPFS CID</span>
-						</div>
-					</article> -->
-					<IpfsContentIdDetails
+				{#if ipfsGateway.gatewayProvider === IpfsGatewayProvider.Helia}
+					<IpfsLocalContentEncoder
 						{ipfsGateway}
-						ipfsContentId={cid?.toV1?.().toString()}
-						headingLevel={4}
-					/>
-				</IpfsLocalContentEncoder>
+						{content}
+						let:cid
+					>
+						<!-- <article>
+							<div class="bar wrap">
+								<IpfsContentId ipfsContentId={cid?.toV1?.().toString()} />
+			
+								<span class="card-annotation">IPFS CID</span>
+							</div>
+						</article> -->
+
+						<IpfsContentIdDetails
+							{ipfsGateway}
+							ipfsContentId={cid?.toV1?.().toString()}
+							headingLevel={4}
+						/>
+					</IpfsLocalContentEncoder>
+				{:else}
+					<div class="card align-center">
+						Switch to a local IPFS Gateway to add content to IPFS.
+					</div>
+				{/if}
 			</Collapsible>
 		</section>
 	</form>
