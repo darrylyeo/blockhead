@@ -1,13 +1,11 @@
 <script lang="ts">
 	// Constants/types
+	import type { IpfsGatewayConfig } from '../data/ipfsGateways'
 	import type { IpfsCid } from '../api/ipfs/contentId'
 
 
-	// Context
-	import { preferences } from '../state/preferences'
-
-
 	// External state
+	export let ipfsGateway: IpfsGatewayConfig
 	export let ipfsContentId: IpfsCid
 	export let ipfsContentPath: string
 
@@ -81,9 +79,10 @@
 
 		<Collapsible>
 			<svelte:element this={`h${headingLevel + 1}`} slot="title">Content</svelte:element>
-			<span slot="toolbar" class="card-annotation"><a href="https://{$preferences.ipfsGateway}" target="_blank">{$preferences.ipfsGateway}</a></span>
+			<span slot="toolbar" class="card-annotation"><a href="https://{$ipfsGateway.gatewayDomain}" target="_blank">{ipfsGateway.name}</a></span>
 
 			<IpfsLoader
+				ipfsGatewayProvider={ipfsGateway.gatewayProvider}
 				ipfsCid={ipfsContentId}
 				ipfsContentPath={ipfsContentPath}
 				let:content
