@@ -201,7 +201,7 @@ output[data-type="text"] {
 }
 
 
-button {
+button, ::file-selector-button {
 	display: inline-flex;
 	align-items: center;
 	gap: 0.75ch;
@@ -235,19 +235,19 @@ button {
 	cursor: pointer;
 	user-select: none;
 }
-button:hover, button:focus {
+button:is(:hover, :focus), input:is(:hover, :focus)::file-selector-button {
 	--scale: 1.015;
 }
-button:focus {
+button:focus, input:focus::file-selector-button {
 	--glow: 5px;
 }
-button:active {
+button:active, input:active::file-selector-button {
 	--depth: 0;
 }
-button.medium {
+button.medium, input.medium::file-selector-button {
 	font-size: 0.95em;
 }
-button.small {
+button.small, input.small::file-selector-button {
 	font-size: 0.7em;
 }
 button.destructive {
@@ -274,12 +274,9 @@ input, select, textarea {
 	font: inherit;
 	max-width: 100%;
 }
-input, textarea {
+input:not([type="file"]), textarea {
 	/* background-color: rgba(var(--rgb-light-dark-inverse), 0.975) */
-	background-color: rgba(255, 255, 255, 0.975)
-}
-
-input, textarea {
+	background-color: rgba(255, 255, 255, 0.975);
 	border-radius: 0.5rem;
 	padding: 0.3em 0.7em;
 	flex-basis: 20rem;
@@ -298,6 +295,12 @@ input[type="checkbox"] {
 	/* display: inline-flex;
 	align-items: center; */
 	flex-basis: auto;
+}
+
+input[type="file"] {
+	/* overflow: visible; */
+	margin: -1rem;
+	padding: 1rem;
 }
 
 label {
