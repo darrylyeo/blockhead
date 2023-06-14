@@ -395,10 +395,30 @@ export const preferencesConfig: PreferencesConfig<
 				type: 'single',
 				defaultOption: ipfsGateways[0].gatewayProvider,
 				options: [
-					...ipfsGateways.map(ipfsGateway => ({
-						id: ipfsGateway.gatewayProvider,
-						name: `${ipfsGateway.name} (${ipfsGateway.gatewayDomain})`,
-					})),
+					{
+						id: 'local',
+						name: 'Local',
+						options: [
+							...ipfsGateways
+								.filter(ipfsGateway => ipfsGateway.gatewayDomain === 'local')
+								.map(ipfsGateway => ({
+									id: ipfsGateway.gatewayProvider,
+									name: `${ipfsGateway.name} (${ipfsGateway.gatewayDomain})`,
+								})),
+						]
+					},
+					{
+						id: 'hosted',
+						name: 'Hosted',
+						options: [
+							...ipfsGateways
+								.filter(ipfsGateway => ipfsGateway.gatewayDomain !== 'local')
+								.map(ipfsGateway => ({
+									id: ipfsGateway.gatewayProvider,
+									name: `${ipfsGateway.name} (${ipfsGateway.gatewayDomain})`,
+								})),
+						]
+					}
 				]
 			},
 			{
