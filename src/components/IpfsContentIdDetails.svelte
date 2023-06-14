@@ -32,6 +32,10 @@
 	}
 
 
+	// View Options
+	export let titleElement: 'h2' | 'h3' = 'h2'
+
+
 	// Components
 	import BlockTransition from './BlockTransition.svelte'
 	import Collapsible from './Collapsible.svelte'
@@ -67,7 +71,7 @@
 
 	<article class="card">
 		<header class="bar wrap">
-			<h2><InlineTransition key={ipfsContentId}><IpfsContentId {ipfsContentId} /></InlineTransition></h2>
+			<svelte:element this={titleElement}><InlineTransition key={ipfsContentId}><IpfsContentId {ipfsContentId} /></InlineTransition></svelte:element>
 
 			<!-- <span class="card-annotation"><a href="https://github.com/multiformats/cid" target="_blank">IPFS Content ID (v{cid.version})</a></span> -->
 			<span class="card-annotation">IPFS Content</span>
