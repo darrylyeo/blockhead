@@ -167,7 +167,7 @@
 
 <Preferences
 	relevantPreferences={
-		$ipfsContentId ? [
+		$web3AppSlug === 'ipfs' ? [
 			'theme',
 			'ipfsGateway',
 		] : [
