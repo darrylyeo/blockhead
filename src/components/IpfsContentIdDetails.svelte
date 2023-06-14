@@ -76,24 +76,19 @@
 		</header>
 
 		<hr>
-
-		<Collapsible>
+		
+		<Collapsible type="label">
 			<svelte:element this={`h${headingLevel + 1}`} slot="title">Content</svelte:element>
-			<span slot="toolbar" class="card-annotation"><a href="https://{$ipfsGateway.gatewayDomain}" target="_blank">{ipfsGateway.name}</a></span>
+
+			<span slot="header-right" class="card-annotation"><a href="https://{ipfsGateway.gatewayDomain}" target="_blank">{ipfsGateway.name}</a></span>
 
 			<IpfsLoader
 				ipfsGatewayProvider={ipfsGateway.gatewayProvider}
 				ipfsCid={ipfsContentId}
 				ipfsContentPath={ipfsContentPath}
 				let:content
-				let:ipfsGateway
-				let:resolvedIpfsUrl
 			>
-				{content}
-
-				{ipfsGateway}
-
-				{resolvedIpfsUrl}
+				<pre class="card">{content}</pre>
 			</IpfsLoader>
 		</Collapsible>
 
