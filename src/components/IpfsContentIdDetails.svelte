@@ -33,7 +33,7 @@
 
 
 	// View Options
-	export let titleElement: 'h2' | 'h3' = 'h2'
+	export let headingLevel: 1 | 2 | 3 | 4 = 2
 
 
 	// Components
@@ -71,7 +71,7 @@
 
 	<article class="card">
 		<header class="bar wrap">
-			<svelte:element this={titleElement}><InlineTransition key={ipfsContentId}><IpfsContentId {ipfsContentId} /></InlineTransition></svelte:element>
+			<svelte:element this="h{headingLevel}"><InlineTransition key={ipfsContentId}><IpfsContentId {ipfsContentId} /></InlineTransition></svelte:element>
 
 			<!-- <span class="card-annotation"><a href="https://github.com/multiformats/cid" target="_blank">IPFS Content ID (v{cid.version})</a></span> -->
 			<span class="card-annotation">IPFS Content</span>
@@ -80,7 +80,7 @@
 		<hr>
 
 		<Collapsible>
-			<h3 slot="title">Content</h3>
+			<svelte:element this="h{headingLevel + 1}" slot="title">Content</svelte:element>
 			<span slot="toolbar" class="card-annotation"><a href="https://{$preferences.ipfsGateway}" target="_blank">{$preferences.ipfsGateway}</a></span>
 
 			<IpfsLoader
@@ -100,9 +100,9 @@
 
 		<hr>
 
-		<!-- <h4>Decoded (<a href="https://github.com/multiformats/cid#human-readable-cids">Human Readable CID</a>)</h4> -->
+		<!-- <svelte:element this="h{headingLevel + 2}">Decoded (<a href="https://github.com/multiformats/cid#human-readable-cids">Human Readable CID</a>)</svelte:element> -->
 		<header class="bar wrap">
-			<h3><a href="https://github.com/multiformats/cid#human-readable-cids">Decoded Content ID</a></h3>
+			<svelte:element this="h{headingLevel + 1}"><a href="https://github.com/multiformats/cid#human-readable-cids">Decoded Content ID</a></svelte:element>
 
 			<span class="card-annotation"><a href="https://github.com/multiformats/cid" target="_blank">IPFS CIDv{cid.version}</a></span>
 		</header>
@@ -114,9 +114,9 @@
 
 		<div class="columns">
 			<section class="card">
-				<!-- <h4><a href="https://github.com/multiformats/multibase">Multibase</a></h4> -->
+				<!-- <svelte:element this="h{headingLevel + 2}"><a href="https://github.com/multiformats/multibase">Multibase</a></svelte:element> -->
 				<header class="bar wrap">
-					<h4><abbr title="Multibase"><output>{multibase.name}</output></abbr></h4>
+					<svelte:element this="h{headingLevel + 2}"><abbr title="Multibase"><output>{multibase.name}</output></abbr></svelte:element>
 
 					<span class="card-annotation"><a href="https://github.com/multiformats/multibase">multibase</a></span>
 				</header>
@@ -135,9 +135,9 @@
 			</section>
 
 			<section class="card">
-				<!-- <h4><a href="https://github.com/multiformats/multicodec">Multicodec</a></h4> -->
+				<!-- <svelte:element this="h{headingLevel + 2}"><a href="https://github.com/multiformats/multicodec">Multicodec</a></svelte:element> -->
 				<header class="bar wrap">
-					<h4><abbr title="Multicodec"><output>{multicodec.name}</output></abbr></h4>
+					<svelte:element this="h{headingLevel + 2}"><abbr title="Multicodec"><output>{multicodec.name}</output></abbr></svelte:element>
 
 					<span class="card-annotation"><a href="https://github.com/multiformats/multicodec/blob/master/table.csv">multicodec</a></span>
 				</header>
@@ -157,9 +157,9 @@
 			</section>
 
 			<section class="card">
-				<!-- <h4><a href="https://github.com/multiformats/multihash">Multihash</a></h4> -->
+				<!-- <svelte:element this="h{headingLevel + 2}"><a href="https://github.com/multiformats/multihash">Multihash</a></svelte:element> -->
 				<header class="bar wrap">
-					<h4><abbr title="Multihash › Multicodec"><output>{multihash.multicodec.name}</output></abbr></h4>
+					<svelte:element this="h{headingLevel + 2}"><abbr title="Multihash › Multicodec"><output>{multihash.multicodec.name}</output></abbr></svelte:element>
 
 					<span class="card-annotation"><a href="https://github.com/multiformats/multihash">multihash</a></span>
 				</header>
@@ -191,7 +191,7 @@
 		<!-- <h3>CID Conversions</h3> -->
 		<section class="card">
 			<header class="bar wrap">
-				<h4>Alternate Encodings</h4>
+				<svelte:element this="h{headingLevel + 2}">Alternate Encodings</svelte:element>
 
 				<div role="toolbar">
 					<label>
@@ -258,7 +258,7 @@
 
 		<!--
 		<section class="card">
-			<h4>CID Byte Length</h4>
+			<svelte:element this="h{headingLevel + 2}">CID Byte Length</svelte:element>
 
 			<hr>
 
