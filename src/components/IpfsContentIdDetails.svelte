@@ -101,180 +101,180 @@
 		<hr>
 
 		<!-- <svelte:element this={`h${headingLevel + 2}`}>Decoded (<a href="https://github.com/multiformats/cid#human-readable-cids">Human Readable CID</a>)</svelte:element> -->
-		<header class="bar wrap">
-			<svelte:element this={`h${headingLevel + 1}`}><a href="https://github.com/multiformats/cid#human-readable-cids">Decoded Content ID</a></svelte:element>
+		<Collapsible type="label" class="column">
+			<svelte:element slot="title" this={`h${headingLevel + 1}`}><a href="https://github.com/multiformats/cid#human-readable-cids">Decoded Content ID</a></svelte:element>
 
-			<span class="card-annotation"><a href="https://github.com/multiformats/cid" target="_blank">IPFS CIDv{cid.version}</a></span>
-		</header>
+			<span slot="header-right" class="card-annotation"><a href="https://github.com/multiformats/cid" target="_blank">IPFS CIDv{cid.version}</a></span>
 
-		<div class="card">
-			<output class="decoded-cid row-inline wrap"><span title="Multibase"><InlineTransition align="center" value={multibase.name} /></span> - <span title="Version"><InlineTransition align="center" value="cidv{cid.version}" /></span> - <span title="Multicodec"><InlineTransition align="center" value={multicodec.name} /></span> - <span class="row-inline" title="Multihash">(<span title="Multicodec"><InlineTransition value={multihash.multicodec.name} /></span> : <span title="Size (bits)"><InlineTransition value={multihash.size * 8} /></span> : <span title="Digest (base16)"><BlockTransition align="center" value={digestBase16} /></span>)</span></output>
-			<!-- <p>multibase - version - multicodec - multihash (name : size : digest)</p> -->
-		</div>
+			<div class="card">
+				<output class="decoded-cid row-inline wrap"><span title="Multibase"><InlineTransition align="center" value={multibase.name} /></span> - <span title="Version"><InlineTransition align="center" value="cidv{cid.version}" /></span> - <span title="Multicodec"><InlineTransition align="center" value={multicodec.name} /></span> - <span class="row-inline" title="Multihash">(<span title="Multicodec"><InlineTransition value={multihash.multicodec.name} /></span> : <span title="Size (bits)"><InlineTransition value={multihash.size * 8} /></span> : <span title="Digest (base16)"><BlockTransition align="center" value={digestBase16} /></span>)</span></output>
+				<!-- <p>multibase - version - multicodec - multihash (name : size : digest)</p> -->
+			</div>
 
-		<div class="columns">
+			<div class="columns">
+				<section class="card">
+					<!-- <svelte:element this={`h${headingLevel + 2}`}><a href="https://github.com/multiformats/multibase">Multibase</a></svelte:element> -->
+					<header class="bar wrap">
+						<svelte:element this={`h${headingLevel + 2}`}><abbr title="Multibase"><output>{multibase.name}</output></abbr></svelte:element>
+
+						<span class="card-annotation"><a href="https://github.com/multiformats/multibase">multibase</a></span>
+					</header>
+
+					<hr>
+
+					<dl>
+						{#each Object.entries({
+							// 'Name': multibase.name,
+							'Prefix': cid.version === 0 ? null : multibase.prefix,
+						}) as [key, value]}
+							<dt>{key}</dt>
+							<dd><InlineTransition value={value} let:value>{#if key === 'Prefix' && value === null}<span class="faded">[implicit]</span>{:else}<output>{value}</output>{/if}</InlineTransition></dd>
+						{/each}
+					</dl>
+				</section>
+
+				<section class="card">
+					<!-- <svelte:element this={`h${headingLevel + 2}`}><a href="https://github.com/multiformats/multicodec">Multicodec</a></svelte:element> -->
+					<header class="bar wrap">
+						<svelte:element this={`h${headingLevel + 2}`}><abbr title="Multicodec"><output>{multicodec.name}</output></abbr></svelte:element>
+
+						<span class="card-annotation"><a href="https://github.com/multiformats/multicodec/blob/master/table.csv">multicodec</a></span>
+					</header>
+
+					<hr>
+
+					<dl>
+						{#each Object.entries({
+							// 'Name': { value: multicodec.name },
+							'Multicodec Code': { value: paddedCodeHex(multicodec.code) },
+							'Description': { type: 'text', value: multicodec.description },
+						}) as [key, {type, value}]}
+							<dt>{key}</dt>
+							<dd><InlineTransition value={value} let:value><output data-type={type}>{value}</output></InlineTransition></dd>
+						{/each}
+					</dl>
+				</section>
+
+				<section class="card">
+					<!-- <svelte:element this={`h${headingLevel + 2}`}><a href="https://github.com/multiformats/multihash">Multihash</a></svelte:element> -->
+					<header class="bar wrap">
+						<svelte:element this={`h${headingLevel + 2}`}><abbr title="Multihash › Multicodec"><output>{multihash.multicodec.name}</output></abbr></svelte:element>
+
+						<span class="card-annotation"><a href="https://github.com/multiformats/multihash">multihash</a></span>
+					</header>
+
+					<hr>
+		
+					<dl>
+						{#each Object.entries({
+							'Multicodec Code': paddedCodeHex(multihash.multicodec.code),
+							// 'Multicodec Name': multihash.multicodec.name,
+							// 'Multicodec Description': multihash.multicodec.description,
+							// 'Size': `${multihash.size * 8} bits`,
+							'Size (bits)': multihash.size * 8,
+							...multibase.name !== 'base16' && {
+								[`Digest (${multibase.name})`]: multibase.encode(multihash.bytes),
+							},
+							'Digest (base16)': digestBase16,
+						}) as [key, value] (key)}
+							<dt><InlineTransition align="end" value={key} /></dt>
+							<!-- <dd><BlockTransition element="output" value={value} /></dd> -->
+							<dd><output><BlockTransition value={value} /></dd>
+						{/each}
+					</dl>
+				</section>
+			</div>
+
+			<!-- <h3>Other Versions</h3> -->
+			<!-- <h3>Equivalent CIDs</h3> -->
+			<!-- <h3>CID Conversions</h3> -->
 			<section class="card">
-				<!-- <svelte:element this={`h${headingLevel + 2}`}><a href="https://github.com/multiformats/multibase">Multibase</a></svelte:element> -->
 				<header class="bar wrap">
-					<svelte:element this={`h${headingLevel + 2}`}><abbr title="Multibase"><output>{multibase.name}</output></abbr></svelte:element>
+					<svelte:element this={`h${headingLevel + 2}`}>Alternate Encodings</svelte:element>
 
-					<span class="card-annotation"><a href="https://github.com/multiformats/multibase">multibase</a></span>
+					<div role="toolbar">
+						<label>
+							<span>Show</span>
+							<select bind:value={showEncodings}>
+								<option value="common">Common</option>
+								<option value="no-formatting-variants">All Bases</option>
+								<option value="all">All Bases + Formatting Variants</option>
+							</select>
+						</label>
+					</div>
 				</header>
+
+				<hr>
+
+				<SizeContainer>
+					<dl>
+						{#each
+							getAllIpfsCidEncodings(cid)
+								.filter(({ version, base }) =>
+									(version === cid.version && base.name === multibase.name) || (
+										showEncodings === 'common' ?
+											version === 0
+											|| ['base32', 'base36'].includes(base.name)
+										: showEncodings === 'no-formatting-variants' ?
+											!base.name.match(/(?:upper|pad)$/)
+										:
+											true
+									)
+								)
+							as { version, base, ipfsCid }, i
+							(`${version}-${base.name}`)
+						}
+							<!-- {@const isCurrentFormat = version === cid.version && base.name === multibase.name} -->
+							<!-- {@const isValidSubdomain = checkIpfsCidIsValidSubdomain({ base, ipfsCid })} -->
+
+							<div in:scale|local={{duration: 300, delay: i * 20}} animate:flip|local={{ duration: 300 }}>
+								<!-- <dt class:mark={isCurrentFormat}> -->
+								<dt>
+									CIDv{version} <small>({base.name})</small>
+								</dt>
+								<!-- <dd class:mark={isCurrentFormat}> -->
+								<dd>
+									<output><IpfsContentId ipfsContentId={ipfsCid} linked={base.name !== 'identity'} /></output>
+
+									<!-- {#if isValidSubdomain !== undefined}
+										<!-- <span class="card-annotation">{isValidSubdomain ? 'subdomain gateway compatible' : 'subdomain gateway incompatible (DNS label too long)'}</span> -- >
+										<a class="faded" href="https://docs.ipfs.tech/how-to/address-ipfs-on-web/#subdomain-gateway">
+											{#if isValidSubdomain}
+												<abbr title="Subdomain gateway compatible">✔</abbr>
+											{:else}
+												<abbr title="Subdomain gateway ineligible (DNS label too long)">✘</abbr>
+											{/if}
+										</a>
+									{/if} -->
+								</dd>
+							</div>
+							<!-- {#each [1] as _, i (i)}<dt animate:flip={{ duration: 300 }}>CIDv{version} ({base.name})</dt>{/each}
+							{#each [1] as _, i (i)}<dd animate:flip={{ duration: 300 }}><IpfsContentId ipfsContentId={ipfsCid} /></dd>{/each} -->
+						{/each}
+					</dl>
+				</SizeContainer>
+			</section>
+
+			<!--
+			<section class="card">
+				<svelte:element this={`h${headingLevel + 2}`}>CID Byte Length</svelte:element>
 
 				<hr>
 
 				<dl>
 					{#each Object.entries({
-						// 'Name': multibase.name,
-						'Prefix': cid.version === 0 ? null : multibase.prefix,
+						[`${multibase.name} string`]: `${new Blob([ipfsContentId.trim()]).size} bytes`,
+						...(multibase.name !== 'base32' ? {
+							'base32 string': `${new Blob([cid.toString()]).size} bytes`,
+						} : undefined),
+						'binary': `${cid.byteLength} bytes`,
 					}) as [key, value]}
 						<dt>{key}</dt>
-						<dd><InlineTransition value={value} let:value>{#if key === 'Prefix' && value === null}<span class="faded">[implicit]</span>{:else}<output>{value}</output>{/if}</InlineTransition></dd>
+						<dd><InlineTransition value={value} /></dd>
 					{/each}
 				</dl>
-			</section>
-
-			<section class="card">
-				<!-- <svelte:element this={`h${headingLevel + 2}`}><a href="https://github.com/multiformats/multicodec">Multicodec</a></svelte:element> -->
-				<header class="bar wrap">
-					<svelte:element this={`h${headingLevel + 2}`}><abbr title="Multicodec"><output>{multicodec.name}</output></abbr></svelte:element>
-
-					<span class="card-annotation"><a href="https://github.com/multiformats/multicodec/blob/master/table.csv">multicodec</a></span>
-				</header>
-
-				<hr>
-
-				<dl>
-					{#each Object.entries({
-						// 'Name': { value: multicodec.name },
-						'Multicodec Code': { value: paddedCodeHex(multicodec.code) },
-						'Description': { type: 'text', value: multicodec.description },
-					}) as [key, {type, value}]}
-						<dt>{key}</dt>
-						<dd><InlineTransition value={value} let:value><output data-type={type}>{value}</output></InlineTransition></dd>
-					{/each}
-				</dl>
-			</section>
-
-			<section class="card">
-				<!-- <svelte:element this={`h${headingLevel + 2}`}><a href="https://github.com/multiformats/multihash">Multihash</a></svelte:element> -->
-				<header class="bar wrap">
-					<svelte:element this={`h${headingLevel + 2}`}><abbr title="Multihash › Multicodec"><output>{multihash.multicodec.name}</output></abbr></svelte:element>
-
-					<span class="card-annotation"><a href="https://github.com/multiformats/multihash">multihash</a></span>
-				</header>
-
-				<hr>
-	
-				<dl>
-					{#each Object.entries({
-						'Multicodec Code': paddedCodeHex(multihash.multicodec.code),
-						// 'Multicodec Name': multihash.multicodec.name,
-						// 'Multicodec Description': multihash.multicodec.description,
-						// 'Size': `${multihash.size * 8} bits`,
-						'Size (bits)': multihash.size * 8,
-						...multibase.name !== 'base16' && {
-							[`Digest (${multibase.name})`]: multibase.encode(multihash.bytes),
-						},
-						'Digest (base16)': digestBase16,
-					}) as [key, value] (key)}
-						<dt><InlineTransition align="end" value={key} /></dt>
-						<!-- <dd><BlockTransition element="output" value={value} /></dd> -->
-						<dd><output><BlockTransition value={value} /></dd>
-					{/each}
-				</dl>
-			</section>
-		</div>
-
-		<!-- <h3>Other Versions</h3> -->
-		<!-- <h3>Equivalent CIDs</h3> -->
-		<!-- <h3>CID Conversions</h3> -->
-		<section class="card">
-			<header class="bar wrap">
-				<svelte:element this={`h${headingLevel + 2}`}>Alternate Encodings</svelte:element>
-
-				<div role="toolbar">
-					<label>
-						<span>Show</span>
-						<select bind:value={showEncodings}>
-							<option value="common">Common</option>
-							<option value="no-formatting-variants">All Bases</option>
-							<option value="all">All Bases + Formatting Variants</option>
-						</select>
-					</label>
-				</div>
-			</header>
-
-			<hr>
-
-			<SizeContainer>
-				<dl>
-					{#each
-						getAllIpfsCidEncodings(cid)
-							.filter(({ version, base }) =>
-								(version === cid.version && base.name === multibase.name) || (
-									showEncodings === 'common' ?
-										version === 0
-										|| ['base32', 'base36'].includes(base.name)
-									: showEncodings === 'no-formatting-variants' ?
-										!base.name.match(/(?:upper|pad)$/)
-									:
-										true
-								)
-							)
-						as { version, base, ipfsCid }, i
-						(`${version}-${base.name}`)
-					}
-						<!-- {@const isCurrentFormat = version === cid.version && base.name === multibase.name} -->
-						<!-- {@const isValidSubdomain = checkIpfsCidIsValidSubdomain({ base, ipfsCid })} -->
-
-						<div in:scale|local={{duration: 300, delay: i * 20}} animate:flip|local={{ duration: 300 }}>
-							<!-- <dt class:mark={isCurrentFormat}> -->
-							<dt>
-								CIDv{version} <small>({base.name})</small>
-							</dt>
-							<!-- <dd class:mark={isCurrentFormat}> -->
-							<dd>
-								<output><IpfsContentId ipfsContentId={ipfsCid} linked={base.name !== 'identity'} /></output>
-
-								<!-- {#if isValidSubdomain !== undefined}
-									<!-- <span class="card-annotation">{isValidSubdomain ? 'subdomain gateway compatible' : 'subdomain gateway incompatible (DNS label too long)'}</span> -- >
-									<a class="faded" href="https://docs.ipfs.tech/how-to/address-ipfs-on-web/#subdomain-gateway">
-										{#if isValidSubdomain}
-											<abbr title="Subdomain gateway compatible">✔</abbr>
-										{:else}
-											<abbr title="Subdomain gateway ineligible (DNS label too long)">✘</abbr>
-										{/if}
-									</a>
-								{/if} -->
-							</dd>
-						</div>
-						<!-- {#each [1] as _, i (i)}<dt animate:flip={{ duration: 300 }}>CIDv{version} ({base.name})</dt>{/each}
-						{#each [1] as _, i (i)}<dd animate:flip={{ duration: 300 }}><IpfsContentId ipfsContentId={ipfsCid} /></dd>{/each} -->
-					{/each}
-				</dl>
-			</SizeContainer>
-		</section>
-
-		<!--
-		<section class="card">
-			<svelte:element this={`h${headingLevel + 2}`}>CID Byte Length</svelte:element>
-
-			<hr>
-
-			<dl>
-				{#each Object.entries({
-					[`${multibase.name} string`]: `${new Blob([ipfsContentId.trim()]).size} bytes`,
-					...(multibase.name !== 'base32' ? {
-						'base32 string': `${new Blob([cid.toString()]).size} bytes`,
-					} : undefined),
-					'binary': `${cid.byteLength} bytes`,
-				}) as [key, value]}
-					<dt>{key}</dt>
-					<dd><InlineTransition value={value} /></dd>
-				{/each}
-			</dl>
-		</section> -->
+			</section> -->
+		</Collapsible>
 	</article>
 </Loader>
 
