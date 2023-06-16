@@ -51,24 +51,24 @@
 </script>
 
 
-<Loader
-	fromPromise={async () => (
-		decodeIpfsCid(ipfsContentId)
-	)}
-	loadingIcon={IpfsIcon}
-	loadingMessage="Decoding IPFS Content ID..."
-	errorMessage={`Couldn't parse CID "${ipfsContentId}".`}
-	let:result={{
-		cid,
-		multibase,
-		multicodec,
-		multihash,
-	}}
->
-	{@const digestBase16 = uint8ArrayToString(multihash.digest, 'base16')}
+<article class="card">
+	<Loader
+		fromPromise={async () => (
+			decodeIpfsCid(ipfsContentId)
+		)}
+		loadingIcon={IpfsIcon}
+		loadingMessage="Decoding IPFS Content ID..."
+		errorMessage={`Couldn't parse CID "${ipfsContentId}".`}
+		let:result={{
+			cid,
+			multibase,
+			multicodec,
+			multihash,
+		}}
+	>
+		{@const digestBase16 = uint8ArrayToString(multihash.digest, 'base16')}
 
-	<article class="card">
-		<header class="bar wrap">
+		<header slot="header" class="bar wrap">
 			<svelte:element this={`h${headingLevel}`}><InlineTransition key={ipfsContentId}><IpfsContentId {ipfsContentId} /></InlineTransition></svelte:element>
 
 			<!-- <span class="card-annotation"><a href="https://github.com/multiformats/cid" target="_blank">IPFS Content ID (v{cid.version})</a></span> -->
@@ -269,8 +269,8 @@
 				</dl>
 			</section> -->
 		</Collapsible>
-	</article>
-</Loader>
+	</Loader>
+</article>
 
 
 <style>
