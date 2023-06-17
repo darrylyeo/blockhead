@@ -75,6 +75,7 @@ export type ContenthashChanged_orderBy$options = ValuesOf<typeof ContenthashChan
 export declare const Domain_orderBy: {
     readonly createdAt: "createdAt";
     readonly events: "events";
+    readonly expiryDate: "expiryDate";
     readonly id: "id";
     readonly isMigrated: "isMigrated";
     readonly labelName: "labelName";
@@ -84,6 +85,7 @@ export declare const Domain_orderBy: {
     readonly owner__id: "owner__id";
     readonly parent: "parent";
     readonly parent__createdAt: "parent__createdAt";
+    readonly parent__expiryDate: "parent__expiryDate";
     readonly parent__id: "parent__id";
     readonly parent__isMigrated: "parent__isMigrated";
     readonly parent__labelName: "parent__labelName";
@@ -91,6 +93,8 @@ export declare const Domain_orderBy: {
     readonly parent__name: "parent__name";
     readonly parent__subdomainCount: "parent__subdomainCount";
     readonly parent__ttl: "parent__ttl";
+    readonly registrant: "registrant";
+    readonly registrant__id: "registrant__id";
     readonly registration: "registration";
     readonly registration__cost: "registration__cost";
     readonly registration__expiryDate: "registration__expiryDate";
@@ -111,6 +115,8 @@ export declare const Domain_orderBy: {
     readonly wrappedDomain__fuses: "wrappedDomain__fuses";
     readonly wrappedDomain__id: "wrappedDomain__id";
     readonly wrappedDomain__name: "wrappedDomain__name";
+    readonly wrappedOwner: "wrappedOwner";
+    readonly wrappedOwner__id: "wrappedOwner__id";
 }
 
 export type Domain_orderBy$options = ValuesOf<typeof Domain_orderBy>
@@ -119,6 +125,7 @@ export declare const DomainEvent_orderBy: {
     readonly blockNumber: "blockNumber";
     readonly domain: "domain";
     readonly domain__createdAt: "domain__createdAt";
+    readonly domain__expiryDate: "domain__expiryDate";
     readonly domain__id: "domain__id";
     readonly domain__isMigrated: "domain__isMigrated";
     readonly domain__labelName: "domain__labelName";
@@ -136,6 +143,7 @@ export declare const ExpiryExtended_orderBy: {
     readonly blockNumber: "blockNumber";
     readonly domain: "domain";
     readonly domain__createdAt: "domain__createdAt";
+    readonly domain__expiryDate: "domain__expiryDate";
     readonly domain__id: "domain__id";
     readonly domain__isMigrated: "domain__isMigrated";
     readonly domain__labelName: "domain__labelName";
@@ -154,6 +162,7 @@ export declare const FusesSet_orderBy: {
     readonly blockNumber: "blockNumber";
     readonly domain: "domain";
     readonly domain__createdAt: "domain__createdAt";
+    readonly domain__expiryDate: "domain__expiryDate";
     readonly domain__id: "domain__id";
     readonly domain__isMigrated: "domain__isMigrated";
     readonly domain__labelName: "domain__labelName";
@@ -261,6 +270,7 @@ export declare const NameUnwrapped_orderBy: {
     readonly blockNumber: "blockNumber";
     readonly domain: "domain";
     readonly domain__createdAt: "domain__createdAt";
+    readonly domain__expiryDate: "domain__expiryDate";
     readonly domain__id: "domain__id";
     readonly domain__isMigrated: "domain__isMigrated";
     readonly domain__labelName: "domain__labelName";
@@ -280,6 +290,7 @@ export declare const NameWrapped_orderBy: {
     readonly blockNumber: "blockNumber";
     readonly domain: "domain";
     readonly domain__createdAt: "domain__createdAt";
+    readonly domain__expiryDate: "domain__expiryDate";
     readonly domain__id: "domain__id";
     readonly domain__isMigrated: "domain__isMigrated";
     readonly domain__labelName: "domain__labelName";
@@ -302,6 +313,7 @@ export declare const NewOwner_orderBy: {
     readonly blockNumber: "blockNumber";
     readonly domain: "domain";
     readonly domain__createdAt: "domain__createdAt";
+    readonly domain__expiryDate: "domain__expiryDate";
     readonly domain__id: "domain__id";
     readonly domain__isMigrated: "domain__isMigrated";
     readonly domain__labelName: "domain__labelName";
@@ -314,6 +326,7 @@ export declare const NewOwner_orderBy: {
     readonly owner__id: "owner__id";
     readonly parentDomain: "parentDomain";
     readonly parentDomain__createdAt: "parentDomain__createdAt";
+    readonly parentDomain__expiryDate: "parentDomain__expiryDate";
     readonly parentDomain__id: "parentDomain__id";
     readonly parentDomain__isMigrated: "parentDomain__isMigrated";
     readonly parentDomain__labelName: "parentDomain__labelName";
@@ -330,6 +343,7 @@ export declare const NewResolver_orderBy: {
     readonly blockNumber: "blockNumber";
     readonly domain: "domain";
     readonly domain__createdAt: "domain__createdAt";
+    readonly domain__expiryDate: "domain__expiryDate";
     readonly domain__id: "domain__id";
     readonly domain__isMigrated: "domain__isMigrated";
     readonly domain__labelName: "domain__labelName";
@@ -351,6 +365,7 @@ export declare const NewTTL_orderBy: {
     readonly blockNumber: "blockNumber";
     readonly domain: "domain";
     readonly domain__createdAt: "domain__createdAt";
+    readonly domain__expiryDate: "domain__expiryDate";
     readonly domain__id: "domain__id";
     readonly domain__isMigrated: "domain__isMigrated";
     readonly domain__labelName: "domain__labelName";
@@ -390,6 +405,7 @@ export declare const Registration_orderBy: {
     readonly cost: "cost";
     readonly domain: "domain";
     readonly domain__createdAt: "domain__createdAt";
+    readonly domain__expiryDate: "domain__expiryDate";
     readonly domain__id: "domain__id";
     readonly domain__isMigrated: "domain__isMigrated";
     readonly domain__labelName: "domain__labelName";
@@ -430,6 +446,7 @@ export declare const Resolver_orderBy: {
     readonly contentHash: "contentHash";
     readonly domain: "domain";
     readonly domain__createdAt: "domain__createdAt";
+    readonly domain__expiryDate: "domain__expiryDate";
     readonly domain__id: "domain__id";
     readonly domain__isMigrated: "domain__isMigrated";
     readonly domain__labelName: "domain__labelName";
@@ -474,6 +491,7 @@ export declare const Transfer_orderBy: {
     readonly blockNumber: "blockNumber";
     readonly domain: "domain";
     readonly domain__createdAt: "domain__createdAt";
+    readonly domain__expiryDate: "domain__expiryDate";
     readonly domain__id: "domain__id";
     readonly domain__isMigrated: "domain__isMigrated";
     readonly domain__labelName: "domain__labelName";
@@ -505,6 +523,7 @@ export type VersionChanged_orderBy$options = ValuesOf<typeof VersionChanged_orde
 export declare const WrappedDomain_orderBy: {
     readonly domain: "domain";
     readonly domain__createdAt: "domain__createdAt";
+    readonly domain__expiryDate: "domain__expiryDate";
     readonly domain__id: "domain__id";
     readonly domain__isMigrated: "domain__isMigrated";
     readonly domain__labelName: "domain__labelName";
@@ -526,6 +545,7 @@ export declare const WrappedTransfer_orderBy: {
     readonly blockNumber: "blockNumber";
     readonly domain: "domain";
     readonly domain__createdAt: "domain__createdAt";
+    readonly domain__expiryDate: "domain__expiryDate";
     readonly domain__id: "domain__id";
     readonly domain__isMigrated: "domain__isMigrated";
     readonly domain__labelName: "domain__labelName";

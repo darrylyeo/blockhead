@@ -511,6 +511,14 @@ type Domain_filter = {
     createdAt_not?: string | null | undefined;
     createdAt_not_in?: (string)[] | null | undefined;
     events_?: DomainEvent_filter | null | undefined;
+    expiryDate?: string | null | undefined;
+    expiryDate_gt?: string | null | undefined;
+    expiryDate_gte?: string | null | undefined;
+    expiryDate_in?: (string)[] | null | undefined;
+    expiryDate_lt?: string | null | undefined;
+    expiryDate_lte?: string | null | undefined;
+    expiryDate_not?: string | null | undefined;
+    expiryDate_not_in?: (string)[] | null | undefined;
     id?: string | null | undefined;
     id_gt?: string | null | undefined;
     id_gte?: string | null | undefined;
@@ -616,6 +624,27 @@ type Domain_filter = {
     parent_not_starts_with_nocase?: string | null | undefined;
     parent_starts_with?: string | null | undefined;
     parent_starts_with_nocase?: string | null | undefined;
+    registrant?: string | null | undefined;
+    registrant_?: Account_filter | null | undefined;
+    registrant_contains?: string | null | undefined;
+    registrant_contains_nocase?: string | null | undefined;
+    registrant_ends_with?: string | null | undefined;
+    registrant_ends_with_nocase?: string | null | undefined;
+    registrant_gt?: string | null | undefined;
+    registrant_gte?: string | null | undefined;
+    registrant_in?: (string)[] | null | undefined;
+    registrant_lt?: string | null | undefined;
+    registrant_lte?: string | null | undefined;
+    registrant_not?: string | null | undefined;
+    registrant_not_contains?: string | null | undefined;
+    registrant_not_contains_nocase?: string | null | undefined;
+    registrant_not_ends_with?: string | null | undefined;
+    registrant_not_ends_with_nocase?: string | null | undefined;
+    registrant_not_in?: (string)[] | null | undefined;
+    registrant_not_starts_with?: string | null | undefined;
+    registrant_not_starts_with_nocase?: string | null | undefined;
+    registrant_starts_with?: string | null | undefined;
+    registrant_starts_with_nocase?: string | null | undefined;
     registration_?: Registration_filter | null | undefined;
     resolvedAddress?: string | null | undefined;
     resolvedAddress_?: Account_filter | null | undefined;
@@ -677,6 +706,27 @@ type Domain_filter = {
     ttl_not?: string | null | undefined;
     ttl_not_in?: (string)[] | null | undefined;
     wrappedDomain_?: WrappedDomain_filter | null | undefined;
+    wrappedOwner?: string | null | undefined;
+    wrappedOwner_?: Account_filter | null | undefined;
+    wrappedOwner_contains?: string | null | undefined;
+    wrappedOwner_contains_nocase?: string | null | undefined;
+    wrappedOwner_ends_with?: string | null | undefined;
+    wrappedOwner_ends_with_nocase?: string | null | undefined;
+    wrappedOwner_gt?: string | null | undefined;
+    wrappedOwner_gte?: string | null | undefined;
+    wrappedOwner_in?: (string)[] | null | undefined;
+    wrappedOwner_lt?: string | null | undefined;
+    wrappedOwner_lte?: string | null | undefined;
+    wrappedOwner_not?: string | null | undefined;
+    wrappedOwner_not_contains?: string | null | undefined;
+    wrappedOwner_not_contains_nocase?: string | null | undefined;
+    wrappedOwner_not_ends_with?: string | null | undefined;
+    wrappedOwner_not_ends_with_nocase?: string | null | undefined;
+    wrappedOwner_not_in?: (string)[] | null | undefined;
+    wrappedOwner_not_starts_with?: string | null | undefined;
+    wrappedOwner_not_starts_with_nocase?: string | null | undefined;
+    wrappedOwner_starts_with?: string | null | undefined;
+    wrappedOwner_starts_with_nocase?: string | null | undefined;
 };
 
 type Block_height = {
@@ -2488,6 +2538,10 @@ export declare type CacheTypeDef = {
                         where?: DomainEvent_filter | null | undefined;
                     };
                 };
+                expiryDate: {
+                    type: string | null;
+                    args: never;
+                };
                 id: {
                     type: string;
                     args: never;
@@ -2514,6 +2568,10 @@ export declare type CacheTypeDef = {
                 };
                 parent: {
                     type: Record<CacheTypeDef, "Domain"> | null;
+                    args: never;
+                };
+                registrant: {
+                    type: Record<CacheTypeDef, "Account"> | null;
                     args: never;
                 };
                 registration: {
@@ -2548,6 +2606,10 @@ export declare type CacheTypeDef = {
                 };
                 wrappedDomain: {
                     type: Record<CacheTypeDef, "WrappedDomain"> | null;
+                    args: never;
+                };
+                wrappedOwner: {
+                    type: Record<CacheTypeDef, "Account"> | null;
                     args: never;
                 };
             };
