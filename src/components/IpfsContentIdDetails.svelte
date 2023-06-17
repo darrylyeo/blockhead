@@ -242,7 +242,7 @@
 								</dt>
 								<!-- <dd class:mark={isCurrentFormat}> -->
 								<dd>
-									<output><IpfsContentId ipfsContentId={ipfsCid} linked={base.name !== 'identity'} /></output>
+									<output><IpfsContentId ipfsContentId={ipfsCid} {ipfsContentPath} linked={base.name !== 'identity'} /></output>
 
 									<!-- {#if isValidSubdomain !== undefined}
 										<!-- <span class="card-annotation">{isValidSubdomain ? 'subdomain gateway compatible' : 'subdomain gateway incompatible (DNS label too long)'}</span> -- >
@@ -257,7 +257,7 @@
 								</dd>
 							</div>
 							<!-- {#each [1] as _, i (i)}<dt animate:flip={{ duration: 300 }}>CIDv{version} ({base.name})</dt>{/each}
-							{#each [1] as _, i (i)}<dd animate:flip={{ duration: 300 }}><IpfsContentId ipfsContentId={ipfsCid} /></dd>{/each} -->
+							{#each [1] as _, i (i)}<dd animate:flip={{ duration: 300 }}><IpfsContentId ipfsContentId={ipfsCid} {ipfsContentPath} /></dd>{/each} -->
 						{/each}
 					</dl>
 				</SizeContainer>
