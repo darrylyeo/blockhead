@@ -61,6 +61,7 @@
 		errorMessage={`Couldn't parse CID "${ipfsContentId}".`}
 		result={{}}
 		showIf={result => result.cid}
+		{...$$restProps}
 		let:result={{
 			cid,
 			multibase,
