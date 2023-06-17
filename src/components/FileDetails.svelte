@@ -6,19 +6,20 @@
     export let contentType: string | undefined = 'text/plain'
 	export let text: string | undefined
 	export let blob: Blob | undefined
+
 	// (Computed)
-	$: if(src && !fileName) fileName = src.match(/[^/]+$/)![0]
-	$: if(text && !blob) blob = new Blob([text], { type: contentType })
+	$: if(!fileName && src) fileName = src.match(/[^/]+$/)![0]
+	$: if(!blob && (text ?? src)) blob = new Blob([text ?? src], { type: contentType })
 	$: [mediaType, params] = contentType?.split(/;\s*/) ?? []
+	$: blobUrl = blob && URL.createObjectURL(blob)
+	$: dataUrl = text && `data:${contentType};base64,${btoa(text)}`
 
-
-	// Internal state
-	// (Computed)
+	$: displaySrc = src ?? blobUrl ?? dataUrl
 	$: displayType =
 		!contentType || contentType.startsWith('text/plain') ? 'text'
 		: contentType.startsWith('text/html') ? 'iframe'
 		: contentType.startsWith('text/') ? 'text'
-		: contentType.startsWith('image/svg') || text?.includes('<svg') ? 'image'
+		// : contentType.startsWith('image/svg') || text?.includes('<svg') ? 'image'
 		: contentType.startsWith('image/') ? 'image'
 		: contentType.startsWith('video/') ? 'video'
 		: contentType.startsWith('audio/') ? 'audio'
@@ -33,8 +34,8 @@
 	<article class="card">
 		<header class="bar wrap">
 			<h4>
-				{#if src}
-					<a href={src} target="_blank">{fileName}</a>
+				{#if displaySrc}
+					<a href={displaySrc} target="_blank">{fileName}</a>
 				{:else}
 					{fileName}
 				{/if}
@@ -54,27 +55,31 @@
 				<pre>{text}</pre>
 			{:else if displayType === 'iframe'}
 				<iframe
-					src={src ?? `data:${contentType};base64,${btoa(text)}`}
+					bind:this={iframeElement}
+					src={displaySrc}
 					title={`${fileName ?? ''}${extension ? `.${extension}` : ''}`}
 				/>
 			{:else if displayType === 'image'}
-				<img src={src || URL.createObjectURL(blob)} />
+				<img src={displaySrc} />
 			{:else if displayType === 'video'}
 				<video controls>
-					<source src={`data:${contentType};base64,${btoa(text)}`} type={contentType} />
+					<source src={displaySrc} type={contentType} />
 					<track kind="captions">
 				</video>
 			{:else if displayType === 'audio'}
 				<audio controls>
-					<source src={`data:${contentType};base64,${btoa(text)}`} type={contentType} />
+					<source src={displaySrc} type={contentType} />
 				</audio>
 			{:else if displayType === 'json'}
 				<pre><code>{JSON.stringify(JSON.parse(text), null, 2)}</code></pre>
 			{:else if displayType === 'xml'}
 				<pre><code>{text}</code></pre>
 			{:else if displayType === 'pdf'}
-				<object data={`data:${contentType};base64,${text}`} type={contentType} width="100%" height="100%">
-					<p>Your browser does not support PDFs. <a href={`data:${contentType};base64,${btoa(text)}`} download>Download the PDF</a> instead.</p>
+				<object
+					data={displaySrc}
+					type={contentType}
+				>
+					<p>Your browser does not support PDFs. <a href={dataUrl} download>Download the PDF</a> instead.</p>
 				</object>
 			{:else}
 				<pre>{text}</pre>
