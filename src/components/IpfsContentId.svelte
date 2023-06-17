@@ -3,6 +3,7 @@
 
 
 	export let ipfsContentId: IpfsCid
+	export let ipfsContentPath: string | undefined
 	export let linked = true
 </script>
 
@@ -18,9 +19,9 @@
 	this={linked ? 'a' : 'span'}
 	class="ipfs-content-id"
 	{...linked ? {
-		href: `/apps/ipfs/content/${encodeURIComponent(ipfsContentId)}`
+		href: `/apps/ipfs/content/${encodeURIComponent(ipfsContentId)}${ipfsContentPath ? `/${ipfsContentPath}` : ''}`
 	} : {}}
 	title={ipfsContentId}
 >
-	<slot {ipfsContentId}>{ipfsContentId}</slot>
+	<slot {ipfsContentId} {ipfsContentPath}>{ipfsContentId}{ipfsContentPath ? `/${ipfsContentPath}` : ''}</slot>
 </svelte:element>
