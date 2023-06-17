@@ -9,6 +9,7 @@
 
 	// Computed
 	$: currentIpfsContentId = $ipfsContentId
+	$: currentIpfsContentPath = $ipfsContentPath
 
 
 	// Components
@@ -23,14 +24,19 @@
 <style>
 	form {
 		display: grid;
-		grid-template-columns: 1fr auto;
+		grid-template-columns: 3fr auto 1fr auto;
+		gap: 1ch;
 	}
 </style>
 
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
-	<form class="row" on:submit|preventDefault={() => $ipfsContentId = currentIpfsContentId}>
+	<form class="row" on:submit|preventDefault={() => [$ipfsContentId, $ipfsContentPath] = [currentIpfsContentId, currentIpfsContentPath]}>
 		<input bind:value={currentIpfsContentId} placeholder="IPFS Content ID: v0 (Qm...) / v1 (bafy..., k2..., 🚀...)" />
+
+		<span>/</span>
+
+		<input bind:value={currentIpfsContentPath} placeholder="path/to/content.txt" />
 
 		<button type="submit">Go</button>
 	</form>
