@@ -11,8 +11,8 @@
 	$: if(!fileName && src) fileName = src.match(/[^/]+$/)![0]
 	$: if(!blob && (text ?? src)) blob = new Blob([text ?? src], { type: contentType })
 	$: [mediaType, params] = contentType?.split(/;\s*/) ?? []
-	$: blobUrl = blob && URL.createObjectURL(blob)
-	$: dataUrl = text && `data:${contentType};base64,${btoa(text)}`
+	$: blobUrl = blob && (() => { try { return URL.createObjectURL(blob) } catch {} })()
+	$: dataUrl = text && (() => { try { return `data:${contentType};base64,${btoa(text)}` } catch {}})()
 
 	$: displaySrc = src ?? blobUrl ?? dataUrl
 	$: displayType =
@@ -27,11 +27,16 @@
 		: contentType.startsWith('application/xml') ? 'xml'
 		: contentType.startsWith('application/pdf') ? 'pdf'
 		: 'iframe' // 'unsupported'
+
+
+	// Internal state
+	let containerElement: Element
+	let iframeElement: HTMLIFrameElement
 </script>
 
 
 {#if text}
-	<article class="card">
+	<article class="card" bind:this={containerElement}>
 		<header class="bar wrap">
 			<h4>
 				{#if displaySrc}
@@ -85,11 +90,64 @@
 				<pre>{text}</pre>
 			{/if}
 		</div>
+
+		<hr>
+
+		<footer class="bar wrap">
+			<div class="row wrap">
+			</div>
+
+			<div class="row wrap">
+				<div role="toolbar" class="row wrap">
+					<button
+						class="medium"
+						data-before="📋"
+						on:click={e => {
+							if(text && ['text', 'json', 'xml'].includes(displayType))
+								navigator.clipboard.writeText(text)
+							else if(blob)
+								navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })])
+							else if(displaySrc)
+								navigator.clipboard.writeText(displaySrc)
+						}}
+					>Copy</button>
+
+					<a href={displaySrc} download>
+						<button
+							class="medium"
+							title="Download"
+							data-before="📥"
+						>Download</button>
+					</a>
+
+					<button
+						class="medium"
+						data-before="⛶"
+						on:click={e => {
+							if (document.fullscreenElement) {
+								document.exitFullscreen()
+							} else {
+								containerElement.requestFullscreen()
+							}
+						}}
+					>Full Screen</button>
+				</div>
+			</div>
+		</footer>
 	</article>
 {/if}
 
 
 <style>
+	article:fullscreen {
+		grid-template-rows: auto auto 1fr auto auto;
+	}
+	article:fullscreen .scrollable {
+		display: grid;
+		align-items: center;
+		min-height: 100%;
+	}
+
 	pre {
 		font-size: 1em;
 	}
