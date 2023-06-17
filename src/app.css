@@ -680,16 +680,23 @@ a.card {
 	scroll-padding: var(--padding-inner);
 }
 
-.scrollable-list {
-	height: 30rem;
+.scrollable {
 	max-height: 100%;
 	overflow-y: auto;
-	scroll-snap-type: y proximity;
 	padding-right: var(--padding-inner);
-	resize: vertical;
-	grid-auto-rows: min-content;
 	justify-content: start;
+}
+.scrollable-list {
+	max-height: 100%;
+	overflow-y: auto;
+	padding-right: var(--padding-inner);
+	justify-content: start;
+	
+	resize: vertical;
 	contain: strict;
+	height: 30rem;
+	scroll-snap-type: y proximity;
+	grid-auto-rows: min-content;
 }
 .scrollable-list > *,
 .scroll-snap-item {
