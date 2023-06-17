@@ -57,7 +57,7 @@
 
 		<div class="scrollable align-center">
 			{#if displayType === 'text'}
-				<pre>{text}</pre>
+				<pre class="text" style="--text-length: {text.length}">{text}</pre>
 			{:else if displayType === 'iframe'}
 				<iframe
 					bind:this={iframeElement}
@@ -87,7 +87,7 @@
 					<p>Your browser does not support PDFs. <a href={dataUrl} download>Download the PDF</a> instead.</p>
 				</object>
 			{:else}
-				<pre>{text}</pre>
+				<pre class="text" style="--text-length: {text.length}">{text}</pre>
 			{/if}
 		</div>
 
@@ -150,6 +150,11 @@
 
 	pre {
 		font-size: 1em;
+	}
+
+	.text {
+		font-size: clamp(1rem, 80 / var(--text-length) * 1rem, 2rem);
+		padding: 1rem 0.5rem;
 	}
 
 	iframe {
