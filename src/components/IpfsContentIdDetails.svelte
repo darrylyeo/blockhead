@@ -59,6 +59,8 @@
 		loadingIcon={IpfsIcon}
 		loadingMessage="Decoding IPFS Content ID..."
 		errorMessage={`Couldn't parse CID "${ipfsContentId}".`}
+		result={{}}
+		showIf={result => result.cid}
 		let:result={{
 			cid,
 			multibase,
