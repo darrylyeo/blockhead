@@ -108,9 +108,9 @@
 
 		<hr>
 
-		<!-- <svelte:element this={`h${headingLevel + 2}`}>Decoded (<a href="https://github.com/multiformats/cid#human-readable-cids">Human Readable CID</a>)</svelte:element> -->
+		<!-- <svelte:element this={`h${headingLevel + 2}`}>Decoded (<a href="https://github.com/multiformats/cid#human-readable-cids" target="_blank">Human Readable CID</a>)</svelte:element> -->
 		<Collapsible type="label" class="column">
-			<svelte:element slot="title" this={`h${headingLevel + 1}`}><a href="https://github.com/multiformats/cid#human-readable-cids">Decoded Content ID</a></svelte:element>
+			<svelte:element slot="title" this={`h${headingLevel + 1}`}><a href="https://github.com/multiformats/cid#human-readable-cids" target="_blank">Decoded Content ID</a></svelte:element>
 
 			<span slot="header-right" class="card-annotation"><a href="https://github.com/multiformats/cid" target="_blank">IPFS CIDv{cid.version}</a></span>
 
@@ -121,11 +121,11 @@
 
 			<div class="columns">
 				<section class="card">
-					<!-- <svelte:element this={`h${headingLevel + 2}`}><a href="https://github.com/multiformats/multibase">Multibase</a></svelte:element> -->
+					<!-- <svelte:element this={`h${headingLevel + 2}`}><a href="https://github.com/multiformats/multibase" target="_blank">Multibase</a></svelte:element> -->
 					<header class="bar wrap">
 						<svelte:element this={`h${headingLevel + 2}`}><abbr title="Multibase"><output>{multibase.name}</output></abbr></svelte:element>
 
-						<span class="card-annotation"><a href="https://github.com/multiformats/multibase">multibase</a></span>
+						<span class="card-annotation"><a href="https://github.com/multiformats/multibase" target="_blank">multibase</a></span>
 					</header>
 
 					<hr>
@@ -142,11 +142,11 @@
 				</section>
 
 				<section class="card">
-					<!-- <svelte:element this={`h${headingLevel + 2}`}><a href="https://github.com/multiformats/multicodec">Multicodec</a></svelte:element> -->
+					<!-- <svelte:element this={`h${headingLevel + 2}`}><a href="https://github.com/multiformats/multicodec" target="_blank">Multicodec</a></svelte:element> -->
 					<header class="bar wrap">
 						<svelte:element this={`h${headingLevel + 2}`}><abbr title="Multicodec"><output>{multicodec.name}</output></abbr></svelte:element>
 
-						<span class="card-annotation"><a href="https://github.com/multiformats/multicodec/blob/master/table.csv">multicodec</a></span>
+						<span class="card-annotation"><a href="https://github.com/multiformats/multicodec/blob/master/table.csv" target="_blank">multicodec</a></span>
 					</header>
 
 					<hr>
@@ -164,11 +164,11 @@
 				</section>
 
 				<section class="card">
-					<!-- <svelte:element this={`h${headingLevel + 2}`}><a href="https://github.com/multiformats/multihash">Multihash</a></svelte:element> -->
+					<!-- <svelte:element this={`h${headingLevel + 2}`}><a href="https://github.com/multiformats/multihash" target="_blank">Multihash</a></svelte:element> -->
 					<header class="bar wrap">
 						<svelte:element this={`h${headingLevel + 2}`}><abbr title="Multihash › Multicodec"><output>{multihash.multicodec.name}</output></abbr></svelte:element>
 
-						<span class="card-annotation"><a href="https://github.com/multiformats/multihash">multihash</a></span>
+						<span class="card-annotation"><a href="https://github.com/multiformats/multihash" target="_blank">multihash</a></span>
 					</header>
 
 					<hr>
@@ -246,7 +246,7 @@
 
 									<!-- {#if isValidSubdomain !== undefined}
 										<!-- <span class="card-annotation">{isValidSubdomain ? 'subdomain gateway compatible' : 'subdomain gateway incompatible (DNS label too long)'}</span> -- >
-										<a class="faded" href="https://docs.ipfs.tech/how-to/address-ipfs-on-web/#subdomain-gateway">
+										<a class="faded" href="https://docs.ipfs.tech/how-to/address-ipfs-on-web/#subdomain-gateway" target="_blank">
 											{#if isValidSubdomain}
 												<abbr title="Subdomain gateway compatible">✔</abbr>
 											{:else}
