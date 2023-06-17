@@ -169,15 +169,14 @@
 										<!-- {#if source.license}<span>License: {source.license}</span>{/if} -->
 									</footer>
 								{:else if source.urls?.length}
-									{@const ipfsCid = source.urls.find(url => url.startsWith('dweb:/'))?.match(/^dweb:\/ipfs\/(.+)$/)?.[1]}
+									{@const ipfsContentId = source.urls.find(url => url.startsWith('dweb:/'))?.match(/^dweb:\/ipfs\/(.+)$/)?.[1]}
 									<!-- {@const ipfsUrl = source.urls.find(url => url.startsWith('dweb:/'))} -->
 
 									<IpfsLoader
-										{ipfsCid}
-										format="text"
+										{ipfsContentId}
 										errorMessage="Couldn't fetch content on Sourcify."
-										let:content={sourceCode}
-										let:ipfsCid
+										let:text={sourceCode}
+										let:ipfsContentId
 										let:resolvedIpfsUrl
 										let:ipfsGatewayProvider
 									>
@@ -192,7 +191,7 @@
 
 											<!-- {#if source.license}<span>License: {source.license}</span>{/if} -->
 											
-											<span><a href="https://{ipfsGatewayProvider.gatewayDomain}" title="IPFS Gateway: {ipfsGatewayProvider.name} ({ipfsGatewayProvider.gatewayDomain})" target="_blank">IPFS</a> › <a href={resolvedIpfsUrl} target="_blank">{ipfsCid}</a></span>
+											<span><a href="https://{ipfsGatewayProvider.gatewayDomain}" title="IPFS Gateway: {ipfsGatewayProvider.name} ({ipfsGatewayProvider.gatewayDomain})" target="_blank">IPFS</a> › <a href={resolvedIpfsUrl} target="_blank">{ipfsContentId}</a></span>
 										</footer>
 									</IpfsLoader>
 								{/if}

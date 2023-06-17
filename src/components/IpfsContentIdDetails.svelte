@@ -84,11 +84,11 @@
 
 			<IpfsLoader
 				ipfsGatewayProvider={ipfsGateway.gatewayProvider}
-				ipfsCid={ipfsContentId}
-				ipfsContentPath={ipfsContentPath}
-				let:content
+				{ipfsContentId}
+				{ipfsContentPath}
+				let:text
 			>
-				<pre class="card">{content}</pre>
+				<pre class="card">{text}</pre>
 			</IpfsLoader>
 		</Collapsible>
 

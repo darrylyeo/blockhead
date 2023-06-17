@@ -10,18 +10,12 @@
 
 
 	// External state
-
-	type ContentType = $$Generic<'text' | 'json'>
-
 	export let ipfsUrl: string | undefined
-
 	export let ipfsGatewayProvider: IpfsGatewayProvider
+	export let ipfsContentId: IpfsCid | undefined
+	export let ipfsContentPath: string | undefined
+	// (Computed)
 	$: ipfsGatewayProvider = $$props.ipfsGateway ?? $preferences.ipfsGateway
-
-	export let ipfsCid: IpfsCid | undefined
-
-	export let type: ContentType = 'text'
-
 
 
 	// Internal state
@@ -31,21 +25,22 @@
 	import { resolveUri } from '../utils/resolveUri'
 
 	$: resolvedIpfsUrl = resolveUri({
-		src: ipfsUrl ?? `ipfs://${ipfsCid}`,
+		src: ipfsUrl ?? `ipfs://${ipfsContentId}${ipfsContentPath ? `/${ipfsContentPath}` : ''}`,
 		ipfsGatewayDomain: ipfsGateway.gatewayDomain,
 	})
 
-	// Shared state
-	export let content: (ContentType extends 'string' ? string : object) | undefined
+
+	// Functions
+	import { useQuery } from '@sveltestack/svelte-query'
+	import { parseResponse } from '../utils/parseResponse'
 
 
 	// Output
 	type SharedSlotProps = {
-		content: typeof content,
 		ipfsGateway: typeof ipfsGateway,
-		ipfsCid: typeof ipfsCid,
+		ipfsContentId: typeof ipfsContentId,
 		resolvedIpfsUrl: typeof resolvedIpfsUrl,
-	}
+	} & Awaited<ReturnType<typeof parseResponse>>
 
 	type $$Slots = {
 		'default': SharedSlotProps,
@@ -53,37 +48,31 @@
 	}
 
 
-	import { useQuery } from '@sveltestack/svelte-query'
-
-
+	// Components
 	import Loader from './Loader.svelte'
 	import { IpfsIcon } from '../assets/icons'
 </script>
 
 
-{#if ipfsCid}
+{#if ipfsContentId}
 	<Loader
 		fromUseQuery={
 			useQuery({
 				queryKey: ['IPFS', {
-					type,
 					ipfsUrl: resolvedIpfsUrl,
 				}],
 				queryFn: async () => (
 					await fetch(resolvedIpfsUrl)
-						.then(async result => {
-							if(!(result.status >= 200 && result.status < 300))
-								throw await result.text()
-							return result
+						.then(async response => {
+							if(response.status === 422)
+								throw `Unprocessable IPFS CID "${ipfsContentId}"\nTry selecting a different encoding.`
+
+							if(!(response.status >= 200 && response.status < 300))
+								throw `${response.status} ${response.statusText}\n${await response.text()}`
+
+							return response
 						})
-						.then(result =>
-							type === 'json' ?
-								result.json()
-							: type === 'text' ?
-								result.text()
-							:
-								result.text()
-						)
+						.then(parseResponse)
 				)
 			})
 		}
@@ -92,9 +81,9 @@
 		loadingMessage={`Fetching content from IPFS via ${ipfsGateway.name}...`}
 		errorMessage={`Couldn't fetch content from IPFS.`}
 		{...$$restProps}
-		bind:result={content}
+		let:result
 	>
-		<slot slot="header" name="header" {content} {ipfsGateway} {ipfsCid} {resolvedIpfsUrl} />
-		<slot {content} {ipfsGateway} {ipfsCid} {resolvedIpfsUrl} />
+		<slot slot="header" name="header" {...result} {ipfsGatewayProvider} {ipfsContentId} {resolvedIpfsUrl} />
+		<slot {...result} {ipfsGatewayProvider} {ipfsContentId} {resolvedIpfsUrl} />
 	</Loader>
 {/if}
