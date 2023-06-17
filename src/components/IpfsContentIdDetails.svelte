@@ -37,6 +37,7 @@
 	// Components
 	import BlockTransition from './BlockTransition.svelte'
 	import Collapsible from './Collapsible.svelte'
+	import FileDetails from './FileDetails.svelte'
 	import InlineTransition from './InlineTransition.svelte'
 	import IpfsLoader from './IpfsLoader.svelte'
 	import IpfsContentId from './IpfsContentId.svelte'
@@ -85,14 +86,24 @@
 
 			<span slot="header-right" class="card-annotation"><a href="https://{ipfsGateway.gatewayDomain}" target="_blank">{ipfsGateway.name}</a></span>
 
-			<IpfsLoader
-				ipfsGatewayProvider={ipfsGateway.gatewayProvider}
-				{ipfsContentId}
-				{ipfsContentPath}
-				let:text
-			>
-				<pre class="card">{text}</pre>
-			</IpfsLoader>
+			{#key ipfsContentId}
+				<IpfsLoader
+					ipfsGatewayProvider={ipfsGateway.gatewayProvider}
+					{ipfsContentId}
+					{ipfsContentPath}
+					let:resolvedIpfsUrl
+					let:contentType
+					let:text
+					let:blob
+				>
+					<FileDetails
+						src={resolvedIpfsUrl}
+						{contentType}
+						{text}
+						{blob}
+					/>
+				</IpfsLoader>
+			{/key}
 		</Collapsible>
 
 		<hr>
