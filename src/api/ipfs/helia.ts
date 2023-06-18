@@ -31,7 +31,7 @@ export const getLocalFilesystem = async () => {
 
 
 import type { IpfsCid } from './contentId'
-import { streamFromAsyncIterable } from '../../utils/convertAsyncIterable'
+import { asyncIterableFromStream, streamFromAsyncIterable } from '../../utils/convertAsyncIterable'
 
 export const getIpfsContent = async ({
 	ipfsContentId,
@@ -79,5 +79,24 @@ export const encodeBytes = async (content: string | Blob | File) => {
 		blob,
 		buffer,
 		bytes,
+	}
+}
+
+
+export const encodeFile = async (file: File) => {
+	const fs = await getLocalFilesystem()
+
+	const stream = await file.stream()
+
+	const cid = await fs.addFile({
+		content: await asyncIterableFromStream(stream)
+	}, {
+		onProgress: (e) => {
+			console.info('encodeFile progress', e)
+		}
+	})
+
+	return {
+		cid,
 	}
 }
