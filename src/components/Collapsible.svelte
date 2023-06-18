@@ -9,6 +9,8 @@
 
 	export let showTriggerText = true
 
+	export let canToggle = true
+
 
 	type SharedSlotProps = {
 		isOpen: boolean,
@@ -124,10 +126,14 @@
 <!-- bind:open={isOpen} -->
 	<slot name="header" {isOpen} {toggle}>
 		<svelte:element
-			this={{
-				'label': 'label',
-				'details': 'summary'
-			}[type]}
+			this={
+				canToggle
+					? {
+						'label': 'label',
+						'details': 'summary'
+					}[type]
+					: 'div'
+			}
 			class="bar wrap"
 		>
 			<slot name="title" {isOpen} {toggle}>
@@ -145,22 +151,24 @@
 
 				<slot name="header-right" {isOpen} {toggle} />
 
-				<button
-					class="small"
-					data-after={showTriggerText ? isOpen ? '⏶' : '⏷' : isOpen ? '▲' : '▼'}
-					{...type === 'label' ? {
-						'aria-controls': ariaId,
-						'aria-expanded': isOpen ? 'true' : 'false',
-					} : {}}
-					on:click={toggle}
-				>{#if showTriggerText}<slot name="trigger-text" {isOpen} {toggle}>{isOpen ? 'Hide' : 'Show'}</slot>{/if}</button>
-				<!-- <button
-					class="small"
-					data-after={isOpen ? '▲' : '▼'}
-					aria-controls={ariaId}
-					aria-expanded={isOpen ? 'true' : 'false'}
-					on:click={toggle}
-				/> -->
+				{#if canToggle}
+					<button
+						class="small"
+						data-after={showTriggerText ? isOpen ? '⏶' : '⏷' : isOpen ? '▲' : '▼'}
+						{...type === 'label' ? {
+							'aria-controls': ariaId,
+							'aria-expanded': isOpen ? 'true' : 'false',
+						} : {}}
+						on:click={toggle}
+					>{#if showTriggerText}<slot name="trigger-text" {isOpen} {toggle}>{isOpen ? 'Hide' : 'Show'}</slot>{/if}</button>
+					<!-- <button
+						class="small"
+						data-after={isOpen ? '▲' : '▼'}
+						aria-controls={ariaId}
+						aria-expanded={isOpen ? 'true' : 'false'}
+						on:click={toggle}
+					/> -->
+				{/if}
 			</div>
 		</svelte:element>
 	</slot>
