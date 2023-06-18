@@ -32,6 +32,7 @@
 
 	// Functions
 	import { useQuery } from '@sveltestack/svelte-query'
+	import { getIpfsContent } from '../api/ipfs/helia'
 	import { parseResponse } from '../utils/parseResponse'
 
 
@@ -55,6 +56,29 @@
 
 
 {#if ipfsContentId}
+	{#if ipfsGatewayProvider === IpfsGatewayProvider.Helia}
+		<Loader
+			fromPromise={
+				async () => (
+					await getIpfsContent({
+						ipfsContentId,
+						ipfsContentPath,
+					})
+						.then(parseResponse)
+				)
+			}
+			loadingIcon={IpfsIcon}
+			loadingIconName="IPFS"
+			loadingMessage={`Fetching content from local IPFS node...`}
+			errorMessage={`Couldn't fetch content from local IPFS node.`}
+			{...$$restProps}
+			let:result
+		>
+			<slot slot="header" name="header" {...result} {ipfsGatewayProvider} {ipfsContentId} {resolvedIpfsUrl} />
+			<slot {...result} {ipfsGatewayProvider} {ipfsContentId} {resolvedIpfsUrl} />
+		</Loader>
+
+	{:else}
 	<Loader
 		fromUseQuery={
 			useQuery({
@@ -86,4 +110,5 @@
 		<slot slot="header" name="header" {...result} {ipfsGatewayProvider} {ipfsContentId} {resolvedIpfsUrl} />
 		<slot {...result} {ipfsGatewayProvider} {ipfsContentId} {resolvedIpfsUrl} />
 	</Loader>
+	{/if}
 {/if}
