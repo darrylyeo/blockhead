@@ -4,6 +4,7 @@
 	export let fileName: string | undefined
     export let extension: string | undefined
     export let contentType: string | undefined = 'text/plain'
+	export let contentSize: number | BigInt | undefined
 	export let text: string | undefined
 	export let blob: Blob | undefined
 
@@ -34,6 +35,10 @@
 	let iframeElement: HTMLIFrameElement
 
 
+	// Functions
+	import { formatByteCount } from '../utils/formatByteCount'
+
+
 	// Components
 	import Collapsible from './Collapsible.svelte'
 </script>
@@ -53,13 +58,19 @@
 			{/if}
 		</h4>
 
-		<span slot="header-right" class="card-annotation">
+		<svelte:fragment slot="header-right">
+			{#if contentSize !== undefined}
+				<span>{formatByteCount(contentSize)}</span>
+			{/if}
+
+			<span class="card-annotation">
 			{#if mediaType}
 				<a title="IANA Media Type" href="https://www.iana.org/assignments/media-types/{mediaType}" target="_blank">{mediaType}</a><!-- {#if params}; {params}{/if} -->
 			{:else}
 				file
 			{/if}
 		</span>
+		</svelte:fragment>
 
 		<hr>
 
