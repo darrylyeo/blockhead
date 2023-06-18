@@ -35,21 +35,24 @@ import { streamFromAsyncIterable } from '../../utils/convertAsyncIterable'
 
 export const getIpfsContent = async ({
 	ipfsContentId,
+	ipfsContentPath,
 }: {
 	ipfsContentId: IpfsCid,
+	ipfsContentPath?: string,
 }) => {
 	const { CID } = await import('multiformats/cid')
 
-	const fs = await getLocalFilesystem()
-
 	const cid = CID.parse(ipfsContentId)
+
+	const fs = await getLocalFilesystem()
 
 	return new Response(
 		await streamFromAsyncIterable(
 			fs.cat(cid, {
+				path: ipfsContentPath,
 				onProgress: e => {
 					// console.info('progress', e)
-				}
+				},
 			})
 		)
 	)
