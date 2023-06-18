@@ -1,28 +1,42 @@
+import type { BaseDatastore } from 'datastore-core'
 import type { IDBDatastore } from 'datastore-idb'
 
-let localIpfsDatastore: IDBDatastore
+let localIpfsDatastore: BaseDatastore
 
 export const getLocalIpfsDatastore = async () => {
 	if(!localIpfsDatastore){
-		const { IDBDatastore } = await import('datastore-idb')
+		try {
+			const { IDBDatastore } = await import('datastore-idb')
+			localIpfsDatastore = new IDBDatastore('blockhead/helia/datastore')
+			await (localIpfsDatastore as IDBDatastore).open()
+		}catch(e){
+			console.error(e)
 
-		localIpfsDatastore = new IDBDatastore('blockhead/helia/datastore')
-		await localIpfsDatastore.open()
+			const { MemoryDatastore } = await import('datastore-core')
+			localIpfsDatastore = new MemoryDatastore()
+		}
 	}
 	return localIpfsDatastore
 }
 
 
+import type { BaseBlockstore } from 'blockstore-core'
 import type { IDBBlockstore } from 'blockstore-idb'
 
-let localIpfsBlockstore: IDBBlockstore
+let localIpfsBlockstore: BaseBlockstore
 
 export const getLocalIpfsBlockstore = async () => {
 	if(!localIpfsBlockstore){
-		const { IDBBlockstore } = await import('blockstore-idb')
+		try {
+			const { IDBBlockstore } = await import('blockstore-idb')
+			localIpfsBlockstore = new IDBBlockstore('blockhead/helia/blockstore')
+			await (localIpfsBlockstore as IDBBlockstore).open()
+		}catch(e){
+			console.error(e)
 
-		localIpfsBlockstore = new IDBBlockstore('blockhead/helia/blockstore')
-		await localIpfsBlockstore.open()
+			const { MemoryBlockstore } = await import('blockstore-core')
+			localIpfsBlockstore = new MemoryBlockstore()
+		}
 	}
 	return localIpfsBlockstore
 }
@@ -34,13 +48,13 @@ let localIpfsNode: Awaited<ReturnType<typeof createHelia>>
 
 export const getLocalIpfsNode = async () => {
 	if(!localIpfsNode){
-	const { createHelia } = await import('helia')
+		const { createHelia } = await import('helia')
 
 		localIpfsNode = await createHelia({
 			datastore: await getLocalIpfsDatastore(),
 			blockstore: await getLocalIpfsBlockstore(),
-	})
-}
+		})
+	}
 	return localIpfsNode
 }
 
@@ -51,9 +65,9 @@ let localFs: UnixFS
 
 export const getLocalFilesystem = async () => {
 	if(!localFs){
-	const { unixfs } = await import('@helia/unixfs')
+		const { unixfs } = await import('@helia/unixfs')
 
-	const localIpfsNode = await getLocalIpfsNode()
+		const localIpfsNode = await getLocalIpfsNode()
 
 		localFs = unixfs(localIpfsNode)
 	}
