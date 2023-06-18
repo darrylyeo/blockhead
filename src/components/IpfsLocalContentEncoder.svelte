@@ -5,11 +5,11 @@
 
 	// External state
 	export let ipfsGateway: IpfsGatewayConfig
-	export let content: string | File | Blob
+	export let content: string | Blob | FileList
 
 
 	// Functions
-	import { encodeBytes } from '../api/ipfs/helia'
+	import { encodeBytes, encodeFile } from '../api/ipfs/helia'
 
 
 	// Components
@@ -19,18 +19,35 @@
 
 
 {#if ipfsGateway.gatewayProvider === IpfsGatewayProvider.Helia}
-	<Loader
-		fromPromise={async () => (
-			await encodeBytes(content)
-		)}
-		loadingIcon={IpfsIcon}
-		loadingIconName='IPFS'
-		loadingMessage={`Encoding content using local IPFS node...`}
-		errorMessage={`Couldn't encode content using local IPFS node.`}
-		{...$$restProps}
-		let:result
-	>
-		<slot slot='header' name='header' cid={result.cid} />
-		<slot cid={result.cid} />
-	</Loader>
+	{#if content instanceof FileList}
+		<Loader
+			fromPromise={async () => (
+				await encodeFile(content[0])
+			)}
+			loadingIcon={IpfsIcon}
+			loadingIconName='IPFS'
+			loadingMessage={`Encoding file using local IPFS node...`}
+			errorMessage={`Couldn't encode file using local IPFS node.`}
+			{...$$restProps}
+			let:result
+		>
+			<slot slot='header' name='header' cid={result.cid} />
+			<slot cid={result.cid} />
+		</Loader>
+	{:else}
+		<Loader
+			fromPromise={async () => (
+				await encodeBytes(content)
+			)}
+			loadingIcon={IpfsIcon}
+			loadingIconName='IPFS'
+			loadingMessage={`Encoding content using local IPFS node...`}
+			errorMessage={`Couldn't encode content using local IPFS node.`}
+			{...$$restProps}
+			let:result
+		>
+			<slot slot='header' name='header' cid={result.cid} />
+			<slot cid={result.cid} />
+		</Loader>
+	{/if}
 {/if}

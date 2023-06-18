@@ -10,7 +10,7 @@
 	// Internal state
 	let contentType: 'text' | 'file' = 'text'
 	let text = ''
-	let files: FileList
+	let fileList: FileList
 
 
 	// (Computed)
@@ -18,7 +18,7 @@
 		contentType === "text" ?
 			text
 		: contentType === 'file' ?
-			files
+			fileList
 		:
 			''
 
@@ -66,7 +66,12 @@
 
 		<SizeContainer class="column">
 			{#if contentType === 'file'}
-				<input type="file" multiple class="medium" bind:files />
+				<input
+					type="file"
+					multiple
+					class="medium"
+					bind:files={fileList}
+				/>
 			{:else}
 				<textarea bind:value={text} placeholder="Enter text..." rows={4} />
 			{/if}
