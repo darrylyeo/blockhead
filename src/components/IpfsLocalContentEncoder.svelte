@@ -5,7 +5,7 @@
 
 	// External state
 	export let ipfsGateway: IpfsGatewayConfig
-	export let content: string | Blob | FileList
+	export let content: string | Blob | File | FileList
 
 
 	// Functions
@@ -19,10 +19,10 @@
 
 
 {#if ipfsGateway.gatewayProvider === IpfsGatewayProvider.Helia}
-	{#if content instanceof FileList}
+	{#if content instanceof File}
 		<Loader
 			fromPromise={async () => (
-				await encodeFile(content[0])
+				await encodeFile(content)
 			)}
 			loadingIcon={IpfsIcon}
 			loadingIconName='IPFS'
@@ -34,6 +34,7 @@
 			<slot slot='header' name='header' cid={result.cid} />
 			<slot cid={result.cid} />
 		</Loader>
+
 	{:else}
 		<Loader
 			fromPromise={async () => (
