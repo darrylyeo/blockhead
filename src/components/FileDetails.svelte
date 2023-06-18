@@ -47,6 +47,7 @@
 	// Internal state
 	let containerElement: Element
 	let iframeElement: HTMLIFrameElement
+	let fullscreenElement: Element
 
 
 	// Functions
@@ -58,11 +59,16 @@
 </script>
 
 
+
+<svelte:document bind:fullscreenElement />
+
+
 <article class="card" bind:this={containerElement}>
 	<Collapsible
 		type="label"
 		showTriggerText={false}
 		class="column"
+		canToggle={!fullscreenElement}
 	>
 		<h4 slot="title" class="row" data-before={displayIcon}>
 			{#if displaySrc}
@@ -157,13 +163,13 @@
 						class="medium"
 						data-before="⛶"
 						on:click={e => {
-							if (document.fullscreenElement) {
+							if (fullscreenElement) {
 								document.exitFullscreen()
 							} else {
 								containerElement.requestFullscreen()
 							}
 						}}
-					>Full Screen</button>
+					>{!fullscreenElement ? 'Full Screen' : 'Exit'}</button>
 				</div>
 			</div>
 		</footer>
