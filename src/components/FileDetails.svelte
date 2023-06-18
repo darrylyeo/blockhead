@@ -54,7 +54,11 @@
 		</h4>
 
 		<span slot="header-right" class="card-annotation">
-			<a title="IANA Media Type" href="https://www.iana.org/assignments/media-types/{mediaType}" target="_blank">{mediaType}</a><!-- {#if params}; {params}{/if} -->
+			{#if mediaType}
+				<a title="IANA Media Type" href="https://www.iana.org/assignments/media-types/{mediaType}" target="_blank">{mediaType}</a><!-- {#if params}; {params}{/if} -->
+			{:else}
+				file
+			{/if}
 		</span>
 
 		<hr>
