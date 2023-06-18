@@ -27,6 +27,7 @@
 
 
 	// Components
+	import BlockTransition from './BlockTransition.svelte'
 	import Collapsible from './Collapsible.svelte'
 	import FileList from './FileList.svelte'
 	import FileDirectory from './FileDirectory.svelte'
@@ -34,6 +35,7 @@
 	import IpfsLocalContentEncoder from './IpfsLocalContentEncoder.svelte'
 	import SizeContainer from './SizeContainer.svelte'
 	import { HeliaIcon } from '../assets/icons'
+	import { fade } from 'svelte/transition'
 	// import { cardStyle } from '../utils/card-background'
 </script>
 
@@ -52,15 +54,13 @@
 
 	<hr>
 
-	<form class="card">
+	<section>
 		<header class="bar wrap">
-			<h4>Add content</h4>
-
-			<hr>
+			<h4>Add Content To IPFS</h4>
 
 			<div role="toolbar" class="row wrap">
 				<label>
-					<span>Content Type</span>
+					<span>Format</span>
 					<select bind:value={contentType}>
 						<option value="text">Text</option>
 						<option value="file">File(s)</option>
@@ -70,78 +70,94 @@
 			</div>
 		</header>
 
-		<SizeContainer class="column">
-			{#if contentType === 'file'}
-				<input
-					type="file"
-					class="medium"
-					multiple
-					bind:files={fileList}
-				/>
+		<form class="card">
+			<header class="bar wrap">
+				<h4>Stage Content</h4>
 
-				{#if fileList}
-					<div class="column">
-						<FileList fileList={fileList} />
-					</div>
-				{/if}
-			{:else if contentType === 'folder'}
-				<input
-					type="file"
-					class="medium"
-					multiple
-					webkitdirectory
-					bind:files={folderFileList}
-				/>
+				<div class="column align-end">
+					<button type="reset" class="small destructive">Reset</button>
+				</div>
+			</header>
 
-				{#if folderFileList?.[0]?.webkitRelativePath}
-					<FileDirectory fileList={folderFileList} />
-				{:else if folderFileList}
-					<div class="column">
-						<FileList fileList={folderFileList} />
-					</div>
-				{/if}
-			{:else}
-				<textarea bind:value={text} placeholder="Enter text..." rows={4} />
-			{/if}
-		</SizeContainer>
+			<!-- <BlockTransition key={contentType}Z> -->
+			<SizeContainer class="column">
+				{#if contentType === 'file'}
+					<input
+						type="file"
+						class="medium"
+						multiple
+						required
+						bind:files={fileList}
+					/>
 
-		<hr>
-	
-		<!-- <section class="card"> -->
-		<section class="column">
-			<Collapsible type="label">
-				<h4 slot="title">Preview</h4>
-	
-				<!-- <hr> -->
-		
-				{#if ipfsGateway.gatewayProvider === IpfsGatewayProvider.Helia}
-					<IpfsLocalContentEncoder
-						{ipfsGateway}
-						{content}
-						let:cid
-					>
-						<!-- <article>
-							<div class="bar wrap">
-								<IpfsContentId ipfsContentId={cid?.toV1?.().toString()} />
-			
-								<span class="card-annotation">IPFS CID</span>
-							</div>
-						</article> -->
+					{#if fileList}
+						<div class="column">
+							<FileList fileList={fileList} />
+						</div>
+					{/if}
+				{:else if contentType === 'folder'}
+					<input
+						type="file"
+						class="medium"
+						multiple
+						webkitdirectory
+						required
+						bind:files={folderFileList}
+					/>
 
-						<IpfsContentIdDetails
-							{ipfsGateway}
-							ipfsContentId={cid?.toV1?.().toString()}
-							headingLevel={4}
-						/>
-					</IpfsLocalContentEncoder>
+					{#if folderFileList?.[0]?.webkitRelativePath}
+						<FileDirectory fileList={folderFileList} />
+					{:else if folderFileList}
+						<div class="column">
+							<FileList fileList={folderFileList} />
+						</div>
+					{/if}
 				{:else}
-					<div class="card align-center">
-						Switch to a local IPFS Gateway to add content to IPFS.
-					</div>
+					<textarea
+						bind:value={text}
+						placeholder="Enter text..."
+						rows={4}
+						required
+					/>
 				{/if}
-			</Collapsible>
-		</section>
-	</form>
+			</SizeContainer>
+			<!-- </BlockTransition> -->
+
+			<hr>
+		
+			<section class="column">
+				<Collapsible type="label">
+					<h4 slot="title">Add Content</h4>
+
+					<svelte:fragment slot="trigger-text" let:isOpen>
+						{!isOpen ? 'Start' : 'Stop'}
+					</svelte:fragment>
+			
+					<!-- {#if ipfsGateway.gatewayProvider === IpfsGatewayProvider.Helia} -->
+					<BlockTransition key={content} transition={fade} transitionParams={{ duration: 100 }}>
+						<IpfsLocalContentEncoder
+							{ipfsGateway}
+							{content}
+							let:cid
+						>
+							{#if cid}
+								<IpfsContentIdDetails
+									{ipfsGateway}
+									ipfsContentId={cid?.toV1?.().toString()}
+									headingLevel={4}
+								/>
+							{/if}
+						</IpfsLocalContentEncoder>
+					</BlockTransition>
+					<!-- {:else}
+						<div class="card align-center">
+							Switch to a local IPFS Gateway to add content to IPFS.
+						</div>
+					{/if} -->
+				</Collapsible>
+			</section>
+		</form>
+	</section>
 </article>
 
 
@@ -149,5 +165,9 @@
 	article {
 		position: relative;
 		overflow: clip;
+	}
+
+	form:invalid [type="reset"] {
+		scale: 0;
 	}
 </style>
