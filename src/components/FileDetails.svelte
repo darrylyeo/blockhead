@@ -28,6 +28,16 @@
 		: contentType.startsWith('application/xml') ? 'xml'
 		: contentType.startsWith('application/pdf') ? 'pdf'
 		: 'iframe' // 'unsupported'
+	$: displayIcon = {
+		text: '📄',
+		image: '🖼️',
+		video: '🎥',
+		audio: '🔊',
+		json: '🗒️',
+		xml: '🗒️',
+		pdf: '📄',
+		iframe: '🌐',
+	}[displayType]
 
 
 	// Internal state
@@ -50,7 +60,7 @@
 		showTriggerText={false}
 		class="column"
 	>
-		<h4 slot="title">
+		<h4 slot="title" class="row" data-before={displayIcon}>
 			{#if displaySrc}
 				<a href={displaySrc} target="_blank">{fileName}</a>
 			{:else}
