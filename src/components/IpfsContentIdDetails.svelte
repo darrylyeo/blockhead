@@ -60,17 +60,10 @@
 		loadingIcon={IpfsIcon}
 		loadingMessage="Decoding IPFS Content ID..."
 		errorMessage={`Couldn't parse CID "${ipfsContentId}".`}
-		result={{}}
-		showIf={result => result.cid}
 		{...$$restProps}
-		let:result={{
-			cid,
-			multibase,
-			multicodec,
-			multihash,
-		}}
+		let:result
 	>
-		{@const digestBase16 = uint8ArrayToString(multihash.digest, 'base16')}
+		{@const digestBase16 = uint8ArrayToString(result?.multihash.digest, 'base16')}
 
 		<svelte:fragment slot="header">
 			<header class="bar wrap">
@@ -114,10 +107,10 @@
 		<Collapsible type="label" class="column">
 			<svelte:element slot="title" this={`h${headingLevel + 1}`}><a href="https://github.com/multiformats/cid#human-readable-cids" target="_blank">Decoded Content ID</a></svelte:element>
 
-			<span slot="header-right" class="card-annotation"><a href="https://github.com/multiformats/cid" target="_blank">IPFS CIDv{cid.version}</a></span>
+			<span slot="header-right" class="card-annotation"><a href="https://github.com/multiformats/cid" target="_blank">IPFS CIDv{result?.cid.version}</a></span>
 
 			<div class="card">
-				<output class="decoded-cid row-inline wrap"><span title="Multibase"><InlineTransition align="center" value={multibase.name} /></span> - <span title="Version"><InlineTransition align="center" value="cidv{cid.version}" /></span> - <span title="Multicodec"><InlineTransition align="center" value={multicodec.name} /></span> - <span class="row-inline" title="Multihash">(<span title="Multicodec"><InlineTransition value={multihash.multicodec.name} /></span> : <span title="Size (bits)"><InlineTransition value={multihash.size * 8} /></span> : <span title="Digest (base16)"><BlockTransition align="center" value={digestBase16} /></span>)</span></output>
+				<output class="decoded-cid row-inline wrap"><span title="Multibase"><InlineTransition align="center" value={result?.multibase.name} /></span> - <span title="Version"><InlineTransition align="center" value="cidv{result?.cid.version}" /></span> - <span title="Multicodec"><InlineTransition align="center" value={result?.multicodec.name} /></span> - <span class="row-inline" title="Multihash">(<span title="Multicodec"><InlineTransition value={result?.multihash.multicodec.name} /></span> : <span title="Size (bits)"><InlineTransition value={result?.multihash.size * 8} /></span> : <span title="Digest (base16)"><BlockTransition align="center" value={digestBase16} /></span>)</span></output>
 				<!-- <p>multibase - version - multicodec - multihash (name : size : digest)</p> -->
 			</div>
 
@@ -125,7 +118,7 @@
 				<section class="card">
 					<!-- <svelte:element this={`h${headingLevel + 2}`}><a href="https://github.com/multiformats/multibase" target="_blank">Multibase</a></svelte:element> -->
 					<header class="bar wrap">
-						<svelte:element this={`h${headingLevel + 2}`}><abbr title="Multibase"><output>{multibase.name}</output></abbr></svelte:element>
+						<svelte:element this={`h${headingLevel + 2}`}><abbr title="Multibase"><output>{result?.multibase.name}</output></abbr></svelte:element>
 
 						<span class="card-annotation"><a href="https://github.com/multiformats/multibase" target="_blank">multibase</a></span>
 					</header>
@@ -135,7 +128,7 @@
 					<dl>
 						{#each Object.entries({
 							// 'Name': multibase.name,
-							'Prefix': cid.version === 0 ? null : multibase.prefix,
+							'Prefix': result?.cid.version === 0 ? null : result?.multibase.prefix,
 						}) as [key, value]}
 							<dt>{key}</dt>
 							<dd><InlineTransition value={value} let:value>{#if key === 'Prefix' && value === null}<span class="faded">[implicit]</span>{:else}<output>{value}</output>{/if}</InlineTransition></dd>
@@ -146,7 +139,7 @@
 				<section class="card">
 					<!-- <svelte:element this={`h${headingLevel + 2}`}><a href="https://github.com/multiformats/multicodec" target="_blank">Multicodec</a></svelte:element> -->
 					<header class="bar wrap">
-						<svelte:element this={`h${headingLevel + 2}`}><abbr title="Multicodec"><output>{multicodec.name}</output></abbr></svelte:element>
+						<svelte:element this={`h${headingLevel + 2}`}><abbr title="Multicodec"><output>{result?.multicodec.name}</output></abbr></svelte:element>
 
 						<span class="card-annotation"><a href="https://github.com/multiformats/multicodec/blob/master/table.csv" target="_blank">multicodec</a></span>
 					</header>
@@ -156,8 +149,8 @@
 					<dl>
 						{#each Object.entries({
 							// 'Name': { value: multicodec.name },
-							'Multicodec Code': { value: paddedCodeHex(multicodec.code) },
-							'Description': { type: 'text', value: multicodec.description },
+							'Multicodec Code': { value: paddedCodeHex(result?.multicodec.code) },
+							'Description': { type: 'text', value: result?.multicodec.description },
 						}) as [key, {type, value}]}
 							<dt>{key}</dt>
 							<dd><InlineTransition value={value} let:value><output data-type={type}>{value}</output></InlineTransition></dd>
@@ -168,7 +161,7 @@
 				<section class="card">
 					<!-- <svelte:element this={`h${headingLevel + 2}`}><a href="https://github.com/multiformats/multihash" target="_blank">Multihash</a></svelte:element> -->
 					<header class="bar wrap">
-						<svelte:element this={`h${headingLevel + 2}`}><abbr title="Multihash › Multicodec"><output>{multihash.multicodec.name}</output></abbr></svelte:element>
+						<svelte:element this={`h${headingLevel + 2}`}><abbr title="Multihash › Multicodec"><output>{result?.multihash.multicodec.name}</output></abbr></svelte:element>
 
 						<span class="card-annotation"><a href="https://github.com/multiformats/multihash" target="_blank">multihash</a></span>
 					</header>
@@ -177,19 +170,19 @@
 		
 					<dl>
 						{#each Object.entries({
-							'Multicodec Code': paddedCodeHex(multihash.multicodec.code),
+							'Multicodec Code': paddedCodeHex(result?.multihash.multicodec.code),
 							// 'Multicodec Name': multihash.multicodec.name,
 							// 'Multicodec Description': multihash.multicodec.description,
 							// 'Size': `${multihash.size * 8} bits`,
-							'Size (bits)': multihash.size * 8,
-							...multibase.name !== 'base16' && {
-								[`Digest (${multibase.name})`]: multibase.encode(multihash.bytes),
+							'Size (bits)': result?.multihash.size * 8,
+							...result?.multibase.name !== 'base16' && {
+								[`Digest (${result?.multibase.name})`]: result?.multibase.encode(result?.multihash.bytes),
 							},
 							'Digest (base16)': digestBase16,
-						}) as [key, value] (key)}
+						}) as [key, value]}
 							<dt><InlineTransition align="end" value={key} /></dt>
 							<!-- <dd><BlockTransition element="output" value={value} /></dd> -->
-							<dd><output><BlockTransition value={value} /></dd>
+							<dd><output><BlockTransition value={value} /></output></dd>
 						{/each}
 					</dl>
 				</section>
@@ -219,9 +212,9 @@
 				<SizeContainer>
 					<dl>
 						{#each
-							getAllIpfsCidEncodings(cid)
+							getAllIpfsCidEncodings(result?.cid)
 								.filter(({ version, base }) =>
-									(version === cid.version && base.name === multibase.name) || (
+									(version === result?.cid.version && base.name === result?.multibase.name) || (
 										showEncodings === 'common' ?
 											version === 0
 											|| ['base32', 'base36'].includes(base.name)
