@@ -8,7 +8,7 @@
 
 
 	// Internal state
-	let contentType: 'text' | 'file' | 'folder' = 'text'
+	let contentType: 'text' | 'file' | 'folder' = 'file'
 	let text = ''
 	let fileList: FileList
 	let folderFileList: FileList
