@@ -72,12 +72,14 @@
 	>
 		{@const digestBase16 = uint8ArrayToString(multihash.digest, 'base16')}
 
-		<header slot="header" class="bar wrap">
-			<svelte:element this={`h${headingLevel}`}><InlineTransition key={ipfsContentId}><IpfsContentId {ipfsContentId} /></InlineTransition></svelte:element>
+		<svelte:fragment slot="header">
+			<header class="bar wrap">
+				<svelte:element this={`h${headingLevel}`}><InlineTransition key={ipfsContentId}><IpfsContentId {ipfsContentId} {ipfsContentPath} linkedParts /></InlineTransition></svelte:element>
 
 			<!-- <span class="card-annotation"><a href="https://github.com/multiformats/cid" target="_blank">IPFS Content ID (v{cid.version})</a></span> -->
 			<span class="card-annotation">IPFS Content</span>
 		</header>
+		</svelte:fragment>
 
 		<hr>
 		
