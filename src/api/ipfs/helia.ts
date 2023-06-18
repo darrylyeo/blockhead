@@ -31,46 +31,28 @@ export const getLocalFilesystem = async () => {
 
 
 import type { IpfsCid } from './contentId'
-import { CID } from 'multiformats/cid'
+import { streamFromAsyncIterable } from '../../utils/convertAsyncIterable'
 
-export const getLocalIpfsContent = async ({ ipfsCid, path, type = 'png' }: {ipfsCid: IpfsCid, path?: string, type: string }) => {
+export const getIpfsContent = async ({
+	ipfsContentId,
+}: {
+	ipfsContentId: IpfsCid,
+}) => {
+	const { CID } = await import('multiformats/cid')
+
 	const fs = await getLocalFilesystem()
 
-	const cid = CID.parse(ipfsCid)
+	const cid = CID.parse(ipfsContentId)
 
-	if(type === 'text'){
-		let text = ''
-		const decoder = new TextDecoder('utf-8')
-
-		try {
-			for await (const chunk of fs.cat(cid)) {
-				text += decoder.decode(chunk, {
-					stream: true
-				})
-			}
-			return text
-		} catch (e) {
-			console.error(e)
-		}
-	}else if(type === 'png'){
-		const stream = new ReadableStream({
-			start: controller => async () => {
-				for await (const chunk of fs.cat(cid, { path }))
-					controller.enqueue(chunk)
-			}
-		})
-
-		return new Response(stream).blob()
-			// .then(blob => URL.createObjectURL(blob))
-			.then(blob => new Promise((resolve, reject) => {
-				const fileReader = new FileReader()
-				fileReader.onload = e => console.log(e)||resolve(e.target.result)
-				fileReader.onprogress = e => console.info('progress', e)
-				fileReader.onerror = e => reject(e.target.result)
-				fileReader.onabort = e => reject(new Error('Aborted'))
-				fileReader.readAsDataURL(blob)
-			}))
-	}
+	return new Response(
+		await streamFromAsyncIterable(
+			fs.cat(cid, {
+				onProgress: e => {
+					// console.info('progress', e)
+				}
+			})
+		)
+	)
 }
 
 
