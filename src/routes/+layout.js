@@ -7,6 +7,9 @@ globalThis.global = globalThis
 globalThis.Buffer = Buffer
 globalThis.process = process
 
+import fromAsync from 'array-from-async'
+Array.fromAsync ||= fromAsync
+
 
 // Shims
 

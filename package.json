@@ -43,6 +43,7 @@
     "@walletconnect/web3-provider": "^1.8.0",
     "@walletconnect/web3wallet": "^1.8.0",
     "@web3modal/standalone": "^2.4.3",
+    "array-from-async": "^3.0.0",
     "array.prototype.group": "^1.1.2",
     "array.prototype.grouptomap": "^1.1.2",
     "bip44-constants": "^222.0.0",
