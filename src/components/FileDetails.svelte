@@ -60,7 +60,7 @@
 		<hr>
 
 		<div class="scrollable align-center">
-			{#if displayType === 'text'}
+			{#if displayType === 'text' && text !== undefined}
 				<pre class="text" style="--text-length: {text.length}">{text}</pre>
 			{:else if displayType === 'iframe'}
 				<iframe
@@ -90,7 +90,7 @@
 				>
 					<p>Your browser does not support PDFs. <a href={dataUrl} download>Download the PDF</a> instead.</p>
 				</object>
-			{:else}
+			{:else if text !== undefined}
 				<pre class="text" style="--text-length: {text.length}">{text}</pre>
 			{/if}
 		</div>
