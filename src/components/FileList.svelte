@@ -11,12 +11,7 @@
 
 {#if fileList}
 	{#each Array.from(fileList) as file}
-		<FileDetails
-			fileName={file.name}
-			contentType={file.type}
-			contentSize={file.size}
-			lastModified={file.lastModified}
-		/>
+		<FileDetails {file} />
 		<!-- <article class="card">
 			<header class="bar wrap">
 				<span>{file.name}</span>
