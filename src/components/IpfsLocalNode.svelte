@@ -8,23 +8,28 @@
 
 
 	// Internal state
-	let contentType: 'text' | 'file' = 'text'
+	let contentType: 'text' | 'file' | 'folder' = 'text'
 	let text = ''
 	let fileList: FileList
+	let folderFileList: FileList
 
 
 	// (Computed)
 	$: content =
-		contentType === "text" ?
+		contentType === 'text' ?
 			text
 		: contentType === 'file' ?
-			fileList
+			fileList?.[0]
+		: contentType === 'folder' ?
+			folderFileList
 		:
 			''
 
 
 	// Components
 	import Collapsible from './Collapsible.svelte'
+	import FileList from './FileList.svelte'
+	import FileDirectory from './FileDirectory.svelte'
 	import IpfsContentIdDetails from './IpfsContentIdDetails.svelte'
 	import IpfsLocalContentEncoder from './IpfsLocalContentEncoder.svelte'
 	import SizeContainer from './SizeContainer.svelte'
@@ -59,6 +64,7 @@
 					<select bind:value={contentType}>
 						<option value="text">Text</option>
 						<option value="file">File(s)</option>
+						<option value="folder">Folder</option>
 					</select>
 				</label>
 			</div>
@@ -68,10 +74,32 @@
 			{#if contentType === 'file'}
 				<input
 					type="file"
-					multiple
 					class="medium"
+					multiple
 					bind:files={fileList}
 				/>
+
+				{#if fileList}
+					<div class="column">
+						<FileList fileList={fileList} />
+					</div>
+				{/if}
+			{:else if contentType === 'folder'}
+				<input
+					type="file"
+					class="medium"
+					multiple
+					webkitdirectory
+					bind:files={folderFileList}
+				/>
+
+				{#if folderFileList?.[0]?.webkitRelativePath}
+					<FileDirectory fileList={folderFileList} />
+				{:else if folderFileList}
+					<div class="column">
+						<FileList fileList={folderFileList} />
+					</div>
+				{/if}
 			{:else}
 				<textarea bind:value={text} placeholder="Enter text..." rows={4} />
 			{/if}
