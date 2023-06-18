@@ -22,6 +22,7 @@
 		'toolbar': SharedSlotProps,
 		'toolbar-items': SharedSlotProps,
 		'header-right': SharedSlotProps,
+		'trigger-text': SharedSlotProps,
 		'footer': SharedSlotProps,
 	}
 
@@ -152,7 +153,7 @@
 						'aria-expanded': isOpen ? 'true' : 'false',
 					} : {}}
 					on:click={toggle}
-				>{showTriggerText ? isOpen ? 'Hide' : 'Show' : ''}</button>
+				>{#if showTriggerText}<slot name="trigger-text" {isOpen} {toggle}>{isOpen ? 'Hide' : 'Show'}</slot>{/if}</button>
 				<!-- <button
 					class="small"
 					data-after={isOpen ? '▲' : '▼'}
