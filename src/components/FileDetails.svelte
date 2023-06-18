@@ -7,10 +7,14 @@
 	export let contentSize: number | BigInt | undefined
 	export let text: string | undefined
 	export let blob: Blob | undefined
+	export let file: File | undefined
 
 	// (Computed)
 	$: if(!fileName && src) fileName = src.match(/[^/]+$/)![0]
 	$: if(!blob && (text ?? src)) blob = new Blob([text ?? src], { type: contentType })
+	$: if(!fileName && file) fileName = file.name
+	$: if(!contentType && file) contentType = file.type
+	$: if(!contentSize && file) contentSize = file.size
 	$: [mediaType, params] = contentType?.split(/;\s*/) ?? []
 	$: blobUrl = blob && (() => { try { return URL.createObjectURL(blob) } catch {} })()
 	$: dataUrl = text && (() => { try { return `data:${contentType};base64,${btoa(text)}` } catch {}})()
