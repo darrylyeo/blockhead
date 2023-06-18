@@ -69,19 +69,19 @@
 			<header class="bar wrap">
 				<svelte:element this={`h${headingLevel}`}><InlineTransition key={ipfsContentId}><IpfsContentId {ipfsContentId} {ipfsContentPath} linkedParts /></InlineTransition></svelte:element>
 
-			<!-- <span class="card-annotation"><a href="https://github.com/multiformats/cid" target="_blank">IPFS Content ID (v{cid.version})</a></span> -->
-			<span class="card-annotation">IPFS Content</span>
-		</header>
+				<!-- <span class="card-annotation"><a href="https://github.com/multiformats/cid" target="_blank">IPFS Content ID (v{cid.version})</a></span> -->
+				<span class="card-annotation">IPFS Content</span>
+			</header>
 		</svelte:fragment>
 
 		<hr>
 		
-		<Collapsible type="label">
+		<Collapsible type="label" isOpen canToggle={false}>
 			<svelte:element this={`h${headingLevel + 1}`} slot="title">Content</svelte:element>
 
 			<span slot="header-right" class="card-annotation"><a href="https://{ipfsGateway.gatewayDomain}" target="_blank">{ipfsGateway.name}</a></span>
 
-			{#key ipfsContentId}
+			<BlockTransition>
 				<IpfsLoader
 					ipfsGatewayProvider={ipfsGateway.gatewayProvider}
 					{ipfsContentId}
@@ -98,7 +98,7 @@
 						{blob}
 					/>
 				</IpfsLoader>
-			{/key}
+			</BlockTransition>
 		</Collapsible>
 
 		<hr>
