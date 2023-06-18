@@ -14,7 +14,7 @@ export const streamFromAsyncIterable = async <T>(asyncIterable: AsyncIterable<T>
 	})
 }
 
-export const textFromAsyncIterable = async <T>(asyncIterable: AsyncIterable<T>) => {
+export const textFromAsyncIterable = async <T extends BufferSource>(asyncIterable: AsyncIterable<T>) => {
 	const decoder = new TextDecoder()
 
 	let text = ''
