@@ -32,26 +32,30 @@
 	// Internal state
 	let containerElement: Element
 	let iframeElement: HTMLIFrameElement
+
+
+	// Components
+	import Collapsible from './Collapsible.svelte'
 </script>
 
 
-{#if text}
-	<article class="card" bind:this={containerElement}>
-		<header class="bar wrap">
-			<h4>
-				{#if displaySrc}
-					<a href={displaySrc} target="_blank">{fileName}</a>
-				{:else}
-					{fileName}
-				{/if}
-			</h4>
+<article class="card" bind:this={containerElement}>
+	<Collapsible
+		type="label"
+		showTriggerText={false}
+		class="column"
+	>
+		<h4 slot="title">
+			{#if displaySrc}
+				<a href={displaySrc} target="_blank">{fileName}</a>
+			{:else}
+				{fileName}
+			{/if}
+		</h4>
 
-			<div class="row wrap">
-				<span class="card-annotation">
-					<a title="IANA Media Type" href="https://www.iana.org/assignments/media-types/{mediaType}" target="_blank">{mediaType}</a><!-- {#if params}; {params}{/if} -->
-				</span>
-			</div>
-		</header>
+		<span slot="header-right" class="card-annotation">
+			<a title="IANA Media Type" href="https://www.iana.org/assignments/media-types/{mediaType}" target="_blank">{mediaType}</a><!-- {#if params}; {params}{/if} -->
+		</span>
 
 		<hr>
 
@@ -134,18 +138,20 @@
 				</div>
 			</div>
 		</footer>
-	</article>
-{/if}
+	</Collapsible>
+</article>
 
 
 <style>
 	article:fullscreen {
-		grid-template-rows: auto auto 1fr auto auto;
+		align-content: stretch;
+	}
+	article:fullscreen > :global(* > *) {
+		grid-template-rows: auto 1fr auto auto;
 	}
 	article:fullscreen .scrollable {
 		display: grid;
 		align-items: center;
-		min-height: 100%;
 	}
 
 	pre {
@@ -160,5 +166,7 @@
 	iframe {
 		background: white;
 		min-height: 0;
+		justify-self: stretch;
+		align-self: stretch;
 	}
 </style>
