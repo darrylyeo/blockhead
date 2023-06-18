@@ -19,7 +19,7 @@ export const resolveUri = ({
 }) => {
 	if(!src) return undefined
 
-	if(ipfsGatewayDomain)
+	if(ipfsGatewayDomain && ipfsGatewayDomain !== 'local')
 		for(const { gatewayDomain } of ipfsGateways)
 			if(gatewayDomain)
 				src = src.replace(gatewayDomain, () => ipfsGatewayDomain)
@@ -38,7 +38,10 @@ export const resolveUri = ({
 	const { groups } = src.match(pattern) ?? {}
 
 	return groups?.ipfsCid ?
-		`https://${ipfsGatewayDomain}/ipfs/${groups.ipfsCid}${groups.ipfsPath ?? ''}`
+		ipfsGatewayDomain === 'local' ?
+			`ipfs://${groups.ipfsCid}${groups.ipfsPath ?? ''}`
+		:
+			`https://${ipfsGatewayDomain}/ipfs/${groups.ipfsCid}${groups.ipfsPath ?? ''}`
 	: groups?.arweaveCid ?
 		`https://${arweaveGateway}/${groups.arweaveCid}`
 	:
