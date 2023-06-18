@@ -43,6 +43,8 @@ const config: UserConfig = {
 				// CommonJS modules can always be imported via the default export, for example using:
 				// import pkg from 'zrender/lib/core/event.js';
 				'zrender',
+
+				'detect-content-type',
 			],
 			exclude: ["@apollo/client", "svelte-apollo", '@liquality/wallet-sdk'],
 		},
@@ -57,6 +59,7 @@ const config: UserConfig = {
 	resolve: {
 		alias: {
 			stream: 'rollup-plugin-node-polyfills/polyfills/stream',
+			'node:buffer': 'buffer',
 		}
 	},
 
