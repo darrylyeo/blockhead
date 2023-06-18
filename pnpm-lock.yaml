@@ -85,12 +85,18 @@ dependencies:
   blockstore-core:
     specifier: ^4.2.0
     version: 4.2.0
+  blockstore-idb:
+    specifier: ^1.1.1
+    version: 1.1.1
   buffer:
     specifier: ^6.0.3
     version: 6.0.3
   datastore-core:
     specifier: ^9.2.0
     version: 9.2.0
+  datastore-idb:
+    specifier: ^2.1.2
+    version: 2.1.2
   echarts:
     specifier: ^5.4.2
     version: 5.4.2
@@ -7835,6 +7841,17 @@ packages:
       multiformats: 11.0.2
     dev: false
 
+  /blockstore-idb@1.1.1:
+    resolution: {integrity: sha512-xQABrAq5WWuT5JDnhKjIslRPgDwtnW/aj9iI5sLRwdxrcSAZeN8aFEBx810urRKf634eJ5sMfiX89DotRUxaog==}
+    engines: {node: '>=16.0.0', npm: '>=7.0.0'}
+    dependencies:
+      blockstore-core: 4.2.0
+      idb: 7.1.1
+      interface-blockstore: 5.2.3
+      interface-store: 5.1.2
+      multiformats: 11.0.2
+    dev: false
+
   /bluebird@3.7.2:
     resolution: {integrity: sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==}
     dev: false
@@ -8994,6 +9011,16 @@ packages:
       uint8arrays: 4.0.3
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /datastore-idb@2.1.2:
+    resolution: {integrity: sha512-JI4EvExSj//jCb6IN4Z4IoR5f744I0yHPrELoquK8cMJ9tc/mvxMO0BA/YmRDrC9UXHOtDJ+Gn09pob+HizdLA==}
+    engines: {node: '>=16.0.0', npm: '>=7.0.0'}
+    dependencies:
+      idb: 7.1.1
+      interface-datastore: 8.2.3
+      it-filter: 3.0.2
+      it-sort: 3.0.2
     dev: false
 
   /debug@2.6.9:
