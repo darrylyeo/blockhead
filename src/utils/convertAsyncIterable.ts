@@ -22,4 +22,10 @@ export const textFromAsyncIterable = async <T extends BufferSource>(asyncIterabl
 		text += decoder.decode(chunk, { stream: true })
 
 	return text
+
+	// return (await Array.fromAsync(
+	// 	asyncIterable,
+	// 	chunk => decoder.decode(chunk, { stream: true })
+	// ))
+	// 	.join('')
 }
