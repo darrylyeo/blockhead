@@ -84,17 +84,17 @@
 			{/if}
 
 			<span class="card-annotation">
-			{#if mediaType}
-				<a title="IANA Media Type" href="https://www.iana.org/assignments/media-types/{mediaType}" target="_blank">{mediaType}</a><!-- {#if params}; {params}{/if} -->
-			{:else}
-				file
-			{/if}
-		</span>
+				{#if mediaType}
+					<a title="IANA Media Type" href="https://www.iana.org/assignments/media-types/{mediaType}" target="_blank">{mediaType}</a><!-- {#if params}; {params}{/if} -->
+				{:else}
+					file
+				{/if}
+			</span>
 		</svelte:fragment>
 
 		<hr>
 
-		<div class="scrollable align-center">
+		<div class="scrollable" class:align-center={!['iframe', 'pdf'].includes(displayType)}>
 			{#if displayType === 'text' && text !== undefined}
 				<pre class="text" style="--text-length: {text.length}">{text}</pre>
 			{:else if displayType === 'iframe'}
@@ -187,6 +187,7 @@
 	article:fullscreen .scrollable {
 		display: grid;
 		align-items: center;
+		justify-content: stretch;
 	}
 
 	pre {
@@ -200,8 +201,10 @@
 
 	iframe {
 		background: white;
-		min-height: 0;
 		justify-self: stretch;
 		align-self: stretch;
+	}
+	article:fullscreen iframe {
+		min-height: 0;
 	}
 </style>
