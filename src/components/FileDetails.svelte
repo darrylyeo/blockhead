@@ -74,7 +74,7 @@
 			{#if displaySrc}
 				<a href={displaySrc} target="_blank">{fileName}</a>
 			{:else}
-				{fileName}
+				{fileName ?? ''}
 			{/if}
 		</h4>
 

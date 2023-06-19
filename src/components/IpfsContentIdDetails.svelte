@@ -108,6 +108,7 @@
 						</article>
 					{:else}
 						<FileDetails
+							fileName={resolvedIpfsUrl.match(/[^/]+$/)?.[0]}
 							{contentType}
 							{text}
 							{blob}
