@@ -103,6 +103,27 @@ export const getIpfsContent = async ({
 	)
 }
 
+export const getIpfsDag = async ({
+	ipfsContentId,
+	ipfsContentPath,
+}: {
+	ipfsContentId: IpfsCid,
+	ipfsContentPath?: string,
+}) => {
+	const { CID } = await import('multiformats/cid')
+
+	const cid = CID.parse(ipfsContentId)
+
+	const fs = await getLocalFilesystem()
+
+	return await fs.stat(cid, {
+		path: ipfsContentPath,
+		onProgress: e => {
+			// console.info('progress', e)
+		},
+	})
+}
+
 
 export const encodeBytes = async (content: string | Blob | File) => {
 	const fs = await getLocalFilesystem()
