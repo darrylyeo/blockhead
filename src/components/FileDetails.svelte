@@ -188,6 +188,14 @@
 		display: grid;
 		align-items: center;
 		justify-content: stretch;
+		min-height: 100%;
+		height: 0;
+	}
+	article:not(:fullscreen) .scrollable > * {
+		max-width: 100%;
+	}
+	article .scrollable > * {
+		margin: auto;
 	}
 
 	pre {
