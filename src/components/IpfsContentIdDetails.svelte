@@ -81,7 +81,7 @@
 
 			<span slot="header-right" class="card-annotation"><a href="https://{ipfsGateway.gatewayDomain}" target="_blank">{ipfsGateway.name}</a></span>
 
-			<BlockTransition>
+			<BlockTransition key={[ipfsGateway, ipfsContentId]}>
 				<IpfsLoader
 					ipfsGatewayProvider={ipfsGateway.gatewayProvider}
 					{ipfsContentId}
