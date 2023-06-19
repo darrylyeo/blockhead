@@ -115,16 +115,11 @@ export const encodeBytes = async (content: string | Blob | File) => {
 
 	const cid = await fs.addBytes(bytes, {
 		onProgress: (e) => {
-			console.info('encodeContent progress', e)
+			// console.info('encodeContent progress', e)
 		}
 	})
 
-	return {
-		cid,
-		blob,
-		buffer,
-		bytes,
-	}
+	return cid
 }
 
 
@@ -137,11 +132,9 @@ export const encodeFile = async (file: File) => {
 		content: await asyncIterableFromStream(stream)
 	}, {
 		onProgress: (e) => {
-			console.info('encodeFile progress', e)
+			// console.info('encodeFile progress', e)
 		}
 	})
 
-	return {
-		cid,
-	}
+	return cid
 }

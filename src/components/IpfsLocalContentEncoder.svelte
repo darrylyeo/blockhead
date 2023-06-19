@@ -29,10 +29,10 @@
 			loadingMessage={`Encoding file using local IPFS node...`}
 			errorMessage={`Couldn't encode file using local IPFS node.`}
 			{...$$restProps}
-			let:result
+			let:result={cid}
 		>
-			<slot slot='header' name='header' cid={result.cid} />
-			<slot cid={result.cid} />
+			<slot slot='header' name='header' {cid} />
+			<slot {cid} />
 		</Loader>
 
 	{:else}
@@ -45,10 +45,10 @@
 			loadingMessage={`Encoding content using local IPFS node...`}
 			errorMessage={`Couldn't encode content using local IPFS node.`}
 			{...$$restProps}
-			let:result
+			let:result={cid}
 		>
-			<slot slot='header' name='header' cid={result.cid} />
-			<slot cid={result.cid} />
+			<slot slot='header' name='header' {cid} />
+			<slot {cid} />
 		</Loader>
 	{/if}
 {/if}
