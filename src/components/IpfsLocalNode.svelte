@@ -139,13 +139,23 @@
 							{ipfsGateway}
 							{content}
 							let:cid
+							let:addedFiles
 						>
 							{#if cid}
 								<IpfsContentIdDetails
 									{ipfsGateway}
-									ipfsContentId={cid?.toV1?.().toString()}
+									ipfsContentId={cid.toV1().toString()}
 									headingLevel={4}
 								/>
+
+							{:else if addedFiles}
+								{#each addedFiles as file}
+									<IpfsContentIdDetails
+										{ipfsGateway}
+										ipfsContentId={file.cid.toV1().toString()}
+										headingLevel={4}
+									/>
+								{/each}
 							{/if}
 						</IpfsLocalContentEncoder>
 					</BlockTransition>

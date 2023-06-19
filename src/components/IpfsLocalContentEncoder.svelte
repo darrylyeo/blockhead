@@ -9,7 +9,7 @@
 
 
 	// Functions
-	import { encodeBytes, encodeFile } from '../api/ipfs/helia'
+	import { encodeBytes, encodeFile, encodeFiles } from '../api/ipfs/helia'
 
 
 	// Components
@@ -19,7 +19,23 @@
 
 
 {#if ipfsGateway.gatewayProvider === IpfsGatewayProvider.Helia}
-	{#if content instanceof File}
+	{#if content instanceof FileList}
+		<Loader
+			fromPromise={async () => (
+				await encodeFiles(content)
+			)}
+			loadingIcon={IpfsIcon}
+			loadingIconName='IPFS'
+			loadingMessage={`Encoding ${content.length} files using local IPFS node...`}
+			errorMessage={`Couldn't encode files using local IPFS node.`}
+			{...$$restProps}
+			let:result={addedFiles}
+		>
+			<slot slot='header' name='header' {addedFiles} />
+			<slot {addedFiles} />
+		</Loader>
+
+	{:else if content instanceof File}
 		<Loader
 			fromPromise={async () => (
 				await encodeFile(content)
