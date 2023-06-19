@@ -67,9 +67,9 @@
 	loadingMessage={`Looking up contract metadata on ${'Sourcify'}...`}
 	errorMessage={`Couldn't find contract metadata on ${'Sourcify'}.`}
 	{whenLoaded}
-	bind:result={result}
-	let:result={{contractMetadata, sourcifyUrl}}
+	bind:result
+	let:result
 >
-	<slot slot="header" name="header" {address} {contractMetadata} {sourcifyUrl} />
-	<slot {address} {contractMetadata} {sourcifyUrl} />
+	<slot slot="header" name="header" {address} {...result} />
+	<slot {address} {...result} />
 </Loader>
