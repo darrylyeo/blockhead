@@ -138,3 +138,24 @@ export const encodeFile = async (file: File) => {
 
 	return cid
 }
+
+
+export const encodeFiles = async (files: FileList) => {
+	const fs = await getLocalFilesystem()
+
+	const addedFiles = await Array.fromAsync(
+		await fs.addAll(
+			await Array.fromAsync(files, async file => ({
+				path: file.webkitRelativePath,
+				content: asyncIterableFromStream(await file.stream())
+			})),
+			{
+				onProgress: (e) => {
+					// console.info('encodeFiles progress', e)
+				}
+			}
+		)
+	)
+
+	return addedFiles
+}
