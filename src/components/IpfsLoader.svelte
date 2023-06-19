@@ -32,7 +32,7 @@
 
 	// Functions
 	import { useQuery } from '@sveltestack/svelte-query'
-	import { getIpfsContent } from '../api/ipfs/helia'
+	import { getIpfsContent, getIpfsDag } from '../api/ipfs/helia'
 	import { parseResponse } from '../utils/parseResponse'
 
 
@@ -41,7 +41,7 @@
 		ipfsGateway: typeof ipfsGateway,
 		ipfsContentId: typeof ipfsContentId,
 		resolvedIpfsUrl: typeof resolvedIpfsUrl,
-	} & Awaited<ReturnType<typeof parseResponse>>
+	} & Awaited<ReturnType<typeof parseResponse>> | { dagStats: Awaited<ReturnType<typeof getIpfsDag>> }
 
 	type $$Slots = {
 		'default': SharedSlotProps,
@@ -59,13 +59,25 @@
 	{#if ipfsGatewayProvider === IpfsGatewayProvider.Helia}
 		<Loader
 			fromPromise={
-				async () => (
-					await getIpfsContent({
-						ipfsContentId,
-						ipfsContentPath,
-					})
-						.then(parseResponse)
-				)
+				async () => {
+					try{
+						return await getIpfsContent({
+							ipfsContentId,
+							ipfsContentPath,
+						})
+							.then(parseResponse)
+					}catch(e){
+						if(e?.constructor?.name === 'NotAFileError'){
+							return await getIpfsDag({
+								ipfsContentId,
+								ipfsContentPath,
+							})
+								.then(dagStats => ({
+									dagStats
+								}))
+						}
+					}
+				}
 			}
 			loadingIcon={IpfsIcon}
 			loadingIconName="IPFS"

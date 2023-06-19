@@ -86,17 +86,33 @@
 					ipfsGatewayProvider={ipfsGateway.gatewayProvider}
 					{ipfsContentId}
 					{ipfsContentPath}
+					let:dagStats
 					let:resolvedIpfsUrl
 					let:contentType
 					let:text
 					let:blob
 				>
-					<FileDetails
-						src={resolvedIpfsUrl}
-						{contentType}
-						{text}
-						{blob}
-					/>
+					{#if dagStats}
+						<article class="card bar wrap">
+							<h4 class="row" data-before="⋔"><IpfsContentId {ipfsContentId} /></h4>
+
+							<div class="row wrap">
+								<div role="toolbar" class="row-inline">
+									{#if dagStats.dagSize}<span>{dagStats.dagSize} bytes</span> │{/if}
+									{#if dagStats.blocks}<span>{dagStats.blocks} blocks</span>{/if}
+									<!-- {#if dagStats.fileSize}<span>{dagStats.fileSize} bytes</span> │{/if} -->
+								</div>
+								 
+								<span class="card-annotation">UnixFS DAG</span>
+							</div>
+						</article>
+					{:else}
+						<FileDetails
+							{contentType}
+							{text}
+							{blob}
+						/>
+					{/if}
 				</IpfsLoader>
 			</BlockTransition>
 		</Collapsible>
