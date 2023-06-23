@@ -161,7 +161,7 @@
 							{@const inputKey = `${method.name || i}/${input.name}`}
 
 							<!-- svelte-ignore a11y-label-has-associated-control -->
-							<label class="input-param" transition:scale={{ duration: 300, start: 0.8, delay: i * 10 }} animate:flip>
+							<label class="input-param" transition:scale|global={{ duration: 300, start: 0.8, delay: i * 10 }} animate:flip>
 								<span>
 									{#if input.name}
 										<abbr title={input.name}>{formatIdentifierToWords(input.name, true)}</abbr>
@@ -278,7 +278,7 @@
 							{@const inputKey = `${method.name || i}/${input.name}`}
 							{@const arg = inputValues[inputKey]}
 
-							<label class="input-param" transition:scale={{ duration: 300, start: 0.8, delay: i * 25 }}>
+							<label class="input-param" transition:scale|global={{ duration: 300, start: 0.8, delay: i * 25 }}>
 								<span>
 									{#if input.name}
 										<abbr title={input.name}>{formatIdentifierToWords(input.name, true)}</abbr>

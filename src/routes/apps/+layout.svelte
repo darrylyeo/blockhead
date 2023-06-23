@@ -95,13 +95,13 @@
 </svelte:head>
 
 
-<main in:fly={{x: 300}} out:fly={{x: -300}}>
+<main in:fly|global={{x: 300}} out:fly|global={{x: -300}}>
 <!-- <main> -->
 	<div class="bar wrap">
 		<div class="title row">
 			<span class="stack-inline">
 				{#key $web3AppConfig}
-					<span class="title-icon" in:scale|local={{ duration: 300 }} out:scale|local={{ duration: 300 }}>
+					<span class="title-icon" in:scale={{ duration: 300 }} out:scale={{ duration: 300 }}>
 						{#if $web3AppConfig}
 							{#if $web3AppConfig.icon}
 								<img src={$web3AppConfig.icon} width="30" />
@@ -124,19 +124,19 @@
 			<h1>
 				<a href="/apps/{$web3AppSlug}" class="stack-inline">
 					{#if $web3AppSlug && $web3AppConfig}
-						<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>
+						<span in:fly|global={{y: 20, duration: 200}} out:fly|global={{y: -20, duration: 200}}>
 							<InlineContainer class="stack-inline" clip>
-								{#key $web3AppConfig}<mark in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{$web3AppConfig.name}</mark>{/key}
+								{#key $web3AppConfig}<mark in:fly|global={{y: 20, duration: 200}} out:fly|global={{y: -20, duration: 200}}>{$web3AppConfig.name}</mark>{/key}
 							</InlineContainer>
 
 							{#if $currentView !== 'Dashboard'}
 								<InlineContainer class="stack-inline" clip>
-									{#key $currentView}<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>{$currentView}</span>{/key}
+									{#key $currentView}<span in:fly|global={{y: 20, duration: 200}} out:fly|global={{y: -20, duration: 200}}>{$currentView}</span>{/key}
 								</InlineContainer>
 							{/if}
 						</span>
 					{:else}
-						<span in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}>
+						<span in:fly|global={{y: 20, duration: 200}} out:fly|global={{y: -20, duration: 200}}>
 							Web3 Apps/Services
 						</span>
 					{/if}

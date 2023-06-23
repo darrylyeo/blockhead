@@ -109,7 +109,7 @@
 					{#if address}
 						<h2><Address {network} {address} /></h2>
 						{#if ensName}
-							<span class="align-start" transition:scale|local>
+							<span class="align-start" transition:scale>
 								<EnsName {ensName} showAvatar />
 							</span>
 						{/if}
@@ -204,7 +204,7 @@
 
 		<div class="stack">
 			{#if !selectedToken}
-				<div class="column" transition:fade>
+				<div class="column" transition:fade|global>
 					<!-- Regular Ethereum Transactions -->
 					<EthereumTransactionsLoader
 						{network}
@@ -293,7 +293,7 @@
 					</EthereumTransactionsLoader>
 				</div>
 			{:else}{#key selectedToken}
-				<div class="column" transition:fade>
+				<div class="column" transition:fade|global>
 					<!-- ERC-20 Transactions -->
 					<EthereumTransactionsERC20Loader
 						{network}
@@ -317,7 +317,7 @@
 
 								<div role="toolbar" class="row wrap">
 									{#if detailLevel !== 'exhaustive'}
-										<label transition:scale|local>
+										<label transition:scale>
 											<input type="checkbox" bind:checked={showFees}>
 											<span>Fees</span>
 										</label>

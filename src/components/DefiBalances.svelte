@@ -221,7 +221,7 @@
 					<div
 						class="card defi-protocol"
 						style={cardStyle(web3AppConfig?.colors ?? (zapperAppConfig?.primaryColor ? [zapperAppConfig?.primaryColor] : []))}
-						transition:scale
+						transition:scale|global
 						animate:flip|local={{duration: 300, delay: Math.abs(i + j * 0.1) * 10}}
 					>
 						<div class="bar wrap">
@@ -374,7 +374,7 @@
 
 										{#if showActions}
 											<!-- V1 -->
-											<!-- <div transition:scale>
+											<!-- <div transition:scale|global>
 												{#if type === 'claimable'}
 													<button class="small">Claim</button>
 												{:else if type === 'pool'}
@@ -443,7 +443,7 @@
 											}}
 												{@const network = networksByChainID[chainIdByNetworkName[networkName] ?? 1]}
 
-												<span class="underlying-asset" in:scaleFont>
+												<span class="underlying-asset" in:scaleFont|global>
 													<!-- <span class="underlying-symbol">┖</span> -->
 
 													<!-- V2 -->
@@ -522,7 +522,7 @@
 			{/each}
 		</div>
 		<!-- {#if quoteCurrency !== 'USD'}
-			<small class="card row" transition:scale>
+			<small class="card row" transition:scale|global>
 				<img src={ZapperIcon} width="25" height="25" />
 				Note: The Zapper API doesn't yet support currencies other than US Dollars.
 			</small>
@@ -593,7 +593,7 @@
 					<div
 						class="card defi-protocol layout-{computedLayout}"
 						style={cardStyle(web3AppConfig?.colors)}
-						transition:scaleFont|local
+						transition:scaleFont
 						animate:flip|local={{duration: 300, delay: Math.abs(i) * 10}}
 					>
 						<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} class="row" title="{metadata.description}">
@@ -625,7 +625,7 @@
 										{#if underlying.length && showUnderlyingAssets}
 											<div class="underlying">
 												{#each underlying as underlyingBalance}
-													<span class="underlying-asset" in:scaleFont>
+													<span class="underlying-asset" in:scaleFont|global>
 														<!-- <span class="underlying-symbol">┖</span> -->
 														<TokenBalance
 															symbol={underlyingBalance.metadata.symbol}

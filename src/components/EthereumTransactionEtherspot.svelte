@@ -261,7 +261,7 @@
 
 
 {#if network && transaction}
-	<div class="transaction layout-{layout} column" class:card={isStandaloneLayout} class:unsuccessful={!isSuccessful} transition:fade|local>
+	<div class="transaction layout-{layout} column" class:card={isStandaloneLayout} class:unsuccessful={!isSuccessful} transition:fade>
 		{#if isStandaloneLayout}
 			<div class="bar">
 				<h2><EthereumTransactionID {network} {transactionID} /></h2>
@@ -279,7 +279,7 @@
 		{#if !(isSummary && transfers?.length && value == 0)}
 			<div class="container inner-layout-{innerLayout}" class:card={isStandaloneLayout}>
 				{#if !(isSummary && (contextIsSender || contextIsReceiver))}
-					<span class="sender" transition:fade|local>
+					<span class="sender" transition:fade>
 						<AddressWithLabel {network} address={fromAddress} label={fromAddressLabel} format="middle-truncated" />
 					</span>
 				{/if}
@@ -304,18 +304,18 @@
 					</span>
 				{/if}
 				{#if isSummary && contextIsReceiver && fromAddress}
-					<span class="sender" transition:fade|local>
+					<span class="sender" transition:fade>
 						<span>from</span>
 						<AddressWithLabel {network} address={fromAddress} label={fromAddressLabel} format="middle-truncated" />
 					</span>
 				{:else if toAddress}
-					<span class="receiver" transition:fade|local>
+					<span class="receiver" transition:fade>
 						<span>to</span>
 						<AddressWithLabel {network} address={toAddress} label={toAddressLabel} format="middle-truncated" />
 					</span>
 				{/if}
 				{#if showFees && gasValue !== undefined}
-					<span class="fee" transition:fade|local>
+					<span class="fee" transition:fade>
 						<span>for fee</span>
 						<TokenBalanceWithConversion
 							{tokenBalanceFormat}
@@ -374,7 +374,7 @@
 					{/each}
 				</div>
 			{:else}
-				<div class="log-events column" class:scrollable-list={logEvents.length > 16}><!-- transition:fade|local -->
+				<div class="log-events column" class:scrollable-list={logEvents.length > 16}><!-- transition:fade -->
 					{#each logEvents as logEvent}
 						<EthereumLogEventEtherspot
 							{network}
@@ -391,7 +391,7 @@
 			{#if isStandaloneLayout}
 				<hr>
 			{/if}
-			<div class="footer bar"><!-- transition:fade|local -->
+			<div class="footer bar"><!-- transition:fade -->
 				<EthereumTransactionSummary
 					{network}
 					{transactionID}

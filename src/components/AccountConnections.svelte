@@ -91,19 +91,19 @@
 <header class="bar wrap">
 	<h2>Wallets</h2>
 
-	<div class="stack align-end" transition:scale>
+	<div class="stack align-end" transition:scale|global>
 		{#if state === State.Idle}
 			<button
 				class="add medium"
 				data-before="＋"
 				on:click={() => state = State.Adding}
-				transition:scale
+				transition:scale|global
 			>Connect Wallet</button>
 		{:else if state === State.Adding}
 			<button
 				class="cancel medium"
 				on:click={() => state = State.Idle}
-				transition:scale
+				transition:scale|global
 			>Cancel</button>
 		{/if}
 	</div>
@@ -112,7 +112,7 @@
 <HeightContainer class="stack" isOpen={state === State.Adding}>
 	<div class="card"
 		on:keydown={e => { if(e.code === 'Escape') state = State.Idle }}
-		transition:scale
+		transition:scale|global
 	>
 		<div class="wallets">
 			{#each wallets as {type, name, icon, colors}}

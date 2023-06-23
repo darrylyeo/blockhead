@@ -326,22 +326,22 @@
 				{#if lensName && type === AccountIdType.Lens}
 					<h3><LensName {lensName} /></h3>
 					{#if address}
-						<small class="align-start" transition:scale|local><Address network={networksByChainID[1]} {address} /></small>
+						<small class="align-start" transition:scale><Address network={networksByChainID[1]} {address} /></small>
 					{/if}
 				{:else if nickname}
 					<h3>{nickname}</h3>
 					{#if address}
-						<small class="align-start" transition:scale|local><Address network={networksByChainID[1]} {address} /></small>
+						<small class="align-start" transition:scale><Address network={networksByChainID[1]} {address} /></small>
 					{/if}
 				{:else if type === AccountIdType.ENS}
 					<h3><EnsName {ensName} showAvatar /></h3>
 					{#if address}
-						<small class="align-start" transition:scale|local><Address network={networksByChainID[1]} {address} /></small>
+						<small class="align-start" transition:scale><Address network={networksByChainID[1]} {address} /></small>
 					{/if}
 				{:else if type === AccountIdType.Address}
 					<h3><Address network={networksByChainID[1]} {address} /></h3>
 					{#if ensName}
-						<small class="align-start" transition:scale|local><EnsName {ensName} showAvatar /></small>
+						<small class="align-start" transition:scale><EnsName {ensName} showAvatar /></small>
 					{/if}
 				{/if}
 			</div>
@@ -373,8 +373,8 @@
 
 			<InlineContainer containerClass="align-end" class="stack align-end">
 				{#if $matchesGridLayoutBreakpoint && !isEditing}
-					<div class="row" transition:scale>
-						<button class="small" on:click={() => layout = isGridLayout ? 'column' : 'grid'} transition:scale>{isGridLayout ? '⊟' : '⊞'}</button><!-- ▤ -->
+					<div class="row" transition:scale|global>
+						<button class="small" on:click={() => layout = isGridLayout ? 'column' : 'grid'} transition:scale|global>{isGridLayout ? '⊟' : '⊞'}</button><!-- ▤ -->
 						<select bind:value={layout}>
 							<option value="column">Column</option>
 							<option value="grid">Grid</option>
@@ -487,9 +487,9 @@
 															height={20}
 														/>
 													</Loading>
-													<!-- <span transition:scale>Loading...</span> -->
+													<!-- <span transition:scale|global>Loading...</span> -->
 												{:else if status === 'error'}
-													<div class="error-icon-container stack" transition:scale>
+													<div class="error-icon-container stack" transition:scale|global>
 														<img
 															title={errorMessage}
 															src={tokenBalancesProviderIcons[tokenBalancesProvider]}
@@ -502,7 +502,7 @@
 													<span
 														class="summary align-end"
 														class:is-zero={!summary.filteredBalancesCount}
-														transition:scale
+														transition:scale|global
 													>
 														<TokenBalance symbol={summary.quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} />
 														│
@@ -512,9 +512,9 @@
 											</InlineContainer>
 											<InlineContainer containerClass="align-end" class="stack align-end">
 												{#if isEditing}
-													<button class="small" on:click={() => toggleSection('Balances')} transition:scale>Hide</button>
+													<button class="small" on:click={() => toggleSection('Balances')} transition:scale|global>Hide</button>
 												{:else}
-													<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'tokens'}`)} transition:scale>▼</button>
+													<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'tokens'}`)} transition:scale|global>▼</button>
 												{/if}
 											</InlineContainer>
 											<!-- {#if isEditing}
@@ -578,9 +578,9 @@
 														height={20}
 													/>
 												</Loading>
-												<!-- <span transition:scale>Loading...</span> -->
+												<!-- <span transition:scale|global>Loading...</span> -->
 											{:else if status === 'error'}
-												<div class="error-icon-container stack" transition:scale>
+												<div class="error-icon-container stack" transition:scale|global>
 													<img
 														title={errorMessage}
 														src={defiProviderIcons[defiProvider]}
@@ -603,9 +603,9 @@
 										</InlineContainer>
 										<InlineContainer containerClass="align-end" class="stack align-end">
 											{#if isEditing}
-												<button class="small" on:click={() => toggleSection('DeFi')} transition:scale>Hide</button>
+												<button class="small" on:click={() => toggleSection('DeFi')} transition:scale|global>Hide</button>
 											{:else}
-												<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'defi'}`)} transition:scale>▼</button>
+												<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'defi'}`)} transition:scale|global>▼</button>
 											{/if}
 										</InlineContainer>
 										<!-- {#if isEditing}
@@ -658,9 +658,9 @@
 														height={20}
 													/>
 												</Loading>
-												<!-- <span transition:scale>Loading...</span> -->
+												<!-- <span transition:scale|global>Loading...</span> -->
 											{:else if status === 'error'}
-												<div class="error-icon-container stack" transition:scale>
+												<div class="error-icon-container stack" transition:scale|global>
 													<img
 														title={errorMessage}
 														src={nftProviderIcons[nftProvider]}
@@ -680,9 +680,9 @@
 										</InlineContainer>
 										<InlineContainer containerClass="align-end" class="stack align-end">
 											{#if isEditing}
-												<button class="small" on:click={() => toggleSection('NFTs')} transition:scale>Hide</button>
+												<button class="small" on:click={() => toggleSection('NFTs')} transition:scale|global>Hide</button>
 											{:else}
-												<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'nfts'}`)} transition:scale>▼</button>
+												<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'nfts'}`)} transition:scale|global>▼</button>
 											{/if}
 										</InlineContainer>
 										<!-- {#if isEditing}
@@ -697,7 +697,7 @@
 						</EthereumNftBalances>
 					</section>{/if}
 
-					{#if showFeed}<section class="feed" transition:fade|local={{duration: 300}}>
+					{#if showFeed}<section class="feed" transition:fade={{duration: 300}}>
 						<Notifications
 							{network}
 							{address}
@@ -731,9 +731,9 @@
 													height={20}
 												/>
 											</Loading>
-											<!-- <span transition:scale>Loading...</span> -->
+											<!-- <span transition:scale|global>Loading...</span> -->
 										{:else if status === 'error'}
-											<div class="error-icon-container stack" transition:scale>
+											<div class="error-icon-container stack" transition:scale|global>
 												<img
 													title={errorMessage}
 													src={notificationsProviderIcons[notificationsProvider]}
@@ -753,9 +753,9 @@
 									</InlineContainer>
 									<InlineContainer containerClass="align-end" class="stack align-end">
 										{#if isEditing}
-											<button class="small" on:click={() => toggleSection('Feed')} transition:scale>Hide</button>
+											<button class="small" on:click={() => toggleSection('Feed')} transition:scale|global>Hide</button>
 										{:else}
-											<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'feed'}`)} transition:scale>▼</button>
+											<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'feed'}`)} transition:scale|global>▼</button>
 										{/if}
 									</InlineContainer>
 								</label>

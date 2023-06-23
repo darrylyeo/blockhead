@@ -247,7 +247,7 @@
 							<!-- {@const isCurrentFormat = version === cid.version && base.name === multibase.name} -->
 							<!-- {@const isValidSubdomain = checkIpfsCidIsValidSubdomain({ base, ipfsCid })} -->
 
-							<div in:scale|local={{duration: 300, delay: i * 20}} animate:flip|local={{ duration: 300 }}>
+							<div in:scale={{duration: 300, delay: i * 20}} animate:flip|local={{ duration: 300 }}>
 								<!-- <dt class:mark={isCurrentFormat}> -->
 								<dt>
 									CIDv{version} <small>({base.name})</small>

@@ -380,7 +380,7 @@
 													}, j (label)}
 														<div
 															class="card defi-protocol"
-															transition:scaleFont|local
+															transition:scaleFont
 															animate:flip|local={{duration: 300, delay: Math.abs(i + j * 0.1) * 10}}
 														>
 														<!-- style={cardStyle(colors || web3AppConfig.colors)} -->
@@ -460,7 +460,7 @@
 																				isDebt={balanceUSD < 0}
 																			/>
 																			{#if showActions}
-																				<div transition:scale>
+																				<div transition:scale|global>
 																					{#if type === 'claimable'}
 																						<button class="small">Claim</button>
 																					{:else if type === 'pool'}
@@ -492,7 +492,7 @@
 																					reserve, weight,
 																					isCToken
 																				}}
-																					<abbr class="underlying-asset" in:scaleFont title={label}>
+																					<abbr class="underlying-asset" in:scaleFont|global title={label}>
 																						<span class="underlying-symbol">┖</span>
 																						<TokenBalanceWithConversion
 																							{tokenBalanceFormat}
@@ -553,7 +553,7 @@
 												{/each}
 											</div>
 											<!-- {#if quoteCurrency !== 'USD'}
-												<small class="card row" transition:scale>
+												<small class="card row" transition:scale|global>
 													<img src={ZapperIcon} width="25" height="25" />
 													Note: The Zapper API doesn't yet support currencies other than US Dollars.
 												</small>
@@ -621,7 +621,7 @@
 												}, i (metadata.name + i)}
 													<div
 														class="card defi-protocol layout-{computedLayout}"
-														transition:scaleFont|local
+														transition:scaleFont
 														animate:flip|local={{duration: 300, delay: Math.abs(i) * 10}}
 													>
 													<!-- style={cardStyle(colors || web3AppConfig.colors)} -->
@@ -647,7 +647,7 @@
 																		{#if underlying.length && showUnderlyingAssets}
 																			<div class="underlying">
 																				{#each underlying as underlyingBalance}
-																					<p in:scaleFont>
+																					<p in:scaleFont|global>
 																						<span class="underlying-symbol">┖</span>
 																						<TokenBalance
 																							{network} symbol={underlyingBalance.metadata.symbol} address={underlyingBalance.metadata.token}
@@ -702,7 +702,7 @@
 
 									<HeightContainer class="stack">
 										{#if !address}
-											<div class="column" transition:scale>
+											<div class="column" transition:scale|global>
 												<CurrentPrice
 													currentPriceProvider={$preferences.currentPriceProvider}
 													token={erc20Token.symbol}
@@ -740,7 +740,7 @@
 												/>
 											</div>
 										{:else}
-											<div class="card" transition:scale>
+											<div class="card" transition:scale|global>
 												<EthereumBalancesLoader
 													{network}
 													{address}
@@ -925,7 +925,7 @@
 
 
 {#if address}
-	<div class="options card bar wrap" transition:scale>
+	<div class="options card bar wrap" transition:scale|global>
 		<div class="row wrap">
 			<h3>Show</h3>
 			<label>

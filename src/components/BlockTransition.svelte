@@ -21,5 +21,5 @@
 </script>
 
 
-<!-- <SizeContainer class="stack align-{align}" {...$$restProps}>{#key key ?? value}<svelte:element this={element} class="column align-{align}" transition:transition|local={transitionParams}><slot {key} {value}>{value}</slot></svelte:element>{/key}</SizeContainer> -->
-<SizeContainer class="stack align-{align}" {...$$restProps}>{#key key ?? value}<span class="column align-{align}" transition:transition|local={transitionParams}><slot {key} {value}>{value}</slot></span>{/key}</SizeContainer>
+<!-- <SizeContainer class="stack align-{align}" {...$$restProps}>{#key key ?? value}<svelte:element this={element} class="column align-{align}" transition:transition={transitionParams}><slot {key} {value}>{value}</slot></svelte:element>{/key}</SizeContainer> -->
+<SizeContainer class="stack align-{align}" {...$$restProps}>{#key key ?? value}<span class="column align-{align}" transition:transition={transitionParams}><slot {key} {value}>{value}</slot></span>{/key}</SizeContainer>

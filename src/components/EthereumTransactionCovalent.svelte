@@ -350,7 +350,7 @@
 
 
 {#if network && (transaction || erc20TokenTransaction || erc20TokenTransfer)}
-	<div class="transaction layout-{layout} column" class:card={isStandaloneLayout} class:unsuccessful={!isSuccessful}><!-- transition:fade|local -->
+	<div class="transaction layout-{layout} column" class:card={isStandaloneLayout} class:unsuccessful={!isSuccessful}><!-- transition:fade -->
 		{#if nonce}{nonce}{/if}
 
 		{#if isStandaloneLayout}
@@ -370,7 +370,7 @@
 		{#if !(isSummary && transfers?.length && value == 0)}
 			<div class="container inner-layout-{innerLayout}" class:card={isStandaloneLayout}>
 				{#if !(isSummary && (contextIsSender || contextIsReceiver))}
-					<span class="sender" class:mark={contextIsSender}><!-- transition:fade|local -->
+					<span class="sender" class:mark={contextIsSender}><!-- transition:fade -->
 						<AddressWithLabel
 							{network}
 							address={fromAddress}
@@ -405,7 +405,7 @@
 					</span>
 				{/if}
 				{#if isSummary && contextIsReceiver && fromAddress}
-					<span class="sender"><!-- transition:fade|local -->
+					<span class="sender"><!-- transition:fade -->
 						<span>from</span>
 						<AddressWithLabel
 							{network}
@@ -416,7 +416,7 @@
 						/>
 					</span>
 				{:else if toAddress}
-					<span class="receiver" class:mark={contextIsReceiver}><!-- transition:fade|local -->
+					<span class="receiver" class:mark={contextIsReceiver}><!-- transition:fade -->
 						{#if !(isContractCall && !isExhaustive)}<span>to</span>{/if}
 						<AddressWithLabel
 							{network}
@@ -428,7 +428,7 @@
 					</span>
 				{/if}
 				{#if (showFees || isExhaustive) && gasSpent !== undefined}
-					<span class="fee"><!-- transition:fade|local -->
+					<span class="fee"><!-- transition:fade -->
 						<span>for fee</span>
 						<TokenBalanceWithConversion
 							{tokenBalanceFormat}
@@ -478,7 +478,7 @@
 				<hr>
 				<h4>Smart Contract Event Logs</h4>
 			{/if}
-			<div class="log-events column" class:scrollable-list={isExhaustive && logEvents.length > (isStandaloneLayout ? 8 : 16)}><!-- transition:fade|local -->
+			<div class="log-events column" class:scrollable-list={isExhaustive && logEvents.length > (isStandaloneLayout ? 8 : 16)}><!-- transition:fade -->
 				{#each logEvents as logEvent (logEvent.indexInTransaction)}
 					<EthereumLogEventCovalent
 						{network}
@@ -491,7 +491,7 @@
 				{/each}
 			</div>
 			<!-- {#if visibleLogEvents.length}
-				<div class="log-events column" class:scrollable-list={visibleLogEvents.length > 16}><!-- transition:fade|local -- >
+				<div class="log-events column" class:scrollable-list={visibleLogEvents.length > 16}><!-- transition:fade -- >
 					{#each visibleLogEvents as logEvent (logEvent.indexInTransaction)}
 						<EthereumLogEventCovalent
 							{network}
@@ -509,7 +509,7 @@
 			{#if isStandaloneLayout}
 				<hr>
 			{/if}
-			<div class="footer bar"><!-- transition:fade|local -->
+			<div class="footer bar"><!-- transition:fade -->
 				<EthereumTransactionSummary
 					{network}
 					{transactionID}

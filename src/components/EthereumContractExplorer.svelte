@@ -135,7 +135,7 @@
 								source.content?.match(new RegExp(`((?:abstract )?library|contract|interface|function|constant|struct|enum|type|error)\\s+(${sourceFileName})`))?.[1]
 							}
 
-							<section class="card" in:fly={{ x: 10, duration: 200 }} out:fly={{ x: -10, duration: 200 }}>
+							<section class="card" in:fly|global={{ x: 10, duration: 200 }} out:fly|global={{ x: -10, duration: 200 }}>
 								<header class="bar">
 									<abbr
 										class="row-inline"
@@ -197,7 +197,7 @@
 								{/if}
 							</section>
 						{:else}
-							<code class="card scrollable-list" style="height: 7.5em" transition:fade>{contractCode}</code>
+							<code class="card scrollable-list" style="height: 7.5em" transition:fade|global>{contractCode}</code>
 						{/if}
 					{/key}
 				</div>

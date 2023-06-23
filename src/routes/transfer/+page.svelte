@@ -15,7 +15,7 @@
 </style>
 
 
-<main in:fly={{x: 300}} out:fly={{x: -300}}>
+<main in:fly|global={{x: 300}} out:fly|global={{x: -300}}>
 <!-- <main> -->
 	<h1>Transfer Assets</h1>
 

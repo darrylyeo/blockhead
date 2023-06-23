@@ -81,8 +81,8 @@
 	class:card={layout === 'card'}
 	data-layout={layout}
 	{title}
-	transition:scale
-><!-- in:fly={{x: -100}} out:fly={{x: 100}} -->
+	transition:scale|global
+><!-- in:fly|global={{x: -100}} out:fly|global={{x: 100}} -->
 	<span class="icon {iconAnimation}">
 		<slot name="icon">🧭</slot>
 	</span>

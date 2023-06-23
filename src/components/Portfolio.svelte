@@ -224,7 +224,7 @@
 	class="portfolio column-block"
 	on:keydown={e => { if(e.code === 'Escape') state = State.Idle }}
 	on:dragenter={e => state = State.Adding}
-	transition:scale={{ duration: 300, start: 0.95 }}
+	transition:scale|global={{ duration: 300, start: 0.95 }}
 	tabIndex={0}
 >
 	<header class="bar wrap">
@@ -241,7 +241,7 @@
 		</slot>
 
 		<InlineContainer isOpen={summary && state !== State.Editing}>
-			<span class="summary" transition:scale>
+			<span class="summary" transition:scale|global>
 				<span class="account-total-value"><TokenBalance symbol={quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} /></span>
 
 				<!-- {#if summary.filteredBalancesCount}
@@ -265,7 +265,7 @@
 			</span>
 		</InlineContainer>
 		<!-- {#if quoteTotals.length && state !== State.Editing}
-			<span class="account-total-value" transition:scale>
+			<span class="account-total-value" transition:scale|global>
 				<TokenBalance symbol={quoteCurrency} balance={quoteTotal} showPlainFiat={true} clip={false} />
 			</span>
 		{/if} -->
@@ -273,18 +273,18 @@
 		{#if isEditable}
 			<div class="stack-inline">
 				<InlineContainer containerClass="align-end" isOpen={state !== State.Editing}>
-					<div class="bar align-end wrap" transition:scale>
+					<div class="bar align-end wrap" transition:scale|global>
 						{#if state === State.Idle}
-							<button class="add" data-before="＋" on:click={() => state = State.Adding} transition:scale>Add Account</button>
+							<button class="add" data-before="＋" on:click={() => state = State.Adding} transition:scale|global>Add Account</button>
 						{/if}
 						<InlineContainer containerClass="align-end">
-							<button data-before="✎" on:click={() => state = State.Editing} transition:scale>Edit</button>
+							<button data-before="✎" on:click={() => state = State.Editing} transition:scale|global>Edit</button>
 						</InlineContainer>
 					</div>
 
 				</InlineContainer>
 				<InlineContainer containerClass="align-end" isOpen={state === State.Editing}>
-					<div class="bar align-end wrap" transition:scale>
+					<div class="bar align-end wrap" transition:scale|global>
 						<button class="destructive" data-before="☒" on:click={() => dispatch('delete')}>Delete Portfolio</button>
 						<button data-before="✓" on:click={() => state = State.Idle}>Done</button>
 					</div>
@@ -293,14 +293,14 @@
 
 			<!-- <InlineContainer containerClass="align-end" class="stack align-end">
 				{#if state !== State.Editing}
-					<div class="bar align-end" transition:scale>
+					<div class="bar align-end" transition:scale|global>
 						{#if state === State.Idle}
-							<button data-before="＋" class="add" on:click={() => state = State.Adding} transition:scale>Add Account</button>
+							<button data-before="＋" class="add" on:click={() => state = State.Adding} transition:scale|global>Add Account</button>
 						{/if}
 						<button data-before="✎" on:click={() => state = State.Editing}>Edit</button>
 					</div>
 				{:else}
-					<div class="bar align-end" transition:scale>
+					<div class="bar align-end" transition:scale|global>
 						<button class="destructive" data-before="☒" on:click={() => dispatch('delete')}>Delete Portfolio</button>
 						<button data-before="💾" on:click={() => state = State.Idle}>Done</button>
 					</div>
@@ -329,11 +329,11 @@
 							state = State.Idle
 							newAccountId = ''
 						}}
-						in:fly={{ duration: 200, opacity: 0, y: -20 }}
-						out:scale={{ start: 0.95, duration: 150, opacity: 0 }}
+						in:fly|global={{ duration: 200, opacity: 0, y: -20 }}
+						out:scale|global={{ start: 0.95, duration: 150, opacity: 0 }}
 					>
-					<!-- in:blur={{ duration: 200, opacity: 0, amount: 20 }} -->
-					<!-- in:scale={{ start: 0.95, duration: 300, opacity: 0 }} -->
+					<!-- in:blur|global={{ duration: 200, opacity: 0, amount: 20 }} -->
+					<!-- in:scale|global={{ start: 0.95, duration: 300, opacity: 0 }} -->
 						<div class="bar wrap">
 							<div>
 								<h3>Add Account</h3>
@@ -354,7 +354,7 @@
 												class="align-start"
 												title={`${network.name}\nChain ID: ${network.chainId}`}
 												style="--primary-color: {getNetworkColor(network)}"
-												transition:scale|local={{ duration: 300 }}
+												transition:scale={{ duration: 300 }}
 												animate:flip|local={{ duration: 300 }}
 											>
 												<input
@@ -397,8 +397,8 @@
 				{:else if !portfolio.accounts.length}
 					<div
 						class="card"
-						in:scale|local={{ start: 0.95, duration: 300, opacity: 0 }}
-						out:scale={{ start: 0.95, duration: 150, opacity: 0 }}
+						in:scale={{ start: 0.95, duration: 300, opacity: 0 }}
+						out:scale|global={{ start: 0.95, duration: 150, opacity: 0 }}
 					>
 						<h3>Your Blockhead Portfolio is empty!</h3>
 						{#if isEditable}
@@ -411,7 +411,7 @@
 
 		{#each portfolio.accounts as account, i (account.id)}
 			<div
-				transition:scale|local={{ start: 0.8, duration: 300 }}
+				transition:scale={{ start: 0.8, duration: 300 }}
 				animate:flip|local={{ duration: 300, delay: Math.abs(delayStartIndex - i) * 50 }}
 			>
 				<PortfolioAccount
@@ -439,7 +439,7 @@
 					bind:summary={accountsSummaries[account.id]}
 				>
 					{#if state === State.Editing}
-						<div class="row edit-controls" transition:scale>
+						<div class="row edit-controls" transition:scale|global>
 							<button class="destructive" data-before="☒" on:click={() => deleteAccount(i)}>Delete Account</button>
 						</div>
 					{/if}
@@ -453,7 +453,7 @@
 	{/if}
 
 	<SizeContainer containerClass="sticky-bottom" isOpen={showOptions && portfolio.accounts.length && state !== State.Editing}>
-		<div role="toolbar" class="options card row wrap spaced" transition:fly={{ y: 100 }}>
+		<div role="toolbar" class="options card row wrap spaced" transition:fly|global={{ y: 100 }}>
 			<div class="row wrap">
 				<h3>Balances</h3>
 
@@ -527,7 +527,7 @@
 				</label>
 
 				<InlineContainer isOpen={showFeed} clip>
-					<label transition:fade|local={{duration: 300}}>
+					<label transition:fade={{duration: 300}}>
 						<!-- <span>View</span> -->
 						<select bind:value={feedLayout}>
 							<option value="byChannel">By Channel</option>

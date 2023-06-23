@@ -113,13 +113,13 @@
 </svelte:head>
 
 
-<main in:fly={{x: 300}} out:fly={{x: -300}}>
+<main in:fly|global={{x: 300}} out:fly|global={{x: -300}}>
 <!-- <main> -->
 	<div class="bar wrap">
 		<div class="title row">
 			<span class="stack-inline">
 				{#key $networkSlug}
-					<span class="title-icon" in:scale|local={{ duration: 300 }} out:scale|local={{ duration: 300 }}>
+					<span class="title-icon" in:scale={{ duration: 300 }} out:scale={{ duration: 300 }}>
 						{#if $networkSlug}
 							<NetworkIcon network={$explorerNetwork} />
 						{:else}
@@ -129,7 +129,7 @@
 				{/key}
 			</span>
 			<h1>
-				<InlineContainer class="stack-inline align-end" clip>{#key $networkSlug}<b in:fly|local={{y: 20, duration: 200}} out:fly|local={{y: -20, duration: 200}}><InlineContainer isOpen={networkDisplayName}>{networkDisplayName} </InlineContainer></b>{/key}</InlineContainer>
+				<InlineContainer class="stack-inline align-end" clip>{#key $networkSlug}<b in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}><InlineContainer isOpen={networkDisplayName}>{networkDisplayName} </InlineContainer></b>{/key}</InlineContainer>
 				Explorer
 			</h1>
 		</div>

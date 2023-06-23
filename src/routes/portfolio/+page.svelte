@@ -74,7 +74,7 @@
 }} />
 
 
-<main in:fly={{x: 300}} out:fly={{x: -300}}>
+<main in:fly|global={{x: 300}} out:fly|global={{x: -300}}>
 	<section class="portfolios column">
 		{#if localPortfolios}
 			{#each $localPortfolios as portfolio, i (i)}

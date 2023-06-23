@@ -46,16 +46,16 @@
 		as
 		preferencesSection, i (preferencesSection.id)
 	}
-		<!-- <section class="preference-section" transition:scale={{duration: 200, opacity: 0, delay: i * 20, easing: expoOut}} animate:flip={{duration: 250}}> -->
+		<!-- <section class="preference-section" transition:scale|global={{duration: 200, opacity: 0, delay: i * 20, easing: expoOut}} animate:flip={{duration: 250}}> -->
 		<section class="preference-section">
 			{#if isShowingAll}
-				<h4 in:scale={{duration: 300, easing: expoOut, /* delay: i * 20 */}}>{preferencesSection.name}</h4>
+				<h4 in:scale|global={{duration: 300, easing: expoOut, /* delay: i * 20 */}}>{preferencesSection.name}</h4>
 			{/if}
 			{#each
 				preferencesSection.preferences.filter(isShowingPreference)
 				as {id, name, type, options}, j (id)
 			}
-				<label class="preference" transition:scale={{duration: 200, opacity: 0, /* delay: i * 20 + j * 10, */ easing: expoOut}} animate:flip={{duration: 250, easing: expoOut}}>
+				<label class="preference" transition:scale|global={{duration: 200, opacity: 0, /* delay: i * 20 + j * 10, */ easing: expoOut}} animate:flip={{duration: 250, easing: expoOut}}>
 					<span>{name}</span>
 					{#if type === 'multiple'}
 						<select

@@ -193,16 +193,16 @@
 			</h3>
 
 			{#if showTransactions}
-				<button class="small" on:click={() => showTransactions = false} transition:scale>Hide</button>
+				<button class="small" on:click={() => showTransactions = false} transition:scale|global>Hide</button>
 			{/if}
 		</div>
 
 		{#if showTransactions}
-			<label transition:scale>
+			<label transition:scale|global>
 				<input type="checkbox" bind:checked={showFees}>
 				<span>Show Fees</span>
 			</label>
-			<label transition:scale>
+			<label transition:scale|global>
 				<span>View</span>
 				<select bind:value={detailLevel}>
 					<option value="summary">Summary</option>
@@ -211,7 +211,7 @@
 				</select>
 			</label>
 		{:else}
-			<button class="small" on:click={() => showTransactions = true} transition:scale>Show</button>
+			<button class="small" on:click={() => showTransactions = true} transition:scale|global>Show</button>
 		{/if}
 		<!-- <button class="small" on:click={() => showTransactions = !showTransactions}>{showTransactions ? 'Hide' : 'Show'} transactions</button> -->
 	</div>

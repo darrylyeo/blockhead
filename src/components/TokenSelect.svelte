@@ -28,7 +28,7 @@
 >
 	<!-- <div class="stack">
 		{#key value}
-			<div class="row" transition:scale> -->
+			<div class="row" transition:scale|global> -->
 				<img src={value?.icon} alt={value?.symbol} />
                 <!-- <Icon {token} /> -->
                 <!-- <Icon icon={value?.icon} /> -->

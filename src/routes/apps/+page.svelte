@@ -88,7 +88,7 @@
 </style>
 
 
-<div class="column" in:fly={{x: 300}} out:fly={{x: -300}}>
+<div class="column" in:fly|global={{x: 300}} out:fly|global={{x: -300}}>
 	<!-- <hr> -->
 
 	<div class="grid">
@@ -98,7 +98,7 @@
 
 				<div class="content row wrap">
 					{#each apps as app, i}
-						<a href="/apps/{app.slug}" class="item card" transition:scale={{delay: i * 10}} style={cardStyle(app.colors)}>
+						<a href="/apps/{app.slug}" class="item card" transition:scale|global={{delay: i * 10}} style={cardStyle(app.colors)}>
 							<h3 class="row">
 								{#if app.icon}
 									<img src={app.icon} alt={app.name} width={24} />

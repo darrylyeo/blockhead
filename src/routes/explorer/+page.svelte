@@ -66,7 +66,7 @@
 </style>
 
 
-<div class="column" in:fly={{x: 300}} out:fly={{x: -300}}>
+<div class="column" in:fly|global={{x: 300}} out:fly|global={{x: -300}}>
 	{#each networksBySection as {title, networks, isFeatured}, i}
 		<hr>
 
@@ -74,7 +74,7 @@
 
 		<section class="row wrap" class:featured={isFeatured}>
 			{#each networks as network, i}
-				<a href="/explorer/{network.slug}" class="item card" in:scale={{delay: i * 10}} style={cardStyle([getNetworkColor(network)])}>
+				<a href="/explorer/{network.slug}" class="item card" in:scale|global={{delay: i * 10}} style={cardStyle([getNetworkColor(network)])}>
 					<h3 class="row">
 						<NetworkIcon {network} />
 						<span>{network.name}</span>

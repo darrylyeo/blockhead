@@ -82,7 +82,7 @@
 			const adjustedX = Math.min(Math.max(0.3 + (x - 0.3) * 1.15, 0), 1)
 			;[$networkSlug, $query] = [network.slug, Math.round(adjustedX * Math.max(blockNumber ?? -Infinity, latestBlockNumber ?? -Infinity)).toString()]
 		}}
-		transition:fade
+		transition:fade|global
 		style="
 			{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}
 			--current-block-number: {blockNumber ?? 0};
@@ -97,7 +97,7 @@
 		blockNumber = y >= 0.1 && y <= 0.9 ? Math.round(adjustedX * Math.max(blockNumber ?? -Infinity, latestBlockNumber ?? -Infinity)) : $$props.blockNumber
 	}} -->
 		{#if blockNumber !== 0 && !(showBeforeAndAfter && blockNumberBefore === 0)}
-			<span class="first-block" style="--block-number: {0}" transition:scaleFont>
+			<span class="first-block" style="--block-number: {0}" transition:scaleFont|global>
 				<span title="{network.name} Genesis Block"><EthereumBlockNumber {network} blockNumber={0} /></span>
 				<span>«</span>
 				<!-- <span>🔗</span> -->
@@ -105,7 +105,7 @@
 		{/if}
 
 		{#if showBeforeAndAfter && blockNumber !== 0}
-			<span class="previous-block" style="--block-number: {blockNumberBefore}" transition:scaleFont>
+			<span class="previous-block" style="--block-number: {blockNumberBefore}" transition:scaleFont|global>
 				<span title="Previous {network.name} Block"><EthereumBlockNumber {network} blockNumber={blockNumberBefore} /></span>
 				<span>‹</span>
 				<!-- <span>🔗</span> -->
@@ -113,7 +113,7 @@
 		{/if}
 
 		{#if blockNumber !== undefined}
-			<span class="current-block" style="--block-number: {blockNumber ?? (latestBlockNumber ? Math.ceil(latestBlockNumber / 2) : 1)}" transition:scaleFont>
+			<span class="current-block" style="--block-number: {blockNumber ?? (latestBlockNumber ? Math.ceil(latestBlockNumber / 2) : 1)}" transition:scaleFont|global>
 				<span title="Current {network.name} Block"><EthereumBlockNumber {network} {blockNumber} /></span>
 			</span>
 		{:else}
@@ -121,7 +121,7 @@
 		{/if}
 
 		{#if showBeforeAndAfter && blockNumber !== latestBlockNumber}
-			<span class="next-block" style="--block-number: {blockNumberAfter}" transition:scaleFont>
+			<span class="next-block" style="--block-number: {blockNumberAfter}" transition:scaleFont|global>
 				<!-- <span>🔗</span> -->
 				<span>›</span>
 				<span title="Next {network.name} Block"><EthereumBlockNumber {network} blockNumber={blockNumberAfter} /></span>
@@ -129,14 +129,14 @@
 		{/if}
 
 		{#if !(blockNumber !== undefined && blockNumber === latestBlockNumber) && !(showBeforeAndAfter && blockNumberAfter === latestBlockNumber)}
-			<span class="latest-block" style="--block-number: {latestBlockNumber ?? (blockNumber ? blockNumber * 2 : 2)}" transition:scaleFont>
+			<span class="latest-block" style="--block-number: {latestBlockNumber ?? (blockNumber ? blockNumber * 2 : 2)}" transition:scaleFont|global>
 				<!-- <span>🔗</span> -->
 				<span>»</span>
 				<span title="Latest {network.name} Block"><EthereumBlockNumber {network} blockNumber={latestBlockNumber} /></span>
 			</span>
 		{/if}
 
-		<!--<span class="latest-block" transition:scaleFont hidden={!(
+		<!--<span class="latest-block" transition:scaleFont|global hidden={!(
 			!latestBlockNumber || blockNumber < latestBlockNumber && (!showBeforeAndAfter && blockNumberAfter === latestBlockNumber)
 		)}>
 			<!-- <span>🔗</span> -- >

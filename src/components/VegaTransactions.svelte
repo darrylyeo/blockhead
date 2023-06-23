@@ -24,7 +24,7 @@
 <div class="transactions">
 	{#if transactionsStream}
 		{#each $transactionsStream as tx (tx.id)}
-			<div><!-- transition:fade animate:flip -->
+			<div><!-- transition:fade|global animate:flip -->
 				<VegaTransaction {tx} />
 			</div>
 		{:else}

@@ -79,7 +79,7 @@
 
 <span class="token-balance-with-conversion" class:is-debt={isDebt} class:is-small-value={isSmallValue} class:is-zero={isZero}>
 	{#if tokenBalanceFormat === 'original' || tokenBalanceFormat === 'both'}
-		<span class="balance" transition:scaleFont|local><!-- style="font-size: {sizeByVolume(convertedValue)}em" -->
+		<span class="balance" transition:scaleFont><!-- style="font-size: {sizeByVolume(convertedValue)}em" -->
 			<TokenBalance
 				{network} {symbol} {address} {name} {icon}
 				{balance} {showDecimalPlaces} {isDebt}
@@ -88,14 +88,14 @@
 		</span>
 	{/if}
 	{#if (tokenBalanceFormat === 'converted' || tokenBalanceFormat === 'both')}
-		<span class="balance-converted" transition:scaleFont|local={{delay: 50 + animationDelay}}>
+		<span class="balance-converted" transition:scaleFont={{delay: 50 + animationDelay}}>
 			{#if tokenBalanceFormat === 'both'}{#if showParentheses}({/if}{/if
 			}<TokenBalance
 				{network} symbol={conversionCurrency}
 				balance={convertedValue}{showDecimalPlaces} showPlainFiat={true} {isDebt}
 				{tween} {clip} {transitionWidth}
 			/>{#if tokenBalanceFormat === 'converted' && conversionCurrency !== symbol}
-				<span class="worth" transition:scaleFont|local={{delay: animationDelay}}>
+				<span class="worth" transition:scaleFont={{delay: animationDelay}}>
 					&nbsp;in <TokenName {network} {symbol} {address} {icon} {name} />
 				</span>
 			{/if

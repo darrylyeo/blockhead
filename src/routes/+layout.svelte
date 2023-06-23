@@ -305,8 +305,8 @@
 	</Nav>
 
 	{#if showAccounts}
-		<!-- <aside class="column" transition:slide={{ axis: 'x' }}> -->
-		<aside class="column" transition:fly={{ x: 400, opacity: 0, duration: 400, easing: quintOut }}>
+		<!-- <aside class="column" transition:slide|global={{ axis: 'x' }}> -->
+		<aside class="column" transition:fly|global={{ x: 400, opacity: 0, duration: 400, easing: quintOut }}>
 			<AccountConnections layout="column" />
 		</aside>
 	{:else}
@@ -321,7 +321,7 @@
 
 	<!-- <SizeContainer transitionWidth transitionHeight={false} showIf={showAccounts}> -->
 		<!-- <aside hidden={!showAccounts}>
-			<section class="column" transition:slide={{ axis: 'x' }}>
+			<section class="column" transition:slide|global={{ axis: 'x' }}>
 				<AccountConnections layout="column" />
 			</section>
 		</aside> -->

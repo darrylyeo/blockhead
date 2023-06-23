@@ -52,7 +52,7 @@
 		>
 			<TokenIcon slot="loadingIcon" {network} {symbol} address={contractAddress} {erc20Token} />
 
-			<div class="card" in:scale>
+			<div class="card" in:scale|global>
 				<TokenBalance
 					{network} {symbol} address={contractAddress} {erc20Token}
 					balance={ethers?.utils.formatEther(balance)}

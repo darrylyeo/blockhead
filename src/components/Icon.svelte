@@ -28,7 +28,7 @@
 	class="icon"
 	class:isGrayscale={isGrayscale}
 	{title}
-	transition:transition={transitionConfig}
+	transition:transition|global={transitionConfig}
 >
 	{#if imageSources[i]}
 		<img src={imageSources[i]} on:error={e => i++} />

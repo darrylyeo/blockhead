@@ -93,7 +93,7 @@
 
 				status = 'submitting'
 			}}
-			transition:fly={{ x: -50, duration: 300 }}
+			transition:fly|global={{ x: -50, duration: 300 }}
 		>
 			<input type="hidden" name="form-name" value="contact" />
 
@@ -178,7 +178,7 @@
 		</form>
 	{:else}
 		<section
-			transition:fly={{ x: -50, duration: 300 }}
+			transition:fly|global={{ x: -50, duration: 300 }}
 		>
 			<Loader
 				loadingMessage="Submitting..."
