@@ -321,7 +321,14 @@
 		let:lensName
 		clip={false}
 	>
-		<header slot="header" class="bar card sticky">
+		<header
+			slot="header"
+			class="bar card sticky"
+			let:type
+			let:address
+			let:ensName
+			let:lensName
+		>
 			<div class="row-inline wrap">
 				{#if lensName && type === AccountIdType.Lens}
 					<h3><LensName {lensName} /></h3>

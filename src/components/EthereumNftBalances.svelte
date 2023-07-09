@@ -349,7 +349,13 @@
 	bind:summary
 	let:nftContractsWithBalances
 >
-	<svelte:fragment slot="header" let:summary let:status let:loadingMessage let:errorMessage>
+	<svelte:fragment slot="header"
+		let:nftContractsWithBalances
+		let:summary
+		let:status
+		let:loadingMessage
+		let:errorMessage
+	>
 		<slot name="header" {nftContractsWithBalances} {summary} {status} {loadingMessage} {errorMessage} />
 	</svelte:fragment>
 

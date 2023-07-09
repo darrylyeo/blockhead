@@ -74,7 +74,7 @@
 			status: LoadingStatus,
 			load: typeof load,
 			cancel: typeof cancel,
-			result: LoaderReturnResult
+			result: LoaderReturnResult,
 			pagination?: {
 				hasPreviousPage: boolean,
 				hasNextPage: boolean,
@@ -83,6 +83,7 @@
 			}
 		} & CollapsibleSlotProps,
 		header: {
+			result: LoaderReturnResult,
 			status: LoadingStatus,
 			loadingMessage: string,
 			errorMessage: string,
@@ -319,6 +320,7 @@
 			<svelte:fragment slot="header" let:isOpen let:toggle>
 				<slot
 					name="header"
+					{result}
 					{status}
 					{loadingMessage}
 					{errorMessage}
@@ -414,6 +416,7 @@
 	{:else}
 		<slot
 			name="header"
+			{result}
 			{status}
 			{loadingMessage}
 			{errorMessage}
