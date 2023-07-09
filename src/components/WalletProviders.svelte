@@ -156,12 +156,15 @@
 			loadingMessage="Log into MetaMask via the pop-up window."
 			errorMessage="We couldn't connect your MetaMask Account."
 			startImmediately={false}
-			let:load fromPromise={() => loadMetaMaskProvider().then(provider => getAccountsFromProvider(provider, 'MetaMask'))}
+			fromPromise={() => loadMetaMaskProvider().then(provider => getAccountsFromProvider(provider, 'MetaMask'))}
 			bind:result={$connectedProviderAccounts['MetaMask']}
 			let:result={accounts}
 			let:cancel
 		>
-			<svelte:fragment slot="header" let:status>
+			<svelte:fragment slot="header"
+				let:status
+				let:load
+			>
 				{#if status !== 'resolved'}
 					<div class="bar">
 						<h1><img src={MetaMaskIcon} alt="MetaMask" class="metamask-logo"> MetaMask Wallet</h1>
@@ -189,7 +192,10 @@
 				</div>
 			</Portfolio>
 
-			<svelte:fragment slot="errorActions">
+			<svelte:fragment slot="errorActions"
+				let:load
+				let:cancel
+			>
 				<button class="medium" on:click={load}>Try Again</button>
 				<button class="medium" on:click={cancel}>Cancel</button>
 			</svelte:fragment>
@@ -203,12 +209,15 @@
 			loadingMessage="Log into Torus via the pop-up window."
 			errorMessage="We couldn't connect your Tor.us Account."
 			startImmediately={false}
-			let:load fromPromise={() => loadTorusProvider().then(provider => getAccountsFromProvider(provider, 'Torus'))}
+			fromPromise={() => loadTorusProvider().then(provider => getAccountsFromProvider(provider, 'Torus'))}
 			bind:result={$connectedProviderAccounts['Torus']}
 			let:result={accounts}
 			let:cancel whenCanceled={disconnectTorusProvider}
 		>
-			<svelte:fragment slot="header" let:status>
+			<svelte:fragment slot="header"
+				let:status
+				let:load
+			>
 				{#if status !== 'resolved'}
 					<div class="bar">
 						<h1><img src={TorusIcon} alt="Torus" class="torus-logo"> Wallet</h1>
@@ -238,7 +247,10 @@
 				</div>
 			</Portfolio>
 
-			<svelte:fragment slot="errorActions">
+			<svelte:fragment slot="errorActions"
+				let:load
+				let:cancel
+			>
 				<button class="medium" on:click={load}>Try Again</button>
 				<button class="medium" on:click={cancel}>Cancel</button>
 			</svelte:fragment>
@@ -252,12 +264,15 @@
 			loadingMessage="Log into Portis via the pop-up window."
 			errorMessage="We couldn't connect your Portis.io Account."
 			startImmediately={false}
-			let:load fromPromise={() => loadPortisProvider().then(provider => getAccountsFromProvider(provider, 'Portis'))}
+			fromPromise={() => loadPortisProvider().then(provider => getAccountsFromProvider(provider, 'Portis'))}
 			bind:result={$connectedProviderAccounts['Portis']}
 			let:result={accounts}
 			let:cancel whenCanceled={disconnectPortisProvider}
 		>
-			<svelte:fragment slot="header" let:status>
+			<svelte:fragment slot="header"
+				let:status
+				let:load
+			>
 				{#if status !== 'resolved'}
 					<div class="bar">
 						<h1><img src={PortisBlackIcon} alt="Portis" class="portis-logo"> Wallet</h1>
@@ -286,7 +301,10 @@
 				</div>
 			</Portfolio>
 
-			<svelte:fragment slot="errorActions">
+			<svelte:fragment slot="errorActions"
+				let:load
+				let:cancel
+			>
 				<button class="medium" on:click={load}>Try Again</button>
 				<button class="medium" on:click={cancel}>Cancel</button>
 			</svelte:fragment>
@@ -302,12 +320,15 @@
 			loadingMessage="Log into 3ID Connect via the pop-up window."
 			errorMessage="We couldn't connect your 3ID Connect identity."
 			startImmediately={false}
-			let:load fromPromise={didAuthProviderAccount && (() => load3IDConnect(didAuthProviderAccount))}
+			fromPromise={didAuthProviderAccount && (() => load3IDConnect(didAuthProviderAccount))}
 			bind:result={$connectedProviderAccounts['3ID Connect']}
-			let:then={accounts}
+			let:result={accounts}
 			let:cancel whenCanceled={disconnect3IDConnect}
 		>
-			<svelte:fragment slot="header" let:status>
+			<svelte:fragment slot="header"
+				let:status
+				let:load
+			>
 				{#if status !== 'resolved'}
 					<div class="bar">
 						<h1><img src={idxIcon} alt="Ceramic/IDX" class="idx-logo"> Identity</h1>
@@ -341,7 +362,10 @@
 				</div>
 			</Portfolio>
 
-			<svelte:fragment slot="errorActions">
+			<svelte:fragment slot="errorActions"
+				let:load
+				let:cancel
+			>
 				<button class="medium" on:click={load}>Try Again</button>
 				<button class="medium" on:click={cancel}>Cancel</button>
 			</svelte:fragment>

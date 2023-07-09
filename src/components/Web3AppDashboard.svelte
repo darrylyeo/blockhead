@@ -250,7 +250,9 @@
 					let:network
 					let:provider
 				>
-					<svelte:fragment slot="header">
+					<svelte:fragment slot="header"
+						let:network
+					>
 						<div class="bar wrap">
 							<span class="row-inline wrap">
 								<h3 id={slug} class="row-inline">
@@ -356,7 +358,9 @@
 											{isOpen}
 										>
 										<!-- showIf={defiProtocolBalances => defiProtocolBalances.length} -->
-											<svelte:fragment slot="header" let:status>
+											<svelte:fragment slot="header"
+												let:status
+											>
 												<!-- {#if (status === 'resolved' && defiProtocolBalances.length) || status === 'error'} -->
 													<div class="bar wrap">
 														<h4><!--DeFi -->Balances</h4>
@@ -598,7 +602,9 @@
 										<!-- showIf={defiBalances => defiBalances?.length} -->
 											<NetworkIcon slot="loadingIcon" {network} />
 
-											<svelte:fragment slot="header" let:status>
+											<svelte:fragment slot="header"
+												let:status
+											>
 												<!-- {#if defiBalances?.length} -->
 													<div class="bar wrap">
 														<h4><!--DeFi -->Balances</h4>

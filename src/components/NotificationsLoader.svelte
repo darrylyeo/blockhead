@@ -58,7 +58,14 @@
 		bind:result={notifications}
 		let:result={notifications}
 	>
-		<slot name="header" slot="header" let:loadingMessage let:errorMessage {notifications} {status} {loadingMessage} {errorMessage} />
+		<svelte:fragment slot="header"
+			let:result={notifications}
+			let:status
+			let:loadingMessage
+			let:errorMessage
+		>
+			<slot name="header" {notifications} {status} {loadingMessage} {errorMessage} />
+		</svelte:fragment>
 
 		<slot {notifications} />
 	</Loader>

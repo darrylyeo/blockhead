@@ -205,7 +205,12 @@
 		{containerClass}
 		{contentClass}
 	>
-		<svelte:fragment slot="header" let:status let:loadingMessage let:errorMessage>
+		<svelte:fragment slot="header"
+			let:result={zapperDefiBalances}
+			let:status
+			let:loadingMessage
+			let:errorMessage
+		>
 			<slot name="header" {zapperDefiBalances} {summary} {status} {loadingMessage} {errorMessage} />
 		</svelte:fragment>
 
@@ -578,7 +583,11 @@
 		>
 			<!-- <NetworkIcon slot="loadingIcon" {network} /> -->
 
-			<svelte:fragment slot="header" let:status let:loadingMessage let:errorMessage>
+			<svelte:fragment slot="header"
+				let:result={defiBalances}
+				let:status
+				let:loadingMessage
+				let:errorMessage>
 				<slot name="header" {defiBalances} {summary} {status} {loadingMessage} {errorMessage} />
 			</svelte:fragment>
 

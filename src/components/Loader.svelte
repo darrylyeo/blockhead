@@ -315,9 +315,11 @@
 			{clip}
 			let:isOpen let:toggle
 		>
-			<svelte:fragment slot="header" let:isOpen let:toggle>
-				<slot
-					name="header"
+			<svelte:fragment slot="header"
+				let:isOpen
+				let:toggle
+			>
+				<slot name="header"
 					{result}
 					{status}
 					{loadingMessage}

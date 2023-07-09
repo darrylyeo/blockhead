@@ -102,12 +102,18 @@
 		{isOpen}
 		{containerClass}
 		{contentClass}
-		let:status
 		bind:result={balances}
 		let:result={balances}
 		debug
 	>
-		<slot name="header" slot="header" let:loadingMessage let:errorMessage {balances} {status} {loadingMessage} {errorMessage} />
+		<svelte:fragment slot="header"
+			let:result={balances}
+			let:status
+			let:loadingMessage
+			let:errorMessage
+		>
+			<slot name="header" {balances} {status} {loadingMessage} {errorMessage} />
+		</svelte:fragment>
 
 		<slot {balances} />
 	</Loader>
@@ -228,11 +234,17 @@
 		{isOpen}
 		{containerClass}
 		{contentClass}
-		let:status
 		bind:result={balances}
 		let:result={balances}
 	>
-		<slot name="header" slot="header" let:loadingMessage let:errorMessage {balances} {status} {loadingMessage} {errorMessage} />
+		<svelte:fragment slot="header"
+			let:result={balances}
+			let:status
+			let:loadingMessage
+			let:errorMessage
+		>
+			<slot name="header" {balances} {status} {loadingMessage} {errorMessage} />
+		</svelte:fragment>
 
 		<slot {balances} />
 	</Loader>
@@ -294,11 +306,17 @@
 		{isOpen}
 		{containerClass}
 		{contentClass}
-		let:status
 		bind:result={balances}
 		let:result={balances}
 	>
-		<slot name="header" slot="header" let:loadingMessage let:errorMessage {balances} {status} {loadingMessage} {errorMessage} />
+		<svelte:fragment slot="header"
+			let:result={balances}
+			let:status
+			let:loadingMessage
+			let:errorMessage
+		>
+			<slot name="header" {balances} {status} {loadingMessage} {errorMessage} />
+		</svelte:fragment>
 
 		<slot {balances} />
 	</Loader>
@@ -352,11 +370,17 @@
 		{isOpen}
 		{containerClass}
 		{contentClass}
-		let:status
 		bind:result={balances}
 		let:result={balances}
 	>
-		<slot name="header" slot="header" let:loadingMessage let:errorMessage {balances} {status} {loadingMessage} {errorMessage} />
+		<svelte:fragment slot="header"
+			let:result={balances}
+			let:status
+			let:loadingMessage
+			let:errorMessage
+		>
+			<slot name="header" {balances} {status} {loadingMessage} {errorMessage} />
+		</svelte:fragment>
 
 		<slot {balances} />
 	</Loader>
@@ -450,11 +474,17 @@
 		{isOpen}
 		{containerClass}
 		{contentClass}
-		let:status
 		bind:result={balances}
 		let:result={balances}
 	>
-		<slot name="header" slot="header" let:loadingMessage let:errorMessage {balances} {status} {loadingMessage} {errorMessage} />
+		<svelte:fragment slot="header"
+			let:result={balances}
+			let:status
+			let:loadingMessage
+			let:errorMessage
+		>
+			<slot name="header" {balances} {status} {loadingMessage} {errorMessage} />
+		</svelte:fragment>
 
 		<slot {balances} />
 	</Loader>
@@ -507,11 +537,17 @@
 		{isOpen}
 		{containerClass}
 		{contentClass}
-		let:status
 		bind:result={balances}
 		let:result={balances}
 	>
-		<slot name="header" slot="header" let:loadingMessage let:errorMessage {balances} {status} {loadingMessage} {errorMessage} />
+		<svelte:fragment slot="header"
+			let:result={balances}
+			let:status
+			let:loadingMessage
+			let:errorMessage
+		>
+			<slot name="header" {balances} {status} {loadingMessage} {errorMessage} />
+		</svelte:fragment>
 
 		<slot {balances} />
 	</Loader>
@@ -547,11 +583,17 @@
 		{isOpen}
 		{containerClass}
 		{contentClass}
-		let:status
 		bind:result={balances}
 		let:result={balances}
 	>
-		<slot name="header" slot="header" let:loadingMessage let:errorMessage {balances} {status} {loadingMessage} {errorMessage} />
+		<svelte:fragment slot="header"
+			let:result={balances}
+			let:status
+			let:loadingMessage
+			let:errorMessage
+		>
+			<slot name="header" {balances} {status} {loadingMessage} {errorMessage} />
+		</svelte:fragment>
 
 		<slot {balances} />
 	</Loader>

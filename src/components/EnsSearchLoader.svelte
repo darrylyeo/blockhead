@@ -193,7 +193,10 @@
 			let:result={result}
 			showIf={result => result?.domains.length}
 		>
-			<svelte:fragment slot="header" let:status>
+			<svelte:fragment slot="header"
+				let:result
+				let:status
+			>
 				{#if status === 'resolved' && result?.domains.length}
 					<hr>
 					<h2>Similar ENS Names</h2>

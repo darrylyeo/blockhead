@@ -103,7 +103,11 @@
 		let:ensName
 		showIf={({address}) => address}
 	>
-		<div slot="header" class="bar wrap">
+		<div slot="header"
+			let:address
+			let:ensName
+			class="bar wrap"
+		>
 			<div class="row-inline">
 				<slot name="title" {network} {address} {ensName}>
 					{#if address}
@@ -215,9 +219,12 @@
 						includeLogs={detailLevel === 'exhaustive'}
 						showIf={transactions => transactions}
 						let:transactions
-						let:pagination
 					>
-						<svelte:fragment slot="header" let:status>
+						<svelte:fragment slot="header"
+							let:status
+							let:transactions
+							let:pagination
+						>
 							<summary class="bar wrap">
 								<h3>
 									Transactions
@@ -304,9 +311,12 @@
 						{quoteCurrency}
 						includeLogs={detailLevel === 'exhaustive'}
 						let:transactions
-						let:pagination
 					>
-						<svelte:fragment slot="header" let:status>
+						<svelte:fragment slot="header"
+							let:status
+							let:transactions
+							let:pagination
+						>
 							<div class="bar wrap">
 								<h3>
 									{selectedToken.name}

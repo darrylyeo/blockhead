@@ -70,6 +70,10 @@
 	bind:result
 	let:result
 >
-	<slot slot="header" name="header" {address} {...result} />
+		<svelte:fragment slot="header"
+			let:result
+		>
+			<slot name="header" {address} {...result} />
+		</svelte:fragment>
 	<slot {address} {...result} />
 </Loader>

@@ -86,7 +86,13 @@
 	bind:notifications
 	{...$$restProps}
 >
-	<slot slot="header" name="header" let:status let:loadingMessage let:errorMessage {summary} {status} {loadingMessage} {errorMessage} />
+	<svelte:fragment slot="header"
+		let:status
+		let:loadingMessage
+		let:errorMessage
+	>
+		<slot name="header" {summary} {status} {loadingMessage} {errorMessage} />
+	</svelte:fragment>
 
 	{#if feedLayout === 'byChannel'}
 		{#each Object.entries(notificationsByChannel) as [channelName, notifications]}<!-- (`${notification.blockchain}-${notification.sid}`) -->

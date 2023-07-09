@@ -227,7 +227,12 @@
 					>
 						<NetworkIcon slot="loadingIcon" {network}><img src="/Blockhead-Logo.svg" width="30" /></NetworkIcon>
 
-						<slot name="header" slot="header" let:status {status} {transaction} />
+						<svelte:fragment slot="header"
+							let:result={transaction}
+							let:status
+						>
+							<slot name="header" {status} {transaction} />
+						</svelte:fragment>
 
 						<EthereumTransaction
 							{network}
@@ -265,9 +270,13 @@
 						})}
 						bind:result={transaction}
 						let:result={transaction}
-						let:status
 					>
-						<slot name="header" slot="header" {status} {transaction} />
+						<svelte:fragment slot="header"
+							let:result={transaction}
+							let:status
+						>
+							<slot name="header" {status} {transaction} />
+						</svelte:fragment>
 
 						<EthereumTransactionCovalent
 							{network}
@@ -302,9 +311,13 @@
 							)
 						})}
 						let:result={transaction}
-						let:status
 					>
-						<slot name="header" slot="header" {status} {transaction} />
+						<svelte:fragment slot="header"
+							let:result={transaction}
+							let:status
+						>
+							<slot name="header" {status} {transaction} />
+						</svelte:fragment>
 
 						<EthereumTransactionEtherspot
 							{network}
@@ -340,9 +353,13 @@
 						})}
 						bind:result={transaction}
 						let:result={transaction}
-						let:status
 					>
-						<slot name="header" slot="header" {status} {transaction} />
+						<svelte:fragment slot="header"
+							let:result={transaction}
+							let:status
+						>
+							<slot name="header" {status} {transaction} />
+						</svelte:fragment>
 
 						<EthereumTransactionMoralis
 							{network}

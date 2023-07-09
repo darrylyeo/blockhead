@@ -63,10 +63,15 @@
 		})}
 		then={result => result?.pages?.flatMap(page => page.items) ?? []}
 		let:result={transactions}
-		let:status
 		let:pagination
 	>
-		<slot name="header" slot="header" {status} {transactions} />
+		<svelte:fragment slot="header"
+			let:result={transactions}
+			let:status
+			let:pagination
+		>
+			<slot name="header" {transactions} {status} {pagination} />
+		</svelte:fragment>
 		<slot {transactions} {pagination} />
 	</Loader>
 
@@ -88,10 +93,15 @@
 			)
 		})}
 		let:result={transactions}
-		let:status
 		let:pagination
 	>
-		<slot name="header" slot="header" {status} {transactions} />
+		<svelte:fragment slot="header"
+			let:result={transactions}
+			let:status
+			let:pagination
+		>
+			<slot name="header" {transactions} {status} {pagination} />
+		</svelte:fragment>
 		<slot {transactions} {pagination} />
 	</Loader>
 
@@ -159,10 +169,15 @@
 		})}
 		then={result => result?.pages?.flatMap(page => page.result) ?? []}
 		let:result={transactions}
-		let:status
 		let:pagination
 	>
-		<slot name="header" slot="header" {status} {transactions} />
+		<svelte:fragment slot="header"
+			let:result={transactions}
+			let:status
+			let:pagination
+		>
+			<slot name="header" {transactions} {status} {pagination} />
+		</svelte:fragment>
 		<slot {transactions} {pagination} />
 	</Loader>
 {/if}

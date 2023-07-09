@@ -40,7 +40,11 @@
 >
 	<NetworkIcon slot="loadingIcon" {network} />
 
-	<slot name="header" slot="header" {network} {provider} />
+	<svelte:fragment slot="header"
+		let:result={provider}
+	>
+		<slot name="header" {network} {provider} />
+	</svelte:fragment>
 
 	<slot {network} {provider} />
 </Loader>

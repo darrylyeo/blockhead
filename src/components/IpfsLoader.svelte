@@ -86,7 +86,11 @@
 			{...$$restProps}
 			let:result
 		>
-			<slot slot="header" name="header" {...result} {ipfsGatewayProvider} {ipfsContentId} {resolvedIpfsUrl} />
+			<svelte:fragment slot="header"
+				let:result
+			>
+				<slot name="header" {...result} {ipfsGatewayProvider} {ipfsContentId} {resolvedIpfsUrl} />
+			</svelte:fragment>
 			<slot {...result} {ipfsGatewayProvider} {ipfsContentId} {resolvedIpfsUrl} />
 		</Loader>
 
@@ -119,7 +123,11 @@
 		{...$$restProps}
 		let:result
 	>
-		<slot slot="header" name="header" {...result} {ipfsGatewayProvider} {ipfsContentId} {resolvedIpfsUrl} />
+		<svelte:fragment slot="header"
+			let:result
+		>
+			<slot name="header" {...result} {ipfsGatewayProvider} {ipfsContentId} {resolvedIpfsUrl} />
+		</svelte:fragment>
 		<slot {...result} {ipfsGatewayProvider} {ipfsContentId} {resolvedIpfsUrl} />
 	</Loader>
 	{/if}

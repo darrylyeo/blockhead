@@ -53,9 +53,13 @@
 		}}
 		bind:result={profiles}
 		let:result={profiles}
-		let:status
 	>
-		<slot name="header" slot="header" {status} {profiles} />
+		<svelte:fragment slot="header"
+			let:result={profiles}
+			let:status
+		>
+			<slot name="header" {status} {profiles} />
+		</svelte:fragment>
 		<slot {profiles} />
 	</Loader>
 
@@ -88,9 +92,13 @@
 		}}
 		bind:result={profiles}
 		let:result={profiles}
-		let:status
 	>
-		<slot name="header" slot="header" {status} {profiles} />
+		<svelte:fragment slot="header"
+			let:result={profiles}
+			let:status
+		>
+			<slot name="header" {status} {profiles} />
+		</svelte:fragment>
 		<slot {profiles} />
 	</Loader>
 {/if}

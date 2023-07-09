@@ -450,11 +450,17 @@
 		{isOpen}
 		{containerClass}
 		{contentClass}
-		let:status
 		bind:result={nftContractsWithBalances}
 		let:result={nftContractsWithBalances}
 	>
-		<slot name="header" slot="header" let:loadingMessage let:errorMessage {nftContractsWithBalances} {summary} {status} {loadingMessage} {errorMessage} />
+		<svelte:fragment slot="header"
+			let:result={nftContractsWithBalances}
+			let:status
+			let:loadingMessage
+			let:errorMessage
+		>
+			<slot name="header" {nftContractsWithBalances} {summary} {status} {loadingMessage} {errorMessage} />
+		</svelte:fragment>
 
 		<slot {nftContractsWithBalances} />
 	</Loader>
@@ -495,7 +501,12 @@
 		{containerClass}
 		{contentClass}
 	>
-		<svelte:fragment slot="header" let:status let:loadingMessage let:errorMessage>
+		<svelte:fragment slot="header"
+			let:result={nftContractsWithBalances}
+			let:status
+			let:loadingMessage
+			let:errorMessage
+		>
 			<slot name="header" {nftContractsWithBalances} {summary} {status} {loadingMessage} {errorMessage} />
 		</svelte:fragment>
 
@@ -539,7 +550,12 @@
 		{containerClass}
 		{contentClass}
 	>
-		<svelte:fragment slot="header" let:status let:loadingMessage let:errorMessage>
+		<svelte:fragment slot="header"
+			let:result={nftContractsWithBalances}
+			let:status
+			let:loadingMessage
+			let:errorMessage
+		>
 			<slot name="header" {nftContractsWithBalances} {summary} {status} {loadingMessage} {errorMessage} />
 		</svelte:fragment>
 
@@ -592,7 +608,12 @@
 		{containerClass}
 		{contentClass}
 	>
-		<svelte:fragment slot="header" let:status let:loadingMessage let:errorMessage>
+		<svelte:fragment slot="header"
+			let:result={nftContractsWithBalances}
+			let:status
+			let:loadingMessage
+			let:errorMessage
+		>
 			<slot name="header" {nftContractsWithBalances} {summary} {status} {loadingMessage} {errorMessage} />
 		</svelte:fragment>
 

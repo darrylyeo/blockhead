@@ -59,11 +59,18 @@
 			getPreviousPageParam: (firstPage, allPages) => firstPage.pagination?.page_number > 0 ? firstPage.pagination.page_number - 1 : undefined,
 			getNextPageParam: (lastPage, allPages) => lastPage.pagination?.has_more ? lastPage.pagination.page_number + 1 : undefined
 		})}
-		let:result
+		then={result => result?.pages?.flatMap(page => page.items) ?? []}
+		let:result={transactions}
 		let:status
 		let:pagination
 	>
-		<slot name="header" slot="header" {status} />
-		<slot transactions={result?.pages?.flatMap(page => page.items) ?? []} {pagination} />
+		<svelte:fragment slot="header"
+			let:result={transactions}
+			let:status
+			let:pagination
+		>
+			<slot name="header" {transactions} {status} {pagination} />
+		</svelte:fragment>
+		<slot {transactions} {status} {pagination} />
 	</Loader>
 <!-- {/if} -->

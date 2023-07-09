@@ -315,10 +315,7 @@
 		accountId={account.id}
 		{provider}
 		passiveResolveToName
-		let:type
 		let:address
-		let:ensName
-		let:lensName
 		clip={false}
 	>
 		<header
