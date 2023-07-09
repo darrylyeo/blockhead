@@ -69,27 +69,25 @@
 		}
 		: {}
 
+	type SharedSlotProps = {
+		result: LoaderReturnResult,
+		status: LoadingStatus,
+		load: typeof load,
+		cancel: typeof cancel,
+		pagination?: {
+			hasPreviousPage: boolean,
+			hasNextPage: boolean,
+			fetchPreviousPage: () => void,
+			fetchNextPage: () => void,
+		}
+	} & CollapsibleSlotProps
+
 	type $$Slots = {
-		default: {
-			status: LoadingStatus,
-			load: typeof load,
-			cancel: typeof cancel,
-			result: LoaderReturnResult,
-			pagination?: {
-				hasPreviousPage: boolean,
-				hasNextPage: boolean,
-				fetchPreviousPage: () => void,
-				fetchNextPage: () => void,
-			}
-		} & CollapsibleSlotProps,
-		header: {
-			result: LoaderReturnResult,
-			status: LoadingStatus,
+		default: SharedSlotProps,
+		header: SharedSlotProps & {
 			loadingMessage: string,
 			errorMessage: string,
-			load: typeof load,
-			cancel: typeof cancel,
-		} & CollapsibleSlotProps,
+		},
 		idle: {
 
 		},
