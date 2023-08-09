@@ -61,7 +61,7 @@
 
 
 	// Actions
-	import { useQuery } from '@sveltestack/svelte-query'
+	import { createQuery } from '@tanstack/svelte-query'
 	import { getDefiBalances } from '../api/zerion/defiSdk'
 	import { getAllApps, getDefiBalancesForApps, chainIdByNetworkName } from '../api/zapper'
 
@@ -560,7 +560,7 @@
 			loadingMessage="Reading {defiBalancesDescription} balances from {defiProvider}..."
 			loadingIcon={defiProviderIcons[defiProvider]}
 			errorMessage="Error getting {defiBalancesDescription} balances from {defiProvider}."
-			fromUseQuery={network && address && useQuery({
+			fromUseQuery={network && address && createQuery({
 				queryKey: ['DefiBalances', {
 					defiProvider,
 					address,

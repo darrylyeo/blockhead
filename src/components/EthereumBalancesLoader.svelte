@@ -48,7 +48,7 @@
 
 
 	// Actions
-	import { useQuery } from '@sveltestack/svelte-query'
+	import { createQuery } from '@tanstack/svelte-query'
 	import { queryStore, gql } from '@urql/svelte'
 
 	import { getEthersProvider } from '../data/networkProviders'
@@ -74,7 +74,7 @@
 		{loadingMessage}
 		{errorMessage}
 		fromUseQuery={address && network && providerName && (
-			useQuery({
+			createQuery({
 				queryKey: ['Balances', {
 					tokenBalancesProvider,
 					providerName,
@@ -258,7 +258,7 @@
 		{loadingMessage}
 		{errorMessage}
 		fromUseQuery={address && network && (
-			useQuery({
+			createQuery({
 				queryKey: ['Balances', {
 					tokenBalancesProvider,
 					address,
@@ -328,7 +328,7 @@
 		{loadingMessage}
 		{errorMessage}
 		fromUseQuery={address && network && (
-			useQuery({
+			createQuery({
 				queryKey: ['Balances', {
 					tokenBalancesProvider,
 					address,
@@ -394,7 +394,7 @@
 		{loadingMessage}
 		{errorMessage}
 		fromUseQuery={address && network && (
-			useQuery({
+			createQuery({
 				queryKey: ['Balances', {
 					tokenBalancesProvider,
 					address,
@@ -496,7 +496,7 @@
 		{loadingMessage}
 		{errorMessage}
 		fromUseQuery={address && network && (
-			useQuery({
+			createQuery({
 				queryKey: ['Balances', {
 					tokenBalancesProvider,
 					address,
@@ -559,7 +559,7 @@
 		{loadingMessage}
 		{errorMessage}
 		fromUseQuery={address && network && (
-			useQuery({
+			createQuery({
 				queryKey: ['Balances', {
 					tokenBalancesProvider,
 					address,

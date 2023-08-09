@@ -21,7 +21,9 @@
 
 
 	// Svelte Query
-	import { QueryClient, persistQueryClient, broadcastQueryClient, createWebStoragePersistor, QueryClientProvider } from '@sveltestack/svelte-query'
+	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query'
+
+	import { persistQueryClient, broadcastQueryClient, createWebStoragePersistor } from '@sveltestack/svelte-query'
 
 	export const queryClient = new QueryClient({
 		defaultOptions: {
@@ -29,6 +31,7 @@
 				keepPreviousData: true,
 				// staleTime: Infinity,
 				cacheTime: Infinity,
+				enabled: browser,
 			},
 		}
 	})

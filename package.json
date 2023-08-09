@@ -33,6 +33,7 @@
     "@pushprotocol/socket": "^0.5.1",
     "@rize-labs/banana-wallet-sdk": "^0.1.25",
     "@sveltestack/svelte-query": "^1.6.0",
+    "@tanstack/svelte-query": "^4.32.6",
     "@urql/svelte": "^4.0.2",
     "@walletconnect/core": "^2.9.0",
     "@walletconnect/ethereum-provider": "^2.9.0",

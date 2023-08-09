@@ -73,7 +73,7 @@
 
 
 	// Actions
-	import { useQuery } from '@sveltestack/svelte-query'
+	import { createQuery } from '@tanstack/svelte-query'
 
 	// import ENS, { getEnsAddress } from '@ensdomains/ensjs'
 	// const ens = new ENS({ provider, ensAddress: getEnsAddress('1') })
@@ -99,7 +99,7 @@
 	<Loader
 		layout={passiveResolveToAddress ? 'passive' : 'default'}
 		fromUseQuery={
-			useQuery({
+			createQuery({
 				queryKey: ['LensProfileByLensName', {
 					lensName,
 				}],
@@ -129,7 +129,7 @@
 	<Loader
 		layout={passiveResolveToAddress ? 'passive' : 'default'}
 		fromUseQuery={
-			ensName && provider && useQuery({
+			ensName && provider && createQuery({
 				queryKey: ['EnsResolution', {
 					providerName,
 					ensName,
@@ -165,7 +165,7 @@
 		<Loader
 			layout={passiveResolveToName ? 'headless' : 'default'}
 			fromUseQuery={
-				address && provider && useQuery({
+				address && provider && createQuery({
 					queryKey: ['EnsReverseResolution', {
 						providerName,
 						address,

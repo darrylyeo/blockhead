@@ -51,7 +51,7 @@
 	let passive = !!transaction
 
 
-	import { useQuery } from '@sveltestack/svelte-query'
+	import { createQuery } from '@tanstack/svelte-query'
 
 	import { getTransaction as getTransactionCovalent } from '../api/covalent'
 	// import { getTransaction as getTransactionEtherspot } from '../api/etherspot'
@@ -161,7 +161,7 @@
 						loadingMessage="Looking up transaction from {transactionProvider}..."
 						errorMessage="Error looking up transaction from {transactionProvider}"
 						contentClass="column"
-						fromUseQuery={provider && useQuery({
+						fromUseQuery={provider && createQuery({
 							queryKey: ['Transaction', {
 								transactionProvider,
 								providerName,
@@ -180,7 +180,7 @@
 										// 	transaction.logs = logs.filter(log => log.transactionHash === transaction.hash)
 										// }
 
-										const query = useQuery({
+										const query = createQuery({
 											queryKey: ['LogsByBlock', {
 												transactionProvider,
 												providerName,
@@ -253,7 +253,7 @@
 					<Loader
 						loadingIcon={transactionProviderIcons[transactionProvider]}
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
-						fromUseQuery={useQuery({
+						fromUseQuery={createQuery({
 							queryKey: ['Transaction', {
 								transactionProvider,
 								chainId: network.chainId,
@@ -297,7 +297,7 @@
 					<Loader
 						loadingIcon={transactionProviderIcons[transactionProvider]}
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
-						fromUseQuery={useQuery({
+						fromUseQuery={createQuery({
 							queryKey: ['Transaction', {
 								transactionProvider,
 								chainId: network.chainId
@@ -338,7 +338,7 @@
 					<Loader
 						loadingIcon={transactionProviderIcons[transactionProvider]}
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
-						fromUseQuery={useQuery({
+						fromUseQuery={createQuery({
 							queryKey: ['Transaction', {
 								transactionProvider,
 								chainId: network.chainId,

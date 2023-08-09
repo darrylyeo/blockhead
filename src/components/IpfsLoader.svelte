@@ -31,7 +31,7 @@
 
 
 	// Functions
-	import { useQuery } from '@sveltestack/svelte-query'
+	import { createQuery } from '@tanstack/svelte-query'
 	import { getIpfsContent, getIpfsDag } from '../api/ipfs/helia'
 	import { parseResponse } from '../utils/parseResponse'
 
@@ -97,7 +97,7 @@
 	{:else}
 	<Loader
 		fromUseQuery={
-			useQuery({
+			createQuery({
 				queryKey: ['IPFS', {
 					ipfsUrl: resolvedIpfsUrl,
 				}],

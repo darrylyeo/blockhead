@@ -23,7 +23,7 @@
 	$: errorMessage = `Couldn't retrieve ERC-20 transactions from ${transactionProvider}.`
 
 
-	import { useInfiniteQuery } from '@sveltestack/svelte-query'
+	import { createInfiniteQuery } from '@tanstack/svelte-query'
 
 	import { getERC20TokenTransfers } from '../api/covalent'
 	import { chainCodeFromNetwork, MoralisWeb3Api } from '../api/moralis/web3Api'
@@ -39,7 +39,7 @@
 		loadingIconName={transactionProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromUseInfiniteQuery={useInfiniteQuery({
+		fromUseInfiniteQuery={createInfiniteQuery({
 			queryKey: ['TransactionsERC20Transfer', {
 				transactionProvider,
 				chainID: network.chainId,

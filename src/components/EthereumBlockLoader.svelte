@@ -41,7 +41,7 @@
 	$: lastUpdate = block && updatesByNetwork.get(network)?.find(upgrade => block?.blockNumber >= upgrade.blockNumber)
 
 
-	import { useQuery } from '@sveltestack/svelte-query'
+	import { createQuery } from '@tanstack/svelte-query'
 
 	import { toBeHex } from 'ethers'
 
@@ -76,7 +76,7 @@
 				{loadingMessage}
 				{errorMessage}
 				contentClass="column"
-				fromUseQuery={useQuery({
+				fromUseQuery={createQuery({
 					queryKey: ['Block', {
 						transactionProvider,
 						chainID: network.chainId,
@@ -148,7 +148,7 @@
 				{loadingMessage}
 				{errorMessage}
 				contentClass="column"
-				fromUseQuery={useQuery({
+				fromUseQuery={createQuery({
 					queryKey: ['Block', {
 						transactionProvider,
 						chainID: network.chainId,
@@ -225,7 +225,7 @@
 				{loadingMessage}
 				{errorMessage}
 				contentClass="column"
-				fromUseQuery={provider && useQuery({
+				fromUseQuery={provider && createQuery({
 					queryKey: ['Block', {
 						transactionProvider,
 						providerName,

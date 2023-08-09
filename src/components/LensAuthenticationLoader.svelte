@@ -8,7 +8,7 @@
 
 
 	// Actions
-	import { useQuery } from '@sveltestack/svelte-query'
+	import { createQuery } from '@tanstack/svelte-query'
 
 	import { authenticate, generateChallenge } from '../api/lens'
 
@@ -22,7 +22,7 @@
 <Loader
 	{...$$restProps}
 	startImmediately={false}
-	fromUseQuery={accountConnection?.signer && useQuery({
+	fromUseQuery={accountConnection?.signer && createQuery({
 		queryKey: ['LensAccessToken', {
 			address: accountConnection.account?.address,
 		}],

@@ -40,6 +40,9 @@ dependencies:
   '@sveltestack/svelte-query':
     specifier: ^1.6.0
     version: 1.6.0
+  '@tanstack/svelte-query':
+    specifier: ^4.32.6
+    version: 4.32.6(svelte@4.1.2)
   '@urql/svelte':
     specifier: ^4.0.2
     version: 4.0.4(graphql@16.7.1)(svelte@4.1.2)
@@ -5139,6 +5142,19 @@ packages:
     resolution: {integrity: sha512-sJ902EfIzn1Fa+qYmjdQqh8tPsoxyBz+8yBKC2HKUxyezKJFwPGOn7pv4WY6QuQW//ySQi5lJjA/ZT9sNWWNTg==}
     dependencies:
       tslib: 2.6.0
+    dev: false
+
+  /@tanstack/query-core@4.32.6:
+    resolution: {integrity: sha512-YVB+mVWENQwPyv+40qO7flMgKZ0uI41Ph7qXC2Zf1ft5AIGfnXnMZyifB2ghhZ27u+5wm5mlzO4Y6lwwadzxCA==}
+    dev: false
+
+  /@tanstack/svelte-query@4.32.6(svelte@4.1.2):
+    resolution: {integrity: sha512-H08GkuCSB7qysvqlzSqKtd2llkbe+JC3DJFKQE9VHm8H1zR3TgvL4XWWP+eToXXeC19d219N5DZANHYIbaQH4A==}
+    peerDependencies:
+      svelte: '>=3 <5'
+    dependencies:
+      '@tanstack/query-core': 4.32.6
+      svelte: 4.1.2
     dev: false
 
   /@testing-library/dom@8.20.1:

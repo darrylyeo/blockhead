@@ -288,7 +288,7 @@
 		hashOrUri?.replace(/^(Qm.+)$/, 'https://ipfs.io/ipfs/$1').replace(/^ipfs:\/\/(.+)$/, 'https://ipfs.io/ipfs/$1')
 
 
-	import { useQuery } from '@sveltestack/svelte-query'
+	import { createQuery } from '@tanstack/svelte-query'
 	import { queryStore, gql } from '@urql/svelte';
 
 	import { airstackNetworkNames, getClient } from '../api/airstack'
@@ -474,7 +474,7 @@
 		{loadingMessage}
 		{errorMessage}
 		fromUseQuery={address && network && (
-			useQuery({
+			createQuery({
 				queryKey: ['NFTs', {
 					nftProvider,
 					address,
@@ -522,7 +522,7 @@
 		{loadingMessage}
 		{errorMessage}
 		fromUseQuery={address && network && (
-			useQuery({
+			createQuery({
 				queryKey: ['NFTs', {
 					nftProvider,
 					address,
@@ -571,7 +571,7 @@
 		{loadingMessage}
 		{errorMessage}
 		fromUseQuery={address && network && (
-			useQuery({
+			createQuery({
 				queryKey: ['NFTs', {
 					nftProvider,
 					address,

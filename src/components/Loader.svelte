@@ -3,10 +3,10 @@
 	import type { Result, Error as ApolloStoreError } from '../utils/apolloRequestStore'
 	import type { ApolloError } from '@apollo/client'
 	import type { QueryStore } from '$houdini'
-	import type { UseQueryStoreResult, UseInfiniteQueryStoreResult } from '@sveltestack/svelte-query'
+	import type { CreateQueryResult, CreateInfiniteQueryResult } from '@tanstack/svelte-query'
 
 	type LoaderResult = $$Generic<unknown>
-	type LoaderError = $$Generic<{message: string} | Error | ApolloStoreError | ApolloError>
+	type LoaderError = $$Generic<{message: string} | Error | ApolloStoreError | ApolloError | unknown>
 	type HoudiniQueryInput = $$Generic<unknown>
 	type LoaderReturnResult = $$Generic<unknown>
 	type LoaderLayout = $$Generic<'default' | 'passive' | 'collapsible' | 'headless'>
@@ -28,8 +28,8 @@
 	export let fromPromise: (() => Promise<LoaderResult>) | undefined
 	export let fromStore: (() => Readable<Result<LoaderResult>> | Promise<Readable<Result<LoaderResult>>>) | undefined
 	export let fromHoudiniQuery: (() => QueryStore<LoaderResult, HoudiniQueryInput>) | undefined
-	export let fromUseQuery: (UseQueryStoreResult<LoaderResult, LoaderError>) | undefined
-	export let fromUseInfiniteQuery: (UseInfiniteQueryStoreResult<LoaderResult[number], LoaderError>) | undefined
+	export let fromUseQuery: (CreateQueryResult<LoaderResult, LoaderError>) | undefined
+	export let fromUseInfiniteQuery: (CreateInfiniteQueryResult<LoaderResult[number], LoaderError>) | undefined
 
 	export let then: ((result: LoaderResult) => LoaderReturnResult) = result => result as unknown as LoaderReturnResult
 	export let whenLoaded: ((result: LoaderResult) => void) | undefined
@@ -169,10 +169,10 @@
 		// houdiniRefetch?.()
 
 		if(fromUseQuery)
-			$fromUseQuery.refetch()
+			$fromUseQuery!.refetch()
 
 		if(fromUseInfiniteQuery)
-			$fromUseInfiniteQuery.refetch()
+			$fromUseInfiniteQuery!.refetch()
 	}
 
 	async function cancel(){

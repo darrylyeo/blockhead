@@ -81,7 +81,7 @@
 
 
 	import { parallelLoaderStore } from '../utils/parallelLoaderStore'
-	import { useQuery } from '@sveltestack/svelte-query'
+	import { createQuery } from '@tanstack/svelte-query'
 
 
 	import Loader from './Loader.svelte'
@@ -97,7 +97,7 @@
 	loadingIcon={ENSIcon}
 	loadingMessage={`Getting ENS Resolver${viaRPC}...`}
 	fromUseQuery={provider && ensName ? (
-		useQuery({
+		createQuery({
 			queryKey: ['EnsResolver', {
 				chainID: network.chainId,
 				providerName,
@@ -122,7 +122,7 @@
 			loadingIcon={ENSIcon}
 			loadingMessage={`Fetching content hash${viaRPC}...`}
 			fromUseQuery={resolver && (
-				useQuery({
+				createQuery({
 					queryKey: ['EnsContentHash', {
 						chainID: network.chainId,
 						provider: provider.name,

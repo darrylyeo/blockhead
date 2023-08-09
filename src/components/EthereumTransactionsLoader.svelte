@@ -1,4 +1,5 @@
 <script lang="ts">
+	
 	import type { Ethereum } from '../data/networks/types'
 	import type { TickerSymbol } from '../data/currencies'
 	import { TransactionProvider, transactionProviderIcons } from '../data/transactionProvider'
@@ -21,7 +22,7 @@
 	$: errorMessage = `Couldn't retrieve ${network.name} transactions from ${transactionProvider}.`
 
 
-	import { useQuery, useInfiniteQuery } from '@sveltestack/svelte-query'
+	import { createQuery, createInfiniteQuery } from '@tanstack/svelte-query'
 
 	import { getTransactionsByAddress } from '../api/covalent'
 	// import { getTransactions as getTransactionsEtherspot } from '../api/etherspot'
@@ -39,7 +40,7 @@
 		loadingIconName={transactionProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromUseInfiniteQuery={useInfiniteQuery({
+		fromUseInfiniteQuery={createInfiniteQuery({
 			queryKey: ['Transactions', {
 				transactionProvider,
 				chainID: network.chainId,
@@ -81,7 +82,7 @@
 		loadingIcon={transactionProviderIcons[transactionProvider]}
 		{loadingMessage}
 		{errorMessage}
-		fromUseQuery={useQuery({
+		fromUseQuery={createQuery({
 			queryKey: ['Transactions', {
 				transactionProvider,
 				chainID: network.chainId,
@@ -112,7 +113,7 @@
 		loadingIconName={transactionProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromUseInfiniteQuery={useInfiniteQuery({
+		fromUseInfiniteQuery={createInfiniteQuery({
 			queryKey: ['Transactions', {
 				transactionProvider,
 				chainID: network.chainId,

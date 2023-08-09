@@ -11,7 +11,7 @@
 	$: notificationsProvider = $preferences.notificationsProvider || NotificationsProvider.Push
 
 
-	import { useQuery } from '@sveltestack/svelte-query'
+	import { createQuery } from '@tanstack/svelte-query'
 
 	import { type NotificationRawPayload, getNotifications } from '../api/push'
 	
@@ -31,7 +31,7 @@
 		loadingMessage="Loading {network.name} notifications from {notificationsProvider}..."
 		errorMessage="Error loading {network.name} notifications from {notificationsProvider}."
 		fromUseQuery={
-			useQuery({
+			createQuery({
 				queryKey: ['Notifications', {
 					notificationsProvider,
 					address,

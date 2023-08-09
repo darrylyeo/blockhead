@@ -15,7 +15,7 @@
 
 
 	// Actions
-	import { useQuery } from '@sveltestack/svelte-query'
+	import { createQuery } from '@tanstack/svelte-query'
 	import { getProfilesOwnedByAddress } from '../api/lens'
 
 
@@ -31,7 +31,7 @@
 		loadingIconName="Lens"
 		loadingMessage="Finding Lens profiles owned by address..."
 		errorMessage="Couldn't load Lens profiles."
-		fromUseQuery={useQuery({
+		fromUseQuery={createQuery({
 			queryKey: ['LensProfilesByAddress', {
 				instance,
 				address,
@@ -70,7 +70,7 @@
 		loadingMessage="Finding Lens profile for {lensName}..."
 		errorMessage="Couldn't load Lens profile for {lensName}."
 		fromUseQuery={
-			useQuery({
+			createQuery({
 				queryKey: ['LensProfileByLensName', {
 					lensName,
 				}],

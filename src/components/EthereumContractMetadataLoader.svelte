@@ -29,7 +29,7 @@
 	}
 
 
-	import { useQuery } from '@sveltestack/svelte-query'
+	import { createQuery } from '@tanstack/svelte-query'
 
 
 	import Loader from './Loader.svelte'
@@ -39,7 +39,7 @@
 
 <Loader
 	fromUseQuery={
-		useQuery({
+		createQuery({
 			queryKey: ['ContractMetadata', {
 				address,
 				chainId: network.chainId

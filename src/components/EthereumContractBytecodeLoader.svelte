@@ -29,7 +29,7 @@
 	export let contractCode: Ethereum.ContractBytecode
 	
 
-	import { useQuery } from '@sveltestack/svelte-query'
+	import { createQuery } from '@tanstack/svelte-query'
 
 
 	import Loader from './Loader.svelte'
@@ -39,7 +39,7 @@
 
 <Loader
 	fromUseQuery={
-		useQuery({
+		createQuery({
 			queryKey: ['ContractBytecode', {
 				providerName,
 				chainId: network.chainId,
@@ -47,7 +47,7 @@
 			}],
 			queryFn: async () => (
 				await provider.getCode(address)
-					.then(contractCode => contractCode === '0x' ? undefined : contractCode)
+					.then(contractCode => contractCode === '0x' ? null : contractCode)
 			)
 		})
 	}
