@@ -8,7 +8,7 @@ const fetch = (target) => {
         }
         const fetch2 = ctx.fetch ?? globalThis.fetch;
         const fetchParams = {
-          name: ctx.artifact.name,
+          name: ctx.name,
           text: ctx.text,
           hash: ctx.hash,
           variables: marshalVariables(ctx)
@@ -64,8 +64,7 @@ const defaultFetch = (url, params) => {
   };
 };
 function handleMultipart(params, args) {
-  const { clone, files } = extractFiles({
-    query: params.text,
+  const { files } = extractFiles({
     variables: params.variables
   });
   if (files.size) {
@@ -78,8 +77,18 @@ function handleMultipart(params, args) {
       headers = Object.fromEntries(filtered);
     }
     const form = new FormData();
-    const operationJSON = JSON.stringify(clone);
-    form.set("operations", operationJSON);
+    if (args && args?.body) {
+      form.set("operations", args?.body);
+    } else {
+      form.set(
+        "operations",
+        JSON.stringify({
+          operationName: params.name,
+          query: params.text,
+          variables: params.variables
+        })
+      );
+    }
     const map = {};
     let i = 0;
     files.forEach((paths) => {

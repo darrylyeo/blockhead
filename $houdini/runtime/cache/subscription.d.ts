@@ -1,5 +1,5 @@
 import type { GraphQLValue, SubscriptionSelection, SubscriptionSpec } from '../lib/types';
-import type { Cache } from './cache';
+import { type Cache } from './cache';
 export type FieldSelection = [
     SubscriptionSpec,
     Required<SubscriptionSelection>['fields'] | undefined
@@ -43,6 +43,7 @@ export declare class InMemorySubscriptions {
     }): void;
     get(id: string, field: string): FieldSelection[];
     remove(id: string, selection: SubscriptionSelection, targets: SubscriptionSpec[], variables: {}, visited?: string[]): void;
+    reset(): SubscriptionSpec[];
     private removeSubscribers;
     removeAllSubscribers(id: string, targets?: SubscriptionSpec[], visited?: string[]): void;
 }

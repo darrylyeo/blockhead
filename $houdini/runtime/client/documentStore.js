@@ -78,6 +78,7 @@ class DocumentStore extends Writable {
   } = {}) {
     let context = new ClientPluginContextWrapper({
       config: this.#configFile,
+      name: this.artifact.name,
       text: this.artifact.raw,
       hash: this.artifact.hash,
       policy: policy ?? this.artifact.policy,

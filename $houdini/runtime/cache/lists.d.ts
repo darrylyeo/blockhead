@@ -23,6 +23,7 @@ export declare class ListManager {
     }): void;
     removeIDFromAllLists(id: string, layer?: Layer): void;
     deleteField(parentID: string, field: string): void;
+    reset(): void;
 }
 export declare class List {
     readonly recordID: string;

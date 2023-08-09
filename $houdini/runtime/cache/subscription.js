@@ -1,5 +1,6 @@
 import { flatten } from "../lib/flatten";
 import { getFieldsForType } from "../lib/selection";
+import { rootID } from "./cache";
 import { evaluateKey } from "./stuff";
 class InMemorySubscriptions {
   cache;
@@ -215,6 +216,18 @@ class InMemorySubscriptions {
     for (const [linkedRecordID, linkFields] of linkedIDs) {
       this.remove(linkedRecordID, linkFields, targets, visited);
     }
+  }
+  reset() {
+    const subscribers = Object.entries(this.subscribers).filter(
+      ([id]) => !id.startsWith(rootID)
+    );
+    for (const [id, _fields] of subscribers) {
+      delete this.subscribers[id];
+    }
+    const subscriptionSpecs = subscribers.flatMap(
+      ([_id, fields]) => Object.values(fields).flatMap((field) => field.map(([spec]) => spec))
+    );
+    return subscriptionSpecs;
   }
   removeSubscribers(id, fieldName, specs) {
     let targets = [];

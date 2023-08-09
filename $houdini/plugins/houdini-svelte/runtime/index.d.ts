@@ -3,6 +3,7 @@ export * from './adapter';
 export * from './stores';
 export * from './fragments';
 export * from './session';
+export * from './types';
 type LoadResult = Promise<{
     [key: string]: QueryStore<any, {}>;
 }>;

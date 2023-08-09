@@ -36,4 +36,8 @@ export declare class Cache<Def extends CacheTypeDef> {
         field?: _Field;
         when?: ArgType<Def, _Type, _Field>;
     }): void;
+    /**
+     * Reset the entire cache by clearing all records and lists
+     */
+    reset(): void;
 }

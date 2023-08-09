@@ -158,6 +158,14 @@ class Cache {
     }
     this.#notifySubscribers(toNotify);
   }
+  reset() {
+    const subSpecs = this._internal_unstable.subscriptions.reset();
+    this._internal_unstable.staleManager.reset();
+    this._internal_unstable.lifetimes.reset();
+    this._internal_unstable.lists.reset();
+    this._internal_unstable.storage.reset();
+    this.#notifySubscribers(subSpecs);
+  }
   #notifySubscribers(subs) {
     if (subs.length === 0) {
       return;
@@ -307,12 +315,9 @@ class CacheInternal {
             );
           }
         }
-        const embedded = this.idFields(linkedType)?.filter(
-          (field2) => typeof value[field2] === "undefined"
-        ).length > 0;
         let linkedID = null;
         if (value !== null) {
-          linkedID = !embedded ? this.id(linkedType, value) : `${parent}.${key}`;
+          linkedID = !this.isEmbedded(linkedType, value) ? this.id(linkedType, value) : `${parent}.${key}`;
         }
         let linkChange = linkedID !== previousValue;
         layer.writeLink(parent, key, linkedID);
@@ -340,7 +345,7 @@ class CacheInternal {
             forceNotify
           });
         }
-      } else if (Array.isArray(value) && (typeof previousValue === "undefined" || Array.isArray(previousValue))) {
+      } else if (Array.isArray(value) && (typeof previousValue === "undefined" || previousValue === null || Array.isArray(previousValue))) {
         let oldIDs = [...previousValue || []];
         const emptyEdges = !updates ? [] : oldIDs.map((id) => {
           if (!id) {
@@ -413,7 +418,7 @@ class CacheInternal {
         } else {
           linkedIDs = nestedIDs;
         }
-        const contentChanged = !deepEquals(linkedIDs, oldIDs);
+        const contentChanged = !deepEquals(linkedIDs, oldIDs) || previousValue === null;
         if (contentChanged || forceNotify) {
           toNotify.push(...currentSubscribers);
         }
@@ -684,6 +689,10 @@ class CacheInternal {
   computeID(type, data) {
     return computeID(this.config, type, data);
   }
+  isEmbedded(linkedType, value) {
+    const idFields = this.idFields(linkedType);
+    return idFields.length === 0 || idFields.filter((field) => typeof value[field] === "undefined").length > 0;
+  }
   hydrateNestedList({
     fields,
     variables,
@@ -791,9 +800,6 @@ class CacheInternal {
       }
       const entryObj = entry;
       let linkedID = `${recordID}.${key}[${this.storage.nextRank}]`;
-      const embedded = this.idFields(linkedType)?.filter(
-        (field) => typeof entry[field] === "undefined"
-      ).length > 0;
       let innerType = linkedType;
       const typename = entryObj.__typename;
       if (typename) {
@@ -801,7 +807,7 @@ class CacheInternal {
       } else if (abstract) {
         throw new Error("Encountered interface type without __typename in the payload");
       }
-      if (!embedded) {
+      if (!this.isEmbedded(linkedType, entry)) {
         const id = this.id(innerType, entry);
         if (id) {
           linkedID = id;

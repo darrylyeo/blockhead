@@ -2,6 +2,7 @@ export * from "./adapter";
 export * from "./stores";
 export * from "./fragments";
 export * from "./session";
+export * from "./types";
 async function loadAll(...loads) {
   const promises = [];
   const isPromise = (val) => "then" in val && "finally" in val && "catch" in val;

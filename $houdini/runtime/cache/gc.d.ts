@@ -4,6 +4,7 @@ export declare class GarbageCollector {
     private lifetimes;
     get cacheBufferSize(): number;
     constructor(cache: Cache);
+    reset(): void;
     resetLifetime(id: string, field: string): void;
     tick(): void;
 }

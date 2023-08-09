@@ -50,6 +50,7 @@ export declare class Cache {
     serialize(): string;
     hydrate(...args: Parameters<InMemoryStorage['hydrate']>): void;
     clearLayer(layerID: Layer['id']): void;
+    reset(): void;
 }
 declare class CacheInternal {
     private _disabled;
@@ -106,6 +107,7 @@ declare class CacheInternal {
     id(type: string, id: string): string | null;
     idFields(type: string): string[];
     computeID(type: string, data: any): string;
+    isEmbedded(linkedType: string, value: GraphQLObject): boolean;
     hydrateNestedList({ fields, variables, linkedList, stepsFromConnection, ignoreMasking, fullCheck, loading, }: {
         fields: SubscriptionSelection;
         variables?: {} | null;

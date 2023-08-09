@@ -91,7 +91,7 @@ directive @loading(count: Int, cascade: Boolean) on QUERY | FRAGMENT_DEFINITION 
 directive @required on FIELD
 
 """
-	@load is used to disable automatic fetch (no load, no auto fetch in component), you will have to do it manually.
+	@load is used to enable automatic fetch on inline queries.
 """
 directive @load on QUERY
 

@@ -1,7 +1,7 @@
 export default {
     "name": "ENSDomainsContainingQuery",
     "kind": "HoudiniQuery",
-    "hash": "db6298f91d6ac91eae27bf5d612fcfd40751e6e68784f8fe73b7ec983382e1a2",
+    "hash": "6ff6b66a2efada17d922545898b1cb1db2940db7d2e16cbce080b71abff08f6d",
 
     "raw": `query ENSDomainsContainingQuery($query: String!) {
   domains(where: {name_contains: $query, name_not: $query}) {

@@ -65,6 +65,9 @@ class StaleManager {
       }
     }
   }
+  reset() {
+    this.fieldsTime.clear();
+  }
 }
 export {
   StaleManager

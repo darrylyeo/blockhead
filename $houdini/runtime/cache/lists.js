@@ -83,6 +83,10 @@ class ListManager {
     }
     this.listsByField.get(parentID).delete(field);
   }
+  reset() {
+    this.lists.clear();
+    this.listsByField.clear();
+  }
 }
 class List {
   recordID;

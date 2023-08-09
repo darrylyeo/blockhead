@@ -27,4 +27,5 @@ export declare class StaleManager {
     markTypeStale(type: string): void;
     markTypeFieldStale(type: string, field: string, when?: {}): void;
     delete(id: string, field: string): void;
+    reset(): void;
 }

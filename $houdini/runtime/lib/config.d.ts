@@ -93,6 +93,10 @@ export type ConfigFile = {
      */
     watchSchema?: WatchSchemaConfig;
     /**
+     * Specifies the the persisted queries path and file. (default: `./$houdini/persisted_queries.json`)
+     */
+    persistedQueriesPath?: string;
+    /**
      * An object describing the plugins enabled for the project
      */
     plugins?: HoudiniPluginConfig;

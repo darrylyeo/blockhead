@@ -176,6 +176,9 @@ class InMemoryStorage {
     layer.fields = fields;
     layer.links = links;
   }
+  reset() {
+    this.data = [];
+  }
 }
 class Layer {
   id;

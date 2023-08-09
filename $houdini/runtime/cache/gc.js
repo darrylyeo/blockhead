@@ -7,6 +7,9 @@ class GarbageCollector {
   constructor(cache) {
     this.cache = cache;
   }
+  reset() {
+    this.lifetimes.clear();
+  }
   resetLifetime(id, field) {
     if (!this.lifetimes.get(id)) {
       this.lifetimes.set(id, /* @__PURE__ */ new Map());

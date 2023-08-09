@@ -31,6 +31,7 @@ export declare class InMemoryStorage {
         fields: EntityFieldMap;
         links: LinkMap;
     }, layer?: Layer): void;
+    reset(): void;
 }
 export declare class Layer {
     readonly id: LayerID;

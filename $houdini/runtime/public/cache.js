@@ -67,6 +67,9 @@ Please acknowledge this by setting acceptImperativeInstability to true in your c
   markStale(type, options) {
     return this._internal_unstable.markTypeStale(type ? { ...options, type } : void 0);
   }
+  reset() {
+    return this._internal_unstable.reset();
+  }
 }
 export {
   Cache

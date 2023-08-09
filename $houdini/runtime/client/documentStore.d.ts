@@ -40,6 +40,7 @@ export type ClientHooks = {
 export type Fetch = typeof globalThis.fetch;
 export type ClientPluginContext = {
     config: ConfigFile;
+    name: string;
     text: string;
     hash: string;
     artifact: DocumentArtifact;

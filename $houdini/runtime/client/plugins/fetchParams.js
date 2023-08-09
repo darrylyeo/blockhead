@@ -10,8 +10,8 @@ const fetchParams = (fn = () => ({})) => () => ({
         stuff: ctx.stuff,
         document: ctx.artifact,
         variables: marshalVariables(ctx),
-        text: ctx.artifact.raw,
-        hash: ctx.artifact.hash
+        text: ctx.text,
+        hash: ctx.hash
       })
     });
   }

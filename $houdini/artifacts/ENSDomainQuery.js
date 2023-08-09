@@ -1,7 +1,7 @@
 export default {
     "name": "ENSDomainQuery",
     "kind": "HoudiniQuery",
-    "hash": "859325e52c45adb94128541744b7c0a9dabfdf05c2612757049f8fd8b57f2301",
+    "hash": "626215adecc7ecb011173295a8e824b8bc29fe1e45b6055f588b26188cde2c13",
 
     "raw": `query ENSDomainQuery($name: String!) {
   domains(where: {name: $name}) {

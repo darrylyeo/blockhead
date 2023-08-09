@@ -1,10 +1,10 @@
 import { deepEquals } from "../../lib/deepEquals";
 import { ArtifactKind, DataSource } from "../../lib/types";
 import { documentPlugin } from "../utils";
-let check = null;
 function subscription(factory) {
   return documentPlugin(ArtifactKind.Subscription, () => {
     let clearSubscription = null;
+    let check = null;
     return {
       start(ctx, { resolve, next, initialValue }) {
         if (typeof globalThis.window === "undefined") {
@@ -32,8 +32,8 @@ function subscription(factory) {
         clearSubscription?.();
         clearSubscription = client.subscribe(
           {
-            operationName: ctx.artifact.name,
-            query: ctx.artifact.raw,
+            operationName: ctx.name,
+            query: ctx.text,
             variables: marshalVariables(ctx)
           },
           {

@@ -3,9 +3,10 @@ export declare function subscription(factory: SubscriptionHandler): import("../d
 export type SubscriptionHandler = (ctx: ClientPluginContext) => SubscriptionClient;
 export type SubscriptionClient = {
     subscribe: (payload: {
-        operationName: string;
+        operationName?: string;
         query: string;
-        variables?: {};
+        variables?: Record<string, unknown> | null;
+        extensions?: Record<'persistedQuery', string> | Record<string, unknown> | null;
     }, handlers: {
         next: (payload: {
             data?: {} | null;
