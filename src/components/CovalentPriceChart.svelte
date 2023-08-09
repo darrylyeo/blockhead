@@ -18,9 +18,7 @@
 	export let priceScale: PriceScale
 
 
-	const isAddress = query => /^0x[0-9a-f]{40}$/i.test(query)
-
-
+	import { isEvmAddress } from '../utils/isEvmAddress'
 	import { promiseAllFulfilled } from '../utils/promiseAllFulfilled'
 
 
@@ -40,7 +38,7 @@
 				if(currency.toLowerCase() === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
 					currency = 'ETH'
 				
-				const _isAddress = isAddress(currency)
+				const _isAddress = isEvmAddress(currency)
 
 				const data = _isAddress
 					? await getHistoricalPricesByAddress({chainID, contractAddress: currency, quoteCurrency, from: fromDate, to: toDate})
