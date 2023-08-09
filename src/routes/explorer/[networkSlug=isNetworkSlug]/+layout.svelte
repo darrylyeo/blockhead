@@ -65,11 +65,11 @@
 
 	// Functions
 	import { isEvmAddress } from '../../../utils/isEvmAddress'
-	const isTransaction = query => /^0x[0-9a-f]{64}$/i.test(query)
+	import { isEvmTransactionId } from '../../../utils/isEvmTransactionId'
 	const isBlockNumber = query => /^(?:0|[1-9][0-9]*)$/i.test(query)
 
 	$: _isAddress = isEvmAddress($query)
-	$: _isTransaction = isTransaction($query)
+	$: _isTransaction = isEvmTransactionId($query)
 	$: _isBlockNumber = isBlockNumber($query)
 
 
