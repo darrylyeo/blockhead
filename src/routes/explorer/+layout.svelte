@@ -19,7 +19,7 @@
 	}
 
 	$: if(browser)
-		goto($derivedPath, {keepfocus: true})
+		goto($derivedPath, { keepFocus: true })
 
 	beforeNavigate(({from, to, cancel}) => {
 		if(from.url.pathname === to.url.pathname)
