@@ -1,6 +1,5 @@
 import type { ParamMatcher } from '@sveltejs/kit'
 
-const isBlockNumber: ParamMatcher = (param) =>
-	/^(?:0|[1-9][0-9]*)$/i.test(param)
+import { isBlockNumber } from '../utils/isBlockNumber'
 
-export const match = isBlockNumber
+export const match: ParamMatcher = isBlockNumber
