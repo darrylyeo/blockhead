@@ -161,7 +161,7 @@
 						loadingMessage="Looking up transaction from {transactionProvider}..."
 						errorMessage="Error looking up transaction from {transactionProvider}"
 						contentClass="column"
-						fromUseQuery={provider && createQuery({
+						fromQuery={provider && createQuery({
 							queryKey: ['Transaction', {
 								transactionProvider,
 								providerName,
@@ -253,7 +253,7 @@
 					<Loader
 						loadingIcon={transactionProviderIcons[transactionProvider]}
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
-						fromUseQuery={createQuery({
+						fromQuery={createQuery({
 							queryKey: ['Transaction', {
 								transactionProvider,
 								chainId: network.chainId,
@@ -297,7 +297,7 @@
 					<Loader
 						loadingIcon={transactionProviderIcons[transactionProvider]}
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
-						fromUseQuery={createQuery({
+						fromQuery={createQuery({
 							queryKey: ['Transaction', {
 								transactionProvider,
 								chainId: network.chainId
@@ -338,7 +338,7 @@
 					<Loader
 						loadingIcon={transactionProviderIcons[transactionProvider]}
 						loadingMessage="Fetching transaction data via {transactionProvider}..."
-						fromUseQuery={createQuery({
+						fromQuery={createQuery({
 							queryKey: ['Transaction', {
 								transactionProvider,
 								chainId: network.chainId,

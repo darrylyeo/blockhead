@@ -73,7 +73,7 @@
 		loadingIconName={tokenBalancesProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromUseQuery={address && network && providerName && (
+		fromQuery={address && network && providerName && (
 			createQuery({
 				queryKey: ['Balances', {
 					tokenBalancesProvider,
@@ -257,7 +257,7 @@
 		loadingIconName={tokenBalancesProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromUseQuery={address && network && (
+		fromQuery={address && network && (
 			createQuery({
 				queryKey: ['Balances', {
 					tokenBalancesProvider,
@@ -327,7 +327,7 @@
 		loadingIconName={tokenBalancesProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromUseQuery={address && network && (
+		fromQuery={address && network && (
 			createQuery({
 				queryKey: ['Balances', {
 					tokenBalancesProvider,
@@ -393,7 +393,7 @@
 		loadingIconName={tokenBalancesProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromUseQuery={address && network && (
+		fromQuery={address && network && (
 			createQuery({
 				queryKey: ['Balances', {
 					tokenBalancesProvider,
@@ -495,7 +495,7 @@
 		loadingIconName={tokenBalancesProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromUseQuery={address && network && (
+		fromQuery={address && network && (
 			createQuery({
 				queryKey: ['Balances', {
 					tokenBalancesProvider,
@@ -558,7 +558,7 @@
 		loadingIconName={tokenBalancesProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromUseQuery={address && network && (
+		fromQuery={address && network && (
 			createQuery({
 				queryKey: ['Balances', {
 					tokenBalancesProvider,

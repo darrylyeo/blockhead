@@ -39,7 +39,7 @@
 		loadingIconName={transactionProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromUseInfiniteQuery={createInfiniteQuery({
+		fromInfiniteQuery={createInfiniteQuery({
 			queryKey: ['TransactionsERC20Transfer', {
 				transactionProvider,
 				chainID: network.chainId,

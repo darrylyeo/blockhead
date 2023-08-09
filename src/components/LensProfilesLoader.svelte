@@ -31,7 +31,7 @@
 		loadingIconName="Lens"
 		loadingMessage="Finding Lens profiles owned by address..."
 		errorMessage="Couldn't load Lens profiles."
-		fromUseQuery={createQuery({
+		fromQuery={createQuery({
 			queryKey: ['LensProfilesByAddress', {
 				instance,
 				address,
@@ -69,7 +69,7 @@
 		loadingIconName="Lens"
 		loadingMessage="Finding Lens profile for {lensName}..."
 		errorMessage="Couldn't load Lens profile for {lensName}."
-		fromUseQuery={
+		fromQuery={
 			createQuery({
 				queryKey: ['LensProfileByLensName', {
 					lensName,

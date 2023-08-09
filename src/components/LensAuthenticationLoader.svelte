@@ -22,7 +22,7 @@
 <Loader
 	{...$$restProps}
 	startImmediately={false}
-	fromUseQuery={accountConnection?.signer && createQuery({
+	fromQuery={accountConnection?.signer && createQuery({
 		queryKey: ['LensAccessToken', {
 			address: accountConnection.account?.address,
 		}],

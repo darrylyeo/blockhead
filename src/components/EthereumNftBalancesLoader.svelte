@@ -473,7 +473,7 @@
 		loadingIconName={nftProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromUseQuery={address && network && (
+		fromQuery={address && network && (
 			createQuery({
 				queryKey: ['NFTs', {
 					nftProvider,
@@ -521,7 +521,7 @@
 		loadingIconName={nftProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromUseQuery={address && network && (
+		fromQuery={address && network && (
 			createQuery({
 				queryKey: ['NFTs', {
 					nftProvider,
@@ -570,7 +570,7 @@
 		loadingIconName={nftProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromUseQuery={address && network && (
+		fromQuery={address && network && (
 			createQuery({
 				queryKey: ['NFTs', {
 					nftProvider,

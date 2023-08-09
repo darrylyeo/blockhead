@@ -96,7 +96,7 @@
 	loadingIconName={'ENS'}
 	loadingIcon={ENSIcon}
 	loadingMessage={`Getting ENS Resolver${viaRPC}...`}
-	fromUseQuery={provider && ensName ? (
+	fromQuery={provider && ensName ? (
 		createQuery({
 			queryKey: ['EnsResolver', {
 				chainID: network.chainId,
@@ -121,7 +121,7 @@
 			loadingIconName={'ENS'}
 			loadingIcon={ENSIcon}
 			loadingMessage={`Fetching content hash${viaRPC}...`}
-			fromUseQuery={resolver && (
+			fromQuery={resolver && (
 				createQuery({
 					queryKey: ['EnsContentHash', {
 						chainID: network.chainId,

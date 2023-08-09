@@ -38,7 +38,7 @@
 
 
 <Loader
-	fromUseQuery={
+	fromQuery={
 		createQuery({
 			queryKey: ['ContractMetadata', {
 				address,

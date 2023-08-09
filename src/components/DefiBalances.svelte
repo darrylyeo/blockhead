@@ -560,7 +560,7 @@
 			loadingMessage="Reading {defiBalancesDescription} balances from {defiProvider}..."
 			loadingIcon={defiProviderIcons[defiProvider]}
 			errorMessage="Error getting {defiBalancesDescription} balances from {defiProvider}."
-			fromUseQuery={network && address && createQuery({
+			fromQuery={network && address && createQuery({
 				queryKey: ['DefiBalances', {
 					defiProvider,
 					address,

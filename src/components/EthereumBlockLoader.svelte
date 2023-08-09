@@ -76,7 +76,7 @@
 				{loadingMessage}
 				{errorMessage}
 				contentClass="column"
-				fromUseQuery={createQuery({
+				fromQuery={createQuery({
 					queryKey: ['Block', {
 						transactionProvider,
 						chainID: network.chainId,
@@ -148,7 +148,7 @@
 				{loadingMessage}
 				{errorMessage}
 				contentClass="column"
-				fromUseQuery={createQuery({
+				fromQuery={createQuery({
 					queryKey: ['Block', {
 						transactionProvider,
 						chainID: network.chainId,
@@ -225,7 +225,7 @@
 				{loadingMessage}
 				{errorMessage}
 				contentClass="column"
-				fromUseQuery={provider && createQuery({
+				fromQuery={provider && createQuery({
 					queryKey: ['Block', {
 						transactionProvider,
 						providerName,

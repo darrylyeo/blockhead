@@ -30,7 +30,7 @@
 		loadingIconName={notificationsProvider}
 		loadingMessage="Loading {network.name} notifications from {notificationsProvider}..."
 		errorMessage="Error loading {network.name} notifications from {notificationsProvider}."
-		fromUseQuery={
+		fromQuery={
 			createQuery({
 				queryKey: ['Notifications', {
 					notificationsProvider,

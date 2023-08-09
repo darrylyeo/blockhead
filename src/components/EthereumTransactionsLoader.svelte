@@ -40,7 +40,7 @@
 		loadingIconName={transactionProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromUseInfiniteQuery={createInfiniteQuery({
+		fromInfiniteQuery={createInfiniteQuery({
 			queryKey: ['Transactions', {
 				transactionProvider,
 				chainID: network.chainId,
@@ -82,7 +82,7 @@
 		loadingIcon={transactionProviderIcons[transactionProvider]}
 		{loadingMessage}
 		{errorMessage}
-		fromUseQuery={createQuery({
+		fromQuery={createQuery({
 			queryKey: ['Transactions', {
 				transactionProvider,
 				chainID: network.chainId,
@@ -113,7 +113,7 @@
 		loadingIconName={transactionProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromUseInfiniteQuery={createInfiniteQuery({
+		fromInfiniteQuery={createInfiniteQuery({
 			queryKey: ['Transactions', {
 				transactionProvider,
 				chainID: network.chainId,

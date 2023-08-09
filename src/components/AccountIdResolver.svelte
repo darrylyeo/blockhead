@@ -98,7 +98,7 @@
 {:else if type === AccountIdType.Lens}
 	<Loader
 		layout={passiveResolveToAddress ? 'passive' : 'default'}
-		fromUseQuery={
+		fromQuery={
 			createQuery({
 				queryKey: ['LensProfileByLensName', {
 					lensName,
@@ -128,7 +128,7 @@
 {:else if type === AccountIdType.ENS}
 	<Loader
 		layout={passiveResolveToAddress ? 'passive' : 'default'}
-		fromUseQuery={
+		fromQuery={
 			ensName && provider && createQuery({
 				queryKey: ['EnsResolution', {
 					providerName,
@@ -164,7 +164,7 @@
 	{#if resolveToName === AccountIdType.ENS}
 		<Loader
 			layout={passiveResolveToName ? 'headless' : 'default'}
-			fromUseQuery={
+			fromQuery={
 				address && provider && createQuery({
 					queryKey: ['EnsReverseResolution', {
 						providerName,

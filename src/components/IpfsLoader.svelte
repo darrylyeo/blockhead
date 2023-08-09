@@ -96,7 +96,7 @@
 
 	{:else}
 	<Loader
-		fromUseQuery={
+		fromQuery={
 			createQuery({
 				queryKey: ['IPFS', {
 					ipfsUrl: resolvedIpfsUrl,

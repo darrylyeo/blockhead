@@ -28,8 +28,8 @@
 	export let fromPromise: (() => Promise<LoaderResult>) | undefined
 	export let fromStore: (() => Readable<Result<LoaderResult>> | Promise<Readable<Result<LoaderResult>>>) | undefined
 	export let fromHoudiniQuery: (() => QueryStore<LoaderResult, HoudiniQueryInput>) | undefined
-	export let fromUseQuery: (CreateQueryResult<LoaderResult, LoaderError>) | undefined
-	export let fromUseInfiniteQuery: (CreateInfiniteQueryResult<LoaderResult[number], LoaderError>) | undefined
+	export let fromQuery: (CreateQueryResult<LoaderResult, LoaderError>) | undefined
+	export let fromInfiniteQuery: (CreateInfiniteQueryResult<LoaderResult[number], LoaderError>) | undefined
 
 	export let then: ((result: LoaderResult) => LoaderReturnResult) = result => result as unknown as LoaderReturnResult
 	export let whenLoaded: ((result: LoaderResult) => void) | undefined
@@ -145,22 +145,22 @@
 			if(fromHoudiniQuery)
 				houdiniQuery = fromHoudiniQuery()
 
-			if(fromUseQuery)
-				fromUseQuery.setEnabled(true)
+			if(fromQuery)
+				fromQuery.setEnabled(true)
 
-			if(fromUseInfiniteQuery)
-				fromUseInfiniteQuery.setEnabled(true)
+			if(fromInfiniteQuery)
+				fromInfiniteQuery.setEnabled(true)
 		}catch(e){
 			error = e
 			status = LoadingStatus.Errored
 		}
 	}
 	else{
-		if(fromUseQuery)
-			fromUseQuery.setEnabled(false)
+		if(fromQuery)
+			fromQuery.setEnabled(false)
 
-		if(fromUseInfiniteQuery)
-			fromUseInfiniteQuery.setEnabled(false)
+		if(fromInfiniteQuery)
+			fromInfiniteQuery.setEnabled(false)
 	}
 
 	function load(){
@@ -168,11 +168,11 @@
 		started = true
 		// houdiniRefetch?.()
 
-		if(fromUseQuery)
-			$fromUseQuery!.refetch()
+		if(fromQuery)
+			$fromQuery!.refetch()
 
-		if(fromUseInfiniteQuery)
-			$fromUseInfiniteQuery!.refetch()
+		if(fromInfiniteQuery)
+			$fromInfiniteQuery!.refetch()
 	}
 
 	async function cancel(){
@@ -223,41 +223,41 @@
 			status = LoadingStatus.Resolved
 		}
 
-	$: if(fromUseQuery)
-		if($fromUseQuery.isIdle){
+	$: if(fromQuery)
+		if($fromQuery.isIdle){
 			status = LoadingStatus.Idle
 		}
-		else if($fromUseQuery.isLoading){
+		else if($fromQuery.isLoading){
 			status = LoadingStatus.Loading
 		}
-		else if($fromUseQuery.isSuccess){
-			result = then($fromUseQuery.data)
+		else if($fromQuery.isSuccess){
+			result = then($fromQuery.data)
 			status = LoadingStatus.Resolved
 		}
-		else if($fromUseQuery.isError){
-			error = $fromUseQuery.error
+		else if($fromQuery.isError){
+			error = $fromQuery.error
 			status = LoadingStatus.Errored
 		}
-		else if($fromUseQuery.isRefetching){
+		else if($fromQuery.isRefetching){
 			status = LoadingStatus.Reloading
 		}
 
-	$: if(fromUseInfiniteQuery)
-		if($fromUseInfiniteQuery.isIdle){
+	$: if(fromInfiniteQuery)
+		if($fromInfiniteQuery.isIdle){
 			status = LoadingStatus.Idle
 		}
-		else if($fromUseInfiniteQuery.isLoading){
+		else if($fromInfiniteQuery.isLoading){
 			status = LoadingStatus.Loading
 		}
-		else if($fromUseInfiniteQuery.isSuccess){
-			result = then($fromUseInfiniteQuery.data) // .pages
+		else if($fromInfiniteQuery.isSuccess){
+			result = then($fromInfiniteQuery.data) // .pages
 			status = LoadingStatus.Resolved
 		}
-		else if($fromUseInfiniteQuery.isError){
-			error = $fromUseInfiniteQuery.error
+		else if($fromInfiniteQuery.isError){
+			error = $fromInfiniteQuery.error
 			status = LoadingStatus.Errored
 		}
-		else if($fromUseInfiniteQuery.isRefetching){
+		else if($fromInfiniteQuery.isRefetching){
 			status = LoadingStatus.Reloading
 		}
 
@@ -365,11 +365,11 @@
 						{errorMessage}
 						{load}
 						{cancel}
-						pagination={$fromUseInfiniteQuery && {
-							hasPreviousPage: $fromUseInfiniteQuery.hasPreviousPage,
-							hasNextPage: $fromUseInfiniteQuery.hasNextPage,
-							fetchPreviousPage: $fromUseInfiniteQuery.fetchPreviousPage,
-							fetchNextPage: $fromUseInfiniteQuery.fetchNextPage,
+						pagination={$fromInfiniteQuery && {
+							hasPreviousPage: $fromInfiniteQuery.hasPreviousPage,
+							hasNextPage: $fromInfiniteQuery.hasNextPage,
+							fetchPreviousPage: $fromInfiniteQuery.fetchPreviousPage,
+							fetchNextPage: $fromInfiniteQuery.fetchNextPage,
 						}}
 						{isOpen}
 					/>
@@ -432,11 +432,11 @@
 				{errorMessage}
 				{load}
 				{cancel}
-				pagination={$fromUseInfiniteQuery && {
-					hasPreviousPage: $fromUseInfiniteQuery.hasPreviousPage,
-					hasNextPage: $fromUseInfiniteQuery.hasNextPage,
-					fetchPreviousPage: $fromUseInfiniteQuery.fetchPreviousPage,
-					fetchNextPage: $fromUseInfiniteQuery.fetchNextPage,
+				pagination={$fromInfiniteQuery && {
+					hasPreviousPage: $fromInfiniteQuery.hasPreviousPage,
+					hasNextPage: $fromInfiniteQuery.hasNextPage,
+					fetchPreviousPage: $fromInfiniteQuery.fetchPreviousPage,
+					fetchNextPage: $fromInfiniteQuery.fetchNextPage,
 				}}
 			/>
 		{:else if layout === 'default'}
@@ -455,11 +455,11 @@
 							{errorMessage}
 							{load}
 							{cancel}
-							pagination={$fromUseInfiniteQuery && {
-								hasPreviousPage: $fromUseInfiniteQuery.hasPreviousPage,
-								hasNextPage: $fromUseInfiniteQuery.hasNextPage,
-								fetchPreviousPage: $fromUseInfiniteQuery.fetchPreviousPage,
-								fetchNextPage: $fromUseInfiniteQuery.fetchNextPage,
+							pagination={$fromInfiniteQuery && {
+								hasPreviousPage: $fromInfiniteQuery.hasPreviousPage,
+								hasNextPage: $fromInfiniteQuery.hasNextPage,
+								fetchPreviousPage: $fromInfiniteQuery.fetchPreviousPage,
+								fetchNextPage: $fromInfiniteQuery.fetchNextPage,
 							}}
 						/>
 					</div>
@@ -508,12 +508,12 @@
 			<footer class="bar wrap">
 				<slot name="footerStart" />
 
-				{#if fromUseQuery}
-					{#if $fromUseQuery.dataUpdatedAt}
+				{#if fromQuery}
+					{#if $fromQuery.dataUpdatedAt}
 						<span>
 							Last updated
 							<Date
-								date={$fromUseQuery.dataUpdatedAt || $fromUseQuery.errorUpdatedAt}
+								date={$fromQuery.dataUpdatedAt || $fromQuery.errorUpdatedAt}
 								format="relative"
 								layout="horizontal"
 							/>
@@ -522,18 +522,18 @@
 
 					{#if status === LoadingStatus.Resolved || status === LoadingStatus.Errored}
 						<button class="small" on:click={load}>Reload</button>
-					{:else if status === LoadingStatus.Loading || status === LoadingStatus.Reloading || $fromUseQuery.isRefetching}
+					{:else if status === LoadingStatus.Loading || status === LoadingStatus.Reloading || $fromQuery.isRefetching}
 						<span>Loading...</span>
 						<button class="small cancel" on:click={cancel}>Cancel</button>
 					{/if}
 				{/if}
 
-				{#if fromUseInfiniteQuery}
-					{#if $fromUseQuery.dataUpdatedAt}
+				{#if fromInfiniteQuery}
+					{#if $fromQuery.dataUpdatedAt}
 						<span>
 							Last updated
 							<Date
-								date={$fromUseInfiniteQuery.dataUpdatedAt || $fromUseInfiniteQuery.errorUpdatedAt}
+								date={$fromInfiniteQuery.dataUpdatedAt || $fromInfiniteQuery.errorUpdatedAt}
 								format="relative"
 								layout="horizontal"
 							/>
@@ -544,15 +544,15 @@
 						<div class="row">
 							<button class="small" on:click={load}>Reload</button>
 
-							{#if $fromUseInfiniteQuery.hasPreviousPage}
-								<button class="small" on:click={() => $fromUseInfiniteQuery.fetchPreviousPage()}>Previous</button>
+							{#if $fromInfiniteQuery.hasPreviousPage}
+								<button class="small" on:click={() => $fromInfiniteQuery.fetchPreviousPage()}>Previous</button>
 							{/if}
 
-							{#if $fromUseInfiniteQuery.hasNextPage}
-								<button class="small" on:click={() => $fromUseInfiniteQuery.fetchNextPage()}>Next</button>
+							{#if $fromInfiniteQuery.hasNextPage}
+								<button class="small" on:click={() => $fromInfiniteQuery.fetchNextPage()}>Next</button>
 							{/if}
 						</div>
-					{:else if status === LoadingStatus.Loading || status === LoadingStatus.Reloading || $fromUseQuery.isRefetching}
+					{:else if status === LoadingStatus.Loading || status === LoadingStatus.Reloading || $fromQuery.isRefetching}
 						<span>Loading...</span>
 						<button class="small cancel" on:click={cancel}>Cancel</button>
 					{/if}
