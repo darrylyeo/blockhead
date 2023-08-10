@@ -7,7 +7,7 @@
 
 	import { networkSlug, query } from '../_explorerParams'
 
-	import { explorerNetwork, explorerProvider, explorerBlockNumber } from '../_explorerContext'
+	import { explorerNetwork, explorerProvider, explorerBlockNumber, explorerQueryType } from '../_explorerContext'
 
 	import { getContext } from 'svelte'
 
@@ -21,10 +21,10 @@
 		'theme',
 		...(
 			!$query ? ['rpcNetwork', 'currentPriceProvider', 'historicalPriceProvider'] :
-			_isTransaction ? ['rpcNetwork', 'transactionProvider', 'quoteCurrency'] :
-			_isBlockNumber ? ['rpcNetwork', 'transactionProvider', 'quoteCurrency'] :
+			$explorerQueryType === 'transaction' ? ['rpcNetwork', 'transactionProvider', 'quoteCurrency'] :
+			$explorerQueryType === 'block' ? ['rpcNetwork', 'transactionProvider', 'quoteCurrency'] :
 			['rpcNetwork', 'contractSourceProvider', 'tokenBalancesProvider', 'transactionProvider', 'quoteCurrency']
-			// _isAddress ? ['rpcNetwork', 'tokenBalancesProvider', 'transactionProvider', 'quoteCurrency'] :
+			// $explorerQueryType === 'address' ? ['rpcNetwork', 'tokenBalancesProvider', 'transactionProvider', 'quoteCurrency'] :
 			// []
 		),
 	]
@@ -61,16 +61,6 @@
 	// $: placeholder = {
 	// 	'avalanche': 'C-Chain Address (0xabcd...6789) / Avvy Domain (avvy.avax)'
 	// }
-
-
-	// Functions
-	import { isEvmAddress } from '../../../utils/isEvmAddress'
-	import { isEvmTransactionId } from '../../../utils/isEvmTransactionId'
-	import { isBlockNumber } from '../../../utils/isBlockNumber'
-
-	$: _isAddress = isEvmAddress($query)
-	$: _isTransaction = isEvmTransactionId($query)
-	$: _isBlockNumber = isBlockNumber($query)
 
 
 	// Block Navigation
@@ -184,7 +174,7 @@
 				<div class="stack">
 					{#key $query}
 						{#if $query}
-							{#if _isTransaction}
+							{#if $explorerQueryType === 'transaction'}
 								<div class="column"in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
 									<EthereumTransactionLoader
 										network={$explorerNetwork}
@@ -200,7 +190,7 @@
 										bind:transaction={navigationContext.transaction}
 									/>
 								</div>
-							{:else if _isBlockNumber}
+							{:else if $explorerQueryType === 'block'}
 								<div class="column" in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
 									<EthereumBlockLoader
 										network={$explorerNetwork}
@@ -264,19 +254,19 @@
 						network={$explorerNetwork}
 						provider={$explorerProvider}
 						blockNumber={
-							_isBlockNumber ?
+							$explorerQueryType === 'block' ?
 								Number($query)
-							: _isTransaction ?
+							: $explorerQueryType === 'transaction' ?
 								navigationContext.transactionBlockNumber
 							:
 								undefined
 						}
-						showBeforeAndAfter={_isBlockNumber}
+						showBeforeAndAfter={$explorerQueryType === 'block'}
 					/>
 				</div>
 				
 				{@const transactionProvider = $preferences.transactionProvider}
-				{#if _isBlockNumber && availableNetworks && transactionProvider === TransactionProvider.Moralis && navigationContext.block?.timestamp}
+				{#if $explorerQueryType === 'block' && availableNetworks && transactionProvider === TransactionProvider.Moralis && navigationContext.block?.timestamp}
 					{@const network = $explorerNetwork}
 					{@const otherNetworks = availableNetworks.filter(_network => _network !== network)}
 				

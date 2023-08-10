@@ -9,10 +9,14 @@ import { networksBySlug } from '../../data/networks'
 // Functions
 import { getEthersProvider } from '../../data/networkProviders'
 
+import { isEvmAddress } from '../../utils/isEvmAddress'
+import { isEvmTransactionId } from '../../utils/isEvmTransactionId'
+import { isBlockNumber } from '../../utils/isBlockNumber'
+
 
 // External stores
 
-import { networkSlug } from './_explorerParams'
+import { networkSlug, query } from './_explorerParams'
 
 import { preferences } from '../../state/preferences'
 
@@ -42,4 +46,17 @@ export const explorerBlockNumber: Readable<number> = derived(explorerProvider, (
 
 		return () => $explorerProvider.off('block', onBlock)
 	}
+})
+
+export const explorerQueryType: Readable<'transaction' | 'block' | 'address' | undefined> = derived(query, ($query, set) => {
+	set(
+		isEvmTransactionId($query) ?
+			'transaction'
+		: isBlockNumber($query) ?
+			'block'
+		: isEvmAddress($query) ?
+			'address'
+		:
+			undefined
+	)
 })
