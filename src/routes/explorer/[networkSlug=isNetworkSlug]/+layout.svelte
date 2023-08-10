@@ -7,7 +7,7 @@
 
 	import { networkSlug, query } from '../_explorerParams'
 
-	import { explorerNetwork, explorerProvider, explorerBlockNumber, explorerQueryType } from '../_explorerContext'
+	import { explorerNetwork, explorerProvider, explorerBlockNumber, explorerQueryType, explorerViewData } from '../_explorerContext'
 
 	import { getContext } from 'svelte'
 
@@ -24,7 +24,7 @@
 			$explorerQueryType === 'transaction' ? ['rpcNetwork', 'transactionProvider', 'quoteCurrency'] :
 			$explorerQueryType === 'block' ? ['rpcNetwork', 'transactionProvider', 'quoteCurrency'] :
 			['rpcNetwork', 'contractSourceProvider', 'tokenBalancesProvider', 'transactionProvider', 'quoteCurrency']
-			// $explorerQueryType === 'address' ? ['rpcNetwork', 'tokenBalancesProvider', 'transactionProvider', 'quoteCurrency'] :
+			// $explorerQueryType === 'address' || $explorerQueryType === 'accountId' ? ['rpcNetwork', 'tokenBalancesProvider', 'transactionProvider', 'quoteCurrency'] :
 			// []
 		),
 	]
@@ -169,43 +169,46 @@
 			providerPromise={$explorerProvider && (async () => $explorerProvider)}
 			providerName={$preferences.rpcNetwork}
 			contentClass="column"
+			let:provider
 		>
-			{#if $explorerProvider}
+			{#if provider}
 				<div class="stack">
 					{#key $query}
-						{#if $query}
-							{#if $explorerQueryType === 'transaction'}
-								<div class="column"in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
-									<EthereumTransactionLoader
-										network={$explorerNetwork}
-										transactionId={$query}
-										provider={$explorerProvider}
+						{#if $explorerQueryType === 'transaction'}
+							<div class="column"in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
+								<EthereumTransactionLoader
+									network={$explorerNetwork}
+									transactionId={$explorerViewData.transactionId}
+									provider={$explorerProvider}
 
-										detailLevel="exhaustive"
-										tokenBalanceFormat="both"
-										showFees={true}
+									detailLevel="exhaustive"
+									tokenBalanceFormat="both"
+									showFees={true}
 
-										layout="standalone"
+									layout="standalone"
 
-										bind:transaction={navigationContext.transaction}
-									/>
-								</div>
-							{:else if $explorerQueryType === 'block'}
-								<div class="column" in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
-									<EthereumBlockLoader
-										network={$explorerNetwork}
-										blockNumber={$query}
-										provider={$explorerProvider}
-										transactionProvider={$preferences.transactionProvider}
+									bind:transaction={navigationContext.transaction}
+								/>
+							</div>
+						{:else if $explorerQueryType === 'block'}
+							<div class="column" in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
+								<EthereumBlockLoader
+									network={$explorerNetwork}
+									blockNumber={$explorerViewData.blockNumber}
+									provider={$explorerProvider}
+									transactionProvider={$preferences.transactionProvider}
 
-										bind:block={navigationContext.block}
-									/>
-								</div>
-							{:else}
-								<div class="column" in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
-									<EthereumAccountOrContract network={$explorerNetwork} accountId={$query} provider={$explorerProvider}/>
-								</div>
-							{/if}
+									bind:block={navigationContext.block}
+								/>
+							</div>
+						{:else if $explorerQueryType === 'address' || $explorerQueryType === 'accountId'}
+							<div class="column" in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
+								<EthereumAccountOrContract
+									network={$explorerNetwork}
+									accountId={$explorerViewData.address || $explorerViewData.accountId}
+									provider={$explorerProvider}
+								/>
+							</div>
 						{:else}
 							<div class="column-block" in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
 								<div class="row">
