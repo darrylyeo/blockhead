@@ -68,3 +68,34 @@ type ExplorerQueryType = ReturnType<typeof getExplorerQueryType>
 export const explorerQueryType = derived<typeof query, ExplorerQueryType>(query, ($query, set) => {
 	set(getExplorerQueryType($query))
 })
+
+const getExplorerViewData = (query: string, queryType: ExplorerQueryType) => (
+	queryType === 'transaction' ?
+		{
+			transactionId: query as Ethereum.TransactionID
+		}
+	: queryType === 'block' ?
+		{
+			blockNumber: Number(query) as Ethereum.BlockNumber
+		}
+	: queryType === 'address' ?
+		{
+			address: query as Ethereum.Address
+		}
+	: queryType === 'accountId' ?
+		{
+			accountId: query as AccountId
+		}
+	:
+		{}
+)
+
+export const explorerViewData: SvelteStore<ReturnType<typeof getExplorerViewData>> = derived([
+	query,
+	explorerQueryType,
+], ([
+	$query,
+	$explorerView,
+], set) => {
+	set(getExplorerViewData($query, $explorerView))
+})
