@@ -1,4 +1,5 @@
 // Types
+import type { AccountId } from '../../data/accountId'
 import type { Ethereum } from '../../data/networks/types'
 
 
@@ -48,15 +49,22 @@ export const explorerBlockNumber: Readable<number> = derived(explorerProvider, (
 	}
 })
 
-export const explorerQueryType: Readable<'transaction' | 'block' | 'address' | undefined> = derived(query, ($query, set) => {
-	set(
-		isEvmTransactionId($query) ?
+const getExplorerQueryType = (query: string) => (
+	query ?
+		isEvmTransactionId(query) ?
 			'transaction'
-		: isBlockNumber($query) ?
+		: isBlockNumber(query) ?
 			'block'
-		: isEvmAddress($query) ?
+		: isEvmAddress(query) ?
 			'address'
 		:
-			undefined
-	)
+			'accountId'
+	:
+		undefined
+)
+
+type ExplorerQueryType = ReturnType<typeof getExplorerQueryType>
+
+export const explorerQueryType = derived<typeof query, ExplorerQueryType>(query, ($query, set) => {
+	set(getExplorerQueryType($query))
 })
