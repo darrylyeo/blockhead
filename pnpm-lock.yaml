@@ -124,6 +124,9 @@ dependencies:
   key-did-resolver:
     specifier: ^3.0.0
     version: 3.0.0
+  ky:
+    specifier: ^0.33.3
+    version: 0.33.3
   multiformats:
     specifier: ^12.0.1
     version: 12.0.1
@@ -13486,6 +13489,11 @@ packages:
   /klona@2.0.6:
     resolution: {integrity: sha512-dhG34DXATL5hSxJbIexCft8FChFXtmskoZYnoPWjXQuebWYCNkVeV3KkGegCK9CP1oswI/vQibS2GY7Em/sJJA==}
     engines: {node: '>= 8'}
+    dev: false
+
+  /ky@0.33.3:
+    resolution: {integrity: sha512-CasD9OCEQSFIam2U8efFK81Yeg8vNMTBUqtMOHlrcWQHqUX3HeCl9Dr31u4toV7emlH8Mymk5+9p0lL6mKb/Xw==}
+    engines: {node: '>=14.16'}
     dev: false
 
   /language-subtag-registry@0.3.22:
