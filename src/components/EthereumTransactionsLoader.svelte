@@ -76,7 +76,7 @@
 		<slot {transactions} {pagination} />
 	</Loader>
 
-{:else if transactionProvider === TransactionProvider.Etherspot}
+<!-- {:else if transactionProvider === TransactionProvider.Etherspot}
 	<Loader
 		layout="collapsible"
 		loadingIcon={transactionProviderIcons[transactionProvider]}
@@ -104,7 +104,7 @@
 			<slot name="header" {transactions} {status} {pagination} />
 		</svelte:fragment>
 		<slot {transactions} {pagination} />
-	</Loader>
+	</Loader> -->
 
 {:else if transactionProvider === TransactionProvider.Moralis}
 	<Loader
