@@ -3,7 +3,7 @@ import { env } from '../env'
 
 setup({
 	alchemyApiKey: env.ALCHEMY_API_KEY_MAINNET,
-	etherscanApiKey: env.ETHERSCAN_API_KEY,
+	etherscanApiKey: env.ETHERSCAN_API_KEY_1,
 	infuraProjectId: env.INFURA_API_KEY,
 	pocketNetworkApplicationID: env.POCKET_NETWORK_PORTAL_ID,
 	quorum: 1,

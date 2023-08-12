@@ -65,7 +65,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 	// 	name: 'Default',
 	// 	get: ({ network }) => getDefaultProvider(network.chainId, {
 	// 		alchemy: env.ALCHEMY_API_KEY_MAINNET,
-	// 		etherscan: env.ETHERSCAN_API_KEY,
+	// 		etherscan: env.ETHERSCAN_API_KEY_1,
 	// 		infura: env.INFURA_API_KEY,
 	// 		pocket: {
 	// 			applicationId: env.POCKET_APP_PUBLIC_KEY,
@@ -200,7 +200,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		get: ({ network }) => (
 			new EtherscanProvider(
 				network.chainId,
-				env.ETHERSCAN_API_KEY
+				env.ETHERSCAN_API_KEY_1
 			)
 		)
 	},
