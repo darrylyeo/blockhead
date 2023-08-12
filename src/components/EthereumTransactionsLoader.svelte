@@ -25,10 +25,38 @@
 	import { createQuery, createInfiniteQuery } from '@tanstack/svelte-query'
 
 	import { getTransactionsByAddress } from '../api/covalent'
+	import { Etherscan } from '../api/etherscan'
 	// import { getTransactions as getTransactionsEtherspot } from '../api/etherspot'
 	import { chainCodeFromNetwork, MoralisWeb3Api } from '../api/moralis/web3Api'
 
 
+	import { formatUnits } from 'viem'
+
+	const normalizeEtherscanTransaction = (transaction: Awaited<ReturnType<typeof Etherscan.Accounts.getTransactions>>[number]) => ({
+		network,
+
+		transactionID: transaction.hash as Ethereum.TransactionID,
+		nonce: Number(transaction.nonce),
+		transactionIndex: Number(transaction.transactionIndex),
+		blockNumber: Number(transaction.blockNumber) as Ethereum.BlockNumber,
+		blockHash: transaction.blockHash as Ethereum.BlockHash,
+		date: Number(transaction.timeStamp) * 1000,
+
+		isSuccessful: transaction.txreceipt_status != '0',
+
+		fromAddress: transaction.from as Ethereum.Address,
+		toAddress: transaction.to as Ethereum.Address,
+
+		value: formatUnits(BigInt(transaction.value), network.nativeCurrency.decimals),
+
+		gasToken: network.nativeCurrency,
+		gasSpent: BigInt(transaction.gasUsed),
+		gasRate: BigInt(transaction.gasPrice),
+		gasValue: formatUnits(BigInt(transaction.gasPrice) * BigInt(transaction.gasUsed), network.nativeCurrency.decimals),
+	}) as Ethereum.Transaction
+
+
+	// Components
 	import Loader from './Loader.svelte'
 </script>
 
@@ -63,6 +91,39 @@
 			getNextPageParam: (lastPage, allPages) => lastPage.pagination?.has_more ? lastPage.pagination.page_number + 1 : undefined
 		})}
 		then={result => result?.pages?.flatMap(page => page.items) ?? []}
+		let:result={transactions}
+		let:pagination
+	>
+		<svelte:fragment slot="header"
+			let:result={transactions}
+			let:status
+			let:pagination
+		>
+			<slot name="header" {transactions} {status} {pagination} />
+		</svelte:fragment>
+		<slot {transactions} {pagination} />
+	</Loader>
+
+{:else if transactionProvider === TransactionProvider.Etherscan}
+	<Loader
+		layout="collapsible"
+		loadingIcon={transactionProviderIcons[transactionProvider]}
+		{loadingMessage}
+		{errorMessage}
+		fromQuery={createQuery({
+			queryKey: ['Transactions', {
+				transactionProvider,
+				chainID: network.chainId,
+				address,
+			}],
+			queryFn: async () => (
+				await Etherscan.Accounts.getTransactions({
+					chainId: network.chainId,
+					address,
+				})
+			)
+		})}
+		then={transactions => transactions.map(normalizeEtherscanTransaction)}
 		let:result={transactions}
 		let:pagination
 	>
