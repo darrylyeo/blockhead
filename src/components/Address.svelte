@@ -38,7 +38,7 @@
 </style>
 
 
-{#if linked && network}
+{#if linked && network && address}
 	<a
 		class="address"
 		href={link}
