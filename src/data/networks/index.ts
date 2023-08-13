@@ -1393,27 +1393,53 @@ export const networks: Ethereum.Network[] = [
 	},
 	{
 		"slug": "ethereum-goerli",
-		"name": "Ethereum Görli Testnet",
+		"name": "Ethereum Goerli Testnet",
 		"chainId": 5,
 		"shortName": "gor",
 		"chain": "ETH",
 		"network": "goerli",
 		"networkId": 5,
 		"nativeCurrency": {
-			"name": "Görli Ether",
-			"symbol": "GOR",
+			"name": "Goerli Ether",
+			"symbol": "ETH",
 			"decimals": 18
 		},
 		"rpc": [
 			"https://rpc.goerli.mudit.blog/",
 			"https://rpc.slock.it/goerli ",
-			"https://goerli.prylabs.net/"
+			"https://goerli.prylabs.net/",
+			"https://rpc.ankr.com/eth_goerli",
+			"https://endpoints.omniatech.io/v1/eth/goerli/public",
+			"https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
+			"https://eth-goerli.public.blastapi.io",
+			"https://eth-goerli.g.alchemy.com/v2/demo",
+			"https://goerli.blockpi.network/v1/rpc/public",
+			"https://eth-goerli.api.onfinality.io/public",
+			"https://rpc.goerli.eth.gateway.fm",
+			"https://ethereum-goerli.publicnode.com",
+			"https://goerli.gateway.tenderly.co",
+			"https://gateway.tenderly.co/public/goerli",
+			"https://api.zan.top/node/v1/eth/goerli/public",
+			"https://rpc.notadegen.com/goerli"
 		],
 		"faucets": [
 			"https://goerli-faucet.slock.it/?address=${ADDRESS}",
-			"https://faucet.goerli.mudit.blog"
+			"https://faucet.goerli.mudit.blog",
+			"http://fauceth.komputing.org?chain=5\u0026address=${ADDRESS}",
 		],
-		"explorers": [],
+		"explorers": [
+			{
+				"name": "etherscan-goerli",
+				"url": "https://goerli.etherscan.io",
+				"standard": "EIP3091"
+			},
+			{
+				"name": "blockscout-goerli",
+				"url": "https://eth-goerli.blockscout.com",
+				"icon": "blockscout",
+				"standard": "EIP3091"
+			}
+		],
 		"infoURL": "https://goerli.net/#about",
 		"ens": {
 			"registry": "0x112234455c3a32fd11230c42e7bccd4a84e02010"
