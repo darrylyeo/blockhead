@@ -24,10 +24,11 @@
 
 	import { createQuery, createInfiniteQuery } from '@tanstack/svelte-query'
 
-	import { getTransactionsByAddress } from '../api/covalent'
+	import { type Covalent, getTransactionsByAddress } from '../api/covalent'
 	import { Etherscan } from '../api/etherscan'
 	// import { getTransactions as getTransactionsEtherspot } from '../api/etherspot'
 	import { chainCodeFromNetwork, MoralisWeb3Api } from '../api/moralis/web3Api'
+	import type { TransactionCollection } from '../api/moralis/api/Api'
 
 
 	import { formatUnits } from 'viem'
@@ -54,6 +55,10 @@
 		gasRate: BigInt(transaction.gasPrice),
 		gasValue: formatUnits(BigInt(transaction.gasPrice) * BigInt(transaction.gasUsed), network.nativeCurrency.decimals),
 	}) as Ethereum.Transaction
+
+
+	// Computed values
+	export let transactions: Ethereum.Transaction[] | Covalent.Transactions | TransactionCollection
 
 
 	// Components
@@ -92,6 +97,7 @@
 		})}
 		then={result => result?.pages?.flatMap(page => page.items) ?? []}
 		{...$$restProps}
+		bind:result={transactions}
 		let:result={transactions}
 		let:pagination
 	>
@@ -126,6 +132,7 @@
 		})}
 		then={transactions => transactions.map(normalizeEtherscanTransaction)}
 		{...$$restProps}
+		bind:result={transactions}
 		let:result={transactions}
 		let:pagination
 	>
@@ -157,6 +164,7 @@
 			)
 		})}
 		{...$$restProps}
+		bind:result={transactions}
 		let:result={transactions}
 		let:pagination
 	>
@@ -234,6 +242,7 @@
 		})}
 		then={result => result?.pages?.flatMap(page => page.result) ?? []}
 		{...$$restProps}
+		bind:result={transactions}
 		let:result={transactions}
 		let:pagination
 	>
