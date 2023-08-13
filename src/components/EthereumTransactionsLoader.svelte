@@ -1,5 +1,4 @@
 <script lang="ts">
-	
 	import type { Ethereum } from '../data/networks/types'
 	import type { TickerSymbol } from '../data/currencies'
 	import { TransactionProvider, transactionProviderIcons } from '../data/transactionProvider'
@@ -31,9 +30,13 @@
 	import type { TransactionCollection } from '../api/moralis/api/Api'
 
 
+	// Functions
 	import { formatUnits } from 'viem'
 
-	const normalizeEtherscanTransaction = (transaction: Awaited<ReturnType<typeof Etherscan.Accounts.getTransactions>>[number]) => ({
+	const normalizeEtherscanTransaction = (
+		network: Ethereum.Network,
+		transaction: Awaited<ReturnType<typeof Etherscan.Accounts.getTransactions>>[number]
+	) => ({
 		network,
 
 		transactionID: transaction.hash as Ethereum.TransactionID,
@@ -54,7 +57,7 @@
 		gasSpent: BigInt(transaction.gasUsed),
 		gasRate: BigInt(transaction.gasPrice),
 		gasValue: formatUnits(BigInt(transaction.gasPrice) * BigInt(transaction.gasUsed), network.nativeCurrency.decimals),
-	}) as Ethereum.Transaction
+	} as Ethereum.Transaction)
 
 
 	// Computed values
@@ -130,7 +133,7 @@
 				})
 			)
 		})}
-		then={transactions => transactions.map(normalizeEtherscanTransaction)}
+		then={transactions => transactions.map(transaction => normalizeEtherscanTransaction(network, transaction))}
 		{...$$restProps}
 		bind:result={transactions}
 		let:result={transactions}
