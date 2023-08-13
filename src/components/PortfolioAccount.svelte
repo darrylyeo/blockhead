@@ -144,8 +144,6 @@
 	import TweenedNumber from './TweenedNumber.svelte'
 
 
-	import { tokenColors } from '../data/tokenColors'
-
 	import { fade, scale } from 'svelte/transition'
 	import { cardStyle } from '../utils/card-background'
 </script>
@@ -435,7 +433,7 @@
 				class="network"
 				class:column={layout === 'column'}
 				class:sticky-layout={isEditing}
-				style="{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}"
+				style="{getNetworkColor(network) ? `--primary-color: ${getNetworkColor(network)};` : ''}"
 			>
 				<SizeContainer containerClass="header sticky" isOpen={isEditing} renderOnlyWhenOpen={false}>
 					<header class="bar card" style={cardStyle([getNetworkColor(network)])}>
