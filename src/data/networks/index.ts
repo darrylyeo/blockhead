@@ -5125,26 +5125,26 @@ export const networks: Ethereum.Network[] = [
 		"explorers": [],
 		"infoURL": "https://www.wanscan.org"
 	},
-	{
-		"slug": "wanchain-testnet",
-		"name": "Wanchain Testnet",
-		"chainId": 999,
-		"shortName": "twan",
-		"chain": "WAN",
-		"network": "testnet",
-		"networkId": 999,
-		"nativeCurrency": {
-			"name": "Wancoin",
-			"symbol": "WAN",
-			"decimals": 18
-		},
-		"rpc": [
-			"https://gwan-ssl.wandevs.org:46891/"
-		],
-		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://testnet.wanscan.org"
-	},
+	// {
+	// 	"slug": "wanchain-testnet",
+	// 	"name": "Wanchain Testnet",
+	// 	"chainId": 999,
+	// 	"shortName": "twan",
+	// 	"chain": "WAN",
+	// 	"network": "testnet",
+	// 	"networkId": 999,
+	// 	"nativeCurrency": {
+	// 		"name": "Wancoin",
+	// 		"symbol": "WAN",
+	// 		"decimals": 18
+	// 	},
+	// 	"rpc": [
+	// 		"https://gwan-ssl.wandevs.org:46891/"
+	// 	],
+	// 	"faucets": [],
+	// 	"explorers": [],
+	// 	"infoURL": "https://testnet.wanscan.org"
+	// },
 	{
 		"slug": "web3games-testnet",
 		"name": "Web3Games Testnet",
@@ -5302,7 +5302,59 @@ export const networks: Ethereum.Network[] = [
 		"faucets": [],
 		"explorers": [],
 		"infoURL": "https://xinfin.org"
-	}
+	},
+	{
+		"slug": "zora",
+		"name": "Zora Network",
+		"chainId": 7777777,
+		"shortName": "zora",
+		"networkId": 7777777,
+		"chain": "ETH",
+		"rpc": [
+			"https://rpc.zora.energy"
+		],
+		"nativeCurrency": {
+			"name": "Ether",
+			"symbol": "ETH",
+			"decimals": 18
+		},
+		"icon": "zora",
+		"faucets": [],
+		"explorers": [
+			{
+				"name": "Zora Network Explorer",
+				"url": "https://explorer.zora.energy",
+				"standard": "EIP3091"
+			}
+		],
+		"infoURL": "https://zora.energy",
+	},
+	{
+		"slug": "zora-goerli",
+		"name": "Zora Network Goerli",
+		"chainId": 999,
+		"shortName": "zora",
+		"networkId": 7777777,
+		"chain": "ETH",
+		"rpc": [
+			"https://testnet.rpc.zora.energy"
+		],
+		"nativeCurrency": {
+			"name": "Ether",
+			"symbol": "ETH",
+			"decimals": 18
+		},
+		"icon": "zora",
+		"faucets": [],
+		"explorers": [
+			{
+				"name": "Zora Network Explorer",
+				"url": "https://testnet.explorer.zora.energy",
+				"standard": "EIP3091"
+			}
+		],
+		"infoURL": "https://zora.energy",
+	},
 ]
 
 export const networksByChainID: Record<Ethereum.ChainID, Ethereum.Network> = {}
@@ -5371,7 +5423,10 @@ const testnetSlugsForMainnetSlugs = {
 	// ],
 	'scroll': [
 		'scroll-alpha',
-	]
+	],
+	'zora': [
+		'zora-goerli'
+	],
 }
 
 export const testnetsForMainnets = Object.fromEntries<Ethereum.Network[]>(
@@ -5496,6 +5551,7 @@ export const networkColors = {
 	'reef': '#962EE5',
 	'scroll': '#cba68d', // '#cba68d', '#e5d1b8', '#cba58c', '#d7af94',
 	'skale': '#393939',
+	'zora': '#A1723A', // '#D9D9D9', '#A1723A', '#531002', '#2B5DF0', '#FCB8D4', '#fff', '#387AFA'
 }
 
 export const getNetworkColor = (network: Ethereum.Network | undefined) =>
