@@ -419,7 +419,8 @@
 							</h5>
 
 							{#if contract.ercTokenStandards?.length}
-								<span class="card-annotation">{contract.ercTokenStandards.join('/')}</span>
+								{@const ercTokenStandards = contract.ercTokenStandards.includes('erc1155') && contract.ercTokenStandards.includes('erc721') ? ['erc1155'] : contract.ercTokenStandards}
+								<span class="card-annotation">{ercTokenStandards.join('/')}</span>
 							{/if}
 						</div>
 
