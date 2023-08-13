@@ -5573,76 +5573,59 @@ export const otherL1Networks = [
 // 	&& !Object.values(testnetsForMainnets).some(testnetNetworks => testnetNetworks.includes(network))
 // )
 
-export const networksBySection = [
+export const networksBySection: {
+	title: string,
+	featuredNetworks?: Ethereum.Network[],
+	otherNetworks?: Ethereum.Network[],
+}[] = [
 	{
 		title: 'Layer-One Networks',
-		networks: l1Networks,
-		isFeatured: true,
+		featuredNetworks: l1Networks,
 	},
 	{
 		title: 'Ethereum › OP Stack', // Superchain
-		networks: opStackNetworks,
-		isFeatured: true,
+		featuredNetworks: opStackNetworks,
 	},
 	{
 		title: 'Ethereum › Layer-Two Networks',
-		networks: l2Networks,
-		isFeatured: true,
+		featuredNetworks: l2Networks,
 	},
 	// {
 	// 	title: 'Ethereum + Layer-Two Networks',
-	// 	networks: ethereumAndL2Networks,
+	// 	featuredNetworks: ethereumAndL2Networks,
 	// 	isFeatured: true,
 	// },
 	// {
 	// 	title: 'Other EVM-Based Networks',
-	// 	networks: evmNetworks,
-	// 	isFeatured: true,
+	// 	featuredNetworks: evmNetworks,
 	// },
 	// {
 	// 	title: 'EVM-Based Layer-One Networks',
-	// 	networks: evmL1Networks,
-	// 	isFeatured: true,
+	// 	featuredNetworks: evmL1Networks,
 	// },
 	// {
 	// 	title: 'EVM-Based Rollups',
-	// 	networks: evmL2Networks,
-	// 	isFeatured: true,
+	// 	featuredNetworks: evmL2Networks,
 	// },
 	// {
 	// 	title: 'Other Networks',
-	// 	networks: otherL1Networks,
-	// 	isFeatured: false,
+	// 	featuredNetworks: otherL1Networks,
 	// }
 	// {
 	// 	title: 'Other Networks (Experimental)',
-	// 	networks: otherNetworks,
-	// 	isFeatured: false,
+	// 	otherNetworks: otherNetworks,
 	// },
 	{
 		title: 'Other Networks (Experimental)',
-		networks: [
-			...otherL1Networks,
-		],
-		isFeatured: true,
+		featuredNetworks: otherL1Networks,
 	},
 ]
 
-// networksBySection[networksBySection.length - 1].networks.push(
-// 	...networks.filter(network =>
-// 		!networksBySection.some(({ networks }) => networks.includes(network))
-// 		&& !Object.values(testnetsForMainnets).some(testnetNetworks => testnetNetworks.includes(network))
-// 	)
-// )
-networksBySection.push({
-	// title: 'Other Networks (Experimental)',
-	networks: networks.filter(network =>
-		!networksBySection.some(({ networks }) => networks.includes(network))
-		&& !Object.values(testnetsForMainnets).some(testnetNetworks => testnetNetworks.includes(network))
-	),
-	isFeatured: false
-})
-
+const includedNetworks = [
+	...networksBySection.flatMap(({ featuredNetworks = [], otherNetworks = [] }) => [...featuredNetworks, ...otherNetworks]),
+	...testnetNetworks,
+]
+networksBySection[networksBySection.length - 1].otherNetworks = networks.filter(network => !includedNetworks.includes(network))
 
 export const networkColors = {
 	'arbitrum-one': '#28a0f0',

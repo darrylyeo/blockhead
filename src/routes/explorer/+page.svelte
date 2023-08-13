@@ -6,6 +6,9 @@
 	import { networksBySection, getNetworkColor } from '../../data/networks'
 
 
+	import { isTruthy } from '../../utils/isTruthy'
+
+
 	import NetworkIcon from '../../components/NetworkIcon.svelte'
 
 
@@ -67,20 +70,29 @@
 
 
 <div class="column" in:fly|global={{x: 300}} out:fly|global={{x: -300}}>
-	{#each networksBySection as {title, networks, isFeatured}, i}
+	{#each networksBySection as {title, featuredNetworks, otherNetworks}}
 		<hr>
 
 		<h2>{title}</h2>
 
-		<section class="row wrap" class:featured={isFeatured}>
-			{#each networks as network, i}
-				<a href="/explorer/{network.slug}" class="item card" in:scale|global={{delay: i * 10}} style={cardStyle([getNetworkColor(network)])}>
-					<h3 class="row">
-						<NetworkIcon {network} />
-						<span>{network.name}</span>
-					</h3>
-				</a>
-			{/each}
-		</section>
+		{#each
+			[
+				featuredNetworks && { networks: featuredNetworks, isFeatured: true },
+				otherNetworks && { networks: otherNetworks, isFeatured: false }
+			].filter(isTruthy)
+			as
+			{ networks, isFeatured }
+		}
+			<section class="row wrap" class:featured={isFeatured}>
+				{#each networks as network, i}
+					<a href="/explorer/{network.slug}" class="item card" in:scale|global={{delay: i * 10}} style={cardStyle([getNetworkColor(network)])}>
+						<h3 class="row">
+							<NetworkIcon {network} />
+							<span>{network.name}</span>
+						</h3>
+					</a>
+				{/each}
+			</section>
+		{/each}
 	{/each}
 </div>

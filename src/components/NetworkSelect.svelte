@@ -35,7 +35,9 @@
 >
 	<option value="" selected>{placeholder}</option>
 
-	{#each networksBySection as {title, networks}}
+	{#each networksBySection as {title, featuredNetworks = [], otherNetworks = []}}
+		{@const networks = [...featuredNetworks, ...otherNetworks]}
+
 		<optgroup label={title}>
 			{#each networks as network}
 				{#if showTestnets}
@@ -53,7 +55,9 @@
 	{/each}
 
 	<!-- {#if showTestnets}
-		{#each networksBySection as {title, networks}}
+		{#each networksBySection as {title, featuredNetworks = [], otherNetworks = []}}
+			{@const networks = [...featuredNetworks, ...otherNetworks]}
+
 			<option disabled>{title}</option>
 			{#each networks as network}
 				<optgroup label={network.name} style={`--primary-color: ${getNetworkColor(network)}`}>
@@ -66,7 +70,9 @@
 			{/each}
 		{/each}
 	{:else}
-		{#each networksBySection as {title, networks}}
+		{#each networksBySection as {title, featuredNetworks = [], otherNetworks = []}}
+			{@const networks = [...featuredNetworks, ...otherNetworks]}
+
 			<optgroup label={title}>
 				{#each networks as network}
 					<option value={network} style={`--primary-color: ${getNetworkColor(network)}`}>{network.name}</option>
