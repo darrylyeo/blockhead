@@ -44,7 +44,7 @@ type NetworkProviderConfig = {
 		network: Ethereum.Network,
 		connectionType: NetworkProviderConnectionType,
 		nodeType: NetworkProviderNodeType,
-	}) => Provider | JsonRpcProvider
+	}) => Provider | JsonRpcProvider | undefined
 }
 
 
@@ -53,10 +53,12 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		provider: NetworkProvider.Default,
 		name: 'Default RPC Provider',
 		get: ({ network }) => (
-			new JsonRpcProvider(
-				network.rpc?.[0],
-				network.chainId
-			)
+			network.rpc?.[0]
+				? new JsonRpcProvider(
+					network.rpc[0],
+					network.chainId
+				)
+				: undefined
 		)
 	},
 
