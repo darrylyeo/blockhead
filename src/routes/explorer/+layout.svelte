@@ -38,10 +38,10 @@
 	$: $relevantPreferences = $relevantPreferences || [
 		'theme',
 		...($query
-			? ['rpcNetwork', 'tokenBalancesProvider', 'transactionProvider']
-			: ['rpcNetwork', 'currentPriceProvider', 'historicalPriceProvider']
+			? ['rpcNetwork', 'tokenBalancesProvider', 'transactionProvider', 'quoteCurrency']
+			: ['rpcNetwork', 'transactionProvider']
+			// : ['rpcNetwork', 'currentPriceProvider', 'historicalPriceProvider']
 		),
-		'quoteCurrency'
 	]
 	setContext('relevantPreferences', relevantPreferences)
 
