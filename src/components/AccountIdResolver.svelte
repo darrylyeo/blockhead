@@ -15,7 +15,7 @@
 
 
 	// External state
-	export let network = networksByChainID[1]
+	let network = networksByChainID[1]
 	export let accountId: AccountId | undefined
 
 	export let passiveResolveToAddress = false
@@ -24,7 +24,7 @@
 	export let passiveResolveToName = true
 
 	export let providerName: NetworkProvider
-	export let provider: Ethereum.Provider
+	let provider: Ethereum.Provider
 
 	// (Computed)
 	$: providerName = $$props.providerName ?? $preferences.rpcNetwork
