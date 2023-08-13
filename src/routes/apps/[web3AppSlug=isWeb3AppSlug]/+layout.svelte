@@ -103,6 +103,12 @@
 			scale: 1 0;
 		}
 	}
+
+	[data-app="zora"] :global(:is(h3, h4)) {
+		font-family: 'Arial Narrow', var(--base-fonts);
+		font-weight: 700;
+		letter-spacing: -0.1px;
+	}
 </style>
 
 
