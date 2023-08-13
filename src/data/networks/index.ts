@@ -4052,7 +4052,7 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://www.quarkchain.io/"
 	},
 	{
-		"slug": "quarkchain-shard4",
+		"slug": "quarkchain-shard5",
 		"parent": {
 			"chain": "eip155-100000",
 			"type": "shard"
