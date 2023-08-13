@@ -18,7 +18,7 @@
 	export let isHorizontal = false
 
 	export let isSelectable = false
-	export let selectedToken: Ethereum.ERC20Token | undefined
+	export let selectedToken: Ethereum.NativeCurrency | Ethereum.ERC20Token | undefined
 
 	export let isOpen: boolean
 
@@ -27,7 +27,7 @@
 
 
 	type TokenWithBalance = {
-		token: Ethereum.ERC20Token,
+		token: Ethereum.NativeCurrency | Ethereum.ERC20Token,
 		balance: Covalent.ERC20TokenOrNFTContractWithBalance['balance'],
 		type: Covalent.ERC20TokenOrNFTContractWithBalance['type'],
 		value: Covalent.ERC20TokenOrNFTContractWithBalance['quote'],
@@ -75,7 +75,7 @@
 	$: animate = !showSmallValues && balances.length < 50
 
 
-	const tokensAreEqual = (token1, token2) =>
+	const tokensAreEqual = (token1: Ethereum.NativeCurrency | Ethereum.ERC20Token, token2: Ethereum.NativeCurrency | Ethereum.ERC20Token) =>
 		// token1.name === token2.name &&
 		token1.symbol === token2.symbol &&
 		token1.decimals === token2.decimals
@@ -181,15 +181,18 @@
 					as {type, token, balance, value, rate},
 					i (token.address || token.symbol || token.name)
 				}
+					{@const isNativeCurrency = tokensAreEqual(network.nativeCurrency, token)}
+					{@const isSelected = selectedToken && selectedToken.address === token.address}
+
 					<span
 						class="ethereum-balance"
-						class:mark={tokensAreEqual(network.nativeCurrency, token)}
+						class:mark={isNativeCurrency}
 						class:is-selectable={isSelectable}
-						class:is-selected={selectedToken?.address === token.address}
+						class:is-selected={isSelected}
 						tabindex={isSelectable ? 0 : undefined}
-						on:click={() =>
-							selectedToken = selectedToken?.address === token.address ? undefined : token
-						}
+						on:click={() => {
+							selectedToken = isSelected ? undefined : token
+						}}
 						in:scale|global={{ duration: animate ? 500 : 0 }}
 						animate:flip|local={{ duration: animate ? 500 : 0, delay: animate ? 300 * i / filteredBalances.length : 0, easing: quintOut }}
 					>
