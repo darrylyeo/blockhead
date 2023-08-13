@@ -131,7 +131,7 @@
 		fromQuery={
 			ensName && provider && createQuery({
 				queryKey: ['EnsResolution', {
-					providerName,
+					// providerName,
 					ensName,
 				}],
 				queryFn: async () => {
@@ -167,7 +167,7 @@
 			fromQuery={
 				address && provider && createQuery({
 					queryKey: ['EnsReverseResolution', {
-						providerName,
+						// providerName,
 						address,
 					}],
 					queryFn: async () => {
