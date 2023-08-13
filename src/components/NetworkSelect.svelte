@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
-	import { networksBySection, testnetsForMainnets, getNetworkColor, networksByChainID } from '../data/networks'
+	import { networksBySection, testnetsForMainnets, getNetworkColor, networksByChainID, isTestnet } from '../data/networks'
 
 
 	export let placeholder = 'Select Network...'
@@ -42,7 +42,7 @@
 			{#each networks as network}
 				{#if showTestnets}
 					<option disabled>{network.name}</option>
-					<option value={network}>{network.name} Mainnet{network.chainId ? ` (${network.chainId})` : ''}</option>
+					<option value={network}>{network.name}{#if !network.name.includes('Mainnet')} Mainnet{/if}{network.chainId ? ` (${network.chainId})` : ''}</option>
 
 					{#each testnetsForMainnets[network.slug] ?? [] as testnetNetwork}
 						<option value={testnetNetwork}>{testnetNetwork.name}{testnetNetwork.chainId ? ` (${testnetNetwork.chainId})` : ''}</option>
