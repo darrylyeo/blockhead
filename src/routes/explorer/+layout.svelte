@@ -29,7 +29,7 @@
 
 	// Context
 
-	import { explorerNetwork } from './_explorerContext'
+	import { explorerNetwork, showTestnets } from './_explorerContext'
 
 	import { setContext } from 'svelte'
 	import { writable } from 'svelte/store'
@@ -52,8 +52,6 @@
 
 	let _isTestnet: boolean
 
-	let showTestnets = false
-
 
 	// Side effects
 
@@ -65,7 +63,7 @@
 	$: _isTestnet = $explorerNetwork && isTestnet($explorerNetwork)
 
 	$: if(_isTestnet)
-		showTestnets = true
+		$showTestnets = true
 
 	$: networkDisplayName =
 		$networkSlug && $explorerNetwork ? $explorerNetwork.name :
@@ -136,7 +134,7 @@
 
 		<small>
 			<label>
-				<input type="checkbox" bind:checked={showTestnets} disabled={_isTestnet} />
+				<input type="checkbox" bind:checked={$showTestnets} disabled={_isTestnet} />
 				<span>Testnets</span>
 			</label>
 		</small>
@@ -146,7 +144,7 @@
 			<span>Network: </span>
 			<NetworkSelect
 				bind:network={selectedNetwork}
-				{showTestnets}
+				showTestnets={$showTestnets}
 			/>
 		</label>
 	</div>

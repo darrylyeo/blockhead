@@ -99,3 +99,9 @@ export const explorerViewData: SvelteStore<ReturnType<typeof getExplorerViewData
 ], set) => {
 	set(getExplorerViewData($query, $explorerView))
 })
+
+
+// Internal stores
+import { writable } from 'svelte/store'
+
+export const showTestnets = writable(false)
