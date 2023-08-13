@@ -145,11 +145,11 @@
 			if(fromHoudiniQuery)
 				houdiniQuery = fromHoudiniQuery()
 
-			if(fromQuery)
-				fromQuery.setEnabled(true)
+			// if(fromQuery)
+			// 	fromQuery.setEnabled(true)
 
-			if(fromInfiniteQuery)
-				fromInfiniteQuery.setEnabled(true)
+			// if(fromInfiniteQuery)
+			// 	fromInfiniteQuery.setEnabled(true)
 		}catch(e){
 			error = e
 			status = LoadingStatus.Errored
