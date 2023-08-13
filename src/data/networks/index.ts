@@ -5621,11 +5621,8 @@ export const networksBySection: {
 	},
 ]
 
-const includedNetworks = [
-	...networksBySection.flatMap(({ featuredNetworks = [], otherNetworks = [] }) => [...featuredNetworks, ...otherNetworks]),
-	...testnetNetworks,
-]
-networksBySection[networksBySection.length - 1].otherNetworks = networks.filter(network => !includedNetworks.includes(network))
+const includedNetworks = new Set(networksBySection.flatMap(({ featuredNetworks = [], otherNetworks = [] }) => [...featuredNetworks, ...otherNetworks]))
+networksBySection[networksBySection.length - 1].otherNetworks = networks.filter(network => !includedNetworks.has(network))
 
 export const networkColors = {
 	'arbitrum-one': '#28a0f0',
