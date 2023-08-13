@@ -3437,15 +3437,29 @@ export const networks: Ethereum.Network[] = [
 		"network": "goerli",
 		"networkId": 420,
 		"nativeCurrency": {
-			"name": "Görli Ether",
-			"symbol": "GOR",
+			"name": "Goerli Ether",
+			"symbol": "ETH",
 			"decimals": 18
 		},
 		"rpc": [
-			"https://goerli.optimism.io/"
+			"https://goerli.optimism.io",
+			"https://endpoints.omniatech.io/v1/op/goerli/public",
+			"https://opt-goerli.g.alchemy.com/v2/demo",
+			"https://optimism-goerli.public.blastapi.io",
+			"https://rpc.goerli.optimism.gateway.fm",
+			"https://optimism-goerli.publicnode.com",
+			"https://optimism-goerli.blockpi.network/v1/rpc/public",
+			"https://api.zan.top/node/v1/opt/goerli/public",
 		],
 		"faucets": [],
-		"explorers": [],
+		"explorers": [
+			{
+				"name": "blockscout",
+				"url": "https://optimism-goerli.blockscout.com",
+				"icon": "blockscout",
+				"standard": "EIP3091"
+			}
+		],
 		"infoURL": "https://optimism.io"
 	},
 	{
