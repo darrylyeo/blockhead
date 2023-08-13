@@ -9301,10 +9301,10 @@ const institutionalDefi = [
 	'nexus-mutual',
 ].map(slug => web3AppsBySlug[slug])
 
-const socialApps = [
+const creatorApps = [
+	'audius',
 	'lens',
 	'zora',
-	'audius',
 	// 'livepeer',
 	// 'rarible',
 ].map(slug => web3AppsBySlug[slug])
@@ -9321,8 +9321,8 @@ export const web3AppsBySection = [
 		isFeatured: true,
 	},
 	{
-		title: 'Social Apps',
-		apps: socialApps,
+		title: 'Creator Economy',
+		apps: creatorApps,
 		isFeatured: true,
 	},
 	{
@@ -9364,7 +9364,7 @@ export const web3AppsBySection = [
 			...defiPrimitives,
 			...decentralizedExchanges,
 			...institutionalDefi,
-			...socialApps,
+			...creatorApps,
 			...collectibleCommunities
 		].includes(appConfig)),
 		isFeatured: false
