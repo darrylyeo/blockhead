@@ -42,7 +42,7 @@
 			{#each networks as network}
 				{#if showTestnets}
 					<option disabled>{network.name}</option>
-					<option value={network}>{network.name}{#if !network.name.includes('Mainnet')} Mainnet{/if}{network.chainId ? ` (${network.chainId})` : ''}</option>
+					<option value={network}>{`${network.name}${isTestnet(network) || network.name.includes('Mainnet') ? '' : ' Mainnet'}`}{network.chainId ? ` (${network.chainId})` : ''}</option>
 
 					{#each testnetsForMainnets[network.slug] ?? [] as testnetNetwork}
 						<option value={testnetNetwork}>{testnetNetwork.name}{testnetNetwork.chainId ? ` (${testnetNetwork.chainId})` : ''}</option>
