@@ -10,6 +10,7 @@ import FTM from './tokens/FTM.svg'
 import MATIC from './tokens/MATIC.svg'
 import MKR from './tokens/MKR.svg'
 import ONE from './tokens/ONE.svg'
+import OP from './networks/Optimism.svg'
 import USDC from './tokens/USDC.svg'
 import USDT from './tokens/USDT.svg'
 import WBTC from './tokens/WBTC.svg'
@@ -27,6 +28,7 @@ export const tokenIcons = {
 	MATIC,
 	MKR,
 	ONE,
+	OP,
 	USDC,
 	USDT,
 	WBTC,
