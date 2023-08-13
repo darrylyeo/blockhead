@@ -386,28 +386,46 @@ export const networks: Ethereum.Network[] = [
 	{
 		"slug": "base",
 		"name": "Base",
+		"chainId": 8453,
+		"shortName": "base",
 		"chain": "ETH",
-		"rpc": [],
-		"faucets": [],
+		"networkId": 8453,
+		"icon": "base",
 		"nativeCurrency": {
 			"name": "Ether",
 			"symbol": "ETH",
 			"decimals": 18
 		},
+		"rpc": [
+			"https://mainnet.base.org",
+			"https://developer-access-mainnet.base.org",
+			"https://base.blockpi.network/v1/rpc/public",
+			"https://1rpc.io/base",
+			"https://base.meowrpc.com",
+			"https://base-mainnet.public.blastapi.io",
+		],
+		"faucets": [],
+		"explorers": [
+			{
+				"name": "basescan",
+				"url": "https://basescan.org",
+				"standard": "none"
+			},
+			{
+				"name": "basescout",
+				"url": "https://base.blockscout.com",
+				"icon": "blockscout",
+				"standard": "EIP3091"
+			}
+		],
 		"infoURL": "https://base.org",
-		"shortName": "base",
-		"chainId": 8453,
-		"networkId": 8453,
-		"status": "incubating"
 	},
 	{
 		"slug": "base-goerli",
 		"name": "Base Goerli Testnet",
 		"chain": "ETH",
 		"rpc": [
-			{
-				"url": "https://goerli.base.org"
-			}
+			"https://goerli.base.org"
 		],
 		"faucets": [
 			"https://www.coinbase.com/faucets/base-ethereum-goerli-faucet"
