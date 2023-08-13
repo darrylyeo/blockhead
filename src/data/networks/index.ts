@@ -3014,6 +3014,47 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://mix-blockchain.org"
 	},
 	{
+		"slug": "mode",
+		"name": "Mode",
+	},
+	{
+		"slug": "mode-sepolia",
+		"name": "Mode Testnet",
+		"chainId": 919,
+		"chain": "ETH",
+		"shortName": "modesep",
+		"networkId": 919,
+		"nativeCurrency": {
+			"name": "Sepolia Ether",
+			"symbol": "ETH",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://sepolia.mode.network"
+		],
+		"faucets": [
+			"https://sepoliafaucet.com/"
+		],
+		"infoURL": "https://docs.mode.network/",
+		"icon": "modeTestnet",
+		"explorers": [
+			{
+				"name": "modescout",
+				"url": "https://sepolia.explorer.mode.network",
+				"standard": "none"
+			}
+		],
+		"parent": {
+			"type": "L2",
+			"chain": "eip155-11155111",
+			"bridges": [
+				{
+					"url": "https://bridge.mode.network/"
+				}
+			]
+		}
+	},
+	{
 		"slug": "moonbeam",
 		"name": "Moonbeam (Polkadot)",
 		"chainId": 1284,
@@ -5408,6 +5449,9 @@ const testnetSlugsForMainnetSlugs = {
 	// 'metis': [
 	// 	'metis-stardust',
 	// ],
+	'mode': [
+		'mode-sepolia'
+	],
 	// 'reef': [
 	// 	'reef-testnet',
 	// ],
@@ -5543,6 +5587,7 @@ export const networkColors = {
 	'gnosis': '#04795B',
 	'harmony': '#00AEE9',
 	'metis': '#00dacd',
+	'mode': '#dffe00',
 	'nahmii': '#E952AC',
 	'nervos': '#3CC68A',
 	'optimism': '#f01a37',
