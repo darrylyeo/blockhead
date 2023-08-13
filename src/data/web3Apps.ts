@@ -5,6 +5,7 @@ import { erc20TokensByContractAddress, erc20TokensBySymbol } from './tokens'
 
 
 import { IpfsIcon, LensIcon, NounsIcon } from '../assets/icons'
+import { ZoraIcon } from '../assets/networkIcons'
 
 
 export type Web3AppConfig = {
@@ -8952,6 +8953,293 @@ export const web3Apps: Web3AppConfig[] = [
 				}
 			}
 		]
+	},
+	{
+		name: 'Zora',
+		slug: 'zora',
+		links: ['https://zora.co'],
+		colors: [
+			'#A1723A',
+			'#531002',
+			'#2B5DF0',
+			'#387AFA',
+			'#FCB8D4',
+			'#FFFFFF',
+		],
+		icon: ZoraIcon,
+		views: [
+			{
+				name: 'Zora Network',
+				links: ['https://zora.energy'],
+				chainId: 7777777,
+				contracts: [
+					// ERC-721 Factory
+					{
+						name: 'ZoraNFTCreatorProxy',
+						address: '0xA2c2A96A232113Dd4993E8b048EEbc3371AE8d85',
+					},
+
+					// ERC-1155 Factory
+					{
+						name: 'ZoraCreator1155FactoryImpl',
+						address: '0x35ca784918bf11692708c1D530691704AAcEA95E',
+					},
+
+					// OP Stack
+					{
+						name: 'OptimismPortalProxy',
+						address: '0x1a0ad011913A150f69f6A19DF447A0CfD9551054',
+					},
+					{
+						name: 'OptimismPortal',
+						address: '0x43260ee547c3965bb2a0174763bb8FEcC650BA4A',
+					},
+					{
+						name: 'SystemConfigProxy',
+						address: '0xA3cAB0126d5F504B071b81a3e8A2BBBF17930d86',
+					},
+					{
+						name: 'L1ERC721Bridge',
+						address: '0xDBCdA21518AF39E7feb9748F6718D3db11591461',
+					},
+					{
+						name: 'SystemDictator',
+						address: '0x2E44e62992f14b904Bfefd93e63D98D7dA4fcD66',
+					},
+					{
+						name: 'PortalSender',
+						address: '0xd6C5Df0a29562521b2B26fAc218e3dAf0a4dFC9B',
+					},
+					{
+						name: 'L1StandardBridge',
+						address: '0xbF6acaF315477b15D638bf4d91eA48FA79b58335',
+					},
+					{
+						name: 'Lib_AddressManager',
+						address: '0xEF8115F2733fb2033a7c756402Fc1deaa56550Ef',
+					},
+					{
+						name: 'L2OutputOracleProxy',
+						address: '0x9E6204F750cD866b299594e2aC9eA824E2e5f95c',
+					},
+					{
+						name: 'OptimismMintableERC20FactoryProxy',
+						address: '0xc52BC7344e24e39dF1bf026fe05C4e6E23CfBcFf',
+					},
+					{
+						name: 'Proxy__OVM_L1StandardBridge',
+						address: '0x3e2Ea9B92B7E48A52296fD261dc26fd995284631',
+					},
+					{
+						name: 'ProxyAdmin',
+						address: '0xD4ef175B9e72cAEe9f1fe7660a6Ec19009903b49',
+					},
+					{
+						name: 'OptimismMintableERC20Factory',
+						address: '0x84ee4b9673598ca2FbDad4Ba4a27A58D6328Ec46',
+					},
+					{
+						name: 'Proxy__OVM_L1CrossDomainMessenger',
+						address: '0xdC40a14d9abd6F410226f1E6de71aE03441ca506',
+					},
+					{
+						name: 'L1ERC721BridgeProxy',
+						address: '0x83A4521A3573Ca87f3a971B169C5A0E1d34481c3',
+					},
+					{
+						name: 'SystemConfig',
+						address: '0x17fb7c8Ce213F1A7691ee41EA880ABf6eBC6fa95',
+					},
+					{
+						name: 'L1CrossDomainMessenger',
+						address: '0x363B4B1ADa52E50353f746999bd9E94395190d2C',
+					},
+					{
+						name: 'L2OutputOracle',
+						address: '0x89336159Edd615260a95309e46343602D6b6489e',
+					},
+					{
+						name: 'SystemDictatorProxy',
+						address: '0x50bA02c0Ca5E7bF772913EaF24Fb1fd3842a5f19',
+					},
+				],
+			},
+			{
+				name: 'Zora Network Goerli',
+				slug: 'network-goerli',
+				links: ['https://zora.energy'],
+				chainId: 999,
+				contracts: [
+					// ERC-721 Factory
+					{
+						name: 'ZoraNFTCreatorProxy',
+						address: '0xeB29A4e5b84fef428c072debA2444e93c080CE87',
+					},
+
+					// ERC-1155 Factory
+					{
+						name: 'ZoraCreator1155FactoryImpl',
+						address: '0x6a357139C1bcDcf0B3AB9bC447932dDdcb956703',
+					},
+
+					// OP Stack
+					{
+						name: 'OptimismPortalProxy',
+						address: '0xDb9F51790365e7dc196e7D072728df39Be958ACe',
+					},
+					{
+						name: 'SystemConfigProxy',
+						address: '0xF66C9A5E4fE1A8a9bc44a4aF80505a4C3620Ee64',
+					},
+					{
+						name: 'L1StandardBridge',
+						address: '0x39CCDe9769d52d61189AB799d91665A11b5f3464',
+					},
+					{
+						name: 'L1ERC721Bridge',
+						address: '0x7e3A6D16c3017b7876138350749981704cA333E',
+					},
+					{
+						name: 'L1ERC721BridgeProxy',
+						address: '0x57C1C6b596ce90C0e010c358DD4Aa052404bB70F',
+					},
+					{
+						name: 'L1CrossDomainMessenger',
+						address: '0x9779A9D2f3B66A4F4d27cB99Ab6cC1266b3Ca9af',
+					},
+					{
+						name: 'ProxyAdmin',
+						address: '0x6Cce41f8C6AABf78E1DA6caF8f78B14946dF6FcF',
+					},
+					{
+						name: 'Lib_AddressManager',
+						address: '0x54f4676203dEDA6C08E0D40557A119c602bFA246',
+					},
+					{
+						name: 'SystemDictator',
+						address: '0xe82aF391cCc61257012F5eC08A2D1066230Cb103',
+					},
+					{
+						name: 'Proxy__OVM_L1StandardBridge',
+						address: '0x7CC09AC2452D6555d5e0C213Ab9E2d44eFbFc956',
+					},
+					{
+						name: 'PortalSender',
+						address: '0xe9C0CB1B8b158F6397aF04977F331de97233c9a6',
+					},
+					{
+						name: 'L2OutputOracle',
+						address: '0x5881e7B1429FE78b1c98eBAe55d67184597a787c',
+					},
+					{
+						name: 'L2OutputOracleProxy',
+						address: '0xdD292C9eEd00f6A32Ff5245d0BCd7f2a15f24e00',
+					},
+					{
+						name: 'Proxy__OVM_L1CrossDomainMessenger',
+						address: '0xD87342e16352D33170557A7dA1e5fB966a60FafC',
+					},
+					{
+						name: 'OptimismMintableERC20Factory',
+						address: '0xF75dE219ac74548635261166E40dF6f1dB5aCfeD',
+					},
+					{
+						name: 'OptimismPortal',
+						address: '0xc2112491c6A6994f1Aa299FA0A2a0397d7D2b438',
+					},
+					{
+						name: 'SystemDictatorProxy',
+						address: '0x0c1E5Dec2E43B7F97c69Fc68f996F5d4F36E1619',
+					},
+					{
+						name: 'SystemConfig',
+						address: '0x37Cb720FEb69998712a89a0808c9434F59B26750',
+					},
+					{
+						name: 'OptimismMintableERC20FactoryProxy',
+						address: '0x69E16C9e03d7Def18A5d88e3c5c2e037946346eF',
+					},
+				],
+			},
+			{
+				chainId: 1,
+				contracts: [
+					{
+						name: 'ZoraNFTCreatorProxy',
+						address: '0xF74B146ce44CC162b601deC3BE331784DB111DC1',
+					},
+					{
+						name: 'ZoraCreator1155FactoryImpl',
+						address: '0xA6C5f2DE915240270DaC655152C3f6A91748cb85',
+					},
+				],
+			},
+			{
+				chainId: 5,
+				contracts: [
+					{
+						name: 'ZoraNFTCreatorProxy',
+						address: '0xb9583D05Ba9ba8f7F14CCEe3Da10D2bc0A72f519',
+					},
+					{
+						name: 'ZoraCreator1155FactoryImpl',
+						address: '0x8732b4bCa198509bB9c40f9a24638Be1eaB7D30c',
+					},
+				],
+			},
+			{
+				chainId: 8453,
+				contracts: [
+					{
+						name: 'ZoraNFTCreatorProxy',
+						address: '0x58C3ccB2dcb9384E5AB9111CD1a5DEA916B0f33c',
+					},
+					{
+						name: 'ZoraCreator1155FactoryImpl',
+						address: '0x9b24FD165a371042e5CA81e8d066d25CAD11EDE7',
+					},
+				],
+			},
+			{
+				chainId: 84531,
+				contracts: [
+					{
+						name: 'ZoraNFTCreatorProxy',
+						address: '0x87cfd516c5ea86e50b950678CA970a8a28de27ac',
+					},
+					{
+						name: 'ZoraCreator1155FactoryImpl',
+						address: '0x9b24FD165a371042e5CA81e8d066d25CAD11EDE7',
+					},
+				],
+			},
+			{
+				chainId: 10,
+				contracts: [
+					{
+						name: 'ZoraNFTCreatorProxy',
+						address: '0x7d1a46c6e614A0091c39E102F2798C27c1fA8892',
+					},
+					{
+						name: 'ZoraCreator1155FactoryImpl',
+						address: '0x78b524931e9d847c40BcBf225c25e154a7B05fDA',
+					},
+				],
+			},
+			{
+				chainId: 420,
+				contracts: [
+					{
+						name: 'ZoraNFTCreatorProxy',
+						address: '0x3C1ebcF36Ca9DD9371c9aA99c274e4988906c6E3',
+					},
+					{
+						name: 'ZoraCreator1155FactoryImpl',
+						address: '0xb0C56317E9cEBc6E0f7A59458a83D0A9ccC3e955',
+					},
+				],
+			},
+		],
 	}
 ] // as const
 
@@ -9015,6 +9303,7 @@ const institutionalDefi = [
 
 const socialApps = [
 	'lens',
+	'zora',
 	'audius',
 	// 'livepeer',
 	// 'rarible',

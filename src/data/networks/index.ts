@@ -5596,7 +5596,7 @@ export const networkColors = {
 	'reef': '#962EE5',
 	'scroll': '#cba68d', // '#cba68d', '#e5d1b8', '#cba58c', '#d7af94',
 	'skale': '#393939',
-	'zora': '#A1723A', // '#D9D9D9', '#A1723A', '#531002', '#2B5DF0', '#FCB8D4', '#fff', '#387AFA'
+	'zora': '#2B5DF0', // '#A1723A', '#531002', '#2B5DF0', '#FCB8D4', '#FFFFFF', '#387AFA'
 }
 
 export const getNetworkColor = (network: Ethereum.Network | undefined) =>
