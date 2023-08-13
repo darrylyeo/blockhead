@@ -58,9 +58,15 @@
 	{showIf}
 	bind:result={contractCode}
 >
-	<!-- <svelte:fragment slot="loadingIcon">
-		<NetworkIcon {network} />
-	</svelte:fragment> -->
+	<svelte:fragment slot="loadingIcon">
+		{@const networkProviderConfig = networkProviderConfigByProvider[$preferences.rpcNetwork]}
+
+		{#if networkProviderConfig?.icon}
+			<img src={networkProviderConfig.icon} alt={networkProviderConfig.name} width={25}>
+		{:else}
+			<NetworkIcon {network} />
+		{/if}
+	</svelte:fragment>
 
 	<slot slot="header" name="header" {address} {contractCode} />
 	<slot {address} {contractCode} />
