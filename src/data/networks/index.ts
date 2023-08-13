@@ -3387,7 +3387,7 @@ export const networks: Ethereum.Network[] = [
 	},
 	{
 		"slug": "optimism",
-		"name": "Optimism",
+		"name": "OP Mainnet",
 		"chainId": 10,
 		"shortName": "oeth",
 		"chain": "ETH",
@@ -3395,15 +3395,38 @@ export const networks: Ethereum.Network[] = [
 		"networkId": 10,
 		"nativeCurrency": {
 			"name": "Ether",
-			"symbol": "OETH",
+			"symbol": "ETH",
 			"decimals": 18
 		},
 		"rpc": [
-			"https://mainnet.optimism.io/"
+			"https://mainnet.optimism.io",
+			"https://optimism-mainnet.public.blastapi.io",
+			"https://rpc.ankr.com/optimism",
+			"https://1rpc.io/op",
+			"https://opt-mainnet.g.alchemy.com/v2/demo",
+			"https://optimism.blockpi.network/v1/rpc/public",
+			"https://endpoints.omniatech.io/v1/op/mainnet/public",
+			"https://optimism.api.onfinality.io/public",
+			"https://rpc.optimism.gateway.fm",
+			"https://optimism.publicnode.com",
+			"https://optimism.meowrpc.com",
+			"https://api.zan.top/node/v1/opt/mainnet/public",
 		],
 		"faucets": [],
-		"explorers": [],
-		"infoURL": "https://optimism.io"
+		"explorers": [
+			{
+				"name": "etherscan",
+				"url": "https://optimistic.etherscan.io",
+				"standard": "EIP3091"
+			},
+			{
+				"name": "blockscout",
+				"url": "https://optimism.blockscout.com",
+				"icon": "blockscout",
+				"standard": "EIP3091"
+			}
+		],
+		"infoURL": "https://optimism.io",
 	},
 	{
 		"slug": "optimistic-goerli",
