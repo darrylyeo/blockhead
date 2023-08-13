@@ -59,6 +59,7 @@
 	import EnsName from './EnsName.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
 	import EthereumContractExplorer from './EthereumContractExplorer.svelte'
+	import EthereumTransaction from './EthereumTransaction.svelte'
 	import EthereumTransactionCovalent from './EthereumTransactionCovalent.svelte'
 	import EthereumTransactionMoralis from './EthereumTransactionMoralis.svelte'
 	// import EthereumTransactionEtherspot from './EthereumTransactionEtherspot.svelte'
@@ -292,6 +293,20 @@
 											layout="inline"
 										/>
 									</a> -->
+
+								{:else}
+									<a class="card" id={transaction.transactionID} href="#{transaction.transactionID}">
+										<EthereumTransaction
+											{network}
+											{transaction}
+											{quoteCurrency}
+											contextualAddress={address}
+											{detailLevel}
+											{tokenBalanceFormat}
+											{showFees}
+											layout="inline"
+										/>
+									</a>
 								{/if}
 							{:else}
 								<div class="card">No transactions yet.</div>
