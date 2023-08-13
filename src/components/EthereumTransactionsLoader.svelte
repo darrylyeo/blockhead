@@ -91,6 +91,7 @@
 			getNextPageParam: (lastPage, allPages) => lastPage.pagination?.has_more ? lastPage.pagination.page_number + 1 : undefined
 		})}
 		then={result => result?.pages?.flatMap(page => page.items) ?? []}
+		{...$$restProps}
 		let:result={transactions}
 		let:pagination
 	>
@@ -124,6 +125,7 @@
 			)
 		})}
 		then={transactions => transactions.map(normalizeEtherscanTransaction)}
+		{...$$restProps}
 		let:result={transactions}
 		let:pagination
 	>
@@ -154,6 +156,7 @@
 				await getTransactionsEtherspot({network, address})
 			)
 		})}
+		{...$$restProps}
 		let:result={transactions}
 		let:pagination
 	>
@@ -230,6 +233,7 @@
 			}
 		})}
 		then={result => result?.pages?.flatMap(page => page.result) ?? []}
+		{...$$restProps}
 		let:result={transactions}
 		let:pagination
 	>
