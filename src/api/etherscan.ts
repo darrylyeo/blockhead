@@ -5,6 +5,7 @@ import ky, { type Options } from 'ky'
 import { ConcurrentPromiseQueue } from '../utils/ConcurrentPromiseQueue'
 
 import type { Ethereum } from '../data/networks/types'
+import { networksByChainID } from '../data/networks'
 
 const endpointByChainId = {
 	1: 'https://api.etherscan.io/api',
@@ -29,14 +30,19 @@ type ChainId = keyof typeof endpointByChainId
 const queue = new ConcurrentPromiseQueue(3)
 
 const get = async <T>(
-	chainId: keyof typeof endpointByChainId,
+	chainId: ChainId,
 	options: Options,
 ): Promise<T> => {
+	const endpointUrl = endpointByChainId[chainId]
+
+	if(!endpointUrl)
+		throw new Error(`Etherscan doesn't support ${networksByChainID[chainId].name}.`)
+
 	const getJson = async <T>(url: string, options: Options) => await ky.get(url, options).json<T>()
 
 	return await queue.enqueue(async () => (
 		await getJson<{ status: number, result: T }>(
-			endpointByChainId[chainId],
+			endpointUrl,
 			{
 				...options,
 				searchParams: {
@@ -53,14 +59,19 @@ const get = async <T>(
 }
 
 const post = async (
-	chainId: keyof typeof endpointByChainId,
+	chainId: ChainId,
 	options: Options,
 ) => {
+	const endpointUrl = endpointByChainId[chainId]
+
+	if(!endpointUrl)
+		throw new Error(`Etherscan doesn't support ${networksByChainID[chainId].name}.`)
+
 	const postText = async (url: string, options: Options) => await ky.post(url, options).text()
 
 	return await queue.enqueue(async () => (
 		await postText(
-			endpointByChainId[chainId],
+			endpointUrl,
 			{
 				...options,
 				json: {
