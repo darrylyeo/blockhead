@@ -3,7 +3,10 @@
 	import { MetaTags } from 'svelte-meta-tags'
 
 
-	import { networksBySection, getNetworkColor } from '../../data/networks'
+	import { networksBySection, getNetworkColor, testnetsForMainnets, isTestnet } from '../../data/networks'
+
+
+	import { showTestnets } from './_explorerContext'
 
 
 	import { isTruthy } from '../../utils/isTruthy'
@@ -84,8 +87,20 @@
 			{ networks, isFeatured }
 		}
 			<section class="row wrap" class:featured={isFeatured}>
-				{#each networks as network, i}
-					<a href="/explorer/{network.slug}" class="item card" in:scale|global={{delay: i * 10}} style={cardStyle([getNetworkColor(network)])}>
+				{#each
+					$showTestnets
+						? networks.flatMap(network => [network, ...testnetsForMainnets[network.slug] ?? []])
+						: networks.filter(network => !isTestnet(network))
+					as
+					network, i (network.slug)
+				}
+					<a
+						href="/explorer/{network.slug}"
+						class="item card"
+						style={cardStyle([getNetworkColor(network)])}
+						in:scale|global={{ duration: 300, delay: i * 10 }}
+						out:scale={{ duration: 300 }}
+					>
 						<h3 class="row">
 							<NetworkIcon {network} />
 							<span>{network.name}</span>
