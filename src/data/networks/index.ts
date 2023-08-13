@@ -5514,13 +5514,18 @@ export const defaultAccountNetworks = [
 ].map(slug => networksBySlug[slug])
 
 
-export const ethereumAndL2Networks = [
+export const l1Networks = [
 	'ethereum',
+	'avalanche',
+	'celo',
+	'fantom',
+].map(slug => networksBySlug[slug])
+
+export const l2Networks = [
 	'polygon',
 	'gnosis',
-	'polygon-zkevm',
 	'arbitrum-one',
-	'optimism',
+	'polygon-zkevm',
 	'scroll',
 	// 'skale-testnet',
 	// 'arbitrum-xdai',
@@ -5528,10 +5533,24 @@ export const ethereumAndL2Networks = [
 	// 'oasis-paratime',
 ].map(slug => networksBySlug[slug])
 
+export const opStackNetworks = [
+	'optimism',
+	'base',
+	'zora',
+	// 'mode',
+	'mode-sepolia',
+	// 'mantle',
+	// 'worldcoin',
+].map(slug => networksBySlug[slug])
+
+export const ethereumAndL2Networks = [
+	networksBySlug['ethereum'],
+	...l2Networks
+]
+
 export const evmNetworks = [
 	'aurora',
 	'avalanche',
-	'base',
 	'bsc',
 	'celo',
 	'cronos',
@@ -5539,23 +5558,47 @@ export const evmNetworks = [
 	'fantom',
 ].map(slug => networksBySlug[slug])
 
-export const otherNetworks = networks.filter(network =>
-	!ethereumAndL2Networks.includes(network)
-	&& !evmNetworks.includes(network)
-	&& !Object.values(testnetsForMainnets).some(testnetNetworks => testnetNetworks.includes(network))
-)
+export const otherL1Networks = [
+	'aurora',
+	'bitcoin',
+	'bsc',
+	'cronos',
+	'evmos',
+	'metis',
+].map(slug => networksBySlug[slug])
+
+// export const otherNetworks = networks.filter(network =>
+// 	!ethereumAndL2Networks.includes(network)
+// 	&& !evmNetworks.includes(network)
+// 	&& !Object.values(testnetsForMainnets).some(testnetNetworks => testnetNetworks.includes(network))
+// )
 
 export const networksBySection = [
 	{
-		title: 'Ethereum + Layer-Two Networks',
-		networks: ethereumAndL2Networks,
+		title: 'Layer-One Networks',
+		networks: l1Networks,
 		isFeatured: true,
 	},
 	{
-		title: 'EVM-Based Networks',
-		networks: evmNetworks,
+		title: 'Ethereum › OP Stack', // Superchain
+		networks: opStackNetworks,
 		isFeatured: true,
 	},
+	{
+		title: 'Ethereum › Layer-Two Networks',
+		networks: l2Networks,
+		isFeatured: true,
+	},
+	// {
+	// 	title: 'Ethereum + Layer-Two Networks',
+	// 	networks: ethereumAndL2Networks,
+	// 	isFeatured: true,
+	// },
+	// {
+	// 	title: 'Other EVM-Based Networks',
+	// 	networks: evmNetworks,
+	// 	isFeatured: true,
+	// },
 	// {
 	// 	title: 'EVM-Based Layer-One Networks',
 	// 	networks: evmL1Networks,
@@ -5566,12 +5609,39 @@ export const networksBySection = [
 	// 	networks: evmL2Networks,
 	// 	isFeatured: true,
 	// },
+	// {
+	// 	title: 'Other Networks',
+	// 	networks: otherL1Networks,
+	// 	isFeatured: false,
+	// }
+	// {
+	// 	title: 'Other Networks (Experimental)',
+	// 	networks: otherNetworks,
+	// 	isFeatured: false,
+	// },
 	{
 		title: 'Other Networks (Experimental)',
-		networks: otherNetworks,
-		isFeatured: false,
+		networks: [
+			...otherL1Networks,
+		],
+		isFeatured: true,
 	},
 ]
+
+// networksBySection[networksBySection.length - 1].networks.push(
+// 	...networks.filter(network =>
+// 		!networksBySection.some(({ networks }) => networks.includes(network))
+// 		&& !Object.values(testnetsForMainnets).some(testnetNetworks => testnetNetworks.includes(network))
+// 	)
+// )
+networksBySection.push({
+	// title: 'Other Networks (Experimental)',
+	networks: networks.filter(network =>
+		!networksBySection.some(({ networks }) => networks.includes(network))
+		&& !Object.values(testnetsForMainnets).some(testnetNetworks => testnetNetworks.includes(network))
+	),
+	isFeatured: false
+})
 
 
 export const networkColors = {
