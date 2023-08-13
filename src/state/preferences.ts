@@ -331,7 +331,7 @@ export const preferencesConfig: PreferencesConfig<
 					}
 				]
 			},
-			{
+			/*{
 				id: 'historicalPriceProvider',
 				name: 'Historical Price',
 				type: 'single', // 'multiple'
@@ -357,7 +357,7 @@ export const preferencesConfig: PreferencesConfig<
 						]
 					}
 				]
-			},
+			},*/
 			{
 				id: 'quoteCurrency',
 				name: 'Currency',
