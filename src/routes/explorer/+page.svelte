@@ -88,9 +88,11 @@
 		}
 			<section class="row wrap" class:featured={isFeatured}>
 				{#each
-					$showTestnets
-						? networks.flatMap(network => [network, ...testnetsForMainnets[network.slug] ?? []])
-						: networks.filter(network => !isTestnet(network))
+					(
+						$showTestnets
+							? networks.flatMap(network => [network, ...testnetsForMainnets[network.slug] ?? []])
+							: networks.filter(network => !isTestnet(network))
+					).filter(network => network.chainId)
 					as
 					network, i (network.slug)
 				}
