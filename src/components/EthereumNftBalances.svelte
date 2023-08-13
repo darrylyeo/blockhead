@@ -411,9 +411,10 @@
 								<span>
 									<Address
 										{network}
-										address={contract.address} 
+										address={contract.address}
+										format="middle-truncated" 
 										let:formattedAddress
-									>{contract.name || formattedAddress}</Address>
+									>{#if contract.name}{contract.name}{:else}<span class="format">{formattedAddress}</span>{/if}</Address>
 									{#if contract.nfts.length > 1}({contract.nfts.length}){/if}
 								</span>
 							</h5>
