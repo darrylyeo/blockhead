@@ -300,7 +300,7 @@ export const preferencesConfig: PreferencesConfig<
 				id: 'currentPriceProvider',
 				name: 'Current Price',
 				type: 'single',
-				defaultOption: 'auto',
+				defaultOption: 'Chainlink', // 'auto',
 				options: [
 					{
 						id: 'onChain',
@@ -322,13 +322,13 @@ export const preferencesConfig: PreferencesConfig<
 					// 		// { id: 'Etherscan', name: 'Etherscan' },
 					// 	]
 					// },
-					{
-						id: 'auto',
-						name: 'Auto',
-						options: [
-							{ id: 'auto', name: 'Auto' },
-						]
-					}
+					// {
+					// 	id: 'auto',
+					// 	name: 'Auto',
+					// 	options: [
+					// 		{ id: 'auto', name: 'Auto' },
+					// 	]
+					// }
 				]
 			},
 			/*{
