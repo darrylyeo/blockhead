@@ -13,6 +13,7 @@
 
 
 	import NetworkIcon from '../../components/NetworkIcon.svelte'
+	import SizeContainer from '../../components/SizeContainer.svelte'
 
 
 	import { cardStyle } from '../../utils/card-background'
@@ -86,30 +87,32 @@
 			as
 			{ networks, isFeatured }
 		}
-			<section class="row wrap" class:featured={isFeatured}>
-				{#each
-					(
-						$showTestnets
-							? networks.flatMap(network => [network, ...testnetsForMainnets[network.slug] ?? []])
-							: networks.filter(network => !isTestnet(network))
-					).filter(network => network.chainId)
-					as
-					network, i (network.slug)
-				}
-					<a
-						href="/explorer/{network.slug}"
-						class="item card"
-						style={cardStyle([getNetworkColor(network)])}
-						in:scale|global={{ duration: 300, delay: i * 10 }}
-						out:scale={{ duration: 300 }}
-					>
-						<h3 class="row">
-							<NetworkIcon {network} />
-							<span>{network.name}</span>
-						</h3>
-					</a>
-				{/each}
-			</section>
+			<SizeContainer>
+				<section class="row wrap" class:featured={isFeatured}>
+					{#each
+						(
+							$showTestnets
+								? networks.flatMap(network => [network, ...testnetsForMainnets[network.slug] ?? []])
+								: networks.filter(network => !isTestnet(network))
+						).filter(network => network.chainId)
+						as
+						network, i (network.slug)
+					}
+						<a
+							href="/explorer/{network.slug}"
+							class="item card"
+							style={cardStyle([getNetworkColor(network)])}
+							in:scale|global={{ duration: 300, delay: i * 10 }}
+							out:scale={{ duration: 300 }}
+						>
+							<h3 class="row">
+								<NetworkIcon {network} />
+								<span>{network.name}</span>
+							</h3>
+						</a>
+					{/each}
+				</section>
+			</SizeContainer>
 		{/each}
 	{/each}
 </div>
