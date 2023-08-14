@@ -32,7 +32,8 @@
     "@pushprotocol/restapi": "^1.4.5",
     "@pushprotocol/socket": "^0.5.1",
     "@rize-labs/banana-wallet-sdk": "^0.1.25",
-    "@sveltestack/svelte-query": "^1.6.0",
+    "@tanstack/query-broadcast-client-experimental": "^4.32.6",
+    "@tanstack/query-persist-client-core": "^4.32.6",
     "@tanstack/svelte-query": "^4.32.6",
     "@urql/svelte": "^4.0.2",
     "@walletconnect/core": "^2.9.0",
@@ -60,6 +61,7 @@
     "file-type": "^18.5.0",
     "graphql": "^16.7.1",
     "helia": "^1.3.5",
+    "idb-keyval": "^6.2.1",
     "key-did-resolver": "^3.0.0",
     "ky": "^0.33.3",
     "multiformats": "^12.0.1",
@@ -69,7 +71,6 @@
     "svelte-meta-tags": "^2.8.0",
     "svelvet": "^6.0.12",
     "uint8arrays": "^4.0.4",
-    "viem": "^1.5.4",
     "webmax": "^0.2.0"
   },
   "devDependencies": {

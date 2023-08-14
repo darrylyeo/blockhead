@@ -20,10 +20,11 @@
 		globalThis.CSS?.registerProperty?.(propertyDefinition)
 
 
-	// Svelte Query
+	// Tanstack Query
 	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query'
-
-	import { persistQueryClient, broadcastQueryClient, createWebStoragePersistor } from '@sveltestack/svelte-query'
+	import { type PersistedClient, persistQueryClient } from '@tanstack/query-persist-client-core'
+	import { get, set, del } from 'idb-keyval'
+	import { broadcastQueryClient } from '@tanstack/query-broadcast-client-experimental'
 
 	export const queryClient = new QueryClient({
 		defaultOptions: {
@@ -35,19 +36,24 @@
 			},
 		}
 	})
+	
+	if(browser){
+		const idbKey = 'blockhead:queryClient'
 
-	const localStoragePersistor = createWebStoragePersistor({
-		storage: globalThis.localStorage
-	})
-	persistQueryClient({
-		queryClient,
-		persistor: localStoragePersistor,
-	})
+		persistQueryClient({
+			queryClient,
+			persister: {
+				persistClient: async (client: PersistedClient) => set(idbKey, client),
+				restoreClient: async () => await get<PersistedClient>(idbKey),
+				removeClient: async () => await del(idbKey),
+			}
+		})
 
-	// broadcastQueryClient({
-		// 	queryClient,
-		// 	broadcastChannel: globalThis.location?.origin,
-	// })
+		broadcastQueryClient({
+			queryClient,
+			broadcastChannel: globalThis.location?.origin,
+		})
+	}
 
 
 	import Nav from '../components/Nav.svelte'
