@@ -9,7 +9,6 @@
 
 	export let network: Ethereum.Network
 	export let networkProvider: NetworkProvider
-	export let provider: Ethereum.Provider
 	export let transactionProvider: TransactionProvider
 	export let transactionId: Ethereum.TransactionID
 	export let quoteCurrency: QuoteCurrency
@@ -17,11 +16,11 @@
 
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
-	$: if(network && networkProvider && !provider)
-		provider = getEthersProvider({
-			network,
-			networkProvider,
-		})
+	let provider: Ethereum.Provider | undefined
+	$: provider = network && networkProvider && getEthersProvider({
+		network,
+		networkProvider,
+	})
 
 
 	import type { TransactionResponse } from 'ethers/types/providers'

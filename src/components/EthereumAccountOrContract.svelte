@@ -98,7 +98,6 @@
 <div class="ethereum-account card">
 	<AccountIdResolver
 		{accountId}
-		{provider}
 		passiveResolveToName
 		let:address
 		let:ensName
@@ -145,7 +144,6 @@
 		<EthereumContractExplorer
 			{address}
 			{network}
-			{provider}
 			{transactionProvider}
 		>
 			<svelte:fragment slot="header">

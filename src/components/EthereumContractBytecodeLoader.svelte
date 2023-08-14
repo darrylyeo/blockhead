@@ -8,17 +8,16 @@
 	export let address: Ethereum.ContractAddress
 	export let network: Ethereum.Network
 	export let networkProvider: NetworkProvider
-	export let provider: Ethereum.Provider
 
 	export let transactionProvider
 
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
-	$: if(network && networkProvider && !provider)
-		provider = getEthersProvider({
-			network,
-			networkProvider,
-		})
+	let provider: Ethereum.Provider | undefined
+	$: provider = network && networkProvider && getEthersProvider({
+		network,
+		networkProvider,
+	})
 
 	$: viaRPC = networkProvider === NetworkProvider.Default ? '' : ` via ${networkProvider}`
 

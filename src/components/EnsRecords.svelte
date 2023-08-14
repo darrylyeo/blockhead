@@ -10,7 +10,6 @@
 
 	export let network = networksByChainID[1]
 	export let networkProvider: NetworkProvider
-	export let provider: Ethereum.Provider
 	export let resolver: ENS.Resolver
 	export let ensName: string
 
@@ -18,12 +17,12 @@
 
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
-	$: if(network && networkProvider && !provider)
-		provider = getEthersProvider({
-			network,
-			networkProvider,
-		})
-	
+	let provider: Ethereum.Provider | undefined
+	$: provider = network && networkProvider && getEthersProvider({
+		network,
+		networkProvider,
+	})
+
 
 	// https://eips.ethereum.org/EIPS/eip-634
 
@@ -145,7 +144,6 @@
 <EnsRecordsLoader
 	{network}
 	{networkProvider}
-	{provider}
 	{ensName}
 	resolveContentHash
 	resolveTextRecordKeys={resolver.texts}

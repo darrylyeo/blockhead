@@ -24,16 +24,15 @@
 	export let passiveResolveToName = true
 
 	export let networkProvider: NetworkProvider
-	let provider: Ethereum.Provider
 
 	// (Computed)
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
-	$: if(network && networkProvider && !provider)
-		provider = getEthersProvider({
-			network,
-			networkProvider,
-		})
+	let provider: Ethereum.Provider | undefined
+	$: provider = network && networkProvider && getEthersProvider({
+		network,
+		networkProvider,
+	})
 
 
 	// Internal state

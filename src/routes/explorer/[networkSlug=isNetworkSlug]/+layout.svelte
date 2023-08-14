@@ -216,7 +216,6 @@
 										<section class="card">
 											<EthereumBlockHeight
 												network={$explorerNetwork}
-												provider={$explorerProvider}
 												blockNumber={$explorerBlockNumber}
 											/>
 										</section>

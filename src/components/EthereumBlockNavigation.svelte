@@ -69,7 +69,7 @@
 </style>
 
 
-<EthereumLatestBlockNumber {network} {provider} let:latestBlockNumber>
+<EthereumLatestBlockNumber {network} let:latestBlockNumber>
 	<nav
 		class="block-navigation row"
 		bind:this={navElement}

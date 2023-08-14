@@ -311,7 +311,6 @@
 >
 	<AccountIdResolver
 		accountId={account.id}
-		{provider}
 		passiveResolveToName
 		let:address
 		clip={false}

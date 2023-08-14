@@ -3,7 +3,6 @@
 
 
 	export let network: Ethereum.Network
-	export let provider: Ethereum.Provider
 	export let blockNumber: number
 
 
@@ -34,6 +33,6 @@
 
 <p class="centered">
 	<span>The {network.name} blockchain is </span>
-	<EthereumLatestBlockNumber {network} {provider} />
+	<EthereumLatestBlockNumber {network} />
 	<span> blocks long.</span>
 </p>

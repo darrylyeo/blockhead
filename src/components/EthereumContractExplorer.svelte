@@ -10,17 +10,16 @@
 	export let network: Ethereum.Network
 	export let address: Ethereum.Address
 	export let networkProvider: NetworkProvider
-	export let provider: Ethereum.Provider
 
 	export let transactionProvider
 
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
-	$: if(network && networkProvider && !provider)
-		provider = getEthersProvider({
-			network,
-			networkProvider,
-		})
+	let provider: Ethereum.Provider | undefined
+	$: provider = network && networkProvider && getEthersProvider({
+		network,
+		networkProvider,
+	})
 
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
 
@@ -69,7 +68,6 @@
 	<EthereumContractBytecodeLoader
 		{address}
 		{networkProvider}
-		{provider}
 		{network}
 		showIf={contractCode => !!contractCode}
 		let:contractCode

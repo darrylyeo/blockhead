@@ -11,16 +11,15 @@
 	export let blockNumber: Ethereum.BlockNumber
 	export let transactionProvider: TransactionProvider
 	export let networkProvider: NetworkProvider
-	export let provider: Ethereum.Provider
 	export let quoteCurrency: QuoteCurrency
 
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
-	$: if(network && networkProvider && !provider)
-		provider = getEthersProvider({
-			network,
-			networkProvider,
-		})
+	let provider: Ethereum.Provider | undefined
+	$: provider = network && networkProvider && getEthersProvider({
+		network,
+		networkProvider,
+	})
 	
 	
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
@@ -210,7 +209,6 @@
 					{network}
 					{block}
 					{transactionProvider}
-					{provider}
 					{quoteCurrency}
 					{detailLevel}
 					{tokenBalanceFormat}
@@ -269,7 +267,6 @@
 						{network}
 						{block}
 						{transactionProvider}
-						{provider}
 						{quoteCurrency}
 						{detailLevel}
 						{tokenBalanceFormat}

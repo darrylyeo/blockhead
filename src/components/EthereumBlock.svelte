@@ -8,7 +8,6 @@
 	export let network: Ethereum.Network
 	export let block: Ethereum.Block
 	export let transactionProvider: TransactionProvider
-	export let provider: Ethereum.Provider
 	export let quoteCurrency: QuoteCurrency
 
 
@@ -224,7 +223,6 @@
 						<EthereumTransactionMoralis
 							{network}
 							{transaction}
-							{provider}
 							{transactionProvider}
 							{quoteCurrency}
 							includeLogs={detailLevel === 'exhaustive'}
@@ -240,7 +238,6 @@
 							transaction={typeof transaction === 'string' ? undefined : transaction}
 
 							{network}
-							{provider}
 							{transactionProvider}
 							transactionId={typeof transaction === 'string' ? transaction : transaction.hash}
 							{quoteCurrency}

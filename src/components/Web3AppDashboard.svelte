@@ -330,7 +330,6 @@
 									<EthereumContractExplorer
 										{network}
 										address={contractAddress}
-										{provider}
 									/>
 								</section> -->
 							{/each}
@@ -742,7 +741,6 @@
 												<EthereumContractExplorer
 													{network}
 													{address}
-													{provider}
 												/>
 											</div>
 										{:else}
@@ -833,7 +831,6 @@
 									<EthereumContractExplorer
 										{network}
 										address={contractAddress}
-										{provider}
 									>
 										<svelte:fragment slot="title" let:network let:address>
 											<h3>
@@ -861,7 +858,6 @@
 									<EthereumNfts
 										{network}
 										{address}
-										{provider}
 									/>
 								</section> -->
 							{/if}
