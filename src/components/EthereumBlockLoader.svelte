@@ -17,10 +17,10 @@
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
 	$: if(network && networkProvider && !provider)
-		getEthersProvider({
+		provider = getEthersProvider({
 			network,
 			networkProvider,
-		}).then(_ => provider = _)
+		})
 	
 	
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'

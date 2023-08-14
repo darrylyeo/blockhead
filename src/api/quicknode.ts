@@ -3,12 +3,12 @@ import { NetworkProvider } from '../data/networkProviders/types'
 import { getEthersProvider } from '../data/networkProviders'
 
 
-const getQuickNodeProvider = async ({
+const getQuickNodeProvider = ({
 	network
 }: {
 	network: Ethereum.Network,
 }) =>
-	await getEthersProvider({ network, networkProvider: NetworkProvider.QuickNode }) as JsonRpcProvider
+	getEthersProvider({ network, networkProvider: NetworkProvider.QuickNode }) as JsonRpcProvider
 
 
 // https://www.quicknode.com/docs/ethereum/qn_getWalletTokenBalance
@@ -22,7 +22,7 @@ export const getWalletTokenBalance = async ({
 	if(network.chainId !== 1)
 		throw new Error('QuickNode only supports fetching token balances on Ethereum.')
 
-	const provider = await getQuickNodeProvider({ network })
+	const provider = getQuickNodeProvider({ network })
 
 	return await provider.send('qn_getWalletTokenBalance', { wallet: address }) as {
 		owner: string,
@@ -57,7 +57,7 @@ export const fetchNFTs = async ({
 	if(network.chainId !== 1)
 		throw new Error('QuickNode only supports fetching NFTs on Ethereum.')
 
-	const provider = await getQuickNodeProvider({ network })
+	const provider = getQuickNodeProvider({ network })
 
 	return await provider.send('qn_fetchNFTs', {
 		wallet: address,

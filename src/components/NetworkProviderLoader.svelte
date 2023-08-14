@@ -27,7 +27,7 @@
 	fromPromise={
 		providerPromise || (
 			network && networkProvider && (async () =>
-				await getEthersProvider({
+				getEthersProvider({
 					network,
 					networkProvider,
 				})

@@ -82,7 +82,7 @@
 					chainID: network.chainId,
 				}],
 				queryFn: async () => {
-					const provider = await getEthersProvider({
+					const provider = getEthersProvider({
 						network,
 						networkProvider,
 					})

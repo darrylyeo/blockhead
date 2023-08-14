@@ -15,12 +15,10 @@
 	// import { getEthersProvider } from '../data/networkProviders'
 
 	// $: if(network && !provider){
-	// 	getEthersProvider({
+	// 	provider = getEthersProvider({
 	// 		network,
 	// 		networkProvider: $preferences.rpcNetwork
 	// 	})
-	// 		.then(_ => provider = _)
-	// }
 
 
 	// export let blockNumber: number
@@ -101,21 +99,21 @@
 	$: if(network && !blockHeightForNetwork[network.chainId]){
 		const { chainId } = network
 
-		getEthersProvider({
+		const provider = getEthersProvider({
 			network,
 			networkProvider: $preferences.rpcNetwork
-		}).then((provider: Ethereum.Provider) => {
-			const onBlock = (blockNumber) => {
-				blockHeightForNetwork = {
-					...blockHeightForNetwork,
-					[chainId]: blockNumber
-				}
-			}
-
-			provider.on('block', onBlock)
-
-			// onDestroy(() => provider.off('block', onBlock))
 		})
+
+		const onBlock = (blockNumber) => {
+			blockHeightForNetwork = {
+				...blockHeightForNetwork,
+				[chainId]: blockNumber
+			}
+		}
+
+		provider.on('block', onBlock)
+
+		// onDestroy(() => provider.off('block', onBlock))
 	}
 
 

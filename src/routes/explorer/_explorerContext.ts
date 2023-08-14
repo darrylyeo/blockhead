@@ -33,10 +33,10 @@ export const explorerNetwork: Readable<Ethereum.Network> = derived(networkSlug, 
 
 export const explorerProvider: Readable<Ethereum.Provider> = derived([explorerNetwork, preferences], ([$explorerNetwork, $preferences], set) => {
 	if($explorerNetwork)
-		getEthersProvider({
+		set(getEthersProvider({
 			network: $explorerNetwork,
 			networkProvider: $preferences.rpcNetwork
-		}).then(provider => set(provider))
+		}))
 })
 
 export const explorerBlockNumber: Readable<number> = derived(explorerProvider, ($explorerProvider, set) => {

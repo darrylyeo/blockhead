@@ -85,7 +85,7 @@
 
 	const ethereumProvider = derived<[typeof ethereumNetwork, typeof preferences], Ethereum.Provider>([ethereumNetwork, preferences], async ([$ethereumNetwork, $preferences], set) => {
 		await whenMounted
-		set(await getEthersProvider({
+		set(getEthersProvider({
 			network: $ethereumNetwork,
 			networkProvider: $preferences.rpcNetwork
 		}))

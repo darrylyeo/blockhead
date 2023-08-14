@@ -9,10 +9,6 @@ import { env } from '../../env'
 import { networksBySlug } from '../networks'
 
 
-// Utils
-import { memoizedAsync } from '../../utils/memoized'
-
-
 // APIs
 import {
 	getDefaultProvider,
@@ -465,7 +461,7 @@ export const networkProviderConfigByNetworkSlug = Object.fromEntries(Object.entr
 // }
 
 
-export const getEthersProvider = memoizedAsync(async ({
+export const getEthersProvider = ({
 	network,
 	networkProvider,
 	connectionType = NetworkProviderConnectionType.RPC,
@@ -489,4 +485,4 @@ export const getEthersProvider = memoizedAsync(async ({
 	// console.log('ethersProvider', ethersProvider)
 
 	return ethersProvider
-})
+}
