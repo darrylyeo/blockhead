@@ -10,16 +10,16 @@
 	export let network: Ethereum.Network
 	export let blockNumber: Ethereum.BlockNumber
 	export let transactionProvider: TransactionProvider
-	export let providerName: NetworkProvider
+	export let networkProvider: NetworkProvider
 	export let provider: Ethereum.Provider
 	export let quoteCurrency: QuoteCurrency
 
-	$: providerName = $$props.providerName ?? $preferences.rpcNetwork
+	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
-	$: if(network && providerName && !provider)
+	$: if(network && networkProvider && !provider)
 		getEthersProvider({
 			network,
-			networkProvider: providerName,
+			networkProvider,
 		}).then(_ => provider = _)
 	
 	
@@ -228,7 +228,7 @@
 				fromQuery={provider && createQuery({
 					queryKey: ['Block', {
 						transactionProvider,
-						providerName,
+						networkProvider,
 						chainID: network.chainId,
 						blockNumber,
 					}],

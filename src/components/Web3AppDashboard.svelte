@@ -15,7 +15,7 @@
 	// Data
 	export let web3AppConfig: Web3AppConfig
 	export let address: string
-	export let providerName: Ethereum.ProviderName
+	export let networkProvider: Ethereum.ProviderName
 	export let defiProvider: DefiProvider = DefiProvider.Zapper
 	export let quoteCurrency: QuoteCurrency
 
@@ -246,7 +246,7 @@
 			>
 				<NetworkProviderLoader
 					network={networksByChainID[chainId]}
-					{providerName}
+					{networkProvider}
 					let:network
 					let:provider
 				>

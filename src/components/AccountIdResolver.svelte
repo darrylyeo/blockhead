@@ -23,16 +23,16 @@
 	export let resolveToName: Omit<AccountIdType, AccountIdType.Address> | undefined = AccountIdType.ENS
 	export let passiveResolveToName = true
 
-	export let providerName: NetworkProvider
+	export let networkProvider: NetworkProvider
 	let provider: Ethereum.Provider
 
 	// (Computed)
-	$: providerName = $$props.providerName ?? $preferences.rpcNetwork
+	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
-	$: if(network && providerName && !provider)
+	$: if(network && networkProvider && !provider)
 		getEthersProvider({
 			network,
-			networkProvider: providerName,
+			networkProvider,
 		}).then(_ => provider = _)
 
 
@@ -42,7 +42,7 @@
 	// (Computed)
 	$: type = accountId ? resolveAccountIdType(accountId) : undefined
 
-	$: viaRPC = providerName === NetworkProvider.Default ? '' : ` via ${providerName}`
+	$: viaRPC = networkProvider === NetworkProvider.Default ? '' : ` via ${networkProvider}`
 
 
 	// Shared state
@@ -131,7 +131,7 @@
 		fromQuery={
 			ensName && provider && createQuery({
 				queryKey: ['EnsResolution', {
-					// providerName,
+					// networkProvider,
 					ensName,
 				}],
 				queryFn: async () => {
@@ -139,7 +139,7 @@
 
 					if(!address)
 						// throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address.`)
-						throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address (or there's an issue with the${providerName === NetworkProvider.Default ? `` : ` ${providerName}`} JSON-RPC connection).`)
+						throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address (or there's an issue with the${networkProvider === NetworkProvider.Default ? `` : ` ${networkProvider}`} JSON-RPC connection).`)
 
 					return address
 
@@ -167,7 +167,7 @@
 			fromQuery={
 				address && provider && createQuery({
 					queryKey: ['EnsReverseResolution', {
-						// providerName,
+						// networkProvider,
 						address,
 					}],
 					queryFn: async () => {
@@ -175,7 +175,7 @@
 
 						if(!ensName)
 							// throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name.`)
-							throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name (or there's an issue with the${providerName === NetworkProvider.Default ? `` : ` ${providerName}`} JSON-RPC connection).`)
+							throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name (or there's an issue with the${networkProvider === NetworkProvider.Default ? `` : ` ${networkProvider}`} JSON-RPC connection).`)
 
 						return ensName
 

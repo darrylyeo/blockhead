@@ -21,9 +21,9 @@
 	export let quoteCurrency: QuoteCurrency
 
 	// (Computed)
-	export let providerName: NetworkProvider
+	export let networkProvider: NetworkProvider
 
-	$: providerName = $$props.providerName ?? $preferences.rpcNetwork
+	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
 
 	// View options
@@ -43,7 +43,7 @@
 		rate: Covalent.ERC20TokenOrNFTContractWithBalance['quote_rate'],
 	}[] = []
 
-	$: loadingMessage = `Retrieving ${network.name} balances from ${tokenBalancesProvider === TokenBalancesProvider.RpcProvider ? providerName : tokenBalancesProvider}...`
+	$: loadingMessage = `Retrieving ${network.name} balances from ${tokenBalancesProvider === TokenBalancesProvider.RpcProvider ? networkProvider : tokenBalancesProvider}...`
 	$: errorMessage = `Couldn't retrieve ${network.name} balances from ${tokenBalancesProvider}.`
 
 
@@ -69,22 +69,22 @@
 	<Loader
 		layout="collapsible"
 		collapsibleType="label"
-		loadingIcon={networkProviderConfigByProvider[providerName].icon}
+		loadingIcon={networkProviderConfigByProvider[networkProvider].icon}
 		loadingIconName={tokenBalancesProvider}
 		{loadingMessage}
 		{errorMessage}
-		fromQuery={address && network && providerName && (
+		fromQuery={address && network && networkProvider && (
 			createQuery({
 				queryKey: ['Balances', {
 					tokenBalancesProvider,
-					providerName,
+					networkProvider,
 					address,
 					chainID: network.chainId,
 				}],
 				queryFn: async () => {
 					const provider = await getEthersProvider({
 						network,
-						networkProvider: providerName,
+						networkProvider,
 					})
 
 					if(!provider) throw new Error(`No provider found.`)

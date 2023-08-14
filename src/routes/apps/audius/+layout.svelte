@@ -107,7 +107,7 @@
 				<Web3AppDashboard
 					{address}
 					web3AppConfig={$web3AppConfig}
-					providerName={$preferences.rpcNetwork}
+					networkProvider={$preferences.rpcNetwork}
 					defiProvider={$preferences.defiProvider}
 					quoteCurrency={$preferences.quoteCurrency}
 					{tokenBalanceFormat}

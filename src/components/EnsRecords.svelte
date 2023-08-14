@@ -9,19 +9,19 @@
 
 
 	export let network = networksByChainID[1]
-	export let providerName: NetworkProvider
+	export let networkProvider: NetworkProvider
 	export let provider: Ethereum.Provider
 	export let resolver: ENS.Resolver
 	export let ensName: string
 
 	export let isOpen: boolean
 
-	$: providerName = $$props.providerName ?? $preferences.rpcNetwork
+	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
-	$: if(network && providerName && !provider)
+	$: if(network && networkProvider && !provider)
 		getEthersProvider({
 			network,
-			networkProvider: providerName,
+			networkProvider,
 		}).then(_ => provider = _)
 	
 
@@ -74,7 +74,7 @@
 
 	type $$Slots = {
 		header: {
-			providerName: NetworkProvider
+			networkProvider: NetworkProvider
 		}
 	}
 
@@ -144,7 +144,7 @@
 
 <EnsRecordsLoader
 	{network}
-	{providerName}
+	{networkProvider}
 	{provider}
 	{ensName}
 	resolveContentHash
@@ -155,8 +155,8 @@
 	let:textRecords
 	let:cryptoAddressRecords
 >
-	<svelte:fragment slot="header" let:providerName>
-		<slot name="header" {providerName} />
+	<svelte:fragment slot="header" let:networkProvider>
+		<slot name="header" {networkProvider} />
 	</svelte:fragment>
 
 	<div class="records">

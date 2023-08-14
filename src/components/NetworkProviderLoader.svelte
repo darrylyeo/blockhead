@@ -5,15 +5,15 @@
 
 	export let network: Ethereum.Network
 	export let providerPromise: () => Promise<Ethereum.Provider>
-	export let providerName: NetworkProvider
+	export let networkProvider: NetworkProvider
 
 
 	import { getEthersProvider } from '../data/networkProviders'
 	import { preferences } from '../state/preferences'
 
-	$: providerName = $$props.providerName || $preferences.rpcNetwork
+	$: networkProvider = $$props.networkProvider || $preferences.rpcNetwork
 
-	$: viaRPC = providerName === NetworkProvider.Default ? '' : ` via ${providerName}`
+	$: viaRPC = networkProvider === NetworkProvider.Default ? '' : ` via ${networkProvider}`
 
 
 	import Loader from './Loader.svelte'
@@ -26,10 +26,10 @@
 	errorMessage="Error connecting to the {network ? `${network.name} ` : ''} network{viaRPC}. Try changing the On-Chain Data provider in Preferences."
 	fromPromise={
 		providerPromise || (
-			network && providerName && (async () =>
+			network && networkProvider && (async () =>
 				await getEthersProvider({
 					network,
-					networkProvider: providerName,
+					networkProvider,
 				})
 			)
 		)

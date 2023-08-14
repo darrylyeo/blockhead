@@ -167,7 +167,7 @@
 		<NetworkProviderLoader
 			network={$explorerNetwork}
 			providerPromise={$explorerProvider && (async () => $explorerProvider)}
-			providerName={$preferences.rpcNetwork}
+			networkProvider={$preferences.rpcNetwork}
 			contentClass="column"
 			let:provider
 		>

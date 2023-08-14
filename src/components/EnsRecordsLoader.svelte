@@ -13,7 +13,7 @@
 
 
 	export let network = networksByChainID[1]
-	export let providerName: NetworkProvider
+	export let networkProvider: NetworkProvider
 	export let provider: Ethereum.Provider
 	export let ensName: string
 
@@ -27,15 +27,15 @@
 
 	// Computed
 
-	$: providerName = $$props.providerName ?? $preferences.rpcNetwork
+	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
-	$: if(network && providerName && !provider)
+	$: if(network && networkProvider && !provider)
 		getEthersProvider({
 			network,
-			networkProvider: providerName,
+			networkProvider,
 		}).then(_ => provider = _)
 
-	$: viaRPC = providerName === NetworkProvider.Default ? '' : ` via ${providerName}`
+	$: viaRPC = networkProvider === NetworkProvider.Default ? '' : ` via ${networkProvider}`
 
 
 	// Methods
@@ -72,10 +72,10 @@
 			contentHash: typeof contentHash,
 			textRecords: typeof textRecords,
 			cryptoAddressRecords: typeof cryptoAddressRecords,
-			providerName: NetworkProvider,
+			networkProvider: NetworkProvider,
 		},
 		header: {
-			providerName: NetworkProvider,
+			networkProvider: NetworkProvider,
 		}
 	}
 
@@ -100,7 +100,7 @@
 		createQuery({
 			queryKey: ['EnsResolver', {
 				chainID: network.chainId,
-				providerName,
+				networkProvider,
 				ensName,
 			}],
 			queryFn: async () => (
@@ -112,7 +112,7 @@
 	let:result={resolver}
 >
 	<svelte:fragment slot="header">
-		<slot name="header" {providerName} />
+		<slot name="header" {networkProvider} />
 	</svelte:fragment>
 
 	{#if resolveContentHash}
@@ -176,6 +176,6 @@
 
 	<slot
 		{contentHash} {textRecords} {cryptoAddressRecords}
-		{providerName}
+		{networkProvider}
 	/>
 </Loader>

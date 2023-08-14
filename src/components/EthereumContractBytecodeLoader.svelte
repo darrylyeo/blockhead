@@ -7,20 +7,20 @@
 	
 	export let address: Ethereum.ContractAddress
 	export let network: Ethereum.Network
-	export let providerName: NetworkProvider
+	export let networkProvider: NetworkProvider
 	export let provider: Ethereum.Provider
 
 	export let transactionProvider
 
-	$: providerName = $$props.providerName ?? $preferences.rpcNetwork
+	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
-	$: if(network && providerName && !provider)
+	$: if(network && networkProvider && !provider)
 		getEthersProvider({
 			network,
-			networkProvider: providerName,
+			networkProvider,
 		}).then(_ => provider = _)
 
-	$: viaRPC = providerName === NetworkProvider.Default ? '' : ` via ${providerName}`
+	$: viaRPC = networkProvider === NetworkProvider.Default ? '' : ` via ${networkProvider}`
 
 
 	export let showIf: ((contractCode: Ethereum.ContractBytecode) => boolean) | undefined
@@ -41,7 +41,7 @@
 	fromQuery={
 		createQuery({
 			queryKey: ['ContractBytecode', {
-				providerName,
+				networkProvider,
 				chainId: network.chainId,
 				address,
 			}],

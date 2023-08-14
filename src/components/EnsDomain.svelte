@@ -334,11 +334,11 @@
 				ensName={domain.name}
 				isOpen={showRecords}
 			>
-				<header slot="header" class="bar wrap" let:providerName>
+				<header slot="header" class="bar wrap" let:networkProvider>
 					<h3>Records</h3>
 
 					<div class="row">
-						<span class="card-annotation">{providerName}</span>
+						<span class="card-annotation">{networkProvider}</span>
 
 						<button
 							class="small"
