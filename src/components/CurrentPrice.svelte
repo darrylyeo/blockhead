@@ -112,7 +112,7 @@
 					loadingIconName={_currentPriceProvider}
 					loadingMessage="Retrieving price from {_currentPriceProvider}..."
 					errorMessage="{token} price not available"
-					fromPromise={provider && network && blockNumber && (() => getChainlinkPriceFeed(provider, network, token, quoteCurrency))}
+					fromPromise={blockNumber, provider && network && (() => getChainlinkPriceFeed(provider, network, token, quoteCurrency))}
 					let:result={priceFeed}
 					whenErrored={async () => {
 						await new Promise(r => setTimeout(r, 1000))
