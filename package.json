@@ -71,6 +71,7 @@
     "svelte-meta-tags": "^2.8.0",
     "svelvet": "^6.0.12",
     "uint8arrays": "^4.0.4",
+    "viem": "^1.6.0",
     "webmax": "^0.2.0"
   },
   "devDependencies": {
