@@ -19,6 +19,8 @@ import {
 	InfuraProvider,
 	PocketProvider,
 } from 'ethers'
+
+import { alchemyProviderConfigs } from './alchemy'
 // import { getMoralisJSONRPCEndpoint } from '../../api/moralis/endpoints'
 import { figmentProviderConfigs } from './figment'
 import { infuraProviderConfigs } from './infura'
@@ -55,22 +57,18 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 					network.chainId
 				)
 				: undefined
-		)
-	},
 
-	// {
-	// 	provider: NetworkProvider.Default,
-	// 	name: 'Default',
-	// 	get: ({ network }) => getDefaultProvider(network.chainId, {
-	// 		alchemy: env.ALCHEMY_API_KEY_MAINNET,
-	// 		etherscan: env.ETHERSCAN_API_KEY_1,
-	// 		infura: env.INFURA_API_KEY,
-	// 		pocket: {
-	// 			applicationId: env.POCKET_APP_PUBLIC_KEY,
-	// 			applicationSecretKey: env.POCKET_NETWORK_SECRET_KEY
-	// 		},
-	// 	})
-	// },
+			// getDefaultProvider(network.chainId, {
+			// 	alchemy: env.ALCHEMY_API_KEY_1,
+			// 	etherscan: env.ETHERSCAN_API_KEY_1,
+			// 	infura: env.INFURA_API_KEY,
+			// 	pocket: {
+			// 		applicationId: env.POCKET_APP_PUBLIC_KEY,
+			// 		applicationSecretKey: env.POCKET_NETWORK_SECRET_KEY
+			// 	},
+			// })
+		),
+	},
 
 	{
 		provider: NetworkProvider.Infura,
@@ -116,15 +114,33 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		provider: NetworkProvider.Alchemy,
 		name: 'Alchemy',
 		icon: AlchemyIcon,
-		get: ({ network }) => (
-			new AlchemyProvider(
-				network.chainId,
-				{
-					'ethereum': env.ALCHEMY_API_KEY_MAINNET,
-					'ethereum-rinkeby': env.ALCHEMY_API_KEY_RINKEBY
-				}[network.slug]
+		get: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+		}) => {
+			const config = alchemyProviderConfigs.find(config => config.networkSlug === network.slug)
+
+			if(!config)
+				throw new Error(`Couldn't find an Alchemy node matching the configuration.`)
+
+			const apiKey = env[`ALCHEMY_API_KEY_${network.chainId}`]
+
+			return (
+				new ({
+					[NetworkProviderConnectionType.RPC]: JsonRpcProvider,
+					[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
+					[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
+				}[connectionType])(
+					`${connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.g.alchemy.com/v2/${apiKey}`,
+					network.chainId
+				)
 			)
-		)
+
+			// return new AlchemyProvider(
+			// 	network.chainId,
+			// 	apiKey
+			// )
+		},
 	},
 
 	{
