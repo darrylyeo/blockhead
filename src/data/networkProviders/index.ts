@@ -73,13 +73,13 @@ type NetworkProviderConfig = {
 		network: Ethereum.Network,
 		connectionType: NetworkProviderConnectionType,
 		nodeType: NetworkProviderNodeType,
-	}) => Provider | JsonRpcProvider | undefined,
+	}) => Ethereum.Provider | undefined,
 
 	getViemPublicClient?: (_: {
 		network: Ethereum.Network,
 		connectionType: NetworkProviderConnectionType,
 		nodeType: NetworkProviderNodeType,
-	}) => PublicClient | undefined,
+	}) => Ethereum.PublicClient | undefined,
 }
 
 
