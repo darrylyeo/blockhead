@@ -32,7 +32,6 @@
 <div>
 	<section class="card">
 		<CurrentPrice
-			oracleNetwork={networksByChainID[1]}
 			networkProvider={$preferences.rpcNetwork}
 			currentPriceProvider={$preferences.currentPriceProvider}
 			{token}

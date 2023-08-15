@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
+	import { networksByChainID } from '../data/networks'
 	import type { NetworkProvider } from '../data/networkProviders/types'
 	import { getEthersProvider } from '../data/networkProviders'
 	import type { QuoteCurrency, TickerSymbol } from '../data/currencies'
@@ -17,7 +18,7 @@
 	let _currentPriceProvider: PriceProvider
 	$: _currentPriceProvider = currentPriceProvider === 'auto' ? PriceProvider.Chainlink : currentPriceProvider
 
-	export let oracleNetwork: Ethereum.Network
+	export let oracleNetwork: Ethereum.Network = networksByChainID[1]
 	export let networkProvider: NetworkProvider
 	export let token: TickerSymbol
 	export let quoteCurrency: QuoteCurrency
