@@ -1,6 +1,7 @@
 import type { Branded, BrandedString } from '../../utils/branded'
 import type { Provider as EthersProvider, Block as EthersBlock } from 'ethers'
 import type { TickerSymbol } from '../currencies'
+import type { PublicClient as ViemPublicClient } from 'viem'
 
 export namespace Ethereum {
 	export type NetworkSlug = BrandedString<'NetworkSlug'>
@@ -47,6 +48,7 @@ export namespace Ethereum {
 	}
 
 	export type Provider = EthersProvider
+	export type PublicClient = ViemPublicClient
 
 	export type TransactionID = BrandedString<'TransactionID'>
 	export type TransactionIndex = number

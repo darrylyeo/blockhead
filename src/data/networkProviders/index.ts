@@ -1,12 +1,13 @@
 // Types
 import type { Ethereum } from '../networks/types'
 import type { Provider } from 'ethers'
+import type { Chain, PublicClient } from 'viem'
 import { NetworkProvider, NetworkProviderConnectionType, NetworkProviderNodeType } from './types'
 
 
 // Constants
 import { env } from '../../env'
-import { networksBySlug } from '../networks'
+import { isTestnet, networksBySlug } from '../networks'
 
 
 // APIs
@@ -19,6 +20,9 @@ import {
 	InfuraProvider,
 	PocketProvider,
 } from 'ethers'
+
+import { createPublicClient, http, webSocket } from 'viem'
+import * as chains from 'viem/chains'
 
 import { alchemyProviderConfigs } from './alchemy'
 // import { getMoralisJSONRPCEndpoint } from '../../api/moralis/endpoints'
@@ -34,16 +38,48 @@ import { getBlockProviderConfigs } from './getBlock'
 import { AlchemyIcon, EtherscanIcon, FigmentIcon, GatewayFmIcon, GetBlockIcon, InfuraIcon, MoralisIcon, TenderlyIcon, PocketIcon, QuickNodeIcon } from '../../assets/icons'
 
 
+// Functions
+const networkToViemChain = (network: Ethereum.Network) => ({
+	id: network.chainId,
+	name: network.name,
+	network: network.network,
+	nativeCurrency: network.nativeCurrency,
+	rpcUrls: {
+		default: {
+			http: network.rpc
+		},
+		public: {
+			http: network.rpc
+		},
+	},
+	blockExplorers: {
+		default: network.explorers?.[0] && {
+			name: network.explorers[0].name,
+			url: network.explorers[0].url,
+		},
+		...Object.fromEntries(network.explorers?.map(explorer => [explorer.name, { name: explorer.name, url: explorer.url }]) ?? [])
+	},
+	contracts: Object.values(chains).find(chain => chain.id === network.chainId)?.contracts,
+	testnet: isTestnet(network),
+} as Chain)
+
+
 type NetworkProviderConfig = {
 	provider: NetworkProvider,
 	name: string,
 	icon?: string,
 
-	getEthersProvider: (_: {
+	getEthersProvider?: (_: {
 		network: Ethereum.Network,
 		connectionType: NetworkProviderConnectionType,
 		nodeType: NetworkProviderNodeType,
 	}) => Provider | JsonRpcProvider | undefined,
+
+	getViemPublicClient?: (_: {
+		network: Ethereum.Network,
+		connectionType: NetworkProviderConnectionType,
+		nodeType: NetworkProviderNodeType,
+	}) => PublicClient | undefined,
 }
 
 
@@ -69,6 +105,23 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 			// 		applicationSecretKey: env.POCKET_NETWORK_SECRET_KEY
 			// 	},
 			// })
+		),
+
+		getViemPublicClient: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+		}) => (
+			createPublicClient({
+				chain: networkToViemChain(network),
+				transport: {
+					[NetworkProviderConnectionType.RPC]: http,
+					[NetworkProviderConnectionType.JSONRPC]: http,
+					[NetworkProviderConnectionType.WebSocket]: webSocket,
+				}[connectionType](
+					undefined,
+					{},
+				),
+			})
 		),
 	},
 
@@ -105,6 +158,32 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 			// 	env.INFURA_API_KEY_SECRET
 			// )
 		},
+
+		getViemPublicClient: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+			nodeType = NetworkProviderNodeType.Default,
+		}) => {
+			const config = infuraProviderConfigs.find(config =>
+				config.networkSlug === network.slug &&
+				config.connectionType === connectionType &&
+				config.nodeType === nodeType
+			)
+
+			return config && (
+				createPublicClient({
+					chain: networkToViemChain(network),
+					transport: {
+						[NetworkProviderConnectionType.RPC]: http,
+						[NetworkProviderConnectionType.JSONRPC]: http,
+						[NetworkProviderConnectionType.WebSocket]: webSocket,
+					}[connectionType](
+						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.infura.io/${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'ws/v3' : 'v3'}/${env.INFURA_API_KEY || '84842078b09946638c03157f83405213'}`,
+						{},
+					),
+				})
+			)
+		},
 	},
 
 	{
@@ -135,6 +214,30 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 			// 	network.chainId,
 			// 	apiKey
 			// )
+		},
+
+		getViemPublicClient: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+			nodeType = NetworkProviderNodeType.Default,
+		}) => {
+			const config = alchemyProviderConfigs.find(config => config.networkSlug === network.slug)
+
+			const apiKey = env[`ALCHEMY_API_KEY_${network.chainId}`]
+
+			return config && (
+				createPublicClient({
+					chain: networkToViemChain(network),
+					transport: {
+						[NetworkProviderConnectionType.RPC]: http,
+						[NetworkProviderConnectionType.JSONRPC]: http,
+						[NetworkProviderConnectionType.WebSocket]: webSocket,
+					}[connectionType](
+						`${connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.g.alchemy.com/v2/${apiKey}`,
+						{},
+					),
+				})
+			)
 		},
 	},
 
@@ -171,6 +274,32 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 			// 	env.POCKET_NETWORK_SECRET_KEY
 			// )
 		},
+
+		getViemPublicClient: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+			nodeType = NetworkProviderNodeType.Default,
+		}) => {
+			const config = pocketProviderConfigs.find(config =>
+				config.networkSlug === network.slug &&
+				config.connectionType === connectionType &&
+				config.nodeType === nodeType
+			)
+
+			return config && (
+				createPublicClient({
+					chain: networkToViemChain(network),
+					transport: {
+						[NetworkProviderConnectionType.RPC]: http,
+						[NetworkProviderConnectionType.JSONRPC]: http,
+						[NetworkProviderConnectionType.WebSocket]: webSocket,
+					}[connectionType](
+						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.gateway.pokt.network/v1/lb/${env.POCKET_NETWORK_PORTAL_ID}`,
+						{},
+					),
+				})
+			)
+		},
 	},
 
 	// {
@@ -196,6 +325,26 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 	// 			network.chainId,
 	// 		)
 	// 	},
+
+	// 	getViemPublicClient: ({
+	// 		network,
+	// 		connectionType = NetworkProviderConnectionType.WebSocket,
+	// 	}) => (
+	// 		createPublicClient({
+	// 			chain: networkToViemChain(network),
+	// 			transport: {
+	// 				[NetworkProviderConnectionType.RPC]: http,
+	// 				[NetworkProviderConnectionType.JSONRPC]: http,
+	// 				[NetworkProviderConnectionType.WebSocket]: webSocket,
+	// 			}[connectionType](
+	// 				getMoralisJSONRPCEndpoint({
+	// 					network,
+	// 					protocol: 'wss'
+	// 				}),
+	// 				{},
+	// 			),
+	// 		})
+	// 	}),
 	// },
 
 	{
@@ -238,6 +387,32 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 				)
 			)
 		},
+
+		getViemPublicClient: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+			nodeType = NetworkProviderNodeType.Default,
+		}) => {
+			const config = figmentProviderConfigs.find(config =>
+				config.networkSlug === network.slug &&
+				config.connectionType === connectionType &&
+				config.nodeType === nodeType
+			)
+
+			return config && (
+				createPublicClient({
+					chain: networkToViemChain(network),
+					transport: {
+						[NetworkProviderConnectionType.RPC]: http,
+						[NetworkProviderConnectionType.JSONRPC]: http,
+						[NetworkProviderConnectionType.WebSocket]: webSocket,
+					}[connectionType](
+						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.datahub.figment.io/apikey/${env.FIGMENT_DATA_HUB_APP_API_KEY}`,
+						{},
+					),
+				})
+			)
+		},
 	},
 
 	{
@@ -267,6 +442,32 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 				)
 			)
 		},
+
+		getViemPublicClient: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+			nodeType = NetworkProviderNodeType.Default,
+		}) => {
+			const config = tenderlyProviderConfigs.find(config =>
+				config.networkSlug === network.slug &&
+				config.connectionType === connectionType &&
+				config.nodeType === nodeType
+			)
+
+			return config && (
+				createPublicClient({
+					chain: networkToViemChain(network),
+					transport: {
+						[NetworkProviderConnectionType.RPC]: http,
+						[NetworkProviderConnectionType.JSONRPC]: http,
+						[NetworkProviderConnectionType.WebSocket]: webSocket,
+					}[connectionType](
+						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.gateway.tenderly.co/${env.TENDERLY_WEB3_GATEWAY_API_KEY}`,
+						{},
+					),
+				})
+			)
+		},
 	},
 
 	{
@@ -287,6 +488,29 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 					`${connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${subdomain}.quiknode.pro/${authToken}/`,
 					network.chainId
 				)
+			)
+		},
+
+		getViemPublicClient: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+		}) => {
+			const subdomain = env[`QUICKNODE_ENDPOINT_NAME_${network.chainId}`]
+
+			const authToken = env[`QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_${network.chainId}`]
+
+			return subdomain && (
+				createPublicClient({
+					chain: networkToViemChain(network),
+					transport: {
+						[NetworkProviderConnectionType.RPC]: http,
+						[NetworkProviderConnectionType.JSONRPC]: http,
+						[NetworkProviderConnectionType.WebSocket]: webSocket,
+					}[connectionType](
+						`${connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${subdomain}.quiknode.pro/${authToken}/`,
+						{},
+					),
+				})
 			)
 		},
 	},
@@ -326,6 +550,40 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 				)
 			)
 		},
+
+		getViemPublicClient: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+			nodeType = NetworkProviderNodeType.Default,
+		}) => {
+			const config = gatewayFmProviderConfigs.find(config =>
+				config.networkSlug === network.slug &&
+				config.connectionType === connectionType &&
+				config.nodeType === nodeType
+			)
+
+			if(!config) return undefined
+
+			const apiKey = {
+				'eu-north-1': env.GATEWAY_FM_API_KEY_EU_NORTH_1,
+				'eu-central-2': env.GATEWAY_FM_API_KEY_EU_CENTRAL_2,
+				'ap-southeast-1': env.GATEWAY_FM_API_KEY_AP_SOUTHEAST_1,
+			}[config.region]
+
+			return (
+				createPublicClient({
+					chain: networkToViemChain(network),
+					transport: {
+						[NetworkProviderConnectionType.RPC]: http,
+						[NetworkProviderConnectionType.JSONRPC]: http,
+						[NetworkProviderConnectionType.WebSocket]: webSocket,
+					}[connectionType](
+						`${config.endpointUrl}?apiKey=${apiKey}`,
+						{},
+					),
+				})
+			)
+		},
 	},
 	
 	{
@@ -353,6 +611,32 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.getblock.io/${env.GETBLOCK_API_KEY}/${config.path}`,
 					network.chainId
 				)
+			)
+		},
+
+		getViemPublicClient: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+			nodeType = NetworkProviderNodeType.Default,
+		}) => {
+			const config = getBlockProviderConfigs.find(config =>
+				config.networkSlug === network.slug &&
+				config.connectionType === connectionType &&
+				config.nodeType === nodeType
+			)
+
+			return config && (
+				createPublicClient({
+					chain: networkToViemChain(network),
+					transport: {
+						[NetworkProviderConnectionType.RPC]: http,
+						[NetworkProviderConnectionType.JSONRPC]: http,
+						[NetworkProviderConnectionType.WebSocket]: webSocket,
+					}[connectionType](
+						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.getblock.io/${env.GETBLOCK_API_KEY}/${config.path}`,
+						{},
+					),
+				})
 			)
 		},
 	},
@@ -471,11 +755,33 @@ export const getEthersProvider = ({
 }) => {
 	const providerConfig = networkProviderConfigByProvider[networkProvider]
 
-	const ethersProvider = providerConfig?.getEthersProvider({
+	const ethersProvider = providerConfig?.getEthersProvider?.({
 		network,
 		connectionType,
 		nodeType
 	})
 
 	return ethersProvider
+}
+
+export const getViemPublicClient = ({
+	network,
+	networkProvider,
+	connectionType = NetworkProviderConnectionType.RPC,
+	nodeType = NetworkProviderNodeType.Default,
+}: {
+	network: Ethereum.Network,
+	networkProvider: NetworkProvider,
+	connectionType?: NetworkProviderConnectionType,
+	nodeType?: NetworkProviderNodeType,
+}) => {
+	const providerConfig = networkProviderConfigByProvider[networkProvider]
+
+	const publicClient = providerConfig?.getViemPublicClient?.({
+		network,
+		connectionType,
+		nodeType
+	})
+
+	return publicClient
 }
