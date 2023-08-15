@@ -86,10 +86,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 				config.nodeType === nodeType
 			)
 
-			if(!config)
-				throw new Error(`Couldn't find an Infura node matching the configuration.`)
-
-			return (
+			return config && (
 				new ({
 					[NetworkProviderConnectionType.RPC]: JsonRpcProvider,
 					[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
@@ -99,15 +96,13 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 					network.chainId
 				)
 			)
-		}
 
-		// get: ({ network }) => (
-		// 	new InfuraProvider(
-		// 		network.chainId,
-		// 		env.INFURA_API_KEY,
-		// 		env.INFURA_API_KEY_SECRET
-		// 	)
-		// )
+			// return new InfuraProvider(
+			// 	network.chainId,
+			// 	env.INFURA_API_KEY,
+			// 	env.INFURA_API_KEY_SECRET
+			// )
+		},
 	},
 
 	{
@@ -120,12 +115,9 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		}) => {
 			const config = alchemyProviderConfigs.find(config => config.networkSlug === network.slug)
 
-			if(!config)
-				throw new Error(`Couldn't find an Alchemy node matching the configuration.`)
-
 			const apiKey = env[`ALCHEMY_API_KEY_${network.chainId}`]
 
-			return (
+			return config && (
 				new ({
 					[NetworkProviderConnectionType.RPC]: JsonRpcProvider,
 					[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
@@ -159,10 +151,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 				config.nodeType === nodeType
 			)
 
-			if(!config)
-				throw new Error(`Couldn't find a Pocket Network node matching the configuration.`)
-
-			return (
+			return config && (
 				new ({
 					[NetworkProviderConnectionType.RPC]: JsonRpcProvider,
 					[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
@@ -172,15 +161,13 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 					network.chainId
 				)
 			)
-		}
 
-		// get: ({ network }) => (
-		// 	new PocketProvider(
-		// 		network.chainId,
-		// 		env.POCKET_NETWORK_PORTAL_ID,
-		// 		env.POCKET_NETWORK_SECRET_KEY
-		// 	)
-		// )
+			// return new PocketProvider(
+			// 	network.chainId,
+			// 	env.POCKET_NETWORK_PORTAL_ID,
+			// 	env.POCKET_NETWORK_SECRET_KEY
+			// )
+		},
 	},
 
 	// {
@@ -191,19 +178,21 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 	// 	get: ({
 	// 		network,
 	// 		connectionType = NetworkProviderConnectionType.WebSocket,
-	// 	}) => (
-	// 		new ({
+	// 	}) => {
+	// 		const endpointUrl = getMoralisJSONRPCEndpoint({
+	// 			network,
+	// 			protocol: 'wss'
+	// 		})
+	
+	// 		return endpointUrl && new ({
 	// 			[NetworkProviderConnectionType.RPC]: JsonRpcProvider,
 	// 			[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
 	// 			[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
 	// 		}[connectionType])(
-	// 			getMoralisJSONRPCEndpoint({
-	// 				network,
-	// 				protocol: 'wss'
-	// 			}),
+	// 			endpointUrl,
 	// 			network.chainId,
 	// 		)
-	// 	)
+	// 	},
 	// },
 
 	{
@@ -235,10 +224,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 				config.nodeType === nodeType
 			)
 
-			if(!config)
-				throw new Error(`Couldn't find a Figment node matching the configuration.`)
-
-			return (
+			return config && (
 				new ({
 					[NetworkProviderConnectionType.RPC]: JsonRpcProvider,
 					[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
@@ -248,7 +234,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 					network.chainId
 				)
 			)
-		}
+		},
 	},
 
 	{
@@ -267,10 +253,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 				config.nodeType === nodeType
 			)
 
-			if(!config)
-				throw new Error(`Couldn't find a Tenderly node matching the configuration.`)
-
-			return (
+			return config && (
 				new ({
 					[NetworkProviderConnectionType.RPC]: JsonRpcProvider,
 					[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
@@ -280,7 +263,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 					network.chainId
 				)
 			)
-		}
+		},
 	},
 
 	{
@@ -291,23 +274,32 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		get: ({
 			network,
 			connectionType = NetworkProviderConnectionType.RPC,
-		}) => new JsonRpcProvider(
-			`${connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${{
+		}) => {
+			const subdomain = {
 				1: env.QUICKNODE_ENDPOINT_NAME_1,
 				10: env.QUICKNODE_ENDPOINT_NAME_10,
 				137: env.QUICKNODE_ENDPOINT_NAME_137,
 				84531: env.QUICKNODE_ENDPOINT_NAME_84531,
 				1101: env.QUICKNODE_ENDPOINT_NAME_1101,
-			}[network.chainId]}.quiknode.pro/${{
+			}[network.chainId]
+
+			const authToken = {
 				1: env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_1,
 				10: env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_10,
 				137: env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_137,
 				84531: env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_84531,
 				1101: env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_1101,
-			}[network.chainId]}/`,
-			network.chainId
-		)
+			}[network.chainId]
+
+			return subdomain && (
+				new JsonRpcProvider(
+					`${connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${subdomain}.quiknode.pro/${authToken}/`,
+					network.chainId
+				)
+			)
+		},
 	},
+
 	{
 		provider: NetworkProvider.GatewayFm,
 		name: 'Gateway.fm',
@@ -324,8 +316,13 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 				config.nodeType === nodeType
 			)
 
-			if(!config)
-				throw new Error(`Couldn't find a Gateway.fm node matching the configuration.`)
+			if(!config) return undefined
+
+			const apiKey = {
+				'eu-north-1': env.GATEWAY_FM_API_KEY_EU_NORTH_1,
+				'eu-central-2': env.GATEWAY_FM_API_KEY_EU_CENTRAL_2,
+				'ap-southeast-1': env.GATEWAY_FM_API_KEY_AP_SOUTHEAST_1,
+			}[config.region]
 
 			return (
 				new ({
@@ -333,15 +330,11 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 					[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
 					[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
 				}[connectionType])(
-					`${config.endpointUrl}?apiKey=${{
-						'eu-north-1': env.GATEWAY_FM_API_KEY_EU_NORTH_1,
-						'eu-central-2': env.GATEWAY_FM_API_KEY_EU_CENTRAL_2,
-						'ap-southeast-1': env.GATEWAY_FM_API_KEY_AP_SOUTHEAST_1,
-					}[config.region]}`,
+					`${config.endpointUrl}?apiKey=${apiKey}`,
 					network.chainId
 				)
 			)
-		}
+		},
 	},
 	
 	{
@@ -360,10 +353,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 				config.nodeType === nodeType
 			)
 
-			if(!config)
-				throw new Error(`Couldn't find a GetBlock node matching the configuration.`)
-
-			return (
+			return config && (
 				new ({
 					[NetworkProviderConnectionType.RPC]: JsonRpcProvider,
 					[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
@@ -373,7 +363,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 					network.chainId
 				)
 			)
-		}
+		},
 	},
 ]
 
@@ -488,17 +478,13 @@ export const getEthersProvider = ({
 	connectionType?: NetworkProviderConnectionType,
 	nodeType?: NetworkProviderNodeType,
 }) => {
-	try {
-		const providerConfig = networkProviderConfigByProvider[networkProvider]
+	const providerConfig = networkProviderConfigByProvider[networkProvider]
 
-		const ethersProvider = providerConfig?.get({
-			network,
-			connectionType,
-			nodeType
-		})
+	const ethersProvider = providerConfig?.get({
+		network,
+		connectionType,
+		nodeType
+	})
 
-		return ethersProvider
-	}catch(e){
-		console.error(e)
-	}
+	return ethersProvider
 }
