@@ -488,17 +488,17 @@ export const getEthersProvider = ({
 	connectionType?: NetworkProviderConnectionType,
 	nodeType?: NetworkProviderNodeType,
 }) => {
-	if(!globalThis.document) return ''
+	try {
+		const providerConfig = networkProviderConfigByProvider[networkProvider]
 
-	const providerConfig = networkProviderConfigByProvider[networkProvider]
+		const ethersProvider = providerConfig?.get({
+			network,
+			connectionType,
+			nodeType
+		})
 
-	const ethersProvider = providerConfig?.get({
-		network,
-		connectionType,
-		nodeType
-	})
-
-	// console.log('ethersProvider', ethersProvider)
-
-	return ethersProvider
+		return ethersProvider
+	}catch(e){
+		console.error(e)
+	}
 }
