@@ -17,17 +17,17 @@
 	let _currentPriceProvider: PriceProvider
 	$: _currentPriceProvider = currentPriceProvider === 'auto' ? PriceProvider.Chainlink : currentPriceProvider
 
+	export let oracleNetwork: Ethereum.Network
+	export let networkProvider: NetworkProvider
 	export let token: TickerSymbol
 	export let quoteCurrency: QuoteCurrency
-	export let networkProvider: NetworkProvider
-	export let network: Ethereum.Network
 
 	export let blockNumber: number
 
 
-	let provider: Ethereum.Provider | undefined
-	$: provider = network && networkProvider && getEthersProvider({
-		network,
+	let oracleProvider: Ethereum.Provider | undefined
+	$: oracleProvider = oracleNetwork && networkProvider && getEthersProvider({
+		network: oracleNetwork,
 		networkProvider,
 	})
 
@@ -112,7 +112,7 @@
 					loadingIconName={_currentPriceProvider}
 					loadingMessage="Retrieving price from {_currentPriceProvider}..."
 					errorMessage="{token} price not available"
-					fromPromise={blockNumber, provider && network && (() => getChainlinkPriceFeed(provider, network, token, quoteCurrency))}
+					fromPromise={blockNumber, oracleProvider && oracleNetwork && (() => getChainlinkPriceFeed(oracleProvider, oracleNetwork, token, quoteCurrency))}
 					let:result={priceFeed}
 					whenErrored={async () => {
 						await new Promise(r => setTimeout(r, 1000))
@@ -129,14 +129,14 @@
 							{_currentPriceProvider}
 							{#if status === 'resolved'}
 								›
-								<Address {network} address={priceFeed.contractAddress}>{token}/{quoteCurrency} Price Feed</Address>
+								<Address network={oracleNetwork} address={priceFeed.contractAddress}>{token}/{quoteCurrency} Price Feed</Address>
 							{/if}
 						</span>
 					</div>
 
 					<div class="rate">
 						<TokenBalance
-							{network} symbol={token}
+							network={oracleNetwork} symbol={token}
 							balance={1}
 							tween={false}
 						/>

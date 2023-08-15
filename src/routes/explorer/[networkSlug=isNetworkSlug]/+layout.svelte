@@ -223,7 +223,7 @@
 									{#if showCurrentPrice}
 										<section class="card">
 											<CurrentPrice
-												network={networksByChainID[1]}
+												oracleNetwork={networksByChainID[1]}
 												{networkProvider}
 												currentPriceProvider={$preferences.currentPriceProvider}
 												token={$explorerNetwork.nativeCurrency.symbol}
