@@ -26,12 +26,17 @@
 	errorMessage="Error connecting to the {network ? `${network.name} ` : ''} network{viaRPC}. Try changing the On-Chain Data provider in Preferences."
 	fromPromise={
 		providerPromise || (
-			network && networkProvider && (async () =>
-				getEthersProvider({
+			network && networkProvider && (async () => {
+				const provider = getEthersProvider({
 					network,
 					networkProvider,
 				})
-			)
+
+				if(!provider)
+					throw new Error(`Couldn't find a${networkProvider.match(/^[aeiou]/gi) ? 'n' : ''} ${networkProvider} node matching the configuration.`)
+
+				return provider
+			})
 		)
 	}
 	let:result={provider}
