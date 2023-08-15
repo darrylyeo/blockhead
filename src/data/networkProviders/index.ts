@@ -372,89 +372,89 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 
 export const networkProviderConfigByProvider = Object.fromEntries(networkProviderConfigs.map(networkProviderConfig => [networkProviderConfig.provider, networkProviderConfig]))
 
-export const networkProviderConfigByNetworkSlug = Object.fromEntries(Object.entries({
-	"arbitrum-one": [
-		NetworkProvider.PocketNetwork,
-		NetworkProvider.Figment,
-	],
-	"avalanche": [
-		NetworkProvider.PocketNetwork,
-		NetworkProvider.Figment,
-	],
-	"avalanche-fuji": [
-		NetworkProvider.Figment,
-	],
-	"bsc": [
-		NetworkProvider.Figment,
-	],
-	"celo": [
-		NetworkProvider.Figment,
-	],
-	"celo-alfajores": [
-		NetworkProvider.Figment,
-	],
-	"ethereum": [
-		NetworkProvider.Alchemy,
-		NetworkProvider.PocketNetwork,
-		NetworkProvider.Figment,
-		NetworkProvider.QuickNode,
-	],
-	"ethereum-ropsten": [
-		// RpcProvider.Alchemy,
-		NetworkProvider.PocketNetwork,
-	],
-	"ethereum-rinkeby": [
-		NetworkProvider.Alchemy,
-		NetworkProvider.PocketNetwork,
-		NetworkProvider.Figment,
-	],
-	"ethereum-goerli": [
-		// RpcProvider.Alchemy,
-		NetworkProvider.PocketNetwork,
-	],
-	"fantom": [
-		NetworkProvider.Figment,
-	],
-	"harmony-shard0": [
-		NetworkProvider.PocketNetwork
-	],
-	"harmony-shard1": [],
-	"oasis-paratime": [
-		NetworkProvider.Figment,
-	],
-	"polygon": [
-		NetworkProvider.PocketNetwork,
-		NetworkProvider.Figment,
-		NetworkProvider.QuickNode,
-	],
-	"polygon-mumbai": [
-		NetworkProvider.Figment,
-	],
-	"optimism": [
-		NetworkProvider.QuickNode,
-	],
-	"polygon-zkevm": [
-		NetworkProvider.QuickNode,
-	],
-})
-	.map(([slug, networkProviders]) =>
-		[
-			slug,
-			[
-				...(networksBySlug[slug].rpc ?? [])
-					.filter(rpcUrl => rpcUrl.startsWith('https://'))
-					.map(rpcUrl => ({
-						type: NetworkProvider.Default,
-						name: new URL(rpcUrl).host,
-						// name: `Default (${new URL(rpcUrl).host})`,
-						get: ({ network }) => new providers.JsonRpcProvider(rpcUrl, networksBySlug[slug].chainId)
-					})),
-				...networkProviders
-					.map(networkProvider => networkProviderConfigByProvider[networkProvider])
-			]
-		]
-	)
-)
+// export const networkProviderConfigByNetworkSlug = Object.fromEntries(Object.entries({
+// 	"arbitrum-one": [
+// 		NetworkProvider.PocketNetwork,
+// 		NetworkProvider.Figment,
+// 	],
+// 	"avalanche": [
+// 		NetworkProvider.PocketNetwork,
+// 		NetworkProvider.Figment,
+// 	],
+// 	"avalanche-fuji": [
+// 		NetworkProvider.Figment,
+// 	],
+// 	"bsc": [
+// 		NetworkProvider.Figment,
+// 	],
+// 	"celo": [
+// 		NetworkProvider.Figment,
+// 	],
+// 	"celo-alfajores": [
+// 		NetworkProvider.Figment,
+// 	],
+// 	"ethereum": [
+// 		NetworkProvider.Alchemy,
+// 		NetworkProvider.PocketNetwork,
+// 		NetworkProvider.Figment,
+// 		NetworkProvider.QuickNode,
+// 	],
+// 	"ethereum-ropsten": [
+// 		// RpcProvider.Alchemy,
+// 		NetworkProvider.PocketNetwork,
+// 	],
+// 	"ethereum-rinkeby": [
+// 		NetworkProvider.Alchemy,
+// 		NetworkProvider.PocketNetwork,
+// 		NetworkProvider.Figment,
+// 	],
+// 	"ethereum-goerli": [
+// 		// RpcProvider.Alchemy,
+// 		NetworkProvider.PocketNetwork,
+// 	],
+// 	"fantom": [
+// 		NetworkProvider.Figment,
+// 	],
+// 	"harmony-shard0": [
+// 		NetworkProvider.PocketNetwork
+// 	],
+// 	"harmony-shard1": [],
+// 	"oasis-paratime": [
+// 		NetworkProvider.Figment,
+// 	],
+// 	"polygon": [
+// 		NetworkProvider.PocketNetwork,
+// 		NetworkProvider.Figment,
+// 		NetworkProvider.QuickNode,
+// 	],
+// 	"polygon-mumbai": [
+// 		NetworkProvider.Figment,
+// 	],
+// 	"optimism": [
+// 		NetworkProvider.QuickNode,
+// 	],
+// 	"polygon-zkevm": [
+// 		NetworkProvider.QuickNode,
+// 	],
+// })
+// 	.map(([slug, networkProviders]) =>
+// 		[
+// 			slug,
+// 			[
+// 				...(networksBySlug[slug].rpc ?? [])
+// 					.filter(rpcUrl => rpcUrl.startsWith('https://'))
+// 					.map(rpcUrl => ({
+// 						type: NetworkProvider.Default,
+// 						name: new URL(rpcUrl).host,
+// 						// name: `Default (${new URL(rpcUrl).host})`,
+// 						get: ({ network }) => new providers.JsonRpcProvider(rpcUrl, networksBySlug[slug].chainId)
+// 					})),
+// 				...networkProviders
+// 					.map(networkProvider => networkProviderConfigByProvider[networkProvider])
+// 			]
+// 		]
+// 	)
+// )
 
 // for(const slug in networkProviderConfigByNetworkSlug){
 // 	// if(networksBySlug[slug].rpc?.length)
