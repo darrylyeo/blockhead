@@ -278,21 +278,9 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 			network,
 			connectionType = NetworkProviderConnectionType.RPC,
 		}) => {
-			const subdomain = {
-				1: env.QUICKNODE_ENDPOINT_NAME_1,
-				10: env.QUICKNODE_ENDPOINT_NAME_10,
-				137: env.QUICKNODE_ENDPOINT_NAME_137,
-				84531: env.QUICKNODE_ENDPOINT_NAME_84531,
-				1101: env.QUICKNODE_ENDPOINT_NAME_1101,
-			}[network.chainId]
+			const subdomain = env[`QUICKNODE_ENDPOINT_NAME_${network.chainId}`]
 
-			const authToken = {
-				1: env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_1,
-				10: env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_10,
-				137: env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_137,
-				84531: env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_84531,
-				1101: env.QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_1101,
-			}[network.chainId]
+			const authToken = env[`QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_${network.chainId}`]
 
 			return subdomain && (
 				new JsonRpcProvider(
