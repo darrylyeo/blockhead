@@ -741,7 +741,7 @@
 
 												<EthereumContractExplorer
 													{network}
-													{address}
+													address={erc20Token.address}
 												/>
 											</div>
 										{:else}
