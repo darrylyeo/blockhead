@@ -120,7 +120,7 @@
 							_currentPriceProvider = PriceProvider.Covalent
 					}}
 				>
-					<div slot="header" class="bar wrap" let:status>
+					<div slot="header" class="bar wrap" let:status let:result={priceFeed}>
 						<slot name="title">
 							<h3>Current Price</h3>
 						</slot>
