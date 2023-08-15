@@ -38,11 +38,12 @@ type NetworkProviderConfig = {
 	provider: NetworkProvider,
 	name: string,
 	icon?: string,
-	get: (_: {
+
+	getEthersProvider: (_: {
 		network: Ethereum.Network,
 		connectionType: NetworkProviderConnectionType,
 		nodeType: NetworkProviderNodeType,
-	}) => Provider | JsonRpcProvider | undefined
+	}) => Provider | JsonRpcProvider | undefined,
 }
 
 
@@ -50,7 +51,8 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 	{
 		provider: NetworkProvider.Default,
 		name: 'Default RPC Provider',
-		get: ({ network }) => (
+
+		getEthersProvider: ({ network }) => (
 			network.rpc?.[0]
 				? new JsonRpcProvider(
 					network.rpc[0],
@@ -75,7 +77,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		name: 'Infura',
 		icon: InfuraIcon,
 
-		get: ({
+		getEthersProvider: ({
 			network,
 			connectionType = NetworkProviderConnectionType.RPC,
 			nodeType = NetworkProviderNodeType.Default,
@@ -109,7 +111,8 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		provider: NetworkProvider.Alchemy,
 		name: 'Alchemy',
 		icon: AlchemyIcon,
-		get: ({
+
+		getEthersProvider: ({
 			network,
 			connectionType = NetworkProviderConnectionType.RPC,
 		}) => {
@@ -140,7 +143,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		name: 'Pocket Network',
 		icon: PocketIcon,
 
-		get: ({
+		getEthersProvider: ({
 			network,
 			connectionType = NetworkProviderConnectionType.RPC,
 			nodeType = NetworkProviderNodeType.Default,
@@ -175,7 +178,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 	// 	name: 'Moralis',
 	// 	icon: MoralisIcon,
 
-	// 	get: ({
+	// 	getEthersProvider: ({
 	// 		network,
 	// 		connectionType = NetworkProviderConnectionType.WebSocket,
 	// 	}) => {
@@ -200,7 +203,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		name: 'Etherscan',
 		icon: EtherscanIcon,
 
-		get: ({ network }) => (
+		getEthersProvider: ({ network }) => (
 			new EtherscanProvider(
 				network.chainId,
 				env.ETHERSCAN_API_KEY_1
@@ -213,7 +216,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		name: 'Figment DataHub',
 		icon: FigmentIcon,
 
-		get: ({
+		getEthersProvider: ({
 			network,
 			connectionType = NetworkProviderConnectionType.RPC,
 			nodeType = NetworkProviderNodeType.Default,
@@ -242,7 +245,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		name: 'Tenderly › Web3 Gateway',
 		icon: TenderlyIcon,
 
-		get: ({
+		getEthersProvider: ({
 			network,
 			connectionType = NetworkProviderConnectionType.RPC,
 			nodeType = NetworkProviderNodeType.Default,
@@ -271,7 +274,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		name: 'QuickNode',
 		icon: QuickNodeIcon,
 
-		get: ({
+		getEthersProvider: ({
 			network,
 			connectionType = NetworkProviderConnectionType.RPC,
 		}) => {
@@ -305,7 +308,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		name: 'Gateway.fm',
 		icon: GatewayFmIcon,
 
-		get: ({
+		getEthersProvider: ({
 			network,
 			connectionType = NetworkProviderConnectionType.RPC,
 			nodeType = NetworkProviderNodeType.Default,
@@ -342,7 +345,7 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 		name: 'GetBlock',
 		icon: GetBlockIcon,
 
-		get: ({
+		getEthersProvider: ({
 			network,
 			connectionType = NetworkProviderConnectionType.RPC,
 			nodeType = NetworkProviderNodeType.Default,
@@ -480,7 +483,7 @@ export const getEthersProvider = ({
 }) => {
 	const providerConfig = networkProviderConfigByProvider[networkProvider]
 
-	const ethersProvider = providerConfig?.get({
+	const ethersProvider = providerConfig?.getEthersProvider({
 		network,
 		connectionType,
 		nodeType
