@@ -6,9 +6,8 @@
 
 	const token = 'BTC'
 
-	const ethereumNetwork = getContext<SvelteStore<Ethereum.Network>>('ethereumNetwork')
-	const ethereumProvider = getContext<SvelteStore<Ethereum.Provider>>('ethereumProvider')
 
+	const ethereumNetwork = getContext<SvelteStore<Ethereum.Network>>('ethereumNetwork')
 
 	import CurrentPrice from '../../../components/CurrentPrice.svelte'
 	import HistoricalPriceChart from '../../../components/HistoricalPriceChart.svelte'
@@ -34,11 +33,11 @@
 <div>
 	<section class="card">
 		<CurrentPrice
+			network={$ethereumNetwork}
+			networkProvider={$preferences.rpcNetwork}
 			currentPriceProvider={$preferences.currentPriceProvider}
 			{token}
 			quoteCurrency={$preferences.quoteCurrency}
-			provider={$ethereumProvider}
-			network={$ethereumNetwork}
 		/>
 	</section>
 </div>

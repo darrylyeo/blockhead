@@ -1,11 +1,13 @@
 <script lang="ts">
 	import type { TickerSymbol } from '../data/currencies'
 	import type { Ethereum } from '../data/networks/types'
+	import type { NetworkProvider } from '../data/networkProviders/types'
+	import { getEthersProvider } from '../data/networkProviders'
 	import * as ethers from 'ethers'
 
 
 	export let network: Ethereum.Network
-	export let provider: Ethereum.Provider
+	export let networkProvider: NetworkProvider
 	export let address: Ethereum.Address
 
 	export let symbol: TickerSymbol | undefined
@@ -14,6 +16,13 @@
 
 	$: symbol = $$props.symbol || erc20Token?.symbol
 	$: contractAddress = $$props.address || erc20Token?.address
+
+
+	let provider: Ethereum.Provider | undefined
+	$: provider = network && networkProvider && getEthersProvider({
+		network,
+		networkProvider,
+	})
 
 
 	const erc20ABI = [

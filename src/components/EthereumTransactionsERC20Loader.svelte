@@ -1,13 +1,15 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
+	import type { NetworkProvider } from '../data/networkProviders/types'
+	import { getEthersProvider } from '../data/networkProviders'
 	import type { TickerSymbol } from '../data/currencies'
 	import { preferences } from '../state/preferences'
 	import { TransactionProvider, transactionProviderIcons } from '../data/transactionProvider'
 
 
 	export let network: Ethereum.Network
+	export let networkProvider: NetworkProvider
 	export let address: Ethereum.Address
-	export let provider: Ethereum.Provider
 
 	export let erc20Token: Ethereum.ERC20Token
 
@@ -17,6 +19,12 @@
 
 	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
+
+	let provider: Ethereum.Provider | undefined
+	$: provider = network && networkProvider && getEthersProvider({
+		network,
+		networkProvider,
+	})
 
 
 	$: loadingMessage = `Retrieving ERC-20 transactions from ${transactionProvider}...`

@@ -12,7 +12,6 @@
 	import { getContext } from 'svelte'
 
 	const ethereumNetwork = getContext<SvelteStore<Ethereum.Network>>('ethereumNetwork')
-	const ethereumProvider = getContext<SvelteStore<Ethereum.Provider>>('ethereumProvider')
 
 	import type { Writable } from 'svelte/store'
 
@@ -36,7 +35,9 @@
 
 
 	// Internal state
-		
+
+	$: networkProvider = $preferences.rpcNetwork
+
 	$: currentQuery = $query
 
 	$: showCurrentBlockHeight = true
@@ -167,7 +168,7 @@
 		<NetworkProviderLoader
 			network={$explorerNetwork}
 			providerPromise={$explorerProvider && (async () => $explorerProvider)}
-			networkProvider={$preferences.rpcNetwork}
+			{networkProvider}
 			contentClass="column"
 			let:provider
 		>
@@ -178,8 +179,8 @@
 							<div class="column"in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
 								<EthereumTransactionLoader
 									network={$explorerNetwork}
+									{networkProvider}
 									transactionId={$explorerViewData.transactionId}
-									provider={$explorerProvider}
 
 									detailLevel="exhaustive"
 									tokenBalanceFormat="both"
@@ -194,8 +195,8 @@
 							<div class="column" in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
 								<EthereumBlockLoader
 									network={$explorerNetwork}
+									{networkProvider}
 									blockNumber={$explorerViewData.blockNumber}
-									provider={$explorerProvider}
 									transactionProvider={$preferences.transactionProvider}
 
 									bind:block={navigationContext.block}
@@ -205,8 +206,8 @@
 							<div class="column" in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
 								<EthereumAccountOrContract
 									network={$explorerNetwork}
+									{networkProvider}
 									accountId={$explorerViewData.address || $explorerViewData.accountId}
-									provider={$explorerProvider}
 								/>
 							</div>
 						{:else}
@@ -224,11 +225,11 @@
 									{#if showCurrentPrice}
 										<section class="card">
 											<CurrentPrice
+												network={$ethereumNetwork}
+												{networkProvider}
 												currentPriceProvider={$preferences.currentPriceProvider}
 												token={$explorerNetwork.nativeCurrency.symbol}
 												quoteCurrency={$preferences.quoteCurrency}
-												provider={$ethereumProvider}
-												network={$ethereumNetwork}
 												blockNumber={$explorerBlockNumber}
 											/>
 										</section>
@@ -254,7 +255,7 @@
 				<div class="navigation currentNetwork column">
 					<EthereumBlockNavigation
 						network={$explorerNetwork}
-						provider={$explorerProvider}
+						{networkProvider}
 						blockNumber={
 							$explorerQueryType === 'block' ?
 								Number($query)

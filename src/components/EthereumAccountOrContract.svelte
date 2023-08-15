@@ -1,5 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
+	import { getEthersProvider } from '../data/networkProviders'
+	import type { NetworkProvider } from '../data/networkProviders/types'
 	import type { TickerSymbol } from '../data/currencies'
 	import type { Covalent } from '../api/covalent'
 	import type { ContractMetadata } from '../api/sourcify'
@@ -11,15 +13,21 @@
 
 
 	export let network: Ethereum.Network
+	export let networkProvider: NetworkProvider
 	export let accountId: Ethereum.Address | string
 	export let filterQuery: Ethereum.Address | Ethereum.ContractAddress | Ethereum.BlockNumber
-	export let provider: Ethereum.Provider
 
 	export let tokenBalancesProvider: TokenBalancesProvider
 	export let transactionProvider: TransactionProvider
 
 	$: tokenBalancesProvider = $$props.tokenBalancesProvider || $preferences.tokenBalancesProvider
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
+
+	let provider: Ethereum.Provider | undefined
+	$: provider = network && networkProvider && getEthersProvider({
+		network,
+		networkProvider,
+	})
 
 
 	let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
@@ -157,7 +165,7 @@
 			</slot>
 		</EthereumContractExplorer>
 
-		<!-- <Balance {provider} {address} /> -->
+		<!-- <Balance {network} {networkProvider} {address} /> -->
 		<EthereumBalances
 			{network}
 			{address}
@@ -211,9 +219,9 @@
 					<!-- Regular Ethereum Transactions -->
 					<EthereumTransactionsLoader
 						{network}
-						{address}
-						{provider}
+						{networkProvider}
 						{transactionProvider}
+						{address}
 						{quoteCurrency}
 						includeLogs={detailLevel === 'exhaustive'}
 						showIf={transactions => transactions}
@@ -317,9 +325,9 @@
 					<!-- ERC-20 Transactions -->
 					<EthereumTransactionsERC20Loader
 						{network}
-						{address}
-						{provider}
+						{networkProvider}
 						{transactionProvider}
+						{address}
 						erc20Token={selectedToken}
 						{quoteCurrency}
 						includeLogs={detailLevel === 'exhaustive'}

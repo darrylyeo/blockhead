@@ -5,6 +5,7 @@
 
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
+	import type { NetworkProvider } from '../data/networkProviders/types'
 
 
 	// export let network: Ethereum.Network
@@ -78,6 +79,9 @@
 
 
 	export let network: Ethereum.Network
+	export let networkProvider: NetworkProvider
+
+	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
 	
 	// Computed
@@ -101,7 +105,7 @@
 
 		const provider = getEthersProvider({
 			network,
-			networkProvider: $preferences.rpcNetwork
+			networkProvider,
 		})
 
 		const onBlock = (blockNumber) => {

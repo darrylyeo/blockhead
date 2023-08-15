@@ -1,5 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
+	import type { NetworkProvider } from '../data/networkProviders/types'
+	import { getEthersProvider } from '../data/networkProviders'
 	import type { QuoteCurrency, TickerSymbol } from '../data/currencies'
 	import { PriceProvider, priceProviderIcons } from '../data/priceProviders'
 	import { getChainlinkPriceFeed } from '../api/chainlink'
@@ -17,10 +19,17 @@
 
 	export let token: TickerSymbol
 	export let quoteCurrency: QuoteCurrency
-	export let provider: Ethereum.Provider
+	export let networkProvider: NetworkProvider
 	export let network: Ethereum.Network
 
 	export let blockNumber: number
+
+
+	let provider: Ethereum.Provider | undefined
+	$: provider = network && networkProvider && getEthersProvider({
+		network,
+		networkProvider,
+	})
 
 
 	let isHidden = false

@@ -10,6 +10,7 @@
 <script lang="ts">
 	import type { AccountId } from '../data/accountId'
 	import type { Ethereum } from '../data/networks/types'
+	import type { NetworkProvider } from '../data/networkProviders/types'
 	import type { DefiProvider } from '../data/defiProviders'
 	import type { NotificationsProvider } from '../data/notificationsProvider'
 	import type { QuoteCurrency } from '../data/currencies'
@@ -93,7 +94,7 @@
 	
 	// Balances view options
 	
-	export let provider: Ethereum.Provider
+	export let networkProvider: NetworkProvider
 	export let defiProvider: DefiProvider
 	export let tokenBalancesProvider
 	export let nftProvider
@@ -417,7 +418,7 @@
 				<PortfolioAccount
 					bind:account
 
-					{provider}
+					{networkProvider}
 					{defiProvider}
 					{tokenBalancesProvider}
 					{nftProvider}

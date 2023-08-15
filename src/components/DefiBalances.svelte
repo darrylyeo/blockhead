@@ -1,5 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
+	import type { NetworkProvider } from '../data/networkProviders/types'
+	import { getEthersProvider } from '../data/networkProviders'
 	import { DefiProvider, defiProviderIcons } from '../data/defiProviders'
 	import type { QuoteCurrency } from '../data/currencies'
 	import type { Web3AppConfig } from '../data/web3Apps'
@@ -11,13 +13,19 @@
 	// Data
 	export let web3Apps: Web3AppConfig[]
 	export let network: Ethereum.Network
-	export let provider: Ethereum.Provider
+	export let networkProvider: NetworkProvider
 	export let address: Ethereum.Address
 	export let defiProvider: DefiProvider = DefiProvider.Zapper
 	export let quoteCurrency: QuoteCurrency
 
 
 	// Computed Values
+	let provider: Ethereum.Provider | undefined
+	$: provider = network && networkProvider && getEthersProvider({
+		network,
+		networkProvider,
+	})
+
 	let zapperFiatRates
 	// $: if(defiProvider === DefiProvider.Zapper && quoteCurrency !== 'USD')
 	// 	getFiatRates().then(_ => zapperFiatRates = _)

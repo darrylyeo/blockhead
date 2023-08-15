@@ -1,7 +1,10 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
-	
+	import type { NetworkProvider } from '../data/networkProviders/types'
+
 	export let network: Ethereum.Network
+	export let networkProvider: NetworkProvider
+
 	export let blockNumber: Ethereum.BlockNumber | undefined
 	export let provider: Ethereum.Provider
 
@@ -141,7 +144,7 @@
 		)}>
 			<!-- <span>🔗</span> -- >
 			<!-- <span>»</span> -- >
-			<EthereumLatestBlockNumber {network} {provider} bind:blockNumber={latestBlockNumber} />
+			<EthereumLatestBlockNumber {network} {networkProvider} bind:blockNumber={latestBlockNumber} />
 		</span>-->
 	</nav>
 </EthereumLatestBlockNumber>

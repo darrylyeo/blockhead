@@ -81,7 +81,7 @@
 				<PortfolioComponent
 					bind:portfolio
 					isEditable
-					provider={portfolioProvider}
+					networkProvider={$preferences.rpcNetwork}
 					defiProvider={$preferences.defiProvider}
 					tokenBalancesProvider={$preferences.tokenBalancesProvider}
 					notificationsProvider={$preferences.notificationsProvider}

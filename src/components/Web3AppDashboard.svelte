@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
+	import type { NetworkProvider } from '../data/networkProviders/types'
 	import { DefiProvider, defiProviderIcons } from '../data/defiProviders'
 	import type { QuoteCurrency } from '../data/currencies'
 	import type { Web3AppConfig, Web3AppSlug } from '../data/web3Apps'
@@ -15,7 +16,7 @@
 	// Data
 	export let web3AppConfig: Web3AppConfig
 	export let address: string
-	export let networkProvider: Ethereum.ProviderName
+	export let networkProvider: NetworkProvider
 	export let defiProvider: DefiProvider = DefiProvider.Zapper
 	export let quoteCurrency: QuoteCurrency
 
@@ -303,8 +304,8 @@
 							}}
 								<EthereumAccountOrContract
 									{network}
+									{networkProvider}
 									accountId={contractAddress}
-									{provider}
 								>
 									<svelte:fragment slot="title" let:network let:address>
 										<h3>

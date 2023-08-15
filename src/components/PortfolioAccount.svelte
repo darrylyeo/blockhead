@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PortfolioAccount } from '../state/portfolio-accounts'
 	import type { Ethereum } from '../data/networks/types'
+	import type { NetworkProvider } from '../data/networkProviders/types'
 	import { AccountIdType } from '../data/accountId'
 	import { DefiProvider, defiProviderIcons } from '../data/defiProviders'
 	import type { QuoteCurrency } from '../data/currencies'
@@ -16,7 +17,7 @@
 
 	export let account: PortfolioAccount
 
-	export let provider: Ethereum.Provider
+	export let networkProvider: NetworkProvider
 	export let defiProvider: DefiProvider
 	export let tokenBalancesProvider: TokenBalancesProvider
 	export let nftProvider: NftProvider
@@ -532,7 +533,7 @@
 							{#each [network.nativeCurrency.symbol] as symbol}
 								<Balance
 									{network}
-									{provider}
+									{networkProvider}
 									{address}
 									{symbol}
 								/>
@@ -546,7 +547,7 @@
 					<!-- <HeightContainer containerClass="defi-balances" class="column" isOpen={showDeFi}> -->
 						<DefiBalances
 							{network}
-							{provider}
+							{networkProvider}
 							{address}
 							{defiProvider}
 							{quoteCurrency}
