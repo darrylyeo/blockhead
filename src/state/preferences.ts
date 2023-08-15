@@ -464,7 +464,7 @@ export const preferencesConfig: PreferencesConfig<
 
 
 // V1
-// export const preferences.rpcNetwork = localStorageWritable<Ethereum.ProviderName>('preferred-ethereum-provider', 'Ethers')
+// export const preferences.rpcNetwork = localStorageWritable<NetworkProvider>('preferred-ethereum-provider', 'Ethers')
 // export const preferences.transactionProvider = localStorageWritable<TransactionProvider>('preferred-transaction-provider', TransactionProvider.Etherspot)
 // export const preferences.defiProvider = localStorageWritable<DefiProvider>('preferred-defi-provider', DefiProvider.Zapper)
 // export const preferences.currentPriceProvider = localStorageWritable<PriceProvider>('preferred-price-feed-provider', PriceProvider.Chainlink)
