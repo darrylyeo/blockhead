@@ -1850,7 +1850,7 @@ const aggregatorV3InterfaceABI = [{ "inputs": [], "name": "decimals", "outputs":
 // let validId = BigInt("18446744073709562301")
 // return await priceFeed.methods.getRoundData(validId).call()
 
-export async function getChainlinkPriceFeed(provider: Ethereum.Provider, network: Ethereum.Network, quoteAsset: TickerSymbol, baseAsset: QuoteCurrency){
+export const getChainlinkPriceFeed = async (provider: Ethereum.Provider, network: Ethereum.Network, quoteAsset: TickerSymbol, baseAsset: QuoteCurrency) => {
 	const assetPair: AssetPair = `${quoteAsset}/${baseAsset}`
 	const contractInfo: PriceFeedContractInfo = CHAINLINK_CONTRACTS[network.chainId /*provider.network.chainId*/]?.[assetPair]
 	if(contractInfo){
@@ -1861,8 +1861,8 @@ export async function getChainlinkPriceFeed(provider: Ethereum.Provider, network
 		// console.log(answer.toString(), answeredInRound.toString(), roundId.toString(), startedAt.toString(), updatedAt.toString())
 		return {
 			contractAddress: contractInfo.contractAddress,
-			price: formatUnits(answer, contractInfo.decimals),
-			updatedAt: new Date(updatedAt * 1000)
+			price: formatUnits(Number(answer), contractInfo.decimals),
+			updatedAt: new Date(Number(updatedAt) * 1000)
 		}
 	}
 
