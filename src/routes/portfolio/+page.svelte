@@ -3,21 +3,10 @@
 	import { MetaTags } from 'svelte-meta-tags'
 
 
-	import { getContext } from 'svelte'
-	
-	import type { Ethereum } from '../../data/networks/types'
 	import { getLocalPortfolios, createPortfolio } from '../../state/portfolio-accounts'
 	import { preferences } from '../../state/preferences'
-	import { networksByChainID } from '../../data/networks'
 
 
-	import { writable } from 'svelte/store'
-
-	const ethereumChainID = writable(1)
-
-	const ethereumProvider = getContext<SvelteStore<Ethereum.Provider>>('ethereumProvider')
-	$: portfolioProvider = $ethereumProvider
-	
 	const localPortfolios = getLocalPortfolios()
 
 
@@ -43,9 +32,6 @@
 
 	$: if(localPortfolios && !$localPortfolios.length)
 		addPortfolio()
-
-
-	$: network = networksByChainID[$ethereumChainID]
 
 
 	// Components

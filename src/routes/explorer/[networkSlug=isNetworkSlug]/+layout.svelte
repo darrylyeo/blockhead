@@ -11,8 +11,6 @@
 
 	import { getContext } from 'svelte'
 
-	const ethereumNetwork = getContext<SvelteStore<Ethereum.Network>>('ethereumNetwork')
-
 	import type { Writable } from 'svelte/store'
 
 	const relevantPreferences = getContext<Writable<string[]>>('relevantPreferences')
@@ -79,7 +77,7 @@
 		Number((navigationContext.transaction as Covalent.Transaction).block_height
 		|| (navigationContext.transaction as BlockTransaction).block_number)
 
-	import { availableNetworks } from '../../../data/networks'
+	import { availableNetworks, networksByChainID } from '../../../data/networks'
 	import { TransactionProvider, transactionProviderIcons } from '../../../data/transactionProvider'
 	import { parallelLoaderStore } from '../../../utils/parallelLoaderStore'
 	import { chainCodeFromNetwork, MoralisWeb3Api } from '../../../api/moralis/web3Api'
@@ -225,7 +223,7 @@
 									{#if showCurrentPrice}
 										<section class="card">
 											<CurrentPrice
-												network={$ethereumNetwork}
+												network={networksByChainID[1]}
 												{networkProvider}
 												currentPriceProvider={$preferences.currentPriceProvider}
 												token={$explorerNetwork.nativeCurrency.symbol}

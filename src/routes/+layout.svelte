@@ -57,41 +57,6 @@
 
 
 	import Nav from '../components/Nav.svelte'
-	
-	
-	// import { getDefaultProvider } from 'ethers'
-	// import { setContext } from 'svelte'
-	// import { writable } from 'svelte/store'
-	// const provider = writable<Ethereum.Provider>(getDefaultProvider('mainnet', {}))
-	// setContext('provider', provider)
-
-
-	import type { Ethereum } from '../data/networks/types'
-	import { networksByChainID } from '../data/networks'
-	import { derived, writable } from 'svelte/store'
-	import { getEthersProvider } from '../data/networkProviders'
-	import { onMount, setContext } from 'svelte'
-
-	const whenMounted = new Promise(r => onMount(r))
-
-	const ethereumChainID = writable(1)
-
-	const ethereumNetwork = derived<[typeof ethereumChainID], Ethereum.Network>(
-		[ethereumChainID],
-		([$ethereumChainID], set) => {
-			set(networksByChainID[$ethereumChainID])
-		}
-	)
-
-	const ethereumProvider = derived<[typeof ethereumNetwork, typeof preferences], Ethereum.Provider>([ethereumNetwork, preferences], async ([$ethereumNetwork, $preferences], set) => {
-		await whenMounted
-		set(getEthersProvider({
-			network: $ethereumNetwork,
-			networkProvider: $preferences.rpcNetwork
-		}))
-	})
-	setContext('ethereumNetwork', ethereumNetwork)
-	setContext('ethereumProvider', ethereumProvider)
 
 
 

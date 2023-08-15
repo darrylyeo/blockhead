@@ -1,13 +1,12 @@
 <script lang="ts">
-	import type { Ethereum } from '../../../data/networks/types'
-	import { getContext } from 'svelte'
+	import { networksByChainID } from '../../../data/networks'
+
+
 	import { preferences } from '../../../state/preferences'
 
 
 	const token = 'BTC'
 
-
-	const ethereumNetwork = getContext<SvelteStore<Ethereum.Network>>('ethereumNetwork')
 
 	import CurrentPrice from '../../../components/CurrentPrice.svelte'
 	import HistoricalPriceChart from '../../../components/HistoricalPriceChart.svelte'
@@ -33,7 +32,7 @@
 <div>
 	<section class="card">
 		<CurrentPrice
-			network={$ethereumNetwork}
+			network={networksByChainID[1]}
 			networkProvider={$preferences.rpcNetwork}
 			currentPriceProvider={$preferences.currentPriceProvider}
 			{token}
