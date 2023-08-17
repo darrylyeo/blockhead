@@ -157,8 +157,8 @@
 					<hr>
 
 					<HeightContainer>
-						{#each method.inputs as input, i (`${method.name || i}/${input.name}`)}
-							{@const inputKey = `${method.name || i}/${input.name}`}
+						{#each method.inputs as input, i (`${method.name || i}/${input.name || i}`)}
+							{@const inputKey = `${method.name || i}/${input.name || i}`}
 
 							<!-- svelte-ignore a11y-label-has-associated-control -->
 							<label class="input-param" transition:scale|global={{ duration: 300, start: 0.8, delay: i * 10 }} animate:flip>
@@ -274,8 +274,8 @@
 					{#if method.inputs.length}
 						<hr>
 
-						{#each method.inputs as input, i (`${method.name || i}/${input.name}`)}
-							{@const inputKey = `${method.name || i}/${input.name}`}
+						{#each method.inputs as input, i (`${method.name || i}/${input.name || i}`)}
+							{@const inputKey = `${method.name || i}/${input.name || i}`}
 							{@const arg = inputValues[inputKey]}
 
 							<label class="input-param" transition:scale|global={{ duration: 300, start: 0.8, delay: i * 25 }}>
