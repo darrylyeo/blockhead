@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
 	import type { NetworkProvider } from '../data/networkProviders/types'
-	import { getEthersProvider } from '../data/networkProviders'
+	import { getViemPublicClient } from '../data/networkProviders'
 	import type { TickerSymbol } from '../data/currencies'
 	import { preferences } from '../state/preferences'
 	import { TransactionProvider, transactionProviderIcons } from '../data/transactionProvider'
@@ -20,10 +20,10 @@
 	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
 
-	let provider: Ethereum.Provider | undefined
-	$: provider = network && networkProvider && getEthersProvider({
+	let publicClient: Ethereum.PublicClient | undefined
+	$: publicClient = network && networkProvider && getViemPublicClient({
 		network,
-		networkProvider,
+		networkProvider: networkProvider,
 	})
 
 

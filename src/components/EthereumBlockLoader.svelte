@@ -3,7 +3,9 @@
 	import { TransactionProvider, transactionProviderIcons } from '../data/transactionProvider'
 	import type { NetworkProvider } from '../data/networkProviders/types'
 	import type { QuoteCurrency } from '../data/currencies'
-	import { getEthersProvider } from '../data/networkProviders'
+	import { getViemPublicClient } from '../data/networkProviders'
+
+
 	import { preferences } from '../state/preferences'
 
 
@@ -15,10 +17,10 @@
 
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
-	let provider: Ethereum.Provider | undefined
-	$: provider = network && networkProvider && getEthersProvider({
+	let publicClient: Ethereum.PublicClient | undefined
+	$: publicClient = network && networkProvider && getViemPublicClient({
 		network,
-		networkProvider,
+		networkProvider: networkProvider,
 	})
 	
 	
@@ -223,31 +225,16 @@
 				{loadingMessage}
 				{errorMessage}
 				contentClass="column"
-				fromQuery={provider && createQuery({
+				fromQuery={publicClient && createQuery({
 					queryKey: ['Block', {
 						transactionProvider,
 						networkProvider,
 						chainID: network.chainId,
 						blockNumber,
 					}],
-					queryFn: async () =>  {
-						// for(let block; !block; block = await provider.getBlockWithTransactions(toHex(blockNumber)));
-						// console.log('block', block)
-						try {
-							// const block = await provider.getBlockWithTransactions(blockNumber)
-							const block = await provider.getBlock(Number(blockNumber), true)
-							return block
-						}catch(e){
-							console.dir(e)
-							if(e.body){
-								const { error } = JSON.parse(e.body)
-								// console.error(e, error)
-								throw error.message + Object.entries(error.data).map(([k, v]) => `\n${k}: ${v}`).join('')
-							}else{
-								throw e
-							}
-						}
-					}
+					queryFn: async () => (
+						await publicClient.getBlock(Number(blockNumber))
+					)
 				})}
 				bind:result={block}
 				then={block => (block && {

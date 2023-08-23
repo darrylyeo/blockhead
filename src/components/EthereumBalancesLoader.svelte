@@ -23,7 +23,7 @@
 	// (Computed)
 	export let networkProvider: NetworkProvider
 
-	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
+	$: networkProvider = $$props.providerName ?? $preferences.rpcNetwork
 
 
 	// View options
@@ -51,7 +51,7 @@
 	import { createQuery } from '@tanstack/svelte-query'
 	import { queryStore, gql } from '@urql/svelte'
 
-	import { getEthersProvider } from '../data/networkProviders'
+	import { getViemPublicClient } from '../data/networkProviders'
 
 	import { airstackNetworkNames, getClient } from '../api/airstack'
 	import { getTokenAddressBalances } from '../api/covalent'
@@ -82,14 +82,14 @@
 					chainID: network.chainId,
 				}],
 				queryFn: async () => {
-					const provider = getEthersProvider({
+					const publicClient = getViemPublicClient({
 						network,
-						networkProvider,
+						networkProvider: networkProvider,
 					})
 
-					if(!provider) throw new Error(`No provider found.`)
+					if(!publicClient) throw new Error(`No provider found.`)
 
-					const balance = await provider.getBalance(address)
+					const balance = await publicClient.getBalance({ address })
 
 					return [{
 						token: network.nativeCurrency,

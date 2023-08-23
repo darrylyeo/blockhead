@@ -1,14 +1,14 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
 	import { NetworkProvider } from '../data/networkProviders/types'
+	import { getViemPublicClient } from '../data/networkProviders'
 
 
 	export let network: Ethereum.Network
-	export let providerPromise: () => Promise<Ethereum.Provider>
+	export let publicClientPromise: () => Promise<Ethereum.PublicClient>
 	export let networkProvider: NetworkProvider
 
 
-	import { getEthersProvider } from '../data/networkProviders'
 	import { preferences } from '../state/preferences'
 
 	$: networkProvider = $$props.networkProvider || $preferences.rpcNetwork
@@ -25,31 +25,31 @@
 	loadingMessage="Connecting to the {network ? `${network.name} ` : ''} network{viaRPC}..."
 	errorMessage="Error connecting to the {network ? `${network.name} ` : ''} network{viaRPC}. Try changing the On-Chain Data provider in Preferences."
 	fromPromise={
-		providerPromise || (
+		publicClientPromise || (
 			network && networkProvider && (async () => {
-				const provider = getEthersProvider({
+				const publicClient = getViemPublicClient({
 					network,
-					networkProvider,
+					networkProvider: networkProvider,
 				})
 
-				if(!provider)
+				if(!publicClient)
 					throw new Error(`Couldn't find a${networkProvider.match(/^[aeiou]/gi) ? 'n' : ''} ${networkProvider} node matching the configuration.`)
 
-				return provider
+				return publicClient
 			})
 		)
 	}
-	let:result={provider}
+	let:result={publicClient}
 	clip={false}
 	{...$$restProps}
 >
 	<NetworkIcon slot="loadingIcon" {network} />
 
 	<svelte:fragment slot="header"
-		let:result={provider}
+		let:result={publicClient}
 	>
-		<slot name="header" {network} {provider} />
+		<slot name="header" {network} {publicClient} />
 	</svelte:fragment>
 
-	<slot {network} {provider} />
+	<slot {network} {publicClient} />
 </Loader>

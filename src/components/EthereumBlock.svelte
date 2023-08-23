@@ -35,7 +35,7 @@
 
 	$: transactions = block.prefetchedTransactions ?? block.transactions ?? []
 
-	$: lastUpdate = updatesByNetwork.get(network)?.find(upgrade => block.blockNumber >= upgrade.blockNumber)
+	$: lastUpdate = updatesByNetwork.get(network)?.find(upgrade => Number(block.blockNumber) >= upgrade.blockNumber)
 
 
 	import Address from './Address.svelte'
@@ -165,12 +165,12 @@
 			</span>
 		{/if}
 
-		{#if block.blockNumber > 0}
+		{#if Number(block.blockNumber) > 0}
 			<span>
-				<abbr title="Block {block.blockNumber - 1} hash: {block.parentHash}">hash</abbr>
+				<abbr title="Block {Number(block.blockNumber) - 1} hash: {block.parentHash}">hash</abbr>
 				<!-- hash
 				<output><abbr title="Block {blockNumber - 1} hash: {block.parentHash}">{formatTransactionHash(block.parentHash, 'middle-truncated')}</abbr></output> -->
-				of previous block <EthereumBlockNumber {network} blockNumber={block.blockNumber - 1} />
+				of previous block <EthereumBlockNumber {network} blockNumber={Number(block.blockNumber) - 1} />
 			</span>
 		{/if}
 

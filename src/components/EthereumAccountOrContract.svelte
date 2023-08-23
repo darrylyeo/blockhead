@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
-	import { getEthersProvider } from '../data/networkProviders'
+	import { getViemPublicClient } from '../data/networkProviders'
 	import type { NetworkProvider } from '../data/networkProviders/types'
 	import type { TickerSymbol } from '../data/currencies'
 	import type { Covalent } from '../api/covalent'
@@ -17,16 +17,16 @@
 	export let accountId: Ethereum.Address | string
 	export let filterQuery: Ethereum.Address | Ethereum.ContractAddress | Ethereum.BlockNumber
 
-	export let tokenBalancesProvider: TokenBalancesProvider
+	export let tokenBalancesProvidePublicClientBalancesProvider
 	export let transactionProvider: TransactionProvider
 
 	$: tokenBalancesProvider = $$props.tokenBalancesProvider || $preferences.tokenBalancesProvider
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
 
-	let provider: Ethereum.Provider | undefined
-	$: provider = network && networkProvider && getEthersProvider({
+	let publicClient: Ethereum.PublicClient | undefined
+	$: publicClient = network && networkProvider && getViemPublicClient({
 		network,
-		networkProvider,
+		networkProvider: networkProvider,
 	})
 
 
@@ -134,7 +134,7 @@
 			<span class="card-annotation">
 				<slot name="annotation">
 					{network.name} 
-					{#await provider.getCode(address)}
+					{#await publicClient.getBytecode({ address })}
 						Address
 					{:then contractCode}
 						{#if contractCode === '0x'}

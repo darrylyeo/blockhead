@@ -2,7 +2,7 @@
 	import type { Ethereum } from '../data/networks/types'
 	import type { ContractMetadata } from '../api/sourcify'
 	import type { NetworkProvider } from '../data/networkProviders/types'
-	import { getEthersProvider } from '../data/networkProviders'
+	import { getViemPublicClient } from '../data/networkProviders'
 	import { preferences } from '../state/preferences'
 
 
@@ -15,10 +15,10 @@
 
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
-	let provider: Ethereum.Provider | undefined
-	$: provider = network && networkProvider && getEthersProvider({
+	let publicClient: Ethereum.PublicClient | undefined
+	$: publicClient = network && networkProvider && getViemPublicClient({
 		network,
-		networkProvider,
+		networkProvider: networkProvider,
 	})
 
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
@@ -205,7 +205,7 @@
 
 					<EthereumTransactionForm
 						{network}
-						{provider}
+						{publicClient}
 						contractName={getContractName(contractMetadata)}
 						contractAddress={address}
 						abi={contractMetadata.output.abi}

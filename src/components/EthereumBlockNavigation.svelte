@@ -6,7 +6,7 @@
 	export let networkProvider: NetworkProvider
 
 	export let blockNumber: Ethereum.BlockNumber | undefined
-	export let provider: Ethereum.Provider
+	export let publicClient: Ethereum.PublicClient
 
 	export let showBeforeAndAfter = false
 

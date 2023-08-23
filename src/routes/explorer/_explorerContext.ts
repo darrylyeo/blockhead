@@ -8,7 +8,7 @@ import { networksBySlug } from '../../data/networks'
 
 
 // Functions
-import { getEthersProvider } from '../../data/networkProviders'
+import { getViemPublicClient } from '../../data/networkProviders'
 
 import { isEvmAddress } from '../../utils/isEvmAddress'
 import { isEvmTransactionId } from '../../utils/isEvmTransactionId'
@@ -31,23 +31,19 @@ export const explorerNetwork: Readable<Ethereum.Network> = derived(networkSlug, 
 		set(networksBySlug[$networkSlug])
 })
 
-export const explorerProvider: Readable<Ethereum.Provider> = derived([explorerNetwork, preferences], ([$explorerNetwork, $preferences], set) => {
+export const explorerPublicClient: Readable<Ethereum.PublicClient | undefined> = derived([explorerNetwork, preferences], ([$explorerNetwork, $preferences], set) => {
 	if($explorerNetwork)
-		set(getEthersProvider({
+		set(getViemPublicClient({
 			network: $explorerNetwork,
 			networkProvider: $preferences.rpcNetwork
 		}))
 })
 
-export const explorerBlockNumber: Readable<number> = derived(explorerProvider, ($explorerProvider, set) => {
-	if($explorerProvider){
-		const onBlock = blockNumber => set(blockNumber)
-
-		$explorerProvider.on('block', onBlock)
-
-		return () => $explorerProvider.off('block', onBlock)
-	}
-})
+export const explorerBlockNumber: Readable<number> = derived(explorerPublicClient, ($explorerPublicClient, set) => (
+	$explorerPublicClient?.watchBlockNumber({
+		onBlockNumber: blockNumber => set(Number(blockNumber))
+	})
+))
 
 const getExplorerQueryType = (query: string) => (
 	query ?

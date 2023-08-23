@@ -249,7 +249,7 @@
 					network={networksByChainID[chainId]}
 					{networkProvider}
 					let:network
-					let:provider
+					let:publicClient
 				>
 					<svelte:fragment slot="header"
 						let:network
@@ -588,11 +588,11 @@
 										<Loader
 											loadingMessage="Reading {web3AppConfig.name} balances from {defiProvider}..."
 											errorMessage="Error getting {web3AppConfig.name} balances from {defiProvider}."
-											fromPromise={provider && address && (
+											fromPromise={publicClient && address && (
 												() => getDefiBalances({
 													protocolNames: providers?.zerionDefiSDK,
 													network,
-													provider,
+													publicClient,
 													address
 												})
 											)}
@@ -714,7 +714,7 @@
 													token={erc20Token.symbol}
 													tokenIcon={erc20Token.icon}
 													quoteCurrency={$preferences.quoteCurrency}
-													{provider}
+													{publicClient}
 													{network}
 												>
 												<!-- blockNumber={$blockNumber} -->
@@ -805,7 +805,7 @@
 								<EthereumAccountOrContract
 									{network}
 									accountId={contractAddress}
-									{provider}
+									{publicClient}
 								>
 									<svelte:fragment slot="title" let:network let:address>
 										<h3>

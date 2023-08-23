@@ -3,7 +3,7 @@
 	import type { QuoteCurrency } from '../data/currencies'
 	import type { NetworkProvider } from '../data/networkProviders/types'
 	import { TransactionProvider, transactionProviderIcons } from '../data/transactionProvider'
-	import { getEthersProvider } from '../data/networkProviders'
+	import { getViemPublicClient } from '../data/networkProviders'
 	import { preferences } from '../state/preferences'
 
 
@@ -16,10 +16,10 @@
 
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
-	let provider: Ethereum.Provider | undefined
-	$: provider = network && networkProvider && getEthersProvider({
+	let publicClient: Ethereum.PublicClient | undefined
+	$: publicClient = network && networkProvider && getViemPublicClient({
 		network,
-		networkProvider,
+		networkProvider: networkProvider,
 	})
 
 
@@ -59,7 +59,7 @@
 
 	import { formatUnits } from 'ethers'
 
-	const normalizeEthersTransaction = (transaction: TransactionResponse) => ({
+	const normalizeViemTransaction = (transaction: TransactionResponse) => ({
 		network,
 
 		transactionID: transaction.hash as Ethereum.TransactionID,
@@ -140,7 +140,7 @@
 				{#if passive}
 					<EthereumTransaction
 						{network}
-						transaction={normalizeEthersTransaction(transaction)}
+						transaction={normalizeViemTransaction(transaction)}
 						{quoteCurrency}
 
 						{layout}
@@ -160,7 +160,7 @@
 						loadingMessage="Looking up transaction from {transactionProvider}..."
 						errorMessage="Error looking up transaction from {transactionProvider}"
 						contentClass="column"
-						fromQuery={provider && createQuery({
+						fromQuery={publicClient && createQuery({
 							queryKey: ['Transaction', {
 								transactionProvider,
 								networkProvider,
@@ -168,60 +168,52 @@
 								transactionId
 							}],
 							queryFn: async () => {
-								try {
-									const transaction = await provider.getTransaction(transactionId)
+								const transaction = await publicClient.getTransaction({
+									hash: transactionId
+								})
 
-									if(transaction?.blockNumber){
-										// const block = await provider.getBlock(transaction.blockNumber)
-
-										// if(block){
-										// 	const logs = await provider.getLogs({ blockHash: block.hash })
-										// 	transaction.logs = logs.filter(log => log.transactionHash === transaction.hash)
-										// }
-
-										const query = createQuery({
-											queryKey: ['LogsByBlock', {
-												transactionProvider,
-												networkProvider,
-												chainId: network.chainId,
-												blockNumber: transaction.blockNumber,
-												a: Math.random()
-											}],
-											queryFn: async () => (
-												await provider.getLogs({
-													fromBlock: transaction.blockNumber - 1,
-													toBlock: transaction.blockNumber + 1,
-												})
-											)
+								if(transaction?.blockNumber){
+									transaction.logs = (
+										await publicClient.getLogs({
+											fromBlock: transaction.blockNumber - 1n,
+											toBlock: transaction.blockNumber + 1n,
 										})
+									).filter(log => log.transactionHash === transaction.hash)
 
-										const logs = await new Promise((resolve, reject) => {
-											query.subscribe((result) => {
-												if(result.isSuccess){
-													resolve(result.data)
-												}else if(result.isError){
-													reject(result.error)
-												}
+									/*
+									const query = createQuery({
+										queryKey: ['LogsByBlock', {
+											transactionProvider,
+											providerName,
+											chainId: network.chainId,
+											blockNumber: Number(transaction.blockNumber),
+										}],
+										queryFn: async () => (
+											await publicClient.getLogs({
+												fromBlock: transaction.blockNumber - 1n,
+												toBlock: transaction.blockNumber + 1n,
 											})
+										)
+									})
+
+									const logs = await new Promise((resolve, reject) => {
+										query.subscribe((result) => {
+											if(result.isSuccess){
+												resolve(result.data)
+											}else if(result.isError){
+												reject(result.error)
+											}
 										})
+									})
 
-										transaction.logs = logs.filter(log => log.transactionHash?.toLowerCase() === transaction.hash.toLowerCase())
-									}
-
-									return transaction
-								}catch(e){
-									console.error(e)
-
-									if(e.body){
-										const { error } = JSON.parse(e.body)
-										throw error.message + Object.entries(error.data).map(([k, v]) => `\n${k}: ${v}`).join('')
-									}else{
-										throw e
-									}
+									transaction.logs = logs.filter(log => log.transactionHash?.toLowerCase() === transaction.hash.toLowerCase())
+									*/
 								}
+
+								return transaction
 							}
 						})}
-						then={normalizeEthersTransaction}
+						then={normalizeViemTransaction}
 						let:result={transaction}
 					>
 						<NetworkIcon slot="loadingIcon" {network}><img src="/Blockhead-Logo.svg" width="30" /></NetworkIcon>

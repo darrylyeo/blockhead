@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
 	import { NetworkProvider } from '../data/networkProviders/types';
-	import { getEthersProvider, networkProviderConfigByProvider } from '../data/networkProviders'
+	import { getViemPublicClient, networkProviderConfigByProvider } from '../data/networkProviders'
 	import { preferences } from '../state/preferences'
 	
 	
@@ -13,10 +13,10 @@
 
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
-	let provider: Ethereum.Provider | undefined
-	$: provider = network && networkProvider && getEthersProvider({
+	let publicClient: Ethereum.PublicClient | undefined
+	$: publicClient = network && networkProvider && getViemPublicClient({
 		network,
-		networkProvider,
+		networkProvider: networkProvider,
 	})
 
 	$: viaRPC = networkProvider === NetworkProvider.Default ? '' : ` via ${networkProvider}`
@@ -45,7 +45,7 @@
 				address,
 			}],
 			queryFn: async () => (
-				await provider.getCode(address)
+				await publicClient.getBytecode({ address })
 					.then(contractCode => contractCode === '0x' ? null : contractCode)
 			)
 		})

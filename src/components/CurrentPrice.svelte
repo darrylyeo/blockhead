@@ -2,7 +2,7 @@
 	import type { Ethereum } from '../data/networks/types'
 	import { networksByChainID } from '../data/networks'
 	import type { NetworkProvider } from '../data/networkProviders/types'
-	import { getEthersProvider } from '../data/networkProviders'
+	import { getViemPublicClient } from '../data/networkProviders'
 	import type { QuoteCurrency, TickerSymbol } from '../data/currencies'
 	import { PriceProvider, priceProviderIcons } from '../data/priceProviders'
 	import { getChainlinkPriceFeed } from '../api/chainlink'
@@ -26,8 +26,8 @@
 	export let blockNumber: number
 
 
-	let oracleProvider: Ethereum.Provider | undefined
-	$: oracleProvider = oracleNetwork && networkProvider && getEthersProvider({
+	let oraclePublicClient: Ethereum.PublicClient | undefined
+	$: oraclePublicClient = oracleNetwork && networkProvider && getViemPublicClient({
 		network: oracleNetwork,
 		networkProvider,
 	})
@@ -56,12 +56,12 @@
 </style>
 
 
-<!-- {#if provider.network}
+<!-- {#if network}
 	<Loader
 		loadingIcon={priceFeedIcon}
 		loadingIconName={currentPriceProvider}
 		loadingMessage="Retrieving price from Chainlink..."
-		fromPromise={blockNumber && () => getChainlinkPriceFeed(provider, token, quoteCurrency)}
+		fromPromise={blockNumber && () => getChainlinkPriceFeed(publicClient, token, quoteCurrency)}
 		let:result={priceFeed}
 	>
 		<div slot="header" class="bar wrap">
@@ -80,12 +80,12 @@
 {/if} -->
 <!-- <div class="stack">
 	{#key blockNumber}
-		{#if provider.network}
+		{#if network}
 			<Loader
 				loadingIcon={priceFeedIcon}
 				loadingIconName={currentPriceProvider}
 				loadingMessage="Retrieving price from Chainlink..."
-				fromPromise={() => getChainlinkPriceFeed(provider, token, quoteCurrency)}
+				fromPromise={() => getChainlinkPriceFeed(publicClient, token, quoteCurrency)}
 				let:result={priceFeed}
 			>
 				<div slot="header" class="bar wrap">
@@ -113,7 +113,7 @@
 					loadingIconName={_currentPriceProvider}
 					loadingMessage="Retrieving price from {_currentPriceProvider}..."
 					errorMessage="{token} price not available"
-					fromPromise={blockNumber, oracleProvider && oracleNetwork && (() => getChainlinkPriceFeed(oracleProvider, oracleNetwork, token, quoteCurrency))}
+					fromPromise={blockNumber, oraclePublicClient && oracleNetwork && (() => getChainlinkPriceFeed(oraclePublicClient, oracleNetwork, token, quoteCurrency))}
 					let:result={priceFeed}
 					whenErrored={async () => {
 						await new Promise(r => setTimeout(r, 1000))

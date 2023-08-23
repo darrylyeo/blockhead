@@ -15,7 +15,7 @@
 
 	// Balances view options
 
-	export let account: PortfolioAccount
+	export let account: PortfolioAccountPublicClient
 
 	export let networkProvider: NetworkProvider
 	export let defiProvider: DefiProvider

@@ -6,7 +6,7 @@
 
 	export let network: Ethereum.Network
 	export let address: Ethereum.Address | undefined
-	export let provider: Ethereum.Provider
+	export let publicClient: Ethereum.PublicClient
 
 	export let quoteCurrency: TickerSymbol
 	export let transactionProvider: TransactionProvider

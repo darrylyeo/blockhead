@@ -6,7 +6,7 @@
 	import type { LensName } from '../api/lens'
 
 	import { NetworkProvider } from '../data/networkProviders/types'
-	import { getEthersProvider } from '../data/networkProviders'
+	import { getViemPublicClient } from '../data/networkProviders'
 	import { networksByChainID } from '../data/networks'
 
 
@@ -28,10 +28,10 @@
 	// (Computed)
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
-	let provider: Ethereum.Provider | undefined
-	$: provider = network && networkProvider && getEthersProvider({
+	let publicClient: Ethereum.PublicClient | undefined
+	$: publicClient = network && networkProvider && getViemPublicClient({
 		network,
-		networkProvider,
+		networkProvider: networkProvider,
 	})
 
 
@@ -73,6 +73,8 @@
 
 	// Actions
 	import { createQuery } from '@tanstack/svelte-query'
+
+	import { normalize } from 'viem/ens'
 
 	// import ENS, { getEnsAddress } from '@ensdomains/ensjs'
 	// const ens = new ENS({ provider, ensAddress: getEnsAddress('1') })
@@ -128,13 +130,15 @@
 	<Loader
 		layout={passiveResolveToAddress ? 'passive' : 'default'}
 		fromQuery={
-			ensName && provider && createQuery({
+			ensName && publicClient && createQuery({
 				queryKey: ['EnsResolution', {
 					// networkProvider,
 					ensName,
 				}],
 				queryFn: async () => {
-					const address = await provider.resolveName(ensName)
+					const address = await publicClient.getEnsAddress({
+						name: normalize(ensName)
+					})
 
 					if(!address)
 						// throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address.`)
@@ -164,13 +168,13 @@
 		<Loader
 			layout={passiveResolveToName ? 'headless' : 'default'}
 			fromQuery={
-				address && provider && createQuery({
+				address && publicClient && createQuery({
 					queryKey: ['EnsReverseResolution', {
 						// networkProvider,
 						address,
 					}],
 					queryFn: async () => {
-						const ensName = await provider.lookupAddress(address.toLowerCase())
+						const ensName = await publicClient.getEnsName({ address })
 
 						if(!ensName)
 							// throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name.`)

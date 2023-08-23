@@ -4,7 +4,7 @@
 	import type { NetworkProvider } from '../data/networkProviders/types'
 	import { networksByChainID, networksBySlip44 } from '../data/networks'
 	import { chainsBySlip44 } from '../data/slip44'
-	import { getEthersProvider } from '../data/networkProviders'
+	import { getViemPublicClient } from '../data/networkProviders'
 	import { preferences } from '../state/preferences'
 
 
@@ -17,10 +17,10 @@
 
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
-	let provider: Ethereum.Provider | undefined
-	$: provider = network && networkProvider && getEthersProvider({
+	let publicClient: Ethereum.PublicClient | undefined
+	$: publicClient = network && networkProvider && getViemPublicClient({
 		network,
-		networkProvider,
+		networkProvider: networkProvider,
 	})
 
 

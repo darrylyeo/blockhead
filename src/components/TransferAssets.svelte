@@ -5,7 +5,7 @@
 	import { usdStablecoinTokens } from '../data/tokens'
 
 
-	import { getEthersProvider } from '../data/networkProviders'
+	import { getViemPublicClient } from '../data/networkProviders'
 	import { preferences } from '../state/preferences'
 
 	import { Connext } from '../api/connext/swaps'
@@ -68,11 +68,11 @@
 		toToken: Ethereum.ContractAddress,
 		toTokenAmount: number
 	}){//console.log('onSubmit', 'transferSolution', transferSolution)
-		const fromNetworkProvider = getEthersProvider({
+		const fromNetworkProvider = await getViemPublicClient({
 			network: fromNetwork,
 			networkProvider: $preferences.rpcNetwork
 		})
-		const toNetworkProvider = getEthersProvider({
+		const toNetworkProvider = await getViemPublicClient({
 			network: toNetwork,
 			networkProvider: $preferences.rpcNetwork
 		})

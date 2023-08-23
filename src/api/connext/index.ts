@@ -823,13 +823,13 @@ export async function startConnextTransfer({
 	toTokenAmount,
 }: {
 	fromNetwork: Ethereum.Network,
-	fromNetworkProvider: Ethereum.Provider,
+	fromNetworkProvider: Ethereum.PublicClient,
 	fromAccount: Account,
 	fromToken: Ethereum.ContractAddress,
 	fromTokenAmount: number
 
 	toNetwork: Ethereum.Network,
-	toNetworkProvider: Ethereum.Provider,
+	toNetworkProvider: Ethereum.PublicClient,
 	toAccount: Account,
 	toToken: Ethereum.ContractAddress,
 	toTokenAmount: number

@@ -1,5 +1,5 @@
 import type { Ethereum } from '../data/networks/types'
-import { Contract, formatUnits } from 'ethers'
+import { formatUnits } from 'viem'
 import type { QuoteCurrency, TickerSymbol } from '../data/currencies'
 
 
@@ -1845,26 +1845,31 @@ const CHAINLINK_CONTRACTS: Record<Ethereum.ChainID, Record<AssetPair, PriceFeedC
 }
 
 // https://docs.chain.link/docs/get-the-latest-price
-const aggregatorV3InterfaceABI = [{ "inputs": [], "name": "decimals", "outputs": [{ "internalType": "uint8", "name": "", "type": "uint8" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "description", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint80", "name": "_roundId", "type": "uint80" }], "name": "getRoundData", "outputs": [{ "internalType": "uint80", "name": "roundId", "type": "uint80" }, { "internalType": "int256", "name": "answer", "type": "int256" }, { "internalType": "uint256", "name": "startedAt", "type": "uint256" }, { "internalType": "uint256", "name": "updatedAt", "type": "uint256" }, { "internalType": "uint80", "name": "answeredInRound", "type": "uint80" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "latestRoundData", "outputs": [{ "internalType": "uint80", "name": "roundId", "type": "uint80" }, { "internalType": "int256", "name": "answer", "type": "int256" }, { "internalType": "uint256", "name": "startedAt", "type": "uint256" }, { "internalType": "uint256", "name": "updatedAt", "type": "uint256" }, { "internalType": "uint80", "name": "answeredInRound", "type": "uint80" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "version", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }];
+const aggregatorV3InterfaceABI = [{ "inputs": [], "name": "decimals", "outputs": [{ "internalType": "uint8", "name": "", "type": "uint8" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "description", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint80", "name": "_roundId", "type": "uint80" }], "name": "getRoundData", "outputs": [{ "internalType": "uint80", "name": "roundId", "type": "uint80" }, { "internalType": "int256", "name": "answer", "type": "int256" }, { "internalType": "uint256", "name": "startedAt", "type": "uint256" }, { "internalType": "uint256", "name": "updatedAt", "type": "uint256" }, { "internalType": "uint80", "name": "answeredInRound", "type": "uint80" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "latestRoundData", "outputs": [{ "internalType": "uint80", "name": "roundId", "type": "uint80" }, { "internalType": "int256", "name": "answer", "type": "int256" }, { "internalType": "uint256", "name": "startedAt", "type": "uint256" }, { "internalType": "uint256", "name": "updatedAt", "type": "uint256" }, { "internalType": "uint80", "name": "answeredInRound", "type": "uint80" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "version", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }]
 
-// let validId = BigInt("18446744073709562301")
-// return await priceFeed.methods.getRoundData(validId).call()
 
-export const getChainlinkPriceFeed = async (provider: Ethereum.Provider, network: Ethereum.Network, quoteAsset: TickerSymbol, baseAsset: QuoteCurrency) => {
+export const getChainlinkPriceFeed = async (
+	publicClient: Ethereum.PublicClient,
+	network: Ethereum.Network,
+	quoteAsset: TickerSymbol,
+	baseAsset: QuoteCurrency,
+) => {
 	const assetPair: AssetPair = `${quoteAsset}/${baseAsset}`
-	const contractInfo: PriceFeedContractInfo = CHAINLINK_CONTRACTS[network.chainId /*provider.network.chainId*/]?.[assetPair]
-	if(contractInfo){
-		const priceFeedContract = new Contract(contractInfo.contractAddress, aggregatorV3InterfaceABI, provider)
 
-		// console.log('priceFeedContract', priceFeedContract)
-		const { answer, answeredInRound, roundId, startedAt, updatedAt } = await priceFeedContract.latestRoundData()
-		// console.log(answer.toString(), answeredInRound.toString(), roundId.toString(), startedAt.toString(), updatedAt.toString())
-		return {
-			contractAddress: contractInfo.contractAddress,
-			price: formatUnits(Number(answer), contractInfo.decimals),
-			updatedAt: new Date(Number(updatedAt) * 1000)
-		}
+	const contractInfo: PriceFeedContractInfo = CHAINLINK_CONTRACTS[network.chainId]?.[assetPair]
+
+	if(!contractInfo)
+		throw new Error(`Chainlink price feed for ${assetPair} isn't available on ${network.name} (chain ID ${network.chainId}).`)
+
+	const [roundId, answer, startedAt, updatedAt, answeredInRound] = await publicClient.readContract({
+		address: contractInfo.contractAddress,
+		abi: aggregatorV3InterfaceABI,
+		functionName: 'latestRoundData',
+	}) as bigint[]
+
+	return {
+		contractAddress: contractInfo.contractAddress,
+		price: formatUnits(answer, contractInfo.decimals),
+		updatedAt: new Date(Number(updatedAt) * 1000)
 	}
-
-	throw new Error(`Chainlink price feed for ${assetPair} isn't available on ${network.name} (chain ID ${network.chainId}).`)
 }

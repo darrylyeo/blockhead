@@ -13,13 +13,14 @@
 	import EthereumLatestBlockNumber from './EthereumLatestBlockNumber.svelte'
 </script>
 
+
 <div class="bar">
 	<h3>Block Height</h3>
 	<!-- <span class="card-annotation">{$preferences.rpcNetwork}</span> -->
 </div>
 <!-- <Loader
 	loadingMessage="Retrieving statistics..."
-	fromPromise={provider && (() => new Promise(r => provider.once('block', r)))}
+	fromPromise={publicClient?.getBlockNumber()}
 >
 	<NetworkIcon slot="loadingIcon" {network} />
 

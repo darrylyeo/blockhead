@@ -2,10 +2,9 @@
 	import type { Ethereum } from '../data/networks/types'
 	import type { NetworkAccountAddress } from '../data/address'
 	import { NetworkProvider } from '../data/networkProviders/types'
-	import { getEthersProvider } from '../data/networkProviders'
+	import { getViemPublicClient } from '../data/networkProviders'
 	import { networksByChainID } from '../data/networks'
 	import { preferences } from '../state/preferences'
-	import type { Resolver } from 'ethers'
 
 	type ContentHash = $$Generic<string>
 	type TextRecordKey = $$Generic<string>
@@ -28,10 +27,10 @@
 
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
-	let provider: Ethereum.Provider | undefined
-	$: provider = network && networkProvider && getEthersProvider({
+	let publicClient: Ethereum.PublicClient | undefined
+	$: publicClient = network && networkProvider && getViemPublicClient({
 		network,
-		networkProvider,
+		networkProvider: networkProvider,
 	})
 
 	$: viaRPC = networkProvider === NetworkProvider.Default ? '' : ` via ${networkProvider}`
@@ -41,15 +40,17 @@
 
 	import { memoizedAsync } from '../utils/memoized'
 
-	const resolveEnsTextRecord = memoizedAsync(async ({
-		resolver,
+	import { normalize } from 'viem/ens'
+
+	const resolveEnsTextRecord = async ({
+		resolverContractAddress,
 		textRecordKey
 	}: {
-		resolver: Resolver,
+		resolverContractAddress: Ethereum.ContractAddress,
 		textRecordKey: string
 	}) => (
 		await resolver?.getText(textRecordKey) as NetworkAccountAddress
-	))
+	)
 
 	const resolveEnsCryptoAddress = memoizedAsync(async ({
 		resolver,
@@ -95,7 +96,7 @@
 	loadingIconName={'ENS'}
 	loadingIcon={ENSIcon}
 	loadingMessage={`Getting ENS Resolver${viaRPC}...`}
-	fromQuery={provider && ensName ? (
+	fromQuery={publicClient && ensName ? (
 		createQuery({
 			queryKey: ['EnsResolver', {
 				chainID: network.chainId,
@@ -103,12 +104,14 @@
 				ensName,
 			}],
 			queryFn: async () => (
-				await provider.getResolver(ensName)
+				await publicClient.getEnsResolver({
+					name: normalize(ensName)
+				})
 			)
 		})
 	) : undefined}
 	{isOpen}
-	let:result={resolver}
+	let:result={resolverContractAddress}
 >
 	<svelte:fragment slot="header">
 		<slot name="header" {networkProvider} />
@@ -120,18 +123,18 @@
 			loadingIconName={'ENS'}
 			loadingIcon={ENSIcon}
 			loadingMessage={`Fetching content hash${viaRPC}...`}
-			fromQuery={resolver && (
+			fromQuery={resolverContractAddress && (
 				createQuery({
 					queryKey: ['EnsContentHash', {
 						chainID: network.chainId,
-						provider: provider.name,
+						provider: publicClient.name,
 						ensName,
 					}],
 					queryFn: async () => {
-						if(!resolver.getContentHash)
+						if(!resolverContractAddress.getContentHash)
 							throw `getContentHash is not supported.`
 
-						return await resolver.getContentHash()
+						return await resolverContractAddress.getContentHash()
 					}
 				})
 			)}
@@ -149,7 +152,10 @@
 			loadingMessage={`Resolving ENS records${viaRPC}...`}
 			fromStore={(() =>
 				parallelLoaderStore(resolveTextRecordKeys, async textRecordKey => (
-					await resolveEnsTextRecord({ resolver, textRecordKey })
+					await publicClient.getEnsText({
+						name: normalize(ensName),
+						key: textRecordKey
+					})
 				))
 			)}
 			showIf={() => false}
@@ -157,7 +163,7 @@
 		/>
 	{/if}
 
-	{#if resolveEnsCryptoAddress?.length}
+	{#if resolveCoinTypes?.length}
 		<Loader
 			{layout}
 			loadingIconName={'ENS'}
@@ -165,7 +171,7 @@
 			loadingMessage={`Resolving crypto addresses${viaRPC}...`}
 			fromStore={(() =>
 				parallelLoaderStore(resolveCoinTypes ?? [], async coinType => (
-					await resolveEnsCryptoAddress({ resolver, coinType })
+					await resolveEnsCryptoAddress({ resolver: resolverContractAddress, coinType })
 				))
 			)}
 			showIf={() => false}

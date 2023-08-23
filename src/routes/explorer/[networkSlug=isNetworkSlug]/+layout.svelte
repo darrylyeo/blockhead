@@ -7,7 +7,7 @@
 
 	import { networkSlug, query } from '../_explorerParams'
 
-	import { explorerNetwork, explorerProvider, explorerBlockNumber, explorerQueryType, explorerViewData } from '../_explorerContext'
+	import { explorerNetwork, explorerPublicClient, explorerBlockNumber, explorerQueryType, explorerViewData } from '../_explorerContext'
 
 	import { getContext } from 'svelte'
 
@@ -165,12 +165,12 @@
 	{#if $explorerNetwork}
 		<NetworkProviderLoader
 			network={$explorerNetwork}
-			providerPromise={$explorerProvider && (async () => $explorerProvider)}
+			providerPromise={$explorerPublicClient && (async () => $explorerPublicClient)}
 			{networkProvider}
 			contentClass="column"
-			let:provider
+			let:publicClient
 		>
-			{#if provider}
+			{#if publicClient}
 				<div class="stack">
 					{#key $query}
 						{#if $explorerQueryType === 'transaction'}

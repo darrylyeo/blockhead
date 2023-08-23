@@ -14,6 +14,12 @@
 
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
+	let publicClient: Ethereum.PublicClient | undefined
+	$: publicClient = network && networkProvider && getViemPublicClient({
+		network,
+		networkProvider: networkProvider,
+	})
+
 	
 	// Computed
 
@@ -28,27 +34,22 @@
 
 
 	import { preferences } from '../state/preferences'
-	import { getEthersProvider } from '../data/networkProviders'
-	// import { onDestroy } from 'svelte'
+	import { getViemPublicClient } from '../data/networkProviders'
+	import { onDestroy } from 'svelte'
 
 	$: if(network && !blockHeightForNetwork[network.chainId]){
 		const { chainId } = network
 
-		const provider = getEthersProvider({
-			network,
-			networkProvider,
-		})
-
-		const onBlock = (blockNumber) => {
-			blockHeightForNetwork = {
-				...blockHeightForNetwork,
-				[chainId]: blockNumber
-			}
-		}
-
-		provider.on('block', onBlock)
-
-		// onDestroy(() => provider.off('block', onBlock))
+		onDestroy(
+			publicClient.watchBlockNumber({
+				onBlockNumber: blockNumber => {
+					blockHeightForNetwork = {
+						...blockHeightForNetwork,
+						[chainId]: Number(blockNumber)
+					}
+				}
+			})
+		)
 	}
 
 

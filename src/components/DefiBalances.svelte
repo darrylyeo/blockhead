@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
 	import type { NetworkProvider } from '../data/networkProviders/types'
-	import { getEthersProvider } from '../data/networkProviders'
+	import { getViemPublicClient } from '../data/networkProviders'
 	import { DefiProvider, defiProviderIcons } from '../data/defiProviders'
 	import type { QuoteCurrency } from '../data/currencies'
 	import type { Web3AppConfig } from '../data/web3Apps'
@@ -20,8 +20,8 @@
 
 
 	// Computed Values
-	let provider: Ethereum.Provider | undefined
-	$: provider = network && networkProvider && getEthersProvider({
+	let publicClient: Ethereum.PublicClient | undefined
+	$: publicClient = network && networkProvider && getViemPublicClient({
 		network,
 		networkProvider,
 	})
@@ -561,7 +561,7 @@
 
 <!-- Zerion DeFi SDK -->
 {#if defiProvider === DefiProvider.ZerionDefiSdk && network.chainId === 1}
-	{#if provider}
+	{#if publicClient}
 		<Loader
 			layout="collapsible"
 			collapsibleType="label"
@@ -578,7 +578,7 @@
 					await getDefiBalances({
 						protocolNames: web3Apps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zerionDefiSDK ?? [])),
 						network,
-						provider,
+						publicClient,
 						address,
 					})
 				)
