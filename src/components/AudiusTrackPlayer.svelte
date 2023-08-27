@@ -67,6 +67,6 @@
 
 {#if src}
 	<audio controls bind:this={audioElement} on:play={() => isPlaying = true} on:pause={() => isPlaying = false} download={isDownloadable}>
-		<source {src} />
+		<source srcset={src} />
 	</audio>
 {/if}

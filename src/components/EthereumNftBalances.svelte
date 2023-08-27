@@ -469,7 +469,7 @@
 												as [uri, media]
 											}
 												<source
-													src={resolveUri({
+													srcset={resolveUri({
 														src: uri,
 														ipfsGatewayDomain: ipfsGatewaysByProvider[$preferences.ipfsGateway].gatewayDomain,
 														arweaveGateway: $preferences.arweaveGateway,

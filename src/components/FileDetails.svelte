@@ -107,12 +107,12 @@
 				<img src={displaySrc} />
 			{:else if displayType === 'video'}
 				<video controls>
-					<source src={displaySrc} type={contentType} />
+					<source srcset={displaySrc} type={contentType} />
 					<track kind="captions">
 				</video>
 			{:else if displayType === 'audio'}
 				<audio controls>
-					<source src={displaySrc} type={contentType} />
+					<source srcset={displaySrc} type={contentType} />
 				</audio>
 			{:else if displayType === 'json'}
 				<pre><code>{JSON.stringify(JSON.parse(text), null, 2)}</code></pre>
