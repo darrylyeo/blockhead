@@ -8,6 +8,7 @@ import { DefiProvider } from '../data/defiProviders'
 import { NftProvider } from '../data/nftProviders'
 import { PriceProvider } from '../data/priceProviders'
 import { TransactionProvider } from '../data/transactionProvider'
+import { ContractSourceProvider } from '../data/contractSourceProvider'
 import { NotificationsProvider } from '../data/notificationsProvider'
 
 import { ipfsGateways } from '../data/ipfsGateways'
@@ -187,15 +188,15 @@ export const preferencesConfig: PreferencesConfig<
 						id: 'web3',
 						name: 'Web3 Hosted',
 						options: [
-							{ id: 'Sourcify', name: 'Sourcify' },
+							{ id: ContractSourceProvider.Sourcify, name: 'Sourcify' },
 						]
 					},
 					{
 						id: 'centralized',
 						name: 'Centrally Hosted',
 						options: [
-							{ id: 'Etherscan', name: 'Etherscan' },
-							{ id: 'Tenderly', name: 'Tenderly' },
+							{ id: ContractSourceProvider.Etherscan, name: 'Etherscan' },
+							// { id: ContractSourceProvider.Tenderly, name: 'Tenderly' },
 						]
 					}
 				]
