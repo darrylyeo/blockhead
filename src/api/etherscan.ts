@@ -715,15 +715,15 @@ export namespace Etherscan {
 		 */
 		export const getAbi = async ({
 			chainId,
-			address,
+			contractAddress,
 		}: {
 			chainId: ChainId,
-			address: Ethereum.Address,
+			contractAddress: Ethereum.ContractAddress,
 		}) => await get(chainId, {
 			searchParams: {
 				module: 'contract',
 				action: 'getabi',
-				address,
+				address: contractAddress,
 			},
 		}) as ReturnType<typeof JSON.stringify>
 
@@ -733,7 +733,7 @@ export namespace Etherscan {
 		 * 
 		 * @param address the `contract address` that has a verified source code
 		 */
-		export const getSourceCode = async ({
+		export const getSource = async ({
 			chainId,
 			contractAddress,
 		}: {
@@ -745,7 +745,7 @@ export namespace Etherscan {
 				action: 'getsourcecode',
 				address: contractAddress,
 			},
-		}).then(({ result }: any) => result[0] as {
+		}).then((result: any) => result[0] as {
 			SourceCode: string,
 			ABI: ReturnType<typeof JSON.stringify>,
 			ContractName: string,
@@ -766,7 +766,7 @@ export namespace Etherscan {
 		 * Returns a contract's deployer address and transaction hash it was created, up to 5 at a time.
 		 * @param contractaddresses the `contract address`, up to 5 at a time
 		 */
-		export const getCreator = async ({
+		export const getCreationMetadata = async ({
 			chainId,
 			contractAddresses,
 		}: {
