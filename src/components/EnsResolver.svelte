@@ -26,7 +26,7 @@
 
 	<EthereumContractExplorer
 		{network}
-		address={resolver.address}
+		contractAddress={resolver.address}
 	>
 		<h4 slot="title" let:address>
 			<Address {network} {address}>Contract Code</Address>

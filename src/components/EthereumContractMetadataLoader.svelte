@@ -3,7 +3,7 @@
 	import { getContractMetadata } from '../api/sourcify'
 	
 	
-	export let address: Ethereum.ContractAddress
+	export let contractAddress: Ethereum.ContractAddress
 	export let network: Ethereum.Network
 
 
@@ -18,7 +18,7 @@
 
 	// Output
 	type SharedSlotProps = {
-		address: typeof address,
+		contractAddress: typeof contractAddress,
 		contractMetadata: typeof contractMetadata | undefined,
 		sourcifyUrl: typeof sourcifyUrl | undefined,
 	}
@@ -41,20 +41,20 @@
 	fromQuery={
 		createQuery({
 			queryKey: ['ContractMetadata', {
-				address,
+				contractAddress,
 				chainId: network.chainId
 			}],
 			queryFn: async () => {
 				try {
 					return await getContractMetadata({
-						contractAddress: address,
+						contractAddress,
 						chainId: network.chainId,
 					})
 				}catch(e){
 					console.error(e)
 
 					return await getContractMetadata({
-						contractAddress: address,
+						contractAddress,
 						chainId: network.chainId,
 						partialMatch: true,
 					})
@@ -73,7 +73,7 @@
 		<svelte:fragment slot="header"
 			let:result
 		>
-			<slot name="header" {address} {...result} />
+			<slot name="header" {contractAddress} {...result} />
 		</svelte:fragment>
-	<slot {address} {...result} />
+	<slot {contractAddress} {...result} />
 </Loader>

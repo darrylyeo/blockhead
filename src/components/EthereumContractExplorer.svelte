@@ -8,7 +8,7 @@
 
 	export let name: string
 	export let network: Ethereum.Network
-	export let address: Ethereum.Address
+	export let contractAddress: Ethereum.ContractAddress
 	export let networkProvider: NetworkProvider
 
 	export let transactionProvider
@@ -27,7 +27,7 @@
 	let showContractSourcePath = 'EVM Bytecode'
 	// TODO: refactor one-off whenLoaded side effect
 	let hasLoadedMetadata = false
-	$: address && (hasLoadedMetadata = false)
+	$: contractAddress && (hasLoadedMetadata = false)
 
 
 	const getContractName = (contractMetadata: ContractMetadata<string>) =>
@@ -66,7 +66,7 @@
 <!-- {#await provider.getCode(address) then contractCode}
 	{#if contractCode !== '0x'} -->
 	<EthereumContractBytecodeLoader
-		{address}
+		{contractAddress}
 		{networkProvider}
 		{network}
 		showIf={contractCode => !!contractCode}
@@ -76,7 +76,7 @@
 
 		<section>
 			<EthereumContractMetadataLoader
-				{address}
+				{contractAddress}
 				{network}
 				whenLoaded={async ({ contractMetadata }) => {
 					if(!contractMetadata || hasLoadedMetadata) return
@@ -99,8 +99,8 @@
 				let:sourcifyUrl
 			>
 				<header class="bar" slot="header" let:contractMetadata>
-					<slot name="title" contractName={name} {network} {address}>
-						<h4><Address {network} {address} format="middle-truncated" let:formattedAddress>{name || formattedAddress}</Address></h4>
+					<slot name="title" contractName={name} {network} {contractAddress}>
+						<h4><Address {network} address={contractAddress} format="middle-truncated" let:formattedAddress>{name || formattedAddress}</Address></h4>
 					</slot>
 
 					<label>
@@ -207,7 +207,7 @@
 						{network}
 						{publicClient}
 						contractName={getContractName(contractMetadata)}
-						contractAddress={address}
+						{contractAddress}
 						abi={contractMetadata.output.abi}
 					/>
 				{/if}

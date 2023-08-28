@@ -150,7 +150,7 @@
 		</div>
 
 		<EthereumContractExplorer
-			{address}
+			contractAddress={address}
 			{network}
 			{transactionProvider}
 		>

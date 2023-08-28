@@ -5,7 +5,7 @@
 	import { preferences } from '../state/preferences'
 	
 	
-	export let address: Ethereum.ContractAddress
+	export let contractAddress: Ethereum.ContractAddress
 	export let network: Ethereum.Network
 	export let networkProvider: NetworkProvider
 
@@ -42,10 +42,10 @@
 			queryKey: ['ContractBytecode', {
 				networkProvider,
 				chainId: network.chainId,
-				address,
+				contractAddress,
 			}],
 			queryFn: async () => (
-				await publicClient.getBytecode({ address })
+				await publicClient.getBytecode({ address: contractAddress })
 					.then(contractCode => contractCode === '0x' ? null : contractCode)
 			)
 		})
@@ -67,6 +67,6 @@
 		{/if}
 	</svelte:fragment>
 
-	<slot slot="header" name="header" {address} {contractCode} />
-	<slot {address} {contractCode} />
+	<slot slot="header" name="header" {contractAddress} {contractCode} />
+	<slot {contractAddress} {contractCode} />
 </Loader>
