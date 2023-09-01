@@ -45,6 +45,7 @@
     "@walletconnect/web3-provider": "^1.8.0",
     "@walletconnect/web3wallet": "^1.8.6",
     "@web3modal/standalone": "^2.4.3",
+    "abitype": "^0.9.8",
     "array-from-async": "^3.0.0",
     "array.prototype.group": "^1.1.2",
     "array.prototype.grouptomap": "^1.1.2",
@@ -71,7 +72,7 @@
     "svelte-meta-tags": "^2.8.0",
     "svelvet": "^6.0.12",
     "uint8arrays": "^4.0.4",
-    "viem": "^1.6.0",
+    "viem": "^1.8.1",
     "webmax": "^0.2.0"
   },
   "devDependencies": {

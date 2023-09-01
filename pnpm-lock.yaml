@@ -76,6 +76,9 @@ dependencies:
   '@web3modal/standalone':
     specifier: ^2.4.3
     version: 2.4.3(react@18.2.0)
+  abitype:
+    specifier: ^0.9.8
+    version: 0.9.8(typescript@5.1.6)
   array-from-async:
     specifier: ^3.0.0
     version: 3.0.0
@@ -155,7 +158,7 @@ dependencies:
     specifier: ^4.0.4
     version: 4.0.4
   viem:
-    specifier: ^1.6.0
+    specifier: ^1.8.1
     version: 1.8.1(typescript@5.1.6)
   webmax:
     specifier: ^0.2.0
@@ -7334,6 +7337,20 @@ packages:
 
   /abitype@0.9.3(typescript@5.1.6):
     resolution: {integrity: sha512-dz4qCQLurx97FQhnb/EIYTk/ldQ+oafEDUqC0VVIeQS1Q48/YWt/9YNfMmp9SLFqN41ktxny3c8aYxHjmFIB/w==}
+    peerDependencies:
+      typescript: '>=5.0.4'
+      zod: ^3 >=3.19.1
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+      zod:
+        optional: true
+    dependencies:
+      typescript: 5.1.6
+    dev: false
+
+  /abitype@0.9.8(typescript@5.1.6):
+    resolution: {integrity: sha512-puLifILdm+8sjyss4S+fsUN09obiT1g2YW6CtcQF+QDzxR0euzgEB29MZujC6zMk2a6SVmtttq1fc6+YFA7WYQ==}
     peerDependencies:
       typescript: '>=5.0.4'
       zod: ^3 >=3.19.1
