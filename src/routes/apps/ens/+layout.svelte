@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Constants/types
-	import type { AccountConnectionState } from '../../../state/account'
+	import type { AccountConnection } from '../../../state/account'
 
 
 	// Params
@@ -8,12 +8,12 @@
 
 
 	// Computed
-	$: if(selectedAccount?.account?.address) $accountId = selectedAccount.account.address
+	$: if(selectedAccountConnection?.state?.account?.address) $accountId = selectedAccountConnection.state.account.address
 	$: currentAccountId = $accountId
 
 
 	// Internal state
-	let selectedAccount: AccountConnectionState
+	let selectedAccountConnection: AccountConnection
 
 
 	// Components
@@ -41,7 +41,7 @@
 		<span>or</span>
 
 		<label class="row inline">
-			<ConnectedAccountSelect address={$accountId} bind:selectedAccount />
+			<ConnectedAccountSelect address={$accountId} bind:selectedAccountConnection />
 		</label>
 
 		<button type="submit">Go</button>

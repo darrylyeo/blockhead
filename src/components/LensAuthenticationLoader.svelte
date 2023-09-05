@@ -1,10 +1,10 @@
 <script lang="ts">
 	// Constants/types
-	import type { AccountConnectionState } from '../state/account'
+	import type { AccountConnection } from '../state/account'
 	
 	
 	// External state
-	export let accountConnection: AccountConnectionState
+	export let accountConnection: AccountConnection
 
 
 	// Actions
@@ -22,12 +22,12 @@
 <Loader
 	{...$$restProps}
 	startImmediately={false}
-	fromQuery={accountConnection?.signer && createQuery({
+	fromQuery={accountConnection?.state?.signer && createQuery({
 		queryKey: ['LensAccessToken', {
-			address: accountConnection.account?.address,
+			address: accountConnection.state.account?.address,
 		}],
 		queryFn: async () => {
-			const { signer, account, chainId } = accountConnection
+			const { signer, account, chainId } = accountConnection.state
 
 			if(!signer || !account?.address) throw new Error(`Connect an account first.`)
 

@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Constants/types
-	import type { AccountConnectionState } from '../../../state/account'
+	import type { AccountConnection } from '../../../state/account'
 	import type { Ethereum } from '../../../data/networks/types'
 
 
@@ -13,13 +13,13 @@
 
 
 	// Internal state
-	let selectedAccount: AccountConnectionState
+	let selectedAccountConnection: AccountConnection
 	let selectedLoginAddress: Ethereum.Address = $accountId
-	let selectedLoginAccount: AccountConnectionState
+	let selectedLoginAccountConnection: AccountConnection
 
 
 	// Computed
-	$: if(selectedAccount?.account?.address) $accountId = selectedAccount.account.address
+	$: if(selectedAccountConnection?.state?.account?.address) $accountId = selectedAccountConnection.state.account.address
 	$: currentAccountId = $accountId
 
 
@@ -80,7 +80,7 @@
 		<span>or</span>
 
 		<label class="row inline">
-			<ConnectedAccountSelect address={$accountId} bind:selectedAccount />
+			<ConnectedAccountSelect address={$accountId} bind:selectedAccountConnection />
 		</label>
 
 		<button type="submit">Go</button>
@@ -89,7 +89,7 @@
 	<div class="layout">
 		<aside class="card column" style={$web3AppConfig?.colors && cardStyle([...$web3AppConfig.colors].reverse())}>
 			<LensAuthenticationLoader
-				accountConnection={selectedLoginAccount}
+				accountConnection={selectedLoginAccountConnection}
 				let:accessToken
 				let:refreshToken
 			>
@@ -98,7 +98,7 @@
 				</svelte:fragment>
 	
 				<svelte:fragment slot="toolbar">
-					<ConnectedAccountSelect address={selectedLoginAddress} bind:selectedAccount={selectedLoginAccount} required />
+					<ConnectedAccountSelect address={selectedLoginAddress} bind:selectedAccountConnection={selectedLoginAccountConnection} required />
 				</svelte:fragment>
 	
 				{#if accessToken}

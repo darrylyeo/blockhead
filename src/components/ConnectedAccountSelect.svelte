@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import type { Ethereum } from '../data/networks/types'
-	import type { AccountConnectionState } from '../state/account'
+	import type { AccountConnection } from '../state/account'
 	import { wallets } from '../data/wallets'
 
 
@@ -15,14 +15,14 @@
 
 	// Shared state
 	export let address: Ethereum.Address | undefined
-	export let selectedAccount: AccountConnectionState | undefined
+	export let selectedAccountConnection: AccountConnection | undefined
 
 
 	// Computed
-	$: if(address) selectedAccount = $accountConnections.find(accountConnection => accountConnection.state?.account?.address?.toLowerCase() === address?.toLowerCase())?.state || selectedAccount
+	$: if(address) selectedAccountConnection = $accountConnections.find(accountConnection => accountConnection.state?.account?.address?.toLowerCase() === address?.toLowerCase()) || selectedAccountConnection
 	// $: address = selectedAccount?.address
 
-	$: selectedAccount ||= undefined
+	$: selectedAccountConnection ||= undefined
 
 
 	// Functions
@@ -33,7 +33,7 @@
 
 <select
 	class="connected-account-select"
-	bind:value={selectedAccount}
+	bind:value={selectedAccountConnection}
 	{required}
 	on:input={e => {
 		const selectedOption = e.target.selectedOptions[0]
@@ -49,7 +49,7 @@
 			onEvent(
 				'Portfolio/AddAccount',
 				data => {
-					selectedAccount = $accountConnections.find(accountConnection => accountConnection.walletType === walletType)
+					selectedAccountConnection = $accountConnections.find(accountConnection => accountConnection.walletType === walletType)
 				},
 				{ once: true }
 			)
@@ -61,7 +61,7 @@
 
 		<!-- <optgroup label="Connected"> -->
 			{#each $accountConnections as accountConnection}
-				<option value={accountConnection.state}>{accountConnection.walletType}: {formatAddress(accountConnection.state?.account?.address)}</option>
+				<option value={accountConnection}>{accountConnection.walletType}: {formatAddress(accountConnection.state?.account?.address)}</option>
 			{/each}
 		<!-- </optgroup> -->
 

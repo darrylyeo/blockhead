@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Constants/types
-	import type { AccountConnectionState } from '../../../state/account'
+	import type { AccountConnection } from '../../../state/account'
 
 
 	// Params
@@ -13,14 +13,14 @@
 
 
 	// Internal state
-	let selectedAccount: AccountConnectionState
+	let selectedAccountConnection: AccountConnection
 
 	let tokenBalanceFormat
 	let showUnderlyingAssets
 
 
 	// Computed
-	$: if(selectedAccount?.account?.address) $accountId = selectedAccount.account.address
+	$: if(selectedAccountConnection?.state?.account?.address) $accountId = selectedAccountConnection.state.account.address
 	$: currentAccountId = $accountId
 
 
@@ -124,7 +124,7 @@
 		<span>or</span>
 
 		<label class="row inline">
-			<ConnectedAccountSelect address={$accountId} bind:selectedAccount />
+			<ConnectedAccountSelect address={$accountId} bind:selectedAccountConnection />
 		</label>
 
 		<button type="submit">Go</button>

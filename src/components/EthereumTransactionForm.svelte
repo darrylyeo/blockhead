@@ -6,7 +6,7 @@
 		isReadable,
 		isWritable,
 	} from '../api/sourcify'
-	import type { AccountConnectionState } from '../state/account'
+	import type { AccountConnection } from '../state/account'
 	import { networkProviderConfigByProvider } from '../data/networkProviders'
 	import { preferences } from '../state/preferences'
 
@@ -24,7 +24,7 @@
 
 	import { Contract } from 'ethers'
 
-	let selectedAccount: AccountConnectionState
+	let selectedAccountConnection: AccountConnection
 
 	let selectedMethod: SolidityJsonAbiPart
 	$: selectedMethod ??= writableMethods.sort((a, b) => b.inputs.length - a.inputs.length)[0]
@@ -109,7 +109,7 @@
 		{@const args = method.inputs.map((input, i) => inputValues[`${method.name || i}/${input.name}`])}
 
 		<TransactionFlow
-			accountConnectionState={selectedAccount}
+			accountConnection={selectedAccountConnection}
 			{network}
 
 			getContract={({ signer }) => (
@@ -148,7 +148,7 @@
 					{#if method.stateMutability === 'nonpayable' || method.stateMutability === 'payable'}
 						<label>
 							<span>From</span>
-							<ConnectedAccountSelect bind:selectedAccount required={true} />
+							<ConnectedAccountSelect bind:selectedAccountConnection={selectedAccountConnection} required={true} />
 						</label>
 					{/if}
 				</header>
@@ -237,7 +237,7 @@
 					<header class="row spaced">
 						<span class="row">
 							<img src={walletIcon} width="25" />
-							<Address {network} address={selectedAccount.account?.address} format="middle-truncated" />
+							<Address {network} address={selectedAccountConnection?.state?.account?.address} format="middle-truncated" />
 						</span>
 						
 						<span>
