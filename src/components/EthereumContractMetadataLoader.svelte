@@ -41,6 +41,86 @@
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
 
+	import type { Etherscan } from '../api/etherscan'
+
+	const normalizeEtherscanSource = (metadata: Awaited<ReturnType<typeof Etherscan.Contracts.getSource>>) => {
+		const moreMetadata = (() => {
+			try {
+				return JSON.parse(metadata.SourceCode.match(/^\{([\s\S]+)\}$/)?.[1]!)
+			} catch {}
+		})() as {
+			language: string;
+			sources: {
+				[key: string]: {
+					content: string;
+				}
+			};
+			settings: {
+				remappings: string[];
+				optimizer: {
+					enabled: boolean;
+					runs: number;
+				};
+				metadata: {
+					useLiteralContent: boolean;
+					bytecodeHash: string;
+				};
+				outputSelection: {
+					[key: string]: {
+						[key: string]: string[];
+					};
+				};
+				evmVersion: string;
+				viaIR: boolean;
+				libraries: {};
+			}
+		} | undefined
+
+		return {
+			swarmUri: metadata.SwarmSource,
+			contractMetadata: {
+				...moreMetadata,
+				compiler: {
+					version: metadata.CompilerVersion,
+				},
+				language: moreMetadata?.language,
+				output: {
+					abi: JSON.parse(metadata.ABI),
+				},
+				settings: {
+					evmVersion: moreMetadata?.settings.evmVersion ?? metadata.EVMVersion,
+					libraries: moreMetadata?.settings.libraries, // metadata.Library,
+					metadata: moreMetadata?.settings.metadata,
+					compilationTarget: {
+						[metadata.ContractName]: metadata.ContractName,
+					},
+					optimizer: {
+						enabled: moreMetadata?.settings.optimizer.enabled ?? metadata.OptimizationUsed == '1',
+						runs: moreMetadata?.settings.optimizer.runs ?? Number(metadata.Runs),
+					},
+				},
+				sources: Object.fromEntries(
+					Object.entries(
+						moreMetadata?.sources ?? {
+							[metadata.ContractName]: { content: metadata.SourceCode }
+						}
+					)
+						.map(([path, { content, license, urls, keccak256 }]) => [
+							path,
+							{
+								content,
+								license: license || metadata.LicenseType,
+								urls: urls || [
+									metadata.SwarmSource,
+								],
+								keccak256,
+							}
+						])
+				)
+			},
+		}
+	}
+
 
 	// Components
 	import Loader from './Loader.svelte'
@@ -65,38 +145,7 @@
 						contractAddress,
 					})
 
-					return {
-						swarmUri: metadata.SwarmSource,
-						contractMetadata: {
-							compiler: {
-								version: metadata.CompilerVersion,
-							},
-							// language: ,
-							output: {
-								abi: JSON.parse(metadata.ABI),
-							},
-							settings: {
-								compilationTarget: {
-									[metadata.ContractName]: metadata.ContractName,
-								},
-								evmVersion: metadata.EVMVersion,
-								optimizer: {
-									enabled: metadata.OptimizationUsed == '1',
-									runs: Number(metadata.Runs),
-								},
-							},
-							sources: {
-								[metadata.ContractName]: {
-									content: metadata.SourceCode,
-									// keccak256: ,
-									license: metadata.LicenseType,
-									urls: [
-										metadata.SwarmSource,
-									],
-								},
-							},
-						},
-					}
+					return normalizeEtherscanSource(metadata)
 				},
 
 				[ContractSourceProvider.Sourcify]: async () => {
