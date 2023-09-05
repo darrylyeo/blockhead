@@ -53,7 +53,7 @@
 		Reloading = 'reloading',
 		Errored = 'error'
 	}
-	let status: LoadingStatus = LoadingStatus.Idle
+	let status = LoadingStatus.Idle as LoadingStatus
 
 	let promise: ReturnType<NonNullable<typeof fromPromise>>
 	let store: ReturnType<NonNullable<typeof fromStore>>
@@ -70,8 +70,8 @@
 		: {}
 
 	type SharedSlotProps = {
-		result: LoaderReturnResult,
-		status: LoadingStatus,
+		result: typeof result,
+		status: typeof status,
 		load: typeof load,
 		cancel: typeof cancel,
 		pagination?: {
@@ -85,8 +85,8 @@
 	type $$Slots = {
 		default: SharedSlotProps,
 		header: SharedSlotProps & {
-			loadingMessage: string,
-			errorMessage: string,
+			loadingMessage: typeof loadingMessage,
+			errorMessage: typeof errorMessage,
 		},
 		idle: {
 
@@ -103,11 +103,11 @@
 		footer: {
 
 		},
-		'footerStart': {
+		footerStart: {
 
 		},
 		error: {
-			error: LoaderError
+			error: typeof error,
 		},
 		errorMessage: {
 			
