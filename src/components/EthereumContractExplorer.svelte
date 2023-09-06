@@ -98,6 +98,7 @@
 				}}
 				let:contractMetadata
 				let:sourcifyUrl
+				let:contractSourceProvider
 			>
 				<header class="bar" slot="header" let:contractMetadata>
 					<slot name="title" contractName={name} {network} {contractAddress}>
@@ -163,7 +164,7 @@
 									<hr>
 
 									<footer class="footer bar">
-										<a href={sourcifyUrl} target="_blank">Sourcify</a>
+										<a href={sourcifyUrl} target="_blank">{contractSourceProvider}</a>
 
 										<!-- {#if source.license}<span>License: {source.license}</span>{/if} -->
 									</footer>
