@@ -18,10 +18,10 @@
 
 
 	// External state
-	export let value: BigInt | undefined
+	export let value: bigint | undefined
 
-	export let min: BigInt | undefined
-	export let max: BigInt | undefined
+	export let min: bigint | undefined
+	export let max: bigint | undefined
 	export let decimals = 0
 
 	export let required = false

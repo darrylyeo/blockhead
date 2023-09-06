@@ -133,8 +133,8 @@ export namespace Ethereum {
 
 	export type ERCTokenStandard = 'erc20' | 'erc721' | 'erc1155'
 
-	export type GasAmount = BigInt
-	export type GasRate = BigInt
+	export type GasAmount = bigint
+	export type GasRate = bigint
 
 	export type Abi = AbiType
 	export type AbiPart<Abi extends AbiType> = Abi[number]
@@ -188,13 +188,13 @@ export namespace Ethereum {
 		toAddress: Address,
 		toAddressLabel?: string,
 
-		value: number | string, // BigInt
+		value: number | string, // bigint
 
 		gasToken: NativeCurrency | ERC20Token,
 		gasOffered?: GasAmount,
 		gasSpent: GasAmount,
 		gasRate: GasRate,
-		gasValue: number | string, // BigInt
+		gasValue: number | string, // bigint
 
 		logEvents?: TransactionLogEvent[]
 	}
