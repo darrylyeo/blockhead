@@ -16,51 +16,74 @@
 <script lang="ts">
 	// Constants/types
 	import type { Ethereum } from '../data/networks/types'
-	import type { AccountConnectionState } from '../state/account'
-	import type { UnsignedTransaction, Contract, ContractReceipt, Signer, Transaction } from 'ethers'
+	import type { NetworkProvider } from '../data/networkProviders/types'
+	import { networkProviderConfigByProvider } from '../data/networkProviders'
+	import type { AccountConnection } from '../state/account'
+	import type { PublicClient } from 'viem'
 
 	import { walletsByType } from '../data/wallets'
+
+	type Abi = $$Generic<Ethereum.Abi>
+	type AbiMethod = Ethereum.AbiMethod<Abi>
+	type AbiMethodArgs = Ethereum.AbiMethodArgs<Abi, AbiMethod['name']>
+
+
+	// Functions
+	import { isReadable, isReadableWithoutInputs, isWritable } from '../utils/abi'
 	
 
 	// External state
 	export let network: Ethereum.Network
-	export let accountConnectionState: AccountConnectionState
+	export let networkProvider: NetworkProvider
 
-	export let getContract: (params: {
-		network: Ethereum.Network,
-		signer: Signer
-	}) => Contract
+	export let accountConnection: AccountConnection
+	export let publicClient: PublicClient
+	export let transactionRelay: NetworkProvider | 'Wallet'
 
-	export let contractMethod: string
-	export let contractArgs: any[]
+	export let payableAmount: AbiMethod extends Ethereum.AbiMethod<Abi, 'payable'> ? bigint : undefined
+
+	export let contractAddress: Ethereum.ContractAddress
+	export let contractAbi: Abi
+	export let contractMethodName: AbiMethod['name']
+	export let contractMethodArgs: AbiMethodArgs
 
 	export let onTransactionSuccess
 
 
 	// Internal state
-
 	let currentStep = Steps.Idle
 
 	let formElement: HTMLFormElement
 
-	$: contract = accountConnectionState && getContract({
-		network,
-		signer: accountConnectionState.signer
-	})
+	let estimatedGas: Ethereum.GasAmount
+	let signedTransaction: `0x${string}`
+	let transactionId: Ethereum.TransactionID
+	let errorMessage: string
 
-	$: walletConfig = walletsByType[accountConnectionState?.walletConnection?.walletType]
+	let isEip1559 = true
+	let accessList = []
+
+	// (Computed)
+	$: networkProviderConfig = networkProviderConfigByProvider[networkProvider]
+	$: networkProviderName = networkProviderConfig?.name ?? ''
+	$: networkProviderIcon = networkProviderConfig?.icon ?? ''
+
+	$: walletConfig = accountConnection?.walletConnection && walletsByType[accountConnection.walletConnection.walletType]
 	$: walletName = walletConfig?.name ?? ''
 	$: walletIcon = walletConfig?.icon ?? ''
 
-	let unsignedTx: UnsignedTransaction
-	let tx: Transaction
-	let txReceipt: ContractReceipt
-	let errorMessage: string
 
-	
-	// Methods/hooks/lifecycle
+	$: fromAddress = accountConnection?.state?.account?.address
 
-	import { simulateTransaction } from '../api/tenderly'
+	$: isContractCall = contractAddress && contractAbi && contractMethodName && contractMethodArgs
+
+	$: abiPart = contractAbi.find(method => method.type === 'function' && method.name === contractMethodName)
+	$: isMethodReadable = abiPart && isReadable(abiPart)
+	$: isMethodReadableWithoutInputs = abiPart && isReadableWithoutInputs(abiPart)
+	$: isMethodWritable = abiPart && isWritable(abiPart)
+
+
+	// Actions
 
 	const actions = {
 		back: () => currentStep--,
@@ -73,53 +96,18 @@
 		cancel: () => currentStep = Steps.Idle
 	}
 
-	$: contractMethod, actions.cancel()
-
-	// $: if(account && currentStep === Steps.TransactionSigning)(async () => {
-	// 	const { address, signer } = account
-
-	// 	try {
-			
-
-	// 		// tx = unsignedTx.sign()
-	// 	}catch(e){
-	// 	}
-	// // })()
-
-	// // $: if(tx)(async () => {
-	// if(tx){
-	// 	console.log('tx', tx)
-
-	// 	currentStep = Steps.TransactionPending
-
-	// 	try {
-	// 		txReceipt = await tx.wait?.(1)
-	// 		console.log('txReceipt', txReceipt)
-	// 	}catch(e){
-	// 		errorMessage = e.message
-	// 		currentStep = Steps.TransactionReverted
-	// 		return
-	// 	}
-
-	// 	currentStep = Steps.TransactionSuccess
-
-	// 	onTransactionSuccess?.(tx, txReceipt)
-	// 	// if(onTransactionSuccess)
-	// 	// 	try {
-	// 	// 		await onTransactionSuccess(tx)
-	// 	// 	}catch(e){
-	// 	// 		errorMessage = e.message
-	// 	// 		currentStep = Steps.TransactionFailed
-	// 	// 		return
-	// 	// 	}
-	// }
-	// })()
-
-	// $: if(errorMessage)
-	// 	console.error(errorMessage)
+	$: contractAddress, contractAbi, contractMethodName, contractMethodArgs, payableAmount,
+		isMethodReadableWithoutInputs
+			? actions.query()
+			: actions.cancel()
 
 	const isValid = () => formElement?.checkValidity()
 
+
+	// Methods
+	import { createQuery } from '@tanstack/svelte-query'
+	import { simulateTransaction } from '../api/tenderly'
+	
 
 	// Formatting
 	import { formatAddress } from '../utils/formatAddress'
@@ -173,6 +161,60 @@
 				{walletIcon}
 			/>
 		</form>
+	
+	{:else if currentStep === Steps.Querying}
+		<section
+			class="card column"
+			transition:fly|global={{ x: 50 * Math.sign(steps[0] - steps[1]), duration: 300 }}
+		>
+			<Loader
+				loadingIcon={networkProviderIcon}
+				loadingIconName={networkProviderName}
+				loadingMessage="Querying smart contract via {networkProviderName}..."
+				errorMessage="The smart contract failed to be queried."
+				fromQuery={createQuery({
+					queryKey: ['QueryContract', {
+						networkProvider,
+						contractAddress,
+						contractAbi,
+						contractMethodName,
+						contractMethodArgs: JSON.stringify(contractMethodArgs, (key, value) => typeof value === 'bigint' ? value.toString() : value),
+					}],
+					queryFn: async () => (
+						await publicClient.readContract({
+							address: contractAddress,
+							abi: contractAbi,
+							functionName: contractMethodName,
+							args: contractMethodArgs,
+						})
+					),
+				})}
+				let:result
+			>
+				<header slot="header" class="bar">
+					<h4>Query Contract</h4>
+					<span class="card-annotation">{networkProviderName}</span>
+				</header>
+
+				<slot
+					name="query-result"
+					{actions}
+					{result}
+				>
+					{result}
+				</slot>
+			</Loader>
+
+			{#if !isMethodReadableWithoutInputs}
+				<hr>
+
+				<footer class="row spaced">
+					<span />
+					<button type="button" class="medium" on:click={actions.cancel} data-before="↻">Query Again</button>
+				</footer>
+			{/if}
+		</section>
+
 	{:else if currentStep === Steps.TransactionSimulating}
 		<section
 			class="card column"
@@ -183,20 +225,20 @@
 				loadingMessage="Simulating transaction on Tenderly..."
 				errorMessage="The transaction failed to be simulated."
 				fromPromise={async () => {
-					const populatedTx = await contract.populateTransaction[contractMethod](...contractArgs)
-					// const estimatedGas = await contract.estimateGas[contractMethod](...contractArgs)
-					// console.log({estimatedGas})
+					// const populatedTx = await contract.populateTransaction[contractMethod](...contractArgs)
+					// // const estimatedGas = await contract.estimateGas[contractMethod](...contractArgs)
+					// // console.log({estimatedGas})
 
-					return await simulateTransaction({
-						network_id: network.chainId,
-						from: accountConnectionState.account?.address,
-						to: contract.address,
-						input: populatedTx.data,
-						gas: 21204,
-						gas_price: 1,
-						value: 0,
-						save_if_fails: true,
-					})
+					// return await simulateTransaction({
+					// 	network_id: network.chainId,
+					// 	from: accountConnectionState.account?.address,
+					// 	to: contract.address,
+					// 	input: populatedTx.data,
+					// 	gas: 21204,
+					// 	gas_price: 1,
+					// 	value: 0,
+					// 	save_if_fails: true,
+					// })
 				}}
 				let:result
 			>
@@ -217,7 +259,7 @@
 
 						<EthereumSimulatedTransactionTenderly
 							{network}
-							contextualAddress={accountConnectionState.account?.address}
+							contextualAddress={fromAddress}
 							data={result}
 						/>
 					</section>
@@ -236,18 +278,19 @@
 		>
 			<Loader
 				fromPromise={async () => {
-					const estimatedGas = await contract.estimateGas[contractMethod](...contractArgs)
-					console.log({estimatedGas})
-					try {
-						return await contract[contractMethod](...contractArgs)
-					}catch(e){
-						errorMessage = e.message
-						currentStep = Steps.TransactionFailed
-					}
+					// const estimatedGas = await contract.estimateGas[contractMethod](...contractArgs)
+					// console.log({estimatedGas})
+					// try {
+					// 	return await contract[contractMethod](...contractArgs)
+					// }catch(e){
+					// 	errorMessage = e.message
+					// 	currentStep = Steps.TransactionFailed
+					// }
 				}}
 				loadingIcon={walletIcon}
-				loadingMessage="Sign the transaction with {walletName} ({formatAddress(accountConnectionState.account?.address)})."
-				let:result={tx}
+				loadingIconName={walletName}
+				loadingMessage="Sign the transaction with {walletName} ({formatAddress(fromAddress)})."
+				bind:result={signedTransaction}
 			>
 				<header slot="header" class="bar">
 					<h4>Sign Transaction</h4>
@@ -261,6 +304,7 @@
 				<button type="button" class="medium cancel" on:click={actions.back}>‹ Back</button>
 			</footer>
 		</section>
+
 	{:else if currentStep === Steps.TransactionPending}
 		<div
 			class="card column"
@@ -282,6 +326,7 @@
 				{/if}
 			</slot>
 		</div>
+
 	{:else if currentStep === Steps.TransactionFailed || currentStep === Steps.TransactionReverted}
 		<div
 			class="card column"
@@ -303,8 +348,9 @@
 				<button class="medium cancel" on:click={actions.cancel}>Cancel</button>
 			</div>
 		</div>
+
 	{:else if currentStep === Steps.TransactionSuccess}
-		<div
+		<!-- <div
 			class="card column"
 			transition:scale|global
 			>
@@ -324,7 +370,7 @@
 					</a>
 				{/if}
 			</slot>
-		</div>
+		</div> -->
 	{/if}
 </div>
 

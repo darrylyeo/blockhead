@@ -1,39 +1,92 @@
 <script lang="ts">
+	// Constants/types
 	import type { Ethereum } from '../data/networks/types'
-	import {
-		type SolidityJsonAbi,
-		type SolidityJsonAbiPart,
-		isReadable,
-		isWritable,
-	} from '../api/sourcify'
 	import type { AccountConnection } from '../state/account'
+	import type { NetworkProvider } from '../data/networkProviders/types'
 	import { networkProviderConfigByProvider } from '../data/networkProviders'
+	import { walletsByType } from '../data/wallets'
+	
+	type Abi = $$Generic<Ethereum.Abi>
+	type AbiMethod = Ethereum.AbiMethod<Abi>
+	type SelectedAbiMethod = AbiMethod
+
+
+	// Context
 	import { preferences } from '../state/preferences'
 
 
+	// Functions
+	import { isReadable, isWritable, isReadableWithoutInputs } from '../utils/abi'
+
+
+	// External state
 	export let network: Ethereum.Network
-	export let provider: Ethereum.Provider
+	export let networkProvider: NetworkProvider
+	export let publicClient: Ethereum.PublicClient
 	export let contractAddress: Ethereum.ContractAddress
 	export let contractName: string
-	export let abi: SolidityJsonAbi
+	export let contractAbi: Abi = []
+
+	// (Computed)
+	$: readableMethods = contractAbi.filter(isReadable)
+	$: readableMethodsWithoutInputs = readableMethods.filter(isReadableWithoutInputs)
+	$: readableMethodsWithInputs = readableMethods.filter(method => !isReadableWithoutInputs(method))
+	$: writableMethods = contractAbi.filter(isWritable)
+
+	$: methodsByGroup = [
+		{
+			name: 'Variables',
+			singularName: 'Variable',
+			methods: readableMethodsWithoutInputs,
+		},
+		{
+			name: 'Queries',
+			singularName: 'Query',
+			methods: readableMethodsWithInputs,
+		},
+		{
+			name: 'Actions',
+			singularName: 'Action',
+			methods: writableMethods,
+		},
+	]
 
 
-	$: readableMethods = abi.filter(isReadable)
-	$: writableMethods = abi.filter(isWritable)
+	// Internal state
+	let selectedAccountConnection: AccountConnection | undefined
 
-
-	import { Contract } from 'ethers'
-
-	let selectedAccountConnection: AccountConnection
-
-	let selectedMethod: SolidityJsonAbiPart
+	let selectedMethod: SelectedAbiMethod
 	$: selectedMethod ??= writableMethods.sort((a, b) => b.inputs.length - a.inputs.length)[0]
 
 	let payableAmount = 0n
 
-	let inputValues = {}
+	type FlattenKeys<T> = {
+		[K in keyof T]: `${K & string}/${keyof T[K] & string}`
+	}[keyof T]
+
+	let inputValues: {
+		[K in FlattenKeys<{
+			[
+				Method in AbiMethod
+				as
+				Method['name']
+			]: {
+				[
+					Index in Exclude<keyof Method['inputs'], keyof any[]>
+					as
+					Method['inputs'][Index] extends { name: string }
+						? Method['inputs'][Index]['name']
+						: Index
+				]: Ethereum.AbiMethodArg<Abi, Method['name'], Index extends `${infer T extends number}` ? T : never>
+			}
+		}>]?: string;
+	} = {}
+
+	$: contractMethod = selectedMethod
+	$: contractMethodArgs = contractMethod?.inputs?.map((input, i) => inputValues[`${contractMethod.name}/${'name' in input && input.name || i}`]) ?? []
 
 
+	// Formatting
 	import { formatIdentifierToWords } from '../utils/formatIdentifierToWords'
 
 
@@ -49,6 +102,7 @@
 	import { TenderlyIcon } from '../assets/icons'
 
 
+	// Transitions
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
 </script>
@@ -83,44 +137,39 @@
 
 
 <section class="column">
-	<header class="bar">
+	<header class="bar wrap">
 		<h3>Smart Contract Interactions</h3>
 
 		<label>
-			<span>{selectedMethod ? isReadable(selectedMethod) ? 'Query' : isWritable(selectedMethod) ? 'Action' : 'Method' : 'Method'}</span> 
-			<select bind:value={selectedMethod}>
-				<optgroup label="Queries">
-					{#each readableMethods as method}
-						<option value={method}>{formatIdentifierToWords(method.name, true)}</option>
-					{/each}
-				</optgroup>
+			<span>{contractMethod && methodsByGroup.find(group => group.methods.includes(contractMethod))?.singularName || 'Method'}</span> 
 
-				<optgroup label="Actions">
-					{#each writableMethods as method}
-						<option value={method}>{formatIdentifierToWords(method.name, true)}</option>
-					{/each}
-				</optgroup>
+			<select bind:value={contractMethod}>
+				{#each methodsByGroup.filter(({ methods }) => methods.length) as { name, methods }}
+					<optgroup label={name}>
+						{#each methods.sort((a, b) => a.name.localeCompare(b.name)) as method}
+							<option value={method}>{formatIdentifierToWords(method.name, true)}</option>
+						{/each}
+					</optgroup>
+				{:else}
+					<option value={undefined} selected disabled>[No interactions available.]</option>
+				{/each}
 			</select>
 		</label>
 	</header>
 
-	{#if selectedMethod}
-		{@const method = selectedMethod}
-		{@const args = method.inputs.map((input, i) => inputValues[`${method.name || i}/${input.name}`])}
-
+	{#if contractMethod}
 		<TransactionFlow
 			accountConnection={selectedAccountConnection}
 			{network}
+			{networkProvider}
 
-			getContract={({ signer }) => (
-				new Contract(
-					contractAddress,
-					abi,
-					isWritable(selectedMethod) ? signer : provider
-				)
-			)}
-			contractMethod={method.name}
-			contractArgs={args}
+			{publicClient}
+
+			{contractAddress}
+			{contractAbi}
+			contractMethodName={contractMethod.name}
+			{contractMethodArgs}
+			{payableAmount}
 
 			onTransactionSuccess={async tx => {
 				console.log(tx)
@@ -142,23 +191,23 @@
 							linked
 						/>
 						›
-						<abbr title={method.name}>{formatIdentifierToWords(method.name, true)}</abbr>
+						<abbr title={contractMethod.name}>{formatIdentifierToWords(contractMethod.name, true)}</abbr>
 					</h4>
 
-					{#if method.stateMutability === 'nonpayable' || method.stateMutability === 'payable'}
+					{#if contractMethod.stateMutability === 'nonpayable' || contractMethod.stateMutability === 'payable'}
 						<label>
 							<span>From</span>
-							<ConnectedAccountSelect bind:selectedAccountConnection={selectedAccountConnection} required={true} />
+							<ConnectedAccountSelect bind:selectedAccountConnection required />
 						</label>
 					{/if}
 				</header>
 
-				{#if method.inputs.length}
+				{#if contractMethod.inputs.length}
 					<hr>
 
 					<HeightContainer>
-						{#each method.inputs as input, i (`${method.name || i}/${input.name || i}`)}
-							{@const inputKey = `${method.name || i}/${input.name || i}`}
+						{#each contractMethod.inputs as input, i (`${contractMethod.name || i}/${input.name || i}`)}
+							{@const inputKey = `${contractMethod.name || i}/${input.name || i}`}
 
 							<!-- svelte-ignore a11y-label-has-associated-control -->
 							<label class="input-param" transition:scale|global={{ duration: 300, start: 0.8, delay: i * 10 }} animate:flip>
@@ -217,7 +266,7 @@
 							gwei
 						</output> -->
 
-						{#if method.stateMutability === 'payable'}
+						{#if contractMethod.stateMutability === 'payable'}
 							<label>
 								<span>Pay {network.nativeCurrency.symbol}</span>
 								<TokenAmountSelect
@@ -239,7 +288,7 @@
 							<img src={walletIcon} width="25" />
 							<Address {network} address={selectedAccountConnection?.state?.account?.address} format="middle-truncated" />
 						</span>
-						
+
 						<span>
 							will
 							{#if payableAmount > 0}
@@ -263,19 +312,19 @@
 								linked
 							/>
 							›
-							<abbr title={method.name}>{formatIdentifierToWords(method.name, true)}</abbr>
+							<abbr title={contractMethod.name}>{formatIdentifierToWords(contractMethod.name, true)}</abbr>
 						</span>
 
-						{#if method.inputs.length}
-							with {method.inputs.length} parameters:
+						{#if contractMethod.inputs.length}
+							with {contractMethod.inputs.length} parameters:
 						{/if}
 					</header>
 
-					{#if method.inputs.length}
+					{#if contractMethod.inputs.length}
 						<hr>
 
-						{#each method.inputs as input, i (`${method.name || i}/${input.name || i}`)}
-							{@const inputKey = `${method.name || i}/${input.name || i}`}
+						{#each contractMethod.inputs as input, i (`${contractMethod.name || i}/${input.name || i}`)}
+							{@const inputKey = `${contractMethod.name || i}/${input.name || i}`}
 							{@const arg = inputValues[inputKey]}
 
 							<label class="input-param" transition:scale|global={{ duration: 300, start: 0.8, delay: i * 25 }}>
@@ -299,9 +348,9 @@
 					<button type="button" class="medium cancel" on:click={actions.back}>‹ Back</button>
 
 					<div class="row">
-						{#if isReadable(method)}
+						{#if isReadable(contractMethod)}
 							<button type="button" class="medium" on:click={actions.query}><img src={networkProviderConfigByProvider[$preferences.rpcNetwork]?.icon} width="16" /> Query Contract ›</button>
-						{:else if isWritable(method)}
+						{:else if isWritable(contractMethod)}
 							<button type="button" class="tenderly medium" on:click={actions.simulate}><img src={TenderlyIcon} width="16" /> Simulate Transaction ›</button>
 
 							<button type="button" class="medium" on:click={actions.sign}><img src={walletIcon} width="16" /> Sign & Broadcast Transaction ›</button>
@@ -311,6 +360,32 @@
 				</div>
 			</svelte:fragment>
 
+			<svelte:fragment slot="query-result" let:result>
+				<hr>
+
+				{@const isSingleOutput = contractMethod.outputs?.length === 1}
+
+				{#each contractMethod.outputs as output, i (`${contractMethod.name || i}/${output.name || i}`)}
+					<!-- {@const outputKey = `${method.name || i}/${output.name || i}`} -->
+					{@const outputValue = isSingleOutput ? result : result[i]}
+
+					<label class="input-param" transition:scale|global={{ duration: 300, start: 0.8, delay: i * 25 }}>
+						<span>
+							{#if output.name}
+								<abbr title={output.name}>{formatIdentifierToWords(output.name, true)}</abbr>
+							{:else if isSingleOutput && contractMethod.name}
+								<abbr title={contractMethod.name}>{formatIdentifierToWords(contractMethod.name, true)}</abbr>
+							{:else}
+								<span class="input-index">Output {i + 1}</span>
+							{/if}
+						</span>
+
+						<output>{outputValue}</output>
+
+						<abbr class="card-annotation" title="{output.type} ({output.indexed ? `indexed ` : ''}{output.internalType})">{output.type}</abbr>
+					</label>
+				{/each}
+			</svelte:fragment>
 
 			<svelte:fragment slot="simulating-actions" let:actions>
 				<div class="row spaced">
