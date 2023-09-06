@@ -22,10 +22,10 @@
 	$: viaRPC = networkProvider === NetworkProvider.Default ? '' : ` via ${networkProvider}`
 
 
-	export let showIf: ((contractCode: Ethereum.ContractBytecode) => boolean) | undefined
+	export let showIf: ((contractBytecode: Ethereum.ContractBytecode) => boolean) | undefined
 
 
-	export let contractCode: Ethereum.ContractBytecode
+	export let contractBytecode: Ethereum.ContractBytecode
 	
 
 	import { createQuery } from '@tanstack/svelte-query'
@@ -55,7 +55,7 @@
 	loadingMessage={`Looking up contract code${viaRPC}...`}
 	errorMessage={`Couldn't find contract code${viaRPC}.`}
 	{showIf}
-	bind:result={contractCode}
+	bind:result={contractBytecode}
 >
 	<svelte:fragment slot="loadingIcon">
 		{@const networkProviderConfig = networkProviderConfigByProvider[$preferences.rpcNetwork]}
@@ -67,6 +67,6 @@
 		{/if}
 	</svelte:fragment>
 
-	<slot slot="header" name="header" {contractAddress} {contractCode} />
-	<slot {contractAddress} {contractCode} />
+	<slot slot="header" name="header" {contractAddress} {contractBytecode} />
+	<slot {contractAddress} {contractBytecode} />
 </Loader>

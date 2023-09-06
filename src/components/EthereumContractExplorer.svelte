@@ -69,8 +69,8 @@
 		{contractAddress}
 		{networkProvider}
 		{network}
-		showIf={contractCode => !!contractCode}
-		let:contractCode
+		showIf={contractBytecode => !!contractBytecode}
+		let:contractBytecode
 	>
 		<slot slot="header" name="header" />
 
@@ -195,7 +195,7 @@
 								{/if}
 							</section>
 						{:else}
-							<code class="card scrollable-list" style="--resizeVertical-defaultHeight: 7.5em" transition:fade|global>{contractCode}</code>
+							<code class="card scrollable-list" style="--resizeVertical-defaultHeight: 7.5em" transition:fade|global>{contractBytecode}</code>
 						{/if}
 					{/key}
 				</div>
