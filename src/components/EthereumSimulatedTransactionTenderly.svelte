@@ -52,7 +52,7 @@
 	<section>
 		<h4>Stack Trace</h4>
 
-		<div class="scrollable-list" style="height: 6rem">
+		<div class="scrollable-list" style="--resizeVertical-defaultHeight: 6rem;">
 			{#each data.transaction.transaction_info.stack_trace as item, i}
 				<dl>
 					{#each Object.entries(item) as [key, value], i}

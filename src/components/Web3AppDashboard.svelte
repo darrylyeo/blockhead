@@ -172,7 +172,7 @@
 		grid-column: 1 / -1;
 	}
 	.defi-app-view.scrollable-list {
-		height: 39.5rem;
+		--resizeVertical-defaultHeight: 39.5rem;
 	}
 
 	.defi-app-view-items {
@@ -185,7 +185,7 @@
 		gap: var(--padding-inner);
 	}
 	.defi-app-view-items.scrollable-list {
-		height: 31rem;
+		--resizeVertical-defaultHeight: 31rem;
 	}
 
 	.defi-app-view-items > * {

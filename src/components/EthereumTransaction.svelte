@@ -123,7 +123,7 @@
 	}
 
 	.log-events.scrollable-list {
-		height: 20rem;
+		--resizeVertical-defaultHeight: 20rem;
 	}
 </style>
 

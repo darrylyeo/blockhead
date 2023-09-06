@@ -157,7 +157,7 @@
 								<hr>
 
 								{#if source.content}
-									<code class="scrollable-list" style="height: 30em">{source.content}</code>
+									<code class="scrollable-list" style="--resizeVertical-defaultHeight: 30em;">{source.content}</code>
 
 									<hr>
 
@@ -178,7 +178,7 @@
 										let:resolvedIpfsUrl
 										let:ipfsGatewayProvider
 									>
-										<code class="source-code scrollable-list" style="height: 30em">{sourceCode}</code>
+										<code class="source-code scrollable-list" style="--resizeVertical-defaultHeight: 30em;">{sourceCode}</code>
 
 										<hr>
 
@@ -195,7 +195,7 @@
 								{/if}
 							</section>
 						{:else}
-							<code class="card scrollable-list" style="height: 7.5em" transition:fade|global>{contractCode}</code>
+							<code class="card scrollable-list" style="--resizeVertical-defaultHeight: 7.5em" transition:fade|global>{contractCode}</code>
 						{/if}
 					{/key}
 				</div>

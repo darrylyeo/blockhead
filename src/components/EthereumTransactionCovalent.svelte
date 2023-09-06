@@ -341,10 +341,10 @@
 	}
 
 	.log-events.scrollable-list {
-		height: 20rem;
+		--resizeVertical-defaultHeight: 20rem;
 	}
 	.transaction.layout-standalone .log-events.scrollable-list {
-		height: 54vh;
+		--resizeVertical-defaultHeight: 54vh;
 	}
 </style>
 

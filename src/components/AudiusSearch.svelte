@@ -45,7 +45,7 @@
 	}
 
 	.scrollable-list {
-		height: 40rem;
+		--resizeVertical-defaultHeight: 40rem;
 	}
 </style>
 

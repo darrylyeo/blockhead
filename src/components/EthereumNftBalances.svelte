@@ -90,7 +90,7 @@
 		grid-column: 1 / -1;
 	}
 	.nft-contracts.scrollable-list {
-		height: 39.5rem;
+		--resizeVertical-defaultHeight: 39.5rem;
 	}
 
 	.nft-contract-logo {
@@ -109,7 +109,7 @@
 		gap: var(--padding-inner);
 	}
 	.nfts.scrollable-list {
-		height: 31rem;
+		--resizeVertical-defaultHeight: 31rem;
 	}
 
 	.nft-image {
