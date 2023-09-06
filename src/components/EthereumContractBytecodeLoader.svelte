@@ -46,7 +46,7 @@
 			}],
 			queryFn: async () => (
 				await publicClient.getBytecode({ address: contractAddress })
-					.then(contractCode => contractCode === '0x' ? null : contractCode)
+					.then(contractBytecode => contractBytecode === undefined ? null : contractBytecode)
 			)
 		})
 	}
