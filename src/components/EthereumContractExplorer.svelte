@@ -29,6 +29,10 @@
 	$: contractAddress && (hasLoadedMetadata = false)
 
 
+	export let contractBytecode: Ethereum.ContractBytecode
+	export let contractMetadata: Ethereum.ContractMetadata<string>
+
+
 	const getContractName = (contractMetadata: Ethereum.ContractMetadata<string>) =>
 		Object.values(contractMetadata.settings.compilationTarget)?.[0] as string
 
@@ -70,6 +74,7 @@
 		{networkProvider}
 		{network}
 		showIf={contractBytecode => !!contractBytecode}
+		bind:contractBytecode
 		let:contractBytecode
 	>
 		<slot slot="header" name="header" />
@@ -78,6 +83,7 @@
 			<EthereumContractMetadataLoader
 				{contractAddress}
 				{network}
+				bind:contractMetadata
 				whenLoaded={async ({ contractMetadata }) => {
 					if(!contractMetadata || hasLoadedMetadata) return
 					hasLoadedMetadata = true
