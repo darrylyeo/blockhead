@@ -336,7 +336,7 @@
 									{/if}
 								</span>
 
-								<output>{arg}</output>
+								<output>{#if input.type === 'address'}<Address {network} address={arg} />{:else}{arg}{/if}</output>
 
 								<abbr class="card-annotation" title="{input.type} ({input.indexed ? `indexed ` : ''}{input.internalType})">{input.type}</abbr>
 							</label>
@@ -380,7 +380,7 @@
 							{/if}
 						</span>
 
-						<output>{outputValue}</output>
+						<output>{#if output.type === 'address'}<Address {network} address={outputValue} />{:else}{outputValue}{/if}</output>
 
 						<abbr class="card-annotation" title="{output.type} ({output.indexed ? `indexed ` : ''}{output.internalType})">{output.type}</abbr>
 					</label>
