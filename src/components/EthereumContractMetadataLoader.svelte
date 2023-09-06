@@ -29,6 +29,7 @@
 	type SharedSlotProps = {
 		contractAddress: typeof contractAddress,
 		contractMetadata: typeof contractMetadata | undefined,
+		contractSourceProvider: typeof contractSourceProvider,
 		sourcifyUrl: typeof sourcifyUrl | undefined,
 	}
 
@@ -183,8 +184,8 @@
 	<svelte:fragment slot="header"
 		let:result
 	>
-		<slot name="header" {contractAddress} {...result} />
+		<slot name="header" {contractAddress} {contractSourceProvider} {...result} />
 	</svelte:fragment>
 
-	<slot {contractAddress} {...result} />
+	<slot {contractAddress} {contractSourceProvider} {...result} />
 </Loader>
