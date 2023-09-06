@@ -1,7 +1,7 @@
 import type { Branded, BrandedString } from '../../utils/branded'
 import type { Provider as EthersProvider, Block as EthersBlock } from 'ethers'
 import type { TickerSymbol } from '../currencies'
-import type { Abi as AbiType, ExtractAbiFunctionNames, ExtractAbiFunction, ExtractAbiFunctions, AbiStateMutability, AbiParametersToPrimitiveTypes } from 'abitype'
+import type { Abi as AbiType, ExtractAbiFunctionNames, ExtractAbiFunction, ExtractAbiFunctions, AbiStateMutability, AbiParametersToPrimitiveTypes, AbiParameterToPrimitiveType } from 'abitype'
 import type { PublicClient as ViemPublicClient } from 'viem'
 import type { AbiEventParametersToPrimitiveTypes } from 'viem/dist/types/types/contract'
 
@@ -141,6 +141,7 @@ export namespace Ethereum {
 	export type AbiMethod<Abi extends AbiType, TAbiStateMutability extends AbiStateMutability = AbiStateMutability> = ExtractAbiFunctions<Abi, TAbiStateMutability>
 	export type AbiMethodName<Abi extends AbiType> = ExtractAbiFunctionNames<Abi>
 	export type AbiMethodArgs<Abi extends AbiType, MethodName extends AbiMethodName<Abi>> = AbiParametersToPrimitiveTypes<ExtractAbiFunction<Abi, MethodName>['inputs']>
+	export type AbiMethodArg<Abi extends AbiType, MethodName extends AbiMethodName<Abi>, ArgumentIndex extends number> = AbiParameterToPrimitiveType<ExtractAbiFunction<Abi, MethodName>['inputs'][ArgumentIndex]>
 
 	export type TransactionContractCallParameters<
 		Abi extends AbiType,

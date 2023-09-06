@@ -213,10 +213,11 @@
 
 					<EthereumTransactionForm
 						{network}
+						{networkProvider}
 						{publicClient}
 						contractName={getContractName(contractMetadata)}
 						{contractAddress}
-						abi={contractMetadata.output.abi}
+						contractAbi={contractMetadata.output.abi}
 					/>
 				{/if}
 			</EthereumContractMetadataLoader>
