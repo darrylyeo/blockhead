@@ -24,7 +24,7 @@
 	export let networkProvider: NetworkProvider
 	export let publicClient: Ethereum.PublicClient
 	export let contractAddress: Ethereum.ContractAddress
-	export let contractName: string
+	export let contractName: string = ''
 	export let contractAbi: Abi = []
 
 	// (Computed)
