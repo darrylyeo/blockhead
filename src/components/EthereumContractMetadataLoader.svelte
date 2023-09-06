@@ -2,7 +2,8 @@
 	// Constants/types
 	import type { Ethereum } from '../data/networks/types'
 	import { ContractSourceProvider, contractSourceProviderIcons } from '../data/contractSourceProvider'
-	import type { getContractMetadata } from '../api/sourcify'
+
+	type SourcePath = $$Generic<string>
 
 
 	// Context
@@ -18,7 +19,7 @@
 
 
 	// Internal state
-	let result: Awaited<ReturnType<typeof getContractMetadata>>
+	let result: Ethereum.ContractMetadata<SourcePath>
 
 
 	// Output
@@ -44,7 +45,7 @@
 
 	import type { Etherscan } from '../api/etherscan'
 
-	const normalizeEtherscanSource = (metadata: Awaited<ReturnType<typeof Etherscan.Contracts.getSource>>) => {
+	const normalizeEtherscanSource = <SourcePath extends string>(metadata: Awaited<ReturnType<typeof Etherscan.Contracts.getSource>>) => {
 		const moreMetadata = (() => {
 			try {
 				return JSON.parse(metadata.SourceCode.match(/^\{([\s\S]+)\}$/)?.[1]!)
@@ -52,7 +53,7 @@
 		})() as {
 			language: string;
 			sources: {
-				[key: string]: {
+				[key in SourcePath]: {
 					content: string;
 				}
 			};
@@ -118,7 +119,7 @@
 							}
 						])
 				)
-			},
+			} as Ethereum.ContractMetadata<SourcePath>,
 		}
 	}
 

@@ -232,4 +232,46 @@ export namespace Ethereum {
 	}
 	export type ContractFunctionParameterName = string
 	export type TopicHash = BrandedString<'TopicHash'>
+
+	export type ContractMetadata<SourcePath extends string> = {
+		compiler: {
+			version: string
+		},
+		language: 'Solidity' | string,
+		output: {
+			abi: Abi,
+			devdoc?: {
+				kind: 'dev' | string,
+				methods: {},
+				version: number,
+			},
+			userdoc?: {
+				kind: 'user' | string,
+				methods: {},
+				version: number,
+			}
+		},
+		settings: {
+			compilationTarget: { [key in SourcePath]: string },
+			evmVersion: 'istanbul' | string,
+			libraries: {},
+			metadata: {
+				bytecodeHash: 'ipfs' | string,
+			},
+			optimizer: {
+				enabled: boolean,
+				runs: number,
+			},
+			remappings: [],
+		},
+		sources: {
+			[key in SourcePath]: {
+				content?: string,
+				keccak256: `0x${string}`, // 64
+				license: string,
+				urls?: string[],
+			}
+		},
+		version?: number,
+	}
 }
