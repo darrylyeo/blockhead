@@ -106,11 +106,13 @@
 		footerStart: {
 
 		},
-		error: {
+		errorTitle: {
 			error: typeof error,
+			errorMessage: typeof errorMessage,
 		},
-		errorMessage: {
-			
+		errorDetails: {
+			error: typeof error,
+			errorMessage: typeof errorMessage,
 		},
 		errorActions: {
 			load: typeof load,
@@ -390,9 +392,10 @@
 			{:else if !hideError && status === LoadingStatus.Errored}
 				<div class="card" transition:scale|global>
 					<div class="bar wrap">
-						<slot name="errorMessage">
+						<slot name="errorTitle" {error} {errorMessage}>
 							<h4>{errorMessage || 'Error'}</h4>
 						</slot>
+
 						<slot name="errorActions" {load} {cancel}>
 							<div class="row wrap">
 								<button class="small" on:click={load}>Retry</button>
@@ -400,7 +403,8 @@
 							</div>
 						</slot>
 					</div>
-					<slot name="error" {error}>
+
+					<slot name="errorDetails" {error} {errorMessage}>
 						<pre>{
 							errorFunction
 								? errorFunction(error) :
@@ -478,15 +482,17 @@
 				{:else if !hideError && status === LoadingStatus.Errored}
 					<div class="card" transition:scale|global>
 						<div class="bar wrap">
-							<slot name="errorMessage">
+							<slot name="errorTitle" {error} {errorMessage}>
 								<h4>{errorMessage || 'Error'}</h4>
 							</slot>
+
 							<slot name="errorActions" {load} {cancel}>
 								<button class="small" on:click={load}>Retry</button>
 								<button class="small cancel" on:click={cancel}>Cancel</button>
 							</slot>
 						</div>
-						<slot name="error" {error}>
+
+						<slot name="errorDetails" {error} {errorMessage}>
 							<pre>{
 								errorFunction
 									? errorFunction(error) :
