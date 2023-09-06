@@ -33,8 +33,12 @@
 	$: contractAddress && (hasLoadedMetadata = false)
 
 
+	// Outputs
 	export let contractBytecode: Ethereum.ContractBytecode
 	export let contractMetadata: Ethereum.ContractMetadata<string>
+	export let contractName: string | undefined
+	// (Computed)
+	$: contractName = contractMetadata && getContractName(contractMetadata)
 
 
 	const getContractName = (contractMetadata: Ethereum.ContractMetadata<string>) =>
@@ -231,7 +235,7 @@
 						{network}
 						{networkProvider}
 						{publicClient}
-						contractName={getContractName(contractMetadata)}
+						{contractName}
 						{contractAddress}
 						contractAbi={contractMetadata.output.abi}
 					/>
