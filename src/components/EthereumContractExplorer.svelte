@@ -23,7 +23,11 @@
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
 
 
-	let showContractSourcePath = 'EVM Bytecode'
+	enum ContractCodeType {
+		// CreationBytecode = 'Creation Bytecode',
+		RuntimeBytecode = 'Runtime Bytecode',
+	}
+	let showContractCodeTypeOrSourcePath: ContractCodeType | keyof typeof contractMetadata.sources = ContractCodeType.RuntimeBytecode
 	// TODO: refactor one-off whenLoaded side effect
 	let hasLoadedMetadata = false
 	$: contractAddress && (hasLoadedMetadata = false)
@@ -103,7 +107,7 @@
 							: sourcePaths.find(sourcePath => sourcePath.match(new RegExp(`(?:^|[/])${contractName}[.]`)))
 
 					if(targetSourcePath)
-						showContractSourcePath = targetSourcePath
+						showContractCodeTypeOrSourcePath = targetSourcePath
 				}}
 				let:contractMetadata
 				let:sourcifyUrl
@@ -116,9 +120,11 @@
 
 					<label>
 						<span>View: </span>
-						<select bind:value={showContractSourcePath}>
+						<select bind:value={showContractCodeTypeOrSourcePath}>
 							<optgroup label="On-Chain">
-								<option value="EVM Bytecode">EVM Bytecode</option>
+								{#each Object.values(ContractCodeType) as contractCodeType}
+									<option value={contractCodeType}>{contractCodeType}</option>
+								{/each}
 							</optgroup>
 
 							{#if contractMetadata}
@@ -134,10 +140,10 @@
 				</header>
 
 				<div class="stack">
-					{#key showContractSourcePath}
-						{#if contractMetadata && showContractSourcePath !== 'EVM Bytecode'}
-							{@const source = contractMetadata?.sources[showContractSourcePath]}
-							{@const sourceFile = showContractSourcePath.match(/[^/]+$/)?.[0]}
+					{#key showContractCodeTypeOrSourcePath}
+						{#if contractMetadata && !Object.values(ContractCodeType).includes(showContractCodeTypeOrSourcePath)}
+							{@const source = contractMetadata?.sources[showContractCodeTypeOrSourcePath]}
+							{@const sourceFile = showContractCodeTypeOrSourcePath.match(/[^/]+$/)?.[0]}
 							{@const sourceFileName = sourceFile?.replace(/.sol$/, '')}
 							{@const solidityDefinitionType =
 								contractMetadata?.language === 'Solidity' &&
@@ -149,7 +155,7 @@
 									<abbr
 										class="row-inline"
 										title={[
-											showContractSourcePath,
+											showContractCodeTypeOrSourcePath,
 											source.license && `License: ${source.license}`,
 											source.keccak256 && `keccak256 hash: ${source.keccak256}`
 										].filter(Boolean).join('\n\n')}
@@ -211,7 +217,7 @@
 									{contractBytecode}
 									{networkProvider}
 								>
-									<h4 slot="title">{showContractSourcePath}</h4>
+									<h4 slot="title">{showContractCodeTypeOrSourcePath}</h4>
 								</EvmBytecode>
 							</section>
 						{/if}
