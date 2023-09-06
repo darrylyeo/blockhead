@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
-	import type { ContractMetadata } from '../api/sourcify'
 	import type { NetworkProvider } from '../data/networkProviders/types'
 	import { getViemPublicClient } from '../data/networkProviders'
 	import { preferences } from '../state/preferences'
@@ -30,7 +29,7 @@
 	$: contractAddress && (hasLoadedMetadata = false)
 
 
-	const getContractName = (contractMetadata: ContractMetadata<string>) =>
+	const getContractName = (contractMetadata: Ethereum.ContractMetadata<string>) =>
 		Object.values(contractMetadata.settings.compilationTarget)?.[0] as string
 
 
