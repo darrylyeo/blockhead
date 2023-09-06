@@ -38,6 +38,7 @@
 	import EthereumContractBytecodeLoader from './EthereumContractBytecodeLoader.svelte'
 	import EthereumContractMetadataLoader from './EthereumContractMetadataLoader.svelte'
 	import EthereumTransactionForm from './EthereumTransactionForm.svelte'
+	import EvmBytecode from './EvmBytecode.svelte'
 	import IpfsLoader from './IpfsLoader.svelte'
 
 
@@ -195,7 +196,14 @@
 								{/if}
 							</section>
 						{:else}
-							<code class="card scrollable-list" style="--resizeVertical-defaultHeight: 7.5em" transition:fade|global>{contractBytecode}</code>
+							<section class="card" in:fly|global={{ x: 10, duration: 200 }} out:fly|global={{ x: -10, duration: 200 }}>
+								<EvmBytecode
+									{contractBytecode}
+									{networkProvider}
+								>
+									<h4 slot="title">{showContractSourcePath}</h4>
+								</EvmBytecode>
+							</section>
 						{/if}
 					{/key}
 				</div>
