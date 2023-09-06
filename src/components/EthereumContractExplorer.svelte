@@ -95,8 +95,12 @@
 
 					const contractName = getContractName(contractMetadata)
 
-					const targetSourcePath = Object.keys(contractMetadata.sources)
-						.find(sourcePath => sourcePath.match(new RegExp(`(?:^|[/])${contractName}[.]`)))
+					const sourcePaths = Object.keys(contractMetadata.sources)
+
+					const targetSourcePath = 
+						sourcePaths.length === 1
+							? sourcePaths[0]
+							: sourcePaths.find(sourcePath => sourcePath.match(new RegExp(`(?:^|[/])${contractName}[.]`)))
 
 					if(targetSourcePath)
 						showContractSourcePath = targetSourcePath
