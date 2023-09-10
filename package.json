@@ -82,6 +82,7 @@
     "webmax": "^0.2.0"
   },
   "devDependencies": {
+    "@edgedb/generate": "^0.3.3",
     "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "@playwright/test": "^1.35.1",
     "@sveltejs/adapter-auto": "^2.1.0",
