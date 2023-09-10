@@ -1,4 +1,4 @@
-CREATE MIGRATION m1ubf34x5x77s3rz3wp47cjmwz7ij7jhn77aqswq5khiqyqhw7upfa
+CREATE MIGRATION m1ceznlw7rucheaxuf75ooemeu5zyhqei4exxwpqbcqxllrmeo2boq
     ONTO initial
 {
   CREATE TYPE default::Device {
@@ -8,19 +8,21 @@ CREATE MIGRATION m1ubf34x5x77s3rz3wp47cjmwz7ij7jhn77aqswq5khiqyqhw7upfa
       CREATE INDEX ON (.deviceId);
       CREATE PROPERTY createdAt: std::datetime;
       CREATE PROPERTY updatedAt: std::datetime;
-      CREATE REQUIRED PROPERTY userId: std::int64;
-      CREATE REQUIRED PROPERTY walletId: std::uuid;
+  };
+  CREATE TYPE default::PhysicalDevice {
+      CREATE REQUIRED PROPERTY physicalDeviceId: std::uuid {
+          CREATE CONSTRAINT std::exclusive;
+      };
+      CREATE INDEX ON (.physicalDeviceId);
   };
   CREATE TYPE default::Message {
-      CREATE LINK device: default::Device;
+      CREATE REQUIRED LINK device: default::Device;
       CREATE PROPERTY createdAt: std::datetime;
       CREATE INDEX ON (.createdAt);
-      CREATE REQUIRED PROPERTY deviceId: std::uuid;
-      CREATE INDEX ON (.deviceId);
       CREATE OPTIONAL PROPERTY lastSeen: std::datetime;
       CREATE INDEX ON (.lastSeen);
-      CREATE REQUIRED PROPERTY message: std::str;
-      CREATE OPTIONAL PROPERTY physicalDeviceId: std::uuid;
+      CREATE OPTIONAL LINK physicalDevice: default::PhysicalDevice;
+      CREATE REQUIRED PROPERTY message: std::json;
       CREATE PROPERTY updatedAt: std::datetime;
   };
   ALTER TYPE default::Device {
@@ -28,16 +30,12 @@ CREATE MIGRATION m1ubf34x5x77s3rz3wp47cjmwz7ij7jhn77aqswq5khiqyqhw7upfa
   };
   CREATE TYPE default::User {
       CREATE MULTI LINK devices: default::Device;
-      CREATE REQUIRED PROPERTY userId: std::int64 {
-          CREATE CONSTRAINT std::exclusive;
-      };
-      CREATE INDEX ON (.userId);
       CREATE REQUIRED PROPERTY sub: std::str {
           CREATE CONSTRAINT std::exclusive;
       };
   };
   ALTER TYPE default::Device {
-      CREATE LINK user: default::User;
+      CREATE REQUIRED LINK user: default::User;
   };
   CREATE TYPE default::Wallet {
       CREATE MULTI LINK devices: default::Device;
@@ -46,7 +44,7 @@ CREATE MIGRATION m1ubf34x5x77s3rz3wp47cjmwz7ij7jhn77aqswq5khiqyqhw7upfa
       };
   };
   ALTER TYPE default::Device {
-      CREATE LINK wallet: default::Wallet;
+      CREATE REQUIRED LINK wallet: default::Wallet;
   };
   CREATE TYPE default::Transaction {
       CREATE PROPERTY createdAt: std::datetime;
@@ -60,7 +58,7 @@ CREATE MIGRATION m1ubf34x5x77s3rz3wp47cjmwz7ij7jhn77aqswq5khiqyqhw7upfa
       CREATE PROPERTY lastUpdated: std::datetime;
       CREATE INDEX ON (.lastUpdated);
       CREATE MULTI LINK wallets: default::Wallet;
-      CREATE REQUIRED PROPERTY details: std::str;
+      CREATE REQUIRED PROPERTY details: std::json;
   };
   ALTER TYPE default::Wallet {
       CREATE MULTI LINK transactions: default::Transaction;

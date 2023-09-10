@@ -1,10 +1,5 @@
 module default {
     type User {
-        required property userId -> int64 {
-            constraint exclusive
-        };
-        index on (.userId);
-
         required property sub -> str {
             constraint exclusive
         };
@@ -25,26 +20,27 @@ module default {
         };
         index on (.deviceId);
 
-        required property userId -> int64;
-        required property walletId -> uuid;
-
-        link user -> User;
-        link wallet -> Wallet;
+        required link user -> User;
+        required link wallet -> Wallet;
         multi link msgs -> Message;
 
         property createdAt -> datetime;
         property updatedAt -> datetime;
     };
 
+    type PhysicalDevice {
+        required property physicalDeviceId -> uuid {
+            constraint exclusive
+        };
+        index on (.physicalDeviceId);
+    }
+
     type Message {
-        required property deviceId -> uuid;
-        index on (.deviceId);
+        required link device -> Device;
 
-        link device -> Device;
+        optional link physicalDevice -> PhysicalDevice;
 
-        optional property physicalDeviceId -> uuid;
-
-        required property message -> str;
+        required property message -> json;
 
         optional property lastSeen -> datetime;
         index on (.lastSeen);
@@ -70,7 +66,7 @@ module default {
         property lastUpdated -> datetime;
         index on (.lastUpdated);
 
-        required property details -> str;
+        required property details -> json;
         multi link wallets -> Wallet;
     };
 };
