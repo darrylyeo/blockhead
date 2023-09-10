@@ -3,7 +3,9 @@ import { createClient } from 'edgedb'
 
 import e from './edgedb/dbschema/edgeql-js'
 
-export const client = createClient()
+const getClient = () => createClient({
+	database: 'fireblocks-ncw',
+})
 
 
 // tRPC Context
@@ -59,7 +61,7 @@ export const router = t.router({
 					else: user,
 				})),
 			)
-				.run(client)
+				.run(getClient())
 		)),
 
 	saveMessage: t.procedure
@@ -95,7 +97,7 @@ export const router = t.router({
 				)),
 				message: data,
 			})
-				.run(client)
+				.run(getClient())
 		)),
 
 	getMessages: t.procedure
@@ -154,7 +156,7 @@ export const router = t.router({
 				id: true,
 				message: true,
 			}))
-				.run(client)
+				.run(getClient())
 		)),
 
 	deleteMessage: t.procedure
@@ -186,7 +188,7 @@ export const router = t.router({
 					},
 				},
 			}))
-				.run(client)
+				.run(getClient())
 		)),
 })
 
