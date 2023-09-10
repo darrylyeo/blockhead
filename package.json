@@ -79,7 +79,8 @@
     "trpc-sveltekit": "^3.5.20",
     "uint8arrays": "^4.0.4",
     "viem": "^1.8.1",
-    "webmax": "^0.2.0"
+    "webmax": "^0.2.0",
+    "zod": "^3.22.2"
   },
   "devDependencies": {
     "@edgedb/generate": "^0.3.3",
