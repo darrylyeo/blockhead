@@ -1,3 +1,36 @@
+import { env } from '../../env'
+
+import { FireblocksSDK } from 'fireblocks-sdk'
+import { ApiBaseUrl } from '@fireblocks/fireblocks-web3-provider'
+
+const getFireblocksClient = ({
+	isSandbox = true,
+	user,
+}: {
+	isSandbox?: boolean,
+	user: 'admin' | 'signer',
+}) => (
+	isSandbox
+		? new FireblocksSDK(
+			env.FIREBLOCKS_SANDBOX_API_SECRET,
+			{
+				admin: env.FIREBLOCKS_SANDBOX_NCW_ADMIN_API_KEY,
+				signer: env.FIREBLOCKS_SANDBOX_NCW_SIGNER_API_KEY,
+			}[user],
+			ApiBaseUrl.Sandbox,
+		)
+		: new FireblocksSDK(
+			env.FIREBLOCKS_PRODUCTION_API_SECRET,
+			{
+				admin: env.FIREBLOCKS_PRODUCTION_NCW_ADMIN_API_KEY,
+				signer: env.FIREBLOCKS_PRODUCTION_NCW_SIGNER_API_KEY,
+			}[user],
+			ApiBaseUrl.Production,
+		)
+)
+
+
+
 // EdgeDB database
 import { createClient } from 'edgedb'
 
@@ -63,6 +96,60 @@ export const router = t.router({
 			)
 				.run(getClient())
 		)),
+
+	assignWalletToDevice: t.procedure
+		.input(z.object({
+			isSandbox: z.boolean(),
+			deviceId: z.string(),
+		}))
+		.output(z.object({
+			walletId: z.string(),
+		}))
+		.mutation(async ({
+			ctx: {
+				auth: {
+					payload: {
+						sub,
+					},
+				},
+			},
+			input: {
+				isSandbox,
+				deviceId,
+			},
+		}) => {
+			const wallet = await getFireblocksClient({ isSandbox, user: 'admin' }).NCW.createWallet()
+
+			const user = e.select(e.User, () => ({
+				filter_single: {
+					sub,
+				},
+
+				sub: true,
+			}))
+
+			const device = await e.update(e.Device, () => ({
+				filter_single: {
+					deviceId,
+					user: {
+						sub: user.sub,
+					},
+				},
+
+				set: {
+					wallet: e.insert(e.Wallet, {
+						walletId: wallet.walletId,
+					}),
+				},
+
+				walletId: true,
+			})).run(getClient())
+
+			return {
+				device,
+				wallet,
+			}
+		}),
 
 	saveMessage: t.procedure
 		.input(z.object({
