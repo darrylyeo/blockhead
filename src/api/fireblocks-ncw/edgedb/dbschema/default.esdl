@@ -1,7 +1,5 @@
 module default {
     type User {
-        index on (.id);
-
         required property sub -> str {
             constraint exclusive
         };
@@ -9,17 +7,11 @@ module default {
     };
 
     type Wallet {
-        index on (.id);
         multi link devices -> Device;
         multi link transactions -> Transaction;
     };
 
     type Device {
-        index on (.id);
-
-        required property userId -> int64;
-        required property walletId -> uuid;
-
         link user -> User;
         link wallet -> Wallet;
         multi link msgs -> Message;
@@ -29,15 +21,9 @@ module default {
     };
 
     type Message {
-        index on (.id);
-
-        required property deviceId -> uuid;
-        index on (.deviceId);
-
         link device -> Device;
 
         optional property physicalDeviceId -> uuid;
-
         required property message -> str;
 
         optional property lastSeen -> datetime;
@@ -50,8 +36,6 @@ module default {
     };
 
     type Transaction {
-        index on (.id);
-
         required property status -> str;
         index on (.status);
 
