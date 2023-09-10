@@ -5,7 +5,7 @@ import houdini from 'houdini/vite'
 
 const config: UserConfig = {
 	plugins: [
-		houdini(),
+		// houdini(),
 		sveltekit()
 	],
 
