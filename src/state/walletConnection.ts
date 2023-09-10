@@ -778,6 +778,67 @@ export const getWalletConnection = async ({
 					},
 				}
 			}
+
+			case WalletConnectionType.Fireblocks: {
+				const { FireblocksSDK } = await import('fireblocks-sdk')
+				const { FireblocksWeb3Provider, ApiBaseUrl } = await import('@fireblocks/fireblocks-web3-provider')
+
+				const isSandbox = true
+
+				const fireblocks =
+					isSandbox
+						? new FireblocksSDK(
+							env.FIREBLOCKS_API_SECRET,
+							env.FIREBLOCKS_API_KEY,
+							ApiBaseUrl.Sandbox,
+						)
+						: new FireblocksSDK(
+							env.FIREBLOCKS_API_SECRET,
+							env.FIREBLOCKS_SANDBOX_API_KEY,
+							ApiBaseUrl.Production,
+						)
+				
+				const accounts = await (async () => {
+					const { accounts } = await fireblocks.getVaultAccountsWithPageInfo({})
+
+					if(!accounts.length){
+						const accountName = globalThis.prompt('No vault accounts found. Choose a name for a new vault account:')?.trim() ?? ''
+						const account = await fireblocks.createVaultAccount(accountName)
+						return [account]
+					}else{
+						return accounts
+					}
+				})()
+
+				console.log({ accounts })
+
+				const accountName = globalThis.prompt(`Select a vault account:`)?.trim()
+
+				const accountId = accounts.find(account => account.name === accountName)?.id
+
+
+				const provider = new FireblocksWeb3Provider({
+					apiBaseUrl: isSandbox ? ApiBaseUrl.Sandbox : ApiBaseUrl.Production,
+					apiKey: env.FIREBLOCKS_API_KEY,
+					vaultAccountIds: [accountId], // accounts.map(account => account.id),
+					chainId: 1,
+					logTransactionStatusChanges: true,
+				})
+
+				const walletId = await fireblocks.NCW.createWallet()
+				
+				return {
+					walletType,
+					connectionType: WalletConnectionType.InjectedEthereum,
+					provider,
+
+					connect: async () => await connectEip1193(provider),
+
+					subscribe: () => subscribeEip1193(provider),
+
+					switchNetwork: async (network: Ethereum.Network) => await switchNetworkEip1193({ provider, network }),
+				}
+			}
 		}
 	}
 
