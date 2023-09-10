@@ -1,4 +1,4 @@
-CREATE MIGRATION m15ch3yapdu4ub3zgswlg5arwunvuqgbcmak5vofnr5f3dsnoxproq
+CREATE MIGRATION m1ubf34x5x77s3rz3wp47cjmwz7ij7jhn77aqswq5khiqyqhw7upfa
     ONTO initial
 {
   CREATE TYPE default::Device {
@@ -17,10 +17,6 @@ CREATE MIGRATION m15ch3yapdu4ub3zgswlg5arwunvuqgbcmak5vofnr5f3dsnoxproq
       CREATE INDEX ON (.createdAt);
       CREATE REQUIRED PROPERTY deviceId: std::uuid;
       CREATE INDEX ON (.deviceId);
-      CREATE REQUIRED PROPERTY messageId: std::int64 {
-          CREATE CONSTRAINT std::exclusive;
-      };
-      CREATE INDEX ON (.messageId);
       CREATE OPTIONAL PROPERTY lastSeen: std::datetime;
       CREATE INDEX ON (.lastSeen);
       CREATE REQUIRED PROPERTY message: std::str;

@@ -37,11 +37,6 @@ module default {
     };
 
     type Message {
-        required property messageId -> int64 {
-            constraint exclusive
-        };
-        index on (.messageId);
-
         required property deviceId -> uuid;
         index on (.deviceId);
 
