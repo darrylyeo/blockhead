@@ -19,6 +19,7 @@
     "generate:swagger-typescript-api:moralis": "swagger-typescript-api --path https://deep-index.moralis.io/api-docs/v2/swagger.json --output ./src/api/moralis/api/ --clean-output true --union-enums false --route-types true --enum-names-as-values true --extract-request-params true --extract-request-body true --single-http-client true --default-response {} --unwrap-response-data true",
     "generate:swagger-typescript-api:nftport": "swagger-typescript-api --path https://api.nftport.xyz/openapi.json --output ./src/api/nftport/api/ --clean-output true --union-enums false --route-types true --enum-names-as-values true --extract-request-params true --extract-request-body true --single-http-client true --default-response {} --unwrap-response-data true",
     "generate:houdini": "houdini generate --pull-schema",
+    "migrate:edgedb:fireblocks-ncw": "edgedb migration create; edgedb migrate; pnpm run generate:edgedb:fireblocks-ncw",
     "clean:houdini": "rm -rf './$houdini'; rm ./src/**/*.graphql"
   },
   "type": "module",
