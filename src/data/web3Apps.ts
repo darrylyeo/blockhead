@@ -6,6 +6,7 @@ import { erc20TokensByContractAddress, erc20TokensBySymbol } from './tokens'
 
 import { IpfsIcon, LensIcon, NounsIcon } from '../assets/icons'
 import { ZoraIcon } from '../assets/networkIcons'
+import { FireblocksIcon } from '../assets/walletIcons'
 
 
 export type Web3AppConfig = {
@@ -2841,6 +2842,14 @@ export const web3Apps: Web3AppConfig[] = [
 				}
 			}
 		]
+	},
+	{
+		name: 'Fireblocks',
+		slug: 'fireblocks',
+		links: ['https://www.fireblocks.com'],
+		colors: ['#14223D'],
+		icon: FireblocksIcon,
+		views: [],
 	},
 	{
 		name: 'Fixed Forex',
@@ -9296,6 +9305,7 @@ const crossChainInfrastructure = [
 ].map(slug => web3AppsBySlug[slug])
 
 const institutionalDefi = [
+	'fireblocks',
 	'circle',
 	'bitgo',
 	'nexus-mutual',
