@@ -86,10 +86,19 @@
 	$: contractMethodArgs = contractMethod?.inputs?.map((input, i) => inputValues[`${contractMethod.name}/${'name' in input && input.name || i}`]) ?? []
 
 
+	// View options
+	let showFormattedNames = true
+
+
 	// Formatting
 	import { formatIdentifierToWords } from '../utils/formatIdentifierToWords'
 
+	$: formatIdentifier = showFormattedNames
+		? formatIdentifierToWords
+		: (identifier: string) => identifier
 
+
+	// Components
 	import Address from './Address.svelte'
 	import AddressInput from './AddressInput.svelte'
 	import AddressWithLabel from './AddressWithLabel.svelte'
@@ -138,7 +147,16 @@
 
 <section class="column">
 	<header class="bar wrap">
-		<h3>Smart Contract Interactions</h3>
+		<div class="row wrap">
+			<h3>Smart Contract Interactions</h3>
+
+			<div role="toolbar">
+				<label>
+					<input type="checkbox" bind:checked={showFormattedNames} />
+					<span>Format Names</span>
+				</label>
+			</div>
+		</div>
 
 		<label>
 			<span>{contractMethod && methodsByGroup.find(group => group.methods.includes(contractMethod))?.singularName || 'Method'}</span> 
@@ -147,7 +165,8 @@
 				{#each methodsByGroup.filter(({ methods }) => methods.length) as { name, methods }}
 					<optgroup label={name}>
 						{#each methods.sort((a, b) => a.name.localeCompare(b.name)) as method}
-							<option value={method}>{formatIdentifierToWords(method.name, true)}</option>
+							<!-- <option value={method}>{formatIdentifierToWords(method.name, true)} {#if !showFormattedNames}({method.name}){/if}</option> -->
+							<option value={method}>{formatIdentifier(method.name, true)}</option>
 						{/each}
 					</optgroup>
 				{:else}
@@ -185,13 +204,13 @@
 						›
 						<AddressWithLabel
 							{network}
-							label={contractName}
+							label={formatIdentifier(contractName, true)}
 							address={contractAddress}
 							format="middle-truncated"
 							linked
 						/>
 						›
-						<abbr title={contractMethod.name}>{formatIdentifierToWords(contractMethod.name, true)}</abbr>
+						<abbr title={contractMethod.name}>{formatIdentifier(contractMethod.name, true)}</abbr>
 					</h4>
 
 					{#if contractMethod.stateMutability === 'nonpayable' || contractMethod.stateMutability === 'payable'}
@@ -213,7 +232,7 @@
 							<label class="input-param" transition:scale|global={{ duration: 300, start: 0.8, delay: i * 10 }} animate:flip>
 								<span>
 									{#if input.name}
-										<abbr title={input.name}>{formatIdentifierToWords(input.name, true)}</abbr>
+										<abbr title={input.name}>{formatIdentifier(input.name, true)}</abbr>
 									{:else}
 										<span class="input-index">Input {i + 1}</span>
 									{/if}
@@ -306,13 +325,13 @@
 						<span>
 							<AddressWithLabel
 								{network}
-								label={contractName}
+								label={formatIdentifier(contractName, true)}
 								address={contractAddress}
 								format="middle-truncated"
 								linked
 							/>
 							›
-							<abbr title={contractMethod.name}>{formatIdentifierToWords(contractMethod.name, true)}</abbr>
+							<abbr title={contractMethod.name}>{formatIdentifier(contractMethod.name, true)}</abbr>
 						</span>
 
 						{#if contractMethod.inputs.length}
@@ -330,7 +349,7 @@
 							<label class="input-param" transition:scale|global={{ duration: 300, start: 0.8, delay: i * 25 }}>
 								<span>
 									{#if input.name}
-										<abbr title={input.name}>{formatIdentifierToWords(input.name, true)}</abbr>
+										<abbr title={input.name}>{formatIdentifier(input.name, true)}</abbr>
 									{:else}
 										<span class="input-index">Input {i + 1}</span>
 									{/if}
@@ -372,9 +391,9 @@
 					<label class="input-param" transition:scale|global={{ duration: 300, start: 0.8, delay: i * 25 }}>
 						<span>
 							{#if output.name}
-								<abbr title={output.name}>{formatIdentifierToWords(output.name, true)}</abbr>
+								<abbr title={output.name}>{formatIdentifier(output.name, true)}</abbr>
 							{:else if isSingleOutput && contractMethod.name}
-								<abbr title={contractMethod.name}>{formatIdentifierToWords(contractMethod.name, true)}</abbr>
+								<abbr title={contractMethod.name}>{formatIdentifier(contractMethod.name, true)}</abbr>
 							{:else}
 								<span class="input-index">Output {i + 1}</span>
 							{/if}
