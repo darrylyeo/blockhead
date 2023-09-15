@@ -35,6 +35,7 @@
     "@tanstack/query-broadcast-client-experimental": "^4.32.6",
     "@tanstack/query-persist-client-core": "^4.32.6",
     "@tanstack/svelte-query": "^4.32.6",
+    "@tenderly/sdk": "^0.2.0",
     "@urql/svelte": "^4.0.2",
     "@walletconnect/core": "^2.9.0",
     "@walletconnect/ethereum-provider": "^2.9.0",

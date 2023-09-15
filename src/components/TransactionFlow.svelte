@@ -222,24 +222,35 @@
 		>
 			<Loader
 				loadingIcon={TenderlyIcon}
+				loadingIconName={'Tenderly'}
 				loadingMessage="Simulating transaction on Tenderly..."
 				errorMessage="The transaction failed to be simulated."
-				fromPromise={async () => {
-					// const populatedTx = await contract.populateTransaction[contractMethod](...contractArgs)
-					// // const estimatedGas = await contract.estimateGas[contractMethod](...contractArgs)
-					// // console.log({estimatedGas})
+				fromPromise={async () => (
+					await simulateTransaction({
+						params: {
+							network,
+							contractAddress,
+							contractAbi,
+							contractMethodName,
+							contractMethodArgs,
 
-					// return await simulateTransaction({
-					// 	network_id: network.chainId,
-					// 	from: accountConnectionState.account?.address,
-					// 	to: contract.address,
-					// 	input: populatedTx.data,
-					// 	gas: 21204,
-					// 	gas_price: 1,
-					// 	value: 0,
-					// 	save_if_fails: true,
-					// })
-				}}
+							fromAddress,
+							// nonce,
+							payableAmount,
+
+							// gasAmount: estimatedGas,
+							isEip1559,
+							// ...isEip1559 ? {
+							// 	maxFeePerGas,
+							// 	maxPriorityFeePerGas,
+							// } : {
+							// 	gasPrice,
+							// },
+
+							accessList,
+						},
+					})
+				)}
 				let:result
 			>
 				<header slot="header" class="bar">
