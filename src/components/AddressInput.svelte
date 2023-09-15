@@ -1,4 +1,8 @@
 <script lang="ts">
+	// Types
+	import type { Ethereum } from '../data/networks/types'
+
+
 	// External state
 	export let address: string = ''
 
@@ -7,6 +11,11 @@
 	export let placeholder = "0x0000000000000000000000000000000000000000 / ens.eth"
 	export let autofocus = false
 
+	export let suggestedValues: {
+		value: Ethereum.Address,
+		label: string,
+	}[]
+
 
 	// Internal state
 	let value: string = address
@@ -14,6 +23,9 @@
 	let inputElement
 
 	// let isResolvingEns = false
+
+	const id = crypto.randomUUID()
+	const datalistId = `AddressInputList/${id}`
 
 
 	// const pattern = /^(?<address>0x[0-9a-fA-F]{40})|(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))$/g
@@ -78,5 +90,17 @@
 	on:input={onInput}
 	on:change={onChange}
 	data-format={findMatchedCaptureGroupName(new RegExp(`^${pattern.source}$`), value)}
+	list={datalistId}
 />
 <!-- placeholder="0xabc...6789 / ens.eth" -->
+
+{#if suggestedValues?.length}
+	<datalist id={datalistId}>
+		{#each suggestedValues as {value, label}}
+			<option
+				{value}
+				{label}
+			/>
+		{/each}
+	</datalist>
+{/if}
