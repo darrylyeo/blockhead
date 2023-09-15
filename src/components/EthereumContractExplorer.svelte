@@ -28,9 +28,6 @@
 		RuntimeBytecode = 'Runtime Bytecode',
 	}
 	let showContractCodeTypeOrSourcePath: ContractCodeType | keyof typeof contractMetadata.sources = ContractCodeType.RuntimeBytecode
-	// TODO: refactor one-off whenLoaded side effect
-	let hasLoadedMetadata = false
-	$: contractAddress && (hasLoadedMetadata = false)
 
 
 	// Outputs
@@ -38,11 +35,28 @@
 	export let contractMetadata: Ethereum.ContractMetadata<string>
 	export let contractName: string | undefined
 	// (Computed)
-	$: contractName = contractMetadata && getContractName(contractMetadata)
+	$: contractName = contractMetadata && Object.values(contractMetadata.settings.compilationTarget)?.[0]
 
 
-	const getContractName = (contractMetadata: Ethereum.ContractMetadata<string>) =>
-		Object.values(contractMetadata.settings.compilationTarget)?.[0] as string
+	$: source = contractMetadata?.sources?.[showContractCodeTypeOrSourcePath]
+
+	// Auto-set to target source path
+	let hasLoadedMetadata = {} as Record<Ethereum.Address, boolean>
+	$: if(contractAddress && contractMetadata){
+		const sourcePaths = Object.keys(contractMetadata.sources)
+
+		const targetSourcePath =
+			sourcePaths.length === 1
+				? sourcePaths[0]
+				: sourcePaths.find(sourcePath => sourcePath.match(new RegExp(`(?:^|[/])${contractName}[.]`)))
+
+		if(!hasLoadedMetadata[contractAddress])
+			showContractCodeTypeOrSourcePath = targetSourcePath ?? ContractCodeType.RuntimeBytecode
+		
+		hasLoadedMetadata[contractAddress] = true
+	}else{
+		showContractCodeTypeOrSourcePath = ContractCodeType.RuntimeBytecode
+	}
 
 
 	import Address from './Address.svelte'
@@ -92,27 +106,6 @@
 				{contractAddress}
 				{network}
 				bind:contractMetadata
-				whenLoaded={async ({ contractMetadata }) => {
-					if(!contractMetadata || hasLoadedMetadata) return
-					hasLoadedMetadata = true
-
-					// Uncaught ReferenceError: contractMetadata is not defined
-					await new Promise(r => setTimeout(r))
-
-					// Auto-set to target source path
-
-					const contractName = getContractName(contractMetadata)
-
-					const sourcePaths = Object.keys(contractMetadata.sources)
-
-					const targetSourcePath = 
-						sourcePaths.length === 1
-							? sourcePaths[0]
-							: sourcePaths.find(sourcePath => sourcePath.match(new RegExp(`(?:^|[/])${contractName}[.]`)))
-
-					if(targetSourcePath)
-						showContractCodeTypeOrSourcePath = targetSourcePath
-				}}
 				let:contractMetadata
 				let:swarmUri
 				let:sourcifyUrl
@@ -128,7 +121,7 @@
 						<select bind:value={showContractCodeTypeOrSourcePath}>
 							<optgroup label="On-Chain">
 								{#each Object.values(ContractCodeType) as contractCodeType}
-									<option value={contractCodeType}>{contractCodeType}</option>
+									<option value={contractCodeType} selected={showContractCodeTypeOrSourcePath === contractCodeType}>{contractCodeType}</option>
 								{/each}
 							</optgroup>
 
@@ -136,7 +129,7 @@
 								<optgroup label="Source Code">
 									<!-- Uncaught ReferenceError: contractMetadata is not defined -->
 									{#each Object.entries(contractMetadata?.sources) as [sourcePath, source]}
-										<option value={sourcePath}>{sourcePath}</option>
+										<option value={sourcePath} selected={showContractCodeTypeOrSourcePath === sourcePath}>{sourcePath}</option>
 									{/each}
 								</optgroup>
 							{/if}
@@ -146,8 +139,7 @@
 
 				<div class="stack">
 					{#key showContractCodeTypeOrSourcePath}
-						{#if contractMetadata && !Object.values(ContractCodeType).includes(showContractCodeTypeOrSourcePath)}
-							{@const source = contractMetadata?.sources[showContractCodeTypeOrSourcePath]}
+						{#if source && !Object.values(ContractCodeType).includes(showContractCodeTypeOrSourcePath)}
 							{@const sourceFile = showContractCodeTypeOrSourcePath.match(/[^/]+$/)?.[0]}
 							{@const sourceFileName = sourceFile?.replace(/.sol$/, '')}
 							{@const solidityDefinitionType =
