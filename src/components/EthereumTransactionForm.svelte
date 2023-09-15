@@ -8,7 +8,37 @@
 	
 	type Abi = $$Generic<Ethereum.Abi>
 	type AbiMethod = Ethereum.AbiMethod<Abi>
-	type SelectedAbiMethod = AbiMethod
+
+	type InputValues =
+		{
+			[
+				Method in AbiMethod
+				as
+				Method['name']
+			]: {
+				[
+					Index in Exclude<keyof Method['inputs'], keyof any[]>
+					as
+					Method['inputs'][Index] extends { name: string }
+						? Method['inputs'][Index]['name']
+						: Index
+				]: Ethereum.AbiMethodArg<Abi, Method['name'], Index extends `${infer T extends number}` ? T : never>
+			}
+		} extends infer T ?
+			{
+				[MethodKey in keyof T]: {
+					[
+						InputKey in keyof T[MethodKey]
+						as
+						`${MethodKey & string}/${InputKey & string}`
+					]: T[MethodKey][InputKey]
+				}
+			}[keyof T] extends infer T ?
+				{
+					[MethodInputKey in T extends any ? keyof T : never]?: T extends { [_ in MethodInputKey]: infer MethodArg } ? MethodArg : never;
+				}
+			: never
+		: never
 
 
 	// Context
@@ -25,7 +55,7 @@
 	export let publicClient: Ethereum.PublicClient
 	export let contractAddress: Ethereum.ContractAddress
 	export let contractName: string = ''
-	export let contractAbi: Abi = []
+	export let contractAbi: Abi = [] as unknown as Abi
 
 	// (Computed)
 	$: readableMethods = contractAbi.filter(isReadable)
@@ -53,37 +83,16 @@
 
 
 	// Internal state
+	let inputValues: InputValues = {} as unknown as InputValues
+
 	let selectedAccountConnection: AccountConnection | undefined
 
-	let selectedMethod: SelectedAbiMethod
-	$: selectedMethod ??= writableMethods.sort((a, b) => b.inputs.length - a.inputs.length)[0]
+	let contractMethod: AbiMethod | undefined
+	$: contractMethod ??= writableMethods.sort((a, b) => b.inputs.length - a.inputs.length)[0]
 
 	let payableAmount = 0n
 
-	type FlattenKeys<T> = {
-		[K in keyof T]: `${K & string}/${keyof T[K] & string}`
-	}[keyof T]
-
-	let inputValues: {
-		[K in FlattenKeys<{
-			[
-				Method in AbiMethod
-				as
-				Method['name']
-			]: {
-				[
-					Index in Exclude<keyof Method['inputs'], keyof any[]>
-					as
-					Method['inputs'][Index] extends { name: string }
-						? Method['inputs'][Index]['name']
-						: Index
-				]: Ethereum.AbiMethodArg<Abi, Method['name'], Index extends `${infer T extends number}` ? T : never>
-			}
-		}>]?: string;
-	} = {}
-
-	$: contractMethod = selectedMethod
-	$: contractMethodArgs = contractMethod?.inputs?.map((input, i) => inputValues[`${contractMethod.name}/${'name' in input && input.name || i}`]) ?? []
+	$: contractMethodArgs = contractMethod?.inputs.map((input, i) => inputValues[`${contractMethod.name}/${'name' in input && input.name || i}`]) ?? []
 
 
 	// View options
