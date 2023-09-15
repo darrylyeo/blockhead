@@ -114,6 +114,7 @@
 						showContractCodeTypeOrSourcePath = targetSourcePath
 				}}
 				let:contractMetadata
+				let:swarmUri
 				let:sourcifyUrl
 				let:contractSourceProvider
 			>
@@ -183,7 +184,7 @@
 									<hr>
 
 									<footer class="footer bar">
-										<a href={sourcifyUrl} target="_blank">{contractSourceProvider}</a>
+										<a href={sourcifyUrl || swarmUri} target="_blank">{contractSourceProvider}</a>
 
 										<!-- {#if source.license}<span>License: {source.license}</span>{/if} -->
 									</footer>
