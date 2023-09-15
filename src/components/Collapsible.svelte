@@ -13,8 +13,8 @@
 
 
 	type SharedSlotProps = {
-		isOpen: boolean,
-		toggle: () => boolean,
+		isOpen: typeof isOpen,
+		toggle: typeof toggle,
 	}
 
 	type $$Slots = {
