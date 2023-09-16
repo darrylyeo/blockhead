@@ -74,6 +74,7 @@
 
 	// Functions
 	import { isReadable, isWritable, isReadableWithoutInputs } from '../utils/abi'
+	import { isTruthy } from '../utils/isTruthy'
 
 
 	// External state
@@ -142,6 +143,7 @@
 	import ConnectedAccountSelect from './ConnectedAccountSelect.svelte'
 	import BigNumberInput from './BigNumberInput.svelte'
 	import HeightContainer from './HeightContainer.svelte'
+	import Input from './Input.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import TransactionFlow from './TransactionFlow.svelte'
@@ -266,6 +268,28 @@
 							{@const inputKey = `${contractMethod.name || i}/${input.name || i}`}
 							{@const _ = inputTypes[inputKey] = input.type}
 
+							{@const otherValuesOfType = Object.entries(inputValues).filter(([key, address]) => key !== inputKey && address && inputTypes[key] === input.type)}
+							{@const suggestedValues = [
+								selectedAccountConnection?.state?.account?.address && {
+									value: selectedAccountConnection.state.account.address,
+									label: `From Address (${walletsByType[selectedAccountConnection.walletType]?.name})`,
+								},
+								...otherValuesOfType
+									.map(([key, address]) => ({
+										value: address,
+										label: [
+											contractName,
+											...key.split('/')
+										]
+											.map(part =>
+												!isNaN(part)
+													? `Input ${Number(part) + 1}`
+													: formatIdentifier(part, true)
+											)
+											.join(' › '),
+									}))
+							].filter(isTruthy)}
+
 							<!-- svelte-ignore a11y-label-has-associated-control -->
 							<label class="input-param" transition:scale|global={{ duration: 300, start: 0.8, delay: i * 10 }} animate:flip>
 								<span>
@@ -280,6 +304,7 @@
 									<AddressInput
 										bind:address={inputValues[inputKey]}
 										required
+										{suggestedValues}
 									/>
 								{:else if input.type.startsWith('int')}
 									{@const numBits = BigInt(input.type.match(/\d+/)?.[0])}
@@ -289,6 +314,12 @@
 										bind:value={inputValues[inputKey]}
 										min={2n ** (numBits - 1n) * -1n}
 										max={2n ** (numBits - 1n) - 1n}
+										suggestedValues={[
+											...suggestedValues ?? [],
+											'min',
+											'zero',
+											'max',
+										]}
 									/>
 								{:else if input.type.startsWith('uint')}
 									{@const numBits = BigInt(input.type.match(/\d+/)?.[0])}
@@ -298,12 +329,18 @@
 										bind:value={inputValues[inputKey]}
 										min={0n}
 										max={2n ** numBits - 1n}
+										suggestedValues={[
+											...suggestedValues ?? [],
+											'min',
+											'max',
+										]}
 									/>
 								{:else}
-									<input
+									<Input
 										type="text"
 										required
 										bind:value={inputValues[inputKey]}
+										{suggestedValues}
 									/>
 								{/if}
 
