@@ -9,6 +9,10 @@
 	type Abi = $$Generic<Ethereum.Abi>
 	type AbiMethod = Ethereum.AbiMethod<Abi>
 
+	type UnionToObject<Union> = {
+		[K in Union extends any ? keyof Union : never]: Union extends { [_ in K]: infer V } ? V : never;
+	}
+
 	type InputValues =
 		{
 			[
@@ -25,7 +29,7 @@
 				]: Ethereum.AbiMethodArg<Abi, Method['name'], Index extends `${infer T extends number}` ? T : never>
 			}
 		} extends infer T ?
-			{
+			Partial<UnionToObject<{
 				[MethodKey in keyof T]: {
 					[
 						InputKey in keyof T[MethodKey]
@@ -33,11 +37,34 @@
 						`${MethodKey & string}/${InputKey & string}`
 					]: T[MethodKey][InputKey]
 				}
-			}[keyof T] extends infer T ?
-				{
-					[MethodInputKey in T extends any ? keyof T : never]?: T extends { [_ in MethodInputKey]: infer MethodArg } ? MethodArg : never;
+			}[keyof T]>>
+		: never
+
+	type InputTypes =
+		{
+			[
+				Method in AbiMethod
+				as
+				Method['name']
+			]: {
+				[
+					Index in Exclude<keyof Method['inputs'], keyof any[]>
+					as
+					Method['inputs'][Index] extends { name: string }
+						? Method['inputs'][Index]['name']
+						: Index
+				]: Method['inputs'][Index] extends { type: any } ? Method['inputs'][Index]['type'] : never
+			}
+		} extends infer T ?
+			Partial<UnionToObject<{
+				[MethodKey in keyof T]: {
+					[
+						InputKey in keyof T[MethodKey]
+						as
+						`${MethodKey & string}/${InputKey & string}`
+					]: T[MethodKey][InputKey]
 				}
-			: never
+			}[keyof T]>>
 		: never
 
 
@@ -83,7 +110,8 @@
 
 
 	// Internal state
-	let inputValues: InputValues = {} as unknown as InputValues
+	let inputValues: InputValues = {} as InputValues
+	let inputTypes: InputTypes = {} as InputTypes
 
 	let selectedAccountConnection: AccountConnection | undefined
 
@@ -236,6 +264,7 @@
 					<HeightContainer>
 						{#each contractMethod.inputs as input, i (`${contractMethod.name || i}/${input.name || i}`)}
 							{@const inputKey = `${contractMethod.name || i}/${input.name || i}`}
+							{@const _ = inputTypes[inputKey] = input.type}
 
 							<!-- svelte-ignore a11y-label-has-associated-control -->
 							<label class="input-param" transition:scale|global={{ duration: 300, start: 0.8, delay: i * 10 }} animate:flip>
