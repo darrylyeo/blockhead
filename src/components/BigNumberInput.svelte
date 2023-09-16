@@ -26,9 +26,13 @@
 
 	export let required = false
 
+	export let suggestedValues: (NonNullable<Datalist<typeof value>['$$prop_def']['list']>[number] | 'min' | 'max' | 'zero')[]
 
+	
 	// Internal state
 	let inputValue: string = format(value, decimals)
+
+	let datalistId: Datalist<typeof value>['$$prop_def']['datalistId']
 
 
 	// Methods/hooks/lifecycle
@@ -53,6 +57,10 @@
 		if(max) value = max
 		inputValue = format(value, decimals)
 	}
+
+
+	// Components
+	import Datalist from './Datalist.svelte'
 </script>
 
 
@@ -82,6 +90,7 @@
 		on:input={onInput}
 		on:change={onChange}
 		placeholder={max > 2n ** 16n ? '0' : max.toString()}
+		list={datalistId}
 	/>
 	<!-- placeholder={min && max ? `${min} to ${max}` : '0'} -->
 
@@ -94,3 +103,26 @@
 		>max</button>
 	{/if}
 </div>
+
+<Datalist
+	bind:datalistId
+	list={suggestedValues?.map(value => (
+		value === 'min' ?
+			{
+				value: min,
+				label: 'Min'
+			}
+		: value === 'max' ?
+			{
+				value: max,
+				label: 'Max'
+			}
+		: value === 'zero' ?
+			{
+				value: 0n,
+				label: 'Zero'
+			}
+		:
+			value
+	))}
+/>
