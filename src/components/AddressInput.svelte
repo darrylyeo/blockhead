@@ -4,17 +4,14 @@
 
 
 	// External state
-	export let address: string = ''
+	export let address: Ethereum.Address | string = ''
 
 	export let name: string
 	export let required = false
 	export let placeholder = "0x0000000000000000000000000000000000000000 / ens.eth"
 	export let autofocus = false
 
-	export let suggestedValues: {
-		value: Ethereum.Address,
-		label: string,
-	}[]
+	export let suggestedValues: Datalist<typeof address>['$$prop_def']['list']
 
 
 	// Internal state
@@ -24,8 +21,7 @@
 
 	// let isResolvingEns = false
 
-	const id = crypto.randomUUID()
-	const datalistId = `AddressInputList/${id}`
+	let datalistId: Datalist<typeof address>['$$prop_def']['datalistId']
 
 
 	// const pattern = /^(?<address>0x[0-9a-fA-F]{40})|(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))$/g
@@ -64,10 +60,11 @@
 
 
 	import { findMatchedCaptureGroupName } from '../utils/findMatchedCaptureGroup'
-
-
-	// Components
 	// import { isAddress } from 'ethers'
+	
+	
+	// Components
+	import Datalist from './Datalist.svelte'
 </script>
 
 
@@ -94,13 +91,4 @@
 />
 <!-- placeholder="0xabc...6789 / ens.eth" -->
 
-{#if suggestedValues?.length}
-	<datalist id={datalistId}>
-		{#each suggestedValues as {value, label}}
-			<option
-				{value}
-				{label}
-			/>
-		{/each}
-	</datalist>
-{/if}
+<Datalist list={suggestedValues} bind:datalistId />
