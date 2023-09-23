@@ -67,7 +67,10 @@
 
 	type $$Slots = {
 		'default': SharedSlotProps,
-		'header': SharedSlotProps,
+		'header': SharedSlotProps & {
+			isOpen: boolean,
+			toggle: () => boolean,
+		},
 	}
 
 
@@ -83,6 +86,7 @@
 	// View options
 	export let showIf: ((_: {address: Ethereum.Address | undefined, ensName: ENS.Name | undefined, lensName: LensName | undefined}) => boolean | any) | undefined
 	export let clip = true
+	export let layout = 'default'
 
 
 	// Components
@@ -92,13 +96,28 @@
 
 
 {#if type === undefined || (type === AccountIdType.Address && (!resolveToName || passiveResolveToName))}
-	<slot name="header" {type} {address} {ensName} {lensName} />
-	<slot {type} {address} {ensName} {lensName} />
+	<Loader
+		{layout}
+		fromPromise={async () => 1}
+		{...$$restProps}
+	>
+		<svelte:fragment slot="header"
+			let:isOpen
+			let:toggle
+		>
+			<slot name="header"
+				{type} {address} {ensName} {lensName}
+				{isOpen} {toggle}
+			/>
+		</svelte:fragment>
+
+		<slot {type} {address} {ensName} {lensName} />
+	</Loader>
 
 <!-- Resolve name to address -->
 {:else if type === AccountIdType.Lens}
 	<Loader
-		layout={passiveResolveToAddress ? 'passive' : 'default'}
+		layout={passiveResolveToAddress ? 'passive' : layout}
 		fromQuery={
 			createQuery({
 				queryKey: ['LensProfileByLensName', {
@@ -120,15 +139,25 @@
 		loadingMessage="Resolving Lens handle to Polygon address..."
 		errorMessage={`Error resolving Lens handle to Polygon address.`}
 		{clip}
+		{...$$restProps}
 		bind:result={address}
 	>
-		<slot slot="header" name="header" {type} {address} {ensName} {lensName} />
+		<svelte:fragment slot="header"
+			let:isOpen
+			let:toggle
+		>
+			<slot name="header"
+				{type} {address} {ensName} {lensName}
+				{isOpen} {toggle}
+			/>
+		</svelte:fragment>
+
 		<slot {type} {address} {ensName} {lensName} />
 	</Loader>
 
 {:else if type === AccountIdType.ENS}
 	<Loader
-		layout={passiveResolveToAddress ? 'passive' : 'default'}
+		layout={passiveResolveToAddress ? 'passive' : layout}
 		fromQuery={
 			ensName && publicClient && createQuery({
 				queryKey: ['EnsResolution', {
@@ -155,9 +184,18 @@
 		loadingMessage="Resolving name to address on the Ethereum Name Service{viaRPC}..."
 		errorMessage={`Error resolving ENS name to address${viaRPC}.`}
 		{clip}
+		{...$$restProps}
 		bind:result={address}
 	>
-		<slot slot="header" name="header" {type} {address} {ensName} {lensName} />
+		<svelte:fragment slot="header"
+			let:toggle
+		>
+			<slot name="header"
+				{type} {address} {ensName} {lensName}
+				{toggle}
+			/>
+		</svelte:fragment>
+
 		<slot {type} {address} {ensName} {lensName} />
 	</Loader>
 {/if}
@@ -166,7 +204,7 @@
 	<!-- Resolve address to name -->
 	{#if resolveToName === AccountIdType.ENS}
 		<Loader
-			layout={passiveResolveToName ? 'headless' : 'default'}
+			layout={passiveResolveToName ? 'headless' : layout}
 			fromQuery={
 				address && publicClient && createQuery({
 					queryKey: ['EnsReverseResolution', {
@@ -194,9 +232,19 @@
 			loadingMessage="Reverse-resolving address to a name on the Ethereum Name Service{viaRPC}..."
 			errorMessage={`Error reverse-resolving address to ENS name${viaRPC}.`}
 			{clip}
+			{...$$restProps}
 			bind:result={ensName}
 		>
-			<slot slot="header" name="header" {type} {address} {ensName} {lensName} />
+			<svelte:fragment slot="header"
+				let:isOpen
+				let:toggle
+			>
+				<slot name="header"
+					{type} {address} {ensName} {lensName}
+					{isOpen} {toggle}
+				/>
+			</svelte:fragment>
+
 			<slot {type} {address} {ensName} {lensName} />
 		</Loader>
 	{/if}
