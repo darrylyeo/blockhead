@@ -895,11 +895,12 @@
 
 
 					{#if providers?.theGraph && !address}
-						<div class="card" id="subgraph">
-							<div class="bar wrap">
-								<h4><a href="https://thegraph.com/explorer/subgraph/{providers.theGraph.match(/[^/]+\/[^/]+$/)}">Subgraph ({providers.theGraph.match(/[^/]+\/[^/]+$/)})</a></h4>
-								<div class="card-annotation">The Graph</div>
-							</div>
+						{@const hostedSubgraphPath = providers.theGraph.match(/[^/]+\/[^/]+$/)}
+
+						<Collapsible containerClass="card" id="subgraph">
+							<h4 slot="title"><a href="https://thegraph.com/explorer/subgraph/{hostedSubgraphPath}">Subgraph ({hostedSubgraphPath})</a></h4>
+
+							<div slot="header-right" class="card-annotation">The Graph</div>
 
 							<hr>
 
@@ -927,7 +928,6 @@
 
 								<!-- <iframe
 									class="graphiql-explorer"
-									
 									src="{providers.theGraph}/graphql?{new URLSearchParams({
 										variables: JSON.stringify({}),
 										response: JSON.stringify(`This is a GraphQL explorer for the ${web3AppConfig.name} subgraph on Blockhead! Click on "Docs" in the top right to see the schema.`),
@@ -937,7 +937,7 @@
 									})}"
 								/> -->
 							</div>
-						</div>
+						</Collapsible>
 					{/if}
 
 
