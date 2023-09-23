@@ -2,11 +2,13 @@
 	// Constants/types
 	import type { IpfsGatewayConfig } from '../data/ipfsGateways'
 	import type { IpfsCid } from '../api/ipfs/contentId'
+	import type { IpnsName } from '../api/ipfs/ipns'
 
 
 	// External state
 	export let ipfsGateway: IpfsGatewayConfig
-	export let ipfsContentId: IpfsCid
+	export let ipfsContentId: IpfsCid | undefined
+	export let ipnsName: IpnsName | undefined
 	export let ipfsContentPath: string
 
 
@@ -24,6 +26,7 @@
 <IpfsLoader
 	ipfsGatewayProvider={ipfsGateway.gatewayProvider}
 	{ipfsContentId}
+	{ipnsName}
 	{ipfsContentPath}
 	let:dagStats
 	let:resolvedIpfsUrl
