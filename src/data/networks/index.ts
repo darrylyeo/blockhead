@@ -525,6 +525,9 @@ export const networks: Ethereum.Network[] = [
 			"decimals": 18
 		},
 		"rpc": [
+			"https://binance.llamarpc.com",
+			"https://endpoints.omniatech.io/v1/bsc/mainnet/public",
+			"https://bsc.rpc.blxrbdn.com",
 			"https://bsc-dataseed1.binance.org",
 			"https://bsc-dataseed2.binance.org",
 			"https://bsc-dataseed3.binance.org",
@@ -717,9 +720,9 @@ export const networks: Ethereum.Network[] = [
 			"decimals": 18
 		},
 		"rpc": [
-			"https://explorer.celo.org/api/eth-rpc",
 			"https://forno.celo.org",
-			"wss://forno.celo.org/ws"
+			"wss://forno.celo.org/ws",
+			"https://explorer.celo.org/api/eth-rpc",
 		],
 		"faucets": [],
 		"explorers": [],
@@ -1356,7 +1359,7 @@ export const networks: Ethereum.Network[] = [
 			"decimals": 18
 		},
 		"rpc": [
-			"https://eth.llamarpc.com",
+			"https://ethereum-goerli.publicnode.com",
 			"https://endpoints.omniatech.io/v1/eth/mainnet/public",
 			"https://rpc.ankr.com/eth",
 			"https://eth-mainnet.nodereal.io/v1/1659dfb40aa24bbb8153a677b98064d7",
@@ -1492,6 +1495,7 @@ export const networks: Ethereum.Network[] = [
 			"decimals": 18
 		},
 		"rpc": [
+			"https://ethereum-goerli.publicnode.com",
 			"https://rpc.goerli.mudit.blog/",
 			"https://rpc.slock.it/goerli ",
 			"https://goerli.prylabs.net/",
@@ -1500,7 +1504,6 @@ export const networks: Ethereum.Network[] = [
 			"https://eth-goerli.public.blastapi.io",
 			"https://goerli.blockpi.network/v1/rpc/public",
 			"https://eth-goerli.api.onfinality.io/public",
-			"https://ethereum-goerli.publicnode.com",
 			"https://api.zan.top/node/v1/eth/goerli/public",
 			"https://rpc.notadegen.com/goerli"
 		],
