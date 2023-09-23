@@ -242,10 +242,10 @@
 
 			<div
 				class="card defi-app-view"
-				class:is-single={totalViewItems <= 1}
 				class:full={embeds?.length}
 				style={cardStyle(colors || web3AppConfig.colors)}
 			>
+			<!-- class:is-single={totalViewItems <= 1} -->
 				<NetworkProviderLoader
 					layout="collapsible"
 					collapsibleType="label"
