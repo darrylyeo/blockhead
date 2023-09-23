@@ -1,0 +1,32 @@
+import type { UniswapV3 } from './index'
+
+export namespace UniswapV3Subgraph {
+	export const subgraphUrls = {
+		1: {
+			hosted: 'https://api.thegraph.com/subgraphs/name/messari/uniswap-v3-ethereum',
+			decentralized: 'https://gateway-arbitrum.network.thegraph.com/api/2b7eeacb471d383c093a79133a0a17a4/subgraphs/id/4cKy6QQMc5tpfdx8yxfYeb9TLZmgLQe44ddW1G7NwkA6',
+		},
+		10: {
+			hosted: 'https://api.thegraph.com/subgraphs/name/messari/uniswap-v3-optimism',
+		},
+		56: {
+			hosted: 'https://api.thegraph.com/subgraphs/name/messari/uniswap-v3-bsc',
+		},
+		137: {
+			hosted: 'https://api.thegraph.com/subgraphs/name/messari/uniswap-v3-polygon',
+		},
+		8453: {
+			hosted: 'https://api.thegraph.com/subgraphs/name/messari/uniswap-v3-base',
+		},
+		42161: {
+			hosted: 'https://api.thegraph.com/subgraphs/name/messari/uniswap-v3-arbitrum',
+		},
+		42220: {
+			hosted: 'https://api.thegraph.com/subgraphs/name/messari/uniswap-v3-celo',
+			decentralized: 'https://gateway-arbitrum.network.thegraph.com/api/2b7eeacb471d383c093a79133a0a17a4/subgraphs/id/8cLf29KxAedWLVaEqjV8qKomdwwXQxjptBZFrqWNH5u2',
+		},
+	} as const satisfies Record<UniswapV3.ChainId, {
+		hosted?: string,
+		decentralized?: string,
+	}>
+}

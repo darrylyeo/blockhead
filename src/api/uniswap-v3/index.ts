@@ -6,6 +6,8 @@ import {
 } from '@uniswap/sdk-core'
 
 export namespace UniswapV3 {
+	export type ChainId = SupportedChainsType
+
 	export const SUPPORTED_CHAIN_IDS = SUPPORTED_CHAINS
 
 	// https://docs.uniswap.org/contracts/v3/reference/deployments
