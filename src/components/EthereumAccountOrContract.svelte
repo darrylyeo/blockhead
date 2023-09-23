@@ -139,17 +139,19 @@
 			<span class="card-annotation">
 				<slot name="annotation">
 					{network.name} 
-					{#await publicClient.getBytecode({ address })}
-						Address
-					{:then contractCode}
-						{#if contractCode === '0x'}
-							Account
-						{:else}
-							<abbr title={contractCode}>Contract</abbr>
-						{/if}
-					{:catch}
-						Address
-					{/await}
+					{#if publicClient}
+						{#await publicClient.getBytecode({ address })}
+							Address
+						{:then contractCode}
+							{#if contractCode === '0x'}
+								Account
+							{:else}
+								<abbr title={contractCode}>Contract</abbr>
+							{/if}
+						{:catch}
+							Address
+						{/await}
+					{/if}
 				</slot>
 			</span>
 
