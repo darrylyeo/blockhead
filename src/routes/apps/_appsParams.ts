@@ -1,3 +1,4 @@
+import type { Ethereum } from '../../data/networks/types'
 import type { AccountId } from '../../data/accountId'
 
 
@@ -7,7 +8,9 @@ import { derived, writable, type Readable } from 'svelte/store'
 // Param stores
 
 export const web3AppSlug = writable('')
+export const networkSlug = writable<Ethereum.NetworkSlug>('')
 export const accountId = writable<AccountId | ''>('')
+
 export const audiusQuery = writable('')
 export const audiusPlaylistId = writable('')
 export const audiusTrackId = writable('')
@@ -20,7 +23,9 @@ export const ipfsContentPath = writable('')
 
 export const derivedPath: Readable<string> = derived([
 	web3AppSlug,
+	networkSlug,
 	accountId,
+
 	audiusQuery,
 	audiusPlaylistId,
 	audiusTrackId,
@@ -29,7 +34,9 @@ export const derivedPath: Readable<string> = derived([
 	ipfsContentPath,
 ], ([
 	$web3AppSlug,
+	$networkSlug,
 	$accountId,
+
 	$audiusQuery,
 	$audiusPlaylistId,
 	$audiusTrackId,
@@ -41,7 +48,13 @@ export const derivedPath: Readable<string> = derived([
 		$web3AppSlug ?
 			`/${$web3AppSlug}${
 				// All web3 apps
-				$accountId ?
+				$networkSlug ?
+					$accountId ?
+						`/network/${$networkSlug}/account/${$accountId}`
+					:
+						`/network/${$networkSlug}`
+
+				: $accountId ?
 					`/account/${$accountId}`
 
 				// Audius
@@ -70,6 +83,10 @@ export const derivedPath: Readable<string> = derived([
 				:
 					''
 			}`
+
+		: $networkSlug ?
+			`/network/${$networkSlug}`
+
 		:
 			''
 	}`

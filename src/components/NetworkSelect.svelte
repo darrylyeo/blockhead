@@ -7,7 +7,7 @@
 	export let showTestnets = false
 
 
-	export let network: Ethereum.Network
+	export let network: Ethereum.Network | undefined
 
 
 	import { createEventDispatcher } from 'svelte'
@@ -33,7 +33,7 @@
 		dispatch('change', { network, target: e.target })
 	}}
 >
-	<option value="" selected>{placeholder}</option>
+	<option value={undefined} selected>{placeholder}</option>
 
 	{#each networksBySection as {title, featuredNetworks = [], otherNetworks = []}}
 		{@const networks = [...featuredNetworks, ...otherNetworks]}

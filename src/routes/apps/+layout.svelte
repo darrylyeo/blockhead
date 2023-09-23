@@ -1,4 +1,8 @@
 <script lang="ts">
+	// Constants/types
+	import type { Ethereum } from '../../data/networks/types'
+
+
 	// Params two-way binding
 
 	import { page } from '$app/stores'
@@ -7,18 +11,23 @@
 
 	import {
 		web3AppSlug,
+		networkSlug,
 		accountId,
+
 		audiusQuery,
 		audiusPlaylistId,
 		audiusTrackId,
 		audiusUserId,
+
 		ipfsContentId,
 		ipfsContentPath,
-		derivedPath
+
+		derivedPath,
 	} from './_appsParams'
 
 	$: if($page.url.pathname.startsWith('/apps')){
-		$web3AppSlug = $page.params.web3AppSlug || $page.url.pathname.match(/^\/apps\/([^/]+)/)?.[1] || ''
+		$web3AppSlug = $page.params.web3AppSlug || $page.url.pathname.match(/^\/apps\/(audius|ens|ipfs|lens)/)?.[1] || ''
+		$networkSlug = $page.params.networkSlug || ''
 		$accountId = $page.params.accountId || ''
 		$audiusQuery = $page.params.audiusQuery || ''
 		$audiusPlaylistId = $page.params.audiusPlaylistId || ''
@@ -28,8 +37,7 @@
 		$ipfsContentPath = $page.params.ipfsContentPath || ''
 	}
 
-	$: if(browser)
-		goto($derivedPath, {keepfocus: true})
+	$: if(browser) goto($derivedPath, { keepfocus: true })
 
 	beforeNavigate(({from, to, cancel}) => {
 		if(from.url.pathname === to.url.pathname)
@@ -39,12 +47,36 @@
 
 	// Context
 
-	import { web3AppConfig, currentView } from './_appsContext'
+	import {
+		web3AppConfig,
+		network,
+		currentView,
+		showTestnets,
+	} from './_appsContext'
 
 	import { web3AppsBySection } from '../../data/web3Apps'
 
 
+	// Internal state
+
+	let selectedNetwork: Ethereum.Network | undefined = $network
+	$: selectedNetwork = $network
+
+	let _isTestnet: boolean
+
+
 	// Side effects
+
+	import { isTestnet } from '../../data/networks'
+
+	$: _isTestnet = $network && isTestnet($network)
+
+	$: if(_isTestnet)
+		$showTestnets = true
+
+	const setSelectedNetwork = async (selectedNetwork: Ethereum.Network | undefined) => {
+		$networkSlug = selectedNetwork?.slug ?? ''
+	}
 
 	$: if(globalThis.document)
 		document.documentElement.style.setProperty('--primary-color', $web3AppConfig?.colors?.[$web3AppConfig.colors.length / 2 | 0] || `var(--${tokenColors['ethereum']})`)
@@ -52,6 +84,7 @@
 
 	// Components
 
+	import NetworkSelect from '../../components/NetworkSelect.svelte'
 	import Preferences from '../../components/Preferences.svelte'
 	import TokenIcon from '../../components/TokenIcon.svelte'
 	import InlineContainer from '../../components/InlineContainer.svelte'
@@ -143,6 +176,17 @@
 				</a>
 			</h1>
 		</div>
+
+		<!-- svelte-ignore a11y-label-has-associated-control -->
+		<label>
+			<span>Network: </span>
+			<NetworkSelect
+				network={selectedNetwork}
+				on:change={({ detail: { network } }) => setSelectedNetwork(network)}
+				showTestnets={$showTestnets}
+				placeholder="All Networks"
+			/>
+		</label>
 
 		<label>
 			<span>App</span>

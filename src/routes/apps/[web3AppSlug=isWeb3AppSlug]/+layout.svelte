@@ -114,7 +114,7 @@
 
 <section
 	class="column"
-	data-app={$web3AppConfig.slug}
+	data-app={$web3AppConfig?.slug}
 	in:fly={{x: 100}}
 	out:fly={{x: -100}}
 >
