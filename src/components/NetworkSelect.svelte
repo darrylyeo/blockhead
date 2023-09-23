@@ -5,6 +5,7 @@
 
 	export let placeholder = 'Select Network...'
 	export let showTestnets = false
+	export let allowedNetworks: Set<Ethereum.Network> | undefined
 
 
 	export let network: Ethereum.Network | undefined
@@ -39,7 +40,7 @@
 		{@const networks = [...featuredNetworks, ...otherNetworks]}
 
 		<optgroup label={title}>
-			{#each networks as network}
+			{#each networks.filter(network => !allowedNetworks || allowedNetworks.has(network)) as network}
 				{#if showTestnets}
 					<option disabled>{network.name}</option>
 					<option value={network}>{`${network.name}${isTestnet(network) || network.name.includes('Mainnet') ? '' : ' Mainnet'}`}{network.chainId ? ` (${network.chainId})` : ''}</option>

@@ -54,7 +54,19 @@
 		showTestnets,
 	} from './_appsContext'
 
-	import { web3AppsBySection } from '../../data/web3Apps'
+	import { web3AppsBySection, getWeb3AppSupportedNetworks } from '../../data/web3Apps'
+
+	// (Derived)
+
+	$: filteredWeb3AppsBySection =
+		$network
+			? web3AppsBySection
+				.map(({title, apps}) => ({
+					title,
+					apps: apps.filter(app => !$network || app === $web3AppConfig || app.views.some(view => view.chainId === $network.chainId)),
+				}))
+				.filter(({apps}) => apps.length)
+			: web3AppsBySection
 
 
 	// Internal state
@@ -182,6 +194,7 @@
 			<span>Network: </span>
 			<NetworkSelect
 				network={selectedNetwork}
+				allowedNetworks={$web3AppConfig ? getWeb3AppSupportedNetworks($web3AppConfig) : undefined}
 				on:change={({ detail: { network } }) => setSelectedNetwork(network)}
 				showTestnets={$showTestnets}
 				placeholder="All Networks"
@@ -193,7 +206,7 @@
 			<select bind:value={$web3AppSlug}>
 				<option value="" selected>Select App...</option>
 
-				{#each web3AppsBySection as {title, apps}}
+				{#each filteredWeb3AppsBySection as {title, apps}}
 					<optgroup label={title}>
 						{#each apps as app}
 							<option value={app.slug} style={`--primary-color: ${app.colors?.[0]}`}>{app.name}</option>
