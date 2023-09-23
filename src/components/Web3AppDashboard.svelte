@@ -65,6 +65,7 @@
 
 
 	import Address from './Address.svelte'
+	import Collapsible from './Collapsible.svelte'
 	import Loader from './Loader.svelte'
 	import HeightContainer from './HeightContainer.svelte'
 	import EthereumBalancesLoader from './EthereumBalancesLoader.svelte'
@@ -293,50 +294,52 @@
 					<!-- class:scrollable-list={!address && totalViewItems > 3} -->
 						<!-- No address specified - general information -->
 						{#if !address}
-							<!-- {#each [
-								...(contracts ?? []),
-								...(erc20Tokens?.map(({ address }) => address) ?? []),
-								...(nfts?.map(({ address }) => address) ?? []),
-							] as contractAddress} -->
-							{#each contracts ?? [] as {
-								name,
-								address: contractAddress
-							}}
-								<EthereumAccountOrContract
-									{network}
-									{networkProvider}
-									accountId={contractAddress}
-									headingLevel={4}
+							{#if contracts?.length}
+								<Collapsible
+									type="label"
+									containerClass="card"
+									class="column"
 									isOpen={false}
-									resolveAccountNames={false}
 								>
-									<svelte:fragment slot="title" let:network let:address>
-										<h4>
-											{#if address}
-												{#if name}
-													<Address {network} {address}>{name}</Address>
-												{:else}
-													<Address {network} {address} />
-												{/if}
-											{:else}
-												Contract
-											{/if}
-										</h4>
-									</svelte:fragment>
+									<h4 slot="title">Contracts</h4>
 
-									<svelte:fragment slot="contract-title" let:network let:address>
-										<h5>
-											<Address {network} {address}>Contract Code</Address>
-										</h5>
-									</svelte:fragment>
-								</EthereumAccountOrContract>
-								<!-- <section class="card">
-									<EthereumContractExplorer
-										{network}
-										address={contractAddress}
-									/>
-								</section> -->
-							{/each}
+									<span slot="header-right" class="card-annotation">{contracts.length} Contracts</span>
+
+									{#each contracts as {
+										name,
+										address: contractAddress
+									}}
+										<EthereumAccountOrContract
+											{network}
+											{networkProvider}
+											accountId={contractAddress}
+											headingLevel={4}
+											isOpen={false}
+											resolveAccountNames={false}
+										>
+											<svelte:fragment slot="title" let:network let:address>
+												<h4>
+													{#if address}
+														{#if name}
+															<Address {network} {address}>{name}</Address>
+														{:else}
+															<Address {network} {address} />
+														{/if}
+													{:else}
+														Contract
+													{/if}
+												</h4>
+											</svelte:fragment>
+
+											<svelte:fragment slot="contract-title" let:network let:address>
+												<h5>
+													<Address {network} {address}>Contract Code</Address>
+												</h5>
+											</svelte:fragment>
+										</EthereumAccountOrContract>
+									{/each}
+								</Collapsible>
+							{/if}
 
 
 						<!-- Address specified - account balances -->
