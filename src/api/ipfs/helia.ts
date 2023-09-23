@@ -59,6 +59,28 @@ export const getLocalIpfsNode = async () => {
 }
 
 
+import type { IPNS } from '@helia/ipns'
+
+let localIpnsClient: IPNS
+
+export const getLocalIpnsClient = async () => {
+	if(!localIpnsClient){
+		const { ipns } = await import('@helia/ipns')
+		const { dht, pubsub } = await import('@helia/ipns/routing')
+
+		const localIpfsNode = await getLocalIpfsNode()
+
+		const ipnsRouters = [
+			dht(localIpfsNode),
+			pubsub(localIpfsNode),
+		]
+
+		localIpnsClient = ipns(localIpfsNode, ipnsRouters)
+	}
+	return localIpnsClient
+}
+
+
 import type { UnixFS } from '@helia/unixfs'
 
 let localFs: UnixFS
@@ -76,18 +98,36 @@ export const getLocalFilesystem = async () => {
 
 
 import type { IpfsCid } from './contentId'
+import type { IpnsName } from './ipns'
+
 import { asyncIterableFromStream, streamFromAsyncIterable } from '../../utils/convertAsyncIterable'
 
 export const getIpfsContent = async ({
 	ipfsContentId,
+	ipnsName,
 	ipfsContentPath,
-}: {
+}: ({
 	ipfsContentId: IpfsCid,
+	ipnsName?: undefined,
+} | {
+	ipfsContentId?: IpfsCid,
+	ipnsName: IpnsName,
+}) & {
 	ipfsContentPath?: string,
 }) => {
-	const { CID } = await import('multiformats/cid')
+	const cid = await (async () => {
+		if(ipfsContentId){
+			const { CID } = await import('multiformats/cid')
 
-	const cid = CID.parse(ipfsContentId)
+			return CID.parse(ipfsContentId)
+		}
+
+		else if(ipnsName){
+			const ipnsClient = await getLocalIpnsClient()
+
+			return await ipnsClient.resolveDns(ipnsName)
+		}
+	})()!
 
 	const fs = await getLocalFilesystem()
 

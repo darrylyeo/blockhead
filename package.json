@@ -27,6 +27,7 @@
     "@coinbase/wallet-sdk": "^3.7.1",
     "@fontsource/fira-code": "^5.0.5",
     "@fontsource/ubuntu": "^5.0.5",
+    "@helia/ipns": "^2.0.0",
     "@helia/unixfs": "^1.4.0",
     "@liquality/wallet-sdk": "^2.5.2",
     "@pushprotocol/restapi": "^1.4.5",
