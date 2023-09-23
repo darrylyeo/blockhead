@@ -13,6 +13,10 @@ import {
 import { ZoraIcon } from '../assets/networkIcons'
 
 
+import { UniswapV3 } from '../api/uniswap-v3/index'
+import { UniswapV3Subgraph } from '../api/uniswap-v3/subgraph'
+
+
 export type Web3AppConfig = {
 	name: Web3AppName,
 	slug: Web3AppSlug,
@@ -8160,23 +8164,24 @@ export const web3Apps: Web3AppConfig[] = [
 		colors: ['#ff007a'],
 		icon: UniswapIcon,
 		views: [
-			{
+			...UniswapV3.SUPPORTED_CHAIN_IDS.map(chainId => ({
 				name: 'Uniswap V3',
 				slug: 'v3',
-				chainId: 1,
+				chainId,
 				erc20Tokens: [],
 				providers: {
-					theGraph: 'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-testing',
-					zapper: 'uniswap-v3',
-					zerionDefiSDK: ['Uniswap V3']
-				},
-				contracts: [
-					{
-						name: 'UniswapV3Factory',
-						address: '0x1F98431c8aD98523631AE4a59f267346ea31F984',
+					theGraph: UniswapV3Subgraph.subgraphUrls[chainId]?.hosted,
+					...chainId === 1 && {
+						zapper: 'uniswap-v3',
+						zerionDefiSDK: ['Uniswap V3'],
 					},
-				]
-			},
+				},
+				contracts: Object.entries(UniswapV3.deployedContractsByChainId[chainId] ?? {})
+					.map(([name, address]) => ({
+						name,
+						address,
+					})),
+			})),
 			{
 				name: 'Uniswap V2',
 				slug: 'v2',
