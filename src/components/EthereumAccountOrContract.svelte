@@ -16,7 +16,7 @@
 	export let accountId: Ethereum.Address | string
 	export let filterQuery: Ethereum.Address | Ethereum.ContractAddress | Ethereum.BlockNumber
 
-	export let tokenBalancesProvidePublicClientBalancesProvider
+	export let tokenBalancesProvider: TokenBalancesProvider
 	export let transactionProvider: TransactionProvider
 
 	$: tokenBalancesProvider = $$props.tokenBalancesProvider || $preferences.tokenBalancesProvider
