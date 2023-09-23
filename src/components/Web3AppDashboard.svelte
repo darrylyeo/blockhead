@@ -247,6 +247,10 @@
 				style={cardStyle(colors || web3AppConfig.colors)}
 			>
 				<NetworkProviderLoader
+					layout="collapsible"
+					collapsibleType="label"
+					isOpen={false}
+
 					network={networksByChainID[chainId]}
 					{networkProvider}
 					let:network
@@ -254,6 +258,8 @@
 				>
 					<svelte:fragment slot="header"
 						let:network
+						let:isOpen
+						let:toggle
 					>
 						<div class="bar wrap">
 							<span class="row-inline wrap">
@@ -283,10 +289,18 @@
 							{:else}
 								<div class="card-annotation">{network.name} App</div>
 							{/if}
-						</div>
 
-						<hr>
+							{#if toggle}
+								<button
+									class="small"
+									data-after={isOpen ? '▲' : '▼'}
+									on:click={toggle}
+								/>
+							{/if}
+						</div>
 					</svelte:fragment>
+
+					<hr>
 
 					<div
 						class="column defi-app-view-items"
@@ -873,63 +887,63 @@
 							{/if}
 						{/each}
 					</div>
+
+
+					{#if providers?.theGraph && !address}
+						<div class="card" id="subgraph">
+							<div class="bar wrap">
+								<h4><a href="https://thegraph.com/explorer/subgraph/{providers.theGraph.match(/[^/]+\/[^/]+$/)}">Subgraph ({providers.theGraph.match(/[^/]+\/[^/]+$/)})</a></h4>
+								<div class="card-annotation">The Graph</div>
+							</div>
+
+							<hr>
+
+							<div>
+								<GraphiqlExplorer
+									title="{web3AppConfig.name} Subgraph GraphiQL Explorer"
+									endpointUrl="{providers.theGraph}/graphql"
+									query={`# This is a GraphiQL explorer for the ${web3AppConfig.name} subgraph on Blockhead!\n# Click on "Explorer" in the top left to  "Docs" in the top right to see the schema.\n`}
+									variables={{}}
+								/>
+
+								<!-- <iframe
+									class="graphiql-explorer"
+									title="{web3AppConfig.name} Subgraph GraphiQL Explorer"
+									src="https://embed.graphql.com/embed?{new URLSearchParams({
+										endpointURL: JSON.stringify(providers.theGraph),
+										// query: JSON.stringify('{}'),
+										variables: JSON.stringify(''),
+										response: JSON.stringify(`This is a GraphQL explorer for the ${web3AppConfig.name} subgraph on Blockhead! Click on "Docs" in the top right to see the schema.`),
+										history: String(false),
+										prettify: String(true),
+										docs: String(true),
+									})}&response={globalThis.encodeURIComponent(JSON.stringify(`This is a GraphQL explorer for the ${web3AppConfig.name} subgraph on Blockhead! Click on "Docs" in the top right to see the schema.`))}"
+								/> -->
+
+								<!-- <iframe
+									class="graphiql-explorer"
+									
+									src="{providers.theGraph}/graphql?{new URLSearchParams({
+										variables: JSON.stringify({}),
+										response: JSON.stringify(`This is a GraphQL explorer for the ${web3AppConfig.name} subgraph on Blockhead! Click on "Docs" in the top right to see the schema.`),
+										history: String(false),
+										prettify: String(true),
+										docs: String(true),
+									})}"
+								/> -->
+							</div>
+						</div>
+					{/if}
+
+
+					{#if embeds?.length && (selectedEmbed = selectedEmbed || embeds[0])}
+						<iframe
+							class="embed"
+							title={selectedEmbed.description || selectedEmbed.name}
+							src={selectedEmbed.src}
+						/>
+					{/if}
 				</NetworkProviderLoader>
-
-
-				{#if providers?.theGraph && !address}
-					<div class="card" id="subgraph">
-						<div class="bar wrap">
-							<h4><a href="https://thegraph.com/explorer/subgraph/{providers.theGraph.match(/[^/]+\/[^/]+$/)}">Subgraph ({providers.theGraph.match(/[^/]+\/[^/]+$/)})</a></h4>
-							<div class="card-annotation">The Graph</div>
-						</div>
-
-						<hr>
-
-						<div>
-							<GraphiqlExplorer
-								title="{web3AppConfig.name} Subgraph GraphiQL Explorer"
-								endpointUrl="{providers.theGraph}/graphql"
-								query={`# This is a GraphiQL explorer for the ${web3AppConfig.name} subgraph on Blockhead!\n# Click on "Explorer" in the top left to  "Docs" in the top right to see the schema.\n`}
-								variables={{}}
-							/>
-
-							<!-- <iframe
-								class="graphiql-explorer"
-								title="{web3AppConfig.name} Subgraph GraphiQL Explorer"
-								src="https://embed.graphql.com/embed?{new URLSearchParams({
-									endpointURL: JSON.stringify(providers.theGraph),
-									// query: JSON.stringify('{}'),
-									variables: JSON.stringify(''),
-									response: JSON.stringify(`This is a GraphQL explorer for the ${web3AppConfig.name} subgraph on Blockhead! Click on "Docs" in the top right to see the schema.`),
-									history: String(false),
-									prettify: String(true),
-									docs: String(true),
-								})}&response={globalThis.encodeURIComponent(JSON.stringify(`This is a GraphQL explorer for the ${web3AppConfig.name} subgraph on Blockhead! Click on "Docs" in the top right to see the schema.`))}"
-							/> -->
-
-							<!-- <iframe
-								class="graphiql-explorer"
-								
-								src="{providers.theGraph}/graphql?{new URLSearchParams({
-									variables: JSON.stringify({}),
-									response: JSON.stringify(`This is a GraphQL explorer for the ${web3AppConfig.name} subgraph on Blockhead! Click on "Docs" in the top right to see the schema.`),
-									history: String(false),
-									prettify: String(true),
-									docs: String(true),
-								})}"
-							/> -->
-						</div>
-					</div>
-				{/if}
-
-
-				{#if embeds?.length && (selectedEmbed = selectedEmbed || embeds[0])}
-					<iframe
-						class="embed"
-						title={selectedEmbed.description || selectedEmbed.name}
-						src={selectedEmbed.src}
-					/>
-				{/if}
 			</div>
 		{/each}
 	</div>
