@@ -4,7 +4,12 @@ import type { ZapperAppId } from '../api/zapper'
 import { erc20TokensByContractAddress, erc20TokensBySymbol } from './tokens'
 
 
-import { IpfsIcon, LensIcon, NounsIcon } from '../assets/icons'
+import {
+	IpfsIcon,
+	LensIcon,
+	NounsIcon,
+	UniswapIcon,
+} from '../assets/icons'
 import { ZoraIcon } from '../assets/networkIcons'
 
 
@@ -8153,6 +8158,7 @@ export const web3Apps: Web3AppConfig[] = [
 		slug: 'uniswap',
 		links: ['https://uniswap.org', 'https://app.uniswap.org'],
 		colors: ['#ff007a'],
+		icon: UniswapIcon,
 		views: [
 			{
 				name: 'Uniswap V3',
