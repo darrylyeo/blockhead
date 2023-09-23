@@ -118,7 +118,7 @@
 				</p>
 			</svelte:fragment>
 
-			<svelte:fragment slot="idle" let:status let:load>
+			<svelte:fragment slot="idle" let:load>
 				{@const walletConfig = walletsByType[walletType]}
 
 				<article
@@ -132,19 +132,36 @@
 						<Icon imageSources={[walletConfig?.icon]} />
 					</div>
 
-					{#if status === 'idle'}
-						<!-- <div class="column align-start">
-							<h4>{walletConfig.name}</h4>
+					<!-- <div class="column align-start">
+						<h4>{walletConfig.name}</h4>
 
-							<div class="row">
+						<div class="row">
+							<button class="small" on:click={load}>Connect</button>
+
+							<small>
+								<label>
+									<input type="checkbox" bind:checked={autoconnect} />
+									<span>Autoconnect</span>
+								</label>
+							</small>
+
+							<button
+								class="small align-end destructive"
+								data-before="✕"
+								on:click={async () => {
+									await state?.walletConnection?.disconnect?.()
+									dispatch('disconnect')
+								}}
+							/>
+						</div>
+					</div> -->
+
+					<!-- <div class="bar">
+						<h4>{walletConfig.name}</h4>
+
+						<div class="column align-end">
+							<div class="row-inline">
 								<button class="small" on:click={load}>Connect</button>
-
-								<small>
-									<label>
-										<input type="checkbox" bind:checked={autoconnect} />
-										<span>Autoconnect</span>
-									</label>
-								</small>
 
 								<button
 									class="small align-end destructive"
@@ -155,77 +172,22 @@
 									}}
 								/>
 							</div>
-						</div> -->
 
-						<!-- <div class="bar">
+							<small>
+								<label>
+									<input type="checkbox" bind:checked={autoconnect} />
+									<span>Autoconnect</span>
+								</label>
+							</small>
+						</div>
+					</div> -->
+
+					<!-- <div class="column">
+						<div class="bar">
 							<h4>{walletConfig.name}</h4>
 
-							<div class="column align-end">
-								<div class="row-inline">
-									<button class="small" on:click={load}>Connect</button>
-
-									<button
-										class="small align-end destructive"
-										data-before="✕"
-										on:click={async () => {
-											await state?.walletConnection?.disconnect?.()
-											dispatch('disconnect')
-										}}
-									/>
-								</div>
-
-								<small>
-									<label>
-										<input type="checkbox" bind:checked={autoconnect} />
-										<span>Autoconnect</span>
-									</label>
-								</small>
-							</div>
-						</div> -->
-
-						<!-- <div class="column">
-							<div class="bar">
-								<h4>{walletConfig.name}</h4>
-
-								<div class="row-inline">
-									<button class="small" on:click={load}>Connect</button>
-
-									<button
-										class="small align-end destructive"
-										data-before="✕"
-										on:click={async () => {
-											await state?.walletConnection?.disconnect?.()
-											dispatch('disconnect')
-										}}
-									/>
-								</div>
-							</div>
-
-							<div class="row">
-								<small>
-									<label>
-										<input type="checkbox" bind:checked={autoconnect} />
-										<span>Autoconnect</span>
-									</label>
-								</small>
-							</div>
-						</div> -->
-
-						<div class="column">
-							<div class="bar">
-								<h4>{walletConfig.name}</h4>
-
+							<div class="row-inline">
 								<button class="small" on:click={load}>Connect</button>
-							</div>
-
-							<div class="bar">
-								<span />
-								<small>
-									<label>
-										<input type="checkbox" bind:checked={autoconnect} />
-										<span>Autoconnect</span>
-									</label>
-								</small>
 
 								<button
 									class="small align-end destructive"
@@ -234,10 +196,46 @@
 										await state?.walletConnection?.disconnect?.()
 										dispatch('disconnect')
 									}}
-								>Delete</button>
+								/>
 							</div>
 						</div>
-					{/if}
+
+						<div class="row">
+							<small>
+								<label>
+									<input type="checkbox" bind:checked={autoconnect} />
+									<span>Autoconnect</span>
+								</label>
+							</small>
+						</div>
+					</div> -->
+
+					<div class="column">
+						<div class="bar">
+							<h4>{walletConfig.name}</h4>
+
+							<button class="small" on:click={load}>Connect</button>
+						</div>
+
+						<div class="bar">
+							<span />
+							<small>
+								<label>
+									<input type="checkbox" bind:checked={autoconnect} />
+									<span>Autoconnect</span>
+								</label>
+							</small>
+
+							<button
+								class="small align-end destructive"
+								data-before="✕"
+								on:click={async () => {
+									await state?.walletConnection?.disconnect?.()
+									dispatch('disconnect')
+								}}
+							>Delete</button>
+						</div>
+					</div>
 				</article>
 			</svelte:fragment>
 
