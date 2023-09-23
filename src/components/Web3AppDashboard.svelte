@@ -306,9 +306,11 @@
 									{network}
 									{networkProvider}
 									accountId={contractAddress}
+									headingLevel={4}
+									isOpen={false}
 								>
 									<svelte:fragment slot="title" let:network let:address>
-										<h3>
+										<h4>
 											{#if address}
 												{#if name}
 													<Address {network} {address}>{name}</Address>
@@ -318,13 +320,13 @@
 											{:else}
 												Contract
 											{/if}
-										</h3>
+										</h4>
 									</svelte:fragment>
 
 									<svelte:fragment slot="contract-title" let:network let:address>
-										<h4>
+										<h5>
 											<Address {network} {address}>Contract Code</Address>
-										</h4>
+										</h5>
 									</svelte:fragment>
 								</EthereumAccountOrContract>
 								<!-- <section class="card">
@@ -806,9 +808,11 @@
 									{network}
 									accountId={contractAddress}
 									{publicClient}
+									headingLevel={4}
+									isOpen={false}
 								>
 									<svelte:fragment slot="title" let:network let:address>
-										<h3>
+										<h4>
 											{#if address}
 												{#if name}
 													<Address {network} {address}>{name}</Address>
@@ -818,13 +822,13 @@
 											{:else}
 												Contract
 											{/if}
-										</h3>
+										</h4>
 									</svelte:fragment>
 
 									<svelte:fragment slot="contract-title" let:network let:address>
-										<h4>
+										<h5>
 											<Address {network} {address}>Contract Code</Address>
-										</h4>
+										</h5>
 									</svelte:fragment>
 								</EthereumAccountOrContract>
 
