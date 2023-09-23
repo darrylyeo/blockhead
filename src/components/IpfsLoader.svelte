@@ -3,6 +3,7 @@
 	import { IpfsGatewayProvider, ipfsGatewaysByProvider } from '../data/ipfsGateways'
 
 	import type { IpfsCid } from '../api/ipfs/contentId'
+	import type { IpnsName } from '../api/ipfs/ipns'
 
 
 	// Context
@@ -13,6 +14,7 @@
 	export let ipfsUrl: string | undefined
 	export let ipfsGatewayProvider: IpfsGatewayProvider
 	export let ipfsContentId: IpfsCid | undefined
+	export let ipnsName: IpnsName | undefined
 	export let ipfsContentPath: string | undefined
 	// (Computed)
 	$: ipfsGatewayProvider = $$props.ipfsGateway ?? $preferences.ipfsGateway
@@ -25,7 +27,14 @@
 	import { resolveUri } from '../utils/resolveUri'
 
 	$: resolvedIpfsUrl = resolveUri({
-		src: ipfsUrl ?? `ipfs://${ipfsContentId}${ipfsContentPath ? `/${ipfsContentPath}` : ''}`,
+		src: ipfsUrl ?? (
+			ipfsContentId ?
+				`ipfs://${ipfsContentId}${ipfsContentPath ? `/${ipfsContentPath}` : ''}`
+			: ipnsName ?
+				`ipns://${ipnsName}${ipfsContentPath ? `/${ipfsContentPath}` : ''}`
+			:
+				''
+		),
 		ipfsGatewayDomain: ipfsGateway.gatewayDomain,
 	})
 
@@ -55,7 +64,7 @@
 </script>
 
 
-{#if ipfsContentId}
+{#if ipfsContentId || ipnsName}
 	{#if ipfsGatewayProvider === IpfsGatewayProvider.Helia}
 		<Loader
 			fromPromise={
@@ -63,6 +72,7 @@
 					try{
 						return await getIpfsContent({
 							ipfsContentId,
+							ipnsName,
 							ipfsContentPath,
 						})
 							.then(parseResponse)
