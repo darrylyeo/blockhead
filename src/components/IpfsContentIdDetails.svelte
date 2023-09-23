@@ -81,7 +81,10 @@
 
 			<span slot="header-right" class="card-annotation"><a href="https://{ipfsGateway.gatewayDomain}" target="_blank">{ipfsGateway.name}</a></span>
 
-			<BlockTransition key={[ipfsGateway, ipfsContentId]}>
+			<BlockTransition
+				key={[ipfsGateway, ipfsContentId]}
+				transition={scale}
+			>
 				<IpfsContentDetails
 					{ipfsGateway}
 					{ipfsContentId}
@@ -99,7 +102,7 @@
 			<span slot="header-right" class="card-annotation"><a href="https://github.com/multiformats/cid" target="_blank">IPFS CIDv{result?.cid.version}</a></span>
 
 			<div class="card">
-				<output class="decoded-cid row-inline wrap"><span title="Multibase"><InlineTransition align="center" value={result?.multibase.name} /></span> - <span title="Version"><InlineTransition align="center" value="cidv{result?.cid.version}" /></span> - <span title="Multicodec"><InlineTransition align="center" value={result?.multicodec.name} /></span> - <span class="row-inline" title="Multihash">(<span title="Multicodec"><InlineTransition value={result?.multihash.multicodec.name} /></span> : <span title="Size (bits)"><InlineTransition value={result?.multihash.size * 8} /></span> : <span title="Digest (base16)"><BlockTransition align="center" value={digestBase16} /></span>)</span></output>
+				<output class="decoded-cid row-inline wrap"><span title="Multibase"><InlineTransition align="center" value={result?.multibase.name} /></span> - <span title="Version"><InlineTransition align="center" value="cidv{result?.cid.version}" /></span> - <span title="Multicodec"><InlineTransition align="center" value={result?.multicodec.name} transition={scale} /></span> - <span class="row-inline" title="Multihash">(<span title="Multicodec"><InlineTransition value={result?.multihash.multicodec.name} /></span> : <span title="Size (bits)"><InlineTransition value={result?.multihash.size * 8} /></span> : <span title="Digest (base16)"><BlockTransition align="center" value={digestBase16} /></span>)</span></output>
 				<!-- <p>multibase - version - multicodec - multihash (name : size : digest)</p> -->
 			</div>
 
@@ -171,7 +174,7 @@
 						}) as [key, value]}
 							<dt><InlineTransition align="end" value={key} /></dt>
 							<!-- <dd><BlockTransition element="output" value={value} /></dd> -->
-							<dd><output><BlockTransition value={value} /></output></dd>
+							<dd><output><BlockTransition value={value} transition={scale} /></output></dd>
 						{/each}
 					</dl>
 				</section>

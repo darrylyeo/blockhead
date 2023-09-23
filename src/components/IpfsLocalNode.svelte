@@ -79,7 +79,7 @@
 				</div>
 			</header>
 
-			<!-- <BlockTransition key={contentType}Z> -->
+			<!-- <BlockTransition key={contentType} transition={scale}> -->
 			<SizeContainer class="column">
 				{#if contentType === 'file'}
 					<input
