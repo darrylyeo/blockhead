@@ -26,6 +26,7 @@
 
 	// Components
 	import AccountIdResolver from '../../../components/AccountIdResolver.svelte'
+	import BlockTransition from '../../../components/BlockTransition.svelte'
 	import ConnectedAccountSelect from '../../../components/ConnectedAccountSelect.svelte'
 	import ExplorerInput from '../../../components/ExplorerInput.svelte'
 	import Web3AppDashboard from '../../../components/Web3AppDashboard.svelte'
@@ -137,21 +138,23 @@
 		let:address
 	>
 		{#if $web3AppConfig}
-			<div class="stack">
-				{#key $web3AppConfig}
-					<div class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
-						<Web3AppDashboard
-							{address}
-							web3AppConfig={$web3AppConfig}
-							networkProvider={$preferences.rpcNetwork}
-							defiProvider={$preferences.defiProvider}
-							quoteCurrency={$preferences.quoteCurrency}
-							{tokenBalanceFormat}
-							{showUnderlyingAssets}
-						/>
-					</div>
-				{/key}
-			</div>
+			<BlockTransition
+				key={$web3AppConfig}
+				inTransition={fly}
+				inTransitionParams={{x: 100}}
+				outTransition={fly}
+				outTransitionParams={{x: -100}}
+			>
+				<Web3AppDashboard
+					{address}
+					web3AppConfig={$web3AppConfig}
+					networkProvider={$preferences.rpcNetwork}
+					defiProvider={$preferences.defiProvider}
+					quoteCurrency={$preferences.quoteCurrency}
+					{tokenBalanceFormat}
+					{showUnderlyingAssets}
+				/>
+			</BlockTransition>
 		{/if}
 	</AccountIdResolver>
 
