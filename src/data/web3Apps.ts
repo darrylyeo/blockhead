@@ -16,7 +16,7 @@ import { ZoraIcon } from '../assets/networkIcons'
 
 import { UniswapV3 } from '../api/uniswap-v3/index'
 import { UniswapV3Subgraph } from '../api/uniswap-v3/subgraph'
-
+import UniswapPage from '../routes/apps/(withDashboard)/uniswap/+page.svelte'
 
 export type Web3AppConfig = {
 	name: Web3AppName,
@@ -8172,6 +8172,9 @@ export const web3Apps: Web3AppConfig[] = [
 				colors: ['#FC72FF'],
 				chainId,
 				erc20Tokens: [],
+				components: [
+					UniswapPage,
+				],
 				providers: {
 					theGraph: UniswapV3Subgraph.subgraphUrls[chainId]?.hosted,
 					...chainId === 1 && {
