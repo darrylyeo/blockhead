@@ -8,7 +8,7 @@
 
 
 	// Context
-	import { web3AppConfig } from '../_appsContext'
+	import { web3AppConfig, network } from '../_appsContext'
 	import { preferences } from '../../../state/preferences'
 
 
@@ -146,8 +146,9 @@
 				outTransitionParams={{x: -100}}
 			>
 				<Web3AppDashboard
-					{address}
 					web3AppConfig={$web3AppConfig}
+					network={$network}
+					{address}
 					networkProvider={$preferences.rpcNetwork}
 					defiProvider={$preferences.defiProvider}
 					quoteCurrency={$preferences.quoteCurrency}

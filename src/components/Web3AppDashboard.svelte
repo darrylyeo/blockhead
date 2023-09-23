@@ -15,7 +15,8 @@
 
 	// Data
 	export let web3AppConfig: Web3AppConfig
-	export let address: string
+	export let network: Ethereum.Network | undefined
+	export let address: string | undefined
 	export let networkProvider: NetworkProvider
 	export let defiProvider: DefiProvider = DefiProvider.Zapper
 	export let quoteCurrency: QuoteCurrency
@@ -235,8 +236,10 @@
 
 
 {#if web3AppConfig}
+	{@const views = network ? web3AppConfig.views.filter(view => view.chainId === network.chainId) : web3AppConfig.views}
+
 	<div class="column defi-app-views">
-		{#each web3AppConfig.views as {name, slug, links, chainId, colors, erc20Tokens, nfts, contracts, providers, embeds}}
+		{#each views as {name, slug, links, chainId, colors, erc20Tokens, nfts, contracts, providers, embeds} (`${name}/${chainId}/${slug}`)}
 			{@const totalViewItems = (erc20Tokens?.length ?? 0) + (nfts?.length ?? 0) + (contracts?.length ?? 0) + (providers && Object.entries(providers).length)}
 			{@const _links = links ?? web3AppConfig?.links}
 
@@ -244,12 +247,14 @@
 				class="card defi-app-view"
 				class:full={embeds?.length}
 				style={cardStyle(colors || web3AppConfig.colors)}
+				transition:scale={{ duration: 300 }}
+				animate:flip={{ duration: 300 }}
 			>
 			<!-- class:is-single={totalViewItems <= 1} -->
 				<NetworkProviderLoader
 					layout="collapsible"
 					collapsibleType="label"
-					isOpen={false}
+					isOpen={views.length === 1}
 
 					network={networksByChainID[chainId]}
 					{networkProvider}
