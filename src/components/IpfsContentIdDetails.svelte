@@ -39,7 +39,7 @@
 	import Collapsible from './Collapsible.svelte'
 	import FileDetails from './FileDetails.svelte'
 	import InlineTransition from './InlineTransition.svelte'
-	import IpfsLoader from './IpfsLoader.svelte'
+	import IpfsContentDetails from './IpfsContentDetails.svelte'
 	import IpfsContentId from './IpfsContentId.svelte'
 	import Loader from './Loader.svelte'
 	import SizeContainer from './SizeContainer.svelte'
@@ -82,39 +82,11 @@
 			<span slot="header-right" class="card-annotation"><a href="https://{ipfsGateway.gatewayDomain}" target="_blank">{ipfsGateway.name}</a></span>
 
 			<BlockTransition key={[ipfsGateway, ipfsContentId]}>
-				<IpfsLoader
-					ipfsGatewayProvider={ipfsGateway.gatewayProvider}
+				<IpfsContentDetails
+					{ipfsGateway}
 					{ipfsContentId}
 					{ipfsContentPath}
-					let:dagStats
-					let:resolvedIpfsUrl
-					let:contentType
-					let:text
-					let:blob
-				>
-					{#if dagStats}
-						<article class="card bar wrap">
-							<h4 class="row" data-before="⋔"><IpfsContentId {ipfsContentId} /></h4>
-
-							<div class="row wrap">
-								<div role="toolbar" class="row-inline">
-									{#if dagStats.dagSize}<span>{dagStats.dagSize} bytes</span> │{/if}
-									{#if dagStats.blocks}<span>{dagStats.blocks} blocks</span>{/if}
-									<!-- {#if dagStats.fileSize}<span>{dagStats.fileSize} bytes</span> │{/if} -->
-								</div>
-								 
-								<span class="card-annotation">UnixFS DAG</span>
-							</div>
-						</article>
-					{:else}
-						<FileDetails
-							fileName={resolvedIpfsUrl.match(/[^/]+$/)?.[0]}
-							{contentType}
-							{text}
-							{blob}
-						/>
-					{/if}
-				</IpfsLoader>
+				/>
 			</BlockTransition>
 		</Collapsible>
 
