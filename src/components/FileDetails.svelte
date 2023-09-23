@@ -94,7 +94,7 @@
 
 		<hr>
 
-		<div class="scrollable" class:align-center={!['iframe', 'pdf'].includes(displayType)}>
+		<div class="scrollable" class:align-center={!['iframe', 'pdf', 'json'].includes(displayType)}>
 			{#if displayType === 'text' && text !== undefined}
 				<pre class="text" style="--text-length: {text.length}">{text}</pre>
 			{:else if displayType === 'iframe'}
