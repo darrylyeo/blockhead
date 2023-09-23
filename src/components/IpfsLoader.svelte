@@ -95,40 +95,40 @@
 		</Loader>
 
 	{:else}
-	<Loader
-		fromQuery={
-			createQuery({
-				queryKey: ['IPFS', {
-					ipfsUrl: resolvedIpfsUrl,
-				}],
-				queryFn: async () => (
-					await fetch(resolvedIpfsUrl)
-						.then(async response => {
-							if(response.status === 422)
-								throw `Unprocessable IPFS CID "${ipfsContentId}"\nTry selecting a different encoding.`
+		<Loader
+			fromQuery={
+				createQuery({
+					queryKey: ['IPFS', {
+						ipfsUrl: resolvedIpfsUrl,
+					}],
+					queryFn: async () => (
+						await fetch(resolvedIpfsUrl)
+							.then(async response => {
+								if(response.status === 422)
+									throw `Unprocessable IPFS CID "${ipfsContentId}"\nTry selecting a different encoding.`
 
-							if(!(response.status >= 200 && response.status < 300))
-								throw `${response.status} ${response.statusText}\n${await response.text()}`
+								if(!(response.status >= 200 && response.status < 300))
+									throw `${response.status} ${response.statusText}\n${await response.text()}`
 
-							return response
-						})
-						.then(parseResponse)
-				)
-			})
-		}
-		loadingIcon={IpfsIcon}
-		loadingIconName="IPFS"
-		loadingMessage={`Fetching content from IPFS via ${ipfsGateway.name}...`}
-		errorMessage={`Couldn't fetch content from IPFS.`}
-		{...$$restProps}
-		let:result
-	>
-		<svelte:fragment slot="header"
+								return response
+							})
+							.then(parseResponse)
+					)
+				})
+			}
+			loadingIcon={IpfsIcon}
+			loadingIconName="IPFS"
+			loadingMessage={`Fetching content from IPFS via ${ipfsGateway.name}...`}
+			errorMessage={`Couldn't fetch content from IPFS.`}
+			{...$$restProps}
 			let:result
 		>
-			<slot name="header" {...result} {ipfsGatewayProvider} {ipfsContentId} {resolvedIpfsUrl} />
-		</svelte:fragment>
-		<slot {...result} {ipfsGatewayProvider} {ipfsContentId} {resolvedIpfsUrl} />
-	</Loader>
+			<svelte:fragment slot="header"
+				let:result
+			>
+				<slot name="header" {...result} {ipfsGatewayProvider} {ipfsContentId} {resolvedIpfsUrl} />
+			</svelte:fragment>
+			<slot {...result} {ipfsGatewayProvider} {ipfsContentId} {resolvedIpfsUrl} />
+		</Loader>
 	{/if}
 {/if}
