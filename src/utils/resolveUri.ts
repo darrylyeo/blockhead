@@ -5,7 +5,7 @@ import { ipfsGateways } from '../data/ipfsGateways'
 import { findMatchedCaptureGroup } from './findMatchedCaptureGroup'
 
 
-const pattern = /^(?:(?:ipfs|dweb):\/\/(?<ipfs>(?<ipfsCid>[^/]+)(?<ipfsPath>.+)?)|ar:\/\/(?<arweaveCid>.+))$/
+const pattern = /^(?:(?:ipfs|dweb):\/\/(?<ipfs>(?<ipfsCid>[^/]+)(?<ipfsPath>.+)?)|ipns:\/\/(?<ipns>(?<ipnsName>[^/]+)(?<ipnsPath>.+)?)|ar:\/\/(?<arweaveCid>.+))$/
 
 
 export const resolveUri = ({
@@ -42,6 +42,11 @@ export const resolveUri = ({
 			`ipfs://${groups.ipfsCid}${groups.ipfsPath ?? ''}`
 		:
 			`https://${ipfsGatewayDomain}/ipfs/${groups.ipfsCid}${groups.ipfsPath ?? ''}`
+	: groups?.ipnsName ?
+		ipfsGatewayDomain === 'local' ?
+			`ipns://${groups.ipnsName}${groups.ipnsPath ?? ''}`
+		:
+			`https://${ipfsGatewayDomain}/ipns/${groups.ipnsName}${groups.ipnsPath ?? ''}`
 	: groups?.arweaveCid ?
 		`https://${arweaveGateway}/${groups.arweaveCid}`
 	:
