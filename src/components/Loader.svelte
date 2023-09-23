@@ -89,7 +89,7 @@
 			errorMessage: typeof errorMessage,
 		},
 		idle: {
-
+			load: typeof load,
 		},
 		loading: {
 
