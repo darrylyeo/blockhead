@@ -35,6 +35,7 @@
 	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
 	let showSmallValues = false
 
+	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 2
 	export let isOpen = true
 
 	$: quoteCurrency = $preferences.quoteCurrency
@@ -121,14 +122,14 @@
 			<div class="row-inline">
 				<slot name="title" {network} {address} {ensName}>
 					{#if address}
-						<h2><Address {network} {address} /></h2>
+						<svelte:element this={`h${headingLevel}`}><Address {network} {address} /></svelte:element>
 						{#if ensName}
 							<span class="align-start" transition:scale>
 								<EnsName {ensName} showAvatar />
 							</span>
 						{/if}
 					{:else if ensName}
-						<h2><EnsName {ensName} showAvatar /></h2>
+						<svelte:element this={`h${headingLevel}`}><EnsName {ensName} showAvatar /></svelte:element>
 					{/if}
 				</slot>
 			</div>
@@ -169,9 +170,9 @@
 			</svelte:fragment>
 
 			<slot slot="title" name="contract-title" {network} {address}>
-				<h3>
+				<svelte:element this={`h${headingLevel + 1}`}>
 					<Address {network} {address}>Contract Code</Address>
-				</h3>
+				</svelte:element>
 			</slot>
 		</EthereumContractExplorer>
 
@@ -193,7 +194,7 @@
 					<hr>
 
 					<div class="bar wrap">
-						<h3>Balances (<TokenBalance symbol={summary.quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} />)</h3>
+						<svelte:element this={`h${headingLevel + 1}`}>Balances (<TokenBalance symbol={summary.quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} />)</svelte:element>
 
 						<div role="toolbar" class="row wrap">
 							<TokenBalanceFormatSelect
@@ -243,10 +244,10 @@
 							let:pagination
 						>
 							<summary class="bar wrap">
-								<h3>
+								<svelte:element this={`h${headingLevel + 1}`}>
 									Transactions
 									<InlineContainer isOpen={status === 'resolved'}>(<TweenedNumber value={transactions.length} /><InlineContainer isOpen={pagination?.hasNextPage}>+</InlineContainer>)</InlineContainer>
-								</h3>
+								</svelte:element>
 
 								<div role="toolbar" class="row wrap">
 									<label>
@@ -349,12 +350,12 @@
 							let:pagination
 						>
 							<div class="bar wrap">
-								<h3>
+								<svelte:element this={`h${headingLevel + 1}`}>
 									{selectedToken.name}
 									(<TokenName {network} erc20Token={selectedToken} />)
 									Transactions
 									<InlineContainer isOpen={status === 'resolved'}>(<TweenedNumber value={transactions.length} /><InlineContainer isOpen={pagination?.hasNextPage}>+</InlineContainer>)</InlineContainer>
-								</h3>
+								</svelte:element>
 
 								<div role="toolbar" class="row wrap">
 									{#if detailLevel !== 'exhaustive'}
@@ -433,7 +434,7 @@
 					<hr>
 
 					<div class="bar wrap">
-						<h3>Chart</h3>
+						<svelte:element this={`h${headingLevel + 1}`}>Chart</svelte:element>	
 
 						<div role="toolbar">
 							<label>
