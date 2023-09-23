@@ -35,6 +35,8 @@
 	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
 	let showSmallValues = false
 
+	export let isOpen = true
+
 	$: quoteCurrency = $preferences.quoteCurrency
 
 
@@ -105,11 +107,16 @@
 		let:address
 		let:ensName
 		showIf={({address}) => address}
+		layout="collapsible"
+		collapsibleType="label"
+		{isOpen}
 	>
 		<div slot="header"
 			let:address
 			let:ensName
 			class="bar wrap"
+			let:isOpen
+			let:toggle
 		>
 			<div class="row-inline">
 				<slot name="title" {network} {address} {ensName}>
@@ -142,6 +149,14 @@
 					{/await}
 				</slot>
 			</span>
+
+			{#if toggle}
+				<button
+					class="small"
+					data-after={isOpen ? '▲' : '▼'}
+					on:click={toggle}
+				/>
+			{/if}
 		</div>
 
 		<EthereumContractExplorer
