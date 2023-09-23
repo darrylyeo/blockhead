@@ -1,3 +1,4 @@
+import type { ComponentType } from 'svelte'
 import type { Ethereum } from './networks/types'
 import type { DefiSDK } from '../api/zerion/defiSdk'
 import type { ZapperAppId } from '../api/zapper'
@@ -31,6 +32,7 @@ export type Web3AppView = {
 	slug?: string,
 	colors?: string[],
 	chainId: Ethereum.ChainID,
+	components?: ComponentType[],
 	erc20Tokens?: Partial<Ethereum.ERC20Token[]>,
 	nfts?: Partial<Ethereum.NftContract[]>,
 	contracts?: Ethereum.Contract[],

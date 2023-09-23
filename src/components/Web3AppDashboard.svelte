@@ -239,7 +239,10 @@
 	{@const views = network ? web3AppConfig.views.filter(view => view.chainId === network.chainId) : web3AppConfig.views}
 
 	<div class="column defi-app-views">
-		{#each views as {name, slug, links, chainId, colors, erc20Tokens, nfts, contracts, providers, embeds} (`${name}/${chainId}/${slug}`)}
+		{#each views as {
+			name, slug, links, chainId, colors,
+			components, erc20Tokens, nfts, contracts, providers, embeds
+		} (`${name}/${chainId}/${slug}`)}
 			{@const totalViewItems = (erc20Tokens?.length ?? 0) + (nfts?.length ?? 0) + (contracts?.length ?? 0) + (providers && Object.entries(providers).length)}
 			{@const _links = links ?? web3AppConfig?.links}
 
@@ -306,6 +309,14 @@
 					</svelte:fragment>
 
 					<hr>
+
+					{#if components?.length}
+						<div class="column">
+							{#each components as Component}
+								<svelte:component this={Component} />
+							{/each}
+						</div>
+					{/if}
 
 					<div
 						class="column defi-app-view-items"

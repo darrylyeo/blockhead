@@ -158,6 +158,4 @@
 			</BlockTransition>
 		{/if}
 	</AccountIdResolver>
-
-	<slot />
 </section>
