@@ -308,6 +308,7 @@
 									accountId={contractAddress}
 									headingLevel={4}
 									isOpen={false}
+									resolveAccountNames={false}
 								>
 									<svelte:fragment slot="title" let:network let:address>
 										<h4>
@@ -810,6 +811,7 @@
 									{publicClient}
 									headingLevel={4}
 									isOpen={false}
+									resolveAccountNames={false}
 								>
 									<svelte:fragment slot="title" let:network let:address>
 										<h4>

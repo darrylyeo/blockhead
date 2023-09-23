@@ -20,7 +20,7 @@
 
 	export let passiveResolveToAddress = false
 
-	export let resolveToName: Omit<AccountIdType, AccountIdType.Address> | undefined = AccountIdType.ENS
+	export let resolveToName: Omit<AccountIdType, AccountIdType.Address> | false = AccountIdType.ENS
 	export let passiveResolveToName = true
 
 	export let networkProvider: NetworkProvider

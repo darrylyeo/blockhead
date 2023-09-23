@@ -37,6 +37,7 @@
 
 	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 2
 	export let isOpen = true
+	export let resolveAccountNames = true
 
 	$: quoteCurrency = $preferences.quoteCurrency
 
@@ -104,6 +105,7 @@
 <div class="ethereum-account card">
 	<AccountIdResolver
 		{accountId}
+		resolveToName={resolveAccountNames ? undefined : false}
 		passiveResolveToName
 		let:address
 		let:ensName
