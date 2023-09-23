@@ -16,6 +16,7 @@ export const audiusPlaylistId = writable('')
 export const audiusTrackId = writable('')
 export const audiusUserId = writable('')
 export const ipfsContentId = writable('')
+export const ipnsName = writable('')
 export const ipfsContentPath = writable('')
 
 
@@ -31,6 +32,7 @@ export const derivedPath: Readable<string> = derived([
 	audiusTrackId,
 	audiusUserId,
 	ipfsContentId,
+	ipnsName,
 	ipfsContentPath,
 ], ([
 	$web3AppSlug,
@@ -42,6 +44,7 @@ export const derivedPath: Readable<string> = derived([
 	$audiusTrackId,
 	$audiusUserId,
 	$ipfsContentId,
+	$ipnsName,
 	$ipfsContentPath,
 ], set) => set(
 	`/apps${
@@ -72,11 +75,11 @@ export const derivedPath: Readable<string> = derived([
 
 				// IPFS
 				: $web3AppSlug === 'ipfs' ?
-					$ipfsContentId ?
+					$ipfsContentId || $ipnsName ?
 						$ipfsContentPath ?
-							`/content/${encodeURIComponent($ipfsContentId)}/${$ipfsContentPath}`
+							`/content/${encodeURIComponent($ipfsContentId || $ipnsName)}/${$ipfsContentPath}`
 						:
-							`/content/${encodeURIComponent($ipfsContentId)}`
+							`/content/${encodeURIComponent($ipfsContentId || $ipnsName)}`
 					:
 						''
 

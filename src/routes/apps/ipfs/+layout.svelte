@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Params
-	import { ipfsContentId, ipfsContentPath } from '../_appsParams'
+	import { ipfsContentId, ipnsName, ipfsContentPath } from '../_appsParams'
 
 
 	// Context
@@ -14,6 +14,7 @@
 
 	// Components
 	import IpfsContentIdDetails from '../../../components/IpfsContentIdDetails.svelte'
+	import IpfsContentDetails from '../../../components/IpfsContentDetails.svelte'
 
 
 	// Transitions
@@ -48,8 +49,13 @@
 			ipfsContentId={$ipfsContentId}
 			ipfsContentPath={$ipfsContentPath}
 		/>
+	{:else if $ipnsName}
+		<IpfsContentDetails
+			ipfsGateway={$ipfsGateway}
+			ipnsName={$ipnsName}
+			ipfsContentPath={$ipfsContentPath}
+		/>
 	{/if}
-	
 
 	<slot />
 </section>

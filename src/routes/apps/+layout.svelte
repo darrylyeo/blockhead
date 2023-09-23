@@ -20,6 +20,7 @@
 		audiusUserId,
 
 		ipfsContentId,
+		ipnsName,
 		ipfsContentPath,
 
 		derivedPath,
@@ -34,6 +35,7 @@
 		$audiusTrackId = $page.params.audiusTrackId || ''
 		$audiusUserId = $page.params.audiusUserId || ''
 		$ipfsContentId = $page.params.ipfsContentId || ''
+		$ipnsName = $page.params.ipnsName || ''
 		$ipfsContentPath = $page.params.ipfsContentPath || ''
 	}
 
