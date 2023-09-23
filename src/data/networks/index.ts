@@ -150,6 +150,48 @@ export const networks: Ethereum.Network[] = [
 		"infoURL": "https://xdaichain.com"
 	},
 	{
+		"slug": "arbitrum-goerli",
+		"name": "Arbitrum Goerli",
+		"chainId": 421613,
+		"shortName": "arb-goerli",
+		"chain": "ETH",
+		"networkId": 421613,
+		"nativeCurrency": {
+			"name": "Arbitrum Goerli Ether",
+			"symbol": "AGOR",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://endpoints.omniatech.io/v1/arbitrum/goerli/public",
+			"https://arb-goerli.g.alchemy.com/v2/demo",
+			"https://arbitrum-goerli.public.blastapi.io",
+			"https://rpc.goerli.arbitrum.gateway.fm",
+			"https://arbitrum-goerli.publicnode.com",
+			"wss://arbitrum-goerli.publicnode.com",
+			"https://arbitrum-goerli.blockpi.network/v1/rpc/public",
+			"https://api.zan.top/node/v1/arb/goerli/public",
+			"https://goerli-rollup.arbitrum.io/rpc"
+		],
+		"faucets": [],
+		"explorers": [
+			{
+				"name": "Arbitrum Goerli Rollup Explorer",
+				"url": "https://goerli-rollup-explorer.arbitrum.io",
+				"standard": "EIP3091"
+			}
+		],
+		"infoURL": "https://arbitrum.io/",
+		"parent": {
+			"type": "L2",
+			"chain": "eip155-5",
+			"bridges": [
+				{
+					"url": "https://bridge.arbitrum.io/"
+				}
+			]
+		}
+	},
+	{
 		"slug": "arbitrum-rinkeby",
 		"name": "Arbitrum Rinkeby Testnet",
 		"chainId": 421611,
@@ -5496,6 +5538,7 @@ const testnetSlugsForMainnetSlugs = {
 	],
 	'arbitrum-one': [
 		'arbitrum-rinkeby',
+		'arbitrum-goerli',
 	],
 	'optimism': [
 		'optimistic-goerli',
