@@ -8163,12 +8163,13 @@ export const web3Apps: Web3AppConfig[] = [
 		name: 'Uniswap',
 		slug: 'uniswap',
 		links: ['https://uniswap.org', 'https://app.uniswap.org'],
-		colors: ['#ff007a'],
+		colors: ['#FC72FF'],
 		icon: UniswapIcon,
 		views: [
 			...UniswapV3.SUPPORTED_CHAIN_IDS.map(chainId => ({
 				name: 'Uniswap V3',
 				slug: 'v3',
+				colors: ['#FC72FF'],
 				chainId,
 				erc20Tokens: [],
 				providers: {
@@ -8187,6 +8188,7 @@ export const web3Apps: Web3AppConfig[] = [
 			{
 				name: 'Uniswap V2',
 				slug: 'v2',
+				colors: ['#ff007a'],
 				chainId: 1,
 				erc20Tokens: [
 					{
@@ -8207,6 +8209,7 @@ export const web3Apps: Web3AppConfig[] = [
 			{
 				name: 'Uniswap V1',
 				slug: 'v1',
+				colors: ['#DC6BE5'],
 				chainId: 1,
 				erc20Tokens: [
 					// {
