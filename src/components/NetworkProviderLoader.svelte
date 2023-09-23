@@ -47,8 +47,13 @@
 
 	<svelte:fragment slot="header"
 		let:result={publicClient}
+		let:isOpen
+		let:toggle
 	>
-		<slot name="header" {network} {publicClient} />
+		<slot name="header"
+			{network} {publicClient}
+			{isOpen} {toggle}
+		/>
 	</svelte:fragment>
 
 	<slot {network} {publicClient} />
