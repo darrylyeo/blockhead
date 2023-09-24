@@ -52,6 +52,9 @@
 
 <Loader
 	loadingMessage="Loading Uniswap V3 positions{viaDataProvider}..."
+	loadingIcon={{
+		[UniswapV3.DataProvider.TheGraph]: TheGraphIcon,
+	}[dataProvider]}
 	errorMessage="Couldn't load Uniswap V3 positions{viaDataProvider}."
 	{...{
 		[UniswapV3.DataProvider.RpcProvider]: {
