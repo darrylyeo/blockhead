@@ -3,6 +3,7 @@ export enum WalletType {
 	WalletConnect1 = 'WalletConnect1',
 	WalletConnect1_Web3Modal = 'WalletConnect1_Web3Modal',
 	WalletConnect2_Web3Modal = 'WalletConnect2_Web3Modal',
+	WalletConnect2_Web3Modal3 = 'WalletConnect2_Web3Modal3',
 	BananaWallet = 'BananaWallet',
 	CoinbaseWallet = 'Coinbase Wallet',
 	Intmax = 'Intmax',
@@ -21,6 +22,7 @@ export enum WalletConnectionType {
 	// WalletConnect2_Web3Modal = 'WalletConnect2_Web3Modal',
 	WalletConnect1_Web3Modal_Standalone = 'WalletConnect1_Web3Modal_Standalone',
 	WalletConnect2_Web3Modal_Standalone = 'WalletConnect2_Web3Modal_Standalone',
+	WalletConnect2_Web3Modal3 = 'WalletConnect2_Web3Modal3_Standalone',
 	// WalletConnect2_EthereumProvider = 'WalletConnect2_EthereumProvider',
 	CoinbaseWalletSDK = 'CoinbaseWalletSDK',
 	WebmaxJs = 'WebmaxJs',
@@ -50,14 +52,17 @@ export const walletConnectionTypes: Record<WalletConnectionType, {
 	// 	name: 'WalletConnect 2.0 (Web3Modal)',
 	// },
 	[WalletConnectionType.WalletConnect1_Web3Modal_Standalone]: {
-		name: 'WalletConnect 1.0 (Web3Modal)',
+		name: 'WalletConnect 1.0 (Web3Modal 2.0)',
 	},
 	[WalletConnectionType.WalletConnect2_Web3Modal_Standalone]: {
-		name: 'WalletConnect 2.0 (Web3Modal)',
+		name: 'WalletConnect 2.0 (Web3Modal 2.0)',
 	},
 	// [WalletConnectionType.WalletConnect2_EthereumProvider]: {
 	// 	name: 'WalletConnect 2.0 (Ethereum provider)',
 	// },
+	[WalletConnectionType.WalletConnect2_Web3Modal3]: {
+		name: 'WalletConnect 2.0 (Web3Modal 3.0)',
+	},
 	[WalletConnectionType.CoinbaseWalletSDK]: {
 		name: 'Coinbase Wallet SDK',
 	},
@@ -117,8 +122,18 @@ export const wallets: WalletConfig[] = [
 		walletConnectMobileLinks: ['metamask'],
 	},
 	{
+		type: WalletType.WalletConnect2_Web3Modal3,
+		name: 'WalletConnect 2.0 (Web3Modal 3.0)',
+		icon: WalletConnect2Icon,
+		colors: ['#3396ff', '#66b1ff'],
+
+		connectionTypes: [
+			WalletConnectionType.WalletConnect2_Web3Modal3,
+		],
+	},
+	{
 		type: WalletType.WalletConnect2_Web3Modal,
-		name: 'WalletConnect 2.0 (Web3Modal)',
+		name: 'WalletConnect 2.0 (Web3Modal 2.0)',
 		icon: WalletConnect2Icon,
 		colors: ['#3396ff', '#66b1ff'],
 
@@ -130,7 +145,7 @@ export const wallets: WalletConfig[] = [
 	},
 	{
 		type: WalletType.WalletConnect1_Web3Modal,
-		name: 'WalletConnect 1.0 (Web3Modal)',
+		name: 'WalletConnect 1.0 (Web3Modal 2.0)',
 		icon: WalletConnectIcon,
 		colors: ['#3083FC'],
 

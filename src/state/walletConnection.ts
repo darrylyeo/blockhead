@@ -140,6 +140,8 @@ import { availableNetworks, getNetworkRPC, networksByChainID, networksBySlug } f
 import type { PairingTypes, SessionTypes } from '@walletconnect/types'
 import type { Web3Modal } from '@web3modal/standalone'
 import { parseCaip2Id } from '../utils/parseCaip2Id'
+import { networkToViemChain } from '../data/networkProviders'
+import { isTruthy } from '../utils/isTruthy'
 
 const walletconnectMetadata = {
 	name: "Blockhead",
@@ -657,6 +659,50 @@ export const getWalletConnection = async ({
 			// 		}
 			// 	}
 			// }
+
+			case WalletConnectionType.WalletConnect2_Web3Modal3: {
+				const { defaultWagmiConfig, createWeb3Modal } = await import('@web3modal/wagmi')
+
+				const projectId = env.WALLETCONNECT2_PROJECT_ID
+				const chains = networks.map(networkToViemChain)
+
+				const wagmiConfig = defaultWagmiConfig({
+					chains,
+					projectId: env.WALLETCONNECT2_PROJECT_ID,
+					appName: 'Blockhead',
+				})
+
+				const modal = createWeb3Modal({ wagmiConfig, projectId, chains })
+
+				const { watchAccount, disconnect, getAccount, watchWalletClient } = await import('@wagmi/core')
+
+				return {
+					walletType,
+					connectionType,
+
+					connect: async () => {
+						await modal.open()
+
+						return {
+							accounts: [{
+								address: getAccount().address
+							}],
+						}
+					},
+
+					subscribe: () => ({
+						accounts: readable<Ethereum.Address[]>([], set => {
+							watchAccount(account => set([account.address].filter(isTruthy)))
+						}),
+					
+						chainId: readable<Ethereum.ChainID>(undefined, set => {
+							watchWalletClient({}, async walletClient => set(await walletClient?.getChainId()))
+						}),
+					}),
+
+					disconnect,
+				}
+			}
 
 			case WalletConnectionType.WebmaxJs: {
 				const { IntmaxWalletSigner } = await import('webmax')

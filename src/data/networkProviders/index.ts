@@ -39,7 +39,7 @@ import { AlchemyIcon, EtherscanIcon, FigmentIcon, GatewayFmIcon, GetBlockIcon, I
 
 
 // Functions
-const networkToViemChain = (network: Ethereum.Network) => ({
+export const networkToViemChain = (network: Ethereum.Network) => ({
 	id: network.chainId,
 	name: network.name,
 	network: network.network,
