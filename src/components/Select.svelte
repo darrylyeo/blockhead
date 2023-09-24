@@ -117,6 +117,11 @@
 
 		border-radius: 0.5em;
 	}
+	select:focus ~ .item {
+		outline: 1.5px solid var(--primary-color);
+		outline-offset: 1px;
+	}
+
 	.item:after {
 		width: 0.75em;
 		text-align: center;
