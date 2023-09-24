@@ -19,16 +19,15 @@
 </script>
 
 
-<Collapsible
-	type="label"
-	containerClass="card"
-	class="column"
->
-	<h4 slot="title">Swap</h4>
+<form class="card">
+	<Collapsible
+		type="label"
+		class="column"
+	>
+		<h4 slot="title">Swap</h4>
 
-	<hr>
+		<hr>
 
-	<form class="column">
 		<section class="with-icon-between">
 			<!-- svelte-ignore a11y-label-has-associated-control -->
 			<label>
@@ -52,8 +51,8 @@
 				/>
 			</label>
 		</section>
-	</form>
-</Collapsible>
+	</Collapsible>
+</form>
 
 
 <style>
