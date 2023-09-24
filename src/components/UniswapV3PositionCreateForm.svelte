@@ -41,16 +41,15 @@
 </script>
 
 
-<Collapsible
-	type="label"
-	containerClass="card"
-	class="column"
->
-	<h4 slot="title">Add Liquidity</h4>
+<form class="card">
+	<Collapsible
+		type="label"
+		class="column"
+	>
+		<h4 slot="title">Add Liquidity</h4>
 
-	<hr>
+		<hr>
 
-	<form class="column">
 		<section class="column">
 			<header>
 				<h5>Pool / Deposit Amounts</h5>
@@ -146,8 +145,8 @@
 				</div>
 			</div>
 		</section>
-	</form>
-</Collapsible>
+	</Collapsible>
+</form>
 
 
 <style>
