@@ -19,27 +19,16 @@
 </script>
 
 
-<Collapsible
-	type="label"
-	containerClass="card"
-	class="column"
->
-	<h4 slot="title">Manage Position</h4>
+<form class="card">
+	<Collapsible
+		type="label"
+		class="column"
+	>
+		<h5 slot="title">Manage Position</h5>
 
-	<hr>
-
-	<form class="column">
-		<section>
-			<header>
-				<h5>Position</h5>
-			</header>
-		</section>
+		<hr>
 
 		<section>
-			<header>
-				<h5>New Position</h5>
-			</header>
-
 			<div class="with-icon-between">
 				<!-- svelte-ignore a11y-label-has-associated-control -->
 				<label>
@@ -66,8 +55,9 @@
 				</label>
 			</div>
 		</section>
-	</form>
-</Collapsible>
+	</Collapsible>
+</form>
+
 
 
 <style>
