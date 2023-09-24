@@ -1,6 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import type { TokenList } from '@uniswap/token-lists'
+	import uniswapLabsDefaultTokenList from '../data/tokens/tokens.uniswap.org.tokenlist.json'
 
 
 	// Inputs
@@ -8,7 +9,7 @@
 
 
 	// Outputs
-	export let tokenlist: TokenList
+	export let tokenlist: TokenList = uniswapLabsDefaultTokenList
 
 	type SharedSlotProps = IpfsLoader['$$slot_def'] & {
 		tokenlist: typeof tokenlist
@@ -31,13 +32,17 @@
 </script>
 
 
-<IpfsLoader
+<!-- <IpfsLoader
 	ipnsName={uri}
 	{...$$restProps}
 	whenLoaded={(result) => {
 		tokenlist = parseTokenList(result.text)
 	}}
->
-	<slot name="header" {tokenlist} />
+	contentDescription="token list"
+> -->
+	<!-- <svelte:fragment slot="header"> -->
+		<slot name="header" {tokenlist} />
+	<!-- </svelte:fragment> -->
+
 	<slot {tokenlist} />
-</IpfsLoader>
+<!-- </IpfsLoader> -->
