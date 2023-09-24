@@ -11,6 +11,7 @@ import { FeeAmount as _FeeAmount, computePoolAddress } from '@uniswap/v3-sdk'
 import IUniswapV3Pool from '@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json'
 
 
+import { formatPercent } from '../../utils/formatPercent'
 import { memoized } from '../../utils/memoized'
 
 
@@ -40,6 +41,10 @@ export namespace UniswapV3 {
 		tickLower: TickIndex,
 		tickUpper: TickIndex,
 	}
+
+	export const formatFeeAmount = (fee: FeeAmount, maxDecimals = 2) => (
+		formatPercent(Number(fee) / 1000000, maxDecimals)
+	)
 
 	// https://docs.uniswap.org/contracts/v3/reference/deployments
 	export const deployedContractsByChainId = Object.fromEntries(
