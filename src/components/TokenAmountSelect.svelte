@@ -6,11 +6,11 @@
 	// External state
 	export let availableTokens: Ethereum.ERC20Token[]
 
-	export let token: Ethereum.ERC20Token
-	export let amount: BigInt
+	export let token: Ethereum.ERC20Token | undefined
+	export let amount: bigint
 
-	export let min: BigInt
-	export let max: BigInt
+	export let min: bigint | undefined
+	export let max: bigint | undefined
 	export let stepDecimals = token?.decimals // 3
 
 	export let autoFallback = false
@@ -42,9 +42,13 @@
 		bind:value={amount}
 		{min}
 		{max}
-		{decimals}
 		{required}
 	/>
 
-	<TokenSelect {availableTokens} {autoFallback} {required} bind:token />
+	<TokenSelect
+		bind:token
+		{availableTokens}
+		{autoFallback}
+		{required}
+	/>
 </div>
