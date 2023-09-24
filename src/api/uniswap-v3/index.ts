@@ -20,7 +20,7 @@ export namespace UniswapV3 {
 	export const SUPPORTED_CHAIN_IDS = [...SUPPORTED_CHAINS, 100]
 
 	export type FeeAmount = typeof FeeAmount
-	export const FeeAmount = _FeeAmount
+	export const FeeAmount = Object.fromEntries(Object.entries(_FeeAmount).filter(([, value]) => typeof value === 'number'))
 
 	export type Pool = {
 		token0: Ethereum.ERC20Token,
