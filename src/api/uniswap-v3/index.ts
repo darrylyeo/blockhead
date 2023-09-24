@@ -35,11 +35,18 @@ export namespace UniswapV3 {
 	export type TickIndex = bigint
 
 	export type Position = {
-		pool: Pool,
-		token0Amount: bigint,
-		token1Amount: bigint,
+		pool: DeployedPool,
 		tickLower: TickIndex,
 		tickUpper: TickIndex,
+		token0Amount: bigint,
+		token1Amount: bigint,
+		token0BalanceUsd?: number,
+		token1BalanceUsd?: number,
+		cumulativeDepositUSD: number,
+		cumulativeWithdrawUSD: number,
+		cumulativeRewardUSD: number,
+		hashOpened: boolean,
+		hashClosed: boolean,
 	}
 
 	export const formatFeeAmount = (fee: FeeAmount, maxDecimals = 2) => (

@@ -132,6 +132,36 @@
 										uncollectedSupplySideTokenAmounts
 										uncollectedSupplySideValuesUSD
 										rewardTokenEmissionsUSD
+										liquidityToken {
+											_largePriceChangeBuffer
+											_largeTVLImpactBuffer
+											_lastPricePool
+											_totalSupply
+											_totalValueLockedUSD
+											decimals
+											id
+											lastPriceBlockNumber
+											lastPriceUSD
+											name
+											symbol
+										}
+										inputTokens {
+											_largePriceChangeBuffer
+											_largeTVLImpactBuffer
+											_lastPricePool
+											_totalSupply
+											_totalValueLockedUSD
+											decimals
+											id
+											lastPriceBlockNumber
+											lastPriceUSD
+											name
+											symbol
+										}
+										fees {
+											feeType	
+											feePercentage
+										}
 									}
 								}
 							}
@@ -142,7 +172,32 @@
 				),
 				getNextPageParam: (lastPage, allPages) => lastPage.data.length ? allPages.length * 100 : undefined,
 			}),
-			then: (result) => result.pages.flatMap(page => page.data.positions)
+			then: result => (
+				result.pages.flatMap(page => page.data.positions)
+					.map(position => ({
+						pool: {
+							token0: position.pool.inputTokens[0],
+							token1: position.pool.inputTokens[1],
+							fee: position.pool.fees.find(fee => fee.feeType === 'FIXED_TRADING_FEE').feePercentage * 10000,
+							contract: {
+								address: position.pool.id,
+								name: position.pool.name,
+								symbol: position.pool.symbol,
+							},
+						},
+						// tickLower: ,
+						// tickUpper: ,
+						token0Amount: position.inputTokenBalances?.[0],
+						token1Amount: position.inputTokenBalances?.[1],
+						token0BalanceUsd: position.inputTokenBalancesUSD?.[0],
+						token1BalanceUsd: position.inputTokenBalancesUSD?.[1],
+						cumulativeDepositUSD: position.cumulativeDepositUSD,
+    					cumulativeWithdrawUSD: position.cumulativeWithdrawUSD,
+    					cumulativeRewardUSD: position.cumulativeRewardUSD,
+						hashOpened: position.hashOpened,
+						hashClosed: position.hashClosed,
+					}))
+			),
 		},
 	}[dataProvider]}
 	{...$$restProps}
