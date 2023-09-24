@@ -1,4 +1,7 @@
+import type { Ethereum } from '../../data/networks/types'
 import type { UniswapV3 } from './index'
+
+import { Client, cacheExchange, fetchExchange, gql } from '@urql/svelte'
 
 export namespace UniswapV3Subgraph {
 	export const subgraphUrls = {
@@ -29,4 +32,26 @@ export namespace UniswapV3Subgraph {
 		hosted?: string,
 		decentralized?: string,
 	}>
+
+
+	const clients: Partial<Record<Ethereum.ChainID, Client>> = {}
+
+	export const getClient = ({
+		network: { chainId },
+	}: {
+		network: Ethereum.Network,
+	}) => {
+		if(!(chainId in subgraphUrls))
+			throw new Error(`No subgraph URL for chainId ${chainId}.`)
+
+		return clients[chainId] ??= (
+			new Client({
+				url: subgraphUrls[chainId].hosted,
+				exchanges: [
+					cacheExchange,
+					fetchExchange,
+				],
+			})
+		)
+	}
 }
