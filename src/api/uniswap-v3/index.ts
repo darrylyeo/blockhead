@@ -6,7 +6,8 @@ import {
 	SUPPORTED_CHAINS,
 } from '@uniswap/sdk-core'
 
-import { FeeAmount, computePoolAddress } from '@uniswap/v3-sdk'
+import { FeeAmount as _FeeAmount, computePoolAddress } from '@uniswap/v3-sdk'
+
 import IUniswapV3Pool from '@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json'
 
 
@@ -18,6 +19,9 @@ export namespace UniswapV3 {
 
 	export const SUPPORTED_CHAIN_IDS = [...SUPPORTED_CHAINS, 100]
 
+	export type FeeAmount = typeof FeeAmount
+	export const FeeAmount = _FeeAmount
+
 	export type Pool = {
 		token0: Ethereum.ERC20Token,
 		token1: Ethereum.ERC20Token,
@@ -25,6 +29,16 @@ export namespace UniswapV3 {
 	}
 	export type DeployedPool = Pool & {
 		contract: Ethereum.Contract,
+	}
+
+	export type TickIndex = bigint
+
+	export type Position = {
+		pool: Pool,
+		token0Amount: bigint,
+		token1Amount: bigint,
+		tickLower: TickIndex,
+		tickUpper: TickIndex,
 	}
 
 	// https://docs.uniswap.org/contracts/v3/reference/deployments
