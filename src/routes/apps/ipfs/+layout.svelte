@@ -33,7 +33,7 @@
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
 	<form class="row" on:submit|preventDefault={() => [$ipfsContentId, $ipfsContentPath] = [currentIpfsContentId, currentIpfsContentPath]}>
-		<input bind:value={currentIpfsContentId} placeholder="IPFS Content ID: v0 (Qm...) / v1 (bafy..., k2..., 🚀...)" />
+		<input bind:value={currentIpfsContentId} placeholder="IPFS Content ID: v0 (Qm...) / v1 (bafy..., k2..., 🚀...) or IPNS name (tokens.uniswap.org)" />
 
 		<span>/</span>
 
