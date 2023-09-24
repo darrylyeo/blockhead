@@ -1,14 +1,31 @@
 import type { Ethereum } from '../../data/networks/types'
 
 import {
+	type Token,
 	type SupportedChainsType,
 	SUPPORTED_CHAINS,
 } from '@uniswap/sdk-core'
+
+import { FeeAmount, computePoolAddress } from '@uniswap/v3-sdk'
+import IUniswapV3Pool from '@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json'
+
+
+import { memoized } from '../../utils/memoized'
+
 
 export namespace UniswapV3 {
 	export type ChainId = SupportedChainsType
 
 	export const SUPPORTED_CHAIN_IDS = SUPPORTED_CHAINS
+
+	export type Pool = {
+		token0: Ethereum.ERC20Token,
+		token1: Ethereum.ERC20Token,
+		fee: FeeAmount,
+	}
+	export type DeployedPool = Pool & {
+		contract: Ethereum.Contract,
+	}
 
 	// https://docs.uniswap.org/contracts/v3/reference/deployments
 	export const deployedContractsByChainId = Object.fromEntries(
@@ -116,4 +133,93 @@ export namespace UniswapV3 {
 			UniversalRouter: Ethereum.ContractAddress,
 		}
 	}
+
+
+	export enum DataProvider {
+		RpcProvider = 'RPC Provider',
+		TheGraph = 'The Graph',
+	}
+
+	export const getDeployedPoolAddress = memoized(({
+		chainId,
+		pool,
+	}: {
+		chainId: Ethereum.ChainID,
+		pool: Pool,
+	}) => computePoolAddress({
+		factoryAddress: deployedContractsByChainId[chainId].UniswapV3Factory,
+		tokenA: { address: pool.token0.address } as Token,
+		tokenB: { address: pool.token1.address } as Token,
+		fee: pool.fee,
+	}) as Ethereum.ContractAddress)
+
+	export const getDeployedPoolInfo = async ({
+		dataProvider,
+		network,
+		address,
+		publicClient,
+	}: ({
+		dataProvider: DataProvider.RpcProvider,
+		publicClient: Ethereum.PublicClient,
+	} | {
+		dataProvider: DataProvider.TheGraph, // Omit<DataProvider, DataProvider.RpcProvider>
+		publicClient?: undefined,
+	}) & {
+		network: Ethereum.Network,
+		address: Ethereum.ContractAddress,
+	}) => {
+		switch(dataProvider){
+			case DataProvider.RpcProvider: {
+				return Object.fromEntries(
+					await Promise.all(
+						['token0', 'token1', 'fee']
+							.map(async functionName => [
+								functionName,
+								await publicClient.readContract({
+									functionName,
+									address,
+									abi: IUniswapV3Pool.abi,
+								})
+							])
+					)
+				) as Pool
+			}
+		}
+	}
+
+	export const getDeployedPool = async ({
+		dataProvider,
+		publicClient,
+		network,
+		address,
+		pool,
+	}:  ({
+		dataProvider: DataProvider.RpcProvider,
+		publicClient: Ethereum.PublicClient,
+	} | {
+		dataProvider: DataProvider.TheGraph, // Omit<DataProvider, DataProvider.RpcProvider>
+		publicClient?: undefined,
+	}) & {
+		network: Ethereum.Network,
+		address?: Ethereum.ContractAddress,
+		pool?: Pool,
+	}) => ({
+		contract: {
+			address:
+				address ??
+				(pool && await getDeployedPoolAddress({
+					chainId: network.chainId,
+					pool,
+				})),
+		},
+		...(
+			pool ??
+			(address && await getDeployedPoolInfo({
+				dataProvider,
+				publicClient,
+				network,
+				address,
+			}))
+		),
+	} as DeployedPool)
 }

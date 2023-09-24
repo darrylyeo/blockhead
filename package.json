@@ -39,6 +39,7 @@
     "@tenderly/sdk": "^0.2.0",
     "@uniswap/sdk-core": "^4.0.7",
     "@uniswap/token-lists": "^1.0.0-beta.33",
+    "@uniswap/v3-core": "^1.0.1",
     "@urql/svelte": "^4.0.2",
     "@walletconnect/core": "^2.9.0",
     "@walletconnect/ethereum-provider": "^2.9.0",
