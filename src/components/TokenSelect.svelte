@@ -1,50 +1,44 @@
 <script lang="ts">
-	import { erc20Tokens, erc20TokensBySymbol, type ERC20Token } from '$lib/tokens'
+	// Constants/types
+	import type { Ethereum } from '../data/networks/types'
 
 
-	export let availableTokens: ERC20Token[] = erc20Tokens
+	// Inputs
+	export let availableTokens: Ethereum.ERC20Token[] | undefined
 
-	export let token: ERC20Token = erc20TokensBySymbol['DAI']
+	export let token: Ethereum.ERC20Token | undefined
 
-	export let autoFallback = false
 	export let required = false
 
 
-	import Select from '../components/Select.svelte'
-    import Icon from './Icon.svelte'
-
-
-	import { scale } from 'svelte/transition'
+	// Components
+	import Select from './Select.svelte'
+	import TokenName from './TokenName.svelte'
 </script>
 
 
 <Select
 	bind:value={token}
-	values={availableTokens ?? []}
-	{autoFallback}
+	items={(availableTokens ?? []).map(token => ({
+		value: token,
+		name: token.symbol,
+		icon: token.icon,
+	}))}
 	{required}
-
-	let:value
+	placeholder="Select..."
 >
-	<!-- <div class="stack">
-		{#key value}
-			<div class="row" transition:scale|global> -->
-				<img src={value?.icon} alt={value?.symbol} />
-                <!-- <Icon {token} /> -->
-                <!-- <Icon icon={value?.icon} /> -->
-				{value?.symbol}
-			<!-- </div>
-		{/key}
-	</div> -->
+	<svelte:fragment slot="item" let:item>
+		{@const token = item.value}
+
+		<span>
+			<TokenName {...token} />
+		</span>
+	</svelte:fragment>
 </Select>
 
 
 <style>
-	/* .row {
-		--grid-gap: 0.66em;
-	} */
-	/* img {
-		width: 1em;
-		height: 1em;
-	} */
+	span {
+		font-size: 1.2em;
+	}
 </style>
