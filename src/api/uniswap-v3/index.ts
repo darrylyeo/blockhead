@@ -14,9 +14,9 @@ import { memoized } from '../../utils/memoized'
 
 
 export namespace UniswapV3 {
-	export type ChainId = SupportedChainsType
+	export type ChainId = SupportedChainsType | 100
 
-	export const SUPPORTED_CHAIN_IDS = SUPPORTED_CHAINS
+	export const SUPPORTED_CHAIN_IDS = [...SUPPORTED_CHAINS, 100]
 
 	export type Pool = {
 		token0: Ethereum.ERC20Token,
@@ -109,7 +109,29 @@ export namespace UniswapV3 {
 					Permit2: '0x000000000022D473030F116dDEE9F6B43aC78BA3',
 					UniversalRouter: '0x198EF79F1F515F02dFE9e3115eD9fC07183f02fC',
 				},
-			}	
+			},
+			{
+				chainIds: [100],
+				contractAddresses: {
+					UniswapV3Factory: '0xe32f7dd7e3f098d518ff19a22d5f028e076489b1',
+					Multicall2: '0x4dfa9a980efE4802E969AC33968E3d6E59B8a19e',
+					ProxyAdmin: '0x0cb49b5b72abc23426e6ce2141349b34a12aa355',
+					TickLens: '0x0cb49b5b72abc23426e6ce2141349b34a12aa355',
+					Quoter: '0x7E9cB3499A6cee3baBe5c8a3D328EA7FD36578f4',
+					SwapRouter: '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
+					NFTDescriptor: '0x589f0d7a6332a15681c0938bc3bee6fd1413e939',
+					NonfungibleTokenPositionDescriptor: '0x4ce075e640649ea45fc55ac0e301ff75c4cd0f0c', // '0x7b8a01b39d58278b5de7e48c8449c9f4f5170613'
+					TransparentUpgradeableProxy: '0x070b849e8f2704bec603a1dd5de26acfe48d1896', // '0x32681814957e0c13117ddc0c2aba232b5c9e760f'
+					V3Migrator: '0x16dd75c567a07082452ab56fd1e673987289e6ef', // '0x78d78e420da98ad378d7799be8f4af69033eb077'
+					QuoterV2: '0x7e9cb3499a6cee3babe5c8a3d328ea7fd36578f4', // '0xed0d35e600ff40ac6c598c5b29468af22400fa66'
+					SwapRouter02: '0xc6d25285d5c5b62b7ca26d6092751a145d50e9be', // '0x8e041632b77fd2a23bd4d9543c0b8a0039b481b4'
+					Permit2: '0x000000000022d473030f116ddee9f6b43ac78ba3',
+					UniversalRouter: '',
+
+					UniswapWormholeMessageReceiver: '0xffa5599136fbab9af7799a6703b57bb33e5390cf',
+					UniswapInterfaceMulticall: '0x4dfa9a980efe4802e969ac33968e3d6e59b8a19e',
+				},
+			}
 		] as const)
 			.flatMap(({ chainIds, contractAddresses }) =>
 				chainIds.map(chainId => [chainId, contractAddresses])
