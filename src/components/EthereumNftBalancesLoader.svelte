@@ -56,7 +56,7 @@
 	const normalizeAirstackNftsAndContracts = (data): Ethereum.NftWithBalance => (
 		[
 			...data.TokenBalances.TokenBalance
-				.groupToMap(tokenWithBalance => tokenWithBalance.tokenAddress)
+				?.groupToMap(tokenWithBalance => tokenWithBalance.tokenAddress)
 				.entries()
 		]
 			.map(([contractAddress, contractsWithBalances]) => ({
