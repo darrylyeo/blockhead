@@ -11,7 +11,7 @@
 	import { ArbitrumIcon, AuroraIcon, BaseIcon, CeloIcon, CronosIcon, EvmosIcon, FilecoinIcon, FvmIcon, GnosisIcon, HarmonyIcon, MetisIcon, ModeIcon, OptimismIcon, PolygonZkevmIcon, ScrollIcon, SKALEIcon, ZoraIcon } from '../assets/networkIcons'
 	import { tokenIcons } from '../assets/tokenIcons'
 
-	const networkIcons: Record<Ethereum.NetworkName, string> = {
+	const networkIcons: Record<Ethereum.NetworkSlug, string> = {
 		'arbitrum-one': ArbitrumIcon,
 		'aurora': AuroraIcon,
 		'avalanche': tokenIcons.AVAX, // AvalancheIcon,
