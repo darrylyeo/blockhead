@@ -6,6 +6,7 @@ import COMP from './tokens/COMP.svg'
 import DAI from './tokens/DAI.svg'
 import ENS from './tokens/ENS.svg'
 import ETH from './tokens/ETH.svg'
+import FIL from './networks/Filecoin.svg'
 import FTM from './tokens/FTM.svg'
 import MATIC from './tokens/MATIC.svg'
 import MKR from './tokens/MKR.svg'
@@ -24,6 +25,7 @@ export const tokenIcons = {
 	DAI,
 	ENS,
 	ETH,
+	FIL,
 	FTM,
 	MATIC,
 	MKR,
