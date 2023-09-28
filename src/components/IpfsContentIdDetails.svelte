@@ -37,7 +37,6 @@
 	// Components
 	import BlockTransition from './BlockTransition.svelte'
 	import Collapsible from './Collapsible.svelte'
-	import FileDetails from './FileDetails.svelte'
 	import InlineTransition from './InlineTransition.svelte'
 	import IpfsContentDetails from './IpfsContentDetails.svelte'
 	import IpfsContentId from './IpfsContentId.svelte'
