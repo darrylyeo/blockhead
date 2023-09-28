@@ -1,10 +1,10 @@
 export enum IpfsGatewayProvider {
 	Helia = 'Helia',
-	IpfsIo = 'IpfsIo',
+	ProtocolLabsIpfsIo = 'IpfsIo',
+	ProtocolLabsDweb = 'Dweb',
 	Pinata = 'Pinata',
 	NftStorage = 'NftStorage',
 	Web3Storage = 'Web3Storage',
-	Dweb = 'Dweb',
 }
 
 export type IpfsGatewayConfig = {
@@ -26,11 +26,18 @@ export const ipfsGateways: IpfsGatewayConfig[] = [
 		gatewayDomain: 'local'
 	},
 	{
-		gatewayProvider: IpfsGatewayProvider.IpfsIo,
-		name: 'ipfs.io',
+		gatewayProvider: IpfsGatewayProvider.ProtocolLabsIpfsIo,
+		name: 'Protocol Labs',
 		icon: IpfsIcon,
 		colors: ['#469ea2', '#6acad1', '#083b54'],
 		gatewayDomain: 'ipfs.io'
+	},
+	{
+		gatewayProvider: IpfsGatewayProvider.ProtocolLabsDweb,
+		name: 'Protocol Labs',
+		icon: IpfsIcon,
+		colors: ['#469ea2', '#6acad1', '#083b54'],
+		gatewayDomain: 'dweb.link'
 	},
 	{
 		gatewayProvider: IpfsGatewayProvider.NftStorage,
@@ -46,11 +53,6 @@ export const ipfsGateways: IpfsGatewayConfig[] = [
 		gatewayProvider: IpfsGatewayProvider.Pinata,
 		name: 'Piñata',
 		gatewayDomain: 'gateway.pinata.cloud'
-	},
-	{
-		gatewayProvider: IpfsGatewayProvider.Dweb,
-		name: 'dweb.link',
-		gatewayDomain: 'dweb.link'
 	},
 ]
 
