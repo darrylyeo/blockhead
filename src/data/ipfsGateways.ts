@@ -15,7 +15,7 @@ export type IpfsGatewayConfig = {
 	gatewayDomain?: string,
 }
 
-import { HeliaIcon, IpfsIcon } from '../assets/icons'
+import { HeliaIcon, ProtocolLabsIcon } from '../assets/icons'
 
 export const ipfsGateways: IpfsGatewayConfig[] = [
 	{
@@ -28,14 +28,14 @@ export const ipfsGateways: IpfsGatewayConfig[] = [
 	{
 		gatewayProvider: IpfsGatewayProvider.ProtocolLabsIpfsIo,
 		name: 'Protocol Labs',
-		icon: IpfsIcon,
+		icon: ProtocolLabsIcon,
 		colors: ['#469ea2', '#6acad1', '#083b54'],
 		gatewayDomain: 'ipfs.io'
 	},
 	{
 		gatewayProvider: IpfsGatewayProvider.ProtocolLabsDweb,
 		name: 'Protocol Labs',
-		icon: IpfsIcon,
+		icon: ProtocolLabsIcon,
 		colors: ['#469ea2', '#6acad1', '#083b54'],
 		gatewayDomain: 'dweb.link'
 	},
