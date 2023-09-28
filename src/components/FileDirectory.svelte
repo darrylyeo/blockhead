@@ -35,9 +35,10 @@
 		type="label"
 		isOpen={isRoot}
 		showTriggerText={false}
-		let:isOpen
 	>
-		<h4 slot="title" class="row" data-before={isOpen ? '📂' : '📁'}>{folder.folderName}</h4>
+		<svelte:fragment slot="title" let:isOpen>
+			<h4 class="row" data-before={isOpen ? '📂' : '📁'}>{folder.folderName}</h4>
+		</svelte:fragment>
 
 		<svelte:fragment slot="toolbar">
 			<div class="row-inline">
