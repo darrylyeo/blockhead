@@ -16,6 +16,9 @@
 	export let ipfsContentId: IpfsCid | undefined
 	export let ipnsName: IpnsName | undefined
 	export let ipfsContentPath: string | undefined
+
+	export let contentDescription = 'content'
+
 	// (Computed)
 	$: ipfsGatewayProvider = $$props.ipfsGateway ?? $preferences.ipfsGateway
 
@@ -91,8 +94,8 @@
 			}
 			loadingIcon={IpfsIcon}
 			loadingIconName="IPFS"
-			loadingMessage={`Fetching content from local IPFS node...`}
-			errorMessage={`Couldn't fetch content from local IPFS node.`}
+			loadingMessage={`Fetching ${contentDescription} from local IPFS node...`}
+			errorMessage={`Couldn't fetch ${contentDescription} from local IPFS node.`}
 			{...$$restProps}
 			let:result
 		>
@@ -128,8 +131,8 @@
 			}
 			loadingIcon={IpfsIcon}
 			loadingIconName="IPFS"
-			loadingMessage={`Fetching content from IPFS via ${ipfsGateway.name}...`}
-			errorMessage={`Couldn't fetch content from IPFS.`}
+			loadingMessage={`Fetching ${contentDescription} from IPFS via ${ipfsGateway.name}...`}
+			errorMessage={`Couldn't fetch ${contentDescription} from IPFS via ${ipfsGateway.name}.`}
 			{...$$restProps}
 			let:result
 		>
