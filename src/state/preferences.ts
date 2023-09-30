@@ -128,7 +128,7 @@ export const preferencesConfig: PreferencesConfig<
 				id: 'rpcNetwork',
 				name: 'On-Chain Data',
 				type: 'single', // 'multiple',
-				defaultOption: NetworkProvider.Alchemy, // NetworkProvider.Default,
+				defaultOption: NetworkProvider.Default,
 				options: networkProviderConfigs.map(({ provider, name }) => ({ id: provider, name }))
 				// options: [
 				// 	{ id: 'Auto', name: 'Auto' },
