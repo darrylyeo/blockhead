@@ -1884,6 +1884,139 @@ export const networks: Ethereum.Network[] = [
 		"icon": "fantom"
 	},
 	{
+		"slug": "filecoin",
+		"name": "Filecoin",
+		"chainId": 314,
+		"slip44": 461,
+		"shortName": "filecoin",
+		"chain": "FIL",
+		"networkId": 314,
+		"rpc": [
+			"https://api.node.glif.io",
+			"https://node.filutils.com/rpc/v1",
+			"https://rpc.ankr.com/filecoin",
+			"https://filecoin.chainup.net/rpc/v1",
+			"https://infura.sftproject.io/filecoin/rpc/v1",
+			"https://api.chain.love/rpc/v1",
+			"https://filecoin-mainnet.chainstacklabs.com/rpc/v1",
+		],
+		"nativeCurrency": {
+			"name": "filecoin",
+			"symbol": "FIL",
+			"decimals": 18
+		},
+		"infoURL": "https://filecoin.io",
+		"faucets": [],
+		"explorers": [
+			{
+				"name": "Filfox",
+				"url": "https://filfox.info/en",
+				"standard": "none"
+			},
+			{
+				"name": "Beryx",
+				"url": "https://beryx.zondax.ch",
+				"standard": "none"
+			},
+			{
+				"name": "Glif Explorer",
+				"url": "https://explorer.glif.io",
+				"standard": "EIP3091"
+			},
+			{
+				"name": "Dev.storage",
+				"url": "https://dev.storage",
+				"standard": "none"
+			},
+			{
+				"name": "Filscan",
+				"url": "https://filscan.io",
+				"standard": "none"
+			},
+			{
+				"name": "Filscout",
+				"url": "https://filscout.io/en",
+				"standard": "none"
+			}
+		],
+		"icon": "filecoin",
+	},
+	{
+		"slug": "filecoin-wallaby",
+		"name": "Filecoin Wallaby",
+		"chainId": 31415,
+		"slip44": 461,
+		"shortName": "filecoin",
+		"chain": "FIL",
+		"networkId": 31415,
+		"rpc": [
+		],
+		"nativeCurrency": {
+			"name": "filecoin",
+			"symbol": "tFIL",
+			"decimals": 18
+		},
+		"infoURL": "https://filecoin.io",
+		"faucets": [],
+		"explorers": [
+			
+		],
+		"icon": "filecoin",
+	},
+	{
+		"slug": "filecoin-calibration",
+		"name": "Filecoin Calibration Testnet",
+		"chainId": 314159,
+		"slip44": 1,
+		"shortName": "filecoin-calibration",
+		"chain": "FIL",
+		"networkId": 314159,
+		"rpc": [
+			"https://api.calibration.node.glif.io/rpc/v1",
+			"https://rpc.ankr.com/filecoin_testnet",
+			"https://filecoin-calibration.chainstacklabs.com/rpc/v1",
+			"https://filecoin-calibration.chainup.net/rpc/v1",
+			"https://calibration.filfox.info/rpc/v1"
+		],
+		"nativeCurrency": {
+			"name": "testnet filecoin",
+			"symbol": "tFIL",
+			"decimals": 18
+		},
+		"infoURL": "https://filecoin.io",
+		"faucets": [
+			"https://faucet.calibration.fildev.network/"
+		],
+		"explorers": [
+			{
+				"name": "Filscan - Calibration",
+				"url": "https://calibration.filscan.io",
+				"standard": "none"
+			},
+			{
+				"name": "Filscout - Calibration",
+				"url": "https://calibration.filscout.com/en",
+				"standard": "none"
+			},
+			{
+				"name": "Filfox - Calibration",
+				"url": "https://calibration.filfox.info",
+				"standard": "none"
+			},
+			{
+				"name": "Glif Explorer - Calibration",
+				"url": "https://explorer.glif.io/?network=calibration",
+				"standard": "none"
+			},
+			{
+				"name": "Beryx",
+				"url": "https://beryx.zondax.ch",
+				"standard": "none"
+			}
+		],
+		"icon": "filecoin",
+	},
+	{
 		"slug": "flare",
 		"name": "Flare",
 		"chainId": 14,
@@ -3311,6 +3444,38 @@ export const networks: Ethereum.Network[] = [
 		"explorers": [],
 		"infoURL": "https://near.org/"
 	},
+	{
+		"slug": "neon-evm",
+		"name": "Neon EVM",
+		"chainId": 245022934,
+		"shortName": "neonevm-mainnet",
+		"chain": "Solana",
+		"networkId": 245022934,
+		"faucets": [],
+		"icon": "neon",
+		"nativeCurrency": {
+			"name": "Neon",
+			"symbol": "NEON",
+			"decimals": 18
+		},
+		"infoURL": "https://neonevm.org",
+		"rpc": [
+			"https://neon-proxy-mainnet.solana.p2p.org",
+			"https://neon-mainnet.everstake.one",
+		],
+		"explorers": [
+			{
+				"name": "neonscan",
+				"url": "https://neonscan.org",
+				"standard": "EIP3091"
+			},
+			{
+				"name": "native",
+				"url": "https://neon.blockscout.com",
+				"standard": "EIP3091"
+			}
+		],
+	},	
 	{
 		"slug": "nepal",
 		"name": "Nepal Blockchain Network",
@@ -5655,6 +5820,7 @@ export const evmNetworks = [
 	'cronos',
 	'evmos',
 	'fantom',
+	'filecoin',
 ].map(slug => networksBySlug[slug])
 
 export const otherL1Networks = [
