@@ -1,22 +1,30 @@
 <script lang="ts">
+	// Constants/types
 	import type { Ethereum } from '../data/networks/types'
+
 	import { TransactionProvider } from '../data/transactionProvider'
 	import type { QuoteCurrency } from '../data/currencies'
 	import { updatesByNetwork } from '../data/networks/updates'
 
 
+	// Inputs
 	export let network: Ethereum.Network
 	export let block: Ethereum.Block
 	export let transactionProvider: TransactionProvider
 	export let quoteCurrency: QuoteCurrency
 
+	// (Computed)
+	$: transactions = block.prefetchedTransactions ?? block.transactions ?? []
+	$: lastUpdate = updatesByNetwork.get(network)?.find(upgrade => Number(block.blockNumber) >= upgrade.blockNumber)
 
+	// (View data)
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
 	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	export let showFees = false
 	export let showTransactions = false
 
 
+	// Functions
 	import { formatPercent } from '../utils/formatPercent'
 	import { toUtf8String } from 'ethers'
 	import { formatTransactionHash } from '../utils/formatTransactionHash'
@@ -33,11 +41,7 @@
 	}
 
 
-	$: transactions = block.prefetchedTransactions ?? block.transactions ?? []
-
-	$: lastUpdate = updatesByNetwork.get(network)?.find(upgrade => Number(block.blockNumber) >= upgrade.blockNumber)
-
-
+	// Components
 	import Address from './Address.svelte'
 	import Date from './Date.svelte'
 	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
@@ -45,6 +49,7 @@
 	import EthereumTransactionMoralis from './EthereumTransactionMoralis.svelte'
 
 
+	// Transitions/animations
 	import { scale } from 'svelte/transition'
 </script>
 
