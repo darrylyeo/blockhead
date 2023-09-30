@@ -7,11 +7,11 @@
 import * as Oazapfts from "oazapfts/lib/runtime";
 import * as QS from "oazapfts/lib/runtime/query";
 export const defaults: Oazapfts.RequestOpts = {
-    baseUrl: "https://api.zondax.ch/fil/data/v2/mainnet",
+    baseUrl: "https://api.zondax.ch/fil/data/v3/mainnet",
 };
 const oazapfts = Oazapfts.runtime(defaults);
 export const servers = {
-    filecoinMainnetNetwork: "https://api.zondax.ch/fil/data/v2/mainnet"
+    filecoinMainnetNetwork: "https://api.zondax.ch/fil/data/v3/mainnet"
 };
 /**
  * Returns the balance of {address} calculated at the tip
