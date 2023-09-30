@@ -1,4 +1,5 @@
 <script lang="ts">
+	// Types/constants
 	import type { Ethereum } from '../data/networks/types'
 	import type { QuoteCurrency } from '../data/currencies'
 	import type { NetworkProvider } from '../data/networkProviders/types'
@@ -7,31 +8,19 @@
 	import { preferences } from '../state/preferences'
 
 
+	// Inputs
 	export let network: Ethereum.Network
 	export let networkProvider: NetworkProvider
 	export let transactionProvider: TransactionProvider
 	export let transactionId: Ethereum.TransactionID
 	export let quoteCurrency: QuoteCurrency
 
-
+	// (Computed)
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
+	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
+	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
 
-	let publicClient: Ethereum.PublicClient | undefined
-	$: publicClient = network && networkProvider && getViemPublicClient({
-		network,
-		networkProvider: networkProvider,
-	})
-
-
-	import type { TransactionResponse } from 'ethers/types/providers'
-	import type { Covalent } from '../api/covalent'
-	import type { BlockTransaction } from '../api/moralis/api/Api'
-
-	export let transaction: TransactionResponse | Covalent.Transaction | BlockTransaction | undefined
-
-
-	// View options
-
+	// (View options)
 	export let contextualAddress: Ethereum.Address
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
 	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
@@ -41,15 +30,29 @@
 	export let innerLayout: 'columns' | 'row' = 'row'
 
 
-	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
-	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
+	// Internal state
+	let publicClient: Ethereum.PublicClient | undefined
+
+	// (Computed)
+	$: publicClient = network && networkProvider && getViemPublicClient({
+		network,
+		networkProvider: networkProvider,
+	})
 
 
-	// State
+	// Outputs
+	import type { TransactionResponse } from 'ethers/types/providers'
+	import type { Covalent } from '../api/covalent'
+	import type { BlockTransaction } from '../api/moralis/api/Api'
+
+	export let transaction: TransactionResponse | Covalent.Transaction | BlockTransaction | undefined
+
+	// (Computed)
 
 	let passive = !!transaction
 
 
+	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
 
 	import { getTransaction as getTransactionCovalent } from '../api/covalent'
@@ -123,7 +126,6 @@
 
 
 	// Components
-
 	import EthereumTransaction from './EthereumTransaction.svelte'
 	import EthereumTransactionCovalent from './EthereumTransactionCovalent.svelte'
 	// import EthereumTransactionEtherspot from './EthereumTransactionEtherspot.svelte'
