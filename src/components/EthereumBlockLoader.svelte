@@ -1,56 +1,63 @@
 <script lang="ts">
+	// Types/constants
 	import type { Ethereum } from '../data/networks/types'
 	import { TransactionProvider, transactionProviderIcons } from '../data/transactionProvider'
 	import type { NetworkProvider } from '../data/networkProviders/types'
 	import type { QuoteCurrency } from '../data/currencies'
 	import { getViemPublicClient } from '../data/networkProviders'
+	import { updatesByNetwork } from '../data/networks/updates'
 
 
+	// Context
 	import { preferences } from '../state/preferences'
 
 
+	// Inputs
 	export let network: Ethereum.Network
 	export let blockNumber: Ethereum.BlockNumber
 	export let transactionProvider: TransactionProvider
 	export let networkProvider: NetworkProvider
 	export let quoteCurrency: QuoteCurrency
 
+	// (Computed)
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
-
-	let publicClient: Ethereum.PublicClient | undefined
-	$: publicClient = network && networkProvider && getViemPublicClient({
-		network,
-		networkProvider: networkProvider,
-	})
 	
-	
+	// (View options)
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
 	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	export let showFees = false
 	export let showTransactions = false
 
 
+	// Internal state
+	let publicClient: Ethereum.PublicClient | undefined
+
+	// (Computed)
+	$: publicClient = network && networkProvider && getViemPublicClient({
+		network,
+		networkProvider: networkProvider,
+	})
+
 	$: loadingMessage = `Retrieving block data from ${transactionProvider}...`
 	$: errorMessage = `Couldn't retrieve block data from ${transactionProvider}.`
 
 
-	import { updatesByNetwork } from '../data/networks/updates'
-
-
+	// Outputs
 	export let block: Ethereum.Block
 
+	// (Computed)
 	$: lastUpdate = block && updatesByNetwork.get(network)?.find(upgrade => block?.blockNumber >= upgrade.blockNumber)
 
 
+	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
-
-	import { toBeHex } from 'ethers'
 
 	import { getBlock } from '../api/covalent'
 
 	import { chainCodeFromNetwork, MoralisWeb3Api } from '../api/moralis/web3Api'
 
 
+	// Components
 	import Date from './Date.svelte'
 	import EthereumBlock from './EthereumBlock.svelte'
 	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
