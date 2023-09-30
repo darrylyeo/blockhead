@@ -3,7 +3,7 @@
 	export let src: string | undefined
 	export let fileName: string | undefined
     export let extension: string | undefined
-    export let contentType: string | undefined = 'text/plain'
+    export let contentType: string | undefined
 	export let contentSize: number | BigInt | undefined
 	export let text: string | undefined
 	export let blob: Blob | undefined
@@ -12,6 +12,7 @@
 	// (Computed)
 	$: if(!fileName && src) fileName = src.match(/[^/]+$/)![0]
 	$: if(!blob && (text ?? src)) blob = new Blob([text ?? src], { type: contentType })
+	else if(!contentType && blob) contentType = blob.type
 	$: if(!fileName && file) fileName = file.name
 	$: if(!contentType && file) contentType = file.type
 	$: if(!contentSize && file) contentSize = file.size
