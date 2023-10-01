@@ -44,7 +44,7 @@
 	// Components
 	import Address from './Address.svelte'
 	import Date from './Date.svelte'
-	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
+	import BlockNumber from './BlockNumber.svelte'
 	import EthereumTransactionLoader from './EthereumTransactionLoader.svelte'
 	import EthereumTransactionMoralis from './EthereumTransactionMoralis.svelte'
 
@@ -175,7 +175,7 @@
 				<abbr title="Block {Number(block.blockNumber) - 1} hash: {block.parentHash}">hash</abbr>
 				<!-- hash
 				<output><abbr title="Block {blockNumber - 1} hash: {block.parentHash}">{formatTransactionHash(block.parentHash, 'middle-truncated')}</abbr></output> -->
-				of previous block <EthereumBlockNumber {network} blockNumber={Number(block.blockNumber) - 1} />
+				of previous block <BlockNumber {network} blockNumber={Number(block.blockNumber) - 1} />
 			</span>
 		{/if}
 

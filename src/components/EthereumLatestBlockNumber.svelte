@@ -53,10 +53,10 @@
 	}
 
 
-	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
+	import BlockNumber from './BlockNumber.svelte'
 </script>
 
 
 <slot {network} {latestBlockNumber}>
-	<EthereumBlockNumber {network} blockNumber={latestBlockNumber} />
+	<BlockNumber {network} blockNumber={latestBlockNumber} />
 </slot>

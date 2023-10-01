@@ -12,7 +12,7 @@
 
 
 	import TransactionId from './TransactionId.svelte'
-	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
+	import BlockNumber from './BlockNumber.svelte'
 	import InlineContainer from './InlineContainer.svelte'
 </script>
 
@@ -51,7 +51,7 @@
 		}{#if transactionIndex !== undefined}{#if transactionID && !showTransactionID}<TransactionId>#{transactionIndex}</TransactionId>{:else}<span class="muted">#{transactionIndex}</span>{/if} {/if
 		}{#if blockNumber !== undefined}
 			<span class="muted">in block</span>
-			<EthereumBlockNumber {network} {blockNumber} format="number-only" />{
+			<BlockNumber {network} {blockNumber} format="number-only" />{
 			#if transactionID && showTransactionID && transactionIndex !== undefined}<span class="muted">)</span>{/if}
 		{/if}
 	</span>

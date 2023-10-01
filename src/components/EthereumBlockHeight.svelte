@@ -7,7 +7,7 @@
 
 
 	// import Loader from './Loader.svelte'
-	// import EthereumBlockNumber from './EthereumBlockNumber.svelte'
+	// import BlockNumber from './BlockNumber.svelte'
 	// import NetworkIcon from './NetworkIcon.svelte'
 
 	import EthereumLatestBlockNumber from './EthereumLatestBlockNumber.svelte'
@@ -26,7 +26,7 @@
 
 	<p class="centered">
 		<span>The {network.name} blockchain is </span>
-		<EthereumBlockNumber {network} {blockNumber} />
+		<BlockNumber {network} {blockNumber} />
 		<span> blocks long.</span>
 	</p>
 </Loader> -->

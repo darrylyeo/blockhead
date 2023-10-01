@@ -22,7 +22,7 @@
 	import { networkSlug, query } from '../routes/explorer/_explorerParams'
 
 
-	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
+	import BlockNumber from './BlockNumber.svelte'
 	import EthereumLatestBlockNumber from './EthereumLatestBlockNumber.svelte'
 	import { tokenColors } from '../data/tokenColors'
 	import { fade } from 'svelte/transition'
@@ -101,7 +101,7 @@
 	}} -->
 		{#if blockNumber !== 0 && !(showBeforeAndAfter && blockNumberBefore === 0)}
 			<span class="first-block" style="--block-number: {0}" transition:scaleFont|global>
-				<span title="{network.name} Genesis Block"><EthereumBlockNumber {network} blockNumber={0} /></span>
+				<span title="{network.name} Genesis Block"><BlockNumber {network} blockNumber={0} /></span>
 				<span>«</span>
 				<!-- <span>🔗</span> -->
 			</span>
@@ -109,7 +109,7 @@
 
 		{#if showBeforeAndAfter && blockNumber !== 0}
 			<span class="previous-block" style="--block-number: {blockNumberBefore}" transition:scaleFont|global>
-				<span title="Previous {network.name} Block"><EthereumBlockNumber {network} blockNumber={blockNumberBefore} /></span>
+				<span title="Previous {network.name} Block"><BlockNumber {network} blockNumber={blockNumberBefore} /></span>
 				<span>‹</span>
 				<!-- <span>🔗</span> -->
 			</span>
@@ -117,7 +117,7 @@
 
 		{#if blockNumber !== undefined}
 			<span class="current-block" style="--block-number: {blockNumber ?? (latestBlockNumber ? Math.ceil(latestBlockNumber / 2) : 1)}" transition:scaleFont|global>
-				<span title="Current {network.name} Block"><EthereumBlockNumber {network} {blockNumber} /></span>
+				<span title="Current {network.name} Block"><BlockNumber {network} {blockNumber} /></span>
 			</span>
 		{:else}
 			<span />
@@ -127,7 +127,7 @@
 			<span class="next-block" style="--block-number: {blockNumberAfter}" transition:scaleFont|global>
 				<!-- <span>🔗</span> -->
 				<span>›</span>
-				<span title="Next {network.name} Block"><EthereumBlockNumber {network} blockNumber={blockNumberAfter} /></span>
+				<span title="Next {network.name} Block"><BlockNumber {network} blockNumber={blockNumberAfter} /></span>
 			</span>
 		{/if}
 
@@ -135,7 +135,7 @@
 			<span class="latest-block" style="--block-number: {latestBlockNumber ?? (blockNumber ? blockNumber * 2 : 2)}" transition:scaleFont|global>
 				<!-- <span>🔗</span> -->
 				<span>»</span>
-				<span title="Latest {network.name} Block"><EthereumBlockNumber {network} blockNumber={latestBlockNumber} /></span>
+				<span title="Latest {network.name} Block"><BlockNumber {network} blockNumber={latestBlockNumber} /></span>
 			</span>
 		{/if}
 

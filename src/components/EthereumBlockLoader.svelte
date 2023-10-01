@@ -60,7 +60,7 @@
 	// Components
 	import Date from './Date.svelte'
 	import EthereumBlock from './EthereumBlock.svelte'
-	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
+	import BlockNumber from './BlockNumber.svelte'
 	import Loader from './Loader.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
 </script>
@@ -68,7 +68,7 @@
 
 <div class="block card">
 	<div class="bar">
-		<h2><EthereumBlockNumber {network} {blockNumber} tween={false} /></h2>
+		<h2><BlockNumber {network} {blockNumber} tween={false} /></h2>
 		<span class="card-annotation">
 			{network.name} {blockNumber == 0 ? 'Genesis Block' : 'Block'}
 
