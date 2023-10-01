@@ -32,22 +32,6 @@
 </script>
 
 
-<style>
-	.format,
-	.address > :global(.format) {
-		font-family: var(--monospace-fonts), var(--base-fonts);
-		font-size: 0.95em;
-
-		/* display: inline-block;
-		max-width: 100%;
-		overflow: hidden;
-		text-overflow: ellipsis; */
-
-		white-space: nowrap;
-	}
-</style>
-
-
 {#if linked && link}
 	<a
 		class="address"
@@ -57,9 +41,9 @@
 	>
 		<slot {formattedAddress}>
 			{#if format === 'middle-truncated'}
-				<abbr class="format" title={address}>{formattedAddress}</abbr>
+				<abbr class="monospace" title={address}>{formattedAddress}</abbr>
 			{:else}
-				<span class="format">{formattedAddress}</span>
+				<span class="monospace">{formattedAddress}</span>
 			{/if}
 		</slot>
 	</a>
@@ -67,7 +51,7 @@
 	<slot {formattedAddress}>
 		{#if format === 'middle-truncated'}
 			<abbr
-				class="address format"
+				class="address monospace"
 				title={address}
 				draggable={true}
 				on:dragstart={onDragStart}
@@ -75,7 +59,7 @@
 			>{formattedAddress}</abbr>
 		{:else}
 			<span
-				class="address format"
+				class="address monospace"
 				draggable={true}
 				on:dragstart={onDragStart}
 			>{formattedAddress}</span>
