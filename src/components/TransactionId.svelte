@@ -17,20 +17,28 @@
 
 
 	// Internal state
-	let link: string | undefined
 	// (Computed)
 	$: formattedTransactionId = formatTransactionHash(transactionId, format)
-	$: link = network && transactionId && resolvePath(`/explorer/[networkSlug]/[transactionId]`, { networkSlug: network.slug, transactionId })
+	$: link = linked && network && transactionId ? resolvePath(`/explorer/[networkSlug]/[transactionId]`, { networkSlug: network.slug, transactionId }) : undefined
+
+
+	// Actions
+	const onDragStart = (e: DragEvent) => {
+		e.dataTransfer?.setData('text/plain', transactionId)
+		if(link) e.dataTransfer?.setData('text/uri-list', link)
+	}
 </script>
 
 
 <svelte:element
-	this={linked && network ? 'a' : 'span'}
+	this={link ? 'a' : 'span'}
 	class="transaction-id monospace"
-	{...linked && link ? {
+	{...link ? {
 		href: link
 	} : undefined}
 	title={transactionId}
+	draggable={true}
+	on:dragstart={onDragStart}
 >
-	this={linked && link ? 'a' : 'span'}
+	<slot {formattedTransactionId}>{formattedTransactionId}</slot>
 </svelte:element>
