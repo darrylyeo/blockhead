@@ -13,21 +13,24 @@
 
 	// Functions
 	import { formatTransactionHash } from '../utils/formatTransactionHash'
+	import { resolvePath } from '@sveltejs/kit'
 
 
 	// Internal state
+	let link: string | undefined
 	// (Computed)
 	$: formattedTransactionId = formatTransactionHash(transactionId, format)
+	$: link = network && transactionId && resolvePath(`/explorer/[networkSlug]/[transactionId]`, { networkSlug: network.slug, transactionId })
 </script>
 
 
 <svelte:element
 	this={linked && network ? 'a' : 'span'}
 	class="transaction-id monospace"
-	{...linked && network ? {
-		href: `/explorer/${network.slug}/${transactionId}`
-	} : {}}
+	{...linked && link ? {
+		href: link
+	} : undefined}
 	title={transactionId}
 >
-	<slot {formattedTransactionId}>{formattedTransactionId}</slot>
+	this={linked && link ? 'a' : 'span'}
 </svelte:element>
