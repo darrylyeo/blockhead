@@ -16,21 +16,9 @@
 </script>
 
 
-<style>
-	.transaction-id {
-		font-family: var(--monospace-fonts), var(--base-fonts);
-
-		/* display: inline-block;
-		max-width: 100%;
-		overflow: hidden;
-		text-overflow: ellipsis; */
-	}
-</style>
-
-
 <svelte:element
 	this={linked && network ? 'a' : 'span'}
-	class="transaction-id"
+	class="transaction-id monospace"
 	{...linked && network ? {
 		href: `/explorer/${network.slug}/${transactionId}`
 	} : {}}
