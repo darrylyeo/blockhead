@@ -14,18 +14,20 @@
 
 	// Functions
 	import { formatAddress } from '../utils/formatAddress'
+	import { resolvePath } from '@sveltejs/kit'
 
 
 	// Internal state
+	let link: string | undefined
 	// (Computed)
 	$: formattedAddress = formatAddress(address, format)
-	$: link = network ? `/explorer/${network.slug}/${address}` : ''
+	$: link = network && address && resolvePath(`/explorer/[networkSlug]/[address]`, { networkSlug: network.slug, address })
 
 
 	// Actions
 	const onDragStart = (e: DragEvent) => {
-		e.dataTransfer.setData('text/plain', address)
-		if(linked) e.dataTransfer.setData('text/uri-list', link)
+		e.dataTransfer?.setData('text/plain', address)
+		if(linked && link) e.dataTransfer?.setData('text/uri-list', link)
 	}
 </script>
 
@@ -46,7 +48,7 @@
 </style>
 
 
-{#if linked && network && address}
+{#if linked && link}
 	<a
 		class="address"
 		href={link}
