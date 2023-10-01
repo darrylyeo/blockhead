@@ -1,12 +1,37 @@
+import type { Ethereum } from './networks/types'
 import type { IpfsCid } from '../api/ipfs/contentId'
 
 export namespace Filecoin {
 	export type TipsetNumber = bigint
 
+	export type TipsetCid = IpfsCid
+
 	export type Tipset = {
-		tipsetNumber: TipsetNumber,
+		id: TipsetCid,
+		number: TipsetNumber,
 		timestamp: number,
+		isCanonical: boolean,
+
+		// ---
+
+		previousId?: TipsetCid,
+		blocks?: Block[],
 		transactions?: Transaction[],
+	}
+
+	export type BlockCid = IpfsCid
+
+	export type Block = {
+		id: BlockCid,
+		minerAddress: Address,
+
+		// ---
+
+		transactions?: Transaction[],
+
+		tipsetId?: TipsetCid,
+		tipsetNumber?: TipsetNumber,
+		tipsetTimestamp: number,
 	}
 
 	export type Address = `f${number | string}`
@@ -17,10 +42,12 @@ export namespace Filecoin {
 	/** attoFIL */
 	export type GasAmount = bigint
 	
-	export type TransactionId = IpfsCid
+	export type TransactionCid = IpfsCid
+
+	export type ActorMethodName = string
 
 	export type Transaction = {
-		transactionId: TransactionId,
+		id: TransactionCid,
 
 		isSuccessful: boolean,
 
@@ -29,15 +56,21 @@ export namespace Filecoin {
 
 		value: NativeCurrencyAmount,
 
-		gasUsed: GasAmount,
+		gasToken: Ethereum.NativeCurrency,
+		gasSpent: GasAmount,
 
-		method:
-			| 'AwardBlockReward'
-			| 'PreCommitSector'
-			| 'ProveCommitSector'
-			| 'PublishStorageDeals',
+		method: ActorMethodName,
 
-		blockCid: IpfsCid,
 		metadata: any,
+
+		internalTransactions?: Transaction[],
+
+		// ---
+
+		blockId?: IpfsCid,
+
+		tipsetId?: TipsetCid,
+		tipsetNumber?: TipsetNumber,
+		tipsetTimestamp: number,
 	}
 }
