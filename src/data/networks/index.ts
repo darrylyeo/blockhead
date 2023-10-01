@@ -5735,6 +5735,10 @@ const testnetSlugsForMainnetSlugs = {
 	'zora': [
 		'zora-goerli'
 	],
+	'filecoin': [
+		'filecoin-wallaby',
+		'filecoin-calibration',
+	],
 }
 
 export const testnetsForMainnets = Object.fromEntries<Ethereum.Network[]>(
@@ -5832,6 +5836,10 @@ export const otherL1Networks = [
 	'metis',
 ].map(slug => networksBySlug[slug])
 
+export const dataNetworks = [
+	'filecoin',
+].map(slug => networksBySlug[slug])
+
 // export const otherNetworks = networks.filter(network =>
 // 	!ethereumAndL2Networks.includes(network)
 // 	&& !evmNetworks.includes(network)
@@ -5881,6 +5889,10 @@ export const networksBySection: {
 	// 	otherNetworks: otherNetworks,
 	// },
 	{
+		title: 'Data Networks',
+		featuredNetworks: dataNetworks,
+	},
+	{
 		title: 'Other Networks (Experimental)',
 		featuredNetworks: otherL1Networks,
 	},
@@ -5900,6 +5912,7 @@ export const networkColors = {
 	'cronos': '#002D74',
 	'ethereum': '#627eea',
 	'fantom': '#1969ff',
+	'filecoin': '#0090ff',
 	'gnosis': '#04795B',
 	'harmony': '#00AEE9',
 	'metis': '#00dacd',
