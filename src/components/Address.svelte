@@ -18,21 +18,20 @@
 
 
 	// Internal state
-	let link: string | undefined
 	// (Computed)
 	$: formattedAddress = formatAddress(address, format)
-	$: link = network && address && resolvePath(`/explorer/[networkSlug]/address/[address]`, { networkSlug: network.slug, address })
+	$: link = linked && network && address ? resolvePath(`/explorer/[networkSlug]/[address]`, { networkSlug: network.slug, address }) : undefined
 
 
 	// Actions
 	const onDragStart = (e: DragEvent) => {
 		e.dataTransfer?.setData('text/plain', address)
-		if(linked && link) e.dataTransfer?.setData('text/uri-list', link)
+		if(link) e.dataTransfer?.setData('text/uri-list', link)
 	}
 </script>
 
 
-{#if linked && link}
+{#if link}
 	<a
 		class="address"
 		href={link}
