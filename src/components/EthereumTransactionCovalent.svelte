@@ -254,7 +254,7 @@
 	import AddressWithLabel from './AddressWithLabel.svelte'
 	import Date from './Date.svelte'
 	import EthereumLogEventCovalent from './EthereumLogEventCovalent.svelte'
-	import EthereumTransactionID from './EthereumTransactionID.svelte'
+	import TransactionId from './TransactionId.svelte'
 	import EthereumTransactionSummary from './EthereumTransactionSummary.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
 	import { fade, scale } from 'svelte/transition'
@@ -355,7 +355,7 @@
 
 		{#if isStandaloneLayout}
 			<div class="bar">
-				<h2><EthereumTransactionID {network} {transactionID} /></h2>
+				<h2><TransactionId {network} {transactionID} /></h2>
 				<span class="card-annotation">{network.name} Transaction</span>
 			</div>
 

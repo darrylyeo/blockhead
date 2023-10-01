@@ -21,7 +21,7 @@
 	let link: string | undefined
 	// (Computed)
 	$: formattedAddress = formatAddress(address, format)
-	$: link = network && address && resolvePath(`/explorer/[networkSlug]/[address]`, { networkSlug: network.slug, address })
+	$: link = network && address && resolvePath(`/explorer/[networkSlug]/address/[address]`, { networkSlug: network.slug, address })
 
 
 	// Actions

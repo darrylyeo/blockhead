@@ -11,7 +11,7 @@
 	export let showTransactionID = true
 
 
-	import EthereumTransactionID from './EthereumTransactionID.svelte'
+	import TransactionId from './TransactionId.svelte'
 	import EthereumBlockNumber from './EthereumBlockNumber.svelte'
 	import InlineContainer from './InlineContainer.svelte'
 </script>
@@ -35,7 +35,7 @@
 
 
 <p class="transaction row-inline wrap" title="Transaction {transactionID}">
-	<EthereumTransactionID
+	<TransactionId
 		{network}
 		{transactionID}
 		format="middle-truncated"
@@ -44,11 +44,11 @@
 	>
 		{#if transactionID || blockNumber}<span class="regular-font">Transaction </span>{/if
 		}<InlineContainer isOpen={transactionID && showTransactionID} clip>{formattedTransactionId}</InlineContainer>
-	</EthereumTransactionID>
+	</TransactionId>
 
 	<span>
 		{#if transactionID && showTransactionID && transactionIndex !== undefined}<span class="muted">(</span>{/if
-		}{#if transactionIndex !== undefined}{#if transactionID && !showTransactionID}<EthereumTransactionID>#{transactionIndex}</EthereumTransactionID>{:else}<span class="muted">#{transactionIndex}</span>{/if} {/if
+		}{#if transactionIndex !== undefined}{#if transactionID && !showTransactionID}<TransactionId>#{transactionIndex}</TransactionId>{:else}<span class="muted">#{transactionIndex}</span>{/if} {/if
 		}{#if blockNumber !== undefined}
 			<span class="muted">in block</span>
 			<EthereumBlockNumber {network} {blockNumber} format="number-only" />{
