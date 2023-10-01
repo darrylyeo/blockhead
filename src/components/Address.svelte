@@ -1,21 +1,28 @@
 <script lang="ts">
+	// Types/constants
 	import type { NetworkAccountAddress } from '../data/address'
 	import type { Ethereum } from '../data/networks/types'
 
 
+	// Inputs
 	export let network: Ethereum.Network
 	export let address: NetworkAccountAddress
-
+	// (View options)
 	export let format: 'full' | 'middle-truncated' = 'full'
 	export let linked = true
 
 
+	// Functions
 	import { formatAddress } from '../utils/formatAddress'
+
+
+	// Internal state
+	// (Computed)
 	$: formattedAddress = formatAddress(address, format)
-
-
 	$: link = network ? `/explorer/${network.slug}/${address}` : ''
 
+
+	// Actions
 	const onDragStart = (e: DragEvent) => {
 		e.dataTransfer.setData('text/plain', address)
 		if(linked) e.dataTransfer.setData('text/uri-list', link)
