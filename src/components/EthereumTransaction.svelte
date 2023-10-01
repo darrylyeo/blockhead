@@ -132,7 +132,7 @@
 	<div class="transaction layout-{layout} column" class:card={isStandaloneLayout} class:unsuccessful={!transaction.isSuccessful} transition:fade>
 		{#if isStandaloneLayout}
 			<div class="bar">
-				<h2><TransactionId network={transaction.network} transactionID={transaction.transactionID} /></h2>
+				<h2><TransactionId network={transaction.network} transactionId={transaction.transactionID} /></h2>
 				<span class="card-annotation">{transaction.network.name} Transaction</span>
 			</div>
 

@@ -2,7 +2,7 @@
 	import type { Ethereum } from '../data/networks/types'
 
 
-	export let transactionID: Ethereum.TransactionID
+	export let transactionId: Ethereum.TransactionID
 	export let network: Ethereum.Network
 
 	export let format: 'full' | 'middle-truncated' = 'full'
@@ -12,7 +12,7 @@
 	import { formatTransactionHash } from '../utils/formatTransactionHash'
 
 
-	$: formattedTransactionId = formatTransactionHash(transactionID, format)
+	$: formattedTransactionId = formatTransactionHash(transactionId, format)
 </script>
 
 
@@ -32,9 +32,9 @@
 	this={linked && network ? 'a' : 'span'}
 	class="transaction-id"
 	{...linked && network ? {
-		href: `/explorer/${network.slug}/${transactionID}`
+		href: `/explorer/${network.slug}/${transactionId}`
 	} : {}}
-	title={transactionID}
+	title={transactionId}
 >
 	<slot {formattedTransactionId}>{formattedTransactionId}</slot>
 </svelte:element>

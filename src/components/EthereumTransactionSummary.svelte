@@ -37,7 +37,7 @@
 <p class="transaction row-inline wrap" title="Transaction {transactionID}">
 	<TransactionId
 		{network}
-		{transactionID}
+		transactionId={transactionID}
 		format="middle-truncated"
 		linked
 		let:formattedTransactionId

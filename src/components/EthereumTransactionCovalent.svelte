@@ -355,7 +355,7 @@
 
 		{#if isStandaloneLayout}
 			<div class="bar">
-				<h2><TransactionId {network} {transactionID} /></h2>
+				<h2><TransactionId {network} transactionId={transactionID} /></h2>
 				<span class="card-annotation">{network.name} Transaction</span>
 			</div>
 
