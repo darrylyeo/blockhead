@@ -43,7 +43,7 @@
 <div class="log-event">
 	<h4 class="log-event-index">{logEvent.indexInTransaction}</h4>
 
-	{#if logEvent.topics.length}
+	{#if logEvent.topics?.length}
 		<span class="topics">
 			{#each logEvent.topics as topicHash, i}
 				<span class="topic-wrapper">
