@@ -75,17 +75,6 @@
 			transform: translateZ(1em) scale(1.1);
 		}
 	}
-
-	.icon {
-		display: inline-flex;
-		align-items: center;
-		font-size: 0.8em;
-		height: 1em;
-	}
-
-	a * {
-		pointer-events: none;
-	}
 </style>
 
 
