@@ -63,11 +63,11 @@ export const derivedPath: Readable<string> = derived([
 		$networkSlug ?
 			`/${$networkSlug}${
 				$address || $ensName ?
-					`/${$address || $ensName}`
+					`/address/${$address || $ensName}`
 				: $blockNumber ?
-					`/${$blockNumber}`
+					`/block/${$blockNumber}`
 				: $transactionId ?
-					`/${$transactionId}`
+					`/tx/${$transactionId}`
 				:
 					''
 			}`

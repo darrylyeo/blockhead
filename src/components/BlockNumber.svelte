@@ -17,7 +17,7 @@
 
 	// Internal state
 	// (Computed)
-	$: link = linked && network && blockNumber ? resolvePath(`/explorer/[networkSlug]/[blockNumber]`, { networkSlug: network.slug, blockNumber: String(blockNumber) }) : undefined
+	$: link = linked && network && blockNumber ? resolvePath(`/explorer/[networkSlug]/block/[blockNumber]`, { networkSlug: network.slug, blockNumber: String(blockNumber) }) : undefined
 
 
 	// Actions

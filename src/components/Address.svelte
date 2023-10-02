@@ -20,7 +20,7 @@
 	// Internal state
 	// (Computed)
 	$: formattedAddress = formatAddress(address, format)
-	$: link = linked && network && address ? resolvePath(`/explorer/[networkSlug]/[address]`, { networkSlug: network.slug, address }) : undefined
+	$: link = linked && network && address ? resolvePath(`/explorer/[networkSlug]/address/[address]`, { networkSlug: network.slug, address }) : undefined
 
 
 	// Actions
