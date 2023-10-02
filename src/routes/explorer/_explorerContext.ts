@@ -24,6 +24,7 @@ import { preferences } from '../../state/preferences'
 // Derived stores
 
 import { derived, type Readable } from 'svelte/store'
+import { browser } from '$app/environment'
 
 export const explorerNetwork: Readable<Ethereum.Network> = derived(networkSlug, ($networkSlug, set) => {
 	if($networkSlug)
@@ -31,7 +32,7 @@ export const explorerNetwork: Readable<Ethereum.Network> = derived(networkSlug, 
 })
 
 export const explorerPublicClient: Readable<Ethereum.PublicClient | undefined> = derived([explorerNetwork, preferences], ([$explorerNetwork, $preferences], set) => {
-	if($explorerNetwork)
+	if($explorerNetwork && browser)
 		set(getViemPublicClient({
 			network: $explorerNetwork,
 			networkProvider: $preferences.rpcNetwork
