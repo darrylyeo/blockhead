@@ -5,9 +5,27 @@
 
 	// Params/Context
 
-	import { networkSlug, query } from '../_explorerParams'
+	import {
+		networkSlug,
 
-	import { explorerNetwork, explorerPublicClient, explorerBlockNumber, explorerQueryType, explorerViewData } from '../_explorerContext'
+		address,
+		blockNumber,
+		ensName,
+		transactionId,
+
+		type ExplorerParams,
+		explorerParams,
+	} from '../_explorerParams'
+
+	import {
+		explorerNetwork,
+		explorerPublicClient,
+		explorerBlockNumber,
+
+		ExplorerQueryType,
+		explorerQueryType,
+		explorerQuery
+	} from '../_explorerContext'
 
 	import { getContext } from 'svelte'
 
@@ -17,12 +35,14 @@
 	$: $relevantPreferences = [
 		'theme',
 		...(
-			!$query ? ['rpcNetwork', 'currentPriceProvider', 'historicalPriceProvider'] :
-			$explorerQueryType === 'transaction' ? ['rpcNetwork', 'transactionProvider', 'quoteCurrency'] :
-			$explorerQueryType === 'block' ? ['rpcNetwork', 'transactionProvider', 'quoteCurrency'] :
-			['rpcNetwork', 'contractSourceProvider', 'tokenBalancesProvider', 'transactionProvider', 'quoteCurrency']
-			// $explorerQueryType === 'address' || $explorerQueryType === 'accountId' ? ['rpcNetwork', 'tokenBalancesProvider', 'transactionProvider', 'quoteCurrency'] :
-			// []
+			$explorerQueryType === ExplorerQueryType.Account ?
+				['rpcNetwork', 'contractSourceProvider', 'tokenBalancesProvider', 'transactionProvider', 'quoteCurrency']
+			: $explorerQueryType === ExplorerQueryType.Block ?
+				['rpcNetwork', 'transactionProvider', 'quoteCurrency']
+			: $explorerQueryType === ExplorerQueryType.Transaction ?
+				['rpcNetwork', 'transactionProvider', 'quoteCurrency']
+			:
+				['rpcNetwork', 'currentPriceProvider', 'historicalPriceProvider']
 		),
 	]
 
@@ -33,10 +53,10 @@
 
 
 	// Internal state
+	let currentExplorerInputParams: Omit<ExplorerParams, 'networkSlug'>
 
 	$: networkProvider = $preferences.rpcNetwork
 
-	$: currentQuery = $query
 
 	$: showCurrentBlockHeight = true
 
@@ -157,8 +177,18 @@
 
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
-	<form on:submit|preventDefault={() => $query = currentQuery}>
-		<ExplorerInput bind:value={currentQuery} {placeholder} network={$explorerNetwork} />
+	<form on:submit|preventDefault={() => {
+		$address = currentExplorerInputParams.address
+		$blockNumber = currentExplorerInputParams.blockNumber
+		$ensName = currentExplorerInputParams.ensName
+		$transactionId = currentExplorerInputParams.transactionId
+	}}>
+		<ExplorerInput
+			value={$explorerQuery}
+			network={$explorerNetwork}
+			bind:explorerInputParams={currentExplorerInputParams}
+			{placeholder}
+		/>
 		<button type="submit">Go</button>
 	</form>
 
@@ -172,13 +202,13 @@
 		>
 			{#if publicClient}
 				<div class="stack">
-					{#key $query}
-						{#if $explorerQueryType === 'transaction'}
+					{#key $explorerParams}
+						{#if $explorerQueryType === ExplorerQueryType.Transaction}
 							<div class="column"in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
 								<EthereumTransactionLoader
 									network={$explorerNetwork}
 									{networkProvider}
-									transactionId={$explorerViewData.transactionId}
+									transactionId={$explorerParams.transactionId}
 
 									detailLevel="exhaustive"
 									tokenBalanceFormat="both"
@@ -189,23 +219,23 @@
 									bind:transaction={navigationContext.transaction}
 								/>
 							</div>
-						{:else if $explorerQueryType === 'block'}
+						{:else if $explorerQueryType === ExplorerQueryType.Block}
 							<div class="column" in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
 								<EthereumBlockLoader
 									network={$explorerNetwork}
 									{networkProvider}
-									blockNumber={$explorerViewData.blockNumber}
+									blockNumber={$explorerParams.blockNumber}
 									transactionProvider={$preferences.transactionProvider}
 
 									bind:block={navigationContext.block}
 								/>
 							</div>
-						{:else if $explorerQueryType === 'address' || $explorerQueryType === 'accountId'}
+						{:else if $explorerQueryType === ExplorerQueryType.Account}
 							<div class="column" in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
 								<EthereumAccountOrContract
 									network={$explorerNetwork}
 									{networkProvider}
-									accountId={$explorerViewData.address || $explorerViewData.accountId}
+									accountId={$explorerParams.address || $explorerParams.ensName}
 								/>
 							</div>
 						{:else}
@@ -255,7 +285,7 @@
 						{networkProvider}
 						blockNumber={
 							$explorerQueryType === 'block' ?
-								Number($query)
+								Number($blockNumber)
 							: $explorerQueryType === 'transaction' ?
 								navigationContext.transactionBlockNumber
 							:

@@ -2,6 +2,9 @@
 	// Types/constants
 	import type { Ethereum } from '../data/networks/types'
 
+	import type { ExplorerInputParams } from '../routes/explorer/_explorerParams'
+	import { ExplorerQueryType, explorerQuery, getExplorerQueryType } from '../routes/explorer/_explorerContext'
+
 	const explorerInputTypes = {
 		ensName: {
 			label: 'ENS Name',
@@ -40,8 +43,8 @@
 	// Functions
 	import { findMatchedCaptureGroupName } from '../utils/findMatchedCaptureGroup'
 
-	const pattern = /^(?:(?<empty>)|(?<address>0x[0-9a-fA-F]{40})|(?<transaction>0x[0-9a-fA-F]{64})|(?<blockNumber>0|[1-9][0-9]*)|(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test)))$/
-	const subpattern = /(?<address>0x[0-9a-fA-F]{40})|(?<transaction>0x[0-9a-fA-F]{64})|(?<blockNumber>0|[1-9][0-9]*)|(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))/g
+	const pattern = /^(?:(?<none>)|(?<address>0x[0-9a-fA-F]{40})|(?<transactionId>0x[0-9a-fA-F]{64})|(?<blockNumber>0|[1-9][0-9]*)|(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test)))$/
+	const subpattern = /(?<address>0x[0-9a-fA-F]{40})|(?<transactionId>0x[0-9a-fA-F]{64})|(?<blockNumber>0|[1-9][0-9]*)|(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))/g
 
 	const findMatches = (value: string) =>
 		[...value.matchAll(subpattern)]
@@ -52,12 +55,18 @@
 			)
 
 
+	// Shared state
+	export let explorerInputParams: ExplorerInputParams
+	export let explorerQueryType: ExplorerQueryType = ExplorerQueryType.None
+	export let value: string
+	// (Computed)
+	$: value = $explorerQuery
+	$: explorerInputParams = value.match(pattern)?.groups ?? {}
+	$: explorerQueryType = getExplorerQueryType(explorerInputParams)
+
+
 	// Internal state
-	$: matchedType = findMatchedCaptureGroupName<'empty' | 'address' | 'transaction' | 'blockNumber' | 'ensName'>(pattern, value) ?? ''	
-
-
-	// Outputs
-	export let value: string = ''
+	$: matchedParam = findMatchedCaptureGroupName<keyof ExplorerInputParams>(pattern, value) ?? ''	
 
 
 	// Actions
@@ -70,10 +79,10 @@
 
 
 <style>
-	/* [data-type="ensName"], */
-	[data-type="address"],
-	[data-type="transaction"],
-	[data-type="blockNumber"] {
+	[data-param="address"],
+	[data-param="blockNumber"],
+	/* [data-param="ensName"], */
+	[data-param="transactionId"] {
 		font-family: var(--monospace-fonts);
 	}
 </style>
@@ -86,7 +95,7 @@
 	{autofocus}
 	{placeholder}
 	pattern={pattern.source}
-	data-type={matchedType}
+	data-param={matchedParam}
 	list="ExplorerInputList"
 	on:focus={e => e.target.select()}
 />

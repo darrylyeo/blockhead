@@ -1,5 +1,4 @@
 // Types
-import type { AccountId } from '../../data/accountId'
 import type { Ethereum } from '../../data/networks/types'
 
 
@@ -10,14 +9,14 @@ import { networksBySlug } from '../../data/networks'
 // Functions
 import { getViemPublicClient } from '../../data/networkProviders'
 
-import { isEvmAddress } from '../../utils/isEvmAddress'
-import { isEvmTransactionId } from '../../utils/isEvmTransactionId'
-import { isBlockNumber } from '../../utils/isBlockNumber'
-
 
 // External stores
 
-import { networkSlug, query } from './_explorerParams'
+import {
+	type ExplorerInputParams,
+	explorerParams,
+	networkSlug,
+} from './_explorerParams'
 
 import { preferences } from '../../state/preferences'
 
@@ -45,55 +44,44 @@ export const explorerBlockNumber: Readable<number> = derived(explorerPublicClien
 	})
 ))
 
-const getExplorerQueryType = (query: string) => (
-	query ?
-		isEvmTransactionId(query) ?
-			'transaction'
-		: isBlockNumber(query) ?
-			'block'
-		: isEvmAddress(query) ?
-			'address'
-		:
-			'accountId'
-	:
-		undefined
+export enum ExplorerQueryType {
+	Account = 'account',
+	Block = 'block',
+	Transaction = 'transaction',
+	None = 'none',
+}
+
+export const getExplorerQueryType = ({
+	address,
+	blockNumber,
+	ensName,
+	transactionId,
+}: ExplorerInputParams) => (
+	address || ensName ?
+		ExplorerQueryType.Account
+	: blockNumber ?
+		ExplorerQueryType.Block
+	: transactionId ?
+		ExplorerQueryType.Transaction
+	: 
+		ExplorerQueryType.None
 )
 
-type ExplorerQueryType = ReturnType<typeof getExplorerQueryType>
-
-export const explorerQueryType = derived<typeof query, ExplorerQueryType>(query, ($query, set) => {
-	set(getExplorerQueryType($query))
+export const explorerQueryType = derived(explorerParams, (
+	$explorerParams,
+	set: (_: ExplorerQueryType) => void
+) => {
+	set(getExplorerQueryType($explorerParams))
 })
 
-const getExplorerViewData = (query: string, queryType: ExplorerQueryType) => (
-	queryType === 'transaction' ?
-		{
-			transactionId: query as Ethereum.TransactionID
-		}
-	: queryType === 'block' ?
-		{
-			blockNumber: Number(query) as Ethereum.BlockNumber
-		}
-	: queryType === 'address' ?
-		{
-			address: query as Ethereum.Address
-		}
-	: queryType === 'accountId' ?
-		{
-			accountId: query as AccountId
-		}
-	:
-		{}
-)
 
-export const explorerViewData: SvelteStore<ReturnType<typeof getExplorerViewData>> = derived([
-	query,
-	explorerQueryType,
-], ([
-	$query,
-	$explorerView,
-], set) => {
-	set(getExplorerViewData($query, $explorerView))
+export const explorerQuery = derived(explorerParams, (
+	$explorerParams,
+	set: (_: string) => void
+) => {
+	set(
+		String($explorerParams.address || $explorerParams.blockNumber || $explorerParams.ensName || $explorerParams.transactionId || '')
+	)
 })
 
 

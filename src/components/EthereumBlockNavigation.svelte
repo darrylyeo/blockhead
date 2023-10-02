@@ -19,7 +19,7 @@
 
 	let navElement: HTMLElement
 
-	import { networkSlug, query } from '../routes/explorer/_explorerParams'
+	import { networkSlug, blockNumber as blockNumberParam } from '../routes/explorer/_explorerParams'
 
 
 	import BlockNumber from './BlockNumber.svelte'
@@ -83,7 +83,7 @@
 
 			const x = (e.clientX - navElement.getBoundingClientRect().left) / navElement.clientWidth
 			const adjustedX = Math.min(Math.max(0.3 + (x - 0.3) * 1.15, 0), 1)
-			;[$networkSlug, $query] = [network.slug, Math.round(adjustedX * Math.max(blockNumber ?? -Infinity, latestBlockNumber ?? -Infinity)).toString()]
+			;[$networkSlug, $blockNumberParam] = [network.slug, Math.round(adjustedX * Math.max(blockNumber ?? -Infinity, latestBlockNumber ?? -Infinity)).toString()]
 		}}
 		transition:fade|global
 		style="

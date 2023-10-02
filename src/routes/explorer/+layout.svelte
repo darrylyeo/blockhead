@@ -9,17 +9,26 @@
 
 	import {
 		networkSlug,
-		query,
+
+		address,
+		blockNumber,
+		ensName,
+		transactionId,
+
 		derivedPath
 	} from './_explorerParams'
 
+	import { explorerQueryType, ExplorerQueryType, explorerQuery } from './_explorerContext'
+
 	$: if($page.url.pathname.startsWith('/explorer')){
 		$networkSlug = $page.params.networkSlug || $page.url.pathname.match(/^\/explorer\/([^/]+)/)?.[1] || ''
-		$query = $page.params.query || ''
+		$address = $page.params.address || ''
+		$blockNumber = $page.params.blockNumber || ''
+		$ensName = $page.params.ensName || ''
+		$transactionId = $page.params.transactionId || ''
 	}
 
-	$: if(browser)
-		goto($derivedPath, { keepFocus: true })
+	$: if(browser) goto($derivedPath, { keepFocus: true })
 
 	beforeNavigate(({from, to, cancel}) => {
 		if(from?.url.pathname === to?.url.pathname)
@@ -37,7 +46,7 @@
 	const relevantPreferences = writable<string[]>()
 	$: $relevantPreferences = $relevantPreferences || [
 		'theme',
-		...($query
+		...($explorerQueryType !== ExplorerQueryType.None
 			? ['rpcNetwork', 'tokenBalancesProvider', 'transactionProvider', 'quoteCurrency']
 			: ['rpcNetwork', 'transactionProvider']
 			// : ['rpcNetwork', 'currentPriceProvider', 'historicalPriceProvider']
@@ -107,7 +116,7 @@
 
 
 <svelte:head>
-	<title>{$query ? `${$query} | ` : ''}{networkDisplayName ? `${networkDisplayName} ` : ''} Explorer | Blockhead</title>
+	<title>{$explorerQuery ? `${$explorerQuery} | ` : ''}{networkDisplayName ? `${networkDisplayName} ` : ''} Explorer | Blockhead</title>
 </svelte:head>
 
 
