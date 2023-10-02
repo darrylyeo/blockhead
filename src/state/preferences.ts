@@ -230,7 +230,8 @@ export const preferencesConfig: PreferencesConfig<
 							{ id: TokenBalancesProvider.Airstack, name: 'Airstack' },
 							{ id: TokenBalancesProvider.Covalent, name: 'Covalent' },
 							{ id: TokenBalancesProvider.Moralis, name: 'Moralis › Web3 API' },
-							{ id: TokenBalancesProvider.Zapper, name: 'Zapper' }
+							{ id: TokenBalancesProvider.Zapper, name: 'Zapper' },
+							{ id: TokenBalancesProvider.Beryx, name: 'Beryx' },
 						]
 					}
 				]

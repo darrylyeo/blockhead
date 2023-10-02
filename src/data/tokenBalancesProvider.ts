@@ -1,6 +1,7 @@
 export enum TokenBalancesProvider {
 	RpcProvider = 'RPC Provider',
 	Airstack = 'Airstack',
+	Beryx = 'Beryx',
 	Covalent = 'Covalent',
 	Liquality = 'Liquality',
 	Moralis = 'Moralis',
@@ -10,10 +11,11 @@ export enum TokenBalancesProvider {
 }
 
 
-import { AirstackIcon, CovalentIcon, LiqualityIcon, MoralisIcon, QuickNodeIcon, ZapperIcon, ZerionIcon } from '../assets/icons'
+import { AirstackIcon, BeryxIcon, CovalentIcon, LiqualityIcon, MoralisIcon, QuickNodeIcon, ZapperIcon, ZerionIcon } from '../assets/icons'
 
 export const tokenBalancesProviderIcons: Record<TokenBalancesProvider, string> = {
 	[TokenBalancesProvider.Airstack]: AirstackIcon,
+	[TokenBalancesProvider.Beryx]: BeryxIcon,
 	[TokenBalancesProvider.Covalent]: CovalentIcon,
 	[TokenBalancesProvider.Liquality]: LiqualityIcon,
 	[TokenBalancesProvider.Moralis]: MoralisIcon,
