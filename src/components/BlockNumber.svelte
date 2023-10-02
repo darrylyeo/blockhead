@@ -7,19 +7,8 @@
 	export let network: Ethereum.Network
 	export let blockNumber: Ethereum.BlockNumber
 	// (View options)
-	// export let format: 'full' | 'number-only' = 'full'
 	export let linked = true
 	export let tween = true
-
-
-	// Functions
-	const formatBlockNumber = blockNumber =>
-		// format === 'full' ?
-		// 	`block #${blockNumber}`
-		// :
-		blockNumber // && new Intl.NumberFormat(globalThis.navigator.languages).format(blockNumber)
-
-	// const blockSymbol = '' // '🅱️' // 'B⃞' // '#'
 
 
 	// Internal state
@@ -100,7 +89,6 @@
 </style>
 
 
-<!-- {#if format === 'full'}block{/if} -->
 {#if linked && blockNumber !== undefined}
 	<a
 		class="block-number"
@@ -115,7 +103,6 @@
 		{#if blockNumber !== undefined}
 			<TweenedNumber
 				value={blockNumber}
-				formatter={formatBlockNumber}
 				format={{
 					showDecimalPlaces: 0,
 					useGrouping: false,
@@ -140,7 +127,6 @@
 		{#if blockNumber !== undefined}
 			<TweenedNumber
 				value={blockNumber}
-				formatter={formatBlockNumber}
 				format={{
 					showDecimalPlaces: 0,
 					useGrouping: false,

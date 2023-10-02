@@ -51,7 +51,7 @@
 		}{#if transactionIndex !== undefined}{#if transactionID && !showTransactionID}<TransactionId>#{transactionIndex}</TransactionId>{:else}<span class="muted">#{transactionIndex}</span>{/if} {/if
 		}{#if blockNumber !== undefined}
 			<span class="muted">in block</span>
-			<BlockNumber {network} {blockNumber} format="number-only" />{
+			<BlockNumber {network} {blockNumber} />{
 			#if transactionID && showTransactionID && transactionIndex !== undefined}<span class="muted">)</span>{/if}
 		{/if}
 	</span>
