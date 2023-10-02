@@ -11,6 +11,8 @@
 
 	export let canToggle = true
 
+	export let showContentsOnly = false
+
 
 	type SharedSlotProps = {
 		isOpen: typeof isOpen,
@@ -106,87 +108,106 @@
 </style>
 
 
-<svelte:element
-	this={
-		canToggle
-			? {
-				'label': 'div',
-				'details': 'details'
-			}[type]
-			: 'div'
-	}
-	class="container {$$props.containerClass ?? ''}"
-	class:column-block={type === 'details'}
-	{...{
-		'label': {
-			'data-state': isOpen ? 'open' : 'closed',
-		},
-		'details': {
-			open: isOpen,
-		},
-	}[type]}
-	on:toggle={e => isOpen = e.target.open}
->
-<!-- bind:open={isOpen} -->
-	<slot name="header" {isOpen} {toggle}>
-		<svelte:element
-			this={
-				canToggle
-					? {
-						'label': 'label',
-						'details': 'summary'
-					}[type]
-					: 'div'
-			}
-			class="bar wrap"
-		>
-			<slot name="title" {isOpen} {toggle}>
-				<h4>{title}</h4>
-			</slot>
-
-			<div class="row wrap">
-				<slot name="toolbar" {isOpen} {toggle}>
-					{#if $$slots['toolbar-items']}
-						<div role="toolbar">
-							<slot name="toolbar-items" {isOpen} {toggle} />
-						</div>
-					{/if}
+{#if !showContentsOnly}
+	<svelte:element
+		this={
+			canToggle
+				? {
+					'label': 'div',
+					'details': 'details'
+				}[type]
+				: 'div'
+		}
+		class="container {$$props.containerClass ?? ''}"
+		class:column-block={type === 'details'}
+		{...{
+			'label': {
+				'data-state': isOpen ? 'open' : 'closed',
+			},
+			'details': {
+				open: isOpen,
+			},
+		}[type]}
+		on:toggle={e => isOpen = e.target.open}
+	>
+	<!-- bind:open={isOpen} -->
+		<slot name="header" {isOpen} {toggle}>
+			<svelte:element
+				this={
+					canToggle
+						? {
+							'label': 'label',
+							'details': 'summary'
+						}[type]
+						: 'div'
+				}
+				class="bar wrap"
+			>
+				<slot name="title" {isOpen} {toggle}>
+					<h4>{title}</h4>
 				</slot>
 
-				<slot name="header-right" {isOpen} {toggle} />
+				<div class="row wrap">
+					<slot name="toolbar" {isOpen} {toggle}>
+						{#if $$slots['toolbar-items']}
+							<div role="toolbar">
+								<slot name="toolbar-items" {isOpen} {toggle} />
+							</div>
+						{/if}
+					</slot>
 
-				{#if canToggle}
-					<button
-						class="small"
-						data-after={showTriggerText ? isOpen ? '⏶' : '⏷' : isOpen ? '▲' : '▼'}
-						{...type === 'label' ? {
-							'aria-controls': ariaId,
-							'aria-expanded': isOpen ? 'true' : 'false',
-						} : {}}
-						on:click={toggle}
-					>{#if showTriggerText}<slot name="trigger-text" {isOpen} {toggle}>{isOpen ? 'Hide' : 'Show'}</slot>{/if}</button>
-					<!-- <button
-						class="small"
-						data-after={isOpen ? '▲' : '▼'}
-						aria-controls={ariaId}
-						aria-expanded={isOpen ? 'true' : 'false'}
-						on:click={toggle}
-					/> -->
-				{/if}
-			</div>
-		</svelte:element>
-	</slot>
+					<slot name="header-right" {isOpen} {toggle} />
 
+					{#if canToggle}
+						<button
+							class="small"
+							data-after={showTriggerText ? isOpen ? '⏶' : '⏷' : isOpen ? '▲' : '▼'}
+							{...type === 'label' ? {
+								'aria-controls': ariaId,
+								'aria-expanded': isOpen ? 'true' : 'false',
+							} : {}}
+							on:click={toggle}
+						>{#if showTriggerText}<slot name="trigger-text" {isOpen} {toggle}>{isOpen ? 'Hide' : 'Show'}</slot>{/if}</button>
+						<!-- <button
+							class="small"
+							data-after={isOpen ? '▲' : '▼'}
+							aria-controls={ariaId}
+							aria-expanded={isOpen ? 'true' : 'false'}
+							on:click={toggle}
+						/> -->
+					{/if}
+				</div>
+			</svelte:element>
+		</slot>
+
+		<div
+			class="collapsible {$$props.class ?? ''}"
+			{...type === 'label' ? {
+				id: ariaId,
+			} : {}}
+		>
+			{#if renderOnlyWhenOpen ? isOpen : true}
+				<slot {isOpen} {toggle} />
+			{/if}
+		</div>
+
+		<slot name="footer" {isOpen} {toggle} />
+	</svelte:element>
+{:else}
 	<div
-		class="collapsible {$$props.class ?? ''}"
-		{...type === 'label' ? {
-			id: ariaId,
-		} : {}}
+		class="container {$$props.containerClass ?? ''}"
 	>
-		{#if renderOnlyWhenOpen ? isOpen : true}
-			<slot {isOpen} {toggle} />
-		{/if}
-	</div>
+		<div
+			class="collapsible {$$props.class ?? ''}"
+			{...type === 'label' ? {
+				id: ariaId,
+			} : {}}
+		>
+			{#if renderOnlyWhenOpen ? isOpen : true}
+				<slot {isOpen} {toggle} />
+			{/if}
+		</div>
 
-	<slot name="footer" {isOpen} {toggle} />
-</svelte:element>
+		<slot name="footer" {isOpen} {toggle} />
+	</div>
+{/if}
