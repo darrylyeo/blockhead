@@ -11,15 +11,19 @@
 	export let tween = true
 
 
+	// Functions
+	import { resolvePath } from '@sveltejs/kit'
+
+
 	// Internal state
 	// (Computed)
-	$: link = `/explorer/${network.slug}/${blockNumber}`
+	$: link = linked && network && blockNumber ? resolvePath(`/explorer/[networkSlug]/[blockNumber]`, { networkSlug: network.slug, blockNumber: String(blockNumber) }) : undefined
 
 
 	// Actions
 	const onDragStart = (e: DragEvent) => {
-		e.dataTransfer.setData('text/plain', `${blockNumber}`)
-		e.dataTransfer.setData('text/uri', link)
+		e.dataTransfer?.setData('text/plain', `${blockNumber}`)
+		if(link) e.dataTransfer?.setData('text/uri', link)
 	}
 
 
@@ -78,7 +82,7 @@
 </style>
 
 
-{#if linked && blockNumber !== undefined}
+{#if link && blockNumber !== undefined}
 	<a
 		class="block-number"
 		href={link}
