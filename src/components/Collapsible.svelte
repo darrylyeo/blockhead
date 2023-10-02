@@ -107,10 +107,14 @@
 
 
 <svelte:element
-	this={{
-		'label': 'div',
-		'details': 'details'
-	}[type]}
+	this={
+		canToggle
+			? {
+				'label': 'div',
+				'details': 'details'
+			}[type]
+			: 'div'
+	}
 	class="container {$$props.containerClass ?? ''}"
 	class:column-block={type === 'details'}
 	{...{
