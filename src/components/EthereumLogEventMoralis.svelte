@@ -40,7 +40,7 @@
 
 <div class="log-event">
 	<h4 class="log-event-index">{logEvent.log_index}</h4>
-	{#if topics.length}
+	{#if topics?.length}
 		<span class="topics">
 			{#each topics as topic, i}
 				<span class="topic-wrapper">
