@@ -75,4 +75,33 @@ export namespace Filecoin {
 		tipsetNumber?: TipsetNumber,
 		tipsetTimestamp: number,
 	}
+
+	export enum ActorType {
+		Unknown = 'unknown',
+		Miner = 'miner',
+		Account = 'account',
+	}
+
+	export type Account = {
+		address: Address,
+	} & ({
+		actorType: ActorType.Unknown,
+	} | {
+		actorType: ActorType.Miner,
+
+		// ---
+
+		robustAddress: Address,
+		shortAddress: Address,
+		createdTipsetTimestamp: number,
+		createdTransactionId: TransactionCid,
+	} | {
+		actorType: ActorType.Account,
+
+		// ---
+
+		robustAddress: Address,
+		shortAddress: Address,
+		createdTipsetTimestamp: number,
+	})
 }
