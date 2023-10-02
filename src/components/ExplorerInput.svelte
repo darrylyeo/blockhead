@@ -1,15 +1,6 @@
 <script lang="ts">
+	// Types/constants
 	import type { Ethereum } from '../data/networks/types'
-
-
-	export let value: string = ''
-
-	export let required = false
-	export let autofocus = false
-	export let placeholder = 'Address (0xabcd...6789) / Transaction ID (0xabcdef...456789) / Block Number (12345678) / ENS Domain (vitalik.eth)'
-
-	export let network: Ethereum.Network
-
 
 	const explorerInputTypes = {
 		ensName: {
@@ -27,6 +18,28 @@
 	}
 	type ExplorerInputType = keyof typeof explorerInputTypes
 
+
+	// Context
+	import { accountConnections } from '../state/account'
+
+	import { getLocalPortfolios } from '../state/portfolio-accounts'
+	const localPortfolios = getLocalPortfolios()
+
+	import { localStorageWritable } from '../utils/localStorageWritable'
+	const history = localStorageWritable('ExplorerInput/history', [] as string[])
+
+
+	// Inputs
+	export let required = false
+	export let autofocus = false
+	export let placeholder = 'Address (0xabcd...6789) / Transaction ID (0xabcdef...456789) / Block Number (12345678) / ENS Domain (vitalik.eth)'
+
+	export let network: Ethereum.Network
+
+
+	// Functions
+	import { findMatchedCaptureGroupName } from '../utils/findMatchedCaptureGroup'
+
 	const pattern = /^(?:(?<empty>)|(?<address>0x[0-9a-fA-F]{40})|(?<transaction>0x[0-9a-fA-F]{64})|(?<blockNumber>0|[1-9][0-9]*)|(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test)))$/
 	const subpattern = /(?<address>0x[0-9a-fA-F]{40})|(?<transaction>0x[0-9a-fA-F]{64})|(?<blockNumber>0|[1-9][0-9]*)|(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))/g
 
@@ -39,25 +52,20 @@
 			)
 
 
-	import { afterNavigate } from '$app/navigation'
-	import { localStorageWritable } from '../utils/localStorageWritable'
-
-	const history = localStorageWritable('ExplorerInput/history', [] as string[])
-	afterNavigate(() => {
-		$history = [...new Set([value, ...$history])]
-	})
-
-	
-	import { findMatchedCaptureGroupName } from '../utils/findMatchedCaptureGroup';
-
+	// Internal state
 	$: matchedType = findMatchedCaptureGroupName<'empty' | 'address' | 'transaction' | 'blockNumber' | 'ensName'>(pattern, value) ?? ''	
 
 
-	import { accountConnections } from '../state/account'
-	import { getLocalPortfolios } from '../state/portfolio-accounts'
+	// Outputs
+	export let value: string = ''
 
 
-	const localPortfolios = getLocalPortfolios()
+	// Actions
+	import { afterNavigate } from '$app/navigation'
+
+	afterNavigate(() => {
+		$history = [...new Set([value, ...$history])]
+	})
 </script>
 
 
