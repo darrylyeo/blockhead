@@ -1,15 +1,18 @@
 <script lang="ts">
+	// Types/constants
 	import type { Ethereum } from '../data/networks/types'
 
 
+	// Inputs
 	export let network: Ethereum.Network
 	export let blockNumber: Ethereum.BlockNumber
-	
+	// (View options)
 	// export let format: 'full' | 'number-only' = 'full'
 	export let linked = true
 	export let tween = true
 
 
+	// Functions
 	const formatBlockNumber = blockNumber =>
 		// format === 'full' ?
 		// 	`block #${blockNumber}`
@@ -19,20 +22,25 @@
 	// const blockSymbol = '' // '🅱️' // 'B⃞' // '#'
 
 
+	// Internal state
+	// (Computed)
 	$: link = `/explorer/${network.slug}/${blockNumber}`
 
+
+	// Actions
 	const onDragStart = (e: DragEvent) => {
 		e.dataTransfer.setData('text/plain', `${blockNumber}`)
 		e.dataTransfer.setData('text/uri', link)
 	}
 
 
-	import { tokenColors } from '../data/tokenColors'
-
-
+	// Components
 	import NetworkIcon from './NetworkIcon.svelte'
 	import TweenedNumber from './TweenedNumber.svelte'
 
+
+	// Styles/transitions
+	import { tokenColors } from '../data/tokenColors'
 	import { animationKey } from '../actions/animationKey'
 </script>
 
