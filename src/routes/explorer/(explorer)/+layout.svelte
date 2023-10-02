@@ -116,7 +116,15 @@
 	import EthereumBlockLoader from '../../../components/EthereumBlockLoader.svelte'
 	import EthereumBlockNavigation from '../../../components/EthereumBlockNavigation.svelte';
 	import EthereumTransactionLoader from '../../../components/EthereumTransactionLoader.svelte'
-	import Loader from '../../../components/Loader.svelte';
+
+	import FilecoinAccount from '../../../components/FilecoinAccount.svelte'
+	import FilecoinAccountLoader from '../../../components/FilecoinAccountLoader.svelte'
+	import FilecoinTipset from '../../../components/FilecoinTipset.svelte'
+	import FilecoinTipsetLoader from '../../../components/FilecoinTipsetLoader.svelte'
+	import FilecoinTransaction from '../../../components/FilecoinTransaction.svelte'
+	import FilecoinTransactionLoader from '../../../components/FilecoinTransactionLoader.svelte'
+
+	import Loader from '../../../components/Loader.svelte'
 
 
 	// Transitions
@@ -205,38 +213,90 @@
 					{#key $explorerParams}
 						{#if $explorerQueryType === ExplorerQueryType.Transaction}
 							<div class="column"in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
-								<EthereumTransactionLoader
-									network={$explorerNetwork}
-									{networkProvider}
-									transactionId={$explorerParams.transactionId}
+								{#if $explorerNetwork.slug === 'filecoin'}
+									<FilecoinTransactionLoader
+										network={$explorerNetwork}
+										{networkProvider}
+										transactionCid={$explorerParams.transactionId}
 
-									detailLevel="exhaustive"
-									tokenBalanceFormat="both"
-									showFees={true}
+										detailLevel="exhaustive"
+										tokenBalanceFormat="both"
+										showFees={true}
 
-									layout="standalone"
+										layout="standalone"
 
-									bind:transaction={navigationContext.transaction}
-								/>
+										bind:transaction={navigationContext.transaction}
+										let:transaction
+									>
+										<FilecoinTransaction
+											network={$explorerNetwork}
+											{transaction}
+											headingLevel={2}
+										/>
+									</FilecoinTransactionLoader>
+								{:else}
+									<EthereumTransactionLoader
+										network={$explorerNetwork}
+										{networkProvider}
+										transactionId={$explorerParams.transactionId}
+
+										detailLevel="exhaustive"
+										tokenBalanceFormat="both"
+										showFees={true}
+
+										layout="standalone"
+
+										bind:transaction={navigationContext.transaction}
+									/>
+								{/if}
 							</div>
 						{:else if $explorerQueryType === ExplorerQueryType.Block}
 							<div class="column" in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
-								<EthereumBlockLoader
-									network={$explorerNetwork}
-									{networkProvider}
-									blockNumber={$explorerParams.blockNumber}
-									transactionProvider={$preferences.transactionProvider}
+								{#if $explorerNetwork.slug === 'filecoin'}
+									<FilecoinTipsetLoader
+										network={$explorerNetwork}
+										tipsetNumber={BigInt($explorerParams.blockNumber)}
+										let:tipset
+									>
+										<FilecoinTipset
+											network={$explorerNetwork}
+											{tipset}
+											headingLevel={2}
+										/>
+									</FilecoinTipsetLoader>
+								{:else}
+									<EthereumBlockLoader
+										network={$explorerNetwork}
+										{networkProvider}
+										blockNumber={$explorerParams.blockNumber}
+										transactionProvider={$preferences.transactionProvider}
 
-									bind:block={navigationContext.block}
-								/>
+										bind:block={navigationContext.block}
+									/>
+								{/if}
 							</div>
 						{:else if $explorerQueryType === ExplorerQueryType.Account}
 							<div class="column" in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
-								<EthereumAccountOrContract
-									network={$explorerNetwork}
-									{networkProvider}
-									accountId={$explorerParams.address || $explorerParams.ensName}
-								/>
+								{#if $explorerNetwork.slug === 'filecoin'}
+									<FilecoinAccountLoader
+										network={$explorerNetwork}
+										address={$explorerParams.address}
+										let:account
+									>
+									{account}
+										<FilecoinAccount
+											network={$explorerNetwork}
+											{account}
+											headingLevel={2}
+										/>
+									</FilecoinAccountLoader>
+								{:else}
+									<EthereumAccountOrContract
+										network={$explorerNetwork}
+										{networkProvider}
+										accountId={$explorerParams.address || $explorerParams.ensName}
+									/>
+								{/if}
 							</div>
 						{:else}
 							<div class="column-block" in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
