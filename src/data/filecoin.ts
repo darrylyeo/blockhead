@@ -11,6 +11,7 @@ export namespace Filecoin {
 		number: TipsetNumber,
 		timestamp: number,
 		isCanonical: boolean,
+		baseGasFee?: GasRate
 
 		// ---
 
@@ -41,6 +42,7 @@ export namespace Filecoin {
 
 	/** attoFIL */
 	export type GasAmount = bigint
+	export type GasRate = bigint
 	
 	export type TransactionCid = IpfsCid
 
