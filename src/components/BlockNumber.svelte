@@ -5,7 +5,7 @@
 
 	// Inputs
 	export let network: Ethereum.Network
-	export let blockNumber: Ethereum.BlockNumber
+	export let blockNumber: Ethereum.BlockNumber | undefined
 	// (View options)
 	export let linked = true
 	export let tween = true
@@ -22,7 +22,7 @@
 
 	// Actions
 	const onDragStart = (e: DragEvent) => {
-		e.dataTransfer?.setData('text/plain', `${blockNumber}`)
+		if(blockNumber) e.dataTransfer?.setData('text/plain', `${blockNumber}`)
 		if(link) e.dataTransfer?.setData('text/uri', link)
 	}
 
