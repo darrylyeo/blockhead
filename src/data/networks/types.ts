@@ -1,4 +1,4 @@
-import type { Branded, BrandedString } from '../../utils/branded'
+// import type { Branded, BrandedString } from '../../utils/branded'
 import type { Provider as EthersProvider, Block as EthersBlock } from 'ethers'
 import type { TickerSymbol } from '../currencies'
 import type { Abi as AbiType, ExtractAbiFunctionNames, ExtractAbiFunction, ExtractAbiFunctions, AbiStateMutability, AbiParametersToPrimitiveTypes, AbiParameterToPrimitiveType } from 'abitype'
@@ -6,7 +6,7 @@ import type { PublicClient as ViemPublicClient } from 'viem'
 import type { AbiEventParametersToPrimitiveTypes } from 'viem/dist/types/types/contract'
 
 export namespace Ethereum {
-	export type NetworkSlug = BrandedString<'NetworkSlug'>
+	export type NetworkSlug = string // BrandedString<'NetworkSlug'>
 
 	export type Network = {
 		slug: NetworkSlug,
@@ -36,11 +36,11 @@ export namespace Ethereum {
 			type: 'L2' | 'shard'
 		},
 	}
-	export type ChainID = Branded<number, 'ChainId'>
-	export type Slip44 = Branded<number, 'Slip44'>
-	export type ChainName = BrandedString<'ChainName'>
-	export type NetworkDisplayName = BrandedString<'NetworkDisplayName'>
-	export type NetworkID = Branded<number, 'NetworkID'>
+	export type ChainID = number // Branded<number, 'ChainId'>
+	export type Slip44 = number // Branded<number, 'Slip44'>
+	export type ChainName = string // BrandedString<'ChainName'>
+	export type NetworkDisplayName = string // BrandedString<'NetworkDisplayName'>
+	export type NetworkID = number // Branded<number, 'NetworkID'>
 	export type NetworkName = 'mainnet' | 'ropsten' | 'rinkeby' | 'goerli' | 'kovan' | 'classic' | 'polygon' | string
 
 	export type NativeCurrency = {
@@ -52,16 +52,16 @@ export namespace Ethereum {
 	export type Provider = EthersProvider
 	export type PublicClient = ViemPublicClient
 
-	export type TransactionID = BrandedString<'TransactionID'>
+	export type TransactionID = `0x${string}` // BrandedString<'TransactionID'>
 	export type TransactionIndex = number
 	export type TransactionNonce = number
 
 	export type BlockNumber = number
-	export type BlockHash = BrandedString<'BlockHash'>
+	export type BlockHash = `0x${string}` // BrandedString<'BlockHash'>
 
 	export type Block = EthersBlock
 
-	export type Address = BrandedString<'Address'>
+	export type Address = `0x${string}` // BrandedString<'Address'>
 
 	export type ContractAddress = Address
 	export type Contract = {
@@ -231,7 +231,7 @@ export namespace Ethereum {
 		value: any
 	}
 	export type ContractFunctionParameterName = string
-	export type TopicHash = BrandedString<'TopicHash'>
+	export type TopicHash = `0x${string}` // BrandedString<'TopicHash'>
 
 	export type ContractMetadata<SourcePath extends string> = {
 		compiler: {
