@@ -3230,10 +3230,10 @@ export const networks: Ethereum.Network[] = [
 		"explorers": [],
 		"infoURL": "https://mix-blockchain.org"
 	},
-	{
-		"slug": "mode",
-		"name": "Mode",
-	},
+	// {
+	// 	"slug": "mode",
+	// 	"name": "Mode",
+	// },
 	{
 		"slug": "mode-sepolia",
 		"name": "Mode Testnet",
@@ -5713,9 +5713,9 @@ const testnetSlugsForMainnetSlugs = {
 	// 'metis': [
 	// 	'metis-stardust',
 	// ],
-	'mode': [
-		'mode-sepolia'
-	],
+	// 'mode': [
+	// 	'mode-sepolia'
+	// ],
 	// 'reef': [
 	// 	'reef-testnet',
 	// ],
@@ -5806,7 +5806,7 @@ export const opStackNetworks = [
 	'base',
 	'zora',
 	// 'mode',
-	'mode-sepolia',
+	// 'mode-sepolia',
 	// 'mantle',
 	// 'worldcoin',
 ].map(slug => networksBySlug[slug])
