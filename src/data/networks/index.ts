@@ -1,9 +1,10 @@
 import type { Ethereum } from './types'
+import type { DeepReadonly } from '../../utils/DeepReadonly'
 
 // https://github.com/ethereum-lists/chains
 // https://chainid.network/chains.json
 
-export const networks: Ethereum.Network[] = [
+export const networks = [
 	{
 		"slug": "acala",
 		"name": "Acala Network",
@@ -5659,20 +5660,26 @@ export const networks: Ethereum.Network[] = [
 		],
 		"infoURL": "https://zora.energy",
 	},
-]
+] as const satisfies DeepReadonly<Ethereum.Network[]>
 
-export const networksByChainID: Record<Ethereum.ChainID, Ethereum.Network> = {}
-for(const network of networks)
-	networksByChainID[network.chainId] = network
+type Network = typeof networks[number]
+type ChainId = Network['chainId']
+type NetworkSlug = Network['slug']
+type Slip44 = keyof { [network in Network as network extends { slip44: infer Slip44 } ? Slip44 : never]: Network }
 
-export const networksBySlug: Record<string, Ethereum.Network> = {}
-for(const network of networks)
-	networksBySlug[network.slug] = network
+export const networksByChainID = Object.fromEntries(
+	networks.map(network => [network.chainId, network])
+) satisfies Record<ChainId, Network[]> satisfies Record<Ethereum.ChainID, Ethereum.Network[]>
 
-export const networksBySlip44: Record<number, Ethereum.Network> = {}
-for(const network of networks)
-	if(network.slip44)
-		networksBySlip44[network.slip44] = network
+export const networksBySlug = Object.fromEntries(
+	networks.map(network => [network.slug, network])
+) satisfies Record<NetworkSlug, Network[]> satisfies Record<Ethereum.NetworkSlug, Ethereum.Network[]>
+
+export const networksBySlip44 = Object.fromEntries(
+	networks
+		.filter((network): network is typeof network & { slip44: Slip44 } => 'slip44' in network)
+		.map(network => [network.slip44!, network])
+) satisfies Record<Slip44, Network[]> satisfies Record<Ethereum.Slip44, Ethereum.Network[]>
 
 
 const testnetSlugsForMainnetSlugs = {
@@ -5739,31 +5746,43 @@ const testnetSlugsForMainnetSlugs = {
 		'filecoin-wallaby',
 		'filecoin-calibration',
 	],
-}
+} as const satisfies DeepReadonly<
+	Partial<Record<NetworkSlug, NetworkSlug[]>>
+> satisfies DeepReadonly<
+	Partial<Record<Ethereum.NetworkSlug, Ethereum.NetworkSlug[]>>
+>
 
-export const testnetsForMainnets = Object.fromEntries<Ethereum.Network[]>(
+export const testnetsForMainnets = Object.fromEntries(
 	Object.entries(testnetSlugsForMainnetSlugs).map(([mainnetSlug, testnetSlugs]) =>
 		[mainnetSlug, testnetSlugs.map(slug => networksBySlug[slug])]
 	)
-)
+) satisfies DeepReadonly<
+	Partial<Record<NetworkSlug, Network[]>>
+> satisfies DeepReadonly<
+	Partial<Record<Ethereum.NetworkSlug, Ethereum.Network[]>>
+>
 
 export const mainnetForTestnet = Object.fromEntries(
 	Object.entries(testnetSlugsForMainnetSlugs).flatMap(([mainnetSlug, testnetSlugs]) =>
 		testnetSlugs.map(slug => [slug, networksBySlug[mainnetSlug]])
 	)
-)
+) satisfies DeepReadonly<
+	Partial<Record<NetworkSlug, Network[]>>
+> satisfies DeepReadonly<
+	Partial<Record<Ethereum.NetworkSlug, Ethereum.Network[]>>
+>
 
 export const testnetNetworks = Object.values(testnetsForMainnets).flat()
 
-export function isTestnet(network: Ethereum.Network){
-	return network.network?.includes('test')
+export const isTestnet = (network: Network) => (
+	('network' in network && network.network?.includes('test'))
 		|| network.slug?.includes('testnet')
 		|| network.name?.toLowerCase().includes('testnet')
 		|| testnetNetworks.includes(network)
-}
+)
 
 
-export const availableNetworks = [
+export const availableNetworks = ([
 	'ethereum',
 	'polygon',
 	'gnosis',
@@ -5773,23 +5792,26 @@ export const availableNetworks = [
 	'avalanche',
 	'fantom',
 	'bsc',
-].map(slug => networksBySlug[slug])
+] as const satisfies Readonly<NetworkSlug[]>)
+	.map(slug => networksBySlug[slug])
 
-export const defaultAccountNetworks = [
+export const defaultAccountNetworks = ([
 	'ethereum',
 	'polygon',
 	'gnosis',
-].map(slug => networksBySlug[slug])
+] as const satisfies Readonly<NetworkSlug[]>)
+	.map(slug => networksBySlug[slug])
 
 
-export const l1Networks = [
+export const l1Networks = ([
 	'ethereum',
 	'avalanche',
 	'celo',
 	'fantom',
-].map(slug => networksBySlug[slug])
+] as const satisfies Readonly<NetworkSlug[]>)
+	.map(slug => networksBySlug[slug])
 
-export const l2Networks = [
+export const l2Networks = ([
 	'polygon',
 	'gnosis',
 	'arbitrum-one',
@@ -5799,9 +5821,10 @@ export const l2Networks = [
 	// 'arbitrum-xdai',
 	// 'metis',
 	// 'oasis-paratime',
-].map(slug => networksBySlug[slug])
+] as const satisfies Readonly<NetworkSlug[]>)
+	.map(slug => networksBySlug[slug])
 
-export const opStackNetworks = [
+export const opStackNetworks = ([
 	'optimism',
 	'base',
 	'zora',
@@ -5809,14 +5832,15 @@ export const opStackNetworks = [
 	// 'mode-sepolia',
 	// 'mantle',
 	// 'worldcoin',
-].map(slug => networksBySlug[slug])
+] as const satisfies Readonly<NetworkSlug[]>)
+	.map(slug => networksBySlug[slug])
 
-export const ethereumAndL2Networks = [
+export const ethereumAndL2Networks = ([
 	networksBySlug['ethereum'],
 	...l2Networks
-]
+] as const satisfies Readonly<Network[]>)
 
-export const evmNetworks = [
+export const evmNetworks = ([
 	'aurora',
 	'avalanche',
 	'bsc',
@@ -5825,20 +5849,23 @@ export const evmNetworks = [
 	'evmos',
 	'fantom',
 	'filecoin',
-].map(slug => networksBySlug[slug])
+] as const satisfies Readonly<NetworkSlug[]>)
+	.map(slug => networksBySlug[slug])
 
-export const otherL1Networks = [
+export const otherL1Networks = ([
 	'aurora',
 	'bitcoin',
 	'bsc',
 	'cronos',
 	'evmos',
 	'metis',
-].map(slug => networksBySlug[slug])
+] as const satisfies Readonly<NetworkSlug[]>)
+	.map(slug => networksBySlug[slug])
 
-export const dataNetworks = [
+export const dataNetworks = ([
 	'filecoin',
-].map(slug => networksBySlug[slug])
+] as const satisfies Readonly<NetworkSlug[]>)
+	.map(slug => networksBySlug[slug])
 
 // export const otherNetworks = networks.filter(network =>
 // 	!ethereumAndL2Networks.includes(network)
@@ -5846,11 +5873,7 @@ export const dataNetworks = [
 // 	&& !Object.values(testnetsForMainnets).some(testnetNetworks => testnetNetworks.includes(network))
 // )
 
-export const networksBySection: {
-	title: string,
-	featuredNetworks?: Ethereum.Network[],
-	otherNetworks?: Ethereum.Network[],
-}[] = [
+export const networksBySection = [
 	{
 		title: 'Layer-One Networks',
 		featuredNetworks: l1Networks,
@@ -5896,7 +5919,15 @@ export const networksBySection: {
 		title: 'Other Networks (Experimental)',
 		featuredNetworks: otherL1Networks,
 	},
-]
+] as const satisfies Readonly<{
+	title: string,
+	featuredNetworks?: Network[],
+	otherNetworks?: Network[],
+}[]> satisfies Readonly<{
+	title: string,
+	featuredNetworks?: Ethereum.Network[],
+	otherNetworks?: Ethereum.Network[],
+}[]>
 
 const includedNetworks = new Set(networksBySection.flatMap(({ featuredNetworks = [], otherNetworks = [] }) => [...featuredNetworks, ...otherNetworks]))
 networksBySection[networksBySection.length - 1].otherNetworks = networks.filter(network => !includedNetworks.has(network))
@@ -5926,7 +5957,11 @@ export const networkColors = {
 	'scroll': '#cba68d', // '#cba68d', '#e5d1b8', '#cba58c', '#d7af94',
 	'skale': '#393939',
 	'zora': '#2B5DF0', // '#A1723A', '#531002', '#2B5DF0', '#FCB8D4', '#FFFFFF', '#387AFA'
-}
+} as const satisfies Readonly<
+	Partial<Record<NetworkSlug, string>>
+> satisfies DeepReadonly<
+	Partial<Record<Ethereum.NetworkSlug, string>>
+>
 
 export const getNetworkColor = (network: Ethereum.Network | undefined) =>
 	networkColors[network?.slug] ?? networkColors[mainnetForTestnet[network?.slug]?.slug] ?? ''
@@ -5936,6 +5971,10 @@ export function getNetworkRPC(network: Ethereum.Network){
 	return network.rpc[0] ?? ''
 }
 
-export const networkRedirectsBySlug: Record<string, Ethereum.NetworkSlug> = {
+export const networkRedirectsBySlug = {
 	'arbitrum': 'arbitrum-one',
-}
+} as const satisfies DeepReadonly<
+	Record<string, NetworkSlug>
+> satisfies DeepReadonly<
+	Record<string, Ethereum.NetworkSlug>
+>
