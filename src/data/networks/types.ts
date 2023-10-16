@@ -21,7 +21,7 @@ export namespace Ethereum {
 		rpc: string[],
 		faucets?: string[],
 		explorers?: {
-			name: string,
+			name?: string,
 			url: string,
 			standard?: string,
 			icon?: string,
@@ -33,7 +33,10 @@ export namespace Ethereum {
 		}
 		parent?: {
 			chain: `eip155-${ChainID}`,
-			type: 'L2' | 'shard'
+			type: 'L2' | 'shard',
+			bridges?: {
+				url: string,
+			}[],
 		},
 	}
 	export type ChainID = number // Branded<number, 'ChainId'>
