@@ -5,13 +5,10 @@
 	import type { NetworkProvider } from '../data/networkProviders/types'
 	import { networkProviderConfigByProvider } from '../data/networkProviders'
 	import { walletsByType } from '../data/wallets'
+	import type { UnionToObject } from '../utils/UnionToObject'
 	
 	type Abi = $$Generic<Ethereum.Abi>
 	type AbiMethod = Ethereum.AbiMethod<Abi>
-
-	type UnionToObject<Union> = {
-		[K in Union extends any ? keyof Union : never]: Union extends { [_ in K]: infer V } ? V : never;
-	}
 
 	type InputValues =
 		{
