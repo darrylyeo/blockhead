@@ -1,3 +1,5 @@
+import type { DeepReadonly } from '../utils/DeepReadonly'
+
 export enum IpfsGatewayProvider {
 	Helia = 'Helia',
 	ProtocolLabsIpfsIo = 'IpfsIo',
@@ -17,7 +19,7 @@ export type IpfsGatewayConfig = {
 
 import { HeliaIcon, ProtocolLabsIcon } from '../assets/icons'
 
-export const ipfsGateways: IpfsGatewayConfig[] = [
+export const ipfsGateways = [
 	{
 		gatewayProvider: IpfsGatewayProvider.Helia,
 		name: 'Helia',
@@ -54,8 +56,8 @@ export const ipfsGateways: IpfsGatewayConfig[] = [
 		name: 'Piñata',
 		gatewayDomain: 'gateway.pinata.cloud'
 	},
-]
+] as const satisfies DeepReadonly<IpfsGatewayConfig[]>
 
-export const ipfsGatewaysByProvider: Record<IpfsGatewayProvider, IpfsGatewayConfig> = Object.fromEntries(
+export const ipfsGatewaysByProvider = Object.fromEntries(
 	ipfsGateways.map((ipfsGateway) => [ipfsGateway.gatewayProvider, ipfsGateway])
-)
+) satisfies Record<IpfsGatewayProvider, IpfsGatewayConfig>
