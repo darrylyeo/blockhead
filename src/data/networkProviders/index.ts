@@ -83,7 +83,7 @@ type NetworkProviderConfig = {
 }
 
 
-export const networkProviderConfigs: NetworkProviderConfig[] = [
+export const networkProviderConfigs = [
 	{
 		provider: NetworkProvider.Default,
 		name: 'Default RPC Provider',
@@ -640,9 +640,12 @@ export const networkProviderConfigs: NetworkProviderConfig[] = [
 			)
 		},
 	},
-]
+] as const satisfies NetworkProviderConfig[]
 
-export const networkProviderConfigByProvider = Object.fromEntries(networkProviderConfigs.map(networkProviderConfig => [networkProviderConfig.provider, networkProviderConfig]))
+export const networkProviderConfigByProvider = Object.fromEntries(
+	networkProviderConfigs
+		.map(networkProviderConfig => [networkProviderConfig.provider, networkProviderConfig])
+) satisfies Record<NetworkProvider, NetworkProviderConfig>
 
 // export const networkProviderConfigByNetworkSlug = Object.fromEntries(Object.entries({
 // 	"arbitrum-one": [
