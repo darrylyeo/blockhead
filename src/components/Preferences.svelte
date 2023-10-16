@@ -1,21 +1,36 @@
 <script lang="ts">
-	import { preferences, preferencesConfig, resetPreferences } from '../state/preferences'
+	// Constants/types
+	import type { Ethereum } from '../data/networks/types'
+	import {
+		preferencesConfig, type Preference, type PreferenceId, type PreferenceSection, type PreferenceOption,
+		preferences, resetPreferences,
+	} from '../state/preferences'
 	import { triggerEvent } from '../events/triggerEvent'
 
 
-	export let relevantPreferences = []
-
+	// Inputs
+	export let relevantPreferences: PreferenceId[] = []
+	// (View options)
 	export let isShowingAll = false
 
-	const isShowingPreference = ({id}) => isShowingAll || !(relevantPreferences.length && !relevantPreferences.includes(id))
 
+	// Functions
+	const shouldShowPreference = (preference: Preference) => (
+		relevantPreferences ? relevantPreferences.includes(preference.preferenceId) : true
+	)
 
-	const resolveName = name =>
+	const resolveOptionName = (name: PreferenceOption['name']) => (
 		typeof name === 'function'
 			? name($preferences)
 			: name
+	)
 
 
+	// Components
+	import NetworkIcon from './NetworkIcon.svelte'
+
+
+	// Transitions/animations
 	import { expoOut } from 'svelte/easing'
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
@@ -40,60 +55,121 @@
 		<button type="button" class="medium" on:click={() => isShowingAll = !isShowingAll}>{isShowingAll ? 'Show Less' : 'Show All'}</button>
 	</label> -->
 
-	{#each isShowingAll
-		? preferencesConfig
-		: (relevantPreferences, preferencesConfig.filter(preferencesSection => preferencesSection.preferences.some(isShowingPreference)))
+	{#each
+		isShowingAll
+			? preferencesConfig
+			: (
+				relevantPreferences,
+				preferencesConfig.filter((section) => (
+					section.preferences.some(shouldShowPreference)
+				))
+			)
 		as
-		preferencesSection, i (preferencesSection.id)
+		section, i (section.sectionId)
 	}
-		<!-- <section class="preference-section" transition:scale|global={{duration: 200, opacity: 0, delay: i * 20, easing: expoOut}} animate:flip={{duration: 250}}> -->
-		<section class="preference-section">
+		{@const sectionKey = section.sectionId}
+
+		<!-- <section class="preference-section" transition:scale={{duration: 200, opacity: 0, delay: i * 20, easing: expoOut}} animate:flip={{duration: 250}}> -->
+		<section
+			class="preference-section"
+			data-preference-section={sectionKey}
+		>
 			{#if isShowingAll}
-				<h4 in:scale|global={{duration: 300, easing: expoOut, /* delay: i * 20 */}}>{preferencesSection.name}</h4>
+				<h4
+					class="row-inline"
+					in:scale={{duration: 300, easing: expoOut, /* delay: i * 20 */}}
+				>
+					{section.name}
+				</h4>
 			{/if}
+
 			{#each
-				preferencesSection.preferences.filter(isShowingPreference)
-				as {id, name, type, options}, j (id)
+				isShowingAll
+					? section.preferences
+					: section.preferences.filter(shouldShowPreference)
+				as preference, j (preference.preferenceId)
 			}
-				<label class="preference" transition:scale|global={{duration: 200, opacity: 0, /* delay: i * 20 + j * 10, */ easing: expoOut}} animate:flip={{duration: 250, easing: expoOut}}>
-					<span>{name}</span>
-					{#if type === 'multiple'}
+				{@const preferenceKey = preference.preferenceId}
+
+				<label
+					class="preference"
+					data-preference={sectionKey}
+					transition:scale={{duration: 200, opacity: 0, /* delay: i * 20 + j * 10, */ easing: expoOut}}
+					animate:flip={{duration: 250, easing: expoOut}}
+				>
+					<span class="row-inline">
+						{preference.name}
+					</span>
+
+					{#if preference.type === 'multiple'}
 						<select
 							multiple
-							bind:value={$preferences[id]}
-							on:change={(e) => triggerEvent('Preferences/Change', { preferenceKey: id, preferenceValue: e.target.value })}
+							bind:value={$preferences[preferenceKey]}
+							on:change={(e) => triggerEvent('Preferences/Change', {
+								preferenceSectionKey: section.sectionId,
+								preferenceKey: preference.preferenceId,
+								preferenceValue: e.target.value,
+							})}
 						>
-							{#each options as {id, name, options, value, disabled} (id)}
-								{#if options}
-									<optgroup label={name}>
-										{#each options as {id, name, value, disabled} (id)}
-											<option value={value || id} disabled={disabled}>{resolveName(name)}</option>
-										{/each}
-									</optgroup>
-								{:else}
-									<option value={value || id} disabled={disabled}>{resolveName(name)}</option>
+							{#each preference.options as optionOrOptionGroup ('groupId' in optionOrOptionGroup ? optionOrOptionGroup.groupId : optionOrOptionGroup.value)}
+								{#if 'groupId' in optionOrOptionGroup}
+									{@const optionGroup = optionOrOptionGroup}
+
+									{#if optionGroup.options.length}
+										<optgroup label={optionGroup.name}>
+											{#each optionGroup.options as optionOrOptionGroup ('groupId' in optionOrOptionGroup ? optionOrOptionGroup.groupId : optionOrOptionGroup.value)}
+												{#if 'groupId' in optionOrOptionGroup}
+													{@const optionGroup = optionOrOptionGroup}
+
+													<optgroup />
+												{:else}
+													{@const option = optionOrOptionGroup}
+
+													<option value={option.value} disabled={option.disabled}>{resolveOptionName(option.name)}</option>
+												{/if}
+											{/each}
+										</optgroup>
+									{/if}
+								{:else if 'value' in optionOrOptionGroup}
+									{@const option = optionOrOptionGroup}
+
+									<option value={option.value} disabled={option.disabled}>{resolveOptionName(option.name)}</option>
 								{/if}
 							{/each}
 						</select>
 					{:else}
 						<select
-							bind:value={$preferences[id]}
+							bind:value={$preferences[preferenceKey]}
 							on:change={(e) => triggerEvent('Preferences/Change', {
-								preferenceSectionKey: preferencesSection.id,
-								preferenceKey: id,
-								preferenceValue: e.target.value
+								preferenceSectionKey: section.sectionId,
+								preferenceKey: preference.preferenceId,
+								preferenceValue: e.target.value,
 							})}
 						>
 						<!--  multiple={type === 'multiple'} -->
-							{#each options as {id, name, options, value, disabled} (id)}
-								{#if options}
-									<optgroup label={name}>
-										{#each options as {id, name, value, disabled} (id)}
-											<option value={value || id} disabled={disabled}>{resolveName(name)}</option>
-										{/each}
-									</optgroup>
-								{:else}
-									<option value={value || id} disabled={disabled}>{resolveName(name)}</option>
+							{#each preference.options as optionOrOptionGroup ('groupId' in optionOrOptionGroup ? optionOrOptionGroup.groupId : optionOrOptionGroup.value)}
+								{#if 'groupId' in optionOrOptionGroup}
+									{@const optionGroup = optionOrOptionGroup}
+
+									{#if optionGroup.options.length}
+										<optgroup label={optionGroup.name}>
+											{#each optionGroup.options as optionOrOptionGroup ('groupId' in optionOrOptionGroup ? optionOrOptionGroup.groupId : optionOrOptionGroup.value)}
+												{#if 'groupId' in optionOrOptionGroup}
+													{@const optionGroup = optionOrOptionGroup}
+
+													<optgroup />
+												{:else}
+													{@const option = optionOrOptionGroup}
+
+													<option value={option.value} disabled={option.disabled}>{resolveOptionName(option.name)}</option>
+												{/if}
+											{/each}
+										</optgroup>
+									{/if}
+								{:else if 'value' in optionOrOptionGroup}
+									{@const option = optionOrOptionGroup}
+
+									<option value={option.value} disabled={option.disabled}>{resolveOptionName(option.name)}</option>
 								{/if}
 							{/each}
 						</select>

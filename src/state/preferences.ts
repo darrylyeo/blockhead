@@ -1,6 +1,12 @@
-import { localStorageWritable } from '../utils/localStorageWritable'
-import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '../data/currencies'
+// Type functions
+import type { DeepReadonly } from '../utils/DeepReadonly'
+import type { Indices } from '../utils/Indices'
+import type { UnionToObject } from '../utils/UnionToObject'
 
+
+// External constants
+import type { Ethereum } from '../data/networks/types'
+import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '../data/currencies'
 import { NetworkProvider } from '../data/networkProviders/types'
 import { networkProviderConfigs } from '../data/networkProviders'
 import { TokenBalancesProvider } from '../data/tokenBalancesProvider'
@@ -10,194 +16,168 @@ import { PriceProvider } from '../data/priceProviders'
 import { TransactionProvider } from '../data/transactionProvider'
 import { ContractSourceProvider } from '../data/contractSourceProvider'
 import { NotificationsProvider } from '../data/notificationsProvider'
-
 import { ipfsGateways } from '../data/ipfsGateways'
 import { arweaveGateways } from '../data/arweaveGateways'
 
 
-type PreferenceOption<
-	PreferenceOptionID extends string
-> = {
-	id: PreferenceOptionID,
-	name: string | ((preferences: SerializedPreferences<typeof preferencesConfig>) => string),
-	value?,
-	disabled?: boolean
+// Constants
+namespace Preferences {
+	export type Value = string | number | boolean
+
+	export type OptionOrOptionGroup = Option | OptionGroup
+
+	export type Options = OptionOrOptionGroup[] | readonly OptionOrOptionGroup[]
+
+	export type Option = {
+		value: Value,
+		name: string | ((preferences: any /* PreferencesState */) => string),
+		disabled?: boolean,
+	}
+
+	export type OptionGroup = {
+		groupId: string,
+		name: string,
+		options: Options,
+	}
+
+	export type Preference = {
+		preferenceId: string,
+		name: string,
+		options: Options,
+	} & ({
+		type: 'single',
+		defaultOption: Value,
+	} | {
+		type: 'multiple',
+		defaultOption: Value,
+	})
+
+	export type Section = {
+		sectionId: string,
+		name: string,
+		network?: Ethereum.Network,
+		preferences: (Preference /* | PreferenceSection */)[],
+	}
+
+	export type Config = Section[]
+
+	export type ExtractOptionValues<T extends Options> =
+		T[number] extends infer T ?
+			T extends OptionGroup ?
+				ExtractOptionValues<T['options']>
+			: T extends Option ?
+				T['value']
+			:
+				never
+		: never
 }
 
-type PreferenceOptionGroup<
-	PreferenceID extends string,
-	PreferenceOptionID extends string
-> = {
-	id: string,
-	name: string,
-	options: PreferenceOption<PreferenceOptionID>[] | PreferenceOptionGroup<PreferenceID, PreferenceOptionID>[]
-}
-
-type Preference<
-	PreferenceID extends string,
-	PreferenceOptionID extends string
-> = PreferenceOptionGroup<PreferenceID, PreferenceOptionID> & ({
-	type: 'single',
-	defaultOption: PreferenceOptionID
-} | {
-	type: 'multiple',
-	defaultOption: PreferenceOptionID[]
-})
-
-type PreferenceSection<
-	PreferenceSectionID extends string,
-	PreferenceID extends string,
-	PreferenceOptionID extends string = string
-> = {
-	id: PreferenceSectionID,
-	name: string,
-	preferences: (Preference<PreferenceID, PreferenceOptionID> /* | PreferenceSection<PreferenceSectionID, PreferenceID> */)[]
-}
-
-type PreferencesConfig<
-	PreferenceSectionID extends string, // = typeof preferencesConfig[number]['id'],
-	PreferenceID extends string // = typeof preferencesConfig[number]['id']['preferences']['id']
-> = PreferenceSection<PreferenceSectionID, PreferenceID>[]
-
-// interface SerializedPreferences<
-// 	TPreferencesConfig extends PreferencesConfig<infer PreferenceSectionID, infer PreferenceID>
-// > {[TPreferenceID]: any}
-type SerializedPreferences<T extends PreferencesConfig<infer TPreferenceSectionID, infer TPreferenceID>> = {
-	[_ in keyof T]
-}
-
-export const preferencesConfig: PreferencesConfig<
-	| 'appearance'
-	| 'blockchainData'
-	| 'accountData'
-	| 'analytics'
-	| 'contentNetworks',
-
-	| 'theme'
-	// | 'tokenIcons'
-
-	| 'rpcNetwork'
-	| 'rpcNetworkSend'
-	| 'tokenBalancesProvider'
-	| 'defiProvider'
-	| 'nftProvider'
-
-	| 'notificationsProvider'
-
-	| 'currentPriceProvider'
-	| 'historicalPriceProvider'
-	| 'transactionProvider'
-	| 'quoteCurrency'
-
-	// | 'ipfsGateway'
-	// | 'skynetGateway'
-	// | 'theGraphGateway'
-> = [
+export const preferencesConfig = [
 	{
-		id: 'appearance',
+		sectionId: 'appearance',
 		name: 'Appearance',
 		preferences: [
 			{
-				id: 'theme',
+				preferenceId: 'theme',
 				name: 'Theme',
 				type: 'single',
 				defaultOption: 'auto',
 				options: [
-					{ id: 'auto', name: 'Auto' },
-					{ id: 'dark', name: 'Dark' },
-					{ id: 'light', name: 'Light' }
+					{ value: 'auto', name: 'Auto' },
+					{ value: 'dark', name: 'Dark' },
+					{ value: 'light', name: 'Light' }
 				]
 			},
 			// {
-			// 	id: 'tokenIcons',
+			// 	preferenceId: 'tokenIcons',
 			// 	name: 'Token Icons',
 			// 	type: 'single',
 			// 	defaultOption: 'CoinGecko',
 			// 	options: [
-			// 		{ id: 'CoinGecko', name: 'CoinGecko' },
-			// 		{ id: 'Covalent', name: 'Covalent' },
+			// 		{ value: 'CoinGecko', name: 'CoinGecko' },
+			// 		{ value: 'Covalent', name: 'Covalent' },
 			// 	]
 			// }
 		]
 	},
 	{
-		id: 'blockchainData',
+		sectionId: 'blockchainData',
 		name: 'Blockchain Data',
 		preferences: [
 			{
-				id: 'rpcNetwork',
+				preferenceId: 'rpcNetwork',
 				name: 'On-Chain Data',
 				type: 'single', // 'multiple',
 				defaultOption: NetworkProvider.Default,
-				options: networkProviderConfigs.map(({ provider, name }) => ({ id: provider, name }))
+				options: networkProviderConfigs.map(({ provider, name }) => ({ value: provider, name }))
 				// options: [
-				// 	{ id: 'Auto', name: 'Auto' },
-				// 	{ id: 'Pocket Network', name: 'Pocket Network' },
-				// 	{ id: 'Alchemy', name: 'Alchemy' },
-				// // 	{ id: 'Moralis', name: 'Moralis' },
-				// 	{ id: 'Infura', name: 'Infura' },
-				// 	{ id: 'Etherscan', name: 'Etherscan' },
-				// 	{ id: 'Ethers', name: 'Ethers Quorum' }, // (Infura + Etherscan + Alchemy + Pocket)
+				// 	{ value: 'Auto', name: 'Auto' },
+				// 	{ value: 'Pocket Network', name: 'Pocket Network' },
+				// 	{ value: 'Alchemy', name: 'Alchemy' },
+				// // 	{ value: 'Moralis', name: 'Moralis' },
+				// 	{ value: 'Infura', name: 'Infura' },
+				// 	{ value: 'Etherscan', name: 'Etherscan' },
+				// 	{ value: 'Ethers', name: 'Ethers Quorum' }, // (Infura + Etherscan + Alchemy + Pocket)
 				// ]
 			},
 			{
-				id: 'transactionRelay',
+				preferenceId: 'transactionRelay',
 				name: 'Transaction Relay',
 				type: 'single', // 'multiple',
 				defaultOption: 'Ethers',
 				options: [
-					{ id: 'Ethers', name: 'Ethers Quorum' }, // (Infura + Etherscan + Alchemy + Pocket)
-					{ id: 'Pocket Network', name: 'Pocket Network' },
-					{ id: 'Alchemy', name: 'Alchemy' },
-					{ id: 'Infura', name: 'Infura' },
-					{ id: 'Moralis', name: 'Moralis' },
+					{ value: 'Ethers', name: 'Ethers Quorum' }, // (Infura + Etherscan + Alchemy + Pocket)
+					{ value: 'Pocket Network', name: 'Pocket Network' },
+					{ value: 'Alchemy', name: 'Alchemy' },
+					{ value: 'Infura', name: 'Infura' },
+					{ value: 'Moralis', name: 'Moralis' },
 				]
 			},
 			{
-				id: 'transactionProvider',
+				preferenceId: 'transactionProvider',
 				name: 'Transactions/Blocks',
 				type: 'single',
 				defaultOption: TransactionProvider.Covalent,
 				options: [
 					{
-						id: 'onChain',
+						groupId: 'onChain',
 						name: 'On-Chain',
 						options: [
-							{ id: TransactionProvider.RpcProvider, name: preferences => `On-Chain (${preferences.rpcNetwork})` },
+							{ value: TransactionProvider.RpcProvider, name: (preferences: any) => `On-Chain (${preferences.rpcNetwork})` },
 						]
 					},
 					{
-						id: 'offChain',
+						groupId: 'offChain',
 						name: 'Off-Chain',
 						options: [
-							{ id: TransactionProvider.Etherscan, name: 'Etherscan' },
-							{ id: TransactionProvider.Covalent, name: 'Covalent' },
-							{ id: TransactionProvider.Moralis, name: 'Moralis' },
-							// { id: TransactionProvider.Etherspot, name: 'Etherspot' },
-							{ id: TransactionProvider.Beryx, name: 'Beryx' },
+							{ value: TransactionProvider.Etherscan, name: 'Etherscan' },
+							{ value: TransactionProvider.Covalent, name: 'Covalent' },
+							{ value: TransactionProvider.Moralis, name: 'Moralis' },
+							// { value: TransactionProvider.Etherspot, name: 'Etherspot' },
+							{ value: TransactionProvider.Beryx, name: 'Beryx' },
 						]
 					}
 				]
 			},
 			{
-				id: 'contractSourceProvider',
+				preferenceId: 'contractSourceProvider',
 				name: 'Contract Source Code',
 				type: 'single',
 				defaultOption: 'Sourcify',
 				options: [
 					{
-						id: 'web3',
+						groupId: 'web3',
 						name: 'Web3 Hosted',
 						options: [
-							{ id: ContractSourceProvider.Sourcify, name: 'Sourcify' },
+							{ value: ContractSourceProvider.Sourcify, name: 'Sourcify' },
 						]
 					},
 					{
-						id: 'centralized',
+						groupId: 'centralized',
 						name: 'Centrally Hosted',
 						options: [
-							{ id: ContractSourceProvider.Etherscan, name: 'Etherscan' },
-							// { id: ContractSourceProvider.Tenderly, name: 'Tenderly' },
+							{ value: ContractSourceProvider.Etherscan, name: 'Etherscan' },
+							// { value: ContractSourceProvider.Tenderly, name: 'Tenderly' },
 						]
 					}
 				]
@@ -205,184 +185,182 @@ export const preferencesConfig: PreferencesConfig<
 		]
 	},
 	{
-		id: 'accountData',
+		sectionId: 'accountData',
 		name: 'Account Data',
 		preferences: [
 			{
-				id: 'tokenBalancesProvider',
+				preferenceId: 'tokenBalancesProvider',
 				name: 'Token Balances',
 				type: 'single',
 				defaultOption: TokenBalancesProvider.Airstack,
 				options: [
 					{
-						id: 'onChain',
+						groupId: 'onChain',
 						name: 'On-Chain',
 						options: [
-							{ id: TokenBalancesProvider.RpcProvider, name: preferences => `On-Chain (${preferences.rpcNetwork})` }, // 'RPC Provider + Token List'
-							{ id: TokenBalancesProvider.Liquality, name: 'Liquality (Alchemy)' },
-							{ id: TokenBalancesProvider.QuickNode, name: 'QuickNode' },
+							{ value: TokenBalancesProvider.RpcProvider, name: (preferences: any) => `On-Chain (${preferences.rpcNetwork})` }, // 'RPC Provider + Token List'
+							{ value: TokenBalancesProvider.Liquality, name: 'Liquality (Alchemy)' },
+							{ value: TokenBalancesProvider.QuickNode, name: 'QuickNode' },
 						]
 					},
 					{
-						id: 'offChain',
+						groupId: 'offChain',
 						name: 'Off-Chain',
 						options: [
-							{ id: TokenBalancesProvider.Airstack, name: 'Airstack' },
-							{ id: TokenBalancesProvider.Covalent, name: 'Covalent' },
-							{ id: TokenBalancesProvider.Moralis, name: 'Moralis › Web3 API' },
-							{ id: TokenBalancesProvider.Zapper, name: 'Zapper' },
-							{ id: TokenBalancesProvider.Beryx, name: 'Beryx' },
+							{ value: TokenBalancesProvider.Airstack, name: 'Airstack' },
+							{ value: TokenBalancesProvider.Covalent, name: 'Covalent' },
+							{ value: TokenBalancesProvider.Moralis, name: 'Moralis › Web3 API' },
+							{ value: TokenBalancesProvider.Zapper, name: 'Zapper' },
+							{ value: TokenBalancesProvider.Beryx, name: 'Beryx' },
 						]
 					}
 				]
 			},
 			{
-				id: 'defiProvider',
+				preferenceId: 'defiProvider',
 				name: 'DeFi Balances',
 				type: 'single',
 				defaultOption: DefiProvider.ZerionDefiSdk,
 				options: [
 					{
-						id: 'onChain',
+						groupId: 'onChain',
 						name: 'On-Chain',
 						options: [
-							{ id: DefiProvider.ZerionDefiSdk, name: DefiProvider.ZerionDefiSdk }
+							{ value: DefiProvider.ZerionDefiSdk, name: DefiProvider.ZerionDefiSdk }
 						]
 					},
 					{
-						id: 'offChain',
+						groupId: 'offChain',
 						name: 'Off-Chain',
 						options: [
-							{ id: DefiProvider.Zapper, name: DefiProvider.Zapper }
+							{ value: DefiProvider.Zapper, name: DefiProvider.Zapper }
 						]
 					}
 				]
 			},
 			{
-				id: 'nftProvider',
+				preferenceId: 'nftProvider',
 				name: 'NFTs',
 				type: 'single',
 				defaultOption: NftProvider.Airstack,
 				options: [
 					{
-						id: 'onChain',
+						groupId: 'onChain',
 						name: 'On-Chain',
 						options: [
-							{ id: NftProvider.Liquality, name: 'Liquality (Alchemy)' },
+							{ value: NftProvider.Liquality, name: 'Liquality (Alchemy)' },
 						]
 					},
 					{
-						id: 'offChain',
+						groupId: 'offChain',
 						name: 'Off-Chain',
 						options: [
-							{ id: NftProvider.Airstack, name: 'Airstack' },
-							{ id: NftProvider.Covalent, name: 'Covalent' },
-							{ id: NftProvider.NftPort,  name: 'NFTPort' }
-							// { id: 'Zapper', name: 'Zapper' },
-							// { id: 'Moralis', name: 'Moralis' },
+							{ value: NftProvider.Airstack, name: 'Airstack' },
+							{ value: NftProvider.Covalent, name: 'Covalent' },
+							{ value: NftProvider.NftPort,  name: 'NFTPort' }
+							// { value: 'Zapper', name: 'Zapper' },
+							// { value: 'Moralis', name: 'Moralis' },
 						]
 					}
 				]
 			},
 			{
-				id: 'notificationsProvider',
+				preferenceId: 'notificationsProvider',
 				name: 'Notifications',
 				type: 'single',
 				defaultOption: NotificationsProvider.Push,
 				options: [
-					{ id: NotificationsProvider.Push, name: 'Push' },
+					{ value: NotificationsProvider.Push, name: 'Push' },
 				]
 			},
 		],
 	},
 	{
-		id: 'analytics',
+		sectionId: 'analytics',
 		name: 'Analytics',
 		preferences: [
 			{
-				id: 'currentPriceProvider',
+				preferenceId: 'currentPriceProvider',
 				name: 'Current Price',
 				type: 'single',
 				defaultOption: 'Chainlink', // 'auto',
 				options: [
 					{
-						id: 'onChain',
+						groupId: 'onChain',
 						name: 'On-Chain',
 						options: [
-							{ id: PriceProvider.Chainlink, name: 'Chainlink' },
-							// { id: 'Tellor', name: 'Tellor' },
-							// { id: 'Compound Price Feed', name: 'Open Price Feed' },
+							{ value: PriceProvider.Chainlink, name: 'Chainlink' },
+							// { value: 'Tellor', name: 'Tellor' },
+							// { value: 'Compound Price Feed', name: 'Open Price Feed' },
 						]
 					},
 					// {
-					// 	id: 'offChain',
+					// 	groupId: 'offChain',
 					// 	name: 'Off-Chain',
 					// 	options: [
-					// 		// { id: PriceProvider.Covalent, name: 'Covalent' },
-					// 		// { id: 'Moralis', name: 'Moralis' },
-					// 		// { id: 'Zapper', name: 'Zapper' },
-					// 		// { id: 'CoinGecko', name: 'CoinGecko' },
-					// 		// { id: 'Etherscan', name: 'Etherscan' },
+					// 		// { value: PriceProvider.Covalent, name: 'Covalent' },
+					// 		// { value: 'Moralis', name: 'Moralis' },
+					// 		// { value: 'Zapper', name: 'Zapper' },
+					// 		// { value: 'CoinGecko', name: 'CoinGecko' },
+					// 		// { value: 'Etherscan', name: 'Etherscan' },
 					// 	]
 					// },
 					// {
-					// 	id: 'auto',
+					// 	groupId: 'auto',
 					// 	name: 'Auto',
 					// 	options: [
-					// 		{ id: 'auto', name: 'Auto' },
+					// 		{ value: 'auto', name: 'Auto' },
 					// 	]
 					// }
 				]
 			},
 			/*{
-				id: 'historicalPriceProvider',
+				preferenceId: 'historicalPriceProvider',
 				name: 'Historical Price',
 				type: 'single', // 'multiple'
 				defaultOption: '',
 				options: [
 					// {
-					// 	id: 'onChain',
+					// 	groupId: 'onChain',
 					// 	name: 'On-Chain',
 					// 	options: [
-					//	{ id: PriceProvider.Chainlink, name: 'Chainlink' },
+					//	{ value: PriceProvider.Chainlink, name: 'Chainlink' },
 					// 	]
 					// },
 					{
-						id: 'offChain',
+						groupId: 'offChain',
 						name: 'Off-Chain',
 						options: [
-							// { id: PriceProvider.Covalent, name: 'Covalent' },
-							// { id: 'The Graph', name: 'The Graph' },
-							// { id: 'Zapper', name: 'Zapper' },
-							// { id: 'CoinGecko', name: 'CoinGecko' },
-							// { id: 'Etherscan', name: 'Etherscan' },
-							// { id: 'TradingView', name: 'TradingView' },
+							// { value: PriceProvider.Covalent, name: 'Covalent' },
+							// { value: 'The Graph', name: 'The Graph' },
+							// { value: 'Zapper', name: 'Zapper' },
+							// { value: 'CoinGecko', name: 'CoinGecko' },
+							// { value: 'Etherscan', name: 'Etherscan' },
+							// { value: 'TradingView', name: 'TradingView' },
 						]
 					}
 				]
 			},*/
 			{
-				id: 'quoteCurrency',
+				preferenceId: 'quoteCurrency',
 				name: 'Currency',
 				type: 'single',
 				defaultOption: 'USD',
 				options: [
 					{
-						id: 'fiat',
+						groupId: 'fiat',
 						name: 'Fiat Currencies',
 						options: Object.values(fiatQuoteCurrencies).map(currency => ({
-							id: currency.isoCode,
+							value: currency.isoCode,
 							name: `${currency.name} (${currency.symbol})`,
-							value: currency.isoCode
 						}))
 					},
 					{
-						id: 'crypto',
+						groupId: 'crypto',
 						name: 'Cryptocurrencies',
 						options: Object.values(cryptoQuoteCurrencies).map(currency => ({
-							id: currency.isoCode,
+							value: currency.isoCode,
 							name: `${currency.name} (${currency.symbol})`,
-							value: currency.isoCode
 						}))
 					}
 				]
@@ -390,35 +368,35 @@ export const preferencesConfig: PreferencesConfig<
 		]
 	},
 	{
-		id: 'contentNetworks',
+		sectionId: 'contentNetworks',
 		name: 'Content Networks',
 		preferences: [
 			{
-				id: 'ipfsGateway',
+				preferenceId: 'ipfsGateway',
 				name: 'IPFS Gateway',
 				type: 'single',
 				defaultOption: ipfsGateways[0].gatewayProvider,
 				options: [
 					{
-						id: 'local',
+						groupId: 'local',
 						name: 'Local',
 						options: [
 							...ipfsGateways
 								.filter(ipfsGateway => ipfsGateway.gatewayDomain === 'local')
 								.map(ipfsGateway => ({
-									id: ipfsGateway.gatewayProvider,
+									value: ipfsGateway.gatewayProvider,
 									name: `${ipfsGateway.name} (${ipfsGateway.gatewayDomain})`,
 								})),
 						]
 					},
 					{
-						id: 'hosted',
+						groupId: 'hosted',
 						name: 'Hosted',
 						options: [
 							...ipfsGateways
 								.filter(ipfsGateway => ipfsGateway.gatewayDomain !== 'local')
 								.map(ipfsGateway => ({
-									id: ipfsGateway.gatewayProvider,
+									value: ipfsGateway.gatewayProvider,
 									name: `${ipfsGateway.name} (${ipfsGateway.gatewayDomain})`,
 								})),
 						]
@@ -426,13 +404,13 @@ export const preferencesConfig: PreferencesConfig<
 				]
 			},
 			{
-				id: 'arweaveGateway',
+				preferenceId: 'arweaveGateway',
 				name: 'Arweave Gateway',
 				type: 'single',
 				defaultOption: arweaveGateways[0],
 				options: [
 					...arweaveGateways.map(url => ({
-						id: url,
+						value: url,
 						name: url,
 					})),
 				]
@@ -440,64 +418,90 @@ export const preferencesConfig: PreferencesConfig<
 		]
 	},
 	// {
-	// 	id: 'web3',
+	// 	sectionId: 'web3',
 	// 	name: 'Web 3.0',
 	// 	preferences: [
 	// 		{
-	// 			id: 'skynetPortal',
+	// 			preferenceId: 'skynetPortal',
 	// 			name: 'Skynet Portal',
 	// 			type: 'single',
 	// 			defaultOption: 'siasky.net',
 	// 			options: [
-	// 				{ id: 'siasky.net', name: 'siasky.net' }
+	// 				{ value: 'siasky.net', name: 'siasky.net' }
 	// 			]
 	// 		},
 	// 		{
-	// 			id: 'theGraphGateway',
+	// 			preferenceId: 'theGraphGateway',
 	// 			name: 'The Graph Gateway',
 	// 			type: 'single',
 	// 			defaultOption: 'api.thegraph.com',
 	// 			options: [
-	// 				{ id: 'api.thegraph.com', name: 'api.thegraph.com' }
+	// 				{ value: 'api.thegraph.com', name: 'api.thegraph.com' }
 	// 			]
 	// 		},
 	// 	]
 	// },
-] // as const
+] as const satisfies DeepReadonly<Preferences.Config>
+
+// (Derived types)
+export type PreferencesConfig = typeof preferencesConfig
+export type PreferenceSection = PreferencesConfig[number]
+export type Preference = PreferenceSection['preferences'][number]
+export type PreferenceId = Preference['preferenceId']
+export type PreferenceOption = Preference['options'][number]
+
+// (Functions)
+const extractOptionValues = <T extends Preferences.Options>(options: T): Preferences.Value[] => (
+	options.flatMap(optionOrGroup => (
+		'groupId' in optionOrGroup
+			? extractOptionValues(optionOrGroup.options)
+			: optionOrGroup.value
+	))
+) satisfies Preferences.ExtractOptionValues<T>[]
 
 
-// V1
-// export const preferences.rpcNetwork = localStorageWritable<NetworkProvider>('preferred-ethereum-provider', 'Ethers')
-// export const preferences.transactionProvider = localStorageWritable<TransactionProvider>('preferred-transaction-provider', TransactionProvider.Etherspot)
-// export const preferences.defiProvider = localStorageWritable<DefiProvider>('preferred-defi-provider', DefiProvider.Zapper)
-// export const preferences.currentPriceProvider = localStorageWritable<PriceProvider>('preferred-price-feed-provider', PriceProvider.Chainlink)
-// export const preferences.analyticsProvider = localStorageWritable<AnalyticsProvider>('preferred-analytics-provider', 'Covalent')
-// export const preferences.quoteCurrency = localStorageWritable<QuoteCurrency>('preferred-quote-currency', 'USD')
-// export const preferences.theme = localStorageWritable<'auto' | 'dark' | 'light'>('preferred-color-scheme', 'auto')
+// State
+type PreferencesState = UnionToObject<{
+	[i in Indices<PreferencesConfig> as PreferencesConfig[i]['sectionId']]: {
+		[j in Indices<PreferencesConfig[i]['preferences']> as PreferencesConfig[i]['preferences'][j]['preferenceId']]:
+			Preferences.ExtractOptionValues<PreferencesConfig[i]['preferences'][j]['options']>
+	}
+}[PreferencesConfig[number]['sectionId']]>
 
-// V2
-export const localStoragePreferences = localStorageWritable<SerializedPreferences<typeof preferencesConfig>>(
-	'localPreferences',
-	{}
-	// Object.fromEntries(
-	// 	preferencesConfig
-	// 		.flatMap(preferenceGroup => preferenceGroup.preferences)
-	// 		.map(preference => [preference.id, preference.defaultOption])
-	// )
+import { localStorageWritable } from '../utils/localStorageWritable'
+
+// (Functions)
+const resolveDefaultPreferences = (preferences?: Partial<PreferencesState>): PreferencesState => (
+	Object.fromEntries(
+		preferencesConfig
+			.flatMap(section => (
+				section.preferences
+					.map(preference => [
+						preference.preferenceId,
+						extractOptionValues(preference.options).includes(preferences?.[preference.preferenceId])
+							&& preferences?.[preference.preferenceId]
+							|| preference.defaultOption
+					])
+			))
+	)
 )
-const resolveDefaultPreferences = (preferences = {}) => {
-	for(const preferenceGroup of preferencesConfig)
-		for(const preference of preferenceGroup.preferences)
-			if(!preference.options
-				.flatMap(optionOrGroup => optionOrGroup.options ? optionOrGroup.options : optionOrGroup)
-				.find((option) => preferences[preference.id] === (option.id || option.value))
-			)
-				preferences[preference.id] = preference.defaultOption
 
-	return preferences
-}
-localStoragePreferences.update(resolveDefaultPreferences)
+// (Stores - V1)
+// export const rpcNetwork = localStorageWritable<NetworkProvider>('preferred-ethereum-provider', 'Ethers')
+// export const transactionProvider = localStorageWritable<TransactionProvider>('preferred-transaction-provider', TransactionProvider.Etherspot)
+// export const defiProvider = localStorageWritable<DefiProvider>('preferred-defi-provider', DefiProvider.Zapper)
+// export const currentPriceProvider = localStorageWritable<PriceProvider>('preferred-price-feed-provider', PriceProvider.Chainlink)
+// export const analyticsProvider = localStorageWritable<AnalyticsProvider>('preferred-analytics-provider', 'Covalent')
+// export const quoteCurrency = localStorageWritable<QuoteCurrency>('preferred-quote-currency', 'USD')
+// export const theme = localStorageWritable<'auto' | 'dark' | 'light'>('preferred-color-scheme', 'auto')
 
-export const resetPreferences = () => localStoragePreferences.set(resolveDefaultPreferences({}))
+// (Stores - V2)
+export const preferences = localStorageWritable<PreferencesState>(
+	'localPreferences',
+	resolveDefaultPreferences(),
+)
 
-export const preferences = localStoragePreferences
+preferences.update(resolveDefaultPreferences)
+
+// (Actions)
+export const resetPreferences = () => preferences.set(resolveDefaultPreferences())
