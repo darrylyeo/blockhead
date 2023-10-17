@@ -15,12 +15,14 @@ export type AccountConnectionState = {
 	walletConnection?: WalletConnection
 	signer?: Signer
 
-	account?: {
-		address?: Ethereum.Address,
-		nickname?: string,
-	}
+	account?: Account
 	chainId?: number
 	walletconnectTopic?: WalletconnectTopic,
+}
+
+export type Account = {
+	address?: Ethereum.Address,
+	nickname?: string,
 }
 
 

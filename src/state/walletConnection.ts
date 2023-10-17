@@ -4,6 +4,7 @@ import type { Readable } from 'svelte/store'
 
 import type { Ethereum } from '../data/networks/types'
 import { type WalletType, WalletConnectionType, walletsByType } from '../data/wallets'
+import type { Account } from './account'
 
 
 import type { Provider as EthersProvider } from 'ethers'
@@ -26,13 +27,13 @@ export type WalletConnection = {
 	provider?: Provider,
 
 	connect: (isInitiatedByUser?: boolean) => Promise<Partial<{
-		accounts?: { address: Ethereum.Address, nickname?: string }[],
+		accounts?: Account[],
 		chainId?: Ethereum.ChainID
 		walletconnectTopic?: WalletconnectTopic,
 	}>>
 
 	subscribe?: () => {
-		accounts: Readable<{ address: Ethereum.Address, nickname?: string }[]>;
+		accounts: Readable<Account[]>;
 		chainId: Readable<Ethereum.ChainID>;
 	},
 
@@ -42,7 +43,7 @@ export type WalletConnection = {
 }
 
 
-const connectEip1193 = async (provider: Provider) => {
+const connectEip1193 = async (provider: Provider): Promise<{ accounts: Account[]}> => {
 	try {
 		if(!provider.request){
 			// provider.request = (request) => provider.sendPromise(request.method, request.params)
@@ -71,8 +72,8 @@ const connectEip1193 = async (provider: Provider) => {
 import { readable } from 'svelte/store'
 
 const subscribeEip1193 = (provider: Provider) => ({
-	accounts: readable<Ethereum.Address[]>([], set => {
-		const onAccountsChanged = (accounts: string[]) => set(accounts as Ethereum.Address[])
+	accounts: readable<Account[]>([], set => {
+		const onAccountsChanged = (addresses: Ethereum.Address[]) => set(addresses.map(address => ({ address })))
 
 		provider.request({ method: 'eth_accounts' }).then(onAccountsChanged)
 
@@ -559,8 +560,8 @@ export const getWalletConnection = async ({
 					}),
 
 					subscribe: () => ({
-						accounts: readable<Ethereum.Address[]>(
-							session?.namespaces.eip155.accounts.map(caip2Id => parseCaip2Id(caip2Id).address!),
+						accounts: readable<Account[]>(
+							session?.namespaces.eip155.accounts.map(caip2Id => ({ address: parseCaip2Id(caip2Id).address! })),
 							set => {
 								signClient.events.on?.('session_event', (e) => console.log(e))
 								signClient.events.on?.('session_update', (e) => console.log(e))
@@ -691,8 +692,8 @@ export const getWalletConnection = async ({
 					},
 
 					subscribe: () => ({
-						accounts: readable<Ethereum.Address[]>([], set => {
-							watchAccount(account => set([account.address].filter(isTruthy)))
+						accounts: readable<Account[]>([], set => {
+							watchAccount(account => set([{ address: account.address }].filter(isTruthy)))
 						}),
 					
 						chainId: readable<Ethereum.ChainID>(undefined, set => {
@@ -734,9 +735,9 @@ export const getWalletConnection = async ({
 					}),
 
 					subscribe: () => ({
-						accounts: readable<Ethereum.Address[]>([signer?._account.address], set => {
+						accounts: readable<Account[]>([signer?._account.address], set => {
 							signer.getAddress()
-								.then(address => console.log({address})||set([address as Ethereum.Address]))
+								.then((address: Ethereum.Address) => set([{ address }]))
 
 							// provider.eventPromiseListener()
 					
