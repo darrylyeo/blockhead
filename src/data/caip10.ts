@@ -10,7 +10,10 @@ export const getCaip10AccountId = ({
 	address: Ethereum.Address,
 }) => (
 	AccountId.format({
-		chainId: `eip115:${network.chainId}`,
+		chainId: {
+			namespace: 'eip155',
+			reference: String(network.chainId),
+		},
 		address,
 	})
 )
