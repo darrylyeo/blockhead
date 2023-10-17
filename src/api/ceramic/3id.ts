@@ -4,40 +4,40 @@ import { ThreeIdConnect, EthereumAuthProvider /*, EOSIOProvider, FilecoinProvide
 
 
 let threeIdConnect: ThreeIdConnect
-export function getThreeIdConnect() {
-	return threeIdConnect ||= new ThreeIdConnect()
+export const getThreeIdConnect = () => {
+    return threeIdConnect ||= new ThreeIdConnect()
 }
 
 
 import type { Ethereum } from '../../data/networks/types'
 import toWeb3Provider from 'ethers-to-web3'
 
-export async function getDIDProviderFromEthereumProvider({
-	threeIdConnect = getThreeIdConnect(),
-	ethereumProvider,
-	address
+export const getDIDProviderFromEthereumProvider = async ({
+    threeIdConnect = getThreeIdConnect(),
+    ethereumProvider,
+    address
 }: {
-	threeIdConnect?: ThreeIdConnect
-	ethereumProvider: Ethereum.Provider,
-	address: Ethereum.Address
-}) {
-	ethereumProvider = toWeb3Provider(ethereumProvider)
+    threeIdConnect?: ThreeIdConnect,
+    ethereumProvider: Ethereum.Provider,
+    address: Ethereum.Address
+}) => {
+    ethereumProvider = toWeb3Provider(ethereumProvider)
 
-	const authProvider = new EthereumAuthProvider(ethereumProvider, address, {})
-	await threeIdConnect.connect(authProvider)
+    const authProvider = new EthereumAuthProvider(ethereumProvider, address, {})
+    await threeIdConnect.connect(authProvider)
 
-	const didProvider = await threeIdConnect.getDidProvider()
+    const didProvider = await threeIdConnect.getDidProvider()
 
-	return didProvider
+    return didProvider
 }
 
 
 import KeyDidResolver from 'key-did-resolver'
 import ThreeIdResolver from '@ceramicnetwork/3id-did-resolver'
 
-export function getDIDResolverRegistry(ceramic: CeramicClient) {
-	const resolver = { ...KeyDidResolver.getResolver(), ...ThreeIdResolver.getResolver(ceramic) }
-	return resolver
+export const getDIDResolverRegistry = (ceramic: CeramicClient) => {
+    const resolver = { ...KeyDidResolver.getResolver(), ...ThreeIdResolver.getResolver(ceramic) }
+    return resolver
 }
 
 
@@ -48,26 +48,26 @@ import type { DIDProvider } from '@ceramicnetwork/common'
 import type { ResolverRegistry } from 'did-resolver'
 import { DID } from 'dids'
 
-export async function getDID({
-	ceramicClient = getCeramicClient(),
-	didResolverRegistry = getDIDResolverRegistry(ceramicClient),
-	didProvider
+export const getDID = async ({
+    ceramicClient = getCeramicClient(),
+    didResolverRegistry = getDIDResolverRegistry(ceramicClient),
+    didProvider
 }: {
     ceramicClient?: CeramicClient,
     didResolverRegistry?: ResolverRegistry,
     didProvider: DIDProvider
-}) {
-	const did = new DID({
-		resolver: didResolverRegistry
-	})
+}) => {
+    const did = new DID({
+        resolver: didResolverRegistry
+    })
 
-	did.setProvider(didProvider)
+    did.setProvider(didProvider)
 
-	return did
+    return did
 }
 
-export async function authenticateDID(did: DID){
-	console.log('authenticateDID', did)
-	await did.authenticate()
-	console.log('authenticated')
+export const authenticateDID = async (did: DID) => {
+    console.log('authenticateDID', did)
+    await did.authenticate()
+    console.log('authenticated')
 }
