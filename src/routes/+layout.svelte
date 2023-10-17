@@ -260,6 +260,16 @@
 	.wallets-toggle span:before {
 		content: none !important;
 	}
+
+	aside {
+		transition: 0.4s var(--ease-out-expo);
+	}
+	aside:not(.isOpen) {
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+		translate: 400px;
+	}
 </style>
 
 
@@ -278,28 +288,11 @@
 		</svelte:fragment>
 	</Nav>
 
-	{#if showAccounts}
-		<!-- <aside class="column" transition:slide|global={{ axis: 'x' }}> -->
-		<aside class="column" transition:fly|global={{ x: 400, opacity: 0, duration: 400, easing: quintOut }}>
-			<AccountConnections layout="column" />
-		</aside>
-	{:else}
-		<aside hidden>
-			<AccountConnections />
-		</aside>
-	{/if}
+	<aside class="column" class:isOpen={showAccounts}>
+		<AccountConnections layout="column" />
+	</aside>
 
 	<div class="stack" data-show-accounts={showAccounts}>
 		<slot></slot>
 	</div>
-
-	<!-- <SizeContainer transitionWidth transitionHeight={false} showIf={showAccounts}> -->
-		<!-- <aside hidden={!showAccounts}>
-			<section class="column" transition:slide|global={{ axis: 'x' }}>
-				<AccountConnections layout="column" />
-			</section>
-		</aside> -->
-	<!-- </SizeContainer> -->
-		
-	<!-- </SizeContainer> -->
 </QueryClientProvider>
