@@ -11,12 +11,14 @@
 	import { getTokenAddressBalances } from '../api/covalent'
 	import { networksByChainID } from '../data/networks'
 	import { preferences } from '../state/preferences'
+	import type { AccountConnection } from '../state/account'
 
 
 	// Data
 	export let web3AppConfig: Web3AppConfig
 	export let network: Ethereum.Network | undefined
 	export let address: string | undefined
+	export let accountConnection: AccountConnection | undefined
 	export let networkProvider: NetworkProvider
 	export let defiProvider: DefiProvider = DefiProvider.Zapper
 	export let quoteCurrency: QuoteCurrency

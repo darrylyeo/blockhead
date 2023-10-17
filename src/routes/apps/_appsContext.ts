@@ -18,6 +18,8 @@ import {
 	ipfsContentId
 } from './_appsParams'
 
+import { accountConnections } from '../../state/account'
+
 
 // Derived stores
 
@@ -55,6 +57,16 @@ export const currentView: Readable<'Dashboard' | 'Explorer' | 'Account'> = deriv
 		'Account'
 	:
 		'Dashboard'
+))
+
+export let accountConnection = derived([
+	accountConnections,
+	accountId,
+], ([
+	$accountConnections,
+	$accountId,
+], set) => set(
+	$accountConnections.find(accountConnection => accountConnection.state?.account?.address?.toLowerCase() === $accountId.toLowerCase())
 ))
 
 
