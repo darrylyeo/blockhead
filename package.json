@@ -62,6 +62,7 @@
     "blockstore-core": "^4.2.0",
     "blockstore-idb": "^1.1.1",
     "buffer": "^6.0.3",
+    "caip": "^1.1.0",
     "datastore-core": "^9.2.0",
     "datastore-idb": "^2.1.2",
     "detect-content-type": "^1.2.0",
