@@ -315,7 +315,11 @@
 					{#if components?.length}
 						<div class="column">
 							{#each components as Component}
-								<svelte:component this={Component} />
+								<svelte:component this={Component}
+									{network}
+									{address}
+									{accountConnection}
+								/>
 							{/each}
 						</div>
 					{/if}
