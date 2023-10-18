@@ -9307,9 +9307,15 @@ export const web3AppsByProviderName = {
 
 const infrastructureApps = [
 	'ipfs',
-	'ens',
 	'the-graph',
 	// 'push',
+].map(slug => web3AppsBySlug[slug])
+
+const identityApps = [
+	'ens',
+	'ceramic',
+	'disco',
+	'lens',
 ].map(slug => web3AppsBySlug[slug])
 
 const oracleNetworks = [
@@ -9353,25 +9359,31 @@ const institutionalDefi = [
 
 const creatorApps = [
 	'audius',
-	'lens',
+	'nouns',
 	'zora',
+	// 'apecoin',
 	// 'livepeer',
 	// 'rarible',
 ].map(slug => web3AppsBySlug[slug])
 
-const collectibleCommunities = [
-	'apecoin',
-	'nouns',
-].map(slug => web3AppsBySlug[slug])
+// const collectibleCommunities = [
+// 	'apecoin',
+// 	'nouns',
+// ].map(slug => web3AppsBySlug[slug])
 
 export const web3AppsBySection = [
 	{
-		title: 'Web3 Infrastucture',
+		title: 'Data Infrastucture',
 		apps: infrastructureApps,
 		isFeatured: true,
 	},
 	{
-		title: 'Creator Economy',
+		title: 'Identity Primitives',
+		apps: identityApps,
+		isFeatured: true,
+	},
+	{
+		title: 'Creator Communities',
 		apps: creatorApps,
 		isFeatured: true,
 	},
@@ -9390,21 +9402,21 @@ export const web3AppsBySection = [
 		apps: institutionalDefi,
 		isFeatured: true,
 	},
-	{
-		title: 'Cross-Chain Infrastructure',
-		apps: crossChainInfrastructure,
-		isFeatured: true,
-	},
+	// {
+	// 	title: 'Cross-Chain Infrastructure',
+	// 	apps: crossChainInfrastructure,
+	// 	isFeatured: true,
+	// },
 	{
 		title: 'Oracle Networks',
 		apps: oracleNetworks,
 		isFeatured: true,
 	},
-	{
-		title: 'Collectible Communities',
-		apps: collectibleCommunities,
-		isFeatured: true,
-	},
+	// {
+	// 	title: 'Collectible Communities',
+	// 	apps: collectibleCommunities,
+	// 	isFeatured: true,
+	// },
 	{
 		title: 'Other Apps (Experimental)',
 		apps: web3Apps.filter(appConfig => ![
@@ -9415,7 +9427,7 @@ export const web3AppsBySection = [
 			...decentralizedExchanges,
 			...institutionalDefi,
 			...creatorApps,
-			...collectibleCommunities
+			// ...collectibleCommunities
 		].includes(appConfig)),
 		isFeatured: false
 	}
