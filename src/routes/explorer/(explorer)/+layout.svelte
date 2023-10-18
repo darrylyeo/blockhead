@@ -1,6 +1,7 @@
 <script lang="ts">
 	// Types/constants
 	import type { Ethereum } from '../../../data/networks/types'
+	import { InputPattern } from '../../../data/inputPatterns'
 
 
 	// Params/Context
@@ -75,11 +76,6 @@
 		'fantom',
 		'bsc'
 	].includes($networkSlug)
-
-	let placeholder: string
-	// $: placeholder = {
-	// 	'avalanche': 'C-Chain Address (0xabcd...6789) / Avvy Domain (avvy.avax)'
-	// }
 
 
 	// Block Navigation
@@ -192,10 +188,17 @@
 		$transactionId = currentExplorerInputParams.transactionId
 	}}>
 		<ExplorerInput
+			inputPatterns={
+				[
+					InputPattern.Address,
+					InputPattern.TransactionId,
+					InputPattern.BlockNumber,
+					InputPattern.EnsName,
+				]
+			}
 			value={$explorerQuery}
 			network={$explorerNetwork}
 			bind:explorerInputParams={currentExplorerInputParams}
-			{placeholder}
 		/>
 		<button type="submit">Go</button>
 	</form>

@@ -1,6 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import type { AccountConnection } from '../../../state/account'
+	import { InputPattern } from '../../../data/inputPatterns'
 
 
 	// Params
@@ -120,7 +121,14 @@
 	out:fly={{x: -100}}
 >
 	<form class="accountId-form row" on:submit|preventDefault={() => $accountId = currentAccountId}>
-		<ExplorerInput bind:value={currentAccountId} placeholder="EVM Address (0xabcd...6789) / ENS Domain (vitalik.eth) / Lens Handle (stani.lens)" />
+		<ExplorerInput
+			inputPatterns={[
+				InputPattern.Address,
+				InputPattern.EnsName,
+				InputPattern.LensHandle,
+			]}
+			bind:value={currentAccountId}
+		/>
 
 		<span>or</span>
 

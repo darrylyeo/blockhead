@@ -5,21 +5,7 @@
 	import type { ExplorerInputParams } from '../routes/explorer/_explorerParams'
 	import { ExplorerQueryType, explorerQuery, getExplorerQueryType } from '../routes/explorer/_explorerContext'
 
-	const explorerInputTypes = {
-		ensName: {
-			label: 'ENS Name',
-		},
-		address: {
-			label: 'Address',
-		},
-		transaction: {
-			label: 'Transaction',
-		},
-		blockNumber: {
-			label: 'Block',
-		},
-	}
-	type ExplorerInputType = keyof typeof explorerInputTypes
+	import { InputPattern, inputPatternsConfig } from '../data/inputPatterns'
 
 
 	// Context
@@ -29,28 +15,30 @@
 	const localPortfolios = getLocalPortfolios()
 
 	import { localStorageWritable } from '../utils/localStorageWritable'
-	const history = localStorageWritable('ExplorerInput/history', [] as string[])
+	const history = localStorageWritable<string[]>('ExplorerInput/history', [])
 
 
 	// Inputs
+	export let inputPatterns: InputPattern[] = Object.values(InputPattern)
 	export let required = false
 	export let autofocus = false
-	export let placeholder = 'Address (0xabcd...6789) / Transaction ID (0xabcdef...456789) / Block Number (12345678) / ENS Domain (vitalik.eth)'
+	export let placeholder = inputPatterns
+		.map(type => `${inputPatternsConfig[type].label} (${inputPatternsConfig[type].placeholder})`)
+		.join(' / ')
 
 	export let network: Ethereum.Network
 
 
 	// Functions
+	import { isTruthy } from '../utils/isTruthy'
+
 	import { findMatchedCaptureGroupName } from '../utils/findMatchedCaptureGroup'
 
-	const pattern = /^(?:(?<none>)|(?<address>0x[0-9a-fA-F]{40})|(?<transactionId>0x[0-9a-fA-F]{64})|(?<blockNumber>0|[1-9][0-9]*)|(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test)))$/
-	const subpattern = /(?<address>0x[0-9a-fA-F]{40})|(?<transactionId>0x[0-9a-fA-F]{64})|(?<blockNumber>0|[1-9][0-9]*)|(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))/g
-
-	const findMatches = (value: string) =>
-		[...value.matchAll(subpattern)]
+	const findPatternMatches = (value: string, pattern: RegExp) =>
+		(pattern.global ? [...value.matchAll(pattern)] : [value.match(pattern)].filter(isTruthy))
 			.flatMap(match =>
 				Object.entries(match.groups ?? {})
-					.map(([type, match]) => ({ type: type as ExplorerInputType, match }))
+					.map(([groupName, match]) => ({ inputPattern: groupName as InputPattern, match }))
 					.filter(({match}) => match)
 			)
 
@@ -66,7 +54,23 @@
 
 
 	// Internal state
-	$: matchedParam = findMatchedCaptureGroupName<keyof ExplorerInputParams>(pattern, value) ?? ''	
+	// (Computed)
+	$: pattern = new RegExp(`^(?:${
+		inputPatterns
+			.sort((a, b) => inputPatternsConfig[b].matchComplexity - inputPatternsConfig[a].matchComplexity)
+			.map(inputPattern => `(?<${inputPattern}>${inputPatternsConfig[inputPattern].pattern.source})`)
+			.join('|')
+	})$`)
+
+	// const subpattern = /(?<address>0x[0-9a-fA-F]{40})|(?<transactionId>0x[0-9a-fA-F]{64})|(?<blockNumber>0|[1-9][0-9]*)|(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))/g
+	$: subpattern = new RegExp(`(?:${
+		inputPatterns
+			.sort((a, b) => inputPatternsConfig[b].matchComplexity - inputPatternsConfig[a].matchComplexity)
+			.map(inputPattern => `(?<${inputPattern}>${inputPatternsConfig[inputPattern].pattern.source})`)
+			.join('|')}
+		)`, 'g')
+
+	$: matchedInputPattern = findMatchedCaptureGroupName<InputPattern>(pattern, value) ?? ''	
 
 
 	// Actions
@@ -79,10 +83,10 @@
 
 
 <style>
-	[data-param="address"],
-	[data-param="blockNumber"],
-	/* [data-param="ensName"], */
-	[data-param="transactionId"] {
+	[data-matched-input-pattern="address"],
+	[data-matched-input-pattern="blockNumber"],
+	/* [data-matched-input-pattern="ensName"], */
+	[data-matched-input-pattern="transactionId"] {
 		font-family: var(--monospace-fonts);
 	}
 </style>
@@ -95,17 +99,16 @@
 	{autofocus}
 	{placeholder}
 	pattern={pattern.source}
-	data-param={matchedParam}
+	data-matched-input-pattern={matchedInputPattern}
 	list="ExplorerInputList"
 	on:focus={e => e.target.select()}
 />
 
 <datalist id="ExplorerInputList">
-	<!-- {#each Object.entries(value.match(subpattern)?.groups ?? {}) as [type, substringMatch]} -->
-	{#each findMatches(value) as {type, match}}
+	{#each findPatternMatches(value, subpattern) as { inputPattern, match }}
 		<option
 			value={match}
-			label={explorerInputTypes[type].label}
+			label={inputPatternsConfig[inputPattern].label}
 		/>
 	{/each}
 
@@ -114,10 +117,10 @@
 			<optgroup label={name}>
 				{#each accounts as account}
 					{@const _value = account.id}
-					{@const type = explorerInputTypes[findMatches(_value)[0]?.type]}
+					{@const inputPattern = inputPatternsConfig[findPatternMatches(_value, subpattern)[0]?.inputPattern]}
 					<option
 						value={_value}
-						label={`Portfolio › ${name}${type ? ` │ ${network ? `${network.name} › ` : ''}${type.label}` : ''}`}
+						label={`Portfolio › ${name}${inputPattern ? ` │ ${network ? `${network.name} › ` : ''}${inputPattern.label}` : ''}`}
 					/>
 				{/each}
 			</optgroup>
@@ -137,23 +140,33 @@
 		</optgroup>
 	{/if}
 
-	{#each $history as _value}
-		{@const type = explorerInputTypes[findMatches(_value)[0]?.type]}
-		<optgroup label="History">
+	<optgroup label="History">
+		{#each
+			$history
+				.map(value => ({
+					value,
+					match: findPatternMatches(value, pattern)[0],
+				}))
+				.filter(({ match }) => match)
+		as
+			{ value: _value, match }
+		}
+			{@const inputPattern = inputPatternsConfig[match.inputPattern]}
+
 			<!-- {#if _value !== value}
 				<option value={_value} />
 			{/if} -->
 			<option
 				value={_value}
-				label={`History${type ? ` │ ${network ? `${network.name} › ` : ''}${type.label}` : ''}`}
+				label={`History${inputPattern ? ` │ ${network ? `${network.name} › ` : ''}${inputPattern.label}` : ''}`}
 			/>
 				<!-- label={
-					type
-						// ? `${type.label} (Explore › History)`
-						// ? `Explore › History (${type.label})`
-						? `Explore › History │ ${type.label}`
+					inputPattern
+						// ? `${inputPattern.label} (Explore › History)`
+						// ? `Explore › History (${inputPattern.label})`
+						? `Explore › History │ ${inputPattern.label}`
 						: 'Explore › History'
 				} -->
-		</optgroup>
-	{/each}
+		{/each}
+	</optgroup>
 </datalist>
