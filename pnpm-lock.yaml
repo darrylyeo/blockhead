@@ -142,6 +142,9 @@ dependencies:
   detect-content-type:
     specifier: ^1.2.0
     version: 1.2.0
+  did-resolver:
+    specifier: ^4.1.0
+    version: 4.1.0
   did-session:
     specifier: ^2.1.1
     version: 2.1.1

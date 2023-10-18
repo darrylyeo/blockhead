@@ -1,7 +1,26 @@
-import type { Signer } from 'ethers'
-import type { Ethereum } from '../../data/networks/types'
+// DID URLs
+import { parse } from 'did-resolver'
 
 export type DidUrl = `did:${string}:${string}`
+
+export const parseDidUrl = (didUrl: DidUrl) => (
+	parse(didUrl)
+)
+
+export const isDidUrl = (string: string): string is DidUrl => {
+	try {
+		parse(string)
+		return true
+	}catch(e){
+		return false
+	}
+}
+
+
+// DID Sessions
+
+import type { Signer } from 'ethers'
+import type { Ethereum } from '../../data/networks/types'
 
 export const getDidSession = async ({
 	network,
