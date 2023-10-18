@@ -51,4 +51,6 @@
 			{profile}
 		/>
 	</DiscoProfileLoader>
+{:else}
+	Enter an address to view verified credentials on Disco!
 {/if}
