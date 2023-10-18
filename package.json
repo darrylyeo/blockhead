@@ -26,6 +26,7 @@
   "dependencies": {
     "@apollo/client": "^3.7.17",
     "@coinbase/wallet-sdk": "^3.7.1",
+    "@didtools/pkh-ethereum": "^0.4.1",
     "@fontsource/fira-code": "^5.0.5",
     "@fontsource/ubuntu": "^5.0.5",
     "@helia/ipns": "^2.0.0",
@@ -66,6 +67,8 @@
     "datastore-core": "^9.2.0",
     "datastore-idb": "^2.1.2",
     "detect-content-type": "^1.2.0",
+    "did-session": "^2.1.1",
+    "dids": "^4.0.4",
     "echarts": "^5.4.2",
     "ethers": "^6.6.2",
     "etherspot": "^1.43.7",
@@ -113,7 +116,8 @@
   },
   "pnpm": {
     "patchedDependencies": {
-      "@pushprotocol/restapi@1.4.5": "patches/@pushprotocol__restapi@1.4.5.patch"
+      "@pushprotocol/restapi@1.4.5": "patches/@pushprotocol__restapi@1.4.5.patch",
+      "@didtools/pkh-ethereum@0.4.1": "patches/@didtools__pkh-ethereum@0.4.1.patch"
     }
   },
   "engines": {

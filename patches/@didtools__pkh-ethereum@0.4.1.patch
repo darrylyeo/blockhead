@@ -1,0 +1,21 @@
+diff --git a/dist/utils.js b/dist/utils.js
+index 968c91b1231ec1c7a89ec51d277a8a9bbfd2bf8c..877718779651a8fa0528e991bc7d6c1f1bdcd2db 100644
+--- a/dist/utils.js
++++ b/dist/utils.js
+@@ -24,6 +24,16 @@ export function safeSend(provider, method, params) {
+                     reject(error);
+                 }
+                 resolve(response.result);
++            }).then((response) => {
++                if (response.error) {
++                    const error = new Error(response.error.message);
++                    error.code = response.error.code;
++                    error.data = response.error.data;
++                    reject(error);
++                }
++                resolve(response.result);
++            }).catch(error => {
++                if (error) reject(error);
+             });
+         });
+     } else {
