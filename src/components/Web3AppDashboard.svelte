@@ -191,6 +191,9 @@
 	.defi-app-view-items.scrollable-list {
 		--resizeVertical-defaultHeight: 31rem;
 	}
+	.defi-app-view-items:not(:has(> *)) {
+		display: none;
+	}
 
 	.defi-app-view-items > * {
 		--padding-inner: 0.75em;
