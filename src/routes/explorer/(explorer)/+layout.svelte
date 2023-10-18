@@ -189,12 +189,19 @@
 	}}>
 		<SearchInput
 			inputPatterns={
-				[
-					InputPattern.Address,
-					InputPattern.TransactionId,
-					InputPattern.BlockNumber,
-					InputPattern.EnsName,
-				]
+				$explorerNetwork.slug === 'filecoin' ?
+					[
+						InputPattern.FilecoinAccountId,
+						InputPattern.FilecoinTransactionId,
+						InputPattern.FilecoinTipsetNumber,
+					]
+				:
+					[
+						InputPattern.Address,
+						InputPattern.TransactionId,
+						InputPattern.BlockNumber,
+						InputPattern.EnsName,
+					]
 			}
 			value={$explorerQuery}
 			network={$explorerNetwork}

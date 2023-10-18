@@ -1,3 +1,5 @@
+export const filecoinAddressPattern = /[ft][0-4][0-9a-z]+/
+
 export const isFilecoinAddress = (string: string) => (
-	string.match(/^[ft][0-4][0-9a-z]+$/) !== null
+	string.match(new RegExp(`^${filecoinAddressPattern.source}$`)) !== null
 )

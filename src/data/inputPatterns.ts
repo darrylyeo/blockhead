@@ -1,7 +1,14 @@
+import { filecoinAddressPattern } from '../utils/isFilecoinAddress'
+
+
 export enum InputPattern {
 	Address = 'address',
 	BlockNumber = 'blockNumber',
 	EnsName = 'ensName',
+	FilecoinAccountId = 'filecoinAccountId',
+	FilecoinBlockId = 'filecoinBlockId',
+	FilecoinTipsetNumber = 'filecoinTipsetNumber',
+	FilecoinTransactionId = 'filecoinTransactionId',
 	LensHandle = 'lensHandle',
 	TransactionId = 'transactionId',
 }
@@ -24,6 +31,30 @@ export const inputPatternsConfig = {
 		placeholder: 'vitalik.eth',
 		pattern: /(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test)/,
 		matchComplexity: 2,
+	},
+	[InputPattern.FilecoinAccountId]: {
+		label: 'Address',
+		placeholder: 'f05, f1',
+		pattern: filecoinAddressPattern,
+		matchComplexity: 2,
+	},
+	[InputPattern.FilecoinTipsetNumber]: {
+		label: 'Tipset Number',
+		placeholder: '12345678',
+		pattern: /0|[1-9][0-9]*/,
+		matchComplexity: 1,
+	},
+	[InputPattern.FilecoinBlockId]: {
+		label: 'Block ID',
+		placeholder: 'bafy...wxyz',
+		pattern: /bafy.+/,
+		matchComplexity: 2,
+	},
+	[InputPattern.FilecoinTransactionId]: {
+		label: 'Transaction ID',
+		placeholder: 'bafy...wxyz',
+		pattern: /bafy.+/,
+		matchComplexity: 3,
 	},
 	[InputPattern.LensHandle]: {
 		label: 'Lens Handle',
