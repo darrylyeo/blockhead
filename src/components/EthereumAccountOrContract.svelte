@@ -48,7 +48,7 @@
 
 	$: if(isAddress(filterQuery) && balances){
 		selectedToken = balances
-			.find(({token}) => token.address.toLowercase() === filterQuery.toLowerCase())
+			.find(({token}) => token.address.toLowerCase() === filterQuery.toLowerCase())
 	}
 	// $: if(selectedToken)
 	// 	filterQuery = selectedToken.address
