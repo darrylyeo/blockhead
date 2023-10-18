@@ -12,8 +12,10 @@
 
 
 	// Components
+	import AccountIdResolver from './AccountIdResolver.svelte'
 	import Collapsible from './Collapsible.svelte'
 	import LensName from './LensName.svelte'
+	import LensProfiles from './LensProfiles.svelte'
 </script>
 
 
@@ -43,6 +45,21 @@
 	<svelte:fragment slot="header-right">
 		<span class="card-annotation">{linkage.type}</span>
 	</svelte:fragment>
+
+	{#if linkage.type === 'lens'}
+		{@const lensName = linkage.handle}
+
+		<AccountIdResolver
+			accountId={address || lensName}
+			let:address
+		>
+			<LensProfiles
+				{lensName}
+				{address}
+				headingLevel={headingLevel + 1}
+			/>
+		</AccountIdResolver>
+	{/if}
 
 	<hr>
 

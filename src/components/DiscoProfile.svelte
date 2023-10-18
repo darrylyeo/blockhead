@@ -71,6 +71,7 @@
 				{#each profile.profile.linkages as linkage}
 					<DiscoProfileLinkage
 						{linkage}
+						{address}
 					/>
 				{/each}
 			</Collapsible>
