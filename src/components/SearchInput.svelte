@@ -82,16 +82,6 @@
 </script>
 
 
-<style>
-	[data-matched-input-pattern="address"],
-	[data-matched-input-pattern="blockNumber"],
-	/* [data-matched-input-pattern="ensName"], */
-	[data-matched-input-pattern="transactionId"] {
-		font-family: var(--monospace-fonts);
-	}
-</style>
-
-
 <input
 	type="search"
 	bind:value
@@ -102,6 +92,7 @@
 	data-matched-input-pattern={matchedInputPattern}
 	list="ExplorerInputList"
 	on:focus={e => e.target.select()}
+	style={matchedInputPattern && `--input-annotation: " ${inputPatternsConfig[matchedInputPattern]?.label.toUpperCase()}   │   ✕"`}
 />
 
 <datalist id="ExplorerInputList">
@@ -170,3 +161,45 @@
 		{/each}
 	</optgroup>
 </datalist>
+
+
+<style>
+	[data-matched-input-pattern="address"],
+	[data-matched-input-pattern="blockNumber"],
+	/* [data-matched-input-pattern="ensName"], */
+	[data-matched-input-pattern="transactionId"] {
+		font-family: var(--monospace-fonts);
+	}
+
+	[data-matched-input-pattern-name]:after {
+		content: attr(data-matched-input-pattern-name);
+		color: #000;
+		place-self: center end;
+		margin-right: 2.25em;
+
+		opacity: 0.4;
+		letter-spacing: 0.2ch;
+		font-size: 0.8em;
+		text-transform: uppercase;
+	}
+
+	input::-webkit-search-cancel-button {
+		list-style-type: var(--input-annotation, "✕");
+		width: auto;
+		margin-right: 0.3rem;
+		padding: 0.5em;
+
+		font-family: var(--base-fonts);
+		color: rgba(0, 0, 0, 0.6);
+		letter-spacing: 0.2ch;
+		text-indent: 0.2ch;
+		font-size: 0.8em;
+		line-height: 1;
+		text-transform: uppercase;
+		white-space: pre;
+
+		background-color: rgba(0, 0, 0, 0.066);
+		background-color: color-mix(in oklab, var(--primary-color) 8%, #eee);
+		border-radius: 0.33em;
+	}
+</style>
