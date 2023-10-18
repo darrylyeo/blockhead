@@ -138,7 +138,18 @@ export const getCredentials = async (
 		.then(response => response.json())
 ) as Disco.VerifiableCredentialResponse
 
-export const getProfile = async (
+export const getProfileByDid = async (
+	address: Ethereum.Address,
+) => (
+	await fetch(`https://api.disco.xyz/v1/profile/${address}`, {
+		method: 'GET',
+		headers,
+		redirect: 'follow',
+	})
+		.then(response => response.json())
+) as Disco.Profile
+
+export const getProfileByEvmAddress = async (
 	address: Ethereum.Address,
 ) => (
 	await fetch(`https://api.disco.xyz/v1/profile/address/${address}`, {
