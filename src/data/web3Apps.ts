@@ -6,6 +6,7 @@ import { erc20TokensByContractAddress, erc20TokensBySymbol } from './tokens'
 
 
 import {
+	CeramicIcon,
 	IpfsIcon,
 	LensIcon,
 	NounsIcon,
@@ -14,9 +15,13 @@ import {
 import { ZoraIcon } from '../assets/networkIcons'
 
 
+import CeramicPage from '../routes/apps/(withDashboard)/ceramic/+page.svelte'
+
+
 import { UniswapV3 } from '../api/uniswap-v3/index'
 import { UniswapV3Subgraph } from '../api/uniswap-v3/subgraph'
 import UniswapPage from '../routes/apps/(withDashboard)/uniswap/+page.svelte'
+
 
 export type Web3AppConfig = {
 	name: Web3AppName,
@@ -1658,7 +1663,16 @@ export const web3Apps: Web3AppConfig[] = [
 		name: 'Ceramic',
 		slug: 'ceramic',
 		links: ['https://ceramic.network'],
-		views: []
+		colors: ['#FF3600', '#FFB08A'],
+		icon: CeramicIcon,
+		views: [
+			{
+				chainId: 1,
+				components: [
+					CeramicPage,
+				],
+			}
+		],
 	},
 	{
 		name: 'Chai',
