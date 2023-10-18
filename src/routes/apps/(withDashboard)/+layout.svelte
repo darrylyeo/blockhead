@@ -4,7 +4,7 @@
 
 
 	// Params
-	import { accountId } from '../_appsParams'
+	import { accountId, didUrl } from '../_appsParams'
 
 
 	// Context
@@ -21,7 +21,7 @@
 
 	// Computed
 	$: if(selectedAccountConnection?.state?.account?.address) $accountId = selectedAccountConnection.state.account.address
-	$: currentAccountId = $accountId
+	$: currentAccountId = $accountId || $didUrl
 
 
 	// Components

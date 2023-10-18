@@ -19,6 +19,9 @@
 		audiusTrackId,
 		audiusUserId,
 
+		didUrl,
+		discoCredentialId,
+
 		ipfsContentId,
 		ipnsName,
 		ipfsContentPath,
@@ -34,6 +37,8 @@
 		$audiusPlaylistId = $page.params.audiusPlaylistId || ''
 		$audiusTrackId = $page.params.audiusTrackId || ''
 		$audiusUserId = $page.params.audiusUserId || ''
+		$didUrl = $page.params.didUrl || ''
+		$discoCredentialId = $page.params.discoCredentialId || ''
 		$ipfsContentId = $page.params.ipfsContentId || ''
 		$ipnsName = $page.params.ipnsName || ''
 		$ipfsContentPath = $page.params.ipfsContentPath || ''

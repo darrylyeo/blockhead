@@ -54,7 +54,7 @@ export namespace Disco {
 		issuanceDate: string;
 		id: string;
 		credentialSubject: CredentialSubject;
-		expirationDate: string;
+		expirationDate?: string | '9999-12-31T23:59:59.000Z';
 		credentialSchema: CredentialSchema;
 		proof: Proof;
 	}
