@@ -135,6 +135,12 @@
 
 	--is-light: 0;
 }
+/* Safari */
+@supports (-webkit-hyphens: none) {
+	:root {
+		font-synthesis: none;
+	}
+}
 
 :root {
 	overflow: hidden;
