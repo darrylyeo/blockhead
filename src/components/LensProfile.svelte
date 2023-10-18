@@ -15,6 +15,7 @@
 
 	// (View options)
 	export let showContracts = false
+	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 3
 
 
 	// Internal state
@@ -72,9 +73,9 @@
 			{/if}
 
 			<span class="row-inline">
-				<h3>
+				<svelte:element this={`h${headingLevel}`}>
 					<LensName {instance} lensName={profile.handle} />
-				</h3>
+				</svelte:element>
 
 				<small class="muted">
 					<Address {network} address={profile.ownedBy} />
@@ -161,10 +162,14 @@
 				},
 			] as { key, name, address } (key)}
 				<Collapsible>
-					<h4 slot="title">{name}</h4>
+					<svelte:fragment slot="title">
+						<svelte:element this={`h${headingLevel + 1}`}>{name}</svelte:element>
+					</svelte:fragment>
 
 					<EthereumAccountOrContract {network} {address}>
-						<h4 slot="title">{name}</h4>
+						<svelte:fragment slot="title">
+							<svelte:element this={`h${headingLevel + 1}`}>{name}</svelte:element>
+						</svelte:fragment>
 					</EthereumAccountOrContract>
 				</Collapsible>
 			{/each}

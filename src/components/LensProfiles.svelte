@@ -1,15 +1,17 @@
 <script lang="ts">
 	// Constants/types
 	import type { Ethereum } from '../data/networks/types'
-	import type { LensInstance, LensProfile } from '../api/lens'
+	import { LensInstance, type LensProfile } from '../api/lens'
 
 
-	// External state
-	export let instance: LensInstance
+	// Inputs
+	export let instance: LensInstance = LensInstance.Polygon
 	export let address: Ethereum.Address
+	// (View options)
+	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 3
 
 
-	// Shared state
+	// Outputs
 	export let profiles: LensProfile[]
 
 
@@ -27,7 +29,11 @@
 >
 	<slot {profiles}>
 		{#each profiles as profile (profile.id)}
-			<LensProfileComponent {profile} {instance} />
+			<LensProfileComponent
+				{profile}
+				{instance}
+				{headingLevel}
+			/>
 		{/each}
 	</slot>
 </LensProfilesLoader>
