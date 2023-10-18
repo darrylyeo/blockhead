@@ -27,7 +27,7 @@
 	} from './_appsParams'
 
 	$: if($page.url.pathname.startsWith('/apps')){
-		$web3AppSlug = $page.params.web3AppSlug || $page.url.pathname.match(/^\/apps\/(audius|ens|ipfs|lens|uniswap)/)?.[1] || ''
+		$web3AppSlug = $page.params.web3AppSlug || $page.url.pathname.match(/^\/apps\/(audius|disco|ens|ipfs|lens|uniswap)/)?.[1] || ''
 		$networkSlug = $page.params.networkSlug || ''
 		$accountId = $page.params.accountId || ''
 		$audiusQuery = $page.params.audiusQuery || ''

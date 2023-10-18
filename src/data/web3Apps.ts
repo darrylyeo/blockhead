@@ -7,6 +7,7 @@ import { erc20TokensByContractAddress, erc20TokensBySymbol } from './tokens'
 
 import {
 	CeramicIcon,
+	DiscoIcon,
 	IpfsIcon,
 	LensIcon,
 	NounsIcon,
@@ -16,6 +17,7 @@ import { ZoraIcon } from '../assets/networkIcons'
 
 
 import CeramicPage from '../routes/apps/(withDashboard)/ceramic/+page.svelte'
+import DiscoPage from '../routes/apps/(withDashboard)/disco/+page.svelte'
 
 
 import { UniswapV3 } from '../api/uniswap-v3/index'
@@ -2348,6 +2350,21 @@ export const web3Apps: Web3AppConfig[] = [
 				}
 			}
 		]
+	},
+	{
+		name: 'Disco',
+		slug: 'disco',
+		links: ['https://disco.xyz'],
+		colors: ['#020218'],
+		icon: DiscoIcon,
+		views: [
+			{
+				chainId: 1,
+				components: [
+					DiscoPage,
+				]
+			}
+		],
 	},
 	{
 		name: 'DeFi Money Market',
