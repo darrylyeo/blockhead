@@ -2,7 +2,7 @@
 	// Constants/types
 	import type { Ethereum } from '../data/networks/types'
 	import type { DIDSession } from 'did-session'
-	import type { Did } from '../api/ceramic/did'
+	import type { DidUrl } from '../api/ceramic/did'
 	import type { DidProvider } from '../data/didProvider'
 
 	
@@ -14,9 +14,9 @@
 
 
 	// Internal state
-	let did: Did
+	let did: DidUrl
 	// (Computed)
-	$: did = didSession.did.id as Did
+	$: did = didSession.did.id as DidUrl
 
 
 	// Components 

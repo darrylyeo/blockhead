@@ -1,7 +1,7 @@
 import type { Signer } from 'ethers'
 import type { Ethereum } from '../../data/networks/types'
 
-export type Did = `did:${string}:${string}`
+export type DidUrl = `did:${string}:${string}`
 
 export const getDidSession = async ({
 	network,

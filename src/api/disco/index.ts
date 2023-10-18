@@ -1,7 +1,7 @@
 import type { Ethereum } from '../../data/networks/types'
 import { env } from '../../env'
 
-import type { Did } from '../ceramic/did'
+import type { DidUrl } from '../ceramic/did'
 
 export namespace Disco {
 	export type Issuer = {
@@ -64,8 +64,8 @@ export namespace Disco {
 		vc: VerifiableCredential;
 		isPublic: boolean;
 		issuer: string;
-		recipient: Did;
-		subject: Did;
+		recipient: DidUrl;
+		subject: DidUrl;
 		schema: string;
 		isDeleted: boolean;
 		genId: string;
@@ -81,13 +81,13 @@ export namespace Disco {
 	)[]
 
 	export type Linkage = {
-		did: Did;
+		did: DidUrl;
 		type: 'lens' | 'twitter' | 'discord' | 'domain' | string;
 		handle: string;
 	}
 	
 	export type Profile = {
-		did: Did;
+		did: DidUrl;
 		isDiscoOrg: boolean;
 		profile: {
 			avatar: string;
@@ -121,7 +121,7 @@ export const getCredential = async (
 ) as Disco.VerifiableCredentialResponse
 
 export const getCredentials = async (
-	did: Did,
+	did: DidUrl,
 	{
 		page = 1,
 		size = 100,
