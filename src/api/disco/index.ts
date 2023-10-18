@@ -113,7 +113,7 @@ export const getCredential = async (
 	})
 		.then(response => response.json())
 		.then(result => {
-			if(result.status !== 200)
+			if(result.status && result.status !== 200)
 				throw result
 
 			return result
@@ -147,6 +147,12 @@ export const getProfileByDid = async (
 		redirect: 'follow',
 	})
 		.then(response => response.json())
+		.then(result => {
+			if(result.status && result.status !== 200)
+				throw result
+
+			return result
+		})
 ) as Disco.Profile
 
 export const getProfileByEvmAddress = async (
@@ -158,4 +164,10 @@ export const getProfileByEvmAddress = async (
 		redirect: 'follow',
 	})
 		.then(response => response.json())
+		.then(result => {
+			if(result.status && result.status !== 200)
+				throw result
+
+			return result
+		})
 ) as Disco.Profile
