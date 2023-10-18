@@ -67,7 +67,7 @@
 
 			<div>
 				<dt>Status</dt>
-				<dd>{didSession.isExpired ? 'expired' : 'active'}</dd>
+				<dd>{didSession.isExpired ? 'expired' : didSession.hasSession ? 'authorized' : 'unauthorized'}</dd>
 			</div>
 
 			<div>
