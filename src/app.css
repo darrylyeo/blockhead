@@ -1002,3 +1002,49 @@ body::-webkit-scrollbar-button {
 [hidden] {
 	display: none !important;
 }
+
+input[type="search" i] {
+	padding-right: 0;
+}
+::-webkit-search-cancel-button {
+	margin: 0;
+	padding: 0;
+	inline-size: 1.4em;
+	inline-size: 1lh;
+
+	appearance: none;
+	display: list-item !important;
+	list-style: inside "✕";
+
+	font-family: var(--monospace-fonts);
+	font-size: 1.5em;
+	text-align: center;
+
+	transition: 0.15s;
+	cursor: pointer;
+	opacity: 1 !important;
+}
+input[type="search" i]:not(:placeholder-shown)::-webkit-search-cancel-button {
+	opacity: 1 !important;
+}
+input[type="search" i]:placeholder-shown::-webkit-search-cancel-button {
+	opacity: 0 !important;
+	font-size: 0 !important;
+}
+input[type="search" i]::-webkit-calendar-picker-indicator {
+	margin: 0;
+	padding: 0;
+	inline-size: 2.25em !important;
+	block-size: 2.25em !important;
+
+	appearance: none;
+	display: list-item !important;
+	list-style: inside "▼" !important;
+	line-height: 2.25em;
+	text-align: center;
+
+	transition: 0.15s;
+}
+input[type="search" i]:not(:placeholder-shown)::-webkit-calendar-picker-indicator {
+	font-size: 0;
+}
