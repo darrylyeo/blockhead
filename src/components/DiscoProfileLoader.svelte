@@ -1,13 +1,13 @@
 <script lang="ts">
 	// Constants/types
 	import type { Ethereum } from '../data/networks/types'
-	import { VerifiedCredentialProvider, verifiedCredentialProviderIcons } from '../data/verifiedCredentialProvider'
+	import { VerifiableCredentialProvider, verifiableCredentialProviderIcons } from '../data/verifiableCredentialProvider'
 	import type { Disco } from '../api/disco/index'
 	import type { DidUrl } from '../api/ceramic/did'
 
 	
 	// Inputs
-	export let verifiedCredentialProvider = VerifiedCredentialProvider.Disco
+	export let verifiableCredentialProvider = VerifiableCredentialProvider.Disco
 	export let address: Ethereum.Address | undefined
 	export let didUrl: DidUrl | undefined
 	
@@ -39,16 +39,16 @@
 
 
 <Loader
-	loadingMessage="Loading {verifiedCredentialProvider} profile..."
-	loadingIcon={verifiedCredentialProviderIcons[verifiedCredentialProvider]}
-	errorMessage="Couldn't load {verifiedCredentialProvider} profile."
+	loadingMessage="Loading {verifiableCredentialProvider} profile..."
+	loadingIcon={verifiableCredentialProviderIcons[verifiableCredentialProvider]}
+	errorMessage="Couldn't load {verifiableCredentialProvider} profile."
 	{...{
-		[VerifiedCredentialProvider.Disco]: {
+		[VerifiableCredentialProvider.Disco]: {
 			fromQuery: (
 				didUrl ?
 					createQuery({
 						queryKey: ['DiscoProfile', {
-							verifiedCredentialProvider,
+							verifiableCredentialProvider,
 							didUrl,
 						}],
 						queryFn: async () => (
@@ -58,7 +58,7 @@
 				: address ? 
 					createQuery({
 						queryKey: ['DiscoProfile', {
-							verifiedCredentialProvider,
+							verifiableCredentialProvider,
 							address,
 						}],
 						queryFn: async () => (
@@ -69,7 +69,7 @@
 					undefined
 			),
 		},
-	}[verifiedCredentialProvider]}
+	}[verifiableCredentialProvider]}
 	{...$$restProps}
 	bind:result={profile}
 	let:result={profile}

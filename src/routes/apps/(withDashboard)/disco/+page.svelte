@@ -2,7 +2,7 @@
 	// Constants/types
 	import type { Ethereum } from '../../../../data/networks/types'
 	import type { AccountConnection } from '../../../../state/account'
-	import { VerifiedCredentialProvider } from '../../../../data/verifiedCredentialProvider'
+	import { VerifiableCredentialProvider } from '../../../../data/verifiableCredentialProvider'
 
 
 	// Context
@@ -16,7 +16,7 @@
 
 
 	// Internal state
-	let verifiedCredentialProvider = VerifiedCredentialProvider.Disco
+	let verifiableCredentialProvider = VerifiableCredentialProvider.Disco
 
 
 	// Components
@@ -28,7 +28,7 @@
 
 {#if $discoCredentialId}
 	<VerifiableCredentialLoader
-		{verifiedCredentialProvider}
+		{verifiableCredentialProvider}
 		credentialId={$discoCredentialId}
 	/>
 {:else if $didUrl}

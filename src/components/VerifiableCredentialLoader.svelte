@@ -1,12 +1,12 @@
 <script lang="ts">
 	// Constants/types
-	import { VerifiedCredentialProvider, verifiedCredentialProviderIcons } from '../data/verifiedCredentialProvider'
+	import { VerifiableCredentialProvider, verifiableCredentialProviderIcons } from '../data/verifiableCredentialProvider'
 	import type { Disco } from '../api/disco/index'
 
 	
 	// Inputs
 	export let credentialId: ReturnType<typeof crypto.randomUUID>
-	export let verifiedCredentialProvider: VerifiedCredentialProvider
+	export let verifiableCredentialProvider: VerifiableCredentialProvider
 	
 
 	// Outputs
@@ -36,22 +36,22 @@
 
 
 <Loader
-	loadingMessage="Loading verified credential via {verifiedCredentialProvider}..."
-	loadingIcon={verifiedCredentialProviderIcons[verifiedCredentialProvider]}
-	errorMessage="Couldn't load verified credential via {verifiedCredentialProvider}."
+	loadingMessage="Loading verified credential via {verifiableCredentialProvider}..."
+	loadingIcon={verifiableCredentialProviderIcons[verifiableCredentialProvider]}
+	errorMessage="Couldn't load verified credential via {verifiableCredentialProvider}."
 	{...{
-		[VerifiedCredentialProvider.Disco]: {
+		[VerifiableCredentialProvider.Disco]: {
 			fromQuery: credentialId && createQuery({
 				queryKey: ['VerifiableCredential', {
 					credentialId,
-					verifiedCredentialProvider,
+					verifiableCredentialProvider,
 				}],
 				queryFn: async () => (
 					await getCredential(credentialId)
 				),
 			}),
 		},
-	}[verifiedCredentialProvider]}
+	}[verifiableCredentialProvider]}
 	{...$$restProps}
 	bind:result={credential}
 	let:result={credential}

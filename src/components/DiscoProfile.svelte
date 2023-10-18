@@ -3,7 +3,7 @@
 	import type { Ethereum } from '../data/networks/types'
 	import type { Disco } from '../api/disco/index'
 	import type { DidUrl } from '../api/ceramic/did'
-	import { VerifiedCredentialProvider } from '../data/verifiedCredentialProvider'
+	import { VerifiableCredentialProvider } from '../data/verifiableCredentialProvider'
 
 	
 	// Inputs
@@ -17,7 +17,7 @@
 
 
 	// Internal state
-	let verifiedCredentialProvider = VerifiedCredentialProvider.Disco
+	let verifiableCredentialProvider = VerifiableCredentialProvider.Disco
 
 
 	// Functions
@@ -49,7 +49,7 @@
 		</svelte:fragment>
 
 		<svelte:fragment slot="header-right">
-			<span class="card-annotation">{verifiedCredentialProvider} Profile</span>
+			<span class="card-annotation">{verifiableCredentialProvider} Profile</span>
 		</svelte:fragment>
 
 		{#if profile.profile.bio}
@@ -80,7 +80,7 @@
 
 		<section>
 			<VerifiableCredentialsLoader
-				{verifiedCredentialProvider}
+				{verifiableCredentialProvider}
 				{address}
 				did={didUrl}
 				let:credentials

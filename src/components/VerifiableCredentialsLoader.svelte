@@ -1,12 +1,12 @@
 <script lang="ts">
 	// Constants/types
-	import { VerifiedCredentialProvider, verifiedCredentialProviderIcons } from '../data/verifiedCredentialProvider'
+	import { VerifiableCredentialProvider, verifiableCredentialProviderIcons } from '../data/verifiableCredentialProvider'
 	import type { DidUrl } from '../api/ceramic/did'
 	import type { Disco } from '../api/disco/index'
 
 	
 	// Inputs
-	export let verifiedCredentialProvider: VerifiedCredentialProvider
+	export let verifiableCredentialProvider: VerifiableCredentialProvider
 	export let did: DidUrl
 	
 
@@ -37,15 +37,15 @@
 
 
 <Loader
-	loadingMessage="Loading verified credential via {verifiedCredentialProvider}..."
-	loadingIcon={verifiedCredentialProviderIcons[verifiedCredentialProvider]}
-	errorMessage="Couldn't load verified credential via {verifiedCredentialProvider}."
+	loadingMessage="Loading verified credential via {verifiableCredentialProvider}..."
+	loadingIcon={verifiableCredentialProviderIcons[verifiableCredentialProvider]}
+	errorMessage="Couldn't load verified credential via {verifiableCredentialProvider}."
 	{...{
-		[VerifiedCredentialProvider.Disco]: {
+		[VerifiableCredentialProvider.Disco]: {
 			fromQuery: did && createInfiniteQuery({
 				queryKey: ['VerifiableCredentials', {
 					did,
-					verifiedCredentialProvider,
+					verifiableCredentialProvider,
 				}],
 				queryFn: async ({ pageParam: page }) => (
 					await getCredentials(did, { page })
@@ -56,7 +56,7 @@
 				result.pages.flat()
 			),
 		},
-	}[verifiedCredentialProvider]}
+	}[verifiableCredentialProvider]}
 	{...$$restProps}
 	bind:result={credentials}
 	let:result={credentials}
