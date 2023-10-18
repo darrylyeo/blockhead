@@ -11,12 +11,14 @@ export enum NetworkProvider {
 	Tenderly = 'Tenderly',
 	GatewayFm = 'Gateway.fm',
 	GetBlock = 'GetBlock',
+	Blast = 'Blast',
 }
 
 export enum NetworkProviderConnectionType {
 	RPC = 'RPC',
 	JSONRPC = 'JSONRPC',
-	WebSocket = 'WebSocket'
+	WebSocket = 'WebSocket',
+	REST = 'REST',
 }
 
 export enum NetworkProviderNodeType {

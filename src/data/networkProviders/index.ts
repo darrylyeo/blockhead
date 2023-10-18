@@ -32,10 +32,11 @@ import { tenderlyProviderConfigs } from './tenderly'
 import { pocketProviderConfigs } from './pocket'
 import { gatewayFmProviderConfigs } from './gatewayFm'
 import { getBlockProviderConfigs } from './getBlock'
+import { blastProviderConfigs } from './blast'
 
 
 // Icons
-import { AlchemyIcon, EtherscanIcon, FigmentIcon, GatewayFmIcon, GetBlockIcon, InfuraIcon, MoralisIcon, TenderlyIcon, PocketIcon, QuickNodeIcon } from '../../assets/icons'
+import { AlchemyIcon, BlastIcon, EtherscanIcon, FigmentIcon, GatewayFmIcon, GetBlockIcon, InfuraIcon, MoralisIcon, TenderlyIcon, PocketIcon, QuickNodeIcon } from '../../assets/icons'
 
 
 // Functions
@@ -634,6 +635,59 @@ export const networkProviderConfigs = [
 						[NetworkProviderConnectionType.WebSocket]: webSocket,
 					}[connectionType](
 						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.getblock.io/${env.GETBLOCK_API_KEY}/${config.path}`,
+						{},
+					),
+				})
+			)
+		},
+	},
+	
+	{
+		provider: NetworkProvider.Blast,
+		name: 'Blast',
+		icon: BlastIcon,
+
+		getEthersProvider: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+			nodeType = NetworkProviderNodeType.Archive,
+		}) => {
+			const config = blastProviderConfigs.find(config =>
+				config.networkSlug === network.slug &&
+				config.connectionType === connectionType &&
+				config.nodeType === nodeType
+			)
+
+			return config && (
+				new ({
+					[NetworkProviderConnectionType.RPC]: JsonRpcProvider,
+					[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
+				}[connectionType])(
+					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.blastapi.io/${env.BLAST_PROJECT_ID}${config.path ?? ''}`,
+					network.chainId
+				)
+			)
+		},
+
+		getViemPublicClient: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+			nodeType = NetworkProviderNodeType.Default,
+		}) => {
+			const config = blastProviderConfigs.find(config =>
+				config.networkSlug === network.slug &&
+				config.connectionType === connectionType &&
+				config.nodeType === nodeType
+			)
+
+			return config && (
+				createPublicClient({
+					chain: networkToViemChain(network),
+					transport: {
+						[NetworkProviderConnectionType.RPC]: http,
+						[NetworkProviderConnectionType.WebSocket]: webSocket,
+					}[connectionType](
+						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.blastapi.io/${env.BLAST_PROJECT_ID}${config.path ?? ''}`,
 						{},
 					),
 				})
