@@ -29,7 +29,7 @@
 	import AccountIdResolver from '../../../components/AccountIdResolver.svelte'
 	import BlockTransition from '../../../components/BlockTransition.svelte'
 	import ConnectedAccountSelect from '../../../components/ConnectedAccountSelect.svelte'
-	import ExplorerInput from '../../../components/ExplorerInput.svelte'
+	import SearchInput from '../../../components/SearchInput.svelte'
 	import Web3AppDashboard from '../../../components/Web3AppDashboard.svelte'
 
 
@@ -121,7 +121,7 @@
 	out:fly={{x: -100}}
 >
 	<form class="accountId-form row" on:submit|preventDefault={() => $accountId = currentAccountId}>
-		<ExplorerInput
+		<SearchInput
 			inputPatterns={[
 				InputPattern.Address,
 				InputPattern.EnsName,

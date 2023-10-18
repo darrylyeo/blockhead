@@ -101,7 +101,7 @@
 
 	// Components
 
-	import ExplorerInput from '../../../components/ExplorerInput.svelte'
+	import SearchInput from '../../../components/SearchInput.svelte'
 	import NetworkProviderLoader from '../../../components/NetworkProviderLoader.svelte'
 
 	import HistoricalPriceChart from '../../../components/HistoricalPriceChart.svelte'
@@ -187,7 +187,7 @@
 		$ensName = currentExplorerInputParams.ensName
 		$transactionId = currentExplorerInputParams.transactionId
 	}}>
-		<ExplorerInput
+		<SearchInput
 			inputPatterns={
 				[
 					InputPattern.Address,
