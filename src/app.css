@@ -351,7 +351,9 @@ label input:is([type="checkbox"], [type="radio"]) ~ span:before {
 }
 label input:is([type="checkbox"]):not(:checked) ~ span:before {
 	content: "⃞";
+	content: "□";
 	opacity: 0.5;
+	/* min-width: 0.9em; */
 }
 label:active input:is([type="checkbox"]):not(:checked) ~ span:before {
 	/* content: "+⃞"; */
