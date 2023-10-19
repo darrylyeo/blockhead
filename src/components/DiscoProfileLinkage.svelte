@@ -27,14 +27,14 @@
 >
 	<svelte:fragment slot="title">
 		<svelte:element this={`h${headingLevel}`}>
-			{#if linkage.type === 'twitter'}
+			{#if linkage.type.toLowerCase() === 'twitter'}
 				<a href={`https://twitter.com/${linkage.handle}`} target="_blank">@{linkage.handle}</a>
-			{:else if linkage.type === 'discord'}
-				@{linkage.discord}
-			{:else if linkage.type === 'lens'}
+			{:else if linkage.type.toLowerCase() === 'discord'}
+				@{linkage.handle}
+			{:else if linkage.type.toLowerCase() === 'lens'}
 				{@const lensName = linkage.handle}
 				<LensName {lensName} />
-			{:else if linkage.type === 'domain'}
+			{:else if linkage.type.toLowerCase() === 'domain'}
 				<a href={linkage.handle} target="_blank">{linkage.handle}</a>
 			{:else}
 				{linkage.handle}
