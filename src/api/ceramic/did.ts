@@ -9,8 +9,8 @@ export const parseDidUrl = (didUrl: DidUrl) => (
 
 export const isDidUrl = (string: string): string is DidUrl => {
 	try {
-		parse(string)
-		return true
+		const result = parse(string)
+		return result !== null
 	}catch(e){
 		return false
 	}
