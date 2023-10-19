@@ -37,22 +37,24 @@
 	<option value={undefined} selected>{placeholder}</option>
 
 	{#each networksBySection as {title, featuredNetworks = [], otherNetworks = []}}
-		{@const networks = [...featuredNetworks, ...otherNetworks]}
+		{@const networks = [...featuredNetworks, ...otherNetworks].filter(network => !allowedNetworks || allowedNetworks.has(network))}
 
-		<optgroup label={title}>
-			{#each networks.filter(network => !allowedNetworks || allowedNetworks.has(network)) as network}
-				{#if showTestnets}
-					<option disabled>{network.name}</option>
-					<option value={network}>{`${network.name}${isTestnet(network) || network.name.includes('Mainnet') ? '' : ' Mainnet'}`}{network.chainId ? ` (${network.chainId})` : ''}</option>
+		{#if networks.length}
+			<optgroup label={title}>
+				{#each networks as network}
+					{#if showTestnets}
+						<option disabled>{network.name}</option>
+						<option value={network}>{`${network.name}${isTestnet(network) || network.name.includes('Mainnet') ? '' : ' Mainnet'}`}{network.chainId ? ` (${network.chainId})` : ''}</option>
 
-					{#each testnetsForMainnets[network.slug] ?? [] as testnetNetwork}
-						<option value={testnetNetwork}>{testnetNetwork.name}{testnetNetwork.chainId ? ` (${testnetNetwork.chainId})` : ''}</option>
-					{/each}
-				{:else}
-					<option value={network} style={`--primary-color: ${getNetworkColor(network)}`}>{network.name}</option>
-				{/if}
-			{/each}
-		</optgroup>
+						{#each testnetsForMainnets[network.slug] ?? [] as testnetNetwork}
+							<option value={testnetNetwork}>{testnetNetwork.name}{testnetNetwork.chainId ? ` (${testnetNetwork.chainId})` : ''}</option>
+						{/each}
+					{:else}
+						<option value={network} style={`--primary-color: ${getNetworkColor(network)}`}>{network.name}</option>
+					{/if}
+				{/each}
+			</optgroup>
+		{/if}
 	{/each}
 
 	<!-- {#if showTestnets}
