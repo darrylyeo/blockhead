@@ -37,9 +37,9 @@
 
 
 <Loader
-	loadingMessage="Loading verified credential via {verifiableCredentialProvider}..."
+	loadingMessage="Loading verified credentials via {verifiableCredentialProvider}..."
 	loadingIcon={verifiableCredentialProviderIcons[verifiableCredentialProvider]}
-	errorMessage="Couldn't load verified credential via {verifiableCredentialProvider}."
+	errorMessage="Couldn't load verified credentials via {verifiableCredentialProvider}."
 	{...{
 		[VerifiableCredentialProvider.Disco]: {
 			fromQuery: did && createInfiniteQuery({
