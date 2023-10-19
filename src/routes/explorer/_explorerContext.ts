@@ -26,7 +26,7 @@ import { preferences } from '../../state/preferences'
 import { derived, type Readable } from 'svelte/store'
 import { browser } from '$app/environment'
 
-export const explorerNetwork: Readable<Ethereum.Network> = derived(networkSlug, ($networkSlug, set) => {
+export const explorerNetwork: Readable<Ethereum.Network | undefined> = derived(networkSlug, ($networkSlug, set) => {
 	if($networkSlug)
 		set(networksBySlug[$networkSlug])
 })

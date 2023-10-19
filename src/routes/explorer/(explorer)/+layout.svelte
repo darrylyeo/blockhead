@@ -189,7 +189,7 @@
 	}}>
 		<SearchInput
 			inputPatterns={
-				$explorerNetwork.slug === 'filecoin' ?
+				$explorerNetwork?.slug === 'filecoin' ?
 					[
 						InputPattern.FilecoinAccountId,
 						InputPattern.FilecoinTransactionId,
