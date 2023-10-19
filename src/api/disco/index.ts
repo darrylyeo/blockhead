@@ -152,6 +152,9 @@ export const getProfileByDid = async (
 		.then(result => {
 			if(result.status && result.status !== 200)
 				throw result
+			
+			if(!Object.values(result.profile).length)
+				throw new Error(`Disco profile not found.`)
 
 			return result
 		})

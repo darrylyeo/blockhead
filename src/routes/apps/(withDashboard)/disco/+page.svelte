@@ -36,20 +36,24 @@
 		didUrl={$didUrl}
 		let:profile
 	>
-		<DiscoProfile
-			didUrl={$didUrl}
-			{profile}
-		/>
+		{#if profile}
+			<DiscoProfile
+				didUrl={$didUrl}
+				{profile}
+			/>
+		{/if}
 	</DiscoProfileLoader>
 {:else if address}
 	<DiscoProfileLoader
 		{address}
 		let:profile
 	>
-		<DiscoProfile
-			{address}
-			{profile}
-		/>
+		{#if profile}
+			<DiscoProfile
+				{address}
+				{profile}
+			/>
+		{/if}
 	</DiscoProfileLoader>
 {:else}
 	Enter an address to view verified credentials on Disco!
