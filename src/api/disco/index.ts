@@ -99,6 +99,8 @@ export namespace Disco {
 }
 
 
+import { proxyFetch } from '../../utils/proxyFetch'
+
 const headers = new Headers({
 	'Authorization': `Bearer ${env.DISCO_API_KEY}`
 })
@@ -106,7 +108,7 @@ const headers = new Headers({
 export const getCredential = async (
 	credentialId: ReturnType<typeof crypto.randomUUID>
 ) => (
-	await fetch(`https://api.disco.xyz/v1/credential/${encodeURIComponent(`https://api.disco.xyz/credential/${credentialId}`)}`, {
+	await proxyFetch(`https://api.disco.xyz/v1/credential/${encodeURIComponent(`https://api.disco.xyz/credential/${credentialId}`)}`, {
 		method: 'GET',
 		headers,
 		redirect: 'follow',
@@ -130,7 +132,7 @@ export const getCredentials = async (
 		size?: number,
 	}
 ) => (
-	await fetch(`https://api.disco.xyz/v1/credentials/${did}?${new URLSearchParams({ page: String(page), size: String(size) })}`, {
+	await proxyFetch(`https://api.disco.xyz/v1/credentials/${did}?${new URLSearchParams({ page: String(page), size: String(size) })}`, {
 		method: 'GET',
 		headers,
 		redirect: 'follow',
@@ -141,7 +143,7 @@ export const getCredentials = async (
 export const getProfileByDid = async (
 	address: Ethereum.Address,
 ) => (
-	await fetch(`https://api.disco.xyz/v1/profile/${address}`, {
+	await proxyFetch(`https://api.disco.xyz/v1/profile/${address}`, {
 		method: 'GET',
 		headers,
 		redirect: 'follow',
@@ -158,7 +160,7 @@ export const getProfileByDid = async (
 export const getProfileByEvmAddress = async (
 	address: Ethereum.Address,
 ) => (
-	await fetch(`https://api.disco.xyz/v1/profile/address/${address}`, {
+	await proxyFetch(`https://api.disco.xyz/v1/profile/address/${address}`, {
 		method: 'GET',
 		headers,
 		redirect: 'follow',
