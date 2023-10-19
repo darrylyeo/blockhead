@@ -35,6 +35,6 @@
 	</DidSessionLoader>
 {:else}
 	<div class="card">
-		Connect an account to continue.
+		Connect an account to authenticate with Ceramic DIDs.
 	</div>
 {/if}
