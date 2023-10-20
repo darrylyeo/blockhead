@@ -95,7 +95,7 @@
 
 		{#if blockNumber !== undefined}
 			<TweenedNumber
-				value={blockNumber}
+				value={Number(blockNumber)}
 				format={{
 					showDecimalPlaces: 0,
 					useGrouping: false,
@@ -119,7 +119,7 @@
 
 		{#if blockNumber !== undefined}
 			<TweenedNumber
-				value={blockNumber}
+				value={Number(blockNumber)}
 				format={{
 					showDecimalPlaces: 0,
 					useGrouping: false,
