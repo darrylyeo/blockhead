@@ -45,6 +45,8 @@ export namespace Disco {
 		type: string;
 		proofValue: string;
 		eip712Domain: Eip712Domain;
+	} | {
+		jwt: string;
 	}
 
 	export type VerifiableCredential = {

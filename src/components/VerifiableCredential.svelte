@@ -26,6 +26,7 @@
 	import DateComponent from './Date.svelte'
 	import InlineTransition from './InlineTransition.svelte'
 	import JsonSchemaLoader from './JsonSchemaLoader.svelte'
+	import TweenedNumber from './TweenedNumber.svelte';
 </script>
 
 
@@ -141,45 +142,58 @@
 
 				<svelte:fragment slot="header-right">
 					<span class="card-annotation">
-						{formatIdentifierToWords(credential.vc.proof.type)}
+						{#if 'type' in credential.vc.proof}
+							{formatIdentifierToWords(credential.vc.proof.type)}
+						{:else if 'jwt' in credential.vc.proof}
+							JWT
+						{/if}
 					</span>
 				</svelte:fragment>
 
 				<dl class="card">
-					<div>
-						<dt>Type</dt>
-						<dd><output>{credential.vc.proof.type}</output></dd>
-					</div>
+					{#if 'type' in credential.vc.proof}
+						<div>
+							<dt>Type</dt>
+							<dd><output>{credential.vc.proof.type}</output></dd>
+						</div>
 
-					<div>
-						<dt>Verification Method</dt>
-						<dd><output>{credential.vc.proof.verificationMethod}</output></dd>
-					</div>
+						{#if credential.vc.proof.type === 'EthereumEip712Signature2021'}
+							<div>
+								<dt>Verification Method</dt>
+								<dd><output>{credential.vc.proof.verificationMethod}</output></dd>
+							</div>
 
-					<div>
-						<dt>EIP-712 Domain</dt>
-						<dd><output>{credential.vc.proof.eip712Domain.domain.name} (<output>{credential.vc.proof.eip712Domain.primaryType})</output></dd>
-						<!-- <dd><output>{credential.vc.proof.eip712Domain.domain.name}</output></dd>
-						<dd><output>{credential.vc.proof.eip712Domain.primaryType}</output></dd>
-						<dd><output>{credential.vc.proof.eip712Domain.domain.chainId}</output></dd>
-						<dd><output>{credential.vc.proof.eip712Domain.domain.version}</output></dd>
-						<dd><output>{credential.vc.proof.eip712Domain.messageSchema}</output></dd> -->
-					</div>
+							<div>
+								<dt>EIP-712 Domain</dt>
+								<dd><output>{credential.vc.proof.eip712Domain.domain.name} (<output>{credential.vc.proof.eip712Domain.primaryType})</output></dd>
+								<!-- <dd><output>{credential.vc.proof.eip712Domain.domain.name}</output></dd>
+								<dd><output>{credential.vc.proof.eip712Domain.primaryType}</output></dd>
+								<dd><output>{credential.vc.proof.eip712Domain.domain.chainId}</output></dd>
+								<dd><output>{credential.vc.proof.eip712Domain.domain.version}</output></dd>
+								<dd><output>{credential.vc.proof.eip712Domain.messageSchema}</output></dd> -->
+							</div>
 
-					<div>
-						<dt>Purpose</dt>
-						<dd><output>{credential.vc.proof.proofPurpose}</output></dd>
-					</div>
+							<div>
+								<dt>Purpose</dt>
+								<dd><output>{credential.vc.proof.proofPurpose}</output></dd>
+							</div>
 
-					<div>
-						<dt>Proof Value</dt>
-						<dd><output>{credential.vc.proof.proofValue}</output></dd>
-					</div>
+							<div>
+								<dt>Proof Value</dt>
+								<dd><output>{credential.vc.proof.proofValue}</output></dd>
+							</div>
 
-					<div>
-						<dt>Created</dt>
-						<dd><DateComponent date={credential.vc.proof.created} layout="horizontal" /></dd>
-					</div>
+							<div>
+								<dt>Created</dt>
+								<dd><DateComponent date={credential.vc.proof.created} layout="horizontal" /></dd>
+							</div>
+						{/if}
+					{:else if 'jwt' in credential.vc.proof}
+						<div>
+							<dt>JWT</dt>
+							<dd data-type="jwt"><output>{credential.vc.proof.jwt}</output></dd>
+						</div>
+					{/if}
 				</dl>
 			</Collapsible>
 		</section>
@@ -194,25 +208,49 @@
 			>
 				<svelte:fragment slot="title">
 					<header class="bar wrap">
-						<svelte:element this={`h${headingLevel + 1}`}>History</svelte:element>
+						<svelte:element this={`h${headingLevel + 1}`}>History {#if credential.history.length}(<TweenedNumber value={credential.history.length} />){/if}</svelte:element>
 					</header>
 				</svelte:fragment>
 
 				<div class:scrollable-list={credential.history.length > 4}>
-					{#each credential.history as itemStringified}
-						{@const item = JSON.parse(itemStringified)}
+					{#each credential.history as item}
+						{@const parsedItem = (() => {
+							try {
+								return JSON.parse(item)
+							}catch{
+								const match = item.match(/^(?<field>Migrated from) (?<oldValue>.+) on (?<updatedAt>.+)$/)
+
+								return match
+									? match.groups
+									: {
+										field: 'Value',
+										newValue: item,
+									}
+							}
+						})()}
 
 						<div class="card column">
 							<dl class="row wrap">
-								<dt>{item.field}</dt>
-								<dd data-type={item.field}><output>{item.newValue}</output></dd>
+								<dt>{parsedItem.field}</dt>
+								<dd data-type={parsedItem.field}>
+									{#if parsedItem.oldValue}
+										<output>{parsedItem.oldValue}</output>
+									{/if}
+
+									{#if parsedItem.oldValue && parsedItem.newValue}
+										<span>→</span>
+									{/if}
+
+									{#if parsedItem.newValue}
+										<output>{parsedItem.newValue}</output>
+									{/if}
+								</dd>
 							</dl>
 
 							<footer class="align-end">
-								<DateComponent date={item.updatedAt} layout="horizontal" />
+								<DateComponent date={parsedItem.updatedAt} layout="horizontal" />
 							</footer>
 						</div>
-
 					{/each}
 				</div>
 			</Collapsible>
