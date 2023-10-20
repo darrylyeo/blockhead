@@ -3262,12 +3262,12 @@ export const networks = [
 			"decimals": 18
 		},
 		"rpc": [
+			"https://rpc.mantle.xyz",
 			"https://mantle.publicnode.com",
 			"wss://mantle.publicnode.com",
 			"https://mantle-mainnet.public.blastapi.io",
 			"https://mantle.drpc.org",
 			"https://rpc.ankr.com/mantle",
-			"https://rpc.mantle.xyz",
 		],
 		"faucets": [],
 		"explorers": [
@@ -3306,6 +3306,8 @@ export const networks = [
 		],
 		"faucets": [
 			"https://faucet.testnet.mantle.xyz",
+			"https://www.incepthink.com/mantle/faucet",
+			"https://fusionx.finance/faucet",
 		],
 		"explorers": [
 			{
