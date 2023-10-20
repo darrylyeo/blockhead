@@ -163,7 +163,6 @@ export const networks = [
 		},
 		"rpc": [
 			"https://endpoints.omniatech.io/v1/arbitrum/goerli/public",
-			"https://arbitrum-goerli.public.blastapi.io",
 			"https://arbitrum-goerli.publicnode.com",
 			"wss://arbitrum-goerli.publicnode.com",
 			"https://arbitrum-goerli.blockpi.network/v1/rpc/public",
@@ -478,7 +477,6 @@ export const networks = [
 			"https://base.blockpi.network/v1/rpc/public",
 			"https://1rpc.io/base",
 			"https://base.meowrpc.com",
-			"https://base-mainnet.public.blastapi.io",
 		],
 		"faucets": [],
 		"explorers": [
@@ -1410,7 +1408,6 @@ export const networks = [
 			"https://singapore.rpc.blxrbdn.com",
 			"https://eth.rpc.blxrbdn.com",
 			"https://cloudflare-eth.com",
-			"https://eth-mainnet.public.blastapi.io",
 			"https://api.securerpc.com/v1",
 			"https://openapi.bitstack.com/v1/wNFxbiJyQsSeLrX8RRCHi7NpRxrlErZk/DjShIqLishPCTB9HiMkPHXjUM9CNM9Na/ETH/mainnet",
 			"https://eth-mainnet-public.unifra.io",
@@ -1538,7 +1535,6 @@ export const networks = [
 			"https://goerli.prylabs.net/",
 			"https://rpc.ankr.com/eth_goerli",
 			"https://endpoints.omniatech.io/v1/eth/goerli/public",
-			"https://eth-goerli.public.blastapi.io",
 			"https://goerli.blockpi.network/v1/rpc/public",
 			"https://eth-goerli.api.onfinality.io/public",
 			"https://api.zan.top/node/v1/eth/goerli/public",
@@ -1800,7 +1796,6 @@ export const networks = [
 			"https://jsonrpc-evmos-ia.cosmosia.notional.ventures",
 			"https://json-rpc.evmos.blockhunters.org",
 			"https://evmos-json-rpc.agoranodes.com",
-			"https://evmos-mainnet.public.blastapi.io",
 			"https://evmos-evm.publicnode.com",
 			"https://jsonrpc-evmos.goldenratiostaking.net"
 		],
@@ -1936,7 +1931,6 @@ export const networks = [
 			"https://rpc.testnet.fantom.network",
 			"https://endpoints.omniatech.io/v1/fantom/testnet/public",
 			"https://rpc.ankr.com/fantom_testnet",
-			"https://fantom-testnet.public.blastapi.io",
 			"https://fantom-testnet.publicnode.com",
 			"wss://fantom-testnet.publicnode.com",
 			"https://fantom.api.onfinality.io/public",
@@ -3265,7 +3259,6 @@ export const networks = [
 			"https://rpc.mantle.xyz",
 			"https://mantle.publicnode.com",
 			"wss://mantle.publicnode.com",
-			"https://mantle-mainnet.public.blastapi.io",
 			"https://mantle.drpc.org",
 			"https://rpc.ankr.com/mantle",
 		],
@@ -3999,7 +3992,6 @@ export const networks = [
 		},
 		"rpc": [
 			"https://mainnet.optimism.io",
-			"https://optimism-mainnet.public.blastapi.io",
 			"https://rpc.ankr.com/optimism",
 			"https://1rpc.io/op",
 			"https://optimism.blockpi.network/v1/rpc/public",
@@ -4041,7 +4033,6 @@ export const networks = [
 		"rpc": [
 			"https://goerli.optimism.io",
 			"https://endpoints.omniatech.io/v1/op/goerli/public",
-			"https://optimism-goerli.public.blastapi.io",
 			"https://optimism-goerli.publicnode.com",
 			"https://optimism-goerli.blockpi.network/v1/rpc/public",
 			"https://api.zan.top/node/v1/opt/goerli/public",
@@ -4285,7 +4276,6 @@ export const networks = [
 			"https://matic-mainnet-full-rpc.bwarelabs.com",
 			"https://matic-mainnet-archive-rpc.bwarelabs.com",
 			"https://rpc.ankr.com/polygon",
-			"https://polygon-mainnet.public.blastapi.io",
 			"https://polygonapi.terminet.io/rpc",
 			"https://1rpc.io/matic",
 			"https://polygon-mainnet.rpcfast.com?api_key=xbhWBI1Wkguk8SNMu1bvvLurPGLXmgwYeC4S6g2H7WdwFigZSmPWVZRxrskEQwIf",
@@ -5223,12 +5213,10 @@ export const networks = [
 		},
 		"rpc": [
 			"https://rpc.shiden.astar.network:8545",
-			"https://shiden.public.blastapi.io",
 			"https://shiden-rpc.dwellir.com",
 			"wss://shiden-rpc.dwellir.com",
 			"https://shiden.api.onfinality.io/public",
 			"wss://shiden.api.onfinality.io/public-ws",
-			"wss://shiden.public.blastapi.io",
 		],
 		"faucets": [],
 		"explorers": [
