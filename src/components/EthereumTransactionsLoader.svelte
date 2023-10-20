@@ -1,9 +1,12 @@
 <script lang="ts">
+	// Types/constants
 	import type { Ethereum } from '../data/networks/types'
 	import type { TickerSymbol } from '../data/currencies'
 	import { TransactionProvider, transactionProviderIcons } from '../data/transactionProvider'
 	import { preferences } from '../state/preferences'
 
+
+	// Inputs
 	export let network: Ethereum.Network
 	export let address: Ethereum.Address | undefined
 	export let publicClient: Ethereum.PublicClient
@@ -13,14 +16,15 @@
 
 	export let includeLogs = true
 
+	// (Computed)
 	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
-
 
 	$: loadingMessage = `Retrieving ${network.name} transactions from ${transactionProvider}...`
 	$: errorMessage = `Couldn't retrieve ${network.name} transactions from ${transactionProvider}.`
 
 
+	// Functions
 	import { createQuery, createInfiniteQuery } from '@tanstack/svelte-query'
 
 	import { type Covalent, getTransactionsByAddress } from '../api/covalent'
@@ -29,8 +33,6 @@
 	import { chainCodeFromNetwork, MoralisWeb3Api } from '../api/moralis/web3Api'
 	import type { TransactionCollection } from '../api/moralis/api/Api'
 
-
-	// Functions
 	import { formatUnits } from 'viem'
 
 	const normalizeEtherscanTransaction = (
@@ -60,7 +62,7 @@
 	} as Ethereum.Transaction)
 
 
-	// Computed values
+	// Outputs
 	export let transactions: Ethereum.Transaction[] | Covalent.Transactions | TransactionCollection
 
 
