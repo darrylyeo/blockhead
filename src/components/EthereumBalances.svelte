@@ -1,30 +1,10 @@
 <script lang="ts">
+	// Constants/types
 	import type { Ethereum } from '../data/networks/types'
 	import type { Covalent } from '../api/covalent'
 	import type { QuoteCurrency, TickerSymbol } from '../data/currencies'
 	import { getTokenAddressBalances } from '../api/covalent'
 	import type { TokenBalancesProvider } from '../data/tokenBalancesProvider'
-	import { preferences } from '../state/preferences'
-
-	export let network: Ethereum.Network
-	export let address: string
-	export let tokenBalancesProvider: TokenBalancesProvider = $preferences.tokenBalancesProvider
-	export let quoteCurrency: QuoteCurrency = $preferences.quoteCurrency
-	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending'
-	export let showNativeCurrency = true
-	export let showSmallValues = false
-	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
-	export let isScrollable = true
-	export let isHorizontal = false
-
-	export let isSelectable = false
-	export let selectedToken: Ethereum.NativeCurrency | Ethereum.ERC20Token | undefined
-
-	export let isOpen: boolean
-
-	export let containerClass: string
-	export let contentClass: string
-
 
 	type TokenWithBalance = {
 		token: Ethereum.NativeCurrency | Ethereum.ERC20Token,
@@ -34,9 +14,45 @@
 		rate: Covalent.ERC20TokenOrNFTContractWithBalance['quote_rate'],
 	}
 
+
+	// Context
+	import { preferences } from '../state/preferences'
+
+
+	// Inputs
+	export let network: Ethereum.Network
+	export let address: string
+	export let tokenBalancesProvider: TokenBalancesProvider = $preferences.tokenBalancesProvider
+	export let quoteCurrency: QuoteCurrency = $preferences.quoteCurrency
+
+	export let isSelectable = false
+	export let selectedToken: Ethereum.NativeCurrency | Ethereum.ERC20Token | undefined
+
+	// (View options)
+	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending'
+	export let showNativeCurrency = true
+	export let showSmallValues = false
+	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
+	export let isScrollable = true
+	export let isHorizontal = false
+
+	export let isOpen: boolean
+
+	export let containerClass: string
+	export let contentClass: string
+
+
+	// Internal state
+	let animate: boolean
+	// (Computed)
+	$: animate = !showSmallValues && balances.length < 50
+
+
+	// Outputs
 	export let balances: TokenWithBalance[] = []
 
-	export let filteredBalances: TokenWithBalance[]
+	// (Computed)
+	let filteredBalances: TokenWithBalance[]
 	$: filteredBalances = balances
 		.filter(({type, value, token, balance}) =>
 			type !== 'nft' && (
@@ -72,19 +88,19 @@
 	}
 
 
-	$: animate = !showSmallValues && balances.length < 50
-
-
+	// Functions
 	const tokensAreEqual = (token1: Ethereum.NativeCurrency | Ethereum.ERC20Token, token2: Ethereum.NativeCurrency | Ethereum.ERC20Token) =>
 		// token1.name === token2.name &&
 		token1.symbol === token2.symbol &&
 		token1.decimals === token2.decimals
-	
 
+
+	// Components
 	import EthereumBalancesLoader from './EthereumBalancesLoader.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
 
 
+	// Transitions/snimations
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
 	import { quintOut } from 'svelte/easing'
