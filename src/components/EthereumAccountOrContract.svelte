@@ -1,4 +1,5 @@
 <script lang="ts">
+	// Types/constants
 	import type { Ethereum } from '../data/networks/types'
 	import { getViemPublicClient } from '../data/networkProviders'
 	import type { NetworkProvider } from '../data/networkProviders/types'
@@ -9,8 +10,10 @@
 	import { preferences } from '../state/preferences'
 	import type { TokenBalancesProvider } from '../data/tokenBalancesProvider'
 	import { TransactionProvider } from '../data/transactionProvider'
+	import type { QuoteCurrency } from '../data/currencies'
 
 
+	// Inputs
 	export let network: Ethereum.Network
 	export let networkProvider: NetworkProvider
 	export let accountId: Ethereum.Address | string
@@ -18,32 +21,38 @@
 
 	export let tokenBalancesProvider: TokenBalancesProvider
 	export let transactionProvider: TransactionProvider
+	export let quoteCurrency: QuoteCurrency
+	export let publicClient: Ethereum.PublicClient | undefined
 
+	// (View options)
+	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 2
+	export let isOpen = true
+	export let resolveAccountNames = true
+
+	// (Computed)
+	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
 	$: tokenBalancesProvider = $$props.tokenBalancesProvider || $preferences.tokenBalancesProvider
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
 
-	let publicClient: Ethereum.PublicClient | undefined
 	$: publicClient = network && networkProvider && getViemPublicClient({
 		network,
 		networkProvider: networkProvider,
 	})
 
-
+	// Internal state
 	let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
 	let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	let showFees = false
 	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
 	let showSmallValues = false
 
-	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 2
-	export let isOpen = true
-	export let resolveAccountNames = true
+	let balances: Covalent.ERC20TokenOrNFTContractWithBalance[] = []
 
-	$: quoteCurrency = $preferences.quoteCurrency
-
+	let priceScale: PriceScale
 
 	let selectedToken: Ethereum.ERC20Token | undefined
 
+	// (Computed)
 	import { isAddress } from 'ethers'
 
 	$: if(isAddress(filterQuery) && balances){
@@ -54,11 +63,7 @@
 	// 	filterQuery = selectedToken.address
 
 
-	let balances: Covalent.ERC20TokenOrNFTContractWithBalance[] = []
-
-	let priceScale: PriceScale
-
-
+	// Components
 	import AccountIdResolver from './AccountIdResolver.svelte'
 	import Address from './Address.svelte'
 	import Balance from './Balance.svelte'
@@ -79,6 +84,7 @@
 	import TweenedNumber from './TweenedNumber.svelte'
 
 
+	// Transitions/animations
 	import { fade, scale } from 'svelte/transition'
 </script>
 
@@ -206,12 +212,12 @@
 								bind:tokenBalanceFormat
 								quoteCurrency={summary.quoteCurrency}
 							/>
-			
+
 							<label>
 								<input type="checkbox" bind:checked={showSmallValues}>
 								<span>Small</span>
 							</label>
-			
+
 							<label>
 								<span>Sort</span>
 								<select bind:value={sortBy}>
