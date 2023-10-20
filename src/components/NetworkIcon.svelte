@@ -24,6 +24,7 @@
 		'fvm': FvmIcon,
 		'gnosis': GnosisIcon,
 		'harmony': HarmonyIcon,
+		'mantle': tokenIcons.MNT,
 		'metis': MetisIcon,
 		'mode': ModeIcon,
 		'optimism': OptimismIcon,
