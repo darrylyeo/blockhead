@@ -6238,9 +6238,9 @@ export const opStackNetworks = ([
 	'optimism',
 	'base',
 	'zora',
+	'mantle',
 	// 'mode',
 	// 'mode-sepolia',
-	// 'mantle',
 	// 'worldcoin',
 ] as const satisfies Readonly<NetworkSlug[]>)
 	.map(slug => networksBySlug[slug])
@@ -6357,6 +6357,7 @@ export const networkColors = {
 	'gnosis': '#04795B',
 	'harmony': '#00AEE9',
 	'metis': '#00dacd',
+	'mantle': '#000',
 	'mode': '#dffe00',
 	'nahmii': '#E952AC',
 	'nervos': '#3CC68A',
