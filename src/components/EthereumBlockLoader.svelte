@@ -205,15 +205,15 @@
 						blockNumber,
 					}],
 					queryFn: async () => (
-						await publicClient.getBlock(Number(blockNumber))
+						await publicClient.getBlock({ blockNumber: BigInt(blockNumber) })
 					)
 				})}
 				bind:result={block}
 				then={block => (block && {
 					...block,
-					timestamp: block.date,
-					transactions: block.transactions,
-					prefetchedTransactions: block.prefetchedTransactions,
+					timestamp: block.timestamp,
+					// transactions: block.prefetchedTransactions,
+					transactionIds: block.transactions,
 				})}
 				let:result={block}
 			>

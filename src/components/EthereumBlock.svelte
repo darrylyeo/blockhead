@@ -1,8 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import type { Ethereum } from '../data/networks/types'
-
-	import { TransactionProvider } from '../data/transactionProvider'
+	import type { TransactionProvider } from '../data/transactionProvider'
 	import type { QuoteCurrency } from '../data/currencies'
 	import { updatesByNetwork } from '../data/networks/updates'
 
@@ -14,7 +13,6 @@
 	export let quoteCurrency: QuoteCurrency
 
 	// (Computed)
-	$: transactions = block.prefetchedTransactions ?? block.transactions ?? []
 	$: lastUpdate = updatesByNetwork.get(network)?.find(upgrade => Number(block.blockNumber) >= upgrade.blockNumber)
 
 	// (View data)
@@ -186,7 +184,7 @@
 	</div>
 </div>
 
-{#if transactions.length}
+{#if block.transactions?.length}
 	<hr>
 
 	<div class="bar wrap">
@@ -221,30 +219,30 @@
 	</div>
 
 	{#if showTransactions}
-		<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
-			{#if transactionProvider === TransactionProvider.Moralis}
-				{#each transactions as transaction, i (transaction.hash)}
+		<div class="transactions-list column" class:scrollable-list={block.transactions?.length > 7}>
+			{#if block.transactions}
+				{#each block.transactions as transaction (transaction.transactionID)}
 					<div class="card">
 						<EthereumTransaction
 							{network}
 							{transaction}
-							{transactionProvider}
 							{quoteCurrency}
 							includeLogs={detailLevel === 'exhaustive'}
-							let:transaction
+
+							{detailLevel}
+							{tokenBalanceFormat}
+							{showFees}
 						/>
 					</div>
 				{/each}
 
-			{:else}
-				{#each transactions as transaction, i (transaction.hash ?? transaction)}
+			{:else if block.transactionIds}
+				{#each block.transactionIds as transactionId (transactionId)}
 					<div class="card">
 						<EthereumTransactionLoader
-							transaction={typeof transaction === 'string' ? undefined : transaction}
-
 							{network}
+							{transactionId}
 							{transactionProvider}
-							transactionId={typeof transaction === 'string' ? transaction : transaction.hash}
 							{quoteCurrency}
 
 							{detailLevel}

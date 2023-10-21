@@ -61,8 +61,33 @@ export namespace Ethereum {
 
 	export type BlockNumber = number
 	export type BlockHash = `0x${string}` // BrandedString<'BlockHash'>
+	export type BlockNonce = number
+	export type BlockDifficulty = bigint
+	
+	export type Block = {
+		network: Ethereum.Network,
 
-	export type Block = EthersBlock
+		blockNumber: BlockNumber,
+		hash: BlockHash,
+		// blockHash: BlockHash,
+		parentHash: BlockHash,
+		// parentBlockHash: BlockHash,
+		timestamp: number,
+		nonce: BlockNonce,
+
+		difficulty: BlockDifficulty,
+		totalDifficulty?: BlockDifficulty,
+
+		gasLimit: GasAmount,
+		gasUsed: GasAmount,
+
+		minerAddress: Address,
+		extraData: string,
+		baseFeePerGas?: GasRate,
+
+		transactions?: Transaction[],
+		transactionIds?: TransactionID[],
+	}
 
 	export type Address = `0x${string}` // BrandedString<'Address'>
 
