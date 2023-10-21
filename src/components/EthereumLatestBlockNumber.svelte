@@ -41,7 +41,7 @@
 		const { chainId } = network
 
 		onDestroy(
-			publicClient.watchBlockNumber({
+			publicClient?.watchBlockNumber({
 				onBlockNumber: blockNumber => {
 					blockHeightForNetwork = {
 						...blockHeightForNetwork,
