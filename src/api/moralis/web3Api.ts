@@ -1,5 +1,5 @@
 import { env } from '../../env'
-import { HttpClient, Api, type Block, type BlockTransaction, type Log } from './api/Api'
+import { HttpClient, Api, type ChainList, type Block, type BlockTransaction, type Log } from './api/Api'
 
 export const MoralisWeb3Api = new Api(new HttpClient({
 	baseApiParams: {
@@ -13,7 +13,7 @@ export const MoralisWeb3Api = new Api(new HttpClient({
 import type { Ethereum } from '../../data/networks/types'
 
 export const chainCodeFromNetwork = (network: Ethereum.Network) =>
-	`0x${network.chainId.toString(16)}`
+	`0x${network.chainId.toString(16)}` as ChainList
 
 // export const moralisChainIDs = [
 // 	'eth',
