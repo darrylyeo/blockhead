@@ -34,7 +34,6 @@
 	import { createInfiniteQuery } from '@tanstack/svelte-query'
 
 	import { getERC20TokenTransfers } from '../api/covalent'
-	import { chainCodeFromNetwork, MoralisWeb3Api } from '../api/moralis/web3Api'
 
 
 	import Loader from './Loader.svelte'

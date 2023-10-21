@@ -391,34 +391,18 @@
 
 						<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
 							{#each transactions as erc20TokenTransaction}
-								{#if transactionProvider === TransactionProvider.Covalent}
-									<a class="card" id={erc20TokenTransaction.tx_hash} href="#{erc20TokenTransaction.tx_hash}">
-										<EthereumTransactionCovalent
-											{network}
-											{erc20TokenTransaction}
-											{quoteCurrency}
-											contextualAddress={address}
-											{detailLevel}
-											{tokenBalanceFormat}
-											{showFees}
-											layout="inline"
-										/>
-									</a>
-
-								{:else if transactionProvider === TransactionProvider.Moralis}
-									<a class="card" id={erc20TokenTransaction.hash} href="#{erc20TokenTransaction.hash}">
-										<EthereumTransactionMoralis
-											{network}
-											{erc20TokenTransaction}
-											{quoteCurrency}
-											contextualAddress={address}
-											{detailLevel}
-											{tokenBalanceFormat}
-											{showFees}
-											layout="inline"
-										/>
-									</a>
-								{/if}
+								<a class="card" id={erc20TokenTransaction.tx_hash} href="#{erc20TokenTransaction.tx_hash}">
+									<EthereumTransactionCovalent
+										{network}
+										{erc20TokenTransaction}
+										{quoteCurrency}
+										contextualAddress={address}
+										{detailLevel}
+										{tokenBalanceFormat}
+										{showFees}
+										layout="inline"
+									/>
+								</a>
 							{:else}
 								<div class="card">No transactions yet.</div>
 							{/each}
