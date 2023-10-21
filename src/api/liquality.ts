@@ -16,9 +16,9 @@ setup({
 
 import type { Ethereum } from '../data/networks/types'
 
-export const liqualitySupportedNetworks: Ethereum.ChainID = [
+export const liqualitySupportedNetworks = [
 	1,
 	137,
 	10,
 	42161,
-]
+] as const satisfies Ethereum.ChainID[]
