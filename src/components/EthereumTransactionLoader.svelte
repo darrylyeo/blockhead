@@ -47,10 +47,6 @@
 
 	export let transaction: TransactionResponse | Covalent.Transaction | BlockTransaction | undefined
 
-	// (Computed)
-
-	let passive = !!transaction
-
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
@@ -138,23 +134,6 @@
 	<div class="stack">
 		{#key transactionProvider}
 			<div class="column">
-				{#if passive}
-					<EthereumTransaction
-						{network}
-						transaction={normalizeViemTransaction(transaction)}
-						{quoteCurrency}
-
-						{layout}
-						{innerLayout}
-
-						{detailLevel}
-						{showFees}
-						{tokenBalanceFormat}
-					
-						{contextualAddress}
-					/>
-				{/if}
-
 				{#if transactionProvider === TransactionProvider.RpcProvider}
 					<Loader
 						loadingIconName={transactionProvider}
