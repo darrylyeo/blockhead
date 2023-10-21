@@ -360,7 +360,7 @@
 												icon={images[0]}
 												
 												{decimals}
-												balance={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
+												balance={balanceRaw && Number.isInteger(Number(balanceRaw)) ? Number(balanceRaw) * 0.1 ** decimals : Number(balance)}
 												convertedValue={balanceUSD * zapperFiatRate}
 												conversionCurrency={zapperQuoteCurrency}
 												conversionRate={price * zapperFiatRate}
@@ -377,7 +377,7 @@
 											address={tokenAddress || address}
 											icon={`https://zapper.fi/images/${img}`}
 
-											balance={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
+											balance={balanceRaw && Number.isInteger(Number(balanceRaw)) ? Number(balanceRaw) * 0.1 ** decimals : Number(balance)}
 											convertedValue={balanceUSD * zapperFiatRate}
 											conversionCurrency={zapperQuoteCurrency}
 											conversionRate={price * zapperFiatRate}
@@ -470,7 +470,7 @@
 														{address}
 														{decimals}
 
-														balance={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
+														balance={balanceRaw && Number.isInteger(Number(balanceRaw)) ? Number(balanceRaw) * 0.1 ** decimals : Number(balance)}
 														convertedValue={balanceUSD * zapperFiatRate}
 														conversionCurrency={zapperQuoteCurrency}
 														conversionRate={price * zapperFiatRate}
@@ -486,7 +486,7 @@
 														address={tokenAddress || address}
 														icon={tokenImageUrl}
 
-														balance={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
+														balance={balanceRaw && Number.isInteger(Number(balanceRaw)) ? Number(balanceRaw) * 0.1 ** decimals : Number(balance)}
 														convertedValue={balanceUSD * zapperFiatRate}
 														conversionCurrency={zapperQuoteCurrency}
 														conversionRate={price * zapperFiatRate}
@@ -514,7 +514,7 @@
 											{#if type === 'dollar'}
 												<TokenBalance
 													symbol={'USD'}
-													balance={value}
+													balance={Number(value)}
 													isDebt={label === 'Debt'}
 													showPlainFiat={true}
 												/>
@@ -636,7 +636,7 @@
 									<div class="column defi-protocol-balance">
 										<TokenBalance
 											{network} symbol={baseBalance.metadata.symbol} address={baseBalance.metadata.token}
-											balance={formatUnits(baseBalance.amount, baseBalance.metadata.decimals)}
+											balance={Number(baseBalance.amount) * 0.1 ** baseBalance.metadata.decimals}
 											isDebt={adapterBalance.metadata.adapterType === 'Debt'}
 										/>
 										{#if underlying.length && showUnderlyingAssets}
@@ -647,7 +647,7 @@
 														<TokenBalance
 															symbol={underlyingBalance.metadata.symbol}
 															address={underlyingBalance.metadata.token}
-															balance={formatUnits(underlyingBalance.amount, underlyingBalance.metadata.decimals)}
+															balance={Number(underlyingBalance.amount) * 0.1 ** underlyingBalance.metadata.decimals}
 															isDebt={adapterBalance.metadata.adapterType === 'Debt'}
 														/>
 													</span>

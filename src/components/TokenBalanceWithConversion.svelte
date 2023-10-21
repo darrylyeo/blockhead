@@ -20,12 +20,12 @@
 	$: name = $$props.name || erc20Token?.name
 	$: icon = $$props.icon || erc20Token?.icon
 
-	export let balance
+	export let balance: number
 	export let isDebt = false
 
 	export let conversionCurrency: QuoteCurrency
-	export let convertedValue
-	export let conversionRate
+	export let convertedValue: number
+	export let conversionRate: number
 
 
 	$: isSmallValue = Math.abs(convertedValue) < 1e-3
@@ -48,6 +48,7 @@
 	import TokenBalance from './TokenBalance.svelte'
 	import { scaleFont } from '../transitions/scale-font'
 </script>
+
 
 <style>
 	.balance, .balance-converted {
@@ -92,7 +93,7 @@
 			{#if tokenBalanceFormat === 'both'}{#if showParentheses}({/if}{/if
 			}<TokenBalance
 				{network} symbol={conversionCurrency}
-				balance={convertedValue}{showDecimalPlaces} showPlainFiat={true} {isDebt}
+				balance={convertedValue} {showDecimalPlaces} showPlainFiat={true} {isDebt}
 				{tween} {clip} {transitionWidth}
 			/>{#if tokenBalanceFormat === 'converted' && conversionCurrency !== symbol}
 				<span class="worth" transition:scaleFont={{delay: animationDelay}}>

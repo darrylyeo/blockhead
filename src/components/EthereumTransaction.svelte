@@ -172,7 +172,7 @@
 							network={transaction.network}
 							erc20Token={transaction.gasToken}
 
-							balance={transaction.value}
+							balance={Number(transaction.value)}
 							conversionCurrency={quoteCurrency}
 						/>
 					</span>
@@ -200,7 +200,7 @@
 							network={transaction.network}
 							erc20Token={transaction.gasToken}
 
-							balance={transaction.gasValue}
+							balance={Number(transaction.gasValue)}
 							conversionCurrency={quoteCurrency}
 						/>
 					</span>

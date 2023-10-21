@@ -36,12 +36,12 @@
 		>
 			<TokenBalanceWithConversion
 				{network}
-				balance={position.token0Amount}
+				balance={Number(position.token0Amount) * 0.1 ** position.pool.token0.decimals}
 				erc20Token={position.pool.token0}
 				convertedValue={position.token0BalanceUsd}
 			/> / <TokenBalanceWithConversion
 				{network}
-				balance={position.token1Amount}
+				balance={Number(position.token1Amount) * 0.1 ** position.pool.token1.decimals}
 				erc20Token={position.pool.token1}
 				convertedValue={position.token1BalanceUsd}
 			/> @ {UniswapV3.formatFeeAmount(position.pool.fee)}

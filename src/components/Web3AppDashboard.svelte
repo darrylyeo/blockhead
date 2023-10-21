@@ -412,7 +412,7 @@
 														{#if quoteTotal}
 															<TokenBalance
 																{network} symbol={quoteTotalCurrency || quoteCurrency}
-																balance={quoteTotal}
+																balance={Number(quoteTotal)}
 																showPlainFiat={true}
 															/>
 														{/if}
@@ -501,7 +501,7 @@
 																				address={tokenAddress || address}
 																				icon={`https://zapper.fi/images/${img}`}
 
-																				balance={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
+																				balance={balanceRaw && Number.isInteger(Number(balanceRaw)) ? Number(balanceRaw) * 0.1 ** decimals : balance}
 																				convertedValue={balanceUSD * zapperFiatRate}
 																				conversionCurrency={zapperQuoteCurrency}
 																				conversionRate={price * zapperFiatRate}
@@ -551,7 +551,7 @@
 																							address={tokenAddress || address}
 																							icon={tokenImageUrl}
 
-																							balance={balanceRaw && Number.isInteger(Number(balanceRaw)) ? formatUnits(balanceRaw, decimals) : balance}
+																							balance={balanceRaw && Number.isInteger(Number(balanceRaw)) ? Number(balanceRaw) ** 0.1 ** decimals : balance}
 																							convertedValue={balanceUSD * zapperFiatRate}
 																							conversionCurrency={zapperQuoteCurrency}
 																							conversionRate={price * zapperFiatRate}
@@ -577,7 +577,7 @@
 																				{#if type === 'dollar'}
 																					<TokenBalance
 																						symbol={'USD'}
-																						balance={value}
+																						balance={Number(value)}
 																						isDebt={label === 'Debt'}
 																						showPlainFiat={true}
 																					/>
@@ -692,7 +692,7 @@
 																	<div class="column defi-protocol-balance">
 																		<TokenBalance
 																			{network} symbol={baseBalance.metadata.symbol} address={baseBalance.metadata.token}
-																			balance={formatUnits(baseBalance.amount, baseBalance.metadata.decimals)}
+																			balance={Number(baseBalance.amount) * 0.1 ** baseBalance.metadata.decimals}
 																			isDebt={adapterBalance.metadata.adapterType === 'Debt'}
 																		/>
 																		{#if underlying.length && showUnderlyingAssets}
@@ -702,7 +702,7 @@
 																						<span class="underlying-symbol">┖</span>
 																						<TokenBalance
 																							{network} symbol={underlyingBalance.metadata.symbol} address={underlyingBalance.metadata.token}
-																							balance={formatUnits(underlyingBalance.amount, underlyingBalance.metadata.decimals)}
+																							balance={Number(underlyingBalance.amount) * 0.1 ** underlyingBalance.metadata.decimals}
 																							isDebt={adapterBalance.metadata.adapterType === 'Debt'}
 																						/>
 																					</p>
@@ -821,7 +821,7 @@
 															{network}
 															erc20Token={token}
 
-															balance={balance * 0.1 ** token.decimals}
+															balance={Number(balance) * 0.1 ** token.decimals}
 															conversionCurrency={quoteCurrency}
 															convertedValue={value}
 															conversionRate={rate}

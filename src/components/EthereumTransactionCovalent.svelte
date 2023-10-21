@@ -398,7 +398,7 @@
 							{network}
 							erc20Token={gasToken || transferredToken}
 
-							balance={value}
+							balance={Number(value)}
 							conversionCurrency={quoteCurrency} 
 							{convertedValue}
 						/>
@@ -437,7 +437,7 @@
 							{network}
 							erc20Token={gasToken}
 
-							balance={gasValue}
+							balance={Number(gasValue)}
 							conversionCurrency={quoteCurrency}
 							convertedValue={gasConvertedValue}
 						/>

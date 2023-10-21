@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { BigNumberish } from 'ethers'
 	import type { Ethereum } from '../data/networks/types'
 	import type { TickerSymbol } from '../data/currencies'
 	import { fiatQuoteCurrencies } from '../data/currencies'
@@ -16,8 +15,7 @@
 	$: name = $$props.name || erc20Token?.name
 	$: icon = $$props.icon || erc20Token?.icon
 
-	export let balance: number | string | BigNumberish = 0
-	export let price
+	export let balance: number = 0
 	export let showDecimalPlaces = 3 // 2 + Math.round(Math.log10(price || 1))
 
 	export let isDebt = false
@@ -105,7 +103,7 @@
 	{#if isFiat}
 		<span class="token-balance">
 			{isNegative ? '−' : ''}<TweenedNumber
-				value={Math.abs(Number(balance) || 0)}
+				value={Math.abs(balance)}
 				format={{
 					currency: symbol,
 					showDecimalPlaces,
@@ -120,7 +118,7 @@
 		<span class="inline-no-wrap">
 			<span class="token-balance">
 				{isNegative ? '−' : ''}<TweenedNumber
-					value={Math.abs(Number(balance) || 0)}
+					value={Math.abs(balance)}
 					format={{
 						showDecimalPlaces,
 						compactLargeValues

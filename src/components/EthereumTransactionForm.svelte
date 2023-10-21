@@ -386,7 +386,7 @@
 								send
 								<TokenBalance
 									{network} erc20Token={network.nativeCurrency}
-									balance={payableAmount}
+									balance={Number(payableAmount)}
 								/>
 								to
 							{:else}

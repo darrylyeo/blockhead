@@ -72,7 +72,7 @@
 			<div class="card" in:scale|global>
 				<TokenBalance
 					{network} {symbol} address={contractAddress} {erc20Token}
-					balance={formatEther(balance)}
+					balance={Number(balance) * 0.1 ** (symbol === network.nativeCurrency.symbol ? network.nativeCurrency.decimals : erc20Token?.decimals ?? 18)}
 				/>
 			</div>
 		</Loader>

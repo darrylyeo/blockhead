@@ -116,7 +116,7 @@
 					{network}
 					erc20Token={transaction.gasToken}
 
-					balance={transaction.value}
+					balance={Number(transaction.value)}
 				/>
 			</span>
 		{/if}
@@ -147,7 +147,7 @@
 					{network}
 					erc20Token={transaction.gasToken}
 
-					balance={transaction.gasSpent}
+					balance={Number(transaction.gasSpent)}
 				/>
 			</span>
 		{/if}
