@@ -57,7 +57,7 @@
 
 	import { getTransaction as getTransactionCovalent } from '../api/covalent'
 	// import { getTransaction as getTransactionEtherspot } from '../api/etherspot'
-	import { MoralisWeb3Api, chainCodeFromNetwork } from '../api/moralis/web3Api'
+	import { MoralisWeb3Api, chainCodeFromNetwork, normalizeMoralisTransaction } from '../api/moralis/web3Api'
 
 
 	import { formatUnits } from 'ethers'
@@ -129,7 +129,6 @@
 	import EthereumTransaction from './EthereumTransaction.svelte'
 	import EthereumTransactionCovalent from './EthereumTransactionCovalent.svelte'
 	// import EthereumTransactionEtherspot from './EthereumTransactionEtherspot.svelte'
-	import EthereumTransactionMoralis from './EthereumTransactionMoralis.svelte'
 	import Loader from './Loader.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
 </script>
@@ -344,6 +343,7 @@
 								})
 							)
 						})}
+						then={transaction => normalizeMoralisTransaction(transaction, network)}
 						bind:result={transaction}
 						let:result={transaction}
 					>
@@ -354,7 +354,7 @@
 							<slot name="header" {status} {transaction} />
 						</svelte:fragment>
 
-						<EthereumTransactionMoralis
+						<EthereumTransaction
 							{network}
 							{transaction}
 							{quoteCurrency}

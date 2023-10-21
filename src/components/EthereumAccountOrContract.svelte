@@ -73,7 +73,6 @@
 	import EthereumContractExplorer from './EthereumContractExplorer.svelte'
 	import EthereumTransaction from './EthereumTransaction.svelte'
 	import EthereumTransactionCovalent from './EthereumTransactionCovalent.svelte'
-	import EthereumTransactionMoralis from './EthereumTransactionMoralis.svelte'
 	// import EthereumTransactionEtherspot from './EthereumTransactionEtherspot.svelte'
 	import EthereumTransactionsLoader from './EthereumTransactionsLoader.svelte'
 	import EthereumTransactionsERC20Loader from './EthereumTransactionsERC20Loader.svelte'
@@ -282,20 +281,6 @@
 								{#if transactionProvider === TransactionProvider.Covalent}
 									<a class="card" id={transaction.tx_hash} href="#{transaction.tx_hash}">
 										<EthereumTransactionCovalent
-											{network}
-											{transaction}
-											{quoteCurrency}
-											contextualAddress={address}
-											{detailLevel}
-											{tokenBalanceFormat}
-											{showFees}
-											layout="inline"
-										/>
-									</a>
-
-								{:else if transactionProvider === TransactionProvider.Moralis}
-									<a class="card" id={transaction.hash} href="#{transaction.hash}">
-										<EthereumTransactionMoralis
 											{network}
 											{transaction}
 											{quoteCurrency}

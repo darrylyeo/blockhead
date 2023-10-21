@@ -54,7 +54,7 @@
 
 	import { getBlock } from '../api/covalent'
 
-	import { chainCodeFromNetwork, MoralisWeb3Api } from '../api/moralis/web3Api'
+	import { chainCodeFromNetwork, MoralisWeb3Api, normalizeMoralisBlock } from '../api/moralis/web3Api'
 
 
 	// Components
@@ -163,49 +163,14 @@
 						blockNumber
 					}],
 					queryFn: async () => (
-						MoralisWeb3Api.block.getBlock({
+						await MoralisWeb3Api.block.getBlock({
 							chain: chainCodeFromNetwork(network),
 							blockNumberOrHash: blockNumber
-						}).then(({
-							timestamp,
-							number,
-							hash,
-							parent_hash,
-							nonce,
-							sha3_uncles,
-							logs_bloom,
-							transactions_root,
-							state_root,
-							receipts_root,
-							miner,
-							difficulty,
-							total_difficulty,
-							size,
-							extra_data,
-							gas_limit,
-							gas_used,
-							transaction_count,
-							transactions
-						}) => ({
-							hash: hash,
-							parentHash: parent_hash,
-							blockNumber: number,
-							timestamp: timestamp,
-							nonce,
-
-							difficulty,
-							totalDifficulty: total_difficulty,
-							gasLimit: gas_limit,
-							gasUsed: gas_used,
-
-							minerAddress: miner,
-							extraData: extra_data,
-
-							transactions: transactions.sort((transaction1, transaction2) => transaction1.indexInBlock - transaction2.indexInBlock)
-						}))
-						.catch((e) => {
-							throw new Error(`Moralis hasn't yet indexed ${network.name} block #${blockNumber}.`) 
 						})
+							.then(block => normalizeMoralisBlock(block, network))
+							// .catch((e) => {
+							// 	throw new Error(`Moralis hasn't yet indexed ${network.name} block #${blockNumber}.`) 
+							// })
 					)
 				})}
 				bind:result={block}

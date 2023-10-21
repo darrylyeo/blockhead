@@ -45,8 +45,8 @@
 	import Address from './Address.svelte'
 	import Date from './Date.svelte'
 	import BlockNumber from './BlockNumber.svelte'
+	import EthereumTransaction from './EthereumTransaction.svelte'
 	import EthereumTransactionLoader from './EthereumTransactionLoader.svelte'
-	import EthereumTransactionMoralis from './EthereumTransactionMoralis.svelte'
 
 
 	// Transitions/animations
@@ -225,7 +225,7 @@
 			{#if transactionProvider === TransactionProvider.Moralis}
 				{#each transactions as transaction, i (transaction.hash)}
 					<div class="card">
-						<EthereumTransactionMoralis
+						<EthereumTransaction
 							{network}
 							{transaction}
 							{transactionProvider}
