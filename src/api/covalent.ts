@@ -1,5 +1,5 @@
 import type { Token } from 'graphql'
-import type { TickerSymbol } from '../data/currencies'
+import type { QuoteCurrency, TickerSymbol } from '../data/currencies'
 import type { Ethereum } from '../data/networks/types'
 
 import { env } from '../env'
@@ -398,11 +398,11 @@ export namespace Covalent {
 		sender_address: string // The address of the sender.
 		method: string // The name of the decoded item.
 	}
-	export type ERC20TokenTransaction = Transaction & {
+	export type TransactionWithErc20Transfers = Transaction & {
 		transfers: ERC20TokenTransfer[]
 	}
 	export type ERC20TokenTransfers = AddressData & {
-		items: ERC20TokenTransaction[]
+		items: TransactionWithErc20Transfers[]
 		pagination: Pagination
 	}
 
@@ -608,3 +608,149 @@ export const getSpotPrices = (
 // /v1/pricing/volatility/
 // /v1/${chainID}/tokens/${address}/token_holders_changes/
 // /v1/${chainID}/tokens/${address}/token_holders/
+
+
+type TransactionWithConversions = Ethereum.Transaction & {
+	convertedValue: number,
+	quoteCurrency: QuoteCurrency,
+	conversionRate: number,
+
+	gasConvertedValue: number,
+	gasConversionRate: number,
+}
+type TransactionWithERC20Transfers = Ethereum.Transaction & {
+	convertedValue: number,
+	quoteCurrency: QuoteCurrency,
+	conversionRate: number,
+
+	transfers: Erc20Transfer[]
+}
+export type Erc20Transfer = Omit<TransactionWithConversions, 'gasToken' | 'nonce'> & {
+	transferredToken: Ethereum.ERC20Token,
+}
+
+export const normalizeTransaction = (
+	transaction: Covalent.Transaction,
+	network: Ethereum.Network,
+	quoteCurrency: QuoteCurrency,
+): TransactionWithConversions => ({
+	network,
+
+	transactionID: transaction.tx_hash as Ethereum.TransactionID,
+	nonce: undefined,
+	transactionIndex: transaction.tx_offset,
+	blockNumber: transaction.block_height as Ethereum.BlockNumber,
+	blockHash: undefined,
+	date: transaction.block_signed_at,
+
+	isSuccessful: transaction.successful,
+
+	fromAddress: transaction.from_address as Ethereum.Address,
+	fromAddressLabel: transaction.from_address_label,
+	toAddress: transaction.to_address as Ethereum.Address,
+	toAddressLabel: transaction.to_address_label,
+
+	value: transaction.value * 0.1 ** network.nativeCurrency.decimals,
+
+	gasToken: network.nativeCurrency,
+	gasOffered: BigInt(transaction.gas_offered),
+	gasSpent: BigInt(transaction.gas_spent),
+	gasRate: BigInt(transaction.gas_price),
+	gasValue: transaction.gas_spent * transaction.gas_price * 0.1 ** network.nativeCurrency.decimals,
+
+	logEvents: transaction.log_events
+		?.map(logEvent => ({
+			indexInTransaction: logEvent.log_offset,
+			transactionHash: logEvent.tx_hash,
+
+			indexInBlock: logEvent.tx_offset,
+			blockNumber: logEvent.block_height,
+			// blockHash: ,
+
+			topics: logEvent.raw_log_topics,
+			data: logEvent.raw_log_data,
+
+			contract: {
+				name: logEvent.sender_name,
+				address: logEvent.sender_address,
+				symbol: logEvent.sender_contract_ticker_symbol,
+				decimals: logEvent.sender_contract_decimals,
+				icon: logEvent.sender_logo_url === 'null' ? null : logEvent.sender_logo_url,
+				label: logEvent.sender_address_label === 'null' ? null : logEvent.sender_address_label,
+			},
+
+			decoded: logEvent.decoded && {
+				name: logEvent.decoded.name,
+				signature: logEvent.decoded.signature,
+				params: logEvent.decoded.params?.map(logEvent => ({
+					name: logEvent.name,
+					type: logEvent.type,
+					value: logEvent.value ?? '', // logEvent.value === null, logEvent.decoded === false
+					indexed: logEvent.indexed,
+					decoded: logEvent.decoded,
+				})) ?? [],
+			}
+		}))
+		.sort((logEvent1, logEvent2) => logEvent1.indexInTransaction - logEvent2.indexInTransaction),
+
+
+	convertedValue: transaction.value_quote,
+	quoteCurrency,
+	conversionRate: transaction.value_quote / transaction.value * 0.1 ** network.nativeCurrency.decimals,
+
+	gasConvertedValue: transaction.gas_quote,
+	gasConversionRate: transaction.gas_quote_rate,
+})
+
+export const normalizeTransactionWithErc20Transfers = (
+	transaction: Covalent.Transaction,
+	network: Ethereum.Network,
+	quoteCurrency: QuoteCurrency,
+): TransactionWithERC20Transfers => ({
+	...normalizeTransaction(transaction, network, quoteCurrency),
+	transfers: transaction.transfers.map(transfer =>
+		normalizeErc20Transfer(transfer, network, quoteCurrency, transaction.successful)
+	)
+})
+
+export const normalizeErc20Transfer = (
+	transfer: Covalent.ERC20TokenTransfer,
+	network: Ethereum.Network,
+	quoteCurrency: QuoteCurrency,
+	isSuccessful: boolean,
+): Erc20Transfer => ({
+	network,
+
+	transactionID: transfer.tx_hash as Ethereum.TransactionID,
+	date: transfer.block_signed_at,
+
+	isSuccessful,
+
+	fromAddress: transfer.from_address,
+	fromAddressLabel: transfer.from_address_label,
+	toAddress: transfer.to_address,
+	toAddressLabel: transfer.to_address_label,
+
+	value: transfer.delta * 0.1 ** transfer.contract_decimals,
+
+	transferredToken: {
+		symbol: transfer.contract_ticker_symbol,
+		address: transfer.contract_address,
+		name: transfer.contract_name,
+		icon: transfer.logo_url,
+		decimals: transfer.contract_decimals
+	},
+
+	convertedValue: transfer.delta_quote,
+	quoteCurrency,
+	conversionRate: transfer.quote_rate,
+
+	logEvents: transfer.method_calls?.map(methodCall => ({
+		contract: {
+			address: methodCall.sender_address
+		},
+		decoded: {
+			name: methodCall.method
+		}
+	})),
+})

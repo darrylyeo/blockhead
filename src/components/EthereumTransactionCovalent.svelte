@@ -1,18 +1,18 @@
 <script lang="ts">
+	// Types/constants
 	import type { Ethereum } from '../data/networks/types'
 	import type { Covalent } from '../api/covalent'
 	import type { QuoteCurrency } from '../data/currencies'
 
 
+	// Inputs
 	export let network: Ethereum.Network
 	export let transaction: Covalent.Transaction
-	export let erc20TokenTransaction: Covalent.ERC20TokenTransaction
+	export let erc20TokenTransaction: Covalent.TransactionWithErc20Transfers
 	export let erc20TokenTransfer: Covalent.ERC20TokenTransfer
 	export let quoteCurrency: QuoteCurrency
 
-
-	// View options
-
+	// (View options)
 	export let contextualAddress: Ethereum.Address
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
 	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
@@ -22,214 +22,22 @@
 	export let innerLayout: 'columns' | 'row' = 'row'
 
 
-	// Data
-
-	type TransactionWithConversions = Ethereum.Transaction & {
-		convertedValue: number,
-		quoteCurrency: QuoteCurrency,
-		conversionRate: number,
-
-		gasConvertedValue: number,
-		gasConversionRate: number,
-	}
-	type TransactionWithERC20Transfers = Ethereum.Transaction & {
-		convertedValue: number,
-		quoteCurrency: QuoteCurrency,
-		conversionRate: number,
-
-		transfers: ERC20Transfer[]
-	}
-	type ERC20Transfer = Omit<TransactionWithConversions, 'gasToken' | 'nonce'> & {
-		transferredToken: Ethereum.ERC20Token,
-	}
-
-	import { formatUnits } from 'ethers'
-
-	const _formatUnits = (value: number | string, decimals: number) => {
-		try {
-			return value
-				? formatUnits(
-					typeof value === 'string' ?
-						value.replace(/\.0*$/, '')
-					:
-						value,
-					decimals
-				)
-				: 0
-		}catch(e){
-			console.warn(e)
-			return value
-		}
-	}
-
-	const convertCovalentTransaction = (transaction: Covalent.Transaction) => ({
-		network,
-
-		transactionID: transaction.tx_hash as Ethereum.TransactionID,
-		nonce: undefined,
-		transactionIndex: transaction.tx_offset,
-		blockNumber: transaction.block_height as Ethereum.BlockNumber,
-		blockHash: undefined,
-		date: transaction.block_signed_at,
-
-		isSuccessful: transaction.successful,
-
-		fromAddress: transaction.from_address as Ethereum.Address,
-		fromAddressLabel: transaction.from_address_label,
-		toAddress: transaction.to_address as Ethereum.Address,
-		toAddressLabel: transaction.to_address_label,
-
-		value: _formatUnits(transaction.value, network.nativeCurrency.decimals), // transaction.value * 0.1 ** network.nativeCurrency.decimals,
-
-		gasToken: network.nativeCurrency,
-		gasOffered: BigInt(transaction.gas_offered),
-		gasSpent: BigInt(transaction.gas_spent),
-		gasRate: BigInt(transaction.gas_price),
-		gasValue: _formatUnits(transaction.gas_spent * transaction.gas_price, network.nativeCurrency.decimals), // transaction.gas_spent * transaction.gas_price * 0.1 ** network.nativeCurrency.decimals,
-
-		logEvents: transaction.log_events
-			?.map(logEvent => ({
-				indexInTransaction: logEvent.log_offset,
-				transactionHash: logEvent.tx_hash,
-
-				indexInBlock: logEvent.tx_offset,
-				blockNumber: logEvent.block_height,
-				// blockHash: ,
-
-				topics: logEvent.raw_log_topics,
-				data: logEvent.raw_log_data,
-
-				contract: {
-					name: logEvent.sender_name,
-					address: logEvent.sender_address,
-					symbol: logEvent.sender_contract_ticker_symbol,
-					decimals: logEvent.sender_contract_decimals,
-					icon: logEvent.sender_logo_url === 'null' ? null : logEvent.sender_logo_url,
-					label: logEvent.sender_address_label === 'null' ? null : logEvent.sender_address_label,
-				},
-
-				decoded: logEvent.decoded && {
-					name: logEvent.decoded.name,
-					signature: logEvent.decoded.signature,
-					params: logEvent.decoded.params?.map(logEvent => ({
-						name: logEvent.name,
-						type: logEvent.type,
-						value: logEvent.value ?? '', // logEvent.value === null, logEvent.decoded === false
-						indexed: logEvent.indexed,
-						decoded: logEvent.decoded,
-					})) ?? [],
-				}
-			}))
-			.sort((logEvent1, logEvent2) => logEvent1.indexInTransaction - logEvent2.indexInTransaction),
+	// Functions
+	import { normalizeTransaction, normalizeTransactionWithErc20Transfers } from '../api/covalent'
 
 
-		convertedValue: transaction.value_quote,
-		quoteCurrency,
-		conversionRate: transaction.value_quote / Number(_formatUnits(transaction.value, network.nativeCurrency.decimals)), // transaction.value_quote / Number(transaction.value * 0.1 ** network.nativeCurrency.decimals),
+	// Internal state
+	// (Computed)
 
-		gasConvertedValue: transaction.gas_quote,
-		gasConversionRate: transaction.gas_quote_rate,
-	} as TransactionWithConversions)
-
-	const convertCovalentERC20TokenTransaction = (transaction: Covalent.ERC20TokenTransaction) => ({
-		...convertCovalentTransaction(transaction),
-		transfers: transaction.transfers.map(transfer =>
-			convertCovalentERC20TokenTransfer(transfer, transaction.successful)
-		)
-	} as TransactionWithERC20Transfers)
-
-	const convertCovalentERC20TokenTransfer = (
-		transfer: Covalent.ERC20TokenTransfer,
-		isSuccessful: boolean,
-	) => ({
-		network,
-
-		transactionID: transfer.tx_hash as Ethereum.TransactionID,
-		date: transfer.block_signed_at,
-
-		isSuccessful,
-
-		fromAddress: transfer.from_address,
-		fromAddressLabel: transfer.from_address_label,
-		toAddress: transfer.to_address,
-		toAddressLabel: transfer.to_address_label,
-
-		value: _formatUnits(transfer.delta, transfer.contract_decimals), // transfer.delta * 0.1 ** transfer.contract_decimals,
-
-		transferredToken: {
-			symbol: transfer.contract_ticker_symbol,
-			address: transfer.contract_address,
-			name: transfer.contract_name,
-			icon: transfer.logo_url,
-			decimals: transfer.contract_decimals
-		},
-
-		convertedValue: transfer.delta_quote,
-		quoteCurrency,
-		conversionRate: transfer.quote_rate,
-
-		logEvents: transfer.method_calls?.map(methodCall => ({
-			contract: {
-				address: methodCall.sender_address
-			},
-			decoded: {
-				name: methodCall.method
-			}
-		})),
-	} as ERC20Transfer)
-
-
-	$: ({
-		network,
-
-		transactionID,
-		nonce,
-		transactionIndex,
-		blockNumber,
-		blockHash,
-		date,
-
-		isSuccessful,
-
-		fromAddress,
-		fromAddressLabel,
-		toAddress,
-		toAddressLabel,
-
-		value,
-
-		gasToken,
-		gasOffered,
-		gasSpent,
-		gasRate,
-		gasValue,
-
-		logEvents,
-
-		// Transaction | TransactionWithERC20Transfers
-		convertedValue,
-		quoteCurrency,
-		conversionRate,
-
-		// Transaction
-		gasConvertedValue,
-		gasConversionRate,
-
-		// TransactionWithERC20Transfers
-		transfers,
-
-		// ERC20Transfer
-		transferredToken
-	} = ((
+	$: _transaction =
 		transaction ?
-			convertCovalentTransaction(transaction)
+			normalizeTransaction(transaction, network, quoteCurrency)
 		: erc20TokenTransaction ?
-			convertCovalentERC20TokenTransaction(erc20TokenTransaction)
+			normalizeTransactionWithErc20Transfers(erc20TokenTransaction, network, quoteCurrency)
 		: erc20TokenTransfer ?
 			erc20TokenTransfer
 		:
 			{}
-	)) as TransactionWithConversions | TransactionWithERC20Transfers | ERC20Transfer)
 
 
 	$: isSummary = detailLevel === 'summary'
@@ -237,10 +45,10 @@
 	$: isStandaloneLayout = layout === 'standalone'
 	$: isInlineLayout = layout === 'inline'
 
-	$: contextIsSender = contextualAddress && fromAddress && contextualAddress.toLowerCase() === fromAddress.toLowerCase()
-	$: contextIsReceiver = contextualAddress && toAddress && contextualAddress.toLowerCase() === toAddress.toLowerCase()
+	$: contextIsSender = contextualAddress && _transaction.fromAddress && contextualAddress.toLowerCase() === _transaction.fromAddress.toLowerCase()
+	$: contextIsReceiver = contextualAddress && _transaction.toAddress && contextualAddress.toLowerCase() === _transaction.toAddress.toLowerCase()
 
-	$: isContractCall = value == 0 && (logEvents?.length || erc20TokenTransaction)
+	$: isContractCall = _transaction.value == 0 && (_transaction.logEvents?.length || erc20TokenTransaction)
 
 
 	// let logEventIsHidden = {}
@@ -350,31 +158,31 @@
 
 
 {#if network && (transaction || erc20TokenTransaction || erc20TokenTransfer)}
-	<div class="transaction layout-{layout} column" class:card={isStandaloneLayout} class:unsuccessful={!isSuccessful}><!-- transition:fade -->
-		{#if nonce}{nonce}{/if}
+	<div class="transaction layout-{layout} column" class:card={isStandaloneLayout} class:unsuccessful={!_transaction.isSuccessful}><!-- transition:fade -->
+		{#if _transaction.nonce}{_transaction.nonce}{/if}
 
 		{#if isStandaloneLayout}
 			<div class="bar">
-				<h2><TransactionId {network} transactionId={transactionID} /></h2>
-				<span class="card-annotation">{network.name} Transaction</span>
+				<h2><TransactionId network={_transaction.network} transactionId={_transaction.transactionID} /></h2>
+				<span class="card-annotation">{_transaction.network.name} Transaction</span>
 			</div>
 
 			<hr>
 
 			<div class="bar">
 				<h4>Signed Transaction Data</h4>
-				{#if nonce}<p class="card-annotation">Nonce #{nonce}</p>{/if}
+				{#if _transaction.nonce}<p class="card-annotation">Nonce #{_transaction.nonce}</p>{/if}
 			</div>
 		{/if}
 
-		{#if !(isSummary && transfers?.length && value == 0)}
+		{#if !(isSummary && _transaction.transfers?.length && _transaction.value == 0)}
 			<div class="container inner-layout-{innerLayout}" class:card={isStandaloneLayout}>
 				{#if !(isSummary && (contextIsSender || contextIsReceiver))}
 					<span class="sender" class:mark={contextIsSender}><!-- transition:fade -->
 						<AddressWithLabel
-							{network}
-							address={fromAddress}
-							label={fromAddressLabel}
+							network={_transaction.network}
+							address={_transaction.fromAddress}
+							label={_transaction.fromAddressLabel}
 							format="middle-truncated"
 							alwaysShowAddress={isExhaustive}
 						/>
@@ -382,84 +190,84 @@
 				{/if}
 				{#if isContractCall && !isExhaustive}
 					<span class="action">
-						{isSuccessful ? 'called smart contract' : 'failed to call smart contract'}
+						{_transaction.isSuccessful ? 'called smart contract' : 'failed to call smart contract'}
 					</span>
-				{:else if value}
+				{:else if _transaction.value}
 					<span>
 						<span class="action">
 							{isSummary && contextIsReceiver
-								? isSuccessful ? 'received' : 'failed to receive'
-								: isSuccessful ? 'sent' : 'failed to send'}
+								? _transaction.isSuccessful ? 'received' : 'failed to receive'
+								: _transaction.isSuccessful ? 'sent' : 'failed to send'}
 						</span>
 						<TokenBalanceWithConversion
 							{tokenBalanceFormat}
 							showDecimalPlaces={isExhaustive ? 9 : 6}
 
-							{network}
-							erc20Token={gasToken || transferredToken}
+							network={_transaction.network}
+							erc20Token={_transaction.gasToken || _transaction.transferredToken}
 
-							balance={Number(value)}
-							conversionCurrency={quoteCurrency} 
-							{convertedValue}
+							balance={Number(_transaction.value)}
+							conversionCurrency={_transaction.quoteCurrency} 
+							convertedValue={_transaction.convertedValue}
 						/>
 					</span>
 				{/if}
-				{#if isSummary && contextIsReceiver && fromAddress}
+				{#if isSummary && contextIsReceiver && _transaction.fromAddress}
 					<span class="sender"><!-- transition:fade -->
 						<span>from</span>
 						<AddressWithLabel
-							{network}
-							address={fromAddress}
-							label={fromAddressLabel}
+							network={_transaction.network}
+							address={_transaction.fromAddress}
+							label={_transaction.fromAddressLabel}
 							format="middle-truncated"
 							alwaysShowAddress={isExhaustive}
 						/>
 					</span>
-				{:else if toAddress}
+				{:else if _transaction.toAddress}
 					<span class="receiver" class:mark={contextIsReceiver}><!-- transition:fade -->
 						{#if !(isContractCall && !isExhaustive)}<span>to</span>{/if}
 						<AddressWithLabel
-							{network}
-							address={toAddress}
-							label={toAddressLabel}
+							network={_transaction.network}
+							address={_transaction.toAddress}
+							label={_transaction.toAddressLabel}
 							format="middle-truncated"
 							alwaysShowAddress={isExhaustive}
 						/>
 					</span>
 				{/if}
-				{#if (showFees || isExhaustive) && gasSpent !== undefined}
+				{#if (showFees || isExhaustive) && _transaction.gasSpent !== undefined}
 					<span class="fee"><!-- transition:fade -->
 						<span>for fee</span>
 						<TokenBalanceWithConversion
 							{tokenBalanceFormat}
 							showDecimalPlaces={isExhaustive ? 9 : 6}
 
-							{network}
-							erc20Token={gasToken}
+							network={_transaction.network}
+							erc20Token={_transaction.gasToken}
 
-							balance={Number(gasValue)}
-							conversionCurrency={quoteCurrency}
-							convertedValue={gasConvertedValue}
+							balance={Number(_transaction.gasValue)}
+							conversionCurrency={_transaction.quoteCurrency}
+							convertedValue={_transaction.gasConvertedValue}
 						/>
 					</span>
 				{/if}
-				{#if isSummary && date}
-					<span class="date"><Date {date} layout="vertical" format="relative" /></span>
+				{#if isSummary && _transaction.date}
+					<span class="date"><Date date={_transaction.date} layout="vertical" format="relative" /></span>
 				{/if}
 			</div>
 		{/if}
 
-		{#if transfers?.length}
+		{#if _transaction.transfers?.length}
 			{#if isStandaloneLayout}
 				<hr>
 				<h4>ERC-20 Token Transfers</h4>
 			{/if}
 			<div class="transfers">
-				{#each transfers as erc20TokenTransfer}
+				{#each _transaction.transfers as erc20TokenTransfer}
 					<svelte:self
-						{network}
+						network={_transaction.network}
 						{erc20TokenTransfer}
-						{quoteCurrency}
+						quoteCurrency={_transaction.quoteCurrency}
 
 						{contextualAddress}
 						{detailLevel}
@@ -473,15 +281,15 @@
 			</div>
 		{/if}
 
-		{#if !isSummary && logEvents?.length}
+		{#if !isSummary && _transaction.logEvents?.length}
 			{#if isStandaloneLayout}
 				<hr>
 				<h4>Smart Contract Event Logs</h4>
 			{/if}
-			<div class="log-events column" class:scrollable-list={isExhaustive && logEvents.length > (isStandaloneLayout ? 8 : 16)}><!-- transition:fade -->
-				{#each logEvents as logEvent (logEvent.indexInTransaction)}
+			<div class="log-events column" class:scrollable-list={isExhaustive && _transaction.logEvents.length > (isStandaloneLayout ? 8 : 16)}><!-- transition:fade -->
+				{#each _transaction.logEvents as logEvent (logEvent.indexInTransaction)}
 					<EthereumLogEventCovalent
-						{network}
+						network={_transaction.network}
 						{logEvent}
 						{contextualAddress}
 
@@ -511,14 +319,14 @@
 			{/if}
 			<div class="footer bar"><!-- transition:fade -->
 				<EthereumTransactionSummary
-					{network}
-					{transactionID}
-					{transactionIndex}
-					{blockNumber}
+					network={_transaction.network}
+					transactionID={_transaction.transactionID}
+					transactionIndex={_transaction.transactionIndex}
+					blockNumber={_transaction.blockNumber}
 					showTransactionID={isStandaloneLayout || isExhaustive}
 				/>
-				{#if date}
-					<Date {date} layout="horizontal" />
+				{#if _transaction.date}
+					<Date date={_transaction.date} layout="horizontal" />
 				{/if}
 			</div>
 		{/if}
