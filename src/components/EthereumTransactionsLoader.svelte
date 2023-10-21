@@ -27,7 +27,7 @@
 	// Functions
 	import { createQuery, createInfiniteQuery } from '@tanstack/svelte-query'
 
-	import { type Covalent, getTransactionsByAddress } from '../api/covalent'
+	import { type Covalent, getTransactionsByAddress, normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent'
 	import { Etherscan } from '../api/etherscan'
 	// import { getTransactions as getTransactionsEtherspot } from '../api/etherspot'
 	import { chainCodeFromNetwork, MoralisWeb3Api } from '../api/moralis/web3Api'
@@ -100,7 +100,10 @@
 				getPreviousPageParam: (firstPage, allPages) => firstPage.pagination?.page_number > 0 ? firstPage.pagination.page_number - 1 : undefined,
 				getNextPageParam: (lastPage, allPages) => lastPage.pagination?.has_more ? lastPage.pagination.page_number + 1 : undefined
 			}),
-			then: result => result?.pages?.flatMap(page => page.items) ?? [],
+			then: result => (
+				(result?.pages?.flatMap(page => page.items) ?? [])
+					.map(transaction => normalizeTransactionCovalent(transaction, network, quoteCurrency))
+			),
 		},
 
 		[TransactionProvider.Etherscan]: {

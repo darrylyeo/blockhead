@@ -51,7 +51,7 @@
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
 
-	import { getTransaction as getTransactionCovalent } from '../api/covalent'
+	import { getTransaction as getTransactionCovalent, normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent'
 	// import { getTransaction as getTransactionEtherspot } from '../api/etherspot'
 	import { MoralisWeb3Api, chainCodeFromNetwork, normalizeMoralisTransaction } from '../api/moralis/web3Api'
 
@@ -236,9 +236,11 @@
 									transactionHash: transactionId,
 									includeLogs: true
 								})
-								.then(({ items: [transaction] }) => transaction)
 							)
 						})}
+						then={({ items: [transaction] }) => (
+							normalizeTransactionCovalent(transaction, network, quoteCurrency)
+						)}
 						bind:result={transaction}
 						let:result={transaction}
 					>

@@ -5,6 +5,7 @@
 	import type { TickerSymbol } from '../data/currencies'
 	import { preferences } from '../state/preferences'
 	import { TransactionProvider, transactionProviderIcons } from '../data/transactionProvider'
+	import type { TransactionWithERC20Transfers } from '../api/covalent'
 
 
 	export let network: Ethereum.Network
@@ -31,9 +32,22 @@
 	$: errorMessage = `Couldn't retrieve ERC-20 transactions from ${transactionProvider}.`
 
 
+	// Outputs
+	export let transactions: TransactionWithERC20Transfers[]
+
+	type SharedSlotProps = {
+		transactions: typeof transactions
+	}
+
+	type $$Slots = {
+		'default': SharedSlotProps,
+		'header': SharedSlotProps,
+	}
+
+
 	import { createInfiniteQuery } from '@tanstack/svelte-query'
 
-	import { getERC20TokenTransfers } from '../api/covalent'
+	import { getERC20TokenTransfers, normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent'
 
 
 	import Loader from './Loader.svelte'
@@ -66,7 +80,11 @@
 			getPreviousPageParam: (firstPage, allPages) => firstPage.pagination?.page_number > 0 ? firstPage.pagination.page_number - 1 : undefined,
 			getNextPageParam: (lastPage, allPages) => lastPage.pagination?.has_more ? lastPage.pagination.page_number + 1 : undefined
 		})}
-		then={result => result?.pages?.flatMap(page => page.items) ?? []}
+		then={result => (
+			(result?.pages?.flatMap(page => page.items) ?? [])
+				.map(transaction => normalizeTransactionCovalent(transaction, network, quoteCurrency))
+		)}
+		bind:result={transactions}
 		let:result={transactions}
 		let:status
 		let:pagination

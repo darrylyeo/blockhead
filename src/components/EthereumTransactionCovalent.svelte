@@ -1,13 +1,13 @@
 <script lang="ts">
 	// Types/constants
 	import type { Ethereum } from '../data/networks/types'
-	import type { Covalent } from '../api/covalent'
+	import type { Covalent, Erc20Transfer, TransactionWithConversions, TransactionWithERC20Transfers } from '../api/covalent'
 	import type { QuoteCurrency } from '../data/currencies'
 
 
 	// Inputs
 	export let network: Ethereum.Network
-	export let transaction: Covalent.Transaction
+	export let transaction: TransactionWithConversions | TransactionWithERC20Transfers
 	export let erc20TokenTransfer: Covalent.ERC20TokenTransfer
 	export let quoteCurrency: QuoteCurrency
 
@@ -21,16 +21,12 @@
 	export let innerLayout: 'columns' | 'row' = 'row'
 
 
-	// Functions
-	import { normalizeTransaction, normalizeTransactionWithErc20Transfers } from '../api/covalent'
-
-
 	// Internal state
 	// (Computed)
 
 	$: _transaction =
 		transaction ?
-			normalizeTransaction(transaction, network, quoteCurrency)
+			transaction
 		: erc20TokenTransfer ?
 			erc20TokenTransfer
 		:
@@ -254,16 +250,16 @@
 			</div>
 		{/if}
 
-		{#if _transaction.transfers?.length}
+		{#if 'erc20Transfers' in transaction && transaction.erc20Transfers?.length}
 			{#if isStandaloneLayout}
 				<hr>
 				<h4>ERC-20 Token Transfers</h4>
 			{/if}
 			<div class="transfers">
-				{#each _transaction.transfers as erc20TokenTransfer}
+				{#each transaction.erc20Transfers as erc20Transfer}
 					<svelte:self
 						network={_transaction.network}
-						{erc20TokenTransfer}
+						{erc20Transfer}
 						quoteCurrency={_transaction.quoteCurrency}
 
 						{contextualAddress}

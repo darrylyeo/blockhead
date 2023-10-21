@@ -610,7 +610,7 @@ export const getSpotPrices = (
 // /v1/${chainID}/tokens/${address}/token_holders/
 
 
-type TransactionWithConversions = Ethereum.Transaction & {
+export type TransactionWithConversions = Ethereum.Transaction & {
 	convertedValue: number,
 	quoteCurrency: QuoteCurrency,
 	conversionRate: number,
@@ -618,12 +618,12 @@ type TransactionWithConversions = Ethereum.Transaction & {
 	gasConvertedValue: number,
 	gasConversionRate: number,
 }
-type TransactionWithERC20Transfers = Ethereum.Transaction & {
+export type TransactionWithERC20Transfers = Ethereum.Transaction & {
 	convertedValue: number,
 	quoteCurrency: QuoteCurrency,
 	conversionRate: number,
 
-	transfers: Erc20Transfer[]
+	erc20Transfers: Erc20Transfer[]
 }
 export type Erc20Transfer = Omit<TransactionWithConversions, 'gasToken' | 'nonce'> & {
 	transferredToken: Ethereum.ERC20Token,
@@ -633,7 +633,7 @@ export const normalizeTransaction = (
 	transaction: Covalent.Transaction | Covalent.TransactionWithErc20Transfers,
 	network: Ethereum.Network,
 	quoteCurrency: QuoteCurrency,
-): TransactionWithConversions => ({
+): TransactionWithConversions | TransactionWithERC20Transfers => ({
 	network,
 
 	transactionID: transaction.tx_hash as Ethereum.TransactionID,
@@ -702,7 +702,7 @@ export const normalizeTransaction = (
 	gasConversionRate: transaction.gas_quote_rate,
 
 	...'transfers' in transaction ? {
-		transfers: transaction.transfers.map(transfer => (
+		erc20Transfers: transaction.transfers.map(transfer => (
 			normalizeErc20Transfer(transfer, network, quoteCurrency, transaction.successful))
 		)
 	} : {},
