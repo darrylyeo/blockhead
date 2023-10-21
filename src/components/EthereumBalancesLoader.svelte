@@ -355,6 +355,7 @@
 										decimals: tokenBalance.decimals,
 									},
 									balance: BigInt(tokenBalance.balance),
+									/*
 									...(quoteCurrency === 'USD' || quoteCurrency === network.nativeCurrency.symbol) && (await (async () => {
 										try {
 											const { nativePrice, usdPrice } = await queue.enqueue(async () => await MoralisWeb3Api.erc20.getTokenPrice({ chain, address: tokenBalance.token_address }))
@@ -377,6 +378,7 @@
 											return {}
 										}
 									})())
+									*/
 								})))
 							]
 
