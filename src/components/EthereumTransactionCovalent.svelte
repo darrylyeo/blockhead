@@ -54,6 +54,7 @@
 
 	import AddressWithLabel from './AddressWithLabel.svelte'
 	import Date from './Date.svelte'
+	import EthereumErc20TransferCovalent from './EthereumErc20TransferCovalent.svelte'
 	import EthereumLogEventCovalent from './EthereumLogEventCovalent.svelte'
 	import TransactionId from './TransactionId.svelte'
 	import EthereumTransactionSummary from './EthereumTransactionSummary.svelte'
@@ -257,7 +258,7 @@
 			{/if}
 			<div class="transfers">
 				{#each transaction.erc20Transfers as erc20Transfer}
-					<svelte:self
+					<EthereumErc20TransferCovalent
 						network={_transaction.network}
 						{erc20Transfer}
 						quoteCurrency={_transaction.quoteCurrency}
