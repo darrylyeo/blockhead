@@ -1,12 +1,10 @@
 <script lang="ts">
 	// Types/constants
 	import type { Ethereum } from '../data/networks/types'
+	import type { TokenWithBalance } from '../data/tokens'
 	import { getViemPublicClient } from '../data/networkProviders'
 	import type { NetworkProvider } from '../data/networkProviders/types'
-	import type { TickerSymbol } from '../data/currencies'
-	import type { Covalent } from '../api/covalent'
 	import type { PriceScale } from './PriceChart.svelte'
-	import { getERC20TokenTransfers, getTransactionsByAddress } from '../api/covalent'
 	import { preferences } from '../state/preferences'
 	import type { TokenBalancesProvider } from '../data/tokenBalancesProvider'
 	import { TransactionProvider } from '../data/transactionProvider'
@@ -17,7 +15,7 @@
 	export let network: Ethereum.Network
 	export let networkProvider: NetworkProvider
 	export let accountId: Ethereum.Address | string
-	export let filterQuery: Ethereum.Address | Ethereum.ContractAddress | Ethereum.BlockNumber
+	export let filterQuery: Ethereum.Address | Ethereum.ContractAddress | Ethereum.BlockNumber | undefined
 
 	export let tokenBalancesProvider: TokenBalancesProvider
 	export let transactionProvider: TransactionProvider
@@ -46,18 +44,18 @@
 	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
 	let showSmallValues = false
 
-	let balances: Covalent.ERC20TokenOrNFTContractWithBalance[] = []
+	let balances: TokenWithBalance[] = []
 
 	let priceScale: PriceScale
 
-	let selectedToken: Ethereum.ERC20Token | undefined
+	let selectedToken: Ethereum.NativeCurrency | Ethereum.ERC20Token | undefined
 
 	// (Computed)
-	import { isAddress } from 'ethers'
+	import { isEvmAddress } from '../utils/isEvmAddress'
 
-	$: if(isAddress(filterQuery) && balances){
-		selectedToken = balances
-			.find(({token}) => token.address.toLowerCase() === filterQuery.toLowerCase())
+	$: if(filterQuery && isEvmAddress(filterQuery) && balances){
+		const address = filterQuery
+		selectedToken = balances.map(({ token }) => token).find(token => 'address' in token && token.address.toLowerCase() === address.toLowerCase())
 	}
 	// $: if(selectedToken)
 	// 	filterQuery = selectedToken.address
@@ -403,9 +401,9 @@
 				quoteCurrency={$preferences.quoteCurrency}
 				chainID={network.chainId}
 				currencies={
-					selectedToken?.tokenAddress
-						? [selectedToken.tokenAddress]
-						: balances.map(tokenWithBalance => tokenWithBalance.contract_address).filter(Boolean)
+					(selectedToken ? [selectedToken] : balances.map(({ token }) => token))
+						.map(token => 'address' in token ? token.address : token.symbol)
+						.filter(Boolean)
 				}
 				{priceScale}
 			>

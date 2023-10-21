@@ -1,18 +1,10 @@
 <script lang="ts">
 	// Constants/types
 	import type { Ethereum } from '../data/networks/types'
-	import type { Covalent } from '../api/covalent'
-	import type { QuoteCurrency, TickerSymbol } from '../data/currencies'
-	import { getTokenAddressBalances } from '../api/covalent'
+	import type { QuoteCurrency } from '../data/currencies'
 	import type { TokenBalancesProvider } from '../data/tokenBalancesProvider'
 
-	type TokenWithBalance = {
-		token: Ethereum.NativeCurrency | Ethereum.ERC20Token,
-		balance: Covalent.ERC20TokenOrNFTContractWithBalance['balance'],
-		type: Covalent.ERC20TokenOrNFTContractWithBalance['type'],
-		value: Covalent.ERC20TokenOrNFTContractWithBalance['quote'],
-		rate: Covalent.ERC20TokenOrNFTContractWithBalance['quote_rate'],
-	}
+	import type { TokenWithBalance } from '../data/tokens'
 
 
 	// Context
@@ -45,33 +37,32 @@
 	// Internal state
 	let animate: boolean
 	// (Computed)
-	$: animate = !showSmallValues && balances.length < 50
+	$: animate = !showSmallValues && !!balances && balances.length < 50
 
 
 	// Outputs
-	export let balances: TokenWithBalance[] = []
+	export let balances: TokenWithBalance[] | undefined
 
 	// (Computed)
 	let filteredBalances: TokenWithBalance[]
 	$: filteredBalances = balances
-		.filter(({type, value, token, balance}) =>
-			type !== 'nft' && (
-				(showNativeCurrency &&
-					tokensAreEqual(network.nativeCurrency, token)
-				) ||
-				!(!showSmallValues && (
-					// type === 'dust' ||
-					Math.abs(value) < 1e-3 || // isSmallValue
-					balance == 0 // isZero
-				))
-			)
-		)
+		?.filter((tokenWithBalance) => (
+			(showNativeCurrency &&
+				tokensAreEqual(network.nativeCurrency, tokenWithBalance.token)
+			) ||
+			!(!showSmallValues && (
+				// (Math.abs(tokenWithBalance.value) < 1e-3) // isSmallValue
+				(tokenWithBalance.conversion && Math.abs(tokenWithBalance.conversion.value) < 1e-3) // isSmallValue
+				|| (tokenWithBalance.balance === 0n) // isZero
+			))
+		))
 		.sort(
-			sortBy === 'value-descending' ? (a, b) => b.value - a.value || a.balance - b.balance :
-			sortBy === 'value-ascending' ? (a, b) => a.value - b.value || b.balance - a.balance :
+			sortBy === 'value-descending' ? (a, b) => a.conversion && b.conversion ? b.conversion.value - a.conversion.value : Number(a.balance - b.balance) :
+			sortBy === 'value-ascending' ? (a, b) => a.conversion && b.conversion ? a.conversion.value - b.conversion.value : Number(a.balance - b.balance) :
 			sortBy === 'ticker-ascending' ? (a, b) => a.token.symbol?.localeCompare(b.token.symbol) :
 			undefined
 		)
+		?? []
 
 	export let summary: {
 		quoteTotal: number,
@@ -81,10 +72,10 @@
 	}
 
 	$: summary = {
-		quoteTotal: balances.reduce((sum, item) => sum + item.value, 0),
+		quoteTotal: balances?.reduce((sum, tokenWithBalance) => sum + (tokenWithBalance.conversion?.value ?? 0), 0) ?? 0,
 		quoteCurrency,
-		balancesCount: balances.filter(tokenWithBalance => tokenWithBalance.balance > 0).length,
-		filteredBalancesCount: filteredBalances.length,
+		balancesCount: balances?.filter(tokenWithBalance => tokenWithBalance.balance > 0).length ?? 0,
+		filteredBalancesCount: filteredBalances?.length,
 	}
 
 
@@ -97,6 +88,7 @@
 
 	// Components
 	import EthereumBalancesLoader from './EthereumBalancesLoader.svelte'
+	import TokenBalance from './TokenBalance.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
 
 
@@ -194,11 +186,11 @@
 			<div class="ethereum-balances card" class:horizontal={isHorizontal} class:show-amounts-and-values={tokenBalanceFormat === 'both'}>
 				{#each
 					filteredBalances
-					as {type, token, balance, value, rate},
-					i (token.address || token.symbol || token.name)
+					as tokenWithBalance,
+					i ('address' in tokenWithBalance.token ? tokenWithBalance.token : tokenWithBalance.token.symbol || tokenWithBalance.token.name)
 				}
-					{@const isNativeCurrency = tokensAreEqual(network.nativeCurrency, token)}
-					{@const isSelected = selectedToken && selectedToken.address === token.address}
+					{@const isNativeCurrency = tokensAreEqual(network.nativeCurrency, tokenWithBalance.token)}
+					{@const isSelected = selectedToken && selectedToken.address === tokenWithBalance.token.address}
 
 					<span
 						class="ethereum-balance"
@@ -207,27 +199,42 @@
 						class:is-selected={isSelected}
 						tabindex={isSelectable ? 0 : undefined}
 						on:click={() => {
-							selectedToken = isSelected ? undefined : token
+							selectedToken = isSelected ? undefined : tokenWithBalance.token
 						}}
 						in:scale|global={{ duration: animate ? 500 : 0 }}
 						animate:flip|local={{ duration: animate ? 500 : 0, delay: animate ? 300 * i / filteredBalances.length : 0, easing: quintOut }}
 					>
-						<TokenBalanceWithConversion
-							{tokenBalanceFormat}
+						{#if tokenWithBalance.conversion}
+							<TokenBalanceWithConversion
+								{tokenBalanceFormat}
 
-							{network}
-							erc20Token={token}
+								{network}
+								erc20Token={tokenWithBalance.token}
 
-							balance={balance * 0.1 ** token.decimals}
-							conversionCurrency={quoteCurrency}
-							convertedValue={value}
-							conversionRate={rate}
+								balance={Number(tokenWithBalance.balance) * 0.1 ** tokenWithBalance.token.decimals}
+								conversionCurrency={quoteCurrency}
+								convertedValue={tokenWithBalance.conversion.value}
+								conversionRate={tokenWithBalance.conversion.rate}
 
-							animationDelay={i * 10}
-							showParentheses={false}
+								animationDelay={i * 10}
+								showParentheses={false}
 
-							transitionWidth={filteredBalances.length < 40}
-						/>
+								transitionWidth={filteredBalances.length < 40}
+							/>
+						{:else}
+							<TokenBalance
+								{tokenBalanceFormat}
+
+								{network}
+								erc20Token={tokenWithBalance.token}
+
+								balance={Number(tokenWithBalance.balance) * 0.1 ** tokenWithBalance.token.decimals}
+
+								animationDelay={i * 10}
+
+								transitionWidth={filteredBalances.length < 40}
+							/>
+						{/if}
 					</span>
 				<!-- {:else}
 					No balances found. -->

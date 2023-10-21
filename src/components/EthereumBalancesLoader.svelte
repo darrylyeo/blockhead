@@ -1,13 +1,11 @@
 <script lang="ts">
 	// Constants/types
 	import type { Ethereum } from '../data/networks/types'
+	import type { TokenWithBalance } from '../data/tokens'
 	import type { QuoteCurrency } from '../data/currencies'
 	import { networkProviderConfigByProvider } from '../data/networkProviders'
 	import type { NetworkProvider } from '../data/networkProviders/types'
 	import { TokenBalancesProvider, tokenBalancesProviderIcons } from '../data/tokenBalancesProvider'
-
-	import type { Covalent } from '../api/covalent'
-	import { chainCodeFromNetwork } from '../api/moralis/web3Api'
 
 
 	// Context
@@ -17,7 +15,7 @@
 	// External state
 	export let network: Ethereum.Network
 	export let address: Ethereum.Address
-	export let tokenBalancesProvider: TokenBalancesProvider
+	export let tokenBalancesProvider: string //  TokenBalancesProvider
 	export let quoteCurrency: QuoteCurrency
 
 	// (Computed)
@@ -34,30 +32,102 @@
 	export let contentClass: string
 
 
-	// Shared state
-	export let balances: {
-		type?: Covalent.ERC20TokenOrNFTContractWithBalance['type'],
-		token: Ethereum.ERC20Token,
-		balance: Covalent.ERC20TokenOrNFTContractWithBalance['balance'],
-		value: Covalent.ERC20TokenOrNFTContractWithBalance['quote'],
-		rate: Covalent.ERC20TokenOrNFTContractWithBalance['quote_rate'],
-	}[] = []
+	// Outputs
+	export let balances: TokenWithBalance[] | undefined
 
 	$: loadingMessage = `Retrieving ${network.name} balances from ${tokenBalancesProvider === TokenBalancesProvider.RpcProvider ? networkProvider : tokenBalancesProvider}...`
 	$: errorMessage = `Couldn't retrieve ${network.name} balances from ${tokenBalancesProvider}.`
 
 
-	// Actions
+	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
 	import { queryStore, gql } from '@urql/svelte'
+	import { ConcurrentPromiseQueue } from '../utils/ConcurrentPromiseQueue'
 
 	import { getViemPublicClient } from '../data/networkProviders'
 
 	import { airstackNetworkNames, getClient } from '../api/airstack'
 	import { getTokenAddressBalances } from '../api/covalent'
-	import { MoralisWeb3Api } from '../api/moralis/web3Api'
+	import { MoralisWeb3Api, chainCodeFromNetwork } from '../api/moralis/web3Api'
 	import { getWalletTokenBalance } from '../api/quicknode'
 	import { getTokenBalances } from '../api/zapper'
+
+
+	const normalizeAirstackTokenBalance = (tokenWithBalance): TokenWithBalance => ({
+		token: {
+			chainId: Number(tokenWithBalance.chainId),
+			address: tokenWithBalance.tokenAddress,
+			name: tokenWithBalance.token.name,
+			symbol: tokenWithBalance.token.symbol,
+			decimals: tokenWithBalance.token.decimals,
+		},
+		balance: BigInt(tokenWithBalance.amount), // BigInt(tokenWithBalance.amount),
+	})
+
+	const normalizeCovalentTokenBalance = ({
+		balance, quote, quote_rate,
+		contract_name, contract_address, contract_decimals, contract_ticker_symbol, logo_url, contract_logo_url,
+	}: Awaited<ReturnType<typeof getTokenAddressBalances>>['items'][number]): TokenWithBalance => ({
+		token: {
+			address: contract_address,
+			name: contract_name,
+			symbol: contract_ticker_symbol || contract_name,
+			decimals: contract_decimals,
+			icon: contract_logo_url || logo_url,
+		},
+		balance: BigInt(balance),
+		conversion: {
+			currency: quoteCurrency,
+			value:
+				quote >= 10 ** 24 ?
+					quote / (10 ** contract_decimals) / (10 ** contract_decimals)
+				: quote >= 10 ** 12 ?
+					quote / (10 ** contract_decimals)
+				:
+					quote,
+			rate:
+				quote_rate >= 10 ** contract_decimals ?
+					quote_rate / (10 ** contract_decimals)
+				:
+					quote_rate,
+		},
+	})
+
+	const normalizeLiqualityTokenBalance = (asset: Awaited<ReturnType<typeof import('@liquality/wallet-sdk').ERC20Service.listAccountTokens>>[number]): TokenWithBalance => ({
+		token: {
+			address: asset.tokenContractAddress ?? undefined,
+			name: asset.tokenName ?? undefined,
+			symbol: asset.tokenSymbol ?? undefined,
+		},
+		balance: asset.rawBalance ? BigInt(asset.rawBalance) : undefined,
+	})
+
+	const normalizeQuickNodeTokenBalance = (asset: Awaited<ReturnType<typeof getWalletTokenBalance>>['assets'][number]): TokenWithBalance => ({
+		token: {
+			address: asset.address,
+			name: asset.name,
+			symbol: asset.symbol,
+			decimals: asset.decimals,
+			icon: asset.logoURI,
+		},
+		balance: BigInt(asset.amount),
+	})
+
+	const normalizeZapperTokenBalance = (asset: NonNullable<NonNullable<Awaited<ReturnType<typeof getTokenBalances>>['products']>[number]['assets']>[number]): TokenWithBalance => ({
+		token: {
+			address: asset.address as Ethereum.ContractAddress,
+			name: asset.displayProps.label,
+			symbol: asset.symbol,
+			decimals: asset.decimals,
+			icon: asset.displayProps.images?.[0],
+		},
+		balance: asset.balanceRaw ? BigInt(asset.balanceRaw) : undefined,
+		conversion: {
+			currency: 'USD',
+			value: asset.balanceUSD,
+			rate: asset.price,
+		},
+	})
 
 
 	// Components
@@ -68,7 +138,7 @@
 <Loader
 	layout="collapsible"
 	collapsibleType="label"
-	loadingIcon={networkProviderConfigByProvider[networkProvider].icon}
+	loadingIcon={tokenBalancesProvider === TokenBalancesProvider.RpcProvider ? networkProviderConfigByProvider[networkProvider].icon : tokenBalancesProviderIcons[tokenBalancesProvider]}
 	loadingIconName={tokenBalancesProvider}
 	{loadingMessage}
 	{errorMessage}
@@ -94,7 +164,7 @@
 
 						return [{
 							token: network.nativeCurrency,
-							balance: String(balance),
+							balance,
 						}]
 					}
 				})
@@ -193,17 +263,7 @@
 				})
 			}),
 			then: data => (
-				(data.TokenBalances.TokenBalance ?? [])
-					.map(tokenWithBalance => ({
-						token: {
-							chainId: Number(tokenWithBalance.chainId),
-							address: tokenWithBalance.tokenAddress,
-							name: tokenWithBalance.token.name,
-							symbol: tokenWithBalance.token.symbol,
-							decimals: tokenWithBalance.token.decimals,
-						},
-						balance: tokenWithBalance.amount, // BigInt(tokenWithBalance.amount),
-					}))
+				(data.TokenBalances.TokenBalance ?? []).map(normalizeAirstackTokenBalance)
 			),
 		},
 		
@@ -216,42 +276,17 @@
 						chainID: network.chainId,
 					}],
 					queryFn: async () => (
-						(await getTokenAddressBalances({
+						await getTokenAddressBalances({
 							address,
 							nft: false,
 							chainID: network.chainId,
 							quoteCurrency
-						}))
-						.items
-						.map(({
-							type,
-							balance, quote, quote_rate,
-							contract_name, contract_address, contract_decimals, contract_ticker_symbol, logo_url, contract_logo_url,
-						}) => ({
-							type,
-							token: {
-								symbol: contract_ticker_symbol || contract_name,
-								address: contract_address,
-								name: contract_name,
-								icon: contract_logo_url || logo_url,
-								decimals: contract_decimals,
-							},
-							balance,
-							value:
-								quote >= 10 ** 24 ?
-									quote / (10 ** contract_decimals) / (10 ** contract_decimals)
-								: quote >= 10 ** 12 ?
-									quote / (10 ** contract_decimals)
-								:
-									quote,
-							rate:
-								quote_rate >= 10 ** contract_decimals ?
-									quote_rate / (10 ** contract_decimals)
-								:
-									quote_rate,
-						}))
+						})
 					)
 				})
+			),
+			then: result => (
+				result.items.map(normalizeCovalentTokenBalance)
 			),
 		},
 
@@ -279,21 +314,7 @@
 				})
 			),
 			then: assets => (
-				assets.map(({
-					formattedBalance,
-					tokenContractAddress,
-					tokenName,
-					tokenSymbol,
-					rawBalance,
-				}) => ({
-					token: {
-						name: tokenName,
-						symbol: tokenSymbol,
-						address: tokenContractAddress,
-						// icon: 
-					},
-					balance: formattedBalance, // parseInt(rawBalance),
-				}))
+				assets.map(normalizeLiqualityTokenBalance)
 			),
 		},
 
@@ -318,61 +339,52 @@
 								// to_block: 
 							})
 
+							const queue = new ConcurrentPromiseQueue(3)
+
 							const result = [
 								{
 									token: network.nativeCurrency,
-									balance: nativeBalance.balance
+									balance: BigInt(nativeBalance.balance),
 								},
-								...await Promise.all(tokenBalances.map(async ({
-									balance,
-									token_address,
-									name = '',
-									symbol = '',
-									logo,
-									thumbnail,
-									decimals
-								}) => ({
+								...await Promise.all(tokenBalances.map(async tokenBalance => ({
 									token: {
-										symbol,
-										address: token_address,
-										name,
-										icon: logo || thumbnail,
-										decimals
+										symbol: tokenBalance.symbol,
+										address: tokenBalance.token_address,
+										name: tokenBalance.name,
+										icon: tokenBalance.logo || tokenBalance.thumbnail,
+										decimals: tokenBalance.decimals,
 									},
-									balance,
-									value: (
-										quoteCurrency === 'USD' ?
-											await MoralisWeb3Api.erc20.getTokenPrice({
-												chain,
-												address: token_address
-											})
-												.then(({ usdPrice }) =>
-													usdPrice >= 10 ** decimals ? usdPrice / (10 ** decimals) : usdPrice
-												)
-												.catch(e => undefined)
-												// .catch(e => console.error(e?.error?.message))
-										: quoteCurrency === network.nativeCurrency.symbol ?
-											await MoralisWeb3Api.erc20.getTokenPrice({
-												chain,
-												address: token_address
-											})
-												.then(({ nativePrice: { value } }) =>
-													value >= 10 ** decimals ? value / (10 ** decimals) : value
-												)
-												.catch(e => undefined)
-												// .catch(e => console.error(e?.error?.message))
-										:
-											undefined
-									) ?? 0
+									balance: BigInt(tokenBalance.balance),
+									...(quoteCurrency === 'USD' || quoteCurrency === network.nativeCurrency.symbol) && (await (async () => {
+										try {
+											const { nativePrice, usdPrice } = await queue.enqueue(async () => await MoralisWeb3Api.erc20.getTokenPrice({ chain, address: tokenBalance.token_address }))
+
+											return {
+												conversion: {
+													currency: quoteCurrency,
+													rate: (
+														quoteCurrency === 'USD' ?
+															usdPrice
+														: nativePrice ?
+															Number(nativePrice.value) / (10 ** nativePrice.decimals)
+														:
+															undefined
+
+													),
+												}
+											}
+										}catch{
+											return {}
+										}
+									})())
 								})))
 							]
 
-							// console.log(result)
 							return result
 						}catch(e){
 							throw new Error(e?.error?.message ?? e?.error ?? e)
 						}
-					}
+					},
 				})
 			)},
 
@@ -392,29 +404,8 @@
 					)
 				})
 			),
-			then: ({products}) => (
-				products[0]?.assets.map(({
-					address,
-					decimals,
-					symbol,
-					balance,
-					balanceUSD,
-					balanceRaw,
-					price,
-					displayProps
-				}) => ({
-					token: {
-						symbol,
-						name: displayProps.label,
-						address,
-						icon: displayProps.images[0],
-						decimals,
-					},
-					balance: balanceRaw,
-					value: balanceUSD,
-					rate: price
-				}))
-				?? []
+			then: ({ products }) => (
+				products?.[0]?.assets.map(normalizeZapperTokenBalance) ?? []
 			),
 		},
 
@@ -431,14 +422,11 @@
 							network,
 							address
 						})
-					)
+					),
 				})
 			),
-			then: ({owner, assets}) => (
-				assets.map(({amount, logoURI, ...token}) => ({
-					balance: amount,
-					token: {icon: logoURI, ...token}
-				}))
+			then: tokenWithBalance => (
+				tokenWithBalance.assets.map(normalizeQuickNodeTokenBalance)
 			),
 		},
 	}[tokenBalancesProvider]}
