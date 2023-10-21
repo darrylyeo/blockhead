@@ -228,6 +228,7 @@
 							{transaction}
 							{quoteCurrency}
 							includeLogs={detailLevel === 'exhaustive'}
+							showDate={false}
 
 							{detailLevel}
 							{tokenBalanceFormat}

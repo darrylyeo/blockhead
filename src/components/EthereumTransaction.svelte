@@ -19,6 +19,7 @@
 
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
 	export let showFees = false
+	export let showDate = true
 	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 
 	export let contextualAddress: Ethereum.Address
@@ -205,8 +206,8 @@
 					</span>
 				{/if}
 
-				{#if isSummary && transaction.date}
-					<Date date={transaction.date} />
+				{#if isSummary && showDate && transaction.date}
+					<Date date={transaction.date} layout="horizontal" format="absolute" />
 				{/if}
 			</div>
 		<!-- {/if} -->
@@ -278,7 +279,7 @@
 					showTransactionID={isStandaloneLayout || isExhaustive}
 				/>
 
-				{#if transaction.date}
+				{#if showDate && transaction.date}
 					<Date date={transaction.date} layout="horizontal" />
 				{/if}
 			</div>
