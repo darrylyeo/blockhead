@@ -630,7 +630,7 @@ export type Erc20Transfer = Omit<TransactionWithConversions, 'gasToken' | 'nonce
 }
 
 export const normalizeTransaction = (
-	transaction: Covalent.Transaction,
+	transaction: Covalent.Transaction | Covalent.TransactionWithErc20Transfers,
 	network: Ethereum.Network,
 	quoteCurrency: QuoteCurrency,
 ): TransactionWithConversions => ({
@@ -700,17 +700,12 @@ export const normalizeTransaction = (
 
 	gasConvertedValue: transaction.gas_quote,
 	gasConversionRate: transaction.gas_quote_rate,
-})
 
-export const normalizeTransactionWithErc20Transfers = (
-	transaction: Covalent.Transaction,
-	network: Ethereum.Network,
-	quoteCurrency: QuoteCurrency,
-): TransactionWithERC20Transfers => ({
-	...normalizeTransaction(transaction, network, quoteCurrency),
-	transfers: transaction.transfers.map(transfer =>
-		normalizeErc20Transfer(transfer, network, quoteCurrency, transaction.successful)
-	)
+	...'transfers' in transaction ? {
+		transfers: transaction.transfers.map(transfer => (
+			normalizeErc20Transfer(transfer, network, quoteCurrency, transaction.successful))
+		)
+	} : {},
 })
 
 export const normalizeErc20Transfer = (

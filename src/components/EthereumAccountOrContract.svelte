@@ -373,11 +373,11 @@
 						</svelte:fragment>
 
 						<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
-							{#each transactions as erc20TokenTransaction}
-								<a class="card" id={erc20TokenTransaction.tx_hash} href="#{erc20TokenTransaction.tx_hash}">
+							{#each transactions as transaction}
+								<a class="card" id={transaction.tx_hash} href="#{transaction.tx_hash}">
 									<EthereumTransactionCovalent
 										{network}
-										{erc20TokenTransaction}
+										{transaction}
 										{quoteCurrency}
 										contextualAddress={address}
 										{detailLevel}

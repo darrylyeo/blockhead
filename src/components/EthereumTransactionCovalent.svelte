@@ -8,7 +8,6 @@
 	// Inputs
 	export let network: Ethereum.Network
 	export let transaction: Covalent.Transaction
-	export let erc20TokenTransaction: Covalent.TransactionWithErc20Transfers
 	export let erc20TokenTransfer: Covalent.ERC20TokenTransfer
 	export let quoteCurrency: QuoteCurrency
 
@@ -32,8 +31,6 @@
 	$: _transaction =
 		transaction ?
 			normalizeTransaction(transaction, network, quoteCurrency)
-		: erc20TokenTransaction ?
-			normalizeTransactionWithErc20Transfers(erc20TokenTransaction, network, quoteCurrency)
 		: erc20TokenTransfer ?
 			erc20TokenTransfer
 		:
@@ -157,7 +154,7 @@
 </style>
 
 
-{#if network && (transaction || erc20TokenTransaction || erc20TokenTransfer)}
+{#if network && (transaction || erc20TokenTransfer)}
 	<div class="transaction layout-{layout} column" class:card={isStandaloneLayout} class:unsuccessful={!_transaction.isSuccessful}><!-- transition:fade -->
 		{#if _transaction.nonce}{_transaction.nonce}{/if}
 
@@ -313,7 +310,7 @@
 			{/if} -->
 		{/if}
 
-		{#if !isSummary && (transaction || erc20TokenTransaction)}
+		{#if !isSummary && transaction}
 			{#if isStandaloneLayout}
 				<hr>
 			{/if}
