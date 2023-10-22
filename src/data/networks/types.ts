@@ -61,7 +61,7 @@ export namespace Ethereum {
 
 	export type BlockNumber = number
 	export type BlockHash = `0x${string}` // BrandedString<'BlockHash'>
-	export type BlockNonce = number
+	export type BlockNonce = `0x${string}`
 	export type BlockDifficulty = bigint
 	
 	export type Block = {
@@ -83,7 +83,7 @@ export namespace Ethereum {
 
 		minerAddress: Address,
 		extraData: string,
-		baseFeePerGas?: GasRate,
+		baseFeePerGas?: NativeCurrencyAmount,
 
 		transactions?: Transaction[],
 		transactionIds?: TransactionID[],
@@ -161,6 +161,7 @@ export namespace Ethereum {
 
 	export type ERCTokenStandard = 'erc20' | 'erc721' | 'erc1155'
 
+	export type NativeCurrencyAmount = bigint
 	export type GasAmount = bigint
 	export type GasRate = bigint
 
