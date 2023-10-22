@@ -39,19 +39,21 @@
 
 	// Functions
 	import { getDefiBalances } from '../api/zerion/defiSdk'
-	import { getDefiBalancesForApps } from '../api/zapper'
+	import { type ZapperAppBalance, getDefiBalancesForApps } from '../api/zapper'
 
 	import { formatPercent } from '../utils/formatPercent'
 	import { formatKebabCase } from '../utils/formatKebabCase'
 
 
 	// Internal state
-	let selectedEmbed
+	let selectedEmbed: NonNullable<Web3AppConfig['views'][number]['embeds']>[number] | undefined
 
-	let zapperDefiProtocolBalances: Awaited<ReturnType<typeof getDefiBalancesForApps>>
+	let zapperDefiProtocolBalances: Map<string, ZapperAppBalance> | undefined // StoresValues<Awaited<ReturnType<typeof getDefiBalancesForApps>>>['data']
 
-	let zapperQuoteCurrency
-	let zapperFiatRates
+	let zapperFiatRates: Record<QuoteCurrency, number> | undefined
+	let zapperQuoteCurrency: QuoteCurrency
+	let zapperFiatRate: number
+
 	// (Computed)
 	// $: if(defiProvider === DefiProvider.Zapper && quoteCurrency !== 'USD')
 	// 	getFiatRates().then(_ => zapperFiatRates = _)
@@ -60,8 +62,8 @@
 
 
 	// Outputs
-	export let quoteTotal
-	export let quoteTotalCurrency
+	export let quoteTotal: number
+	export let quoteTotalCurrency: QuoteCurrency
 
 	// (Computed)
 	$: quoteTotalCurrency = zapperQuoteCurrency
