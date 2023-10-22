@@ -40,7 +40,7 @@
 	export let fromQuery: (CreateQueryResult<LoaderResult, LoaderError>) | undefined
 	export let fromInfiniteQuery: (CreateInfiniteQueryResult<LoaderResult, LoaderError>) | undefined
 
-	export let then: ((result: LoaderResult) => LoaderReturnResult) = result => result as unknown as LoaderReturnResult
+	export let then: ((result: LoaderResult) => LoaderReturnResult) | undefined
 	export let whenLoaded: ((result: LoaderReturnResult) => void) | undefined
 	export let whenErrored: ((error: LoaderError) => void) | undefined
 	export let whenCanceled: (() => Promise<any>) | undefined
@@ -71,6 +71,7 @@
 	// Outputs
 	let status = startImmediately ? LoadingStatus.Loading : LoadingStatus.Idle
 
+	let _result: LoaderResult
 	export let result: LoaderReturnResult
 
 	let error: LoaderError
@@ -198,8 +199,8 @@
 	// }
 
 	$: if(promise){
-		promise.then(_result => {
-			result = then(_result)
+		promise.then(result => {
+			_result = result
 			status = LoadingStatus.Resolved
 		}, _error => {
 			error = _error
@@ -209,7 +210,7 @@
 	else if(store && $store){
 		if($store.loading){
 			if($store.data)
-				result = then($store.data)
+				_result = $store.data
 			status = LoadingStatus.Loading
 		}
 		else if($store.error){
@@ -217,7 +218,7 @@
 			status = LoadingStatus.Errored
 		}
 		else if($store.data){
-			result = then($store.data)
+			_result = $store.data
 			status = LoadingStatus.Resolved
 		}
 	}
@@ -230,7 +231,7 @@
 			status = LoadingStatus.Errored
 		}
 		else if($houdiniQuery.data){
-			result = then($houdiniQuery.data)
+			_result = $houdiniQuery.data
 			status = LoadingStatus.Resolved
 		}
 	}else if(fromQuery && $fromQuery){
@@ -244,7 +245,7 @@
 			status = LoadingStatus.Reloading
 		}
 		else if($fromQuery.isSuccess){
-			result = then($fromQuery.data)
+			_result = $fromQuery.data
 			status = LoadingStatus.Resolved
 		}
 		else if($fromQuery.isError){
@@ -262,7 +263,7 @@
 			status = LoadingStatus.Reloading
 		}
 		else if($fromInfiniteQuery.isSuccess){
-			result = then($fromInfiniteQuery.data)
+			_result = $fromInfiniteQuery.data
 			status = LoadingStatus.Resolved
 		}
 		else if($fromInfiniteQuery.isError){
@@ -271,10 +272,22 @@
 		}
 	}
 
-	$: if(status === LoadingStatus.Resolved) whenLoaded?.(result)
-	$: if(status === LoadingStatus.Errored) whenErrored?.(error)
+	$: if(status === LoadingStatus.Resolved){
+		// (Computed)
+		try {
+			result = then ? then(_result) : _result as LoaderReturnResult
 
-	// $: if(error) console.error(error)
+			whenLoaded?.(result)
+		}catch(_error){
+			error = _error as LoaderError
+			status = LoadingStatus.Errored
+		}
+	}
+
+	$: if(status === LoadingStatus.Errored){
+		// console.error(error)
+		whenErrored?.(error)
+	}
 
 
 	// Debugging
