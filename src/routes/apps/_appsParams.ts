@@ -1,15 +1,34 @@
+// Types
+import type { Web3AppSlug } from '../../data/web3Apps'
 import type { Ethereum } from '../../data/networks/types'
 import type { AccountId } from '../../data/accountId'
+
 import type { DidUrl } from '../../api/ceramic/did'
+import type { IpfsCid } from '../../api/ipfs/contentId'
+import type { IpnsName } from '../../api/ipfs/ipns'
 
+export type AppsParams = {
+	web3AppSlug: Web3AppSlug | '',
+	networkSlug: Ethereum.NetworkSlug | '',
+	accountId: AccountId | '',
 
-import { derived, writable, type Readable } from 'svelte/store'
+	audiusQuery: string,
+	audiusPlaylistId: string,
+	audiusTrackId: string,
+	audiusUserId: string,
+	didUrl: DidUrl | '',
+	discoCredentialId: ReturnType<typeof crypto.randomUUID> | '',
+	ipfsContentId: IpfsCid | '',
+	ipnsName: IpnsName | '',
+	ipfsContentPath: string,
+}
 
 
 // Param stores
+import { derived, writable, type Readable } from 'svelte/store'
 
-export const web3AppSlug = writable('')
-export const networkSlug = writable<Ethereum.NetworkSlug>('')
+export const web3AppSlug = writable<Web3AppSlug | ''>('')
+export const networkSlug = writable<Ethereum.NetworkSlug | ''>('')
 export const accountId = writable<AccountId | ''>('')
 
 export const audiusQuery = writable('')
@@ -17,14 +36,56 @@ export const audiusPlaylistId = writable('')
 export const audiusTrackId = writable('')
 export const audiusUserId = writable('')
 export const didUrl = writable<DidUrl | ''>('')
-export const discoCredentialId = writable('')
-export const ipfsContentId = writable('')
-export const ipnsName = writable('')
+export const discoCredentialId = writable<ReturnType<typeof crypto.randomUUID> | ''>('')
+export const ipfsContentId = writable<IpfsCid | ''>('')
+export const ipnsName = writable<IpnsName | ''>('')
 export const ipfsContentPath = writable('')
+
+export const appsParams = derived([
+	web3AppSlug,
+	networkSlug,
+	accountId,
+	audiusQuery,
+	audiusPlaylistId,
+	audiusTrackId,
+	audiusUserId,
+	didUrl,
+	discoCredentialId,
+	ipfsContentId,
+	ipnsName,
+	ipfsContentPath,
+], ([
+	$web3AppSlug,
+	$networkSlug,
+	$accountId,
+	$audiusQuery,
+	$audiusPlaylistId,
+	$audiusTrackId,
+	$audiusUserId,
+	$didUrl,
+	$discoCredentialId,
+	$ipfsContentId,
+	$ipnsName,
+	$ipfsContentPath,
+], set: (_: AppsParams) => void) => {
+	set(({
+		web3AppSlug: $web3AppSlug,
+		networkSlug: $networkSlug,
+		accountId: $accountId,
+		audiusQuery: $audiusQuery,
+		audiusPlaylistId: $audiusPlaylistId,
+		audiusTrackId: $audiusTrackId,
+		audiusUserId: $audiusUserId,
+		didUrl: $didUrl,
+		discoCredentialId: $discoCredentialId,
+		ipfsContentId: $ipfsContentId,
+		ipnsName: $ipnsName,
+		ipfsContentPath: $ipfsContentPath,
+	}))
+})
 
 
 // Derived path store
-
 export const derivedPath: Readable<string> = derived([
 	web3AppSlug,
 	networkSlug,
