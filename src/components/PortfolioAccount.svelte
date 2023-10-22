@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { ComponentProps } from 'svelte'
 	import type { PortfolioAccount } from '../state/portfolio-accounts'
 	import type { Ethereum } from '../data/networks/types'
 	import type { NetworkProvider } from '../data/networkProviders/types'
@@ -15,7 +16,7 @@
 
 	// Balances view options
 
-	export let account: PortfolioAccountPublicClient
+	export let account: PortfolioAccount
 
 	export let networkProvider: NetworkProvider
 	export let defiProvider: DefiProvider
@@ -46,9 +47,9 @@
 	// 	balances: ,
 	// 	quoteTotal: number,
 	// }>
-	let balancesSummaries = []
-	let defiAppsSummaries = []
-	let nftsSummaries = []
+	let balancesSummaries: ComponentProps<EthereumBalances>['summary'][] = []
+	let defiAppsSummaries: ComponentProps<DefiBalances>['summary'][] = []
+	let nftsSummaries: ComponentProps<EthereumNftBalances>['summary'][] = []
 
 	export let summary: {
 		quoteTotal: number,
@@ -58,38 +59,43 @@
 		defiAppsCount: number,
 		nftContractsCount: number,
 		nftsCount: number,
-	}
+	} | undefined
 
 	$: summary = {
 		quoteTotal:
 			[
-				...balancesSummaries.map(({ quoteTotal }) => quoteTotal),
-				...defiAppsSummaries.map(({ quoteTotal }) => quoteTotal),
-				...nftsSummaries.map(({ quoteTotal }) => quoteTotal),
+				...balancesSummaries.map(summary => summary?.quoteTotal ?? 0),
+				...defiAppsSummaries.map(summary => summary?.quoteTotal ?? 0),
+				...nftsSummaries.map(summary => summary?.quoteTotal ?? 0),
 			]
-				.reduce((sum, n = 0) => sum + n, 0),
+				.reduce((sum, item) => sum + item, 0),
 
 		quoteTotalCurrency: quoteCurrency,
 
 		balancesCount:
 			balancesSummaries
-				.reduce((sum, { balancesCount = 0 } = {}) => sum + balancesCount, 0),
+				.map(summary => summary?.balancesCount ?? 0)
+				.reduce((sum, item) => sum + item, 0),
 		
 		filteredBalancesCount:
 			balancesSummaries
-				.reduce((sum, { filteredBalancesCount = 0 } = {}) => sum + filteredBalancesCount, 0),
+				.map(summary => summary?.filteredBalancesCount ?? 0)
+				.reduce((sum, item) => sum + item, 0),
 
 		defiAppsCount:
 			defiAppsSummaries
-				.reduce((sum, { defiAppsCount = 0 } = {}) => sum + defiAppsCount, 0),
+				.map(summary => summary?.defiAppsCount ?? 0)
+				.reduce((sum, item) => sum + item, 0),
 
 		nftContractsCount:
 			nftsSummaries
-				.reduce((sum, { nftContractsCount = 0 } = {}) => sum + nftContractsCount, 0),
+				.map(summary => summary?.nftContractsCount ?? 0)
+				.reduce((sum, item) => sum + item, 0),
 
 		nftsCount:
 			nftsSummaries
-				.reduce((sum, { nftsCount = 0 } = {}) => sum + nftsCount, 0),
+				.map(summary => summary?.nftsCount ?? 0)
+				.reduce((sum, item) => sum + item, 0),
 	}
 
 

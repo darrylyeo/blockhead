@@ -26,10 +26,10 @@
 	export let summary: {
 		notificationsCount: number,
 		channelsCount: number,
-	}
+	} | undefined
 
 	$: summary = {
-		notificationsCount: notifications?.length,
+		notificationsCount: notifications.length,
 		channelsCount: Object.keys(notificationsByChannel).length,
 	}
 

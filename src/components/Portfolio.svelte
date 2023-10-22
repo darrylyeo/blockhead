@@ -8,6 +8,7 @@
 
 
 <script lang="ts">
+	import type { ComponentProps } from 'svelte'
 	import type { AccountId } from '../data/accountId'
 	import type { Ethereum } from '../data/networks/types'
 	import type { NetworkProvider } from '../data/networkProviders/types'
@@ -118,7 +119,7 @@
 
 
 	// Computed Values
-	let accountsSummaries = {}
+	let accountsSummaries: Record<AccountId, ComponentProps<PortfolioAccount>['summary']> = {}
 
 	export let summary: {
 		quoteTotal: number,
@@ -127,34 +128,35 @@
 		defiAppsCount: number,
 		nftContractsCount: number,
 		nftsCount: number,
-	}
+	} | undefined
+
 	$: summary = {
 		quoteTotal:
 			portfolio.accounts
-				.map(({ id }) => accountsSummaries[id])
-				.reduce((sum, { quoteTotal = 0 } = {}) => sum + quoteTotal, 0),
+				.map(account => accountsSummaries[account.id]?.quoteTotal ?? 0)
+				.reduce((sum, item = 0) => sum + item, 0),
 
 		quoteTotalCurrency: quoteCurrency,
 
 		balancesCount:
 			portfolio.accounts
-				.map(({ id }) => accountsSummaries[id])
-				.reduce((sum, { balancesCount = 0 } = {}) => sum + balancesCount, 0),
+				.map(account => accountsSummaries[account.id]?.balancesCount ?? 0)
+				.reduce((sum, item) => sum + item, 0),
 
 		defiAppsCount:
 			portfolio.accounts
-				.map(({ id }) => accountsSummaries[id])
-				.reduce((sum, { defiAppsCount = 0 } = {}) => sum + defiAppsCount, 0),
+				.map(account => accountsSummaries[account.id]?.defiAppsCount ?? 0)
+				.reduce((sum, item) => sum + item, 0),
 
 		nftContractsCount:
 			portfolio.accounts
-				.map(({ id }) => accountsSummaries[id])
-				.reduce((sum, { nftContractsCount = 0 } = {}) => sum + nftContractsCount, 0),
+				.map(account => accountsSummaries[account.id]?.nftContractsCount ?? 0)
+				.reduce((sum, item) => sum + item, 0),
 
 		nftsCount:
 			portfolio.accounts
-				.map(({ id }) => accountsSummaries[id])
-				.reduce((sum, { nftsCount = 0 } = {}) => sum + nftsCount, 0),
+				.map(account => accountsSummaries[account.id]?.nftsCount ?? 0)
+				.reduce((sum, item) => sum + item, 0),
 	}
 
 

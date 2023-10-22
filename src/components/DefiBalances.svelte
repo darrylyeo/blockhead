@@ -36,14 +36,14 @@
 	$: if(defiProvider === DefiProvider.Zapper)
 		getAllApps().then(_ => allZapperAppConfigs = Object.fromEntries(_.map(app => [app.id, app])))
 
-	export let summary: {
-		quoteTotal: number,
-		defiAppsCount: number,
-		quoteTotalCurrency: QuoteCurrency
-	}
+	let zerionDefiBalances: Awaited<ReturnType<typeof getDefiBalances>> | undefined
+	let zapperDefiBalances: ({ appId: ZapperAppId } & ZapperAppBalance)[] | undefined
 
-	let zerionDefiBalances: Awaited<ReturnType<typeof getDefiBalances>>
-	let zapperDefiBalances: ({ appId: ZapperAppId } & ZapperAppBalance)[]
+	export let summary: {
+		quoteTotal: number | undefined,
+		defiAppsCount: number,
+		quoteTotalCurrency: QuoteCurrency | undefined,
+	} | undefined
 
 	$: summary =
 		zerionDefiBalances ?

@@ -39,7 +39,7 @@
 		quoteCurrency: QuoteCurrency,
 		nftContractsCount: number,
 		nftsCount: number,
-	}
+	} | undefined
 
 	$: summary = nftContractsWithBalances.length
 		? {

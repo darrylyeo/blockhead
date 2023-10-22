@@ -33,7 +33,7 @@
 		quoteCurrency: QuoteCurrency,
 		nftContractsCount: number,
 		nftsCount: number,
-	}
+	} | undefined
 
 
 	let sortFunction: (a: Ethereum.NftContractWithBalance, b: Ethereum.NftContractWithBalance) => number

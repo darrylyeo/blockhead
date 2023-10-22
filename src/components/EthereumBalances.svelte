@@ -69,7 +69,7 @@
 		quoteCurrency: QuoteCurrency,
 		balancesCount: number,
 		filteredBalancesCount: number
-	}
+	} | undefined
 
 	$: summary = {
 		quoteTotal: balances?.reduce((sum, tokenWithBalance) => sum + (tokenWithBalance.conversion?.value ?? 0), 0) ?? 0,
