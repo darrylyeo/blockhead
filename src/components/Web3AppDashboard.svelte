@@ -68,10 +68,11 @@
 	// (Computed)
 	$: quoteTotalCurrency = zapperQuoteCurrency
 
-	$: if(zapperDefiProtocolBalances)
-		quoteTotal = zapperDefiProtocolBalances.reduce((sum, {meta}) => sum + Number(
-			meta?.find(({label, type, value}) => label === 'Total')?.value ?? 0
-		), 0) * zapperFiatRate
+ 	$: quoteTotal = zapperFiatRate * (
+		[...zapperDefiProtocolBalances?.values() ?? []]
+			.map(balance => Number(balance.meta?.find(item => item.label === 'Total')?.value ?? 0))
+			.reduce((sum, value) => sum + value, 0)
+	)
 
 
 	// Components
