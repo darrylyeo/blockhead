@@ -9,13 +9,8 @@ import { web3AppsBySlug, type Web3AppConfig } from '../../data/web3Apps'
 import {
 	web3AppSlug,
 	networkSlug,
+	appsParams,
 	accountId,
-
-	audiusQuery,
-	audiusPlaylistId,
-	audiusTrackId,
-	audiusUserId,
-	ipfsContentId
 } from './_appsParams'
 
 import { accountConnections } from '../../state/account'
@@ -33,27 +28,21 @@ export let network: Readable<Ethereum.Network | undefined> = derived(networkSlug
 	set($networkSlug && networksBySlug[$networkSlug] || undefined)
 )
 
-export const currentView: Readable<'Dashboard' | 'Explorer' | 'Account'> = derived([
-	web3AppSlug,
-	accountId,
-	audiusQuery,
-	audiusPlaylistId,
-	audiusTrackId,
-	audiusUserId,
-	ipfsContentId,
-], ([
-	$web3AppSlug,
-	$accountId,
-	$audiusQuery,
-	$audiusPlaylistId,
-	$audiusTrackId,
-	$audiusUserId,
-	$ipfsContentId,
-], set) => set(
-	($web3AppSlug === 'ens' && $accountId) || 
-	($audiusQuery || $audiusPlaylistId || $audiusTrackId || $audiusUserId || $ipfsContentId) ?
+export const currentView: Readable<'Dashboard' | 'Explorer' | 'Account'> = derived(appsParams, ($appsParams, set) => set(
+	(
+		$appsParams.web3AppSlug === 'audius' ?
+			$appsParams.audiusQuery || $appsParams.audiusPlaylistId || $appsParams.audiusTrackId || $appsParams.audiusUserId
+		: $appsParams.web3AppSlug === 'disco' ?
+			$appsParams.didUrl || $appsParams.discoCredentialId
+		: $appsParams.web3AppSlug === 'ens' ?
+			$appsParams.accountId
+		: $appsParams.web3AppSlug === 'ipfs' ?
+			$appsParams.ipfsContentId || $appsParams.ipnsName || $appsParams.ipfsContentPath
+		: 
+			false
+	) ?
 		'Explorer'
-	: $accountId ?
+	: $appsParams.accountId ?
 		'Account'
 	:
 		'Dashboard'
