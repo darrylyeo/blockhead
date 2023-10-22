@@ -1,7 +1,9 @@
 <script lang="ts">
+	// Types/constants
 	import type { Readable } from 'svelte/store'
 	import type { Result, Error as ApolloStoreError } from '../utils/apolloRequestStore'
 	import type { ApolloError } from '@apollo/client'
+	import type { GraphQLObject, GraphQLVariables } from 'houdini'
 	import type { QueryStore } from '$houdini'
 	import type { CreateQueryResult, CreateInfiniteQueryResult } from '@tanstack/svelte-query'
 
@@ -11,7 +13,9 @@
 	type LoaderReturnResult = $$Generic<unknown>
 	type LoaderLayout = $$Generic<'default' | 'passive' | 'collapsible' | 'headless'>
 
-	export let layout: LoaderLayout = 'default'
+
+	// Inputs
+	export let layout: LoaderLayout = 'default' as LoaderLayout
 	export let collapsibleType: 'label' | 'details' = 'details'
 
 	export let startImmediately = true
@@ -27,12 +31,12 @@
 
 	export let fromPromise: (() => Promise<LoaderResult>) | undefined
 	export let fromStore: (() => Readable<Result<LoaderResult>> | Promise<Readable<Result<LoaderResult>>>) | undefined
-	export let fromHoudiniQuery: (() => QueryStore<LoaderResult, HoudiniQueryInput>) | undefined
+	export let fromHoudiniQuery: (() => QueryStore<LoaderResult extends GraphQLObject ? LoaderResult : never, HoudiniQueryInput extends GraphQLVariables ? HoudiniQueryInput : never>) | undefined
 	export let fromQuery: (CreateQueryResult<LoaderResult, LoaderError>) | undefined
-	export let fromInfiniteQuery: (CreateInfiniteQueryResult<LoaderResult[number], LoaderError>) | undefined
+	export let fromInfiniteQuery: (CreateInfiniteQueryResult<LoaderResult, LoaderError>) | undefined
 
 	export let then: ((result: LoaderResult) => LoaderReturnResult) = result => result as unknown as LoaderReturnResult
-	export let whenLoaded: ((result: LoaderResult) => void) | undefined
+	export let whenLoaded: ((result: LoaderReturnResult) => void) | undefined
 	export let whenErrored: ((error: LoaderError) => void) | undefined
 	export let whenCanceled: (() => Promise<any>) | undefined
 
@@ -53,11 +57,11 @@
 		Reloading = 'reloading',
 		Errored = 'error'
 	}
-	let status = LoadingStatus.Idle as LoadingStatus
+	let status = startImmediately ? LoadingStatus.Loading : LoadingStatus.Idle
 
-	let promise: ReturnType<NonNullable<typeof fromPromise>>
-	let store: ReturnType<NonNullable<typeof fromStore>>
-	let houdiniQuery: ReturnType<NonNullable<typeof fromHoudiniQuery>>
+	let promise: ReturnType<NonNullable<typeof fromPromise>> | undefined
+	let store: Awaited<ReturnType<NonNullable<typeof fromStore>>> | undefined
+	let houdiniQuery: ReturnType<NonNullable<typeof fromHoudiniQuery>> | undefined
 
 
 	export let result: LoaderReturnResult
@@ -124,24 +128,23 @@
 	let error: LoaderError
 	// $: if(error) console.error(error)
 
-	let started = startImmediately
-	$: if(started){
-		status = LoadingStatus.Loading
-
+	$: if(status === LoadingStatus.Loading){
 		try {
 			if(fromPromise)
 				promise = fromPromise()
 
 			if(fromStore){
-				const _store = fromStore()
-				_store.then
-					? _store
+				const storeOrPromise = fromStore()
+
+				if('then' in storeOrPromise)
+					storeOrPromise
 						.then(_ => store = _)
-						.error?.(e => {
+						.catch?.(e => {
 							error = e
 							status = LoadingStatus.Errored
 						})
-					: store = _store
+				else
+					store = storeOrPromise
 			}
 
 			if(fromHoudiniQuery)
@@ -153,21 +156,20 @@
 			// if(fromInfiniteQuery)
 			// 	fromInfiniteQuery.setEnabled(true)
 		}catch(e){
-			error = e
+			error = e as LoaderError
 			status = LoadingStatus.Errored
 		}
 	}
-	else{
-		if(fromQuery)
-			fromQuery.setEnabled(false)
+	// else{
+	// 	if(fromQuery)
+	// 		fromQuery.setEnabled(false)
 
-		if(fromInfiniteQuery)
-			fromInfiniteQuery.setEnabled(false)
-	}
+	// 	if(fromInfiniteQuery)
+	// 		fromInfiniteQuery.setEnabled(false)
+	// }
 
-	function load(){
-		started = false
-		started = true
+	const load = () => {
+		status = LoadingStatus.Loading
 		// houdiniRefetch?.()
 
 		if(fromQuery)
@@ -177,17 +179,17 @@
 			$fromInfiniteQuery!.refetch()
 	}
 
-	async function cancel(){
+	const cancel = async () => {
 		if(whenCanceled)
 			await whenCanceled().catch(() => {}) // .catch(console.error)
 
 		status = LoadingStatus.Idle
 
-		if(startImmediately)
-			load()
+		// if(startImmediately)
+		// 	load()
 	}
 
-	$: if(promise)
+	$: if(promise){
 		promise.then(_result => {
 			result = then(_result)
 			status = LoadingStatus.Resolved
@@ -195,8 +197,8 @@
 			error = _error
 			status = LoadingStatus.Errored
 		})
-
-	$: if(store?.subscribe){
+	}
+	else if(store && $store){
 		if($store.loading){
 			if($store.data)
 				result = then($store.data)
@@ -211,8 +213,7 @@
 			status = LoadingStatus.Resolved
 		}
 	}
-
-	$: if(houdiniQuery)
+	else if(houdiniQuery && $houdiniQuery){
 		if($houdiniQuery.loading){
 			status = LoadingStatus.Loading
 		}
@@ -224,13 +225,15 @@
 			result = then($houdiniQuery.data)
 			status = LoadingStatus.Resolved
 		}
-
-	$: if(fromQuery)
-		if($fromQuery.isIdle){
+	}else if(fromQuery && $fromQuery){
+		if($fromQuery.isPlaceholderData){
 			status = LoadingStatus.Idle
 		}
 		else if($fromQuery.isLoading){
 			status = LoadingStatus.Loading
+		}
+		else if($fromQuery.isRefetching){
+			status = LoadingStatus.Reloading
 		}
 		else if($fromQuery.isSuccess){
 			result = then($fromQuery.data)
@@ -240,31 +243,28 @@
 			error = $fromQuery.error
 			status = LoadingStatus.Errored
 		}
-		else if($fromQuery.isRefetching){
-			status = LoadingStatus.Reloading
-		}
-
-	$: if(fromInfiniteQuery)
-		if($fromInfiniteQuery.isIdle){
+	}else if(fromInfiniteQuery && $fromInfiniteQuery){
+		if($fromInfiniteQuery.isPlaceholderData){
 			status = LoadingStatus.Idle
 		}
 		else if($fromInfiniteQuery.isLoading){
 			status = LoadingStatus.Loading
 		}
+		else if($fromInfiniteQuery.isRefetching){
+			status = LoadingStatus.Reloading
+		}
 		else if($fromInfiniteQuery.isSuccess){
-			result = then($fromInfiniteQuery.data) // .pages
+			result = then($fromInfiniteQuery.data)
 			status = LoadingStatus.Resolved
 		}
 		else if($fromInfiniteQuery.isError){
 			error = $fromInfiniteQuery.error
 			status = LoadingStatus.Errored
 		}
-		else if($fromInfiniteQuery.isRefetching){
-			status = LoadingStatus.Reloading
-		}
+	}
 
-	$: if(result) whenLoaded?.(result)
-	$: if(error) whenErrored?.(error)
+	$: if(status === LoadingStatus.Resolved) whenLoaded?.(result)
+	$: if(status === LoadingStatus.Errored) whenErrored?.(error)
 
 	$: isHidden = layout === 'headless' || (status === LoadingStatus.Resolved && showIf && !showIf(result))
 
