@@ -76,8 +76,8 @@
 	<nav
 		class="block-navigation row"
 		bind:this={navElement}
-		on:click={e => {
-			if(e.target instanceof globalThis.HTMLAnchorElement) return
+		on:click={e => {console.log({e})
+			if(e.target instanceof Element && e.target.closest('a')) return
 
 			if(blockNumber === undefined && latestBlockNumber === undefined) return
 
