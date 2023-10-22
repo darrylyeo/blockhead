@@ -3,6 +3,7 @@ import type { Ethereum } from './networks/types'
 import type { DefiSDK } from '../api/zerion/defiSdk'
 import type { ZapperAppId } from '../api/zapper'
 import { erc20TokensByContractAddress, erc20TokensBySymbol } from './tokens'
+import type { DeepReadonly } from '../utils/DeepReadonly'
 
 
 import {
@@ -26,8 +27,8 @@ import UniswapPage from '../routes/apps/(withDashboard)/uniswap/+page.svelte'
 
 
 export type Web3AppConfig = {
-	name: Web3AppName,
-	slug: Web3AppSlug,
+	name: string,
+	slug: string,
 	links?: string[],
 	icon?: string,
 	colors?: string[],
@@ -40,8 +41,8 @@ export type Web3AppView = {
 	colors?: string[],
 	chainId: Ethereum.ChainID,
 	components?: ComponentType[],
-	erc20Tokens?: Partial<Ethereum.ERC20Token[]>,
-	nfts?: Partial<Ethereum.NftContract[]>,
+	erc20Tokens?: Partial<Ethereum.ERC20Token>[],
+	nfts?: Partial<Ethereum.NftContract>[],
 	contracts?: Ethereum.Contract[],
 	tags?: {
 		name: '',
@@ -60,11 +61,8 @@ export type Web3AppView = {
 	}[],
 }
 
-export type Web3AppName = string // typeof web3Apps[number]['name']
-export type Web3AppSlug = string // typeof web3Apps[number]['slug']
 
-
-export const web3Apps: Web3AppConfig[] = [
+export const web3Apps = [
 	{
 		name: 'Aave',
 		slug: 'aave',
@@ -9291,10 +9289,14 @@ export const web3Apps: Web3AppConfig[] = [
 			},
 		],
 	}
-] // as const
+] as const satisfies DeepReadonly<Web3AppConfig[]>
+
+export type Web3AppName = typeof web3Apps[number]['name']
+export type Web3AppSlug = typeof web3Apps[number]['slug']
 
 
 export const web3AppsBySlug = Object.fromEntries(web3Apps.map(web3AppConfig => [web3AppConfig.slug, web3AppConfig]))
+
 export const web3AppsByProviderName = {
 	zapper: Object.fromEntries(web3Apps.flatMap(web3AppConfig =>
 		web3AppConfig.views.map(view => view.providers?.zapper ? [view.providers.zapper, web3AppConfig] : [])
@@ -9302,29 +9304,32 @@ export const web3AppsByProviderName = {
 	zerionDefiSDK: Object.fromEntries(web3Apps.flatMap(web3AppConfig =>
 		web3AppConfig.views.flatMap(view => view.providers?.zerionDefiSDK?.map(name => [name, web3AppConfig]) ?? [])
 	))
-}
+} as const
 
 
-const infrastructureApps = [
+const infrastructureApps = ([
 	'ipfs',
 	'the-graph',
 	// 'push',
-].map(slug => web3AppsBySlug[slug])
+] as const)
+	.map(slug => web3AppsBySlug[slug])
 
-const identityApps = [
+const identityApps = ([
 	'ens',
 	'ceramic',
 	'disco',
 	'lens',
-].map(slug => web3AppsBySlug[slug])
+] as const)
+	.map(slug => web3AppsBySlug[slug])
 
-const oracleNetworks = [
+const oracleNetworks = ([
 	'chainlink',
 	'tellor',
 	// 'umbrella',
-].map(slug => web3AppsBySlug[slug])
+] as const)
+	.map(slug => web3AppsBySlug[slug])
 
-const decentralizedExchanges = [
+const decentralizedExchanges = ([
 	'uniswap',
 	'curve',
 	'1inch',
@@ -9333,9 +9338,10 @@ const decentralizedExchanges = [
 	'paraswap',
 	'sushi',
 	'0x'
-].map(slug => web3AppsBySlug[slug])
+] as const)
+	.map(slug => web3AppsBySlug[slug])
 
-const defiPrimitives = [
+const defiPrimitives = ([
 	'aave',
 	'compound',
 	'maker',
@@ -9343,35 +9349,40 @@ const defiPrimitives = [
 	'synthetix',
 	'superfluid',
 	// 'uma',
-].map(slug => web3AppsBySlug[slug])
+] as const)
+	.map(slug => web3AppsBySlug[slug])
 
-const crossChainInfrastructure = [
+const crossChainInfrastructure = ([
 	'matic',
 	'connext',
 	'etherspot',
-].map(slug => web3AppsBySlug[slug])
+] as const)
+	.map(slug => web3AppsBySlug[slug])
 
-const institutionalDefi = [
+const institutionalDefi = ([
 	'circle',
 	'bitgo',
 	'nexus-mutual',
-].map(slug => web3AppsBySlug[slug])
+] as const)
+	.map(slug => web3AppsBySlug[slug])
 
-const creatorApps = [
+const creatorApps = ([
 	'audius',
 	'nouns',
 	'zora',
 	// 'apecoin',
 	// 'livepeer',
 	// 'rarible',
-].map(slug => web3AppsBySlug[slug])
+] as const)
+	.map(slug => web3AppsBySlug[slug])
 
-// const collectibleCommunities = [
+// const collectibleCommunities = ([
 // 	'apecoin',
 // 	'nouns',
-// ].map(slug => web3AppsBySlug[slug])
+// ] as const)
+//	.map(slug => web3AppsBySlug[slug])
 
-export const web3AppsBySection = [
+export const web3AppsBySection = ([
 	{
 		title: 'Data Infrastucture',
 		apps: infrastructureApps,
@@ -9431,7 +9442,7 @@ export const web3AppsBySection = [
 		].includes(appConfig)),
 		isFeatured: false
 	}
-]
+]) as const
 
 
 import { networksByChainID } from './networks'
