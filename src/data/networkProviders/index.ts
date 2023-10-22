@@ -838,7 +838,7 @@ export const getViemPublicClient = ({
 		network,
 		connectionType,
 		nodeType
-	})
+	}) as PublicClient | undefined
 
 	return publicClient
 }
