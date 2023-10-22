@@ -13,7 +13,7 @@ export enum TokenBalancesProvider {
 
 import { AirstackIcon, BeryxIcon, CovalentIcon, LiqualityIcon, MoralisIcon, QuickNodeIcon, ZapperIcon, ZerionIcon } from '../assets/icons'
 
-export const tokenBalancesProviderIcons: Record<TokenBalancesProvider, string> = {
+export const tokenBalancesProviderIcons = {
 	[TokenBalancesProvider.Airstack]: AirstackIcon,
 	[TokenBalancesProvider.Beryx]: BeryxIcon,
 	[TokenBalancesProvider.Covalent]: CovalentIcon,
@@ -22,4 +22,4 @@ export const tokenBalancesProviderIcons: Record<TokenBalancesProvider, string> =
 	[TokenBalancesProvider.QuickNode]: QuickNodeIcon,
 	[TokenBalancesProvider.Zapper]: ZapperIcon,
 	[TokenBalancesProvider.ZerionDefiSdk]: ZerionIcon,
-}
+} as const satisfies Record<Exclude<TokenBalancesProvider, TokenBalancesProvider.RpcProvider>, string>
