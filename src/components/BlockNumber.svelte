@@ -17,12 +17,12 @@
 
 	// Internal state
 	// (Computed)
-	$: link = linked && network && blockNumber ? resolvePath(`/explorer/[networkSlug]/block/[blockNumber]`, { networkSlug: network.slug, blockNumber: String(blockNumber) }) : undefined
+	$: link = linked && network && blockNumber !== undefined ? resolvePath(`/explorer/[networkSlug]/block/[blockNumber]`, { networkSlug: network.slug, blockNumber: String(blockNumber) }) : undefined
 
 
 	// Actions
 	const onDragStart = (e: DragEvent) => {
-		if(blockNumber) e.dataTransfer?.setData('text/plain', `${blockNumber}`)
+		if(blockNumber !== undefined) e.dataTransfer?.setData('text/plain', `${blockNumber}`)
 		if(link) e.dataTransfer?.setData('text/uri', link)
 	}
 
