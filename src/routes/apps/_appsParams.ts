@@ -10,6 +10,7 @@ import type { IpnsName } from '../../api/ipfs/ipns'
 export type AppsParams = {
 	web3AppSlug: Web3AppSlug | '',
 	networkSlug: Ethereum.NetworkSlug | '',
+
 	accountId: AccountId | '',
 
 	audiusQuery: string,
@@ -22,6 +23,17 @@ export type AppsParams = {
 	ipnsName: IpnsName | '',
 	ipfsContentPath: string,
 }
+
+export type AppsSearchInputParams = Partial<Pick<AppsParams,
+	| 'accountId'
+
+	| 'audiusQuery'
+	| 'audiusPlaylistId'
+	| 'audiusTrackId'
+	| 'audiusUserId'
+	| 'didUrl'
+	| 'discoCredentialId'
+>>
 
 
 // Param stores

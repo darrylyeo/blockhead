@@ -5,24 +5,40 @@
 
 
 	// Params
-	import { accountId, didUrl } from '../_appsParams'
+	import {
+		type AppsSearchInputParams,
+		accountId,
+		audiusQuery,
+		audiusPlaylistId,
+		audiusTrackId,
+		audiusUserId,
+		didUrl,
+		discoCredentialId,
+	} from '../_appsParams'
 
 
 	// Context
-	import { web3AppConfig, network, accountConnection } from '../_appsContext'
+	import {
+		web3AppConfig,
+		network,
+		accountConnection,
+		defaultSearchInputValue,
+	} from '../_appsContext'
+
 	import { preferences } from '../../../state/preferences'
 
 
 	// Internal state
-	let selectedAccountConnection: AccountConnection
+	let searchInputValue: string
+	$: searchInputValue = $defaultSearchInputValue
 
-	let tokenBalanceFormat
-	let showUnderlyingAssets
+	let searchInputParams: Partial<AppsSearchInputParams> = {}
+
+	let selectedAccountConnection: AccountConnection | undefined
 
 
 	// Computed
 	$: if(selectedAccountConnection?.state?.account?.address) $accountId = selectedAccountConnection.state.account.address
-	$: currentAccountId = $accountId || $didUrl
 
 
 	// Components
@@ -120,14 +136,23 @@
 	in:fly={{x: 100}}
 	out:fly={{x: -100}}
 >
-	<form class="accountId-form row" on:submit|preventDefault={() => $accountId = currentAccountId}>
+	<form class="accountId-form row" on:submit|preventDefault={() => {
+		$accountId = searchInputParams.accountId ?? ''
+		$audiusQuery = searchInputParams.audiusQuery ?? ''
+		$audiusPlaylistId = searchInputParams.audiusPlaylistId ?? ''
+		$audiusTrackId = searchInputParams.audiusTrackId ?? ''
+		$audiusUserId = searchInputParams.audiusUserId ?? ''
+		$didUrl = searchInputParams.didUrl ?? ''
+		$discoCredentialId = searchInputParams.discoCredentialId ?? ''
+	}}>
 		<SearchInput
 			inputPatterns={[
 				InputPattern.Address,
 				InputPattern.EnsName,
 				InputPattern.LensHandle,
 			]}
-			bind:value={currentAccountId}
+			bind:value={searchInputValue}
+			bind:matchedPatterns={searchInputParams}
 		/>
 
 		<span>or</span>
@@ -161,8 +186,6 @@
 					networkProvider={$preferences.rpcNetwork}
 					defiProvider={$preferences.defiProvider}
 					quoteCurrency={$preferences.quoteCurrency}
-					{tokenBalanceFormat}
-					{showUnderlyingAssets}
 				/>
 			</BlockTransition>
 		{/if}

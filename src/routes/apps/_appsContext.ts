@@ -48,6 +48,19 @@ export const currentView: Readable<'Dashboard' | 'Explorer' | 'Account'> = deriv
 		'Dashboard'
 ))
 
+export const defaultSearchInputValue: Readable<string> = derived(appsParams, ($appsParams, set) => set(
+	String(
+		$appsParams.accountId
+		|| $appsParams.audiusQuery
+		|| $appsParams.audiusPlaylistId
+		|| $appsParams.audiusTrackId
+		|| $appsParams.audiusUserId
+		|| $appsParams.didUrl
+		|| $appsParams.discoCredentialId
+		|| ''
+	)
+))
+
 export let accountConnection = derived([
 	accountConnections,
 	accountId,
