@@ -41,7 +41,7 @@
 
 
 	// Outputs
-	import type { TransactionResponse } from 'ethers/types/providers'
+	import type { TransactionResponse } from 'ethers'
 	import type { Covalent } from '../api/covalent'
 	import type { BlockTransaction } from '../api/moralis/api/Api'
 
@@ -51,6 +51,7 @@
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
 
+	import { normalizeViemTransaction } from '../api/viem'
 	import { getTransaction as getTransactionCovalent, normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent'
 	// import { getTransaction as getTransactionEtherspot } from '../api/etherspot'
 	import { MoralisWeb3Api, chainCodeFromNetwork, normalizeMoralisTransaction } from '../api/moralis/web3Api'
@@ -58,12 +59,12 @@
 
 	import { formatUnits } from 'ethers'
 
-	const normalizeViemTransaction = (transaction: TransactionResponse) => ({
+	const normalizeEthersTransaction = (transaction: TransactionResponse) => ({
 		network,
 
 		transactionID: transaction.hash as Ethereum.TransactionID,
 		nonce: transaction.nonce,
-		transactionIndex: transaction.transactionIndex,
+		transactionIndex: transaction.index,
 		blockNumber: transaction.blockNumber as Ethereum.BlockNumber,
 		blockHash: transaction.blockHash as Ethereum.BlockHash,
 		date: transaction.timestamp,
@@ -193,7 +194,7 @@
 								return transaction
 							}
 						})}
-						then={normalizeViemTransaction}
+						then={transaction => normalizeViemTransaction(transaction, network)}
 						let:result={transaction}
 					>
 						<NetworkIcon slot="loadingIcon" {network}><img src="/Blockhead-Logo.svg" width="30" /></NetworkIcon>

@@ -52,8 +52,8 @@
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
 
+	import { normalizeViemBlock } from '../api/viem'
 	import { getBlock } from '../api/covalent'
-
 	import { chainCodeFromNetwork, MoralisWeb3Api, normalizeMoralisBlock } from '../api/moralis/web3Api'
 
 
@@ -93,7 +93,7 @@
 					queryFn: async () => (
 						(await getBlock({
 							chainID: network.chainId,
-							blockNumber
+							blockNumber,
 						}))
 							.items.map(({
 								height,
@@ -205,16 +205,14 @@
 						blockNumber,
 					}],
 					queryFn: async () => (
-						await publicClient.getBlock({ blockNumber: BigInt(blockNumber) })
+						await publicClient.getBlock({
+							blockNumber: BigInt(blockNumber),
+							includeTransactions: true,
+						})
 					)
 				})}
+				then={block => normalizeViemBlock(block, network)}
 				bind:result={block}
-				then={block => (block && {
-					...block,
-					timestamp: block.timestamp,
-					// transactions: block.prefetchedTransactions,
-					transactionIds: block.transactions,
-				})}
 				let:result={block}
 			>
 				<NetworkIcon slot="loadingIcon" {network} />
