@@ -429,8 +429,8 @@
 												<!-- {/if} -->
 											</svelte:fragment>
 
-											<div class="defi-balances column" class:scrollable-list={defiProtocolBalances.flatMap(({products}) => products).length > 6}>
-												{#each defiProtocolBalances as {appId, products, meta}, i}
+											<div class="defi-balances column" class:scrollable-list={defiProtocolBalances.values().flatMap(({ products }) => products).length > 6}>
+												{#each defiProtocolBalances.values() as { appId, products, meta }, i}
 													{#each products as {
 														label, assets, meta: productMeta,
 														// _: web3AppConfig = web3AppsByProviderName.zapper?.[appId]
