@@ -2,8 +2,11 @@ import { readable } from 'svelte/store'
 
 import { promiseAllFulfilled } from './promiseAllFulfilled'
 
-export const parallelLoaderStore = <T, Result>(items: T[], asyncMap: (item: T) => Promise<Result>) =>
-	readable({ loading: true }, set => {
+export const parallelLoaderStore = <T, Result>(items: T[], asyncMap: (item: T) => Promise<Result>) => (
+	readable<{
+		loading: boolean,
+		data?: Map<T, Result>
+	}>({ loading: true }, set => {
 		const promiseMap = new Map(
 			items.map(item => [
 				item,
@@ -11,7 +14,7 @@ export const parallelLoaderStore = <T, Result>(items: T[], asyncMap: (item: T) =
 			])
 		)
 
-		let results = new Map
+		const results: Map<T, Result> = new Map
 
 		for (const [item, promise] of promiseMap.entries())
 			promise.then(result => {
@@ -29,3 +32,5 @@ export const parallelLoaderStore = <T, Result>(items: T[], asyncMap: (item: T) =
 			data: results
 		}))
 	})
+
+)
