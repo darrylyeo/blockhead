@@ -46,6 +46,8 @@
 
 
 	// Internal state
+	export const datalistId = crypto.randomUUID()
+
 	// (Computed)
 	$: pattern = new RegExp(`^(?:${
 		inputPatterns
@@ -82,12 +84,12 @@
 	{placeholder}
 	pattern={pattern.source}
 	data-matched-input-pattern={matchedInputPattern}
-	list="ExplorerInputList"
+	list={datalistId}
 	on:focus={e => e.target.select()}
 	style={matchedInputPattern && `--input-annotation: " ${inputPatternsConfig[matchedInputPattern]?.label.toUpperCase()}   │   ✕"`}
 />
 
-<datalist id="ExplorerInputList">
+<datalist id={datalistId}>
 	{#each findPatternMatches(value, subpattern) as { inputPattern, match }}
 		<option
 			value={match}
