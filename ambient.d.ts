@@ -1,3 +1,7 @@
+declare interface Boolean {
+	constructor<T>(value: T | '' | null | undefined | 0): value is T
+}
+
 declare interface ObjectConstructor {
 	entries<T>(o: T): {
 		[K in keyof T]: readonly [K, T[K]];
