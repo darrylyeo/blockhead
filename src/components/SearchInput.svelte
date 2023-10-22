@@ -1,10 +1,6 @@
 <script lang="ts">
 	// Types/constants
 	import type { Ethereum } from '../data/networks/types'
-
-	import type { ExplorerInputParams } from '../routes/explorer/_explorerParams'
-	import { ExplorerQueryType, explorerQuery, getExplorerQueryType } from '../routes/explorer/_explorerContext'
-
 	import { InputPattern, inputPatternsConfig } from '../data/inputPatterns'
 
 
@@ -44,13 +40,9 @@
 
 
 	// Shared state
-	export let explorerInputParams: ExplorerInputParams
-	export let explorerQueryType: ExplorerQueryType = ExplorerQueryType.None
 	export let value: string
-	// (Computed)
-	$: value = $explorerQuery
-	$: explorerInputParams = value.match(pattern)?.groups ?? {}
-	$: explorerQueryType = getExplorerQueryType(explorerInputParams)
+	export let matchedPatterns: Partial<Record<InputPattern, string>>
+	$: matchedPatterns = value.match(pattern)?.groups ?? {}
 
 
 	// Internal state

@@ -14,8 +14,8 @@
 		ensName,
 		transactionId,
 
-		type ExplorerParams,
 		explorerParams,
+		type ExplorerInputParams,
 	} from '../_explorerParams'
 
 	import {
@@ -25,7 +25,7 @@
 
 		ExplorerQueryType,
 		explorerQueryType,
-		explorerQuery
+		explorerQuery,
 	} from '../_explorerContext'
 
 	import { getContext } from 'svelte'
@@ -54,7 +54,11 @@
 
 
 	// Internal state
-	let currentExplorerInputParams: Omit<ExplorerParams, 'networkSlug'>
+	let currentExplorerInputValue: string
+	$: currentExplorerInputValue = $explorerQuery
+
+	let currentExplorerInputParams: ExplorerInputParams | undefined
+
 
 	$: networkProvider = $preferences.rpcNetwork
 
@@ -203,9 +207,9 @@
 						InputPattern.EnsName,
 					]
 			}
-			value={$explorerQuery}
+			bind:value={currentExplorerInputValue}
+			bind:matchedPatterns={currentExplorerInputParams}
 			network={$explorerNetwork}
-			bind:explorerInputParams={currentExplorerInputParams}
 		/>
 		<button type="submit">Go</button>
 	</form>
