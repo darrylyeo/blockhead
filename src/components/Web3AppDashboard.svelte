@@ -1,20 +1,19 @@
 <script lang="ts">
+	// Constants/types
 	import type { Ethereum } from '../data/networks/types'
 	import type { NetworkProvider } from '../data/networkProviders/types'
 	import { DefiProvider, defiProviderIcons } from '../data/defiProviders'
 	import type { QuoteCurrency } from '../data/currencies'
 	import type { Web3AppConfig, Web3AppSlug } from '../data/web3Apps'
-	import type { Covalent } from '../api/covalent'
 	import { web3AppsByProviderName } from '../data/web3Apps'
-	import { getDefiBalances } from '../api/zerion/defiSdk'
-	import { getDefiBalancesForApps } from '../api/zapper'
-	import { getTokenAddressBalances } from '../api/covalent'
 	import { networksByChainID } from '../data/networks'
 	import { preferences } from '../state/preferences'
 	import type { AccountConnection } from '../state/account'
 
+	type Layout = 'horizontal' | 'horizontal-alternate' | 'vertical'
 
-	// Data
+
+	// Inputs
 	export let web3AppConfig: Web3AppConfig
 	export let network: Ethereum.Network | undefined
 	export let address: string | undefined
@@ -23,50 +22,57 @@
 	export let defiProvider: DefiProvider = DefiProvider.Zapper
 	export let quoteCurrency: QuoteCurrency
 
+	// (View options)
+	export let isOpen: boolean
+	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
+	export let showUnderlyingAssets = true
+	export let showMetadata = true
+	export let showActions = false
+	export let layout: Layout | 'auto' = 'auto'
 
-	// Computed Values
+	// (Computed)
+	let computedLayout: Layout
+	$: computedLayout = layout === 'auto'
+		? showUnderlyingAssets ? 'vertical' : 'horizontal' // 'horizontal-alternate'
+		: layout
+
+
+	// Functions
+	import { getDefiBalances } from '../api/zerion/defiSdk'
+	import { getDefiBalancesForApps } from '../api/zapper'
+
+	import { formatPercent } from '../utils/formatPercent'
+	import { formatKebabCase } from '../utils/formatKebabCase'
+
+
+	// Internal state
+	let selectedEmbed
+
+	let zapperDefiProtocolBalances: Awaited<ReturnType<typeof getDefiBalancesForApps>>
+
+	let zapperQuoteCurrency
 	let zapperFiatRates
+	// (Computed)
 	// $: if(defiProvider === DefiProvider.Zapper && quoteCurrency !== 'USD')
 	// 	getFiatRates().then(_ => zapperFiatRates = _)
 	$: zapperQuoteCurrency = zapperFiatRates ? quoteCurrency : 'USD' 
 	$: zapperFiatRate = zapperFiatRates?.[quoteCurrency] ?? 1
 
+
+	// Outputs
 	export let quoteTotal
 	export let quoteTotalCurrency
+
+	// (Computed)
 	$: quoteTotalCurrency = zapperQuoteCurrency
 
-
-	let zapperDefiProtocolBalances: Awaited<ReturnType<typeof getDefiBalancesForApps>>
 	$: if(zapperDefiProtocolBalances)
 		quoteTotal = zapperDefiProtocolBalances.reduce((sum, {meta}) => sum + Number(
 			meta?.find(({label, type, value}) => label === 'Total')?.value ?? 0
 		), 0) * zapperFiatRate
 
 
-	// View options
-	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
-	export let showUnderlyingAssets = true
-	export let showMetadata = true
-	export let showActions = false
-
-	type Layout = 'horizontal' | 'horizontal-alternate' | 'vertical'
-	export let layout: Layout | 'auto' = 'auto'
-	let computedLayout: Layout
-	$: computedLayout = layout === 'auto'
-		? showUnderlyingAssets ? 'vertical' : 'horizontal' // 'horizontal-alternate'
-		: layout
-	
-	export let isOpen: boolean
-
-
-	let selectedEmbed
-
-	
-	import { formatPercent } from '../utils/formatPercent'
-	import { formatUnits } from '../utils/formatUnits'
-	import { formatKebabCase } from '../utils/formatKebabCase'
-
-
+	// Components
 	import Address from './Address.svelte'
 	import Collapsible from './Collapsible.svelte'
 	import Loader from './Loader.svelte'
@@ -83,11 +89,10 @@
 	import TokenBalance from './TokenBalance.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
 	import TokenBalanceFormatSelect from './TokenBalanceFormatSelect.svelte'
-
-	
 	import { ZapperIcon } from '../assets/icons'
 
 
+	// Transitions/animations
 	import { cardStyle } from '../utils/card-background'
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
