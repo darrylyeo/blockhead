@@ -1,19 +1,17 @@
 <script lang="ts">
-	// Types
-
+	// Types/constants
 	import type { Ethereum } from '../data/networks/types'
 	import type { QuoteCurrency } from '../data/currencies'
 
 
-	// External state
-
+	// Inputs
 	export let network: Ethereum.Network
 	export let transaction: Ethereum.Transaction
 	export let quoteCurrency: QuoteCurrency
 
+	export let contextualAddress: Ethereum.Address
 
-	// View options
-
+	// (View options)
 	export let layout: 'standalone' | 'inline' = 'inline'
 	export let innerLayout: 'columns' | 'row' = 'row'
 
@@ -22,11 +20,7 @@
 	export let showDate = true
 	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 
-	export let contextualAddress: Ethereum.Address
-
-
-	// Computed
-
+	// (Computed)
 	$: isSummary = detailLevel === 'summary'
 	$: isExhaustive = detailLevel === 'exhaustive'
 	$: isStandaloneLayout = layout === 'standalone'
@@ -36,7 +30,6 @@
 
 
 	// Components
-
 	import AddressWithLabel from './AddressWithLabel.svelte'
 	import Date from './Date.svelte'
 	import EthereumLogEvent from './EthereumLogEvent.svelte'
@@ -45,88 +38,9 @@
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
 
 
-	// Transitions
-
+	// Transitions/animations
 	import { fade } from 'svelte/transition'
 </script>
-
-
-<style>
-	.transaction {
-		/* text-align: center; */
-	}
-	h2 :global(.transaction-id) {
-		font-size: 0.8em;
-	}
-
-	.transaction.layout-inline {
-		--padding-inner: 0.5em;
-	}
-
-	.transaction :global(.address) {
-		font-weight: 600;
-	}
-	.transaction.layout-inline :global(.address) {
-		display: inline;
-	}
-	.fee {
-		font-size: 0.85em;
-	}
-	.transaction :global(.token-rate) {
-		font-weight: 500;
-	}
-	.container :global(.date) {
-		font-size: 0.66em;
-		opacity: 0.7;
-		align-self: center;
-		align-items: flex-end;
-		justify-content: center;
-		height: 1em;
-	}
-
-	.log-events {
-		font-size: 0.9em;
-	}
-	.transaction.layout-inline .log-events {
-		font-size: 0.75em;
-		padding: var(--padding-outer);
-	}
-
-
-	.container.inner-layout-row {
-		display: flex;
-		justify-content: space-between;
-		flex-wrap: wrap;
-		align-items: baseline;
-		gap: var(--padding-inner);
-	}
-
-	.container.inner-layout-columns {
-		display: grid;
-		grid-auto-flow: column;
-		gap: var(--padding-inner);
-		align-items: center;
-
-		font-weight: 300;
-
-		position: relative;
-	}
-	.container.inner-layout-columns > * {
-		display: flex;
-		flex-direction: column;
-	}
-	.container.inner-layout-columns .value {
-		font-size: 1.5em;
-	}
-
-	.unsuccessful {
-		box-shadow: 0 1px 3px #ff2f00a0;
-	}
-
-	.log-events.scrollable-list {
-		--resizeVertical-defaultHeight: 20rem;
-	}
-</style>
 
 
 {#if transaction.network && transaction}
@@ -286,3 +200,81 @@
 		{/if}
 	</div>
 {/if}
+
+
+<style>
+	.transaction {
+		/* text-align: center; */
+	}
+	h2 :global(.transaction-id) {
+		font-size: 0.8em;
+	}
+
+	.transaction.layout-inline {
+		--padding-inner: 0.5em;
+	}
+
+	.transaction :global(.address) {
+		font-weight: 600;
+	}
+	.transaction.layout-inline :global(.address) {
+		display: inline;
+	}
+	.fee {
+		font-size: 0.85em;
+	}
+	.transaction :global(.token-rate) {
+		font-weight: 500;
+	}
+	.container :global(.date) {
+		font-size: 0.66em;
+		opacity: 0.7;
+		align-self: center;
+		align-items: flex-end;
+		justify-content: center;
+		height: 1em;
+	}
+
+	.log-events {
+		font-size: 0.9em;
+	}
+	.transaction.layout-inline .log-events {
+		font-size: 0.75em;
+		padding: var(--padding-outer);
+	}
+
+
+	.container.inner-layout-row {
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: var(--padding-inner);
+	}
+
+	.container.inner-layout-columns {
+		display: grid;
+		grid-auto-flow: column;
+		gap: var(--padding-inner);
+		align-items: center;
+
+		font-weight: 300;
+
+		position: relative;
+	}
+	.container.inner-layout-columns > * {
+		display: flex;
+		flex-direction: column;
+	}
+	.container.inner-layout-columns .value {
+		font-size: 1.5em;
+	}
+
+	.unsuccessful {
+		box-shadow: 0 1px 3px #ff2f00a0;
+	}
+
+	.log-events.scrollable-list {
+		--resizeVertical-defaultHeight: 20rem;
+	}
+</style>
