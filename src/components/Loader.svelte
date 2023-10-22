@@ -13,11 +13,16 @@
 	type LoaderReturnResult = $$Generic<unknown>
 	type LoaderLayout = $$Generic<'default' | 'passive' | 'collapsible' | 'headless'>
 
+	enum LoadingStatus {
+		Idle = 'idle',
+		Loading = 'loading',
+		Resolved = 'resolved',
+		Reloading = 'reloading',
+		Errored = 'error'
+	}
+
 
 	// Inputs
-	export let layout: LoaderLayout = 'default' as LoaderLayout
-	export let collapsibleType: 'label' | 'details' = 'details'
-
 	export let startImmediately = true
 
 	export let loadingIcon: string
@@ -40,32 +45,37 @@
 	export let whenErrored: ((error: LoaderError) => void) | undefined
 	export let whenCanceled: (() => Promise<any>) | undefined
 
+	// (View options)
+	export let layout: LoaderLayout = 'default' as LoaderLayout
+	export let collapsibleType: 'label' | 'details' = 'details'
+
 	export let showIf: ((then: LoaderReturnResult | undefined) => boolean | any) | undefined
 	export let isOpen = true
 	export let clip = true
 
-	export let showStatusAndActions = false
-
 	export let containerClass: string
 	export let contentClass = 'column-block'
 
+	export let showStatusAndActions = false
 
-	enum LoadingStatus {
-		Idle = 'idle',
-		Loading = 'loading',
-		Resolved = 'resolved',
-		Reloading = 'reloading',
-		Errored = 'error'
-	}
-	let status = startImmediately ? LoadingStatus.Loading : LoadingStatus.Idle
+	// (Computed)
+	$: isHidden = layout === 'headless' || (status === LoadingStatus.Resolved && showIf && !showIf(result))
 
+
+	// Internal state
 	let promise: ReturnType<NonNullable<typeof fromPromise>> | undefined
 	let store: Awaited<ReturnType<NonNullable<typeof fromStore>>> | undefined
 	let houdiniQuery: ReturnType<NonNullable<typeof fromHoudiniQuery>> | undefined
 
 
+	// Outputs
+	let status = startImmediately ? LoadingStatus.Loading : LoadingStatus.Idle
+
 	export let result: LoaderReturnResult
 
+	let error: LoaderError
+
+	// (Types)
 	type CollapsibleSlotProps = LoaderLayout extends 'collapsible'
 		? {
 			isOpen: boolean,
@@ -125,8 +135,27 @@
 	}
 
 
-	let error: LoaderError
-	// $: if(error) console.error(error)
+	// Actions
+	const load = () => {
+		status = LoadingStatus.Loading
+		// houdiniRefetch?.()
+
+		if(fromQuery)
+			$fromQuery!.refetch()
+
+		if(fromInfiniteQuery)
+			$fromInfiniteQuery!.refetch()
+	}
+
+	const cancel = async () => {
+		if(whenCanceled)
+			await whenCanceled().catch(() => {}) // .catch(console.error)
+
+		status = LoadingStatus.Idle
+
+		// if(startImmediately)
+		// 	load()
+	}
 
 	$: if(status === LoadingStatus.Loading){
 		try {
@@ -167,27 +196,6 @@
 	// 	if(fromInfiniteQuery)
 	// 		fromInfiniteQuery.setEnabled(false)
 	// }
-
-	const load = () => {
-		status = LoadingStatus.Loading
-		// houdiniRefetch?.()
-
-		if(fromQuery)
-			$fromQuery!.refetch()
-
-		if(fromInfiniteQuery)
-			$fromInfiniteQuery!.refetch()
-	}
-
-	const cancel = async () => {
-		if(whenCanceled)
-			await whenCanceled().catch(() => {}) // .catch(console.error)
-
-		status = LoadingStatus.Idle
-
-		// if(startImmediately)
-		// 	load()
-	}
 
 	$: if(promise){
 		promise.then(_result => {
@@ -266,10 +274,12 @@
 	$: if(status === LoadingStatus.Resolved) whenLoaded?.(result)
 	$: if(status === LoadingStatus.Errored) whenErrored?.(error)
 
-	$: isHidden = layout === 'headless' || (status === LoadingStatus.Resolved && showIf && !showIf(result))
+	// $: if(error) console.error(error)
 
 
+	// Debugging
 	export let debug: boolean
+
 	$: if(debug && result){
 		(console.groupCollapsed || console.log)(loadingMessage, { status })
 		// if(Array.isArray(result)){
@@ -282,29 +292,16 @@
 	}
 
 
-	import { fade, scale } from 'svelte/transition'
+	// Components
 	import Collapsible from './Collapsible.svelte'
 	import Date from './Date.svelte'
 	import Loading from './Loading.svelte'
 	import SizeContainer from './SizeContainer.svelte'
+
+
+	// Transitions/animations
+	import { fade, scale } from 'svelte/transition'
 </script>
-
-
-<style>
-	.loader:empty {
-		display: none;
-	}
-
-
-	footer {
-		font-size: 0.66em;
-	}
-
-	pre {
-		max-height: 15em;
-		overflow-y: auto;
-	}
-</style>
 
 
 {#if !isHidden}
@@ -567,3 +564,20 @@
 		{/if}
 	</slot>
 {/if}
+
+
+<style>
+	.loader:empty {
+		display: none;
+	}
+
+
+	footer {
+		font-size: 0.66em;
+	}
+
+	pre {
+		max-height: 15em;
+		overflow-y: auto;
+	}
+</style>
