@@ -58,6 +58,7 @@
 			...data.TokenBalances.TokenBalance
 				?.groupToMap(tokenWithBalance => tokenWithBalance.tokenAddress)
 				.entries()
+			?? []
 		]
 			.map(([contractAddress, contractsWithBalances]) => ({
 				chainId: Number(contractsWithBalances.chainId),
