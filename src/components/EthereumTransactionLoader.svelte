@@ -53,14 +53,13 @@
 
 	import { normalizeViemTransaction } from '../api/viem'
 	import { getTransaction as getTransactionCovalent, normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent'
-	// import { getTransaction as getTransactionEtherspot } from '../api/etherspot'
+	// import { getTransaction as getTransactionEtherspot, normalizeTransaction as normalizeEtherspotTransaction } from '../api/etherspot'
 	import { MoralisWeb3Api, chainCodeFromNetwork, normalizeMoralisTransaction } from '../api/moralis/web3Api'
 
 
 	// Components
 	import EthereumTransaction from './EthereumTransaction.svelte'
 	import EthereumTransactionCovalent from './EthereumTransactionCovalent.svelte'
-	// import EthereumTransactionEtherspot from './EthereumTransactionEtherspot.svelte'
 	import Loader from './Loader.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
 </script>
@@ -209,7 +208,7 @@
 						fromQuery={createQuery({
 							queryKey: ['Transaction', {
 								transactionProvider,
-								chainId: network.chainId
+								chainId: network.chainId,
 								transactionId,
 							}],
 							queryFn: async () => (
@@ -219,6 +218,10 @@
 								})
 							)
 						})}
+						then={transaction => (
+							normalizeEtherspotTransaction(transaction, network)
+						)}
+						bind:result={transaction}
 						let:result={transaction}
 					>
 						<svelte:fragment slot="header"
@@ -228,7 +231,7 @@
 							<slot name="header" {status} {transaction} />
 						</svelte:fragment>
 
-						<EthereumTransactionEtherspot
+						<EthereumTransaction
 							{network}
 							{transaction}
 							{quoteCurrency}

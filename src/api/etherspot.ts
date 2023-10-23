@@ -1,4 +1,4 @@
-import { Sdk, randomPrivateKey, NetworkNames } from 'etherspot'
+import { Sdk, randomPrivateKey, NetworkNames, Transaction as EtherspotTransaction, TransactionLog, TransactionStatuses, TransactionAssetCategories } from 'etherspot'
 import { memoized } from '../utils/memoized'
 import type { Ethereum } from '../data/networks/types'
 
@@ -78,6 +78,70 @@ export const getTransactions = async ({
 	}
 }
 
+
+type Transaction = Ethereum.Transaction & {
+	cumulativeGasSpent: EtherspotTransaction['cumulativeGasUsed'],
+	inputData: EtherspotTransaction['input'],
+	transferredToken?: Ethereum.ERC20Token
+}
+
+export const normalizeTransaction = (transaction: EtherspotTransaction, network: Ethereum.Network): Transaction => ({
+	network,
+
+	transactionID: transaction.hash,
+	nonce: transaction.nonce,
+	transactionIndex: transaction.transactionIndex,
+	blockNumber: transaction.blockNumber,
+	blockHash: transaction.blockHash,
+	date: transaction.timestamp,
+
+	isSuccessful: transaction.status === TransactionStatuses.Completed,
+
+	fromAddress: transaction.from,
+	toAddress: transaction.to,
+
+	value: Number(transaction.value) * 0.1 ** network.nativeCurrency.decimals,
+	
+	gasToken: network.nativeCurrency,
+	gasOffered: transaction.gasLimit,
+	gasSpent: transaction.gasUsed * 0.1 ** network.nativeCurrency.decimals,
+	gasRate: transaction.gasPrice,
+	gasValue: Number(transaction.gasPrice) * Number(transaction.gasUsed) * 0.1 ** network.nativeCurrency.decimals,
+	
+	logEvents: transaction.logs.map(normalizeLogEvent),
+	
+	// Etherspot
+
+	cumulativeGasSpent: transaction.cumulativeGasUsed,
+	// transaction.logsBloom
+
+	inputData: transaction.input,
+
+	transferredToken: transaction.asset?.category === TransactionAssetCategories.Token ? {
+		name: transaction.asset.name,
+		decimals: transaction.asset.decimal,
+		address: transaction.asset.contract,
+	} : undefined
+})
+
+
+export const normalizeLogEvent = (logEvent: TransactionLog): Ethereum.TransactionLogEvent => ({
+	indexInTransaction: logEvent.logIndex,
+	transactionHash: logEvent.transactionHash,
+
+	indexInBlock: logEvent.transactionIndex,
+	blockNumber: logEvent.blockNumber,
+	blockHash: logEvent.blockHash,
+
+	topics: logEvent.topics,
+	data: logEvent.data,
+
+	contract: {
+		address: logEvent.address,
+	},
+
+	decoded: logEvent.decoded,
+})
 
 
 export async function startEtherspotTransfer(){}

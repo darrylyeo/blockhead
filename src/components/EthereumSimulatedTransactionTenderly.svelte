@@ -12,7 +12,7 @@
 
 
 
-	// import EthereumTransactionEtherspot from './EthereumTransactionEtherspot.svelte'
+	// import EthereumTransaction from './EthereumTransaction.svelte'
 </script>
 
 
@@ -35,7 +35,7 @@
 
 
 {#if data}
-	<!-- <EthereumTransactionEtherspot
+	<!-- <EthereumTransaction
 		{network}
 		transaction={{
 			from: data.transaction.from,
