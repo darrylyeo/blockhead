@@ -659,38 +659,7 @@ export const normalizeTransaction = (
 	gasValue: transaction.gas_spent * transaction.gas_price * 0.1 ** network.nativeCurrency.decimals,
 
 	logEvents: transaction.log_events
-		?.map(logEvent => ({
-			indexInTransaction: logEvent.log_offset,
-			transactionHash: logEvent.tx_hash,
-
-			indexInBlock: logEvent.tx_offset,
-			blockNumber: logEvent.block_height,
-			// blockHash: ,
-
-			topics: logEvent.raw_log_topics,
-			data: logEvent.raw_log_data,
-
-			contract: {
-				name: logEvent.sender_name,
-				address: logEvent.sender_address,
-				symbol: logEvent.sender_contract_ticker_symbol,
-				decimals: logEvent.sender_contract_decimals,
-				icon: logEvent.sender_logo_url === 'null' ? null : logEvent.sender_logo_url,
-				label: logEvent.sender_address_label === 'null' ? null : logEvent.sender_address_label,
-			},
-
-			decoded: logEvent.decoded && {
-				name: logEvent.decoded.name,
-				signature: logEvent.decoded.signature,
-				params: logEvent.decoded.params?.map(logEvent => ({
-					name: logEvent.name,
-					type: logEvent.type,
-					value: logEvent.value ?? '', // logEvent.value === null, logEvent.decoded === false
-					indexed: logEvent.indexed,
-					decoded: logEvent.decoded,
-				})) ?? [],
-			}
-		}))
+		?.map(normalizeLogEvent)
 		.sort((logEvent1, logEvent2) => logEvent1.indexInTransaction - logEvent2.indexInTransaction),
 
 
@@ -706,6 +675,39 @@ export const normalizeTransaction = (
 			normalizeErc20Transfer(transfer, network, quoteCurrency, transaction.successful))
 		)
 	} : {},
+})
+
+export const normalizeLogEvent = (logEvent: Covalent.LogEvent): Ethereum.TransactionLogEvent => ({
+	indexInTransaction: logEvent.log_offset,
+	transactionHash: logEvent.tx_hash as Ethereum.TransactionID,
+
+	indexInBlock: logEvent.tx_offset,
+	blockNumber: logEvent.block_height,
+	// blockHash: ,
+
+	topics: logEvent.raw_log_topics as Ethereum.TopicHash[],
+	data: logEvent.raw_log_data,
+
+	contract: {
+		name: logEvent.sender_name,
+		address: logEvent.sender_address as Ethereum.ContractAddress,
+		symbol: logEvent.sender_contract_ticker_symbol,
+		decimals: logEvent.sender_contract_decimals,
+		icon: logEvent.sender_logo_url !== 'null' ?  logEvent.sender_logo_url : undefined,
+		label: logEvent.sender_address_label !== 'null' ? logEvent.sender_address_label : undefined,
+	},
+
+	decoded: logEvent.decoded && {
+		name: logEvent.decoded.name,
+		signature: logEvent.decoded.signature,
+		params: logEvent.decoded.params?.map(logEvent => ({
+			name: logEvent.name,
+			type: logEvent.type,
+			value: logEvent.value ?? '', // logEvent.value === null, logEvent.decoded === false
+			indexed: logEvent.indexed,
+			decoded: logEvent.decoded,
+		})) ?? [],
+	}
 })
 
 export const normalizeErc20Transfer = (
