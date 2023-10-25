@@ -37,6 +37,15 @@
 	// Outputs
 	export let transactions: Ethereum.Transaction[] | Covalent.Transactions | TransactionCollection
 
+	type SharedSlotProps = {
+		transactions: typeof transactions,
+	}
+
+	type $$Slots = {
+		'default': SharedSlotProps,
+		'header': SharedSlotProps,
+	}
+
 
 	// Components
 	import Loader from './Loader.svelte'
