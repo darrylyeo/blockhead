@@ -44,10 +44,10 @@
 
 
 {#if transaction.network && transaction}
-	<div class="transaction layout-{layout} column" class:card={isStandaloneLayout} class:unsuccessful={!transaction.isSuccessful} transition:fade>
+	<div class="transaction layout-{layout} column" class:card={isStandaloneLayout} class:unsuccessful={transaction.executionStatus === 'failed'} transition:fade>
 		{#if isStandaloneLayout}
 			<div class="bar">
-				<h2><TransactionId network={transaction.network} transactionId={transaction.transactionID} /></h2>
+				<h2><TransactionId network={transaction.network} transactionId={transaction.transactionId} /></h2>
 				<span class="card-annotation">{transaction.network.name} Transaction</span>
 			</div>
 
@@ -66,7 +66,7 @@
 						<AddressWithLabel
 							network={transaction.network}
 							address={transaction.fromAddress}
-							label={transaction.fromAddressLabel}
+							label={transaction.labels?.fromAddress}
 							format="middle-truncated"
 						/>
 					</span>
@@ -76,8 +76,8 @@
 					<span>
 						<span class="action">
 							{isSummary && contextIsReceiver
-								? transaction.isSuccessful ? 'received' : 'failed to receive'
-								: transaction.isSuccessful ? 'sent' : 'failed to send'}
+								? transaction.executionStatus === 'successful' ? 'received' : 'failed to receive'
+								: transaction.executionStatus === 'successful' ? 'sent' : 'failed to send'}
 						</span>
 						<TokenBalanceWithConversion
 							{tokenBalanceFormat}
@@ -86,7 +86,7 @@
 							network={transaction.network}
 							erc20Token={transaction.gasToken}
 
-							balance={Number(transaction.value)}
+							balance={Number(transaction.value) * 0.1 ** network.nativeCurrency.decimals}
 							conversionCurrency={quoteCurrency}
 						/>
 					</span>
@@ -95,12 +95,12 @@
 				{#if isSummary && contextIsReceiver && transaction.fromAddress}
 					<span class="sender" transition:fade>
 						<span>from</span>
-						<AddressWithLabel network={transaction.network} address={transaction.fromAddress} label={transaction.fromAddressLabel} format="middle-truncated" />
+						<AddressWithLabel network={transaction.network} address={transaction.fromAddress} label={transaction.labels?.fromAddress} format="middle-truncated" />
 					</span>
 				{:else if transaction.toAddress}
 					<span class="receiver" transition:fade>
 						<span>to</span>
-						<AddressWithLabel network={transaction.network} address={transaction.toAddress} label={transaction.toAddressLabel} format="middle-truncated" />
+						<AddressWithLabel network={transaction.network} address={transaction.toAddress} label={transaction.labels?.toAddress} format="middle-truncated" />
 					</span>
 				{/if}
 
@@ -114,14 +114,14 @@
 							network={transaction.network}
 							erc20Token={transaction.gasToken}
 
-							balance={Number(transaction.gasValue)}
+							balance={Number(transaction.gasValue) * 0.1 ** network.nativeCurrency.decimals}
 							conversionCurrency={quoteCurrency}
 						/>
 					</span>
 				{/if}
 
-				{#if isSummary && showDate && transaction.date}
-					<Date date={transaction.date} layout="horizontal" format="absolute" />
+				{#if isSummary && showDate && transaction.blockTimestamp}
+					<Date date={transaction.blockTimestamp} layout="horizontal" format="absolute" />
 				{/if}
 			</div>
 		<!-- {/if} -->
@@ -179,7 +179,7 @@
 			{/if}
 		{/if}
 
-		{#if !isSummary && (transaction.transactionID || transaction.blockNumber)}
+		{#if !isSummary && (transaction.transactionId || transaction.blockNumber)}
 			{#if isStandaloneLayout}
 				<hr>
 			{/if}
@@ -187,14 +187,14 @@
 			<div class="footer bar"><!-- transition:fade -->
 				<EthereumTransactionSummary
 					network={network}
-					transactionID={transaction.transactionID}
+					transactionID={transaction.transactionId}
 					transactionIndex={transaction.transactionIndex}
 					blockNumber={transaction.blockNumber}
 					showTransactionID={isStandaloneLayout || isExhaustive}
 				/>
 
-				{#if showDate && transaction.date}
-					<Date date={transaction.date} layout="horizontal" />
+				{#if showDate && transaction.blockTimestamp}
+					<Date date={transaction.blockTimestamp} layout="horizontal" />
 				{/if}
 			</div>
 		{/if}

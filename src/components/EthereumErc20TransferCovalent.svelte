@@ -63,9 +63,9 @@
 					{network}
 					erc20Token={erc20Transfer.transferredToken}
 
-					balance={Number(erc20Transfer.value)}
-					conversionCurrency={quoteCurrency} 
-					convertedValue={erc20Transfer.convertedValue}
+					balance={Number(erc20Transfer.value) * 0.1 ** erc20Transfer.transferredToken.decimals}
+					conversionCurrency={erc20Transfer.conversion?.quoteCurrency} 
+					convertedValue={erc20Transfer.conversion?.value}
 				/>
 			</span>
 		{/if}

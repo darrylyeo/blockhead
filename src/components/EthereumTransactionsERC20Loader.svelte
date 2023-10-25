@@ -5,7 +5,7 @@
 	import type { TickerSymbol } from '../data/currencies'
 	import { preferences } from '../state/preferences'
 	import { TransactionProvider, transactionProviderIcons } from '../data/transactionProvider'
-	import type { TransactionWithERC20Transfers } from '../api/covalent'
+	import type { Transaction } from '../api/covalent'
 
 
 	export let network: Ethereum.Network
@@ -33,7 +33,7 @@
 
 
 	// Outputs
-	export let transactions: TransactionWithERC20Transfers[]
+	export let transactions: Transaction[]
 
 	type SharedSlotProps = {
 		transactions: typeof transactions

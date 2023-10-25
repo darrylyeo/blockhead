@@ -27,15 +27,14 @@
 	// Functions
 	import { createQuery, createInfiniteQuery } from '@tanstack/svelte-query'
 
-	import { type Covalent, getTransactionsByAddress, normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent'
+	import { getTransactionsByAddress, normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent'
 	import { Etherscan, normalizeTransaction as normalizeTransactionEtherscan } from '../api/etherscan'
 	// import { getTransactions as getTransactionsEtherspot } from '../api/etherspot'
 	import { chainCodeFromNetwork, MoralisWeb3Api } from '../api/moralis/web3Api'
-	import type { TransactionCollection } from '../api/moralis/api/Api'
 
 
 	// Outputs
-	export let transactions: Ethereum.Transaction[] | Covalent.Transactions | TransactionCollection
+	export let transactions: Ethereum.Transaction[]
 
 	type SharedSlotProps = {
 		transactions: typeof transactions,

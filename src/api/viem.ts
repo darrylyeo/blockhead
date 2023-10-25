@@ -1,109 +1,100 @@
+import type { TransactionReceipt } from 'viem'
 import type { Ethereum } from '../data/networks/types'
 
 export const normalizeViemBlock = (
 	block: Awaited<ReturnType<Ethereum.PublicClient['getBlock']>>,
 	network: Ethereum.Network,
-): Ethereum.Block | 'pending' => (
-	'nonce' in block && block.nonce
-		? {
-			network,
+): Ethereum.Block => ({
+	network,
+	blockNumber: Number(block.number),
+	finalityStatus: 'hash' in block && block.hash ? 'finalized' : 'pending',
 
-			blockNumber: Number(block.number),
-			hash: block.hash!,
-			// blockHash
-			parentHash: block.parentHash ?? undefined,
-			// parentBlockHash
-			timestamp: Number(block.timestamp),
-			nonce: block.nonce,
+	blockHash: block.hash ?? undefined,
+	parentBlockHash: block.parentHash,
+	timestamp: Number(block.timestamp) * 1000,
+	nonce: block.nonce ? block.nonce : undefined,
 
-			difficulty: block.difficulty,
-			totalDifficulty: block.totalDifficulty ?? undefined,
+	difficulty: block.difficulty,
+	totalDifficulty: block.totalDifficulty ?? undefined,
 
-			gasLimit: block.gasLimit,
-			gasUsed: block.gasUsed,
+	gasLimit: block.gasLimit,
+	gasUsed: block.gasUsed,
 
-			minerAddress: block.miner,
-			extraData: block.extraData,
-			baseFeePerGas: block.baseFeePerGas ?? undefined,
+	minerAddress: block.miner,
+	extraData: block.extraData,
+	baseFeePerGas: block.baseFeePerGas ?? undefined,
 
-			...(((transactions: typeof block['transactions']): transactions is `0x${string}`[] => typeof transactions[0] === 'string')(block.transactions) ? {
-				transactionIds: block.transactions,
-			} : {
-				transactions: block.transactions.map(transaction => normalizeViemTransaction(transaction, network) as Ethereum.Transaction),
-			}),
-		}
-		: 'pending'
-)
+	...(((transactions: typeof block['transactions']): transactions is `0x${string}`[] => typeof transactions[0] === 'string')(block.transactions) ? {
+		transactionIds: block.transactions,
+	} : {
+		transactions: block.transactions.map(transaction => normalizeViemTransaction(transaction, network) as Ethereum.Transaction),
+	}),
+})
 
 export const normalizeViemTransaction = (
-	transaction: Awaited<ReturnType<Ethereum.PublicClient['getTransaction']>> | Exclude<Awaited<ReturnType<Ethereum.PublicClient['getBlock']>>, `0x${string}`[]>,
+	transaction: (
+		| Awaited<ReturnType<Ethereum.PublicClient['getTransaction']>>
+		| Awaited<ReturnType<Ethereum.PublicClient['getTransactionReceipt']>>
+		| Exclude<Awaited<ReturnType<Ethereum.PublicClient['getBlock']>>['transactions'][number], `0x${string}`>
+	),
 	network: Ethereum.Network,
-): Ethereum.Transaction | 'pending' => (
-	'blockNumber' in transaction
-		? {
-			network,
+): Ethereum.Transaction => ({
+	network,
+	transactionId: 'hash' in transaction ? transaction.hash : transaction.transactionHash,
 
-			transactionID: transaction.hash as Ethereum.TransactionID,
-			nonce: transaction.nonce,
-			transactionIndex: transaction.transactionIndex ?? undefined,
-			blockNumber: Number(transaction.blockNumber) as Ethereum.BlockNumber,
-			blockHash: transaction.blockHash as Ethereum.BlockHash,
-			// date: transaction.,
+	...('status' in transaction && {
+		executionStatus: ({
+			'success': 'successful',
+			'reverted': 'failed',
+		} as const)[transaction.status],
+	}),
+	finalityStatus: transaction.blockNumber !== null ? 'finalized' : 'pending',
 
-			// isSuccessful: transaction.status != '0',
+	blockNumber: transaction.blockNumber !== null ? Number(transaction.blockNumber) : undefined,
+	blockHash: transaction.blockHash !== null ? transaction.blockHash : undefined,
+	...('timestamp' in transaction && {
+		blockTimestamp: Number(transaction.timestamp),
+	}),
 
-			fromAddress: transaction.from as Ethereum.Address,
-			toAddress: transaction.to as Ethereum.Address,
+	transactionIndex: transaction.transactionIndex !== null ? transaction.transactionIndex : undefined,
 
-			value: transaction.value,
+	...('nonce' in transaction && {
+		nonce: transaction.nonce,
+	}),
 
-			gasToken: network.nativeCurrency,
-			gasOffered: transaction.gas,
-			gasSpent: transaction.gas,
-			gasRate: transaction.gasPrice,
-			gasValue: transaction.gasPrice && transaction.gas && transaction.gasPrice * transaction.gas,
+	fromAddress: transaction.from as Ethereum.Address,
+	toAddress: transaction.to as Ethereum.Address,
 
-			...('accessList' in transaction ? {
-				accessList: transaction.accessList,
-			} : {}),
-		}
-		: 'pending'
-)
+	value: 'value' in transaction ? transaction.value : 0n,
+
+	gasToken: network.nativeCurrency,
+	...('gas' in transaction && {
+		gasUnitsOffered: transaction.gas,
+		gasUnitsSpent: transaction.gas,
+		gasUnitRate: transaction.gasPrice,
+		gasValue: transaction.gasPrice && transaction.gas && transaction.gasPrice * transaction.gas,
+	}),
+
+	...('accessList' in transaction ? {
+		accessList: transaction.accessList,
+	} : {}),
+
+	...('logs' in transaction && {
+		logEvents: transaction.logs.map(normalizeViemLogEvent)
+	}),
+})
 		
-// logEvents: transaction?.map(({
-// 	address,
-// 	blockHash,
-// 	blockNumber,
-// 	data,
-// 	decoded,
-// 	logIndex,
-// 	topics,
-// 	transactionHash,
-// 	transactionIndex
-// } : {
-// 	address: string,
-// 	blockHash: string,
-// 	blockNumber: number,
-// 	data: string,
-// 	decoded: Ethereum.TransactionLogEventDecoded,
-// 	logIndex: number,
-// 	topics: string[],
-// 	transactionHash: string,
-// 	transactionIndex: number
-// }) => ({
-// 	indexInTransaction: logIndex,
-// 	transactionHash,
+export const normalizeViemLogEvent = (logEvent: TransactionReceipt['logs'][number]): Ethereum.TransactionLogEvent => ({
+	topics: logEvent.topics,
+	data: logEvent.data,
 
-// 	indexInBlock: transactionIndex,
-// 	blockNumber,
-// 	blockHash,
+	contract: {
+		address: logEvent.address,
+	},
 
-// 	topics,
-// 	data,
+	transactionHash: logEvent.transactionHash ?? undefined,
 
-// 	contract: {
-// 		address
-// 	},
-
-// 	decoded
-// } as Ethereum.TransactionLogEvent)),
+	indexInBlock: logEvent.transactionIndex ?? undefined,
+	blockNumber: logEvent.blockNumber !== null ? Number(logEvent.blockNumber) : undefined,
+	blockHash: logEvent.blockHash ?? undefined,
+})

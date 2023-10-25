@@ -1,6 +1,7 @@
 import { Sdk, randomPrivateKey, NetworkNames, Transaction as EtherspotTransaction, TransactionLog, TransactionStatuses, TransactionAssetCategories } from 'etherspot'
 import { memoized } from '../utils/memoized'
 import type { Ethereum } from '../data/networks/types'
+import type { AbiType } from 'abitype'
 
 
 const CHAIN_ID_TO_NETWORK_NAME: Record<Ethereum.ChainID, NetworkNames> = {
@@ -92,55 +93,54 @@ export const normalizeTransaction = (transaction: EtherspotTransaction, network:
 	nonce: transaction.nonce,
 	transactionIndex: transaction.transactionIndex,
 	blockNumber: transaction.blockNumber,
-	blockHash: transaction.blockHash,
-	date: transaction.timestamp,
+	blockHash: transaction.blockHash as Ethereum.BlockHash,
+	blockTimestamp: transaction.timestamp,
 
 	isSuccessful: transaction.status === TransactionStatuses.Completed,
 
-	fromAddress: transaction.from,
-	toAddress: transaction.to,
+	fromAddress: transaction.from as Ethereum.Address,
+	toAddress: transaction.to as Ethereum.Address,
 
-	value: Number(transaction.value) * 0.1 ** network.nativeCurrency.decimals,
+	value: BigInt(transaction.value),
 	
 	gasToken: network.nativeCurrency,
 	gasOffered: transaction.gasLimit,
 	gasSpent: transaction.gasUsed * 0.1 ** network.nativeCurrency.decimals,
 	gasRate: transaction.gasPrice,
-	gasValue: Number(transaction.gasPrice) * Number(transaction.gasUsed) * 0.1 ** network.nativeCurrency.decimals,
+	gasValue: BigInt(transaction.gasPrice * transaction.gasUsed),
 	
 	logEvents: transaction.logs.map(normalizeLogEvent),
-	
-	// Etherspot
 
-	cumulativeGasSpent: transaction.cumulativeGasUsed,
-	// transaction.logsBloom
-
-	inputData: transaction.input,
+	input: transaction.input as Ethereum.TransactionInput,
 
 	transferredToken: transaction.asset?.category === TransactionAssetCategories.Token ? {
 		name: transaction.asset.name,
 		decimals: transaction.asset.decimal,
-		address: transaction.asset.contract,
+		address: transaction.asset.contract as Ethereum.ContractAddress,
 	} : undefined
 })
 
 
 export const normalizeLogEvent = (logEvent: TransactionLog): Ethereum.TransactionLogEvent => ({
-	indexInTransaction: logEvent.logIndex,
-	transactionHash: logEvent.transactionHash,
 
-	indexInBlock: logEvent.transactionIndex,
-	blockNumber: logEvent.blockNumber,
-	blockHash: logEvent.blockHash,
-
-	topics: logEvent.topics,
+	topics: logEvent.topics as Ethereum.TopicHash[],
 	data: logEvent.data,
 
 	contract: {
-		address: logEvent.address,
+		address: logEvent.address as Ethereum.ContractAddress,
 	},
 
-	decoded: logEvent.decoded,
+	...logEvent.decoded && {
+		decoded: {
+			name: logEvent.decoded.name,
+			signature: logEvent.decoded.signature,
+			params: logEvent.decoded.params.map(param => ({
+				name: param.name,
+				type: param.type as AbiType,
+				value: param.value
+			})),
+		},
+	},
 })
 
 

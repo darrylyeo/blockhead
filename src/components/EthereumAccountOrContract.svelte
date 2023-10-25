@@ -276,7 +276,7 @@
 						<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
 							{#each transactions as transaction}
 								{#if transactionProvider === TransactionProvider.Covalent}
-									<a class="card" id={transaction.tx_hash} href="#{transaction.tx_hash}">
+									<a class="card" id={transaction.transactionId} href="#{transaction.transactionId}">
 										<EthereumTransactionCovalent
 											{network}
 											{transaction}
@@ -290,7 +290,7 @@
 									</a>
 
 								{:else}
-									<a class="card" id={transaction.transactionID} href="#{transaction.transactionID}">
+									<a class="card" id={transaction.transactionId} href="#{transaction.transactionId}">
 										<EthereumTransaction
 											{network}
 											{transaction}

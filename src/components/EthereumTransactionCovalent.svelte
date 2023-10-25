@@ -1,13 +1,13 @@
 <script lang="ts">
 	// Types/constants
 	import type { Ethereum } from '../data/networks/types'
-	import type { TransactionWithConversions, TransactionWithERC20Transfers } from '../api/covalent'
+	import type { Transaction as CovalentTransaction } from '../api/covalent'
 	import type { QuoteCurrency } from '../data/currencies'
 
 
 	// Inputs
 	export let network: Ethereum.Network
-	export let transaction: TransactionWithConversions | TransactionWithERC20Transfers
+	export let transaction: CovalentTransaction
 	export let quoteCurrency: QuoteCurrency
 
 	// (View options)
@@ -30,7 +30,7 @@
 	$: contextIsSender = contextualAddress && transaction.fromAddress && contextualAddress.toLowerCase() === transaction.fromAddress.toLowerCase()
 	$: contextIsReceiver = contextualAddress && transaction.toAddress && contextualAddress.toLowerCase() === transaction.toAddress.toLowerCase()
 
-	$: isContractCall = transaction.value == 0 && transaction.logEvents?.length
+	$: isContractCall = transaction.value === 0n && transaction.logEvents?.length
 
 
 	// let logEventIsHidden = {}
@@ -141,12 +141,12 @@
 
 
 {#if network && transaction}
-	<div class="transaction layout-{layout} column" class:card={isStandaloneLayout} class:unsuccessful={!transaction.isSuccessful}><!-- transition:fade -->
+	<div class="transaction layout-{layout} column" class:card={isStandaloneLayout} class:unsuccessful={transaction.executionStatus === 'failed'}><!-- transition:fade -->
 		{#if transaction.nonce}{transaction.nonce}{/if}
 
 		{#if isStandaloneLayout}
 			<div class="bar">
-				<h2><TransactionId network={transaction.network} transactionId={transaction.transactionID} /></h2>
+				<h2><TransactionId network={transaction.network} transactionId={transaction.transactionId} /></h2>
 				<span class="card-annotation">{transaction.network.name} Transaction</span>
 			</div>
 
@@ -158,14 +158,14 @@
 			</div>
 		{/if}
 
-		{#if !(isSummary && transaction.transfers?.length && transaction.value == 0)}
+		{#if !(isSummary && transaction.erc20Transfers?.length && transaction.value === 0n)}
 			<div class="container inner-layout-{innerLayout}" class:card={isStandaloneLayout}>
 				{#if !(isSummary && (contextIsSender || contextIsReceiver))}
 					<span class="sender" class:mark={contextIsSender}><!-- transition:fade -->
 						<AddressWithLabel
 							network={transaction.network}
 							address={transaction.fromAddress}
-							label={transaction.fromAddressLabel}
+							label={transaction.labels?.fromAddress}
 							format="middle-truncated"
 							alwaysShowAddress={isExhaustive}
 						/>
@@ -173,25 +173,25 @@
 				{/if}
 				{#if isContractCall && !isExhaustive}
 					<span class="action">
-						{transaction.isSuccessful ? 'called smart contract' : 'failed to call smart contract'}
+						{transaction.executionStatus === 'successful' ? 'called smart contract' : 'failed to call smart contract'}
 					</span>
 				{:else if transaction.value}
 					<span>
 						<span class="action">
 							{isSummary && contextIsReceiver
-								? transaction.isSuccessful ? 'received' : 'failed to receive'
-								: transaction.isSuccessful ? 'sent' : 'failed to send'}
+								? transaction.executionStatus === 'successful' ? 'received' : 'failed to receive'
+								: transaction.executionStatus === 'successful' ? 'sent' : 'failed to send'}
 						</span>
 						<TokenBalanceWithConversion
 							{tokenBalanceFormat}
 							showDecimalPlaces={isExhaustive ? 9 : 6}
 
 							network={transaction.network}
-							erc20Token={transaction.gasToken || transaction.transferredToken}
+							erc20Token={transaction.network.nativeCurrency}
 
-							balance={Number(transaction.value)}
-							conversionCurrency={transaction.quoteCurrency} 
-							convertedValue={transaction.convertedValue}
+							balance={Number(transaction.value) * 0.1 ** transaction.network.nativeCurrency.decimals}
+							conversionCurrency={transaction.conversion?.quoteCurrency} 
+							convertedValue={transaction.conversion?.value}
 						/>
 					</span>
 				{/if}
@@ -201,7 +201,7 @@
 						<AddressWithLabel
 							network={transaction.network}
 							address={transaction.fromAddress}
-							label={transaction.fromAddressLabel}
+							label={transaction.labels?.fromAddress}
 							format="middle-truncated"
 							alwaysShowAddress={isExhaustive}
 						/>
@@ -212,13 +212,13 @@
 						<AddressWithLabel
 							network={transaction.network}
 							address={transaction.toAddress}
-							label={transaction.toAddressLabel}
+							label={transaction.labels?.toAddress}
 							format="middle-truncated"
 							alwaysShowAddress={isExhaustive}
 						/>
 					</span>
 				{/if}
-				{#if (showFees || isExhaustive) && transaction.gasSpent !== undefined}
+				{#if (showFees || isExhaustive) && transaction.gasUnitsSpent !== undefined}
 					<span class="fee"><!-- transition:fade -->
 						<span>for fee</span>
 						<TokenBalanceWithConversion
@@ -228,14 +228,14 @@
 							network={transaction.network}
 							erc20Token={transaction.gasToken}
 
-							balance={Number(transaction.gasValue)}
-							conversionCurrency={transaction.quoteCurrency}
-							convertedValue={transaction.gasConvertedValue}
+							balance={Number(transaction.gasUnitsSpent) * 0.1 ** transaction.gasToken.decimals}
+							conversionCurrency={transaction.conversion?.quoteCurrency}
+							convertedValue={transaction.conversion?.gasUnitsSpent}
 						/>
 					</span>
 				{/if}
-				{#if isSummary && transaction.date}
-					<span class="date"><Date date={transaction.date} layout="vertical" format="relative" /></span>
+				{#if isSummary && transaction.blockTimestamp}
+					<span class="date"><Date date={transaction.blockTimestamp} layout="vertical" format="relative" /></span>
 				{/if}
 			</div>
 		{/if}
@@ -248,9 +248,9 @@
 			<div class="transfers">
 				{#each transaction.erc20Transfers as erc20Transfer}
 					<EthereumErc20TransferCovalent
-						network={transaction.network}
+						network={erc20Transfer.network}
 						{erc20Transfer}
-						quoteCurrency={transaction.quoteCurrency}
+						quoteCurrency={erc20Transfer.conversion?.quoteCurrency}
 
 						{contextualAddress}
 						{detailLevel}
@@ -303,13 +303,13 @@
 			<div class="footer bar"><!-- transition:fade -->
 				<EthereumTransactionSummary
 					network={transaction.network}
-					transactionID={transaction.transactionID}
+					transactionID={transaction.transactionId}
 					transactionIndex={transaction.transactionIndex}
 					blockNumber={transaction.blockNumber}
 					showTransactionID={isStandaloneLayout || isExhaustive}
 				/>
-				{#if transaction.date}
-					<Date date={transaction.date} layout="horizontal" />
+				{#if transaction.blockTimestamp}
+					<Date date={transaction.blockTimestamp} layout="horizontal" />
 				{/if}
 			</div>
 		{/if}

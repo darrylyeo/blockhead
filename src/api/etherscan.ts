@@ -2803,23 +2803,23 @@ export const normalizeTransaction = (
 	transaction: Awaited<ReturnType<typeof Etherscan.Accounts.getTransactions>>[number]
 ): Ethereum.Transaction => ({
 	network,
+	transactionId: transaction.hash as Ethereum.TransactionID,
 
-	transactionID: transaction.hash as Ethereum.TransactionID,
+	executionStatus: !transaction.isError ? 'successful' : 'failed', // transaction.txreceipt_status !== '0'
+	finalityStatus: Number(transaction.confirmations) > 0 ? 'finalized' : 'pending',
+
 	nonce: Number(transaction.nonce),
 	transactionIndex: Number(transaction.transactionIndex),
 	blockNumber: Number(transaction.blockNumber) as Ethereum.BlockNumber,
 	blockHash: transaction.blockHash as Ethereum.BlockHash,
-	date: Number(transaction.timeStamp) * 1000,
-
-	isSuccessful: transaction.txreceipt_status != '0',
+	blockTimestamp: Number(transaction.timeStamp) * 1000,
 
 	fromAddress: transaction.from as Ethereum.Address,
 	toAddress: transaction.to as Ethereum.Address,
 
-	value: Number(transaction.value) * 0.1 ** network.nativeCurrency.decimals,
+	value: BigInt(transaction.value),
 
 	gasToken: network.nativeCurrency,
-	gasSpent: BigInt(transaction.gasUsed),
-	gasRate: BigInt(transaction.gasPrice),
-	gasValue: (Number(transaction.gasPrice) * Number(transaction.gasUsed)) * 0.1 ** network.nativeCurrency.decimals,
+	gasUnitsSpent: BigInt(transaction.gasUsed),
+	gasUnitRate: BigInt(transaction.gasPrice),
 })

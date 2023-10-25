@@ -152,7 +152,7 @@
 		
 		<span>
 			producing hash
-			<output class="block-hash"><abbr title="Block hash: {block.hash}">{formatTransactionHash(block.hash, 'middle-truncated')}</abbr></output>
+			<output class="block-hash"><abbr title="Block hash: {block.blockHash}">{formatTransactionHash(block.blockHash, 'middle-truncated')}</abbr></output>
 		</span>
 	</div>
 
@@ -170,7 +170,7 @@
 
 		{#if Number(block.blockNumber) > 0}
 			<span>
-				<abbr title="Block {Number(block.blockNumber) - 1} hash: {block.parentHash}">hash</abbr>
+				<abbr title="Block {Number(block.blockNumber) - 1} hash: {block.parentBlockHash}">hash</abbr>
 				<!-- hash
 				<output><abbr title="Block {blockNumber - 1} hash: {block.parentHash}">{formatTransactionHash(block.parentHash, 'middle-truncated')}</abbr></output> -->
 				of previous block <BlockNumber {network} blockNumber={Number(block.blockNumber) - 1} />
@@ -221,7 +221,7 @@
 	{#if showTransactions}
 		<div class="transactions-list column" class:scrollable-list={block.transactions?.length > 7}>
 			{#if block.transactions}
-				{#each block.transactions as transaction (transaction.transactionID)}
+				{#each block.transactions as transaction (transaction.transactionId)}
 					<div class="card">
 						<EthereumTransaction
 							{network}

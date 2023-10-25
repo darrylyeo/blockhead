@@ -4,38 +4,40 @@ import type { TransactionResponse, TransactionReceipt, Log } from 'ethers'
 
 export const normalizeEthersTransaction = (transaction: TransactionResponse | TransactionReceipt, network: Ethereum.Network): Partial<Ethereum.Transaction> => ({
 	network,
+	transactionId: transaction.hash as Ethereum.TransactionID,
 
-	transactionID: transaction.hash as Ethereum.TransactionID,
+	...('status' in transaction && {
+		executionStatus: transaction.status !== 0 ? 'successful' : 'failed',
+	}),
 
-	...('nonce' in transaction && {
+	...('nonce' in transaction ? {
+		finalityStatus: 'finalized',
 		nonce: transaction.nonce,
 		transactionIndex: transaction.index,
 		blockNumber: transaction.blockNumber as Ethereum.BlockNumber,
 		blockHash: transaction.blockHash as Ethereum.BlockHash,
 		// date: transaction.timestamp,
-	}),
-
-	...('status' in transaction && {
-		isSuccessful: transaction.status !== 0,
+	} : {
+		finalityStatus: 'pending',
 	}),
 
 	fromAddress: transaction.from as Ethereum.Address,
 	toAddress: transaction.to as Ethereum.Address,
 
 	...('value' in transaction && {
-		value: Number(transaction.value) * 0.1 ** network.nativeCurrency.decimals,
+		value: transaction.value,
 	}),
 
 	gasToken: network.nativeCurrency,
 	...('gasLimit' in transaction && {
-		gasOffered: transaction.gasLimit,
+		gasUnitsOffered: transaction.gasLimit,
 	}),
 	...('gasUsed' in transaction && {
-		gasSpent: transaction.gasUsed,
+		gasUnitsSpent: transaction.gasUsed,
 	}),
-	gasRate: transaction.gasPrice,
+	gasUnitRate: transaction.gasPrice,
 	...('gasUsed' in transaction && {
-		gasValue: Number(transaction.gasPrice) * Number(transaction.gasUsed) * 0.1 ** network.nativeCurrency.decimals,
+		gasValue: transaction.gasPrice * transaction.gasUsed,
 	}),
 
 	...('logs' in transaction && transaction.logs ? {

@@ -45,11 +45,13 @@ export const chainCodeFromNetwork = (network: Ethereum.Network) =>
 export const normalizeMoralisBlock = (block: Block, network: Ethereum.Network): Ethereum.Block => ({
 	network,
 
-	hash: block.hash as Ethereum.BlockHash,
-	parentHash: block.parent_hash as Ethereum.BlockHash,
+	finalityStatus: 'block_number' in block ? 'finalized' : 'pending',
+
+	blockHash: block.hash as Ethereum.BlockHash,
+	parentBlockHash: block.parent_hash as Ethereum.BlockHash,
 	blockNumber: Number(block.number),
 	timestamp: new Date(block.timestamp).valueOf(),
-	nonce: Number(block.nonce) as Ethereum.BlockNonce,
+	nonce: block.nonce as Ethereum.BlockNonce,
 
 	difficulty: BigInt(block.difficulty),
 	totalDifficulty: BigInt(block.total_difficulty),
@@ -62,31 +64,32 @@ export const normalizeMoralisBlock = (block: Block, network: Ethereum.Network): 
 
 	transactions: block.transactions
 		.map(transaction => normalizeMoralisTransaction(transaction, network))
-		.sort((transaction1, transaction2) => transaction1.transactionIndex - transaction2.transactionIndex)
+		.sort((transaction1, transaction2) => (transaction1.transactionIndex ?? 0) - (transaction2.transactionIndex ?? 0))
 })
 
 export const normalizeMoralisTransaction = (transaction: BlockTransaction, network: Ethereum.Network): Ethereum.Transaction => ({
 	network,
+	transactionId: transaction.hash as Ethereum.TransactionID,
 
-	transactionID: transaction.hash as Ethereum.TransactionID,
+	executionStatus: transaction.receipt_status === '1' ? 'successful' : 'failed',
+	finalityStatus: 'block_number' in transaction ? 'finalized' : 'pending',
+
 	nonce: Number(transaction.nonce),
 	transactionIndex: Number(transaction.transaction_index),
 	blockNumber: Number(transaction.block_number),
 	blockHash: transaction.block_hash as Ethereum.BlockHash,
-	date: new Date(transaction.block_timestamp).valueOf(),
-
-	isSuccessful: transaction.receipt_status != '0',
+	blockTimestamp: new Date(transaction.block_timestamp).valueOf(),
 
 	fromAddress: transaction.from_address as Ethereum.Address,
 	toAddress: transaction.to_address as Ethereum.Address,
-	
+
 	input: transaction.input as Ethereum.TransactionInput,
-	value: Number(transaction.value) * 0.1 ** network.nativeCurrency.decimals,
+	value: BigInt(transaction.value),
 
 	gasToken: network.nativeCurrency,
-	gasSpent: BigInt(transaction.receipt_gas_used),
-	gasRate: BigInt(transaction.gas_price),
-	gasValue: Number(transaction.receipt_gas_used) * Number(transaction.gas_price) * 0.1 ** network.nativeCurrency.decimals,
+	gasUnitsSpent: BigInt(transaction.receipt_gas_used),
+	gasUnitRate: BigInt(transaction.gas_price),
+	gasValue: BigInt(transaction.receipt_gas_used) * BigInt(transaction.gas_price),
 
 	logEvents: transaction.logs.map(log => normalizeMoralisLog(log, network)),
 })

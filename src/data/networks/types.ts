@@ -1,7 +1,7 @@
 // import type { Branded, BrandedString } from '../../utils/branded'
 import type { Provider as EthersProvider, Block as EthersBlock } from 'ethers'
-import type { TickerSymbol } from '../currencies'
-import type { Abi as _Abi, ExtractAbiFunctionNames, ExtractAbiFunction, ExtractAbiFunctions, AbiStateMutability, AbiParametersToPrimitiveTypes, AbiParameterToPrimitiveType } from 'abitype'
+import type { QuoteCurrency, TickerSymbol } from '../currencies'
+import type { Abi as _Abi, AbiType, ExtractAbiFunctionNames, ExtractAbiFunction, ExtractAbiFunctions, AbiStateMutability, AbiParametersToPrimitiveTypes, AbiParameterToPrimitiveType } from 'abitype'
 import type { PublicClient as ViemPublicClient } from 'viem'
 import type { AbiEventParametersToPrimitiveTypes } from 'viem/dist/types/types/contract'
 
@@ -66,14 +66,13 @@ export namespace Ethereum {
 	
 	export type Block = {
 		network: Ethereum.Network,
-
 		blockNumber: BlockNumber,
-		hash: BlockHash,
-		// blockHash: BlockHash,
-		parentHash: BlockHash,
-		// parentBlockHash: BlockHash,
-		timestamp: number,
-		nonce: BlockNonce,
+		finalityStatus: 'pending' | 'finalized' | 'orphaned' | 'replaced',
+
+		blockHash?: BlockHash,
+		parentBlockHash: BlockHash,
+		timestamp?: number,
+		nonce?: BlockNonce,
 
 		difficulty: BlockDifficulty,
 		totalDifficulty?: BlockDifficulty,
@@ -163,7 +162,11 @@ export namespace Ethereum {
 
 	export type NativeCurrencyAmount = bigint
 	export type GasAmount = bigint
-	export type GasRate = bigint
+
+	export type AccessList = {
+		address: Address,
+		storageKeys: `0x${string}`[],
+	}[]
 
 	export type Abi = _Abi
 	export type AbiPart<Abi extends _Abi> = Abi[number]
@@ -193,71 +196,87 @@ export namespace Ethereum {
 		maxPriorityFeePerGas?: bigint,
 	} | {
 		isEip1559: false,
-		gasPrice?: GasRate,
+		gasPrice?: NativeCurrencyAmount,
 	}) & {
-		accessList?: {
-			address: Address,
-			storageKeys: `0x${string}`[],
-		}[],
+		accessList?: AccessList,
 	}
+
+	export type TransactionInput = `0x${string}`
 
 	export type Transaction = {
 		network: Network,
+		transactionId: TransactionID,
 
-		transactionID: TransactionID,
-		nonce?: TransactionNonce,
-		transactionIndex: TransactionIndex,
-		blockNumber: BlockNumber,
+		executionStatus?: 'failed' | 'successful',
+		finalityStatus: 'pending' | 'finalized' | 'orphaned' | 'replaced',
+
+		blockNumber?: BlockNumber,
 		blockHash?: BlockHash,
-		date: number,
+		blockTimestamp?: number,
 
-		isSuccessful: boolean,
+		transactionIndex?: TransactionIndex,
+		nonce?: TransactionNonce,
 
 		fromAddress: Address,
-		fromAddressLabel?: string,
 		toAddress: Address,
-		toAddressLabel?: string,
+		labels?: {
+			fromAddress?: string,
+			toAddress?: string,
+		},
 
-		value: number | string, // bigint
+		input?: TransactionInput,
+		value: NativeCurrencyAmount,
 
 		gasToken: NativeCurrency | ERC20Token,
-		gasOffered?: GasAmount,
-		gasSpent: GasAmount,
-		gasRate: GasRate,
-		gasValue: number | string, // bigint
+		gasUnitsOffered?: GasAmount,
+		gasUnitsSpent?: GasAmount,
+		gasUnitRate?: NativeCurrencyAmount,
+		gasValue?: NativeCurrencyAmount,
 
-		logEvents?: TransactionLogEvent[]
+		conversion?: {
+			quoteCurrency: QuoteCurrency,
+
+			value: number,
+			rate?: number,
+
+			gasUnitRate?: number,
+			gasValue?: number,
+		},
+
+		logEvents?: TransactionLogEvent[],
+
+		accessList?: AccessList,
 	}
 	export type TransactionLogEvent = {
-		indexInTransaction: number
-		transactionHash: TransactionID
-
-		indexInBlock?: number
-		blockNumber?: BlockNumber
-		blockHash?: BlockHash
-
-		topics: TopicHash[]
-		data: string
+		topics: TopicHash[],
+		data: string,
 
 		contract: Partial<Ethereum.Contract & Ethereum.ERC20Token & Ethereum.ERC721TokenContract & Ethereum.ERC1155TokenContract> & {
-			label: string
-		}
+			label?: string
+		},
 
-		removed?: boolean
+		removed?: boolean,
 
-		decoded: TransactionLogEventDecoded
+		decoded?: TransactionLogEventDecoded,
+
+		indexInTransaction?: number,
+		transactionHash?: TransactionID,
+
+		indexInBlock?: number,
+		blockNumber?: BlockNumber,
+		blockHash?: BlockHash,
 	}
 	export type TransactionLogEventDecoded = {
-		name: string
-		signature: string
-		params: ContractFunctionParameter[]
+		name: string,
+		signature: string,
+		params: ContractFunctionParameter[],
 	}
 	export type ContractFunctionParameter = {
-		name: ContractFunctionParameterName
-		type: 'address' | 'uint256' | 'bytes32'
-		indexed: boolean
-		decoded: boolean
-		value: any
+		name?: ContractFunctionParameterName,
+		type?: AbiType,
+		indexed?: boolean,
+		decoded?: boolean,
+		value: any,
 	}
 	export type ContractFunctionParameterName = string
 	export type TopicHash = `0x${string}` // BrandedString<'TopicHash'>
