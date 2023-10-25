@@ -158,8 +158,8 @@ dependencies:
     specifier: ^6.6.2
     version: 6.6.2
   etherspot:
-    specifier: ^1.43.7
-    version: 1.43.7(ethers@6.6.2)(react@18.2.0)(reflect-metadata@0.1.13)(rxjs@6.6.7)
+    specifier: ^1.44.0
+    version: 1.44.0(ethers@6.6.2)(react@18.2.0)(reflect-metadata@0.1.13)(rxjs@6.6.7)
   file-type:
     specifier: ^18.5.0
     version: 18.5.0
@@ -540,7 +540,7 @@ packages:
       '@babel/parser': 7.22.13
       '@babel/template': 7.22.5
       '@babel/traverse': 7.22.10
-      '@babel/types': 7.22.10
+      '@babel/types': 7.22.11
       convert-source-map: 1.9.0
       debug: 4.3.4(supports-color@8.1.1)
       gensync: 1.0.0-beta.2
@@ -2081,6 +2081,7 @@ packages:
       '@babel/helper-string-parser': 7.22.5
       '@babel/helper-validator-identifier': 7.22.5
       to-fast-properties: 2.0.0
+    dev: true
 
   /@babel/types@7.22.11:
     resolution: {integrity: sha512-siazHiGuZRz9aB9NpHy9GOs9xiQPKnMzgdr493iI1M67vRXpnEq8ZOOKzezC5q7zwuQ6sDhdSp4SD9ixKSqKZg==}
@@ -4802,7 +4803,7 @@ packages:
       '@types/graphql': 14.5.0
       '@types/lodash': 4.14.196
       '@types/uuid': 7.0.5
-      graphql: 15.5.3
+      graphql: 15.8.0
       lodash: 4.17.21
       typescript: 4.9.5
       uuid: 7.0.3
@@ -12517,8 +12518,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /etherspot@1.43.7(ethers@6.6.2)(react@18.2.0)(reflect-metadata@0.1.13)(rxjs@6.6.7):
-    resolution: {integrity: sha512-52lF4hqPf4CQL2/huCLRcY8gquStsji5zLt2AzlX3PR5+gq1+jch2UN90EhhcaZriPwHQ06MDaV3EkpNK+CT0w==}
+  /etherspot@1.44.0(ethers@6.6.2)(react@18.2.0)(reflect-metadata@0.1.13)(rxjs@6.6.7):
+    resolution: {integrity: sha512-QPA9SKX5i5Kf2mysLI7pXfssCNp04vZvBe20doK8ru14D0PG7y1U8+VGPb7nhvdcRputu+OomyzyCFhpitnklw==}
     peerDependencies:
       ethers: ^5.6.8
       reflect-metadata: ^0.1.13
@@ -12528,6 +12529,7 @@ packages:
       '@etherspot/contracts': 1.9.9
       '@lifi/sdk': 1.6.4
       '@nerdwallet/apollo-cache-policies': 1.2.1(@apollo/client@3.4.0)
+      '@walletconnect/universal-provider': 2.10.1
       class-transformer: 0.4.0
       class-validator: 0.14.0
       cross-fetch: 3.1.5
@@ -12538,9 +12540,11 @@ packages:
       subscriptions-transport-ws: 0.9.18(graphql@15.5.3)
       validator: 13.7.0
     transitivePeerDependencies:
+      - '@react-native-async-storage/async-storage'
       - bufferutil
       - debug
       - encoding
+      - lokijs
       - react
       - utf-8-validate
     dev: false
@@ -13321,7 +13325,6 @@ packages:
   /graphql@15.8.0:
     resolution: {integrity: sha512-5gghUc24tP9HRznNpV2+FIoq3xKkj5dTQqf4v0CpdPbFVwFkWoxOM+o+2OC9ZSvjEMTjfmG9QT+gcvggTwW1zw==}
     engines: {node: '>= 10.x'}
-    dev: true
 
   /graphql@16.7.1:
     resolution: {integrity: sha512-DRYR9tf+UGU0KOsMcKAlXeFfX89UiiIZ0dRU3mR0yJfu6OjZqUcp68NnFLnqQU5RexygFoDy1EW+ccOYcPfmHg==}

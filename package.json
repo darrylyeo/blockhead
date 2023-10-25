@@ -72,7 +72,7 @@
     "dids": "^4.0.4",
     "echarts": "^5.4.2",
     "ethers": "^6.6.2",
-    "etherspot": "^1.43.7",
+    "etherspot": "^1.44.0",
     "file-type": "^18.5.0",
     "graphql": "^16.7.1",
     "helia": "^2.0.3",
