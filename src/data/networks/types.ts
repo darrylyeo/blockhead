@@ -1,7 +1,7 @@
 // import type { Branded, BrandedString } from '../../utils/branded'
 import type { Provider as EthersProvider, Block as EthersBlock } from 'ethers'
 import type { TickerSymbol } from '../currencies'
-import type { Abi as AbiType, ExtractAbiFunctionNames, ExtractAbiFunction, ExtractAbiFunctions, AbiStateMutability, AbiParametersToPrimitiveTypes, AbiParameterToPrimitiveType } from 'abitype'
+import type { Abi as _Abi, ExtractAbiFunctionNames, ExtractAbiFunction, ExtractAbiFunctions, AbiStateMutability, AbiParametersToPrimitiveTypes, AbiParameterToPrimitiveType } from 'abitype'
 import type { PublicClient as ViemPublicClient } from 'viem'
 import type { AbiEventParametersToPrimitiveTypes } from 'viem/dist/types/types/contract'
 
@@ -165,15 +165,15 @@ export namespace Ethereum {
 	export type GasAmount = bigint
 	export type GasRate = bigint
 
-	export type Abi = AbiType
-	export type AbiPart<Abi extends AbiType> = Abi[number]
-	export type AbiMethod<Abi extends AbiType, TAbiStateMutability extends AbiStateMutability = AbiStateMutability> = ExtractAbiFunctions<Abi, TAbiStateMutability>
-	export type AbiMethodName<Abi extends AbiType> = ExtractAbiFunctionNames<Abi>
-	export type AbiMethodArgs<Abi extends AbiType, MethodName extends AbiMethodName<Abi>> = AbiParametersToPrimitiveTypes<ExtractAbiFunction<Abi, MethodName>['inputs']>
-	export type AbiMethodArg<Abi extends AbiType, MethodName extends AbiMethodName<Abi>, ArgumentIndex extends number> = AbiParameterToPrimitiveType<ExtractAbiFunction<Abi, MethodName>['inputs'][ArgumentIndex]>
+	export type Abi = _Abi
+	export type AbiPart<Abi extends _Abi> = Abi[number]
+	export type AbiMethod<Abi extends _Abi, TAbiStateMutability extends AbiStateMutability = AbiStateMutability> = ExtractAbiFunctions<Abi, TAbiStateMutability>
+	export type AbiMethodName<Abi extends _Abi> = ExtractAbiFunctionNames<Abi>
+	export type AbiMethodArgs<Abi extends _Abi, MethodName extends AbiMethodName<Abi>> = AbiParametersToPrimitiveTypes<ExtractAbiFunction<Abi, MethodName>['inputs']>
+	export type AbiMethodArg<Abi extends _Abi, MethodName extends AbiMethodName<Abi>, ArgumentIndex extends number> = AbiParameterToPrimitiveType<ExtractAbiFunction<Abi, MethodName>['inputs'][ArgumentIndex]>
 
 	export type TransactionContractCallParameters<
-		Abi extends AbiType,
+		Abi extends _Abi,
 		MethodName extends AbiMethodName<Abi>,
 		MethodArgs = AbiMethodArgs<Abi, MethodName>,
 	> = {
