@@ -28,38 +28,10 @@
 	import { createQuery, createInfiniteQuery } from '@tanstack/svelte-query'
 
 	import { type Covalent, getTransactionsByAddress, normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent'
-	import { Etherscan } from '../api/etherscan'
+	import { Etherscan, normalizeTransaction as normalizeTransactionEtherscan } from '../api/etherscan'
 	// import { getTransactions as getTransactionsEtherspot } from '../api/etherspot'
 	import { chainCodeFromNetwork, MoralisWeb3Api } from '../api/moralis/web3Api'
 	import type { TransactionCollection } from '../api/moralis/api/Api'
-
-	import { formatUnits } from 'viem'
-
-	const normalizeEtherscanTransaction = (
-		network: Ethereum.Network,
-		transaction: Awaited<ReturnType<typeof Etherscan.Accounts.getTransactions>>[number]
-	) => ({
-		network,
-
-		transactionID: transaction.hash as Ethereum.TransactionID,
-		nonce: Number(transaction.nonce),
-		transactionIndex: Number(transaction.transactionIndex),
-		blockNumber: Number(transaction.blockNumber) as Ethereum.BlockNumber,
-		blockHash: transaction.blockHash as Ethereum.BlockHash,
-		date: Number(transaction.timeStamp) * 1000,
-
-		isSuccessful: transaction.txreceipt_status != '0',
-
-		fromAddress: transaction.from as Ethereum.Address,
-		toAddress: transaction.to as Ethereum.Address,
-
-		value: formatUnits(BigInt(transaction.value), network.nativeCurrency.decimals),
-
-		gasToken: network.nativeCurrency,
-		gasSpent: BigInt(transaction.gasUsed),
-		gasRate: BigInt(transaction.gasPrice),
-		gasValue: formatUnits(BigInt(transaction.gasPrice) * BigInt(transaction.gasUsed), network.nativeCurrency.decimals),
-	} as Ethereum.Transaction)
 
 
 	// Outputs
@@ -120,7 +92,7 @@
 					})
 				)
 			}),
-			then: transactions => transactions.map(transaction => normalizeEtherscanTransaction(network, transaction)),
+			then: transactions => transactions.map(transaction => normalizeTransactionEtherscan(network, transaction)),
 		},
 
 		[TransactionProvider.Moralis]: {

@@ -2796,3 +2796,30 @@ export namespace Etherscan {
 		}[]
 	}
 }
+
+
+export const normalizeTransaction = (
+	network: Ethereum.Network,
+	transaction: Awaited<ReturnType<typeof Etherscan.Accounts.getTransactions>>[number]
+): Ethereum.Transaction => ({
+	network,
+
+	transactionID: transaction.hash as Ethereum.TransactionID,
+	nonce: Number(transaction.nonce),
+	transactionIndex: Number(transaction.transactionIndex),
+	blockNumber: Number(transaction.blockNumber) as Ethereum.BlockNumber,
+	blockHash: transaction.blockHash as Ethereum.BlockHash,
+	date: Number(transaction.timeStamp) * 1000,
+
+	isSuccessful: transaction.txreceipt_status != '0',
+
+	fromAddress: transaction.from as Ethereum.Address,
+	toAddress: transaction.to as Ethereum.Address,
+
+	value: Number(transaction.value) * 0.1 ** network.nativeCurrency.decimals,
+
+	gasToken: network.nativeCurrency,
+	gasSpent: BigInt(transaction.gasUsed),
+	gasRate: BigInt(transaction.gasPrice),
+	gasValue: (Number(transaction.gasPrice) * Number(transaction.gasUsed)) * 0.1 ** network.nativeCurrency.decimals,
+})
