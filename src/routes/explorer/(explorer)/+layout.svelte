@@ -106,7 +106,6 @@
 	// Components
 
 	import SearchInput from '../../../components/SearchInput.svelte'
-	import NetworkProviderLoader from '../../../components/NetworkProviderLoader.svelte'
 
 	import HistoricalPriceChart from '../../../components/HistoricalPriceChart.svelte'
 	import CurrentPrice from '../../../components/CurrentPrice.svelte'
@@ -215,198 +214,187 @@
 	</form>
 
 	{#if $explorerNetwork}
-		<NetworkProviderLoader
-			network={$explorerNetwork}
-			providerPromise={$explorerPublicClient && (async () => $explorerPublicClient)}
-			{networkProvider}
-			contentClass="column"
-			let:publicClient
-		>
-			{#if publicClient}
-				<div class="stack">
-					{#key $explorerParams}
-						{#if $explorerQueryType === ExplorerQueryType.Transaction}
-							<div class="column"in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
-								{#if $explorerNetwork.slug === 'filecoin'}
-									<FilecoinTransactionLoader
-										network={$explorerNetwork}
-										{networkProvider}
-										transactionCid={$explorerParams.transactionId}
+		<div class="stack">
+			{#key $explorerParams}
+				{#if $explorerQueryType === ExplorerQueryType.Transaction}
+					<div class="column"in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
+						{#if $explorerNetwork.slug === 'filecoin'}
+							<FilecoinTransactionLoader
+								network={$explorerNetwork}
+								{networkProvider}
+								transactionCid={$explorerParams.transactionId}
 
-										detailLevel="exhaustive"
-										tokenBalanceFormat="both"
-										showFees={true}
+								detailLevel="exhaustive"
+								tokenBalanceFormat="both"
+								showFees={true}
 
-										layout="standalone"
+								layout="standalone"
 
-										bind:transaction={navigationContext.transaction}
-										let:transaction
-									>
-										<FilecoinTransaction
-											network={$explorerNetwork}
-											{transaction}
-											headingLevel={2}
-										/>
-									</FilecoinTransactionLoader>
-								{:else}
-									<EthereumTransactionLoader
-										network={$explorerNetwork}
-										{networkProvider}
-										transactionId={$explorerParams.transactionId}
-
-										detailLevel="exhaustive"
-										tokenBalanceFormat="both"
-										showFees={true}
-
-										layout="standalone"
-
-										bind:transaction={navigationContext.transaction}
-									/>
-								{/if}
-							</div>
-						{:else if $explorerQueryType === ExplorerQueryType.Block}
-							<div class="column" in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
-								{#if $explorerNetwork.slug === 'filecoin'}
-									<FilecoinTipsetLoader
-										network={$explorerNetwork}
-										tipsetNumber={BigInt($explorerParams.blockNumber)}
-										let:tipset
-									>
-										<FilecoinTipset
-											network={$explorerNetwork}
-											{tipset}
-											headingLevel={2}
-										/>
-									</FilecoinTipsetLoader>
-								{:else}
-									<EthereumBlockLoader
-										network={$explorerNetwork}
-										{networkProvider}
-										blockNumber={$explorerParams.blockNumber}
-										transactionProvider={$preferences.transactionProvider}
-
-										bind:block={navigationContext.block}
-									/>
-								{/if}
-							</div>
-						{:else if $explorerQueryType === ExplorerQueryType.Account}
-							<div class="column" in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
-								{#if $explorerNetwork.slug === 'filecoin'}
-									<FilecoinAccountLoader
-										network={$explorerNetwork}
-										address={$explorerParams.address}
-										let:account
-									>
-									{account}
-										<FilecoinAccount
-											network={$explorerNetwork}
-											{account}
-											headingLevel={2}
-										/>
-									</FilecoinAccountLoader>
-								{:else}
-									<EthereumAccountOrContract
-										network={$explorerNetwork}
-										{networkProvider}
-										accountId={$explorerParams.address || $explorerParams.ensName}
-									/>
-								{/if}
-							</div>
+								bind:transaction={navigationContext.transaction}
+								let:transaction
+							>
+								<FilecoinTransaction
+									network={$explorerNetwork}
+									{transaction}
+									headingLevel={2}
+								/>
+							</FilecoinTransactionLoader>
 						{:else}
-							<div class="column-block" in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
-								<div class="row">
-									{#if showCurrentBlockHeight}
-										<section class="card">
-											<EthereumBlockHeight
-												network={$explorerNetwork}
-												blockNumber={$explorerBlockNumber}
-											/>
-										</section>
-									{/if}
+							<EthereumTransactionLoader
+								network={$explorerNetwork}
+								{networkProvider}
+								transactionId={$explorerParams.transactionId}
 
-									{#if showCurrentPrice}
-										<section class="card">
-											<CurrentPrice
-												{networkProvider}
-												currentPriceProvider={$preferences.currentPriceProvider}
-												token={$explorerNetwork.nativeCurrency.symbol}
-												quoteCurrency={$preferences.quoteCurrency}
-												blockNumber={$explorerBlockNumber}
-											/>
-										</section>
-									{/if}
-								</div>
+								detailLevel="exhaustive"
+								tokenBalanceFormat="both"
+								showFees={true}
 
-								{#if showHistoricalPrice}
-									<div class="row">
-										<section class="card">
-											<HistoricalPriceChart
-												historicalPriceProvider={$preferences.historicalPriceProvider}
-												currencies={[$explorerNetwork.nativeCurrency.symbol]}
-												quoteCurrency={$preferences.quoteCurrency}
-											/>
-										</section>
-									</div>
-								{/if}
-							</div>
+								layout="standalone"
+
+								bind:transaction={navigationContext.transaction}
+							/>
 						{/if}
-					{/key}
-				</div>
+					</div>
+				{:else if $explorerQueryType === ExplorerQueryType.Block}
+					<div class="column" in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
+						{#if $explorerNetwork.slug === 'filecoin'}
+							<FilecoinTipsetLoader
+								network={$explorerNetwork}
+								tipsetNumber={BigInt($explorerParams.blockNumber)}
+								let:tipset
+							>
+								<FilecoinTipset
+									network={$explorerNetwork}
+									{tipset}
+									headingLevel={2}
+								/>
+							</FilecoinTipsetLoader>
+						{:else}
+							<EthereumBlockLoader
+								network={$explorerNetwork}
+								{networkProvider}
+								blockNumber={$explorerParams.blockNumber}
+								transactionProvider={$preferences.transactionProvider}
 
-				<div class="navigation currentNetwork column">
-					<EthereumBlockNavigation
-						network={$explorerNetwork}
-						{networkProvider}
-						blockNumber={
-							$explorerQueryType === 'block' ?
-								Number($blockNumber)
-							: $explorerQueryType === 'transaction' ?
-								navigationContext.transactionBlockNumber
-							:
-								undefined
-						}
-						showBeforeAndAfter={$explorerQueryType === 'block'}
-					/>
-				</div>
-				
-				{@const transactionProvider = $preferences.transactionProvider}
-				{#if $explorerQueryType === 'block' && availableNetworks && transactionProvider === TransactionProvider.Moralis && navigationContext.block?.timestamp}
-					{@const network = $explorerNetwork}
-					{@const otherNetworks = availableNetworks.filter(_network => _network !== network)}
-				
-					<Loader
-						loadingIconName={'Moralis'}
-						loadingIcon={transactionProviderIcons[transactionProvider]}
-						fromStore={otherNetworks && navigationContext.block?.timestamp && (() =>
-							// <Awaited<ReturnType<typeof MoralisWeb3Api.dateToBlock.getDateToBlock>>[]>
-							parallelLoaderStore(otherNetworks, network => (
-								MoralisWeb3Api.dateToBlock.getDateToBlock({
-									chain: chainCodeFromNetwork(network),
-									date: navigationContext.block.timestamp
-								})
-							))
-						)}
-						then={closestBlockByNetwork => [...closestBlockByNetwork?.entries()].filter(([network, { block: blockNumber }]) => blockNumber > 0) ?? []}
-						let:result={networksAndClosestBlock}
-						clip={false}
-					>
-						<svelte:fragment slot="loadingMessage">
-							Finding blocks produced around the same time as {network.name} › Block {navigationContext.block.blockNumber}...
-						</svelte:fragment>
-				
-						{#if networksAndClosestBlock?.length}
-							<div class="navigation otherNetworks column">
-								{#each networksAndClosestBlock as [network, {block: blockNumber, timestamp}]}
-									<EthereumBlockNavigation
-										{network}
-										blockNumber={blockNumber > 1 ? Number(blockNumber) : undefined}
+								bind:block={navigationContext.block}
+							/>
+						{/if}
+					</div>
+				{:else if $explorerQueryType === ExplorerQueryType.Account}
+					<div class="column" in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
+						{#if $explorerNetwork.slug === 'filecoin'}
+							<FilecoinAccountLoader
+								network={$explorerNetwork}
+								address={$explorerParams.address}
+								let:account
+							>
+								<FilecoinAccount
+									network={$explorerNetwork}
+									{account}
+									headingLevel={2}
+								/>
+							</FilecoinAccountLoader>
+						{:else}
+							<EthereumAccountOrContract
+								network={$explorerNetwork}
+								{networkProvider}
+								accountId={$explorerParams.address || $explorerParams.ensName}
+							/>
+						{/if}
+					</div>
+				{:else}
+					<div class="column-block" in:fly={{ x: 50, duration: 200 }} out:fly={{ x: -50, duration: 200 }}>
+						<div class="row">
+							{#if showCurrentBlockHeight}
+								<section class="card">
+									<EthereumBlockHeight
+										network={$explorerNetwork}
+										blockNumber={$explorerBlockNumber}
 									/>
-								{/each}
+								</section>
+							{/if}
+
+							{#if showCurrentPrice}
+								<section class="card">
+									<CurrentPrice
+										{networkProvider}
+										currentPriceProvider={$preferences.currentPriceProvider}
+										token={$explorerNetwork.nativeCurrency.symbol}
+										quoteCurrency={$preferences.quoteCurrency}
+										blockNumber={$explorerBlockNumber}
+									/>
+								</section>
+							{/if}
+						</div>
+
+						{#if showHistoricalPrice}
+							<div class="row">
+								<section class="card">
+									<HistoricalPriceChart
+										historicalPriceProvider={$preferences.historicalPriceProvider}
+										currencies={[$explorerNetwork.nativeCurrency.symbol]}
+										quoteCurrency={$preferences.quoteCurrency}
+									/>
+								</section>
 							</div>
 						{/if}
-					</Loader>
+					</div>
 				{/if}
-			{/if}
-		</NetworkProviderLoader>
+			{/key}
+		</div>
+
+		<div class="navigation currentNetwork column">
+			<EthereumBlockNavigation
+				network={$explorerNetwork}
+				{networkProvider}
+				blockNumber={
+					$explorerQueryType === 'block' ?
+						Number($blockNumber)
+					: $explorerQueryType === 'transaction' ?
+						navigationContext.transactionBlockNumber
+					:
+						undefined
+				}
+				showBeforeAndAfter={$explorerQueryType === 'block'}
+			/>
+		</div>
+		
+		{@const transactionProvider = $preferences.transactionProvider}
+		{#if $explorerQueryType === 'block' && availableNetworks && transactionProvider === TransactionProvider.Moralis && navigationContext.block?.timestamp}
+			{@const network = $explorerNetwork}
+			{@const otherNetworks = availableNetworks.filter(_network => _network !== network)}
+		
+			<Loader
+				loadingIconName={'Moralis'}
+				loadingIcon={transactionProviderIcons[transactionProvider]}
+				fromStore={otherNetworks && navigationContext.block?.timestamp && (() =>
+					// <Awaited<ReturnType<typeof MoralisWeb3Api.dateToBlock.getDateToBlock>>[]>
+					parallelLoaderStore(otherNetworks, network => (
+						MoralisWeb3Api.dateToBlock.getDateToBlock({
+							chain: chainCodeFromNetwork(network),
+							date: navigationContext.block.timestamp
+						})
+					))
+				)}
+				then={closestBlockByNetwork => [...closestBlockByNetwork?.entries()].filter(([network, { block: blockNumber }]) => blockNumber > 0) ?? []}
+				let:result={networksAndClosestBlock}
+				clip={false}
+			>
+				<svelte:fragment slot="loadingMessage">
+					Finding blocks produced around the same time as {network.name} › Block {navigationContext.block.blockNumber}...
+				</svelte:fragment>
+		
+				{#if networksAndClosestBlock?.length}
+					<div class="navigation otherNetworks column">
+						{#each networksAndClosestBlock as [network, {block: blockNumber, timestamp}]}
+							<EthereumBlockNavigation
+								{network}
+								blockNumber={blockNumber > 1 ? Number(blockNumber) : undefined}
+							/>
+						{/each}
+					</div>
+				{/if}
+			</Loader>
+		{/if}
 	{/if}
 </section>
