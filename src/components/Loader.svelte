@@ -368,7 +368,7 @@
 				</slot>
 			</svelte:fragment>
 
-			{#if status === LoadingStatus.Resolved || (fromStore && status === LoadingStatus.Loading && result)}
+			{#if status === LoadingStatus.Resolved || status === LoadingStatus.Reloading || (fromStore && status === LoadingStatus.Loading && result)}
 				<div class={contentClass} transition:fade|global>
 					<slot
 						{result}
@@ -460,7 +460,7 @@
 				{isOpen}
 				{clip}
 			>
-				{#if status === LoadingStatus.Resolved || (fromStore && status === LoadingStatus.Loading && result)}
+				{#if status === LoadingStatus.Resolved || status === LoadingStatus.Reloading || (fromStore && status === LoadingStatus.Loading && result)}
 					<div class={contentClass} transition:fade|global>
 						<slot
 							{result}
