@@ -489,7 +489,8 @@
 						chainID: network.chainId,
 						quoteCurrency: quoteCurrency
 					})
-				)
+				),
+				staleTime: 10 * 1000,
 			})
 		)}
 		then={result => (
@@ -542,7 +543,8 @@
 						address,
 						network.chainId
 					)
-				}
+				},
+				staleTime: 10 * 1000,
 			})
 		)}
 		then={normalizeLiqualityNftsAndContracts}
@@ -598,7 +600,8 @@
 						})
 					])
 					//
-				}
+				},
+				staleTime: 10 * 1000,
 			})
 		)}
 		then={([nftsResponse, nftContractsResponse]) => (

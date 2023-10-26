@@ -581,7 +581,8 @@
 						publicClient,
 						address,
 					})
-				)
+				),
+				staleTime: 10 * 1000,
 			})}
 			bind:result={zerionDefiBalances}
 			let:result={defiBalances}

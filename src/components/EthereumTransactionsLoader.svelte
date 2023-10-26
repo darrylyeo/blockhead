@@ -78,7 +78,8 @@
 					return result
 				},
 				getPreviousPageParam: (firstPage, allPages) => firstPage.pagination?.page_number > 0 ? firstPage.pagination.page_number - 1 : undefined,
-				getNextPageParam: (lastPage, allPages) => lastPage.pagination?.has_more ? lastPage.pagination.page_number + 1 : undefined
+				getNextPageParam: (lastPage, allPages) => lastPage.pagination?.has_more ? lastPage.pagination.page_number + 1 : undefined,
+				staleTime: 10 * 1000,
 			}),
 			then: result => (
 				(result?.pages?.flatMap(page => page.items) ?? [])
@@ -98,7 +99,8 @@
 						chainId: network.chainId,
 						address,
 					})
-				)
+				),
+				staleTime: 10 * 1000,
 			}),
 			then: transactions => transactions.map(transaction => normalizeTransactionEtherscan(network, transaction)),
 		},
@@ -157,7 +159,8 @@
 				getNextPageParam: (lastPage, allPages) => {
 					const offset = (lastPage.page + 1) * lastPage.page_size
 					return offset < lastPage.total ? { offset, limit: lastPage.page_size } : undefined
-				}
+				},
+				staleTime: 10 * 1000,
 			}),
 			then: result => result?.pages?.flatMap(page => page.result) ?? [],
 		},

@@ -30,7 +30,7 @@
 		defaultOptions: {
 			queries: {
 				keepPreviousData: true,
-				// staleTime: Infinity,
+				staleTime: 60 * 60 * 1000,
 				cacheTime: Infinity,
 				enabled: browser,
 			},

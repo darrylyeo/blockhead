@@ -166,7 +166,8 @@
 							token: network.nativeCurrency,
 							balance,
 						}]
-					}
+					},
+					staleTime: 10 * 1000,
 				})
 			),
 		},
@@ -282,7 +283,8 @@
 							chainID: network.chainId,
 							quoteCurrency
 						})
-					)
+					),
+					staleTime: 10 * 1000,
 				})
 			),
 			then: result => (
@@ -310,7 +312,8 @@
 							address,
 							network.chainId
 						)
-					}
+					},
+					staleTime: 10 * 1000,
 				})
 			),
 			then: assets => (
@@ -387,6 +390,7 @@
 							throw new Error(e?.error?.message ?? e?.error ?? e)
 						}
 					},
+					staleTime: 10 * 1000,
 				})
 			)},
 
@@ -403,7 +407,8 @@
 							network,
 							address
 						})
-					)
+					),
+					staleTime: 10 * 1000,
 				})
 			),
 			then: ({ products }) => (
@@ -425,6 +430,7 @@
 							address
 						})
 					),
+					staleTime: 10 * 1000,
 				})
 			),
 			then: tokenWithBalance => (
