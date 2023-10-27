@@ -322,7 +322,7 @@
 		<Collapsible
 			type={collapsibleType}
 			{containerClass}
-			class="loader stack"
+			class="loader stack status-{status}"
 			{isOpen}
 			{clip}
 			let:isOpen let:toggle
@@ -456,7 +456,7 @@
 		{:else if layout === 'default'}
 			<SizeContainer
 				{containerClass}
-				class="loader stack"
+				class="loader stack status-{status}"
 				{isOpen}
 				{clip}
 			>
@@ -582,6 +582,14 @@
 <style>
 	.loader:empty {
 		display: none;
+	}
+	:global(.loader.status-reloading) {
+		animation: Reloading 0.75s infinite;
+	}
+	@keyframes Reloading {
+		50% {
+			opacity: 0.85;
+		}
 	}
 
 
