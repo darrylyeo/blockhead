@@ -86,6 +86,9 @@
 		grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
 		grid-auto-flow: row dense;
 	}
+	.nft-contract {
+		position: relative;
+	}
 	.nft-contract:not(.is-single) {
 		grid-column: 1 / -1;
 	}
