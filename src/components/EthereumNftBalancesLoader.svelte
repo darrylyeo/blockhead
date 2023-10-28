@@ -49,6 +49,19 @@
 		}
 		: undefined
 
+	type SharedSlotProps = {
+		nftContractsWithBalances: typeof nftContractsWithBalances,
+	}
+
+	type $$Slots = {
+		'default': SharedSlotProps,
+		'header': SharedSlotProps & {
+			summary: typeof summary,
+			loadingMessage: typeof loadingMessage,
+			errorMessage: typeof errorMessage,
+		},
+	}
+
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
