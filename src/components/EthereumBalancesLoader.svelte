@@ -173,96 +173,105 @@
 		},
 
 		[TokenBalancesProvider.Airstack]: {
-			fromStore: address && network && (() => {
-				if(!(network.chainId in airstackNetworkNames))
-					throw new Error(`Airstack doesn't yet support ${network.name}.`)
+			fromQuery: address && network && (
+				createQuery({
+					queryKey: ['Balances', {
+						tokenBalancesProvider,
+						networkProvider,
+						address,
+						chainID: network.chainId,
+					}],
+					queryFn: async () => {
+						if(!(network.chainId in airstackNetworkNames))
+							throw new Error(`Airstack doesn't yet support ${network.name}.`)
 
-				return queryStore({
-					client: getClient(),
-					query: gql`
-						query TokenBalances(
-							$address: Identity!, 
-							$blockchain: TokenBlockchain!, 
-							$limit: Int!, 
-							$cursor: String!
-						) {
-							TokenBalances(
-								input: {
-									filter: {
-										owner: {_in: [$address]},
-										tokenType: { _in: [ERC20] }
-									},
-									blockchain: $blockchain,
-									limit: $limit,
-									cursor: $cursor
-								}
+						return await getClient().query(gql`
+							query TokenBalances(
+								$address: Identity!, 
+								$blockchain: TokenBlockchain!, 
+								$limit: Int!, 
+								$cursor: String!
 							) {
-								TokenBalance {
-									tokenAddress
-									amount
-									tokenType
-									blockchain
-									chainId
-									formattedAmount
-									id
-									lastUpdatedBlock
-									lastUpdatedTimestamp
-									token {
-										address
-										baseURI
-										chainId
+								TokenBalances(
+									input: {
+										filter: {
+											owner: {_in: [$address]},
+											tokenType: { _in: [ERC20] }
+										},
+										blockchain: $blockchain,
+										limit: $limit,
+										cursor: $cursor
+									}
+								) {
+									TokenBalance {
+										tokenAddress
+										amount
+										tokenType
 										blockchain
-										contractMetaData {
-											description
-											externalLink
-											feeRecipient
-											image
-											name
-											sellerFeeBasisPoints
-										}
-										contractMetaDataURI
-										decimals
+										chainId
+										formattedAmount
 										id
-										lastTransferBlock
-										lastTransferHash
-										lastTransferTimestamp
-										logo {
-											external
-											large
-											medium
-											original
-											small
+										lastUpdatedBlock
+										lastUpdatedTimestamp
+										token {
+											address
+											baseURI
+											chainId
+											blockchain
+											contractMetaData {
+												description
+												externalLink
+												feeRecipient
+												image
+												name
+												sellerFeeBasisPoints
+											}
+											contractMetaDataURI
+											decimals
+											id
+											lastTransferBlock
+											lastTransferHash
+											lastTransferTimestamp
+											logo {
+												external
+												large
+												medium
+												original
+												small
+											}
+											name
+											projectDetails {
+												collectionName
+												description
+												discordUrl
+												externalUrl
+												twitterUrl
+											}
+											rawContractMetaData
+											symbol
+											tokenTraits
+											totalSupply
+											type
 										}
-										name
-										projectDetails {
-											collectionName
-											description
-											discordUrl
-											externalUrl
-											twitterUrl
-										}
-										rawContractMetaData
-										symbol
-										tokenTraits
-										totalSupply
-										type
+									}
+									pageInfo {
+										nextCursor
+										prevCursor
 									}
 								}
-								pageInfo {
-									nextCursor
-									prevCursor
-								}
 							}
-						}
-					`,
-					variables: {
-						address,
-						blockchain: airstackNetworkNames[network.chainId],
-						limit: 50,
-						cursor: '',
+						`, {
+							address,
+							blockchain: airstackNetworkNames[network.chainId],
+							limit: 50,
+							cursor: '',
+						})
+							.toPromise()
+							.then(result => result.data)
 					},
+					staleTime: 10 * 1000,
 				})
-			}),
+			),
 			then: data => (
 				(data.TokenBalances.TokenBalance ?? []).map(normalizeAirstackTokenBalance)
 			),

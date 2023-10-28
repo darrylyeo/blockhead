@@ -9,7 +9,7 @@ export const getClient = () => client ||= (
 	new Client({
 		url: 'https://api.airstack.xyz/gql',
 		exchanges: [
-			cacheExchange,
+			// cacheExchange,
 			fetchExchange,
 		],
 		fetchOptions: () => ({

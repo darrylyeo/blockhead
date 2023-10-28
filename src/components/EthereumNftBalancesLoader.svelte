@@ -290,7 +290,7 @@
 
 
 	import { createQuery } from '@tanstack/svelte-query'
-	import { queryStore, gql } from '@urql/svelte';
+	import { gql } from '@urql/svelte'
 
 	import { airstackNetworkNames, getClient } from '../api/airstack'
 
@@ -308,146 +308,156 @@
 	{errorMessage}
 	{...{
 		[NftProvider.Airstack]: {
-			fromStore: () => {
-				if(!(network.chainId in airstackNetworkNames))
-					throw new Error(`Airstack doesn't yet support ${network.name}.`)
+			fromQuery: address && network && (
+				createQuery({
+					queryKey: ['NFTs', {
+						nftProvider,
+						address,
+						chainID: network.chainId,
+						quoteCurrency: quoteCurrency
+					}],
+					queryFn: async () => {
+						if(!(network.chainId in airstackNetworkNames))
+							throw new Error(`Airstack doesn't yet support ${network.name}.`)
 
-				return queryStore({
-					client: getClient(),
-					query: gql`
-						query NftBalances(
-							$address: Identity!,
-							$blockchain: TokenBlockchain!,
-							$limit: Int!,
-							$cursor: String!
-						) {
-							TokenBalances(
-								input: {
-									filter: {
-										owner: {_in: [$address]},
-										tokenType: { _in: [ERC721, ERC1155] }
-									},
-									blockchain: $blockchain,
-									limit: $limit,
-									cursor: $cursor
-								}
+						return await getClient().query(gql`
+							query NftBalances(
+								$address: Identity!, 
+								$blockchain: TokenBlockchain!, 
+								$limit: Int!, 
+								$cursor: String!
 							) {
-								TokenBalance {
-									tokenAddress
-									tokenNfts {
-										id
-										address
-										tokenId
-										type
-										rawMetaData
-										chainId
-										contentType
-										blockchain
-										# contentValue {
-										# 	audio
-										# 	animation_url {
-										# 		original
-										# 	}
-										# 	image {
-										# 		extraSmall
-										# 		large
-										# 		medium
-										# 		original
-										# 		small
-										# 	}
-										# 	video
-										# }
-										lastTransferBlock
-										lastTransferHash
-										lastTransferTimestamp
-										metaData {
-											animationUrl
-											attributes {
-												displayType
-												maxValue
-												trait_type
-												value
+								TokenBalances(
+									input: {
+										filter: {
+											owner: {_in: [$address]},
+											tokenType: { _in: [ERC721, ERC1155] }
+										},
+										blockchain: $blockchain,
+										limit: $limit,
+										cursor: $cursor
+									}
+								) {
+									TokenBalance {
+										tokenAddress
+										tokenNfts {
+											id
+											address
+											tokenId
+											type
+											rawMetaData
+											chainId
+											contentType
+											blockchain
+											# contentValue {
+											# 	audio
+											# 	animation_url {
+											# 		original
+											# 	}
+											# 	image {
+											# 		extraSmall
+											# 		large
+											# 		medium
+											# 		original
+											# 		small
+											# 	}
+											# 	video
+											# }
+											lastTransferBlock
+											lastTransferHash
+											lastTransferTimestamp
+											metaData {
+												animationUrl
+												attributes {
+													displayType
+													maxValue
+													trait_type
+													value
+												}
+												backgroundColor
+												description
+												externalUrl
+												image
+												imageData
+												name
+												youtubeUrl
 											}
-											backgroundColor
-											description
-											externalUrl
-											image
-											imageData
-											name
-											youtubeUrl
+											tokenURI
+											totalSupply
 										}
-										tokenURI
-										totalSupply
-									}
-									owner {
-										addresses
-										identity
-									}
-									tokenId
-									amount
-									blockchain
-									chainId
-									formattedAmount
-									id
-									lastUpdatedTimestamp
-									lastUpdatedBlock
-									tokenType
-									token {
-										address
+										owner {
+											addresses
+											identity
+										}
+										tokenId
+										amount
 										blockchain
-										baseURI
 										chainId
-										contractMetaData {
-											description
-											externalLink
-											feeRecipient
-											image
-											name
-											sellerFeeBasisPoints
-										}
-										type
-										totalSupply
-										tokenTraits
-										symbol
-										rawContractMetaData
-										projectDetails {
-											collectionName
-											description
-											discordUrl
-											externalUrl
-											twitterUrl
-										}
-										name
-										logo {
-											external
-											large
-											medium
-											original
-											small
-										}
-										lastTransferTimestamp
-										lastTransferHash
-										lastTransferBlock
+										formattedAmount
 										id
-										decimals
-										contractMetaDataURI
+										lastUpdatedTimestamp
+										lastUpdatedBlock
+										tokenType
+										token {
+											address
+											blockchain
+											baseURI
+											chainId
+											contractMetaData {
+												description
+												externalLink
+												feeRecipient
+												image
+												name
+												sellerFeeBasisPoints
+											}
+											type
+											totalSupply
+											tokenTraits
+											symbol
+											rawContractMetaData
+											projectDetails {
+												collectionName
+												description
+												discordUrl
+												externalUrl
+												twitterUrl
+											}
+											name
+											logo {
+												external
+												large
+												medium
+												original
+												small
+											}
+											lastTransferTimestamp
+											lastTransferHash
+											lastTransferBlock
+											id
+											decimals
+											contractMetaDataURI
+										}
 									}
-								}
-								pageInfo {
-									nextCursor
-									prevCursor
+									pageInfo {
+										nextCursor
+										prevCursor
+									}
 								}
 							}
-						}
-					`,
-					variables: {
-						address,
-						blockchain: airstackNetworkNames[network.chainId],
-						limit: 50,
-						cursor: '',
+						`,
+						{
+							address,
+							blockchain: airstackNetworkNames[network.chainId],
+							limit: 50,
+							cursor: '',
+						})
+							.toPromise()
+							.then(result => result.data)
 					},
+					staleTime: 10 * 1000,
 				})
-			},
+			),
 			then: normalizeAirstackNftsAndContracts,
 		},
 
