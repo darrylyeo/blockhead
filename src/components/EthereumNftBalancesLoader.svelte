@@ -4,34 +4,33 @@
 
 
 <script lang="ts">
+	// Types/constants
 	import type { Ethereum } from '../data/networks/types'
 	import type { QuoteCurrency } from '../data/currencies'
 	import { NftProvider, nftProviderIcons } from '../data/nftProviders'
-	
-	import { type Covalent, getTokenAddressBalances } from '../api/covalent'
-
-	import type { Nft } from '@liquality/wallet-sdk'
-
-	import { NftportApi } from '../api/nftport'
-	import type { AccountContractsResponse, AccountNftsResponse, AccountRequestSupportedChain } from '../api/nftport/api/Api'
 
 
+	// Inputs
 	export let network: Ethereum.Network
 	export let address: Ethereum.Address
 
 	export let nftProvider: NftProvider
 	export let quoteCurrency: QuoteCurrency
 
+	// (View options)
 	export let isOpen: boolean
 
 	export let containerClass: string
 	export let contentClass: string
 
 
+	// Internal state
+	// (Computed)
 	$: loadingMessage = `Retrieving ${network.name} NFTs from ${nftProvider}...`
 	$: errorMessage = `Couldn't retrieve ${network.name} NFTs from ${nftProvider}.`
 
 
+	// Outputs
 	export let nftContractsWithBalances: Ethereum.NftContractWithBalance[] = []
 
 	export let summary: {
@@ -51,7 +50,19 @@
 		: undefined
 
 
+	// Functions
+	import { createQuery } from '@tanstack/svelte-query'
+	
+	import { type Covalent, getTokenAddressBalances } from '../api/covalent'
+	
+	import type { Nft } from '@liquality/wallet-sdk'
 	import { ConcurrentPromiseQueue } from '../utils/ConcurrentPromiseQueue'
+
+	import { NftportApi } from '../api/nftport'
+	import type { AccountContractsResponse, AccountNftsResponse, AccountRequestSupportedChain } from '../api/nftport/api/Api'
+	
+	import { gql } from '@urql/svelte'
+	import { airstackNetworkNames, getClient } from '../api/airstack'
 
 	const normalizeAirstackNftsAndContracts = (data): Ethereum.NftWithBalance => (
 		[
@@ -289,12 +300,7 @@
 		hashOrUri?.replace(/^(Qm.+)$/, 'https://ipfs.io/ipfs/$1').replace(/^ipfs:\/\/(.+)$/, 'https://ipfs.io/ipfs/$1')
 
 
-	import { createQuery } from '@tanstack/svelte-query'
-	import { gql } from '@urql/svelte'
-
-	import { airstackNetworkNames, getClient } from '../api/airstack'
-
-
+	// Components
 	import Loader from './Loader.svelte'
 </script>
 
