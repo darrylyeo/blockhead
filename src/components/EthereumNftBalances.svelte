@@ -36,22 +36,22 @@
 	} | undefined
 
 
-	let sortFunction: (a: Ethereum.NftContractWithBalance, b: Ethereum.NftContractWithBalance) => number
+	let sortFunction: (a: Ethereum.NftContractWithNfts, b: Ethereum.NftContractWithNfts) => number
 	$: sortFunction = {
-		'value-descending': (a, b) => b.quote - a.quote || b.balance - a.balance,
-		'value-ascending': (a, b) => a.quote - b.quote || a.balance - b.balance,
-		'ticker-ascending': (a, b) => a.symbol?.localeCompare(b.symbol),
+		'value-descending': (a: Ethereum.NftContractWithNfts, b: Ethereum.NftContractWithNfts) => (b.conversion?.value ?? 0) - (a.conversion?.value ?? 0) || (b.nftsCount ?? b.nfts?.length ?? 0) - (a.nftsCount ?? a.nfts?.length ?? 0),
+		'value-ascending': (a: Ethereum.NftContractWithNfts, b: Ethereum.NftContractWithNfts) => (a.conversion?.value ?? 0) - (b.conversion?.value ?? 0) || (a.nftsCount ?? a.nfts?.length ?? 0) - (b.nftsCount ?? b.nfts?.length ?? 0),
+		'ticker-ascending': (a: Ethereum.NftContractWithNfts, b: Ethereum.NftContractWithNfts) => a.symbol?.localeCompare(b.symbol),
 	}[sortBy]
 
 
 	import { resolveUri } from '../utils/resolveUri'
 
-	const formatTokenId = (tokenId: number | string) =>
+	const formatTokenId = (tokenId: Ethereum.Nft['tokenId']) =>
 		String(tokenId).length > 12
 			? String(tokenId).slice(0, 6) + '⸱⸱⸱' + String(tokenId).slice(-6)
 			: String(tokenId)
 
-	const formatNFTNameAndTokenID = (name: string, tokenId: number) => `${name ? `${name.replace(new RegExp(`#${tokenId}$`), '')}\n` : ''}#${formatTokenId(tokenId)}`
+	const formatNFTNameAndTokenID = (name: string, tokenId: Ethereum.Nft['tokenId']) => `${name ? `${name.replace(new RegExp(`#${tokenId}$`), '')}\n` : ''}#${formatTokenId(tokenId)}`
 
 
 	const findClosestAspectRatio = (n, minInteger = 1, maxInteger = 30, target = 24) => {
@@ -374,7 +374,7 @@
 			{#each
 				nftContractsWithBalances
 					.sort(sortFunction)
-					.filter(({ nfts }) => nfts?.length > 0)
+					.filter(({ nfts }) => nfts && nfts.length > 0)
 				as contract,
 				i (contract.address || contract.symbol || contract.name)
 			}
@@ -418,7 +418,7 @@
 										format="middle-truncated" 
 										let:formattedAddress
 									>{#if contract.name}{contract.name}{:else}<span class="format">{formattedAddress}</span>{/if}</Address>
-									{#if contract.nfts.length > 1}({contract.nfts.length}){/if}
+									{#if contract.nfts && contract.nfts.length > 1}({contract.nfts.length}){/if}
 								</span>
 							</h5>
 

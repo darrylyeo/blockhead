@@ -119,17 +119,26 @@ export namespace Ethereum {
 	export type NftContract = (ERC721TokenContract | ERC1155TokenContract) & {
 		ercTokenStandards?: ERCTokenStandard[]
 
+		totalSupply?: bigint
+
 		metadata: {
 			description?: string
 			bannerImage?: string
 			logoImage?: string
+		},
+
+		conversion?: {
+			quoteCurrency: QuoteCurrency,
+
+			value: number,
+			rate?: number,
 		}
 	}
 	export type Nft = {
 		contract?: NftContract,
 		owner: Ethereum.Address,
 
-		tokenId: number
+		tokenId: bigint
 		tokenUri?: string
 		
 		metadata: {
@@ -150,12 +159,9 @@ export namespace Ethereum {
 	export type NftWithBalance = Nft & {
 		erc1155Balance?: number
 	}
-	export type NftContractWithBalance = NftContract & {
-		balance: number
-		quote?: number
-		quoteRate?: number
-
-		nfts: NftWithBalance[]
+	export type NftContractWithNfts = NftContract & {
+		nftsCount?: number
+		nfts?: NftWithBalance[]
 	}
 
 	export type ERCTokenStandard = 'erc20' | 'erc721' | 'erc1155'
