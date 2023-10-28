@@ -299,328 +299,264 @@
 </script>
 
 
-{#if nftProvider === NftProvider.Airstack}
-	<Loader
-		layout="collapsible"
-		collapsibleType="label"
-		loadingIcon={nftProviderIcons[nftProvider]}
-		loadingIconName={nftProvider}
-		{loadingMessage}
-		{errorMessage}
-		fromStore={() => {
-			if(!(network.chainId in airstackNetworkNames))
-				throw new Error(`Airstack doesn't yet support ${network.name}.`)
+<Loader
+	layout="collapsible"
+	collapsibleType="label"
+	loadingIcon={nftProviderIcons[nftProvider]}
+	loadingIconName={nftProvider}
+	{loadingMessage}
+	{errorMessage}
+	{...{
+		[NftProvider.Airstack]: {
+			fromStore: () => {
+				if(!(network.chainId in airstackNetworkNames))
+					throw new Error(`Airstack doesn't yet support ${network.name}.`)
 
-			return queryStore({
-				client: getClient(),
-				query: gql`
-					query NftBalances(
-						$address: Identity!, 
-						$blockchain: TokenBlockchain!, 
-						$limit: Int!, 
-						$cursor: String!
-					) {
-						TokenBalances(
-							input: {
-								filter: {
-									owner: {_in: [$address]},
-									tokenType: { _in: [ERC721, ERC1155] }
-								},
-								blockchain: $blockchain,
-								limit: $limit,
-								cursor: $cursor
-							}
+				return queryStore({
+					client: getClient(),
+					query: gql`
+						query NftBalances(
+							$address: Identity!,
+							$blockchain: TokenBlockchain!,
+							$limit: Int!,
+							$cursor: String!
 						) {
-							TokenBalance {
-								tokenAddress
-								tokenNfts {
-									id
-									address
-									tokenId
-									type
-									rawMetaData
-									chainId
-									contentType
-									blockchain
-									# contentValue {
-									# 	audio
-									# 	animation_url {
-									# 		original
-									# 	}
-									# 	image {
-									# 		extraSmall
-									# 		large
-									# 		medium
-									# 		original
-									# 		small
-									# 	}
-									# 	video
-									# }
-									lastTransferBlock
-									lastTransferHash
-									lastTransferTimestamp
-									metaData {
-										animationUrl
-										attributes {
-											displayType
-											maxValue
-											trait_type
-											value
+							TokenBalances(
+								input: {
+									filter: {
+										owner: {_in: [$address]},
+										tokenType: { _in: [ERC721, ERC1155] }
+									},
+									blockchain: $blockchain,
+									limit: $limit,
+									cursor: $cursor
+								}
+							) {
+								TokenBalance {
+									tokenAddress
+									tokenNfts {
+										id
+										address
+										tokenId
+										type
+										rawMetaData
+										chainId
+										contentType
+										blockchain
+										# contentValue {
+										# 	audio
+										# 	animation_url {
+										# 		original
+										# 	}
+										# 	image {
+										# 		extraSmall
+										# 		large
+										# 		medium
+										# 		original
+										# 		small
+										# 	}
+										# 	video
+										# }
+										lastTransferBlock
+										lastTransferHash
+										lastTransferTimestamp
+										metaData {
+											animationUrl
+											attributes {
+												displayType
+												maxValue
+												trait_type
+												value
+											}
+											backgroundColor
+											description
+											externalUrl
+											image
+											imageData
+											name
+											youtubeUrl
 										}
-										backgroundColor
-										description
-										externalUrl
-										image
-										imageData
-										name
-										youtubeUrl
+										tokenURI
+										totalSupply
 									}
-									tokenURI
-									totalSupply
-								}
-								owner {
-									addresses
-									identity
-								}
-								tokenId
-								amount
-								blockchain
-								chainId
-								formattedAmount
-								id
-								lastUpdatedTimestamp
-								lastUpdatedBlock
-								tokenType
-								token {
-									address
+									owner {
+										addresses
+										identity
+									}
+									tokenId
+									amount
 									blockchain
-									baseURI
 									chainId
-									contractMetaData {
-										description
-										externalLink
-										feeRecipient
-										image
-										name
-										sellerFeeBasisPoints
-									}
-									type
-									totalSupply
-									tokenTraits
-									symbol
-									rawContractMetaData
-									projectDetails {
-										collectionName
-										description
-										discordUrl
-										externalUrl
-										twitterUrl
-									}
-									name
-									logo {
-										external
-										large
-										medium
-										original
-										small
-									}
-									lastTransferTimestamp
-									lastTransferHash
-									lastTransferBlock
+									formattedAmount
 									id
-									decimals
-									contractMetaDataURI
+									lastUpdatedTimestamp
+									lastUpdatedBlock
+									tokenType
+									token {
+										address
+										blockchain
+										baseURI
+										chainId
+										contractMetaData {
+											description
+											externalLink
+											feeRecipient
+											image
+											name
+											sellerFeeBasisPoints
+										}
+										type
+										totalSupply
+										tokenTraits
+										symbol
+										rawContractMetaData
+										projectDetails {
+											collectionName
+											description
+											discordUrl
+											externalUrl
+											twitterUrl
+										}
+										name
+										logo {
+											external
+											large
+											medium
+											original
+											small
+										}
+										lastTransferTimestamp
+										lastTransferHash
+										lastTransferBlock
+										id
+										decimals
+										contractMetaDataURI
+									}
 								}
-							}
-							pageInfo {
-								nextCursor
-								prevCursor
+								pageInfo {
+									nextCursor
+									prevCursor
+								}
 							}
 						}
-					}
-				`,
-				variables: {
-					address,
-					blockchain: airstackNetworkNames[network.chainId],
-					limit: 50,
-					cursor: '',
-				},
-			})
-		}}
-		then={normalizeAirstackNftsAndContracts}
-		{isOpen}
-		{containerClass}
-		{contentClass}
-		bind:result={nftContractsWithBalances}
-		let:result={nftContractsWithBalances}
-	>
-		<svelte:fragment slot="header"
-			let:result={nftContractsWithBalances}
-			let:status
-			let:loadingMessage
-			let:errorMessage
-		>
-			<slot name="header" {nftContractsWithBalances} {summary} {status} {loadingMessage} {errorMessage} />
-		</svelte:fragment>
-
-		<slot {nftContractsWithBalances} />
-	</Loader>
-
-{:else if nftProvider === NftProvider.Covalent}
-	<Loader
-		layout="collapsible"
-		collapsibleType="label"
-		loadingIcon={nftProviderIcons[nftProvider]}
-		loadingIconName={nftProvider}
-		{loadingMessage}
-		{errorMessage}
-		fromQuery={address && network && (
-			createQuery({
-				queryKey: ['NFTs', {
-					nftProvider,
-					address,
-					chainID: network.chainId,
-					quoteCurrency: quoteCurrency
-				}],
-				queryFn: async () => (
-					await getTokenAddressBalances({
+					`,
+					variables: {
 						address,
-						nft: true,
+						blockchain: airstackNetworkNames[network.chainId],
+						limit: 50,
+						cursor: '',
+					},
+				})
+			},
+			then: normalizeAirstackNftsAndContracts,
+		},
+
+		[NftProvider.Covalent]: {
+			fromQuery: address && network && (
+				createQuery({
+					queryKey: ['NFTs', {
+						nftProvider,
+						address,
 						chainID: network.chainId,
 						quoteCurrency: quoteCurrency
-					})
-				),
-				staleTime: 10 * 1000,
-			})
-		)}
-		then={result => (
-			result.items
-				.filter(balance => balance.type === 'nft')
-				.map(normalizeCovalentContractWithBalance)
-		)}
-		bind:result={nftContractsWithBalances}
-		{isOpen}
-		{containerClass}
-		{contentClass}
-	>
-		<svelte:fragment slot="header"
-			let:result={nftContractsWithBalances}
-			let:status
-			let:loadingMessage
-			let:errorMessage
-		>
-			<slot name="header" {nftContractsWithBalances} {summary} {status} {loadingMessage} {errorMessage} />
-		</svelte:fragment>
-
-		<slot {nftContractsWithBalances} />
-	</Loader>
-
-{:else if nftProvider === NftProvider.Liquality}
-	<Loader
-		layout="collapsible"
-		collapsibleType="label"
-		loadingIcon={nftProviderIcons[nftProvider]}
-		loadingIconName={nftProvider}
-		{loadingMessage}
-		{errorMessage}
-		fromQuery={address && network && (
-			createQuery({
-				queryKey: ['NFTs', {
-					nftProvider,
-					address,
-					chainID: network.chainId,
-					quoteCurrency: quoteCurrency
-				}],
-				queryFn: async () => {
-					const { NftService } = await import('@liquality/wallet-sdk')
-
-					const { liqualitySupportedNetworks } = await import('../api/liquality')
-
-					if(!liqualitySupportedNetworks.includes(network.chainId))
-						throw new Error(`Liquality doesn't yet support ${network.name}.`)
-
-					return await NftService.getNfts(
-						address,
-						network.chainId
-					)
-				},
-				staleTime: 10 * 1000,
-			})
-		)}
-		then={normalizeLiqualityNftsAndContracts}
-		bind:result={nftContractsWithBalances}
-		{isOpen}
-		{containerClass}
-		{contentClass}
-	>
-		<svelte:fragment slot="header"
-			let:result={nftContractsWithBalances}
-			let:status
-			let:loadingMessage
-			let:errorMessage
-		>
-			<slot name="header" {nftContractsWithBalances} {summary} {status} {loadingMessage} {errorMessage} />
-		</svelte:fragment>
-
-		<slot {nftContractsWithBalances} />
-	</Loader>
-
-{:else if nftProvider === NftProvider.NftPort}
-	<Loader
-		layout="collapsible"
-		collapsibleType="label"
-		loadingIcon={nftProviderIcons[nftProvider]}
-		loadingIconName={nftProvider}
-		{loadingMessage}
-		{errorMessage}
-		fromQuery={address && network && (
-			createQuery({
-				queryKey: ['NFTs', {
-					nftProvider,
-					address,
-					chainID: network.chainId,
-					quoteCurrency: quoteCurrency
-				}],
-				queryFn: async () => {
-					const chain = networkSlugToNftportChain[network.slug]
-					if(!chain)
-						throw new Error(`NFTPort does not support the ${network.name} network.`)
-
-					return await Promise.all([
-						NftportApi.v0.accountNftsV0AccountsAccountAddressGet({
-							accountAddress: address,
-							include: ['default', 'metadata', 'contract_information'],
-							chain
-						}),
-						NftportApi.v0.accountContractsV0AccountsContractsAccountAddressGet({
-							accountAddress: address,
-							type: 'owns_contract_nfts',
-							include: ['default', 'metadata', 'contract_information'],
-							chain
+					}],
+					queryFn: async () => (
+						await getTokenAddressBalances({
+							address,
+							nft: true,
+							chainID: network.chainId,
+							quoteCurrency: quoteCurrency
 						})
-					])
-					//
-				},
-				staleTime: 10 * 1000,
-			})
-		)}
-		then={([nftsResponse, nftContractsResponse]) => (
-			normalizeNftportNftsAndContracts({nftsResponse, nftContractsResponse})
-		)}
-		bind:result={nftContractsWithBalances}
-		{isOpen}
-		{containerClass}
-		{contentClass}
-	>
-		<svelte:fragment slot="header"
-			let:result={nftContractsWithBalances}
-			let:status
-			let:loadingMessage
-			let:errorMessage
-		>
-			<slot name="header" {nftContractsWithBalances} {summary} {status} {loadingMessage} {errorMessage} />
-		</svelte:fragment>
+					),
+					staleTime: 10 * 1000,
+				})
+			),
+			then: result => (
+				result.items
+					.filter(balance => balance.type === 'nft')
+					.map(normalizeCovalentContractWithBalance)
+			),
+		},
 
-		<slot {nftContractsWithBalances} />
-	</Loader>
-{/if}
+		[NftProvider.Liquality]: {
+			fromQuery: address && network && (
+				createQuery({
+					queryKey: ['NFTs', {
+						nftProvider,
+						address,
+						chainID: network.chainId,
+						quoteCurrency: quoteCurrency
+					}],
+					queryFn: async () => {
+						const { NftService } = await import('@liquality/wallet-sdk')
+
+						const { liqualitySupportedNetworks } = await import('../api/liquality')
+
+						if(!liqualitySupportedNetworks.includes(network.chainId))
+							throw new Error(`Liquality doesn't yet support ${network.name}.`)
+
+						return await NftService.getNfts(
+							address,
+							network.chainId
+						)
+					},
+					staleTime: 10 * 1000,
+				})
+			),
+			then: normalizeLiqualityNftsAndContracts,
+		},
+
+		[NftProvider.NftPort]: {
+			fromQuery: address && network && (
+				createQuery({
+					queryKey: ['NFTs', {
+						nftProvider,
+						address,
+						chainID: network.chainId,
+						quoteCurrency: quoteCurrency
+					}],
+					queryFn: async () => {
+						const chain = networkSlugToNftportChain[network.slug]
+						if(!chain)
+							throw new Error(`NFTPort does not support the ${network.name} network.`)
+
+						return await Promise.all([
+							NftportApi.v0.accountNftsV0AccountsAccountAddressGet({
+								accountAddress: address,
+								include: ['default', 'metadata', 'contract_information'],
+								chain
+							}),
+							NftportApi.v0.accountContractsV0AccountsContractsAccountAddressGet({
+								accountAddress: address,
+								type: 'owns_contract_nfts',
+								include: ['default', 'metadata', 'contract_information'],
+								chain
+							})
+						])
+						//
+					},
+					staleTime: 10 * 1000,
+				})
+			),
+			then: ([nftsResponse, nftContractsResponse]) => (
+				normalizeNftportNftsAndContracts({ nftsResponse, nftContractsResponse})
+			),
+		}
+	}[nftProvider]}
+	{isOpen}
+	{containerClass}
+	{contentClass}
+	bind:result={nftContractsWithBalances}
+	let:result={nftContractsWithBalances}
+>
+	<svelte:fragment slot="header"
+		let:result={nftContractsWithBalances}
+		let:status
+		let:loadingMessage
+		let:errorMessage
+	>
+		<slot name="header" {nftContractsWithBalances} {summary} {status} {loadingMessage} {errorMessage} />
+	</svelte:fragment>
+
+	<slot {nftContractsWithBalances} />
+</Loader>
