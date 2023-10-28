@@ -601,7 +601,7 @@
 			</svelte:fragment>
 
 			<div class="defi-balances column">
-				{#each defiBalances.filter(_ => _.metadata) as {
+				{#each (defiBalances ?? []).filter(_ => _.metadata) as {
 					adapterBalances,
 					metadata,
 				}, i (metadata.name + i)}
