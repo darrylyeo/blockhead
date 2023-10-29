@@ -90,7 +90,13 @@
 				},
 				language: moreMetadata?.language,
 				output: {
-					abi: JSON.parse(metadata.ABI),
+					abi: (() => {
+						try {
+							return JSON.parse(metadata.ABI)
+						} catch {
+							return []
+						}
+					})(),
 				},
 				settings: {
 					evmVersion: moreMetadata?.settings.evmVersion ?? metadata.EVMVersion,
