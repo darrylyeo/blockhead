@@ -78,12 +78,12 @@
 				})
 			),
 			getPreviousPageParam: (firstPage, allPages) => firstPage.pagination?.page_number > 0 ? firstPage.pagination.page_number - 1 : undefined,
-			getNextPageParam: (lastPage, allPages) => lastPage.pagination?.has_more ? lastPage.pagination.page_number + 1 : undefined
+			getNextPageParam: (lastPage, allPages) => lastPage.pagination?.has_more ? lastPage.pagination.page_number + 1 : undefined,
+			select: result => (
+				(result?.pages?.flatMap(page => page.items) ?? [])
+					.map(transaction => normalizeTransactionCovalent(transaction, network, quoteCurrency))
+			),
 		})}
-		then={result => (
-			(result?.pages?.flatMap(page => page.items) ?? [])
-				.map(transaction => normalizeTransactionCovalent(transaction, network, quoteCurrency))
-		)}
 		bind:result={transactions}
 		let:result={transactions}
 		let:status

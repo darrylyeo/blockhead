@@ -238,10 +238,10 @@
 							.toPromise()
 							.then(result => result.data)
 					},
+					select: normalizeNftContractsAirstack,
 					staleTime: 10 * 1000,
 				})
 			),
-			then: normalizeNftContractsAirstack,
 		},
 
 		[NftProvider.Covalent]: {
@@ -261,13 +261,13 @@
 							quoteCurrency: quoteCurrency
 						})
 					),
+					select: result => (
+						result.items
+							.filter(tokenContract => tokenContract.type === 'nft')
+							.map(tokenContract => normalizeNftContractCovalent(tokenContract, quoteCurrency))
+					),
 					staleTime: 10 * 1000,
 				})
-			),
-			then: result => (
-				result.items
-					.filter(tokenContract => tokenContract.type === 'nft')
-					.map(tokenContract => normalizeNftContractCovalent(tokenContract, quoteCurrency))
 			),
 		},
 
@@ -293,13 +293,13 @@
 							network.chainId
 						)
 					},
+					select: nfts => (
+						normalizeNftContractsLiquality({
+							nfts,
+							ownerAddress: address,
+						})
+					),
 					staleTime: 10 * 1000,
-				})
-			),
-			then: nfts => (
-				normalizeNftContractsLiquality({
-					nfts,
-					ownerAddress: address,
 				})
 			),
 		},
@@ -333,14 +333,14 @@
 						])
 						//
 					},
+					select: ([nftsResponse, nftContractsResponse]) => (
+						normalizeNftContractsNftport({
+							nftsResponse,
+							nftContractsResponse,
+							ownerAddress: address,
+						})
+					),
 					staleTime: 10 * 1000,
-				})
-			),
-			then: ([nftsResponse, nftContractsResponse]) => (
-				normalizeNftContractsNftport({
-					nftsResponse,
-					nftContractsResponse,
-					ownerAddress: address,
 				})
 			),
 		}

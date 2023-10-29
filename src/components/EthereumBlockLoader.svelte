@@ -209,9 +209,9 @@
 							blockNumber: BigInt(blockNumber),
 							includeTransactions: true,
 						})
-					)
+					),
+					select: block => normalizeViemBlock(block, network),
 				})}
-				then={block => normalizeViemBlock(block, network)}
 				bind:result={block}
 				let:result={block}
 			>

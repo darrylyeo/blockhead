@@ -116,14 +116,14 @@
 					return await getTransactionsByAddress(address, { page: next_cursor })
 				},
 				getNextPageParam: (lastPage, allPages) => lastPage.next_cursor ? lastPage.next_cursor : undefined,
+				select: result => (
+					linkInternalTransactionsBeryx(
+						result.pages
+							.flatMap(({ transactions }) => transactions)
+					)
+						.map(normalizeTransactionBeryx)
+				),
 			}),
-			then: result => (
-				linkInternalTransactionsBeryx(
-					result.pages
-						.flatMap(({ transactions }) => transactions)
-				)
-					.map(normalizeTransactionBeryx)
-			),
 		},
 	}[transactionProvider]}
 	bind:result={transactions}

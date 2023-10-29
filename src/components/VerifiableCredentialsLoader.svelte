@@ -51,10 +51,10 @@
 					await getCredentials(did, { page })
 				),
 				getNextPageParam: (lastPage, allPages) => allPages.length,
+				select: result => (
+					result.pages.flat()
+				),
 			}),
-			then: result => (
-				result.pages.flat()
-			),
 		},
 	}[verifiableCredentialProvider]}
 	{...$$restProps}

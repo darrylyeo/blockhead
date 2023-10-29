@@ -79,12 +79,12 @@
 				},
 				getPreviousPageParam: (firstPage, allPages) => firstPage.pagination?.page_number > 0 ? firstPage.pagination.page_number - 1 : undefined,
 				getNextPageParam: (lastPage, allPages) => lastPage.pagination?.has_more ? lastPage.pagination.page_number + 1 : undefined,
+				select: result => (
+					(result?.pages?.flatMap(page => page.items) ?? [])
+						.map(transaction => normalizeTransactionCovalent(transaction, network, quoteCurrency))
+				),
 				staleTime: 10 * 1000,
 			}),
-			then: result => (
-				(result?.pages?.flatMap(page => page.items) ?? [])
-					.map(transaction => normalizeTransactionCovalent(transaction, network, quoteCurrency))
-			),
 		},
 
 		[TransactionProvider.Etherscan]: {
@@ -100,9 +100,9 @@
 						address,
 					})
 				),
+				select: transactions => transactions.map(transaction => normalizeTransactionEtherscan(network, transaction)),
 				staleTime: 10 * 1000,
 			}),
-			then: transactions => transactions.map(transaction => normalizeTransactionEtherscan(network, transaction)),
 		},
 
 		[TransactionProvider.Moralis]: {
@@ -160,9 +160,9 @@
 					const offset = (lastPage.page + 1) * lastPage.page_size
 					return offset < lastPage.total ? { offset, limit: lastPage.page_size } : undefined
 				},
+				select: result => result?.pages?.flatMap(page => page.result) ?? [],
 				staleTime: 10 * 1000,
 			}),
-			then: result => result?.pages?.flatMap(page => page.result) ?? [],
 		},
 	}[transactionProvider]}
 	{...$$restProps}

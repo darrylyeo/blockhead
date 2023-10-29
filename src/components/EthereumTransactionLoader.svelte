@@ -126,9 +126,9 @@
 								}
 
 								return transaction
-							}
+							},
+							select: ({ transaction, logs }) => normalizeViemTransaction(transaction, logs, network),
 						})}
-						then={transaction => normalizeViemTransaction(transaction, network)}
 						let:result={transaction}
 					>
 						<NetworkIcon slot="loadingIcon" {network}><img src="/Blockhead-Logo.svg" width="30" /></NetworkIcon>
@@ -171,11 +171,11 @@
 									transactionHash: transactionId,
 									includeLogs: true
 								})
-							)
+							),
+							select: ({ items: [transaction] }) => (
+								normalizeTransactionCovalent(transaction, network, quoteCurrency)
+							),
 						})}
-						then={({ items: [transaction] }) => (
-							normalizeTransactionCovalent(transaction, network, quoteCurrency)
-						)}
 						bind:result={transaction}
 						let:result={transaction}
 					>
@@ -216,11 +216,11 @@
 									network,
 									transactionID: transactionId
 								})
-							)
+							),
+							select: transaction => (
+								normalizeEtherspotTransaction(transaction, network)
+							),
 						})}
-						then={transaction => (
-							normalizeEtherspotTransaction(transaction, network)
-						)}
 						bind:result={transaction}
 						let:result={transaction}
 					>
@@ -261,9 +261,9 @@
 									chain: chainCodeFromNetwork(network),
 									transactionHash: transactionId,
 								})
-							)
+							),
+							select: transaction => normalizeMoralisTransaction(transaction, network),
 						})}
-						then={transaction => normalizeMoralisTransaction(transaction, network)}
 						bind:result={transaction}
 						let:result={transaction}
 					>

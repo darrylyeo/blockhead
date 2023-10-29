@@ -126,14 +126,14 @@
 				queryFn: async () => {
 					const { getProfileByLensName } = await import('../api/lens')
 					return await getProfileByLensName({ lensName })
-				}
+				},
+				select: ({data, error}) => {
+					if(error) throw error
+
+					return data.profile?.ownedBy
+				},
 			})
 		}
-		then={({data, error}) => {
-			if(error) throw error
-
-			return data.profile?.ownedBy
-		}}
 		loadingIcon={LensIcon}
 		loadingIconName="Lens Protocol"
 		loadingMessage="Resolving Lens handle to Polygon address..."

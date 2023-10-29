@@ -42,15 +42,15 @@
 					address,
 				})
 			),
-		})}
-		then={({data, error}) => {
-			if(error){
-				console.error(error)
-				throw new Error(error.graphQLErrors.map(e => e.message).join('\n'))
-			}
+			select: ({data, error}) => {
+				if(error){
+					console.error(error)
+					throw new Error(error.graphQLErrors.map(e => e.message).join('\n'))
+				}
 
-			return data?.profiles.items
-		}}
+				return data?.profiles.items
+			},
+		})}
 		bind:result={profiles}
 		let:result={profiles}
 	>
@@ -80,16 +80,16 @@
 						lensName,
 					})
 				),
+				select: ({data, error}) => {
+					if(error){
+						console.error(error)
+						throw new Error(error.graphQLErrors.map(e => e.message).join('\n'))
+					}
+
+					return data ? [data.profile] : []
+				},
 			})
 		}
-		then={({data, error}) => {
-			if(error){
-				console.error(error)
-				throw new Error(error.graphQLErrors.map(e => e.message).join('\n'))
-			}
-
-			return data ? [data.profile] : []
-		}}
 		bind:result={profiles}
 		let:result={profiles}
 	>

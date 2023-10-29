@@ -269,11 +269,11 @@
 							.toPromise()
 							.then(result => result.data)
 					},
+					select: data => (
+						(data.TokenBalances.TokenBalance ?? []).map(normalizeAirstackTokenBalance)
+					),
 					staleTime: 10 * 1000,
 				})
-			),
-			then: data => (
-				(data.TokenBalances.TokenBalance ?? []).map(normalizeAirstackTokenBalance)
 			),
 		},
 		
@@ -293,11 +293,11 @@
 							quoteCurrency
 						})
 					),
+					select: result => (
+						result.items.map(normalizeCovalentTokenBalance)
+					),
 					staleTime: 10 * 1000,
 				})
-			),
-			then: result => (
-				result.items.map(normalizeCovalentTokenBalance)
 			),
 		},
 
@@ -322,11 +322,11 @@
 							network.chainId
 						)
 					},
+					select: assets => (
+						assets.map(normalizeLiqualityTokenBalance)
+					),
 					staleTime: 10 * 1000,
 				})
-			),
-			then: assets => (
-				assets.map(normalizeLiqualityTokenBalance)
 			),
 		},
 
@@ -417,11 +417,11 @@
 							address
 						})
 					),
+					select: ({ products }) => (
+						products?.[0]?.assets.map(normalizeZapperTokenBalance) ?? []
+					),
 					staleTime: 10 * 1000,
 				})
-			),
-			then: ({ products }) => (
-				products?.[0]?.assets.map(normalizeZapperTokenBalance) ?? []
 			),
 		},
 
@@ -439,11 +439,11 @@
 							address
 						})
 					),
+					select: tokenWithBalance => (
+						tokenWithBalance.assets.map(normalizeQuickNodeTokenBalance)
+					),
 					staleTime: 10 * 1000,
 				})
-			),
-			then: tokenWithBalance => (
-				tokenWithBalance.assets.map(normalizeQuickNodeTokenBalance)
 			),
 		},
 	}[tokenBalancesProvider]}

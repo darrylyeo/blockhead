@@ -80,7 +80,7 @@
 
 					return await getAccountInfoByAddress(address)
 				},
-				then: normalizeAccountBeryx,
+				select: normalizeAccountBeryx,
 			}),
 		},
 	}[transactionProvider]}
