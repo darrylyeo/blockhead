@@ -120,18 +120,15 @@
 				},
 				getNextPageParam: (lastPage, allPages) => lastPage.next_cursor ? lastPage.next_cursor : undefined,
 			}),
-			then: result => (console.log('link', linkInternalTransactionsBeryx(
-					result.pages
-						.flatMap(({ transactions }) => transactions)
-				))||
-				linkInternalTransactionsBeryx(
-					result.pages
-						.flatMap(({ transactions }) => transactions)
-				)
-					.map(normalizeTransactionBeryx)
-					[0]
-			),
 		},
+		then: result => (
+			linkInternalTransactionsBeryx(
+				result.pages
+					.flatMap(({ transactions }) => transactions)
+			)
+				.map(normalizeTransactionBeryx)
+				[0]
+		),
 	}[transactionProvider]}
 	bind:result={transaction}
 	let:result={transaction}
