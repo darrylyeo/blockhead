@@ -168,6 +168,27 @@
 	let delayStartIndex = 0
 
 
+	// Actions
+	import { getQueryClientContext } from '@tanstack/svelte-query'
+	const queryClient = getQueryClientContext()
+
+	let isRefetching = false
+
+	const refetchAllData = async () => {
+		isRefetching = true
+
+		await Promise.all([
+			['Balances'],
+			['DefiBalances'],
+			['NFTs'],
+		].map(queryKey => (
+			queryClient.invalidateQueries({ queryKey })
+		)))
+
+		isRefetching = false
+	}
+
+
 	import AddressInput from './AddressInput.svelte'
 	import Loading from './Loading.svelte'
 	import InlineContainer from './InlineContainer.svelte'
@@ -280,6 +301,11 @@
 						{#if state === State.Idle}
 							<button class="add" data-before="＋" on:click={() => state = State.Adding} transition:scale|global>Add Account</button>
 						{/if}
+
+						<InlineContainer containerClass="align-end">
+							<button data-before="↻" on:click={refetchAllData} transition:scale|global disabled={isRefetching}>{isRefetching ? 'Refreshing...' : 'Refresh'}</button>
+						</InlineContainer>
+
 						<InlineContainer containerClass="align-end">
 							<button data-before="✎" on:click={() => state = State.Editing} transition:scale|global>Edit</button>
 						</InlineContainer>
