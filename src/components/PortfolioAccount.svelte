@@ -481,8 +481,21 @@
 												<NetworkIcon {network} />
 												<Address {network} {address}><InlineContainer isOpen={!isEditing && !(showFeed && isGridLayout)} clip containerClass="align-end"><mark>{network.name}</mark>&nbsp;</InlineContainer>Balances</Address>
 											</h4>
-											<InlineContainer containerClass="align-end" class="stack align-end">
-												{#if status === 'loading'}
+
+											{#if (status === 'resolved' || status === 'reloading') && summary}
+												<span
+													class="summary align-end"
+													class:is-zero={!summary.filteredBalancesCount}
+													transition:scale|global
+												>
+													<TokenBalance symbol={summary.quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} />
+													│
+													<strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> tokens
+												</span>
+											{/if}
+
+											<InlineContainer containerClass="align-end" class="stack align-end" isOpen={status !== 'resolved'}>
+												{#if status === 'loading' || status === 'reloading'}
 													<Loading
 														layout="icon"
 														iconAnimation="hover"
@@ -506,16 +519,6 @@
 														/>
 														<span>⚠︎</span>
 													</div>
-												{:else if summary}
-													<span
-														class="summary align-end"
-														class:is-zero={!summary.filteredBalancesCount}
-														transition:scale|global
-													>
-														<TokenBalance symbol={summary.quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} />
-														│
-														<strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> tokens
-													</span>
 												{/if}
 											</InlineContainer>
 											<InlineContainer containerClass="align-end" class="stack align-end">
@@ -572,8 +575,21 @@
 											<NetworkIcon {network} />
 											<span><InlineContainer isOpen={!isEditing && !(showFeed && isGridLayout)} clip containerClass="align-end"><mark>{network.name}</mark>&nbsp;</InlineContainer>DeFi</span>
 										</h4>
-										<InlineContainer containerClass="align-end" class="stack align-end">
-											{#if status === 'loading'}
+
+										{#if (status === 'resolved' || status === 'reloading') && summary}
+											<span class="summary" class:is-zero={!summary.defiAppsCount}>
+												<TokenBalance
+													symbol={summary.quoteTotalCurrency || quoteCurrency}
+													balance={summary.quoteTotal}
+													showPlainFiat={true}
+												/>
+												│
+												<strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}
+											</span>
+										{/if}
+
+										<InlineContainer containerClass="align-end" class="stack align-end" isOpen={status !== 'resolved'}>
+											{#if status === 'loading' || status === 'reloading'}
 												<Loading
 													layout="icon"
 													iconAnimation="hover"
@@ -597,16 +613,6 @@
 													/>
 													<span>⚠︎</span>
 												</div>
-											{:else if summary}
-												<span class="summary" class:is-zero={!summary.defiAppsCount}>
-													<TokenBalance
-														symbol={summary.quoteTotalCurrency || quoteCurrency}
-														balance={summary.quoteTotal}
-														showPlainFiat={true}
-													/>
-													│
-													<strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}
-												</span>
 											{/if}
 										</InlineContainer>
 										<InlineContainer containerClass="align-end" class="stack align-end">
@@ -652,8 +658,18 @@
 											<NetworkIcon {network} />
 											<span><InlineContainer isOpen={!isEditing && !(showFeed && isGridLayout)} clip containerClass="align-end"><mark>{network.name}</mark>&nbsp;</InlineContainer>NFTs</span>
 										</h4>
-										<InlineContainer containerClass="align-end" class="stack align-end">
-											{#if status === 'loading'}
+
+										{#if (status === 'resolved' || status === 'reloading') && summary}
+											<span class="summary" class:is-zero={!summary.nftsCount}>
+												<strong><TweenedNumber value={summary.nftsCount} /></strong> NFT{summary.nftsCount === 1 ? '' : 's'}
+												│
+												<!-- across -->
+												<strong><TweenedNumber value={summary.nftContractsCount} /></strong> collection{summary.nftContractsCount === 1 ? '' : 's'}
+											</span>
+										{/if}
+
+										<InlineContainer containerClass="align-end" class="stack align-end" isOpen={status !== 'resolved'}>
+											{#if status === 'loading' || status === 'reloading'}
 												<Loading
 													layout="icon"
 													iconAnimation="hover"
@@ -677,13 +693,6 @@
 													/>
 													<span>⚠︎</span>
 												</div>
-											{:else if summary}
-												<span class="summary" class:is-zero={!summary.nftsCount}>
-													<strong><TweenedNumber value={summary.nftsCount} /></strong> NFT{summary.nftsCount === 1 ? '' : 's'}
-													│
-													<!-- across -->
-													<strong><TweenedNumber value={summary.nftContractsCount} /></strong> collection{summary.nftContractsCount === 1 ? '' : 's'}
-												</span>
 											{/if}
 										</InlineContainer>
 										<InlineContainer containerClass="align-end" class="stack align-end">
@@ -725,8 +734,17 @@
 										Feed
 									</h4>
 
-									<InlineContainer containerClass="align-end" class="stack align-end">
-										{#if status === 'loading'}
+									{#if (status === 'resolved' || status === 'reloading') && summary}
+										<span class="summary" class:is-zero={!summary.notificationsCount}>
+											<strong><TweenedNumber value={summary.notificationsCount} /></strong> notification{summary.notificationsCount === 1 ? '' : 's'}
+											│
+											<!-- across -->
+											<strong><TweenedNumber value={summary.channelsCount} /></strong> channel{summary.channelsCount === 1 ? '' : 's'}
+										</span>
+									{/if}
+
+									<InlineContainer containerClass="align-end" class="stack align-end" isOpen={status !== 'resolved'}>
+										{#if status === 'loading' || status === 'reloading'}
 											<Loading
 												layout="icon"
 												iconAnimation="hover"
@@ -750,13 +768,6 @@
 												/>
 												<span>⚠︎</span>
 											</div>
-										{:else if summary}
-											<span class="summary" class:is-zero={!summary.notificationsCount}>
-												<strong><TweenedNumber value={summary.notificationsCount} /></strong> notification{summary.notificationsCount === 1 ? '' : 's'}
-												│
-												<!-- across -->
-												<strong><TweenedNumber value={summary.channelsCount} /></strong> channel{summary.channelsCount === 1 ? '' : 's'}
-											</span>
 										{/if}
 									</InlineContainer>
 									<InlineContainer containerClass="align-end" class="stack align-end">
