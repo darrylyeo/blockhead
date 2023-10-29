@@ -65,246 +65,16 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
-	
-	import { type Covalent, getTokenAddressBalances } from '../api/covalent'
-	
-	import type { Nft } from '@liquality/wallet-sdk'
-	import { ConcurrentPromiseQueue } from '../utils/ConcurrentPromiseQueue'
 
-	import { NftportApi } from '../api/nftport'
-	import type { AccountContractsResponse, AccountNftsResponse, AccountRequestSupportedChain } from '../api/nftport/api/Api'
-	
 	import { gql } from '@urql/svelte'
-	import { airstackNetworkNames, getClient } from '../api/airstack'
+	import { airstackNetworkNames, getClient, normalizeNftContracts as normalizeNftContractsAirstack } from '../api/airstack'
 
-	const normalizeAirstackNftsAndContracts = (data): Ethereum.NftContractWithNfts[] => (
-		[
-			...data.TokenBalances.TokenBalance
-				?.groupToMap(tokenWithBalance => tokenWithBalance.tokenAddress)
-				.entries()
-			?? []
-		]
-			.map(([contractAddress, contractsWithBalances]): Ethereum.NftContractWithNfts => ({
-				chainId: Number(contractsWithBalances.chainId),
-				address: contractAddress,
-				name: contractsWithBalances[0].token.name,
-				symbol: contractsWithBalances[0].token.symbol,
-				ercTokenStandards: [contractsWithBalances[0].token.type?.toLowerCase()],
-				metadata: {
-					...contractsWithBalances[0].contractMetaData,
-					description: contractsWithBalances[0].contractMetaData?.description,
-					bannerImage: undefined,
-					logoImage: contractsWithBalances[0].contractMetaData?.image,
-				},
+	import { getTokenAddressBalances, normalizeNftContract as normalizeNftContractCovalent } from '../api/covalent'
 
-				totalSupply: BigInt(contractsWithBalances[0].token.totalSupply),
-				nftsCount: contractsWithBalances.reduce((sum, item) => sum + Number(item.balance), 0),
-				nfts: contractsWithBalances
-					.map(tokenWithBalance => tokenWithBalance.tokenNfts)
-					.map((nft) => ({
-						owner: nft.address,
-						tokenId: BigInt(nft.tokenId),
-						tokenUri: nft.tokenURI,
-						metadata: {
-							...nft.metaData && {
-								name: nft.metaData.name,
-								description: nft.metaData.description,
-								image: nft.metaData.image,
-								attributes: normalizeNFTAttributes(nft.metaData.attributes),
-							}
-						},
-					})),
-			}))
-	)
+	import { ConcurrentPromiseQueue } from '../utils/ConcurrentPromiseQueue'
+	import { normalizeNftContracts as normalizeNftContractsLiquality } from '../api/liquality'
 
-	const normalizeCovalentContractWithBalance = (nftContractWithBalance: Covalent.NFTContractWithBalance, quoteCurrency: QuoteCurrency): Ethereum.NftContractWithNfts => ({
-		name: nftContractWithBalance.contract_name,
-		address: nftContractWithBalance.contract_address,
-		symbol: nftContractWithBalance.contract_ticker_symbol,
-		ercTokenStandards: nftContractWithBalance.supports_erc?.filter(erc => erc !== 'erc20'),
-		metadata: {
-			description: undefined,
-			bannerImage: undefined,
-			logoImage: nftContractWithBalance.contract_logo_url || nftContractWithBalance.logo_url,
-		},
-
-		conversion: {
-			quoteCurrency,
-			value: nftContractWithBalance.quote,
-			rate: nftContractWithBalance.quote_rate,
-		},
-
-		nftsCount: nftContractWithBalance.balance,
-		nfts: nftContractWithBalance.nft_data?.map(nft => {
-			const { attributes, ...metadata } = nft.external_data ?? {}
-
-			return ({
-				owner: nft.owner as Ethereum.Address,
-
-				tokenId: BigInt(nft.token_id),
-				tokenUri: nft.token_url,
-				
-				metadata: {
-					...metadata,
-					attributes: normalizeNFTAttributes(attributes),
-				},
-			})
-		}),
-	})
-
-
-	const normalizeLiqualityNftsAndContracts = (nfts: Nft[]): Ethereum.NftContractWithNfts[] => {
-		if(!nfts)
-			return []
-
-		const contractsByAddress = Object.fromEntries(
-			nfts.map(nft => [
-				nft.contract.address,
-				{
-					address: nft.contract.address,
-					name: nft.contract.name,
-					symbol: nft.contract.symbol,
-					ercTokenStandards: [nft.contract.type?.toLowerCase()] as Ethereum.ERCTokenStandard[],
-				} as Ethereum.NftContract
-			])
-		) as Record<Ethereum.ContractAddress, Ethereum.NftContract>
-
-		const nftsByContractAddress: Record<Ethereum.Address, Ethereum.NftWithBalance[]> = {}
-
-		for(const nft of nfts ?? []){
-			const nftContract = contractsByAddress[nft.contract.address as Ethereum.ContractAddress]
-			const nfts = nftsByContractAddress[nft.contract.address as Ethereum.ContractAddress] ||= []
-
-			nfts.push({
-				contract: nftContract,
-				owner: address,
-				tokenId: BigInt(nft.id),
-				// tokenUri: nft.tokenUri,
-				metadata: {
-					...nft.metadata,
-					name: nft.metadata ? String(nft.metadata.name) : undefined,
-				},
-				erc1155Balance: nft.balance,
-			})
-		}
-
-		return Object.entries(nftsByContractAddress).map(([contractAddress, nfts]) => ({
-			...{
-				balance: nfts.length,
-				...contractsByAddress[contractAddress as Ethereum.ContractAddress],
-			},
-			nfts
-		}))
-	}
-
-
-	const normalizeNftportNftsAndContracts = ({
-		nftsResponse,
-		nftContractsResponse
-	}: {
-		nftsResponse: AccountNftsResponse,
-		nftContractsResponse: AccountContractsResponse
-	}): Ethereum.NftContractWithNfts[] => {
-		// const contractsByAddress: Map<string, NFTContract> = new Map<string, NFTContract>()
-		const contractsByAddress = Object.fromEntries(
-			nftContractsResponse.contracts.map(nftContract => [
-				nftContract.address,
-				{
-					address: nftContract.address,
-					name: nftContract.name,
-					symbol: nftContract.symbol,
-					ercTokenStandards: [nftContract.type?.toLowerCase()] as Ethereum.ERCTokenStandard[],
-					metadata: {
-						description: nftContract.metadata?.description,
-						bannerImage: nftContract.metadata?.banner_url || nftContract.metadata?.cached_banner_url,
-						logoImage: nftContract.metadata?.thumbnail_url || nftContract.metadata?.cached_thumbnail_url,
-					}
-				} as Ethereum.NftContract
-			])
-		)
-
-		const nftsByContractAddress: Record<Ethereum.Address, Ethereum.NftWithBalance[]> = {}
-
-		for(const nft of nftsResponse.nfts ?? []){
-			const nftContract = contractsByAddress[nft.contract_address]
-			const nfts = nftsByContractAddress[nft.contract_address as Ethereum.ContractAddress] ||= []
-
-			nfts.push({
-				contract: nftContract,
-				owner: address,
-				
-				tokenId: BigInt(nft.token_id),
-				tokenUri: nft.metadata_url,
-
-				metadata: {
-					...nft.metadata,
-					name: nft.name,
-					description: nft.metadata?.['description'],
-					image: parseIpfs(nft.cached_file_url || nft.file_url || nft.metadata?.['image'] || nft.metadata?.['ipfs_image'] || nft.metadata?.['google_image']),
-					attributes: normalizeNFTAttributes(nft.metadata?.['attributes']),
-				},
-			})
-
-			// contractsByAddress[nft.contract_address] = {
-			// 	contract_address: nft.contract_address,
-			// 	contract_name: nft.contract?.name,
-			// 	contract_ticker_symbol: nft.contract?.symbol,
-			// 	ercTokenStandards: nft.contract?.type && [nft.contract.type.toLowerCase()], // as Ethereum.ERCTokenStandard[]
-			// 	metadata: nft.contract?.metadata,
-			// 	// {
-			// 	// 	description: nft.contract?.metadata.description
-			// 	// 	thumbnail_url
-			// 	// 	cached_thumbnail_url
-			// 	// 	banner_url
-			// 	// 	cached_banner_url
-			// 	// },
-			// 	nft_data,
-			// }
-		}
-
-		return Object.entries(nftsByContractAddress).map(([contractAddress, nfts]): Ethereum.NftContractWithNfts => ({
-			...contractsByAddress[contractAddress],
-
-			nftsCount: nfts.length,
-			nfts
-		}))
-
-		// return Object.entries(contractsByAddress).map(([contractAddress, contract]): Ethereum.NftContractWithNfts => ({
-		// 	...contract,
-		// 	nfts: nftsByContractAddress[contractAddress as Ethereum.ContractAddress]
-		// }))
-	}
-
-	const normalizeNFTAttributes = (attributes: Covalent.NFTAttributes | undefined | null): Ethereum.NftAttribute[] => (
-		!attributes ?
-			[]
-		: Array.isArray(attributes) ?
-			attributes.map(({
-				key,
-				display_type,
-				trait_type,
-				value
-			}) => ({
-				key,
-				displayType: display_type,
-				traitType: trait_type,
-				value
-			}))
-		:
-			Object.entries(attributes).map(([trait_type, value]) => ({
-				traitType: trait_type,
-				value
-			}))
-	)
-
-	const networkSlugToNftportChain: Record<Ethereum.NetworkName, AccountRequestSupportedChain> = {
-		'ethereum': 'ethereum',
-		'ethereum-rinkeby': 'rinkeby',
-		// 'polygon': 'polygon',
-	}
-
-	const parseIpfs = (hashOrUri: string | undefined) =>
-		hashOrUri?.replace(/^(Qm.+)$/, 'https://ipfs.io/ipfs/$1').replace(/^ipfs:\/\/(.+)$/, 'https://ipfs.io/ipfs/$1')
+	import { NftportApi, networkSlugToNftportChain, normalizeNftContracts as normalizeNftContractsNftport } from '../api/nftport'
 
 
 	// Components
@@ -471,7 +241,7 @@
 					staleTime: 10 * 1000,
 				})
 			),
-			then: normalizeAirstackNftsAndContracts,
+			then: normalizeNftContractsAirstack,
 		},
 
 		[NftProvider.Covalent]: {
@@ -497,7 +267,7 @@
 			then: result => (
 				result.items
 					.filter(tokenContract => tokenContract.type === 'nft')
-					.map(tokenContract => normalizeCovalentContractWithBalance(tokenContract, quoteCurrency))
+					.map(tokenContract => normalizeNftContractCovalent(tokenContract, quoteCurrency))
 			),
 		},
 
@@ -526,7 +296,12 @@
 					staleTime: 10 * 1000,
 				})
 			),
-			then: normalizeLiqualityNftsAndContracts,
+			then: nfts => (
+				normalizeNftContractsLiquality({
+					nfts,
+					ownerAddress: address,
+				})
+			),
 		},
 
 		[NftProvider.NftPort]: {
@@ -553,7 +328,7 @@
 								accountAddress: address,
 								type: 'owns_contract_nfts',
 								include: ['default', 'metadata', 'contract_information'],
-								chain
+								chain,
 							})
 						])
 						//
@@ -562,7 +337,11 @@
 				})
 			),
 			then: ([nftsResponse, nftContractsResponse]) => (
-				normalizeNftportNftsAndContracts({ nftsResponse, nftContractsResponse})
+				normalizeNftContractsNftport({
+					nftsResponse,
+					nftContractsResponse,
+					ownerAddress: address,
+				})
 			),
 		}
 	}[nftProvider]}

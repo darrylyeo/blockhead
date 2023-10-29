@@ -6,6 +6,7 @@ import type { AbiType } from 'abitype'
 import { env } from '../env'
 
 import { ConcurrentPromiseQueue } from '../utils/ConcurrentPromiseQueue'
+import { normalizeNftAttributes } from '../utils/normalizeNftAttributes'
 
 
 const COVALENT_URL = `https://api.covalenthq.com`
@@ -761,4 +762,37 @@ export const normalizeErc20Transfer = (
 			name: methodCall.method
 		}
 	})),
+})
+
+export const normalizeNftContract = (nftContractWithBalance: Covalent.NFTContractWithBalance, quoteCurrency: QuoteCurrency): Ethereum.NftContractWithNfts => ({
+	name: nftContractWithBalance.contract_name,
+	address: nftContractWithBalance.contract_address,
+	symbol: nftContractWithBalance.contract_ticker_symbol,
+	ercTokenStandards: nftContractWithBalance.supports_erc?.filter(erc => erc !== 'erc20'),
+	metadata: {
+		description: undefined,
+		bannerImage: undefined,
+		logoImage: nftContractWithBalance.contract_logo_url || nftContractWithBalance.logo_url,
+	},
+
+	conversion: {
+		quoteCurrency,
+		value: nftContractWithBalance.quote,
+		rate: nftContractWithBalance.quote_rate,
+	},
+
+	nftsCount: nftContractWithBalance.balance,
+	nfts: nftContractWithBalance.nft_data?.map(normalizeNft),
+})
+
+export const normalizeNft = (nftWithBalance: Covalent.NFTWithBalance): Ethereum.Nft => ({
+	owner: nftWithBalance.owner as Ethereum.Address,
+
+	tokenId: BigInt(nftWithBalance.token_id),
+	tokenUri: nftWithBalance.token_url,
+
+	metadata: {
+		...nftWithBalance.external_data,
+		attributes: nftWithBalance.external_data?.attributes && normalizeNftAttributes(nftWithBalance.external_data?.attributes),
+	},
 })
