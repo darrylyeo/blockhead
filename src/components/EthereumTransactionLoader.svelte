@@ -87,47 +87,13 @@
 									hash: transactionId
 								})
 
-								if(transaction?.blockNumber){
-									transaction.logs = (
-										await publicClient.getLogs({
-											fromBlock: transaction.blockNumber - 1n,
-											toBlock: transaction.blockNumber + 1n,
-										})
-									).filter(log => log.transactionHash === transaction.hash)
+								const transactionReceipt = await publicClient.getTransactionReceipt({
+									hash: transactionId
+								})
 
-									/*
-									const query = createQuery({
-										queryKey: ['LogsByBlock', {
-											transactionProvider,
-											providerName,
-											chainId: network.chainId,
-											blockNumber: Number(transaction.blockNumber),
-										}],
-										queryFn: async () => (
-											await publicClient.getLogs({
-												fromBlock: transaction.blockNumber - 1n,
-												toBlock: transaction.blockNumber + 1n,
-											})
-										)
-									})
-
-									const logs = await new Promise((resolve, reject) => {
-										query.subscribe((result) => {
-											if(result.isSuccess){
-												resolve(result.data)
-											}else if(result.isError){
-												reject(result.error)
-											}
-										})
-									})
-
-									transaction.logs = logs.filter(log => log.transactionHash?.toLowerCase() === transaction.hash.toLowerCase())
-									*/
-								}
-
-								return transaction
+								return { transaction: { ...transaction, ...transactionReceipt } }
 							},
-							select: ({ transaction, logs }) => normalizeViemTransaction(transaction, logs, network),
+							select: ({ transaction, logs }) => normalizeViemTransaction(transaction, network, logs),
 						})}
 						let:result={transaction}
 					>

@@ -38,6 +38,7 @@ export const normalizeViemTransaction = (
 		| Exclude<Awaited<ReturnType<Ethereum.PublicClient['getBlock']>>['transactions'][number], `0x${string}`>
 	),
 	network: Ethereum.Network,
+	logs?: TransactionReceipt['logs'],
 ): Ethereum.Transaction => ({
 	network,
 	transactionId: 'hash' in transaction ? transaction.hash : transaction.transactionHash,
@@ -79,9 +80,11 @@ export const normalizeViemTransaction = (
 		accessList: transaction.accessList,
 	} : {}),
 
-	...('logs' in transaction && {
+	...('logs' in transaction ? {
 		logEvents: transaction.logs.map(normalizeViemLogEvent)
-	}),
+	} : logs ? {
+		logEvents: logs.map(normalizeViemLogEvent),
+	} : {}),
 })
 		
 export const normalizeViemLogEvent = (logEvent: TransactionReceipt['logs'][number]): Ethereum.TransactionLogEvent => ({
@@ -93,6 +96,7 @@ export const normalizeViemLogEvent = (logEvent: TransactionReceipt['logs'][numbe
 	},
 
 	transactionHash: logEvent.transactionHash ?? undefined,
+	indexInTransaction: logEvent.logIndex ?? undefined,
 
 	indexInBlock: logEvent.transactionIndex ?? undefined,
 	blockNumber: logEvent.blockNumber !== null ? Number(logEvent.blockNumber) : undefined,
