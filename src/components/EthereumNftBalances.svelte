@@ -384,7 +384,7 @@
 					animate:flip|local={{duration: 500, delay: Math.abs(i) * 10, easing: quintOut}}
 					draggable={true}
 				>
-					{#if contract.metadata.bannerImage && !show3D}
+					{#if contract.metadata?.bannerImage && !show3D}
 						<img
 							class="cover-image"
 							src={resolveUri({
@@ -399,7 +399,7 @@
 					<header class="column">
 						<div class="bar wrap">
 							<h5 class="row">
-								{#if contract.metadata.logoImage}
+								{#if contract.metadata?.logoImage}
 									<img
 										src={resolveUri({
 											uri: contract.metadata.logoImage,
@@ -429,7 +429,7 @@
 						</div>
 
 						{#if showNFTMetadata}
-							{#if contract.metadata.description}<p>{contract.metadata.description}</p>{/if}
+							{#if contract.metadata?.description}<p>{contract.metadata.description}</p>{/if}
 						{/if}
 					</header>
 

@@ -121,7 +121,7 @@ export namespace Ethereum {
 
 		totalSupply?: bigint
 
-		metadata: {
+		metadata?: {
 			description?: string
 			bannerImage?: string
 			logoImage?: string
