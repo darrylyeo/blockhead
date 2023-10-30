@@ -277,7 +277,15 @@
 								transactionProvider={$preferences.transactionProvider}
 
 								bind:block={navigationContext.block}
-							/>
+								let:block
+							>
+								{#if block}
+									<EthereumBlock
+										network={$explorerNetwork}
+										{block}
+									/>
+								{/if}
+							</EthereumBlockLoader>
 						{/if}
 					</div>
 				{:else if $explorerQueryType === ExplorerQueryType.Account}
