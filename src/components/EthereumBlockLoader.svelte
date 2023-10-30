@@ -36,7 +36,10 @@
 
 
 	// Outputs
-	export let block: Ethereum.Block
+	let placeholderData: Pick<Ethereum.Block, 'blockNumber' | 'network'> = { network, blockNumber }
+	$: placeholderData = { network, blockNumber }
+
+	export let block: Ethereum.Block | typeof placeholderData = placeholderData
 
 	type SharedSlotProps = {
 		block: typeof block,
@@ -64,6 +67,7 @@
 
 
 <Loader
+	{...$$restProps}
 	loadingIcon={transactionProviderIcons[transactionProvider]}
 	loadingIconName={transactionProvider}
 	{loadingMessage}
@@ -77,6 +81,7 @@
 					chainID: network.chainId,
 					blockNumber
 				}],
+				placeholderData: () => placeholderData,
 				queryFn: async () => (
 					(await getBlock({
 						chainID: network.chainId,
@@ -101,13 +106,14 @@
 					chainID: network.chainId,
 					blockNumber
 				}],
+				placeholderData: () => placeholderData,
 				queryFn: async () => (
 					await MoralisWeb3Api.block.getBlock({
 						chain: chainCodeFromNetwork(network),
 						blockNumberOrHash: blockNumber,
 					})
 				),
-				select: block => normalizeMoralisBlock(block, network),
+				select: block => block === placeholderData ? block : normalizeMoralisBlock(block, network),
 			}),
 		},
 
@@ -119,13 +125,14 @@
 					chainID: network.chainId,
 					blockNumber,
 				}],
+				placeholderData: () => placeholderData,
 				queryFn: async () => (
 					await publicClient.getBlock({
 						blockNumber: BigInt(blockNumber),
 						includeTransactions: true,
 					})
 				),
-				select: block => normalizeViemBlock(block, network),
+				select: block => block === placeholderData ? block : normalizeViemBlock(block, network),
 			}),
 		},
 	}[transactionProvider]}

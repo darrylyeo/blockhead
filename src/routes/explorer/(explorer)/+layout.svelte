@@ -112,6 +112,8 @@
 	import EthereumBlockHeight from '../../../components/EthereumBlockHeight.svelte'
 
 	import EthereumAccountOrContract from '../../../components/EthereumAccountOrContract.svelte'
+	import EthereumBlock from '../../../components/EthereumBlock.svelte'
+	import EthereumBlockHeader from '../../../components/EthereumBlockHeader.svelte'
 	import EthereumBlockLoader from '../../../components/EthereumBlockLoader.svelte'
 	import EthereumBlockNavigation from '../../../components/EthereumBlockNavigation.svelte';
 	import EthereumTransactionLoader from '../../../components/EthereumTransactionLoader.svelte'
@@ -271,6 +273,7 @@
 							</FilecoinTipsetLoader>
 						{:else}
 							<EthereumBlockLoader
+								containerClass="card"
 								network={$explorerNetwork}
 								{networkProvider}
 								blockNumber={$explorerParams.blockNumber}
@@ -278,8 +281,20 @@
 
 								bind:block={navigationContext.block}
 								let:block
+								let:status
 							>
-								{#if block}
+								<svelte:fragment slot="header" let:block>
+									{#if block}
+										<EthereumBlockHeader
+											network={$explorerNetwork}
+											{block}
+										/>
+									{/if}
+								</svelte:fragment>
+
+								{#if status === 'resolved'}
+									<hr>
+
 									<EthereumBlock
 										network={$explorerNetwork}
 										{block}
