@@ -238,6 +238,11 @@
 		if($fromQuery.isPlaceholderData){
 			status = LoadingStatus.Idle
 		}
+		else if($fromQuery.isInitialLoading){
+			if($fromQuery.data !== undefined)
+				_result = $fromQuery.data
+			status = LoadingStatus.Loading
+		}
 		else if($fromQuery.isLoading){
 			status = LoadingStatus.Loading
 		}
