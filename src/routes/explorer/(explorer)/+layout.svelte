@@ -288,6 +288,7 @@
 										<EthereumBlockHeader
 											network={$explorerNetwork}
 											{block}
+											headingLevel={2}
 										/>
 									{/if}
 								</svelte:fragment>
@@ -298,6 +299,7 @@
 									<EthereumBlock
 										network={$explorerNetwork}
 										{block}
+										headingLevel={2}
 									/>
 								{/if}
 							</EthereumBlockLoader>

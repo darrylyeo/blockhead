@@ -15,7 +15,8 @@
 	// (Computed)
 	$: lastUpdate = updatesByNetwork.get(network)?.find(upgrade => Number(block.blockNumber) >= upgrade.blockNumber)
 
-	// (View data)
+	// (View options)
+	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 2
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
 	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	export let showFees = false
@@ -85,7 +86,7 @@
 
 
 <div class="bar">
-	<h3>Network Consensus</h3>
+	<svelte:element this={`h${headingLevel + 1}`}>Network Consensus</svelte:element>
 
 	{#if lastUpdate}
 		<span class="card-annotation">
@@ -187,10 +188,10 @@
 
 	<div class="bar wrap">
 		<div class="row">
-			<h3>
+			<svelte:element this={`h${headingLevel + 1}`}>
 				Transactions
 				{#if block.transactions?.length}({block.transactions.length}{block.transactions.length === 100 ? '+' : ''}){/if}
-			</h3>
+			</svelte:element>
 
 			{#if showTransactions}
 				<button class="small" on:click={() => showTransactions = false} transition:scale|global>Hide</button>
