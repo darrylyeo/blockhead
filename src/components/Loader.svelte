@@ -427,7 +427,7 @@
 				</div>
 			{/if}
 		</Collapsible>
-	{:else}
+	{:else if layout === 'passive'}
 		<slot
 			name="header"
 			{result}
@@ -438,24 +438,33 @@
 			{cancel}
 		/>
 
-		{#if layout === 'passive'}
+		<slot
+			{result}
+			{status}
+			{loadingMessage}
+			{errorMessage}
+			{load}
+			{cancel}
+			pagination={$fromInfiniteQuery && {
+				hasPreviousPage: $fromInfiniteQuery.hasPreviousPage,
+				hasNextPage: $fromInfiniteQuery.hasNextPage,
+				fetchPreviousPage: $fromInfiniteQuery.fetchPreviousPage,
+				fetchNextPage: $fromInfiniteQuery.fetchNextPage,
+			}}
+		/>
+	{:else if layout === 'default'}
+		<div class={containerClass}>
 			<slot
+				name="header"
 				{result}
 				{status}
 				{loadingMessage}
 				{errorMessage}
 				{load}
 				{cancel}
-				pagination={$fromInfiniteQuery && {
-					hasPreviousPage: $fromInfiniteQuery.hasPreviousPage,
-					hasNextPage: $fromInfiniteQuery.hasNextPage,
-					fetchPreviousPage: $fromInfiniteQuery.fetchPreviousPage,
-					fetchNextPage: $fromInfiniteQuery.fetchNextPage,
-				}}
 			/>
-		{:else if layout === 'default'}
+
 			<SizeContainer
-				{containerClass}
 				class="loader stack status-{status}"
 				{isOpen}
 				{clip}
@@ -478,6 +487,7 @@
 						/>
 					</div>
 				{/if}
+
 				{#if status === LoadingStatus.Idle}
 					<slot name="idle" {load}></slot>
 				{:else if status === LoadingStatus.Loading}
@@ -515,7 +525,7 @@
 					</div>
 				{/if}
 			</SizeContainer>
-		{/if}
+		</div>
 	{/if}
 
 	<slot name="footer">
