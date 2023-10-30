@@ -39,7 +39,8 @@
 	export let block: Ethereum.Block
 
 	type SharedSlotProps = {
-		block: typeof block
+		block: typeof block,
+		status: Loader<any, any, any, any, any>['$$slot_def']['default']['status'],
 	}
 
 	type $$Slots = {
@@ -130,6 +131,7 @@
 	}[transactionProvider]}
 	bind:result={block}
 	let:result={block}
+	let:status
 >
 	<svelte:fragment slot="loadingIcon">
 		{#if transactionProvider === TransactionProvider.RpcProvider}
@@ -139,9 +141,11 @@
 		{/if}
 	</svelte:fragment>
 
-	<svelte:fragment slot="header">
-		<slot name="header" {block} />
+	<svelte:fragment slot="header"
+		let:status
+	>
+		<slot name="header" {block} {status} />
 	</svelte:fragment>
 
-	<slot {block} />
+	<slot {block} {status} />
 </Loader>
