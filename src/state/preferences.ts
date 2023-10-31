@@ -208,6 +208,7 @@ export const preferencesConfig = [
 						name: 'Off-Chain',
 						options: [
 							{ value: TokenBalancesProvider.Airstack, name: 'Airstack' },
+							{ value: TokenBalancesProvider.Chainbase, name: 'Chainbase › Token API' },
 							{ value: TokenBalancesProvider.Covalent, name: 'Covalent' },
 							{ value: TokenBalancesProvider.Moralis, name: 'Moralis › Web3 API' },
 							{ value: TokenBalancesProvider.Zapper, name: 'Zapper' },

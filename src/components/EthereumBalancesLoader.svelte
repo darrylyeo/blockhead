@@ -47,6 +47,7 @@
 	import { getViemPublicClient } from '../data/networkProviders'
 
 	import { airstackNetworkNames, getClient } from '../api/airstack'
+	import { getErc20TokenBalances } from '../api/chainbase'
 	import { getTokenAddressBalances } from '../api/covalent'
 	import { MoralisWeb3Api, chainCodeFromNetwork } from '../api/moralis/web3Api'
 	import { getWalletTokenBalance } from '../api/quicknode'
@@ -91,6 +92,17 @@
 				:
 					quote_rate,
 		},
+	})
+
+	const normalizeChainbaseTokenBalance = (asset: Awaited<ReturnType<typeof getErc20TokenBalances>>['data'][number]): TokenWithBalance => ({
+		token: {
+			address: asset.contract_address,
+			name: asset.name,
+			symbol: asset.symbol,
+			decimals: asset.decimals,
+			icon: asset.logos?.[0]?.uri,
+		},
+		balance: BigInt(asset.balance),
 	})
 
 	const normalizeLiqualityTokenBalance = (asset: Awaited<ReturnType<typeof import('@liquality/wallet-sdk').ERC20Service.listAccountTokens>>[number]): TokenWithBalance => ({
@@ -271,6 +283,28 @@
 					},
 					select: data => (
 						(data.TokenBalances.TokenBalance ?? []).map(normalizeAirstackTokenBalance)
+					),
+					staleTime: 10 * 1000,
+				})
+			),
+		},
+
+		[TokenBalancesProvider.Chainbase]: {
+			fromQuery: address && network && (
+				createQuery({
+					queryKey: ['Balances', {
+						tokenBalancesProvider,
+						address,
+						chainID: network.chainId,
+					}],
+					queryFn: async () => (
+						await getErc20TokenBalances({
+							address,
+							chainId: network.chainId,
+						})
+					),
+					select: result => (
+						result.data.map(normalizeChainbaseTokenBalance)
 					),
 					staleTime: 10 * 1000,
 				})
