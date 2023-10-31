@@ -18,7 +18,7 @@ const request = async (
 	endpoint: string,
 	params: Record<string, string | number | undefined>,
 ) => (
-	await fetch(`https://api.chainbase.online/v1/${endpoint}?${new URLSearchParams(params).toString()}`, {
+	await fetch(`https://api.chainbase.online/v1/${endpoint}?${new URLSearchParams(Object.entries(params).filter(([_, value]) => value)).toString()}`, {
 		method: 'GET', 
 		headers: {
 			accept: 'application/json',
