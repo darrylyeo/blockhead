@@ -114,7 +114,7 @@ export const getErc20TokenBalances = async ({
 			current_usd_price: integer,
 			balance: string,
 		}[],
-		next_page: integer,
+		next_page?: integer,
 		count: integer,
 	}
 )
@@ -178,7 +178,7 @@ export const getNftsByAddress = async ({
 				}[],
 			},
 		}[],
-		next_page: integer,
+		next_page?: integer,
 		count: integer,
 	}
 )
@@ -253,7 +253,7 @@ export const getNftTransfers = async ({
 			token_id: string,
 			value: string,
 		}[],
-		next_page: integer,
+		next_page?: integer,
 		count: integer,
 	}
 )
@@ -358,7 +358,7 @@ export const getNftRarity = async ({
 				total: integer,
 			}[],
 		}[],
-		next_page: integer,
+		next_page?: integer,
 		count: integer,
 	}
 )
@@ -453,7 +453,7 @@ export const getNftCollectionItems = async ({
 			rarity_score?: number,
 			rarity_rank?: integer,
 		}[],
-		next_page: integer,
+		next_page?: integer,
 		count: integer,
 	}
 )
@@ -512,7 +512,7 @@ export const searchNftCollections = async ({
 			rarity_score?: number,
 			rarity_rank?: integer,
 		}[],
-		next_page: integer,
+		next_page?: integer,
 		count: integer,
 	}
 )
@@ -649,7 +649,7 @@ export const getNftOwnerHistory = async ({
 			token_id: string,
 			value: string,
 		}[],
-		next_page: integer,
+		next_page?: integer,
 		count: integer,
 	}
 )
@@ -726,7 +726,7 @@ export const getNftTrendingCollections = async ({
 			avg_price: number,
 			collection: NftCollection,
 		}[],
-		next_page: integer,
+		next_page?: integer,
 		count: integer,
 	}
 )
@@ -837,7 +837,7 @@ export const getTokenTransfers = async ({
 			to_address: Ethereum.Address,
 			value: string,
 		}[],
-		next_page: integer,
+		next_page?: integer,
 		count: integer,
 	}
 )
@@ -874,7 +874,7 @@ export const getTokenHolders = async ({
 		code: integer,
 		message: string,
 		data: Ethereum.Address[],
-		next_page: integer,
+		next_page?: integer,
 		count: integer,
 	}
 )
@@ -914,7 +914,7 @@ export const getTokenTopHolders = async ({
 			amount?: string,
 			usd_value?: string,
 		}[],
-		next_page: integer,
+		next_page?: integer,
 		count: integer,
 	}
 )
@@ -1390,7 +1390,7 @@ export const getTransactionsByAccount = async ({
 			to_address: Ethereum.Address,
 			value: string,
 		}[],
-		next_page: integer,
+		next_page?: integer,
 		count: integer,
 	}
 )
@@ -1451,7 +1451,7 @@ export const getEventsByContract = async ({
 			to_address: Ethereum.Address,
 			value: string,
 		}[],
-		next_page: integer,
+		next_page?: integer,
 		count: integer,
 	}
 )
@@ -1502,7 +1502,7 @@ export const getEventsByContract = async ({
 // 			to_address: Ethereum.Address,
 // 			value: string,
 // 		}[],
-// 		next_page: integer,
+// 		next_page?: integer,
 // 		count: integer,
 // 	}
 // )
