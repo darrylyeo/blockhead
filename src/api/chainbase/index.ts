@@ -1599,7 +1599,7 @@ export const normalizeTransaction = (
 	finalityStatus: 'finalized',
 
 	blockNumber: transaction.block_number,
-	blockTimestamp: Number(transaction.block_timestamp),
+	blockTimestamp: new Date(transaction.block_timestamp).valueOf(),
 
 	transactionIndex: transaction.transaction_index,
 	nonce: transaction.nonce,
