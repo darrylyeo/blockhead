@@ -40,7 +40,7 @@
 
 
 	// Functions
-	import { createQuery } from '@tanstack/svelte-query'
+	import { createInfiniteQuery, createQuery } from '@tanstack/svelte-query'
 	import { queryStore, gql } from '@urql/svelte'
 	import { ConcurrentPromiseQueue } from '../utils/ConcurrentPromiseQueue'
 
@@ -291,20 +291,24 @@
 
 		[TokenBalancesProvider.Chainbase]: {
 			fromQuery: address && network && (
-				createQuery({
+				createInfiniteQuery({
 					queryKey: ['Balances', {
 						tokenBalancesProvider,
 						address,
 						chainID: network.chainId,
 					}],
-					queryFn: async () => (
+					queryFn: async ({ pageParam: page }) => (
 						await getErc20TokenBalances({
 							address,
 							chainId: network.chainId,
+							page,
 						})
 					),
+					getNextPageParam: (lastPage) => lastPage?.data.next_page,
 					select: result => (
-						result.data.map(normalizeChainbaseTokenBalance)
+						result.pages
+							.flatMap(page => page.data)
+							.map(normalizeChainbaseTokenBalance)
 					),
 					staleTime: 10 * 1000,
 				})

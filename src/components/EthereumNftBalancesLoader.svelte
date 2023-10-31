@@ -64,10 +64,12 @@
 
 
 	// Functions
-	import { createQuery } from '@tanstack/svelte-query'
+	import { createInfiniteQuery, createQuery } from '@tanstack/svelte-query'
 
 	import { gql } from '@urql/svelte'
 	import { airstackNetworkNames, getClient, normalizeNftContracts as normalizeNftContractsAirstack } from '../api/airstack'
+
+	import { normalizeNftContracts as normalizeNftContractsChainbase } from '../api/chainbase'
 
 	import { getTokenAddressBalances, normalizeNftContract as normalizeNftContractCovalent } from '../api/covalent'
 
@@ -239,6 +241,35 @@
 							.then(result => result.data)
 					},
 					select: normalizeNftContractsAirstack,
+					staleTime: 10 * 1000,
+				})
+			),
+		},
+
+		[NftProvider.Chainbase]: {
+			fromQuery: address && network && (
+				createInfiniteQuery({
+					queryKey: ['NFTs', {
+						nftProvider,
+						address,
+						chainID: network.chainId,
+						quoteCurrency: quoteCurrency
+					}],
+					queryFn: async ({ pageParam: nextPage = 0 }) => {
+						const { getNftsByAddress } = await import('../api/chainbase')
+
+						return await getNftsByAddress({
+							chainId: network.chainId,
+							address,
+							page: nextPage,
+						})
+					},
+					getNextPageParam: lastPage => lastPage.next_page,
+					select: result => (
+						normalizeNftContractsChainbase(
+							result.pages?.flatMap(page => page.data)
+						)
+					),
 					staleTime: 10 * 1000,
 				})
 			),

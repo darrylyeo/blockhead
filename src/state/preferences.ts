@@ -257,6 +257,7 @@ export const preferencesConfig = [
 						name: 'Off-Chain',
 						options: [
 							{ value: NftProvider.Airstack, name: 'Airstack' },
+							{ value: NftProvider.Chainbase, name: 'Chainbase' },
 							{ value: NftProvider.Covalent, name: 'Covalent' },
 							{ value: NftProvider.NftPort,  name: 'NFTPort' }
 							// { value: 'Zapper', name: 'Zapper' },

@@ -158,25 +158,41 @@ export const getNftsByAddress = async ({
 			contract_address: string,
 			erc_type: string,
 			metadata?: {
-				mint_time: string,
-				mint_transaction_hash: Ethereum.TransactionID,
-				name: string,
-				owner: Ethereum.Address,
-				symbol: string,
-				token_id: string,
-				token_uri: string,
-				image_uri: string,
-				total: integer,
-				total_string: string,
-				traits?: string,
-				rarity_score?: number,
-				rarity_rank?: integer,
-				floor_prices?: {
-					value: string,
-					symbol: string,
-					address: string,
-				}[],
+				name: string;
+				description: string;
+				created_by: string;
+				image: string;
+				image_details: {
+					bytes: number;
+					format: string;
+					height: number;
+					sha256: string;
+					width: number;
+				};
+				image_url: string;
+				attributes: {
+					trait_type: string;
+					value: string;
+				}[];
 			},
+			mint_time: string,
+			mint_transaction_hash: Ethereum.TransactionID,
+			name: string,
+			owner: Ethereum.Address,
+			symbol: string,
+			token_id: string,
+			token_uri: string,
+			image_uri: string,
+			total: integer,
+			total_string: string,
+			traits?: string,
+			rarity_score?: number,
+			rarity_rank?: integer,
+			floor_prices?: {
+				value: string,
+				symbol: string,
+				address: string,
+			}[],
 		}[],
 		next_page?: integer,
 		count: integer,
@@ -1506,3 +1522,30 @@ export const getEventsByContract = async ({
 // 		count: integer,
 // 	}
 // )
+
+
+export const normalizeNftContracts = (nfts: Awaited<ReturnType<typeof getNftsByAddress>>['data']): Ethereum.NftContractWithNfts[] => (console.log({nfts})||
+	[
+		...nfts
+			?.groupToMap(nft => nft.contract_address)
+			.entries()
+		?? []
+	]
+		.map(([contractAddress, nfts]: [Ethereum.ContractAddress, Awaited<ReturnType<typeof getNftsByAddress>>['data']]): Ethereum.NftContractWithNfts => ({
+			address: contractAddress,
+			ercTokenStandards: [nfts[0].erc_type as Ethereum.ERCTokenStandard],
+			nfts: nfts.map(nft => ({
+				owner: nft.owner,
+		
+				tokenId: nft.token_id,
+				tokenUri: nft.token_uri,
+				
+				metadata: {
+					name: nft.metadata?.name,
+					description: nft.metadata?.description,
+					image: nft.metadata?.image_url,
+					attributes: nft.metadata?.attributes,
+				}
+			})),
+		}))
+)
