@@ -53,7 +53,7 @@
 	export let isOpen = true
 	export let clip = true
 
-	export let containerClass: string
+	export let containerClass: string = 'column-block'
 	export let contentClass = 'column-block'
 
 	export let showStatusAndActions = false
