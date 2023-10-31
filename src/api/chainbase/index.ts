@@ -14,11 +14,26 @@ type NftCollection = {
 	volume: string,
 }
 
+
+const supportedChains = [
+	1,
+	137,
+	56,
+	43114,
+	42161,
+	10,
+	8453,
+	324,
+] as const satisfies Ethereum.ChainID[]
+
 const request = async (
 	endpoint: string,
 	params: Record<string, string | number | undefined>,
-) => (
-	await fetch(`https://api.chainbase.online/v1/${endpoint}?${new URLSearchParams(Object.entries(params).filter(([_, value]) => value)).toString()}`, {
+) => {
+	if(params['chain_id'] && !supportedChains.includes(Number(params['chain_id'])))
+		throw new Error(`Chainbase doesn't yet support chain ID ${params['chain_id']}.`)
+
+	return await fetch(`https://api.chainbase.online/v1/${endpoint}?${new URLSearchParams(Object.entries(params).filter(([_, value]) => value)).toString()}`, {
 		method: 'GET', 
 		headers: {
 			accept: 'application/json',
@@ -26,7 +41,7 @@ const request = async (
 		},
 	})
 		.then(response => response.json())
-)
+}
 
 // Balance API
 
