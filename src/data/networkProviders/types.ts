@@ -12,6 +12,7 @@ export enum NetworkProvider {
 	GatewayFm = 'Gateway.fm',
 	GetBlock = 'GetBlock',
 	Blast = 'Blast',
+	Chainbase = 'Chainbase',
 }
 
 export enum NetworkProviderConnectionType {

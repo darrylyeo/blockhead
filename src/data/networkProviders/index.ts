@@ -33,10 +33,11 @@ import { pocketProviderConfigs } from './pocket'
 import { gatewayFmProviderConfigs } from './gatewayFm'
 import { getBlockProviderConfigs } from './getBlock'
 import { blastProviderConfigs } from './blast'
+import { chainbaseProviderConfigs } from './chainbase'
 
 
 // Icons
-import { AlchemyIcon, BlastIcon, EtherscanIcon, FigmentIcon, GatewayFmIcon, GetBlockIcon, InfuraIcon, MoralisIcon, TenderlyIcon, PocketIcon, QuickNodeIcon } from '../../assets/icons'
+import { AlchemyIcon, BlastIcon, ChainbaseIcon, EtherscanIcon, FigmentIcon, GatewayFmIcon, GetBlockIcon, InfuraIcon, MoralisIcon, TenderlyIcon, PocketIcon, QuickNodeIcon } from '../../assets/icons'
 
 
 // Functions
@@ -688,6 +689,59 @@ export const networkProviderConfigs = [
 						[NetworkProviderConnectionType.WebSocket]: webSocket,
 					}[connectionType](
 						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.blastapi.io/${env.BLAST_PROJECT_ID}${config.path ?? ''}`,
+						{},
+					),
+				})
+			)
+		},
+	},
+	
+	{
+		provider: NetworkProvider.Chainbase,
+		name: 'Chainbase',
+		icon: ChainbaseIcon,
+
+		getEthersProvider: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+			nodeType = NetworkProviderNodeType.Default,
+		}) => {
+			const config = chainbaseProviderConfigs.find(config =>
+				config.networkSlug === network.slug &&
+				config.connectionType === connectionType &&
+				config.nodeType === nodeType
+			)
+
+			return config && (
+				new ({
+					[NetworkProviderConnectionType.RPC]: JsonRpcProvider,
+					[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
+				}[connectionType])(
+					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.s.chainbase.online/v1/${env.CHAINBASE_API_KEY}`,
+					network.chainId
+				)
+			)
+		},
+
+		getViemPublicClient: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+			nodeType = NetworkProviderNodeType.Default,
+		}) => {
+			const config = chainbaseProviderConfigs.find(config =>
+				config.networkSlug === network.slug &&
+				config.connectionType === connectionType &&
+				config.nodeType === nodeType
+			)
+
+			return config && (
+				createPublicClient({
+					chain: networkToViemChain(network),
+					transport: {
+						[NetworkProviderConnectionType.RPC]: http,
+						[NetworkProviderConnectionType.WebSocket]: webSocket,
+					}[connectionType](
+						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.s.chainbase.online/v1/${env.CHAINBASE_API_KEY}`,
 						{},
 					),
 				})
