@@ -12,7 +12,7 @@
 	export let publicClient: Ethereum.PublicClient
 
 	export let quoteCurrency: TickerSymbol
-	export let transactionProvider: TransactionProvider
+	export let transactionProvider: string // TransactionProvider
 
 	export let includeLogs = true
 
@@ -48,6 +48,7 @@
 
 	// Components
 	import Loader from './Loader.svelte'
+	import { getTransactionsByAccount as getTransactionsByAccountChainbase, normalizeTransaction as normalizeTransactionChainbase } from '../api/chainbase';
 </script>
 
 
@@ -57,6 +58,30 @@
 	{loadingMessage}
 	{errorMessage}
 	{...{
+		[TransactionProvider.Chainbase]: {
+			fromInfiniteQuery: createInfiniteQuery({
+				queryKey: ['Transactions', {
+					transactionProvider,
+					chainID: network.chainId,
+					address,
+					quoteCurrency,
+				}],
+				queryFn: async ({ pageParam: page }) => (
+					await getTransactionsByAccountChainbase({
+						chainId: network.chainId,
+						address,
+						page,
+					})
+				),
+				getNextPageParam: (lastPage) => lastPage.next_page,
+				select: result => (
+					(result?.pages?.flatMap(page => page.data) ?? [])
+						.map(transaction => normalizeTransactionChainbase(transaction, network))
+				),
+				staleTime: 10 * 1000,
+			}),
+		},
+
 		[TransactionProvider.Covalent]: {
 			fromInfiniteQuery: createInfiniteQuery({
 				queryKey: ['Transactions', {
