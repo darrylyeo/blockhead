@@ -33,7 +33,7 @@
 
 
 	// Outputs
-	export let transactions: Transaction[]
+	export let transactions: Transaction[] | undefined
 
 	type SharedSlotProps = {
 		transactions: typeof transactions

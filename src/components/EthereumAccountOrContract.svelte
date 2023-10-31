@@ -273,40 +273,42 @@
 							</summary>
 						</svelte:fragment>
 
-						<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
-							{#each transactions as transaction}
-								{#if transactionProvider === TransactionProvider.Covalent}
-									<a class="card" id={transaction.transactionId} href="#{transaction.transactionId}">
-										<EthereumTransactionCovalent
-											{network}
-											{transaction}
-											{quoteCurrency}
-											contextualAddress={address}
-											{detailLevel}
-											{tokenBalanceFormat}
-											{showFees}
-											layout="inline"
-										/>
-									</a>
+						{#if transactions?.length}
+							<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
+								{#each transactions as transaction}
+									{#if transactionProvider === TransactionProvider.Covalent}
+										<a class="card" id={transaction.transactionId} href="#{transaction.transactionId}">
+											<EthereumTransactionCovalent
+												{network}
+												{transaction}
+												{quoteCurrency}
+												contextualAddress={address}
+												{detailLevel}
+												{tokenBalanceFormat}
+												{showFees}
+												layout="inline"
+											/>
+										</a>
 
+									{:else}
+										<a class="card" id={transaction.transactionId} href="#{transaction.transactionId}">
+											<EthereumTransaction
+												{network}
+												{transaction}
+												{quoteCurrency}
+												contextualAddress={address}
+												{detailLevel}
+												{tokenBalanceFormat}
+												{showFees}
+												layout="inline"
+											/>
+										</a>
+									{/if}
 								{:else}
-									<a class="card" id={transaction.transactionId} href="#{transaction.transactionId}">
-										<EthereumTransaction
-											{network}
-											{transaction}
-											{quoteCurrency}
-											contextualAddress={address}
-											{detailLevel}
-											{tokenBalanceFormat}
-											{showFees}
-											layout="inline"
-										/>
-									</a>
-								{/if}
-							{:else}
-								<div class="card">No transactions yet.</div>
-							{/each}
-						</div>
+									<div class="card">No transactions yet.</div>
+								{/each}
+							</div>
+						{/if}
 					</EthereumTransactionsLoader>
 				</div>
 			{:else}{#key selectedToken}
@@ -357,24 +359,26 @@
 							</div>
 						</svelte:fragment>
 
-						<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
-							{#each transactions as transaction}
-								<a class="card" id={transaction.tx_hash} href="#{transaction.tx_hash}">
-									<EthereumTransactionCovalent
-										{network}
-										{transaction}
-										{quoteCurrency}
-										contextualAddress={address}
-										{detailLevel}
-										{tokenBalanceFormat}
-										{showFees}
-										layout="inline"
-									/>
-								</a>
-							{:else}
-								<div class="card">No transactions yet.</div>
-							{/each}
-						</div>
+						{#if transactions?.length}
+							<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
+								{#each transactions as transaction}
+									<a class="card" id={transaction.tx_hash} href="#{transaction.tx_hash}">
+										<EthereumTransactionCovalent
+											{network}
+											{transaction}
+											{quoteCurrency}
+											contextualAddress={address}
+											{detailLevel}
+											{tokenBalanceFormat}
+											{showFees}
+											layout="inline"
+										/>
+									</a>
+								{:else}
+									<div class="card">No transactions yet.</div>
+								{/each}
+							</div>
+						{/if}
 					</EthereumTransactionsERC20Loader>
 				</div>
 			{/key}{/if}

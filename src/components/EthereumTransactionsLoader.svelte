@@ -34,7 +34,7 @@
 
 
 	// Outputs
-	export let transactions: Ethereum.Transaction[]
+	export let transactions: Ethereum.Transaction[] | undefined
 
 	type SharedSlotProps = {
 		transactions: typeof transactions,
