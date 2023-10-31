@@ -1289,7 +1289,7 @@ export const getBlockByNumber = async ({
 			hash: string,
 			parent_hash: string,
 			timestamp: string,
-			difficulty: string,
+			difficulty?: string,
 			extra_data: string,
 			gas_limit: integer,
 			gas_used: integer,
@@ -1565,6 +1565,28 @@ export const normalizeNftContracts = (nfts: Awaited<ReturnType<typeof getNftsByA
 		}))
 )
 
+export const normalizeBlock = (
+	block: Awaited<ReturnType<typeof getBlockByNumber>>['data'],
+	network: Ethereum.Network,
+): Ethereum.Block => ({
+	network,
+	blockNumber: block.number,
+	finalityStatus: 'finalized',
+
+	blockHash: block.hash as Ethereum.BlockHash,
+	parentBlockHash: block.parent_hash as Ethereum.BlockHash,
+	timestamp: Number(block.timestamp),
+	nonce: block.nonce as Ethereum.BlockNonce,
+
+	difficulty: block.difficulty !== undefined ? BigInt(block.difficulty) : undefined,
+
+	gasLimit: BigInt(block.gas_limit),
+	gasUsed: BigInt(block.gas_used),
+
+	minerAddress: block.miner as Ethereum.Address,
+	extraData: block.extra_data,
+	baseFeePerGas: BigInt(block.base_fee_per_gas),
+})
 
 export const normalizeTransaction = (
 	transaction: Awaited<ReturnType<typeof getTransaction>>['data'],

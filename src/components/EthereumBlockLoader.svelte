@@ -56,6 +56,7 @@
 	import { createQuery } from '@tanstack/svelte-query'
 
 	import { normalizeViemBlock } from '../api/viem'
+	import { getBlockByNumber as getBlockByNumberChainbase, normalizeBlock as normalizeBlockChainbase } from '../api/chainbase'
 	import { getBlock } from '../api/covalent'
 	import { chainCodeFromNetwork, MoralisWeb3Api, normalizeMoralisBlock } from '../api/moralis/web3Api'
 
@@ -74,6 +75,24 @@
 	{errorMessage}
 	contentClass="column"
 	{...{
+		[TransactionProvider.Chainbase]: {
+			fromQuery: createQuery({
+				queryKey: ['Block', {
+					transactionProvider,
+					chainID: network.chainId,
+					blockNumber
+				}],
+				placeholderData: () => placeholderData,
+				queryFn: async () => (
+					await getBlockByNumberChainbase({
+						chainId: network.chainId,
+						number: blockNumber,
+					})
+				),
+				select: result => result === placeholderData ? result : normalizeBlockChainbase(result.data, network),
+			}),
+		},
+
 		[TransactionProvider.Covalent]: {
 			fromQuery: createQuery({
 				queryKey: ['Block', {
