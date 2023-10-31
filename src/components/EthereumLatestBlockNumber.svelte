@@ -37,11 +37,11 @@
 	import { getViemPublicClient } from '../data/networkProviders'
 	import { onDestroy } from 'svelte'
 
-	$: if(network && !blockHeightForNetwork[network.chainId]){
+	$: if(network && !blockHeightForNetwork[network.chainId] && publicClient){
 		const { chainId } = network
 
 		onDestroy(
-			publicClient?.watchBlockNumber({
+			publicClient.watchBlockNumber({
 				onBlockNumber: blockNumber => {
 					blockHeightForNetwork = {
 						...blockHeightForNetwork,
