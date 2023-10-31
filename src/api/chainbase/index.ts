@@ -78,7 +78,7 @@ export const getErc20TokenBalances = async ({
 	chainId,
 	address,
 	contractAddress,
-	limit,
+	limit = 100,
 	page,
 }: {
 	chainId: integer,
@@ -137,7 +137,7 @@ export const getNftsByAddress = async ({
 	address,
 	contractAddress,
 	page,
-	limit,
+	limit = 100,
 }: {
 	chainId: integer,
 	address: Ethereum.Address,
@@ -230,7 +230,7 @@ export const getNftTransfers = async ({
 	fromTimestamp,
 	endTimestamp,
 	page,
-	limit,
+	limit = 100,
 }: {
 	chainId: integer,
 	contractAddress?: Ethereum.ContractAddress,
@@ -340,7 +340,7 @@ export const getNftRarity = async ({
 	rankMin,
 	rankMax,
 	page,
-	limit,
+	limit = 100,
 }: {
 	chainId: integer,
 	contractAddress: Ethereum.ContractAddress,
@@ -492,7 +492,7 @@ export const searchNftCollections = async ({
 	contractAddress,
 	toBlock,
 	page,
-	limit,
+	limit = 100,
 }: {
 	chainId: integer,
 	name: string,
@@ -582,7 +582,7 @@ export const getNftOwners = async ({
 	chainId,
 	contractAddress,
 	page,
-	limit,
+	limit = 100,
 }: {
 	chainId: integer,
 	contractAddress: Ethereum.ContractAddress,
@@ -628,7 +628,7 @@ export const getNftOwnerHistory = async ({
 	fromTimestamp,
 	endTimestamp,
 	page,
-	limit,
+	limit = 100,
 }: {
 	chainId: integer,
 	contractAddress?: Ethereum.ContractAddress,
@@ -719,7 +719,7 @@ export const getNftTrendingCollections = async ({
 	exchangeName = 'all',
 	sort = 'volume_desc',
 	page,
-	limit,
+	limit = 100,
 }: {
 	chainId: integer,
 	range?: '1h' | '12h' | '24h' | '1d' | '7d' | '15d' | '30d' | '60d' | '90d',
@@ -818,7 +818,7 @@ export const getTokenTransfers = async ({
 	fromTimestamp,
 	endTimestamp,
 	page,
-	limit,
+	limit = 100,
 }: {
 	chainId: integer,
 	contractAddress?: Ethereum.ContractAddress,
@@ -874,7 +874,7 @@ export const getTokenHolders = async ({
 	chainId,
 	contractAddress,
 	page,
-	limit,
+	limit = 100,
 }: {
 	chainId: integer,
 	contractAddress: Ethereum.ContractAddress,
@@ -909,7 +909,7 @@ export const getTokenTopHolders = async ({
 	chainId,
 	contractAddress,
 	page,
-	limit,
+	limit = 100,
 }: {
 	chainId: integer,
 	contractAddress: Ethereum.ContractAddress,
@@ -1373,7 +1373,7 @@ export const getTransactionsByAccount = async ({
 	fromTimestamp,
 	endTimestamp,
 	page,
-	limit,
+	limit = 100,
 }: {
 	chainId: integer,
 	address: Ethereum.Address,
@@ -1434,7 +1434,7 @@ export const getEventsByContract = async ({
 	fromTimestamp,
 	endTimestamp,
 	page,
-	limit,
+	limit = 100,
 }: {
 	chainId: integer,
 	contractAddress: Ethereum.ContractAddress,
