@@ -853,6 +853,8 @@ export const networkProviderConfigByProvider = Object.fromEntries(
 // }
 
 
+import { browser } from '$app/environment'
+
 export const getEthersProvider = ({
 	network,
 	networkProvider,
@@ -886,6 +888,8 @@ export const getViemPublicClient = ({
 	connectionType?: NetworkProviderConnectionType,
 	nodeType?: NetworkProviderNodeType,
 }) => {
+	if(!browser) return
+
 	const providerConfig = networkProviderConfigByProvider[networkProvider]
 
 	const publicClient = providerConfig?.getViemPublicClient?.({
