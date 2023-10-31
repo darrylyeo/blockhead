@@ -52,6 +52,7 @@
 	import { createQuery } from '@tanstack/svelte-query'
 
 	import { normalizeViemTransaction } from '../api/viem'
+	import { getTransaction as getTransactionChainbase, normalizeTransaction as normalizeTransactionChainbase } from '../api/chainbase'
 	import { getTransaction as getTransactionCovalent, normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent'
 	// import { getTransaction as getTransactionEtherspot, normalizeTransaction as normalizeEtherspotTransaction } from '../api/etherspot'
 	import { MoralisWeb3Api, chainCodeFromNetwork, normalizeMoralisTransaction } from '../api/moralis/web3Api'
@@ -121,6 +122,50 @@
 							{contextualAddress}
 						/>
 					</Loader>
+
+				{:else if transactionProvider === TransactionProvider.Chainbase}
+					<Loader
+						loadingIcon={transactionProviderIcons[transactionProvider]}
+						loadingMessage="Fetching transaction data via {transactionProvider}..."
+						fromQuery={createQuery({
+							queryKey: ['Transaction', {
+								transactionProvider,
+								chainId: network.chainId,
+								transactionId,
+							}],
+							queryFn: async () => (
+								await getTransactionChainbase({
+									chainId: network.chainId,
+									hash: transactionId,
+								})
+							),
+							select: result => normalizeTransactionChainbase(result.data, network),
+						})}
+						bind:result={transaction}
+						let:result={transaction}
+					>
+						<svelte:fragment slot="header"
+							let:result={transaction}
+							let:status
+						>
+							<slot name="header" {status} {transaction} />
+						</svelte:fragment>
+
+						<EthereumTransaction
+							{network}
+							{transaction}
+							{quoteCurrency}
+
+							{contextualAddress}
+							{detailLevel}
+							{tokenBalanceFormat}
+							{showFees}
+
+							{layout}
+							{innerLayout}
+						/>
+					</Loader>
+
 				{:else if transactionProvider === TransactionProvider.Covalent}
 					<Loader
 						loadingIcon={transactionProviderIcons[transactionProvider]}

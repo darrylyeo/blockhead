@@ -151,6 +151,7 @@ export const preferencesConfig = [
 						name: 'Off-Chain',
 						options: [
 							{ value: TransactionProvider.Etherscan, name: 'Etherscan' },
+							{ value: TransactionProvider.Chainbase, name: 'Chainbase' },
 							{ value: TransactionProvider.Covalent, name: 'Covalent' },
 							{ value: TransactionProvider.Moralis, name: 'Moralis' },
 							// { value: TransactionProvider.Etherspot, name: 'Etherspot' },

@@ -1564,3 +1564,33 @@ export const normalizeNftContracts = (nfts: Awaited<ReturnType<typeof getNftsByA
 			})),
 		}))
 )
+
+
+export const normalizeTransaction = (
+	transaction: Awaited<ReturnType<typeof getTransaction>>['data'],
+	network: Ethereum.Network,
+): Ethereum.Transaction => ({
+	network,
+	transactionId: transaction.transaction_hash,
+
+	executionStatus: transaction.status === 1 ? 'successful' : 'failed',
+	finalityStatus: 'finalized',
+
+	blockNumber: transaction.block_number,
+	blockTimestamp: Number(transaction.block_timestamp),
+
+	transactionIndex: transaction.transaction_index,
+	nonce: transaction.nonce,
+
+	fromAddress: transaction.from_address,
+	toAddress: transaction.to_address,
+	
+	input: transaction.input as Ethereum.TransactionInput,
+	value: BigInt(transaction.value),
+
+	gasToken: network.nativeCurrency,
+	gasUnitsOffered: BigInt(transaction.gas),
+	gasUnitsSpent: BigInt(transaction.gas_used),
+	gasUnitRate: BigInt(transaction.effective_gas_price),
+	gasValue: BigInt(transaction.tx_fee),
+})
