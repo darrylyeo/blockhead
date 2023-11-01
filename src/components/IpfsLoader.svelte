@@ -71,26 +71,28 @@
 		<Loader
 			fromPromise={
 				async () => {
-					const { getIpfsContent, getIpfsDag } = await import('../api/ipfs/helia')
+					throw new Error('IPFS node temporarily disabled.')
 
-					try {
-						return await getIpfsContent({
-							ipfsContentId,
-							ipnsName,
-							ipfsContentPath,
-						})
-							.then(parseResponse)
-					}catch(e){
-						if(e?.constructor?.name === 'NotAFileError'){
-							return await getIpfsDag({
-								ipfsContentId,
-								ipfsContentPath,
-							})
-								.then(dagStats => ({
-									dagStats
-								}))
-						}
-					}
+					// const { getIpfsContent, getIpfsDag } = await import('../api/ipfs/helia')
+
+					// try {
+					// 	return await getIpfsContent({
+					// 		ipfsContentId,
+					// 		ipnsName,
+					// 		ipfsContentPath,
+					// 	})
+					// 		.then(parseResponse)
+					// }catch(e){
+					// 	if(e?.constructor?.name === 'NotAFileError'){
+					// 		return await getIpfsDag({
+					// 			ipfsContentId,
+					// 			ipfsContentPath,
+					// 		})
+					// 			.then(dagStats => ({
+					// 				dagStats
+					// 			}))
+					// 	}
+					// }
 				}
 			}
 			loadingIcon={IpfsIcon}

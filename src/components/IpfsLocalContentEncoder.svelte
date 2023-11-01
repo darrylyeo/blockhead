@@ -12,8 +12,10 @@
 {#if content instanceof FileList}
 	<Loader
 		fromPromise={async () => {
-			const { encodeFiles } = await import('../api/ipfs/helia')
-			return await encodeFiles(content)
+			throw new Error('IPFS node temporarily disabled.')
+
+			// const { encodeFiles } = await import('../api/ipfs/helia')
+			// return await encodeFiles(content)
 		}}
 		loadingIcon={IpfsIcon}
 		loadingIconName='IPFS'
@@ -29,8 +31,10 @@
 {:else if content instanceof File}
 	<Loader
 		fromPromise={async () => {
-			const { encodeFile } = await import('../api/ipfs/helia')
-			return await encodeFile(content)
+			throw new Error('IPFS node temporarily disabled.')
+
+			// const { encodeFile } = await import('../api/ipfs/helia')
+			// return await encodeFile(content)
 		}}
 		loadingIcon={IpfsIcon}
 		loadingIconName='IPFS'
@@ -46,8 +50,10 @@
 {:else}
 	<Loader
 		fromPromise={async () => {
-			const { encodeBytes } = await import('../api/ipfs/helia')
-			return await encodeBytes(content)
+			throw new Error('IPFS node temporarily disabled.')
+
+			// const { encodeBytes } = await import('../api/ipfs/helia')
+			// return await encodeBytes(content)
 		}}
 		loadingIcon={IpfsIcon}
 		loadingIconName='IPFS'
