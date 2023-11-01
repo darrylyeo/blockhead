@@ -44,7 +44,6 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
-	import { getIpfsContent, getIpfsDag } from '../api/ipfs/helia'
 	import { parseResponse } from '../utils/parseResponse'
 
 
@@ -72,7 +71,9 @@
 		<Loader
 			fromPromise={
 				async () => {
-					try{
+					const { getIpfsContent, getIpfsDag } = await import('../api/ipfs/helia')
+
+					try {
 						return await getIpfsContent({
 							ipfsContentId,
 							ipnsName,
