@@ -3,10 +3,6 @@
 	export let content: string | Blob | File | FileList
 
 
-	// Functions
-	import { encodeBytes, encodeFile, encodeFiles } from '../api/ipfs/helia'
-
-
 	// Components
 	import Loader from './Loader.svelte'
 	import { IpfsIcon } from '../assets/icons'
@@ -15,9 +11,10 @@
 
 {#if content instanceof FileList}
 	<Loader
-		fromPromise={async () => (
-			await encodeFiles(content)
-		)}
+		fromPromise={async () => {
+			const { encodeFiles } = await import('../api/ipfs/helia')
+			return await encodeFiles(content)
+		}}
 		loadingIcon={IpfsIcon}
 		loadingIconName='IPFS'
 		loadingMessage={`Encoding ${content.length} files using local IPFS node...`}
@@ -31,9 +28,10 @@
 
 {:else if content instanceof File}
 	<Loader
-		fromPromise={async () => (
-			await encodeFile(content)
-		)}
+		fromPromise={async () => {
+			const { encodeFile } = await import('../api/ipfs/helia')
+			return await encodeFile(content)
+		}}
 		loadingIcon={IpfsIcon}
 		loadingIconName='IPFS'
 		loadingMessage={`Encoding file using local IPFS node...`}
@@ -47,9 +45,10 @@
 
 {:else}
 	<Loader
-		fromPromise={async () => (
-			await encodeBytes(content)
-		)}
+		fromPromise={async () => {
+			const { encodeBytes } = await import('../api/ipfs/helia')
+			return await encodeBytes(content)
+		}}
 		loadingIcon={IpfsIcon}
 		loadingIconName='IPFS'
 		loadingMessage={`Encoding content using local IPFS node...`}
