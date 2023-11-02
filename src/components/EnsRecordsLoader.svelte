@@ -99,7 +99,7 @@
 	fromQuery={publicClient && ensName ? (
 		createQuery({
 			queryKey: ['EnsResolver', {
-				chainID: network.chainId,
+				chainId: network.chainId,
 				networkProvider,
 				ensName,
 			}],
@@ -126,7 +126,7 @@
 			fromQuery={resolverContractAddress && (
 				createQuery({
 					queryKey: ['EnsContentHash', {
-						chainID: network.chainId,
+						chainId: network.chainId,
 						provider: publicClient.name,
 						ensName,
 					}],

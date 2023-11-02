@@ -98,7 +98,7 @@
 					queryKey: ['NFTs', {
 						nftProvider,
 						address,
-						chainID: network.chainId,
+						chainId: network.chainId,
 						quoteCurrency: quoteCurrency
 					}],
 					queryFn: async () => {
@@ -252,7 +252,7 @@
 					queryKey: ['NFTs', {
 						nftProvider,
 						address,
-						chainID: network.chainId,
+						chainId: network.chainId,
 						quoteCurrency: quoteCurrency
 					}],
 					queryFn: async ({ pageParam: nextPage = 0 }) => {
@@ -281,14 +281,14 @@
 					queryKey: ['NFTs', {
 						nftProvider,
 						address,
-						chainID: network.chainId,
+						chainId: network.chainId,
 						quoteCurrency: quoteCurrency
 					}],
 					queryFn: async () => (
 						await getTokenAddressBalances({
 							address,
 							nft: true,
-							chainID: network.chainId,
+							chainId: network.chainId,
 							quoteCurrency: quoteCurrency
 						})
 					),
@@ -308,7 +308,7 @@
 					queryKey: ['NFTs', {
 						nftProvider,
 						address,
-						chainID: network.chainId,
+						chainId: network.chainId,
 						quoteCurrency: quoteCurrency
 					}],
 					queryFn: async () => {
@@ -341,7 +341,7 @@
 					queryKey: ['NFTs', {
 						nftProvider,
 						address,
-						chainID: network.chainId,
+						chainId: network.chainId,
 						quoteCurrency: quoteCurrency
 					}],
 					queryFn: async () => {

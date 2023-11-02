@@ -105,7 +105,7 @@
 			fromInfiniteQuery: createInfiniteQuery({
 				queryKey: ['BlockTransactions', {
 					transactionProvider,
-					chainID: network.chainId,
+					chainId: network.chainId,
 					blockNumber: Number(tipsetNumber),
 				}],
 				queryFn: async ({ pageParam: next_cursor }) => {

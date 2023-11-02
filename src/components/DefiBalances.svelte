@@ -572,7 +572,7 @@
 				queryKey: ['DefiBalances', {
 					defiProvider,
 					address,
-					chainID: network.chainId,
+					chainId: network.chainId,
 				}],
 				queryFn: async () => (
 					await getDefiBalances({

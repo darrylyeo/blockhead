@@ -79,7 +79,7 @@
 			fromQuery: createQuery({
 				queryKey: ['Block', {
 					transactionProvider,
-					chainID: network.chainId,
+					chainId: network.chainId,
 					blockNumber
 				}],
 				placeholderData: () => placeholderData,
@@ -97,13 +97,13 @@
 			fromQuery: createQuery({
 				queryKey: ['Block', {
 					transactionProvider,
-					chainID: network.chainId,
+					chainId: network.chainId,
 					blockNumber
 				}],
 				placeholderData: () => placeholderData,
 				queryFn: async () => (
 					(await getBlock({
-						chainID: network.chainId,
+						chainId: network.chainId,
 						blockNumber,
 					}))
 						.items.map(({
@@ -122,7 +122,7 @@
 			fromQuery: createQuery({
 				queryKey: ['Block', {
 					transactionProvider,
-					chainID: network.chainId,
+					chainId: network.chainId,
 					blockNumber
 				}],
 				placeholderData: () => placeholderData,
@@ -141,7 +141,7 @@
 				queryKey: ['Block', {
 					transactionProvider,
 					networkProvider,
-					chainID: network.chainId,
+					chainId: network.chainId,
 					blockNumber,
 				}],
 				placeholderData: () => placeholderData,

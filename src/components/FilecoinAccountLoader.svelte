@@ -70,7 +70,7 @@
 			fromQuery: createQuery({
 				queryKey: ['Account', {
 					transactionProvider,
-					chainID: network.chainId,
+					chainId: network.chainId,
 					address,
 				}],
 				queryFn: async () => {

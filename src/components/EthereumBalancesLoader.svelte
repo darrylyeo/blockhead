@@ -162,7 +162,7 @@
 						tokenBalancesProvider,
 						networkProvider,
 						address,
-						chainID: network.chainId,
+						chainId: network.chainId,
 					}],
 					queryFn: async () => {
 						const publicClient = getViemPublicClient({
@@ -191,7 +191,7 @@
 						tokenBalancesProvider,
 						networkProvider,
 						address,
-						chainID: network.chainId,
+						chainId: network.chainId,
 					}],
 					queryFn: async () => {
 						if(!(network.chainId in airstackNetworkNames))
@@ -295,7 +295,7 @@
 					queryKey: ['Balances', {
 						tokenBalancesProvider,
 						address,
-						chainID: network.chainId,
+						chainId: network.chainId,
 					}],
 					queryFn: async ({ pageParam: page }) => (
 						await getErc20TokenBalances({
@@ -321,13 +321,13 @@
 					queryKey: ['Balances', {
 						tokenBalancesProvider,
 						address,
-						chainID: network.chainId,
+						chainId: network.chainId,
 					}],
 					queryFn: async () => (
 						await getTokenAddressBalances({
 							address,
 							nft: false,
-							chainID: network.chainId,
+							chainId: network.chainId,
 							quoteCurrency
 						})
 					),
@@ -345,7 +345,7 @@
 					queryKey: ['Balances', {
 						tokenBalancesProvider,
 						address,
-						chainID: network.chainId,
+						chainId: network.chainId,
 					}],
 					queryFn: async () => {
 						const { ERC20Service } = await import('@liquality/wallet-sdk')
@@ -374,7 +374,7 @@
 					queryKey: ['Balances', {
 						tokenBalancesProvider,
 						address,
-						chainID: network.chainId,
+						chainId: network.chainId,
 					}],
 					queryFn: async () => {
 						try {
@@ -447,7 +447,7 @@
 					queryKey: ['Balances', {
 						tokenBalancesProvider,
 						address,
-						chainID: network.chainId,
+						chainId: network.chainId,
 					}],
 					queryFn: async () => (
 						await getTokenBalances({
@@ -469,7 +469,7 @@
 					queryKey: ['Balances', {
 						tokenBalancesProvider,
 						address,
-						chainID: network.chainId,
+						chainId: network.chainId,
 					}],
 					queryFn: async () => (
 						await getWalletTokenBalance({

@@ -178,7 +178,7 @@
 							}],
 							queryFn: async () => (
 								await getTransactionCovalent({
-									chainID: network.chainId,
+									chainId: network.chainId,
 									transactionHash: transactionId,
 									includeLogs: true
 								})

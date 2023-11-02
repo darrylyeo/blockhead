@@ -69,7 +69,7 @@
 			fromQuery: createQuery({
 				queryKey: ['Balances', {
 					tokenBalancesProvider,
-					chainID: network.chainId,
+					chainId: network.chainId,
 					address,
 				}],
 				queryFn: async () => {

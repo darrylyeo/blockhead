@@ -108,7 +108,7 @@
 				queryKey: ['Transaction', {
 					transactionProvider,
 					networkProvider,
-					chainID: network.chainId,
+					chainId: network.chainId,
 					transactionId: transactionCid,
 				}],
 				queryFn: async ({ pageParam: NextPage }) => {

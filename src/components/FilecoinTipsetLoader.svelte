@@ -76,7 +76,7 @@
 			fromQuery: createQuery({
 				queryKey: ['Block', {
 					transactionProvider,
-					chainID: network.chainId,
+					chainId: network.chainId,
 					tipsetNumber: Number(tipsetNumber),
 				}],
 				queryFn: async () => {

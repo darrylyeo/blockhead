@@ -62,7 +62,7 @@
 			fromInfiniteQuery: createInfiniteQuery({
 				queryKey: ['Transactions', {
 					transactionProvider,
-					chainID: network.chainId,
+					chainId: network.chainId,
 					address,
 					quoteCurrency,
 				}],
@@ -86,13 +86,13 @@
 			fromInfiniteQuery: createInfiniteQuery({
 				queryKey: ['Transactions', {
 					transactionProvider,
-					chainID: network.chainId,
+					chainId: network.chainId,
 					address,
 					quoteCurrency,
 				}],
 				queryFn: async ({ pageParam: pageNumber }) => {
 					const result = await getTransactionsByAddress({
-						chainID: network.chainId,
+						chainId: network.chainId,
 						address,
 						includeLogs,
 						quoteCurrency,
@@ -116,7 +116,7 @@
 			fromQuery: createQuery({
 				queryKey: ['Transactions', {
 					transactionProvider,
-					chainID: network.chainId,
+					chainId: network.chainId,
 					address,
 				}],
 				queryFn: async () => (
@@ -134,7 +134,7 @@
 			fromInfiniteQuery: createInfiniteQuery({
 				queryKey: ['Transactions', {
 					transactionProvider,
-					chainID: network.chainId,
+					chainId: network.chainId,
 					address,
 					quoteCurrency,
 				}],

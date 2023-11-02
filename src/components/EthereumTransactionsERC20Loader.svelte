@@ -63,13 +63,13 @@
 		fromInfiniteQuery={createInfiniteQuery({
 			queryKey: ['TransactionsERC20Transfer', {
 				transactionProvider,
-				chainID: network.chainId,
+				chainId: network.chainId,
 				address,
 				quoteCurrency,
 			}],
 			queryFn: async ({ pageParam: pageNumber }) => (
 				await getERC20TokenTransfers({
-					chainID: network.chainId,
+					chainId: network.chainId,
 					address,
 					contractAddress: erc20Token.address,
 					quoteCurrency,
