@@ -378,7 +378,7 @@ export const preferencesConfig = [
 				preferenceId: 'ipfsGateway',
 				name: 'IPFS Gateway',
 				type: 'single',
-				defaultOption: ipfsGateways[0].gatewayProvider,
+				defaultOption: ipfsGateways[1].gatewayProvider,
 				options: [
 					{
 						groupId: 'local',
