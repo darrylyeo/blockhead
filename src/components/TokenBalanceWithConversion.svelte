@@ -25,10 +25,10 @@
 	export let conversionRate: number
 
 	// (View options)
+	export let layout: 'inline' | 'block' = 'inline'
 	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	export let showDecimalPlaces = 3
 	export let showConversionRate = false
-	export let showParentheses = true
 
 	export let animationDelay = 0
 	export let tween = true
@@ -38,27 +38,44 @@
 
 	// Internal state
 	// (Computed)
+	$: showParentheses = layout === 'inline'
 	$: isSmallValue = Math.abs(convertedValue) < 1e-3
 	$: isZero = balance == 0
 
 
 	// Components
+	import InlineContainer from './InlineContainer.svelte'
+	import InlineTransition from './InlineTransition.svelte'
 	import TokenName from './TokenName.svelte'
 	import TokenRate from './TokenRate.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 
 
 	// Transitions
-	import { scaleFont } from '../transitions/scale-font'
-	const sizeByVolume = (size) => 1 + size * 0.0025
+	import { fade } from 'svelte/transition'
+	// const sizeByVolume = (size) => 1 + size * 0.0025
 </script>
 
 
 <style>
+	.token-balance-with-conversion {
+		display: inline;
+		transition: none;
+	}
+	.token-balance-with-conversion[data-layout="block"] {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+	}
+	.token-balance-with-conversion[data-layout="block"][data-format="converted"] .balance-converted {
+		font-size: 0.85em;
+	}
+
 	.balance, .balance-converted {
 		font-size: 1.1em;
 	}
-	.balance + .balance-converted, .worth, .rate {
+	.token-balance-with-conversion[data-format="both"] .balance-converted,
+	.worth, .rate {
 		font-size: 0.85em;
 	}
 
@@ -82,30 +99,56 @@
 </style>
 
 
-<span class="token-balance-with-conversion" class:is-debt={isDebt} class:is-small-value={isSmallValue} class:is-zero={isZero}>
-	{#if tokenBalanceFormat === 'original' || tokenBalanceFormat === 'both'}
-		<span class="balance" transition:scaleFont><!-- style="font-size: {sizeByVolume(convertedValue)}em" -->
-			<TokenBalance
-				{network} {symbol} {address} {name} {icon}
-				{balance} {showDecimalPlaces} {isDebt}
-				{tween} {clip} {transitionWidth}
-			/>
-		</span>
-	{/if}
-	{#if (tokenBalanceFormat === 'converted' || tokenBalanceFormat === 'both')}
-		<span class="balance-converted" transition:scaleFont={{delay: 50 + animationDelay}}>
+<span
+	class="token-balance-with-conversion"
+	class:is-debt={isDebt}
+	class:is-small-value={isSmallValue}
+	class:is-zero={isZero}
+	data-layout={layout}
+	data-format={tokenBalanceFormat}
+>
+	<InlineTransition
+		align="start"
+		key={tokenBalanceFormat === 'original' || tokenBalanceFormat === 'both'}
+		transition={fade}
+		clip
+	>
+		{#if tokenBalanceFormat === 'original' || tokenBalanceFormat === 'both'}
+			<span class="balance"><!-- style="font-size: {sizeByVolume(convertedValue)}em" -->
+				<TokenBalance
+					{network} {symbol} {address} {name} {icon}
+					{balance} {showDecimalPlaces} {isDebt}
+					{tween} {clip} {transitionWidth}
+				/>
+			</span>
+		{:else if tokenBalanceFormat === 'converted' && layout === 'block'}
+			<span class="balance">
+				<TokenName {network} {symbol} {address} {icon} {name} />
+			</span>
+		{/if}
+	</InlineTransition>
+
+	<InlineContainer
+		isOpen={(tokenBalanceFormat === 'converted' || tokenBalanceFormat === 'both')}
+		delay={50 + animationDelay}
+		clip
+	>
+		<span class="balance-converted">
 			{#if tokenBalanceFormat === 'both'}{#if showParentheses}({/if}{/if
 			}<TokenBalance
 				{network} symbol={conversionCurrency}
 				balance={convertedValue} {showDecimalPlaces} showPlainFiat={true} {isDebt}
 				{tween} {clip} {transitionWidth}
-			/>{#if tokenBalanceFormat === 'converted' && conversionCurrency !== symbol}
-				<span class="worth" transition:scaleFont={{delay: animationDelay}}>
+			/><InlineContainer
+				isOpen={tokenBalanceFormat === 'converted' && layout === 'inline' && conversionCurrency !== symbol}
+				delay={animationDelay}
+				clip
+			>
+				<span class="worth">
 					&nbsp;in <TokenName {network} {symbol} {address} {icon} {name} />
 				</span>
-			{/if
-			}{#if showConversionRate && conversionRate}<span class="rate"> at <TokenRate rate={conversionRate} quoteToken={conversionCurrency} baseToken={symbol} layout='horizontal'/></span>{/if
+			</InlineContainer>{#if showConversionRate && conversionRate}<span class="rate"> at <TokenRate rate={conversionRate} quoteToken={conversionCurrency} baseToken={symbol} layout='horizontal'/></span>{/if
 			}{#if tokenBalanceFormat === 'both' && showParentheses}){/if}
 		</span>
-	{/if}
+	</InlineContainer>
 </span>

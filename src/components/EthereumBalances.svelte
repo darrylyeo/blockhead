@@ -157,12 +157,6 @@
 		background-color: rgba(255, 255, 255, 0.3);
 		box-shadow: var(--primary-color) 0 0 0 2px inset;
 	}
-
-	.ethereum-balance :global(.token-balance-with-conversion) {
-		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
-	}
 </style>
 
 
@@ -206,7 +200,6 @@
 					>
 						{#if tokenWithBalance.conversion}
 							<TokenBalanceWithConversion
-								{tokenBalanceFormat}
 
 								{network}
 								erc20Token={tokenWithBalance.token}
@@ -216,9 +209,9 @@
 								convertedValue={tokenWithBalance.conversion.value}
 								conversionRate={tokenWithBalance.conversion.rate}
 
+								layout="block"
+								{tokenBalanceFormat}
 								animationDelay={i * 10}
-								showParentheses={false}
-
 								transitionWidth={filteredBalances.length < 40}
 							/>
 						{:else}
