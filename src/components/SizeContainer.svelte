@@ -7,6 +7,7 @@
 	export let transitionHeight = true
 
 	export let duration = 600
+	export let delay = 0
 	export let easing = 'cubic-bezier(0.16, 1, 0.3, 1)'
 
 	export let clip = false
@@ -46,11 +47,11 @@
 	.container {
 		display: grid;
 		will-change: height;
-		transition: var(--duration, 600ms) var(--easing, cubic-bezier(0.16, 1, 0.3, 1));
+		transition: var(--duration, 600ms) var(--delay, 0ms) var(--easing, cubic-bezier(0.16, 1, 0.3, 1));
 	}
 
 	.container:not(.isOpen) {
-		animation: Absolute forwards 0s var(--duration, 0.6s);
+		animation: Absolute forwards 0s calc(var(--duration, 600ms) + var(--delay, 0ms));
 	}
 	@keyframes Absolute {
 		to {
@@ -98,6 +99,7 @@
 		class:inline
 		style={[
 			duration && `--duration: ${duration}ms;`,
+			delay && `--delay: ${delay}ms;`,
 			easing && `--easing: ${easing};`,
 			transitionWidth && contentRect && `width: ${isOpen ? `${Math.max($contentRect.width, 0)}px` : '0'};`,
 			transitionHeight && contentRect && `height: ${isOpen ? `${Math.max($contentRect.height, 0)}px` : '0'};`,
