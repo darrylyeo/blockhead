@@ -99,7 +99,11 @@
 					</span>
 				{:else if transaction.toAddress}
 					<span class="receiver" transition:fade>
-						<span>to</span>
+						{#if transaction.value}
+							<span>to</span>
+						{:else}
+							<span>{transaction.executionStatus === 'successful' ? 'called' : 'failed to call'}</span>
+						{/if}
 						<AddressWithLabel network={transaction.network} address={transaction.toAddress} label={transaction.labels?.toAddress} format="middle-truncated" />
 					</span>
 				{/if}
