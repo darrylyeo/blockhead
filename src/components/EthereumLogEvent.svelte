@@ -40,8 +40,14 @@
 </style>
 
 
-<div class="log-event">
-	<h4 class="log-event-index">{logEvent.indexInTransaction}</h4>
+<div
+	class="log-event"	
+	title={[
+		logEvent.indexInBlock !== undefined && `Event #${logEvent.indexInBlock} in Block ${logEvent.blockNumber}`,
+		logEvent.indexInTransaction !== undefined && `Event #${logEvent.indexInTransaction} in Transaction ${logEvent.transactionHash}`,
+	].filter(isTruthy).join('\n\n')}
+>
+	<h4 class="log-event-index">{logEvent.indexInBlock}</h4>
 
 	{#if logEvent.topics?.length}
 		<span class="topics">
