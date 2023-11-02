@@ -119,16 +119,16 @@
 					return await getTransactionsByHash(transactionCid, { page: NextPage })
 				},
 				getNextPageParam: (lastPage, allPages) => lastPage.HasNextPage ? lastPage.NextPage : undefined,
+				select: result => (
+					linkInternalTransactionsBeryx(
+						result.pages
+							.flatMap(({ transactions }) => transactions)
+					)
+						.map(normalizeTransactionBeryx)
+						[0]
+				),
 			}),
 		},
-		then: result => (
-			linkInternalTransactionsBeryx(
-				result.pages
-					.flatMap(({ transactions }) => transactions)
-			)
-				.map(normalizeTransactionBeryx)
-				[0]
-		),
 	}[transactionProvider]}
 	bind:result={transaction}
 	let:result={transaction}
