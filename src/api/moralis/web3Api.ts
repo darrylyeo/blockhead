@@ -93,6 +93,7 @@ export const normalizeMoralisTransaction = (transaction: BlockTransaction, netwo
 
 	logEvents: transaction.logs
 		?.map((log, indexInTransaction) => normalizeMoralisLog(log, indexInTransaction, network))
+		.sort((a, b) => (a.indexInBlock ?? 0) - (b.indexInBlock ?? 0)),
 })
 
 export const normalizeMoralisLog = (log: Log, indexInTransaction: number, network: Ethereum.Network): Ethereum.TransactionLogEvent => ({
