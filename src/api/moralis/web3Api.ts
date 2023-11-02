@@ -91,11 +91,12 @@ export const normalizeMoralisTransaction = (transaction: BlockTransaction, netwo
 	gasUnitRate: BigInt(transaction.gas_price),
 	gasValue: BigInt(transaction.receipt_gas_used) * BigInt(transaction.gas_price),
 
-	logEvents: transaction.logs?.map(log => normalizeMoralisLog(log, network)),
+	logEvents: transaction.logs
+		?.map((log, indexInTransaction) => normalizeMoralisLog(log, indexInTransaction, network))
 })
 
-export const normalizeMoralisLog = (log: Log, network: Ethereum.Network): Ethereum.TransactionLogEvent => ({
-	indexInTransaction: Number(log.transaction_index),
+export const normalizeMoralisLog = (log: Log, indexInTransaction: number, network: Ethereum.Network): Ethereum.TransactionLogEvent => ({
+	indexInTransaction,
 	transactionHash: log.transaction_hash as Ethereum.TransactionID,
 
 	indexInBlock: Number(log.log_index),
