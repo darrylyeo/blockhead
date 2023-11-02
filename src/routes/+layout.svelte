@@ -20,6 +20,10 @@
 		globalThis.CSS?.registerProperty?.(propertyDefinition)
 
 
+	// Events
+	import { triggerEvent } from '../events/triggerEvent'
+
+
 	// Tanstack Query
 	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query'
 	import { type PersistedClient, persistQueryClient } from '@tanstack/query-persist-client-core'
@@ -52,6 +56,23 @@
 		broadcastQueryClient({
 			queryClient,
 			broadcastChannel: globalThis.location?.origin,
+		})
+
+		queryClient.getQueryCache().subscribe(({ type, query }) => {
+			if(type === 'added' || type === 'updated')
+				triggerEvent('Query', {
+					query: query.queryKey[0],
+					queryParams: Object.fromEntries(
+						Object.entries(query.queryKey[1])
+							.filter(([key]) => ![
+								'address',
+								'did',
+								'ensName',
+								'lensName',
+							].includes(key))
+					),
+					status: query.state.status,
+				})
 		})
 	}
 

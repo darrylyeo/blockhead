@@ -52,6 +52,12 @@ export type Events = {
 	'AccountConnections/DeleteConnection': {
 		walletType: WalletType,
 	},
+
+	'Query': {
+		query: string,
+		queryParams: Record<string, string>,
+		isSuccessful: boolean,
+	},
 }
 
 export type EventType = keyof Events
