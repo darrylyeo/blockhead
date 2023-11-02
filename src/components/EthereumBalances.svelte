@@ -102,11 +102,13 @@
 <style>
 	.ethereum-balances {
 		--column-width: 12rem;
-		--column-gap: var(--padding-inner);
+		/* --column-gap: var(--padding-inner); */
+		--column-gap: calc(3 * var(--padding-inner));
 
 		display: grid;
 		gap: var(--padding-inner) var(--column-gap);
 		grid-template-columns: repeat(auto-fit, minmax(min(var(--column-width), 100%), 1fr));
+		transition: grid-template 0.3s;
 	}
 	.ethereum-balances.horizontal {
 		grid-auto-flow: column;
@@ -118,7 +120,7 @@
 	}
 	.ethereum-balances.show-amounts-and-values {
 		--column-width: 16rem;
-		--column-gap: calc(3 * var(--padding-inner));
+		/* --column-gap: calc(3 * var(--padding-inner)); */
 	}
 
 	/* 
