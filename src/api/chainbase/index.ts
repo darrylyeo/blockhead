@@ -1539,6 +1539,8 @@ export const getEventsByContract = async ({
 // )
 
 
+import { normalizeNftAttributes } from '../../utils/normalizeNftAttributes'
+
 export const normalizeNftContracts = (nfts: Awaited<ReturnType<typeof getNftsByAddress>>['data']): Ethereum.NftContractWithNfts[] => (console.log({nfts})||
 	[
 		...nfts
@@ -1559,7 +1561,7 @@ export const normalizeNftContracts = (nfts: Awaited<ReturnType<typeof getNftsByA
 					name: nft.metadata?.name,
 					description: nft.metadata?.description,
 					image: nft.metadata?.image_url,
-					attributes: nft.metadata?.attributes,
+					attributes: nft.metadata?.attributes && normalizeNftAttributes(nft.metadata.attributes),
 				}
 			})),
 		}))
