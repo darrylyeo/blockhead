@@ -1,13 +1,19 @@
 <script lang="ts">
+	// Types/constants
 	import type { Ethereum } from '../data/networks/types'
 
 
+	// Inputs
 	export let network: Ethereum.Network
 	export let logEvent: Ethereum.TransactionLogEvent
 	export let contextualAddress: Ethereum.Address | undefined
 
-
+	// (View options)
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
+
+
+	// Functions
+	import { isTruthy } from '../utils/isTruthy'
 </script>
 
 
