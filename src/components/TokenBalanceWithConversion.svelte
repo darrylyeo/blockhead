@@ -1,13 +1,10 @@
 <script lang="ts">
+	// Types/constants
 	import type { Ethereum } from '../data/networks/types'
 	import type { QuoteCurrency, TickerSymbol } from '../data/currencies'
 
 
-	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
-	export let showDecimalPlaces = 3
-	export let showConversionRate = false
-	export let showParentheses = true
-
+	// Inputs
 	export let network: Ethereum.Network
 	export let symbol: TickerSymbol
 	export let address: Ethereum.ContractAddress
@@ -27,10 +24,11 @@
 	export let convertedValue: number
 	export let conversionRate: number
 
-
-	$: isSmallValue = Math.abs(convertedValue) < 1e-3
-	$: isZero = balance == 0
-
+	// (View options)
+	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
+	export let showDecimalPlaces = 3
+	export let showConversionRate = false
+	export let showParentheses = true
 
 	export let animationDelay = 0
 	export let tween = true
@@ -38,15 +36,21 @@
 	export let transitionWidth = true
 
 
-	function sizeByVolume(size) {
-		return 1 + size * 0.0025
-	}
+	// Internal state
+	// (Computed)
+	$: isSmallValue = Math.abs(convertedValue) < 1e-3
+	$: isZero = balance == 0
 
 
+	// Components
 	import TokenName from './TokenName.svelte'
 	import TokenRate from './TokenRate.svelte'
 	import TokenBalance from './TokenBalance.svelte'
+
+
+	// Transitions
 	import { scaleFont } from '../transitions/scale-font'
+	const sizeByVolume = (size) => 1 + size * 0.0025
 </script>
 
 
