@@ -114,7 +114,7 @@
 		<Loader
 			fromQuery={
 				createQuery({
-					queryKey: ['IPFS', {
+					queryKey: ['Ipfs', {
 						ipfsUrl: resolvedIpfsUrl,
 					}],
 					queryFn: async () => (

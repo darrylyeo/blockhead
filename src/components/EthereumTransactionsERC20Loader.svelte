@@ -61,7 +61,7 @@
 		{loadingMessage}
 		{errorMessage}
 		fromInfiniteQuery={createInfiniteQuery({
-			queryKey: ['TransactionsERC20Transfer', {
+			queryKey: ['TransactionsErc20', {
 				transactionProvider,
 				chainId: network.chainId,
 				address,
