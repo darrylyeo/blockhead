@@ -107,7 +107,7 @@ export const normalizeMoralisLog = (log: Log, network: Ethereum.Network): Ethere
 		log.topic1 as Ethereum.TopicHash,
 		log.topic2 as Ethereum.TopicHash,
 		log.topic3 as Ethereum.TopicHash,
-	],
+	].filter(Boolean),
 	data: log.data,
 
 	contract: {
