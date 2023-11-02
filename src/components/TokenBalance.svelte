@@ -68,7 +68,7 @@
 		grid-auto-flow: column;
 		gap: 0.45ch;
 		align-items: baseline;
-		width: max-content;
+		/* width: max-content; */
 	}
 	.token-balance {
 		font-weight: 500;
