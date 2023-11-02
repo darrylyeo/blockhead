@@ -194,7 +194,7 @@
 		<slot name="footer" {isOpen} {toggle} />
 	</svelte:element>
 {:else}
-	<div
+	<!-- <div
 		class="container {$$props.containerClass ?? ''}"
 	>
 		<div
@@ -203,11 +203,11 @@
 				id: ariaId,
 			} : {}}
 		>
-			{#if renderOnlyWhenOpen ? isOpen : true}
+			{#if renderOnlyWhenOpen ? isOpen : true} -->
 				<slot {isOpen} {toggle} />
-			{/if}
+			<!-- {/if}
 		</div>
 
 		<slot name="footer" {isOpen} {toggle} />
-	</div>
+	</div> -->
 {/if}
