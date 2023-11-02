@@ -103,7 +103,7 @@
 	errorMessage={`Couldn't retrieve transaction from ${transactionProvider}.`}
 	contentClass="column"
 	{...{
-		[TransactionProvider.Beryx]: {
+		[TransactionProvider.Beryx]: () => ({
 			fromInfiniteQuery: createInfiniteQuery({
 				queryKey: ['Transaction', {
 					transactionProvider,
@@ -128,8 +128,8 @@
 						[0]
 				),
 			}),
-		},
-	}[transactionProvider]}
+		}),
+	}[transactionProvider]?.()}
 	bind:result={transaction}
 	let:result={transaction}
 >

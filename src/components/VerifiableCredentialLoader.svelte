@@ -40,7 +40,7 @@
 	loadingIcon={verifiableCredentialProviderIcons[verifiableCredentialProvider]}
 	errorMessage="Couldn't load verified credential via {verifiableCredentialProvider}."
 	{...{
-		[VerifiableCredentialProvider.Disco]: {
+		[VerifiableCredentialProvider.Disco]: () => ({
 			fromQuery: credentialId && createQuery({
 				queryKey: ['VerifiableCredential', {
 					credentialId,
@@ -50,8 +50,8 @@
 					await getCredential(credentialId)
 				),
 			}),
-		},
-	}[verifiableCredentialProvider]}
+		}),
+	}[verifiableCredentialProvider]?.()}
 	{...$$restProps}
 	bind:result={credential}
 	let:result={credential}

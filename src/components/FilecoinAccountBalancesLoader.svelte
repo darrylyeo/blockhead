@@ -65,7 +65,7 @@
 	errorMessage={`Couldn't retrieve ${network.name} account data from ${tokenBalancesProvider}.`}
 	contentClass="column"
 	{...{
-		[TokenBalancesProvider.Beryx]: {
+		[TokenBalancesProvider.Beryx]: () => ({
 			fromQuery: createQuery({
 				queryKey: ['Balances', {
 					tokenBalancesProvider,
@@ -80,8 +80,8 @@
 					return (await getAccountBalanceByAddress(address)).balances.map(normalizeBalanceBeryx)
 				},
 			}),
-		},
-	}[tokenBalancesProvider]}
+		}),
+	}[tokenBalancesProvider]?.()}
 	bind:result={balances}
 	let:result={balances}
 	debug

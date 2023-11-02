@@ -92,7 +92,7 @@
 	{loadingMessage}
 	{errorMessage}
 	{...{
-		[NftProvider.Airstack]: {
+		[NftProvider.Airstack]: () => ({
 			fromQuery: address && network && (
 				createQuery({
 					queryKey: ['NFTs', {
@@ -244,9 +244,9 @@
 					staleTime: 10 * 1000,
 				})
 			),
-		},
+		}),
 
-		[NftProvider.Chainbase]: {
+		[NftProvider.Chainbase]: () => ({
 			fromQuery: address && network && (
 				createInfiniteQuery({
 					queryKey: ['NFTs', {
@@ -273,9 +273,9 @@
 					staleTime: 10 * 1000,
 				})
 			),
-		},
+		}),
 
-		[NftProvider.Covalent]: {
+		[NftProvider.Covalent]: () => ({
 			fromQuery: address && network && (
 				createQuery({
 					queryKey: ['NFTs', {
@@ -300,9 +300,9 @@
 					staleTime: 10 * 1000,
 				})
 			),
-		},
+		}),
 
-		[NftProvider.Liquality]: {
+		[NftProvider.Liquality]: () => ({
 			fromQuery: address && network && (
 				createQuery({
 					queryKey: ['NFTs', {
@@ -333,9 +333,9 @@
 					staleTime: 10 * 1000,
 				})
 			),
-		},
+		}),
 
-		[NftProvider.NftPort]: {
+		[NftProvider.NftPort]: () => ({
 			fromQuery: address && network && (
 				createQuery({
 					queryKey: ['NFTs', {
@@ -374,8 +374,8 @@
 					staleTime: 10 * 1000,
 				})
 			),
-		}
-	}[nftProvider]}
+		})
+	}[nftProvider]?.()}
 	{isOpen}
 	{containerClass}
 	{contentClass}

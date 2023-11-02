@@ -58,7 +58,7 @@
 	{loadingMessage}
 	{errorMessage}
 	{...{
-		[TransactionProvider.Chainbase]: {
+		[TransactionProvider.Chainbase]: () => ({
 			fromInfiniteQuery: createInfiniteQuery({
 				queryKey: ['Transactions', {
 					transactionProvider,
@@ -80,9 +80,9 @@
 				),
 				staleTime: 10 * 1000,
 			}),
-		},
+		}),
 
-		[TransactionProvider.Covalent]: {
+		[TransactionProvider.Covalent]: () => ({
 			fromInfiniteQuery: createInfiniteQuery({
 				queryKey: ['Transactions', {
 					transactionProvider,
@@ -110,9 +110,9 @@
 				),
 				staleTime: 10 * 1000,
 			}),
-		},
+		}),
 
-		[TransactionProvider.Etherscan]: {
+		[TransactionProvider.Etherscan]: () => ({
 			fromQuery: createQuery({
 				queryKey: ['Transactions', {
 					transactionProvider,
@@ -128,9 +128,9 @@
 				select: transactions => transactions.map(transaction => normalizeTransactionEtherscan(network, transaction)),
 				staleTime: 10 * 1000,
 			}),
-		},
+		}),
 
-		[TransactionProvider.Moralis]: {
+		[TransactionProvider.Moralis]: () => ({
 			fromInfiniteQuery: createInfiniteQuery({
 				queryKey: ['Transactions', {
 					transactionProvider,
@@ -188,8 +188,8 @@
 				select: result => result?.pages?.flatMap(page => page.result) ?? [],
 				staleTime: 10 * 1000,
 			}),
-		},
-	}[transactionProvider]}
+		}),
+	}[transactionProvider]?.()}
 	{...$$restProps}
 	bind:result={transactions}
 	let:result={transactions}

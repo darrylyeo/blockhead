@@ -72,7 +72,7 @@
 	errorMessage={`Couldn't retrieve ${network.name} tipset from ${transactionProvider}.`}
 	contentClass="column"
 	{...{
-		[TransactionProvider.Beryx]: {
+		[TransactionProvider.Beryx]: () => ({
 			fromQuery: createQuery({
 				queryKey: ['Block', {
 					transactionProvider,
@@ -87,8 +87,8 @@
 					return normalizeTipsetBeryx((await getTipsetByHeight(Number(tipsetNumber)))[0])
 				},
 			}),
-		},
-	}[transactionProvider]}
+		}),
+	}[transactionProvider]?.()}
 	bind:result={tipset}
 	let:result={tipset}
 	debug

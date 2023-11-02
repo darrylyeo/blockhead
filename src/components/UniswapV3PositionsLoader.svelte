@@ -57,11 +57,11 @@
 	}[dataProvider]}
 	errorMessage="Couldn't load Uniswap V3 positions{viaDataProvider}."
 	{...{
-		[UniswapV3.DataProvider.RpcProvider]: {
+		[UniswapV3.DataProvider.RpcProvider]: () => ({
 
-		},
+		}),
 
-		[UniswapV3.DataProvider.TheGraph]: {
+		[UniswapV3.DataProvider.TheGraph]: () => ({
 			fromInfiniteQuery: network && createInfiniteQuery({
 				queryKey: ['UniswapV3Positions', {
 					address,
@@ -201,8 +201,8 @@
 						}))
 				),
 			}),
-		},
-	}[dataProvider]}
+		}),
+	}[dataProvider]?.()}
 	{...$$restProps}
 	bind:result={positions}
 	let:result={positions}

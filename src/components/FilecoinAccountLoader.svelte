@@ -66,7 +66,7 @@
 	errorMessage={`Couldn't retrieve ${network.name} account data from ${transactionProvider}.`}
 	contentClass="column"
 	{...{
-		[TransactionProvider.Beryx]: {
+		[TransactionProvider.Beryx]: () => ({
 			fromQuery: createQuery({
 				queryKey: ['Account', {
 					transactionProvider,
@@ -82,8 +82,8 @@
 				},
 				select: normalizeAccountBeryx,
 			}),
-		},
-	}[transactionProvider]}
+		}),
+	}[transactionProvider]?.()}
 	bind:result={account}
 	let:result={account}
 	debug

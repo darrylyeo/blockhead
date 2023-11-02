@@ -41,7 +41,7 @@
 	loadingIcon={verifiableCredentialProviderIcons[verifiableCredentialProvider]}
 	errorMessage="Couldn't load verified credentials via {verifiableCredentialProvider}."
 	{...{
-		[VerifiableCredentialProvider.Disco]: {
+		[VerifiableCredentialProvider.Disco]: () => ({
 			fromQuery: did && createInfiniteQuery({
 				queryKey: ['VerifiableCredentials', {
 					did,
@@ -55,8 +55,8 @@
 					result.pages.flat()
 				),
 			}),
-		},
-	}[verifiableCredentialProvider]}
+		}),
+	}[verifiableCredentialProvider]?.()}
 	{...$$restProps}
 	bind:result={credentials}
 	let:result={credentials}

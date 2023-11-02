@@ -101,7 +101,7 @@
 	errorMessage={`Couldn't retrieve account transactions from ${transactionProvider}.`}
 	contentClass="column"
 	{...{
-		[TransactionProvider.Beryx]: {
+		[TransactionProvider.Beryx]: () => ({
 			fromInfiniteQuery: createInfiniteQuery({
 				queryKey: ['BlockTransactions', {
 					transactionProvider,
@@ -124,8 +124,8 @@
 						.map(normalizeTransactionBeryx)
 				),
 			}),
-		},
-	}[transactionProvider]}
+		}),
+	}[transactionProvider]?.()}
 	bind:result={transactions}
 	let:result={transactions}
 >

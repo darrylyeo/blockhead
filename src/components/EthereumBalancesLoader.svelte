@@ -155,7 +155,7 @@
 	{loadingMessage}
 	{errorMessage}
 	{...{
-		[TokenBalancesProvider.RpcProvider]: {
+		[TokenBalancesProvider.RpcProvider]: () => ({
 			fromQuery: address && network && networkProvider && (
 				createQuery({
 					queryKey: ['Balances', {
@@ -182,9 +182,9 @@
 					staleTime: 10 * 1000,
 				})
 			),
-		},
+		}),
 
-		[TokenBalancesProvider.Airstack]: {
+		[TokenBalancesProvider.Airstack]: () => ({
 			fromQuery: address && network && (
 				createQuery({
 					queryKey: ['Balances', {
@@ -287,9 +287,9 @@
 					staleTime: 10 * 1000,
 				})
 			),
-		},
+		}),
 
-		[TokenBalancesProvider.Chainbase]: {
+		[TokenBalancesProvider.Chainbase]: () => ({
 			fromQuery: address && network && (
 				createInfiniteQuery({
 					queryKey: ['Balances', {
@@ -313,9 +313,9 @@
 					staleTime: 10 * 1000,
 				})
 			),
-		},
+		}),
 		
-		[TokenBalancesProvider.Covalent]: {
+		[TokenBalancesProvider.Covalent]: () => ({
 			fromQuery: address && network && (
 				createQuery({
 					queryKey: ['Balances', {
@@ -337,9 +337,9 @@
 					staleTime: 10 * 1000,
 				})
 			),
-		},
+		}),
 
-		[TokenBalancesProvider.Liquality]: {
+		[TokenBalancesProvider.Liquality]: () => ({
 			fromQuery: address && network && (
 				createQuery({
 					queryKey: ['Balances', {
@@ -366,9 +366,9 @@
 					staleTime: 10 * 1000,
 				})
 			),
-		},
+		}),
 
-		[TokenBalancesProvider.Moralis]: {
+		[TokenBalancesProvider.Moralis]: () => ({
 			fromQuery: address && network && (
 				createQuery({
 					queryKey: ['Balances', {
@@ -439,9 +439,9 @@
 					},
 					staleTime: 10 * 1000,
 				})
-			)},
+			)}),
 
-		[TokenBalancesProvider.Zapper]: {
+		[TokenBalancesProvider.Zapper]: () => ({
 			fromQuery: address && network && (
 				createQuery({
 					queryKey: ['Balances', {
@@ -461,9 +461,9 @@
 					staleTime: 10 * 1000,
 				})
 			),
-		},
+		}),
 
-		[TokenBalancesProvider.QuickNode]: {
+		[TokenBalancesProvider.QuickNode]: () => ({
 			fromQuery: address && network && (
 				createQuery({
 					queryKey: ['Balances', {
@@ -483,8 +483,8 @@
 					staleTime: 10 * 1000,
 				})
 			),
-		},
-	}[tokenBalancesProvider]}
+		}),
+	}[tokenBalancesProvider]?.()}
 	{showIf}
 	{isOpen}
 	{containerClass}

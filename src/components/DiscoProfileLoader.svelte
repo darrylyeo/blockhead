@@ -43,7 +43,7 @@
 	loadingIcon={verifiableCredentialProviderIcons[verifiableCredentialProvider]}
 	errorMessage="Couldn't load {verifiableCredentialProvider} profile."
 	{...{
-		[VerifiableCredentialProvider.Disco]: {
+		[VerifiableCredentialProvider.Disco]: () => ({
 			fromQuery: (
 				didUrl ?
 					createQuery({
@@ -68,8 +68,8 @@
 				:
 					undefined
 			),
-		},
-	}[verifiableCredentialProvider]}
+		}),
+	}[verifiableCredentialProvider]?.()}
 	{...$$restProps}
 	bind:result={profile}
 	let:result={profile}

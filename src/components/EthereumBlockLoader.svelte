@@ -75,7 +75,7 @@
 	{errorMessage}
 	contentClass="column"
 	{...{
-		[TransactionProvider.Chainbase]: {
+		[TransactionProvider.Chainbase]: () => ({
 			fromQuery: createQuery({
 				queryKey: ['Block', {
 					transactionProvider,
@@ -91,9 +91,9 @@
 				),
 				select: result => result === placeholderData ? result : normalizeBlockChainbase(result.data, network),
 			}),
-		},
+		}),
 
-		[TransactionProvider.Covalent]: {
+		[TransactionProvider.Covalent]: () => ({
 			fromQuery: createQuery({
 				queryKey: ['Block', {
 					transactionProvider,
@@ -116,9 +116,9 @@
 						?.[0]
 				)
 			}),
-		},
+		}),
 
-		[TransactionProvider.Moralis]: {
+		[TransactionProvider.Moralis]: () => ({
 			fromQuery: createQuery({
 				queryKey: ['Block', {
 					transactionProvider,
@@ -134,9 +134,9 @@
 				),
 				select: block => block === placeholderData ? block : normalizeMoralisBlock(block, network),
 			}),
-		},
+		}),
 
-		[TransactionProvider.RpcProvider]: {
+		[TransactionProvider.RpcProvider]: () => ({
 			fromQuery: publicClient && createQuery({
 				queryKey: ['Block', {
 					transactionProvider,
@@ -153,8 +153,8 @@
 				),
 				select: block => block === placeholderData ? block : normalizeViemBlock(block, network),
 			}),
-		},
-	}[transactionProvider]}
+		}),
+	}[transactionProvider]?.()}
 	bind:result={block}
 	let:result={block}
 	let:status
