@@ -129,7 +129,7 @@
 				alt: 'Blockhead | track, visualize & explore all of crypto, DeFi & web3'
 			},
 		],
-		site_name: 'Blockhead | track, visualize & explore all of crypto, DeFi & web3',
+		siteName: 'Blockhead | track, visualize & explore all of crypto, DeFi & web3',
 	},
 	twitter: {
 		handle: '@darryl__yeo',
