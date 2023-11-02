@@ -20,18 +20,23 @@
 	export let showDate = true
 	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 
+	// Internal state
 	// (Computed)
 	$: isSummary = detailLevel === 'summary'
 	$: isExhaustive = detailLevel === 'exhaustive'
 	$: isStandaloneLayout = layout === 'standalone'
 	$: isInlineLayout = layout === 'inline'
+
 	$: contextIsSender = contextualAddress && transaction.fromAddress && contextualAddress.toLowerCase() === transaction.fromAddress.toLowerCase()
 	$: contextIsReceiver = contextualAddress && transaction.toAddress && contextualAddress.toLowerCase() === transaction.toAddress.toLowerCase()
+
+	$: isContractCall = transaction.logEvents?.length
 
 
 	// Components
 	import AddressWithLabel from './AddressWithLabel.svelte'
 	import Date from './Date.svelte'
+	import EthereumErc20TransferCovalent from './EthereumErc20TransferCovalent.svelte'
 	import EthereumLogEvent from './EthereumLogEvent.svelte'
 	import TransactionId from './TransactionId.svelte'
 	import EthereumTransactionSummary from './EthereumTransactionSummary.svelte'
@@ -59,19 +64,19 @@
 			</div>
 		{/if}
 
-		<!-- {#if !(isSummary && /*transaction.transfers?.length*/ && value == 0)} -->
+		{#if !(isSummary && transaction.erc20Transfers?.length && transaction.value === 0n)}
 			<div class="container inner-layout-{innerLayout}" class:card={isStandaloneLayout}>
 				{#if !(isSummary && (contextIsSender || contextIsReceiver))}
-					<span class="sender" transition:fade>
+					<span class="sender" class:mark={contextIsSender}><!-- transition:fade -->
 						<AddressWithLabel
 							network={transaction.network}
 							address={transaction.fromAddress}
 							label={transaction.labels?.fromAddress}
 							format="middle-truncated"
+							alwaysShowAddress={isExhaustive}
 						/>
 					</span>
 				{/if}
-
 				{#if transaction.value}
 					<span>
 						<span class="action">
@@ -84,32 +89,53 @@
 							showDecimalPlaces={isExhaustive ? 9 : 6}
 
 							network={transaction.network}
-							erc20Token={transaction.gasToken}
+							erc20Token={transaction.network.nativeCurrency}
 
-							balance={Number(transaction.value) * 0.1 ** network.nativeCurrency.decimals}
-							conversionCurrency={quoteCurrency}
+							balance={Number(transaction.value) * 0.1 ** transaction.network.nativeCurrency.decimals}
+							conversionCurrency={transaction.conversion?.quoteCurrency} 
+							convertedValue={transaction.conversion?.value}
 						/>
 					</span>
 				{/if}
-
 				{#if isSummary && contextIsReceiver && transaction.fromAddress}
-					<span class="sender" transition:fade>
+					<span class="sender"><!-- transition:fade -->
 						<span>from</span>
-						<AddressWithLabel network={transaction.network} address={transaction.fromAddress} label={transaction.labels?.fromAddress} format="middle-truncated" />
+						<AddressWithLabel
+							network={transaction.network}
+							address={transaction.fromAddress}
+							label={transaction.labels?.fromAddress}
+							format="middle-truncated"
+							alwaysShowAddress={isExhaustive}
+						/>
 					</span>
 				{:else if transaction.toAddress}
-					<span class="receiver" transition:fade>
-						{#if transaction.value}
-							<span>to</span>
+					<span class="receiver" class:mark={contextIsReceiver}><!-- transition:fade -->
+						{#if isContractCall && !isExhaustive}
+							<span class="action">
+								{
+									transaction.value
+										? transaction.executionStatus === 'successful'
+											? 'and called smart contract'
+											: 'and call smart contract'
+										: transaction.executionStatus === 'successful'
+											? 'called smart contract'
+											: 'failed to call smart contract'
+								}
+							</span>
 						{:else}
-							<span>{transaction.executionStatus === 'successful' ? 'called' : 'failed to call'}</span>
+							<span>to</span>
 						{/if}
-						<AddressWithLabel network={transaction.network} address={transaction.toAddress} label={transaction.labels?.toAddress} format="middle-truncated" />
+						<AddressWithLabel
+							network={transaction.network}
+							address={transaction.toAddress}
+							label={transaction.labels?.toAddress}
+							format="middle-truncated"
+							alwaysShowAddress={isExhaustive}
+						/>
 					</span>
 				{/if}
-
-				{#if showFees && transaction.gasValue !== undefined}
-					<span class="fee" transition:fade>
+				{#if (showFees || isExhaustive) && transaction.gasUnitsSpent !== undefined}
+					<span class="fee"><!-- transition:fade -->
 						<span>for fee</span>
 						<TokenBalanceWithConversion
 							{tokenBalanceFormat}
@@ -118,32 +144,35 @@
 							network={transaction.network}
 							erc20Token={transaction.gasToken}
 
-							balance={Number(transaction.gasValue) * 0.1 ** network.nativeCurrency.decimals}
-							conversionCurrency={quoteCurrency}
+							balance={Number(transaction.gasUnitsSpent) * 0.1 ** transaction.gasToken.decimals}
+							conversionCurrency={transaction.conversion?.quoteCurrency}
+							convertedValue={transaction.conversion?.gasUnitsSpent}
 						/>
 					</span>
 				{/if}
-
-				{#if isSummary && showDate && transaction.blockTimestamp}
-					<Date date={transaction.blockTimestamp} layout="horizontal" format="absolute" />
+				{#if isSummary && transaction.blockTimestamp}
+					<span class="date"><Date date={transaction.blockTimestamp} layout="vertical" format="relative" /></span>
 				{/if}
 			</div>
-		<!-- {/if} -->
+		{/if}
 
-		<!-- {#if transaction.transfers?.length}
+		<!-- {#if 'erc20Transfers' in transaction && transaction.erc20Transfers?.length}
 			{#if isStandaloneLayout}
 				<hr>
 				<h4>ERC-20 Token Transfers</h4>
 			{/if}
 			<div class="transfers">
-				{#each transaction.transfers as erc20TokenTransfer}
-					<svelte:self
-						network={transaction.network}
-						erc20TokenTransfer={transaction.erc20TokenTransfer}
-						contextualAddress={transaction.contextualAddress}
-						detailLevel={transaction.detailLevel}
-						tokenBalanceFormat={transaction.tokenBalanceFormat}
+				{#each transaction.erc20Transfers as erc20Transfer}
+					<EthereumErc20TransferCovalent
+						network={erc20Transfer.network}
+						{erc20Transfer}
+						quoteCurrency={erc20Transfer.conversion?.quoteCurrency}
+
+						{contextualAddress}
+						{detailLevel}
+						{tokenBalanceFormat}
 						showFees={false}
+
 						layout="inline"
 						innerLayout="row"
 					/>
@@ -151,7 +180,7 @@
 			</div>
 		{/if} -->
 
-		{#if isExhaustive && transaction.logEvents?.length}
+		{#if !isSummary && transaction.logEvents?.length}
 			{#if isStandaloneLayout}
 				<hr>
 
@@ -187,10 +216,9 @@
 			{#if isStandaloneLayout}
 				<hr>
 			{/if}
-
 			<div class="footer bar"><!-- transition:fade -->
 				<EthereumTransactionSummary
-					network={network}
+					network={transaction.network}
 					transactionID={transaction.transactionId}
 					transactionIndex={transaction.transactionIndex}
 					blockNumber={transaction.blockNumber}
@@ -230,23 +258,14 @@
 	.transaction :global(.token-rate) {
 		font-weight: 500;
 	}
-	.container :global(.date) {
-		font-size: 0.66em;
-		opacity: 0.7;
-		align-self: center;
-		align-items: flex-end;
-		justify-content: center;
-		height: 1em;
-	}
 
 	.log-events {
 		font-size: 0.9em;
 	}
 	.transaction.layout-inline .log-events {
 		font-size: 0.75em;
-		padding: var(--padding-outer);
+		padding: 0.66em 1em;
 	}
-
 
 	.container.inner-layout-row {
 		display: flex;
@@ -274,11 +293,29 @@
 		font-size: 1.5em;
 	}
 
+	.container .date {
+		opacity: 0.8;
+		font-size: 0.66em;
+		align-self: center;
+		text-align: end;
+	}
+
 	.unsuccessful {
-		box-shadow: 0 1px 3px #ff2f00a0;
+		/* box-shadow: 0 1px 3px #ff2f00a0; */
+		text-shadow: 0 1px 2px #ff2f00;
+		opacity: 0.6;
+		/* filter: saturate(0.5) contrast(0.5); */
+		/* filter: saturate(0.5) sepia(0.5) hue-rotate(-55deg); */
+		transition: opacity 0.3s;
+	}
+	.unsuccessful:hover, .unsuccessful:focus-within {
+		opacity: 0.9;
 	}
 
 	.log-events.scrollable-list {
 		--resizeVertical-defaultHeight: 20rem;
+	}
+	.transaction.layout-standalone .log-events.scrollable-list {
+		--resizeVertical-defaultHeight: 54vh;
 	}
 </style>
