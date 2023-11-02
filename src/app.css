@@ -915,6 +915,13 @@ a.card {
 }
 
 
+.overflow-ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+
 .slot {
 	display: inline-flex;
 	align-items: center;
