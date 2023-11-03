@@ -13,6 +13,8 @@
 
 	export let showContentsOnly = false
 
+	export let clip = true
+
 
 	type SharedSlotProps = {
 		isOpen: typeof isOpen,
@@ -83,10 +85,12 @@
 
 	.collapsible {
 		min-height: 0;
-		overflow: clip;
-		overflow-clip-margin: var(--padding-outer);
 		transform-origin: top;
 		align-content: start;
+	}
+	.collapsible.clip {
+		overflow: clip;
+		overflow-clip-margin: var(--padding-outer);
 	}
 	.container:is([data-state="closed"],
 	details:not([open])) > .collapsible {
@@ -182,6 +186,7 @@
 
 		<div
 			class="collapsible {$$props.class ?? ''}"
+			class:clip
 			{...type === 'label' ? {
 				id: ariaId,
 			} : {}}
