@@ -10,8 +10,8 @@
 
 	export let showBeforeAndAfter = false
 
-	$: blockNumberBefore = blockNumber - 1
-	$: blockNumberAfter = blockNumber + 1
+	$: blockNumberBefore = blockNumber && blockNumber - 1n
+	$: blockNumberAfter = blockNumber && blockNumber + 1n
 
 
 	// let latestBlockNumber: Ethereum.BlockNumber
@@ -83,13 +83,13 @@
 
 			const x = (e.clientX - navElement.getBoundingClientRect().left) / navElement.clientWidth
 			const adjustedX = Math.min(Math.max(0.3 + (x - 0.3) * 1.15, 0), 1)
-			;[$networkSlug, $blockNumberParam] = [network.slug, Math.round(adjustedX * Math.max(blockNumber ?? -Infinity, latestBlockNumber ?? -Infinity)).toString()]
+			;[$networkSlug, $blockNumberParam] = [network.slug, BigInt(Math.round(adjustedX * Math.max(Number(blockNumber ?? -Infinity), Number(latestBlockNumber ?? -Infinity))).toString())]
 		}}
 		transition:fade|global
 		style="
 			{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}
-			--current-block-number: {blockNumber ?? 0};
-			--latest-block-number: {latestBlockNumber ?? Math.max((blockNumber ?? 0) * 2, 2)};
+			--current-block-number: {blockNumber ?? 0n};
+			--latest-block-number: {latestBlockNumber ?? (blockNumber ? blockNumber * 2n : 2)};
 		"
 	>
 	<!-- on:mousemove={e => {
@@ -99,15 +99,15 @@
 		const adjustedX = Math.min(Math.max(0.3 + (x - 0.3) * 1.15, 0), 1)
 		blockNumber = y >= 0.1 && y <= 0.9 ? Math.round(adjustedX * Math.max(blockNumber ?? -Infinity, latestBlockNumber ?? -Infinity)) : $$props.blockNumber
 	}} -->
-		{#if blockNumber !== 0 && !(showBeforeAndAfter && blockNumberBefore === 0)}
-			<span class="first-block" style="--block-number: {0}" transition:scaleFont|global>
-				<span title="{network.name} Genesis Block"><BlockNumber {network} blockNumber={0} /></span>
+		{#if blockNumber !== 0n && !(showBeforeAndAfter && blockNumberBefore === 0n)}
+			<span class="first-block" style="--block-number: {0n}" transition:scaleFont|global>
+				<span title="{network.name} Genesis Block"><BlockNumber {network} blockNumber={0n} /></span>
 				<span>«</span>
 				<!-- <span>🔗</span> -->
 			</span>
 		{/if}
 
-		{#if showBeforeAndAfter && blockNumber !== 0}
+		{#if showBeforeAndAfter && blockNumber !== 0n}
 			<span class="previous-block" style="--block-number: {blockNumberBefore}" transition:scaleFont|global>
 				<span title="Previous {network.name} Block"><BlockNumber {network} blockNumber={blockNumberBefore} /></span>
 				<span>‹</span>
@@ -116,7 +116,7 @@
 		{/if}
 
 		{#if blockNumber !== undefined}
-			<span class="current-block" style="--block-number: {blockNumber ?? (latestBlockNumber ? Math.ceil(latestBlockNumber / 2) : 1)}" transition:scaleFont|global>
+			<span class="current-block" style="--block-number: {blockNumber ?? (latestBlockNumber ? BigInt(Math.ceil(Number(latestBlockNumber) / 2)) : 1n)}" transition:scaleFont|global>
 				<span title="Current {network.name} Block"><BlockNumber {network} {blockNumber} /></span>
 			</span>
 		{:else}
@@ -132,7 +132,7 @@
 		{/if}
 
 		{#if !(blockNumber !== undefined && blockNumber === latestBlockNumber) && !(showBeforeAndAfter && blockNumberAfter === latestBlockNumber)}
-			<span class="latest-block" style="--block-number: {latestBlockNumber ?? (blockNumber ? blockNumber * 2 : 2)}" transition:scaleFont|global>
+			<span class="latest-block" style="--block-number: {latestBlockNumber ?? (blockNumber ? blockNumber * 2n : 2)}" transition:scaleFont|global>
 				<!-- <span>🔗</span> -->
 				<span>»</span>
 				<span title="Latest {network.name} Block"><BlockNumber {network} blockNumber={latestBlockNumber} /></span>

@@ -1572,7 +1572,7 @@ export const normalizeBlock = (
 	network: Ethereum.Network,
 ): Ethereum.Block => ({
 	network,
-	blockNumber: block.number,
+	blockNumber: BigInt(block.number),
 	finalityStatus: 'finalized',
 
 	blockHash: block.hash as Ethereum.BlockHash,
@@ -1600,7 +1600,7 @@ export const normalizeTransaction = (
 	executionStatus: transaction.status === 1 ? 'successful' : 'failed',
 	finalityStatus: 'finalized',
 
-	blockNumber: transaction.block_number,
+	blockNumber: BigInt(transaction.block_number),
 	blockTimestamp: new Date(transaction.block_timestamp).valueOf(),
 
 	transactionIndex: transaction.transaction_index,

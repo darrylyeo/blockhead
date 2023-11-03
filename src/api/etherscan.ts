@@ -407,7 +407,7 @@ export namespace Etherscan {
 				sort,
 			},
 		}) as {
-			blockNumber: Ethereum.BlockNumber,
+			blockNumber: number,
 			timeStamp: `${number}`,
 			hash: Ethereum.TransactionID,
 			nonce: Ethereum.TransactionNonce,
@@ -488,7 +488,7 @@ export namespace Etherscan {
 				sort,
 			},
 		}) as {
-			blockNumber: Ethereum.BlockNumber,
+			blockNumber: number,
 			timeStamp: `${number}`,
 			hash: Ethereum.TransactionID,
 			nonce: Ethereum.TransactionNonce,
@@ -1065,7 +1065,7 @@ export namespace Etherscan {
 			blockNumber,
 		}: {
 			chainId: ChainId,
-			blockNumber: Ethereum.BlockNumber,
+			blockNumber: number,
 		}) => await get(chainId, {
 			searchParams: {
 				module: 'block',
@@ -1096,7 +1096,7 @@ export namespace Etherscan {
 			blockNumber,
 		}: {
 			chainId: ChainId,
-			blockNumber: Ethereum.BlockNumber,
+			blockNumber: number,
 		}) => await get(chainId, {
 			searchParams: {
 				module: 'block',
@@ -2018,7 +2018,7 @@ export namespace Etherscan {
 		}: {
 			chainId: ChainId,
 			contractAddress: Ethereum.ContractAddress,
-			blockNumber: Ethereum.BlockNumber,
+			blockNumber: number,
 		}) => await get(chainId, {
 			searchParams: {
 				module: 'stats',
@@ -2046,7 +2046,7 @@ export namespace Etherscan {
 			chainId: ChainId,
 			contractAddress: Ethereum.ContractAddress,
 			address: Ethereum.Address,
-			blockNumber: Ethereum.BlockNumber,
+			blockNumber: number,
 		}) => await get(chainId, {
 			searchParams: {
 				module: 'account',
@@ -2074,7 +2074,7 @@ export namespace Etherscan {
 			chainId: ChainId,
 			contractAddress: Ethereum.ContractAddress,
 			address: Ethereum.Address,
-			blockNumber: Ethereum.BlockNumber,
+			blockNumber: number,
 		}) => await get(chainId, {
 			searchParams: {
 				module: 'token',
@@ -2810,7 +2810,7 @@ export const normalizeTransaction = (
 
 	nonce: Number(transaction.nonce),
 	transactionIndex: Number(transaction.transactionIndex),
-	blockNumber: Number(transaction.blockNumber) as Ethereum.BlockNumber,
+	blockNumber: BigInt(transaction.blockNumber),
 	blockHash: transaction.blockHash as Ethereum.BlockHash,
 	blockTimestamp: Number(transaction.timeStamp) * 1000,
 

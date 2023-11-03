@@ -59,7 +59,7 @@ export namespace Ethereum {
 	export type TransactionIndex = number
 	export type TransactionNonce = number
 
-	export type BlockNumber = number
+	export type BlockNumber = bigint
 	export type BlockHash = `0x${string}` // BrandedString<'BlockHash'>
 	export type BlockNonce = `0x${string}`
 	export type BlockDifficulty = bigint

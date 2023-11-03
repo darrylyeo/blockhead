@@ -92,7 +92,7 @@ export const normalizeTransaction = (transaction: EtherspotTransaction, network:
 	transactionID: transaction.hash,
 	nonce: transaction.nonce,
 	transactionIndex: transaction.transactionIndex,
-	blockNumber: transaction.blockNumber,
+	blockNumber: BigInt(transaction.blockNumber),
 	blockHash: transaction.blockHash as Ethereum.BlockHash,
 	blockTimestamp: transaction.timestamp,
 

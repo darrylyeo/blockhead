@@ -28,7 +28,7 @@ export const updatesByNetwork = new Map([
 		// },
 		{
 			name: 'Paris',
-			blockNumber: 15537394,
+			blockNumber: 15537394n,
 			consensus: consensusMechanisms.gasper,
 			links: [
 				'https://blog.ethereum.org/2022/08/24/mainnet-merge-announcement',
@@ -36,7 +36,7 @@ export const updatesByNetwork = new Map([
 		},
 		{
 			name: 'Gray Glacier',
-			blockNumber: 15050000,
+			blockNumber: 15050000n,
 			consensus: consensusMechanisms.ethash,
 			links: [
 				'https://blog.ethereum.org/2022/06/16/gray-glacier-announcement',
@@ -44,7 +44,7 @@ export const updatesByNetwork = new Map([
 		},
 		{
 			name: 'Arrow Glacier',
-			blockNumber: 13773000,
+			blockNumber: 13773000n,
 			consensus: consensusMechanisms.ethash,
 			links: [
 				'https://blog.ethereum.org/2021/11/10/arrow-glacier-announcement',
@@ -52,7 +52,7 @@ export const updatesByNetwork = new Map([
 		},
 		{
 			name: 'London',
-			blockNumber: 12965000,
+			blockNumber: 12965000n,
 			consensus: consensusMechanisms.ethash,
 			links: [
 				'https://blog.ethereum.org/2021/07/15/london-mainnet-announcement',
@@ -65,7 +65,7 @@ export const updatesByNetwork = new Map([
 		},
 		{
 			name: 'Berlin',
-			blockNumber: 12244000,
+			blockNumber: 12244000n,
 			consensus: consensusMechanisms.ethash,
 			links: [
 				'https://blog.ethereum.org/2021/03/08/ethereum-berlin-upgrade-announcement',
@@ -74,7 +74,7 @@ export const updatesByNetwork = new Map([
 		},
 		{
 			name: 'Muir Glacier',
-			blockNumber: 9200000,
+			blockNumber: 9200000n,
 			consensus: consensusMechanisms.ethash,
 			links: [
 				'https://blog.ethereum.org/2019/12/23/ethereum-muir-glacier-upgrade-announcement',
@@ -83,7 +83,7 @@ export const updatesByNetwork = new Map([
 		},
 		{
 			name: 'Istanbul',
-			blockNumber: 9069000,
+			blockNumber: 9069000n,
 			consensus: consensusMechanisms.ethash,
 			links: [
 				'https://blog.ethereum.org/2019/11/20/ethereum-istanbul-upgrade-announcement',
@@ -92,7 +92,7 @@ export const updatesByNetwork = new Map([
 		},
 		{
 			name: 'Constantinople',
-			blockNumber: 7280000,
+			blockNumber: 7280000n,
 			consensus: consensusMechanisms.ethash,
 			links: [
 				'https://blog.ethereum.org/2019/01/11/ethereum-constantinople-upgrade-announcement',
@@ -101,7 +101,7 @@ export const updatesByNetwork = new Map([
 		},
 		{
 			name: 'Byzantium',
-			blockNumber: 4370000,
+			blockNumber: 4370000n,
 			consensus: consensusMechanisms.ethash,
 			links: [
 				'https://blog.ethereum.org/2017/10/12/byzantium-hf-announcement',
@@ -110,7 +110,7 @@ export const updatesByNetwork = new Map([
 		},
 		{
 			name: 'Spurious Dragon',
-			blockNumber: 2675000,
+			blockNumber: 2675000n,
 			consensus: consensusMechanisms.ethash,
 			links: [
 				'https://eips.ethereum.org/EIPS/eip-607',
@@ -119,7 +119,7 @@ export const updatesByNetwork = new Map([
 		},
 		{
 			name: 'Tangerine Whistle',
-			blockNumber: 2463000,
+			blockNumber: 2463000n,
 			consensus: consensusMechanisms.ethash,
 			links: [
 				'https://blog.ethereum.org/2016/10/18/faq-upcoming-ethereum-hard-fork/',
@@ -130,7 +130,7 @@ export const updatesByNetwork = new Map([
 		},
 		{
 			name: 'DAO Fork',
-			blockNumber: 1920000,
+			blockNumber: 1920000n,
 			consensus: consensusMechanisms.ethash,
 			links: [
 				'https://blog.ethereum.org/2016/07/20/hard-fork-completed',
@@ -142,7 +142,7 @@ export const updatesByNetwork = new Map([
 		},
 		{
 			name: 'Homestead',
-			blockNumber: 1150000,
+			blockNumber: 1150000n,
 			consensus: consensusMechanisms.ethash,
 			links: [
 				'https://blog.ethereum.org/2016/02/29/homestead-release',
@@ -151,7 +151,7 @@ export const updatesByNetwork = new Map([
 		},
 		{
 			name: 'Thawing Frontier',
-			blockNumber: 200000,
+			blockNumber: 200000n,
 			consensus: consensusMechanisms.ethash,
 			links: [
 				'https://blog.ethereum.org/2015/08/04/the-thawing-frontier',
@@ -160,7 +160,7 @@ export const updatesByNetwork = new Map([
 		},
 		{
 			name: 'Frontier',
-			blockNumber: 1,
+			blockNumber: 1n,
 			consensus: consensusMechanisms.ethash,
 			links: [
 				'https://blog.ethereum.org/2015/07/22/frontier-is-coming-what-to-expect-and-how-to-prepare',
@@ -168,7 +168,7 @@ export const updatesByNetwork = new Map([
 		},
 		{
 			name: 'Genesis',
-			blockNumber: 0,
+			blockNumber: 0n,
 			consensus: consensusMechanisms.ethash,
 			links: [
 				'https://blog.ethereum.org/2015/07/27/final-steps',

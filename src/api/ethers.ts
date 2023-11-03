@@ -14,7 +14,7 @@ export const normalizeEthersTransaction = (transaction: TransactionResponse | Tr
 		finalityStatus: 'finalized',
 		nonce: transaction.nonce,
 		transactionIndex: transaction.index,
-		blockNumber: transaction.blockNumber as Ethereum.BlockNumber,
+		blockNumber: transaction.blockNumber !== null ? BigInt(transaction.blockNumber) : undefined,
 		blockHash: transaction.blockHash as Ethereum.BlockHash,
 		// date: transaction.timestamp,
 	} : {
@@ -50,7 +50,7 @@ export const normalizeEthersTransactionLogEvent = (logEvent: Log): Ethereum.Tran
 	transactionHash: logEvent.transactionHash as Ethereum.TransactionID,
 
 	indexInBlock: logEvent.transactionIndex,
-	blockNumber: logEvent.blockNumber,
+	blockNumber: BigInt(logEvent.blockNumber),
 	blockHash: logEvent.blockHash as Ethereum.BlockHash,
 
 	topics: logEvent.topics as Ethereum.TopicHash[],

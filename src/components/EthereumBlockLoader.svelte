@@ -80,13 +80,13 @@
 				queryKey: ['Block', {
 					transactionProvider,
 					chainId: network.chainId,
-					blockNumber
+					blockNumber: Number(blockNumber),
 				}],
 				placeholderData: () => placeholderData,
 				queryFn: async () => (
 					await getBlockByNumberChainbase({
 						chainId: network.chainId,
-						number: blockNumber,
+						number: Number(blockNumber),
 					})
 				),
 				select: result => result === placeholderData ? result : normalizeBlockChainbase(result.data, network),
@@ -98,7 +98,7 @@
 				queryKey: ['Block', {
 					transactionProvider,
 					chainId: network.chainId,
-					blockNumber
+					blockNumber: Number(blockNumber),
 				}],
 				placeholderData: () => placeholderData,
 				queryFn: async () => (
@@ -123,7 +123,7 @@
 				queryKey: ['Block', {
 					transactionProvider,
 					chainId: network.chainId,
-					blockNumber
+					blockNumber: Number(blockNumber),
 				}],
 				placeholderData: () => placeholderData,
 				queryFn: async () => (
@@ -142,12 +142,12 @@
 					transactionProvider,
 					networkProvider,
 					chainId: network.chainId,
-					blockNumber,
+					blockNumber: Number(blockNumber),
 				}],
 				placeholderData: () => placeholderData,
 				queryFn: async () => (
 					await publicClient.getBlock({
-						blockNumber: BigInt(blockNumber),
+						blockNumber,
 						includeTransactions: true,
 					})
 				),

@@ -6,7 +6,7 @@ export const normalizeViemBlock = (
 	network: Ethereum.Network,
 ): Ethereum.Block => ({
 	network,
-	blockNumber: Number(block.number),
+	blockNumber: block.number !== null ? BigInt(block.number) : undefined,
 	finalityStatus: 'hash' in block && block.hash ? 'finalized' : 'pending',
 
 	blockHash: block.hash ?? undefined,
@@ -51,7 +51,7 @@ export const normalizeViemTransaction = (
 	}),
 	finalityStatus: transaction.blockNumber !== null ? 'finalized' : 'pending',
 
-	blockNumber: transaction.blockNumber !== null ? Number(transaction.blockNumber) : undefined,
+	blockNumber: transaction.blockNumber !== null ? BigInt(transaction.blockNumber) : undefined,
 	blockHash: transaction.blockHash !== null ? transaction.blockHash : undefined,
 	...('timestamp' in transaction && {
 		blockTimestamp: Number(transaction.timestamp),
@@ -99,6 +99,6 @@ export const normalizeViemLogEvent = (logEvent: TransactionReceipt['logs'][numbe
 	indexInTransaction: logEvent.logIndex ?? undefined,
 
 	indexInBlock: logEvent.transactionIndex ?? undefined,
-	blockNumber: logEvent.blockNumber !== null ? Number(logEvent.blockNumber) : undefined,
+	blockNumber: logEvent.blockNumber !== null ? BigInt(logEvent.blockNumber) : undefined,
 	blockHash: logEvent.blockHash ?? undefined,
 })

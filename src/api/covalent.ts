@@ -649,7 +649,7 @@ export const normalizeTransaction = (
 	nonce: undefined,
 	transactionIndex: transaction.tx_offset,
 
-	blockNumber: transaction.block_height as Ethereum.BlockNumber,
+	blockNumber: BigInt(transaction.block_height),
 	blockHash: undefined,
 	blockTimestamp: transaction.block_signed_at,
 
@@ -693,7 +693,7 @@ export const normalizeLogEvent = (logEvent: Covalent.LogEvent): Ethereum.Transac
 	transactionHash: logEvent.tx_hash as Ethereum.TransactionID,
 
 	indexInBlock: logEvent.tx_offset,
-	blockNumber: logEvent.block_height,
+	blockNumber: BigInt(logEvent.block_height),
 	// blockHash: ,
 
 	topics: logEvent.raw_log_topics as Ethereum.TopicHash[],

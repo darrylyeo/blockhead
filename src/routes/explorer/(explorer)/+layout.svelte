@@ -374,7 +374,7 @@
 				{networkProvider}
 				blockNumber={
 					$explorerQueryType === 'block' ?
-						Number($blockNumber)
+						BigInt($blockNumber)
 					: $explorerQueryType === 'transaction' ?
 						navigationContext.transactionBlockNumber
 					:
@@ -401,7 +401,15 @@
 						})
 					))
 				)}
-				then={closestBlockByNetwork => [...closestBlockByNetwork?.entries()].filter(([network, { block: blockNumber }]) => blockNumber > 0) ?? []}
+				then={closestBlockByNetwork => (
+					[...closestBlockByNetwork?.entries() ?? []]
+						.map(([network, data]) => ({
+							network,
+							blockNumber: BigInt(data.block),
+							timestamp: data.timestamp,
+						}))
+						.filter(data => data.blockNumber > 0n)
+				)}
 				let:result={networksAndClosestBlock}
 				clip={false}
 			>
@@ -411,10 +419,10 @@
 		
 				{#if networksAndClosestBlock?.length}
 					<div class="navigation otherNetworks column">
-						{#each networksAndClosestBlock as [network, {block: blockNumber, timestamp}]}
+						{#each networksAndClosestBlock as { network, blockNumber, timestamp }}
 							<EthereumBlockNavigation
 								{network}
-								blockNumber={blockNumber > 1 ? Number(blockNumber) : undefined}
+								blockNumber={blockNumber > 1n ? blockNumber : undefined}
 							/>
 						{/each}
 					</div>

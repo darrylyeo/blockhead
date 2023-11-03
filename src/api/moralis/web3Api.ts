@@ -49,7 +49,7 @@ export const normalizeMoralisBlock = (block: Block, network: Ethereum.Network): 
 
 	blockHash: block.hash as Ethereum.BlockHash,
 	parentBlockHash: block.parent_hash as Ethereum.BlockHash,
-	blockNumber: Number(block.number),
+	blockNumber: BigInt(block.number),
 	timestamp: new Date(block.timestamp).valueOf(),
 	nonce: block.nonce as Ethereum.BlockNonce,
 
@@ -76,7 +76,7 @@ export const normalizeMoralisTransaction = (transaction: BlockTransaction, netwo
 
 	nonce: Number(transaction.nonce),
 	transactionIndex: Number(transaction.transaction_index),
-	blockNumber: Number(transaction.block_number),
+	blockNumber: BigInt(transaction.block_number),
 	blockHash: transaction.block_hash as Ethereum.BlockHash,
 	blockTimestamp: new Date(transaction.block_timestamp).valueOf(),
 
@@ -101,7 +101,7 @@ export const normalizeMoralisLog = (log: Log, indexInTransaction: number, networ
 	transactionHash: log.transaction_hash as Ethereum.TransactionID,
 
 	indexInBlock: Number(log.log_index),
-	blockNumber: Number(log.block_number),
+	blockNumber: BigInt(log.block_number),
 	blockHash: log.block_hash as Ethereum.BlockHash,
 
 	topics: [
