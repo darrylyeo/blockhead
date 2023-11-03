@@ -540,6 +540,10 @@ img:after {
 	}
 }
 
+source {
+	display: none !important;
+}
+
 
 .card {
 	display: grid;
