@@ -65,11 +65,13 @@
 	import Address from './Address.svelte'
 	import Collapsible from './Collapsible.svelte'
 	import EthereumNftBalancesLoader from './EthereumNftBalancesLoader.svelte'
+	import InlineTransition from './InlineTransition.svelte'
 	import NftImage from './NftImage.svelte'
 	import SizeContainer from './SizeContainer.svelte'
 
 
 	import { flip } from 'svelte/animate'
+	import { fly } from 'svelte/transition'
 	import { quintOut } from 'svelte/easing'
 </script>
 
@@ -95,11 +97,20 @@
 	.nft-contract header > * {
 		margin: -0.25em 0;
 	}
-
 	.nft-contract-logo {
 		width: fit-content;
 		height: 1.75em;
 		border-radius: 0.3em;
+	}
+	.nft-contract header .nfts-preview {
+		display: flex;
+		flex-direction: row;
+	}
+	.nft-contract header .nfts-preview > :global(* + *) {
+		margin-inline-start: -1em;
+	}
+	.nft-contract header .nfts-preview > :global(.nft-image img) {
+		border-radius: 3px;
 	}
 
 	.nfts {
@@ -428,10 +439,29 @@
 									</span>
 								</h5>
 
-								{#if contract.ercTokenStandards?.length}
-									{@const ercTokenStandards = contract.ercTokenStandards.includes('erc1155') && contract.ercTokenStandards.includes('erc721') ? ['erc1155'] : contract.ercTokenStandards}
-									<span class="card-annotation">{ercTokenStandards.join('/')}</span>
-								{/if}
+								<InlineTransition
+									key={!isOpen && contract.nfts?.length}
+									align="end"
+									transition={fly}
+									transitionParams={{ y: 100 }}
+									clip
+								>
+									{#if !isOpen && contract.nfts?.length}
+										<div class="nfts-preview row-inline">
+											{#each contract.nfts.slice(0, 3) ?? [] as nft}
+												<NftImage
+													{nft}
+													height={24}
+												/>
+											{/each}
+										</div>
+									{:else}
+										{#if contract.ercTokenStandards?.length}
+											{@const ercTokenStandards = contract.ercTokenStandards.includes('erc1155') && contract.ercTokenStandards.includes('erc721') ? ['erc1155'] : contract.ercTokenStandards}
+											<span class="card-annotation">{ercTokenStandards.join('/')}</span>
+										{/if}
+									{/if}
+								</InlineTransition>
 
 								{#if toggle}
 									<button
