@@ -63,7 +63,7 @@ export const inputPatternsConfig = {
 		matchComplexity: 2,
 	},
 	[InputPattern.TransactionId]: {
-		label: 'Transaction',
+		label: 'Transaction ID',
 		placeholder: '0xabcdef...456789',
 		pattern: /0x[0-9a-fA-F]{64}/,
 		matchComplexity: 3,
