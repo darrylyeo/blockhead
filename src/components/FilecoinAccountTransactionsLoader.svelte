@@ -106,7 +106,7 @@
 				queryKey: ['BlockTransactions', {
 					transactionProvider,
 					chainId: network.chainId,
-					blockNumber: Number(address),
+					address,
 				}],
 				queryFn: async ({ pageParam: next_cursor }) => {
 					if(network.slug !== 'filecoin') throw new Error('Beryx only supports Filecoin.')
