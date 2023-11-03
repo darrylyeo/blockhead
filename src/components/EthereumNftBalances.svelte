@@ -46,14 +46,6 @@
 
 	import { resolveUri } from '../utils/resolveUri'
 
-	const formatTokenId = (tokenId: Ethereum.Nft['tokenId']) =>
-		String(tokenId).length > 12
-			? String(tokenId).slice(0, 6) + '⸱⸱⸱' + String(tokenId).slice(-6)
-			: String(tokenId)
-
-	const formatNFTNameAndTokenID = (name: string, tokenId: Ethereum.Nft['tokenId']) => `${name ? `${name.replace(new RegExp(`#${tokenId}$`), '')}\n` : ''}#${formatTokenId(tokenId)}`
-
-
 	const findClosestAspectRatio = (n, minInteger = 1, maxInteger = 30, target = 24) => {
 		let numerator = minInteger
 		let denominator = minInteger
@@ -73,6 +65,7 @@
 	import Address from './Address.svelte'
 	import Collapsible from './Collapsible.svelte'
 	import EthereumNftBalancesLoader from './EthereumNftBalancesLoader.svelte'
+	import NftImage from './NftImage.svelte'
 	import SizeContainer from './SizeContainer.svelte'
 
 
@@ -122,15 +115,6 @@
 		--resizeVertical-defaultHeight: 31rem;
 	}
 
-	.nft-image {
-		width: 100%;
-		border-radius: 0.33rem;
-		margin: auto;
-		background-color: rgba(0, 0, 0, 0.1);
-		object-fit: contain;
-		aspect-ratio: auto 1 / 1;
-	}
-
 	.nft {
 		--padding-inner: 0.75em;
 		gap: var(--padding-inner);
@@ -146,10 +130,13 @@
 		text-overflow: ellipsis;
 	} */
 
-	.nft picture img {
+	.nft :global(.nft-image img) {
 		width: 100%;
-		height: 100%;
-		object-fit: cover;
+		border-radius: 0.33rem;
+		margin: auto;
+		background-color: rgba(0, 0, 0, 0.1);
+		object-fit: contain;
+		aspect-ratio: auto 1 / 1;
 	}
 
 	.nft .nft-name {
@@ -295,7 +282,7 @@
 		height: auto;
 		--angle: 0;
 	}
-	.show3D .nft picture {
+	.show3D .nft :global(.nft-image) {
 		/* -webkit-mask: linear-gradient(white, transparent) no-repeat;
 		mask: linear-gradient(white, transparent) no-repeat; */
 		/* -webkit-mask-image: linear-gradient(white 30%, rgba(255, 255, 255, 0.25) 50%, transparent);
@@ -333,8 +320,8 @@
 		transition: var(--transition-duration);
 		will-change: transform;
 	}
-	.show3D .nft:focus-within picture,
-	.show3D:not(.showImagesOnly) .nft-contract:focus-within .nft picture {
+	.show3D .nft:focus-within :global(.nft-image),
+	.show3D:not(.showImagesOnly) .nft-contract:focus-within .nft :global(.nft-image) {
 		-webkit-mask-position-y: top;
 		mask-position-y: top;
 	}
@@ -480,58 +467,15 @@
 												target="_blank"
 												draggable={false}
 											> -->
-											<picture
-												title={
-													[
-														[formatNFTNameAndTokenID(nft.metadata.name ?? '', nft.tokenId), nft.metadata.name],
-														[nft.metadata.description],
-														nft.metadata.attributes?.map(({traitType, value}) => `${traitType}: ${value}`) ?? []
-													].map(section => section.filter(Boolean).join('\n')).filter(Boolean).join('\n\n')
-												}
-											>
-												{#each
-													[
-														[nft.metadata['image'], undefined],
-														[nft.metadata['image_256'], '(min-width: 256px)'],
-														[nft.metadata['image_512'], '(min-width: 512px)'],
-														[nft.metadata['image_1024'], '(min-width: 1024px)'],
-													].filter(([ uri, ]) => uri)
-													as [uri, media]
-												}
-													<source
-														srcset={resolveUri({
-															src: uri,
-															ipfsGatewayDomain: ipfsGatewaysByProvider[$preferences.ipfsGateway].gatewayDomain,
-															arweaveGateway: $preferences.arweaveGateway,
-														})}
-														media={media}
-													/>
-												{/each}
-
-												<img
-													class="nft-image"
-													src={resolveUri({
-														src: nft.metadata['image_256'] || nft.metadata['image'],
-														ipfsGatewayDomain: ipfsGatewaysByProvider[$preferences.ipfsGateway].gatewayDomain,
-														arweaveGateway: $preferences.arweaveGateway,
-													})}
-													alt={formatNFTNameAndTokenID(nft.metadata.name ?? '', nft.tokenId)}
-													loading="lazy"
-													on:load={e => {
-														const [w, h] = findClosestAspectRatio(e.target.naturalWidth / e.target.naturalHeight)
-														const figure = e.target.closest('figure')
-														figure.style.setProperty('--grid-item-width', w)
-														figure.style.setProperty('--grid-item-height', h)
-													}}
-													draggable={false}
-												/>
-												<!-- <img class="nft-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt={formatNFTNameAndTokenID(metadata.name, token_id)} /> -->
-											</picture>
-
-												<!-- {#if metadata.animation_url}
-													<iframe src={metadata.animation_url} lazy="true" />
-												{/if} -->
-											<!-- </a> -->
+											<NftImage
+												{nft}
+												on:load={e => {
+													const [w, h] = findClosestAspectRatio(e.target.naturalWidth / e.target.naturalHeight)
+													const figure = e.target.closest('figure')
+													figure.style.setProperty('--grid-item-width', w)
+													figure.style.setProperty('--grid-item-height', h)
+												}}
+											/>
 
 											<figcaption class="column">
 												<header class="bar wrap">
