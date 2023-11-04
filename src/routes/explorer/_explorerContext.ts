@@ -85,6 +85,26 @@ export const explorerQuery = derived(explorerParams, (
 	)
 })
 
+export const relevantPreferences = derived([
+	explorerQueryType
+], ([
+	$explorerQueryType
+], set: (_: string[]) => void) => {
+	set([
+		'theme',
+		...(
+			$explorerQueryType === ExplorerQueryType.Account ?
+				['rpcNetwork', 'contractSourceProvider', 'tokenBalancesProvider', 'transactionProvider', 'quoteCurrency']
+			: $explorerQueryType === ExplorerQueryType.Block ?
+				['rpcNetwork', 'transactionProvider', 'quoteCurrency']
+			: $explorerQueryType === ExplorerQueryType.Transaction ?
+				['rpcNetwork', 'transactionProvider', 'quoteCurrency']
+			:
+				['rpcNetwork', 'currentPriceProvider']
+		),
+	])
+})
+
 
 // Internal stores
 import { writable } from 'svelte/store'

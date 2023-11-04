@@ -37,22 +37,7 @@
 
 
 	// Context
-
-	import { explorerNetwork, showTestnets } from './_explorerContext'
-
-	import { setContext } from 'svelte'
-	import { writable } from 'svelte/store'
-
-	const relevantPreferences = writable<string[]>()
-	$: $relevantPreferences = $relevantPreferences || [
-		'theme',
-		...($explorerQueryType !== ExplorerQueryType.None
-			? ['rpcNetwork', 'tokenBalancesProvider', 'transactionProvider', 'quoteCurrency']
-			: ['rpcNetwork', 'transactionProvider']
-			// : ['rpcNetwork', 'currentPriceProvider', 'historicalPriceProvider']
-		),
-	]
-	setContext('relevantPreferences', relevantPreferences)
+	import { explorerNetwork, showTestnets, relevantPreferences } from './_explorerContext'
 
 
 	// Internal state

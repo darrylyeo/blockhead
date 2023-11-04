@@ -28,25 +28,6 @@
 		explorerQuery,
 	} from '../_explorerContext'
 
-	import { getContext } from 'svelte'
-
-	import type { Writable } from 'svelte/store'
-
-	const relevantPreferences = getContext<Writable<string[]>>('relevantPreferences')
-	$: $relevantPreferences = [
-		'theme',
-		...(
-			$explorerQueryType === ExplorerQueryType.Account ?
-				['rpcNetwork', 'contractSourceProvider', 'tokenBalancesProvider', 'transactionProvider', 'quoteCurrency']
-			: $explorerQueryType === ExplorerQueryType.Block ?
-				['rpcNetwork', 'transactionProvider', 'quoteCurrency']
-			: $explorerQueryType === ExplorerQueryType.Transaction ?
-				['rpcNetwork', 'transactionProvider', 'quoteCurrency']
-			:
-				['rpcNetwork', 'currentPriceProvider', 'historicalPriceProvider']
-		),
-	]
-
 
 	// External stores
 
