@@ -110,10 +110,6 @@
 
 <style>
 	.scrollable-list {
-		overflow-anchor: none;
-	}
-	.scrollable-list > * {
-		scroll-snap-stop: normal;
-		scroll-snap-align: start;
+		--resizeVertical-defaultHeight: 51.5rem;
 	}
 </style>
