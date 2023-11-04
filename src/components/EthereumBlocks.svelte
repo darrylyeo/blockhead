@@ -1,0 +1,119 @@
+<script lang="ts">
+	// Types/constants
+	import type { Ethereum } from '../data/networks/types'
+	import { TransactionProvider } from '../data/transactionProvider'
+	import type { NetworkProvider } from '../data/networkProviders/types'
+	import { networkProviderConfigByProvider } from '../data/networkProviders'
+
+
+	// Context
+	import { preferences } from '../state/preferences'
+	import { blockHeightForNetwork } from '../state/blockHeights'
+
+
+	// Inputs
+	export let network: Ethereum.Network
+	export let showBlocks = 20
+
+	export let transactionProvider: TransactionProvider
+	export let networkProvider: NetworkProvider
+
+	// (Computed)
+	$: transactionProvider = $$props.transactionProvider ?? $preferences.transactionProvider
+	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
+
+	// (View options)
+	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 3
+
+
+	// Internal state
+	$: latestBlockNumberStore = blockHeightForNetwork(network)
+
+	let latestBlockNumber: Ethereum.BlockNumber
+	$: latestBlockNumber = $latestBlockNumberStore
+
+	$: blockNumbers = latestBlockNumber !== undefined ? Array.from({ length: showBlocks }, (_, i) => latestBlockNumber - BigInt(i) as Ethereum.BlockNumber) : []
+
+
+	// Components
+	import Collapsible from './Collapsible.svelte'
+	import EthereumBlock from './EthereumBlock.svelte'
+	import EthereumBlockLoader from './EthereumBlockLoader.svelte'
+	import EthereumBlockHeader from './EthereumBlockHeader.svelte'
+
+
+	// Transitions
+	import { flip } from 'svelte/animate'
+	import { blur } from 'svelte/transition'
+</script>
+
+
+<Collapsible
+	type="label"
+	containerClass="card"
+	class="column"
+	isOpen
+>
+	<svelte:fragment slot="title">
+		<svelte:element this={`h${headingLevel}`}>
+			Latest Blocks
+		</svelte:element>
+	</svelte:fragment>
+
+	<svelte:fragment slot="header-right">
+		<span class="card-annotation">
+			{transactionProvider === TransactionProvider.RpcProvider ? networkProviderConfigByProvider[$preferences.rpcNetwork].name : transactionProvider}
+		</span>
+	</svelte:fragment>
+
+	<div class="scrollable-list column">
+		{#each blockNumbers as blockNumber (blockNumber)}
+			<div
+				animate:flip|local={{ duration: 300 }}
+				transition:blur={{ duration: 1000 }}
+			>
+				<EthereumBlockLoader
+					containerClass="card"
+					{network}
+					{blockNumber}
+					{transactionProvider}
+					{networkProvider}
+
+					let:block
+					let:status
+				>
+					<svelte:fragment slot="header" let:block>
+						{#if block}
+							<EthereumBlockHeader
+								{network}
+								{block}
+								headingLevel={headingLevel}
+							/>
+						{/if}
+					</svelte:fragment>
+
+					{#if status === 'resolved'}
+						<hr>
+
+						<EthereumBlock
+							{network}
+							{block}
+							headingLevel={headingLevel}
+						/>
+					{/if}
+				</EthereumBlockLoader>
+			</div>
+		{/each}
+	</div>
+</Collapsible>
+
+
+<style>
+	.scrollable-list {
+		overflow-anchor: none;
+	}
+	.scrollable-list > * {
+		scroll-snap-stop: normal;
+		scroll-snap-align: start;
+	}
+</style>
