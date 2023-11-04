@@ -707,7 +707,6 @@ a.card {
 .scrollable-list {
 	max-height: 100%;
 	overflow-y: auto;
-	scroll-snap-type: y proximity;
 	grid-auto-rows: min-content;
 	padding-right: var(--padding-inner);
 	justify-content: start;
@@ -716,6 +715,10 @@ a.card {
 	resize: vertical;
 	/* contain: strict;
 	height: 30rem; */
+}
+.scrollable-list:hover,
+.scrollable-list:focus-within {
+	scroll-snap-type: y proximity;
 }
 .scrollable-list[style*="height: "] {
 	transition: none;
