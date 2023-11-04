@@ -145,7 +145,7 @@
 						{#await publicClient.getBytecode({ address })}
 							Address
 						{:then contractCode}
-							{#if contractCode === '0x'}
+							{#if !contractCode || contractCode === '0x'}
 								Account
 							{:else}
 								<abbr title={contractCode}>Contract</abbr>
