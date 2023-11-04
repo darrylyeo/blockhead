@@ -86,7 +86,6 @@
 
 
 	// Components
-
 	import SearchInput from '../../../components/SearchInput.svelte'
 
 	import HistoricalPriceChart from '../../../components/HistoricalPriceChart.svelte'
@@ -94,6 +93,7 @@
 	import EthereumBlockHeight from '../../../components/EthereumBlockHeight.svelte'
 
 	import EthereumAccountOrContract from '../../../components/EthereumAccountOrContract.svelte'
+	import EthereumBlocks from '../../../components/EthereumBlocks.svelte'
 	import EthereumBlock from '../../../components/EthereumBlock.svelte'
 	import EthereumBlockHeader from '../../../components/EthereumBlockHeader.svelte'
 	import EthereumBlockLoader from '../../../components/EthereumBlockLoader.svelte'
@@ -108,10 +108,9 @@
 	import FilecoinTransactionLoader from '../../../components/FilecoinTransactionLoader.svelte'
 
 	import Loader from '../../../components/Loader.svelte'
-
+	
 
 	// Transitions
-
 	import { fly } from 'svelte/transition'
 </script>
 
@@ -344,6 +343,12 @@
 									/>
 								</section>
 							</div>
+						{/if}
+
+						{#if $explorerNetwork}
+							<EthereumBlocks
+								network={$explorerNetwork}
+							/>
 						{/if}
 					</div>
 				{/if}

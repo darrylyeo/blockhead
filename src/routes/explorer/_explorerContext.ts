@@ -100,7 +100,7 @@ export const relevantPreferences = derived([
 			: $explorerQueryType === ExplorerQueryType.Transaction ?
 				['rpcNetwork', 'transactionProvider', 'quoteCurrency']
 			:
-				['rpcNetwork', 'currentPriceProvider']
+				['rpcNetwork', 'currentPriceProvider', 'transactionProvider']
 		),
 	])
 })
