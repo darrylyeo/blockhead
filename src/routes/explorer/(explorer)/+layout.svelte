@@ -73,13 +73,14 @@
 		'bsc'
 	].includes($networkSlug)
 
-	$: showHistoricalPrice = [
-		'ethereum',
-		'polygon',
-		'avalanche',
-		'fantom',
-		'bsc'
-	].includes($networkSlug)
+	$: showHistoricalPrice = false
+	// $: showHistoricalPrice = [
+	// 	'ethereum',
+	// 	'polygon',
+	// 	'avalanche',
+	// 	'fantom',
+	// 	'bsc'
+	// ].includes($networkSlug)
 
 
 	// Block Navigation
