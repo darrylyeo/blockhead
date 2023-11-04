@@ -19,6 +19,7 @@
 	export let quoteCurrency: QuoteCurrency
 
 	// (Computed)
+	$: transactionProvider = $$props.transactionProvider ?? $preferences.transactionProvider
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 	
 
