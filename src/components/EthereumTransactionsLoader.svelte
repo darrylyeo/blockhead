@@ -28,6 +28,7 @@
 	import { createQuery, createInfiniteQuery } from '@tanstack/svelte-query'
 
 	import { getTransactionsByAddress, normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent'
+	import { normalizeTransaction as normalizeTransactionDecommas } from '../api/decommas/normalize'
 	import { Etherscan, normalizeTransaction as normalizeTransactionEtherscan } from '../api/etherscan'
 	// import { getTransactions as getTransactionsEtherspot } from '../api/etherspot'
 	import { chainCodeFromNetwork, MoralisWeb3Api } from '../api/moralis/web3Api'
@@ -107,6 +108,36 @@
 				select: result => (
 					(result?.pages?.flatMap(page => page.items) ?? [])
 						.map(transaction => normalizeTransactionCovalent(transaction, network, quoteCurrency))
+				),
+				staleTime: 10 * 1000,
+			}),
+		}),
+
+		[TransactionProvider.Decommas]: () => ({
+			fromInfiniteQuery: createInfiniteQuery({
+				queryKey: ['Transactions', {
+					transactionProvider,
+					chainId: network.chainId,
+					address,
+					quoteCurrency,
+				}],
+				initialPageParam: 0,
+				queryFn: async ({ pageParam: offset }) => {
+					const { decommas, chainNameByChainId } = await import('../api/decommas')
+
+					const chainName = chainNameByChainId[network.chainId]
+
+					return await decommas.address.getTransactions({
+						chainName,
+						address,
+						limit: 100,
+						offset,
+					})
+				},
+				getNextPageParam: (lastPage, allPages) => allPages && allPages.length * 100 < lastPage.count ? allPages.length * 100 : undefined,
+				select: ({ pages }) => (
+					pages.flatMap(page => page.result)
+						.map(transaction => normalizeTransactionDecommas(transaction, network, quoteCurrency))
 				),
 				staleTime: 10 * 1000,
 			}),
