@@ -153,6 +153,7 @@ export const preferencesConfig = [
 							{ value: TransactionProvider.Etherscan, name: 'Etherscan' },
 							{ value: TransactionProvider.Chainbase, name: 'Chainbase' },
 							{ value: TransactionProvider.Covalent, name: 'Covalent' },
+							{ value: TransactionProvider.Decommas, name: 'Decommas' },
 							{ value: TransactionProvider.Moralis, name: 'Moralis' },
 							// { value: TransactionProvider.Etherspot, name: 'Etherspot' },
 							{ value: TransactionProvider.Beryx, name: 'Beryx' },
