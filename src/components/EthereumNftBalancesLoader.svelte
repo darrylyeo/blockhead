@@ -64,7 +64,9 @@
 
 
 	// Functions
-	import { createInfiniteQuery, createQuery } from '@tanstack/svelte-query'
+	import { createInfiniteQuery, createQuery, useQueryClient } from '@tanstack/svelte-query'
+
+	const queryClient = useQueryClient()
 
 	import { gql } from '@urql/svelte'
 	import { airstackNetworkNames, getClient, normalizeNftContracts as normalizeNftContractsAirstack } from '../api/airstack'
@@ -72,6 +74,43 @@
 	import { normalizeNftContracts as normalizeNftContractsChainbase } from '../api/chainbase'
 
 	import { getTokenAddressBalances, normalizeNftContract as normalizeNftContractCovalent } from '../api/covalent'
+
+	// import { normalizeNftContracts as normalizeNftContractsDecommas } from '../api/decommas'
+
+	import type { TNft, TNftMetadata } from '@decommas/sdk'
+
+	export const normalizeNftContractsDecommas = (
+		nftsWithMetadata: { nft: TNft, metadata: TNftMetadata | undefined }[],
+		owner: Ethereum.Address
+	): Ethereum.NftContractWithNfts[] => (
+		[
+			...nftsWithMetadata
+				?.groupToMap(({ nft }) => nft.contractAddress)
+				.entries()
+			?? []
+		]
+			.map(([contractAddress, nftsWithMetadata]: [Ethereum.ContractAddress, { nft: TNft, metadata: TNftMetadata | undefined }[]]) => ({
+				address: contractAddress,
+				name: nftsWithMetadata[0].metadata?.collectionName ?? '',
+				symbol: '',
+
+				ercTokenStandards: [(nftsWithMetadata[0].metadata ?? nftsWithMetadata[0].nft).contractType.replace('-', '').toLowerCase() as Ethereum.ERCTokenStandard],
+				
+				nfts: nftsWithMetadata.map(({ nft, metadata }): Ethereum.NftWithBalance => ({
+					owner,
+
+					tokenId: BigInt(metadata?.tokenId ?? nft.tokenId),
+
+					metadata: {
+						name: metadata?.name,
+						image: metadata?.imageUrl,
+						animationUrl: metadata?.animationUrl,
+					},
+					
+					erc1155Balance: Number(nft.amount),
+				})),
+			}))
+	)
 
 	import { ConcurrentPromiseQueue } from '../utils/ConcurrentPromiseQueue'
 	import { normalizeNftContracts as normalizeNftContractsLiquality } from '../api/liquality'
@@ -302,6 +341,68 @@
 			),
 		}),
 
+		[NftProvider.Decommas]: () => ({
+			fromInfiniteQuery: address && network && (
+				createInfiniteQuery({
+					queryKey: ['NFTs', {
+						nftProvider,
+						address,
+						chainId: network.chainId,
+						quoteCurrency: quoteCurrency
+					}],
+					initialPageParam: 0,
+					queryFn: async ({ pageParam: offset }) => {
+						const { decommas, chainNameByChainId } = await import('../api/decommas')
+
+						const chains = [chainNameByChainId[network.chainId]]
+
+						const nftsResponse = await decommas.address.getNfts({
+							chains,
+							address,
+							limit: 100,
+							offset,
+						})
+
+						// return nftsResponse
+
+						const queue = new ConcurrentPromiseQueue(1)
+
+						return {
+							...nftsResponse,
+							result: await Promise.all(
+								nftsResponse.result.map(async nft => ({
+									nft,
+									metadata: await queryClient.fetchQuery({
+										queryKey: ['NftMetadata', {
+											nftProvider,
+											contractAddress: nft.contractAddress,
+											tokenId: nft.tokenId,
+											chainId: network.chainId,
+											quoteCurrency: quoteCurrency
+										}],
+										queryFn: async () => (
+											await queue.enqueue(() => decommas.metadata.getNft({
+												chainName: chains[0],
+												contractAddress: nft.contractAddress,
+												tokenId: nft.tokenId,
+											}))
+										),
+									}).catch(() => undefined)
+								}))
+							)
+						}
+					},
+					getNextPageParam: (lastPage, allPages) => allPages && allPages.length * 100 < lastPage.count ? allPages.length * 100 : undefined,
+					select: ({ pages }) => (
+						normalizeNftContractsDecommas(
+							pages.flatMap(page => page.result),
+							address,
+						)
+					),
+				})
+			),
+		}),
+
 		[NftProvider.Liquality]: () => ({
 			fromQuery: address && network && (
 				createQuery({
@@ -376,6 +477,7 @@
 			),
 		})
 	}[nftProvider]?.()}
+	debug
 	{isOpen}
 	{containerClass}
 	{contentClass}

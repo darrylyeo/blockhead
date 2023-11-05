@@ -261,6 +261,7 @@ export const preferencesConfig = [
 							{ value: NftProvider.Airstack, name: 'Airstack' },
 							{ value: NftProvider.Chainbase, name: 'Chainbase' },
 							{ value: NftProvider.Covalent, name: 'Covalent' },
+							{ value: NftProvider.Decommas, name: 'Decommas' },
 							{ value: NftProvider.NftPort,  name: 'NFTPort' }
 							// { value: 'Zapper', name: 'Zapper' },
 							// { value: 'Moralis', name: 'Moralis' },
