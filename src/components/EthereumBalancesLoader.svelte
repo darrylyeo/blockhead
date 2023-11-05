@@ -15,7 +15,7 @@
 	// External state
 	export let network: Ethereum.Network
 	export let address: Ethereum.Address
-	export let tokenBalancesProvider: string //  TokenBalancesProvider
+	export let tokenBalancesProvider: TokenBalancesProvider
 	export let quoteCurrency: QuoteCurrency
 
 	// (Computed)
