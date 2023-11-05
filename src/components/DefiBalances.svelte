@@ -1,32 +1,59 @@
 <script lang="ts">
+	// Types/constants
 	import type { Ethereum } from '../data/networks/types'
 	import type { NetworkProvider } from '../data/networkProviders/types'
-	import { getViemPublicClient } from '../data/networkProviders'
-	import { DefiProvider, defiProviderIcons } from '../data/defiProviders'
 	import type { QuoteCurrency } from '../data/currencies'
 	import type { Web3AppConfig } from '../data/web3Apps'
-	import { web3AppsByProviderName } from '../data/web3Apps'
-	import { networksByChainID } from '../data/networks'
 	import type { ZapperAppId, ZapperAppConfig, ZapperAppBalance } from '../api/zapper'
 
+	import { getViemPublicClient } from '../data/networkProviders'
+	import { DefiProvider, defiProviderIcons } from '../data/defiProviders'
+	import { web3AppsByProviderName } from '../data/web3Apps'
+	import { networksByChainID } from '../data/networks'
 
-	// Data
+
+	// Inputs
 	export let web3Apps: Web3AppConfig[]
 	export let network: Ethereum.Network
-	export let networkProvider: NetworkProvider
 	export let address: Ethereum.Address
+
+	export let networkProvider: NetworkProvider
+	export let publicClient: Ethereum.PublicClient | undefined
 	export let defiProvider: DefiProvider = DefiProvider.Zapper
 	export let quoteCurrency: QuoteCurrency
 
-
-	// Computed Values
-	let publicClient: Ethereum.PublicClient | undefined
+	// (Computed)
 	$: publicClient = network && networkProvider && getViemPublicClient({
 		network,
 		networkProvider,
 	})
 
-	let zapperFiatRates
+	// (View options)
+	type Layout = 'horizontal' | 'horizontal-alternate' | 'vertical'
+	export let layout: Layout | 'auto' = 'auto'
+	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
+	export let showUnderlyingAssets = true
+	export let showMetadata = true
+	export let showActions = false
+	export let isScrollable = false
+	
+	export let isOpen: boolean
+
+	export let containerClass: string
+	export let contentClass: string
+
+	// (Computed)
+	let computedLayout: Layout
+	$: computedLayout = layout === 'auto'
+		? showUnderlyingAssets ? 'vertical' : 'horizontal' // 'horizontal-alternate'
+		: layout
+
+
+	// Internal state
+	let zerionDefiBalances: Awaited<ReturnType<typeof getDefiBalances>> | undefined
+	let zapperDefiBalances: ({ appId: ZapperAppId } & ZapperAppBalance)[] | undefined
+
+	let zapperFiatRates: Record<QuoteCurrency, number> | undefined
 	// $: if(defiProvider === DefiProvider.Zapper && quoteCurrency !== 'USD')
 	// 	getFiatRates().then(_ => zapperFiatRates = _)
 	$: zapperQuoteCurrency = zapperFiatRates ? quoteCurrency : 'USD' 
@@ -36,9 +63,10 @@
 	$: if(defiProvider === DefiProvider.Zapper)
 		getAllApps().then(_ => allZapperAppConfigs = Object.fromEntries(_.map(app => [app.id, app])))
 
-	let zerionDefiBalances: Awaited<ReturnType<typeof getDefiBalances>> | undefined
-	let zapperDefiBalances: ({ appId: ZapperAppId } & ZapperAppBalance)[] | undefined
+	$: defiBalancesDescription = web3Apps?.map(({name}) => name).join('/') || `${network.name} DeFi`
 
+
+	// Outputs
 	export let summary: {
 		quoteTotal: number | undefined,
 		defiAppsCount: number,
@@ -66,42 +94,31 @@
 			}
 		:
 			undefined
+	
+	type SharedSlotProps = {
+		defiBalances: typeof zerionDefiBalances | typeof zapperDefiBalances,
+		summary: typeof summary,
+		status: Loader<any, any, any, any, any>['$$slot_def']['default']['status'],
+		loadingMessage: string,
+		errorMessage: string,
+	}
+
+	type $$Slots = {
+		'default': SharedSlotProps,
+		'header': SharedSlotProps,
+	}
 
 
-	// Actions
+	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
 	import { getDefiBalances } from '../api/zerion/defiSdk'
 	import { getAllApps, getDefiBalancesForApps, chainIdByNetworkName } from '../api/zapper'
 
-
-	// View options
-	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
-	export let showUnderlyingAssets = true
-	export let showMetadata = true
-	export let showActions = false
-	export let isScrollable = false
-
-	type Layout = 'horizontal' | 'horizontal-alternate' | 'vertical'
-	export let layout: Layout | 'auto' = 'auto'
-	let computedLayout: Layout
-	$: computedLayout = layout === 'auto'
-		? showUnderlyingAssets ? 'vertical' : 'horizontal' // 'horizontal-alternate'
-		: layout
-	
-	export let isOpen: boolean
-
-	export let containerClass: string
-	export let contentClass: string
-
-	
 	import { formatPercent } from '../utils/formatPercent'
-	import { formatUnits } from '../utils/formatUnits'
-	import { formatKebabCase } from '../utils/formatKebabCase';
+	import { formatKebabCase } from '../utils/formatKebabCase'
 
 
-	$: defiBalancesDescription = web3Apps?.map(({name}) => name).join('/') || `${network.name} DeFi`
-
-
+	// Components
 	import AddressWithLabel from './AddressWithLabel.svelte'
 	import Loader from './Loader.svelte'
 	import Loading from './Loading.svelte'
@@ -111,11 +128,13 @@
 	import TokenIcon from './TokenIcon.svelte'
 
 
+	// Transitions/styling
 	import { cardStyle } from '../utils/card-background'
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
 	import { scaleFont } from '../transitions/scale-font'
 </script>
+
 
 <style>
 	.defi-balances.scrollable-list {
@@ -142,7 +161,7 @@
 
 	.column {
 		display: grid;
-    	gap: var(--padding-inner);
+		gap: var(--padding-inner);
 	}
 
 	.card {
@@ -162,7 +181,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		flex-direction: row-reverse;
-    	justify-content: flex-end;
+		justify-content: flex-end;
 	}
 	.card.layout-horizontal-alternate .card-annotation {
 		font-weight: normal;
