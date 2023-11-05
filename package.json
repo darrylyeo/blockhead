@@ -26,6 +26,7 @@
   "dependencies": {
     "@apollo/client": "^3.8.6",
     "@coinbase/wallet-sdk": "^3.7.2",
+    "@decommas/sdk": "^1.7.0",
     "@didtools/pkh-ethereum": "^0.4.1",
     "@fontsource/fira-code": "^5.0.15",
     "@fontsource/ubuntu": "^5.0.8",

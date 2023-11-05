@@ -19,6 +19,9 @@ dependencies:
   '@coinbase/wallet-sdk':
     specifier: ^3.7.2
     version: 3.7.2
+  '@decommas/sdk':
+    specifier: ^1.7.0
+    version: 1.7.0
   '@didtools/pkh-ethereum':
     specifier: ^0.4.1
     version: 0.4.1(patch_hash=rveoew5ycj36pmv4xxd24b6a4y)
@@ -2457,6 +2460,11 @@ packages:
       postcss-selector-parser: 6.0.13
     dev: false
 
+  /@decommas/sdk@1.7.0:
+    resolution: {integrity: sha512-XeIbQT66pgqvfZmo7GjFGHiono+eFMRyI/6jm94Cv/AE9p4GraPJL7DvVHC+jEDrcAv58uS/zBMWIDHl3rUBPg==}
+    engines: {node: '>=18.0.0'}
+    dev: false
+
   /@didtools/cacao@2.1.0:
     resolution: {integrity: sha512-35gopj+mOmAlA3nHoHiYMvNMXJtbJDJnVpIlCf/Wf/+/x+uG9aIQefXfF35D6JuaTCZ0apabjpT2umL5h3EXcw==}
     engines: {node: '>=14.14'}
@@ -3945,8 +3953,6 @@ packages:
       protons-runtime: 5.0.2(uint8arraylist@2.4.3)
       uint8arraylist: 2.4.3
       uint8arrays: 4.0.6
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /@libp2p/crypto@2.0.6:
@@ -3960,8 +3966,6 @@ packages:
       protons-runtime: 5.0.2(uint8arraylist@2.4.3)
       uint8arraylist: 2.4.3
       uint8arrays: 4.0.6
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /@libp2p/interface-internal@0.1.5:
@@ -4223,8 +4227,6 @@ packages:
     dependencies:
       '@libp2p/interface': 0.1.4
       '@libp2p/peer-id': 3.0.4
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /@libp2p/peer-id-factory@3.0.4:
@@ -4257,8 +4259,6 @@ packages:
       '@libp2p/interface': 0.1.4
       multiformats: 12.1.3
       uint8arrays: 4.0.6
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /@libp2p/peer-record@6.0.5:
