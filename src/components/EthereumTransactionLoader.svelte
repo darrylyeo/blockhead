@@ -54,45 +54,10 @@
 	import { normalizeViemTransaction } from '../api/viem'
 	import { getTransaction as getTransactionChainbase, normalizeTransaction as normalizeTransactionChainbase } from '../api/chainbase'
 	import { getTransaction as getTransactionCovalent, normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent'
+	import { normalizeTransaction as normalizeTransactionDecommas } from '../api/decommas/normalize'
 	// import { getTransaction as getTransactionEtherspot, normalizeTransaction as normalizeEtherspotTransaction } from '../api/etherspot'
 	import { MoralisWeb3Api, chainCodeFromNetwork, normalizeMoralisTransaction } from '../api/moralis/web3Api'
 
-	const normalizeTransactionDecommas = (
-		transaction: TTxDetail,
-		network: Ethereum.Network,
-	): Ethereum.Transaction => ({
-		network,
-		transactionId: transaction.hash as Ethereum.TransactionID,
-
-		executionStatus: transaction.status ? 'successful' : 'failed',
-		finalityStatus: 'finalized',
-
-		blockNumber: BigInt(transaction.blockNumber),
-		blockTimestamp: transaction.blockTimestamp * 1000,
-
-		transactionIndex: transaction.transactionIndex,
-
-		fromAddress: transaction.fromAddress as Ethereum.Address,
-		toAddress: transaction.toAddress as Ethereum.Address,
-
-		value: BigInt(transaction.value),
-
-		gasToken: network.nativeCurrency,
-		gasUnitsSpent: BigInt(transaction.gasUsed),
-		gasUnitRate: BigInt(transaction.gasPrice),
-		gasValue: BigInt(transaction.gasUsed) * BigInt(transaction.gasPrice),
-
-		// ...transaction.method && {
-		// 	logEvents: [
-		// 		{
-		// 			topics: [],
-		// 			decoded: {
-		// 				name: transaction.method,
-		// 			}
-		// 		}
-		// 	]
-		// },
-	})
 
 
 	// Components

@@ -36,17 +36,3 @@ export const chainNameByChainId = Object.fromEntries(
 	Object.entries(chainIdByChainName)
 		.map(([chainName, chainId]) => [chainId, chainName])
 ) as Record<Ethereum.ChainID, EvmChainName>
-
-
-// import type { TNft } from '@decommas/sdk/distCJS/business/namespaces/address/getNnfts/types'
-
-// export const normalizeNftContracts = (nfts: TNft[], owner: Ethereum.Address): Ethereum.NftContract[] => (
-// 	[
-// 		...nfts
-// 			?.groupToMap(nft => nft.contractAddress)
-// 			.entries()
-// 		?? []
-// 	]
-// 		.map(([contractAddress, nfts]: [Ethereum.ContractAddress, TNft[]]) => ({
-// 		}))
-// )

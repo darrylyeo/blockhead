@@ -75,42 +75,7 @@
 
 	import { getTokenAddressBalances, normalizeNftContract as normalizeNftContractCovalent } from '../api/covalent'
 
-	// import { normalizeNftContracts as normalizeNftContractsDecommas } from '../api/decommas'
-
-	import type { TNft, TNftMetadata } from '@decommas/sdk'
-
-	export const normalizeNftContractsDecommas = (
-		nftsWithMetadata: { nft: TNft, metadata: TNftMetadata | undefined }[],
-		owner: Ethereum.Address
-	): Ethereum.NftContractWithNfts[] => (
-		[
-			...nftsWithMetadata
-				?.groupToMap(({ nft }) => nft.contractAddress)
-				.entries()
-			?? []
-		]
-			.map(([contractAddress, nftsWithMetadata]: [Ethereum.ContractAddress, { nft: TNft, metadata: TNftMetadata | undefined }[]]) => ({
-				address: contractAddress,
-				name: nftsWithMetadata[0].metadata?.collectionName ?? '',
-				symbol: '',
-
-				ercTokenStandards: [(nftsWithMetadata[0].metadata ?? nftsWithMetadata[0].nft).contractType.replace('-', '').toLowerCase() as Ethereum.ERCTokenStandard],
-				
-				nfts: nftsWithMetadata.map(({ nft, metadata }): Ethereum.NftWithBalance => ({
-					owner,
-
-					tokenId: BigInt(metadata?.tokenId ?? nft.tokenId),
-
-					metadata: {
-						name: metadata?.name,
-						image: metadata?.imageUrl,
-						animationUrl: metadata?.animationUrl,
-					},
-					
-					erc1155Balance: Number(nft.amount),
-				})),
-			}))
-	)
+	import { normalizeNftContracts as normalizeNftContractsDecommas } from '../api/decommas/normalize'
 
 	import { ConcurrentPromiseQueue } from '../utils/ConcurrentPromiseQueue'
 	import { normalizeNftContracts as normalizeNftContractsLiquality } from '../api/liquality'
