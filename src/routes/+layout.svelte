@@ -62,7 +62,8 @@
 			if(type === 'added' || type === 'updated')
 				triggerEvent('Query', {
 					query: query.queryKey[0],
-					queryParams: Object.fromEntries(
+					queryStatus: query.state.status,
+					...Object.fromEntries(
 						Object.entries(query.queryKey[1])
 							.filter(([key]) => ![
 								'address',
@@ -71,7 +72,6 @@
 								'lensName',
 							].includes(key))
 					),
-					status: query.state.status,
 				})
 		})
 	}
