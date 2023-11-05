@@ -5,6 +5,16 @@ import { env } from '../env'
 
 export const decommas = new Decommas(env.DECOMMAS_API_KEY)
 
+const fetch = decommas.address.httpRequest.__proto__.fetch
+decommas.address.httpRequest.__proto__.fetch = function(endpoints, params, method){
+	return fetch.call(
+		this,
+		endpoints,
+		{ ...params, 'api-key': env.DECOMMAS_API_KEY },
+		method
+	)
+}
+
 
 export const chainIdByChainName = {
 	[EvmChainName.ARBITRUM]: 42161,
