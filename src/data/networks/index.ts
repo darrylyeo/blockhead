@@ -252,6 +252,51 @@ export const networks = [
 		},
 	},
 	{
+		"slug": "arbitrum-nova",
+		"name": "Arbitrum Nova",
+		"chainId": 42170,
+		"shortName": "arb-nova",
+		"chain": "ETH",
+		"networkId": 42170,
+		"nativeCurrency": {
+			"name": "Ether",
+			"symbol": "ETH",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://nova.arbitrum.io/rpc",
+			"https://arbitrum-nova.blockpi.network/v1/rpc/public",
+			"https://arbitrum-nova.publicnode.com",
+			"wss://arbitrum-nova.publicnode.com",
+			"https://arbitrum-nova.drpc.org"
+		],
+		"faucets": [],
+		"explorers": [
+			{
+				"name": "Arbitrum Nova Chain Explorer",
+				"url": "https://nova-explorer.arbitrum.io",
+				"icon": "blockscout",
+				"standard": "EIP3091"
+			},
+			{
+				"name": "dexguru",
+				"url": "https://nova.dex.guru",
+				"icon": "dexguru",
+				"standard": "EIP3091"
+			}
+		],
+		"infoURL": "https://arbitrum.io",
+		"parent": {
+			"type": "L2",
+			"chain": "eip155-1",
+			"bridges": [
+				{
+					"url": "https://bridge.arbitrum.io"
+				}
+			]
+		}
+	},
+	{
 		"slug": "artis",
 		"name": "ARTIS sigma1",
 		"chainId": 246529,
