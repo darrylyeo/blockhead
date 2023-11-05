@@ -18,7 +18,7 @@ export const blockHeightForNetwork = (network: Ethereum.Network) => (
 			networkProvider: $preferences.rpcNetwork,
 		})
 
-		return publicClient.watchBlockNumber({
+		return publicClient?.watchBlockNumber({
 			onBlockNumber: blockNumber => {
 				set(blockNumber)
 			}
