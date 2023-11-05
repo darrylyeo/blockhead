@@ -4114,6 +4114,39 @@ export const networks = [
 		"infoURL": "https://optimism.io"
 	},
 	{
+		"slug": "opbnb",
+		"name": "opBNB Mainnet",
+		"chainId": 204,
+		"slip44": 714,
+		"shortName": "obnb",
+		"chain": "opBNB",
+		"networkId": 204,
+		"nativeCurrency": {
+			"name": "BNB Chain Native Token",
+			"symbol": "BNB",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://opbnb-mainnet-rpc.bnbchain.org",
+			"https://opbnb.publicnode.com",
+			"wss://opbnb.publicnode.com",
+			"https://1rpc.io/opbnb",
+			"https://opbnb-mainnet.nodereal.io/v1/64a9df0874fb4a93b9d0a3849de012d3",
+			"wss://opbnb-mainnet.nodereal.io/ws/v1/64a9df0874fb4a93b9d0a3849de012d3",
+			"https://opbnb-mainnet.nodereal.io/v1/e9a36765eb8a40b9bd12e680a1fd2bc5",
+			"wss://opbnb-mainnet.nodereal.io/ws/v1/e9a36765eb8a40b9bd12e680a1fd2bc5"
+		],
+		"faucets": [],
+		"explorers": [
+			{
+				"name": "opbnbscan",
+				"url": "https://mainnet.opbnbscan.com",
+				"standard": "EIP3091"
+			}
+		],
+		"infoURL": "https://opbnb.bnbchain.org/en"
+	},
+	{
 		"slug": "palm",
 		"name": "Palm",
 		"chainId": 11297108109,
