@@ -560,7 +560,7 @@
 				{/if}
 
 				{#if fromInfiniteQuery}
-					{#if $fromQuery.dataUpdatedAt}
+					{#if $fromInfiniteQuery.dataUpdatedAt}
 						<span>
 							Last updated
 							<Date
