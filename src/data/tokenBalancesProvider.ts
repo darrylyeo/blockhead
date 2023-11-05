@@ -4,6 +4,7 @@ export enum TokenBalancesProvider {
 	Beryx = 'Beryx',
 	Chainbase = 'Chainbase',
 	Covalent = 'Covalent',
+	Decommas = 'Decommas',
 	Liquality = 'Liquality',
 	Moralis = 'Moralis',
 	QuickNode = 'QuickNode',
@@ -12,13 +13,14 @@ export enum TokenBalancesProvider {
 }
 
 
-import { AirstackIcon, BeryxIcon, ChainbaseIcon, CovalentIcon, LiqualityIcon, MoralisIcon, QuickNodeIcon, ZapperIcon, ZerionIcon } from '../assets/icons'
+import { AirstackIcon, BeryxIcon, ChainbaseIcon, CovalentIcon, DecommasIcon, LiqualityIcon, MoralisIcon, QuickNodeIcon, ZapperIcon, ZerionIcon } from '../assets/icons'
 
 export const tokenBalancesProviderIcons = {
 	[TokenBalancesProvider.Airstack]: AirstackIcon,
 	[TokenBalancesProvider.Beryx]: BeryxIcon,
 	[TokenBalancesProvider.Chainbase]: ChainbaseIcon,
 	[TokenBalancesProvider.Covalent]: CovalentIcon,
+	[TokenBalancesProvider.Decommas]: DecommasIcon,
 	[TokenBalancesProvider.Liquality]: LiqualityIcon,
 	[TokenBalancesProvider.Moralis]: MoralisIcon,
 	[TokenBalancesProvider.QuickNode]: QuickNodeIcon,

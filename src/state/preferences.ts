@@ -211,6 +211,7 @@ export const preferencesConfig = [
 							{ value: TokenBalancesProvider.Airstack, name: 'Airstack' },
 							{ value: TokenBalancesProvider.Chainbase, name: 'Chainbase › Token API' },
 							{ value: TokenBalancesProvider.Covalent, name: 'Covalent' },
+							{ value: TokenBalancesProvider.Decommas, name: 'Decommas' },
 							{ value: TokenBalancesProvider.Moralis, name: 'Moralis › Web3 API' },
 							{ value: TokenBalancesProvider.Zapper, name: 'Zapper' },
 							{ value: TokenBalancesProvider.Beryx, name: 'Beryx' },

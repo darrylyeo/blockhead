@@ -105,6 +105,25 @@
 		balance: BigInt(asset.balance),
 	})
 
+	const normalizeDecommasTokenBalance = (tokenWithAmount: Awaited<ReturnType<typeof import('../api/decommas').decommas.address.getTokens>>['result'][number]): TokenWithBalance => ({
+		token: {
+			chainId: tokenWithAmount.chainId,
+			address: tokenWithAmount.address as Ethereum.ContractAddress,
+			name: tokenWithAmount.name,
+			symbol: tokenWithAmount.symbol,
+			decimals: tokenWithAmount.decimals,
+			icon: tokenWithAmount.logoUrl,
+		},
+		balance: BigInt(tokenWithAmount.amount),
+		...tokenWithAmount.actualPrice !== null && {
+			conversion: {
+				quoteCurrency: 'USD',
+				value: Number(tokenWithAmount.amount) * 0.1 ** tokenWithAmount.decimals * Number(tokenWithAmount.actualPrice),
+				rate: Number(tokenWithAmount.actualPrice),
+			},
+		},
+	})
+
 	const normalizeLiqualityTokenBalance = (asset: Awaited<ReturnType<typeof import('@liquality/wallet-sdk').ERC20Service.listAccountTokens>>[number]): TokenWithBalance => ({
 		token: {
 			address: asset.tokenContractAddress ?? undefined,
@@ -333,6 +352,58 @@
 					),
 					select: result => (
 						result.items.map(normalizeCovalentTokenBalance)
+					),
+					staleTime: 10 * 1000,
+				})
+			),
+		}),
+
+		[TokenBalancesProvider.Decommas]: () => ({
+			fromInfiniteQuery: address && network && (
+				createInfiniteQuery({
+					queryKey: ['Balances', {
+						tokenBalancesProvider,
+						address,
+						chainId: network.chainId,
+					}],
+					initialPageParam: 0,
+					queryFn: async ({ pageParam: offset }) => {
+						const { decommas, chainNameByChainId } = await import('../api/decommas')
+
+						const chains = [chainNameByChainId[network.chainId]]
+
+						const [
+							coinsResponse,
+							tokensResponse,
+						] = await Promise.all([
+							offset === 0
+								? decommas.address.getCoins({
+									chains,
+									address,
+								})
+								: undefined,
+							decommas.address.getTokens({
+								chains,
+								address,
+								verified: true,
+								limit: 100,
+								offset,
+							}),
+						])
+
+						return {
+							count: (coinsResponse?.count ?? 0) + tokensResponse.count,
+							result: [
+								...(coinsResponse?.result ?? []),
+								...tokensResponse.result,
+							]
+						}
+					},
+					getNextPageParam: (lastPage, allPages) => allPages && allPages.length * 100 < lastPage.count ? allPages.length * 100 : undefined,
+					select: ({ pages }) => (
+						pages
+							.flatMap(result => result.result)
+							.map(normalizeDecommasTokenBalance)
 					),
 					staleTime: 10 * 1000,
 				})
