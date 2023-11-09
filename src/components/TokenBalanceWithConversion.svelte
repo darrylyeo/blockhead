@@ -137,7 +137,7 @@
 			{#if tokenBalanceFormat === 'both'}{#if showParentheses}({/if}{/if
 			}<TokenBalance
 				{network} symbol={conversionCurrency}
-				balance={convertedValue} {showDecimalPlaces} showPlainFiat={true} {isDebt}
+				balance={convertedValue} {showDecimalPlaces} format="fiat" {isDebt}
 				{tween} {clip} {transitionWidth}
 			/><InlineContainer
 				isOpen={tokenBalanceFormat === 'converted' && layout === 'inline' && conversionCurrency !== symbol}

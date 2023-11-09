@@ -200,7 +200,7 @@
 					<hr>
 
 					<div class="bar wrap">
-						<svelte:element this={`h${headingLevel + 1}`}>Balances (<TokenBalance symbol={summary.quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} />)</svelte:element>
+						<svelte:element this={`h${headingLevel + 1}`}>Balances (<TokenBalance symbol={summary.quoteCurrency} balance={summary.quoteTotal} format="fiat" />)</svelte:element>
 
 						<div role="toolbar" class="row wrap">
 							<TokenBalanceFormatSelect

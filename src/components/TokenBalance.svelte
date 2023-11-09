@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '../data/networks/types'
 	import type { TickerSymbol } from '../data/currencies'
-	import { fiatQuoteCurrencies } from '../data/currencies'
 
 	export let network: Ethereum.Network
 	export let symbol: TickerSymbol
@@ -18,15 +17,14 @@
 	export let balance: number = 0
 	export let showDecimalPlaces = 3 // 2 + Math.round(Math.log10(price || 1))
 
+	export let format: 'token' | 'fiat' = 'token'
 	export let isDebt = false
 
-	export let showPlainFiat = false
-	$: isFiat = showPlainFiat && symbol in fiatQuoteCurrencies
 
 	$: isZero = balance == 0
 	$: isNegative = balance < 0
 
-	$: compactLargeValues = !showPlainFiat
+	$: compactLargeValues = format === 'token'
 
 	$: title = `${balance} ${name || symbol}${symbol && name ? ` (${symbol})` : ``}`
 
@@ -100,7 +98,7 @@
 	draggable={true}
 	on:dragstart={onDragStart}
 >
-	{#if isFiat}
+	{#if format === 'fiat'}
 		<span class="token-balance">
 			{isNegative ? '−' : ''}<TweenedNumber
 				value={Math.abs(balance)}

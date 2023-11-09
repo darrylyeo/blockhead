@@ -356,7 +356,7 @@
 
 			{#if summary}
 				<span class="summary">
-					<span class="account-total-value"><TokenBalance symbol={quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} /></span>
+					<span class="account-total-value"><TokenBalance symbol={quoteCurrency} balance={summary.quoteTotal} format="fiat" /></span>
 
 					{#if summary.filteredBalancesCount}
 						│
@@ -488,7 +488,7 @@
 													class:is-zero={!summary.filteredBalancesCount}
 													transition:scale|global
 												>
-													<TokenBalance symbol={summary.quoteCurrency} balance={summary.quoteTotal} showPlainFiat={true} />
+													<TokenBalance symbol={summary.quoteCurrency} balance={summary.quoteTotal} format="fiat" />
 													│
 													<strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> tokens
 												</span>
@@ -581,7 +581,7 @@
 												<TokenBalance
 													symbol={summary.quoteTotalCurrency || quoteCurrency}
 													balance={summary.quoteTotal}
-													showPlainFiat={true}
+													format="fiat"
 												/>
 												│
 												<strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}

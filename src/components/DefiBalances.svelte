@@ -274,13 +274,13 @@
 									<TokenBalance
 										symbol={zapperQuoteCurrency}
 										balance={value * zapperFiatRate}
-										showPlainFiat={true}
+										format="fiat"
 									/>
 								{:else if label === 'Debt' && value}
 									<TokenBalance
 										{network} symbol={zapperQuoteCurrency}
 										balance={value * zapperFiatRate}
-										showPlainFiat={true}
+										format="fiat"
 										isDebt={true}
 									/>
 								{/if}
@@ -294,7 +294,7 @@
 												{'USD'}
 												balance={value}
 												isDebt={label === 'Debt'}
-												showPlainFiat={true}
+												format="fiat"
 											/>
 										{:else}
 											{value}
@@ -535,7 +535,7 @@
 													symbol={'USD'}
 													balance={Number(value)}
 													isDebt={label === 'Debt'}
-													showPlainFiat={true}
+													format="fiat"
 												/>
 											{:else if type === 'pct'}
 												{formatPercent(value)}

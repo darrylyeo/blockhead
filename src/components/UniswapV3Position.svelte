@@ -50,7 +50,7 @@
 
 	<svelte:fragment slot="header-right">
 		<span class="summary">
-			<TokenBalance showPlainFiat symbol="USD" balance={position.cumulativeWithdrawUSD - position.cumulativeDepositUSD} /> earned
+			<TokenBalance format="fiat" symbol="USD" balance={position.cumulativeWithdrawUSD - position.cumulativeDepositUSD} /> earned
 		</span>
 
 		<span class="card-annotation">

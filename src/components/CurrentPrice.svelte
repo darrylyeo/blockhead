@@ -145,7 +145,7 @@
 						<TokenBalance
 							symbol={quoteCurrency}
 							balance={priceFeed.price}
-							showPlainFiat={true}
+							format="fiat"
 						/>
 					</div>
 					<!-- <div class="rate">
@@ -218,7 +218,7 @@
 						<TokenBalance
 							symbol={/*quoteCurrency*/ 'USD'}
 							balance={data.price}
-							showPlainFiat={true}
+							format="fiat"
 						/>
 					</div>
 					<!-- <div class="rate">
