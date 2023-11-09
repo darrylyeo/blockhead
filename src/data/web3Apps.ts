@@ -9300,10 +9300,10 @@ export const web3AppsBySlug = Object.fromEntries(web3Apps.map(web3AppConfig => [
 export const web3AppsByProviderName = {
 	zapper: Object.fromEntries(web3Apps.flatMap(web3AppConfig =>
 		web3AppConfig.views.map(view => view.providers?.zapper ? [view.providers.zapper, web3AppConfig] : [])
-	)),
+	)) as Record<ZapperAppId, Web3AppConfig>,
 	zerionDefiSDK: Object.fromEntries(web3Apps.flatMap(web3AppConfig =>
 		web3AppConfig.views.flatMap(view => view.providers?.zerionDefiSDK?.map(name => [name, web3AppConfig]) ?? [])
-	))
+	)) as Record<DefiSDK.ProtocolName, Web3AppConfig>,
 } as const
 
 
