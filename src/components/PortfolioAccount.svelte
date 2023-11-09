@@ -137,6 +137,7 @@
 	import Address from './Address.svelte'
 	import Balance from './Balance.svelte'
 	import DefiPositions from './DefiPositions.svelte'
+	import DefiPositionsLoader from './DefiPositionsLoader.svelte'
 	import EnsName from './EnsName.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
 	import EthereumNftBalances from './EthereumNftBalances.svelte'
@@ -554,18 +555,22 @@
 					<!-- DeFi Positions -->
 					{#if view.showDefi}<section class="defi-balances column-block">
 					<!-- <HeightContainer containerClass="defi-balances" class="column" isOpen={showDeFi}> -->
-						<DefiPositions
+						<DefiPositionsLoader
 							{network}
 							{networkProvider}
 							{address}
 							{defiProvider}
 							{quoteCurrency}
-							{tokenBalanceFormat} {showUnderlyingAssets}
 							isOpen={Boolean(isGridLayout ? gridLayoutIsChainExpanded[view.chainId] : columnLayoutIsSectionExpanded[`${view.chainId}-${'defi'}`]) && !isEditing}
-							isScrollable={!isGridLayout}
 							bind:summary={defiAppsSummaries[i]}
+							let:appsWithPositions
 						>
-							<svelte:fragment slot="header" let:status let:summary let:loadingMessage let:errorMessage>
+							<svelte:fragment slot="header"
+								let:status
+								let:summary
+								let:loadingMessage
+								let:errorMessage
+							>
 								<!-- {#if (status === 'resolved' && summary?.defiAppsCount) || status === 'error' || isGridLayout} -->
 									<!-- <hr> -->
 
@@ -631,7 +636,17 @@
 									</label>
 								<!-- {/if} -->
 							</svelte:fragment>
-						</DefiPositions>
+
+							<DefiPositions
+								{appsWithPositions}
+								{network}
+								{address}
+								{quoteCurrency}
+								{tokenBalanceFormat}
+								{showUnderlyingAssets}
+								isScrollable={!isGridLayout}
+							/>
+						</DefiPositionsLoader>
 					</section>{/if}
 					<!-- </HeightContainer> -->
 
