@@ -421,10 +421,13 @@
 
 					<slot name="errorDetails" {error} {errorMessage}>
 						<pre>{
-							errorFunction
-								? errorFunction(error) :
-							typeof error === 'object' ?
-								error.message ?? JSON.stringify(error)
+							errorFunction ?
+								errorFunction(error)
+							: typeof error === 'object' ?
+								error && 'message' in error ?
+									error.message
+								:
+									JSON.stringify(error)
 							:
 								error
 						}</pre>
