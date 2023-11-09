@@ -141,6 +141,7 @@
 	import EnsName from './EnsName.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
 	import EthereumNftBalances from './EthereumNftBalances.svelte'
+	import EthereumNftBalancesLoader from './EthereumNftBalancesLoader.svelte'
 	import HeightContainer from './HeightContainer.svelte'
 	import InlineContainer from './InlineContainer.svelte'
 	import LensName from './LensName.svelte'
@@ -653,15 +654,14 @@
 					<!-- NFT Balances -->
 					{#if view.showNfts}<section class="nft-balances column-block">
 					<!-- <HeightContainer containerClass="nft-balances" class="column" isOpen={showNFTs}> -->
-						<EthereumNftBalances
+						<EthereumNftBalancesLoader
 							{network}
 							{address}
 							{nftProvider}
 							{quoteCurrency}
-							{sortBy} {showSmallValues} {showUnderlyingAssets} {showNFTMetadata} {showImagesOnly} {show3D}
 							isOpen={Boolean(isGridLayout ? gridLayoutIsChainExpanded[view.chainId] : columnLayoutIsSectionExpanded[`${view.chainId}-${'nfts'}`]) && !isEditing}
-							isScrollable={!isGridLayout}
 							bind:summary={nftsSummaries[i]}
+							let:nftContractsWithBalances
 						>
 							<svelte:fragment slot="header" let:summary let:status let:loadingMessage let:errorMessage>
 								<!-- {#if balances?.length || isGridLayout} -->
@@ -726,7 +726,16 @@
 									</label>
 								<!-- {/if} -->
 							</svelte:fragment>
-						</EthereumNftBalances>
+
+							<EthereumNftBalances
+								{nftContractsWithBalances}
+								{network}
+								{address}
+								{nftProvider}
+								{quoteCurrency}
+								{sortBy} {showSmallValues} {showUnderlyingAssets} {showNFTMetadata} {showImagesOnly} {show3D} {isScrollable}
+							/>
+						</EthereumNftBalancesLoader>
 					</section>{/if}
 
 					{#if showFeed}<section class="feed" transition:fade={{duration: 300}}>

@@ -95,6 +95,7 @@
 	loadingIconName={nftProvider}
 	{loadingMessage}
 	{errorMessage}
+	{...$$restProps}
 	{...{
 		[NftProvider.Airstack]: () => ({
 			fromQuery: address && network && (
