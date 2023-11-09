@@ -79,7 +79,7 @@ export const cryptoQuoteCurrencies = {
 	}
 }
 
-export const quoteCurrencies = {...fiatQuoteCurrencies, cryptoQuoteCurrencies}
+export const quoteCurrencies = {...fiatQuoteCurrencies, ...cryptoQuoteCurrencies}
 
 export type QuoteCurrency = keyof typeof quoteCurrencies
 export type TickerSymbol = QuoteCurrency | string
