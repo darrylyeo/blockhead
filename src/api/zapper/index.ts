@@ -482,8 +482,63 @@ type Asset = {
 	network: string;
 	tokens?: TokenBreakdown[];
 	balanceUSD: number;
-	dataProps: DataProps;
-	displayProps: DisplayProps;
+	dataProps: {
+		poolIndex?: number;
+		liquidity?: number;
+		isActive?: boolean;
+		dailyROI?: number;
+		weeklyROI?: number;
+		yearlyROI?: number;
+		fee?: number;
+		volume?: number;
+		volumeChangePercentage?: number;
+		isBlocked?: boolean;
+		reserves?: number[];
+		weight?: number[];
+		apy?: number;
+		reserve?: number;
+		faucetAddresses?: string[];
+		exchangeable?: boolean;
+		lensAddress?: string;
+		implementation?: string;
+		supplyApy?: number;
+		borrowApy?: number;
+		comptrollerAddress?: string;
+		supply?: number;
+		borrow?: number;
+		incentivesControllerAddress?: string;
+		protocolDataProviderAddress?: string;
+		poolType?: string;
+		swapAddress?: string;
+		gaugeAddresses?: string[];
+		feeTier?: number;
+		rangeStart?: number;
+		rangeEnd?: number;
+		poolAddress?: string;
+		assetStandard?: string;
+		cRatio?: number;
+		liquidationThreshold?: number;
+		enabledAsCollateral?: boolean;
+		deposited?: number;
+		remaining?: number;
+	};
+	displayProps: {
+		label: string;
+		secondaryLabel?:
+			| string
+			| {
+				type: string;
+				value: number;
+			};
+		images?: string[];
+		statsItems?: {
+			label: string;
+			value: SecondaryLabelOrValue | string;
+		}[];
+		tertiaryLabel?: string;
+		labelDetailed?: string;
+		balanceDisplayMode?: string;
+	};
 	key?: string;
 	symbol?: string;
 	decimals?: number;
@@ -521,173 +576,85 @@ type TokenBreakdown = {
 	groupId?: string;
 	supply?: number;
 	pricePerShare?: number[] | number;
-	tokens?: TokenBreakdown1[];
-	dataProps?: DataProps1;
-	displayProps?: DisplayProps1;
+	tokens?: (TokenBalance & {
+		key?: string;
+		appId?: string;
+		supply?: number;
+		tokens?: TokenBalance[];
+		groupId?: string;
+		dataProps?: {
+			reserve: number;
+			liquidity: number;
+		};
+		displayProps?: {
+			label: string;
+			secondaryLabel: SecondaryLabelOrValue;
+			images?: string[];
+			statsItems?: {
+				label: string;
+				value: SecondaryLabelOrValue;
+			}[];
+		};
+		pricePerShare?: number[];
+	})[];
+	dataProps?: {
+		fee?: number;
+		poolId?: string;
+		volume?: number;
+		weights?: number[];
+		reserves?: number[];
+		liquidity?: number;
+		volumeChangePercentage?: number;
+		isBlocked?: boolean;
+		reserve?: number;
+		exchangeable?: boolean;
+		poolType?: string;
+		swapAddress?: string;
+		gaugeAddresses?: string[];
+		apy?: number;
+	};
+	displayProps?: {
+		label: string;
+		images?: string[];
+		statsItems?: {
+			label: string;
+			value: SecondaryLabelOrValue | string;
+		}[];
+		secondaryLabel?: string | SecondaryLabelOrValue;
+	};
 	apt_address?: null;
 	apt_networkId?: null;
 	key?: string;
 }
-type TokenBreakdown1 = {
-	id?: string;
-	networkId?: number;
-	address: string;
-	name?: string;
-	symbol: string;
-	decimals: number;
-	coingeckoId?: string;
-	status?: string;
-	hide?: boolean;
-	canExchange?: boolean;
-	verified?: boolean;
-	updatedAt?: string;
-	createdAt?: string;
-	price: number;
-	dailyVolume?: number;
-	totalSupply?: string;
-	networkEnumValue?: string;
-	type: string;
-	network: string;
-	balance: number;
-	balanceRaw: string;
-	balanceUSD: number;
-	key?: string;
-	appId?: string;
-	supply?: number;
-	tokens?: TokenBreakdown2[];
-	groupId?: string;
-	dataProps?: DataProps2;
-	displayProps?: DisplayProps2;
-	pricePerShare?: number[];
-	apt_address?: null;
-	apt_networkId?: null;
-}
-type TokenBreakdown2 = {
+type TokenBalance = {
 	id: string;
+	networkId: number;
 	address: string;
 	name: string;
 	symbol: string;
 	decimals: number;
 	coingeckoId: string;
+	status: string;
 	hide: boolean;
 	canExchange: boolean;
+	verified: boolean;
 	updatedAt: string;
 	createdAt: string;
 	price: number;
-	networkId: number;
-	status: string;
 	totalSupply: string;
 	dailyVolume: number;
-	verified: boolean;
-	apt_address?: null;
-	apt_networkId?: null;
 	networkEnumValue: string;
 	type: string;
 	network: string;
 	balance: number;
 	balanceRaw: string;
 	balanceUSD: number;
-}
-type DataProps2 = {
-	reserve: number;
-	liquidity: number;
-}
-type DisplayProps2 = {
-	label: string;
-	secondaryLabel: SecondaryLabelOrValue;
-	images?: string[];
-	statsItems?: StatsItems[];
+	apt_address?: null;
+	apt_networkId?: null;
 }
 type SecondaryLabelOrValue = {
 	type: string;
 	value: number;
-}
-type StatsItems = {
-	label: string;
-	value: SecondaryLabelOrValue;
-}
-type DataProps1 = {
-	fee?: number;
-	poolId?: string;
-	volume?: number;
-	weights?: number[];
-	reserves?: number[];
-	liquidity?: number;
-	volumeChangePercentage?: number;
-	isBlocked?: boolean;
-	reserve?: number;
-	exchangeable?: boolean;
-	poolType?: string;
-	swapAddress?: string;
-	gaugeAddresses?: string[];
-	apy?: number;
-}
-type DisplayProps1 = {
-	label: string;
-	images?: string[];
-	statsItems?: StatsItems1[];
-	secondaryLabel?: string | SecondaryLabelOrValue;
-}
-type StatsItems1 = {
-	label: string;
-	value: SecondaryLabelOrValue | string | SecondaryLabelOrValue | string | SecondaryLabelOrValue | string | SecondaryLabelOrValue | string;
-}
-type DataProps = {
-	poolIndex?: number;
-	liquidity?: number;
-	isActive?: boolean;
-	dailyROI?: number;
-	weeklyROI?: number;
-	yearlyROI?: number;
-	fee?: number;
-	volume?: number;
-	volumeChangePercentage?: number;
-	isBlocked?: boolean;
-	reserves?: number[];
-	weight?: number[];
-	apy?: number;
-	reserve?: number;
-	faucetAddresses?: string[];
-	exchangeable?: boolean;
-	lensAddress?: string;
-	implementation?: string;
-	supplyApy?: number;
-	borrowApy?: number;
-	comptrollerAddress?: string;
-	supply?: number;
-	borrow?: number;
-	incentivesControllerAddress?: string;
-	protocolDataProviderAddress?: string;
-	poolType?: string;
-	swapAddress?: string;
-	gaugeAddresses?: string[];
-	feeTier?: number;
-	rangeStart?: number;
-	rangeEnd?: number;
-	poolAddress?: string;
-	assetStandard?: string;
-	cRatio?: number;
-	liquidationThreshold?: number;
-	enabledAsCollateral?: boolean;
-	deposited?: number;
-	remaining?: number;
-}
-type DisplayProps = {
-	label: string;
-	secondaryLabel?: SecondaryLabelOrValue1 | string | string | SecondaryLabelOrValue;
-	images?: string[];
-	statsItems?: StatsItems2[];
-	tertiaryLabel?: string;
-	labelDetailed?: string;
-	balanceDisplayMode?: string;
-}
-type SecondaryLabelOrValue1 = {
-	type: string;
-	value: number;
-}
-type StatsItems2 = {
-	label: string;
-	value: SecondaryLabelOrValue | string | SecondaryLabelOrValue | string | SecondaryLabelOrValue | string | SecondaryLabelOrValue | string | SecondaryLabelOrValue | string | SecondaryLabelOrValue | string | SecondaryLabelOrValue | string;
 }
 type ProductMeta = {
 	label: string;
