@@ -7,7 +7,7 @@ import type { Ethereum } from '../../data/networks/types'
 
 // Networks
 
-export type ZapperSupportedNetwork = BalanceControllerGetAppBalancesParams['network']
+export type ZapperSupportedNetwork = NonNullable<BalanceControllerGetAppBalancesParams['network']>
 
 export const networkNamesByChainID: Record<Ethereum.ChainID, ZapperSupportedNetwork> = {
 	1: 'ethereum',
@@ -778,7 +778,7 @@ const getAppsForNetwork = memoizedAsync(async (
 	networkName: ZapperSupportedNetwork
 ) =>
 	(await getAllApps())
-		.filter(({ supportedNetworks }) => supportedNetworks.some(({ network }) => network === networkName)),
+		.filter(({ supportedNetworks }) => supportedNetworks?.some(({ network }) => network === networkName)),
 )
 
 const filterAndSortApps = (
@@ -805,7 +805,7 @@ export const getDefiBalancesForApp = memoizedAsync(async ({
 
 	return {
 		appId,
-		...(response.balances[address.toLowerCase()])
+		...(response.balances[address.toLowerCase() as Ethereum.Address])
 	}
 })
 
