@@ -5,7 +5,7 @@
 
 	export let network: Ethereum.Network
 	export let address: NetworkAccountAddress
-	export let label: string
+	export let label: string | undefined
 
 	export let format: 'full' | 'middle-truncated'
 	export let linked: boolean
