@@ -48,7 +48,7 @@
 	// 	quoteTotal: number,
 	// }>
 	let balancesSummaries: ComponentProps<EthereumBalances>['summary'][] = []
-	let defiAppsSummaries: ComponentProps<DefiBalances>['summary'][] = []
+	let defiAppsSummaries: ComponentProps<DefiPositions>['summary'][] = []
 	let nftsSummaries: ComponentProps<EthereumNftBalances>['summary'][] = []
 
 	export let summary: {
@@ -136,7 +136,7 @@
 	import AccountIdResolver from './AccountIdResolver.svelte'
 	import Address from './Address.svelte'
 	import Balance from './Balance.svelte'
-	import DefiBalances from './DefiBalances.svelte'
+	import DefiPositions from './DefiPositions.svelte'
 	import EnsName from './EnsName.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
 	import EthereumNftBalances from './EthereumNftBalances.svelte'
@@ -554,7 +554,7 @@
 					<!-- DeFi Positions -->
 					{#if view.showDefi}<section class="defi-balances column-block">
 					<!-- <HeightContainer containerClass="defi-balances" class="column" isOpen={showDeFi}> -->
-						<DefiBalances
+						<DefiPositions
 							{network}
 							{networkProvider}
 							{address}
@@ -631,7 +631,7 @@
 									</label>
 								<!-- {/if} -->
 							</svelte:fragment>
-						</DefiBalances>
+						</DefiPositions>
 					</section>{/if}
 					<!-- </HeightContainer> -->
 
