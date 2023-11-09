@@ -551,7 +551,7 @@
 					</section>{/if}
 					<!-- </HeightContainer> -->
 
-					<!-- DeFi Balances -->
+					<!-- DeFi Positions -->
 					{#if view.showDefi}<section class="defi-balances column-block">
 					<!-- <HeightContainer containerClass="defi-balances" class="column" isOpen={showDeFi}> -->
 						<DefiBalances

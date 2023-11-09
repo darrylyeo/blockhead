@@ -222,7 +222,7 @@ export const preferencesConfig = [
 			},
 			{
 				preferenceId: 'defiProvider',
-				name: 'DeFi Balances',
+				name: 'DeFi Positions',
 				type: 'single',
 				defaultOption: DefiProvider.ZerionDefiSdk,
 				options: [

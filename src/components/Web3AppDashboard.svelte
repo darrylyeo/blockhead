@@ -38,8 +38,8 @@
 
 
 	// Functions
-	import { getDefiBalances } from '../api/zerion/defiSdk'
-	import { type ZapperAppBalance, getDefiBalancesForApps } from '../api/zapper'
+	import { getDefiPositions } from '../api/zerion/defiSdk'
+	import { type ZapperAppBalance, getDefiPositionsForApps } from '../api/zapper'
 
 	import { formatPercent } from '../utils/formatPercent'
 	import { formatKebabCase } from '../utils/formatKebabCase'
@@ -400,7 +400,7 @@
 											errorMessage="Error getting {web3AppConfig.name} balances from {defiProvider}."
 											loadingIconName={defiProvider}
 											loadingIcon={defiProviderIcons[defiProvider]}
-											fromStore={() => getDefiBalancesForApps({
+											fromStore={() => getDefiPositionsForApps({
 												appIds: [providers?.zapper],
 												network,
 												address,
@@ -642,7 +642,7 @@
 											loadingMessage="Reading {web3AppConfig.name} balances from {defiProvider}..."
 											errorMessage="Error getting {web3AppConfig.name} balances from {defiProvider}."
 											fromPromise={publicClient && address && (
-												() => getDefiBalances({
+												() => getDefiPositions({
 													protocolNames: providers?.zerionDefiSDK,
 													network,
 													publicClient,

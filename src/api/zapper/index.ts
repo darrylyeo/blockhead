@@ -755,7 +755,7 @@ const filterAndSortApps = (
 		...appIds.filter(protocol => ['other'].includes(protocol))
 	]
 
-export const getDefiBalancesForApp = memoizedAsync(async ({
+export const getDefiPositionsForApp = memoizedAsync(async ({
 	appId,
 	networkName,
 	address,
@@ -777,7 +777,7 @@ export const getDefiBalancesForApp = memoizedAsync(async ({
 })
 
 
-export const getDefiBalancesForApps = memoizedAsync(async ({
+export const getDefiPositionsForApps = memoizedAsync(async ({
 	appIds,
 	network,
 	address,
@@ -806,7 +806,7 @@ export const getDefiBalancesForApps = memoizedAsync(async ({
 
 	const get = (appId: typeof _appIds[number]) => (
 		queue.enqueue(async () =>
-			getDefiBalancesForApp({
+			getDefiPositionsForApp({
 				appId,
 				networkName,
 				address
@@ -820,7 +820,7 @@ export const getDefiBalancesForApps = memoizedAsync(async ({
 
 	const promises = _appIds.map(appId =>
 		queue.enqueue(async () =>
-			getDefiBalancesForApp({
+			getDefiPositionsForApp({
 				appId,
 				networkName,
 				address
@@ -859,7 +859,7 @@ export const getTokenBalances = async({
 	if (!networkName)
 		throw new Error(`Zapper doesn't yet support ${network.name}.`)
 	
-	return await getDefiBalancesForApp({
+	return await getDefiPositionsForApp({
 		appId: 'tokens',
 		networkName: networkNamesByChainID[network.chainId],
 		address,
@@ -913,7 +913,7 @@ export const normalizeDefiPositionMetadata = (asset: Asset): MetadataItem[] => (
 		)),
 ])
 
-export const normalizeDefiBalances = (
+export const normalizeDefiPositions = (
 	defiBalances: Map<ZapperAppId, ZapperAppBalance>,
 	allZapperAppConfigs: Partial<Record<ZapperAppId, ZapperAppConfig>>
 ): AppWithDefiPositions[] => (

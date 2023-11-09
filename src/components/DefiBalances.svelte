@@ -104,8 +104,8 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
-	import { getDefiBalances, normalizeDefiBalances as normalizeDefiBalancesZerion } from '../api/zerion/defiSdk'
-	import { getAllApps, getDefiBalancesForApps, normalizeDefiBalances as normalizeDefiBalancesZapper } from '../api/zapper'
+	import { getDefiPositions, normalizeDefiPositions as normalizeDefiPositionsZerion } from '../api/zerion/defiSdk'
+	import { getAllApps, getDefiPositionsForApps, normalizeDefiPositions as normalizeDefiPositionsZapper } from '../api/zapper'
 
 	import { formatPercent } from '../utils/formatPercent'
 	import { formatKebabCase } from '../utils/formatKebabCase'
@@ -213,7 +213,7 @@
 	{...{
 		[DefiProvider.Zapper]: () => ({
 			fromStore: network && address && (() => (
-				getDefiBalancesForApps({
+				getDefiPositionsForApps({
 					// appIds: web3Apps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zapper ?? [])),
 					network,
 					address,
@@ -221,26 +221,26 @@
 				})
 			)),
 			then: defiBalances => (
-				normalizeDefiBalancesZapper(defiBalances, allZapperAppConfigs)
+				normalizeDefiPositionsZapper(defiBalances, allZapperAppConfigs)
 			),
 		}),
 
 		[DefiProvider.ZerionDefiSdk]: () => ({
 			fromQuery: network && address && createQuery({
-				queryKey: ['DefiBalances', {
+				queryKey: ['DefiPositions', {
 					defiProvider,
 					address,
 					chainId: network.chainId,
 				}],
 				queryFn: async () => (
-					await getDefiBalances({
+					await getDefiPositions({
 						protocolNames: web3Apps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zerionDefiSDK ?? [])),
 						network,
 						publicClient,
 						address,
 					})
 				),
-				select: normalizeDefiBalancesZerion,
+				select: normalizeDefiPositionsZerion,
 				staleTime: 10 * 1000,
 			})
 		}),

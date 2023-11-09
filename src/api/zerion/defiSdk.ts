@@ -154,7 +154,7 @@ export namespace DefiSDK {
 	export type ProtocolBalances = DefiSDK.ProtocolBalance[]
 }
 
-export const getDefiBalances = async ({
+export const getDefiPositions = async ({
 	protocolNames, 
 	network, 
 	publicClient, 
@@ -187,7 +187,7 @@ import { web3AppsByProviderName, type Web3AppConfig } from '../../data/web3Apps'
 import type { AppWithDefiPositions } from '../../data/defiPositions'
 import { isTruthy } from '../../utils/isTruthy'
 
-export const normalizeDefiBalances = (
+export const normalizeDefiPositions = (
 	defiBalances: DefiSDK.ProtocolBalances
 ): AppWithDefiPositions[] => (
 	defiBalances.map((protocolBalance: DefiSDK.ProtocolBalance) => {
