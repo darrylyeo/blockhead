@@ -77,3 +77,10 @@
 	<iframe src={metadata.animation_url} lazy="true" />
 {/if} -->
 <!-- </a> -->
+
+
+<style>
+	.nft-image {
+		display: grid;
+	}
+</style>
