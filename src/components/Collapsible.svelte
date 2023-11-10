@@ -122,6 +122,7 @@
 				}[type]
 				: 'div'
 		}
+		{...$$restProps}
 		class="container {$$props.containerClass ?? ''}"
 		class:column-block={type === 'details'}
 		{...{
