@@ -110,6 +110,7 @@
 	let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
 	let showSmallValues = false
+	let showApps = false
 	let showUnderlyingAssets = false
 	let showNFTMetadata = false
 	let showCollections = true
@@ -456,6 +457,7 @@
 					{tokenBalanceFormat}
 					{sortBy}
 					{showSmallValues}
+					{showApps}
 					{showUnderlyingAssets}
 					{showNFTMetadata}
 					showImagesOnly={!showCollections}
@@ -520,6 +522,11 @@
 
 			<div class="row wrap">
 				<h3>DeFi</h3>
+
+				<label>
+					<input type="checkbox" bind:checked={showApps}>
+					<span>Apps</span>
+				</label>
 
 				<label>
 					<input type="checkbox" bind:checked={showUnderlyingAssets}>

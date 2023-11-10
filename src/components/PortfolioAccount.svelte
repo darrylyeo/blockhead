@@ -30,6 +30,7 @@
 	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
 	export let showSmallValues = false
+	export let showApps = false
 	export let showUnderlyingAssets = false
 	export let showNFTMetadata = false
 	export let showImagesOnly = false
@@ -644,6 +645,7 @@
 								{address}
 								{quoteCurrency}
 								{tokenBalanceFormat}
+								{showApps}
 								{showUnderlyingAssets}
 								isScrollable={!isGridLayout}
 							/>
@@ -733,7 +735,7 @@
 								{address}
 								{nftProvider}
 								{quoteCurrency}
-								{sortBy} {showSmallValues} {showUnderlyingAssets} {showNFTMetadata} {showImagesOnly} {show3D} {isScrollable}
+								{sortBy} {showSmallValues} {showUnderlyingAssets} {showNFTMetadata} {showImagesOnly} {show3D} isScrollable={!isGridLayout}
 							/>
 						</EthereumNftBalancesLoader>
 					</section>{/if}
