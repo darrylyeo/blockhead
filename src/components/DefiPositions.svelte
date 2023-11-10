@@ -146,8 +146,8 @@
 			<div
 				class="card defi-protocol layout-{computedLayout}"
 				style={cardStyle(appWithPositions.colors ?? appWithPositions.app?.colors ?? [])}
-				transition:scale|global
-				animate:flip|local={{duration: 300, delay: Math.abs(i + j * 0.1) * 10}}
+				transition:scale
+				animate:flip={{duration: 300, delay: Math.abs(i + j * 0.1) * 10}}
 			>
 				<div class="bar wrap">
 					<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} class="row">
@@ -259,7 +259,7 @@
 
 									{#if showActions}
 										<!-- V1 -->
-										<!-- <div transition:scale|global>
+										<!-- <div transition:scale>
 											{#if position.type === 'claimable'}
 												<button class="small">Claim</button>
 											{:else if position.type === 'pool'}
@@ -300,7 +300,7 @@
 							{#if position.subpositions?.length && (showUnderlyingAssets || position.type === 'contract-position')}
 								<div class="underlying">
 									{#each position.subpositions as subposition}
-										<span class="underlying-asset" in:scaleFont|global>
+										<span class="underlying-asset" in:scaleFont>
 											<!-- <span class="underlying-symbol">┖</span> -->
 
 											<!-- V2 -->
@@ -422,7 +422,7 @@
 	{/each}
 </div>
 <!-- {#if quoteCurrency !== 'USD'}
-	<small class="card row" transition:scale|global>
+	<small class="card row" transition:scale>
 		<img src={ZapperIcon} width="25" height="25" />
 		Note: The Zapper API doesn't yet support currencies other than US Dollars.
 	</small>
