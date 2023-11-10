@@ -121,6 +121,10 @@
 	.summary {
 		font-size: 0.8em;
 	}
+
+	.faded {
+		opacity: 0.8;
+	}
 </style>
 
 
@@ -456,6 +460,10 @@
 				</svelte:element>
 			{/each}
 		</Collapsible>
+	{:else}
+		<div class="card">
+			<p class="faded">No DeFi positions found.</p>
+		</div>
 	{/each}
 </div>
 <!-- {#if quoteCurrency !== 'USD'}
