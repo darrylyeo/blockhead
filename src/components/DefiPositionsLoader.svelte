@@ -12,7 +12,7 @@
 
 
 	// Inputs
-	export let web3Apps: Web3AppConfig[]
+	export let apps: Web3AppConfig[] | undefined
 	export let network: Ethereum.Network
 	export let address: Ethereum.Address
 
@@ -41,7 +41,7 @@
 	$: if(defiProvider === DefiProvider.Zapper)
 		getAllApps().then(_ => allZapperAppConfigs = Object.fromEntries(_.map(app => [app.id, app])))
 
-	$: defiBalancesDescription = web3Apps?.map(({name}) => name).join('/') || `${network.name} DeFi`
+	$: defiBalancesDescription = apps?.map(({name}) => name).join('/') || `${network.name} DeFi`
 
 
 	// Outputs
@@ -105,10 +105,12 @@
 		[DefiProvider.Zapper]: () => ({
 			fromStore: network && address && (() => (
 				getDefiPositionsForApps({
-					// appIds: web3Apps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zapper ?? [])),
+					...apps && {
+						appIds: [...new Set(apps.flatMap(({ views }) => views.flatMap(({ providers }) => providers?.zapper ?? [])))]
+					},
 					network,
 					address,
-					asStore: true
+					asStore: true,
 				})
 			)),
 			then: defiBalances => (
@@ -120,12 +122,17 @@
 			fromQuery: network && address && createQuery({
 				queryKey: ['DefiPositions', {
 					defiProvider,
+					...apps && {
+						apps: apps.map(app => app.slug),
+					},
 					address,
 					chainId: network.chainId,
 				}],
 				queryFn: async () => (
 					await getDefiPositions({
-						protocolNames: web3Apps?.flatMap(({views}) => views.flatMap(({providers}) => providers?.zerionDefiSDK ?? [])),
+						...apps && {
+							protocolNames: [...new Set(apps.flatMap(({views}) => views.flatMap(({providers}) => providers?.zerionDefiSDK ?? [])))],
+						},
 						network,
 						publicClient,
 						address,
