@@ -169,12 +169,17 @@
 			</svelte:fragment>
 
 			{#each appWithPositions.views as view, j (view.id)}
-				<div
-					class="card defi-protocol layout-{computedLayout}"
+				{#if showApps}<hr>{/if}
+
+				<svelte:element
+					this={showApps ? 'section' : 'article'}
+					class="position layout-{computedLayout}"
+					class:card={!showApps}
+					class:column={showApps}
 					style={cardStyle(appWithPositions.colors ?? appWithPositions.app?.colors ?? [])}
 					transition:scale
-					animate:flip={{duration: 300, delay: Math.abs(i + j * 0.1) * 10}}
 				>
+				<!-- animate:flip={{duration: 300, delay: Math.abs(i + j * 0.1) * 10}} -->
 					<div class="bar wrap">
 						<h5 class:card-annotation={computedLayout === 'horizontal-alternate'} class="row">
 							{#if !showApps}
@@ -448,7 +453,7 @@
 							</div>
 						{/each}
 					</div>
-				</div>
+				</svelte:element>
 			{/each}
 		</Collapsible>
 	{/each}
