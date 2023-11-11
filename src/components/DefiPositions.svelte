@@ -5,7 +5,7 @@
 
 
 	// Inputs
-	export let appsWithPositions: AppWithDefiPositions[] | undefined
+	export let appsWithPositions: AppWithDefiPositions[]
 	export let network: Ethereum.Network
 	export let address: Ethereum.Address
 
@@ -129,8 +129,8 @@
 </style>
 
 
-<div class="defi-balances column" class:scrollable-list={isScrollable && appsWithPositions && appsWithPositions?.length > 6}>
-	{#each appsWithPositions ?? [] as appWithPositions, i (appWithPositions.id ?? appWithPositions.app?.slug)}
+<div class="defi-balances column" class:scrollable-list={isScrollable && appsWithPositions.length > 6}>
+	{#each appsWithPositions as appWithPositions, i (appWithPositions.id ?? appWithPositions.app?.slug)}
 		<Collapsible
 			type="label"
 			containerClass="card"

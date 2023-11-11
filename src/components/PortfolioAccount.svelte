@@ -639,16 +639,18 @@
 								<!-- {/if} -->
 							</svelte:fragment>
 
-							<DefiPositions
-								{appsWithPositions}
-								{network}
-								{address}
-								{quoteCurrency}
-								{tokenBalanceFormat}
-								{showApps}
-								{showUnderlyingAssets}
-								isScrollable={!isGridLayout}
-							/>
+							{#if appsWithPositions}
+								<DefiPositions
+									{appsWithPositions}
+									{network}
+									{address}
+									{quoteCurrency}
+									{tokenBalanceFormat}
+									{showApps}
+									{showUnderlyingAssets}
+									isScrollable={!isGridLayout}
+								/>
+							{/if}
 						</DefiPositionsLoader>
 					</section>{/if}
 					<!-- </HeightContainer> -->
