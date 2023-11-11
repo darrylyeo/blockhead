@@ -57,6 +57,7 @@
 
 <style>
 	.address-with-label[data-format=both] .address {
-		font-size: 0.8em;
+		font-size: 0.75em;
+		font-weight: normal;
 	}
 </style>
