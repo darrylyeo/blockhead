@@ -7,7 +7,7 @@
 	export let address: NetworkAccountAddress
 	export let label: string | undefined
 
-	export let format: 'full' | 'middle-truncated'
+	export let addressFormat: 'full' | 'middle-truncated'
 	export let linked: boolean
 	export let alwaysShowAddress = false
 
@@ -31,13 +31,13 @@
 
 <span class="address-with-label">
 	{#if label}
-		<Address {network} {address} {format} {linked}>
+		<Address {network} {address} format={addressFormat} {linked}>
 			<span class="label">{label}</span>
 		</Address>
 	{/if}
 	{#if !label || alwaysShowAddress}
 		<span class="address">
-			{#if label}({/if}<Address {network} {address} {format} {linked} />{#if label}){/if}
+			{#if label}({/if}<Address {network} {address} format={addressFormat} {linked} />{#if label}){/if}
 		</span>
 	{/if}
 </span>

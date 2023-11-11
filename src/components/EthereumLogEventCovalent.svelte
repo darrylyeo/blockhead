@@ -197,7 +197,7 @@
 							||
 							logEvent.contract.symbol
 						}
-						format="middle-truncated"
+						addressFormat="middle-truncated"
 						alwaysShowAddress={isExhaustive}
 					/>
 				</span>

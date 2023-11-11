@@ -72,7 +72,7 @@
 							network={transaction.network}
 							address={transaction.fromAddress}
 							label={transaction.labels?.fromAddress}
-							format="middle-truncated"
+							addressFormat="middle-truncated"
 							alwaysShowAddress={isExhaustive}
 						/>
 					</span>
@@ -104,7 +104,7 @@
 							network={transaction.network}
 							address={transaction.fromAddress}
 							label={transaction.labels?.fromAddress}
-							format="middle-truncated"
+							addressFormat="middle-truncated"
 							alwaysShowAddress={isExhaustive}
 						/>
 					</span>
@@ -129,7 +129,7 @@
 							network={transaction.network}
 							address={transaction.toAddress}
 							label={transaction.labels?.toAddress}
-							format="middle-truncated"
+							addressFormat="middle-truncated"
 							alwaysShowAddress={isExhaustive}
 						/>
 					</span>

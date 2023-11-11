@@ -251,7 +251,7 @@
 													{network}
 													{address}
 													label={position.name}
-													format="middle-truncated"
+													addressFormat="middle-truncated"
 												/>
 											{:else}
 												{position.name}

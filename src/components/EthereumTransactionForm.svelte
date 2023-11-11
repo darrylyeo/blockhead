@@ -242,7 +242,7 @@
 							{network}
 							label={formatIdentifier(contractName, true)}
 							address={contractAddress}
-							format="middle-truncated"
+							addressFormat="middle-truncated"
 							linked
 						/>
 						›
@@ -399,7 +399,7 @@
 								{network}
 								label={formatIdentifier(contractName, true)}
 								address={contractAddress}
-								format="middle-truncated"
+								addressFormat="middle-truncated"
 								linked
 							/>
 							›

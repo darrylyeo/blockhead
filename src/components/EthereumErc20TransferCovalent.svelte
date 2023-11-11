@@ -44,7 +44,7 @@
 					{network}
 					address={erc20Transfer.fromAddress}
 					label={erc20Transfer.fromAddressLabel}
-					format="middle-truncated"
+					addressFormat="middle-truncated"
 					alwaysShowAddress={isExhaustive}
 				/>
 			</span>
@@ -76,7 +76,7 @@
 					{network}
 					address={erc20Transfer.fromAddress}
 					label={erc20Transfer.fromAddressLabel}
-					format="middle-truncated"
+					addressFormat="middle-truncated"
 					alwaysShowAddress={isExhaustive}
 				/>
 			</span>
@@ -87,7 +87,7 @@
 					{network}
 					address={erc20Transfer.toAddress}
 					label={erc20Transfer.toAddressLabel}
-					format="middle-truncated"
+					addressFormat="middle-truncated"
 					alwaysShowAddress={isExhaustive}
 				/>
 			</span>
