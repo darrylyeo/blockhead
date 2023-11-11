@@ -36,22 +36,24 @@
 
 	// Components
 	import Address from './Address.svelte'
+	import InlineContainer from './InlineContainer.svelte'
 </script>
 
 
 <span class="address-with-label"
 	data-format={computedFormat}
 >
-	{#if label}
+	<InlineContainer isOpen={computedFormat === 'label' || computedFormat === 'both'}>
 		<Address {network} {address} format={addressFormat} {linked}>
 			<span class="label">{label}</span>
 		</Address>
-	{/if}
-	{#if !label || format === 'both'}
+	</InlineContainer>
+
+	<InlineContainer isOpen={computedFormat === 'address' || computedFormat === 'both'}>
 		<span class="address">
 			{#if label}({/if}<Address {network} {address} format={addressFormat} {linked} />{#if label}){/if}
 		</span>
-	{/if}
+	</InlineContainer>
 </span>
 
 
