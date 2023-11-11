@@ -729,14 +729,16 @@
 								<!-- {/if} -->
 							</svelte:fragment>
 
-							<EthereumNftBalances
-								{nftContractsWithBalances}
-								{network}
-								{address}
-								{nftProvider}
-								{quoteCurrency}
-								{sortBy} {showSmallValues} {showUnderlyingAssets} {showNFTMetadata} {showImagesOnly} {show3D} isScrollable={!isGridLayout}
-							/>
+							{#if nftContractsWithBalances}
+								<EthereumNftBalances
+									{nftContractsWithBalances}
+									{network}
+									{address}
+									{nftProvider}
+									{quoteCurrency}
+									{sortBy} {showSmallValues} {showUnderlyingAssets} {showNFTMetadata} {showImagesOnly} {show3D} isScrollable={!isGridLayout}
+								/>
+							{/if}
 						</EthereumNftBalancesLoader>
 					</section>{/if}
 

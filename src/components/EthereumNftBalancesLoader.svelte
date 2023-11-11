@@ -31,7 +31,7 @@
 
 
 	// Outputs
-	export let nftContractsWithBalances: Ethereum.NftContractWithNfts[] = []
+	export let nftContractsWithBalances: Ethereum.NftContractWithNfts[] | undefined
 
 	export let summary: {
 		quoteTotal: number,
@@ -40,7 +40,7 @@
 		nftsCount: number,
 	} | undefined
 
-	$: summary = nftContractsWithBalances.length
+	$: summary = nftContractsWithBalances?.length
 		? {
 			quoteTotal: nftContractsWithBalances.reduce((sum, item) => sum + (item.quote ?? 0), 0),
 			quoteCurrency,
