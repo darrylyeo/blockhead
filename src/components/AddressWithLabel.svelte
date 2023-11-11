@@ -1,16 +1,19 @@
 <script lang="ts">
+	// Types/constants
 	import type { NetworkAccountAddress } from '../data/address'
 	import type { Ethereum } from '../data/networks/types'
 	
 
+	// Inputs
 	export let network: Ethereum.Network
 	export let address: NetworkAccountAddress
 	export let label: string | undefined
 
 	export let addressFormat: 'full' | 'middle-truncated'
 	export let linked: boolean
-	export let alwaysShowAddress = false
 
+
+	// Components
 	import Address from './Address.svelte'
 </script>
 
