@@ -197,8 +197,8 @@
 							||
 							logEvent.contract.symbol
 						}
+						format={isExhaustive ? 'both' : 'label'}
 						addressFormat="middle-truncated"
-						alwaysShowAddress={isExhaustive}
 					/>
 				</span>
 			{/if}

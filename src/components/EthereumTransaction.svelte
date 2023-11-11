@@ -72,8 +72,8 @@
 							network={transaction.network}
 							address={transaction.fromAddress}
 							label={transaction.labels?.fromAddress}
+							format={isExhaustive ? 'both' : 'label'}
 							addressFormat="middle-truncated"
-							alwaysShowAddress={isExhaustive}
 						/>
 					</span>
 				{/if}
@@ -104,8 +104,8 @@
 							network={transaction.network}
 							address={transaction.fromAddress}
 							label={transaction.labels?.fromAddress}
+							format={isExhaustive ? 'both' : 'label'}
 							addressFormat="middle-truncated"
-							alwaysShowAddress={isExhaustive}
 						/>
 					</span>
 				{:else if transaction.toAddress}
@@ -129,8 +129,8 @@
 							network={transaction.network}
 							address={transaction.toAddress}
 							label={transaction.labels?.toAddress}
+							format={isExhaustive ? 'both' : 'label'}
 							addressFormat="middle-truncated"
-							alwaysShowAddress={isExhaustive}
 						/>
 					</span>
 				{/if}

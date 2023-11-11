@@ -44,8 +44,7 @@
 					{network}
 					address={erc20Transfer.fromAddress}
 					label={erc20Transfer.fromAddressLabel}
-					addressFormat="middle-truncated"
-					alwaysShowAddress={isExhaustive}
+					format={isExhaustive ? 'both' : 'label'}
 				/>
 			</span>
 		{/if}
@@ -76,8 +75,8 @@
 					{network}
 					address={erc20Transfer.fromAddress}
 					label={erc20Transfer.fromAddressLabel}
+					format={isExhaustive ? 'both' : 'label'}
 					addressFormat="middle-truncated"
-					alwaysShowAddress={isExhaustive}
 				/>
 			</span>
 		{:else if erc20Transfer.toAddress}
@@ -87,8 +86,8 @@
 					{network}
 					address={erc20Transfer.toAddress}
 					label={erc20Transfer.toAddressLabel}
+					format={isExhaustive ? 'both' : 'label'}
 					addressFormat="middle-truncated"
-					alwaysShowAddress={isExhaustive}
 				/>
 			</span>
 		{/if}
