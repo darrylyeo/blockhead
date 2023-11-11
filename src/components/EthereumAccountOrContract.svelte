@@ -37,6 +37,7 @@
 		networkProvider: networkProvider,
 	})
 
+
 	// Internal state
 	let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
 	let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
@@ -60,10 +61,13 @@
 	// $: if(selectedToken)
 	// 	filterQuery = selectedToken.address
 
+	let contractName: string | undefined
+
 
 	// Components
 	import AccountIdResolver from './AccountIdResolver.svelte'
 	import Address from './Address.svelte'
+	import AddressWithLabel from './AddressWithLabel.svelte'
 	import Balance from './Balance.svelte'
 	import CovalentPriceChart from './CovalentPriceChart.svelte'
 	import EnsName from './EnsName.svelte'
@@ -126,7 +130,15 @@
 			<div class="row-inline">
 				<slot name="title" {network} {address} {ensName}>
 					{#if address}
-						<svelte:element this={`h${headingLevel}`}><Address {network} {address} /></svelte:element>
+						<svelte:element this={`h${headingLevel}`}>
+							<AddressWithLabel
+								{network}
+								{address}
+								label={contractName}
+								format="both"
+							/>
+						</svelte:element>
+
 						{#if ensName}
 							<span class="align-start" transition:scale>
 								<EnsName {ensName} showAvatar />
@@ -170,6 +182,7 @@
 			contractAddress={address}
 			{network}
 			{transactionProvider}
+			bind:contractName
 		>
 			<svelte:fragment slot="header">
 				<hr>
