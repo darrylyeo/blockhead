@@ -206,7 +206,11 @@ export const normalizeDefiPositions = (
 
 			views: protocolBalance.adapterBalances.map(adapterBalance => ({
 				id: adapterBalance.metadata.adapterAddress,
-				tags: [adapterBalance.metadata.adapterType],
+				name: {
+					'Asset': 'Assets',
+					'Debt': 'Debt',
+				}[adapterBalance.metadata.adapterType],
+				// tags: [adapterBalance.metadata.adapterType],
 
 				source: {
 					name: 'Adapter',
