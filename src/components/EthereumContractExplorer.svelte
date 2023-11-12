@@ -197,7 +197,7 @@
 									let:text={sourceCode}
 									let:ipfsContentId
 									let:resolvedIpfsUrl
-									let:ipfsGatewayProvider
+									let:ipfsGateway
 								>
 									<code class="source-code scrollable-list" style="--resizeVertical-defaultHeight: 30em;">{sourceCode}</code>
 
@@ -210,7 +210,7 @@
 
 										<!-- {#if source.license}<span>License: {source.license}</span>{/if} -->
 										
-										<span><a href="https://{ipfsGatewayProvider.gatewayDomain}" title="IPFS Gateway: {ipfsGatewayProvider.name} ({ipfsGatewayProvider.gatewayDomain})" target="_blank">IPFS</a> › <a href={resolvedIpfsUrl} target="_blank">{ipfsContentId}</a></span>
+										<span><a href="https://{ipfsGateway.gatewayDomain}" title="IPFS Gateway: {ipfsGateway.name} ({ipfsGateway.gatewayDomain})" target="_blank">IPFS</a> › <a href={resolvedIpfsUrl} target="_blank">{ipfsContentId}</a></span>
 									</footer>
 								</IpfsLoader>
 							{/if}
