@@ -109,6 +109,9 @@ dependencies:
   '@web3modal/wagmi':
     specifier: beta
     version: 3.1.0-beta.2(@wagmi/core@1.4.5)(viem@1.18.1)
+  '@wooorm/starry-night':
+    specifier: ^3.1.0
+    version: 3.1.0
   abitype:
     specifier: ^0.10.2
     version: 0.10.2(typescript@5.2.2)
@@ -3953,6 +3956,8 @@ packages:
       protons-runtime: 5.0.2(uint8arraylist@2.4.3)
       uint8arraylist: 2.4.3
       uint8arrays: 4.0.6
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@libp2p/crypto@2.0.6:
@@ -3966,6 +3971,8 @@ packages:
       protons-runtime: 5.0.2(uint8arraylist@2.4.3)
       uint8arraylist: 2.4.3
       uint8arrays: 4.0.6
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@libp2p/interface-internal@0.1.5:
@@ -4227,6 +4234,8 @@ packages:
     dependencies:
       '@libp2p/interface': 0.1.4
       '@libp2p/peer-id': 3.0.4
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@libp2p/peer-id-factory@3.0.4:
@@ -4259,6 +4268,8 @@ packages:
       '@libp2p/interface': 0.1.4
       multiformats: 12.1.3
       uint8arrays: 4.0.6
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@libp2p/peer-record@6.0.5:
@@ -6722,6 +6733,12 @@ packages:
       graphql: 16.8.1
     dev: false
 
+  /@types/hast@3.0.3:
+    resolution: {integrity: sha512-2fYGlaDy/qyLlhidX42wAH0KBi2TCjKMH8CHmBXgRlJ3Y+OXTiqsPQ6IWarZKwF1JoUcAJdPogv1d4b0COTpmQ==}
+    dependencies:
+      '@types/unist': 3.0.2
+    dev: false
+
   /@types/html-minifier-terser@6.1.0:
     resolution: {integrity: sha512-oh/6byDPnL1zeNXFrDXFLyZjkr1MsBG667IM792caf1L2UPOOMf65NFzjUH/ltyfwjAGfs1rsX1eftK0jC/KIg==}
     dev: false
@@ -6955,6 +6972,10 @@ packages:
 
   /@types/trusted-types@2.0.3:
     resolution: {integrity: sha512-NfQ4gyz38SL8sDNrSixxU2Os1a5xcdFxipAFxYEuLUlvU2uDwS4NUpsImcf1//SlWItCVMMLiylsxbmNMToV/g==}
+    dev: false
+
+  /@types/unist@3.0.2:
+    resolution: {integrity: sha512-dqId9J8K/vGi5Zr7oo212BGii5m3q5Hxlkwy3WpYuKPklmBEvsbMYYyLxAQpSffdLl/gdW0XUpKWFvYmyoWCoQ==}
     dev: false
 
   /@types/uuid@7.0.5:
@@ -8711,6 +8732,15 @@ packages:
       '@whatwg-node/fetch': 0.9.14
       tslib: 2.6.2
     dev: true
+
+  /@wooorm/starry-night@3.1.0:
+    resolution: {integrity: sha512-EHhyqD62/BZzceh0r38gqdna/9ljRTfbzg/qYdiaEkK8FFNUi2sCb2nBs7AUqHGZKxu+cFe8QFFcld+SzSSK/g==}
+    dependencies:
+      '@types/hast': 3.0.3
+      import-meta-resolve: 4.0.0
+      vscode-oniguruma: 2.0.1
+      vscode-textmate: 9.0.0
+    dev: false
 
   /@wry/context@0.6.1:
     resolution: {integrity: sha512-LOmVnY1iTU2D8tv4Xf6MVMZZ+juIJ87Kt/plMijjN20NMAXGmH4u8bS1t0uT74cZ5gwpocYueV58YwyI8y+GKw==}
@@ -14190,6 +14220,10 @@ packages:
   /import-meta-resolve@3.0.0:
     resolution: {integrity: sha512-4IwhLhNNA8yy445rPjD/lWh++7hMDOml2eHtd58eG7h+qK3EryMuuRbsHGPikCoAgIkkDnckKfWSk2iDla/ejg==}
     dev: true
+
+  /import-meta-resolve@4.0.0:
+    resolution: {integrity: sha512-okYUR7ZQPH+efeuMJGlq4f8ubUgO50kByRPyt/Cy1Io4PSRsPjxME+YlVaCOx+NIToW7hCsZNFJyTPFFKepRSA==}
+    dev: false
 
   /imurmurhash@0.1.4:
     resolution: {integrity: sha512-JmXMZ6wuvDmLiHEml9ykzqO6lwFbof0GG4IkcGaENdCRDDmMVnny7s5HsIgHCbaq0w2MyPhDqkhTUgS2LU2PHA==}
@@ -21752,6 +21786,14 @@ packages:
     dependencies:
       vite: 4.5.0
     dev: true
+
+  /vscode-oniguruma@2.0.1:
+    resolution: {integrity: sha512-poJU8iHIWnC3vgphJnrLZyI3YdqRlR27xzqDmpPXYzA93R4Gk8z7T6oqDzDoHjoikA2aS82crdXFkjELCdJsjQ==}
+    dev: false
+
+  /vscode-textmate@9.0.0:
+    resolution: {integrity: sha512-Cl65diFGxz7gpwbav10HqiY/eVYTO1sjQpmRmV991Bj7wAoOAjGQ97PpQcXorDE2Uc4hnGWLY17xme+5t6MlSg==}
+    dev: false
 
   /vue@3.3.4:
     resolution: {integrity: sha512-VTyEYn3yvIeY1Py0WaYGZsXnz3y5UnGi62GjVEqvEGPl6nxbOrCXbVOTQWBEJUqAyTUk2uJ5JLVnYJ6ZzGbrSw==}
