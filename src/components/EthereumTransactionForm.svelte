@@ -74,7 +74,7 @@
 	import { isTruthy } from '../utils/isTruthy'
 
 
-	// External state
+	// Inputs
 	export let network: Ethereum.Network
 	export let networkProvider: NetworkProvider
 	export let publicClient: Ethereum.PublicClient
@@ -105,6 +105,9 @@
 			methods: writableMethods,
 		},
 	]
+
+	// (View options)
+	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 3
 
 
 	// Internal state
@@ -184,7 +187,7 @@
 <section class="column">
 	<header class="bar wrap">
 		<div class="row wrap">
-			<h3>Smart Contract Interactions</h3>
+			<svelte:element this={`h${headingLevel}`}>Smart Contract Interactions</svelte:element>
 
 			<div role="toolbar">
 				<label>
@@ -232,7 +235,7 @@
 		>
 			<svelte:fragment slot="idle" let:actions={{ next }} let:isValid>
 				<header class="bar">
-					<h4 class="row-inline">
+					<svelte:element this={`h${headingLevel + 1}`} class="row-inline">
 						<!-- <span class="row-inline"> -->
 							<NetworkIcon {network} />
 							<!-- {network.name}
@@ -247,7 +250,7 @@
 						/>
 						›
 						<abbr title={contractMethod.name}>{formatIdentifier(contractMethod.name, true)}</abbr>
-					</h4>
+					</svelte:element>
 
 					{#if contractMethod.stateMutability === 'nonpayable' || contractMethod.stateMutability === 'payable'}
 						<label>
