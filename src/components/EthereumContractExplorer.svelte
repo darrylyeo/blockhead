@@ -69,6 +69,7 @@
 
 	// Components
 	import Address from './Address.svelte'
+	import BlockTransition from './BlockTransition.svelte'
 	import EthereumContractBytecodeLoader from './EthereumContractBytecodeLoader.svelte'
 	import EthereumContractMetadataLoader from './EthereumContractMetadataLoader.svelte'
 	import EthereumTransactionForm from './EthereumTransactionForm.svelte'
@@ -144,89 +145,93 @@
 				</label>
 			</header>
 
-			<div class="stack">
-				{#key showContractCodeTypeOrSourcePath}
-					{#if source && !Object.values(ContractCodeType).includes(showContractCodeTypeOrSourcePath)}
-						{@const sourceFile = showContractCodeTypeOrSourcePath.match(/[^/]+$/)?.[0]}
-						{@const sourceFileName = sourceFile?.replace(/.sol$/, '')}
-						{@const solidityDefinitionType =
-							contractMetadata?.language === 'Solidity' &&
-							source.content?.match(new RegExp(`((?:abstract )?library|contract|interface|function|constant|struct|enum|type|error)\\s+(${sourceFileName})`))?.[1]
-						}
+			<BlockTransition
+				key={showContractCodeTypeOrSourcePath}
+				inTransition={fly}
+				inTransitionParams={{ x: 10, duration: 200 }}
+				outTransition={fly}
+				outTransitionParams={{ x: -10, duration: 200 }}
+			>
+				{#if source && !Object.values(ContractCodeType).includes(showContractCodeTypeOrSourcePath)}
+					{@const sourceFile = showContractCodeTypeOrSourcePath.match(/[^/]+$/)?.[0]}
+					{@const sourceFileName = sourceFile?.replace(/.sol$/, '')}
+					{@const solidityDefinitionType =
+						contractMetadata?.language === 'Solidity' &&
+						source.content?.match(new RegExp(`((?:abstract )?library|contract|interface|function|constant|struct|enum|type|error)\\s+(${sourceFileName})`))?.[1]
+					}
 
-						<section class="card" in:fly|global={{ x: 10, duration: 200 }} out:fly|global={{ x: -10, duration: 200 }}>
-							<header class="bar">
-								<abbr
-									class="row-inline"
-									title={[
-										showContractCodeTypeOrSourcePath,
-										source.license && `License: ${source.license}`,
-										source.keccak256 && `keccak256 hash: ${source.keccak256}`
-									].filter(Boolean).join('\n\n')}
-								>
-									<h4>{sourceFile}</h4>
-									{#if source.license}<small><span class="card-annotation">{source.license}</span></small>{/if}
-								</abbr>
+					<section class="card">
+						<header class="bar">
+							<abbr
+								class="row-inline"
+								title={[
+									showContractCodeTypeOrSourcePath,
+									source.license && `License: ${source.license}`,
+									source.keccak256 && `keccak256 hash: ${source.keccak256}`
+								].filter(Boolean).join('\n\n')}
+							>
+								<h4>{sourceFile}</h4>
+								{#if source.license}<small><span class="card-annotation">{source.license}</span></small>{/if}
+							</abbr>
 
-								<abbr class="card-annotation" title="{contractMetadata?.language} {contractMetadata?.compiler?.version}">
-									{contractMetadata?.language}
-									<!-- {contractMetadata?.compiler?.version} -->
-									{#if solidityDefinitionType}{solidityDefinitionType}{/if}
-								</abbr>
-							</header>
+							<abbr class="card-annotation" title="{contractMetadata?.language} {contractMetadata?.compiler?.version}">
+								{contractMetadata?.language}
+								<!-- {contractMetadata?.compiler?.version} -->
+								{#if solidityDefinitionType}{solidityDefinitionType}{/if}
+							</abbr>
+						</header>
+
+						<hr>
+
+						{#if source.content}
+							<code class="scrollable-list" style="--resizeVertical-defaultHeight: 30em;">{source.content}</code>
 
 							<hr>
 
-							{#if source.content}
-								<code class="scrollable-list" style="--resizeVertical-defaultHeight: 30em;">{source.content}</code>
+							<footer class="footer bar">
+								<a href={sourcifyUrl || swarmUri} target="_blank">{contractSourceProvider}</a>
+
+								<!-- {#if source.license}<span>License: {source.license}</span>{/if} -->
+							</footer>
+						{:else if source.urls?.length}
+							{@const ipfsContentId = source.urls.find(url => url.startsWith('dweb:/'))?.match(/^dweb:\/ipfs\/(.+)$/)?.[1]}
+							<!-- {@const ipfsUrl = source.urls.find(url => url.startsWith('dweb:/'))} -->
+
+							<IpfsLoader
+								{ipfsContentId}
+								errorMessage="Couldn't fetch content on Sourcify."
+								let:text={sourceCode}
+								let:ipfsContentId
+								let:resolvedIpfsUrl
+								let:ipfsGateway
+							>
+								<code class="source-code scrollable-list" style="--resizeVertical-defaultHeight: 30em;">{sourceCode}</code>
 
 								<hr>
 
-								<footer class="footer bar">
-									<a href={sourcifyUrl || swarmUri} target="_blank">{contractSourceProvider}</a>
+								<footer class="footer row spaced">
+									<span>
+										<a href={sourcifyUrl} target="_blank">Sourcify</a>
+									</span>
 
 									<!-- {#if source.license}<span>License: {source.license}</span>{/if} -->
+									
+									<span><a href="https://{ipfsGateway.gatewayDomain}" title="IPFS Gateway: {ipfsGateway.name} ({ipfsGateway.gatewayDomain})" target="_blank">IPFS</a> › <a href={resolvedIpfsUrl} target="_blank">{ipfsContentId}</a></span>
 								</footer>
-							{:else if source.urls?.length}
-								{@const ipfsContentId = source.urls.find(url => url.startsWith('dweb:/'))?.match(/^dweb:\/ipfs\/(.+)$/)?.[1]}
-								<!-- {@const ipfsUrl = source.urls.find(url => url.startsWith('dweb:/'))} -->
-
-								<IpfsLoader
-									{ipfsContentId}
-									errorMessage="Couldn't fetch content on Sourcify."
-									let:text={sourceCode}
-									let:ipfsContentId
-									let:resolvedIpfsUrl
-									let:ipfsGateway
-								>
-									<code class="source-code scrollable-list" style="--resizeVertical-defaultHeight: 30em;">{sourceCode}</code>
-
-									<hr>
-
-									<footer class="footer row spaced">
-										<span>
-											<a href={sourcifyUrl} target="_blank">Sourcify</a>
-										</span>
-
-										<!-- {#if source.license}<span>License: {source.license}</span>{/if} -->
-										
-										<span><a href="https://{ipfsGateway.gatewayDomain}" title="IPFS Gateway: {ipfsGateway.name} ({ipfsGateway.gatewayDomain})" target="_blank">IPFS</a> › <a href={resolvedIpfsUrl} target="_blank">{ipfsContentId}</a></span>
-									</footer>
-								</IpfsLoader>
-							{/if}
-						</section>
-					{:else}
-						<section class="card" in:fly|global={{ x: 10, duration: 200 }} out:fly|global={{ x: -10, duration: 200 }}>
-							<EvmBytecode
-								{contractBytecode}
-								{networkProvider}
-							>
-								<h4 slot="title">{showContractCodeTypeOrSourcePath}</h4>
-							</EvmBytecode>
-						</section>
-					{/if}
-				{/key}
-			</div>
+							</IpfsLoader>
+						{/if}
+					</section>
+				{:else}
+					<section class="card">
+						<EvmBytecode
+							{contractBytecode}
+							{networkProvider}
+						>
+							<h4 slot="title">{showContractCodeTypeOrSourcePath}</h4>
+						</EvmBytecode>
+					</section>
+				{/if}
+			</BlockTransition>
 
 			{#if contractMetadata}
 				<hr>
