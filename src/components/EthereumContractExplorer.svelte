@@ -69,6 +69,7 @@
 
 	// Components
 	import Address from './Address.svelte'
+	import Code from './Code.svelte'
 	import BlockTransition from './BlockTransition.svelte'
 	import EthereumContractBytecodeLoader from './EthereumContractBytecodeLoader.svelte'
 	import EthereumContractMetadataLoader from './EthereumContractMetadataLoader.svelte'
@@ -153,8 +154,8 @@
 				outTransitionParams={{ x: -10, duration: 200 }}
 			>
 				{#if source && !Object.values(ContractCodeType).includes(showContractCodeTypeOrSourcePath)}
-					{@const sourceFile = showContractCodeTypeOrSourcePath.match(/[^/]+$/)?.[0]}
-					{@const sourceFileName = sourceFile?.replace(/.sol$/, '')}
+					{@const sourceFile = showContractCodeTypeOrSourcePath.match(/[^/]+$/)?.[0] ?? ''}
+					{@const [_, sourceFileName, sourceFileExtension] = sourceFile.match(/^(.+?)(?:[.](.+?))?$/)}
 					{@const solidityDefinitionType =
 						contractMetadata?.language === 'Solidity' &&
 						source.content?.match(new RegExp(`((?:abstract )?library|contract|interface|function|constant|struct|enum|type|error)\\s+(${sourceFileName})`))?.[1]
@@ -184,7 +185,12 @@
 						<hr>
 
 						{#if source.content}
-							<code class="scrollable-list" style="--resizeVertical-defaultHeight: 30em;">{source.content}</code>
+							<Code
+								code={source.content}
+								extension={sourceFileExtension}
+								class="scrollable-list"
+								style="--resizeVertical-defaultHeight: 30em;"
+							/>
 
 							<hr>
 
@@ -205,7 +211,14 @@
 								let:resolvedIpfsUrl
 								let:ipfsGateway
 							>
-								<code class="source-code scrollable-list" style="--resizeVertical-defaultHeight: 30em;">{sourceCode}</code>
+								{#if sourceCode}
+									<Code
+										code={sourceCode}
+										extension={sourceFileExtension}
+										class="scrollable-list"
+										style="--resizeVertical-defaultHeight: 30em;"
+									/>
+								{/if}
 
 								<hr>
 
