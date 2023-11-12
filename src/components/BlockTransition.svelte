@@ -28,4 +28,4 @@
 
 
 <!-- <SizeContainer class="stack align-{align}" {...$$restProps}>{#key key ?? value}<svelte:element this={element} class="column align-{align}" transition:transition={transitionParams}><slot {key} {value}>{value}</slot></svelte:element>{/key}</SizeContainer> -->
-<SizeContainer class="stack align-{align}" {...$$restProps}>{#key key ?? value}{#if transition}<span class="column align-{align}" transition:transition={transitionParams}><slot {key} {value}>{value}</slot></span>{:else if inTransition && outTransition}<span class="column align-{align}" in:inTransition={inTransitionParams} out:outTransition={outTransitionParams}><slot {key} {value}>{value}</slot></span>{/if}{/key}</SizeContainer>
+<SizeContainer class="stack align-{align}" {...$$restProps}>{#key key ?? value}{#if transition}<div class="column align-{align}" transition:transition|global={transitionParams}><slot {key} {value}>{value}</slot></div>{:else if inTransition && outTransition}<div class="column align-{align}" in:inTransition|global={inTransitionParams} out:outTransition|global={outTransitionParams}><slot {key} {value}>{value}</slot></div>{/if}{/key}</SizeContainer>
