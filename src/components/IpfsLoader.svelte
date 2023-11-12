@@ -54,7 +54,7 @@
 		resolvedIpfsUrl: typeof resolvedIpfsUrl,
 	} & (
 		| Awaited<ReturnType<typeof parseResponse>>
-		| { dagStats: Awaited<ReturnType<typeof import('../api/ipfs/helia').getIpfsDag>> }
+		// | { dagStats: Awaited<ReturnType<typeof import('../api/ipfs/helia').getIpfsDag>> }
 	)
 
 	type $$Slots = {
