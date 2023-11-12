@@ -52,7 +52,10 @@
 		ipfsGateway: typeof ipfsGateway,
 		ipfsContentId: typeof ipfsContentId,
 		resolvedIpfsUrl: typeof resolvedIpfsUrl,
-	} & Awaited<ReturnType<typeof parseResponse>> | { dagStats: Awaited<ReturnType<typeof getIpfsDag>> }
+	} & (
+		| Awaited<ReturnType<typeof parseResponse>>
+		| { dagStats: Awaited<ReturnType<typeof import('../api/ipfs/helia').getIpfsDag>> }
+	)
 
 	type $$Slots = {
 		'default': SharedSlotProps,
