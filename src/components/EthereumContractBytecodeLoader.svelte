@@ -22,9 +22,6 @@
 	$: viaRPC = networkProvider === NetworkProvider.Default ? '' : ` via ${networkProvider}`
 
 
-	export let showIf: ((contractBytecode: Ethereum.ContractBytecode) => boolean) | undefined
-
-
 	export let contractBytecode: Ethereum.ContractBytecode
 	
 
@@ -54,7 +51,7 @@
 	loadingIconName={networkProviderConfigByProvider[$preferences.rpcNetwork]?.name}
 	loadingMessage={`Looking up contract code${viaRPC}...`}
 	errorMessage={`Couldn't find contract code${viaRPC}.`}
-	{showIf}
+	{...$$restProps}
 	bind:result={contractBytecode}
 >
 	<svelte:fragment slot="loadingIcon">
