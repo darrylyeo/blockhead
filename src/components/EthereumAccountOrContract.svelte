@@ -182,6 +182,7 @@
 			contractAddress={address}
 			{network}
 			{transactionProvider}
+			headingLevel={headingLevel + 1}
 			bind:contractName
 		>
 			<svelte:fragment slot="header">

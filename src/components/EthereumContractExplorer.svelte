@@ -33,6 +33,9 @@
 
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
 
+	// (View options)
+	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 3
+
 
 	// Outputs
 	export let contractBytecode: Ethereum.ContractBytecode
@@ -171,7 +174,7 @@
 									source.keccak256 && `keccak256 hash: ${source.keccak256}`
 								].filter(Boolean).join('\n\n')}
 							>
-								<h4>{sourceFile}</h4>
+								<svelte:element this={`h${headingLevel}`}>{sourceFile}</svelte:element>
 								{#if source.license}<small><span class="card-annotation">{source.license}</span></small>{/if}
 							</abbr>
 
@@ -240,7 +243,9 @@
 							{contractBytecode}
 							{networkProvider}
 						>
-							<h4 slot="title">{showContractCodeTypeOrSourcePath}</h4>
+							<svelte:fragment slot="title">
+								<svelte:element this={`h${headingLevel}`}>{showContractCodeTypeOrSourcePath}</svelte:element>
+							</svelte:fragment>
 						</EvmBytecode>
 					</section>
 				{/if}
@@ -256,6 +261,7 @@
 					{contractName}
 					{contractAddress}
 					contractAbi={contractMetadata.output.abi}
+					{headingLevel}
 				/>
 			{/if}
 		</EthereumContractMetadataLoader>

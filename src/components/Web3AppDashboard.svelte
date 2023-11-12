@@ -495,6 +495,7 @@
 												<EthereumContractExplorer
 													{network}
 													address={erc20Token.address}
+													headingLevel={4}
 												/>
 											</div>
 										{:else}
@@ -588,6 +589,7 @@
 									<EthereumContractExplorer
 										{network}
 										address={contractAddress}
+										headingLevel={4}
 									>
 										<svelte:fragment slot="title" let:network let:address>
 											<h3>
