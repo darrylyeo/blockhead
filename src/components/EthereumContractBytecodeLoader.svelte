@@ -1,16 +1,21 @@
 <script lang="ts">
+	// Types/constants
 	import type { Ethereum } from '../data/networks/types'
-	import { NetworkProvider } from '../data/networkProviders/types';
+	import { NetworkProvider } from '../data/networkProviders/types'
 	import { getViemPublicClient, networkProviderConfigByProvider } from '../data/networkProviders'
+
+
+	// Context
 	import { preferences } from '../state/preferences'
 	
 	
+	// Inputs
 	export let contractAddress: Ethereum.ContractAddress
+
 	export let network: Ethereum.Network
 	export let networkProvider: NetworkProvider
 
-	export let transactionProvider
-
+	// (Computed)
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
 	let publicClient: Ethereum.PublicClient | undefined
@@ -22,12 +27,25 @@
 	$: viaRPC = networkProvider === NetworkProvider.Default ? '' : ` via ${networkProvider}`
 
 
+	// Outputs
 	export let contractBytecode: Ethereum.ContractBytecode
+
+	type SharedSlotProps = {
+		contractAddress: typeof contractAddress,
+		contractBytecode: typeof contractBytecode,
+	}
+
+	type $$Slots = {
+		'default': SharedSlotProps,
+		'header': SharedSlotProps,
+	}
 	
 
+	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
 
 
+	// Components
 	import Loader from './Loader.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
 </script>
