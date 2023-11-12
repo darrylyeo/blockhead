@@ -1,10 +1,20 @@
 <script lang="ts">
+	// Types/constants
 	import type { Ethereum } from '../data/networks/types'
 	import type { NetworkProvider } from '../data/networkProviders/types'
 	import { getViemPublicClient } from '../data/networkProviders'
+
+	enum ContractCodeType {
+		// CreationBytecode = 'Creation Bytecode',
+		RuntimeBytecode = 'Runtime Bytecode',
+	}
+
+
+	// Context
 	import { preferences } from '../state/preferences'
 
 
+	// Inputs
 	export let name: string
 	export let network: Ethereum.Network
 	export let contractAddress: Ethereum.ContractAddress
@@ -12,6 +22,7 @@
 
 	export let transactionProvider
 
+	// (Computed)
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
 	let publicClient: Ethereum.PublicClient | undefined
@@ -23,13 +34,6 @@
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
 
 
-	enum ContractCodeType {
-		// CreationBytecode = 'Creation Bytecode',
-		RuntimeBytecode = 'Runtime Bytecode',
-	}
-	let showContractCodeTypeOrSourcePath: ContractCodeType | keyof typeof contractMetadata.sources = ContractCodeType.RuntimeBytecode
-
-
 	// Outputs
 	export let contractBytecode: Ethereum.ContractBytecode
 	export let contractMetadata: Ethereum.ContractMetadata<string>
@@ -38,6 +42,10 @@
 	$: contractName = contractMetadata && Object.values(contractMetadata.settings.compilationTarget)?.[0]
 
 
+	// Internal state
+	let showContractCodeTypeOrSourcePath: ContractCodeType | keyof typeof contractMetadata.sources = ContractCodeType.RuntimeBytecode
+
+	// (Computed)
 	$: source = contractMetadata?.sources?.[showContractCodeTypeOrSourcePath]
 
 	// Auto-set to target source path
@@ -59,6 +67,7 @@
 	}
 
 
+	// Components
 	import Address from './Address.svelte'
 	import EthereumContractBytecodeLoader from './EthereumContractBytecodeLoader.svelte'
 	import EthereumContractMetadataLoader from './EthereumContractMetadataLoader.svelte'
