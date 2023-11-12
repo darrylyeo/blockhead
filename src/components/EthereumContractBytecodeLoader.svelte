@@ -41,10 +41,10 @@
 				chainId: network.chainId,
 				contractAddress,
 			}],
-			queryFn: async () => (
+			queryFn: publicClient && (async () => (
 				await publicClient.getBytecode({ address: contractAddress })
 					.then(contractBytecode => contractBytecode === undefined ? null : contractBytecode)
-			)
+			))
 		})
 	}
 	loadingIcon={networkProviderConfigByProvider[$preferences.rpcNetwork]?.icon}
