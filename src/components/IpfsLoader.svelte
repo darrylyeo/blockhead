@@ -50,6 +50,7 @@
 	// Output
 	type SharedSlotProps = {
 		ipfsGateway: typeof ipfsGateway,
+		ipfsGatewayProvider: typeof ipfsGatewayProvider,
 		ipfsContentId: typeof ipfsContentId,
 		resolvedIpfsUrl: typeof resolvedIpfsUrl,
 	} & (
@@ -108,9 +109,16 @@
 			<svelte:fragment slot="header"
 				let:result
 			>
-				<slot name="header" {...result} {ipfsGatewayProvider} {ipfsContentId} {resolvedIpfsUrl} />
+				<slot name="header"
+					{...result}
+					{ipfsGateway} {ipfsGatewayProvider} {ipfsContentId} {resolvedIpfsUrl}
+				/>
 			</svelte:fragment>
-			<slot {...result} {ipfsGatewayProvider} {ipfsContentId} {resolvedIpfsUrl} />
+
+			<slot
+				{...result}
+				{ipfsGateway} {ipfsGatewayProvider} {ipfsContentId} {resolvedIpfsUrl}
+			/>
 		</Loader>
 
 	{:else}
@@ -145,9 +153,16 @@
 			<svelte:fragment slot="header"
 				let:result
 			>
-				<slot name="header" {...result} {ipfsGatewayProvider} {ipfsContentId} {resolvedIpfsUrl} />
+				<slot name="header"
+					{...result}
+					{ipfsGateway} {ipfsGatewayProvider} {ipfsContentId} {resolvedIpfsUrl}
+				/>
 			</svelte:fragment>
-			<slot {...result} {ipfsGatewayProvider} {ipfsContentId} {resolvedIpfsUrl} />
+
+			<slot
+				{...result}
+				{ipfsGateway} {ipfsGatewayProvider} {ipfsContentId} {resolvedIpfsUrl}
+			/>
 		</Loader>
 	{/if}
 {/if}
