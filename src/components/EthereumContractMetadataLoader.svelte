@@ -147,40 +147,45 @@
 				contractAddress,
 			}],
 
-			queryFn: {
-				[ContractSourceProvider.Etherscan]: async () => {
-					const { Etherscan } = await import('../api/etherscan')
+			...{
+				[ContractSourceProvider.Etherscan]: () => ({
+					queryFn: async () => {
+						const { Etherscan } = await import('../api/etherscan')
 
-					const metadata = await Etherscan.Contracts.getSource({
-						chainId: network.chainId,
-						contractAddress,
-					})
-
-					return normalizeEtherscanSource(metadata)
-				},
-
-				[ContractSourceProvider.Sourcify]: async () => {
-					const { getContractMetadata } = await import('../api/sourcify')
-
-					try {
-						return await getContractMetadata({
-							contractAddress: contractAddress,
+						const metadata = await Etherscan.Contracts.getSource({
 							chainId: network.chainId,
-						})
-					}catch(e){
-						console.warn(e)
-
-						return await getContractMetadata({
 							contractAddress,
-							chainId: network.chainId,
-							partialMatch: true,
 						})
-					}
-				},
 
-				// [ContractSourceProvider.Tenderly]: async () => {
-				// },
-			}[contractSourceProvider]
+						return metadata
+					},
+
+					select: normalizeEtherscanSource,
+				}),
+
+				[ContractSourceProvider.Sourcify]: () => ({
+					queryFn: async () => {
+						const { getContractMetadata } = await import('../api/sourcify')
+
+						try {
+							return await getContractMetadata({
+								contractAddress: contractAddress,
+								chainId: network.chainId,
+							})
+						}catch(e){
+							console.warn(e)
+
+							return await getContractMetadata({
+								contractAddress,
+								chainId: network.chainId,
+								partialMatch: true,
+							})
+						}
+					},
+				}),
+
+				// [ContractSourceProvider.Tenderly]: ({})
+			}[contractSourceProvider]?.()
 		})
 	}
 	loadingIcon={contractSourceProviderIcons[contractSourceProvider]}
