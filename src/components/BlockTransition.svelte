@@ -1,17 +1,18 @@
 <script lang="ts">
-	import { type EasingFunction, type TransitionConfig, scale } from 'svelte/transition'
-
+	// Types
+	import type { EasingFunction, TransitionConfig } from 'svelte/transition'
 
 	type Key = $$Generic<any>
 	type Value = $$Generic<any>
 	type TransitionParams = $$Generic<{delay?: number; duration?: number; easing?: EasingFunction}>
 
 
+	// Inputs
 	// export let element = "span"
 	export let key: Key | undefined
 	export let value: Value | undefined
 
-
+	// (View options)
 	export let align: 'top' | 'center' | 'bottom' = 'top'
 	export let transition: ((node: Element, _?: TransitionParams) => TransitionConfig) | undefined
 	export let transitionParams: TransitionParams | undefined
@@ -21,6 +22,7 @@
 	export let outTransitionParams: TransitionParams | undefined
 
 
+	// Components
 	import SizeContainer from './SizeContainer.svelte'
 </script>
 
