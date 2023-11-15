@@ -9365,6 +9365,11 @@ const identityApps = ([
 	'ens',
 	'ceramic',
 	'disco',
+] as const)
+	.map(slug => web3AppsBySlug[slug])
+
+const socialApps = ([
+	'farcaster',
 	'lens',
 ] as const)
 	.map(slug => web3AppsBySlug[slug])
@@ -9441,6 +9446,11 @@ export const web3AppsBySection = ([
 		isFeatured: true,
 	},
 	{
+		title: 'Social Networks',
+		apps: socialApps,
+		isFeatured: true,
+	},
+	{
 		title: 'Creator Communities',
 		apps: creatorApps,
 		isFeatured: true,
@@ -9479,6 +9489,7 @@ export const web3AppsBySection = ([
 		title: 'Other Apps (Experimental)',
 		apps: web3Apps.filter(appConfig => ![
 			...infrastructureApps,
+			...socialApps,
 			...oracleNetworks,
 			...crossChainInfrastructure,
 			...defiPrimitives,
