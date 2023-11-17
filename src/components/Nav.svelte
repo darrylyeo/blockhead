@@ -93,7 +93,7 @@
 		<!-- <li><a aria-current="{$page.url.pathname.startsWith('/trade') ? 'page' : undefined}" href="/trade">Trade</a></li> -->
 		<!-- <li><a aria-current="{$page.url.pathname.startsWith('/invest') ? 'page' : undefined}" href="/invest">Invest</a></li> -->
 
-		<li class="right"><a href="https://bounties.gitcoin.co/grants/2966/blockhead" target="_blank"><button class="medium" style="--primary-color: #00ae84"><img src={GitcoinIcon} width="16" /> Gitcoin Grants</button></a></li>
+		<li class="right"><a href="https://explorer.gitcoin.co/#/round/137/0xa1d52f9b5339792651861329a046dd912761e9a9/0xa1d52f9b5339792651861329a046dd912761e9a9-19" target="_blank"><button class="medium" style="--primary-color: #00ae84"><img src={GitcoinIcon} width="16" /> Gitcoin Grants</button></a></li>
 		<!-- <li class="right"><a href="https://discord.gg/966eXqqq7N" target="_blank">Discord</a></li> -->
 		<li class="right"><a href="https://twitter.com/0xBlockhead" target="_blank"><button class="medium" data-before="🐦" style="--primary-color: rgb(29, 155, 240)">Twitter</button></a></li>
 		<li class="right"><a href="/#contact" target="_blank"><button class="medium" data-before="💬" style="--primary-color: #627EEA">Feedback</button></a></li>
