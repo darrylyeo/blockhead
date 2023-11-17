@@ -55,9 +55,9 @@
 	import { getTransaction as getTransactionChainbase, normalizeTransaction as normalizeTransactionChainbase } from '../api/chainbase'
 	import { getTransaction as getTransactionCovalent, normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent'
 	import { normalizeTransaction as normalizeTransactionDecommas } from '../api/decommas/normalize'
+	import { Etherscan, normalizeRpcTransaction as normalizeRpcTransactionEtherscan, normalizeRpcTransactionReceipt as normalizeRpcTransactionReceiptEtherscan } from '../api/etherscan'
 	// import { getTransaction as getTransactionEtherspot, normalizeTransaction as normalizeEtherspotTransaction } from '../api/etherspot'
 	import { MoralisWeb3Api, chainCodeFromNetwork, normalizeMoralisTransaction } from '../api/moralis/web3Api'
-
 
 
 	// Components
@@ -86,17 +86,26 @@
 								transactionId
 							}],
 							queryFn: async () => {
-								const transaction = await publicClient.getTransaction({
-									hash: transactionId
-								})
+								const [
+									transaction,
+									transactionReceipt,
+								] = await Promise.all([
+									publicClient.getTransaction({
+										hash: transactionId
+									}),
+									publicClient.getTransactionReceipt({
+										hash: transactionId
+									}),
+								])
 
-								const transactionReceipt = await publicClient.getTransactionReceipt({
-									hash: transactionId
-								})
-
-								return { transaction: { ...transaction, ...transactionReceipt } }
+								return { transaction, transactionReceipt }
 							},
-							select: ({ transaction, logs }) => normalizeViemTransaction(transaction, network, logs),
+							select: ({ transaction, transactionReceipt }) => (
+								normalizeViemTransaction(
+									{ ...transaction, ...transactionReceipt },
+									network,
+								)
+							),
 						})}
 						let:result={transaction}
 					>
@@ -264,6 +273,66 @@
 							/>
 						{/if}
 					</Loader>
+
+				{:else if transactionProvider === TransactionProvider.Etherscan}
+					<Loader
+						loadingIcon={transactionProviderIcons[transactionProvider]}
+						loadingMessage="Fetching transaction data via {transactionProvider}..."
+						fromQuery={createQuery({
+							queryKey: ['Transaction', {
+								transactionProvider,
+								chainId: network.chainId,
+								transactionId,
+							}],
+							queryFn: async () => {
+								const [
+									transaction,
+									transactionReceipt,
+								] = await Promise.all([
+									Etherscan.RpcProxy.getTransactionByHash({
+										chainId: network.chainId,
+										transactionId,
+									}),
+									Etherscan.RpcProxy.getTransactionReceipt({
+										chainId: network.chainId,
+										transactionId,
+									}),
+								])
+
+								return { transaction, transactionReceipt }
+							},
+							select: ({ transaction, transactionReceipt }) => ({
+								...normalizeRpcTransactionReceiptEtherscan(network, transactionReceipt),
+								...normalizeRpcTransactionEtherscan(network, transaction),
+							}),
+						})}
+						bind:result={transaction}
+						let:result={transaction}
+					>
+						<svelte:fragment slot="header"
+							let:result={transaction}
+							let:status
+						>
+							<slot name="header" {status} {transaction} />
+						</svelte:fragment>
+
+						{#if transaction}
+							<EthereumTransaction
+								{network}
+								{transaction}
+								{quoteCurrency}
+
+								{contextualAddress}
+								{detailLevel}
+								{tokenBalanceFormat}
+								{showFees}
+
+								{layout}
+								{innerLayout}
+							/>
+						{/if}
+					</Loader>
+
 
 				<!-- {:else if transactionProvider === TransactionProvider.Etherspot}
 					<Loader

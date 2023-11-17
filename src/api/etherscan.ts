@@ -2832,3 +2832,68 @@ export const normalizeTransaction = (
 	gasUnitsSpent: BigInt(transaction.gasUsed),
 	gasUnitRate: BigInt(transaction.gasPrice),
 })
+
+
+export const normalizeRpcTransaction = (
+	network: Ethereum.Network,
+	transaction: Awaited<ReturnType<typeof Etherscan.RpcProxy.getTransactionByHash>>,
+): Omit<Ethereum.Transaction, 'executionStatus'> => ({
+	network,
+	transactionId: transaction.hash,
+
+	finalityStatus: transaction.blockHash !== undefined ? 'finalized' : 'pending',
+
+	nonce: Number(transaction.nonce),
+	transactionIndex: Number(transaction.transactionIndex),
+	blockNumber: BigInt(transaction.blockNumber),
+	blockHash: transaction.blockHash,
+
+	fromAddress: transaction.from,
+	toAddress: transaction.to,
+
+	value: BigInt(transaction.value),
+
+	gasToken: network.nativeCurrency,
+	gasUnitRate: BigInt(transaction.gasPrice),
+})
+
+
+export const normalizeRpcTransactionReceipt = (
+	network: Ethereum.Network,
+	transaction: Awaited<ReturnType<typeof Etherscan.RpcProxy.getTransactionReceipt>>,
+): Omit<Ethereum.Transaction, 'value'> => ({
+	network,
+	transactionId: transaction.transactionHash,
+
+	executionStatus: Number(transaction.status) === 1 ? 'successful' : 'failed',
+	finalityStatus: transaction.blockHash !== undefined ? 'finalized' : 'pending',
+
+	transactionIndex: Number(transaction.transactionIndex),
+	blockNumber: BigInt(transaction.blockNumber),
+	blockHash: transaction.blockHash,
+
+	fromAddress: transaction.from,
+	toAddress: transaction.to,
+
+	gasToken: network.nativeCurrency,
+	gasUnitsSpent: BigInt(transaction.gasUsed),
+	gasUnitRate: BigInt(transaction.effectiveGasPrice),
+
+	logEvents: transaction.logs.map(normalizeLog),
+})
+
+const normalizeLog = (log: Awaited<ReturnType<typeof Etherscan.RpcProxy.getTransactionReceipt>>['logs'][number]): Ethereum.TransactionLogEvent => ({
+	topics: log.topics,
+	data: log.data,
+
+	contract: {
+		address: log.address,
+	},
+
+	transactionHash: log.transactionHash,
+	indexInTransaction: Number(log.transactionIndex),
+
+	indexInBlock: Number(log.logIndex),
+	blockNumber: BigInt(log.blockNumber),
+	blockHash: log.blockHash,
+})
