@@ -41,9 +41,10 @@ type ChainId = keyof typeof endpointByChainId
 
 const queue = new ConcurrentPromiseQueue(3)
 
-const get = async <T>(
+const get = async <T, IsRpcProxyCall extends boolean = false>(
 	chainId: ChainId,
 	options: Options,
+	isRpcProxyCall: IsRpcProxyCall,
 ): Promise<T> => {
 	const endpointUrl = endpointByChainId[chainId]
 
@@ -53,7 +54,11 @@ const get = async <T>(
 	const getJson = async <T>(url: string, options: Options) => await ky.get(url, options).json<T>()
 
 	return await queue.enqueue(async () => (
-		await getJson<{ status: number, result: T }>(
+		await getJson<
+			IsRpcProxyCall extends true
+				? { jsonrpc: string, id: number, result: T }
+				: { status: number, result: T }
+		>(
 			endpointUrl,
 			{
 				...options,
@@ -63,10 +68,14 @@ const get = async <T>(
 				}
 			}
 		)
-			.then(({ status, result }) => {
-				if (status != 1) throw result
-				return result
-			})
+			.then(
+				isRpcProxyCall
+					? ({ result }) => result 
+					: ({ status, result }) => {
+						if (status != 1) throw result
+						return result
+					}
+			)
 	))
 }
 
@@ -1511,7 +1520,7 @@ export namespace Etherscan {
 				module: 'proxy',
 				action: 'eth_blockNumber',
 			},
-		}) as `0x${string}`
+		}, true) as `0x${string}`
 
 		/**
 		 * eth_getBlockByNumber
@@ -1535,7 +1544,7 @@ export namespace Etherscan {
 				tag,
 				boolean: getFullTransactionObjects,
 			},
-		}) as {
+		}, true) as {
 			baseFeePerGas: `0x${string}`,
 			difficulty: `0x${string}`,
 			extraData: `0x${string}`,
@@ -1581,7 +1590,7 @@ export namespace Etherscan {
 				tag,
 				index,
 			},
-		}) as {
+		}, true) as {
 			baseFeePerGas: `0x${string}`,
 			difficulty: `0x${string}`,
 			extraData: `0x${string}`,
@@ -1619,7 +1628,7 @@ export namespace Etherscan {
 				action: 'eth_getBlockTransactionCountByNumber',
 				tag,
 			},
-		}) as `0x${string}`
+		}, true) as `0x${string}`
 
 		/**
 		 * eth_getTransactionByHash
@@ -1639,7 +1648,7 @@ export namespace Etherscan {
 				action: 'eth_getTransactionByHash',
 				txhash: transactionId,
 			},
-		}) as {
+		}, true) as {
 			blockHash: `0x${string}`,
 			blockNumber: `0x${string}`,
 			from: Ethereum.Address,
@@ -1685,7 +1694,7 @@ export namespace Etherscan {
 				tag,
 				index,
 			},
-		}) as {
+		}, true) as {
 			blockHash: `0x${string}`,
 			blockNumber: `0x${string}`,
 			from: Ethereum.Address,
@@ -1731,7 +1740,7 @@ export namespace Etherscan {
 				address,
 				tag,
 			},
-		}) as `0x${string}`
+		}, true) as `0x${string}`
 
 		/**
 		 * eth_sendRawTransaction
@@ -1756,7 +1765,7 @@ export namespace Etherscan {
 				action: 'eth_sendRawTransaction',
 				hex: signature,
 			},
-		}) as `0x${string}`
+		}, true) as `0x${string}`
 
 		/**
 		 * eth_getTransactionReceipt
@@ -1776,7 +1785,7 @@ export namespace Etherscan {
 				action: 'eth_getTransactionReceipt',
 				txhash: transactionId,
 			},
-		}) as {
+		}, true) as {
 			blockHash: `0x${string}`,
 			blockNumber: `0x${string}`,
 			contractAddress: Ethereum.Address | null,
@@ -1831,7 +1840,7 @@ export namespace Etherscan {
 				data: callData,
 				tag,
 			},
-		}) as `0x${string}`
+		}, true) as `0x${string}`
 
 		/**
 		 * eth_getCode
@@ -1855,7 +1864,7 @@ export namespace Etherscan {
 				address,
 				tag,
 			},
-		}) as `0x${string}`
+		}, true) as `0x${string}`
 
 		/**
 		 * eth_getStorageAt
@@ -1884,7 +1893,7 @@ export namespace Etherscan {
 				position,
 				tag,
 			},
-		}) as `0x${string}`
+		}, true) as `0x${string}`
 
 		/**
 		 * eth_gasPrice
@@ -1901,7 +1910,7 @@ export namespace Etherscan {
 				module: 'proxy',
 				action: 'eth_gasPrice',
 			},
-		}) as `0x${string}`
+		}, true) as `0x${string}`
 
 		/**
 		 * eth_estimateGas
@@ -1939,7 +1948,7 @@ export namespace Etherscan {
 				gas,
 				gasPrice,
 			},
-		}) as `0x${string}`
+		}, true) as `0x${string}`
 	}
 
 	/**
