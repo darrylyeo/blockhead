@@ -146,11 +146,19 @@
 		$discoCredentialId = searchInputParams.discoCredentialId ?? ''
 	}}>
 		<SearchInput
-			inputPatterns={[
-				InputPattern.Address,
-				InputPattern.EnsName,
-				InputPattern.LensHandle,
-			]}
+			inputPatterns={
+				$web3AppConfig?.slug === 'farcaster' ? [
+					InputPattern.Address,
+					InputPattern.EnsName,
+					InputPattern.FarcasterCastId,
+					InputPattern.FarcasterUserId,
+					InputPattern.FarcasterUserName,
+				] : [
+					InputPattern.Address,
+					InputPattern.EnsName,
+					InputPattern.LensHandle,
+				]
+			}
 			bind:value={searchInputValue}
 			bind:matchedPatterns={searchInputParams}
 		/>

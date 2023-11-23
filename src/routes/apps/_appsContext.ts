@@ -34,6 +34,8 @@ export const currentView: Readable<'Dashboard' | 'Explorer' | 'Account'> = deriv
 			$appsParams.audiusQuery || $appsParams.audiusPlaylistId || $appsParams.audiusTrackId || $appsParams.audiusUserId
 		: $appsParams.web3AppSlug === 'disco' ?
 			$appsParams.didUrl || $appsParams.discoCredentialId
+		: $appsParams.web3AppSlug === 'farcaster' ?
+			$appsParams.farcasterCastId || $appsParams.farcasterUserId || $appsParams.farcasterUserName
 		: $appsParams.web3AppSlug === 'ens' ?
 			$appsParams.accountId
 		: $appsParams.web3AppSlug === 'ipfs' ?
@@ -57,6 +59,9 @@ export const defaultSearchInputValue: Readable<string> = derived(appsParams, ($a
 		|| $appsParams.audiusUserId
 		|| $appsParams.didUrl
 		|| $appsParams.discoCredentialId
+		|| $appsParams.farcasterCastId
+		|| $appsParams.farcasterUserId
+		|| $appsParams.farcasterUserName
 		|| ''
 	)
 ))

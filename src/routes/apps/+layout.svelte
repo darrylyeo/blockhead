@@ -22,6 +22,10 @@
 		didUrl,
 		discoCredentialId,
 
+		farcasterCastId,
+		farcasterUserId,
+		farcasterUserName,
+
 		ipfsContentId,
 		ipnsName,
 		ipfsContentPath,
@@ -30,7 +34,7 @@
 	} from './_appsParams'
 
 	$: if($page.url.pathname.startsWith('/apps')){
-		$web3AppSlug = $page.params.web3AppSlug || $page.url.pathname.match(/^\/apps\/(audius|ceramic|disco|ens|ipfs|lens|uniswap)/)?.[1] || ''
+		$web3AppSlug = $page.params.web3AppSlug || $page.url.pathname.match(/^\/apps\/(audius|ceramic|disco|ens|farcaster|ipfs|lens|uniswap)/)?.[1] || ''
 		$networkSlug = $page.params.networkSlug || ''
 		$accountId = $page.params.accountId || ''
 		$audiusQuery = $page.params.audiusQuery || ''
@@ -39,6 +43,9 @@
 		$audiusUserId = $page.params.audiusUserId || ''
 		$didUrl = $page.params.didUrl || ''
 		$discoCredentialId = $page.params.discoCredentialId || ''
+		$farcasterCastId = $page.params.farcasterCastId || ''
+		$farcasterUserId = $page.params.farcasterUserId || ''
+		$farcasterUserName = $page.params.farcasterUserName || ''
 		$ipfsContentId = $page.params.ipfsContentId || ''
 		$ipnsName = $page.params.ipnsName || ''
 		$ipfsContentPath = $page.params.ipfsContentPath || ''
