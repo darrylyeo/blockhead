@@ -193,6 +193,9 @@ dependencies:
   process:
     specifier: ^0.11.10
     version: 0.11.10
+  regexp.escape:
+    specifier: ^1.1.0
+    version: 1.1.0
   runes2:
     specifier: ^1.1.2
     version: 1.1.2
@@ -19242,6 +19245,15 @@ packages:
 
   /regex-parser@2.2.11:
     resolution: {integrity: sha512-jbD/FT0+9MBU2XAZluI7w2OBs1RBi6p9M83nkoZayQXXU9e8Robt69FcZc7wU4eJD/YFTjn1JdCk3rbMJajz8Q==}
+    dev: false
+
+  /regexp.escape@1.1.0:
+    resolution: {integrity: sha512-KVeSRSGxG1oQn9Op7tkDaYo5MRacMciqL5cHzCsvChvFOCtyxLMplXe9p+Z3ItGMLAONUTtnHe+yEyYDDntdxA==}
+    engines: {node: '>= 0.4'}
+    dependencies:
+      define-properties: 1.2.0
+      es-abstract: 1.22.1
+      function-bind: 1.1.1
     dev: false
 
   /regexp.prototype.flags@1.5.0:

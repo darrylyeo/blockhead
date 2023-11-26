@@ -19,6 +19,9 @@ Array.fromAsync ||= fromAsync
 // shimArrayPrototypeGroup.shim()
 // shimArrayPrototypeGroupToMap.shim()
 
+import shimRegexpEscape from 'regexp.escape'
+shimRegexpEscape.shim()
+
 Array.prototype.groupToMap ||= function(callbackFn, _this = this){
 	const map = new Map()
 	for (const item of _this) {
