@@ -33,13 +33,15 @@
 		urlEmbeds
 			.map(parseUrl)
 			.reduce((text, url) => (
-				text
-					// .replaceAll(`${url.host}${url.pathname === '/' ? '' : url.pathname}`, match => `<a href="${url}">${match}</a>`)
-					.replaceAll(
-						new RegExp(`(?:${RegExp.escape(url.protocol)}//)?(?:${RegExp.escape(url.host)})(?:${RegExp.escape(url.pathname)})${url.pathname === '/' ? '?' : ''}(?:${RegExp.escape(url.search)})?`, 'gi'),
-						match => `<a href="${url}">${match}</a>`
-					)
+				url
+					? text
+						.replaceAll(
+							new RegExp(`(?:${RegExp.escape(url.protocol)}//)?(?:${RegExp.escape(url.host)})(?:${RegExp.escape(url.pathname)})${url.pathname === '/' ? '?' : ''}(?:${RegExp.escape(url.search)})?(?:${RegExp.escape(url.hash)})?`, 'gi'),
+							match => `<a href="${url}">${match}</a>`
+						)
+					: text
 			), text)
+		// text.replaceAll(`${url.host}${url.pathname === '/' ? '' : url.pathname}`, match => `<a href="${url}">${match}</a>`)
 	)
 
 	const formatProfiles = (text: string) => (
