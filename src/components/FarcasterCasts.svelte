@@ -38,6 +38,8 @@
 				{cast}
 				{farcasterProvider}
 			/>
+		{:else}
+			<div class="card">No casts yet.</div>
 		{/each}
 	</div>
 </Collapsible>
