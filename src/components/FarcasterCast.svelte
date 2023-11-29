@@ -123,7 +123,14 @@
 >
 	<svelte:fragment slot="title">
 		<div class="cast-author row">
-			<img src={cast.author.pfp_url} width="24" height="24" />
+			{#if cast.author.pfp_url}
+				<img
+					class="avatar"
+					src={cast.author.pfp_url}
+					width="24"
+					height="24"
+				/>
+			{/if}
 
 			<span>
 				<a
