@@ -16,6 +16,8 @@
 	// Components
 	import FarcasterCasts from '../../../../components/FarcasterCasts.svelte'
 	import FarcasterCastsLoader from '../../../../components/FarcasterCastsLoader.svelte'
+	import FarcasterCastLoader from '../../../../components/FarcasterCastLoader.svelte'
+	import FarcasterCast from '../../../../components/FarcasterCast.svelte'
 </script>
 
 
@@ -23,7 +25,18 @@
 
 
 {:else if $farcasterCastId}
-
+	<FarcasterCastLoader
+		{farcasterProvider}
+		castId={$farcasterCastId}
+		let:cast
+	>
+		{#if cast}
+			<FarcasterCast
+				{farcasterProvider}
+				{cast}
+			/>
+		{/if}
+	</FarcasterCastLoader>
 
 {:else}
 	<FarcasterCastsLoader
