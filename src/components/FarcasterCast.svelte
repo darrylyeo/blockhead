@@ -48,8 +48,10 @@
 		// text.replaceAll(/@([a-z0-9_]+)/gi, (match, farcasterUserName) => `<a href="${resolvePath(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName })}">${match}</a>`)
 		('mentioned_profiles' in cast ? cast.mentioned_profiles : [])
 			.reduce((text, user) => (
-				text
-					.replaceAll(`@${user.username}`, match => `<a href="${resolvePath(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName: user.username })}">${match}</a>`)
+				user.username ?
+					text.replaceAll(`@${user.username}`, match => `<a href="${resolvePath(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName: user.username })}">${match}</a>`)
+				:
+					text
 			), text)
 	)
 
