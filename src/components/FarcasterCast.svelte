@@ -132,14 +132,14 @@
 			{#if 'reactions' in cast}
 				{#if cast.reactions.likes?.length}
 					<div>
-						<dt>Likes</dt>
+						<dt data-before="♥️" class="row-inline">Likes</dt>
 						<dd>{cast.reactions.likes.length}</dd>
 					</div>
 				{/if}
 
 				{#if cast.reactions.recasts?.length}
 					<div>
-						<dt>Recasts</dt>
+						<dt data-before="🔁" class="row-inline">Recasts</dt>
 						<dd>{cast.reactions.recasts.length}</dd>
 					</div>
 				{/if}
@@ -147,7 +147,7 @@
 
 			{#if 'replies' in cast}
 				<div>
-					<dt>Replies</dt>
+					<dt data-before="💬" class="row-inline">Replies</dt>
 					<dd>{cast.replies.count}</dd>
 				</div>
 			{/if}
