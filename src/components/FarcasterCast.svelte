@@ -89,7 +89,13 @@
 			<span>
 				<address>
 					<span>{cast.author.display_name}</span>
-					<small>@{cast.author.username}</small>
+					<small>
+						{#if cast.author.username}
+							@{cast.author.username}
+						{:else if cast.author.fid}
+							#{cast.author.fid}
+						{/if}
+					</small>
 				</address>
 
 				{#if cast.author.active_status}
