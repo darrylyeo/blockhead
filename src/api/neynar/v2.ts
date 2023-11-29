@@ -36,7 +36,7 @@ export type RegisterSignerKeyReqBody = {
 export type Fid = number;
 export type Address = string;
 export type User = {
-    "object": Object;
+    "object": Object_;
     fid: Fid;
     username: string;
     display_name: string;
@@ -842,7 +842,7 @@ export enum Status {
     Approved = "approved",
     Revoked = "revoked"
 }
-export enum Object {
+export enum Object_ {
     User = "user"
 }
 export enum ActiveStatus {
