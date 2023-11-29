@@ -39,8 +39,9 @@
 					>
 						{#if casts}
 							<FarcasterCasts
-								title={`${user?.name || user?.id} › Casts`}
 								{casts}
+								title={`${user?.name || user?.id} › Casts`}
+								{farcasterProvider}
 							/>
 						{/if}
 					</FarcasterCastsLoader>
@@ -57,8 +58,8 @@
 	>
 		{#if cast}
 			<FarcasterCast
-				{farcasterProvider}
 				{cast}
+				{farcasterProvider}
 			/>
 		{/if}
 	</FarcasterCastLoader>
@@ -70,8 +71,9 @@
 	>
 		{#if casts}
 			<FarcasterCasts
-				title="Trending"
 				{casts}
+				title="Trending"
+				{farcasterProvider}
 			/>
 		{/if}
 	</FarcasterCastsLoader>

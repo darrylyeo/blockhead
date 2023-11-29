@@ -1,9 +1,12 @@
 <script lang="ts">
 	// Types/constants
-	import type { Cast, CastWithInteractions, EmbedUrl, EmbeddedCast } from '../api/neynar/v2'
-	
+	import type { FarcasterProvider } from '../data/farcasterProviders'
+	import type { FarcasterCastId, FarcasterUserId } from '../api/farcaster'
+	import type { Cast, CastWithInteractions, EmbedCastId, EmbedUrl, EmbeddedCast } from '../api/neynar/v2'
+
 
 	// Inputs
+	export let farcasterProvider: FarcasterProvider
 	export let cast: Cast | CastWithInteractions
 
 
@@ -21,6 +24,39 @@
 		:
 			undefined
 	))
+
+	const extractCastEmbeds = (text: string) => (
+		[
+			new RegExp(`https://warpcast.com/(?<userId>.*)/(?<castIdShort>0x[0-9a-f]{8})`, 'gi'),
+		].flatMap(regex => (
+			Array.from(
+				text.matchAll(regex),
+				match => match?.groups && ({
+					clientUrl: match[0],
+					userId: Number(match.groups.userId) as FarcasterUserId | undefined,
+					castId: match.groups.castId as FarcasterCastId | undefined,
+					castIdShort: match.groups.castIdShort as `0x${string}` | undefined,
+				})
+			)
+				.filter(isTruthy)
+		))
+	)
+
+	let castEmbeds: {
+		clientUrl?: string,
+		userId?: FarcasterUserId,
+		castId?: FarcasterCastId
+	}[]
+	$: castEmbeds = [
+		...((embeds.get('cast') ?? []) as EmbedCastId[])
+			.map(embed => embed.cast_id)
+			.map(castId => ({
+				userId: castId.fid,
+				castId: castId.hash as FarcasterCastId,
+			})),
+		...extractCastEmbeds(cast.text)
+	]
+
 	$: imageEmbeds = ((embeds.get('image') ?? []) as EmbedUrl[]).map(embed => embed.url)
 	$: urlEmbeds = ((embeds.get('url') ?? []) as EmbedUrl[]).map(embed => embed.url)
 
@@ -28,6 +64,7 @@
 	// Functions
 	import { parseUrl } from '../utils/parseUrl'
 	import { resolvePath } from '@sveltejs/kit'
+	import { isTruthy } from '../utils/isTruthy'
 
 	const formatUrls = (text: string) => (
 		urlEmbeds
@@ -73,6 +110,8 @@
 
 	// Components
 	import Collapsible from './Collapsible.svelte'
+	import FarcasterCastLoader from './FarcasterCastLoader.svelte'
+	import FarcasterCast from './FarcasterCast.svelte'
 </script>
 
 
@@ -125,6 +164,27 @@
 				<img {src} height="200" />
 			{/each}
 		</div>
+	{/if}
+
+	{#if castEmbeds?.length}
+		{#each castEmbeds as { clientUrl, userId, castId }}
+			<FarcasterCastLoader
+				{farcasterProvider}
+				{clientUrl}
+				{userId}
+				{castId}
+				let:cast
+			>
+				{#if cast}
+					<FarcasterCast
+						{cast}
+						{farcasterProvider}
+					/>
+				{:else}
+					Cast not found.
+				{/if}
+			</FarcasterCastLoader>
+		{/each}
 	{/if}
 
 	<footer role="toolbar">

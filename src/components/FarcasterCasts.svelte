@@ -1,11 +1,13 @@
 <script lang="ts">
 	// Types
 	import type { Cast } from '../api/neynar/v2'
+	import type { FarcasterProvider } from '../data/farcasterProviders'
 	
 
 	// Inputs
 	export let casts: Cast[]
 	export let title: string
+	export let farcasterProvider: FarcasterProvider
 
 	// (View options)
 	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 4
@@ -34,6 +36,7 @@
 		{#each casts as cast (cast.hash)}
 			<FarcasterCast
 				{cast}
+				{farcasterProvider}
 			/>
 		{/each}
 	</div>
