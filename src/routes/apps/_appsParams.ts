@@ -4,7 +4,7 @@ import type { Ethereum } from '../../data/networks/types'
 import type { AccountId } from '../../data/accountId'
 
 import type { DidUrl } from '../../api/ceramic/did'
-import type { FarcasterUserId, FarcasterUserName } from '../../api/farcaster'
+import type { FarcasterCastId, FarcasterUserId, FarcasterUserName } from '../../api/farcaster'
 import type { IpfsCid } from '../../api/ipfs/contentId'
 import type { IpnsName } from '../../api/ipfs/ipns'
 
@@ -56,7 +56,7 @@ export const audiusTrackId = writable('')
 export const audiusUserId = writable('')
 export const didUrl = writable<DidUrl | ''>('')
 export const discoCredentialId = writable<ReturnType<typeof crypto.randomUUID> | ''>('')
-export const farcasterCastId = writable('')
+export const farcasterCastId = writable<FarcasterCastId>('')
 export const farcasterUserId = writable<FarcasterUserId | ''>('')
 export const farcasterUserName = writable<FarcasterUserName | ''>('')
 export const ipfsContentId = writable<IpfsCid | ''>('')
