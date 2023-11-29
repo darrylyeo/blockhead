@@ -45,15 +45,16 @@ export type User = {
     profile: {
         bio: {
             text: string;
+            mentioned_profiles: string[];
         };
     };
     follower_count: number;
     following_count: number;
     verifications: Address[];
-    activeStatus: ActiveStatus;
+    active_status: ActiveStatus;
     viewer_context?: {
-        following: number;
-        followed_by: number;
+        following: boolean;
+        followed_by: boolean;
     };
 };
 export type ProfileUrl = {
@@ -66,6 +67,9 @@ export type UserSearchResponse = {
     result: {
         users: SearchedUser[];
     };
+};
+export type BulkUsersResponse = {
+    users: User[];
 };
 export type UpdateUserReqBody = {
     signer_uuid: SignerUuid;
@@ -147,12 +151,6 @@ export type DeleteCastReqBody = {
     signer_uuid: SignerUuid;
     target_hash: Address;
 };
-export type IndividualHashObj = {
-    hash: string;
-};
-export type GetCastsReqBody = {
-    casts?: IndividualHashObj[];
-};
 export type CastsResponse = {
     result: {
         casts: CastWithInteractions[];
@@ -192,11 +190,14 @@ export type BulkFollowResponse = {
     success: boolean;
     details: FollowResponse[];
 };
-export type NotificationFollow = {
+export type UserResponse = {
+    user: User;
+};
+export type Follow = {
     "object": Object2;
     user: User;
 };
-export type NotificationReactions = {
+export type Reactions = {
     "object": Object3;
     cast: {
         hash: string;
@@ -208,9 +209,9 @@ export type Notification = {
     "object": string;
     most_recent_timestamp: string;
     "type": Type;
-    follows?: NotificationFollow[];
+    follows?: Follow[];
     cast?: CastWithInteractions;
-    reactions?: NotificationReactions[];
+    reactions?: Reactions[];
 };
 export type NotificationsResponse = {
     notifications: Notification[];
@@ -231,6 +232,37 @@ export type DehydratedFollower = {
 export type RelevantFollowersResponse = {
     top_relevant_followers_hydrated: HydratedFollower[];
     all_relevant_followers_dehydrated: DehydratedFollower[];
+};
+export type ReactionsResponse = {
+    reactions: Reactions[];
+    next: NextCursor;
+};
+export type StorageAllocation = {
+    "object"?: string;
+    user?: UserDehydrated;
+    units?: number;
+    expiry?: string;
+    timestamp?: string;
+};
+export type StorageAllocationsResponse = {
+    total_active_units?: number;
+    allocations?: StorageAllocation[];
+};
+export type StorageObject = {
+    "object"?: string;
+    used?: number;
+    capacity?: number;
+};
+export type StorageUsageResponse = {
+    "object"?: string;
+    user?: UserDehydrated;
+    casts?: StorageObject;
+    reactions?: StorageObject;
+    links?: StorageObject;
+    verified_addresses?: StorageObject;
+    username_proofs?: StorageObject;
+    signers?: StorageObject;
+    total_active_units?: number;
 };
 /**
  * Fetches the status of a signer
@@ -312,7 +344,7 @@ export function postFarcasterSignerSignedKey(apiKey: string, registerSignerKeyRe
 /**
  * Search for Usernames
  */
-export function getFarcasterUserSearch(apiKey: string, viewerFid: Fid, q: string, opts?: Oazapfts.RequestOpts) {
+export function getFarcasterUserSearch(apiKey: string, q: string, viewerFid: Fid, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
         data: UserSearchResponse;
@@ -320,8 +352,8 @@ export function getFarcasterUserSearch(apiKey: string, viewerFid: Fid, q: string
         status: 400;
         data: ErrorRes;
     }>(`/farcaster/user/search${QS.query(QS.explode({
-        viewer_fid: viewerFid,
-        q
+        q,
+        viewer_fid: viewerFid
     }))}`, {
         ...opts,
         headers: {
@@ -338,9 +370,7 @@ export function getFarcasterUserBulk(apiKey: string, fids: string, { viewerFid }
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
-        data: {
-            users: User[];
-        };
+        data: BulkUsersResponse;
     } | {
         status: 400;
         data: ErrorRes;
@@ -390,7 +420,7 @@ export function patchFarcasterUser(apiKey: string, updateUserReqBody: UpdateUser
 /**
  * Retrieve cast for a given hash or Warpcast URL
  */
-export function cast(apiKey: string, $type: CastParamType, identifier: string, opts?: Oazapfts.RequestOpts) {
+export function cast(apiKey: string, identifier: string, $type: CastParamType, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
         data: CastResponse;
@@ -398,8 +428,8 @@ export function cast(apiKey: string, $type: CastParamType, identifier: string, o
         status: 400;
         data: ErrorRes;
     }>(`/farcaster/cast${QS.query(QS.explode({
-        "type": $type,
-        identifier
+        identifier,
+        "type": $type
     }))}`, {
         ...opts,
         headers: {
@@ -469,33 +499,34 @@ export function deleteFarcasterCast(apiKey: string, deleteCastReqBody: DeleteCas
 /**
  * Gets information about an array of casts
  */
-export function casts(apiKey: string, getCastsReqBody: GetCastsReqBody, opts?: Oazapfts.RequestOpts) {
+export function casts(apiKey: string, casts: string, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
         data: CastsResponse;
     } | {
         status: 400;
         data: ErrorRes;
-    }>("/farcaster/casts", oazapfts.json({
+    }>(`/farcaster/casts${QS.query(QS.explode({
+        casts
+    }))}`, {
         ...opts,
-        body: getCastsReqBody,
         headers: {
             ...opts && opts.headers,
             api_key: apiKey
         }
-    })));
+    }));
 }
 /**
  * Retrieve casts based on filters
  */
-export function feed(apiKey: string, feedType: "following" | "filter", { filterType, fid, fids, parentUrl, cursor, limit, withRecasts }: {
-    filterType?: "fids" | "parent_url" | "global_trending";
+export function feed(apiKey: string, feedType: FeedType, { filterType, fid, fids, parentUrl, withRecasts, limit, cursor }: {
+    filterType?: FilterType;
     fid?: Fid;
     fids?: string;
     parentUrl?: string;
-    cursor?: string;
-    limit?: number;
     withRecasts?: boolean;
+    limit?: number;
+    cursor?: string;
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
@@ -509,9 +540,9 @@ export function feed(apiKey: string, feedType: "following" | "filter", { filterT
         fid,
         fids,
         parent_url: parentUrl,
-        cursor,
+        with_recasts: withRecasts,
         limit,
-        with_recasts: withRecasts
+        cursor
     }))}`, {
         ...opts,
         headers: {
@@ -671,11 +702,34 @@ export function deleteFarcasterUserFollow(apiKey: string, followReqBody: FollowR
     })));
 }
 /**
+ * Lookup a user by custody-address
+ */
+export function getFarcasterUserCustodyAddress(apiKey: string, custodyAddress: string, opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchJson<{
+        status: 200;
+        data: UserResponse;
+    } | {
+        status: 400;
+        data: ErrorRes;
+    } | {
+        status: 404;
+        data: ErrorRes;
+    }>(`/farcaster/user/custody-address${QS.query(QS.explode({
+        custody_address: custodyAddress
+    }))}`, {
+        ...opts,
+        headers: {
+            ...opts && opts.headers,
+            api_key: apiKey
+        }
+    }));
+}
+/**
  * Retrieve notifications for a given user
  */
-export function notifications(apiKey: string, fid: Fid, { cursor, limit }: {
-    cursor?: string;
+export function notifications(apiKey: string, fid: Fid, { limit, cursor }: {
     limit?: number;
+    cursor?: string;
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
@@ -685,8 +739,8 @@ export function notifications(apiKey: string, fid: Fid, { cursor, limit }: {
         data: ErrorRes;
     }>(`/farcaster/notifications${QS.query(QS.explode({
         fid,
-        cursor,
-        limit
+        limit,
+        cursor
     }))}`, {
         ...opts,
         headers: {
@@ -716,6 +770,72 @@ export function getFarcasterFollowersRelevant(apiKey: string, targetFid: Fid, vi
         }
     }));
 }
+/**
+ * Fetches reactions for a given user
+ */
+export function getFarcasterReactionsUser(apiKey: string, fid: Fid, $type: ReactionsType, { limit, cursor }: {
+    limit?: number;
+    cursor?: string;
+} = {}, opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchJson<{
+        status: 200;
+        data: ReactionsResponse;
+    } | {
+        status: 400;
+        data: ErrorRes;
+    }>(`/farcaster/reactions/user${QS.query(QS.explode({
+        fid,
+        "type": $type,
+        limit,
+        cursor
+    }))}`, {
+        ...opts,
+        headers: {
+            ...opts && opts.headers,
+            api_key: apiKey
+        }
+    }));
+}
+/**
+ * Fetches storage allocations for a given user
+ */
+export function getFarcasterStorageAllocations(apiKey: string, fid: Fid, opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchJson<{
+        status: 200;
+        data: StorageAllocationsResponse;
+    } | {
+        status: 400;
+        data: ErrorRes;
+    }>(`/farcaster/storage/allocations${QS.query(QS.explode({
+        fid
+    }))}`, {
+        ...opts,
+        headers: {
+            ...opts && opts.headers,
+            api_key: apiKey
+        }
+    }));
+}
+/**
+ * Fetches storage usage for a given user
+ */
+export function getFarcasterStorageUsage(apiKey: string, fid: Fid, opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchJson<{
+        status: 200;
+        data: StorageUsageResponse;
+    } | {
+        status: 400;
+        data: ErrorRes;
+    }>(`/farcaster/storage/usage${QS.query(QS.explode({
+        fid
+    }))}`, {
+        ...opts,
+        headers: {
+            ...opts && opts.headers,
+            api_key: apiKey
+        }
+    }));
+}
 export enum Status {
     Generated = "generated",
     PendingApproval = "pending_approval",
@@ -736,6 +856,15 @@ export enum CastParamType {
 export enum CastNotificationType {
     CastMention = "cast-mention",
     CastReply = "cast-reply"
+}
+export enum FeedType {
+    Following = "following",
+    Filter = "filter"
+}
+export enum FilterType {
+    Fids = "fids",
+    ParentUrl = "parent_url",
+    GlobalTrending = "global_trending"
 }
 export enum ReactionType {
     Like = "like",
@@ -763,4 +892,9 @@ export enum Object5 {
 }
 export enum Object6 {
     UserDehydrated = "user_dehydrated"
+}
+export enum ReactionsType {
+    Likes = "likes",
+    Recasts = "recasts",
+    All = "all"
 }

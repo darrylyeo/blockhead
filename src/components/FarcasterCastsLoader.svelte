@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Constants/types
-	import type { Cast as CastNeynar } from '../api/neynar/v2'
+	import { type Cast as CastNeynar, FeedType, FilterType } from '../api/neynar/v2'
 	import type { FarcasterUserId } from '../api/farcaster/index'
 	import { FarcasterProvider, farcasterProviderIcons } from '../data/farcasterProviders'
 
@@ -58,9 +58,9 @@
 							userId ?
 								await feed(
 									env.NEYNAR_API_KEY,
-									'filter',
+									FeedType.Filter,
 									{
-										filterType: 'fids',
+										filterType: FilterType.Fids,
 										fids: String(userId),
 										fid: userId,
 										cursor,
@@ -70,9 +70,9 @@
 							: 
 								await feed(
 									env.NEYNAR_API_KEY,
-									'filter',
+									FeedType.Filter,
 									{
-										filterType: 'global_trending',
+										filterType: FilterType.GlobalTrending,
 										cursor,
 										limit: 100,
 									}
