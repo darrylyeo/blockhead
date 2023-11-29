@@ -113,6 +113,11 @@
 	import Date from './Date.svelte'
 	import FarcasterCastLoader from './FarcasterCastLoader.svelte'
 	import FarcasterCast from './FarcasterCast.svelte'
+	
+	
+	// Styles
+	import { matchesMediaQuery } from '../utils/matchesMediaQuery'
+	const matchesLayoutBreakpoint = matchesMediaQuery('(max-width: 30rem)')
 </script>
 
 
@@ -143,7 +148,7 @@
 				>
 					<address>
 						<span>{cast.author.display_name}</span>
-						<small>
+						<small class="faded">
 							{#if cast.author.username}
 								@{cast.author.username}
 							{:else if cast.author.fid}
@@ -160,19 +165,21 @@
 		</div>
 	</svelte:fragment>
 
-	{#if cast.text}
-		<div class="content column">
-			{@html formatContent(cast.text)}
-		</div>
-	{/if}
+	<div class="content-and-images bar align-top" class:wrap={$matchesLayoutBreakpoint}>
+		{#if cast.text}
+			<div class="content column">
+				{@html formatContent(cast.text)}
+			</div>
+		{/if}
 
-	{#if imageEmbeds?.length}
-		<div class="row">
-			{#each imageEmbeds as src}
-				<img {src} height="200" />
-			{/each}
-		</div>
-	{/if}
+		{#if imageEmbeds?.length}
+			<div class="image-embeds row">
+				{#each imageEmbeds as src}
+					<img {src} />
+				{/each}
+			</div>
+		{/if}
+	</div>
 
 	{#if castEmbeds?.length}
 		{#each castEmbeds as { clientUrl, userId, castId }}
@@ -195,7 +202,14 @@
 		{/each}
 	{/if}
 
-	<footer role="toolbar">
+	<hr>
+
+	<footer
+		role="toolbar"
+		class="row wrap"
+	>
+		<span />
+
 		<dl class="row">
 			{#if 'reactions' in cast}
 				{#if cast.reactions.likes?.length}
@@ -239,6 +253,11 @@
 		gap: 1ch;
 	}
 
+	.avatar {
+		border-radius: 4px;
+		object-fit: cover;
+	}
+
 	address {
 		font-size: 1.05em;
 		font-style: normal;
@@ -246,12 +265,23 @@
 		display: inline;
 	}
 
-	:global(.farcaster-cast a) {
+	:global(.farcaster-cast .content a) {
 		/* color: var(--primary-color); */
 		font-weight: bold;
 	}
 
-	img {
+	.content {
+		min-width: min(12rem, 100%);
+	}
+
+	.image-embeds {
+		justify-content: center;
+		margin-inline-end: auto;
+		/* min-width: max-content; */
+		flex-shrink: 0;
+	}
+
+	.image-embeds img {
 		border-radius: 4px;
 		object-fit: cover;
 	}
