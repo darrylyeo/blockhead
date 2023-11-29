@@ -87,16 +87,24 @@
 			<img src={cast.author.pfp_url} width="24" height="24" />
 
 			<span>
-				<address>
-					<span>{cast.author.display_name}</span>
-					<small>
-						{#if cast.author.username}
-							@{cast.author.username}
-						{:else if cast.author.fid}
-							#{cast.author.fid}
-						{/if}
-					</small>
-				</address>
+				<a
+					href={
+						cast.author.username
+							? resolvePath(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName: cast.author.username })
+							: resolvePath(`/apps/farcaster/account/[farcasterUserId]`, { farcasterUserId: String(cast.author.fid) })
+					}
+				>
+					<address>
+						<span>{cast.author.display_name}</span>
+						<small>
+							{#if cast.author.username}
+								@{cast.author.username}
+							{:else if cast.author.fid}
+								#{cast.author.fid}
+							{/if}
+						</small>
+					</address>
+				</a>
 
 				{#if cast.author.active_status}
 					<span class="active" title="Active">✔</span>
