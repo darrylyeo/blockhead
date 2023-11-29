@@ -110,6 +110,7 @@
 
 	// Components
 	import Collapsible from './Collapsible.svelte'
+	import Date from './Date.svelte'
 	import FarcasterCastLoader from './FarcasterCastLoader.svelte'
 	import FarcasterCast from './FarcasterCast.svelte'
 </script>
@@ -219,6 +220,16 @@
 				</div>
 			{/if}
 		</dl>
+
+		<a href={resolvePath(`/apps/farcaster/cast/[farcasterCastId]`, { farcasterCastId: cast.hash })}>
+			<small class="faded">
+				<Date
+					date={cast.timestamp}
+					layout="horizontal"
+					format="relative"
+				/>
+			</small>
+		</a>
 	</footer>
 </Collapsible>
 
@@ -243,5 +254,9 @@
 	img {
 		border-radius: 4px;
 		object-fit: cover;
+	}
+
+	.faded {
+		opacity: 0.6;
 	}
 </style>
