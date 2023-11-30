@@ -2,10 +2,9 @@
 	// Constants/types
 	import type { Ethereum } from '../data/networks/types'
 	import type { NetworkProvider } from '../data/networkProviders/types'
-	import { DefiProvider, defiProviderIcons } from '../data/defiProviders'
+	import { DefiProvider } from '../data/defiProviders'
 	import type { QuoteCurrency } from '../data/currencies'
-	import type { Web3AppConfig, Web3AppSlug } from '../data/web3Apps'
-	import { web3AppsByProviderName } from '../data/web3Apps'
+	import type { Web3AppConfig } from '../data/web3Apps'
 	import { networksByChainID } from '../data/networks'
 	import { preferences } from '../state/preferences'
 	import type { AccountConnection } from '../state/account'
@@ -17,7 +16,7 @@
 	export let web3AppConfig: Web3AppConfig
 	export let network: Ethereum.Network | undefined
 	export let currentView: 'Dashboard' | 'Explorer' | 'Account'
-	export let address: string | undefined
+	export let address: Ethereum.Address | undefined
 	export let accountConnection: AccountConnection | undefined
 	export let networkProvider: NetworkProvider
 	export let defiProvider: DefiProvider = DefiProvider.Zapper
@@ -116,12 +115,6 @@
 		grid-template-columns: repeat(auto-fit, minmax(min(7rem, 100%), 1fr));
 	}
 
-	.underlying-symbol {
-		display: inline-flex;
-		padding: 0 0.3em;
-		opacity: 0.8;
-	}
-
 	.column {
 		display: grid;
     	gap: var(--padding-inner);
@@ -130,42 +123,6 @@
 	.card {
 		position: relative;
 		overflow: hidden;
-	}
-
-	.card.layout-horizontal {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: baseline;
-	}
-	.card.layout-horizontal > :first-child {
-		flex: 1 auto;
-	}
-	.card.layout-horizontal-alternate {
-		display: flex;
-		flex-wrap: wrap;
-		flex-direction: row-reverse;
-    	justify-content: flex-end;
-	}
-	.card.layout-horizontal-alternate .card-annotation {
-		font-weight: normal;
-		/* order: 1; */
-		margin-left: auto;
-		line-height: 1.5;
-	}
-
-	.metadata {
-		font-size: 0.8em;
-		line-height: 1.25;
-		row-gap: 0.5em;
-		opacity: 0.8;
-	}
-
-	.underlying-asset {
-		display: flex;
-	}
-
-	.no-balances {
-		opacity: 0.6;
 	}
 
 
