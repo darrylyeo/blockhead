@@ -139,8 +139,9 @@
 	import FarcasterCastLoader from './FarcasterCastLoader.svelte'
 	import FarcasterCast from './FarcasterCast.svelte'
 	import FarcasterChannel from './FarcasterChannel.svelte'
-	
-	
+	import FarcasterUser from './FarcasterUser.svelte'
+
+
 	// Styles
 	import { matchesMediaQuery } from '../utils/matchesMediaQuery'
 	const matchesLayoutBreakpoint = matchesMediaQuery('(max-width: 30rem)')
@@ -155,41 +156,10 @@
 	canToggle={false}
 >
 	<svelte:fragment slot="title">
-		<div class="cast-author row">
-			{#if cast.author.pfp_url}
-				<img
-					class="avatar"
-					src={cast.author.pfp_url}
-					width="24"
-					height="24"
-				/>
-			{/if}
+		<FarcasterUser
+			user={cast.author}
+		/>
 
-			<span>
-				<a
-					href={
-						cast.author.username
-							? resolvePath(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName: cast.author.username })
-							: resolvePath(`/apps/farcaster/account/[farcasterUserId]`, { farcasterUserId: String(cast.author.fid) })
-					}
-				>
-					<address>
-						<span>{cast.author.display_name}</span>
-						<small class="faded">
-							{#if cast.author.username}
-								@{cast.author.username}
-							{:else if cast.author.fid}
-								#{cast.author.fid}
-							{/if}
-						</small>
-					</address>
-				</a>
-
-				<!-- {#if cast.author.active_status}
-					<span class="active" title="Active">✔</span>
-				{/if} -->
-			</span>
-		</div>
 	</svelte:fragment>
 
 	<svelte:fragment slot="header-right">
@@ -317,22 +287,6 @@
 
 
 <style>
-	.cast-author {
-		gap: 1ch;
-	}
-
-	.avatar {
-		border-radius: 4px;
-		object-fit: cover;
-	}
-
-	address {
-		font-size: 1.05em;
-		font-style: normal;
-		font-weight: bold;
-		display: inline;
-	}
-
 	:global(.farcaster-cast .content a) {
 		/* color: var(--primary-color); */
 		font-weight: bold;
