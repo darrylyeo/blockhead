@@ -15,6 +15,7 @@
 
 <FarcasterChannelsLoader
 	farcasterProvider={farcasterProvider}
+	layout="passive"
 	let:channels
 >
 	{@const channel = channels?.find(channel => channel.url === channelUrl)}
