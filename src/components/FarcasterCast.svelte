@@ -4,6 +4,9 @@
 	import type { FarcasterCastId, FarcasterUserId } from '../api/farcaster'
 	import type { Cast, CastWithInteractions, EmbedCastId, EmbedUrl, EmbeddedCast } from '../api/neynar/v2'
 
+	import type { Ethereum } from '../data/networks/types'
+	import { networksBySlug } from '../data/networks'
+
 
 	// Inputs
 	export let farcasterProvider: FarcasterProvider
@@ -60,6 +63,24 @@
 	$: imageEmbeds = ((embeds.get('image') ?? []) as EmbedUrl[]).map(embed => embed.url)
 	$: urlEmbeds = ((embeds.get('url') ?? []) as EmbedUrl[]).map(embed => embed.url)
 
+	$: evmAddressEmbeds = [
+		// /(?<networkSlug>[a-z]+:)?(?<address>(?:0x)?[0-9a-f]{40})/gi,
+		new RegExp(`${RegExp.escape(`https://mint.fun`)}/(?<networkSlug>[a-z]+)/(?<address>(?:0x)?[0-9a-f]{40})`, 'gi'),
+		new RegExp(`${RegExp.escape(`https://zora.co/collect`)}/(?<networkSlug>[a-z]+)/(?<address>(?:0x)?[0-9a-f]{40})/(?<tokenId>[0-9]+)`, 'gi'),
+		new RegExp(`${RegExp.escape(`https://titles.xyz/collect`)}/(?<networkSlug>[a-z]+)/(?<address>(?:0x)?[0-9a-f]{40})`, 'gi'),
+	].flatMap(regex => (
+		Array.from(
+			cast.text.matchAll(regex),
+			match => match?.groups && ({
+				link: match[0],
+				networkSlug: match.groups.networkSlug as string | undefined,
+				address: match.groups.address as Ethereum.Address,
+				tokenId: Number(match.groups.tokenId) as number | undefined,
+			})
+		)
+			.filter(isTruthy)
+	))
+
 
 	// Functions
 	import { parseUrl } from '../utils/parseUrl'
@@ -111,6 +132,7 @@
 	// Components
 	import Collapsible from './Collapsible.svelte'
 	import Date from './Date.svelte'
+	import EthereumAccountOrContract from './EthereumAccountOrContract.svelte'
 	import FarcasterCastLoader from './FarcasterCastLoader.svelte'
 	import FarcasterCast from './FarcasterCast.svelte'
 	import FarcasterChannel from './FarcasterChannel.svelte'
@@ -194,6 +216,22 @@
 			</div>
 		{/if}
 	</div>
+
+	{#if evmAddressEmbeds?.length}
+		<div class="column">
+			{#each evmAddressEmbeds as evmAddressEmbed}
+				<EthereumAccountOrContract
+					network={evmAddressEmbed.networkSlug && networksBySlug[evmAddressEmbed.networkSlug] || networksBySlug['ethereum']}
+					address={evmAddressEmbed.address}
+					isOpen={false}
+				>
+					<svelte:fragment slot="title">
+						{evmAddressEmbed.link}
+					</svelte:fragment>
+				</EthereumAccountOrContract>
+			{/each}
+		</div>
+	{/if}
 
 	{#if castEmbeds?.length}
 		{#each castEmbeds as { clientUrl, userId, castId }}
