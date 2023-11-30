@@ -59,6 +59,7 @@
 		{#if cast}
 			<FarcasterCast
 				{cast}
+				layout="standalone"
 				{farcasterProvider}
 			/>
 		{/if}

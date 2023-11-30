@@ -35,7 +35,8 @@
 
 <style>
 	.channel {
-		font-size: 0.8em;
+		display: inline-flex;
+		align-self: center;
 		font-weight: normal;
 	}
 

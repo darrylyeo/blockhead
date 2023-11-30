@@ -12,6 +12,9 @@
 	export let farcasterProvider: FarcasterProvider
 	export let cast: Cast | CastWithInteractions
 
+	// (View options)
+	export let layout: 'standalone' | 'in-feed' = 'in-feed'
+
 
 	// Internal state
 	let embeds: Map<'image' | 'url' | 'cast' | undefined, EmbeddedCast[]>
@@ -190,15 +193,17 @@
 	</svelte:fragment>
 
 	<svelte:fragment slot="header-right">
-		{#if cast.parent_url}
-			<FarcasterChannel
-				{farcasterProvider}
-				channelUrl={cast.parent_url}
-			/>
-		{:else}
+		{#if layout === 'standalone'}
 			<span class="card-annotation">
 				Farcaster Cast
 			</span>
+		{:else if cast.parent_url}
+			<small>
+				<FarcasterChannel
+					{farcasterProvider}
+					channelUrl={cast.parent_url}
+				/>
+			</small>
 		{/if}
 	</svelte:fragment>
 
@@ -286,15 +291,27 @@
 			{/if}
 		</dl>
 
-		<a href={resolvePath(`/apps/farcaster/cast/[farcasterCastId]`, { farcasterCastId: cast.hash })}>
-			<small class="faded">
+		<small class="row-inline">
+			<a
+				class="faded"
+				href={resolvePath(`/apps/farcaster/cast/[farcasterCastId]`, { farcasterCastId: cast.hash })}
+			>
 				<Date
 					date={cast.timestamp}
 					layout="horizontal"
 					format="relative"
 				/>
-			</small>
-		</a>
+			</a>
+
+			{#if layout === 'standalone'}
+				<span class="faded">in</span>
+
+				<FarcasterChannel
+					{farcasterProvider}
+					channelUrl={cast.parent_url}
+				/>
+			{/if}
+		</small>
 	</footer>
 </Collapsible>
 
