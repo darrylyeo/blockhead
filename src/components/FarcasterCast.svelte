@@ -90,6 +90,8 @@
 	import { resolvePath } from '@sveltejs/kit'
 	import { isTruthy } from '../utils/isTruthy'
 
+	import { normalizeUserV2 as normalizeUserNeynarV2 } from '../api/neynar/index'
+
 	const formatUrls = (text: string) => (
 		urlEmbeds
 			.map(parseUrl)
@@ -157,9 +159,8 @@
 >
 	<svelte:fragment slot="title">
 		<FarcasterUser
-			user={cast.author}
+			user={normalizeUserNeynarV2(cast.author)}
 		/>
-
 	</svelte:fragment>
 
 	<svelte:fragment slot="header-right">

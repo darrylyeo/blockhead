@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Types/constants
-	import type { User } from '../api/neynar/v2'
+	import type { FarcasterUser } from '../api/farcaster'
 
 
 	// Functions
@@ -8,22 +8,22 @@
 
 
 	// Inputs
-	export let user: User
+	export let user: FarcasterUser
 </script>
 
 
 <a
 	class="cast-author row"
 	href={
-		user.username
-			? resolvePath(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName: user.username })
-			: resolvePath(`/apps/farcaster/account/[farcasterUserId]`, { farcasterUserId: String(user.fid) })
+		user.name
+			? resolvePath(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName: user.name })
+			: resolvePath(`/apps/farcaster/account/[farcasterUserId]`, { farcasterUserId: String(user.id) })
 	}
 >
-	{#if user.pfp_url}
+	{#if user.avatar?.url}
 		<img
 			class="avatar"
-			src={user.pfp_url}
+			src={user.avatar.url}
 			width="24"
 			height="24"
 		/>
@@ -31,17 +31,17 @@
 
 	<!-- <span> -->
 		<address>
-			<span>{user.display_name}</span>
+			<span>{user.displayName}</span>
 			<small class="faded">
-				{#if user.username}
-					@{user.username}
-				{:else if user.fid}
-					#{user.fid}
+				{#if user.name}
+					@{user.name}
+				{:else if user.id}
+					#{user.id}
 				{/if}
 			</small>
 		</address>
 
-		<!-- {#if user.active_status}
+		<!-- {#if user.isActive}
 			<span class="active" title="Active">✔</span>
 		{/if}
 	</span> -->
