@@ -220,22 +220,20 @@
 
 	<footer
 		role="toolbar"
-		class="row wrap"
+		class="row spaced wrap"
 	>
-		<span />
-
 		<dl class="row">
 			{#if 'reactions' in cast}
 				{#if cast.reactions.likes?.length}
 					<div>
-						<dt data-before="♥️" class="row-inline">Likes</dt>
+						<dt data-before="♥️">Likes</dt>
 						<dd>{cast.reactions.likes.length}</dd>
 					</div>
 				{/if}
 
 				{#if cast.reactions.recasts?.length}
 					<div>
-						<dt data-before="🔁" class="row-inline">Recasts</dt>
+						<dt data-before="🔁">Recasts</dt>
 						<dd>{cast.reactions.recasts.length}</dd>
 					</div>
 				{/if}
@@ -243,7 +241,7 @@
 
 			{#if 'replies' in cast}
 				<div>
-					<dt data-before="💬" class="row-inline">Replies</dt>
+					<dt data-before="💬">Replies</dt>
 					<dd>{cast.replies.count}</dd>
 				</div>
 			{/if}
@@ -298,6 +296,18 @@
 	.image-embeds img {
 		border-radius: 4px;
 		object-fit: cover;
+	}
+
+	dl {
+		gap: 1.25rem;
+	}
+	dl > div {
+		grid-template-columns: auto auto;
+		gap: 0.75ch;
+	}
+	dl > div > dt {
+		display: flex;
+		gap: 0.75ch;
 	}
 
 	.faded {
