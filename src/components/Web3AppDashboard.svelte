@@ -344,7 +344,10 @@
 
 
 						<!-- Address specified - account balances -->
-						{:else if currentView === 'Account' && address}
+						{:else if currentView === 'Account' && (
+							(providers?.zapper && defiProvider === DefiProvider.Zapper)
+							|| (providers?.zerionDefiSDK && defiProvider === DefiProvider.ZerionDefiSdk)
+						)}
 							<DefiPositionsLoader
 								apps={[web3AppConfig]}
 								{network}
