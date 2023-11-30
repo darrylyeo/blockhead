@@ -24,8 +24,11 @@
 	isOpen
 >
 	<svelte:fragment slot="title">
-		<!-- <h3>Trending</h3> -->
-		<svelte:element this={`h${headingLevel}`}>{title}</svelte:element>
+		<slot name="title">
+			<svelte:element this={`h${headingLevel}`}>
+				{title}
+			</svelte:element>
+		</slot>
 	</svelte:fragment>
 
 	<svelte:fragment slot="header-right">
