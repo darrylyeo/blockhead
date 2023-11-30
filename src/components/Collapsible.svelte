@@ -124,7 +124,7 @@
 		}
 		{...$$restProps}
 		class="container {$$props.containerClass ?? ''}"
-		class:column-block={type === 'details'}
+		class:column-block={canToggle && type === 'details'}
 		{...{
 			'label': {
 				'data-state': isOpen ? 'open' : 'closed',
