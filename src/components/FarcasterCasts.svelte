@@ -32,7 +32,13 @@
 		<span class="card-annotation">Farcaster Feed</span>
 	</svelte:fragment>
 
-	<div class="column scrollable-list" style="--resizeVertical-defaultHeight: 50rem">
+	<div
+		class="column scrollable-list"
+		style="
+			--resizeVertical-defaultHeight: 50rem;
+			max-height: 80vh;
+		"
+	>
 		{#each casts as cast (cast.hash)}
 			<FarcasterCast
 				{cast}
