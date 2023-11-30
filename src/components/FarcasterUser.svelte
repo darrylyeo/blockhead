@@ -12,7 +12,14 @@
 </script>
 
 
-<div class="cast-author row">
+<a
+	class="cast-author row"
+	href={
+		user.username
+			? resolvePath(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName: user.username })
+			: resolvePath(`/apps/farcaster/account/[farcasterUserId]`, { farcasterUserId: String(user.fid) })
+	}
+>
 	{#if user.pfp_url}
 		<img
 			class="avatar"
@@ -22,31 +29,23 @@
 		/>
 	{/if}
 
-	<span>
-		<a
-			href={
-				user.username
-					? resolvePath(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName: user.username })
-					: resolvePath(`/apps/farcaster/account/[farcasterUserId]`, { farcasterUserId: String(user.fid) })
-			}
-		>
-			<address>
-				<span>{user.display_name}</span>
-				<small class="faded">
-					{#if user.username}
-						@{user.username}
-					{:else if user.fid}
-						#{user.fid}
-					{/if}
-				</small>
-			</address>
-		</a>
+	<!-- <span> -->
+		<address>
+			<span>{user.display_name}</span>
+			<small class="faded">
+				{#if user.username}
+					@{user.username}
+				{:else if user.fid}
+					#{user.fid}
+				{/if}
+			</small>
+		</address>
 
 		<!-- {#if user.active_status}
 			<span class="active" title="Active">✔</span>
-		{/if} -->
-	</span>
-</div>
+		{/if}
+	</span> -->
+</a>
 
 
 <style>
