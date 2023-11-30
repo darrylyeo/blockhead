@@ -51,7 +51,12 @@
 				createQuery({
 					queryKey: ['FarcasterCast', {
 						farcasterProvider,
-						castId,
+						...castId && {
+							castId,
+						},
+						...clientUrl && {
+							clientUrl,
+						},
 					}],
 					queryFn: async () => {
 						const { cast } = await import('../api/neynar/v2')
