@@ -185,9 +185,9 @@
 					</address>
 				</a>
 
-				{#if cast.author.active_status}
+				<!-- {#if cast.author.active_status}
 					<span class="active" title="Active">✔</span>
-				{/if}
+				{/if} -->
 			</span>
 		</div>
 	</svelte:fragment>
