@@ -16,6 +16,7 @@
 	// Inputs
 	export let web3AppConfig: Web3AppConfig
 	export let network: Ethereum.Network | undefined
+	export let currentView: 'Dashboard' | 'Explorer' | 'Account'
 	export let address: string | undefined
 	export let accountConnection: AccountConnection | undefined
 	export let networkProvider: NetworkProvider
@@ -334,9 +335,9 @@
 					<div
 						class="column defi-app-view-items"
 					>
-					<!-- class:scrollable-list={!address && totalViewItems > 3} -->
+					<!-- class:scrollable-list={currentView === 'Dashboard' && totalViewItems > 3} -->
 						<!-- No address specified - general information -->
-						{#if !address}
+						{#if currentView === 'Dashboard'}
 							{#if contracts?.length}
 								<Collapsible
 									type="label"
@@ -386,7 +387,7 @@
 
 
 						<!-- Address specified - account balances -->
-						{:else}
+						{:else if currentView === 'Account' && address}
 							<DefiPositionsLoader
 								apps={[web3AppConfig]}
 								{network}
@@ -437,7 +438,7 @@
 							<h4>Token Balances</h4>
 						</div> -->
 						{#if erc20Tokens && !(
-							address && (
+							currentView === 'Account' && (
 								(providers?.zapper && defiProvider === DefiProvider.Zapper)
 								|| (providers?.zerionDefiSDK && defiProvider === DefiProvider.ZerionDefiSdk)
 							)
@@ -460,7 +461,7 @@
 									<hr>
 
 									<HeightContainer class="stack">
-										{#if !address}
+										{#if currentView === 'Dashboard'}
 											<div class="column" transition:scale|global>
 												<CurrentPrice
 													currentPriceProvider={$preferences.currentPriceProvider}
@@ -498,7 +499,8 @@
 													headingLevel={4}
 												/>
 											</div>
-										{:else}
+
+										{:else if currentView === 'Account' && address}
 											<div class="card" transition:scale|global>
 												<EthereumBalancesLoader
 													{network}
@@ -555,7 +557,7 @@
 						{/if}
 
 						{#each nfts ?? [] as { name, address: contractAddress }}
-							{#if !address}
+							{#if currentView === 'Dashboard'}
 								<EthereumAccountOrContract
 									{network}
 									accountId={contractAddress}
@@ -612,7 +614,7 @@
 										</svelte:fragment>
 									</EthereumContractExplorer>
 								</section> -->
-							{:else}
+							{:else if currentView === 'Account' && address}
 								<!-- <section class="card">
 									<EthereumNfts
 										{network}
@@ -624,7 +626,7 @@
 					</div>
 
 
-					{#if providers?.theGraph && !address}
+					{#if providers?.theGraph && currentView === 'Dashboard'}
 						{@const hostedSubgraphPath = providers.theGraph.match(/[^/]+\/[^/]+$/)}
 
 						<Collapsible containerClass="card" id="subgraph">
@@ -671,7 +673,7 @@
 					{/if}
 
 
-					{#if embeds?.length && (selectedEmbed = selectedEmbed || embeds[0])}
+					{#if currentView === 'Dashboard' && embeds?.length && (selectedEmbed = selectedEmbed || embeds[0])}
 						<iframe
 							class="embed"
 							title={selectedEmbed.description || selectedEmbed.name}

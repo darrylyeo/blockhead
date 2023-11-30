@@ -25,6 +25,7 @@
 		web3AppConfig,
 		network,
 		accountConnection,
+		currentView,
 		defaultSearchInputValue,
 	} from '../_appsContext'
 
@@ -194,6 +195,7 @@
 				<Web3AppDashboard
 					web3AppConfig={$web3AppConfig}
 					network={$network}
+					currentView={$currentView}
 					{address}
 					accountConnection={$accountConnection}
 					networkProvider={$preferences.rpcNetwork}
