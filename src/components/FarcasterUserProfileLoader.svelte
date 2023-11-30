@@ -49,9 +49,9 @@
 
 
 <Loader
-	loadingMessage={`Searching for Farcaster ${userId ? `user #${userId}` : `user "${userName}"`} via ${farcasterProvider}...`}
+	loadingMessage={`Searching for Farcaster user ${userId ? `#${userId}` : `"${userName}"`} via ${farcasterProvider}...`}
 	loadingIcon={farcasterProviderIcons[farcasterProvider]}
-	errorMessage={`Failed to find Farcaster ${userId ? `user #${userId}` : `user "${userName}"`} via ${farcasterProvider}.`}
+	errorMessage={`Couldn't find Farcaster user ${userId ? `#${userId}` : `"${userName}"`}.`}
 	{...{
 		[FarcasterProvider.Neynar]: () => ({
 			fromQuery: (
