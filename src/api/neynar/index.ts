@@ -1,5 +1,14 @@
-import type { FarcasterUser, FarcasterUserId } from '../farcaster'
+import type { FarcasterUser, FarcasterUserId, FarcasterChannel } from '../farcaster'
 import { ActiveStatus, type User as UserV1 } from './v1'
+
+type Channel = {
+	name: string;
+	parent_url: string;
+	image: string;
+	channelId: string;
+	lead_fid: FarcasterUserId;
+}
+
 
 export const normalizeUserV1 = (
 	user: UserV1,
@@ -37,4 +46,12 @@ export const normalizeUserV1 = (
 			},
 		}
 		: undefined,
+})
+
+export const normalizeChannel = (channel: Channel): FarcasterChannel => ({
+	id: channel.channelId,
+	url: channel.parent_url,
+	name: channel.name,
+	image: channel.image,
+	leads: [channel.lead_fid],
 })

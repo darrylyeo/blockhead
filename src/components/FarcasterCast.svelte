@@ -113,6 +113,7 @@
 	import Date from './Date.svelte'
 	import FarcasterCastLoader from './FarcasterCastLoader.svelte'
 	import FarcasterCast from './FarcasterCast.svelte'
+	import FarcasterChannel from './FarcasterChannel.svelte'
 	
 	
 	// Styles
@@ -163,6 +164,19 @@
 				{/if}
 			</span>
 		</div>
+	</svelte:fragment>
+
+	<svelte:fragment slot="header-right">
+		{#if cast.parent_url}
+			<FarcasterChannel
+				{farcasterProvider}
+				channelUrl={cast.parent_url}
+			/>
+		{:else}
+			<span class="card-annotation">
+				Farcaster Cast
+			</span>
+		{/if}
 	</svelte:fragment>
 
 	<div class="content-and-images bar align-top" class:wrap={$matchesLayoutBreakpoint}>

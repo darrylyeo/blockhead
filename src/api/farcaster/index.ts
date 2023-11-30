@@ -35,3 +35,11 @@ export type FarcasterUser = {
 		}
 	>;
 }
+
+export type FarcasterChannel = {
+	id: string;
+	url: string;
+	name: string;
+	image: string;
+	leads?: FarcasterUserId[];
+}
