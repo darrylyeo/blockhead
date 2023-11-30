@@ -50,6 +50,7 @@
 
 <style>
 	.cast-author {
+		display: inline-flex;
 		gap: 1ch;
 	}
 

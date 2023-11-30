@@ -18,6 +18,7 @@
 	import FarcasterCastsLoader from '../../../../components/FarcasterCastsLoader.svelte'
 	import FarcasterCastLoader from '../../../../components/FarcasterCastLoader.svelte'
 	import FarcasterCast from '../../../../components/FarcasterCast.svelte'
+	import FarcasterUser from '../../../../components/FarcasterUser.svelte'
 	import FarcasterUserProfileLoader from '../../../../components/FarcasterUserProfileLoader.svelte'
 </script>
 
@@ -40,9 +41,17 @@
 						{#if casts}
 							<FarcasterCasts
 								{casts}
-								title={`${user?.name || user?.id} › Casts`}
 								{farcasterProvider}
-							/>
+							>
+								<svelte:fragment slot="title">
+									<span class="row-inline align-bottom">
+										<FarcasterUser
+											{user}
+										/>
+										<span style="margin-bottom: 0.125em"> › Casts</span>
+									</span>
+								</svelte:fragment>
+							</FarcasterCasts>
 						{/if}
 					</FarcasterCastsLoader>
 				{/if}
