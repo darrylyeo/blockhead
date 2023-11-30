@@ -238,7 +238,10 @@
 
 <Preferences
 	relevantPreferences={
-		$web3AppSlug === 'ipfs' ? [
+		$web3AppSlug === 'farcaster' ? [
+			'theme',
+			'farcasterProvider',
+		] : $web3AppSlug === 'ipfs' ? [
 			'theme',
 			'ipfsGateway',
 		] : [

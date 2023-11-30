@@ -18,6 +18,7 @@ import { ContractSourceProvider } from '../data/contractSourceProvider'
 import { NotificationsProvider } from '../data/notificationsProvider'
 import { ipfsGateways } from '../data/ipfsGateways'
 import { arweaveGateways } from '../data/arweaveGateways'
+import { FarcasterProvider } from '../data/farcasterProviders'
 
 
 // Constants
@@ -419,6 +420,35 @@ export const preferencesConfig = [
 						value: url,
 						name: url,
 					})),
+				]
+			},
+			{
+				preferenceId: 'farcasterProvider',
+				name: 'Farcaster Source',
+				type: 'single',
+				defaultOption: FarcasterProvider.Neynar,
+				options: [
+					{
+						groupId: 'hubs',
+						name: 'Hubs',
+						options: [
+							{
+								value: 'Coming soon...',
+								name: 'Coming soon...',
+								disabled: true,
+							}
+						]
+					},
+					{
+						groupId: 'indexers',
+						name: 'Indexers',
+						options: [
+							{
+								value: FarcasterProvider.Neynar,
+								name: FarcasterProvider.Neynar,
+							}
+						]
+					},
 				]
 			},
 		]
