@@ -149,6 +149,7 @@
 	class="column"
 	showTriggerText={false}
 	isOpen
+	canToggle={false}
 >
 	<svelte:fragment slot="title">
 		<div class="cast-author row">
@@ -321,23 +322,25 @@
 	}
 
 	.content {
-		min-width: min(12rem, 100%);
+		min-width: min(14rem, 100%);
 	}
 
 	.image-embeds {
 		justify-content: center;
 		margin-inline-end: auto;
-		/* min-width: max-content; */
-		flex-shrink: 0;
 	}
 
 	.image-embeds img {
 		border-radius: 4px;
-		object-fit: cover;
+		object-fit: contain;
+		max-width: 100%;
+		height: 100%;
+		max-height: 20rem;
 	}
 
 	dl {
 		gap: 1.25rem;
+		margin: 0;
 	}
 	dl > div {
 		grid-template-columns: auto auto;
