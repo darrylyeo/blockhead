@@ -2,7 +2,7 @@
 	// Constants/types
 	import type { Ethereum } from '../data/networks/types'
 	import type { AccountConnection } from '../state/account'
-	import { wallets } from '../data/wallets'
+	import { wallets, walletsByType } from '../data/wallets'
 
 
 	// Context
@@ -61,7 +61,7 @@
 
 		<!-- <optgroup label="Connected"> -->
 			{#each $accountConnections as accountConnection}
-				<option value={accountConnection}>{accountConnection.walletType}: {formatAddress(accountConnection.state?.account?.address)}</option>
+				<option value={accountConnection}>{walletsByType[accountConnection.walletType].name}: {formatAddress(accountConnection.state?.account?.address)}</option>
 			{/each}
 		<!-- </optgroup> -->
 
