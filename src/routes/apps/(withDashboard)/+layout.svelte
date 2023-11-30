@@ -14,6 +14,9 @@
 		audiusUserId,
 		didUrl,
 		discoCredentialId,
+		farcasterCastId,
+		farcasterUserId,
+		farcasterUserName,
 	} from '../_appsParams'
 
 
@@ -144,15 +147,17 @@
 		$audiusUserId = searchInputParams.audiusUserId ?? ''
 		$didUrl = searchInputParams.didUrl ?? ''
 		$discoCredentialId = searchInputParams.discoCredentialId ?? ''
+		$farcasterCastId = searchInputParams.farcasterCastId ?? ''
+		$farcasterUserId = searchInputParams.farcasterUserId ?? ''
+		$farcasterUserName = searchInputParams.farcasterUserName ?? searchInputParams.farcasterUserNameEns ?? ''
 	}}>
 		<SearchInput
 			inputPatterns={
 				$web3AppConfig?.slug === 'farcaster' ? [
-					InputPattern.Address,
-					InputPattern.EnsName,
 					InputPattern.FarcasterCastId,
 					InputPattern.FarcasterUserId,
 					InputPattern.FarcasterUserName,
+					InputPattern.FarcasterUserNameEns,
 				] : [
 					InputPattern.Address,
 					InputPattern.EnsName,

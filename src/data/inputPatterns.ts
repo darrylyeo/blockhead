@@ -8,6 +8,7 @@ export enum InputPattern {
 	FarcasterCastId = 'farcasterCastId',
 	FarcasterUserId = 'farcasterUserId',
 	FarcasterUserName = 'farcasterUserName',
+	FarcasterUserNameEns = 'farcasterUserNameEns',
 	FilecoinAccountId = 'filecoinAccountId',
 	FilecoinBlockId = 'filecoinBlockId',
 	FilecoinTipsetNumber = 'filecoinTipsetNumber',
@@ -37,8 +38,8 @@ export const inputPatternsConfig = {
 	},
 	[InputPattern.FarcasterCastId]: {
 		label: 'Cast ID',
-		placeholder: 'bafy...wxyz',
-		pattern: /bafy.+/,
+		placeholder: '0xabcd...6789',
+		pattern: /0x[0-9a-fA-F]{40}/,
 		matchComplexity: 2,
 	},
 	[InputPattern.FarcasterUserId]: {
@@ -49,9 +50,15 @@ export const inputPatternsConfig = {
 	},
 	[InputPattern.FarcasterUserName]: {
 		label: 'Farcaster Name',
-		placeholder: 'dwr',
+		placeholder: 'v',
 		pattern: /[a-z0-9_]+/,
 		matchComplexity: 1,
+	},
+	[InputPattern.FarcasterUserNameEns]: {
+		label: 'Farcaster Name (ENS)',
+		placeholder: 'dwr.eth',
+		pattern: /(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test)/,
+		matchComplexity: 2,
 	},
 	[InputPattern.FilecoinAccountId]: {
 		label: 'Address',
