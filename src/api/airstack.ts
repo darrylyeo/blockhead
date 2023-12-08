@@ -26,6 +26,7 @@ import type { Ethereum } from '../data/networks/types'
 export const airstackNetworkNames = {
 	1: 'ethereum',
 	137: 'polygon',
+	8453: 'base',
 } as Record<Ethereum.ChainID, string>
 
 
