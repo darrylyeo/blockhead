@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
-	import { CastParamType, type Cast as CastNeynar } from '../api/neynar/v2'
-	import type { FarcasterCastId, FarcasterUserId } from '../api/farcaster/index'
+	import { CastParamType } from '../api/neynar/v2'
+	import type { FarcasterCast, FarcasterCastId, FarcasterUserId } from '../api/farcaster/index'
 	import { FarcasterProvider, farcasterProviderIcons } from '../data/farcasterProviders'
 
 
@@ -18,7 +18,7 @@
 
 
 	// Outputs
-	export let cast: CastNeynar | undefined
+	export let cast: FarcasterCast | undefined
 
 	type SharedSlotProps = {
 		cast: typeof cast,
@@ -32,6 +32,7 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
+	import { normalizeCastV2 as normalizeCastNeynarV2 } from '../api/neynar'
 
 
 	// Components
@@ -79,7 +80,7 @@
 						)
 					},
 					select: result => (
-						result?.cast
+						result?.cast && normalizeCastNeynarV2(result.cast)
 					),
 				})
 			),

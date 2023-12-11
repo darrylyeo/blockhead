@@ -1,11 +1,11 @@
 <script lang="ts">
 	// Types
-	import type { Cast } from '../api/neynar/v2'
+	import type { FarcasterCast as _FarcasterCast } from '../api/farcaster'
 	import type { FarcasterProvider } from '../data/farcasterProviders'
 	
 
 	// Inputs
-	export let casts: Cast[]
+	export let casts: _FarcasterCast[]
 	export let title: string
 	export let farcasterProvider: FarcasterProvider
 
@@ -42,7 +42,7 @@
 			max-height: 80vh;
 		"
 	>
-		{#each casts as cast (cast.hash)}
+		{#each casts as cast (cast.id)}
 			<FarcasterCast
 				{cast}
 				{farcasterProvider}

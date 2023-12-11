@@ -1,99 +1,28 @@
 <script lang="ts">
 	// Types/constants
 	import type { FarcasterProvider } from '../data/farcasterProviders'
-	import type { FarcasterCastId, FarcasterUserId } from '../api/farcaster'
-	import type { Cast, CastWithInteractions, EmbedCastId, EmbedUrl, EmbeddedCast } from '../api/neynar/v2'
+	import type { FarcasterCast as _FarcasterCast } from '../api/farcaster'
 
-	import type { Ethereum } from '../data/networks/types'
 	import { networksBySlug } from '../data/networks'
 
 
 	// Inputs
 	export let farcasterProvider: FarcasterProvider
-	export let cast: Cast | CastWithInteractions
+	export let cast: _FarcasterCast
 
 	// (View options)
 	export let layout: 'standalone' | 'in-feed' = 'in-feed'
 
 
 	// Internal state
-	let embeds: Map<'image' | 'url' | 'cast' | undefined, EmbeddedCast[]>
-	// (Computed)
-	$: embeds = cast.embeds.groupToMap((embed) => (
-		'url' in embed ?
-			embed.url.match(/\.(png|jpe?g|gif)$/i) ?
-				'image'
-			:
-				'url'
-		: 'cast_id' in embed ?
-			'cast'
-		:
-			undefined
-	))
-
-	const extractCastEmbeds = (text: string) => (
-		[
-			new RegExp(`https://warpcast.com/(?<userId>.*)/(?<castIdShort>0x[0-9a-f]{8})`, 'gi'),
-		].flatMap(regex => (
-			Array.from(
-				text.matchAll(regex),
-				match => match?.groups && ({
-					clientUrl: match[0],
-					userId: Number(match.groups.userId) as FarcasterUserId | undefined,
-					castId: match.groups.castId as FarcasterCastId | undefined,
-					castIdShort: match.groups.castIdShort as `0x${string}` | undefined,
-				})
-			)
-				.filter(isTruthy)
-		))
-	)
-
-	let castEmbeds: {
-		clientUrl?: string,
-		userId?: FarcasterUserId,
-		castId?: FarcasterCastId
-	}[]
-	$: castEmbeds = [
-		...((embeds.get('cast') ?? []) as EmbedCastId[])
-			.map(embed => embed.cast_id)
-			.map(castId => ({
-				userId: castId.fid,
-				castId: castId.hash as FarcasterCastId,
-			})),
-		...extractCastEmbeds(cast.text)
-	]
-
-	$: imageEmbeds = ((embeds.get('image') ?? []) as EmbedUrl[]).map(embed => embed.url)
-	$: urlEmbeds = ((embeds.get('url') ?? []) as EmbedUrl[]).map(embed => embed.url)
-
-	$: evmAddressEmbeds = [
-		// /(?<networkSlug>[a-z]+:)?(?<address>(?:0x)?[0-9a-f]{40})/gi,
-		new RegExp(`${RegExp.escape(`https://mint.fun`)}/(?<networkSlug>[a-z]+)/(?<address>(?:0x)?[0-9a-f]{40})`, 'gi'),
-		new RegExp(`${RegExp.escape(`https://zora.co/collect`)}/(?<networkSlug>[a-z]+)/(?<address>(?:0x)?[0-9a-f]{40})/(?<tokenId>[0-9]+)`, 'gi'),
-		new RegExp(`${RegExp.escape(`https://titles.xyz/collect`)}/(?<networkSlug>[a-z]+)/(?<address>(?:0x)?[0-9a-f]{40})`, 'gi'),
-	].flatMap(regex => (
-		Array.from(
-			cast.text.matchAll(regex),
-			match => match?.groups && ({
-				link: match[0],
-				networkSlug: match.groups.networkSlug as string | undefined,
-				address: match.groups.address as Ethereum.Address,
-				tokenId: Number(match.groups.tokenId) as number | undefined,
-			})
-		)
-			.filter(isTruthy)
-	))
 
 
 	// Functions
 	import { parseUrl } from '../utils/parseUrl'
 	import { resolvePath } from '@sveltejs/kit'
-	import { isTruthy } from '../utils/isTruthy'
-
-	import { normalizeUserV2 as normalizeUserNeynarV2 } from '../api/neynar/index'
 
 	const formatUrls = (text: string) => (
-		urlEmbeds
+		(cast.urlEmbeds ?? [])
 			.map(parseUrl)
 			.reduce((text, url) => (
 				url
@@ -109,10 +38,10 @@
 
 	const formatProfiles = (text: string) => (
 		// text.replaceAll(/@([a-z0-9_]+)/gi, (match, farcasterUserName) => `<a href="${resolvePath(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName })}">${match}</a>`)
-		('mentioned_profiles' in cast ? cast.mentioned_profiles : [])
+		(cast.mentionedUsers ?? [])
 			.reduce((text, user) => (
-				user.username ?
-					text.replaceAll(`@${user.username}`, match => `<a href="${resolvePath(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName: user.username })}">${match}</a>`)
+				user.name ?
+					text.replaceAll(`@${user.name}`, match => `<a href="${resolvePath(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName: user.name })}">${match}</a>`)
 				:
 					text
 			), text)
@@ -159,7 +88,7 @@
 >
 	<svelte:fragment slot="title">
 		<FarcasterUser
-			user={normalizeUserNeynarV2(cast.author)}
+			user={cast.author}
 		/>
 	</svelte:fragment>
 
@@ -168,11 +97,11 @@
 			<span class="card-annotation">
 				Farcaster Cast
 			</span>
-		{:else if cast.parent_url}
+		{:else if cast.parentUrl}
 			<small>
 				<FarcasterChannel
 					{farcasterProvider}
-					channelUrl={cast.parent_url}
+					channelUrl={cast.parentUrl}
 				/>
 			</small>
 		{/if}
@@ -185,18 +114,18 @@
 			</div>
 		{/if}
 
-		{#if imageEmbeds?.length}
+		{#if cast.imageEmbeds?.length}
 			<div class="image-embeds row">
-				{#each imageEmbeds as src}
+				{#each cast.imageEmbeds as src}
 					<img {src} />
 				{/each}
 			</div>
 		{/if}
 	</div>
 
-	{#if evmAddressEmbeds?.length}
+	{#if cast.evmAddressEmbeds?.length}
 		<div class="column">
-			{#each evmAddressEmbeds as evmAddressEmbed}
+			{#each cast.evmAddressEmbeds as evmAddressEmbed}
 				<EthereumAccountOrContract
 					network={evmAddressEmbed.networkSlug && networksBySlug[evmAddressEmbed.networkSlug] || networksBySlug['ethereum']}
 					address={evmAddressEmbed.address}
@@ -210,8 +139,8 @@
 		</div>
 	{/if}
 
-	{#if castEmbeds?.length}
-		{#each castEmbeds as { clientUrl, userId, castId }}
+	{#if cast.castEmbeds?.length}
+		{#each cast.castEmbeds as { clientUrl, userId, castId }}
 			<FarcasterCastLoader
 				{farcasterProvider}
 				{clientUrl}
@@ -238,7 +167,7 @@
 		class="row spaced wrap"
 	>
 		<dl class="row">
-			{#if 'reactions' in cast}
+			{#if cast.reactions}
 				{#if cast.reactions.likes?.length}
 					<div>
 						<dt data-before="♥️">Likes</dt>
@@ -254,10 +183,10 @@
 				{/if}
 			{/if}
 
-			{#if 'replies' in cast}
+			{#if cast.replies}
 				<div>
 					<dt data-before="💬">Replies</dt>
-					<dd>{cast.replies.count}</dd>
+					<dd>{cast.repliesCount}</dd>
 				</div>
 			{/if}
 		</dl>
@@ -265,7 +194,7 @@
 		<small class="row-inline">
 			<a
 				class="faded"
-				href={resolvePath(`/apps/farcaster/cast/[farcasterCastId]`, { farcasterCastId: cast.hash })}
+				href={resolvePath(`/apps/farcaster/cast/[farcasterCastId]`, { farcasterCastId: cast.id })}
 			>
 				<Date
 					date={cast.timestamp}
@@ -279,7 +208,7 @@
 
 				<FarcasterChannel
 					{farcasterProvider}
-					channelUrl={cast.parent_url}
+					channelUrl={cast.parentUrl}
 				/>
 			{/if}
 		</small>

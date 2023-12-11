@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
-	import { type Cast as CastNeynar, FeedType, FilterType } from '../api/neynar/v2'
-	import type { FarcasterUserId } from '../api/farcaster/index'
+	import { FeedType, FilterType } from '../api/neynar/v2'
+	import type { FarcasterCast, FarcasterUserId } from '../api/farcaster/index'
 	import { FarcasterProvider, farcasterProviderIcons } from '../data/farcasterProviders'
 
 
@@ -15,7 +15,7 @@
 	
 
 	// Outputs
-	export let casts: CastNeynar[] | undefined
+	export let casts: FarcasterCast[] | undefined
 
 	type SharedSlotProps = {
 		casts: typeof casts,
@@ -29,6 +29,8 @@
 
 	// Functions
 	import { createInfiniteQuery } from '@tanstack/svelte-query'
+
+	import { normalizeCastV2 as normalizeCastNeynarV2 } from '../api/neynar'
 
 
 	// Components
@@ -81,7 +83,9 @@
 					},
 					getNextPageParam: (lastPage) => lastPage.next?.cursor,
 					select: result => (
-						result.pages.flatMap(page => page.casts ?? [])
+						result.pages
+							.flatMap(page => page.casts ?? [])
+							.map(normalizeCastNeynarV2)
 					),
 					staleTime: 10 * 1000,
 				})
