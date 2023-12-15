@@ -145,6 +145,7 @@
 	import HeightContainer from './HeightContainer.svelte'
 	import Input from './Input.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
+	import TokenAmountSelect from './TokenAmountSelect.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import TransactionFlow from './TransactionFlow.svelte'
 	import { TenderlyIcon } from '../assets/icons'
