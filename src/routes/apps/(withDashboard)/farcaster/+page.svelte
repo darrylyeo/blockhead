@@ -20,6 +20,7 @@
 	import FarcasterCast from '../../../../components/FarcasterCast.svelte'
 	import FarcasterUser from '../../../../components/FarcasterUser.svelte'
 	import FarcasterUserProfileLoader from '../../../../components/FarcasterUserProfileLoader.svelte'
+	import FarcasterUserProfile from '../../../../components/FarcasterUserProfile.svelte'
 </script>
 
 
@@ -31,6 +32,10 @@
 		let:user
 	>
 		{#if user}
+			<FarcasterUserProfile
+				{user}
+			/>
+
 			<section>
 				{#if user?.id}
 					<FarcasterCastsLoader
