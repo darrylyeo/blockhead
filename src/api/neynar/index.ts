@@ -115,26 +115,53 @@ export const normalizeCastWithInteractions = (cast: CastWithInteractionsV1): Cas
 })
 
 
-export const normalizeCastV1 = (cast: CastV1 | CastWithInteractionsV1): FarcasterCast => ({
-	id: cast.hash as `0x${string}`,
-	author: {
-		id: cast.author.fid as FarcasterUserId,
-	},
+export const normalizeCastV1 = (cast: CastV1 | CastWithInteractionsV1): FarcasterCast => (console.log('normalizeCastV1', {cast})||{
+	id: cast.hash as FarcasterCastId,
 	text: cast.text,
-	embeds: cast.embeds,
-	reactions: 'reactions' in cast && {
-		likes: cast.reactions.fids.map(fid => ({
-			id: fid,
-		})),
-		recasts: cast.reactions.recasts.map(reaction => ({
-			id: reaction.fid,
-			name: reaction.fname,
+	embeds: {
+		url: cast.embeds.map(embed => ({
+			url: embed.url,
 		})),
 	},
+
+	author: normalizeUserV1(cast.author),
+
+	timestamp: new Date(cast.timestamp).valueOf(),
+
+	reactions: {
+		...'reactions' in cast && {
+			likes: cast.reactions.fids.map((fid, i) => ({
+				id: fid,
+				name: cast.reactions.fnames[i],
+			})),
+		},
+		...'recasts' in cast && {
+			recasts: cast.recasts.fids.map((fid, i) => ({
+				id: fid,
+				name: cast.recasters[i],
+			})),
+		},
+	},
+
 	parent: {
-		id: cast.parentHash as `0x${string}`,
-	}
+		id: cast.parentHash as FarcasterCastId,
+	},
 })
+
+export const normalizeCastWithRepliesV1 = (casts: CastWithInteractionsV1[]): FarcasterCast => {
+	const normalizedCasts = casts.map(cast => normalizeCastV1(cast))
+
+	const castsByParentHash = Object.groupBy(normalizedCasts, cast => cast.parent.id)
+
+	for(const cast of normalizedCasts){
+		cast.replies = castsByParentHash[cast.id]
+		cast.repliesCount = castsByParentHash[cast.id]?.length
+	}
+
+	console.log({normalizedCasts})
+
+	return normalizedCasts[0]
+}
 
 export const normalizeCastV2 = (cast: CastV2 | CastWithInteractionsV2): FarcasterCast => ({
 	id: cast.hash as FarcasterCastId,

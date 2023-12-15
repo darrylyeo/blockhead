@@ -55,10 +55,13 @@ export type FarcasterCast = {
 	text: string;
 	timestamp: number;
 
-	embeds: Record<'image' | 'url' | 'cast', {
-		castId?: FarcasterCastId;
-		url?: string;
-	}[]>;
+	embeds: Partial<Record<
+		'image' | 'url' | 'cast',
+		{
+			castId?: FarcasterCastId;
+			url?: string;
+		}[]
+	>>;
 	castEmbeds?: {
 		clientUrl: string;
 		userId?: FarcasterUserId;
@@ -77,8 +80,8 @@ export type FarcasterCast = {
 	mentionedUsers?: Partial<FarcasterUser>[];
 
 	reactions?: {
-		likes: Pick<FarcasterUser, 'id'>[];
-		recasts: Pick<FarcasterUser, 'id' | 'name'>[];
+		likes?: Partial<Pick<FarcasterUser, 'id' | 'name'>>[];
+		recasts?: Partial<Pick<FarcasterUser, 'id' | 'name'>>[];
 	};
 	
 	parent?: Partial<FarcasterCast>;

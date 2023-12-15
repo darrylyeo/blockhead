@@ -14,6 +14,7 @@
 	export let userId: FarcasterUserId | undefined
 	export let castId: FarcasterCastId | undefined
 	export let clientUrl: string | undefined
+	export let withReplies: boolean = false
 	export let viewerUserId: FarcasterUserId | undefined
 
 
@@ -32,7 +33,7 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
-	import { normalizeCastV2 as normalizeCastNeynarV2 } from '../api/neynar'
+	import { normalizeCastWithRepliesV1 as normalizeCastWithRepliesV1Neynar, normalizeCastV2 as normalizeCastNeynarV2 } from '../api/neynar'
 
 
 	// Components
@@ -59,29 +60,43 @@
 							clientUrl,
 						},
 					}],
-					queryFn: async () => {
-						const { cast } = await import('../api/neynar/v2')
+					...withReplies ? {
+						queryFn: async () => {
+							const { getFarcasterAllCastsInThread } = await import('../api/neynar/v1')
 
-						return (
-							castId ?
-								await cast(
-									env.NEYNAR_API_KEY,
-									castId,
-									CastParamType.Hash,
-								)
-							: clientUrl ? 
-								await cast(
-									env.NEYNAR_API_KEY,
-									clientUrl,
-									CastParamType.Url,
-								)
-							:
-								undefined
-						)
+							return await getFarcasterAllCastsInThread(
+								env.NEYNAR_API_KEY,
+								castId,
+							)
+						},
+						select: result => (
+							normalizeCastWithRepliesV1Neynar(result.result.casts)
+						),
+					} : {
+						queryFn: async () => {
+							const { cast } = await import('../api/neynar/v2')
+
+							return (
+								castId ?
+									await cast(
+										env.NEYNAR_API_KEY,
+										castId,
+										CastParamType.Hash,
+									)
+								: clientUrl ? 
+									await cast(
+										env.NEYNAR_API_KEY,
+										clientUrl,
+										CastParamType.Url,
+									)
+								:
+									undefined
+							)
+						},
+						select: result => (
+							result?.cast && normalizeCastNeynarV2(result.cast)
+						),
 					},
-					select: result => (
-						result?.cast && normalizeCastNeynarV2(result.cast)
-					),
 				})
 			),
 		}),
