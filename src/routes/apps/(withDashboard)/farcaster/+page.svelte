@@ -63,13 +63,15 @@
 	<FarcasterCastLoader
 		{farcasterProvider}
 		castId={$farcasterCastId}
+		withReplies
 		let:cast
 	>
 		{#if cast}
 			<FarcasterCast
 				{cast}
-				layout="standalone"
 				{farcasterProvider}
+				layout="standalone"
+				showReactionsAndReplies
 			/>
 		{/if}
 	</FarcasterCastLoader>

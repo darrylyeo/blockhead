@@ -11,6 +11,7 @@
 
 	// (View options)
 	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 4
+	export let layout: 'feed' | 'embedded-replies' = 'feed'
 
 
 	// Components
@@ -22,6 +23,8 @@
 <Collapsible
 	containerClass="card"
 	isOpen
+	showContentsOnly={layout === 'embedded-replies'}
+	{...$$restProps}
 >
 	<svelte:fragment slot="title">
 		<slot name="title">

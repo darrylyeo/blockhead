@@ -12,9 +12,7 @@
 
 	// (View options)
 	export let layout: 'standalone' | 'in-feed' = 'in-feed'
-
-
-	// Internal state
+	export let showReactionsAndReplies = false
 
 
 	// Functions
@@ -69,6 +67,7 @@
 	import EthereumAccountOrContract from './EthereumAccountOrContract.svelte'
 	import FarcasterCastLoader from './FarcasterCastLoader.svelte'
 	import FarcasterCast from './FarcasterCast.svelte'
+	import FarcasterCasts from './FarcasterCasts.svelte'
 	import FarcasterChannel from './FarcasterChannel.svelte'
 	import FarcasterUser from './FarcasterUser.svelte'
 
@@ -162,57 +161,101 @@
 
 	<hr>
 
-	<footer
-		role="toolbar"
-		class="row spaced wrap"
+	<Collapsible
+		type="label"
+		isOpen={showReactionsAndReplies}
 	>
-		<dl class="row">
-			{#if cast.reactions}
-				{#if cast.reactions.likes?.length}
-					<div>
-						<dt data-before="♥️">Likes</dt>
-						<dd>{cast.reactions.likes.length}</dd>
-					</div>
-				{/if}
-
-				{#if cast.reactions.recasts?.length}
-					<div>
-						<dt data-before="🔁">Recasts</dt>
-						<dd>{cast.reactions.recasts.length}</dd>
-					</div>
-				{/if}
-			{/if}
-
-			{#if cast.replies}
-				<div>
-					<dt data-before="💬">Replies</dt>
-					<dd>{cast.repliesCount}</dd>
-				</div>
-			{/if}
-		</dl>
-
-		<small class="row-inline">
-			<a
-				class="faded"
-				href={resolvePath(`/apps/farcaster/cast/[farcasterCastId]`, { farcasterCastId: cast.id })}
+		<svelte:fragment
+			slot="header"
+			let:isOpen
+			let:toggle
+		>
+			<footer
+				role="toolbar"
+				class="row spaced wrap"
 			>
-				<Date
-					date={cast.timestamp}
-					layout="horizontal"
-					format="relative"
-				/>
-			</a>
+				<div class="column">
+					<dl class="row">
+						{#if cast.reactions}
+							{#if cast.reactions.likes?.length}
+								<div>
+									<dt data-before="♥️">Likes</dt>
+									<dd>{cast.reactions.likes.length}</dd>
+								</div>
+							{/if}
 
-			{#if layout === 'standalone'}
-				<span class="faded">in</span>
+							{#if cast.reactions.recasts?.length}
+								<div>
+									<dt data-before="🔁">Recasts</dt>
+									<dd>{cast.reactions.recasts.length}</dd>
+								</div>
+							{/if}
+						{/if}
 
-				<FarcasterChannel
-					{farcasterProvider}
-					channelUrl={cast.parentUrl}
-				/>
-			{/if}
-		</small>
-	</footer>
+						{#if cast.replies?.length || cast.repliesCount}
+							<div>
+								<dt data-before="💬">Replies</dt>
+								<dd>{cast.replies?.length || cast.repliesCount}</dd>
+							</div>
+						{/if}
+					</dl>
+				</div>
+
+				<div class="row">
+					<small class="row-inline">
+						<a
+							class="faded"
+							href={resolvePath(`/apps/farcaster/cast/[farcasterCastId]`, { farcasterCastId: cast.id })}
+						>
+							<Date
+								date={cast.timestamp}
+								layout="horizontal"
+								format="relative"
+							/>
+						</a>
+
+						{#if layout === 'standalone'}
+							<span class="faded">in</span>
+
+							<FarcasterChannel
+								{farcasterProvider}
+								channelUrl={cast.parentUrl}
+							/>
+						{/if}
+					</small>
+
+					<button
+						class="small"
+						on:click={toggle}
+						data-after={isOpen ? '⏶' : '⏷'}
+					>
+						{isOpen ? 'Hide' : 'Show'}
+					</button>
+				</div>
+			</footer>
+		</svelte:fragment>
+
+		{#if cast.replies?.length}
+			<FarcasterCasts
+				casts={cast.replies}
+				layout="embedded-replies"
+			/>
+		{:else if cast.repliesCount}
+			<FarcasterCastLoader
+				{farcasterProvider}
+				castId={cast.id}
+				withReplies
+				let:cast={castWithReplies}
+			>
+				{#if castWithReplies?.replies}
+					<FarcasterCasts
+						casts={castWithReplies.replies}
+						layout="embedded-replies"
+					/>
+				{/if}
+			</FarcasterCastLoader>
+		{/if}
+	</Collapsible>
 </Collapsible>
 
 
