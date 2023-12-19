@@ -77,6 +77,12 @@ export type FarcasterCast = {
 		address: Ethereum.Address;
 		tokenId?: bigint;
 	}[];
+	evmTransactionEmbeds?: {
+		link: string;
+		chainId?: Ethereum.ChainID;
+		networkSlug?: Ethereum.NetworkSlug;
+		transactionId: Ethereum.TransactionID;
+	}[];
 
 	mentionedUsers?: Partial<FarcasterUser>[];
 
@@ -102,7 +108,7 @@ export const extractCastEmbeds = ({
 }: {
 	embeds: FarcasterCast['embeds'],
 	text: string,
-}): Pick<FarcasterCast, 'embeds' | 'castEmbeds' | 'imageEmbeds' | 'urlEmbeds' | 'evmAddressEmbeds'> => {
+}): Pick<FarcasterCast, 'embeds' | 'castEmbeds' | 'imageEmbeds' | 'urlEmbeds' | 'evmAddressEmbeds' | 'evmTransactionEmbeds'> => {
 	const castEmbeds: {
 		clientUrl?: string,
 		userId?: FarcasterUserId,
@@ -147,11 +153,26 @@ export const extractCastEmbeds = ({
 			.filter(isTruthy)
 	))
 
+	const evmTransactionEmbeds = [
+		new RegExp(`(?<explorerDomain>${Object.keys(chainIdByDomainEtherscan).map(RegExp.escape).join('|')})/tx/(?<transactionId>0x[0-9a-f]{64})`, 'gi'),
+	].flatMap(regex => (
+		Array.from(
+			text.matchAll(regex),
+			match => match?.groups && ({
+				link: match[0],
+				chainId: match.groups.explorerDomain !== undefined ? chainIdByDomainEtherscan[match.groups.explorerDomain] : undefined,
+				transactionId: match.groups.transactionId as Ethereum.TransactionID,
+			})
+		)
+			.filter(isTruthy)
+	))
+
 	return {
 		embeds,
 		castEmbeds,
 		imageEmbeds,
 		urlEmbeds,
 		evmAddressEmbeds,
+		evmTransactionEmbeds,
 	}
 }

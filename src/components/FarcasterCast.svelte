@@ -65,6 +65,8 @@
 	import Collapsible from './Collapsible.svelte'
 	import Date from './Date.svelte'
 	import EthereumAccountOrContract from './EthereumAccountOrContract.svelte'
+	import EthereumTransaction from './EthereumTransaction.svelte'
+	import EthereumTransactionLoader from './EthereumTransactionLoader.svelte'
 	import FarcasterCastLoader from './FarcasterCastLoader.svelte'
 	import FarcasterCast from './FarcasterCast.svelte'
 	import FarcasterCasts from './FarcasterCasts.svelte'
