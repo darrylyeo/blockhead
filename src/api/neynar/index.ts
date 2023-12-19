@@ -161,8 +161,6 @@ export const normalizeCastWithRepliesV1 = (casts: CastWithInteractionsV1[]): Far
 		cast.repliesCount = castsByParentHash[cast.id]?.length
 	}
 
-	console.log({normalizedCasts})
-
 	return normalizedCasts[0]
 }
 
@@ -250,21 +248,7 @@ const normalizeCastEmbeds = ({
 	const imageEmbeds = (embeds.image ?? []).map(embed => embed.url!)
 	const urlEmbeds = (embeds.url ?? []).map(embed => embed.url!)
 
-	// const evmAddressEmbeds = [...new Set(cast.text.match(/(?:0x)?[0-9a-f]{40}/gi))]
-	// const evmAddressEmbeds = [
-	// 	...Array.from(
-	// 		cast.text.matchAll(regex),
-	// 		// cast.text.matchAll(/(?<networkSlug>[a-z]+:)?(?<address>(?:0x)?[0-9a-f]{40})/gi),
-	// 		match => match?.groups && ({
-	// 			networkSlug: match.groups.networkSlug as string | undefined,
-	// 			address: match.groups.address as Ethereum.Address,
-	// 		})
-	// 	)
-	// 		.filter(isTruthy)
-	// ]
-
 	const evmAddressEmbeds = [
-		// /(?<networkSlug>[a-z]+:)?(?<address>(?:0x)?[0-9a-f]{40})/gi,
 		new RegExp(`${RegExp.escape(`https://mint.fun`)}/(?<networkSlug>[a-z]+)/(?<address>(?:0x)?[0-9a-f]{40})`, 'gi'),
 		new RegExp(`${RegExp.escape(`https://zora.co/collect`)}/(?<networkSlug>[a-z]+)/(?<address>(?:0x)?[0-9a-f]{40})/(?<tokenId>[0-9]+)`, 'gi'),
 		new RegExp(`${RegExp.escape(`https://titles.xyz/collect`)}/(?<networkSlug>[a-z]+)/(?<address>(?:0x)?[0-9a-f]{40})`, 'gi'),
@@ -280,7 +264,6 @@ const normalizeCastEmbeds = ({
 		)
 			.filter(isTruthy)
 	))
-	// const console.log({ embeds, castEmbeds, imageEmbeds, urlEmbeds })
 
 	return {
 		embeds,
@@ -292,14 +275,6 @@ const normalizeCastEmbeds = ({
 }
 
 const extractCastEmbeds = (text: string) => (
-	// Array.from(
-	// 	text.matchAll(new RegExp(`https://warpcast.com/(?<userId>.*)/(?<castId>0x[0-9a-f]{8})`, 'gi')),
-	// 	match => match?.groups && ({
-	// 		userId: Number(match.groups.userId) as FarcasterUserId | undefined,
-	// 		castId: match.groups.castId as FarcasterCastId | undefined,
-	// 	})
-	// )
-	// 	.filter(isTruthy)
 	[
 		new RegExp(`https://warpcast.com/(?<userId>.*)/(?<castIdShort>0x[0-9a-f]{8})`, 'gi'),
 	].flatMap(regex => (
