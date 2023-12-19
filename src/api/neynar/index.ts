@@ -1,10 +1,7 @@
-import type { Ethereum } from '../../data/networks/types'
 import type { FarcasterUser, FarcasterUserId, FarcasterCast, FarcasterChannel, FarcasterCastId } from '../farcaster'
 
 import { ActiveStatus, type User as UserV1, type Cast as CastV1, type CastWithInteractions as CastWithInteractionsV1 } from './v1'
 import type { Cast as CastV2, CastWithInteractions as CastWithInteractionsV2, User as UserV2 } from './v2'
-
-import { isTruthy } from '../../utils/isTruthy'
 
 type Channel = {
 	name: string;
@@ -14,6 +11,8 @@ type Channel = {
 	lead_fid: FarcasterUserId;
 }
 
+
+import { extractCastEmbeds } from '../farcaster'
 
 export const normalizeUserV1 = (
 	user: UserV1,
@@ -118,7 +117,7 @@ export const normalizeCastWithInteractions = (cast: CastWithInteractionsV1): Cas
 export const normalizeCastV1 = (cast: CastV1 | CastWithInteractionsV1): FarcasterCast => ({
 	id: cast.hash as FarcasterCastId,
 	text: cast.text,
-	...normalizeCastEmbeds({
+	...extractCastEmbeds({
 		embeds: {
 			url: cast.embeds.map(embed => ({
 				url: embed.url,
@@ -167,7 +166,7 @@ export const normalizeCastWithRepliesV1 = (casts: CastWithInteractionsV1[]): Far
 export const normalizeCastV2 = (cast: CastV2 | CastWithInteractionsV2): FarcasterCast => ({
 	id: cast.hash as FarcasterCastId,
 	text: cast.text,
-	...normalizeCastEmbeds({
+	...extractCastEmbeds({
 		embeds: Object.groupBy(
 			cast.embeds.map(embed => (
 				'cast_id' in embed
@@ -227,66 +226,3 @@ export const normalizeCastV2 = (cast: CastV2 | CastWithInteractionsV2): Farcaste
 		repliesCount: cast.replies.count,
 	},
 })
-
-
-const normalizeCastEmbeds = ({
-	embeds,
-	text,
-}: {
-	embeds: FarcasterCast['embeds'],
-	text: string,
-}): Pick<FarcasterCast, 'embeds' | 'castEmbeds' | 'imageEmbeds' | 'urlEmbeds' | 'evmAddressEmbeds'> => {
-	const castEmbeds: {
-		clientUrl?: string,
-		userId?: FarcasterUserId,
-		castId?: FarcasterCastId,
-	}[] = [
-		...embeds.cast ?? [],
-		...extractCastEmbeds(text)
-	]
-
-	const imageEmbeds = (embeds.image ?? []).map(embed => embed.url!)
-	const urlEmbeds = (embeds.url ?? []).map(embed => embed.url!)
-
-	const evmAddressEmbeds = [
-		new RegExp(`${RegExp.escape(`https://mint.fun`)}/(?<networkSlug>[a-z]+)/(?<address>(?:0x)?[0-9a-f]{40})`, 'gi'),
-		new RegExp(`${RegExp.escape(`https://zora.co/collect`)}/(?<networkSlug>[a-z]+)/(?<address>(?:0x)?[0-9a-f]{40})/(?<tokenId>[0-9]+)`, 'gi'),
-		new RegExp(`${RegExp.escape(`https://titles.xyz/collect`)}/(?<networkSlug>[a-z]+)/(?<address>(?:0x)?[0-9a-f]{40})`, 'gi'),
-	].flatMap(regex => (
-		Array.from(
-			text.matchAll(regex),
-			match => match?.groups && ({
-				link: match[0],
-				networkSlug: match.groups.networkSlug as Ethereum.NetworkSlug | undefined,
-				address: match.groups.address as Ethereum.Address,
-				tokenId: match.groups.tokenId !== undefined ? BigInt(match.groups.tokenId) : undefined,
-			})
-		)
-			.filter(isTruthy)
-	))
-
-	return {
-		embeds,
-		castEmbeds,
-		imageEmbeds,
-		urlEmbeds,
-		evmAddressEmbeds,
-	}
-}
-
-const extractCastEmbeds = (text: string) => (
-	[
-		new RegExp(`https://warpcast.com/(?<userId>.*)/(?<castIdShort>0x[0-9a-f]{8})`, 'gi'),
-	].flatMap(regex => (
-		Array.from(
-			text.matchAll(regex),
-			match => match?.groups && ({
-				clientUrl: match[0],
-				userId: Number(match.groups.userId) as FarcasterUserId | undefined,
-				castId: match.groups.castId as FarcasterCastId | undefined,
-				castIdShort: match.groups.castIdShort as `0x${string}` | undefined,
-			})
-		)
-			.filter(isTruthy)
-	))
-)

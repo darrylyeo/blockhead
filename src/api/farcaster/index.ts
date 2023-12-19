@@ -90,3 +90,64 @@ export type FarcasterCast = {
 	replies?: FarcasterCast[];
 	repliesCount?: number;
 }
+
+
+import { isTruthy } from '../../utils/isTruthy'
+
+export const extractCastEmbeds = ({
+	embeds,
+	text,
+}: {
+	embeds: FarcasterCast['embeds'],
+	text: string,
+}): Pick<FarcasterCast, 'embeds' | 'castEmbeds' | 'imageEmbeds' | 'urlEmbeds' | 'evmAddressEmbeds'> => {
+	const castEmbeds: {
+		clientUrl?: string,
+		userId?: FarcasterUserId,
+		castId?: FarcasterCastId,
+	}[] = [
+		...embeds.cast ?? [],
+		...[
+			new RegExp(`https://warpcast.com/(?<userId>.*)/(?<castIdShort>0x[0-9a-f]{8})`, 'gi'),
+		].flatMap(regex => (
+			Array.from(
+				text.matchAll(regex),
+				match => match?.groups && ({
+					clientUrl: match[0],
+					userId: Number(match.groups.userId) as FarcasterUserId | undefined,
+					castId: match.groups.castId as FarcasterCastId | undefined,
+					castIdShort: match.groups.castIdShort as `0x${string}` | undefined,
+				})
+			)
+				.filter(isTruthy)
+		))
+	]
+
+	const imageEmbeds = (embeds.image ?? []).map(embed => embed.url!)
+	const urlEmbeds = (embeds.url ?? []).map(embed => embed.url!)
+
+	const evmAddressEmbeds = [
+		new RegExp(`${RegExp.escape(`https://mint.fun`)}/(?<networkSlug>[a-z]+)/(?<address>(?:0x)?[0-9a-f]{40})`, 'gi'),
+		new RegExp(`${RegExp.escape(`https://zora.co/collect`)}/(?<networkSlug>[a-z]+)/(?<address>(?:0x)?[0-9a-f]{40})/(?<tokenId>[0-9]+)`, 'gi'),
+		new RegExp(`${RegExp.escape(`https://titles.xyz/collect`)}/(?<networkSlug>[a-z]+)/(?<address>(?:0x)?[0-9a-f]{40})`, 'gi'),
+	].flatMap(regex => (
+		Array.from(
+			text.matchAll(regex),
+			match => match?.groups && ({
+				link: match[0],
+				networkSlug: match.groups.networkSlug as Ethereum.NetworkSlug | undefined,
+				address: match.groups.address as Ethereum.Address,
+				tokenId: match.groups.tokenId !== undefined ? BigInt(match.groups.tokenId) : undefined,
+			})
+		)
+			.filter(isTruthy)
+	))
+
+	return {
+		embeds,
+		castEmbeds,
+		imageEmbeds,
+		urlEmbeds,
+		evmAddressEmbeds,
+	}
+}
