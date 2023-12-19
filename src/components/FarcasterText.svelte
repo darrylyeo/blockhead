@@ -28,15 +28,20 @@
 		// text.replaceAll(`${url.host}${url.pathname === '/' ? '' : url.pathname}`, match => `<a href="${url}">${match}</a>`)
 	)
 
-	const formatProfiles = (text: string) => (
-		// text.replaceAll(/@([a-z0-9_]+)/gi, (match, farcasterUserName) => `<a href="${resolvePath(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName })}">${match}</a>`)
-		(mentionedUsers ?? [])
-			.reduce((text, user) => (
-				user.name ?
-					text.replaceAll(`@${user.name}`, match => `<a href="${resolvePath(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName: user.name })}">${match}</a>`)
-				:
-					text
-			), text)
+	const formatUserMentions = (text: string) => (
+		mentionedUsers?.length
+			? mentionedUsers
+				.reduce((text, user) => (
+					user.name ?
+						text.replaceAll(`@${user.name}`, match => `<a href="${resolvePath(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName: user.name })}">${match}</a>`)
+					:
+						text
+				), text)
+			: text
+				.replaceAll(
+					/(?<!\w)@([a-z0-9]+(?:[-][a-z0-9]+)*(?:[.](?:eth|xyz|luxe|kred|art|club))?)(?=\W|$)/g,
+					(match, farcasterUserName) => `<a href="${resolvePath(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName })}">${match}</a>`
+				)
 	)
 
 	const formatContent = (text: string) => (
@@ -45,7 +50,7 @@
 			.map((line, i) => (
 				`<p>${
 					formatUrls(
-						formatProfiles(
+						formatUserMentions(
 							line.replaceAll('\n', '<br />')
 						)
 					)
