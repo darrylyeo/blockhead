@@ -16,49 +16,7 @@
 
 
 	// Functions
-	import { parseUrl } from '../utils/parseUrl'
 	import { resolvePath } from '@sveltejs/kit'
-
-	const formatUrls = (text: string) => (
-		(cast.urlEmbeds ?? [])
-			.map(parseUrl)
-			.reduce((text, url) => (
-				url
-					? text
-						.replaceAll(
-							new RegExp(`(?:${RegExp.escape(url.protocol)}//)?(?:${RegExp.escape(url.host)})(?:${RegExp.escape(url.pathname)})${url.pathname === '/' ? '?' : ''}(?:${RegExp.escape(url.search)})?(?:${RegExp.escape(url.hash)})?`, 'gi'),
-							match => `<a href="${url}">${match}</a>`
-						)
-					: text
-			), text)
-		// text.replaceAll(`${url.host}${url.pathname === '/' ? '' : url.pathname}`, match => `<a href="${url}">${match}</a>`)
-	)
-
-	const formatProfiles = (text: string) => (
-		// text.replaceAll(/@([a-z0-9_]+)/gi, (match, farcasterUserName) => `<a href="${resolvePath(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName })}">${match}</a>`)
-		(cast.mentionedUsers ?? [])
-			.reduce((text, user) => (
-				user.name ?
-					text.replaceAll(`@${user.name}`, match => `<a href="${resolvePath(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName: user.name })}">${match}</a>`)
-				:
-					text
-			), text)
-	)
-
-	const formatContent = (text: string) => (
-		text
-			.split('\n\n')
-			.map((line, i) => (
-				`<p>${
-					formatUrls(
-						formatProfiles(
-							line.replaceAll('\n', '<br />')
-						)
-					)
-				}</p>`
-			))
-			.join('')
-	)
 
 
 	// Components
@@ -71,6 +29,7 @@
 	import FarcasterCast from './FarcasterCast.svelte'
 	import FarcasterCasts from './FarcasterCasts.svelte'
 	import FarcasterChannel from './FarcasterChannel.svelte'
+	import FarcasterText from './FarcasterText.svelte'
 	import FarcasterUser from './FarcasterUser.svelte'
 
 
@@ -110,9 +69,11 @@
 
 	<div class="content-and-images bar align-top" class:wrap={$matchesLayoutBreakpoint}>
 		{#if cast.text}
-			<div class="content column">
-				{@html formatContent(cast.text)}
-			</div>
+			<FarcasterText
+				text={cast.text}
+				urlEmbeds={cast.urlEmbeds}
+				mentionedUsers={cast.mentionedUsers}
+			/>
 		{/if}
 
 		{#if cast.imageEmbeds?.length}
@@ -294,12 +255,7 @@
 
 
 <style>
-	:global(.farcaster-cast .content a) {
-		/* color: var(--primary-color); */
-		font-weight: bold;
-	}
-
-	.content {
+	.content-and-images > :global(:first-child:not(.image-embeds)) {
 		min-width: min(14rem, 100%);
 	}
 
