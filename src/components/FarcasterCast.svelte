@@ -3,7 +3,7 @@
 	import type { FarcasterProvider } from '../data/farcasterProviders'
 	import type { FarcasterCast as _FarcasterCast } from '../api/farcaster'
 
-	import { networksBySlug } from '../data/networks'
+	import { networksByChainID, networksBySlug } from '../data/networks'
 
 
 	// Inputs
@@ -124,11 +124,19 @@
 		{/if}
 	</div>
 
-	{#if cast.evmAddressEmbeds?.length}
+	{#if cast.evmAddressEmbeds?.length || cast.evmTransactionEmbeds?.length}
 		<div class="column">
-			{#each cast.evmAddressEmbeds as evmAddressEmbed}
+			{#each cast.evmAddressEmbeds ?? [] as evmAddressEmbed}
+				{@const network = (
+					evmAddressEmbed.chainId ?
+						networksByChainID[evmAddressEmbed.chainId]
+					: evmAddressEmbed.networkSlug ?
+						networksBySlug[evmAddressEmbed.networkSlug]
+					: undefined
+				) || networksBySlug['ethereum']}
+
 				<EthereumAccountOrContract
-					network={evmAddressEmbed.networkSlug && networksBySlug[evmAddressEmbed.networkSlug] || networksBySlug['ethereum']}
+					{network}
 					address={evmAddressEmbed.address}
 					isOpen={false}
 				>
@@ -136,6 +144,30 @@
 						{evmAddressEmbed.link}
 					</svelte:fragment>
 				</EthereumAccountOrContract>
+			{/each}
+
+			{#each cast.evmTransactionEmbeds ?? [] as evmTransactionEmbed}
+				{@const network = (
+					evmTransactionEmbed.chainId ?
+						networksByChainID[evmTransactionEmbed.chainId]
+					: evmTransactionEmbed.networkSlug ?
+						networksBySlug[evmTransactionEmbed.networkSlug]
+					: undefined
+				) || networksBySlug['ethereum']}
+	
+				<EthereumTransactionLoader
+					{network}
+					transactionId={evmTransactionEmbed.transactionId}
+					let:transaction
+				>
+					{#if transaction}
+						<EthereumTransaction
+							layout="standalone"
+							{network}
+							{transaction}
+						/>
+					{/if}
+				</EthereumTransactionLoader>
 			{/each}
 		</div>
 	{/if}
