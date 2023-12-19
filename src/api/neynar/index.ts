@@ -2,7 +2,7 @@ import type { Ethereum } from '../../data/networks/types'
 import type { FarcasterUser, FarcasterUserId, FarcasterCast, FarcasterChannel, FarcasterCastId } from '../farcaster'
 
 import { ActiveStatus, type User as UserV1, type Cast as CastV1, type CastWithInteractions as CastWithInteractionsV1 } from './v1'
-import type { Cast as CastV2, CastWithInteractions as CastWithInteractionsV2, EmbedCastId, EmbedUrl, EmbeddedCast, User as UserV2 } from './v2'
+import type { Cast as CastV2, CastWithInteractions as CastWithInteractionsV2, User as UserV2 } from './v2'
 
 import { isTruthy } from '../../utils/isTruthy'
 
@@ -115,14 +115,17 @@ export const normalizeCastWithInteractions = (cast: CastWithInteractionsV1): Cas
 })
 
 
-export const normalizeCastV1 = (cast: CastV1 | CastWithInteractionsV1): FarcasterCast => (console.log('normalizeCastV1', {cast})||{
+export const normalizeCastV1 = (cast: CastV1 | CastWithInteractionsV1): FarcasterCast => ({
 	id: cast.hash as FarcasterCastId,
 	text: cast.text,
-	embeds: {
-		url: cast.embeds.map(embed => ({
-			url: embed.url,
-		})),
-	},
+	...normalizeCastEmbeds({
+		embeds: {
+			url: cast.embeds.map(embed => ({
+				url: embed.url,
+			})),
+		},
+		text: cast.text,
+	}),
 
 	author: normalizeUserV1(cast.author),
 
@@ -166,7 +169,31 @@ export const normalizeCastWithRepliesV1 = (casts: CastWithInteractionsV1[]): Far
 export const normalizeCastV2 = (cast: CastV2 | CastWithInteractionsV2): FarcasterCast => ({
 	id: cast.hash as FarcasterCastId,
 	text: cast.text,
-	...normalizeCastEmbeds(cast),
+	...normalizeCastEmbeds({
+		embeds: Object.groupBy(
+			cast.embeds.map(embed => (
+				'cast_id' in embed
+					? {
+						castId: embed.cast_id,
+					}
+					: {
+						url: embed.url,
+					}
+			)),
+			(embed) => (
+				'url' in embed ?
+					embed.url.match(/\.(png|jpe?g|gif)$/i) ?
+						'image'
+					:
+						'url'
+				: 'cast_id' in embed ?
+					'cast'
+				:
+					undefined
+			)
+		),
+		text: cast.text,
+	}),
 
 	author: normalizeUserV2(cast.author),
 
@@ -204,49 +231,24 @@ export const normalizeCastV2 = (cast: CastV2 | CastWithInteractionsV2): Farcaste
 })
 
 
-const normalizeCastEmbeds = (cast: CastV2) => {
-	const embeds: Record<'image' | 'url' | 'cast', EmbeddedCast[]> = Object.groupBy(
-		cast.embeds.map(embed => (
-			'cast_id' in embed
-				? {
-					castId: embed.cast_id,
-				}
-				: {
-					url: embed.url,
-				}
-		)),
-		(embed) => (
-			'url' in embed ?
-				embed.url.match(/\.(png|jpe?g|gif)$/i) ?
-					'image'
-				:
-					'url'
-			: 'cast_id' in embed ?
-				'cast'
-			:
-				undefined
-		)
-	)
-
-	// const encodeCastId = (castIdObject: CastId) => `${castIdObject.fid}-${castIdObject.hash}` as FarcasterCastId
-
+const normalizeCastEmbeds = ({
+	embeds,
+	text,
+}: {
+	embeds: FarcasterCast['embeds'],
+	text: string,
+}): Pick<FarcasterCast, 'embeds' | 'castEmbeds' | 'imageEmbeds' | 'urlEmbeds' | 'evmAddressEmbeds'> => {
 	const castEmbeds: {
 		clientUrl?: string,
 		userId?: FarcasterUserId,
 		castId?: FarcasterCastId,
 	}[] = [
-		...((embeds.cast ?? []) as EmbedCastId[])
-			.map(embed => embed.cast_id)
-			.map(castId => ({
-				userId: castId.fid,
-				castId: castId.hash as FarcasterCastId,
-			})),
-			// .map(encodeCastId),
-		...extractCastEmbeds(cast.text)
+		...embeds.cast ?? [],
+		...extractCastEmbeds(text)
 	]
 
-	const imageEmbeds = ((embeds.image ?? []) as EmbedUrl[]).map(embed => embed.url)
-	const urlEmbeds = ((embeds.url ?? []) as EmbedUrl[]).map(embed => embed.url)
+	const imageEmbeds = (embeds.image ?? []).map(embed => embed.url!)
+	const urlEmbeds = (embeds.url ?? []).map(embed => embed.url!)
 
 	// const evmAddressEmbeds = [...new Set(cast.text.match(/(?:0x)?[0-9a-f]{40}/gi))]
 	// const evmAddressEmbeds = [
@@ -268,7 +270,7 @@ const normalizeCastEmbeds = (cast: CastV2) => {
 		new RegExp(`${RegExp.escape(`https://titles.xyz/collect`)}/(?<networkSlug>[a-z]+)/(?<address>(?:0x)?[0-9a-f]{40})`, 'gi'),
 	].flatMap(regex => (
 		Array.from(
-			cast.text.matchAll(regex),
+			text.matchAll(regex),
 			match => match?.groups && ({
 				link: match[0],
 				networkSlug: match.groups.networkSlug as Ethereum.NetworkSlug | undefined,

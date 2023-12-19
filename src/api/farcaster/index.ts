@@ -63,15 +63,16 @@ export type FarcasterCast = {
 		}[]
 	>>;
 	castEmbeds?: {
-		clientUrl: string;
+		clientUrl?: string;
 		userId?: FarcasterUserId;
 		castId?: FarcasterCastId;
-		castIdShort: string;
+		castIdShort?: string;
 	}[];
 	imageEmbeds?: string[];
 	urlEmbeds?: string[];
 	evmAddressEmbeds?: {
 		link: string;
+		chainId?: Ethereum.ChainID;
 		networkSlug?: Ethereum.NetworkSlug;
 		address: Ethereum.Address;
 		tokenId?: bigint;
