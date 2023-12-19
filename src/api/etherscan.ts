@@ -36,6 +36,14 @@ const endpointByChainId = {
 	11155111: 'https://api-sepolia.etherscan.io/api',
 } as const satisfies Record<Ethereum.ChainID, string>
 
+export const chainIdByDomain = Object.fromEntries(
+	Object.entries(endpointByChainId)
+		.map(([chainId, endpointUrl]) => [
+			new URL(endpointUrl).origin.replace(/(?<=[/][/])api[-.]/, ''),
+			chainId
+		])
+) satisfies Record<string, Ethereum.ChainID>
+
 type ChainId = keyof typeof endpointByChainId
 
 
