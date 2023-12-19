@@ -46,7 +46,10 @@
 
 	const formatChannelMentions = (text: string) => (
 		text
-			.replaceAll(/(?<=^|\s)[/](?<channelName>[a-z0-9]+(?:[-][a-z0-9]+)*)(?=\W|$)/g, (match, channelName) => `<a href="${resolvePath(`/apps/farcaster/channel/[channelName]`, { channelName })}">${match}</a>`)
+			.replaceAll(
+				/(?<=^|\s)[/](?<farcasterChannelSlug>[a-z0-9]+(?:[-][a-z0-9]+)*)(?=\W|$)/g, (match,
+				farcasterChannelSlug) => `<a href="${resolvePath(`/apps/farcaster/channel/[farcasterChannelSlug]`, { farcasterChannelSlug })}">${match}</a>`
+			)
 	)
 
 	const formatContent = (text: string) => (
