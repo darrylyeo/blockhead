@@ -16,7 +16,7 @@ export type FarcasterUser = {
 
 	bio: {
 		text: string;
-		mentions?: string[];
+		mentionedUsers?: string[];
 	};
 
 	isActive?: boolean;
