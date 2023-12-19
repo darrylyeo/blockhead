@@ -109,6 +109,7 @@ export const extractCastEmbeds = ({
 		...embeds.cast ?? [],
 		...[
 			new RegExp(`https://warpcast.com/(?<userId>.*)/(?<castIdShort>0x[0-9a-f]{8})`, 'gi'),
+			new RegExp(`https://warpcast.com/~/conversations/(?<castId>0x[0-9a-f]{40})`, 'gi'),
 		].flatMap(regex => (
 			Array.from(
 				text.matchAll(regex),
@@ -127,9 +128,9 @@ export const extractCastEmbeds = ({
 	const urlEmbeds = (embeds.url ?? []).map(embed => embed.url!)
 
 	const evmAddressEmbeds = [
-		new RegExp(`${RegExp.escape(`https://mint.fun`)}/(?<networkSlug>[a-z]+)/(?<address>(?:0x)?[0-9a-f]{40})`, 'gi'),
-		new RegExp(`${RegExp.escape(`https://zora.co/collect`)}/(?<networkSlug>[a-z]+)/(?<address>(?:0x)?[0-9a-f]{40})/(?<tokenId>[0-9]+)`, 'gi'),
-		new RegExp(`${RegExp.escape(`https://titles.xyz/collect`)}/(?<networkSlug>[a-z]+)/(?<address>(?:0x)?[0-9a-f]{40})`, 'gi'),
+		new RegExp(`${RegExp.escape(`https://mint.fun`)}/(?<networkSlug>[a-z]+)/(?<address>0x?[0-9a-f]{40})`, 'gi'),
+		new RegExp(`${RegExp.escape(`https://zora.co/collect`)}/(?<networkSlug>[a-z]+):(?<address>0x?[0-9a-f]{40})(?:/(?<tokenId>[0-9]+))?`, 'gi'),
+		new RegExp(`${RegExp.escape(`https://titles.xyz/collect`)}/(?<networkSlug>[a-z]+)/(?<address>0x?[0-9a-f]{40})`, 'gi'),
 	].flatMap(regex => (
 		Array.from(
 			text.matchAll(regex),
