@@ -60,7 +60,7 @@
 							clientUrl,
 						},
 					}],
-					...withReplies ? {
+					...castId && withReplies ? {
 						queryFn: async () => {
 							const { getFarcasterAllCastsInThread } = await import('../api/neynar/v1')
 
