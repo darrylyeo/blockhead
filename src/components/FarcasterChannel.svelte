@@ -8,6 +8,10 @@
 	export let channelUrl: string
 
 
+	// Functions
+	import { getChannelFromUrl } from '../api/farcaster'
+
+
 	// Components
 	import FarcasterChannelsLoader from './FarcasterChannelsLoader.svelte'
 </script>
@@ -18,7 +22,10 @@
 	layout="passive"
 	let:channels
 >
-	{@const channel = channels?.find(channel => channel.url === channelUrl)}
+	{@const channel = (
+		channels?.find(channel => channel.url === channelUrl)
+		?? (channelUrl && getChannelFromUrl(channelUrl))
+	)}
 
 	{#if channel}
 		<a
@@ -29,6 +36,8 @@
 
 			<span>{channel.name}</span>
 		</a>
+	{:else}
+		{channelUrl}
 	{/if}
 </FarcasterChannelsLoader>
 
