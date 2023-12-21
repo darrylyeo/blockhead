@@ -4,7 +4,7 @@
 
 
 	// Context
-	import { farcasterUserId, farcasterUserName, farcasterCastId } from '../../_appsParams'
+	import { farcasterUserId, farcasterUserName, farcasterCastId, farcasterCastShortId, farcasterChannelSlug } from '../../_appsParams'
 	import { preferences } from '../../../../state/preferences'
 
 
@@ -24,7 +24,25 @@
 </script>
 
 
-{#if $farcasterUserId || $farcasterUserName}
+{#if $farcasterCastId || ($farcasterUserName && $farcasterCastShortId)}
+	<FarcasterCastLoader
+		{farcasterProvider}
+		castId={$farcasterCastId}
+		clientUrl={`https://warpcast.com/${$farcasterUserName}/${$farcasterCastShortId}`} 
+		withReplies
+		let:cast
+	>
+		{#if cast}
+			<FarcasterCast
+				{cast}
+				{farcasterProvider}
+				layout="standalone"
+				showReactionsAndReplies
+			/>
+		{/if}
+	</FarcasterCastLoader>
+
+{:else if $farcasterUserId || $farcasterUserName}
 	<FarcasterUserProfileLoader
 		{farcasterProvider}
 		userId={$farcasterUserId || undefined}

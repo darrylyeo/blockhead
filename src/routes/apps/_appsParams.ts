@@ -4,7 +4,7 @@ import type { Ethereum } from '../../data/networks/types'
 import type { AccountId } from '../../data/accountId'
 
 import type { DidUrl } from '../../api/ceramic/did'
-import type { FarcasterCastId, FarcasterChannelSlug, FarcasterUserId, FarcasterUserName } from '../../api/farcaster'
+import type { FarcasterCastId, FarcasterCastShortId, FarcasterChannelSlug, FarcasterUserId, FarcasterUserName } from '../../api/farcaster'
 import type { IpfsCid } from '../../api/ipfs/contentId'
 import type { IpnsName } from '../../api/ipfs/ipns'
 
@@ -21,6 +21,7 @@ export type AppsParams = {
 	didUrl: DidUrl | '',
 	discoCredentialId: ReturnType<typeof crypto.randomUUID> | '',
 	farcasterCastId: FarcasterCastId | '',
+	farcasterCastShortId: FarcasterCastShortId | '',
 	farcasterChannelSlug: FarcasterChannelSlug | '',
 	farcasterUserId: FarcasterUserId | '',
 	farcasterUserName: FarcasterUserName | '',
@@ -39,6 +40,7 @@ export type AppsSearchInputParams = Partial<Pick<AppsParams,
 	| 'didUrl'
 	| 'discoCredentialId'
 	| 'farcasterCastId'
+	| 'farcasterCastShortId'
 	| 'farcasterChannelSlug'
 	| 'farcasterUserId'
 	| 'farcasterUserName'
@@ -59,6 +61,7 @@ export const audiusUserId = writable('')
 export const didUrl = writable<DidUrl | ''>('')
 export const discoCredentialId = writable<ReturnType<typeof crypto.randomUUID> | ''>('')
 export const farcasterCastId = writable<FarcasterCastId | ''>('')
+export const farcasterCastShortId = writable<FarcasterCastShortId | ''>('')
 export const farcasterChannelSlug = writable<FarcasterChannelSlug | ''>('')
 export const farcasterUserId = writable<FarcasterUserId | ''>('')
 export const farcasterUserName = writable<FarcasterUserName | ''>('')
@@ -77,6 +80,7 @@ export const appsParams = derived([
 	didUrl,
 	discoCredentialId,
 	farcasterCastId,
+	farcasterCastShortId,
 	farcasterChannelSlug,
 	farcasterUserId,
 	farcasterUserName,
@@ -94,6 +98,7 @@ export const appsParams = derived([
 	$didUrl,
 	$discoCredentialId,
 	$farcasterCastId,
+	$farcasterCastShortId,
 	$farcasterChannelSlug,
 	$farcasterUserId,
 	$farcasterUserName,
@@ -112,6 +117,7 @@ export const appsParams = derived([
 		didUrl: $didUrl,
 		discoCredentialId: $discoCredentialId,
 		farcasterCastId: $farcasterCastId,
+		farcasterCastShortId: $farcasterCastShortId,
 		farcasterChannelSlug: $farcasterChannelSlug,
 		farcasterUserId: $farcasterUserId,
 		farcasterUserName: $farcasterUserName,
@@ -135,6 +141,7 @@ export const derivedPath: Readable<string> = derived([
 	didUrl,
 	discoCredentialId,
 	farcasterCastId,
+	farcasterCastShortId,
 	farcasterChannelSlug,
 	farcasterUserId,
 	farcasterUserName,
@@ -153,6 +160,7 @@ export const derivedPath: Readable<string> = derived([
 	$didUrl,
 	$discoCredentialId,
 	$farcasterCastId,
+	$farcasterCastShortId,
 	$farcasterChannelSlug,
 	$farcasterUserId,
 	$farcasterUserName,
@@ -185,7 +193,7 @@ export const derivedPath: Readable<string> = derived([
 						`/user/${$audiusUserId}`
 					:
 						''
-				
+
 				// Disco
 				: $web3AppSlug === 'disco' ?
 					$discoCredentialId ?
@@ -194,10 +202,12 @@ export const derivedPath: Readable<string> = derived([
 						`/account/${$didUrl}`
 					:
 						''
-					
+
 				// Farcaster
 				: $web3AppSlug === 'farcaster' ?
-					$farcasterCastId ?
+					$farcasterUserName && $farcasterCastShortId ?
+						`/cast/${$farcasterUserName}/${$farcasterCastShortId}`
+					: $farcasterCastId ?
 						`/cast/${$farcasterCastId}`
 					: $farcasterUserId || $farcasterUserName ?
 						`/account/${$farcasterUserId || $farcasterUserName}`

@@ -23,6 +23,7 @@
 		discoCredentialId,
 
 		farcasterCastId,
+		farcasterCastShortId,
 		farcasterChannelSlug,
 		farcasterUserId,
 		farcasterUserName,
@@ -45,6 +46,7 @@
 		$didUrl = $page.params.didUrl || ''
 		$discoCredentialId = $page.params.discoCredentialId || ''
 		$farcasterCastId = $page.params.farcasterCastId || ''
+		$farcasterCastShortId = $page.params.farcasterCastShortId || ''
 		$farcasterChannelSlug = $page.params.farcasterChannelSlug || ''
 		$farcasterUserId = $page.params.farcasterUserId || ''
 		$farcasterUserName = $page.params.farcasterUserName || ''
