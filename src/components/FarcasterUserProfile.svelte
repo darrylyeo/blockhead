@@ -9,6 +9,7 @@
 
 	// Components
 	import Collapsible from './Collapsible.svelte'
+	import FarcasterText from './FarcasterText.svelte'
 	import FarcasterUser from './FarcasterUser.svelte'
 </script>
 
@@ -37,7 +38,10 @@
 	</svelte:fragment>
 
 	<div class="content column">
-		{@html user.bio.text}
+		<FarcasterText
+			text={user.bio.text}
+			mentionedUsers={user.bio.mentions}
+		/>
 
 		<footer
 			role="toolbar"
