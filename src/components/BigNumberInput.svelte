@@ -1,14 +1,14 @@
 <script lang="ts">
 	// Formatting
-	import { formatUnits, parseUnits } from 'ethers'
+	import { formatUnits, parseUnits } from 'viem'
 
 	const truncate = (n: string, decimals: number) =>
-		n.match(new RegExp(`^\\d*(?:\.\\d{0,${decimals}})?`))[0]
+		n.match(new RegExp(`^\\d*(?:\.\\d{0,${decimals}})?`))?.[0] ?? n.toString()
 
-	const format = (n: BigInt | undefined, decimals: number): string =>
+	const format = (n: bigint | undefined, decimals: number): string =>
 		n ? truncate(formatUnits(n, decimals), decimals) : ''
 
-	const parse = (n: string | number, decimals: number): BigInt | undefined => {
+	const parse = (n: string | number, decimals: number): bigint | undefined => {
 		try {
 			return parseUnits(truncate(String(n), decimals), decimals)
 		}catch(e) {
