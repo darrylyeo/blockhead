@@ -89,7 +89,7 @@
 		{required}
 		on:input={onInput}
 		on:change={onChange}
-		placeholder={max > 2n ** 16n ? '0' : max.toString()}
+		placeholder={max ? max > 2n ** 16n ? '0' : max.toString() : undefined}
 		list={datalistId}
 	/>
 	<!-- placeholder={min && max ? `${min} to ${max}` : '0'} -->
