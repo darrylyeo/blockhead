@@ -19,6 +19,7 @@ import { NotificationsProvider } from '../data/notificationsProvider'
 import { ipfsGateways } from '../data/ipfsGateways'
 import { arweaveGateways } from '../data/arweaveGateways'
 import { FarcasterProvider } from '../data/farcasterProviders'
+import { UrlMetadataProvider } from '../data/urlMetadataProvider'
 
 
 // Constants
@@ -450,6 +451,16 @@ export const preferencesConfig = [
 						]
 					},
 				]
+			},
+			{
+				preferenceId: 'urlMetadataProvider',
+				name: 'URL Metadata',
+				type: 'single',
+				defaultOption: UrlMetadataProvider.ModProtocol,
+				options: Object.values(UrlMetadataProvider).map(provider => ({
+					value: provider,
+					name: provider,
+				})),
 			},
 		]
 	},
