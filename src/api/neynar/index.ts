@@ -118,11 +118,9 @@ export const normalizeCastV1 = (cast: CastV1 | CastWithInteractionsV1): Farcaste
 	id: cast.hash as FarcasterCastId,
 	text: cast.text,
 	...extractCastEmbeds({
-		embeds: {
-			url: cast.embeds.map(embed => ({
-				url: embed.url,
-			})),
-		},
+		embeds: cast.embeds.map(embed => ({
+			url: embed.url,
+		})),
 		text: cast.text,
 	}),
 
@@ -167,28 +165,15 @@ export const normalizeCastV2 = (cast: CastV2 | CastWithInteractionsV2): Farcaste
 	id: cast.hash as FarcasterCastId,
 	text: cast.text,
 	...extractCastEmbeds({
-		embeds: Object.groupBy(
-			cast.embeds.map(embed => (
-				'cast_id' in embed
-					? {
-						castId: embed.cast_id,
-					}
-					: {
-						url: embed.url,
-					}
-			)),
-			(embed) => (
-				'url' in embed ?
-					embed.url.match(/\.(png|jpe?g|gif)$/i) ?
-						'image'
-					:
-						'url'
-				: 'cast_id' in embed ?
-					'cast'
-				:
-					undefined
-			)
-		),
+		embeds: cast.embeds.map(embed => (
+			'cast_id' in embed
+				? {
+					castId: embed.cast_id,
+				}
+				: {
+					url: embed.url,
+				}
+		)),
 		text: cast.text,
 	}),
 

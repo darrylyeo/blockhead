@@ -56,13 +56,6 @@ export type FarcasterCast = {
 	text: string;
 	timestamp: number;
 
-	embeds: Partial<Record<
-		'image' | 'url' | 'cast',
-		{
-			castId?: FarcasterCastId;
-			url?: string;
-		}[]
-	>>;
 	castEmbeds?: {
 		clientUrl?: string;
 		userId?: FarcasterUserId;
@@ -107,15 +100,40 @@ export const extractCastEmbeds = ({
 	embeds,
 	text,
 }: {
-	embeds: FarcasterCast['embeds'],
+	embeds: ({
+		castId: FarcasterCastId;
+	} | {
+		url?: string;
+	})[];
 	text: string,
-}): Pick<FarcasterCast, 'embeds' | 'castEmbeds' | 'imageEmbeds' | 'urlEmbeds' | 'evmAddressEmbeds' | 'evmTransactionEmbeds'> => {
+}): Pick<FarcasterCast, 'castEmbeds' | 'imageEmbeds' | 'urlEmbeds' | 'evmAddressEmbeds' | 'evmTransactionEmbeds'> => {
+	const embedGroups: Partial<Record<
+		'image' | 'url' | 'cast',
+		{
+			castId?: FarcasterCastId;
+			url?: string;
+		}[]
+	>> = Object.groupBy(
+		embeds,
+		embed => (
+			'url' in embed ?
+				new URL(embed.url).pathname.match(/\.(png|jpe?g|gif|webp)$/i) ?
+					'image'
+				:
+					'url'
+			: 'castId' in embed ?
+				'cast'
+			:
+				undefined
+		)
+	)
+
 	const castEmbeds: {
 		clientUrl?: string,
 		userId?: FarcasterUserId,
 		castId?: FarcasterCastId,
 	}[] = [
-		...embeds.cast ?? [],
+		...embedGroups.cast ?? [],
 		...[
 			new RegExp(`https://warpcast.com/(?<userId>.*)/(?<castIdShort>0x[0-9a-f]{8})`, 'gi'),
 			new RegExp(`https://warpcast.com/~/conversations/(?<castId>0x[0-9a-f]{40})`, 'gi'),
@@ -133,8 +151,12 @@ export const extractCastEmbeds = ({
 		))
 	]
 
-	const imageEmbeds = (embeds.image ?? []).map(embed => embed.url!)
-	const urlEmbeds = (embeds.url ?? []).map(embed => embed.url!)
+	const imageEmbeds = (embedGroups.image ?? [])
+		.map(embed => embed.url!)
+
+	const urlEmbeds = (embedGroups.url ?? [])
+		.map(embed => embed.url!)
+		.filter(url => !castEmbeds.some(clientUrl => clientUrl === url))
 
 	const evmAddressEmbeds = [
 		new RegExp(`(?<explorerDomain>${Object.keys(chainIdByDomainEtherscan).map(RegExp.escape).join('|')})/address/(?<address>0x[0-9a-f]{40})`, 'gi'),
@@ -169,7 +191,6 @@ export const extractCastEmbeds = ({
 	))
 
 	return {
-		embeds,
 		castEmbeds,
 		imageEmbeds,
 		urlEmbeds,
