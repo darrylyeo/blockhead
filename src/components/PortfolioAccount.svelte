@@ -49,8 +49,8 @@
 	// 	quoteTotal: number,
 	// }>
 	let balancesSummaries: ComponentProps<EthereumBalances>['summary'][] = []
-	let defiAppsSummaries: ComponentProps<DefiPositions>['summary'][] = []
-	let nftsSummaries: ComponentProps<EthereumNftBalances>['summary'][] = []
+	let defiAppsSummaries: ComponentProps<DefiPositionsLoader>['summary'][] = []
+	let nftsSummaries: ComponentProps<EthereumNftBalancesLoader>['summary'][] = []
 
 	export let summary: {
 		quoteTotal: number,
@@ -65,39 +65,50 @@
 	$: summary = {
 		quoteTotal:
 			[
-				...balancesSummaries.map(summary => summary?.quoteTotal ?? 0),
-				...defiAppsSummaries.map(summary => summary?.quoteTotal ?? 0),
-				...nftsSummaries.map(summary => summary?.quoteTotal ?? 0),
+				...balancesSummaries,
+				...defiAppsSummaries,
+				...nftsSummaries,
 			]
+				.filter(isTruthy)
+				.map(summary => summary.quoteTotal)
 				.reduce((sum, item) => sum + item, 0),
 
 		quoteTotalCurrency: quoteCurrency,
 
 		balancesCount:
 			balancesSummaries
-				.map(summary => summary?.balancesCount ?? 0)
+				.filter(isTruthy)
+				.map(summary => summary.balancesCount)
 				.reduce((sum, item) => sum + item, 0),
 		
 		filteredBalancesCount:
 			balancesSummaries
-				.map(summary => summary?.filteredBalancesCount ?? 0)
+				.filter(isTruthy)
+				.map(summary => summary.filteredBalancesCount)
 				.reduce((sum, item) => sum + item, 0),
 
 		defiAppsCount:
 			defiAppsSummaries
-				.map(summary => summary?.defiAppsCount ?? 0)
+				.filter(isTruthy)
+				.map(summary => summary.defiAppsCount)
 				.reduce((sum, item) => sum + item, 0),
 
 		nftContractsCount:
 			nftsSummaries
-				.map(summary => summary?.nftContractsCount ?? 0)
+				.filter(isTruthy)
+				.map(summary => summary.nftContractsCount)
 				.reduce((sum, item) => sum + item, 0),
 
 		nftsCount:
 			nftsSummaries
-				.map(summary => summary?.nftsCount ?? 0)
+				.filter(isTruthy)
+				.map(summary => summary.nftsCount)
 				.reduce((sum, item) => sum + item, 0),
 	}
+
+
+	// Functions
+	import { isTruthy } from '../utils/isTruthy'
 
 
 	import { triggerEvent } from '../events/triggerEvent'

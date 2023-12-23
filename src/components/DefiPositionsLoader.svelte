@@ -46,7 +46,7 @@
 
 	// Outputs
 	export let summary: {
-		quoteTotal: number | undefined,
+		quoteTotal: number,
 		defiAppsCount: number,
 		quoteTotalCurrency: QuoteCurrency | undefined,
 	} | undefined
