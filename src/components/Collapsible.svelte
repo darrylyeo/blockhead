@@ -88,6 +88,9 @@
 		transform-origin: top;
 		align-content: start;
 	}
+	.collapsible:empty {
+		display: none;
+	}
 	.collapsible.clip {
 		overflow: clip;
 		overflow-clip-margin: var(--padding-outer);
