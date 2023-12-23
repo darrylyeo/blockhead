@@ -167,7 +167,7 @@ export const preferencesConfig = [
 				preferenceId: 'contractSourceProvider',
 				name: 'Contract Source Code',
 				type: 'single',
-				defaultOption: 'Sourcify',
+				defaultOption: ContractSourceProvider.Etherscan,
 				options: [
 					{
 						groupId: 'web3',
@@ -196,7 +196,7 @@ export const preferencesConfig = [
 				preferenceId: 'tokenBalancesProvider',
 				name: 'Token Balances',
 				type: 'single',
-				defaultOption: TokenBalancesProvider.Airstack,
+				defaultOption: TokenBalancesProvider.Zapper,
 				options: [
 					{
 						groupId: 'onChain',
@@ -226,7 +226,7 @@ export const preferencesConfig = [
 				preferenceId: 'defiProvider',
 				name: 'DeFi Positions',
 				type: 'single',
-				defaultOption: DefiProvider.ZerionDefiSdk,
+				defaultOption: DefiProvider.Zapper,
 				options: [
 					{
 						groupId: 'onChain',
