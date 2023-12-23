@@ -52,6 +52,7 @@
 			) ||
 			!(!showSmallValues && (
 				tokenWithBalance.token.symbol.includes(' ') // spam
+				|| tokenWithBalance.token.symbol.match(/^[a-z0-9-]+(\.[a-z0-9-]+)+$/i) // spam
 				// (Math.abs(tokenWithBalance.value) < 1e-3) // isSmallValue
 				|| (tokenWithBalance.conversion && Math.abs(tokenWithBalance.conversion.value) < 1e-3) // isSmallValue
 				|| (tokenWithBalance.balance === 0n) // isZero
