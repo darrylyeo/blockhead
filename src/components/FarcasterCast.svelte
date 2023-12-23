@@ -31,6 +31,7 @@
 	import FarcasterChannel from './FarcasterChannel.svelte'
 	import FarcasterText from './FarcasterText.svelte'
 	import FarcasterUser from './FarcasterUser.svelte'
+	import UrlMetadata from './UrlMetadata.svelte'
 
 
 	// Styles
@@ -151,6 +152,14 @@
 					Cast not found.
 				{/if}
 			</FarcasterCastLoader>
+		{/each}
+	{/if}
+
+	{#if cast.urlEmbeds?.length}
+		{#each cast.urlEmbeds as url}
+			<UrlMetadata
+				{url}
+			/>
 		{/each}
 	{/if}
 
