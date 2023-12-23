@@ -25,8 +25,8 @@
 
 
 {#if symbol?.includes(' / ')}
-	{#each symbol.split(' / ') as symbol}
-		<svelte:self {symbol} />
+	{#each symbol.split(' / ') as _symbol}
+		<svelte:self symbol={_symbol} />
 	{/each}
 {:else}
 	<Icon
