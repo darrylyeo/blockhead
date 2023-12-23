@@ -51,7 +51,7 @@
 				<a
 					href={url}
 					target="_blank"
-					class="row"
+					class="title row"
 				>
 					{#if urlMetadata.logo}
 						<img
@@ -68,7 +68,11 @@
 			</svelte:fragment>
 
 			<svelte:fragment slot="header-right">
-				<span class="card-annotation">
+				<a
+					href={url}
+					target="_blank"
+					class="card-annotation"
+				>
 					<address
 						class="row-inline"
 						data-after="↗︎"
@@ -86,7 +90,7 @@
 							{urlDomain}
 						{/if} -->
 					</address>
-				</span>
+				</a>
 			</svelte:fragment>
 
 			{#if urlMetadata.description || urlMetadata.image}
@@ -116,6 +120,10 @@
 
 
 <style>
+	.title {
+		gap: 1ch;
+	}
+
 	.content-and-images > :global(:first-child:not(.image-embeds)) {
 		min-width: min(14rem, 100%);
 	}
