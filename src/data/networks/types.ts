@@ -102,18 +102,18 @@ export namespace Ethereum {
 
 	export type ERC20Token = Contract & {
 		name: string,
-		symbol: TickerSymbol,
+		symbol?: TickerSymbol,
 		decimals: number,
 		icon?: string
 	}
 	export type ERC721TokenContract = Contract & {
 		name: string,
-		symbol: TickerSymbol,
+		symbol?: TickerSymbol,
 		icon?: string
 	}
 	export type ERC1155TokenContract = Contract & {
 		name: string,
-		symbol: TickerSymbol,
+		symbol?: TickerSymbol,
 		icon?: string
 	}
 	export type NftContract = (ERC721TokenContract | ERC1155TokenContract) & {
