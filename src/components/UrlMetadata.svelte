@@ -69,7 +69,10 @@
 
 			<svelte:fragment slot="header-right">
 				<span class="card-annotation">
-					<address>
+					<address
+						class="row-inline"
+						data-after="↗︎"
+					>
 						{#if (knownEmbedType || urlMetadata.publisher) && !urlDomain.toLowerCase().includes((knownEmbedType || urlMetadata.publisher).toLowerCase())}
 							{knownEmbedType || urlMetadata.publisher} ({urlDomain})
 						{:else}
