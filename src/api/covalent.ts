@@ -27,7 +27,7 @@ export namespace Covalent {
 	export const MainnetChainIDs = [1, 137, 43114, 56, 250, 2020, 30, 42161, 11297108109, 8217, 128, 1285, 25, 1313161554] as const
 	export const TestnetChainIDs = [80001, 43113, 42, 97, 1287, 4002, 31, 421611, 11297108099, 1001, 256, 71393] as const
 	export const ChainIDs = [...MainnetChainIDs, ...TestnetChainIDs] as const
-	export type ChainID = typeof ChainIDs[number]
+	export type ChainId = typeof ChainIDs[number]
 
 	export const quoteCurrencies = ['USD', 'CAD', 'EUR', 'SGD', 'INR', 'JPY', 'VND', 'CNY', 'KRW', 'RUB', 'TRY', 'ETH', 'BNB']
 	export type QuoteCurrency = typeof quoteCurrencies[number]
@@ -429,7 +429,7 @@ export namespace Covalent {
 }
 
 type ChainIDParameters = {
-	chainID: Covalent.ChainID
+	chainId: Covalent.ChainId
 }
 type QuoteCurrencyParameters = {
 	quoteCurrency?: Covalent.QuoteCurrency
@@ -477,110 +477,110 @@ const makeRequest = <T>(endpoint: string, params: any) =>
 
 
 export const getTokenAddressBalances = (
-	{address, nft, chainID, quoteCurrency}:
+	{address, nft, chainId, quoteCurrency}:
 	{address: Ethereum.Address, nft?: boolean} & ChainIDParameters & QuoteCurrencyParameters
 ) =>
-	makeRequest<Covalent.TokenContractsWithBalances>(`/v1/${chainID}/address/${address}/balances_v2`, {nft, quoteCurrency})
+	makeRequest<Covalent.TokenContractsWithBalances>(`/v1/${chainId}/address/${address}/balances_v2`, {nft, quoteCurrency})
 
-// post-/v1/${chainID}/address/${address}/register/
+// post-/v1/${chainId}/address/${address}/register/
 
 
 export const getAaveBalances = (
-	{address, chainID, quoteCurrency}:
+	{address, chainId, quoteCurrency}:
 	{address: Ethereum.Address} & ChainIDParameters & QuoteCurrencyParameters
 ) =>
-	makeRequest<Covalent.AaveBalances>(`/v1/${chainID}/address/${address}/stacks/aave/balances`, {quoteCurrency})
+	makeRequest<Covalent.AaveBalances>(`/v1/${chainId}/address/${address}/stacks/aave/balances`, {quoteCurrency})
 
 export const getBalancerBalances = (
-	{address, chainID, quoteCurrency}:
+	{address, chainId, quoteCurrency}:
 	{address: Ethereum.Address} & ChainIDParameters & QuoteCurrencyParameters
 ) =>
-	makeRequest<Covalent.BalancerBalances>(`/v1/${chainID}/address/${address}/stacks/balancer/balances`, {quoteCurrency})
+	makeRequest<Covalent.BalancerBalances>(`/v1/${chainId}/address/${address}/stacks/balancer/balances`, {quoteCurrency})
 
 export const getCompoundActivity = (
-	{address, chainID, quoteCurrency}:
+	{address, chainId, quoteCurrency}:
 	{address: Ethereum.Address} & ChainIDParameters & QuoteCurrencyParameters
 ) =>
-	makeRequest<Covalent.CompoundActivity>(`/v1/${chainID}/address/${address}/stacks/compound/acts`, {quoteCurrency})
+	makeRequest<Covalent.CompoundActivity>(`/v1/${chainId}/address/${address}/stacks/compound/acts`, {quoteCurrency})
 
 export const getCompoundBalances = (
-	{address, chainID, quoteCurrency}:
+	{address, chainId, quoteCurrency}:
 	{address: Ethereum.Address} & ChainIDParameters & QuoteCurrencyParameters
 ) =>
-	makeRequest<Covalent.CompoundBalances>(`/v1/${chainID}/address/${address}/stacks/compound/balances`, {quoteCurrency})
+	makeRequest<Covalent.CompoundBalances>(`/v1/${chainId}/address/${address}/stacks/compound/balances`, {quoteCurrency})
 
 export const getCurveBalances = (
-	{address, chainID, quoteCurrency}:
+	{address, chainId, quoteCurrency}:
 	{address: Ethereum.Address} & ChainIDParameters & QuoteCurrencyParameters
 ) =>
-	makeRequest<Covalent.CurveBalances>(`/v1/${chainID}/address/${address}/stacks/curve/balances`, {quoteCurrency})
+	makeRequest<Covalent.CurveBalances>(`/v1/${chainId}/address/${address}/stacks/curve/balances`, {quoteCurrency})
 
 export const getMakerBalances = (
-	{address, chainID, quoteCurrency}:
+	{address, chainId, quoteCurrency}:
 	{address: Ethereum.Address} & ChainIDParameters & QuoteCurrencyParameters
 ) =>
-	makeRequest<Covalent.MakerBalances>(`/v1/${chainID}/address/${address}/stacks/makerdao`, {quoteCurrency})
+	makeRequest<Covalent.MakerBalances>(`/v1/${chainId}/address/${address}/stacks/makerdao`, {quoteCurrency})
 
 export const getUniswapV1Balances = (
-	{address, chainID, quoteCurrency}:
+	{address, chainId, quoteCurrency}:
 	{address: Ethereum.Address} & ChainIDParameters & QuoteCurrencyParameters
 ) =>
-	makeRequest<Covalent.UniswapV1Balances>(`/v1/${chainID}/address/${address}/stacks/uniswap_v1/balances`, {quoteCurrency})
+	makeRequest<Covalent.UniswapV1Balances>(`/v1/${chainId}/address/${address}/stacks/uniswap_v1/balances`, {quoteCurrency})
 
 export const getUniswapV1Transactions = (
-	{address, chainID, quoteCurrency}:
+	{address, chainId, quoteCurrency}:
 	{address: Ethereum.Address} & ChainIDParameters & QuoteCurrencyParameters
 ) =>
-	makeRequest<Covalent.UniswapV2LiquidityTransactions>(`/v1/${chainID}/address/${address}/stacks/uniswap_v2/acts`, {quoteCurrency})
+	makeRequest<Covalent.UniswapV2LiquidityTransactions>(`/v1/${chainId}/address/${address}/stacks/uniswap_v2/acts`, {quoteCurrency})
 
 export const getUniswapV2Balances = (
-	{address, chainID, quoteCurrency}:
+	{address, chainId, quoteCurrency}:
 	{address: Ethereum.Address} & ChainIDParameters & QuoteCurrencyParameters
 ) =>
-	makeRequest<Covalent.UniswapV1Balances>(`/v1/${chainID}/address/${address}/stacks/uniswap_v2/balances`, {quoteCurrency})
+	makeRequest<Covalent.UniswapV1Balances>(`/v1/${chainId}/address/${address}/stacks/uniswap_v2/balances`, {quoteCurrency})
 
 export const getTransactionsByAddress = (
-	{address, includeLogs = false, chainID, pageNumber, pageSize, quoteCurrency}:
+	{address, includeLogs = false, chainId, pageNumber, pageSize, quoteCurrency}:
 	{address: Ethereum.Address, includeLogs?: boolean} & ChainIDParameters & PaginationParameters & QuoteCurrencyParameters
 ) =>
-	makeRequest<Covalent.Transactions>(`/v1/${chainID}/address/${address}/transactions_v2`, {noLogs: !includeLogs, pageNumber, pageSize, quoteCurrency})
+	makeRequest<Covalent.Transactions>(`/v1/${chainId}/address/${address}/transactions_v2`, {noLogs: !includeLogs, pageNumber, pageSize, quoteCurrency})
 
 export const getERC20TokenTransfers = (
-	{address, contractAddress, chainID, pageNumber, pageSize, quoteCurrency}:
+	{address, contractAddress, chainId, pageNumber, pageSize, quoteCurrency}:
 	{address: Ethereum.Address, contractAddress: Ethereum.ContractAddress} & ChainIDParameters & PaginationParameters & QuoteCurrencyParameters
 ) =>
-	makeRequest<Covalent.ERC20TokenTransfers>(`/v1/${chainID}/address/${address}/transfers_v2`, {contractAddress, pageNumber, pageSize, quoteCurrency})
+	makeRequest<Covalent.ERC20TokenTransfers>(`/v1/${chainId}/address/${address}/transfers_v2`, {contractAddress, pageNumber, pageSize, quoteCurrency})
 
 
 export const getBlock = (
-	{blockNumber = 'latest', chainID, pageNumber, pageSize}:
+	{blockNumber = 'latest', chainId, pageNumber, pageSize}:
 	{blockNumber: Ethereum.BlockNumber | 'latest'} & ChainIDParameters & PaginationParameters
 ) =>
-	makeRequest<Covalent.BlockItems>(`/v1/${chainID}/block_v2/${blockNumber}`, {pageNumber, pageSize})
+	makeRequest<Covalent.BlockItems>(`/v1/${chainId}/block_v2/${blockNumber}`, {pageNumber, pageSize})
 
 export const getLogEventsByContract = (
-	{contractAddress, startingBlock, endingBlock, chainID, pageNumber, pageSize, quoteCurrency}:
+	{contractAddress, startingBlock, endingBlock, chainId, pageNumber, pageSize, quoteCurrency}:
 	{contractAddress: Ethereum.ContractAddress, startingBlock: Ethereum.BlockNumber, endingBlock: Ethereum.BlockNumber} & ChainIDParameters & PaginationParameters & QuoteCurrencyParameters
 ) =>
-	makeRequest<Covalent.LogEvents>(`/v1/${chainID}/events/address/${contractAddress}`, {startingBlock, endingBlock, pageNumber, pageSize, quoteCurrency})
+	makeRequest<Covalent.LogEvents>(`/v1/${chainId}/events/address/${contractAddress}`, {startingBlock, endingBlock, pageNumber, pageSize, quoteCurrency})
 
 export const getLogEventsByTopicHash = (
-	{topic, startingBlock, endingBlock, senderAddress, chainID, pageNumber, pageSize, quoteCurrency}:
+	{topic, startingBlock, endingBlock, senderAddress, chainId, pageNumber, pageSize, quoteCurrency}:
 	{topic: string | string[], startingBlock: Ethereum.BlockNumber, endingBlock: Ethereum.BlockNumber, senderAddress?: Ethereum.Address} & ChainIDParameters & PaginationParameters & QuoteCurrencyParameters
 ) =>
-	makeRequest<Covalent.LogEvents>(`/v1/${chainID}/events/topics/${topic}`, {startingBlock, endingBlock, senderAddress, pageNumber, pageSize, quoteCurrency})
+	makeRequest<Covalent.LogEvents>(`/v1/${chainId}/events/topics/${topic}`, {startingBlock, endingBlock, senderAddress, pageNumber, pageSize, quoteCurrency})
 
 export const getTransaction = (
-	{transactionHash, includeLogs = false, chainID, pageNumber, pageSize, quoteCurrency}:
+	{transactionHash, includeLogs = false, chainId, pageNumber, pageSize, quoteCurrency}:
 	{transactionHash: Ethereum.TransactionID, includeLogs?: boolean} & ChainIDParameters & PaginationParameters & QuoteCurrencyParameters
 ) =>
-	makeRequest<Covalent.Transactions>(`/v1/${chainID}/transaction_v2/${transactionHash}`, {noLogs: !includeLogs, pageNumber, pageSize, quoteCurrency})
+	makeRequest<Covalent.Transactions>(`/v1/${chainId}/transaction_v2/${transactionHash}`, {noLogs: !includeLogs, pageNumber, pageSize, quoteCurrency})
 
 
-// /v1/${chainID}/networks/aave/assets/
-// /v1/${chainID}/networks/augur/affiliate_fee/
-// /v1/${chainID}/networks/compound/assets/
-// /v1/${chainID}/networks/uniswap_v2/assets/
+// /v1/${chainId}/networks/aave/assets/
+// /v1/${chainId}/networks/augur/affiliate_fee/
+// /v1/${chainId}/networks/compound/assets/
+// /v1/${chainId}/networks/uniswap_v2/assets/
 
 
 export const getHistoricalPricesByTickerSymbol = (
@@ -590,16 +590,16 @@ export const getHistoricalPricesByTickerSymbol = (
 	makeRequest<Covalent.HistoricalPrices>(`/v1/pricing/historical/${quoteCurrency}/${tickerSymbol}`, {from, to, pageNumber, pageSize})
 
 export const getHistoricalPricesByAddress = (
-	{quoteCurrency, contractAddress, from, to, chainID, pageNumber, pageSize}:
+	{quoteCurrency, contractAddress, from, to, chainId, pageNumber, pageSize}:
 	QuoteCurrencyParameters & {contractAddress: Ethereum.ContractAddress, from: Covalent.Day, to: Covalent.Day} & ChainIDParameters & PaginationParameters
 ) =>
-	makeRequest<Covalent.HistoricalPrices>(`/v1/pricing/historical_by_address/${chainID}/${quoteCurrency}/${contractAddress}`, {from, to, pageNumber, pageSize})
+	makeRequest<Covalent.HistoricalPrices>(`/v1/pricing/historical_by_address/${chainId}/${quoteCurrency}/${contractAddress}`, {from, to, pageNumber, pageSize})
 
 export const getHistoricalPricesByAddresses = (
-	{quoteCurrency, contractAddresses, from, to, chainID, pageNumber, pageSize}:
+	{quoteCurrency, contractAddresses, from, to, chainId, pageNumber, pageSize}:
 	QuoteCurrencyParameters & {contractAddresses: Ethereum.ContractAddress[], from: Covalent.Day, to: Covalent.Day} & ChainIDParameters & PaginationParameters
 ) =>
-	makeRequest<Covalent.HistoricalPrices[]>(`/v1/pricing/historical_by_addresses_v2/${chainID}/${quoteCurrency}/${contractAddresses.join(',')}`, {from, to, pageNumber, pageSize})
+	makeRequest<Covalent.HistoricalPrices[]>(`/v1/pricing/historical_by_addresses_v2/${chainId}/${quoteCurrency}/${contractAddresses.join(',')}`, {from, to, pageNumber, pageSize})
 
 export const getSpotPrices = (
 	{tickers, pageNumber, pageSize}:
@@ -608,8 +608,8 @@ export const getSpotPrices = (
 	makeRequest<Covalent.HistoricalPrices[]>(`/v1/pricing/tickers`, {tickers, pageNumber, pageSize})
 
 // /v1/pricing/volatility/
-// /v1/${chainID}/tokens/${address}/token_holders_changes/
-// /v1/${chainID}/tokens/${address}/token_holders/
+// /v1/${chainId}/tokens/${address}/token_holders_changes/
+// /v1/${chainId}/tokens/${address}/token_holders/
 
 
 export type Transaction = Ethereum.Transaction & {

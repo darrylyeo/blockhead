@@ -41,7 +41,7 @@
 				const _isAddress = isEvmAddress(currency)
 
 				const data = _isAddress
-					? await getHistoricalPricesByAddress({chainID, contractAddress: currency, quoteCurrency, from: fromDate, to: toDate})
+					? await getHistoricalPricesByAddress({chainId, contractAddress: currency, quoteCurrency, from: fromDate, to: toDate})
 					: await getHistoricalPricesByTickerSymbol({tickerSymbol: currency, quoteCurrency, from: fromDate, to: toDate})
 
 				return {
@@ -94,7 +94,7 @@
 	)
 : contractAddresses ?
 	async () => {
-		const data = await getHistoricalPricesByAddresses({contractAddresses, quoteCurrency, from: fromDate, to: toDate, chainID})
+		const data = await getHistoricalPricesByAddresses({contractAddresses, quoteCurrency, from: fromDate, to: toDate, chainId})
 		console.log('getHistoricalPricesByAddresses', data)
 		return data.map(tokenWithPrices => ({
 			currency: tokenWithPrices.contract_ticker_symbol,
