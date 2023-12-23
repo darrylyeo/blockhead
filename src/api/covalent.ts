@@ -454,7 +454,11 @@ const formatParams = params =>
 
 const makeRequest = <T>(endpoint: string, params: any) =>
 	queue.enqueue(() =>
-		fetch(`${COVALENT_URL}${endpoint}/?${`${formatParams({key: env.COVALENT_API_KEY, ...params})}`}`)
+		fetch(`${COVALENT_URL}${endpoint}/?${`${formatParams(params)}`}`, {
+			headers: {
+				'Authorization': `Bearer ${env.COVALENT_API_KEY}`,
+			}
+		})
 			.then(async response => {
 				if(response.ok)
 					return response.json()
