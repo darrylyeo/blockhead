@@ -440,7 +440,7 @@ type PaginationParameters = {
 }
 
 
-const queue = new ConcurrentPromiseQueue(3)
+const queue = new ConcurrentPromiseQueue(1)
 
 const formatParams = params =>
 	new URLSearchParams(
