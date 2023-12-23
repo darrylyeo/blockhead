@@ -3,6 +3,16 @@
 	export let url: string
 
 
+	// Internal state
+	// (Computed)
+	$: urlHostname = new URL(url).hostname
+	$: urlDomain = urlHostname.replace(/^www\./, '')
+	$: knownEmbedType =
+		url.match(new RegExp(`(?:${RegExp.escape(`https://x.com`)}|${RegExp.escape(`https://twitter.com`)})\/([a-zA-Z0-9_]+)\/status\/([0-9]+)`)) ? '𝕏 Post' :
+		url.match(/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|live\/|v\/)?)([\w\-]+)(\S+)?$/) ? 'YouTube Video' :
+		undefined
+
+
 	// Components
 	import UrlMetadataLoader from './UrlMetadataLoader.svelte'
 	import Collapsible from './Collapsible.svelte'
@@ -59,9 +69,20 @@
 
 			<svelte:fragment slot="header-right">
 				<span class="card-annotation">
-					{#if urlMetadata.publisher}
-						<address>{urlMetadata.publisher}</address>
-					{/if}
+					<address>
+						{#if (knownEmbedType || urlMetadata.publisher) && !urlDomain.toLowerCase().includes((knownEmbedType || urlMetadata.publisher).toLowerCase())}
+							{knownEmbedType || urlMetadata.publisher} ({urlDomain})
+						{:else}
+							{urlDomain}
+						{/if}
+						<!-- {#if knownEmbedType}
+							{knownEmbedType}
+						{:else if urlMetadata.publisher && !urlDomain.toLowerCase().includes(urlMetadata.publisher.toLowerCase())}
+							{urlMetadata.publisher} ({urlDomain})
+						{:else}
+							{urlDomain}
+						{/if} -->
+					</address>
 				</span>
 			</svelte:fragment>
 
