@@ -544,6 +544,11 @@ source {
 	display: none !important;
 }
 
+address {
+	display: inline;
+	font-style: normal;
+}
+
 
 .card {
 	display: grid;

@@ -113,11 +113,6 @@
 
 
 <style>
-	address {
-		font-style: normal;
-		display: inline;
-	}
-
 	.content-and-images > :global(:first-child:not(.image-embeds)) {
 		min-width: min(14rem, 100%);
 	}
