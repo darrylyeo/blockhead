@@ -51,8 +51,9 @@
 				tokensAreEqual(network.nativeCurrency, tokenWithBalance.token)
 			) ||
 			!(!showSmallValues && (
+				tokenWithBalance.token.symbol.includes(' ') // spam
 				// (Math.abs(tokenWithBalance.value) < 1e-3) // isSmallValue
-				(tokenWithBalance.conversion && Math.abs(tokenWithBalance.conversion.value) < 1e-3) // isSmallValue
+				|| (tokenWithBalance.conversion && Math.abs(tokenWithBalance.conversion.value) < 1e-3) // isSmallValue
 				|| (tokenWithBalance.balance === 0n) // isZero
 			))
 		))
