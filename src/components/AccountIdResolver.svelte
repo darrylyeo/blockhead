@@ -99,6 +99,7 @@
 	<Loader
 		{layout}
 		fromPromise={async () => 1}
+		{clip}
 		{...$$restProps}
 	>
 		<svelte:fragment slot="header"
