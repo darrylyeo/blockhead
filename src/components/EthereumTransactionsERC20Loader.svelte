@@ -5,7 +5,6 @@
 	import type { TickerSymbol } from '../data/currencies'
 	import { preferences } from '../state/preferences'
 	import { TransactionProvider, transactionProviderIcons } from '../data/transactionProvider'
-	import type { Transaction } from '../api/covalent'
 
 
 	export let network: Ethereum.Network
@@ -33,10 +32,12 @@
 
 
 	// Outputs
-	export let transactions: Transaction[] | undefined
+	export let transactions: Ethereum.Transaction[] | undefined
 
 	type SharedSlotProps = {
-		transactions: typeof transactions
+		transactions: typeof transactions,
+		status: Loader<any, any, any, any, any>['$$slot_def']['default']['status'],
+		pagination: Loader<any, any, any, any, any>['$$slot_def']['default']['pagination'],
 	}
 
 	type $$Slots = {
