@@ -45,6 +45,7 @@
 					address={erc20Transfer.fromAddress}
 					label={erc20Transfer.labels?.fromAddress}
 					format={isExhaustive ? 'both' : 'label'}
+					addressFormat="middle-truncated"
 				/>
 			</span>
 		{/if}
