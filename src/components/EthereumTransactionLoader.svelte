@@ -41,11 +41,17 @@
 
 
 	// Outputs
-	import type { TransactionResponse } from 'ethers'
-	import type { Covalent } from '../api/covalent'
-	import type { BlockTransaction } from '../api/moralis/api/Api'
+	export let transaction: Ethereum.Transaction | undefined
 
-	export let transaction: TransactionResponse | Covalent.Transaction | BlockTransaction | undefined
+	type SharedSlotProps = {
+		transaction: typeof transaction,
+		status: Loader<any, any, any, any, any>['$$slot_def']['default']['status'],
+	}
+
+	type $$Slots = {
+		'default': SharedSlotProps,
+		'header': SharedSlotProps,
+	}
 
 
 	// Functions
@@ -407,19 +413,21 @@
 							<slot name="header" {status} {transaction} />
 						</svelte:fragment>
 
-						<EthereumTransaction
-							{network}
-							{transaction}
-							{quoteCurrency}
+						{#if transaction}
+							<EthereumTransaction
+								{network}
+								{transaction}
+								{quoteCurrency}
 
-							{contextualAddress}
-							{detailLevel}
-							{tokenBalanceFormat}
-							{showFees}
+								{contextualAddress}
+								{detailLevel}
+								{tokenBalanceFormat}
+								{showFees}
 
-							{layout}
-							{innerLayout}
-						/>
+								{layout}
+								{innerLayout}
+							/>
+						{/if}
 					</Loader>
 				{/if}
 			</div>
