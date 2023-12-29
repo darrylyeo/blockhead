@@ -43,7 +43,7 @@
 				<AddressWithLabel
 					{network}
 					address={erc20Transfer.fromAddress}
-					label={erc20Transfer.fromAddressLabel}
+					label={erc20Transfer.labels?.fromAddress}
 					format={isExhaustive ? 'both' : 'label'}
 				/>
 			</span>
@@ -74,7 +74,7 @@
 				<AddressWithLabel
 					{network}
 					address={erc20Transfer.fromAddress}
-					label={erc20Transfer.fromAddressLabel}
+					label={erc20Transfer.labels?.fromAddress}
 					format={isExhaustive ? 'both' : 'label'}
 					addressFormat="middle-truncated"
 				/>
@@ -85,7 +85,7 @@
 				<AddressWithLabel
 					{network}
 					address={erc20Transfer.toAddress}
-					label={erc20Transfer.toAddressLabel}
+					label={erc20Transfer.labels?.toAddress}
 					format={isExhaustive ? 'both' : 'label'}
 					addressFormat="middle-truncated"
 				/>
