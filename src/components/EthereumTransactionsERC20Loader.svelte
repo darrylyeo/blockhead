@@ -64,6 +64,7 @@
 			queryKey: ['TransactionsErc20', {
 				transactionProvider,
 				chainId: network.chainId,
+				contractAddress: erc20Token.address,
 				address,
 				quoteCurrency,
 			}],
