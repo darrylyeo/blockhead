@@ -95,7 +95,7 @@ export const getTokenBalancesForAddress = <
 	noSpam = false,
 	noNftAssetMetadata = false,
 }: {
-	chainName: string
+	chainName: string | number
 	walletAddress: string
 	quoteCurrency?: string
 	nft?: boolean
@@ -240,7 +240,7 @@ export const getHistoricalTokenBalancesForAddress = <
 	blockHeight = 'latest',
 	date,
 }: {
-	chainName: string
+	chainName: string | number
 	walletAddress: string
 	quoteCurrency?: string
 	nft?: boolean
@@ -365,7 +365,7 @@ export const getNativeTokenBalanceForAddress = ({
 	quoteCurrency = 'USD',
 	blockHeight = 'latest',
 }: {
-	chainName: string
+	chainName: string | number
 	walletAddress: string
 	quoteCurrency?: string
 	blockHeight?: integer | `0x${string}` | 'earliest' | 'latest'
@@ -470,7 +470,7 @@ export const getHistoricalPortfolioForWalletAddress = ({
 	quoteCurrency = 'USD',
 	days = 30,
 }: {
-	chainName: string
+	chainName: string | number
 	walletAddress: string
 	quoteCurrency?: string
 	days?: integer
@@ -601,7 +601,7 @@ export const getErc20TransfersForWalletAddress = ({
 	pageSize = 100,
 	pageNumber = 0,
 }: {
-	chainName: string
+	chainName: string | number
 	walletAddress: string
 	quoteCurrency?: string
 	contractAddress?: string
@@ -815,7 +815,7 @@ export const getTokenHoldersV2ForTokenAddress = ({
 	pageSize = 100,
 	pageNumber = 0,
 }: {
-	chainName: string
+	chainName: string | number
 	tokenAddress: string
 	blockHeight?: integer | `0x${string}` | 'earliest' | 'latest'
 	date?: string
@@ -971,7 +971,7 @@ export const getNftsForAddress = <
 	noNftAssetMetadata = false,
 	withUncached = false,
 }: {
-	chainName: string
+	chainName: string | number
 	walletAddress: string
 	noSpam?: boolean
 	noNftAssetMetadata?: NoNftAssetMetadata
@@ -1071,7 +1071,7 @@ export const getNftsFromContractWithMetadata = <
 	valuesFilter,
 	withUncached = false,
 }: {
-	chainName: string
+	chainName: string | number
 	contractAddress: string
 	noMetadata?: NoNftAssetMetadata
 	pageSize?: integer
@@ -1161,7 +1161,7 @@ export const getSingleNftWithCachedMetadataFromContract = ({
 	noMetadata = false,
 	withUncached = false,
 }: {
-	chainName: string
+	chainName: string | number
 	contractAddress: string
 	tokenId: string
 	noMetadata?: boolean
@@ -1196,7 +1196,7 @@ export const getNftTransactionsForContractTokenId = ({
 	tokenId,
 	noSpam = false,
 }: {
-	chainName: string
+	chainName: string | number
 	contractAddress: string
 	tokenId: string
 	noSpam?: boolean
@@ -1373,7 +1373,7 @@ export const getListOfTraitsCollection = ({
 	chainName,
 	collectionContract,
 }: {
-	chainName: string
+	chainName: string | number
 	collectionContract: string
 }) => (
 	get<NftCollectionTraitsResponse>(`v1/${chainName}/nft/${collectionContract}/traits/`)
@@ -1412,7 +1412,7 @@ export const getCollectionTraitSummary = ({
 	chainName,
 	collectionContract,
 }: {
-	chainName: string
+	chainName: string | number
 	collectionContract: string
 }) => (
 	get<NftCollectionTraitSummaryResponse>(`v1/${chainName}/nft/${collectionContract}/traits_summary/`)
@@ -1484,7 +1484,7 @@ export const getAttributesForTraitInCollection = ({
 	collectionContract,
 	trait,
 }: {
-	chainName: string
+	chainName: string | number
 	collectionContract: string
 	trait: string
 }) => (
@@ -1530,7 +1530,7 @@ export const getChainCollections = ({
 	pageNumber = 0,
 	noSpam = false,
 }: {
-	chainName: string
+	chainName: string | number
 	pageSize?: integer
 	pageNumber?: integer
 	noSpam?: boolean
@@ -1616,7 +1616,7 @@ export const getNftMarketFloorPrice = ({
 	days = 30,
 	quoteCurrency = 'USD',
 }: {
-	chainName: string
+	chainName: string | number
 	contractAddress: string
 	days?: integer
 	quoteCurrency?: string
@@ -1688,7 +1688,7 @@ export const getNftMarketVolume = ({
 	days = 30,
 	quoteCurrency = 'USD',
 }: {
-	chainName: string
+	chainName: string | number
 	contractAddress: string
 	days?: integer
 	quoteCurrency?: string
@@ -1760,7 +1760,7 @@ export const getNftMarketSaleCount = ({
 	days = 30,
 	quoteCurrency = 'USD',
 }: {
-	chainName: string
+	chainName: string | number
 	contractAddress: string
 	days?: integer
 	quoteCurrency?: string
@@ -1821,7 +1821,7 @@ export const checkOwnershipInNft = ({
 	walletAddress,
 	collectionContract,
 }: {
-	chainName: string
+	chainName: string | number
 	walletAddress: string
 	collectionContract: string
 }) => (
@@ -1892,7 +1892,7 @@ export const checkOwnershipForNft = ({
 	collectionContract,
 	tokenId,
 }: {
-	chainName: string
+	chainName: string | number
 	walletAddress: string
 	collectionContract: string
 	tokenId: string
@@ -2399,7 +2399,7 @@ export const getTransaction = ({
 	withLending = false,
 	withSafe = false,
 }: {
-	chainName: string
+	chainName: string | number
 	txHash: string
 	quoteCurrency?: string
 	noLogs?: boolean
@@ -2457,7 +2457,7 @@ export const getTransactionSummaryForAddress = ({
 	noLogs = false,
 	withSafe = false,
 }: {
-	chainName: string
+	chainName: string | number
 	walletAddress: string
 	quoteCurrency?: string
 	noLogs?: boolean
@@ -2539,7 +2539,7 @@ export const getEarliestTransactionsForAddress = ({
 	noLogs = false,
 	withSafe = false,
 }: {
-	chainName: string
+	chainName: string | number
 	walletAddress: string
 	quoteCurrency?: string
 	noLogs?: boolean
@@ -2617,7 +2617,7 @@ export const getRecentTransactionsForAddress = ({
 	blockSignedAtAsc = false,
 	withSafe = false,
 }: {
-	chainName: string
+	chainName: string | number
 	walletAddress: string
 	quoteCurrency?: string
 	noLogs?: boolean
@@ -2698,7 +2698,7 @@ export const getPaginatedTransactionsForAddress = ({
 	blockSignedAtAsc = false,
 	withSafe = false,
 }: {
-	chainName: string
+	chainName: string | number
 	walletAddress: string
 	page: integer
 	quoteCurrency?: string
@@ -2775,7 +2775,7 @@ export const getBulkTimeBucketTransactionsForAddress = ({
 	noLogs = false,
 	withSafe = false,
 }: {
-	chainName: string
+	chainName: string | number
 	walletAddress: string
 	timeBucket: integer
 	quoteCurrency?: string
@@ -2814,7 +2814,7 @@ export const getAllTransactionsInABlock = ({
 	noLogs = false,
 	withSafe = false,
 }: {
-	chainName: string
+	chainName: string | number
 	blockHeight: integer | `0x${string}` | 'earliest' | 'latest'
 	quoteCurrency?: string
 	noLogs?: boolean
@@ -2868,7 +2868,7 @@ export const getAllTransactionsInABlockByPage = ({
 	noLogs = false,
 	withSafe = false,
 }: {
-	chainName: string
+	chainName: string | number
 	blockHeight: integer | `0x${string}` | 'earliest' | 'latest'
 	page: integer
 	quoteCurrency?: string
@@ -2926,7 +2926,7 @@ export const getTokenApprovalsForAddress = ({
 	chainName,
 	walletAddress,
 }: {
-	chainName: string
+	chainName: string | number
 	walletAddress: string
 }) => (
 	get<ApprovalsResponse>(`v1/${chainName}/approvals/${walletAddress}/`)
@@ -3050,7 +3050,7 @@ export const getNftApprovals = ({
 	chainName,
 	walletAddress,
 }: {
-	chainName: string
+	chainName: string | number
 	walletAddress: string
 }) => (
 	get<NftApprovalsResponse>(`v1/${chainName}/nft/approvals/${walletAddress}/`)
@@ -3207,7 +3207,7 @@ export const getBlock = ({
 	blockHeight,
 	noLogs = false,
 }: {
-	chainName: string
+	chainName: string | number
 	blockHeight: integer | `0x${string}` | 'earliest' | 'latest'
 	noLogs?: boolean
 }) => (
@@ -3261,7 +3261,7 @@ export const getBlockHeights = ({
 	pageSize = 100,
 	pageNumber = 0,
 }: {
-	chainName: string
+	chainName: string | number
 	startDate: string
 	endDate: string
 	pageSize?: integer
@@ -3336,7 +3336,7 @@ export const getLogs = ({
 	blockHash,
 	skipDecode,
 }: {
-	chainName: string
+	chainName: string | number
 	startingBlock?: integer
 	endingBlock?: integer | `0x${string}` | 'earliest' | 'latest'
 	address?: string
@@ -3438,7 +3438,7 @@ export const getLogEventsByContractAddress = ({
 	pageSize = 100,
 	pageNumber = 0,
 }: {
-	chainName: string
+	chainName: string | number
 	contractAddress: string
 	startingBlock?: integer
 	endingBlock?: integer | `0x${string}` | 'earliest' | 'latest'
@@ -3510,7 +3510,7 @@ export const getLogEventsByTopicHash = ({
 	pageSize = 100,
 	pageNumber = 0,
 }: {
-	chainName: string
+	chainName: string | number
 	topicHash: string
 	startingBlock?: integer
 	endingBlock?: integer | `0x${string}` | 'earliest' | 'latest'
@@ -3574,7 +3574,7 @@ export const getResolvedAddressForRegisteredAddress = ({
 	chainName,
 	walletAddress,
 }: {
-	chainName: string
+	chainName: string | number
 	walletAddress: string
 }) => (
 	get<ResolvedAddressResponse>(`v1/${chainName}/address/${walletAddress}/`)
@@ -3745,7 +3745,7 @@ export const getGasPrices = ({
 	eventType,
 	quoteCurrency = 'USD',
 }: {
-	chainName: string
+	chainName: string | number
 	eventType: 'erc20' | 'uniswapv3' | 'nativetokens'
 	quoteCurrency?: string
 }) => (
@@ -4095,7 +4095,7 @@ export const getXykPools = ({
 	chainName,
 	dexName,
 }: {
-	chainName: string
+	chainName: string | number
 	dexName: string
 }) => (
 	get<PoolResponse>(`v1/${chainName}/xy=k/${dexName}/pools/`)
@@ -4149,7 +4149,7 @@ export const getXykPoolByAddress = ({
 	dexName,
 	poolAddress,
 }: {
-	chainName: string
+	chainName: string | number
 	dexName: string
 	poolAddress: string
 }) => (
@@ -4207,7 +4207,7 @@ export const getXykPoolsForTokenAddress = ({
 	quoteCurrency = 'USD',
 	dexName,
 }: {
-	chainName: string
+	chainName: string | number
 	tokenAddress: string
 	quoteCurrency?: string
 	dexName?: string
@@ -4282,7 +4282,7 @@ export const getXykPoolsForWalletAddress = ({
 	quoteCurrency = 'USD',
 	dexName,
 }: {
-	chainName: string
+	chainName: string | number
 	walletAddress: string
 	page: integer
 	tokenAddress?: string
@@ -4349,7 +4349,7 @@ export const getXykAddressExchangeBalances = ({
 	dexName,
 	accountAddress,
 }: {
-	chainName: string
+	chainName: string | number
 	dexName: string
 	accountAddress: string
 }) => (
@@ -4459,7 +4459,7 @@ export const getXykNetworkExchangeTokens = ({
 	chainName,
 	dexName,
 }: {
-	chainName: string
+	chainName: string | number
 	dexName: string
 }) => (
 	get<NetworkExchangeTokensResponse>(`v1/${chainName}/xy=k/${dexName}/tokens/`)
@@ -4599,7 +4599,7 @@ export const getXykDexForPoolAddress = ({
 	chainName,
 	poolAddress,
 }: {
-	chainName: string
+	chainName: string | number
 	poolAddress: string
 }) => (
 	get<PoolToDexResponse>(`v1/${chainName}/xy=k/address/${poolAddress}/dex_name/`)
@@ -4661,7 +4661,7 @@ export const getXykSingleNetworkExchangeToken = ({
 	dexName,
 	tokenAddress,
 }: {
-	chainName: string
+	chainName: string | number
 	dexName: string
 	tokenAddress: string
 }) => (
@@ -4998,7 +4998,7 @@ export const getXykTransactionsForAccountAddress = ({
 	dexName,
 	accountAddress,
 }: {
-	chainName: string
+	chainName: string | number
 	dexName: string
 	accountAddress: string
 }) => (
@@ -5053,7 +5053,7 @@ export const getXykTransactionsForTokenAddress = ({
 	dexName,
 	tokenAddress,
 }: {
-	chainName: string
+	chainName: string | number
 	dexName: string
 	tokenAddress: string
 }) => (
@@ -5108,7 +5108,7 @@ export const getXykTransactionsForExchange = ({
 	dexName,
 	poolAddress,
 }: {
-	chainName: string
+	chainName: string | number
 	dexName: string
 	poolAddress: string
 }) => (
@@ -5161,7 +5161,7 @@ export const getXykEcosystemChartData = ({
 	chainName,
 	dexName,
 }: {
-	chainName: string
+	chainName: string | number
 	dexName: string
 }) => (
 	get<EcosystemChartDataResponse>(`v1/${chainName}/xy=k/${dexName}/ecosystem/`)
@@ -5279,7 +5279,7 @@ export const getXykHealthData = ({
 	chainName,
 	dexName,
 }: {
-	chainName: string
+	chainName: string | number
 	dexName: string
 }) => (
 	get<HealthDataResponse>(`v1/${chainName}/xy=k/${dexName}/health/`)
@@ -5354,7 +5354,7 @@ export const getHistoricalTokenPrices = ({
 	to,
 	pricesAtAsc = false,
 }: {
-	chainName: string
+	chainName: string | number
 	quoteCurrency: string
 	contractAddress: string
 	from: string
