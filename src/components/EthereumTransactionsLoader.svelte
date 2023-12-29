@@ -91,6 +91,7 @@
 					chainId: network.chainId,
 					address,
 					quoteCurrency,
+					includeLogs,
 				}],
 				initialPageParam: 0,
 				queryFn: async ({ pageParam: pageNumber }) => {
@@ -170,6 +171,7 @@
 					chainId: network.chainId,
 					address,
 					quoteCurrency,
+					includeLogs,
 				}],
 				initialPageParam: { offset: 0, limit: 100 },
 				queryFn: async ({ pageParam }) => (
