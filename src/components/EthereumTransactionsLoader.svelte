@@ -31,7 +31,7 @@
 	import { normalizeTransaction as normalizeTransactionDecommas } from '../api/decommas/normalize'
 	import { Etherscan, normalizeTransaction as normalizeTransactionEtherscan } from '../api/etherscan'
 	// import { getTransactions as getTransactionsEtherspot } from '../api/etherspot'
-	import { chainCodeFromNetwork, MoralisWeb3Api } from '../api/moralis/web3Api'
+	import { chainCodeFromNetwork, MoralisWeb3Api, normalizeMoralisTransaction as normalizeTransactionMoralis } from '../api/moralis/web3Api'
 
 
 	// Outputs
@@ -216,7 +216,10 @@
 					const offset = (lastPage.page + 1) * lastPage.page_size
 					return offset < lastPage.total ? { offset, limit: lastPage.page_size } : undefined
 				},
-				select: result => result?.pages?.flatMap(page => page.result) ?? [],
+				select: result => (
+					(result?.pages?.flatMap(page => page.result) ?? [])
+						.map(transaction => normalizeTransactionMoralis(transaction, network, quoteCurrency))
+				),
 				staleTime: 10 * 1000,
 			}),
 		}),
