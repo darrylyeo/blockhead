@@ -67,6 +67,7 @@
 					address,
 					quoteCurrency,
 				}],
+				initialPageParam: 0,
 				queryFn: async ({ pageParam: page }) => (
 					await getTransactionsByAccountChainbase({
 						chainId: network.chainId,
@@ -91,6 +92,7 @@
 					address,
 					quoteCurrency,
 				}],
+				initialPageParam: 0,
 				queryFn: async ({ pageParam: pageNumber }) => {
 					const result = await getTransactionsByAddress({
 						chainId: network.chainId,
@@ -169,13 +171,14 @@
 					address,
 					quoteCurrency,
 				}],
+				initialPageParam: { offset: 0, limit: 100 },
 				queryFn: async ({ pageParam }) => (
 					await MoralisWeb3Api.address.getTransactions({
 						chain: chainCodeFromNetwork(network),
 						from_block: 0,
 						// to_block: ,
-						offset: pageParam?.offset ?? 0,
-						limit: pageParam?.limit ?? 100,
+						offset: pageParam.offset,
+						limit: pageParam.limit,
 						address
 					})
 				),
