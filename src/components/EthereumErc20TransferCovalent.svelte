@@ -36,7 +36,7 @@
 </script>
 
 
-<div class="transaction layout-{layout} column" class:card={isStandaloneLayout} class:unsuccessful={!erc20Transfer.isSuccessful}>
+<div class="transaction layout-{layout} column" class:card={isStandaloneLayout}>
 	<div class="container inner-layout-{innerLayout}" class:card={isStandaloneLayout}>
 		{#if !(isSummary && (contextIsSender || contextIsReceiver))}
 			<span class="sender" class:mark={contextIsSender}>
@@ -52,8 +52,8 @@
 			<span>
 				<span class="action">
 					{isSummary && contextIsReceiver
-						? erc20Transfer.isSuccessful ? 'received' : 'failed to receive'
-						: erc20Transfer.isSuccessful ? 'sent' : 'failed to send'}
+						? 'received'
+						: 'sent'}
 				</span>
 				<TokenBalanceWithConversion
 					{tokenBalanceFormat}
@@ -159,18 +159,6 @@
 		font-size: 0.66em;
 		align-self: center;
 		text-align: end;
-	}
-
-	.unsuccessful {
-		/* box-shadow: 0 1px 3px #ff2f00a0; */
-		text-shadow: 0 1px 2px #ff2f00;
-		opacity: 0.6;
-		/* filter: saturate(0.5) contrast(0.5); */
-		/* filter: saturate(0.5) sepia(0.5) hue-rotate(-55deg); */
-		transition: opacity 0.3s;
-	}
-	.unsuccessful:hover, .unsuccessful:focus-within {
-		opacity: 0.9;
 	}
 
 	.log-events.scrollable-list {
