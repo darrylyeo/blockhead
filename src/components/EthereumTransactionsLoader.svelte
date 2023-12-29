@@ -173,46 +173,30 @@
 					quoteCurrency,
 					includeLogs,
 				}],
-				initialPageParam: { offset: 0, limit: 100 },
-				queryFn: async ({ pageParam }) => (
-					await MoralisWeb3Api.address.getTransactions({
+				initialPageParam: { offset: 0, limit: 20 },
+				queryFn: async ({ pageParam: { offset = 0, limit } }) => {
+					const response = await MoralisWeb3Api.address.getTransactions({
 						chain: chainCodeFromNetwork(network),
 						from_block: 0,
-						// to_block: ,
-						offset: pageParam.offset,
-						limit: pageParam.limit,
+						offset: offset ?? 0,
+						limit,
 						address
 					})
-				),
-				// queryFn: async ({ pageParam: offset = 0 }) => {
-				// 	const {result: transactions, total, page_size, page} = await MoralisWeb3Api.address.getTransactions({
-				// 		chain: chainCodeFromNetwork(network),
-				// 		from_block: 0,
-				// 		// to_block: ,
-				// 		offset: offset ?? 0,
-				// 		limit: 100,
-				// 		address
-				// 	})
 
-				// 	// const logs = (await MoralisWeb3Api.address.getLogsByAddress({
-				// 	// 	chain: chainCodeFromNetwork(network),
-				// 	// 	from_block: 0,
-				// 	// 	address: transactions[0].hash
-				// 	// }))
-
-				// 	// console.log(transactions[0], logs)
-
-				// 	return (
-				// 		includeLogs
-				// 			? await Promise.all(transactions.map(transaction => (
-				// 				MoralisWeb3Api.transaction.getTransaction({
-				// 					chain: chainCodeFromNetwork(network),
-				// 					transactionHash: transaction.hash
-				// 				})
-				// 			)))
-				// 			: transactions
-				// 	).reverse()
-				// },
+					return includeLogs
+						? {
+							...response,
+							result: await Promise.all(
+								response.result.map(async transaction => (
+									await MoralisWeb3Api.transaction.getTransaction({
+										chain: chainCodeFromNetwork(network),
+										transactionHash: transaction.hash
+									})
+								))
+							)
+						}
+						: response
+				},
 				getPreviousPageParam: (firstPage, allPages) => {
 					const offset = (firstPage.page - 1) * firstPage.page_size
 					return offset > 0 ? { offset, limit: firstPage.page_size } : undefined
