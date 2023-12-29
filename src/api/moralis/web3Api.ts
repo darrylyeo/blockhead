@@ -114,6 +114,5 @@ export const normalizeMoralisLog = (log: Log, indexInTransaction: number, networ
 
 	contract: {
 		address: log.address as Ethereum.ContractAddress,
-		label: log.address as string,
 	},
 })
