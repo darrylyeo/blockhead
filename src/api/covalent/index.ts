@@ -47,10 +47,10 @@ export type Response<T> = {
 
 type integer = number
 type double = number
-type datetime = string
-type safelong = number
+type datetime = `${number}-${number}-${number}T${number}:${number}:${number}.${number}Z`
+type safelong = `${bigint}`
 
-type ErcInterface = `ERC${20 | 721 | 1155}`
+type ErcInterface = `erc${20 | 165 | 721 | 1155}`
 
 
 
@@ -84,7 +84,9 @@ type ErcInterface = `ERC${20 | 721 | 1155}`
  * @param {boolean} no-spam If true, the suspected spam tokens are removed. Supports eth-mainnet and matic-mainnet.
  * @param {boolean} no-nft-asset-metadata If true, the response shape is limited to a list of collections and token ids, omitting metadata and asset information. Helpful for faster response times and wallets holding a large number of NFTs.
  */
-export const getTokenBalancesForAddress = ({
+export const getTokenBalancesForAddress = <
+	NoNftAssetMetadata extends boolean | undefined = false,
+>({
 	chainName,
 	walletAddress,
 	quoteCurrency = 'USD',
@@ -99,9 +101,9 @@ export const getTokenBalancesForAddress = ({
 	nft?: boolean
 	noNftFetch?: boolean
 	noSpam?: boolean
-	noNftAssetMetadata?: boolean
+	noNftAssetMetadata?: NoNftAssetMetadata
 }) => (
-	get<BalancesResponse>(`v1/${chainName}/address/${walletAddress}/balances_v2`, {
+	get<BalancesResponse<NoNftAssetMetadata>>(`v1/${chainName}/address/${walletAddress}/balances_v2`, {
 		'quote-currency': quoteCurrency,
 		'nft': nft,
 		'no-nft-fetch': noNftFetch,
@@ -110,10 +112,10 @@ export const getTokenBalancesForAddress = ({
 	})
 )
 
-type BalancesResponse = {
+type BalancesResponse<NoNftAssetMetadata extends boolean | undefined> = {
 	/** The requested address. */
 	address: string,
-	
+
 	/** The requested chain ID eg: `1`. */
 	chain_id: integer,
 
@@ -144,7 +146,7 @@ type BalancesResponse = {
 		contract_address: string,
 
 		/** A list of supported standard ERC interfaces, eg: `ERC20` and `ERC721`. */
-		supports_erc: ErcInterface[],
+		supports_erc: ErcInterface[] | null,
 
 		/** The contract logo URL. */
 		logo_url: string,
@@ -174,10 +176,10 @@ type BalancesResponse = {
 		is_spam: boolean,
 
 		/** The asset balance. Use `contract_decimals` to scale this balance for display purposes. */
-		balance: integer,
+		balance: safelong, // integer
 
 		/** The exchange rate for the requested quote currency. */
-		quote_rate: number,
+		quote_rate: double,
 
 		/** The current balance converted to fiat in `quote-currency`. */
 		quote: double,
@@ -192,54 +194,14 @@ type BalancesResponse = {
 		},
 
 		/** NFT-specific data. */
-		nft_data: {
-			/** The token's id. */
-			token_id: string,
+		nft_data: NoNftAssetMetadata extends true
+			? {
+				/** The token's id. */
+				token_id: string,
 
-			/** The token URL. */
-			token_url: string,
-
-			/** The original minter. */
-			original_owner: string,
-
-			/** External data. */
-			external_data: {
-				name: string,
-				
-				description: string,
-				
-				asset_url: string,
-				
-				asset_file_extension: string,
-				
-				asset_mime_type: string,
-				
-				asset_size_bytes: string, // TODO: integer
-				
-				image: string,
-				
-				image_256: string,
-				
-				image_512: string,
-				
-				image_1024: string,
-				
-				animation_url: string,
-				
-				external_url: string,
-				
-				attributes: {
-					trait_type: string,
-					value: string,
-				}[],
-
-				/** If `true`, the asset data is available from the Covalent CDN. */
-				asset_cached: boolean,
-
-				/** If `true`, the image data is available from the Covalent CDN. */
-				image_cached: boolean,
-			},
-		},
+				token_balance: safelong,
+			}[]
+			: NftWithMetadata[],
 	}[]
 }
 
@@ -265,7 +227,9 @@ type BalancesResponse = {
  * @param {integer} block-height Ending block to define a block range. Omitting this parameter defaults to the latest block height.
  * @param {string} date Ending date to define a block range (YYYY-MM-DD). Omitting this parameter defaults to the current date.
  */
-export const getHistoricalTokenBalancesForAddress = ({
+export const getHistoricalTokenBalancesForAddress = <
+	NoNftAssetMetadata extends boolean | undefined | undefined = false,
+>({
 	chainName,
 	walletAddress,
 	quoteCurrency = 'USD',
@@ -273,7 +237,7 @@ export const getHistoricalTokenBalancesForAddress = ({
 	noNftFetch = false,
 	noSpam = false,
 	noNftAssetMetadata = false,
-	blockHeight,
+	blockHeight = 'latest',
 	date,
 }: {
 	chainName: string
@@ -282,11 +246,11 @@ export const getHistoricalTokenBalancesForAddress = ({
 	nft?: boolean
 	noNftFetch?: boolean
 	noSpam?: boolean
-	noNftAssetMetadata?: boolean
-	blockHeight?: integer
+	noNftAssetMetadata?: NoNftAssetMetadata
+	blockHeight?: integer | `0x${string}` | 'earliest' | 'latest'
 	date?: string
 }) => (
-	get<HistoricalBalancesResponse>(`v1/${chainName}/address/${walletAddress}/historical_balances`, {
+	get<HistoricalBalancesResponse<NoNftAssetMetadata>>(`v1/${chainName}/address/${walletAddress}/historical_balances`, {
 		'quote-currency': quoteCurrency,
 		'nft': nft,
 		'no-nft-fetch': noNftFetch,
@@ -297,7 +261,7 @@ export const getHistoricalTokenBalancesForAddress = ({
 	})
 )
 
-type HistoricalBalancesResponse = {
+type HistoricalBalancesResponse<NoNftAssetMetadata extends boolean | undefined | undefined = false> = {
 	/** The requested address. */
 	address: string,
 
@@ -331,7 +295,7 @@ type HistoricalBalancesResponse = {
 		contract_address: string,
 
 		/** A list of supported standard ERC interfaces, eg: `ERC20` and `ERC721`. */
-		supports_erc: ErcInterface[],
+		supports_erc: ErcInterface[] | null,
 
 		/** The contract logo URL. */
 		logo_url: string,
@@ -355,10 +319,10 @@ type HistoricalBalancesResponse = {
 		is_spam: boolean,
 
 		/** The asset balance. Use `contract_decimals` to scale this balance for display purposes. */
-		balance: integer,
+		balance: safelong, // integer
 
 		/** The exchange rate for the requested quote currency. */
-		quote_rate: number,
+		quote_rate: double,
 
 		/** The current balance converted to fiat in `quote-currency`. */
 		quote: double,
@@ -367,52 +331,14 @@ type HistoricalBalancesResponse = {
 		pretty_quote: string,
 
 		/** NFT-specific data. */
-		nft_data: {
-			token_id: string,
+		nft_data: NoNftAssetMetadata extends true
+			? {
+				/** The token's id. */
+				token_id: string,
 
-			token_url: string,
-			
-			/** The original minter. */
-			original_owner: string,
-
-			external_data: {
-				name: string,
-
-				description: string,
-
-				asset_url: string,
-
-				asset_file_extension: string,
-
-				asset_mime_type: string,
-
-				asset_size_bytes: string, // TODO: integer
-
-				image: string,
-
-				image_256: string,
-
-				image_512: string,
-
-				image_1024: string,
-
-				animation_url: string,
-
-				external_url: string,
-
-				attributes: {
-					trait_type: string,
-
-					value: string,
-				}[],
-
-				/** If `true`, the asset data is available from the Covalent CDN. */
-				asset_cached: boolean,
-
-				/** If `true`, the image data is available from the Covalent CDN. */
-				image_cached: boolean,
-			},
-		},
+				token_balance: safelong,
+			}[]
+			: NftWithMetadata[],
 	}[]
 }
 
@@ -437,12 +363,12 @@ export const getNativeTokenBalanceForAddress = ({
 	chainName,
 	walletAddress,
 	quoteCurrency = 'USD',
-	blockHeight,
+	blockHeight = 'latest',
 }: {
 	chainName: string
 	walletAddress: string
 	quoteCurrency?: string
-	blockHeight?: integer
+	blockHeight?: integer | `0x${string}` | 'earliest' | 'latest'
 }) => (
 	get<TokenBalanceNativeResponse>(`v1/${chainName}/address/${walletAddress}/balances_native`, {
 		'quote-currency': quoteCurrency,
@@ -484,7 +410,7 @@ type TokenBalanceNativeResponse = {
 		contract_address: string,
 
 		/** A list of supported standard ERC interfaces, eg: `ERC20` and `ERC721`. */
-		supports_erc: ErcInterface[],
+		supports_erc: ErcInterface[] | null,
 
 		/** The contract logo URL. */
 		logo_url: string,
@@ -508,10 +434,10 @@ type TokenBalanceNativeResponse = {
 		is_spam: boolean,
 
 		/** The asset balance. Use `contract_decimals` to scale this balance for display purposes. */
-		balance: integer,
+		balance: safelong, // integer
 
 		/** The exchange rate for the requested quote currency. */
-		quote_rate: number,
+		quote_rate: double,
 
 		/** The current balance converted to fiat in `quote-currency`. */
 		quote: double,
@@ -542,7 +468,7 @@ export const getHistoricalPortfolioForWalletAddress = ({
 	chainName,
 	walletAddress,
 	quoteCurrency = 'USD',
-	days,
+	days = 30,
 }: {
 	chainName: string
 	walletAddress: string
@@ -593,13 +519,13 @@ type PortfolioResponse = {
 
 		holdings: {
 			/** The exchange rate for the requested quote currency. */
-			quote_rate: number,
+			quote_rate: double,
 
 			timestamp: datetime,
 
 			close: {
 				/** The asset balance. Use `contract_decimals` to scale this balance for display purposes. */
-				balance: integer,
+				balance: safelong, // integer
 
 				/** The current balance converted to fiat in `quote-currency`. */
 				quote: double,
@@ -610,7 +536,7 @@ type PortfolioResponse = {
 
 			high: {
 				/** The asset balance. Use `contract_decimals` to scale this balance for display purposes. */
-				balance: integer,
+				balance: safelong, // integer
 
 				/** The current balance converted to fiat in `quote-currency`. */
 				quote: double,
@@ -621,7 +547,7 @@ type PortfolioResponse = {
 
 			low: {
 				/** The asset balance. Use `contract_decimals` to scale this balance for display purposes. */
-				balance: integer,
+				balance: safelong, // integer
 
 				/** The current balance converted to fiat in `quote-currency`. */
 				quote: double,
@@ -632,7 +558,7 @@ type PortfolioResponse = {
 
 			open: {
 				/** The asset balance. Use `contract_decimals` to scale this balance for display purposes. */
-				balance: integer,
+				balance: safelong, // integer
 
 				/** The current balance converted to fiat in `quote-currency`. */
 				quote: double,
@@ -670,17 +596,17 @@ export const getErc20TransfersForWalletAddress = ({
 	walletAddress,
 	quoteCurrency = 'USD',
 	contractAddress,
-	startingBlock,
-	endingBlock,
-	pageSize,
-	pageNumber,
+	startingBlock = 0,
+	endingBlock = 'latest',
+	pageSize = 100,
+	pageNumber = 0,
 }: {
 	chainName: string
 	walletAddress: string
 	quoteCurrency?: string
 	contractAddress?: string
-	startingBlock?: integer
-	endingBlock?: integer
+	startingBlock?: integer | `0x${string}` | 'earliest' | 'latest'
+	endingBlock?: integer | `0x${string}` | 'earliest' | 'latest'
 	pageSize?: integer
 	pageNumber?: integer
 }) => (
@@ -734,16 +660,16 @@ type Erc20TransfersResponse = {
 		from_address: string,
 
 		/** The label of `from` address. */
-		from_address_label: string,
+		from_address_label: string | null,
 
 		/** The receiver's wallet address. */
 		to_address: string,
 
 		/** The label of `to` address. */
-		to_address_label: string,
+		to_address_label: string | null,
 
 		/** The value attached to this tx. */
-		value: integer,
+		value: safelong, // integer
 
 		/** The value attached in `quote-currency` to this tx. */
 		value_quote: double,
@@ -761,7 +687,7 @@ type Erc20TransfersResponse = {
 		gas_spent: integer,
 
 		/** The transaction's `gas_price` * `gas_spent`, denoted in wei. */
-		fees_paid: integer,
+		fees_paid: safelong, // string
 
 		/** The gas spent in `quote-currency` denomination. */
 		gas_quote: double,
@@ -783,13 +709,13 @@ type Erc20TransfersResponse = {
 			from_address: string,
 
 			/** The label of `from` address. */
-			from_address_label: string,
+			from_address_label: string | null,
 
 			/** The receiver's wallet address. */
 			to_address: string,
 
 			/** The label of `to` address. */
-			to_address_label: string,
+			to_address_label: string | null,
 
 			/** Use contract decimals to format the token balance for display purposes - divide the balance by `10^{contract_decimals}`. */
 			contract_decimals: integer,
@@ -807,16 +733,16 @@ type Erc20TransfersResponse = {
 			logo_url: string,
 
 			/** Categorizes token transactions as either `transfer-in` or `transfer-out`, indicating whether tokens are being received or sent from an account. */
-			transfer_type: string,
+			transfer_type: 'IN' | 'OUT', // string
 
 			/** The delta attached to this transfer. */
-			delta: integer,
+			delta: safelong // integer
 
 			/** The asset balance. Use `contract_decimals` to scale this balance for display purposes. */
-			balance: integer,
+			balance: integer | null,
 
 			/** The exchange rate for the requested quote currency. */
-			quote_rate: number,
+			quote_rate: double,
 
 			/** The current delta converted to fiat in `quote-currency`. */
 			delta_quote: double,
@@ -825,7 +751,7 @@ type Erc20TransfersResponse = {
 			pretty_delta_quote: string,
 
 			/** The current balance converted to fiat in `quote-currency`. */
-			balance_quote: double,
+			balance_quote: double | null,
 
 			/** Additional details on which transfer events were invoked. Defaults to true. */
 			method_calls: {
@@ -833,12 +759,12 @@ type Erc20TransfersResponse = {
 				sender_address: string,
 
 				method: string,
-			},
+			}[] | null,
 
 			/** The explorer links for this transaction. */
 			explorers: {
 				/** The name of the explorer. */
-				label: string,
+				label: string | null,
 
 				/** The URL of the explorer. */
 				url: string,
@@ -884,14 +810,14 @@ type Erc20TransfersResponse = {
 export const getTokenHoldersV2ForTokenAddress = ({
 	chainName,
 	tokenAddress,
-	blockHeight,
+	blockHeight = 'latest',
 	date,
-	pageSize,
-	pageNumber,
+	pageSize = 100,
+	pageNumber = 0,
 }: {
 	chainName: string
 	tokenAddress: string
-	blockHeight?: integer
+	blockHeight?: integer | `0x${string}` | 'earliest' | 'latest'
 	date?: string
 	pageSize?: integer
 	pageNumber?: integer
@@ -929,7 +855,7 @@ type TokenHoldersResponse = {
 		contract_address: string,
 
 		/** A list of supported standard ERC interfaces, eg: `ERC20` and `ERC721`. */
-		supports_erc: ErcInterface[],
+		supports_erc: ErcInterface[] | null,
 
 		/** The contract logo URL. */
 		logo_url: string,
@@ -938,8 +864,8 @@ type TokenHoldersResponse = {
 		address: string,
 
 		/** The asset balance. Use `contract_decimals` to scale this balance for display purposes. */
-		balance: integer,
-		
+		balance: safelong, // integer
+
 		/** Total supply of this token. */
 		total_supply: integer,
 
@@ -968,6 +894,56 @@ type TokenHoldersResponse = {
  * NFT - Core Rendering
  */
 
+type NftWithMetadata = {
+	/** The token's id. */
+	token_id: string,
+
+	token_url: string | null,
+
+	/** The original minter. */
+	original_owner: string | null,
+
+	external_data: NftExternalData,
+
+	/** If `true`, the asset data is available from the Covalent CDN. */
+	asset_cached: boolean,
+
+	/** If `true`, the image data is available from the Covalent CDN. */
+	image_cached: boolean,
+}
+
+type NftExternalData = {
+	name: string,
+
+	description: string,
+
+	asset_url: string | null,
+
+	asset_file_extension: string | null,
+
+	asset_mime_type: string | null,
+
+	asset_size_bytes: `${number}` | null,
+
+	image: string,
+
+	image_256: string,
+
+	image_512: string,
+
+	image_1024: string,
+
+	animation_url: string | null,
+
+	external_url: string | null,
+
+	attributes: {
+		trait_type: string,
+
+		value: string,
+	}[],
+}
+
 /**
  * Get NFTs for address
  * @link https://www.covalenthq.com/docs/api/balances/get-nfts-for-address/
@@ -986,27 +962,29 @@ type TokenHoldersResponse = {
  * @param {boolean} no-nft-asset-metadata If true, the response shape is limited to a list of collections and token ids, omitting metadata and asset information. Helpful for faster response times and wallets holding a large number of NFTs.
  * @param {boolean} with-uncached By default, this endpoint only works on chains where we've cached the assets and the metadata. When set to true, the API will fetch metadata from upstream servers even if it's not cached - the downside being that the upstream server can block or rate limit the call and therefore resulting in time outs or slow response times on the Covalent side.
  */
-export const getNftsForAddress = ({
+export const getNftsForAddress = <
+	NoNftAssetMetadata extends boolean | undefined = false,
+>({
 	chainName,
 	walletAddress,
-	noSpam,
-	noNftAssetMetadata,
-	withUncached,
+	noSpam = false,
+	noNftAssetMetadata = false,
+	withUncached = false,
 }: {
 	chainName: string
 	walletAddress: string
 	noSpam?: boolean
-	noNftAssetMetadata?: boolean
+	noNftAssetMetadata?: NoNftAssetMetadata
 	withUncached?: boolean
 }) => (
-	get<NftAddressBalanceNftResponse>(`v1/${chainName}/address/${walletAddress}/balances_v2`, {
+	get<NftAddressBalanceNftResponse<NoNftAssetMetadata>>(`v1/${chainName}/address/${walletAddress}/balances_nft`, {
 		'no-spam': noSpam,
 		'no-nft-asset-metadata': noNftAssetMetadata,
 		'with-uncached': withUncached,
 	})
 )
 
-type NftAddressBalanceNftResponse = {
+type NftAddressBalanceNftResponse<NoNftAssetMetadata extends boolean | undefined> = {
 	/** The requested address. */
 	address: string,
 
@@ -1025,7 +1003,7 @@ type NftAddressBalanceNftResponse = {
 		contract_address: string,
 
 		/** A list of supported standard ERC interfaces, eg: `ERC20` and `ERC721`. */
-		supports_erc: ErcInterface[],
+		supports_erc: ErcInterface[] | null,
 
 		/** Denotes whether the token is suspected spam. Supports `eth-mainnet` and `matic-mainnet`. */
 		is_spam: boolean,
@@ -1034,68 +1012,29 @@ type NftAddressBalanceNftResponse = {
 		last_transferred_at: datetime,
 
 		/** The asset balance. Use `contract_decimals` to scale this balance for display purposes. */
-		balance: integer,
+		balance: safelong, // integer
 
-		balance24h: integer,
+		balance24h: safelong, // integer
 
-		type: string,
+		type: 'nft', // string
 
 		/** The current floor price converted to fiat in `quote-currency`. The floor price is determined by the last minimum sale price within the last 30 days across all the supported markets where the collection is sold on. */
-		floor_price_quote: double,
+		floor_price_quote: double | null,
 
 		/** A prettier version of the floor price quote for rendering purposes. */
-		pretty_floor_price_quote: string,
+		pretty_floor_price_quote: string | null,
 
 		/** The current floor price in native currency. The floor price is determined by the last minimum sale price within the last 30 days across all the supported markets where the collection is sold on. */
-		floor_price_native_quote: double,
+		floor_price_native_quote: double | null,
 
-		nft_data: {
-			/** The token's id. */
-			token_id: string,
+		nft_data: NoNftAssetMetadata extends true
+			? {
+				/** The token's id. */
+				token_id: string,
 
-			token_url: string,
-
-			/** The original minter. */
-			original_owner: string,
-
-			external_data: {
-				name: string,
-
-				description: string,
-
-				asset_url: string,
-
-				asset_file_extension: string,
-
-				asset_mime_type: string,
-
-				asset_size_bytes: string, // TODO: integer
-
-				image: string,
-
-				image_256: string,
-
-				image_512: string,
-
-				image_1024: string,
-
-				animation_url: string,
-
-				external_url: string,
-
-				attributes: {
-					trait_type: string,
-
-					value: string,
-				}[],
-
-				/** If `true`, the asset data is available from the Covalent CDN. */
-				asset_cached: boolean,
-
-				/** If `true`, the image data is available from the Covalent CDN. */
-				image_cached: boolean,
-			},
-		},
+				token_balance: safelong,
+			}[]
+			: NftWithMetadata[],
 	}[]
 }
 
@@ -1120,26 +1059,28 @@ type NftAddressBalanceNftResponse = {
  * @param {string} values-filter Filters NFTs based on a specific trait value. If this filter is used, the API will return all NFTs with the specified trait value. If used with "traits-filter", only NFTs matching both filters will be returned. Accepts comma-separated values, is case-sensitive, and requires proper URL encoding.
  * @param {boolean} with-uncached By default, this endpoint only works on chains where we've cached the assets and the metadata. When set to true, the API will fetch metadata from upstream servers even if it's not cached - the downside being that the upstream server can block or rate limit the call and therefore resulting in time outs or slow response times on the Covalent side.
  */
-export const getNftsFromContractWithMetadata = ({
+export const getNftsFromContractWithMetadata = <
+	NoNftAssetMetadata extends boolean | undefined = false,
+>({
 	chainName,
 	contractAddress,
-	noMetadata,
-	pageSize,
-	pageNumber,
+	noMetadata = false,
+	pageSize = 100,
+	pageNumber = 0,
 	traitsFilter,
 	valuesFilter,
-	withUncached,
+	withUncached = false,
 }: {
 	chainName: string
 	contractAddress: string
-	noMetadata?: boolean
+	noMetadata?: NoNftAssetMetadata
 	pageSize?: integer
 	pageNumber?: integer
 	traitsFilter?: string
 	valuesFilter?: string
 	withUncached?: boolean
 }) => (
-	get<NftMetadataResponse>(`v1/${chainName}/nft/${contractAddress}/metadata`, {
+	get<NftMetadataResponse<NoNftAssetMetadata>>(`v1/${chainName}/nft/${contractAddress}/metadata`, {
 		'no-metadata': noMetadata,
 		'page-size': pageSize,
 		'page-number': pageNumber,
@@ -1149,7 +1090,7 @@ export const getNftsFromContractWithMetadata = ({
 	})
 )
 
-type NftMetadataResponse = {
+type NftMetadataResponse<NoNftAssetMetadata extends boolean | undefined> = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -1166,56 +1107,17 @@ type NftMetadataResponse = {
 
 		/** Denotes whether the token is suspected spam. Supports `eth-mainnet` and `matic-mainnet`. */
 		is_spam: boolean,
-		
+
 		type: string,
 
-		nft_data: {
-			/** The token's id. */
-			token_id: string,
+		nft_data: NoNftAssetMetadata extends true
+			? {
+				/** The token's id. */
+				token_id: string,
 
-			token_url: string,
-
-			/** The original minter. */
-			original_owner: string,
-
-			external_data: {
-				name: string,
-
-				description: string,
-
-				asset_url: string,
-
-				asset_file_extension: string,
-
-				asset_mime_type: string,
-
-				asset_size_bytes: string, // TODO: integer
-
-				image: string,
-
-				image_256: string,
-
-				image_512: string,
-
-				image_1024: string,
-
-				animation_url: string,
-
-				external_url: string,
-
-				attributes: {
-					trait_type: string,
-
-					value: string,
-				}[],
-
-				/** If `true`, the asset data is available from the Covalent CDN. */
-				asset_cached: boolean,
-
-				/** If `true`, the image data is available from the Covalent CDN. */
-				image_cached: boolean,
-			},
-		},
+				token_balance: safelong,
+			}[]
+			: NftWithMetadata[],
 	}[]
 
 	/** Pagination metadata. */
@@ -1256,8 +1158,8 @@ export const getSingleNftWithCachedMetadataFromContract = ({
 	chainName,
 	contractAddress,
 	tokenId,
-	noMetadata,
-	withUncached,
+	noMetadata = false,
+	withUncached = false,
 }: {
 	chainName: string
 	contractAddress: string
@@ -1265,7 +1167,7 @@ export const getSingleNftWithCachedMetadataFromContract = ({
 	noMetadata?: boolean
 	withUncached?: boolean
 }) => (
-	get<NftMetadataResponse>(`v1/${chainName}/nft/${contractAddress}/metadata/${tokenId}`, {
+	get<NftMetadataResponse<true>>(`v1/${chainName}/nft/${contractAddress}/metadata/${tokenId}`, {
 		'no-metadata': noMetadata,
 		'with-uncached': withUncached,
 	})
@@ -1292,7 +1194,7 @@ export const getNftTransactionsForContractTokenId = ({
 	chainName,
 	contractAddress,
 	tokenId,
-	noSpam,
+	noSpam = false,
 }: {
 	chainName: string
 	contractAddress: string
@@ -1329,7 +1231,7 @@ type NftTransactionsResponse = {
 		contract_address: string,
 
 		/** A list of supported standard ERC interfaces, eg: `ERC20` and `ERC721`. */
-		supports_erc: ErcInterface[],
+		supports_erc: ErcInterface[] | null,
 
 		nft_transactions: {
 			/** The block signed timestamp in UTC. */
@@ -1351,16 +1253,16 @@ type NftTransactionsResponse = {
 			from_address: string,
 
 			/** The label of `from` address. */
-			from_address_label: string,
+			from_address_label: string | null,
 
 			/** The receiver's wallet address. */
 			to_address: string,
 
 			/** The label of `to` address. */
-			to_address_label: string,
+			to_address_label: string | null,
 
 			/** The value attached to this tx. */
-			value: integer,
+			value: safelong, // integer
 
 			/** The value attached in `quote-currency` to this tx. */
 			value_quote: double,
@@ -1377,7 +1279,7 @@ type NftTransactionsResponse = {
 			gas_price: integer,
 
 			/** The transaction's `gas_price` * `gas_spent`, denoted in wei. */
-			fees_paid: integer,
+			fees_paid: safelong, // string
 
 			/** The gas spent in `quote-currency` denomination. */
 			gas_quote: double,
@@ -1408,25 +1310,25 @@ type NftTransactionsResponse = {
 				raw_log_topics: string[],
 
 				/** Use contract decimals to format the token balance for display purposes - divide the balance by `10^{contract_decimals}`. */
-				sender_contract_decimals: integer,
+				sender_contract_decimals: integer | null,
 
 				/** The name of the sender. */
-				sender_name: string,
+				sender_name: string | null,
 
 				/** The ticker symbol for this contract. This field is set by a developer and non-unique across a network. */
-				sender_contract_ticker_symbol: string,
+				sender_contract_ticker_symbol: string | null,
 
 				/** The address of the sender. */
 				sender_address: string,
 
 				/** The label of the sender address. */
-				sender_address_label: string,
+				sender_address_label: string | null,
 
 				/** The contract logo URL. */
 				sender_logo_url: string,
 
 				/** The log events in raw. */
-				raw_log_data: string,
+				raw_log_data: string | null,
 
 				/** The decoded item. */
 				decoded: {
@@ -1445,7 +1347,7 @@ type NftTransactionsResponse = {
 
 						value: string,
 					}[],
-				},
+				} | null,
 			}[],
 		}[],
 
@@ -1524,7 +1426,7 @@ type NftCollectionTraitSummaryResponse = {
 	items: {
 		/** Trait name */
 		name: string,
-	
+
 		/** Type of the value of the trait. */
 		value_type: string,
 
@@ -1624,9 +1526,9 @@ type NftCollectionAttributesForTraitResponse = {
  */
 export const getChainCollections = ({
 	chainName,
-	pageSize,
-	pageNumber,
-	noSpam,
+	pageSize = 100,
+	pageNumber = 0,
+	noSpam = false,
 }: {
 	chainName: string
 	pageSize?: integer
@@ -1711,7 +1613,7 @@ type ChainCollectionResponse = {
 export const getNftMarketFloorPrice = ({
 	chainName,
 	contractAddress,
-	days,
+	days = 30,
 	quoteCurrency = 'USD',
 }: {
 	chainName: string
@@ -1783,7 +1685,7 @@ type NftMarketFloorPriceResponse = {
 export const getNftMarketVolume = ({
 	chainName,
 	contractAddress,
-	days,
+	days = 30,
 	quoteCurrency = 'USD',
 }: {
 	chainName: string
@@ -1826,7 +1728,7 @@ type NftMarketVolumeResponse = {
 
 		/** The current volume converted to fiat in `quote-currency`. */
 		volume_quote: double,
-		
+
 		/** The current volume in native currency. */
 		volume_native_quote: double,
 
@@ -1855,7 +1757,7 @@ type NftMarketVolumeResponse = {
 export const getNftMarketSaleCount = ({
 	chainName,
 	contractAddress,
-	days,
+	days = 30,
 	quoteCurrency = 'USD',
 }: {
 	chainName: string
@@ -1954,64 +1856,18 @@ type NftOwnershipForCollectionResponse = {
 		token_id: string,
 
 		/** A list of supported standard ERC interfaces, eg: `ERC20` and `ERC721`. */
-		supports_erc: ErcInterface[],
+		supports_erc: ErcInterface[] | null,
 
 		last_transfered_at: datetime,
-		
-		/** Nft balance. */
-		balance: integer,
 
-		balance24h: integer,
+		/** Nft balance. */
+		balance: safelong, // integer
+
+		balance24h: safelong, // integer
 
 		type: string,
 
-		nft_data: {
-			/** The token's id. */
-			token_id: string,
-
-			token_url: string,
-
-			/** The original minter. */
-			original_owner: string,
-
-			external_data: {
-				name: string,
-
-				description: string,
-
-				asset_url: string,
-
-				asset_file_extension: string,
-
-				asset_mime_type: string,
-
-				asset_size_bytes: string, // TODO: integer
-
-				image: string,
-
-				image_256: string,
-
-				image_512: string,
-
-				image_1024: string,
-
-				animation_url: string,
-
-				external_url: string,
-
-				attributes: {
-					trait_type: string,
-
-					value: string,
-				}[],
-			},
-
-			/** If `true`, the asset data is available from the Covalent CDN. */
-			asset_cached: boolean,
-
-			/** If `true`, the image data is available from the Covalent CDN. */
-			image_cached: boolean,
-		},
+		nft_data: NftWithMetadata,
 	}[],
 }
 
@@ -2072,19 +1928,19 @@ type Transaction = {
 	from_address: string,
 
 	/** The address of the miner. */
-	miner_address: string,
+	miner_address: string | null,
 
 	/** The label of from address. */
-	from_address_label: string,
+	from_address_label: string | null,
 
 	/** The receiver's wallet address. */
 	to_address: string,
 
 	/** The label of to address. */
-	to_address_label: string,
+	to_address_label: string | null,
 
 	/** The value attached to this tx. */
-	value: string,
+	value: safelong, // string,
 
 	/** The value attached in `quote-currency` to this tx. */
 	value_quote: double,
@@ -2107,22 +1963,22 @@ type Transaction = {
 		contract_address: string,
 
 		/** A list of supported standard ERC interfaces, eg: `ERC20` and `ERC721`. */
-		supports_erc: ErcInterface[],
+		supports_erc: ErcInterface[] | null,
 
 		/** The contract logo URL. */
 		logo_url: string,
-	},
+	} | null,
 
-	gas_offered: string,
+	gas_offered: integer, // string
 
 	/** The gas spent for this tx. */
-	gas_spent: string,
+	gas_spent: integer, // string
 
 	/** The gas price at the time of this tx. */
-	gas_price: string,
+	gas_price: integer, // string
 
 	/** The total transaction fees (`gas_price` * `gas_spent`) paid for this tx, denoted in wei. */
-	fees_paid: string,
+	fees_paid: safelong, // string
 
 	/** The gas spent in quote-currency denomination. */
 	gas_quote: double,
@@ -2308,20 +2164,20 @@ type Transaction = {
 		nft_token_price_native: double,
 
 		pretty_nft_token_price_native: string,
-		
+
 		/** Stores the number of NFTs involved in the sale. It's quick routine to see multiple NFTs involved in a single sale. */
 		token_count: integer,
 
 		num_token_ids_sold_per_sale: integer,
-		
+
 		num_token_ids_sold_per_tx: integer,
-		
+
 		num_collections_sold_per_sale: integer,
-		
+
 		num_collections_sold_per_tx: integer,
-		
+
 		trade_type: string,
-		
+
 		trade_group_type: string,
 	},
 
@@ -2422,7 +2278,7 @@ type Transaction = {
 		pretty_amount_out_usd: string,
 
 		/** Stores the type of loan the user is taking out. Lending protocols enable you to take out a stable or variable loan. Only relevant to borrow events. */
-		borrow_rate_mode: string, // double ???
+		borrow_rate_mode: string,
 
 		/** Stores the interest rate of the loan. Only relevant to borrow events. */
 		borrow_rate: double,
@@ -2457,24 +2313,24 @@ type Transaction = {
 		raw_log_topics: string[],
 
 		/** Use contract decimals to format the token balance for display purposes - divide the balance by 10^{contract_decimals}. */
-		sender_contract_decimals: integer, 
+		sender_contract_decimals: integer | null, 
 
 		/** The name of the sender. */
-		sender_name: string,
+		sender_name: string | null,
 
-		sender_contract_ticker_symbol: string,
+		sender_contract_ticker_symbol: string | null,
 
 		/** The address of the sender. */
 		sender_address: string,
 
 		/** The label of the sender address. */
-		sender_address_label: string,
+		sender_address_label: string | null,
 
 		/** The contract logo URL. */
 		sender_logo_url: string,
 
 		/** The log events in raw. */
-		raw_log_data: string,
+		raw_log_data: string | null,
 
 		/** The decoded item. */
 		decoded: {
@@ -2493,7 +2349,7 @@ type Transaction = {
 
 				value: string,
 			}[]
-		}
+		} | null,
 	}[],
 
 	/** The details related to the safe transaction. */
@@ -2555,7 +2411,7 @@ export const getTransaction = ({
 	get<TransactionResponse>(`v1/${chainName}/transaction_v2/${txHash}`, {
 		'quote-currency': quoteCurrency,
 		'no-logs': noLogs,
-		'with-dex-sales': withDex,
+		'with-dex': withDex,
 		'with-nft-sales': withNftSales,
 		'with-lending': withLending,
 		'with-safe': withSafe,
@@ -2702,7 +2558,7 @@ type TransactionsTimeBucketResponse = {
 
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
-	
+
 	/** DEPRECATED */
 	next_update_at: datetime,
 
@@ -2959,7 +2815,7 @@ export const getAllTransactionsInABlock = ({
 	withSafe = false,
 }: {
 	chainName: string
-	blockHeight: string
+	blockHeight: integer | `0x${string}` | 'earliest' | 'latest'
 	quoteCurrency?: string
 	noLogs?: boolean
 	withSafe?: boolean
@@ -3013,7 +2869,7 @@ export const getAllTransactionsInABlockByPage = ({
 	withSafe = false,
 }: {
 	chainName: string
-	blockHeight: string
+	blockHeight: integer | `0x${string}` | 'earliest' | 'latest'
 	page: integer
 	quoteCurrency?: string
 	noLogs?: boolean
@@ -3098,37 +2954,37 @@ type ApprovalsResponse = {
 		token_address: string,
 
 		/** The name for the token that has approvals. */
-		token_address_label: string,
+		token_address_label: string | null,
 
 		/** The ticker symbol for this contract. This field is set by a developer and non-unique across a network. */
-		ticker_symbol: string,
+		ticker_symbol: string | null,
 
 		/** Use contract decimals to format the token balance for display purposes - divide the balance by `10^{contract_decimals}`. */
-		contract_decimals: integer,
+		contract_decimals: integer | null,
 
 		/** The contract logo URL. */
 		logo_url: string,
 
 		/** The exchange rate for the requested quote currency. */
-		quote_rate: double,
+		quote_rate: double | null,
 
 		/** Wallet balance of the token. */
-		balance: integer,
+		balance: safelong, // integer
 
 		/** Value of the wallet balance of the token. */
-		balance_quote: double,
+		balance_quote: double | null,
 
 		/** A prettier version of the quote for rendering purposes. */
-		pretty_balance_quote: string,
+		pretty_balance_quote: string | null,
 
 		/** Total amount at risk across all spenders. */
 		value_at_risk: integer,
 
 		/** Value of total amount at risk across all spenders. */
-		value_at_risk_quote: double,
+		value_at_risk_quote: double | null,
 
 		/** A prettier version of the quote for rendering purposes. */
-		pretty_value_at_risk_quote: string,
+		pretty_value_at_risk_quote: string | null,
 
 		/** Contracts with non-zero approvals for this token. */
 		spenders: {
@@ -3151,28 +3007,28 @@ type ApprovalsResponse = {
 			spender_address: string,
 
 			/** Name of the contract with approval for the token. */
-			spender_address_label: string,
+			spender_address_label: string | null,
 
 			/** Remaining number of tokens granted to the spender by the approval. */
-			allowance: integer, // string ???
+			allowance: 'UNLIMITED' | safelong, // string
 
 			/** Value of the remaining allowance specified by the approval. */
-			allowance_quote: double,
+			allowance_quote: double | null,
 
 			/** A prettier version of the quote for rendering purposes. */
-			pretty_allowance_quote: string,
+			pretty_allowance_quote: string | null,
 
 			/** Amount at risk for spender. */
-			value_at_risk: integer,
+			value_at_risk: safelong, // integer
 
 			/** Value of amount at risk for spender. */
-			value_at_risk_quote: double,
+			value_at_risk_quote: double | null,
 
 			/** A prettier version of the quote for rendering purposes. */
-			pretty_value_at_risk_quote: string,
+			pretty_value_at_risk_quote: string | null,
 
 			/** The risk factor. */
-			risk_factor: double,
+			risk_factor: 'LOW RISK' | 'CONSIDER REVOKING' | 'HIGH RISK, REVOKE NOW' | null // double
 		}[],
 	}[],
 }
@@ -3219,10 +3075,10 @@ type NftApprovalsResponse = {
 		contract_address: string,
 
 		/** The label of the contract address. */
-		contract_address_label: string,
+		contract_address_label: string | null,
 
 		/** The ticker symbol for this contract. This field is set by a developer and non-unique across a network. */
-		contract_ticker_symbol: string,
+		contract_ticker_symbol: string | null,
 
 		/** List of asset balances held by the user. */
 		token_balances: {
@@ -3230,7 +3086,7 @@ type NftApprovalsResponse = {
 			token_id: string,
 
 			/** The NFT's token balance. */
-			token_balance: integer,
+			token_balance: safelong // integer
 		}[],
 
 		/** Contracts with non-zero approvals for this token. */
@@ -3254,13 +3110,13 @@ type NftApprovalsResponse = {
 			spender_address: string,
 
 			/** Name of the contract with approval for the token. */
-			spender_address_label: string,
+			spender_address_label: string | null,
 
 			/** The token ids approved. */
-			token_ids_approved: string[],
+			token_ids_approved: 'ALL', // string
 
 			/** Remaining number of tokens granted to the spender by the approval. */
-			allowance: integer, // string ???
+			allowance: 'UNLIMITED' | safelong, // string
 		}[],
 	}[],
 }
@@ -3290,24 +3146,24 @@ type LogEvent = {
 	raw_log_topics: string[],
 
 	/** Use contract decimals to format the token balance for display purposes - divide the balance by `10^{contract_decimals}`. */
-	sender_contract_decimals: integer,
+	sender_contract_decimals: integer | null,
 
 	/** The name of the sender. */
-	sender_name: string,
+	sender_name: string | null,
 
-	sender_contract_ticker_symbol: string,
+	sender_contract_ticker_symbol: string | null,
 
 	/** The address of the sender. */
 	sender_address: string,
 
 	/** The label of the sender address. */
-	sender_address_label: string,
+	sender_address_label: string | null,
 
 	/** The contract logo URL. */
 	sender_logo_url: string,
 
 	/** The log events in raw. */
-	raw_log_data: string,
+	raw_log_data: string | null,
 
 	/** The decoded item. */
 	decoded: {
@@ -3326,7 +3182,7 @@ type LogEvent = {
 
 			value: string,
 		}[],
-	},
+	} | null,
 }
 
 /**
@@ -3350,16 +3206,13 @@ export const getBlock = ({
 	chainName,
 	blockHeight,
 	noLogs = false,
-	noMinerRewards,
 }: {
 	chainName: string
-	blockHeight: string
+	blockHeight: integer | `0x${string}` | 'earliest' | 'latest'
 	noLogs?: boolean
-	noMinerRewards?: boolean
 }) => (
 	get<BlockResponse>(`v1/${chainName}/block_v2/${blockHeight}`, {
 		'no-logs': noLogs,
-		'no-miner-rewards': noMinerRewards,
 	})
 )
 
@@ -3380,7 +3233,7 @@ type BlockResponse = {
 
 		/** The block height. */
 		height: integer,
-	},
+	}[],
 }
 
 /**
@@ -3405,8 +3258,8 @@ export const getBlockHeights = ({
 	chainName,
 	startDate,
 	endDate,
-	pageSize,
-	pageNumber,
+	pageSize = 100,
+	pageNumber = 0,
 }: {
 	chainName: string
 	startDate: string
@@ -3467,7 +3320,7 @@ type BlockHeightsResponse = {
  * @param {string} chainName The chain name eg: `eth-mainnet`.
  * 
  * Query Params
- * @param {string} starting-block The first block to retrieve log events with. Accepts decimals, hexadecimals, or the strings `earliest` and `latest`.
+ * @param {integer} starting-block The first block to retrieve log events with. Accepts decimals, hexadecimals, or the strings `earliest` and `latest`.
  * @param {string} ending-block The last block to retrieve log events with. Accepts decimals, hexadecimals, or the strings `earliest` and `latest`.
  * @param {string} address The address of the log events sender contract.
  * @param {string} topics The topic hash(es) to retrieve logs with.
@@ -3476,7 +3329,7 @@ type BlockHeightsResponse = {
  */
 export const getLogs = ({
 	chainName,
-	startingBlock,
+	startingBlock = 0,
 	endingBlock,
 	address,
 	topics,
@@ -3484,8 +3337,8 @@ export const getLogs = ({
 	skipDecode,
 }: {
 	chainName: string
-	startingBlock?: string
-	endingBlock?: string
+	startingBlock?: integer
+	endingBlock?: integer | `0x${string}` | 'earliest' | 'latest'
 	address?: string
 	topics?: string
 	blockHash?: string
@@ -3535,28 +3388,26 @@ type GetLogsResponse = {
 		raw_log_topics: string[],
 
 		/** The log events in raw. */
-		raw_log_data: string,
+		raw_log_data: string | null,
 
 		/** The decoded item. */
 		decoded: {
-			/** The name of the event. */
 			name: string,
 
-			/** The signature of the event. */
 			signature: string,
 
-			/** List of parameters. */
 			params: {
-				/** The parameter name. */
 				name: string,
 
-				/** The parameter type. */
 				type: string,
 
-				/** The parameter value. */
+				indexed: boolean,
+
+				decoded: boolean,
+
 				value: string,
 			}[],
-		},
+		} | null,
 	}[],
 }
 
@@ -3574,7 +3425,7 @@ type GetLogsResponse = {
  * @param {string} contractAddress The requested contract address. Passing in an `ENS`, `RNS`, `Lens Handle`, or an `Unstoppable Domain` resolves automatically.
  * 
  * Query Params
- * @param {string} starting-block The first block to retrieve log events with. Accepts decimals, hexadecimals, or the strings `earliest` and `latest`.
+ * @param {integer} starting-block The first block to retrieve log events with. Accepts decimals, hexadecimals, or the strings `earliest` and `latest`.
  * @param {string} ending-block The last block to retrieve log events with. Accepts decimals, hexadecimals, or the strings `earliest` and `latest`.
  * @param {integer} page-size Number of items per page. Omitting this parameter defaults to 100.
  * @param {integer} page-number 0-indexed page number to begin pagination.
@@ -3582,15 +3433,15 @@ type GetLogsResponse = {
 export const getLogEventsByContractAddress = ({
 	chainName,
 	contractAddress,
-	startingBlock,
+	startingBlock = 0,
 	endingBlock,
 	pageSize = 100,
-	pageNumber,
+	pageNumber = 0,
 }: {
 	chainName: string
 	contractAddress: string
-	startingBlock?: string
-	endingBlock?: string
+	startingBlock?: integer
+	endingBlock?: integer | `0x${string}` | 'earliest' | 'latest'
 	pageSize?: integer
 	pageNumber?: integer
 }) => (
@@ -3644,7 +3495,7 @@ type LogEventsByAddressResponse = {
  * @param {string} topicHash The endpoint will return event logs that contain this topic hash.
  * 
  * Query Params
- * @param {string} starting-block The first block to retrieve log events with. Accepts decimals, hexadecimals, or the strings `earliest` and `latest`.
+ * @param {integer} starting-block The first block to retrieve log events with. Accepts decimals, hexadecimals, or the strings `earliest` and `latest`.
  * @param {string} ending-block The last block to retrieve log events with. Accepts decimals, hexadecimals, or the strings `earliest` and `latest`.
  * @param {string} secondary-topics Additional topic hash(es) to filter on - padded & unpadded address fields are supported. Separate multiple topics with a comma.
  * @param {integer} page-size Number of items per page. Omitting this parameter defaults to 100.
@@ -3653,16 +3504,16 @@ type LogEventsByAddressResponse = {
 export const getLogEventsByTopicHash = ({
 	chainName,
 	topicHash,
-	startingBlock,
+	startingBlock = 0,
 	endingBlock,
 	secondaryTopics,
 	pageSize = 100,
-	pageNumber,
+	pageNumber = 0,
 }: {
 	chainName: string
 	topicHash: string
-	startingBlock?: string
-	endingBlock?: string
+	startingBlock?: integer
+	endingBlock?: integer | `0x${string}` | 'earliest' | 'latest'
 	secondaryTopics?: string
 	pageSize?: integer
 	pageNumber?: integer
@@ -3843,7 +3694,7 @@ type AllChainsStatusResponse = {
 		name: string,
 
 		/** The requested chain ID eg: `1`. */
-		chain_id: integer, // string ???
+		chain_id: integer,
 
 		/** True if the chain is a testnet. */
 		is_testnet: boolean,
@@ -3895,7 +3746,7 @@ export const getGasPrices = ({
 	quoteCurrency = 'USD',
 }: {
 	chainName: string
-	eventType: string
+	eventType: 'erc20' | 'uniswapv3' | 'nativetokens'
 	quoteCurrency?: string
 }) => (
 	get<GasPricesResponse>(`v1/${chainName}/event/${eventType}/gas_prices`, {
@@ -3924,10 +3775,10 @@ type GasPricesResponse = {
 
 	items: {
 		/** The average gas price, in WEI, for the time interval. */
-		gas_price: string, // double ???
+		gas_price: safelong, // string
 
 		/** The average gas spent for the time interval. */
-		gas_spent: integer,
+		gas_spent: safelong, // string
 
 		/** The average gas spent in `quote-currency` denomination for the time interval. */
 		gas_quote: double,
@@ -3935,7 +3786,7 @@ type GasPricesResponse = {
 		/** Other fees, when applicable. For example: OP chain L1 fees. */
 		other_fees: {
 			/** The calculated L1 gas spent, when applicable, in quote-currency, for the specified time interval. */
-			l1_gas_quote: double,
+			l1_gas_quote: double | null,
 		},
 
 		/** The sum of the L1 and L2 gas spent, in quote-currency, for the specified time interval. */
@@ -3966,7 +3817,7 @@ type GasPricesResponse = {
  */
 export const getCrossChainActivity = ({
 	walletAddress,
-	testnets,
+	testnets = false,
 }: {
 	walletAddress: string
 	testnets?: boolean
@@ -3985,63 +3836,59 @@ type ChainActivityResponse = {
 
 	/** List of response items. */
 	items: {
-		extends: {
-			/** The chain name eg: `eth-mainnet`. */
-			name: string,
+		/** The chain name eg: `eth-mainnet`. */
+		name: string,
 
-			/** The requested chain ID eg: `1`. */
-			chain_id: integer,
+		/** The requested chain ID eg: `1`. */
+		chain_id: safelong, 
 
-			/** True if the chain is a testnet. */
-			is_testnet: boolean,
+		/** True if the chain is a testnet. */
+		is_testnet: boolean,
 
-			/** Schema name to use for direct SQL. */
-			db_schema_name: string,
+		/** Schema name to use for direct SQL. */
+		db_schema_name: string,
 
-			/** The chains label eg: `Ethereum Mainnet`. */
-			label: string,
+		/** The chains label eg: `Ethereum Mainnet`. */
+		label: string,
 
-			/** The category label eg: `Ethereum`. */
-			category_label: string,
+		/** The category label eg: `Ethereum`. */
+		category_label: string,
 
-			/** A svg logo url for the chain. */
-			logo_url: string,
+		/** A svg logo url for the chain. */
+		logo_url: string,
 
-			/** A black png logo url for the chain. */
-			black_logo_url: string,
+		/** A black png logo url for the chain. */
+		black_logo_url: string,
 
-			/** A white png logo url for the chain. */
-			white_logo_url: string,
+		/** A white png logo url for the chain. */
+		white_logo_url: string,
 
-			/** The color theme for the chain. */
-			color_theme: {
-				/** The red color code. */
-				red: integer,
+		/** The color theme for the chain. */
+		color_theme: {
+			/** The red color code. */
+			red: integer,
 
-				/** The green color code. */
-				green: integer,
+			/** The green color code. */
+			green: integer,
 
-				/** The blue color code. */
-				blue: integer,
+			/** The blue color code. */
+			blue: integer,
 
-				/** The alpha color code. */
-				alpha: integer,
+			/** The alpha color code. */
+			alpha: integer,
 
-				/** The hexadecimal color code. */
-				hex: string,
+			/** The hexadecimal color code. */
+			hex: string,
 
-				/** The color represented in css rgb() functional notation. */
-				css_rgb: string,
-			},
+			/** The color represented in css rgb() functional notation. */
+			css_rgb: string,
+		} | null,
 
-			/** True if the chain is an AppChain. */
-			is_appchain: boolean,
+		/** True if the chain is an AppChain. */
+		is_appchain: boolean,
 
-			/** The ChainItem the appchain is a part of. */
-			appchain_of: {
-
-			},
-		},
+		/** The ChainItem the appchain is a part of. */
+		appchain_of: null,
 
 		/** The timestamp when the address was last seen on the chain. */
 		last_seen_at: datetime,
@@ -4055,7 +3902,6 @@ type ChainActivityResponse = {
  * APIs maintained by Covalent for a specific protocol on a specific blockchain, eg: Constant Product AMMs (`XY=K`) on various blockchains.
  */
 
-
 /**
  * XY=K
  */
@@ -4067,33 +3913,30 @@ type XykPool = {
 	swap_count_24h: integer,
 
 	/** The total liquidity converted to fiat in `quote-currency`. */
-	total_liquidity_quote: double,
+	total_liquidity_quote: double, // string
 
-	volume_24h_quote: double,
+	volume_24h_quote: double, // string
 
-	fee_24h_quote: double,
+	fee_24h_quote: double, // string
 
 	/** Total supply of this pool token. */
-	total_supply: integer,
+	total_supply: safelong // integer // string
 
 	/** The exchange rate for the requested quote currency. */
-	quote_rate: double,
+	quote_rate: double, // string
 
-	/** The requested quote currency. */
-	quote_currency: string,
-
-	/** The chain name eg: `eth-mainnet`. */
+	/** The requested chain name eg: `eth-mainnet`. */
 	chain_name: string,
 
 	/** The requested chain ID eg: `1`. */
-	chain_id: integer,
+	chain_id: integer, // string
 
 	/** The name of the DEX, eg: `uniswap_v2`. */
 	dex_name: string,
 
-	volume_7d_quote: double,
+	volume_7d_quote: double, // string
 
-	annualized_fee: string, // double ???
+	annualized_fee: double, // string
 
 	token_0: {
 		/** Use the relevant `contract_address` to lookup prices, logos, token transfers, etc. */
@@ -4102,14 +3945,14 @@ type XykPool = {
 		/** The string returned by the `name()` method. */
 		contract_name: string,
 
-		volume_in_24h: string,  // double ???
+		volume_in_24h: safelong, // string,
 
-		volume_out_24h: string, // double ???
+		volume_out_24h: safelong, // string,
 
 		/** The exchange rate for the requested quote currency. */
 		quote_rate: string,
 
-		reserve: string,
+		reserve: safelong, // string,
 
 		/** The contract logo URL. */
 		logo_url: string,
@@ -4118,11 +3961,11 @@ type XykPool = {
 		contract_ticker_symbol: string,
 
 		/** Use contract decimals to format the token balance for display purposes - divide the balance by `10^{contract_decimals}`. */
-		contract_decimals: string, // integer,
+		contract_decimals: integer, // string
 
-		volume_in_7d: string,  // double ???
+		volume_in_7d: safelong, // string
 
-		volume_out_7d: string, // double ???
+		volume_out_7d: safelong, // string
 	},
 
 	token_1: {
@@ -4132,14 +3975,14 @@ type XykPool = {
 		/** The string returned by the `name()` method. */
 		contract_name: string,
 
-		volume_in_24h: string,  // double ???
+		volume_in_24h: safelong, // string,
 
-		volume_out_24h: string, // double ???
+		volume_out_24h: safelong, // string,
 
 		/** The exchange rate for the requested quote currency. */
 		quote_rate: string,
 
-		reserve: string,
+		reserve: safelong, // string,
 
 		/** The contract logo URL. */
 		logo_url: string,
@@ -4148,11 +3991,11 @@ type XykPool = {
 		contract_ticker_symbol: string,
 
 		/** Use contract decimals to format the token balance for display purposes - divide the balance by `10^{contract_decimals}`. */
-		contract_decimals: string, // integer,
+		contract_decimals: integer, // string
 
-		volume_in_7d: string,  // double ???
+		volume_in_7d: safelong, // string
 
-		volume_out_7d: string, // double ???
+		volume_out_7d: safelong, // string
 	},
 }
 
@@ -4163,32 +4006,34 @@ type XykTransaction = {
 	/** The requested transaction hash. */
 	tx_hash: string,
 
-	act: string,
+	act: 'SWAP' | string,
 
 	/** The requested address. */
 	address: string,
 
-	amount0: safelong,
+	amount_0: safelong | null, // amount0
 
-	amount1: safelong,
+	amount_1: safelong | null, // amount1
 
-	amount0_in: safelong,
+	amount_0_in: safelong, // amount0_in
 
-	amount0_out: safelong,
+	amount_0_out: safelong, // amount0_out
 
-	amount1_out: safelong,
+	amount_1_out: safelong, // amount1_out
 
 	to_address: string,
 
-	from_address: string,
+	from_address: string | null,
 
 	sender_address: string,
 
 	total_quote: double,
 
+	quote_currency: string,
+
 	token_0: {
 		/** Use contract decimals to format the token balance for display purposes - divide the balance by `10^{contract_decimals}`. */
-		contract_decimals: string, // integer ???
+		contract_decimals: integer, // string
 
 		/** The string returned by the `name()` method. */
 		contract_name: string,
@@ -4200,7 +4045,7 @@ type XykTransaction = {
 		contract_address: string,
 
 		/** A list of supported standard ERC interfaces, eg: `ERC20` and `ERC721`. */
-		supports_erc: ErcInterface[], // boolean ???
+		supports_erc: ErcInterface[] | null,
 
 		/** The contract logo URL. */
 		logo_url: string,
@@ -4208,7 +4053,7 @@ type XykTransaction = {
 
 	token_1: {
 		/** Use contract decimals to format the token balance for display purposes - divide the balance by `10^{contract_decimals}`. */
-		contract_decimals: string, // integer ???
+		contract_decimals: integer, // string
 
 		/** The string returned by the `name()` method. */
 		contract_name: string,
@@ -4220,7 +4065,7 @@ type XykTransaction = {
 		contract_address: string,
 
 		/** A list of supported standard ERC interfaces, eg: `ERC20` and `ERC721`. */
-		supports_erc: ErcInterface[], // boolean ???
+		supports_erc: ErcInterface[] | null,
 
 		/** The contract logo URL. */
 		logo_url: string,
@@ -4540,7 +4385,7 @@ type AddressExchangeBalancesResponse = {
 			logo_url: string,
 
 			/** The asset balance. Use `contract_decimals` to scale this balance for display purposes. */
-			balance: string, // double ???
+			balance: safelong, // string
 
 			quote: double,
 
@@ -4562,7 +4407,7 @@ type AddressExchangeBalancesResponse = {
 			logo_url: string,
 
 			/** The asset balance. Use `contract_decimals` to scale this balance for display purposes. */
-			balance: string, // double ???
+			balance: safelong, // string
 
 			quote: double,
 
@@ -4584,7 +4429,7 @@ type AddressExchangeBalancesResponse = {
 			logo_url: string,
 
 			/** The asset balance. Use `contract_decimals` to scale this balance for display purposes. */
-			balance: string, // double ???
+			balance: safelong, // string
 
 			quote: double,
 
@@ -4592,7 +4437,7 @@ type AddressExchangeBalancesResponse = {
 			quote_rate: double,
 
 			/** Total supply of this pool token. */
-			total_supply: integer,
+			total_supply: safelong,
 		},
 	},
 }
@@ -4636,7 +4481,7 @@ type NetworkExchangeTokensResponse = {
 		chain_name: string,
 
 		/** The requested chain ID eg: `1`. */
-		chain_id: string, // integer ????
+		chain_id: safelong,
 
 		/** The name of the DEX, eg: `uniswap_v2`. */
 		dex_name: string,
@@ -4706,7 +4551,7 @@ type SupportedDexesResponse = {
 
 	items: {
 		/** The requested chain ID eg: `1`. */
-		chain_id: string, // integer ????
+		chain_id: safelong,
 
 		/** The requested chain name eg: `eth-mainnet`. */
 		chain_name: string,
@@ -4768,7 +4613,7 @@ type PoolToDexResponse = {
 	address: string,
 
 	/** The requested chain ID eg: `1`. */
-	chain_id: string, // integer ????
+	chain_id: safelong,
 
 	/** The requested chain name eg: `eth-mainnet`. */
 	chain_name: string,
@@ -4777,7 +4622,7 @@ type PoolToDexResponse = {
 	items: {
 		extends: {
 			/** The requested chain ID eg: `1`. */
-			chain_id: string, // integer ???
+			chain_id: safelong,
 
 			/** The requested chain name eg: `eth-mainnet`. */
 			chain_name: string,
@@ -4828,7 +4673,7 @@ type SingleNetworkExchangeTokenResponse = {
 	updated_at: datetime,
 
 	/** The requested chain ID eg: `1`. */
-	chain_id: string, // integer ????
+	chain_id: safelong,
 
 	/** The requested chain name eg: `eth-mainnet`. */
 	chain_name: string,
@@ -4838,7 +4683,7 @@ type SingleNetworkExchangeTokenResponse = {
 		/** The pair address. */
 		exchange: string,
 
-		swap_count_24h: string, // integer ???
+		swap_count_24h: double, // string
 
 		/** The total liquidity converted to fiat in `quote-currency`. */
 		total_liquidity_quote: double,
@@ -4848,20 +4693,20 @@ type SingleNetworkExchangeTokenResponse = {
 		fee_24h_quote: double,
 
 		/** Total supply of this pool token. */
-		total_supply: string, // integer ???
+		total_supply: safelong, // string
 
 		/** The exchange rate for the requested quote currency. */
-		quote_rate: string // double ???
+		quote_rate: double, // string
 
 		/** The requested chain ID eg: `1`. */
-		chain_id: string, // integer ???
+		chain_id: safelong,
 
 		/** The name of the DEX, eg: `uniswap_v2`. */
 		dex_name: string,
 
-		volume_7d_quote: string, // double ???
+		volume_7d_quote: double, // string
 
-		annualized_fee: string, // double ???
+		annualized_fee: double, // string
 
 		token_0: {
 			/** Use the relevant `contract_address` to lookup prices, logos, token transfers, etc. */
@@ -4870,14 +4715,14 @@ type SingleNetworkExchangeTokenResponse = {
 			/** The string returned by the `name()` method. */
 			contract_name: string,
 
-			volume_in_24h: string, // double ???
+			volume_in_24h: safelong, // string
 
-			volume_out_24h: string, // double ???
+			volume_out_24h: safelong, // string
 
 			/** The exchange rate for the requested quote currency. */
-			quote_rate: string,
+			quote_rate: double, // string
 
-			reserve: string,
+			reserve: safelong, // string
 
 			/** The contract logo URL. */
 			logo_url: string,
@@ -4886,11 +4731,11 @@ type SingleNetworkExchangeTokenResponse = {
 			contract_ticker_symbol: string,
 
 			/** Use contract decimals to format the token balance for display purposes - divide the balance by `10^{contract_decimals}`. */
-			contract_decimals: string, // integer ???
+			contract_decimals: integer,
 
-			volume_in_7d: string, // double ???
+			volume_in_7d: safelong, // string
 
-			volume_out_7d: string, // double ???
+			volume_out_7d: safelong, // string
 		},
 
 		token_1: {
@@ -4900,14 +4745,14 @@ type SingleNetworkExchangeTokenResponse = {
 			/** The string returned by the `name()` method. */
 			contract_name: string,
 
-			volume_in_24h: string, // double ???
+			volume_in_24h: safelong, // string
 
-			volume_out_24h: string, // double ???
+			volume_out_24h: safelong, // string
 
 			/** The exchange rate for the requested quote currency. */
-			quote_rate: string,
+			quote_rate: double, // string
 
-			reserve: string,
+			reserve: safelong, // string
 
 			/** The contract logo URL. */
 			logo_url: string,
@@ -4916,176 +4761,206 @@ type SingleNetworkExchangeTokenResponse = {
 			contract_ticker_symbol: string,
 
 			/** Use contract decimals to format the token balance for display purposes - divide the balance by `10^{contract_decimals}`. */
-			contract_decimals: string, // integer ???
+			contract_decimals: integer,
 
-			volume_in_7d: string, // double ???
+			volume_in_7d: safelong, // string
 
-			volume_out_7d: string, // double ???
+			volume_out_7d: safelong, // string
 		},
 
-		token_0_reserve_quote: string, // double ???
+		// token0_reserve_quote: string
+		token_0_reserve_quote: double,
 
-		token_1_reserve_quote: string, // double ???
+		// token1_reserve_quote: string
+		token_1_reserve_quote: double,
 
 		volume_timeseries_7d: {
 			/** The name of the DEX, eg: `uniswap_v2`. */
 			dex_name: string,
 
 			/** The requested chain ID eg: `1`. */
-			chain_id: string, // integer ???
+			chain_id: safelong,
 
-			dt: string,
+			dt: datetime, // string
 
 			/** The pair address. */
 			exchange: string,
 
-			sum_amount_0_in: string, // double ???
+			// sum_amount_0_in: string,
+			sum_amount0in: safelong,
 
-			sum_amount_0_out: string, // double ???
+			// sum_amount_0_out: string,
+			sum_amount0out: safelong,
 
-			sum_amount_1_in: string, // double ???
+			// sum_amount_1_in: string,
+			sum_amount1in: safelong,
 
-			sum_amount_1_out: string, // double ???
+			// sum_amount_1_out: string,
+			sum_amount1out: safelong,
 
-			volume_quote: string, // double ???
+			volume_quote: double | null, // string
 
-			token_0_quote_rate: string, // double ???
+			// token_0_quote_rate: string,
+			token0_quote_rate: double | null,
 
-			token_1_quote_rate: string, // double ???
+			// token_1_quote_rate: string,
+			token1_quote_rate: double | null,
 
-			swap_count_24: string, // integer ???
-		},
+			swap_count_24: integer, // string
+		}[],
 
 		volume_timeseries_30d: {
 			/** The name of the DEX, eg: `uniswap_v2`. */
 			dex_name: string,
 
 			/** The requested chain ID eg: `1`. */
-			chain_id: string, // integer ???
+			chain_id: safelong,
 
-			dt: string,
+			dt: datetime, // string
 
 			/** The pair address. */
 			exchange: string,
 
-			sum_amount_0_in: string, // double ???
+			// sum_amount_0_in: string,
+			sum_amount0in: safelong,
 
-			sum_amount_0_out: string, // double ???
+			// sum_amount_0_out: string,
+			sum_amount0out: safelong,
 
-			sum_amount_1_in: string, // double ???
+			// sum_amount_1_in: string,
+			sum_amount1in: safelong,
 
-			sum_amount_1_out: string, // double ???
+			// sum_amount_1_out: string,
+			sum_amount1out: safelong,
 
-			volume_quote: string, // double ???
+			volume_quote: double | null, // string
 
-			token_0_quote_rate: string, // double ???
+			// token_0_quote_rate: string,
+			token0_quote_rate: double | null,
 
-			token_1_quote_rate: string, // double ???
+			// token_1_quote_rate: string,
+			token1_quote_rate: double | null,
 
-			swap_count_24: string, // integer ???
-		},
+			swap_count_24: integer, // string
+		}[],
 
 		liquidity_timeseries_7d: {
 			/** The name of the DEX, eg: `uniswap_v2`. */
 			dex_name: string,
 
 			/** The requested chain ID eg: `1`. */
-			chain_id: string, // integer ???
+			chain_id: safelong,
 
-			dt: string,
+			dt: datetime, // string
 
 			/** The pair address. */
 			exchange: string,
 
-			r0_c: string, // double ???
+			r0_c: safelong, // string
 
-			r1_c: string, // double ???
+			r1_c: safelong, // string
 
-			liquidity_quote: string, // double ???
+			liquidity_quote: double | null, // string
 
-			token_0_quote_rate: string, // double ???
+			// token_0_quote_rate: string,
+			token0_quote_rate: double | null,
 
-			token_1_quote_rate: string, // double ???
-		},
+			// token_1_quote_rate: string,
+			token1_quote_rate: double | null,
+		}[],
 
 		liquidity_timeseries_30d: {
 			/** The name of the DEX, eg: `uniswap_v2`. */
 			dex_name: string,
 
 			/** The requested chain ID eg: `1`. */
-			chain_id: string, // integer ???
+			chain_id: safelong,
 
-			dt: string,
+			dt: datetime, // string
 
 			/** The pair address. */
 			exchange: string,
 
-			r0_c: string, // double ???
+			r0_c: safelong, // string
 
-			r1_c: string, // double ???
+			r1_c: safelong, // string
 
-			liquidity_quote: string, // double ???
+			liquidity_quote: double | null, // string
 
-			token_0_quote_rate: string, // double ???
+			// token_0_quote_rate: string,
+			token0_quote_rate: double | null,
 
-			token_1_quote_rate: string, // double ???
-		},
+			// token_1_quote_rate: string,
+			token1_quote_rate: double | null,
+		}[],
 
 		price_timeseries_7d: {
 			/** The name of the DEX, eg: `uniswap_v2`. */
 			dex_name: string,
 
 			/** The requested chain ID eg: `1`. */
-			chain_id: string, // integer ???
+			chain_id: safelong,
 
-			dt: string,
+			dt: datetime, // string
 
 			/** The pair address. */
 			exchange: string,
 
-			price_of_token_0_in_token_1: string, // double ???
+			// price_of_token_0_in_token_1: string,
+			price_of_token0_in_token1: double,
 
-			price_of_token_0_in_token_1_description: string,
+			// price_of_token_0_in_token_1_description: string,
+			price_of_token0_in_token1_description: string,
 
-			price_of_token_1_in_token_0: string, // double ???
+			// price_of_token_1_in_token_0: string,
+			price_of_token1_in_token0: double,
 
-			price_of_token_1_in_token_0_description: string,
+			// price_of_token_1_in_token_0_description: string,
+			price_of_token1_in_token0_description: string,
 
 			/** The requested quote currency eg: `USD`. */
 			quote_currency: string,
 
-			price_of_token_0_in_quote_currency: string, // double ???
+			// price_of_token_0_in_quote_currency: string,
+			price_of_token0_in_quote_currency: double | null,
 
-			price_of_token_1_in_quote_currency: string, // double ???
-		},
+			// price_of_token_1_in_quote_currency: string,
+			price_of_token1_in_quote_currency: double | null,
+		}[],
 
 		price_timeseries_30d: {
 			/** The name of the DEX, eg: `uniswap_v2`. */
 			dex_name: string,
 
 			/** The requested chain ID eg: `1`. */
-			chain_id: string, // integer ???
+			chain_id: safelong,
 
-			dt: string,
+			dt: datetime, // string
 
 			/** The pair address. */
 			exchange: string,
 
-			price_of_token_0_in_token_1: string, // double ???
+			// price_of_token_0_in_token_1: string,
+			price_of_token0_in_token1: double,
 
-			price_of_token_0_in_token_1_description: string,
+			// price_of_token_0_in_token_1_description: string,
+			price_of_token0_in_token1_description: string,
 
-			price_of_token_1_in_token_0: string, // double ???
+			// price_of_token_1_in_token_0: string,
+			price_of_token1_in_token0: double,
 
-			price_of_token_1_in_token_0_description: string,
+			// price_of_token_1_in_token_0_description: string,
+			price_of_token1_in_token0_description: string,
 
 			/** The requested quote currency eg: `USD`. */
 			quote_currency: string,
 
-			price_of_token_0_in_quote_currency: string, // double ???
+			// price_of_token_0_in_quote_currency: string,
+			price_of_token0_in_quote_currency: double | null,
 
-			price_of_token_1_in_quote_currency: string, // double ???
-		},
+			// price_of_token_1_in_quote_currency: string,
+			price_of_token1_in_quote_currency: double | null,
+		}[],
 	}[],
 
 	/** Pagination metadata. */
@@ -5336,7 +5211,7 @@ type EcosystemChartDataResponse = {
 			volume_quote: double,
 
 			swap_count_24: integer,
-		},
+		}[],
 
 		volume_chart30d: {
 			/** The name of the DEX, eg: `uniswap_v2`. */
@@ -5353,7 +5228,7 @@ type EcosystemChartDataResponse = {
 			volume_quote: double,
 
 			swap_count_24: integer,
-		},
+		}[],
 
 		liquidity_chart7d: {
 			/** The name of the DEX, eg: `uniswap_v2`. */
@@ -5368,7 +5243,7 @@ type EcosystemChartDataResponse = {
 			quote_currency: string,
 
 			liquidity_quote: double,
-		},
+		}[],
 
 		liquidity_chart30d: {
 			/** The name of the DEX, eg: `uniswap_v2`. */
@@ -5383,7 +5258,7 @@ type EcosystemChartDataResponse = {
 			quote_currency: string,
 
 			liquidity_quote: double,
-		},
+		}[],
 	}[],
 }
 
@@ -5477,7 +5352,7 @@ export const getHistoricalTokenPrices = ({
 	contractAddress,
 	from,
 	to,
-	pricesAtAsc,
+	pricesAtAsc = false,
 }: {
 	chainName: string
 	quoteCurrency: string
@@ -5507,7 +5382,7 @@ type TokenPricesResponse = {
 	contract_address: string,
 
 	/** A list of supported standard ERC interfaces, eg: ERC20 and ERC721. */
-	supports_erc: ErcInterface[],
+	supports_erc: ErcInterface[] | null,
 
 	/** The contract logo URL. */
 	logo_url: string,
@@ -5518,7 +5393,7 @@ type TokenPricesResponse = {
 	quote_currency: string,
 
 	/** List of response items. */
-	items: { // prices ???
+	prices: {
 		contract_metadata: {
 			/** Use contract decimals to format the token balance for display purposes - divide the balance by `10^{contract_decimals}`. */
 			contract_decimals: integer,
@@ -5533,7 +5408,39 @@ type TokenPricesResponse = {
 			contract_address: string,
 
 			/** A list of supported standard ERC interfaces, eg: ERC20 and ERC721. */
-			supports_erc: ErcInterface[],
+			supports_erc: ErcInterface[] | null,
+
+			/** The contract logo URL. */
+			logo_url: string,
+		},
+
+		/** The date of the price capture. */
+		date: datetime,
+
+		/** The price in the requested quote-currency. */
+		price: double,
+
+		/** A prettier version of the price for rendering purposes. */
+		pretty_price: string,
+	}[],
+
+	/** List of response items. */
+	items: {
+		contract_metadata: {
+			/** Use contract decimals to format the token balance for display purposes - divide the balance by `10^{contract_decimals}`. */
+			contract_decimals: integer,
+
+			/** The string returned by the `name()` method. */
+			contract_name: string,
+
+			/** The ticker symbol for this contract. This field is set by a developer and non-unique across a network. */
+			contract_ticker_symbol: string,
+
+			/** Use the relevant `contract_address` to lookup prices, logos, token transfers, etc. */
+			contract_address: string,
+
+			/** A list of supported standard ERC interfaces, eg: ERC20 and ERC721. */
+			supports_erc: ErcInterface[] | null,
 
 			/** The contract logo URL. */
 			logo_url: string,
