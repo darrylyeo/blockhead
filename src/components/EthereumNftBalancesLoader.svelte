@@ -42,10 +42,10 @@
 
 	$: summary = nftContractsWithBalances?.length
 		? {
-			quoteTotal: nftContractsWithBalances.reduce((sum, item) => sum + (item.quote ?? 0), 0),
+			quoteTotal: nftContractsWithBalances.reduce((sum, item) => sum + (item.conversion?.value ?? 0), 0),
 			quoteCurrency,
 			nftContractsCount: nftContractsWithBalances.length,
-			nftsCount: nftContractsWithBalances.reduce((sum, item) => sum + (item.nfts.length ?? 0), 0)
+			nftsCount: nftContractsWithBalances.reduce((sum, item) => sum + (item.nfts?.length ?? 0), 0)
 		}
 		: undefined
 
