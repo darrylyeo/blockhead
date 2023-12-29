@@ -69,14 +69,15 @@
 				address,
 				quoteCurrency,
 			}],
+			initialPageParam: 0,
 			queryFn: async ({ pageParam: pageNumber }) => (
 				await getERC20TokenTransfers({
 					chainId: network.chainId,
 					address,
 					contractAddress: erc20Token.address,
 					quoteCurrency,
-					pageNumber: pageNumber ?? 0,
 					pageSize: 100,
+					pageNumber,
 				})
 			),
 			getPreviousPageParam: (firstPage, allPages) => firstPage.pagination?.page_number > 0 ? firstPage.pagination.page_number - 1 : undefined,
