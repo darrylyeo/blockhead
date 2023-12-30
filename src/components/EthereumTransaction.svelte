@@ -185,31 +185,25 @@
 				<hr>
 
 				<h4>Smart Contract Log Events</h4>
+			{/if}
 
-				<div class="log-events column">
-					{#each transaction.logEvents as logEvent}
-						<div class="card">
-							<EthereumLogEvent
-								network={transaction.network}
-								{logEvent}
-								{detailLevel}
-								{contextualAddress}
-							/>
-						</div>
-					{/each}
-				</div>
-			{:else}
-				<div class="log-events column" class:scrollable-list={transaction.logEvents.length > 16}><!-- transition:fade -->
-					{#each transaction.logEvents as logEvent}
+			<div class="log-events column" class:scrollable-list={isExhaustive && transaction.logEvents.length > (isStandaloneLayout ? 8 : 16)}>
+				{#each transaction.logEvents as logEvent}
+					<a
+						href={`#/event/${logEvent.indexInBlock}`}
+						id={`/event/${logEvent.indexInBlock}`}
+						class="log-event"
+						class:card={isStandaloneLayout}
+					>
 						<EthereumLogEvent
 							network={transaction.network}
 							{logEvent}
 							{detailLevel}
 							{contextualAddress}
 						/>
-					{/each}
-				</div>
-			{/if}
+					</a>
+				{/each}
+			</div>
 		{/if}
 
 		{#if !isSummary && (transaction.transactionId || transaction.blockNumber)}
