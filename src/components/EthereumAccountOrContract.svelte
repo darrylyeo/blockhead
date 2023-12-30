@@ -7,7 +7,7 @@
 	import type { PriceScale } from './PriceChart.svelte'
 	import { preferences } from '../state/preferences'
 	import type { TokenBalancesProvider } from '../data/tokenBalancesProvider'
-	import { TransactionProvider } from '../data/transactionProvider'
+	import type { TransactionProvider } from '../data/transactionProvider'
 	import type { QuoteCurrency } from '../data/currencies'
 
 
@@ -74,7 +74,6 @@
 	import EthereumBalances from './EthereumBalances.svelte'
 	import EthereumContractExplorer from './EthereumContractExplorer.svelte'
 	import EthereumTransaction from './EthereumTransaction.svelte'
-	import EthereumTransactionCovalent from './EthereumTransactionCovalent.svelte'
 	import EthereumTransactionsLoader from './EthereumTransactionsLoader.svelte'
 	import EthereumTransactionsERC20Loader from './EthereumTransactionsERC20Loader.svelte'
 	import InlineContainer from './InlineContainer.svelte'
@@ -290,34 +289,18 @@
 						{#if transactions?.length}
 							<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
 								{#each transactions as transaction}
-									{#if transactionProvider === TransactionProvider.Covalent}
-										<a class="card" id={transaction.transactionId} href="#{transaction.transactionId}">
-											<EthereumTransactionCovalent
-												{network}
-												{transaction}
-												{quoteCurrency}
-												contextualAddress={address}
-												{detailLevel}
-												{tokenBalanceFormat}
-												{showFees}
-												layout="inline"
-											/>
-										</a>
-
-									{:else}
-										<a class="card" id={transaction.transactionId} href="#{transaction.transactionId}">
-											<EthereumTransaction
-												{network}
-												{transaction}
-												{quoteCurrency}
-												contextualAddress={address}
-												{detailLevel}
-												{tokenBalanceFormat}
-												{showFees}
-												layout="inline"
-											/>
-										</a>
-									{/if}
+									<a class="card" id={transaction.transactionId} href="#{transaction.transactionId}">
+										<EthereumTransaction
+											{network}
+											{transaction}
+											{quoteCurrency}
+											contextualAddress={address}
+											{detailLevel}
+											{tokenBalanceFormat}
+											{showFees}
+											layout="inline"
+										/>
+									</a>
 								{:else}
 									<div class="card">No transactions yet.</div>
 								{/each}
@@ -377,7 +360,7 @@
 							<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
 								{#each transactions as transaction}
 									<a class="card" id={transaction.tx_hash} href="#{transaction.tx_hash}">
-										<EthereumTransactionCovalent
+										<EthereumTransaction
 											{network}
 											{transaction}
 											{quoteCurrency}

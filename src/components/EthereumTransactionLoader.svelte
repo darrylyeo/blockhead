@@ -69,7 +69,6 @@
 
 	// Components
 	import EthereumTransaction from './EthereumTransaction.svelte'
-	import EthereumTransactionCovalent from './EthereumTransactionCovalent.svelte'
 	import Loader from './Loader.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
 </script>
@@ -220,7 +219,7 @@
 						</svelte:fragment>
 
 						{#if transaction}
-							<EthereumTransactionCovalent
+							<EthereumTransaction
 								{network}
 								{transaction}
 								{quoteCurrency}
