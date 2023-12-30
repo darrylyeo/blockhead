@@ -120,8 +120,7 @@ export const networkProviderConfigs = [
 					[NetworkProviderConnectionType.JSONRPC]: http,
 					[NetworkProviderConnectionType.WebSocket]: webSocket,
 				}[connectionType](
-					undefined,
-					{},
+					network.rpc[0],
 				),
 			})
 		),
