@@ -112,7 +112,7 @@ export const getTokenBalancesForAddress = <
 	})
 )
 
-type BalancesResponse<NoNftAssetMetadata extends boolean | undefined> = {
+export type BalancesResponse<NoNftAssetMetadata extends boolean | undefined> = {
 	/** The requested address. */
 	address: string,
 
@@ -261,7 +261,7 @@ export const getHistoricalTokenBalancesForAddress = <
 	})
 )
 
-type HistoricalBalancesResponse<NoNftAssetMetadata extends boolean | undefined | undefined = false> = {
+export type HistoricalBalancesResponse<NoNftAssetMetadata extends boolean | undefined | undefined = false> = {
 	/** The requested address. */
 	address: string,
 
@@ -376,7 +376,7 @@ export const getNativeTokenBalanceForAddress = ({
 	})
 )
 
-type TokenBalanceNativeResponse = {
+export type TokenBalanceNativeResponse = {
 	/** The requested address. */
 	address: string,
 
@@ -481,7 +481,7 @@ export const getHistoricalPortfolioForWalletAddress = ({
 	})
 )
 
-type PortfolioResponse = {
+export type PortfolioResponse = {
 	/** The requested address. */
 	address: string,
 
@@ -620,7 +620,7 @@ export const getErc20TransfersForWalletAddress = ({
 	})
 )
 
-type Erc20TransfersResponse = {
+export type Erc20TransfersResponse = {
 	/** The requested address. */
 	address: string,
 
@@ -830,7 +830,7 @@ export const getTokenHoldersV2ForTokenAddress = ({
 	})
 )
 
-type TokenHoldersResponse = {
+export type TokenHoldersResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -894,7 +894,7 @@ type TokenHoldersResponse = {
  * NFT - Core Rendering
  */
 
-type NftWithMetadata = {
+export type NftWithMetadata = {
 	/** The token's id. */
 	token_id: string,
 
@@ -912,7 +912,7 @@ type NftWithMetadata = {
 	image_cached: boolean,
 }
 
-type NftExternalData = {
+export type NftExternalData = {
 	name: string,
 
 	description: string,
@@ -984,7 +984,7 @@ export const getNftsForAddress = <
 	})
 )
 
-type NftAddressBalanceNftResponse<NoNftAssetMetadata extends boolean | undefined> = {
+export type NftAddressBalanceNftResponse<NoNftAssetMetadata extends boolean | undefined> = {
 	/** The requested address. */
 	address: string,
 
@@ -1090,7 +1090,7 @@ export const getNftsFromContractWithMetadata = <
 	})
 )
 
-type NftMetadataResponse<NoNftAssetMetadata extends boolean | undefined> = {
+export type NftMetadataResponse<NoNftAssetMetadata extends boolean | undefined> = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -1206,7 +1206,7 @@ export const getNftTransactionsForContractTokenId = ({
 	})
 )
 
-type NftTransactionsResponse = {
+export type NftTransactionsResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -1379,7 +1379,7 @@ export const getListOfTraitsCollection = ({
 	get<NftCollectionTraitsResponse>(`v1/${chainName}/nft/${collectionContract}/traits/`)
 )
 
-type NftCollectionTraitsResponse = {
+export type NftCollectionTraitsResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -1418,7 +1418,7 @@ export const getCollectionTraitSummary = ({
 	get<NftCollectionTraitSummaryResponse>(`v1/${chainName}/nft/${collectionContract}/traits_summary/`)
 )
 
-type NftCollectionTraitSummaryResponse = {
+export type NftCollectionTraitSummaryResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -1491,7 +1491,7 @@ export const getAttributesForTraitInCollection = ({
 	get<NftCollectionAttributesForTraitResponse>(`v1/${chainName}/nft/${collectionContract}/traits/${trait}/attributes/`)
 )
 
-type NftCollectionAttributesForTraitResponse = {
+export type NftCollectionAttributesForTraitResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -1542,7 +1542,7 @@ export const getChainCollections = ({
 	})
 )
 
-type ChainCollectionResponse = {
+export type ChainCollectionResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -1627,7 +1627,7 @@ export const getNftMarketFloorPrice = ({
 	})
 )
 
-type NftMarketFloorPriceResponse = {
+export type NftMarketFloorPriceResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -1699,7 +1699,7 @@ export const getNftMarketVolume = ({
 	})
 )
 
-type NftMarketVolumeResponse = {
+export type NftMarketVolumeResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -1771,7 +1771,7 @@ export const getNftMarketSaleCount = ({
 	})
 )
 
-type NftMarketSaleCountResponse = {
+export type NftMarketSaleCountResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -1828,7 +1828,7 @@ export const checkOwnershipInNft = ({
 	get<NftOwnershipForCollectionResponse>(`v1/${chainName}/address/${walletAddress}/collection/${collectionContract}/`)
 )
 
-type NftOwnershipForCollectionResponse = {
+export type NftOwnershipForCollectionResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -1905,7 +1905,7 @@ export const checkOwnershipForNft = ({
  * Transactions
  */
 
-type Transaction = {
+export type Transaction = {
 	/** The block signed timestamp in UTC. */
 	block_signed_at: datetime,
 
@@ -2418,7 +2418,7 @@ export const getTransaction = ({
 	})
 )
 
-type TransactionResponse = {
+export type TransactionResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -2470,7 +2470,7 @@ export const getTransactionSummaryForAddress = ({
 	})
 )
 
-type TransactionsSummaryResponse = {
+export type TransactionsSummaryResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -2552,7 +2552,7 @@ export const getEarliestTransactionsForAddress = ({
 	})
 )
 
-type TransactionsTimeBucketResponse = {
+export type TransactionsTimeBucketResponse = {
 	/** The requested address. */
 	address: string,
 
@@ -2632,7 +2632,7 @@ export const getRecentTransactionsForAddress = ({
 	})
 )
 
-type RecentTransactionsResponse	= {
+export type RecentTransactionsResponse	= {
 	/** The requested address. */
 	address: string,
 
@@ -2714,7 +2714,7 @@ export const getPaginatedTransactionsForAddress = ({
 	})
 )
 
-type TransactionsPageResponse = {
+export type TransactionsPageResponse = {
 	/** The requested address. */
 	address: string,
 
@@ -2827,7 +2827,7 @@ export const getAllTransactionsInABlock = ({
 	})
 )
 
-type TransactionsBlockResponse = {
+export type TransactionsBlockResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -2882,7 +2882,7 @@ export const getAllTransactionsInABlockByPage = ({
 	})
 )
 
-type TransactionsBlockPageResponse = {
+export type TransactionsBlockPageResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -2932,7 +2932,7 @@ export const getTokenApprovalsForAddress = ({
 	get<ApprovalsResponse>(`v1/${chainName}/approvals/${walletAddress}/`)
 )
 
-type ApprovalsResponse = {
+export type ApprovalsResponse = {
 	/** The requested address. */
 	address: string,
 
@@ -3056,7 +3056,7 @@ export const getNftApprovals = ({
 	get<NftApprovalsResponse>(`v1/${chainName}/nft/approvals/${walletAddress}/`)
 )
 
-type NftApprovalsResponse = {
+export type NftApprovalsResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -3126,7 +3126,7 @@ type NftApprovalsResponse = {
  * Base
  */
 
-type LogEvent = {
+export type LogEvent = {
 	/** The block signed timestamp in UTC. */
 	block_signed_at: datetime,
 
@@ -3216,7 +3216,7 @@ export const getBlock = ({
 	})
 )
 
-type BlockResponse = {
+export type BlockResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -3273,7 +3273,7 @@ export const getBlockHeights = ({
 	})
 )
 
-type BlockHeightsResponse = {
+export type BlockHeightsResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -3354,7 +3354,7 @@ export const getLogs = ({
 	})
 )
 
-type GetLogsResponse = {
+export type GetLogsResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -3453,7 +3453,7 @@ export const getLogEventsByContractAddress = ({
 	})
 )
 
-type LogEventsByAddressResponse = {
+export type LogEventsByAddressResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -3527,7 +3527,7 @@ export const getLogEventsByTopicHash = ({
 	})
 )
 
-type LogEventsByTopicHashResponse = {
+export type LogEventsByTopicHashResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -3580,7 +3580,7 @@ export const getResolvedAddressForRegisteredAddress = ({
 	get<ResolvedAddressResponse>(`v1/${chainName}/address/${walletAddress}/`)
 )
 
-type ResolvedAddressResponse = {
+export type ResolvedAddressResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -3611,7 +3611,7 @@ export const getAllChains = () => (
 	get<AllChainsResponse>('v1/chains/')
 )
 
-type AllChainsResponse = {
+export type AllChainsResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -3685,7 +3685,7 @@ export const getAllChainStatuses = () => (
 	get<AllChainsStatusResponse>('v1/chains/status/')
 )
 
-type AllChainsStatusResponse = {
+export type AllChainsStatusResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -3754,7 +3754,7 @@ export const getGasPrices = ({
 	})
 )
 
-type GasPricesResponse = {
+export type GasPricesResponse = {
 	/** The requested chain ID eg: `1`. */
 	chain_id: integer,
 
@@ -3827,7 +3827,7 @@ export const getCrossChainActivity = ({
 	})
 )
 
-type ChainActivityResponse = {
+export type ChainActivityResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -3906,7 +3906,7 @@ type ChainActivityResponse = {
  * XY=K
  */
 
-type XykPool = {
+export type XykPool = {
 	/** The pair address. */
 	exchange: string,
 
@@ -3999,7 +3999,7 @@ type XykPool = {
 	},
 }
 
-type XykTransaction = {
+export type XykTransaction = {
 	/** The block signed timestamp in UTC. */
 	block_signed_at: datetime,
 
@@ -4101,7 +4101,7 @@ export const getXykPools = ({
 	get<PoolResponse>(`v1/${chainName}/xy=k/${dexName}/pools/`)
 )
 
-type PoolResponse = {
+export type PoolResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -4156,7 +4156,7 @@ export const getXykPoolByAddress = ({
 	get<PoolByAddressResponse>(`v1/${chainName}/xy=k/${dexName}/pools/address/${poolAddress}/`)
 )
 
-type PoolByAddressResponse = {
+export type PoolByAddressResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -4218,7 +4218,7 @@ export const getXykPoolsForTokenAddress = ({
 	})
 )
 
-type PoolsForTokenAddressResponse = {
+export type PoolsForTokenAddressResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -4296,7 +4296,7 @@ export const getXykPoolsForWalletAddress = ({
 	})
 )
 
-type PoolsForWalletAddressResponse = {
+export type PoolsForWalletAddressResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -4356,7 +4356,7 @@ export const getXykAddressExchangeBalances = ({
 	get<AddressExchangeBalancesResponse>(`v1/${chainName}/xy=k/${dexName}/address/${accountAddress}/balances/`)
 )
 
-type AddressExchangeBalancesResponse = {
+export type AddressExchangeBalancesResponse = {
 	/** The requested address. */
 	address: string,
 
@@ -4465,7 +4465,7 @@ export const getXykNetworkExchangeTokens = ({
 	get<NetworkExchangeTokensResponse>(`v1/${chainName}/xy=k/${dexName}/tokens/`)
 )
 
-type NetworkExchangeTokensResponse = {
+export type NetworkExchangeTokensResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -4545,7 +4545,7 @@ export const getXykSupportedDexes = () => (
 	get<SupportedDexesResponse>('v1/xy=k/supported_dexes/')
 )
 
-type SupportedDexesResponse = {
+export type SupportedDexesResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -4605,7 +4605,7 @@ export const getXykDexForPoolAddress = ({
 	get<PoolToDexResponse>(`v1/${chainName}/xy=k/address/${poolAddress}/dex_name/`)
 )
 
-type PoolToDexResponse = {
+export type PoolToDexResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -4668,7 +4668,7 @@ export const getXykSingleNetworkExchangeToken = ({
 	get<SingleNetworkExchangeTokenResponse>(`v1/${chainName}/xy=k/${dexName}/tokens/address/${tokenAddress}/`)
 )
 
-type SingleNetworkExchangeTokenResponse = {
+export type SingleNetworkExchangeTokenResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -5005,7 +5005,7 @@ export const getXykTransactionsForAccountAddress = ({
 	get<TransactionsForAccountAddressResponse>(`v1/${chainName}/xy=k/${dexName}/address/${accountAddress}/transactions/`)
 )
 
-type TransactionsForAccountAddressResponse = {
+export type TransactionsForAccountAddressResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -5060,7 +5060,7 @@ export const getXykTransactionsForTokenAddress = ({
 	get<TransactionsForTokenAddressResponse>(`v1/${chainName}/xy=k/${dexName}/tokens/address/${tokenAddress}/transactions/`)
 )
 
-type TransactionsForTokenAddressResponse = {
+export type TransactionsForTokenAddressResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -5115,7 +5115,7 @@ export const getXykTransactionsForExchange = ({
 	get<TransactionsForExchangeResponse>(`v1/${chainName}/xy=k/${dexName}/pools/address/${poolAddress}/transactions/`)
 )
 
-type TransactionsForExchangeResponse = {
+export type TransactionsForExchangeResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -5167,7 +5167,7 @@ export const getXykEcosystemChartData = ({
 	get<EcosystemChartDataResponse>(`v1/${chainName}/xy=k/${dexName}/ecosystem/`)
 )
 
-type EcosystemChartDataResponse = {
+export type EcosystemChartDataResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -5285,7 +5285,7 @@ export const getXykHealthData = ({
 	get<HealthDataResponse>(`v1/${chainName}/xy=k/${dexName}/health/`)
 )
 
-type HealthDataResponse = {
+export type HealthDataResponse = {
 	/** The timestamp when the response was generated. Useful to show data staleness to users. */
 	updated_at: datetime,
 
@@ -5368,7 +5368,7 @@ export const getHistoricalTokenPrices = ({
 	})
 )
 
-type TokenPricesResponse = {
+export type TokenPricesResponse = {
 	/** Use contract decimals to format the token balance for display purposes - divide the balance by `10^{contract_decimals}`. */
 	contract_decimals: integer,
 
