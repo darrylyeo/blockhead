@@ -13,7 +13,7 @@
 	export let quoteCurrency: QuoteCurrency
 
 	// (Computed)
-	$: lastUpdate = updatesByNetwork.get(network)?.find(upgrade => Number(block.blockNumber) >= upgrade.blockNumber)
+	$: lastUpdate = updatesByNetwork.get(network)?.find(upgrade => block.blockNumber >= upgrade.blockNumber)
 
 	// (View options)
 	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 2
@@ -135,24 +135,20 @@
 							format="middle-truncated"
 						/>
 					</span>
-
-					<span>
-						received fee
-						<output class="nonce">{block.nonce}</output>
-					</span>
-
-					<!-- <span>
-						proposing block
-						<output class="nonce">{block.nonce}</output>
-					</span> -->
 				{/if}
+			</span>
+
+			<span>
+				proposed block
 			</span>
 		{/if}
 
-		<span>
-			producing hash
-			<output class="block-hash"><abbr title="Block hash: {block.blockHash}">{formatTransactionHash(block.blockHash, 'middle-truncated')}</abbr></output>
-		</span>
+		{#if block.blockHash}
+			<span>
+				producing hash
+				<output class="block-hash"><abbr title="Block hash: {block.blockHash}">{formatTransactionHash(block.blockHash, 'middle-truncated')}</abbr></output>
+			</span>
+		{/if}
 	</div>
 
 	<hr>
@@ -167,19 +163,21 @@
 			</span>
 		{/if}
 
-		{#if Number(block.blockNumber) > 0}
+		{#if block.blockNumber > 0}
 			<span>
 				<abbr title="Block {Number(block.blockNumber) - 1} hash: {block.parentBlockHash}">hash</abbr>
 				<!-- hash
 				<output><abbr title="Block {blockNumber - 1} hash: {block.parentHash}">{formatTransactionHash(block.parentHash, 'middle-truncated')}</abbr></output> -->
-				of previous block <BlockNumber {network} blockNumber={Number(block.blockNumber) - 1} />
+				of previous block <BlockNumber {network} blockNumber={block.blockNumber - 1n} />
 			</span>
 		{/if}
 
-		<span class="extra-data-container">
-			extra data
-			<output class="extra-data"><abbr title={`Extra data:\n${block.extraData}`}>{_toUtf8String(block.extraData)}</abbr></output>
-		</span>
+		{#if block.extraData}
+			<span class="extra-data-container">
+				extra data
+				<output class="extra-data"><abbr title={`Extra data:\n${block.extraData}`}>{_toUtf8String(block.extraData)}</abbr></output>
+			</span>
+		{/if}
 	</div>
 </div>
 
@@ -260,11 +258,16 @@
 
 <div class="footer bar wrap">
 	<span class="gas-stats">
-		<abbr title={'Gas Used\n\nGas: A virtual fuel used in Ethereum to execute smart contracts. The EVM uses an accounting mechanism to measure the consumption of gas and limit the consumption of computing resources.\n\nSource: https://ethereum.org/en/glossary/#gas'}>{formatNumber(block.gasUsed)}</abbr>
-		/
-		<abbr title={'Gas Limit\n\nThe maximum amount of gas a transaction or block may consume.\n\nSource: https://ethereum.org/en/glossary/#gas-limit'}>{formatNumber(Number(block.gasLimit))}</abbr>
-		computational gas units used
-		({formatPercent(Number(block.gasUsed) / Number(block.gasLimit))})
+		{#if block.gasLimit && block.gasUsed}
+			<abbr title={'Gas Used\n\nGas: A virtual fuel used in Ethereum to execute smart contracts. The EVM uses an accounting mechanism to measure the consumption of gas and limit the consumption of computing resources.\n\nSource: https://ethereum.org/en/glossary/#gas'}>{formatNumber(block.gasUsed)}</abbr>
+			/
+			<abbr title={'Gas Limit\n\nThe maximum amount of gas a transaction or block may consume.\n\nSource: https://ethereum.org/en/glossary/#gas-limit'}>{formatNumber(Number(block.gasLimit))}</abbr>
+			computational gas units used
+			({formatPercent(Number(block.gasUsed) / Number(block.gasLimit))})
+		{/if}
 	</span>
-	<Date date={block.timestamp} layout="horizontal" />
+
+	{#if block.timestamp}
+		<Date date={block.timestamp} layout="horizontal" />
+	{/if}
 </div>
