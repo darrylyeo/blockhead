@@ -2,7 +2,7 @@
 import type { AbiType } from 'abitype'
 import type { QuoteCurrency } from '../../data/currencies'
 import type { Ethereum } from '../../data/networks/types'
-import type { Transaction, Erc20TransfersResponse, LogEvent, NftAddressBalanceNftResponse } from '../covalent/index'
+import type { BlockResponse, Transaction, Erc20TransfersResponse, LogEvent, NftAddressBalanceNftResponse } from '../covalent/index'
 
 export type Erc20Transfer = Pick<Ethereum.Transaction,
 	| 'network'
@@ -27,6 +27,23 @@ export type Erc20Transfer = Pick<Ethereum.Transaction,
 
 // Functions
 import { normalizeNftAttributes } from '../../utils/normalizeNftAttributes'
+
+export const normalizeBlock = (
+    block: BlockResponse['items'][number],
+    network: Ethereum.Network,
+): Pick<
+	Ethereum.Block,
+	| 'network'
+	| 'finalityStatus'
+	| 'blockNumber'
+	| 'timestamp'
+> => ({
+	network,
+	blockNumber: BigInt(block.height),
+	finalityStatus: 'finalized',
+
+	timestamp: new Date(block.signed_at).valueOf(),
+})
 
 export const normalizeTransaction = (
 	transaction: Transaction | Erc20TransfersResponse['items'][number],

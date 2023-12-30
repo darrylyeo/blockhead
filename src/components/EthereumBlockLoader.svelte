@@ -59,6 +59,7 @@
 	import { normalizeViemBlock } from '../api/viem'
 	import { getBlockByNumber as getBlockByNumberChainbase, normalizeBlock as normalizeBlockChainbase } from '../api/chainbase'
 	import { getBlock as getBlockCovalent } from '../api/covalent/index'
+	import { normalizeBlock as normalizeBlockCovalent } from '../api/covalent/normalize'
 	import { chainCodeFromNetwork, MoralisWeb3Api, normalizeMoralisBlock } from '../api/moralis/web3Api'
 
 
@@ -103,19 +104,12 @@
 				}],
 				placeholderData: () => placeholderData,
 				queryFn: async () => (
-					(await getBlockCovalent({
+					await getBlockCovalent({
 						chainName: network.chainId,
 						blockHeight: Number(blockNumber),
-					}))
-						.items.map(({
-							height,
-							signed_at
-						}) => ({
-							blockNumber: height,
-							timestamp: signed_at
-						}))
-						?.[0]
-				)
+					})
+				),
+				select: result => result === placeholderData ? result : normalizeBlockCovalent(result.items[0], network),
 			}),
 		}),
 
