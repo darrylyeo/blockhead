@@ -55,14 +55,15 @@
 
 
 	// Functions
-	import { createQuery } from '@tanstack/svelte-query'
+	import { createQuery, createQueries } from '@tanstack/svelte-query'
 
 	import { numberToHex } from 'viem'
+	import { isTruthy } from '../utils/isTruthy'
 
 	import { normalizeViemBlock } from '../api/viem'
 	import { getBlockByNumber as getBlockByNumberChainbase, normalizeBlock as normalizeBlockChainbase } from '../api/chainbase'
-	import { getBlock as getBlockCovalent } from '../api/covalent/index'
-	import { normalizeBlock as normalizeBlockCovalent } from '../api/covalent/normalize'
+	import { getBlock as getBlockCovalent, getAllTransactionsInABlock as getBlockTransactionsCovalent } from '../api/covalent/index'
+	import { normalizeBlock as normalizeBlockCovalent, normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent/normalize'
 	import { Etherscan, normalizeBlock as normalizeBlockEtherscan } from '../api/etherscan'
 	import { chainCodeFromNetwork, MoralisWeb3Api, normalizeMoralisBlock } from '../api/moralis/web3Api'
 
@@ -100,21 +101,59 @@
 		}),
 
 		[TransactionProvider.Covalent]: () => ({
-			fromQuery: createQuery({
-				queryKey: ['Block', {
-					transactionProvider,
-					chainId: network.chainId,
-					blockNumber: Number(blockNumber),
-				}],
-				placeholderData: () => placeholderData,
-				queryFn: async () => (
-					await getBlockCovalent({
-						chainName: network.chainId,
-						blockHeight: Number(blockNumber),
-					})
-				),
-				select: result => result === placeholderData ? result : normalizeBlockCovalent(result.items[0], network),
-			}),
+			fromQuery: createQueries({
+				queries: [
+					{
+						placeholderData: () => placeholderData,
+
+						queryKey: ['Block', {
+							transactionProvider,
+							chainId: network.chainId,
+							blockNumber: Number(blockNumber),
+						}],
+						queryFn: async () => (
+							await getBlockCovalent({
+								chainName: network.chainId,
+								blockHeight: Number(blockNumber),
+							})
+						),
+						select: result => result === placeholderData ? result : normalizeBlockCovalent(result.items[0], network),
+					},
+
+					includeTransactions && {
+						queryKey: ['BlockTransactions', {
+							transactionProvider,
+							chainId: network.chainId,
+							blockNumber: Number(blockNumber),
+						}],
+						queryFn: async () => (
+							await getBlockTransactionsCovalent({
+								chainName: network.chainId,
+								blockHeight: Number(blockNumber),
+								quoteCurrency,
+							})
+						),
+						select: result => (
+							result.items
+								.map(transaction => normalizeTransactionCovalent(transaction, network, quoteCurrency))
+						),
+					},
+				].filter(isTruthy),
+
+				combine: ([
+					blockQuery,
+					transactionsQuery,
+				]) => ({
+					...blockQuery,
+					...transactionsQuery,
+					data: {
+						...blockQuery.data,
+						...transactionsQuery?.data && {
+							transactions: transactionsQuery.data,
+						},
+					},
+				}),
+			})
 		}),
 
 		[TransactionProvider.Etherscan]: () => ({
