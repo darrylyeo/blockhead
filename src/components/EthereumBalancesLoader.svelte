@@ -48,7 +48,7 @@
 
 	import { airstackNetworkNames, getClient } from '../api/airstack'
 	import { getErc20TokenBalances } from '../api/chainbase'
-	import { getTokenAddressBalances } from '../api/covalent'
+	import { getTokenBalancesForAddress } from '../api/covalent/index'
 	import { MoralisWeb3Api, chainCodeFromNetwork } from '../api/moralis/web3Api'
 	import { getWalletTokenBalance } from '../api/quicknode'
 	import { getTokenBalances } from '../api/zapper'
@@ -68,9 +68,9 @@
 	const normalizeCovalentTokenBalance = ({
 		balance, quote, quote_rate,
 		contract_name, contract_address, contract_decimals, contract_ticker_symbol, logo_url, contract_logo_url,
-	}: Awaited<ReturnType<typeof getTokenAddressBalances>>['items'][number]): TokenWithBalance => ({
+	}: Awaited<ReturnType<typeof getTokenBalancesForAddress>>['items'][number]): TokenWithBalance => ({
 		token: {
-			address: contract_address,
+			address: contract_address as Ethereum.ContractAddress,
 			name: contract_name,
 			symbol: contract_ticker_symbol || contract_name,
 			decimals: contract_decimals,
@@ -343,11 +343,11 @@
 						chainId: network.chainId,
 					}],
 					queryFn: async () => (
-						await getTokenAddressBalances({
-							address,
+						await getTokenBalancesForAddress({
+							chainName: network.chainId,
+							walletAddress: address,
+							quoteCurrency,
 							nft: false,
-							chainId: network.chainId,
-							quoteCurrency
 						})
 					),
 					select: result => (

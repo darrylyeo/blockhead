@@ -27,7 +27,8 @@
 	// Functions
 	import { createQuery, createInfiniteQuery } from '@tanstack/svelte-query'
 
-	import { getTransactionsByAddress, normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent'
+	import { getPaginatedTransactionsForAddress } from '../api/covalent/index'
+	import { normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent/normalize'
 	import { normalizeTransaction as normalizeTransactionDecommas } from '../api/decommas/normalize'
 	import { Etherscan, normalizeTransaction as normalizeTransactionEtherscan } from '../api/etherscan'
 	// import { getTransactions as getTransactionsEtherspot } from '../api/etherspot'
@@ -94,20 +95,17 @@
 					includeLogs,
 				}],
 				initialPageParam: 0,
-				queryFn: async ({ pageParam: pageNumber }) => {
-					const result = await getTransactionsByAddress({
-						chainId: network.chainId,
-						address,
-						includeLogs,
+				queryFn: async ({ pageParam: page }) => (
+					await getPaginatedTransactionsForAddress({
+						chainName: network.chainId,
+						walletAddress: address,
+						page,
 						quoteCurrency,
-						pageNumber: pageNumber ?? 0,
-						pageSize: 100,
+						noLogs: !includeLogs,
 					})
-
-					return result
-				},
-				getPreviousPageParam: (firstPage, allPages) => firstPage.pagination?.page_number > 0 ? firstPage.pagination.page_number - 1 : undefined,
-				getNextPageParam: (lastPage, allPages) => lastPage.pagination?.has_more ? lastPage.pagination.page_number + 1 : undefined,
+				),
+				getPreviousPageParam: (firstPage, allPages) => firstPage.links.prev !== null ? Number(firstPage.links.current_page) - 1 : undefined,
+				getNextPageParam: (lastPage, allPages) => lastPage.links.next !== null ? Number(lastPage.links.current_page) + 1 : undefined,
 				select: result => (
 					(result?.pages?.flatMap(page => page.items) ?? [])
 						.map(transaction => normalizeTransactionCovalent(transaction, network, quoteCurrency))

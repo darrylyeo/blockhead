@@ -73,7 +73,8 @@
 
 	import { normalizeNftContracts as normalizeNftContractsChainbase } from '../api/chainbase'
 
-	import { getTokenAddressBalances, normalizeNftContract as normalizeNftContractCovalent } from '../api/covalent'
+	import { getNftsForAddress as getNftsForAddressCovalent } from '../api/covalent/index'
+	import { normalizeNftContract as normalizeNftContractCovalent } from '../api/covalent/normalize'
 
 	import { normalizeNftContracts as normalizeNftContractsDecommas } from '../api/decommas/normalize'
 
@@ -290,11 +291,11 @@
 						quoteCurrency: quoteCurrency
 					}],
 					queryFn: async () => (
-						await getTokenAddressBalances({
-							address,
-							nft: true,
-							chainId: network.chainId,
-							quoteCurrency: quoteCurrency
+						await getNftsForAddressCovalent({
+							chainName: network.chainId,
+							walletAddress: address,
+							quoteCurrency,
+							noSpam: true,
 						})
 					),
 					select: result => (

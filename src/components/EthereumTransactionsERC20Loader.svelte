@@ -48,7 +48,8 @@
 
 	import { createInfiniteQuery } from '@tanstack/svelte-query'
 
-	import { getERC20TokenTransfers, normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent'
+	import { getErc20TransfersForWalletAddress } from '../api/covalent/index'
+	import { normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent/normalize'
 
 
 	import Loader from './Loader.svelte'
@@ -71,11 +72,11 @@
 			}],
 			initialPageParam: 0,
 			queryFn: async ({ pageParam: pageNumber }) => (
-				await getERC20TokenTransfers({
-					chainId: network.chainId,
-					address,
-					contractAddress: erc20Token.address,
+				await getErc20TransfersForWalletAddress({
+					chainName: network.chainId,
+					walletAddress: address,
 					quoteCurrency,
+					contractAddress: erc20Token.address,
 					pageSize: 100,
 					pageNumber,
 				})
