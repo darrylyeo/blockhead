@@ -137,6 +137,7 @@ export namespace Ethereum {
 	export type Nft = {
 		contract?: NftContract,
 		owner: Ethereum.Address,
+		originalOwner?: Ethereum.Address,
 
 		tokenId: bigint
 		tokenUri?: string
@@ -254,8 +255,8 @@ export namespace Ethereum {
 		accessList?: AccessList,
 	}
 	export type TransactionLogEvent = {
-		topics: TopicHash[],
-		data: string,
+		topics?: TopicHash[],
+		data?: string,
 
 		contract: Partial<Ethereum.Contract & Ethereum.ERC20Token & Ethereum.ERC721TokenContract & Ethereum.ERC1155TokenContract> & {
 			label?: string
