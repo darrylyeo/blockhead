@@ -125,20 +125,22 @@
 							<slot name="header" {status} {transaction} />
 						</svelte:fragment>
 
-						<EthereumTransaction
-							{network}
-							{transaction}
-							{quoteCurrency}
+						{#if transaction}
+							<EthereumTransaction
+								{network}
+								{transaction}
+								{quoteCurrency}
 
-							{layout}
-							{innerLayout}
+								{layout}
+								{innerLayout}
 
-							{detailLevel}
-							{showFees}
-							{tokenBalanceFormat}
-						
-							{contextualAddress}
-						/>
+								{detailLevel}
+								{showFees}
+								{tokenBalanceFormat}
+							
+								{contextualAddress}
+							/>
+						{/if}
 					</Loader>
 
 				{:else if transactionProvider === TransactionProvider.Chainbase}
@@ -169,19 +171,21 @@
 							<slot name="header" {status} {transaction} />
 						</svelte:fragment>
 
-						<EthereumTransaction
-							{network}
-							{transaction}
-							{quoteCurrency}
+						{#if transaction}
+							<EthereumTransaction
+								{network}
+								{transaction}
+								{quoteCurrency}
 
-							{contextualAddress}
-							{detailLevel}
-							{tokenBalanceFormat}
-							{showFees}
+								{contextualAddress}
+								{detailLevel}
+								{tokenBalanceFormat}
+								{showFees}
 
-							{layout}
-							{innerLayout}
-						/>
+								{layout}
+								{innerLayout}
+							/>
+						{/if}
 					</Loader>
 
 				{:else if transactionProvider === TransactionProvider.Covalent}
@@ -215,19 +219,21 @@
 							<slot name="header" {status} {transaction} />
 						</svelte:fragment>
 
-						<EthereumTransactionCovalent
-							{network}
-							{transaction}
-							{quoteCurrency}
+						{#if transaction}
+							<EthereumTransactionCovalent
+								{network}
+								{transaction}
+								{quoteCurrency}
 
-							{contextualAddress}
-							{detailLevel}
-							{tokenBalanceFormat}
-							{showFees}
+								{contextualAddress}
+								{detailLevel}
+								{tokenBalanceFormat}
+								{showFees}
 
-							{layout}
-							{innerLayout}
-						/>
+								{layout}
+								{innerLayout}
+							/>
+						{/if}
 					</Loader>
 
 				{:else if transactionProvider === TransactionProvider.Decommas}
@@ -371,19 +377,21 @@
 							<slot name="header" {status} {transaction} />
 						</svelte:fragment>
 
-						<EthereumTransaction
-							{network}
-							{transaction}
-							{quoteCurrency}
+						{#if transaction}
+							<EthereumTransaction
+								{network}
+								{transaction}
+								{quoteCurrency}
 
-							{contextualAddress}
-							{detailLevel}
-							{tokenBalanceFormat}
-							{showFees}
+								{contextualAddress}
+								{detailLevel}
+								{tokenBalanceFormat}
+								{showFees}
 
-							{layout}
-							{innerLayout}
-						/>
+								{layout}
+								{innerLayout}
+							/>
+						{/if}
 					</Loader> -->
 
 				{:else if transactionProvider === TransactionProvider.Moralis}
