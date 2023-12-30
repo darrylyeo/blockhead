@@ -25,19 +25,11 @@
 
 	// Functions
 	import { formatPercent } from '../utils/formatPercent'
-	import { toUtf8String } from 'ethers'
+	import { bytesToString, toBytes } from 'viem'
 	import { formatTransactionHash } from '../utils/formatTransactionHash'
 
 	const formatNumber = (number: number) =>
 		new Intl.NumberFormat(globalThis.navigator.languages).format(number)
-
-	const _toUtf8String = () => {
-		try {
-			return toUtf8String(block.extraData)
-		} catch (e) {
-			return block.extraData
-		}
-	}
 
 
 	// Components
@@ -175,7 +167,7 @@
 		{#if block.extraData}
 			<span class="extra-data-container">
 				extra data
-				<output class="extra-data"><abbr title={`Extra data:\n${block.extraData}`}>{_toUtf8String(block.extraData)}</abbr></output>
+				<output class="extra-data"><abbr title={`Extra data:\n${block.extraData}`}>{bytesToString(toBytes(block.extraData))}</abbr></output>
 			</span>
 		{/if}
 	</div>
