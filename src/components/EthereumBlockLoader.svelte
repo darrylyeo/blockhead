@@ -56,10 +56,13 @@
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
 
+	import { numberToHex } from 'viem'
+
 	import { normalizeViemBlock } from '../api/viem'
 	import { getBlockByNumber as getBlockByNumberChainbase, normalizeBlock as normalizeBlockChainbase } from '../api/chainbase'
 	import { getBlock as getBlockCovalent } from '../api/covalent/index'
 	import { normalizeBlock as normalizeBlockCovalent } from '../api/covalent/normalize'
+	import { Etherscan, normalizeBlock as normalizeBlockEtherscan } from '../api/etherscan'
 	import { chainCodeFromNetwork, MoralisWeb3Api, normalizeMoralisBlock } from '../api/moralis/web3Api'
 
 
@@ -110,6 +113,24 @@
 					})
 				),
 				select: result => result === placeholderData ? result : normalizeBlockCovalent(result.items[0], network),
+			}),
+		}),
+
+		[TransactionProvider.Etherscan]: () => ({
+			fromQuery: createQuery({
+				queryKey: ['Block', {
+					transactionProvider,
+					chainId: network.chainId,
+					blockNumber: Number(blockNumber),
+				}],
+				placeholderData: () => placeholderData,
+				queryFn: async () => (
+					await Etherscan.RpcProxy.getBlockByNumber({
+						chainId: network.chainId,
+						tag: numberToHex(blockNumber),
+					})
+				),
+				select: block => block === placeholderData ? block : normalizeBlockEtherscan(block, network),
 			}),
 		}),
 

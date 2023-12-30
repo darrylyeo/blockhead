@@ -52,7 +52,7 @@ const queue = new ConcurrentPromiseQueue(3)
 const get = async <T, IsRpcProxyCall extends boolean = false>(
 	chainId: ChainId,
 	options: Options,
-	isRpcProxyCall: IsRpcProxyCall,
+	isRpcProxyCall?: IsRpcProxyCall = false,
 ): Promise<T> => {
 	const endpointUrl = endpointByChainId[chainId]
 
@@ -1537,14 +1537,16 @@ export namespace Etherscan {
 		 * @param tag the block number, in hex eg. `0xC36B3C`
 		 * @param boolean the `boolean` value to show full transaction objects. when `true`, returns **full transaction objects** and their information, when `false` only returns a **list of transactions**.
 		 */	
-		export const getBlockByNumber = async ({
+		export const getBlockByNumber = async <
+			GetFullTransactionObjects extends boolean = false,
+		>({
 			chainId,
 			tag,
 			getFullTransactionObjects = true,
 		}: {
 			chainId: ChainId,
 			tag: `0x${string}`,
-			getFullTransactionObjects?: boolean,
+			getFullTransactionObjects?: GetFullTransactionObjects,
 		}) => await get(chainId, {
 			searchParams: {
 				module: 'proxy',
@@ -1571,7 +1573,32 @@ export namespace Etherscan {
 			stateRoot: `0x${string}`,
 			timestamp: `0x${string}`,
 			totalDifficulty: `0x${string}`,
-			transactions: Ethereum.TransactionID[],
+			transactions: GetFullTransactionObjects extends true
+				? {
+					blockHash: `0x${string}`,
+					blockNumber: `0x${string}`,
+					from: `0x${string}`,
+					gas: `0x${string}`,
+					gasPrice: `0x${string}`,
+					maxFeePerGas: `0x${string}`,
+					maxPriorityFeePerGas: `0x${string}`,
+					hash: `0x${string}`,
+					input: `0x${string}`,
+					nonce: `0x${string}`,
+					to: `0x${string}`,
+					transactionIndex: `0x${string}`,
+					value: `0x${string}`,
+					type: `0x${string}`,
+					accessList: {
+						address: `0x${string}`,
+						storageKeys: `0x${string}`[],
+					}[],
+					chainId: `0x${string}`,
+					v: `0x${string}`,
+					r: `0x${string}`,
+					s: `0x${string}`,
+				}[]
+				: `0x${string}`[],
 			transactionsRoot: `0x${string}`,
 			uncles: `0x${string}`,
 		}
@@ -2814,6 +2841,38 @@ export namespace Etherscan {
 	}
 }
 
+export const normalizeBlock = (
+	block: Awaited<ReturnType<typeof Etherscan.RpcProxy.getBlockByNumber<boolean>>>,
+	network: Ethereum.Network,
+): Ethereum.Block => ({
+	network,
+	blockNumber: BigInt(block.number),
+	finalityStatus: 'hash' in block && block.hash ? 'finalized' : 'pending',
+
+	blockHash: block.hash ?? undefined,
+	parentBlockHash: block.parentHash,
+	timestamp: Number(block.timestamp) * 1000,
+	nonce: block.nonce ? block.nonce : undefined,
+
+	difficulty: BigInt(block.difficulty),
+	totalDifficulty: BigInt(block.totalDifficulty),
+
+	gasLimit: BigInt(block.gasLimit),
+	gasUsed: BigInt(block.gasUsed),
+
+	minerAddress: block.miner,
+	extraData: block.extraData,
+	baseFeePerGas: BigInt(block.baseFeePerGas),
+
+	...(((transactions: typeof block['transactions']): transactions is `0x${string}`[] => typeof transactions[0] === 'string')(block.transactions) ? {
+		transactionIds: block.transactions,
+	} : {
+		transactions: block.transactions.map(transaction => ({
+			executionStatus: undefined,
+			...normalizeRpcTransaction(network, transaction),
+		})),
+	}),
+})
 
 export const normalizeTransaction = (
 	network: Ethereum.Network,
@@ -2822,7 +2881,7 @@ export const normalizeTransaction = (
 	network,
 	transactionId: transaction.hash,
 
-	executionStatus: !transaction.isError ? 'successful' : 'failed', // transaction.txreceipt_status !== '0'
+	executionStatus: transaction.isError === '0' ? 'successful' : 'failed', // transaction.txreceipt_status !== '0'
 	finalityStatus: Number(transaction.confirmations) > 0 ? 'finalized' : 'pending',
 
 	nonce: Number(transaction.nonce),
@@ -2844,7 +2903,7 @@ export const normalizeTransaction = (
 
 export const normalizeRpcTransaction = (
 	network: Ethereum.Network,
-	transaction: Awaited<ReturnType<typeof Etherscan.RpcProxy.getTransactionByHash>>,
+	transaction: Awaited<ReturnType<typeof Etherscan.RpcProxy.getTransactionByHash>> | Awaited<ReturnType<typeof Etherscan.RpcProxy.getBlockByNumber<true>>>['transactions'][number]
 ): Omit<Ethereum.Transaction, 'executionStatus'> => ({
 	network,
 	transactionId: transaction.hash,
