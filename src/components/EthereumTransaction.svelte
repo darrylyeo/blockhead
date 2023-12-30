@@ -2,11 +2,12 @@
 	// Types/constants
 	import type { Ethereum } from '../data/networks/types'
 	import type { QuoteCurrency } from '../data/currencies'
+	import type { normalizeTransaction } from '../api/covalent/normalize'
 
 
 	// Inputs
 	export let network: Ethereum.Network
-	export let transaction: Ethereum.Transaction
+	export let transaction: Ethereum.Transaction | ReturnType<typeof normalizeTransaction>
 	export let quoteCurrency: QuoteCurrency
 
 	export let contextualAddress: Ethereum.Address
@@ -156,11 +157,13 @@
 			</div>
 		{/if}
 
-		<!-- {#if 'erc20Transfers' in transaction && transaction.erc20Transfers?.length}
+		{#if 'erc20Transfers' in transaction && transaction.erc20Transfers?.length}
 			{#if isStandaloneLayout}
 				<hr>
+
 				<h4>ERC-20 Token Transfers</h4>
 			{/if}
+
 			<div class="transfers">
 				{#each transaction.erc20Transfers as erc20Transfer}
 					<EthereumErc20TransferCovalent
@@ -178,7 +181,7 @@
 					/>
 				{/each}
 			</div>
-		{/if} -->
+		{/if}
 
 		{#if !isSummary && transaction.logEvents?.length}
 			{#if isStandaloneLayout}
