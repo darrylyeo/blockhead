@@ -37,7 +37,7 @@
 	import AddressWithLabel from './AddressWithLabel.svelte'
 	import Date from './Date.svelte'
 	import EthereumErc20TransferCovalent from './EthereumErc20TransferCovalent.svelte'
-	import EthereumLogEvent from './EthereumLogEvent.svelte'
+	import EthereumLogEventCovalent from './EthereumLogEventCovalent.svelte'
 	import TransactionId from './TransactionId.svelte'
 	import EthereumTransactionSummary from './EthereumTransactionSummary.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
@@ -189,7 +189,7 @@
 				<div class="log-events column">
 					{#each transaction.logEvents as logEvent}
 						<div class="card">
-							<EthereumLogEvent
+							<EthereumLogEventCovalent
 								network={transaction.network}
 								{logEvent}
 								{detailLevel}
@@ -201,7 +201,7 @@
 			{:else}
 				<div class="log-events column" class:scrollable-list={transaction.logEvents.length > 16}><!-- transition:fade -->
 					{#each transaction.logEvents as logEvent}
-						<EthereumLogEvent
+						<EthereumLogEventCovalent
 							network={transaction.network}
 							{logEvent}
 							{detailLevel}
