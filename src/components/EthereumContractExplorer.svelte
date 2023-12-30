@@ -158,7 +158,7 @@
 			>
 				{#if source && !Object.values(ContractCodeType).includes(showContractCodeTypeOrSourcePath)}
 					{@const sourceFile = showContractCodeTypeOrSourcePath.match(/[^/]+$/)?.[0] ?? ''}
-					{@const [_, sourceFileName, sourceFileExtension] = sourceFile.match(/^(.+?)(?:[.](.+?))?$/)}
+					{@const [_, sourceFileName, sourceFileExtension] = sourceFile.match(/^(.+?)(?:[.](.+?))?$/) ?? []}
 					{@const solidityDefinitionType =
 						contractMetadata?.language === 'Solidity' &&
 						source.content?.match(new RegExp(`((?:abstract )?library|contract|interface|function|constant|struct|enum|type|error)\\s+(${sourceFileName})`))?.[1]
