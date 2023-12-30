@@ -81,8 +81,8 @@
 					<span>
 						<span class="action">
 							{isSummary && contextIsReceiver
-								? transaction.executionStatus === 'successful' ? 'received' : 'failed to receive'
-								: transaction.executionStatus === 'successful' ? 'sent' : 'failed to send'}
+								? transaction.executionStatus !== 'failed' ? 'received' : 'failed to receive'
+								: transaction.executionStatus !== 'failed' ? 'sent' : 'failed to send'}
 						</span>
 						<TokenBalanceWithConversion
 							{tokenBalanceFormat}
@@ -114,10 +114,10 @@
 							<span class="action">
 								{
 									transaction.value
-										? transaction.executionStatus === 'successful'
+										? transaction.executionStatus !== 'failed'
 											? 'and called smart contract'
 											: 'and call smart contract'
-										: transaction.executionStatus === 'successful'
+										: transaction.executionStatus !== 'failed'
 											? 'called smart contract'
 											: 'failed to call smart contract'
 								}

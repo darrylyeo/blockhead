@@ -173,14 +173,14 @@
 				{/if}
 				{#if isContractCall && !isExhaustive}
 					<span class="action">
-						{transaction.executionStatus === 'successful' ? 'called smart contract' : 'failed to call smart contract'}
+						{transaction.executionStatus !== 'failed' ? 'called smart contract' : 'failed to call smart contract'}
 					</span>
 				{:else if transaction.value}
 					<span>
 						<span class="action">
 							{isSummary && contextIsReceiver
-								? transaction.executionStatus === 'successful' ? 'received' : 'failed to receive'
-								: transaction.executionStatus === 'successful' ? 'sent' : 'failed to send'}
+								? transaction.executionStatus !== 'failed' ? 'received' : 'failed to receive'
+								: transaction.executionStatus !== 'failed' ? 'sent' : 'failed to send'}
 						</span>
 						<TokenBalanceWithConversion
 							{tokenBalanceFormat}
