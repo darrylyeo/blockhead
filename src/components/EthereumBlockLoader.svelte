@@ -17,6 +17,7 @@
 	export let transactionProvider: TransactionProvider
 	export let networkProvider: NetworkProvider
 	export let quoteCurrency: QuoteCurrency
+	export let includeTransactions: boolean = false
 
 	// (Computed)
 	$: transactionProvider = $$props.transactionProvider ?? $preferences.transactionProvider
@@ -122,12 +123,14 @@
 					transactionProvider,
 					chainId: network.chainId,
 					blockNumber: Number(blockNumber),
+					includeTransactions,
 				}],
 				placeholderData: () => placeholderData,
 				queryFn: async () => (
 					await Etherscan.RpcProxy.getBlockByNumber({
 						chainId: network.chainId,
 						tag: numberToHex(blockNumber),
+						getFullTransactionObjects: includeTransactions,
 					})
 				),
 				select: block => block === placeholderData ? block : normalizeBlockEtherscan(block, network),
@@ -159,12 +162,13 @@
 					networkProvider,
 					chainId: network.chainId,
 					blockNumber: Number(blockNumber),
+					includeTransactions,
 				}],
 				placeholderData: () => placeholderData,
 				queryFn: async () => (
 					await publicClient.getBlock({
 						blockNumber,
-						includeTransactions: true,
+						includeTransactions,
 					})
 				),
 				select: block => block === placeholderData ? block : normalizeViemBlock(block, network),

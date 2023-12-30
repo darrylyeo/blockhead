@@ -78,6 +78,7 @@
 					{blockNumber}
 					{transactionProvider}
 					{networkProvider}
+					includeTransactions={true}
 
 					let:block
 					let:status

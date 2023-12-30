@@ -253,6 +253,7 @@
 								{networkProvider}
 								blockNumber={$explorerParams.blockNumber}
 								transactionProvider={$preferences.transactionProvider}
+								includeTransactions={true}
 
 								bind:block={navigationContext.block}
 								let:block
