@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { Covalent } from '../api/covalent'
 	import type { Ethereum } from '../data/networks/types'
 
 
@@ -19,8 +18,8 @@
 	$: eventSignatureIsTopic = indexedParams && logEvent.topics && indexedParams.length === logEvent.topics.length - 1
 	$: paramsToTopic = indexedParams && logEvent.topics && new WeakMap(
 		indexedParams.map((param, i, {length}) => {
-			const topicIndex = logEvent.topics.length + i - length
-			return [param, {topicIndex, topicHash: logEvent.topics[topicIndex]}]
+			const topicIndex = logEvent.topics!.length + i - length
+			return [param, {topicIndex, topicHash: logEvent.topics![topicIndex]}]
 		})
 	)
 
@@ -46,13 +45,13 @@
 		logEvent.decoded.params[2]?.name === 'value'
 	$: isTokenMint =
 		isTokenTransfer &&
-		logEvent.decoded.params[0]?.value === '0x0000000000000000000000000000000000000000'
+		logEvent.decoded?.params[0]?.value === '0x0000000000000000000000000000000000000000'
 	$: isTokenBurn =
 		isTokenTransfer &&
-		logEvent.decoded.params[1]?.value === '0x0000000000000000000000000000000000000000'
+		logEvent.decoded?.params[1]?.value === '0x0000000000000000000000000000000000000000'
 
 
-	export let isHidden
+	export let isHidden: boolean
 	$: isHidden = !isExhaustive && !(logEvent.decoded && paramsContainingContextualAddress.size)
 
 
@@ -61,7 +60,8 @@
 
 	import { formatIdentifierToWords } from '../utils/formatIdentifierToWords'
 	import { formatTransactionHash } from '../utils/formatTransactionHash'
-	import { formatUnits } from 'ethers'
+	import { formatUnits } from 'viem'
+	import { isTruthy } from '../utils/isTruthy'
 
 
 	import Address from './Address.svelte'
@@ -92,10 +92,13 @@
 		align-items: baseline;
 
 		gap: 0.66em;
-		width: 16em;
 
 		font-weight: bold;
 	}
+	.log-event:not([data-detail-level="exhaustive"]) .log-event-contract-and-name {
+		width: 16em;
+	}
+
 	.log-event-contract .address {
 		font-size: 0.9em;
 	}
@@ -168,10 +171,20 @@
 </style>
 
 
-<article class="log-event" class:card={isCard} class:hidden={isHidden}>
+<article
+	class="log-event"
+	class:card={isCard}
+	class:hidden={isHidden}
+	data-detail-level={detailLevel}
+	title={[
+		logEvent.indexInBlock !== undefined && `Event #${logEvent.indexInBlock} in Block ${logEvent.blockNumber}`,
+		logEvent.indexInTransaction !== undefined && `Event #${logEvent.indexInTransaction} in Transaction ${logEvent.transactionHash}`,
+	].filter(isTruthy).join('\n\n')}
+>
 	{#if isExhaustive}
-		<span class="log-event-index">{isHidden ? hiddenEllipsis : logEvent.indexInTransaction}</span>
+		<span class="log-event-index">{isHidden ? hiddenEllipsis : logEvent.indexInBlock}</span>
 	{/if}
+
 	<header class="log-event-contract-and-name">
 		<span class="log-event-contract">
 			{#if isHidden}
@@ -203,6 +216,7 @@
 				</span>
 			{/if}
 		</span>
+
 		<h4 class="log-event-name" class:mark={isExhaustive && paramsContainingContextualAddress.size} title={logEvent.decoded?.name}>
 			{#if isHidden}
 				{hiddenEllipsis}
@@ -212,19 +226,23 @@
 						topicIndex: 0,
 						topicHash: logEvent.topics[0]
 					} : {}}
-					parameterName={logEvent.decoded?.signature.replace('(', `(\n\t`).replace(/, ?/g, `,\n\t`).replace(')', `\n)`) ?? '[Undecoded]'}
+					parameterName={logEvent.decoded?.name}
+					parameterSignature={logEvent.decoded?.signature}
 					parameterType="signature"
 				>
-					{logEvent.decoded ? formatIdentifierToWords(logEvent.decoded.name) : '[Undecoded]'}
+					{logEvent.decoded ? formatIdentifierToWords(logEvent.decoded.name) : '[Event]'}
 				</EthereumTopic>
 			{/if}
 		</h4>
 	</header>
+
 	{#if !isHidden}
 		<div class="column">
 			{#if logEvent.decoded?.params?.length}
 				<span class="parameters">
 					{#each logEvent.decoded.params as param}
+						{@const topic = paramsToTopic?.get(param)}
+
 						<span
 							class="parameter"
 							class:mark={(isTokenMint && param.name === 'from') || (isTokenBurn && param.name === 'to')}
@@ -233,11 +251,11 @@
 						>
 							<span class="parameter-name" title="{param.type} {param.name}">
 								<EthereumTopic
-									{...paramsToTopic.get(param) ?? {}}
+									{...topic}
 									parameterType={param.type}
 									parameterName={param.name}
 								>
-									{formatIdentifierToWords(param.name)}
+									{param.name && formatIdentifierToWords(param.name)}
 								</EthereumTopic>
 							</span>
 							{#if isTokenMint && param.name === 'from'}🌱{/if}
@@ -248,7 +266,7 @@
 								</span>
 							{:else if param.type === 'uint256'}
 								{#if param.value || param.value === 0}
-									<output class="parameter-value" title={formatUnits(param.value, 0)}>{formatUnits(param.value, isToken ? logEvent.contract.decimals : 0)}</output>
+									<output class="parameter-value" title={formatUnits(param.value, 0)}>{formatUnits(param.value, isToken && logEvent.contract.decimals || 0)}</output>
 								{/if}
 							{:else}
 								<output class="parameter-value" title={param.value}>{param.value}</output>
@@ -256,12 +274,13 @@
 						</span>
 					{/each}
 				</span>
+
 			{:else if logEvent.topics?.length}
 				<span class="topics">
 					{#each logEvent.topics as topic, i}
 						<span class="topic-wrapper">
 							<span class="topic-index">[Topic {i}]</span>
-							<output class="topic-hash">{formatTransactionHash(topic, 'middle-truncated')}</output>
+							<output class="topic-hash">{formatTransactionHash(topic, isExhaustive ? 'full' : 'middle-truncated')}</output>
 						</span>
 					{/each}
 				</span>
