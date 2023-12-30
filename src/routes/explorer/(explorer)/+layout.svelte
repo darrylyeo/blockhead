@@ -65,19 +65,13 @@
 
 
 	// Block Navigation
-
-	import type { Covalent } from '../../../api/covalent'
-	import type { BlockTransaction } from '../../../api/moralis/api/Api'
-
 	let navigationContext: {
-		transaction?: Covalent.Transaction | BlockTransaction,
-		transactionBlockNumber?: number,
+		transaction?: Ethereum.Transaction,
+		transactionBlockNumber?: Ethereum.BlockNumber,
 		block?: Ethereum.Block,
 	} = {}
 
-	$: navigationContext.transactionBlockNumber = navigationContext.transaction &&
-		Number((navigationContext.transaction as Covalent.Transaction).block_height
-		|| (navigationContext.transaction as BlockTransaction).block_number)
+	$: navigationContext.transactionBlockNumber = navigationContext.transaction?.blockNumber
 
 	import { availableNetworks, networksByChainID } from '../../../data/networks'
 	import { TransactionProvider, transactionProviderIcons } from '../../../data/transactionProvider'
