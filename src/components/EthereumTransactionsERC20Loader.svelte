@@ -2,7 +2,7 @@
 	import type { Ethereum } from '../data/networks/types'
 	import type { NetworkProvider } from '../data/networkProviders/types'
 	import { getViemPublicClient } from '../data/networkProviders'
-	import type { TickerSymbol } from '../data/currencies'
+	import type { QuoteCurrency } from '../data/currencies'
 	import { preferences } from '../state/preferences'
 	import { TransactionProvider, transactionProviderIcons } from '../data/transactionProvider'
 
@@ -13,7 +13,7 @@
 
 	export let erc20Token: Ethereum.ERC20Token
 
-	export let quoteCurrency: TickerSymbol
+	export let quoteCurrency: QuoteCurrency
 	export let transactionProvider: TransactionProvider
 	export let includeLogs = true
 
