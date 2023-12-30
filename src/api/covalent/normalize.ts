@@ -91,8 +91,8 @@ export const normalizeTransaction = (
 
 	...('log_events' in transaction && {
 		logEvents: transaction.log_events
-			?.map(normalizeLogEvent)
-			.sort((logEvent1, logEvent2) => (logEvent1.indexInTransaction ?? -1) - (logEvent2.indexInTransaction ?? -1)),
+			.sort((logEvent1, logEvent2) => logEvent1.log_offset - logEvent2.log_offset)
+			.map((logEvent, indexInTransaction) => normalizeLogEvent(logEvent, indexInTransaction))
 	}),
 
 	...('transfers' in transaction && {
@@ -103,12 +103,13 @@ export const normalizeTransaction = (
 })
 
 export const normalizeLogEvent = (
-	logEvent: LogEvent
+	logEvent: LogEvent,
+	indexInTransaction?: number,
 ): Ethereum.TransactionLogEvent => ({
-	indexInTransaction: logEvent.log_offset,
+	indexInTransaction,
 	transactionHash: logEvent.tx_hash as Ethereum.TransactionID,
 
-	indexInBlock: logEvent.tx_offset,
+	indexInBlock: logEvent.log_offset,
 	blockNumber: BigInt(logEvent.block_height),
 
 	topics: logEvent.raw_log_topics as Ethereum.TopicHash[],
