@@ -40,7 +40,7 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
-	import { normalizeUserV1 as normalizeUserNeynarV1 } from '../api/neynar/index'
+	import { normalizeUserV1 as normalizeUserNeynarV1 } from '../api/neynar/normalize'
 
 
 	// Components

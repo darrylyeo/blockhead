@@ -30,7 +30,7 @@
 	// Functions
 	import { createInfiniteQuery } from '@tanstack/svelte-query'
 
-	import { normalizeCastV2 as normalizeCastNeynarV2 } from '../api/neynar'
+	import { normalizeCastV2 as normalizeCastNeynarV2 } from '../api/neynar/normalize'
 
 
 	// Components

@@ -23,7 +23,7 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
-	import { normalizeChannel as normalizeChannelNeynar } from '../api/neynar'
+	import { normalizeChannel as normalizeChannelNeynar } from '../api/neynar/normalize'
 
 
 	// Components
