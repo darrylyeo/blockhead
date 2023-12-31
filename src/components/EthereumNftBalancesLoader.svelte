@@ -337,7 +337,7 @@
 						const nftsResponse = await decommas.address.getNfts({
 							chains,
 							address,
-							limit: 100,
+							limit: 10,
 							offset,
 						})
 
@@ -370,7 +370,7 @@
 							)
 						}
 					},
-					getNextPageParam: (lastPage, allPages) => allPages && allPages.length * 100 < lastPage.count ? allPages.length * 100 : undefined,
+					getNextPageParam: (lastPage, allPages) => allPages.flatMap(page => page.result).length < lastPage.count ? allPages.flatMap(page => page.result).length : undefined,
 					select: ({ pages }) => (
 						normalizeNftContractsDecommas(
 							pages.flatMap(page => page.result),
