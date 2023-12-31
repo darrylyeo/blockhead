@@ -57,18 +57,11 @@
 
 	import { normalizeTokenBalance as normalizeTokenBalanceDecommas } from '../api/decommas/normalize'
 
+	import { normalizeTokenBalance as normalizeTokenBalanceLiquality } from '../api/liquality/normalize'
+
 	import { MoralisWeb3Api, chainCodeFromNetwork } from '../api/moralis/web3Api'
 	import { getWalletTokenBalance } from '../api/quicknode'
 	import { getTokenBalances } from '../api/zapper'
-
-	const normalizeLiqualityTokenBalance = (asset: Awaited<ReturnType<typeof import('@liquality/wallet-sdk').ERC20Service.listAccountTokens>>[number]): TokenWithBalance => ({
-		token: {
-			address: asset.tokenContractAddress as Ethereum.ContractAddress ?? undefined,
-			name: asset.tokenName ?? '',
-			symbol: asset.tokenSymbol ?? undefined,
-		},
-		balance: asset.rawBalance ? BigInt(asset.rawBalance) : undefined,
-	})
 
 	const normalizeQuickNodeTokenBalance = (asset: NonNullable<Awaited<ReturnType<typeof getWalletTokenBalance>>>['assets'][number]): TokenWithBalance => ({
 		token: {
@@ -380,7 +373,7 @@
 						)
 					},
 					select: assets => (
-						assets.map(normalizeLiqualityTokenBalance)
+						assets.map(normalizeTokenBalanceLiquality)
 					),
 					staleTime: 10 * 1000,
 				})
