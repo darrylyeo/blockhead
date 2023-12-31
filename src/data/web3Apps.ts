@@ -1,6 +1,6 @@
 import type { ComponentType } from 'svelte'
 import type { Ethereum } from './networks/types'
-import type { DefiSDK } from '../api/zerion/defiSdk'
+import type { DefiSDK } from '../api/zerion/defiSdk/index'
 import type { ZapperAppId } from '../api/zapper'
 import { erc20TokensByContractAddress, erc20TokensBySymbol } from './tokens'
 import type { DeepReadonly } from '../utils/DeepReadonly'
