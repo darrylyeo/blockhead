@@ -62,19 +62,9 @@
 	import { MoralisWeb3Api, chainCodeFromNetwork } from '../api/moralis/web3Api'
 
 	import { getWalletTokenBalance } from '../api/quicknode/index'
+	import { normalizeTokenBalance as normalizeTokenBalanceQuickNode } from '../api/quicknode/normalize'
 
 	import { getTokenBalances } from '../api/zapper'
-
-	const normalizeQuickNodeTokenBalance = (asset: NonNullable<Awaited<ReturnType<typeof getWalletTokenBalance>>>['assets'][number]): TokenWithBalance => ({
-		token: {
-			address: asset.address,
-			name: asset.name,
-			symbol: asset.symbol,
-			decimals: asset.decimals,
-			icon: asset.logoURI,
-		},
-		balance: BigInt(asset.amount),
-	})
 
 	const normalizeZapperTokenBalance = (asset: NonNullable<NonNullable<Awaited<ReturnType<typeof getTokenBalances>>['products']>[number]['assets']>[number]): TokenWithBalance => ({
 		token: {
@@ -492,7 +482,7 @@
 						})
 					),
 					select: tokenWithBalance => (
-						tokenWithBalance.assets.map(normalizeQuickNodeTokenBalance)
+						tokenWithBalance.assets.map(normalizeTokenBalanceQuickNode)
 					),
 					staleTime: 10 * 1000,
 				})
