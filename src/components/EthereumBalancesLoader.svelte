@@ -274,7 +274,12 @@
 							cursor: '',
 						})
 							.toPromise()
-							.then(result => result.data)
+							.then(result => {
+								if(result.error)
+									throw result.error
+
+								return result.data
+							})
 					},
 					select: data => (
 						(data.TokenBalances.TokenBalance ?? []).map(normalizeTokenBalanceAirstack)

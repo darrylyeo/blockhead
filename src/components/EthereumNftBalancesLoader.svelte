@@ -245,7 +245,12 @@
 							cursor: '',
 						})
 							.toPromise()
-							.then(result => result.data)
+							.then(result => {
+								if(result.error)
+									throw result.error
+
+								return result.data
+							})
 					},
 					select: normalizeNftContractsAirstack,
 					staleTime: 10 * 1000,
