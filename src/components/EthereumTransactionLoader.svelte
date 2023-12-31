@@ -71,7 +71,9 @@
 	import { normalizeRpcTransaction as normalizeTransactionEtherscan, normalizeRpcTransactionReceipt as normalizeTransactionReceiptEtherscan } from '../api/etherscan/normalize'
 
 	// import { getTransaction as getTransactionEtherspot, normalizeTransaction as normalizeEtherspotTransaction } from '../api/etherspot'
-	import { MoralisWeb3Api, chainCodeFromNetwork, normalizeMoralisTransaction } from '../api/moralis/web3Api/index'
+
+	import { MoralisWeb3Api, chainCodeFromNetwork } from '../api/moralis/web3Api/index'
+	import { normalizeTransaction as normalizeTransactionMoralis } from '../api/moralis/web3Api/normalize'
 
 
 	// Components
@@ -416,7 +418,7 @@
 									transactionHash: transactionId,
 								})
 							),
-							select: transaction => normalizeMoralisTransaction(transaction, network),
+							select: transaction => normalizeTransactionMoralis(transaction, network),
 						})}
 						bind:result={transaction}
 						let:result={transaction}
