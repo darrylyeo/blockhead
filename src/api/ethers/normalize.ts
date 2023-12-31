@@ -1,8 +1,8 @@
-import type { Ethereum } from '../data/networks/types'
+import type { Ethereum } from '../../data/networks/types'
 import type { TransactionResponse, TransactionReceipt, Log } from 'ethers'
 
 
-export const normalizeEthersTransaction = (transaction: TransactionResponse | TransactionReceipt, network: Ethereum.Network): Partial<Ethereum.Transaction> => ({
+export const normalizeTransaction = (transaction: TransactionResponse | TransactionReceipt, network: Ethereum.Network): Partial<Ethereum.Transaction> => ({
 	network,
 	transactionId: transaction.hash as Ethereum.TransactionID,
 
@@ -41,11 +41,11 @@ export const normalizeEthersTransaction = (transaction: TransactionResponse | Tr
 	}),
 
 	...('logs' in transaction && transaction.logs ? {
-		logEvents: transaction.logs.map(normalizeEthersTransactionLogEvent),
+		logEvents: transaction.logs.map(normalizeTransactionLogEvent),
 	} : {}),
 })
 
-export const normalizeEthersTransactionLogEvent = (logEvent: Log): Ethereum.TransactionLogEvent => ({
+export const normalizeTransactionLogEvent = (logEvent: Log): Ethereum.TransactionLogEvent => ({
 	indexInTransaction: logEvent.index,
 	transactionHash: logEvent.transactionHash as Ethereum.TransactionID,
 
