@@ -60,7 +60,9 @@
 	import { normalizeTokenBalance as normalizeTokenBalanceLiquality } from '../api/liquality/normalize'
 
 	import { MoralisWeb3Api, chainCodeFromNetwork } from '../api/moralis/web3Api'
-	import { getWalletTokenBalance } from '../api/quicknode'
+
+	import { getWalletTokenBalance } from '../api/quicknode/index'
+
 	import { getTokenBalances } from '../api/zapper'
 
 	const normalizeQuickNodeTokenBalance = (asset: NonNullable<Awaited<ReturnType<typeof getWalletTokenBalance>>>['assets'][number]): TokenWithBalance => ({

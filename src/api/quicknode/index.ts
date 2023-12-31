@@ -1,6 +1,6 @@
-import type { Ethereum } from '../data/networks/types'
-import { NetworkProvider } from '../data/networkProviders/types'
-import { getViemPublicClient } from '../data/networkProviders'
+import type { Ethereum } from '../../data/networks/types'
+import { NetworkProvider } from '../../data/networkProviders/types'
+import { getViemPublicClient } from '../../data/networkProviders'
 
 
 const getQuickNodePublicClient = ({
