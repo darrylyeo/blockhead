@@ -67,7 +67,8 @@
 
 	import { normalizeTransaction as normalizeTransactionDecommas } from '../api/decommas/normalize'
 
-	import { Etherscan, normalizeRpcTransaction as normalizeRpcTransactionEtherscan, normalizeRpcTransactionReceipt as normalizeRpcTransactionReceiptEtherscan } from '../api/etherscan/index'
+	import { Etherscan } from '../api/etherscan/index'
+	import { normalizeRpcTransaction as normalizeTransactionEtherscan, normalizeRpcTransactionReceipt as normalizeTransactionReceiptEtherscan } from '../api/etherscan/normalize'
 
 	// import { getTransaction as getTransactionEtherspot, normalizeTransaction as normalizeEtherspotTransaction } from '../api/etherspot'
 	import { MoralisWeb3Api, chainCodeFromNetwork, normalizeMoralisTransaction } from '../api/moralis/web3Api'
@@ -320,8 +321,8 @@
 								return { transaction, transactionReceipt }
 							},
 							select: ({ transaction, transactionReceipt }) => ({
-								...normalizeRpcTransactionReceiptEtherscan(network, transactionReceipt),
-								...normalizeRpcTransactionEtherscan(network, transaction),
+								...normalizeTransactionReceiptEtherscan(network, transactionReceipt),
+								...normalizeTransactionEtherscan(network, transaction),
 							}),
 						})}
 						bind:result={transaction}

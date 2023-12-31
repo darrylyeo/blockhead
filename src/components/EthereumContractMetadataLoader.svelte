@@ -47,90 +47,7 @@
 	import { createQuery } from '@tanstack/svelte-query'
 
 	import type { Etherscan } from '../api/etherscan/index'
-
-	const normalizeEtherscanSource = <SourcePath extends string>(metadata: Awaited<ReturnType<typeof Etherscan.Contracts.getSource>>) => {
-		const moreMetadata = (() => {
-			try {
-				return JSON.parse(metadata.SourceCode.match(/^\{([\s\S]+)\}$/)?.[1]!)
-			} catch {}
-		})() as {
-			language: string;
-			sources: {
-				[key in SourcePath]: {
-					content: string;
-				}
-			};
-			settings: {
-				remappings: string[];
-				optimizer: {
-					enabled: boolean;
-					runs: number;
-				};
-				metadata: {
-					useLiteralContent: boolean;
-					bytecodeHash: string;
-				};
-				outputSelection: {
-					[key: string]: {
-						[key: string]: string[];
-					};
-				};
-				evmVersion: string;
-				viaIR: boolean;
-				libraries: {};
-			}
-		} | undefined
-
-		return {
-			swarmUri: metadata.SwarmSource,
-			contractMetadata: {
-				...moreMetadata,
-				compiler: {
-					version: metadata.CompilerVersion,
-				},
-				language: moreMetadata?.language,
-				output: {
-					abi: (() => {
-						try {
-							return JSON.parse(metadata.ABI)
-						} catch {
-							return []
-						}
-					})(),
-				},
-				settings: {
-					evmVersion: moreMetadata?.settings.evmVersion ?? metadata.EVMVersion,
-					libraries: moreMetadata?.settings.libraries, // metadata.Library,
-					metadata: moreMetadata?.settings.metadata,
-					compilationTarget: {
-						[metadata.ContractName]: metadata.ContractName,
-					},
-					optimizer: {
-						enabled: moreMetadata?.settings.optimizer.enabled ?? metadata.OptimizationUsed == '1',
-						runs: moreMetadata?.settings.optimizer.runs ?? Number(metadata.Runs),
-					},
-				},
-				sources: Object.fromEntries(
-					Object.entries(
-						moreMetadata?.sources ?? {
-							[metadata.ContractName]: { content: metadata.SourceCode }
-						}
-					)
-						.map(([path, { content, license, urls, keccak256 }]) => [
-							path,
-							{
-								content,
-								license: license || metadata.LicenseType,
-								urls: urls || [
-									metadata.SwarmSource,
-								],
-								keccak256,
-							}
-						])
-				)
-			} as Ethereum.ContractMetadata<SourcePath>,
-		}
-	}
+	import { normalizeContractSource as normalizeContractSourceEtherscan } from '../api/etherscan/normalize'
 
 
 	// Components
@@ -160,7 +77,7 @@
 						return metadata
 					},
 
-					select: normalizeEtherscanSource,
+					select: normalizeContractSourceEtherscan,
 				}),
 
 				[ContractSourceProvider.Sourcify]: () => ({

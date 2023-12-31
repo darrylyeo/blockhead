@@ -35,7 +35,8 @@
 
 	import { normalizeTransaction as normalizeTransactionDecommas } from '../api/decommas/normalize'
 
-	import { Etherscan, normalizeTransaction as normalizeTransactionEtherscan } from '../api/etherscan/index'
+	import { Etherscan } from '../api/etherscan/index'
+	import { normalizeTransaction as normalizeTransactionEtherscan } from '../api/etherscan/normalize'
 
 	// import { getTransactions as getTransactionsEtherspot } from '../api/etherspot'
 	import { chainCodeFromNetwork, MoralisWeb3Api, normalizeMoralisTransaction as normalizeTransactionMoralis } from '../api/moralis/web3Api'
