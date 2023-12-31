@@ -61,7 +61,10 @@
 	import { isTruthy } from '../utils/isTruthy'
 
 	import { normalizeViemBlock } from '../api/viem'
-	import { getBlockByNumber as getBlockByNumberChainbase, normalizeBlock as normalizeBlockChainbase } from '../api/chainbase'
+
+	import { getBlockByNumber as getBlockByNumberChainbase } from '../api/chainbase'
+	import { normalizeBlock as normalizeBlockChainbase } from '../api/chainbase/normalize'
+
 	import { getBlock as getBlockCovalent, getAllTransactionsInABlock as getBlockTransactionsCovalent } from '../api/covalent/index'
 	import { normalizeBlock as normalizeBlockCovalent, normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent/normalize'
 	import { Etherscan, normalizeBlock as normalizeBlockEtherscan } from '../api/etherscan'

@@ -58,7 +58,10 @@
 	import { createQuery } from '@tanstack/svelte-query'
 
 	import { normalizeViemTransaction } from '../api/viem'
-	import { getTransaction as getTransactionChainbase, normalizeTransaction as normalizeTransactionChainbase } from '../api/chainbase'
+
+	import { getTransaction as getTransactionChainbase } from '../api/chainbase/index'
+	import { normalizeTransaction as normalizeTransactionChainbase } from '../api/chainbase/normalize'
+
 	import { getTransaction as getTransactionCovalent } from '../api/covalent/index'
 	import { normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent/normalize'
 	import { normalizeTransaction as normalizeTransactionDecommas } from '../api/decommas/normalize'

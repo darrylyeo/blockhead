@@ -48,7 +48,10 @@
 
 	import { airstackNetworkNames, getClient } from '../api/airstack/index'
 	import { normalizeTokenBalance as normalizeTokenBalanceAirstack } from '../api/airstack/normalize'
+
 	import { getErc20TokenBalances } from '../api/chainbase'
+	import { normalizeTokenBalance as normalizeTokenBalanceChainbase } from '../api/chainbase/normalize'
+
 	import { getTokenBalancesForAddress } from '../api/covalent/index'
 	import { MoralisWeb3Api, chainCodeFromNetwork } from '../api/moralis/web3Api'
 	import { getWalletTokenBalance } from '../api/quicknode'
@@ -68,17 +71,6 @@
 			value: tokenBalance.quote,
 			rate: tokenBalance.quote_rate,
 		},
-	})
-
-	const normalizeChainbaseTokenBalance = (asset: Awaited<ReturnType<typeof getErc20TokenBalances>>['data'][number]): TokenWithBalance => ({
-		token: {
-			address: asset.contract_address,
-			name: asset.name,
-			symbol: asset.symbol,
-			decimals: asset.decimals,
-			icon: asset.logos?.[0]?.uri,
-		},
-		balance: BigInt(asset.balance),
 	})
 
 	const normalizeDecommasTokenBalance = (tokenWithAmount: Awaited<ReturnType<typeof import('../api/decommas').decommas.address.getTokens>>['result'][number]): TokenWithBalance => ({
@@ -312,7 +304,7 @@
 					select: result => (
 						result.pages
 							.flatMap(page => page.data)
-							.map(normalizeChainbaseTokenBalance)
+							.map(normalizeTokenBalanceChainbase)
 					),
 					staleTime: 10 * 1000,
 				})

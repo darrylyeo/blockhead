@@ -72,7 +72,7 @@
 	import { airstackNetworkNames, getClient } from '../api/airstack/index'
 	import { normalizeNftContracts as normalizeNftContractsAirstack } from '../api/airstack/normalize'
 
-	import { normalizeNftContracts as normalizeNftContractsChainbase } from '../api/chainbase'
+	import { normalizeNftContracts as normalizeNftContractsChainbase } from '../api/chainbase/normalize'
 
 	import { getNftsForAddress as getNftsForAddressCovalent } from '../api/covalent/index'
 	import { normalizeNftContract as normalizeNftContractCovalent } from '../api/covalent/normalize'

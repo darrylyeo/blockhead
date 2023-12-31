@@ -27,6 +27,9 @@
 	// Functions
 	import { createQuery, createInfiniteQuery } from '@tanstack/svelte-query'
 
+	import { getTransactionsByAccount as getTransactionsByAccountChainbase } from '../api/chainbase'
+	import { normalizeTransaction as normalizeTransactionChainbase } from '../api/chainbase/normalize'
+
 	import { getPaginatedTransactionsForAddress } from '../api/covalent/index'
 	import { normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent/normalize'
 	import { normalizeTransaction as normalizeTransactionDecommas } from '../api/decommas/normalize'
@@ -50,7 +53,6 @@
 
 	// Components
 	import Loader from './Loader.svelte'
-	import { getTransactionsByAccount as getTransactionsByAccountChainbase, normalizeTransaction as normalizeTransactionChainbase } from '../api/chainbase';
 </script>
 
 
