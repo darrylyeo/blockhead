@@ -85,7 +85,9 @@
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
 	import { getDefiPositions, normalizeDefiPositions as normalizeDefiPositionsZerion } from '../api/zerion/defiSdk'
-	import { getAllApps, getDefiPositionsForApps, normalizeDefiPositions as normalizeDefiPositionsZapper } from '../api/zapper'
+
+	import { getAllApps, getDefiPositionsForApps } from '../api/zapper/index'
+	import { normalizeDefiPositions as normalizeDefiPositionsZapper } from '../api/zapper/normalize'
 
 
 	// Components

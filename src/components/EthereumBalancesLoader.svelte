@@ -64,23 +64,8 @@
 	import { getWalletTokenBalance } from '../api/quicknode/index'
 	import { normalizeTokenBalance as normalizeTokenBalanceQuickNode } from '../api/quicknode/normalize'
 
-	import { getTokenBalances } from '../api/zapper'
-
-	const normalizeZapperTokenBalance = (asset: NonNullable<NonNullable<Awaited<ReturnType<typeof getTokenBalances>>['products']>[number]['assets']>[number]): TokenWithBalance => ({
-		token: {
-			address: asset.address as Ethereum.ContractAddress,
-			name: asset.displayProps.label,
-			symbol: asset.symbol,
-			decimals: asset.decimals,
-			icon: asset.displayProps.images?.[0],
-		},
-		balance: asset.balanceRaw ? BigInt(asset.balanceRaw) : undefined,
-		conversion: {
-			currency: 'USD',
-			value: asset.balanceUSD,
-			rate: asset.price,
-		},
-	})
+	import { getTokenBalances } from '../api/zapper/index'
+	import { normalizeTokenBalance as normalizeTokenBalanceZapper } from '../api/zapper/normalize'
 
 
 	// Components
@@ -460,7 +445,7 @@
 						})
 					),
 					select: ({ products }) => (
-						products?.[0]?.assets.map(normalizeZapperTokenBalance) ?? []
+						products?.[0]?.assets.map(normalizeTokenBalanceZapper) ?? []
 					),
 					staleTime: 10 * 1000,
 				})
