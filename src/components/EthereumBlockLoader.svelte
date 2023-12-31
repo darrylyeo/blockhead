@@ -71,7 +71,7 @@
 	import { Etherscan } from '../api/etherscan/index'
 	import { normalizeBlock as normalizeBlockEtherscan } from '../api/etherscan/normalize'
 
-	import { chainCodeFromNetwork, MoralisWeb3Api, normalizeMoralisBlock } from '../api/moralis/web3Api'
+	import { chainCodeFromNetwork, MoralisWeb3Api, normalizeMoralisBlock } from '../api/moralis/web3Api/index'
 
 
 	// Components

@@ -59,7 +59,7 @@
 
 	import { normalizeTokenBalance as normalizeTokenBalanceLiquality } from '../api/liquality/normalize'
 
-	import { MoralisWeb3Api, chainCodeFromNetwork } from '../api/moralis/web3Api'
+	import { MoralisWeb3Api, chainCodeFromNetwork } from '../api/moralis/web3Api/index'
 
 	import { getWalletTokenBalance } from '../api/quicknode/index'
 	import { normalizeTokenBalance as normalizeTokenBalanceQuickNode } from '../api/quicknode/normalize'

@@ -39,7 +39,7 @@
 	import { normalizeTransaction as normalizeTransactionEtherscan } from '../api/etherscan/normalize'
 
 	// import { getTransactions as getTransactionsEtherspot } from '../api/etherspot'
-	import { chainCodeFromNetwork, MoralisWeb3Api, normalizeMoralisTransaction as normalizeTransactionMoralis } from '../api/moralis/web3Api'
+	import { chainCodeFromNetwork, MoralisWeb3Api, normalizeMoralisTransaction as normalizeTransactionMoralis } from '../api/moralis/web3Api/index'
 
 
 	// Outputs

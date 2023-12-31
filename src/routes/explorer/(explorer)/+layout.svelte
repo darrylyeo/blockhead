@@ -78,7 +78,7 @@
 	import { availableNetworks, networksByChainID } from '../../../data/networks'
 	import { TransactionProvider, transactionProviderIcons } from '../../../data/transactionProvider'
 	import { parallelLoaderStore } from '../../../utils/parallelLoaderStore'
-	import { chainCodeFromNetwork, MoralisWeb3Api } from '../../../api/moralis/web3Api'
+	import { chainCodeFromNetwork, MoralisWeb3Api } from '../../../api/moralis/web3Api/index'
 
 
 	// Components
