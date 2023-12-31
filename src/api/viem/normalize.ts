@@ -1,7 +1,7 @@
 import type { TransactionReceipt } from 'viem'
-import type { Ethereum } from '../data/networks/types'
+import type { Ethereum } from '../../data/networks/types'
 
-export const normalizeViemBlock = (
+export const normalizeBlock = (
 	block: Awaited<ReturnType<Ethereum.PublicClient['getBlock']>>,
 	network: Ethereum.Network,
 ): Ethereum.Block => ({
@@ -27,11 +27,11 @@ export const normalizeViemBlock = (
 	...(((transactions: typeof block['transactions']): transactions is `0x${string}`[] => typeof transactions[0] === 'string')(block.transactions) ? {
 		transactionIds: block.transactions,
 	} : {
-		transactions: block.transactions.map(transaction => normalizeViemTransaction(transaction, network) as Ethereum.Transaction),
+		transactions: block.transactions.map(transaction => normalizeTransaction(transaction, network) as Ethereum.Transaction),
 	}),
 })
 
-export const normalizeViemTransaction = (
+export const normalizeTransaction = (
 	transaction: (
 		| Awaited<ReturnType<Ethereum.PublicClient['getTransaction']>>
 		| Awaited<ReturnType<Ethereum.PublicClient['getTransactionReceipt']>>
@@ -81,13 +81,13 @@ export const normalizeViemTransaction = (
 	} : {}),
 
 	...('logs' in transaction ? {
-		logEvents: transaction.logs.map(normalizeViemLogEvent)
+		logEvents: transaction.logs.map(normalizeLogEvent)
 	} : logs ? {
-		logEvents: logs.map(normalizeViemLogEvent),
+		logEvents: logs.map(normalizeLogEvent),
 	} : {}),
 })
 		
-export const normalizeViemLogEvent = (logEvent: TransactionReceipt['logs'][number]): Ethereum.TransactionLogEvent => ({
+export const normalizeLogEvent = (logEvent: TransactionReceipt['logs'][number]): Ethereum.TransactionLogEvent => ({
 	topics: logEvent.topics,
 	data: logEvent.data,
 

@@ -60,7 +60,7 @@
 	import { numberToHex } from 'viem'
 	import { isTruthy } from '../utils/isTruthy'
 
-	import { normalizeViemBlock } from '../api/viem'
+	import { normalizeBlock as normalizeViemBlock } from '../api/viem/normalize'
 
 	import { getBlockByNumber as getBlockByNumberChainbase } from '../api/chainbase'
 	import { normalizeBlock as normalizeBlockChainbase } from '../api/chainbase/normalize'
