@@ -32,7 +32,9 @@
 
 	import { getPaginatedTransactionsForAddress } from '../api/covalent/index'
 	import { normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent/normalize'
+
 	import { normalizeTransaction as normalizeTransactionDecommas } from '../api/decommas/normalize'
+
 	import { Etherscan, normalizeTransaction as normalizeTransactionEtherscan } from '../api/etherscan'
 	// import { getTransactions as getTransactionsEtherspot } from '../api/etherspot'
 	import { chainCodeFromNetwork, MoralisWeb3Api, normalizeMoralisTransaction as normalizeTransactionMoralis } from '../api/moralis/web3Api'

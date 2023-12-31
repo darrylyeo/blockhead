@@ -55,28 +55,11 @@
 	import { getTokenBalancesForAddress } from '../api/covalent/index'
 	import { normalizeTokenBalance as normalizeTokenBalanceCovalent } from '../api/covalent/normalize'
 
+	import { normalizeTokenBalance as normalizeTokenBalanceDecommas } from '../api/decommas/normalize'
+
 	import { MoralisWeb3Api, chainCodeFromNetwork } from '../api/moralis/web3Api'
 	import { getWalletTokenBalance } from '../api/quicknode'
 	import { getTokenBalances } from '../api/zapper'
-
-	const normalizeDecommasTokenBalance = (tokenWithAmount: Awaited<ReturnType<typeof import('../api/decommas').decommas.address.getTokens>>['result'][number]): TokenWithBalance => ({
-		token: {
-			chainId: tokenWithAmount.chainId,
-			address: tokenWithAmount.address as Ethereum.ContractAddress,
-			name: tokenWithAmount.name,
-			symbol: tokenWithAmount.symbol,
-			decimals: tokenWithAmount.decimals,
-			icon: tokenWithAmount.logoUrl,
-		},
-		balance: BigInt(tokenWithAmount.amount),
-		...tokenWithAmount.actualPrice !== null && {
-			conversion: {
-				currency: 'USD',
-				value: Number(tokenWithAmount.amount) * 0.1 ** tokenWithAmount.decimals * Number(tokenWithAmount.actualPrice),
-				rate: Number(tokenWithAmount.actualPrice),
-			},
-		},
-	})
 
 	const normalizeLiqualityTokenBalance = (asset: Awaited<ReturnType<typeof import('@liquality/wallet-sdk').ERC20Service.listAccountTokens>>[number]): TokenWithBalance => ({
 		token: {
@@ -368,7 +351,7 @@
 					select: ({ pages }) => (
 						pages
 							.flatMap(result => result.result)
-							.map(normalizeDecommasTokenBalance)
+							.map(normalizeTokenBalanceDecommas)
 					),
 					staleTime: 10 * 1000,
 				})

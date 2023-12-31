@@ -64,6 +64,7 @@
 
 	import { getTransaction as getTransactionCovalent } from '../api/covalent/index'
 	import { normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent/normalize'
+
 	import { normalizeTransaction as normalizeTransactionDecommas } from '../api/decommas/normalize'
 	import { Etherscan, normalizeRpcTransaction as normalizeRpcTransactionEtherscan, normalizeRpcTransactionReceipt as normalizeRpcTransactionReceiptEtherscan } from '../api/etherscan'
 	// import { getTransaction as getTransactionEtherspot, normalizeTransaction as normalizeEtherspotTransaction } from '../api/etherspot'
