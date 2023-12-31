@@ -341,6 +341,7 @@
 						tokenBalancesProvider,
 						address,
 						chainId: network.chainId,
+						quoteCurrency,
 					}],
 					queryFn: async () => (
 						await getTokenBalancesForAddress({
