@@ -82,7 +82,8 @@
 	import { ConcurrentPromiseQueue } from '../utils/ConcurrentPromiseQueue'
 	import { normalizeNftContracts as normalizeNftContractsLiquality } from '../api/liquality/normalize'
 
-	import { NftportApi, networkSlugToNftportChain, normalizeNftContracts as normalizeNftContractsNftport } from '../api/nftport'
+	import { NftportApi, networkSlugToNftportChain } from '../api/nftport/index'
+	import { normalizeNftContracts as normalizeNftContractsNftport } from '../api/nftport/normalize'
 
 
 	// Components
