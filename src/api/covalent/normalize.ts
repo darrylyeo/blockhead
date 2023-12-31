@@ -2,7 +2,8 @@
 import type { AbiType } from 'abitype'
 import type { QuoteCurrency } from '../../data/currencies'
 import type { Ethereum } from '../../data/networks/types'
-import type { BlockResponse, Transaction, Erc20TransfersResponse, LogEvent, NftAddressBalanceNftResponse } from '../covalent/index'
+import type { TokenWithBalance } from '../../data/tokens'
+import type { BlockResponse, Transaction, Erc20TransfersResponse, LogEvent, NftAddressBalanceNftResponse, getTokenBalancesForAddress } from '../covalent/index'
 
 export type Erc20Transfer = Pick<Ethereum.Transaction,
 	| 'network'
@@ -221,5 +222,24 @@ export const normalizeNft = (
 	metadata: {
 		...nftWithBalance.external_data,
 		attributes: nftWithBalance.external_data?.attributes && normalizeNftAttributes(nftWithBalance.external_data.attributes),
+	},
+})
+
+export const normalizeTokenBalance = (
+	tokenBalance: Awaited<ReturnType<typeof getTokenBalancesForAddress>>['items'][number],
+	quoteCurrency: QuoteCurrency,
+): TokenWithBalance => ({
+	token: {
+		address: tokenBalance.contract_address as Ethereum.ContractAddress,
+		name: tokenBalance.contract_name,
+		symbol: tokenBalance.contract_ticker_symbol || tokenBalance.contract_name,
+		decimals: tokenBalance.contract_decimals,
+		icon: tokenBalance.logo_url,
+	},
+	balance: BigInt(tokenBalance.balance),
+	conversion: {
+		currency: quoteCurrency,
+		value: tokenBalance.quote,
+		rate: tokenBalance.quote_rate,
 	},
 })

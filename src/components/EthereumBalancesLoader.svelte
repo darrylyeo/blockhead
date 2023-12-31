@@ -53,25 +53,11 @@
 	import { normalizeTokenBalance as normalizeTokenBalanceChainbase } from '../api/chainbase/normalize'
 
 	import { getTokenBalancesForAddress } from '../api/covalent/index'
+	import { normalizeTokenBalance as normalizeTokenBalanceCovalent } from '../api/covalent/normalize'
+
 	import { MoralisWeb3Api, chainCodeFromNetwork } from '../api/moralis/web3Api'
 	import { getWalletTokenBalance } from '../api/quicknode'
 	import { getTokenBalances } from '../api/zapper'
-
-	const normalizeCovalentTokenBalance = (tokenBalance: Awaited<ReturnType<typeof getTokenBalancesForAddress>>['items'][number]): TokenWithBalance => ({
-		token: {
-			address: tokenBalance.contract_address as Ethereum.ContractAddress,
-			name: tokenBalance.contract_name,
-			symbol: tokenBalance.contract_ticker_symbol || tokenBalance.contract_name,
-			decimals: tokenBalance.contract_decimals,
-			icon: tokenBalance.logo_url,
-		},
-		balance: BigInt(tokenBalance.balance),
-		conversion: {
-			currency: quoteCurrency,
-			value: tokenBalance.quote,
-			rate: tokenBalance.quote_rate,
-		},
-	})
 
 	const normalizeDecommasTokenBalance = (tokenWithAmount: Awaited<ReturnType<typeof import('../api/decommas').decommas.address.getTokens>>['result'][number]): TokenWithBalance => ({
 		token: {
@@ -329,7 +315,8 @@
 						})
 					),
 					select: result => (
-						result.items.map(normalizeCovalentTokenBalance)
+						result.items
+							.map(tokenBalance => normalizeTokenBalanceCovalent(tokenBalance, quoteCurrency))
 					),
 					staleTime: 10 * 1000,
 				})
