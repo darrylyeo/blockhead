@@ -67,7 +67,9 @@
 
 	import { getBlock as getBlockCovalent, getAllTransactionsInABlock as getBlockTransactionsCovalent } from '../api/covalent/index'
 	import { normalizeBlock as normalizeBlockCovalent, normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent/normalize'
-	import { Etherscan, normalizeBlock as normalizeBlockEtherscan } from '../api/etherscan'
+
+	import { Etherscan, normalizeBlock as normalizeBlockEtherscan } from '../api/etherscan/index'
+
 	import { chainCodeFromNetwork, MoralisWeb3Api, normalizeMoralisBlock } from '../api/moralis/web3Api'
 
 

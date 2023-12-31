@@ -66,7 +66,9 @@
 	import { normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent/normalize'
 
 	import { normalizeTransaction as normalizeTransactionDecommas } from '../api/decommas/normalize'
-	import { Etherscan, normalizeRpcTransaction as normalizeRpcTransactionEtherscan, normalizeRpcTransactionReceipt as normalizeRpcTransactionReceiptEtherscan } from '../api/etherscan'
+
+	import { Etherscan, normalizeRpcTransaction as normalizeRpcTransactionEtherscan, normalizeRpcTransactionReceipt as normalizeRpcTransactionReceiptEtherscan } from '../api/etherscan/index'
+
 	// import { getTransaction as getTransactionEtherspot, normalizeTransaction as normalizeEtherspotTransaction } from '../api/etherspot'
 	import { MoralisWeb3Api, chainCodeFromNetwork, normalizeMoralisTransaction } from '../api/moralis/web3Api'
 

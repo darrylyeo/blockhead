@@ -46,7 +46,7 @@
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
 
-	import type { Etherscan } from '../api/etherscan'
+	import type { Etherscan } from '../api/etherscan/index'
 
 	const normalizeEtherscanSource = <SourcePath extends string>(metadata: Awaited<ReturnType<typeof Etherscan.Contracts.getSource>>) => {
 		const moreMetadata = (() => {
@@ -150,7 +150,7 @@
 			...{
 				[ContractSourceProvider.Etherscan]: () => ({
 					queryFn: async () => {
-						const { Etherscan } = await import('../api/etherscan')
+						const { Etherscan } = await import('../api/etherscan/index')
 
 						const metadata = await Etherscan.Contracts.getSource({
 							chainId: network.chainId,
