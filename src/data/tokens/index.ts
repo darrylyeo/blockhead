@@ -3,7 +3,7 @@ import type { Ethereum } from '../networks/types'
 
 export type TokenWithBalance = {
 	token: Ethereum.NativeCurrency | Ethereum.ERC20Token,
-	balance: bigint,
+	balance?: bigint,
 	conversion?: {
 		currency: QuoteCurrency,
 		value: number,

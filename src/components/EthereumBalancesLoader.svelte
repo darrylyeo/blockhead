@@ -62,35 +62,22 @@
 			symbol: tokenWithBalance.token.symbol,
 			decimals: tokenWithBalance.token.decimals,
 		},
-		balance: BigInt(tokenWithBalance.amount), // BigInt(tokenWithBalance.amount),
+		balance: BigInt(tokenWithBalance.amount),
 	})
 
-	const normalizeCovalentTokenBalance = ({
-		balance, quote, quote_rate,
-		contract_name, contract_address, contract_decimals, contract_ticker_symbol, logo_url, contract_logo_url,
-	}: Awaited<ReturnType<typeof getTokenBalancesForAddress>>['items'][number]): TokenWithBalance => ({
+	const normalizeCovalentTokenBalance = (tokenBalance: Awaited<ReturnType<typeof getTokenBalancesForAddress>>['items'][number]): TokenWithBalance => ({
 		token: {
-			address: contract_address as Ethereum.ContractAddress,
-			name: contract_name,
-			symbol: contract_ticker_symbol || contract_name,
-			decimals: contract_decimals,
-			icon: contract_logo_url || logo_url,
+			address: tokenBalance.contract_address as Ethereum.ContractAddress,
+			name: tokenBalance.contract_name,
+			symbol: tokenBalance.contract_ticker_symbol || tokenBalance.contract_name,
+			decimals: tokenBalance.contract_decimals,
+			icon: tokenBalance.logo_url,
 		},
-		balance: BigInt(balance),
+		balance: BigInt(tokenBalance.balance),
 		conversion: {
 			currency: quoteCurrency,
-			value:
-				quote >= 10 ** 24 ?
-					quote / (10 ** contract_decimals) / (10 ** contract_decimals)
-				: quote >= 10 ** 12 ?
-					quote / (10 ** contract_decimals)
-				:
-					quote,
-			rate:
-				quote_rate >= 10 ** contract_decimals ?
-					quote_rate / (10 ** contract_decimals)
-				:
-					quote_rate,
+			value: tokenBalance.quote,
+			rate: tokenBalance.quote_rate,
 		},
 	})
 
@@ -117,7 +104,7 @@
 		balance: BigInt(tokenWithAmount.amount),
 		...tokenWithAmount.actualPrice !== null && {
 			conversion: {
-				quoteCurrency: 'USD',
+				currency: 'USD',
 				value: Number(tokenWithAmount.amount) * 0.1 ** tokenWithAmount.decimals * Number(tokenWithAmount.actualPrice),
 				rate: Number(tokenWithAmount.actualPrice),
 			},
@@ -126,14 +113,14 @@
 
 	const normalizeLiqualityTokenBalance = (asset: Awaited<ReturnType<typeof import('@liquality/wallet-sdk').ERC20Service.listAccountTokens>>[number]): TokenWithBalance => ({
 		token: {
-			address: asset.tokenContractAddress ?? undefined,
-			name: asset.tokenName ?? undefined,
+			address: asset.tokenContractAddress as Ethereum.ContractAddress ?? undefined,
+			name: asset.tokenName ?? '',
 			symbol: asset.tokenSymbol ?? undefined,
 		},
 		balance: asset.rawBalance ? BigInt(asset.rawBalance) : undefined,
 	})
 
-	const normalizeQuickNodeTokenBalance = (asset: Awaited<ReturnType<typeof getWalletTokenBalance>>['assets'][number]): TokenWithBalance => ({
+	const normalizeQuickNodeTokenBalance = (asset: NonNullable<Awaited<ReturnType<typeof getWalletTokenBalance>>>['assets'][number]): TokenWithBalance => ({
 		token: {
 			address: asset.address,
 			name: asset.name,
