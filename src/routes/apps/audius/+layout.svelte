@@ -37,11 +37,6 @@
 </script>
 
 
-<head>
-	<title>{$accountId ? `${$accountId} | ` : ''}{`${$web3AppConfig?.name} ${$currentView}`} | Blockhead</title>
-</head>
-
-
 <style>
 	.audiusQuery-form {
 		display: grid;

@@ -70,6 +70,7 @@
 		network,
 		currentView,
 		showTestnets,
+		title,
 	} from './_appsContext'
 
 	import { web3AppsBySection, getWeb3AppSupportedNetworks } from '../../data/web3Apps'
@@ -113,7 +114,7 @@
 
 
 	// Components
-
+	import { MetaTags } from 'svelte-meta-tags'
 	import NetworkSelect from '../../components/NetworkSelect.svelte'
 	import Preferences from '../../components/Preferences.svelte'
 	import TokenIcon from '../../components/TokenIcon.svelte'
@@ -153,9 +154,10 @@
 </style>
 
 
-<svelte:head>
-	<title>{$accountId ? `${$accountId} | ` : ''}{$web3AppSlug && $web3AppConfig ? `${$web3AppConfig.name}${$currentView === 'Dashboard' ? '' : ` ${$currentView}`}` : `Apps`} | Blockhead</title>
-</svelte:head>
+<MetaTags {...{
+	title: `${$title} | Blockhead`,
+	description: 'Browse DeFi protocols and web3 apps on Blockhead.',
+}} />
 
 
 <main in:fly|global={{x: 300}} out:fly|global={{x: -300}}>

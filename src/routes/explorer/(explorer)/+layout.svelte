@@ -26,6 +26,8 @@
 		ExplorerQueryType,
 		explorerQueryType,
 		explorerQuery,
+
+		explorerTitle,
 	} from '../_explorerContext'
 
 
@@ -80,6 +82,8 @@
 
 
 	// Components
+	import { MetaTags } from 'svelte-meta-tags'
+
 	import SearchInput from '../../../components/SearchInput.svelte'
 
 	import HistoricalPriceChart from '../../../components/HistoricalPriceChart.svelte'
@@ -107,6 +111,12 @@
 	// Transitions
 	import { fly } from 'svelte/transition'
 </script>
+
+
+<MetaTags {...{
+	title: `${$explorerTitle} | Blockhead`,
+	description: `Explore${$explorerNetwork ? ` ${$explorerNetwork.name}` : ''} transactions, blocks, accounts, smart contracts and more on Blockhead.`,
+}} />
 
 
 <style>

@@ -15,9 +15,8 @@
 
 
 <MetaTags {...{
-	title: 'Explorer',
-	titleTemplate: '%s | Blockhead',
-	description: 'Explore transactions, blocks, accounts and smart contracts across Ethereum, Polygon, Gnosis Chain, and other EVM chains.',
+	title: `Apps | Blockhead`,
+	description: 'Browse DeFi protocols and web3 apps on Blockhead.',
 }} />
 
 

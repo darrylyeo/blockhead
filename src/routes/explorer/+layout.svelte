@@ -69,7 +69,7 @@
 
 
 	// Components
-
+	import { MetaTags } from 'svelte-meta-tags'
 	import NetworkSelect from '../../components/NetworkSelect.svelte'
 	import Preferences from '../../components/Preferences.svelte'
 	import InlineContainer from '../../components/InlineContainer.svelte'
@@ -80,6 +80,12 @@
 
 	import { fly, scale } from 'svelte/transition'
 </script>
+
+
+<MetaTags {...{
+	title: `Explorer | Blockhead`,
+	description: 'Explore transactions, blocks, accounts and smart contracts across Ethereum, Polygon, Gnosis Chain, and other EVM chains.',
+}} />
 
 
 <style>
@@ -98,11 +104,6 @@
 		font-size: 1.5em;
 	}
 </style>
-
-
-<svelte:head>
-	<title>{$explorerQuery ? `${$explorerQuery} | ` : ''}{networkDisplayName ? `${networkDisplayName} ` : ''} Explorer | Blockhead</title>
-</svelte:head>
 
 
 <main in:fly|global={{x: 300}} out:fly|global={{x: -300}}>

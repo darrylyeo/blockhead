@@ -8,6 +8,7 @@ import { networksBySlug } from '../../data/networks'
 
 // Functions
 import { getViemPublicClient } from '../../data/networkProviders'
+import { isTruthy } from '../../utils/isTruthy'
 
 
 // External stores
@@ -82,6 +83,39 @@ export const explorerQuery = derived(explorerParams, (
 ) => {
 	set(
 		String($explorerParams.address || $explorerParams.blockNumber || $explorerParams.ensName || $explorerParams.transactionId || '')
+	)
+})
+
+export const explorerTitle = derived([
+	explorerNetwork,
+	explorerQueryType,
+	explorerQuery,
+], ([
+	$explorerNetwork,
+	$explorerQueryType,
+	$explorerQuery,
+], set: (_: string) => void) => {
+	set(
+		[
+			$explorerQueryType !== ExplorerQueryType.None && [
+				$explorerQueryType === ExplorerQueryType.Transaction ? `Transaction` :
+				$explorerQueryType === ExplorerQueryType.Block ? `Block` :
+				$explorerQueryType === ExplorerQueryType.Account ? `Account` :
+				'',
+				$explorerQuery,
+			],
+			[
+				$explorerNetwork && $explorerNetwork.name,
+				`Explorer`,
+			],
+		]
+			.filter(isTruthy)
+			.map(lines => (
+				lines
+					.filter(isTruthy)
+					.join(' ')
+			))
+			.join(' | ')
 	)
 })
 

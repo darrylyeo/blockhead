@@ -54,9 +54,8 @@
 
 
 <MetaTags {...{
-	title: 'Portfolio',
-	titleTemplate: '%s | Blockhead',
-	description: `Track your ERC-20 tokens, DeFi balances, and NFTs across multiple wallets & EVM chains with Blockhead's portfolio tracker.`,
+	title: `Portfolio | Blockhead`,
+	description: `Track token balances, DeFi positions, and NFTs across multiple wallets & EVM chains with Blockhead's portfolio tracker.`,
 }} />
 
 

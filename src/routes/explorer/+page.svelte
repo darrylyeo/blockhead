@@ -22,8 +22,7 @@
 
 
 <MetaTags {...{
-	title: 'Explorer',
-	titleTemplate: '%s | Blockhead',
+	title: `Explorer | Blockhead`,
 	description: 'Explore transactions, blocks, accounts and smart contracts across Ethereum, Polygon, Gnosis Chain, and other EVM chains.',
 }} />
 

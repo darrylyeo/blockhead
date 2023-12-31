@@ -76,8 +76,31 @@ export let accountConnection = derived([
 	$accountConnections.find(accountConnection => accountConnection.state?.account?.address?.toLowerCase() === $accountId.toLowerCase())
 ))
 
+export const title = derived([
+	defaultSearchInputValue,
+	web3AppSlug,
+	web3AppConfig,
+	currentView,
+], ([
+	$defaultSearchInputValue,
+	$web3AppSlug,
+	$web3AppConfig,
+	$currentView,
+], set: (_: string) => void) => {
+	set(
+		[
+			$defaultSearchInputValue,
+			$web3AppSlug && $web3AppConfig && `${$web3AppConfig.name}${$currentView === 'Dashboard' ? '' : ` ${$currentView}`}`,
+			'Apps',
+		]
+			.filter(isTruthy)
+			.join(' | ')
+	)
+})
+
 
 // Internal stores
 import { writable } from 'svelte/store'
+import { isTruthy } from '../../utils/isTruthy'
 
 export const showTestnets = writable(false)
