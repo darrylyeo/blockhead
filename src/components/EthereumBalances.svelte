@@ -14,8 +14,10 @@
 	// Inputs
 	export let network: Ethereum.Network
 	export let address: string
-	export let tokenBalancesProvider: TokenBalancesProvider = $preferences.tokenBalancesProvider
-	export let quoteCurrency: QuoteCurrency = $preferences.quoteCurrency
+	export let tokenBalancesProvider: TokenBalancesProvider
+	$: tokenBalancesProvider = $$props.tokenBalancesProvider || $preferences.tokenBalancesProvider
+	export let quoteCurrency: QuoteCurrency
+	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
 
 	export let isSelectable = false
 	export let selectedToken: Ethereum.NativeCurrency | Ethereum.ERC20Token | undefined
