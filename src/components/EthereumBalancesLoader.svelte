@@ -47,23 +47,12 @@
 	import { getViemPublicClient } from '../data/networkProviders'
 
 	import { airstackNetworkNames, getClient } from '../api/airstack/index'
+	import { normalizeTokenBalance as normalizeTokenBalanceAirstack } from '../api/airstack/normalize'
 	import { getErc20TokenBalances } from '../api/chainbase'
 	import { getTokenBalancesForAddress } from '../api/covalent/index'
 	import { MoralisWeb3Api, chainCodeFromNetwork } from '../api/moralis/web3Api'
 	import { getWalletTokenBalance } from '../api/quicknode'
 	import { getTokenBalances } from '../api/zapper'
-
-
-	const normalizeAirstackTokenBalance = (tokenWithBalance): TokenWithBalance => ({
-		token: {
-			chainId: Number(tokenWithBalance.chainId),
-			address: tokenWithBalance.tokenAddress,
-			name: tokenWithBalance.token.name,
-			symbol: tokenWithBalance.token.symbol,
-			decimals: tokenWithBalance.token.decimals,
-		},
-		balance: BigInt(tokenWithBalance.amount),
-	})
 
 	const normalizeCovalentTokenBalance = (tokenBalance: Awaited<ReturnType<typeof getTokenBalancesForAddress>>['items'][number]): TokenWithBalance => ({
 		token: {
@@ -288,7 +277,7 @@
 							.then(result => result.data)
 					},
 					select: data => (
-						(data.TokenBalances.TokenBalance ?? []).map(normalizeAirstackTokenBalance)
+						(data.TokenBalances.TokenBalance ?? []).map(normalizeTokenBalanceAirstack)
 					),
 					staleTime: 10 * 1000,
 				})
