@@ -27,7 +27,7 @@
 	$: sortFunction = {
 		'value-descending': (a: Ethereum.NftContractWithNfts, b: Ethereum.NftContractWithNfts) => (b.conversion?.value ?? 0) - (a.conversion?.value ?? 0) || (b.nftsCount ?? b.nfts?.length ?? 0) - (a.nftsCount ?? a.nfts?.length ?? 0),
 		'value-ascending': (a: Ethereum.NftContractWithNfts, b: Ethereum.NftContractWithNfts) => (a.conversion?.value ?? 0) - (b.conversion?.value ?? 0) || (a.nftsCount ?? a.nfts?.length ?? 0) - (b.nftsCount ?? b.nfts?.length ?? 0),
-		'ticker-ascending': (a: Ethereum.NftContractWithNfts, b: Ethereum.NftContractWithNfts) => a.symbol?.localeCompare(b.symbol),
+		'ticker-ascending': (a: Ethereum.NftContractWithNfts, b: Ethereum.NftContractWithNfts) => a.symbol && b.symbol && a.symbol.localeCompare(b.symbol) || 0,
 	}[sortBy]
 
 
