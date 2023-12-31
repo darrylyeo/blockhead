@@ -80,7 +80,7 @@
 	import { normalizeNftContracts as normalizeNftContractsDecommas } from '../api/decommas/normalize'
 
 	import { ConcurrentPromiseQueue } from '../utils/ConcurrentPromiseQueue'
-	import { normalizeNftContracts as normalizeNftContractsLiquality } from '../api/liquality'
+	import { normalizeNftContracts as normalizeNftContractsLiquality } from '../api/liquality/index'
 
 	import { NftportApi, networkSlugToNftportChain, normalizeNftContracts as normalizeNftContractsNftport } from '../api/nftport'
 
@@ -393,7 +393,7 @@
 					queryFn: async () => {
 						const { NftService } = await import('@liquality/wallet-sdk')
 
-						const { liqualitySupportedNetworks } = await import('../api/liquality')
+						const { liqualitySupportedNetworks } = await import('../api/liquality/index')
 
 						if(!liqualitySupportedNetworks.includes(network.chainId))
 							throw new Error(`Liquality doesn't yet support ${network.name}.`)

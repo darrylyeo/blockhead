@@ -1,5 +1,5 @@
 import { setup } from '@liquality/wallet-sdk'
-import { env } from '../env'
+import { env } from '../../env'
 
 setup({
 	alchemyApiKey: env.ALCHEMY_API_KEY_1,
@@ -14,7 +14,7 @@ setup({
 })
 
 
-import type { Ethereum } from '../data/networks/types'
+import type { Ethereum } from '../../data/networks/types'
 
 export const liqualitySupportedNetworks = [
 	1,

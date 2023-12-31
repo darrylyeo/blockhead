@@ -369,7 +369,7 @@
 					queryFn: async () => {
 						const { ERC20Service } = await import('@liquality/wallet-sdk')
 
-						const { liqualitySupportedNetworks } = await import('../api/liquality')
+						const { liqualitySupportedNetworks } = await import('../api/liquality/index')
 
 						if(!liqualitySupportedNetworks.includes(network.chainId))
 							throw new Error(`Liquality doesn't yet support ${network.name}.`)
