@@ -312,7 +312,7 @@
 					select: result => (
 						result.items
 							.filter(tokenContract => tokenContract.type === 'nft')
-							.map(tokenContract => normalizeNftContractCovalent(tokenContract, quoteCurrency))
+							.map(tokenContract => normalizeNftContractCovalent(tokenContract, quoteCurrency, address))
 					),
 					staleTime: 10 * 1000,
 				})
