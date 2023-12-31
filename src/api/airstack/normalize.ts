@@ -2,9 +2,9 @@ import type { Ethereum } from '../../data/networks/types'
 import type { TokenWithBalance } from '../../data/tokens'
 import { normalizeNftAttributes } from '../../utils/normalizeNftAttributes'
 
-export const normalizeNftContracts = (data): Ethereum.NftContractWithNfts[] => (
+export const normalizeNftContracts = (tokenBalances): Ethereum.NftContractWithNfts[] => (
 	[
-		...data.TokenBalances.TokenBalance
+		...tokenBalances
 			?.groupToMap(tokenWithBalance => tokenWithBalance.tokenAddress)
 			.entries()
 		?? []

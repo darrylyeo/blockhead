@@ -180,15 +180,16 @@
 		}),
 
 		[TokenBalancesProvider.Airstack]: () => ({
-			fromQuery: address && network && (
-				createQuery({
+			fromInfiniteQuery: address && network && (
+				createInfiniteQuery({
 					queryKey: ['Balances', {
 						tokenBalancesProvider,
 						networkProvider,
 						address,
 						chainId: network.chainId,
 					}],
-					queryFn: async () => {
+					initialPageParam: '',
+					queryFn: async ({ pageParam: cursor }) => {
 						if(!(network.chainId in airstackNetworkNames))
 							throw new Error(`Airstack doesn't yet support ${network.name}.`)
 
@@ -271,7 +272,7 @@
 							address,
 							blockchain: airstackNetworkNames[network.chainId],
 							limit: 50,
-							cursor: '',
+							cursor,
 						})
 							.toPromise()
 							.then(result => {
@@ -281,8 +282,11 @@
 								return result.data
 							})
 					},
+					getPreviousPageParam: (firstPage) => firstPage.TokenBalances.pageInfo.prevCursor || undefined,
+					getNextPageParam: (lastPage) => lastPage.TokenBalances.pageInfo.nextCursor || undefined,
 					select: data => (
-						(data.TokenBalances.TokenBalance ?? []).map(normalizeTokenBalanceAirstack)
+						(data.pages.flatMap(page => page.TokenBalances.TokenBalance))
+							.map(normalizeTokenBalanceAirstack)
 					),
 					staleTime: 10 * 1000,
 				})

@@ -100,15 +100,16 @@
 	{...$$restProps}
 	{...{
 		[NftProvider.Airstack]: () => ({
-			fromQuery: address && network && (
-				createQuery({
+			fromInfiniteQuery: address && network && (
+				createInfiniteQuery({
 					queryKey: ['NFTs', {
 						nftProvider,
 						address,
 						chainId: network.chainId,
 						quoteCurrency: quoteCurrency
 					}],
-					queryFn: async () => {
+					initialPageParam: '',
+					queryFn: async ({ pageParam: cursor }) => {
 						if(!(network.chainId in airstackNetworkNames))
 							throw new Error(`Airstack doesn't yet support ${network.name}.`)
 
@@ -242,7 +243,7 @@
 							address,
 							blockchain: airstackNetworkNames[network.chainId],
 							limit: 50,
-							cursor: '',
+							cursor,
 						})
 							.toPromise()
 							.then(result => {
@@ -252,7 +253,11 @@
 								return result.data
 							})
 					},
-					select: normalizeNftContractsAirstack,
+					getPreviousPageParam: (firstPage) => firstPage.TokenBalances.pageInfo.prevCursor || undefined,
+					getNextPageParam: (lastPage) => lastPage.TokenBalances.pageInfo.nextCursor || undefined,
+					select: data => (
+						normalizeNftContractsAirstack(data.pages.flatMap(page => page.TokenBalances.TokenBalance))
+					),
 					staleTime: 10 * 1000,
 				})
 			),
@@ -300,7 +305,7 @@
 						await getNftsForAddressCovalent({
 							chainName: network.chainId,
 							walletAddress: address,
-							quoteCurrency,
+							quoteCurrency: 'EUR',
 							noSpam: true,
 						})
 					),
