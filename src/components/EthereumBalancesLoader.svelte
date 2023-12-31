@@ -46,7 +46,7 @@
 
 	import { getViemPublicClient } from '../data/networkProviders'
 
-	import { airstackNetworkNames, getClient } from '../api/airstack'
+	import { airstackNetworkNames, getClient } from '../api/airstack/index'
 	import { getErc20TokenBalances } from '../api/chainbase'
 	import { getTokenBalancesForAddress } from '../api/covalent/index'
 	import { MoralisWeb3Api, chainCodeFromNetwork } from '../api/moralis/web3Api'

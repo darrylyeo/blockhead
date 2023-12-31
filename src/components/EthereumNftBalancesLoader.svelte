@@ -69,7 +69,7 @@
 	const queryClient = useQueryClient()
 
 	import { gql } from '@urql/svelte'
-	import { airstackNetworkNames, getClient, normalizeNftContracts as normalizeNftContractsAirstack } from '../api/airstack'
+	import { airstackNetworkNames, getClient, normalizeNftContracts as normalizeNftContractsAirstack } from '../api/airstack/index'
 
 	import { normalizeNftContracts as normalizeNftContractsChainbase } from '../api/chainbase'
 
