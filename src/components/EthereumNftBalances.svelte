@@ -20,6 +20,8 @@
 	export let show3D = false
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending'
 	export let showNFTMetadata = false
+	export let showFloorPrices = false
+	export let showSmallNftFloorPrices = false
 	export let isScrollable = true
 
 
@@ -55,6 +57,7 @@
 	import InlineTransition from './InlineTransition.svelte'
 	import NftImage from './NftImage.svelte'
 	import SizeContainer from './SizeContainer.svelte'
+	import TokenBalance from './TokenBalance.svelte'
 
 
 	import { flip } from 'svelte/animate'
@@ -64,6 +67,10 @@
 
 
 <style>
+	.summary {
+		font-size: 0.8em;
+	}
+
 	.nft-contracts {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
@@ -411,7 +418,15 @@ on:dblclick={() => show3D = !show3D} -->
 							transitionParams={{ y: 100 }}
 							clip
 						>
-							{#if !isOpen && contract.nfts?.length}
+							{#if showFloorPrices && contract.conversion?.value && (showSmallNftFloorPrices ? true : contract.conversion.value >= 1)}
+								<span class="summary">
+									<TokenBalance
+										symbol={contract.conversion.quoteCurrency}
+										balance={contract.conversion.value}
+										format="fiat"
+									/>
+								</span>
+							{:else if !isOpen && contract.nfts?.length}
 								<div class="nfts-preview row-inline">
 									{#each contract.nfts.slice(0, 3) ?? [] as nft}
 										<NftImage
