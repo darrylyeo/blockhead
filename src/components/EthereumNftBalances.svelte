@@ -1,4 +1,5 @@
 <script lang="ts">
+	// Types/constants
 	import type { Ethereum } from '../data/networks/types'
 	import type { QuoteCurrency } from '../data/currencies'
 	import type { NftProvider } from '../data/nftProviders'
@@ -9,13 +10,14 @@
 	import { preferences } from '../state/preferences'
 
 
+	// Inputs
 	export let nftContractsWithBalances: Ethereum.NftContractWithNfts[]
 	export let network: Ethereum.Network
 	export let address: Ethereum.Address
-
 	export let nftProvider: NftProvider
 	export let quoteCurrency: QuoteCurrency
 
+	// (View options)
 	export let showImagesOnly = false
 	export let show3D = false
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending'
@@ -25,6 +27,7 @@
 	export let isScrollable = true
 
 
+	// Internal state
 	let sortFunction: (a: Ethereum.NftContractWithNfts, b: Ethereum.NftContractWithNfts) => number
 	$: sortFunction = {
 		'value-descending': (a: Ethereum.NftContractWithNfts, b: Ethereum.NftContractWithNfts) => (b.conversion?.value ?? 0) - (a.conversion?.value ?? 0) || (b.nftsCount ?? b.nfts?.length ?? 0) - (a.nftsCount ?? a.nfts?.length ?? 0),
@@ -33,6 +36,7 @@
 	}[sortBy]
 
 
+	// Functions
 	import { resolveUri } from '../utils/resolveUri'
 
 	const findClosestAspectRatio = (n, minInteger = 1, maxInteger = 30, target = 24) => {
@@ -51,15 +55,18 @@
 	}
 
 
+	// Components
 	import Address from './Address.svelte'
 	import Collapsible from './Collapsible.svelte'
 	import EthereumNftBalancesLoader from './EthereumNftBalancesLoader.svelte'
 	import InlineTransition from './InlineTransition.svelte'
+	import Icon from './Icon.svelte'
 	import NftImage from './NftImage.svelte'
 	import SizeContainer from './SizeContainer.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 
 
+	// Transitions/animations
 	import { flip } from 'svelte/animate'
 	import { fly } from 'svelte/transition'
 	import { quintOut } from 'svelte/easing'
@@ -391,15 +398,12 @@ on:dblclick={() => show3D = !show3D} -->
 					<div class="bar" class:wrap={isOpen}>
 						<h5 class="row">
 							{#if contract.metadata?.logoImage}
-								<img
-									src={resolveUri({
+								<Icon
+									imageSources={resolveUri({
 										uri: contract.metadata.logoImage,
 										ipfsGatewayDomain: ipfsGatewaysByProvider[$preferences.ipfsGateway].gatewayDomain,
 										arweaveGateway: $preferences.arweaveGateway,
 									})}
-									height="24"
-									style="width: fit-content"
-									on:error={e => e.target.hidden = true}
 								/>
 							{/if}
 							<span class:overflow-ellipsis={!isOpen}>
@@ -466,7 +470,7 @@ on:dblclick={() => show3D = !show3D} -->
 					<hr />
 
 					<div class="nfts" class:scrollable-list={isScrollable && contract.nfts?.length > 3 && !show3D}>
-						{#each contract.nfts as nft (nft.tokenId || nft.tokenUri || nft.metadata.name)}
+						{#each contract.nfts as nft}<!-- (nft.tokenId || nft.tokenUri || nft.metadata.name) -->
 							<SizeContainer contentsOnly={showImagesOnly}>
 								<figure
 									class="nft"
