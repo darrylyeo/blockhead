@@ -355,6 +355,8 @@ on:dblclick={() => show3D = !show3D} -->
 		as contract,
 		i (contract.address || contract.symbol || contract.name)
 	}
+		{@const showFloorPrice = showFloorPrices && contract.conversion?.value && (showSmallNftFloorPrices ? true : contract.conversion.value >= 1)}
+
 		<article
 			class="nft-contract card"
 			class:is-single={contract.nfts ? contract.nfts.length <= 1 : true}
@@ -407,7 +409,7 @@ on:dblclick={() => show3D = !show3D} -->
 									format="middle-truncated" 
 									let:formattedAddress
 								>{#if contract.name}{contract.name}{:else}<span class="format">{formattedAddress}</span>{/if}</Address>
-								{#if contract.nfts && contract.nfts.length > 1}({contract.nfts.length}){/if}
+								{#if contract.nfts && contract.nfts.length > 1 && !showFloorPrice}({contract.nfts.length}){/if}
 							</span>
 						</h5>
 
@@ -418,13 +420,16 @@ on:dblclick={() => show3D = !show3D} -->
 							transitionParams={{ y: 100 }}
 							clip
 						>
-							{#if showFloorPrices && contract.conversion?.value && (showSmallNftFloorPrices ? true : contract.conversion.value >= 1)}
+							{#if showFloorPrice}
 								<span class="summary">
 									<TokenBalance
 										symbol={contract.conversion.quoteCurrency}
 										balance={contract.conversion.value}
 										format="fiat"
 									/>
+									{#if contract.nfts && contract.nfts.length > 1}
+										× {contract.nfts.length}
+									{/if}
 								</span>
 							{:else if !isOpen && contract.nfts?.length}
 								<div class="nfts-preview row-inline">
