@@ -35,6 +35,8 @@
 	export let showNFTMetadata = false
 	export let showImagesOnly = false
 	export let show3D = false
+	export let showFloorPrices = false
+	export let showSmallNftFloorPrices = false
 	export let showFeed = false
 	export let feedLayout: 'byChannel' | 'chronological' = 'byChannel'
 
@@ -755,7 +757,7 @@
 									{address}
 									{nftProvider}
 									{quoteCurrency}
-									{sortBy} {showSmallValues} {showUnderlyingAssets} {showNFTMetadata} {showImagesOnly} {show3D} isScrollable={!isGridLayout}
+									{sortBy} {showUnderlyingAssets} {showNFTMetadata} {showImagesOnly} {show3D} {showFloorPrices} {showSmallNftFloorPrices} isScrollable={!isGridLayout}
 								/>
 							{/if}
 						</EthereumNftBalancesLoader>

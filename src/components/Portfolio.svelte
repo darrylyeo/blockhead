@@ -14,7 +14,7 @@
 	import type { NetworkProvider } from '../data/networkProviders/types'
 	import type { DefiProvider } from '../data/defiProviders'
 	import type { NotificationsProvider } from '../data/notificationsProvider'
-	import type { QuoteCurrency } from '../data/currencies'
+	import { type QuoteCurrency, fiatQuoteCurrencies } from '../data/currencies'
 
 	import type { Portfolio } from '../state/portfolio-accounts'
 	import { defaultAccountNetworks, getNetworkColor, networksByChainID } from '../data/networks'
@@ -115,6 +115,8 @@
 	let showNFTMetadata = false
 	let showCollections = true
 	let show3D = false
+	let showFloorPrices = false
+	let showSmallNftFloorPrices = false
 	let showFeed = false
 	let feedLayout: 'byChannel' | 'chronological' = 'byChannel'
 
@@ -461,6 +463,8 @@
 					{showUnderlyingAssets}
 					{showNFTMetadata}
 					showImagesOnly={!showCollections}
+					{showFloorPrices}
+					{showSmallNftFloorPrices}
 					{show3D}
 					{showFeed}
 					{feedLayout}
@@ -552,6 +556,20 @@
 					<input type="checkbox" bind:checked={show3D}>
 					<span>3D</span>
 				</label>
+
+				<div class="row">
+					<label>
+						<input type="checkbox" bind:checked={showFloorPrices}>
+						<span>Floor ({fiatQuoteCurrencies[quoteCurrency].symbol})</span>
+					</label>
+
+					<InlineContainer isOpen={showFloorPrices} clip>
+						<label>
+							<input type="checkbox" bind:checked={showSmallNftFloorPrices}>
+							<span>Small</span>
+						</label>
+					</InlineContainer>
+				</div>
 			</div>
 
 			<div class="row wrap">
