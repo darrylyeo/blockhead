@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	const cachedIndex = {}
+	const cachedIndex: Record<string, number> = {}
 </script>
 
 
@@ -7,8 +7,8 @@
 	import type { TransitionConfig } from 'svelte/transition'
 
 
-	export let key
-	export let imageSources = []
+	export let key: string | undefined
+	export let imageSources: string[] = []
 
 	export let title = ''
 	export let placeholder = ''
@@ -19,8 +19,8 @@
 	export let transitionConfig: any
 
 
-	let i = cachedIndex[key] ||= 0
-	$: cachedIndex[key] = i
+	let i = key ? cachedIndex[key] ||= 0 : 0
+	$: if(key) cachedIndex[key] = i
 </script>
 
 
@@ -28,10 +28,13 @@
 	class="icon"
 	class:isGrayscale={isGrayscale}
 	{title}
-	transition:transition|global={transitionConfig}
+	transition:transition={transitionConfig}
 >
 	{#if imageSources[i]}
-		<img src={imageSources[i]} on:error={e => i++} />
+		<img
+			src={imageSources[i]}
+			on:error={e => i++}
+		/>
 	{:else}
 		<slot>
 			{#if placeholder}<span class="placeholder-icon" data-placeholder={placeholder} />{/if}
