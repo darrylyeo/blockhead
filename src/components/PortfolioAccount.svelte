@@ -32,6 +32,7 @@
 	export let showSmallValues = false
 	export let showApps = false
 	export let showUnderlyingAssets = false
+	export let collectionsSortBy: 'symbol-ascending' | 'floor-price-descending' | 'floor-price-ascending' | 'value-descending' | 'value-ascending' = 'floor-price-descending'
 	export let showNFTMetadata = false
 	export let showImagesOnly = false
 	export let show3D = false
@@ -757,7 +758,7 @@
 									{address}
 									{nftProvider}
 									{quoteCurrency}
-									{sortBy} {showUnderlyingAssets} {showNFTMetadata} {showImagesOnly} {show3D} {showFloorPrices} {showSmallNftFloorPrices} isScrollable={!isGridLayout}
+									{collectionsSortBy} {showUnderlyingAssets} {showNFTMetadata} {showImagesOnly} {show3D} {showFloorPrices} {showSmallNftFloorPrices} isScrollable={!isGridLayout}
 								/>
 							{/if}
 						</EthereumNftBalancesLoader>

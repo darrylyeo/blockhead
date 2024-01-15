@@ -114,6 +114,7 @@
 	let showUnderlyingAssets = false
 	let showNFTMetadata = false
 	let showCollections = true
+	let collectionsSortBy: 'symbol-ascending' | 'floor-price-descending' | 'floor-price-ascending' | 'value-descending' | 'value-ascending' = 'floor-price-descending'
 	let show3D = false
 	let showFloorPrices = false
 	let showSmallNftFloorPrices = false
@@ -463,6 +464,7 @@
 					{showUnderlyingAssets}
 					{showNFTMetadata}
 					showImagesOnly={!showCollections}
+					{collectionsSortBy}
 					{showFloorPrices}
 					{showSmallNftFloorPrices}
 					{show3D}
@@ -542,10 +544,25 @@
 			<div class="row wrap">
 				<h3>NFTs</h3>
 
-				<label>
-					<input type="checkbox" bind:checked={showCollections}>
-					<span>Collections</span>
-				</label>
+				<div class="row">
+					<label>
+						<input type="checkbox" bind:checked={showCollections}>
+						<span>Collections</span>
+					</label>
+
+					<InlineContainer isOpen={showCollections} clip>
+						<label>
+							<span>Sort</span>
+							<select bind:value={collectionsSortBy}>
+								<option value="symbol-ascending">A–Z</option>
+								<option value="floor-price-descending">Highest Floor</option>
+								<option value="floor-price-ascending">Lowest Floor</option>
+								<option value="value-descending">Highest Value</option>
+								<option value="value-ascending">Lowest Value</option>
+							</select>
+						</label>
+					</InlineContainer>
+				</div>
 
 				<label>
 					<input type="checkbox" bind:checked={showNFTMetadata}>

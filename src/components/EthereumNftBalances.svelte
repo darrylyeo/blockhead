@@ -20,7 +20,7 @@
 	// (View options)
 	export let showImagesOnly = false
 	export let show3D = false
-	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending'
+	export let collectionsSortBy: 'symbol-ascending' | 'floor-price-descending' | 'floor-price-ascending' | 'value-descending' | 'value-ascending' = 'floor-price-descending'
 	export let showNFTMetadata = false
 	export let showFloorPrices = false
 	export let showSmallNftFloorPrices = false
@@ -28,12 +28,14 @@
 
 
 	// Internal state
-	let sortFunction: (a: Ethereum.NftContractWithNfts, b: Ethereum.NftContractWithNfts) => number
-	$: sortFunction = {
-		'value-descending': (a: Ethereum.NftContractWithNfts, b: Ethereum.NftContractWithNfts) => (b.conversion?.value ?? 0) - (a.conversion?.value ?? 0) || (b.nftsCount ?? b.nfts?.length ?? 0) - (a.nftsCount ?? a.nfts?.length ?? 0),
-		'value-ascending': (a: Ethereum.NftContractWithNfts, b: Ethereum.NftContractWithNfts) => (a.conversion?.value ?? 0) - (b.conversion?.value ?? 0) || (a.nftsCount ?? a.nfts?.length ?? 0) - (b.nftsCount ?? b.nfts?.length ?? 0),
-		'ticker-ascending': (a: Ethereum.NftContractWithNfts, b: Ethereum.NftContractWithNfts) => a.symbol && b.symbol && a.symbol.localeCompare(b.symbol) || 0,
-	}[sortBy]
+	let collectionsSortFunction: (a: Ethereum.NftContractWithNfts, b: Ethereum.NftContractWithNfts) => number
+	$: collectionsSortFunction = {
+		'symbol-ascending': (a: Ethereum.NftContractWithNfts, b: Ethereum.NftContractWithNfts) => a.symbol && b.symbol && a.symbol.localeCompare(b.symbol) || 0,
+		'floor-price-descending': (a: Ethereum.NftContractWithNfts, b: Ethereum.NftContractWithNfts) => (b.conversion?.value ?? 0) - (a.conversion?.value ?? 0),
+		'floor-price-ascending': (a: Ethereum.NftContractWithNfts, b: Ethereum.NftContractWithNfts) => (a.conversion?.value ?? 0) - (b.conversion?.value ?? 0),
+		'value-descending': (a: Ethereum.NftContractWithNfts, b: Ethereum.NftContractWithNfts) => (b.conversion?.value ?? 0) * (b.nftsCount ?? b.nfts?.length ?? 0) - (a.conversion?.value ?? 0) * (a.nftsCount ?? a.nfts?.length ?? 0),
+		'value-ascending': (a: Ethereum.NftContractWithNfts, b: Ethereum.NftContractWithNfts) => (a.conversion?.value ?? 0) * (a.nftsCount ?? a.nfts?.length ?? 0) - (b.conversion?.value ?? 0) * (b.nftsCount ?? b.nfts?.length ?? 0),
+	}[collectionsSortBy]
 
 
 	// Functions
@@ -357,7 +359,7 @@
 on:dblclick={() => show3D = !show3D} -->
 	{#each
 		nftContractsWithBalances
-			.sort(sortFunction)
+			.sort(collectionsSortFunction)
 			.filter(({ nfts }) => nfts && nfts.length > 0)
 		as contract,
 		i (contract.address || contract.symbol || contract.name)
