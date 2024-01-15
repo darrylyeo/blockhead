@@ -97,11 +97,13 @@
 
 
 <Loader
+	viewOptions={{
+		contentClass: 'column',
+	}}
 	loadingIcon={transactionProviderIcons[transactionProvider]}
 	loadingIconName={transactionProvider}
 	loadingMessage={`Retrieving transaction from ${transactionProvider}...`}
 	errorMessage={`Couldn't retrieve transaction from ${transactionProvider}.`}
-	contentClass="column"
 	{...{
 		[TransactionProvider.Beryx]: () => ({
 			fromInfiniteQuery: createInfiniteQuery({

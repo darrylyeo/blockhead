@@ -101,7 +101,6 @@
 			),
 		}),
 	}[farcasterProvider]?.()}
-	{...$$restProps}
 	bind:result={cast}
 	let:result={cast}
 	debug

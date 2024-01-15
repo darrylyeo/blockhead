@@ -52,7 +52,6 @@
 			}),
 		}),
 	}[verifiableCredentialProvider]?.()}
-	{...$$restProps}
 	bind:result={credential}
 	let:result={credential}
 >

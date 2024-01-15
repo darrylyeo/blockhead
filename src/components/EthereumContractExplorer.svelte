@@ -104,10 +104,12 @@
 
 
 <EthereumContractBytecodeLoader
+	loaderViewOptions={{
+		showIf: contractBytecode => !!contractBytecode,
+	}}
 	{contractAddress}
 	{networkProvider}
 	{network}
-	showIf={contractBytecode => !!contractBytecode}
 	bind:contractBytecode
 	let:contractBytecode
 >

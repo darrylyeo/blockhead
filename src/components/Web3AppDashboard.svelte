@@ -222,10 +222,11 @@
 			>
 			<!-- class:is-single={totalViewItems <= 1} -->
 				<NetworkProviderLoader
-					layout="collapsible"
-					collapsibleType="label"
-					isOpen={views.length === 1}
-
+					loaderViewOptions={{
+						layout: 'collapsible',
+						collapsibleType: 'label',
+						isOpen: views.length === 1,
+					}}
 					network={networksByChainID[chainId]}
 					{networkProvider}
 					let:network
@@ -349,13 +350,15 @@
 							|| (providers?.zerionDefiSDK && defiProvider === DefiProvider.ZerionDefiSdk)
 						)}
 							<DefiPositionsLoader
+								loaderViewOptions={{
+									isOpen,
+								}}
 								apps={[web3AppConfig]}
 								{network}
 								{networkProvider}
 								{address}
 								{defiProvider}
 								{quoteCurrency}
-								isOpen
 								let:appsWithPositions
 							>
 								<svelte:fragment slot="header"

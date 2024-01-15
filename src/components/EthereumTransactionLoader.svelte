@@ -89,10 +89,12 @@
 			<div class="column">
 				{#if transactionProvider === TransactionProvider.RpcProvider}
 					<Loader
+						viewOptions={{
+							contentClass: 'column',
+						}}
 						loadingIconName={transactionProvider}
 						loadingMessage="Looking up transaction from {transactionProvider}..."
 						errorMessage="Error looking up transaction from {transactionProvider}"
-						contentClass="column"
 						fromQuery={publicClient && createQuery({
 							queryKey: ['Transaction', {
 								transactionProvider,

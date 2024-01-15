@@ -50,9 +50,11 @@
 
 		{#if address}
 			<UniswapV3PositionsLoader
-				layout="collapsible"
-				collapsibleType="label"
-				containerClass="card"
+				loaderViewOptions={{
+					layout: 'collapsible',
+					collapsibleType: 'label',
+					containerClass: 'card',
+				}}
 				{address}
 				{dataProvider}
 				network={$network}

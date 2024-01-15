@@ -103,7 +103,6 @@
 
 		[FarcasterProvider.Hub]: () => {},
 	}[farcasterProvider]?.()}
-	{...$$restProps}
 	bind:result={user}
 	let:result={user}
 >

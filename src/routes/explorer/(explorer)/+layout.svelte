@@ -258,7 +258,9 @@
 							</FilecoinTipsetLoader>
 						{:else}
 							<EthereumBlockLoader
-								containerClass="card"
+								loaderViewOptions={{
+									containerClass: 'card',
+								}}
 								network={$explorerNetwork}
 								{networkProvider}
 								blockNumber={$explorerParams.blockNumber}
@@ -382,6 +384,9 @@
 			{@const otherNetworks = availableNetworks.filter(_network => _network !== network)}
 		
 			<Loader
+				viewOptions={{
+					clip: false,
+				}}
 				loadingIconName={'Moralis'}
 				loadingIcon={transactionProviderIcons[transactionProvider]}
 				fromStore={otherNetworks && navigationContext.block?.timestamp && (() =>
@@ -403,7 +408,6 @@
 						.filter(data => data.blockNumber > 0n)
 				)}
 				let:result={networksAndClosestBlock}
-				clip={false}
 			>
 				<svelte:fragment slot="loadingMessage">
 					Finding blocks produced around the same time as {network.name} › Block {navigationContext.block.blockNumber}...

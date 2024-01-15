@@ -20,7 +20,9 @@
 
 
 <Loader
-	{...$$restProps}
+	viewOptions={{
+		clip: false,
+	}}
 	startImmediately={false}
 	fromQuery={accountConnection?.state?.signer && createQuery({
 		queryKey: ['LensAccessToken', {
@@ -56,7 +58,6 @@
 	loadingIcon={LensIcon}
 	loadingMessage={`Signing in with Lens...`}
 	errorMessage={`Couldn't sign-in with Lens.`}
-	clip={false}
 	debug
 	let:status
 	let:result

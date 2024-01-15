@@ -8,6 +8,9 @@
 	export let publicClientPromise: () => Promise<Ethereum.PublicClient>
 	export let networkProvider: NetworkProvider
 
+	// (View options)
+	export let loaderViewOptions: Partial<Loader<any, any, any, any, any>['viewOptions']> | undefined
+
 
 	import { preferences } from '../state/preferences'
 
@@ -22,6 +25,10 @@
 
 
 <Loader
+	viewOptions={{
+		clip: false,
+		...loaderViewOptions,
+	}}
 	loadingMessage="Connecting to the {network ? `${network.name} ` : ''} network{viaRPC}..."
 	errorMessage="Error connecting to the {network ? `${network.name} ` : ''} network{viaRPC}. Try changing the On-Chain Data provider in Preferences."
 	fromPromise={
@@ -40,8 +47,6 @@
 		)
 	}
 	let:result={publicClient}
-	clip={false}
-	{...$$restProps}
 >
 	<NetworkIcon slot="loadingIcon" {network} />
 

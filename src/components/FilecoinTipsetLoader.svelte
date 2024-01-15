@@ -66,11 +66,13 @@
 
 
 <Loader
+	viewOptions={{
+		contentClass: 'column',
+	}}
 	loadingIcon={transactionProviderIcons[transactionProvider]}
 	loadingIconName={transactionProvider}
 	loadingMessage={`Retrieving ${network.name} tipset from ${transactionProvider}...`}
 	errorMessage={`Couldn't retrieve ${network.name} tipset from ${transactionProvider}.`}
-	contentClass="column"
 	{...{
 		[TransactionProvider.Beryx]: () => ({
 			fromQuery: createQuery({

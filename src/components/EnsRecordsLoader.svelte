@@ -92,7 +92,10 @@
 
 
 <Loader
-	{layout}
+	viewOptions={{
+		layout,
+		isOpen,
+	}}
 	loadingIconName={'ENS'}
 	loadingIcon={ENSIcon}
 	loadingMessage={`Getting ENS Resolver${viaRPC}...`}
@@ -110,7 +113,6 @@
 			)
 		})
 	) : undefined}
-	{isOpen}
 	let:result={resolverContractAddress}
 >
 	<svelte:fragment slot="header">
@@ -119,7 +121,10 @@
 
 	{#if resolveContentHash}
 		<Loader
-			{layout}
+			viewOptions={{
+				layout,
+				showIf: () => false,
+			}}
 			loadingIconName={'ENS'}
 			loadingIcon={ENSIcon}
 			loadingMessage={`Fetching content hash${viaRPC}...`}
@@ -139,14 +144,16 @@
 				})
 			)}
 			errorMessage={`Failed to fetch content hash${viaRPC}.`}
-			showIf={() => false}
 			bind:result={contentHash}
 		/>
 	{/if}
 
 	{#if resolveTextRecordKeys?.length}
 		<Loader
-			{layout}
+			viewOptions={{
+				layout,
+				showIf: () => false,
+			}}
 			loadingIconName={'ENS'}
 			loadingIcon={ENSIcon}
 			loadingMessage={`Resolving ENS records${viaRPC}...`}
@@ -158,14 +165,16 @@
 					})
 				))
 			)}
-			showIf={() => false}
 			bind:result={textRecords}
 		/>
 	{/if}
 
 	{#if resolveCoinTypes?.length}
 		<Loader
-			{layout}
+			viewOptions={{
+				layout,
+				showIf: () => false,
+			}}
 			loadingIconName={'ENS'}
 			loadingIcon={ENSIcon}
 			loadingMessage={`Resolving crypto addresses${viaRPC}...`}
@@ -174,7 +183,6 @@
 					await resolveEnsCryptoAddress({ resolver: resolverContractAddress, coinType })
 				))
 			)}
-			showIf={() => false}
 			bind:result={cryptoAddressRecords}
 		/>
 	{/if}

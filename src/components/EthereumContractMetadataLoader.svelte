@@ -109,7 +109,6 @@
 	loadingIconName={contractSourceProvider}
 	loadingMessage={`Looking up contract metadata on ${contractSourceProvider}...`}
 	errorMessage={`Couldn't find contract metadata on ${contractSourceProvider}.`}
-	{...$$restProps}
 	bind:result
 	let:result
 >

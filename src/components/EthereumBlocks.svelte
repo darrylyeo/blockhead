@@ -73,7 +73,9 @@
 				transition:blur={{ duration: 1000 }}
 			>
 				<EthereumBlockLoader
-					containerClass="card"
+					loaderViewOptions={{
+						containerClass: 'card',
+					}}
 					{network}
 					{blockNumber}
 					{transactionProvider}

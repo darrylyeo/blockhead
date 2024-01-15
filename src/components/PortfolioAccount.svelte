@@ -337,7 +337,9 @@
 		accountId={account.id}
 		passiveResolveToName
 		let:address
-		clip={false}
+		loaderViewOptions={{
+			clip: false,
+		}}
 	>
 		<header
 			slot="header"
@@ -572,12 +574,14 @@
 					{#if view.showDefi}<section class="defi-balances column-block">
 					<!-- <HeightContainer containerClass="defi-balances" class="column" isOpen={showDeFi}> -->
 						<DefiPositionsLoader
+							loaderViewOptions={{
+								isOpen: Boolean(isGridLayout ? gridLayoutIsChainExpanded[view.chainId] : columnLayoutIsSectionExpanded[`${view.chainId}-${'defi'}`]) && !isEditing,
+							}}
 							{network}
 							{networkProvider}
 							{address}
 							{defiProvider}
 							{quoteCurrency}
-							isOpen={Boolean(isGridLayout ? gridLayoutIsChainExpanded[view.chainId] : columnLayoutIsSectionExpanded[`${view.chainId}-${'defi'}`]) && !isEditing}
 							bind:summary={defiAppsSummaries[i]}
 							let:appsWithPositions
 						>
@@ -677,7 +681,9 @@
 							{address}
 							{nftProvider}
 							{quoteCurrency}
-							isOpen={Boolean(isGridLayout ? gridLayoutIsChainExpanded[view.chainId] : columnLayoutIsSectionExpanded[`${view.chainId}-${'nfts'}`]) && !isEditing}
+							loaderViewOptions={{
+								isOpen: Boolean(isGridLayout ? gridLayoutIsChainExpanded[view.chainId] : columnLayoutIsSectionExpanded[`${view.chainId}-${'nfts'}`]) && !isEditing,
+							}}
 							bind:summary={nftsSummaries[i]}
 							let:nftContractsWithBalances
 						>
@@ -766,12 +772,14 @@
 
 					{#if showFeed}<section class="feed" transition:fade={{duration: 300}}>
 						<Notifications
+							loaderViewOptions={{
+								isOpen: Boolean(isGridLayout ? gridLayoutIsChainExpanded[view.chainId] : columnLayoutIsSectionExpanded[`${view.chainId}-${'feed'}`]) && !isEditing,
+								showIf: notifications => notifications,
+							}}
 							{network}
 							{address}
-							isOpen={Boolean(isGridLayout ? gridLayoutIsChainExpanded[view.chainId] : columnLayoutIsSectionExpanded[`${view.chainId}-${'feed'}`]) && !isEditing}
 							isScrollable={!isGridLayout}
 							{feedLayout}
-							showIf={notifications => notifications}
 						>
 							<svelte:fragment slot="header" let:summary let:status let:loadingMessage let:errorMessage>
 								<label class="bar card sticky">

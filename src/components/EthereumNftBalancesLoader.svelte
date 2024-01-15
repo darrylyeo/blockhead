@@ -18,10 +18,7 @@
 	export let quoteCurrency: QuoteCurrency
 
 	// (View options)
-	export let isOpen: boolean
-
-	export let containerClass: string
-	export let contentClass: string
+	export let loaderViewOptions: Partial<Loader<any, any, any, any, any>['viewOptions']> | undefined
 
 
 	// Internal state
@@ -92,13 +89,15 @@
 
 
 <Loader
-	layout="collapsible"
-	collapsibleType="label"
+	viewOptions={{
+		layout: 'collapsible',
+		collapsibleType: 'label',
+		...loaderViewOptions,
+	}}
 	loadingIcon={nftProviderIcons[nftProvider]}
 	loadingIconName={nftProvider}
 	{loadingMessage}
 	{errorMessage}
-	{...$$restProps}
 	{...{
 		[NftProvider.Airstack]: () => ({
 			fromInfiniteQuery: address && network && (
@@ -457,9 +456,6 @@
 		})
 	}[nftProvider]?.()}
 	debug
-	{isOpen}
-	{containerClass}
-	{contentClass}
 	bind:result={nftContractsWithBalances}
 	let:result={nftContractsWithBalances}
 >

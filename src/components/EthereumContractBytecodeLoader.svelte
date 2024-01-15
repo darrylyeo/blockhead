@@ -26,6 +26,9 @@
 
 	$: viaRPC = networkProvider === NetworkProvider.Default ? '' : ` via ${networkProvider}`
 
+	// (View options)
+	export let loaderViewOptions: Partial<Loader<any, any, any, any, any>['viewOptions']> | undefined
+
 
 	// Outputs
 	export let contractBytecode: Ethereum.ContractBytecode
@@ -52,6 +55,7 @@
 
 
 <Loader
+	viewOptions={loaderViewOptions}
 	fromQuery={
 		createQuery({
 			queryKey: ['ContractBytecode', {
@@ -69,7 +73,6 @@
 	loadingIconName={networkProviderConfigByProvider[$preferences.rpcNetwork]?.name}
 	loadingMessage={`Looking up contract code${viaRPC}...`}
 	errorMessage={`Couldn't find contract code${viaRPC}.`}
-	{...$$restProps}
 	bind:result={contractBytecode}
 >
 	<svelte:fragment slot="loadingIcon">

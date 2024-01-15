@@ -60,11 +60,13 @@
 
 
 <Loader
+	viewOptions={{
+		contentClass: 'column',
+	}}
 	loadingIcon={transactionProviderIcons[transactionProvider]}
 	loadingIconName={transactionProvider}
 	loadingMessage={`Retrieving ${network.name} account data from ${transactionProvider}...`}
 	errorMessage={`Couldn't retrieve ${network.name} account data from ${transactionProvider}.`}
-	contentClass="column"
 	{...{
 		[TransactionProvider.Beryx]: () => ({
 			fromQuery: createQuery({

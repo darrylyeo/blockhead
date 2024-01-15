@@ -70,7 +70,6 @@
 			),
 		}),
 	}[verifiableCredentialProvider]?.()}
-	{...$$restProps}
 	bind:result={profile}
 	let:result={profile}
 >

@@ -19,7 +19,9 @@
 		loadingMessage="Fetching tracks from Audius network..."
 		fromPromise={() => getUserTracks({userId}).then(({data: tracks}) => tracks)}
 		let:result={tracks}
-		showIf={tracks => tracks.length}
+		viewOptions={{
+			showIf: tracks => tracks.length,
+		}}
 	>
 		<slot slot="header" name="header" />
 

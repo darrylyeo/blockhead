@@ -114,10 +114,12 @@
 		passiveResolveToName
 		let:address
 		let:ensName
-		showIf={({address}) => address}
-		layout="collapsible"
-		collapsibleType="label"
-		{isOpen}
+		loaderViewOptions={{
+			showIf: ({address}) => address,
+			layout: 'collapsible',
+			collapsibleType: 'label',
+			isOpen,
+		}}
 	>
 		<div slot="header"
 			let:address
@@ -254,7 +256,9 @@
 						{address}
 						{quoteCurrency}
 						includeLogs={detailLevel === 'exhaustive'}
-						showIf={transactions => transactions}
+						viewOptions={{
+							showIf: transactions => transactions,
+						}}
 						let:transactions
 					>
 						<svelte:fragment slot="header"

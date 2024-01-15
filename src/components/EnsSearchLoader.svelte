@@ -186,12 +186,14 @@
 
 			<!-- fromHoudiniQuery={() => queryENSDomainsContaining({query: searchQuery})} -->
 		<Loader
+			viewOptions={{
+				showIf: result => result?.domains.length
+			}}
 			fromHoudiniQuery={() => ensDomainsContainingQuery}
 			loadingIcon={ENSIcon}
 			loadingIconName="The Graph"
 			loadingMessage="Searching the Ethereum Name Service subgraph for similar names..."
 			let:result={result}
-			showIf={result => result?.domains.length}
 		>
 			<svelte:fragment slot="header"
 				let:result

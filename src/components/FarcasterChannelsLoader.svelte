@@ -55,7 +55,7 @@
 			),
 		}),
 	}[farcasterProvider]?.()}
-	{...$$restProps}
+	
 	bind:result={channels}
 	let:result={channels}
 >

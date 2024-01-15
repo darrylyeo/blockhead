@@ -22,6 +22,9 @@
 	// (Computed)
 	$: ipfsGatewayProvider = $$props.ipfsGateway ?? $preferences.ipfsGateway
 
+	// (Loader)
+	export let whenLoaded: Loader<any, any, any, any, any>['whenLoaded']
+
 
 	// Internal state
 	// (Computed)
@@ -103,7 +106,7 @@
 			loadingIconName="IPFS"
 			loadingMessage={`Fetching ${contentDescription} from local IPFS node...`}
 			errorMessage={`Couldn't fetch ${contentDescription} from local IPFS node.`}
-			{...$$restProps}
+			{whenLoaded}
 			let:result
 		>
 			<svelte:fragment slot="header"
@@ -147,7 +150,7 @@
 			loadingIconName="IPFS"
 			loadingMessage={`Fetching ${contentDescription} from IPFS via ${ipfsGateway.name}...`}
 			errorMessage={`Couldn't fetch ${contentDescription} from IPFS via ${ipfsGateway.name}.`}
-			{...$$restProps}
+			{whenLoaded}
 			let:result
 		>
 			<svelte:fragment slot="header"

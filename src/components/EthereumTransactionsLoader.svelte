@@ -63,7 +63,9 @@
 
 
 <Loader
-	layout="collapsible"
+	viewOptions={{
+		layout: 'collapsible',
+	}}
 	loadingIcon={transactionProviderIcons[transactionProvider]}
 	{loadingMessage}
 	{errorMessage}
@@ -219,7 +221,6 @@
 			}),
 		}),
 	}[transactionProvider]?.()}
-	{...$$restProps}
 	bind:result={transactions}
 	let:result={transactions}
 	let:pagination

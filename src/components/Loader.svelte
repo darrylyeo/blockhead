@@ -46,15 +46,29 @@
 	export let whenCanceled: (() => Promise<any>) | undefined
 
 	// (View options)
-	export let layout: LoaderLayout = 'default' as LoaderLayout
-	export let collapsibleType: 'label' | 'details' = 'details'
+	export let viewOptions: Partial<{
+		layout: LoaderLayout,
+		collapsibleType: 'label' | 'details',
 
-	export let showIf: ((then: LoaderReturnResult | undefined) => boolean | any) | undefined
-	export let isOpen = true
-	export let clip = true
+		showIf: ((then: LoaderReturnResult | undefined) => boolean | any) | undefined,
+		isOpen: boolean,
+		clip: boolean,
 
-	export let containerClass: string = 'column-block'
-	export let contentClass = 'column-block'
+		containerClass: string,
+		contentClass: string,
+	}> = {}
+
+	$: ({
+		layout = 'default',
+		collapsibleType = 'details',
+
+		showIf = undefined,
+		isOpen = true,
+		clip = true,
+
+		containerClass = 'column-block',
+		contentClass = 'column-block',
+	} = viewOptions)
 
 	export let showStatusAndActions = false
 

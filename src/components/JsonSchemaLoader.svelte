@@ -43,7 +43,6 @@
 	}
 	loadingMessage={`Fetching JSON schema...`}
 	errorMessage={`Couldn't fetch JSON schema.`}
-	{...$$restProps}
 	bind:result={jsonSchema}
 	let:result={jsonSchema}
 >

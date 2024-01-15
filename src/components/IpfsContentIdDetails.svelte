@@ -59,7 +59,6 @@
 		loadingIcon={IpfsIcon}
 		loadingMessage="Decoding IPFS Content ID..."
 		errorMessage={`Couldn't parse CID "${ipfsContentId}".`}
-		{...$$restProps}
 		let:result
 	>
 		{@const digestBase16 = uint8ArrayToString(result?.multihash.digest, 'base16')}

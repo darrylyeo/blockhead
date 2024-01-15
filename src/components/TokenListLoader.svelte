@@ -34,7 +34,6 @@
 
 <!-- <IpfsLoader
 	ipnsName={uri}
-	{...$$restProps}
 	whenLoaded={(result) => {
 		tokenlist = parseTokenList(result.text)
 	}}

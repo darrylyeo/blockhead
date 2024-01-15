@@ -27,6 +27,9 @@
 		networkProvider,
 	})
 
+	// (View options)
+	export let loaderViewOptions: Partial<Loader<any, any, any, any, any>['viewOptions']> | undefined
+
 
 	// Internal state
 	let appsWithPositions: AppWithDefiPositions[] | undefined
@@ -98,13 +101,15 @@
 
 
 <Loader
-	layout="collapsible"
-	collapsibleType="label"
+	viewOptions={{
+		layout: 'collapsible',
+		collapsibleType: 'label',
+		...loaderViewOptions,
+	}}
 	loadingMessage="Reading {defiBalancesDescription} balances from {defiProvider}..."
 	errorMessage="Error getting {defiBalancesDescription} balances from {defiProvider}."
 	loadingIconName={defiProvider}
 	loadingIcon={defiProviderIcons[defiProvider]}
-	{...$$restProps}
 	{...{
 		[DefiProvider.Zapper]: () => ({
 			fromStore: network && address && (() => (

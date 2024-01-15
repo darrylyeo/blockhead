@@ -74,8 +74,14 @@
 
 
 <Loader
-	layout="collapsible"
-	collapsibleType="label"
+	viewOptions={{
+		layout: 'collapsible',
+		collapsibleType: 'label',
+		showIf,
+		isOpen,
+		containerClass,
+		contentClass,
+	}}
 	loadingIcon={tokenBalancesProvider === TokenBalancesProvider.RpcProvider ? networkProviderConfigByProvider[networkProvider].icon : tokenBalancesProviderIcons[tokenBalancesProvider]}
 	loadingIconName={tokenBalancesProvider}
 	{loadingMessage}
@@ -474,10 +480,6 @@
 			),
 		}),
 	}[tokenBalancesProvider]?.()}
-	{showIf}
-	{isOpen}
-	{containerClass}
-	{contentClass}
 	bind:result={balances}
 	let:result={balances}
 >

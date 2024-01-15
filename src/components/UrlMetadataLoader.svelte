@@ -64,7 +64,6 @@
 			),
 		}),
 	}[urlMetadataProvider]?.()}
-	{...$$restProps}
 	bind:result={urlMetadata}
 	let:result={urlMetadata}
 >

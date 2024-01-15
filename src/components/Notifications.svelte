@@ -10,6 +10,9 @@
 	export let notificationsProvider: NotificationsProvider
 	export let feedLayout: 'byChannel' | 'chronological' = 'byChannel'
 
+	// (View options)
+	export let loaderViewOptions: Partial<Loader<any, any, any, any, any>['viewOptions']> | undefined
+
 
 	let notifications: NotificationRawPayload[] = []
 
@@ -80,11 +83,11 @@
 
 
 <NotificationsLoader
+	loaderViewOptions={loaderViewOptions}
 	{network}
 	{address}
 	{notificationsProvider}
 	bind:notifications
-	{...$$restProps}
 >
 	<svelte:fragment slot="header"
 		let:status

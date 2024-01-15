@@ -21,7 +21,6 @@
 		loadingIconName='IPFS'
 		loadingMessage={`Encoding ${content.length} files using local IPFS node...`}
 		errorMessage={`Couldn't encode files using local IPFS node.`}
-		{...$$restProps}
 		let:result={addedFiles}
 	>
 		<slot slot='header' name='header' {addedFiles} />
@@ -40,7 +39,6 @@
 		loadingIconName='IPFS'
 		loadingMessage={`Encoding file using local IPFS node...`}
 		errorMessage={`Couldn't encode file using local IPFS node.`}
-		{...$$restProps}
 		let:result={cid}
 	>
 		<slot slot='header' name='header' {cid} />
@@ -59,7 +57,6 @@
 		loadingIconName='IPFS'
 		loadingMessage={`Encoding content using local IPFS node...`}
 		errorMessage={`Couldn't encode content using local IPFS node.`}
-		{...$$restProps}
 		let:result={cid}
 	>
 		<slot slot='header' name='header' {cid} />

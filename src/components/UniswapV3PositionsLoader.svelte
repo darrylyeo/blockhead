@@ -21,6 +21,9 @@
 	$: viaRPC = networkProvider === NetworkProvider.Default ? '' : ` via ${networkProvider}`
 	$: viaDataProvider = dataProvider === UniswapV3.DataProvider.RpcProvider ? viaRPC : ` via ${dataProvider}`
 
+	// (View options)
+	export let loaderViewOptions: Partial<Loader<any, any, any, any, any>['viewOptions']> | undefined
+
 
 	// Outputs
 	export let positions: UniswapV3.Position[]
@@ -51,6 +54,7 @@
 
 
 <Loader
+	viewOptions={loaderViewOptions}
 	loadingMessage="Loading Uniswap V3 positions{viaDataProvider}..."
 	loadingIcon={{
 		[UniswapV3.DataProvider.TheGraph]: TheGraphIcon,
@@ -203,7 +207,6 @@
 			}),
 		}),
 	}[dataProvider]?.()}
-	{...$$restProps}
 	bind:result={positions}
 	let:result={positions}
 >

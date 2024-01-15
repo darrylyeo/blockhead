@@ -22,6 +22,9 @@
 	// (Computed)
 	$: transactionProvider = $$props.transactionProvider ?? $preferences.transactionProvider
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
+
+	// (View options)
+	export let loaderViewOptions: Partial<Loader<any, any, any, any, any>['viewOptions']> | undefined
 	
 
 	// Internal state
@@ -82,12 +85,14 @@
 
 
 <Loader
-	{...$$restProps}
+	viewOptions={{
+		contentClass: 'column',
+		...loaderViewOptions,
+	}}
 	loadingIcon={transactionProviderIcons[transactionProvider]}
 	loadingIconName={transactionProvider}
 	{loadingMessage}
 	{errorMessage}
-	contentClass="column"
 	{...{
 		[TransactionProvider.Chainbase]: () => ({
 			fromQuery: createQuery({

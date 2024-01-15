@@ -92,7 +92,6 @@
 			),
 		}),
 	}[farcasterProvider]?.()}
-	{...$$restProps}
 	bind:result={casts}
 	let:result={casts}
 >

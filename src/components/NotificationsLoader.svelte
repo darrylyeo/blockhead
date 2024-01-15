@@ -10,6 +10,9 @@
 	
 	$: notificationsProvider = $preferences.notificationsProvider || NotificationsProvider.Push
 
+	// (View options)
+	export let loaderViewOptions: Partial<Loader<any, any, any, any, any>['viewOptions']> | undefined
+
 
 	import { createQuery } from '@tanstack/svelte-query'
 
@@ -24,8 +27,11 @@
 
 {#if notificationsProvider === NotificationsProvider.Push}
 	<Loader
-		layout="collapsible"
-		collapsibleType="label"
+		viewOptions={{
+			layout: 'collapsible',
+			collapsibleType: 'label',
+			...loaderViewOptions,
+		}}
 		loadingIcon={notificationsProviderIcons[notificationsProvider]}
 		loadingIconName={notificationsProvider}
 		loadingMessage="Loading {network.name} notifications from {notificationsProvider}..."
@@ -53,7 +59,6 @@
 				getNextPageParam: (lastPage, allPages) => lastPage.length ? allPages.length + 1 : undefined
 			})
 		}
-		{...$$restProps}
 		let:status
 		bind:result={notifications}
 		let:result={notifications}

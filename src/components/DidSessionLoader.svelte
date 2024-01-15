@@ -55,7 +55,6 @@
 			}),
 		},
 	}[didProvider]}
-	{...$$restProps}
 	bind:result={didSession}
 	let:result={didSession}
 >

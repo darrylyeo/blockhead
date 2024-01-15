@@ -59,11 +59,13 @@
 
 
 <Loader
+	viewOptions={{
+		contentClass: 'column',
+	}}
 	loadingIcon={tokenBalancesProviderIcons[tokenBalancesProvider]}
 	loadingIconName={tokenBalancesProvider}
 	loadingMessage={`Retrieving ${network.name} account data from ${tokenBalancesProvider}...`}
 	errorMessage={`Couldn't retrieve ${network.name} account data from ${tokenBalancesProvider}.`}
-	contentClass="column"
 	{...{
 		[TokenBalancesProvider.Beryx]: () => ({
 			fromQuery: createQuery({
