@@ -54,6 +54,7 @@
 
 	const formatContent = (text: string) => (
 		text
+			.replaceAll('<', '&lt;')
 			.split('\n\n')
 			.map((line, i) => (
 				`<p>${
