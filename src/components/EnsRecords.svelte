@@ -147,7 +147,7 @@
 	{ensName}
 	resolveContentHash
 	resolveTextRecordKeys={resolver.texts}
-	resolveCoinTypes={resolver.coinTypes}
+	resolveCoinTypes={resolver.coinTypes.split(',').map(Number)}
 	{isOpen}
 	let:contentHash
 	let:textRecords
