@@ -5,9 +5,8 @@ import { normalizeNftAttributes } from '../../utils/normalizeNftAttributes'
 export const normalizeNftContracts = (tokenBalances): Ethereum.NftContractWithNfts[] => (
 	[
 		...tokenBalances
-			?.groupToMap(tokenWithBalance => tokenWithBalance.tokenAddress)
-			.entries()
-		?? []
+			? Map.groupBy(tokenBalances, tokenWithBalance => tokenWithBalance.tokenAddress).entries()
+			: []
 	]
 		.map(([contractAddress, contractsWithBalances]): Ethereum.NftContractWithNfts => ({
 			chainId: Number(contractsWithBalances.chainId),

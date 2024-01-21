@@ -115,12 +115,6 @@ dependencies:
   array-from-async:
     specifier: ^3.0.0
     version: 3.0.0
-  array.prototype.group:
-    specifier: ^1.1.2
-    version: 1.1.2
-  array.prototype.grouptomap:
-    specifier: ^1.1.2
-    version: 1.1.2
   bip44-constants:
     specifier: ^252.0.0
     version: 252.0.0
@@ -181,12 +175,18 @@ dependencies:
   ky:
     specifier: ^1.2.0
     version: 1.2.0
+  map.groupby:
+    specifier: ^1.0.1
+    version: 1.0.1
   multiformats:
     specifier: ^12.1.3
     version: 12.1.3
   oazapfts:
     specifier: ^4.12.0
     version: 4.12.0(openapi-types@12.1.3)
+  object.groupby:
+    specifier: ^1.0.1
+    version: 1.0.1
   process:
     specifier: ^0.11.10
     version: 0.11.10
@@ -234,6 +234,9 @@ devDependencies:
   '@total-typescript/ts-reset':
     specifier: ^0.5.1
     version: 0.5.1
+  '@types/object.groupby':
+    specifier: ^1.0.3
+    version: 1.0.3
   '@typescript-eslint/eslint-plugin':
     specifier: ^6.19.0
     version: 6.19.0(@typescript-eslint/parser@6.19.0)(eslint@8.56.0)(typescript@5.3.3)
@@ -6645,6 +6648,10 @@ packages:
     dependencies:
       undici-types: 5.26.5
 
+  /@types/object.groupby@1.0.3:
+    resolution: {integrity: sha512-C9QFoqjAaotcb9TIwYz55M5Psit4fP+j05Ro0sO/jeCtaFBJgE8ioqaob2Q82XhAWuNPlm6wtTFvbYa1Hpr11g==}
+    dev: true
+
   /@types/parse-json@4.0.2:
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
     dev: false
@@ -8783,25 +8790,6 @@ packages:
     dependencies:
       call-bind: 1.0.5
       define-properties: 1.2.1
-      es-abstract: 1.22.3
-      es-shim-unscopables: 1.0.2
-    dev: false
-
-  /array.prototype.group@1.1.2:
-    resolution: {integrity: sha512-XTy3DE/Tz1nsrhPaYXgVTzQrRf1/0/RWySM5o5qC6BSBG7NWQ/AxggKNiLyLCRkLxM+mJoq5GEFosYZ846QlHw==}
-    deprecated: This proposal has been altered; please use https://npmjs.com/object.groupby instead!
-    dependencies:
-      call-bind: 1.0.5
-      define-properties: 1.2.1
-      es-abstract: 1.22.3
-      es-shim-unscopables: 1.0.2
-      get-intrinsic: 1.2.2
-    dev: false
-
-  /array.prototype.grouptomap@1.1.2:
-    resolution: {integrity: sha512-+Tdbn/xlmk1AjXuxqDCnsEZDHxUnMtn8LJp/VHtISnCq55NKp/F/62SxsbwJanAqWz+Uyv1pOB8SziCVmtgKTg==}
-    deprecated: This proposal has been altered; please use https://npmjs.com/map.groupby instead!
-    dependencies:
       es-abstract: 1.22.3
       es-shim-unscopables: 1.0.2
     dev: false
@@ -11451,6 +11439,22 @@ packages:
       internal-slot: 1.0.6
       iterator.prototype: 1.1.2
       safe-array-concat: 1.1.0
+    dev: false
+
+  /es-map@1.0.5:
+    resolution: {integrity: sha512-/34W2WIhqt5p8+ciYxDQdmmkROflvNPG/2eIJ6D076kHw2yglb6KZRZAEYz/8p5Ksq2zp/s33f3jdFHu6LH95A==}
+    dependencies:
+      call-bind: 1.0.5
+      define-properties: 1.2.1
+      es-abstract: 1.22.3
+      es-get-iterator: 1.1.3
+      es-set-tostringtag: 2.0.2
+      for-each: 0.3.3
+      get-intrinsic: 1.2.2
+      globalthis: 1.0.3
+      has-symbols: 1.0.3
+      internal-slot: 1.0.6
+      object.entries: 1.1.7
     dev: false
 
   /es-module-lexer@1.4.1:
@@ -16155,6 +16159,16 @@ packages:
     resolution: {integrity: sha512-JmqCvUhmt43madlpFzG4BQzG2Z3m6tvQDNKdClZnO3VbIudJYmxsT0FNJMeiB2+JTSlTQTSbU8QdesVmwJcmLg==}
     dependencies:
       tmpl: 1.0.5
+    dev: false
+
+  /map.groupby@1.0.1:
+    resolution: {integrity: sha512-nn0ySGUoqUdRHJcgdjWRyIjc2SjZNGSdeDxKntCi3NRK4xnuhvjJDLW+ZPp/HhRcwdz1XFLJCvMPG4ravAU4Gw==}
+    dependencies:
+      call-bind: 1.0.5
+      define-properties: 1.2.1
+      es-abstract: 1.22.3
+      es-map: 1.0.5
+      get-intrinsic: 1.2.2
     dev: false
 
   /mcl-wasm@0.7.9:

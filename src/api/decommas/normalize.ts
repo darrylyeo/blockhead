@@ -48,9 +48,8 @@ export const normalizeNftContracts = (
 ): Ethereum.NftContractWithNfts[] => (
 	[
 		...nftsWithMetadata
-			?.groupToMap(({ nft }) => nft.contractAddress)
-			.entries()
-		?? []
+			? Map.groupBy(nftsWithMetadata, ({ nft }) => nft.contractAddress).entries()
+			: []
 	]
 		.map(([contractAddress, nftsWithMetadata]: [Ethereum.ContractAddress, { nft: TNft, metadata: TNftMetadata | undefined }[]]) => ({
 			address: contractAddress,

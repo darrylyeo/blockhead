@@ -12,26 +12,14 @@ Array.fromAsync ||= fromAsync
 
 
 // Shims
+import shimMapGroupBy from 'map.groupby'
+shimMapGroupBy.shim()
 
-// import shimArrayPrototypeGroup from 'array.prototype.group'
-// import shimArrayPrototypeGroupToMap from 'array.prototype.grouptomap'
-
-// shimArrayPrototypeGroup.shim()
-// shimArrayPrototypeGroupToMap.shim()
+import shimObjectGroupBy from 'object.groupby'
+shimObjectGroupBy.shim()
 
 import shimRegexpEscape from 'regexp.escape'
 shimRegexpEscape.shim()
-
-Array.prototype.groupToMap ||= function(callbackFn, _this = this){
-	const map = new Map()
-	for (const item of _this) {
-		const key = callbackFn(item)
-		const group = map.get(key) || []
-		group.push(item)
-		map.set(key, group)
-	}
-	return map
-}
 
 
 // SvelteKit

@@ -10,9 +10,8 @@ import { normalizeNftAttributes } from '../../utils/normalizeNftAttributes'
 export const normalizeNftContracts = (nfts: Awaited<ReturnType<typeof getNftsByAddress>>['data']): Ethereum.NftContractWithNfts[] => (
 	[
 		...nfts
-			?.groupToMap(nft => nft.contract_address)
-			.entries()
-		?? []
+			? Map.groupBy(nfts, nft => nft.contract_address).entries()
+			: []
 	]
 		.map(([contractAddress, nfts]: [Ethereum.ContractAddress, Awaited<ReturnType<typeof getNftsByAddress>>['data']]): Ethereum.NftContractWithNfts => ({
 			address: contractAddress,
