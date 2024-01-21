@@ -42,7 +42,7 @@ export namespace ENS {
 		address: Bytes
 		addr: Account
 		texts: String[]
-		coinTypes: `${Int[]}`
+		coinTypes: `${Int[]}` | null
 		events: ResolverEvent[]
 	}
 	export type ResolverEvent = {
