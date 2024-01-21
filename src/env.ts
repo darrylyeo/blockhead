@@ -1,7 +1,4 @@
-import * as staticPublicEnv from '$env/static/public';
-import { env as dynamicPublicEnv } from '$env/dynamic/public';
-
-const publicEnv = {...staticPublicEnv, ...dynamicPublicEnv}
+import * as publicEnv from '$env/static/public'
 
 export const env = {
 	AIRSTACK_API_KEY: publicEnv.PUBLIC_AIRSTACK_API_KEY || '',
