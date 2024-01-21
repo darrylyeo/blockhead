@@ -35,7 +35,7 @@
     "@helia/ipns": "^2.0.3",
     "@helia/unixfs": "^1.4.3",
     "@liquality/wallet-sdk": "^2.5.2",
-    "@pushprotocol/restapi": "^1.4.5",
+    "@pushprotocol/restapi": "^1.6.3",
     "@pushprotocol/socket": "^0.5.3",
     "@rize-labs/banana-wallet-sdk": "^0.1.28",
     "@tanstack/query-broadcast-client-experimental": "^5.17.19",
@@ -122,7 +122,6 @@
   },
   "pnpm": {
     "patchedDependencies": {
-      "@pushprotocol/restapi@1.4.5": "patches/@pushprotocol__restapi@1.4.5.patch",
       "@didtools/pkh-ethereum@0.4.1": "patches/@didtools__pkh-ethereum@0.4.1.patch"
     }
   },
