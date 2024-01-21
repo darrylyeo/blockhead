@@ -162,7 +162,12 @@
 			<section class="card column">
 				<header class="bar">
 					<h3>Text Records</h3>
-					<a class="card-annotation" href="https://eips.ethereum.org/EIPS/eip-634" target="_blank" rel="noreferrer"><abbr>EIP-634</abbr></a>
+
+					<span class="card-annotation">
+						<a href="https://docs.ens.domains/ens-improvement-proposals/ensip-5-text-records" target="_blank" rel="noreferrer"><abbr title="ENSIP-5: Text Records">ENSIP-5</abbr></a>
+						/
+						<a href="https://eips.ethereum.org/EIPS/eip-634" target="_blank" rel="noreferrer"><abbr title="EIP-634: Storage of text records in ENS">EIP-634</abbr></a>
+					</span>
 				</header>
 
 				<hr>
@@ -235,8 +240,13 @@
 		{#if contentHash}
 			<div class="card column">
 				<header class="bar">
-					<h3>Content Records</h3>
-					<a class="card-annotation" href="https://eips.ethereum.org/EIPS/eip-1577" target="_blank" rel="noreferrer"><abbr>EIP-1577</abbr></a>
+					<h3>Content</h3>
+
+					<span class="card-annotation">
+						<a href="https://docs.ens.domains/ens-improvement-proposals/ensip-7-contenthash-field" target="_blank" rel="noreferrer"><abbr title="ENSIP-7: Contenthash field">ENSIP-7</abbr></a>
+						/
+						<a href="https://eips.ethereum.org/EIPS/eip-634" target="_blank" rel="noreferrer"><abbr title="EIP-1577: contenthash field for ENS">EIP-1577</abbr></a>
+					</span>
 				</header>
 			
 				<hr>
@@ -260,7 +270,12 @@
 			<div class="card column">
 				<header class="bar">
 					<h3>Blockchain Addresses</h3>
-					<a class="card-annotation" href="https://eips.ethereum.org/EIPS/eip-2304" target="_blank" rel="noreferrer"><abbr>EIP-2304</abbr></a>
+
+					<span class="card-annotation">
+						<a href="https://docs.ens.domains/ens-improvement-proposals/ensip-9-multichain-address-resolution" target="_blank" rel="noreferrer"><abbr title="ENSIP-9: Multichain Address Resolution">ENSIP-9</abbr></a>
+						/
+						<a href="https://eips.ethereum.org/EIPS/eip-2304" target="_blank" rel="noreferrer"><abbr title="EIP-2304: Multichain address resolution for ENS">EIP-2304</abbr></a>
+					</span>
 				</header>
 
 				<hr>
