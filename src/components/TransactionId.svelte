@@ -13,13 +13,12 @@
 
 	// Functions
 	import { formatTransactionHash } from '../utils/formatTransactionHash'
-	import { resolvePath } from '@sveltejs/kit'
-
+	import { resolveRoute } from '$app/paths'
 
 	// Internal state
 	// (Computed)
 	$: formattedTransactionId = formatTransactionHash(transactionId, format)
-	$: link = linked && network && transactionId ? resolvePath(`/explorer/[networkSlug]/tx/[transactionId]`, { networkSlug: network.slug, transactionId }) : undefined
+	$: link = linked && network && transactionId ? resolveRoute(`/explorer/[networkSlug]/tx/[transactionId]`, { networkSlug: network.slug, transactionId }) : undefined
 
 
 	// Actions

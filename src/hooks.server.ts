@@ -6,7 +6,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	if (event.url.pathname.startsWith(PROXY_PATH)) {
 		const url = new URL(`${event.url.pathname.replace(PROXY_PATH, '')}${event.url.search}`)
 
-		if(url.origin !== 'https://api.disco.xyz') throw error(403, 'Request Forbidden.')
+		if(url.origin !== 'https://api.disco.xyz') error(403, 'Request Forbidden.')
 
 		return (
 			json(

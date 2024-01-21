@@ -1,5 +1,6 @@
 import type { LayoutLoad } from './$types'
-import { redirect, resolvePath } from '@sveltejs/kit'
+import { redirect } from '@sveltejs/kit'
+import { resolveRoute } from '$app/paths'
 
 import { networkRedirectsBySlug } from '../../../data/networks'
 
@@ -9,5 +10,5 @@ export const load: LayoutLoad = ({ route, params }) => {
 		networkSlug: networkRedirectsBySlug[params.networkSlug]
 	}
 
-	throw redirect(308, resolvePath(route.id, newParams))
+	redirect(308, resolveRoute(route.id, newParams))
 }

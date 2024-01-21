@@ -16,7 +16,7 @@
 
 
 	// Functions
-	import { resolvePath } from '@sveltejs/kit'
+	import { resolveRoute } from '$app/paths'
 
 
 	// Components
@@ -209,7 +209,7 @@
 					<small class="row-inline">
 						<a
 							class="faded"
-							href={resolvePath(`/apps/farcaster/cast/[farcasterCastId]`, { farcasterCastId: cast.id })}
+							href={resolveRoute(`/apps/farcaster/cast/[farcasterCastId]`, { farcasterCastId: cast.id })}
 						>
 							<Date
 								date={cast.timestamp}

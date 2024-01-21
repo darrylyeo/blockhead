@@ -4,7 +4,7 @@
 
 
 	// Functions
-	import { resolvePath } from '@sveltejs/kit'
+	import { resolveRoute } from '$app/paths'
 
 
 	// Inputs
@@ -16,8 +16,8 @@
 	class="cast-author row"
 	href={
 		user.name
-			? resolvePath(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName: user.name })
-			: resolvePath(`/apps/farcaster/account/[farcasterUserId]`, { farcasterUserId: String(user.id) })
+			? resolveRoute(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName: user.name })
+			: resolveRoute(`/apps/farcaster/account/[farcasterUserId]`, { farcasterUserId: String(user.id) })
 	}
 >
 	{#if user.avatar?.url}

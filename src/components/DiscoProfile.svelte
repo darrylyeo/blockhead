@@ -21,7 +21,7 @@
 
 
 	// Functions
-	import { resolvePath } from '@sveltejs/kit'
+	import { resolveRoute } from '$app/paths'
 
 
 	// Components
@@ -40,7 +40,7 @@
 		isOpen
 	>
 		<svelte:fragment slot="title">
-			<a href={resolvePath(`/apps/[web3AppSlug]/account/[accountId]`, { web3AppSlug: 'disco', accountId: profile.profile.name })}>
+			<a href={resolveRoute(`/apps/[web3AppSlug]/account/[accountId]`, { web3AppSlug: 'disco', accountId: profile.profile.name })}>
 				<svelte:element this={`h${headingLevel}`} class="row">
 					<img class="avatar" src={profile.profile.avatar} />
 					<output>{profile.profile.name}</output>

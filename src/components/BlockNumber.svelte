@@ -12,12 +12,12 @@
 
 
 	// Functions
-	import { resolvePath } from '@sveltejs/kit'
+	import { resolveRoute } from '$app/paths'
 
 
 	// Internal state
 	// (Computed)
-	$: link = linked && network && blockNumber !== undefined ? resolvePath(`/explorer/[networkSlug]/block/[blockNumber]`, { networkSlug: network.slug, blockNumber: String(blockNumber) }) : undefined
+	$: link = linked && network && blockNumber !== undefined ? resolveRoute(`/explorer/[networkSlug]/block/[blockNumber]`, { networkSlug: network.slug, blockNumber: String(blockNumber) }) : undefined
 
 
 	// Actions

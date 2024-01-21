@@ -14,13 +14,13 @@
 
 	// Functions
 	import { formatAddress } from '../utils/formatAddress'
-	import { resolvePath } from '@sveltejs/kit'
+	import { resolveRoute } from '$app/paths'
 
 
 	// Internal state
 	// (Computed)
 	$: formattedAddress = formatAddress(address, format)
-	$: link = linked && network && address ? resolvePath(`/explorer/[networkSlug]/address/[address]`, { networkSlug: network.slug, address }) : undefined
+	$: link = linked && network && address ? resolveRoute(`/explorer/[networkSlug]/address/[address]`, { networkSlug: network.slug, address }) : undefined
 
 
 	// Actions

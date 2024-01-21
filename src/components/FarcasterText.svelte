@@ -11,7 +11,7 @@
 
 	// Functions
 	import { parseUrl } from '../utils/parseUrl'
-	import { resolvePath } from '@sveltejs/kit'
+	import { resolveRoute } from '$app/paths'
 
 	const formatUrls = (text: string) => (
 		(urlEmbeds ?? [])
@@ -33,14 +33,14 @@
 			? mentionedUsers
 				.reduce((text, user) => (
 					user.name ?
-						text.replaceAll(`@${user.name}`, match => `<a href="${resolvePath(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName: user.name })}">${match}</a>`)
+						text.replaceAll(`@${user.name}`, match => `<a href="${resolveRoute(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName: user.name })}">${match}</a>`)
 					:
 						text
 				), text)
 			: text
 				.replaceAll(
 					/(?<!\w)@([a-z0-9]+(?:[-][a-z0-9]+)*(?:[.](?:eth|xyz|luxe|kred|art|club))?)(?=\W|$)/g,
-					(match, farcasterUserName) => `<a href="${resolvePath(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName })}">${match}</a>`
+					(match, farcasterUserName) => `<a href="${resolveRoute(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName })}">${match}</a>`
 				)
 	)
 
@@ -48,7 +48,7 @@
 		text
 			.replaceAll(
 				/(?<=^|\s)[/](?<farcasterChannelSlug>[a-z0-9]+(?:[-][a-z0-9]+)*)(?=\W|$)/g, (match,
-				farcasterChannelSlug) => `<a href="${resolvePath(`/apps/farcaster/channel/[farcasterChannelSlug]`, { farcasterChannelSlug })}">${match}</a>`
+				farcasterChannelSlug) => `<a href="${resolveRoute(`/apps/farcaster/channel/[farcasterChannelSlug]`, { farcasterChannelSlug })}">${match}</a>`
 			)
 	)
 
