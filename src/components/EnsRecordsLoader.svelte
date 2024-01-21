@@ -43,7 +43,7 @@
 	import { normalize, namehash } from 'viem/ens'
 
 	// (Computed)
-	$: normalizedEnsName = normalize(ensName)
+	$: normalizedEnsName = (() => { try { return normalize(ensName) } catch(e) { return ensName } })()
 	$: node = namehash(normalizedEnsName)
 
 	$: viaRPC = networkProvider === NetworkProvider.Default ? '' : ` via ${networkProvider}`
