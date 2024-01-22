@@ -141,7 +141,7 @@
 	out:fly={{x: -100}}
 >
 	<form class="accountId-form row" on:submit|preventDefault={() => {
-		$accountId = searchInputParams.accountId ?? ''
+		$accountId = searchInputParams.address ?? searchInputParams.ensName ?? searchInputParams.lensHandle ?? ''
 		$audiusQuery = searchInputParams.audiusQuery ?? ''
 		$audiusPlaylistId = searchInputParams.audiusPlaylistId ?? ''
 		$audiusTrackId = searchInputParams.audiusTrackId ?? ''
