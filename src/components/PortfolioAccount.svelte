@@ -72,40 +72,40 @@
 				...defiAppsSummaries,
 				...nftsSummaries,
 			]
+				.map(summary => summary?.quoteTotal)
 				.filter(isTruthy)
-				.map(summary => summary.quoteTotal)
 				.reduce((sum, item) => sum + item, 0),
 
 		quoteTotalCurrency: quoteCurrency,
 
 		balancesCount:
 			balancesSummaries
+				.map(summary => summary?.balancesCount)
 				.filter(isTruthy)
-				.map(summary => summary.balancesCount)
 				.reduce((sum, item) => sum + item, 0),
 		
 		filteredBalancesCount:
 			balancesSummaries
+				.map(summary => summary?.filteredBalancesCount)
 				.filter(isTruthy)
-				.map(summary => summary.filteredBalancesCount)
 				.reduce((sum, item) => sum + item, 0),
 
 		defiAppsCount:
 			defiAppsSummaries
+				.map(summary => summary?.defiAppsCount)
 				.filter(isTruthy)
-				.map(summary => summary.defiAppsCount)
 				.reduce((sum, item) => sum + item, 0),
 
 		nftContractsCount:
 			nftsSummaries
+				.map(summary => summary?.nftContractsCount)
 				.filter(isTruthy)
-				.map(summary => summary.nftContractsCount)
 				.reduce((sum, item) => sum + item, 0),
 
 		nftsCount:
 			nftsSummaries
+				.map(summary => summary?.nftsCount)
 				.filter(isTruthy)
-				.map(summary => summary.nftsCount)
 				.reduce((sum, item) => sum + item, 0),
 	}
 

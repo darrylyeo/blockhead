@@ -137,29 +137,34 @@
 	$: summary = {
 		quoteTotal:
 			portfolio.accounts
-				.map(account => accountsSummaries[account.id]?.quoteTotal ?? 0)
-				.reduce((sum, item = 0) => sum + item, 0),
+				.map(account => accountsSummaries[account.id]?.quoteTotal)
+				.filter(isTruthy)
+				.reduce((sum, item) => sum + item, 0),
 
 		quoteTotalCurrency: quoteCurrency,
 
 		balancesCount:
 			portfolio.accounts
-				.map(account => accountsSummaries[account.id]?.balancesCount ?? 0)
+				.map(account => accountsSummaries[account.id]?.balancesCount)
+				.filter(isTruthy)
 				.reduce((sum, item) => sum + item, 0),
 
 		defiAppsCount:
 			portfolio.accounts
-				.map(account => accountsSummaries[account.id]?.defiAppsCount ?? 0)
+				.map(account => accountsSummaries[account.id]?.defiAppsCount)
+				.filter(isTruthy)
 				.reduce((sum, item) => sum + item, 0),
 
 		nftContractsCount:
 			portfolio.accounts
-				.map(account => accountsSummaries[account.id]?.nftContractsCount ?? 0)
+				.map(account => accountsSummaries[account.id]?.nftContractsCount)
+				.filter(isTruthy)
 				.reduce((sum, item) => sum + item, 0),
 
 		nftsCount:
 			portfolio.accounts
-				.map(account => accountsSummaries[account.id]?.nftsCount ?? 0)
+				.map(account => accountsSummaries[account.id]?.nftsCount)
+				.filter(isTruthy)
 				.reduce((sum, item) => sum + item, 0),
 	}
 
@@ -170,6 +175,10 @@
 
 
 	let delayStartIndex = 0
+
+
+	// Functions
+	import { isTruthy } from '../utils/isTruthy'
 
 
 	// Actions
