@@ -68,14 +68,14 @@
 
 	<div class="scrollable-list column">
 		{#each blockNumbers as blockNumber (blockNumber)}
-			<div
+			<a
+				class="card"
+				href={`#/block/${blockNumber}`}
+				id={`/block/${blockNumber}`}
 				animate:flip|local={{ duration: 300 }}
 				transition:blur={{ duration: 1000 }}
 			>
 				<EthereumBlockLoader
-					loaderViewOptions={{
-						containerClass: 'card',
-					}}
 					{network}
 					{blockNumber}
 					{transactionProvider}
@@ -105,7 +105,7 @@
 						/>
 					{/if}
 				</EthereumBlockLoader>
-			</div>
+			</a>
 		{/each}
 	</div>
 </Collapsible>
