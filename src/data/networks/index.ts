@@ -4114,6 +4114,36 @@ export const networks = [
 		"infoURL": "https://optimism.io"
 	},
 	{
+		"slug": "optimistic-sepolia",
+		"name": "OP Sepolia Testnet",
+		"chainId": 11155420,
+		"shortName": "opsep",
+		"chain": "ETH",
+		"network": "sepolia",
+		"networkId": 11155420,
+		"nativeCurrency": {
+			"name": "Sepolia Ether",
+			"symbol": "ETH",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://sepolia.optimism.io",
+			"https://optimism-sepolia.blockpi.network/v1/rpc/public",
+		],
+		"faucets": [
+			"https://app.optimism.io/faucet"
+		],
+		"explorers": [
+			{
+				"name": "opscout",
+				"url": "https://optimism-sepolia.blockscout.com",
+				"icon": "blockscout",
+				"standard": "EIP3091"
+			}
+		],
+		"infoURL": "https://optimism.io",		
+	},
+	{
 		"slug": "opbnb",
 		"name": "opBNB Mainnet",
 		"chainId": 204,
@@ -6178,6 +6208,7 @@ const testnetSlugsForMainnetSlugs = {
 	'optimism': [
 		'optimistic-goerli',
 		'optimistic-kovan',
+		'optimistic-sepolia',
 	],
 	'avalanche': [
 		'avalanche-fuji',
