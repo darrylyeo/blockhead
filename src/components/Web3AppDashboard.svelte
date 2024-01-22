@@ -263,7 +263,7 @@
 									{/each}
 								</select>
 							{:else}
-								<div class="card-annotation">{network.name} App</div>
+								<div class="card-annotation">{network ? `${network.name} ` : ''} App</div>
 							{/if}
 
 							{#if toggle}
