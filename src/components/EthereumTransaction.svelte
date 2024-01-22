@@ -145,9 +145,10 @@
 							network={transaction.network}
 							erc20Token={transaction.gasToken}
 
-							balance={Number(transaction.gasUnitsSpent) * 0.1 ** transaction.gasToken.decimals}
+							balance={Number(transaction.gasValue) * 0.1 ** transaction.gasToken.decimals}
 							conversionCurrency={transaction.conversion?.quoteCurrency}
-							convertedValue={transaction.conversion?.gasUnitsSpent}
+							conversionRate={transaction.conversion?.gasUnitRate}
+							convertedValue={transaction.conversion?.gasValue}
 						/>
 					</span>
 				{/if}
