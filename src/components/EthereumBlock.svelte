@@ -211,7 +211,11 @@
 		<div class="transactions-list column" class:scrollable-list={block.transactions?.length > 7}>
 			{#if block.transactions}
 				{#each block.transactions as transaction (transaction.transactionId)}
-					<div class="card">
+					<a
+						class="card"
+						href={`#/tx/${transaction.transactionId}`}
+						id={`/tx/${transaction.transactionId}`}
+					>
 						<EthereumTransaction
 							{network}
 							{transaction}
@@ -223,12 +227,16 @@
 							{tokenBalanceFormat}
 							{showFees}
 						/>
-					</div>
+					</a>
 				{/each}
 
 			{:else if block.transactionIds}
 				{#each block.transactionIds as transactionId (transactionId)}
-					<div class="card">
+					<a
+						class="card"
+						href={`#/tx/${transactionId}`}
+						id={`/tx/${transactionId}`}
+					>
 						<EthereumTransactionLoader
 							{network}
 							{transactionId}
@@ -239,7 +247,7 @@
 							{tokenBalanceFormat}
 							{showFees}
 						/>
-					</div>
+					</a>
 				{/each}
 			{/if}
 		</div>
