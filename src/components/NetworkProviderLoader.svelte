@@ -1,21 +1,27 @@
 <script lang="ts">
+	// Types
 	import type { Ethereum } from '../data/networks/types'
 	import { NetworkProvider } from '../data/networkProviders/types'
 	import { getViemPublicClient } from '../data/networkProviders'
 
 
-	export let network: Ethereum.Network
+	// Context
+	import { preferences } from '../state/preferences'
+
+
+	// Inputs
+	export let network: Ethereum.Network | undefined
 	export let publicClientPromise: () => Promise<Ethereum.PublicClient>
 	export let networkProvider: NetworkProvider
+
+	// (Computed]
+	$: networkProvider = $$props.networkProvider || $preferences.rpcNetwork
 
 	// (View options)
 	export let loaderViewOptions: Partial<Loader<any, any, any, any, any>['viewOptions']> | undefined
 
 
-	import { preferences } from '../state/preferences'
-
-	$: networkProvider = $$props.networkProvider || $preferences.rpcNetwork
-
+	// Internal state
 	$: viaRPC = networkProvider === NetworkProvider.Default ? '' : ` via ${networkProvider}`
 
 
