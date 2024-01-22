@@ -1,24 +1,35 @@
 <script lang="ts">
 	// Constants/types
 	import type { AccountConnection } from '../../../state/account'
+	import { InputPattern } from '../../../data/inputPatterns'
 
 
 	// Params
-	import { accountId } from '../_appsParams'
+	import {
+		type AppsSearchInputParams,
+		accountId,
+	} from '../_appsParams'
 
 
-	// Computed
-	$: if(selectedAccountConnection?.state?.account?.address) $accountId = selectedAccountConnection.state.account.address
-	$: currentAccountId = $accountId
+	// Context
+	import {
+		defaultSearchInputValue,
+	} from '../_appsContext'
 
 
 	// Internal state
-	let selectedAccountConnection: AccountConnection
+	let searchInputValue: string
+	$: searchInputValue = $defaultSearchInputValue
+
+	let searchInputParams: Partial<AppsSearchInputParams> = {}
+
+	let selectedAccountConnection: AccountConnection | undefined
+
 
 
 	// Components
-	import AddressField from '../../../components/AddressField.svelte'
 	import ConnectedAccountSelect from '../../../components/ConnectedAccountSelect.svelte'
+	import SearchInput from '../../../components/SearchInput.svelte'
 
 
 	// Transitions
@@ -35,8 +46,17 @@
 
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
-	<form class="accountId-form row" on:submit|preventDefault={() => $accountId = currentAccountId}>
-		<AddressField bind:address={currentAccountId} placeholder="EVM Address (0xabcd...6789) / ENS Domain (vitalik.eth) / Lens Handle (stani.lens)" />
+	<form class="accountId-form row" on:submit|preventDefault={() => {
+		$accountId = searchInputParams.address ?? searchInputParams.ensName ?? ''
+	}}>
+		<SearchInput
+			inputPatterns={[
+				InputPattern.Address,
+				InputPattern.EnsName,
+			]}
+			bind:value={searchInputValue}
+			bind:matchedPatterns={searchInputParams}
+		/>
 
 		<span>or</span>
 
