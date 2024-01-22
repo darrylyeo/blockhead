@@ -30,16 +30,16 @@
 </script>
 
 
-<Loader
-	viewOptions={{
-		clip: false,
-		...loaderViewOptions,
-	}}
-	loadingMessage="Connecting to the {network ? `${network.name} ` : ''} network{viaRPC}..."
-	errorMessage="Error connecting to the {network ? `${network.name} ` : ''} network{viaRPC}. Try changing the On-Chain Data provider in Preferences."
-	fromPromise={
-		publicClientPromise || (
-			network && networkProvider && (async () => {
+{#if network && (publicClientPromise || networkProvider)}
+	<Loader
+		viewOptions={{
+			clip: false,
+			...loaderViewOptions,
+		}}
+		loadingMessage="Connecting to the {network.name} network{viaRPC}..."
+		errorMessage="Error connecting to the {network.name} network{viaRPC}. Try changing the On-Chain Data provider in Preferences."
+		fromPromise={
+			publicClientPromise || (async () => {
 				const publicClient = getViemPublicClient({
 					network,
 					networkProvider: networkProvider,
@@ -50,22 +50,22 @@
 
 				return publicClient
 			})
-		)
-	}
-	let:result={publicClient}
->
-	<NetworkIcon slot="loadingIcon" {network} />
-
-	<svelte:fragment slot="header"
+		}
 		let:result={publicClient}
-		let:isOpen
-		let:toggle
 	>
-		<slot name="header"
-			{network} {publicClient}
-			{isOpen} {toggle}
-		/>
-	</svelte:fragment>
+		<NetworkIcon slot="loadingIcon" {network} />
 
-	<slot {network} {publicClient} />
-</Loader>
+		<svelte:fragment slot="header"
+			let:result={publicClient}
+			let:isOpen
+			let:toggle
+		>
+			<slot name="header"
+				{network} {publicClient}
+				{isOpen} {toggle}
+			/>
+		</svelte:fragment>
+
+		<slot {network} {publicClient} />
+	</Loader>
+{/if}
