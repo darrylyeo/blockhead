@@ -4063,7 +4063,7 @@ export const networks = [
 		"infoURL": "https://optimism.io",
 	},
 	{
-		"slug": "optimistic-goerli",
+		"slug": "optimism-goerli",
 		"name": "Optimism Goerli Testnet",
 		"chainId": 420,
 		"shortName": "ogor",
@@ -4094,7 +4094,7 @@ export const networks = [
 		"infoURL": "https://optimism.io"
 	},
 	{
-		"slug": "optimistic-kovan",
+		"slug": "optimism-kovan",
 		"name": "Optimism Kovan Testnet",
 		"chainId": 69,
 		"shortName": "okov",
@@ -4114,7 +4114,7 @@ export const networks = [
 		"infoURL": "https://optimism.io"
 	},
 	{
-		"slug": "optimistic-sepolia",
+		"slug": "optimism-sepolia",
 		"name": "OP Sepolia Testnet",
 		"chainId": 11155420,
 		"shortName": "opsep",
@@ -6206,9 +6206,9 @@ const testnetSlugsForMainnetSlugs = {
 		'arbitrum-sepolia',
 	],
 	'optimism': [
-		'optimistic-goerli',
-		'optimistic-kovan',
-		'optimistic-sepolia',
+		'optimism-goerli',
+		'optimism-kovan',
+		'optimism-sepolia',
 	],
 	'avalanche': [
 		'avalanche-fuji',
@@ -6483,6 +6483,8 @@ export function getNetworkRPC(network: Ethereum.Network){
 
 export const networkRedirectsBySlug = {
 	'arbitrum': 'arbitrum-one',
+	'optimistic-goerli': 'optimism-goerli',
+	'optimistic-kovan': 'optimism-kovan',
 } as const satisfies DeepReadonly<
 	Record<string, NetworkSlug>
 > satisfies DeepReadonly<
