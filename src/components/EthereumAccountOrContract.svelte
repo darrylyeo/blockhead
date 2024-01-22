@@ -293,7 +293,11 @@
 						{#if transactions?.length}
 							<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
 								{#each transactions as transaction}
-									<a class="card" id={transaction.transactionId} href="#{transaction.transactionId}">
+									<a
+										class="card"
+										href={`#/tx/${transaction.transactionId}`}
+										id={`/tx/${transaction.transactionId}`}
+									>
 										<EthereumTransaction
 											{network}
 											{transaction}
