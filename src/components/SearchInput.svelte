@@ -1,16 +1,16 @@
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../data/networks/types'
-	import { InputPattern, inputPatternsConfig } from '../data/inputPatterns'
+	import type { Ethereum } from '$/data/networks/types'
+	import { InputPattern, inputPatternsConfig } from '$/data/inputPatterns'
 
 
 	// Context
-	import { accountConnections } from '../state/account'
+	import { accountConnections } from '$/state/account'
 
-	import { getLocalPortfolios } from '../state/portfolio-accounts'
+	import { getLocalPortfolios } from '$/state/portfolio-accounts'
 	const localPortfolios = getLocalPortfolios()
 
-	import { localStorageWritable } from '../utils/localStorageWritable'
+	import { localStorageWritable } from '$/utils/localStorageWritable'
 	const history = localStorageWritable<string[]>('ExplorerInput/history', [])
 
 
@@ -26,9 +26,9 @@
 
 
 	// Functions
-	import { isTruthy } from '../utils/isTruthy'
+	import { isTruthy } from '$/utils/isTruthy'
 
-	import { findMatchedCaptureGroupName } from '../utils/findMatchedCaptureGroup'
+	import { findMatchedCaptureGroupName } from '$/utils/findMatchedCaptureGroup'
 
 	const findPatternMatches = (value: string, pattern: RegExp) =>
 		(pattern.global ? [...value.matchAll(pattern)] : [value.match(pattern)].filter(isTruthy))

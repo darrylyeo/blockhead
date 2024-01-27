@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
-	import type { Ethereum } from '../data/networks/types'
-	import { LensInstance, type LensProfile } from '../api/lens'
+	import type { Ethereum } from '$/data/networks/types'
+	import { LensInstance, type LensProfile } from '$/api/lens'
 
 
 	// Inputs

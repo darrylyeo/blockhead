@@ -1,13 +1,13 @@
 <script lang="ts">
 	// Constants/types
-	import { IpfsGatewayProvider, ipfsGatewaysByProvider } from '../data/ipfsGateways'
+	import { IpfsGatewayProvider, ipfsGatewaysByProvider } from '$/data/ipfsGateways'
 
-	import type { IpfsCid } from '../api/ipfs/contentId'
-	import type { IpnsName } from '../api/ipfs/ipns'
+	import type { IpfsCid } from '$/api/ipfs/contentId'
+	import type { IpnsName } from '$/api/ipfs/ipns'
 
 
 	// Context
-	import { preferences } from '../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 
 	// External state
@@ -30,7 +30,7 @@
 	// (Computed)
 	$: ipfsGateway = ipfsGatewaysByProvider[ipfsGatewayProvider]
 
-	import { resolveUri } from '../utils/resolveUri'
+	import { resolveUri } from '$/utils/resolveUri'
 
 	$: resolvedIpfsUrl = resolveUri({
 		src: ipfsUrl ?? (
@@ -47,7 +47,7 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
-	import { parseResponse } from '../utils/parseResponse'
+	import { parseResponse } from '$/utils/parseResponse'
 
 
 	// Output
@@ -58,7 +58,7 @@
 		resolvedIpfsUrl: typeof resolvedIpfsUrl,
 	} & (
 		| Awaited<ReturnType<typeof parseResponse>>
-		// | { dagStats: Awaited<ReturnType<typeof import('../api/ipfs/helia').getIpfsDag>> }
+		// | { dagStats: Awaited<ReturnType<typeof import('$/api/ipfs/helia').getIpfsDag>> }
 	)
 
 	type $$Slots = {
@@ -69,7 +69,7 @@
 
 	// Components
 	import Loader from './Loader.svelte'
-	import { IpfsIcon } from '../assets/icons'
+	import { IpfsIcon } from '$/assets/icons'
 </script>
 
 
@@ -80,7 +80,7 @@
 				async () => {
 					throw new Error('IPFS node temporarily disabled.')
 
-					// const { getIpfsContent, getIpfsDag } = await import('../api/ipfs/helia')
+					// const { getIpfsContent, getIpfsDag } = await import('$/api/ipfs/helia')
 
 					// try {
 					// 	return await getIpfsContent({

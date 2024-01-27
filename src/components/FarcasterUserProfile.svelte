@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Types
-	import type { FarcasterUser as _FarcasterUser } from '../api/farcaster'
+	import type { FarcasterUser as _FarcasterUser } from '$/api/farcaster'
 	
 
 	// Inputs

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/networks/types'
-	import type { UniswapV3 } from '../api/uniswap-v3/index'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { UniswapV3 } from '$/api/uniswap-v3/index'
 
 
 	// Inputs

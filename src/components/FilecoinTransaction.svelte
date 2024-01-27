@@ -1,8 +1,8 @@
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../data/networks/types'
-	import type { Filecoin } from '../data/filecoin'
-	import { networksBySlug } from '../data/networks'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { Filecoin } from '$/data/filecoin'
+	import { networksBySlug } from '$/data/networks'
 
 
 	export let network: Ethereum.Network = networksBySlug['filecoin']

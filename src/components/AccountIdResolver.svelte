@@ -1,17 +1,17 @@
 <script lang="ts">
 	// Constants/types
-	import { type AccountId, AccountIdType, resolveAccountIdType } from '../data/accountId'
-	import type { Ethereum } from '../data/networks/types'
-	import type { ENS } from '../api/ens'
-	import type { LensName } from '../api/lens'
+	import { type AccountId, AccountIdType, resolveAccountIdType } from '$/data/accountId'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { ENS } from '$/api/ens'
+	import type { LensName } from '$/api/lens'
 
-	import { NetworkProvider } from '../data/networkProviders/types'
-	import { getViemPublicClient } from '../data/networkProviders'
-	import { networksByChainID } from '../data/networks'
+	import { NetworkProvider } from '$/data/networkProviders/types'
+	import { getViemPublicClient } from '$/data/networkProviders'
+	import { networksByChainID } from '$/data/networks'
 
 
 	// Context
-	import { preferences } from '../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 
 	// External state
@@ -95,7 +95,7 @@
 
 	// Components
 	import Loader from './Loader.svelte'
-	import { ENSIcon, LensIcon } from '../assets/icons'
+	import { ENSIcon, LensIcon } from '$/assets/icons'
 </script>
 
 
@@ -135,7 +135,7 @@
 					lensName,
 				}],
 				queryFn: async () => {
-					const { getProfileByLensName } = await import('../api/lens')
+					const { getProfileByLensName } = await import('$/api/lens')
 					return await getProfileByLensName({ lensName })
 				},
 				select: ({data, error}) => {

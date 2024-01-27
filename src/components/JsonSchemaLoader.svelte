@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Constants/types
-	import type { JsonSchema } from '../data/jsonSchema'
+	import type { JsonSchema } from '$/data/jsonSchema'
 
 
 	// Inputs

@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { AudiusIcon } from '../assets/icons'
+	import { AudiusIcon } from '$/assets/icons'
 
 	export let userId: string
 
 
-	import type { Audius } from '../api/audius'
-	import { getUserTracks } from '../api/audius'
+	import type { Audius } from '$/api/audius'
+	import { getUserTracks } from '$/api/audius'
 
 
 	import AudiusTrack from './AudiusTrack.svelte'

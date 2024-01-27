@@ -1,6 +1,6 @@
-import type { Ethereum } from '../../data/networks/types'
-import type { TokenWithBalance } from '../../data/tokens'
-import { normalizeNftAttributes } from '../../utils/normalizeNftAttributes'
+import type { Ethereum } from '$/data/networks/types'
+import type { TokenWithBalance } from '$/data/tokens'
+import { normalizeNftAttributes } from '$/utils/normalizeNftAttributes'
 
 export const normalizeNftContracts = (tokenBalances): Ethereum.NftContractWithNfts[] => (
 	[

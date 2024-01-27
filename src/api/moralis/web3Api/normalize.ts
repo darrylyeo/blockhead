@@ -1,5 +1,5 @@
 // Types
-import type { Ethereum } from '../../../data/networks/types'
+import type { Ethereum } from '$/data/networks/types'
 import type { Block, BlockTransaction, Log } from '../api/Api'
 
 

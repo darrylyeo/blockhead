@@ -1,6 +1,6 @@
-import type { Ethereum } from '../data/networks/types'
+import type { Ethereum } from '$/data/networks/types'
 import type { Signer } from 'ethers'
-import type { WalletType } from '../data/wallets'
+import type { WalletType } from '$/data/wallets'
 import type { WalletConnection, Provider, WalletconnectTopic } from './walletConnection'
 
 export type AccountConnection = {
@@ -70,7 +70,7 @@ export const serializeAccountConnection = ({
 }) as SerializedAccountConnection
 
 
-import { localStorageWritable } from '../utils/localStorageWritable'
+import { localStorageWritable } from '$/utils/localStorageWritable'
 
 export const accountConnections = localStorageWritable(
 	'accountConnections',
@@ -87,7 +87,7 @@ const getSigner = (provider: Provider) =>
 
 
 import { readable } from 'svelte/store'
-import type { Result } from '../utils/apolloRequestStore'
+import type { Result } from '$/utils/apolloRequestStore'
 
 export const getAccountConnectionState = ({
 	walletConnection,

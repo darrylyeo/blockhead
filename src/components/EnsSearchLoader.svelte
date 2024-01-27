@@ -1,12 +1,12 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/networks/types'
+	import type { Ethereum } from '$/data/networks/types'
 
 
 	export let network: Ethereum.Network
 	export let searchQuery: string
 
 
-	// import { queryENSDomain, queryENSDomainsContaining } from '../api/ens'
+	// import { queryENSDomain, queryENSDomainsContaining } from '$/api/ens'
 
 	import { graphql } from '$houdini'
 
@@ -131,7 +131,7 @@
 	import Loader from './Loader.svelte'
 
 
-	import { ENSIcon } from '../assets/icons'
+	import { ENSIcon } from '$/assets/icons'
 </script>
 
 

@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
-	import type { AccountConnection } from '../../../state/account'
-	import { InputPattern } from '../../../data/inputPatterns'
+	import type { AccountConnection } from '$/state/account'
+	import { InputPattern } from '$/data/inputPatterns'
 
 
 	// Params
@@ -28,8 +28,8 @@
 
 
 	// Components
-	import ConnectedAccountSelect from '../../../components/ConnectedAccountSelect.svelte'
-	import SearchInput from '../../../components/SearchInput.svelte'
+	import ConnectedAccountSelect from '$/components/ConnectedAccountSelect.svelte'
+	import SearchInput from '$/components/SearchInput.svelte'
 
 
 	// Transitions

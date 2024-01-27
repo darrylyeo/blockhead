@@ -4,9 +4,9 @@
 
 
 	// Components
-	import AudiusUserLoader from '../../../../../components/AudiusUserLoader.svelte'
-	import AudiusUserTracksLoader from '../../../../../components/AudiusUserTracksLoader.svelte'
-	import AudiusUserFavoritesLoader from '../../../../../components/AudiusUserFavoritesLoader.svelte'
+	import AudiusUserLoader from '$/components/AudiusUserLoader.svelte'
+	import AudiusUserTracksLoader from '$/components/AudiusUserTracksLoader.svelte'
+	import AudiusUserFavoritesLoader from '$/components/AudiusUserFavoritesLoader.svelte'
 </script>
 
 

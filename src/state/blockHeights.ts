@@ -1,8 +1,8 @@
-import type { Ethereum } from '../data/networks/types'
+import type { Ethereum } from '$/data/networks/types'
 
 import { derived } from 'svelte/store'
 import { preferences } from './preferences'
-import { getViemPublicClient } from '../data/networkProviders'
+import { getViemPublicClient } from '$/data/networkProviders'
 
 
 const blockHeightForNetworkStores: Record<Ethereum.ChainID, SvelteStore<Ethereum.BlockNumber>> = {}

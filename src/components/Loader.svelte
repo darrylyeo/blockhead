@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Types/constants
 	import type { Readable } from 'svelte/store'
-	import type { Result, Error as ApolloStoreError } from '../utils/apolloRequestStore'
+	import type { Result, Error as ApolloStoreError } from '$/utils/apolloRequestStore'
 	import type { ApolloError } from '@apollo/client'
 	import type { GraphQLObject, GraphQLVariables } from 'houdini'
 	import type { QueryStore } from '$houdini'

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import VegaDEX from '../../components/VegaDEX.svelte'
+	import VegaDEX from '$/components/VegaDEX.svelte'
 	import { fly } from 'svelte/transition'
 </script>
 

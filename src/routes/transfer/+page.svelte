@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Preferences from '../../components/Preferences.svelte'
-	import TransferAssets from '../../components/TransferAssets.svelte'
+	import Preferences from '$/components/Preferences.svelte'
+	import TransferAssets from '$/components/TransferAssets.svelte'
 
 
 	import { fly } from 'svelte/transition'

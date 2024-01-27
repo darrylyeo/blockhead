@@ -1,14 +1,14 @@
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../data/networks/types'
-	import { TransactionProvider } from '../data/transactionProvider'
-	import type { NetworkProvider } from '../data/networkProviders/types'
-	import { networkProviderConfigByProvider } from '../data/networkProviders'
+	import type { Ethereum } from '$/data/networks/types'
+	import { TransactionProvider } from '$/data/transactionProvider'
+	import type { NetworkProvider } from '$/data/networkProviders/types'
+	import { networkProviderConfigByProvider } from '$/data/networkProviders'
 
 
 	// Context
-	import { preferences } from '../state/preferences'
-	import { blockHeightForNetwork } from '../state/blockHeights'
+	import { preferences } from '$/state/preferences'
+	import { blockHeightForNetwork } from '$/state/blockHeights'
 
 
 	// Inputs

@@ -1,8 +1,8 @@
 <script lang="ts">
 	// Constants/types
-	import { VerifiableCredentialProvider, verifiableCredentialProviderIcons } from '../data/verifiableCredentialProvider'
-	import type { DidUrl } from '../api/ceramic/did'
-	import type { Disco } from '../api/disco/index'
+	import { VerifiableCredentialProvider, verifiableCredentialProviderIcons } from '$/data/verifiableCredentialProvider'
+	import type { DidUrl } from '$/api/ceramic/did'
+	import type { Disco } from '$/api/disco/index'
 
 	
 	// Inputs
@@ -28,7 +28,7 @@
 
 	// Functions
 	import { createInfiniteQuery } from '@tanstack/svelte-query'
-	import { getCredentials } from '../api/disco/index'
+	import { getCredentials } from '$/api/disco/index'
 
 
 	// Components

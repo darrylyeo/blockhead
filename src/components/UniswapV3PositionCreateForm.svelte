@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/networks/types'
-	import { UniswapV3 } from '../api/uniswap-v3/index'
+	import type { Ethereum } from '$/data/networks/types'
+	import { UniswapV3 } from '$/api/uniswap-v3/index'
 
 
 	// Inputs
@@ -31,7 +31,7 @@
 
 
 	// Functions
-	import { formatIdentifierToWords } from '../utils/formatIdentifierToWords'
+	import { formatIdentifierToWords } from '$/utils/formatIdentifierToWords'
 
 
 	// Components

@@ -1,15 +1,15 @@
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../data/networks/types'
-	import type { Filecoin } from '../data/filecoin'
-	import { TransactionProvider, transactionProviderIcons } from '../data/transactionProvider'
-	import type { NetworkProvider } from '../data/networkProviders/types'
-	import { getViemPublicClient } from '../data/networkProviders'
-	import { networksBySlug } from '../data/networks'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { Filecoin } from '$/data/filecoin'
+	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProvider'
+	import type { NetworkProvider } from '$/data/networkProviders/types'
+	import { getViemPublicClient } from '$/data/networkProviders'
+	import { networksBySlug } from '$/data/networks'
 
 
 	// Context
-	import { preferences } from '../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 
 	// Inputs
@@ -44,7 +44,7 @@
 	// Functions
 	import { createInfiniteQuery } from '@tanstack/svelte-query'
 	import { formatUnits } from 'viem'
-	import type { getTransactionsByHeight } from '../api/beryx/filecoin/index'
+	import type { getTransactionsByHeight } from '$/api/beryx/filecoin/index'
 
 	type BeryxTransaction = NonNullable<Awaited<ReturnType<typeof getTransactionsByHeight>>['Transactions']>[number]
 	type BeryxTransactionWithInternalTransactions = BeryxTransaction & { internalTransactions: BeryxTransaction[] }
@@ -113,7 +113,7 @@
 				queryFn: async ({ pageParam: next_cursor }) => {
 					if(network.slug !== 'filecoin') throw new Error('Beryx only supports Filecoin.')
 
-					const { getTransactionsByHeight } = await import('../api/beryx/filecoin/index')
+					const { getTransactionsByHeight } = await import('$/api/beryx/filecoin/index')
 
 					return await getTransactionsByHeight(Number(tipsetNumber), { page: next_cursor })
 				},

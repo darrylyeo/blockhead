@@ -5,7 +5,7 @@
 
 	// Components
 	import Loader from './Loader.svelte'
-	import { IpfsIcon } from '../assets/icons'
+	import { IpfsIcon } from '$/assets/icons'
 </script>
 
 
@@ -14,7 +14,7 @@
 		fromPromise={async () => {
 			throw new Error('IPFS node temporarily disabled.')
 
-			// const { encodeFiles } = await import('../api/ipfs/helia')
+			// const { encodeFiles } = await import('$/api/ipfs/helia')
 			// return await encodeFiles(content)
 		}}
 		loadingIcon={IpfsIcon}
@@ -32,7 +32,7 @@
 		fromPromise={async () => {
 			throw new Error('IPFS node temporarily disabled.')
 
-			// const { encodeFile } = await import('../api/ipfs/helia')
+			// const { encodeFile } = await import('$/api/ipfs/helia')
 			// return await encodeFile(content)
 		}}
 		loadingIcon={IpfsIcon}
@@ -50,7 +50,7 @@
 		fromPromise={async () => {
 			throw new Error('IPFS node temporarily disabled.')
 
-			// const { encodeBytes } = await import('../api/ipfs/helia')
+			// const { encodeBytes } = await import('$/api/ipfs/helia')
 			// return await encodeBytes(content)
 		}}
 		loadingIcon={IpfsIcon}

@@ -1,5 +1,5 @@
 // Types
-import type { TokenWithBalance } from '../../data/tokens'
+import type { TokenWithBalance } from '$/data/tokens'
 import type { getWalletTokenBalance } from './index'
 
 

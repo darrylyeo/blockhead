@@ -1,11 +1,11 @@
-import { env } from '../../env'
+import { env } from '$/env'
 
 import ky, { type Options } from 'ky'
 
-import { ConcurrentPromiseQueue } from '../../utils/ConcurrentPromiseQueue'
+import { ConcurrentPromiseQueue } from '$/utils/ConcurrentPromiseQueue'
 
-import type { Ethereum } from '../../data/networks/types'
-import { networksByChainID } from '../../data/networks'
+import type { Ethereum } from '$/data/networks/types'
+import { networksByChainID } from '$/data/networks'
 
 const endpointByChainId = {
 	1: 'https://api.etherscan.io/api',

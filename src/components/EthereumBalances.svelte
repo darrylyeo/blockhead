@@ -1,14 +1,14 @@
 <script lang="ts">
 	// Constants/types
-	import type { Ethereum } from '../data/networks/types'
-	import type { QuoteCurrency } from '../data/currencies'
-	import type { TokenBalancesProvider } from '../data/tokenBalancesProvider'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { QuoteCurrency } from '$/data/currencies'
+	import type { TokenBalancesProvider } from '$/data/tokenBalancesProvider'
 
-	import type { TokenWithBalance } from '../data/tokens'
+	import type { TokenWithBalance } from '$/data/tokens'
 
 
 	// Context
-	import { preferences } from '../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 
 	// Inputs

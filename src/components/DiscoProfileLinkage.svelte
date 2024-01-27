@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
-	import type { Ethereum } from '../data/networks/types'
-	import type { Disco } from '../api/disco/index'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { Disco } from '$/api/disco/index'
 
 	
 	// Inputs

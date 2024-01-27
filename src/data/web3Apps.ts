@@ -1,9 +1,9 @@
 import type { ComponentType } from 'svelte'
 import type { Ethereum } from './networks/types'
-import type { DefiSDK } from '../api/zerion/defiSdk/index'
-import type { ZapperAppId } from '../api/zapper'
+import type { DefiSDK } from '$/api/zerion/defiSdk/index'
+import type { ZapperAppId } from '$/api/zapper'
 import { erc20TokensByContractAddress, erc20TokensBySymbol } from './tokens'
-import type { DeepReadonly } from '../utils/DeepReadonly'
+import type { DeepReadonly } from '$/utils/DeepReadonly'
 
 
 import {
@@ -14,18 +14,18 @@ import {
 	LensIcon,
 	NounsIcon,
 	UniswapIcon,
-} from '../assets/icons'
-import { ZoraIcon } from '../assets/networkIcons'
+} from '$/assets/icons'
+import { ZoraIcon } from '$/assets/networkIcons'
 
 
-import CeramicPage from '../routes/apps/(withDashboard)/ceramic/+page.svelte'
-import DiscoPage from '../routes/apps/(withDashboard)/disco/+page.svelte'
-import FarcasterPage from '../routes/apps/(withDashboard)/farcaster/+page.svelte'
+import CeramicPage from '$/routes/apps/(withDashboard)/ceramic/+page.svelte'
+import DiscoPage from '$/routes/apps/(withDashboard)/disco/+page.svelte'
+import FarcasterPage from '$/routes/apps/(withDashboard)/farcaster/+page.svelte'
 
 
-import { UniswapV3 } from '../api/uniswap-v3/index'
-import { UniswapV3Subgraph } from '../api/uniswap-v3/subgraph'
-import UniswapPage from '../routes/apps/(withDashboard)/uniswap/+page.svelte'
+import { UniswapV3 } from '$/api/uniswap-v3/index'
+import { UniswapV3Subgraph } from '$/api/uniswap-v3/subgraph'
+import UniswapPage from '$/routes/apps/(withDashboard)/uniswap/+page.svelte'
 
 
 export type Web3AppConfig = {

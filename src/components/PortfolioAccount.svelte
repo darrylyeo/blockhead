@@ -1,16 +1,16 @@
 <script lang="ts">
 	import type { ComponentProps } from 'svelte'
-	import type { PortfolioAccount } from '../state/portfolio-accounts'
-	import type { Ethereum } from '../data/networks/types'
-	import type { NetworkProvider } from '../data/networkProviders/types'
-	import { AccountIdType } from '../data/accountId'
-	import { DefiProvider, defiProviderIcons } from '../data/defiProviders'
-	import type { QuoteCurrency } from '../data/currencies'
-	import { getNetworkColor, networksByChainID } from '../data/networks'
-	import { type TokenBalancesProvider, tokenBalancesProviderIcons } from '../data/tokenBalancesProvider'
-	import { type NftProvider, nftProviderIcons } from '../data/nftProviders'
-	import { NotificationsProvider, notificationsProviderIcons } from '../data/notificationsProvider'
-	import { Covalent } from '../api/covalent'
+	import type { PortfolioAccount } from '$/state/portfolio-accounts'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { NetworkProvider } from '$/data/networkProviders/types'
+	import { AccountIdType } from '$/data/accountId'
+	import { DefiProvider, defiProviderIcons } from '$/data/defiProviders'
+	import type { QuoteCurrency } from '$/data/currencies'
+	import { getNetworkColor, networksByChainID } from '$/data/networks'
+	import { type TokenBalancesProvider, tokenBalancesProviderIcons } from '$/data/tokenBalancesProvider'
+	import { type NftProvider, nftProviderIcons } from '$/data/nftProviders'
+	import { NotificationsProvider, notificationsProviderIcons } from '$/data/notificationsProvider'
+	import { Covalent } from '$/api/covalent'
 	import { getDefaultProvider } from 'ethers'
 
 
@@ -111,13 +111,13 @@
 
 
 	// Functions
-	import { isTruthy } from '../utils/isTruthy'
+	import { isTruthy } from '$/utils/isTruthy'
 
 
-	import { triggerEvent } from '../events/triggerEvent'
+	import { triggerEvent } from '$/events/triggerEvent'
 
 
-	import { matchesMediaQuery } from '../utils/matchesMediaQuery'
+	import { matchesMediaQuery } from '$/utils/matchesMediaQuery'
 
 	const gridLayoutBreakpoint = '(min-width: 62rem)'
 	const matchesGridLayoutBreakpoint = matchesMediaQuery(gridLayoutBreakpoint)
@@ -169,7 +169,7 @@
 
 
 	import { fade, scale } from 'svelte/transition'
-	import { cardStyle } from '../utils/card-background'
+	import { cardStyle } from '$/utils/card-background'
 </script>
 
 

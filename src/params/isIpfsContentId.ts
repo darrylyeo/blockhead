@@ -1,6 +1,6 @@
 import type { ParamMatcher } from '@sveltejs/kit'
 
-import { decodeIpfsCid } from '../api/ipfs/contentId'
+import { decodeIpfsCid } from '$/api/ipfs/contentId'
 
 const isIpfsContentId: ParamMatcher = (param) => {
 	try {

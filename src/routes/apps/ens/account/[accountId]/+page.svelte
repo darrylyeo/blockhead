@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { networksByChainID } from '../../../../../data/networks'
+	import { networksByChainID } from '$/data/networks'
 
 
 	import { page } from '$app/stores'
@@ -7,8 +7,8 @@
 	$: accountId = $page.params.accountId
 
 
-	import AccountIdResolver from '../../../../../components/AccountIdResolver.svelte'
-	import EnsSearchLoader from '../../../../../components/EnsSearchLoader.svelte'
+	import AccountIdResolver from '$/components/AccountIdResolver.svelte'
+	import EnsSearchLoader from '$/components/EnsSearchLoader.svelte'
 </script>
 
 

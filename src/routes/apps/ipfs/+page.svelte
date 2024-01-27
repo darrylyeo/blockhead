@@ -4,7 +4,7 @@
 
 
 	// Components
-	import IpfsLocalNode from '../../../components/IpfsLocalNode.svelte'
+	import IpfsLocalNode from '$/components/IpfsLocalNode.svelte'
 </script>
 
 

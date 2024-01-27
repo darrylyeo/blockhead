@@ -2,7 +2,7 @@ import type { LayoutLoad } from './$types'
 import { redirect } from '@sveltejs/kit'
 import { resolveRoute } from '$app/paths'
 
-import { networkRedirectsBySlug } from '../../../data/networks'
+import { networkRedirectsBySlug } from '$/data/networks'
 
 export const load: LayoutLoad = ({ route, params }) => {
 	const newParams = {

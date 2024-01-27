@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
-	import type { Ethereum } from '../data/networks/types'
-	import { type LensName, LensInstance, getProfileByLensName, type LensProfile } from '../api/lens'
+	import type { Ethereum } from '$/data/networks/types'
+	import { type LensName, LensInstance, getProfileByLensName, type LensProfile } from '$/api/lens'
 
 
 	// External state
@@ -16,12 +16,12 @@
 
 	// Actions
 	import { createQuery } from '@tanstack/svelte-query'
-	import { getProfilesOwnedByAddress } from '../api/lens'
+	import { getProfilesOwnedByAddress } from '$/api/lens'
 
 
 	// Components
 	import Loader from './Loader.svelte'
-	import { LensIcon } from '../assets/icons'
+	import { LensIcon } from '$/assets/icons'
 </script>
 
 

@@ -1,6 +1,6 @@
-import type { Ethereum } from '../data/networks/types'
+import type { Ethereum } from '$/data/networks/types'
 import { formatUnits } from 'viem'
-import type { QuoteCurrency, TickerSymbol } from '../data/currencies'
+import type { QuoteCurrency, TickerSymbol } from '$/data/currencies'
 
 
 type AssetPair = string

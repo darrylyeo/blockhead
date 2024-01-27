@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/networks/types'
+	import type { Ethereum } from '$/data/networks/types'
 
 
 	export let network: Ethereum.Network

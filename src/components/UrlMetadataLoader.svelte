@@ -1,11 +1,11 @@
 <script lang="ts">
 	// Constants/types
-	import { UrlMetadataProvider, urlMetadataProviderIcons } from '../data/urlMetadataProvider'
-	import type { UrlMetadata } from '../api/mod'
+	import { UrlMetadataProvider, urlMetadataProviderIcons } from '$/data/urlMetadataProvider'
+	import type { UrlMetadata } from '$/api/mod'
 
 
 	// Context
-	import { preferences } from '../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 
 	// Inputs
@@ -31,7 +31,7 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
-	import { getMetadataForUrls } from '../api/mod'
+	import { getMetadataForUrls } from '$/api/mod'
 
 
 	// Components

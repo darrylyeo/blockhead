@@ -1,4 +1,4 @@
-// import type { Branded, BrandedString } from '../../utils/branded'
+// import type { Branded, BrandedString } from '$/utils/branded'
 import type { Provider as EthersProvider, Block as EthersBlock } from 'ethers'
 import type { QuoteCurrency, TickerSymbol } from '../currencies'
 import type { Abi as _Abi, AbiType, ExtractAbiFunctionNames, ExtractAbiFunction, ExtractAbiFunctions, AbiStateMutability, AbiParametersToPrimitiveTypes, AbiParameterToPrimitiveType } from 'abitype'

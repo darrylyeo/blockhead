@@ -6,7 +6,7 @@
 	export let isPlaying = false
 
 
-	import { getTrackStreamURL } from '../api/audius'
+	import { getTrackStreamURL } from '$/api/audius'
 
 	let src
 	$: if(trackId)

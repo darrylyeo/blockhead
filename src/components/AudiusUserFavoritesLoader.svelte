@@ -2,14 +2,14 @@
 	export let userId: string
 
 
-	import type { Audius } from '../api/audius'
-	import { getUserFavorites } from '../api/audius'
+	import type { Audius } from '$/api/audius'
+	import { getUserFavorites } from '$/api/audius'
 
 
 	import AudiusTrackLoader from './AudiusTrackLoader.svelte'
 	import AudiusPlaylistLoader from './AudiusPlaylistLoader.svelte'
 	import Loader from './Loader.svelte'
-	import { AudiusIcon } from '../assets/icons'
+	import { AudiusIcon } from '$/assets/icons'
 </script>
 
 

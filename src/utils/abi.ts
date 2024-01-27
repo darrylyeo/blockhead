@@ -1,4 +1,4 @@
-import type { Ethereum } from '../data/networks/types'
+import type { Ethereum } from '$/data/networks/types'
 
 export const isFunction = <Abi extends Ethereum.Abi>(part: Ethereum.AbiPart<Abi>): part is Ethereum.AbiMethod<Abi> =>
 	part.type === 'function'

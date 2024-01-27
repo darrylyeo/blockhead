@@ -1,6 +1,6 @@
-import type { Ethereum } from '../data/networks/types'
+import type { Ethereum } from '$/data/networks/types'
 
-import { env } from '../env'
+import { env } from '$/env'
 
 import { Tenderly, type TenderlyConfiguration } from '@tenderly/sdk'
 import { encodeFunctionData } from 'viem'

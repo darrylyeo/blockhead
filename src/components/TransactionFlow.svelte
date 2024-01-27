@@ -15,13 +15,13 @@
 
 <script lang="ts">
 	// Constants/types
-	import type { Ethereum } from '../data/networks/types'
-	import type { NetworkProvider } from '../data/networkProviders/types'
-	import { networkProviderConfigByProvider } from '../data/networkProviders'
-	import type { AccountConnection } from '../state/account'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { NetworkProvider } from '$/data/networkProviders/types'
+	import { networkProviderConfigByProvider } from '$/data/networkProviders'
+	import type { AccountConnection } from '$/state/account'
 	import type { PublicClient } from 'viem'
 
-	import { walletsByType } from '../data/wallets'
+	import { walletsByType } from '$/data/wallets'
 
 	type Abi = $$Generic<Ethereum.Abi>
 	type AbiMethod = Ethereum.AbiMethod<Abi>
@@ -29,7 +29,7 @@
 
 
 	// Functions
-	import { isReadable, isReadableWithoutInputs, isWritable } from '../utils/abi'
+	import { isReadable, isReadableWithoutInputs, isWritable } from '$/utils/abi'
 	
 
 	// External state
@@ -106,17 +106,17 @@
 
 	// Methods
 	import { createQuery } from '@tanstack/svelte-query'
-	import { simulateTransaction } from '../api/tenderly'
+	import { simulateTransaction } from '$/api/tenderly'
 	
 
 	// Formatting
-	import { formatAddress } from '../utils/formatAddress'
+	import { formatAddress } from '$/utils/formatAddress'
 
 
 	// Components
 	import EthereumSimulatedTransactionTenderly from './EthereumSimulatedTransactionTenderly.svelte'
 	import Loader from './Loader.svelte'
-	import { TenderlyIcon } from '../assets/icons'
+	import { TenderlyIcon } from '$/assets/icons'
 
 
 	// Styles/animation

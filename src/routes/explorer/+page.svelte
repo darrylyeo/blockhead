@@ -3,20 +3,20 @@
 	import { MetaTags } from 'svelte-meta-tags'
 
 
-	import { networksBySection, getNetworkColor, testnetsForMainnets, isTestnet } from '../../data/networks'
+	import { networksBySection, getNetworkColor, testnetsForMainnets, isTestnet } from '$/data/networks'
 
 
 	import { showTestnets } from './_explorerContext'
 
 
-	import { isTruthy } from '../../utils/isTruthy'
+	import { isTruthy } from '$/utils/isTruthy'
 
 
-	import NetworkIcon from '../../components/NetworkIcon.svelte'
-	import SizeContainer from '../../components/SizeContainer.svelte'
+	import NetworkIcon from '$/components/NetworkIcon.svelte'
+	import SizeContainer from '$/components/SizeContainer.svelte'
 
 
-	import { cardStyle } from '../../utils/card-background'
+	import { cardStyle } from '$/utils/card-background'
 	import { fly, scale } from 'svelte/transition'
 </script>
 

@@ -1,9 +1,9 @@
 <script lang="ts">
 	// Constants/types
-	import type { DidUrl } from '../api/ceramic/did'
-	import type { JsonSchema } from '../data/jsonSchema'
-	import type { Disco } from '../api/disco'
-	import { formatIdentifierToWords } from '../utils/formatIdentifierToWords'
+	import type { DidUrl } from '$/api/ceramic/did'
+	import type { JsonSchema } from '$/data/jsonSchema'
+	import type { Disco } from '$/api/disco'
+	import { formatIdentifierToWords } from '$/utils/formatIdentifierToWords'
 	
 
 	// Inputs

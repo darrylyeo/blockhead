@@ -1,5 +1,5 @@
 import type { TransactionReceipt } from 'viem'
-import type { Ethereum } from '../../data/networks/types'
+import type { Ethereum } from '$/data/networks/types'
 
 export const normalizeBlock = (
 	block: Awaited<ReturnType<Ethereum.PublicClient['getBlock']>>,

@@ -1,16 +1,16 @@
 // Types
-import type { Ethereum } from '../../../data/networks/types'
-import type { Web3AppConfig } from '../../../data/web3Apps'
-import type { AppWithDefiPositions } from '../../../data/defiPositions'
+import type { Ethereum } from '$/data/networks/types'
+import type { Web3AppConfig } from '$/data/web3Apps'
+import type { AppWithDefiPositions } from '$/data/defiPositions'
 import type { DefiSDK } from './index'
 
 
 // Constants
-import { web3AppsByProviderName } from '../../../data/web3Apps'
+import { web3AppsByProviderName } from '$/data/web3Apps'
 
 
 // Functions
-import { isTruthy } from '../../../utils/isTruthy'
+import { isTruthy } from '$/utils/isTruthy'
 
 export const normalizeDefiPositions = (
 	defiBalances: DefiSDK.ProtocolBalances

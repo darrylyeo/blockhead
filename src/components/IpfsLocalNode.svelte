@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Types
-	import { type IpfsGatewayConfig, IpfsGatewayProvider } from '../data/ipfsGateways'
+	import { type IpfsGatewayConfig, IpfsGatewayProvider } from '$/data/ipfsGateways'
 
 
 	// External state
@@ -34,9 +34,9 @@
 	import IpfsContentIdDetails from './IpfsContentIdDetails.svelte'
 	import IpfsLocalContentEncoder from './IpfsLocalContentEncoder.svelte'
 	import SizeContainer from './SizeContainer.svelte'
-	import { HeliaIcon } from '../assets/icons'
+	import { HeliaIcon } from '$/assets/icons'
 	import { fade } from 'svelte/transition'
-	// import { cardStyle } from '../utils/card-background'
+	// import { cardStyle } from '$/utils/card-background'
 </script>
 
 

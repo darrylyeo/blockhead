@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/networks/types'
-	import { networksByChainID } from '../data/networks'
-	import type { NotificationsProvider } from '../data/notificationsProvider';
-	import { type NotificationRawPayload, pushChainIdForBlockchainName } from '../api/push'
+	import type { Ethereum } from '$/data/networks/types'
+	import { networksByChainID } from '$/data/networks'
+	import type { NotificationsProvider } from '$/data/notificationsProvider';
+	import { type NotificationRawPayload, pushChainIdForBlockchainName } from '$/api/push'
 
 
 	export let network: Ethereum.Network

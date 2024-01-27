@@ -1,12 +1,12 @@
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../data/networks/types'
-	import { NetworkProvider } from '../data/networkProviders/types'
-	import { getViemPublicClient, networkProviderConfigByProvider } from '../data/networkProviders'
+	import type { Ethereum } from '$/data/networks/types'
+	import { NetworkProvider } from '$/data/networkProviders/types'
+	import { getViemPublicClient, networkProviderConfigByProvider } from '$/data/networkProviders'
 
 
 	// Context
-	import { preferences } from '../state/preferences'
+	import { preferences } from '$/state/preferences'
 	
 	
 	// Inputs

@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
-	import type { FarcasterChannel } from '../api/farcaster/index'
-	import { FarcasterProvider, farcasterProviderIcons } from '../data/farcasterProviders'
+	import type { FarcasterChannel } from '$/api/farcaster/index'
+	import { FarcasterProvider, farcasterProviderIcons } from '$/data/farcasterProviders'
 
 
 	// Inputs
@@ -23,7 +23,7 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
-	import { normalizeChannel as normalizeChannelNeynar } from '../api/neynar/normalize'
+	import { normalizeChannel as normalizeChannelNeynar } from '$/api/neynar/normalize'
 
 
 	// Components

@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../data/networks/types'
-	import { blockHeightForNetwork } from '../state/blockHeights'
+	import type { Ethereum } from '$/data/networks/types'
+	import { blockHeightForNetwork } from '$/state/blockHeights'
 
 
 	// Inputs

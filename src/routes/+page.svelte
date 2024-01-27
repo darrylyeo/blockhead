@@ -1,9 +1,9 @@
 <script>
-	import { triggerEvent } from '../events/triggerEvent'
+	import { triggerEvent } from '$/events/triggerEvent'
 
 
 	import { MetaTags } from 'svelte-meta-tags'
-	import Preferences from '../components/Preferences.svelte'
+	import Preferences from '$/components/Preferences.svelte'
 	import ContactForm from './ContactForm.svelte'
 
 

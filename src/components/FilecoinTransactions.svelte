@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Types/constants
-	import type { Filecoin } from '../data/filecoin'
+	import type { Filecoin } from '$/data/filecoin'
 
 	
 	// Inputs

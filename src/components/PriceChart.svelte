@@ -3,7 +3,7 @@
 </script>
 
 <script lang="ts">
-	import type { QuoteCurrency, TickerSymbol } from '../data/currencies'
+	import type { QuoteCurrency, TickerSymbol } from '$/data/currencies'
 	
 	type TimePrice = {
 		time: number,
@@ -22,7 +22,7 @@
 	export let priceScale: PriceScale = 'logarithmic' // isMultiple ? 'logarithmic' : 'linear'
 
 
-	import { formatValue } from '../utils/formatValue'
+	import { formatValue } from '$/utils/formatValue'
 
 	function formatTimestamp(timestamp){
 		return new Date(timestamp).toLocaleDateString()
@@ -31,7 +31,7 @@
 
 	import Echart from './Echart.svelte'
 
-	import { tokenColors } from '../data/tokenColors'
+	import { tokenColors } from '$/data/tokenColors'
 </script>
 
 <Echart options={{

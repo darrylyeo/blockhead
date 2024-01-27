@@ -1,12 +1,12 @@
 // Types
-import type { Web3AppSlug } from '../../data/web3Apps'
-import type { Ethereum } from '../../data/networks/types'
-import type { AccountId } from '../../data/accountId'
+import type { Web3AppSlug } from '$/data/web3Apps'
+import type { Ethereum } from '$/data/networks/types'
+import type { AccountId } from '$/data/accountId'
 
-import type { DidUrl } from '../../api/ceramic/did'
-import type { FarcasterCastId, FarcasterCastShortId, FarcasterChannelSlug, FarcasterUserId, FarcasterUserName } from '../../api/farcaster'
-import type { IpfsCid } from '../../api/ipfs/contentId'
-import type { IpnsName } from '../../api/ipfs/ipns'
+import type { DidUrl } from '$/api/ceramic/did'
+import type { FarcasterCastId, FarcasterCastShortId, FarcasterChannelSlug, FarcasterUserId, FarcasterUserName } from '$/api/farcaster'
+import type { IpfsCid } from '$/api/ipfs/contentId'
+import type { IpnsName } from '$/api/ipfs/ipns'
 
 export type AppsParams = {
 	web3AppSlug: Web3AppSlug | '',

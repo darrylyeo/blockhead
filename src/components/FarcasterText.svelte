@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Types/constants
-	import type { FarcasterProvider } from '../data/farcasterProviders'
-	import type { FarcasterCast as _FarcasterCast } from '../api/farcaster'
+	import type { FarcasterProvider } from '$/data/farcasterProviders'
+	import type { FarcasterCast as _FarcasterCast } from '$/api/farcaster'
 
 	// Inputs
 	export let text: string
@@ -10,7 +10,7 @@
 
 
 	// Functions
-	import { parseUrl } from '../utils/parseUrl'
+	import { parseUrl } from '$/utils/parseUrl'
 	import { resolveRoute } from '$app/paths'
 
 	const formatUrls = (text: string) => (

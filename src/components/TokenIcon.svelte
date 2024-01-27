@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/networks/types'
-	import type { TickerSymbol } from '../data/currencies'
-	import { erc20TokensByContractAddress, erc20TokensBySymbol } from '../data/tokens'
-	import { networksByChainID } from '../data/networks'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { TickerSymbol } from '$/data/currencies'
+	import { erc20TokensByContractAddress, erc20TokensBySymbol } from '$/data/tokens'
+	import { networksByChainID } from '$/data/networks'
 
 
 	export let network: Ethereum.Network
@@ -20,7 +20,7 @@
 
 
 	import Icon from './Icon.svelte'
-	import { tokenIcons } from '../assets/tokenIcons'
+	import { tokenIcons } from '$/assets/tokenIcons'
 </script>
 
 

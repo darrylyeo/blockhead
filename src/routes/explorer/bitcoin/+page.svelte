@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { networksByChainID } from '../../../data/networks'
+	import { networksByChainID } from '$/data/networks'
 
 
-	import { preferences } from '../../../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 
 	const token = 'BTC'
 
 
-	import CurrentPrice from '../../../components/CurrentPrice.svelte'
-	import HistoricalPriceChart from '../../../components/HistoricalPriceChart.svelte'
+	import CurrentPrice from '$/components/CurrentPrice.svelte'
+	import HistoricalPriceChart from '$/components/HistoricalPriceChart.svelte'
 </script>
 
 <style>

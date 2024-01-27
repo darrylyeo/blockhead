@@ -1,11 +1,11 @@
 <script lang="ts">
 	// Constants/types
-	import type { Ethereum } from '../data/networks/types'
+	import type { Ethereum } from '$/data/networks/types'
 	import {
 		preferencesConfig, type Preference, type PreferenceId, type PreferenceSection, type PreferenceOption,
 		preferences, resetPreferences,
-	} from '../state/preferences'
-	import { triggerEvent } from '../events/triggerEvent'
+	} from '$/state/preferences'
+	import { triggerEvent } from '$/events/triggerEvent'
 
 
 	// Inputs

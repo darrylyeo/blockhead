@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte'
-	import type { Vega } from '../api/vega'
+	import type { Vega } from '$/api/vega'
 
 	let assets: Record<Vega.AssetID, Vega.Asset> = {}
 	let markets: Record<Vega.MarketID, Vega.Market> = {}
 	let transactionsStream
 	onMount(async () => {
-		const { getVegaAssets, getVegaMarkets, recentTransactionsStream } = await import('../api/vega')
+		const { getVegaAssets, getVegaMarkets, recentTransactionsStream } = await import('$/api/vega')
 		transactionsStream = recentTransactionsStream(marketId, tx => Math.random() < samplePercentage / 100)
 		assets = await getVegaAssets()
 		markets = await getVegaMarkets()

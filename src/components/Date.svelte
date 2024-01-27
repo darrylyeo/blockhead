@@ -24,7 +24,7 @@
 	})()
 
 
-	import { formatRelativeTime } from '../utils/formatRelativeTime'
+	import { formatRelativeTime } from '$/utils/formatRelativeTime'
 
 	$: relativeTime = formatRelativeTime(dateObject)
 </script>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Constants/types
-	import { type LensProfile, LensInstance } from '../../../../../api/lens'
+	import { type LensProfile, LensInstance } from '$/api/lens'
 
 
 	// Params
@@ -13,8 +13,8 @@
 
 
 	// Components
-	import LensProfiles from '../../../../../components/LensProfiles.svelte'
-	import AccountIdResolver from '../../../../../components/AccountIdResolver.svelte';
+	import LensProfiles from '$/components/LensProfiles.svelte'
+	import AccountIdResolver from '$/components/AccountIdResolver.svelte';
 </script>
 
 

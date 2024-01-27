@@ -1,8 +1,8 @@
 <script lang="ts">
 	// Constants/types
-	import type { Ethereum } from '../data/networks/types'
-	import { Filecoin } from '../data/filecoin'
-	import { networksBySlug } from '../data/networks'
+	import type { Ethereum } from '$/data/networks/types'
+	import { Filecoin } from '$/data/filecoin'
+	import { networksBySlug } from '$/data/networks'
 
 
 	// Inputs

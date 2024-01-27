@@ -1,9 +1,9 @@
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../data/networks/types'
-	import type { TickerSymbol } from '../data/currencies'
-	import { TransactionProvider, transactionProviderIcons } from '../data/transactionProvider'
-	import { preferences } from '../state/preferences'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { TickerSymbol } from '$/data/currencies'
+	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProvider'
+	import { preferences } from '$/state/preferences'
 
 
 	// Inputs
@@ -27,21 +27,21 @@
 	// Functions
 	import { createQuery, createInfiniteQuery } from '@tanstack/svelte-query'
 
-	import { getTransactionsByAccount as getTransactionsByAccountChainbase } from '../api/chainbase'
-	import { normalizeTransaction as normalizeTransactionChainbase } from '../api/chainbase/normalize'
+	import { getTransactionsByAccount as getTransactionsByAccountChainbase } from '$/api/chainbase'
+	import { normalizeTransaction as normalizeTransactionChainbase } from '$/api/chainbase/normalize'
 
-	import { getPaginatedTransactionsForAddress } from '../api/covalent/index'
-	import { normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent/normalize'
+	import { getPaginatedTransactionsForAddress } from '$/api/covalent/index'
+	import { normalizeTransaction as normalizeTransactionCovalent } from '$/api/covalent/normalize'
 
-	import { normalizeTransaction as normalizeTransactionDecommas } from '../api/decommas/normalize'
+	import { normalizeTransaction as normalizeTransactionDecommas } from '$/api/decommas/normalize'
 
-	import { Etherscan } from '../api/etherscan/index'
-	import { normalizeTransaction as normalizeTransactionEtherscan } from '../api/etherscan/normalize'
+	import { Etherscan } from '$/api/etherscan/index'
+	import { normalizeTransaction as normalizeTransactionEtherscan } from '$/api/etherscan/normalize'
 
-	// import { getTransactions as getTransactionsEtherspot } from '../api/etherspot'
+	// import { getTransactions as getTransactionsEtherspot } from '$/api/etherspot'
 
-	import { chainCodeFromNetwork, MoralisWeb3Api } from '../api/moralis/web3Api/index'
-	import { normalizeTransaction as normalizeTransactionMoralis } from '../api/moralis/web3Api/normalize'
+	import { chainCodeFromNetwork, MoralisWeb3Api } from '$/api/moralis/web3Api/index'
+	import { normalizeTransaction as normalizeTransactionMoralis } from '$/api/moralis/web3Api/normalize'
 
 
 	// Outputs
@@ -134,7 +134,7 @@
 				}],
 				initialPageParam: 0,
 				queryFn: async ({ pageParam: offset }) => {
-					const { decommas, chainNameByChainId } = await import('../api/decommas')
+					const { decommas, chainNameByChainId } = await import('$/api/decommas')
 
 					const chainName = chainNameByChainId[network.chainId]
 

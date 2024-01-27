@@ -1,6 +1,6 @@
-import type { Ethereum } from '../data/networks/types'
-import type { State as PortfolioState } from '../components/Portfolio.svelte'
-import type { WalletType } from '../data/wallets'
+import type { Ethereum } from '$/data/networks/types'
+import type { State as PortfolioState } from '$/components/Portfolio.svelte'
+import type { WalletType } from '$/data/wallets'
 
 export type Events = {
 	'Home/LogoMousedown': {},

@@ -13,8 +13,8 @@
 
 
 	// Components
-	import IpfsContentIdDetails from '../../../components/IpfsContentIdDetails.svelte'
-	import IpfsContentDetails from '../../../components/IpfsContentDetails.svelte'
+	import IpfsContentIdDetails from '$/components/IpfsContentIdDetails.svelte'
+	import IpfsContentDetails from '$/components/IpfsContentDetails.svelte'
 
 
 	// Transitions

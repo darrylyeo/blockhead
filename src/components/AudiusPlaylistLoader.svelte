@@ -2,14 +2,14 @@
 	export let playlistId: string
 	
 	
-	import { getPlaylist } from '../api/audius'
+	import { getPlaylist } from '$/api/audius'
 	
 	
 	import AudiusPlaylist from './AudiusPlaylist.svelte'
 	import Loader from './Loader.svelte'
 
 
-	import { AudiusIcon } from '../assets/icons'
+	import { AudiusIcon } from '$/assets/icons'
 </script>
 
 

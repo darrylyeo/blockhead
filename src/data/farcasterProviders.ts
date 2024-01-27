@@ -4,7 +4,7 @@ export enum FarcasterProvider {
 }
 
 
-import { FarcasterIcon, NeynarIcon } from '../assets/icons'
+import { FarcasterIcon, NeynarIcon } from '$/assets/icons'
 
 export const farcasterProviderIcons: Record<FarcasterProvider, string> = {
 	[FarcasterProvider.Hub]: FarcasterIcon,

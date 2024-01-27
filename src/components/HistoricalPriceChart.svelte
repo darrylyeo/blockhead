@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/networks/types'
-	import type { QuoteCurrency, TickerSymbol } from '../data/currencies'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { QuoteCurrency, TickerSymbol } from '$/data/currencies'
 
 	export let historicalPriceProvider = 'Covalent'
 	export let currencies: (TickerSymbol | Ethereum.ContractAddress)[]

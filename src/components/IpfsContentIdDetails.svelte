@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
-	import type { IpfsGatewayConfig } from '../data/ipfsGateways'
-	import type { IpfsCid } from '../api/ipfs/contentId'
+	import type { IpfsGatewayConfig } from '$/data/ipfsGateways'
+	import type { IpfsCid } from '$/api/ipfs/contentId'
 
 
 	// External state
@@ -15,7 +15,7 @@
 
 
 	// Functions
-	import { decodeIpfsCid, getAllIpfsCidEncodings, checkIpfsCidIsValidSubdomain } from '../api/ipfs/contentId'
+	import { decodeIpfsCid, getAllIpfsCidEncodings, checkIpfsCidIsValidSubdomain } from '$/api/ipfs/contentId'
 	import { toString as uint8ArrayToString } from 'uint8arrays/to-string'
 
 	/**
@@ -42,7 +42,7 @@
 	import IpfsContentId from './IpfsContentId.svelte'
 	import Loader from './Loader.svelte'
 	import SizeContainer from './SizeContainer.svelte'
-	import { IpfsIcon } from '../assets/icons'
+	import { IpfsIcon } from '$/assets/icons'
 
 
 	// Transitions

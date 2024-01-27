@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Types/constants
-	import type { NetworkAccountAddress } from '../data/address'
-	import type { Ethereum } from '../data/networks/types'
+	import type { NetworkAccountAddress } from '$/data/address'
+	import type { Ethereum } from '$/data/networks/types'
 
 
 	// Inputs
@@ -13,7 +13,7 @@
 
 
 	// Functions
-	import { formatAddress } from '../utils/formatAddress'
+	import { formatAddress } from '$/utils/formatAddress'
 	import { resolveRoute } from '$app/paths'
 
 

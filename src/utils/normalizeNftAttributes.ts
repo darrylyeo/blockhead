@@ -1,4 +1,4 @@
-import type { Ethereum } from '../data/networks/types'
+import type { Ethereum } from '$/data/networks/types'
 
 export const normalizeNftAttributes = (
 	attributes: Record<string, string> | {

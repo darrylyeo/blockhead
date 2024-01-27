@@ -1,4 +1,4 @@
-import { filecoinAddressPattern } from '../utils/isFilecoinAddress'
+import { filecoinAddressPattern } from '$/utils/isFilecoinAddress'
 
 
 export enum InputPattern {

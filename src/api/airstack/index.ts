@@ -1,6 +1,6 @@
 import { Client, cacheExchange, fetchExchange } from '@urql/svelte'
 
-import { env } from '../../env'
+import { env } from '$/env'
 
 
 let client: Client
@@ -21,7 +21,7 @@ export const getClient = () => client ||= (
 )
 
 
-import type { Ethereum } from '../../data/networks/types'
+import type { Ethereum } from '$/data/networks/types'
 
 export const airstackNetworkNames = {
 	1: 'ethereum',

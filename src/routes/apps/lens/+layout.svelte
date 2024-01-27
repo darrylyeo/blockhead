@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
-	import type { AccountConnection } from '../../../state/account'
-	import type { Ethereum } from '../../../data/networks/types'
+	import type { AccountConnection } from '$/state/account'
+	import type { Ethereum } from '$/data/networks/types'
 
 
 	// Params
@@ -24,14 +24,14 @@
 
 
 	// Components
-	import AddressField from '../../../components/AddressField.svelte'
-	import ConnectedAccountSelect from '../../../components/ConnectedAccountSelect.svelte'
-	import LensAuthenticationLoader from '../../../components/LensAuthenticationLoader.svelte'
+	import AddressField from '$/components/AddressField.svelte'
+	import ConnectedAccountSelect from '$/components/ConnectedAccountSelect.svelte'
+	import LensAuthenticationLoader from '$/components/LensAuthenticationLoader.svelte'
 
 
 	// Transitions
 	import { fly } from 'svelte/transition'
-	import { cardStyle } from '../../../utils/card-background'
+	import { cardStyle } from '$/utils/card-background'
 </script>
 
 

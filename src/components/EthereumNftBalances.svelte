@@ -1,13 +1,13 @@
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../data/networks/types'
-	import type { QuoteCurrency } from '../data/currencies'
-	import type { NftProvider } from '../data/nftProviders'
-	import { ipfsGatewaysByProvider } from '../data/ipfsGateways'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { QuoteCurrency } from '$/data/currencies'
+	import type { NftProvider } from '$/data/nftProviders'
+	import { ipfsGatewaysByProvider } from '$/data/ipfsGateways'
 
 
 	// Context
-	import { preferences } from '../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 
 	// Inputs
@@ -39,7 +39,7 @@
 
 
 	// Functions
-	import { resolveUri } from '../utils/resolveUri'
+	import { resolveUri } from '$/utils/resolveUri'
 
 	const findClosestAspectRatio = (n, minInteger = 1, maxInteger = 30, target = 24) => {
 		let numerator = minInteger

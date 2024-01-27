@@ -1,5 +1,5 @@
 /*
-import type { Ethereum } from '../../data/networks/types'
+import type { Ethereum } from '$/data/networks/types'
 
 const endpointForNetwork: Record<Ethereum.ChainID, string> = {
 	1: 'eth/mainnet',
@@ -17,7 +17,7 @@ const endpointForNetwork: Record<Ethereum.ChainID, string> = {
 } as const
 
 
-import { env } from '../../env'
+import { env } from '$/env'
 
 export const getMoralisJSONRPCEndpoint = ({
 	network,

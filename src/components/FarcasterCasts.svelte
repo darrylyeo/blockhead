@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Types
-	import type { FarcasterCast as _FarcasterCast } from '../api/farcaster'
-	import type { FarcasterProvider } from '../data/farcasterProviders'
+	import type { FarcasterCast as _FarcasterCast } from '$/api/farcaster'
+	import type { FarcasterProvider } from '$/data/farcasterProviders'
 	
 
 	// Inputs

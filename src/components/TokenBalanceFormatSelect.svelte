@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { QuoteCurrency } from '../data/currencies'
+	import type { QuoteCurrency } from '$/data/currencies'
 
 
-	import { fiatQuoteCurrencies } from '../data/currencies'
+	import { fiatQuoteCurrencies } from '$/data/currencies'
 
 
 	export let type: 'select' | 'checkboxes' = 'select'

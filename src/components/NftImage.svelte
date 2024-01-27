@@ -1,11 +1,11 @@
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../data/networks/types'
-	import { ipfsGatewaysByProvider } from '../data/ipfsGateways'
+	import type { Ethereum } from '$/data/networks/types'
+	import { ipfsGatewaysByProvider } from '$/data/ipfsGateways'
 
 
 	// Context
-	import { preferences } from '../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 
 	// Computed
@@ -15,7 +15,7 @@
 
 
 	// Functions
-	import { resolveUri } from '../utils/resolveUri'
+	import { resolveUri } from '$/utils/resolveUri'
 
 	const formatTokenId = (tokenId: Ethereum.Nft['tokenId']) =>
 		String(tokenId).length > 12

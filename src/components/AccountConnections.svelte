@@ -8,11 +8,11 @@
 
 <script lang="ts">
 	// External state
-	import { accountConnections, createAccountConnection } from '../state/account'
+	import { accountConnections, createAccountConnection } from '$/state/account'
 
 
 	// Constants
-	import { wallets, type WalletType } from '../data/wallets'
+	import { wallets, type WalletType } from '$/data/wallets'
 
 
 	// Internal state
@@ -29,7 +29,7 @@
 
 	// Actions
 
-	import { triggerEvent } from '../events/triggerEvent'
+	import { triggerEvent } from '$/events/triggerEvent'
 
 	const addAccountConnection = (walletType: WalletType) => {
 		$accountConnections = [createAccountConnection({ walletType }), ...$accountConnections]

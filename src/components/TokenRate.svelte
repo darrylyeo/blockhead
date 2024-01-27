@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { TickerSymbol } from '../data/currencies'
+	import type { TickerSymbol } from '$/data/currencies'
 
 	export let rate = 0.0
 	export let quoteToken: TickerSymbol
@@ -14,7 +14,7 @@
 		typeof value === 'string' ? value :
 		value.toString()
 
-	import { tokenColors } from '../data/tokenColors'
+	import { tokenColors } from '$/data/tokenColors'
 	import TokenIcon from './TokenIcon.svelte'
 </script>
 

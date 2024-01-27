@@ -1,14 +1,14 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/networks/types'
-	import { availableNetworks, getNetworkRPC } from '../data/networks'
-	import { type PortfolioAccount, getLocalPortfolios, connectedProviderAccounts } from '../state/portfolio-accounts'
-	import { usdStablecoinTokens } from '../data/tokens'
+	import type { Ethereum } from '$/data/networks/types'
+	import { availableNetworks, getNetworkRPC } from '$/data/networks'
+	import { type PortfolioAccount, getLocalPortfolios, connectedProviderAccounts } from '$/state/portfolio-accounts'
+	import { usdStablecoinTokens } from '$/data/tokens'
 
 
-	import { getViemPublicClient } from '../data/networkProviders'
-	import { preferences } from '../state/preferences'
+	import { getViemPublicClient } from '$/data/networkProviders'
+	import { preferences } from '$/state/preferences'
 
-	import { Connext } from '../api/connext/swaps'
+	import { Connext } from '$/api/connext/swaps'
 	
 	
 	export let transferSolution: 'Connext' | 'Etherspot' | '1inch' = 'Etherspot'
@@ -44,8 +44,8 @@
 	let toTokenSelect: HTMLElement
 
 
-	// import { startConnextTransfer } from '../api/connext'
-	// import { startEtherspotTransfer } from '../api/etherspot'
+	// import { startConnextTransfer } from '$/api/connext'
+	// import { startEtherspotTransfer } from '$/api/etherspot'
 
 	async function onSubmit({
 		fromNetwork,

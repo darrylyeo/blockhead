@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { Vega } from '../api/vega'
-	import { makerAction, takerAction } from '../api/vega'
+	import type { Vega } from '$/api/vega'
+	import { makerAction, takerAction } from '$/api/vega'
 
 	export let tx: Vega.Transaction
 

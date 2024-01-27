@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Types/constants
-	import type { FarcasterProvider } from '../data/farcasterProviders'
+	import type { FarcasterProvider } from '$/data/farcasterProviders'
 	
 	
 	// Inputs
@@ -9,7 +9,7 @@
 
 
 	// Functions
-	import { getChannelFromUrl } from '../api/farcaster'
+	import { getChannelFromUrl } from '$/api/farcaster'
 
 
 	// Components

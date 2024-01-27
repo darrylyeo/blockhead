@@ -1,10 +1,10 @@
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../data/networks/types'
-	import type { NetworkAccountAddress } from '../data/address'
-	import { NetworkProvider } from '../data/networkProviders/types'
-	import { getViemPublicClient } from '../data/networkProviders'
-	import { networksByChainID } from '../data/networks'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { NetworkAccountAddress } from '$/data/address'
+	import { NetworkProvider } from '$/data/networkProviders/types'
+	import { getViemPublicClient } from '$/data/networkProviders'
+	import { networksByChainID } from '$/data/networks'
 
 	type ContentHash = $$Generic<string>
 	type TextRecordKey = $$Generic<string>
@@ -12,7 +12,7 @@
 
 
 	// Context
-	import { preferences } from '../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 
 	// Inputs
@@ -69,13 +69,13 @@
 
 	// Functions
 	import { parseAbi } from 'abitype'
-	import { parallelLoaderStore } from '../utils/parallelLoaderStore'
+	import { parallelLoaderStore } from '$/utils/parallelLoaderStore'
 	import { createQuery } from '@tanstack/svelte-query'
 
 
 	// Components
 	import Loader from './Loader.svelte'
-	import { ENSIcon } from '../assets/icons'
+	import { ENSIcon } from '$/assets/icons'
 </script>
 
 

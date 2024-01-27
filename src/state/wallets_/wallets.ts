@@ -5,7 +5,7 @@ import { providers } from 'ethers'
 import { getMetaMask } from './metamask'
 import { getTorusOpenLogin } from './torus'
 import { getPortis } from './portis'
-import { memoized } from '../../../utils/memoized'
+import { memoized } from '$/utils/memoized'
 
 
 export const getWalletProviderAndInstance = memoized(async (network: Ethereum.Network, walletName: string) => {

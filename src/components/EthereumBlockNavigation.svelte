@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/networks/types'
-	import type { NetworkProvider } from '../data/networkProviders/types'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { NetworkProvider } from '$/data/networkProviders/types'
 
 	export let network: Ethereum.Network
 	export let networkProvider: NetworkProvider
@@ -19,14 +19,14 @@
 
 	let navElement: HTMLElement
 
-	import { networkSlug, blockNumber as blockNumberParam } from '../routes/explorer/_explorerParams'
+	import { networkSlug, blockNumber as blockNumberParam } from '$/routes/explorer/_explorerParams'
 
 
 	import BlockNumber from './BlockNumber.svelte'
 	import EthereumLatestBlockNumber from './EthereumLatestBlockNumber.svelte'
-	import { tokenColors } from '../data/tokenColors'
+	import { tokenColors } from '$/data/tokenColors'
 	import { fade } from 'svelte/transition'
-	import { scaleFont } from '../transitions/scale-font'
+	import { scaleFont } from '$/transitions/scale-font'
 </script>
 
 

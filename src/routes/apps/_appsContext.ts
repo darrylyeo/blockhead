@@ -1,7 +1,7 @@
 // Types/constants
-import { networksBySlug } from '../../data/networks'
-import type { Ethereum } from '../../data/networks/types'
-import { web3AppsBySlug, type Web3AppConfig } from '../../data/web3Apps'
+import { networksBySlug } from '$/data/networks'
+import type { Ethereum } from '$/data/networks/types'
+import { web3AppsBySlug, type Web3AppConfig } from '$/data/web3Apps'
 
 
 // External stores
@@ -13,7 +13,7 @@ import {
 	accountId,
 } from './_appsParams'
 
-import { accountConnections } from '../../state/account'
+import { accountConnections } from '$/state/account'
 
 
 // Derived stores
@@ -101,6 +101,6 @@ export const title = derived([
 
 // Internal stores
 import { writable } from 'svelte/store'
-import { isTruthy } from '../../utils/isTruthy'
+import { isTruthy } from '$/utils/isTruthy'
 
 export const showTestnets = writable(false)

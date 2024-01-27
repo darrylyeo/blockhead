@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getLocalPortfolios, connectedProviderAccounts, Account } from '../data/ethereum/portfolio-accounts'
+	import { getLocalPortfolios, connectedProviderAccounts, Account } from '$/data/ethereum/portfolio-accounts'
 
 	const localPortfolios = getLocalPortfolios()
 

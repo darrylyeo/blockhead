@@ -1,16 +1,16 @@
 // Types
-import type { Ethereum } from '../../data/networks/types'
-import type { AppWithDefiPositions, DefiPosition, MetadataItem } from '../../data/defiPositions'
-import type { TokenWithBalance } from '../../data/tokens'
+import type { Ethereum } from '$/data/networks/types'
+import type { AppWithDefiPositions, DefiPosition, MetadataItem } from '$/data/defiPositions'
+import type { TokenWithBalance } from '$/data/tokens'
 import type { Asset, ZapperAppId, ZapperAppBalance, ZapperAppConfig, getTokenBalances } from './index'
 
 
 // Constants
-import { web3AppsByProviderName } from '../../data/web3Apps'
+import { web3AppsByProviderName } from '$/data/web3Apps'
 
 
 // Functions
-import { formatIdentifierToWords } from '../../utils/formatIdentifierToWords'
+import { formatIdentifierToWords } from '$/utils/formatIdentifierToWords'
 
 export const normalizeDefiPositionMetadata = (asset: Asset): MetadataItem[] => ([
 	...(asset.displayProps?.statsItems ?? [])

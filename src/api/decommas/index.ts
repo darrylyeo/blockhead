@@ -1,7 +1,7 @@
-import type { Ethereum } from '../../data/networks/types'
+import type { Ethereum } from '$/data/networks/types'
 
 import { Decommas, EvmChainName } from '@decommas/sdk'
-import { env } from '../../env'
+import { env } from '$/env'
 
 export const decommas = new Decommas(env.DECOMMAS_API_KEY)
 

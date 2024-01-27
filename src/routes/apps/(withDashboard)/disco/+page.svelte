@@ -1,8 +1,8 @@
 <script lang="ts">
 	// Constants/types
-	import type { Ethereum } from '../../../../data/networks/types'
-	import type { AccountConnection } from '../../../../state/account'
-	import { VerifiableCredentialProvider } from '../../../../data/verifiableCredentialProvider'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { AccountConnection } from '$/state/account'
+	import { VerifiableCredentialProvider } from '$/data/verifiableCredentialProvider'
 
 
 	// Context
@@ -20,9 +20,9 @@
 
 
 	// Components
-	import DiscoProfile from '../../../../components/DiscoProfile.svelte'
-	import DiscoProfileLoader from '../../../../components/DiscoProfileLoader.svelte'
-	import VerifiableCredentialLoader from '../../../../components/VerifiableCredentialLoader.svelte'
+	import DiscoProfile from '$/components/DiscoProfile.svelte'
+	import DiscoProfileLoader from '$/components/DiscoProfileLoader.svelte'
+	import VerifiableCredentialLoader from '$/components/VerifiableCredentialLoader.svelte'
 </script>
 
 

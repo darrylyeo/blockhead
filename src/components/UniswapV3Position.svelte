@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Constants/types
-	import type { Ethereum } from '../data/networks/types'
+	import type { Ethereum } from '$/data/networks/types'
 	import Address from './Address.svelte';
 
 
@@ -10,7 +10,7 @@
 
 
 	// Functions
-	import { UniswapV3 } from '../api/uniswap-v3'
+	import { UniswapV3 } from '$/api/uniswap-v3'
 
 
 	// Components

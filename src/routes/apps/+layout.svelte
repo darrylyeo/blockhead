@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Constants/types
-	import type { Ethereum } from '../../data/networks/types'
+	import type { Ethereum } from '$/data/networks/types'
 
 
 	// Params two-way binding
@@ -73,7 +73,7 @@
 		title,
 	} from './_appsContext'
 
-	import { web3AppsBySection, getWeb3AppSupportedNetworks } from '../../data/web3Apps'
+	import { web3AppsBySection, getWeb3AppSupportedNetworks } from '$/data/web3Apps'
 
 	// (Derived)
 
@@ -98,7 +98,7 @@
 
 	// Side effects
 
-	import { isTestnet } from '../../data/networks'
+	import { isTestnet } from '$/data/networks'
 
 	$: _isTestnet = $network && isTestnet($network)
 
@@ -115,16 +115,16 @@
 
 	// Components
 	import { MetaTags } from 'svelte-meta-tags'
-	import NetworkSelect from '../../components/NetworkSelect.svelte'
-	import Preferences from '../../components/Preferences.svelte'
-	import TokenIcon from '../../components/TokenIcon.svelte'
-	import InlineContainer from '../../components/InlineContainer.svelte'
+	import NetworkSelect from '$/components/NetworkSelect.svelte'
+	import Preferences from '$/components/Preferences.svelte'
+	import TokenIcon from '$/components/TokenIcon.svelte'
+	import InlineContainer from '$/components/InlineContainer.svelte'
 
 
 	// Style/transitions
 
 	import { fly, scale } from 'svelte/transition'
-	import { tokenColors } from '../../data/tokenColors'
+	import { tokenColors } from '$/data/tokenColors'
 </script>
 
 

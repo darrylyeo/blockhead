@@ -1,14 +1,14 @@
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../data/networks/types'
-	import type { TokenWithBalance } from '../data/tokens'
-	import { getViemPublicClient } from '../data/networkProviders'
-	import type { NetworkProvider } from '../data/networkProviders/types'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { TokenWithBalance } from '$/data/tokens'
+	import { getViemPublicClient } from '$/data/networkProviders'
+	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import type { PriceScale } from './PriceChart.svelte'
-	import { preferences } from '../state/preferences'
-	import type { TokenBalancesProvider } from '../data/tokenBalancesProvider'
-	import type { TransactionProvider } from '../data/transactionProvider'
-	import type { QuoteCurrency } from '../data/currencies'
+	import { preferences } from '$/state/preferences'
+	import type { TokenBalancesProvider } from '$/data/tokenBalancesProvider'
+	import type { TransactionProvider } from '$/data/transactionProvider'
+	import type { QuoteCurrency } from '$/data/currencies'
 
 
 	// Inputs
@@ -52,7 +52,7 @@
 	let selectedToken: Ethereum.NativeCurrency | Ethereum.ERC20Token | undefined
 
 	// (Computed)
-	import { isEvmAddress } from '../utils/isEvmAddress'
+	import { isEvmAddress } from '$/utils/isEvmAddress'
 
 	$: if(filterQuery && isEvmAddress(filterQuery) && balances){
 		const address = filterQuery

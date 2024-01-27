@@ -21,7 +21,7 @@
 
 
 	// Events
-	import { triggerEvent } from '../events/triggerEvent'
+	import { triggerEvent } from '$/events/triggerEvent'
 
 
 	// Tanstack Query
@@ -77,7 +77,7 @@
 	}
 
 
-	import Nav from '../components/Nav.svelte'
+	import Nav from '$/components/Nav.svelte'
 
 
 
@@ -85,7 +85,7 @@
 
 	import { browser } from '$app/environment'
 
-	import { preferences } from '../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 	$: if(browser)
 		Object.assign(globalThis.document.documentElement?.dataset ?? {}, {
@@ -102,8 +102,8 @@
 
 
 	// Components
-	import AccountConnections from '../components/AccountConnections.svelte'
-	import SizeContainer from '../components/SizeContainer.svelte'
+	import AccountConnections from '$/components/AccountConnections.svelte'
+	import SizeContainer from '$/components/SizeContainer.svelte'
 
 
 	// Transitions

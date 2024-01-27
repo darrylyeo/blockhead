@@ -1,4 +1,4 @@
-import type { Ethereum } from '../../data/networks/types'
+import type { Ethereum } from '$/data/networks/types'
 
 export type FarcasterUserId = number
 export type FarcasterUserName = string
@@ -92,7 +92,7 @@ export type FarcasterCast = {
 }
 
 
-import { isTruthy } from '../../utils/isTruthy'
+import { isTruthy } from '$/utils/isTruthy'
 
 import { chainIdByDomain as chainIdByDomainEtherscan } from '../etherscan'
 

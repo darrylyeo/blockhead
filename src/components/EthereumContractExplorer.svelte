@@ -1,8 +1,8 @@
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../data/networks/types'
-	import type { NetworkProvider } from '../data/networkProviders/types'
-	import { getViemPublicClient } from '../data/networkProviders'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { NetworkProvider } from '$/data/networkProviders/types'
+	import { getViemPublicClient } from '$/data/networkProviders'
 
 	enum ContractCodeType {
 		// CreationBytecode = 'Creation Bytecode',
@@ -11,7 +11,7 @@
 
 
 	// Context
-	import { preferences } from '../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 
 	// Inputs

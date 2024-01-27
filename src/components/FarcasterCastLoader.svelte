@@ -1,12 +1,12 @@
 <script lang="ts">
 	// Constants/types
-	import { CastParamType } from '../api/neynar/v2'
-	import type { FarcasterCast, FarcasterCastId, FarcasterUserId } from '../api/farcaster/index'
-	import { FarcasterProvider, farcasterProviderIcons } from '../data/farcasterProviders'
+	import { CastParamType } from '$/api/neynar/v2'
+	import type { FarcasterCast, FarcasterCastId, FarcasterUserId } from '$/api/farcaster/index'
+	import { FarcasterProvider, farcasterProviderIcons } from '$/data/farcasterProviders'
 
 
 	// Context
-	import { env } from '../env'
+	import { env } from '$/env'
 
 
 	// Inputs
@@ -33,7 +33,7 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
-	import { normalizeCastWithRepliesV1 as normalizeCastWithRepliesV1Neynar, normalizeCastV2 as normalizeCastNeynarV2 } from '../api/neynar/normalize'
+	import { normalizeCastWithRepliesV1 as normalizeCastWithRepliesV1Neynar, normalizeCastV2 as normalizeCastNeynarV2 } from '$/api/neynar/normalize'
 
 
 	// Components
@@ -62,7 +62,7 @@
 					}],
 					...castId && withReplies ? {
 						queryFn: async () => {
-							const { getFarcasterAllCastsInThread } = await import('../api/neynar/v1')
+							const { getFarcasterAllCastsInThread } = await import('$/api/neynar/v1')
 
 							return await getFarcasterAllCastsInThread(
 								env.NEYNAR_API_KEY,
@@ -74,7 +74,7 @@
 						),
 					} : {
 						queryFn: async () => {
-							const { cast } = await import('../api/neynar/v2')
+							const { cast } = await import('$/api/neynar/v2')
 
 							return (
 								castId ?

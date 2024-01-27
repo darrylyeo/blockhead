@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { TickerSymbol } from '../data/currencies'
-	import type { Ethereum } from '../data/networks/types'
-	import type { NetworkProvider } from '../data/networkProviders/types'
-	import { getViemPublicClient } from '../data/networkProviders'
+	import type { TickerSymbol } from '$/data/currencies'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { NetworkProvider } from '$/data/networkProviders/types'
+	import { getViemPublicClient } from '$/data/networkProviders'
 
 
 	export let network: Ethereum.Network

@@ -3,7 +3,7 @@ export enum UrlMetadataProvider {
 }
 
 
-import { ModProtocolIcon } from '../assets/icons'
+import { ModProtocolIcon } from '$/assets/icons'
 
 export const urlMetadataProviderIcons: Record<UrlMetadataProvider, string> = {
 	[UrlMetadataProvider.ModProtocol]: ModProtocolIcon,

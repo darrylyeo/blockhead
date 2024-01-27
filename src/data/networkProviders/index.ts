@@ -6,7 +6,7 @@ import { NetworkProvider, NetworkProviderConnectionType, NetworkProviderNodeType
 
 
 // Constants
-import { env } from '../../env'
+import { env } from '$/env'
 import { isTestnet, networksBySlug } from '../networks'
 
 
@@ -25,7 +25,7 @@ import { createPublicClient, http, webSocket } from 'viem'
 import * as chains from 'viem/chains'
 
 import { alchemyProviderConfigs } from './alchemy'
-// import { getMoralisJSONRPCEndpoint } from '../../api/moralis/endpoints'
+// import { getMoralisJSONRPCEndpoint } from '$/api/moralis/endpoints'
 import { figmentProviderConfigs } from './figment'
 import { infuraProviderConfigs } from './infura'
 import { tenderlyProviderConfigs } from './tenderly'
@@ -37,7 +37,7 @@ import { chainbaseProviderConfigs } from './chainbase'
 
 
 // Icons
-import { AlchemyIcon, BlastIcon, ChainbaseIcon, EtherscanIcon, FigmentIcon, GatewayFmIcon, GetBlockIcon, InfuraIcon, MoralisIcon, TenderlyIcon, PocketIcon, QuickNodeIcon } from '../../assets/icons'
+import { AlchemyIcon, BlastIcon, ChainbaseIcon, EtherscanIcon, FigmentIcon, GatewayFmIcon, GetBlockIcon, InfuraIcon, MoralisIcon, TenderlyIcon, PocketIcon, QuickNodeIcon } from '$/assets/icons'
 
 
 // Functions

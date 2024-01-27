@@ -1,14 +1,14 @@
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../data/networks/types'
-	import type { Filecoin } from '../data/filecoin'
-	import { TransactionProvider, transactionProviderIcons } from '../data/transactionProvider'
-	import type { NetworkProvider } from '../data/networkProviders/types'
-	import { getViemPublicClient } from '../data/networkProviders'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { Filecoin } from '$/data/filecoin'
+	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProvider'
+	import type { NetworkProvider } from '$/data/networkProviders/types'
+	import { getViemPublicClient } from '$/data/networkProviders'
 
 
 	// Context
-	import { preferences } from '../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 
 	// Inputs
@@ -42,7 +42,7 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
-	import type { getTipsetByHeight } from '../api/beryx/filecoin/api'
+	import type { getTipsetByHeight } from '$/api/beryx/filecoin/api'
 
 	const normalizeTipsetBeryx = (tipset: Awaited<ReturnType<typeof getTipsetByHeight>>) => ({
 		id: tipset.tipset_cid,
@@ -84,7 +84,7 @@
 				queryFn: async () => {
 					if(network.slug !== 'filecoin') throw new Error('Beryx only supports Filecoin.')
 
-					const { getTipsetByHeight } = await import('../api/beryx/filecoin/index')
+					const { getTipsetByHeight } = await import('$/api/beryx/filecoin/index')
 
 					return normalizeTipsetBeryx((await getTipsetByHeight(Number(tipsetNumber)))[0])
 				},

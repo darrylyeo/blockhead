@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/networks/types'
-	import { NotificationsProvider, notificationsProviderIcons } from '../data/notificationsProvider'
-	import { preferences } from '../state/preferences'
+	import type { Ethereum } from '$/data/networks/types'
+	import { NotificationsProvider, notificationsProviderIcons } from '$/data/notificationsProvider'
+	import { preferences } from '$/state/preferences'
 
 
 	export let network: Ethereum.Network
@@ -16,7 +16,7 @@
 
 	import { createQuery } from '@tanstack/svelte-query'
 
-	import { type NotificationRawPayload, getNotifications } from '../api/push'
+	import { type NotificationRawPayload, getNotifications } from '$/api/push'
 	
 	export let notifications: NotificationRawPayload[]
 

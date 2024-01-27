@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
-	import type { AccountConnection } from '../../../state/account'
-	import { InputPattern } from '../../../data/inputPatterns'
+	import type { AccountConnection } from '$/state/account'
+	import { InputPattern } from '$/data/inputPatterns'
 
 
 	// Params
@@ -29,7 +29,7 @@
 		defaultSearchInputValue,
 	} from '../_appsContext'
 
-	import { preferences } from '../../../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 
 	// Internal state
@@ -46,11 +46,11 @@
 
 
 	// Components
-	import AccountIdResolver from '../../../components/AccountIdResolver.svelte'
-	import BlockTransition from '../../../components/BlockTransition.svelte'
-	import ConnectedAccountSelect from '../../../components/ConnectedAccountSelect.svelte'
-	import SearchInput from '../../../components/SearchInput.svelte'
-	import Web3AppDashboard from '../../../components/Web3AppDashboard.svelte'
+	import AccountIdResolver from '$/components/AccountIdResolver.svelte'
+	import BlockTransition from '$/components/BlockTransition.svelte'
+	import ConnectedAccountSelect from '$/components/ConnectedAccountSelect.svelte'
+	import SearchInput from '$/components/SearchInput.svelte'
+	import Web3AppDashboard from '$/components/Web3AppDashboard.svelte'
 
 
 	// Transitions

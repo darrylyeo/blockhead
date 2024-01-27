@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../data/networks/types'
-	import type { QuoteCurrency, TickerSymbol } from '../data/currencies'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { QuoteCurrency, TickerSymbol } from '$/data/currencies'
 
 
 	// Inputs

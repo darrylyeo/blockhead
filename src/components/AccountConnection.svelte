@@ -1,15 +1,15 @@
 <script lang="ts">
 	// Context
-	import { preferences } from '../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 
 	// Constants/types
-	import { type WalletType, walletConnectionTypes } from '../data/wallets'
-	import type { AccountConnectionState } from '../state/account'
-	import type { WalletconnectTopic } from '../state/walletConnection'
+	import { type WalletType, walletConnectionTypes } from '$/data/wallets'
+	import type { AccountConnectionState } from '$/state/account'
+	import type { WalletconnectTopic } from '$/state/walletConnection'
 
-	import { walletsByType } from '../data/wallets'
-	import { networksByChainID, getNetworkColor } from '../data/networks'
+	import { walletsByType } from '$/data/wallets'
+	import { networksByChainID, getNetworkColor } from '$/data/networks'
 
 
 	// External state
@@ -31,7 +31,7 @@
 	// Derived
 	import { derived } from 'svelte/store'
 
-	import { matchesMediaQuery } from '../utils/matchesMediaQuery'
+	import { matchesMediaQuery } from '$/utils/matchesMediaQuery'
 	const prefersDark = matchesMediaQuery('(prefers-color-scheme: dark)') 
 
 	const theme = derived([preferences, prefersDark], ([$preferences, $prefersDark]) => ({
@@ -41,9 +41,9 @@
 
 	// Methods/hooks/lifecycle
 
-	import { getWalletConnection } from '../state/walletConnection'
+	import { getWalletConnection } from '$/state/walletConnection'
 
-	import { getAccountConnectionState } from '../state/account'
+	import { getAccountConnectionState } from '$/state/account'
 
 	import { createEventDispatcher } from 'svelte'
 	const dispatch = createEventDispatcher()
@@ -57,7 +57,7 @@
 
 	// Functions
 
-	import { isTruthy } from '../utils/isTruthy'
+	import { isTruthy } from '$/utils/isTruthy'
 
 
 	// Components
@@ -69,7 +69,7 @@
 
 	// Styles/animation
 	import { scale } from 'svelte/transition'
-	import { cardStyle } from '../utils/card-background'
+	import { cardStyle } from '$/utils/card-background'
 </script>
 
 

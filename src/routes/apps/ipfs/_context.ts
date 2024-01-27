@@ -1,9 +1,9 @@
 // Constants
-import { IpfsGatewayProvider, ipfsGatewaysByProvider } from '../../../data/ipfsGateways'
+import { IpfsGatewayProvider, ipfsGatewaysByProvider } from '$/data/ipfsGateways'
 
 
 // External stores
-import { preferences } from '../../../state/preferences'
+import { preferences } from '$/state/preferences'
 
 
 // Derived stores

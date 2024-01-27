@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Constants/types
-	import { UniswapV3 } from '../../../../api/uniswap-v3'
+	import { UniswapV3 } from '$/api/uniswap-v3'
 
 
 	// Params
@@ -16,13 +16,13 @@
 
 
 	// Components
-	import AccountIdResolver from '../../../../components/AccountIdResolver.svelte'
-	import UniswapV3SwapForm from '../../../../components/UniswapV3SwapForm.svelte'
-	import UniswapV3Position from '../../../../components/UniswapV3Position.svelte'
-	import UniswapV3PositionCreateForm from '../../../../components/UniswapV3PositionCreateForm.svelte'
-	import UniswapV3PositionsLoader from '../../../../components/UniswapV3PositionsLoader.svelte'
-	import TokenListLoader from '../../../../components/TokenListLoader.svelte'
-	import TweenedNumber from '../../../../components/TweenedNumber.svelte'
+	import AccountIdResolver from '$/components/AccountIdResolver.svelte'
+	import UniswapV3SwapForm from '$/components/UniswapV3SwapForm.svelte'
+	import UniswapV3Position from '$/components/UniswapV3Position.svelte'
+	import UniswapV3PositionCreateForm from '$/components/UniswapV3PositionCreateForm.svelte'
+	import UniswapV3PositionsLoader from '$/components/UniswapV3PositionsLoader.svelte'
+	import TokenListLoader from '$/components/TokenListLoader.svelte'
+	import TweenedNumber from '$/components/TweenedNumber.svelte'
 </script>
 
 

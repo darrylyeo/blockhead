@@ -1,9 +1,9 @@
 <script lang="ts">
 	// Types/constants
-	import type { FarcasterProvider } from '../data/farcasterProviders'
-	import type { FarcasterCast as _FarcasterCast } from '../api/farcaster'
+	import type { FarcasterProvider } from '$/data/farcasterProviders'
+	import type { FarcasterCast as _FarcasterCast } from '$/api/farcaster'
 
-	import { networksByChainID, networksBySlug } from '../data/networks'
+	import { networksByChainID, networksBySlug } from '$/data/networks'
 
 
 	// Inputs
@@ -35,7 +35,7 @@
 
 
 	// Styles
-	import { matchesMediaQuery } from '../utils/matchesMediaQuery'
+	import { matchesMediaQuery } from '$/utils/matchesMediaQuery'
 	const matchesLayoutBreakpoint = matchesMediaQuery('(max-width: 30rem)')
 </script>
 

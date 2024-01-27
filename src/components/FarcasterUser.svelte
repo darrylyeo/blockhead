@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Types/constants
-	import type { FarcasterUser } from '../api/farcaster'
+	import type { FarcasterUser } from '$/api/farcaster'
 
 
 	// Functions

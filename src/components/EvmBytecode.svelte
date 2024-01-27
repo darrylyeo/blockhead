@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Constants/types
-	import type { NetworkProvider } from '../data/networkProviders/types'
+	import type { NetworkProvider } from '$/data/networkProviders/types'
 
 
 	// Inputs

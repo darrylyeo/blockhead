@@ -1,4 +1,4 @@
-import type { Ethereum } from '../../data/networks/types'
+import type { Ethereum } from '$/data/networks/types'
 
 import {
 	type Token,
@@ -11,8 +11,8 @@ import { FeeAmount as _FeeAmount, computePoolAddress } from '@uniswap/v3-sdk'
 import IUniswapV3Pool from '@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json'
 
 
-import { formatPercent } from '../../utils/formatPercent'
-import { memoized } from '../../utils/memoized'
+import { formatPercent } from '$/utils/formatPercent'
+import { memoized } from '$/utils/memoized'
 
 
 export namespace UniswapV3 {

@@ -5,9 +5,9 @@
 
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../data/networks/types'
-	import type { QuoteCurrency } from '../data/currencies'
-	import { NftProvider, nftProviderIcons } from '../data/nftProviders'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { QuoteCurrency } from '$/data/currencies'
+	import { NftProvider, nftProviderIcons } from '$/data/nftProviders'
 
 
 	// Inputs
@@ -66,21 +66,21 @@
 	const queryClient = useQueryClient()
 
 	import { gql } from '@urql/svelte'
-	import { airstackNetworkNames, getClient } from '../api/airstack/index'
-	import { normalizeNftContracts as normalizeNftContractsAirstack } from '../api/airstack/normalize'
+	import { airstackNetworkNames, getClient } from '$/api/airstack/index'
+	import { normalizeNftContracts as normalizeNftContractsAirstack } from '$/api/airstack/normalize'
 
-	import { normalizeNftContracts as normalizeNftContractsChainbase } from '../api/chainbase/normalize'
+	import { normalizeNftContracts as normalizeNftContractsChainbase } from '$/api/chainbase/normalize'
 
-	import { getNftsForAddress as getNftsForAddressCovalent } from '../api/covalent/index'
-	import { normalizeNftContract as normalizeNftContractCovalent } from '../api/covalent/normalize'
+	import { getNftsForAddress as getNftsForAddressCovalent } from '$/api/covalent/index'
+	import { normalizeNftContract as normalizeNftContractCovalent } from '$/api/covalent/normalize'
 
-	import { normalizeNftContracts as normalizeNftContractsDecommas } from '../api/decommas/normalize'
+	import { normalizeNftContracts as normalizeNftContractsDecommas } from '$/api/decommas/normalize'
 
-	import { ConcurrentPromiseQueue } from '../utils/ConcurrentPromiseQueue'
-	import { normalizeNftContracts as normalizeNftContractsLiquality } from '../api/liquality/normalize'
+	import { ConcurrentPromiseQueue } from '$/utils/ConcurrentPromiseQueue'
+	import { normalizeNftContracts as normalizeNftContractsLiquality } from '$/api/liquality/normalize'
 
-	import { NftportApi, networkSlugToNftportChain } from '../api/nftport/index'
-	import { normalizeNftContracts as normalizeNftContractsNftport } from '../api/nftport/normalize'
+	import { NftportApi, networkSlugToNftportChain } from '$/api/nftport/index'
+	import { normalizeNftContracts as normalizeNftContractsNftport } from '$/api/nftport/normalize'
 
 
 	// Components
@@ -273,7 +273,7 @@
 						quoteCurrency: quoteCurrency
 					}],
 					queryFn: async ({ pageParam: nextPage = 0 }) => {
-						const { getNftsByAddress } = await import('../api/chainbase')
+						const { getNftsByAddress } = await import('$/api/chainbase')
 
 						return await getNftsByAddress({
 							chainId: network.chainId,
@@ -330,7 +330,7 @@
 					}],
 					initialPageParam: 0,
 					queryFn: async ({ pageParam: offset }) => {
-						const { decommas, chainNameByChainId } = await import('../api/decommas')
+						const { decommas, chainNameByChainId } = await import('$/api/decommas')
 
 						const chains = [chainNameByChainId[network.chainId]]
 
@@ -393,7 +393,7 @@
 					queryFn: async () => {
 						const { NftService } = await import('@liquality/wallet-sdk')
 
-						const { liqualitySupportedNetworks } = await import('../api/liquality/index')
+						const { liqualitySupportedNetworks } = await import('$/api/liquality/index')
 
 						if(!liqualitySupportedNetworks.includes(network.chainId))
 							throw new Error(`Liquality doesn't yet support ${network.name}.`)

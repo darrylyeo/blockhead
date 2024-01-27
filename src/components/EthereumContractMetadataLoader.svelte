@@ -1,13 +1,13 @@
 <script lang="ts">
 	// Constants/types
-	import type { Ethereum } from '../data/networks/types'
-	import { ContractSourceProvider, contractSourceProviderIcons } from '../data/contractSourceProvider'
+	import type { Ethereum } from '$/data/networks/types'
+	import { ContractSourceProvider, contractSourceProviderIcons } from '$/data/contractSourceProvider'
 
 	type SourcePath = $$Generic<string>
 
 
 	// Context
-	import { preferences } from '../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 
 	// External state
@@ -46,8 +46,8 @@
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
 
-	import type { Etherscan } from '../api/etherscan/index'
-	import { normalizeContractSource as normalizeContractSourceEtherscan } from '../api/etherscan/normalize'
+	import type { Etherscan } from '$/api/etherscan/index'
+	import { normalizeContractSource as normalizeContractSourceEtherscan } from '$/api/etherscan/normalize'
 
 
 	// Components
@@ -67,7 +67,7 @@
 			...{
 				[ContractSourceProvider.Etherscan]: () => ({
 					queryFn: async () => {
-						const { Etherscan } = await import('../api/etherscan/index')
+						const { Etherscan } = await import('$/api/etherscan/index')
 
 						const metadata = await Etherscan.Contracts.getSource({
 							chainId: network.chainId,
@@ -82,7 +82,7 @@
 
 				[ContractSourceProvider.Sourcify]: () => ({
 					queryFn: async () => {
-						const { getContractMetadata } = await import('../api/sourcify')
+						const { getContractMetadata } = await import('$/api/sourcify')
 
 						try {
 							return await getContractMetadata({

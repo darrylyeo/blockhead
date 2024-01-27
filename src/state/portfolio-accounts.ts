@@ -1,9 +1,9 @@
-import type { Ethereum } from '../data/networks/types'
-import type { AccountId } from '../data/accountId'
+import type { Ethereum } from '$/data/networks/types'
+import type { AccountId } from '$/data/accountId'
 
 
-import { memoized } from '../utils/memoized'
-import { localStorageWritable } from '../utils/localStorageWritable'
+import { memoized } from '$/utils/memoized'
+import { localStorageWritable } from '$/utils/localStorageWritable'
 
 
 // Local storage v1 'localAccounts' (deprecated)
@@ -135,7 +135,7 @@ const getLocalPortfoliosStoreV3 = memoized(() => localStorageWritable<PortfolioV
 ))
 
 
-import { availableNetworks } from '../data/networks'
+import { availableNetworks } from '$/data/networks'
 
 function getDefaultPortfolioAccountView(){
 	return availableNetworks.map(network => new PortfolioAccountViewV3(network.chainId))

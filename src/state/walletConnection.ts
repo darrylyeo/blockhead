@@ -1,9 +1,9 @@
-import type { BrandedString } from '../utils/branded'
+import type { BrandedString } from '$/utils/branded'
 import type { Readable } from 'svelte/store'
 
 
-import type { Ethereum } from '../data/networks/types'
-import { type WalletType, WalletConnectionType, walletsByType } from '../data/wallets'
+import type { Ethereum } from '$/data/networks/types'
+import { type WalletType, WalletConnectionType, walletsByType } from '$/data/wallets'
 import type { Account } from './account'
 
 
@@ -136,13 +136,13 @@ const switchNetworkEip1193 = async ({
 }
 
 
-import { env } from '../env'
-import { availableNetworks, getNetworkRPC, networksByChainID, networksBySlug } from '../data/networks'
+import { env } from '$/env'
+import { availableNetworks, getNetworkRPC, networksByChainID, networksBySlug } from '$/data/networks'
 import type { PairingTypes, SessionTypes } from '@walletconnect/types'
 import type { Web3Modal } from '@web3modal/standalone'
-import { parseCaip2Id } from '../utils/parseCaip2Id'
-import { networkToViemChain } from '../data/networkProviders'
-import { isTruthy } from '../utils/isTruthy'
+import { parseCaip2Id } from '$/utils/parseCaip2Id'
+import { networkToViemChain } from '$/data/networkProviders'
+import { isTruthy } from '$/utils/isTruthy'
 
 const walletconnectMetadata = {
 	name: "Blockhead",

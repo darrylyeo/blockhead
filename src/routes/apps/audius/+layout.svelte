@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Constants/types
-	import type { AccountConnection } from '../../../state/account'
+	import type { AccountConnection } from '$/state/account'
 
 
 	// Params
@@ -9,7 +9,7 @@
 
 	// Context
 	import { web3AppConfig, currentView } from '../_appsContext'
-	import { preferences } from '../../../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 
 	// Internal state
@@ -26,10 +26,10 @@
 
 
 	// Components
-	import AccountIdResolver from '../../../components/AccountIdResolver.svelte'
-	import AddressField from '../../../components/AddressField.svelte'
-	import ConnectedAccountSelect from '../../../components/ConnectedAccountSelect.svelte'
-	import Web3AppDashboard from '../../../components/Web3AppDashboard.svelte'
+	import AccountIdResolver from '$/components/AccountIdResolver.svelte'
+	import AddressField from '$/components/AddressField.svelte'
+	import ConnectedAccountSelect from '$/components/ConnectedAccountSelect.svelte'
+	import Web3AppDashboard from '$/components/Web3AppDashboard.svelte'
 
 
 	// Transitions

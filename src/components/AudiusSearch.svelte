@@ -2,8 +2,8 @@
 	export let query: string
 
 
-	import type { Audius } from '../api/audius'
-	import { searchUsers, searchTracks, searchPlaylists } from '../api/audius'
+	import type { Audius } from '$/api/audius'
+	import { searchUsers, searchTracks, searchPlaylists } from '$/api/audius'
 
 	let users: Audius.User[]
 	let tracks: Audius.Track[]
@@ -26,10 +26,10 @@
 	import AudiusUser from './AudiusUser.svelte'
 	import AudiusTrack from './AudiusTrack.svelte'
 	import AudiusPlaylist from './AudiusPlaylist.svelte'
-	import Loader from '../components/Loader.svelte'
+	import Loader from '$/components/Loader.svelte'
 
 
-	import { AudiusIcon } from '../assets/icons'
+	import { AudiusIcon } from '$/assets/icons'
 </script>
 
 

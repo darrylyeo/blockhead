@@ -2,14 +2,14 @@
 	export let trackId: string
 
 
-	import { getTrack } from '../api/audius'
+	import { getTrack } from '$/api/audius'
 
 
 	import AudiusTrack from './AudiusTrack.svelte'
 	import Loader from './Loader.svelte'
 
 
-	import { AudiusIcon } from '../assets/icons'
+	import { AudiusIcon } from '$/assets/icons'
 </script>
 
 

@@ -1,6 +1,6 @@
-import type { Ethereum } from '../../../data/networks/types'
-import type { BlockchainName } from '../../../data/caip2'
-import { getCaip10AccountId, type Caip10AccountId } from '../../../data/caip10'
+import type { Ethereum } from '$/data/networks/types'
+import type { BlockchainName } from '$/data/caip2'
+import { getCaip10AccountId, type Caip10AccountId } from '$/data/caip10'
 
 import type CeramicClient from '@ceramicnetwork/http-client'
 import type { DID } from 'dids'

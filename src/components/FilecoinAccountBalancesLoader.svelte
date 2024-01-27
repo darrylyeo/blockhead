@@ -1,14 +1,14 @@
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../data/networks/types'
-	import type { Filecoin } from '../data/filecoin'
-	import { TokenBalancesProvider, tokenBalancesProviderIcons } from '../data/tokenBalancesProvider'
-	import type { NetworkProvider } from '../data/networkProviders/types'
-	import { getViemPublicClient } from '../data/networkProviders'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { Filecoin } from '$/data/filecoin'
+	import { TokenBalancesProvider, tokenBalancesProviderIcons } from '$/data/tokenBalancesProvider'
+	import type { NetworkProvider } from '$/data/networkProviders/types'
+	import { getViemPublicClient } from '$/data/networkProviders'
 
 
 	// Context
-	import { preferences } from '../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 
 	// Inputs
@@ -42,7 +42,7 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
-	import type { getAccountBalanceByAddress } from '../api/beryx/filecoin/api'
+	import type { getAccountBalanceByAddress } from '$/api/beryx/filecoin/api'
 
 	const normalizeBalanceBeryx = (balance: Awaited<ReturnType<typeof getAccountBalanceByAddress>>['balances'][number]) => ({
 		value: Number(balance.value),
@@ -77,7 +77,7 @@
 				queryFn: async () => {
 					if(network.slug !== 'filecoin') throw new Error('Beryx only supports Filecoin.')
 
-					const { getAccountBalanceByAddress } = await import('../api/beryx/filecoin/index')
+					const { getAccountBalanceByAddress } = await import('$/api/beryx/filecoin/index')
 
 					return (await getAccountBalanceByAddress(address)).balances.map(normalizeBalanceBeryx)
 				},

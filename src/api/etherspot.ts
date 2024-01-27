@@ -1,6 +1,6 @@
 import { Sdk, randomPrivateKey, NetworkNames, Transaction as EtherspotTransaction, TransactionLog, TransactionStatuses, TransactionAssetCategories } from 'etherspot'
-import { memoized } from '../utils/memoized'
-import type { Ethereum } from '../data/networks/types'
+import { memoized } from '$/utils/memoized'
+import type { Ethereum } from '$/data/networks/types'
 import type { AbiType } from 'abitype'
 
 

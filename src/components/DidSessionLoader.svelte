@@ -1,10 +1,10 @@
 <script lang="ts">
 	// Constants/types
-	import type { Ethereum } from '../data/networks/types'
-	import type { AccountConnection } from '../state/account'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { AccountConnection } from '$/state/account'
 
 	import type { DIDSession } from 'did-session'
-	import { DidProvider, didProviderIcons } from '../data/didProvider'
+	import { DidProvider, didProviderIcons } from '$/data/didProvider'
 
 	
 	// Inputs
@@ -42,7 +42,7 @@
 	{...{
 		[DidProvider.Ceramic]: {
 			fromPromise: address && accountConnection?.state?.signer && (async () => {
-				const { getDidSession } = await import('../api/ceramic/did')
+				const { getDidSession } = await import('$/api/ceramic/did')
 
 				return await getDidSession({
 					network,

@@ -1,15 +1,15 @@
 <script lang="ts">
 	// Constants/types
-	import type { Ethereum } from '../data/networks/types'
-	import type { TokenWithBalance } from '../data/tokens'
-	import type { QuoteCurrency } from '../data/currencies'
-	import { networkProviderConfigByProvider } from '../data/networkProviders'
-	import type { NetworkProvider } from '../data/networkProviders/types'
-	import { TokenBalancesProvider, tokenBalancesProviderIcons } from '../data/tokenBalancesProvider'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { TokenWithBalance } from '$/data/tokens'
+	import type { QuoteCurrency } from '$/data/currencies'
+	import { networkProviderConfigByProvider } from '$/data/networkProviders'
+	import type { NetworkProvider } from '$/data/networkProviders/types'
+	import { TokenBalancesProvider, tokenBalancesProviderIcons } from '$/data/tokenBalancesProvider'
 
 
 	// Context
-	import { preferences } from '../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 
 	// External state
@@ -42,30 +42,30 @@
 	// Functions
 	import { createInfiniteQuery, createQuery } from '@tanstack/svelte-query'
 	import { queryStore, gql } from '@urql/svelte'
-	import { ConcurrentPromiseQueue } from '../utils/ConcurrentPromiseQueue'
+	import { ConcurrentPromiseQueue } from '$/utils/ConcurrentPromiseQueue'
 
-	import { getViemPublicClient } from '../data/networkProviders'
+	import { getViemPublicClient } from '$/data/networkProviders'
 
-	import { airstackNetworkNames, getClient } from '../api/airstack/index'
-	import { normalizeTokenBalance as normalizeTokenBalanceAirstack } from '../api/airstack/normalize'
+	import { airstackNetworkNames, getClient } from '$/api/airstack/index'
+	import { normalizeTokenBalance as normalizeTokenBalanceAirstack } from '$/api/airstack/normalize'
 
-	import { getErc20TokenBalances } from '../api/chainbase'
-	import { normalizeTokenBalance as normalizeTokenBalanceChainbase } from '../api/chainbase/normalize'
+	import { getErc20TokenBalances } from '$/api/chainbase'
+	import { normalizeTokenBalance as normalizeTokenBalanceChainbase } from '$/api/chainbase/normalize'
 
-	import { getTokenBalancesForAddress } from '../api/covalent/index'
-	import { normalizeTokenBalance as normalizeTokenBalanceCovalent } from '../api/covalent/normalize'
+	import { getTokenBalancesForAddress } from '$/api/covalent/index'
+	import { normalizeTokenBalance as normalizeTokenBalanceCovalent } from '$/api/covalent/normalize'
 
-	import { normalizeTokenBalance as normalizeTokenBalanceDecommas } from '../api/decommas/normalize'
+	import { normalizeTokenBalance as normalizeTokenBalanceDecommas } from '$/api/decommas/normalize'
 
-	import { normalizeTokenBalance as normalizeTokenBalanceLiquality } from '../api/liquality/normalize'
+	import { normalizeTokenBalance as normalizeTokenBalanceLiquality } from '$/api/liquality/normalize'
 
-	import { MoralisWeb3Api, chainCodeFromNetwork } from '../api/moralis/web3Api/index'
+	import { MoralisWeb3Api, chainCodeFromNetwork } from '$/api/moralis/web3Api/index'
 
-	import { getWalletTokenBalance } from '../api/quicknode/index'
-	import { normalizeTokenBalance as normalizeTokenBalanceQuickNode } from '../api/quicknode/normalize'
+	import { getWalletTokenBalance } from '$/api/quicknode/index'
+	import { normalizeTokenBalance as normalizeTokenBalanceQuickNode } from '$/api/quicknode/normalize'
 
-	import { getTokenBalances } from '../api/zapper/index'
-	import { normalizeTokenBalance as normalizeTokenBalanceZapper } from '../api/zapper/normalize'
+	import { getTokenBalances } from '$/api/zapper/index'
+	import { normalizeTokenBalance as normalizeTokenBalanceZapper } from '$/api/zapper/normalize'
 
 
 	// Components
@@ -292,7 +292,7 @@
 					}],
 					initialPageParam: 0,
 					queryFn: async ({ pageParam: offset }) => {
-						const { decommas, chainNameByChainId } = await import('../api/decommas')
+						const { decommas, chainNameByChainId } = await import('$/api/decommas')
 
 						const chains = [chainNameByChainId[network.chainId]]
 
@@ -345,7 +345,7 @@
 					queryFn: async () => {
 						const { ERC20Service } = await import('@liquality/wallet-sdk')
 
-						const { liqualitySupportedNetworks } = await import('../api/liquality/index')
+						const { liqualitySupportedNetworks } = await import('$/api/liquality/index')
 
 						if(!liqualitySupportedNetworks.includes(network.chainId))
 							throw new Error(`Liquality doesn't yet support ${network.name}.`)

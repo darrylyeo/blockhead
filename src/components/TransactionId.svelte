@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../data/networks/types'
+	import type { Ethereum } from '$/data/networks/types'
 
 
 	// Inputs
@@ -12,7 +12,7 @@
 
 
 	// Functions
-	import { formatTransactionHash } from '../utils/formatTransactionHash'
+	import { formatTransactionHash } from '$/utils/formatTransactionHash'
 	import { resolveRoute } from '$app/paths'
 
 	// Internal state

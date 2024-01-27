@@ -1,6 +1,6 @@
 import { derived, writable, type Readable } from 'svelte/store'
-import type { Ethereum } from '../../data/networks/types'
-import type { ENS } from '../../api/ens'
+import type { Ethereum } from '$/data/networks/types'
+import type { ENS } from '$/api/ens'
 
 export type ExplorerParams = {
 	networkSlug: Ethereum.NetworkSlug | '',

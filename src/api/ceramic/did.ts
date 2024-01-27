@@ -20,7 +20,7 @@ export const isDidUrl = (string: string): string is DidUrl => {
 // DID Sessions
 
 import type { Signer } from 'ethers'
-import type { Ethereum } from '../../data/networks/types'
+import type { Ethereum } from '$/data/networks/types'
 
 export const getDidSession = async ({
 	network,
@@ -33,7 +33,7 @@ export const getDidSession = async ({
 	signer: Signer,
 	resources: string[],
 }) => {
-	const { getCaip10AccountId } = await import('../../data/caip10')
+	const { getCaip10AccountId } = await import('$/data/caip10')
 	const accountIdString = getCaip10AccountId({ network, address })
 	
 	const { AccountId } = await import('caip')

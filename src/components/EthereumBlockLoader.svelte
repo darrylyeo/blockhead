@@ -1,14 +1,14 @@
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../data/networks/types'
-	import { TransactionProvider, transactionProviderIcons } from '../data/transactionProvider'
-	import type { NetworkProvider } from '../data/networkProviders/types'
-	import type { QuoteCurrency } from '../data/currencies'
-	import { getViemPublicClient } from '../data/networkProviders'
+	import type { Ethereum } from '$/data/networks/types'
+	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProvider'
+	import type { NetworkProvider } from '$/data/networkProviders/types'
+	import type { QuoteCurrency } from '$/data/currencies'
+	import { getViemPublicClient } from '$/data/networkProviders'
 
 
 	// Context
-	import { preferences } from '../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 
 	// Inputs
@@ -61,21 +61,21 @@
 	import { createQuery, createQueries } from '@tanstack/svelte-query'
 
 	import { numberToHex } from 'viem'
-	import { isTruthy } from '../utils/isTruthy'
+	import { isTruthy } from '$/utils/isTruthy'
 
-	import { normalizeBlock as normalizeViemBlock } from '../api/viem/normalize'
+	import { normalizeBlock as normalizeViemBlock } from '$/api/viem/normalize'
 
-	import { getBlockByNumber as getBlockByNumberChainbase } from '../api/chainbase'
-	import { normalizeBlock as normalizeBlockChainbase } from '../api/chainbase/normalize'
+	import { getBlockByNumber as getBlockByNumberChainbase } from '$/api/chainbase'
+	import { normalizeBlock as normalizeBlockChainbase } from '$/api/chainbase/normalize'
 
-	import { getBlock as getBlockCovalent, getAllTransactionsInABlock as getBlockTransactionsCovalent } from '../api/covalent/index'
-	import { normalizeBlock as normalizeBlockCovalent, normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent/normalize'
+	import { getBlock as getBlockCovalent, getAllTransactionsInABlock as getBlockTransactionsCovalent } from '$/api/covalent/index'
+	import { normalizeBlock as normalizeBlockCovalent, normalizeTransaction as normalizeTransactionCovalent } from '$/api/covalent/normalize'
 
-	import { Etherscan } from '../api/etherscan/index'
-	import { normalizeBlock as normalizeBlockEtherscan } from '../api/etherscan/normalize'
+	import { Etherscan } from '$/api/etherscan/index'
+	import { normalizeBlock as normalizeBlockEtherscan } from '$/api/etherscan/normalize'
 
-	import { chainCodeFromNetwork, MoralisWeb3Api } from '../api/moralis/web3Api/index'
-	import { normalizeBlock as normalizeMoralisBlock } from '../api/moralis/web3Api/normalize'
+	import { chainCodeFromNetwork, MoralisWeb3Api } from '$/api/moralis/web3Api/index'
+	import { normalizeBlock as normalizeMoralisBlock } from '$/api/moralis/web3Api/normalize'
 
 
 	// Components

@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Constants/types
-	import type { AccountConnection } from '../state/account'
+	import type { AccountConnection } from '$/state/account'
 	
 	
 	// External state
@@ -10,12 +10,12 @@
 	// Actions
 	import { createQuery } from '@tanstack/svelte-query'
 
-	import { authenticate, generateChallenge } from '../api/lens'
+	import { authenticate, generateChallenge } from '$/api/lens'
 
 
 	// Components
 	import Loader from './Loader.svelte'
-	import { LensIcon } from '../assets/icons'
+	import { LensIcon } from '$/assets/icons'
 </script>
 
 

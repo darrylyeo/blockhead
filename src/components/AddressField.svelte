@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { NetworkAccountAddress } from '../data/address'
+	import type { NetworkAccountAddress } from '$/data/address'
 	
 	export let address: NetworkAccountAddress
 

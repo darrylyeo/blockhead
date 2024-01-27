@@ -3,7 +3,7 @@ export type IpfsCid = `Qm${string}` | `bafy${string}` | `🚀${string}` | string
 
 import { CID } from 'multiformats/cid'
 import { bases } from 'multiformats/basics'
-import { basesByPrefix, multicodecsByCode } from '../../data/multiformats'
+import { basesByPrefix, multicodecsByCode } from '$/data/multiformats'
 import { substr } from 'runes2'
 // import PeerId from 'peer-id'
 

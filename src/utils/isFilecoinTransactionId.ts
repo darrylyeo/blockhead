@@ -1,4 +1,4 @@
-import { decodeIpfsCid } from '../api/ipfs/contentId'
+import { decodeIpfsCid } from '$/api/ipfs/contentId'
 
 export const isFilecoinTransactionId = (string: string) => {
 	try {

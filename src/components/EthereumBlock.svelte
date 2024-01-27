@@ -1,9 +1,9 @@
 <script lang="ts">
 	// Constants/types
-	import type { Ethereum } from '../data/networks/types'
-	import type { TransactionProvider } from '../data/transactionProvider'
-	import type { QuoteCurrency } from '../data/currencies'
-	import { updatesByNetwork } from '../data/networks/updates'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { TransactionProvider } from '$/data/transactionProvider'
+	import type { QuoteCurrency } from '$/data/currencies'
+	import { updatesByNetwork } from '$/data/networks/updates'
 
 
 	// Inputs
@@ -24,9 +24,9 @@
 
 
 	// Functions
-	import { formatPercent } from '../utils/formatPercent'
+	import { formatPercent } from '$/utils/formatPercent'
 	import { bytesToString, toBytes } from 'viem'
-	import { formatTransactionHash } from '../utils/formatTransactionHash'
+	import { formatTransactionHash } from '$/utils/formatTransactionHash'
 
 	const formatNumber = (number: number) =>
 		new Intl.NumberFormat(globalThis.navigator.languages).format(number)

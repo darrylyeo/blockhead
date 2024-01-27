@@ -3,7 +3,7 @@ export enum VerifiableCredentialProvider {
 }
 
 
-import { DiscoIcon } from '../assets/icons'
+import { DiscoIcon } from '$/assets/icons'
 
 export const verifiableCredentialProviderIcons = {
 	[VerifiableCredentialProvider.Disco]: DiscoIcon,

@@ -1,12 +1,12 @@
 <script lang="ts">
 	// Constants/types
-	import type { Ethereum } from '../data/networks/types'
-	import type { AccountConnection } from '../state/account'
-	import { wallets, walletsByType } from '../data/wallets'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { AccountConnection } from '$/state/account'
+	import { wallets, walletsByType } from '$/data/wallets'
 
 
 	// Context
-	import { accountConnections } from '../state/account'
+	import { accountConnections } from '$/state/account'
 
 
 	// External state
@@ -26,8 +26,8 @@
 
 
 	// Functions
-	import { formatAddress } from '../utils/formatAddress'
-	import { onEvent } from '../events/onEvent'
+	import { formatAddress } from '$/utils/formatAddress'
+	import { onEvent } from '$/events/onEvent'
 </script>
 
 

@@ -1,5 +1,5 @@
-import type { Ethereum } from '../../data/networks/types'
-import { env } from '../../env'
+import type { Ethereum } from '$/data/networks/types'
+import { env } from '$/env'
 
 type integer = number
 

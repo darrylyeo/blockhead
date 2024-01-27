@@ -1,4 +1,4 @@
-import type { DeepReadonly } from '../utils/DeepReadonly'
+import type { DeepReadonly } from '$/utils/DeepReadonly'
 
 export enum IpfsGatewayProvider {
 	Helia = 'Helia',
@@ -17,7 +17,7 @@ export type IpfsGatewayConfig = {
 	gatewayDomain?: string,
 }
 
-import { HeliaIcon, ProtocolLabsIcon } from '../assets/icons'
+import { HeliaIcon, ProtocolLabsIcon } from '$/assets/icons'
 
 export const ipfsGateways = [
 	{

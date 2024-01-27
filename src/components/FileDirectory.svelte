@@ -1,10 +1,10 @@
 <script lang="ts">
 	// Constants/types
-	import type { Folder } from '../utils/directoryFromFileList'
+	import type { Folder } from '$/utils/directoryFromFileList'
 
 
 	// Functions
-	import { directoryFromFileList } from '../utils/directoryFromFileList'
+	import { directoryFromFileList } from '$/utils/directoryFromFileList'
 
 
 	// External state

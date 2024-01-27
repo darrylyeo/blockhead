@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/networks/types'
-	import type { Covalent } from '../api/covalent'
-	import { getHistoricalPricesByTickerSymbol, getHistoricalPricesByAddress } from '../api/covalent'
-	import type { QuoteCurrency, TickerSymbol } from '../data/currencies'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { Covalent } from '$/api/covalent'
+	import { getHistoricalPricesByTickerSymbol, getHistoricalPricesByAddress } from '$/api/covalent'
+	import type { QuoteCurrency, TickerSymbol } from '$/data/currencies'
 	import type { PriceScale } from './PriceChart.svelte'
-	import { PriceProvider, priceProviderIcons } from '../data/priceProviders'
+	import { PriceProvider, priceProviderIcons } from '$/data/priceProviders'
 
 
 	export let historicalPriceProvider: PriceProvider
@@ -18,16 +18,16 @@
 	export let priceScale: PriceScale
 
 
-	import { isEvmAddress } from '../utils/isEvmAddress'
-	import { promiseAllFulfilled } from '../utils/promiseAllFulfilled'
+	import { isEvmAddress } from '$/utils/isEvmAddress'
+	import { promiseAllFulfilled } from '$/utils/promiseAllFulfilled'
 
 
 	import Loader from './Loader.svelte'
 	import PriceChart from './PriceChart.svelte'
 
 
-	import { CovalentIcon } from '../assets/icons'
-	import { parallelLoaderStore } from '../utils/parallelLoaderStore';
+	import { CovalentIcon } from '$/assets/icons'
+	import { parallelLoaderStore } from '$/utils/parallelLoaderStore';
 </script>
 
 

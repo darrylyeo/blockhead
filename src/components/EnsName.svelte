@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/networks/types'
-	import type { ENS } from '../api/ens'
-	import { networksByChainID } from '../data/networks'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { ENS } from '$/api/ens'
+	import { networksByChainID } from '$/data/networks'
 
 
 	export let network: Ethereum.Network = networksByChainID[1]
@@ -32,7 +32,7 @@
 	// import InlineContainer from './InlineContainer.svelte'
 
 	// import { scale } from 'svelte/transition'
-	import { scaleFont } from '../transitions/scale-font'
+	import { scaleFont } from '$/transitions/scale-font'
 </script>
 
 

@@ -1,12 +1,12 @@
 import type { Token } from 'graphql'
-import type { QuoteCurrency, TickerSymbol } from '../data/currencies'
-import type { Ethereum } from '../data/networks/types'
+import type { QuoteCurrency, TickerSymbol } from '$/data/currencies'
+import type { Ethereum } from '$/data/networks/types'
 import type { AbiType } from 'abitype'
 
-import { env } from '../env'
+import { env } from '$/env'
 
-import { ConcurrentPromiseQueue } from '../utils/ConcurrentPromiseQueue'
-import { normalizeNftAttributes } from '../utils/normalizeNftAttributes'
+import { ConcurrentPromiseQueue } from '$/utils/ConcurrentPromiseQueue'
+import { normalizeNftAttributes } from '$/utils/normalizeNftAttributes'
 
 
 const COVALENT_URL = `https://api.covalenthq.com`

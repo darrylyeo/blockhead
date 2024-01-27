@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/networks/types'
-	import type { TickerSymbol } from '../data/currencies'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { TickerSymbol } from '$/data/currencies'
 
 	export let network: Ethereum.Network
 	export let symbol: TickerSymbol

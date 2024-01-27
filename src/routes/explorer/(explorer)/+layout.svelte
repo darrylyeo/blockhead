@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../../../data/networks/types'
-	import { InputPattern } from '../../../data/inputPatterns'
+	import type { Ethereum } from '$/data/networks/types'
+	import { InputPattern } from '$/data/inputPatterns'
 
 
 	// Params/Context
@@ -33,7 +33,7 @@
 
 	// External stores
 
-	import { preferences } from '../../../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 
 	// Internal state
@@ -75,37 +75,37 @@
 
 	$: navigationContext.transactionBlockNumber = navigationContext.transaction?.blockNumber
 
-	import { availableNetworks, networksByChainID } from '../../../data/networks'
-	import { TransactionProvider, transactionProviderIcons } from '../../../data/transactionProvider'
-	import { parallelLoaderStore } from '../../../utils/parallelLoaderStore'
-	import { chainCodeFromNetwork, MoralisWeb3Api } from '../../../api/moralis/web3Api/index'
+	import { availableNetworks, networksByChainID } from '$/data/networks'
+	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProvider'
+	import { parallelLoaderStore } from '$/utils/parallelLoaderStore'
+	import { chainCodeFromNetwork, MoralisWeb3Api } from '$/api/moralis/web3Api/index'
 
 
 	// Components
 	import { MetaTags } from 'svelte-meta-tags'
 
-	import SearchInput from '../../../components/SearchInput.svelte'
+	import SearchInput from '$/components/SearchInput.svelte'
 
-	import HistoricalPriceChart from '../../../components/HistoricalPriceChart.svelte'
-	import CurrentPrice from '../../../components/CurrentPrice.svelte'
-	import EthereumBlockHeight from '../../../components/EthereumBlockHeight.svelte'
+	import HistoricalPriceChart from '$/components/HistoricalPriceChart.svelte'
+	import CurrentPrice from '$/components/CurrentPrice.svelte'
+	import EthereumBlockHeight from '$/components/EthereumBlockHeight.svelte'
 
-	import EthereumAccountOrContract from '../../../components/EthereumAccountOrContract.svelte'
-	import EthereumBlocks from '../../../components/EthereumBlocks.svelte'
-	import EthereumBlock from '../../../components/EthereumBlock.svelte'
-	import EthereumBlockHeader from '../../../components/EthereumBlockHeader.svelte'
-	import EthereumBlockLoader from '../../../components/EthereumBlockLoader.svelte'
-	import EthereumBlockNavigation from '../../../components/EthereumBlockNavigation.svelte';
-	import EthereumTransactionLoader from '../../../components/EthereumTransactionLoader.svelte'
+	import EthereumAccountOrContract from '$/components/EthereumAccountOrContract.svelte'
+	import EthereumBlocks from '$/components/EthereumBlocks.svelte'
+	import EthereumBlock from '$/components/EthereumBlock.svelte'
+	import EthereumBlockHeader from '$/components/EthereumBlockHeader.svelte'
+	import EthereumBlockLoader from '$/components/EthereumBlockLoader.svelte'
+	import EthereumBlockNavigation from '$/components/EthereumBlockNavigation.svelte';
+	import EthereumTransactionLoader from '$/components/EthereumTransactionLoader.svelte'
 
-	import FilecoinAccount from '../../../components/FilecoinAccount.svelte'
-	import FilecoinAccountLoader from '../../../components/FilecoinAccountLoader.svelte'
-	import FilecoinTipset from '../../../components/FilecoinTipset.svelte'
-	import FilecoinTipsetLoader from '../../../components/FilecoinTipsetLoader.svelte'
-	import FilecoinTransaction from '../../../components/FilecoinTransaction.svelte'
-	import FilecoinTransactionLoader from '../../../components/FilecoinTransactionLoader.svelte'
+	import FilecoinAccount from '$/components/FilecoinAccount.svelte'
+	import FilecoinAccountLoader from '$/components/FilecoinAccountLoader.svelte'
+	import FilecoinTipset from '$/components/FilecoinTipset.svelte'
+	import FilecoinTipsetLoader from '$/components/FilecoinTipsetLoader.svelte'
+	import FilecoinTransaction from '$/components/FilecoinTransaction.svelte'
+	import FilecoinTransactionLoader from '$/components/FilecoinTransactionLoader.svelte'
 
-	import Loader from '../../../components/Loader.svelte'
+	import Loader from '$/components/Loader.svelte'
 	
 
 	// Transitions

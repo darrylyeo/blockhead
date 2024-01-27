@@ -1,11 +1,11 @@
 <script lang="ts">
 	// Constants/types
-	import type { Ethereum } from '../data/networks/types'
-	import type { AccountConnection } from '../state/account'
-	import type { NetworkProvider } from '../data/networkProviders/types'
-	import { networkProviderConfigByProvider } from '../data/networkProviders'
-	import { walletsByType } from '../data/wallets'
-	import type { UnionToObject } from '../utils/UnionToObject'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { AccountConnection } from '$/state/account'
+	import type { NetworkProvider } from '$/data/networkProviders/types'
+	import { networkProviderConfigByProvider } from '$/data/networkProviders'
+	import { walletsByType } from '$/data/wallets'
+	import type { UnionToObject } from '$/utils/UnionToObject'
 	
 	type Abi = $$Generic<Ethereum.Abi>
 	type AbiMethod = Ethereum.AbiMethod<Abi>
@@ -66,12 +66,12 @@
 
 
 	// Context
-	import { preferences } from '../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 
 	// Functions
-	import { isReadable, isWritable, isReadableWithoutInputs } from '../utils/abi'
-	import { isTruthy } from '../utils/isTruthy'
+	import { isReadable, isWritable, isReadableWithoutInputs } from '$/utils/abi'
+	import { isTruthy } from '$/utils/isTruthy'
 
 
 	// Inputs
@@ -129,7 +129,7 @@
 
 
 	// Formatting
-	import { formatIdentifierToWords } from '../utils/formatIdentifierToWords'
+	import { formatIdentifierToWords } from '$/utils/formatIdentifierToWords'
 
 	$: formatIdentifier = showFormattedNames
 		? formatIdentifierToWords
@@ -148,7 +148,7 @@
 	import TokenAmountSelect from './TokenAmountSelect.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import TransactionFlow from './TransactionFlow.svelte'
-	import { TenderlyIcon } from '../assets/icons'
+	import { TenderlyIcon } from '$/assets/icons'
 
 
 	// Transitions

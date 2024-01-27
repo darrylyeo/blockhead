@@ -54,7 +54,7 @@
 	}
 
 
-	import Preferences from '../components/Preferences.svelte'
+	import Preferences from '$/components/Preferences.svelte'
 
 
 	import { fly } from 'svelte/transition'

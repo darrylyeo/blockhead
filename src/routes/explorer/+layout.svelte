@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Ethereum } from '../../data/networks/types'
+	import type { Ethereum } from '$/data/networks/types'
 
 	// Params two-way binding
 
@@ -52,7 +52,7 @@
 	$: if(selectedNetwork)
 		$networkSlug = selectedNetwork.slug
 
-	import { isTestnet, getNetworkColor, networksBySlug, networksByChainID } from '../../data/networks'
+	import { isTestnet, getNetworkColor, networksBySlug, networksByChainID } from '$/data/networks'
 
 	$: _isTestnet = $explorerNetwork && isTestnet($explorerNetwork)
 
@@ -70,10 +70,10 @@
 
 	// Components
 	import { MetaTags } from 'svelte-meta-tags'
-	import NetworkSelect from '../../components/NetworkSelect.svelte'
-	import Preferences from '../../components/Preferences.svelte'
-	import InlineContainer from '../../components/InlineContainer.svelte'
-	import NetworkIcon from '../../components/NetworkIcon.svelte'
+	import NetworkSelect from '$/components/NetworkSelect.svelte'
+	import Preferences from '$/components/Preferences.svelte'
+	import InlineContainer from '$/components/InlineContainer.svelte'
+	import NetworkIcon from '$/components/NetworkIcon.svelte'
 
 
 	// Style/transitions

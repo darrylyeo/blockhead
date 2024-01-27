@@ -30,7 +30,7 @@
 
 
 	// Styles
-	import { matchesMediaQuery } from '../utils/matchesMediaQuery'
+	import { matchesMediaQuery } from '$/utils/matchesMediaQuery'
 	const matchesLayoutBreakpoint = matchesMediaQuery('(max-width: 30rem)')
 </script>
 

@@ -1,4 +1,4 @@
-import type { Ethereum } from '../data/networks/types'
+import type { Ethereum } from '$/data/networks/types'
 
 export enum LensInstance {
 	Polygon = 'Polygon',
@@ -22,7 +22,7 @@ export const lensInstances = {
 }
 
 
-import type { BrandedString } from '../utils/branded'
+import type { BrandedString } from '$/utils/branded'
 
 export type LensName = BrandedString<`${string}.${'lens' | 'test'}`>
 

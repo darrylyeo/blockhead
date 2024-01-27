@@ -4,7 +4,7 @@
 
 
 	// Components
-	import AudiusSearch from '../../../../../components/AudiusSearch.svelte'
+	import AudiusSearch from '$/components/AudiusSearch.svelte'
 </script>
 
 

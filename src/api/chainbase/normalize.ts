@@ -1,11 +1,11 @@
 // Types
-import type { Ethereum } from '../../data/networks/types'
-import type { TokenWithBalance } from '../../data/tokens'
+import type { Ethereum } from '$/data/networks/types'
+import type { TokenWithBalance } from '$/data/tokens'
 import type { getNftsByAddress, getBlockByNumber, getTransaction, getErc20TokenBalances } from './index'
 
 
 // Functions
-import { normalizeNftAttributes } from '../../utils/normalizeNftAttributes'
+import { normalizeNftAttributes } from '$/utils/normalizeNftAttributes'
 
 export const normalizeNftContracts = (nfts: Awaited<ReturnType<typeof getNftsByAddress>>['data']): Ethereum.NftContractWithNfts[] => (
 	[

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { ENS } from '../api/ens'
-	import type { Ethereum } from '../data/networks/types'
+	import type { ENS } from '$/api/ens'
+	import type { Ethereum } from '$/data/networks/types'
 
 
 	export let network: Ethereum.Network
@@ -24,10 +24,10 @@
 	let sortSubdomains: (d1: ENS.Domain['subdomains'], d2: ENS.Domain['subdomains']) => number
 
 
-	import { formatAddress } from '../utils/formatAddress'
-	import { formatTransactionHash } from '../utils/formatTransactionHash'
-	import { isTruthy } from '../utils/isTruthy'
-	import { withProps } from '../utils/withProps'
+	import { formatAddress } from '$/utils/formatAddress'
+	import { formatTransactionHash } from '$/utils/formatTransactionHash'
+	import { isTruthy } from '$/utils/isTruthy'
+	import { withProps } from '$/utils/withProps'
 
 
 	import Address from './Address.svelte'

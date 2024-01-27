@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../data/networks/types'
+	import type { Ethereum } from '$/data/networks/types'
 
 
 	// Inputs
@@ -33,8 +33,8 @@
 
 
 	// Styles/transitions
-	import { tokenColors } from '../data/tokenColors'
-	import { animationKey } from '../actions/animationKey'
+	import { tokenColors } from '$/data/tokenColors'
+	import { animationKey } from '$/actions/animationKey'
 </script>
 
 

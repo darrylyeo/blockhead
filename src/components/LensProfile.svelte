@@ -1,12 +1,12 @@
 <script lang="ts">
 	// Constants/types
-	import { type LensInstance, lensInstances, type LensProfile } from '../api/lens'
-	import { networksByChainID } from '../data/networks'
-	import { ipfsGatewaysByProvider } from '../data/ipfsGateways'
+	import { type LensInstance, lensInstances, type LensProfile } from '$/api/lens'
+	import { networksByChainID } from '$/data/networks'
+	import { ipfsGatewaysByProvider } from '$/data/ipfsGateways'
 
 
 	// Context
-	import { preferences } from '../state/preferences'
+	import { preferences } from '$/state/preferences'
 	
 	
 	// External state
@@ -36,7 +36,7 @@
 
 
 	// Functions
-	import { resolveUri } from '../utils/resolveUri'
+	import { resolveUri } from '$/utils/resolveUri'
 
 
 	// Components

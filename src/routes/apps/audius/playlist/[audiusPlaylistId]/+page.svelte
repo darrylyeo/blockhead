@@ -4,8 +4,8 @@
 
 
 	// Components
-	import AudiusPlaylistLoader from '../../../../../components/AudiusPlaylistLoader.svelte'
-	import AudiusPlaylistTracksLoader from '../../../../../components/AudiusPlaylistTracksLoader.svelte'
+	import AudiusPlaylistLoader from '$/components/AudiusPlaylistLoader.svelte'
+	import AudiusPlaylistTracksLoader from '$/components/AudiusPlaylistTracksLoader.svelte'
 </script>
 
 

@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { web3AppsBySlug } from '../../../data/web3Apps'
+	import { web3AppsBySlug } from '$/data/web3Apps'
 
 
-	import TransferAssets from '../../../components/TransferAssets.svelte'
+	import TransferAssets from '$/components/TransferAssets.svelte'
 
 
-	import { cardStyle } from '../../../utils/card-background'
+	import { cardStyle } from '$/utils/card-background'
 	import { fly } from 'svelte/transition'
 </script>
 

@@ -21,6 +21,7 @@ const config = {
 				: adapterAuto(),
 
 		alias: {
+			'$': './src',
 			'$houdini': './$houdini',
 		},
 	}

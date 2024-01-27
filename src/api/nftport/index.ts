@@ -1,4 +1,4 @@
-import { env } from '../../env'
+import { env } from '$/env'
 import { HttpClient, Api } from './api/Api'
 
 export const NftportApi = new Api(new HttpClient({
@@ -10,7 +10,7 @@ export const NftportApi = new Api(new HttpClient({
 }))
 
 
-import type { Ethereum } from '../../data/networks/types'
+import type { Ethereum } from '$/data/networks/types'
 import type { AccountRequestSupportedChain } from './api/Api'
 
 export const networkSlugToNftportChain: Record<Ethereum.NetworkName, AccountRequestSupportedChain> = {

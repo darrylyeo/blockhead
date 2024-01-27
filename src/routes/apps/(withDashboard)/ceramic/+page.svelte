@@ -1,8 +1,8 @@
 <script lang="ts">
 	// Constants/types
-	import type { Ethereum } from '../../../../data/networks/types'
-	import type { AccountConnection } from '../../../../state/account'
-	import { DidProvider } from '../../../../data/didProvider'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { AccountConnection } from '$/state/account'
+	import { DidProvider } from '$/data/didProvider'
 
 
 	// Inputs
@@ -12,8 +12,8 @@
 
 
 	// Components
-	import DidSessionLoader from '../../../../components/DidSessionLoader.svelte'
-	import DidSession from '../../../../components/DidSession.svelte'
+	import DidSessionLoader from '$/components/DidSessionLoader.svelte'
+	import DidSession from '$/components/DidSession.svelte'
 </script>
 
 

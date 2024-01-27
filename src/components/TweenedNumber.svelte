@@ -31,7 +31,7 @@
 	let tweenedValue: Tweened<number | string>
 
 
-	import { formatValue } from '../utils/formatValue'
+	import { formatValue } from '$/utils/formatValue'
 
 
 	import { tweened } from 'svelte/motion'

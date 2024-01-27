@@ -1,6 +1,6 @@
 import { ApolloClient, createHttpLink, gql, InMemoryCache } from '@apollo/client/core'
-import { apolloRequestStore } from '../utils/apolloRequestStore'
-import type { BrandedString } from '../utils/branded'
+import { apolloRequestStore } from '$/utils/apolloRequestStore'
+import type { BrandedString } from '$/utils/branded'
 
 
 const THE_GRAPH_ENS_URL = 'https://api.thegraph.com/subgraphs/name/ensdomains/ens'

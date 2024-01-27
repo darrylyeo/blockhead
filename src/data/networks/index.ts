@@ -1,5 +1,5 @@
 import type { Ethereum } from './types'
-import type { DeepReadonly } from '../../utils/DeepReadonly'
+import type { DeepReadonly } from '$/utils/DeepReadonly'
 
 // https://github.com/ethereum-lists/chains
 // https://chainid.network/chains.json

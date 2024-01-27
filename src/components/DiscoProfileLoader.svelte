@@ -1,9 +1,9 @@
 <script lang="ts">
 	// Constants/types
-	import type { Ethereum } from '../data/networks/types'
-	import { VerifiableCredentialProvider, verifiableCredentialProviderIcons } from '../data/verifiableCredentialProvider'
-	import type { Disco } from '../api/disco/index'
-	import type { DidUrl } from '../api/ceramic/did'
+	import type { Ethereum } from '$/data/networks/types'
+	import { VerifiableCredentialProvider, verifiableCredentialProviderIcons } from '$/data/verifiableCredentialProvider'
+	import type { Disco } from '$/api/disco/index'
+	import type { DidUrl } from '$/api/ceramic/did'
 
 	
 	// Inputs
@@ -30,7 +30,7 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
-	import { getProfileByDid, getProfileByEvmAddress } from '../api/disco/index'
+	import { getProfileByDid, getProfileByEvmAddress } from '$/api/disco/index'
 
 
 	// Components

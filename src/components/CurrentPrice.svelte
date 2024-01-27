@@ -1,16 +1,16 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/networks/types'
-	import { networksByChainID } from '../data/networks'
-	import type { NetworkProvider } from '../data/networkProviders/types'
-	import { getViemPublicClient } from '../data/networkProviders'
-	import type { QuoteCurrency, TickerSymbol } from '../data/currencies'
-	import { PriceProvider, priceProviderIcons } from '../data/priceProviders'
-	import { getChainlinkPriceFeed } from '../api/chainlink'
-	// import { getCompoundPriceFeed } from '.../../../data/ethereum/price/compound-price-feed'
-	import { getSpotPrices } from '../api/covalent'
+	import type { Ethereum } from '$/data/networks/types'
+	import { networksByChainID } from '$/data/networks'
+	import type { NetworkProvider } from '$/data/networkProviders/types'
+	import { getViemPublicClient } from '$/data/networkProviders'
+	import type { QuoteCurrency, TickerSymbol } from '$/data/currencies'
+	import { PriceProvider, priceProviderIcons } from '$/data/priceProviders'
+	import { getChainlinkPriceFeed } from '$/api/chainlink'
+	// import { getCompoundPriceFeed } from '.$/data/ethereum/price/compound-price-feed'
+	import { getSpotPrices } from '$/api/covalent'
 
 
-	import { preferences } from '../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 	export let currentPriceProvider: PriceProvider | 'auto' = 'auto'
 	$: currentPriceProvider = $$props.currentPriceProvider || $preferences.currentPriceProvider

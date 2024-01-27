@@ -9,17 +9,17 @@
 
 <script lang="ts">
 	import type { ComponentProps } from 'svelte'
-	import type { AccountId } from '../data/accountId'
-	import type { Ethereum } from '../data/networks/types'
-	import type { NetworkProvider } from '../data/networkProviders/types'
-	import type { DefiProvider } from '../data/defiProviders'
-	import type { NotificationsProvider } from '../data/notificationsProvider'
-	import { type QuoteCurrency, fiatQuoteCurrencies } from '../data/currencies'
+	import type { AccountId } from '$/data/accountId'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { NetworkProvider } from '$/data/networkProviders/types'
+	import type { DefiProvider } from '$/data/defiProviders'
+	import type { NotificationsProvider } from '$/data/notificationsProvider'
+	import { type QuoteCurrency, fiatQuoteCurrencies } from '$/data/currencies'
 
-	import type { Portfolio } from '../state/portfolio-accounts'
-	import { defaultAccountNetworks, getNetworkColor, networksByChainID } from '../data/networks'
+	import type { Portfolio } from '$/state/portfolio-accounts'
+	import { defaultAccountNetworks, getNetworkColor, networksByChainID } from '$/data/networks'
 
-	import { preferences } from '../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 
 	// Portfolio management
@@ -29,7 +29,7 @@
 	export let isEditable = true
 
 
-	import { triggerEvent } from '../events/triggerEvent'
+	import { triggerEvent } from '$/events/triggerEvent'
 
 
 	let state = State.Idle
@@ -178,7 +178,7 @@
 
 
 	// Functions
-	import { isTruthy } from '../utils/isTruthy'
+	import { isTruthy } from '$/utils/isTruthy'
 
 
 	// Actions

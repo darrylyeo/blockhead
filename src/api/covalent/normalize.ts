@@ -1,8 +1,8 @@
 // Types
 import type { AbiType } from 'abitype'
-import type { QuoteCurrency } from '../../data/currencies'
-import type { Ethereum } from '../../data/networks/types'
-import type { TokenWithBalance } from '../../data/tokens'
+import type { QuoteCurrency } from '$/data/currencies'
+import type { Ethereum } from '$/data/networks/types'
+import type { TokenWithBalance } from '$/data/tokens'
 import type { BlockResponse, Transaction, Erc20TransfersResponse, LogEvent, NftAddressBalanceNftResponse, getTokenBalancesForAddress } from '../covalent/index'
 
 export type Erc20Transfer = Pick<Ethereum.Transaction,
@@ -27,7 +27,7 @@ export type Erc20Transfer = Pick<Ethereum.Transaction,
 
 
 // Functions
-import { normalizeNftAttributes } from '../../utils/normalizeNftAttributes'
+import { normalizeNftAttributes } from '$/utils/normalizeNftAttributes'
 
 export const normalizeBlock = (
     block: BlockResponse['items'][number],

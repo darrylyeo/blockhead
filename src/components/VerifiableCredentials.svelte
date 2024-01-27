@@ -1,6 +1,6 @@
 <script lang="ts">	
 	// Types/constants
-	import type { Disco } from '../api/disco'
+	import type { Disco } from '$/api/disco'
 
 	
 	// Inputs

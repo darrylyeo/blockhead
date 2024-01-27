@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Constants/types
-	import type { IpfsCid } from '../api/ipfs/contentId'
+	import type { IpfsCid } from '$/api/ipfs/contentId'
 
 
 	// External state

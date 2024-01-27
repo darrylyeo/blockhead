@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Types
-	import type { Ethereum } from '../data/networks/types'
+	import type { Ethereum } from '$/data/networks/types'
 
 
 	// External state

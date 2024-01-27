@@ -100,7 +100,7 @@ export const getLocalFilesystem = async () => {
 import type { IpfsCid } from './contentId'
 import type { IpnsName } from './ipns'
 
-import { asyncIterableFromStream, streamFromAsyncIterable } from '../../utils/convertAsyncIterable'
+import { asyncIterableFromStream, streamFromAsyncIterable } from '$/utils/convertAsyncIterable'
 
 export const getIpfsContent = async ({
 	ipfsContentId,

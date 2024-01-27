@@ -3,7 +3,7 @@ export enum DidProvider {
 }
 
 
-import { CeramicIcon } from '../assets/icons'
+import { CeramicIcon } from '$/assets/icons'
 
 export const didProviderIcons = {
 	[DidProvider.Ceramic]: CeramicIcon,

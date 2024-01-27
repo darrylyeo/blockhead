@@ -9,7 +9,7 @@ export const getThreeIdConnect = () => {
 }
 
 
-import type { Ethereum } from '../../data/networks/types'
+import type { Ethereum } from '$/data/networks/types'
 import toWeb3Provider from 'ethers-to-web3'
 
 export const getDIDProviderFromEthereumProvider = async ({

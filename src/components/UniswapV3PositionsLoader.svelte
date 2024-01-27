@@ -1,12 +1,12 @@
 <script lang="ts">
 	// Constants/types
-	import type { Ethereum } from '../data/networks/types'
-	import { NetworkProvider } from '../data/networkProviders/types'
-	import { UniswapV3 } from '../api/uniswap-v3/index'
+	import type { Ethereum } from '$/data/networks/types'
+	import { NetworkProvider } from '$/data/networkProviders/types'
+	import { UniswapV3 } from '$/api/uniswap-v3/index'
 
 
 	// Context
-	import { preferences } from '../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 	
 	// Inputs
@@ -42,14 +42,14 @@
 
 
 	// Functions
-	import { UniswapV3Subgraph } from '../api/uniswap-v3/subgraph'
+	import { UniswapV3Subgraph } from '$/api/uniswap-v3/subgraph'
 	import { createInfiniteQuery } from '@tanstack/svelte-query'
 	import { gql } from '@urql/svelte'
 
 
 	// Components
 	import Loader from './Loader.svelte'
-	import { TheGraphIcon } from '../assets/icons'
+	import { TheGraphIcon } from '$/assets/icons'
 </script>
 
 

@@ -4,8 +4,8 @@
 	let promise: Promise
 
 
-	import AddressInput from '../components/AddressInput.svelte'
-	import Loader from '../components/Loader.svelte'
+	import AddressInput from '$/components/AddressInput.svelte'
+	import Loader from '$/components/Loader.svelte'
 
 
 	import { fly } from 'svelte/transition'

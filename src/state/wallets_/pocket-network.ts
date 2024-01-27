@@ -1,4 +1,4 @@
-import type {  } from '../../data/networks/types'
+import type {  } from '$/data/networks/types'
 // import { Pocket, Configuration, HttpRpcProvider, PocketAAT, PocketRpcProvider } from '@pokt-network/pocket-js'
 // import { Pocket, Configuration, HttpProvider, HttpRpcProvider, PocketAAT, PocketProvider, PocketRpcProvider } from '@pokt-network/web3-provider'
 

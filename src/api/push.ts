@@ -1,4 +1,4 @@
-import type { Ethereum } from '../data/networks/types'
+import type { Ethereum } from '$/data/networks/types'
 
 export type AppName = string
 
@@ -76,7 +76,7 @@ export const pushChainIdForBlockchainName: Record<BlockchainName, typeof pushSup
 
 
 import * as PushAPI from '@pushprotocol/restapi'
-import { memoizedAsync } from '../utils/memoized'
+import { memoizedAsync } from '$/utils/memoized'
 
 const getFeeds = memoizedAsync(PushAPI.user.getFeeds)
 

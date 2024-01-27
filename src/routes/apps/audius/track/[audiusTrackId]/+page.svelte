@@ -4,7 +4,7 @@
 
 
 	// Components
-	import AudiusTrackLoader from '../../../../../components/AudiusTrackLoader.svelte'
+	import AudiusTrackLoader from '$/components/AudiusTrackLoader.svelte'
 </script>
 
 

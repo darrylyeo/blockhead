@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/networks/types'
+	import type { Ethereum } from '$/data/networks/types'
 
 
 	export let network: Ethereum.Network
@@ -58,10 +58,10 @@
 	const hiddenEllipsis = '︙' // '• • •'
 
 
-	import { formatIdentifierToWords } from '../utils/formatIdentifierToWords'
-	import { formatTransactionHash } from '../utils/formatTransactionHash'
+	import { formatIdentifierToWords } from '$/utils/formatIdentifierToWords'
+	import { formatTransactionHash } from '$/utils/formatTransactionHash'
 	import { formatUnits } from 'viem'
-	import { isTruthy } from '../utils/isTruthy'
+	import { isTruthy } from '$/utils/isTruthy'
 
 
 	import Address from './Address.svelte'

@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import type { TokenList } from '@uniswap/token-lists'
-	import uniswapLabsDefaultTokenList from '../data/tokens/tokens.uniswap.org.tokenlist.json'
+	import uniswapLabsDefaultTokenList from '$/data/tokens/tokens.uniswap.org.tokenlist.json'
 
 
 	// Inputs

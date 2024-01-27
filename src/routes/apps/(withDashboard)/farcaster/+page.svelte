@@ -1,11 +1,11 @@
 <script lang="ts">
 	// Types
-	import type { FarcasterProvider } from '../../../../data/farcasterProviders'
+	import type { FarcasterProvider } from '$/data/farcasterProviders'
 
 
 	// Context
 	import { farcasterUserId, farcasterUserName, farcasterCastId, farcasterCastShortId, farcasterChannelSlug } from '../../_appsParams'
-	import { preferences } from '../../../../state/preferences'
+	import { preferences } from '$/state/preferences'
 
 
 	// Internal state
@@ -14,13 +14,13 @@
 
 
 	// Components
-	import FarcasterCasts from '../../../../components/FarcasterCasts.svelte'
-	import FarcasterCastsLoader from '../../../../components/FarcasterCastsLoader.svelte'
-	import FarcasterCastLoader from '../../../../components/FarcasterCastLoader.svelte'
-	import FarcasterCast from '../../../../components/FarcasterCast.svelte'
-	import FarcasterUser from '../../../../components/FarcasterUser.svelte'
-	import FarcasterUserProfileLoader from '../../../../components/FarcasterUserProfileLoader.svelte'
-	import FarcasterUserProfile from '../../../../components/FarcasterUserProfile.svelte'
+	import FarcasterCasts from '$/components/FarcasterCasts.svelte'
+	import FarcasterCastsLoader from '$/components/FarcasterCastsLoader.svelte'
+	import FarcasterCastLoader from '$/components/FarcasterCastLoader.svelte'
+	import FarcasterCast from '$/components/FarcasterCast.svelte'
+	import FarcasterUser from '$/components/FarcasterUser.svelte'
+	import FarcasterUserProfileLoader from '$/components/FarcasterUserProfileLoader.svelte'
+	import FarcasterUserProfile from '$/components/FarcasterUserProfile.svelte'
 </script>
 
 

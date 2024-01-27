@@ -1,5 +1,5 @@
-import type { Ethereum } from '../../data/networks/types'
-import { getNetworkRPC } from '../../data/networks'
+import type { Ethereum } from '$/data/networks/types'
+import { getNetworkRPC } from '$/data/networks'
 
 
 const PORTIS_DAPP_ID = '136f70ac-f0e2-4f6f-b83b-a1089ec331bb'

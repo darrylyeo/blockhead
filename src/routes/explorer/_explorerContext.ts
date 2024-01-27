@@ -1,14 +1,14 @@
 // Types
-import type { Ethereum } from '../../data/networks/types'
+import type { Ethereum } from '$/data/networks/types'
 
 
 // Constants
-import { networksBySlug } from '../../data/networks'
+import { networksBySlug } from '$/data/networks'
 
 
 // Functions
-import { getViemPublicClient } from '../../data/networkProviders'
-import { isTruthy } from '../../utils/isTruthy'
+import { getViemPublicClient } from '$/data/networkProviders'
+import { isTruthy } from '$/utils/isTruthy'
 
 
 // External stores
@@ -19,7 +19,7 @@ import {
 	networkSlug,
 } from './_explorerParams'
 
-import { preferences } from '../../state/preferences'
+import { preferences } from '$/state/preferences'
 
 
 // Derived stores

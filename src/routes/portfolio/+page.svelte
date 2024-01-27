@@ -3,14 +3,14 @@
 	import { MetaTags } from 'svelte-meta-tags'
 
 
-	import { getLocalPortfolios, createPortfolio } from '../../state/portfolio-accounts'
-	import { preferences } from '../../state/preferences'
+	import { getLocalPortfolios, createPortfolio } from '$/state/portfolio-accounts'
+	import { preferences } from '$/state/preferences'
 
 
 	const localPortfolios = getLocalPortfolios()
 
 
-	import { triggerEvent } from '../../events/triggerEvent'
+	import { triggerEvent } from '$/events/triggerEvent'
 
 	const addPortfolio = () => {
 		$localPortfolios = [...$localPortfolios, createPortfolio()]
@@ -35,15 +35,15 @@
 
 
 	// Components
-	import PortfolioComponent from '../../components/Portfolio.svelte'
-	import Preferences from '../../components/Preferences.svelte'
-	import AccountConnections from '../../components/AccountConnections.svelte'
-	// import WalletProviders from '../../components/WalletProviders.svelte'
+	import PortfolioComponent from '$/components/Portfolio.svelte'
+	import Preferences from '$/components/Preferences.svelte'
+	import AccountConnections from '$/components/AccountConnections.svelte'
+	// import WalletProviders from '$/components/WalletProviders.svelte'
 
 
 	// Style
 
-	import { matchesMediaQuery } from '../../utils/matchesMediaQuery'
+	import { matchesMediaQuery } from '$/utils/matchesMediaQuery'
 
 	const matchesLayoutBreakpoint = matchesMediaQuery('(min-width: 100rem)')
 	let layout: 'row' | 'column'

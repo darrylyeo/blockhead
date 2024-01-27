@@ -1,5 +1,5 @@
-import { env } from '../../env'
-import { ConcurrentPromiseQueue } from '../../utils/ConcurrentPromiseQueue'
+import { env } from '$/env'
+import { ConcurrentPromiseQueue } from '$/utils/ConcurrentPromiseQueue'
 
 const queue = new ConcurrentPromiseQueue(1)
 

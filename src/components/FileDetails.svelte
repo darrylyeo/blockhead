@@ -52,7 +52,7 @@
 
 
 	// Functions
-	import { formatByteCount } from '../utils/formatByteCount'
+	import { formatByteCount } from '$/utils/formatByteCount'
 
 
 	// Components

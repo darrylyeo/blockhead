@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../data/networks/types'
-	import type { AppWithDefiPositions } from '../data/defiPositions'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { AppWithDefiPositions } from '$/data/defiPositions'
 
 
 	// Inputs
@@ -28,9 +28,9 @@
 
 
 	// Functions
-	import { formatPercent } from '../utils/formatPercent'
-	import { formatKebabCase } from '../utils/formatKebabCase'
-	import { formatIdentifierToWords } from '../utils/formatIdentifierToWords'
+	import { formatPercent } from '$/utils/formatPercent'
+	import { formatKebabCase } from '$/utils/formatKebabCase'
+	import { formatIdentifierToWords } from '$/utils/formatIdentifierToWords'
 
 
 	// Components
@@ -43,10 +43,10 @@
 
 
 	// Transitions/styling
-	import { cardStyle } from '../utils/card-background'
+	import { cardStyle } from '$/utils/card-background'
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
-	import { scaleFont } from '../transitions/scale-font'
+	import { scaleFont } from '$/transitions/scale-font'
 </script>
 
 

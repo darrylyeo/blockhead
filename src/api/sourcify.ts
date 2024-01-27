@@ -1,4 +1,4 @@
-import type { Ethereum } from '../data/networks/types'
+import type { Ethereum } from '$/data/networks/types'
 
 export const getSourcifyUrl = ({
 	contractAddress,

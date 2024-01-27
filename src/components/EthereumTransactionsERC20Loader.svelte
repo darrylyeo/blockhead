@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { Ethereum } from '../data/networks/types'
-	import type { NetworkProvider } from '../data/networkProviders/types'
-	import { getViemPublicClient } from '../data/networkProviders'
-	import type { QuoteCurrency } from '../data/currencies'
-	import { preferences } from '../state/preferences'
-	import { TransactionProvider, transactionProviderIcons } from '../data/transactionProvider'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { NetworkProvider } from '$/data/networkProviders/types'
+	import { getViemPublicClient } from '$/data/networkProviders'
+	import type { QuoteCurrency } from '$/data/currencies'
+	import { preferences } from '$/state/preferences'
+	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProvider'
 
 
 	export let network: Ethereum.Network
@@ -48,8 +48,8 @@
 
 	import { createInfiniteQuery } from '@tanstack/svelte-query'
 
-	import { getErc20TransfersForWalletAddress } from '../api/covalent/index'
-	import { normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent/normalize'
+	import { getErc20TransfersForWalletAddress } from '$/api/covalent/index'
+	import { normalizeTransaction as normalizeTransactionCovalent } from '$/api/covalent/normalize'
 
 
 	import Loader from './Loader.svelte'

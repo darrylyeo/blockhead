@@ -1,14 +1,14 @@
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../data/networks/types'
-	import type { NetworkProvider } from '../data/networkProviders/types'
-	import type { QuoteCurrency } from '../data/currencies'
-	import type { Web3AppConfig } from '../data/web3Apps'
-	import type { ZapperAppId, ZapperAppConfig } from '../api/zapper'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { NetworkProvider } from '$/data/networkProviders/types'
+	import type { QuoteCurrency } from '$/data/currencies'
+	import type { Web3AppConfig } from '$/data/web3Apps'
+	import type { ZapperAppId, ZapperAppConfig } from '$/api/zapper'
 
-	import { getViemPublicClient } from '../data/networkProviders'
-	import { DefiProvider, defiProviderIcons } from '../data/defiProviders'
-	import type { AppWithDefiPositions } from '../data/defiPositions'
+	import { getViemPublicClient } from '$/data/networkProviders'
+	import { DefiProvider, defiProviderIcons } from '$/data/defiProviders'
+	import type { AppWithDefiPositions } from '$/data/defiPositions'
 
 
 	// Inputs
@@ -88,11 +88,11 @@
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
 
-	import { getDefiPositions } from '../api/zerion/defiSdk/index'
-	import { normalizeDefiPositions as normalizeDefiPositionsZerion } from '../api/zerion/defiSdk/normalize'
+	import { getDefiPositions } from '$/api/zerion/defiSdk/index'
+	import { normalizeDefiPositions as normalizeDefiPositionsZerion } from '$/api/zerion/defiSdk/normalize'
 
-	import { getAllApps, getDefiPositionsForApps } from '../api/zapper/index'
-	import { normalizeDefiPositions as normalizeDefiPositionsZapper } from '../api/zapper/normalize'
+	import { getAllApps, getDefiPositionsForApps } from '$/api/zapper/index'
+	import { normalizeDefiPositions as normalizeDefiPositionsZapper } from '$/api/zapper/normalize'
 
 
 	// Components

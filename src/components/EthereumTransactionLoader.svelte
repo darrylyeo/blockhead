@@ -1,11 +1,11 @@
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../data/networks/types'
-	import type { QuoteCurrency } from '../data/currencies'
-	import type { NetworkProvider } from '../data/networkProviders/types'
-	import { TransactionProvider, transactionProviderIcons } from '../data/transactionProvider'
-	import { getViemPublicClient } from '../data/networkProviders'
-	import { preferences } from '../state/preferences'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { QuoteCurrency } from '$/data/currencies'
+	import type { NetworkProvider } from '$/data/networkProviders/types'
+	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProvider'
+	import { getViemPublicClient } from '$/data/networkProviders'
+	import { preferences } from '$/state/preferences'
 
 
 	// Inputs
@@ -57,23 +57,23 @@
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
 
-	import { normalizeTransaction as normalizeViemTransaction } from '../api/viem/normalize'
+	import { normalizeTransaction as normalizeViemTransaction } from '$/api/viem/normalize'
 
-	import { getTransaction as getTransactionChainbase } from '../api/chainbase/index'
-	import { normalizeTransaction as normalizeTransactionChainbase } from '../api/chainbase/normalize'
+	import { getTransaction as getTransactionChainbase } from '$/api/chainbase/index'
+	import { normalizeTransaction as normalizeTransactionChainbase } from '$/api/chainbase/normalize'
 
-	import { getTransaction as getTransactionCovalent } from '../api/covalent/index'
-	import { normalizeTransaction as normalizeTransactionCovalent } from '../api/covalent/normalize'
+	import { getTransaction as getTransactionCovalent } from '$/api/covalent/index'
+	import { normalizeTransaction as normalizeTransactionCovalent } from '$/api/covalent/normalize'
 
-	import { normalizeTransaction as normalizeTransactionDecommas } from '../api/decommas/normalize'
+	import { normalizeTransaction as normalizeTransactionDecommas } from '$/api/decommas/normalize'
 
-	import { Etherscan } from '../api/etherscan/index'
-	import { normalizeRpcTransaction as normalizeTransactionEtherscan, normalizeRpcTransactionReceipt as normalizeTransactionReceiptEtherscan } from '../api/etherscan/normalize'
+	import { Etherscan } from '$/api/etherscan/index'
+	import { normalizeRpcTransaction as normalizeTransactionEtherscan, normalizeRpcTransactionReceipt as normalizeTransactionReceiptEtherscan } from '$/api/etherscan/normalize'
 
-	// import { getTransaction as getTransactionEtherspot, normalizeTransaction as normalizeEtherspotTransaction } from '../api/etherspot'
+	// import { getTransaction as getTransactionEtherspot, normalizeTransaction as normalizeEtherspotTransaction } from '$/api/etherspot'
 
-	import { MoralisWeb3Api, chainCodeFromNetwork } from '../api/moralis/web3Api/index'
-	import { normalizeTransaction as normalizeTransactionMoralis } from '../api/moralis/web3Api/normalize'
+	import { MoralisWeb3Api, chainCodeFromNetwork } from '$/api/moralis/web3Api/index'
+	import { normalizeTransaction as normalizeTransactionMoralis } from '$/api/moralis/web3Api/normalize'
 
 
 	// Components
@@ -257,7 +257,7 @@
 								transactionId,
 							}],
 							queryFn: async () => {
-								const { decommas, chainNameByChainId } = await import('../api/decommas')
+								const { decommas, chainNameByChainId } = await import('$/api/decommas')
 
 								const chainName = chainNameByChainId[network.chainId]
 

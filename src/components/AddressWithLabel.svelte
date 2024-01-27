@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Types/constants
-	import type { NetworkAccountAddress } from '../data/address'
-	import type { Ethereum } from '../data/networks/types'
+	import type { NetworkAccountAddress } from '$/data/address'
+	import type { Ethereum } from '$/data/networks/types'
 	
 
 	// Inputs

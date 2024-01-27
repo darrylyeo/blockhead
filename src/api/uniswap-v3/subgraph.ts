@@ -1,4 +1,4 @@
-import type { Ethereum } from '../../data/networks/types'
+import type { Ethereum } from '$/data/networks/types'
 import type { UniswapV3 } from './index'
 
 import { Client, cacheExchange, fetchExchange, gql } from '@urql/svelte'

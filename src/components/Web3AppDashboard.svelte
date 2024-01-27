@@ -1,13 +1,13 @@
 <script lang="ts">
 	// Constants/types
-	import type { Ethereum } from '../data/networks/types'
-	import type { NetworkProvider } from '../data/networkProviders/types'
-	import { DefiProvider } from '../data/defiProviders'
-	import type { QuoteCurrency } from '../data/currencies'
-	import type { Web3AppConfig } from '../data/web3Apps'
-	import { networksByChainID } from '../data/networks'
-	import { preferences } from '../state/preferences'
-	import type { AccountConnection } from '../state/account'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { NetworkProvider } from '$/data/networkProviders/types'
+	import { DefiProvider } from '$/data/defiProviders'
+	import type { QuoteCurrency } from '$/data/currencies'
+	import type { Web3AppConfig } from '$/data/web3Apps'
+	import { networksByChainID } from '$/data/networks'
+	import { preferences } from '$/state/preferences'
+	import type { AccountConnection } from '$/state/account'
 
 	type Layout = 'horizontal' | 'horizontal-alternate' | 'vertical'
 
@@ -38,7 +38,7 @@
 
 
 	// Functions
-	import type { ZapperAppBalance } from '../api/zapper'
+	import type { ZapperAppBalance } from '$/api/zapper'
 
 
 	// Internal state
@@ -92,10 +92,10 @@
 
 
 	// Transitions/animations
-	import { cardStyle } from '../utils/card-background'
+	import { cardStyle } from '$/utils/card-background'
 	import { flip } from 'svelte/animate'
 	import { scale } from 'svelte/transition'
-	import { scaleFont } from '../transitions/scale-font'
+	import { scaleFont } from '$/transitions/scale-font'
 </script>
 
 

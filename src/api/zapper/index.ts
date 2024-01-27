@@ -2,7 +2,7 @@ import type {
 	BalanceControllerGetAppBalancesParams,
 } from './api/data-contracts'
 
-import type { Ethereum } from '../../data/networks/types'
+import type { Ethereum } from '$/data/networks/types'
 
 
 // Networks
@@ -673,7 +673,7 @@ type AppMeta = {
 import { V2 } from './api/V2'
 import { HttpClient } from './api/http-client'
 import type { FullRequestParams } from './api/http-client'
-import { env } from '../../env'
+import { env } from '$/env'
 
 const client = new HttpClient()
 
@@ -694,8 +694,8 @@ export const Zapper = new V2(client)
 
 // Utils
 
-import { ConcurrentPromiseQueue } from '../../utils/ConcurrentPromiseQueue'
-import { promiseAllFulfilled } from '../../utils/promiseAllFulfilled'
+import { ConcurrentPromiseQueue } from '$/utils/ConcurrentPromiseQueue'
+import { promiseAllFulfilled } from '$/utils/promiseAllFulfilled'
 
 const queue = new ConcurrentPromiseQueue(3)
 
@@ -703,8 +703,8 @@ import { readable } from 'svelte/store'
 import type { Result } from 'svelte-apollo'
 
 
-import { memoizedAsync } from '../../utils/memoized'
-import { parallelLoaderStore } from '../../utils/parallelLoaderStore'
+import { memoizedAsync } from '$/utils/memoized'
+import { parallelLoaderStore } from '$/utils/parallelLoaderStore'
 
 
 // Methods

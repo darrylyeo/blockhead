@@ -1,12 +1,12 @@
 <script lang="ts">
 	// Constants/types
-	import { FeedType, FilterType } from '../api/neynar/v2'
-	import type { FarcasterCast, FarcasterUserId } from '../api/farcaster/index'
-	import { FarcasterProvider, farcasterProviderIcons } from '../data/farcasterProviders'
+	import { FeedType, FilterType } from '$/api/neynar/v2'
+	import type { FarcasterCast, FarcasterUserId } from '$/api/farcaster/index'
+	import { FarcasterProvider, farcasterProviderIcons } from '$/data/farcasterProviders'
 
 
 	// Context
-	import { env } from '../env'
+	import { env } from '$/env'
 
 
 	// Inputs
@@ -30,7 +30,7 @@
 	// Functions
 	import { createInfiniteQuery } from '@tanstack/svelte-query'
 
-	import { normalizeCastV2 as normalizeCastNeynarV2 } from '../api/neynar/normalize'
+	import { normalizeCastV2 as normalizeCastNeynarV2 } from '$/api/neynar/normalize'
 
 
 	// Components
@@ -54,7 +54,7 @@
 					}],
 					initialPageParam: '',
 					queryFn: async ({ pageParam: cursor }) => {
-						const { feed } = await import('../api/neynar/v2')
+						const { feed } = await import('$/api/neynar/v2')
 
 						return (
 							userId ?

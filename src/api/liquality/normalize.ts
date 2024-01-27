@@ -1,6 +1,6 @@
 // Types
-import type { Ethereum } from '../../data/networks/types'
-import type { TokenWithBalance } from '../../data/tokens'
+import type { Ethereum } from '$/data/networks/types'
+import type { TokenWithBalance } from '$/data/tokens'
 import type { Nft } from '@liquality/wallet-sdk'
 
 

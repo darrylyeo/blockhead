@@ -5,7 +5,7 @@ export enum ContractSourceProvider {
 }
 
 
-import { EtherscanIcon, SourcifyIcon /*, TenderlyIcon */ } from '../assets/icons'
+import { EtherscanIcon, SourcifyIcon /*, TenderlyIcon */ } from '$/assets/icons'
 
 export const contractSourceProviderIcons: Record<ContractSourceProvider, string> = {
 	[ContractSourceProvider.Etherscan]: EtherscanIcon,

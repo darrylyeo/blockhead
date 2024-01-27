@@ -1,10 +1,10 @@
 // Types
-import type { Ethereum } from '../../data/networks/types'
+import type { Ethereum } from '$/data/networks/types'
 import type { AccountNftsResponse, AccountContractsResponse } from './api/Api'
 
 
 // Functions
-import { normalizeNftAttributes } from '../../utils/normalizeNftAttributes'
+import { normalizeNftAttributes } from '$/utils/normalizeNftAttributes'
 
 
 export const normalizeNftContracts = ({

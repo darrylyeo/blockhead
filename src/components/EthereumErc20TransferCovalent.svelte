@@ -1,8 +1,8 @@
 <script lang="ts">
 	// Types/constants
-	import type { Ethereum } from '../data/networks/types'
-	import type { Erc20Transfer } from '../api/covalent'
-	import type { QuoteCurrency } from '../data/currencies'
+	import type { Ethereum } from '$/data/networks/types'
+	import type { Erc20Transfer } from '$/api/covalent'
+	import type { QuoteCurrency } from '$/data/currencies'
 
 
 	// Inputs

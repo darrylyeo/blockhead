@@ -1,10 +1,10 @@
 <script lang="ts">
 	// Constants/types
-	import type { FarcasterUser, FarcasterUserId, FarcasterUserName } from '../api/farcaster/index'
-	import { FarcasterProvider, farcasterProviderIcons } from '../data/farcasterProviders'
+	import type { FarcasterUser, FarcasterUserId, FarcasterUserName } from '$/api/farcaster/index'
+	import { FarcasterProvider, farcasterProviderIcons } from '$/data/farcasterProviders'
 
 
-	import { env } from '../env'
+	import { env } from '$/env'
 
 
 	// Inputs
@@ -40,7 +40,7 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
-	import { normalizeUserV1 as normalizeUserNeynarV1 } from '../api/neynar/normalize'
+	import { normalizeUserV1 as normalizeUserNeynarV1 } from '$/api/neynar/normalize'
 
 
 	// Components
@@ -69,7 +69,7 @@
 						},
 					}],
 					queryFn: async () => {
-						const { getFarcasterUserByUsername, user } = await import('../api/neynar/v1')
+						const { getFarcasterUserByUsername, user } = await import('$/api/neynar/v1')
 
 						return (
 							userName ?

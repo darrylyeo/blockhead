@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { LensInstance, LensName } from '../api/lens'
+	import type { LensInstance, LensName } from '$/api/lens'
 
 
 	export let instance: LensInstance

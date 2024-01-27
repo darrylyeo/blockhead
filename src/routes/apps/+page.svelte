@@ -3,13 +3,13 @@
 	import { MetaTags } from 'svelte-meta-tags'
 
 
-	import { web3AppsBySection } from '../../data/web3Apps'
+	import { web3AppsBySection } from '$/data/web3Apps'
 
 
-	import TokenIcon from '../../components/TokenIcon.svelte'
+	import TokenIcon from '$/components/TokenIcon.svelte'
 
 
-	import { cardStyle } from '../../utils/card-background'
+	import { cardStyle } from '$/utils/card-background'
 	import { fly, scale } from 'svelte/transition'
 </script>
 

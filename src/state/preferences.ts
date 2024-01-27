@@ -1,25 +1,25 @@
 // Type functions
-import type { DeepReadonly } from '../utils/DeepReadonly'
-import type { Indices } from '../utils/Indices'
-import type { UnionToObject } from '../utils/UnionToObject'
+import type { DeepReadonly } from '$/utils/DeepReadonly'
+import type { Indices } from '$/utils/Indices'
+import type { UnionToObject } from '$/utils/UnionToObject'
 
 
 // External constants
-import type { Ethereum } from '../data/networks/types'
-import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '../data/currencies'
-import { NetworkProvider } from '../data/networkProviders/types'
-import { networkProviderConfigs } from '../data/networkProviders'
-import { TokenBalancesProvider } from '../data/tokenBalancesProvider'
-import { DefiProvider } from '../data/defiProviders'
-import { NftProvider } from '../data/nftProviders'
-import { PriceProvider } from '../data/priceProviders'
-import { TransactionProvider } from '../data/transactionProvider'
-import { ContractSourceProvider } from '../data/contractSourceProvider'
-import { NotificationsProvider } from '../data/notificationsProvider'
-import { ipfsGateways } from '../data/ipfsGateways'
-import { arweaveGateways } from '../data/arweaveGateways'
-import { FarcasterProvider } from '../data/farcasterProviders'
-import { UrlMetadataProvider } from '../data/urlMetadataProvider'
+import type { Ethereum } from '$/data/networks/types'
+import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '$/data/currencies'
+import { NetworkProvider } from '$/data/networkProviders/types'
+import { networkProviderConfigs } from '$/data/networkProviders'
+import { TokenBalancesProvider } from '$/data/tokenBalancesProvider'
+import { DefiProvider } from '$/data/defiProviders'
+import { NftProvider } from '$/data/nftProviders'
+import { PriceProvider } from '$/data/priceProviders'
+import { TransactionProvider } from '$/data/transactionProvider'
+import { ContractSourceProvider } from '$/data/contractSourceProvider'
+import { NotificationsProvider } from '$/data/notificationsProvider'
+import { ipfsGateways } from '$/data/ipfsGateways'
+import { arweaveGateways } from '$/data/arweaveGateways'
+import { FarcasterProvider } from '$/data/farcasterProviders'
+import { UrlMetadataProvider } from '$/data/urlMetadataProvider'
 
 
 // Constants
@@ -515,7 +515,7 @@ type PreferencesState = UnionToObject<{
 	}
 }[PreferencesConfig[number]['sectionId']]>
 
-import { localStorageWritable } from '../utils/localStorageWritable'
+import { localStorageWritable } from '$/utils/localStorageWritable'
 
 // (Functions)
 const resolveDefaultPreferences = (preferences?: Partial<PreferencesState>): PreferencesState => (

@@ -100,9 +100,9 @@ import {
 	WalletConnectIcon,
 	WalletConnect2Icon,
 	BananaWalletIcon,
-} from '../assets/walletIcons'
+} from '$/assets/walletIcons'
 
-import { LiqualityIcon } from '../assets/icons'
+import { LiqualityIcon } from '$/assets/icons'
 
 
 export const wallets: WalletConfig[] = [

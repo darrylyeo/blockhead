@@ -2,14 +2,14 @@
 	export let userId: string
 
 
-	import { getUser } from '../api/audius'
+	import { getUser } from '$/api/audius'
 
 
 	import AudiusUser from './AudiusUser.svelte'
 	import Loader from './Loader.svelte'
 
 
-	import { AudiusIcon } from '../assets/icons'
+	import { AudiusIcon } from '$/assets/icons'
 </script>
 
 

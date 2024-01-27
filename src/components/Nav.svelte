@@ -5,7 +5,7 @@
 	import EthereumLatestBlockNumber from './EthereumLatestBlockNumber.svelte'
 
 
-	import { GitcoinIcon } from '../assets/icons'
+	import { GitcoinIcon } from '$/assets/icons'
 </script>
 
 
