@@ -21,9 +21,9 @@ const config = {
 				: adapterAuto(),
 
 		alias: {
-			$houdini: './$houdini',
+			'$houdini': './$houdini',
 		},
 	}
-};
+}
 
-export default config;
+export default config
