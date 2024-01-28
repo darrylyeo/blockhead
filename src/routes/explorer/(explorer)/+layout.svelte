@@ -426,4 +426,6 @@
 			</Loader>
 		{/if}
 	{/if}
+
+	<slot />
 </section>
