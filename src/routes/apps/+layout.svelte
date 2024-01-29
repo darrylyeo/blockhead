@@ -114,7 +114,6 @@
 
 
 	// Components
-	import { MetaTags } from 'svelte-meta-tags'
 	import NetworkSelect from '$/components/NetworkSelect.svelte'
 	import Preferences from '$/components/Preferences.svelte'
 	import TokenIcon from '$/components/TokenIcon.svelte'
@@ -152,12 +151,6 @@
 		font-size: 1.5em;
 	}
 </style>
-
-
-<MetaTags {...{
-	title: `${$title} | Blockhead`,
-	description: 'Browse DeFi protocols and web3 apps on Blockhead.',
-}} />
 
 
 <main in:fly|global={{x: 300}} out:fly|global={{x: -300}}>

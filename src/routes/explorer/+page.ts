@@ -1,6 +1,8 @@
-// Context
+// Types/constants
 import type { MetaTagsProps } from 'svelte-meta-tags'
 
+
+// Context
 import type { PageLoad } from './$types'
 
 export const load: PageLoad = async ({
@@ -10,7 +12,6 @@ export const load: PageLoad = async ({
 
 	const metaTags: MetaTagsProps = {
 		...data.metaTags,
-		title: `Explorer | Blockhead`,
 		description: 'Explore transactions, blocks, accounts and smart contracts across Ethereum, Polygon, Gnosis Chain, and other EVM chains.',
 	}
 

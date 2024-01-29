@@ -30,14 +30,16 @@ const isStatic = !!process.env.SVELTE_BUILD_STATIC
 export const trailingSlash = isStatic ? 'always' : 'never'
 
 
-// Context
+// Types/constants
 import type { MetaTagsProps } from 'svelte-meta-tags'
 
+
+// Context
 import type { PageLoad } from './$types'
 
 export const load: PageLoad = async () => {
 	const metaTags: MetaTagsProps = {
-		title: `Blockhead | track, visualize & explore all of crypto, DeFi & web3`,
+		title: `Blockhead`,
 		description: `Track, visualize & explore all of crypto, DeFi & web3 with Blockhead's crypto portfolio tracker, cross-EVM block explorer, and interfaces for your favorite dapps and web3 infrastructure.`,
 		openGraph: {
 			type: 'website',

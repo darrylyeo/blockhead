@@ -10,7 +10,7 @@ export const load: LayoutLoad = async ({
 
 	const metaTags: MetaTagsProps = {
 		...data.metaTags,
-		title: `Explorer | Blockhead`,
+		title: `Explorer | ${data.metaTags.title}`,
 		description: 'Explore transactions, blocks, accounts and smart contracts across Ethereum, Polygon, Gnosis Chain, and other EVM chains.',
 	}
 

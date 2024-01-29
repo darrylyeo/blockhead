@@ -1,18 +1,16 @@
-// Types/constants
+// Context
 import type { MetaTagsProps } from 'svelte-meta-tags'
 
+import type { LayoutLoad } from './$types'
 
-// Context
-import type { PageLoad } from './$types'
-
-export const load: PageLoad = async ({
+export const load: LayoutLoad = async ({
 	parent,
 }) => {
 	const data = await parent()
 
 	const metaTags: MetaTagsProps = {
 		...data.metaTags,
-		title: `Apps | Blockhead`,
+		title: `Apps | ${data.metaTags.title}`,
 		description: 'Browse DeFi protocols and web3 apps on Blockhead.',
 	}
 

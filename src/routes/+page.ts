@@ -1,6 +1,8 @@
-// Context
+// Types/constants
 import type { MetaTagsProps } from 'svelte-meta-tags'
 
+
+// Context
 import type { PageLoad } from './$types'
 
 export const load: PageLoad = async ({
