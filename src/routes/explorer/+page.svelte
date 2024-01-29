@@ -1,8 +1,4 @@
 <script lang="ts">
-	// Metadata
-	import { MetaTags } from 'svelte-meta-tags'
-
-
 	import { networksBySection, getNetworkColor, testnetsForMainnets, isTestnet } from '$/data/networks'
 
 
@@ -19,12 +15,6 @@
 	import { cardStyle } from '$/utils/card-background'
 	import { fly, scale } from 'svelte/transition'
 </script>
-
-
-<MetaTags {...{
-	title: `Explorer | Blockhead`,
-	description: 'Explore transactions, blocks, accounts and smart contracts across Ethereum, Polygon, Gnosis Chain, and other EVM chains.',
-}} />
 
 
 <style>

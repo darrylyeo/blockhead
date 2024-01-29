@@ -1,8 +1,4 @@
 <script lang="ts">
-	// Metadata
-	import { MetaTags } from 'svelte-meta-tags'
-
-
 	import { getLocalPortfolios, createPortfolio } from '$/state/portfolio-accounts'
 	import { preferences } from '$/state/preferences'
 
@@ -51,12 +47,6 @@
 
 	import { fly } from 'svelte/transition'
 </script>
-
-
-<MetaTags {...{
-	title: `Portfolio | Blockhead`,
-	description: `Track token balances, DeFi positions, and NFTs across multiple wallets & EVM chains with Blockhead's portfolio tracker.`,
-}} />
 
 
 <main in:fly|global={{x: 300}} out:fly|global={{x: -300}}>

@@ -2,7 +2,6 @@
 	import { triggerEvent } from '$/events/triggerEvent'
 
 
-	import { MetaTags } from 'svelte-meta-tags'
 	import Preferences from '$/components/Preferences.svelte'
 	import ContactForm from './ContactForm.svelte'
 
@@ -267,11 +266,6 @@
 		top: calc(100% - 1rem);
 	}
 </style>
-
-
-<MetaTags {...{
-	title: `Blockhead | track, visualize & explore all of crypto, DeFi & web3`,
-}} />
 
 
 <main in:fly|global={{x: 300}} out:fly|global={{x: -300}}>

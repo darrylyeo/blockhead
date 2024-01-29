@@ -1,8 +1,4 @@
 <script lang="ts">
-	// Metadata
-	import { MetaTags } from 'svelte-meta-tags'
-
-
 	import { web3AppsBySection } from '$/data/web3Apps'
 
 
@@ -12,12 +8,6 @@
 	import { cardStyle } from '$/utils/card-background'
 	import { fly, scale } from 'svelte/transition'
 </script>
-
-
-<MetaTags {...{
-	title: `Apps | Blockhead`,
-	description: 'Browse DeFi protocols and web3 apps on Blockhead.',
-}} />
 
 
 <style>
