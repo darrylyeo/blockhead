@@ -1439,7 +1439,7 @@ export const networks = [
 			"decimals": 18
 		},
 		"rpc": [
-			"https://ethereum.llamarpc.com",
+			"https://eth.llamarpc.com",
 			"https://endpoints.omniatech.io/v1/eth/mainnet/public",
 			"https://rpc.ankr.com/eth",
 			"https://eth-mainnet.nodereal.io/v1/1659dfb40aa24bbb8153a677b98064d7",

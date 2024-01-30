@@ -113,7 +113,7 @@ export const networkProviderConfigs = [
 			network,
 			connectionType = NetworkProviderConnectionType.RPC,
 		}) => (
-			createPublicClient({
+			network.rpc[0] && createPublicClient({
 				chain: networkToViemChain(network),
 				transport: {
 					[NetworkProviderConnectionType.RPC]: http,
