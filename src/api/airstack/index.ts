@@ -27,4 +27,5 @@ export const airstackNetworkNames = {
 	1: 'ethereum',
 	137: 'polygon',
 	8453: 'base',
+	7777777: 'zora',
 } as Record<Ethereum.ChainID, string>
