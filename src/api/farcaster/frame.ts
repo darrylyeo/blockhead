@@ -32,3 +32,60 @@ export type FarcasterFrameServerMeta = {
 	postUrl?: string,
 	buttons?: FarcasterFrameButton[],
 }
+
+
+import { isTruthy } from '$/utils/isTruthy'
+
+export const serializeFarcasterFrameServerMeta = (frameMeta: FarcasterFrameServerMeta) => (
+	[
+		{
+			property: 'fc:frame',
+			content: frameMeta.version ?? 'vNext',
+		},
+		{
+			property: 'fc:frame:image',
+			content: frameMeta.image.url,
+		},
+		frameMeta.image.refreshPeriod && {
+			property: 'fc:frame:refresh_period',
+			content: `${frameMeta.image.refreshPeriod}`,
+		},
+		...frameMeta.buttons
+			?.flatMap((button, index) => [
+				{
+					property: `fc:frame:button:${index + 1}`,
+					content: button.label,
+				},
+				button.action && {
+					property: `fc:frame:button:${index + 1}:action`,
+					content: button.action,
+				},
+			])
+			?? [],
+		frameMeta.postUrl && {
+			property: 'fc:frame:postUrl',
+			content: frameMeta.postUrl,
+		},
+	]
+		.filter(isTruthy)
+)
+
+
+import { text } from '@sveltejs/kit'
+
+export const createFarcasterFrameServerResponse = (frameMeta: FarcasterFrameServerMeta) => text(
+	`
+		<!DOCTYPE html>
+			<html>
+			<head>
+				${
+					serializeFarcasterFrameServerMeta(frameMeta)
+						.map(({ property, content }) => (
+							`<meta property="${property.replace(/"/, '&quot;')}" content="${content.replace(/"/, '&quot;')}" />`
+						))
+						.join('\n')
+				}
+			</head>
+		</html>
+	`.trim()
+)
