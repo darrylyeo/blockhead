@@ -8,10 +8,29 @@
 	import { preferences } from '$/state/preferences'
 
 
-	// Computed
+	// Inputs
 	export let nft: Ethereum.Nft
 	export let width: number | undefined
 	export let height: number | undefined
+
+
+	// Internal state
+	// (Computed)
+	$: sources = [
+		[nft.metadata['image'], undefined],
+		[nft.metadata['image_256'], '(min-width: 256px)'],
+		[nft.metadata['image_512'], '(min-width: 512px)'],
+		[nft.metadata['image_1024'], '(min-width: 1024px)'],
+	]
+		.filter(([ uri, ]) => uri)
+		.map(([ uri, media ]) => ({
+			uri: resolveUri({
+				src: uri,
+				ipfsGatewayDomain: ipfsGatewaysByProvider[$preferences.ipfsGateway].gatewayDomain,
+				arweaveGateway: $preferences.arweaveGateway,
+			}),
+			media,
+		}))
 
 
 	// Functions
@@ -38,38 +57,24 @@
 		].map(section => section.filter(Boolean).join('\n')).filter(Boolean).join('\n\n')
 	}
 >
-	{#each
-		[
-			[nft.metadata['image'], undefined],
-			[nft.metadata['image_256'], '(min-width: 256px)'],
-			[nft.metadata['image_512'], '(min-width: 512px)'],
-			[nft.metadata['image_1024'], '(min-width: 1024px)'],
-		].filter(([ uri, ]) => uri)
-		as [uri, media]
-	}
+	{#each sources as source}
 		<source
-			srcset={resolveUri({
-				src: uri,
-				ipfsGatewayDomain: ipfsGatewaysByProvider[$preferences.ipfsGateway].gatewayDomain,
-				arweaveGateway: $preferences.arweaveGateway,
-			})}
-			media={media}
+			srcset={source.uri}
+			media={source.media}
 		/>
 	{/each}
 
-	<img
-		src={resolveUri({
-			src: nft.metadata['image_256'] || nft.metadata['image'],
-			ipfsGatewayDomain: ipfsGatewaysByProvider[$preferences.ipfsGateway].gatewayDomain,
-			arweaveGateway: $preferences.arweaveGateway,
-		})}
-		alt={formatNFTNameAndTokenID(nft.metadata.name ?? '', nft.tokenId)}
-		loading="lazy"
-		draggable={false}
-		{width}
-		{height}
-		on:load
-	/>
+	{#if sources[0]}
+		<img
+			src={sources[0].uri}
+			alt={formatNFTNameAndTokenID(nft.metadata.name ?? '', nft.tokenId)}
+			loading="lazy"
+			draggable={false}
+			{width}
+			{height}
+			on:load
+		/>
+	{/if}
 	<!-- <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt={formatNFTNameAndTokenID(metadata.name, token_id)} /> -->
 </picture>
 
