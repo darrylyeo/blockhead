@@ -700,12 +700,14 @@
 
 										{#if (status === 'resolved' || status === 'reloading') && summary}
 											<span class="summary" class:is-zero={!summary.nftsCount}>
-												<TokenBalance
-													symbol={summary.quoteCurrency || quoteCurrency}
-													balance={summary.quoteTotal}
-													format="fiat"
-												/>
-												│
+												{#if summary.quoteTotal}
+													<TokenBalance
+														symbol={summary.quoteCurrency || quoteCurrency}
+														balance={summary.quoteTotal}
+														format="fiat"
+													/>
+													│
+												{/if}
 												<strong><TweenedNumber value={summary.nftsCount} /></strong> NFT{summary.nftsCount === 1 ? '' : 's'}
 												│
 												<!-- across -->
