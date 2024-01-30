@@ -21,7 +21,6 @@ export const load: PageLoad = async ({
 					pageUrl: url,
 					altText: data.metaTags.title,
 				}),
-				...(data.metaTags.openGraph?.images ?? []),
 			],
 		},
 	}
