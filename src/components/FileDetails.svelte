@@ -45,6 +45,10 @@
 	}[displayType]
 
 
+	// (View options)
+	export let isOpen: boolean = false
+
+
 	// Internal state
 	let containerElement: Element
 	let iframeElement: HTMLIFrameElement
@@ -70,6 +74,7 @@
 		showTriggerText={false}
 		class="column"
 		canToggle={!fullscreenElement}
+		{isOpen}
 	>
 		<h4 slot="title" class="row" data-before={displayIcon}>
 			{#if displaySrc}

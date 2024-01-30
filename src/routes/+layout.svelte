@@ -111,6 +111,7 @@
 	// Components
 	import AccountConnections from '$/components/AccountConnections.svelte'
 	import SizeContainer from '$/components/SizeContainer.svelte'
+	import SharePageDialog from '$/components/SharePageDialog.svelte'
 
 
 	// Transitions
@@ -249,6 +250,12 @@
 		pointer-events: none;
 		translate: 400px;
 	}
+
+	.share {
+		position: absolute;
+		right: 1rem;
+		bottom: 4rem;
+	}
 </style>
 
 
@@ -273,5 +280,14 @@
 
 	<div class="stack" data-show-accounts={showAccounts}>
 		<slot></slot>
+
+		{#if metaTags.openGraph?.images?.[0]}
+			<div class="share">
+				<SharePageDialog
+					title={metaTags.title}
+					imageUrl={metaTags.openGraph.images[0].url}
+				/>
+			</div>
+		{/if}
 	</div>
 </QueryClientProvider>
