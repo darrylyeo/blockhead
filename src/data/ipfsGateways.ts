@@ -7,6 +7,7 @@ export enum IpfsGatewayProvider {
 	Pinata = 'Pinata',
 	NftStorage = 'NftStorage',
 	Web3Storage = 'Web3Storage',
+	Cloudflare = 'Cloudflare',
 }
 
 export type IpfsGatewayConfig = {
@@ -55,6 +56,11 @@ export const ipfsGateways = [
 		gatewayProvider: IpfsGatewayProvider.Pinata,
 		name: 'Piñata',
 		gatewayDomain: 'gateway.pinata.cloud'
+	},
+	{
+		gatewayProvider: IpfsGatewayProvider.Cloudflare,
+		name: 'Cloudflare',
+		gatewayDomain: 'cloudflare-ipfs.com',
 	},
 ] as const satisfies DeepReadonly<IpfsGatewayConfig[]>
 
