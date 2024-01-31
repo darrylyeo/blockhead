@@ -19,5 +19,6 @@
   external_node_modules = [
     "ethers",
     "etherspot",
-    "@ethersproject/bytes"
+    "@ethersproject/bytes",
+    "sharp"
   ]
