@@ -25,8 +25,13 @@ type FarcasterFrameImageGeneratorParams = OpenGraphImageGeneratorParams & {
 	farcasterFrameRoute: FrameRoute
 }
 
-import { renderPreviewSvg } from '$/opengraph/renderPreviewSvg'
-import { svgToImageResponse } from '$/opengraph/svgToImageResponse'
+// SVG → sharp → PNG
+// import { renderPreviewSvg } from '$/opengraph/renderPreviewSvg'
+// import { svgToImageResponse } from '$/opengraph/svgToImageResponse'
+
+// Svelte → satori-html → satori → resvg-js → PNG
+import OpenGraphGeneratedImage from '$/opengraph/OpenGraphGeneratedImage.svelte'
+import { svelteComponentToImageResponse } from '$/opengraph/svelteComponentToImageResponse'
 
 const generateOpenGraphImage: RequestHandler = async ({
 	request,
@@ -77,27 +82,71 @@ const generateOpenGraphImage: RequestHandler = async ({
 	const sourcePaths = contractMetadata ? Object.keys(contractMetadata.contractMetadata.sources) : undefined
 
 
-	// Render
-	const svg = renderPreviewSvg({
-		width,
-		height,
-		title:
-			contractName
-				? `${contractName} (${ensName})`
-				: `${ensName}`,
-		subtitle: address,
-		annotation: `${network.name} ${addressType}`,
-		body: sourcePaths?.join('\n'),
-		url,
-		primaryColor: getNetworkColor(network) ?? getNetworkColor(networksBySlug['ethereum']),
-	})
+	// SVG → sharp → PNG
+	// return svgToImageResponse({
+	// 	headers: request.headers,
+	// 	svg: (
+	// 		renderPreviewSvg({
+	// 			width,
+	// 			height,
+	// 			...(
+	// 				contractName && address && ensName ?
+	// 					{
+	// 						title: `${contractName} (${address})`,
+	// 						subtitle: ensName,
+	// 					}
+	// 				: contractName ?
+	// 					{
+	// 						title: contractName,
+	// 						subtitle: address,
+	// 					}
+	// 				:
+	// 					{
+	// 						title: address,
+	// 					}
+	// 			),
+	// 			annotation: `${network.name} ${addressType}`,
+	// 			body: sourcePaths?.join('\n'),
+	// 			url,
+	// 			primaryColor: getNetworkColor(network) ?? getNetworkColor(networksBySlug['ethereum']),
+	// 		})
+	// 	),
+	// })
 
 
-	// Response
-	return svgToImageResponse({
-		headers: request.headers,
-		svg,
-	})
+	// Svelte → satori-html → satori → resvg-js → PNG
+	return svelteComponentToImageResponse(
+		OpenGraphGeneratedImage,
+		{
+			width,
+			height,
+			...(
+				contractName && address && ensName ?
+					{
+						title: `${contractName} (${address})`,
+						subtitle: ensName,
+					}
+				: contractName ?
+					{
+						title: contractName,
+						subtitle: address,
+					}
+				:
+					{
+						title: address,
+					}
+			),
+			annotation: `${network.name} ${addressType}`,
+			body: sourcePaths?.join('\n'),
+			url,
+			primaryColor: getNetworkColor(network) ?? getNetworkColor(networksBySlug['ethereum']),
+		},
+		{
+			headers: request.headers,
+			width,
+			height,
+		},
+	)
 }
 
 
@@ -116,10 +165,10 @@ const handleFarcasterFrameButtonClick: RequestHandler = async ({
 	const farcasterFrameSignaturePacket = await request.json() as FarcasterFrameSignaturePacket
 
 	return handleFarcasterFrameRouteButtonClick({
-		farcasterFrameRoutes,
 		url,
 		farcasterFrameRoute,
 		farcasterFrameSignaturePacket,
+		farcasterFrameRoutes,
 	})
 }
 
