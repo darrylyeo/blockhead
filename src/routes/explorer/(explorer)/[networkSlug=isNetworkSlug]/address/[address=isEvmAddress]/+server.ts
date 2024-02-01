@@ -5,6 +5,7 @@ import { NetworkProvider } from '$/data/networkProviders/types'
 
 // Context
 import type { RequestHandler } from './$types'
+import { type FrameRoute, farcasterFrameRoutes } from './farcasterFrameRoutes'
 
 
 // Data
@@ -13,8 +14,12 @@ import { Etherscan } from '$/api/etherscan'
 import { normalizeContractSource as normalizeContractSourceEtherscan } from '$/api/etherscan/normalize'
 
 
-// OpenGraph Image Generator
+// OpenGraph/Farcaster Frame Image Generator
 import type { OpenGraphImageGeneratorParams } from '$/opengraph/imageGenerator'
+
+type FarcasterFrameImageGeneratorParams = OpenGraphImageGeneratorParams & {
+	farcasterFrameRoute: FrameRoute
+}
 
 import { renderPreviewSvg } from '$/opengraph/renderPreviewSvg'
 import { svgToImageResponse } from '$/opengraph/svgToImageResponse'
@@ -30,7 +35,8 @@ const generateOpenGraphImage: RequestHandler = async ({
 	const {
 		width,
 		height,
-	} = Object.fromEntries(url.searchParams.entries()) as unknown as OpenGraphImageGeneratorParams
+		farcasterFrameRoute,
+	} = Object.fromEntries(url.searchParams.entries()) as unknown as FarcasterFrameImageGeneratorParams
 
 
 	// Internal state
