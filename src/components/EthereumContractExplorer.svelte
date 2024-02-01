@@ -177,11 +177,11 @@
 								].filter(Boolean).join('\n\n')}
 							>
 								<svelte:element this={`h${headingLevel}`}>{sourceFile}</svelte:element>
-								{#if source.license}<small><span class="card-annotation">{source.license}</span></small>{/if}
+								{#if source.license && source.license !== 'None'}<small><span class="card-annotation">{source.license}</span></small>{/if}
 							</abbr>
 
 							<abbr class="card-annotation" title="{contractMetadata?.language} {contractMetadata?.compiler?.version}">
-								{contractMetadata?.language}
+								{#if contractMetadata?.language}{contractMetadata?.language}{/if}
 								<!-- {contractMetadata?.compiler?.version} -->
 								{#if solidityDefinitionType}{solidityDefinitionType}{/if}
 							</abbr>
