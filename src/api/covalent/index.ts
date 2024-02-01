@@ -1943,10 +1943,10 @@ export type Transaction = {
 	value: safelong, // string,
 
 	/** The value attached in `quote-currency` to this tx. */
-	value_quote: double,
+	value_quote: double | null,
 
 	/** A prettier version of the quote for rendering purposes. */
-	pretty_value_quote: string,
+	pretty_value_quote: string | null,
 
 	/** The requested chain native gas token metadata. */
 	gas_metadata: {
@@ -1981,18 +1981,18 @@ export type Transaction = {
 	fees_paid: safelong, // string
 
 	/** The gas spent in quote-currency denomination. */
-	gas_quote: double,
+	gas_quote: double | null,
 
 	/** A prettier version of the quote for rendering purposes. */
-	pretty_gas_quote: string,
+	pretty_gas_quote: string | null,
 
 	/** The native gas exchange rate for the requested `quote-currency`. */
-	gas_quote_rate: double,
+	gas_quote_rate: double | null,
 
 	/** The explorer links for this transaction. */
 	explorers: {
 		/** The name of the explorer. */
-		label: string,
+		label: string | null,
 
 		/** The URL of the explorer. */
 		url: string,
