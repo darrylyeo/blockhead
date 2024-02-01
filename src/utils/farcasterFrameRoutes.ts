@@ -1,3 +1,8 @@
+// Shims
+import shimMapGroupBy from 'map.groupby'
+shimMapGroupBy.shim()
+
+
 // Types
 import type { FarcasterFrameServerMeta, FarcasterFrameButton } from '$/api/farcaster/frame'
 
