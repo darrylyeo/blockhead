@@ -596,7 +596,7 @@ export const getErc20TransfersForWalletAddress = ({
 	walletAddress,
 	quoteCurrency = 'USD',
 	contractAddress,
-	startingBlock = 0,
+	startingBlock = 'earliest',
 	endingBlock = 'latest',
 	pageSize = 100,
 	pageNumber = 0,
