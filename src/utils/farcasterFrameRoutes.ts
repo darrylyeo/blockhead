@@ -1,5 +1,5 @@
+// Types
 import type { FarcasterFrameServerMeta, FarcasterFrameButton } from '$/api/farcaster/frame'
-
 
 export type FarcasterFrameRoutes<
 	FrameRoute extends string,
@@ -23,6 +23,8 @@ type FarcasterFrameRouteButton<
 		toFrameRoute?: FrameRoute,
 	}
 
+
+// Submenus
 export const createSubmenu = <
 	RouteParams extends Record<string, string | undefined>,
 	FrameRoute extends string,
@@ -60,3 +62,55 @@ export const createSubmenu = <
 		]))
 	) as FarcasterFrameRoutes<`${FrameRoute}#${MenuRoute}/${number}`, RouteParams>
 )
+
+
+// Server Handler
+import { type FarcasterFrameSignaturePacket, createFarcasterFrameServerResponse } from '$/api/farcaster/frame'
+
+export const handleFarcasterFrameRouteButtonClick = async <
+	FrameRoute extends string,
+>({
+	farcasterFrameRoutes,
+	url,
+	farcasterFrameRoute,
+	farcasterFrameSignaturePacket,
+}: {
+	farcasterFrameRoutes: FarcasterFrameRoutes<FrameRoute, Record<string, string | undefined>>,
+	url: URL,
+	farcasterFrameRoute: FrameRoute,
+	signaturePacket: FarcasterFrameSignaturePacket,
+}) => {
+	// Context
+	const oldFrameRoutePath = farcasterFrameRoute ?? '/'
+
+	const {
+		untrustedData: {
+			buttonIndex,
+		},	
+	} = farcasterFrameSignaturePacket
+
+
+	// Internal state
+	const oldFrameRoute = farcasterFrameRoutes[oldFrameRoutePath]
+
+	const buttonClicked = oldFrameRoute.buttons?.[buttonIndex - 1]
+
+	const newFrameRoutePath = buttonClicked?.toFrameRoute
+
+	const newFrameRoute = newFrameRoutePath ? farcasterFrameRoutes[newFrameRoutePath] : undefined
+
+
+	// Response
+	const newUrl = new URL(url)
+
+	if(newFrameRoutePath)
+		newUrl.searchParams.set('farcasterFrameRoute', newFrameRoutePath)
+
+	return createFarcasterFrameServerResponse({
+		image: {
+			url: newUrl.toString(),
+		},
+		postUrl: newUrl.toString(),
+		buttons: newFrameRoute?.buttons,
+	})
+}
