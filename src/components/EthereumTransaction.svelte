@@ -31,7 +31,7 @@
 	$: contextIsSender = contextualAddress && transaction.fromAddress && contextualAddress.toLowerCase() === transaction.fromAddress.toLowerCase()
 	$: contextIsReceiver = contextualAddress && transaction.toAddress && contextualAddress.toLowerCase() === transaction.toAddress.toLowerCase()
 
-	$: isContractCall = transaction.logEvents?.length
+	$: isContractCall = Boolean(transaction.logEvents?.length)
 
 
 	// Components
@@ -78,7 +78,7 @@
 						/>
 					</span>
 				{/if}
-				{#if transaction.value}
+				{#if !isContractCall || transaction.value}
 					<span>
 						<span class="action">
 							{isSummary && contextIsReceiver
@@ -111,7 +111,7 @@
 					</span>
 				{:else if transaction.toAddress}
 					<span class="receiver" class:mark={contextIsReceiver}><!-- transition:fade -->
-						{#if isContractCall && !isExhaustive}
+						{#if isContractCall}
 							<span class="action">
 								{
 									transaction.value
