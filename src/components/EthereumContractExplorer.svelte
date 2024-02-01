@@ -192,7 +192,7 @@
 						{#if source.content}
 							<Code
 								code={source.content}
-								extension={sourceFileExtension}
+								extension={sourceFileExtension ?? 'sol'}
 								class="scrollable-list"
 								style="--resizeVertical-defaultHeight: 30em;"
 							/>
