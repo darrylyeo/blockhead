@@ -101,5 +101,30 @@ const generateOpenGraphImage: RequestHandler = async ({
 }
 
 
+// Farcaster Frame Server
+import type { FarcasterFrameSignaturePacket } from '$/api/farcaster/frame'
+import { handleFarcasterFrameRouteButtonClick } from '$/utils/farcasterFrameRoutes'
+
+const handleFarcasterFrameButtonClick: RequestHandler = async ({
+	request,
+	url,
+}) => {
+	const {
+		farcasterFrameRoute,
+	} = Object.fromEntries(url.searchParams.entries()) as unknown as FarcasterFrameImageGeneratorParams
+
+	const farcasterFrameSignaturePacket = await request.json() as FarcasterFrameSignaturePacket
+
+	return handleFarcasterFrameRouteButtonClick({
+		farcasterFrameRoutes,
+		url,
+		farcasterFrameRoute,
+		farcasterFrameSignaturePacket,
+	})
+}
+
+
 // Request handlers
 export const GET: RequestHandler = generateOpenGraphImage
+
+export const POST: RequestHandler = handleFarcasterFrameButtonClick
