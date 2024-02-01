@@ -1,29 +1,25 @@
-// Constants
+// Types/constants
 import { getNetworkColor, networksBySlug } from '$/data/networks'
 import { NetworkProvider } from '$/data/networkProviders/types'
 
 
-// Functions
-import { getViemPublicClient } from '$/data/networkProviders'
+// Context
+import type { RequestHandler } from './$types'
 
+
+// Data
+import { getViemPublicClient } from '$/data/networkProviders'
 import { Etherscan } from '$/api/etherscan'
 import { normalizeContractSource as normalizeContractSourceEtherscan } from '$/api/etherscan/normalize'
 
 
-// OpenGraph
+// OpenGraph Image Generator
+import type { OpenGraphImageGeneratorParams } from '$/opengraph/imageGenerator'
+
 import { renderPreviewSvg } from '$/opengraph/renderPreviewSvg'
 import { svgToImageResponse } from '$/opengraph/svgToImageResponse'
 
-
-// Request handlers
-import type { RequestHandler } from './$types'
-
-import type { OpenGraphImageGeneratorParams } from '$/opengraph/imageGenerator'
-
-/**
- * OpenGraph Image generator
- */
-export const GET: RequestHandler = async ({
+const generateOpenGraphImage: RequestHandler = async ({
 	request,
 	url,
 	params,
@@ -103,3 +99,7 @@ export const GET: RequestHandler = async ({
 		svg,
 	})
 }
+
+
+// Request handlers
+export const GET: RequestHandler = generateOpenGraphImage
