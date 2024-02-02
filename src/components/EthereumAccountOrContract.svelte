@@ -360,7 +360,10 @@
 									</label>
 								</div>
 
-								<button on:click={() => selectedToken = undefined}>Back</button>
+								<button
+									class="small"
+									on:click={() => selectedToken = undefined}
+								>Back</button>
 							</div>
 						</svelte:fragment>
 
