@@ -256,7 +256,12 @@
 					getPreviousPageParam: (firstPage) => firstPage.TokenBalances.pageInfo.prevCursor || undefined,
 					getNextPageParam: (lastPage) => lastPage.TokenBalances.pageInfo.nextCursor || undefined,
 					select: data => (
-						normalizeNftContractsAirstack(data.pages.flatMap(page => page.TokenBalances.TokenBalance))
+						normalizeNftContractsAirstack(
+							data.pages
+								.flatMap(page => (
+									page.TokenBalances.TokenBalance ?? []
+								))
+						)
 					),
 					staleTime: 10 * 1000,
 				})
