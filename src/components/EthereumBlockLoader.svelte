@@ -22,6 +22,7 @@
 	// (Computed)
 	$: transactionProvider = $$props.transactionProvider ?? $preferences.transactionProvider
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
+	$: quoteCurrency = $$props.quoteCurrency ?? $preferences.quoteCurrency
 
 	// (View options)
 	export let loaderViewOptions: Partial<Loader<any, any, any, any, any>['viewOptions']> | undefined
@@ -137,6 +138,7 @@
 							transactionProvider,
 							chainId: network.chainId,
 							blockNumber: Number(blockNumber),
+							quoteCurrency,
 						}],
 						queryFn: async () => (
 							await getBlockTransactionsCovalent({
