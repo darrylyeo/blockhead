@@ -80,376 +80,214 @@
 	import EthereumTransaction from './EthereumTransaction.svelte'
 	import Loader from './Loader.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
+	import Icon from './Icon.svelte'
 </script>
 
 
-{#if transactionId}
-	<div class="stack">
-		{#key transactionProvider}
-			<div class="column">
-				{#if transactionProvider === TransactionProvider.RpcProvider}
-					<Loader
-						viewOptions={{
-							contentClass: 'column',
-						}}
-						loadingIconName={transactionProvider}
-						loadingMessage="Looking up transaction from {transactionProvider}..."
-						errorMessage="Error looking up transaction from {transactionProvider}"
-						fromQuery={publicClient && createQuery({
-							queryKey: ['Transaction', {
-								transactionProvider,
-								networkProvider,
-								chainId: network.chainId,
-								transactionId
-							}],
-							queryFn: async () => {
-								const [
-									transaction,
-									transactionReceipt,
-								] = await Promise.all([
-									publicClient.getTransaction({
-										hash: transactionId
-									}),
-									publicClient.getTransactionReceipt({
-										hash: transactionId
-									}),
-								])
+<Loader
+	viewOptions={{
+		contentClass: 'column',
+	}}
+	loadingMessage="Looking up {network.name} transaction via {transactionProvider}..."
+	errorMessage="Error looking up transaction from {transactionProvider}"
+	{...{
+		[TransactionProvider.RpcProvider]: {
+			fromQuery: publicClient && createQuery({
+				queryKey: ['Transaction', {
+					transactionProvider,
+					networkProvider,
+					chainId: network.chainId,
+					transactionId
+				}],
+				queryFn: async () => {
+					const [
+						transaction,
+						transactionReceipt,
+					] = await Promise.all([
+						publicClient.getTransaction({
+							hash: transactionId
+						}),
+						publicClient.getTransactionReceipt({
+							hash: transactionId
+						}),
+					])
 
-								return { transaction, transactionReceipt }
-							},
-							select: ({ transaction, transactionReceipt }) => (
-								normalizeViemTransaction(
-									{ ...transaction, ...transactionReceipt },
-									network,
-								)
-							),
-						})}
-						let:result={transaction}
-					>
-						<NetworkIcon slot="loadingIcon" {network}><img src="/Blockhead-Logo.svg" width="30" /></NetworkIcon>
+					return { transaction, transactionReceipt }
+				},
+				select: ({ transaction, transactionReceipt }) => (
+					normalizeViemTransaction(
+						{ ...transaction, ...transactionReceipt },
+						network,
+					)
+				),
+			}),
+		},
 
-						<svelte:fragment slot="header"
-							let:result={transaction}
-							let:status
-						>
-							<slot name="header" {status} {transaction} />
-						</svelte:fragment>
+		[TransactionProvider.Chainbase]: {
+			fromQuery: createQuery({
+				queryKey: ['Transaction', {
+					transactionProvider,
+					chainId: network.chainId,
+					transactionId,
+				}],
+				queryFn: async () => (
+					await getTransactionChainbase({
+						chainId: network.chainId,
+						hash: transactionId,
+					})
+				),
+				select: result => (
+					normalizeTransactionChainbase(result.data, network)
+				),
+			}),
+		},
 
-						{#if transaction}
-							<EthereumTransaction
-								{network}
-								{transaction}
-								{quoteCurrency}
+		[TransactionProvider.Covalent]: {
+			fromQuery: createQuery({
+				queryKey: ['Transaction', {
+					transactionProvider,
+					chainId: network.chainId,
+					transactionId,
+				}],
+				queryFn: async () => (
+					await getTransactionCovalent({
+						chainName: network.chainId,
+						txHash: transactionId,
+						noLogs: false,
+					})
+				),
+				select: ({ items: [transaction] }) => (
+					normalizeTransactionCovalent(transaction, network, quoteCurrency)
+				),
+			}),
+		},
 
-								{layout}
-								{innerLayout}
+		[TransactionProvider.Decommas]: {
+			fromQuery: createQuery({
+				queryKey: ['Transaction', {
+					transactionProvider,
+					chainId: network.chainId,
+					transactionId,
+				}],
+				queryFn: async () => {
+					const { decommas, chainNameByChainId } = await import('$/api/decommas')
 
-								{detailLevel}
-								{showFees}
-								{tokenBalanceFormat}
-							
-								{contextualAddress}
-							/>
-						{/if}
-					</Loader>
+					const chainName = chainNameByChainId[network.chainId]
 
-				{:else if transactionProvider === TransactionProvider.Chainbase}
-					<Loader
-						loadingIcon={transactionProviderIcons[transactionProvider]}
-						loadingMessage="Fetching transaction data via {transactionProvider}..."
-						fromQuery={createQuery({
-							queryKey: ['Transaction', {
-								transactionProvider,
-								chainId: network.chainId,
-								transactionId,
-							}],
-							queryFn: async () => (
-								await getTransactionChainbase({
-									chainId: network.chainId,
-									hash: transactionId,
-								})
-							),
-							select: result => normalizeTransactionChainbase(result.data, network),
-						})}
-						bind:result={transaction}
-						let:result={transaction}
-					>
-						<svelte:fragment slot="header"
-							let:result={transaction}
-							let:status
-						>
-							<slot name="header" {status} {transaction} />
-						</svelte:fragment>
+					return await decommas.tx.getDetail({
+						chainName,
+						txHash: transactionId,
+					})
+				},
+				select: transaction => (
+					normalizeTransactionDecommas(transaction, network)
+				),
+			}),
+		},
 
-						{#if transaction}
-							<EthereumTransaction
-								{network}
-								{transaction}
-								{quoteCurrency}
+		[TransactionProvider.Etherscan]: {
+			fromQuery: createQuery({
+				queryKey: ['Transaction', {
+					transactionProvider,
+					chainId: network.chainId,
+					transactionId,
+				}],
+				queryFn: async () => {
+					const [
+						transaction,
+						transactionReceipt,
+					] = await Promise.all([
+						Etherscan.RpcProxy.getTransactionByHash({
+							chainId: network.chainId,
+							transactionId,
+						}),
+						Etherscan.RpcProxy.getTransactionReceipt({
+							chainId: network.chainId,
+							transactionId,
+						}),
+					])
 
-								{contextualAddress}
-								{detailLevel}
-								{tokenBalanceFormat}
-								{showFees}
+					return { transaction, transactionReceipt }
+				},
+				select: ({ transaction, transactionReceipt }) => ({
+					...normalizeTransactionReceiptEtherscan(network, transactionReceipt),
+					...normalizeTransactionEtherscan(network, transaction),
+				}),
+			}),
+		},
 
-								{layout}
-								{innerLayout}
-							/>
-						{/if}
-					</Loader>
+		// [TransactionProvider.Etherspot]: {
+		// 	fromQuery: createQuery({
+		// 		queryKey: ['Transaction', {
+		// 			transactionProvider,
+		// 			chainId: network.chainId,
+		// 			transactionId,
+		// 		}],
+		// 		queryFn: async () => (
+		// 			await getTransactionEtherspot({
+		// 				network,
+		// 				transactionID: transactionId
+		// 			})
+		// 		),
+		// 		select: transaction => (
+		// 			normalizeEtherspotTransaction(transaction, network)
+		// 		),
+		// 	}),
+		// },
 
-				{:else if transactionProvider === TransactionProvider.Covalent}
-					<Loader
-						loadingIcon={transactionProviderIcons[transactionProvider]}
-						loadingMessage="Fetching transaction data via {transactionProvider}..."
-						fromQuery={createQuery({
-							queryKey: ['Transaction', {
-								transactionProvider,
-								chainId: network.chainId,
-								transactionId,
-							}],
-							queryFn: async () => (
-								await getTransactionCovalent({
-									chainName: network.chainId,
-									txHash: transactionId,
-									noLogs: false,
-								})
-							),
-							select: ({ items: [transaction] }) => (
-								normalizeTransactionCovalent(transaction, network, quoteCurrency)
-							),
-						})}
-						bind:result={transaction}
-						let:result={transaction}
-					>
-						<svelte:fragment slot="header"
-							let:result={transaction}
-							let:status
-						>
-							<slot name="header" {status} {transaction} />
-						</svelte:fragment>
+		[TransactionProvider.Moralis]: {
+			fromQuery: createQuery({
+				queryKey: ['Transaction', {
+					transactionProvider,
+					chainId: network.chainId,
+					transactionId,
+				}],
+				queryFn: async () => (
+					await MoralisWeb3Api.transaction.getTransaction({
+						chain: chainCodeFromNetwork(network),
+						transactionHash: transactionId,
+					})
+				),
+				select: transaction => normalizeTransactionMoralis(transaction, network),
+			}),
+		},
+	}[transactionProvider]}
+	bind:result={transaction}
+	let:result={transaction}
+>
+	<svelte:fragment slot="loadingIcon">
+		<NetworkIcon {network}>
+			<img src="/Blockhead-Logo.svg" width="30" />
+		</NetworkIcon>
 
-						{#if transaction}
-							<EthereumTransaction
-								{network}
-								{transaction}
-								{quoteCurrency}
+		<Icon
+			imageSources={[
+				transactionProviderIcons[transactionProvider]
+			]}
+			title={transactionProvider}
+		/>
+	</svelte:fragment>
 
-								{contextualAddress}
-								{detailLevel}
-								{tokenBalanceFormat}
-								{showFees}
+	<svelte:fragment slot="header"
+		let:result={transaction}
+		let:status
+	>
+		<slot name="header" {status} {transaction} />
+	</svelte:fragment>
 
-								{layout}
-								{innerLayout}
-							/>
-						{/if}
-					</Loader>
+	{#if transaction}
+		<EthereumTransaction
+			{network}
+			{transaction}
+			{quoteCurrency}
 
-				{:else if transactionProvider === TransactionProvider.Decommas}
-					<Loader
-						loadingIcon={transactionProviderIcons[transactionProvider]}
-						loadingMessage="Fetching transaction data via {transactionProvider}..."
-						fromQuery={createQuery({
-							queryKey: ['Transaction', {
-								transactionProvider,
-								chainId: network.chainId,
-								transactionId,
-							}],
-							queryFn: async () => {
-								const { decommas, chainNameByChainId } = await import('$/api/decommas')
+			{contextualAddress}
+			{detailLevel}
+			{tokenBalanceFormat}
+			{showFees}
 
-								const chainName = chainNameByChainId[network.chainId]
-
-								return await decommas.tx.getDetail({
-									chainName,
-									txHash: transactionId,
-								})
-							},
-							select: transaction => (
-								normalizeTransactionDecommas(transaction, network)
-							),
-						})}
-						bind:result={transaction}
-						let:result={transaction}
-					>
-						<svelte:fragment slot="header"
-							let:result={transaction}
-							let:status
-						>
-							<slot name="header" {status} {transaction} />
-						</svelte:fragment>
-
-						{#if transaction}
-							<EthereumTransaction
-								{network}
-								{transaction}
-								{quoteCurrency}
-
-								{contextualAddress}
-								{detailLevel}
-								{tokenBalanceFormat}
-								{showFees}
-
-								{layout}
-								{innerLayout}
-							/>
-						{/if}
-					</Loader>
-
-				{:else if transactionProvider === TransactionProvider.Etherscan}
-					<Loader
-						loadingIcon={transactionProviderIcons[transactionProvider]}
-						loadingMessage="Fetching transaction data via {transactionProvider}..."
-						fromQuery={createQuery({
-							queryKey: ['Transaction', {
-								transactionProvider,
-								chainId: network.chainId,
-								transactionId,
-							}],
-							queryFn: async () => {
-								const [
-									transaction,
-									transactionReceipt,
-								] = await Promise.all([
-									Etherscan.RpcProxy.getTransactionByHash({
-										chainId: network.chainId,
-										transactionId,
-									}),
-									Etherscan.RpcProxy.getTransactionReceipt({
-										chainId: network.chainId,
-										transactionId,
-									}),
-								])
-
-								return { transaction, transactionReceipt }
-							},
-							select: ({ transaction, transactionReceipt }) => ({
-								...normalizeTransactionReceiptEtherscan(network, transactionReceipt),
-								...normalizeTransactionEtherscan(network, transaction),
-							}),
-						})}
-						bind:result={transaction}
-						let:result={transaction}
-					>
-						<svelte:fragment slot="header"
-							let:result={transaction}
-							let:status
-						>
-							<slot name="header" {status} {transaction} />
-						</svelte:fragment>
-
-						{#if transaction}
-							<EthereumTransaction
-								{network}
-								{transaction}
-								{quoteCurrency}
-
-								{contextualAddress}
-								{detailLevel}
-								{tokenBalanceFormat}
-								{showFees}
-
-								{layout}
-								{innerLayout}
-							/>
-						{/if}
-					</Loader>
-
-
-				<!-- {:else if transactionProvider === TransactionProvider.Etherspot}
-					<Loader
-						loadingIcon={transactionProviderIcons[transactionProvider]}
-						loadingMessage="Fetching transaction data via {transactionProvider}..."
-						fromQuery={createQuery({
-							queryKey: ['Transaction', {
-								transactionProvider,
-								chainId: network.chainId,
-								transactionId,
-							}],
-							queryFn: async () => (
-								await getTransactionEtherspot({
-									network,
-									transactionID: transactionId
-								})
-							),
-							select: transaction => (
-								normalizeEtherspotTransaction(transaction, network)
-							),
-						})}
-						bind:result={transaction}
-						let:result={transaction}
-					>
-						<svelte:fragment slot="header"
-							let:result={transaction}
-							let:status
-						>
-							<slot name="header" {status} {transaction} />
-						</svelte:fragment>
-
-						{#if transaction}
-							<EthereumTransaction
-								{network}
-								{transaction}
-								{quoteCurrency}
-
-								{contextualAddress}
-								{detailLevel}
-								{tokenBalanceFormat}
-								{showFees}
-
-								{layout}
-								{innerLayout}
-							/>
-						{/if}
-					</Loader> -->
-
-				{:else if transactionProvider === TransactionProvider.Moralis}
-					<Loader
-						loadingIcon={transactionProviderIcons[transactionProvider]}
-						loadingMessage="Fetching transaction data via {transactionProvider}..."
-						fromQuery={createQuery({
-							queryKey: ['Transaction', {
-								transactionProvider,
-								chainId: network.chainId,
-								transactionId,
-							}],
-							queryFn: async () => (
-								await MoralisWeb3Api.transaction.getTransaction({
-									chain: chainCodeFromNetwork(network),
-									transactionHash: transactionId,
-								})
-							),
-							select: transaction => normalizeTransactionMoralis(transaction, network),
-						})}
-						bind:result={transaction}
-						let:result={transaction}
-					>
-						<svelte:fragment slot="header"
-							let:result={transaction}
-							let:status
-						>
-							<slot name="header" {status} {transaction} />
-						</svelte:fragment>
-
-						{#if transaction}
-							<EthereumTransaction
-								{network}
-								{transaction}
-								{quoteCurrency}
-
-								{contextualAddress}
-								{detailLevel}
-								{tokenBalanceFormat}
-								{showFees}
-
-								{layout}
-								{innerLayout}
-							/>
-						{/if}
-					</Loader>
-				{/if}
-			</div>
-		{/key}
-	</div>
-{/if}
+			{layout}
+			{innerLayout}
+		/>
+	{/if}
+</Loader>
