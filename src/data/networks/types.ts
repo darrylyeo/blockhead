@@ -225,10 +225,12 @@ export namespace Ethereum {
 		nonce?: TransactionNonce,
 
 		fromAddress: Address,
-		toAddress: Address,
+		toAddress?: Address,
+		deployedContractAddress?: ContractAddress,
 		labels?: {
 			fromAddress?: string,
 			toAddress?: string,
+			deployedContractAddress?: string,
 		},
 
 		input?: TransactionInput,
