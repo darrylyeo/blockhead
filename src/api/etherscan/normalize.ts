@@ -54,6 +54,7 @@ export const normalizeTransaction = (
 	fromAddress: transaction.from,
 	toAddress: transaction.to,
 
+	input: transaction.input,
 	value: BigInt(transaction.value),
 
 	gasToken: network.nativeCurrency,
@@ -78,6 +79,7 @@ export const normalizeRpcTransaction = (
 	fromAddress: transaction.from,
 	toAddress: transaction.to,
 
+	input: transaction.input,
 	value: BigInt(transaction.value),
 
 	gasToken: network.nativeCurrency,
