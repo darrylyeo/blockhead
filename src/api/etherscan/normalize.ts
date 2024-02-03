@@ -23,7 +23,9 @@ export const normalizeBlock = (
 
 	minerAddress: block.miner,
 	extraData: block.extraData,
-	baseFeePerGas: BigInt(block.baseFeePerGas),
+	...('baseFeePerGas' in block && {
+		baseFeePerGas: BigInt(block.baseFeePerGas),
+	}),
 
 	...(((transactions: (typeof block)['transactions']): transactions is `0x${string}`[] => typeof transactions[0] === 'string')(block.transactions) ? {
 		transactionIds: block.transactions,

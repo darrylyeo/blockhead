@@ -1557,8 +1557,15 @@ export namespace Etherscan {
 				tag,
 				boolean: getFullTransactionObjects,
 			},
-		}, true) as {
-			baseFeePerGas: `0x${string}`,
+		}, true) as (
+			// Before EIP-1559
+			| Record<string, never>
+
+			// After EIP-1559
+			| {
+				baseFeePerGas: `0x${string}`,
+			}
+		) & {
 			difficulty: `0x${string}`,
 			extraData: `0x${string}`,
 			gasLimit: `0x${string}`,
@@ -1577,30 +1584,53 @@ export namespace Etherscan {
 			timestamp: `0x${string}`,
 			totalDifficulty: `0x${string}`,
 			transactions: GetFullTransactionObjects extends true
-				? {
-					blockHash: `0x${string}`,
-					blockNumber: `0x${string}`,
-					from: `0x${string}`,
-					gas: `0x${string}`,
-					gasPrice: `0x${string}`,
-					maxFeePerGas: `0x${string}`,
-					maxPriorityFeePerGas: `0x${string}`,
-					hash: `0x${string}`,
-					input: `0x${string}`,
-					nonce: `0x${string}`,
-					to: `0x${string}`,
-					transactionIndex: `0x${string}`,
-					value: `0x${string}`,
-					type: `0x${string}`,
-					accessList: {
-						address: `0x${string}`,
-						storageKeys: `0x${string}`[],
-					}[],
-					chainId: `0x${string}`,
-					v: `0x${string}`,
-					r: `0x${string}`,
-					s: `0x${string}`,
-				}[]
+				? (
+					// Before EIP-1559
+					| {
+						blockHash: `0x${string}`,
+						blockNumber: `0x${string}`,
+						from: `0x${string}`,
+						gas: `0x${string}`,
+						gasPrice: `0x${string}`,
+						hash: `0x${string}`,
+						input: `0x${string}`,
+						nonce: `0x${string}`,
+						to: `0x${string}`,
+						transactionIndex: `0x${string}`,
+						value: `0x${string}`,
+						type: `0x${string}`,
+						chainId: `0x${string}`,
+						v: `0x${string}`,
+						r: `0x${string}`,
+						s: `0x${string}`,
+					}
+
+					// After EIP-1559
+					| {
+						blockHash: `0x${string}`,
+						blockNumber: `0x${string}`,
+						from: `0x${string}`,
+						gas: `0x${string}`,
+						gasPrice: `0x${string}`,
+						maxFeePerGas: `0x${string}`,
+						maxPriorityFeePerGas: `0x${string}`,
+						hash: `0x${string}`,
+						input: `0x${string}`,
+						nonce: `0x${string}`,
+						to: `0x${string}`,
+						transactionIndex: `0x${string}`,
+						value: `0x${string}`,
+						type: `0x${string}`,
+						accessList: {
+							address: `0x${string}`,
+							storageKeys: `0x${string}`[],
+						}[],
+						chainId: `0x${string}`,
+						v: `0x${string}`,
+						r: `0x${string}`,
+						s: `0x${string}`,
+					}
+				)[]
 				: `0x${string}`[],
 			transactionsRoot: `0x${string}`,
 			uncles: `0x${string}`,
