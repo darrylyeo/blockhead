@@ -40,16 +40,7 @@ export const normalizeTransaction = (
 	gasUnitRate: BigInt(transaction.gasPrice),
 	gasValue: BigInt(transaction.gasUsed) * BigInt(transaction.gasPrice),
 
-	// ...transaction.method && {
-	// 	logEvents: [
-	// 		{
-	// 			topics: [],
-	// 			decoded: {
-	// 				name: transaction.method,
-	// 			}
-	// 		}
-	// 	]
-	// },
+	tags: transaction.transactionTags,
 })
 
 export const normalizeNftContracts = (

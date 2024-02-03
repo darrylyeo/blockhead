@@ -259,6 +259,8 @@ export namespace Ethereum {
 		logEvents?: TransactionLogEvent[],
 
 		accessList?: AccessList,
+
+		tags?: string[],
 	}
 	export type TransactionLogEvent = {
 		topics?: TopicHash[],
