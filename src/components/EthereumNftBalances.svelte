@@ -346,6 +346,10 @@
 		transform-origin: top;
 		transition: var(--transition-duration);
 	}
+
+	.empty {
+		grid-column: 1 / -1;
+	}
 </style>
 
 
@@ -533,5 +537,9 @@ on:dblclick={() => show3D = !show3D} -->
 				{/if}
 			</Collapsible>
 		</article>	
+	{:else}
+		<div class="card empty">
+			<p class="faded">No NFTs found.</p>
+		</div>
 	{/each}
 </div>
