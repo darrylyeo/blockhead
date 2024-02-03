@@ -232,6 +232,10 @@ export namespace Ethereum {
 		},
 
 		input?: TransactionInput,
+		inputDecoded?: {
+			methodName?: string,
+			methodHash?: string,
+		},
 		value: NativeCurrencyAmount,
 
 		gasToken: NativeCurrency | ERC20Token,
