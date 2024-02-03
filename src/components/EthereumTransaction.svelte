@@ -21,6 +21,8 @@
 	export let showDate = true
 	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 
+	export let showFormattedNames = true
+
 	// Internal state
 	// (Computed)
 	$: isSummary = detailLevel === 'summary'
@@ -31,7 +33,19 @@
 	$: contextIsSender = contextualAddress && transaction.fromAddress && contextualAddress.toLowerCase() === transaction.fromAddress.toLowerCase()
 	$: contextIsReceiver = contextualAddress && transaction.toAddress && contextualAddress.toLowerCase() === transaction.toAddress.toLowerCase()
 
-	$: isContractCall = Boolean(transaction.logEvents?.length)
+	$: isContractCall = Boolean(
+		transaction.input
+		|| transaction.inputDecoded
+		|| transaction.logEvents
+	)
+
+
+	// Formatting
+	import { formatIdentifierToWords } from '$/utils/formatIdentifierToWords'
+
+	$: formatIdentifier = showFormattedNames
+		? formatIdentifierToWords
+		: (identifier: string) => identifier
 
 
 	// Components
@@ -78,7 +92,9 @@
 						/>
 					</span>
 				{/if}
-				{#if !isContractCall || transaction.value}
+
+				<!-- {#if transaction.value} -->
+				{#if transaction.value || !isContractCall} <!-- Show "sent 0 to" if can't infer whether isContractCall -->
 					<span>
 						<span class="action">
 							{isSummary && contextIsReceiver
@@ -98,6 +114,7 @@
 						/>
 					</span>
 				{/if}
+
 				{#if isSummary && contextIsReceiver && transaction.fromAddress}
 					<span class="sender"><!-- transition:fade -->
 						<span>from</span>
@@ -109,32 +126,89 @@
 							addressFormat="middle-truncated"
 						/>
 					</span>
-				{:else if transaction.toAddress}
+				{:else}
 					<span class="receiver" class:mark={contextIsReceiver}><!-- transition:fade -->
 						{#if isContractCall}
 							<span class="action">
-								{
-									transaction.value
-										? transaction.executionStatus !== 'failed'
-											? 'and called smart contract'
-											: 'and call smart contract'
-										: transaction.executionStatus !== 'failed'
-											? 'called smart contract'
-											: 'failed to call smart contract'
-								}
+								{`${
+									transaction.deployedContractAddress ?
+										transaction.executionStatus !== 'failed'
+											? transaction.value
+												? 'and deployed'
+												: 'deployed'
+											: transaction.value
+												? 'and failed to deploy'
+												: 'failed to deploy'
+									: transaction.toAddress ?
+										transaction.executionStatus !== 'failed'
+											? transaction.value
+												? 'and called'
+												: 'called'
+											: transaction.value
+												? 'and failed to call'
+												: 'failed to call'
+									:
+										transaction.executionStatus !== 'failed'
+											? transaction.value
+												? 'and called'
+												: 'called'
+											: transaction.value
+												? 'and failed to call'
+												: 'failed to call'
+								}${
+									transaction.deployedContractAddress ?
+										' contract'
+									: transaction.inputDecoded?.methodHash || transaction.inputDecoded?.methodName ?
+										''
+									: !transaction.toAddress ? 
+										' a contract'
+									:
+										' contract'
+								}`}
 							</span>
-						{:else}
+						{/if}
+
+						<!-- {#if !isContractCall && transaction.value && (transaction.toAddress || transaction.deployedContractAddress)} -->
+						{#if !isContractCall && transaction.toAddress || transaction.deployedContractAddress} <!-- Show "sent 0 to" if can't infer whether isContractCall -->
 							<span>to</span>
 						{/if}
-						<AddressWithLabel
-							network={transaction.network}
-							address={transaction.toAddress}
-							label={transaction.labels?.toAddress}
-							format={isExhaustive ? 'both' : 'label'}
-							addressFormat="middle-truncated"
-						/>
+
+						{#if transaction.toAddress || transaction.deployedContractAddress}
+							<AddressWithLabel
+								network={transaction.network}
+								{
+									...(transaction.deployedContractAddress
+										? {
+											address: transaction.deployedContractAddress,
+											label: transaction.labels?.deployedContractAddress,
+										}
+										: {
+											address: transaction.toAddress,
+											label: transaction.labels?.toAddress,
+										}
+									)
+								}
+								format={isExhaustive ? 'both' : 'label'}
+								addressFormat="middle-truncated"
+							/>
+							{#if transaction.inputDecoded?.methodHash || transaction.inputDecoded?.methodName}
+								›
+								<abbr
+									title={
+										transaction.inputDecoded.methodHash && transaction.inputDecoded.methodName
+											? `${transaction.inputDecoded.methodName} (${transaction.inputDecoded.methodHash})`
+											: transaction.inputDecoded.methodHash || transaction.inputDecoded.methodName
+									}
+								>
+									{transaction.inputDecoded.methodName
+										? formatIdentifier(transaction.inputDecoded.methodName, true)
+										: transaction.inputDecoded.methodHash}
+								</abbr>
+							{/if}
+						{/if}
 					</span>
 				{/if}
+
 				{#if (showFees || isExhaustive) && transaction.gasUnitsSpent !== undefined}
 					<span class="fee"><!-- transition:fade -->
 						<span>for fee</span>
@@ -152,6 +226,17 @@
 						/>
 					</span>
 				{/if}
+
+				{#if (isStandaloneLayout || isExhaustive) && transaction.input}
+					<hr>
+
+					<div class="input row-inline wrap">
+						<span>with input</span>
+
+						<output class:scrollable-list={transaction.input.length > 80}>{transaction.input}</output>
+					</div>
+				{/if}
+
 				{#if isSummary && transaction.blockTimestamp}
 					<span class="date"><Date date={transaction.blockTimestamp} layout="vertical" format="relative" /></span>
 				{/if}
@@ -289,6 +374,21 @@
 	}
 	.container.inner-layout-columns .value {
 		font-size: 1.5em;
+	}
+
+	hr {
+		width: 100%;
+	}
+	.container .input {
+		font-size: 0.85em;
+		width: 100%;
+	}
+	.container .input output {
+		font-size: 1em;
+		text-align: start;
+	}
+	.container .input output.scrollable-list {
+		font-size: 0.85em;
 	}
 
 	.container .date {
