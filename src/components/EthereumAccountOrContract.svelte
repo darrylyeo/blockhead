@@ -72,6 +72,7 @@
 	import CovalentPriceChart from './CovalentPriceChart.svelte'
 	import EnsName from './EnsName.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
+	import EthereumContractBytecodeLoader from './EthereumContractBytecodeLoader.svelte'
 	import EthereumContractExplorer from './EthereumContractExplorer.svelte'
 	import EthereumTransaction from './EthereumTransaction.svelte'
 	import EthereumTransactionsLoader from './EthereumTransactionsLoader.svelte'
@@ -153,20 +154,28 @@
 
 			<span class="card-annotation">
 				<slot name="annotation">
-					{network.name} 
-					{#if publicClient && address}
-						{#await publicClient.getBytecode({ address })}
-							Address
-						{:then contractCode}
-							{#if !contractCode || contractCode === '0x'}
-								Account
+					{network.name}
+
+					<EthereumContractBytecodeLoader
+						loaderViewOptions={{
+							layout: 'passive',
+						}}
+						{network}
+						{networkProvider}
+						contractAddress={address}
+						let:contractBytecode
+						let:status
+					>
+						{#if status === 'resolved'}
+							{#if contractBytecode}
+								<abbr title={contractBytecode}>Contract</abbr>
 							{:else}
-								<abbr title={contractCode}>Contract</abbr>
+								Account
 							{/if}
-						{:catch}
+						{:else}
 							Address
-						{/await}
-					{/if}
+						{/if}
+					</EthereumContractBytecodeLoader>
 				</slot>
 			</span>
 
