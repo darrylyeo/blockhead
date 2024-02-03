@@ -36,6 +36,7 @@
 	type SharedSlotProps = {
 		contractAddress: typeof contractAddress,
 		contractBytecode: typeof contractBytecode,
+		status: Loader<any, any, any, any, any>['status'],
 	}
 
 	type $$Slots = {
@@ -74,6 +75,7 @@
 	loadingMessage={`Looking up contract code${viaRPC}...`}
 	errorMessage={`Couldn't find contract code${viaRPC}.`}
 	bind:result={contractBytecode}
+	let:status
 >
 	<svelte:fragment slot="loadingIcon">
 		{@const networkProviderConfig = networkProviderConfigByProvider[$preferences.rpcNetwork]}
@@ -85,6 +87,17 @@
 		{/if}
 	</svelte:fragment>
 
-	<slot slot="header" name="header" {contractAddress} {contractBytecode} />
-	<slot {contractAddress} {contractBytecode} />
+	<svelte:fragment slot="header"
+		let:status
+	>
+		<slot name="header"
+			{contractAddress} {contractBytecode}
+			{status}
+		/>
+	</svelte:fragment>
+
+	<slot
+		{contractAddress} {contractBytecode}
+		{status}
+	/>
 </Loader>
