@@ -1,12 +1,12 @@
 // Types
 import type { Ethereum } from '$/data/networks/types'
 import type { TokenWithBalance } from '$/data/tokens'
-import type { TTxDetail, TNft, TNftMetadata, TCoinWithAmount } from '@decommas/sdk'
+import type { TTransaction, TTxDetail, TNft, TNftMetadata, TCoinWithAmount } from '@decommas/sdk'
 
 
 // Functions
 export const normalizeTransaction = (
-	transaction: TTxDetail,
+	transaction: TTransaction | TTxDetail,
 	network: Ethereum.Network,
 ): Ethereum.Transaction => ({
 	network,
@@ -18,7 +18,9 @@ export const normalizeTransaction = (
 	blockNumber: BigInt(transaction.blockNumber),
 	blockTimestamp: transaction.blockTimestamp * 1000,
 
-	transactionIndex: transaction.transactionIndex,
+	...('transactionIndex' in transaction && {
+		transactionIndex: transaction.transactionIndex
+	}),
 
 	fromAddress: transaction.fromAddress as Ethereum.Address,
 	...(!transaction.deployedContract ? {
