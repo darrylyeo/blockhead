@@ -41,17 +41,16 @@
 
 
 	// Internal state
-
-	let selectedNetwork: Ethereum.Network = $explorerNetwork
-
 	let _isTestnet: boolean
 
 
+	// Actions
+	const setSelectedNetwork = async (selectedNetwork: Ethereum.Network | undefined) => {
+		$networkSlug = selectedNetwork?.slug ?? ''
+	}
+
+
 	// Side effects
-
-	$: if(selectedNetwork)
-		$networkSlug = selectedNetwork.slug
-
 	import { isTestnet, getNetworkColor, networksBySlug, networksByChainID } from '$/data/networks'
 
 	$: _isTestnet = $explorerNetwork && isTestnet($explorerNetwork)
@@ -131,7 +130,8 @@
 		<label>
 			<span>Network: </span>
 			<NetworkSelect
-				bind:network={selectedNetwork}
+				network={$explorerNetwork}
+				on:change={({ detail: { network } }) => setSelectedNetwork(network)}
 				showTestnets={$showTestnets}
 			/>
 		</label>
