@@ -60,8 +60,10 @@ export const normalizeTransaction = (
 	value: BigInt(transaction.value),
 
 	gasToken: network.nativeCurrency,
+	gasUnitsOffered: BigInt(transaction.gas),
 	gasUnitsSpent: BigInt(transaction.gasUsed),
 	gasUnitRate: BigInt(transaction.gasPrice),
+	gasValue: BigInt(transaction.gasUsed) * BigInt(transaction.gasPrice),
 })
 
 export const normalizeRpcTransaction = (
@@ -85,6 +87,7 @@ export const normalizeRpcTransaction = (
 	value: BigInt(transaction.value),
 
 	gasToken: network.nativeCurrency,
+	gasUnitsOffered: BigInt(transaction.gas),
 	gasUnitRate: BigInt(transaction.gasPrice),
 })
 

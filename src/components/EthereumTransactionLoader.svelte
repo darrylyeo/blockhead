@@ -209,10 +209,17 @@
 
 					return { transaction, transactionReceipt }
 				},
-				select: ({ transaction, transactionReceipt }) => ({
-					...normalizeTransactionReceiptEtherscan(network, transactionReceipt),
-					...normalizeTransactionEtherscan(network, transaction),
-				}),
+				select: ({ transaction, transactionReceipt }) => {
+					const _transaction = {
+						...normalizeTransactionReceiptEtherscan(network, transactionReceipt),
+						...normalizeTransactionEtherscan(network, transaction),
+					}
+
+					return {
+						..._transaction,
+						gasValue: BigInt(_transaction.gasUnitsSpent) * BigInt(_transaction.gasUnitRate),
+					}
+				},
 			}),
 		},
 
