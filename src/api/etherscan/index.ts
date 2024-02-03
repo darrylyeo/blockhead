@@ -78,7 +78,10 @@ const get = async <T, IsRpcProxyCall extends boolean = false>(
 		)
 			.then(
 				isRpcProxyCall
-					? ({ result }) => result 
+					? ({ result, message }) => {
+						if(message === 'NOTOK') throw result
+						return result 
+					}
 					: ({ status, result }) => {
 						if (status != 1) throw result
 						return result
