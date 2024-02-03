@@ -21,8 +21,16 @@ export const normalizeTransaction = (
 	transactionIndex: transaction.transactionIndex,
 
 	fromAddress: transaction.fromAddress as Ethereum.Address,
-	toAddress: transaction.toAddress as Ethereum.Address,
+	...(!transaction.deployedContract ? {
+		toAddress: transaction.toAddress as Ethereum.Address,
+	} : {
+		deployedContractAddress: transaction.deployedContract as Ethereum.ContractAddress,
+	}),
 
+	inputDecoded: {
+		methodName: transaction.method,
+		methodHash: transaction.methodHash === '0x' ? undefined : transaction.methodHash,
+	},
 	value: BigInt(transaction.value),
 
 	gasToken: network.nativeCurrency,
