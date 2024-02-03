@@ -20,9 +20,9 @@
 	export let balance: number
 	export let isDebt = false
 
-	export let conversionCurrency: QuoteCurrency
-	export let convertedValue: number
-	export let conversionRate: number
+	export let conversionCurrency: QuoteCurrency | undefined
+	export let convertedValue: number | undefined
+	export let conversionRate: number | undefined
 
 	// (View options)
 	export let layout: 'inline' | 'block' = 'inline'
@@ -37,9 +37,26 @@
 
 
 	// Internal state
+	let computedTokenBalanceFormat: 'original' | 'converted' | 'both'
 	// (Computed)
+	$: computedTokenBalanceFormat =
+		tokenBalanceFormat === 'both' ?
+			(balance && convertedValue === undefined) ?
+				'original'
+			: (!balance && convertedValue !== undefined) ?
+				'converted'
+			:
+				'both'
+		: tokenBalanceFormat === 'converted' ?
+			convertedValue !== undefined ?
+				'converted'
+			:
+				'original'
+		:
+			'original'
+
 	$: showParentheses = layout === 'inline'
-	$: isSmallValue = Math.abs(convertedValue) < 1e-3
+	$: isSmallValue = convertedValue !== undefined && Math.abs(convertedValue) < 1e-3
 	$: isZero = balance == 0
 
 
@@ -105,15 +122,15 @@
 	class:is-small-value={isSmallValue}
 	class:is-zero={isZero}
 	data-layout={layout}
-	data-format={tokenBalanceFormat}
+	data-format={computedTokenBalanceFormat}
 >
 	<InlineTransition
 		align="start"
-		key={tokenBalanceFormat === 'original' || tokenBalanceFormat === 'both'}
+		key={computedTokenBalanceFormat === 'original' || computedTokenBalanceFormat === 'both'}
 		transition={fade}
 		clip
 	>
-		{#if tokenBalanceFormat === 'original' || tokenBalanceFormat === 'both'}
+		{#if computedTokenBalanceFormat === 'original' || computedTokenBalanceFormat === 'both'}
 			<span class="balance"><!-- style="font-size: {sizeByVolume(convertedValue)}em" -->
 				<TokenBalance
 					{network} {symbol} {address} {name} {icon}
@@ -121,7 +138,7 @@
 					{tween} {clip} {transitionWidth}
 				/>
 			</span>
-		{:else if tokenBalanceFormat === 'converted' && layout === 'block'}
+		{:else if computedTokenBalanceFormat === 'converted' && layout === 'block'}
 			<span class="balance">
 				<TokenName {network} {symbol} {address} {icon} {name} />
 			</span>
@@ -129,18 +146,18 @@
 	</InlineTransition>
 
 	<InlineContainer
-		isOpen={(tokenBalanceFormat === 'converted' || tokenBalanceFormat === 'both')}
+		isOpen={(computedTokenBalanceFormat === 'converted' || computedTokenBalanceFormat === 'both')}
 		delay={50 + animationDelay}
 		clip
 	>
 		<span class="balance-converted">
-			{#if tokenBalanceFormat === 'both'}{#if showParentheses}({/if}{/if
+			{#if computedTokenBalanceFormat === 'both'}{#if showParentheses}({/if}{/if
 			}<TokenBalance
 				{network} symbol={conversionCurrency}
 				balance={convertedValue} {showDecimalPlaces} format="fiat" {isDebt}
 				{tween} {clip} {transitionWidth}
 			/><InlineContainer
-				isOpen={tokenBalanceFormat === 'converted' && layout === 'inline' && conversionCurrency !== symbol}
+				isOpen={computedTokenBalanceFormat === 'converted' && layout === 'inline' && conversionCurrency !== symbol}
 				delay={animationDelay}
 				clip
 			>
@@ -148,7 +165,7 @@
 					&nbsp;in <TokenName {network} {symbol} {address} {icon} {name} />
 				</span>
 			</InlineContainer>{#if showConversionRate && conversionRate}<span class="rate"> at <TokenRate rate={conversionRate} quoteToken={conversionCurrency} baseToken={symbol} layout='horizontal'/></span>{/if
-			}{#if tokenBalanceFormat === 'both' && showParentheses}){/if}
+			}{#if computedTokenBalanceFormat === 'both' && showParentheses}){/if}
 		</span>
 	</InlineContainer>
 </span>
