@@ -1,5 +1,6 @@
 <script lang="ts">
 	// Types/constants
+	import type { AccountId } from '$/data/accountId'
 	import type { Ethereum } from '$/data/networks/types'
 	import type { TokenWithBalance } from '$/data/tokens'
 	import { getViemPublicClient } from '$/data/networkProviders'
@@ -14,7 +15,7 @@
 	// Inputs
 	export let network: Ethereum.Network
 	export let networkProvider: NetworkProvider
-	export let accountId: Ethereum.Address | string
+	export let accountId: AccountId | string
 	export let filterQuery: Ethereum.Address | Ethereum.ContractAddress | Ethereum.BlockNumber | undefined
 
 	export let tokenBalancesProvider: TokenBalancesProvider
