@@ -1,5 +1,5 @@
 // Types
-import type { SvelteComponent } from 'svelte'
+import type { SvelteComponent, ComponentProps } from 'svelte'
 
 
 // Fonts
@@ -11,9 +11,11 @@ import satori from 'satori'
 import { html as toReactNode } from 'satori-html'
 import { Resvg } from '@resvg/resvg-js'
 
-export const svelteComponentToImageResponse = async (
-	component: SvelteComponent,
-	props: Record<string, any>,
+export const svelteComponentToImageResponse = async <
+	Component extends SvelteComponent
+>(
+	component: Component,
+	props: ComponentProps<Component>,
 	{
 		headers,
 		width,
