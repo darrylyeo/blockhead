@@ -418,7 +418,7 @@
 										target.value = ''
 									}}
 									placeholder="Add Network..."
-									showTestnets
+									showTestnets={false}
 								/>
 
 								<!-- <input type="text" name="networks[]" bind:value={newNetworks} required hidden /> -->
