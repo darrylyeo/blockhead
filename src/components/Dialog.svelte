@@ -21,16 +21,19 @@
 
 <style>
 	[popover] {
+		position: fixed;
 		border: none;
 		background: none;
 		width: 40rem;
 		max-width: 100%;
 		margin: auto;
 		opacity: 0;
+		pointer-events: none;
 		transition: 0.4s var(--ease-out-expo);
 	}
 	[popover]:popover-open {
 		opacity: 1;
+		pointer-events: all;
 	}
 
 	::backdrop {
@@ -41,6 +44,13 @@
 	@keyframes Blur {
 		to {
 			backdrop-filter: blur(16px);
+		}
+	}
+
+	/* Firefox Only */
+	@supports (-moz-appearance: none) {
+		button {
+			display: none;
 		}
 	}
 </style>
