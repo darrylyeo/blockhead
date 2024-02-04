@@ -127,7 +127,9 @@
 		>
 			<header class="bar" slot="header" let:contractMetadata>
 				<slot name="title" contractName={name} {network} {contractAddress}>
-					<h4><Address {network} address={contractAddress} format="middle-truncated" let:formattedAddress>{name || formattedAddress}</Address></h4>
+					<svelte:element this={`h${headingLevel}`}>
+						<Address {network} address={contractAddress} format="middle-truncated" let:formattedAddress>{name || formattedAddress}</Address>
+					</svelte:element>
 				</slot>
 
 				<label>
@@ -176,7 +178,7 @@
 									source.keccak256 && `keccak256 hash: ${source.keccak256}`
 								].filter(Boolean).join('\n\n')}
 							>
-								<svelte:element this={`h${headingLevel}`}>{sourceFile}</svelte:element>
+								<svelte:element this={`h${headingLevel + 1}`}>{sourceFile}</svelte:element>
 								{#if source.license && source.license !== 'None'}<small><span class="card-annotation">{source.license}</span></small>{/if}
 							</abbr>
 
@@ -246,7 +248,7 @@
 							{networkProvider}
 						>
 							<svelte:fragment slot="title">
-								<svelte:element this={`h${headingLevel}`}>{showContractCodeTypeOrSourcePath}</svelte:element>
+								<svelte:element this={`h${headingLevel + 1}`}>{showContractCodeTypeOrSourcePath}</svelte:element>
 							</svelte:fragment>
 						</EvmBytecode>
 					</section>
