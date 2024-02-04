@@ -1,11 +1,19 @@
 <script lang="ts">
+	// Types
+	import type { SvelteComponent, ComponentProps } from 'svelte'
+
+	type BodyComponent = $$Generic<SvelteComponent>
+	type BodyComponentProps = ComponentProps<BodyComponent>
+
+
 	// Inputs
 	export let width = 1620
 	export let height = 1080
 	export let title = ''
 	export let subtitle = ''
 	export let annotation = ''
-	export let body = ''
+	export let bodyComponent: BodyComponent | undefined
+	export let bodyComponentProps: BodyComponentProps | undefined
 	export let url: URL
 	export let primaryColor = ''
 
@@ -41,7 +49,9 @@
 	</header>
 
 	<div class="column">
-		<p>{body}</p>
+		{#if bodyComponent}
+			<svelte:component this={bodyComponent} {...bodyComponentProps} />
+		{/if}
 	</div>
 
 	<footer class="row">
