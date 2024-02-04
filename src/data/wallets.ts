@@ -154,26 +154,26 @@ export const wallets: WalletConfig[] = [
 			WalletConnectionType.WalletConnect1_Web3Modal_Standalone,
 		],
 	},
-	{
-		type: WalletType.WalletConnect1,
-		name: 'WalletConnect 1.0',
-		icon: WalletConnectIcon,
-		colors: ['#3083FC'],
+	// {
+	// 	type: WalletType.WalletConnect1,
+	// 	name: 'WalletConnect 1.0',
+	// 	icon: WalletConnectIcon,
+	// 	colors: ['#3083FC'],
 
-		connectionTypes: [
-			WalletConnectionType.WalletConnect1,
-		],
-	},
-	{
-		type: WalletType.BananaWallet,
-		name: 'Banana Wallet',
-		icon: BananaWalletIcon,
-		colors: ['#ffcf4a', '#f8b42c'], // '#e67f1c', '#b95300'
+	// 	connectionTypes: [
+	// 		WalletConnectionType.WalletConnect1,
+	// 	],
+	// },
+	// {
+	// 	type: WalletType.BananaWallet,
+	// 	name: 'Banana Wallet',
+	// 	icon: BananaWalletIcon,
+	// 	colors: ['#ffcf4a', '#f8b42c'], // '#e67f1c', '#b95300'
 
-		connectionTypes: [
-			WalletConnectionType.BananaWalletSdk,
-		],
-	},
+	// 	connectionTypes: [
+	// 		WalletConnectionType.BananaWalletSdk,
+	// 	],
+	// },
 	{
 		type: WalletType.CoinbaseWallet,
 		name: 'Coinbase Wallet',
@@ -189,34 +189,34 @@ export const wallets: WalletConfig[] = [
 
 		injectedEip1193ProviderFlag: 'isCoinbaseWallet',
 	},
-	{
-		type: WalletType.Intmax,
-		name: 'IntmaxWallet',
-		icon: IntmaxIcon,
-		colors: ['#14ded2', '#3680fe', '#d32dfd'],
+	// {
+	// 	type: WalletType.Intmax,
+	// 	name: 'IntmaxWallet',
+	// 	icon: IntmaxIcon,
+	// 	colors: ['#14ded2', '#3680fe', '#d32dfd'],
 
-		connectionTypes: [
-			WalletConnectionType.WebmaxJs,
-		],
-	},
-	{
-		type: WalletType.Liquality,
-		name: 'Liquality Wallet',
-		icon: LiqualityIcon,
-		colors: [
-			'#1CE5C3',
-			'#5440D7',
-			'#8B2CE4',
-			'#D421EB',
-			'#AC39FD',
-		],
+	// 	connectionTypes: [
+	// 		WalletConnectionType.WebmaxJs,
+	// 	],
+	// },
+	// {
+	// 	type: WalletType.Liquality,
+	// 	name: 'Liquality Wallet',
+	// 	icon: LiqualityIcon,
+	// 	colors: [
+	// 		'#1CE5C3',
+	// 		'#5440D7',
+	// 		'#8B2CE4',
+	// 		'#D421EB',
+	// 		'#AC39FD',
+	// 	],
 
-		connectionTypes: [
-			WalletConnectionType.InjectedEthereum,
-		],
+	// 	connectionTypes: [
+	// 		WalletConnectionType.InjectedEthereum,
+	// 	],
 
-		injectedEip1193ProviderFlag: 'isLiquality',
-	},
+	// 	injectedEip1193ProviderFlag: 'isLiquality',
+	// },
 	// {
 	// 	type: WalletType.MEW,
 	// 	name: 'MyEtherWallet',
