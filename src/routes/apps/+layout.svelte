@@ -89,10 +89,6 @@
 
 
 	// Internal state
-
-	let selectedNetwork: Ethereum.Network | undefined = $network
-	$: selectedNetwork = $network
-
 	let _isTestnet: boolean
 
 
@@ -114,6 +110,7 @@
 
 
 	// Components
+	import NetworkIcon from '$/components/NetworkIcon.svelte'
 	import NetworkSelect from '$/components/NetworkSelect.svelte'
 	import Preferences from '$/components/Preferences.svelte'
 	import TokenIcon from '$/components/TokenIcon.svelte'
@@ -158,7 +155,7 @@
 	<div class="bar wrap">
 		<div class="title row">
 			<span class="stack-inline">
-				{#key $web3AppConfig}
+				{#key $web3AppConfig}{#key $network}
 					<span class="title-icon" in:scale={{ duration: 300 }} out:scale={{ duration: 300 }}>
 						{#if $web3AppConfig}
 							{#if $web3AppConfig.icon}
@@ -172,11 +169,13 @@
 									<img src="/Blockhead-Logo.svg" width="30" />
 								{/if}
 							{/if}
+						{:else if $network}
+							<NetworkIcon network={$network} />
 						{:else}
 							<img src="/Blockhead-Logo.svg" width="30" />
 						{/if}
 					</span>
-				{/key}
+				{/key}{/key}
 			</span>
 
 			<h1>
@@ -195,6 +194,12 @@
 						</span>
 					{:else}
 						<span in:fly|global={{y: 20, duration: 200}} out:fly|global={{y: -20, duration: 200}}>
+							{#if $network}
+								<InlineContainer class="stack-inline" clip>
+									{#key $network}<span in:fly|global={{y: 20, duration: 200}} out:fly|global={{y: -20, duration: 200}}>{$network.name}</span>{/key}
+								</InlineContainer>
+							{/if}
+
 							Apps
 						</span>
 					{/if}
@@ -213,7 +218,7 @@
 		<label>
 			<span>Network: </span>
 			<NetworkSelect
-				network={selectedNetwork}
+				network={$network}
 				allowedNetworks={$web3AppConfig ? getWeb3AppSupportedNetworks($web3AppConfig) : undefined}
 				on:change={({ detail: { network } }) => setSelectedNetwork(network)}
 				showTestnets={$showTestnets}

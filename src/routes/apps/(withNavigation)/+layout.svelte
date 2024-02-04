@@ -1,12 +1,36 @@
 <script lang="ts">
+	// Constants/types
 	import { web3AppsBySection } from '$/data/web3Apps'
 
 
+	// Context
+	import { network } from '../_appsContext'
+
+
+	// Internal state
+	// (Derived)
+	$: displayedWeb3AppsBySection =
+		$network
+			? web3AppsBySection
+				.map(section => ({
+					...section,
+					apps: section.apps.filter(app => (
+						app.views.some(view => view.chainId === $network?.chainId)
+					)),
+				}))
+				.filter(section => section.apps.length)
+			: web3AppsBySection
+
+
+	// Components
 	import TokenIcon from '$/components/TokenIcon.svelte'
 
 
+	// Styles/transitions
 	import { cardStyle } from '$/utils/card-background'
 	import { fly, scale } from 'svelte/transition'
+	import { flip } from 'svelte/animate'
+	import { expoOut } from 'svelte/easing'
 </script>
 
 
@@ -77,17 +101,30 @@
 </style>
 
 
-<div class="column" in:fly|global={{x: 300}} out:fly|global={{x: -300}}>
-	<!-- <hr> -->
-
+<div
+	class="column"
+	in:fly|global={{x: 300}}
+	out:fly|global={{x: -300}}
+>
 	<div class="grid">
-		{#each web3AppsBySection as {title, apps, isFeatured}, i}
-			<section class="column" class:featured={isFeatured}>
+		{#each displayedWeb3AppsBySection as {title, apps, isFeatured}, i(title)}
+			<section
+				class="column"
+				class:featured={isFeatured}
+				transition:scale={{ duration: 300, easing: expoOut }}
+				animate:flip={{ duration: 300, easing: expoOut }}
+			>
 				<h2>{title}</h2>
 
 				<div class="content row wrap">
 					{#each apps as app, i}
-						<a href="/apps/{app.slug}" class="item card" transition:scale|global={{delay: i * 10}} style={cardStyle(app.colors)}>
+						<a
+							href="/apps/{app.slug}"
+							class="item card"
+							in:scale={{ delay: i * 10, duration: 300 }}
+							out:scale
+							style={cardStyle(app.colors)}
+						>
 							<h3 class="row">
 								{#if app.icon}
 									<img src={app.icon} alt={app.name} width={24} />
@@ -101,6 +138,17 @@
 							</h3>
 						</a>
 					{/each}
+				</div>
+			</section>
+		{:else}
+			<section
+				class="column"
+				transition:scale={{ duration: 300, easing: expoOut }}
+			>
+				<div class="card bar wrap">
+					<p class="faded">No apps to show{$network ? ` for ${$network.name}` : ''} yet!</p>
+
+					<a href="/#contact"><button class="medium">Feedback ›</button></a>
 				</div>
 			</section>
 		{/each}
