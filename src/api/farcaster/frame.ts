@@ -63,7 +63,7 @@ export const serializeFarcasterFrameServerMeta = (frameMeta: FarcasterFrameServe
 			])
 			?? [],
 		frameMeta.postUrl && {
-			property: 'fc:frame:postUrl',
+			property: 'fc:frame:post_url',
 			content: frameMeta.postUrl,
 		},
 	]
