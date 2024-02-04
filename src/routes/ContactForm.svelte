@@ -143,7 +143,7 @@
 					<label class="row-inline"><input type="checkbox" name="role" value="nft-collector"><span>NFT collector</span></label>
 					<label class="row-inline"><input type="checkbox" name="role" value="dao-contributor"><span>DAO contributor</span></label>
 					<label class="row-inline"><input type="checkbox" name="role" value="web3-developer"><span>web3 builder</span></label>
-					<label class="row-inline"><input type="checkbox" name="role" value="data-scientist"><span>data scientist</span></label>
+					<label class="row-inline"><input type="checkbox" name="role" value="data-scientist"><span>data analyst</span></label>
 					<label class="row-inline"><input type="checkbox" name="role" value="smart-contract-dev"><span>smart contract dev</span></label>
 					<label class="row-inline"><input type="checkbox" name="role" value="frontend-dev"><span>frontend dev</span></label>
 					<label class="row-inline"><input type="checkbox" name="role" value="student"><span>student</span></label>
@@ -164,7 +164,7 @@
 
 				<textarea
 					name="message"
-					placeholder="gm・thoughts・feedback・feature requests・found a bug・integrate my project!・hopes & dreams・dark secrets・wen new features?"
+					placeholder="gm・thoughts・feedback・request a feature・found a bug・add this data source・integrate my project!"
 					rows="4"
 				/>
 			</section>
