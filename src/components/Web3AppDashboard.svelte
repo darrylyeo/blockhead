@@ -5,7 +5,7 @@
 	import { DefiProvider } from '$/data/defiProviders'
 	import type { QuoteCurrency } from '$/data/currencies'
 	import type { Web3AppConfig } from '$/data/web3Apps'
-	import { networksByChainID } from '$/data/networks'
+	import { networksByChainID, isTestnet } from '$/data/networks'
 	import { preferences } from '$/state/preferences'
 	import type { AccountConnection } from '$/state/account'
 
@@ -23,6 +23,7 @@
 	export let quoteCurrency: QuoteCurrency
 
 	// (View options)
+	export let showTestnets = false
 	export let isOpen: boolean
 	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	export let showUnderlyingAssets = true
@@ -203,7 +204,13 @@
 
 
 {#if web3AppConfig}
-	{@const views = network ? web3AppConfig.views.filter(view => view.chainId === network.chainId) : web3AppConfig.views}
+	{@const views =
+		network
+			? web3AppConfig.views
+				.filter(view => view.chainId === network.chainId)
+			: web3AppConfig.views
+				.filter(view => showTestnets ? true : !isTestnet(networksByChainID[view.chainId]))
+	}
 
 	<div class="column defi-app-views">
 		{#each views as {

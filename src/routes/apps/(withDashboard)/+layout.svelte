@@ -27,6 +27,7 @@
 		accountConnection,
 		currentView,
 		defaultSearchInputValue,
+		showTestnets,
 	} from '../_appsContext'
 
 	import { preferences } from '$/state/preferences'
@@ -201,6 +202,7 @@
 					networkProvider={$preferences.rpcNetwork}
 					defiProvider={$preferences.defiProvider}
 					quoteCurrency={$preferences.quoteCurrency}
+					showTestnets={$showTestnets}
 				/>
 			</BlockTransition>
 		{/if}
