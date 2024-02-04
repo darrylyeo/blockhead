@@ -22,6 +22,10 @@
 			: web3AppsBySection
 
 
+	// Functions
+	import { resolveRoute } from '$app/paths'
+
+
 	// Components
 	import TokenIcon from '$/components/TokenIcon.svelte'
 
@@ -119,7 +123,11 @@
 				<div class="content row wrap">
 					{#each apps as app, i}
 						<a
-							href="/apps/{app.slug}"
+							href={
+								$network
+									? resolveRoute(`/apps/[web3AppSlug]/network/[networkSlug]`, { web3AppSlug: app.slug, networkSlug: $network.slug })
+									: resolveRoute(`/apps/[web3AppSlug]`, { web3AppSlug: app.slug })
+							}
 							class="item card"
 							in:scale={{ delay: i * 10, duration: 300 }}
 							out:scale
