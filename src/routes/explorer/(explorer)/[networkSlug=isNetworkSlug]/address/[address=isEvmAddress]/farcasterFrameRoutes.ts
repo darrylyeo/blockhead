@@ -9,9 +9,18 @@ import { resolveRoute } from '$app/paths'
 // Farcaster Frame Routes
 import { type FarcasterFrameRoutes, createSubmenu } from '$/utils/farcasterFrameRoutes'
 
+import Page from './page.opengraph.svelte'
+import Balances from './balances/Balances.opengraph.svelte'
+import Positions from './positions/Positions.opengraph.svelte'
+import Nfts from './nfts/Nfts.opengraph.svelte'
+
 export const farcasterFrameRoutes = Object.assign(
 	{
 		'/': {
+			load: async () => {
+				
+			},
+			render: Page,
 			buttons: [
 				{
 					label: 'Go to...',
@@ -28,14 +37,18 @@ export const farcasterFrameRoutes = Object.assign(
 		baseRoute: '/',
 		menuRoute: 'nav',
 		buttons: [
-			{ label: 'Balances', toFrameRoute: '/tokens' },
-			{ label: 'DeFi Positions', toFrameRoute: '/defi' },
+			{ label: 'Balances', toFrameRoute: '/balances' },
+			{ label: 'DeFi Positions', toFrameRoute: '/positions' },
 			{ label: 'NFTs', toFrameRoute: '/nfts' },
 			{ label: 'Contract Code', toFrameRoute: '/contract' },
 		]
 	}),
 	{
-		'/tokens': {
+		'/balances': {
+			load: async () => {
+				
+			},
+			render: Balances,
 			buttons: [
 				{
 					label: '← Back',
@@ -43,7 +56,11 @@ export const farcasterFrameRoutes = Object.assign(
 				},
 			],
 		},
-		'/defi': {
+		'/positions': {
+			load: async () => {
+				
+			},
+			render: Positions,
 			buttons: [
 				{
 					label: '← Back',
@@ -52,6 +69,10 @@ export const farcasterFrameRoutes = Object.assign(
 			],
 		},
 		'/nfts': {
+			load: async () => {
+				
+			},
+			render: Nfts,
 			buttons: [
 				{
 					label: '← Back',
@@ -60,6 +81,9 @@ export const farcasterFrameRoutes = Object.assign(
 			],
 		},
 		'/contract': {
+			load: async () => {
+				
+			},
 			buttons: [
 				{
 					label: '← Back',
