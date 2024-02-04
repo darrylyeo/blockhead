@@ -59,6 +59,12 @@
 		transform: rotateX(-0.01turn);
 		transform-origin: top;
 	}
+	/* Firefox Only */
+	@supports (-moz-appearance: none) {
+		.buttons {
+			transform: none !important;
+		}
+	}
 
 	b {
 		color: rgba(var(--rgb-light-dark-inverse), 0.8);
