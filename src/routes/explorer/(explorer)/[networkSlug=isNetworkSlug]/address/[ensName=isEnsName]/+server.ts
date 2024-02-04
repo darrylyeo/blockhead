@@ -44,7 +44,7 @@ const generateOpenGraphImage: RequestHandler = async ({
 	const {
 		width,
 		height,
-		farcasterFrameRoute,
+		farcasterFrameRoute = '/',
 	} = Object.fromEntries(url.searchParams.entries()) as unknown as FarcasterFrameImageGeneratorParams
 
 
@@ -80,6 +80,9 @@ const generateOpenGraphImage: RequestHandler = async ({
 	const contractName = contractMetadata && Object.values(contractMetadata.contractMetadata.settings.compilationTarget)?.[0]
 
 	const sourcePaths = contractMetadata ? Object.keys(contractMetadata.contractMetadata.sources) : undefined
+
+	const bodyComponent = farcasterFrameRoutes[farcasterFrameRoute]?.pageComponent
+	const bodyComponentProps = await farcasterFrameRoutes[farcasterFrameRoute]?.load?.()
 
 
 	// SVG → sharp → PNG
@@ -137,7 +140,8 @@ const generateOpenGraphImage: RequestHandler = async ({
 					}
 			),
 			annotation: `${network.name} ${addressType}`,
-			body: sourcePaths?.join('\n'),
+			bodyComponent,
+			bodyComponentProps,
 			url,
 			primaryColor: getNetworkColor(network) ?? getNetworkColor(networksBySlug['ethereum']),
 		},
