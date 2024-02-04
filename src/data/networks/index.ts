@@ -6317,6 +6317,7 @@ export const l1Networks = ([
 	'avalanche',
 	'celo',
 	'fantom',
+	// 'bsc',
 ] as const satisfies Readonly<NetworkSlug[]>)
 	.map(slug => networksBySlug[slug])
 
@@ -6325,7 +6326,7 @@ export const l2Networks = ([
 	'gnosis',
 	'arbitrum-one',
 	'polygon-zkevm',
-	'scroll',
+	// 'scroll',
 	// 'skale-testnet',
 	// 'arbitrum-xdai',
 	// 'metis',
