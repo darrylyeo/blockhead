@@ -1,0 +1,10 @@
+{
+	"configurations": [
+		{
+			"name": "SvelteKit (VSCode)",
+			"type": "node-terminal",
+			"request": "launch",
+			"command": "pnpm dev"
+		}
+	]
+}
