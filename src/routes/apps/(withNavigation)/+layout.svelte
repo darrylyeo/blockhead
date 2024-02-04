@@ -148,7 +148,7 @@
 				<div class="card bar wrap">
 					<p class="faded">No apps to show{$network ? ` for ${$network.name}` : ''} yet!</p>
 
-					<a href="/#contact"><button class="medium">Feedback ›</button></a>
+					<a href="/#contact" target="_blank"><button class="medium">Feedback ›</button></a>
 				</div>
 			</section>
 		{/each}
