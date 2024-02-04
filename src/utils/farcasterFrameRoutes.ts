@@ -4,23 +4,28 @@ shimMapGroupBy.shim()
 
 
 // Types
+import type { SvelteComponent, ComponentProps } from 'svelte'
 import type { FarcasterFrameServerMeta, FarcasterFrameButton } from '$/api/farcaster/frame'
 
 export type FarcasterFramePage<
 	FrameRoute extends string,
 	RouteParams extends Record<string, string | undefined>,
+	Component extends SvelteComponent,
 > = {
 	version?: FarcasterFrameServerMeta['version'],
 	image?: Partial<FarcasterFrameServerMeta['image']>,
-	buttons?: FarcasterFrameRouteButton<FrameRoute, RouteParams>[],nent,
+	buttons?: FarcasterFrameRouteButton<FrameRoute, RouteParams>[],
+	load?: () => Promise<ComponentProps<Component>>,
+	pageComponent?: Component,
 }
 
 export type FarcasterFrameRoutes<
 	FrameRoute extends string,
 	RouteParams extends Record<string, string | undefined>,
+	Component extends SvelteComponent,
 > = Record<
 	FrameRoute,
-	FarcasterFramePage<FrameRoute, RouteParams>
+	FarcasterFramePage<FrameRoute, RouteParams, Component>
 >
 
 type FarcasterFrameRouteButton<
