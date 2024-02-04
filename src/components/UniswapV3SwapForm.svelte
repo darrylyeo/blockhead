@@ -24,7 +24,7 @@
 		type="label"
 		class="column"
 	>
-		<h4 slot="title">Swap</h4>
+		<h4 slot="title">Swap (WIP)</h4>
 
 		<hr>
 

@@ -46,7 +46,7 @@
 		type="label"
 		class="column"
 	>
-		<h4 slot="title">Add Liquidity</h4>
+		<h4 slot="title">Add Liquidity (WIP)</h4>
 
 		<hr>
 
