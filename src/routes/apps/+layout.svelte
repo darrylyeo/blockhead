@@ -202,6 +202,13 @@
 			</h1>
 		</div>
 
+		<small>
+			<label>
+				<input type="checkbox" bind:checked={$showTestnets} disabled={_isTestnet} />
+				<span>Testnets</span>
+			</label>
+		</small>
+
 		<!-- svelte-ignore a11y-label-has-associated-control -->
 		<label>
 			<span>Network: </span>
