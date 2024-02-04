@@ -2,8 +2,10 @@ import preprocess from 'svelte-preprocess'
 
 import adapterAuto from '@sveltejs/adapter-auto'
 import adapterStatic from '@sveltejs/adapter-static'
+import adapterNetlify from '@sveltejs/adapter-netlify'
 
 const isStatic = !!process.env.SVELTE_BUILD_STATIC
+const isNetlify = !!process.env.NETLIFY
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -13,12 +15,17 @@ const config = {
 
 	kit: {
 		adapter:
-			isStatic
-				? adapterStatic({
+			isStatic ?
+				adapterStatic({
 					fallback: 'index.html',
 					// precompress: true,
 				})
-				: adapterAuto(),
+			: isNetlify ?
+				adapterNetlify({
+					edge: true,
+				})
+			:
+				adapterAuto(),
 
 		alias: {
 			'$': './src',
