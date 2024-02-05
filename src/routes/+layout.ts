@@ -15,7 +15,7 @@ Array.fromAsync ||= fromAsync
 import shimMapGroupBy from 'map.groupby'
 shimMapGroupBy.shim()
 
-import shimObjectGroupBy from '@nolyfill/object.groupby'
+import shimObjectGroupBy from 'object.groupby'
 shimObjectGroupBy.shim()
 
 import shimRegexpEscape from 'regexp.escape'
