@@ -119,22 +119,24 @@
 			</h1>
 		</div>
 
-		<small>
-			<label>
-				<input type="checkbox" bind:checked={$showTestnets} disabled={_isTestnet} />
-				<span>Testnets</span>
-			</label>
-		</small>
+		<div class="row wrap">
+			<small>
+				<label>
+					<input type="checkbox" bind:checked={$showTestnets} disabled={_isTestnet} />
+					<span>Testnets</span>
+				</label>
+			</small>
 
-		<!-- svelte-ignore a11y-label-has-associated-control -->
-		<label>
-			<span>Network: </span>
-			<NetworkSelect
-				network={$explorerNetwork}
-				on:change={({ detail: { network } }) => setSelectedNetwork(network)}
-				showTestnets={$showTestnets}
-			/>
-		</label>
+			<!-- svelte-ignore a11y-label-has-associated-control -->
+			<label>
+				<span>Network: </span>
+				<NetworkSelect
+					network={$explorerNetwork}
+					on:change={({ detail: { network } }) => setSelectedNetwork(network)}
+					showTestnets={$showTestnets}
+				/>
+			</label>
+		</div>
 	</div>
 
 	<div class="stack">

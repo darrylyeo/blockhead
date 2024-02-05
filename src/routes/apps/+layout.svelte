@@ -207,24 +207,26 @@
 			</h1>
 		</div>
 
-		<small>
-			<label>
-				<input type="checkbox" bind:checked={$showTestnets} disabled={_isTestnet} />
-				<span>Testnets</span>
-			</label>
-		</small>
+		<div class="row wrap">
+			<small>
+				<label>
+					<input type="checkbox" bind:checked={$showTestnets} disabled={_isTestnet} />
+					<span>Testnets</span>
+				</label>
+			</small>
 
-		<!-- svelte-ignore a11y-label-has-associated-control -->
-		<label>
-			<span>Network: </span>
-			<NetworkSelect
-				network={$network}
-				allowedNetworks={$web3AppConfig ? getWeb3AppSupportedNetworks($web3AppConfig) : undefined}
-				on:change={({ detail: { network } }) => setSelectedNetwork(network)}
-				showTestnets={$showTestnets}
-				placeholder="All Networks"
-			/>
-		</label>
+			<!-- svelte-ignore a11y-label-has-associated-control -->
+			<label>
+				<span>Network: </span>
+				<NetworkSelect
+					network={$network}
+					allowedNetworks={$web3AppConfig ? getWeb3AppSupportedNetworks($web3AppConfig) : undefined}
+					on:change={({ detail: { network } }) => setSelectedNetwork(network)}
+					showTestnets={$showTestnets}
+					placeholder="All Networks"
+				/>
+			</label>
+		</div>
 
 		<label>
 			<span>App</span>
