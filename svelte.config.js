@@ -21,9 +21,7 @@ const config = {
 					// precompress: true,
 				})
 			: isNetlify ?
-				adapterNetlify({
-					edge: true,
-				})
+				adapterNetlify()
 			:
 				adapterAuto(),
 
