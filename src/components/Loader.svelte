@@ -304,7 +304,7 @@
 	}
 
 	$: if(status === LoadingStatus.Errored){
-		// console.error(error)
+		console.error(error)
 		whenErrored?.(error)
 	}
 
