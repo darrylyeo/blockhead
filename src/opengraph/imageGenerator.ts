@@ -11,8 +11,8 @@ export type OpenGraphImageGeneratorParams = {
 // Functions
 export const openGraphImageGeneratorMeta = ({
 	pageUrl,
-	width = 1728,
-	height = 1080,
+	width = 1910,
+	height = 1000,
 	altText,
 }: {
 	pageUrl: URL,
