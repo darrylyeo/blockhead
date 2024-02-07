@@ -9,10 +9,20 @@ import { resolveRoute } from '$app/paths'
 // Farcaster Frame Routes
 import { type FarcasterFrameRoutes, createSubmenu } from '$/utils/farcasterFrameRoutes'
 
+import Page from './page.opengraph.svelte'
+import { load as BalancesPageLoad } from './balances/page.opengraph'
+import BalancesPage from './balances/page.opengraph.svelte'
+import { load as PositionsPageLoad } from './positions/page.opengraph'
+import PositionsPage from './positions/page.opengraph.svelte'
+import { load as NftsPageLoad } from './nfts/page.opengraph'
+import NftsPage from './nfts/page.opengraph.svelte'
+import { load as ContractPageLoad } from './contract/page.opengraph'
+import ContractPage from './contract/page.opengraph.svelte'
+
 export const farcasterFrameRoutes = Object.assign(
 	{
 		'/': {
-			pageComponent: (await import('./page.opengraph.svelte')).default,
+			pageComponent: Page,
 			buttons: [
 				{
 					label: 'Go to...',
@@ -37,8 +47,8 @@ export const farcasterFrameRoutes = Object.assign(
 	}),
 	{
 		'/balances': {
-			pageLoad: (await import('./balances/page.opengraph')).load,
-			pageComponent: (await import('./balances/page.opengraph.svelte')).default,
+			pageLoad: BalancesPageLoad,
+			pageComponent: BalancesPage,
 			buttons: [
 				{
 					label: '← Back',
@@ -47,8 +57,8 @@ export const farcasterFrameRoutes = Object.assign(
 			],
 		},
 		'/positions': {
-			pageLoad: (await import('./positions/page.opengraph')).load,
-			pageComponent: (await import('./positions/page.opengraph.svelte')).default,
+			pageLoad: PositionsPageLoad,
+			pageComponent: PositionsPage,
 			buttons: [
 				{
 					label: '← Back',
@@ -57,8 +67,8 @@ export const farcasterFrameRoutes = Object.assign(
 			],
 		},
 		'/nfts': {
-			pageLoad: (await import('./nfts/page.opengraph')).load,
-			pageComponent: (await import('./nfts/page.opengraph.svelte')).default,
+			pageLoad: NftsPageLoad,
+			pageComponent: NftsPage,
 			buttons: [
 				{
 					label: '← Back',
@@ -67,8 +77,8 @@ export const farcasterFrameRoutes = Object.assign(
 			],
 		},
 		'/contract': {
-			pageLoad: (await import('./contract/page.opengraph')).load,
-			pageComponent: (await import('./contract/page.opengraph.svelte')).default,
+			pageLoad: ContractPageLoad,
+			pageComponent: ContractPage,
 			buttons: [
 				{
 					label: '← Back',
