@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { load } from './layout.opengraph'
+	import type { load } from './page.opengraph'
 
 	$: ({
 

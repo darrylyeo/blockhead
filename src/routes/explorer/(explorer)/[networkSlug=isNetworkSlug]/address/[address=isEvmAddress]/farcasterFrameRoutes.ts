@@ -9,18 +9,10 @@ import { resolveRoute } from '$app/paths'
 // Farcaster Frame Routes
 import { type FarcasterFrameRoutes, createSubmenu } from '$/utils/farcasterFrameRoutes'
 
-import Page from './page.opengraph.svelte'
-import Balances from './balances/Balances.opengraph.svelte'
-import Positions from './positions/Positions.opengraph.svelte'
-import Nfts from './nfts/Nfts.opengraph.svelte'
-
 export const farcasterFrameRoutes = Object.assign(
 	{
 		'/': {
-			load: async () => {
-				
-			},
-			render: Page,
+			pageComponent: (await import('./page.opengraph.svelte')).default,
 			buttons: [
 				{
 					label: 'Go to...',
@@ -45,10 +37,8 @@ export const farcasterFrameRoutes = Object.assign(
 	}),
 	{
 		'/balances': {
-			load: async () => {
-				
-			},
-			render: Balances,
+			pageLoad: (await import('./balances/page.opengraph')).load,
+			pageComponent: (await import('./balances/page.opengraph.svelte')).default,
 			buttons: [
 				{
 					label: '← Back',
@@ -57,10 +47,8 @@ export const farcasterFrameRoutes = Object.assign(
 			],
 		},
 		'/positions': {
-			load: async () => {
-				
-			},
-			render: Positions,
+			pageLoad: (await import('./positions/page.opengraph')).load,
+			pageComponent: (await import('./positions/page.opengraph.svelte')).default,
 			buttons: [
 				{
 					label: '← Back',
@@ -69,10 +57,8 @@ export const farcasterFrameRoutes = Object.assign(
 			],
 		},
 		'/nfts': {
-			load: async () => {
-				
-			},
-			render: Nfts,
+			pageLoad: (await import('./nfts/page.opengraph')).load,
+			pageComponent: (await import('./nfts/page.opengraph.svelte')).default,
 			buttons: [
 				{
 					label: '← Back',
@@ -81,9 +67,8 @@ export const farcasterFrameRoutes = Object.assign(
 			],
 		},
 		'/contract': {
-			load: async () => {
-				
-			},
+			pageLoad: (await import('./contract/page.opengraph')).load,
+			pageComponent: (await import('./contract/page.opengraph.svelte')).default,
 			buttons: [
 				{
 					label: '← Back',

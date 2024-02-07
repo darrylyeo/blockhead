@@ -1,11 +1,4 @@
 <script lang="ts">
-	// Types
-	import type { SvelteComponent, ComponentProps } from 'svelte'
-
-	type BodyComponent = $$Generic<SvelteComponent>
-	type BodyComponentProps = ComponentProps<BodyComponent>
-
-
 	// Inputs
 	export let width = 1620
 	export let height = 1080
@@ -48,10 +41,8 @@
 		>{subtitle}</h2>
 	</header>
 
-	<div class="column">
-		{#if bodyComponent}
-			<svelte:component this={bodyComponent} {...bodyComponentProps} />
-		{/if}
+	<div class="content column">
+		<slot />
 	</div>
 
 	<footer class="row">
@@ -77,10 +68,6 @@
 
 
 <style>
-	* {
-		box-sizing: border-box;
-	}
-
 	main {
 		padding: 2.5em;
 
@@ -88,50 +75,6 @@
 		color: #fff;
 		font-size: 24px;
 		font-family: Ubuntu, sans-serif;
-	}
-
-	h1, h2 {
-		font-weight: 400;
-	}
-
-	h1, h2, output {
-		font-family: 'Fira Code', monospace;
-		word-spacing: -0.2em;
-	}
-
-	.title {
-		font-size: 1.5em;
-	}
-
-	.subtitle {
-		margin-top: -1.25em;
-		font-size: 1.3em;
-		opacity: 0.5;
-	}
-
-	.row {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: space-between;
-		gap: 1.25em;
-	}
-	.row > :last-child {
-		text-align: right;
-	}
-
-	.column {
-		display: flex;
-		align-items: stretch;
-		flex-direction: column;
-		justify-content: space-between;
-		gap: 1em;
-	}
-
-	.annotation {
-		opacity: 0.4;
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
 	}
 
 	header {
@@ -142,12 +85,5 @@
 	.logo {
 		width: 90px;
 		height: 90px;
-	}
-
-	.url {
-		color: rgba(255, 255, 255, 0.5);
-	}
-	.url strong {
-		color: rgba(255, 255, 255, 0.75);
 	}
 </style>

@@ -1,0 +1,58 @@
+* {
+	box-sizing: border-box;
+}
+
+h1, h2 {
+	font-weight: 400;
+}
+
+h1, h2, output, pre, code {
+	font-family: 'Fira Code', monospace;
+	word-spacing: -0.2em;
+}
+
+pre {
+	white-space: pre-wrap;
+}
+
+.title {
+	font-size: 1.5em;
+}
+
+.subtitle {
+	margin-top: -1.25em;
+	font-size: 1.3em;
+	opacity: 0.5;
+}
+
+.row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1.25em;
+}
+.row > :last-child {
+	text-align: right;
+}
+
+.column {
+	display: flex;
+	align-items: stretch;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 1em;
+}
+
+.annotation {
+	opacity: 0.4;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.url {
+	color: rgba(255, 255, 255, 0.5);
+}
+.url strong {
+	color: rgba(255, 255, 255, 0.75);
+}

@@ -2,7 +2,8 @@
 import type { SvelteComponent, ComponentProps } from 'svelte'
 
 
-// Fonts
+// Styles/fonts
+import css from './styles.opengraph.css?raw'
 import { fonts } from './fonts'
 
 
@@ -28,7 +29,7 @@ export const svelteComponentToImageResponse = async <
 ) => {
 	const result = component.render(props)
 
-	const html = `${result.html}<style>${result.css.code}</style>`
+	const html = `${result.html}<style>${css}</style><style>${result.css.code}</style>`
 
 	const reactNode = toReactNode(html)
 

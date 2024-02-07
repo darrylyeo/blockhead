@@ -1,17 +1,6 @@
-// Types/constants
-import { getNetworkColor, networksBySlug } from '$/data/networks'
-import { NetworkProvider } from '$/data/networkProviders/types'
-
-
 // Context
 import type { RequestHandler } from './$types'
 import { type FrameRoute, farcasterFrameRoutes } from './farcasterFrameRoutes'
-
-
-// Data
-import { getViemPublicClient } from '$/data/networkProviders'
-import { Etherscan } from '$/api/etherscan'
-import { normalizeContractSource as normalizeContractSourceEtherscan } from '$/api/etherscan/normalize'
 
 
 // OpenGraph/Farcaster Frame Image Generator
@@ -26,8 +15,10 @@ type FarcasterFrameImageGeneratorParams = OpenGraphImageGeneratorParams & {
 // import { svgToImageResponse } from '$/opengraph/svgToImageResponse'
 
 // Svelte → satori-html → satori → resvg-js → PNG
-import OpenGraphGeneratedImage from '$/opengraph/OpenGraphGeneratedImage.svelte'
 import { svelteComponentToImageResponse } from '$/opengraph/svelteComponentToImageResponse'
+
+import { load as layoutLoad } from './layout.opengraph'
+import LayoutComponent from './layout.opengraph.svelte'
 
 const generateOpenGraphImage: RequestHandler = async ({
 	request,
@@ -35,8 +26,6 @@ const generateOpenGraphImage: RequestHandler = async ({
 	params,
 }) => {
 	// Context
-	const { networkSlug, address } = params
-
 	const {
 		width,
 		height,
@@ -45,40 +34,10 @@ const generateOpenGraphImage: RequestHandler = async ({
 
 
 	// Internal state
-	const network = networksBySlug[networkSlug]
+	const layoutData = await layoutLoad(params)
 
-	const publicClient = getViemPublicClient({
-		network: networksBySlug['ethereum'],
-		networkProvider: NetworkProvider.Alchemy,
-	})
-
-	const ensName = publicClient && (
-		await publicClient.getEnsName({
-			address,
-		})
-			.catch(() => undefined)
-	) || undefined
-	
-	const bytecode = publicClient && address && (
-		await publicClient.getBytecode({ address })
-			.then(contractBytecode => contractBytecode === undefined ? undefined : contractBytecode)
-	)
-
-	const contractMetadata = bytecode && await Etherscan.Contracts.getSource({
-		chainId: network.chainId,
-		contractAddress: address,
-	})
-		.then(normalizeContractSourceEtherscan)
-
-	const addressType = bytecode && contractMetadata ? 'Contract' : 'Account'
-
-	const contractName = contractMetadata && Object.values(contractMetadata.contractMetadata.settings.compilationTarget)?.[0]
-
-	const sourcePaths = contractMetadata ? Object.keys(contractMetadata.contractMetadata.sources) : undefined
-
-	const bodyComponent = farcasterFrameRoutes[farcasterFrameRoute]?.pageComponent
-	const bodyComponentProps = await farcasterFrameRoutes[farcasterFrameRoute]?.load?.()
-
+	const pageComponent = farcasterFrameRoutes[farcasterFrameRoute]?.pageComponent
+	const pageData = await farcasterFrameRoutes[farcasterFrameRoute]?.load?.(layoutData) ?? layoutData
 
 	// SVG → sharp → PNG
 	// return svgToImageResponse({
@@ -114,31 +73,16 @@ const generateOpenGraphImage: RequestHandler = async ({
 
 	// Svelte → satori-html → satori → resvg-js → PNG
 	const response = await svelteComponentToImageResponse(
-		OpenGraphGeneratedImage,
+		LayoutComponent,
 		{
 			width,
 			height,
-			...(
-				contractName && address && ensName ?
-					{
-						title: `${contractName} (${address})`,
-						subtitle: ensName,
-					}
-				: contractName ?
-					{
-						title: contractName,
-						subtitle: address,
-					}
-				:
-					{
-						title: address,
-					}
-			),
-			annotation: `${network.name} ${addressType}`,
-			bodyComponent,
-			bodyComponentProps,
 			url,
-			primaryColor: getNetworkColor(network) ?? getNetworkColor(networksBySlug['ethereum']),
+			data: layoutData,
+			pageComponent,
+			pageProps: {
+				data: pageData,
+			},
 		},
 		{
 			headers: request.headers,
