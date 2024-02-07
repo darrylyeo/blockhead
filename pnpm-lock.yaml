@@ -185,8 +185,8 @@ dependencies:
     specifier: ^12.1.3
     version: 12.1.3
   oazapfts:
-    specifier: ^4.12.0
-    version: 4.12.0(openapi-types@12.1.3)
+    specifier: ^5.1.4
+    version: 5.1.4(openapi-types@12.1.3)
   object.groupby:
     specifier: ^1.0.2
     version: 1.0.2
@@ -18158,8 +18158,8 @@ packages:
     resolution: {integrity: sha512-fexhUFFPTGV8ybAtSIGbV6gOkSv8UtRbDBnAyLQw4QPKkgNlsH2ByPGtMUqdWkos6YCRmAqViwgZrJc/mRDzZQ==}
     dev: false
 
-  /oazapfts@4.12.0(openapi-types@12.1.3):
-    resolution: {integrity: sha512-hNKRG4eLYceuJuqDDx7Uqsi8p3j5k83gNKSo2qnUOTiiU03sCQOjXxOqCXDbzRcuDFyK94+1PBIpotK4NoxIjw==}
+  /oazapfts@5.1.4(openapi-types@12.1.3):
+    resolution: {integrity: sha512-2SxNV4rLm8MWoBnnVD9aeM22yZfzX3mJ7UPt8WXM7656XVsXCM4q8h29kP5rK2XNNf90FJ0quQ0T+Mx9wDhQyg==}
     hasBin: true
     dependencies:
       '@apidevtools/swagger-parser': 10.1.0(openapi-types@12.1.3)
