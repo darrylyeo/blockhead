@@ -153,40 +153,42 @@
 				</slot>
 			</div>
 
-			<span class="card-annotation">
-				<slot name="annotation">
-					{network.name}
+			<div class="row">
+				<span class="card-annotation">
+					<slot name="annotation">
+						{network.name}
 
-					<EthereumContractBytecodeLoader
-						loaderViewOptions={{
-							layout: 'passive',
-						}}
-						{network}
-						{networkProvider}
-						contractAddress={address}
-						let:contractBytecode
-						let:status
-					>
-						{#if status === 'resolved'}
-							{#if contractBytecode}
-								<abbr title={contractBytecode}>Contract</abbr>
+						<EthereumContractBytecodeLoader
+							loaderViewOptions={{
+								layout: 'passive',
+							}}
+							{network}
+							{networkProvider}
+							contractAddress={address}
+							let:contractBytecode
+							let:status
+						>
+							{#if status === 'resolved'}
+								{#if contractBytecode}
+									<abbr title={contractBytecode}>Contract</abbr>
+								{:else}
+									Account
+								{/if}
 							{:else}
-								Account
+								Address
 							{/if}
-						{:else}
-							Address
-						{/if}
-					</EthereumContractBytecodeLoader>
-				</slot>
-			</span>
+						</EthereumContractBytecodeLoader>
+					</slot>
+				</span>
 
-			{#if toggle}
-				<button
-					class="small"
-					data-after={isOpen ? '▲' : '▼'}
-					on:click={toggle}
-				/>
-			{/if}
+				{#if toggle}
+					<button
+						class="small"
+						data-after={isOpen ? '▲' : '▼'}
+						on:click={toggle}
+					/>
+				{/if}
+			</div>
 		</div>
 
 		<EthereumContractExplorer
