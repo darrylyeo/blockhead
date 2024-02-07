@@ -76,7 +76,7 @@ import { text } from '@sveltejs/kit'
 export const createFarcasterFrameServerResponse = (frameMeta: FarcasterFrameServerMeta) => text(
 	`
 		<!DOCTYPE html>
-			<html>
+		<html>
 			<head>
 				${
 					serializeFarcasterFrameServerMeta(frameMeta)
