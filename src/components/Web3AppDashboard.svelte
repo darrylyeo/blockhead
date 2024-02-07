@@ -39,7 +39,7 @@
 
 
 	// Functions
-	import type { ZapperAppBalance } from '$/api/zapper'
+	import type { ZapperAppBalance } from '$/api/zapper-old'
 
 
 	// Internal state

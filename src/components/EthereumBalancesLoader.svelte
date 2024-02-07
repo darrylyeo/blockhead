@@ -64,8 +64,8 @@
 	import { getWalletTokenBalance } from '$/api/quicknode/index'
 	import { normalizeTokenBalance as normalizeTokenBalanceQuickNode } from '$/api/quicknode/normalize'
 
-	import { getTokenBalances } from '$/api/zapper/index'
-	import { normalizeTokenBalance as normalizeTokenBalanceZapper } from '$/api/zapper/normalize'
+	import { getTokenBalances } from '$/api/zapper-old/index'
+	import { normalizeTokenBalance as normalizeTokenBalanceZapper } from '$/api/zapper-old/normalize'
 
 
 	// Components

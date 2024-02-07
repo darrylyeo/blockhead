@@ -1,6 +1,6 @@
 import type {
 	BalanceControllerGetAppBalancesParams,
-} from './api/data-contracts'
+} from './api-v2/data-contracts'
 
 import type { Ethereum } from '$/data/networks/types'
 
@@ -670,9 +670,9 @@ type AppMeta = {
 
 // Swagger API Client
 
-import { V2 } from './api/V2'
-import { HttpClient } from './api/http-client'
-import type { FullRequestParams } from './api/http-client'
+import { V2 } from './api-v2/V2'
+import { HttpClient } from './api-v2/http-client'
+import type { FullRequestParams } from './api-v2/http-client'
 import { env } from '$/env'
 
 const client = new HttpClient()
@@ -776,8 +776,9 @@ export const getDefiPositionsForApp = memoizedAsync(async ({
 	}
 })
 
-
-export const getDefiPositionsForApps = memoizedAsync(async ({
+export const getDefiPositionsForApps = memoizedAsync(async <
+	AsStore extends boolean = false,
+>({
 	appIds,
 	network,
 	address,
@@ -786,7 +787,7 @@ export const getDefiPositionsForApps = memoizedAsync(async ({
 	appIds?: ZapperAppId[],
 	network: Ethereum.Network,
 	address: Ethereum.Address,
-	asStore?: boolean
+	asStore?: AsStore,
 }) => {
 	const networkName = networkNamesByChainID[network.chainId]
 

@@ -4,7 +4,7 @@
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import type { QuoteCurrency } from '$/data/currencies'
 	import type { Web3AppConfig } from '$/data/web3Apps'
-	import type { ZapperAppId, ZapperAppConfig } from '$/api/zapper'
+	import type { ZapperAppId, ZapperAppConfig } from '$/api/zapper-old'
 
 	import { getViemPublicClient } from '$/data/networkProviders'
 	import { DefiProvider, defiProviderIcons } from '$/data/defiProviders'
@@ -91,8 +91,8 @@
 	import { getDefiPositions } from '$/api/zerion/defiSdk/index'
 	import { normalizeDefiPositions as normalizeDefiPositionsZerion } from '$/api/zerion/defiSdk/normalize'
 
-	import { getAllApps, getDefiPositionsForApps } from '$/api/zapper/index'
-	import { normalizeDefiPositions as normalizeDefiPositionsZapper } from '$/api/zapper/normalize'
+	import { getAllApps, getDefiPositionsForApps } from '$/api/zapper-old/index'
+	import { normalizeDefiPositions as normalizeDefiPositionsZapper } from '$/api/zapper-old/normalize'
 
 
 	// Components
