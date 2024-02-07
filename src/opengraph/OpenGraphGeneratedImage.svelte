@@ -82,6 +82,11 @@
 		justify-content: flex-start;
 	}
 
+	.content {
+		flex: 1;
+		overflow: hidden;
+	}
+
 	.logo {
 		width: 90px;
 		height: 90px;
