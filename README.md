@@ -7,7 +7,7 @@ in ONE informative, customizable, user-friendly interface!**
 
 **[Website](https://blockhead.info)**・**[GitHub](https://github.com/darrylyeo/blockhead)**・**[Twitter](https://twitter.com/0xBlockhead)**
 
-<sup>by **[Darryl Yeo](https://darryl-yeo.com/blockhead)**・2020 – 2023</sup>
+<sup>by **[Darryl Yeo](https://darryl-yeo.com/blockhead)**・2020 – 2024</sup>
 
 </div>
 
