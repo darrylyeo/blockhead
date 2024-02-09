@@ -100,7 +100,9 @@
 
 		display: flex;
 		flex-direction: column;
-		gap: 1em;
+		gap: 1rem;
+
+		font-size: 1.3em;
 	}
 
 	.grid {
@@ -110,7 +112,7 @@
 		display: flex;
 		flex-direction: column;
 		align-content: space-between;
-		justify-items: space-between;
+		justify-items: center;
 		justify-content: space-between;
 		flex-wrap: wrap;
 		row-gap: 1em;
@@ -118,7 +120,7 @@
 		line-height: 1;
 	}
 	.grid > * {
-		max-width: 300px;
+		max-width: 24em;
 	}
 
 	.row {
