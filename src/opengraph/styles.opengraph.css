@@ -2,8 +2,9 @@
 	box-sizing: border-box;
 }
 
-h1, h2 {
+h1, h2, h3, h4, h5, h6 {
 	font-weight: 400;
+	line-height: 1px;
 }
 
 h1, h2, output, pre, code {
@@ -27,10 +28,12 @@ pre {
 
 .row {
 	display: flex;
-	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
 	gap: 1.25em;
+}
+.row.wrap {
+	flex-wrap: wrap;
 }
 .row > :last-child {
 	text-align: right;
@@ -55,4 +58,10 @@ pre {
 }
 .url strong {
 	color: rgba(255, 255, 255, 0.75);
+}
+
+.card {
+	padding: 1.5em;
+	border-radius: 1em;
+	background-color: rgba(255, 255, 255, 0.05);
 }

@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Inputs
-	export let width = 1620
-	export let height = 1080
+	export let width = 1910
+	export let height = 1000
 	export let title = ''
 	export let subtitle = ''
 	export let annotation = ''
@@ -17,7 +17,7 @@
 
 
 <main
-	class="card column"
+	class="column"
 	style={`
 		width: ${width}px;
 		height: ${height}px;
@@ -36,9 +36,11 @@
 			<p class="annotation">{annotation}</p>
 		</div>
 
-		<h2
-			class="subtitle"
-		>{subtitle}</h2>
+		{#if subtitle}
+			<h2
+				class="subtitle"
+			>{subtitle}</h2>
+		{/if}
 	</header>
 
 	<div class="content column">
@@ -69,7 +71,8 @@
 
 <style>
 	main {
-		padding: 2.5em;
+		padding: 2em;
+		row-gap: 1.5em;
 
 		background-size: 100% 250%;
 		color: #fff;
