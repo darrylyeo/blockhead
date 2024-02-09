@@ -127,15 +127,18 @@ export const handleFarcasterFrameRouteButtonClick = async <
 
 
 	// Response
-	let newUrl: URL | string = ''
+	let newUrl = new URL(url)
 
-	if(newFrameRoutePath){
-		newUrl = new URL(url)
+	if(newFrameRoutePath)
 		newUrl.searchParams.set('farcasterFrameRoute', newFrameRoutePath)
-	}else if(buttonClicked?.toAppRoute){
-		newUrl = await buttonClicked.toAppRoute(
-			{ buttonClicked, inputText },
-			routeParams,
+
+	else if(buttonClicked?.toAppRoute){
+		newUrl = new URL(
+			await buttonClicked.toAppRoute(
+				{ buttonClicked, inputText },
+				routeParams,
+			),
+			url.origin,
 		)
 	}
 
