@@ -19,25 +19,41 @@
 
 
 <div class="layout">
-	<header class="summary row">
+	<header class="row">
 		<h3>{network.name} Balances</h3>
 
-		<span>
-			{formatValue(
-				summary.quoteTotal,
-				{
-					compactLargeValues: true,
-					currency: 'USD',
-				},
-			)}
+		<span class="summary row">
+			<strong>
+				{formatValue(
+					summary.quoteTotal,
+					{
+						compactLargeValues: true,
+						currency: 'USD',
+					},
+				)}
+			</strong>
+
+			<span role="separator" />
+
+			<span class="row inline">
+				<strong>
+					{formatValue(
+						summary.balancesCount,
+						{
+							compactLargeValues: true,
+						},
+					)}
+				</strong>
+
+				tokens
+			</span>
 		</span>
 	</header>
 
 	<div class="card grid">
 		{#each (
 			balances
-				.slice(0, 60)
-				.sort((a, b) => (b.conversion?.value ?? 0) - (a.conversion?.value ?? 0))
+				.slice(0, 32)
 		) as tokenWithBalance}
 			<div class="row">
 				<div class="token-balance row">
@@ -120,6 +136,20 @@
 
 	.conversion-value {
 		font-size: 0.75em;
+		opacity: 0.75;
+	}
+
+	.summary {
+		column-gap: 0.5em;
+		color: rgba(255, 255, 255, 0.5);
+	}
+	.summary strong {
+		color: rgba(255, 255, 255, 1);
+	}
+	[role="separator"] {
+		display: block;
+		align-self: stretch;
+		border-left: 2px solid white;
 		opacity: 0.75;
 	}
 </style>

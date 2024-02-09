@@ -8,6 +8,7 @@ export const load = async ({
 	layoutData: {
 		address,
 		network,
+		quoteCurrency,
 	},
 }: {
 	layoutData: Awaited<ReturnType<typeof import('../layout.opengraph').load>>
@@ -16,13 +17,17 @@ export const load = async ({
 		await getTokenBalancesZapper({
 			network,
 			address,
+			quoteCurrency,
 		})
 			.catch((error) => undefined)
 	)
 		?.map(normalizeTokenBalanceZapper)
-	
+		.sort((a, b) => (b.conversion?.value ?? 0) - (a.conversion?.value ?? 0))
+
 	const summary = {
 		quoteTotal: balances?.reduce((sum, tokenWithBalance) => sum + (tokenWithBalance.conversion?.value ?? 0), 0) ?? 0,
+		quoteCurrency,
+		balancesCount: balances?.filter(tokenWithBalance => tokenWithBalance.balance > 0).length ?? 0,
 	}
 
 	return {
