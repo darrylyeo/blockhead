@@ -14,6 +14,7 @@ export type FarcasterFramePage<
 > = {
 	version?: FarcasterFrameServerMeta['version'],
 	image?: Partial<FarcasterFrameServerMeta['image']>,
+	textInput?: string,
 	buttons?: FarcasterFrameRouteButton<FrameRoute, RouteParams>[],
 	pageLoad?: () => Promise<ComponentProps<Component>>,
 	pageComponent?: Component,

@@ -1,3 +1,8 @@
+// Farcaster Frames
+// https://docs.farcaster.xyz/reference/frames/spec
+
+
+// Types
 import type { FarcasterCastId, FarcasterUserId } from '.'
 
 export type FarcasterFrameSignaturePacket = {
@@ -8,6 +13,7 @@ export type FarcasterFrameSignaturePacket = {
 		timestamp: number,
 		network: number,
 		buttonIndex: 1 | 2 | 3 | 4,
+		inputText: string,
 		castId: {
 			fid: FarcasterUserId,
 			hash: FarcasterCastId,
@@ -20,20 +26,23 @@ export type FarcasterFrameSignaturePacket = {
 
 export type FarcasterFrameButton = {
 	label: string,
-	action?: 'submit' | 'redirect',
+	action?: 'post' | 'post_redirect' | 'mint' | 'link',
+	targetUrl?: string,
 }
 
 export type FarcasterFrameServerMeta = {
 	version?: `${number}-${number}-${number}` | 'vNext',
 	image: {
 		url: string,
-		refreshPeriod?: number,
+		aspectRatio?: `${1 | 1.91}:${1}`,
 	},
 	postUrl?: string,
+	textInput?: string,
 	buttons?: FarcasterFrameButton[],
 }
 
 
+// Functions
 import { isTruthy } from '$/utils/isTruthy'
 
 export const serializeFarcasterFrameServerMeta = (frameMeta: FarcasterFrameServerMeta) => (
@@ -46,9 +55,13 @@ export const serializeFarcasterFrameServerMeta = (frameMeta: FarcasterFrameServe
 			property: 'fc:frame:image',
 			content: frameMeta.image.url,
 		},
-		frameMeta.image.refreshPeriod && {
-			property: 'fc:frame:refresh_period',
-			content: `${frameMeta.image.refreshPeriod}`,
+		frameMeta.image.aspectRatio && {
+			property: 'fc:frame:image:aspect_ratio',
+			content: frameMeta.image.aspectRatio,
+		},
+		frameMeta.textInput && {
+			property: 'fc:frame:input:text',
+			content: frameMeta.textInput,
 		},
 		...frameMeta.buttons
 			?.flatMap((button, index) => [
@@ -59,6 +72,10 @@ export const serializeFarcasterFrameServerMeta = (frameMeta: FarcasterFrameServe
 				button.action && {
 					property: `fc:frame:button:${index + 1}:action`,
 					content: button.action,
+				},
+				button.targetUrl && {
+					property: `fc:frame:button:${index + 1}:target`,
+					content: button.targetUrl,
 				},
 			])
 			?? [],
