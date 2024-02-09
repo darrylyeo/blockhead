@@ -1,4 +1,7 @@
 // Types/constants
+import type { Ethereum } from '$/data/networks/types'
+import type { ENS } from '$/api/ens'
+
 import { networksBySlug } from '$/data/networks'
 import { NetworkProvider } from '$/data/networkProviders/types'
 import { getViemPublicClient } from '$/data/networkProviders'
@@ -17,7 +20,9 @@ import { normalizeContractSource as normalizeContractSourceEtherscan } from '$/a
 export const load = async ({
 	networkSlug,
 	address,
-}: RouteParams) => {
+}: RouteParams & {
+	address: Ethereum.Address,
+}) => {
 	const network = networksBySlug[networkSlug]
 
 	const publicClient = getViemPublicClient({
@@ -25,11 +30,13 @@ export const load = async ({
 		networkProvider: NetworkProvider.Alchemy,
 	})
 
-	const ensName = publicClient && (
-		await publicClient.getEnsName({
-			address,
-		})
-			.catch(() => undefined)
+	const ensName: ENS.Name | undefined = publicClient && (
+		(
+			await publicClient.getEnsName({
+				address,
+			})
+				.catch(() => undefined)
+		) as ENS.Name | undefined
 	) || undefined
 
 	const bytecode = publicClient && address && (
