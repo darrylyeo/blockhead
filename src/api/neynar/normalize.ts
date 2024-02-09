@@ -1,3 +1,6 @@
+// Types
+import type { Ethereum } from '$/data/networks/types'
+
 import type { FarcasterUser, FarcasterUserId, FarcasterCast, FarcasterChannel, FarcasterCastId } from '../farcaster'
 
 import { ActiveStatus, type User as UserV1, type Cast as CastV1, type CastWithInteractions as CastWithInteractionsV1 } from './v1'
@@ -12,6 +15,7 @@ type Channel = {
 }
 
 
+// Functions
 import { extractCastEmbeds } from '../farcaster'
 
 export const normalizeUserV1 = (
@@ -33,6 +37,7 @@ export const normalizeUserV1 = (
 
 	isActive: user.activeStatus === ActiveStatus.Active,
 
+	custodyAddress: user.custodyAddress as Ethereum.Address,
 	verifications: user.verifications,
 
 	summary: {

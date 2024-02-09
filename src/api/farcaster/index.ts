@@ -22,6 +22,7 @@ export type FarcasterUser = {
 
 	isActive?: boolean;
 
+	custodyAddress: Ethereum.Address;
 	verifications: string[];
 
 	summary: {
