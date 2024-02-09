@@ -13,8 +13,8 @@ export const formatValue = (
 		useGrouping?: boolean,
 		compactLargeValues?: boolean,
 		locale?: string | string[],
-		toParts: boolean
-	}
+		toParts?: boolean
+	} = {},
 ) => {
 	try {
 		const formatter = new Intl.NumberFormat(locale || globalThis.navigator?.languages as string[], {
