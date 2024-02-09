@@ -2,8 +2,14 @@
 import { networksBySlug } from '$/data/networks'
 
 
+// Context
+import { env } from '$/env'
+
+
 // Functions
 import { resolveRoute } from '$app/paths'
+import { user } from '$/api/neynar/v1'
+import { normalizeUserV1 } from '$/api/neynar/normalize'
 
 
 // Farcaster Frame Routes
@@ -25,71 +31,38 @@ export const farcasterFrameRoutes = Object.assign(
 			pageComponent: Page,
 			buttons: [
 				{
-					label: 'Go to...',
-					toFrameRoute: '/#nav/1',
+					label: 'Show...',
+					toFrameRoute: '/#views/0',
 				},
 				{
-					label: 'Switch Networks...',
-					toFrameRoute: '/#switch/1',
+					label: 'Networks...',
+					toFrameRoute: '/#networks/0',
+				},
+				{
+					label: 'Go to address...',
+					toFrameRoute: '/#address',
+				},
+				{
+					label: 'View site',
+					action: 'link',
 				},
 			],
 		},
 	},
 	createSubmenu({
 		baseRoute: '/',
-		menuRoute: 'nav',
+		menuRoute: 'views',
 		buttons: [
 			{ label: 'Balances', toFrameRoute: '/balances' },
-			{ label: 'DeFi Positions', toFrameRoute: '/positions' },
 			{ label: 'NFTs', toFrameRoute: '/nfts' },
+			{ label: 'Transactions', toFrameRoute: '/transactions' },
+			{ label: 'DeFi Positions', toFrameRoute: '/positions' },
 			{ label: 'Contract Code', toFrameRoute: '/contract' },
 		]
 	}),
-	{
-		'/balances': {
-			pageLoad: BalancesPageLoad,
-			pageComponent: BalancesPage,
-			buttons: [
-				{
-					label: '← Back',
-					toFrameRoute: '/',
-				},
-			],
-		},
-		'/positions': {
-			pageLoad: PositionsPageLoad,
-			pageComponent: PositionsPage,
-			buttons: [
-				{
-					label: '← Back',
-					toFrameRoute: '/',
-				},
-			],
-		},
-		'/nfts': {
-			pageLoad: NftsPageLoad,
-			pageComponent: NftsPage,
-			buttons: [
-				{
-					label: '← Back',
-					toFrameRoute: '/',
-				},
-			],
-		},
-		'/contract': {
-			pageLoad: ContractPageLoad,
-			pageComponent: ContractPage,
-			buttons: [
-				{
-					label: '← Back',
-					toFrameRoute: '/',
-				},
-			],
-		},
-	},
 	createSubmenu({
 		baseRoute: '/',
-		menuRoute: 'switch-network',
+		menuRoute: 'networks',
 		buttons: [
 			'ethereum',
 			'optimism',
@@ -100,12 +73,101 @@ export const farcasterFrameRoutes = Object.assign(
 			'avalanche',
 		].map(networkSlug => ({
 			label: networksBySlug[networkSlug].name,
-			toAppRoute: ({ address }) => resolveRoute(`/explorer/[networkSlug]/address/[address]`, {
-				networkSlug,
-				address,
-			}),
+			toAppRoute: (
+				{ buttonClicked: { label: networkName } },
+				{ address },
+			) => (
+				resolveRoute(`/explorer/[networkSlug]/address/[address]`, {
+					networkSlug,
+					address,
+				})
+			),
 		}))
-	})
+	}),
+	{
+		'/#address': {
+			textInput: 'Address (0xabcd...6789) | ENS Name (vitalik.eth)',
+			buttons: [
+				{
+					label: '‹ Back',
+					toFrameRoute: '/',
+				},
+				{
+					label: 'Your connected address',
+					toAppRoute: async (
+						{ fid },
+					) => {
+						const farcasterUser = normalizeUserV1(
+							await user(
+								env.NEYNAR_API_KEY,
+								fid,
+							)
+						)
+
+						const address = farcasterUser?.custodyAddress
+
+						resolveRoute(`/explorer/[networkSlug]/address/[address]`, {
+							networkSlug,
+							address,
+						})
+					},
+				},
+				{
+					label: 'Go ›',
+					toAppRoute: (
+						{ textInput: accountId },
+					) => (
+						resolveRoute(`/explorer/[networkSlug]/[accountId]`, {
+							networkSlug,
+							accountId,
+						})
+					),
+				},
+			],
+		},
+	},
+	{
+		'/balances': {
+			pageLoad: BalancesPageLoad,
+			pageComponent: BalancesPage,
+			buttons: [
+				{
+					label: '‹ Back',
+					toFrameRoute: '/',
+				},
+			],
+		},
+		'/positions': {
+			pageLoad: PositionsPageLoad,
+			pageComponent: PositionsPage,
+			buttons: [
+				{
+					label: '‹ Back',
+					toFrameRoute: '/',
+				},
+			],
+		},
+		'/nfts': {
+			pageLoad: NftsPageLoad,
+			pageComponent: NftsPage,
+			buttons: [
+				{
+					label: '‹ Back',
+					toFrameRoute: '/',
+				},
+			],
+		},
+		'/contract': {
+			pageLoad: ContractPageLoad,
+			pageComponent: ContractPage,
+			buttons: [
+				{
+					label: '‹ Back',
+					toFrameRoute: '/',
+				},
+			],
+		},
+	},
 ) satisfies FarcasterFrameRoutes<string>
 
 export type FrameRoute = keyof typeof farcasterFrameRoutes

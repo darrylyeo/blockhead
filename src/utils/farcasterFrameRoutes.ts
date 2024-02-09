@@ -14,7 +14,7 @@ export type FarcasterFramePage<
 > = {
 	version?: FarcasterFrameServerMeta['version'],
 	image?: Partial<FarcasterFrameServerMeta['image']>,
-	textInput?: string,
+	textInput?: FarcasterFrameRouteButton<FrameRoute, RouteParams>[],
 	buttons?: FarcasterFrameRouteButton<FrameRoute, RouteParams>[],
 	pageLoad?: () => Promise<ComponentProps<Component>>,
 	pageComponent?: Component,
@@ -35,7 +35,13 @@ type FarcasterFrameRouteButton<
 > =
 	FarcasterFrameButton
 	& {
-		toAppRoute?: (params: RouteParams) => string,
+		toAppRoute?: (
+			_: {
+				buttonClicked: FarcasterFrameRouteButton<FrameRoute, RouteParams>[],
+				textInput: string,
+			},
+			params: RouteParams,
+		) => string,
 		toFrameRoute?: FrameRoute,
 	}
 
@@ -65,7 +71,7 @@ export const createSubmenu = <
 			{
 				buttons: [
 					{
-						label: '← Cancel',
+						label: '‹ Cancel',
 						toFrameRoute: baseRoute,
 					},
 					...buttons,
@@ -84,15 +90,18 @@ export const createSubmenu = <
 import { type FarcasterFrameSignaturePacket, createFarcasterFrameServerResponse } from '$/api/farcaster/frame'
 
 export const handleFarcasterFrameRouteButtonClick = async <
+	RouteParams extends Record<string, string | undefined>,
 	FrameRoute extends string,
 >({
 	farcasterFrameRoutes,
 	url,
+	routeParams,
 	farcasterFrameRoute,
 	farcasterFrameSignaturePacket,
 }: {
 	farcasterFrameRoutes: FarcasterFrameRoutes<FrameRoute, Record<string, string | undefined>>,
 	url: URL,
+	routeParams: RouteParams,
 	farcasterFrameRoute: FrameRoute,
 	signaturePacket: FarcasterFrameSignaturePacket,
 }) => {
@@ -102,6 +111,7 @@ export const handleFarcasterFrameRouteButtonClick = async <
 	const {
 		untrustedData: {
 			buttonIndex,
+			inputText,
 		},	
 	} = farcasterFrameSignaturePacket
 
@@ -117,10 +127,17 @@ export const handleFarcasterFrameRouteButtonClick = async <
 
 
 	// Response
-	const newUrl = new URL(url)
+	let newUrl: URL | string = ''
 
-	if(newFrameRoutePath)
+	if(newFrameRoutePath){
+		newUrl = new URL(url)
 		newUrl.searchParams.set('farcasterFrameRoute', newFrameRoutePath)
+	}else if(buttonClicked?.toAppRoute){
+		newUrl = await buttonClicked.toAppRoute(
+			{ buttonClicked, inputText },
+			routeParams,
+		)
+	}
 
 	return createFarcasterFrameServerResponse({
 		image: {

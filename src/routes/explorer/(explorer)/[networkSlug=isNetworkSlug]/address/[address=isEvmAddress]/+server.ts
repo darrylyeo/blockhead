@@ -106,6 +106,7 @@ import { handleFarcasterFrameRouteButtonClick } from '$/utils/farcasterFrameRout
 const handleFarcasterFrameButtonClick: RequestHandler = async ({
 	request,
 	url,
+	params,
 }) => {
 	const {
 		farcasterFrameRoute,
@@ -115,6 +116,7 @@ const handleFarcasterFrameButtonClick: RequestHandler = async ({
 
 	return handleFarcasterFrameRouteButtonClick({
 		url,
+		params,
 		farcasterFrameRoute,
 		farcasterFrameSignaturePacket,
 		farcasterFrameRoutes,
