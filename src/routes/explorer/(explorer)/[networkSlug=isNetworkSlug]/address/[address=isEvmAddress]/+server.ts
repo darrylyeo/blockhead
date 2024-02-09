@@ -37,7 +37,11 @@ const generateOpenGraphImage: RequestHandler = async ({
 	const layoutData = await layoutLoad(params)
 
 	const pageComponent = farcasterFrameRoutes[farcasterFrameRoute]?.pageComponent
-	const pageData = await farcasterFrameRoutes[farcasterFrameRoute]?.load?.(layoutData) ?? layoutData
+
+	const pageData = await farcasterFrameRoutes[farcasterFrameRoute]?.pageLoad?.({
+		layoutData,
+	}) ?? layoutData
+
 
 	// SVG → sharp → PNG
 	// return svgToImageResponse({
