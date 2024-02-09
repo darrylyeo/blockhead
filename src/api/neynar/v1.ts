@@ -6,7 +6,8 @@
  */
 import * as Oazapfts from "oazapfts/lib/runtime";
 import * as QS from "oazapfts/lib/runtime/query";
-export const defaults: Oazapfts.RequestOpts = {
+export const defaults: Oazapfts.Defaults<Oazapfts.CustomHeaders> = {
+    headers: {},
     baseUrl: "https://api.neynar.com/v1",
 };
 const oazapfts = Oazapfts.runtime(defaults);
@@ -23,22 +24,34 @@ export type ViewerContext = {
 };
 export type User = {
     fid: Fid;
+    /** The username of the user. */
     username: string;
+    /** Custody Address of the user. */
+    custodyAddress: string;
+    /** The display of the reactor. */
     displayName: string;
     pfp: {
+        /** The URL of the user's profile picture. */
         url: string;
     };
     profile: {
         bio: {
             text: string;
-            mentions: string[];
+            mentionedProfiles: string[];
         };
     };
+    /** The number of followers the user has. */
     followerCount: number;
+    /** The number of users the user is following. */
     followingCount: number;
     verifications: Address[];
     activeStatus: ActiveStatus;
     viewerContext?: ViewerContext;
+};
+export type UserResponse = {
+    result: {
+        user: User;
+    };
 };
 export type ErrorRes = {
     code?: string;
@@ -93,9 +106,11 @@ export type Cast = {
     hash: string;
     parentHash: string | null;
     parentUrl: string | null;
+    threadHash: string;
     parentAuthor: Fid & {
         fid: string | null;
     };
+    mentionedProfiles: User[];
     author: User | {
         fid: string;
     };
@@ -104,7 +119,12 @@ export type Cast = {
     embeds: EmbedUrl[];
     "type"?: CastType;
 };
-export type CastWithInteractionsReactionsOrRecasts = {
+export type CastWithInteractionsReactions = {
+    count: number;
+    fids: Fid[];
+    fnames: string[];
+};
+export type CastWithInteractionsRecasts = {
     count: number;
     fids: Fid[];
 };
@@ -112,12 +132,11 @@ export type CastWithInteractionsReplies = {
     count: number;
 };
 export type CastWithInteractions = Cast & {
-    reactions: CastWithInteractionsReactionsOrRecasts;
-    recasts: CastWithInteractionsReactionsOrRecasts;
+    reactions: CastWithInteractionsReactions;
+    recasts: CastWithInteractionsRecasts;
     recasters: string[];
     viewerContext?: ViewerContext;
     replies: CastWithInteractionsReplies;
-    threadHash: string | null;
 };
 export type CastResponse = {
     result: {
@@ -166,16 +185,24 @@ export type ReactionsAndRecastsResponse = {
     };
 };
 export type Reactor = {
+    /** The unique identifier of the reactor. */
     fid: number;
+    /** The username of the reactor. */
     username: string;
+    /** The display name of the reactor. */
     displayName: string;
     pfp: {
+        /** The URL of the reactor's profile picture. */
         url: string;
     };
+    /** The number of followers the reactor has. */
     followerCount: number;
+    /** The number of users the reactor is following. */
     followingCount: number;
     viewerContext?: {
+        /** Indicates if the viewer is following the reactor. */
         following: boolean;
+        /** Indicates if the reactor is followed by the viewer. */
         followedBy: boolean;
     };
 };
@@ -199,10 +226,14 @@ export type CastReactionsResponse = {
     };
 };
 export type Recaster = {
+    /** The unique identifier of the recaster. */
     fid: number;
+    /** The username of the recaster. */
     username: string;
+    /** The display name of the recaster. */
     displayName: string;
     pfp: {
+        /** The URL of the recaster's profile picture. */
         url: string;
     };
     profile: {
@@ -211,11 +242,15 @@ export type Recaster = {
             mentions: {}[];
         };
     };
+    /** The number of followers the recaster has. */
     followerCount: number;
+    /** The number of users the recaster is following. */
     followingCount: number;
     timestamp: Timestamp;
     viewerContext?: {
+        /** Indicates if the viewer is following the recaster. */
         following: boolean;
+        /** Indicates if the recaster is followed by the viewer. */
         followedBy: boolean;
     };
 };
@@ -242,11 +277,7 @@ export function user(apiKey: string, fid: Fid, { viewerFid }: {
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
-        data: {
-            result: {
-                user: User;
-            };
-        };
+        data: UserResponse;
     } | {
         status: 400;
         data: ErrorRes;
@@ -258,10 +289,9 @@ export function user(apiKey: string, fid: Fid, { viewerFid }: {
         viewerFid
     }))}`, {
         ...opts,
-        headers: {
-            ...opts && opts.headers,
+        headers: oazapfts.mergeHeaders(opts?.headers, {
             api_key: apiKey
-        }
+        })
     }));
 }
 /**
@@ -272,11 +302,7 @@ export function getFarcasterUserByUsername(apiKey: string, username: string, { v
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
-        data: {
-            result: {
-                user: User;
-            };
-        };
+        data: UserResponse;
     } | {
         status: 400;
         data: ErrorRes;
@@ -288,10 +314,9 @@ export function getFarcasterUserByUsername(apiKey: string, username: string, { v
         viewerFid
     }))}`, {
         ...opts,
-        headers: {
-            ...opts && opts.headers,
+        headers: oazapfts.mergeHeaders(opts?.headers, {
             api_key: apiKey
-        }
+        })
     }));
 }
 /**
@@ -315,19 +340,18 @@ export function getFarcasterUserCastLikes(apiKey: string, fid: Fid, { viewerFid,
         cursor
     }))}`, {
         ...opts,
-        headers: {
-            ...opts && opts.headers,
+        headers: oazapfts.mergeHeaders(opts?.headers, {
             api_key: apiKey
-        }
+        })
     }));
 }
 /**
  * Get Recent Users
  */
-export function getFarcasterRecentUsers(apiKey: string, { viewerFid, cursor, limit }: {
+export function getFarcasterRecentUsers(apiKey: string, { viewerFid, limit, cursor }: {
     viewerFid?: Fid;
-    cursor?: string;
     limit?: number;
+    cursor?: string;
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
@@ -337,14 +361,13 @@ export function getFarcasterRecentUsers(apiKey: string, { viewerFid, cursor, lim
         data: ErrorRes;
     }>(`/farcaster/recent-users${QS.query(QS.explode({
         viewerFid,
-        cursor,
-        limit
+        limit,
+        cursor
     }))}`, {
         ...opts,
-        headers: {
-            ...opts && opts.headers,
+        headers: oazapfts.mergeHeaders(opts?.headers, {
             api_key: apiKey
-        }
+        })
     }));
 }
 /**
@@ -361,10 +384,9 @@ export function getFarcasterCustodyAddress(apiKey: string, fid: Fid, opts?: Oaza
         fid
     }))}`, {
         ...opts,
-        headers: {
-            ...opts && opts.headers,
+        headers: oazapfts.mergeHeaders(opts?.headers, {
             api_key: apiKey
-        }
+        })
     }));
 }
 /**
@@ -384,10 +406,9 @@ export function cast(apiKey: string, hash: CastHash, { viewerFid }: {
         viewerFid
     }))}`, {
         ...opts,
-        headers: {
-            ...opts && opts.headers,
+        headers: oazapfts.mergeHeaders(opts?.headers, {
             api_key: apiKey
-        }
+        })
     }));
 }
 /**
@@ -404,20 +425,19 @@ export function getFarcasterAllCastsInThread(apiKey: string, threadHash: CastHas
         viewerFid
     }))}`, {
         ...opts,
-        headers: {
-            ...opts && opts.headers,
+        headers: oazapfts.mergeHeaders(opts?.headers, {
             api_key: apiKey
-        }
+        })
     }));
 }
 /**
  * Retrieve casts for a given user
  */
-export function casts(apiKey: string, fid: Fid, { viewerFid, parentUrl, cursor, limit }: {
-    viewerFid?: Fid;
+export function casts(apiKey: string, fid: Fid, { parentUrl, viewerFid, limit, cursor }: {
     parentUrl?: string;
-    cursor?: string;
+    viewerFid?: Fid;
     limit?: number;
+    cursor?: string;
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
@@ -427,25 +447,24 @@ export function casts(apiKey: string, fid: Fid, { viewerFid, parentUrl, cursor, 
         data: ErrorRes;
     }>(`/farcaster/casts${QS.query(QS.explode({
         fid,
-        viewerFid,
         parent_url: parentUrl,
-        cursor,
-        limit
+        viewerFid,
+        limit,
+        cursor
     }))}`, {
         ...opts,
-        headers: {
-            ...opts && opts.headers,
+        headers: oazapfts.mergeHeaders(opts?.headers, {
             api_key: apiKey
-        }
+        })
     }));
 }
 /**
  * Get Recent Casts
  */
-export function getFarcasterRecentCasts(apiKey: string, { viewerFid, cursor, limit }: {
+export function getFarcasterRecentCasts(apiKey: string, { viewerFid, limit, cursor }: {
     viewerFid?: Fid;
-    cursor?: string;
     limit?: number;
+    cursor?: string;
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
@@ -455,14 +474,13 @@ export function getFarcasterRecentCasts(apiKey: string, { viewerFid, cursor, lim
         data: ErrorRes;
     }>(`/farcaster/recent-casts${QS.query(QS.explode({
         viewerFid,
-        cursor,
-        limit
+        limit,
+        cursor
     }))}`, {
         ...opts,
-        headers: {
-            ...opts && opts.headers,
+        headers: oazapfts.mergeHeaders(opts?.headers, {
             api_key: apiKey
-        }
+        })
     }));
 }
 /**
@@ -479,10 +497,9 @@ export function verifications(apiKey: string, fid: Fid, opts?: Oazapfts.RequestO
         fid
     }))}`, {
         ...opts,
-        headers: {
-            ...opts && opts.headers,
+        headers: oazapfts.mergeHeaders(opts?.headers, {
             api_key: apiKey
-        }
+        })
     }));
 }
 /**
@@ -491,11 +508,7 @@ export function verifications(apiKey: string, fid: Fid, opts?: Oazapfts.RequestO
 export function getFarcasterUserByVerification(apiKey: string, address: Address, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
-        data: {
-            result: {
-                user: User;
-            };
-        };
+        data: UserResponse;
     } | {
         status: 400;
         data: ErrorRes;
@@ -503,19 +516,18 @@ export function getFarcasterUserByVerification(apiKey: string, address: Address,
         address
     }))}`, {
         ...opts,
-        headers: {
-            ...opts && opts.headers,
+        headers: oazapfts.mergeHeaders(opts?.headers, {
             api_key: apiKey
-        }
+        })
     }));
 }
 /**
  * Get mentions and replies
  */
-export function getFarcasterMentionsAndReplies(apiKey: string, fid: Fid, { viewerFid, cursor, limit }: {
+export function getFarcasterMentionsAndReplies(apiKey: string, fid: Fid, { viewerFid, limit, cursor }: {
     viewerFid?: Fid;
-    cursor?: string;
     limit?: number;
+    cursor?: string;
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
@@ -526,23 +538,22 @@ export function getFarcasterMentionsAndReplies(apiKey: string, fid: Fid, { viewe
     }>(`/farcaster/mentions-and-replies${QS.query(QS.explode({
         fid,
         viewerFid,
-        cursor,
-        limit
+        limit,
+        cursor
     }))}`, {
         ...opts,
-        headers: {
-            ...opts && opts.headers,
+        headers: oazapfts.mergeHeaders(opts?.headers, {
             api_key: apiKey
-        }
+        })
     }));
 }
 /**
  * Get reactions and recasts
  */
-export function getFarcasterReactionsAndRecasts(apiKey: string, fid: Fid, { viewerFid, cursor, limit }: {
+export function getFarcasterReactionsAndRecasts(apiKey: string, fid: Fid, { viewerFid, limit, cursor }: {
     viewerFid?: Fid;
-    cursor?: string;
     limit?: number;
+    cursor?: string;
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
@@ -553,23 +564,22 @@ export function getFarcasterReactionsAndRecasts(apiKey: string, fid: Fid, { view
     }>(`/farcaster/reactions-and-recasts${QS.query(QS.explode({
         fid,
         viewerFid,
-        cursor,
-        limit
+        limit,
+        cursor
     }))}`, {
         ...opts,
-        headers: {
-            ...opts && opts.headers,
+        headers: oazapfts.mergeHeaders(opts?.headers, {
             api_key: apiKey
-        }
+        })
     }));
 }
 /**
  * Get all like reactions for a specific cast
  */
-export function getFarcasterCastLikes(apiKey: string, castHash: CastHash, { viewerFid, cursor, limit }: {
+export function getFarcasterCastLikes(apiKey: string, castHash: CastHash, { viewerFid, limit, cursor }: {
     viewerFid?: Fid;
-    cursor?: string;
     limit?: number;
+    cursor?: string;
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
@@ -580,23 +590,22 @@ export function getFarcasterCastLikes(apiKey: string, castHash: CastHash, { view
     }>(`/farcaster/cast-likes${QS.query(QS.explode({
         castHash,
         viewerFid,
-        cursor,
-        limit
+        limit,
+        cursor
     }))}`, {
         ...opts,
-        headers: {
-            ...opts && opts.headers,
+        headers: oazapfts.mergeHeaders(opts?.headers, {
             api_key: apiKey
-        }
+        })
     }));
 }
 /**
  * Get all reactions for a specific cast
  */
-export function getFarcasterCastReactions(apiKey: string, castHash: CastHash, { viewerFid, cursor, limit }: {
+export function getFarcasterCastReactions(apiKey: string, castHash: CastHash, { viewerFid, limit, cursor }: {
     viewerFid?: Fid;
-    cursor?: string;
     limit?: number;
+    cursor?: string;
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
@@ -607,23 +616,22 @@ export function getFarcasterCastReactions(apiKey: string, castHash: CastHash, { 
     }>(`/farcaster/cast-reactions${QS.query(QS.explode({
         castHash,
         viewerFid,
-        cursor,
-        limit
+        limit,
+        cursor
     }))}`, {
         ...opts,
-        headers: {
-            ...opts && opts.headers,
+        headers: oazapfts.mergeHeaders(opts?.headers, {
             api_key: apiKey
-        }
+        })
     }));
 }
 /**
  * Get all recasters for a specific cast
  */
-export function getFarcasterCastRecasters(apiKey: string, castHash: CastHash, { viewerFid, cursor, limit }: {
+export function getFarcasterCastRecasters(apiKey: string, castHash: CastHash, { viewerFid, limit, cursor }: {
     viewerFid?: Fid;
-    cursor?: string;
     limit?: number;
+    cursor?: string;
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
@@ -634,23 +642,22 @@ export function getFarcasterCastRecasters(apiKey: string, castHash: CastHash, { 
     }>(`/farcaster/cast-recasters${QS.query(QS.explode({
         castHash,
         viewerFid,
-        cursor,
-        limit
+        limit,
+        cursor
     }))}`, {
         ...opts,
-        headers: {
-            ...opts && opts.headers,
+        headers: oazapfts.mergeHeaders(opts?.headers, {
             api_key: apiKey
-        }
+        })
     }));
 }
 /**
  * Gets all followers for a given FID
  */
-export function followers(apiKey: string, fid: Fid, { viewerFid, cursor, limit }: {
+export function followers(apiKey: string, fid: Fid, { viewerFid, limit, cursor }: {
     viewerFid?: Fid;
-    cursor?: string;
     limit?: number;
+    cursor?: string;
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
@@ -661,23 +668,22 @@ export function followers(apiKey: string, fid: Fid, { viewerFid, cursor, limit }
     }>(`/farcaster/followers${QS.query(QS.explode({
         fid,
         viewerFid,
-        cursor,
-        limit
+        limit,
+        cursor
     }))}`, {
         ...opts,
-        headers: {
-            ...opts && opts.headers,
+        headers: oazapfts.mergeHeaders(opts?.headers, {
             api_key: apiKey
-        }
+        })
     }));
 }
 /**
  * Gets all following users of a FID
  */
-export function following(apiKey: string, fid: Fid, { viewerFid, cursor, limit }: {
+export function following(apiKey: string, fid: Fid, { viewerFid, limit, cursor }: {
     viewerFid?: Fid;
-    cursor?: string;
     limit?: number;
+    cursor?: string;
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
@@ -688,14 +694,13 @@ export function following(apiKey: string, fid: Fid, { viewerFid, cursor, limit }
     }>(`/farcaster/following${QS.query(QS.explode({
         fid,
         viewerFid,
-        cursor,
-        limit
+        limit,
+        cursor
     }))}`, {
         ...opts,
-        headers: {
-            ...opts && opts.headers,
+        headers: oazapfts.mergeHeaders(opts?.headers, {
             api_key: apiKey
-        }
+        })
     }));
 }
 export enum ActiveStatus {

@@ -28,7 +28,7 @@ export const normalizeUserV1 = (
 
 	bio: {
 		text: user.profile.bio.text,
-		mentionedUsers: user.profile.bio.mentions,
+		mentionedUsers: user.profile.bio.mentionedProfiles,
 	},
 
 	isActive: user.activeStatus === ActiveStatus.Active,
