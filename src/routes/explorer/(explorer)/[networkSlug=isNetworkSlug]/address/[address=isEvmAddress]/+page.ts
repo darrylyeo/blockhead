@@ -8,9 +8,7 @@ import { farcasterFrameRoutes } from './farcasterFrameRoutes'
 
 // Functions
 import { openGraphImageGeneratorMeta } from '$/opengraph/imageGenerator'
-import { serializeFarcasterFrameServerMeta } from '$/api/farcaster/frame'
-import { createRedirectUrl, renderButtonFromAction } from '$/utils/farcasterFrameRoutes'
-import { isTruthy } from '$/utils/isTruthy'
+import { getInitialFarcasterFrameServerMeta } from '$/utils/farcasterFrameRoutes'
 
 
 // Outputs
@@ -28,36 +26,11 @@ export const load: PageLoad = async ({
 		altText: data.metaTags.title,
 	})
 
-	const farcasterFrameServerMeta = serializeFarcasterFrameServerMeta({
-		image: {
-			url: openGraphImageMeta.url,
-			aspectRatio: '1.91:1',
-		},
-		postUrl: createRedirectUrl({
-			url,
-			appRoute: url.href,
-			frameRoute: '/',
-		}),
-		buttons: (
-			await Promise.all(
-				farcasterFrameRoutes['/'].actions
-					?.map(async actionResolver => {
-						const action = 
-							actionResolver && typeof actionResolver === 'function' ?
-								await actionResolver?.({
-									svelteKitRouteParams: params,
-								})
-							:
-								actionResolver
-
-						return renderButtonFromAction({
-							url,
-							action,
-						})
-					}),
-			)
-		)
-			.filter(isTruthy),
+	const farcasterFrameServerMeta = await getInitialFarcasterFrameServerMeta({
+		url,
+		routeParams: params,
+		openGraphImageMeta,
+		farcasterFrameRoutes,
 	})
 
 	const metaTags: MetaTagsProps = {

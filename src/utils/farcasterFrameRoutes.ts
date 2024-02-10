@@ -196,8 +196,59 @@ export const renderButtonFromAction = <
 )
 
 
-// Server Handler
-import { type FarcasterFrameSignaturePacket, createFarcasterFrameServerResponse } from '$/api/farcaster/frame'
+// Server handlers
+import type { openGraphImageGeneratorMeta } from '$/opengraph/imageGenerator'
+import { type FarcasterFrameSignaturePacket, createFarcasterFrameServerResponse, serializeFarcasterFrameServerMeta } from '$/api/farcaster/frame'
+
+export const getInitialFarcasterFrameServerMeta = async <
+	RouteParams extends Record<string, string | undefined>,
+	FrameRoute extends string,
+>({
+	url,
+	routeParams: svelteKitRouteParams,
+	openGraphImageMeta,
+	farcasterFrameRoutes: frameRoutes,
+}: {
+	url: URL,
+	routeParams: RouteParams,
+	openGraphImageMeta: ReturnType<typeof openGraphImageGeneratorMeta>
+	farcasterFrameRoutes: FarcasterFrameRoutes<FrameRoute, RouteParams>,
+}) => {
+	const frameRoute = Object.keys(frameRoutes)[0] as keyof typeof frameRoutes
+	const framePage = frameRoutes[frameRoute]
+
+	return serializeFarcasterFrameServerMeta({
+		image: {
+			url: openGraphImageMeta.url,
+			aspectRatio: '1.91:1',
+		},
+		postUrl: createRedirectUrl({
+			url,
+			appRoute: url.href,
+			frameRoute,
+		}),
+		buttons: framePage.actions && (
+			await Promise.all(
+				framePage.actions
+					.map(async actionResolver => {
+						const action = 
+							actionResolver && typeof actionResolver === 'function' ?
+								await actionResolver?.({
+									svelteKitRouteParams,
+								})
+							:
+								actionResolver
+
+						return renderButtonFromAction({
+							url,
+							action,
+						})
+					}),
+			)
+		)
+			.filter(isTruthy)
+	})
+}
 
 export const handleFarcasterFrameRouteButtonClick = async <
 	RouteParams extends Record<string, string | undefined>,
