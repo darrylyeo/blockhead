@@ -76,7 +76,7 @@ export const serializeFarcasterFrameServerMeta = (frameMeta: FarcasterFrameServe
 					content: button.action,
 				},
 				button.targetUrl && {
-					property: `fc:frame:button:${index + 1}:target`,
+					property: `fc:frame:button:${index + 1}:action:target`,
 					content: button.targetUrl,
 				},
 			])
