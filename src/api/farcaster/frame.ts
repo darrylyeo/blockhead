@@ -5,7 +5,9 @@
 // Types
 import type { FarcasterCastId, FarcasterUserId } from '.'
 
-export type FarcasterFrameSignaturePacket = {
+export type FarcasterFrameSignaturePacket<
+	HasInputText extends boolean = boolean,
+> = {
 	untrustedData: {
 		fid: FarcasterUserId,
 		url: string,
@@ -13,7 +15,7 @@ export type FarcasterFrameSignaturePacket = {
 		timestamp: number,
 		network: number,
 		buttonIndex: 1 | 2 | 3 | 4,
-		inputText: string,
+		inputText?: HasInputText extends true ? string : never,
 		castId: {
 			fid: FarcasterUserId,
 			hash: FarcasterCastId,

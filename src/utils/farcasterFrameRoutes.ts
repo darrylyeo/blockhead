@@ -7,43 +7,82 @@ shimMapGroupBy.shim()
 import type { SvelteComponent, ComponentProps } from 'svelte'
 import type { FarcasterFrameServerMeta, FarcasterFrameButton } from '$/api/farcaster/frame'
 
+export type FarcasterFrameRoutes<
+	FrameRoute extends string,
+	RouteParams extends Record<string, string | undefined>,
+> = Record<
+	FrameRoute,
+	FarcasterFramePage<FrameRoute, RouteParams>,
+>
+
 export type FarcasterFramePage<
 	FrameRoute extends string,
 	RouteParams extends Record<string, string | undefined>,
-	Component extends SvelteComponent,
+	Component extends SvelteComponent = SvelteComponent,
+	HasTextInput extends boolean = boolean,
 > = {
 	version?: FarcasterFrameServerMeta['version'],
 	image?: Partial<FarcasterFrameServerMeta['image']>,
-	textInput?: FarcasterFrameRouteButton<FrameRoute, RouteParams>[],
-	buttons?: FarcasterFrameRouteButton<FrameRoute, RouteParams>[],
+	textInput?: HasTextInput extends true ? string : never,
+	actions?: FarcasterFrameActionResolver<FrameRoute, RouteParams>[],
 	pageLoad?: () => Promise<ComponentProps<Component>>,
 	pageComponent?: Component,
 }
 
-export type FarcasterFrameRoutes<
+export type FarcasterFrameActionResolver<
 	FrameRoute extends string,
 	RouteParams extends Record<string, string | undefined>,
-	Component extends SvelteComponent,
-> = Record<
-	FrameRoute,
-	FarcasterFramePage<FrameRoute, RouteParams, Component>
->
+	HasTextInput extends boolean = boolean,
+> = (
+	| FarcasterFrameAction<FrameRoute, RouteParams, HasTextInput>
+	| (
+		(_: {
+			svelteKitRouteParams: RouteParams,
+			signaturePacket: FarcasterFrameSignaturePacket,
+		}) => (
+			FarcasterFrameAction<FrameRoute, RouteParams, HasTextInput>
+		)
+	)
+)
 
-type FarcasterFrameRouteButton<
+export type FarcasterFrameAction<
 	FrameRoute extends string,
 	RouteParams extends Record<string, string | undefined>,
-> =
-	FarcasterFrameButton
+	HasTextInput extends boolean,
+> = (
 	& {
-		toAppRoute?: (
-			_: {
-				buttonClicked: FarcasterFrameRouteButton<FrameRoute, RouteParams>[],
-				textInput: string,
-			},
-			params: RouteParams,
-		) => string,
-		toFrameRoute?: FrameRoute,
+		label: string,
 	}
+	& (
+		| {
+			toAppRoute: string,
+			toFrameRoute?: FrameRoute,
+		}
+		| {
+			toFrameRoute?: FrameRoute,
+		}
+		| {
+			toExternalUrl?: string,
+		}
+		| {
+			mint?: string,
+		}
+		| {
+			onClick: (_: {
+				svelteKitRouteParams: RouteParams,
+				signaturePacket: FarcasterFrameSignaturePacket<HasTextInput>,
+			}) => (
+				| {
+					toAppRoute: string,
+					toFrameRoute?: FrameRoute,
+				}
+				| {
+					toFrameRoute?: FrameRoute,
+				}
+			)
+		}
+	)
+)
 
 
 // Submenus
@@ -54,27 +93,27 @@ export const createSubmenu = <
 >({
 	baseRoute,
 	menuRoute,
-	buttons,
+	actions,
 }: {
 	baseRoute: FrameRoute,
 	menuRoute: MenuRoute,
-	buttons: FarcasterFrameRouteButton<FrameRoute, RouteParams>[],
+	actions: FarcasterFrameActionResolver<FrameRoute, RouteParams>[],
 }) => (
 	Object.fromEntries(
 		[
 			...((
-				Map.groupBy(buttons, (_, i) => Math.floor(i / 2))
-			) as Map<number, FarcasterFrameRouteButton<FrameRoute, RouteParams>[]>)
+				Map.groupBy(actions, (_, i) => Math.floor(i / 2))
+			) as Map<number, FarcasterFrameActionResolver<FrameRoute, RouteParams>[]>)
 				.entries(),
-		].map(([pageNumber, buttons], i, { length: totalPages }) => ([
+		].map(([pageNumber, actions], i, { length: totalPages }) => ([
 			`${baseRoute}#${menuRoute}/${pageNumber}`,
 			{
-				buttons: [
+				actions: [
 					{
 						label: '‹ Cancel',
 						toFrameRoute: baseRoute,
 					},
-					...buttons,
+					...actions,
 					{
 						label: `More (${pageNumber + 1}/${totalPages})`,
 						toFrameRoute: `${baseRoute}#${menuRoute}/${(pageNumber + 1) % totalPages}`
@@ -82,7 +121,78 @@ export const createSubmenu = <
 				]
 			},
 		]))
-	) as FarcasterFrameRoutes<`${FrameRoute}#${MenuRoute}/${number}`, RouteParams>
+	) as unknown as FarcasterFrameRoutes<`${FrameRoute}#${MenuRoute}/${number}`, RouteParams>
+)
+
+
+// Functions
+import { isTruthy } from './isTruthy'
+
+export const createRedirectUrl = ({
+	url,
+	appRoute,
+	frameRoute,
+}: {
+	url: URL,
+	appRoute: string,
+	frameRoute?: string,
+}) => {
+	const newUrl = new URL(
+		appRoute,
+		url.origin,
+	)
+
+	if(frameRoute)
+		newUrl.searchParams.set('farcasterFrameRoute', frameRoute)
+
+	return newUrl.toString()
+}
+
+export const renderButtonFromAction = <
+	FrameRoute extends string,
+	RouteParams extends Record<string, string | undefined>,
+	HasTextInput extends boolean,
+>({
+	url,
+	action,
+}: {
+	url: URL,
+	action: FarcasterFrameAction<FrameRoute, RouteParams, HasTextInput>
+}): FarcasterFrameButton | undefined => (
+	'toAppRoute' in action ?
+		{
+			label: action.label,
+			action: 'post',
+			targetUrl: createRedirectUrl({
+				url,
+				appRoute: action.toAppRoute,
+				frameRoute: action.toFrameRoute,
+			}),
+		}
+	: 'toFrameRoute' in action ?
+		{
+			label: action.label,
+			action: 'post',
+			targetUrl: createRedirectUrl({
+				url,
+				appRoute: url.href,
+				frameRoute: action.toFrameRoute,
+			}),
+		}
+	: 'toExternalUrl' in action ?
+		{
+			label: action.label,
+			action: 'link',
+			targetUrl: action.toExternalUrl,
+		}
+	: 'mint' in action ?
+		{
+			label: action.label,
+			action: 'mint',
+			targetUrl: action.mint,
+		}
+	:
+		undefined
 )
 
 
@@ -93,60 +203,79 @@ export const handleFarcasterFrameRouteButtonClick = async <
 	RouteParams extends Record<string, string | undefined>,
 	FrameRoute extends string,
 >({
-	farcasterFrameRoutes,
 	url,
-	routeParams,
-	farcasterFrameRoute,
-	farcasterFrameSignaturePacket,
+	routeParams: svelteKitRouteParams,
+	farcasterFrameRoutes: frameRoutes,
+	farcasterFrameRoute: frameRoute,
+	farcasterFrameSignaturePacket: signaturePacket,
 }: {
-	farcasterFrameRoutes: FarcasterFrameRoutes<FrameRoute, Record<string, string | undefined>>,
 	url: URL,
 	routeParams: RouteParams,
+	farcasterFrameRoutes: FarcasterFrameRoutes<FrameRoute, Record<string, string | undefined>>,
 	farcasterFrameRoute: FrameRoute,
-	signaturePacket: FarcasterFrameSignaturePacket,
+	farcasterFrameSignaturePacket: FarcasterFrameSignaturePacket,
 }) => {
 	// Context
-	const oldFrameRoutePath = farcasterFrameRoute ?? '/'
+	const framePage = frameRoutes[frameRoute]
 
 	const {
 		untrustedData: {
 			buttonIndex,
-			inputText,
 		},	
-	} = farcasterFrameSignaturePacket
+	} = signaturePacket
 
+	const actionResolver = framePage?.actions?.[buttonIndex - 1]
 
-	// Internal state
-	const oldFrameRoute = farcasterFrameRoutes[oldFrameRoutePath]
+	if(actionResolver && 'onClick' in actionResolver){
+		const action = await actionResolver.onClick?.({
+			svelteKitRouteParams,
+			signaturePacket,
+		})
 
-	const buttonClicked = oldFrameRoute.buttons?.[buttonIndex - 1]
+		const newUrl = 
+			'toAppRoute' in action ?
+				createRedirectUrl({
+					url,
+					appRoute: action.toAppRoute,
+					frameRoute: action.toFrameRoute,
+				})
+			: 'toFrameRoute' in action ?
+				createRedirectUrl({
+					url,
+					appRoute: url.href,
+					frameRoute: action.toFrameRoute,
+				})
+			:
+				url
 
-	const newFrameRoutePath = buttonClicked?.toFrameRoute
-
-	const newFrameRoute = newFrameRoutePath ? farcasterFrameRoutes[newFrameRoutePath] : undefined
-
-
-	// Response
-	let newUrl = new URL(url)
-
-	if(newFrameRoutePath)
-		newUrl.searchParams.set('farcasterFrameRoute', newFrameRoutePath)
-
-	else if(buttonClicked?.toAppRoute){
-		newUrl = new URL(
-			await buttonClicked.toAppRoute(
-				{ buttonClicked, inputText },
-				routeParams,
-			),
-			url.origin,
-		)
+		return await fetch(newUrl.toString())
 	}
 
 	return createFarcasterFrameServerResponse({
 		image: {
-			url: newUrl.toString(),
+			url: url.toString(),
+			aspectRatio: '1.91:1',
 		},
-		postUrl: newUrl.toString(),
-		buttons: newFrameRoute?.buttons,
+		postUrl: url.toString(),
+		buttons: framePage?.actions && (
+			await Promise.all(
+				framePage.actions?.map(async actionResolver => {
+					const action = 
+						actionResolver && typeof actionResolver === 'function' ?
+							await actionResolver?.({
+								svelteKitRouteParams,
+								signaturePacket,
+							})
+						:
+							actionResolver
+		
+					return renderButtonFromAction({
+						url,
+						action,
+					})
+				})
+			)
+		)
+			.filter(isTruthy),
 	})
 }
