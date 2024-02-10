@@ -7,7 +7,8 @@ import { type FrameRoute, farcasterFrameRoutes } from './farcasterFrameRoutes'
 import type { OpenGraphImageGeneratorParams } from '$/opengraph/imageGenerator'
 
 type FarcasterFrameImageGeneratorParams = OpenGraphImageGeneratorParams & {
-	farcasterFrameRoute: FrameRoute
+	farcasterFrameRouteFrom: FrameRoute,
+	farcasterFrameRouteTo: FrameRoute,
 }
 
 // SVG → sharp → PNG
@@ -29,16 +30,18 @@ const generateOpenGraphImage: RequestHandler = async ({
 	const {
 		width,
 		height,
-		farcasterFrameRoute = '/',
+		farcasterFrameRouteFrom = '/',
 	} = Object.fromEntries(url.searchParams.entries()) as unknown as FarcasterFrameImageGeneratorParams
 
 
 	// Internal state
 	const layoutData = await layoutLoad(params)
 
-	const pageComponent = farcasterFrameRoutes[farcasterFrameRoute]?.pageComponent
+	const framePage = farcasterFrameRoutes[farcasterFrameRouteFrom]
 
-	const pageData = await farcasterFrameRoutes[farcasterFrameRoute]?.pageLoad?.({
+	const pageComponent = framePage?.pageComponent
+
+	const pageData = await framePage?.pageLoad?.({
 		layoutData,
 	}) ?? layoutData
 
@@ -109,7 +112,8 @@ const handleFarcasterFrameButtonClick: RequestHandler = async ({
 	params,
 }) => {
 	const {
-		farcasterFrameRoute,
+		farcasterFrameRouteFrom,
+		farcasterFrameRouteTo,
 	} = Object.fromEntries(url.searchParams.entries()) as unknown as FarcasterFrameImageGeneratorParams
 
 	const farcasterFrameSignaturePacket = await request.json() as FarcasterFrameSignaturePacket
@@ -117,9 +121,10 @@ const handleFarcasterFrameButtonClick: RequestHandler = async ({
 	return handleFarcasterFrameRouteButtonClick({
 		url,
 		params,
-		farcasterFrameRoute,
-		farcasterFrameSignaturePacket,
 		farcasterFrameRoutes,
+		farcasterFrameRouteFrom,
+		farcasterFrameRouteTo,
+		farcasterFrameSignaturePacket,
 	})
 }
 
