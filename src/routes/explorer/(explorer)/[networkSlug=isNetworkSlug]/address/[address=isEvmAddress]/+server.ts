@@ -113,7 +113,7 @@ const handleFarcasterFrameButtonClick = async ({
 	const {
 		farcasterFrameRouteFrom,
 		farcasterFrameRouteTo,
-	} = Object.fromEntries(url.searchParams.entries()) as unknown as FarcasterFrameRouteSearchParams
+	} = Object.fromEntries(url.searchParams.entries()) as unknown as FarcasterFrameRouteSearchParams<FrameRoute>
 
 	const farcasterFrameSignaturePacket = await request.json() as FarcasterFrameSignaturePacket
 

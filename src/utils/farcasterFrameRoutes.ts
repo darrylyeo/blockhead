@@ -84,9 +84,11 @@ export type FarcasterFrameAction<
 	)
 )
 
-export type FarcasterFrameRouteSearchParams = {
-	farcasterFrameRouteFrom?: string,
-	farcasterFrameRouteTo?: string,
+export type FarcasterFrameRouteSearchParams<
+	FrameRoute extends string,
+> = {
+	farcasterFrameRouteFrom?: FrameRoute,
+	farcasterFrameRouteTo?: FrameRoute,
 }
 
 
