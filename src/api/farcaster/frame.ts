@@ -90,6 +90,30 @@ export const serializeFarcasterFrameServerMeta = (frameMeta: FarcasterFrameServe
 )
 
 
+import type { UrlMetadata } from '../mod'
+
+export const parseFarcasterFrameServerMeta = (
+	metaTags: NonNullable<UrlMetadata['customOpenGraph']>
+): FarcasterFrameServerMeta => ({
+	version: metaTags['fc:frame'],
+	image: metaTags['fc:frame:image'] && {
+		url: metaTags['fc:frame:image'],
+		aspectRatio: metaTags['fc:frame:image:aspect_ratio'] as FarcasterFrameServerMeta['image']['aspectRatio'],
+	},
+	postUrl: metaTags['fc:frame:post_url'],
+	textInput: metaTags['fc:frame:input:text'],
+	buttons: ([1, 2, 3, 4] as const)
+		.map(index => (
+			metaTags[`fc:frame:button:${index}`] && {
+				label: metaTags[`fc:frame:button:${index}`]!,
+				action: (metaTags[`fc:frame:button:${index}:action`] as FarcasterFrameButton['action']) ?? 'post',
+				targetUrl: metaTags[`fc:frame:button:${index}:target`],
+			}
+		))
+		.filter(isTruthy),
+})
+
+
 import { text } from '@sveltejs/kit'
 
 export const createFarcasterFrameServerResponse = (frameMeta: FarcasterFrameServerMeta) => text(
