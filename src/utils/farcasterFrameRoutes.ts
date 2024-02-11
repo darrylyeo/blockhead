@@ -293,7 +293,7 @@ export const handleFarcasterFrameRouteButtonClick = async <
 	url,
 	routeParams: svelteKitRouteParams,
 	farcasterFrameRoutes: frameRoutes,
-	farcasterFrameRouteFrom: fromFrameRoute = Object.keys(frameRoutes)[0] as FrameRoute,
+	farcasterFrameRouteFrom: fromFrameRoute,
 	farcasterFrameRouteTo: toFrameRoute,
 	farcasterFrameSignaturePacket: signaturePacket,
 }: {
@@ -303,7 +303,7 @@ export const handleFarcasterFrameRouteButtonClick = async <
 	farcasterFrameRouteFrom: FrameRoute,
 	farcasterFrameRouteTo: FrameRoute,
 	farcasterFrameSignaturePacket: FarcasterFrameSignaturePacket,
-}) => {
+}): Promise<Response> => {
 	// Context
 	const origin = url.origin
 	const appRoute = url.pathname
@@ -409,44 +409,28 @@ export const handleFarcasterFrameRouteButtonClick = async <
 				:
 					actionResolver
 			
-			if(action){
-				if('toAppRoute' in action){
-					return handleFarcasterFrameRoutePostRedirect({
-						url: createRedirectUrl({
-							origin,
-							appRoute: action.toAppRoute,
-							toFrameRoute: action.toFrameRoute,
-						}),
-						signaturePacket,
-					})
-				}
+			const button = action && renderButtonFromAction({
+				origin,
+				appRoute,
+				action,
+			})
 
-				else if('toFrameRoute' in action){
-					const button = action && renderButtonFromAction({
-						origin,
-						appRoute,
-						action,
-					})
+			if(button && button.action === 'post' && button.targetUrl){
+				const { origin, pathname: appRoute, searchParams } = new URL(button.targetUrl)
 
-					const { origin, pathname: appRoute, searchParams } = new URL(button.targetUrl)
-
-					const {
-						farcasterFrameRouteFrom: fromFrameRoute,
-						farcasterFrameRouteTo: toFrameRoute,
-					} = Object.fromEntries(searchParams.entries()) as unknown as FarcasterFrameRouteSearchParams<FrameRoute>
-
-					delete signaturePacket.untrustedData.buttonIndex
-					delete signaturePacket.untrustedData.inputText
-					
-					return await handleFarcasterFrameRouteButtonClick({
-						url: new URL(appRoute, origin),
-						routeParams: svelteKitRouteParams,
-						farcasterFrameRoutes: frameRoutes,
-						farcasterFrameRouteFrom: fromFrameRoute,
-						farcasterFrameRouteTo: toFrameRoute,
-						farcasterFrameSignaturePacket: signaturePacket,
-					})
-				}
+				const {
+					farcasterFrameRouteFrom: fromFrameRoute,
+					farcasterFrameRouteTo: toFrameRoute,
+				} = Object.fromEntries(searchParams.entries()) as unknown as FarcasterFrameRouteSearchParams<FrameRoute>
+				
+				return await handleFarcasterFrameRouteButtonClick({
+					url: new URL(appRoute, origin),
+					routeParams: svelteKitRouteParams,
+					farcasterFrameRoutes: frameRoutes,
+					farcasterFrameRouteFrom: fromFrameRoute,
+					farcasterFrameRouteTo: toFrameRoute,
+					farcasterFrameSignaturePacket: signaturePacket,
+				})
 			}
 
 			// Error – Farcaster client may have incorrect behavior
@@ -473,17 +457,10 @@ export const handleFarcasterFrameRouteButtonClick = async <
 	}
 
 	else {
-		return error(500, [
-			'Error handling Farcaster Frame Route button click',
-			...(
-				Object.entries({
-					'App Route': appRoute,
-					'From': fromFrameRoute,
-					'To': toFrameRoute,
-				})
-					.map(([key, value]) => `${key}: ${value}`)
-			),
-		].join('\n'))
+		return handleFarcasterFrameRoutePostRedirect({
+			url,
+			signaturePacket,
+		})
 	}
 }
 
