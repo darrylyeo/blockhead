@@ -16,9 +16,12 @@
 	// Components
 	import UrlMetadataLoader from './UrlMetadataLoader.svelte'
 	import Collapsible from './Collapsible.svelte'
+	import FarcasterFrame from './FarcasterFrame.svelte'
 
 
 	// Functions
+	import { parseFarcasterFrameServerMeta } from '$/api/farcaster/frame'
+
 	const formatContent = (text: string) => (
 		text
 			.split('\n\n')
@@ -93,7 +96,17 @@
 				</a>
 			</svelte:fragment>
 
-			{#if urlMetadata.description || urlMetadata.image}
+			{#if urlMetadata.customOpenGraph?.['fc:frame']}
+				<FarcasterFrame
+					frameUrl={url}
+					farcasterFrameMetadata={
+						parseFarcasterFrameServerMeta(
+							urlMetadata.customOpenGraph
+						)
+					}
+				/>
+
+			{:else if urlMetadata.description || urlMetadata.image}
 				<div class="content-and-images bar align-top" class:wrap={$matchesLayoutBreakpoint}>
 					{#if urlMetadata.description}
 						<div class="content column">
