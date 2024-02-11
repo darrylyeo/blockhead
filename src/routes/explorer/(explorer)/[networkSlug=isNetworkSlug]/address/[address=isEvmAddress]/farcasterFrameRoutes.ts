@@ -76,7 +76,7 @@ export const farcasterFrameRoutes = Object.assign({}, ...([
 			'avalanche',
 		].map(networkSlug => (
 			({
-				svelteKitRouteParams: { address },
+				svelteKitRouteParams: { address } = {},
 			}) => ({
 				label: networksBySlug[networkSlug].name,
 				toAppRoute: (
@@ -100,7 +100,7 @@ export const farcasterFrameRoutes = Object.assign({}, ...([
 
 				async ({
 					signaturePacket: { untrustedData: { fid } },
-					svelteKitRouteParams: { networkSlug },
+					svelteKitRouteParams: { networkSlug } = {},
 				}) => ({
 					label: 'Your connected address',
 					toAppRoute: await (async () => {
@@ -125,7 +125,7 @@ export const farcasterFrameRoutes = Object.assign({}, ...([
 				{
 					label: 'Go ›',
 					onClick: ({
-						svelteKitRouteParams: { networkSlug },
+						svelteKitRouteParams: { networkSlug } = {},
 						signaturePacket: { untrustedData: { inputText: accountId } },
 					}) => ({
 						toAppRoute: resolveRoute(`/explorer/[networkSlug]/[accountId]`, {

@@ -37,7 +37,7 @@ export type FarcasterFrameActionResolver<
 	| FarcasterFrameAction<FrameRoute, RouteParams, HasTextInput>
 	| (
 		(_: {
-			svelteKitRouteParams: RouteParams,
+			svelteKitRouteParams?: RouteParams,
 			signaturePacket: FarcasterFrameSignaturePacket,
 		}) => (
 			FarcasterFrameAction<FrameRoute, RouteParams, HasTextInput>
@@ -69,7 +69,7 @@ export type FarcasterFrameAction<
 		}
 		| {
 			onClick: (_: {
-				svelteKitRouteParams: RouteParams,
+				svelteKitRouteParams?: RouteParams,
 				signaturePacket: FarcasterFrameSignaturePacket<HasTextInput>,
 			}) => (
 				| {
