@@ -29,7 +29,7 @@ export const load: PageLoad = async ({
 	const farcasterFrameServerMeta = await getInitialFarcasterFrameServerMeta({
 		url,
 		routeParams: params,
-		openGraphImageMeta,
+		imageUrl: openGraphImageMeta.url,
 		farcasterFrameRoutes,
 	})
 

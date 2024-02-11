@@ -1,14 +1,13 @@
 // Context
-import type { RequestHandler } from './$types'
+import type { RequestHandler, RouteParams } from './$types'
 import { type FrameRoute, farcasterFrameRoutes } from './farcasterFrameRoutes'
 
 
 // OpenGraph/Farcaster Frame Image Generator
-import type { OpenGraphImageGeneratorParams } from '$/opengraph/imageGenerator'
+import { type OpenGraphImageGeneratorParams, openGraphImageGeneratorMeta } from '$/opengraph/imageGenerator'
 
 type FarcasterFrameImageGeneratorParams = OpenGraphImageGeneratorParams & {
-	farcasterFrameRouteFrom: FrameRoute,
-	farcasterFrameRouteTo: FrameRoute,
+	farcasterFrameRoute: FrameRoute,
 }
 
 // SVG → sharp → PNG
@@ -21,23 +20,23 @@ import { svelteComponentToImageResponse } from '$/opengraph/svelteComponentToIma
 import { load as layoutLoad } from './layout.opengraph'
 import LayoutComponent from './layout.opengraph.svelte'
 
-const generateOpenGraphImage: RequestHandler = async ({
+const generateOpenGraphImage = async ({
 	request,
 	url,
 	params,
-}) => {
+}: Pick<Parameters<RequestHandler>[0], 'request' | 'url' | 'params'>) => {
 	// Context
 	const {
 		width,
 		height,
-		farcasterFrameRouteFrom = '/',
+		farcasterFrameRoute = '/',
 	} = Object.fromEntries(url.searchParams.entries()) as unknown as FarcasterFrameImageGeneratorParams
 
 
 	// Internal state
 	const layoutData = await layoutLoad(params)
 
-	const framePage = farcasterFrameRoutes[farcasterFrameRouteFrom]
+	const framePage = farcasterFrameRoutes[farcasterFrameRoute]
 
 	const pageComponent = framePage?.pageComponent
 
@@ -103,24 +102,24 @@ const generateOpenGraphImage: RequestHandler = async ({
 
 
 // Farcaster Frame Server
-import type { FarcasterFrameSignaturePacket } from '$/api/farcaster/frame'
-import { handleFarcasterFrameRouteButtonClick } from '$/utils/farcasterFrameRoutes'
+import { type FarcasterFrameSignaturePacket, createFarcasterFrameServerResponse, parseFarcasterFrameServerMeta } from '$/api/farcaster/frame'
+import { type FarcasterFrameRouteSearchParams, handleFarcasterFrameRouteButtonClick, getInitialFarcasterFrameServerMeta } from '$/utils/farcasterFrameRoutes'
 
-const handleFarcasterFrameButtonClick: RequestHandler = async ({
+const handleFarcasterFrameButtonClick = async ({
 	request,
 	url,
 	params,
-}) => {
+}: Pick<Parameters<RequestHandler>[0], 'request' | 'url' | 'params'>) => {
 	const {
 		farcasterFrameRouteFrom,
 		farcasterFrameRouteTo,
-	} = Object.fromEntries(url.searchParams.entries()) as unknown as FarcasterFrameImageGeneratorParams
+	} = Object.fromEntries(url.searchParams.entries()) as unknown as FarcasterFrameRouteSearchParams
 
 	const farcasterFrameSignaturePacket = await request.json() as FarcasterFrameSignaturePacket
 
-	return handleFarcasterFrameRouteButtonClick({
+	return await handleFarcasterFrameRouteButtonClick({
 		url,
-		params,
+		routeParams: params,
 		farcasterFrameRoutes,
 		farcasterFrameRouteFrom,
 		farcasterFrameRouteTo,
@@ -128,8 +127,52 @@ const handleFarcasterFrameButtonClick: RequestHandler = async ({
 	})
 }
 
+const handleFarcasterFrameRoutePostRedirect = async ({
+	url,
+	params,
+}: {
+	url: URL,
+	params: RouteParams,
+}) => {
+	const openGraphImageMeta = openGraphImageGeneratorMeta({
+		pageUrl: url,
+	})
+
+	const frameMetadata = await getInitialFarcasterFrameServerMeta({
+		url,
+		routeParams: params,
+		imageUrl: openGraphImageMeta.url,
+		farcasterFrameRoutes,
+	})
+
+	return createFarcasterFrameServerResponse(
+		parseFarcasterFrameServerMeta(
+			Object.fromEntries(
+				frameMetadata
+					.map(({ property, content }) => [property, content])
+			)
+		)
+	)
+}
+
 
 // Request handlers
-export const GET: RequestHandler = generateOpenGraphImage
+export const GET: RequestHandler = async ({
+	request,
+	url,
+	params,
+}) => {
+	if(url.searchParams.get('fromFarcasterFrameRoutePostRedirect'))
+		return await handleFarcasterFrameRoutePostRedirect({
+			url,
+			params,
+		})
+
+	return generateOpenGraphImage({
+		request,
+		url,
+		params,
+	})
+}
 
 export const POST: RequestHandler = handleFarcasterFrameButtonClick

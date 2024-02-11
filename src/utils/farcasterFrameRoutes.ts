@@ -84,6 +84,11 @@ export type FarcasterFrameAction<
 	)
 )
 
+export type FarcasterFrameRouteSearchParams = {
+	farcasterFrameRouteFrom?: string,
+	farcasterFrameRouteTo?: string,
+}
+
 
 // Submenus
 export const createSubmenu = <
@@ -128,29 +133,48 @@ export const createSubmenu = <
 // Functions
 import { isTruthy } from './isTruthy'
 
+export const createImageUrl = ({
+	origin,
+	appRoute,
+	frameRoute,
+}: {
+	origin: string,
+	appRoute: string,
+	frameRoute: string,
+}) => {
+	const url = new URL(
+		appRoute,
+		origin,
+	)
+
+	url.searchParams.set('farcasterFrameRoute', frameRoute)
+
+	return url.toString()
+}
+
 export const createRedirectUrl = ({
-	url,
+	origin,
 	appRoute,
 	fromFrameRoute,
 	toFrameRoute,
 }: {
-	url: URL,
+	origin: string,
 	appRoute: string,
 	fromFrameRoute?: string,
 	toFrameRoute?: string,
 }) => {
-	const newUrl = new URL(
+	const url = new URL(
 		appRoute,
-		url.origin,
+		origin,
 	)
 
 	if(fromFrameRoute)
-		newUrl.searchParams.set('farcasterFrameRouteFrom', fromFrameRoute)
+		url.searchParams.set('farcasterFrameRouteFrom', fromFrameRoute)
 
 	if(toFrameRoute)
-		newUrl.searchParams.set('farcasterFrameRouteTo', toFrameRoute)
+		url.searchParams.set('farcasterFrameRouteTo', toFrameRoute)
 
-	return newUrl.toString()
+	return url.toString()
 }
 
 export const renderButtonFromAction = <
@@ -158,10 +182,12 @@ export const renderButtonFromAction = <
 	RouteParams extends Record<string, string | undefined>,
 	HasTextInput extends boolean,
 >({
-	url,
+	origin,
+	appRoute,
 	action,
 }: {
-	url: URL,
+	origin: string,
+	appRoute: string,
 	action: FarcasterFrameAction<FrameRoute, RouteParams, HasTextInput>
 }): FarcasterFrameButton | undefined => (
 	'toAppRoute' in action ?
@@ -169,7 +195,7 @@ export const renderButtonFromAction = <
 			label: action.label,
 			action: 'post',
 			targetUrl: createRedirectUrl({
-				url,
+				origin,
 				appRoute: action.toAppRoute,
 				toFrameRoute: action.toFrameRoute,
 			}),
@@ -179,8 +205,8 @@ export const renderButtonFromAction = <
 			label: action.label,
 			action: 'post',
 			targetUrl: createRedirectUrl({
-				url,
-				appRoute: url.href,
+				origin,
+				appRoute,
 				toFrameRoute: action.toFrameRoute,
 			}),
 		}
@@ -202,7 +228,6 @@ export const renderButtonFromAction = <
 
 
 // Server handlers
-import type { openGraphImageGeneratorMeta } from '$/opengraph/imageGenerator'
 import { type FarcasterFrameSignaturePacket, createFarcasterFrameServerResponse, serializeFarcasterFrameServerMeta } from '$/api/farcaster/frame'
 
 export const getInitialFarcasterFrameServerMeta = async <
@@ -211,25 +236,28 @@ export const getInitialFarcasterFrameServerMeta = async <
 >({
 	url,
 	routeParams: svelteKitRouteParams,
-	openGraphImageMeta,
+	imageUrl,
 	farcasterFrameRoutes: frameRoutes,
 }: {
 	url: URL,
 	routeParams: RouteParams,
-	openGraphImageMeta: ReturnType<typeof openGraphImageGeneratorMeta>
+	imageUrl: string,
 	farcasterFrameRoutes: FarcasterFrameRoutes<FrameRoute, RouteParams>,
 }) => {
 	const frameRoute = Object.keys(frameRoutes)[0] as keyof typeof frameRoutes
 	const framePage = frameRoutes[frameRoute]
 
+	const origin = url.origin
+	const appRoute = url.pathname
+
 	return serializeFarcasterFrameServerMeta({
 		image: {
-			url: openGraphImageMeta.url,
+			url: imageUrl,
 			aspectRatio: '1.91:1',
 		},
 		postUrl: createRedirectUrl({
-			url,
-			appRoute: url.href,
+			origin,
+			appRoute,
 			fromFrameRoute: frameRoute,
 		}),
 		buttons: framePage.actions && (
@@ -245,7 +273,8 @@ export const getInitialFarcasterFrameServerMeta = async <
 								actionResolver
 
 						return renderButtonFromAction({
-							url,
+							origin,
+							appRoute,
 							action,
 						})
 					}),
@@ -262,7 +291,7 @@ export const handleFarcasterFrameRouteButtonClick = async <
 	url,
 	routeParams: svelteKitRouteParams,
 	farcasterFrameRoutes: frameRoutes,
-	farcasterFrameRouteFrom: fromFrameRoute,
+	farcasterFrameRouteFrom: fromFrameRoute = Object.keys(frameRoutes)[0] as FrameRoute,
 	farcasterFrameRouteTo: toFrameRoute,
 	farcasterFrameSignaturePacket: signaturePacket,
 }: {
@@ -274,6 +303,9 @@ export const handleFarcasterFrameRouteButtonClick = async <
 	farcasterFrameSignaturePacket: FarcasterFrameSignaturePacket,
 }) => {
 	// Context
+	const origin = url.origin
+	const appRoute = url.pathname
+
 	const fromFramePage = frameRoutes[fromFrameRoute]
 	const toFramePage = frameRoutes[toFrameRoute]
 
@@ -297,20 +329,27 @@ export const handleFarcasterFrameRouteButtonClick = async <
 			const newUrl = 
 				'toAppRoute' in action ?
 					createRedirectUrl({
-						url,
+						origin,
 						appRoute: action.toAppRoute,
 						toFrameRoute: action.toFrameRoute,
 					})
 				: 'toFrameRoute' in action ?
 					createRedirectUrl({
-						url,
+						origin,
 						appRoute: url.href,
 						toFrameRoute: action.toFrameRoute,
 					})
 				:
-					url
+					createRedirectUrl({
+						origin,
+						appRoute: url.href,
+						fromFrameRoute,
+					})
 
-			return await fetch(newUrl.toString())
+			return handleFarcasterFrameRoutePostRedirect({
+				url: newUrl.toString(),
+				signaturePacket,
+			})
 		}
 
 		// fc:frame:button:$idx:action = "post" – manually POST to button fc:frame:button:$idx:target
@@ -325,14 +364,18 @@ export const handleFarcasterFrameRouteButtonClick = async <
 					actionResolver
 
 			const button = action && renderButtonFromAction({
-				url,
+				origin,
+				appRoute,
 				action,
 			})
 
 			if(button && button.action === 'post' && button.targetUrl){
 				const newUrl = new URL(button.targetUrl)
 
-				return await fetch(newUrl.toString())
+				return handleFarcasterFrameRoutePostRedirect({
+					url: newUrl.toString(),
+					signaturePacket,
+				})
 			}
 
 			// Error – Farcaster client may have incorrect behavior
@@ -348,8 +391,8 @@ export const handleFarcasterFrameRouteButtonClick = async <
 						label: 'Restart',
 						action: 'post',
 						targetUrl: createRedirectUrl({
-							url,
-							appRoute: url.href,
+							origin,
+							appRoute,
 							toFrameRoute: '/',
 						}),
 					}
@@ -360,12 +403,24 @@ export const handleFarcasterFrameRouteButtonClick = async <
 
 	// Farcaster client POSTs to button fc:frame:button:$idx:target
 	else if(toFramePage){
+		const imageUrl = createImageUrl({
+			origin,
+			appRoute,
+			frameRoute: toFrameRoute,
+		})
+
+		const newUrl = createRedirectUrl({
+			origin,
+			appRoute,
+			fromFrameRoute: toFrameRoute,
+		})
+
 		return createFarcasterFrameServerResponse({
 			image: {
-				url: url.toString(),
+				url: imageUrl,
 				aspectRatio: '1.91:1',
 			},
-			postUrl: url.toString(),
+			postUrl: newUrl,
 			buttons: toFramePage?.actions && (
 				await Promise.all(
 					toFramePage.actions?.map(async actionResolver => {
@@ -379,7 +434,8 @@ export const handleFarcasterFrameRouteButtonClick = async <
 								actionResolver
 
 						return renderButtonFromAction({
-							url,
+							origin,
+							appRoute,
 							action,
 						})
 					})
@@ -387,5 +443,41 @@ export const handleFarcasterFrameRouteButtonClick = async <
 			)
 				.filter(isTruthy),
 		})
+	}
+
+	else {
+		return error(500, [
+			'Error handling Farcaster Frame Route button click',
+			...(
+				Object.entries({
+					'App Route': appRoute,
+					'From': fromFrameRoute,
+					'To': toFrameRoute,
+				})
+					.map(([key, value]) => `${key}: ${value}`)
+			),
+		].join('\n'))
+	}
+}
+
+
+import { error } from '@sveltejs/kit'
+
+const handleFarcasterFrameRoutePostRedirect = async ({
+	url,
+	signaturePacket,
+}: {
+	url: string,
+	signaturePacket: FarcasterFrameSignaturePacket,
+}) => {
+	delete signaturePacket.untrustedData.buttonIndex
+	delete signaturePacket.untrustedData.inputText
+
+	try {
+		const initialFrameMetaUrl = new URL(url)
+		initialFrameMetaUrl.searchParams.set('fromFarcasterFrameRoutePostRedirect', 'true')
+		return await fetch(initialFrameMetaUrl)
+	}catch(e){
+		return error(500, `Invalid redirect: ${e.message}`)
 	}
 }
