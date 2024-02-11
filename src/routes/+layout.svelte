@@ -108,6 +108,10 @@
 	let showAccounts = false
 
 
+	// Functions
+	import { parseFarcasterFrameServerMeta } from '$/api/farcaster/frame'
+
+
 	// Components
 	import AccountConnections from '$/components/AccountConnections.svelte'
 	import SizeContainer from '$/components/SizeContainer.svelte'
@@ -284,8 +288,17 @@
 		{#if metaTags.openGraph?.images?.[0]}
 			<div class="share">
 				<SharePageDialog
+					url={$page.url.toString()}
 					title={metaTags.title}
 					imageUrl={metaTags.openGraph.images[0].url}
+					farcasterFrameMetadata={
+						metaTags.additionalMetaTags && parseFarcasterFrameServerMeta(
+							Object.fromEntries(
+								metaTags.additionalMetaTags
+									.map(({ property, content }) => [property, content])
+							)
+						)
+					}
 				/>
 			</div>
 		{/if}
