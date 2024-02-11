@@ -408,29 +408,45 @@ export const handleFarcasterFrameRouteButtonClick = async <
 					})
 				:
 					actionResolver
+			
+			if(action){
+				if('toAppRoute' in action){
+					return handleFarcasterFrameRoutePostRedirect({
+						url: createRedirectUrl({
+							origin,
+							appRoute: action.toAppRoute,
+							toFrameRoute: action.toFrameRoute,
+						}),
+						signaturePacket,
+					})
+				}
 
-			const button = action && renderButtonFromAction({
-				origin,
-				appRoute,
-				action,
-			})
+				else if('toFrameRoute' in action){
+					const button = action && renderButtonFromAction({
+						origin,
+						appRoute,
+						action,
+					})
 
-			if(button && button.action === 'post' && button.targetUrl){
-				const { origin, pathname: appRoute, searchParams } = new URL(button.targetUrl)
+					const { origin, pathname: appRoute, searchParams } = new URL(button.targetUrl)
 
-				const {
-					farcasterFrameRouteFrom: fromFrameRoute,
-					farcasterFrameRouteTo: toFrameRoute,
-				} = Object.fromEntries(searchParams.entries()) as unknown as FarcasterFrameRouteSearchParams<FrameRoute>
-				
-				return await handleFarcasterFrameRouteButtonClick({
-					url: new URL(appRoute, origin),
-					routeParams: svelteKitRouteParams,
-					farcasterFrameRoutes: frameRoutes,
-					farcasterFrameRouteFrom: fromFrameRoute,
-					farcasterFrameRouteTo: toFrameRoute,
-					farcasterFrameSignaturePacket: signaturePacket,
-				})
+					const {
+						farcasterFrameRouteFrom: fromFrameRoute,
+						farcasterFrameRouteTo: toFrameRoute,
+					} = Object.fromEntries(searchParams.entries()) as unknown as FarcasterFrameRouteSearchParams<FrameRoute>
+
+					delete signaturePacket.untrustedData.buttonIndex
+					delete signaturePacket.untrustedData.inputText
+					
+					return await handleFarcasterFrameRouteButtonClick({
+						url: new URL(appRoute, origin),
+						routeParams: svelteKitRouteParams,
+						farcasterFrameRoutes: frameRoutes,
+						farcasterFrameRouteFrom: fromFrameRoute,
+						farcasterFrameRouteTo: toFrameRoute,
+						farcasterFrameSignaturePacket: signaturePacket,
+					})
+				}
 			}
 
 			// Error – Farcaster client may have incorrect behavior
@@ -481,13 +497,15 @@ const handleFarcasterFrameRoutePostRedirect = async ({
 	url: string,
 	signaturePacket: FarcasterFrameSignaturePacket,
 }) => {
+	const { origin, pathname: appRoute } = new URL(url)
+
 	delete signaturePacket.untrustedData.buttonIndex
 	delete signaturePacket.untrustedData.inputText
 
 	try {
-		const initialFrameMetaUrl = new URL(url)
-		initialFrameMetaUrl.searchParams.set('fromFarcasterFrameRoutePostRedirect', 'true')
-		return await fetch(initialFrameMetaUrl)
+		const postRedirectUrl = new URL(appRoute, origin)
+		postRedirectUrl.searchParams.set('fromFarcasterFrameRoutePostRedirect', 'true')
+		return await fetch(postRedirectUrl)
 	}catch(e){
 		return error(500, `Invalid redirect: ${e.message}`)
 	}
