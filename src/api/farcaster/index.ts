@@ -117,7 +117,7 @@ export const extractCastEmbeds = ({
 	>> = Object.groupBy(
 		embeds,
 		embed => (
-			'url' in embed ?
+			'url' in embed && embed.url ?
 				new URL(embed.url).pathname.match(/\.(png|jpe?g|gif|webp)$/i) ?
 					'image'
 				:
