@@ -92,7 +92,7 @@
 		.type-fraction,
 		.type-group,
 		.type-decimal,
-		.type-integer ~ .type-integer > .type-integer
+		.type-integer ~ .type-integer
 	)) {
 		opacity: 0.66;
 		font-size: 0.9em;
