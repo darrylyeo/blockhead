@@ -225,6 +225,11 @@ export const renderButtonFromAction = <
 			action: 'mint',
 			targetUrl: action.mint,
 		}
+	: 'onClick' in action ?
+		{
+			label: action.label,
+			action: 'post',
+		}
 	:
 		undefined
 )
