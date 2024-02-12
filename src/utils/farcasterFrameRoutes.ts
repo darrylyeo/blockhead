@@ -40,7 +40,8 @@ export type FarcasterFrameActionResolver<
 			svelteKitRouteParams?: RouteParams,
 			signaturePacket: FarcasterFrameSignaturePacket,
 		}) => (
-			FarcasterFrameAction<FrameRoute, RouteParams, HasTextInput>
+			| FarcasterFrameAction<FrameRoute, RouteParams, HasTextInput>
+			| undefined
 		)
 	)
 )
@@ -274,7 +275,7 @@ export const getInitialFarcasterFrameServerMeta = async <
 							:
 								actionResolver
 
-						return renderButtonFromAction({
+						return action && renderButtonFromAction({
 							origin,
 							appRoute,
 							action,
@@ -350,7 +351,7 @@ export const handleFarcasterFrameRouteButtonClick = async <
 							:
 								actionResolver
 
-						return renderButtonFromAction({
+						return action && renderButtonFromAction({
 							origin,
 							appRoute,
 							action,
