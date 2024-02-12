@@ -310,163 +310,167 @@ export const handleFarcasterFrameRouteButtonClick = async <
 	farcasterFrameRouteTo: FrameRoute,
 	farcasterFrameSignaturePacket: FarcasterFrameSignaturePacket,
 }): Promise<Response> => {
-	// Context
-	const origin = url.origin
-	const appRoute = url.pathname
+	try {
+		// Context
+		const origin = url.origin
+		const appRoute = url.pathname
 
-	const fromFramePage = frameRoutes[fromFrameRoute]
-	const toFramePage = frameRoutes[toFrameRoute]
+		const fromFramePage = frameRoutes[fromFrameRoute]
+		const toFramePage = frameRoutes[toFrameRoute]
 
-	const {
-		untrustedData: {
-			buttonIndex,
-		},	
-	} = signaturePacket
+		const {
+			untrustedData: {
+				buttonIndex,
+			},	
+		} = signaturePacket
 
 
-	// Farcaster client POSTs to button fc:frame:button:$idx:target
-	if(toFramePage){
-		const imageUrl = createImageUrl({
-			origin,
-			appRoute,
-			frameRoute: toFrameRoute,
-		})
-
-		const newUrl = createRedirectUrl({
-			origin,
-			appRoute,
-			fromFrameRoute: toFrameRoute,
-		})
-
-		return createFarcasterFrameServerResponse({
-			image: {
-				url: imageUrl,
-				aspectRatio: '1.91:1',
-			},
-			postUrl: newUrl,
-			textInput: toFramePage.textInput,
-			buttons: toFramePage?.actions && (
-				await Promise.all(
-					toFramePage.actions?.map(async actionResolver => {
-						const action = 
-							actionResolver && typeof actionResolver === 'function' ?
-								await actionResolver?.({
-									svelteKitRouteParams,
-									signaturePacket,
-								})
-							:
-								actionResolver
-
-						return action && renderButtonFromAction({
-							origin,
-							appRoute,
-							action,
-						})
-					})
-				)
-			)
-		})
-	}
-
-	// Farcaster client POSTs to base fc:frame:post_url
-	else if(fromFramePage){
-		const actionResolver = fromFramePage?.actions?.[buttonIndex - 1]
-
-		if(actionResolver && 'onClick' in actionResolver){
-			const action = await actionResolver.onClick?.({
-				svelteKitRouteParams,
-				signaturePacket,
+		// Farcaster client POSTs to button fc:frame:button:$idx:target
+		if(toFramePage){
+			const imageUrl = createImageUrl({
+				origin,
+				appRoute,
+				frameRoute: toFrameRoute,
 			})
 
-			const newUrl = 
-				'toAppRoute' in action ?
-					createRedirectUrl({
-						origin,
-						appRoute: action.toAppRoute,
-						toFrameRoute: action.toFrameRoute,
-					})
-				: 'toFrameRoute' in action ?
-					createRedirectUrl({
-						origin,
-						appRoute: url.href,
-						toFrameRoute: action.toFrameRoute,
-					})
-				:
-					createRedirectUrl({
-						origin,
-						appRoute: url.href,
-						fromFrameRoute,
-					})
+			const newUrl = createRedirectUrl({
+				origin,
+				appRoute,
+				fromFrameRoute: toFrameRoute,
+			})
 
-			return handleFarcasterFrameRoutePostRedirect({
-				url: newUrl,
-				signaturePacket,
+			return createFarcasterFrameServerResponse({
+				image: {
+					url: imageUrl,
+					aspectRatio: '1.91:1',
+				},
+				postUrl: newUrl,
+				textInput: toFramePage.textInput,
+				buttons: toFramePage?.actions && (
+					await Promise.all(
+						toFramePage.actions?.map(async actionResolver => {
+							const action = 
+								actionResolver && typeof actionResolver === 'function' ?
+									await actionResolver?.({
+										svelteKitRouteParams,
+										signaturePacket,
+									})
+								:
+									actionResolver
+
+							return action && renderButtonFromAction({
+								origin,
+								appRoute,
+								action,
+							})
+						})
+					)
+				)
 			})
 		}
 
-		// fc:frame:button:$idx:action = "post" – manually POST to button fc:frame:button:$idx:target
-		else {
-			const action =
-				actionResolver && typeof actionResolver === 'function' ?
-					await actionResolver?.({
-						svelteKitRouteParams,
-						signaturePacket,
-					})
-				:
-					actionResolver
-			
-			const button = action && renderButtonFromAction({
-				origin,
-				appRoute,
-				action,
-			})
+		// Farcaster client POSTs to base fc:frame:post_url
+		else if(fromFramePage){
+			const actionResolver = fromFramePage?.actions?.[buttonIndex - 1]
 
-			if(button && button.action === 'post' && button.targetUrl){
-				const { origin, pathname: appRoute, searchParams } = new URL(button.targetUrl)
+			if(actionResolver && 'onClick' in actionResolver){
+				const action = await actionResolver.onClick?.({
+					svelteKitRouteParams,
+					signaturePacket,
+				})
 
-				const {
-					farcasterFrameRouteFrom: fromFrameRoute,
-					farcasterFrameRouteTo: toFrameRoute,
-				} = Object.fromEntries(searchParams.entries()) as unknown as FarcasterFrameRouteSearchParams<FrameRoute>
-				
-				return await handleFarcasterFrameRouteButtonClick({
-					url: new URL(appRoute, origin),
-					routeParams: svelteKitRouteParams,
-					farcasterFrameRoutes: frameRoutes,
-					farcasterFrameRouteFrom: fromFrameRoute,
-					farcasterFrameRouteTo: toFrameRoute,
-					farcasterFrameSignaturePacket: signaturePacket,
+				const newUrl = 
+					'toAppRoute' in action ?
+						createRedirectUrl({
+							origin,
+							appRoute: action.toAppRoute,
+							toFrameRoute: action.toFrameRoute,
+						})
+					: 'toFrameRoute' in action ?
+						createRedirectUrl({
+							origin,
+							appRoute: url.href,
+							toFrameRoute: action.toFrameRoute,
+						})
+					:
+						createRedirectUrl({
+							origin,
+							appRoute: url.href,
+							fromFrameRoute,
+						})
+
+				return handleFarcasterFrameRoutePostRedirect({
+					url: newUrl,
+					signaturePacket,
 				})
 			}
 
-			// Error – Farcaster client may have incorrect behavior
-			return createFarcasterFrameServerResponse({
-				image: {
-					url: url.toString(),
-					aspectRatio: '1.91:1',
-				},
-				postUrl: url.toString(),
-				textInput: 'Error',
-				buttons: [
-					{
-						label: 'Restart',
-						action: 'post',
-						targetUrl: createRedirectUrl({
-							origin,
-							appRoute,
-							toFrameRoute: '/',
-						}),
-					}
-				]
+			// fc:frame:button:$idx:action = "post" – manually POST to button fc:frame:button:$idx:target
+			else {
+				const action =
+					actionResolver && typeof actionResolver === 'function' ?
+						await actionResolver?.({
+							svelteKitRouteParams,
+							signaturePacket,
+						})
+					:
+						actionResolver
+				
+				const button = action && renderButtonFromAction({
+					origin,
+					appRoute,
+					action,
+				})
+
+				if(button && button.action === 'post' && button.targetUrl){
+					const { origin, pathname: appRoute, searchParams } = new URL(button.targetUrl)
+
+					const {
+						farcasterFrameRouteFrom: fromFrameRoute,
+						farcasterFrameRouteTo: toFrameRoute,
+					} = Object.fromEntries(searchParams.entries()) as unknown as FarcasterFrameRouteSearchParams<FrameRoute>
+					
+					return await handleFarcasterFrameRouteButtonClick({
+						url: new URL(appRoute, origin),
+						routeParams: svelteKitRouteParams,
+						farcasterFrameRoutes: frameRoutes,
+						farcasterFrameRouteFrom: fromFrameRoute,
+						farcasterFrameRouteTo: toFrameRoute,
+						farcasterFrameSignaturePacket: signaturePacket,
+					})
+				}
+
+				// Error – Farcaster client may have incorrect behavior
+				return createFarcasterFrameServerResponse({
+					image: {
+						url: url.toString(),
+						aspectRatio: '1.91:1',
+					},
+					postUrl: url.toString(),
+					textInput: 'Error',
+					buttons: [
+						{
+							label: 'Restart',
+							action: 'post',
+							targetUrl: createRedirectUrl({
+								origin,
+								appRoute,
+								toFrameRoute: '/',
+							}),
+						}
+					]
+				})
+			}
+		}
+
+		else {
+			return handleFarcasterFrameRoutePostRedirect({
+				url: url.toString(),
+				signaturePacket,
 			})
 		}
-	}
-
-	else {
-		return handleFarcasterFrameRoutePostRedirect({
-			url,
-			signaturePacket,
-		})
+	}catch(e){
+		return error(500, e.toString())
 	}
 }
 
@@ -485,11 +489,7 @@ const handleFarcasterFrameRoutePostRedirect = async ({
 	delete signaturePacket.untrustedData.buttonIndex
 	delete signaturePacket.untrustedData.inputText
 
-	try {
-		const postRedirectUrl = new URL(appRoute, origin)
-		postRedirectUrl.searchParams.set('fromFarcasterFrameRoutePostRedirect', 'true')
-		return await fetch(postRedirectUrl)
-	}catch(e){
-		return error(500, `Invalid redirect: ${e.message}`)
-	}
+	const postRedirectUrl = new URL(appRoute, origin)
+	postRedirectUrl.searchParams.set('fromFarcasterFrameRoutePostRedirect', 'true')
+	return await fetch(postRedirectUrl)
 }
