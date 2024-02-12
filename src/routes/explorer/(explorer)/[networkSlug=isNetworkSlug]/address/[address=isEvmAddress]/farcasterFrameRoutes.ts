@@ -11,6 +11,7 @@ import { env } from '$/env'
 import { resolveRoute } from '$app/paths'
 import { user } from '$/api/neynar/v1'
 import { normalizeUserV1 } from '$/api/neynar/normalize'
+import { formatAddress } from '$/utils/formatAddress'
 
 
 // Farcaster Frame Routes
@@ -101,10 +102,9 @@ export const farcasterFrameRoutes = Object.assign({}, ...([
 				async ({
 					signaturePacket: { untrustedData: { fid } },
 					svelteKitRouteParams: { networkSlug } = {},
-				}) => ({
-					label: 'Your connected address',
-					toAppRoute: await (async () => {
-						const farcasterUser = normalizeUserV1(
+				}) => {
+					const farcasterUser = fid !== undefined
+						? normalizeUserV1(
 							(
 								await user(
 									env.NEYNAR_API_KEY,
@@ -112,27 +112,34 @@ export const farcasterFrameRoutes = Object.assign({}, ...([
 								)
 							).result.user,
 						)
+						: undefined
 
-						const address = farcasterUser?.custodyAddress
+					const address = farcasterUser?.custodyAddress
 
-						return resolveRoute(`/explorer/[networkSlug]/address/[address]`, {
+					return address && {
+						label: `Your address (${formatAddress(address, 'middle-truncated')})`,
+						toAppRoute: resolveRoute(`/explorer/[networkSlug]/address/[address]`, {
 							networkSlug,
 							address,
-						})
-					})(),
-				}),
+						}),
+					}
+				},
 
 				{
 					label: 'Go ›',
 					onClick: ({
 						svelteKitRouteParams: { networkSlug } = {},
 						signaturePacket: { untrustedData: { inputText: accountId } },
-					}) => ({
-						toAppRoute: resolveRoute(`/explorer/[networkSlug]/[accountId]`, {
-							networkSlug,
-							accountId,
-						})
-					}),
+					}) => {
+						if(accountId){
+							return {
+								toAppRoute: resolveRoute(`/explorer/[networkSlug]/address/[accountId]`, {
+									networkSlug,
+									accountId,
+								})
+							}
+						}
+					},
 				},
 			],
 		},
