@@ -137,6 +137,39 @@
 									>
 										{button.label}
 									</button>
+								{:else if button.action === 'post_redirect'}
+									<button
+										type="submit"
+										formmethod="post"
+										formaction={button.targetUrl}
+										formtarget="_blank"
+										data-button-index={index}
+										class="medium"
+									>
+										{button.label}
+									</button>
+								{:else if button.action === 'link'}
+									<a
+										href="{button.targetUrl}"
+										target="_blank"
+										rel="noopener noreferrer"
+										class="medium"
+									>
+										<button
+											type="button"
+											data-button-index={index}
+										>
+											{button.label}
+										</button>
+									</a>
+								{:else if button.action === 'mint'}
+									<button
+										type="button"
+										data-button-index={index}
+										class="medium"
+									>
+										{button.label}
+									</button>
 								{/if}
 							{/each}
 						</div>
