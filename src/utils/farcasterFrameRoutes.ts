@@ -263,6 +263,7 @@ export const getInitialFarcasterFrameServerMeta = async <
 			appRoute,
 			fromFrameRoute: frameRoute,
 		}),
+		textInput: framePage.textInput,
 		buttons: framePage.actions && (
 			await Promise.all(
 				framePage.actions
@@ -339,6 +340,7 @@ export const handleFarcasterFrameRouteButtonClick = async <
 				aspectRatio: '1.91:1',
 			},
 			postUrl: newUrl,
+			textInput: toFramePage.textInput,
 			buttons: toFramePage?.actions && (
 				await Promise.all(
 					toFramePage.actions?.map(async actionResolver => {
