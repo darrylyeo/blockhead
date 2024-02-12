@@ -101,6 +101,7 @@
 
 			{#if farcasterFrameMetadata.textInput || farcasterFrameMetadata.buttons?.length}
 				<form
+					class="column"
 					action={farcasterFrameMetadata.postUrl}
 					on:submit|preventDefault={e => {
 						const buttonIndex = Number(e.submitter.dataset.buttonIndex)
@@ -186,7 +187,7 @@
 		flex: 1;
 	}
 
-	img {
+	input, img {
 		width: 100%;
 	}
 </style>
