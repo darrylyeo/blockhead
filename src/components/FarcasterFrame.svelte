@@ -122,13 +122,17 @@
 
 					{#if farcasterFrameMetadata.buttons?.length}
 						<div class="row columns wrap">
-							{#each farcasterFrameMetadata.buttons as button, i (i)}
-								{#if button.action === 'post'}
+							{#each Object.entries(farcasterFrameMetadata.buttons) as [i, button] (i)}
+								{@const index = Number(i) + 1}
+
+								{#if !button}
+									<!--  -->
+								{:else if button.action === 'post'}
 									<button
 										type="submit"
 										formmethod="post"
 										formaction={button.targetUrl}
-										data-button-index={i + 1}
+										data-button-index={index}
 										class="medium"
 									>
 										{button.label}
