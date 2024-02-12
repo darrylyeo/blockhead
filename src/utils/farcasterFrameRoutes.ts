@@ -289,7 +289,6 @@ export const getInitialFarcasterFrameServerMeta = async <
 					}),
 			)
 		)
-			.filter(isTruthy)
 	})
 }
 
@@ -366,7 +365,6 @@ export const handleFarcasterFrameRouteButtonClick = async <
 					})
 				)
 			)
-				.filter(isTruthy),
 		})
 	}
 

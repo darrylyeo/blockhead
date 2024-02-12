@@ -40,7 +40,12 @@ export type FarcasterFrameServerMeta = {
 	},
 	postUrl?: string,
 	textInput?: string,
-	buttons?: FarcasterFrameButton[],
+	buttons?: [
+		FarcasterFrameButton | undefined,
+		FarcasterFrameButton | undefined,
+		FarcasterFrameButton | undefined,
+		FarcasterFrameButton | undefined,
+	],
 }
 
 
@@ -66,20 +71,24 @@ export const serializeFarcasterFrameServerMeta = (frameMeta: FarcasterFrameServe
 			content: frameMeta.textInput,
 		},
 		...frameMeta.buttons
-			?.flatMap((button, index) => [
-				{
-					property: `fc:frame:button:${index + 1}`,
-					content: button.label,
-				},
-				button.action && {
-					property: `fc:frame:button:${index + 1}:action`,
-					content: button.action,
-				},
-				button.targetUrl && {
-					property: `fc:frame:button:${index + 1}:target`,
-					content: button.targetUrl,
-				},
-			])
+			?.flatMap((button, index) => (
+				button
+					? [
+						{
+							property: `fc:frame:button:${index + 1}`,
+							content: button.label,
+						},
+						button.action && {
+							property: `fc:frame:button:${index + 1}:action`,
+							content: button.action,
+						},
+						button.targetUrl && {
+							property: `fc:frame:button:${index + 1}:target`,
+							content: button.targetUrl,
+						},
+					]
+					: []
+			))
 			?? [],
 		frameMeta.postUrl && {
 			property: 'fc:frame:post_url',
@@ -109,8 +118,7 @@ export const parseFarcasterFrameServerMeta = (
 				action: (metaTags[`fc:frame:button:${index}:action`] as FarcasterFrameButton['action']) ?? 'post',
 				targetUrl: metaTags[`fc:frame:button:${index}:target`],
 			}
-		))
-		.filter(isTruthy),
+		)),
 })
 
 
