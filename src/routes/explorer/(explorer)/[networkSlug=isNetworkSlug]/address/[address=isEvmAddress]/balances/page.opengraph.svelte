@@ -53,7 +53,8 @@
 	<div class="card grid">
 		{#each (
 			balances
-				.slice(0, 32)
+				?.slice(0, 32)
+			?? []
 		) as tokenWithBalance}
 			<div class="row">
 				<div class="token-balance row">
