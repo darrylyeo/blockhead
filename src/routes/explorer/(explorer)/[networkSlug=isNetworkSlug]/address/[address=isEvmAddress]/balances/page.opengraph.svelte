@@ -64,7 +64,11 @@
 				<div class="token-balance-with-icon row">
 					{#if 'icon' in tokenWithBalance.token}
 						<div class="icon">
-							<img src={tokenWithBalance.token.icon} width="30" height="30" />
+							<img
+								src={tokenWithBalance.token.icon}
+								width="30"
+								height="30"
+							/>
 						</div>
 					{/if}
 
@@ -122,15 +126,15 @@
 
 		display: flex;
 		flex-direction: column;
-		align-content: space-between;
-		justify-items: center;
-		justify-content: space-between;
+		align-content: center;
+		justify-content: center;
 		flex-wrap: wrap;
-		column-gap: 2em;
+		column-gap: 1.5em;
 		row-gap: 1em;
 		line-height: 1;
 	}
 	.grid > * {
+		width: 13.5em;
 		column-gap: 1em;
 	}
 
