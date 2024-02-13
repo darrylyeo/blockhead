@@ -6455,19 +6455,19 @@ export const networkColors = {
 	'fantom': '#1969ff',
 	'filecoin': '#0090ff',
 	'gnosis': '#04795B',
-	'harmony': '#00AEE9',
+	// 'harmony': '#00AEE9',
 	'metis': '#00dacd',
 	'mantle': '#000',
-	'mode': '#dffe00',
-	'nahmii': '#E952AC',
-	'nervos': '#3CC68A',
+	// 'mode': '#dffe00',
+	// 'nahmii': '#E952AC',
+	// 'nervos': '#3CC68A',
 	'optimism': '#f01a37',
 	'polygon': '#8248e5',
 	'polygon-zkevm': '#8248e5',
-	'reef': '#962EE5',
+	// 'reef': '#962EE5',
 	'scroll': '#cba68d', // '#cba68d', '#e5d1b8', '#cba58c', '#d7af94',
-	'skale': '#393939',
-	'zora': '#2B5DF0', // '#A1723A', '#531002', '#2B5DF0', '#FCB8D4', '#FFFFFF', '#387AFA'
+	// 'skale': '#393939',
+	'zora': '#FCB8D4', // '#A1723A', '#531002', '#2B5DF0', '#FCB8D4', '#FFFFFF', '#387AFA'
 } as const satisfies Readonly<
 	Partial<Record<NetworkSlug, string>>
 > satisfies DeepReadonly<
