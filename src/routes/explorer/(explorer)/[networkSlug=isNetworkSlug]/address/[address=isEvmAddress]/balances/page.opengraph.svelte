@@ -60,27 +60,31 @@
 				?.slice(0, 15)
 			?? []
 		) as tokenWithBalance}
-			<div class="row">
-				<div class="token-balance row">
+			<div class="row inline">
+				<div class="token-balance-with-icon row">
 					{#if 'icon' in tokenWithBalance.token}
-						<img src={tokenWithBalance.token.icon} width="30" height="30" />
+						<div class="icon">
+							<img src={tokenWithBalance.token.icon} width="30" height="30" />
+						</div>
 					{/if}
 
-					{#if tokenWithBalance.balance}
-						<span>
-							<FormattedNumber
-								value={Number(tokenWithBalance.balance) * 0.1 ** tokenWithBalance.token.decimals}
-								format={{
-									showDecimalPlaces: 3,
-									compactLargeValues: true,
-								}}
-							/>
-						</span>
-					{/if}
+					<span class="token-balance row inline">
+						{#if tokenWithBalance.balance}
+							<span>
+								<FormattedNumber
+									value={Number(tokenWithBalance.balance) * 0.1 ** tokenWithBalance.token.decimals}
+									format={{
+										showDecimalPlaces: 3,
+										compactLargeValues: true,
+									}}
+								/>
+							</span>
+						{/if}
 
-					{#if tokenWithBalance.token.symbol}
-						<span class="symbol">{tokenWithBalance.token.symbol}</span>
-					{/if}
+						{#if tokenWithBalance.token.symbol}
+							<span class="symbol">{tokenWithBalance.token.symbol}</span>
+						{/if}
+					</span>
 				</div>
 
 				{#if tokenWithBalance.conversion}
@@ -107,7 +111,7 @@
 
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
+		row-gap: 1em;
 
 		font-size: 1.3em;
 	}
@@ -122,22 +126,21 @@
 		justify-items: center;
 		justify-content: space-between;
 		flex-wrap: wrap;
-		row-gap: 1em;
 		column-gap: 2em;
+		row-gap: 1em;
 		line-height: 1;
 	}
 	.grid > * {
-		max-width: 24em;
+		column-gap: 1em;
 	}
 
-	.row {
+	.token-balance-with-icon {
 		column-gap: 0.25em;
-		flex-wrap: nowrap;
+	}
+	.token-balance {
+		column-gap: 0.25em;
 	}
 
-	.token-balance {
-		align-items: baseline;
-	}
 	.symbol {
 		font-size: 0.75em;
 		opacity: 0.75;

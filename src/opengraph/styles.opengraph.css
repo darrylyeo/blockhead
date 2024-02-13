@@ -1,10 +1,11 @@
 * {
 	box-sizing: border-box;
+	margin: 0;
+	line-height: 1;
 }
 
 h1, h2, h3, h4, h5, h6 {
 	font-weight: 400;
-	line-height: 1px;
 }
 
 h1, h2, output, pre, code {
@@ -28,6 +29,7 @@ pre {
 }
 .row.inline {
 	align-items: flex-end;
+	column-gap: 0.25em;
 }
 .row > :last-child {
 	text-align: right;
@@ -58,4 +60,17 @@ pre {
 	padding: 1.5em;
 	border-radius: 1em;
 	background-color: rgba(255, 255, 255, 0.05);
+}
+
+.icon {
+	display: flex;
+	align-items: center;
+	width: 1.25em;
+	height: 1px;
+}
+.icon > img {
+	width: 1.25em;
+	height: 1.25em;
+	border-radius: 0.33em;
+	object-fit: contain;
 }

@@ -72,7 +72,7 @@
 <style>
 	main {
 		padding: 2em;
-		row-gap: 1.5em;
+		row-gap: 2em;
 
 		background-size: 100% 250%;
 		color: #fff;
@@ -81,7 +81,6 @@
 	}
 
 	header {
-		margin-top: -0.5em;
 		justify-content: flex-start;
 		gap: 2.25em;
 	}
