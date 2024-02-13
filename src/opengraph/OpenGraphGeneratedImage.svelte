@@ -17,73 +17,88 @@
 </script>
 
 
-<main
-	class="column"
+<div
+	class="layout column"
 	style={`
 		width: ${width}px;
 		height: ${height}px;
-		background: linear-gradient(155deg, #01002d, ${primaryColor});
 	`}
 >
-	<img
-		class="background-icon"
-		src={backgroundIcon}
-	/>
-
-	<header class="column">
-		<div class="row">
-			<h1
-				class="title"
-				style={`
-					font-size: ${clamp(24, 1.2 * width / title.length, 48)}px;
-				`}
-			>{title}</h1>
-
-			<p class="annotation">{annotation}</p>
-		</div>
-
-		{#if subtitle}
-			<h2
-				class="subtitle"
-			>{subtitle}</h2>
-		{/if}
-	</header>
-
-	<div class="content column">
-		<slot />
+	<div
+		style={`
+			background: linear-gradient(155deg, #01002d, ${primaryColor});
+			background-size: 100% 250%;
+		`}
+	>
+		<img
+			class="background-icon"
+			src={backgroundIcon}
+		/>
 	</div>
 
-	<footer class="row">
-		<div class="row">
-			<img
-				class="logo"
-				src={`https://blockhead.info/Blockhead-Logo.svg`}
-			/>
-
-			<p>
-				<output
-					class="url"
+	<div
+		class="column"
+	>
+		<header class="column">
+			<div class="row">
+				<h1
+					class="title"
 					style={`
-						font-size: ${clamp(20, width * 1.3 / `${url.host}${url.pathname}`.length, 50)}px;
+						font-size: ${clamp(24, 1.2 * width / title.length, 48)}px;
 					`}
-				>
-					<strong>{url.host}</strong>{url.pathname}
-				</output>
-			</p>
-		</div>
-	</footer>
-</main>
+				>{title}</h1>
+
+				<p class="annotation">{annotation}</p>
+			</div>
+
+			{#if subtitle}
+				<h2
+					class="subtitle"
+				>{subtitle}</h2>
+			{/if}
+		</header>
+
+		<main class="column">
+			<slot />
+		</main>
+
+		<footer class="row">
+			<div class="row">
+				<img
+					class="logo"
+					src={new URL(`/Blockhead-Logo.svg`, url.origin).toString()}
+				/>
+
+				<p>
+					<output
+						class="url"
+						style={`
+							font-size: ${clamp(20, width * 1.3 / `${url.host}${url.pathname}`.length, 50)}px;
+						`}
+					>
+						<strong>{url.host}</strong>{url.pathname}
+					</output>
+				</p>
+			</div>
+		</footer>
+	</div>
+</div>
 
 
 <style>
-	main {
-		padding: 2em;
-		row-gap: 2em;
-
-		background-size: 100% 250%;
+	.layout {
 		color: #fff;
 		font-size: 30px;
 		font-family: Ubuntu, sans-serif;
+	}
+
+	.layout > * {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		padding: 2em;
+		row-gap: 2em;
 	}
 
 	header {
@@ -101,7 +116,7 @@
 		opacity: 0.5;
 	}
 
-	.content {
+	main {
 		flex: 1;
 		overflow: hidden;
 	}
