@@ -57,7 +57,7 @@
 	<div class="card grid">
 		{#each (
 			balances
-				?.slice(0, 32)
+				?.slice(0, 15)
 			?? []
 		) as tokenWithBalance}
 			<div class="row">
