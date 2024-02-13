@@ -73,11 +73,11 @@
 					?.sort(collectionsSortFunction)
 					.filter(({ nfts }) => nfts && nfts.length > 0)
 				?? []
-			).slice(0, 35) as contract}
+			).slice(0, 21) as contract}
 				{#each (contract.nfts ?? []) as nft}
 					<NftImage
 						{nft}
-						width={160}
+						width={221}
 						ipfsGateway={IpfsGatewayProvider.Cloudflare}
 					/>
 				{/each}
@@ -106,15 +106,17 @@
 		overflow: hidden;
 	}
 	.masonry {
-		margin: -3em 0;
+		margin: -4em 0;
 
 		display: flex;
 		flex-direction: column;
-		column-gap: 2px;
-		row-gap: 2px;
+		column-gap: 3px;
+		row-gap: 3px;
 		flex-wrap: wrap;
 		justify-content: center;
 		align-content: center;
+		justify-items: center;
+		align-items: center;
 	}
 	.masonry > :global(*) {
 		flex: 0 1 auto;
