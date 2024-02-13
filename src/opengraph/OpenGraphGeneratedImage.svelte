@@ -5,6 +5,7 @@
 	export let title = ''
 	export let subtitle = ''
 	export let annotation = ''
+	export let backgroundIcon = ''
 	export let bodyComponent: BodyComponent | undefined
 	export let bodyComponentProps: BodyComponentProps | undefined
 	export let url: URL
@@ -24,6 +25,11 @@
 		background: linear-gradient(155deg, #01002d, ${primaryColor});
 	`}
 >
+	<img
+		class="background-icon"
+		src={backgroundIcon}
+	/>
+
 	<header class="column">
 		<div class="row">
 			<h1
@@ -103,5 +109,14 @@
 	.logo {
 		width: 90px;
 		height: 90px;
+	}
+
+	.background-icon {
+		position: absolute;
+		right: -12rem;
+		top: -12rem;
+		width: 50rem;
+		height: 50rem;
+		opacity: 0.06;
 	}
 </style>
