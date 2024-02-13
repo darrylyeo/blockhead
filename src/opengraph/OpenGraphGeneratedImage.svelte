@@ -58,7 +58,7 @@
 				<output
 					class="url"
 					style={`
-						font-size: ${clamp(20, width * 1.1 / `${url.host}${url.pathname}`.length, 40)}px;
+						font-size: ${clamp(20, width * 1.3 / `${url.host}${url.pathname}`.length, 50)}px;
 					`}
 				>
 					<strong>{url.host}</strong>{url.pathname}
@@ -76,7 +76,7 @@
 
 		background-size: 100% 250%;
 		color: #fff;
-		font-size: 24px;
+		font-size: 30px;
 		font-family: Ubuntu, sans-serif;
 	}
 
