@@ -16,16 +16,6 @@ pre {
 	white-space: pre-wrap;
 }
 
-.title {
-	font-size: 1.5em;
-}
-
-.subtitle {
-	margin-top: -1.25em;
-	font-size: 1.3em;
-	opacity: 0.5;
-}
-
 .row {
 	display: flex;
 	align-items: center;

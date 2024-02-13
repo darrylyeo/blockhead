@@ -29,7 +29,7 @@
 			<h1
 				class="title"
 				style={`
-					font-size: ${clamp(24, 1.2 * width / title.length, 44)}px;
+					font-size: ${clamp(24, 1.2 * width / title.length, 48)}px;
 				`}
 			>{title}</h1>
 
@@ -83,6 +83,17 @@
 	header {
 		margin-top: -0.5em;
 		justify-content: flex-start;
+		gap: 2.25em;
+	}
+
+	.title {
+		font-size: 1.5em;
+	}
+
+	.subtitle {
+		margin-top: -1.25em;
+		font-size: 1.25em;
+		opacity: 0.5;
 	}
 
 	.content {
