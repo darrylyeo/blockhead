@@ -41,12 +41,11 @@
 
 	// Functions
 	import { createInfiniteQuery, createQuery } from '@tanstack/svelte-query'
-	import { queryStore, gql } from '@urql/svelte'
 	import { ConcurrentPromiseQueue } from '$/utils/ConcurrentPromiseQueue'
 
 	import { getViemPublicClient } from '$/data/networkProviders'
 
-	import { airstackNetworkNames, getClient } from '$/api/airstack/index'
+	import { getTokenBalances as getTokenBalancesAirstack } from '$/api/airstack/index'
 	import { normalizeTokenBalance as normalizeTokenBalanceAirstack } from '$/api/airstack/normalize'
 
 	import { getErc20TokenBalances } from '$/api/chainbase'
@@ -126,99 +125,13 @@
 						chainId: network.chainId,
 					}],
 					initialPageParam: '',
-					queryFn: async ({ pageParam: cursor }) => {
-						if(!(network.chainId in airstackNetworkNames))
-							throw new Error(`Airstack doesn't yet support ${network.name}.`)
-
-						return await getClient().query(gql`
-							query TokenBalances(
-								$address: Identity!, 
-								$blockchain: TokenBlockchain!, 
-								$limit: Int!, 
-								$cursor: String!
-							) {
-								TokenBalances(
-									input: {
-										filter: {
-											owner: {_in: [$address]},
-											tokenType: { _in: [ERC20] }
-										},
-										blockchain: $blockchain,
-										limit: $limit,
-										cursor: $cursor
-									}
-								) {
-									TokenBalance {
-										tokenAddress
-										amount
-										tokenType
-										blockchain
-										chainId
-										formattedAmount
-										id
-										lastUpdatedBlock
-										lastUpdatedTimestamp
-										token {
-											address
-											baseURI
-											chainId
-											blockchain
-											contractMetaData {
-												description
-												externalLink
-												feeRecipient
-												image
-												name
-												sellerFeeBasisPoints
-											}
-											contractMetaDataURI
-											decimals
-											id
-											lastTransferBlock
-											lastTransferHash
-											lastTransferTimestamp
-											logo {
-												external
-												large
-												medium
-												original
-												small
-											}
-											name
-											projectDetails {
-												collectionName
-												description
-												discordUrl
-												externalUrl
-												twitterUrl
-											}
-											rawContractMetaData
-											symbol
-											tokenTraits
-											totalSupply
-											type
-										}
-									}
-									pageInfo {
-										nextCursor
-										prevCursor
-									}
-								}
-							}
-						`, {
+					queryFn: async ({ pageParam: cursor }) => (
+						getTokenBalancesAirstack({
+							network,
 							address,
-							blockchain: airstackNetworkNames[network.chainId],
-							limit: 50,
 							cursor,
 						})
-							.toPromise()
-							.then(result => {
-								if(result.error)
-									throw result.error
-
-								return result.data
-							})
-					},
+					),
 					getPreviousPageParam: (firstPage) => firstPage.TokenBalances.pageInfo.prevCursor || undefined,
 					getNextPageParam: (lastPage) => lastPage.TokenBalances.pageInfo.nextCursor || undefined,
 					select: data => (
