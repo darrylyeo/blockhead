@@ -35,6 +35,9 @@ pre {
 .row.wrap {
 	flex-wrap: wrap;
 }
+.row.inline {
+	align-items: flex-end;
+}
 .row > :last-child {
 	text-align: right;
 }

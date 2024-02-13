@@ -15,6 +15,10 @@
 
 	// Functions
 	import { formatValue } from '$/utils/formatValue'
+
+
+	// Components
+	import FormattedNumber from '$/components/FormattedNumber.svelte'
 </script>
 
 
@@ -64,12 +68,13 @@
 
 					{#if tokenWithBalance.balance}
 						<span>
-							{formatValue(
-								Number(tokenWithBalance.balance) * 0.1 ** tokenWithBalance.token.decimals,
-								{
+							<FormattedNumber
+								value={Number(tokenWithBalance.balance) * 0.1 ** tokenWithBalance.token.decimals}
+								format={{
+									showDecimalPlaces: 3,
 									compactLargeValues: true,
-								},
-							)}
+								}}
+							/>
 						</span>
 					{/if}
 
@@ -80,13 +85,14 @@
 
 				{#if tokenWithBalance.conversion}
 					<span class="conversion-value">
-						{formatValue(
-							tokenWithBalance.conversion.value,
-							{
+						<FormattedNumber
+							value={tokenWithBalance.conversion.value}
+							format={{
+								showDecimalPlaces: 3,
 								compactLargeValues: true,
 								currency: 'USD',
-							},
-						)}
+							}}
+						/>
 					</span>
 				{/if}
 			</div>
