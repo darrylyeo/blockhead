@@ -15,7 +15,7 @@ import {
 	NounsIcon,
 	UniswapIcon,
 } from '$/assets/icons'
-import { ZoraIcon } from '$/assets/networkIcons'
+import { networkIcons } from '$/assets/networkIcons'
 
 
 import CeramicPage from '$/routes/apps/(withDashboard)/ceramic/+page.svelte'
@@ -9067,7 +9067,7 @@ export const web3Apps = [
 			'#FCB8D4',
 			'#FFFFFF',
 		],
-		icon: ZoraIcon,
+		icon: networkIcons['zora'],
 		views: [
 			{
 				name: 'Zora Network',

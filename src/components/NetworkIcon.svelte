@@ -8,35 +8,7 @@
 	// export let defaultToTokenIcon = true
 
 
-	import { ArbitrumIcon, AuroraIcon, BaseIcon, CeloIcon, CronosIcon, EvmosIcon, FilecoinIcon, FvmIcon, GnosisIcon, HarmonyIcon, MetisIcon, ModeIcon, OptimismIcon, PolygonZkevmIcon, ScrollIcon, SKALEIcon, ZoraIcon } from '$/assets/networkIcons'
-	import { tokenIcons } from '$/assets/tokenIcons'
-
-	const networkIcons: Record<Ethereum.NetworkSlug, string> = {
-		'arbitrum-one': ArbitrumIcon,
-		'aurora': AuroraIcon,
-		'avalanche': tokenIcons.AVAX, // AvalancheIcon,
-		'base': BaseIcon,
-		'celo': CeloIcon,
-		'cronos': CronosIcon,
-		'ethereum': tokenIcons.ETH, // EthereumIcon,
-		'evmos': EvmosIcon,
-		'filecoin': FilecoinIcon,
-		'fvm': FvmIcon,
-		'gnosis': GnosisIcon,
-		'harmony': HarmonyIcon,
-		'mantle': tokenIcons.MNT,
-		'metis': MetisIcon,
-		'mode': ModeIcon,
-		'optimism': OptimismIcon,
-		// 'nahmii': NahmiiIcon,
-		// 'nervos': NervosIcon,
-		'polygon': tokenIcons.MATIC, // PolygonIcon,
-		'polygon-zkevm': PolygonZkevmIcon, // PolygonIcon,
-		// 'reef': ReefIcon,
-		'scroll': ScrollIcon,
-		'skale': SKALEIcon,
-		'zora': ZoraIcon,
-	}
+	import { networkIcons } from '$/assets/networkIcons'
 
 	$: imageSource = networkIcons[network?.slug] || networkIcons[mainnetForTestnet[network?.slug]?.slug]
 
