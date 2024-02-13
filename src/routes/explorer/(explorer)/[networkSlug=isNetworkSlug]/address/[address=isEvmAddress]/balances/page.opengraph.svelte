@@ -19,6 +19,10 @@
 
 	// Components
 	import FormattedNumber from '$/components/FormattedNumber.svelte'
+
+
+	// Functions
+	const clamp = (min: number, value: number, max: number) => Math.min(Math.max(min, value), max)
 </script>
 
 
@@ -54,7 +58,12 @@
 		</span>
 	</header>
 
-	<div class="card grid">
+	<div
+		class="card grid"
+		style={`
+			font-size: ${clamp(1, 2 - (balances?.length ?? 0) ** 1.25 / 7, 2)}em;
+		`}
+	>
 		{#each (
 			balances
 				?.slice(0, 15)
