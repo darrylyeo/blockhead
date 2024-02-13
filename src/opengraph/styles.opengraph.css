@@ -77,4 +77,5 @@ pre {
 	height: 1.25em;
 	border-radius: 0.33em;
 	object-fit: contain;
+	background: radial-gradient(circle, rgba(255, 255, 255, 0.075) 0%, rgba(255, 255, 255, 0.075) 66%, rgba(255, 255, 255, 0) 68%);
 }
