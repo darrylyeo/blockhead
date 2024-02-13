@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
-	import { ipfsGatewaysByProvider } from '$/data/ipfsGateways'
+	import { IpfsGatewayProvider, ipfsGatewaysByProvider } from '$/data/ipfsGateways'
 
 
 	// Context
@@ -12,6 +12,13 @@
 	export let nft: Ethereum.Nft
 	export let width: number | undefined
 	export let height: number | undefined
+
+	export let ipfsGateway: IpfsGatewayProvider
+	export let arweaveGateway: string
+
+	$: ipfsGateway = $$props.ipfsGateway ?? $preferences.ipfsGateway
+	$: arweaveGateway = $$props.arweaveGateway ?? $preferences.arweaveGateway
+
 
 
 	// Internal state
@@ -26,8 +33,8 @@
 		.map(([ uri, media ]) => ({
 			uri: resolveUri({
 				src: uri,
-				ipfsGatewayDomain: ipfsGatewaysByProvider[$preferences.ipfsGateway].gatewayDomain,
-				arweaveGateway: $preferences.arweaveGateway,
+				ipfsGatewayDomain: ipfsGatewaysByProvider[ipfsGateway].gatewayDomain,
+				arweaveGateway,
 			}),
 			media,
 		}))
