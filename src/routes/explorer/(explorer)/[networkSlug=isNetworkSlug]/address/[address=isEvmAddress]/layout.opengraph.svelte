@@ -62,6 +62,7 @@
 		:
 			{
 				title: address,
+				subtitle: ensName,
 			}
 	),
 	annotation: `${network.name} ${addressType}`,
