@@ -1,4 +1,6 @@
-export const formatValue = (
+export const formatValue = <
+	ToParts extends boolean = false,
+>(
 	value: number,
 	{
 		currency,
@@ -6,14 +8,14 @@ export const formatValue = (
 		useGrouping = true,
 		compactLargeValues = false,
 		locale,
-		toParts = false,
+		toParts,
 	}: {
 		currency?: string,
 		showDecimalPlaces?: number,
 		useGrouping?: boolean,
 		compactLargeValues?: boolean,
 		locale?: string | string[],
-		toParts?: boolean
+		toParts?: ToParts,
 	} = {},
 ) => {
 	try {
@@ -34,12 +36,26 @@ export const formatValue = (
 			notation: compactLargeValues && value >= 1e7 ? 'compact' : 'standard'
 		})
 
-		return toParts ? formatter.formatToParts(value) : formatter.format(value)
+		return (
+			toParts
+				? formatter.formatToParts(value)
+				: formatter.format(value)
+			) as (
+				ToParts extends true
+					? Intl.NumberFormatPart[]
+					: string
+			)
 	}catch(e){
 		// console.error(e)
 
-		return toParts
-			? [{type: 'integer', value: value?.toString()}] as Intl.NumberFormatPart[]
-			: value?.toString()
+		return (
+			toParts
+				? [{type: 'integer', value: value?.toString()}] as Intl.NumberFormatPart[]
+				: value?.toString()
+		) as (
+			ToParts extends true
+				? Intl.NumberFormatPart[]
+				: string
+		)
 	}
 }
