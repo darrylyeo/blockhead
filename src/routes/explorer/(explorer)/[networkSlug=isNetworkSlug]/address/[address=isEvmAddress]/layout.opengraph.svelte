@@ -41,6 +41,7 @@
 
 	// Components
 	import OpenGraphGeneratedImage from '$/opengraph/OpenGraphGeneratedImage.svelte'
+	import { networkIcons } from '$/assets/networkIcons'
 </script>
 
 
@@ -67,6 +68,7 @@
 	),
 	annotation: `${network.name} ${addressType}`,
 	primaryColor: getNetworkColor(network) ?? getNetworkColor(networksBySlug['ethereum']),
+	backgroundIcon: network && new URL(networkIcons[network.slug], new URL(url).origin).toString(),
 }}>
 	{#if pageComponent}
 		<svelte:component this={pageComponent} {...pageProps} />
