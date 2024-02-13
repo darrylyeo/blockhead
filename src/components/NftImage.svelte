@@ -93,6 +93,6 @@
 
 <style>
 	.nft-image {
-		display: grid;
+		display: flex;
 	}
 </style>
