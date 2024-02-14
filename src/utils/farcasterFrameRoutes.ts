@@ -140,6 +140,42 @@ export const createSubmenu = <
 	) as unknown as FarcasterFrameRoutes<`${FrameRoute}#${MenuRoute}/${number}`, RouteParams>
 )
 
+export const createPagesWithSubmenus = <
+	RouteParams extends Record<string, string | undefined>,
+	FrameRoute extends string,
+	MenuRoute extends string,
+>({
+	pages,
+	submenus,
+}: {
+	pages: FarcasterFrameRoutes<FrameRoute, RouteParams>,
+	submenus: Record<MenuRoute, {
+		textInput?: string
+		actions: FarcasterFrameActionResolver<FrameRoute, RouteParams>[],
+	}>,
+}) => (
+	Object.fromEntries(
+		Object.entries(pages)
+			.flatMap(([frameRoute, framePage]) => [
+				[
+					frameRoute,
+					framePage,
+				],
+				...Object.entries(submenus)
+					.flatMap(([menuRoute, submenu]) => (
+						Object.entries(
+							createSubmenu({
+								baseRoute: frameRoute,
+								menuRoute,
+								textInput: submenu.textInput,
+								actions: submenu.actions,
+							})
+						)
+					)),
+			])
+	) as unknown as FarcasterFrameRoutes<`${FrameRoute}#${MenuRoute}/${number}`, RouteParams>
+)
+
 
 // Functions
 import { isTruthy } from './isTruthy'

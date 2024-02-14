@@ -15,7 +15,7 @@ import { formatAddress } from '$/utils/formatAddress'
 
 
 // Farcaster Frame Routes
-import { type FarcasterFrameRoutes, createSubmenu, type FarcasterFrameActionResolver } from '$/utils/farcasterFrameRoutes'
+import { type FarcasterFrameRoutes, type FarcasterFrameActionResolver, createPagesWithSubmenus } from '$/utils/farcasterFrameRoutes'
 
 import Page from './page.opengraph.svelte'
 import { load as BalancesPageLoad } from './balances/page.opengraph'
@@ -27,123 +27,118 @@ import NftsPage from './nfts/page.opengraph.svelte'
 import { load as ContractPageLoad } from './contract/page.opengraph'
 import ContractPage from './contract/page.opengraph.svelte'
 
+
 export const farcasterFrameRoutes = Object.assign({}, ...([
-	{
-		'/': {
-			pageComponent: Page,
-			actions: [
-				{
-					label: 'Show...',
-					toFrameRoute: '/#views/0',
-				},
-				{
-					label: 'Networks...',
-					toFrameRoute: '/#networks/0',
-				},
-				{
-					label: 'Go to address...',
-					toFrameRoute: '/#address',
-				},
-				{
-					label: 'View site',
-					action: 'link',
-				},
-			],
+	createPagesWithSubmenus({
+		pages: {
+			'/': {
+				pageComponent: Page,
+				actions: [
+					{
+						label: 'Show...',
+						toFrameRoute: '/#views/0',
+					},
+					{
+						label: 'Networks...',
+						toFrameRoute: '/#networks/0',
+					},
+					{
+						label: 'Go to address...',
+						toFrameRoute: '/#address/0',
+					},
+					{
+						label: 'View site',
+						// toExternalUrl
+					},
+				],
+			},
 		},
-	},
+		submenus: {
+			'views': {
+				actions: [
+					{ label: 'Balances', toFrameRoute: '/balances' },
+					{ label: 'NFTs', toFrameRoute: '/nfts' },
+					{ label: 'Transactions', toFrameRoute: '/transactions' },
+					{ label: 'DeFi Positions', toFrameRoute: '/positions' },
+					{ label: 'Contract Code', toFrameRoute: '/contract' },
+				],
+			},
 
-	createSubmenu({
-		baseRoute: '/',
-		menuRoute: 'views',
-		actions: [
-			{ label: 'Balances', toFrameRoute: '/balances' },
-			{ label: 'NFTs', toFrameRoute: '/nfts' },
-			{ label: 'Transactions', toFrameRoute: '/transactions' },
-			{ label: 'DeFi Positions', toFrameRoute: '/positions' },
-			{ label: 'Contract Code', toFrameRoute: '/contract' },
-		]
-	}),
-
-	createSubmenu({
-		baseRoute: '/',
-		menuRoute: 'networks',
-		actions: [
-			'ethereum',
-			'optimism',
-			'base',
-			'zora',
-			'polygon',
-			'arbitrum-one',
-			'avalanche',
-		].map(networkSlug => (
-			({
-				svelteKitRouteParams: { address } = {},
-			}) => ({
-				label: networksBySlug[networkSlug].name,
-				toAppRoute: (
-					resolveRoute(`/explorer/[networkSlug]/address/[address]`, {
-						networkSlug,
-						address,
+			'networks': {
+				actions: [
+					'ethereum',
+					'optimism',
+					'base',
+					'zora',
+					'polygon',
+					'arbitrum-one',
+					'avalanche',
+				].map(networkSlug => (
+					({
+						svelteKitRouteParams: { address } = {},
+					}) => ({
+						label: networksBySlug[networkSlug].name,
+						toAppRoute: (
+							resolveRoute(`/explorer/[networkSlug]/address/[address]`, {
+								networkSlug,
+								address,
+							})
+						),
 					})
-				),
-			})
-		) as FarcasterFrameActionResolver<'/', RouteParams>)
-	}),
+				) as FarcasterFrameActionResolver<'/', RouteParams>)
+			},
 
-	{
-		'/#address': {
-			textInput: 'Address (0xabcd...6789) | ENS Name (vitalik.eth)',
-			actions: [
-				{
-					label: '‹ Back',
-					toFrameRoute: '/',
-				},
-
-				async ({
-					signaturePacket: { untrustedData: { fid } },
-					svelteKitRouteParams: { networkSlug } = {},
-				}) => {
-					const farcasterUser = fid !== undefined
-						? normalizeUserV1(
-							(
-								await user(
-									env.NEYNAR_API_KEY,
-									fid,
-								)
-							).result.user,
-						)
-						: undefined
-
-					const address = farcasterUser?.custodyAddress
-
-					return address && {
-						label: `Your address (${formatAddress(address, 'middle-truncated')})`,
-						toAppRoute: resolveRoute(`/explorer/[networkSlug]/address/[address]`, {
-							networkSlug,
-							address,
-						}),
-					}
-				},
-
-				{
-					label: 'Go ›',
-					onClick: ({
+			'address': {
+				textInput: 'Address (0xabcd...6789) | ENS Name (vitalik.eth)',
+				actions: [
+					async ({
+						signaturePacket: { untrustedData: { fid } },
 						svelteKitRouteParams: { networkSlug } = {},
-						signaturePacket: { untrustedData: { inputText: accountId } },
 					}) => {
-						if(accountId){
-							return {
-								toAppRoute: resolveRoute(`/explorer/[networkSlug]/address/[accountId]`, {
-									networkSlug,
-									accountId,
-								})
-							}
+						const farcasterUser = fid !== undefined
+							? normalizeUserV1(
+								(
+									await user(
+										env.NEYNAR_API_KEY,
+										fid,
+									)
+								).result.user,
+							)
+							: undefined
+	
+						const address = farcasterUser?.custodyAddress
+	
+						return address && {
+							label: `Your address (${formatAddress(address, 'middle-truncated')})`,
+							toAppRoute: resolveRoute(`/explorer/[networkSlug]/address/[address]`, {
+								networkSlug,
+								address,
+							}),
 						}
 					},
-				},
-			],
+	
+					{
+						label: 'Go ›',
+						onClick: ({
+							svelteKitRouteParams: { networkSlug } = {},
+							signaturePacket: { untrustedData: { inputText: accountId } },
+						}) => {
+							if(accountId){
+								return {
+									toAppRoute: resolveRoute(`/explorer/[networkSlug]/address/[accountId]`, {
+										networkSlug,
+										accountId,
+									})
+								}
+							}
+						},
+					},
+				],
+			},
 		},
+	}),
 
+	{
 		'/balances': {
 			pageLoad: BalancesPageLoad,
 			pageComponent: BalancesPage,
