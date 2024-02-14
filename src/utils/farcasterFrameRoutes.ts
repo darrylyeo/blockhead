@@ -101,11 +101,13 @@ export const createSubmenu = <
 >({
 	baseRoute,
 	menuRoute,
+	textInput,
 	actions,
 }: {
 	baseRoute: FrameRoute,
 	menuRoute: MenuRoute,
-	actions: FarcasterFrameActionResolver<FrameRoute, RouteParams>[],
+	textInput?: string,
+	actions?: FarcasterFrameActionResolver<FrameRoute, RouteParams>[],
 }) => (
 	Object.fromEntries(
 		[
@@ -113,15 +115,16 @@ export const createSubmenu = <
 				Map.groupBy(actions, (_, i) => Math.floor(i / 2))
 			) as Map<number, FarcasterFrameActionResolver<FrameRoute, RouteParams>[]>)
 				.entries(),
-		].map(([pageNumber, actions], i, { length: totalPages }) => ([
+		].map(([pageNumber, actionResolvers], i, { length: totalPages }) => ([
 			`${baseRoute}#${menuRoute}/${pageNumber}`,
 			{
+				textInput,
 				actions: [
 					{
 						label: '‹ Cancel',
 						toFrameRoute: baseRoute,
 					},
-					...actions,
+					...actionResolvers,
 					{
 						label: `More (${pageNumber + 1}/${totalPages})`,
 						toFrameRoute: `${baseRoute}#${menuRoute}/${(pageNumber + 1) % totalPages}`
