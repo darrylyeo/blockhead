@@ -4,6 +4,15 @@
 	export let isOpen: boolean = false
 
 	export let renderOnlyWhenOpen = true
+
+
+	// Internal state
+	let popoverElement: Element
+
+	$: if(popoverElement)
+		try {
+			isOpen = popoverElement.matches(':popover-open')
+		} catch {}
 </script>
 
 
@@ -16,6 +25,7 @@
 
 <div
 	popover
+	bind:this={popoverElement}
 	on:toggle={e => {
 		isOpen = e.newState === 'open'
 	}}
