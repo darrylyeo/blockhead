@@ -30,10 +30,14 @@
 			background-size: 100% 250%;
 		`}
 	>
-		<img
-			class="background-icon"
-			src={backgroundIcon}
-		/>
+		{#if backgroundIcon}
+			<img
+				class="background-icon"
+				src={backgroundIcon}
+				width={1}
+				height={300}
+			/>
+		{/if}
 	</div>
 
 	<div
