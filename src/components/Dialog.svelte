@@ -1,6 +1,9 @@
 <script lang="ts">
 	// Inputs
 	export let id: string = crypto.randomUUID()
+	export let isOpen: boolean = false
+
+	export let renderOnlyWhenOpen = true
 </script>
 
 
@@ -13,9 +16,14 @@
 
 <div
 	popover
+	on:toggle={e => {
+		isOpen = e.newState === 'open'
+	}}
 	{id}
 >
-	<slot name="content" />
+	{#if renderOnlyWhenOpen ? isOpen : true}
+		<slot name="content" />
+	{/if}
 </div>
 
 
