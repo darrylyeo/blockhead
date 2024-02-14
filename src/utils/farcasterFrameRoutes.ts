@@ -107,31 +107,36 @@ export const createSubmenu = <
 	baseRoute: FrameRoute,
 	menuRoute: MenuRoute,
 	textInput?: string,
-	actions?: FarcasterFrameActionResolver<FrameRoute, RouteParams>[],
+	actions: FarcasterFrameActionResolver<FrameRoute, RouteParams>[],
 }) => (
 	Object.fromEntries(
-		[
-			...((
-				Map.groupBy(actions, (_, i) => Math.floor(i / 2))
-			) as Map<number, FarcasterFrameActionResolver<FrameRoute, RouteParams>[]>)
-				.entries(),
-		].map(([pageNumber, actionResolvers], i, { length: totalPages }) => ([
-			`${baseRoute}#${menuRoute}/${pageNumber}`,
-			{
-				textInput,
-				actions: [
-					{
-						label: '‹ Cancel',
-						toFrameRoute: baseRoute,
-					},
-					...actionResolvers,
-					{
-						label: `More (${pageNumber + 1}/${totalPages})`,
-						toFrameRoute: `${baseRoute}#${menuRoute}/${(pageNumber + 1) % totalPages}`
-					},
-				]
-			},
-		]))
+		[...(
+			actions?.length > 3 ?
+				((
+					(Map.groupBy(actions, (_, i) => Math.floor(i / 2)))
+				) as Map<number, FarcasterFrameActionResolver<FrameRoute, RouteParams>[]>)
+					.entries()
+			:
+				[actions].entries()
+		)]
+			.map(([pageNumber, actionResolvers], i, { length: totalPages }) => ([
+				`${baseRoute}#${menuRoute}/${pageNumber}`,
+				{
+					textInput,
+					actions: [
+						{
+							label: '‹ Cancel',
+							toFrameRoute: baseRoute,
+						},
+						...actionResolvers,
+						actions?.length > 3 && {
+							label: `More (${pageNumber + 1}/${totalPages})`,
+							toFrameRoute: `${baseRoute}#${menuRoute}/${(pageNumber + 1) % totalPages}`
+						},
+					]
+						.filter(isTruthy)
+				},
+			]))
 	) as unknown as FarcasterFrameRoutes<`${FrameRoute}#${MenuRoute}/${number}`, RouteParams>
 )
 
