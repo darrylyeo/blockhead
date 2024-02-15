@@ -102,3 +102,18 @@ export const getTokenBalances = async ({
 
 	return Object.values(result)[0]
 }
+
+export const getTokenBalancesCount = async ({
+	address,
+	network,
+}: {
+	address: Ethereum.Address,
+	network: Ethereum.Network,
+}) => {
+	const tokens = await getTokenBalances({
+		address,
+		network,
+	})
+
+	return tokens.length
+}
