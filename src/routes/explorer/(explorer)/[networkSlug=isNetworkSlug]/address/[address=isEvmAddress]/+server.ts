@@ -34,7 +34,9 @@ const generateOpenGraphImage = async ({
 
 
 	// Internal state
-	const layoutData = await layoutLoad(params)
+	const layoutData = await layoutLoad({
+		params,
+	})
 
 	const framePage = farcasterFrameRoutes[farcasterFrameRoute]
 

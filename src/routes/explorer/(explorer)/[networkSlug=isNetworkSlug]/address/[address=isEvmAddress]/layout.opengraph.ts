@@ -20,10 +20,14 @@ import { getNftContractsCountByAddress as getNftContractsCountByAddressAirstack 
 
 // OpenGraph load
 export const load = async ({
-	networkSlug,
-	address,
-}: RouteParams & {
-	address: Ethereum.Address,
+	params: {
+		networkSlug,
+		address,
+	},
+}: {
+	params: RouteParams & {
+		address: Ethereum.Address,
+	},
 }) => {
 	const network = networksBySlug[networkSlug]
 
