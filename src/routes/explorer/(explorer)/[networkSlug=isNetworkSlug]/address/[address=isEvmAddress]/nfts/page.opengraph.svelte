@@ -20,6 +20,22 @@
 
 	let collectionsSortFunction = (a: Ethereum.NftContractWithNfts, b: Ethereum.NftContractWithNfts) => (b.conversion?.value ?? 0) - (a.conversion?.value ?? 0)
 
+	// Internal state
+	$: shownContracts = (
+		nftContractsWithBalances
+			?.sort(collectionsSortFunction)
+			.filter(contract => contract.nfts && contract.nfts.length > 0)
+	)
+
+	$: nftsCount = shownContracts?.reduce((sum, contract) => sum + contract.nfts.length, 0)
+
+	$: shownNfts = shownContracts
+		?.flatMap(contract => (
+			contract.nfts
+				// .slice(0, Math.ceil(limit * contract.nfts.length / nftsCount) + 1)
+		))
+		?? []
+
 
 	// Components
 	import FormattedNumber from '$/components/FormattedNumber.svelte'
@@ -58,19 +74,12 @@
 
 	<section class="card row">
 		<div class="masonry">
-			{#each (
-				nftContractsWithBalances
-					?.sort(collectionsSortFunction)
-					.filter(({ nfts }) => nfts && nfts.length > 0)
-				?? []
-			).slice(0, 21) as contract}
-				{#each (contract.nfts ?? []) as nft}
-					<NftImage
-						{nft}
-						width={221}
-						ipfsGateway={IpfsGatewayProvider.Cloudflare}
-					/>
-				{/each}
+			{#each shownNfts as nft}
+				<NftImage
+					{nft}
+					width={221}
+					ipfsGateway={IpfsGatewayProvider.Cloudflare}
+				/>
 			{/each}
 		</div>
 	</section>
