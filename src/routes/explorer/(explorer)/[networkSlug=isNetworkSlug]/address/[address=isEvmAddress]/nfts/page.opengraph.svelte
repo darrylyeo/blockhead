@@ -66,7 +66,7 @@
 								value={nftsCount}
 							/>
 						</strong>
-						{#if hasMoreNfts}+{/if}
+						{#if hasMoreNfts || summary.nftContractsHasMore}+{/if}
 					</span>
 
 					NFTs
@@ -81,6 +81,7 @@
 								value={summary.nftContractsCount}
 							/>
 						</strong>
+						{#if summary.nftContractsHasMore}+{/if}
 					</span>
 
 					collections

@@ -66,9 +66,13 @@ export const load = async ({
 	})
 		.catch(() => undefined)
 
-	const nftContractsCount = await getNftContractsCountByAddressAirstack({
+	const {
+		nftContractsCount,
+		hasMore: nftContractsHasMore,
+	} = await getNftContractsCountByAddressAirstack({
 		address,
 		network,
+		timeout: 4000,
 	})
 		.catch(() => undefined)
 
@@ -86,6 +90,7 @@ export const load = async ({
 		sourcePaths,
 		tokensCount,
 		nftContractsCount,
+		nftContractsHasMore,
 		// nftsCount,
 	}
 }

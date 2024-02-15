@@ -293,9 +293,11 @@ export const getNftsByAddress = async ({
 export const getNftContractsCountByAddress = async ({
 	address,
 	network,
+	timeout,
 }: {
 	address: Ethereum.Address,
 	network: Ethereum.Network,
+	timeout?: number,
 }) => {
 	if(!(network.chainId in airstackNetworkNames))
 		throw new Error(`Airstack doesn't yet support ${network.name}.`)
@@ -303,10 +305,16 @@ export const getNftContractsCountByAddress = async ({
 	const client = getClient()
 
 	const limit = 200
-	let nftsCount = 0
+	let nftContractsCount = 0
 	let cursor = ''
 
-	while(true){
+	let hasTimedOut = false
+	if(timeout)
+		setTimeout(() => {
+			hasTimedOut = true
+		}, timeout)
+
+	while(!hasTimedOut){
 		const result = await client.query(
 			gql`
 				query NftBalances(
@@ -348,7 +356,7 @@ export const getNftContractsCountByAddress = async ({
 			})
 
 		if(result?.TokenBalances.pageInfo.nextCursor){
-			nftsCount += limit
+			nftContractsCount += limit
 			cursor = result.TokenBalances.pageInfo.nextCursor
 		}
 
@@ -393,7 +401,14 @@ export const getNftContractsCountByAddress = async ({
 					return result.data
 				})
 
-			return nftsCount + (result?.TokenBalances.TokenBalance.length as number ?? 0)
+			nftContractsCount += (result?.TokenBalances.TokenBalance.length as number ?? 0)
+
+			break
 		}
+	}
+
+	return {
+		nftContractsCount,
+		hasMore: hasTimedOut,
 	}
 }

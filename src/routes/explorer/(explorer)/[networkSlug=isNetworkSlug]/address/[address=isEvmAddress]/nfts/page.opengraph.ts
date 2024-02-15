@@ -1,3 +1,7 @@
+// Types
+import type { Ethereum } from '$/data/networks/types'
+
+
 // Functions
 import { getNftsByAddress as getNftsAirstack } from '$/api/airstack/index'
 import { normalizeNftContracts as normalizeNftContractsAirstack } from '$/api/airstack/normalize'
@@ -10,6 +14,7 @@ export const load = async ({
 		network,
 		quoteCurrency,
 		nftContractsCount,
+		nftContractsHasMore,
 		nftsCount,
 	},
 }: {
@@ -38,6 +43,7 @@ export const load = async ({
 		quoteTotal: nftContractsWithBalances.reduce((sum, item) => sum + (item.conversion?.value ?? 0) * (item.nftsCount ?? item.nfts?.length ?? 0), 0),
 		quoteCurrency,
 		nftContractsCount, //: nftContractsWithBalances.length,
+		nftContractsHasMore,
 		nftsCount, // : nftContractsWithBalances.reduce((sum, item) => sum + (item.nfts?.length ?? 0), 0)
 	}
 

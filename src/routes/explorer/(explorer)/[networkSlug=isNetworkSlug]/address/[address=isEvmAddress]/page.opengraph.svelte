@@ -6,6 +6,7 @@
 		data: {
 			tokensCount,
 			nftContractsCount,
+			nftContractsHasMore,
 			nftsCount,
 		},
 	} = $$props as {
@@ -37,21 +38,27 @@
 		{#if nftContractsCount}
 			<span class="row inline">
 				{#if nftsCount}
-					<strong>
-						<FormattedNumber
-							value={nftsCount}
-						/>
-					</strong>
+					<span>
+						<strong>
+							<FormattedNumber
+								value={nftsCount}
+							/>
+						</strong>
+						{#if nftContractsHasMore}+{/if}
+					</span>
 				{/if}
 
 				NFTs from
 
 				{#if nftContractsCount}
-					<strong>
-						<FormattedNumber
-							value={nftContractsCount}
-						/>
-					</strong>
+					<span>
+						<strong>
+							<FormattedNumber
+								value={nftContractsCount}
+							/>
+						</strong>
+						{#if nftContractsHasMore}+{/if}
+					</span>
 
 					contracts
 				{/if}
