@@ -11,7 +11,7 @@
 		data: {
 			network,
 			nftContractsWithBalances,
-			hasMore,
+			hasMoreNfts,
 			summary,
 		},
 	} = $$props as {
@@ -66,7 +66,7 @@
 								value={nftsCount}
 							/>
 						</strong>
-						{#if hasMore}+{/if}
+						{#if hasMoreNfts}+{/if}
 					</span>
 
 					NFTs

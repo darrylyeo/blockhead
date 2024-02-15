@@ -27,7 +27,7 @@ export const load = async ({
 			.catch(() => undefined)
 	)
 
-	const hasMore = result && Boolean(result.TokenBalances.pageInfo.nextCursor)
+	const hasMoreNfts = result && Boolean(result.TokenBalances.pageInfo.nextCursor)
 
 	const nftContractsWithBalances = result && normalizeNftContractsAirstack(
 		result
@@ -44,7 +44,7 @@ export const load = async ({
 	return {
 		network,
 		nftContractsWithBalances,
-		hasMore,
+		hasMoreNfts,
 		summary,
 	}
 }
