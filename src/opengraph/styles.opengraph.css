@@ -90,6 +90,6 @@ pre {
 [role="separator"] {
 	display: block;
 	align-self: stretch;
-	border-left: 2px solid white;
+	border-left: 0.05em solid rgba(255, 255, 255, 0.75);
 	opacity: 0.75;
 }
