@@ -60,13 +60,30 @@
 				{/if}
 
 				<span class="row inline">
-					<strong>
-						<FormattedNumber
-							value={summary.nftsCount}
-						/>
-					</strong>{#if hasMore}+{/if}
+					<span>
+						<strong>
+							<FormattedNumber
+								value={nftsCount}
+							/>
+						</strong>
+						{#if hasMore}+{/if}
+					</span>
 
 					NFTs
+				</span>
+
+				<span role="separator" />
+
+				<span class="row inline">
+					<span>
+						<strong>
+							<FormattedNumber
+								value={summary.nftContractsCount}
+							/>
+						</strong>
+					</span>
+
+					collections
 				</span>
 			</span>
 		{/if}

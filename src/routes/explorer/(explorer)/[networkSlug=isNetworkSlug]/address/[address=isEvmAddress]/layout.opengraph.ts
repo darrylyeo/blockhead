@@ -72,7 +72,7 @@ export const load = async ({
 	})
 		.catch(() => undefined)
 
-	const nftsCount = 0
+	// const nftsCount = 0
 
 	return {
 		address,
@@ -86,6 +86,6 @@ export const load = async ({
 		sourcePaths,
 		tokensCount,
 		nftContractsCount,
-		nftsCount,
+		// nftsCount,
 	}
 }

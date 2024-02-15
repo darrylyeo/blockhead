@@ -9,6 +9,8 @@ export const load = async ({
 		address,
 		network,
 		quoteCurrency,
+		nftContractsCount,
+		nftsCount,
 	},
 }: {
 	layoutData: Awaited<ReturnType<typeof import('../layout.opengraph').load>>
@@ -35,8 +37,8 @@ export const load = async ({
 	const summary = nftContractsWithBalances && {
 		quoteTotal: nftContractsWithBalances.reduce((sum, item) => sum + (item.conversion?.value ?? 0) * (item.nftsCount ?? item.nfts?.length ?? 0), 0),
 		quoteCurrency,
-		nftContractsCount: nftContractsWithBalances.length,
-		nftsCount: nftContractsWithBalances.reduce((sum, item) => sum + (item.nfts?.length ?? 0), 0)
+		nftContractsCount, //: nftContractsWithBalances.length,
+		nftsCount, // : nftContractsWithBalances.reduce((sum, item) => sum + (item.nfts?.length ?? 0), 0)
 	}
 
 	return {
