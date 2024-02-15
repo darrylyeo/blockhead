@@ -13,10 +13,13 @@ export const load = async ({
 }: {
 	layoutData: Awaited<ReturnType<typeof import('../layout.opengraph').load>>
 }) => {
+	const nftsLimit = 100
+
 	const result = (
 		await getNftsAirstack({
 			network,
 			address,
+			limit: nftsLimit,
 			cursor: '',
 		})
 			.catch(() => undefined)
