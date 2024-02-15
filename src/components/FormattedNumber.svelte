@@ -8,7 +8,7 @@
 		useGrouping?: boolean,
 		compactLargeValues?: boolean,
 		locale?: string | string[]
-	}
+	} | undefined
 
 
 	// Functions
