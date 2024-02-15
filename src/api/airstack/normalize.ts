@@ -9,7 +9,7 @@ export const normalizeNftContracts = (tokenBalances): Ethereum.NftContractWithNf
 			: []
 	]
 		.map(([contractAddress, contractsWithBalances]): Ethereum.NftContractWithNfts => ({
-			chainId: Number(contractsWithBalances.chainId),
+			chainId: contractsWithBalances.chainId && Number(contractsWithBalances.chainId),
 			address: contractAddress,
 			name: contractsWithBalances[0].token.name,
 			symbol: contractsWithBalances[0].token.symbol,
@@ -43,7 +43,7 @@ export const normalizeNftContracts = (tokenBalances): Ethereum.NftContractWithNf
 
 export const normalizeTokenBalance = (tokenWithBalance): TokenWithBalance => ({
 	token: {
-		chainId: Number(tokenWithBalance.chainId),
+		chainId: tokenWithBalance.chainId && Number(tokenWithBalance.chainId),
 		address: tokenWithBalance.tokenAddress,
 		name: tokenWithBalance.token.name,
 		symbol: tokenWithBalance.token.symbol,
