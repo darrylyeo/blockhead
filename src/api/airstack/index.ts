@@ -285,3 +285,111 @@ export const getNftsByAddress = async ({
 			return result.data
 		})
 }
+
+export const getNftContractsCountByAddress = async ({
+	address,
+	network,
+}: {
+	address: Ethereum.Address,
+	network: Ethereum.Network,
+}) => {
+	if(!(network.chainId in airstackNetworkNames))
+		throw new Error(`Airstack doesn't yet support ${network.name}.`)
+
+	const client = getClient()
+
+	const limit = 200
+	let nftsCount = 0
+	let cursor = ''
+
+	while(true){
+		const result = await client.query(
+			gql`
+				query NftBalances(
+					$address: Identity!,
+					$blockchain: TokenBlockchain!,
+					$limit: Int!,
+					$cursor: String!
+				) {
+					TokenBalances(
+						input: {
+							filter: {
+								owner: {_in: [$address]},
+								tokenType: { _in: [ERC721, ERC1155] }
+							},
+							blockchain: $blockchain,
+							limit: $limit,
+							cursor: $cursor
+						}
+					) {
+						pageInfo {
+							nextCursor
+						}
+					}
+				}
+			`,
+			{
+				address,
+				blockchain: airstackNetworkNames[network.chainId],
+				limit,
+				cursor,
+			}
+		)
+			.toPromise()
+			.then(result => {
+				if(result.error)
+					throw result.error
+	
+				return result.data
+			})
+
+		if(result?.TokenBalances.pageInfo.nextCursor){
+			nftsCount += limit
+			cursor = result.TokenBalances.pageInfo.nextCursor
+		}
+
+		else {
+			const result = await client.query(
+				gql`
+					query NftBalances(
+						$address: Identity!,
+						$blockchain: TokenBlockchain!,
+						$limit: Int!,
+						$cursor: String!
+					) {
+						TokenBalances(
+							input: {
+								filter: {
+									owner: {_in: [$address]},
+									tokenType: { _in: [ERC721, ERC1155] }
+								},
+								blockchain: $blockchain,
+								limit: $limit,
+								cursor: $cursor
+							}
+						) {
+							TokenBalance {
+								id
+							}
+						}
+					}
+				`,
+				{
+					address,
+					blockchain: airstackNetworkNames[network.chainId],
+					limit,
+					cursor,
+				}
+			)
+				.toPromise()
+				.then(result => {
+					if(result.error)
+						throw result.error
+		
+					return result.data
+				})
+
+			return nftsCount + (result?.TokenBalances.TokenBalance.length as number ?? 0)
+		}
+	}
+}
