@@ -42,6 +42,7 @@ export const load = async ({
 	const bytecode = publicClient && address && (
 		await publicClient.getBytecode({ address })
 			.then(contractBytecode => contractBytecode === undefined ? undefined : contractBytecode)
+			.catch(() => undefined)
 	)
 
 	const contractMetadata = bytecode && await Etherscan.Contracts.getSource({
@@ -49,6 +50,7 @@ export const load = async ({
 		contractAddress: address,
 	})
 		.then(normalizeContractSourceEtherscan)
+		.catch(() => undefined)
 
 	const addressType = bytecode && contractMetadata ? 'Contract' : 'Account'
 
