@@ -34,10 +34,12 @@ export const airstackNetworkNames = {
 export const getTokenBalances = async ({
 	address,
 	network,
+	limit = 50,
 	cursor,
 }: {
 	address: Ethereum.Address,
 	network: Ethereum.Network,
+	limit: number,
 	cursor: string,
 }) => {
 	if(!(network.chainId in airstackNetworkNames))
@@ -121,7 +123,7 @@ export const getTokenBalances = async ({
 	`, {
 		address,
 		blockchain: airstackNetworkNames[network.chainId],
-		limit: 50,
+		limit,
 		cursor,
 	})
 		.toPromise()
@@ -136,10 +138,12 @@ export const getTokenBalances = async ({
 export const getNftsByAddress = async ({
 	address,
 	network,
+	limit = 50,
 	cursor,
 }: {
 	address: Ethereum.Address,
 	network: Ethereum.Network,
+	limit: number,
 	cursor: string,
 }) => {
 	if(!(network.chainId in airstackNetworkNames))
@@ -274,7 +278,7 @@ export const getNftsByAddress = async ({
 	{
 		address,
 		blockchain: airstackNetworkNames[network.chainId],
-		limit: 50,
+		limit,
 		cursor,
 	})
 		.toPromise()
