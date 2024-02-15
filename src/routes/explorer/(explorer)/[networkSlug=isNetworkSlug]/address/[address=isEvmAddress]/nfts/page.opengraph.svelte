@@ -21,11 +21,8 @@
 	let collectionsSortFunction = (a: Ethereum.NftContractWithNfts, b: Ethereum.NftContractWithNfts) => (b.conversion?.value ?? 0) - (a.conversion?.value ?? 0)
 
 
-	// Functions
-	import { formatValue } from '$/utils/formatValue'
-
-
 	// Components
+	import FormattedNumber from '$/components/FormattedNumber.svelte'
 	import NftImage from '$/components/NftImage.svelte'
 </script>
 
@@ -38,13 +35,9 @@
 			<span class="summary row">
 				{#if summary.quoteTotal}
 					<strong>
-						{formatValue(
-							summary.quoteTotal,
-							{
-								compactLargeValues: true,
-								currency: 'USD',
-							},
-						)}
+						<FormattedNumber
+							value={summary.quoteTotal}
+						/>
 					</strong>
 
 					<span role="separator" />
@@ -52,12 +45,9 @@
 
 				<span class="row inline">
 					<strong>
-						{formatValue(
-							summary.nftsCount,
-							{
-								compactLargeValues: true,
-							},
-						)}
+						<FormattedNumber
+							value={summary.nftsCount}
+						/>
 					</strong>{#if hasMore}+{/if}
 
 					NFTs
