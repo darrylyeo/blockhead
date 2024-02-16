@@ -24,18 +24,20 @@ const generateOpenGraphImage = async ({
 	request,
 	url,
 	params,
-}: Pick<Parameters<RequestHandler>[0], 'request' | 'url' | 'params'>) => {
+	fetch,
+}: Pick<Parameters<RequestHandler>[0], 'request' | 'url' | 'params' | 'fetch'>) => {
 	// Context
 	const {
 		width,
 		height,
-		farcasterFrameRoute = '/',
+		farcasterFrameRoute = '/nfts',
 	} = Object.fromEntries(url.searchParams.entries()) as unknown as FarcasterFrameImageGeneratorParams
 
 
 	// Internal state
 	const layoutData = await layoutLoad({
 		params,
+		fetch,
 	})
 
 	const framePage = farcasterFrameRoutes[farcasterFrameRoute]
@@ -44,6 +46,7 @@ const generateOpenGraphImage = async ({
 
 	const pageData = await framePage?.pageLoad?.({
 		layoutData,
+		fetch,
 	}) ?? layoutData
 
 
@@ -163,6 +166,7 @@ export const GET: RequestHandler = async ({
 	request,
 	url,
 	params,
+	fetch,
 }) => {
 	if(url.searchParams.get('fromFarcasterFrameRoutePostRedirect'))
 		return await handleFarcasterFrameRoutePostRedirect({
@@ -174,6 +178,7 @@ export const GET: RequestHandler = async ({
 		request,
 		url,
 		params,
+		fetch,
 	})
 }
 

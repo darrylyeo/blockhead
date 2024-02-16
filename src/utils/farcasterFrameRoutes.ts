@@ -25,7 +25,10 @@ export type FarcasterFramePage<
 	image?: Partial<FarcasterFrameServerMeta['image']>,
 	textInput?: HasTextInput extends true ? string : never,
 	actions?: FarcasterFrameActionResolver<FrameRoute, RouteParams>[],
-	pageLoad?: (_: { layoutData: Record<string, any> }) => Promise<ComponentProps<Component>>,
+	pageLoad?: (_: {
+		layoutData: Record<string, any>,
+		fetch: typeof fetch,
+	}) => Promise<ComponentProps<Component>>,
 	pageComponent?: Component,
 }
 
