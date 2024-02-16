@@ -3,13 +3,13 @@
 	import type { load } from './page.opengraph'
 
 	$: ({
-		data: {
+		pageData: {
 			network,
 			balances,
 			summary,
 		},
 	} = $$props as {
-		data: Awaited<ReturnType<typeof load>>
+		pageData: Awaited<ReturnType<typeof load>>,
 	})
 
 

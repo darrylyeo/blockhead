@@ -1,6 +1,6 @@
 <script lang="ts">
 	$: ({
-		data: {
+		pageData: {
 			bytecode,
 			contractMetadata,
 			addressType,
@@ -8,7 +8,7 @@
 			sourcePaths,
 		},
 	} = $$props as {
-		data: Awaited<ReturnType<typeof import('./page.opengraph').load>>,
+		pageData: Awaited<ReturnType<typeof import('./page.opengraph').load>>,
 	})
 </script>
 

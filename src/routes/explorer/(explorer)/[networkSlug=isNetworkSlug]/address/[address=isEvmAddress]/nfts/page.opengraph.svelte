@@ -8,14 +8,14 @@
 	import type { load } from './page.opengraph'
 
 	$: ({
-		data: {
+		pageData: {
 			network,
 			nftContractsWithBalances,
 			hasMoreNfts,
 			summary,
 		},
 	} = $$props as {
-		data: Awaited<ReturnType<typeof load>>
+		pageData: Awaited<ReturnType<typeof load>>,
 	})
 
 	let collectionsSortFunction = (a: Ethereum.NftContractWithNfts, b: Ethereum.NftContractWithNfts) => (b.conversion?.value ?? 0) - (a.conversion?.value ?? 0)

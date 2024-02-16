@@ -3,14 +3,14 @@
 	import type { load } from './page.opengraph'
 
 	$: ({
-		data: {
+		pageData: {
 			tokensCount,
 			nftContractsCount,
 			nftContractsHasMore,
 			nftsCount,
 		},
 	} = $$props as {
-		data: Awaited<ReturnType<typeof load>>
+		pageData: Awaited<ReturnType<typeof load>>,
 	})
 
 

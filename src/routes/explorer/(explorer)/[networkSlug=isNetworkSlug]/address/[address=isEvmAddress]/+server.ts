@@ -89,7 +89,7 @@ const generateOpenGraphImage = async ({
 			data: layoutData,
 			pageComponent,
 			pageProps: {
-				data: pageData,
+				pageData,
 			},
 		},
 		{
