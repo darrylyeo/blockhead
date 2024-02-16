@@ -53,6 +53,9 @@
 					<strong>
 						<FormattedNumber
 							value={summary.quoteTotal}
+							format={{
+								currency: summary.quoteCurrency,
+							}}
 						/>
 					</strong>
 
