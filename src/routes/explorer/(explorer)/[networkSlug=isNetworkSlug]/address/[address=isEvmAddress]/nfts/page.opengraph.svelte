@@ -11,6 +11,7 @@
 		pageData: {
 			network,
 			nftContractsWithBalances,
+			nftContractsWithBalancesFilteredByImages,
 			hasMoreNfts,
 			summary,
 		},
@@ -22,7 +23,7 @@
 
 	// Internal state
 	$: shownContracts = (
-		nftContractsWithBalances
+		nftContractsWithBalancesFilteredByImages
 			?.sort(collectionsSortFunction)
 			.filter(contract => contract.nfts && contract.nfts.length > 0)
 	)

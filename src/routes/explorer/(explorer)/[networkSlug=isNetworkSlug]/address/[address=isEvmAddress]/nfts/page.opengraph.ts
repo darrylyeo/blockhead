@@ -9,6 +9,7 @@ import { normalizeNftContracts as normalizeNftContractsAirstack } from '$/api/ai
 
 // OpenGraph load
 export const load = async ({
+	fetch,
 	layoutData: {
 		address,
 		network,
@@ -18,6 +19,7 @@ export const load = async ({
 		nftsCount,
 	},
 }: {
+	fetch: typeof globalThis.fetch,
 	layoutData: Awaited<ReturnType<typeof import('../layout.opengraph').load>>
 }) => {
 	const nftsLimit = 100
@@ -34,7 +36,7 @@ export const load = async ({
 
 	const hasMoreNfts = result && Boolean(result.TokenBalances.pageInfo.nextCursor)
 
-	const nftContractsWithBalances = result && normalizeNftContractsAirstack(
+	const nftContractsWithBalances: Ethereum.NftContractWithNfts[] | undefined = result && normalizeNftContractsAirstack(
 		result
 			.TokenBalances.TokenBalance		
 	)
@@ -47,9 +49,47 @@ export const load = async ({
 		nftsCount, // : nftContractsWithBalances.reduce((sum, item) => sum + (item.nfts?.length ?? 0), 0)
 	}
 
+	const nftContractsWithBalancesFilteredByImages = nftContractsWithBalances && await Promise.all(
+		nftContractsWithBalances.map(async contract => ({
+			...contract,
+			nfts: contract.nfts && (
+				await Promise.all(
+					contract.nfts
+						.map(nft => ({
+							nft,
+							src: (
+								nft['metadata']['image_256']
+								|| nft['metadata']['image']
+							),
+						}))
+						.filter(({ src }) => src)
+						.map(async ({ nft, src }) => ({
+							nft,
+							response: (
+								await fetch(
+									src,
+									{
+										method: 'HEAD',
+									},
+								)
+									.catch(() => undefined)
+							),
+						}))
+				)
+			)
+				.filter(({ response }) => (
+					response?.headers.get('content-type')?.startsWith('image/')
+				))
+				.map(({ nft }) => (
+					nft
+				))
+		}))
+	)
+
 	return {
 		network,
 		nftContractsWithBalances,
+		nftContractsWithBalancesFilteredByImages,
 		hasMoreNfts,
 		summary,
 	}
