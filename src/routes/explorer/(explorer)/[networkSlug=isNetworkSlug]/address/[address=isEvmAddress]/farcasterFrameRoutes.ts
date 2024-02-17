@@ -17,6 +17,7 @@ import { formatAddress } from '$/utils/formatAddress'
 // Farcaster Frame Routes
 import { type FarcasterFrameRoutes, type FarcasterFrameActionResolver, createPagesWithSubmenus } from '$/utils/farcasterFrameRoutes'
 
+import { load as PageLoad } from './page.opengraph'
 import Page from './page.opengraph.svelte'
 import { load as BalancesPageLoad } from './balances/page.opengraph'
 import BalancesPage from './balances/page.opengraph.svelte'
@@ -32,6 +33,7 @@ export const farcasterFrameRoutes = Object.assign({}, ...([
 	createPagesWithSubmenus({
 		pages: {
 			'/': {
+				pageLoad: PageLoad,
 				pageComponent: Page,
 				actions: [
 					{

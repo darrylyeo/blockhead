@@ -3,7 +3,10 @@ import type { Ethereum } from '$/data/networks/types'
 
 
 // Functions
-import { getNftsByAddress as getNftsAirstack } from '$/api/airstack/index'
+import {
+	getNftsByAddress as getNftsAirstack,
+	getNftContractsCountByAddress as getNftContractsCountByAddressAirstack,
+} from '$/api/airstack/index'
 import { normalizeNftContracts as normalizeNftContractsAirstack } from '$/api/airstack/normalize'
 
 
@@ -14,9 +17,6 @@ export const load = async ({
 		address,
 		network,
 		quoteCurrency,
-		nftContractsCount,
-		nftContractsHasMore,
-		nftsCount,
 	},
 }: {
 	fetch: typeof globalThis.fetch,
@@ -41,12 +41,23 @@ export const load = async ({
 			.TokenBalances.TokenBalance		
 	)
 
+	const {
+		nftContractsCount,
+		hasMore: nftContractsHasMore,
+	} = await getNftContractsCountByAddressAirstack({
+		address,
+		network,
+		timeout: 4000,
+	})
+		.catch(() => undefined)
+		?? {}
+
 	const summary = nftContractsWithBalances && {
 		quoteTotal: nftContractsWithBalances.reduce((sum, item) => sum + (item.conversion?.value ?? 0) * (item.nftsCount ?? item.nfts?.length ?? 0), 0),
 		quoteCurrency,
 		nftContractsCount, //: nftContractsWithBalances.length,
 		nftContractsHasMore,
-		nftsCount, // : nftContractsWithBalances.reduce((sum, item) => sum + (item.nfts?.length ?? 0), 0)
+		nftsCount: nftContractsWithBalances.reduce((sum, item) => sum + (item.nfts?.length ?? 0), 0),
 	}
 
 	const nftContractsWithBalancesFilteredByImages = nftContractsWithBalances && await Promise.all(

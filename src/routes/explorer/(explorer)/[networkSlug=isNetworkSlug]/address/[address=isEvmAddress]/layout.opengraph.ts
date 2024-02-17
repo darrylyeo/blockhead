@@ -14,8 +14,6 @@ import type { RouteParams } from './$types'
 // Functions
 import { Etherscan } from '$/api/etherscan'
 import { normalizeContractSource as normalizeContractSourceEtherscan } from '$/api/etherscan/normalize'
-import { getTokenBalancesCount as getTokenBalancesCountZapper } from '$/api/zapper'
-import { getNftContractsCountByAddress as getNftContractsCountByAddressAirstack } from '$/api/airstack'
 
 
 // OpenGraph load
@@ -64,24 +62,6 @@ export const load = async ({
 
 	const sourcePaths = contractMetadata ? Object.keys(contractMetadata.contractMetadata.sources) : undefined
 
-	const tokensCount = await getTokenBalancesCountZapper({
-		address,
-		network,
-	})
-		.catch(() => undefined)
-
-	const {
-		nftContractsCount,
-		hasMore: nftContractsHasMore,
-	} = await getNftContractsCountByAddressAirstack({
-		address,
-		network,
-		timeout: 4000,
-	})
-		.catch(() => undefined)
-
-	// const nftsCount = 0
-
 	return {
 		address,
 		network,
@@ -92,9 +72,5 @@ export const load = async ({
 		addressType,
 		contractName,
 		sourcePaths,
-		tokensCount,
-		nftContractsCount,
-		nftContractsHasMore,
-		// nftsCount,
 	}
 }
