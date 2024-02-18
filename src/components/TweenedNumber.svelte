@@ -1,11 +1,13 @@
 <script lang="ts">
+	// Types
 	import type { Tweened } from 'svelte/motion'
-	import { expoOut, quintOut } from 'svelte/easing'
+	import { quintOut } from 'svelte/easing'
 
 
+	// Inputs
 	export let value: number
 
-	// Formatting
+	// (Voew options)
 	export let format: {
 		currency?: string,
 		showDecimalPlaces?: number,
@@ -24,16 +26,18 @@
 	
 	// Container animation
 	export let clip = true
-	export let transitionWidth = true
 	export let sizeDuration = 500
 
 
-	let tweenedValue: Tweened<number | string>
 
-
+	// Functions
 	import { formatValue } from '$/utils/formatValue'
 
-	const indexParts = (parts: Intl.NumberFormatPart[]) => {
+	const indexParts = (parts: Intl.NumberFormatPart[]): {
+		key: string,
+		align: 'start' | 'end',
+		part: Intl.NumberFormatPart,
+	}[] => {
 		const decimalIndex = parts.findIndex(part => part.type === 'decimal')
 		const partsLeft = decimalIndex === -1 ? parts : parts.slice(0, decimalIndex)
 		const partsRight = decimalIndex === -1 ? [] : parts.slice(decimalIndex)
@@ -64,15 +68,14 @@
 						part,
 					})
 				})
-		] as {
-			key: string,
-			align: 'start' | 'end',
-			part: Intl.NumberFormatPart,
-		}[]
+		]
 	}
 
 
+	// Internal state
 	import { tweened } from 'svelte/motion'
+
+	let tweenedValue: Tweened<number>
 
 	$: tweenedValue = tweened(0, {
 		duration: tween ? duration : 0,
