@@ -33,6 +33,44 @@
 
 	import { formatValue } from '$/utils/formatValue'
 
+	const indexParts = (parts: Intl.NumberFormatPart[]) => {
+		const decimalIndex = parts.findIndex(part => part.type === 'decimal')
+		const partsLeft = decimalIndex === -1 ? parts : parts.slice(0, decimalIndex)
+		const partsRight = decimalIndex === -1 ? [] : parts.slice(decimalIndex)
+
+		const indexByType: Partial<Record<Intl.NumberFormatPartTypes, number>> = {}
+
+		return [
+			...partsLeft
+				.reverse()
+				.map(part => {
+					indexByType[part.type] ??= 0
+
+					return ({
+						key: `left-${part.type}-${indexByType[part.type]!++}`,
+						align: 'end',
+						part,
+					})
+				})
+				.reverse(),
+
+			...partsRight
+				.map(part => {
+					indexByType[part.type] ??= 0
+
+					return ({
+						key: `right-${part.type}-${indexByType[part.type]!++}`,
+						align: 'start',
+						part,
+					})
+				})
+		] as {
+			key: string,
+			align: 'start' | 'end',
+			part: Intl.NumberFormatPart,
+		}[]
+	}
+
 
 	import { tweened } from 'svelte/motion'
 
@@ -63,22 +101,15 @@
 	containerClass="align-end"
 >
 	{#if formatParts}
-		{#each formatValue($tweenedValue, { ...format, toParts: true }) as { type, value }}
+		{#each indexParts(formatValue($tweenedValue, { ...format, toParts: true })) as { key, part, align } (key)}
 			<InlineContainer
 				{transitionWidth}
 				duration={sizeDuration}
-				class="type-{type}"
-				containerClass="part {{
-					'currency': 'align-end',
-					'integer': 'type-integer align-end',
-					'group': 'align-end',
-					'compact': 'align-end',
-					'decimal': 'align-start',
-					'fraction': 'align-start',
-				}[type] ?? 'align-end'}"
+				class="type-{part.type}"
+				containerClass="part align-{align}"
 				{clip}
 			>
-				{value}
+				{part.value}
 			</InlineContainer>
 		{/each}
 	{:else}
