@@ -244,11 +244,6 @@ enum AddrChanged_orderBy {
   transactionID
 }
 
-enum Aggregation_interval {
-  day
-  hour
-}
-
 type AuthorisationChanged implements ResolverEvent {
   """The block number at which the event occurred"""
   blockNumber: Int!
