@@ -90,40 +90,40 @@
 	$: tweenedValue.set(value || 0)
 
 
-	import InlineContainer from './InlineContainer.svelte'
+	import SizeContainerNew from './SizeContainerNew.svelte'
 </script>
 
 
-<InlineContainer
-	{transitionWidth}
-	duration={sizeDuration}
-	{clip}
-	containerClass="align-end"
->
+<span class="tweened-number">
 	{#if formatParts}
 		{#each indexParts(formatValue($tweenedValue, { ...format, toParts: true })) as { key, part, align } (key)}
-			<InlineContainer
-				{transitionWidth}
-				duration={sizeDuration}
-				class="type-{part.type}"
-				containerClass="part align-{align}"
+			<SizeContainerNew
+				layout="inline"
 				{clip}
+				alignInline={align}
+				duration={sizeDuration}
+				containerProps={{
+					'data-number-part-type': part.type,
+				}}
 			>
 				{part.value}
-			</InlineContainer>
+			</SizeContainerNew>
 		{/each}
 	{:else}
 		{formatValue($tweenedValue, { ...format })}
 	{/if}
-</InlineContainer>
+</span>
 
 
 <style>
-	:global(:is(
-		.type-fraction,
-		.type-group,
-		.type-decimal,
-		.type-integer ~ .type-integer
+	:global(.tweened-number [data-number-part-type]) {
+		transition: opacity 0.3s, font-size 0.3s;
+	}
+	:global(.tweened-number :is(
+		[data-number-part-type="fraction"],
+		[data-number-part-type="group"],
+		[data-number-part-type="decimal"],
+		[data-number-part-type="integer"] ~ [data-number-part-type="integer"]
 	)) {
 		opacity: 0.66;
 		font-size: 0.9em;
