@@ -81,9 +81,9 @@
 		interpolate: (from, to) => t => {
 			const logFrom = from != 0 ? Math.log10(from) : -showDecimalPlaces - 1
 			const logTo = to != 0 ? Math.log10(to) : -showDecimalPlaces - 1
-			const result = Math.round(Math.pow(10, logFrom + t * (logTo - logFrom)))
-			// const result = Math.pow(10, logFrom + t * (logTo - logFrom))
-			return padZero && from == 0 ? result.toString().padStart(logTo + 1, '0') : result
+			const result = Math.pow(10, logFrom + t * (logTo - logFrom))
+			const resultRounded = from < to ? Math.floor(result) : Math.ceil(result)
+			return padZero && from == 0 ? resultRounded.toString().padStart(logTo + 1, '0') : resultRounded
 		}
 	})
 
