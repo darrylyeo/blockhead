@@ -20,20 +20,40 @@ export const formatValue = <
 ) => {
 	try {
 		const formatter = new Intl.NumberFormat(locale || globalThis.navigator?.languages as string[], {
-			... currency ? {style: 'currency', currency} : {},
-			// minimumFractionDigits: 2,
-			// minimumSignificantDigits: value < 1 ? 3 : undefined,
-			// maximumSignificantDigits: value < 1 ? 3 : undefined,
+			...(currency && {
+				style: 'currency',
+				currency
+			}),
 
-			... showDecimalPlaces !== undefined ? {
+			...(showDecimalPlaces !== undefined && {
 				minimumFractionDigits: showDecimalPlaces,
 				maximumFractionDigits: showDecimalPlaces,
-			} : {},
+			}),
 
-			// maximumSignificantDigits: 6,
-			// compactDisplay: 'short',
 			useGrouping,
-			notation: compactLargeValues && value >= 1e7 ? 'compact' : 'standard'
+
+			...(compactLargeValues && (
+				value >= 1e7 ?
+					{
+						notation: 'compact',
+						compactDisplay: 'short',
+						...(showDecimalPlaces !== undefined && {						
+							minimumSignificantDigits: 1,
+							maximumSignificantDigits: (Math.log10(value) % 3 + 1) + showDecimalPlaces,
+						}),
+					}
+				: value >= 1e4 ?
+					{
+						notation: 'compact',
+						compactDisplay: 'short',
+						...(showDecimalPlaces !== undefined && {						
+							minimumSignificantDigits: 1,
+							maximumSignificantDigits: (Math.log10(value) % 3 + 1) + showDecimalPlaces,
+						}),
+					}
+				:
+					undefined
+			)),
 		})
 
 		return (
