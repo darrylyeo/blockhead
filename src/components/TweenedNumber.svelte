@@ -82,8 +82,10 @@
 			const logFrom = from != 0 ? Math.log10(from) : -showDecimalPlaces - 1
 			const logTo = to != 0 ? Math.log10(to) : -showDecimalPlaces - 1
 			const result = Math.pow(10, logFrom + t * (logTo - logFrom))
-			const resultRounded = from < to ? Math.floor(result) : Math.ceil(result)
-			return padZero && from == 0 ? resultRounded.toString().padStart(logTo + 1, '0') : resultRounded
+			return t < 0.9994
+				? from < to ? Math.floor(result) : Math.ceil(result)
+				: result
+			// return padZero && from == 0 ? result.toString().padStart(logTo + 1, '0') : result
 		}
 	})
 
