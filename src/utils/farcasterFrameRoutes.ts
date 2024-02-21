@@ -12,7 +12,7 @@ export type FarcasterFrameRoutes<
 	RouteParams extends Record<string, string | undefined>,
 > = Record<
 	FrameRoute,
-	FarcasterFramePage<FrameRoute, RouteParams>,
+	FarcasterFramePage<FrameRoute, RouteParams>
 >
 
 export type FarcasterFramePage<
@@ -25,8 +25,8 @@ export type FarcasterFramePage<
 	image?: Partial<FarcasterFrameServerMeta['image']>,
 	textInput?: HasTextInput extends true ? string : never,
 	actions?: FarcasterFrameActionResolver<FrameRoute, RouteParams>[],
-	pageLoad?: (_: {
-		layoutData: Record<string, any>,
+	pageLoad?: <T>(_: {
+		layoutData: Record<string, T>,
 		fetch: typeof fetch,
 	}) => Promise<ComponentProps<Component>>,
 	pageComponent?: Component,
@@ -140,7 +140,7 @@ export const createSubmenu = <
 						.filter(isTruthy)
 				},
 			]))
-	) as unknown as FarcasterFrameRoutes<`${FrameRoute}#${MenuRoute}/${number}`, RouteParams>
+	) as FarcasterFrameRoutes<`${FrameRoute}#${MenuRoute}/${number}`, RouteParams>
 )
 
 export const createPagesWithSubmenus = <
@@ -176,7 +176,7 @@ export const createPagesWithSubmenus = <
 						)
 					)),
 			])
-	) as unknown as FarcasterFrameRoutes<`${FrameRoute}#${MenuRoute}/${number}`, RouteParams>
+	) as FarcasterFrameRoutes<`${FrameRoute}#${MenuRoute}/${number}`, RouteParams>
 )
 
 
@@ -475,7 +475,7 @@ export const handleFarcasterFrameRouteButtonClick = async <
 					const {
 						farcasterFrameRouteFrom: fromFrameRoute,
 						farcasterFrameRouteTo: toFrameRoute,
-					} = Object.fromEntries(searchParams.entries()) as unknown as FarcasterFrameRouteSearchParams<FrameRoute>
+					} = Object.fromEntries(searchParams.entries()) as FarcasterFrameRouteSearchParams<FrameRoute>
 					
 					return await handleFarcasterFrameRouteButtonClick({
 						url: new URL(appRoute, origin),
