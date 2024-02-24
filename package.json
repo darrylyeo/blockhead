@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "test": "npm run test:unit && npm run test:integration",
     "test:integration": "playwright test",
-	"test:unit": "vitest",
+    "test:unit": "vitest",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --plugin-search-dir . --check . && eslint .",
@@ -22,9 +22,7 @@
     "generate:oazapfts:zapper:v2": "oazapfts https://api.zapper.xyz/api-json ./src/api/zapper/v2.ts --optimistic --useEnumType",
     "generate:swagger-typescript-api:zapper-old": "swagger-typescript-api --path https://api.zapper.fi/api/json --output ./src/api/zapper/api/ --clean-output true --responses true --union-enums true --add-readonly true --route-types false --enum-names-as-values true --extract-request-params true --extract-request-body true --modular true --unwrap-response-data true --single-http-client true --default-response unknown",
     "generate:swagger-typescript-api:moralis": "swagger-typescript-api --path https://deep-index.moralis.io/api-docs/v2/swagger.json --output ./src/api/moralis/api/ --clean-output true --union-enums false --route-types true --enum-names-as-values true --extract-request-params true --extract-request-body true --single-http-client true --default-response {} --unwrap-response-data true",
-    "generate:swagger-typescript-api:nftport": "swagger-typescript-api --path https://api.nftport.xyz/openapi.json --output ./src/api/nftport/api/ --clean-output true --union-enums false --route-types true --enum-names-as-values true --extract-request-params true --extract-request-body true --single-http-client true --default-response {} --unwrap-response-data true",
-    "generate:houdini": "houdini generate --pull-schema",
-    "clean:houdini": "rm -rf './$houdini'; rm ./src/**/*.graphql"
+    "generate:swagger-typescript-api:nftport": "swagger-typescript-api --path https://api.nftport.xyz/openapi.json --output ./src/api/nftport/api/ --clean-output true --union-enums false --route-types true --enum-names-as-values true --extract-request-params true --extract-request-body true --single-http-client true --default-response {} --unwrap-response-data true"
   },
   "type": "module",
   "packageManager": "pnpm@8.14.1",
@@ -119,8 +117,6 @@
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-svelte3": "^4.0.0",
-    "houdini": "^1.2.36",
-    "houdini-svelte": "^1.2.36",
     "pnpm": "^8.14.1",
     "prettier": "^3.2.4",
     "prettier-plugin-svelte": "^3.1.2",

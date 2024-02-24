@@ -33,7 +33,6 @@ const config = {
 
 		alias: {
 			'$': './src',
-			'$houdini': './$houdini',
 		},
 	}
 }

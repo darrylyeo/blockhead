@@ -3,13 +3,13 @@
 	import type { Readable } from 'svelte/store'
 	import type { Result, Error as ApolloStoreError } from '$/utils/apolloRequestStore'
 	import type { ApolloError } from '@apollo/client'
-	import type { GraphQLObject, GraphQLVariables } from 'houdini'
-	import type { QueryStore } from '$houdini'
+	// import type { GraphQLObject, GraphQLVariables } from 'houdini'
+	// import type { QueryStore } from '$houdini'
 	import type { CreateQueryResult, CreateInfiniteQueryResult } from '@tanstack/svelte-query'
 
 	type LoaderResult = $$Generic<unknown>
 	type LoaderError = $$Generic<{message: string} | Error | ApolloStoreError | ApolloError | unknown>
-	type HoudiniQueryInput = $$Generic<unknown>
+	// type HoudiniQueryInput = $$Generic<unknown>
 	type LoaderReturnResult = $$Generic<unknown>
 	type LoaderLayout = $$Generic<'default' | 'passive' | 'collapsible' | 'headless'>
 
@@ -36,7 +36,7 @@
 
 	export let fromPromise: (() => Promise<LoaderResult>) | undefined
 	export let fromStore: (() => Readable<Result<LoaderResult>> | Promise<Readable<Result<LoaderResult>>>) | undefined
-	export let fromHoudiniQuery: (() => QueryStore<LoaderResult extends GraphQLObject ? LoaderResult : never, HoudiniQueryInput extends GraphQLVariables ? HoudiniQueryInput : never>) | undefined
+	// export let fromHoudiniQuery: (() => QueryStore<LoaderResult extends GraphQLObject ? LoaderResult : never, HoudiniQueryInput extends GraphQLVariables ? HoudiniQueryInput : never>) | undefined
 	export let fromQuery: (CreateQueryResult<LoaderResult, LoaderError>) | undefined
 	export let fromInfiniteQuery: (CreateInfiniteQueryResult<LoaderResult, LoaderError>) | undefined
 
@@ -79,7 +79,7 @@
 	// Internal state
 	let promise: ReturnType<NonNullable<typeof fromPromise>> | undefined
 	let store: Awaited<ReturnType<NonNullable<typeof fromStore>>> | undefined
-	let houdiniQuery: ReturnType<NonNullable<typeof fromHoudiniQuery>> | undefined
+	// let houdiniQuery: ReturnType<NonNullable<typeof fromHoudiniQuery>> | undefined
 
 
 	// Outputs
@@ -191,8 +191,8 @@
 					store = storeOrPromise
 			}
 
-			if(fromHoudiniQuery)
-				houdiniQuery = fromHoudiniQuery()
+			// if(fromHoudiniQuery)
+			// 	houdiniQuery = fromHoudiniQuery()
 
 			// if(fromQuery)
 			// 	fromQuery.setEnabled(true)
@@ -236,19 +236,20 @@
 			status = LoadingStatus.Resolved
 		}
 	}
-	else if(houdiniQuery && $houdiniQuery){
-		if($houdiniQuery.loading){
-			status = LoadingStatus.Loading
-		}
-		else if($houdiniQuery.error){
-			error = $houdiniQuery.error
-			status = LoadingStatus.Errored
-		}
-		else if($houdiniQuery.data){
-			_result = $houdiniQuery.data
-			status = LoadingStatus.Resolved
-		}
-	}else if(fromQuery && $fromQuery){
+	// else if(houdiniQuery && $houdiniQuery){
+	// 	if($houdiniQuery.loading){
+	// 		status = LoadingStatus.Loading
+	// 	}
+	// 	else if($houdiniQuery.error){
+	// 		error = $houdiniQuery.error
+	// 		status = LoadingStatus.Errored
+	// 	}
+	// 	else if($houdiniQuery.data){
+	// 		_result = $houdiniQuery.data
+	// 		status = LoadingStatus.Resolved
+	// 	}
+	// }
+	else if(fromQuery && $fromQuery){
 		if($fromQuery.isPlaceholderData){
 			status = LoadingStatus.Idle
 		}
@@ -271,7 +272,8 @@
 			error = $fromQuery.error
 			status = LoadingStatus.Errored
 		}
-	}else if(fromInfiniteQuery && $fromInfiniteQuery){
+	}
+	else if(fromInfiniteQuery && $fromInfiniteQuery){
 		if($fromInfiniteQuery.isPlaceholderData){
 			status = LoadingStatus.Idle
 		}
