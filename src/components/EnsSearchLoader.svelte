@@ -6,121 +6,8 @@
 	export let searchQuery: string
 
 
-	// import { queryENSDomain, queryENSDomainsContaining } from '$/api/ens'
-
-	import { graphql } from '$houdini'
-
-	/* @type { import('./$houdini')._ENSDomainQueryVariables } */
-	export const _ENSDomainQueryVariables = ({ props: { searchQuery } }) => ({
-		name: searchQuery
-	})
-	const ensDomainQuery = graphql(`
-		query ENSDomainQuery($name: String!) @load {
-			domains(where: {name: $name}) {
-				__typename
-				id
-				name
-				labelName
-				labelhash
-				parent { id name }
-				subdomains { id name }
-				resolvedAddress {
-					__typename
-					id
-				}
-				owner {
-					__typename
-					id
-				}
-				resolver {
-					__typename
-					id
-					domain { id }
-					address
-					addr { id }
-					texts
-					coinTypes
-					events { id blockNumber transactionID }
-				}
-				ttl
-				isMigrated
-				events {
-					__typename
-					id
-					blockNumber
-					transactionID
-					... on Transfer {
-						owner { id }
-					}
-					... on NewOwner {
-						owner { id }
-					}
-					... on NewResolver {
-						resolver { id address }
-					}
-					... on NewTTL {
-						ttl
-					}
-				}
-			}
-		}
-	`)
-
-	/* @type { import('./$houdini')._ENSDomainsContainingQueryVariables } */
-	export const _ENSDomainsContainingQueryVariables = ({ props: { searchQuery } }) => ({
-		query: searchQuery
-	})
-	const ensDomainsContainingQuery = graphql(`
-		query ENSDomainsContainingQuery($query: String!) @load {
-			domains(where: {name_contains: $query, name_not: $query}) {
-				__typename
-				id
-				name
-				labelName
-				labelhash
-				parent { id name }
-				subdomains { id name }
-				resolvedAddress {
-					__typename
-					id
-				}
-				owner {
-					__typename
-					id
-				}
-				resolver {
-					__typename
-					id
-					domain { id }
-					address
-					addr { id }
-					texts
-					coinTypes
-					events { id blockNumber transactionID }
-				}
-				ttl
-				isMigrated
-				events {
-					__typename
-					id
-					blockNumber
-					transactionID
-					... on Transfer {
-						owner { id }
-					}
-					... on NewOwner {
-						owner { id }
-					}
-					... on NewResolver {
-						resolver { id address }
-					}
-					... on NewTTL {
-						ttl
-					}
-				}
-			}
-		}
-	`)
+	import { createQuery } from '@tanstack/svelte-query'
+	import { getEnsName, getEnsDomainsContaining } from '$/api/ens'
 
 
 	const sortByLength = (a, b) => a.name.length - b.name.length
@@ -154,16 +41,27 @@
 </style>
 
 
-	<!-- fromHoudiniQuery={searchQuery && (() => queryENSDomain({name: searchQuery}))} -->
 <Loader
-	fromHoudiniQuery={searchQuery && (() => ensDomainQuery)}
+	fromQuery={createQuery({
+		queryKey: ['EnsName', {
+			name: searchQuery,
+		}],
+		queryFn: async () => (
+			await getEnsName({
+				name: searchQuery,
+			})
+		),
+		select: result => (
+			result?.domains[0] ?? null
+		),
+	})}
 	loadingIcon={ENSIcon}
 	loadingIconName="The Graph"
 	loadingMessage='Searching for "{searchQuery}" in the Ethereum Name Service subgraph...'
-	let:result={result}
+	let:result={domain}
 >
 	<div class="ens-query column">
-		{#each result.domains.sort(sortByLength) as domain (domain.id)}
+		{#if domain !== null}
 			<EnsDomain
 				{network}
 				{domain}
@@ -182,31 +80,42 @@
 					<a href="https://app.ens.domains/name/{searchQuery}" target="_blank"><button class="medium">Register On ENS</button></a>
 				</div>
 			</div>
-		{/each}
+		{/if}
 
-			<!-- fromHoudiniQuery={() => queryENSDomainsContaining({query: searchQuery})} -->
 		<Loader
 			viewOptions={{
-				showIf: result => result?.domains.length
+				showIf: domains => domains?.length
 			}}
-			fromHoudiniQuery={() => ensDomainsContainingQuery}
+			fromQuery={createQuery({
+				queryKey: ['EnsDomain', {
+					domain: searchQuery,
+				}],
+				queryFn: async () => (
+					await getEnsDomainsContaining({
+						query: searchQuery,
+					})
+				),
+				select: result => (
+					result?.domains
+				),
+			})}
 			loadingIcon={ENSIcon}
 			loadingIconName="The Graph"
 			loadingMessage="Searching the Ethereum Name Service subgraph for similar names..."
-			let:result={result}
+			let:result={domains}
 		>
 			<svelte:fragment slot="header"
-				let:result
+				let:result={domains}
 				let:status
 			>
-				{#if status === 'resolved' && result?.domains.length}
+				{#if status === 'resolved' && domains?.length}
 					<hr>
 					<h2>Similar ENS Names</h2>
 				{/if}
 			</svelte:fragment>
 
 			<div class="similar column scrollable-list">
-				{#each result.domains.sort(sortByLength) as domain (domain.id)}
+				{#each domains?.sort(sortByLength) ?? [] as domain (domain.id)}
 					<EnsDomain {network} {domain} />
 				{/each}
 			</div>
