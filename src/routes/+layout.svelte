@@ -63,7 +63,7 @@
 				triggerEvent('Query', {
 					query: query.queryKey[0],
 					queryStatus: query.state.status,
-					...Object.fromEntries(
+					...query.queryKey[1] && Object.fromEntries(
 						Object.entries(query.queryKey[1])
 							.filter(([key]) => ![
 								'address',
