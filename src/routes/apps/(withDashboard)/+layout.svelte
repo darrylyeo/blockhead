@@ -202,7 +202,7 @@
 					networkProvider={$preferences.rpcNetwork}
 					defiProvider={$preferences.defiProvider}
 					quoteCurrency={$preferences.quoteCurrency}
-					showTestnets={$showTestnets}
+					bind:showTestnets={$showTestnets}
 				/>
 			</BlockTransition>
 		{/if}

@@ -652,6 +652,33 @@
 					{/if}
 				</NetworkProviderLoader>
 			</div>
+		{:else}
+			<div
+				class="card column"
+				transition:scale
+			>
+				<p>
+					{web3AppConfig.name} is available on
+					{
+						new Intl.ListFormat(globalThis.navigator?.languages, {
+							style: 'short',
+							type: 'conjunction',
+						})
+							.format(
+								web3AppConfig.views.map(view => (
+									networksByChainID[view.chainId].name
+								))
+							)
+					}.
+				</p>
+
+				{#if web3AppConfig.views.every(view => isTestnet(networksByChainID[view.chainId]))}
+					<button
+						class="medium"
+						on:click={() => showTestnets = true}
+					>Enable Testnets</button>
+				{/if}
+			</div>
 		{/each}
 	</div>
 {/if}
