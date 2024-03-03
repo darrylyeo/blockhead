@@ -46,6 +46,10 @@
 	export let balances: TokenWithBalance[] | undefined
 
 	// (Computed)
+	$: hasConversions = balances
+		?.some(tokenWithBalance => tokenWithBalance.conversion)
+		?? false
+
 	let filteredBalances: TokenWithBalance[]
 	$: filteredBalances = balances
 		?.filter((tokenWithBalance) => (
@@ -56,8 +60,12 @@
 				tokenWithBalance.token.symbol?.includes(' ') // spam
 				|| tokenWithBalance.token.symbol?.match(/^[a-z0-9-]+(\.[a-z0-9-]+)+$/i) // spam
 				// (Math.abs(tokenWithBalance.value) < 1e-3) // isSmallValue
-				|| (tokenWithBalance.conversion && Math.abs(tokenWithBalance.conversion.value) < 1e-3) // isSmallValue
-				|| (tokenWithBalance.balance === 0n) // isZero
+				|| (
+					hasConversions
+						? tokenWithBalance.conversion === undefined || Math.abs(tokenWithBalance.conversion.value) < 1e-3 // isSmallValue
+						: false
+				)
+				|| (tokenWithBalance.balance == 0n) // isZero
 			))
 		))
 		.sort(
