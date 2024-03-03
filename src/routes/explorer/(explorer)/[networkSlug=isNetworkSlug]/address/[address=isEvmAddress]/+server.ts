@@ -30,7 +30,7 @@ const generateOpenGraphImage = async ({
 	const {
 		width,
 		height,
-		farcasterFrameRoute = '/nfts',
+		farcasterFrameRoute = '/',
 	} = Object.fromEntries(url.searchParams.entries()) as unknown as FarcasterFrameImageGeneratorParams
 
 
