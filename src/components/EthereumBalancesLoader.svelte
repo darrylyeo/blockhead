@@ -60,6 +60,9 @@
 
 	import { MoralisWeb3Api, chainCodeFromNetwork } from '$/api/moralis/web3Api/index'
 
+	import { getPointInTimeBalances as getTokenBalancesNexandria } from '$/api/nexandria'
+	import { normalizeTokenBalance as normalizeTokenBalanceNexandria } from '$/api/nexandria/normalize'
+
 	import { getWalletTokenBalance } from '$/api/quicknode/index'
 	import { normalizeTokenBalance as normalizeTokenBalanceQuickNode } from '$/api/quicknode/normalize'
 
@@ -348,6 +351,31 @@
 					staleTime: 10 * 1000,
 				})
 			)}),
+
+		[TokenBalancesProvider.Nexandria]: () => ({
+			fromQuery: address && network && (
+				createQuery({
+					queryKey: ['Balances', {
+						tokenBalancesProvider,
+						address,
+						chainId: network.chainId,
+					}],
+					queryFn: async () => (
+						await getTokenBalancesNexandria({
+							network,
+							address
+						})
+					),
+					select: result => (
+						result.tokens
+							.map(tokenBalance => (
+								normalizeTokenBalanceNexandria(tokenBalance)
+							))
+					),
+					staleTime: 10 * 1000,
+				})
+			),
+		}),
 
 		[TokenBalancesProvider.Zapper]: () => ({
 			fromQuery: address && network && (

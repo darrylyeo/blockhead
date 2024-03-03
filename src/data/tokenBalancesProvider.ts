@@ -7,13 +7,14 @@ export enum TokenBalancesProvider {
 	Decommas = 'Decommas',
 	Liquality = 'Liquality',
 	Moralis = 'Moralis',
+	Nexandria = 'Nexandria',
 	QuickNode = 'QuickNode',
 	Zapper = 'Zapper',
 	ZerionDefiSdk = 'Zerion DeFi SDK',
 }
 
 
-import { AirstackIcon, BeryxIcon, ChainbaseIcon, CovalentIcon, DecommasIcon, LiqualityIcon, MoralisIcon, QuickNodeIcon, ZapperIcon, ZerionIcon } from '$/assets/icons'
+import { AirstackIcon, BeryxIcon, ChainbaseIcon, CovalentIcon, DecommasIcon, LiqualityIcon, MoralisIcon, NexandriaIcon, QuickNodeIcon, ZapperIcon, ZerionIcon } from '$/assets/icons'
 
 export const tokenBalancesProviderIcons = {
 	[TokenBalancesProvider.Airstack]: AirstackIcon,
@@ -23,6 +24,7 @@ export const tokenBalancesProviderIcons = {
 	[TokenBalancesProvider.Decommas]: DecommasIcon,
 	[TokenBalancesProvider.Liquality]: LiqualityIcon,
 	[TokenBalancesProvider.Moralis]: MoralisIcon,
+	[TokenBalancesProvider.Nexandria]: NexandriaIcon,
 	[TokenBalancesProvider.QuickNode]: QuickNodeIcon,
 	[TokenBalancesProvider.Zapper]: ZapperIcon,
 	[TokenBalancesProvider.ZerionDefiSdk]: ZerionIcon,

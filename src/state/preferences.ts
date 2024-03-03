@@ -216,6 +216,7 @@ export const preferencesConfig = [
 							{ value: TokenBalancesProvider.Covalent, name: 'Covalent' },
 							{ value: TokenBalancesProvider.Decommas, name: 'Decommas' },
 							{ value: TokenBalancesProvider.Moralis, name: 'Moralis › Web3 API' },
+							{ value: TokenBalancesProvider.Nexandria, name: 'Nexandria' },
 							{ value: TokenBalancesProvider.Zapper, name: 'Zapper' },
 							{ value: TokenBalancesProvider.Beryx, name: 'Beryx' },
 						]
