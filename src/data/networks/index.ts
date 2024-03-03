@@ -3289,6 +3289,33 @@ export const networks = [
 		"infoURL": "https://lisinski.online"
 	},
 	{
+		"slug": "manta",
+		"name": "Manta Pacific Mainnet",
+		"chainId": 169,
+		"shortName": "manta",
+		"chain": "Manta Pacific",
+		"networkId": 169,
+		"nativeCurrency": {
+			"name": "Ether",
+			"symbol": "ETH",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://pacific-rpc.manta.network/http",
+			"https://1rpc.io/manta"
+		],
+		"faucets": [],
+		"explorers": [
+			{
+				"name": "manta-pacific Explorer",
+				"url": "https://pacific-explorer.manta.network",
+				"standard": "EIP3091"
+			}
+		],
+		"infoURL": "https://pacific-info.manta.network",
+		"icon": "manta",
+	},
+	{
 		"slug": "mantle",
 		"name": "Mantle",
 		"chainId": 5000,
