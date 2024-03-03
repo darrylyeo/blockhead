@@ -61,8 +61,8 @@
 			))
 		))
 		.sort(
-			sortBy === 'value-descending' ? (a, b) => a.conversion && b.conversion ? b.conversion.value - a.conversion.value : Number(a.balance - b.balance) :
-			sortBy === 'value-ascending' ? (a, b) => a.conversion && b.conversion ? a.conversion.value - b.conversion.value : Number(a.balance - b.balance) :
+			sortBy === 'value-descending' ? (a, b) => (b.conversion?.value ?? 0) - (a.conversion?.value ?? 0) || Number(a.balance - b.balance) :
+			sortBy === 'value-ascending' ? (a, b) => (a.conversion?.value ?? 0) - (b.conversion?.value ?? 0) || Number(a.balance - b.balance) :
 			sortBy === 'ticker-ascending' ? (a, b) => a.token.symbol?.localeCompare(b.token.symbol) :
 			undefined
 		)
