@@ -94,7 +94,7 @@ const subscribeEip1193 = (provider: Provider) => ({
 })
 
 
-import { toQuantity } from 'ethers'
+import { toHex } from 'viem'
 
 const switchNetworkEip1193 = async ({
 	provider,
@@ -107,7 +107,7 @@ const switchNetworkEip1193 = async ({
 		await provider.request({
 			method: 'wallet_switchEthereumChain',
 			params: [{
-				chainId: toQuantity(network.chainId)
+				chainId: toHex(network.chainId)
 			}],
 		})
 	} catch (e) {
@@ -118,7 +118,7 @@ const switchNetworkEip1193 = async ({
 					method: 'wallet_addEthereumChain',
 					params: [
 						{
-							chainId: toQuantity(network.chainId),
+							chainId: toHex(network.chainId),
 							chainName: network.name,
 							rpcUrls: network.rpc,
 							nativeCurrency: network.nativeCurrency,
