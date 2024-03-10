@@ -82,8 +82,14 @@ export const accountConnections = localStorageWritable(
 
 import { BrowserProvider } from 'ethers'
 
-const getSigner = (provider: Provider) =>
-	new BrowserProvider(provider).getSigner() // Object.assign(signer, { address: accounts[0] }),
+const getSigner = (provider: Provider) => {
+	try {
+		return new BrowserProvider(provider).getSigner() // Object.assign(signer, { address: accounts[0] }),
+	}catch(e){
+		console.error('Failed to get signer', e)
+		return undefined
+	}
+}
 
 
 import { readable } from 'svelte/store'
