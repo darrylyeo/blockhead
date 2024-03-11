@@ -560,7 +560,7 @@ export const getWalletConnection = async ({
 							accounts: session.namespaces.eip155.accounts.map(caip2Id => ({ address: parseCaip2Id(caip2Id).address! })),
 						})
 
-						web3Modal?.closeModal()
+						requestAnimationFrame(() => web3Modal?.closeModal())
 					}),
 
 					subscribe: () => ({
