@@ -138,11 +138,13 @@ const switchNetworkEip1193 = async ({
 import { env } from '$/env'
 import { availableNetworks, getNetworkRPC, networksByChainID, networksBySlug } from '$/data/networks'
 import type { PairingTypes, SessionTypes } from '@walletconnect/types'
-import type { Web3Modal } from '@web3modal/standalone'
+import type { WalletConnectModal } from '@walletconnect/modal'
 import { parseCaip2Id } from '$/utils/parseCaip2Id'
 import { networkToViemChain } from '$/data/networkProviders'
 import { isTruthy } from '$/utils/isTruthy'
 import { eip6963Providers, findEip6963Provider } from './wallets'
+import { getConnections, watchChainId } from '@wagmi/core'
+import type { createWeb3Modal } from '@web3modal/wagmi'
 
 const walletconnectMetadata = {
 	name: "Blockhead",
@@ -150,6 +152,10 @@ const walletconnectMetadata = {
 	url: "https://blockhead.info",
 	icons: ['/Blockhead-Logo.svg'],
 }
+
+let walletconnect2SignClient: ReturnType<typeof import('@walletconnect/sign-client').default['init']> | undefined
+let walletconnect2Modal: WalletConnectModal | undefined
+let web3Modal: ReturnType<typeof createWeb3Modal> | undefined
 
 export const getWalletConnection = async ({
 	selector,
@@ -160,9 +166,9 @@ export const getWalletConnection = async ({
 	selector: AccountConnectionSelector,
 	networks?: Ethereum.Network[],
 	theme?: SvelteStore<{
-		mode?: ConstructorParameters<typeof Web3Modal>[0]['themeMode'],
-		color?: ConstructorParameters<typeof Web3Modal>[0]['themeColor'],
-		background?: ConstructorParameters<typeof Web3Modal>[0]['themeBackground'],
+		mode?: ConstructorParameters<typeof WalletConnectModal>[0]['themeMode'],
+		color?: ConstructorParameters<typeof WalletConnectModal>[0]['themeColor'],
+		background?: ConstructorParameters<typeof WalletConnectModal>[0]['themeBackground'],
 	}>,
 	jsonRpcUri?: string,
 }): Promise<WalletConnection> => {
@@ -379,139 +385,141 @@ export const getWalletConnection = async ({
 				}
 			}
 
-			case WalletConnectionType.WalletConnect1_Web3Modal_Standalone:
-			case WalletConnectionType.WalletConnect2_Web3Modal_Standalone: {
+			case WalletConnectionType.WalletConnect2: {
 				const { default: SignClient } = await import('@walletconnect/sign-client')
 
-				const signClient = await SignClient.init({
-					projectId: env.WALLETCONNECT2_PROJECT_ID,
-					// relayUrl: env.WALLETCONNECT2_RELAY_URL,
-					metadata: walletconnectMetadata,
-				})
+				const signClient = walletconnect2SignClient ||= await (async () => {
+					const signClient = await SignClient.init({
+						projectId: env.WALLETCONNECT2_PROJECT_ID,
+						// relayUrl: env.WALLETCONNECT2_RELAY_URL,
+						metadata: walletconnectMetadata,
+					})
 
-				for(const eventName of [
-					'session_proposal',
-					'session_request',
-					'session_update',
-					'session_delete',
-					'session_event',
-					'session_ping',
-					'session_expire',
-					'session_extend',
-					'proposal_expire',
-				] as const)
-					signClient.events.on?.(eventName, (e) => console.info(eventName, e))
+					for(const eventName of [
+						'session_proposal',
+						'session_request',
+						'session_update',
+						'session_delete',
+						'session_event',
+						'session_ping',
+						'session_expire',
+						'session_extend',
+						'proposal_expire',
+					] as const)
+						signClient.events.on?.(eventName, event => {
+							console.info('WalletConnect Sign event', eventName, event)
+						})
+
+					return signClient
+				})()
 
 				const sessions = signClient.session.getAll()
+
+				console.info('WalletConnect Sign', { signClient, sessions })
 
 				let session: SessionTypes.Struct | void = selector.walletconnect
 					? sessions.find(session => session.topic === selector.walletconnect!.topic)
 					: undefined
 
-				let web3Modal: Web3Modal
-			
-				const onModalClose = (callback: () => void) => {
-					const unsubscribe = web3Modal?.subscribeModal(({ open }) => {
-						if(!open){
-							unsubscribe()
-							callback()
-						}
-					})
-				}
-
 				const chains = networks.map(network => `eip155:${network.chainId}`)
 
 				return {
 					type: connectionType,
-					provider: signClient,
 
+					// eslint-disable-next-line no-async-promise-executor
 					connect: () => new Promise(async (resolve, reject) => {
-						session ||= await (async () => {
-							const { Web3Modal } = await import('@web3modal/standalone')
-			
-							if(!web3Modal){
-								web3Modal = new Web3Modal({
-									projectId: env.WALLETCONNECT2_PROJECT_ID,
-									walletConnectVersion: ({
-										[WalletConnectionType.WalletConnect1_Web3Modal_Standalone]: 1,
-										[WalletConnectionType.WalletConnect2_Web3Modal_Standalone]: 2,
-									} as const)[connectionType],
-									// themeMode: 'dark',
-									// themeColor: 'blue',
-									// themeBackground: 'gradient',
-									themeZIndex: 19,
+						try {
+							session ||= await (async () => {
+								const [
+									modal,
+									{ uri, approval },
+								] = await Promise.all([
+									(async () => {
+										return walletconnect2Modal ||= await (async () => {
+											const { WalletConnectModal } = await import('@walletconnect/modal')
+
+											const modal = new WalletConnectModal({
+												projectId: env.WALLETCONNECT2_PROJECT_ID,
+												themeVariables: {
+													'--wcm-z-index': '19',
+												},
+												chains,
+												enableExplorer: true,
+											})
+
+											theme?.subscribe($theme => {
+												modal.setTheme({
+													themeMode: $theme?.mode ?? 'dark',
+												})
+											})
+
+											return modal
+										})()
+									})(),
+
+									signClient.connect({
+										optionalNamespaces: {
+											eip155: {
+												methods: [
+													'eth_requestAccounts',
+													'eth_accounts',
+													'eth_chainId',
+													'eth_sendTransaction',
+													'eth_signTransaction',
+													'eth_sign',
+													'eth_signTypedData',
+													'personal_sign',
+												],
+												chains,
+												events: [
+													'accountsChanged',
+													'chainChanged',
+												],
+											},
+										},
+									}),
+								])
+
+								if(!uri)
+									throw new Error('Missing wc: uri')
+
+								console.info('WalletConnect Sign', { uri })
+
+								const unsubscribe = modal.subscribeModal(({ open }) => {
+									if(!open){
+										unsubscribe()
+
+										setTimeout(() => {
+											reject(new Error('Closed WalletConnect modal.'))
+										}, 500)
+									}
+								})
+
+								modal.openModal({
+									uri,
 									standaloneChains: chains,
-									// defaultChain: ,
-									// mobileWallets: ,
-									// desktopWallets: ,
-									// walletImages: ,
-									// chainImages: ,
-									// tokenImages: ,
-									enableNetworkView: true,
-									enableAccountView: true,
-									// explorerAllowList: ,
-									// explorerDenyList: ,
-									// termsOfServiceUrl: ,
-									// privacyPolicyUrl: ,
 								})
 
-								theme?.subscribe($theme => {
-									web3Modal.setTheme({
-										themeMode: $theme?.mode ?? 'dark',
-										themeColor: $theme?.color ?? 'blue',
-										themeBackground: $theme?.background ?? 'gradient',
-									})
-								})
-							}
+								const session = await approval()
+							
+								return session
+							})()
 
-							const { uri, approval } = await signClient.connect({
-								requiredNamespaces: {
-									eip155: {
-										methods: [
-											'eth_requestAccounts',
-											'eth_accounts',
-											'eth_chainId',
-											'eth_sendTransaction',
-											'eth_signTransaction',
-											'eth_sign',
-											'eth_signTypedData',
-											'personal_sign',
-										],
-										chains,
-										events: [
-											'accountsChanged',
-											'chainChanged',
-										],
+							resolve({
+								newSelector: {
+									...selector,
+									walletconnect: {
+										topic: session.topic as WalletconnectTopic,
 									},
 								},
+								accounts: session.namespaces.eip155.accounts
+									.map(caip2Id => ({ address: parseCaip2Id(caip2Id).address! })),
 							})
-
-							if(!uri)
-								throw new Error('Missing wc: uri')
-
-							onModalClose(() => requestAnimationFrame(() => reject(new Error('Closed Web3Modal'))))
-
-							await web3Modal.openModal({ uri, standaloneChains: chains })
-
-							const session = await approval()
-
-							console.log('approved', session, signClient.session, session === signClient.session)
-							console.log({signClient, session})
-
-							return session
-						})().catch(reject)
-
-						resolve({
-							newSelector: {
-								...selector,
-								walletconnect: {
-									topic: session.topic as WalletconnectTopic,
-								},
-							},
-							accounts: session.namespaces.eip155.accounts.map(caip2Id => ({ address: parseCaip2Id(caip2Id).address! })),
-						})
-
-						requestAnimationFrame(() => web3Modal?.closeModal())
+						}catch(e){
+							reject(e)
+						}finally{
+							walletconnect2Modal?.closeModal()
+						}
 					}),
 
 					subscribe: () => ({
@@ -549,7 +557,7 @@ export const getWalletConnection = async ({
 					),
 
 					disconnect: async () => {
-						web3Modal?.closeModal()
+						walletconnect2Modal?.closeModal()
 
 						await signClient.disconnect({
 							topic: session!.topic as string,
@@ -559,7 +567,7 @@ export const getWalletConnection = async ({
 				}
 			}
 
-			case WalletConnectionType.WalletConnect2_Web3Modal3: {
+			case WalletConnectionType.Web3Modal: {
 				const { defaultWagmiConfig, createWeb3Modal } = await import('@web3modal/wagmi')
 
 				const projectId = env.WALLETCONNECT2_PROJECT_ID
@@ -567,38 +575,98 @@ export const getWalletConnection = async ({
 
 				const wagmiConfig = defaultWagmiConfig({
 					chains,
-					projectId: env.WALLETCONNECT2_PROJECT_ID,
-					appName: 'Blockhead',
+					projectId,
 				})
 
-				const modal = createWeb3Modal({ wagmiConfig, projectId, chains })
+				const { getConnections, reconnect, watchAccount, watchChainId, disconnect } = await import('@wagmi/core')
 
-				const { watchAccount, disconnect, getAccount, watchWalletClient } = await import('@wagmi/core')
+				let connections = getConnections(wagmiConfig)
 
 				return {
 					type: connectionType,
 
-					connect: async () => {
-						await modal.open()
+					connect: () => new Promise(async (resolve, reject) => {
+						web3Modal ||= (() => {
+							const modal = createWeb3Modal({
+								wagmiConfig,
+								projectId,
+								chains,
+								themeMode: 'dark',
+							})
 
-						return {
-							accounts: [{
-								address: getAccount().address
-							}],
+							theme?.subscribe($theme => {
+								modal.setThemeMode($theme?.mode ?? 'dark')
+							})
+
+							return modal
+						})()
+
+						await web3Modal.open()
+
+						if(!connections.length){
+							// web3Modal.subscribeState(({ open }) => {
+							// 	if(!open)
+							// 		reject(new Error('Closed Web3Modal'))
+							// })
+
+							// await web3Modal.open()
+
+							connections = await reconnect(wagmiConfig)
+
+							if(connections.length){
+								resolve({
+									accounts: connections[0].accounts.map(address => ({ address })),
+								})
+							}
+
+							const unsubscribe = watchAccount(wagmiConfig, {
+								onChange: (account) => {
+									if(account.addresses?.length){
+										resolve({
+											accounts: account.addresses
+												.map(address => ({ address }))
+										})
+
+										unsubscribe()
+									}
+								},
+							})
 						}
-					},
+
+						else
+							resolve({
+								accounts: connections[0].accounts.map(address => ({ address })),
+							})
+					}),
 
 					subscribe: () => ({
 						accounts: readable<Account[]>([], set => {
-							watchAccount(account => set([{ address: account.address }].filter(isTruthy)))
+							return watchAccount(wagmiConfig, {
+								onChange: (account) => {
+									set(
+										(account.addresses ?? [])
+											.map(address => ({ address }))
+									)
+								},
+							})
 						}),
 					
 						chainId: readable<Ethereum.ChainID>(undefined, set => {
-							watchWalletClient({}, async walletClient => set(await walletClient?.getChainId()))
+							return watchChainId(wagmiConfig, {
+								onChange: (chainId) => {
+									set(chainId)
+								},
+							})
 						}),
 					}),
 
-					disconnect,
+					disconnect: async () => {
+						if(connections.length){
+							await disconnect(wagmiConfig, {
+								connector: connections[0].connector,
+							})
+						}
+					},
 				}
 			}
 
