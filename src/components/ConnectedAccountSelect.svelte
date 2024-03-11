@@ -41,15 +41,17 @@
 		if(selectedOption?.value === 'blockhead_addAccountConnection'){
 			e.preventDefault()
 
-			const { walletType } = selectedOption.dataset
+			const { knownWalletType } = selectedOption.dataset
 
-			globalThis.dispatchEvent(new CustomEvent('blockhead_addAccountConnection', { detail: { walletType }, bubbles: true }))
+			const selector = { knownWallet: { type: knownWalletType } }
+
+			globalThis.dispatchEvent(new CustomEvent('blockhead_addAccountConnection', { detail: { selector }, bubbles: true }))
 
 			// TODO: pass the actual accountConnection via event data
 			onEvent(
 				'Portfolio/AddAccount',
 				data => {
-					selectedAccountConnection = $accountConnections.find(accountConnection => accountConnection.walletType === walletType)
+					selectedAccountConnection = $accountConnections.find(accountConnection => accountConnection.selector.knownWallet?.type === walletType)
 				},
 				{ once: true }
 			)
@@ -61,20 +63,47 @@
 
 		<!-- <optgroup label="Connected"> -->
 			{#each $accountConnections as accountConnection}
-				<option value={accountConnection}>{walletsByType[accountConnection.walletType].name}: {formatAddress(accountConnection.state?.account?.address)}</option>
+				{@const name = (
+					accountConnection.selector.knownWallet ?
+						walletsByType[accountConnection.selector.knownWallet.type].name
+					:
+						''
+				)}
+				<option value={accountConnection}>
+					{name}: {formatAddress(accountConnection.state?.account?.address)}
+				</option>
 			{/each}
 		<!-- </optgroup> -->
 
 		<optgroup label="+ Connect Wallet">
-			{#each wallets as {type, name, icon, colors}}
-				<option value="blockhead_addAccountConnection" data-wallet-type={type}>{name}</option>
+			{#each wallets as knownWallet}
+				<option
+					value="blockhead_addAccountConnection"
+					data-known-wallet-type={knownWallet.type}
+				>
+					{knownWallet.name}
+				</option>
+			{/each}
+
+			{#each wallets as knownWallet}
+				<option
+					value="blockhead_addAccountConnection"
+					data-known-wallet-type={knownWallet.type}
+				>
+					{knownWallet.name}
+				</option>
 			{/each}
 		</optgroup>
 	{:else}
 		<option value={undefined} selected disabled>Connect Wallet...</option>
 
-		{#each wallets as {type, name, icon, colors}}
-			<option value="blockhead_addAccountConnection" data-wallet-type={type}>{name}</option>
+		{#each wallets as knownWallet}
+			<option
+				value="blockhead_addAccountConnection"
+				data-known-wallet-type={knownWallet.type}
+			>
+				{knownWallet.name}
+			</option>
 		{/each}
 	{/if}
 </select>

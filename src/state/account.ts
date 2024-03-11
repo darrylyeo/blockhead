@@ -3,21 +3,62 @@ import type { Signer } from 'ethers'
 import type { WalletType } from '$/data/wallets'
 import type { WalletConnection, Provider, WalletconnectTopic } from './walletConnection'
 
-export type AccountConnection = {
-	id: string,
-	walletType: WalletType,
-	walletconnectTopic?: WalletconnectTopic,
-	autoconnect?: boolean,
-	state?: AccountConnectionState,
+
+export type AccountConnectionSelector = {
+	knownWallet?: {
+		type: WalletType,
+	},
+	walletconnect?: {
+		topic: WalletconnectTopic,
+	},
 }
 
 export type AccountConnectionState = {
-	walletConnection?: WalletConnection
-	signer?: Signer
+	walletConnection?: WalletConnection,
+	signer?: Signer,
 
-	account?: Account
-	chainId?: number
-	walletconnectTopic?: WalletconnectTopic,
+	account?: Account,
+	chainId?: number,
+
+	newSelector?: AccountConnectionSelector,
+}
+
+type SerializedAccountConnection = {
+	id?: string,
+	selector: AccountConnectionSelector,
+	autoconnect?: boolean,
+	state?: Omit<AccountConnectionState, 'walletConnection' | 'signer'>,
+}
+
+export class AccountConnection {
+	id: string
+	selector: AccountConnectionSelector
+	autoconnect: boolean
+	state: AccountConnectionState
+
+	constructor({
+		id = crypto.randomUUID(),
+		selector = {},
+		autoconnect = false,
+		state = {},
+	}: SerializedAccountConnection) {
+		this.id = id
+		this.selector = selector
+		this.autoconnect = autoconnect
+		this.state = state
+	}
+
+	serialize(){
+		return {
+			id: this.id,
+			selector: this.selector,
+			autoconnect: this.autoconnect,
+			state: {
+				account: this.state.account,
+				chainId: this.state.chainId,
+			},
+		} as SerializedAccountConnection
+	}
 }
 
 export type Account = {
@@ -26,57 +67,14 @@ export type Account = {
 }
 
 
-type SerializedAccountConnection = {
-	id?: string,
-	walletType: WalletType,
-	state?: Omit<AccountConnectionState, 'walletConnection' | 'signer'>,
-	autoconnect?: boolean,
-}
-
-
-export const createAccountConnection = ({
-	id = crypto.randomUUID(),
-	walletType,
-	state = {},
-	autoconnect = false,
-}: SerializedAccountConnection) => ({
-	id,
-	walletType,
-	state,
-	autoconnect,
-	// toJSON(){
-	// 	return serializeAccountConnection(this)
-	// }
-}) as AccountConnection
-
-export const serializeAccountConnection = ({
-	id,
-	walletType,
-	state: {
-		account,
-		chainId,
-		walletconnectTopic,
-	} = {},
-	autoconnect,
-}: AccountConnection) => ({
-	id,
-	walletType,
-	state: {
-		account,
-		chainId,
-		walletconnectTopic,
-	},
-	autoconnect,
-}) as SerializedAccountConnection
-
 
 import { localStorageWritable } from '$/utils/localStorageWritable'
 
 export const accountConnections = localStorageWritable(
 	'accountConnections',
 	[] as SerializedAccountConnection[],
-	accountConnectionsJson => accountConnectionsJson.map(createAccountConnection),
-	accountConnections => accountConnections.map(serializeAccountConnection)
+	accountConnectionsJson => accountConnectionsJson.map(json => new AccountConnection(json)),
+	accountConnections => accountConnections.map(accountConnections => accountConnections.serialize()),
 )
 
 
@@ -105,7 +103,7 @@ export const getAccountConnectionState = ({
 	readable<Result<AccountConnectionState>>(
 		{loading: true},
 		set => void (async () => {
-			const { accounts, chainId, walletconnectTopic } = await walletConnection.connect(isInitiatedByUser)
+			const { accounts, chainId, newSelector } = await walletConnection.connect(isInitiatedByUser)
 
 			const accountConnectionState: AccountConnectionState = {
 				walletConnection,
@@ -113,7 +111,8 @@ export const getAccountConnectionState = ({
 
 				account: accounts?.[0]!,
 				chainId,
-				walletconnectTopic,
+
+				newSelector,
 			}
 
 			set({

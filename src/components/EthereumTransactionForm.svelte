@@ -273,7 +273,7 @@
 							{@const suggestedValues = [
 								selectedAccountConnection?.state?.account?.address && {
 									value: selectedAccountConnection.state.account.address,
-									label: `From Address (${walletsByType[selectedAccountConnection.walletType]?.name})`,
+									label: `From Address (${selectedAccountConnection.selector.knownWallet && walletsByType[selectedAccountConnection.selector.knownWallet]?.name})`,
 								},
 								...otherValuesOfType
 									.map(([key, address]) => ({

@@ -47,10 +47,10 @@ export type Events = {
 		state: PortfolioState
 	},
 	'AccountConnections/AddConnection': {
-		walletType: WalletType,
+		knownWalletType: WalletType,
 	},
 	'AccountConnections/DeleteConnection': {
-		walletType: WalletType,
+		knownWalletType: WalletType,
 	},
 
 	'Query': {

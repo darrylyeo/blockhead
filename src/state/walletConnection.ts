@@ -3,8 +3,8 @@ import type { Readable } from 'svelte/store'
 
 
 import type { Ethereum } from '$/data/networks/types'
-import { type WalletType, WalletConnectionType, walletsByType } from '$/data/wallets'
-import type { Account } from './account'
+import { WalletConnectionType, walletsByType } from '$/data/wallets'
+import type { Account, AccountConnectionSelector } from './account'
 
 
 import type { Provider as EthersProvider } from 'ethers'
@@ -21,20 +21,19 @@ export type WalletconnectTopic = BrandedString<'WalletconnectTopic'>
 export type Provider = EthersProvider | WalletConnectProvider | CoinbaseWalletProvider
 
 export type WalletConnection = {
-	walletType: WalletType,
-	connectionType: WalletConnectionType,
+	type: WalletConnectionType,
 
 	provider?: Provider,
 
-	connect: (isInitiatedByUser?: boolean) => Promise<Partial<{
+	connect: (isInitiatedByUser?: boolean) => Promise<{
 		accounts?: Account[],
-		chainId?: Ethereum.ChainID
-		walletconnectTopic?: WalletconnectTopic,
-	}>>
+		chainId?: Ethereum.ChainID,
+		newSelector?: AccountConnectionSelector,
+	}>
 
 	subscribe?: () => {
-		accounts: Readable<Account[]>;
-		chainId: Readable<Ethereum.ChainID>;
+		accounts: Readable<Account[]>,
+		chainId: Readable<Ethereum.ChainID>,
 	},
 
 	switchNetwork?: (network: Ethereum.Network) => void,
@@ -152,14 +151,12 @@ const walletconnectMetadata = {
 }
 
 export const getWalletConnection = async ({
-	walletType,
-	walletconnectTopic,
+	selector,
 	networks = [networksByChainID[1 as Ethereum.ChainID]], // availableNetworks
 	theme,
 	jsonRpcUri = getNetworkRPC(networksBySlug['ethereum']),
 }: {
-	walletType: WalletType,
-	walletconnectTopic?: WalletconnectTopic,
+	selector: AccountConnectionSelector,
 	networks?: Ethereum.Network[],
 	theme?: SvelteStore<{
 		mode?: ConstructorParameters<typeof Web3Modal>[0]['themeMode'],
@@ -168,17 +165,23 @@ export const getWalletConnection = async ({
 	}>,
 	jsonRpcUri?: string,
 }): Promise<WalletConnection> => {
-	const walletConfig = walletsByType[walletType]
+	const knownWalletConfig = selector.knownWallet && walletsByType[selector.knownWallet.type]
 
-	for (const connectionType of walletConfig.connectionTypes) {
+	const connectionTypes = (
+		selector.knownWallet ?
+			knownWalletConfig!.connectionTypes
+		:
+			[]
+	)
+
+	for (const connectionType of connectionTypes) {
 		switch (connectionType) {
 			case WalletConnectionType.InjectedEip1193: {
-				const provider = globalThis[walletConfig.injectedEip1193ProviderGlobal]
+				const provider = globalThis[knownWalletConfig.injectedEip1193ProviderGlobal]
 
-				if (provider?.[walletConfig.injectedEip1193ProviderFlag]) {
+				if (provider?.[knownWalletConfig.injectedEip1193ProviderFlag]) {
 					return {
-						walletType,
-						connectionType: WalletConnectionType.InjectedEip1193,
+						type: WalletConnectionType.InjectedEip1193,
 						provider,
 
 						connect: async () => await connectEip1193(provider),
@@ -197,8 +200,8 @@ export const getWalletConnection = async ({
 
 				if (
 					provider && (
-						!walletConfig.injectedEip1193ProviderFlag
-						|| provider[walletConfig.injectedEip1193ProviderFlag]
+						!knownWalletConfig.injectedEip1193ProviderFlag
+						|| provider[knownWalletConfig.injectedEip1193ProviderFlag]
 					)
 				) {
 					// https://docs.metamask.io/guide/provider-migration.html#migrating-to-the-new-provider-api
@@ -210,8 +213,7 @@ export const getWalletConnection = async ({
 						// walletType = WalletType.CoinbaseWallet
 
 					return {
-						walletType,
-						connectionType: WalletConnectionType.InjectedEthereum,
+						type: WalletConnectionType.InjectedEthereum,
 						provider,
 
 						connect: async () => await connectEip1193(provider),
@@ -230,13 +232,12 @@ export const getWalletConnection = async ({
 
 				if (
 					provider && (
-						!walletConfig.injectedEip1193ProviderFlag
-						|| provider[walletConfig.injectedEip1193ProviderFlag]
+						!knownWalletConfig.injectedEip1193ProviderFlag
+						|| provider[knownWalletConfig.injectedEip1193ProviderFlag]
 					)
 				) {
 					return {
-						walletType,
-						connectionType: WalletConnectionType.InjectedWeb3,
+						type: WalletConnectionType.InjectedWeb3,
 						provider,
 
 						connect: async () => await connectEip1193(provider),
@@ -269,8 +270,7 @@ export const getWalletConnection = async ({
 				)
 
 				return {
-					walletType,
-					connectionType: WalletConnectionType.CoinbaseWalletSDK,
+					type: WalletConnectionType.CoinbaseWalletSDK,
 					provider,
 
 					connect: async () => {
@@ -304,14 +304,13 @@ export const getWalletConnection = async ({
 					bridge: env.WALLETCONNECT1_BRIDGE_URI,
 
 					// Restrict WalletConnect options to the selected wallet
-					...walletConfig.walletConnectMobileLinks
-						? { qrcodeModalOptions: { mobileLinks: walletConfig.walletConnectMobileLinks } }
+					...knownWalletConfig?.walletConnectMobileLinks
+						? { qrcodeModalOptions: { mobileLinks: knownWalletConfig.walletConnectMobileLinks } }
 						: {},
 				})
 
 				return {
-					walletType,
-					connectionType: WalletConnectionType.WalletConnect1,
+					type: WalletConnectionType.WalletConnect1,
 					provider,
 
 					connect: async () => {
@@ -320,8 +319,8 @@ export const getWalletConnection = async ({
 							bridge: env.WALLETCONNECT1_BRIDGE_URI,
 		
 							// Restrict WalletConnect options to the selected wallet
-							...walletConfig.walletConnectMobileLinks
-								? { qrcodeModalOptions: { mobileLinks: walletConfig.walletConnectMobileLinks } }
+							...knownWalletConfig?.walletConnectMobileLinks
+								? { qrcodeModalOptions: { mobileLinks: knownWalletConfig.walletConnectMobileLinks } }
 								: {},
 						})
 
@@ -400,7 +399,6 @@ export const getWalletConnection = async ({
 			// 	})
 
 			// 	return {
-			// 		walletType,
 			// 		connectionType,
 			// 		provider,
 
@@ -455,7 +453,9 @@ export const getWalletConnection = async ({
 
 				const sessions = signClient.session.getAll()
 
-				let session: SessionTypes.Struct | void = walletconnectTopic ? sessions.find(session => session.topic === walletconnectTopic) : undefined
+				let session: SessionTypes.Struct | void = selector.walletconnect
+					? sessions.find(session => session.topic === selector.walletconnect!.topic)
+					: undefined
 
 				let web3Modal: Web3Modal
 			
@@ -471,8 +471,7 @@ export const getWalletConnection = async ({
 				const chains = networks.map(network => `eip155:${network.chainId}`)
 
 				return {
-					walletType,
-					connectionType,
+					type: connectionType,
 					provider: signClient,
 
 					connect: () => new Promise(async (resolve, reject) => {
@@ -552,8 +551,13 @@ export const getWalletConnection = async ({
 						})().catch(reject)
 
 						resolve({
-							accounts: session?.namespaces.eip155.accounts.map(caip2Id => ({ address: parseCaip2Id(caip2Id).address! })),
-							walletconnectTopic: session?.topic as WalletconnectTopic,
+							newSelector: {
+								...selector,
+								walletconnect: {
+									topic: session.topic as WalletconnectTopic,
+								},
+							},
+							accounts: session.namespaces.eip155.accounts.map(caip2Id => ({ address: parseCaip2Id(caip2Id).address! })),
 						})
 
 						web3Modal?.closeModal()
@@ -584,7 +588,7 @@ export const getWalletConnection = async ({
 
 					switchNetwork: async (network: Ethereum.Network) => (
 						await signClient.emitSessionEvent({
-							topic: walletconnectTopic as string,
+							topic: session!.topic as string,
 							event: {
 								name: "accountsChanged",
 								data: ["0xab16a96D359eC26a11e2C2b3d8f8B8942d5Bfcdb"],
@@ -597,7 +601,7 @@ export const getWalletConnection = async ({
 						web3Modal?.closeModal()
 
 						await signClient.disconnect({
-							topic: walletconnectTopic as string,
+							topic: session!.topic as string,
 							reason: '',
 						})
 					}
@@ -630,7 +634,6 @@ export const getWalletConnection = async ({
 			// 	})
 
 			// 	return {
-			// 		walletType,
 			// 		connectionType: WalletConnectionType.WalletConnect2_EthereumProvider,
 			// 		provider,
 
@@ -678,8 +681,7 @@ export const getWalletConnection = async ({
 				const { watchAccount, disconnect, getAccount, watchWalletClient } = await import('@wagmi/core')
 
 				return {
-					walletType,
-					connectionType,
+					type: connectionType,
 
 					connect: async () => {
 						await modal.open()
@@ -711,8 +713,7 @@ export const getWalletConnection = async ({
 				let signer: IntmaxWalletSigner
 
 				return {
-					walletType,
-					connectionType: WalletConnectionType.WebmaxJs,
+					type: WalletConnectionType.WebmaxJs,
 					// provider: ,
 
 					connect: (isInitiatedByUser = true) => new Promise(async (resolve, reject) => {
@@ -771,8 +772,7 @@ export const getWalletConnection = async ({
 				const sdk = new Banana(network.chainId)
 
 				return {
-					walletType,
-					connectionType: WalletConnectionType.BananaWalletSdk,
+					type: WalletConnectionType.BananaWalletSdk,
 
 					connect: async () => {
 						const username: string = sdk.getWalletName();

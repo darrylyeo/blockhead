@@ -68,7 +68,7 @@
 	$: networkProviderName = networkProviderConfig?.name ?? ''
 	$: networkProviderIcon = networkProviderConfig?.icon ?? ''
 
-	$: walletConfig = accountConnection?.walletConnection && walletsByType[accountConnection.walletConnection.walletType]
+	$: walletConfig = accountConnection?.selector.knownWallet && walletsByType[accountConnection.selector.knownWallet.type]
 	$: walletName = walletConfig?.name ?? ''
 	$: walletIcon = walletConfig?.icon ?? ''
 

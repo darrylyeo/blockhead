@@ -4,28 +4,29 @@
 
 
 	// Constants/types
-	import { type WalletType, walletConnectionTypes } from '$/data/wallets'
-	import type { AccountConnectionState } from '$/state/account'
-	import type { WalletconnectTopic } from '$/state/walletConnection'
+	import { walletConnectionTypes } from '$/data/wallets'
+	import type { AccountConnectionSelector, AccountConnectionState } from '$/state/account'
 
 	import { walletsByType } from '$/data/wallets'
 	import { networksByChainID, getNetworkColor } from '$/data/networks'
 
 
-	// External state
-	export let walletType: WalletType
-	export let walletconnectTopic: WalletconnectTopic | undefined
+	// Shared state
+	export let selector: AccountConnectionSelector
 	export let isFirstConnection = false
 	export let autoconnect = false
 	export let state: AccountConnectionState = {}
 
+	$: if(state.newSelector)
+		selector = state.newSelector
 
-	// Shared state
-	$: if(state?.walletConnection?.walletType)
-		walletType = state.walletConnection.walletType
 
-	$: if(state?.walletconnectTopic)
-		walletconnectTopic = state.walletconnectTopic
+	// Internal state
+	$: knownWalletConfig = selector.knownWallet && walletsByType[selector.knownWallet.type]
+
+	$: icon = knownWalletConfig?.icon
+	$: name = knownWalletConfig?.name
+	$: colors = knownWalletConfig?.colors || []
 
 
 	// Derived
@@ -39,8 +40,7 @@
 	}))
 
 
-	// Methods/hooks/lifecycle
-
+	// Actions
 	import { getWalletConnection } from '$/state/walletConnection'
 
 	import { getAccountConnectionState } from '$/state/account'
@@ -56,7 +56,6 @@
 
 
 	// Functions
-
 	import { isTruthy } from '$/utils/isTruthy'
 
 
@@ -77,16 +76,15 @@
 	<Loader
 		fromPromise={async () =>
 			await getWalletConnection({
-				walletType,
-				walletconnectTopic,
+				selector,
 				theme,
 				// chainId,
 			})
 		}
-		loadingIcon={walletsByType[walletType]?.icon}
-		loadingMessage={`Finding ${walletsByType[walletType]?.name} connection...`}
+		loadingIcon={icon}
+		loadingMessage={`Finding ${name} connection...`}
 
-		errorMessage={`Couldn't find ${walletsByType[walletType]?.name} connection.`}
+		errorMessage={`Couldn't find ${name} connection.`}
 
 		whenCanceled={async () => dispatch('cancel')}
 
@@ -99,41 +97,39 @@
 				isInitiatedByUser: !autoconnect,
 			})}
 
-			loadingIcon={walletsByType[walletType]?.icon}
+			loadingIcon={icon}
 
 			whenLoaded={() => dispatch('connect')}
 
-			errorMessage={`Couldn't connect your ${walletsByType[walletType]?.name} account.`}
+			errorMessage={`Couldn't connect your ${name} account.`}
 
 			whenCanceled={async () => dispatch('cancel')}
 
 			bind:result={state}
 		>
 			<svelte:fragment slot="loadingMessage">
-				{@const walletConnectionTypeConfig = walletConnectionTypes[walletConnection?.connectionType]}
+				{@const walletConnectionTypeConfig = walletConnection && walletConnectionTypes[walletConnection.connectionType]}
 
 				<p>
-					Connecting to {walletsByType[walletType]?.name}...
+					Connecting to {name}...
 					{#if walletConnectionTypeConfig}<br><small>(using {walletConnectionTypeConfig.name})</small>{/if}
 				</p>
 			</svelte:fragment>
 
 			<svelte:fragment slot="idle" let:load>
-				{@const walletConfig = walletsByType[walletType]}
-
 				<article
 					class="wallet-connection card"
 
-					title="{walletType}"
+					title={name}
 
-					style={cardStyle([...walletConfig?.colors])}
+					style={cardStyle([...colors])}
 				>
 					<div class="wallet-icon-container stack">
-						<Icon imageSources={[walletConfig?.icon]} />
+						<Icon imageSources={[icon]} />
 					</div>
 
 					<!-- <div class="column align-start">
-						<h4>{walletConfig.name}</h4>
+						<h4>{name}</h4>
 
 						<div class="row">
 							<button class="small" on:click={load}>Connect</button>
@@ -157,7 +153,7 @@
 					</div> -->
 
 					<!-- <div class="bar">
-						<h4>{walletConfig.name}</h4>
+						<h4>{name}</h4>
 
 						<div class="column align-end">
 							<div class="row-inline">
@@ -184,7 +180,7 @@
 
 					<!-- <div class="column">
 						<div class="bar">
-							<h4>{walletConfig.name}</h4>
+							<h4>{name}</h4>
 
 							<div class="row-inline">
 								<button class="small" on:click={load}>Connect</button>
@@ -212,7 +208,7 @@
 
 					<div class="column">
 						<div class="bar">
-							<h4>{walletConfig.name}</h4>
+							<h4>{name}</h4>
 
 							<button class="small" on:click={load}>Connect</button>
 						</div>
@@ -240,24 +236,23 @@
 			</svelte:fragment>
 
 			{#if state}
-				{@const walletConfig = walletsByType[state.walletConnection?.walletType]}
-				{@const walletConnectionTypeConfig = walletConnectionTypes[state.walletConnection?.connectionType]}
+				{@const walletConnectionTypeConfig = state.walletConnection && walletConnectionTypes[state.walletConnection.type]}
 				{@const network = state.chainId && networksByChainID[state.chainId]}
 
 				<article
 					class="wallet-connection card"
 
-					title="{walletConfig?.name ?? state.walletConnection?.walletType}{walletConnectionTypeConfig ? ` via ${walletConnectionTypeConfig?.name}` : ''}"
+					title="{name ?? state.walletConnection?.type}{walletConnectionTypeConfig ? ` via ${walletConnectionTypeConfig?.name}` : ''}"
 
 					draggable={!!state.account?.address}
 					on:dragstart={onDragStart}
 
-					style={cardStyle([...walletConfig?.colors ?? [], getNetworkColor(network)].filter(isTruthy))}
+					style={cardStyle([...colors ?? [], getNetworkColor(network)].filter(isTruthy))}
 				>
 					<!-- style="--primary-color: {walletConfig.colors[0]}" -->
 					<!-- {getNetworkColor(network)} -->
 					<div class="wallet-icon-container stack">
-						<Icon imageSources={[walletConfig?.icon]} />
+						<Icon imageSources={[icon]} />
 						{#key state.chainId}{#if network}<div class="network-icon" transition:scale|global><NetworkIcon {network} /></div>{/if}{/key}
 					</div>
 
@@ -278,7 +273,7 @@
 
 						{#if state.walletConnection}
 							<div class="overflow-ellipsis">
-								{walletConfig.name}
+								{name}
 								<small>({walletConnectionTypeConfig?.name})</small>
 							</div>
 						{/if}

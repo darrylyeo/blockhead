@@ -12,7 +12,7 @@
 
 
 	// Constants
-	import { wallets, type WalletType } from '$/data/wallets'
+	import { wallets } from '$/data/wallets'
 
 
 	// Internal state
@@ -28,31 +28,32 @@
 
 
 	// Actions
-
 	import { triggerEvent } from '$/events/triggerEvent'
 
-	const addAccountConnection = (walletType: WalletType) => {
-		$accountConnections = [createAccountConnection({ walletType }), ...$accountConnections]
+	const addAccountConnection = (selector: AccountConnectionSelector) => {
+		$accountConnections = [
+			new AccountConnection({ selector }),
+			...$accountConnections,
+		]
 
 		lastAddedConnectionIndex = 0
 
 		triggerEvent('AccountConnections/AddConnection', {
-			walletType
+			knownWalletType: selector.knownWallet?.type,
 		})
 	}
 
 	const removeAccountConnection = (i: number) => {
 		const deletedAccountConnection = $accountConnections[i]
 		$accountConnections = [...$accountConnections.slice(0, i), ...$accountConnections.slice(i + 1)]
-		console.log({$accountConnections})
 
 		triggerEvent('AccountConnections/DeleteConnection', {
-			walletType: deletedAccountConnection.walletType
+			knownWalletType: deletedAccountConnection.selector.knownWallet?.type,
 		})
 	}
 
 	// Components
-	import AccountConnection from './AccountConnection.svelte'
+	import AccountConnectionComponent from './AccountConnection.svelte'
 	import HeightContainer from './HeightContainer.svelte'
 	import Icon from './Icon.svelte'
 
@@ -85,7 +86,11 @@
 </style>
 
 
-<svelte:window on:blockhead_addAccountConnection={e => addAccountConnection(e.detail.walletType)} />
+<svelte:window
+	on:blockhead_addAccountConnection={e => {
+		addAccountConnection(e.detail.selector)
+	}}
+/>
 
 
 <header class="bar wrap">
@@ -115,14 +120,24 @@
 		transition:scale|global
 	>
 		<div class="wallets">
-			{#each wallets as {type, name, icon, colors}}
+			{#each wallets as knownWallet}
 				<button
 					class="wallet medium row"
-					style="--primary-color: {colors[colors.length - 1]}"
-					on:click={() => { addAccountConnection(type); state = State.Idle }}
+					style="--primary-color: {knownWallet.colors[knownWallet.colors.length - 1]}"
+					on:click={() => {
+						addAccountConnection({
+							knownWallet: {
+								type: knownWallet.type,
+							},
+						})
+						state = State.Idle
+					}}
 				>
-					<Icon imageSources={[icon]} title={name} />
-					{name}
+					<Icon
+						imageSources={[knownWallet.icon]}
+						title={knownWallet.name}
+					/>
+					{knownWallet.name}
 				</button>
 			{/each}
 		</div>
@@ -134,10 +149,9 @@
 	class:row-scrollable={layout === 'row'}
 	class:column={layout === 'column'}
 >
-	{#each $accountConnections as { id, walletType, walletconnectTopic, autoconnect, state }, i (id)}
-		<AccountConnection
-			bind:walletType
-			bind:walletconnectTopic
+	{#each $accountConnections as { id, selector, autoconnect, state }, i (id)}
+		<AccountConnectionComponent
+			bind:selector
 			bind:autoconnect
 			bind:state
 			isFirstConnection={i === lastAddedConnectionIndex}
