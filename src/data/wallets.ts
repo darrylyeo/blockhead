@@ -19,12 +19,9 @@ export enum WalletConnectionType {
 	InjectedWeb3 = 'InjectedWeb3',
 	Eip6963 = 'Eip6963',
 	WalletConnect1 = 'WalletConnect1',
-	// WalletConnect1_Web3Modal = 'WalletConnect1_Web3Modal',
-	// WalletConnect2_Web3Modal = 'WalletConnect2_Web3Modal',
 	WalletConnect1_Web3Modal_Standalone = 'WalletConnect1_Web3Modal_Standalone',
 	WalletConnect2_Web3Modal_Standalone = 'WalletConnect2_Web3Modal_Standalone',
 	WalletConnect2_Web3Modal3 = 'WalletConnect2_Web3Modal3_Standalone',
-	// WalletConnect2_EthereumProvider = 'WalletConnect2_EthereumProvider',
 	CoinbaseWalletSDK = 'CoinbaseWalletSDK',
 	WebmaxJs = 'WebmaxJs',
 	BananaWalletSdk = 'BananaWalletSdk',
@@ -49,23 +46,11 @@ export const walletConnectionTypes: Record<WalletConnectionType, {
 	[WalletConnectionType.WalletConnect1]: {
 		name: 'WalletConnect 1.0',
 	},
-	// [WalletConnectionType.WalletConnect1_Web3Modal]: {
-	// 	name: 'WalletConnect 1.0 (Web3Modal)',
-	// },
-	// [WalletConnectionType.WalletConnect2_Web3Modal]: {
-	// 	name: 'WalletConnect 2.0 (Web3Modal)',
-	// },
 	[WalletConnectionType.WalletConnect1_Web3Modal_Standalone]: {
 		name: 'WalletConnect 1.0 (Web3Modal 2.0)',
 	},
 	[WalletConnectionType.WalletConnect2_Web3Modal_Standalone]: {
 		name: 'WalletConnect 2.0 (Web3Modal 2.0)',
-	},
-	// [WalletConnectionType.WalletConnect2_EthereumProvider]: {
-	// 	name: 'WalletConnect 2.0 (Ethereum provider)',
-	// },
-	[WalletConnectionType.WalletConnect2_Web3Modal3]: {
-		name: 'WalletConnect 2.0 (Web3Modal 3.0)',
 	},
 	[WalletConnectionType.CoinbaseWalletSDK]: {
 		name: 'Coinbase Wallet SDK',
