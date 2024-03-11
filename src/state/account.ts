@@ -8,6 +8,9 @@ export type AccountConnectionSelector = {
 	knownWallet?: {
 		type: WalletType,
 	},
+	eip6963?: {
+		rdns: string
+	},
 	walletconnect?: {
 		topic: WalletconnectTopic,
 	},

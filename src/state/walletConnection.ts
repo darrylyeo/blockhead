@@ -68,7 +68,7 @@ const connectEip1193 = async (provider: Provider): Promise<{ accounts: Account[]
 }
 
 
-import { readable } from 'svelte/store'
+import { get, readable } from 'svelte/store'
 
 const subscribeEip1193 = (provider: Provider) => ({
 	accounts: readable<Account[]>([], set => {
@@ -142,6 +142,7 @@ import type { Web3Modal } from '@web3modal/standalone'
 import { parseCaip2Id } from '$/utils/parseCaip2Id'
 import { networkToViemChain } from '$/data/networkProviders'
 import { isTruthy } from '$/utils/isTruthy'
+import { eip6963Providers, findEip6963Provider } from './wallets'
 
 const walletconnectMetadata = {
 	name: "Blockhead",
@@ -170,6 +171,10 @@ export const getWalletConnection = async ({
 	const connectionTypes = (
 		selector.knownWallet ?
 			knownWalletConfig!.connectionTypes
+		: selector.eip6963 ?
+			[
+				WalletConnectionType.Eip6963
+			]
 		:
 			[]
 	)
@@ -238,6 +243,30 @@ export const getWalletConnection = async ({
 				) {
 					return {
 						type: WalletConnectionType.InjectedWeb3,
+						provider,
+
+						connect: async () => await connectEip1193(provider),
+
+						subscribe: () => subscribeEip1193(provider),
+
+						switchNetwork: async (network: Ethereum.Network) => await switchNetworkEip1193({ provider, network }),
+					}
+				}
+
+				break
+			}
+
+			case WalletConnectionType.Eip6963: {
+				const eip6963Provider = findEip6963Provider({
+					eip6963Providers: get(eip6963Providers),
+					rdns: selector.eip6963?.rdns,
+				})
+
+				const provider = eip6963Provider?.provider
+
+				if(provider){
+					return {
+						type: WalletConnectionType.Eip6963,
 						provider,
 
 						connect: async () => await connectEip1193(provider),

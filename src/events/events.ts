@@ -1,6 +1,7 @@
 import type { Ethereum } from '$/data/networks/types'
 import type { State as PortfolioState } from '$/components/Portfolio.svelte'
 import type { WalletType } from '$/data/wallets'
+import type { Eip6963Rdns } from '$/state/wallets'
 
 export type Events = {
 	'Home/LogoMousedown': {},
@@ -48,9 +49,11 @@ export type Events = {
 	},
 	'AccountConnections/AddConnection': {
 		knownWalletType: WalletType,
+		eip6963Rdns: Eip6963Rdns,
 	},
 	'AccountConnections/DeleteConnection': {
 		knownWalletType: WalletType,
+		eip6963Rdns: Eip6963Rdns,
 	},
 
 	'Query': {

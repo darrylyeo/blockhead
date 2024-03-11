@@ -7,8 +7,9 @@
 
 
 <script lang="ts">
-	// External state
-	import { accountConnections, createAccountConnection } from '$/state/account'
+	// Context
+	import { accountConnections, AccountConnection, type AccountConnectionSelector } from '$/state/account'
+	import { eip6963Providers } from '$/state/wallets'
 
 
 	// Constants
@@ -40,6 +41,7 @@
 
 		triggerEvent('AccountConnections/AddConnection', {
 			knownWalletType: selector.knownWallet?.type,
+			eip6963Rdns: selector.eip6963?.rdns,
 		})
 	}
 
@@ -49,6 +51,7 @@
 
 		triggerEvent('AccountConnections/DeleteConnection', {
 			knownWalletType: deletedAccountConnection.selector.knownWallet?.type,
+			eip6963Rdns: deletedAccountConnection.selector.eip6963?.rdns,
 		})
 	}
 
@@ -115,11 +118,35 @@
 </header>
 
 <HeightContainer class="stack" isOpen={state === State.Adding}>
+	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div class="card"
 		on:keydown={e => { if(e.code === 'Escape') state = State.Idle }}
 		transition:scale|global
 	>
 		<div class="wallets">
+			{#each (
+				Object.values($eip6963Providers)
+					.sort((a, b) => a.info.name.localeCompare(b.info.name))
+			) as eip6963Provider}
+				<button
+					class="wallet medium row"
+					on:click={() => {
+						addAccountConnection({
+							eip6963: {
+								rdns: eip6963Provider.info.rdns,
+							},
+						})
+						state = State.Idle
+					}}
+				>
+					<Icon
+						imageSources={[eip6963Provider.info.icon]}
+						title={eip6963Provider.info.name}
+					/>
+					{eip6963Provider.info.name}
+				</button>
+			{/each}
+
 			{#each wallets as knownWallet}
 				<button
 					class="wallet medium row"

@@ -1,6 +1,7 @@
 <script lang="ts">
 	// Context
 	import { preferences } from '$/state/preferences'
+	import { eip6963Providers, findEip6963Provider } from '$/state/wallets'
 
 
 	// Constants/types
@@ -23,9 +24,13 @@
 
 	// Internal state
 	$: knownWalletConfig = selector.knownWallet && walletsByType[selector.knownWallet.type]
+	$: eip6963Provider = selector.eip6963 && findEip6963Provider({
+		eip6963Providers: $eip6963Providers,
+		rdns: selector.eip6963.rdns,
+	})
 
-	$: icon = knownWalletConfig?.icon
-	$: name = knownWalletConfig?.name
+	$: icon = knownWalletConfig?.icon || eip6963Provider?.info.icon
+	$: name = knownWalletConfig?.name || eip6963Provider?.info.name
 	$: colors = knownWalletConfig?.colors || []
 
 

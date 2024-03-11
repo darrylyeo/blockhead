@@ -7,6 +7,7 @@
 
 	// Context
 	import { accountConnections } from '$/state/account'
+	import { eip6963Providers, findEip6963Provider } from '$/state/wallets'
 
 
 	// External state
@@ -41,9 +42,23 @@
 		if(selectedOption?.value === 'blockhead_addAccountConnection'){
 			e.preventDefault()
 
-			const { knownWalletType } = selectedOption.dataset
+			const {
+				knownWalletType,
+				eip6963Rdns,
+			} = selectedOption.dataset
 
-			const selector = { knownWallet: { type: knownWalletType } }
+			const selector = {
+				...(knownWalletType && {
+					knownWallet: {
+						type: knownWalletType,
+					},
+				}),
+				...(eip6963Rdns && {
+					eip6963: {
+						rdns: eip6963Rdns,
+					},
+				}),
+			}
 
 			globalThis.dispatchEvent(new CustomEvent('blockhead_addAccountConnection', { detail: { selector }, bubbles: true }))
 
@@ -66,6 +81,12 @@
 				{@const name = (
 					accountConnection.selector.knownWallet ?
 						walletsByType[accountConnection.selector.knownWallet.type].name
+					: accountConnection.selector.eip6963 ?
+						findEip6963Provider({
+							eip6963Providers: $eip6963Providers,
+							rdns: accountConnection.selector.eip6963.rdns,
+						})
+							?.info.name
 					:
 						''
 				)}
@@ -76,12 +97,12 @@
 		<!-- </optgroup> -->
 
 		<optgroup label="+ Connect Wallet">
-			{#each wallets as knownWallet}
+			{#each Object.values($eip6963Providers) as eip6963Provider}
 				<option
 					value="blockhead_addAccountConnection"
-					data-known-wallet-type={knownWallet.type}
+					data-eip6963-rdns={eip6963Provider.info.rdns}
 				>
-					{knownWallet.name}
+					{eip6963Provider.info.name}
 				</option>
 			{/each}
 
