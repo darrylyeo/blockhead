@@ -3,7 +3,7 @@ import type { Readable } from 'svelte/store'
 
 
 import type { Ethereum } from '$/data/networks/types'
-import { WalletConnectionType, walletsByType } from '$/data/wallets'
+import { WalletConnectionType, knownWalletsByType } from '$/data/wallets'
 import type { Account, AccountConnectionSelector } from './account'
 
 
@@ -172,7 +172,7 @@ export const getWalletConnection = async ({
 	}>,
 	jsonRpcUri?: string,
 }): Promise<WalletConnection> => {
-	const knownWalletConfig = selector.knownWallet && walletsByType[selector.knownWallet.type]
+	const knownWalletConfig = selector.knownWallet && knownWalletsByType[selector.knownWallet.type]
 
 	const connectionTypes = (
 		selector.knownWallet ?

@@ -21,7 +21,7 @@
 	import type { AccountConnection } from '$/state/account'
 	import type { PublicClient } from 'viem'
 
-	import { walletsByType } from '$/data/wallets'
+	import { knownWalletsByType } from '$/data/wallets'
 
 	type Abi = $$Generic<Ethereum.Abi>
 	type AbiMethod = Ethereum.AbiMethod<Abi>
@@ -68,7 +68,7 @@
 	$: networkProviderName = networkProviderConfig?.name ?? ''
 	$: networkProviderIcon = networkProviderConfig?.icon ?? ''
 
-	$: walletConfig = accountConnection?.selector.knownWallet && walletsByType[accountConnection.selector.knownWallet.type]
+	$: walletConfig = accountConnection?.selector.knownWallet && knownWalletsByType[accountConnection.selector.knownWallet.type]
 	$: walletName = walletConfig?.name ?? ''
 	$: walletIcon = walletConfig?.icon ?? ''
 

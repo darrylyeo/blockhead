@@ -4,7 +4,7 @@
 	import type { AccountConnection } from '$/state/account'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import { networkProviderConfigByProvider } from '$/data/networkProviders'
-	import { walletsByType } from '$/data/wallets'
+	import { knownWalletsByType } from '$/data/wallets'
 	import type { UnionToObject } from '$/utils/UnionToObject'
 	
 	type Abi = $$Generic<Ethereum.Abi>
@@ -273,7 +273,7 @@
 							{@const suggestedValues = [
 								selectedAccountConnection?.state?.account?.address && {
 									value: selectedAccountConnection.state.account.address,
-									label: `From Address (${selectedAccountConnection.selector.knownWallet && walletsByType[selectedAccountConnection.selector.knownWallet]?.name})`,
+									label: `From Address (${selectedAccountConnection.selector.knownWallet && knownWalletsByType[selectedAccountConnection.selector.knownWallet]?.name})`,
 								},
 								...otherValuesOfType
 									.map(([key, address]) => ({

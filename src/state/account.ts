@@ -1,12 +1,12 @@
 import type { Ethereum } from '$/data/networks/types'
 import type { Signer } from 'ethers'
-import type { WalletType } from '$/data/wallets'
+import type { KnownWalletType } from '$/data/wallets'
 import type { WalletConnection, Provider, WalletconnectTopic } from './walletConnection'
 
 
 export type AccountConnectionSelector = {
 	knownWallet?: {
-		type: WalletType,
+		type: KnownWalletType,
 	},
 	eip6963?: {
 		rdns: string

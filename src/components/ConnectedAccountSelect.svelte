@@ -2,7 +2,7 @@
 	// Constants/types
 	import type { Ethereum } from '$/data/networks/types'
 	import type { AccountConnection } from '$/state/account'
-	import { displayedWallets, walletsByType } from '$/data/wallets'
+	import { displayedKnownWallets, knownWalletsByType } from '$/data/wallets'
 
 
 	// Context
@@ -80,7 +80,7 @@
 			{#each $accountConnections as accountConnection}
 				{@const name = (
 					accountConnection.selector.knownWallet ?
-						walletsByType[accountConnection.selector.knownWallet.type].name
+						knownWalletsByType[accountConnection.selector.knownWallet.type].name
 					: accountConnection.selector.eip6963 ?
 						findEip6963Provider({
 							eip6963Providers: $eip6963Providers,
@@ -106,7 +106,7 @@
 				</option>
 			{/each}
 
-			{#each displayedWallets as knownWallet}
+			{#each displayedKnownWallets as knownWallet}
 				<option
 					value="blockhead_addAccountConnection"
 					data-known-wallet-type={knownWallet.type}
@@ -118,7 +118,7 @@
 	{:else}
 		<option value={undefined} selected disabled>Connect Wallet...</option>
 
-		{#each displayedWallets as knownWallet}
+		{#each displayedKnownWallets as knownWallet}
 			<option
 				value="blockhead_addAccountConnection"
 				data-known-wallet-type={knownWallet.type}

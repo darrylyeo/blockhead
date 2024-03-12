@@ -8,7 +8,7 @@
 	import { walletConnectionTypes } from '$/data/wallets'
 	import type { AccountConnectionSelector, AccountConnectionState } from '$/state/account'
 
-	import { walletsByType } from '$/data/wallets'
+	import { knownWalletsByType } from '$/data/wallets'
 	import { networksByChainID, getNetworkColor } from '$/data/networks'
 
 
@@ -23,7 +23,7 @@
 
 
 	// Internal state
-	$: knownWalletConfig = selector.knownWallet && walletsByType[selector.knownWallet.type]
+	$: knownWalletConfig = selector.knownWallet && knownWalletsByType[selector.knownWallet.type]
 	$: eip6963Provider = selector.eip6963 && findEip6963Provider({
 		eip6963Providers: $eip6963Providers,
 		rdns: selector.eip6963.rdns,
