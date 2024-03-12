@@ -445,6 +445,7 @@ export const getWalletConnection = async ({
 												},
 												chains,
 												enableExplorer: true,
+												explorerRecommendedWalletIds: knownWalletConfig?.walletConnect2Ids,
 											})
 
 											theme?.subscribe($theme => {

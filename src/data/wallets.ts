@@ -74,8 +74,11 @@ export type WalletConfig = {
 	injectedEip1193ProviderGlobal?: string,
 	injectedEip1193ProviderFlag?: string,
 	
-	// connectionType === WalletConnectionType.WalletConnect 
+	// connectionType === WalletConnectionType.WalletConnect1
 	walletConnectMobileLinks?: string[],
+
+	// connectionType === WalletConnectionType.WalletConnect2
+	walletConnect2ExplorerIds?: string[],
 }
 
 
@@ -102,11 +105,13 @@ export const wallets: WalletConfig[] = [
 		connectionTypes: [
 			WalletConnectionType.InjectedEthereum,
 			WalletConnectionType.InjectedWeb3,
+			WalletConnectionType.WalletConnect2,
 			WalletConnectionType.WalletConnect1,
 		],
 
 		injectedEip1193ProviderFlag: 'isMetaMask',
 		walletConnectMobileLinks: ['metamask'],
+		walletConnect2ExplorerIds: ['c57ca95b47569778a828d19178114f4db188b89b763c899ba0be274e97267d96'],
 	},
 	{
 		type: WalletType.WalletConnect2,
@@ -149,10 +154,12 @@ export const wallets: WalletConfig[] = [
 			WalletConnectionType.InjectedEthereum,
 			WalletConnectionType.InjectedWeb3,
 			WalletConnectionType.CoinbaseWalletSDK,
+			WalletConnectionType.WalletConnect2,
 			WalletConnectionType.WalletConnect1,
 		],
 
 		injectedEip1193ProviderFlag: 'isCoinbaseWallet',
+		walletConnect2ExplorerIds: ['fd20dc426fb37566d803205b19bbc1d4096b248ac04548e3cfb6b3a38bd033aa'],
 	},
 	// {
 	// 	type: WalletType.Intmax,
@@ -196,6 +203,7 @@ export const wallets: WalletConfig[] = [
 
 	// 	injectedEip1193ProviderFlag: 'isMew',
 	// 	walletConnectMobileLinks: ['mew'],
+	//	walletConnect2ExplorerIds: ['f5b4eeb6015d66be3f5940a895cbaa49ef3439e518cd771270e6b553b48f31d2'],
 	// },
 	{
 		type: WalletType.Rainbow,
@@ -213,8 +221,11 @@ export const wallets: WalletConfig[] = [
 		],
 
 		connectionTypes: [
+			WalletConnectionType.WalletConnect2,
 			WalletConnectionType.WalletConnect1,
 		],
+
+		walletConnect2ExplorerIds: ['1ae92b26df02f0abca6304df07debccd18262fdf5fe82daa81593582dac9a369'],
 	},
 	// {
 	// 	type: WalletType.Tally,
@@ -231,6 +242,7 @@ export const wallets: WalletConfig[] = [
 	// 	injectedEip1193ProviderGlobal: 'tally',
 	// 	injectedEip1193ProviderFlag: 'isTally',
 	// 	walletConnectMobileLinks: ['tally'],
+	//	walletConnect2ExplorerIds: ['cf14642fb8736a99b733ada71863241c823743b16e2a822b3dba24e2fa25014d'],
 	// },
 	// {
 	// 	type: WalletType.Trust,
@@ -244,7 +256,8 @@ export const wallets: WalletConfig[] = [
 	// 	],
 
 	// 	injectedEip1193ProviderFlag: 'isTrust',
-	// 	walletConnectMobileLinks: ['trust'],
+	//	walletConnectMobileLinks: ['trust'],
+	//	walletConnect2ExplorerIds: ['4622a2b2d6af1c9844944291e5e7351a6aa24cd7b23099efac1b2fd875da31a0'],
 	// },
 	// {
 	// 	type: WalletType.OtherWallet,
