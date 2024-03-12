@@ -31656,6 +31656,15 @@ export type introspection = {
               "ofType": null
             },
             "args": []
+          },
+          {
+            "name": "parentHash",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Bytes",
+              "ofType": null
+            },
+            "args": []
           }
         ],
         "interfaces": []
