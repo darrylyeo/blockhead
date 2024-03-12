@@ -546,6 +546,18 @@ export type introspection = {
         "interfaces": []
       },
       {
+        "kind": "ENUM",
+        "name": "Audience",
+        "enumValues": [
+          {
+            "name": "farcaster"
+          },
+          {
+            "name": "all"
+          }
+        ]
+      },
+      {
         "kind": "OBJECT",
         "name": "AudioVariants",
         "fields": [
@@ -587,6 +599,49 @@ export type introspection = {
             }
           }
         ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "ConnectedAddress",
+        "fields": [
+          {
+            "name": "address",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Address",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "chainId",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "blockchain",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "timestamp",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Time",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
       },
       {
         "kind": "OBJECT",
@@ -1229,39 +1284,6 @@ export type introspection = {
               "kind": "INPUT_OBJECT",
               "name": "String_Comparator_Exp",
               "ofType": null
-            }
-          }
-        ]
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "DomainInput",
-        "inputFields": [
-          {
-            "name": "resolvedAddress",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Address",
-              "ofType": null
-            }
-          },
-          {
-            "name": "name",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            }
-          },
-          {
-            "name": "blockchain",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "ENUM",
-                "name": "Blockchain",
-                "ofType": null
-              }
             }
           }
         ]
@@ -1922,12 +1944,9 @@ export type introspection = {
           {
             "name": "participant",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Social",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Social",
+              "ofType": null
             },
             "args": [
               {
@@ -4286,6 +4305,259 @@ export type introspection = {
       },
       {
         "kind": "OBJECT",
+        "name": "PopularDapp",
+        "fields": [
+          {
+            "name": "name",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "description",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "website",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "blockchain",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "chainId",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "address",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "criteriaCount",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "criteria",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "userbase",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "timeFrom",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Time",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "timeTo",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Time",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "lastTransactionHash",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "lastTransactionTimestamp",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Time",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "lastTransactionBlockNumber",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "ENUM",
+        "name": "PopularDappsCriteria",
+        "enumValues": [
+          {
+            "name": "UNIQUE_USERS"
+          },
+          {
+            "name": "TOTAL_TRANSACTIONS"
+          },
+          {
+            "name": "GAS_SPENT"
+          }
+        ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "PopularDappsInput",
+        "inputFields": [
+          {
+            "name": "timeFrame",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "TimeFrame",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "userbase",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "Audience",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "blockchain",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "TrendingBlockchain",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "criteria",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "PopularDappsCriteria",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "filter",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "TrendingFilter",
+              "ofType": null
+            }
+          },
+          {
+            "name": "limit",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          {
+            "name": "cursor",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "PopularDappsOutput",
+        "fields": [
+          {
+            "name": "PopularDapps",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "PopularDapp",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "pageInfo",
+            "type": {
+              "kind": "OBJECT",
+              "name": "PageInfo",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
         "name": "ProjectDetails",
         "fields": [
           {
@@ -4350,27 +4622,6 @@ export type introspection = {
         "name": "Query",
         "fields": [
           {
-            "name": "Token",
-            "type": {
-              "kind": "OBJECT",
-              "name": "Token",
-              "ofType": null
-            },
-            "args": [
-              {
-                "name": "input",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "TokenInput",
-                    "ofType": null
-                  }
-                }
-              }
-            ]
-          },
-          {
             "name": "Tokens",
             "type": {
               "kind": "OBJECT",
@@ -4385,27 +4636,6 @@ export type introspection = {
                   "ofType": {
                     "kind": "INPUT_OBJECT",
                     "name": "TokensInput",
-                    "ofType": null
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "name": "TokenNft",
-            "type": {
-              "kind": "OBJECT",
-              "name": "TokenNft",
-              "ofType": null
-            },
-            "args": [
-              {
-                "name": "input",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "TokenNftInput",
                     "ofType": null
                   }
                 }
@@ -4455,27 +4685,6 @@ export type introspection = {
             ]
           },
           {
-            "name": "TokenTransfer",
-            "type": {
-              "kind": "OBJECT",
-              "name": "TokenTransfer",
-              "ofType": null
-            },
-            "args": [
-              {
-                "name": "input",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "TokenTransferInput",
-                    "ofType": null
-                  }
-                }
-              }
-            ]
-          },
-          {
             "name": "TokenTransfers",
             "type": {
               "kind": "OBJECT",
@@ -4490,27 +4699,6 @@ export type introspection = {
                   "ofType": {
                     "kind": "INPUT_OBJECT",
                     "name": "TokenTransfersInput",
-                    "ofType": null
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "name": "Domain",
-            "type": {
-              "kind": "OBJECT",
-              "name": "Domain",
-              "ofType": null
-            },
-            "args": [
-              {
-                "name": "input",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "DomainInput",
                     "ofType": null
                   }
                 }
@@ -4721,6 +4909,27 @@ export type introspection = {
                   "ofType": {
                     "kind": "INPUT_OBJECT",
                     "name": "SnapshotsInput",
+                    "ofType": null
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "TrendingMints",
+            "type": {
+              "kind": "OBJECT",
+              "name": "TrendingMintsOutput",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "TrendingMintsInput",
                     "ofType": null
                   }
                 }
@@ -5333,6 +5542,21 @@ export type introspection = {
                 "ofType": {
                   "kind": "OBJECT",
                   "name": "Wallet",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "connectedAddresses",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "ConnectedAddress",
                   "ofType": null
                 }
               }
@@ -6958,6 +7182,30 @@ export type introspection = {
         "name": "Time"
       },
       {
+        "kind": "ENUM",
+        "name": "TimeFrame",
+        "enumValues": [
+          {
+            "name": "one_hour"
+          },
+          {
+            "name": "two_hours"
+          },
+          {
+            "name": "eight_hours"
+          },
+          {
+            "name": "one_day"
+          },
+          {
+            "name": "two_days"
+          },
+          {
+            "name": "seven_days"
+          }
+        ]
+      },
+      {
         "kind": "SCALAR",
         "name": "TimeRange"
       },
@@ -7825,34 +8073,6 @@ export type introspection = {
         ]
       },
       {
-        "kind": "INPUT_OBJECT",
-        "name": "TokenInput",
-        "inputFields": [
-          {
-            "name": "address",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Address",
-                "ofType": null
-              }
-            }
-          },
-          {
-            "name": "blockchain",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "ENUM",
-                "name": "TokenBlockchain",
-                "ofType": null
-              }
-            }
-          }
-        ]
-      },
-      {
         "kind": "OBJECT",
         "name": "TokenNft",
         "fields": [
@@ -8155,45 +8375,6 @@ export type introspection = {
               "kind": "INPUT_OBJECT",
               "name": "NftMetadataFilter",
               "ofType": null
-            }
-          }
-        ]
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "TokenNftInput",
-        "inputFields": [
-          {
-            "name": "address",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Address",
-                "ofType": null
-              }
-            }
-          },
-          {
-            "name": "tokenId",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            }
-          },
-          {
-            "name": "blockchain",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "ENUM",
-                "name": "TokenBlockchain",
-                "ofType": null
-              }
             }
           }
         ]
@@ -8687,34 +8868,6 @@ export type introspection = {
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "TokenTransferInput",
-        "inputFields": [
-          {
-            "name": "blockchain",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "ENUM",
-                "name": "TokenBlockchain",
-                "ofType": null
-              }
-            }
-          },
-          {
-            "name": "transactionHash",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            }
-          }
-        ]
-      },
-      {
-        "kind": "INPUT_OBJECT",
         "name": "TokenTransferOrderBy",
         "inputFields": [
           {
@@ -8988,6 +9141,280 @@ export type introspection = {
           }
         ],
         "interfaces": []
+      },
+      {
+        "kind": "ENUM",
+        "name": "TrendingBlockchain",
+        "enumValues": [
+          {
+            "name": "base"
+          }
+        ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "TrendingFilter",
+        "inputFields": [
+          {
+            "name": "address",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Trending_Comparator_Exp",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "TrendingMint",
+        "fields": [
+          {
+            "name": "id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "blockchain",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "chainId",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "address",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "criteriaCount",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "token",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Token",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "criteria",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "audience",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "timeFrom",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Time",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "timeTo",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Time",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "erc1155TokenID",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "ENUM",
+        "name": "TrendingMintsCriteria",
+        "enumValues": [
+          {
+            "name": "unique_wallets"
+          },
+          {
+            "name": "total_mints"
+          }
+        ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "TrendingMintsInput",
+        "inputFields": [
+          {
+            "name": "timeFrame",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "TimeFrame",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "audience",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "Audience",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "blockchain",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "TrendingBlockchain",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "filter",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "TrendingFilter",
+              "ofType": null
+            }
+          },
+          {
+            "name": "criteria",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "TrendingMintsCriteria",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "limit",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          {
+            "name": "cursor",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "TrendingMintsOutput",
+        "fields": [
+          {
+            "name": "TrendingMint",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "TrendingMint",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "pageInfo",
+            "type": {
+              "kind": "OBJECT",
+              "name": "PageInfo",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "Trending_Comparator_Exp",
+        "inputFields": [
+          {
+            "name": "_eq",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Address",
+              "ofType": null
+            }
+          },
+          {
+            "name": "_in",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Address",
+                  "ofType": null
+                }
+              }
+            }
+          }
+        ]
       },
       {
         "kind": "OBJECT",
