@@ -1,15 +1,16 @@
 export enum WalletType {
-	MetaMask = 'MetaMask',
-	WalletConnect1 = 'WalletConnect1',
-	WalletConnect2 = 'WalletConnect2',
-	Web3Modal = 'Web3Modal',
 	BananaWallet = 'BananaWallet',
 	CoinbaseWallet = 'Coinbase Wallet',
 	Intmax = 'Intmax',
 	Liquality = 'Liquality',
-	// MEW = 'MEW',
+	MetaMask = 'MetaMask',
+	MEW = 'MEW',
 	Rainbow = 'Rainbow',
-	// Tally = 'Tally',
+	Tally = 'Tally',
+	Trust = 'Trust',
+	WalletConnect1 = 'WalletConnect1',
+	WalletConnect2 = 'WalletConnect2',
+	Web3Modal = 'Web3Modal',
 }
 
 export enum WalletConnectionType {
@@ -83,19 +84,22 @@ export type WalletConfig = {
 
 
 import {
+	BananaWalletIcon,
 	CoinbaseWalletIcon,
 	IntmaxIcon,
 	MetaMaskIcon,
+	MyEtherWalletIcon,
 	RainbowIcon,
-	WalletConnectIcon,
+	TallyIcon,
+	TrustWalletIcon,
 	WalletConnect2Icon,
-	BananaWalletIcon,
+	WalletConnectIcon,
 } from '$/assets/walletIcons'
 
 import { LiqualityIcon } from '$/assets/icons'
 
 
-export const wallets: WalletConfig[] = [
+export const wallets = [
 	{
 		type: WalletType.MetaMask,
 		name: 'MetaMask',
@@ -124,26 +128,26 @@ export const wallets: WalletConfig[] = [
 			WalletConnectionType.WalletConnect2,
 		],
 	},
-	// {
-	// 	type: WalletType.WalletConnect1,
-	// 	name: 'WalletConnect 1.0',
-	// 	icon: WalletConnectIcon,
-	// 	colors: ['#3083FC'],
+	{
+		type: WalletType.WalletConnect1,
+		name: 'WalletConnect 1.0',
+		icon: WalletConnectIcon,
+		colors: ['#3083FC'],
 
-	// 	connectionTypes: [
-	// 		WalletConnectionType.WalletConnect1,
-	// 	],
-	// },
-	// {
-	// 	type: WalletType.BananaWallet,
-	// 	name: 'Banana Wallet',
-	// 	icon: BananaWalletIcon,
-	// 	colors: ['#ffcf4a', '#f8b42c'], // '#e67f1c', '#b95300'
+		connectionTypes: [
+			WalletConnectionType.WalletConnect1,
+		],
+	},
+	{
+		type: WalletType.BananaWallet,
+		name: 'Banana Wallet',
+		icon: BananaWalletIcon,
+		colors: ['#ffcf4a', '#f8b42c'], // '#e67f1c', '#b95300'
 
-	// 	connectionTypes: [
-	// 		WalletConnectionType.BananaWalletSdk,
-	// 	],
-	// },
+		connectionTypes: [
+			WalletConnectionType.BananaWalletSdk,
+		],
+	},
 	{
 		type: WalletType.CoinbaseWallet,
 		name: 'Coinbase Wallet',
@@ -161,50 +165,50 @@ export const wallets: WalletConfig[] = [
 		injectedEip1193ProviderFlag: 'isCoinbaseWallet',
 		walletConnect2ExplorerIds: ['fd20dc426fb37566d803205b19bbc1d4096b248ac04548e3cfb6b3a38bd033aa'],
 	},
-	// {
-	// 	type: WalletType.Intmax,
-	// 	name: 'IntmaxWallet',
-	// 	icon: IntmaxIcon,
-	// 	colors: ['#14ded2', '#3680fe', '#d32dfd'],
+	{
+		type: WalletType.Intmax,
+		name: 'IntmaxWallet',
+		icon: IntmaxIcon,
+		colors: ['#14ded2', '#3680fe', '#d32dfd'],
 
-	// 	connectionTypes: [
-	// 		WalletConnectionType.WebmaxJs,
-	// 	],
-	// },
-	// {
-	// 	type: WalletType.Liquality,
-	// 	name: 'Liquality Wallet',
-	// 	icon: LiqualityIcon,
-	// 	colors: [
-	// 		'#1CE5C3',
-	// 		'#5440D7',
-	// 		'#8B2CE4',
-	// 		'#D421EB',
-	// 		'#AC39FD',
-	// 	],
+		connectionTypes: [
+			WalletConnectionType.WebmaxJs,
+		],
+	},
+	{
+		type: WalletType.Liquality,
+		name: 'Liquality Wallet',
+		icon: LiqualityIcon,
+		colors: [
+			'#1CE5C3',
+			'#5440D7',
+			'#8B2CE4',
+			'#D421EB',
+			'#AC39FD',
+		],
 
-	// 	connectionTypes: [
-	// 		WalletConnectionType.InjectedEthereum,
-	// 	],
+		connectionTypes: [
+			WalletConnectionType.InjectedEthereum,
+		],
 
-	// 	injectedEip1193ProviderFlag: 'isLiquality',
-	// },
-	// {
-	// 	type: WalletType.MEW,
-	// 	name: 'MyEtherWallet',
-	// 	icon: MyEtherWalletIcon,
-	// 	colors: ['#1896A4'],
+		injectedEip1193ProviderFlag: 'isLiquality',
+	},
+	{
+		type: WalletType.MEW,
+		name: 'MyEtherWallet',
+		icon: MyEtherWalletIcon,
+		colors: ['#1896A4'],
 
-	// 	connectionTypes: [
-	// 		WalletConnectionType.InjectedEthereum,
-	// 		WalletConnectionType.InjectedWeb3,
-	// 		WalletConnectionType.WalletConnect1,
-	// 	],
+		connectionTypes: [
+			WalletConnectionType.InjectedEthereum,
+			WalletConnectionType.InjectedWeb3,
+			WalletConnectionType.WalletConnect1,
+		],
 
-	// 	injectedEip1193ProviderFlag: 'isMew',
-	// 	walletConnectMobileLinks: ['mew'],
-	//	walletConnect2ExplorerIds: ['f5b4eeb6015d66be3f5940a895cbaa49ef3439e518cd771270e6b553b48f31d2'],
-	// },
+		injectedEip1193ProviderFlag: 'isMew',
+		walletConnectMobileLinks: ['mew'],
+		walletConnect2ExplorerIds: ['f5b4eeb6015d66be3f5940a895cbaa49ef3439e518cd771270e6b553b48f31d2'],
+	},
 	{
 		type: WalletType.Rainbow,
 		name: 'Rainbow',
@@ -227,49 +231,38 @@ export const wallets: WalletConfig[] = [
 
 		walletConnect2ExplorerIds: ['1ae92b26df02f0abca6304df07debccd18262fdf5fe82daa81593582dac9a369'],
 	},
-	// {
-	// 	type: WalletType.Tally,
-	// 	name: 'Tally',
-	// 	icon: TallyIcon,
-	// 	colors: ['#D08E39', '#002522'],
+	{
+		type: WalletType.Tally,
+		name: 'Tally',
+		icon: TallyIcon,
+		colors: ['#D08E39', '#002522'],
 
-	// 	connectionTypes: [
-	// 		WalletConnectionType.InjectedEip1193,
-	// 		WalletConnectionType.InjectedEthereum,
-	// 		WalletConnectionType.InjectedWeb3,
-	// 	],
+		connectionTypes: [
+			WalletConnectionType.InjectedEip1193,
+			WalletConnectionType.InjectedEthereum,
+			WalletConnectionType.InjectedWeb3,
+		],
 
-	// 	injectedEip1193ProviderGlobal: 'tally',
-	// 	injectedEip1193ProviderFlag: 'isTally',
-	// 	walletConnectMobileLinks: ['tally'],
-	//	walletConnect2ExplorerIds: ['cf14642fb8736a99b733ada71863241c823743b16e2a822b3dba24e2fa25014d'],
-	// },
-	// {
-	// 	type: WalletType.Trust,
-	// 	name: 'Trust',
-	// 	icon: TrustWalletIcon,
-	// 	colors: ['#3375BB'],
+		injectedEip1193ProviderGlobal: 'tally',
+		injectedEip1193ProviderFlag: 'isTally',
+		walletConnectMobileLinks: ['tally'],
+		walletConnect2ExplorerIds: ['cf14642fb8736a99b733ada71863241c823743b16e2a822b3dba24e2fa25014d'],
+	},
+	{
+		type: WalletType.Trust,
+		name: 'Trust',
+		icon: TrustWalletIcon,
+		colors: ['#3375BB'],
 
-	// 	connectionTypes: [
-	// 		WalletConnectionType.WalletConnect1,
-	// 		WalletConnectionType.InjectedEthereum,
-	// 	],
+		connectionTypes: [
+			WalletConnectionType.WalletConnect1,
+			WalletConnectionType.InjectedEthereum,
+		],
 
-	// 	injectedEip1193ProviderFlag: 'isTrust',
-	//	walletConnectMobileLinks: ['trust'],
-	//	walletConnect2ExplorerIds: ['4622a2b2d6af1c9844944291e5e7351a6aa24cd7b23099efac1b2fd875da31a0'],
-	// },
-	// {
-	// 	type: WalletType.OtherWallet,
-	// 	name: 'Auto-Detect', // name: 'Other Wallet',
-	// 	icon: ,
-
-	// 	connectionTypes: [
-	// 		WalletConnectionType.InjectedEthereum,
-	// 		WalletConnectionType.InjectedWeb3,
-	// 		WalletConnectionType.WalletConnect1,
-	// 	],
-	// },
+		injectedEip1193ProviderFlag: 'isTrust',
+		walletConnectMobileLinks: ['trust'],
+		walletConnect2ExplorerIds: ['4622a2b2d6af1c9844944291e5e7351a6aa24cd7b23099efac1b2fd875da31a0'],
+	},
 	{
 		type: WalletType.Web3Modal,
 		name: 'Web3Modal',
@@ -280,6 +273,30 @@ export const wallets: WalletConfig[] = [
 			WalletConnectionType.Web3Modal,
 		],
 	},
-]
+	// {
+	// 	type: KnownWalletType.OtherWallet,
+	// 	name: 'Auto-Detect', // name: 'Other Wallet',
+	// 	icon: ,
 
-export const walletsByType: Record<WalletType, WalletConfig> = Object.fromEntries(wallets.map(wallet => [wallet.type, wallet]))
+	// 	connectionTypes: [
+	// 		WalletConnectionType.InjectedEthereum,
+	// 		WalletConnectionType.InjectedWeb3,
+	// 		WalletConnectionType.WalletConnect1,
+	// 	],
+	// },
+] as const satisfies WalletConfig[]
+
+export const walletsByType: Record<WalletType, WalletConfig> = Object.fromEntries(
+	wallets
+		.map(knownWallet => [knownWallet.type, knownWallet])
+)
+
+export const displayedWallets = ([
+	WalletType.MetaMask,
+	WalletType.WalletConnect2,
+	WalletType.WalletConnect1,
+	WalletType.CoinbaseWallet,
+	WalletType.Rainbow,
+	WalletType.Web3Modal,
+] as const satisfies WalletType[])
+	.map(type => walletsByType[type])

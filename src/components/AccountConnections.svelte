@@ -13,7 +13,7 @@
 
 
 	// Constants
-	import { wallets } from '$/data/wallets'
+	import { displayedWallets } from '$/data/wallets'
 
 
 	// Internal state
@@ -147,7 +147,7 @@
 				</button>
 			{/each}
 
-			{#each wallets as knownWallet}
+			{#each displayedWallets as knownWallet}
 				<button
 					class="wallet medium row"
 					style="--primary-color: {knownWallet.colors[knownWallet.colors.length - 1]}"

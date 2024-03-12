@@ -2,7 +2,7 @@
 	// Constants/types
 	import type { Ethereum } from '$/data/networks/types'
 	import type { AccountConnection } from '$/state/account'
-	import { wallets, walletsByType } from '$/data/wallets'
+	import { displayedWallets, walletsByType } from '$/data/wallets'
 
 
 	// Context
@@ -106,7 +106,7 @@
 				</option>
 			{/each}
 
-			{#each wallets as knownWallet}
+			{#each displayedWallets as knownWallet}
 				<option
 					value="blockhead_addAccountConnection"
 					data-known-wallet-type={knownWallet.type}
@@ -118,7 +118,7 @@
 	{:else}
 		<option value={undefined} selected disabled>Connect Wallet...</option>
 
-		{#each wallets as knownWallet}
+		{#each displayedWallets as knownWallet}
 			<option
 				value="blockhead_addAccountConnection"
 				data-known-wallet-type={knownWallet.type}
