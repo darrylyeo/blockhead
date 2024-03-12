@@ -1,23 +1,21 @@
+// Types/constants
 import type { BrandedString } from '$/utils/branded'
-import type { Readable } from 'svelte/store'
 
-
-import type { Ethereum } from '$/data/networks/types'
 import { WalletConnectionType } from '$/data/walletConnectionTypes'
 import { knownWalletsByType } from '$/data/wallets'
-import type { Account, AccountConnectionSelector } from './account'
-
 
 import type { Provider as EthersProvider } from 'ethers'
 
-
 import type { CoinbaseWalletProvider } from '@coinbase/wallet-sdk'
 
-
 import type WalletConnectProvider from '@walletconnect/web3-provider'
+import type { SessionTypes } from '@walletconnect/types'
 
-export type WalletconnectTopic = BrandedString<'WalletconnectTopic'>
+import type { Account, AccountConnectionSelector } from './account'
 
+import type { Readable } from 'svelte/store'
+
+import type { Ethereum } from '$/data/networks/types'
 
 export type Provider = EthersProvider | WalletConnectProvider | CoinbaseWalletProvider
 
@@ -42,7 +40,10 @@ export type WalletConnection = {
 	disconnect?: () => void,
 }
 
+export type WalletconnectTopic = BrandedString<'WalletconnectTopic'>
 
+
+// Functions
 const connectEip1193 = async (provider: Provider): Promise<{ accounts: Account[]}> => {
 	try {
 		if(!provider.request){
@@ -69,7 +70,7 @@ const connectEip1193 = async (provider: Provider): Promise<{ accounts: Account[]
 }
 
 
-import { get, readable } from 'svelte/store'
+import { readable } from 'svelte/store'
 
 const subscribeEip1193 = (provider: Provider) => ({
 	accounts: readable<Account[]>([], set => {
@@ -136,27 +137,18 @@ const switchNetworkEip1193 = async ({
 }
 
 
+// Internal state
+let walletconnect2SignClient: ReturnType<typeof import('@walletconnect/sign-client').default['init']> | undefined
+
+import type { WalletConnectModal } from '@walletconnect/modal'
+let walletconnect2Modal: WalletConnectModal | undefined
+
+import type { createWeb3Modal } from '@web3modal/wagmi'
+let web3Modal: ReturnType<typeof createWeb3Modal> | undefined
+
+
 import { env } from '$/env'
 import { availableNetworks, getNetworkRPC, networksByChainID, networksBySlug } from '$/data/networks'
-import type { PairingTypes, SessionTypes } from '@walletconnect/types'
-import type { WalletConnectModal } from '@walletconnect/modal'
-import { parseCaip2Id } from '$/utils/parseCaip2Id'
-import { networkToViemChain } from '$/data/networkProviders'
-import { isTruthy } from '$/utils/isTruthy'
-import { eip6963Providers, findEip6963Provider } from './wallets'
-import { getConnections, watchChainId } from '@wagmi/core'
-import type { createWeb3Modal } from '@web3modal/wagmi'
-
-const walletconnectMetadata = {
-	name: "Blockhead",
-	description: "Track, visualize, and explore all of crypto/DeFi/web3 in ONE interface!",
-	url: "https://blockhead.info",
-	icons: ['/Blockhead-Logo.svg'],
-}
-
-let walletconnect2SignClient: ReturnType<typeof import('@walletconnect/sign-client').default['init']> | undefined
-let walletconnect2Modal: WalletConnectModal | undefined
-let web3Modal: ReturnType<typeof createWeb3Modal> | undefined
 
 export const getWalletConnection = async ({
 	selector,
@@ -264,6 +256,9 @@ export const getWalletConnection = async ({
 			}
 
 			case WalletConnectionType.Eip6963: {
+				const { eip6963Providers, findEip6963Provider } = await import('./wallets')
+				const { get } = await import('svelte/store')
+
 				const eip6963Provider = findEip6963Provider({
 					eip6963Providers: get(eip6963Providers),
 					rdns: selector.eip6963?.rdns,
@@ -388,8 +383,16 @@ export const getWalletConnection = async ({
 
 			case WalletConnectionType.WalletConnect2: {
 				const { default: SignClient } = await import('@walletconnect/sign-client')
+				const { parseCaip2Id } = await import ('$/utils/parseCaip2Id')
 
 				const signClient = walletconnect2SignClient ||= await (async () => {
+					const walletconnectMetadata = {
+						name: "Blockhead",
+						description: "Track, visualize, and explore all of crypto/DeFi/web3 in ONE interface!",
+						url: "https://blockhead.info",
+						icons: ['/Blockhead-Logo.svg'],
+					}
+
 					const signClient = await SignClient.init({
 						projectId: env.WALLETCONNECT2_PROJECT_ID,
 						// relayUrl: env.WALLETCONNECT2_RELAY_URL,
@@ -571,6 +574,7 @@ export const getWalletConnection = async ({
 
 			case WalletConnectionType.Web3Modal: {
 				const { defaultWagmiConfig, createWeb3Modal } = await import('@web3modal/wagmi')
+				const { networkToViemChain } = await import('$/data/networkProviders')
 
 				const projectId = env.WALLETCONNECT2_PROJECT_ID
 				const chains = networks.map(networkToViemChain)
