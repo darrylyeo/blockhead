@@ -3,7 +3,8 @@ import type { Readable } from 'svelte/store'
 
 
 import type { Ethereum } from '$/data/networks/types'
-import { WalletConnectionType, knownWalletsByType } from '$/data/wallets'
+import { WalletConnectionType } from '$/data/walletConnectionTypes'
+import { knownWalletsByType } from '$/data/wallets'
 import type { Account, AccountConnectionSelector } from './account'
 
 

@@ -5,7 +5,7 @@
 
 
 	// Constants/types
-	import { walletConnectionTypes } from '$/data/wallets'
+	import { walletConnectionTypes } from '$/data/walletConnectionTypes'
 	import type { AccountConnectionSelector, AccountConnectionState } from '$/state/account'
 
 	import { knownWalletsByType } from '$/data/wallets'
