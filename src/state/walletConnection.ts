@@ -4,11 +4,6 @@ import type { BrandedString } from '$/utils/branded'
 import { WalletConnectionType } from '$/data/walletConnectionTypes'
 import { knownWalletsByType } from '$/data/wallets'
 
-import type { CoinbaseWalletProvider } from '@coinbase/wallet-sdk'
-
-import type WalletConnectProvider from '@walletconnect/web3-provider'
-import type { SessionTypes } from '@walletconnect/types'
-
 import type { Account, AccountConnectionSelector } from './account'
 
 import type { Readable } from 'svelte/store'
@@ -298,6 +293,7 @@ export const getWalletConnection = async ({
 
 			case WalletConnectionType.CoinbaseWalletSDK: {
 				const { CoinbaseWalletSDK } = await import('@coinbase/wallet-sdk')
+				type CoinbaseWalletProvider = import('@coinbase/wallet-sdk').CoinbaseWalletProvider
 
 				const sdk = new CoinbaseWalletSDK({
 					appName: 'Blockhead',
@@ -343,6 +339,7 @@ export const getWalletConnection = async ({
 
 			case WalletConnectionType.WalletConnect1: {
 				const WalletConnectProvider = (await import('@walletconnect/web3-provider')).default
+				type WalletConnectProvider = import('@walletconnect/web3-provider').default
 
 				let provider: WalletConnectProvider = new WalletConnectProvider({
 					rpc: Object.fromEntries(networks.map(network => [network.chainId, jsonRpcUri || network.rpc[0]])),
@@ -397,6 +394,8 @@ export const getWalletConnection = async ({
 
 			case WalletConnectionType.WalletConnect2: {
 				const { default: SignClient } = await import('@walletconnect/sign-client')
+				type Struct = import('@walletconnect/types').SessionTypes.Struct
+
 				const { parseCaip2Id } = await import ('$/utils/parseCaip2Id')
 
 				const signClient = walletconnect2SignClient ||= await (async () => {
@@ -435,7 +434,7 @@ export const getWalletConnection = async ({
 
 				console.info('WalletConnect Sign', { signClient, sessions })
 
-				let session: SessionTypes.Struct | void = selector.walletconnect
+				let session: Struct | void = selector.walletconnect
 					? sessions.find(session => session.topic === selector.walletconnect!.topic)
 					: undefined
 
