@@ -4,8 +4,6 @@ import type { BrandedString } from '$/utils/branded'
 import { WalletConnectionType } from '$/data/walletConnectionTypes'
 import { knownWalletsByType } from '$/data/wallets'
 
-import type { Provider as EthersProvider } from 'ethers'
-
 import type { CoinbaseWalletProvider } from '@coinbase/wallet-sdk'
 
 import type WalletConnectProvider from '@walletconnect/web3-provider'
@@ -17,12 +15,10 @@ import type { Readable } from 'svelte/store'
 
 import type { Ethereum } from '$/data/networks/types'
 
-export type Provider = EthersProvider | WalletConnectProvider | CoinbaseWalletProvider
-
 export type WalletConnection = {
 	type: WalletConnectionType,
 
-	provider?: Provider,
+	provider?: Ethereum.Provider,
 
 	connect: (isInitiatedByUser?: boolean) => Promise<{
 		accounts?: Account[],
@@ -44,35 +40,53 @@ export type WalletconnectTopic = BrandedString<'WalletconnectTopic'>
 
 
 // Functions
-const connectEip1193 = async (provider: Provider): Promise<{ accounts: Account[]}> => {
+const connectEip1193 = async (eip1193Provider: Ethereum.Provider): Promise<{ accounts: Account[]}> => {
 	try {
-		if(!provider.request){
-			// provider.request = (request) => provider.sendPromise(request.method, request.params)
-			provider.request = async (request) => await new Promise((resolve, reject) => {
-				provider.sendAsync(request, (error, accounts: Ethereum.Address[]) => {
-					// console.log('sendAsync', error, accounts)
-					error
-						? reject(error)
-						: resolve(accounts.map(address => ({ address })))
+		const accounts = (
+			'request' in eip1193Provider ?
+				await eip1193Provider.request({
+					method: 'eth_requestAccounts',
 				})
-			})
-		}
+			: 'send' in eip1193Provider ?
+				await eip1193Provider.send({
+					method: 'eth_requestAccounts',
+				}) as Ethereum.Address[]
+			: 'sendAsync' in eip1193Provider ?
+				await new Promise((resolve, reject) => {
+					eip1193Provider.sendAsync(
+						{
+							method: 'eth_accounts'
+						},
+						(error, accounts: Ethereum.Address[]) => {
+							error
+								? reject(error)
+								: resolve(accounts)
+						},
+					)
+				})
+			:
+				undefined
+		) as Ethereum.Address[]
+
+		if(!accounts)
+			throw new Error('Provider does not support any known methods.')
 
 		return {
-			accounts: (await provider.request({ method: 'eth_requestAccounts' }) as Ethereum.Address[]).map(address => ({ address }))
+			accounts: accounts
+				.map(address => ({ address })),
 		}
 	}catch(e){
 		if(e.message.includes('User rejected the request'))
 			throw e
 
-		return {}
+		throw new Error('Provider does not support any known methods.')
 	}
 }
 
 
 import { readable } from 'svelte/store'
 
-const subscribeEip1193 = (provider: Provider) => ({
+const subscribeEip1193 = (provider: Ethereum.Provider) => ({
 	accounts: readable<Account[]>([], set => {
 		const onAccountsChanged = (addresses: Ethereum.Address[]) => set(addresses.map(address => ({ address })))
 
@@ -80,7 +94,7 @@ const subscribeEip1193 = (provider: Provider) => ({
 
 		provider.on?.('accountsChanged', onAccountsChanged)
 
-		return () => provider.off?.('accountsChanged', onAccountsChanged)
+		return () => provider.removeListener?.('accountsChanged', onAccountsChanged)
 	}),
 
 	chainId: readable<Ethereum.ChainID>(undefined, set => {
@@ -90,7 +104,7 @@ const subscribeEip1193 = (provider: Provider) => ({
 
 		provider.on?.('chainChanged', onChainIdChanged)
 
-		return () => provider.off?.('chainChanged', onChainIdChanged)
+		return () => provider.removeListener?.('chainChanged', onChainIdChanged)
 	}),
 })
 
@@ -101,7 +115,7 @@ const switchNetworkEip1193 = async ({
 	provider,
 	network
 }: {
-	provider: Provider,
+	provider: Ethereum.Provider,
 	network: Ethereum.Network
 }) => {
 	try {
@@ -232,7 +246,7 @@ export const getWalletConnection = async ({
 			}
 
 			case WalletConnectionType.InjectedWeb3: {
-				const provider = globalThis.web3?.currentProvider
+				const provider = globalThis.web3?.currentProvider as Ethereum.Provider | undefined
 
 				if (
 					provider && (
@@ -587,11 +601,12 @@ export const getWalletConnection = async ({
 				const { getConnections, reconnect, watchAccount, watchChainId, disconnect } = await import('@wagmi/core')
 
 				let connections = getConnections(wagmiConfig)
+				console.log({connections})
 
 				return {
 					type: connectionType,
 
-					connect: () => new Promise(async (resolve, reject) => {
+					connect: (isInitiatedByUser) => new Promise(async (resolve, reject) => {
 						web3Modal ||= (() => {
 							const modal = createWeb3Modal({
 								wagmiConfig,
@@ -607,9 +622,23 @@ export const getWalletConnection = async ({
 							return modal
 						})()
 
-						await web3Modal.open()
+						if(isInitiatedByUser)
+							web3Modal.open()
 
 						if(!connections.length){
+							const unsubscribe = watchAccount(wagmiConfig, {
+								onChange: (account) => {
+									if(account.isConnected){
+										resolve({
+											accounts: (account.addresses ?? [])
+												.map(address => ({ address }))
+										})
+
+										unsubscribe()
+									}
+								},
+							})
+
 							// web3Modal.subscribeState(({ open }) => {
 							// 	if(!open)
 							// 		reject(new Error('Closed Web3Modal'))
@@ -624,19 +653,6 @@ export const getWalletConnection = async ({
 									accounts: connections[0].accounts.map(address => ({ address })),
 								})
 							}
-
-							const unsubscribe = watchAccount(wagmiConfig, {
-								onChange: (account) => {
-									if(account.addresses?.length){
-										resolve({
-											accounts: account.addresses
-												.map(address => ({ address }))
-										})
-
-										unsubscribe()
-									}
-								},
-							})
 						}
 
 						else

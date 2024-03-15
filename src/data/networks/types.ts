@@ -1,8 +1,7 @@
 // import type { Branded, BrandedString } from '$/utils/branded'
-import type { Provider as EthersProvider, Block as EthersBlock } from 'ethers'
 import type { QuoteCurrency, TickerSymbol } from '../currencies'
 import type { Abi as _Abi, AbiType, ExtractAbiFunctionNames, ExtractAbiFunction, ExtractAbiFunctions, AbiStateMutability, AbiParametersToPrimitiveTypes, AbiParameterToPrimitiveType } from 'abitype'
-import type { PublicClient as ViemPublicClient } from 'viem'
+import type { EIP1193Provider, PublicClient as ViemPublicClient } from 'viem'
 import type { AbiEventParametersToPrimitiveTypes } from 'viem/dist/types/types/contract'
 
 export namespace Ethereum {
@@ -52,7 +51,7 @@ export namespace Ethereum {
 		decimals: number
 	}
 
-	export type Provider = EthersProvider
+	export type Provider = EIP1193Provider
 	export type PublicClient = ViemPublicClient
 
 	export type TransactionID = `0x${string}` // BrandedString<'TransactionID'>
