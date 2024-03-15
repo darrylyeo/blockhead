@@ -107,7 +107,8 @@
 	// Methods
 	import { createQuery } from '@tanstack/svelte-query'
 	import { simulateTransaction } from '$/api/tenderly'
-	
+	import { readContract } from 'viem/actions'
+
 
 	// Formatting
 	import { formatAddress } from '$/utils/formatAddress'
@@ -181,7 +182,7 @@
 						contractMethodArgs: JSON.stringify(contractMethodArgs, (key, value) => typeof value === 'bigint' ? value.toString() : value),
 					}],
 					queryFn: async () => (
-						await publicClient.readContract({
+						await readContract(publicClient, {
 							address: contractAddress,
 							abi: contractAbi,
 							functionName: contractMethodName,

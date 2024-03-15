@@ -16,6 +16,7 @@ import { normalizeContractSource as normalizeContractSourceEtherscan } from '$/a
 
 // Functions
 import { normalize } from 'viem/ens'
+import { getBytecode, getEnsAddress } from 'viem/actions'
 
 
 // OpenGraph/Farcaster Frame Image Generator
@@ -57,7 +58,7 @@ const generateOpenGraphImage: RequestHandler = async ({
 	})
 
 	const address = publicClient && (
-		await publicClient.getEnsAddress({
+		await getEnsAddress(publicClient, {
 			name: normalize(ensName),
 		})
 			.catch(() => undefined)
@@ -65,7 +66,7 @@ const generateOpenGraphImage: RequestHandler = async ({
 	)
 	
 	const bytecode = publicClient && address && (
-		await publicClient.getBytecode({ address })
+		await getBytecode(publicClient, { address })
 			.then(contractBytecode => contractBytecode === undefined ? undefined : contractBytecode)
 	)
 

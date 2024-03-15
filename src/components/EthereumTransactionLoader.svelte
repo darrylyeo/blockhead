@@ -58,6 +58,7 @@
 	import { createQuery } from '@tanstack/svelte-query'
 
 	import { normalizeTransaction as normalizeViemTransaction } from '$/api/viem/normalize'
+	import { getTransaction, getTransactionReceipt } from 'viem/actions'
 
 	import { getTransaction as getTransactionChainbase } from '$/api/chainbase/index'
 	import { normalizeTransaction as normalizeTransactionChainbase } from '$/api/chainbase/normalize'
@@ -104,10 +105,10 @@
 						transaction,
 						transactionReceipt,
 					] = await Promise.all([
-						publicClient.getTransaction({
+						getTransaction(publicClient, {
 							hash: transactionId
 						}),
-						publicClient.getTransactionReceipt({
+						getTransactionReceipt(publicClient, {
 							hash: transactionId
 						}),
 					])

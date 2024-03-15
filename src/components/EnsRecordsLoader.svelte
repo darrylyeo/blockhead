@@ -42,6 +42,7 @@
 	// Internal state
 	import { normalize, namehash } from 'viem/ens'
 
+
 	// (Computed)
 	$: normalizedEnsName = (() => { try { return normalize(ensName) } catch(e) { return ensName } })()
 	$: node = namehash(normalizedEnsName)
@@ -72,6 +73,9 @@
 	import { parallelLoaderStore } from '$/utils/parallelLoaderStore'
 	import { createQuery } from '@tanstack/svelte-query'
 
+	import { getEnsText, readContract } from 'viem/actions'
+	import { getEnsResolver } from 'viem/ens'
+
 
 	// Components
 	import Loader from './Loader.svelte'
@@ -96,7 +100,7 @@
 				ensName,
 			}],
 			queryFn: async () => (
-				await publicClient.getEnsResolver({
+				await getEnsResolver(publicClient, {
 					name: normalizedEnsName,
 				})
 			)
@@ -124,7 +128,7 @@
 							resolverContractAddress,
 						}],
 						queryFn: async () => (
-							await publicClient.readContract({
+							await readContract(publicClient, {
 								address: resolverContractAddress,
 								functionName: 'supportsInterface',
 								abi: parseAbi([`function supportsInterface(bytes4 interfaceID) public pure returns (bool)`]),
@@ -159,7 +163,7 @@
 								if(!supportsEnsip7)
 									throw `ENSIP-7 Content Hashes are not supported by resolver ${resolverContractAddress}.`
 
-								const contentHash = await publicClient.readContract({
+								const contentHash = await readContract(publicClient, {
 									address: resolverContractAddress,
 									functionName: 'contenthash',
 									abi: parseAbi([`function contenthash(bytes32 node) public view returns (bytes memory)`]),
@@ -193,7 +197,7 @@
 					parallelLoaderStore(
 						resolveTextRecordKeys,
 						async textRecordKey => (
-							await publicClient.getEnsText({
+							await getEnsText(publicClient, {
 								name: normalizedEnsName,
 								key: textRecordKey,
 							})
@@ -221,7 +225,7 @@
 							resolverContractAddress,
 						}],
 						queryFn: async () => (
-							await publicClient.readContract({
+							await readContract(publicClient, {
 								address: resolverContractAddress,
 								functionName: 'supportsInterface',
 								abi: parseAbi([`function supportsInterface(bytes4 interfaceID) public pure returns (bool)`]),
@@ -247,7 +251,7 @@
 						parallelLoaderStore(
 							resolveCoinTypes,
 							async coinType => {
-								const address = await publicClient.readContract({
+								const address = await readContract(publicClient, {
 									address: resolverContractAddress,
 									functionName: 'addr',
 									abi: parseAbi([`function addr(bytes32 node, uint coinType) public view returns(bytes memory)`]),

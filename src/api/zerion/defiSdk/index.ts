@@ -154,6 +154,10 @@ export namespace DefiSDK {
 	export type ProtocolBalances = DefiSDK.ProtocolBalance[]
 }
 
+
+// Functions
+import { readContract } from 'viem/actions'
+
 export const getDefiPositions = async ({
 	protocolNames, 
 	network, 
@@ -168,13 +172,13 @@ export const getDefiPositions = async ({
 	if(network.chainId !== 1)
 		throw new Error(`The Zerion DeFi SDK doesn't support the ${network.name} network.`)
 
-	protocolNames ??= await publicClient.readContract({
+	protocolNames ??= await readContract(publicClient, {
 		address: defiSDKContractAddress,
 		abi: defiSdkAbi,
 		functionName: 'getProtocolNames',
 	}) || DefiSDK.protocolNames
 	
-	return await publicClient.readContract({
+	return await readContract(publicClient, {
 		address: defiSDKContractAddress,
 		abi: defiSdkAbi,
 		functionName: 'getProtocolBalances',

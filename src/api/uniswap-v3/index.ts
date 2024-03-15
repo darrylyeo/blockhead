@@ -10,6 +10,7 @@ import { FeeAmount as _FeeAmount, computePoolAddress } from '@uniswap/v3-sdk'
 
 import IUniswapV3Pool from '@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json'
 
+import { readContract } from 'viem/actions'
 
 import { formatPercent } from '$/utils/formatPercent'
 import { memoized } from '$/utils/memoized'
@@ -223,7 +224,7 @@ export namespace UniswapV3 {
 						['token0', 'token1', 'fee']
 							.map(async functionName => [
 								functionName,
-								await publicClient.readContract({
+								await readContract(publicClient, {
 									functionName,
 									address,
 									abi: IUniswapV3Pool.abi,

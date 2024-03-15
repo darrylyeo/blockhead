@@ -1,5 +1,6 @@
 import type { Ethereum } from '$/data/networks/types'
 import { formatUnits } from 'viem'
+import { readContract } from 'viem/actions'
 import type { QuoteCurrency, TickerSymbol } from '$/data/currencies'
 
 
@@ -1861,7 +1862,7 @@ export const getChainlinkPriceFeed = async (
 	if(!contractInfo)
 		throw new Error(`Chainlink price feed for ${assetPair} isn't available on ${network.name} (chain ID ${network.chainId}).`)
 
-	const [roundId, answer, startedAt, updatedAt, answeredInRound] = await publicClient.readContract({
+	const [roundId, answer, startedAt, updatedAt, answeredInRound] = await readContract(publicClient, {
 		address: contractInfo.contractAddress,
 		abi: aggregatorV3InterfaceABI,
 		functionName: 'latestRoundData',

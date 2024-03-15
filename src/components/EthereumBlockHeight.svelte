@@ -6,6 +6,9 @@
 	export let blockNumber: number
 
 
+	// import { getBlockNumber } from 'viem/actions'
+
+
 	// import Loader from './Loader.svelte'
 	// import BlockNumber from './BlockNumber.svelte'
 	// import NetworkIcon from './NetworkIcon.svelte'
@@ -20,7 +23,7 @@
 </div>
 <!-- <Loader
 	loadingMessage="Retrieving statistics..."
-	fromPromise={publicClient?.getBlockNumber()}
+	fromPromise={getBlockNumber(publicClient)}
 >
 	<NetworkIcon slot="loadingIcon" {network} />
 
