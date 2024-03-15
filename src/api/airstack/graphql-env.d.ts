@@ -422,7 +422,7 @@ export type introspection = {
             "name": "blockchain",
             "type": {
               "kind": "ENUM",
-              "name": "Blockchain",
+              "name": "TokenBlockchain",
               "ofType": null
             }
           },
