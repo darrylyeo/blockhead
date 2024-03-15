@@ -2,7 +2,6 @@
 import type { QuoteCurrency, TickerSymbol } from '../currencies'
 import type { Abi as _Abi, AbiType, ExtractAbiFunctionNames, ExtractAbiFunction, ExtractAbiFunctions, AbiStateMutability, AbiParametersToPrimitiveTypes, AbiParameterToPrimitiveType } from 'abitype'
 import type { EIP1193Provider, PublicClient as ViemPublicClient } from 'viem'
-import type { AbiEventParametersToPrimitiveTypes } from 'viem/dist/types/types/contract'
 
 export namespace Ethereum {
 	export type NetworkSlug = string // BrandedString<'NetworkSlug'>

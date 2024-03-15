@@ -56,7 +56,7 @@
     "@walletconnect/web3-provider": "^1.8.0",
     "@web3modal/wagmi": "4.0.13",
     "@wooorm/starry-night": "^3.2.0",
-    "abitype": "^0.10.3",
+    "abitype": "^1.0.0",
     "array-from-async": "^3.0.0",
     "bip44-constants": "^252.0.0",
     "blockstore-core": "^4.3.10",
