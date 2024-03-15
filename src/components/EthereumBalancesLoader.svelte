@@ -44,6 +44,7 @@
 	import { ConcurrentPromiseQueue } from '$/utils/ConcurrentPromiseQueue'
 
 	import { getViemPublicClient } from '$/data/networkProviders'
+	import { getBalance } from 'viem/actions'
 
 	import { getTokenBalances as getTokenBalancesAirstack } from '$/api/airstack/index'
 	import { normalizeTokenBalance as normalizeTokenBalanceAirstack } from '$/api/airstack/normalize'
@@ -106,7 +107,9 @@
 
 						if(!publicClient) throw new Error(`No provider found.`)
 
-						const balance = await publicClient.getBalance({ address })
+						const balance = await getBalance(publicClient, {
+							address,
+						})
 
 						return [{
 							token: network.nativeCurrency,

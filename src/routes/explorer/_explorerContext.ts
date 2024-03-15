@@ -7,8 +7,9 @@ import { networksBySlug } from '$/data/networks'
 
 
 // Functions
-import { getViemPublicClient } from '$/data/networkProviders'
 import { isTruthy } from '$/utils/isTruthy'
+import { getViemPublicClient } from '$/data/networkProviders'
+import { watchBlockNumber } from 'viem/actions'
 
 
 // External stores
@@ -41,7 +42,7 @@ export const explorerPublicClient: Readable<Ethereum.PublicClient | undefined> =
 })
 
 export const explorerBlockNumber: Readable<number> = derived(explorerPublicClient, ($explorerPublicClient, set) => (
-	$explorerPublicClient?.watchBlockNumber({
+	$explorerPublicClient && watchBlockNumber($explorerPublicClient, {
 		onBlockNumber: blockNumber => set(Number(blockNumber))
 	})
 ))

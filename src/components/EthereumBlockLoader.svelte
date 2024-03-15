@@ -65,6 +65,7 @@
 	import { isTruthy } from '$/utils/isTruthy'
 
 	import { normalizeBlock as normalizeViemBlock } from '$/api/viem/normalize'
+	import { getBlock } from 'viem/actions'
 
 	import { getBlockByNumber as getBlockByNumberChainbase } from '$/api/chainbase'
 	import { normalizeBlock as normalizeBlockChainbase } from '$/api/chainbase/normalize'
@@ -219,7 +220,7 @@
 				}],
 				placeholderData: () => placeholderData,
 				queryFn: async () => (
-					await publicClient.getBlock({
+					await getBlock(publicClient, {
 						blockNumber,
 						includeTransactions,
 					})

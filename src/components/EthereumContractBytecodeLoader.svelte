@@ -47,6 +47,7 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
+	import { getBytecode } from 'viem/actions'
 
 
 	// Components
@@ -65,7 +66,9 @@
 				contractAddress,
 			}],
 			queryFn: publicClient && (async () => (
-				await publicClient.getBytecode({ address: contractAddress })
+				await getBytecode(publicClient, {
+					address: contractAddress,
+				})
 					.then(contractBytecode => contractBytecode === undefined ? null : contractBytecode)
 			))
 		})

@@ -21,7 +21,7 @@ import {
 	PocketProvider,
 } from 'ethers'
 
-import { createPublicClient, http, webSocket } from 'viem'
+import { createClient, http, webSocket } from 'viem'
 import * as chains from 'viem/chains'
 
 import { alchemyProviderConfigs } from './alchemy'
@@ -113,7 +113,7 @@ export const networkProviderConfigs = [
 			network,
 			connectionType = NetworkProviderConnectionType.RPC,
 		}) => (
-			network.rpc[0] && createPublicClient({
+			network.rpc[0] && createClient({
 				chain: networkToViemChain(network),
 				transport: {
 					[NetworkProviderConnectionType.RPC]: http,
@@ -172,7 +172,7 @@ export const networkProviderConfigs = [
 			)
 
 			return config && (
-				createPublicClient({
+				createClient({
 					chain: networkToViemChain(network),
 					transport: {
 						[NetworkProviderConnectionType.RPC]: http,
@@ -227,7 +227,7 @@ export const networkProviderConfigs = [
 			const apiKey = env[`ALCHEMY_API_KEY_${network.chainId}`]
 
 			return config && (
-				createPublicClient({
+				createClient({
 					chain: networkToViemChain(network),
 					transport: {
 						[NetworkProviderConnectionType.RPC]: http,
@@ -288,7 +288,7 @@ export const networkProviderConfigs = [
 			)
 
 			return config && (
-				createPublicClient({
+				createClient({
 					chain: networkToViemChain(network),
 					transport: {
 						[NetworkProviderConnectionType.RPC]: http,
@@ -331,7 +331,7 @@ export const networkProviderConfigs = [
 	// 		network,
 	// 		connectionType = NetworkProviderConnectionType.WebSocket,
 	// 	}) => (
-	// 		createPublicClient({
+	// 		createClient({
 	// 			chain: networkToViemChain(network),
 	// 			transport: {
 	// 				[NetworkProviderConnectionType.RPC]: http,
@@ -401,7 +401,7 @@ export const networkProviderConfigs = [
 			)
 
 			return config && (
-				createPublicClient({
+				createClient({
 					chain: networkToViemChain(network),
 					transport: {
 						[NetworkProviderConnectionType.RPC]: http,
@@ -456,7 +456,7 @@ export const networkProviderConfigs = [
 			)
 
 			return config && (
-				createPublicClient({
+				createClient({
 					chain: networkToViemChain(network),
 					transport: {
 						[NetworkProviderConnectionType.RPC]: http,
@@ -501,7 +501,7 @@ export const networkProviderConfigs = [
 			const authToken = env[`QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_${network.chainId}`]
 
 			return subdomain && (
-				createPublicClient({
+				createClient({
 					chain: networkToViemChain(network),
 					transport: {
 						[NetworkProviderConnectionType.RPC]: http,
@@ -572,7 +572,7 @@ export const networkProviderConfigs = [
 			}[config.region]
 
 			return (
-				createPublicClient({
+				createClient({
 					chain: networkToViemChain(network),
 					transport: {
 						[NetworkProviderConnectionType.RPC]: http,
@@ -627,7 +627,7 @@ export const networkProviderConfigs = [
 			)
 
 			return config && (
-				createPublicClient({
+				createClient({
 					chain: networkToViemChain(network),
 					transport: {
 						[NetworkProviderConnectionType.RPC]: http,
@@ -681,7 +681,7 @@ export const networkProviderConfigs = [
 			)
 
 			return config && (
-				createPublicClient({
+				createClient({
 					chain: networkToViemChain(network),
 					transport: {
 						[NetworkProviderConnectionType.RPC]: http,
@@ -734,7 +734,7 @@ export const networkProviderConfigs = [
 			)
 
 			return config && (
-				createPublicClient({
+				createClient({
 					chain: networkToViemChain(network),
 					transport: {
 						[NetworkProviderConnectionType.RPC]: http,

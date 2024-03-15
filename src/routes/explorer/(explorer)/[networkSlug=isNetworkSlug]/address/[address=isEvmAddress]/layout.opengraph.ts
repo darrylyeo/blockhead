@@ -12,6 +12,7 @@ import type { RouteParams } from './$types'
 
 
 // Functions
+import { getBytecode, getEnsName } from 'viem/actions'
 import { Etherscan } from '$/api/etherscan'
 import { normalizeContractSource as normalizeContractSourceEtherscan } from '$/api/etherscan/normalize'
 
@@ -36,7 +37,7 @@ export const load = async ({
 
 	const ensName: ENS.Name | undefined = publicClient && (
 		(
-			await publicClient.getEnsName({
+			await getEnsName(publicClient, {
 				address,
 			})
 				.catch(() => undefined)
@@ -44,7 +45,7 @@ export const load = async ({
 	) || undefined
 
 	const bytecode = publicClient && address && (
-		await publicClient.getBytecode({ address })
+		await getBytecode(publicClient, { address })
 			.then(contractBytecode => contractBytecode === undefined ? undefined : contractBytecode)
 			.catch(() => undefined)
 	)

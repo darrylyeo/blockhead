@@ -87,7 +87,7 @@
 	// Actions
 	import { createQuery } from '@tanstack/svelte-query'
 
-	import { normalize } from 'viem/ens'
+	import { getEnsAddress, getEnsName, normalize } from 'viem/ens'
 
 	// import ENS, { getEnsAddress } from '@ensdomains/ensjs'
 	// const ens = new ENS({ provider, ensAddress: getEnsAddress('1') })
@@ -178,7 +178,7 @@
 					ensName,
 				}],
 				queryFn: async () => {
-					const address = await publicClient.getEnsAddress({
+					const address = await getEnsAddress(publicClient, {
 						name: normalize(ensName)
 					})
 
@@ -227,7 +227,7 @@
 						address,
 					}],
 					queryFn: async () => {
-						const ensName = await publicClient.getEnsName({ address })
+						const ensName = await getEnsName(publicClient, { address })
 
 						if(!ensName)
 							// throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name.`)

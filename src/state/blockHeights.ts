@@ -4,6 +4,8 @@ import { derived } from 'svelte/store'
 import { preferences } from './preferences'
 import { getViemPublicClient } from '$/data/networkProviders'
 
+import { watchBlockNumber } from 'viem/actions'
+
 
 const blockHeightForNetworkStores: Record<Ethereum.ChainID, SvelteStore<Ethereum.BlockNumber>> = {}
 
@@ -18,7 +20,7 @@ export const blockHeightForNetwork = (network: Ethereum.Network) => (
 			networkProvider: $preferences.rpcNetwork,
 		})
 
-		return publicClient?.watchBlockNumber({
+		return publicClient && watchBlockNumber(publicClient, {
 			onBlockNumber: blockNumber => {
 				set(blockNumber)
 			}
