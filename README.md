@@ -50,8 +50,8 @@ Built on a **transparent**, **composable**, **verifiable** foundation of **math*
 ### 🎛️ **YOU CONTROL THE DATA**
 There's no central backend — **you choose which data sources power the user interface!**  
 Optimize for **speed**, **reliability**, **privacy** and/or **decentralization** without compromises.  
-> <sup>Choose from **20+ data providers** including Airstack, Alchemy, Chainlink, CoinGecko, Covalent, ENS, Etherscan, Etherspot, Figment,  
-The Graph, IPFS, Infura, Lens, Moralis, NFTPort, Pocket Network, Push, QuickNode, Sourcify, Tenderly, Zapper, Zerion and more!</sup>
+> <sup>Choose from **30+ data providers** including Airstack, Alchemy, Chainbase, Chainlink, Cloudflare, Covalent, Decommas, ENS, Etherscan, Figment, Gateway.fm, GetBlock, 
+The Graph, IPFS, Infura, Lens, Liquality, LlamaNodes, Mod Protocol, Moralis, Nexandria, Neynar, NFTPort, Pinata, Pocket Network, Push, QuickNode, Sourcify, Tenderly, Zapper, Zerion and more!</sup>
 
 
 ### 🌐 **TO ETHEREUM & BEYOND!**
