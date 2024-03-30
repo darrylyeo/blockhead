@@ -546,6 +546,10 @@ export type introspection = {
         "interfaces": []
       },
       {
+        "kind": "SCALAR",
+        "name": "Any"
+      },
+      {
         "kind": "ENUM",
         "name": "Audience",
         "enumValues": [
@@ -1283,6 +1287,14 @@ export type introspection = {
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "String_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
+            "name": "lastUpdatedBlockTimestamp",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Time_Comparator_Exp",
               "ofType": null
             }
           }
@@ -2347,6 +2359,116 @@ export type introspection = {
         "interfaces": []
       },
       {
+        "kind": "INPUT_OBJECT",
+        "name": "FarcasterFrameMessageInput",
+        "inputFields": [
+          {
+            "name": "filter",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "FarcasterFrameMessageInputFilter",
+                "ofType": null
+              }
+            }
+          }
+        ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "FarcasterFrameMessageInputFilter",
+        "inputFields": [
+          {
+            "name": "messageBytes",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FarcasterFrameMessageOutput",
+        "fields": [
+          {
+            "name": "isValid",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "messageByte",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "messageRaw",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Map",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "message",
+            "type": {
+              "kind": "OBJECT",
+              "name": "FrameMessage",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "castedByFid",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "castedBy",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Social",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "interactedByFid",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "interactedBy",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Social",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
         "kind": "SCALAR",
         "name": "Float"
       },
@@ -2431,6 +2553,250 @@ export type introspection = {
             }
           }
         ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FrameMessage",
+        "fields": [
+          {
+            "name": "data",
+            "type": {
+              "kind": "OBJECT",
+              "name": "FrameMessageData",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "hash",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "hashScheme",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "signature",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "signatureScheme",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "signer",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FrameMessageActionBody",
+        "fields": [
+          {
+            "name": "url",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "urlDecoded",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "buttonIndex",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "castId",
+            "type": {
+              "kind": "OBJECT",
+              "name": "FrameMessageCastId",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "inputText",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "inputTextDecoded",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "state",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "stateDecoded",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "transactionId",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "transactionHash",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "address",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FrameMessageCastId",
+        "fields": [
+          {
+            "name": "fid",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "hash",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FrameMessageData",
+        "fields": [
+          {
+            "name": "type",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "fid",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "time",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Time",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "network",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "frameActionBody",
+            "type": {
+              "kind": "OBJECT",
+              "name": "FrameMessageActionBody",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
       },
       {
         "kind": "SCALAR",
@@ -4937,6 +5303,27 @@ export type introspection = {
             ]
           },
           {
+            "name": "TrendingTokens",
+            "type": {
+              "kind": "OBJECT",
+              "name": "TrendingTokensOutput",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "TrendingTokensInput",
+                    "ofType": null
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "FarcasterChannels",
             "type": {
               "kind": "OBJECT",
@@ -4972,6 +5359,27 @@ export type introspection = {
                   "ofType": {
                     "kind": "INPUT_OBJECT",
                     "name": "FarcasterChannelParticipantsInput",
+                    "ofType": null
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "FarcasterValidateFrameMessage",
+            "type": {
+              "kind": "OBJECT",
+              "name": "FarcasterFrameMessageOutput",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "FarcasterFrameMessageInput",
                     "ofType": null
                   }
                 }
@@ -5266,6 +5674,9 @@ export type introspection = {
           },
           {
             "name": "zora"
+          },
+          {
+            "name": "gold"
           }
         ]
       },
@@ -5736,6 +6147,15 @@ export type introspection = {
             "type": {
               "kind": "SCALAR",
               "name": "Identity",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "isFarcasterPowerUser",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
               "ofType": null
             },
             "args": []
@@ -7973,6 +8393,9 @@ export type introspection = {
           },
           {
             "name": "zora"
+          },
+          {
+            "name": "gold"
           }
         ]
       },
@@ -9387,6 +9810,269 @@ export type introspection = {
           }
         ],
         "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "TrendingToken",
+        "fields": [
+          {
+            "name": "id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "blockchain",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "chainId",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "address",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "criteriaCount",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "token",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Token",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "criteria",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "audience",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "timeFrom",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Time",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "timeTo",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Time",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "uniqueHolders",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "ENUM",
+        "name": "TrendingTokensCriteria",
+        "enumValues": [
+          {
+            "name": "unique_wallets"
+          },
+          {
+            "name": "total_transfers"
+          },
+          {
+            "name": "unique_holders"
+          }
+        ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "TrendingTokensFilter",
+        "inputFields": [
+          {
+            "name": "address",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Trending_Comparator_Exp",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "TrendingTokensInput",
+        "inputFields": [
+          {
+            "name": "transferType",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "TrendingTokensTransferType",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "timeFrame",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "TimeFrame",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "audience",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "Audience",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "blockchain",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "TrendingBlockchain",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "filter",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "TrendingTokensFilter",
+              "ofType": null
+            }
+          },
+          {
+            "name": "criteria",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "TrendingTokensCriteria",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "limit",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          {
+            "name": "cursor",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "TrendingTokensOutput",
+        "fields": [
+          {
+            "name": "TrendingToken",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "TrendingToken",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "pageInfo",
+            "type": {
+              "kind": "OBJECT",
+              "name": "PageInfo",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "ENUM",
+        "name": "TrendingTokensTransferType",
+        "enumValues": [
+          {
+            "name": "all"
+          },
+          {
+            "name": "self_initiated"
+          }
+        ]
       },
       {
         "kind": "INPUT_OBJECT",
