@@ -131,12 +131,17 @@
 					chainId: network.chainId,
 					transactionId,
 				}],
-				queryFn: async () => (
-					await getTransactionChainbase({
+				queryFn: async () => {
+					const result = await getTransactionChainbase({
 						chainId: network.chainId,
 						hash: transactionId,
 					})
-				),
+
+					if(result.data === null)
+						throw new Error(`Transaction not found.`)
+
+					return result
+				},
 				select: result => (
 					normalizeTransactionChainbase(result.data, network)
 				),
