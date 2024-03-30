@@ -66,6 +66,7 @@ export const normalizeTransaction = (
 	fromAddress: transaction.from as Ethereum.Address,
 	toAddress: transaction.to as Ethereum.Address,
 
+	input: 'input' in transaction ? transaction.input : undefined,
 	value: 'value' in transaction ? transaction.value : 0n,
 
 	gasToken: network.nativeCurrency,
