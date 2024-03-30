@@ -28534,6 +28534,10 @@ export type introspection = {
         ]
       },
       {
+        "kind": "SCALAR",
+        "name": "Timestamp"
+      },
+      {
         "kind": "OBJECT",
         "name": "Transfer",
         "fields": [
