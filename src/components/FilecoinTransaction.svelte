@@ -84,7 +84,7 @@
 		{/if}
 	</dl> -->
 
-	<div class="row spaced">
+	<div class="row">
 		{#if !(isSummary && (contextIsSender || contextIsReceiver))}
 			<span class="sender" transition:fade>
 				<Address

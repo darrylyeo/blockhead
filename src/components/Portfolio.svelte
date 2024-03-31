@@ -498,7 +498,7 @@
 	{/if}
 
 	<SizeContainer containerClass="sticky-bottom" isOpen={showOptions && portfolio.accounts.length && state !== State.Editing}>
-		<div role="toolbar" class="options card row wrap spaced" transition:fly|global={{ y: 100 }}>
+		<div role="toolbar" class="options card row wrap" transition:fly|global={{ y: 100 }}>
 			<div class="row wrap">
 				<h3>Balances</h3>
 

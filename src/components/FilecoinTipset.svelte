@@ -58,7 +58,7 @@
 			</header>
 
 			<div class="card consensus column">
-				<div class="row spaced wrap">
+				<div class="row wrap">
 					<span class="row inline">
 						{#if tipset.isCanonical}
 							<span class="row inline" data-before="✔">Canonical</span>

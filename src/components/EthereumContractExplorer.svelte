@@ -229,7 +229,7 @@
 
 								<hr>
 
-								<footer class="footer row spaced">
+								<footer class="footer row">
 									<span>
 										<a href={sourcifyUrl} target="_blank">Sourcify</a>
 									</span>

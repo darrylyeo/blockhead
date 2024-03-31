@@ -45,7 +45,7 @@
 
 		<footer
 			role="toolbar"
-			class="row spaced wrap"
+			class="row wrap"
 		>
 			<div class="column">
 				<dl class="row">

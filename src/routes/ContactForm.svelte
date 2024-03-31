@@ -97,7 +97,7 @@
 		>
 			<input type="hidden" name="form-name" value="contact" />
 
-			<header class="row spaced wrap">
+			<header class="row wrap">
 				<h3>Leave feedback + stay updated!</h3>
 				<span class="card-annotation">drop your ENS for a surprise</span>
 			</header>
@@ -171,7 +171,7 @@
 
 			<hr>
 
-			<footer class="row spaced">
+			<footer class="row">
 				<span />
 				<button type="submit">Sign up ›</button>
 			</footer>

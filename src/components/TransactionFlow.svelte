@@ -209,7 +209,7 @@
 			{#if !isMethodReadableWithoutInputs}
 				<hr>
 
-				<footer class="row spaced">
+				<footer class="row">
 					<span />
 					<button type="button" class="medium" on:click={actions.cancel} data-before="↻">Query Again</button>
 				</footer>
@@ -355,7 +355,7 @@
 			{/if}
 
 			
-			<div class="row spaced">
+			<div class="row">
 				<button class="medium" on:click={actions.retry}>Try Again</button>
 				<button class="medium cancel" on:click={actions.cancel}>Cancel</button>
 			</div>

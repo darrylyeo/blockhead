@@ -706,14 +706,12 @@ address {
 	display: flex;
 	align-items: center;
 	gap: var(--padding-inner);
+	justify-content: space-between;
 
 	&.wrap {
 		flex-wrap: wrap;
 	}
 
-	&.spaced {
-		justify-content: space-between;
-	}
 	&.inline {
 		display: inline-flex;
 		gap: 0.5ch;
@@ -733,6 +731,7 @@ address {
 
 	& > :first-child {
 		flex: 1 auto;
+		justify-content: start;
 		justify-items: start;
 		
 		&:is(

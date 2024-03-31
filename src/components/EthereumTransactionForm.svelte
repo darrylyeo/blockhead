@@ -378,7 +378,7 @@
 
 			<svelte:fragment slot="confirming" let:walletName let:walletIcon let:actions>
 				<article class="card">
-					<header class="row spaced">
+					<header class="row">
 						<span class="row">
 							<img src={walletIcon} width="25" />
 							<Address {network} address={selectedAccountConnection?.state?.account?.address} format="middle-truncated" />
@@ -439,7 +439,7 @@
 					{/if}
 				</article>
 
-				<div class="row spaced">
+				<div class="row">
 					<button type="button" class="medium cancel" on:click={actions.back}>‹ Back</button>
 
 					<div class="row">
@@ -483,7 +483,7 @@
 			</svelte:fragment>
 
 			<svelte:fragment slot="simulating-actions" let:actions>
-				<div class="row spaced">
+				<div class="row">
 					<button type="button" class="medium cancel" on:click={actions.confirm}>‹ Back</button>
 
 					<div class="row">
