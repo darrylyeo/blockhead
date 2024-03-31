@@ -174,7 +174,7 @@
 		<hr>
 
 		<footer class="footer bar">
-			<span class="row-inline wrap" title="Transaction {transaction.id}">
+			<span class="row inline wrap" title="Transaction {transaction.id}">
 				<span>
 					Transaction
 					<TransactionId

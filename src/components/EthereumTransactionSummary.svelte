@@ -34,7 +34,7 @@
 </style>
 
 
-<p class="transaction row-inline wrap" title="Transaction {transactionID}">
+<p class="transaction row inline wrap" title="Transaction {transactionID}">
 	<TransactionId
 		{network}
 		transactionId={transactionID}

@@ -72,7 +72,7 @@
 			{/if}
 			<div class="column">
 				<div class="bar wrap">
-					<div class="row-inline">
+					<div class="row inline">
 						<h3>
 							<a href="/apps/audius/playlist/{playlist.id}">{playlist.playlist_name}</a>
 						</h3>

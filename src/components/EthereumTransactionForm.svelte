@@ -236,8 +236,8 @@
 		>
 			<svelte:fragment slot="idle" let:actions={{ next }} let:isValid>
 				<header class="bar">
-					<svelte:element this={`h${headingLevel + 1}`} class="row-inline">
-						<!-- <span class="row-inline"> -->
+					<svelte:element this={`h${headingLevel + 1}`} class="row inline">
+						<!-- <span class="row inline"> -->
 							<NetworkIcon {network} />
 							<!-- {network.name}
 						</span> -->

@@ -138,18 +138,18 @@
 				</header>
 
 				<div class="checkboxes row wrap">
-					<label class="row-inline"><input type="checkbox" name="role" value="crypto-investor"><span>crypto investor</span></label>
-					<label class="row-inline"><input type="checkbox" name="role" value="defi-user"><span>DeFi user</span></label>
-					<label class="row-inline"><input type="checkbox" name="role" value="nft-collector"><span>NFT collector</span></label>
-					<label class="row-inline"><input type="checkbox" name="role" value="dao-contributor"><span>DAO contributor</span></label>
-					<label class="row-inline"><input type="checkbox" name="role" value="web3-developer"><span>web3 builder</span></label>
-					<label class="row-inline"><input type="checkbox" name="role" value="data-scientist"><span>data analyst</span></label>
-					<label class="row-inline"><input type="checkbox" name="role" value="smart-contract-dev"><span>smart contract dev</span></label>
-					<label class="row-inline"><input type="checkbox" name="role" value="frontend-dev"><span>frontend dev</span></label>
-					<label class="row-inline"><input type="checkbox" name="role" value="student"><span>student</span></label>
-					<label class="row-inline"><input type="checkbox" name="role" value="researcher"><span>researcher</span></label>
-					<label class="row-inline"><input type="checkbox" name="role" value="entrepreneur"><span>entrepreneur</span></label>
-					<label class="row-inline"><input type="checkbox" name="role" value="venture-capitalist"><span>venture capitalist</span></label>
+					<label class="row inline"><input type="checkbox" name="role" value="crypto-investor"><span>crypto investor</span></label>
+					<label class="row inline"><input type="checkbox" name="role" value="defi-user"><span>DeFi user</span></label>
+					<label class="row inline"><input type="checkbox" name="role" value="nft-collector"><span>NFT collector</span></label>
+					<label class="row inline"><input type="checkbox" name="role" value="dao-contributor"><span>DAO contributor</span></label>
+					<label class="row inline"><input type="checkbox" name="role" value="web3-developer"><span>web3 builder</span></label>
+					<label class="row inline"><input type="checkbox" name="role" value="data-scientist"><span>data analyst</span></label>
+					<label class="row inline"><input type="checkbox" name="role" value="smart-contract-dev"><span>smart contract dev</span></label>
+					<label class="row inline"><input type="checkbox" name="role" value="frontend-dev"><span>frontend dev</span></label>
+					<label class="row inline"><input type="checkbox" name="role" value="student"><span>student</span></label>
+					<label class="row inline"><input type="checkbox" name="role" value="researcher"><span>researcher</span></label>
+					<label class="row inline"><input type="checkbox" name="role" value="entrepreneur"><span>entrepreneur</span></label>
+					<label class="row inline"><input type="checkbox" name="role" value="venture-capitalist"><span>venture capitalist</span></label>
 				</div>
 			</section>
 			<!-- </fieldset> -->

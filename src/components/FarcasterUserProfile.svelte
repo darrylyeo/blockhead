@@ -26,7 +26,7 @@
 			/>
 
 			{#if user.isActive}
-				<abbr class="active-status row-inline" data-before="★" title="Active" />
+				<abbr class="active-status row inline" data-before="★" title="Active" />
 			{/if}
 		</div>
 	</svelte:fragment>

@@ -206,7 +206,7 @@
 				</div>
 
 				<div class="row">
-					<small class="row-inline">
+					<small class="row inline">
 						<a
 							class="faded"
 							href={resolveRoute(`/apps/farcaster/cast/[farcasterCastId]`, { farcasterCastId: cast.id })}

@@ -139,7 +139,7 @@
 			{/if}
 			<div class="column">
 				<div class="bar wrap">
-					<div class="row-inline wrap">
+					<div class="row inline wrap">
 						<h3>
 							<a href="/apps/audius/track/{track.id}">{track.title}</a>
 						</h3>
@@ -166,7 +166,7 @@
 						{/if}
 					</span>
 				</div>
-				<div class="metadata row-inline wrap">
+				<div class="metadata row inline wrap">
 					{#if track.duration}
 						<span class="duration">
 							{Math.floor(track.duration / 60)}:{(track.duration % 60).toString().padStart(2, '0')}

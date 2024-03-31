@@ -162,7 +162,7 @@
 						{/if}
 
 						<footer class="bar">
-							<div class="row-inline">
+							<div class="row inline">
 								<!-- <span>{notification.notification.title}</span> -->
 							</div>
 
@@ -217,7 +217,7 @@
 				</SizeContainer>
 
 				<footer class="bar">
-					<div class="row-inline">
+					<div class="row inline">
 						<img
 							src={payload.icon} 
 							height="16"

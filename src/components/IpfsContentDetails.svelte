@@ -39,7 +39,7 @@
 			<h4 class="row" data-before="⋔"><IpfsContentId {ipfsContentId} /></h4>
 
 			<div class="row wrap">
-				<div role="toolbar" class="row-inline">
+				<div role="toolbar" class="row inline">
 					{#if dagStats.dagSize}<span>{dagStats.dagSize} bytes</span> │{/if}
 					{#if dagStats.blocks}<span>{dagStats.blocks} blocks</span>{/if}
 					<!-- {#if dagStats.fileSize}<span>{dagStats.fileSize} bytes</span> │{/if} -->

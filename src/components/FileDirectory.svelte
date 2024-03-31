@@ -41,7 +41,7 @@
 		</svelte:fragment>
 
 		<svelte:fragment slot="toolbar">
-			<div class="row-inline">
+			<div class="row inline">
 				{#if subfolders.length}<span>{subfolders.length} subfolders</span> │{/if}
 				{#if folder.files.length}<span>{folder.files.length} files</span>{/if}
 			</div>

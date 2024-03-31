@@ -76,7 +76,7 @@
 		>
 			{#if isShowingAll}
 				<h4
-					class="row-inline"
+					class="row inline"
 					in:scale={{duration: 300, easing: expoOut, /* delay: i * 20 */}}
 				>
 					{section.name}
@@ -97,7 +97,7 @@
 					transition:scale={{duration: 200, opacity: 0, /* delay: i * 20 + j * 10, */ easing: expoOut}}
 					animate:flip={{duration: 250, easing: expoOut}}
 				>
-					<span class="row-inline">
+					<span class="row inline">
 						{preference.name}
 					</span>
 

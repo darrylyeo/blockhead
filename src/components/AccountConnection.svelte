@@ -161,7 +161,7 @@
 						<h4>{name}</h4>
 
 						<div class="column align-end">
-							<div class="row-inline">
+							<div class="row inline">
 								<button class="small" on:click={load}>Connect</button>
 
 								<button
@@ -187,7 +187,7 @@
 						<div class="bar">
 							<h4>{name}</h4>
 
-							<div class="row-inline">
+							<div class="row inline">
 								<button class="small" on:click={load}>Connect</button>
 
 								<button

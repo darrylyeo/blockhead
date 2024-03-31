@@ -171,7 +171,7 @@
 					<section class="card">
 						<header class="bar">
 							<abbr
-								class="row-inline"
+								class="row inline"
 								title={[
 									showContractCodeTypeOrSourcePath,
 									source.license && `License: ${source.license}`,

@@ -20,4 +20,4 @@
 </script>
 
 
-<InlineContainer class="stack-inline align-{align}" {...$$restProps}>{#key key ?? value}<span class="row-inline align-{align}" transition:transition={transitionParams}><slot {key} {value}>{value}</slot></span>{/key}</InlineContainer>
+<InlineContainer class="stack-inline align-{align}" {...$$restProps}>{#key key ?? value}<span class="row inline align-{align}" transition:transition={transitionParams}><slot {key} {value}>{value}</slot></span>{/key}</InlineContainer>

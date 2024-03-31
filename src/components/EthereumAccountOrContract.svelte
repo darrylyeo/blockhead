@@ -130,7 +130,7 @@
 			let:isOpen
 			let:toggle
 		>
-			<div class="row-inline">
+			<div class="row inline">
 				<slot name="title" {network} {address} {ensName}>
 					{#if address}
 						<svelte:element this={`h${headingLevel}`}>

@@ -72,7 +72,7 @@
 				{/if}
 			{/if}
 
-			<span class="row-inline">
+			<span class="row inline">
 				<svelte:element this={`h${headingLevel}`}>
 					<LensName {instance} lensName={profile.handle} />
 				</svelte:element>

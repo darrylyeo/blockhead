@@ -100,7 +100,7 @@
 			<span slot="header-right" class="card-annotation"><a href="https://github.com/multiformats/cid" target="_blank">IPFS CIDv{result?.cid.version}</a></span>
 
 			<div class="card">
-				<output class="decoded-cid row-inline wrap"><span title="Multibase"><InlineTransition align="center" value={result?.multibase.name} /></span> - <span title="Version"><InlineTransition align="center" value="cidv{result?.cid.version}" /></span> - <span title="Multicodec"><InlineTransition align="center" value={result?.multicodec.name} transition={scale} /></span> - <span class="row-inline" title="Multihash">(<span title="Multicodec"><InlineTransition value={result?.multihash.multicodec.name} /></span> : <span title="Size (bits)"><InlineTransition value={result?.multihash.size * 8} /></span> : <span title="Digest (base16)"><BlockTransition align="center" value={digestBase16} /></span>)</span></output>
+				<output class="decoded-cid row inline wrap"><span title="Multibase"><InlineTransition align="center" value={result?.multibase.name} /></span> - <span title="Version"><InlineTransition align="center" value="cidv{result?.cid.version}" /></span> - <span title="Multicodec"><InlineTransition align="center" value={result?.multicodec.name} transition={scale} /></span> - <span class="row inline" title="Multihash">(<span title="Multicodec"><InlineTransition value={result?.multihash.multicodec.name} /></span> : <span title="Size (bits)"><InlineTransition value={result?.multihash.size * 8} /></span> : <span title="Digest (base16)"><BlockTransition align="center" value={digestBase16} /></span>)</span></output>
 				<!-- <p>multibase - version - multicodec - multihash (name : size : digest)</p> -->
 			</div>
 

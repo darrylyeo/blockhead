@@ -245,8 +245,8 @@
 						let:toggle
 					>
 						<div class="bar wrap">
-							<span class="row-inline wrap">
-								<h3 id={slug} class="row-inline">
+							<span class="row inline wrap">
+								<h3 id={slug} class="row inline">
 									<NetworkIcon {network} />
 									›
 									{#if slug}

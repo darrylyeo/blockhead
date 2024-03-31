@@ -658,7 +658,8 @@ a.card {
 }
 
 
-.row, .row-inline, .bar {
+.row,
+.bar {
 	display: flex;
 	align-items: center;
 	gap: var(--padding-inner);
@@ -669,7 +670,7 @@ a.card {
 .row.spaced {
 	justify-content: space-between;
 }
-.row-inline {
+.row.inline {
 	display: inline-flex;
 	gap: 0.5ch;
 	align-items: baseline;
@@ -680,7 +681,9 @@ a.card {
 .bar > :first-child {
 	flex: 1 auto;
 }
-.bar > .row-inline:first-child, .bar > h2:first-child, .bar > h3:first-child {
+.bar > .row.inline:first-child,
+.bar > h2:first-child,
+.bar > h3:first-child {
 	flex: 1;
 	overflow: hidden;
 	text-overflow: ellipsis;

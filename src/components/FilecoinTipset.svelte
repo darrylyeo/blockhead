@@ -59,11 +59,11 @@
 
 			<div class="card consensus column">
 				<div class="row spaced wrap">
-					<span class="row-inline">
+					<span class="row inline">
 						{#if tipset.isCanonical}
-							<span class="row-inline" data-before="✔">Canonical</span>
+							<span class="row inline" data-before="✔">Canonical</span>
 						{:else}
-							<span class="row-inline" data-before="✘">Non-Canonical</span>
+							<span class="row inline" data-before="✘">Non-Canonical</span>
 						{/if}
 
 						tipset

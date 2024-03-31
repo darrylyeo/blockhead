@@ -56,7 +56,7 @@
 >
 	{@const title = `${formattedENSName}${textRecords ? [...textRecords.entries()].map(([key, value]) => `${key} ${value}`).join('\n') : ''}`}
 
-	<span class="ens-name-container row-inline {$$props.class}">
+	<span class="ens-name-container row inline {$$props.class}">
 		{#if textRecords?.get('avatar')}
 			{@const avatarUri = textRecords.get('avatar')}
 			{#if avatarUri?.match(/^https?:\/\//)}

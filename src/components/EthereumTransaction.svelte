@@ -230,7 +230,7 @@
 				{#if (isStandaloneLayout || isExhaustive) && transaction.input}
 					<hr>
 
-					<div class="input row-inline wrap">
+					<div class="input row inline wrap">
 						<span>with input</span>
 
 						<output class:scrollable-list={transaction.input.length > 80}>{transaction.input}</output>

@@ -442,7 +442,7 @@ on:dblclick={() => show3D = !show3D} -->
 									{/if}
 								</span>
 							{:else if !isOpen && contract.nfts?.length}
-								<div class="nfts-preview row-inline">
+								<div class="nfts-preview row inline">
 									{#each contract.nfts.slice(0, 3) ?? [] as nft}
 										<NftImage
 											{nft}
@@ -504,7 +504,7 @@ on:dblclick={() => show3D = !show3D} -->
 
 									<figcaption class="column">
 										<header class="bar wrap">
-											<div class="nft-name" class:row-inline={!showImagesOnly}>
+											<div class="nft-name" class:row={!showImagesOnly} class:inline={!showImagesOnly}>
 												{#if nft.metadata.name}<h6>{nft.metadata.name}</h6>{/if}
 												{#if nft.erc1155Balance && nft.erc1155Balance > 1}
 													<span class="nft-count">×{nft.erc1155Balance}</span>

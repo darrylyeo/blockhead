@@ -77,7 +77,7 @@
 					class="card-annotation"
 				>
 					<address
-						class="row-inline"
+						class="row inline"
 						data-after="↗︎"
 					>
 						{#if (knownEmbedType || urlMetadata.publisher) && !urlDomain.toLowerCase().includes((knownEmbedType || urlMetadata.publisher).toLowerCase())}
