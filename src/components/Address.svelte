@@ -47,21 +47,23 @@
 		</slot>
 	</a>
 {:else}
-	<slot {formattedAddress}>
-		{#if format === 'middle-truncated'}
-			<abbr
-				class="address monospace"
-				title={address}
-				draggable={true}
-				on:dragstart={onDragStart}
+	<span>
+		<slot {formattedAddress}>
+			{#if format === 'middle-truncated'}
+				<abbr
+					class="address monospace"
+					title={address}
+					draggable={true}
+					on:dragstart={onDragStart}
 
-			>{formattedAddress}</abbr>
-		{:else}
-			<span
-				class="address monospace"
-				draggable={true}
-				on:dragstart={onDragStart}
-			>{formattedAddress}</span>
-		{/if}
-	</slot>
+				>{formattedAddress}</abbr>
+			{:else}
+				<span
+					class="address monospace"
+					draggable={true}
+					on:dragstart={onDragStart}
+				>{formattedAddress}</span>
+			{/if}
+		</slot>
+	</span>
 {/if}
