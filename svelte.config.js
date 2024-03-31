@@ -1,4 +1,5 @@
-import preprocess from 'svelte-preprocess'
+// import preprocess from 'svelte-preprocess'
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 
 import adapterAuto from '@sveltejs/adapter-auto'
 import adapterStatic from '@sveltejs/adapter-static'
@@ -15,7 +16,13 @@ console.log({isStatic, isNetlify, isVercel})
 const config = {
 	// Consult https://github.com/sveltejs/svelte-preprocess
 	// for more information about preprocessors
-	preprocess: preprocess(),
+	preprocess: [
+		// preprocess(),
+		vitePreprocess({
+			script: true,
+			style: true,
+		}),
+	],
 
 	kit: {
 		adapter:
