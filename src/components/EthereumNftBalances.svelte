@@ -272,7 +272,6 @@
 	}
 	.show3D:not(.showImagesOnly) .nft-contract:not(:focus-within):before {
 		transform-origin: top;
-		-webkit-backdrop-filter: blur(10px);
 		backdrop-filter: blur(10px);
 	}
 	.show3D .nft {
@@ -297,25 +296,13 @@
 		--angle: 0;
 	}
 	.show3D .nft :global(.nft-image) {
-		/* -webkit-mask: linear-gradient(white, transparent) no-repeat;
-		mask: linear-gradient(white, transparent) no-repeat; */
-		/* -webkit-mask-image: linear-gradient(white 30%, rgba(255, 255, 255, 0.25) 50%, transparent);
-		mask-image: linear-gradient(white, transparent); */
-		/* -webkit-mask-image: linear-gradient(white 20%, transparent 80%);
-		mask-image: linear-gradient(white 20%, transparent 80%); */
-
+		/* mask: linear-gradient(white, transparent) no-repeat; */
+		/* mask-image: linear-gradient(white, transparent); */
+		/* mask-image: linear-gradient(white 20%, transparent 80%); */
 
 		--wipe-gradient-height: 0.333;
 		--total-height: calc(2 + var(--wipe-gradient-height));
 
-		-webkit-mask:
-			linear-gradient(
-				178deg,
-				white calc(100% / var(--total-height)),
-				transparent calc(100% * (1 + var(--wipe-gradient-height)) / var(--total-height))
-			)
-			50% / 100% calc(100% * var(--total-height))
-			no-repeat;
 		mask:
 			linear-gradient(
 				178deg,
@@ -325,10 +312,8 @@
 			50% / 100% calc(100% * var(--total-height))
 			no-repeat;
 
-		-webkit-mask-position-y: calc(50% + var(--grid-height) / 2);
 		mask-position-y: calc(50% + var(--grid-height) / 2);
 
-		-webkit-backdrop-filter: blur(6px);
 		backdrop-filter: blur(6px);
 
 		transition: var(--transition-duration);
@@ -336,7 +321,6 @@
 	}
 	.show3D .nft:focus-within :global(.nft-image),
 	.show3D:not(.showImagesOnly) .nft-contract:focus-within .nft :global(.nft-image) {
-		-webkit-mask-position-y: top;
 		mask-position-y: top;
 	}
 	.show3D .nft figcaption {

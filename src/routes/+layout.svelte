@@ -148,7 +148,6 @@
 		top: 0;
 		z-index: 1;
 
-		-webkit-backdrop-filter: var(--overlay-backdrop-filter);
 		backdrop-filter: var(--overlay-backdrop-filter);
 		border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 		padding: 0 var(--padding-outer);
@@ -198,7 +197,6 @@
 		bottom: 0;
 		z-index: 20;
 
-		-webkit-backdrop-filter: var(--overlay-backdrop-filter);
 		backdrop-filter: var(--overlay-backdrop-filter);
 		border-top: 1px solid rgba(0, 0, 0, 0.2);
 	}
@@ -218,7 +216,6 @@
 		padding: 1.5rem;
 
 		background-color: rgba(var(--rgb-light-dark), 0.33);
-		-webkit-backdrop-filter: var(--overlay-backdrop-filter);
 		backdrop-filter: var(--overlay-backdrop-filter);
 	}
 

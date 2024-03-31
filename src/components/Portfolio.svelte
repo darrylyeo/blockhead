@@ -233,7 +233,6 @@
 
 		font-size: 0.8em;
 
-		-webkit-backdrop-filter: var(--overlay-backdrop-filter);
 		backdrop-filter: var(--overlay-backdrop-filter);
 	}
 

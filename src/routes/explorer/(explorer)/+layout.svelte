@@ -135,7 +135,6 @@
 		padding: var(--padding-outer);
 
 		background-color: rgba(0, 0, 0, 0.25);
-		-webkit-backdrop-filter: var(--overlay-backdrop-filter);
 		backdrop-filter: var(--overlay-backdrop-filter);
 		border-radius: var(--card-border-radius);
 		margin: 0 calc(-1 * var(--padding-outer));

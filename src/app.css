@@ -849,13 +849,6 @@ address {
 	margin: 0 calc(-1 * var(--scroll-fade));
 	padding: 0 var(--scroll-fade);
 
-	-webkit-mask-image: linear-gradient(
-		to right,
-		transparent,
-		white var(--scroll-fade),
-		white calc(100% - var(--scroll-fade)),
-		transparent
-	);
 	mask-image: linear-gradient(
 		to right,
 		transparent,
