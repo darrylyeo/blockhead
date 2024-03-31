@@ -212,15 +212,59 @@ output[data-type="text"] {
 	white-space: nowrap;
 }
 
+button,
+::file-selector-button {
+	--button-backgroundColor: var(--primary-color);
+	--button-fontSize: 1.15em;
+	--button-cursor: pointer;
 
-button, ::file-selector-button {
+	--button-depth: 0.15em;
+	--button-scale: 1;
+	--button-glow: 0px;
+
+	&:is(:hover, :focus) {
+		--button-scale: 1.015;
+	}
+
+	&:focus {
+		--button-glow: 5px;
+	}
+
+	&:active {
+		--button-depth: 0px;
+	}
+
+	&.medium {
+		--button-fontSize: 0.95em;
+	}
+
+	&.small {
+		--button-fontSize: 0.7em;
+	}
+
+	&.destructive {
+		--button-backgroundColor: hsl(17deg 69% 43%);
+	}
+
+	&.cancel {
+		--button-backgroundColor: #777;
+	}
+
+	&.add {
+		--button-cursor: copy;
+	}
+
+	&:is(a) {
+		text-decoration: none;
+	}
+
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	gap: 0.75ch;
 
-	-webkit-appearance: none;
-	background-color: var(--primary-color);
+	appearance: none;
+	background-color: var(--button-backgroundColor);
 	color: #fff;
 	border: none;
 	border-radius: 0.33em;
@@ -230,51 +274,34 @@ button, ::file-selector-button {
 	padding: 0.3em 0.7em;
 	
 	font: inherit;
-	font-size: 1.15em;
+	font-size: var(--button-fontSize);
 	font-weight: bold;
 	line-height: 1.5;
 	text-decoration: none;
 	text-shadow: 0px 2px 1px rgba(0, 0, 0, 0.1);
 
-	--depth: 0.15em;
-	--scale: 1;
-	--glow: 0;
-	box-shadow: 0px var(--depth) rgba(0, 0, 0, 0.25), 0px var(--depth) var(--primary-color), 0 var(--depth) var(--glow) var(--primary-color);
-	transform: translateY(calc(-1 * var(--depth))) scale(var(--scale));
-	transform-origin: var(--button-transform-origin);
+	box-shadow: 0px var(--button-depth) rgba(0, 0, 0, 0.25), 0px var(--button-depth) var(--button-backgroundColor), 0 var(--button-depth) var(--button-glow) var(--button-backgroundColor);
+	transform: translateY(calc(-1 * var(--button-depth))) scale(var(--button-scale));
+	transform-origin: var(--button-transformOrigin);
 	
 	transition: 0.2s;
 
-	cursor: pointer;
+	cursor: var(--button-cursor);
 	user-select: none;
 }
-button:is(:hover, :focus), input:is(:hover, :focus)::file-selector-button {
-	--scale: 1.015;
-}
-button:focus, input:focus::file-selector-button {
-	--glow: 5px;
-}
-button:active, input:active::file-selector-button {
-	--depth: 0;
-}
-button.medium, input.medium::file-selector-button {
-	font-size: 0.95em;
-}
-button.small, input.small::file-selector-button {
-	font-size: 0.7em;
-}
-button.destructive {
-	--primary-color: hsl(17deg 69% 43%);
-}
-button.cancel {
-	--primary-color: #777;
-}
-button.add {
-	cursor: copy;
-}
 
-a:has(button) {
-	text-decoration: none;
+input[type="file"] {
+	&:is(:hover, :focus)::file-selector-button {
+		--button-scale: 1.015;
+	}
+
+	&:focus::file-selector-button {
+		--button-glow: 5px;
+	}
+
+	&:active::file-selector-button {
+		--button-depth: 0px;
+	}
 }
 
 
@@ -786,32 +813,32 @@ a.card {
 	justify-items: start;
 	justify-content: start;
 	transform-origin: left;
-	--button-transform-origin: left;
+	--button-transformOrigin: left;
 }
 .align-center {
 	text-align: center;
 	justify-items: center;
 	justify-content: center;
 	transform-origin: center;
-	--button-transform-origin: center;
+	--button-transformOrigin: center;
 }
 .align-end {
 	text-align: right;
 	justify-items: end;
 	justify-content: end;
 	transform-origin: right;
-	--button-transform-origin: right;
+	--button-transformOrigin: right;
 }
 .align-top {
 	place-items: start stretch;
 	transform-origin: top;
-	--button-transform-origin: top;
+	--button-transformOrigin: top;
 }
 .align-bottom {
 	place-items: end stretch;
 	align-content: end;
 	transform-origin: bottom;
-	--button-transform-origin: bottom;
+	--button-transformOrigin: bottom;
 }
 
 
