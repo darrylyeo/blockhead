@@ -303,9 +303,35 @@
 
 		<section>
 			<div class="buttons">
-				<a href="/portfolio" style="--primary-color: var(--ethereum-blue);" in:scale|global={{delay: 800}}><button class="large row" data-before="📊">Create Portfolio ›</button></a>
-				<a href="/explorer" style="--primary-color: var(--arbitrum-blue);" in:scale|global={{delay: 850}}><button class="large row" data-before="🧭">Explore Blockchains ›</button></a>
-				<a href="/apps" style="--primary-color: var(--gnosis-teal);" in:scale|global={{delay: 900}}><button class="large row" data-before="📲">Browse Apps ›</button></a>
+				<a
+					href="/portfolio"
+					style="--primary-color: var(--ethereum-blue);"
+					in:scale|global={{delay: 800}}
+					class="button large row"
+					data-before="📊"
+				>
+					Create Portfolio ›
+				</a>
+
+				<a
+					href="/explorer"
+					style="--primary-color: var(--arbitrum-blue);"
+					in:scale|global={{delay: 850}}
+					class="button large row"
+					data-before="🧭"
+				>
+					Explore Blockchains ›
+				</a>
+
+				<a
+					href="/apps"
+					style="--primary-color: var(--gnosis-teal);"
+					in:scale|global={{delay: 900}}
+					class="button large row"
+					data-before="📲"
+				>
+					Browse Apps ›
+				</a>
 			</div>
 		</section>
 

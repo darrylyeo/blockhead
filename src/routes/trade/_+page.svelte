@@ -33,7 +33,7 @@
 			<div class="card">
 				<h3>Vega ✨</h3>
 				<p>Trade derivatives on a fully automated decentralized network.</p>
-				<a href="/trade/vega"><button>Trade</button></a>
+				<a href="/trade/vega" class="button">Trade</button></a>
 			</div>
 		</div>
 	</div>
@@ -45,12 +45,12 @@
 			<div class="card">
 				<h3>Uniswap 🦄</h3>
 				<p>Travel between ERC-20 assets with this popular unicorn ride-sharing service.</p>
-				<a href="/trade/uniswap" disabled><button>Coming Soon</button></a>
+				<a href="/trade/uniswap" disabled class="button">Coming Soon</button></a>
 			</div>
 			<div class="card">
 				<h3>Balancer ⚖️</h3>
 				<p>Get the lowest price by helping other investors balance their portfolios.</p>
-				<a href="/trade/balancer" disabled><button>Coming Soon</button></a>
+				<a href="/trade/balancer" disabled class="button">Coming Soon</button></a>
 			</div>
 		</div>
 	</div>
@@ -62,11 +62,11 @@
 			<div class="card">
 				<h3>1inch 🥊</h3>
 				<p>Distribute your trade across many exchanges in one swift, efficient blow!</p>
-				<a href="/trade/1inch" disabled><button>Coming Soon</button></a>
+				<a href="/trade/1inch" disabled class="button">Coming Soon</button></a>
 			</div>
 			<!-- <div class="card">
 				<h3>Matcha 🍵</h3>
-				<a href="/trade/matcha"><button>Coming Soon</button></a>
+				<a href="/trade/matcha" class="button">Coming Soon</button></a>
 			</div> -->
 		</div>
 	</div>

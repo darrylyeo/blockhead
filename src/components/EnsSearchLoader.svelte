@@ -77,7 +77,14 @@
 				</div>
 				<div class="bar">
 					<p>The ENS name "{searchQuery}" hasn't been registered by anyone. Perhaps you could claim it for yourself!</p>
-					<a href="https://app.ens.domains/name/{searchQuery}" target="_blank"><button class="medium">Register On ENS</button></a>
+
+					<a
+						href="https://app.ens.domains/name/{searchQuery}"
+						target="_blank"
+						class="button medium"
+					>
+						Register On ENS
+					</a>
 				</div>
 			</div>
 		{/if}

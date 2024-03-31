@@ -38,8 +38,6 @@
 	li.right {
 		font-size: 0.75em;
 		align-items: center;
-	}
-	li.right a {
 		/* padding: 0.33rem 0.66rem; */
 		padding: 0.2rem 0.5rem 0;
 	}
@@ -49,7 +47,7 @@
 		}
 	} */
 
-	a {
+	li:not(.right) a {
 		text-decoration: none;
 		padding: 0.75rem 1.25rem;
 		transition: 0.2s, font-weight 0.2s;
@@ -93,12 +91,68 @@
 		<!-- <li><a aria-current="{$page.url.pathname.startsWith('/trade') ? 'page' : undefined}" href="/trade">Trade</a></li> -->
 		<!-- <li><a aria-current="{$page.url.pathname.startsWith('/invest') ? 'page' : undefined}" href="/invest">Invest</a></li> -->
 
-		<!-- <li class="right"><a href="https://explorer.gitcoin.co/#/round/137/0xa1d52f9b5339792651861329a046dd912761e9a9/0xa1d52f9b5339792651861329a046dd912761e9a9-19" target="_blank"><button class="medium" style="--primary-color: #00ae84"><img src={GitcoinIcon} width="16" /> Gitcoin Grants</button></a></li> -->
-		<li class="right"><a href="https://warpcast.com/~/channel/blockhead" target="_blank"><button class="medium" style="--primary-color: hsl(261.08deg 55.22% 63.59%)"><img src={FarcasterIcon} width="16" /> Farcaster</button></a></li>
-		<!-- <li class="right"><a href="https://discord.gg/966eXqqq7N" target="_blank">Discord</a></li> -->
-		<!-- <li class="right"><a href="https://twitter.com/0xBlockhead" target="_blank"><button class="medium" data-before="🐦" style="--primary-color: rgb(29, 155, 240)">Twitter</button></a></li> -->
-		<li class="right"><a href="https://twitter.com/0xBlockhead" target="_blank"><button class="medium" data-before="𝕏" style="--primary-color: #2c4660">Twitter</button></a></li>
-		<li class="right"><a href="/#contact" target="_blank"><button class="medium" data-before="💬" style="--primary-color: #627EEA">Feedback</button></a></li>
+		<!-- <li class="right">
+			<a
+				href="https://explorer.gitcoin.co/#/round/137/0xa1d52f9b5339792651861329a046dd912761e9a9/0xa1d52f9b5339792651861329a046dd912761e9a9-19"
+				target="_blank"
+				class="button medium"
+				style="--primary-color: #00ae84"
+			>
+				<img src={GitcoinIcon} width="16" /> Gitcoin Grants
+			</a>
+		</li> -->
+		<li class="right">
+			<a
+				href="https://warpcast.com/~/channel/blockhead"
+				target="_blank"
+				class="button medium"
+				style="--primary-color: hsl(261.08deg 55.22% 63.59%)"
+			>
+				<img src={FarcasterIcon} width="16" /> Farcaster
+			</a>
+		</li>
+		<!-- <li class="right">
+			<a
+				href="https://discord.gg/966eXqqq7N"
+				target="_blank"
+				class="button medium"
+			>
+				Discord
+			</a>
+		</li> -->
+		<!-- <li class="right">
+			<a
+				href="https://twitter.com/0xBlockhead"
+				target="_blank"
+				class="button medium"
+				data-before="🐦"
+				style="--primary-color: rgb(29, 155, 240)"
+			>
+				Twitter
+			</a>
+		</li> -->
+		<li class="right">
+			<a
+				href="https://twitter.com/0xBlockhead"
+				target="_blank"
+				class="button medium"
+				data-before="𝕏"
+				style="--primary-color: #2c4660"
+			>
+				Twitter
+			</a>
+		</li>
+		<li class="right">
+			<a
+				href="/#contact"
+				target="_blank"
+				class="button medium"
+				data-before="💬"
+				style="--primary-color: #627EEA"
+			>
+				Feedback
+			</a>
+		</li>
 	</ul>
 
 	<!-- <div class="nav-right row">

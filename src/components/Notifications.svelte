@@ -151,7 +151,7 @@
 							</h6>
 
 							<!-- {#if notification.data.acta}
-								<a href={notification.data.acta} target="_blank" rel="noreferrer"><button class="small">Go ›</button></a>
+								<a href={notification.data.acta} target="_blank" rel="noreferrer" class="button small">Go ›</a>
 							{/if} -->
 						</header>
 
@@ -203,7 +203,7 @@
 					</h5>
 
 					<!-- {#if notification.data.acta}
-						<a href={notification.data.acta} target="_blank" rel="noreferrer"><button class="small">Go ›</button></a>
+						<a href={notification.data.acta} target="_blank" rel="noreferrer" class="button small">Go ›</a>
 					{/if} -->
 				</header>
 

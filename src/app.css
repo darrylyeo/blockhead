@@ -213,6 +213,7 @@ output[data-type="text"] {
 }
 
 button,
+.button,
 ::file-selector-button {
 	--button-backgroundColor: var(--primary-color);
 	--button-fontSize: 1.15em;
