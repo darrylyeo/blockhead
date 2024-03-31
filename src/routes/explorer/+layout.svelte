@@ -102,7 +102,7 @@
 <!-- <main> -->
 	<div class="bar wrap">
 		<div class="title row">
-			<span class="stack-inline">
+			<span class="stack inline">
 				{#key $networkSlug}
 					<span class="title-icon" in:scale={{ duration: 300 }} out:scale={{ duration: 300 }}>
 						{#if $networkSlug}
@@ -114,7 +114,7 @@
 				{/key}
 			</span>
 			<h1>
-				<InlineContainer class="stack-inline align-end" clip>{#key $networkSlug}<b in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}><InlineContainer isOpen={networkDisplayName}>{networkDisplayName} </InlineContainer></b>{/key}</InlineContainer>
+				<InlineContainer class="stack inline align-end" clip>{#key $networkSlug}<b in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}><InlineContainer isOpen={networkDisplayName}>{networkDisplayName} </InlineContainer></b>{/key}</InlineContainer>
 				Explorer
 			</h1>
 		</div>

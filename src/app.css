@@ -701,14 +701,14 @@ a.card {
 }
 
 
-.stack, .stack-inline {
+.stack {
 	display: grid;
 	grid: "stack";
 }
-.stack-inline {
+.stack.inline {
 	display: inline-grid;
 }
-.stack > *, .stack-inline > * {
+.stack > * {
 	grid-area: stack;
 }
 

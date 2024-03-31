@@ -137,7 +137,7 @@
 		max-width: 11.5rem;
 	}
 
-	.stack {
+	.content {
 		flex: 1;
 	}
 
@@ -154,7 +154,7 @@
 <!-- <main> -->
 	<div class="bar wrap">
 		<div class="title row">
-			<span class="stack-inline">
+			<span class="stack inline">
 				{#key $web3AppConfig}{#key $network}
 					<span class="title-icon" in:scale={{ duration: 300 }} out:scale={{ duration: 300 }}>
 						{#if $web3AppConfig}
@@ -179,15 +179,15 @@
 			</span>
 
 			<h1>
-				<a href="/apps/{$web3AppSlug}" class="stack-inline">
+				<a href="/apps/{$web3AppSlug}" class="stack inline">
 					{#if $web3AppSlug && $web3AppConfig}
 						<span in:fly|global={{y: 20, duration: 200}} out:fly|global={{y: -20, duration: 200}}>
-							<InlineContainer class="stack-inline" clip>
+							<InlineContainer class="stack inline" clip>
 								{#key $web3AppConfig}<mark in:fly|global={{y: 20, duration: 200}} out:fly|global={{y: -20, duration: 200}}>{$web3AppConfig.name}</mark>{/key}
 							</InlineContainer>
 
 							{#if $currentView !== 'Dashboard'}
-								<InlineContainer class="stack-inline" clip>
+								<InlineContainer class="stack inline" clip>
 									{#key $currentView}<span in:fly|global={{y: 20, duration: 200}} out:fly|global={{y: -20, duration: 200}}>{$currentView}</span>{/key}
 								</InlineContainer>
 							{/if}
@@ -195,7 +195,7 @@
 					{:else}
 						<span in:fly|global={{y: 20, duration: 200}} out:fly|global={{y: -20, duration: 200}}>
 							{#if $network}
-								<InlineContainer class="stack-inline" clip>
+								<InlineContainer class="stack inline" clip>
 									{#key $network}<span in:fly|global={{y: 20, duration: 200}} out:fly|global={{y: -20, duration: 200}}>{$network.name}</span>{/key}
 								</InlineContainer>
 							{/if}
@@ -244,7 +244,7 @@
 		</label>
 	</div>
 
-	<div class="stack">
+	<div class="content stack">
 		<slot />
 	</div>
 </main>

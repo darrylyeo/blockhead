@@ -308,7 +308,7 @@
 		{/if} -->
 
 		{#if isEditable}
-			<div class="stack-inline">
+			<div class="stack inline">
 				<InlineContainer containerClass="align-end" isOpen={state !== State.Editing}>
 					<div class="bar align-end wrap" transition:scale|global>
 						{#if state === State.Idle}
