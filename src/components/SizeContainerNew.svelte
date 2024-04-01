@@ -88,6 +88,11 @@
 			&[data-align-inline="end"] {
 				justify-content: end;
 			}
+
+			& > [data-content] {
+				display: inline-block;
+				width: max-content;
+			}
 		}
 
 		&[data-is-block] {
@@ -110,11 +115,6 @@
 			&[data-align-block="end"] {
 				align-content: end;
 			}
-		}
-
-		& > [data-content] {
-			display: inline-block;
-			width: max-content;
 		}
 	}
 </style>
