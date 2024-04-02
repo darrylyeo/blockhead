@@ -65,55 +65,57 @@
 
 
 <style>
-	[data-container] {
-		transition: contain-intrinsic-size var(--transitionDuration) var(--ease-out-expo);
+	@layer SizeContainer {
+		[data-container] {
+			transition: contain-intrinsic-size var(--transitionDuration) var(--ease-out-expo);
 
-		&[data-is-inline] {
-			display: inline-grid;
-			contain: inline-size;
-			contain-intrinsic-inline-size: auto var(--inlineSize, 0px);
+			&[data-is-inline] {
+				display: inline-grid;
+				contain: inline-size;
+				contain-intrinsic-inline-size: auto var(--inlineSize, 0px);
 
-			&[data-clip] {
-				contain: inline-size paint;
+				&[data-clip] {
+					contain: inline-size paint;
+				}
+
+				&[data-align-inline="start"] {
+					justify-content: start;
+				}
+
+				&[data-align-inline="center"] {
+					justify-content: center;
+				}
+
+				&[data-align-inline="end"] {
+					justify-content: end;
+				}
+
+				& > [data-content] {
+					display: inline-block;
+					width: max-content;
+				}
 			}
 
-			&[data-align-inline="start"] {
-				justify-content: start;
-			}
+			&[data-is-block] {
+				display: grid;
+				contain: size;
+				contain-intrinsic-block-size: auto var(--blockSize, 0px);
 
-			&[data-align-inline="center"] {
-				justify-content: center;
-			}
+				&[data-clip] {
+					contain: size paint;
+				}
 
-			&[data-align-inline="end"] {
-				justify-content: end;
-			}
+				&[data-align-block="start"] {
+					align-content: start;
+				}
 
-			& > [data-content] {
-				display: inline-block;
-				width: max-content;
-			}
-		}
+				&[data-align-block="center"] {
+					align-content: center;
+				}
 
-		&[data-is-block] {
-			display: grid;
-			contain: size;
-			contain-intrinsic-block-size: auto var(--blockSize, 0px);
-
-			&[data-clip] {
-				contain: size paint;
-			}
-
-			&[data-align-block="start"] {
-				align-content: start;
-			}
-
-			&[data-align-block="center"] {
-				align-content: center;
-			}
-
-			&[data-align-block="end"] {
-				align-content: end;
+				&[data-align-block="end"] {
+					align-content: end;
+				}
 			}
 		}
 	}
