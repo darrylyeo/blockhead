@@ -48,7 +48,7 @@
 	data-is-inline={isInline || undefined}
 	data-align-block={alignBlock}
 	data-align-inline={alignInline}
-	data-clip={clip || undefined}
+	data-clip={clip ? '' : undefined}
 	style:--inlineSize={isInline && borderBoxSize ? `${borderBoxSize[0].inlineSize}px` : undefined}
 	style:--blockSize={isBlock && borderBoxSize ? `${borderBoxSize[0].blockSize}px` : undefined}
 	style:--transitionDuration={`${duration}ms`}
