@@ -16,6 +16,7 @@
 	export let containerTag: keyof SvelteHTMLElements = { 'block': 'div', 'inline': 'span', 'both': 'div' }[layout]
 	export let containerProps: Record<string, any> | undefined
 
+	export let contentKey: any | undefined
 	export let contentTag: keyof SvelteHTMLElements = { 'block': 'div', 'inline': 'span', 'both': 'div' }[layout]
 	export let contentProps: Record<string, any> | undefined
 
@@ -54,15 +55,17 @@
 	style:--transitionDelay={delay ? `${delay}ms` : undefined}
 	{...containerProps}
 >
-	<svelte:element this={contentTag}
-		data-content
-		bind:borderBoxSize
-		class="content"
-		{...contentProps}
-		out:transitionContent
-	>
-		<slot />
-	</svelte:element>
+	{#key contentKey}
+		<svelte:element this={contentTag}
+			data-content
+			bind:borderBoxSize
+			class="content"
+			{...contentProps}
+			out:transitionContent
+		>
+			<slot />
+		</svelte:element>
+	{/key}
 </svelte:element>
 
 
