@@ -10,7 +10,7 @@
 	export let alignBlock: 'start' | 'center' | 'end' = 'start'
 	export let alignInline: 'start' | 'center' | 'end' = 'start'
 
-	export let duration = 300
+	export let duration = 600
 	export let delay = 0
 
 	export let containerTag: keyof SvelteHTMLElements = { 'block': 'div', 'inline': 'span', 'both': 'div' }[layout]
