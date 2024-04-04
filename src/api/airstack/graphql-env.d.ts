@@ -5385,6 +5385,27 @@ export type introspection = {
                 }
               }
             ]
+          },
+          {
+            "name": "TrendingSwaps",
+            "type": {
+              "kind": "OBJECT",
+              "name": "TrendingSwapsOutput",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "TrendingSwapsInput",
+                    "ofType": null
+                  }
+                }
+              }
+            ]
           }
         ],
         "interfaces": []
@@ -9813,6 +9834,316 @@ export type introspection = {
       },
       {
         "kind": "OBJECT",
+        "name": "TrendingSwap",
+        "fields": [
+          {
+            "name": "id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "blockchain",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "chainId",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "address",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "token",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Token",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "criteria",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "timeFrom",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Time",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "timeTo",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Time",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "buyTransactionCount",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "sellTransactionCount",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "totalTransactionCount",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "buyVolume",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "sellVolume",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "totalVolume",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "uniqueBuyWallets",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "uniqueSellWallets",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "totalUniqueWallets",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "ENUM",
+        "name": "TrendingSwapsBlockchain",
+        "enumValues": [
+          {
+            "name": "base"
+          }
+        ]
+      },
+      {
+        "kind": "ENUM",
+        "name": "TrendingSwapsCriteria",
+        "enumValues": [
+          {
+            "name": "buy_transaction_count"
+          },
+          {
+            "name": "sell_transaction_count"
+          },
+          {
+            "name": "total_transaction_count"
+          },
+          {
+            "name": "buy_volume"
+          },
+          {
+            "name": "sell_volume"
+          },
+          {
+            "name": "total_volume"
+          },
+          {
+            "name": "unique_buy_wallets"
+          },
+          {
+            "name": "unique_sell_wallets"
+          },
+          {
+            "name": "total_unique_wallets"
+          }
+        ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "TrendingSwapsFilter",
+        "inputFields": [
+          {
+            "name": "address",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Trending_Comparator_Exp",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "TrendingSwapsInput",
+        "inputFields": [
+          {
+            "name": "timeFrame",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "TimeFrame",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "blockchain",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "TrendingSwapsBlockchain",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "filter",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "TrendingSwapsFilter",
+              "ofType": null
+            }
+          },
+          {
+            "name": "criteria",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "TrendingSwapsCriteria",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "limit",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          {
+            "name": "cursor",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "TrendingSwapsOutput",
+        "fields": [
+          {
+            "name": "TrendingSwap",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "TrendingSwap",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "pageInfo",
+            "type": {
+              "kind": "OBJECT",
+              "name": "PageInfo",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
         "name": "TrendingToken",
         "fields": [
           {
@@ -9950,6 +10281,17 @@ export type introspection = {
         "kind": "INPUT_OBJECT",
         "name": "TrendingTokensInput",
         "inputFields": [
+          {
+            "name": "swappable",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "Boolean_Comparator_Exp",
+                "ofType": null
+              }
+            }
+          },
           {
             "name": "transferType",
             "type": {
