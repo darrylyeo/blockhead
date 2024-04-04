@@ -11,6 +11,7 @@
 	export let alignInline: 'start' | 'center' | 'end' = 'start'
 
 	export let duration = 300
+	export let delay = 0
 
 	export let containerTag: keyof SvelteHTMLElements = { 'block': 'div', 'inline': 'span', 'both': 'div' }[layout]
 	export let containerProps: Record<string, any> | undefined
@@ -50,6 +51,7 @@
 	style:--inlineSize={isInline && borderBoxSize ? `${borderBoxSize[0].inlineSize}px` : undefined}
 	style:--blockSize={isBlock && borderBoxSize ? `${borderBoxSize[0].blockSize}px` : undefined}
 	style:--transitionDuration={`${duration}ms`}
+	style:--transitionDelay={delay ? `${delay}ms` : undefined}
 	{...containerProps}
 >
 	<svelte:element this={contentTag}
@@ -67,7 +69,7 @@
 <style>
 	@layer SizeContainer {
 		[data-container] {
-			transition: contain-intrinsic-size var(--transitionDuration) var(--ease-out-expo);
+			transition: contain-intrinsic-size var(--transitionDuration) var(--transitionDelay, 0ms) var(--ease-out-expo);
 
 			&[data-is-inline] {
 				display: inline-grid;
