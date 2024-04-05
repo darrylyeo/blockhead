@@ -119,10 +119,12 @@
 
 				display: grid;
 				contain: size;
+				contain: block-size;
 				contain-intrinsic-block-size: auto var(--blockSize, 0px);
 
 				&[data-clip] {
 					contain: size paint;
+					contain: block-size paint;
 				}
 
 				&[data-align-block="start"] {
