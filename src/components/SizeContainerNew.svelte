@@ -61,9 +61,7 @@
 		<svelte:element this={contentTag}
 			data-content
 			bind:borderBoxSize
-			class="content"
 			{...contentProps}
-			out:transitionContent
 		>
 			<slot />
 		</svelte:element>
