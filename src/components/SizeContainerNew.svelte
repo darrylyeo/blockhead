@@ -79,8 +79,8 @@
 			}
 
 			&[data-contain] {
-				will-change: contain-intrinsic-size;
-				transition-property: contain-intrinsic-size, display;
+				will-change: contain-intrinsic-size, height;
+				transition-property: display, contain-intrinsic-size, height;
 				transition-duration: var(--transitionDuration);
 				transition-delay: var(--transitionDelay, 0ms);
 				transition-timing-function: var(--ease-out-expo);
@@ -101,21 +101,35 @@
 					}
 				}
 
-				&[data-contain="block"] {
+				/* &[data-contain="block"] {
 					contain: size;
-					contain: block-size;
 					contain-intrinsic-block-size: auto var(--blockSize, 0px);
 
 					&[data-clip] {
 						contain: size paint;
-						contain: block-size paint;
+					}
+				} */
+				&[data-contain="block"] {
+					height: var(--blockSize, 0px);
+
+					&[data-clip] {
+						contain: paint;
 					}
 				}
+				/* &[data-contain="block"] {
+					contain: block-size;
+					contain-intrinsic-block-size: auto var(--blockSize, 0px);
+
+					&[data-clip] {
+						contain: block-size paint;
+					}
+				} */
 
 				&[data-contain="both"] {
 					contain: size; 
+					/* contain-intrinsic-block-size: auto var(--blockSize, 0px); */
+					height: var(--blockSize, 0px);
 					contain-intrinsic-inline-size: auto var(--inlineSize, 0px);
-					contain-intrinsic-block-size: auto var(--blockSize, 0px);
 
 					&[data-clip] {
 						contain: size paint;
