@@ -182,48 +182,6 @@ export type introspection = {
         "name": "AccountFilter",
         "inputFields": [
           {
-            "name": "_and",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "AccountFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_or",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "AccountFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_nor",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "AccountFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
             "name": "standard",
             "type": {
               "kind": "INPUT_OBJECT",
@@ -1217,48 +1175,6 @@ export type introspection = {
         "name": "DomainFilter",
         "inputFields": [
           {
-            "name": "_and",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "DomainFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_or",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "DomainFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_nor",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "DomainFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
             "name": "owner",
             "type": {
               "kind": "INPUT_OBJECT",
@@ -1521,6 +1437,364 @@ export type introspection = {
       },
       {
         "kind": "OBJECT",
+        "name": "FarcasterCast",
+        "fields": [
+          {
+            "name": "id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "fid",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "text",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "rawText",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "parentFid",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "hash",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "rootParentHash",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "rootParentUrl",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "parentHash",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "parentUrl",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "url",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "embeds",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Map",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "mentions",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Mentions",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "castedAtTimestamp",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Time",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "frame",
+            "type": {
+              "kind": "OBJECT",
+              "name": "FarcasterFrame",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "parentCast",
+            "type": {
+              "kind": "OBJECT",
+              "name": "FarcasterCast",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "channel",
+            "type": {
+              "kind": "OBJECT",
+              "name": "FarcasterChannel",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "castedBy",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Social",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "numberOfLikes",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "numberOfRecasts",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "numberOfReplies",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "FarcasterCastFilter",
+        "inputFields": [
+          {
+            "name": "frameUrl",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Simple_String_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
+            "name": "castedBy",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Identity_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
+            "name": "hash",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Simple_String_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
+            "name": "parentHash",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Simple_String_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
+            "name": "url",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Simple_String_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
+            "name": "hasFrames",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Boolean_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
+            "name": "hasEmbeds",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Boolean_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
+            "name": "hasMentions",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Boolean_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
+            "name": "castedAtTimestamp",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Time_Comparator_Exp",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "FarcasterCastInput",
+        "inputFields": [
+          {
+            "name": "filter",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "FarcasterCastFilter",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "blockchain",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "EveryBlockchain",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "limit",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          {
+            "name": "cursor",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FarcasterCastOutput",
+        "fields": [
+          {
+            "name": "Cast",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "FarcasterCast",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "pageInfo",
+            "type": {
+              "kind": "OBJECT",
+              "name": "PageInfo",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
         "name": "FarcasterChannel",
         "fields": [
           {
@@ -1741,48 +2015,6 @@ export type introspection = {
         "kind": "INPUT_OBJECT",
         "name": "FarcasterChannelFilter",
         "inputFields": [
-          {
-            "name": "_and",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "FarcasterChannelFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_or",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "FarcasterChannelFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_nor",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "FarcasterChannelFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
           {
             "name": "channelId",
             "type": {
@@ -2044,48 +2276,6 @@ export type introspection = {
         "kind": "INPUT_OBJECT",
         "name": "FarcasterChannelParticipantFilter",
         "inputFields": [
-          {
-            "name": "_and",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "FarcasterChannelParticipantFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_or",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "FarcasterChannelParticipantFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_nor",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "FarcasterChannelParticipantFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
           {
             "name": "participant",
             "type": {
@@ -2359,6 +2549,109 @@ export type introspection = {
         "interfaces": []
       },
       {
+        "kind": "OBJECT",
+        "name": "FarcasterFrame",
+        "fields": [
+          {
+            "name": "id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "frameHash",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "frameUrl",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "postUrl",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "inputText",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "imageAspectRatio",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "imageUrl",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "state",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "buttons",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "FrameButton",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "castedAtTimestamp",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Time",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
         "kind": "INPUT_OBJECT",
         "name": "FarcasterFrameMessageInput",
         "inputFields": [
@@ -2553,6 +2846,58 @@ export type introspection = {
             }
           }
         ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FrameButton",
+        "fields": [
+          {
+            "name": "id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "index",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "label",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "action",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "target",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
       },
       {
         "kind": "OBJECT",
@@ -3168,6 +3513,40 @@ export type introspection = {
       },
       {
         "kind": "OBJECT",
+        "name": "Mentions",
+        "fields": [
+          {
+            "name": "fid",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "position",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "profile",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Social",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
         "name": "NftAttribute",
         "fields": [
           {
@@ -3213,48 +3592,6 @@ export type introspection = {
         "kind": "INPUT_OBJECT",
         "name": "NftAttributeFilter",
         "inputFields": [
-          {
-            "name": "_and",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "NftAttributeFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_or",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "NftAttributeFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_nor",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "NftAttributeFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
           {
             "name": "trait_type",
             "type": {
@@ -3435,48 +3772,6 @@ export type introspection = {
         "kind": "INPUT_OBJECT",
         "name": "NftMetadataFilter",
         "inputFields": [
-          {
-            "name": "_and",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "NftMetadataFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_or",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "NftMetadataFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_nor",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "NftMetadataFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
           {
             "name": "name",
             "type": {
@@ -4187,48 +4482,6 @@ export type introspection = {
         "name": "PoapEventFilter",
         "inputFields": [
           {
-            "name": "_and",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "PoapEventFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_or",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "PoapEventFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_nor",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "PoapEventFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
             "name": "dappName",
             "type": {
               "kind": "INPUT_OBJECT",
@@ -4433,48 +4686,6 @@ export type introspection = {
         "kind": "INPUT_OBJECT",
         "name": "PoapFilter",
         "inputFields": [
-          {
-            "name": "_and",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "PoapFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_or",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "PoapFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_nor",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "PoapFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
           {
             "name": "dappName",
             "type": {
@@ -5406,6 +5617,27 @@ export type introspection = {
                 }
               }
             ]
+          },
+          {
+            "name": "FarcasterCasts",
+            "type": {
+              "kind": "OBJECT",
+              "name": "FarcasterCastOutput",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "FarcasterCastInput",
+                    "ofType": null
+                  }
+                }
+              }
+            ]
           }
         ],
         "interfaces": []
@@ -5500,6 +5732,56 @@ export type introspection = {
                   "ofType": null
                 }
               }
+            }
+          },
+          {
+            "name": "_in",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            }
+          },
+          {
+            "name": "_nin",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "Simple_String_Comparator_Exp",
+        "inputFields": [
+          {
+            "name": "_eq",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          },
+          {
+            "name": "_ne",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             }
           },
           {
@@ -5705,48 +5987,6 @@ export type introspection = {
         "kind": "INPUT_OBJECT",
         "name": "SnapshotFilter",
         "inputFields": [
-          {
-            "name": "_and",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "SnapshotFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_or",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "SnapshotFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_nor",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "SnapshotFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
           {
             "name": "owner",
             "type": {
@@ -5992,15 +6232,6 @@ export type introspection = {
                   "ofType": null
                 }
               }
-            },
-            "args": []
-          },
-          {
-            "name": "tokenNft",
-            "type": {
-              "kind": "OBJECT",
-              "name": "TokenNft",
-              "ofType": null
             },
             "args": []
           },
@@ -6392,15 +6623,6 @@ export type introspection = {
             "args": []
           },
           {
-            "name": "profileHandleNft",
-            "type": {
-              "kind": "OBJECT",
-              "name": "TokenNft",
-              "ofType": null
-            },
-            "args": []
-          },
-          {
             "name": "updatedAt",
             "type": {
               "kind": "SCALAR",
@@ -6505,48 +6727,6 @@ export type introspection = {
         "kind": "INPUT_OBJECT",
         "name": "SocialFilter",
         "inputFields": [
-          {
-            "name": "_and",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "SocialFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_or",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "SocialFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_nor",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "SocialFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
           {
             "name": "dappName",
             "type": {
@@ -6747,48 +6927,6 @@ export type introspection = {
         "kind": "INPUT_OBJECT",
         "name": "SocialFollowerFilter",
         "inputFields": [
-          {
-            "name": "_and",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "SocialFollowerFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_or",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "SocialFollowerFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_nor",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "SocialFollowerFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
           {
             "name": "dappName",
             "type": {
@@ -7109,48 +7247,6 @@ export type introspection = {
         "kind": "INPUT_OBJECT",
         "name": "SocialFollowingFilter",
         "inputFields": [
-          {
-            "name": "_and",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "SocialFollowingFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_or",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "SocialFollowingFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_nor",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "SocialFollowingFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
           {
             "name": "dappName",
             "type": {
@@ -8164,48 +8260,6 @@ export type introspection = {
         "name": "TokenBalanceFilter",
         "inputFields": [
           {
-            "name": "_and",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TokenBalanceFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_or",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TokenBalanceFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_nor",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TokenBalanceFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
             "name": "tokenAddress",
             "type": {
               "kind": "INPUT_OBJECT",
@@ -8407,9 +8461,6 @@ export type introspection = {
             "name": "ethereum"
           },
           {
-            "name": "polygon"
-          },
-          {
             "name": "base"
           },
           {
@@ -8424,48 +8475,6 @@ export type introspection = {
         "kind": "INPUT_OBJECT",
         "name": "TokenFilter",
         "inputFields": [
-          {
-            "name": "_and",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TokenFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_or",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TokenFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_nor",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TokenFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
           {
             "name": "address",
             "type": {
@@ -8755,48 +8764,6 @@ export type introspection = {
         "kind": "INPUT_OBJECT",
         "name": "TokenNftFilter",
         "inputFields": [
-          {
-            "name": "_and",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TokenNftFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_or",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TokenNftFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_nor",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TokenNftFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
           {
             "name": "address",
             "type": {
@@ -9998,6 +9965,9 @@ export type introspection = {
         "enumValues": [
           {
             "name": "base"
+          },
+          {
+            "name": "ethereum"
           }
         ]
       },
@@ -10791,48 +10761,6 @@ export type introspection = {
         "kind": "INPUT_OBJECT",
         "name": "XMTPFilter",
         "inputFields": [
-          {
-            "name": "_and",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "XMTPFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_or",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "XMTPFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_nor",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "XMTPFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
           {
             "name": "owner",
             "type": {
