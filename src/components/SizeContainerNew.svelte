@@ -62,6 +62,11 @@
 		[data-container] {
 			&[data-layout="block"] {
 				display: grid;
+
+				& > [data-content] {
+					display: block;
+					height: max-content;
+				}
 			}
 
 			&[data-layout="inline"] {
