@@ -34,9 +34,8 @@
 <svelte:element this={containerTag}
 	data-container
 	data-layout={layout}
-	data-contain-block={borderBoxSize && containBlock ? '' : undefined}
+	data-contain={borderBoxSize ? layout : undefined}
 	style:--blockSize={borderBoxSize && containBlock ? `${borderBoxSize[0].blockSize}px` : undefined}
-	data-contain-inline={borderBoxSize && containInline ? '' : undefined}
 	style:--inlineSize={borderBoxSize && containInline ? `${borderBoxSize[0].inlineSize}px` : undefined}
 	data-align-block={alignBlock}
 	data-align-inline={alignInline}
@@ -61,13 +60,6 @@
 <style>
 	@layer SizeContainer {
 		[data-container] {
-			will-change: contain-intrinsic-size;
-			transition-property: contain-intrinsic-size, display;
-			transition-duration: var(--transitionDuration);
-			transition-delay: var(--transitionDelay, 0ms);
-			transition-timing-function: var(--ease-out-expo);
-			transition-behavior: allow-discrete;
-
 			&[data-layout="block"] {
 				display: grid;
 			}
@@ -81,31 +73,48 @@
 				}
 			}
 
-			&[data-contain-inline] {
-				&[hidden] {
-					--inlineSize: 0px !important;
-				}
+			&[data-contain] {
+				will-change: contain-intrinsic-size;
+				transition-property: contain-intrinsic-size, display;
+				transition-duration: var(--transitionDuration);
+				transition-delay: var(--transitionDelay, 0ms);
+				transition-timing-function: var(--ease-out-expo);
+				transition-behavior: allow-discrete;
 
-				contain: inline-size;
-				contain-intrinsic-inline-size: auto var(--inlineSize, 0px);
-
-				&[data-clip] {
-					contain: inline-size paint;
-				}
-			}
-
-			&[data-contain-block] {
 				&[hidden] {
 					--blockSize: 0px !important;
+					--inlineSize: 0px !important;
+					display: none !important;
 				}
 
-				contain: size;
-				contain: block-size;
-				contain-intrinsic-block-size: auto var(--blockSize, 0px);
+				&[data-contain="inline"] {
+					contain: inline-size;
+					contain-intrinsic-inline-size: auto var(--inlineSize, 0px);
 
-				&[data-clip] {
-					contain: size paint;
-					contain: block-size paint;
+					&[data-clip] {
+						contain: inline-size paint;
+					}
+				}
+
+				&[data-contain="block"] {
+					contain: size;
+					contain: block-size;
+					contain-intrinsic-block-size: auto var(--blockSize, 0px);
+
+					&[data-clip] {
+						contain: size paint;
+						contain: block-size paint;
+					}
+				}
+
+				&[data-contain="both"] {
+					contain: size; 
+					contain-intrinsic-inline-size: auto var(--inlineSize, 0px);
+					contain-intrinsic-block-size: auto var(--blockSize, 0px);
+
+					&[data-clip] {
+						contain: size paint;
+					}
 				}
 			}
 
