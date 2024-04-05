@@ -23,24 +23,25 @@
 
 
 	// Internal state
-	let borderBoxSize: ResizeObserverSize[] = [{ inlineSize: 0, blockSize: 0 }]
+	let borderBoxSize: ResizeObserverSize[]
 
 	// (Computed)
-	$: isBlock = layout === 'block' || layout === 'both'
-	$: isInline = layout === 'inline' || layout === 'both'
+	$: containBlock = layout === 'block' || layout === 'both'
+	$: containInline = layout === 'inline' || layout === 'both'
 </script>
 
 
 <svelte:element this={containerTag}
 	data-container
-	data-is-block={isBlock || undefined}
-	data-is-inline={isInline || undefined}
+	data-layout={layout}
+	data-contain-block={borderBoxSize && containBlock ? '' : undefined}
+	style:--blockSize={borderBoxSize && containBlock ? `${borderBoxSize[0].blockSize}px` : undefined}
+	data-contain-inline={borderBoxSize && containInline ? '' : undefined}
+	style:--inlineSize={borderBoxSize && containInline ? `${borderBoxSize[0].inlineSize}px` : undefined}
 	data-align-block={alignBlock}
 	data-align-inline={alignInline}
 	data-clip={clip ? '' : undefined}
 	hidden={!isOpen ? '' : undefined}
-	style:--inlineSize={isInline && borderBoxSize ? `${borderBoxSize[0].inlineSize}px` : undefined}
-	style:--blockSize={isBlock && borderBoxSize ? `${borderBoxSize[0].blockSize}px` : undefined}
 	style:--transitionDuration={`${duration}ms`}
 	style:--transitionDelay={delay ? `${delay}ms` : undefined}
 	{...containerProps}
@@ -67,18 +68,12 @@
 			transition-timing-function: var(--ease-out-expo);
 			transition-behavior: allow-discrete;
 
-			&[data-is-inline] {
-				&[hidden] {
-					--inlineSize: 0px !important;
-				}
+			&[data-layout="block"] {
+				display: grid;
+			}
 
+			&[data-layout="inline"] {
 				display: inline-grid;
-				contain: inline-size;
-				contain-intrinsic-inline-size: auto var(--inlineSize, 0px);
-
-				&[data-clip] {
-					contain: inline-size paint;
-				}
 
 				& > [data-content] {
 					display: inline-block;
@@ -86,12 +81,24 @@
 				}
 			}
 
-			&[data-is-block] {
+			&[data-contain-inline] {
+				&[hidden] {
+					--inlineSize: 0px !important;
+				}
+
+				contain: inline-size;
+				contain-intrinsic-inline-size: auto var(--inlineSize, 0px);
+
+				&[data-clip] {
+					contain: inline-size paint;
+				}
+			}
+
+			&[data-contain-block] {
 				&[hidden] {
 					--blockSize: 0px !important;
 				}
 
-				display: grid;
 				contain: size;
 				contain: block-size;
 				contain-intrinsic-block-size: auto var(--blockSize, 0px);
