@@ -8,8 +8,8 @@
 	export let isOpen = true
 
 	export let clip = false
-	export let alignBlock: 'start' | 'center' | 'end' = 'start'
-	export let alignInline: 'start' | 'center' | 'end' = 'start'
+	export let alignBlock: 'start' | 'center' | 'end' | undefined
+	export let alignInline: 'start' | 'center' | 'end' | undefined
 
 	export let duration = 600
 	export let delay = 0
