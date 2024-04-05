@@ -28,18 +28,6 @@
 	// (Computed)
 	$: isBlock = layout === 'block' || layout === 'both'
 	$: isInline = layout === 'inline' || layout === 'both'
-
-
-	// Transitions
-	import { type TransitionConfig } from 'svelte/transition'
-
-	import { expoOut } from 'svelte/easing'
-
-	const transitionContent = (node: Element): TransitionConfig => ({
-		duration: duration / 2,
-		css: t => `${isBlock ? `block-size: 0px;` : ''}${isInline ? `inline-size: 0px;` : ''}`,
-		easing: expoOut,
-	})
 </script>
 
 
