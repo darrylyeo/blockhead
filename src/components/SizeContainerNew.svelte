@@ -5,6 +5,7 @@
 
 	// Inputs
 	export let layout: 'block' | 'inline' | 'both'
+	export let isOpen = true
 
 	export let clip = false
 	export let alignBlock: 'start' | 'center' | 'end' = 'start'
@@ -49,6 +50,7 @@
 	data-align-block={alignBlock}
 	data-align-inline={alignInline}
 	data-clip={clip ? '' : undefined}
+	hidden={!isOpen ? '' : undefined}
 	style:--inlineSize={isInline && borderBoxSize ? `${borderBoxSize[0].inlineSize}px` : undefined}
 	style:--blockSize={isBlock && borderBoxSize ? `${borderBoxSize[0].blockSize}px` : undefined}
 	style:--transitionDuration={`${duration}ms`}
@@ -72,9 +74,18 @@
 <style>
 	@layer SizeContainer {
 		[data-container] {
-			transition: contain-intrinsic-size var(--transitionDuration) var(--transitionDelay, 0ms) var(--ease-out-expo);
+			will-change: contain-intrinsic-size;
+			transition-property: contain-intrinsic-size, display;
+			transition-duration: var(--transitionDuration);
+			transition-delay: var(--transitionDelay, 0ms);
+			transition-timing-function: var(--ease-out-expo);
+			transition-behavior: allow-discrete;
 
 			&[data-is-inline] {
+				&[hidden] {
+					--inlineSize: 0px !important;
+				}
+
 				display: inline-grid;
 				contain: inline-size;
 				contain-intrinsic-inline-size: auto var(--inlineSize, 0px);
@@ -102,6 +113,10 @@
 			}
 
 			&[data-is-block] {
+				&[hidden] {
+					--blockSize: 0px !important;
+				}
+
 				display: grid;
 				contain: size;
 				contain-intrinsic-block-size: auto var(--blockSize, 0px);
