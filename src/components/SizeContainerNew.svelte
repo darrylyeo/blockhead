@@ -6,6 +6,7 @@
 	// Inputs
 	export let layout: 'block' | 'inline' | 'both'
 	export let isOpen = true
+	export let renderOnlyWhenOpen = true
 
 	export let clip = false
 	export let alignBlock: 'start' | 'center' | 'end' | undefined
@@ -46,13 +47,15 @@
 	{...containerProps}
 >
 	{#key contentKey}
-		<svelte:element this={contentTag}
-			data-content
-			bind:borderBoxSize
-			{...contentProps}
-		>
-			<slot />
-		</svelte:element>
+		{#if renderOnlyWhenOpen ? isOpen : true}
+			<svelte:element this={contentTag}
+				data-content
+				bind:borderBoxSize
+				{...contentProps}
+			>
+				<slot />
+			</svelte:element>
+		{/if}
 	{/key}
 </svelte:element>
 
