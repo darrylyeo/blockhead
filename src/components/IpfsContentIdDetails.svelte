@@ -41,7 +41,7 @@
 	import IpfsContentDetails from './IpfsContentDetails.svelte'
 	import IpfsContentId from './IpfsContentId.svelte'
 	import Loader from './Loader.svelte'
-	import SizeContainer from './SizeContainer.svelte'
+	import SizeContainerNew from './SizeContainerNew.svelte'
 	import { IpfsIcon } from '$/assets/icons'
 
 
@@ -199,7 +199,7 @@
 
 				<hr>
 
-				<SizeContainer>
+				<SizeContainerNew>
 					<dl>
 						{#each
 							getAllIpfsCidEncodings(result?.cid)
@@ -245,7 +245,7 @@
 							{#each [1] as _, i (i)}<dd animate:flip={{ duration: 300 }}><IpfsContentId ipfsContentId={ipfsCid} {ipfsContentPath} /></dd>{/each} -->
 						{/each}
 					</dl>
-				</SizeContainer>
+				</SizeContainerNew>
 			</section>
 
 			<!--

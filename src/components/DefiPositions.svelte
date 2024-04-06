@@ -37,7 +37,7 @@
 	import Address from './Address.svelte'
 	import AddressWithLabel from './AddressWithLabel.svelte'
 	import Collapsible from './Collapsible.svelte'
-	import SizeContainer from './SizeContainer.svelte'
+	import SizeContainerNew from './SizeContainerNew.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
 
@@ -242,7 +242,7 @@
 					<div class="defi-protocol-balances column">
 						{#each view.positions ?? [] as position}
 							<div class="defi-protocol-balance card column">
-								<SizeContainer class="column">
+								<SizeContainerNew contentProps={{ class: 'column' }}>
 									<!-- V2 -->
 									<header class="bar" title={`${position.tags?.[0] ? `${formatKebabCase(position.tags[0])}: ` : ''}${position.name} (${formatKebabCase(position.type)})`}>
 										<h6>
@@ -456,7 +456,7 @@
 											{/each}
 										</dl>
 									{/if}
-								</SizeContainer>
+								</SizeContainerNew>
 							</div>
 						{/each}
 					</div>

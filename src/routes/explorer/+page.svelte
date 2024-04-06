@@ -9,7 +9,7 @@
 
 
 	import NetworkIcon from '$/components/NetworkIcon.svelte'
-	import SizeContainer from '$/components/SizeContainer.svelte'
+	import SizeContainerNew from '$/components/SizeContainerNew.svelte'
 
 
 	import { cardStyle } from '$/utils/card-background'
@@ -76,7 +76,7 @@
 			as
 			{ networks, isFeatured }
 		}
-			<SizeContainer>
+			<SizeContainerNew>
 				<section class="row wrap" class:featured={isFeatured}>
 					{#each
 						(
@@ -101,7 +101,7 @@
 						</a>
 					{/each}
 				</section>
-			</SizeContainer>
+			</SizeContainerNew>
 		{/each}
 	{/each}
 </div>

@@ -42,7 +42,7 @@
 	import Date from './Date.svelte'
 	import NotificationsLoader from './NotificationsLoader.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
-	import SizeContainer from './SizeContainer.svelte'
+	import SizeContainerNew from './SizeContainerNew.svelte'
 	import TweenedNumber from './TweenedNumber.svelte'
 </script>
 
@@ -156,9 +156,9 @@
 						</header>
 
 						{#if payload.data.amsg !== payload.notification.body}
-							<SizeContainer>
+							<SizeContainerNew>
 								<p class="message">{payload.data.amsg}</p>
-							</SizeContainer>
+							</SizeContainerNew>
 						{/if}
 
 						<footer class="bar">
@@ -207,14 +207,14 @@
 					{/if} -->
 				</header>
 
-				<SizeContainer>
+				<SizeContainerNew>
 					<p class="message">
 						{#if payload.data.amsg !== payload.notification.body}
 							<strong>{payload.notification.body}</strong>
 						{/if}
 						{payload.data.amsg}
 					</p>
-				</SizeContainer>
+				</SizeContainerNew>
 
 				<footer class="bar">
 					<div class="row inline">
