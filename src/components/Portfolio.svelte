@@ -206,7 +206,7 @@
 	import Loading from './Loading.svelte'
 	import InlineContainer from './InlineContainer.svelte'
 	import NetworkSelect from './NetworkSelect.svelte'
-	import SizeContainerNew from './SizeContainerNew.svelte'
+	import SizeContainer from './SizeContainer.svelte'
 	import PortfolioAccount from './PortfolioAccount.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import TokenBalanceFormatSelect from './TokenBalanceFormatSelect.svelte'
@@ -354,7 +354,7 @@
 	</header>
 
 	{#if portfolio.accounts}
-		<SizeContainerNew containerProps={{ class: 'align-bottom' }} isOpen={state === State.Adding || !portfolio.accounts.length}>
+		<SizeContainer containerProps={{ class: 'align-bottom' }} isOpen={state === State.Adding || !portfolio.accounts.length}>
 			<div class="stack align-bottom">
 				{#if state === State.Adding}
 					<form
@@ -448,7 +448,7 @@
 					</div>
 				{/if}
 			</div>
-		</SizeContainerNew>
+		</SizeContainer>
 
 		{#each portfolio.accounts as account, i (account.id)}
 			<div
@@ -497,7 +497,7 @@
 		</slot>
 	{/if}
 
-	<SizeContainerNew containerProps={{ class: 'sticky-bottom' }} isOpen={showOptions && portfolio.accounts.length && state !== State.Editing}>
+	<SizeContainer containerProps={{ class: 'sticky-bottom' }} isOpen={showOptions && portfolio.accounts.length && state !== State.Editing}>
 		<div role="toolbar" class="options card row wrap" transition:fly|global={{ y: 100 }}>
 			<div class="row wrap">
 				<h3>Balances</h3>
@@ -616,5 +616,5 @@
 				</InlineContainer>
 			</div>
 		</div>
-	</SizeContainerNew>
+	</SizeContainer>
 </section>

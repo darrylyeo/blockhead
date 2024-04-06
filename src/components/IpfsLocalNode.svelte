@@ -33,7 +33,7 @@
 	import FileDirectory from './FileDirectory.svelte'
 	import IpfsContentIdDetails from './IpfsContentIdDetails.svelte'
 	import IpfsLocalContentEncoder from './IpfsLocalContentEncoder.svelte'
-	import SizeContainerNew from './SizeContainerNew.svelte'
+	import SizeContainer from './SizeContainer.svelte'
 	import { HeliaIcon } from '$/assets/icons'
 	import { fade } from 'svelte/transition'
 	// import { cardStyle } from '$/utils/card-background'
@@ -80,7 +80,7 @@
 			</header>
 
 			<!-- <BlockTransition key={contentType} transition={scale}> -->
-			<SizeContainerNew contentProps={{ class: 'column' }}>
+			<SizeContainer contentProps={{ class: 'column' }}>
 				{#if contentType === 'file'}
 					<input
 						type="file"
@@ -120,7 +120,7 @@
 						required
 					/>
 				{/if}
-			</SizeContainerNew>
+			</SizeContainer>
 			<!-- </BlockTransition> -->
 
 			<hr>

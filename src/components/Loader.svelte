@@ -330,7 +330,7 @@
 	import Collapsible from './Collapsible.svelte'
 	import Date from './Date.svelte'
 	import Loading from './Loading.svelte'
-	import SizeContainerNew from './SizeContainerNew.svelte'
+	import SizeContainer from './SizeContainer.svelte'
 
 
 	// Transitions/animations
@@ -488,7 +488,7 @@
 				{cancel}
 			/>
 
-			<SizeContainerNew
+			<SizeContainer
 				contentProps={{ class: `loader stack status-${status}` }}
 				{isOpen}
 				{clip}
@@ -551,7 +551,7 @@
 						</slot>
 					</div>
 				{/if}
-			</SizeContainerNew>
+			</SizeContainer>
 		</div>
 	{/if}
 

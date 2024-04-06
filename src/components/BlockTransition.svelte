@@ -26,11 +26,11 @@
 
 
 	// Components
-	import SizeContainerNew from './SizeContainerNew.svelte'
+	import SizeContainer from './SizeContainer.svelte'
 </script>
 
 
-<SizeContainerNew
+<SizeContainer
 	layout="block"
 	renderOnlyWhenOpen={false}
 	containerProps={{
@@ -65,4 +65,4 @@
 			</slot>
 		</div>
 	{/if}
-</SizeContainerNew>
+</SizeContainer>

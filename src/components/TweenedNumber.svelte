@@ -96,14 +96,14 @@
 	$: tweenedValue.set(value || 0)
 
 
-	import SizeContainerNew from './SizeContainerNew.svelte'
+	import SizeContainer from './SizeContainer.svelte'
 </script>
 
 
 <span class="tweened-number">
 	{#if formatParts}
 		{#each indexParts(formatValue($tweenedValue, { ...format, toParts: true })) as { key, part, align } (key)}
-			<SizeContainerNew
+			<SizeContainer
 				layout="inline"
 				{clip}
 				alignInline={align}
@@ -113,7 +113,7 @@
 				}}
 			>
 				{part.value}
-			</SizeContainerNew>
+			</SizeContainer>
 		{/each}
 	{:else}
 		{formatValue($tweenedValue, { ...format })}

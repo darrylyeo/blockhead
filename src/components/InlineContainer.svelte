@@ -1,11 +1,11 @@
 <script lang="ts">
-	import SizeContainerNew from './SizeContainerNew.svelte'
+	import SizeContainer from './SizeContainer.svelte'
 </script>
 
 
-<SizeContainerNew
+<SizeContainer
 	layout="inline"
 	{...$$restProps}
 >
 	<slot />
-</SizeContainerNew>
+</SizeContainer>
