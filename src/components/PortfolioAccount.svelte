@@ -398,7 +398,7 @@
 				</span>
 			{/if}
 
-			<InlineContainer containerClass="align-end" class="stack align-end">
+			<InlineContainer containerProps={{ class: 'align-end' }} contentProps={{ class: 'stack align-end' }}>
 				{#if $matchesGridLayoutBreakpoint && !isEditing}
 					<div class="row" transition:scale|global>
 						<!--<button class="small" on:click={() => layout = isGridLayout ? 'column' : 'grid'} transition:scale|global>{isGridLayout ? '⊟' : '⊞'}</button>--><!-- ▤ -->
@@ -498,7 +498,7 @@
 											<!-- <span class="card-background"><NetworkIcon {network} /></span> -->
 											<h4 class="row">
 												<NetworkIcon {network} />
-												<Address {network} {address}><InlineContainer isOpen={!isEditing && !(showFeed && isGridLayout)} clip containerClass="align-end"><mark>{network.name}</mark>&nbsp;</InlineContainer>Balances</Address>
+												<Address {network} {address}><InlineContainer isOpen={!isEditing && !(showFeed && isGridLayout)} clip containerProps={{ class: 'align-end' }}><mark>{network.name}</mark>&nbsp;</InlineContainer>Balances</Address>
 											</h4>
 
 											{#if (status === 'resolved' || status === 'reloading') && summary}
@@ -513,7 +513,7 @@
 												</span>
 											{/if}
 
-											<InlineContainer containerClass="align-end" class="stack align-end" isOpen={status !== 'resolved'}>
+											<InlineContainer containerProps={{ class: 'align-end' }} contentProps={{ class: 'stack align-end' }} isOpen={status !== 'resolved'}>
 												{#if status === 'loading' || status === 'reloading'}
 													<Loading
 														layout="icon"
@@ -540,7 +540,7 @@
 													</div>
 												{/if}
 											</InlineContainer>
-											<InlineContainer containerClass="align-end" class="stack align-end">
+											<InlineContainer containerProps={{ class: 'align-end' }} contentProps={{ class: 'stack align-end' }}>
 												{#if isEditing}
 													<button class="small" on:click={() => toggleSection('Balances')} transition:scale|global>Hide</button>
 												{:else}
@@ -598,7 +598,7 @@
 										<!-- <span class="card-background"><NetworkIcon {network} /></span> -->
 										<h4 class="row">
 											<NetworkIcon {network} />
-											<span><InlineContainer isOpen={!isEditing && !(showFeed && isGridLayout)} clip containerClass="align-end"><mark>{network.name}</mark>&nbsp;</InlineContainer>DeFi</span>
+											<span><InlineContainer isOpen={!isEditing && !(showFeed && isGridLayout)} clip containerProps={{ class: 'align-end' }}><mark>{network.name}</mark>&nbsp;</InlineContainer>DeFi</span>
 										</h4>
 
 										{#if (status === 'resolved' || status === 'reloading') && summary}
@@ -613,7 +613,7 @@
 											</span>
 										{/if}
 
-										<InlineContainer containerClass="align-end" class="stack align-end" isOpen={status !== 'resolved'}>
+										<InlineContainer containerProps={{ class: 'align-end' }} contentProps={{ class: 'stack align-end' }} isOpen={status !== 'resolved'}>
 											{#if status === 'loading' || status === 'reloading'}
 												<Loading
 													layout="icon"
@@ -640,7 +640,7 @@
 												</div>
 											{/if}
 										</InlineContainer>
-										<InlineContainer containerClass="align-end" class="stack align-end">
+										<InlineContainer containerProps={{ class: 'align-end' }} contentProps={{ class: 'stack align-end' }}>
 											{#if isEditing}
 												<button class="small" on:click={() => toggleSection('DeFi')} transition:scale|global>Hide</button>
 											{:else}
@@ -695,7 +695,7 @@
 										<h4 class="row">
 											<!-- <span class="card-background"><NetworkIcon {network} /></span> -->
 											<NetworkIcon {network} />
-											<span><InlineContainer isOpen={!isEditing && !(showFeed && isGridLayout)} clip containerClass="align-end"><mark>{network.name}</mark>&nbsp;</InlineContainer>NFTs</span>
+											<span><InlineContainer isOpen={!isEditing && !(showFeed && isGridLayout)} clip containerProps={{ class: 'align-end' }}><mark>{network.name}</mark>&nbsp;</InlineContainer>NFTs</span>
 										</h4>
 
 										{#if (status === 'resolved' || status === 'reloading') && summary}
@@ -715,7 +715,7 @@
 											</span>
 										{/if}
 
-										<InlineContainer containerClass="align-end" class="stack align-end" isOpen={status !== 'resolved'}>
+										<InlineContainer containerProps={{ class: 'align-end' }} contentProps={{ class: 'stack align-end' }} isOpen={status !== 'resolved'}>
 											{#if status === 'loading' || status === 'reloading'}
 												<Loading
 													layout="icon"
@@ -742,7 +742,7 @@
 												</div>
 											{/if}
 										</InlineContainer>
-										<InlineContainer containerClass="align-end" class="stack align-end">
+										<InlineContainer containerProps={{ class: 'align-end' }} contentProps={{ class: 'stack align-end' }}>
 											{#if isEditing}
 												<button class="small" on:click={() => toggleSection('NFTs')} transition:scale|global>Hide</button>
 											{:else}
@@ -803,7 +803,7 @@
 										</span>
 									{/if}
 
-									<InlineContainer containerClass="align-end" class="stack align-end" isOpen={status !== 'resolved'}>
+									<InlineContainer containerProps={{ class: 'align-end' }} contentProps={{ class: 'stack align-end' }} isOpen={status !== 'resolved'}>
 										{#if status === 'loading' || status === 'reloading'}
 											<Loading
 												layout="icon"
@@ -830,7 +830,7 @@
 											</div>
 										{/if}
 									</InlineContainer>
-									<InlineContainer containerClass="align-end" class="stack align-end">
+									<InlineContainer containerProps={{ class: 'align-end' }} contentProps={{ class: 'stack align-end' }}>
 										{#if isEditing}
 											<button class="small" on:click={() => toggleSection('Feed')} transition:scale|global>Hide</button>
 										{:else}

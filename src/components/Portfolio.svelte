@@ -308,23 +308,23 @@
 
 		{#if isEditable}
 			<div class="stack inline">
-				<InlineContainer containerClass="align-end" isOpen={state !== State.Editing}>
+				<InlineContainer containerProps={{ class: 'align-end' }} isOpen={state !== State.Editing}>
 					<div class="bar align-end wrap" transition:scale|global>
 						{#if state === State.Idle}
 							<button class="add" data-before="＋" on:click={() => state = State.Adding} transition:scale|global>Add Account</button>
 						{/if}
 
-						<InlineContainer containerClass="align-end">
+						<InlineContainer containerProps={{ class: 'align-end' }}>
 							<button data-before="↻" on:click={refetchAllData} transition:scale|global disabled={isRefetching}>{isRefetching ? 'Refreshing...' : 'Refresh'}</button>
 						</InlineContainer>
 
-						<InlineContainer containerClass="align-end">
+						<InlineContainer containerProps={{ class: 'align-end' }}>
 							<button data-before="✎" on:click={() => state = State.Editing} transition:scale|global>Edit</button>
 						</InlineContainer>
 					</div>
 
 				</InlineContainer>
-				<InlineContainer containerClass="align-end" isOpen={state === State.Editing}>
+				<InlineContainer containerProps={{ class: 'align-end' }} isOpen={state === State.Editing}>
 					<div class="bar align-end wrap" transition:scale|global>
 						<button class="destructive" data-before="☒" on:click={() => dispatch('delete')}>Delete Portfolio</button>
 						<button data-before="✓" on:click={() => state = State.Idle}>Done</button>
@@ -332,7 +332,7 @@
 				</InlineContainer>
 			</div>
 
-			<!-- <InlineContainer containerClass="align-end" class="stack align-end">
+			<!-- <InlineContainer containerProps={{ class: 'align-end' }} contentProps={{ class: 'stack align-end' }}>
 				{#if state !== State.Editing}
 					<div class="bar align-end" transition:scale|global>
 						{#if state === State.Idle}
@@ -385,7 +385,7 @@
 							<div role="toolbar" class="row wrap align-end">
 								Networks:
 
-								<InlineContainer class="align-end">
+								<InlineContainer contentProps={{ class: 'align-end' }}>
 									<div class="row wrap">
 										{#each [
 											...defaultAccountNetworks,

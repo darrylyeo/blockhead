@@ -114,7 +114,7 @@
 				{/key}
 			</span>
 			<h1>
-				<InlineContainer class="stack inline align-end" clip>{#key $networkSlug}<b in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}><InlineContainer isOpen={networkDisplayName}>{networkDisplayName} </InlineContainer></b>{/key}</InlineContainer>
+				<InlineContainer contentProps={{ class: 'stack inline align-end' }} clip>{#key $networkSlug}<b in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}><InlineContainer isOpen={networkDisplayName}>{networkDisplayName} </InlineContainer></b>{/key}</InlineContainer>
 				Explorer
 			</h1>
 		</div>
