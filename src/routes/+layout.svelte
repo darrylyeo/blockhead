@@ -114,13 +114,7 @@
 
 	// Components
 	import AccountConnections from '$/components/AccountConnections.svelte'
-	import SizeContainer from '$/components/SizeContainer.svelte'
 	import SharePageDialog from '$/components/SharePageDialog.svelte'
-
-
-	// Transitions
-	import { fly } from 'svelte/transition'
-	import { quintOut } from 'svelte/easing'
 </script>
 
 
