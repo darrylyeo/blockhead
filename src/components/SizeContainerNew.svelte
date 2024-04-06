@@ -4,7 +4,7 @@
 
 
 	// Inputs
-	export let layout: 'block' | 'inline' | 'both'
+	export let layout: 'block' | 'inline' | 'both' = 'block'
 	export let isOpen = true
 	export let renderOnlyWhenOpen = true
 
