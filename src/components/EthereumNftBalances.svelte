@@ -64,7 +64,7 @@
 	import InlineTransition from './InlineTransition.svelte'
 	import Icon from './Icon.svelte'
 	import NftImage from './NftImage.svelte'
-	import SizeContainer from './SizeContainer.svelte'
+	import SizeContainerOld from './SizeContainerOld.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 
 
@@ -461,7 +461,7 @@ on:dblclick={() => show3D = !show3D} -->
 
 					<div class="nfts" class:scrollable-list={isScrollable && contract.nfts?.length > 3 && !show3D}>
 						{#each contract.nfts as nft}<!-- (nft.tokenId || nft.tokenUri || nft.metadata.name) -->
-							<SizeContainer contentsOnly={showImagesOnly}>
+							<SizeContainerOld contentsOnly={showImagesOnly}>
 								<figure
 									class="nft"
 									class:column={!showImagesOnly}
@@ -515,7 +515,7 @@ on:dblclick={() => show3D = !show3D} -->
 										{/if}
 									</figcaption>
 								</figure>
-							</SizeContainer>
+							</SizeContainerOld>
 						{/each}
 					</div>
 				{/if}
