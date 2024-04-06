@@ -10,12 +10,13 @@
 	// (Voew options)
 	export let format: {
 		currency?: string,
-		showDecimalPlaces?: number,
+		showDecimalPlaces: number,
 		useGrouping?: boolean,
 		compactLargeValues?: boolean,
 		locale?: string | string[]
+	} = {
+		showDecimalPlaces: 0,
 	}
-	export let showDecimalPlaces: number = 0
 	export let padZero = true
 	export let formatParts = true
 
@@ -82,8 +83,8 @@
 		delay: tween ? 1 : 0,
 		easing,
 		interpolate: (from, to) => t => {
-			const logFrom = from != 0 ? Math.log10(from) : -showDecimalPlaces - 1
-			const logTo = to != 0 ? Math.log10(to) : -showDecimalPlaces - 1
+			const logFrom = from != 0 ? Math.log10(from) : -format.showDecimalPlaces - 1
+			const logTo = to != 0 ? Math.log10(to) : -format.showDecimalPlaces - 1
 			const result = Math.pow(10, logFrom + t * (logTo - logFrom))
 			return t < 0.9994
 				? from < to ? Math.floor(result) : Math.ceil(result)
