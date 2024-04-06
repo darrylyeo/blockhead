@@ -84,12 +84,12 @@
 				transition-duration: var(--transitionDuration);
 				transition-delay: var(--transitionDelay, 0ms);
 				transition-timing-function: var(--ease-out-expo);
-				transition-behavior: allow-discrete;
 
 				&[hidden] {
 					--blockSize: 0px !important;
 					--inlineSize: 0px !important;
 					display: none !important;
+					transition-behavior: allow-discrete;
 				}
 
 				&[data-contain="inline"] {
