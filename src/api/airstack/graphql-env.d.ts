@@ -9016,8 +9016,8 @@ export type introspection = {
           {
             "name": "type",
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
+              "kind": "ENUM",
+              "name": "TokenTransferType",
               "ofType": null
             },
             "args": []
@@ -9220,6 +9220,14 @@ export type introspection = {
             }
           },
           {
+            "name": "type",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "TokenTransferType_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
             "name": "tokenAddress",
             "type": {
               "kind": "INPUT_OBJECT",
@@ -9287,6 +9295,49 @@ export type introspection = {
               "kind": "ENUM",
               "name": "OrderBy",
               "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "ENUM",
+        "name": "TokenTransferType",
+        "enumValues": [
+          {
+            "name": "MINT"
+          },
+          {
+            "name": "BURN"
+          },
+          {
+            "name": "TRANSFER"
+          }
+        ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "TokenTransferType_Comparator_Exp",
+        "inputFields": [
+          {
+            "name": "_eq",
+            "type": {
+              "kind": "ENUM",
+              "name": "TokenTransferType",
+              "ofType": null
+            }
+          },
+          {
+            "name": "_in",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "TokenTransferType",
+                  "ofType": null
+                }
+              }
             }
           }
         ]
