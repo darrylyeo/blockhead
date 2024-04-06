@@ -21,11 +21,48 @@
 	export let outTransition: ((node: Element, _?: TransitionParams) => TransitionConfig) | undefined
 	export let outTransitionParams: TransitionParams | undefined
 
+	// (Computed)
+	$: alignBlock = ({ 'top': 'start', 'center': 'center', 'bottom': 'end' } as const)[align]
+
 
 	// Components
-	import SizeContainer from './SizeContainer.svelte'
+	import SizeContainerNew from './SizeContainerNew.svelte'
 </script>
 
 
-<!-- <SizeContainer class="stack align-{align}" {...$$restProps}>{#key key ?? value}<svelte:element this={element} class="column align-{align}" transition:transition={transitionParams}><slot {key} {value}>{value}</slot></svelte:element>{/key}</SizeContainer> -->
-<SizeContainer class="stack align-{align}" {...$$restProps}>{#key key ?? value}{#if transition}<div class="column align-{align}" transition:transition|global={transitionParams}><slot {key} {value}>{value}</slot></div>{:else if inTransition && outTransition}<div class="column align-{align}" in:inTransition|global={inTransitionParams} out:outTransition|global={outTransitionParams}><slot {key} {value}>{value}</slot></div>{/if}{/key}</SizeContainer>
+<SizeContainerNew
+	layout="block"
+	renderOnlyWhenOpen={false}
+	containerProps={{
+		class: `stack align-${align}`,
+	}}
+	contentKey={key ?? value}
+	{alignBlock}
+>
+	{#if transition}
+		<div
+			class="column align-{align}"
+			transition:transition|global={transitionParams}
+		>
+			<slot
+				{key}
+				{value}
+			>
+				{value}
+			</slot>
+		</div>
+	{:else if inTransition && outTransition}
+		<div
+			class="column align-{align}"
+			in:inTransition|global={inTransitionParams}
+			out:outTransition|global={outTransitionParams}
+		>
+			<slot
+				{key}
+				{value}
+			>
+				{value}
+			</slot>
+		</div>
+	{/if}
+</SizeContainerNew>
