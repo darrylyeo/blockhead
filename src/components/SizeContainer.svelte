@@ -61,136 +61,134 @@
 
 
 <style>
-	@layer SizeContainer {
-		[data-container] {
-			&[data-layout="block"] {
-				display: grid;
+	[data-container] {
+		&[data-layout="block"] {
+			display: grid;
 
-				& > [data-content] {
-					display: block;
-					height: max-content;
+			& > [data-content] {
+				display: block;
+				height: max-content;
+			}
+		}
+
+		&[data-layout="inline"] {
+			display: inline-grid;
+
+			& > [data-content] {
+				display: inline-block;
+				width: max-content;
+			}
+		}
+
+		&[data-contain] {
+			transition-property: display;
+			transition-duration: var(--transitionDuration);
+			transition-delay: var(--transitionDelay, 0ms);
+			transition-timing-function: var(--ease-out-expo);
+
+			&[hidden] {
+				--blockSize: 0px !important;
+				--inlineSize: 0px !important;
+				display: none !important;
+				transition-behavior: allow-discrete;
+			}
+
+			&[data-contain="inline"] {
+				contain: inline-size;
+
+				&[data-clip] {
+					contain: inline-size paint;
+				}
+
+				@supports (contain-intrinsic-inline-size: 0) {
+					transition-property: display, contain-intrinsic-inline-size;
+					will-change: contain-intrinsic-inline-size;
+					contain-intrinsic-inline-size: auto var(--inlineSize);
+				}
+
+				@supports not (contain-intrinsic-inline-size: 0) {
+					transition-property: display, inline-size;
+					will-change: inline-size;
+					inline-size: var(--inlineSize);
 				}
 			}
 
-			&[data-layout="inline"] {
-				display: inline-grid;
-
-				& > [data-content] {
-					display: inline-block;
-					width: max-content;
-				}
-			}
-
-			&[data-contain] {
-				transition-property: display;
-				transition-duration: var(--transitionDuration);
-				transition-delay: var(--transitionDelay, 0ms);
-				transition-timing-function: var(--ease-out-expo);
-
-				&[hidden] {
-					--blockSize: 0px !important;
-					--inlineSize: 0px !important;
-					display: none !important;
-					transition-behavior: allow-discrete;
-				}
-
-				&[data-contain="inline"] {
-					contain: inline-size;
+			&[data-contain="block"] {
+				@supports (contain: block-size) {
+					contain: block-size;
 
 					&[data-clip] {
-						contain: inline-size paint;
+						contain: block-size paint;
 					}
-
-					@supports (contain-intrinsic-inline-size: 0) {
-						transition-property: display, contain-intrinsic-inline-size;
-						will-change: contain-intrinsic-inline-size;
-						contain-intrinsic-inline-size: auto var(--inlineSize);
-					}
-
-					@supports not (contain-intrinsic-inline-size: 0) {
-						transition-property: display, inline-size;
-						will-change: inline-size;
-						inline-size: var(--inlineSize);
-					}
+					
+					transition-property: display, contain-intrinsic-block-size;
+					will-change: contain-intrinsic-block-size;
+					contain-intrinsic-block-size: auto var(--blockSize);
 				}
 
-				&[data-contain="block"] {
-					@supports (contain: block-size) {
-						contain: block-size;
-
-						&[data-clip] {
-							contain: block-size paint;
-						}
-						
-						transition-property: display, contain-intrinsic-block-size;
-						will-change: contain-intrinsic-block-size;
-						contain-intrinsic-block-size: auto var(--blockSize);
-					}
-
-					/* @supports not (contain: block-size) {
-						contain: size;
-
-						&[data-clip] {
-							contain: size paint;
-						}
-
-						transition-property: display, contain-intrinsic-block-size;
-						will-change: contain-intrinsic-block-size;
-						contain-intrinsic-block-size: auto var(--blockSize);
-					} */
-
-					@supports not (contain: block-size) {
-						&[data-clip] {
-							contain: paint;
-						}
-
-						transition-property: display, block-size;
-						will-change: block-size;
-						block-size: var(--blockSize);
-					}
-				}
-
-				&[data-contain="both"] {
-					contain: size; 
+				/* @supports not (contain: block-size) {
+					contain: size;
 
 					&[data-clip] {
 						contain: size paint;
 					}
 
-					@supports (contain-intrinsic-size: 0) {
-						transition-property: display, contain-intrinsic-size;
-						will-change: contain-intrinsic-size;
-						contain-intrinsic-size: auto var(--blockSize) var(--inlineSize);
+					transition-property: display, contain-intrinsic-block-size;
+					will-change: contain-intrinsic-block-size;
+					contain-intrinsic-block-size: auto var(--blockSize);
+				} */
+
+				@supports not (contain: block-size) {
+					&[data-clip] {
+						contain: paint;
 					}
 
-					@supports not (contain-intrinsic-size: 0) {
-						transition-property: display, block-size, inline-size;
-						will-change: block-size, inline-size;
-						block-size: var(--blockSize);
-						inline-size: var(--inlineSize);
-					}
+					transition-property: display, block-size;
+					will-change: block-size;
+					block-size: var(--blockSize);
 				}
 			}
 
-			&[data-align-inline="start"] {
-				justify-content: start;
-			}
-			&[data-align-inline="center"] {
-				justify-content: center;
-			}
-			&[data-align-inline="end"] {
-				justify-content: end;
-			}
+			&[data-contain="both"] {
+				contain: size; 
 
-			&[data-align-block="start"] {
-				align-content: start;
+				&[data-clip] {
+					contain: size paint;
+				}
+
+				@supports (contain-intrinsic-size: 0) {
+					transition-property: display, contain-intrinsic-size;
+					will-change: contain-intrinsic-size;
+					contain-intrinsic-size: auto var(--blockSize) var(--inlineSize);
+				}
+
+				@supports not (contain-intrinsic-size: 0) {
+					transition-property: display, block-size, inline-size;
+					will-change: block-size, inline-size;
+					block-size: var(--blockSize);
+					inline-size: var(--inlineSize);
+				}
 			}
-			&[data-align-block="center"] {
-				align-content: center;
-			}
-			&[data-align-block="end"] {
-				align-content: end;
-			}
+		}
+
+		&[data-align-inline="start"] {
+			justify-content: start;
+		}
+		&[data-align-inline="center"] {
+			justify-content: center;
+		}
+		&[data-align-inline="end"] {
+			justify-content: end;
+		}
+
+		&[data-align-block="start"] {
+			align-content: start;
+		}
+		&[data-align-block="center"] {
+			align-content: center;
+		}
+		&[data-align-block="end"] {
+			align-content: end;
 		}
 	}
 </style>
