@@ -1,14 +1,16 @@
-* {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-	text-decoration-color: inherit;
-	min-width: 0;
-	gap: inherit;
-	scroll-behavior: smooth;
-	transform-style: inherit;
-	transition-duration: inherit;
-	transition-timing-function: inherit;
+@layer Reset {
+	* {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+		text-decoration-color: inherit;
+		min-width: 0;
+		gap: inherit;
+		scroll-behavior: smooth;
+		transform-style: inherit;
+		transition-duration: inherit;
+		transition-timing-function: inherit;
+	}
 }
 
 :root {
