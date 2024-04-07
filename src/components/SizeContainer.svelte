@@ -2,6 +2,16 @@
 	// Types
 	import type { SvelteHTMLElements } from 'svelte/elements'
 
+	import type { TransitionConfig } from 'svelte/transition'
+
+	type TransitionAndParams<
+		Fn extends (node: Element, _?: any) => TransitionConfig = any
+	> = (
+		Fn extends (node: Element, _?: infer Params) => TransitionConfig
+			? [Fn, Params | undefined]
+			: never
+	)
+
 
 	// Inputs
 	export let layout: 'block' | 'inline' | 'both' = 'block'
@@ -19,6 +29,7 @@
 	export let containerProps: Record<string, any> | undefined
 
 	export let contentKey: any | undefined
+	export let contentTransition: TransitionAndParams | { in?: TransitionAndParams, out?: TransitionAndParams } | undefined
 	export let contentTag: keyof SvelteHTMLElements = { 'block': 'div', 'inline': 'span', 'both': 'div' }[layout]
 	export let contentProps: Record<string, any> | undefined
 
@@ -29,6 +40,8 @@
 	// (Computed)
 	$: containBlock = layout === 'block' || layout === 'both'
 	$: containInline = layout === 'inline' || layout === 'both'
+
+	$: isRendered = renderOnlyWhenOpen ? isOpen : true
 </script>
 
 
@@ -46,17 +59,86 @@
 	style:--transitionDelay={delay ? `${delay}ms` : undefined}
 	{...containerProps}
 >
-	{#key contentKey}
-		{#if renderOnlyWhenOpen ? isOpen : true}
-			<svelte:element this={contentTag}
-				data-content
-				bind:borderBoxSize
-				{...contentProps}
-			>
-				<slot />
-			</svelte:element>
+	{#if contentTransition}
+		{#if 'in' in contentTransition && contentTransition.in && 'out' in contentTransition && contentTransition.out}
+			{@const { in: [inTransition, inParams], out: [outTransition, outParams] } = contentTransition}
+
+			{#if isRendered}
+				{#key contentKey}
+					<svelte:element this={contentTag}
+						data-content
+						bind:borderBoxSize
+						{...contentProps}
+						in:inTransition={inParams}
+						out:outTransition={outParams}
+					>
+						<slot />
+					</svelte:element>
+				{/key}
+			{/if}
+
+		{:else if 'in' in contentTransition && contentTransition.in}
+			{@const { in: [inTransition, inParams] } = contentTransition}
+
+			{#if isRendered}
+				{#key contentKey}
+					<svelte:element this={contentTag}
+						data-content
+						bind:borderBoxSize
+						{...contentProps}
+						in:inTransition={inParams}
+					>
+						<slot />
+					</svelte:element>
+				{/key}
+			{/if}
+
+		{:else if 'out' in contentTransition && contentTransition.out}
+			{@const { out: [outTransition, outParams] } = contentTransition}
+
+			{#if isRendered}
+				{#key contentKey}
+					<svelte:element this={contentTag}
+						data-content
+						bind:borderBoxSize
+						{...contentProps}
+						out:outTransition={outParams}
+					>
+						<slot />
+					</svelte:element>
+				{/key}
+			{/if}
+
+		{:else if Array.isArray(contentTransition)}
+			{@const [transition, transitionParams] = contentTransition}
+
+			{#if isRendered}
+				{#key contentKey}
+					<svelte:element this={contentTag}
+						data-content
+						bind:borderBoxSize
+						{...contentProps}
+						transition:transition={transitionParams}
+					>
+						<slot />
+					</svelte:element>
+				{/key}
+			{/if}
 		{/if}
-	{/key}
+
+	{:else}
+		{#if isRendered}
+			{#key contentKey}
+				<svelte:element this={contentTag}
+					data-content
+					bind:borderBoxSize
+					{...contentProps}
+				>
+					<slot />
+				</svelte:element>
+			{/key}
+		{/if}
+	{/if}
 </svelte:element>
 
 
