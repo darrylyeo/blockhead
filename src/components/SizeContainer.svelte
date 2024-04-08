@@ -35,7 +35,7 @@
 
 
 	// Internal state
-	let borderBoxSize: ResizeObserverSize[]
+	let borderBoxSize: ResizeObserverSize[] | undefined
 
 	// (Computed)
 	$: containBlock = layout === 'block' || layout === 'both'
