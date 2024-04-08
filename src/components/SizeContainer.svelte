@@ -25,6 +25,7 @@
 	export let duration = 600
 	export let delay = 0
 
+	export let containerTransition: TransitionAndParams = [fly, { duration: 1, delay, opacity: 1 }] as TransitionAndParams<typeof fly>
 	export let containerTag: keyof SvelteHTMLElements = { 'block': 'div', 'inline': 'span', 'both': 'div' }[layout]
 	export let containerProps: Record<string, any> | undefined
 
@@ -42,6 +43,12 @@
 	$: containInline = layout === 'inline' || layout === 'both'
 
 	$: isRendered = renderOnlyWhenOpen ? isOpen : true
+
+	$: [ transition, transitionParams] = containerTransition
+
+
+	// Transitions
+	import { fly } from 'svelte/transition'
 </script>
 
 
@@ -57,6 +64,7 @@
 	hidden={!isOpen ? '' : undefined}
 	style:--transitionDuration={`${duration}ms`}
 	style:--transitionDelay={delay ? `${delay}ms` : undefined}
+	transition:transition={transitionParams}
 	{...containerProps}
 >
 	{#if contentTransition}
