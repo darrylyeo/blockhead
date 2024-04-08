@@ -152,16 +152,20 @@
 			display: grid;
 
 			& > [data-content] {
-				display: block;
+				@layer Reset {
+					display: block;
+				}
 				height: max-content;
 			}
 		}
 
 		&[data-layout="inline"] {
-			display: inline-grid;
+			display: inline grid;
 
 			& > [data-content] {
-				display: inline-block;
+				@layer Reset {
+					display: inline block;
+				}
 				width: max-content;
 			}
 		}
