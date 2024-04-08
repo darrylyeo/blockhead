@@ -211,6 +211,9 @@
 		scroll-margin-top: calc(var(--bleed-top) + var(--padding-outer) + 4.5rem);
 	}
 
+	.grid-row {
+		transition: 0.3s grid-template var(--ease-out-expo);
+	}
 	/* .network.grid-row {
 		display: grid;
 		/* grid-template:
