@@ -96,19 +96,32 @@
 	$: tweenedValue.set(value || 0)
 
 
+	// Components
 	import SizeContainer from './SizeContainer.svelte'
+
+
+	// Transitions
+	import type { EasingFunction } from 'svelte/transition'
+
+	const containerTransition = (_: Element, { duration, easing }: { duration: number, easing: EasingFunction }) => ({
+		duration,
+		easing,
+		css: (t: number) => `
+			inline-size: calc(${t} * var(--inlineSize));
+		`,
+	})
 </script>
 
 
 <span class="tweened-number">
 	{#if formatParts}
 		{#each indexParts(formatValue($tweenedValue, { ...format, toParts: true })) as { key, part, align } (key)}
-			<SizeContainer
-				layout="inline"
+			<SizeContainer layout="inline"
 				{clip}
 				alignInline={align}
 				duration={sizeDuration}
-				containerProps={{
+				containerTransition={[containerTransition, { duration: sizeDuration, easing }]}
+				contentProps={{
 					'data-number-part-type': part.type,
 				}}
 			>
@@ -116,7 +129,14 @@
 			</SizeContainer>
 		{/each}
 	{:else}
-		{formatValue($tweenedValue, { ...format })}
+		<SizeContainer layout="inline"
+			{clip}
+			alignInline="end"
+			duration={sizeDuration}
+			containerTransition={[containerTransition, { duration: sizeDuration, easing }]}
+		>
+			{formatValue($tweenedValue, { ...format })}
+		</SizeContainer>
 	{/if}
 </span>
 
