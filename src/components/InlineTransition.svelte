@@ -45,14 +45,10 @@
 		...contentProps,
 	}}
 >
-	<span
-		class={`row inline align-${align}`}
+	<slot
+		{key}
+		{value}
 	>
-		<slot
-			{key}
-			{value}
-		>
-			{value}
-		</slot>
-	</span>
+		{value}
+	</slot>
 </InlineContainer>
