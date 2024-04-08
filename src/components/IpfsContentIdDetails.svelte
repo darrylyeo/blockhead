@@ -100,7 +100,7 @@
 			<span slot="header-right" class="card-annotation"><a href="https://github.com/multiformats/cid" target="_blank">IPFS CIDv{result?.cid.version}</a></span>
 
 			<div class="card">
-				<output class="decoded-cid row inline wrap"><span title="Multibase"><InlineTransition align="center" value={result?.multibase.name} /></span> - <span title="Version"><InlineTransition align="center" value="cidv{result?.cid.version}" /></span> - <span title="Multicodec"><InlineTransition align="center" value={result?.multicodec.name} /></span> - <span class="row inline" title="Multihash">(<span title="Multicodec"><InlineTransition value={result?.multihash.multicodec.name} /></span> : <span title="Size (bits)"><InlineTransition value={result?.multihash.size * 8} /></span> : <span title="Digest (base16)"><BlockTransition align="center" value={digestBase16} /></span>)</span></output>
+				<output class="decoded-cid row inline wrap"><span title="Multibase"><InlineTransition align="center" value={result?.multibase.name} /></span> - <span title="Version"><InlineTransition align="center" value="cidv{result?.cid.version}" /></span> - <span title="Multicodec"><InlineTransition align="center" value={result?.multicodec.name} /></span> - <span class="row inline" title="Multihash">(<span title="Multicodec"><InlineTransition value={result?.multihash.multicodec.name} /></span> : <span title="Size (bits)"><InlineTransition value={result?.multihash.size * 8} /></span> : <span title="Digest (base16)"><BlockTransition align="center" value={digestBase16} contentTransition={[scale, { start: 0.5 }]} /></span>)</span></output>
 				<!-- <p>multibase - version - multicodec - multihash (name : size : digest)</p> -->
 			</div>
 
@@ -121,7 +121,7 @@
 							'Prefix': result?.cid.version === 0 ? null : result?.multibase.prefix,
 						}) as [key, value]}
 							<dt>{key}</dt>
-							<dd><InlineTransition value={value} let:value>{#if key === 'Prefix' && value === null}<span class="faded">[implicit]</span>{:else}<output>{value}</output>{/if}</InlineTransition></dd>
+							<dd><InlineTransition value={value} let:value align="start">{#if key === 'Prefix' && value === null}<span class="faded">[implicit]</span>{:else}<output>{value}</output>{/if}</InlineTransition></dd>
 						{/each}
 					</dl>
 				</section>
@@ -172,7 +172,7 @@
 						}) as [key, value]}
 							<dt><InlineTransition align="end" value={key} /></dt>
 							<!-- <dd><BlockTransition element="output" value={value} /></dd> -->
-							<dd><output><BlockTransition value={value} /></output></dd>
+							<dd><output><BlockTransition value={value} contentTransition={[scale, { start: 0.5 }]} /></output></dd>
 						{/each}
 					</dl>
 				</section>
@@ -227,7 +227,14 @@
 								</dt>
 								<!-- <dd class:mark={isCurrentFormat}> -->
 								<dd>
-									<output><IpfsContentId ipfsContentId={ipfsCid} {ipfsContentPath} linked={base.name !== 'identity'} /></output>
+									<output>
+										<InlineTransition
+											key={ipfsCid}
+											align="start"
+										>
+											<IpfsContentId ipfsContentId={ipfsCid} {ipfsContentPath} linked={base.name !== 'identity'} />
+										</InlineTransition>
+									</output>
 
 									<!-- {#if isValidSubdomain !== undefined}
 										<!-- <span class="card-annotation">{isValidSubdomain ? 'subdomain gateway compatible' : 'subdomain gateway incompatible (DNS label too long)'}</span> -- >
