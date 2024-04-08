@@ -1,31 +1,30 @@
 <script lang="ts">
-	import { type EasingFunction, type TransitionConfig, scale } from 'svelte/transition'
-
-
+	// Types
 	type Key = $$Generic<any>
 	type Value = $$Generic<any>
 	type TransitionParams = $$Generic<{delay?: number; duration?: number; easing?: EasingFunction}>
 
 
+	// Inputs
 	export let key: Key | undefined
 	export let value: Value | undefined
 	export let isOpen: boolean = true
 	export let renderOnlyWhenOpen = false
 
-	export let contentProps: Record<string, any> | undefined
-
 	export let align: 'start' | 'center' | 'end' = 'start'
 	export let clip: boolean | undefined
-
-	export let transition: ((node: Element, _?: TransitionParams) => TransitionConfig) | undefined = scale
-	export let transitionParams: TransitionParams | undefined
-	export let inTransition: ((node: Element, _?: TransitionParams) => TransitionConfig) | undefined
-	export let inTransitionParams: TransitionParams | undefined
-	export let outTransition: ((node: Element, _?: TransitionParams) => TransitionConfig) | undefined
-	export let outTransitionParams: TransitionParams | undefined
-
-
+	
+	export let contentTransition: SizeContainer['$$prop_def']['contentTransition'] = [scale]
+	export let contentProps: Record<string, any> | undefined
+	
+	
+	// Components
+	import type SizeContainer from './SizeContainer.svelte'
 	import InlineContainer from './InlineContainer.svelte'
+
+
+	// Transitions
+	import { scale } from 'svelte/transition'
 </script>
 
 
@@ -40,16 +39,7 @@
 	}}
 
 	contentKey={key ?? value}
-	contentTransition={
-		transition ?
-			[transition, transitionParams]
-		: inTransition || outTransition ?
-			{
-				...inTransition && { in: [inTransition, inTransitionParams] },
-				...outTransition && { out: [outTransition, outTransitionParams] },
-			}
-		: undefined
-	}
+	{contentTransition}
 	contentProps={{
 		class: `stack inline align-${align}`,
 		...contentProps,

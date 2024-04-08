@@ -410,8 +410,7 @@ on:dblclick={() => show3D = !show3D} -->
 						<InlineTransition
 							key={!isOpen && contract.nfts?.length}
 							align="end"
-							transition={fly}
-							transitionParams={{ y: 100 }}
+							contentTransition={[fly, { y: 100 }]}
 							clip
 						>
 							{#if showFloorPrice}
