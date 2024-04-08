@@ -127,8 +127,6 @@
 	<InlineTransition
 		align="start"
 		key={computedTokenBalanceFormat === 'original' || computedTokenBalanceFormat === 'both'}
-		transition={fade}
-		clip
 	>
 		{#if computedTokenBalanceFormat === 'original' || computedTokenBalanceFormat === 'both'}
 			<span class="balance"><!-- style="font-size: {sizeByVolume(convertedValue)}em" -->
@@ -147,6 +145,7 @@
 
 	<InlineContainer
 		isOpen={(computedTokenBalanceFormat === 'converted' || computedTokenBalanceFormat === 'both')}
+		renderOnlyWhenOpen={false}
 		delay={50 + animationDelay}
 		clip
 	>
@@ -158,6 +157,7 @@
 				{tween} {clip} {transitionWidth}
 			/><InlineContainer
 				isOpen={computedTokenBalanceFormat === 'converted' && layout === 'inline' && conversionCurrency !== symbol}
+				renderOnlyWhenOpen={false}
 				delay={animationDelay}
 				clip
 			>
