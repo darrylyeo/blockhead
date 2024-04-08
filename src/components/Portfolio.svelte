@@ -205,6 +205,7 @@
 	import AddressInput from './AddressInput.svelte'
 	import Loading from './Loading.svelte'
 	import InlineContainer from './InlineContainer.svelte'
+	import InlineTransition from './InlineTransition.svelte'
 	import NetworkSelect from './NetworkSelect.svelte'
 	import SizeContainer from './SizeContainer.svelte'
 	import PortfolioAccount from './PortfolioAccount.svelte'
@@ -307,46 +308,34 @@
 		{/if} -->
 
 		{#if isEditable}
-			<div class="stack inline">
-				<InlineContainer containerProps={{ class: 'align-end' }} isOpen={state !== State.Editing}>
-					<div class="bar align-end wrap" transition:scale|global>
-						{#if state === State.Idle}
-							<button class="add" data-before="＋" on:click={() => state = State.Adding} transition:scale|global>Add Account</button>
-						{/if}
-
-						<InlineContainer containerProps={{ class: 'align-end' }}>
-							<button data-before="↻" on:click={refetchAllData} transition:scale|global disabled={isRefetching}>{isRefetching ? 'Refreshing...' : 'Refresh'}</button>
+			<InlineTransition
+				align="end"
+				key={state !== State.Editing}
+				clip={false}
+			>
+				<span class="row align-end wrap">
+					{#if state !== State.Editing}
+						<InlineContainer
+							isOpen={state === State.Idle}
+							alignInline="end"
+							contentTransition={[scale]}
+						>
+							<button class="add" data-before="＋" on:click={() => state = State.Adding}>Add Account</button>
 						</InlineContainer>
 
-						<InlineContainer containerProps={{ class: 'align-end' }}>
-							<button data-before="✎" on:click={() => state = State.Editing} transition:scale|global>Edit</button>
+						<InlineContainer align="end">
+							<button data-before="↻" on:click={refetchAllData} disabled={isRefetching}>{isRefetching ? 'Refreshing...' : 'Refresh'}</button>
 						</InlineContainer>
-					</div>
 
-				</InlineContainer>
-				<InlineContainer containerProps={{ class: 'align-end' }} isOpen={state === State.Editing}>
-					<div class="bar align-end wrap" transition:scale|global>
+						<InlineContainer align="end">
+							<button data-before="✎" on:click={() => state = State.Editing}>Edit</button>
+						</InlineContainer>
+					{:else}
 						<button class="destructive" data-before="☒" on:click={() => dispatch('delete')}>Delete Portfolio</button>
 						<button data-before="✓" on:click={() => state = State.Idle}>Done</button>
-					</div>
-				</InlineContainer>
-			</div>
-
-			<!-- <InlineContainer containerProps={{ class: 'align-end' }} contentProps={{ class: 'stack align-end' }}>
-				{#if state !== State.Editing}
-					<div class="bar align-end" transition:scale|global>
-						{#if state === State.Idle}
-							<button data-before="＋" class="add" on:click={() => state = State.Adding} transition:scale|global>Add Account</button>
-						{/if}
-						<button data-before="✎" on:click={() => state = State.Editing}>Edit</button>
-					</div>
-				{:else}
-					<div class="bar align-end" transition:scale|global>
-						<button class="destructive" data-before="☒" on:click={() => dispatch('delete')}>Delete Portfolio</button>
-						<button data-before="💾" on:click={() => state = State.Idle}>Done</button>
-					</div>
-				{/if}
-			</InlineContainer> -->
+					{/if}
+				</span>
+			</InlineTransition>
 		{/if}
 		<!-- <button on:click={toggleShowOptions}>Options</button> -->
 
@@ -354,7 +343,14 @@
 	</header>
 
 	{#if portfolio.accounts}
-		<SizeContainer containerProps={{ class: 'align-bottom' }} isOpen={state === State.Adding || !portfolio.accounts.length}>
+		<SizeContainer layout="block"
+			renderOnlyWhenOpen={false}
+			alignBlock="end"
+			containerProps={{
+				class: 'align-bottom',
+			}}
+			isOpen={state === State.Adding || !portfolio.accounts.length}
+		>
 			<div class="stack align-bottom">
 				{#if state === State.Adding}
 					<form
@@ -385,8 +381,8 @@
 							<div role="toolbar" class="row wrap align-end">
 								Networks:
 
-								<InlineContainer contentProps={{ class: 'align-end' }}>
-									<div class="row wrap">
+								<InlineContainer alignInline="end">
+									<div class="row wrap align-start">
 										{#each [
 											...defaultAccountNetworks,
 											...newNetworks.filter(network => !defaultAccountNetworks.includes(network))
@@ -408,29 +404,30 @@
 												<span>{network.name}</span>
 											</label>
 										{/each}
+
+										<NetworkSelect
+											on:change={({ detail: { network, target }}) => {
+												newNetworks = newNetworks.includes(network) ? newNetworks.filter(_ => _ !== network) : [...newNetworks, network]
+												target.value = ''
+											}}
+											placeholder="Add Network..."
+											showTestnets={false}
+										/>
 									</div>
 								</InlineContainer>
-
-								<NetworkSelect
-									on:change={({ detail: { network, target }}) => {
-										newNetworks = newNetworks.includes(network) ? newNetworks.filter(_ => _ !== network) : [...newNetworks, network]
-										target.value = ''
-									}}
-									placeholder="Add Network..."
-									showTestnets={false}
-								/>
 
 								<!-- <input type="text" name="networks[]" bind:value={newNetworks} required hidden /> -->
 							</div>
 						</div>
 
-						<div class="bar">
+						<div class="bar wrap">
 							<AddressInput
 								bind:address={newAccountId}
 								placeholder="EVM Address (0xabcd...6789) / ENS Domain (vitalik.eth) / Lens Handle (stani.lens)"
 								autofocus
 								required
 							/>
+
 							<button type="submit" class="medium add">Add</button>
 							<button type="button" class="medium cancel" on:click={() => state = State.Idle}>Cancel</button>
 						</div>
@@ -484,9 +481,14 @@
 					bind:summary={accountsSummaries[account.id]}
 				>
 					{#if state === State.Editing}
-						<div class="row edit-controls" transition:scale|global>
-							<button class="destructive" data-before="☒" on:click={() => deleteAccount(i)}>Delete Account</button>
-						</div>
+						<InlineContainer
+							align="end"
+							isOpen={state === State.Editing}
+						>
+							<div class="row edit-controls">
+								<button class="destructive" data-before="☒" on:click={() => deleteAccount(i)}>Delete Account</button>
+							</div>
+						</InlineContainer>
 					{/if}
 				</PortfolioAccount>
 			</div>
@@ -497,7 +499,12 @@
 		</slot>
 	{/if}
 
-	<SizeContainer containerProps={{ class: 'sticky-bottom' }} isOpen={showOptions && portfolio.accounts.length && state !== State.Editing}>
+	<SizeContainer layout="block"
+		isOpen={showOptions && portfolio.accounts.length && state !== State.Editing}
+		containerProps={{
+			class: 'sticky-bottom',
+		}}
+	>
 		<div role="toolbar" class="options card row wrap" transition:fly|global={{ y: 100 }}>
 			<div class="row wrap">
 				<h3>Balances</h3>
