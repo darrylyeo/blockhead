@@ -53,9 +53,9 @@
 
 <article class="card">
 	<Loader
-		fromPromise={async () => (
+		fromPromise={ipfsContentId && (async () => (
 			decodeIpfsCid(ipfsContentId)
-		)}
+		))}
 		loadingIcon={IpfsIcon}
 		loadingMessage="Decoding IPFS Content ID..."
 		errorMessage={`Couldn't parse CID "${ipfsContentId}".`}
