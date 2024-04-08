@@ -399,19 +399,22 @@
 				</span>
 			{/if}
 
-			<InlineContainer containerProps={{ class: 'align-end' }} contentProps={{ class: 'stack align-end' }}>
+			<InlineTransition
+				key={$matchesGridLayoutBreakpoint && !isEditing}
+				align="end"
+			>
 				{#if $matchesGridLayoutBreakpoint && !isEditing}
-					<div class="row" transition:scale|global>
+					<div class="row">
 						<!--<button class="small" on:click={() => layout = isGridLayout ? 'column' : 'grid'} transition:scale|global>{isGridLayout ? '⊟' : '⊞'}</button>--><!-- ▤ -->
 						<select bind:value={layout}>
 							<option value="column">Column</option>
 							<option value="grid">Grid</option>
 						</select>
 					</div>
+				{:else}
+					<slot />
 				{/if}
-
-				<slot />
-			</InlineContainer>
+			</InlineTransition>
 		</header>
 
 		<!-- <hr> -->
