@@ -164,7 +164,7 @@
 	import Loading from './Loading.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
 	import Notifications from './Notifications.svelte'
-	import SizeContainerOld from './SizeContainerOld.svelte'
+	import SizeContainer from './SizeContainer.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import TweenedNumber from './TweenedNumber.svelte'
 
@@ -467,7 +467,15 @@
 				class:sticky-layout={isEditing}
 				style="{getNetworkColor(network) ? `--primary-color: ${getNetworkColor(network)};` : ''}"
 			>
-				<SizeContainerOld containerClass="header sticky" isOpen={isEditing} renderOnlyWhenOpen={false}>
+				<SizeContainer
+					layout="block"
+					isOpen={isEditing}
+					renderOnlyWhenOpen={false}
+					clip
+					containerProps={{
+						class: 'header sticky',
+					}}
+				>
 					<header class="bar card" style={cardStyle([getNetworkColor(network)])}>
 						<span class="card-background"><NetworkIcon {network} /></span>
 						<h3 class="row">
@@ -477,7 +485,7 @@
 						<span class="card-annotation">#{network.chainId}</span>
 						<button class="small" on:click={deleteView}>Hide Network</button>
 					</header>
-				</SizeContainerOld>
+				</SizeContainer>
 
 				<div
 					class="network-content {isGridLayout ? 'column grid-row' : 'column-block'} sticky-layout"
