@@ -73,8 +73,8 @@
 						data-content
 						bind:borderBoxSize
 						{...contentProps}
-						in:inTransition={inParams}
-						out:outTransition={outParams}
+						in:inTransition|global={inParams}
+						out:outTransition|global={outParams}
 					>
 						<slot />
 					</svelte:element>
@@ -90,7 +90,7 @@
 						data-content
 						bind:borderBoxSize
 						{...contentProps}
-						in:inTransition={inParams}
+						in:inTransition|global={inParams}
 					>
 						<slot />
 					</svelte:element>
@@ -106,7 +106,7 @@
 						data-content
 						bind:borderBoxSize
 						{...contentProps}
-						out:outTransition={outParams}
+						out:outTransition|global={outParams}
 					>
 						<slot />
 					</svelte:element>
@@ -122,7 +122,7 @@
 						data-content
 						bind:borderBoxSize
 						{...contentProps}
-						transition:transition={transitionParams}
+						transition:transition|global={transitionParams}
 					>
 						<slot />
 					</svelte:element>
