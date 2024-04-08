@@ -70,7 +70,7 @@
 	// Components
 	import NetworkSelect from '$/components/NetworkSelect.svelte'
 	import Preferences from '$/components/Preferences.svelte'
-	import InlineContainer from '$/components/InlineContainer.svelte'
+	import InlineTransition from '$/components/InlineTransition.svelte'
 	import NetworkIcon from '$/components/NetworkIcon.svelte'
 
 
@@ -88,11 +88,8 @@
 
 	.title {
 		gap: 0.66em;
-		align-items: center;
 	}
 	.title-icon {
-		display: inline-flex;
-		align-items: center;
 		font-size: 1.5em;
 	}
 </style>
@@ -100,21 +97,32 @@
 
 <main in:fly|global={{x: 300}} out:fly|global={{x: -300}}>
 <!-- <main> -->
-	<div class="bar wrap">
+	<header class="bar wrap">
 		<div class="title row">
-			<span class="stack inline">
-				{#key $networkSlug}
-					<span class="title-icon" in:scale={{ duration: 300 }} out:scale={{ duration: 300 }}>
-						{#if $networkSlug}
-							<NetworkIcon network={$explorerNetwork} />
-						{:else}
-							<img src="/Blockhead-Logo.svg" width="30" />
-						{/if}
-					</span>
-				{/key}
-			</span>
+			<InlineTransition
+				key={$networkSlug}
+				align="center"
+				contentTransition={[scale, { duration: 400 }]}
+			>
+				<span class="row title-icon">
+					{#if $networkSlug}
+						<NetworkIcon network={$explorerNetwork} />
+					{:else}
+						<img src="/Blockhead-Logo.svg" width="30" />
+					{/if}
+				</span>
+			</InlineTransition>
+
 			<h1>
-				<InlineContainer contentProps={{ class: 'stack inline align-end' }} clip>{#key $networkSlug}<b in:fly={{y: 20, duration: 200}} out:fly={{y: -20, duration: 200}}><InlineContainer isOpen={networkDisplayName}>{networkDisplayName} </InlineContainer></b>{/key}</InlineContainer>
+				<InlineTransition
+					key={$networkSlug}
+					align="start"
+					clip
+					contentTransition={{
+						in: [fly, { y: 20, duration: 400 }],
+						out: [fly, { y: -20, duration: 400 }]
+					}}
+				>{networkDisplayName}</InlineTransition>
 				Explorer
 			</h1>
 		</div>
@@ -137,7 +145,7 @@
 				/>
 			</label>
 		</div>
-	</div>
+	</header>
 
 	<div class="stack">
 		<slot />
