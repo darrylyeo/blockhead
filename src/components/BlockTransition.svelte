@@ -11,6 +11,8 @@
 	// export let element = "span"
 	export let key: Key | undefined
 	export let value: Value | undefined
+	export let renderOnlyWhenOpen = false
+	export let clip = true
 
 	// (View options)
 	export let align: 'top' | 'center' | 'bottom' = 'top'
@@ -32,37 +34,34 @@
 
 <SizeContainer
 	layout="block"
-	renderOnlyWhenOpen={false}
+	{renderOnlyWhenOpen}
+
+	{clip}
+	{alignBlock}
+
 	containerProps={{
 		class: `stack align-${align}`,
 	}}
+
 	contentKey={key ?? value}
-	{alignBlock}
+	contentTransition={
+		transition ?
+			[transition, transitionParams]
+		: inTransition || outTransition ?
+			{
+				...inTransition && { in: [inTransition, inTransitionParams] },
+				...outTransition && { out: [outTransition, outTransitionParams] },
+			}
+		: undefined
+	}
+	contentProps={{
+		class: `column align-${align}`,
+	}}
 >
-	{#if transition}
-		<div
-			class="column align-{align}"
-			transition:transition|global={transitionParams}
-		>
-			<slot
-				{key}
-				{value}
-			>
-				{value}
-			</slot>
-		</div>
-	{:else if inTransition && outTransition}
-		<div
-			class="column align-{align}"
-			in:inTransition|global={inTransitionParams}
-			out:outTransition|global={outTransitionParams}
-		>
-			<slot
-				{key}
-				{value}
-			>
-				{value}
-			</slot>
-		</div>
-	{/if}
+	<slot
+		{key}
+		{value}
+	>
+		{value}
+	</slot>
 </SizeContainer>
