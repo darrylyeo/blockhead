@@ -110,11 +110,11 @@
 
 
 	// Components
+	import InlineTransition from '$/components/InlineTransition.svelte'
 	import NetworkIcon from '$/components/NetworkIcon.svelte'
 	import NetworkSelect from '$/components/NetworkSelect.svelte'
 	import Preferences from '$/components/Preferences.svelte'
 	import TokenIcon from '$/components/TokenIcon.svelte'
-	import InlineContainer from '$/components/InlineContainer.svelte'
 
 
 	// Style/transitions
@@ -152,57 +152,89 @@
 
 <main in:fly|global={{x: 300}} out:fly|global={{x: -300}}>
 <!-- <main> -->
-	<div class="bar wrap">
+	<header class="bar wrap">
 		<div class="title row">
-			<span class="stack inline">
-				{#key $web3AppConfig}{#key $network}
-					<span class="title-icon" in:scale={{ duration: 300 }} out:scale={{ duration: 300 }}>
-						{#if $web3AppConfig}
-							{#if $web3AppConfig.icon}
-								<img src={$web3AppConfig.icon} width="30" />
-							{:else}
-								{@const erc20Token = $web3AppConfig.views?.flatMap(view => view.erc20Tokens ?? [])[0]}
-
-								{#if erc20Token}
-									<TokenIcon {erc20Token} />
-								{:else}
-									<img src="/Blockhead-Logo.svg" width="30" />
-								{/if}
-							{/if}
-						{:else if $network}
-							<NetworkIcon network={$network} />
+			<InlineTransition
+				key={$web3AppConfig || $network}
+				align="center"
+				contentTransition={[scale, { duration: 400 }]}
+			>
+				<span class="title-icon">
+					{#if $web3AppConfig}
+						{#if $web3AppConfig.icon}
+							<img src={$web3AppConfig.icon} width="30" />
 						{:else}
-							<img src="/Blockhead-Logo.svg" width="30" />
+							{@const erc20Token = $web3AppConfig.views?.flatMap(view => view.erc20Tokens ?? [])[0]}
+
+							{#if erc20Token}
+								<TokenIcon {erc20Token} />
+							{:else}
+								<img src="/Blockhead-Logo.svg" width="30" />
+							{/if}
 						{/if}
-					</span>
-				{/key}{/key}
-			</span>
+					{:else if $network}
+						<NetworkIcon network={$network} />
+					{:else}
+						<img src="/Blockhead-Logo.svg" width="30" />
+					{/if}
+				</span>
+			</InlineTransition>
 
 			<h1>
 				<a href="/apps/{$web3AppSlug}" class="stack inline">
-					{#if $web3AppSlug && $web3AppConfig}
-						<span in:fly|global={{y: 20, duration: 200}} out:fly|global={{y: -20, duration: 200}}>
-							<InlineContainer contentProps={{ class: 'stack inline' }} clip>
-								{#key $web3AppConfig}<mark in:fly|global={{y: 20, duration: 200}} out:fly|global={{y: -20, duration: 200}}>{$web3AppConfig.name}</mark>{/key}
-							</InlineContainer>
+					<InlineTransition
+						key={Boolean($web3AppSlug && $web3AppConfig)}
+						align="start"
+						contentProps={{ class: '' }}
+						contentTransition={{
+							in: [scale, { duration: 400 }],
+							out: [scale, { duration: 400 }],
+						}}
+					>
+						{#if $web3AppSlug && $web3AppConfig}
+							<InlineTransition
+								key={$web3AppConfig}
+								clip
+								align="start"
+								contentTransition={{
+									in: [fly, { y: 20, duration: 400 }],
+									out: [fly, { y: -20, duration: 400 }],
+								}}
+							>
+								<mark>{$web3AppConfig.name}</mark>
+							</InlineTransition>
 
-							{#if $currentView !== 'Dashboard'}
-								<InlineContainer contentProps={{ class: 'stack inline' }} clip>
-									{#key $currentView}<span in:fly|global={{y: 20, duration: 200}} out:fly|global={{y: -20, duration: 200}}>{$currentView}</span>{/key}
-								</InlineContainer>
-							{/if}
-						</span>
-					{:else}
-						<span in:fly|global={{y: 20, duration: 200}} out:fly|global={{y: -20, duration: 200}}>
-							{#if $network}
-								<InlineContainer contentProps={{ class: 'stack inline' }} clip>
-									{#key $network}<span in:fly|global={{y: 20, duration: 200}} out:fly|global={{y: -20, duration: 200}}>{$network.name}</span>{/key}
-								</InlineContainer>
-							{/if}
+							<InlineTransition
+								isOpen={$currentView !== 'Dashboard'}
+								key={$currentView} 
+								clip
+								align="start"
+								contentTransition={{
+									in: [fly, { y: 20, duration: 400 }],
+									out: [fly, { y: -20, duration: 400 }],
+								}}
+							>
+								<span>{$currentView}</span>
+							</InlineTransition>
+						{:else}
+							<InlineTransition
+								isOpen={Boolean($network)}
+								key={$network}
+								clip
+								align="start"
+								contentTransition={{
+									in: [fly, { y: 20, duration: 400 }],
+									out: [fly, { y: -20, duration: 400 }],
+								}}
+							>
+								{#if $network}
+									<span>{$network.name}</span>
+								{/if}
+							</InlineTransition>
 
 							Apps
-						</span>
-					{/if}
+						{/if}
+					</InlineTransition>
 				</a>
 			</h1>
 		</div>
@@ -242,7 +274,7 @@
 				{/each}
 			</select>
 		</label>
-	</div>
+	</header>
 
 	<div class="content stack">
 		<slot />
