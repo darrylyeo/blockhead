@@ -155,10 +155,10 @@
 
 			<BlockTransition
 				key={showContractCodeTypeOrSourcePath}
-				inTransition={fly}
-				inTransitionParams={{ x: 10, duration: 200 }}
-				outTransition={fly}
-				outTransitionParams={{ x: -10, duration: 200 }}
+				contentTransition={{
+					in: [fly, { x: 10, duration: 200 }],
+					out: [fly, { x: -10, duration: 200 }],
+				}}
 			>
 				{#if source && !Object.values(ContractCodeType).includes(showContractCodeTypeOrSourcePath)}
 					{@const sourceFile = showContractCodeTypeOrSourcePath.match(/[^/]+$/)?.[0] ?? ''}

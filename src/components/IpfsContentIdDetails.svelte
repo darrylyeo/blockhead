@@ -81,7 +81,7 @@
 
 			<BlockTransition
 				key={[ipfsGateway, ipfsContentId]}
-				transition={scale}
+				contentTransition={[scale]}
 			>
 				<IpfsContentDetails
 					{ipfsGateway}
@@ -172,7 +172,7 @@
 						}) as [key, value]}
 							<dt><InlineTransition align="end" value={key} /></dt>
 							<!-- <dd><BlockTransition element="output" value={value} /></dd> -->
-							<dd><output><BlockTransition value={value} transition={scale} /></output></dd>
+							<dd><output><BlockTransition value={value} contentTransition={[scale]} /></output></dd>
 						{/each}
 					</dl>
 				</section>

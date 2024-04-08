@@ -16,12 +16,7 @@
 
 	// (View options)
 	export let align: 'top' | 'center' | 'bottom' = 'top'
-	export let transition: ((node: Element, _?: TransitionParams) => TransitionConfig) | undefined
-	export let transitionParams: TransitionParams | undefined
-	export let inTransition: ((node: Element, _?: TransitionParams) => TransitionConfig) | undefined
-	export let inTransitionParams: TransitionParams | undefined
-	export let outTransition: ((node: Element, _?: TransitionParams) => TransitionConfig) | undefined
-	export let outTransitionParams: TransitionParams | undefined
+	export let contentTransition: SizeContainer['$$prop_def']['contentTransition']
 
 	// (Computed)
 	$: alignBlock = ({ 'top': 'start', 'center': 'center', 'bottom': 'end' } as const)[align]
@@ -44,16 +39,7 @@
 	}}
 
 	contentKey={key ?? value}
-	contentTransition={
-		transition ?
-			[transition, transitionParams]
-		: inTransition || outTransition ?
-			{
-				...inTransition && { in: [inTransition, inTransitionParams] },
-				...outTransition && { out: [outTransition, outTransitionParams] },
-			}
-		: undefined
-	}
+	{contentTransition}
 	contentProps={{
 		class: `column align-${align}`,
 	}}

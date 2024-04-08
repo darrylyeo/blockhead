@@ -134,7 +134,7 @@
 					</svelte:fragment>
 			
 					<!-- {#if ipfsGateway.gatewayProvider === IpfsGatewayProvider.Helia} -->
-					<BlockTransition key={content} transition={fade} transitionParams={{ duration: 100 }}>
+					<BlockTransition key={content} contentTransition={[fade, { duration: 100 }]}>
 						<IpfsLocalContentEncoder
 							{ipfsGateway}
 							{content}

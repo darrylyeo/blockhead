@@ -188,10 +188,10 @@
 		{#if $web3AppConfig}
 			<BlockTransition
 				key={$web3AppConfig}
-				inTransition={fly}
-				inTransitionParams={{x: 100}}
-				outTransition={fly}
-				outTransitionParams={{x: -100}}
+				contentTransition={{
+					in: [fly, {x: 100}],
+					out: [fly, {x: -100}],
+				}}
 			>
 				<Web3AppDashboard
 					web3AppConfig={$web3AppConfig}
