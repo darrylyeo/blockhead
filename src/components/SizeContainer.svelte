@@ -4,11 +4,11 @@
 
 	import type { TransitionConfig } from 'svelte/transition'
 
-	type TransitionAndParams<
+	type TransitionFnAndParams<
 		Fn extends (node: Element, _?: any) => TransitionConfig = any
 	> = (
 		Fn extends (node: Element, _?: infer Params) => TransitionConfig
-			? [Fn, Params | undefined]
+			? [Fn] | [Fn, Params | undefined]
 			: never
 	)
 
@@ -25,12 +25,12 @@
 	export let duration = 600
 	export let delay = 0
 
-	export let containerTransition: TransitionAndParams = [fly, { duration: 1, delay, opacity: 1 }] as TransitionAndParams<typeof fly>
+	export let containerTransition: TransitionFnAndParams = [fly, { duration: 1, delay, opacity: 1 }] as TransitionFnAndParams<typeof fly>
 	export let containerTag: keyof SvelteHTMLElements = { 'block': 'div', 'inline': 'span', 'both': 'div' }[layout]
 	export let containerProps: Record<string, any> | undefined
 
 	export let contentKey: any | undefined
-	export let contentTransition: TransitionAndParams | { in?: TransitionAndParams, out?: TransitionAndParams } | undefined
+	export let contentTransition: TransitionFnAndParams | { in?: TransitionFnAndParams, out?: TransitionFnAndParams } | undefined
 	export let contentTag: keyof SvelteHTMLElements = { 'block': 'div', 'inline': 'span', 'both': 'div' }[layout]
 	export let contentProps: Record<string, any> | undefined
 
