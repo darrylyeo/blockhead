@@ -159,6 +159,7 @@
 	import EthereumNftBalancesLoader from './EthereumNftBalancesLoader.svelte'
 	import HeightContainer from './HeightContainer.svelte'
 	import InlineContainer from './InlineContainer.svelte'
+	import InlineTransition from './InlineTransition.svelte'
 	import LensName from './LensName.svelte'
 	import Loading from './Loading.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
@@ -498,38 +499,46 @@
 											<!-- <span class="card-background"><NetworkIcon {network} /></span> -->
 											<h4 class="row">
 												<NetworkIcon {network} />
-												<Address {network} {address}><InlineContainer isOpen={!isEditing && !(showFeed && isGridLayout)} clip containerProps={{ class: 'align-end' }}><mark>{network.name}</mark>&nbsp;</InlineContainer>Balances</Address>
+
+												<Address {network} {address}>
+													<InlineContainer
+														isOpen={!isEditing && !(showFeed && isGridLayout)}
+														renderOnlyWhenOpen={false}
+														align="end"
+														clip
+													><mark>{network.name}</mark>&nbsp;</InlineContainer>Balances
+												</Address>
 											</h4>
 
-											{#if (status === 'resolved' || status === 'reloading') && summary}
-												<span
-													class="summary align-end"
-													class:is-zero={!summary.filteredBalancesCount}
-													transition:scale|global
-												>
-													<TokenBalance symbol={summary.quoteCurrency} balance={summary.quoteTotal} format="fiat" />
-													│
-													<strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> tokens
-												</span>
-											{/if}
-
-											<InlineContainer containerProps={{ class: 'align-end' }} contentProps={{ class: 'stack align-end' }} isOpen={status !== 'resolved'}>
-												{#if status === 'loading' || status === 'reloading'}
-													<Loading
-														layout="icon"
-														iconAnimation="hover"
-														title={loadingMessage}
+											<InlineTransition
+												align="end"
+												key={
+													status === 'loading' ? 1 :
+													status === 'error' ? 2 :
+													status === 'resolved' || status === 'reloading' ? 3 :
+													0
+												}
+											>
+												{#if status === 'loading'}
+													<InlineTransition
+														key={defiProvider}
+														align="center"
 													>
-														<img
-															slot="icon"
-															src={tokenBalancesProviderIcons[tokenBalancesProvider]}
-															alt={tokenBalancesProvider}
-															height={20}
-														/>
-													</Loading>
-													<!-- <span transition:scale|global>Loading...</span> -->
+														<Loading
+															layout="icon"
+															iconAnimation="hover"
+															title={loadingMessage}
+														>
+															<img
+																slot="icon"
+																src={tokenBalancesProviderIcons[tokenBalancesProvider]}
+																alt={tokenBalancesProvider}
+																height={20}
+															/>
+														</Loading>
+													</InlineTransition>
 												{:else if status === 'error'}
-													<div class="error-icon-container stack" transition:scale|global>
+													<div class="error-icon-container stack">
 														<img
 															title={errorMessage}
 															src={tokenBalancesProviderIcons[tokenBalancesProvider]}
@@ -538,15 +547,50 @@
 														/>
 														<span>⚠︎</span>
 													</div>
+												{:else if status === 'resolved' || status === 'reloading'}
+													<span class="row">
+														{#if summary}
+															<span
+																class="summary align-end"
+																class:is-zero={!summary.filteredBalancesCount}
+															>
+																<TokenBalance symbol={summary.quoteCurrency} balance={summary.quoteTotal} format="fiat" />
+																│
+																<strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> tokens
+															</span>
+														{/if}
+
+														<InlineContainer
+															align="end"
+															isOpen={status === 'reloading'}
+														>
+															<Loading
+																layout="icon"
+																iconAnimation="hover"
+																title={loadingMessage}
+															>
+																<img
+																	slot="icon"
+																	src={tokenBalancesProviderIcons[tokenBalancesProvider]}
+																	alt={tokenBalancesProvider}
+																	height={20}
+																/>
+															</Loading>
+														</InlineContainer>
+													</span>
 												{/if}
-											</InlineContainer>
-											<InlineContainer containerProps={{ class: 'align-end' }} contentProps={{ class: 'stack align-end' }}>
+											</InlineTransition>
+		
+											<InlineTransition
+												key={isEditing}
+												align="end"
+											>
 												{#if isEditing}
-													<button class="small" on:click={() => toggleSection('Balances')} transition:scale|global>Hide</button>
+													<button class="small" on:click={() => toggleSection('Balances')}>Hide</button>
 												{:else}
-													<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'tokens'}`)} transition:scale|global>▼</button>
+													<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'tokens'}`)}>▼</button>
 												{/if}
-											</InlineContainer>
+											</InlineTransition>
 											<!-- {#if isEditing}
 												<label>
 													<input type="checkbox" bind:checked={showBalances}>
@@ -598,38 +642,46 @@
 										<!-- <span class="card-background"><NetworkIcon {network} /></span> -->
 										<h4 class="row">
 											<NetworkIcon {network} />
-											<span><InlineContainer isOpen={!isEditing && !(showFeed && isGridLayout)} clip containerProps={{ class: 'align-end' }}><mark>{network.name}</mark>&nbsp;</InlineContainer>DeFi</span>
+
+											<span>
+												<InlineContainer
+													isOpen={!isEditing && !(showFeed && isGridLayout)}
+													renderOnlyWhenOpen={false}
+													align="end"
+													clip
+												><mark>{network.name}</mark>&nbsp;</InlineContainer>DeFi
+											</span>
 										</h4>
 
-										{#if (status === 'resolved' || status === 'reloading') && summary}
-											<span class="summary" class:is-zero={!summary.defiAppsCount}>
-												<TokenBalance
-													symbol={summary.quoteTotalCurrency || quoteCurrency}
-													balance={summary.quoteTotal}
-													format="fiat"
-												/>
-												│
-												<strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}
-											</span>
-										{/if}
-
-										<InlineContainer containerProps={{ class: 'align-end' }} contentProps={{ class: 'stack align-end' }} isOpen={status !== 'resolved'}>
-											{#if status === 'loading' || status === 'reloading'}
-												<Loading
-													layout="icon"
-													iconAnimation="hover"
-													title={loadingMessage}
+										<InlineTransition
+											align="end"
+											key={
+												status === 'loading' ? 1 :
+												status === 'error' ? 2 :
+												status === 'resolved' || status === 'reloading' ? 3 :
+												0
+											}
+										>
+											{#if status === 'loading'}
+												<InlineTransition
+													key={defiProvider}
+													align="center"
 												>
-													<img
-														slot="icon"
-														src={defiProviderIcons[defiProvider]}
-														alt={defiProvider}
-														height={20}
-													/>
-												</Loading>
-												<!-- <span transition:scale|global>Loading...</span> -->
+													<Loading
+														layout="icon"
+														iconAnimation="hover"
+														title={loadingMessage}
+													>
+														<img
+															slot="icon"
+															src={defiProviderIcons[defiProvider]}
+															alt={defiProvider}
+															height={20}
+														/>
+													</Loading>
+												</InlineTransition>
 											{:else if status === 'error'}
-												<div class="error-icon-container stack" transition:scale|global>
+												<div class="error-icon-container stack">
 													<img
 														title={errorMessage}
 														src={defiProviderIcons[defiProvider]}
@@ -638,15 +690,52 @@
 													/>
 													<span>⚠︎</span>
 												</div>
+											{:else if status === 'resolved' || status === 'reloading'}
+												<span class="row">
+													{#if summary}
+														<span class="summary" class:is-zero={!summary.defiAppsCount}>
+															<TokenBalance
+																symbol={summary.quoteTotalCurrency || quoteCurrency}
+																balance={summary.quoteTotal}
+																format="fiat"
+															/>
+															│
+															<strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}
+														</span>
+													{/if}
+
+													<InlineContainer
+														align="end"
+														isOpen={status === 'reloading'}
+													>
+														<Loading
+															layout="icon"
+															iconAnimation="hover"
+															title={loadingMessage}
+														>
+															<img
+																slot="icon"
+																src={defiProviderIcons[defiProvider]}
+																alt={defiProvider}
+																height={20}
+															/>
+														</Loading>
+													</InlineContainer>
+												</span>
 											{/if}
-										</InlineContainer>
-										<InlineContainer containerProps={{ class: 'align-end' }} contentProps={{ class: 'stack align-end' }}>
+										</InlineTransition>
+
+										<InlineTransition
+											key={isEditing}
+											align="end"
+										>
 											{#if isEditing}
-												<button class="small" on:click={() => toggleSection('DeFi')} transition:scale|global>Hide</button>
+												<button class="small" on:click={() => toggleSection('DeFi')}>Hide</button>
 											{:else}
-												<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'defi'}`)} transition:scale|global>▼</button>
+												<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'defi'}`)}>▼</button>
 											{/if}
-										</InlineContainer>
+										</InlineTransition>
+
 										<!-- {#if isEditing}
 											<label>
 												<input type="checkbox" bind:checked={showDeFi}>
@@ -695,43 +784,46 @@
 										<h4 class="row">
 											<!-- <span class="card-background"><NetworkIcon {network} /></span> -->
 											<NetworkIcon {network} />
-											<span><InlineContainer isOpen={!isEditing && !(showFeed && isGridLayout)} clip containerProps={{ class: 'align-end' }}><mark>{network.name}</mark>&nbsp;</InlineContainer>NFTs</span>
+
+											<span>
+												<InlineContainer
+													isOpen={!isEditing && !(showFeed && isGridLayout)}
+													renderOnlyWhenOpen={false}
+													align="end"
+													clip
+												><mark>{network.name}</mark>&nbsp;</InlineContainer>NFTs
+											</span>
 										</h4>
 
-										{#if (status === 'resolved' || status === 'reloading') && summary}
-											<span class="summary" class:is-zero={!summary.nftsCount}>
-												{#if summary.quoteTotal}
-													<TokenBalance
-														symbol={summary.quoteCurrency || quoteCurrency}
-														balance={summary.quoteTotal}
-														format="fiat"
-													/>
-													│
-												{/if}
-												<strong><TweenedNumber value={summary.nftsCount} /></strong> NFT{summary.nftsCount === 1 ? '' : 's'}
-												│
-												<!-- across -->
-												<strong><TweenedNumber value={summary.nftContractsCount} /></strong> collection{summary.nftContractsCount === 1 ? '' : 's'}
-											</span>
-										{/if}
-
-										<InlineContainer containerProps={{ class: 'align-end' }} contentProps={{ class: 'stack align-end' }} isOpen={status !== 'resolved'}>
-											{#if status === 'loading' || status === 'reloading'}
-												<Loading
-													layout="icon"
-													iconAnimation="hover"
-													title={loadingMessage}
+										<InlineTransition
+											align="end"
+											key={
+												status === 'loading' ? 1 :
+												status === 'error' ? 2 :
+												status === 'resolved' || status === 'reloading' ? 3 :
+												0
+											}
+										>
+											{#if status === 'loading'}
+												<InlineTransition
+													key={nftProvider}
+													align="center"
 												>
-													<img
-														slot="icon"
-														src={nftProviderIcons[nftProvider]}
-														alt={nftProvider}
-														height={20}
-													/>
-												</Loading>
-												<!-- <span transition:scale|global>Loading...</span> -->
+													<Loading
+														layout="icon"
+														iconAnimation="hover"
+														title={loadingMessage}
+													>
+														<img
+															slot="icon"
+															src={nftProviderIcons[nftProvider]}
+															alt={nftProvider}
+															height={20}
+														/>
+													</Loading>
+												</InlineTransition>
 											{:else if status === 'error'}
-												<div class="error-icon-container stack" transition:scale|global>
+												<div class="error-icon-container stack">
 													<img
 														title={errorMessage}
 														src={nftProviderIcons[nftProvider]}
@@ -740,15 +832,56 @@
 													/>
 													<span>⚠︎</span>
 												</div>
+											{:else if status === 'resolved' || status === 'reloading'}
+												<span class="row">
+													{#if summary}
+														<span class="summary" class:is-zero={!summary.nftsCount}>
+															{#if summary.quoteTotal}
+																<TokenBalance
+																	symbol={summary.quoteCurrency || quoteCurrency}
+																	balance={summary.quoteTotal}
+																	format="fiat"
+																/>
+																│
+															{/if}
+															<strong><TweenedNumber value={summary.nftsCount} /></strong> NFT{summary.nftsCount === 1 ? '' : 's'}
+															│
+															<!-- across -->
+															<strong><TweenedNumber value={summary.nftContractsCount} /></strong> collection{summary.nftContractsCount === 1 ? '' : 's'}
+														</span>
+													{/if}
+
+													<InlineContainer
+														align="end"
+														isOpen={status === 'reloading'}
+													>
+														<Loading
+															layout="icon"
+															iconAnimation="hover"
+															title={loadingMessage}
+														>
+															<img
+																slot="icon"
+																src={nftProviderIcons[nftProvider]}
+																alt={nftProvider}
+																height={20}
+															/>
+														</Loading>
+													</InlineContainer>
+												</span>
 											{/if}
-										</InlineContainer>
-										<InlineContainer containerProps={{ class: 'align-end' }} contentProps={{ class: 'stack align-end' }}>
+										</InlineTransition>
+	
+										<InlineTransition
+											key={isEditing}
+											align="end"
+										>
 											{#if isEditing}
-												<button class="small" on:click={() => toggleSection('NFTs')} transition:scale|global>Hide</button>
+												<button class="small" on:click={() => toggleSection('NFTs')}>Hide</button>
 											{:else}
-												<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'nfts'}`)} transition:scale|global>▼</button>
+												<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'nfts'}`)}>▼</button>
 											{/if}
-										</InlineContainer>
+										</InlineTransition>
 										<!-- {#if isEditing}
 											<label>
 												<input type="checkbox" bind:checked={showNFTs}>
@@ -794,32 +927,35 @@
 										Feed
 									</h4>
 
-									{#if (status === 'resolved' || status === 'reloading') && summary}
-										<span class="summary" class:is-zero={!summary.notificationsCount}>
-											<strong><TweenedNumber value={summary.notificationsCount} /></strong> notification{summary.notificationsCount === 1 ? '' : 's'}
-											│
-											<!-- across -->
-											<strong><TweenedNumber value={summary.channelsCount} /></strong> channel{summary.channelsCount === 1 ? '' : 's'}
-										</span>
-									{/if}
-
-									<InlineContainer containerProps={{ class: 'align-end' }} contentProps={{ class: 'stack align-end' }} isOpen={status !== 'resolved'}>
-										{#if status === 'loading' || status === 'reloading'}
-											<Loading
-												layout="icon"
-												iconAnimation="hover"
-												title={loadingMessage}
+									<InlineTransition
+										align="end"
+										key={
+											status === 'loading' ? 1 :
+											status === 'error' ? 2 :
+											status === 'resolved' || status === 'reloading' ? 3 :
+											0
+										}
+									>
+										{#if status === 'loading'}
+											<InlineTransition
+												key={notificationsProvider}
+												align="center"
 											>
-												<img
-													slot="icon"
-													src={notificationsProviderIcons[notificationsProvider]}
-													alt={notificationsProvider}
-													height={20}
-												/>
-											</Loading>
-											<!-- <span transition:scale|global>Loading...</span> -->
+												<Loading
+													layout="icon"
+													iconAnimation="hover"
+													title={loadingMessage}
+												>
+													<img
+														slot="icon"
+														src={notificationsProviderIcons[notificationsProvider]}
+														alt={notificationsProvider}
+														height={20}
+													/>
+												</Loading>
+											</InlineTransition>
 										{:else if status === 'error'}
-											<div class="error-icon-container stack" transition:scale|global>
+											<div class="error-icon-container stack">
 												<img
 													title={errorMessage}
 													src={notificationsProviderIcons[notificationsProvider]}
@@ -828,15 +964,48 @@
 												/>
 												<span>⚠︎</span>
 											</div>
+										{:else if status === 'resolved' || status === 'reloading'}
+											<span class="row">
+												{#if summary}
+													<span class="summary" class:is-zero={!summary.notificationsCount}>
+														<strong><TweenedNumber value={summary.notificationsCount} /></strong> notification{summary.notificationsCount === 1 ? '' : 's'}
+														│
+														<!-- across -->
+														<strong><TweenedNumber value={summary.channelsCount} /></strong> channel{summary.channelsCount === 1 ? '' : 's'}
+													</span>
+												{/if}
+
+												<InlineContainer
+													align="end"
+													isOpen={status === 'reloading'}
+												>
+													<Loading
+														layout="icon"
+														iconAnimation="hover"
+														title={loadingMessage}
+													>
+														<img
+															slot="icon"
+															src={notificationsProviderIcons[notificationsProvider]}
+															alt={notificationsProvider}
+															height={20}
+														/>
+													</Loading>
+												</InlineContainer>
+											</span>
 										{/if}
-									</InlineContainer>
-									<InlineContainer containerProps={{ class: 'align-end' }} contentProps={{ class: 'stack align-end' }}>
+									</InlineTransition>
+
+									<InlineTransition
+										key={isEditing}
+										align="end"
+									>
 										{#if isEditing}
-											<button class="small" on:click={() => toggleSection('Feed')} transition:scale|global>Hide</button>
+											<button class="small" on:click={() => toggleSection('Feed')}>Hide</button>
 										{:else}
-											<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'feed'}`)} transition:scale|global>▼</button>
+											<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'feed'}`)}>▼</button>
 										{/if}
-									</InlineContainer>
+									</InlineTransition>
 								</label>
 							</svelte:fragment>
 						</Notifications>
