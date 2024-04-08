@@ -51,11 +51,11 @@
 				.map(part => {
 					indexByType[part.type] ??= 0
 
-					return ({
+					return {
 						key: `left-${part.type}-${indexByType[part.type]!++}`,
-						align: 'end',
+						align: 'end' as const,
 						part,
-					})
+					}
 				})
 				.reverse(),
 
@@ -63,11 +63,11 @@
 				.map(part => {
 					indexByType[part.type] ??= 0
 
-					return ({
+					return {
 						key: `right-${part.type}-${indexByType[part.type]!++}`,
-						align: 'start',
+						align: 'start' as const,
 						part,
-					})
+					}
 				})
 		]
 	}
