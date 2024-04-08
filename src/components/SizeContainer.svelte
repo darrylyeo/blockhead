@@ -25,7 +25,7 @@
 	export let duration = 600
 	export let delay = 0
 
-	export let containerTransition: TransitionFnAndParams = [fly, { duration: 1, delay, opacity: 1 }] as TransitionFnAndParams<typeof fly>
+	export let containerTransition: TransitionFnAndParams = [() => {}]
 	export let containerTag: keyof SvelteHTMLElements = { 'block': 'div', 'inline': 'span', 'both': 'div' }[layout]
 	export let containerProps: Record<string, any> | undefined
 
@@ -45,10 +45,6 @@
 	$: isRendered = renderOnlyWhenOpen ? isOpen : true
 
 	$: [ transition, transitionParams] = containerTransition
-
-
-	// Transitions
-	import { fly } from 'svelte/transition'
 </script>
 
 
