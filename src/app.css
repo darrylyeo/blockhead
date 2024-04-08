@@ -723,6 +723,7 @@ address {
 
 .bar {
 	display: flex;
+	justify-content: safe end;
 	align-items: center;
 	column-gap: var(--padding-inner);
 	row-gap: calc(0.5 * var(--padding-inner));
@@ -750,11 +751,6 @@ address {
 
 	& > :not(:first-child) {
 		flex: 0 auto;
-		
-		&:last-child {
-			margin-left: auto;
-			justify-items: end;
-		}
 	}
 }
 
