@@ -259,22 +259,46 @@
 
 		&[data-align-inline="start"] {
 			justify-content: start;
+
+			& > [data-content] {
+				transform-origin: left;
+			}
 		}
 		&[data-align-inline="center"] {
 			justify-content: center;
+
+			& > [data-content] {
+				transform-origin: center;
+			}
 		}
 		&[data-align-inline="end"] {
 			justify-content: end;
+
+			& > [data-content] {
+				transform-origin: right;
+			}
 		}
 
 		&[data-align-block="start"] {
 			align-content: start;
+
+			& > [data-content] {
+				transform-origin: top;
+			}
 		}
 		&[data-align-block="center"] {
 			align-content: center;
+
+			& > [data-content] {
+				transform-origin: center;
+			}
 		}
 		&[data-align-block="end"] {
 			align-content: end;
+
+			& > [data-content] {
+				transform-origin: bottom;
+			}
 		}
 	}
 </style>
