@@ -7,7 +7,7 @@
 	// Inputs
 	export let value: number
 
-	// (Voew options)
+	// (View options)
 	export let format: {
 		currency?: string,
 		showDecimalPlaces: number,
@@ -25,9 +25,9 @@
 	export let duration = 1000
 	export let easing = quintOut // expoOut
 	
-	// Container animation
+	// Size animation
 	export let clip = true
-	export let sizeDuration = 500
+	export let sizeDuration = 200
 
 
 
