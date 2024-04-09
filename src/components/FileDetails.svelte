@@ -97,6 +97,8 @@
 			<span class="card-annotation">
 				{#if mediaType}
 					<a title="IANA Media Type" href="https://www.iana.org/assignments/media-types/{mediaType}" target="_blank">{mediaType}</a><!-- {#if params}; {params}{/if} -->
+				{:else if displayType}
+					{displayType}
 				{:else}
 					file
 				{/if}
