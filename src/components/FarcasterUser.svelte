@@ -13,7 +13,7 @@
 
 
 <a
-	class="cast-author row"
+	class="cast-author"
 	href={
 		user.name
 			? resolveRoute(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName: user.name })
@@ -49,12 +49,11 @@
 
 
 <style>
-	.cast-author {
-		display: inline-flex;
-		gap: 1ch;
-	}
-
 	.avatar {
+		vertical-align: middle;
+		float: left;
+		margin-right: 1ch;
+
 		border-radius: 4px;
 		object-fit: cover;
 	}

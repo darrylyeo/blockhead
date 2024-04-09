@@ -67,7 +67,7 @@
 								{farcasterProvider}
 							>
 								<svelte:fragment slot="title">
-									<span class="row inline align-bottom">
+									<span>
 										<FarcasterUser
 											{user}
 										/>
