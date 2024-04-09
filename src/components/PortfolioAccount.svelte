@@ -477,13 +477,13 @@
 					}}
 				>
 					<header class="bar card" style={cardStyle([getNetworkColor(network)])}>
-						<span class="card-background"><NetworkIcon {network} /></span>
 						<h3 class="row">
 							<NetworkIcon {network} />
 							<Address {network} {address}>{network.name}</Address>
 						</h3>
 						<span class="card-annotation">#{network.chainId}</span>
 						<button class="small" on:click={deleteView}>Hide Network</button>
+						<span class="card-background"><NetworkIcon {network} /></span>
 					</header>
 				</SizeContainer>
 
