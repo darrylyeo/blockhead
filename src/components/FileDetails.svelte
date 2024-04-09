@@ -1,5 +1,6 @@
 <script lang="ts">
 	// External state
+	export let displayType: 'text' | 'image' | 'video' | 'audio' | 'json' | 'xml' | 'pdf' | 'iframe' | undefined
 	export let src: string | undefined
 	export let fileName: string | undefined
     export let extension: string | undefined
@@ -21,7 +22,8 @@
 	$: dataUrl = text && (() => { try { return `data:${contentType};base64,${btoa(text)}` } catch {}})()
 
 	$: displaySrc = src ?? blobUrl ?? dataUrl
-	$: displayType =
+
+	$: displayType = $$props.displayType ||=
 		!contentType || contentType.startsWith('text/plain') ? 'text'
 		: contentType.startsWith('text/html') ? 'iframe'
 		: contentType.startsWith('text/') ? 'text'
@@ -33,16 +35,19 @@
 		: contentType.startsWith('application/xml') ? 'xml'
 		: contentType.startsWith('application/pdf') ? 'pdf'
 		: 'iframe' // 'unsupported'
-	$: displayIcon = {
-		text: '📄',
-		image: '🖼️',
-		video: '🎥',
-		audio: '🔊',
-		json: '🗒️',
-		xml: '🗒️',
-		pdf: '📄',
-		iframe: '🌐',
-	}[displayType]
+
+	$: displayIcon = displayType
+		? ({
+			text: '📄',
+			image: '🖼️',
+			video: '🎥',
+			audio: '🔊',
+			json: '🗒️',
+			xml: '🗒️',
+			pdf: '📄',
+			iframe: '🌐',
+		} as const)[displayType]
+		: '📦'
 
 
 	// (View options)
