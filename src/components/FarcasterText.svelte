@@ -39,17 +39,29 @@
 				), text)
 			: text
 				.replaceAll(
-					/(?<!\w)@([a-z0-9]+(?:[-][a-z0-9]+)*(?:[.](?:eth|xyz|luxe|kred|art|club))?)(?=\W|$)/g,
-					(match, farcasterUserName) => `<a href="${resolveRoute(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName })}">${match}</a>`
+					/(?=^|\W)(?<farcasterUserName>@([a-z0-9]+(?:[-][a-z0-9]+)*(?:[.](?:eth|xyz|luxe|kred|art|club))?))(?=\W|$)/g,
+					(match, before, farcasterUserName, after) => (
+						`${before}<a href="${resolveRoute(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName })}">${match}</a>${after}`
+					),
 				)
+				// .replaceAll(
+				// 	/(?<!\w)@([a-z0-9]+(?:[-][a-z0-9]+)*(?:[.](?:eth|xyz|luxe|kred|art|club))?)(?=\W|$)/g,
+				// 	(match, farcasterUserName) => `<a href="${resolveRoute(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName })}">${match}</a>`
+				// )
 	)
 
 	const formatChannelMentions = (text: string) => (
 		text
 			.replaceAll(
-				/(?<=^|\s)[/](?<farcasterChannelSlug>[a-z0-9]+(?:[-][a-z0-9]+)*)(?=\W|$)/g, (match,
-				farcasterChannelSlug) => `<a href="${resolveRoute(`/apps/farcaster/channel/[farcasterChannelSlug]`, { farcasterChannelSlug })}">${match}</a>`
+				/(?=^|\s)(?<farcasterChannelSlug>[/]([a-z0-9]+(?:[-][a-z0-9]+)*))(?=\W|$)/g,
+				(match, before, farcasterChannelSlug, after) => (
+					`${before}<a href="${resolveRoute(`/apps/farcaster/channel/[farcasterChannelSlug]`, { farcasterChannelSlug })}">${match}</a>${after}`
+				),
 			)
+			// .replaceAll(
+			// 	/(?<=^|\s)[/](?<farcasterChannelSlug>[a-z0-9]+(?:[-][a-z0-9]+)*)(?=\W|$)/g, (match,
+			// 	farcasterChannelSlug) => `<a href="${resolveRoute(`/apps/farcaster/channel/[farcasterChannelSlug]`, { farcasterChannelSlug })}">${match}</a>`
+			// )
 	)
 
 	const formatContent = (text: string) => (
