@@ -39,7 +39,8 @@ const endpointByChainId = {
 export const chainIdByDomain = Object.fromEntries(
 	Object.entries(endpointByChainId)
 		.map(([chainId, endpointUrl]) => [
-			new URL(endpointUrl).origin.replace(/(?<=[/][/])api[-.]/, ''),
+			new URL(endpointUrl).origin.replace(/[/][/]api[-.]/, '//'),
+			// new URL(endpointUrl).origin.replace(/(?<=[/][/])api[-.]/, ''),
 			chainId
 		])
 ) satisfies Record<string, Ethereum.ChainID>
