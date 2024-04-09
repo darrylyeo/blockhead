@@ -41,6 +41,7 @@
 	import Loader from './Loader.svelte'
 	// import TokenRate from './TokenRate.svelte'
 	import TokenBalance from './TokenBalance.svelte'
+	import { createQuery } from '@tanstack/svelte-query';
 </script>
 
 
@@ -113,12 +114,27 @@
 					loadingIconName={_currentPriceProvider}
 					loadingMessage="Retrieving price from {_currentPriceProvider}..."
 					errorMessage="{token} price not available"
-					fromPromise={blockNumber, oraclePublicClient && oracleNetwork && (() => getChainlinkPriceFeed(oraclePublicClient, oracleNetwork, token, quoteCurrency))}
+					fromQuery={oraclePublicClient && createQuery({
+						queryKey: ['CurrentPrice', {
+							oraclePublicClient,
+							oracleNetwork,
+							token,
+							quoteCurrency,
+						}],
+						queryFn: async () => (
+							getChainlinkPriceFeed(
+								oraclePublicClient,
+								oracleNetwork,
+								token,
+								quoteCurrency,
+							)
+						),
+					})}
 					let:result={priceFeed}
 					whenErrored={async () => {
-						await new Promise(r => setTimeout(r, 1000))
-						if(currentPriceProvider === 'auto')
-							_currentPriceProvider = PriceProvider.Covalent
+						// await new Promise(r => setTimeout(r, 1000))
+						// if(currentPriceProvider === 'auto')
+						// 	_currentPriceProvider = PriceProvider.Covalent
 					}}
 				>
 					<div slot="header" class="bar wrap" let:status let:result={priceFeed}>
