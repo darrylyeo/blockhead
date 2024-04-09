@@ -10305,12 +10305,9 @@ export type introspection = {
           {
             "name": "swappable",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "Boolean_Comparator_Exp",
-                "ofType": null
-              }
+              "kind": "INPUT_OBJECT",
+              "name": "Boolean_Comparator_Exp",
+              "ofType": null
             }
           },
           {
