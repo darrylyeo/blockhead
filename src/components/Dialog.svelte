@@ -42,12 +42,15 @@
 		all: initial;
 		font: inherit;
 		display: flex;
+
+		cursor: zoom-in;
 	}
 
 	[popover] {
 		position: fixed;
 		border: none;
 		background: none;
+		color: inherit;
 		width: 40rem;
 		max-width: 100%;
 		margin: auto;

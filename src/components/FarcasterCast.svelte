@@ -22,6 +22,7 @@
 	// Components
 	import Collapsible from './Collapsible.svelte'
 	import Date from './Date.svelte'
+	import Dialog from './Dialog.svelte'
 	import EthereumAccountOrContract from './EthereumAccountOrContract.svelte'
 	import EthereumTransaction from './EthereumTransaction.svelte'
 	import EthereumTransactionLoader from './EthereumTransactionLoader.svelte'
@@ -31,6 +32,7 @@
 	import FarcasterChannel from './FarcasterChannel.svelte'
 	import FarcasterText from './FarcasterText.svelte'
 	import FarcasterUser from './FarcasterUser.svelte'
+	import FileDetails from './FileDetails.svelte'
 	import UrlMetadata from './UrlMetadata.svelte'
 
 
@@ -80,7 +82,17 @@
 		{#if cast.imageEmbeds?.length}
 			<div class="image-embeds row">
 				{#each cast.imageEmbeds as src}
-					<img {src} />
+					<Dialog>
+						<img {src} />
+					
+						<svelte:fragment slot="content">
+							<FileDetails
+								{src}
+								displayType="image"
+								isOpen
+							/>
+						</svelte:fragment>
+					</Dialog>
 				{/each}
 			</div>
 		{/if}
