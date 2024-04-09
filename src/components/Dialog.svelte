@@ -18,7 +18,6 @@
 
 <button
 	popovertarget={id}
-	class="small"
 >
 	<slot />
 </button>
@@ -38,6 +37,13 @@
 
 
 <style>
+	[popovertarget] {
+		all: revert-layer;
+		all: initial;
+		font: inherit;
+		display: flex;
+	}
+
 	[popover] {
 		position: fixed;
 		border: none;

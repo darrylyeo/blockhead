@@ -19,7 +19,7 @@
 
 
 <Dialog>
-	Share
+	<div class="button small">Share</div>
 
 	<svelte:fragment slot="content">
 		{#if farcasterFrameMetadata}
