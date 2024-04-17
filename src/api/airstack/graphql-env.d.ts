@@ -8468,6 +8468,9 @@ export type introspection = {
           },
           {
             "name": "gold"
+          },
+          {
+            "name": "degen"
           }
         ]
       },
@@ -8871,9 +8874,12 @@ export type introspection = {
             "type": {
               "kind": "LIST",
               "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "TokenNftOrderBy",
-                "ofType": null
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TokenNftOrderBy",
+                  "ofType": null
+                }
               }
             }
           },
@@ -8933,36 +8939,6 @@ export type introspection = {
           }
         ],
         "interfaces": []
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "TokenOrderBy",
-        "inputFields": [
-          {
-            "name": "name",
-            "type": {
-              "kind": "ENUM",
-              "name": "OrderBy",
-              "ofType": null
-            }
-          },
-          {
-            "name": "symbol",
-            "type": {
-              "kind": "ENUM",
-              "name": "OrderBy",
-              "ofType": null
-            }
-          },
-          {
-            "name": "type",
-            "type": {
-              "kind": "ENUM",
-              "name": "OrderBy",
-              "ofType": null
-            }
-          }
-        ]
       },
       {
         "kind": "OBJECT",
@@ -9161,48 +9137,6 @@ export type introspection = {
         "kind": "INPUT_OBJECT",
         "name": "TokenTransferFilter",
         "inputFields": [
-          {
-            "name": "_and",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TokenTransferFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_or",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TokenTransferFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
-          {
-            "name": "_nor",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TokenTransferFilter",
-                  "ofType": null
-                }
-              }
-            }
-          },
           {
             "name": "from",
             "type": {
@@ -9519,20 +9453,6 @@ export type introspection = {
         "kind": "INPUT_OBJECT",
         "name": "TokensInput",
         "inputFields": [
-          {
-            "name": "order",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TokenOrderBy",
-                  "ofType": null
-                }
-              }
-            }
-          },
           {
             "name": "filter",
             "type": {
