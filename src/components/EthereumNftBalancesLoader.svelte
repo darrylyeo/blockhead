@@ -121,7 +121,7 @@
 						normalizeNftContractsAirstack(
 							data.pages
 								.flatMap(page => (
-									page.TokenBalances.TokenBalance ?? []
+									page?.TokenBalances?.TokenBalance ?? []
 								))
 						)
 					),

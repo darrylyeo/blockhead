@@ -42,6 +42,7 @@
 	// Functions
 	import { createInfiniteQuery, createQuery } from '@tanstack/svelte-query'
 	import { ConcurrentPromiseQueue } from '$/utils/ConcurrentPromiseQueue'
+	import { isTruthy } from '$/utils/isTruthy'
 
 	import { getViemPublicClient } from '$/data/networkProviders'
 	import { getBalance } from 'viem/actions'
@@ -142,6 +143,7 @@
 					getNextPageParam: (lastPage) => lastPage.TokenBalances.pageInfo.nextCursor || undefined,
 					select: data => (
 						(data.pages.flatMap(page => page.TokenBalances.TokenBalance))
+							.filter(isTruthy)
 							.map(normalizeTokenBalanceAirstack)
 					),
 					staleTime: 10 * 1000,

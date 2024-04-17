@@ -11,44 +11,44 @@ import { normalizeNftAttributes } from '$/utils/normalizeNftAttributes'
 export const normalizeNftContracts = (
 	tokenBalances: NonNullable<NonNullable<NonNullable<Awaited<ReturnType<typeof getNftsByAddress>>>['TokenBalances']>['TokenBalance']>,
 ): Ethereum.NftContractWithNfts[] => (
-	[
-		...tokenBalances
+	Array.from(
+		tokenBalances
 			? (Map.groupBy(tokenBalances, tokenWithBalance => tokenWithBalance.tokenAddress) as Map<Ethereum.ContractAddress, typeof tokenBalances>)
 				.entries()
-			: []
-	]
-		.map(([contractAddress, contractsWithBalances]): Ethereum.NftContractWithNfts => ({
-			chainId: contractsWithBalances.chainId && Number(contractsWithBalances.chainId),
+			: [],
+		([contractAddress, contractsWithBalances]): Ethereum.NftContractWithNfts => ({
+			chainId: 'chainId' in contractsWithBalances[0] ? Number(contractsWithBalances[0].chainId) : undefined,
 			address: contractAddress,
 			name: contractsWithBalances[0].token?.name,
 			symbol: contractsWithBalances[0].token?.symbol,
-			ercTokenStandards: [contractsWithBalances[0].token?.type?.toLowerCase()].filter(isTruthy),
+			ercTokenStandards: [contractsWithBalances[0].token?.type?.toLowerCase() as Ethereum.ERCTokenStandard].filter(isTruthy),
 			metadata: {
-				...contractsWithBalances[0].contractMetaData,
-				description: contractsWithBalances[0].contractMetaData?.description,
+				...contractsWithBalances[0].token?.contractMetaData,
+				description: contractsWithBalances[0].token?.contractMetaData?.description ?? undefined,
 				bannerImage: undefined,
-				logoImage: contractsWithBalances[0].contractMetaData?.image,
+				logoImage: contractsWithBalances[0].token?.contractMetaData?.image ?? undefined,
 			},
 
-			totalSupply: BigInt(contractsWithBalances[0].token?.totalSupply),
-			nftsCount: contractsWithBalances.reduce((sum, item) => sum + Number(item.balance), 0),
+			totalSupply: contractsWithBalances[0].token?.totalSupply ? BigInt(contractsWithBalances[0].token.totalSupply) : undefined,
+			nftsCount: contractsWithBalances.reduce((sum, item) => sum + Number(item.amount), 0),
 			nfts: contractsWithBalances
 				.map(tokenWithBalance => tokenWithBalance.tokenNfts)
 				.filter(isTruthy)
 				.map((nft) => ({
 					owner: nft.address,
-					tokenId: BigInt(nft.tokenId),
+					tokenId: nft.tokenId !== null ? BigInt(nft.tokenId) : undefined,
 					tokenUri: nft.tokenURI,
 					metadata: {
 						...nft.metaData && {
 							name: nft.metaData.name,
 							description: nft.metaData.description,
 							image: nft.metaData.image,
-							attributes: nft.metaData?.attributes ? normalizeNftAttributes(nft.metaData.attributes) : undefined,
+							attributes: nft.metaData.attributes ? normalizeNftAttributes(nft.metaData.attributes) : undefined,
 						}
 					},
 				})),
-		}))
+		})
+	)
 )
 
 export const normalizeTokenBalance = (
