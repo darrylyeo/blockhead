@@ -138,6 +138,7 @@
 	}
 
 	.content {
+		container: Content / inline-size;
 		flex: 1;
 	}
 

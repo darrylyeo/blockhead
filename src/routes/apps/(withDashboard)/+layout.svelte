@@ -60,9 +60,15 @@
 
 
 <style>
-	.accountId-form {
-		display: grid;
-		grid-template-columns: 3fr auto 1fr auto;
+	@container (min-width: 50rem) {
+		.accountId-form {
+			display: grid;
+			grid-template-columns: 3fr auto minmax(14.5rem, 1fr) auto;
+		}
+	}
+
+	.layout :global(.connected-account-select) {
+		max-width: 14.5rem;
 	}
 
 
@@ -136,12 +142,12 @@
 
 
 <section
-	class="column"
+	class="layout column"
 	data-app={$web3AppConfig?.slug}
 	in:fly={{x: 100}}
 	out:fly={{x: -100}}
 >
-	<form class="accountId-form row" on:submit|preventDefault={() => {
+	<form class="accountId-form bar wrap" on:submit|preventDefault={() => {
 		$accountId = searchInputParams.address ?? searchInputParams.ensName ?? searchInputParams.lensHandle ?? ''
 		$audiusQuery = searchInputParams.audiusQuery ?? ''
 		$audiusPlaylistId = searchInputParams.audiusPlaylistId ?? ''
