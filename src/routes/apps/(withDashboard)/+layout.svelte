@@ -188,9 +188,10 @@
 		{#if $web3AppConfig}
 			<BlockTransition
 				key={$web3AppConfig}
+				clip={false}
 				contentTransition={{
-					in: [fly, {x: 100}],
-					out: [fly, {x: -100}],
+					in: [fly, { x: 100, duration: 300 }],
+					out: [fly, { x: -100, duration: 300 }],
 				}}
 			>
 				<Web3AppDashboard
