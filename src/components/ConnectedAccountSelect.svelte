@@ -6,7 +6,7 @@
 
 
 	// Context
-	import { accountConnections } from '$/state/account'
+	import { accountConnections, accountConnectionToInfo } from '$/state/account'
 	import { eip6963Providers } from '$/state/wallets'
 
 
@@ -84,25 +84,13 @@
 	{required}
 	on:input={onInput}
 >
-	{#if $accountConnections.length}
+	{#if $accountConnectionToInfo.size}
 		<option value={undefined} selected disabled>Choose account...</option>
 
 		<!-- <optgroup label="Connected"> -->
-			{#each $accountConnections as accountConnection}
-				{@const name = (
-					accountConnection.selector.knownWallet ?
-						knownWalletsByType[accountConnection.selector.knownWallet.type].name
-					: accountConnection.selector.eip6963 ?
-						findEip6963Provider({
-							eip6963Providers: $eip6963Providers,
-							rdns: accountConnection.selector.eip6963.rdns,
-						})
-							?.info.name
-					:
-						''
-				)}
+			{#each $accountConnectionToInfo.entries() as [accountConnection, { walletName, address }]}
 				<option value={accountConnection}>
-					{name}: {formatAddress(accountConnection.state?.account?.address)}
+					{walletName}: {address}
 				</option>
 			{/each}
 		<!-- </optgroup> -->
