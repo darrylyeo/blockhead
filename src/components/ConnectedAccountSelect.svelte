@@ -1,13 +1,13 @@
 <script lang="ts">
 	// Constants/types
 	import type { Ethereum } from '$/data/networks/types'
-	import type { AccountConnection } from '$/state/account'
-	import { displayedKnownWallets, knownWalletsByType } from '$/data/wallets'
+	import type { AccountConnection, AccountConnectionSelector } from '$/state/account'
+	import { KnownWalletType, displayedKnownWallets } from '$/data/wallets'
 
 
 	// Context
 	import { accountConnections } from '$/state/account'
-	import { eip6963Providers, findEip6963Provider } from '$/state/wallets'
+	import { eip6963Providers } from '$/state/wallets'
 
 
 	// External state
@@ -28,16 +28,15 @@
 
 	// Functions
 	import { formatAddress } from '$/utils/formatAddress'
+
+
+	// Actions
+	import type { FormEventHandler } from 'svelte/elements'
+
 	import { onEvent } from '$/events/onEvent'
-</script>
 
-
-<select
-	class="connected-account-select"
-	bind:value={selectedAccountConnection}
-	{required}
-	on:input={e => {
-		const selectedOption = e.target.selectedOptions[0]
+	const onInput: FormEventHandler<HTMLSelectElement> = e => {
+		const selectedOption = e.currentTarget.selectedOptions[0]
 
 		if(selectedOption?.value === 'blockhead_addAccountConnection'){
 			e.preventDefault()
@@ -47,10 +46,10 @@
 				eip6963Rdns,
 			} = selectedOption.dataset
 
-			const selector = {
+			const selector: AccountConnectionSelector = {
 				...(knownWalletType && {
 					knownWallet: {
-						type: knownWalletType,
+						type: knownWalletType as KnownWalletType,
 					},
 				}),
 				...(eip6963Rdns && {
@@ -65,13 +64,25 @@
 			// TODO: pass the actual accountConnection via event data
 			onEvent(
 				'Portfolio/AddAccount',
-				data => {
-					selectedAccountConnection = $accountConnections.find(accountConnection => accountConnection.selector.knownWallet?.type === walletType)
+				() => {
+					selectedAccountConnection = $accountConnections
+						.find(accountConnection => (
+							accountConnection.selector.knownWallet?.type === knownWalletType
+							|| accountConnection.selector.eip6963?.rdns === eip6963Rdns
+						))
 				},
 				{ once: true }
 			)
 		}
-	}}
+	}
+</script>
+
+
+<select
+	class="connected-account-select"
+	bind:value={selectedAccountConnection}
+	{required}
+	on:input={onInput}
 >
 	{#if $accountConnections.length}
 		<option value={undefined} selected disabled>Choose account...</option>
