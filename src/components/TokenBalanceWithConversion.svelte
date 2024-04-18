@@ -69,51 +69,8 @@
 
 
 	// Transitions
-	import { fade } from 'svelte/transition'
 	// const sizeByVolume = (size) => 1 + size * 0.0025
 </script>
-
-
-<style>
-	.token-balance-with-conversion {
-		display: inline;
-		transition: none;
-	}
-	.token-balance-with-conversion[data-layout="block"] {
-		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
-	}
-	.token-balance-with-conversion[data-layout="block"][data-format="converted"] .balance-converted {
-		font-size: 0.85em;
-	}
-
-	.balance, .balance-converted {
-		font-size: 1.1em;
-	}
-	.token-balance-with-conversion[data-format="both"] .balance-converted,
-	.worth, .rate {
-		font-size: 0.85em;
-	}
-
-	.balance-converted {
-		white-space: nowrap;
-	}
-
-	.is-small-value {
-		opacity: 0.55;
-	}
-	.is-zero {
-		opacity: 0.55;
-	}
-	.is-zero :global(.is-zero) {
-		opacity: initial;
-	}
-
-	.is-debt {
-		color: hsl(31deg 93% 54%);
-	}
-</style>
 
 
 <span
@@ -169,3 +126,63 @@
 		</span>
 	</InlineContainer>
 </span>
+
+
+<style>
+	.token-balance-with-conversion {
+		--balance-fontSize: 1.1em;
+		--balanceConverted-fontSize: 0em;
+		--balanceConverted-fontSize: 1em;
+
+		&[data-format="both"] {
+			--balanceConverted-fontSize: 0.85em;
+		}
+		&[data-format="converted"] {
+			--balanceConverted-fontSize: 0.85em;
+		}
+		
+		transition: none;
+
+		&[data-layout="inline"] {
+			display: inline;
+		}		
+		&[data-layout="block"] {
+			display: flex;
+			justify-content: space-between;
+			align-items: baseline;
+		}
+
+		&.is-small-value {
+			opacity: 0.55;
+		}
+
+		&.is-zero {
+			opacity: 0.55;
+
+			& :global(.is-zero) {
+				opacity: initial;
+			}
+		}
+
+		&.is-debt {
+			color: hsl(31deg 93% 54%);
+		}
+
+		& .balance {
+			font-size: var(--balance-fontSize);
+		}
+
+		& .balance-converted {
+			font-size: var(--balanceConverted-fontSize);
+			white-space: nowrap;
+		}
+
+		& .worth {
+			font-size: 0.85em;
+		}
+
+		& .rate {
+			font-size: 0.85em;
+		}
+	}
+</style>
