@@ -5,7 +5,7 @@
 
 
 	// Context
-	import { accountConnections } from '$/state/account'
+	import { accountConnectionToInfo } from '$/state/account'
 
 	import { getLocalPortfolios } from '$/state/portfolio-accounts'
 	const localPortfolios = getLocalPortfolios()
@@ -112,13 +112,13 @@
 		{/each}
 	{/if}
 
-	{#if $accountConnections?.length}
+	{#if $accountConnectionToInfo.size}
 		<optgroup label="Connected Accounts">
-			{#each $accountConnections as accountConnection}
-				{#if accountConnection.state?.account?.address}
+			{#each $accountConnectionToInfo.values() as accountConnectionInfo}
+				{#if accountConnectionInfo.address}
 					<option
-						value={accountConnection.state.account.address}
-						label={accountConnection.walletType}
+						value={accountConnectionInfo.address}
+						label={`Wallets › ${accountConnectionInfo.walletName}`}
 					/>
 				{/if}
 			{/each}
