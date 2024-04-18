@@ -11,6 +11,7 @@
 	// export let element = "span"
 	export let key: Key | undefined
 	export let value: Value | undefined
+	export let isOpen = true
 	export let renderOnlyWhenOpen = false
 	export let clip = true
 
@@ -29,6 +30,7 @@
 
 <SizeContainer
 	layout="block"
+	{isOpen}
 	{renderOnlyWhenOpen}
 
 	{clip}
