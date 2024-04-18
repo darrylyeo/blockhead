@@ -9,6 +9,7 @@ import AvalancheIcon from './networks/Avalanche.svg'
 import BaseIcon from './networks/Base.svg'
 import CeloIcon from './networks/Celo.svg'
 import CronosIcon from './networks/Cronos.svg'
+import DegenIcon from './tokens/DEGEN.svg'
 import EvmosIcon from './networks/Evmos.svg'
 import EthereumIcon from './networks/Ethereum.svg'
 import FilecoinIcon from './networks/Filecoin.svg'
@@ -36,6 +37,7 @@ export const networkIcons = {
 	'base': BaseIcon,
 	'celo': CeloIcon,
 	'cronos': CronosIcon,
+	'degen': DegenIcon,
 	'ethereum': tokenIcons.ETH, // EthereumIcon,
 	'evmos': EvmosIcon,
 	'filecoin': FilecoinIcon,

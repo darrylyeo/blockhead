@@ -1086,6 +1086,34 @@ export const networks = [
 		"infoURL": "http://test.dbmbp.com"
 	},
 	{
+		"slug": "degen",
+		"name": "Degen Chain",
+		"chainId": 666666666,
+		"shortName": "degen-chain",
+		"chain": "Degen",
+		"networkId": 666666666,
+		"nativeCurrency": {
+			"name": "DEGEN",
+			"symbol": "DEGEN",
+			"decimals": 18,
+		},
+		"rpc": [
+			"https://rpc.degen.tips",
+		],
+		"faucets": [],
+		"explorers": [],
+		"infoURL": "https://degen.tips",
+		"parent": {
+			"type": "L3",
+			"chain": "eip155-8453",
+			"bridges": [
+				{
+					"url": "https://bridge.degen.tips",
+				},
+			],
+		},
+	},
+	{
 		"slug": "dweb",
 		"name": "Decentralized Web Mainnet",
 		"chainId": 124,
@@ -6478,6 +6506,7 @@ export const networkColors = {
 	'bsc': '#FCD535',
 	'celo': '#35D07F', // #fbcc5c
 	'cronos': '#002D74',
+	'degen': '#a36efe', // #4c2896
 	'ethereum': '#627eea',
 	'fantom': '#1969ff',
 	'filecoin': '#0090ff',

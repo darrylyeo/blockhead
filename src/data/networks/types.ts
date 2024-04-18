@@ -31,7 +31,7 @@ export namespace Ethereum {
 		}
 		parent?: {
 			chain: `eip155-${ChainID}`,
-			type: 'L2' | 'shard',
+			type: 'L2' | 'L3' | 'shard',
 			bridges?: {
 				url: string,
 			}[],
