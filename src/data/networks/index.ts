@@ -6432,6 +6432,11 @@ export const dataNetworks = ([
 ] as const satisfies Readonly<NetworkSlug[]>)
 	.map(slug => networksBySlug[slug])
 
+export const layer3Networks = ([
+	'degen',
+] as const satisfies Readonly<NetworkSlug[]>)
+	.map(slug => networksBySlug[slug])
+
 // export const otherNetworks = networks.filter(network =>
 // 	!ethereumAndL2Networks.includes(network)
 // 	&& !evmNetworks.includes(network)
@@ -6476,6 +6481,10 @@ export const networksBySection = [
 	// 	title: 'Other Networks (Experimental)',
 	// 	otherNetworks: otherNetworks,
 	// },
+	{
+		title: 'Ethereum › Layer-Three Networks',
+		featuredNetworks: layer3Networks,
+	},
 	{
 		title: 'Data Networks',
 		featuredNetworks: dataNetworks,
