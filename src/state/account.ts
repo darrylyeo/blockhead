@@ -81,6 +81,37 @@ export const accountConnections = localStorageWritable(
 )
 
 
+import { derived } from 'svelte/store'
+import { eip6963Providers, findEip6963Provider } from './wallets'
+
+export const accountConnectionsInfo: SvelteStore<
+	{
+		address: Account['address'] | undefined,
+		walletName: string | undefined,
+	}[]
+> = derived(
+	[
+		accountConnections,
+		eip6963Providers,
+	],
+	([$accountConnections, $eip6963Providers], set) => set(
+		$accountConnections.map(accountConnection => {
+			const knownWalletConfig = accountConnection.selector.knownWallet
+
+			const eip6963Provider = accountConnection.selector.eip6963 && findEip6963Provider({
+				eip6963Providers: $eip6963Providers,
+				rdns: accountConnection.selector.eip6963.rdns,
+			})
+
+			return {
+				address: accountConnection.state.account?.address,
+				walletName: knownWalletConfig?.type || eip6963Provider?.info.name,
+			}
+		})
+	)
+)
+
+
 import { BrowserProvider } from 'ethers'
 
 const getSigner = (provider: Provider) => {
