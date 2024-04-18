@@ -20,8 +20,16 @@
 
 
 	// Computed
-	$: if(address) selectedAccountConnection = $accountConnections.find(accountConnection => accountConnection.state?.account?.address?.toLowerCase() === address?.toLowerCase()) || selectedAccountConnection
-	// $: address = selectedAccount?.address
+	$: if(address)
+		selectedAccountConnection = (
+			[...$accountConnectionToInfo.entries()]
+				.find(([_, accountConnectionInfo]) => (
+					accountConnectionInfo.address
+					&& accountConnectionInfo.address.toLowerCase() === address!.toLowerCase()
+				))
+				?.[0]
+			|| selectedAccountConnection
+		)
 
 	$: selectedAccountConnection ||= undefined
 
