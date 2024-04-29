@@ -1636,6 +1636,15 @@ export type introspection = {
               "ofType": null
             },
             "args": []
+          },
+          {
+            "name": "socialCapitalValue",
+            "type": {
+              "kind": "OBJECT",
+              "name": "SocialCapitalValue",
+              "ofType": null
+            },
+            "args": []
           }
         ],
         "interfaces": []
@@ -1933,6 +1942,45 @@ export type introspection = {
             ]
           },
           {
+            "name": "hostIds",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "hostProfiles",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Social",
+                  "ofType": null
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "SocialsNestedInput",
+                  "ofType": null
+                }
+              }
+            ]
+          },
+          {
             "name": "createdAtTimestamp",
             "type": {
               "kind": "NON_NULL",
@@ -1941,6 +1989,15 @@ export type introspection = {
                 "name": "Time",
                 "ofType": null
               }
+            },
+            "args": []
+          },
+          {
+            "name": "followerCount",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
             },
             "args": []
           },
@@ -1980,6 +2037,9 @@ export type introspection = {
           },
           {
             "name": "reply"
+          },
+          {
+            "name": "follow"
           }
         ]
       },
@@ -2048,6 +2108,22 @@ export type introspection = {
             }
           },
           {
+            "name": "hostIds",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
+            "name": "hostIdentity",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Identity_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
             "name": "createdAtTimestamp",
             "type": {
               "kind": "INPUT_OBJECT",
@@ -2104,6 +2180,14 @@ export type introspection = {
         "inputFields": [
           {
             "name": "createdAtTimestamp",
+            "type": {
+              "kind": "ENUM",
+              "name": "OrderBy",
+              "ofType": null
+            }
+          },
+          {
+            "name": "followerCount",
             "type": {
               "kind": "ENUM",
               "name": "OrderBy",
@@ -2247,6 +2331,15 @@ export type introspection = {
           },
           {
             "name": "lastCastedTimestamp",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Time",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "lastFollowedTimestamp",
             "type": {
               "kind": "SCALAR",
               "name": "Time",
@@ -5638,6 +5731,27 @@ export type introspection = {
                 }
               }
             ]
+          },
+          {
+            "name": "TrendingCasts",
+            "type": {
+              "kind": "OBJECT",
+              "name": "TrendingCastsOutput",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "TrendingCastsInput",
+                    "ofType": null
+                  }
+                }
+              }
+            ]
           }
         ],
         "interfaces": []
@@ -6627,6 +6741,40 @@ export type introspection = {
             "type": {
               "kind": "SCALAR",
               "name": "Time",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "SocialCapitalValue",
+        "fields": [
+          {
+            "name": "hash",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "rawValue",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "formattedValue",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
               "ofType": null
             },
             "args": []
@@ -9532,6 +9680,231 @@ export type introspection = {
             "name": "base"
           }
         ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "TrendingCast",
+        "fields": [
+          {
+            "name": "id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "hash",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "criteriaCount",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "socialCapitalValueFormatted",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "socialCapitalValueRaw",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "cast",
+            "type": {
+              "kind": "OBJECT",
+              "name": "FarcasterCast",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "criteria",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "timeFrom",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Time",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "timeTo",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Time",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "ENUM",
+        "name": "TrendingCastTimeFrame",
+        "enumValues": [
+          {
+            "name": "one_hour"
+          },
+          {
+            "name": "two_hours"
+          },
+          {
+            "name": "four_hours"
+          },
+          {
+            "name": "eight_hours"
+          },
+          {
+            "name": "twelve_hours"
+          },
+          {
+            "name": "one_day"
+          },
+          {
+            "name": "two_days"
+          },
+          {
+            "name": "seven_days"
+          }
+        ]
+      },
+      {
+        "kind": "ENUM",
+        "name": "TrendingCastsCriteria",
+        "enumValues": [
+          {
+            "name": "social_capital_value"
+          },
+          {
+            "name": "likes"
+          },
+          {
+            "name": "recasts"
+          },
+          {
+            "name": "replies"
+          },
+          {
+            "name": "likes_recasts_replies"
+          }
+        ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "TrendingCastsInput",
+        "inputFields": [
+          {
+            "name": "timeFrame",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "TrendingCastTimeFrame",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "blockchain",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "EveryBlockchain",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "criteria",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "TrendingCastsCriteria",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "limit",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          {
+            "name": "cursor",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "TrendingCastsOutput",
+        "fields": [
+          {
+            "name": "TrendingCast",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "TrendingCast",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "pageInfo",
+            "type": {
+              "kind": "OBJECT",
+              "name": "PageInfo",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
       },
       {
         "kind": "INPUT_OBJECT",
