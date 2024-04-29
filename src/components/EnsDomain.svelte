@@ -188,7 +188,7 @@
 					target: 'domain.parent',
 					label: 'subdomain of',
 				},
-				domain.parent && {
+				domain.resolver && {
 					id: "domain|domain.resolver",
 					source: 'domain',
 					target: 'domain.resolver',
