@@ -18,7 +18,7 @@ export type IpfsGatewayConfig = {
 	gatewayDomain?: string,
 }
 
-import { HeliaIcon, ProtocolLabsIcon } from '$/assets/icons'
+import { HeliaIcon, PinataIcon, ProtocolLabsIcon } from '$/assets/icons'
 
 export const ipfsGateways = [
 	{
@@ -54,7 +54,8 @@ export const ipfsGateways = [
 	},
 	{
 		gatewayProvider: IpfsGatewayProvider.Pinata,
-		name: 'Piñata',
+		name: 'Pinata',
+		icon: PinataIcon,
 		gatewayDomain: 'gateway.pinata.cloud'
 	},
 	{
