@@ -2108,7 +2108,7 @@ export type introspection = {
             }
           },
           {
-            "name": "hostIds",
+            "name": "hostId",
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "String_Comparator_Exp",
