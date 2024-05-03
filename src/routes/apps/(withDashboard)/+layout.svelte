@@ -69,6 +69,7 @@
 
 	.layout :global(.connected-account-select) {
 		max-width: 14.5rem;
+		min-width: -webkit-fill-available;
 	}
 
 
