@@ -1,5 +1,5 @@
 /**
- * Pinata - Farcaster API (2024-03-22)
+ * Pinata - Farcaster API (2024-05-03)
  * {@link https://docs.pinata.cloud/farcaster/farcaster-api/getting-started}
  */
 import { env } from '$/env'
@@ -96,6 +96,48 @@ type User = {
 	verifications: string[],
 }
 
+type CastAddBody = {
+	text: string,
+	parent_url: string,
+	embeds: Embed[],
+	mentions: number[],
+	mention_positions: number[],
+	parent_cast_id: CastId,
+}
+
+type Embed = {
+	url: string,
+	castId: CastId,
+}
+
+type CastId = {
+	fid: number,
+	hash: string,
+}
+
+enum CastType {
+	MESSAGE_TYPE_CAST_ADD = 'MESSAGE_TYPE_CAST_ADD',
+	MESSAGE_TYPE_CAST_REMOVE = 'MESSAGE_TYPE_CAST_REMOVE',
+	MESSAGE_TYPE_REACTION_ADD = 'MESSAGE_TYPE_REACTION_ADD',
+	MESSAGE_TYPE_REACTION_REMOVE = 'MESSAGE_TYPE_REACTION_REMOVE',
+	MESSAGE_TYPE_LINK_ADD = 'MESSAGE_TYPE_LINK_ADD',
+	MESSAGE_TYPE_LINK_REMOVE = 'MESSAGE_TYPE_LINK_REMOVE',
+}
+
+type Network = 'FARCASTER_NETWORK_MAINNET' | 'FARCASTER_NETWORK_TESTNET'
+
+type HashScheme = 'HASH_SCHEME_BLAKE3'
+
+type SignatureScheme = 'SIGNATURE_SCHEME_ED25519'
+
+type ReactionType = 'like' | 'recast'
+
+
+
+/**
+ * Farcaster API
+ */
+
 
 /**
  * Cast by Hash
@@ -188,6 +230,177 @@ export const getCasts = async ({
 
 
 /**
+ * Send Cast
+ * {@link https://docs.pinata.cloud/farcaster/farcaster-api/endpoint/send-cast}
+ */
+export const sendCast = async ({
+	castAddBody,
+	signerId,
+}: {
+	/**
+	 * The body of sending a cast is made up of primarily two pieces. One is the `signerId` provided by using [Farcaster Auth](https://docs.pinata.cloud/farcaster/farcaster-auth). The other is the `castAddBody` object which follows the same pattern of Farcaster Hubs when submitting a cast.
+	 */
+	castAddBody: CastAddBody,
+
+	/**
+	 * The signerId of the user sending a cast, already approved via Farcaster Auth
+	 */
+	signerId: string,
+}) => get<{
+	data: {
+		data: {
+			type: CastType.MESSAGE_TYPE_CAST_ADD,
+			fid: number,
+			timestamp: number,
+			network: Network,
+			castAddBody: CastAddBody,
+		},
+		hash: string,
+		hashScheme: HashScheme,
+		signature: string,
+		signatureScheme: SignatureScheme,
+		signer: string,
+		dataBytes: string,
+	},
+}>(`casts`, {
+	castAddBody: JSON.stringify(castAddBody),
+	signerId,
+})
+
+
+/**
+ * Delete Cast
+ * {@link https://docs.pinata.cloud/farcaster/farcaster-api/endpoint/delete-cast}
+ */
+export const deleteCast = async ({
+	hash,
+	signerId,
+}: {
+	/**
+	 * Hash for the cast to be deleted
+	 */
+	hash: string,
+
+	/**
+	 * Signer ID for the author of the cast
+	 */
+	signerId: string,
+}) => get<{
+	data: {
+		data: {
+			type: CastType.MESSAGE_TYPE_CAST_REMOVE,
+			fid: number,
+			timestamp: number,
+			network: Network,
+			castAddBody: {
+				embedsDeprecated: null,
+				mentions: null,
+			},
+		},
+		hash: string,
+		hashScheme: HashScheme,
+		signature: string,
+		signatureScheme: SignatureScheme,
+		signer: string,
+		dataBytes: string,
+	},
+}>(`casts/${hash}`, {
+	signerId,
+})
+
+
+/**
+ * Add Reaction to Cast
+ * {@link https://docs.pinata.cloud/farcaster/farcaster-api/endpoint/add-reaction-to-cast}
+ */
+export const addReactionToCast = async ({
+	hash,
+	type,
+	signerId,
+}: {
+	/**
+	 * Hash for the cast to be deleted
+	 */
+	hash: string,
+
+	/**
+	 * The type of reaction, can be either "like" or "recast"
+	 */
+	type: ReactionType,
+
+	/**
+	 * Signer ID for the user that will react to the cast
+	 */
+	signerId: string,
+}) => get<{
+	data: {
+		data: {
+			type: CastType.MESSAGE_TYPE_REACTION_ADD,
+			fid: number,
+			timestamp: number,
+			network: Network,
+			castAddBody: CastAddBody,
+		},
+		hash: string,
+		hashScheme: HashScheme,
+		signature: string,
+		signatureScheme: SignatureScheme,
+		signer: string,
+		dataBytes: string,
+	},
+}>(`casts/${hash}/reactions/${type}`, {
+	signerId,
+})
+
+
+/**
+ * Delete Reaction to Cast
+ * {@link https://docs.pinata.cloud/farcaster/farcaster-api/endpoint/delete-reaction-to-cast}
+ */
+export const deleteReactionToCast = async ({
+	hash,
+	type,
+	signerId,
+}: {
+	/**
+	 * Hash for the target cast
+	 */
+	hash: string,
+
+	/**
+	 * The type of reaction, can be either "like" or "recast"
+	 */
+	type: ReactionType,
+
+	/**
+	 * Signer ID for the user that will remove reaction to the cast
+	 */
+	signerId: string,
+}) => get<{
+	data: {
+		data: {
+			type: CastType.MESSAGE_TYPE_REACTION_REMOVE,
+			fid: number,
+			timestamp: number,
+			network: Network,
+			castAddBody: {
+				embedsDeprecated: null,
+				mentions: null,
+			},
+		},
+		hash: string,
+		hashScheme: HashScheme,
+		signature: string,
+		signatureScheme: SignatureScheme,
+		signer: string,
+		dataBytes: string,
+	},
+}>(`casts/${hash}/reactions/${type}`, {
+	signerId,
+})
+
+
+/**
  * Channels List
  * {@link https://docs.pinata.cloud/farcaster/farcaster-api/endpoint/channels-list}
  */
@@ -229,6 +442,80 @@ export const getChannelByName = async ({
 }) => get<{
 	data: Channel,
 }>(`channels/${name}`)
+
+
+/**
+ * Follow FID
+ * {@link https://docs.pinata.cloud/farcaster/farcaster-api/endpoint/follow-fid}
+ */
+export const followFID = async ({
+	fid,
+	signerId,
+}: {
+	/**
+	 * Target FID to follow
+	 */
+	fid: number,
+
+	/**
+	 * Signer ID for the user following the target FID
+	 */
+	signerId: string,
+}) => get<{
+	data: {
+		data: {
+			type: CastType.MESSAGE_TYPE_LINK_ADD,
+			fid: number,
+			timestamp: number,
+			network: Network,
+		},
+		hash: string,
+		hashScheme: HashScheme,
+		signature: string,
+		signatureScheme: SignatureScheme,
+		signer: string,
+		dataBytes: string,
+	},
+}>(`follow/${fid}`, {
+	signerId,
+})
+
+
+/**
+ * Unfollow FID
+ * {@link https://docs.pinata.cloud/farcaster/farcaster-api/endpoint/unfollow-fid}
+ */
+export const unfollowFID = async ({
+	fid,
+	signerId,
+}: {
+	/**
+	 * Target FID to unfollow
+	 */
+	fid: number,
+
+	/**
+	 * Signer ID for the user unfollowing the target FID
+	 */
+	signerId: string,
+}) => get<{
+	data: {
+		data: {
+			type: CastType.MESSAGE_TYPE_LINK_REMOVE,
+			fid: number,
+			timestamp: number,
+			network: Network,
+		},
+		hash: string,
+		hashScheme: HashScheme,
+		signature: string,
+		signatureScheme: SignatureScheme,
+		signer: string,
+		dataBytes: string,
+	},
+}>(`follow/${fid}`, {
+	signerId,
+})
 
 
 /**
