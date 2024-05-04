@@ -70,7 +70,7 @@
 					}}
 					iconAnimation="hover"
 				>
-					Loading more casts...
+					Loading more casts via {farcasterProvider}...
 				</Loading>
 			{/if}
 		</svelte:fragment>
