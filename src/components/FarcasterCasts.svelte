@@ -1,7 +1,7 @@
 <script lang="ts">
-	// Types
+	// Types/constants
 	import type { FarcasterCast as _FarcasterCast } from '$/api/farcaster'
-	import type { FarcasterProvider } from '$/data/farcasterProviders'
+	import { type FarcasterProvider, farcasterProviderIcons } from '$/data/farcasterProviders'
 	
 
 	// Inputs
@@ -63,7 +63,15 @@
 
 		<svelte:fragment slot="after">
 			{#if pagination?.isFetchingNextPage}
-				<Loading>Loading more casts...</Loading>
+				<Loading
+					icon={{
+						src: farcasterProviderIcons[farcasterProvider],
+						name: farcasterProvider,
+					}}
+					iconAnimation="hover"
+				>
+					Loading more casts...
+				</Loading>
 			{/if}
 		</svelte:fragment>
 	</ScrollContainer>
