@@ -34,26 +34,14 @@ const get = async <T>(
 // Types
 type integer = number
 
-type Cast = {
-	author: {
-		bio: string,
-		custody_address: string,
-		display_name: string,
-		fid: number,
-		follower_count: number,
-		following_count: number,
-		pfp_url: string,
-		recovery_address: string,
-		uid: number,
-		username: string,
-		verifications: string[],
-	},
+export type Cast = {
+	author: User,
 	content: string,
 	embeds: {
 		url: string,
 	}[],
 	fid: number,
-	hash: string,
+	hash: `0x${string}`,
 	mentioned_profiles: string[],
 	reactions: {
 		likes: {
@@ -69,11 +57,11 @@ type Cast = {
 		count: number,
 	},
 	root_parent_url: string,
-	short_hash: string,
+	short_hash: `0x${string}`,
 	timestamp: string,
 }
 
-type Channel = {
+export type Channel = {
 	created_at: number,
 	description: string,
 	display_name: string,
@@ -83,20 +71,20 @@ type Channel = {
 	url: string,
 }
 
-type User = {
+export type User = {
 	bio: string,
-	custody_address: string,
+	custody_address: `0x${string}`,
 	display_name: string,
 	fid: number,
 	follower_count: number,
 	following_count: number,
 	pfp_url: string,
-	recovery_address: string,
+	recovery_address: `0x${string}`,
 	username: string,
 	verifications: string[],
 }
 
-type CastAddBody = {
+export type CastAddBody = {
 	text: string,
 	parent_url: string,
 	embeds: Embed[],
@@ -105,17 +93,17 @@ type CastAddBody = {
 	parent_cast_id: CastId,
 }
 
-type Embed = {
+export type Embed = {
 	url: string,
 	castId: CastId,
 }
 
-type CastId = {
+export type CastId = {
 	fid: number,
 	hash: string,
 }
 
-enum CastType {
+export enum CastType {
 	MESSAGE_TYPE_CAST_ADD = 'MESSAGE_TYPE_CAST_ADD',
 	MESSAGE_TYPE_CAST_REMOVE = 'MESSAGE_TYPE_CAST_REMOVE',
 	MESSAGE_TYPE_REACTION_ADD = 'MESSAGE_TYPE_REACTION_ADD',
@@ -124,13 +112,13 @@ enum CastType {
 	MESSAGE_TYPE_LINK_REMOVE = 'MESSAGE_TYPE_LINK_REMOVE',
 }
 
-type Network = 'FARCASTER_NETWORK_MAINNET' | 'FARCASTER_NETWORK_TESTNET'
+export type Network = 'FARCASTER_NETWORK_MAINNET' | 'FARCASTER_NETWORK_TESTNET'
 
-type HashScheme = 'HASH_SCHEME_BLAKE3'
+export type HashScheme = 'HASH_SCHEME_BLAKE3'
 
-type SignatureScheme = 'SIGNATURE_SCHEME_ED25519'
+export type SignatureScheme = 'SIGNATURE_SCHEME_ED25519'
 
-type ReactionType = 'like' | 'recast'
+export type ReactionType = 'like' | 'recast'
 
 
 
