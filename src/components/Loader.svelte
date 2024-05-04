@@ -5,7 +5,7 @@
 	import type { ApolloError } from '@apollo/client'
 	// import type { GraphQLObject, GraphQLVariables } from 'houdini'
 	// import type { QueryStore } from '$houdini'
-	import type { CreateQueryResult, CreateInfiniteQueryResult } from '@tanstack/svelte-query'
+	import type { CreateQueryResult, CreateInfiniteQueryResult, InfiniteQueryObserverResult } from '@tanstack/svelte-query'
 
 	type LoaderResult = $$Generic<unknown>
 	type LoaderError = $$Generic<{message: string} | Error | ApolloStoreError | ApolloError | unknown>
@@ -103,12 +103,7 @@
 		status: typeof status,
 		load: typeof load,
 		cancel: typeof cancel,
-		pagination?: {
-			hasPreviousPage: boolean,
-			hasNextPage: boolean,
-			fetchPreviousPage: () => void,
-			fetchNextPage: () => void,
-		}
+		pagination?: Pick<InfiniteQueryObserverResult<LoaderResult, LoaderError>, 'hasPreviousPage' | 'isFetchingPreviousPage' | 'fetchPreviousPage' | 'hasNextPage' | 'isFetchingNextPage' | 'fetchNextPage'>,
 	} & CollapsibleSlotProps
 
 	type $$Slots = {
@@ -400,8 +395,11 @@
 						{cancel}
 						pagination={$fromInfiniteQuery && {
 							hasPreviousPage: $fromInfiniteQuery.hasPreviousPage,
-							hasNextPage: $fromInfiniteQuery.hasNextPage,
+							isFetchingPreviousPage: $fromInfiniteQuery.isFetchingPreviousPage,
 							fetchPreviousPage: $fromInfiniteQuery.fetchPreviousPage,
+
+							hasNextPage: $fromInfiniteQuery.hasNextPage,
+							isFetchingNextPage: $fromInfiniteQuery.isFetchingNextPage,
 							fetchNextPage: $fromInfiniteQuery.fetchNextPage,
 						}}
 						{isOpen}
@@ -471,8 +469,11 @@
 			{cancel}
 			pagination={$fromInfiniteQuery && {
 				hasPreviousPage: $fromInfiniteQuery.hasPreviousPage,
-				hasNextPage: $fromInfiniteQuery.hasNextPage,
+				isFetchingPreviousPage: $fromInfiniteQuery.isFetchingPreviousPage,
 				fetchPreviousPage: $fromInfiniteQuery.fetchPreviousPage,
+
+				hasNextPage: $fromInfiniteQuery.hasNextPage,
+				isFetchingNextPage: $fromInfiniteQuery.isFetchingNextPage,
 				fetchNextPage: $fromInfiniteQuery.fetchNextPage,
 			}}
 		/>
@@ -504,8 +505,11 @@
 							{cancel}
 							pagination={$fromInfiniteQuery && {
 								hasPreviousPage: $fromInfiniteQuery.hasPreviousPage,
-								hasNextPage: $fromInfiniteQuery.hasNextPage,
+								isFetchingPreviousPage: $fromInfiniteQuery.isFetchingPreviousPage,
 								fetchPreviousPage: $fromInfiniteQuery.fetchPreviousPage,
+	
+								hasNextPage: $fromInfiniteQuery.hasNextPage,
+								isFetchingNextPage: $fromInfiniteQuery.isFetchingNextPage,
 								fetchNextPage: $fromInfiniteQuery.fetchNextPage,
 							}}
 						/>
