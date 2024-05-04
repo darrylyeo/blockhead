@@ -1593,6 +1593,15 @@ export type introspection = {
             "args": []
           },
           {
+            "name": "quotedCast",
+            "type": {
+              "kind": "OBJECT",
+              "name": "FarcasterCast",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
             "name": "channel",
             "type": {
               "kind": "OBJECT",
@@ -1657,7 +1666,7 @@ export type introspection = {
             "name": "frameUrl",
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "Simple_String_Comparator_Exp",
+              "name": "String_Eq_In_Comparator_Exp",
               "ofType": null
             }
           },
@@ -1673,15 +1682,7 @@ export type introspection = {
             "name": "hash",
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "Simple_String_Comparator_Exp",
-              "ofType": null
-            }
-          },
-          {
-            "name": "parentHash",
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "Simple_String_Comparator_Exp",
+              "name": "String_Eq_In_Comparator_Exp",
               "ofType": null
             }
           },
@@ -1689,7 +1690,7 @@ export type introspection = {
             "name": "url",
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "Simple_String_Comparator_Exp",
+              "name": "String_Eq_In_Comparator_Exp",
               "ofType": null
             }
           },
@@ -2847,6 +2848,414 @@ export type introspection = {
             "type": {
               "kind": "OBJECT",
               "name": "Social",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "FarcasterQuotedRecastsFilter",
+        "inputFields": [
+          {
+            "name": "recastedBy",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Identity_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
+            "name": "parentCastedBy",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Identity_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
+            "name": "parentHash",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_Eq_In_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
+            "name": "parentUrl",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_Eq_In_Comparator_Exp",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "FarcasterQuotedRecastsInput",
+        "inputFields": [
+          {
+            "name": "filter",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "FarcasterQuotedRecastsFilter",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "blockchain",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "EveryBlockchain",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "limit",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          {
+            "name": "cursor",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FarcasterQuotedRecastsOutput",
+        "fields": [
+          {
+            "name": "QuotedRecast",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "FarcasterCast",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "pageInfo",
+            "type": {
+              "kind": "OBJECT",
+              "name": "PageInfo",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FarcasterReaction",
+        "fields": [
+          {
+            "name": "cast",
+            "type": {
+              "kind": "OBJECT",
+              "name": "FarcasterCast",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "castHash",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "reactedBy",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Social",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "ENUM",
+        "name": "FarcasterReactionCriteria",
+        "enumValues": [
+          {
+            "name": "liked"
+          },
+          {
+            "name": "replied"
+          },
+          {
+            "name": "recasted"
+          }
+        ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "FarcasterReactionsFilter",
+        "inputFields": [
+          {
+            "name": "criteria",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "FarcasterReactionCriteria",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "castHash",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_Eq_In_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
+            "name": "castUrl",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_Eq_In_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
+            "name": "frameUrl",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_Eq_In_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
+            "name": "reactedBy",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Identity_Comparator_Exp",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "FarcasterReactionsInput",
+        "inputFields": [
+          {
+            "name": "filter",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "FarcasterReactionsFilter",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "blockchain",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "EveryBlockchain",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "limit",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          {
+            "name": "cursor",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FarcasterReactionsOutput",
+        "fields": [
+          {
+            "name": "Criteria",
+            "type": {
+              "kind": "ENUM",
+              "name": "FarcasterReactionCriteria",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "Reaction",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "FarcasterReaction",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "pageInfo",
+            "type": {
+              "kind": "OBJECT",
+              "name": "PageInfo",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "FarcasterRepliesFilter",
+        "inputFields": [
+          {
+            "name": "repliedBy",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Identity_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
+            "name": "parentCastedBy",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Identity_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
+            "name": "parentHash",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_Eq_In_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
+            "name": "parentUrl",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_Eq_In_Comparator_Exp",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "FarcasterRepliesInput",
+        "inputFields": [
+          {
+            "name": "filter",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "FarcasterRepliesFilter",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "blockchain",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "EveryBlockchain",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "limit",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          {
+            "name": "cursor",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FarcasterRepliesOutput",
+        "fields": [
+          {
+            "name": "Reply",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "FarcasterCast",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "pageInfo",
+            "type": {
+              "kind": "OBJECT",
+              "name": "PageInfo",
               "ofType": null
             },
             "args": []
@@ -5752,6 +6161,69 @@ export type introspection = {
                 }
               }
             ]
+          },
+          {
+            "name": "FarcasterReplies",
+            "type": {
+              "kind": "OBJECT",
+              "name": "FarcasterRepliesOutput",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "FarcasterRepliesInput",
+                    "ofType": null
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "FarcasterQuotedRecasts",
+            "type": {
+              "kind": "OBJECT",
+              "name": "FarcasterQuotedRecastsOutput",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "FarcasterQuotedRecastsInput",
+                    "ofType": null
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "FarcasterReactions",
+            "type": {
+              "kind": "OBJECT",
+              "name": "FarcasterReactionsOutput",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "FarcasterReactionsInput",
+                    "ofType": null
+                  }
+                }
+              }
+            ]
           }
         ],
         "interfaces": []
@@ -7858,6 +8330,34 @@ export type introspection = {
               "kind": "SCALAR",
               "name": "String",
               "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "String_Eq_In_Comparator_Exp",
+        "inputFields": [
+          {
+            "name": "_eq",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          },
+          {
+            "name": "_in",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
             }
           }
         ]
