@@ -109,7 +109,7 @@
 			{:else if urlMetadata.description || urlMetadata.image}
 				<div class="content-and-images bar align-top" class:wrap={$matchesLayoutBreakpoint}>
 					{#if urlMetadata.description}
-						<div class="content column">
+						<div class="content column scrollable-list" style="--resizeVertical-defaultHeight: 3lh">
 							{@html formatContent(urlMetadata.description)}
 						</div>
 					{/if}
