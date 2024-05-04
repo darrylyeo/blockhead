@@ -60,11 +60,13 @@
 						{farcasterProvider}
 						userId={user.id}
 						let:casts
+						let:pagination
 					>
 						{#if casts}
 							<FarcasterCasts
 								{casts}
 								{farcasterProvider}
+								{pagination}
 							>
 								<svelte:fragment slot="title">
 									<span>
@@ -103,10 +105,12 @@
 	<FarcasterCastsLoader
 		{farcasterProvider}
 		let:casts
+		let:pagination
 	>
 		{#if casts}
 			<FarcasterCasts
 				{casts}
+				{pagination}
 				title="Trending"
 				{farcasterProvider}
 			/>

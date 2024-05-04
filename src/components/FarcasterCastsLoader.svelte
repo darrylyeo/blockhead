@@ -19,6 +19,7 @@
 
 	type SharedSlotProps = {
 		casts: typeof casts,
+		pagination: Loader<any, any, any, any>['$$slot_def']['default']['pagination']
 	}
 
 	type $$Slots = {
@@ -94,14 +95,20 @@
 	}[farcasterProvider]?.()}
 	bind:result={casts}
 	let:result={casts}
+	let:pagination
 >
 	<svelte:fragment slot="header"
 		let:result={casts}
+		let:pagination
 	>
 		<slot name="header"
 			{casts}
+			{pagination}
 		/>
 	</svelte:fragment>
 
-	<slot {casts} />
+	<slot
+		{casts}
+		{pagination}
+	/>
 </Loader>

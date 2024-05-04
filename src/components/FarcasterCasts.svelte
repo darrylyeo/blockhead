@@ -14,9 +14,16 @@
 	export let layout: 'feed' | 'embedded-replies' = 'feed'
 
 
+	// Events
+	export let pagination: Loader<any, any, any, any>['$$slot_def']['default']['pagination']
+
+
 	// Components
 	import Collapsible from './Collapsible.svelte'
 	import FarcasterCast from './FarcasterCast.svelte'
+	import Loader from './Loader.svelte'
+	import Loading from './Loading.svelte'
+	import ScrollContainer from './ScrollContainer.svelte'
 </script>
 
 
@@ -38,8 +45,8 @@
 		<span class="card-annotation">Farcaster Feed</span>
 	</svelte:fragment>
 
-	<div
-		class="column scrollable-list"
+	<ScrollContainer
+		{pagination}
 		style="
 			--resizeVertical-defaultHeight: 50rem;
 			max-height: 80vh;
@@ -53,5 +60,11 @@
 		{:else}
 			<div class="card">No casts yet.</div>
 		{/each}
-	</div>
+
+		<svelte:fragment slot="after">
+			{#if pagination?.isFetchingNextPage}
+				<Loading>Loading more casts...</Loading>
+			{/if}
+		</svelte:fragment>
+	</ScrollContainer>
 </Collapsible>
