@@ -410,10 +410,14 @@
 			{#if status === LoadingStatus.Idle}
 				<slot name="idle" {load}></slot>
 			{:else if status === LoadingStatus.Loading}
-				<Loading iconAnimation="hover">
-					<slot name="loadingIcon" slot="icon">
-						<img src={loadingIcon} alt={loadingIconName} width={loadingIconWidth}>
-					</slot>
+				<Loading
+					icon={loadingIcon && {
+						src: loadingIcon,
+						name: loadingIconName,
+						width: loadingIconWidth,
+					}}
+					iconAnimation="hover"
+				>
 					<slot name="loadingMessage">
 						{loadingMessage}
 					</slot>
@@ -519,10 +523,14 @@
 				{#if status === LoadingStatus.Idle}
 					<slot name="idle" {load}></slot>
 				{:else if status === LoadingStatus.Loading}
-					<Loading iconAnimation="hover">
-						<slot name="loadingIcon" slot="icon">
-							<img src={loadingIcon} alt={loadingIconName} width={loadingIconWidth}>
-						</slot>
+					<Loading
+						icon={loadingIcon && {
+							src: loadingIcon,
+							name: loadingIconName,
+							width: loadingIconWidth,
+						}}
+						iconAnimation="hover"
+					>
 						<slot name="loadingMessage">
 							{loadingMessage}
 						</slot>

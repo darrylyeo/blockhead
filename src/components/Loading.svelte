@@ -4,6 +4,13 @@
 	export let layout: 'card' | 'icon' = 'card'
 
 	export let title: string
+
+	export let icon: {
+		src: string,
+		name?: string,
+		width?: number,
+	} | undefined
+
 	export let iconAnimation: 'spin' | 'hover' = 'spin'
 </script>
 
@@ -84,7 +91,17 @@
 	transition:scale|global
 ><!-- in:fly|global={{x: -100}} out:fly|global={{x: 100}} -->
 	<span class="icon {iconAnimation}">
-		<slot name="icon">🧭</slot>
+		<slot name="icon">
+			{#if icon}
+				<img
+					src={icon.src}
+					alt={icon.name ?? ''}
+					width={icon.width ?? 25}
+				/>
+			{:else}
+				🧭
+			{/if}
+		</slot>
 	</span>
 
 	<slot />
