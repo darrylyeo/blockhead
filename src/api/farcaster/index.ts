@@ -83,7 +83,9 @@ export type FarcasterCast = {
 
 	reactions?: {
 		likes?: Partial<Pick<FarcasterUser, 'id' | 'name'>>[];
+		likesCount?: number;
 		recasts?: Partial<Pick<FarcasterUser, 'id' | 'name'>>[];
+		recastsCount?: number;
 	};
 	
 	parent?: Partial<FarcasterCast>;

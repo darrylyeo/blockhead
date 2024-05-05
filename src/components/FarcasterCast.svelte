@@ -193,17 +193,17 @@
 				<div class="column">
 					<dl class="row">
 						{#if cast.reactions}
-							{#if cast.reactions.likes?.length}
+							{#if cast.reactions.likes?.length || cast.reactions.likesCount}
 								<div>
 									<dt data-before="♥️">Likes</dt>
-									<dd>{cast.reactions.likes.length}</dd>
+									<dd>{cast.reactions.likes?.length || cast.reactions.likesCount}</dd>
 								</div>
 							{/if}
 
-							{#if cast.reactions.recasts?.length}
+							{#if cast.reactions.recasts?.length || cast.reactions.recastsCount}
 								<div>
 									<dt data-before="🔁">Recasts</dt>
-									<dd>{cast.reactions.recasts.length}</dd>
+									<dd>{cast.reactions.recasts?.length || cast.reactions.recastsCount}</dd>
 								</div>
 							{/if}
 						{/if}
