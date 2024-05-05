@@ -41,6 +41,7 @@
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
 	import { normalizeUserV1 as normalizeUserNeynarV1 } from '$/api/neynar/normalize'
+	import { normalizeUser as normalizeUserPinata } from '$/api/pinata/farcaster/normalize'
 
 
 	// Components
@@ -95,6 +96,43 @@
 					select: result => (
 						result
 							? normalizeUserNeynarV1(result.result.user, viewerUserId)
+							: initialData
+					),
+				})
+			),
+		}),
+
+		[FarcasterProvider.Pinata]: () => ({
+			fromQuery: (
+				(userName || userId) && createQuery({
+					queryKey: ['FarcasterUserProfile', {
+						farcasterProvider,
+						...userId && {
+							userId,
+						},
+						...userName && {
+							userName,
+						},
+						...viewerUserId && {
+							viewerUserId,
+						},
+					}],
+					queryFn: async () => {
+						if(userId){
+							const { getUserByFID } = await import('$/api/pinata/farcaster')
+
+							return (
+								await getUserByFID({
+									fid: userId,
+								})
+							)
+						} else if(userName){
+							throw `Pinata doesn't yet support fetching Farcaster profiles by username.`
+						}
+					},
+					select: result => (
+						result
+							? normalizeUserPinata(result.data)
 							: initialData
 					),
 				})

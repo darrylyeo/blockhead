@@ -22,8 +22,9 @@
 
 
 	// Functions
-	import { createQuery } from '@tanstack/svelte-query'
+	import { createQuery, createInfiniteQuery } from '@tanstack/svelte-query'
 	import { normalizeChannel as normalizeChannelNeynar } from '$/api/neynar/normalize'
+	import { normalizeChannel as normalizeChannelPinata } from '$/api/pinata/farcaster/normalize'
 
 
 	// Components
@@ -50,6 +51,31 @@
 					),
 					select: result => (
 						result.map(normalizeChannelNeynar)
+					),
+				})
+			),
+		}),
+
+		[FarcasterProvider.Pinata]: () => ({
+			fromQuery: (
+				createInfiniteQuery({
+					queryKey: ['FarcasterChannels', {
+						farcasterProvider,
+					}],
+					initialPageParam: '',
+					queryFn: async ({ pageParam: pageToken }) => {
+						const { getChannels } = await import('$/api/pinata/farcaster')
+
+						return await getChannels({
+							pageToken,
+							pageSize: 100,
+						})
+					},
+					getNextPageParam: (lastPage, pages) => lastPage.data?.next_page_token,
+					select: result => (
+						result.pages
+							.flatMap(page => page.data.channels)
+							.map(normalizeChannelPinata)
 					),
 				})
 			),

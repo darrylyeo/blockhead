@@ -32,6 +32,7 @@
 	import { createInfiniteQuery } from '@tanstack/svelte-query'
 
 	import { normalizeCastV2 as normalizeCastNeynarV2 } from '$/api/neynar/normalize'
+	import { normalizeCast as normalizeCastPinata } from '$/api/pinata/farcaster/normalize' 
 
 
 	// Components
@@ -89,6 +90,41 @@
 							.map(normalizeCastNeynarV2)
 					),
 					staleTime: 10 * 1000,
+				})
+			),
+		}),
+
+		[FarcasterProvider.Pinata]: () => ({
+			fromQuery: (
+				createInfiniteQuery({
+					queryKey: ['FarcasterCasts', {
+						farcasterProvider,
+						userId,
+					}],
+					initialPageParam: '',
+					queryFn: async ({ pageParam: pageToken }) => {
+						const { getCasts } = await import('$/api/pinata/farcaster')
+
+						return (
+							userId ?
+								await getCasts({
+									fid: userId,
+									pageSize: 100,
+									pageToken,
+								})
+							:
+								await getCasts({
+									pageSize: 100,
+									pageToken,
+								})
+						)
+					},
+					getNextPageParam: (lastPage) => lastPage.data?.next_page_token,
+					select: result => (
+						result.pages
+							.flatMap(page => page.data.casts)
+							.map(normalizeCastPinata)
+					),
 				})
 			),
 		}),

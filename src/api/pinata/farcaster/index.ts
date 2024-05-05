@@ -45,11 +45,11 @@ export type Cast = {
 	hash: `0x${string}`,
 	mentioned_profiles: string[],
 	reactions: {
-		likes: {
+		likes?: {
 			fid: number,
 			fname: string,
 		}[],
-		recasts: {
+		recasts?: {
 			fid: number,
 			fname: string,
 		}[],

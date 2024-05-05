@@ -34,6 +34,7 @@
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
 	import { normalizeCastWithRepliesV1 as normalizeCastWithRepliesV1Neynar, normalizeCastV2 as normalizeCastNeynarV2 } from '$/api/neynar/normalize'
+	import { normalizeCast as normalizeCastPinata } from '$/api/pinata/farcaster/normalize' 
 
 
 	// Components
@@ -97,6 +98,32 @@
 							result?.cast && normalizeCastNeynarV2(result.cast)
 						),
 					},
+				})
+			),
+		}),
+
+		[FarcasterProvider.Pinata]: () => ({
+			fromQuery: (
+				createQuery({
+					queryKey: ['FarcasterCast', {
+						farcasterProvider,
+						...castId && {
+							castId,
+						},
+						...clientUrl && {
+							clientUrl,
+						},
+					}],
+					queryFn: async () => {
+						const { getCastByHash } = await import('$/api/pinata/farcaster')
+
+						return await getCastByHash({
+							hash: castId,
+						})
+					},
+					select: result => (
+						normalizeCastPinata(result.data)
+					),
 				})
 			),
 		}),

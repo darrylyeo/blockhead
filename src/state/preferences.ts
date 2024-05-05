@@ -448,8 +448,12 @@ export const preferencesConfig = [
 							{
 								value: FarcasterProvider.Neynar,
 								name: FarcasterProvider.Neynar,
-							}
-						]
+							},
+							{
+								value: FarcasterProvider.Pinata,
+								name: FarcasterProvider.Pinata,
+							},
+						],
 					},
 				]
 			},
