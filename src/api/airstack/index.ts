@@ -440,3 +440,423 @@ export const getNftContractsCountByAddress = async ({
 		hasMore: hasTimedOut,
 	}
 }
+
+const FarcasterUser = graphql(`
+	fragment FarcasterUser on Social @_unmask {
+		dappName
+		userId
+		userAddress
+		userCreatedAtBlockTimestamp
+		userCreatedAtBlockNumber
+		userHomeURL
+		userRecoveryAddress
+		userAssociatedAddresses
+		profileBio
+		profileDisplayName
+		profileImage
+		profileUrl
+		profileName
+		profileCreatedAtBlockTimestamp
+		profileCreatedAtBlockNumber
+		fnames
+		blockchain
+		chainId
+		coverImageContentValue {
+			animation_url {
+				original
+			}
+			audio {
+				original
+			}
+			image {
+				extraSmall
+				large
+				medium
+				original
+				small
+			}
+			json
+			video {
+				original
+			}
+		}
+		connectedAddresses {
+			address
+			blockchain
+			chainId
+			timestamp
+		}
+		coverImageURI
+		dappSlug
+		dappVersion
+		followerCount
+		followerTokenAddress
+		followingCount
+		handleTokenAddress
+		handleTokenId
+		id
+		identity
+		isDefault
+		isFarcasterPowerUser
+		location
+		metadataURI
+		profileHandle
+		profileImageContentValue {
+			image {
+				extraSmall
+				large
+				medium
+				original
+				small
+			}
+			audio {
+				original
+			}
+			animation_url {
+				original
+			}
+			json
+			video {
+				original
+			}
+		}
+		profileLastUpdatedAtBlockNumber
+		profileLastUpdatedAtBlockTimestamp
+		profileMetadata
+		profileTokenAddress
+		profileTokenId
+		profileTokenIdHex
+		profileTokenUri
+		twitterUserName
+		updatedAt
+		userLastUpdatedAtBlockNumber
+		userLastUpdatedAtBlockTimestamp
+		website
+	}
+`)
+
+export const getFarcasterUserById = async ({
+	userId,
+}: {
+	userId: number,
+}) => {
+	return await client
+		.query(
+			graphql(`
+				query FarcasterUser(
+					$userId: String!
+				) {
+					Socials(
+						input: {
+							filter: {
+								dappName: {
+									_eq: farcaster
+								}
+								userId: {
+									_eq: $userId
+								}
+							}
+							blockchain: ethereum
+						}
+					) {
+						Social {
+							...FarcasterUser
+						}
+						pageInfo {
+							hasNextPage
+							hasPrevPage
+							nextCursor
+							prevCursor
+						}
+					}
+				}
+			`, [
+				FarcasterUser,
+			]),
+			{
+				userId: String(userId),
+			},
+		)
+		.toPromise()
+		.then(result => {
+			if(result.error)
+				throw result.error
+
+			return result.data
+		})
+}
+
+export const getFarcasterUserByName = async ({
+	userName,
+}: {
+	userName: string,
+}) => {
+	return await client
+		.query(
+			graphql(`
+				query FarcasterUserByUsername(
+					$userName: String!
+				) {
+					Socials(
+						input: {
+							filter: {
+								dappName: {
+									_eq: farcaster
+								}
+								profileName: {
+									_eq: $userName
+								}
+							}
+							blockchain: ethereum
+						}
+					) {
+						Social {
+							...FarcasterUser
+						}
+						pageInfo {
+							hasNextPage
+							hasPrevPage
+							nextCursor
+							prevCursor
+						}
+					}
+				}
+			`, [
+				FarcasterUser,
+			]),
+			{
+				userName,
+			},
+		)
+		.toPromise()
+		.then(result => {
+			if(result.error)
+				throw result.error
+
+			return result.data
+		})
+}
+
+const FarcasterCast = graphql(`
+	fragment FarcasterCast on FarcasterCast @_unmask {
+		castedAtTimestamp
+		embeds
+		fid
+		frame {
+			castedAtTimestamp
+			buttons {
+				action
+				id
+				index
+				label
+				target
+			}
+			frameHash
+			frameUrl
+			id
+			imageAspectRatio
+			imageUrl
+			inputText
+			postUrl
+			state
+		}
+		hash
+		id
+		mentions {
+			fid
+			position
+		}
+		numberOfLikes
+		numberOfRecasts
+		numberOfReplies
+		parentFid
+		parentHash
+		parentUrl
+		rawText
+		rootParentHash
+		rootParentUrl
+		socialCapitalValue {
+			formattedValue
+			hash
+			rawValue
+		}
+		channel {
+			id
+			channelId
+			url,
+		}
+		castedBy {
+			...FarcasterUser
+		}
+		parentCast {
+			id
+		}
+		quotedCast {
+			id
+		}
+		text
+		url
+	}
+`, [
+	FarcasterUser,
+])
+
+export const getFarcasterCasts = async ({
+	limit = 50,
+	cursor,
+}: {
+	limit: number,
+	cursor: string,
+}) => {
+	return await client
+		.query(
+			graphql(`
+				query FarcasterCasts(
+					$limit: Int!
+					$cursor: String!
+				) {
+					FarcasterCasts(
+						input: {
+							filter: {
+								castedAtTimestamp: {
+									_gt: "2020-01-01T00:00:00.000000000Z"
+								}
+							}
+							limit: $limit
+							cursor: $cursor
+							blockchain: ALL
+						}
+					) {
+						Cast {
+							...FarcasterCast
+						}
+						pageInfo {
+							hasNextPage
+							hasPrevPage
+							nextCursor
+							prevCursor
+						}
+					}
+				}
+			`, [
+				FarcasterCast,
+			]),
+			{
+				limit,
+				cursor,
+			},
+		)
+		.toPromise()
+		.then(result => {
+			if(result.error)
+				throw result.error
+
+			return result.data
+		})
+}
+
+export const getFarcasterCastsByUserId = async ({
+	userId,
+	limit = 50,
+	cursor,
+}: {
+	userId: number,
+	limit: number,
+	cursor: string,
+}) => {
+	return await client
+		.query(
+			graphql(`
+				query FarcasterCastsByUserId(
+					$userId: Identity!
+					$limit: Int!
+					$cursor: String!
+				) {
+					FarcasterCasts(
+						input: {
+							filter: {
+								castedBy: {
+									_in: [$userId]
+								}
+							}
+							limit: $limit
+							cursor: $cursor
+							blockchain: ALL
+						}
+					) {
+						Cast {
+							...FarcasterCast
+						}
+						pageInfo {
+							hasPrevPage
+							hasNextPage	
+							nextCursor
+							prevCursor
+						}
+					}
+				}
+			`, [
+				FarcasterCast,
+			]),
+			{
+				userId: String(userId),
+				limit,
+				cursor,
+			},
+		)
+		.toPromise()
+		.then(result => {
+			if(result.error)
+				throw result.error
+
+			return result.data
+		})
+}
+
+export const getFarcasterCastByHash = async ({
+	hash,
+}: {
+	hash: string,
+}) => {
+	return await client
+		.query(
+			graphql(`
+				query FarcasterCastByHash(
+					$hash: String!
+				) {
+					FarcasterCasts(
+						input: {
+							filter: {
+								hash: {
+									_eq: $hash
+								}
+							}
+							blockchain: ALL
+						}
+					) {
+						Cast {
+							...FarcasterCast
+						}
+						pageInfo {
+							hasNextPage
+							hasPrevPage
+							nextCursor
+							prevCursor
+						}
+					}
+				}
+			`, [
+				FarcasterCast,
+			]),
+			{
+				hash,
+			},
+		)
+		.toPromise()
+		.then(result => {
+			if(result.error)
+				throw result.error
+
+			return result.data
+		})
+}

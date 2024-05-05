@@ -1,12 +1,13 @@
 // Types
 import type { Ethereum } from '$/data/networks/types'
 import type { TokenWithBalance } from '$/data/tokens'
-import type { getNftsByAddress, getTokenBalances } from '.'
+import type { getFarcasterCastByHash, getFarcasterUserByName, getNftsByAddress, getTokenBalances } from '.'
 
 
 // Functions
 import { isTruthy } from '$/utils/isTruthy'
 import { normalizeNftAttributes } from '$/utils/normalizeNftAttributes'
+import { extractCastEmbeds, type FarcasterCast, type FarcasterUser } from '../farcaster'
 
 export const normalizeNftContracts = (
 	tokenBalances: NonNullable<NonNullable<NonNullable<Awaited<ReturnType<typeof getNftsByAddress>>>['TokenBalances']>['TokenBalance']>,
@@ -62,4 +63,55 @@ export const normalizeTokenBalance = (
 		decimals: tokenWithBalance.token?.decimals ?? undefined,
 	},
 	balance: BigInt(tokenWithBalance.amount),
+})
+
+export const normalizeFarcasterCast = (
+	farcasterCast: NonNullable<NonNullable<NonNullable<Awaited<ReturnType<typeof getFarcasterCastByHash>>>['FarcasterCasts']>['Cast']>[number]
+): FarcasterCast => ({
+	id: farcasterCast.hash,
+	text: farcasterCast.text,
+	...extractCastEmbeds({
+		embeds: farcasterCast.embeds?.map(embed => ({
+			url: embed.url,
+		})),
+		text: farcasterCast.text,
+	}),
+
+	author: farcasterCast.castedBy && normalizeFarcasterUser(farcasterCast.castedBy),
+
+	timestamp: new Date(farcasterCast.castedAtTimestamp).valueOf(),
+
+	reactions: {
+		likesCount: farcasterCast.numberOfLikes,
+		recastsCount: farcasterCast.numberOfRecasts,
+	},
+
+	// parentUrl: farcasterCast.channel?.url,
+})
+
+export const normalizeFarcasterUser = (
+	farcasterUser: NonNullable<NonNullable<NonNullable<Awaited<ReturnType<typeof getFarcasterUserByName>>>['Socials']>['Social']>[number]
+): FarcasterUser => ({
+	id: Number(farcasterUser.profileTokenId), 
+	name: farcasterUser.profileName,
+	displayName: farcasterUser.profileDisplayName,
+
+	avatar: {
+		url: farcasterUser.profileImageContentValue?.image?.medium ?? undefined,
+	},
+
+	bio: {
+		text: farcasterUser.profileBio,
+	},
+
+	custodyAddress: farcasterUser.profileTokenAddress as Ethereum.Address,
+
+	summary: {
+		...farcasterUser.followerCount !== null && {
+			followerCount: farcasterUser.followerCount,
+		},
+		...farcasterUser.followingCount !== null && {
+			followingCount: farcasterUser.followingCount,
+		},
+	},
 })
