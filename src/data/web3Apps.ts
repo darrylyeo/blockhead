@@ -34,7 +34,8 @@ export type Web3AppConfig = {
 	links?: string[],
 	icon?: string,
 	colors?: string[],
-	views: Web3AppView[]
+	showCustomUi?: boolean,
+	views: Web3AppView[],
 }
 
 export type Web3AppView = {

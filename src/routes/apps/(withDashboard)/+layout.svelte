@@ -201,6 +201,10 @@
 					out: [fly, { x: -100, duration: 300 }],
 				}}
 			>
+				{#if $web3AppConfig?.showCustomUi}
+					<slot />
+				{/if}
+
 				<Web3AppDashboard
 					web3AppConfig={$web3AppConfig}
 					network={$network}
