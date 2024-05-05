@@ -20,7 +20,6 @@ import { networkIcons } from '$/assets/networkIcons'
 
 import CeramicPage from '$/routes/apps/(withDashboard)/ceramic/+page.svelte'
 import DiscoPage from '$/routes/apps/(withDashboard)/disco/+page.svelte'
-import FarcasterPage from '$/routes/apps/(withDashboard)/farcaster/+page.svelte'
 
 
 import { UniswapV3 } from '$/api/uniswap-v3/index'
@@ -2852,13 +2851,10 @@ export const web3Apps = [
 		links: ['https://www.farcaster.xyz'],
 		colors: ['#8a63d2'],
 		icon: FarcasterIcon,
+		showCustomUi: true,
 		views: [
 			{
 				chainId: 10,
-
-				components: [
-					FarcasterPage,
-				],
 
 				contracts: [
 					{
