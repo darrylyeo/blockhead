@@ -5,6 +5,7 @@
 import { env } from '$/env'
 
 import { ConcurrentPromiseQueue } from '$/utils/ConcurrentPromiseQueue'
+import { proxyFetch } from '$/utils/proxyFetch'
 
 const queue = new ConcurrentPromiseQueue(1)
 
@@ -17,7 +18,7 @@ const get = async <T>(
 			.filter(([, value]) => value !== undefined)
 	)
 	const response = await queue.enqueue(() => (
-		fetch(`https://api.pinata.cloud/v3/farcaster/${endpoint}${searchParams ? `?${searchParams}` : ''}`, {
+		proxyFetch(`https://api.pinata.cloud/v3/farcaster/${endpoint}${searchParams ? `?${searchParams}` : ''}`, {
 			headers: {
 				'Accept': 'application/json',
 				'Authorization': `Bearer ${env.PINATA_JWT}`,

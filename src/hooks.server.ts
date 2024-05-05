@@ -9,6 +9,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		if(![
 			'https://api.disco.xyz',
 			'https://api.intuition.systems',
+			'https://api.pinata.cloud',
 		].includes(url.origin))
 			error(403, 'Request Forbidden.')
 
