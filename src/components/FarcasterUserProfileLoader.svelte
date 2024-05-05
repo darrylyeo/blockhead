@@ -40,6 +40,7 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
+	import { normalizeFarcasterUser as normalizeUserAirstack } from '$/api/airstack/normalize'
 	import { normalizeUserV1 as normalizeUserNeynarV1 } from '$/api/neynar/normalize'
 	import { normalizeUser as normalizeUserPinata } from '$/api/pinata/farcaster/normalize'
 
@@ -54,6 +55,46 @@
 	loadingIcon={farcasterProviderIcons[farcasterProvider]}
 	errorMessage={`Couldn't find Farcaster user ${userId ? `#${userId}` : `"${userName}"`}.`}
 	{...{
+		[FarcasterProvider.Airstack]: () => ({
+			fromQuery: (
+				(userName || userId) && createQuery({
+					queryKey: ['FarcasterUserProfile', {
+						farcasterProvider,
+						...userId && {
+							userId,
+						},
+						...userName && {
+							userName,
+						},
+						...viewerUserId && {
+							viewerUserId,
+						},
+					}],
+					queryFn: async () => {
+						const { getFarcasterUserByName, getFarcasterUserById } = await import('$/api/airstack')
+
+						return (
+							userName ?
+								await getFarcasterUserByName({ 
+									userName,
+								})
+							: userId ?
+								await getFarcasterUserById({
+									userId,
+								})
+							:
+								undefined
+						)
+					},
+					select: result => (
+						result?.Socials?.Social?.[0]
+							? normalizeUserAirstack(result.Socials.Social?.[0])
+							: initialData
+					),
+				})
+			),
+		}),
+
 		[FarcasterProvider.Neynar]: () => ({
 			fromQuery: (
 				(userName || userId) && createQuery({

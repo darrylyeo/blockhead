@@ -31,6 +31,7 @@
 	// Functions
 	import { createInfiniteQuery } from '@tanstack/svelte-query'
 
+	import { normalizeFarcasterCast as normalizeCastAirstack } from '$/api/airstack/normalize'
 	import { normalizeCastV2 as normalizeCastNeynarV2 } from '$/api/neynar/normalize'
 	import { normalizeCast as normalizeCastPinata } from '$/api/pinata/farcaster/normalize' 
 
@@ -46,6 +47,43 @@
 	errorMessage="Couldn't load casts from {farcasterProvider}."
 	{...{
 		[FarcasterProvider.Hub]: () => {},
+
+		[FarcasterProvider.Airstack]: () => ({
+			fromInfiniteQuery: (
+				createInfiniteQuery({
+					queryKey: ['FarcasterCasts', {
+						farcasterProvider,
+						userId,
+					}],
+					initialPageParam: '',
+					queryFn: async ({ pageParam: cursor }) => {
+						if(userId){
+							const { getFarcasterCastsByUserId } = await import('$/api/airstack')
+
+							return await getFarcasterCastsByUserId({
+								userId,
+								limit: 100,
+								cursor,
+							})
+						}else{
+							const { getFarcasterCasts } = await import('$/api/airstack')
+
+							return await getFarcasterCasts({
+								limit: 100,
+								cursor,
+							})
+						}
+					},
+					getNextPageParam: (lastPage) => lastPage?.FarcasterCasts?.pageInfo?.nextCursor,
+					select: result => (
+						result.pages
+							.flatMap(page => page?.FarcasterCasts?.Cast ?? [])
+							.map(normalizeCastAirstack)
+					),
+					staleTime: 10 * 1000,
+				})
+			),
+		}),
 
 		[FarcasterProvider.Neynar]: () => ({
 			fromInfiniteQuery: (

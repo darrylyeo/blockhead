@@ -446,6 +446,10 @@ export const preferencesConfig = [
 						name: 'Indexers',
 						options: [
 							{
+								value: FarcasterProvider.Airstack,
+								name: FarcasterProvider.Airstack,
+							},
+							{
 								value: FarcasterProvider.Neynar,
 								name: FarcasterProvider.Neynar,
 							},

@@ -33,6 +33,7 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
+	import { normalizeFarcasterCast as normalizeCastAirstack } from '$/api/airstack/normalize'
 	import { normalizeCastWithRepliesV1 as normalizeCastWithRepliesV1Neynar, normalizeCastV2 as normalizeCastNeynarV2 } from '$/api/neynar/normalize'
 	import { normalizeCast as normalizeCastPinata } from '$/api/pinata/farcaster/normalize' 
 
@@ -48,6 +49,47 @@
 	errorMessage="Couldn't load cast from {farcasterProvider}."
 	{...{
 		[FarcasterProvider.Hub]: () => {},
+
+		[FarcasterProvider.Airstack]: () => ({
+			fromQuery: (
+				createQuery({
+					queryKey: ['FarcasterCast', {
+						farcasterProvider,
+						...castId && {
+							castId,
+						},
+						...clientUrl && {
+							clientUrl,
+						},
+					}],
+					queryFn: async () => {
+						if(castId){
+							const { getFarcasterCastByHash } = await import('$/api/airstack')
+
+							return await getFarcasterCastByHash({
+								hash: castId,
+							})
+						}else{
+							
+						}
+					},
+					select: result => {
+						const cast = (
+							result
+								?.FarcasterCasts
+								?.Cast
+								?.map(normalizeCastAirstack)
+								?.[0]
+						)
+
+						if(!cast)
+							throw new Error('No cast found.')
+
+						return cast
+					},
+				})
+			),
+		}),
 
 		[FarcasterProvider.Neynar]: () => ({
 			fromQuery: (
