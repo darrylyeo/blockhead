@@ -38,6 +38,7 @@ export type Web3AppConfig = {
 }
 
 export type Web3AppView = {
+	showOn?: ('Dashboard' | 'Explorer' | 'Account')[],
 	name?: string,
 	slug?: string,
 	colors?: string[],

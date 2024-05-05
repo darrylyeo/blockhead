@@ -212,7 +212,10 @@
 	}
 
 	<div class="column defi-app-views">
-		{#each views as {
+		{#each (
+			views
+				.filter(view => !view.showOn || view.showOn.includes(currentView))
+		) as {
 			name, slug, links, chainId, colors,
 			components, erc20Tokens, nfts, contracts, providers, embeds
 		} (`${name}/${chainId}/${slug}`)}
@@ -651,7 +654,9 @@
 					{/if}
 				</NetworkProviderLoader>
 			</div>
-		{:else}
+		{/each}
+
+		{#if !views.length}
 			<div
 				class="card column"
 				transition:scale
@@ -678,7 +683,7 @@
 					>Enable Testnets</button>
 				{/if}
 			</div>
-		{/each}
+		{/if}
 	</div>
 {/if}
 
