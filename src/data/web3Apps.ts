@@ -2855,6 +2855,8 @@ export const web3Apps = [
 		showCustomUi: true,
 		views: [
 			{
+				showOn: ['Dashboard'],
+
 				chainId: 10,
 
 				contracts: [
