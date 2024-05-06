@@ -139,13 +139,13 @@ export const preferencesConfig = [
 				preferenceId: 'transactionProvider',
 				name: 'Transactions/Blocks',
 				type: 'single',
-				defaultOption: TransactionProvider.Covalent,
+				defaultOption: TransactionProvider.RpcProvider,
 				options: [
 					{
 						groupId: 'onChain',
 						name: 'On-Chain',
 						options: [
-							{ value: TransactionProvider.RpcProvider, name: (preferences: any) => `On-Chain (${preferences.rpcNetwork})` },
+							{ value: TransactionProvider.RpcProvider, name: (preferences: any) => `RPC Node (${preferences.rpcNetwork})` },
 						]
 					},
 					{
