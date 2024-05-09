@@ -4,6 +4,7 @@ import BNB from './tokens/BNB.svg'
 import BTC from './tokens/BTC.svg'
 import COMP from './tokens/COMP.svg'
 import DAI from './tokens/DAI.svg'
+import DEGEN from './tokens/DEGEN.svg'
 import ENS from './tokens/ENS.svg'
 import ETH from './tokens/ETH.svg'
 import FIL from './networks/Filecoin.svg'
@@ -24,6 +25,7 @@ export const tokenIcons = {
 	BTC,
 	COMP,
 	DAI,
+	DEGEN,
 	ENS,
 	ETH,
 	FIL,
