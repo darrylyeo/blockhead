@@ -6,6 +6,14 @@
 	import { networksByChainID, networksBySlug } from '$/data/networks'
 
 
+	// Context
+	import { preferences } from '$/state/preferences'
+
+	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
+	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
+	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
+
+
 	// Inputs
 	export let farcasterProvider: FarcasterProvider
 	export let cast: _FarcasterCast
@@ -131,14 +139,22 @@
 	
 				<EthereumTransactionLoader
 					{network}
+					{networkProvider}
+					{transactionProvider}
 					transactionId={evmTransactionEmbed.transactionId}
 					let:transaction
 				>
 					{#if transaction}
 						<EthereumTransaction
-							layout="standalone"
 							{network}
 							{transaction}
+							{quoteCurrency}
+			
+							detailLevel="detailed"
+							tokenBalanceFormat="original"
+							showFees
+			
+							layout="standalone"
 						/>
 					{/if}
 				</EthereumTransactionLoader>
