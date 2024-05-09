@@ -155,6 +155,7 @@
 							showFees
 			
 							layout="standalone"
+							headingLevel={4}
 						/>
 					{/if}
 				</EthereumTransactionLoader>
