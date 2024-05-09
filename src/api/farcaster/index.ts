@@ -98,6 +98,15 @@ export type FarcasterCast = {
 import { isTruthy } from '$/utils/isTruthy'
 
 import { chainIdByDomain as chainIdByDomainEtherscan } from '../etherscan'
+import { networkByExplorerUrl } from '$/data/networks'
+
+const chainIdByExplorerUrl = {
+	...chainIdByDomainEtherscan, 
+	...Object.fromEntries(
+		Object.entries(networkByExplorerUrl)
+			.map(([url, network]) => [url, network.chainId])
+	)
+}
 
 export const extractCastEmbeds = ({
 	embeds,
@@ -162,7 +171,7 @@ export const extractCastEmbeds = ({
 		.filter(url => !castEmbeds.some(clientUrl => clientUrl === url))
 
 	const evmAddressEmbeds = [
-		new RegExp(`(?<explorerDomain>${Object.keys(chainIdByDomainEtherscan).map(RegExp.escape).join('|')})/address/(?<address>0x[0-9a-f]{40})`, 'gi'),
+		new RegExp(`(?<explorerDomain>${Object.keys(chainIdByExplorerUrl).map(RegExp.escape).join('|')})/address/(?<address>0x[0-9a-f]{40})`, 'gi'),
 		new RegExp(`${RegExp.escape(`https://mint.fun`)}/(?<networkSlug>[a-z]+)/(?<address>0x?[0-9a-f]{40})`, 'gi'),
 		new RegExp(`${RegExp.escape(`https://zora.co/collect`)}/(?<networkSlug>[a-z]+):(?<address>0x?[0-9a-f]{40})(?:/(?<tokenId>[0-9]+))?`, 'gi'),
 		new RegExp(`${RegExp.escape(`https://titles.xyz/collect`)}/(?<networkSlug>[a-z]+)/(?<address>0x?[0-9a-f]{40})`, 'gi'),
@@ -180,13 +189,13 @@ export const extractCastEmbeds = ({
 	))
 
 	const evmTransactionEmbeds = [
-		new RegExp(`(?<explorerDomain>${Object.keys(chainIdByDomainEtherscan).map(RegExp.escape).join('|')})/tx/(?<transactionId>0x[0-9a-f]{64})`, 'gi'),
+		new RegExp(`(?<explorerDomain>${Object.keys(chainIdByExplorerUrl).map(RegExp.escape).join('|')})/tx/(?<transactionId>0x[0-9a-f]{64})`, 'gi'),
 	].flatMap(regex => (
 		Array.from(
 			text.matchAll(regex),
 			match => match?.groups && ({
 				link: match[0],
-				chainId: match.groups.explorerDomain !== undefined ? chainIdByDomainEtherscan[match.groups.explorerDomain] : undefined,
+				chainId: match.groups.explorerDomain !== undefined ? chainIdByExplorerUrl[match.groups.explorerDomain] : undefined,
 				transactionId: match.groups.transactionId as Ethereum.TransactionID,
 			})
 		)
