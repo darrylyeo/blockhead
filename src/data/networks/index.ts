@@ -6560,3 +6560,9 @@ export const networkRedirectsBySlug = {
 > satisfies DeepReadonly<
 	Record<string, Ethereum.NetworkSlug>
 >
+
+export const networkByExplorerUrl = Object.fromEntries(
+	networks
+		.filter(network => network.explorers?.length)
+		.flatMap(network => network.explorers.map(explorer => [explorer.url, network]))
+)
