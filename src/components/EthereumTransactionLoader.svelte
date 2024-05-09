@@ -267,6 +267,7 @@
 	}[transactionProvider]}
 	bind:result={transaction}
 	let:result={transaction}
+	let:status
 >
 	<svelte:fragment slot="loadingIcon">
 		<NetworkIcon {network}>
@@ -288,19 +289,21 @@
 		<slot name="header" {status} {transaction} />
 	</svelte:fragment>
 
-	{#if transaction}
-		<EthereumTransaction
-			{network}
-			{transaction}
-			{quoteCurrency}
+	<slot {status} {transaction}>
+		{#if transaction}
+			<EthereumTransaction
+				{network}
+				{transaction}
+				{quoteCurrency}
 
-			{contextualAddress}
-			{detailLevel}
-			{tokenBalanceFormat}
-			{showFees}
+				{contextualAddress}
+				{detailLevel}
+				{tokenBalanceFormat}
+				{showFees}
 
-			{layout}
-			{innerLayout}
-		/>
-	{/if}
+				{layout}
+				{innerLayout}
+			/>
+		{/if}
+	</slot>
 </Loader>
