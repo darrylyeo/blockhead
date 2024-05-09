@@ -23,6 +23,8 @@
 
 	export let showFormattedNames = true
 
+	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 3
+
 	// Internal state
 	// (Computed)
 	$: isSummary = detailLevel === 'summary'
@@ -67,14 +69,16 @@
 	<div class="transaction layout-{layout} column" class:card={isStandaloneLayout} class:unsuccessful={transaction.executionStatus === 'failed'} transition:fade>
 		{#if isStandaloneLayout}
 			<div class="bar">
-				<h2><TransactionId network={transaction.network} transactionId={transaction.transactionId} /></h2>
+				<svelte:element this={`h${headingLevel}`}>
+					<TransactionId network={transaction.network} transactionId={transaction.transactionId} />
+				</svelte:element>
 				<span class="card-annotation">{transaction.network.name} Transaction</span>
 			</div>
 
 			<hr>
 
 			<div class="bar">
-				<h4>Signed Transaction Data</h4>
+				<svelte:element this={`h${headingLevel + 1}`}>Signed Transaction Data</svelte:element>
 				{#if transaction.nonce}<p class="card-annotation">Nonce #{transaction.nonce}</p>{/if}
 			</div>
 		{/if}
@@ -247,7 +251,7 @@
 			{#if isStandaloneLayout}
 				<hr>
 
-				<h4>ERC-20 Token Transfers</h4>
+				<svelte:element this={`h${headingLevel + 1}`}>ERC-20 Token Transfers</svelte:element>
 			{/if}
 
 			<div class="transfers">
@@ -273,7 +277,7 @@
 			{#if isStandaloneLayout}
 				<hr>
 
-				<h4>Smart Contract Log Events</h4>
+				<svelte:element this={`h${headingLevel + 1}`}>Smart Contract Log Events</svelte:element>
 			{/if}
 
 			<div class="log-events column" class:scrollable-list={isExhaustive && transaction.logEvents.length > (isStandaloneLayout ? 8 : 16)}>
@@ -320,9 +324,10 @@
 <style>
 	.transaction {
 		/* text-align: center; */
-	}
-	h2 :global(.transaction-id) {
-		font-size: 0.8em;
+
+		& :global(.transaction-id) { 
+			font-size: 1.025em;
+		}
 	}
 
 	.transaction.layout-inline {
