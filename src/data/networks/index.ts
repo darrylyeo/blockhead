@@ -1101,7 +1101,11 @@ export const networks = [
 			"https://rpc.degen.tips",
 		],
 		"faucets": [],
-		"explorers": [],
+		"explorers": [
+			{
+				url: 'https://explorer.degen.tips',
+			},
+		],
 		"infoURL": "https://degen.tips",
 		"parent": {
 			"type": "L3",
