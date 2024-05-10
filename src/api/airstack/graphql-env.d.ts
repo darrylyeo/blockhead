@@ -7311,6 +7311,9 @@ export type introspection = {
             "name": "farcaster_v2_optimism"
           },
           {
+            "name": "farcaster_v3_optimism"
+          },
+          {
             "name": "lens_v2_polygon"
           }
         ]
