@@ -3,9 +3,9 @@ node_modules
 /build
 /.svelte-kit
 /package
-.env
-.env.*
+.env*
 !.env.example
+!.env.vault
 .netlify
 
 $houdini
