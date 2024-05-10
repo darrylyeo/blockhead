@@ -271,9 +271,9 @@ export function getFidsForAddressesMetadataFidsPost(body: string[], opts?: Oazap
     })));
 }
 /**
- * Get Addresses For Fidss
+ * Get Addresses For Fids
  */
-export function getAddressesForFidssMetadataAddressesFidsPost(body: number[], opts?: Oazapfts.RequestOpts) {
+export function getAddressesForFidsMetadataAddressesFidsPost(body: number[], opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
         data: any;
