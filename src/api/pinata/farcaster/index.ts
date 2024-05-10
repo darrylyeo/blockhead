@@ -2,7 +2,7 @@
  * Pinata - Farcaster API (2024-05-03)
  * {@link https://docs.pinata.cloud/farcaster/farcaster-api/getting-started}
  */
-import { env } from '$/env'
+import * as publicEnv from '$env/static/public'
 
 import { ConcurrentPromiseQueue } from '$/utils/ConcurrentPromiseQueue'
 import { proxyFetch } from '$/utils/proxyFetch'
@@ -21,7 +21,7 @@ const get = async <T>(
 		proxyFetch(`https://api.pinata.cloud/v3/farcaster/${endpoint}${searchParams ? `?${searchParams}` : ''}`, {
 			headers: {
 				'Accept': 'application/json',
-				'Authorization': `Bearer ${env.PINATA_JWT}`,
+				'Authorization': `Bearer ${publicEnv.PUBLIC_PINATA_JWT}`,
 			},
 		})
 	))

@@ -1,10 +1,10 @@
-import { env } from '$/env'
+import * as publicEnv from '$env/static/public'
 import { HttpClient, Api } from './api/Api'
 
 export const NftportApi = new Api(new HttpClient({
 	baseApiParams: {
 		headers: {
-			'Authorization': env.NFTPORT_API_KEY
+			'Authorization': publicEnv.PUBLIC_NFTPORT_API_KEY
 		}
 	}
 }))

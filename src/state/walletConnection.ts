@@ -156,7 +156,7 @@ import type { createWeb3Modal } from '@web3modal/wagmi'
 let web3Modal: ReturnType<typeof createWeb3Modal> | undefined
 
 
-import { env } from '$/env'
+import * as publicEnv from '$env/static/public'
 import { availableNetworks, getNetworkRPC, networksByChainID, networksBySlug } from '$/data/networks'
 
 export const getWalletConnection = async ({
@@ -343,7 +343,7 @@ export const getWalletConnection = async ({
 
 				let provider: WalletConnectProvider = new WalletConnectProvider({
 					rpc: Object.fromEntries(networks.map(network => [network.chainId, jsonRpcUri || network.rpc[0]])),
-					bridge: env.WALLETCONNECT1_BRIDGE_URI,
+					bridge: publicEnv.PUBLIC_WALLETCONNECT1_BRIDGE_URI,
 
 					// Restrict WalletConnect options to the selected wallet
 					...knownWalletConfig?.walletConnectMobileLinks
@@ -358,7 +358,7 @@ export const getWalletConnection = async ({
 					connect: async () => {
 						provider = new WalletConnectProvider({
 							rpc: Object.fromEntries(networks.map(network => [network.chainId, jsonRpcUri || network.rpc[0]])),
-							bridge: env.WALLETCONNECT1_BRIDGE_URI,
+							bridge: publicEnv.PUBLIC_WALLETCONNECT1_BRIDGE_URI,
 		
 							// Restrict WalletConnect options to the selected wallet
 							...knownWalletConfig?.walletConnectMobileLinks
@@ -407,8 +407,8 @@ export const getWalletConnection = async ({
 					}
 
 					const signClient = await SignClient.init({
-						projectId: env.WALLETCONNECT2_PROJECT_ID,
-						// relayUrl: env.WALLETCONNECT2_RELAY_URL,
+						projectId: publicEnv.PUBLIC_WALLETCONNECT2_PROJECT_ID,
+						// relayUrl: publicEnv.PUBLIC_WALLETCONNECT2_RELAY_URL,
 						metadata: walletconnectMetadata,
 					})
 
@@ -456,7 +456,7 @@ export const getWalletConnection = async ({
 											const { WalletConnectModal } = await import('@walletconnect/modal')
 
 											const modal = new WalletConnectModal({
-												projectId: env.WALLETCONNECT2_PROJECT_ID,
+												projectId: publicEnv.PUBLIC_WALLETCONNECT2_PROJECT_ID,
 												themeVariables: {
 													'--wcm-z-index': '19',
 												},
@@ -589,7 +589,7 @@ export const getWalletConnection = async ({
 				const { defaultWagmiConfig, createWeb3Modal } = await import('@web3modal/wagmi')
 				const { networkToViemChain } = await import('$/data/networkProviders')
 
-				const projectId = env.WALLETCONNECT2_PROJECT_ID
+				const projectId = publicEnv.PUBLIC_WALLETCONNECT2_PROJECT_ID
 				const chains = networks.map(networkToViemChain)
 
 				const wagmiConfig = defaultWagmiConfig({

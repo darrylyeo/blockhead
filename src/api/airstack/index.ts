@@ -20,7 +20,7 @@ const graphql = initGraphQLTada<{
 
 // urql
 import { Client, fetchExchange } from '@urql/svelte'
-import { env } from '$/env'
+import * as publicEnv from '$env/static/public'
 
 const client = new Client({
 	url: 'https://api.airstack.xyz/gql',
@@ -29,7 +29,7 @@ const client = new Client({
 	],
 	fetchOptions: () => ({
 		headers: {
-			authorization: env.AIRSTACK_API_KEY,
+			authorization: publicEnv.PUBLIC_AIRSTACK_API_KEY,
 		},
 	})
 })

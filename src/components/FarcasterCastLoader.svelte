@@ -6,7 +6,7 @@
 
 
 	// Context
-	import { env } from '$/env'
+	import * as publicEnv from '$env/static/public'
 
 
 	// Inputs
@@ -108,7 +108,7 @@
 							const { getFarcasterAllCastsInThread } = await import('$/api/neynar/v1')
 
 							return await getFarcasterAllCastsInThread(
-								env.NEYNAR_API_KEY,
+								publicEnv.PUBLIC_NEYNAR_API_KEY,
 								castId,
 							)
 						},
@@ -122,13 +122,13 @@
 							return (
 								castId ?
 									await cast(
-										env.NEYNAR_API_KEY,
+										publicEnv.PUBLIC_NEYNAR_API_KEY,
 										castId,
 										CastParamType.Hash,
 									)
 								: clientUrl ? 
 									await cast(
-										env.NEYNAR_API_KEY,
+										publicEnv.PUBLIC_NEYNAR_API_KEY,
 										clientUrl,
 										CastParamType.Url,
 									)

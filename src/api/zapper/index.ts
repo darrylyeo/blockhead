@@ -27,12 +27,12 @@ type ZapperSupportedApp = string
 
 
 // API client
-import { env } from '$/env'
+import * as publicEnv from '$env/static/public'
 
 import { defaults } from './v2'
 defaults.fetch = (input: URL | RequestInfo, init?: RequestInit | undefined) => {
 	const url = new URL(input)
-	url.searchParams.set('api_key', env.ZAPPER_API_KEY)
+	url.searchParams.set('api_key', publicEnv.PUBLIC_ZAPPER_API_KEY)
 
 	return fetch(
 		url,

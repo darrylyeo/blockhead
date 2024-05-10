@@ -1,14 +1,14 @@
 import type { Ethereum } from '$/data/networks/types'
 
-import { env } from '$/env'
+import * as publicEnv from '$env/static/public'
 
 import { Tenderly, type TenderlyConfiguration } from '@tenderly/sdk'
 import { encodeFunctionData } from 'viem'
 
 const config: Omit<TenderlyConfiguration, 'network'> = {
-	accountName: env.TENDERLY_USER,
-	projectName: env.TENDERLY_PROJECT,
-	accessKey: env.TENDERLY_ACCESS_TOKEN,
+	accountName: publicEnv.PUBLIC_TENDERLY_USER,
+	projectName: publicEnv.PUBLIC_TENDERLY_PROJECT,
+	accessKey: publicEnv.PUBLIC_TENDERLY_ACCESS_TOKEN,
 }
 
 export const simulateTransaction = async ({
@@ -61,7 +61,7 @@ export const simulateTransaction = async ({
 /*
 import type { Transaction } from 'ethers'
 
-const TENDERLY_URL = `https://api.tenderly.co/api/v1/account/${env.TENDERLY_USER}/project/${env.TENDERLY_PROJECT}`
+const TENDERLY_URL = `https://api.tenderly.co/api/v1/account/${publicEnv.PUBLIC_TENDERLY_USER}/project/${publicEnv.PUBLIC_TENDERLY_PROJECT}`
 
 const makeRequest = <T>(endpoint: string, params: any, method: 'GET' | 'POST' = 'GET') =>
 	fetch(`${TENDERLY_URL}${endpoint}`, {
@@ -69,7 +69,7 @@ const makeRequest = <T>(endpoint: string, params: any, method: 'GET' | 'POST' = 
 		body: JSON.stringify(params),
 		headers: {
 			'Content-Type': 'application/json',
-			'X-Access-Key': env.TENDERLY_ACCESS_TOKEN ?? '',
+			'X-Access-Key': publicEnv.PUBLIC_TENDERLY_ACCESS_TOKEN ?? '',
 		}
 	})
 	.then(r => r.json())

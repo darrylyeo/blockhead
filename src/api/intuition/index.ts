@@ -3,7 +3,7 @@
  * @link https://docs.intuition.systems/api/api-information
  */
 
-import { env } from '$/env'
+import * as publicEnv from '$env/static/public'
 
 import { ConcurrentPromiseQueue } from '$/utils/ConcurrentPromiseQueue'
 import { proxyFetch } from '$/utils/proxyFetch'
@@ -18,7 +18,7 @@ const get = async <T>(
 		proxyFetch(`https://api.intuition.systems/${endpoint}?${`${new URLSearchParams(params as Record<string, string>)}`}`, {
 			headers: {
 				'Content-Type': 'application/json',
-				'x-api-key': env.INTUITION_API_KEY,
+				'x-api-key': publicEnv.PUBLIC_INTUITION_API_KEY,
 			},
 		})
 	))
@@ -38,7 +38,7 @@ const post = async <T>(
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				'x-api-key': env.INTUITION_API_KEY,
+				'x-api-key': publicEnv.PUBLIC_INTUITION_API_KEY,
 			},
 			body: JSON.stringify(body),
 		})

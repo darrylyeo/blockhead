@@ -1,5 +1,5 @@
 import type { Ethereum } from '$/data/networks/types'
-import { env } from '$/env'
+import * as publicEnv from '$env/static/public'
 
 type integer = number
 
@@ -37,7 +37,7 @@ const request = async (
 		method: 'GET', 
 		headers: {
 			accept: 'application/json',
-			'x-api-key': env.CHAINBASE_API_KEY,
+			'x-api-key': publicEnv.PUBLIC_CHAINBASE_API_KEY,
 		},
 	})
 		.then(response => response.json())

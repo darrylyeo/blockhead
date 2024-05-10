@@ -1,16 +1,16 @@
 import type { Ethereum } from '$/data/networks/types'
 
 import { Decommas, EvmChainName } from '@decommas/sdk'
-import { env } from '$/env'
+import * as publicEnv from '$env/static/public'
 
-export const decommas = new Decommas(env.DECOMMAS_API_KEY)
+export const decommas = new Decommas(publicEnv.PUBLIC_DECOMMAS_API_KEY)
 
 const fetch = decommas.address.httpRequest.__proto__.fetch
 decommas.address.httpRequest.__proto__.fetch = function(endpoints, params, method){
 	return fetch.call(
 		this,
 		endpoints,
-		{ ...params, 'api-key': env.DECOMMAS_API_KEY },
+		{ ...params, 'api-key': publicEnv.PUBLIC_DECOMMAS_API_KEY },
 		method
 	)
 }

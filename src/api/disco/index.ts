@@ -1,5 +1,5 @@
 import type { Ethereum } from '$/data/networks/types'
-import { env } from '$/env'
+import * as publicEnv from '$env/static/public'
 
 import type { DidUrl } from '../ceramic/did'
 
@@ -104,7 +104,7 @@ export namespace Disco {
 import { proxyFetch } from '$/utils/proxyFetch'
 
 const headers = new Headers({
-	'Authorization': `Bearer ${env.DISCO_API_KEY}`
+	'Authorization': `Bearer ${publicEnv.PUBLIC_DISCO_API_KEY}`
 })
 
 export const getCredential = async (

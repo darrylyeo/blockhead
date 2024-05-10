@@ -1,10 +1,10 @@
-import { env } from '$/env'
+import * as publicEnv from '$env/static/public'
 import { HttpClient, Api, type ChainList } from '../api/Api'
 
 export const MoralisWeb3Api = new Api(new HttpClient({
 	baseApiParams: {
 		headers: {
-			'x-api-key': env.MORALIS_WEB3_API_KEY
+			'x-api-key': publicEnv.PUBLIC_MORALIS_WEB3_API_KEY
 		}
 	}
 }))

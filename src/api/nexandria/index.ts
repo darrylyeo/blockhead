@@ -3,7 +3,7 @@
  * @link https://docs.nexandria.com/address-endpoints/statement
  */
 
-import { env } from '$/env'
+import * as publicEnv from '$env/static/public'
 
 import { ConcurrentPromiseQueue } from '$/utils/ConcurrentPromiseQueue'
 
@@ -21,7 +21,7 @@ const get = async <T>(
 		fetch(`https://api.nexandria.com/${endpoint}/?${`${searchParams}`}`, {
 			headers: {
 				'accept': 'application/json',
-				'API-Key': env.NEXANDRIA_API_KEY
+				'API-Key': publicEnv.PUBLIC_NEXANDRIA_API_KEY
 			}
 		})
 	))

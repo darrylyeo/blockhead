@@ -3,7 +3,7 @@ import type { QuoteCurrency, TickerSymbol } from '$/data/currencies'
 import type { Ethereum } from '$/data/networks/types'
 import type { AbiType } from 'abitype'
 
-import { env } from '$/env'
+import * as publicEnv from '$env/static/public'
 
 import { ConcurrentPromiseQueue } from '$/utils/ConcurrentPromiseQueue'
 import { normalizeNftAttributes } from '$/utils/normalizeNftAttributes'
@@ -456,7 +456,7 @@ const makeRequest = <T>(endpoint: string, params: any) =>
 	queue.enqueue(() =>
 		fetch(`${COVALENT_URL}${endpoint}/?${`${formatParams(params)}`}`, {
 			headers: {
-				'Authorization': `Bearer ${env.COVALENT_API_KEY}`,
+				'Authorization': `Bearer ${publicEnv.PUBLIC_COVALENT_API_KEY}`,
 			}
 		})
 			.then(async response => {

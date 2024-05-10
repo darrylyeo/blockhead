@@ -1,11 +1,11 @@
 import { setup } from '@liquality/wallet-sdk'
-import { env } from '$/env'
+import * as publicEnv from '$env/static/public'
 
 setup({
-	alchemyApiKey: env.ALCHEMY_API_KEY_1,
-	etherscanApiKey: env.ETHERSCAN_API_KEY_1,
-	infuraProjectId: env.INFURA_API_KEY,
-	pocketNetworkApplicationID: env.POCKET_NETWORK_PORTAL_ID,
+	alchemyApiKey: publicEnv.PUBLIC_ALCHEMY_API_KEY_1,
+	etherscanApiKey: publicEnv.PUBLIC_ETHERSCAN_API_KEY_1,
+	infuraProjectId: publicEnv.PUBLIC_INFURA_API_KEY,
+	pocketNetworkApplicationID: publicEnv.PUBLIC_POCKET_NETWORK_PORTAL_ID,
 	quorum: 1,
 	slowGasPriceMultiplier: 1,
 	averageGasPriceMultiplier: 1.5,

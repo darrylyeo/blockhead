@@ -3,7 +3,7 @@
  * @link https://developers.zerion.io/reference/intro/getting-started
  */
 
-import { env } from '$/env'
+import * as publicEnv from '$env/static/public'
 
 import { ConcurrentPromiseQueue } from '$/utils/ConcurrentPromiseQueue'
 
@@ -17,7 +17,7 @@ const get = async <T>(
 		fetch(`https://api.zerion.io/${endpoint}/?${`${new URLSearchParams(params as Record<string, string>)}`}`, {
 			headers: {
 				'accept': 'application/json',
-				'authorization': `Basic ${env.ZERION_API_KEY}`,
+				'authorization': `Basic ${publicEnv.PUBLIC_ZERION_API_KEY}`,
 			}
 		})
 	))

@@ -6,7 +6,7 @@
 
 
 	// Context
-	import { env } from '$/env'
+	import * as publicEnv from '$env/static/public'
 
 
 	// Inputs
@@ -99,7 +99,7 @@
 						return (
 							userId ?
 								await feed(
-									env.NEYNAR_API_KEY,
+									publicEnv.PUBLIC_NEYNAR_API_KEY,
 									FeedType.Filter,
 									{
 										filterType: FilterType.Fids,
@@ -111,7 +111,7 @@
 								)
 							: 
 								await feed(
-									env.NEYNAR_API_KEY,
+									publicEnv.PUBLIC_NEYNAR_API_KEY,
 									FeedType.Filter,
 									{
 										filterType: FilterType.GlobalTrending,

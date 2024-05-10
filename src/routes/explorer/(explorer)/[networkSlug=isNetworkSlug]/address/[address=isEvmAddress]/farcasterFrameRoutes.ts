@@ -4,7 +4,7 @@ import { networksBySlug } from '$/data/networks'
 
 // Context
 import type { RouteParams } from './$types'
-import { env } from '$/env'
+import * as publicEnv from '$env/static/public'
 
 
 // Functions
@@ -101,7 +101,7 @@ export const farcasterFrameRoutes = Object.assign({}, ...([
 							? normalizeUserV1(
 								(
 									await user(
-										env.NEYNAR_API_KEY,
+										publicEnv.PUBLIC_NEYNAR_API_KEY,
 										fid,
 									)
 								).result.user,

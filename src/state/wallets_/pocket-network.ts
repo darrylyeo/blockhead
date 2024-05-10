@@ -111,7 +111,7 @@ export async function getPocketNetwork(network: Ethereum.Network){
 }
 
 
-// unlockAAT(env.POCKET_NETWORK_APP_AUTH_TOKEN, env.POCKET_NETWORK_PPK, env.POCKET_NETWORK_PASSPHRASE).then(async pocketAAT => {
+// unlockAAT(publicEnv.PUBLIC_POCKET_NETWORK_APP_AUTH_TOKEN, publicEnv.PUBLIC_POCKET_NETWORK_PPK, publicEnv.PUBLIC_POCKET_NETWORK_PASSPHRASE).then(async pocketAAT => {
 // 	// See https://docs.pokt.network/docs/supported-networks-on-mainnet for blockchain choices
 // 	const blockchain = "0021" // Ethereum mainnet
 	

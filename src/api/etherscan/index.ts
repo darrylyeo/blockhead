@@ -1,4 +1,4 @@
-import { env } from '$/env'
+import * as publicEnv from '$env/static/public'
 
 import ky, { type Options } from 'ky'
 
@@ -73,7 +73,7 @@ const get = async <T, IsRpcProxyCall extends boolean = false>(
 				...options,
 				searchParams: {
 					...options?.searchParams as Record<string, string | number>,
-					apikey: env[`ETHERSCAN_API_KEY_${chainId}`],
+					apikey: publicEnv[`ETHERSCAN_API_KEY_${chainId}`],
 				}
 			}
 		)
@@ -109,7 +109,7 @@ const post = async (
 				...options,
 				json: {
 					...options?.json as Record<string, string | number>,
-					apikey: env[`ETHERSCAN_API_KEY_${chainId}`],
+					apikey: publicEnv[`ETHERSCAN_API_KEY_${chainId}`],
 				},
 			}
 		)

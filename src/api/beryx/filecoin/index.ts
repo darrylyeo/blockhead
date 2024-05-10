@@ -1,10 +1,10 @@
-import { env } from '$/env'
+import * as publicEnv from '$env/static/public'
 
 
 import { defaults } from './api'
 
 defaults.headers = {
-	Authorization: `Bearer ${env.BERYX_API_KEY}`,
+	Authorization: `Bearer ${publicEnv.PUBLIC_BERYX_API_KEY}`,
 }
 
 

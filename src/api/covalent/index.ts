@@ -1,4 +1,4 @@
-import { env } from '$/env'
+import * as publicEnv from '$env/static/public'
 import { ConcurrentPromiseQueue } from '$/utils/ConcurrentPromiseQueue'
 
 const queue = new ConcurrentPromiseQueue(1)
@@ -10,7 +10,7 @@ const get = async <T>(
 	const response = await queue.enqueue(() => (
 		fetch(`https://api.covalenthq.com/${endpoint}/?${`${new URLSearchParams(params as Record<string, string>)}`}`, {
 			headers: {
-				'Authorization': `Bearer ${env.COVALENT_API_KEY}`,
+				'Authorization': `Bearer ${publicEnv.PUBLIC_COVALENT_API_KEY}`,
 			}
 		})
 	))

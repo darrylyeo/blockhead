@@ -22,7 +22,7 @@ import { env } from '$/env'
 export const getMoralisJSONRPCEndpoint = ({
 	network,
 	protocol = 'https',
-	endpointID = env.MORALIS_GATEWAY_ID,
+	endpointID = publicEnv.PUBLIC_MORALIS_GATEWAY_ID,
 	region = 'nyc',
 	isArchiveNode = true,
 }: {

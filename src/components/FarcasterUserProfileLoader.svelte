@@ -4,7 +4,7 @@
 	import { FarcasterProvider, farcasterProviderIcons } from '$/data/farcasterProviders'
 
 
-	import { env } from '$/env'
+	import * as publicEnv from '$env/static/public'
 
 
 	// Inputs
@@ -116,7 +116,7 @@
 						return (
 							userName ?
 								await getFarcasterUserByUsername(
-									env.NEYNAR_API_KEY,
+									publicEnv.PUBLIC_NEYNAR_API_KEY,
 									userName,
 									viewerUserId
 										? { viewerFid: viewerUserId }
@@ -124,7 +124,7 @@
 								)
 							: userId ?
 								await user(
-									env.NEYNAR_API_KEY,
+									publicEnv.PUBLIC_NEYNAR_API_KEY,
 									userId,
 									viewerUserId
 										? { viewerFid: viewerUserId }

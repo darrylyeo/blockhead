@@ -673,7 +673,7 @@ type AppMeta = {
 import { V2 } from './api-v2/V2'
 import { HttpClient } from './api-v2/http-client'
 import type { FullRequestParams } from './api-v2/http-client'
-import { env } from '$/env'
+import * as publicEnv from '$env/static/public'
 
 const client = new HttpClient()
 
@@ -684,7 +684,7 @@ client.request = async ({ query = {}, ...params }: FullRequestParams) =>
 		...params,
 		query: {
 			...query,
-			api_key: env.ZAPPER_API_KEY
+			api_key: publicEnv.PUBLIC_ZAPPER_API_KEY
 		},
 		format: 'json',
 	})

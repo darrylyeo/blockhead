@@ -6,7 +6,7 @@ import { NetworkProvider, NetworkProviderConnectionType, NetworkProviderNodeType
 
 
 // Constants
-import { env } from '$/env'
+import * as publicEnv from '$env/static/public'
 import { isTestnet, networksBySlug } from '../networks'
 
 
@@ -99,12 +99,12 @@ export const networkProviderConfigs = [
 				: undefined
 
 			// getDefaultProvider(network.chainId, {
-			// 	alchemy: env.ALCHEMY_API_KEY_1,
-			// 	etherscan: env.ETHERSCAN_API_KEY_1,
-			// 	infura: env.INFURA_API_KEY,
+			// 	alchemy: publicEnv.PUBLIC_ALCHEMY_API_KEY_1,
+			// 	etherscan: publicEnv.PUBLIC_ETHERSCAN_API_KEY_1,
+			// 	infura: publicEnv.PUBLIC_INFURA_API_KEY,
 			// 	pocket: {
-			// 		applicationId: env.POCKET_APP_PUBLIC_KEY,
-			// 		applicationSecretKey: env.POCKET_NETWORK_SECRET_KEY
+			// 		applicationId: publicEnv.PUBLIC_POCKET_APP_PUBLIC_KEY,
+			// 		applicationSecretKey: publicEnv.PUBLIC_POCKET_NETWORK_SECRET_KEY
 			// 	},
 			// })
 		),
@@ -148,15 +148,15 @@ export const networkProviderConfigs = [
 					[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
 					[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
 				}[connectionType])(
-					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.infura.io/${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'ws/v3' : 'v3'}/${env.INFURA_API_KEY || '84842078b09946638c03157f83405213'}`,
+					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.infura.io/${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'ws/v3' : 'v3'}/${publicEnv.PUBLIC_INFURA_API_KEY || '84842078b09946638c03157f83405213'}`,
 					network.chainId
 				)
 			)
 
 			// return new InfuraProvider(
 			// 	network.chainId,
-			// 	env.INFURA_API_KEY,
-			// 	env.INFURA_API_KEY_SECRET
+			// 	publicEnv.PUBLIC_INFURA_API_KEY,
+			// 	publicEnv.PUBLIC_INFURA_API_KEY_SECRET
 			// )
 		},
 
@@ -179,7 +179,7 @@ export const networkProviderConfigs = [
 						[NetworkProviderConnectionType.JSONRPC]: http,
 						[NetworkProviderConnectionType.WebSocket]: webSocket,
 					}[connectionType](
-						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.infura.io/${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'ws/v3' : 'v3'}/${env.INFURA_API_KEY || '84842078b09946638c03157f83405213'}`,
+						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.infura.io/${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'ws/v3' : 'v3'}/${publicEnv.PUBLIC_INFURA_API_KEY || '84842078b09946638c03157f83405213'}`,
 						{},
 					),
 				})
@@ -198,7 +198,7 @@ export const networkProviderConfigs = [
 		}) => {
 			const config = alchemyProviderConfigs.find(config => config.networkSlug === network.slug)
 
-			const apiKey = env[`ALCHEMY_API_KEY_${network.chainId}`]
+			const apiKey = publicEnv[`ALCHEMY_API_KEY_${network.chainId}`]
 
 			return config && (
 				new ({
@@ -224,7 +224,7 @@ export const networkProviderConfigs = [
 		}) => {
 			const config = alchemyProviderConfigs.find(config => config.networkSlug === network.slug)
 
-			const apiKey = env[`ALCHEMY_API_KEY_${network.chainId}`]
+			const apiKey = publicEnv[`ALCHEMY_API_KEY_${network.chainId}`]
 
 			return config && (
 				createClient({
@@ -264,15 +264,15 @@ export const networkProviderConfigs = [
 					[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
 					[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
 				}[connectionType])(
-					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.gateway.pokt.network/v1/lb/${env.POCKET_NETWORK_PORTAL_ID}`,
+					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.gateway.pokt.network/v1/lb/${publicEnv.PUBLIC_POCKET_NETWORK_PORTAL_ID}`,
 					network.chainId
 				)
 			)
 
 			// return new PocketProvider(
 			// 	network.chainId,
-			// 	env.POCKET_NETWORK_PORTAL_ID,
-			// 	env.POCKET_NETWORK_SECRET_KEY
+			// 	publicEnv.PUBLIC_POCKET_NETWORK_PORTAL_ID,
+			// 	publicEnv.PUBLIC_POCKET_NETWORK_SECRET_KEY
 			// )
 		},
 
@@ -295,7 +295,7 @@ export const networkProviderConfigs = [
 						[NetworkProviderConnectionType.JSONRPC]: http,
 						[NetworkProviderConnectionType.WebSocket]: webSocket,
 					}[connectionType](
-						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.gateway.pokt.network/v1/lb/${env.POCKET_NETWORK_PORTAL_ID}`,
+						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.gateway.pokt.network/v1/lb/${publicEnv.PUBLIC_POCKET_NETWORK_PORTAL_ID}`,
 						{},
 					),
 				})
@@ -356,7 +356,7 @@ export const networkProviderConfigs = [
 		getEthersProvider: ({ network }) => (
 			new EtherscanProvider(
 				network.chainId,
-				env.ETHERSCAN_API_KEY_1
+				publicEnv.PUBLIC_ETHERSCAN_API_KEY_1
 			)
 		)
 	},
@@ -383,7 +383,7 @@ export const networkProviderConfigs = [
 					[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
 					[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
 				}[connectionType])(
-					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.datahub.figment.io/apikey/${env.FIGMENT_DATA_HUB_APP_API_KEY}`,
+					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.datahub.figment.io/apikey/${publicEnv.PUBLIC_FIGMENT_DATA_HUB_APP_API_KEY}`,
 					network.chainId
 				)
 			)
@@ -408,7 +408,7 @@ export const networkProviderConfigs = [
 						[NetworkProviderConnectionType.JSONRPC]: http,
 						[NetworkProviderConnectionType.WebSocket]: webSocket,
 					}[connectionType](
-						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.datahub.figment.io/apikey/${env.FIGMENT_DATA_HUB_APP_API_KEY}`,
+						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.datahub.figment.io/apikey/${publicEnv.PUBLIC_FIGMENT_DATA_HUB_APP_API_KEY}`,
 						{},
 					),
 				})
@@ -438,7 +438,7 @@ export const networkProviderConfigs = [
 					[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
 					[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
 				}[connectionType])(
-					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.gateway.tenderly.co/${env.TENDERLY_WEB3_GATEWAY_API_KEY}`,
+					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.gateway.tenderly.co/${publicEnv.PUBLIC_TENDERLY_WEB3_GATEWAY_API_KEY}`,
 					network.chainId
 				)
 			)
@@ -463,7 +463,7 @@ export const networkProviderConfigs = [
 						[NetworkProviderConnectionType.JSONRPC]: http,
 						[NetworkProviderConnectionType.WebSocket]: webSocket,
 					}[connectionType](
-						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.gateway.tenderly.co/${env.TENDERLY_WEB3_GATEWAY_API_KEY}`,
+						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.gateway.tenderly.co/${publicEnv.PUBLIC_TENDERLY_WEB3_GATEWAY_API_KEY}`,
 						{},
 					),
 				})
@@ -480,9 +480,9 @@ export const networkProviderConfigs = [
 			network,
 			connectionType = NetworkProviderConnectionType.RPC,
 		}) => {
-			const subdomain = env[`QUICKNODE_ENDPOINT_NAME_${network.chainId}`]
+			const subdomain = publicEnv[`QUICKNODE_ENDPOINT_NAME_${network.chainId}`]
 
-			const authToken = env[`QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_${network.chainId}`]
+			const authToken = publicEnv[`QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_${network.chainId}`]
 
 			return subdomain && (
 				new JsonRpcProvider(
@@ -496,9 +496,9 @@ export const networkProviderConfigs = [
 			network,
 			connectionType = NetworkProviderConnectionType.RPC,
 		}) => {
-			const subdomain = env[`QUICKNODE_ENDPOINT_NAME_${network.chainId}`]
+			const subdomain = publicEnv[`QUICKNODE_ENDPOINT_NAME_${network.chainId}`]
 
-			const authToken = env[`QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_${network.chainId}`]
+			const authToken = publicEnv[`QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_${network.chainId}`]
 
 			return subdomain && (
 				createClient({
@@ -535,9 +535,9 @@ export const networkProviderConfigs = [
 			if(!config) return undefined
 
 			const apiKey = {
-				'eu-north-1': env.GATEWAY_FM_API_KEY_EU_NORTH_1,
-				'eu-central-2': env.GATEWAY_FM_API_KEY_EU_CENTRAL_2,
-				'ap-southeast-1': env.GATEWAY_FM_API_KEY_AP_SOUTHEAST_1,
+				'eu-north-1': publicEnv.PUBLIC_GATEWAY_FM_API_KEY_EU_NORTH_1,
+				'eu-central-2': publicEnv.PUBLIC_GATEWAY_FM_API_KEY_EU_CENTRAL_2,
+				'ap-southeast-1': publicEnv.PUBLIC_GATEWAY_FM_API_KEY_AP_SOUTHEAST_1,
 			}[config.region]
 
 			return (
@@ -566,9 +566,9 @@ export const networkProviderConfigs = [
 			if(!config) return undefined
 
 			const apiKey = {
-				'eu-north-1': env.GATEWAY_FM_API_KEY_EU_NORTH_1,
-				'eu-central-2': env.GATEWAY_FM_API_KEY_EU_CENTRAL_2,
-				'ap-southeast-1': env.GATEWAY_FM_API_KEY_AP_SOUTHEAST_1,
+				'eu-north-1': publicEnv.PUBLIC_GATEWAY_FM_API_KEY_EU_NORTH_1,
+				'eu-central-2': publicEnv.PUBLIC_GATEWAY_FM_API_KEY_EU_CENTRAL_2,
+				'ap-southeast-1': publicEnv.PUBLIC_GATEWAY_FM_API_KEY_AP_SOUTHEAST_1,
 			}[config.region]
 
 			return (
@@ -609,7 +609,7 @@ export const networkProviderConfigs = [
 					[NetworkProviderConnectionType.JSONRPC]: JsonRpcProvider,
 					[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
 				}[connectionType])(
-					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.getblock.io/${env.GETBLOCK_API_KEY}/${config.path}`,
+					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.getblock.io/${publicEnv.PUBLIC_GETBLOCK_API_KEY}/${config.path}`,
 					network.chainId
 				)
 			)
@@ -634,7 +634,7 @@ export const networkProviderConfigs = [
 						[NetworkProviderConnectionType.JSONRPC]: http,
 						[NetworkProviderConnectionType.WebSocket]: webSocket,
 					}[connectionType](
-						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.getblock.io/${env.GETBLOCK_API_KEY}/${config.path}`,
+						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.getblock.io/${publicEnv.PUBLIC_GETBLOCK_API_KEY}/${config.path}`,
 						{},
 					),
 				})
@@ -663,7 +663,7 @@ export const networkProviderConfigs = [
 					[NetworkProviderConnectionType.RPC]: JsonRpcProvider,
 					[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
 				}[connectionType])(
-					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.blastapi.io/${env.BLAST_PROJECT_ID}${config.path ?? ''}`,
+					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.blastapi.io/${publicEnv.PUBLIC_BLAST_PROJECT_ID}${config.path ?? ''}`,
 					network.chainId
 				)
 			)
@@ -687,7 +687,7 @@ export const networkProviderConfigs = [
 						[NetworkProviderConnectionType.RPC]: http,
 						[NetworkProviderConnectionType.WebSocket]: webSocket,
 					}[connectionType](
-						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.blastapi.io/${env.BLAST_PROJECT_ID}${config.path ?? ''}`,
+						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.blastapi.io/${publicEnv.PUBLIC_BLAST_PROJECT_ID}${config.path ?? ''}`,
 						{},
 					),
 				})
@@ -716,7 +716,7 @@ export const networkProviderConfigs = [
 					[NetworkProviderConnectionType.RPC]: JsonRpcProvider,
 					[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
 				}[connectionType])(
-					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.s.chainbase.online/v1/${env.CHAINBASE_API_KEY}`,
+					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.s.chainbase.online/v1/${publicEnv.PUBLIC_CHAINBASE_API_KEY}`,
 					network.chainId
 				)
 			)
@@ -740,7 +740,7 @@ export const networkProviderConfigs = [
 						[NetworkProviderConnectionType.RPC]: http,
 						[NetworkProviderConnectionType.WebSocket]: webSocket,
 					}[connectionType](
-						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.s.chainbase.online/v1/${env.CHAINBASE_API_KEY}`,
+						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.s.chainbase.online/v1/${publicEnv.PUBLIC_CHAINBASE_API_KEY}`,
 						{},
 					),
 				})
