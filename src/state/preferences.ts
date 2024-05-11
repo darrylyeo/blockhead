@@ -466,8 +466,18 @@ export const preferencesConfig = [
 				preferenceId: 'farcasterFeedProvider',
 				name: 'Farcaster Feed',
 				type: 'single',
-				defaultOption: 'indexer',
+				defaultOption: FarcasterFeedProvider.OpenRank,
 				options: [
+					{
+						groupId: 'algorithms',
+						name: 'Algorithms',
+						options: [
+							{
+								value: FarcasterFeedProvider.OpenRank,
+								name: FarcasterFeedProvider.OpenRank,
+							},
+						],
+					},
 					{
 						groupId: 'indexers',
 						name: 'Indexers',

@@ -24,7 +24,7 @@
 
 
 	// Outputs
-	export let casts: FarcasterCast[] | undefined
+	export let casts: (FarcasterCast | Pick<FarcasterCast, 'id'>)[] | undefined
 
 	type SharedSlotProps = {
 		casts: typeof casts,
@@ -39,6 +39,8 @@
 
 	// Functions
 	import { createInfiniteQuery } from '@tanstack/svelte-query'
+
+	import { proxyFetch } from '$/utils/proxyFetch'
 
 	import { normalizeFarcasterCast as normalizeCastAirstack, normalizeFarcasterTrendingCast as normalizeTrendingCastAirstack } from '$/api/airstack/normalize'
 	import { normalizeCastV2 as normalizeCastNeynarV2 } from '$/api/neynar/normalize'
@@ -176,6 +178,60 @@
 						result.pages
 							.flatMap(page => page.casts ?? [])
 							.map(normalizeCastNeynarV2)
+					),
+					staleTime: 10 * 1000,
+				})
+			),
+		}),
+
+		[FarcasterFeedProvider.OpenRank]: () => ({
+			fromInfiniteQuery: (
+				createInfiniteQuery({
+					queryKey: ['FarcasterCasts', {
+						farcasterFeedProvider,
+						userId,
+					}],
+					initialPageParam: 0,
+					queryFn: async ({ pageParam: offset }) => {
+						if(userId){
+							const { getRecentCastsForFidCastsPersonalizedRecentFidGet } = await import('$/api/openrank/farcaster/index')
+
+							return await getRecentCastsForFidCastsPersonalizedRecentFidGet(
+								userId,
+								{
+									offset,
+									limit: 50,
+								},
+								{
+									fetch: proxyFetch,
+								},
+							)
+						}else{
+							// Default to dwr.eth's Feed
+							const { getRecentCastsForFidCastsPersonalizedRecentFidGet } = await import('$/api/openrank/farcaster/index')
+
+							return await getRecentCastsForFidCastsPersonalizedRecentFidGet(
+								3,
+								{
+									offset,
+									limit: 50,
+								},
+								{
+									fetch: proxyFetch,
+								},
+							)
+						}
+					},
+					getNextPageParam: (lastPage) => lastPage?.next?.offset,
+					select: result => (
+						[...new Set(
+							result.pages
+								.flatMap(page => page.result ?? [])
+								.map(item => item.cast_hash)
+						)]
+							.map(id => ({
+								id,
+							}))
 					),
 					staleTime: 10 * 1000,
 				})

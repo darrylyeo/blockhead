@@ -10,6 +10,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			'https://api.disco.xyz',
 			'https://api.intuition.systems',
 			'https://api.pinata.cloud',
+			'https://graph.cast.k3l.io',
 		].includes(url.origin))
 			error(403, 'Request Forbidden.')
 
