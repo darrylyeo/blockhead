@@ -25,6 +25,13 @@
 			farcasterFeedProvider
 	)
 
+	let feedOptions: FarcasterCastsLoader['feedOptions'] = {
+		[FarcasterFeedProvider.Airstack]: {
+			criteria: 'social_capital_value',
+			timeFrame: 'one_day',
+		},
+	}
+
 
 	// Components
 	import FarcasterCasts from '$/components/FarcasterCasts.svelte'
@@ -35,6 +42,7 @@
 <FarcasterCastsLoader
 	{farcasterProvider}
 	farcasterFeedProvider={_farcasterFeedProvider}
+	{feedOptions}
 	let:casts
 	let:pagination
 >

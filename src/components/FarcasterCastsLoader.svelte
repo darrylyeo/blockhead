@@ -14,7 +14,14 @@
 	export let farcasterProvider: FarcasterProvider = FarcasterProvider.Neynar
 	export let farcasterFeedProvider: FarcasterFeedProvider = farcasterProvider as unknown as FarcasterFeedProvider
 	export let userId: FarcasterUserId | undefined
-	
+
+	export let feedOptions: {
+		[FarcasterFeedProvider.Airstack]?: {
+			criteria: 'social_capital_value' | 'likes' | 'recasts' | 'replies' | 'likes_recasts_replies',
+			timeFrame: 'one_hour' | 'two_hours' | 'eight_hours' | 'one_day' | 'two_days' | 'seven_days',
+		}
+	} | undefined
+
 
 	// Outputs
 	export let casts: FarcasterCast[] | undefined
@@ -33,7 +40,7 @@
 	// Functions
 	import { createInfiniteQuery } from '@tanstack/svelte-query'
 
-	import { normalizeFarcasterCast as normalizeCastAirstack } from '$/api/airstack/normalize'
+	import { normalizeFarcasterCast as normalizeCastAirstack, normalizeFarcasterTrendingCast as normalizeTrendingCastAirstack } from '$/api/airstack/normalize'
 	import { normalizeCastV2 as normalizeCastNeynarV2 } from '$/api/neynar/normalize'
 	import { normalizeCast as normalizeCastPinata } from '$/api/pinata/farcaster/normalize' 
 
@@ -50,14 +57,14 @@
 	{...{
 		[FarcasterFeedProvider.Airstack]: () => ({
 			fromInfiniteQuery: (
-				createInfiniteQuery({
-					queryKey: ['FarcasterCasts', {
-						farcasterProvider,
-						userId,
-					}],
-					initialPageParam: '',
-					queryFn: async ({ pageParam: cursor }) => {
-						if(userId){
+				userId ? (
+					createInfiniteQuery({
+						queryKey: ['FarcasterCasts', {
+							farcasterFeedProvider,
+							userId,
+						}],
+						initialPageParam: '',
+						queryFn: async ({ pageParam: cursor }) => {
 							const { getFarcasterCastsByUserId } = await import('$/api/airstack')
 
 							return await getFarcasterCastsByUserId({
@@ -65,23 +72,66 @@
 								limit: 100,
 								cursor,
 							})
-						}else{
+						},
+						getNextPageParam: (lastPage) => lastPage?.FarcasterCasts?.pageInfo?.nextCursor,
+						select: result => (
+							result.pages
+								.flatMap(page => page?.FarcasterCasts?.Cast ?? [])
+								.map(normalizeCastAirstack)
+						),
+						staleTime: 10 * 1000,
+					})
+				) : feedOptions?.[FarcasterFeedProvider.Airstack] ? (
+					createInfiniteQuery({
+						queryKey: ['FarcasterCasts', {
+							farcasterFeedProvider,
+							feedOptions,
+						}],
+						initialPageParam: '',
+						queryFn: async ({
+							queryKey: [, { feedOptions }],
+							pageParam: cursor
+						}) => {
+							const { getFarcasterTrendingCasts } = await import('$/api/airstack')
+
+							return await getFarcasterTrendingCasts({
+								criteria: feedOptions[FarcasterFeedProvider.Airstack].criteria,
+								timeFrame: feedOptions[FarcasterFeedProvider.Airstack].timeFrame,
+								limit: 100,
+								cursor,
+							})
+						},
+						getNextPageParam: (lastPage) => lastPage?.TrendingCasts?.pageInfo?.nextCursor,
+						select: result => (
+							result.pages
+								.flatMap(page => page?.TrendingCasts?.TrendingCast ?? [])
+								.map(normalizeTrendingCastAirstack)
+						),
+						staleTime: 10 * 1000,
+					})
+				) : (
+					createInfiniteQuery({
+						queryKey: ['FarcasterCasts', {
+							farcasterFeedProvider,
+						}],
+						initialPageParam: '',
+						queryFn: async ({ pageParam: cursor }) => {
 							const { getFarcasterCasts } = await import('$/api/airstack')
 
 							return await getFarcasterCasts({
 								limit: 100,
 								cursor,
 							})
-						}
-					},
-					getNextPageParam: (lastPage) => lastPage?.FarcasterCasts?.pageInfo?.nextCursor,
-					select: result => (
-						result.pages
-							.flatMap(page => page?.FarcasterCasts?.Cast ?? [])
-							.map(normalizeCastAirstack)
-					),
-					staleTime: 10 * 1000,
-				})
+						},
+						getNextPageParam: (lastPage) => lastPage?.FarcasterCasts?.pageInfo?.nextCursor,
+						select: result => (
+							result.pages
+								.flatMap(page => page?.FarcasterCasts?.Cast ?? [])
+								.map(normalizeCastAirstack)
+						),
+						staleTime: 10 * 1000,
+					})
+				)
 			),
 		}),
 
