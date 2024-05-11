@@ -701,6 +701,75 @@ const FarcasterCast = graphql(`
 	FarcasterUser,
 ])
 
+export const getFarcasterTrendingCasts = async ({
+	criteria,
+	timeFrame = 'one_day',
+	limit = 50,
+	cursor,
+}: {
+	criteria: 'social_capital_value' | 'likes' | 'recasts' | 'replies' | 'likes_recasts_replies',
+	timeFrame: 'one_hour' | 'two_hours' | 'eight_hours' | 'one_day' | 'two_days' | 'seven_days',
+	limit: number,
+	cursor: string,
+}) => {
+	return await client
+		.query(
+			graphql(`
+				query FarcasterTrendingCasts(
+					$criteria: TrendingCastsCriteria!
+					$limit: Int!
+					$cursor: String!
+					$timeFrame: TrendingCastTimeFrame!
+				) {
+					TrendingCasts(
+						input: {
+							criteria: $criteria
+							timeFrame: $timeFrame
+							limit: $limit
+							cursor: $cursor
+							blockchain: ALL
+						}
+					) {
+						TrendingCast {
+							id
+							cast {
+								...FarcasterCast
+							}
+							criteria
+							criteriaCount
+							hash
+							socialCapitalValueFormatted
+							socialCapitalValueRaw
+							timeFrom
+							timeTo
+						}
+						pageInfo {
+							hasNextPage
+							hasPrevPage
+							nextCursor
+							prevCursor
+						}
+					}
+				}
+			`, [
+				FarcasterCast,
+			]),
+			{
+				criteria,
+				timeFrame,
+				limit,
+				cursor,
+			},
+		)
+		.toPromise()
+		.then(result => {
+			if(result.error)
+				throw result.error
+
+			return result.data
+		})
+}
+
 export const getFarcasterCasts = async ({
 	limit = 50,
 	cursor,

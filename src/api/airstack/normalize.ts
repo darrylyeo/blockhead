@@ -1,7 +1,7 @@
 // Types
 import type { Ethereum } from '$/data/networks/types'
 import type { TokenWithBalance } from '$/data/tokens'
-import type { getFarcasterCastByHash, getFarcasterUserByName, getNftsByAddress, getTokenBalances } from '.'
+import type { getNftsByAddress, getTokenBalances, getFarcasterCastByHash, getFarcasterUserByName, getFarcasterTrendingCasts } from '.'
 
 
 // Functions
@@ -88,6 +88,12 @@ export const normalizeFarcasterCast = (
 
 	// parentUrl: farcasterCast.channel?.url,
 })
+
+export const normalizeFarcasterTrendingCast = (
+	farcasterTrendingCast: NonNullable<NonNullable<NonNullable<Awaited<ReturnType<typeof getFarcasterTrendingCasts>>>['TrendingCasts']>['TrendingCast']>[number]
+): FarcasterCast => (
+	normalizeFarcasterCast(farcasterTrendingCast.cast)
+)
 
 export const normalizeFarcasterUser = (
 	farcasterUser: NonNullable<NonNullable<NonNullable<Awaited<ReturnType<typeof getFarcasterUserByName>>>['Socials']>['Social']>[number]
