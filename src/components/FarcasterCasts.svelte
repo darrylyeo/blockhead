@@ -6,7 +6,7 @@
 	
 
 	// Inputs
-	export let casts: _FarcasterCast[]
+	export let casts: (_FarcasterCast | Pick<_FarcasterCast, 'id'>)[]
 	export let title: string
 	export let farcasterProvider: FarcasterProvider
 	export let farcasterFeedProvider: FarcasterFeedProvider
@@ -23,6 +23,7 @@
 	// Components
 	import Collapsible from './Collapsible.svelte'
 	import FarcasterCast from './FarcasterCast.svelte'
+	import FarcasterCastLoader from './FarcasterCastLoader.svelte'
 	import Loader from './Loader.svelte'
 	import Loading from './Loading.svelte'
 	import ScrollContainer from './ScrollContainer.svelte'
@@ -55,10 +56,23 @@
 		"
 	>
 		{#each casts as cast (cast.id)}
-			<FarcasterCast
-				{cast}
-				{farcasterProvider}
-			/>
+			{#if 'timestamp' in cast && String(farcasterProvider) === String(farcasterFeedProvider)}
+				<FarcasterCast
+					{cast}
+					{farcasterProvider}
+				/>
+			{:else}
+				<FarcasterCastLoader
+					{farcasterProvider}
+					castId={cast.id}
+					let:cast
+				>
+					<FarcasterCast
+						{cast}
+						{farcasterProvider}
+					/>
+				</FarcasterCastLoader>
+			{/if}
 		{:else}
 			<div class="card">No casts yet.</div>
 		{/each}
