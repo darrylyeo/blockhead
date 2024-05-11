@@ -71,7 +71,7 @@
 
 							return await getFarcasterCastsByUserId({
 								userId,
-								limit: 100,
+								limit: 50,
 								cursor,
 							})
 						},
@@ -99,7 +99,7 @@
 							return await getFarcasterTrendingCasts({
 								criteria: feedOptions[FarcasterFeedProvider.Airstack].criteria,
 								timeFrame: feedOptions[FarcasterFeedProvider.Airstack].timeFrame,
-								limit: 100,
+								limit: 50,
 								cursor,
 							})
 						},
@@ -121,7 +121,7 @@
 							const { getFarcasterCasts } = await import('$/api/airstack')
 
 							return await getFarcasterCasts({
-								limit: 100,
+								limit: 50,
 								cursor,
 							})
 						},
@@ -158,7 +158,7 @@
 										fids: String(userId),
 										fid: userId,
 										cursor,
-										limit: 100,
+										limit: 50,
 									}
 								)
 							: 
@@ -168,7 +168,7 @@
 									{
 										filterType: FilterType.GlobalTrending,
 										cursor,
-										limit: 100,
+										limit: 50,
 									}
 								)
 						)
@@ -253,12 +253,12 @@
 							userId ?
 								await getCasts({
 									fid: userId,
-									pageSize: 100,
+									pageSize: 50,
 									pageToken,
 								})
 							:
 								await getCasts({
-									pageSize: 100,
+									pageSize: 50,
 									pageToken,
 								})
 						)
