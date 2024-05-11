@@ -7216,6 +7216,40 @@ export type introspection = {
               "ofType": null
             },
             "args": []
+          },
+          {
+            "name": "socialCapital",
+            "type": {
+              "kind": "OBJECT",
+              "name": "SocialCapital",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "SocialCapital",
+        "fields": [
+          {
+            "name": "socialCapitalScoreRaw",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "socialCapitalScore",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "args": []
           }
         ],
         "interfaces": []
@@ -7435,6 +7469,14 @@ export type introspection = {
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "Time_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
+            "name": "socialCapitalScore",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Float_Comparator_Exp",
               "ofType": null
             }
           }
@@ -8110,6 +8152,14 @@ export type introspection = {
           },
           {
             "name": "updatedAt",
+            "type": {
+              "kind": "ENUM",
+              "name": "OrderBy",
+              "ofType": null
+            }
+          },
+          {
+            "name": "socialCapitalScore",
             "type": {
               "kind": "ENUM",
               "name": "OrderBy",
@@ -10207,6 +10257,15 @@ export type introspection = {
             "args": []
           },
           {
+            "name": "fid",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
             "name": "criteriaCount",
             "type": {
               "kind": "SCALAR",
@@ -10273,6 +10332,20 @@ export type introspection = {
         "interfaces": []
       },
       {
+        "kind": "INPUT_OBJECT",
+        "name": "TrendingCastFilter",
+        "inputFields": [
+          {
+            "name": "fid",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "TrendingCast_Int_Comparator_Exp",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
         "kind": "ENUM",
         "name": "TrendingCastTimeFrame",
         "enumValues": [
@@ -10303,6 +10376,20 @@ export type introspection = {
         ]
       },
       {
+        "kind": "INPUT_OBJECT",
+        "name": "TrendingCast_Int_Comparator_Exp",
+        "inputFields": [
+          {
+            "name": "_eq",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
         "kind": "ENUM",
         "name": "TrendingCastsCriteria",
         "enumValues": [
@@ -10327,6 +10414,14 @@ export type introspection = {
         "kind": "INPUT_OBJECT",
         "name": "TrendingCastsInput",
         "inputFields": [
+          {
+            "name": "filter",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "TrendingCastFilter",
+              "ofType": null
+            }
+          },
           {
             "name": "timeFrame",
             "type": {
