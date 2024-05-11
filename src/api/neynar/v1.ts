@@ -270,7 +270,7 @@ export type FollowResponse = {
     };
 };
 /**
- * Get User Information by FID
+ * DEPRECATED - Get User Information by FID
  */
 export function user(apiKey: string, fid: Fid, { viewerFid }: {
     viewerFid?: Fid;
@@ -320,7 +320,7 @@ export function getFarcasterUserByUsername(apiKey: string, username: string, { v
     }));
 }
 /**
- * Get User Cast Likes
+ * DEPRECATED -- Get User Cast Likes
  */
 export function getFarcasterUserCastLikes(apiKey: string, fid: Fid, { viewerFid, limit, cursor }: {
     viewerFid?: Fid;
@@ -371,7 +371,7 @@ export function getFarcasterRecentUsers(apiKey: string, { viewerFid, limit, curs
     }));
 }
 /**
- * Get the custody address for a given FID
+ * DEPRECATED - Get the custody address for a given FID
  */
 export function getFarcasterCustodyAddress(apiKey: string, fid: Fid, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
@@ -390,7 +390,7 @@ export function getFarcasterCustodyAddress(apiKey: string, fid: Fid, opts?: Oaza
     }));
 }
 /**
- * Retrieve cast for a given hash
+ * DEPRECATED - Retrieve cast for a given hash
  */
 export function cast(apiKey: string, hash: CastHash, { viewerFid }: {
     viewerFid?: Fid;
@@ -412,7 +412,7 @@ export function cast(apiKey: string, hash: CastHash, { viewerFid }: {
     }));
 }
 /**
- * Retrieve all casts in a given thread hash
+ * DEPRECATED - Retrieve all casts in a given thread hash
  */
 export function getFarcasterAllCastsInThread(apiKey: string, threadHash: CastHash, { viewerFid }: {
     viewerFid?: Fid;
@@ -484,7 +484,7 @@ export function getFarcasterRecentCasts(apiKey: string, { viewerFid, limit, curs
     }));
 }
 /**
- * Retrieve verifications for a given FID
+ * DEPRECATED - Retrieve verifications for a given FID
  */
 export function verifications(apiKey: string, fid: Fid, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
@@ -503,7 +503,7 @@ export function verifications(apiKey: string, fid: Fid, opts?: Oazapfts.RequestO
     }));
 }
 /**
- * Retrieve user for a given ethereum address
+ * DEPRECATED - Retrieve user for a given ethereum address
  */
 export function getFarcasterUserByVerification(apiKey: string, address: Address, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
@@ -524,9 +524,8 @@ export function getFarcasterUserByVerification(apiKey: string, address: Address,
 /**
  * Get mentions and replies
  */
-export function getFarcasterMentionsAndReplies(apiKey: string, fid: Fid, { viewerFid, limit, cursor }: {
+export function getFarcasterMentionsAndReplies(apiKey: string, fid: Fid, { viewerFid, cursor }: {
     viewerFid?: Fid;
-    limit?: number;
     cursor?: string;
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
@@ -538,7 +537,6 @@ export function getFarcasterMentionsAndReplies(apiKey: string, fid: Fid, { viewe
     }>(`/farcaster/mentions-and-replies${QS.query(QS.explode({
         fid,
         viewerFid,
-        limit,
         cursor
     }))}`, {
         ...opts,
@@ -574,7 +572,7 @@ export function getFarcasterReactionsAndRecasts(apiKey: string, fid: Fid, { view
     }));
 }
 /**
- * Get all like reactions for a specific cast
+ * DEPRECATED - Get all like reactions for a specific cast
  */
 export function getFarcasterCastLikes(apiKey: string, castHash: CastHash, { viewerFid, limit, cursor }: {
     viewerFid?: Fid;
@@ -600,7 +598,7 @@ export function getFarcasterCastLikes(apiKey: string, castHash: CastHash, { view
     }));
 }
 /**
- * Get all reactions for a specific cast
+ * DEPRECATED - Get all reactions for a specific cast
  */
 export function getFarcasterCastReactions(apiKey: string, castHash: CastHash, { viewerFid, limit, cursor }: {
     viewerFid?: Fid;
@@ -626,7 +624,7 @@ export function getFarcasterCastReactions(apiKey: string, castHash: CastHash, { 
     }));
 }
 /**
- * Get all recasters for a specific cast
+ * DEPRECATED - Get all recasters for a specific cast
  */
 export function getFarcasterCastRecasters(apiKey: string, castHash: CastHash, { viewerFid, limit, cursor }: {
     viewerFid?: Fid;
