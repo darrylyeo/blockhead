@@ -68,6 +68,7 @@
 
 
 	// Components
+	import CollapsibleToolbar from '$/components/CollapsibleToolbar.svelte'
 	import NetworkSelect from '$/components/NetworkSelect.svelte'
 	import Preferences from '$/components/Preferences.svelte'
 	import InlineTransition from '$/components/InlineTransition.svelte'
@@ -97,54 +98,58 @@
 
 <main in:fly|global={{x: 300}} out:fly|global={{x: -300}}>
 <!-- <main> -->
-	<header class="bar wrap">
-		<div class="title row">
-			<InlineTransition
-				key={$networkSlug}
-				align="center"
-				contentTransition={[scale, { duration: 400 }]}
-			>
-				<span class="row title-icon">
-					{#if $networkSlug}
-						<NetworkIcon network={$explorerNetwork} />
-					{:else}
-						<img src="/Blockhead-Logo.svg" width="30" />
-					{/if}
-				</span>
-			</InlineTransition>
+	<header>
+		<CollapsibleToolbar>
+			<svelte:fragment slot="title">
+				<div class="title row">
+					<InlineTransition
+						key={$networkSlug}
+						align="center"
+						contentTransition={[scale, { duration: 400 }]}
+					>
+						<span class="row title-icon">
+							{#if $networkSlug}
+								<NetworkIcon network={$explorerNetwork} />
+							{:else}
+								<img src="/Blockhead-Logo.svg" width="30" />
+							{/if}
+						</span>
+					</InlineTransition>
 
-			<h1>
-				<InlineTransition
-					key={$networkSlug}
-					align="start"
-					clip
-					contentTransition={{
-						in: [fly, { y: 20, duration: 400 }],
-						out: [fly, { y: -20, duration: 400 }]
-					}}
-				>{networkDisplayName}</InlineTransition>
-				Explorer
-			</h1>
-		</div>
+					<h1>
+						<InlineTransition
+							key={$networkSlug}
+							align="start"
+							clip
+							contentTransition={{
+								in: [fly, { y: 20, duration: 400 }],
+								out: [fly, { y: -20, duration: 400 }]
+							}}
+						>{networkDisplayName}</InlineTransition>
+						Explorer
+					</h1>
+				</div>
+			</svelte:fragment>
 
-		<div class="row wrap">
-			<small>
+			<div class="row wrap">
+				<small>
+					<label>
+						<input type="checkbox" bind:checked={$showTestnets} disabled={_isTestnet} />
+						<span>Testnets</span>
+					</label>
+				</small>
+
+				<!-- svelte-ignore a11y-label-has-associated-control -->
 				<label>
-					<input type="checkbox" bind:checked={$showTestnets} disabled={_isTestnet} />
-					<span>Testnets</span>
+					<span>Network: </span>
+					<NetworkSelect
+						network={$explorerNetwork}
+						on:change={({ detail: { network } }) => setSelectedNetwork(network)}
+						showTestnets={$showTestnets}
+					/>
 				</label>
-			</small>
-
-			<!-- svelte-ignore a11y-label-has-associated-control -->
-			<label>
-				<span>Network: </span>
-				<NetworkSelect
-					network={$explorerNetwork}
-					on:change={({ detail: { network } }) => setSelectedNetwork(network)}
-					showTestnets={$showTestnets}
-				/>
-			</label>
-		</div>
+			</div>
+		</CollapsibleToolbar>
 	</header>
 
 	<div class="stack">

@@ -110,6 +110,7 @@
 
 
 	// Components
+	import CollapsibleToolbar from '$/components/CollapsibleToolbar.svelte'
 	import InlineTransition from '$/components/InlineTransition.svelte'
 	import NetworkIcon from '$/components/NetworkIcon.svelte'
 	import NetworkSelect from '$/components/NetworkSelect.svelte'
@@ -118,7 +119,6 @@
 
 
 	// Style/transitions
-
 	import { fly, scale } from 'svelte/transition'
 	import { tokenColors } from '$/data/tokenColors'
 </script>
@@ -153,128 +153,132 @@
 
 <main in:fly|global={{x: 300}} out:fly|global={{x: -300}}>
 <!-- <main> -->
-	<header class="bar wrap">
-		<div class="title row">
-			<InlineTransition
-				key={$web3AppConfig || $network}
-				align="center"
-				contentTransition={[scale, { duration: 400 }]}
-			>
-				<span class="title-icon">
-					{#if $web3AppConfig}
-						{#if $web3AppConfig.icon}
-							<img src={$web3AppConfig.icon} width="30" />
-						{:else}
-							{@const erc20Token = $web3AppConfig.views?.flatMap(view => view.erc20Tokens ?? [])[0]}
+	<header>
+		<CollapsibleToolbar>
+			<svelte:fragment slot="title">
+				<div class="title row">
+					<InlineTransition
+						key={$web3AppConfig || $network}
+						align="center"
+						contentTransition={[scale, { duration: 400 }]}
+					>
+						<span class="title-icon">
+							{#if $web3AppConfig}
+								{#if $web3AppConfig.icon}
+									<img src={$web3AppConfig.icon} width="30" />
+								{:else}
+									{@const erc20Token = $web3AppConfig.views?.flatMap(view => view.erc20Tokens ?? [])[0]}
 
-							{#if erc20Token}
-								<TokenIcon {erc20Token} />
+									{#if erc20Token}
+										<TokenIcon {erc20Token} />
+									{:else}
+										<img src="/Blockhead-Logo.svg" width="30" />
+									{/if}
+								{/if}
+							{:else if $network}
+								<NetworkIcon network={$network} />
 							{:else}
 								<img src="/Blockhead-Logo.svg" width="30" />
 							{/if}
-						{/if}
-					{:else if $network}
-						<NetworkIcon network={$network} />
-					{:else}
-						<img src="/Blockhead-Logo.svg" width="30" />
-					{/if}
-				</span>
-			</InlineTransition>
+						</span>
+					</InlineTransition>
 
-			<h1>
-				<a href="/apps/{$web3AppSlug}" class="stack inline">
-					<InlineTransition
-						key={Boolean($web3AppSlug && $web3AppConfig)}
-						align="start"
-						contentProps={{ class: '' }}
-						contentTransition={{
-							in: [scale, { duration: 400 }],
-							out: [scale, { duration: 400 }],
-						}}
-					>
-						{#if $web3AppSlug && $web3AppConfig}
+					<h1>
+						<a href="/apps/{$web3AppSlug}" class="stack inline">
 							<InlineTransition
-								key={$web3AppConfig}
-								clip
+								key={Boolean($web3AppSlug && $web3AppConfig)}
 								align="start"
+								contentProps={{ class: '' }}
 								contentTransition={{
-									in: [fly, { y: 20, duration: 400 }],
-									out: [fly, { y: -20, duration: 400 }],
+									in: [scale, { duration: 400 }],
+									out: [scale, { duration: 400 }],
 								}}
 							>
-								<mark>{$web3AppConfig.name}</mark>
-							</InlineTransition>
+								{#if $web3AppSlug && $web3AppConfig}
+									<InlineTransition
+										key={$web3AppConfig}
+										clip
+										align="start"
+										contentTransition={{
+											in: [fly, { y: 20, duration: 400 }],
+											out: [fly, { y: -20, duration: 400 }],
+										}}
+									>
+										<mark>{$web3AppConfig.name}</mark>
+									</InlineTransition>
 
-							<InlineTransition
-								isOpen={$currentView !== 'Dashboard'}
-								key={$currentView} 
-								clip
-								align="start"
-								contentTransition={{
-									in: [fly, { y: 20, duration: 400 }],
-									out: [fly, { y: -20, duration: 400 }],
-								}}
-							>
-								<span>{$currentView}</span>
-							</InlineTransition>
-						{:else}
-							<InlineTransition
-								isOpen={Boolean($network)}
-								key={$network}
-								clip
-								align="start"
-								contentTransition={{
-									in: [fly, { y: 20, duration: 400 }],
-									out: [fly, { y: -20, duration: 400 }],
-								}}
-							>
-								{#if $network}
-									<span>{$network.name}</span>
+									<InlineTransition
+										isOpen={$currentView !== 'Dashboard'}
+										key={$currentView} 
+										clip
+										align="start"
+										contentTransition={{
+											in: [fly, { y: 20, duration: 400 }],
+											out: [fly, { y: -20, duration: 400 }],
+										}}
+									>
+										<span>{$currentView}</span>
+									</InlineTransition>
+								{:else}
+									<InlineTransition
+										isOpen={Boolean($network)}
+										key={$network}
+										clip
+										align="start"
+										contentTransition={{
+											in: [fly, { y: 20, duration: 400 }],
+											out: [fly, { y: -20, duration: 400 }],
+										}}
+									>
+										{#if $network}
+											<span>{$network.name}</span>
+										{/if}
+									</InlineTransition>
+
+									Apps
 								{/if}
 							</InlineTransition>
+						</a>
+					</h1>
+				</div>
+			</svelte:fragment>
 
-							Apps
-						{/if}
-					</InlineTransition>
-				</a>
-			</h1>
-		</div>
+			<div class="row wrap">
+				<small>
+					<label>
+						<input type="checkbox" bind:checked={$showTestnets} disabled={_isTestnet} />
+						<span>Testnets</span>
+					</label>
+				</small>
 
-		<div class="row wrap">
-			<small>
+				<!-- svelte-ignore a11y-label-has-associated-control -->
 				<label>
-					<input type="checkbox" bind:checked={$showTestnets} disabled={_isTestnet} />
-					<span>Testnets</span>
+					<span>Network: </span>
+					<NetworkSelect
+						network={$network}
+						allowedNetworks={$web3AppConfig ? getWeb3AppSupportedNetworks($web3AppConfig) : undefined}
+						on:change={({ detail: { network } }) => setSelectedNetwork(network)}
+						showTestnets={$showTestnets}
+						placeholder="All Networks"
+					/>
 				</label>
-			</small>
+			</div>
 
-			<!-- svelte-ignore a11y-label-has-associated-control -->
 			<label>
-				<span>Network: </span>
-				<NetworkSelect
-					network={$network}
-					allowedNetworks={$web3AppConfig ? getWeb3AppSupportedNetworks($web3AppConfig) : undefined}
-					on:change={({ detail: { network } }) => setSelectedNetwork(network)}
-					showTestnets={$showTestnets}
-					placeholder="All Networks"
-				/>
+				<span>App</span>
+				<select bind:value={$web3AppSlug}>
+					<option value="" selected>Select App...</option>
+
+					{#each filteredWeb3AppsBySection as {title, apps}}
+						<optgroup label={title}>
+							{#each apps as app}
+								<option value={app.slug} style={`--primary-color: ${app.colors?.[0]}`}>{app.name}</option>
+							{/each}
+						</optgroup>
+					{/each}
+				</select>
 			</label>
-		</div>
-
-		<label>
-			<span>App</span>
-			<select bind:value={$web3AppSlug}>
-				<option value="" selected>Select App...</option>
-
-				{#each filteredWeb3AppsBySection as {title, apps}}
-					<optgroup label={title}>
-						{#each apps as app}
-							<option value={app.slug} style={`--primary-color: ${app.colors?.[0]}`}>{app.name}</option>
-						{/each}
-					</optgroup>
-				{/each}
-			</select>
-		</label>
+		</CollapsibleToolbar>
 	</header>
 
 	<div class="content stack">
