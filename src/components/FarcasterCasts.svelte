@@ -2,12 +2,14 @@
 	// Types/constants
 	import type { FarcasterCast as _FarcasterCast } from '$/api/farcaster'
 	import { type FarcasterProvider, farcasterProviderIcons } from '$/data/farcasterProviders'
+	import type { FarcasterFeedProvider } from '$/data/farcasterFeedProviders'
 	
 
 	// Inputs
 	export let casts: _FarcasterCast[]
 	export let title: string
 	export let farcasterProvider: FarcasterProvider
+	export let farcasterFeedProvider: FarcasterFeedProvider
 
 	// (View options)
 	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 4

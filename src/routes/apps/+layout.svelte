@@ -287,6 +287,7 @@
 		$web3AppSlug === 'farcaster' ? [
 			'theme',
 			'farcasterProvider',
+			'farcasterFeedProvider',
 		] : $web3AppSlug === 'ipfs' ? [
 			'theme',
 			'ipfsGateway',

@@ -19,6 +19,7 @@ import { NotificationsProvider } from '$/data/notificationsProvider'
 import { ipfsGateways } from '$/data/ipfsGateways'
 import { arweaveGateways } from '$/data/arweaveGateways'
 import { FarcasterProvider } from '$/data/farcasterProviders'
+import { FarcasterFeedProvider } from '$/data/farcasterFeedProviders'
 import { UrlMetadataProvider } from '$/data/urlMetadataProvider'
 
 
@@ -456,6 +457,36 @@ export const preferencesConfig = [
 							{
 								value: FarcasterProvider.Pinata,
 								name: FarcasterProvider.Pinata,
+							},
+						],
+					},
+				]
+			},
+			{
+				preferenceId: 'farcasterFeedProvider',
+				name: 'Farcaster Feed',
+				type: 'single',
+				defaultOption: 'indexer',
+				options: [
+					{
+						groupId: 'indexers',
+						name: 'Indexers',
+						options: [
+							{
+								value: 'indexer',
+								name: (preferences: any) => `Indexer (${preferences.farcasterProvider})`,
+							},
+							{
+								value: FarcasterFeedProvider.Airstack,
+								name: FarcasterFeedProvider.Airstack,
+							},
+							{
+								value: FarcasterFeedProvider.Neynar,
+								name: FarcasterFeedProvider.Neynar,
+							},
+							{
+								value: FarcasterFeedProvider.Pinata,
+								name: FarcasterFeedProvider.Pinata,
 							},
 						],
 					},
