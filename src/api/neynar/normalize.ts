@@ -173,7 +173,8 @@ export const normalizeCastV2 = (cast: CastV2 | CastWithInteractionsV2): Farcaste
 		embeds: cast.embeds.map(embed => (
 			'cast_id' in embed
 				? {
-					castId: embed.cast_id,
+					userId: embed.cast_id.fid,
+					castId: embed.cast_id.hash,
 				}
 				: {
 					url: embed.url,
