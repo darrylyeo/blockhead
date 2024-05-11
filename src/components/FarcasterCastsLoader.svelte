@@ -2,7 +2,8 @@
 	// Constants/types
 	import { FeedType, FilterType } from '$/api/neynar/v2'
 	import type { FarcasterCast, FarcasterUserId } from '$/api/farcaster/index'
-	import { FarcasterProvider, farcasterProviderIcons } from '$/data/farcasterProviders'
+	import { FarcasterProvider } from '$/data/farcasterProviders'
+	import { FarcasterFeedProvider, farcasterFeedProviderIcons } from '$/data/farcasterFeedProviders'
 
 
 	// Context
@@ -11,6 +12,7 @@
 
 	// Inputs
 	export let farcasterProvider: FarcasterProvider = FarcasterProvider.Neynar
+	export let farcasterFeedProvider: FarcasterFeedProvider = farcasterProvider as unknown as FarcasterFeedProvider
 	export let userId: FarcasterUserId | undefined
 	
 
@@ -42,13 +44,11 @@
 
 
 <Loader
-	loadingMessage="Loading casts from {farcasterProvider}..."
-	loadingIcon={farcasterProviderIcons[farcasterProvider]}
-	errorMessage="Couldn't load casts from {farcasterProvider}."
+	loadingMessage="Loading casts from {farcasterFeedProvider}..."
+	loadingIcon={farcasterFeedProviderIcons[farcasterFeedProvider]}
+	errorMessage="Couldn't load casts from {farcasterFeedProvider}."
 	{...{
-		[FarcasterProvider.Hub]: () => {},
-
-		[FarcasterProvider.Airstack]: () => ({
+		[FarcasterFeedProvider.Airstack]: () => ({
 			fromInfiniteQuery: (
 				createInfiniteQuery({
 					queryKey: ['FarcasterCasts', {
@@ -85,11 +85,11 @@
 			),
 		}),
 
-		[FarcasterProvider.Neynar]: () => ({
+		[FarcasterFeedProvider.Neynar]: () => ({
 			fromInfiniteQuery: (
 				createInfiniteQuery({
 					queryKey: ['FarcasterCasts', {
-						farcasterProvider,
+						farcasterFeedProvider,
 						userId,
 					}],
 					initialPageParam: '',
@@ -132,11 +132,11 @@
 			),
 		}),
 
-		[FarcasterProvider.Pinata]: () => ({
+		[FarcasterFeedProvider.Pinata]: () => ({
 			fromQuery: (
 				createInfiniteQuery({
 					queryKey: ['FarcasterCasts', {
-						farcasterProvider,
+						farcasterFeedProvider,
 						userId,
 					}],
 					initialPageParam: '',
@@ -166,7 +166,7 @@
 				})
 			),
 		}),
-	}[farcasterProvider]?.()}
+	}[farcasterFeedProvider]?.()}
 	bind:result={casts}
 	let:result={casts}
 	let:pagination
