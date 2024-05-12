@@ -179,27 +179,35 @@
 
 		[FarcasterProvider.Pinata]: () => ({
 			fromQuery: (
-				createQuery({
-					queryKey: ['FarcasterCast', {
-						farcasterProvider,
-						...castId && {
+				castId ?
+					createQuery({
+						queryKey: ['FarcasterCast', {
+							farcasterProvider,
 							castId,
-						},
-						...clientUrl && {
-							clientUrl,
-						},
-					}],
-					queryFn: async () => {
-						const { getCastByHash } = await import('$/api/pinata/farcaster')
+						}],
+						queryFn: async () => {
+							const { getCastByHash } = await import('$/api/pinata/farcaster')
 
-						return await getCastByHash({
-							hash: castId,
-						})
-					},
-					select: result => (
-						normalizeCastPinata(result.data)
-					),
-				})
+							return await getCastByHash({
+								hash: castId,
+							})
+						},
+						select: result => (
+							normalizeCastPinata(result.data)
+						),
+					})
+				: clientUrl ?
+					createQuery({
+						queryKey: ['FarcasterCast', {
+							farcasterProvider,
+							clientUrl,
+						}],
+						queryFn: async () => {
+							throw new Error('Pinata does not yet support fetching casts by Warpcast URLs.')
+						},
+					})
+				:
+					undefined
 			),
 		}),
 	}[farcasterProvider]?.()}
