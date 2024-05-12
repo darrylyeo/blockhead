@@ -51,42 +51,64 @@
 
 		[FarcasterProvider.Airstack]: () => ({
 			fromQuery: (
-				createQuery({
-					queryKey: ['FarcasterCast', {
-						farcasterProvider,
-						...castId && {
+				castId ?
+					createQuery({
+						queryKey: ['FarcasterCast', {
+							farcasterProvider,
 							castId,
-						},
-						...clientUrl && {
-							clientUrl,
-						},
-					}],
-					queryFn: async () => {
-						if(castId){
+						}],
+						queryFn: async () => {
 							const { getFarcasterCastByHash } = await import('$/api/airstack')
 
 							return await getFarcasterCastByHash({
 								hash: castId,
 							})
-						}else{
-							
-						}
-					},
-					select: result => {
-						const cast = (
-							result
-								?.FarcasterCasts
-								?.Cast
-								?.map(normalizeCastAirstack)
-								?.[0]
-						)
+						},
+						select: result => {
+							const cast = (
+								result
+									?.FarcasterCasts
+									?.Cast
+									?.map(normalizeCastAirstack)
+									?.[0]
+							)
 
-						if(!cast)
-							throw new Error('No cast found.')
+							if(!cast)
+								throw new Error(`Cast with ID ${castId} may not be indexed yet or was deleted.`)
 
-						return cast
-					},
-				})
+							return cast
+						},
+					})
+				: clientUrl ?
+					createQuery({
+						queryKey: ['FarcasterCast', {
+							farcasterProvider,
+							clientUrl,
+						}],
+						queryFn: async () => {
+							const { getFarcasterCastByClientUrl } = await import('$/api/airstack')
+
+							return await getFarcasterCastByClientUrl({
+								clientUrl,
+							})
+						},
+						select: result => {
+							const cast = (
+								result
+									?.FarcasterCasts
+									?.Cast
+									?.map(normalizeCastAirstack)
+									?.[0]
+							)
+
+							if(!cast)
+								throw new Error(`Cast with URL ${clientUrl} may not be indexed yet or was deleted.`)
+
+							return cast
+						},
+					})
+				:
+					undefined
 			),
 		}),
 

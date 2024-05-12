@@ -929,3 +929,51 @@ export const getFarcasterCastByHash = async ({
 			return result.data
 		})
 }
+
+export const getFarcasterCastByClientUrl = async ({
+	clientUrl,
+}: {
+	clientUrl: string,
+}) => {
+	return await client
+		.query(
+			graphql(`
+				query FarcasterCastByClientUrl(
+					$clientUrl: String!
+				) {
+					FarcasterCasts(
+						input: {
+							filter: {
+								url: {
+									_eq: $clientUrl
+								}
+							}
+							blockchain: ALL
+						}
+					) {
+						Cast {
+							...FarcasterCast
+						}
+						pageInfo {
+							hasNextPage
+							hasPrevPage
+							nextCursor
+							prevCursor
+						}
+					}
+				}
+			`, [
+				FarcasterCast,
+			]),
+			{
+				clientUrl,
+			},
+		)
+		.toPromise()
+		.then(result => {
+			if(result.error)
+				throw result.error
+
+			return result.data
+		})
+}
