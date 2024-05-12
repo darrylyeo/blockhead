@@ -54,13 +54,14 @@ export const getTokenBalances = async ({
 		.query(
 			graphql(`
 				query TokenBalances(
-					$address: Identity!, 
-					$blockchain: TokenBlockchain!, 
-					$limit: Int!, 
+					$address: Identity!
+					$blockchain: TokenBlockchain!
+					$limit: Int!
 					$cursor: String!
 				) {
 					TokenBalances(
 						input: {
+							blockchain: $blockchain
 							filter: {
 								owner: {
 									_in: [$address]
@@ -69,15 +70,12 @@ export const getTokenBalances = async ({
 									_in: [ERC20]
 								}
 							}
-							blockchain: $blockchain
 							limit: $limit
 							cursor: $cursor
 						}
 					) {
 						TokenBalance {
-							tokenAddress
 							amount
-							tokenType
 							blockchain
 							chainId
 							formattedAmount
@@ -87,8 +85,8 @@ export const getTokenBalances = async ({
 							token {
 								address
 								baseURI
-								chainId
 								blockchain
+								chainId
 								contractMetaData {
 									description
 									externalLink
@@ -124,6 +122,8 @@ export const getTokenBalances = async ({
 								totalSupply
 								type
 							}
+							tokenAddress
+							tokenType
 						}
 						pageInfo {
 							nextCursor
@@ -173,6 +173,7 @@ export const getNftsByAddress = async ({
 				) {
 					TokenBalances(
 						input: {
+							blockchain: $blockchain
 							filter: {
 								owner: {
 									_in: [$address]
@@ -180,23 +181,70 @@ export const getNftsByAddress = async ({
 								tokenType: {
 									_in: [ERC721, ERC1155]
 								}
-							},
-							blockchain: $blockchain,
-							limit: $limit,
+							}
+							limit: $limit
 							cursor: $cursor
 						}
 					) {
 						TokenBalance {
-							tokenAddress
-							tokenNfts {
-								id
+							amount
+							blockchain
+							chainId
+							formattedAmount
+							id
+							lastUpdatedBlock
+							lastUpdatedTimestamp
+							owner {
+								addresses
+								identity
+							}
+							token {
 								address
-								tokenId
+								baseURI
+								blockchain
+								chainId
+								contractMetaData {
+									description
+									externalLink
+									feeRecipient
+									image
+									name
+									sellerFeeBasisPoints
+								}
+								contractMetaDataURI
+								decimals
+								id
+								lastTransferBlock
+								lastTransferHash
+								lastTransferTimestamp
+								logo {
+									external
+									large
+									medium
+									original
+									small
+								}
+								name
+								projectDetails {
+									collectionName
+									description
+									discordUrl
+									externalUrl
+									twitterUrl
+								}
+								rawContractMetaData
+								symbol
+								tokenTraits
+								totalSupply
 								type
-								rawMetaData
+							}
+							tokenAddress
+							tokenId
+							tokenNfts {
+								address
+								blockchain
 								chainId
 								contentType
-								blockchain
 								# contentValue {
 								# 	audio
 								# 	animation_url {
@@ -211,6 +259,7 @@ export const getNftsByAddress = async ({
 								# 	}
 								# 	video
 								# }
+								id
 								lastTransferBlock
 								lastTransferHash
 								lastTransferTimestamp
@@ -230,62 +279,13 @@ export const getNftsByAddress = async ({
 									name
 									youtubeUrl
 								}
+								rawMetaData
+								tokenId
 								tokenURI
 								totalSupply
-							}
-							owner {
-								addresses
-								identity
-							}
-							tokenId
-							amount
-							blockchain
-							chainId
-							formattedAmount
-							id
-							lastUpdatedTimestamp
-							lastUpdatedBlock
-							tokenType
-							token {
-								address
-								blockchain
-								baseURI
-								chainId
-								contractMetaData {
-									description
-									externalLink
-									feeRecipient
-									image
-									name
-									sellerFeeBasisPoints
-								}
 								type
-								totalSupply
-								tokenTraits
-								symbol
-								rawContractMetaData
-								projectDetails {
-									collectionName
-									description
-									discordUrl
-									externalUrl
-									twitterUrl
-								}
-								name
-								logo {
-									external
-									large
-									medium
-									original
-									small
-								}
-								lastTransferTimestamp
-								lastTransferHash
-								lastTransferBlock
-								id
-								decimals
-								contractMetaDataURI
 							}
+							tokenType
 						}
 						pageInfo {
 							nextCursor
@@ -344,6 +344,7 @@ export const getNftContractsCountByAddress = async ({
 					) {
 						TokenBalances(
 							input: {
+								blockchain: $blockchain
 								filter: {
 									owner: {
 										_in: [$address]
@@ -352,7 +353,6 @@ export const getNftContractsCountByAddress = async ({
 										_in: [ERC721, ERC1155]
 									}
 								}
-								blockchain: $blockchain
 								limit: $limit
 								cursor: $cursor
 							}
@@ -395,15 +395,15 @@ export const getNftContractsCountByAddress = async ({
 						) {
 							TokenBalances(
 								input: {
+									blockchain: $blockchain
 									filter: {
 										owner: {
 											_in: [$address]
-										},
+										}
 										tokenType: {
 											_in: [ERC721, ERC1155]
 										}
 									}
-									blockchain: $blockchain
 									limit: $limit
 									cursor: $cursor
 								}
@@ -443,24 +443,14 @@ export const getNftContractsCountByAddress = async ({
 
 const FarcasterUser = graphql(`
 	fragment FarcasterUser on Social @_unmask {
-		dappName
-		userId
-		userAddress
-		userCreatedAtBlockTimestamp
-		userCreatedAtBlockNumber
-		userHomeURL
-		userRecoveryAddress
-		userAssociatedAddresses
-		profileBio
-		profileDisplayName
-		profileImage
-		profileUrl
-		profileName
-		profileCreatedAtBlockTimestamp
-		profileCreatedAtBlockNumber
-		fnames
 		blockchain
 		chainId
+		connectedAddresses {
+			address
+			blockchain
+			chainId
+			timestamp
+		}
 		coverImageContentValue {
 			animation_url {
 				original
@@ -480,15 +470,11 @@ const FarcasterUser = graphql(`
 				original
 			}
 		}
-		connectedAddresses {
-			address
-			blockchain
-			chainId
-			timestamp
-		}
 		coverImageURI
+		dappName
 		dappSlug
 		dappVersion
+		fnames
 		followerCount
 		followerTokenAddress
 		followingCount
@@ -500,20 +486,25 @@ const FarcasterUser = graphql(`
 		isFarcasterPowerUser
 		location
 		metadataURI
+		profileBio
+		profileCreatedAtBlockNumber
+		profileCreatedAtBlockTimestamp
+		profileDisplayName
 		profileHandle
+		profileImage
 		profileImageContentValue {
+			audio {
+				original
+			}
+			animation_url {
+				original
+			}
 			image {
 				extraSmall
 				large
 				medium
 				original
 				small
-			}
-			audio {
-				original
-			}
-			animation_url {
-				original
 			}
 			json
 			video {
@@ -523,14 +514,23 @@ const FarcasterUser = graphql(`
 		profileLastUpdatedAtBlockNumber
 		profileLastUpdatedAtBlockTimestamp
 		profileMetadata
+		profileName
 		profileTokenAddress
 		profileTokenId
 		profileTokenIdHex
 		profileTokenUri
+		profileUrl
 		twitterUserName
 		updatedAt
+		userAddress
+		userAssociatedAddresses
+		userCreatedAtBlockNumber
+		userCreatedAtBlockTimestamp
+		userHomeURL
 		userLastUpdatedAtBlockNumber
 		userLastUpdatedAtBlockTimestamp
+		userRecoveryAddress
+		userId
 		website
 	}
 `)
@@ -548,6 +548,7 @@ export const getFarcasterUserById = async ({
 				) {
 					Socials(
 						input: {
+							blockchain: ethereum
 							filter: {
 								dappName: {
 									_eq: farcaster
@@ -556,7 +557,6 @@ export const getFarcasterUserById = async ({
 									_eq: $userId
 								}
 							}
-							blockchain: ethereum
 						}
 					) {
 						Social {
@@ -599,6 +599,7 @@ export const getFarcasterUserByName = async ({
 				) {
 					Socials(
 						input: {
+							blockchain: ethereum
 							filter: {
 								dappName: {
 									_eq: farcaster
@@ -607,7 +608,6 @@ export const getFarcasterUserByName = async ({
 									_eq: $userName
 								}
 							}
-							blockchain: ethereum
 						}
 					) {
 						Social {
@@ -640,10 +640,17 @@ export const getFarcasterUserByName = async ({
 const FarcasterCast = graphql(`
 	fragment FarcasterCast on FarcasterCast @_unmask {
 		castedAtTimestamp
+		castedBy {
+			...FarcasterUser
+		}
+		channel {
+			channelId
+			id
+			url,
+		}
 		embeds
 		fid
 		frame {
-			castedAtTimestamp
 			buttons {
 				action
 				id
@@ -651,6 +658,7 @@ const FarcasterCast = graphql(`
 				label
 				target
 			}
+			castedAtTimestamp
 			frameHash
 			frameUrl
 			id
@@ -669,9 +677,15 @@ const FarcasterCast = graphql(`
 		numberOfLikes
 		numberOfRecasts
 		numberOfReplies
+		parentCast {
+			id
+		}
 		parentFid
 		parentHash
 		parentUrl
+		quotedCast {
+			id
+		}
 		rawText
 		rootParentHash
 		rootParentUrl
@@ -679,20 +693,6 @@ const FarcasterCast = graphql(`
 			formattedValue
 			hash
 			rawValue
-		}
-		channel {
-			id
-			channelId
-			url,
-		}
-		castedBy {
-			...FarcasterUser
-		}
-		parentCast {
-			id
-		}
-		quotedCast {
-			id
 		}
 		text
 		url
@@ -717,27 +717,27 @@ export const getFarcasterTrendingCasts = async ({
 			graphql(`
 				query FarcasterTrendingCasts(
 					$criteria: TrendingCastsCriteria!
+					$timeFrame: TrendingCastTimeFrame!
 					$limit: Int!
 					$cursor: String!
-					$timeFrame: TrendingCastTimeFrame!
 				) {
 					TrendingCasts(
 						input: {
+							blockchain: ALL
 							criteria: $criteria
 							timeFrame: $timeFrame
 							limit: $limit
 							cursor: $cursor
-							blockchain: ALL
 						}
 					) {
 						TrendingCast {
-							id
 							cast {
 								...FarcasterCast
 							}
 							criteria
 							criteriaCount
 							hash
+							id
 							socialCapitalValueFormatted
 							socialCapitalValueRaw
 							timeFrom
@@ -786,6 +786,7 @@ export const getFarcasterCasts = async ({
 				) {
 					FarcasterCasts(
 						input: {
+							blockchain: ALL
 							filter: {
 								castedAtTimestamp: {
 									_gt: "2020-01-01T00:00:00.000000000Z"
@@ -793,7 +794,6 @@ export const getFarcasterCasts = async ({
 							}
 							limit: $limit
 							cursor: $cursor
-							blockchain: ALL
 						}
 					) {
 						Cast {
@@ -843,6 +843,7 @@ export const getFarcasterCastsByUserId = async ({
 				) {
 					FarcasterCasts(
 						input: {
+							blockchain: ALL
 							filter: {
 								castedBy: {
 									_in: [$userId]
@@ -850,15 +851,14 @@ export const getFarcasterCastsByUserId = async ({
 							}
 							limit: $limit
 							cursor: $cursor
-							blockchain: ALL
 						}
 					) {
 						Cast {
 							...FarcasterCast
 						}
 						pageInfo {
-							hasPrevPage
-							hasNextPage	
+							hasNextPage
+							hasPrevPage	
 							nextCursor
 							prevCursor
 						}
@@ -895,12 +895,12 @@ export const getFarcasterCastByHash = async ({
 				) {
 					FarcasterCasts(
 						input: {
+							blockchain: ALL
 							filter: {
 								hash: {
 									_eq: $hash
 								}
 							}
-							blockchain: ALL
 						}
 					) {
 						Cast {
@@ -943,12 +943,12 @@ export const getFarcasterCastByClientUrl = async ({
 				) {
 					FarcasterCasts(
 						input: {
+							blockchain: ALL
 							filter: {
 								url: {
 									_eq: $clientUrl
 								}
 							}
-							blockchain: ALL
 						}
 					) {
 						Cast {
