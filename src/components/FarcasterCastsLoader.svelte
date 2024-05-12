@@ -175,9 +175,11 @@
 					},
 					getNextPageParam: (lastPage) => lastPage.next?.cursor,
 					select: result => (
-						result.pages
-							.flatMap(page => page.casts ?? [])
-							.map(normalizeCastNeynarV2)
+						[...new Set(
+							result.pages
+								.flatMap(page => page.casts ?? [])
+								.map(normalizeCastNeynarV2)
+						)]
 					),
 					staleTime: 10 * 1000,
 				})
