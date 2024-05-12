@@ -114,54 +114,66 @@
 
 		[FarcasterProvider.Neynar]: () => ({
 			fromQuery: (
-				createQuery({
-					queryKey: ['FarcasterCast', {
-						farcasterProvider,
-						...castId && {
-							castId,
-						},
-						...clientUrl && {
-							clientUrl,
-						},
-					}],
-					...castId && withReplies ? {
-						queryFn: async () => {
-							const { getFarcasterAllCastsInThread } = await import('$/api/neynar/v1')
-
-							return await getFarcasterAllCastsInThread(
-								publicEnv.PUBLIC_NEYNAR_API_KEY,
+				castId ?
+					withReplies ?
+						createQuery({
+							queryKey: ['FarcasterCast', {
+								farcasterProvider,
 								castId,
-							)
-						},
-						select: result => (
-							normalizeCastWithRepliesV1Neynar(result.result.casts)
-						),
-					} : {
+								withReplies,
+							}],
+							queryFn: async () => {
+								const { getFarcasterAllCastsInThread } = await import('$/api/neynar/v1')
+
+								return await getFarcasterAllCastsInThread(
+									publicEnv.PUBLIC_NEYNAR_API_KEY,
+									castId,
+								)
+							},
+							select: result => (
+								normalizeCastWithRepliesV1Neynar(result.result.casts)
+							),
+						})
+					:
+						createQuery({
+							queryKey: ['FarcasterCast', {
+								farcasterProvider,
+								castId,
+							}],
+							queryFn: async () => {
+								const { cast } = await import('$/api/neynar/v2')
+
+								return await cast(
+									publicEnv.PUBLIC_NEYNAR_API_KEY,
+									castId,
+									CastParamType.Hash,
+								)
+							},
+							select: result => (
+								result?.cast && normalizeCastNeynarV2(result.cast)
+							),
+						})
+				: clientUrl ?
+					createQuery({
+						queryKey: ['FarcasterCast', {
+							farcasterProvider,
+							clientUrl,
+						}],
 						queryFn: async () => {
 							const { cast } = await import('$/api/neynar/v2')
 
-							return (
-								castId ?
-									await cast(
-										publicEnv.PUBLIC_NEYNAR_API_KEY,
-										castId,
-										CastParamType.Hash,
-									)
-								: clientUrl ? 
-									await cast(
-										publicEnv.PUBLIC_NEYNAR_API_KEY,
-										clientUrl,
-										CastParamType.Url,
-									)
-								:
-									undefined
+							return await cast(
+								publicEnv.PUBLIC_NEYNAR_API_KEY,
+								clientUrl,
+								CastParamType.Url,
 							)
 						},
 						select: result => (
 							result?.cast && normalizeCastNeynarV2(result.cast)
 						),
-					},
-				})
+					})
+				:
+					undefined
 			),
 		}),
 
