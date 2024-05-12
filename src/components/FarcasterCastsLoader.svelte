@@ -139,50 +139,70 @@
 
 		[FarcasterFeedProvider.Neynar]: () => ({
 			fromInfiniteQuery: (
-				createInfiniteQuery({
-					queryKey: ['FarcasterCasts', {
-						farcasterFeedProvider,
-						userId,
-					}],
-					initialPageParam: '',
-					queryFn: async ({ pageParam: cursor }) => {
-						const { feed } = await import('$/api/neynar/v2')
+				userId ? (
+					createInfiniteQuery({
+						queryKey: ['FarcasterCasts', {
+							farcasterFeedProvider,
+							userId,
+						}],
+						initialPageParam: '',
+						queryFn: async ({ pageParam: cursor }) => {
+							const { feed } = await import('$/api/neynar/v2')
 
-						return (
-							userId ?
-								await feed(
-									publicEnv.PUBLIC_NEYNAR_API_KEY,
-									FeedType.Filter,
-									{
-										filterType: FilterType.Fids,
-										fids: String(userId),
-										fid: userId,
-										cursor,
-										limit: 50,
-									}
-								)
-							: 
-								await feed(
-									publicEnv.PUBLIC_NEYNAR_API_KEY,
-									FeedType.Filter,
-									{
-										filterType: FilterType.GlobalTrending,
-										cursor,
-										limit: 50,
-									}
-								)
-						)
-					},
-					getNextPageParam: (lastPage) => lastPage.next?.cursor,
-					select: result => (
-						[...new Set(
-							result.pages
-								.flatMap(page => page.casts ?? [])
-								.map(normalizeCastNeynarV2)
-						)]
-					),
-					staleTime: 10 * 1000,
-				})
+							return await feed(
+								publicEnv.PUBLIC_NEYNAR_API_KEY,
+								FeedType.Filter,
+								{
+									filterType: FilterType.Fids,
+									fids: String(userId),
+									fid: userId,
+									cursor,
+									limit: 50,
+								}
+							)
+						},
+						getNextPageParam: (lastPage) => lastPage?.next?.cursor,
+						select: result => (
+							[...new Set(
+								result.pages
+									.flatMap(page => page.casts ?? [])
+									.map(normalizeCastNeynarV2)
+							)]
+						),
+						staleTime: 10 * 1000,
+					})
+				) : (
+					createInfiniteQuery({
+						queryKey: ['FarcasterCasts', {
+							farcasterFeedProvider,
+						}],
+						initialPageParam: '',
+						queryFn: async ({
+							pageParam: cursor
+						}) => {
+							const { feed } = await import('$/api/neynar/v2')
+
+							return await feed(
+								publicEnv.PUBLIC_NEYNAR_API_KEY,
+								FeedType.Filter,
+								{
+									filterType: FilterType.GlobalTrending,
+									cursor,
+									limit: 50,
+								}
+							)
+						},
+						getNextPageParam: (lastPage) => lastPage.next?.cursor,
+						select: result => (
+							[...new Set(
+								result.pages
+									.flatMap(page => page.casts ?? [])
+									.map(normalizeCastNeynarV2)
+							)]
+						),
+						staleTime: 10 * 1000,
+					})
+				)
 			),
 		}),
 
