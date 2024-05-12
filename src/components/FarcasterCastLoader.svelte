@@ -11,7 +11,6 @@
 
 	// Inputs
 	export let farcasterProvider: FarcasterProvider = FarcasterProvider.Neynar
-	export let userId: FarcasterUserId | undefined
 	export let castId: FarcasterCastId | undefined
 	export let clientUrl: string | undefined
 	export let withReplies: boolean = false

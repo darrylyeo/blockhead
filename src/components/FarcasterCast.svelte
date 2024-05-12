@@ -168,7 +168,6 @@
 			<FarcasterCastLoader
 				{farcasterProvider}
 				{clientUrl}
-				{userId}
 				{castId}
 				let:cast
 			>
