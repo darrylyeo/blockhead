@@ -261,37 +261,54 @@
 		}),
 
 		[FarcasterFeedProvider.Pinata]: () => ({
-			fromQuery: (
-				createInfiniteQuery({
-					queryKey: ['FarcasterCasts', {
-						farcasterFeedProvider,
-						userId,
-					}],
-					initialPageParam: '',
-					queryFn: async ({ pageParam: pageToken }) => {
-						const { getCasts } = await import('$/api/pinata/farcaster')
+			fromInfiniteQuery: (
+				userId ? (
+					createInfiniteQuery({
+						queryKey: ['FarcasterCasts', {
+							farcasterFeedProvider,
+							userId,
+						}],
+						initialPageParam: '',
+						queryFn: async ({ pageParam: pageToken }) => {
+							const { getCasts } = await import('$/api/pinata/farcaster')
 
-						return (
-							userId ?
-								await getCasts({
-									fid: userId,
-									pageSize: 50,
-									pageToken,
-								})
-							:
-								await getCasts({
-									pageSize: 50,
-									pageToken,
-								})
-						)
-					},
-					getNextPageParam: (lastPage) => lastPage.data?.next_page_token,
-					select: result => (
-						result.pages
-							.flatMap(page => page.data.casts)
-							.map(normalizeCastPinata)
-					),
-				})
+							return await getCasts({
+								fid: userId,
+								pageSize: 50,
+								pageToken,
+							})
+						},
+						getNextPageParam: (lastPage) => lastPage.data?.next_page_token,
+						select: result => (
+							result.pages
+								.flatMap(page => page.data.casts)
+								.map(normalizeCastPinata)
+						),
+						staleTime: 10 * 1000,
+					})
+				) : (
+					createInfiniteQuery({
+						queryKey: ['FarcasterCasts', {
+							farcasterFeedProvider,
+						}],
+						initialPageParam: '',
+						queryFn: async ({ pageParam: pageToken }) => {
+							const { getCasts } = await import('$/api/pinata/farcaster')
+
+							return await getCasts({
+								pageSize: 50,
+								pageToken,
+							})
+						},
+						getNextPageParam: (lastPage) => lastPage.data?.next_page_token,
+						select: result => (
+							result.pages
+								.flatMap(page => page.data.casts)
+								.map(normalizeCastPinata)
+						),
+						staleTime: 10 * 1000,
+					})
+				)
 			),
 		}),
 	}[farcasterFeedProvider]?.()}
