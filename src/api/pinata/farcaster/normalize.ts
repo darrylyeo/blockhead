@@ -28,12 +28,12 @@ export const normalizeCast = (cast: Cast): FarcasterCast => ({
 
 	reactions: {
 		likes: cast.reactions.likes?.map((reaction) => ({
-			fid: reaction.fid,
-			fname: reaction.fname,
+			id: reaction.fid,
+			name: reaction.fname,
 		})),
 		recasts: cast.reactions.recasts?.map((reaction) => ({
-			fid: reaction.fid,
-			fname: reaction.fname,
+			id: reaction.fid,
+			name: reaction.fname,
 		})),
 	},
 
@@ -52,10 +52,7 @@ export const normalizeUser = (user: User): FarcasterUser => ({
 
 	bio: {
 		text: user.bio,
-		// mentionedUsers: user.bio_mentions.map((mention) => mention.fid),
 	},
-
-	// isActive: user.active_status === 'active',
 
 	custodyAddress: user.custody_address as Ethereum.Address,
 	verifications: user.verifications,
