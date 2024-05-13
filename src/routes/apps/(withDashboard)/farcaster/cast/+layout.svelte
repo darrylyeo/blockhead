@@ -1,6 +1,7 @@
 <script lang="ts">
 	// Types
 	import type { FarcasterProvider } from '$/data/farcasterProviders'
+	import { FarcasterFeedProvider} from '$/data/farcasterFeedProviders'
 
 
 	// Context
@@ -14,6 +15,22 @@
 
 	let farcasterProvider: FarcasterProvider
 	$: farcasterProvider = $preferences.farcasterProvider
+
+	let farcasterFeedProvider: FarcasterFeedProvider | 'indexer'
+	$: farcasterFeedProvider = $preferences.farcasterFeedProvider
+
+
+	// (Derived)
+	let _farcasterFeedProvider: FarcasterFeedProvider
+	$: _farcasterFeedProvider = (
+		farcasterFeedProvider === 'indexer' ?
+			Object.values(FarcasterFeedProvider).includes(farcasterProvider as unknown as FarcasterFeedProvider) ?
+				farcasterProvider as unknown as FarcasterFeedProvider
+			:
+				undefined as never
+		:
+			farcasterFeedProvider
+	)
 
 
 	// Components
@@ -41,6 +58,7 @@
 		<FarcasterCast
 			{cast}
 			{farcasterProvider}
+			farcasterFeedProvider={_farcasterFeedProvider}
 			layout="standalone"
 			showReactionsAndReplies
 		/>

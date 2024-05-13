@@ -1,7 +1,8 @@
 <script lang="ts">
 	// Types/constants
-	import type { FarcasterProvider } from '$/data/farcasterProviders'
 	import type { FarcasterCast as _FarcasterCast } from '$/api/farcaster'
+	import type { FarcasterProvider } from '$/data/farcasterProviders'
+	import type { FarcasterFeedProvider } from '$/data/farcasterFeedProviders'
 
 	import { networksByChainID, networksBySlug } from '$/data/networks'
 
@@ -16,6 +17,7 @@
 
 	// Inputs
 	export let farcasterProvider: FarcasterProvider
+	export let farcasterFeedProvider: FarcasterFeedProvider
 	export let cast: _FarcasterCast
 
 	// (View options)
@@ -175,6 +177,7 @@
 					<FarcasterCast
 						{cast}
 						{farcasterProvider}
+						{farcasterFeedProvider}
 					/>
 				{:else}
 					Cast not found.

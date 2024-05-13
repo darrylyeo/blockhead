@@ -60,6 +60,7 @@
 				<FarcasterCast
 					{cast}
 					{farcasterProvider}
+					{farcasterFeedProvider}
 				/>
 			{:else}
 				<FarcasterCastLoader
@@ -70,6 +71,7 @@
 					<FarcasterCast
 						{cast}
 						{farcasterProvider}
+						{farcasterFeedProvider}
 					/>
 				</FarcasterCastLoader>
 			{/if}
