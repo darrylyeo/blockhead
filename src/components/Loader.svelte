@@ -407,6 +407,7 @@
 					<!-- {toggle} --><!-- ReferenceError: toggle is not defined -->
 				</div>
 			{/if}
+
 			{#if status === LoadingStatus.Idle}
 				<slot name="idle" {load}></slot>
 			{:else if status === LoadingStatus.Loading}
@@ -516,6 +517,7 @@
 								isFetchingNextPage: $fromInfiniteQuery.isFetchingNextPage,
 								fetchNextPage: $fromInfiniteQuery.fetchNextPage,
 							}}
+							{isOpen}
 						/>
 					</div>
 				{/if}
@@ -543,8 +545,10 @@
 							</slot>
 
 							<slot name="errorActions" {load} {cancel}>
-								<button class="small" on:click={load}>Retry</button>
-								<button class="small cancel" on:click={cancel}>Cancel</button>
+								<div class="row wrap">
+									<button class="small" on:click={load}>Retry</button>
+									<button class="small cancel" on:click={cancel}>Cancel</button>
+								</div>
 							</slot>
 						</div>
 
