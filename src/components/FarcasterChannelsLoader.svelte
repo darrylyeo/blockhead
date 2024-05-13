@@ -85,7 +85,7 @@
 		}),
 
 		[FarcasterProvider.Pinata]: () => ({
-			fromQuery: (
+			fromInfiniteQuery: (
 				createInfiniteQuery({
 					queryKey: ['FarcasterChannels', {
 						farcasterProvider,
