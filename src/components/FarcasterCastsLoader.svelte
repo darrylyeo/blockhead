@@ -61,7 +61,9 @@
 
 	import { normalizeFarcasterCast as normalizeCastAirstack, normalizeFarcasterTrendingCast as normalizeTrendingCastAirstack } from '$/api/airstack/normalize'
 	import { normalizeCastV2 as normalizeCastNeynarV2, normalizeCastWithRepliesV1 as normalizeCastWithRepliesV1Neynar } from '$/api/neynar/normalize'
-	import { normalizeCast as normalizeCastPinata } from '$/api/pinata/farcaster/normalize' 
+	import { normalizeCast as normalizeCastPinata } from '$/api/pinata/farcaster/normalize'
+
+	import { isTruthy } from '$/utils/isTruthy'
 
 
 	// Components
@@ -128,6 +130,35 @@
 							result.pages
 								.flatMap(page => page?.TrendingCasts?.TrendingCast ?? [])
 								.map(normalizeTrendingCastAirstack)
+						),
+						staleTime: 10 * 1000,
+					})
+
+				: query && 'parentCastId' in query ?
+					createInfiniteQuery({
+						queryKey: ['FarcasterCasts', {
+							farcasterFeedProvider,
+							parentCastId: query.parentCastId,
+						}],
+						initialPageParam: '',
+						queryFn: async ({
+							queryKey: [, { parentCastId }],
+							pageParam: cursor,
+						}) => {
+							const { getFarcasterCastReplies } = await import('$/api/airstack')
+
+							return await getFarcasterCastReplies({
+								parentHash: parentCastId,
+								limit: 50,
+								cursor,
+							})
+						},
+						getNextPageParam: (lastPage) => lastPage?.FarcasterReplies?.pageInfo?.nextCursor,
+						select: result => (console.log({result}),
+							result.pages
+								.flatMap(page => page?.FarcasterReplies?.Reply ?? [])
+								.filter(isTruthy)
+								.map(normalizeCastAirstack)
 						),
 						staleTime: 10 * 1000,
 					})

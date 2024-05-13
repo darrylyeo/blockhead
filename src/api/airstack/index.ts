@@ -975,6 +975,64 @@ export const getFarcasterCastByClientUrl = async ({
 		})
 }
 
+export const getFarcasterCastReplies = async ({
+	parentHash,
+	limit = 50,
+	cursor,
+}: {
+	parentHash: string,
+	limit: number,
+	cursor: string,
+}) => {
+	return await client
+		.query(
+			graphql(`
+				query FarcasterReplies(
+					$parentHash: String!
+					$limit: Int!
+					$cursor: String!
+				) {
+					FarcasterReplies(
+						input: {
+							blockchain: ALL
+							filter: {
+								parentHash: {
+									_eq: $parentHash
+								}
+							}
+							limit: $limit
+							cursor: $cursor
+						}
+					) {
+						Reply {
+							...FarcasterCast
+						}
+						pageInfo {
+							hasNextPage
+							hasPrevPage
+							nextCursor
+							prevCursor
+						}
+					}
+				}
+			`, [
+				FarcasterCast,
+			]),
+			{
+				parentHash,
+				limit,
+				cursor,
+			},
+		)
+		.toPromise()
+		.then(result => {
+			if(result.error)
+				throw result.error
+
+			return result.data
+		})
+}
+
 const FarcasterChannel = graphql(`
 	fragment FarcasterChannel on FarcasterChannel @_unmask {
 		channelId
