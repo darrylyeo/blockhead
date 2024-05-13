@@ -431,17 +431,17 @@ export const preferencesConfig = [
 				type: 'single',
 				defaultOption: FarcasterProvider.Neynar,
 				options: [
-					{
-						groupId: 'hubs',
-						name: 'Hubs',
-						options: [
-							{
-								value: 'Coming soon...',
-								name: 'Coming soon...',
-								disabled: true,
-							}
-						]
-					},
+					// {
+					// 	groupId: 'hubs',
+					// 	name: 'Hubs',
+					// 	options: [
+					// 		{
+					// 			value: 'Coming soon...',
+					// 			name: 'Coming soon...',
+					// 			disabled: true,
+					// 		}
+					// 	]
+					// },
 					{
 						groupId: 'indexers',
 						name: 'Indexers',
