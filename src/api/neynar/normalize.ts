@@ -5,14 +5,7 @@ import type { FarcasterUser, FarcasterUserId, FarcasterCast, FarcasterChannel, F
 
 import { ActiveStatus, type User as UserV1, type Cast as CastV1, type CastWithInteractions as CastWithInteractionsV1 } from './v1'
 import type { Cast as CastV2, CastWithInteractions as CastWithInteractionsV2, User as UserV2 } from './v2'
-
-type Channel = {
-	name: string;
-	parent_url: string;
-	image: string;
-	channelId: string;
-	lead_fid: FarcasterUserId;
-}
+import type { Channel } from './channels'
 
 
 // Functions

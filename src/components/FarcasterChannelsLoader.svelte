@@ -23,6 +23,9 @@
 
 	// Functions
 	import { createQuery, createInfiniteQuery } from '@tanstack/svelte-query'
+
+	import { getFarcasterChannelList } from '$/api/neynar/channels'
+
 	import { normalizeFarcasterChannel as normalizeChannelAirstack } from '$/api/airstack/normalize'
 	import { normalizeChannel as normalizeChannelNeynar } from '$/api/neynar/normalize'
 	import { normalizeChannel as normalizeChannelPinata } from '$/api/pinata/farcaster/normalize'
@@ -74,8 +77,7 @@
 						farcasterProvider,
 					}],
 					queryFn: async () => (
-						fetch('https://raw.githubusercontent.com/neynarxyz/farcaster-channels/main/warpcast.json')
-							.then(response => response.json())
+						await getFarcasterChannelList()
 					),
 					select: result => (
 						result.map(normalizeChannelNeynar)
