@@ -83,10 +83,10 @@
 
 
 	// Outputs
-	let status = startImmediately ? LoadingStatus.Loading : LoadingStatus.Idle
-
 	let _result: LoaderResult
 	export let result: LoaderReturnResult
+
+	let status = result ? LoadingStatus.Resolved : startImmediately ? LoadingStatus.Loading : LoadingStatus.Idle
 
 	let error: LoaderError
 
