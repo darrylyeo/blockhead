@@ -37,6 +37,7 @@
 	import EthereumTransaction from './EthereumTransaction.svelte'
 	import EthereumTransactionLoader from './EthereumTransactionLoader.svelte'
 	import FarcasterCastLoader from './FarcasterCastLoader.svelte'
+	import FarcasterCastsLoader from './FarcasterCastsLoader.svelte'
 	import FarcasterCast from './FarcasterCast.svelte'
 	import FarcasterCasts from './FarcasterCasts.svelte'
 	import FarcasterChannel from './FarcasterChannel.svelte'
@@ -60,9 +61,11 @@
 	canToggle={false}
 >
 	<svelte:fragment slot="title">
-		<FarcasterUser
-			user={cast.author}
-		/>
+		{#if cast.author}
+			<FarcasterUser
+				user={cast.author}
+			/>
+		{/if}
 	</svelte:fragment>
 
 	<svelte:fragment slot="header-right">
@@ -276,19 +279,21 @@
 				layout="embedded-replies"
 			/>
 		{:else if cast.repliesCount}
-			<FarcasterCastLoader
+			<FarcasterCastsLoader
 				{farcasterProvider}
-				castId={cast.id}
-				withReplies
-				let:cast={castWithReplies}
+				{farcasterFeedProvider}
+				query={{
+					parentCastId: cast.id,
+				}}
+				let:casts
 			>
-				{#if castWithReplies?.replies}
+				{#if casts}
 					<FarcasterCasts
-						casts={castWithReplies.replies}
+						{casts}
 						layout="embedded-replies"
 					/>
 				{/if}
-			</FarcasterCastLoader>
+			</FarcasterCastsLoader>
 		{/if}
 	</Collapsible>
 </Collapsible>
