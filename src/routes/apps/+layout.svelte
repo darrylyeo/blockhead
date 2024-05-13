@@ -24,7 +24,7 @@
 
 		farcasterCastId,
 		farcasterCastShortId,
-		farcasterChannelSlug,
+		farcasterChannelId,
 		farcasterUserId,
 		farcasterUserName,
 
@@ -47,7 +47,7 @@
 		$discoCredentialId = $page.params.discoCredentialId || ''
 		$farcasterCastId = $page.params.farcasterCastId || ''
 		$farcasterCastShortId = $page.params.farcasterCastShortId || ''
-		$farcasterChannelSlug = $page.params.farcasterChannelSlug || ''
+		$farcasterChannelId = $page.params.farcasterChannelId || ''
 		$farcasterUserId = $page.params.farcasterUserId || ''
 		$farcasterUserName = $page.params.farcasterUserName || ''
 		$ipfsContentId = $page.params.ipfsContentId || ''
@@ -292,6 +292,7 @@
 			'theme',
 			'farcasterProvider',
 			'farcasterFeedProvider',
+			'urlMetadataProvider',
 		] : $web3AppSlug === 'ipfs' ? [
 			'theme',
 			'ipfsGateway',

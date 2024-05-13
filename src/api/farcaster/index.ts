@@ -4,7 +4,7 @@ export type FarcasterUserId = number
 export type FarcasterUserName = string
 export type FarcasterCastId = `0x${string}`
 export type FarcasterCastShortId = `0x${string}`
-export type FarcasterChannelSlug = string
+export type FarcasterChannelId = string
 
 export type FarcasterUser = {
 	id: FarcasterUserId;
@@ -42,11 +42,13 @@ export type FarcasterUser = {
 }
 
 export type FarcasterChannel = {
-	id: string;
+	id: FarcasterChannelId;
+
 	url: string;
 	name?: string;
 	image?: string;
 	createdAt?: number;
+
 	leads?: FarcasterUserId[];
 
 	summary?: {

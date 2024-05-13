@@ -53,14 +53,14 @@
 	const formatChannelMentions = (text: string) => (
 		text
 			.replaceAll(
-				/(^|\s)(?<farcasterChannelSlug>[/]([a-z0-9]+(?:[-][a-z0-9]+)*))(?=\W|$)/g,
-				(_, before, mention, farcasterChannelSlug) => ( 
-					`${before}<a href="${resolveRoute(`/apps/farcaster/channel/[farcasterChannelSlug]`, { farcasterChannelSlug })}">${mention}</a>`
+				/(^|\s)(?<farcasterChannelId>[/]([a-z0-9]+(?:[-][a-z0-9]+)*))(?=\W|$)/g,
+				(_, before, mention, farcasterChannelId) => ( 
+					`${before}<a href="${resolveRoute(`/apps/farcaster/channel/[farcasterChannelId]`, { farcasterChannelId })}">${mention}</a>`
 				),
 			)
 			// .replaceAll(
-			// 	/(?<=^|\s)[/](?<farcasterChannelSlug>[a-z0-9]+(?:[-][a-z0-9]+)*)(?=\W|$)/g, (match,
-			// 	farcasterChannelSlug) => `<a href="${resolveRoute(`/apps/farcaster/channel/[farcasterChannelSlug]`, { farcasterChannelSlug })}">${match}</a>`
+			// 	/(?<=^|\s)[/](?<farcasterChannelId>[a-z0-9]+(?:[-][a-z0-9]+)*)(?=\W|$)/g, (match,
+			// 	farcasterChannelId) => `<a href="${resolveRoute(`/apps/farcaster/channel/[farcasterChannelId]`, { farcasterChannelId })}">${match}</a>`
 			// )
 	)
 
