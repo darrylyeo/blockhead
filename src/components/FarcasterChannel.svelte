@@ -19,7 +19,9 @@
 
 <FarcasterChannelsLoader
 	farcasterProvider={farcasterProvider}
-	layout="passive"
+	viewOptions={{
+		layout: 'passive',
+	}}
 	let:channels
 >
 	{@const channel = (
