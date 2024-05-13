@@ -20,6 +20,10 @@
 		| {
 			userId: FarcasterUserId,
 		}
+		// Casts by users followed by user
+		| {
+			followedByUserId: FarcasterUserId,
+		}
 		// Casts in trending
 		| {
 			trending: boolean,
