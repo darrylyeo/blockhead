@@ -36,6 +36,7 @@
 	loadingMessage="Loading channels from {farcasterProvider}..."
 	loadingIcon={farcasterProviderIcons[farcasterProvider]}
 	errorMessage="Couldn't load channels from {farcasterProvider}."
+	{...$$restProps}
 	{...{
 		[FarcasterProvider.Hub]: () => {},
 
