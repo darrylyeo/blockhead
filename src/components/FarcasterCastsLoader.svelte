@@ -13,14 +13,23 @@
 	// Inputs
 	export let farcasterProvider: FarcasterProvider = FarcasterProvider.Neynar
 	export let farcasterFeedProvider: FarcasterFeedProvider = farcasterProvider as unknown as FarcasterFeedProvider
-	export let userId: FarcasterUserId | undefined
-
-	export let feedOptions: {
-		[FarcasterFeedProvider.Airstack]?: {
-			criteria: 'social_capital_value' | 'likes' | 'recasts' | 'replies' | 'likes_recasts_replies',
-			timeFrame: 'one_hour' | 'two_hours' | 'eight_hours' | 'one_day' | 'two_days' | 'seven_days',
+	export let query:
+		// Unordered / chronological
+		| undefined
+		// Casts by user
+		| {
+			userId: FarcasterUserId,
 		}
-	} | undefined
+		// Casts in trending
+		| {
+			trending: boolean,
+			feedOptions?: {
+				[FarcasterFeedProvider.Airstack]?: {
+					criteria: 'social_capital_value' | 'likes' | 'recasts' | 'replies' | 'likes_recasts_replies',
+					timeFrame: 'one_hour' | 'two_hours' | 'eight_hours' | 'one_day' | 'two_days' | 'seven_days',
+				},
+			},
+		}
 
 
 	// Outputs
@@ -59,18 +68,20 @@
 	{...{
 		[FarcasterFeedProvider.Airstack]: () => ({
 			fromInfiniteQuery: (
-				userId ? (
+				query && 'userId' in query ?
 					createInfiniteQuery({
 						queryKey: ['FarcasterCasts', {
 							farcasterFeedProvider,
-							userId,
+							userId: query.userId,
 						}],
 						initialPageParam: '',
-						queryFn: async ({ pageParam: cursor }) => {
+						queryFn: async ({
+							pageParam: cursor
+						}) => {
 							const { getFarcasterCastsByUserId } = await import('$/api/airstack')
 
 							return await getFarcasterCastsByUserId({
-								userId,
+								userId: query.userId,
 								limit: 50,
 								cursor,
 							})
@@ -83,11 +94,12 @@
 						),
 						staleTime: 10 * 1000,
 					})
-				) : feedOptions?.[FarcasterFeedProvider.Airstack] ? (
+
+				: query && 'trending' in query ?
 					createInfiniteQuery({
 						queryKey: ['FarcasterCasts', {
 							farcasterFeedProvider,
-							feedOptions,
+							feedOptions: query.feedOptions,
 						}],
 						initialPageParam: '',
 						queryFn: async ({
@@ -97,8 +109,8 @@
 							const { getFarcasterTrendingCasts } = await import('$/api/airstack')
 
 							return await getFarcasterTrendingCasts({
-								criteria: feedOptions[FarcasterFeedProvider.Airstack].criteria,
-								timeFrame: feedOptions[FarcasterFeedProvider.Airstack].timeFrame,
+								criteria: feedOptions?.[FarcasterFeedProvider.Airstack]?.criteria,
+								timeFrame: feedOptions?.[FarcasterFeedProvider.Airstack]?.timeFrame,
 								limit: 50,
 								cursor,
 							})
@@ -111,7 +123,8 @@
 						),
 						staleTime: 10 * 1000,
 					})
-				) : (
+
+				:
 					createInfiniteQuery({
 						queryKey: ['FarcasterCasts', {
 							farcasterFeedProvider,
@@ -133,20 +146,22 @@
 						),
 						staleTime: 10 * 1000,
 					})
-				)
 			),
 		}),
 
 		[FarcasterFeedProvider.Neynar]: () => ({
 			fromInfiniteQuery: (
-				userId ? (
+				query && 'userId' in query ?
 					createInfiniteQuery({
 						queryKey: ['FarcasterCasts', {
 							farcasterFeedProvider,
-							userId,
+							userId: query.userId,
 						}],
 						initialPageParam: '',
-						queryFn: async ({ pageParam: cursor }) => {
+						queryFn: async ({
+							queryKey: [, { userId }],
+							pageParam: cursor,
+						}) => {
 							const { feed } = await import('$/api/neynar/v2')
 
 							return await feed(
@@ -171,14 +186,15 @@
 						),
 						staleTime: 10 * 1000,
 					})
-				) : (
+
+				:
 					createInfiniteQuery({
 						queryKey: ['FarcasterCasts', {
 							farcasterFeedProvider,
 						}],
 						initialPageParam: '',
 						queryFn: async ({
-							pageParam: cursor
+							pageParam: cursor,
 						}) => {
 							const { feed } = await import('$/api/neynar/v2')
 
@@ -202,20 +218,22 @@
 						),
 						staleTime: 10 * 1000,
 					})
-				)
 			),
 		}),
 
 		[FarcasterFeedProvider.OpenRank]: () => ({
 			fromInfiniteQuery: (
-				createInfiniteQuery({
-					queryKey: ['FarcasterCasts', {
-						farcasterFeedProvider,
-						userId,
-					}],
-					initialPageParam: 0,
-					queryFn: async ({ pageParam: offset }) => {
-						if(userId){
+				query && 'userId' in query ?
+					createInfiniteQuery({
+						queryKey: ['FarcasterCasts', {
+							farcasterFeedProvider,
+							userId: query.userId,
+						}],
+						initialPageParam: '',
+						queryFn: async ({
+							queryKey: [, { userId }],
+							pageParam: offset,
+						}) => {
 							const { getRecentCastsForFidCastsPersonalizedRecentFidGet } = await import('$/api/openrank/farcaster/index')
 
 							return await getRecentCastsForFidCastsPersonalizedRecentFidGet(
@@ -228,8 +246,29 @@
 									fetch: proxyFetch,
 								},
 							)
-						}else{
-							// Default to dwr.eth's Feed
+						},
+						getNextPageParam: (lastPage) => lastPage?.next?.offset,
+						select: result => (
+							[...new Set(
+								result.pages
+									.flatMap(page => page.result ?? [])
+									.map(item => item.cast_hash)
+							)]
+								.map(id => ({
+									id,
+								}))
+						),
+						staleTime: 10 * 1000,
+					})
+
+				:
+					// Default to dwr.eth's Feed
+					createInfiniteQuery({
+						queryKey: ['FarcasterCasts', {
+							farcasterFeedProvider,
+						}],
+						initialPageParam: 0,
+						queryFn: async ({ pageParam: offset }) => {
 							const { getRecentCastsForFidCastsPersonalizedRecentFidGet } = await import('$/api/openrank/farcaster/index')
 
 							return await getRecentCastsForFidCastsPersonalizedRecentFidGet(
@@ -242,34 +281,36 @@
 									fetch: proxyFetch,
 								},
 							)
-						}
-					},
-					getNextPageParam: (lastPage) => lastPage?.next?.offset,
-					select: result => (
-						[...new Set(
-							result.pages
-								.flatMap(page => page.result ?? [])
-								.map(item => item.cast_hash)
-						)]
-							.map(id => ({
-								id,
-							}))
-					),
-					staleTime: 10 * 1000,
-				})
+						},
+						getNextPageParam: (lastPage) => lastPage?.next?.offset,
+						select: result => (
+							[...new Set(
+								result.pages
+									.flatMap(page => page.result ?? [])
+									.map(item => item.cast_hash)
+							)]
+								.map(id => ({
+									id,
+								}))
+						),
+						staleTime: 10 * 1000,
+					})
 			),
 		}),
 
 		[FarcasterFeedProvider.Pinata]: () => ({
 			fromInfiniteQuery: (
-				userId ? (
+				query && 'userId' in query ?
 					createInfiniteQuery({
 						queryKey: ['FarcasterCasts', {
 							farcasterFeedProvider,
-							userId,
+							userId: query.userId,
 						}],
 						initialPageParam: '',
-						queryFn: async ({ pageParam: pageToken }) => {
+						queryFn: async ({
+							queryKey: [, { userId }],
+							pageParam: pageToken,
+						}) => {
 							const { getCasts } = await import('$/api/pinata/farcaster')
 
 							return await getCasts({
@@ -286,7 +327,8 @@
 						),
 						staleTime: 10 * 1000,
 					})
-				) : (
+
+				:
 					createInfiniteQuery({
 						queryKey: ['FarcasterCasts', {
 							farcasterFeedProvider,
@@ -308,7 +350,6 @@
 						),
 						staleTime: 10 * 1000,
 					})
-				)
 			),
 		}),
 	}[farcasterFeedProvider]?.()}

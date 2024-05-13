@@ -42,7 +42,10 @@
 <FarcasterCastsLoader
 	{farcasterProvider}
 	farcasterFeedProvider={_farcasterFeedProvider}
-	{feedOptions}
+	query={{
+		trending: true,
+		feedOptions,
+	}}
 	let:casts
 	let:pagination
 >

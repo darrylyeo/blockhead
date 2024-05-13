@@ -63,7 +63,9 @@
 				<FarcasterCastsLoader
 					{farcasterProvider}
 					farcasterFeedProvider={_farcasterFeedProvider}
-					userId={user.id}
+					query={{
+						userId: user.id,
+					}}
 					let:casts
 					let:pagination
 				>
