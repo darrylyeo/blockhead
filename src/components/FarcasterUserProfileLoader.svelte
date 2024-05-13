@@ -54,6 +54,7 @@
 	loadingMessage={`Searching for Farcaster user ${userId ? `#${userId}` : `"${userName}"`} via ${farcasterProvider}...`}
 	loadingIcon={farcasterProviderIcons[farcasterProvider]}
 	errorMessage={`Couldn't find Farcaster user ${userId ? `#${userId}` : `"${userName}"`}.`}
+	{...$$restProps}
 	{...{
 		[FarcasterProvider.Airstack]: () => ({
 			fromQuery: (
