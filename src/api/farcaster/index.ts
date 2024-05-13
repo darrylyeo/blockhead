@@ -47,6 +47,10 @@ export type FarcasterChannel = {
 	name: string;
 	image?: string;
 	leads?: FarcasterUserId[];
+
+	summary?: {
+		followerCount: number;
+	},
 }
 
 

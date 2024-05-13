@@ -977,3 +977,73 @@ export const getFarcasterCastByClientUrl = async ({
 			return result.data
 		})
 }
+
+const FarcasterChannel = graphql(`
+	fragment FarcasterChannel on FarcasterChannel @_unmask {
+		channelId
+		createdAtTimestamp
+		dappName
+		dappSlug
+		description
+		followerCount
+		hostIds
+		id
+		imageUrl
+		leadIds
+		name
+		url
+	}
+`)
+
+export const getFarcasterChannels = async ({
+	limit = 50,
+	cursor,
+}: {
+	limit: number,
+	cursor: string,
+}) => {
+	return await client
+		.query(
+			graphql(`
+				query FarcasterChannels(
+					$limit: Int!
+					$cursor: String!
+				) {
+					FarcasterChannels(
+						input: {
+							blockchain: ALL
+							limit: $limit
+							cursor: $cursor
+							order: {
+								createdAtTimestamp: DESC
+								followerCount: DESC
+							}
+						}
+					) {
+						FarcasterChannel {
+							...FarcasterChannel
+						}
+						pageInfo {
+							hasNextPage
+							hasPrevPage
+							nextCursor
+							prevCursor
+						}
+					}
+				}
+			`, [
+				FarcasterChannel,
+			]),
+			{
+				limit,
+				cursor,
+			},
+		)
+		.toPromise()
+		.then(result => {
+			if(result.error)
+				throw result.error
+
+			return result.data
+		})
+}

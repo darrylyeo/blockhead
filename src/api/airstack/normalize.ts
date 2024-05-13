@@ -1,13 +1,13 @@
 // Types
 import type { Ethereum } from '$/data/networks/types'
 import type { TokenWithBalance } from '$/data/tokens'
-import type { getNftsByAddress, getTokenBalances, getFarcasterCastByHash, getFarcasterUserByName, getFarcasterTrendingCasts } from '.'
+import type { getNftsByAddress, getTokenBalances, getFarcasterCastByHash, getFarcasterUserByName, getFarcasterTrendingCasts, getFarcasterChannels } from '.'
 
 
 // Functions
 import { isTruthy } from '$/utils/isTruthy'
 import { normalizeNftAttributes } from '$/utils/normalizeNftAttributes'
-import { extractCastEmbeds, type FarcasterCast, type FarcasterUser } from '../farcaster'
+import { extractCastEmbeds, type FarcasterCast, type FarcasterUser, type FarcasterChannel } from '../farcaster'
 
 export const normalizeNftContracts = (
 	tokenBalances: NonNullable<NonNullable<NonNullable<Awaited<ReturnType<typeof getNftsByAddress>>>['TokenBalances']>['TokenBalance']>,
@@ -119,5 +119,19 @@ export const normalizeFarcasterUser = (
 		...farcasterUser.followingCount !== null && {
 			followingCount: farcasterUser.followingCount,
 		},
+	},
+})
+
+export const normalizeFarcasterChannel = (
+	channel: NonNullable<NonNullable<NonNullable<Awaited<ReturnType<typeof getFarcasterChannels>>>['FarcasterChannels']>['FarcasterChannel']>[number]
+): FarcasterChannel => ({
+	id: channel.channelId,
+	url: channel.url,
+	name: channel.name,
+	image: channel.imageUrl,
+	leads: channel.hostIds,
+
+	summary: {
+		followerCount: channel.followerCount,
 	},
 })
