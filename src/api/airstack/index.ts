@@ -661,7 +661,6 @@ const FarcasterCast = graphql(`
 			castedAtTimestamp
 			frameHash
 			frameUrl
-			id
 			imageAspectRatio
 			imageUrl
 			inputText
@@ -682,12 +681,10 @@ const FarcasterCast = graphql(`
 		}
 		parentFid
 		parentHash
-		parentUrl
 		quotedCast {
 			id
 		}
 		rawText
-		rootParentHash
 		rootParentUrl
 		socialCapitalValue {
 			formattedValue

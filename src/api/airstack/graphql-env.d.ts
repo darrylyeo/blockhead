@@ -10231,6 +10231,9 @@ export type introspection = {
         "enumValues": [
           {
             "name": "base"
+          },
+          {
+            "name": "degen"
           }
         ]
       },
