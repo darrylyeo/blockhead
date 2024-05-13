@@ -55,12 +55,12 @@
 
 
 	// Functions
-	import { createInfiniteQuery } from '@tanstack/svelte-query'
+	import { createQuery, createInfiniteQuery } from '@tanstack/svelte-query'
 
 	import { proxyFetch } from '$/utils/proxyFetch'
 
 	import { normalizeFarcasterCast as normalizeCastAirstack, normalizeFarcasterTrendingCast as normalizeTrendingCastAirstack } from '$/api/airstack/normalize'
-	import { normalizeCastV2 as normalizeCastNeynarV2 } from '$/api/neynar/normalize'
+	import { normalizeCastV2 as normalizeCastNeynarV2, normalizeCastWithRepliesV1 as normalizeCastWithRepliesV1Neynar } from '$/api/neynar/normalize'
 	import { normalizeCast as normalizeCastPinata } from '$/api/pinata/farcaster/normalize' 
 
 
@@ -193,6 +193,29 @@
 							)]
 						),
 						staleTime: 10 * 1000,
+					})
+
+				: query && 'parentCastId' in query ?
+					createQuery({
+						queryKey: ['FarcasterCast', {
+							farcasterProvider,
+							castId: query.parentCastId,
+							withReplies: true,
+						}],
+						queryFn: async ({
+							queryKey: [, { castId }],
+						}) => {
+							const { getFarcasterAllCastsInThread } = await import('$/api/neynar/v1')
+
+							return await getFarcasterAllCastsInThread(
+								publicEnv.PUBLIC_NEYNAR_API_KEY,
+								castId,
+							)
+						},
+						select: result => (
+							normalizeCastWithRepliesV1Neynar(result.result.casts)
+								.replies
+						),
 					})
 
 				:
