@@ -332,6 +332,34 @@
 						staleTime: 10 * 1000,
 					})
 
+				: query && 'parentCastId' in query ?
+					createInfiniteQuery({
+						queryKey: ['FarcasterCasts', {
+							farcasterFeedProvider,
+							parentCastId: query.parentCastId,
+						}],
+						initialPageParam: '',
+						queryFn: async ({
+							queryKey: [, { parentCastId }],
+							pageParam: pageToken,
+						}) => {
+							const { getCasts } = await import('$/api/pinata/farcaster')
+
+							return await getCasts({
+								parentHash: parentCastId,
+								pageSize: 50,
+								pageToken,
+							})
+						},
+						getNextPageParam: (lastPage) => lastPage.data?.next_page_token,
+						select: result => (
+							result.pages
+								.flatMap(page => page.data.casts)
+								.map(normalizeCastPinata)
+						),
+						staleTime: 10 * 1000,
+					})
+
 				:
 					createInfiniteQuery({
 						queryKey: ['FarcasterCasts', {
