@@ -44,8 +44,9 @@ export type FarcasterUser = {
 export type FarcasterChannel = {
 	id: string;
 	url: string;
-	name: string;
+	name?: string;
 	image?: string;
+	createdAt?: number;
 	leads?: FarcasterUserId[];
 
 	summary?: {

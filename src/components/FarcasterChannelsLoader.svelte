@@ -4,6 +4,10 @@
 	import { FarcasterProvider, farcasterProviderIcons } from '$/data/farcasterProviders'
 
 
+	// Context
+	import * as publicEnv from '$env/static/public'
+
+
 	// Inputs
 	export let farcasterProvider: FarcasterProvider = FarcasterProvider.Neynar
 
@@ -24,10 +28,10 @@
 	// Functions
 	import { createQuery, createInfiniteQuery } from '@tanstack/svelte-query'
 
-	import { getFarcasterChannelList } from '$/api/neynar/channels'
+	import { getFarcasterChannelList as getFarcasterChannelListOldNeynar } from '$/api/neynar/channels'
 
 	import { normalizeFarcasterChannel as normalizeChannelAirstack } from '$/api/airstack/normalize'
-	import { normalizeChannel as normalizeChannelNeynar } from '$/api/neynar/normalize'
+	import { normalizeChannel as normalizeChannelNeynar, normalizeChannelOld as normalizeChannelOldNeynar } from '$/api/neynar/normalize'
 	import { normalizeChannel as normalizeChannelPinata } from '$/api/pinata/farcaster/normalize'
 
 
@@ -70,21 +74,51 @@
 			),
 		}),
 
-		[FarcasterProvider.Neynar]: () => ({
-			fromQuery: (
-				createQuery({
-					queryKey: ['FarcasterChannels', {
-						farcasterProvider,
-					}],
-					queryFn: async () => (
-						await getFarcasterChannelList()
+		[FarcasterProvider.Neynar]: () => (
+			true ?
+				{
+					fromInfiniteQuery: (
+						createInfiniteQuery({
+							queryKey: ['FarcasterChannels', {
+								farcasterProvider,
+							}],
+							initialPageParam: '',
+							queryFn: async ({ pageParam: pageToken }) => {
+								const { getFarcasterChannelList } = await import('$/api/neynar/v2')
+
+								return await getFarcasterChannelList(
+									publicEnv.PUBLIC_NEYNAR_API_KEY,
+									{
+										cursor: pageToken,
+										limit: 100,
+									}
+								)
+							},
+							getNextPageParam: (lastPage, pages) => lastPage.next?.cursor,
+							select: result => (
+								result.pages
+									.flatMap(page => page.channels ?? [])
+									.map(normalizeChannelNeynar)
+							),
+						})
 					),
-					select: result => (
-						result.map(normalizeChannelNeynar)
+				}
+				: {
+					fromQuery: (
+						createQuery({
+							queryKey: ['FarcasterChannels', {
+								farcasterProvider,
+							}],
+							queryFn: async () => (
+								await getFarcasterChannelListOldNeynar()
+							),
+							select: result => (
+								result.map(normalizeChannelOldNeynar)
+							),
+						})
 					),
-				})
-			),
-		}),
+				}
+		),
 
 		[FarcasterProvider.Pinata]: () => ({
 			fromInfiniteQuery: (

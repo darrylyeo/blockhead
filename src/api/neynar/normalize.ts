@@ -4,8 +4,8 @@ import type { Ethereum } from '$/data/networks/types'
 import type { FarcasterUser, FarcasterUserId, FarcasterCast, FarcasterChannel, FarcasterCastId } from '../farcaster'
 
 import { ActiveStatus, type User as UserV1, type Cast as CastV1, type CastWithInteractions as CastWithInteractionsV1 } from './v1'
-import type { Cast as CastV2, CastWithInteractions as CastWithInteractionsV2, User as UserV2 } from './v2'
-import type { Channel } from './channels'
+import type { Cast as CastV2, CastWithInteractions as CastWithInteractionsV2, User as UserV2, Channel as ChannelV2 } from './v2'
+import type { Channel as ChannelOld } from './channels'
 
 
 // Functions
@@ -86,12 +86,28 @@ export const normalizeUserV2 = (
 		: undefined,
 })
 
-export const normalizeChannel = (channel: Channel): FarcasterChannel => ({
-	id: channel.channelId,
+export const normalizeChannelOld = (channel: ChannelOld): FarcasterChannel => ({
+	id: channel.channel_id,
 	url: channel.parent_url,
 	name: channel.name,
 	image: channel.image,
-	leads: [channel.lead_fid],
+	...channel.lead_fid && {
+		leads: [channel.lead_fid],
+	},
+})
+
+export const normalizeChannel = (channel: ChannelV2): FarcasterChannel => ({
+	id: channel.id,
+	url: channel.url,
+	name: channel.name,
+	description: channel.description,
+	image: channel.image_url,
+	...channel.created_at && {
+		createdAt: new Date(channel.created_at * 1000).valueOf(),
+	},
+	...channel.lead && {
+		leads: [channel.lead.fid],
+	},
 })
 
 export const normalizeCastWithInteractions = (cast: CastWithInteractionsV1): CastWithInteractionsV2 => ({
