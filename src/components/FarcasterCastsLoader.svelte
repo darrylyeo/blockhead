@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import { FeedType, FilterType } from '$/api/neynar/v2'
-	import type { FarcasterCast, FarcasterUserId } from '$/api/farcaster/index'
+	import type { FarcasterCast, FarcasterUserId, FarcasterCastId } from '$/api/farcaster/index'
 	import { FarcasterProvider } from '$/data/farcasterProviders'
 	import { FarcasterFeedProvider, farcasterFeedProviderIcons } from '$/data/farcasterFeedProviders'
 
@@ -33,6 +33,10 @@
 					timeFrame: 'one_hour' | 'two_hours' | 'eight_hours' | 'one_day' | 'two_days' | 'seven_days',
 				},
 			},
+		}
+		// Replies to cast
+		| {
+			parentCastId: FarcasterCastId,
 		}
 
 
