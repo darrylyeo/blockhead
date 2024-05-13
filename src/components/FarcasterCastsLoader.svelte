@@ -227,21 +227,21 @@
 
 		[FarcasterFeedProvider.OpenRank]: () => ({
 			fromInfiniteQuery: (
-				query && 'userId' in query ?
+				query && 'followedByUserId' in query ?
 					createInfiniteQuery({
 						queryKey: ['FarcasterCasts', {
 							farcasterFeedProvider,
-							userId: query.userId,
+							followedByUserId: query.followedByUserId,
 						}],
 						initialPageParam: '',
 						queryFn: async ({
-							queryKey: [, { userId }],
+							queryKey: [, { followedByUserId }],
 							pageParam: offset,
 						}) => {
 							const { getRecentCastsForFidCastsPersonalizedRecentFidGet } = await import('$/api/openrank/farcaster/index')
 
 							return await getRecentCastsForFidCastsPersonalizedRecentFidGet(
-								userId,
+								followedByUserId,
 								{
 									offset,
 									limit: 50,
