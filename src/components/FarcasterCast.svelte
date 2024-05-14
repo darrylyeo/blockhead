@@ -169,11 +169,21 @@
 	{/if}
 
 	{#if cast.castEmbeds?.length}
-		{#each cast.castEmbeds as { clientUrl, userId, castId }}
+		{#each cast.castEmbeds as castEmbed}
 			<FarcasterCastLoader
 				{farcasterProvider}
-				{clientUrl}
-				{castId}
+				query={
+					'castId' in castEmbed && castEmbed.castId ?
+						{
+							castId: castEmbed.castId,
+						}
+					: 'clientUrl' in castEmbed && castEmbed.clientUrl ?
+						{
+							clientUrl: castEmbed.clientUrl,
+						}
+					:
+						undefined
+				}
 				let:cast
 			>
 				{#if cast}

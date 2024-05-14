@@ -11,10 +11,19 @@
 
 	// Inputs
 	export let farcasterProvider: FarcasterProvider = FarcasterProvider.Neynar
-	export let castId: FarcasterCastId | undefined
-	export let clientUrl: string | undefined
-	export let withReplies: boolean = false
-	export let viewerUserId: FarcasterUserId | undefined
+	export let query:
+		& (
+			| {
+				castId: FarcasterCastId,
+				isReply?: boolean,
+			}
+			| {
+				clientUrl: string,
+			}
+		)
+		& {
+			withReplies?: boolean,
+		}
 
 
 	// Outputs
@@ -51,13 +60,15 @@
 
 		[FarcasterProvider.Airstack]: () => ({
 			fromQuery: (
-				castId ?
+				'castId' in query ?
 					createQuery({
 						queryKey: ['FarcasterCast', {
 							farcasterProvider,
-							castId,
+							castId: query.castId,
 						}],
-						queryFn: async () => {
+						queryFn: async ({
+							queryKey: [, { castId }],
+						}) => {
 							const { getFarcasterCastByHash } = await import('$/api/airstack')
 
 							return await getFarcasterCastByHash({
@@ -74,18 +85,21 @@
 							)
 
 							if(!cast)
-								throw new Error(`Cast with ID ${castId} may not be indexed yet or was deleted.`)
+								throw new Error(`Cast with ID ${query.castId} may not be indexed yet or was deleted.`)
 
 							return cast
 						},
 					})
-				: clientUrl ?
+
+				: 'clientUrl' in query ?
 					createQuery({
 						queryKey: ['FarcasterCast', {
 							farcasterProvider,
-							clientUrl,
+							clientUrl: query.clientUrl,
 						}],
-						queryFn: async () => {
+						queryFn: async ({
+							queryKey: [, { clientUrl }],
+						}) => {
 							const { getFarcasterCastByClientUrl } = await import('$/api/airstack')
 
 							return await getFarcasterCastByClientUrl({
@@ -102,7 +116,7 @@
 							)
 
 							if(!cast)
-								throw new Error(`Cast with URL ${clientUrl} may not be indexed yet or was deleted.`)
+								throw new Error(`Cast with URL ${query.clientUrl} may not be indexed yet or was deleted.`)
 
 							return cast
 						},
@@ -114,15 +128,17 @@
 
 		[FarcasterProvider.Neynar]: () => ({
 			fromQuery: (
-				castId ?
-					withReplies ?
+				'castId' in query ?
+					query.withReplies ?
 						createQuery({
 							queryKey: ['FarcasterCast', {
 								farcasterProvider,
-								castId,
-								withReplies,
+								castId: query.castId,
+								withReplies: true,
 							}],
-							queryFn: async () => {
+							queryFn: async ({
+								queryKey: [, { castId }],
+							}) => {
 								const { getFarcasterAllCastsInThread } = await import('$/api/neynar/v1')
 
 								return await getFarcasterAllCastsInThread(
@@ -134,13 +150,16 @@
 								normalizeCastWithRepliesV1Neynar(result.result.casts)
 							),
 						})
+
 					:
 						createQuery({
 							queryKey: ['FarcasterCast', {
 								farcasterProvider,
-								castId,
+								castId: query.castId,
 							}],
-							queryFn: async () => {
+							queryFn: async ({
+								queryKey: [, { castId }],
+							}) => {
 								const { cast } = await import('$/api/neynar/v2')
 
 								return await cast(
@@ -153,13 +172,16 @@
 								result?.cast && normalizeCastNeynarV2(result.cast)
 							),
 						})
-				: clientUrl ?
+
+				: 'clientUrl' in query ?
 					createQuery({
 						queryKey: ['FarcasterCast', {
 							farcasterProvider,
-							clientUrl,
+							clientUrl: query.clientUrl,
 						}],
-						queryFn: async () => {
+						queryFn: async ({
+							queryKey: [, { clientUrl }],
+						}) => {
 							const { cast } = await import('$/api/neynar/v2')
 
 							return await cast(
@@ -179,13 +201,15 @@
 
 		[FarcasterProvider.Pinata]: () => ({
 			fromQuery: (
-				castId ?
+				'castId' in query ?
 					createQuery({
 						queryKey: ['FarcasterCast', {
 							farcasterProvider,
-							castId,
+							castId: query.castId,
 						}],
-						queryFn: async () => {
+						queryFn: async ({
+							queryKey: [, { castId }],
+						}) => {
 							const { getCastByHash } = await import('$/api/pinata/farcaster')
 
 							return await getCastByHash({
@@ -196,16 +220,18 @@
 							normalizeCastPinata(result.data)
 						),
 					})
-				: clientUrl ?
+
+				: 'clientUrl' in query ?
 					createQuery({
 						queryKey: ['FarcasterCast', {
 							farcasterProvider,
-							clientUrl,
+							clientUrl: query.clientUrl,
 						}],
 						queryFn: async () => {
 							throw new Error('Pinata does not yet support fetching casts by Warpcast URLs.')
 						},
 					})
+
 				:
 					undefined
 			),

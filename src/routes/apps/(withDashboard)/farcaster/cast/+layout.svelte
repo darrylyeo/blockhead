@@ -41,17 +41,20 @@
 
 <FarcasterCastLoader
 	{farcasterProvider}
-	{...$farcasterCastId ?
-		{
-			castId: $farcasterCastId,
-		}
-	: $farcasterUserName && $farcasterCastShortId ?
-		{
-			clientUrl: `https://warpcast.com/${$farcasterUserName}/${$farcasterCastShortId}`
-		}
-	:
-		{}}
-	withReplies
+	query={
+		$farcasterCastId ?
+			{
+				castId: $farcasterCastId,
+				withReplies: true,
+			}
+		: $farcasterUserName && $farcasterCastShortId ?
+			{
+				clientUrl: `https://warpcast.com/${$farcasterUserName}/${$farcasterCastShortId}`,
+				withReplies: true,
+			}
+		:
+			{}
+	}
 	let:cast
 >
 	{#if cast}

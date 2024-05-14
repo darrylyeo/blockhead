@@ -65,7 +65,9 @@
 			{:else}
 				<FarcasterCastLoader
 					{farcasterProvider}
-					castId={cast.id}
+					query={{
+						castId: cast.id,
+					}}
 					let:cast
 				>
 					<FarcasterCast
