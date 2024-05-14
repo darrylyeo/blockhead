@@ -288,7 +288,7 @@
 				casts={cast.replies}
 				layout="embedded-replies"
 			/>
-		{:else if cast.repliesCount}
+		{:else if !('repliesCount' in cast && cast.repliesCount === 0)}
 			<FarcasterCastsLoader
 				{farcasterProvider}
 				{farcasterFeedProvider}
