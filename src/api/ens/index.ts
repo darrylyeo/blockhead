@@ -29,6 +29,8 @@ const client = new Client({
 	],
 })
 
+import { handleUrqlResult } from '$/utils/urql'
+
 
 // Fragments
 const Domain = graphql(`
@@ -131,12 +133,7 @@ export const getEnsName = async ({
 			},
 		)
 		.toPromise()
-		.then(result => {
-			if(result.error)
-				throw result.error
-
-			return result.data
-		})
+		.then(handleUrqlResult)
 )
 
 export const getEnsDomainsContaining = async ({
@@ -167,12 +164,7 @@ export const getEnsDomainsContaining = async ({
 			},
 		)
 		.toPromise()
-		.then(result => {
-			if(result.error)
-				throw result.error
-
-			return result.data
-		})
+		.then(handleUrqlResult)
 )
 
 export const getEnsDomainsByOwner = async (
@@ -198,10 +190,5 @@ export const getEnsDomainsByOwner = async (
 			},
 		)
 		.toPromise()
-		.then(result => {
-			if(result.error)
-				throw result.error
-
-			return result.data
-		})
+		.then(handleUrqlResult)
 )

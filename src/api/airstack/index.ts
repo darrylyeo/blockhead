@@ -34,6 +34,8 @@ const client = new Client({
 	})
 })
 
+import { handleUrqlResult } from '$/utils/urql'
+
 
 // Queries
 export const getTokenBalances = async ({
@@ -140,12 +142,7 @@ export const getTokenBalances = async ({
 			},
 		)
 		.toPromise()
-		.then(result => {
-			if(result.error)
-				throw result.error
-
-			return result.data
-		})
+		.then(handleUrqlResult)
 }
 
 export const getNftsByAddress = async ({
@@ -302,12 +299,7 @@ export const getNftsByAddress = async ({
 			},
 		)
 		.toPromise()
-		.then(result => {
-			if(result.error)
-				throw result.error
-
-			return result.data
-		})
+		.then(handleUrqlResult)
 }
 
 export const getNftContractsCountByAddress = async ({
@@ -371,12 +363,7 @@ export const getNftContractsCountByAddress = async ({
 				},
 			)
 			.toPromise()
-			.then(result => {
-				if(result.error)
-					throw result.error
-	
-				return result.data
-			})
+			.then(handleUrqlResult)
 
 		if(result?.TokenBalances?.pageInfo?.nextCursor){
 			nftContractsCount += limit
@@ -422,12 +409,7 @@ export const getNftContractsCountByAddress = async ({
 					},
 				)
 				.toPromise()
-				.then(result => {
-					if(result.error)
-						throw result.error
-		
-					return result.data
-				})
+				.then(handleUrqlResult)
 
 			nftContractsCount += result?.TokenBalances?.TokenBalance?.length ?? 0
 
@@ -578,12 +560,7 @@ export const getFarcasterUserById = async ({
 			},
 		)
 		.toPromise()
-		.then(result => {
-			if(result.error)
-				throw result.error
-
-			return result.data
-		})
+		.then(handleUrqlResult)
 }
 
 export const getFarcasterUserByName = async ({
@@ -629,12 +606,7 @@ export const getFarcasterUserByName = async ({
 			},
 		)
 		.toPromise()
-		.then(result => {
-			if(result.error)
-				throw result.error
-
-			return result.data
-		})
+		.then(handleUrqlResult)
 }
 
 const FarcasterCast = graphql(`
@@ -759,12 +731,7 @@ export const getFarcasterTrendingCasts = async ({
 			},
 		)
 		.toPromise()
-		.then(result => {
-			if(result.error)
-				throw result.error
-
-			return result.data
-		})
+		.then(handleUrqlResult)
 }
 
 export const getFarcasterCasts = async ({
@@ -813,12 +780,7 @@ export const getFarcasterCasts = async ({
 			},
 		)
 		.toPromise()
-		.then(result => {
-			if(result.error)
-				throw result.error
-
-			return result.data
-		})
+		.then(handleUrqlResult)
 }
 
 export const getFarcasterCastsByUserId = async ({
@@ -871,12 +833,7 @@ export const getFarcasterCastsByUserId = async ({
 			},
 		)
 		.toPromise()
-		.then(result => {
-			if(result.error)
-				throw result.error
-
-			return result.data
-		})
+		.then(handleUrqlResult)
 }
 
 export const getFarcasterCastByHash = async ({
@@ -919,12 +876,7 @@ export const getFarcasterCastByHash = async ({
 			},
 		)
 		.toPromise()
-		.then(result => {
-			if(result.error)
-				throw result.error
-
-			return result.data
-		})
+		.then(handleUrqlResult)
 }
 
 export const getFarcasterCastByClientUrl = async ({
@@ -967,12 +919,7 @@ export const getFarcasterCastByClientUrl = async ({
 			},
 		)
 		.toPromise()
-		.then(result => {
-			if(result.error)
-				throw result.error
-
-			return result.data
-		})
+		.then(handleUrqlResult)
 }
 
 export const getFarcasterCastReplies = async ({
@@ -1025,12 +972,7 @@ export const getFarcasterCastReplies = async ({
 			},
 		)
 		.toPromise()
-		.then(result => {
-			if(result.error)
-				throw result.error
-
-			return result.data
-		})
+		.then(handleUrqlResult)
 }
 
 const FarcasterChannel = graphql(`
@@ -1095,10 +1037,5 @@ export const getFarcasterChannels = async ({
 			},
 		)
 		.toPromise()
-		.then(result => {
-			if(result.error)
-				throw result.error
-
-			return result.data
-		})
+		.then(handleUrqlResult)
 }

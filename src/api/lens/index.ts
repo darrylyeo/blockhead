@@ -59,6 +59,8 @@ export const getClient = ({
 	})
 )
 
+import { handleUrqlResult } from '$/utils/urql'
+
 
 // Fragments
 const Profile = graphql(`
