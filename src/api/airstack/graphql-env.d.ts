@@ -1494,15 +1494,6 @@ export type introspection = {
             "args": []
           },
           {
-            "name": "rootParentHash",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "args": []
-          },
-          {
             "name": "rootParentUrl",
             "type": {
               "kind": "SCALAR",
@@ -1513,15 +1504,6 @@ export type introspection = {
           },
           {
             "name": "parentHash",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "args": []
-          },
-          {
-            "name": "parentUrl",
             "type": {
               "kind": "SCALAR",
               "name": "String",
@@ -1595,9 +1577,12 @@ export type introspection = {
           {
             "name": "quotedCast",
             "type": {
-              "kind": "OBJECT",
-              "name": "FarcasterCast",
-              "ofType": null
+              "kind": "LIST",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "FarcasterCast",
+                "ofType": null
+              }
             },
             "args": []
           },
@@ -2291,12 +2276,9 @@ export type introspection = {
           {
             "name": "channel",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "FarcasterChannel",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "FarcasterChannel",
+              "ofType": null
             },
             "args": [
               {
@@ -2646,15 +2628,6 @@ export type introspection = {
         "kind": "OBJECT",
         "name": "FarcasterFrame",
         "fields": [
-          {
-            "name": "id",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "args": []
-          },
           {
             "name": "frameHash",
             "type": {
