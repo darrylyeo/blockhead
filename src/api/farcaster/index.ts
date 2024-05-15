@@ -116,10 +116,10 @@ const chainIdByExplorerUrl = {
 }
 
 export const extractCastEmbeds = ({
-	embeds,
+	embeds = [],
 	text,
 }: {
-	embeds: ({
+	embeds?: ({
 		castId: FarcasterCastId;
 	} | {
 		url?: string;
