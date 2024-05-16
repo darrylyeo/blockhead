@@ -11,7 +11,7 @@
 
 
 	// Inputs
-	export let farcasterProvider: FarcasterProvider = FarcasterProvider.Neynar
+	export let farcasterProvider: FarcasterProvider
 	export let farcasterFeedProvider: FarcasterFeedProvider = farcasterProvider as unknown as FarcasterFeedProvider
 	export let query:
 		// Unordered / chronological

@@ -10,7 +10,7 @@
 
 
 	// Inputs
-	export let farcasterProvider: FarcasterProvider = FarcasterProvider.Neynar
+	export let farcasterProvider: FarcasterProvider
 	export let query:
 		& (
 			| {
