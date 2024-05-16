@@ -64,12 +64,18 @@ export type FarcasterCast = {
 	text: string;
 	timestamp: number;
 
-	castEmbeds?: {
-		clientUrl?: string;
-		userId?: FarcasterUserId;
-		castId?: FarcasterCastId;
-		castIdShort?: string;
-	}[];
+	castEmbeds?: (
+		| {
+			clientUrl: string;
+		}
+		| {
+			castId: FarcasterCastId;
+		}
+		| {
+			userId: FarcasterUserId;
+			castIdShort: string;
+		}
+	)[];
 	imageEmbeds?: string[];
 	urlEmbeds?: string[];
 	evmAddressEmbeds?: {
@@ -164,7 +170,7 @@ export const extractCastEmbeds = ({
 					userId: Number(match.groups.userId) as FarcasterUserId | undefined,
 					castId: match.groups.castId as FarcasterCastId | undefined,
 					castIdShort: match.groups.castIdShort as `0x${string}` | undefined,
-				})
+				} as NonNullable<FarcasterCast['castEmbeds']>[number])
 			)
 				.filter(isTruthy)
 		))
