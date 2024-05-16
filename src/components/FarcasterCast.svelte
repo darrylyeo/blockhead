@@ -278,7 +278,7 @@
 						on:click={toggle}
 						data-after={isOpen ? '⏶' : '⏷'}
 					>
-						{isOpen ? 'Hide' : 'Show'}
+						{isOpen ? 'Hide' : 'Replies'}
 					</button>
 				</div>
 			</footer>
