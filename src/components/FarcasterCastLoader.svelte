@@ -40,7 +40,8 @@
 
 
 	// Functions
-	import { createQuery } from '@tanstack/svelte-query'
+	import { createQuery, createQueries } from '@tanstack/svelte-query'
+
 	import { normalizeFarcasterCast as normalizeCastAirstack } from '$/api/airstack/normalize'
 	import { normalizeCastWithRepliesV1 as normalizeCastWithRepliesV1Neynar, normalizeCastV2 as normalizeCastNeynarV2 } from '$/api/neynar/normalize'
 	import { normalizeCast as normalizeCastPinata } from '$/api/pinata/farcaster/normalize' 
@@ -71,6 +72,71 @@
 							queryFn: async () => {
 								throw new Error('Airstack does not yet support fetching individual cast replies.')
 							},
+						})
+
+					: query.withReplies ?
+						createQueries({
+							queries: [
+								{
+									queryKey: ['FarcasterCast', {
+										farcasterProvider,
+										castId: query.castId,
+									}],
+									queryFn: async ({
+										queryKey: [, { castId }],
+									}) => {
+										const { getFarcasterCastByHash } = await import('$/api/airstack')
+
+										return await getFarcasterCastByHash({
+											hash: castId,
+										})
+									},
+									select: result => (
+										result
+											?.FarcasterCasts
+											?.Cast
+											?.map(normalizeCastAirstack)
+											[0]
+									),
+								},
+								{
+									queryKey: ['FarcasterCasts', {
+										farcasterFeedProvider: farcasterProvider,
+										parentCastId: query.castId,
+									}],
+									queryFn: async ({
+										queryKey: [, { parentCastId }],
+									}) => {
+										const { getFarcasterCastReplies } = await import('$/api/airstack')
+
+										return await getFarcasterCastReplies({
+											parentHash: parentCastId,
+											limit: 100,
+											cursor: '',
+										})
+									},
+									select: result => (
+										result
+											?.FarcasterReplies
+											?.Reply
+											.map(normalizeCastAirstack)
+									),
+								},
+							],
+
+							combine: ([
+								castQuery,
+								repliesQuery,
+							]) => ({
+								...repliesQuery,
+								...castQuery,
+								data: {
+									...castQuery.data,
+									...repliesQuery?.data && {
+										replies: repliesQuery.data,
+									},
+								},
+							}),
 						})
 
 					:
