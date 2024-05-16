@@ -10,6 +10,7 @@
 	export let title: string
 	export let farcasterProvider: FarcasterProvider
 	export let farcasterFeedProvider: FarcasterFeedProvider
+	export let isReplies: boolean = false
 
 	// (View options)
 	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 4
@@ -67,6 +68,7 @@
 					{farcasterProvider}
 					query={{
 						castId: cast.id,
+						isReply: isReplies,
 					}}
 					let:cast
 				>

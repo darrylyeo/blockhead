@@ -286,6 +286,7 @@
 		{#if cast.replies?.length}
 			<FarcasterCasts
 				casts={cast.replies}
+				isReplies
 				layout="embedded-replies"
 			/>
 		{:else if !('repliesCount' in cast && cast.repliesCount === 0)}
@@ -300,6 +301,7 @@
 				{#if casts}
 					<FarcasterCasts
 						{casts}
+						isReplies
 						layout="embedded-replies"
 					/>
 				{/if}
