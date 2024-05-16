@@ -318,7 +318,6 @@
 	}[farcasterProvider]?.()}
 	bind:result={cast}
 	let:result={cast}
-	debug
 >
 	<svelte:fragment slot="header"
 		let:result={cast}
