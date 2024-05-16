@@ -1710,6 +1710,14 @@ export type introspection = {
               "name": "Time_Comparator_Exp",
               "ofType": null
             }
+          },
+          {
+            "name": "rootParentUrl",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_Eq_In_Comparator_Exp",
+              "ofType": null
+            }
           }
         ]
       },
@@ -10242,6 +10250,15 @@ export type introspection = {
             "args": []
           },
           {
+            "name": "rootParentUrl",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
             "name": "criteriaCount",
             "type": {
               "kind": "SCALAR",
@@ -10303,6 +10320,15 @@ export type introspection = {
               "ofType": null
             },
             "args": []
+          },
+          {
+            "name": "channel",
+            "type": {
+              "kind": "OBJECT",
+              "name": "FarcasterChannel",
+              "ofType": null
+            },
+            "args": []
           }
         ],
         "interfaces": []
@@ -10316,6 +10342,14 @@ export type introspection = {
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "TrendingCast_Int_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
+            "name": "rootParentUrl",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_Eq_Comparator_Exp",
               "ofType": null
             }
           }
