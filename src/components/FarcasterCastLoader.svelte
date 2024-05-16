@@ -61,35 +61,48 @@
 		[FarcasterProvider.Airstack]: () => ({
 			fromQuery: (
 				'castId' in query ?
-					createQuery({
-						queryKey: ['FarcasterCast', {
-							farcasterProvider,
-							castId: query.castId,
-						}],
-						queryFn: async ({
-							queryKey: [, { castId }],
-						}) => {
-							const { getFarcasterCastByHash } = await import('$/api/airstack')
+					query.isReply ?
+						createQuery({
+							queryKey: ['FarcasterCast', {
+								farcasterProvider,
+								castId: query.castId,
+								isReply: query.isReply,
+							}],
+							queryFn: async () => {
+								throw new Error('Airstack does not yet support fetching individual cast replies.')
+							},
+						})
 
-							return await getFarcasterCastByHash({
-								hash: castId,
-							})
-						},
-						select: result => {
-							const cast = (
-								result
-									?.FarcasterCasts
-									?.Cast
-									?.map(normalizeCastAirstack)
-									?.[0]
-							)
+					:
+						createQuery({
+							queryKey: ['FarcasterCast', {
+								farcasterProvider,
+								castId: query.castId,
+							}],
+							queryFn: async ({
+								queryKey: [, { castId }],
+							}) => {
+								const { getFarcasterCastByHash } = await import('$/api/airstack')
 
-							if(!cast)
-								throw new Error(`Cast with ID ${query.castId} may not be indexed yet or was deleted.`)
+								return await getFarcasterCastByHash({
+									hash: castId,
+								})
+							},
+							select: (result) => {
+								const cast = (
+									result
+										?.FarcasterCasts
+										?.Cast
+										?.map(normalizeCastAirstack)
+										?.[0]
+								)
 
-							return cast
-						},
-					})
+								if(!cast)
+									throw new Error(`Cast with ID ${query.castId} may not be indexed yet or was deleted.`)
+
+								return cast
+							},
+						})
 
 				: 'clientUrl' in query ?
 					createQuery({
