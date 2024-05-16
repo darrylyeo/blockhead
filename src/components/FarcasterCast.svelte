@@ -172,6 +172,7 @@
 		{#each cast.castEmbeds as castEmbed}
 			<FarcasterCastLoader
 				{farcasterProvider}
+				{farcasterFeedProvider}
 				query={
 					'castId' in castEmbed && castEmbed.castId ?
 						{
@@ -288,6 +289,8 @@
 				casts={cast.replies}
 				isReplies
 				layout="embedded-replies"
+				{farcasterProvider}
+				{farcasterFeedProvider}
 			/>
 		{:else if !('repliesCount' in cast && cast.repliesCount === 0)}
 			<FarcasterCastsLoader
@@ -303,6 +306,8 @@
 						{casts}
 						isReplies
 						layout="embedded-replies"
+						{farcasterProvider}
+						{farcasterFeedProvider}
 					/>
 				{/if}
 			</FarcasterCastsLoader>
