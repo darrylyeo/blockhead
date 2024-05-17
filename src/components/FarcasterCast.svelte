@@ -37,7 +37,7 @@
 	import EthereumTransaction from './EthereumTransaction.svelte'
 	import EthereumTransactionLoader from './EthereumTransactionLoader.svelte'
 	import FarcasterCastLoader from './FarcasterCastLoader.svelte'
-	import FarcasterCastsLoader from './FarcasterCastsLoader.svelte'
+	import FarcasterCastRepliesLoader from './FarcasterCastRepliesLoader.svelte'
 	import FarcasterCast from './FarcasterCast.svelte'
 	import FarcasterCasts from './FarcasterCasts.svelte'
 	import FarcasterChannel from './FarcasterChannel.svelte'
@@ -293,9 +293,8 @@
 				{farcasterFeedProvider}
 			/>
 		{:else if !('repliesCount' in cast && cast.repliesCount === 0)}
-			<FarcasterCastsLoader
+			<FarcasterCastRepliesLoader
 				{farcasterProvider}
-				{farcasterFeedProvider}
 				query={{
 					parentCastId: cast.id,
 				}}
@@ -310,7 +309,7 @@
 						{farcasterFeedProvider}
 					/>
 				{/if}
-			</FarcasterCastsLoader>
+			</FarcasterCastRepliesLoader>
 		{/if}
 	</Collapsible>
 </Collapsible>

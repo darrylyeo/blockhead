@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import { FeedType, FilterType } from '$/api/neynar/v2'
-	import type { FarcasterCast, FarcasterUserId, FarcasterCastId } from '$/api/farcaster/index'
+	import type { FarcasterCast, FarcasterUserId, FarcasterChannelId } from '$/api/farcaster/index'
 	import { FarcasterProvider } from '$/data/farcasterProviders'
 	import { FarcasterFeedProvider, farcasterFeedProviderIcons } from '$/data/farcasterFeedProviders'
 
@@ -34,10 +34,6 @@
 				},
 			},
 		}
-		// Replies to cast
-		| {
-			parentCastId: FarcasterCastId,
-		}
 
 
 	// Outputs
@@ -60,7 +56,7 @@
 	import { proxyFetch } from '$/utils/proxyFetch'
 
 	import { normalizeFarcasterCast as normalizeCastAirstack, normalizeFarcasterTrendingCast as normalizeTrendingCastAirstack } from '$/api/airstack/normalize'
-	import { normalizeCastV2 as normalizeCastNeynarV2, normalizeCastWithRepliesV1 as normalizeCastWithRepliesV1Neynar } from '$/api/neynar/normalize'
+	import { normalizeCastV2 as normalizeCastNeynarV2 } from '$/api/neynar/normalize'
 	import { normalizeCast as normalizeCastPinata } from '$/api/pinata/farcaster/normalize'
 
 	import { isTruthy } from '$/utils/isTruthy'
@@ -134,35 +130,6 @@
 						staleTime: 10 * 1000,
 					})
 
-				: query && 'parentCastId' in query ?
-					createInfiniteQuery({
-						queryKey: ['FarcasterCasts', {
-							farcasterFeedProvider,
-							parentCastId: query.parentCastId,
-						}],
-						initialPageParam: '',
-						queryFn: async ({
-							queryKey: [, { parentCastId }],
-							pageParam: cursor,
-						}) => {
-							const { getFarcasterCastReplies } = await import('$/api/airstack')
-
-							return await getFarcasterCastReplies({
-								parentHash: parentCastId,
-								limit: 50,
-								cursor,
-							})
-						},
-						getNextPageParam: (lastPage) => lastPage?.FarcasterReplies?.pageInfo?.nextCursor,
-						select: result => (console.log({result}),
-							result.pages
-								.flatMap(page => page?.FarcasterReplies?.Reply ?? [])
-								.filter(isTruthy)
-								.map(normalizeCastAirstack)
-						),
-						staleTime: 10 * 1000,
-					})
-
 				:
 					createInfiniteQuery({
 						queryKey: ['FarcasterCasts', {
@@ -224,29 +191,6 @@
 							)]
 						),
 						staleTime: 10 * 1000,
-					})
-
-				: query && 'parentCastId' in query ?
-					createQuery({
-						queryKey: ['FarcasterCast', {
-							farcasterProvider,
-							castId: query.parentCastId,
-							withReplies: true,
-						}],
-						queryFn: async ({
-							queryKey: [, { castId }],
-						}) => {
-							const { getFarcasterAllCastsInThread } = await import('$/api/neynar/v1')
-
-							return await getFarcasterAllCastsInThread(
-								publicEnv.PUBLIC_NEYNAR_API_KEY,
-								castId,
-							)
-						},
-						select: result => (
-							normalizeCastWithRepliesV1Neynar(result.result.casts)
-								.replies
-						),
 					})
 
 				:
@@ -377,34 +321,6 @@
 
 							return await getCasts({
 								fid: userId,
-								pageSize: 50,
-								pageToken,
-							})
-						},
-						getNextPageParam: (lastPage) => lastPage.data?.next_page_token,
-						select: result => (
-							result.pages
-								.flatMap(page => page.data.casts)
-								.map(normalizeCastPinata)
-						),
-						staleTime: 10 * 1000,
-					})
-
-				: query && 'parentCastId' in query ?
-					createInfiniteQuery({
-						queryKey: ['FarcasterCasts', {
-							farcasterFeedProvider,
-							parentCastId: query.parentCastId,
-						}],
-						initialPageParam: '',
-						queryFn: async ({
-							queryKey: [, { parentCastId }],
-							pageParam: pageToken,
-						}) => {
-							const { getCasts } = await import('$/api/pinata/farcaster')
-
-							return await getCasts({
-								parentHash: parentCastId,
 								pageSize: 50,
 								pageToken,
 							})
