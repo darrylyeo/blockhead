@@ -142,7 +142,8 @@ export const extractCastEmbeds = ({
 		embeds,
 		embed => (
 			'url' in embed && embed.url ?
-				new URL(embed.url).pathname.match(/\.(png|jpe?g|gif|webp)$/i) ?
+				// new URL(embed.url).pathname.match(/\.(png|jpe?g|gif|webp)$/i) ?
+				String(embed.url).match(/\.(png|jpe?g|gif|webp)$/i) ? 
 					'image'
 				:
 					'url'
