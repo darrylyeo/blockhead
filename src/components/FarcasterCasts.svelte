@@ -61,6 +61,7 @@
 			{#if 'timestamp' in cast && String(farcasterProvider) === String(farcasterFeedProvider)}
 				<AnchorLink
 					link={`/cast/${cast.id}`}
+					isEnabled={!isReplies}
 				>
 					<FarcasterCast
 						{cast}
@@ -80,6 +81,7 @@
 				>
 					<AnchorLink
 						link={`/cast/${cast.id}`}
+						isEnabled={!isReplies}
 					>
 						<FarcasterCast
 							{cast}
