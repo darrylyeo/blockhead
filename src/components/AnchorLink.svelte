@@ -1,14 +1,26 @@
 <script lang="ts">
 	// Inputs
+	export let base: `/${string}` | '' = ''
 	export let link: `/${string}`
 	export let isEnabled: boolean = true
+
+
+	// Internal state
+	let isFocused = false
 </script>
+
+
+<svelte:window
+	on:hashchange={() => {
+		isFocused = globalThis.location.hash === `#${link}`
+	}}
+/>
 
 
 {#if isEnabled}
 	<a
 		id={link}
-		href={`#${link}`}
+		href={isFocused ? `${base}${link}` : `#${link}`}
 		{...$$restProps}
 		class={$$props.class ?? 'card scroll-snap-item'}
 	>

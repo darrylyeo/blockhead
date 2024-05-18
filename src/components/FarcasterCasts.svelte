@@ -60,6 +60,7 @@
 		{#each casts as cast (cast.id)}
 			{#if 'timestamp' in cast && String(farcasterProvider) === String(farcasterFeedProvider)}
 				<AnchorLink
+					base={`/apps/farcaster`}
 					link={`/cast/${cast.id}`}
 					isEnabled={!isReplies}
 				>
@@ -80,6 +81,7 @@
 					let:cast
 				>
 					<AnchorLink
+						base={`/apps/farcaster`}
 						link={`/cast/${cast.id}`}
 						isEnabled={!isReplies}
 					>

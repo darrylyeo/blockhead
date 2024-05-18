@@ -190,6 +190,7 @@
 			>
 				{#if cast}
 					<AnchorLink
+						base={`/apps/farcaster`}
 						link={`/cast/${cast.id}`}
 					>
 						<FarcasterCast
