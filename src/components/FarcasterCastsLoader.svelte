@@ -235,7 +235,7 @@
 							farcasterFeedProvider,
 							followedByUserId: query.followedByUserId,
 						}],
-						initialPageParam: '',
+						initialPageParam: 0,
 						queryFn: async ({
 							queryKey: [, { followedByUserId }],
 							pageParam: offset,
@@ -253,7 +253,7 @@
 								},
 							)
 						},
-						getNextPageParam: (lastPage) => lastPage?.next?.offset,
+						getNextPageParam: (lastPage, allPages) => allPages.length * 50,
 						select: result => (
 							[...new Set(
 								result.pages
@@ -274,7 +274,9 @@
 							farcasterFeedProvider,
 						}],
 						initialPageParam: 0,
-						queryFn: async ({ pageParam: offset }) => {
+						queryFn: async ({
+							pageParam: offset,
+						}) => {
 							const { getRecentCastsForFidCastsPersonalizedRecentFidGet } = await import('$/api/openrank/farcaster/index')
 
 							return await getRecentCastsForFidCastsPersonalizedRecentFidGet(
@@ -288,7 +290,7 @@
 								},
 							)
 						},
-						getNextPageParam: (lastPage) => lastPage?.next?.offset,
+						getNextPageParam: (lastPage, allPages) => allPages.length * 50,
 						select: result => (
 							[...new Set(
 								result.pages
