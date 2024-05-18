@@ -58,11 +58,17 @@
 	>
 		{#each casts as cast (cast.id)}
 			{#if 'timestamp' in cast && String(farcasterProvider) === String(farcasterFeedProvider)}
-				<FarcasterCast
-					{cast}
-					{farcasterProvider}
-					{farcasterFeedProvider}
-				/>
+				<a
+					class="card scroll-snap-item"
+					href={`#/cast/${cast.id}`}
+					id={`/cast/${cast.id}`}
+				>
+					<FarcasterCast
+						{cast}
+						{farcasterProvider}
+						{farcasterFeedProvider}
+					/>
+				</a>
 			{:else}
 				<FarcasterCastLoader
 					{farcasterProvider}
@@ -72,11 +78,17 @@
 					}}
 					let:cast
 				>
-					<FarcasterCast
-						{cast}
-						{farcasterProvider}
-						{farcasterFeedProvider}
-					/>
+					<a
+						class="card scroll-snap-item"
+						href={`#/cast/${cast.id}`}
+						id={`/cast/${cast.id}`}
+					>
+						<FarcasterCast
+							{cast}
+							{farcasterProvider}
+							{farcasterFeedProvider}
+						/>
+					</a>
 				</FarcasterCastLoader>
 			{/if}
 		{:else}

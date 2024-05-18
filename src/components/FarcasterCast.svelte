@@ -54,7 +54,7 @@
 
 
 <Collapsible
-	containerClass="farcaster-cast card"
+	containerClass="farcaster-cast {layout === 'standalone' ? 'card' : ''}"
 	class="column"
 	showTriggerText={false}
 	isOpen
@@ -188,11 +188,17 @@
 				let:cast
 			>
 				{#if cast}
-					<FarcasterCast
-						{cast}
-						{farcasterProvider}
-						{farcasterFeedProvider}
-					/>
+					<a
+						class="card scroll-snap-item"
+						id={`/cast/${cast.id}`}
+						href={`#/cast/${cast.id}`}
+					>
+						<FarcasterCast
+							{cast}
+							{farcasterProvider}
+							{farcasterFeedProvider}
+						/>
+					</a>
 				{:else}
 					Cast not found.
 				{/if}
