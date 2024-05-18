@@ -30,6 +30,7 @@
 
 
 	// Components
+	import AnchorLink from './AnchorLink.svelte'
 	import Collapsible from './Collapsible.svelte'
 	import Date from './Date.svelte'
 	import Dialog from './Dialog.svelte'
@@ -188,17 +189,15 @@
 				let:cast
 			>
 				{#if cast}
-					<a
-						class="card scroll-snap-item"
-						id={`/cast/${cast.id}`}
-						href={`#/cast/${cast.id}`}
+					<AnchorLink
+						link={`/cast/${cast.id}`}
 					>
 						<FarcasterCast
 							{cast}
 							{farcasterProvider}
 							{farcasterFeedProvider}
 						/>
-					</a>
+					</AnchorLink>
 				{:else}
 					Cast not found.
 				{/if}

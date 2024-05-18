@@ -22,6 +22,7 @@
 
 
 	// Components
+	import AnchorLink from './AnchorLink.svelte'
 	import Collapsible from './Collapsible.svelte'
 	import FarcasterCast from './FarcasterCast.svelte'
 	import FarcasterCastLoader from './FarcasterCastLoader.svelte'
@@ -58,17 +59,16 @@
 	>
 		{#each casts as cast (cast.id)}
 			{#if 'timestamp' in cast && String(farcasterProvider) === String(farcasterFeedProvider)}
-				<a
-					class="card scroll-snap-item"
-					href={`#/cast/${cast.id}`}
-					id={`/cast/${cast.id}`}
+				<AnchorLink
+					link={`/cast/${cast.id}`}
 				>
 					<FarcasterCast
 						{cast}
 						{farcasterProvider}
 						{farcasterFeedProvider}
 					/>
-				</a>
+				</AnchorLink>
+
 			{:else}
 				<FarcasterCastLoader
 					{farcasterProvider}
@@ -78,17 +78,15 @@
 					}}
 					let:cast
 				>
-					<a
-						class="card scroll-snap-item"
-						href={`#/cast/${cast.id}`}
-						id={`/cast/${cast.id}`}
+					<AnchorLink
+						link={`/cast/${cast.id}`}
 					>
 						<FarcasterCast
 							{cast}
 							{farcasterProvider}
 							{farcasterFeedProvider}
 						/>
-					</a>
+					</AnchorLink>
 				</FarcasterCastLoader>
 			{/if}
 		{:else}
