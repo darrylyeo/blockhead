@@ -223,7 +223,7 @@
 			bind:balances
 		>
 			<svelte:fragment slot="header" let:summary>
-				{#if balances.length}
+				{#if balances?.length}
 					<hr>
 
 					<div class="bar wrap">
@@ -404,7 +404,7 @@
 			{/key}{/if}
 		</div>
 
-		{#if balances.length}
+		{#if balances?.length}
 			<CovalentPriceChart
 				historicalPriceProvider={$preferences.historicalPriceProvider}
 				quoteCurrency={$preferences.quoteCurrency}
