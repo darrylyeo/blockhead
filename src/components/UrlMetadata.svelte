@@ -10,7 +10,7 @@
 	$: knownEmbedType =
 		url.match(new RegExp(`(?:${RegExp.escape(`https://x.com`)}|${RegExp.escape(`https://twitter.com`)})\/([a-zA-Z0-9_]+)\/status\/([0-9]+)`)) ? '𝕏 Post' :
 		url.match(/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|live\/|v\/)?)([\w\-]+)(\S+)?$/) ? 'YouTube Video' :
-		undefined
+		'Link'
 
 
 	// Components
