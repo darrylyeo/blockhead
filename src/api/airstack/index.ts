@@ -502,6 +502,11 @@ const FarcasterUser = graphql(`
 		profileTokenIdHex
 		profileTokenUri
 		profileUrl
+		socialCapital {
+			socialCapitalRank
+			socialCapitalScore
+			socialCapitalScoreRaw
+		}
 		twitterUserName
 		updatedAt
 		userAddress
