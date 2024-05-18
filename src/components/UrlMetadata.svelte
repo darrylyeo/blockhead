@@ -34,6 +34,8 @@
 
 	// Styles
 	import { matchesMediaQuery } from '$/utils/matchesMediaQuery'
+	import Dialog from './Dialog.svelte'
+	import FileDetails from './FileDetails.svelte'
 	const matchesLayoutBreakpoint = matchesMediaQuery('(max-width: 30rem)')
 </script>
 
@@ -115,14 +117,26 @@
 					{/if}
 
 					{#if urlMetadata.image}
+						{@const src = urlMetadata.image.url}
+
 						<div class="image-embeds row">
-							<img
-								src={urlMetadata.image.url}
-								style={`
-									aspect-ratio: ${urlMetadata.image.width} / ${urlMetadata.image.height};
-								`}
-								alt={urlMetadata.alt}
-							/>
+							<Dialog>
+								<img
+									{src}
+									style={`
+										aspect-ratio: ${urlMetadata.image.width} / ${urlMetadata.image.height};
+									`}
+									alt={urlMetadata.alt}
+								/>
+							
+								<svelte:fragment slot="content">
+									<FileDetails
+										{src}
+										displayType="image"
+										isOpen
+									/>
+								</svelte:fragment>
+							</Dialog>
 						</div>
 					{/if}
 				</div>
