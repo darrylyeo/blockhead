@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Types
 	import type { FarcasterProvider } from '$/data/farcasterProviders'
-	import { FarcasterFeedProvider } from '$/data/farcasterFeedProviders'
+	import { FarcasterFeedProvider, farcasterFeedProviderIcons } from '$/data/farcasterFeedProviders'
 
 
 	// Context
@@ -36,6 +36,9 @@
 	// Components
 	import FarcasterCasts from '$/components/FarcasterCasts.svelte'
 	import FarcasterCastsLoader from '$/components/FarcasterCastsLoader.svelte'
+	import FarcasterUserProfileLoader from '$/components/FarcasterUserProfileLoader.svelte'
+	import FarcasterUser from '$/components/FarcasterUser.svelte'
+	import Icon from '$/components/Icon.svelte'
 </script>
 
 
@@ -53,9 +56,40 @@
 		<FarcasterCasts
 			{casts}
 			{pagination}
-			title="Trending"
 			{farcasterProvider}
 			farcasterFeedProvider={_farcasterFeedProvider}
-		/>
+		>
+			<svelte:fragment slot="title">
+				<h3 class="row inline">
+					<Icon imageSources={[farcasterFeedProviderIcons[_farcasterFeedProvider]]} />
+					{_farcasterFeedProvider}
+					›
+					{#if _farcasterFeedProvider === FarcasterFeedProvider.Airstack}
+						Trending / Past Day
+					{:else if _farcasterFeedProvider === FarcasterFeedProvider.Neynar}
+						Trending
+					{:else if _farcasterFeedProvider === FarcasterFeedProvider.OpenRank}
+						<FarcasterUserProfileLoader
+							viewOptions={{
+								layout: 'passive',
+							}}
+							{farcasterProvider}
+							userId={3}
+							let:user
+						>
+							{#if user}
+								<FarcasterUser
+									{user}
+								/>
+							{/if}
+						</FarcasterUserProfileLoader>
+						›
+						Following
+					{:else if _farcasterFeedProvider === FarcasterFeedProvider.Pinata}
+						Recent
+					{/if}
+				</h3>
+			</svelte:fragment>
+		</FarcasterCasts>
 	{/if}
 </FarcasterCastsLoader>
