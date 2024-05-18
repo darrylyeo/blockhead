@@ -321,6 +321,7 @@
 
 							return await getCasts({
 								fid: userId,
+								reverse: true,
 								pageSize: 50,
 								pageToken,
 							})
@@ -344,6 +345,7 @@
 							const { getCasts } = await import('$/api/pinata/farcaster')
 
 							return await getCasts({
+								reverse: true,
 								pageSize: 50,
 								pageToken,
 							})
