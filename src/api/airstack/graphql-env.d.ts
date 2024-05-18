@@ -7231,6 +7231,15 @@ export type introspection = {
               "ofType": null
             },
             "args": []
+          },
+          {
+            "name": "socialCapitalRank",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
           }
         ],
         "interfaces": []
@@ -7458,6 +7467,14 @@ export type introspection = {
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "Float_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
+            "name": "socialCapitalRank",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Int_Comparator_Exp",
               "ofType": null
             }
           }
@@ -8141,6 +8158,14 @@ export type introspection = {
           },
           {
             "name": "socialCapitalScore",
+            "type": {
+              "kind": "ENUM",
+              "name": "OrderBy",
+              "ofType": null
+            }
+          },
+          {
+            "name": "socialCapitalRank",
             "type": {
               "kind": "ENUM",
               "name": "OrderBy",
