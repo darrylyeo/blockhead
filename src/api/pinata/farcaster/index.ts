@@ -1,5 +1,5 @@
 /**
- * Pinata - Farcaster API (2024-05-03)
+ * Pinata - Farcaster API (2024-05-17)
  * {@link https://docs.pinata.cloud/farcaster/farcaster-api/getting-started}
  */
 import * as publicEnv from '$env/static/public'
@@ -170,10 +170,12 @@ export const getCastByHash = async ({
 export const getCasts = async ({
 	fid,
 	following,
+	reverse,
 	channel,
 	parentHash,
-	pageSize = 100,
 	pageToken,
+	topLevel,
+	pageSize = 100,
 }: {
 	/**
 	 * Returns casts from a specific FID
@@ -186,6 +188,11 @@ export const getCasts = async ({
 	following?: boolean,
 
 	/**
+	 * Will reverse the results giving the most casts recent first
+	 */
+	reverse?: boolean,
+
+	/**
 	 * Specify a channel to fetch casts from
 	 */
 	channel?: string,
@@ -196,14 +203,19 @@ export const getCasts = async ({
 	parentHash?: string,
 
 	/**
-	 * Determine the number of results, if not specified default is 100
-	 */
-	pageSize?: integer,
-
-	/**
 	 * Token to be used for the next page of results
 	 */
 	pageToken?: string,
+
+	/**
+	 * Filter casts that have no parent hash
+	 */
+	topLevel?: boolean,
+
+	/**
+	 * Determine the number of results, if not specified default is 100
+	 */
+	pageSize?: integer,
 }) => get<{
 	data: {
 		casts: Cast[],
@@ -212,10 +224,12 @@ export const getCasts = async ({
 }>(`casts`, {
 	fid,
 	following,
+	reverse,
 	channel,
 	parentHash,
-	pageSize,
 	pageToken,
+	topLevel,
+	pageSize,
 })
 
 
