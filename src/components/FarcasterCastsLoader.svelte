@@ -342,6 +342,47 @@
 						staleTime: 10 * 1000,
 					})
 
+				: query && 'channelId' in query ?
+					createInfiniteQuery({
+						queryKey: ['FarcasterCasts', {
+							farcasterFeedProvider,
+							channelId: query.channelId,
+						}],
+						initialPageParam: 0,
+						queryFn: async ({
+							queryKey: [, { channelId }],
+							pageParam: offset,
+						}) => {
+							const { getPopularChannelCastsChannelsCastsPopularChannelGet, Channel } = await import('$/api/openrank/farcaster/index')
+
+							if(!Object.values(Channel).includes(channelId))
+								throw `OpenRank has not yet indexed the Farcaster channel "${channelId}".`
+
+							return await getPopularChannelCastsChannelsCastsPopularChannelGet(
+								channelId,
+								{
+									offset,
+									limit: 50,
+								},
+								{
+									fetch: proxyFetch,
+								},
+							)
+						},
+						getNextPageParam: (lastPage) => lastPage?.result?.next_cursor,
+						select: result => (
+							[...new Set(
+								result.pages
+									.flatMap(page => page.result ?? [])
+									.map(item => item.cast_hash)
+							)]
+								.map(id => ({
+									id,
+								}))
+						),
+						staleTime: 10 * 1000,
+					})
+
 				:
 					// Default to dwr.eth's Feed
 					createInfiniteQuery({
