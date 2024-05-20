@@ -61,15 +61,13 @@
 
 
 	// Functions
-	import { createQuery, createInfiniteQuery } from '@tanstack/svelte-query'
+	import { createInfiniteQuery } from '@tanstack/svelte-query'
 
 	import { proxyFetch } from '$/utils/proxyFetch'
 
 	import { normalizeFarcasterCast as normalizeCastAirstack, normalizeFarcasterTrendingCast as normalizeTrendingCastAirstack } from '$/api/airstack/normalize'
 	import { normalizeCastV2 as normalizeCastNeynarV2 } from '$/api/neynar/normalize'
-	import { normalizeCast as normalizeCastPinata } from '$/api/pinata/farcaster/normalize'
-
-	import { isTruthy } from '$/utils/isTruthy'
+	import { normalizeCast as normalizeCastPinata, normalizeCastCamelCase as normalizeCastCamelCasePinata } from '$/api/pinata/farcaster/normalize'
 
 
 	// Components
@@ -452,10 +450,10 @@
 								pageToken,
 							})
 						},
-						getNextPageParam: (lastPage) => lastPage.data?.next_page_token,
+						getNextPageParam: (lastPage) => lastPage.next.cursor,
 						select: result => (
 							result.pages
-								.flatMap(page => page.data.casts)
+								.flatMap(page => page.casts)
 								.map(normalizeCastPinata)
 						),
 						staleTime: 10 * 1000,
@@ -481,10 +479,10 @@
 								pageToken,
 							})
 						},
-						getNextPageParam: (lastPage) => lastPage.data?.next_page_token,
+						getNextPageParam: (lastPage) => lastPage.next.cursor,
 						select: result => (
 							result.pages
-								.flatMap(page => page.data.casts)
+								.flatMap(page => page.casts)
 								.map(normalizeCastPinata)
 						),
 						staleTime: 10 * 1000,
@@ -510,10 +508,10 @@
 								pageToken,
 							})
 						},
-						getNextPageParam: (lastPage) => lastPage.data?.next_page_token,
+						getNextPageParam: (lastPage) => lastPage.next.cursor,
 						select: result => (
 							result.pages
-								.flatMap(page => page.data.casts)
+								.flatMap(page => page.casts)
 								.map(normalizeCastPinata)
 						),
 						staleTime: 10 * 1000,
@@ -534,11 +532,11 @@
 								pageToken,
 							})
 						},
-						getNextPageParam: (lastPage) => lastPage.data?.next_page_token,
+						getNextPageParam: (lastPage) => lastPage.next.cursor,
 						select: result => (
 							result.pages
-								.flatMap(page => page.data.casts)
-								.map(normalizeCastPinata)
+								.flatMap(page => page.casts)
+								.map(normalizeCastCamelCasePinata)
 						),
 						staleTime: 10 * 1000,
 					})

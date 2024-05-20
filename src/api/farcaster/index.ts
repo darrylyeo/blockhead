@@ -23,7 +23,7 @@ export type FarcasterUser = {
 	isActive?: boolean;
 	isPowerUser?: boolean;
 
-	custodyAddress: Ethereum.Address;
+	custodyAddress?: Ethereum.Address;
 	verifiedAddresses?: {
 		ethereum: Ethereum.Address[];
 		solana: string[];

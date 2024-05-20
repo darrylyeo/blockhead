@@ -1,5 +1,5 @@
 /**
- * Pinata - Farcaster API (2024-05-17)
+ * Pinata - Farcaster API (2024-05-20)
  * {@link https://docs.pinata.cloud/farcaster/farcaster-api/getting-started}
  */
 import * as publicEnv from '$env/static/public'
@@ -36,15 +36,20 @@ const get = async <T>(
 // Types
 type integer = number
 
-export type Cast = {
-	author: User,
-	content: string,
+export type CastCamelCase = {
+	author: UserCamelCase,
 	embeds: {
 		url: string,
 	}[],
 	fid: number,
 	hash: `0x${string}`,
-	mentioned_profiles: string[],
+	mentionedProfiles: string[],
+	object: 'cast',
+	parentHash?: string,
+	parentUrl?: string,
+	parentAuthor?: {
+		fid: number | null,
+	},
 	reactions: {
 		likes?: {
 			fid: number,
@@ -54,38 +59,126 @@ export type Cast = {
 			fid: number,
 			fname: string,
 		}[],
+		likesCount?: number,
+		recastsCount?: number,
+	},
+	replies: {
+		count: number,
+	},
+	rootParentUrl: string,
+	shortHash: `0x${string}`,
+	text: string,
+	threadHash: `0x${string}`,
+	timestamp: string,
+}
+
+export type Cast = {
+	author: User,
+	embeds: {
+		url: string,
+	}[],
+	fid: number,
+	hash: `0x${string}`,
+	mentioned_profiles?: string[],
+	object: 'cast',
+	parent_author?: {
+		fid: number | null,
+	},
+	parent_hash?: string,
+	parent_url?: string,
+	reactions: {
+		likes?: {
+			fid: number,
+			fname: string,
+		}[],
+		likes_count?: number,
+		recasts?: {
+			fid: number,
+			fname: string,
+		}[],
+		recasts_count?: number,
 	},
 	replies: {
 		count: number,
 	},
 	root_parent_url: string,
-	short_hash: `0x${string}`,
+	text: string,
+	thread_hash: `0x${string}`,
 	timestamp: string,
 }
 
+export type CastWithReplies = Cast & {
+	direct_replies: CastWithReplies[],
+}
+
+export type Conversation = {
+	cast: CastWithReplies,
+}
+
 export type Channel = {
-	name: string,
-	url: string,
-	display_name: string,
-	description: string,
-	image_url: string,
-	lead_fid: number,
 	created_at: number,
-	host_fids: number[],
+	description: string,
 	follower_count: number,
+	hosts: User[],
+	id: string,
+	image_url: string,
+	lead: User,
+	name: string,
+	object: 'channel',
+	parent_url: string,
+	url: string,
 }
 
 export type User = {
-	bio: string,
+	active_status: 'active' | 'inactive',
 	custody_address: `0x${string}`,
 	display_name: string,
 	fid: number,
 	follower_count: number,
 	following_count: number,
+	notes?: {
+		active_status: string,
+	},
+	object: 'user',
 	pfp_url: string,
-	recovery_address: `0x${string}`,
+	power_badge: boolean,
+	profile: {
+		bio: {
+			text: string,
+			mentioned_profiles?: string[],
+		},
+	},
 	username: string,
 	verifications: string[],
+	verified_addresses: {
+		eth_addresses: string[],
+		sol_addresses: string[],
+	},
+}
+
+export type UserCamelCase = {
+	activeStatus: 'active' | 'inactive',
+	custodyAddress: `0x${string}`,
+	displayName: string,
+	fid: number,
+	followerCount: number,
+	followingCount: number,
+	pfp: {
+		url: string,
+	}
+	powerBadge: boolean,
+	profile: {
+		bio: {
+			text: string,
+			mentionedProfiles: string[],
+		},
+	},
+	username: string,
+	verifications: string[],
+	verifiedAddresses: {
+		eth_addresses: string[],
+		sol_addresses: string[],
+	},
 }
 
 export type CastAddBody = {
@@ -143,7 +236,7 @@ export const getCastByHash = async ({
 	 */
 	hash: string,
 }) => get<{
-	data: Cast,
+	cast: Cast,
 }>(`casts/${hash}`)
 
 
@@ -169,7 +262,49 @@ export const getCastByHash = async ({
  * Returns all the casts fror a specified parent hash
  * `/casts?parentHash=0x0ab851ba8524eedf9e164b55f6eeec751f74b539`
  */
-export const getCasts = async ({
+export const getCasts = async <
+	T extends {
+		/**
+		 * Returns casts from a specific FID
+		 */
+		fid?: integer,
+	
+		/**
+		 * When used in combination of `fid` will return the casts for who that `fid` is following
+		 */
+		following?: boolean,
+	
+		/**
+		 * Will reverse the results giving the most casts recent first
+		 */
+		reverse?: boolean,
+	
+		/**
+		 * Specify a channel to fetch casts from
+		 */
+		channel?: string,
+	
+		/**
+		 * Returns casts for a specific parent hash
+		 */
+		parentHash?: string,
+	
+		/**
+		 * Token to be used for the next page of results
+		 */
+		pageToken?: string,
+	
+		/**
+		 * Filter casts that have no parent hash
+		 */
+		topLevel?: boolean,
+	
+		/**
+		 * Determine the number of results, if not specified default is 100
+		 */
+		pageSize?: integer,
+	}
+>({
 	fid,
 	following,
 	reverse,
@@ -178,52 +313,34 @@ export const getCasts = async ({
 	pageToken,
 	topLevel,
 	pageSize = 100,
-}: {
-	/**
-	 * Returns casts from a specific FID
-	 */
-	fid?: integer,
-
-	/**
-	 * When used in combination of `fid` will return the casts for who that `fid` is following
-	 */
-	following?: boolean,
-
-	/**
-	 * Will reverse the results giving the most casts recent first
-	 */
-	reverse?: boolean,
-
-	/**
-	 * Specify a channel to fetch casts from
-	 */
-	channel?: string,
-
-	/**
-	 * Returns casts for a specific parent hash
-	 */
-	parentHash?: string,
-
-	/**
-	 * Token to be used for the next page of results
-	 */
-	pageToken?: string,
-
-	/**
-	 * Filter casts that have no parent hash
-	 */
-	topLevel?: boolean,
-
-	/**
-	 * Determine the number of results, if not specified default is 100
-	 */
-	pageSize?: integer,
-}) => get<{
-	data: {
-		casts: Cast[],
-		next_page_token: string,
-	},
-}>(`casts`, {
+}: T) => get<(
+	T extends { fid: number } ?
+		{
+			casts: Cast[],
+			next: {
+				cursor: string,
+			},
+		}
+	: T extends { channel: string } ?
+		{
+			casts: Cast[],
+			next: {
+				cursor: string,
+			},
+		}
+	: T extends { parentHash: string } ?
+		{
+			conversation: {
+				cast: CastWithReplies,
+			}
+		}
+	: {
+		casts: CastCamelCase[],
+		next: {
+			cursor: string,
+		},
+	}
+)>(`casts`, {
 	fid,
 	following,
 	reverse,
@@ -424,9 +541,9 @@ export const getChannels = async ({
 	 */
 	pageToken?: string,
 }) => get<{
-	data: {
-		channels: Channel[],
-		next_page_token: string,
+	channels: Channel[],
+	next: {
+		cursor: string,
 	},
 }>(`channels`, {
 	pageSize,
@@ -446,7 +563,7 @@ export const getChannelByName = async ({
 	 */
 	name: string,
 }) => get<{
-	data: Channel,
+	channel: Channel,
 }>(`channels/${name}`)
 
 
@@ -536,7 +653,7 @@ export const getUserByFID = async ({
 	 */
 	fid: integer,
 }) => get<{
-	data: User,
+	user: User,
 }>(`users/${fid}`)
 
 
@@ -586,9 +703,9 @@ export const getUsers = async ({
 	 */
 	pageToken?: string,
 }) => get<{
-	data: {
-		users: User[],
-		next_page_token: string,
+	users: User[],
+	next: {
+		cursor: string,
 	},
 }>(`users`, {
 	fid,

@@ -36,7 +36,7 @@
 
 	import { normalizeFarcasterCast as normalizeCastAirstack } from '$/api/airstack/normalize'
 	import { normalizeCastWithRepliesV1 as normalizeCastWithRepliesV1Neynar } from '$/api/neynar/normalize'
-	import { normalizeCast as normalizeCastPinata } from '$/api/pinata/farcaster/normalize'
+	import { normalizeConversation as normalizeConversationPinata } from '$/api/pinata/farcaster/normalize'
 
 	import { isTruthy } from '$/utils/isTruthy'
 
@@ -112,8 +112,8 @@
 		}),
 
 		[FarcasterProvider.Pinata]: () => ({
-			fromInfiniteQuery: (
-				createInfiniteQuery({
+			fromQuery: (
+				createQuery({
 					queryKey: ['FarcasterCasts', {
 						farcasterProvider,
 						parentCastId: query.parentCastId,
@@ -121,21 +121,15 @@
 					initialPageParam: '',
 					queryFn: async ({
 						queryKey: [, { parentCastId }],
-						pageParam: pageToken,
 					}) => {
 						const { getCasts } = await import('$/api/pinata/farcaster')
 
 						return await getCasts({
 							parentHash: parentCastId,
-							pageSize: 50,
-							pageToken,
 						})
 					},
-					getNextPageParam: (lastPage) => lastPage.data?.next_page_token,
 					select: result => (
-						result.pages
-							.flatMap(page => page.data.casts)
-							.map(normalizeCastPinata)
+						normalizeConversationPinata(result.conversation)
 					),
 					staleTime: 10 * 1000,
 				})

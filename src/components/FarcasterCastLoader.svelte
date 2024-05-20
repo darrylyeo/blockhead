@@ -296,7 +296,7 @@
 							})
 						},
 						select: result => (
-							normalizeCastPinata(result.data)
+							normalizeCastPinata(result.cast)
 						),
 					})
 

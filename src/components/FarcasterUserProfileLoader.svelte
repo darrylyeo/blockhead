@@ -174,7 +174,7 @@
 					},
 					select: result => (
 						result
-							? normalizeUserPinata(result.data)
+							? normalizeUserPinata(result.user)
 							: initialData
 					),
 				})

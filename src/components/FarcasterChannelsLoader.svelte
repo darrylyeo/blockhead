@@ -135,10 +135,10 @@
 							pageSize: 100,
 						})
 					},
-					getNextPageParam: (lastPage, pages) => lastPage.data?.next_page_token,
+					getNextPageParam: (lastPage, pages) => lastPage.next.cursor,
 					select: result => (
 						result.pages
-							.flatMap(page => page.data.channels)
+							.flatMap(page => page.channels)
 							.map(normalizeChannelPinata)
 					),
 				})

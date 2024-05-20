@@ -198,7 +198,7 @@
 							return await getChannelByName({ name: channelId })
 						},
 						select: (result) => (
-							normalizeChannelPinata(result.data)
+							normalizeChannelPinata(result.channel)
 						),
 						staleTime: 10 * 1000,
 					})
@@ -223,7 +223,7 @@
 							throw `Pinata doesn't support querying channels by cast parent URL.`
 						},
 						select: (result) => (
-							normalizeChannelPinata(result.data)
+							normalizeChannelPinata(result.channel)
 						),
 					})
 
