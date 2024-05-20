@@ -157,7 +157,7 @@ export const normalizeCastV1 = (cast: CastV1 | CastWithInteractionsV1): Farcaste
 		},
 	},
 
-	parent: {
+	parentCast: {
 		id: cast.parentHash as FarcasterCastId,
 	},
 })
@@ -212,7 +212,7 @@ export const normalizeCastV2 = (cast: CastV2 | CastWithInteractionsV2): Farcaste
 		},
 	},
 
-	parent: {
+	parentCast: {
 		id: cast.parent_hash as FarcasterCastId,
 		author: {
 			id: Number(cast.parent_author?.fid) ?? undefined as FarcasterUserId | undefined,

@@ -101,7 +101,7 @@ export type FarcasterCast = {
 		recastsCount?: number;
 	};
 	
-	parent?: Partial<FarcasterCast>;
+	parentCast?: Partial<FarcasterCast>;
 	parentUrl?: string;
 	replies?: FarcasterCast[];
 	repliesCount?: number;
