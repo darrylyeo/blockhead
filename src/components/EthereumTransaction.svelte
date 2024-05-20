@@ -13,7 +13,7 @@
 	export let contextualAddress: Ethereum.Address
 
 	// (View options)
-	export let layout: 'standalone' | 'inline' = 'inline'
+	export let layout: 'standalone' | 'collapsible' | 'inline' = 'inline'
 	export let innerLayout: 'columns' | 'row' = 'row'
 
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
@@ -25,11 +25,13 @@
 
 	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 3
 
+	export let isOpen = true
+
 	// Internal state
 	// (Computed)
 	$: isSummary = detailLevel === 'summary'
 	$: isExhaustive = detailLevel === 'exhaustive'
-	$: isStandaloneLayout = layout === 'standalone'
+	$: isStandaloneLayout = layout === 'standalone' || layout === 'collapsible'
 	$: isInlineLayout = layout === 'inline'
 
 	$: contextIsSender = contextualAddress && transaction.fromAddress && contextualAddress.toLowerCase() === transaction.fromAddress.toLowerCase()
@@ -52,29 +54,38 @@
 
 	// Components
 	import AddressWithLabel from './AddressWithLabel.svelte'
+	import Collapsible from './Collapsible.svelte'
 	import Date from './Date.svelte'
 	import EthereumErc20TransferCovalent from './EthereumErc20TransferCovalent.svelte'
 	import EthereumLogEvent from './EthereumLogEvent.svelte'
 	import TransactionId from './TransactionId.svelte'
 	import EthereumTransactionSummary from './EthereumTransactionSummary.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
-
-
-	// Transitions/animations
-	import { fade } from 'svelte/transition'
 </script>
 
 
 {#if transaction.network && transaction}
-	<div class="transaction layout-{layout} column" class:card={isStandaloneLayout} class:unsuccessful={transaction.executionStatus === 'failed'} transition:fade>
-		{#if isStandaloneLayout}
-			<div class="bar">
-				<svelte:element this={`h${headingLevel}`}>
+	<Collapsible
+		type="label"
+		{isOpen}
+		canToggle={layout === 'collapsible'}
+		showContentsOnly={layout === 'inline'}
+		containerClass="transaction {isStandaloneLayout ? 'card' : ''} {transaction.executionStatus === 'failed' ? 'unsuccessful' : ''}" 
+		class="column layout-{layout}"
+	>
+		<svelte:fragment slot="title">
+			<svelte:element this={`h${headingLevel}`}>
+				<span class="transaction-id">
 					<TransactionId network={transaction.network} transactionId={transaction.transactionId} />
-				</svelte:element>
-				<span class="card-annotation">{transaction.network.name} Transaction</span>
-			</div>
+				</span>
+			</svelte:element>
+		</svelte:fragment>
 
+		<svelte:fragment slot="header-right">
+			<span class="card-annotation">{transaction.network.name} Transaction</span>
+		</svelte:fragment>
+
+		{#if isStandaloneLayout}
 			<hr>
 
 			<div class="bar">
@@ -317,7 +328,7 @@
 				{/if}
 			</div>
 		{/if}
-	</div>
+	</Collapsible>
 {/if}
 
 
@@ -325,9 +336,7 @@
 	.transaction {
 		/* text-align: center; */
 
-		& :global(.transaction-id) { 
-			font-size: 1.025em;
-		}
+		font-size: 1.025em;
 	}
 
 	.transaction.layout-inline {
