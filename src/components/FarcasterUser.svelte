@@ -1,6 +1,7 @@
 <script lang="ts">
 	// Types/constants
 	import type { FarcasterUser } from '$/api/farcaster'
+	import { FarcasterProvider } from '$/data/farcasterProviders'
 
 
 	// Functions
@@ -9,9 +10,20 @@
 
 	// Inputs
 	export let user: FarcasterUser
+	export let farcasterProvider: FarcasterProvider
 
 	// (View options)
 	export let showDisplayName = true
+
+
+	// Internal state
+	// (Computed)
+	$: linkType = {
+		[FarcasterProvider.Airstack]: 'name',
+		[FarcasterProvider.Hub]: 'id',
+		[FarcasterProvider.Neynar]: 'name',
+		[FarcasterProvider.Pinata]: 'id',
+	}[farcasterProvider]
 
 
 	// Components
@@ -22,7 +34,7 @@
 <a
 	class="farcaster-user row inline align-center"
 	href={
-		user.name
+		user.name && linkType === 'name'
 			? resolveRoute(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName: user.name })
 			: resolveRoute(`/apps/farcaster/account/[farcasterUserId]`, { farcasterUserId: String(user.id) })
 	}

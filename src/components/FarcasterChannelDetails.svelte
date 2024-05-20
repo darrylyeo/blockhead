@@ -1,10 +1,12 @@
 <script lang="ts">
 	// Types
 	import type { FarcasterChannel as _FarcasterChannel } from '$/api/farcaster'
+	import type { FarcasterProvider } from '$/data/farcasterProviders'
 	
 
 	// Inputs
 	export let channel: _FarcasterChannel
+	export let farcasterProvider: FarcasterProvider
 
 	// (View options)
 	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 2
@@ -80,6 +82,7 @@
 												<FarcasterUser
 													{user}
 													showDisplayName={false}
+													{farcasterProvider}
 												/>
 											{/if}
 										</FarcasterUserProfileLoader>

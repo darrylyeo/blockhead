@@ -66,6 +66,7 @@
 		{#if cast.author}
 			<FarcasterUser
 				user={cast.author}
+				{farcasterProvider}
 			/>
 		{/if}
 	</svelte:fragment>

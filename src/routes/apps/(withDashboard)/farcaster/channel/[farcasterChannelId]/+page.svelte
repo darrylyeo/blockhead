@@ -50,6 +50,7 @@
 	{#if channel}
 		<FarcasterChannelDetails
 			{channel}
+			{farcasterProvider}
 			headingLevel={2}
 		/>
 	{/if}

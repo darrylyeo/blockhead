@@ -80,6 +80,7 @@
 							{#if user}
 								<FarcasterUser
 									{user}
+									{farcasterProvider}
 								/>
 							{/if}
 						</FarcasterUserProfileLoader>

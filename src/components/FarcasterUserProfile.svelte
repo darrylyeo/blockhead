@@ -1,10 +1,12 @@
 <script lang="ts">
 	// Types
 	import type { FarcasterUser as _FarcasterUser } from '$/api/farcaster'
+	import type { FarcasterProvider } from '$/data/farcasterProviders'
 	
 
 	// Inputs
 	export let user: _FarcasterUser
+	export let farcasterProvider: FarcasterProvider
 
 	// (View options)
 	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 2
@@ -27,6 +29,7 @@
 			<svelte:element this={`h${headingLevel}`} class="row">
 				<FarcasterUser
 					{user}
+					{farcasterProvider}
 				/>
 			</svelte:element>
 

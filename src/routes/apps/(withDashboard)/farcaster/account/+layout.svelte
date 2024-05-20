@@ -57,6 +57,7 @@
 		<FarcasterUserProfile
 			{user}
 			headingLevel={2}
+			{farcasterProvider}
 		/>
 
 		<section>
@@ -81,6 +82,7 @@
 								<span class="title row inline">
 									<FarcasterUser
 										{user}
+										{farcasterProvider}
 									/>
 									›
 									<span>Casts</span>
@@ -110,6 +112,7 @@
 								<span class="title row inline">
 									<FarcasterUser
 										{user}
+										{farcasterProvider}
 									/>
 									›
 									<span>Following</span>
