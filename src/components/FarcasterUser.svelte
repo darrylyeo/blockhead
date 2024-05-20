@@ -10,6 +10,9 @@
 	// Inputs
 	export let user: FarcasterUser
 
+	// (View options)
+	export let showDisplayName = true
+
 
 	// Components
 	import Icon from './Icon.svelte'
@@ -32,7 +35,9 @@
 
 	<!-- <span> -->
 		<address>
-			<span class="display-name">{user.displayName}</span>
+			{#if showDisplayName}
+				<span class="display-name">{user.displayName}</span>
+			{/if}
 
 			<span class="username-or-id">
 				{#if user.name}
