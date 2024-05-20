@@ -181,7 +181,7 @@ export const normalizeCastV1 = (cast: CastV1 | CastWithInteractionsV1): Farcaste
 export const normalizeCastWithRepliesV1 = (casts: CastWithInteractionsV1[]): FarcasterCast => {
 	const normalizedCasts = casts.map(cast => normalizeCastV1(cast))
 
-	const castsByParentHash = Object.groupBy(normalizedCasts, cast => cast.parent.id)
+	const castsByParentHash = Object.groupBy(normalizedCasts, cast => cast.parent?.id)
 
 	for(const cast of normalizedCasts){
 		cast.replies = castsByParentHash[cast.id]
