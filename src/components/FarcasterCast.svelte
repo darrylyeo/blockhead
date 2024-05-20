@@ -180,8 +180,9 @@
 							tokenBalanceFormat="original"
 							showFees
 			
-							layout="standalone"
+							layout="collapsible"
 							headingLevel={4}
+							isOpen={false}
 						/>
 					{/if}
 				</EthereumTransactionLoader>
