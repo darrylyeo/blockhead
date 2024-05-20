@@ -142,7 +142,13 @@ export const normalizeCastV1 = (cast: CastV1 | CastWithInteractionsV1): Farcaste
 		text: cast.text,
 	}),
 
-	author: normalizeUserV1(cast.author),
+	author: (
+		'author' in cast
+			? normalizeUserV1(cast.author)
+			: {
+				id: Number(cast.author.fid),
+			}
+	),
 
 	timestamp: new Date(cast.timestamp).valueOf(),
 
