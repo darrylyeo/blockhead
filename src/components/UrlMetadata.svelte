@@ -5,8 +5,8 @@
 
 	// Internal state
 	// (Computed)
-	$: urlHostname = new URL(url).hostname
-	$: urlDomain = urlHostname.replace(/^www\./, '')
+	$: urlHostname = parseUrl(url)?.hostname
+	$: urlDomain = urlHostname?.replace(/^www\./, '')
 	$: knownEmbedType =
 		url.match(new RegExp(`(?:${RegExp.escape(`https://x.com`)}|${RegExp.escape(`https://twitter.com`)})\/([a-zA-Z0-9_]+)\/status\/([0-9]+)`)) ? '𝕏 Post' :
 		url.match(/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|live\/|v\/)?)([\w\-]+)(\S+)?$/) ? 'YouTube Video' :
@@ -20,6 +20,8 @@
 
 
 	// Functions
+	import { parseUrl } from '$/utils/parseUrl'
+
 	import { parseFarcasterFrameServerMeta } from '$/api/farcaster/frame'
 
 	const formatContent = (text: string) => (
@@ -82,18 +84,23 @@
 						class="row inline"
 						data-after="↗︎"
 					>
-						{#if (knownEmbedType || urlMetadata.publisher) && !urlDomain.toLowerCase().includes((knownEmbedType || urlMetadata.publisher).toLowerCase())}
-							{knownEmbedType || urlMetadata.publisher} ({urlDomain})
+						{#if urlDomain}
+							{#if (knownEmbedType || urlMetadata.publisher) && !urlDomain.toLowerCase().includes((knownEmbedType || urlMetadata.publisher).toLowerCase())}
+								{knownEmbedType || urlMetadata.publisher} ({urlDomain})
+							{:else}
+								{urlDomain}
+							{/if}
+
+							<!-- {#if knownEmbedType}
+								{knownEmbedType}
+							{:else if urlMetadata.publisher && !urlDomain.toLowerCase().includes(urlMetadata.publisher.toLowerCase())}
+								{urlMetadata.publisher} ({urlDomain})
+							{:else}
+								{urlDomain}
+							{/if} -->
 						{:else}
-							{urlDomain}
+							{url}
 						{/if}
-						<!-- {#if knownEmbedType}
-							{knownEmbedType}
-						{:else if urlMetadata.publisher && !urlDomain.toLowerCase().includes(urlMetadata.publisher.toLowerCase())}
-							{urlMetadata.publisher} ({urlDomain})
-						{:else}
-							{urlDomain}
-						{/if} -->
 					</address>
 				</a>
 			</svelte:fragment>
