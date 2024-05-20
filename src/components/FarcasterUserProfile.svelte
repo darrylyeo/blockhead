@@ -6,6 +6,9 @@
 	// Inputs
 	export let user: _FarcasterUser
 
+	// (View options)
+	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 2
+
 
 	// Components
 	import Collapsible from './Collapsible.svelte'
@@ -21,9 +24,11 @@
 >
 	<svelte:fragment slot="title">
 		<div class="row">
-			<FarcasterUser
-				{user}
-			/>
+			<svelte:element this={`h${headingLevel}`} class="row">
+				<FarcasterUser
+					{user}
+				/>
+			</svelte:element>
 
 			{#if user.isActive}
 				<abbr class="active-status row inline" data-before="★" title="Active" />

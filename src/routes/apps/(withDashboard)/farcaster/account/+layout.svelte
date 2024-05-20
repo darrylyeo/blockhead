@@ -56,6 +56,7 @@
 	{#if user}
 		<FarcasterUserProfile
 			{user}
+			headingLevel={2}
 		/>
 
 		<section>
