@@ -39,6 +39,15 @@
 	import { normalizeChannel as normalizeChannelNeynar } from '$/api/neynar/normalize'
 	import { normalizeChannel as normalizeChannelPinata } from '$/api/pinata/farcaster/normalize'
 
+	import { getChannelIdFromUrl } from '$/api/farcaster'
+
+	const findChannelIdByUrl = (castParentUrl: string): FarcasterChannelId | undefined => { 
+		const channelId = getChannelIdFromUrl(castParentUrl)
+
+		if(channelId)
+			return channelId
+	}
+
 
 	// Components
 	import Loader from './Loader.svelte'
@@ -86,9 +95,29 @@
 							farcasterProvider,
 							castParentUrl: query.castParentUrl,
 						}],
-						queryFn: async () => {
+						queryFn: async ({
+							queryKey: [, { castParentUrl }],
+						}) => {
+							const channelId = findChannelIdByUrl(castParentUrl)
+
+							if(channelId){
+								const { getFarcasterChannel } = await import('$/api/airstack/index')
+
+								return await getFarcasterChannel({
+									channelId,
+								})
+							}
+
 							throw `Airstack doesn't support querying channels by cast parent URL.`
 						},
+						select: (result) => (
+							result
+								?.FarcasterChannels
+								?.FarcasterChannel
+								?.map(normalizeChannelAirstack)
+								[0]
+						),
+						staleTime: 10 * 1000,
 					})
 
 				:
@@ -180,9 +209,22 @@
 							farcasterProvider,
 							castParentUrl: query.castParentUrl,
 						}],
-						queryFn: async () => {
+						queryFn: async ({
+							queryKey: [, { castParentUrl }],
+						}) => {
+							const channelId = findChannelIdByUrl(castParentUrl)
+
+							if(channelId){
+								const { getChannelByName } = await import('$/api/pinata/farcaster')
+
+								return await getChannelByName({ name: channelId })
+							}
+
 							throw `Pinata doesn't support querying channels by cast parent URL.`
 						},
+						select: (result) => (
+							normalizeChannelPinata(result.data)
+						),
 					})
 
 				:

@@ -233,15 +233,6 @@ export const extractCastEmbeds = ({
 	}
 }
 
-export const getChannelFromUrl = (channelUrl: string): FarcasterChannel | undefined => {
-	const channelSlug = channelUrl.match(new RegExp(`${RegExp.escape(`https://warpcast.com/~/channel/`)}(?<channelSlug>[a-z0-9-]+)`))?.groups?.channelSlug
-
-	return channelSlug
-		? {
-			id: channelSlug,
-			url: channelUrl,
-			name: `/${channelSlug}`,
-			image: undefined,
-		}
-		: undefined
-}
+export const getChannelIdFromUrl = (channelUrl: string) => (
+	channelUrl.match(new RegExp(`${RegExp.escape(`https://warpcast.com/~/channel/`)}(?<channelId>[a-z0-9-]+)`))?.groups?.channelId ?? undefined as (FarcasterChannel | undefined)
+)
