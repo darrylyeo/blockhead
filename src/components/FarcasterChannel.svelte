@@ -5,11 +5,15 @@
 	
 	// Inputs
 	export let channel: FarcasterChannel | Pick<FarcasterChannel, 'id'> | Pick<FarcasterChannel, 'url'>
+
+	// (View options)
+	export let showName = true
+	export let showId = false
 </script>
 
 
 <a
-	class="channel row"
+	class="farcaster-channel row"
 	href={channel.url}
 >
 	{#if 'image' in channel}
@@ -19,23 +23,35 @@
 		/>
 	{/if}
 
-	<span>{'name' in channel ? channel.name : 'url' in channel ? channel.url : ''}</span>
+	<slot>
+		<span class="row inline">
+			{#if 'name' in channel && showName}
+				<span class="channel-name">{'name' in channel ? channel.name : 'url' in channel ? channel.url : ''}</span>
+			{/if}
+
+			{#if 'id' in channel && showId}
+				<span class="channel-id">
+					/{channel.id}
+				</span>
+			{/if}
+		</span>
+	</slot>
 </a>
 
 
 <style>
-	.channel {
+	.farcaster-channel {
 		display: inline-flex;
-		align-self: center;
-		font-weight: normal;
-	}
-
-	.row {
 		gap: 0.5em;
 	}
 
 	img {
 		border-radius: 4px;
 		height: 1.5em;
+	}
+
+	.channel-name + .channel-id {
+		font-size: smaller;
+		opacity: 0.5;
 	}
 </style>
