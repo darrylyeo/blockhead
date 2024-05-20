@@ -60,7 +60,11 @@ export const normalizeUser = (user: User): FarcasterUser => ({
 	},
 
 	custodyAddress: user.custody_address as Ethereum.Address,
-	verifications: user.verifications,
+	...user.verified_addresses && {
+		verifiedAddresses: {
+			ethereum: user.verifications as Ethereum.Address[],
+		},
+	},
 
 	summary: {
 		followerCount: user.follower_count,

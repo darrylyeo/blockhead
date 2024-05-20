@@ -31,7 +31,9 @@ export const normalizeUserV1 = (
 	isActive: user.activeStatus === ActiveStatus.Active,
 
 	custodyAddress: user.custodyAddress as Ethereum.Address,
-	verifications: user.verifications,
+	verifiedAddresses: {
+		ethereum: user.verifications as Ethereum.Address[],
+	},
 
 	summary: {
 		followerCount: user.followerCount,
@@ -69,7 +71,9 @@ export const normalizeUserV2 = (
 
 	isActive: user.active_status === ActiveStatus.Active,
 
-	verifications: user.verifications,
+	verifiedAddresses: {
+		ethereum: user.verifications as Ethereum.Address[],
+	},
 
 	summary: {
 		followerCount: user.follower_count,
