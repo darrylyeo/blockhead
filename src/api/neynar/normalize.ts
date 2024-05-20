@@ -228,11 +228,13 @@ export const normalizeCastV2 = (cast: CastV2 | CastWithInteractionsV2): Farcaste
 		},
 	},
 
-	parentCast: {
-		id: cast.parent_hash as FarcasterCastId,
-		author: {
-			id: Number(cast.parent_author?.fid) ?? undefined as FarcasterUserId | undefined,
-		}
+	...cast.parent_hash && {
+		parentCast: {
+			id: cast.parent_hash as FarcasterCastId,
+			author: {
+				id: Number(cast.parent_author?.fid) ?? undefined as FarcasterUserId | undefined,
+			}
+		},
 	},
 
 	...(cast.parent_url || cast.root_parent_url) && {
