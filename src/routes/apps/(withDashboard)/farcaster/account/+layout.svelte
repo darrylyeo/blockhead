@@ -89,6 +89,37 @@
 						</FarcasterCasts>
 					{/if}
 				</FarcasterCastsLoader>
+
+				<FarcasterCastsLoader
+					{farcasterProvider}
+					farcasterFeedProvider={_farcasterFeedProvider}
+					query={{
+						followedByUserId: user.id,
+					}}
+					let:casts
+					let:pagination
+				>
+					{#if casts}
+						<FarcasterCasts
+							{casts}
+							{farcasterProvider}
+							farcasterFeedProvider={_farcasterFeedProvider}
+							{pagination}
+						>
+							<svelte:fragment slot="title">
+								<span class="title row inline">
+									<FarcasterUser
+										{user}
+									/>
+									›
+									<span>Following</span>
+									›
+									<span>Casts</span>
+								</span>
+							</svelte:fragment>
+						</FarcasterCasts>
+					{/if}
+				</FarcasterCastsLoader>
 			{/if}
 		</section>
 	{/if}
