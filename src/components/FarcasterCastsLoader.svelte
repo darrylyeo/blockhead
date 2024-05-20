@@ -24,6 +24,16 @@
 		| {
 			followedByUserId: FarcasterUserId,
 		}
+		// Casts in channel by channel ID
+		| {
+			channelId: FarcasterChannelId,
+			withReplies?: boolean,
+		}
+		// Casts in channel by cast parent URL
+		| {
+			castParentUrl: string,
+			withReplies?: boolean,
+		}
 		// Casts in trending
 		| {
 			trending: boolean,
