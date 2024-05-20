@@ -1044,3 +1044,40 @@ export const getFarcasterChannels = async ({
 		.toPromise()
 		.then(handleUrqlResult)
 }
+
+export const getFarcasterChannel = async ({
+	channelId,
+}: {
+	channelId: string,
+}) => {
+	return await client
+		.query(
+			graphql(`
+				query FarcasterChannel(
+					$channelId: String!
+				) {
+					FarcasterChannels(
+						input: {
+							blockchain: ALL
+							filter: {
+								channelId: {
+									_eq: $channelId
+								}
+							}
+						}
+					) {
+						FarcasterChannel {
+							...FarcasterChannel
+						}
+					}
+				}
+			`, [
+				FarcasterChannel,
+			]),
+			{
+				channelId,
+			},
+		)
+		.toPromise()
+		.then(handleUrqlResult)
+}
