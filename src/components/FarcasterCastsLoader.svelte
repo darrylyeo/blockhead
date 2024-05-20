@@ -233,6 +233,41 @@
 						staleTime: 10 * 1000,
 					})
 
+				: query && 'channelId' in query ?
+					createInfiniteQuery({
+						queryKey: ['FarcasterCasts', {
+							farcasterFeedProvider,
+							channelId: query.channelId,
+							withReplies: query.withReplies,
+						}],
+						initialPageParam: '',
+						queryFn: async ({
+							queryKey: [, { channelId, withReplies }],
+							pageParam: cursor,
+						}) => {
+							const { getFarcasterFeedChannels } = await import('$/api/neynar/v2')
+
+							return await getFarcasterFeedChannels(
+								publicEnv.PUBLIC_NEYNAR_API_KEY,
+								channelId,
+								{
+									withReplies,
+									cursor,
+									limit: 50,
+								}
+							)
+						},
+						getNextPageParam: (lastPage) => lastPage?.next?.cursor,
+						select: result => (
+							[...new Set(
+								result.pages
+									.flatMap(page => page.casts ?? [])
+									.map(normalizeCastNeynarV2)
+							)]
+						),
+						staleTime: 10 * 1000,
+					})
+
 				:
 					createInfiniteQuery({
 						queryKey: ['FarcasterCasts', {
