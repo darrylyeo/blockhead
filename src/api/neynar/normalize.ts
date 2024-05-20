@@ -180,6 +180,10 @@ export const normalizeCastV1 = (cast: CastV1 | CastWithInteractionsV1): Farcaste
 		},
 	},
 
+	rootCast: {
+		id: cast.threadHash as FarcasterCastId,
+	},
+
 	parentCast: {
 		id: cast.parentHash as FarcasterCastId,
 	},
