@@ -3044,6 +3044,14 @@ export type introspection = {
               "name": "Identity_Comparator_Exp",
               "ofType": null
             }
+          },
+          {
+            "name": "channelId",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_Comparator_Exp",
+              "ofType": null
+            }
           }
         ]
       },
@@ -4021,6 +4029,242 @@ export type introspection = {
             "type": {
               "kind": "OBJECT",
               "name": "Social",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "NativeBalance",
+        "fields": [
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "chainId",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "blockchain",
+            "type": {
+              "kind": "ENUM",
+              "name": "NativeBalanceBlockchain",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "owner",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Wallet",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "formattedAmount",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "lastUpdatedBlock",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "lastUpdatedTimestamp",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Time",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "ENUM",
+        "name": "NativeBalanceBlockchain",
+        "enumValues": [
+          {
+            "name": "degen"
+          }
+        ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "NativeBalanceFilter",
+        "inputFields": [
+          {
+            "name": "owner",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Identity_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
+            "name": "formattedAmount",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Float_Comparator_Exp",
+              "ofType": null
+            }
+          },
+          {
+            "name": "lastUpdatedTimestamp",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Time_Comparator_Exp",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "NativeBalanceOrderBy",
+        "inputFields": [
+          {
+            "name": "lastUpdatedTimestamp",
+            "type": {
+              "kind": "ENUM",
+              "name": "OrderBy",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "NativeBalancesInput",
+        "inputFields": [
+          {
+            "name": "order",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "NativeBalanceOrderBy",
+                  "ofType": null
+                }
+              }
+            }
+          },
+          {
+            "name": "filter",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "NativeBalanceFilter",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "blockchain",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "NativeBalanceBlockchain",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "limit",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          {
+            "name": "cursor",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "NativeBalancesOutput",
+        "fields": [
+          {
+            "name": "NativeBalance",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "NativeBalance",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "pageInfo",
+            "type": {
+              "kind": "OBJECT",
+              "name": "PageInfo",
               "ofType": null
             },
             "args": []
@@ -9581,12 +9825,9 @@ export type introspection = {
             "type": {
               "kind": "LIST",
               "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TokenNftOrderBy",
-                  "ofType": null
-                }
+                "kind": "INPUT_OBJECT",
+                "name": "TokenNftOrderBy",
+                "ofType": null
               }
             }
           },
