@@ -61,7 +61,7 @@
 	let:result={domain}
 >
 	<div class="ens-query column">
-		{#if domain !== null}
+		{#if domain}
 			<EnsDomain
 				{network}
 				{domain}
