@@ -117,7 +117,7 @@ export type FarcasterCast = {
 	replies?: FarcasterCast[];
 	repliesCount?: number;
 
-	channel: FarcasterChannel | Pick<FarcasterChannel, 'id'> | Pick<FarcasterChannel, 'url'>;
+	channel?: FarcasterChannel | Pick<FarcasterChannel, 'id'> | Pick<FarcasterChannel, 'url'>;
 }
 
 
