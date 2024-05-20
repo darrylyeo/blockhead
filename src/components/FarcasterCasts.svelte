@@ -94,7 +94,7 @@
 				</FarcasterCastLoader>
 			{/if}
 		{:else}
-			<div class="card">No casts yet.</div>
+			<div class="card">No {isReplies ? 'replies' : 'casts'} yet.</div>
 		{/each}
 
 		<svelte:fragment slot="after">
@@ -106,7 +106,7 @@
 					}}
 					iconAnimation="hover"
 				>
-					Loading more casts via {farcasterProvider}...
+					Loading more {isReplies ? 'replies' : 'casts'} via {farcasterProvider}...
 				</Loading>
 			{/if}
 		</svelte:fragment>

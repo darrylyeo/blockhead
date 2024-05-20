@@ -330,7 +330,7 @@
 			</footer>
 		</svelte:fragment>
 
-		{#if cast.replies?.length}
+		{#if cast.replies}
 			<FarcasterCasts
 				casts={cast.replies}
 				isReplies
@@ -338,7 +338,7 @@
 				{farcasterProvider}
 				{farcasterFeedProvider}
 			/>
-		{:else if !('repliesCount' in cast && cast.repliesCount === 0)}
+		{:else}
 			<FarcasterCastRepliesLoader
 				{farcasterProvider}
 				query={{
