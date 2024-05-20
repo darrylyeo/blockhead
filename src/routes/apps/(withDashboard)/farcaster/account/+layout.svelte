@@ -77,11 +77,12 @@
 							{pagination}
 						>
 							<svelte:fragment slot="title">
-								<span>
+								<span class="title row inline">
 									<FarcasterUser
 										{user}
 									/>
-									<span style="margin-bottom: 0.125em"> › Casts</span>
+									›
+									<span>Casts</span>
 								</span>
 							</svelte:fragment>
 						</FarcasterCasts>
@@ -91,3 +92,10 @@
 		</section>
 	{/if}
 </FarcasterUserProfileLoader>
+
+
+<style>
+	.title {
+		align-items: center;
+	}
+</style>

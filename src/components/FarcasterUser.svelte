@@ -9,11 +9,15 @@
 
 	// Inputs
 	export let user: FarcasterUser
+
+
+	// Components
+	import Icon from './Icon.svelte'
 </script>
 
 
 <a
-	class="cast-author"
+	class="farcaster-user row inline align-center"
 	href={
 		user.name
 			? resolveRoute(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName: user.name })
@@ -21,24 +25,22 @@
 	}
 >
 	{#if user.avatar?.url}
-		<img
-			class="avatar"
-			src={user.avatar.url}
-			width="24"
-			height="24"
+		<Icon
+			imageSources={[user.avatar.url]}
 		/>
 	{/if}
 
 	<!-- <span> -->
 		<address>
-			<span>{user.displayName}</span>
-			<small class="faded">
+			<span class="display-name">{user.displayName}</span>
+
+			<span class="username-or-id">
 				{#if user.name}
 					@{user.name}
 				{:else if user.id}
 					#{user.id}
 				{/if}
-			</small>
+			</span>
 		</address>
 
 		<!-- {#if user.isActive}
@@ -49,11 +51,16 @@
 
 
 <style>
-	.avatar {
-		vertical-align: middle;
-		float: left;
-		margin-right: 1ch;
+	.farcaster-user {
+		min-width: min-content;
+		gap: 0.85ch;
+		align-items: center;
 
+		--icon-size: 1.75em;
+		--icon-borderRadius: 0.33em;
+	}
+
+	.avatar {
 		border-radius: 4px;
 		object-fit: cover;
 	}
@@ -65,7 +72,8 @@
 		display: inline;
 	}
 
-	.faded {
+	.display-name + .username-or-id {
+		font-size: smaller;
 		opacity: 0.6;
 	}
 </style>
