@@ -28,6 +28,7 @@
 	class="icon"
 	class:isGrayscale={isGrayscale}
 	{title}
+	{...$$restProps}
 	transition:transition={transitionConfig}
 >
 	{#if imageSources[i]}
@@ -46,6 +47,7 @@
 <style>
 	:global(:root) {
 		--icon-size: 1.25em;
+		--icon-borderRadius: 0.3em;
 	}
 
 	picture:empty,
@@ -73,7 +75,7 @@
 		height: var(--icon-size);
 		max-width: 100%;
 		aspect-ratio: 1;
-		border-radius: 0.3em;
+		border-radius: var(--icon-borderRadius);
 		object-fit: contain;
 	}
 
