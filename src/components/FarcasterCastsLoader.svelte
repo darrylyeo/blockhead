@@ -453,6 +453,64 @@
 						staleTime: 10 * 1000,
 					})
 
+				: query && 'channelId' in query ?
+					createInfiniteQuery({
+						queryKey: ['FarcasterCasts', {
+							farcasterFeedProvider,
+							channelId: query.channelId,
+						}],
+						initialPageParam: '',
+						queryFn: async ({
+							queryKey: [, { channelId }],
+							pageParam: pageToken,
+						}) => {
+							const { getCasts } = await import('$/api/pinata/farcaster')
+
+							return await getCasts({
+								channel: channelId,
+								reverse: true,
+								pageSize: 50,
+								pageToken,
+							})
+						},
+						getNextPageParam: (lastPage) => lastPage.data?.next_page_token,
+						select: result => (
+							result.pages
+								.flatMap(page => page.data.casts)
+								.map(normalizeCastPinata)
+						),
+						staleTime: 10 * 1000,
+					})
+
+				: query && 'castParentUrl' in query ?
+					createInfiniteQuery({
+						queryKey: ['FarcasterCasts', {
+							farcasterFeedProvider,
+							castParentUrl: query.castParentUrl,
+						}],
+						initialPageParam: '',
+						queryFn: async ({
+							queryKey: [, { castParentUrl }],
+							pageParam: pageToken,
+						}) => {
+							const { getCasts } = await import('$/api/pinata/farcaster')
+
+							return await getCasts({
+								channel: castParentUrl,
+								reverse: true,
+								pageSize: 50,
+								pageToken,
+							})
+						},
+						getNextPageParam: (lastPage) => lastPage.data?.next_page_token,
+						select: result => (
+							result.pages
+								.flatMap(page => page.data.casts)
+								.map(normalizeCastPinata)
+						),
+						staleTime: 10 * 1000,
+					})
+
 				:
 					createInfiniteQuery({
 						queryKey: ['FarcasterCasts', {

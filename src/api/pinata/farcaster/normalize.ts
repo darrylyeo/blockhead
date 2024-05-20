@@ -70,8 +70,20 @@ export const normalizeUser = (user: User): FarcasterUser => ({
 
 export const normalizeChannel = (channel: Channel): FarcasterChannel => ({
 	id: channel.name,
+
 	url: channel.url,
+
 	name: channel.display_name,
+	description: channel.description,
 	image: channel.image_url,
-	leads: [channel.lead_fid],
+
+	leads: (
+		channel.host_fids
+			? channel.host_fids
+			: [channel.lead_fid]
+	),
+
+	summary: {
+		followerCount: channel.follower_count,
+	},
 })

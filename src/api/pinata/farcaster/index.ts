@@ -64,13 +64,15 @@ export type Cast = {
 }
 
 export type Channel = {
-	created_at: number,
-	description: string,
-	display_name: string,
-	image_url: string,
-	lead_fid: number,
 	name: string,
 	url: string,
+	display_name: string,
+	description: string,
+	image_url: string,
+	lead_fid: number,
+	created_at: number,
+	host_fids: number[],
+	follower_count: number,
 }
 
 export type User = {
