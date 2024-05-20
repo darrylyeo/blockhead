@@ -106,7 +106,11 @@ export const normalizeChannel = (channel: ChannelV2): FarcasterChannel => ({
 		createdAt: new Date(channel.created_at * 1000).valueOf(),
 	},
 	...channel.lead && {
-		leads: [channel.lead.fid],
+		leads: (
+			channel.hosts ?
+				channel.hosts.map(host => host.fid) :
+				[channel.lead.fid]
+		),
 	},
 })
 
