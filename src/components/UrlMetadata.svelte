@@ -67,7 +67,7 @@
 					{/if}
 
 					<h4>
-						{urlMetadata.title}
+						{urlMetadata.title ?? url}
 					</h4>
 				</a>
 			</svelte:fragment>
