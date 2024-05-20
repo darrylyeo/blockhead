@@ -841,6 +841,59 @@ export const getFarcasterCastsByUserId = async ({
 		.then(handleUrqlResult)
 }
 
+export const getFarcasterCastsByChannel = async ({
+	castParentUrl,
+	limit = 50,
+	cursor,
+}: {
+	castParentUrl: string,
+	limit: number,
+	cursor: string,
+}) => {
+	return await client
+		.query(
+			graphql(`
+				query FarcasterCastsByChannel(
+					$castParentUrl: String!
+					$limit: Int!
+					$cursor: String!
+				) {
+					FarcasterCasts(
+						input: {
+							blockchain: ALL
+							filter: {
+								rootParentUrl: {
+									_eq: $castParentUrl
+								}
+							}
+							limit: $limit
+							cursor: $cursor
+						}
+					) {
+						Cast {
+							...FarcasterCast
+						}
+						pageInfo {
+							hasNextPage
+							hasPrevPage
+							nextCursor
+							prevCursor
+						}
+					}
+				}
+			`, [
+				FarcasterCast,
+			]),
+			{
+				castParentUrl,
+				limit,
+				cursor,
+			},
+		)
+		.toPromise()
+		.then(handleUrqlResult)
+}
+
 export const getFarcasterCastByHash = async ({
 	hash,
 }: {

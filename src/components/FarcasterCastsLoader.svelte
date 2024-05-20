@@ -111,6 +111,36 @@
 						staleTime: 10 * 1000,
 					})
 
+				: query && 'castParentUrl' in query ?
+					createInfiniteQuery({
+						queryKey: ['FarcasterCasts', {
+							farcasterFeedProvider,
+							channelId: query.channelId,
+							withReplies: query.withReplies,
+						}],
+						initialPageParam: '',
+						queryFn: async ({
+							queryKey: [, { channelId, withReplies }],
+							pageParam: cursor,
+						}) => {
+							const { getFarcasterCastsByChannel } = await import('$/api/airstack')
+
+							return await getFarcasterCastsByChannel({
+								channelId,
+								withReplies,
+								limit: 50,
+								cursor,
+							})
+						},
+						getNextPageParam: (lastPage) => lastPage?.FarcasterCasts?.pageInfo?.nextCursor,
+						select: result => (
+							result.pages
+								.flatMap(page => page?.FarcasterCasts?.Cast ?? [])
+								.map(normalizeCastAirstack)
+						),
+						staleTime: 10 * 1000,
+					})
+
 				: query && 'trending' in query ?
 					createInfiniteQuery({
 						queryKey: ['FarcasterCasts', {
