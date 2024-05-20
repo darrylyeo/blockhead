@@ -786,17 +786,6 @@ export function getPopularChannelCastsChannelsCastsPopularChannelGet(channel: Ch
         ...opts
     }));
 }
-/**
- * Get Health
- */
-export function getHealthHealthGet(opts?: Oazapfts.RequestOpts) {
-    return oazapfts.ok(oazapfts.fetchJson<{
-        status: 200;
-        data: any;
-    }>("/_health", {
-        ...opts
-    }));
-}
 export enum ScoreAgg {
     Rms = "rms",
     Sumsquare = "sumsquare",
@@ -812,5 +801,6 @@ export enum Channel {
     Optimism = "optimism",
     Founders = "founders",
     Farcaster = "farcaster",
-    OpStack = "op-stack"
+    OpStack = "op-stack",
+    NewYork = "new-york"
 }

@@ -19,7 +19,7 @@
 	"env:decrypt": "dotenvx vault decrypt",
     "generate": "npx npm-run-all generate:*",
     "generate:oazapfts:beryx:filecoin": "oazapfts https://docs.zondax.ch/openapi/beryx-fil-mainnet.json ./src/api/beryx/filecoin/api.ts --optimistic --useEnumType",
-    "generate:oazapfts:openrank:farcaster": "oazapfts https://graph.cast.k3l.io/openapi.json ./src/api/openrank/farcaster.ts --optimistic --useEnumType",
+    "generate:oazapfts:openrank:farcaster": "oazapfts https://graph.cast.k3l.io/openapi.json ./src/api/openrank/farcaster/index.ts --optimistic --useEnumType",
     "generate:oazapfts:neynar:v1": "oazapfts https://raw.githubusercontent.com/neynarxyz/OAS/main/src/v1/spec.yaml ./src/api/neynar/v1.ts --optimistic --useEnumType",
     "generate:oazapfts:neynar:v2": "oazapfts https://raw.githubusercontent.com/neynarxyz/OAS/main/src/v2/spec.yaml ./src/api/neynar/v2.ts --optimistic --useEnumType",
     "generate:oazapfts:zapper:v2": "oazapfts https://api.zapper.xyz/api-json ./src/api/zapper/v2.ts --optimistic --useEnumType",
