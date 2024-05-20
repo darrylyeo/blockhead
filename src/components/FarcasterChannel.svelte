@@ -9,12 +9,16 @@
 	// (View options)
 	export let showName = true
 	export let showId = false
+
+
+	// Functions
+	import { resolveRoute } from '$app/paths'
 </script>
 
 
 <a
 	class="farcaster-channel row"
-	href={channel.url}
+	href={'id' in channel ? resolveRoute('/apps/farcaster/channel/[farcasterChannelId]', { farcasterChannelId: channel.id }) : ''}
 >
 	{#if 'image' in channel}
 		<img
