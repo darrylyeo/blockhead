@@ -355,19 +355,27 @@
 						}) => {
 							const { getPopularChannelCastsChannelsCastsPopularChannelGet, Channel } = await import('$/api/openrank/farcaster/index')
 
-							if(!Object.values(Channel).includes(channelId))
-								throw `OpenRank has not yet indexed the Farcaster channel "${channelId}".`
+							// if(!Object.values(Channel).includes(channelId))
+							// 	throw `OpenRank has not yet indexed the Farcaster channel "${channelId}".`
 
-							return await getPopularChannelCastsChannelsCastsPopularChannelGet(
-								channelId,
-								{
-									offset,
-									limit: 50,
-								},
-								{
-									fetch: proxyFetch,
-								},
-							)
+							try {
+								return await getPopularChannelCastsChannelsCastsPopularChannelGet(
+									channelId,
+									{
+										offset,
+										limit: 50,
+									},
+									{
+										fetch: proxyFetch,
+									},
+								)
+							} catch (e) {
+								try {
+									throw JSON.parse(e.data.message).detail[0].msg
+								}catch(e){
+									throw e
+								}
+							}
 						},
 						getNextPageParam: (lastPage) => lastPage?.result?.next_cursor,
 						select: result => (
