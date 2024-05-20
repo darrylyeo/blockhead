@@ -137,13 +137,14 @@
 							network,
 							address,
 							cursor,
+							limit: 100,
 						})
 					),
-					getPreviousPageParam: (firstPage) => firstPage.TokenBalances.pageInfo.prevCursor || undefined,
-					getNextPageParam: (lastPage) => lastPage.TokenBalances.pageInfo.nextCursor || undefined,
+					getPreviousPageParam: (firstPage) => firstPage?.TokenBalances?.pageInfo?.prevCursor ?? undefined,
+					getNextPageParam: (lastPage) => lastPage?.TokenBalances?.pageInfo?.nextCursor ?? undefined,
 					select: data => (
-						(data.pages.flatMap(page => page.TokenBalances.TokenBalance))
-							.filter(isTruthy)
+						data.pages
+							.flatMap(page => page?.TokenBalances?.TokenBalance ?? [])
 							.map(normalizeTokenBalanceAirstack)
 					),
 					staleTime: 10 * 1000,
