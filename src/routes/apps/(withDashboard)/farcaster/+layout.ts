@@ -22,7 +22,7 @@ export const load: LayoutLoad = async ({
 	const currentView =
 		params.farcasterCastId ?
 			'Account'
-		: params.farcasterUserId || params.farcasterUserName ?
+		: params.farcasterUserId || params.farcasterUserName || params.farcasterChannelId ?
 			'Explorer'
 		:
 			'Dashboard'

@@ -35,7 +35,7 @@ export const currentView: Readable<'Dashboard' | 'Explorer' | 'Account'> = deriv
 		: $appsParams.web3AppSlug === 'disco' ?
 			$appsParams.didUrl || $appsParams.discoCredentialId
 		: $appsParams.web3AppSlug === 'farcaster' ?
-			$appsParams.farcasterCastId || $appsParams.farcasterUserId || $appsParams.farcasterUserName
+			$appsParams.farcasterCastId || $appsParams.farcasterChannelId || $appsParams.farcasterUserId || $appsParams.farcasterUserName
 		: $appsParams.web3AppSlug === 'ens' ?
 			$appsParams.accountId
 		: $appsParams.web3AppSlug === 'ipfs' ?
