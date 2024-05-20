@@ -42,6 +42,7 @@
 	import FarcasterCast from './FarcasterCast.svelte'
 	import FarcasterCasts from './FarcasterCasts.svelte'
 	import FarcasterChannel from './FarcasterChannel.svelte'
+	import FarcasterChannelLoader from './FarcasterChannelLoader.svelte'
 	import FarcasterText from './FarcasterText.svelte'
 	import FarcasterUser from './FarcasterUser.svelte'
 	import FileDetails from './FileDetails.svelte'
@@ -76,10 +77,29 @@
 			</span>
 		{:else if cast.channel}
 			<small>
-				<FarcasterChannel
+				<FarcasterChannelLoader
+					viewOptions={{
+						layout: 'passive',
+					}}
 					{farcasterProvider}
-					channelUrl={cast.channel.url}
-				/>
+					query={
+						'id' in cast.channel ?
+							{
+								channelId: cast.channel.id,
+							}
+						:
+							{
+								castParentUrl: cast.channel.url,
+							}
+					}
+					let:channel
+				>
+					{#if channel}
+						<FarcasterChannel
+							{channel}
+						/>
+					{/if}
+				</FarcasterChannelLoader>
 			</small>
 		{/if}
 	</svelte:fragment>
@@ -269,13 +289,32 @@
 							/>
 						</a>
 
-						{#if layout === 'standalone'}
+						{#if layout === 'standalone' && cast.channel}
 							<span class="faded">in</span>
 
-							<FarcasterChannel
+							<FarcasterChannelLoader
+								viewOptions={{
+									layout: 'passive',
+								}}
 								{farcasterProvider}
-								channelUrl={cast.parentUrl}
-							/>
+								query={
+									'id' in cast.channel ?
+										{
+											channelId: cast.channel.id,
+										}
+									:
+										{
+											castParentUrl: cast.channel.url,
+										}
+								}
+								let:channel
+							>
+								{#if channel}
+									<FarcasterChannel
+										{channel}
+									/>
+								{/if}
+							</FarcasterChannelLoader>
 						{/if}
 					</small>
 

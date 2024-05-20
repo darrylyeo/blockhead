@@ -1,47 +1,26 @@
 <script lang="ts">
 	// Types/constants
-	import type { FarcasterProvider } from '$/data/farcasterProviders'
-	
+	import type { FarcasterChannel } from '$/api/farcaster'
+
 	
 	// Inputs
-	export let farcasterProvider: FarcasterProvider
-	export let channelUrl: string
-
-
-	// Functions
-	import { getChannelFromUrl } from '$/api/farcaster'
-
-
-	// Components
-	import FarcasterChannelsLoader from './FarcasterChannelsLoader.svelte'
+	export let channel: FarcasterChannel | Pick<FarcasterChannel, 'id'> | Pick<FarcasterChannel, 'url'>
 </script>
 
 
-<FarcasterChannelsLoader
-	farcasterProvider={farcasterProvider}
-	viewOptions={{
-		layout: 'passive',
-	}}
-	let:channels
+<a
+	class="channel row"
+	href={channel.url}
 >
-	{@const channel = (
-		channels?.find(channel => channel.url === channelUrl)
-		?? (channelUrl && getChannelFromUrl(channelUrl))
-	)}
-
-	{#if channel}
-		<a
-			class="channel row"
-			href={channel.url}
-		>
-			<img src={channel.image} />
-
-			<span>{channel.name}</span>
-		</a>
-	{:else}
-		{channelUrl}
+	{#if 'image' in channel}
+		<img
+			src={channel.image}
+			alt={channel.name}
+		/>
 	{/if}
-</FarcasterChannelsLoader>
+
+	<span>{'name' in channel ? channel.name : 'url' in channel ? channel.url : ''}</span>
+</a>
 
 
 <style>
