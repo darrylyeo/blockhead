@@ -37,8 +37,13 @@ export const normalizeCast = (cast: Cast): FarcasterCast => ({
 		})),
 	},
 
-	parentUrl: cast.root_parent_url,
 	repliesCount: cast.replies.count,
+
+	...cast.root_parent_url && {
+		channel: {
+			url: cast.root_parent_url,
+		},
+	},
 })
 
 export const normalizeUser = (user: User): FarcasterUser => ({

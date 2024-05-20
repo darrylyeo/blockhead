@@ -86,7 +86,23 @@ export const normalizeFarcasterCast = (
 		recastsCount: farcasterCast.numberOfRecasts,
 	},
 
-	parentUrl: farcasterCast.rootParentUrl ?? farcasterCast.channel?.url,
+	...(
+		farcasterCast.channel ?
+			{
+				channel: {
+					id: farcasterCast.channel.channelId,
+					url: farcasterCast.channel.url,
+				},
+			}
+		: farcasterCast.rootParentUrl ?
+			{
+				channel: {
+					url: farcasterCast.rootParentUrl,
+				},
+			}
+		:
+			undefined
+	)
 })
 
 export const normalizeFarcasterTrendingCast = (

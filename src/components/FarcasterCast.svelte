@@ -74,11 +74,11 @@
 			<span class="card-annotation">
 				Farcaster Cast
 			</span>
-		{:else if cast.parentUrl}
+		{:else if cast.channel}
 			<small>
 				<FarcasterChannel
 					{farcasterProvider}
-					channelUrl={cast.parentUrl}
+					channelUrl={cast.channel.url}
 				/>
 			</small>
 		{/if}

@@ -160,6 +160,12 @@ export const normalizeCastV1 = (cast: CastV1 | CastWithInteractionsV1): Farcaste
 	parentCast: {
 		id: cast.parentHash as FarcasterCastId,
 	},
+
+	...cast.parentUrl && {
+		channel: {
+			url: cast.parentUrl,
+		},
+	},
 })
 
 export const normalizeCastWithRepliesV1 = (casts: CastWithInteractionsV1[]): FarcasterCast => {
@@ -218,8 +224,11 @@ export const normalizeCastV2 = (cast: CastV2 | CastWithInteractionsV2): Farcaste
 			id: Number(cast.parent_author?.fid) ?? undefined as FarcasterUserId | undefined,
 		}
 	},
-	...cast.parent_url && {
-		parentUrl: cast.parent_url,
+
+	...(cast.parent_url || cast.root_parent_url) && {
+		channel: {
+			url: cast.parent_url || cast.root_parent_url,
+		},
 	},
 
 	...'replies' in cast && {

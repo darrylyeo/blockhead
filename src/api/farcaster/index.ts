@@ -44,9 +44,15 @@ export type FarcasterUser = {
 export type FarcasterChannel = {
 	id: FarcasterChannelId;
 
+	/**
+	 * cast parentUrl
+	 */
 	url: string;
+
 	name?: string;
+	description?: string;
 	image?: string;
+
 	createdAt?: number;
 
 	leads?: FarcasterUserId[];
@@ -100,11 +106,13 @@ export type FarcasterCast = {
 		recasts?: Partial<Pick<FarcasterUser, 'id' | 'name'>>[];
 		recastsCount?: number;
 	};
-	
+
 	parentCast?: Partial<FarcasterCast>;
-	parentUrl?: string;
+
 	replies?: FarcasterCast[];
 	repliesCount?: number;
+
+	channel: FarcasterChannel | Pick<FarcasterChannel, 'id'> | Pick<FarcasterChannel, 'url'>;
 }
 
 
