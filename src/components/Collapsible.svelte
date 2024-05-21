@@ -42,92 +42,94 @@
 
 <style>
 	.container {
+		--collapsible-size: 1fr;
+		--collapsible-container-gap: var(--padding-inner);
+		--collapsible-trigger-cursor: zoom-out;
+
+		&:is(
+			div[data-state="closed"],
+			details:not([open])
+		) {
+			--collapsible-size: 0fr;
+			--collapsible-container-gap: 0;
+			--collapsible-trigger-cursor: zoom-in;
+		}
+
 		display: grid;
+		grid-template-rows: max-content var(--collapsible-size);
+		gap: var(--collapsible-container-gap);
 
 		perspective: 1000px;
-
 		transition-duration: 0.5s;
 		transition-timing-function: var(--ease-out-expo);
 		transition-property:
 			grid-template-rows,
 			gap
 		;
-	}
-	details.container {
-		display: block;
-	}
-	details.container[open],
-	.container[data-state="open"] {
-		grid-template-rows: max-content 1fr;
-	}
-	details.container:not([open]),
-	.container[data-state="closed"] {
-		grid-template-rows: max-content 0fr;
-		gap: 0;
-	}
 
-	label, summary {
-		margin: calc(-1 * var(--padding-inner));
-		padding: var(--padding-inner);
+		&:is(details) {
+			display: block;
+		}
 
-		transition-property:
-			filter,
-			opacity,
-			scale,
-			translate
-		;
-	}
-	:is(label, summary):hover {
-		filter: brightness(1.1);
-	}
-	:is(label, summary):active {
-		scale: 0.992;
-		opacity: 0.75;
-		transition-duration: 0.15s;
-	}
-	.container[data-state="open"] label,
-	details[open] summary {
-		cursor: zoom-out;
-	}
-	.container[data-state="closed"] label,
-	details:not([open]) summary {
-		cursor: zoom-in;
-	}
+		label,
+		summary {
+			margin: calc(-1 * var(--padding-inner));
+			padding: var(--padding-inner);
 
-	.collapsible {
-		min-height: 0;
-		transform-origin: top;
-		align-content: start;
+			cursor: var(--collapsible-trigger-cursor);
 
-		transition-property:
-			filter,
-			margin-bottom,
-			opacity,
-			translate,
-			transform-origin
-		;
-	}
-	.collapsible:empty {
-		display: none;
-	}
-	.collapsible.clip {
-		overflow: clip;
-		overflow-clip-margin: var(--padding-outer);
-	}
-	.container:is(
-		[data-state="closed"],
-		details:not([open])
-	) > .collapsible {
-		margin-bottom: calc(-1 * var(--padding-inner));
+			transition-property:
+				filter,
+				opacity,
+				scale,
+				translate
+			;
 
-		/* transform: rotateX(-20deg); */
-		translate: 0 0 -100px;
+			&:hover {
+				filter: brightness(1.1);
+			}
 
-		opacity: 0;
-		filter: blur(1rem);
+			&:active {
+				scale: 0.992;
+				opacity: 0.75;
+				transition-duration: 0.15s;
+			}
+		}
 
-		visibility: hidden;
-		pointer-events: none;
+		.collapsible {
+			min-height: 0;
+			transform-origin: top;
+			align-content: start;
+
+			transition-property:
+				filter,
+				margin-bottom,
+				opacity,
+				translate,
+				transform-origin
+			;
+
+			&:empty {
+				display: none;
+			}
+
+			&.clip {
+				overflow: clip;
+				overflow-clip-margin: var(--padding-outer);
+			}
+
+			.container:is(
+				div[data-state="closed"],
+				details:not([open])
+			) > & {
+				margin-bottom: calc(-1 * var(--padding-inner));
+				translate: 0 0 -100px;
+				opacity: 0;
+				filter: blur(1rem);
+				visibility: hidden;
+				pointer-events: none;
+			}
+		}
 	}
 
 	::-webkit-details-marker {
