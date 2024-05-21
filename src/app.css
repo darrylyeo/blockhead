@@ -68,7 +68,7 @@
 	/* font-size: 20px;
 	font-size: clamp(15px, 1.1vw, 20px); */
 	font-size: 16px;
-	font-size: clamp(14px, 1.05vw, 16px);
+	font-size: clamp(11px, 1.5vw, clamp(14px, 1.05vw, 16px));
 	font-family: var(--base-fonts);
 	line-height: 1.5;
 	letter-spacing: 0.03ch;
