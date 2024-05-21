@@ -294,8 +294,22 @@ button,
 	box-shadow: 0px var(--button-depth) rgba(0, 0, 0, 0.25), 0px var(--button-depth) var(--button-backgroundColor), 0 var(--button-depth) var(--button-glow) var(--button-backgroundColor);
 	transform: translateY(calc(-1 * var(--button-depth))) scale(var(--button-scale));
 	transform-origin: var(--button-transformOrigin);
-	
-	transition: 0.2s;
+
+	transition-duration: 0.2s;
+	transition-property:
+		background-color,
+		box-shadow,
+		border,
+		color,
+		filter,
+		gap,
+		opacity,
+		outline,
+		text-decoration-color,
+		text-shadow,
+		transform,
+		transform-origin
+	;
 
 	cursor: var(--button-cursor);
 	user-select: none;
@@ -364,7 +378,14 @@ label {
 			background-color: rgba(255, 255, 255, calc(0.2 + var(--is-light) * 0.8));
 			padding: 0.2em 0.4em;
 			border-radius: 0.25em;
-			transition: 0.15s;
+			transition-duration: 0.15s;
+			transition-property:
+				background-color,
+				box-shadow,
+				color,
+				scale,
+				opacity
+			;
 			cursor: pointer;
 			display: inline-flex;
 			align-items: center;
@@ -374,7 +395,8 @@ label {
 				font-size: 1.4em;
 				line-height: 0;
 				speak: none;
-				transition: 0.1s ease-out;
+				transition-duration: 0.1s;
+				transition-timing-function: ease-out;
 			}
 		}
 
@@ -643,7 +665,14 @@ address {
 	/* background-image: radial-gradient(circle, transparent -75%, var(--card-background-color)); */
 	border-radius: var(--card-border-radius);
 	box-shadow: var(--card-box-shadow);
-	transition: 0.4s;
+	transition-duration: 0.4s;
+	transition-property:
+		background,
+		box-shadow,
+		outline,
+		opacity,
+		scale
+	;
 	break-inside: avoid;
 
 	&:hover {
