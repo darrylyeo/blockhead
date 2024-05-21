@@ -46,8 +46,12 @@
 
 		perspective: 1000px;
 
-		transition: 0.5s var(--ease-out-expo);
-		/* transition-property: grid-template-rows, gap; */
+		transition-duration: 0.5s;
+		transition-timing-function: var(--ease-out-expo);
+		transition-property:
+			grid-template-rows,
+			gap
+		;
 	}
 	details.container {
 		display: block;
@@ -65,6 +69,13 @@
 	label, summary {
 		margin: calc(-1 * var(--padding-inner));
 		padding: var(--padding-inner);
+
+		transition-property:
+			filter,
+			opacity,
+			scale,
+			translate
+		;
 	}
 	:is(label, summary):hover {
 		filter: brightness(1.1);
@@ -87,6 +98,14 @@
 		min-height: 0;
 		transform-origin: top;
 		align-content: start;
+
+		transition-property:
+			filter,
+			margin-bottom,
+			opacity,
+			translate,
+			transform-origin
+		;
 	}
 	.collapsible:empty {
 		display: none;
@@ -95,8 +114,10 @@
 		overflow: clip;
 		overflow-clip-margin: var(--padding-outer);
 	}
-	.container:is([data-state="closed"],
-	details:not([open])) > .collapsible {
+	.container:is(
+		[data-state="closed"],
+		details:not([open])
+	) > .collapsible {
 		margin-bottom: calc(-1 * var(--padding-inner));
 
 		/* transform: rotateX(-20deg); */
