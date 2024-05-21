@@ -59,6 +59,12 @@ export type RegisterSignerKeyReqBody = {
 };
 export type Address = string;
 export type SolAddress = string;
+export type UserViewerContext = {
+    /** Indicates if the viewer is following the user. */
+    following: boolean;
+    /** Indicates if the viewer is followed by the user. */
+    followed_by: boolean;
+};
 export type User = {
     "object": Object_;
     fid: Fid;
@@ -84,13 +90,7 @@ export type User = {
     };
     active_status: ActiveStatus;
     power_badge: boolean;
-    /** Adds context on the viewer's follow relationship with the user. */
-    viewer_context?: {
-        /** Indicates if the viewer is following the user. */
-        following: boolean;
-        /** Indicates if the viewer is followed by the user. */
-        followed_by: boolean;
-    };
+    viewer_context?: UserViewerContext;
 };
 export type ProfileUrl = {
     pfp: {
@@ -241,13 +241,20 @@ export type CastWithInteractionsReactions = {
 export type CastWithInteractionsReplies = {
     count: number;
 };
-export type CastWithInteractions = Cast & {
+export type CastViewerContext = {
+    /** Indicates if the viewer liked the cast. */
+    liked: boolean;
+    /** Indicates if the viewer recasted the cast. */
+    recasted: boolean;
+};
+export type CastWithInteractions = Cast & object & {
     frames?: Frame[];
     reactions: CastWithInteractionsReactions;
     replies: CastWithInteractionsReplies;
     thread_hash: string | null;
     mentioned_profiles: User[];
     channel?: Channel;
+    viewer_context?: CastViewerContext;
 };
 export type CastResponse = {
     cast: CastWithInteractions;
@@ -519,6 +526,9 @@ export type NotificationsResponse = {
     next: NextCursor;
 };
 export type ChannelSearchResponse = {
+    channels: Channel[];
+};
+export type ChannelResponseBulk = {
     channels: Channel[];
 };
 export type ChannelResponse = {
@@ -945,8 +955,9 @@ export function getFarcasterUserActive(apiKey: string, { limit, cursor }: {
 /**
  * Fetches users based on Eth or Sol addresses
  */
-export function getFarcasterUserBulkByAddress(apiKey: string, addresses: string, { addressTypes }: {
+export function getFarcasterUserBulkByAddress(apiKey: string, addresses: string, { addressTypes, viewerFid }: {
     addressTypes?: string;
+    viewerFid?: Fid;
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
@@ -959,7 +970,8 @@ export function getFarcasterUserBulkByAddress(apiKey: string, addresses: string,
         data: ErrorRes;
     }>(`/farcaster/user/bulk-by-address${QS.query(QS.explode({
         addresses,
-        address_types: addressTypes
+        address_types: addressTypes,
+        viewer_fid: viewerFid
     }))}`, {
         ...opts,
         headers: oazapfts.mergeHeaders(opts?.headers, {
@@ -1072,7 +1084,9 @@ export function postFarcasterMessage(apiKey: string, publishMessageReqBody: Publ
 /**
  * Retrieve cast for a given hash or Warpcast URL
  */
-export function cast(apiKey: string, identifier: string, $type: CastParamType, opts?: Oazapfts.RequestOpts) {
+export function cast(apiKey: string, identifier: string, $type: CastParamType, { viewerFid }: {
+    viewerFid?: Fid;
+} = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
         data: CastResponse;
@@ -1081,7 +1095,8 @@ export function cast(apiKey: string, identifier: string, $type: CastParamType, o
         data: ErrorRes;
     }>(`/farcaster/cast${QS.query(QS.explode({
         identifier,
-        "type": $type
+        "type": $type,
+        viewer_fid: viewerFid
     }))}`, {
         ...opts,
         headers: oazapfts.mergeHeaders(opts?.headers, {
@@ -1172,9 +1187,10 @@ export function casts(apiKey: string, casts: string, { viewerFid, sortType }: {
 /**
  * Retrieve the conversation for a given cast
  */
-export function getFarcasterCastConversation(apiKey: string, identifier: string, $type: CastParamType, { replyDepth, includeChronologicalParentCasts }: {
+export function getFarcasterCastConversation(apiKey: string, identifier: string, $type: CastParamType, { replyDepth, includeChronologicalParentCasts, viewerFid }: {
     replyDepth?: ReplyDepth;
     includeChronologicalParentCasts?: boolean;
+    viewerFid?: Fid;
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
@@ -1186,7 +1202,8 @@ export function getFarcasterCastConversation(apiKey: string, identifier: string,
         identifier,
         "type": $type,
         reply_depth: replyDepth,
-        include_chronological_parent_casts: includeChronologicalParentCasts
+        include_chronological_parent_casts: includeChronologicalParentCasts,
+        viewer_fid: viewerFid
     }))}`, {
         ...opts,
         headers: oazapfts.mergeHeaders(opts?.headers, {
@@ -1888,6 +1905,30 @@ export function getFarcasterChannelSearch(apiKey: string, q: string, opts?: Oaza
         data: ChannelSearchResponse;
     }>(`/farcaster/channel/search${QS.query(QS.explode({
         q
+    }))}`, {
+        ...opts,
+        headers: oazapfts.mergeHeaders(opts?.headers, {
+            api_key: apiKey
+        })
+    }));
+}
+/**
+ * Retrieve channels by id or parent_url
+ */
+export function getFarcasterChannelBulk(apiKey: string, ids: string, { $type, viewerFid }: {
+    $type?: ChannelType;
+    viewerFid?: Fid;
+} = {}, opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchJson<{
+        status: 200;
+        data: ChannelResponseBulk;
+    } | {
+        status: 404;
+        data: ErrorRes;
+    }>(`/farcaster/channel/bulk${QS.query(QS.explode({
+        ids,
+        "type": $type,
+        viewer_fid: viewerFid
     }))}`, {
         ...opts,
         headers: oazapfts.mergeHeaders(opts?.headers, {
