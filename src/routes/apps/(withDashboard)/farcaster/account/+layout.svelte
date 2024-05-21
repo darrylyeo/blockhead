@@ -60,8 +60,8 @@
 			{farcasterProvider}
 		/>
 
-		<section>
-			{#if user?.id}
+		{#if user?.id}
+			<section id="/casts">
 				<FarcasterCastsLoader
 					{farcasterProvider}
 					farcasterFeedProvider={_farcasterFeedProvider}
@@ -79,19 +79,24 @@
 							{pagination}
 						>
 							<svelte:fragment slot="title">
-								<span class="title row inline">
+								<a
+									href="#/casts"
+									class="title row inline"
+								>
 									<FarcasterUser
 										{user}
 										{farcasterProvider}
 									/>
 									›
 									<span>Casts</span>
-								</span>
+								</a>
 							</svelte:fragment>
 						</FarcasterCasts>
 					{/if}
 				</FarcasterCastsLoader>
+			</section>
 
+			<section id="/following/casts">
 				<FarcasterCastsLoader
 					{farcasterProvider}
 					farcasterFeedProvider={_farcasterFeedProvider}
@@ -109,7 +114,10 @@
 							{pagination}
 						>
 							<svelte:fragment slot="title">
-								<span class="title row inline">
+								<a
+									href="#/following/casts"
+									class="title row inline"
+								>
 									<FarcasterUser
 										{user}
 										{farcasterProvider}
@@ -118,13 +126,13 @@
 									<span>Following</span>
 									›
 									<span>Casts</span>
-								</span>
+								</a>
 							</svelte:fragment>
 						</FarcasterCasts>
 					{/if}
 				</FarcasterCastsLoader>
-			{/if}
-		</section>
+			</section>
+		{/if}
 	{/if}
 </FarcasterUserProfileLoader>
 
