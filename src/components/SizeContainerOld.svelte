@@ -47,7 +47,13 @@
 	.container {
 		display: grid;
 		will-change: height;
-		transition: var(--duration, 600ms) var(--delay, 0ms) var(--easing, cubic-bezier(0.16, 1, 0.3, 1));
+		transition-duration: var(--duration, 600ms);
+		transition-delay: var(--delay, 0ms);
+		transition-timing-function: var(--easing, cubic-bezier(0.16, 1, 0.3, 1));
+		transition-property:
+			width,
+			height
+		;
 	}
 
 	.container:not(.isOpen) {
