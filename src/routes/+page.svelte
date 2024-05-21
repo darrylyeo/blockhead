@@ -65,6 +65,11 @@
 			transform: none !important;
 		}
 	}
+	@media (width < 30rem) {
+		.buttons {
+			transform: none !important;
+		}
+	}
 
 	b {
 		color: rgba(var(--rgb-light-dark-inverse), 0.8);
