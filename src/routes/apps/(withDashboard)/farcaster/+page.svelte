@@ -60,7 +60,7 @@
 			farcasterFeedProvider={_farcasterFeedProvider}
 		>
 			<svelte:fragment slot="title">
-				<h3 class="row inline">
+				<h3 class="title row inline">
 					<Icon imageSources={[farcasterFeedProviderIcons[_farcasterFeedProvider]]} />
 					{_farcasterFeedProvider}
 					›
@@ -94,3 +94,10 @@
 		</FarcasterCasts>
 	{/if}
 </FarcasterCastsLoader>
+
+
+<style>
+	.title {
+		align-items: center;
+	}
+</style>
