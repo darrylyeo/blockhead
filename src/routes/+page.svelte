@@ -128,6 +128,7 @@
 		transform: translateZ(var(--z));
 		position: relative;
 		display: inline-block;
+		width: max-content;
 
 		transition:
 			color var(--transition),
