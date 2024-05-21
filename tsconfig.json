@@ -16,18 +16,29 @@
 		"plugins": [
 			{
 				"name": "@0no-co/graphqlsp",
-				"schema": "https://api.airstack.xyz/gql",
-				"tadaOutputLocation": "./src/api/airstack/graphql-env.d.ts"
-			},
-			{
-				"name": "@0no-co/graphqlsp",
-				"schema": "https://api.thegraph.com/subgraphs/name/ensdomains/ens",
-				"tadaOutputLocation": "./src/api/ens/graphql-env.d.ts"
-			},
-			{
-				"name": "@0no-co/graphqlsp",
-				"schema": "https://api.lens.dev",
-				"tadaOutputLocation": "./src/api/lens/graphql-env.d.ts"
+				"schemas": [
+					{
+						"name": "airstack",
+						"schema": "https://api.airstack.xyz/gql",
+						"tadaOutputLocation": "./src/api/airstack/graphql-env.d.ts",
+						"tadaTurboLocation": "./src/api/airstack/graphql-turbo.d.ts",
+						"tadaPersistedLocation": "./src/api/airstack/graphql-persisted.d.ts"
+					},
+					{
+						"name": "thegraph/ens",
+						"schema": "https://api.thegraph.com/subgraphs/name/ensdomains/ens",
+						"tadaOutputLocation": "./src/api/ens/graphql-env.d.ts",
+						"tadaTurboLocation": "./src/api/ens/graphql-turbo.d.ts",
+						"tadaPersistedLocation": "./src/api/ens/graphql-persisted.d.ts"
+					},
+					{
+						"name": "lens",
+						"schema": "https://api.lens.dev",
+						"tadaOutputLocation": "./src/api/lens/graphql-env.d.ts",
+						"tadaTurboLocation": "./src/api/lens/graphql-turbo.d.ts",
+						"tadaPersistedLocation": "./src/api/lens/graphql-persisted.d.ts"
+					}
+				]
 			}
 		]
 	}
