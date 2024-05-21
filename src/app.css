@@ -160,10 +160,16 @@ body {
 }
 
 
-a {
+:any-link {
 	color: var(--text-color);
 	/* text-shadow: 0 1px 1px; */
-	transition: 0.2s;
+	transition-duration: 0.2s;
+	transition-property:
+		color,
+		opacity,
+		text-decoration-color,
+		text-shadow
+	;
 	text-decoration-color: rgba(var(--text-decoration-color), var(--text-decoration-opacity));
 
 	&:hover {
