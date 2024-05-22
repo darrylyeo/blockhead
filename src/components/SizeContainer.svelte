@@ -58,8 +58,8 @@
 	data-align-inline={alignInline}
 	data-clip={clip ? '' : undefined}
 	hidden={!isOpen ? '' : undefined}
-	style:---transitionDuration={`${duration}ms`}
-	style:---transitionDelay={delay ? `${delay}ms` : undefined}
+	style:--transitionDuration={`${duration}ms`}
+	style:--transitionDelay={delay ? `${delay}ms` : undefined}
 	transition:transition={transitionParams}
 	{...containerProps}
 >
