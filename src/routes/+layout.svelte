@@ -216,6 +216,20 @@
 
 		background-color: rgba(var(--rgb-light-dark), 0.33);
 		backdrop-filter: var(--overlay-backdrop-filter);
+
+		transition-duration: 0.4s;
+		transition-timing-function: var(--ease-out-expo);
+		transition-property:
+			opacity,
+			translate
+		;
+
+		&[inert] {
+			opacity: 0;
+			visibility: hidden;
+			pointer-events: none;
+			translate: 100%;
+		}
 	}
 
 	[role="toolbar"] {
@@ -223,37 +237,24 @@
 		right: 0;
 		min-width: auto;
 		backdrop-filter: var(--overlay-backdrop-filter);
-	}
-	[role="toolbar"]:after {
-		content: '';
-		z-index: -1;
-		position: absolute;
-		inset: -1rem;
-		background: linear-gradient(to right, rgba(var(--rgb-light-dark), 0), rgba(var(--rgb-light-dark), calc(0.925 - 0.2 * var(--is-light))) 1rem);
+		
+		&:after {
+			content: '';
+			z-index: -1;
+			position: absolute;
+			inset: -1rem;
+			background: linear-gradient(to right, rgba(var(--rgb-light-dark), 0), rgba(var(--rgb-light-dark), calc(0.925 - 0.2 * var(--is-light))) 1rem);
+		}
 	}
 
 	.wallets-toggle span {
 		font-weight: bold;
 		opacity: 1 !important;
 		padding: 0.2em 0.6em;
-	}
-	.wallets-toggle span:before {
-		content: none !important;
-	}
-
-	aside {
-		transition-duration: 0.4s;
-		transition-timing-function: var(--ease-out-expo);
-		transition-property:
-			opacity,
-			translate
-		;
-	}
-	aside[inert] { 
-		opacity: 0;
-		visibility: hidden;
-		pointer-events: none;
-		translate: 400px;
+		
+		&:before {
+			content: none !important;
+		}
 	}
 
 	.share {
