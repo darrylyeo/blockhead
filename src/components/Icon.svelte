@@ -8,7 +8,7 @@
 
 
 	export let key: string | undefined
-	export let imageSources: string[] = []
+	export let imageSources: string[] | undefined
 
 	export let title = ''
 	export let placeholder = ''
@@ -31,7 +31,7 @@
 	{...$$restProps}
 	transition:transition={transitionConfig}
 >
-	{#if imageSources[i]}
+	{#if imageSources?.[i]}
 		<img
 			src={imageSources[i]}
 			on:error={e => i++}
