@@ -167,7 +167,12 @@
 		padding: calc(var(--bleed-top) + var(--padding-outer)) var(--padding-outer) calc(var(--bleed-bottom) + var(--padding-outer));
 		align-content: start;
 
-		transition: 0.4s var(--ease-out-expo);
+		transition-duration: 0.4s;
+		transition-timing-function: var(--ease-out-expo);
+		transition-property:
+			min-width,
+			padding
+		;
 	}
 
 	@media (min-width: 50rem) {
@@ -237,7 +242,12 @@
 	}
 
 	aside {
-		transition: 0.4s var(--ease-out-expo);
+		transition-duration: 0.4s;
+		transition-timing-function: var(--ease-out-expo);
+		transition-property:
+			opacity,
+			translate
+		;
 	}
 	aside:not(.isOpen) {
 		opacity: 0;
