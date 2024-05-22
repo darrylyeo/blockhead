@@ -55,6 +55,10 @@
 			--collapsible-trigger-cursor: zoom-in;
 		}
 
+		&:has(> .collapsible:empty) {
+			--collapsible-container-gap: 0;
+		}
+
 		display: grid;
 		grid-template-rows: max-content var(--collapsible-size);
 		gap: var(--collapsible-container-gap);
