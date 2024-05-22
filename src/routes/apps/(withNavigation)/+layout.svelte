@@ -46,7 +46,7 @@
 	{#each displayedWeb3AppsBySection as {title, apps, isFeatured}, i(title)}
 		<section
 			class="column"
-			transition:scale={{ duration: 300, easing: expoOut }}
+			in:fly|global={{ y: 30, delay: i * 50, duration: 300, easing: expoOut }}
 			animate:flip={{ duration: 300, easing: expoOut }}
 		>
 			<h2>{title}</h2>
@@ -64,7 +64,7 @@
 						}
 						class="item card row"
 						in:scale={{ delay: i * 10, duration: 300 }}
-						out:scale
+						out:scale={{ duration: 200 }}
 						style={cardStyle(app.colors)}
 					>
 						{#if app.icon}

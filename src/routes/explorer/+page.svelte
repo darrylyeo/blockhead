@@ -26,7 +26,7 @@
 	{#each networksBySection as {title, featuredNetworks, otherNetworks}, i (title)}
 		<section
 			class="column"
-			transition:scale={{ duration: 300, easing: expoOut }}
+			in:fly|global={{ y: 30, delay: i * 50, duration: 300, easing: expoOut }}
 			animate:flip={{ duration: 300, easing: expoOut }}
 		>
 			<h2>{title}</h2>
@@ -60,8 +60,8 @@
 								href="/explorer/{network.slug}"
 								class="item card row"
 								style={cardStyle([getNetworkColor(network)])}
-								in:scale|global={{ duration: 300, delay: i * 10 }}
-								out:scale={{ duration: 300 }}
+								in:scale={{ delay: i * 10, duration: 300 }}
+								out:scale={{ duration: 200 }}
 						>
 								<NetworkIcon {network} />
 								<span>{network.name}</span>
