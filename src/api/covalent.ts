@@ -1,4 +1,3 @@
-import type { Token } from 'graphql'
 import type { QuoteCurrency, TickerSymbol } from '$/data/currencies'
 import type { Ethereum } from '$/data/networks/types'
 import type { AbiType } from 'abitype'
@@ -142,7 +141,7 @@ export namespace Covalent {
 		total_supply: integer
 		swap_fee: float
 	}
-	export type BalancerUnderlyingToken = Token & {
+	export type BalancerUnderlyingToken = TokenContract & {
 		weight: float
 	}
 	export type BalancerBalance = {
