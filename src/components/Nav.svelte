@@ -2,9 +2,6 @@
 	import { page } from '$app/stores'
 
 
-	import EthereumLatestBlockNumber from './EthereumLatestBlockNumber.svelte'
-
-
 	import { FarcasterIcon, GitcoinIcon } from '$/assets/icons'
 </script>
 
@@ -89,7 +86,6 @@
 		<li><a href="https://discord.gg/966eXqqq7N" target="_blank">Discord</a></li>
 		<li><a href="https://twitter.com/0xBlockhead" target="_blank">Twitter</a></li>
 	</div> -->
-	<!-- <EthereumLatestBlockNumber /> -->
 
 	<slot name="toolbar" />
 </nav>
