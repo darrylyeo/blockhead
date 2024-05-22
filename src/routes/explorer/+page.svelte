@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { networksBySection, getNetworkColor, testnetsForMainnets, isTestnet } from '$/data/networks'
-
+	import { networksBySection, getNetworkColor, mainnetForTestnet, testnetsForMainnets, isTestnet } from '$/data/networks'
 
 	import { showTestnets } from './_explorerContext'
 
@@ -48,8 +47,11 @@
 						{#each
 							(
 								$showTestnets
-									? networks.flatMap(network => [network, ...testnetsForMainnets[network.slug] ?? []])
-									: networks.filter(network => !isTestnet(network))
+									? networks
+										.filter(network => isTestnet(network) ? !mainnetForTestnet[network.slug] : true)
+										.flatMap(network => [network, ...testnetsForMainnets[network.slug] ?? []])
+									: networks
+										.filter(network => !isTestnet(network))
 							).filter(network => network.chainId)
 							as
 							network, i (network.slug)
