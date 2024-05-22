@@ -7,6 +7,7 @@
 
 
 	import { fly, scale, fade } from 'svelte/transition'
+	import { expoOut } from 'svelte/easing'
 </script>
 
 
@@ -280,8 +281,7 @@
 </style>
 
 
-<main in:fly|global={{x: 300}} out:fly|global={{x: -300}}>
-<!-- <main> -->
+<main in:fly={{ x: 150, easing: expoOut }} out:fly={{ x: -150, easing: expoOut }}>
 	<section id="top">
 		<header>
 			<h2 class="description top" in:scale|global={{delay: 150}}>

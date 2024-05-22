@@ -46,10 +46,11 @@
 	$: layout = $matchesLayoutBreakpoint ? 'row' : 'column'
 
 	import { fly } from 'svelte/transition'
+	import { expoOut } from 'svelte/easing'
 </script>
 
 
-<main in:fly|global={{x: 300}} out:fly|global={{x: -300}}>
+<main in:fly={{ x: 150, easing: expoOut }} out:fly={{ x: -150, easing: expoOut }}>
 	<section class="portfolios column">
 		{#if localPortfolios}
 			{#each $localPortfolios as portfolio, i (i)}

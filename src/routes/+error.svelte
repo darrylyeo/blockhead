@@ -58,6 +58,7 @@
 
 
 	import { fly } from 'svelte/transition'
+	import { expoOut } from 'svelte/easing'
 </script>
 
 
@@ -74,7 +75,7 @@
 </svelte:head>
 
 
-<main in:fly|global={{x: 300}} out:fly|global={{x: -300}}>
+<main in:fly={{ x: 150, easing: expoOut }} out:fly={{ x: -150, easing: expoOut }}>
 	<section class="card">
 		<div class="bar">
 			<h3>Whoops! Something went wrong loading the page.</h3>

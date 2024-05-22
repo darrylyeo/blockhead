@@ -15,14 +15,14 @@
 	import { cardStyle } from '$/utils/card-background'
 	import { fly, scale } from 'svelte/transition'
 	import { flip } from 'svelte/animate'
+	import { expoOut } from 'svelte/easing'
 </script>
-
 
 
 <div
 	class="layout"
-	in:fly|global={{x: 300}}
-	out:fly|global={{x: -300}}
+	in:fly={{ x: 150, easing: expoOut }}
+	out:fly={{ x: -150, easing: expoOut }}
 >
 	{#each networksBySection as {title, featuredNetworks, otherNetworks}, i (title)}
 		<section

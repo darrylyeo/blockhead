@@ -40,8 +40,8 @@
 
 <div
 	class="layout"
-	in:fly|global={{x: 300}}
-	out:fly|global={{x: -300}}
+	in:fly={{ x: 150, easing: expoOut }}
+	out:fly={{ x: -150, easing: expoOut }}
 >
 	{#each displayedWeb3AppsBySection as {title, apps, isFeatured}, i(title)}
 		<section

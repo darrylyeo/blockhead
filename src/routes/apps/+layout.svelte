@@ -120,6 +120,7 @@
 
 	// Style/transitions
 	import { fly, scale } from 'svelte/transition'
+	import { expoOut } from 'svelte/easing'
 	import { tokenColors } from '$/data/tokenColors'
 </script>
 
@@ -151,8 +152,7 @@
 </style>
 
 
-<main in:fly|global={{x: 300}} out:fly|global={{x: -300}}>
-<!-- <main> -->
+<main in:fly={{ x: 150, easing: expoOut }} out:fly={{ x: -150, easing: expoOut }}>
 	<header>
 		<CollapsibleToolbar>
 			<svelte:fragment slot="title">
