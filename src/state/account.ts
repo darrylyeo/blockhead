@@ -134,7 +134,7 @@ const getSigner = (provider: Provider) => {
 
 
 import { readable } from 'svelte/store'
-import type { ApolloResult } from '$/utils/apolloRequestStore'
+import type { ApolloResult } from '$/utils/apolloResult'
 
 export const getAccountConnectionState = ({
 	walletConnection,

@@ -5,24 +5,7 @@ import type { FetchResult, Observable, ObservableQuery } from '@apollo/client'
 import { ApolloError } from '@apollo/client/core'
 import { readable } from 'svelte/store'
 
-
-export interface ApolloResultLoading {
-	loading: true
-	data?: undefined
-	error?: undefined
-}
-export interface ApolloResultError {
-	loading: false
-	data?: undefined
-	error: ApolloError | Error
-}
-export interface ApolloResultData<TData = unknown> {
-	loading: false
-	data: TData | null | undefined
-	error?: undefined
-}
-
-export type ApolloResult<TData = unknown> = ApolloResultLoading | ApolloResultError | ApolloResultData<TData>
+import type { ApolloResult } from './apolloResult'
 
 
 export const apolloRequestStore = <TData = unknown>(
