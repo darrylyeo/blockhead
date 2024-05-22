@@ -9,77 +9,6 @@
 </script>
 
 
-<style>
-	nav {
-		font-size: 1.2em;
-		font-weight: 300;
-		overflow: auto hidden;
-		
-		white-space: nowrap;
-		word-break: keep-all;
-	}
-	nav::-webkit-scrollbar {
-		display: none;
-	}
-
-	ul {
-		list-style-type: none;
-		display: flex;
-		align-items: stretch;
-		min-width: min-content;
-		gap: 0;
-	}
-	li {
-		display: flex;
-	}
-	li:not(.right) + li.right {
-		margin-left: auto;
-	}
-	li.right {
-		font-size: 0.75em;
-		align-items: center;
-		/* padding: 0.33rem 0.66rem; */
-		padding: 0.2rem 0.5rem 0;
-	}
-	/* @media (max-width: 43rem) {
-		li.right {
-			display: none;
-		}
-	} */
-
-	li:not(.right) a {
-		text-decoration: none;
-		padding: 0.75rem 1.25rem;
-		transition: 0.2s, font-weight 0.2s;
-		display: flex;
-		align-items: center;
-	}
-
-	[aria-current] {
-		border-bottom: 2px solid var(--primary-color);
-		margin-bottom: -1px;
-		font-weight: bold;
-	}
-
-	.logo {
-		font-size: 1.1em;
-		margin: 0 -0.25rem;
-	}
-
-
-	/* span {
-		flex: 1;
-	}
-
-	.nav-right {
-		font-size: 0.75em;
-	}
-	.nav-right a {
-		padding: 0.33rem;
-	} */
-</style>
-
-
 <nav class="bar row">
 	<ul>
 		<li><a aria-current="{$page.url.pathname === '/' ? 'page' : undefined}" href="/"><span class="logo">Blockhead</span></a></li>
@@ -164,3 +93,80 @@
 
 	<slot name="toolbar" />
 </nav>
+
+
+<style>
+	nav {
+		overflow: auto hidden;
+
+		font-size: 1.2em;
+		font-weight: 300;
+		white-space: nowrap;
+		word-break: keep-all;
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
+
+		ul {
+			min-width: min-content;
+			display: flex;
+			align-items: stretch;
+			gap: 0;
+			list-style-type: none;
+
+			li {
+				display: flex;
+
+				&:not(.right) a {
+					display: flex;
+					padding: 0.75rem 1.25rem;
+					align-items: center;
+
+					text-decoration: none;
+
+					transition: 0.2s, font-weight 0.2s;
+				}
+
+				&:not(.right) + .right {
+					margin-left: auto;
+				}
+
+				&.right {
+					/* padding: 0.33rem 0.66rem; */
+					padding: 0.2rem 0.5rem 0;
+					align-items: center;
+
+					font-size: 0.75em;
+
+					/* @media (max-width: 43rem) {
+						display: none;
+					} */
+				}
+			}
+		}
+	}
+
+	[aria-current] {
+		border-bottom: 2px solid var(--primary-color);
+		margin-bottom: -1px;
+		font-weight: bold;
+	}
+
+	.logo {
+		font-size: 1.1em;
+		margin: 0 -0.25rem;
+	}
+
+	/* span {
+		flex: 1;
+	}
+
+	.nav-right {
+		font-size: 0.75em;
+	}
+
+	.nav-right a {
+		padding: 0.33rem;
+	} */
+</style>
