@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '$/data/networks/types'
-	import { getWalletProvider, getWalletProviderAndInstance } from '$/data/ethereum/wallets_/wallets'
+	import { getWalletProvider, getWalletProviderAndInstance } from '$/states/wallets/wallets'
 	import { connectedProviderAccounts, getAccountsFromProvider } from '$/state/portfolio-accounts'
 
 
@@ -41,14 +41,14 @@
 	}
 
 
-	import type { Account } from '$/data/ethereum/portfolio-accounts'
+	import type { AccountV3 } from '$/state/portfolio-accounts'
 	import type { DID } from 'dids'
 
-	let didAuthProviderAccount: Account
+	let didAuthProviderAccount: AccountV3
 	let did: DID
-	const load3IDConnect = async (account: Account) => {
+	const load3IDConnect = async (account: AccountV3) => {
 		// const address = '0x3c2d0f69d96cd6e6c3e77a9916365d332668cfe8'
-		const { getDIDProviderFromEthereumProvider, getDID, authenticateDID } = await import('$/data/ceramic/3id')
+		const { getDIDProviderFromEthereumProvider, getDID, authenticateDID } = await import('$/api/ceramic/3id')
 
 		const didProvider = await getDIDProviderFromEthereumProvider({
 			// ethereumProvider: await loadMetaMaskProvider(),
@@ -63,7 +63,7 @@
 		console.log(did)
 
 
-		const { getCAIP10Link } = await import('$/data/ceramic/streams/caip10-link')
+		const { getCAIP10Link } = await import('$/api/ceramic/streams/caip10-link')
 
 		const caip10Link = await getCAIP10Link({
 			address,
@@ -77,9 +77,9 @@
 	}
 
 	
-	import Loader from './Loader.svelte'
-	import Portfolio from './Portfolio.svelte'
-	import WalletAccountSelect from './WalletAccountSelect.svelte'
+	import Loader from '$/components/Loader.svelte'
+	import Portfolio from '$/components/Portfolio.svelte'
+	import WalletAccountSelect from '$/components/WalletAccountSelect.svelte'
 
 
 	import { MetaMaskIcon, PortisIcon, TorusIcon } from '$/assets/walletIcons'

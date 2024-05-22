@@ -32,9 +32,9 @@
 		return '🦠'
 	}
 
-	import Address from './Address.svelte'
-	import TokenBalance from './TokenBalance.svelte'
-	import TokenRate from './TokenRate.svelte'
+	import Address from '$/src/components/Address.svelte'
+	import TokenBalance from '$/src/components/TokenBalance.svelte'
+	import TokenRate from '$/src/components/TokenRate.svelte'
 </script>
 
 <style>

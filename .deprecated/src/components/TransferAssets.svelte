@@ -125,7 +125,7 @@
 	}
 
 
-	import AddressField from './AddressField.svelte'
+	import AddressField from '$/components/AddressField.svelte'
 
 
 	import { scale } from 'svelte/transition'

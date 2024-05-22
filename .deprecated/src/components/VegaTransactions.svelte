@@ -4,8 +4,8 @@
 	const dummyTransaction = {market: {tradableInstrument: {instrument: {quoteName: 'BTC', baseName: 'ETH'}}}, price: 123.456, size: 1, aggressor: 'SIDE_BUY', makerId: '1234abcd', takerId: '5678cdef', trades: []}
 	dummyTransaction.trades.push(dummyTransaction)
 
-	import VegaTransaction from './VegaTransaction.svelte'
-	import Loading from './Loading.svelte'
+	import VegaTransaction from '$/components/VegaTransaction.svelte'
+	import Loading from '$/components/Loading.svelte'
 
 	import { fade } from 'svelte/transition'
 	import { flip } from 'svelte/animate'
