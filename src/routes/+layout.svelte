@@ -176,7 +176,7 @@
 	}
 
 	@media (min-width: 50rem) {
-		[data-show-accounts="true"] :global(main) {
+		aside:not([inert]) ~ .stack :global(main) {
 			min-width: min(var(--one-column-width) + 22rem, 100vw);
 			padding-right: calc(22rem + var(--padding-outer));
 		}
@@ -249,7 +249,7 @@
 			translate
 		;
 	}
-	aside:not(.isOpen) {
+	aside[inert] { 
 		opacity: 0;
 		visibility: hidden;
 		pointer-events: none;
@@ -279,11 +279,14 @@
 		</svelte:fragment>
 	</Nav>
 
-	<aside class="column" class:isOpen={showAccounts}>
+	<aside
+		class="column"
+		inert={!showAccounts}
+	>
 		<AccountConnections layout="column" />
 	</aside>
 
-	<div class="stack" data-show-accounts={showAccounts}>
+	<div class="stack">
 		<slot></slot>
 
 		{#if metaTags.openGraph?.images?.[0]}
