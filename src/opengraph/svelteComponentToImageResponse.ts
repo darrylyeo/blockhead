@@ -8,10 +8,6 @@ import { fonts } from './fonts'
 
 
 // Functions
-import satori from 'satori'
-import { html as toReactNode } from 'satori-html'
-import { Resvg } from '@resvg/resvg-js'
-
 export const svelteComponentToImageResponse = async <
 	Component extends SvelteComponent
 >(
@@ -31,8 +27,10 @@ export const svelteComponentToImageResponse = async <
 
 	const html = `${result.html}<style>${css}</style><style>${result.css.code}</style>`
 
+	const { html: toReactNode } = await import('satori-html')
 	const reactNode = toReactNode(html)
 
+	const { default: satori } = await import('satori')
 	const svg = await satori(
 		reactNode,
 		{
@@ -52,6 +50,7 @@ export const svelteComponentToImageResponse = async <
 			}
 		)
 
+	const { Resvg } = await import('@resvg/resvg-js')
 	const png = new Resvg(svg, {
 		fitTo: {
 			mode: 'width',
