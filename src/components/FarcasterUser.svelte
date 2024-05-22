@@ -72,8 +72,9 @@
 		min-width: min-content;
 		gap: 0.85ch;
 		align-items: center;
+		line-height: 1.66;
 
-		--icon-size: 1.75em;
+		--icon-size: 1.66em;
 		--icon-borderRadius: 0.33em;
 	}
 
