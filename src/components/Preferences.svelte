@@ -33,11 +33,15 @@
 	// Transitions/animations
 	import { expoOut } from 'svelte/easing'
 	import { flip } from 'svelte/animate'
-	import { scale } from 'svelte/transition'
+	import { scale, fly } from 'svelte/transition'
 </script>
 
 
-<form class="preferences" class:is-showing-all={isShowingAll}>
+<form
+	class="preferences"
+	class:is-showing-all={isShowingAll}
+	transition:fly={{ y: '100%' }}
+>
 	<header class="column">
 		<label for="preferences-button"><h3>Preferences</h3></label>
 
