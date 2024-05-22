@@ -21,21 +21,18 @@ const config: UserConfig = {
 		// The requested module '/node_modules/__' does not provide an export named 'default'
 		optimizeDeps: {
 			include: [
-				'@3id/connect',
-
-				'@liquality/wallet-sdk',
-
 				// import { addEventListener, normalizeEvent } from "zrender/lib/core/event.js";
 				//          ^^^^^^^^^^^^^^^^
 				// SyntaxError: Named export 'addEventListener' not found. The requested module 'zrender/lib/core/event.js' is a CommonJS module, which may not support all module.exports as named exports.
 				// CommonJS modules can always be imported via the default export, for example using:
 				// import pkg from 'zrender/lib/core/event.js';
-				'zrender',
+				// 'zrender',
 
 				'detect-content-type',
 			],
 			exclude: [
 				'@liquality/wallet-sdk',
+				'@resvg/resvg-js',
 			],
 		},
 	},

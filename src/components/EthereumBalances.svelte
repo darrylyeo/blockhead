@@ -209,7 +209,7 @@
 						on:click={() => {
 							selectedToken = isSelected ? undefined : tokenWithBalance.token
 						}}
-						in:scale|global={{ duration: animate ? 500 : 0 }}
+						in:scale={{ duration: animate ? 500 : 0 }}
 						animate:flip|local={{ duration: animate ? 500 : 0, delay: animate ? 300 * i / filteredBalances.length : 0, easing: quintOut }}
 					>
 						{#if tokenWithBalance.conversion}

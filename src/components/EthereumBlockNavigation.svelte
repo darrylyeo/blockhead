@@ -100,7 +100,7 @@
 		blockNumber = y >= 0.1 && y <= 0.9 ? Math.round(adjustedX * Math.max(blockNumber ?? -Infinity, latestBlockNumber ?? -Infinity)) : $$props.blockNumber
 	}} -->
 		{#if blockNumber !== 0n && !(showBeforeAndAfter && blockNumberBefore === 0n)}
-			<span class="first-block" style="--block-number: {0n}" transition:scaleFont|global>
+			<span class="first-block" style="--block-number: {0n}" transition:scaleFont>
 				<span title="{network.name} Genesis Block"><BlockNumber {network} blockNumber={0n} /></span>
 				<span>«</span>
 				<!-- <span>🔗</span> -->
@@ -108,7 +108,7 @@
 		{/if}
 
 		{#if showBeforeAndAfter && blockNumber !== 0n}
-			<span class="previous-block" style="--block-number: {blockNumberBefore}" transition:scaleFont|global>
+			<span class="previous-block" style="--block-number: {blockNumberBefore}" transition:scaleFont>
 				<span title="Previous {network.name} Block"><BlockNumber {network} blockNumber={blockNumberBefore} /></span>
 				<span>‹</span>
 				<!-- <span>🔗</span> -->
@@ -116,7 +116,7 @@
 		{/if}
 
 		{#if blockNumber !== undefined}
-			<span class="current-block" style="--block-number: {blockNumber ?? (latestBlockNumber ? BigInt(Math.ceil(Number(latestBlockNumber) / 2)) : 1n)}" transition:scaleFont|global>
+			<span class="current-block" style="--block-number: {blockNumber ?? (latestBlockNumber ? BigInt(Math.ceil(Number(latestBlockNumber) / 2)) : 1n)}" transition:scaleFont>
 				<span title="Current {network.name} Block"><BlockNumber {network} {blockNumber} /></span>
 			</span>
 		{:else}
@@ -124,7 +124,7 @@
 		{/if}
 
 		{#if showBeforeAndAfter && blockNumber !== latestBlockNumber}
-			<span class="next-block" style="--block-number: {blockNumberAfter}" transition:scaleFont|global>
+			<span class="next-block" style="--block-number: {blockNumberAfter}" transition:scaleFont>
 				<!-- <span>🔗</span> -->
 				<span>›</span>
 				<span title="Next {network.name} Block"><BlockNumber {network} blockNumber={blockNumberAfter} /></span>
@@ -132,14 +132,14 @@
 		{/if}
 
 		{#if !(blockNumber !== undefined && blockNumber === latestBlockNumber) && !(showBeforeAndAfter && blockNumberAfter === latestBlockNumber)}
-			<span class="latest-block" style="--block-number: {latestBlockNumber ?? (blockNumber ? blockNumber * 2n : 2)}" transition:scaleFont|global>
+			<span class="latest-block" style="--block-number: {latestBlockNumber ?? (blockNumber ? blockNumber * 2n : 2)}" transition:scaleFont>
 				<!-- <span>🔗</span> -->
 				<span>»</span>
 				<span title="Latest {network.name} Block"><BlockNumber {network} blockNumber={latestBlockNumber} /></span>
 			</span>
 		{/if}
 
-		<!--<span class="latest-block" transition:scaleFont|global hidden={!(
+		<!--<span class="latest-block" transition:scaleFont hidden={!(
 			!latestBlockNumber || blockNumber < latestBlockNumber && (!showBeforeAndAfter && blockNumberAfter === latestBlockNumber)
 		)}>
 			<!-- <span>🔗</span> -- >

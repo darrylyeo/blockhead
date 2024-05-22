@@ -259,7 +259,7 @@
 
 		<div class="stack">
 			{#if !selectedToken}
-				<div class="column" transition:fade|global>
+				<div class="column" transition:fade>
 					<!-- Regular Ethereum Transactions -->
 					<EthereumTransactionsLoader
 						{network}
@@ -329,7 +329,7 @@
 					</EthereumTransactionsLoader>
 				</div>
 			{:else}{#key selectedToken}
-				<div class="column" transition:fade|global>
+				<div class="column" transition:fade>
 					<!-- ERC-20 Transactions -->
 					<EthereumTransactionsERC20Loader
 						{network}

@@ -262,7 +262,7 @@
 		</div>
 
 		{#if conversionRate !== undefined}
-			<div class="card" transition:scale|global>
+			<div class="card" transition:scale>
 				<h3>Conversion Rate:</h3>
 				{conversionRate}
 			</div>

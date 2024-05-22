@@ -284,7 +284,7 @@
 <main in:fly={{ x: 150, easing: expoOut }} out:fly={{ x: -150, easing: expoOut }}>
 	<section id="top">
 		<header>
-			<h2 class="description top" in:scale|global={{delay: 150}}>
+			<h2 class="description top" in:scale={{delay: 150}}>
 				<b>Track</b>,
 				<b>visualize</b>
 				&
@@ -300,7 +300,7 @@
 			</h2>
 			<div
 				class="logo-wrapper"
-				in:scale|global={{delay: 200}}
+				in:scale={{delay: 200}}
 				on:mousedown={(e) => triggerEvent('Home/LogoMousedown')}
 			>
 				<h1 class="logo" data-text="Blockhead">Blockhead</h1>
@@ -312,7 +312,7 @@
 				<a
 					href="/portfolio"
 					style="--primary-color: var(--ethereum-blue);"
-					in:scale|global={{delay: 800}}
+					in:scale={{delay: 800}}
 					class="button large row"
 					data-before="📊"
 				>
@@ -322,7 +322,7 @@
 				<a
 					href="/explorer"
 					style="--primary-color: var(--arbitrum-blue);"
-					in:scale|global={{delay: 850}}
+					in:scale={{delay: 850}}
 					class="button large row"
 					data-before="🧭"
 				>
@@ -332,7 +332,7 @@
 				<a
 					href="/apps"
 					style="--primary-color: var(--gnosis-teal);"
-					in:scale|global={{delay: 900}}
+					in:scale={{delay: 900}}
 					class="button large row"
 					data-before="📲"
 				>
@@ -341,7 +341,7 @@
 			</div>
 		</section>
 
-		<footer in:scale|global={{delay: 1000}}>
+		<footer in:scale={{delay: 1000}}>
 			<p><strong>Blockhead</strong> • created by <a href="https://darryl-yeo.com/blockhead">Darryl Yeo</a> • 2020 – 2024</p>
 			<!-- <p><small><a href="https://gitcoin.co/grants/2966/blockhead" target="_blank">Gitcoin Grants</a> • <a href="https://discord.gg/966eXqqq7N" target="_blank">Discord</a> • <a href="https://twitter.com/0xBlockhead" target="_blank">Twitter</a></small></p> -->
 			<p><small><a href="https://gitcoin.co/grants/2966/blockhead" target="_blank">Gitcoin Grants</a> • <a href="https://warpcast.com/~/channel/blockhead" target="_blank">Farcaster</a> • <a href="https://twitter.com/0xBlockhead" target="_blank">Twitter</a></small></p>
@@ -359,7 +359,7 @@
 
 	<section>
 		<header>
-			<p class="description bottom" in:scale|global={{delay: 250}}>
+			<p class="description bottom" in:scale={{delay: 250}}>
 
 				<span>
 					a
@@ -391,32 +391,32 @@
 		<br>
 
 		<div class="columns">
-			<div class="card" in:scale|global={{delay: 350}}>
+			<div class="card" in:scale={{delay: 350}}>
 				<h3><b>Track</b> your crypto</h3>
 				<hr>
 				<p>See <b>tokens</b>, <b>NFTs</b>, & <b>DeFi balances</b> across your blockchain accounts in one place.</p>
 			</div>
-			<div class="card" in:scale|global={{delay: 500}}>
+			<div class="card" in:scale={{delay: 500}}>
 				<h3><b>Visualize</b> your activity</h3>
 				<hr>
 				<p>Contextualize your web3 interactions with <b>intuitive charts</b> & <b>visualizations</b>.</p>
 			</div>
-			<div class="card" in:scale|global={{delay: 400}}>
+			<div class="card" in:scale={{delay: 400}}>
 				<h3><b>Explore</b> the metaverse</h3>
 				<hr>
 				<p>Discover <b>apps</b>, <b>services</b> & <b>communities</b> enabling <b>portable, shared experiences</b>.</p>
 			</div>
-			<div class="card" in:scale|global={{delay: 600}}>
+			<div class="card" in:scale={{delay: 600}}>
 				<h3><b>Unstoppable</b> Web3 Tech</h3>
 				<hr>
 				<p>Built upon <b>math</b>, <b>cryptography</b> & open, <b>incentive-aligned</b> computer networks.</p>
 			</div>
-			<div class="card" in:scale|global={{delay: 450}}>
+			<div class="card" in:scale={{delay: 450}}>
 				<h3><b>You</b> control the data</h3>
 				<hr>
 				<p><b>Choose which data sources</b> power this user interface in the <b>Preferences</b> below!</p>
 			</div>
-			<div class="card" in:scale|global={{delay: 700}}>
+			<div class="card" in:scale={{delay: 700}}>
 				<h3>To <b>Ethereum</b> & Beyond!</h3>
 				<hr>
 				<!-- <p>Hop between any of the supported <b>Ethereum Virtual Machine</b>-based chains!</p> -->

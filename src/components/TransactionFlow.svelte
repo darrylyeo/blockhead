@@ -136,7 +136,7 @@
 			class="card column"
 			on:submit|preventDefault={actions.confirm}
 			disabled={currentStep !== Steps.Idle}
-			transition:fly|global={{ x: 50 * Math.sign(steps[0] - steps[1]), duration: 300 }}
+			transition:fly={{ x: 50 * Math.sign(steps[0] - steps[1]), duration: 300 }}
 			on:invalid={e => console.warn('invalid', e)}
 		>
 			<slot
@@ -148,7 +148,7 @@
 	{:else if currentStep === Steps.Confirming}
 		<form
 			class="card column"
-			transition:fly|global={{ x: 50 * Math.sign(steps[0] - steps[1]), duration: 300 }}
+			transition:fly={{ x: 50 * Math.sign(steps[0] - steps[1]), duration: 300 }}
 		>
 			<header class="bar">
 				<h4>Confirm Transaction</h4>
@@ -166,7 +166,7 @@
 	{:else if currentStep === Steps.Querying}
 		<section
 			class="card column"
-			transition:fly|global={{ x: 50 * Math.sign(steps[0] - steps[1]), duration: 300 }}
+			transition:fly={{ x: 50 * Math.sign(steps[0] - steps[1]), duration: 300 }}
 		>
 			<Loader
 				loadingIcon={networkProviderIcon}
@@ -219,7 +219,7 @@
 	{:else if currentStep === Steps.TransactionSimulating}
 		<section
 			class="card column"
-			transition:fly|global={{ x: 50 * Math.sign(steps[0] - steps[1]), duration: 300 }}
+			transition:fly={{ x: 50 * Math.sign(steps[0] - steps[1]), duration: 300 }}
 		>
 			<Loader
 				loadingIcon={TenderlyIcon}
@@ -286,7 +286,7 @@
 	{:else if currentStep === Steps.TransactionSigning}
 		<section
 			class="card column"
-			transition:fly|global={{ x: 50 * Math.sign(steps[0] - steps[1]), duration: 300 }}
+			transition:fly={{ x: 50 * Math.sign(steps[0] - steps[1]), duration: 300 }}
 		>
 			<Loader
 				fromPromise={async () => {
@@ -320,8 +320,8 @@
 	{:else if currentStep === Steps.TransactionPending}
 		<div
 			class="card column"
-			in:fly|global={{ x: 50 * Math.sign(steps[0] - steps[1]), duration: 300 }}
-			out:scale|global
+			in:fly={{ x: 50 * Math.sign(steps[0] - steps[1]), duration: 300 }}
+			out:scale
 		>
 			<slot
 				name="pending"
@@ -342,7 +342,7 @@
 	{:else if currentStep === Steps.TransactionFailed || currentStep === Steps.TransactionReverted}
 		<div
 			class="card column"
-			transition:scale|global
+			transition:scale
 		>
 			<h4>Transaction Failed</h4>
 
@@ -364,7 +364,7 @@
 	{:else if currentStep === Steps.TransactionSuccess}
 		<!-- <div
 			class="card column"
-			transition:scale|global
+			transition:scale
 			>
 			<slot
 				name="success"

@@ -99,19 +99,19 @@
 <header class="bar wrap">
 	<h2>Wallets</h2>
 
-	<div class="stack align-end" transition:scale|global>
+	<div class="stack align-end" transition:scale>
 		{#if state === State.Idle}
 			<button
 				class="add medium"
 				data-before="＋"
 				on:click={() => state = State.Adding}
-				transition:scale|global
+				transition:scale
 			>Connect Wallet</button>
 		{:else if state === State.Adding}
 			<button
 				class="cancel medium"
 				on:click={() => state = State.Idle}
-				transition:scale|global
+				transition:scale
 			>Cancel</button>
 		{/if}
 	</div>

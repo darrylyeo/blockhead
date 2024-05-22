@@ -47,7 +47,7 @@
 		<div
 			role="toolbar"
 			class="row wrap align-end"
-			transition:scale|global={{ duration: 200 }}
+			transition:scale={{ duration: 200 }}
 		>
 			<slot />
 		</div>

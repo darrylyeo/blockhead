@@ -183,7 +183,7 @@
 					].sort((a, b) => a[1] === null ? 1 : b[1] === null ? -1 : 0)
 					as [key, value], i (key)
 				}
-					<dl transition:fade|global><!-- animate:flip|local={{duration: 300, delay: i * 10}} -->
+					<dl transition:fade><!-- animate:flip|local={{duration: 300, delay: i * 10}} -->
 						<dt>
 							{#if descriptions[key]}
 								<abbr title={descriptions[key]}>{key}</abbr>

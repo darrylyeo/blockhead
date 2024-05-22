@@ -119,7 +119,7 @@
 		</svelte:fragment>
 
 		{#if tokenBalance}
-			<div class="card" in:scale|global>
+			<div class="card" in:scale>
 				<TokenBalance
 					{network} symbol={symbol ?? tokenBalance.token?.symbol} address={contractAddress} erc20Token={{...erc20Token, ...tokenBalance.token}}
 					balance={Number(tokenBalance.balance) * 0.1 ** (tokenBalance.token.decimals ?? 18)}

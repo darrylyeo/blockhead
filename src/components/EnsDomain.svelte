@@ -309,7 +309,7 @@
 			<h3 slot="title">Record Resolver</h3>
 
 			<svelte:fragment slot="header-right">
-				<span class="card-annotation" transition:scale|global>
+				<span class="card-annotation" transition:scale>
 					<a href="/apps/ens#subgraph">The Graph › ENS</a> › {domain.resolver.__typename.replace(/[A-Z]/g, m => ` ${m}`).trim()} › <span class="emtity-id">{formatTransactionHash(domain.resolver.id, 'middle-truncated')}</span>
 				</span>
 			</svelte:fragment>
@@ -390,7 +390,7 @@
 
 			<svelte:fragment slot="toolbar-items" let:isOpen>
 				{#if isOpen}
-					<div class="row wrap align-end" transition:scale|global={{ start: 0.8, duration: 250 }}>
+					<div class="row wrap align-end" transition:scale={{ start: 0.8, duration: 250 }}>
 						<label>
 							<input type="checkbox" bind:checked={showFees}>
 							<span>Show Fees</span>

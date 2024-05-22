@@ -77,7 +77,7 @@
 </script>
 
 
-<div class="column scroll-snap-item" transition:scale|global>
+<div class="column scroll-snap-item" transition:scale>
 	<Loader
 		fromPromise={async () =>
 			await getWalletConnection({
@@ -258,7 +258,7 @@
 					<!-- {getNetworkColor(network)} -->
 					<div class="wallet-icon-container stack">
 						<Icon imageSources={[icon]} />
-						{#key state.chainId}{#if network}<div class="network-icon" transition:scale|global><NetworkIcon {network} /></div>{/if}{/key}
+						{#key state.chainId}{#if network}<div class="network-icon" transition:scale><NetworkIcon {network} /></div>{/if}{/key}
 					</div>
 
 					<div class="column align-start">

@@ -292,7 +292,7 @@
 							].filter(isTruthy)}
 
 							<!-- svelte-ignore a11y-label-has-associated-control -->
-							<label class="input-param" transition:scale|global={{ duration: 300, start: 0.8, delay: i * 10 }} animate:flip>
+							<label class="input-param" transition:scale={{ duration: 300, start: 0.8, delay: i * 10 }} animate:flip>
 								<span>
 									{#if input.name}
 										<abbr title={input.name}>{formatIdentifier(input.name, true)}</abbr>
@@ -422,7 +422,7 @@
 							{@const inputKey = `${contractMethod.name || i}/${input.name || i}`}
 							{@const arg = inputValues[inputKey]}
 
-							<label class="input-param" transition:scale|global={{ duration: 300, start: 0.8, delay: i * 25 }}>
+							<label class="input-param" transition:scale={{ duration: 300, start: 0.8, delay: i * 25 }}>
 								<span>
 									{#if input.name}
 										<abbr title={input.name}>{formatIdentifier(input.name, true)}</abbr>
@@ -464,7 +464,7 @@
 					<!-- {@const outputKey = `${method.name || i}/${output.name || i}`} -->
 					{@const outputValue = isSingleOutput ? result : result[i]}
 
-					<label class="input-param" transition:scale|global={{ duration: 300, start: 0.8, delay: i * 25 }}>
+					<label class="input-param" transition:scale={{ duration: 300, start: 0.8, delay: i * 25 }}>
 						<span>
 							{#if output.name}
 								<abbr title={output.name}>{formatIdentifier(output.name, true)}</abbr>

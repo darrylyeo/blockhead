@@ -408,7 +408,7 @@
 			>
 				{#if $matchesGridLayoutBreakpoint && !isEditing}
 					<div class="row">
-						<!--<button class="small" on:click={() => layout = isGridLayout ? 'column' : 'grid'} transition:scale|global>{isGridLayout ? '⊟' : '⊞'}</button>--><!-- ▤ -->
+						<!--<button class="small" on:click={() => layout = isGridLayout ? 'column' : 'grid'} transition:scale>{isGridLayout ? '⊟' : '⊞'}</button>--><!-- ▤ -->
 						<select bind:value={layout}>
 							<option value="column">Column</option>
 							<option value="grid">Grid</option>

@@ -261,7 +261,7 @@
 	class="portfolio column-block"
 	on:keydown={e => { if(e.code === 'Escape') state = State.Idle }}
 	on:dragenter={e => state = State.Adding}
-	transition:scale|global={{ duration: 300, start: 0.95 }}
+	transition:scale={{ duration: 300, start: 0.95 }}
 	tabIndex={0}
 >
 	<header class="bar wrap">
@@ -278,7 +278,7 @@
 		</slot>
 
 		<InlineContainer isOpen={summary && state !== State.Editing}>
-			<span class="summary" transition:scale|global>
+			<span class="summary" transition:scale>
 				<span class="account-total-value"><TokenBalance symbol={quoteCurrency} balance={summary.quoteTotal} format="fiat" /></span>
 
 				<!-- {#if summary.filteredBalancesCount}
@@ -302,7 +302,7 @@
 			</span>
 		</InlineContainer>
 		<!-- {#if quoteTotals.length && state !== State.Editing}
-			<span class="account-total-value" transition:scale|global>
+			<span class="account-total-value" transition:scale>
 				<TokenBalance symbol={quoteCurrency} balance={quoteTotal} format="fiat" clip={false} />
 			</span>
 		{/if} -->
@@ -366,11 +366,11 @@
 							state = State.Idle
 							newAccountId = ''
 						}}
-						in:fly|global={{ duration: 200, opacity: 0, y: -20 }}
-						out:scale|global={{ start: 0.95, duration: 150, opacity: 0 }}
+						in:fly={{ duration: 200, opacity: 0, y: -20 }}
+						out:scale={{ start: 0.95, duration: 150, opacity: 0 }}
 					>
-					<!-- in:blur|global={{ duration: 200, opacity: 0, amount: 20 }} -->
-					<!-- in:scale|global={{ start: 0.95, duration: 300, opacity: 0 }} -->
+					<!-- in:blur={{ duration: 200, opacity: 0, amount: 20 }} -->
+					<!-- in:scale={{ start: 0.95, duration: 300, opacity: 0 }} -->
 						<div class="bar wrap">
 							<div>
 								<h3>Add Account</h3>
@@ -436,7 +436,7 @@
 					<div
 						class="card"
 						in:scale={{ start: 0.95, duration: 300, opacity: 0 }}
-						out:scale|global={{ start: 0.95, duration: 150, opacity: 0 }}
+						out:scale={{ start: 0.95, duration: 150, opacity: 0 }}
 					>
 						<h3>Your Blockhead Portfolio is empty!</h3>
 						{#if isEditable}

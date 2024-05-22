@@ -86,7 +86,7 @@
 		</InlineContainer> -->
 
 		{#if textRecords?.get('name')}
-			<h4 class="ens-text-record-name" transition:scaleFont|global={{ duration: 400 }}>{textRecords.get('name')}</h4>
+			<h4 class="ens-text-record-name" transition:scaleFont={{ duration: 400 }}>{textRecords.get('name')}</h4>
 		{/if}
 
 		<!-- <InlineContainer containerProps={{ class: 'ens-text-record-name' }} isOpen={!!textRecords?.get('name')} clip>

@@ -434,7 +434,7 @@
 
 									<HeightContainer class="stack">
 										{#if currentView === 'Dashboard'}
-											<div class="column" transition:scale|global>
+											<div class="column" transition:scale>
 												<CurrentPrice
 													currentPriceProvider={$preferences.currentPriceProvider}
 													token={erc20Token.symbol}
@@ -473,7 +473,7 @@
 											</div>
 
 										{:else if currentView === 'Account' && address}
-											<div class="card" transition:scale|global>
+											<div class="card" transition:scale>
 												<EthereumBalancesLoader
 													{network}
 													{address}
@@ -689,7 +689,7 @@
 
 
 {#if address}
-	<div class="options card bar wrap" transition:scale|global>
+	<div class="options card bar wrap" transition:scale>
 		<div class="row wrap">
 			<h3>Show</h3>
 			<label>
