@@ -226,7 +226,6 @@
 
 		&[inert] {
 			opacity: 0;
-			visibility: hidden;
 			pointer-events: none;
 			translate: 100%;
 		}
