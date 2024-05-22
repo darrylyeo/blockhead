@@ -1,39 +1,39 @@
 // Based on
-// https://github.com/timhall/svelte-apollo/blob/master/src/observable.ts
+// https://github.com/timhall/svelte-apollo/blob/e305cc246345823263f511ed387d6e84ee720b26/src/observable.ts
 
 import type { FetchResult, Observable, ObservableQuery } from '@apollo/client'
 import { ApolloError } from '@apollo/client/core'
 import { readable } from 'svelte/store'
 
 
-export interface Loading {
+export interface ApolloResultLoading {
 	loading: true
 	data?: undefined
 	error?: undefined
 }
-export interface Error {
+export interface ApolloResultError {
 	loading: false
 	data?: undefined
 	error: ApolloError | Error
 }
-export interface Data<TData = unknown> {
+export interface ApolloResultData<TData = unknown> {
 	loading: false
 	data: TData | null | undefined
 	error?: undefined
 }
 
-export type Result<TData = unknown> = Loading | Error | Data<TData>
+export type ApolloResult<TData = unknown> = ApolloResultLoading | ApolloResultError | ApolloResultData<TData>
 
 
 export const apolloRequestStore = <TData = unknown>(
 	observable: Observable<FetchResult<TData>>,
-	initialValue: Result<TData> = {
+	initialValue: ApolloResult<TData> = {
 		loading: true,
 		data: undefined,
 		error: undefined,
 	}
 ) => (
-	readable<Result<TData>>(initialValue, set => {
+	readable<ApolloResult<TData>>(initialValue, set => {
 		const skipDuplicate = initialValue?.data !== undefined
 		let skipped = false
 

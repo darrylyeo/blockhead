@@ -134,7 +134,7 @@ const getSigner = (provider: Provider) => {
 
 
 import { readable } from 'svelte/store'
-import type { Result } from '$/utils/apolloRequestStore'
+import type { ApolloResult } from '$/utils/apolloRequestStore'
 
 export const getAccountConnectionState = ({
 	walletConnection,
@@ -143,7 +143,7 @@ export const getAccountConnectionState = ({
 	walletConnection: WalletConnection,
 	isInitiatedByUser?: boolean
 }) =>
-	readable<Result<AccountConnectionState>>(
+	readable<ApolloResult<AccountConnectionState>>(
 		{loading: true},
 		set => void (async () => {
 			const { accounts, chainId, newSelector } = await walletConnection.connect(isInitiatedByUser)

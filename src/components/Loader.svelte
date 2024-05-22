@@ -1,14 +1,14 @@
 <script lang="ts">
 	// Types/constants
 	import type { Readable } from 'svelte/store'
-	import type { Result, Error as ApolloStoreError } from '$/utils/apolloRequestStore'
+	import type { ApolloResult, ApolloResultError } from '$/utils/apolloRequestStore'
 	import type { ApolloError } from '@apollo/client'
 	// import type { GraphQLObject, GraphQLVariables } from 'houdini'
 	// import type { QueryStore } from '$houdini'
 	import type { CreateQueryResult, CreateInfiniteQueryResult, InfiniteQueryObserverResult } from '@tanstack/svelte-query'
 
 	type LoaderResult = $$Generic<unknown>
-	type LoaderError = $$Generic<{message: string} | Error | ApolloStoreError | ApolloError | unknown>
+	type LoaderError = $$Generic<{message: string} | Error | ApolloResultError | ApolloError | unknown>
 	// type HoudiniQueryInput = $$Generic<unknown>
 	type LoaderReturnResult = $$Generic<unknown>
 	type LoaderLayout = $$Generic<'default' | 'passive' | 'collapsible' | 'headless'>
@@ -35,7 +35,7 @@
 	export let hideError = false
 
 	export let fromPromise: (() => Promise<LoaderResult>) | undefined
-	export let fromStore: (() => Readable<Result<LoaderResult>> | Promise<Readable<Result<LoaderResult>>>) | undefined
+	export let fromStore: (() => Readable<ApolloResult<LoaderResult>> | Promise<Readable<ApolloResult<LoaderResult>>>) | undefined
 	// export let fromHoudiniQuery: (() => QueryStore<LoaderResult extends GraphQLObject ? LoaderResult : never, HoudiniQueryInput extends GraphQLVariables ? HoudiniQueryInput : never>) | undefined
 	export let fromQuery: (CreateQueryResult<LoaderResult, LoaderError>) | undefined
 	export let fromInfiniteQuery: (CreateInfiniteQueryResult<LoaderResult, LoaderError>) | undefined
