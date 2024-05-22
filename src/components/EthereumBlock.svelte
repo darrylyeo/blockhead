@@ -36,12 +36,14 @@
 	import Address from './Address.svelte'
 	import Date from './Date.svelte'
 	import BlockNumber from './BlockNumber.svelte'
+	import Collapsible from './Collapsible.svelte'
 	import EthereumTransaction from './EthereumTransaction.svelte'
 	import EthereumTransactionLoader from './EthereumTransactionLoader.svelte'
 
 
 	// Transitions/animations
 	import { scale } from 'svelte/transition'
+	import { expoOut } from 'svelte/easing'
 </script>
 
 
@@ -176,39 +178,35 @@
 {#if block.transactions?.length}
 	<hr>
 
-	<div class="bar wrap">
-		<div class="row">
-			<svelte:element this={`h${headingLevel + 1}`}>
-				Transactions
-				{#if block.transactions?.length}({block.transactions.length}{block.transactions.length === 100 ? '+' : ''}){/if}
-			</svelte:element>
+	<Collapsible
+		type="details"
+		bind:isOpen={showTransactions}
+	>
+		<svelte:element slot="title" this={`h${headingLevel + 1}`}>
+			Transactions
+			{#if block.transactions?.length}({block.transactions.length}{block.transactions.length === 100 ? '+' : ''}){/if}
+		</svelte:element>
 
-			{#if showTransactions}
-				<button class="small" on:click={() => showTransactions = false} transition:scale>Hide</button>
+		<svelte:fragment slot="toolbar-items" let:isOpen>
+			{#if isOpen}
+				<div class="row align-end" transition:scale={{ easing: expoOut }}>
+					<label>
+						<input type="checkbox" bind:checked={showFees}>
+						<span>Show Fees</span>
+					</label>
+
+					<label>
+						<span>View</span>
+						<select bind:value={detailLevel}>
+							<option value='summary'>Summary</option>
+							<option value='detailed'>Detailed</option>
+							<option value='exhaustive'>Exhaustive</option>
+						</select>
+					</label>
+				</div>
 			{/if}
-		</div>
+		</svelte:fragment>
 
-		{#if showTransactions}
-			<label transition:scale>
-				<input type="checkbox" bind:checked={showFees}>
-				<span>Show Fees</span>
-			</label>
-
-			<label transition:scale>
-				<span>View</span>
-				<select bind:value={detailLevel}>
-					<option value="summary">Summary</option>
-					<option value="detailed">Detailed</option>
-					<option value="exhaustive">Exhaustive</option>
-				</select>
-			</label>
-		{:else}
-			<button class="small" on:click={() => showTransactions = true} transition:scale>Show</button>
-		{/if}
-		<!-- <button class="small" on:click={() => showTransactions = !showTransactions}>{showTransactions ? 'Hide' : 'Show'} transactions</button> -->
-	</div>
-
-	{#if showTransactions}
 		<div class="transactions-list column" class:scrollable-list={block.transactions?.length > 7}>
 			{#if block.transactions}
 				{#each block.transactions as transaction (transaction.transactionId)}
@@ -252,7 +250,7 @@
 				{/each}
 			{/if}
 		</div>
-	{/if}
+	</Collapsible>
 {/if}
 
 <hr>
