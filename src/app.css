@@ -371,8 +371,13 @@ input[type="file"] {
 label {
 	cursor: pointer;
 
-	& input:is([type="checkbox"], [type="radio"]) {
-		display: none;
+	& input:is(
+		[type="checkbox"],
+		[type="radio"]
+	) {
+		position: fixed;
+		opacity: 0;
+		pointer-events: none;
 
 		& ~ span {
 			background-color: rgba(255, 255, 255, calc(0.2 + var(--is-light) * 0.8));
@@ -426,7 +431,8 @@ label {
 		}
 	}
 
-	&:hover {
+	&:hover,
+	&:focus-within {
 		& input:is([type="checkbox"], [type="radio"]) {
 			& ~ span {
 				scale: 1.02;
