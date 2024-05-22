@@ -99,5 +99,8 @@
 <style>
 	.title {
 		align-items: center;
+
+		--icon-size: 1.5em;
+		line-height: 1.5;
 	}
 </style>
