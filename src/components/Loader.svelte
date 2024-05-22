@@ -2,13 +2,12 @@
 	// Types/constants
 	import type { Readable } from 'svelte/store'
 	import type { ApolloResult, ApolloResultError } from '$/utils/apolloResult'
-	import type { ApolloError } from '@apollo/client'
 	// import type { GraphQLObject, GraphQLVariables } from 'houdini'
 	// import type { QueryStore } from '$houdini'
 	import type { CreateQueryResult, CreateInfiniteQueryResult, InfiniteQueryObserverResult } from '@tanstack/svelte-query'
 
 	type LoaderResult = $$Generic<unknown>
-	type LoaderError = $$Generic<{message: string} | Error | ApolloResultError | ApolloError | unknown>
+	type LoaderError = $$Generic<{message: string} | Error | ApolloResultError | unknown>
 	// type HoudiniQueryInput = $$Generic<unknown>
 	type LoaderReturnResult = $$Generic<unknown>
 	type LoaderLayout = $$Generic<'default' | 'passive' | 'collapsible' | 'headless'>
