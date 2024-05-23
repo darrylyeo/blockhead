@@ -121,8 +121,6 @@ export type FarcasterCast = {
 }
 
 
-import { isTruthy } from '$/utils/isTruthy'
-
 import { chainIdByDomain as chainIdByDomainEtherscan } from '../etherscan'
 import { networkByExplorerUrl } from '$/data/networks'
 
@@ -130,10 +128,14 @@ const chainIdByExplorerUrl = {
 	...chainIdByDomainEtherscan, 
 	...Object.fromEntries(
 		Object.entries(networkByExplorerUrl)
-			.map(([url, network]) => [url, network.chainId])
-	)
-}
+		.map(([url, network]) => [url, network.chainId])
+		)
+	}
 
+
+import anchorme from 'anchorme'
+import { isTruthy } from '$/utils/isTruthy'
+	
 export const extractCastEmbeds = ({
 	embeds = [],
 	text,
@@ -193,9 +195,20 @@ export const extractCastEmbeds = ({
 	const imageEmbeds = (embedGroups.image ?? [])
 		.map(embed => embed.url!)
 
-	const urlEmbeds = (embedGroups.url ?? [])
-		.map(embed => embed.url!)
-		.filter(url => !castEmbeds.some(clientUrl => clientUrl === url))
+	const urlEmbeds = [...new Set([
+		...text && (
+			anchorme
+				.list(text, false)
+				.filter(item => item.isURL)
+				.map(item => item.string)
+		),
+
+		...(
+			(embedGroups.url ?? [])
+				.map(embed => embed.url!)
+				.filter(url => !castEmbeds.some(clientUrl => clientUrl === url))
+		),
+	])]
 
 	const evmAddressEmbeds = [
 		new RegExp(`(?<explorerDomain>${Object.keys(chainIdByExplorerUrl).map(RegExp.escape).join('|')})/address/(?<address>0x[0-9a-f]{40})`, 'gi'),
