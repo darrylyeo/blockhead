@@ -295,7 +295,7 @@
 				</div>
 
 				<div class="row">
-					<small class="row inline">
+					<small class="footer-right row inline">
 						<a
 							class="faded"
 							href={resolveRoute(`/apps/farcaster/cast/[farcasterCastId]`, { farcasterCastId: cast.id })}
@@ -411,5 +411,9 @@
 
 	.faded {
 		opacity: 0.6;
+	}
+
+	.footer-right {
+		align-items: center;
 	}
 </style>
