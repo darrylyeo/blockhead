@@ -13,6 +13,12 @@
 	)
 
 
+	// Context
+	import { preferences } from '$/state/preferences'
+
+	$: isAnimationsEnabled = $preferences.animations === 'enabled'
+
+
 	// Inputs
 	export let layout: 'block' | 'inline' | 'both' = 'block'
 	export let isOpen = true
@@ -44,22 +50,22 @@
 
 	$: isRendered = renderOnlyWhenOpen ? isOpen : true
 
-	$: [ transition, transitionParams] = containerTransition
+	$: [ transition, transitionParams] = isAnimationsEnabled ? containerTransition : [() => {}]
 </script>
 
 
 <svelte:element this={containerTag}
 	data-container
 	data-layout={layout}
-	data-contain={borderBoxSize ? layout : undefined}
+	data-contain={borderBoxSize && isAnimationsEnabled ? layout : undefined}
 	style:--blockSize={borderBoxSize && containBlock ? `${borderBoxSize[0].blockSize}px` : undefined}
 	style:--inlineSize={borderBoxSize && containInline ? `${borderBoxSize[0].inlineSize}px` : undefined}
 	data-align-block={alignBlock}
 	data-align-inline={alignInline}
 	data-clip={clip ? '' : undefined}
 	hidden={!isOpen ? '' : undefined}
-	style:--transitionDuration={`${duration}ms`}
-	style:--transitionDelay={delay ? `${delay}ms` : undefined}
+	style:--transitionDuration={`${isAnimationsEnabled ? duration : 0}ms`}
+	style:--transitionDelay={delay && isAnimationsEnabled ? `${delay}ms` : undefined}
 	transition:transition={transitionParams}
 	{...containerProps}
 >
