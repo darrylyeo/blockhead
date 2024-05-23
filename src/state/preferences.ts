@@ -524,10 +524,28 @@ export const preferencesConfig = [
 				name: 'URL Metadata',
 				type: 'single',
 				defaultOption: UrlMetadataProvider.ModProtocol,
-				options: Object.values(UrlMetadataProvider).map(provider => ({
-					value: provider,
-					name: provider,
-				})),
+				options: [
+					{
+						groupId: 'none',
+						name: 'None',
+						options: [
+							{
+								value: undefined,
+								name: 'None',
+							},
+						]
+					},
+					{
+						groupId: 'crawlers',
+						name: 'OpenGraph Crawlers',
+						options: [
+							{
+								value: UrlMetadataProvider.ModProtocol,
+								name: UrlMetadataProvider.ModProtocol,
+							},
+						]
+					},
+				],
 			},
 		]
 	},

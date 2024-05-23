@@ -44,6 +44,10 @@
 	loadingIcon={urlMetadataProviderIcons[urlMetadataProvider]}
 	errorMessage="Couldn't load metadata from {urlMetadataProvider}."
 	{...{
+		[String(undefined)]: () => ({
+			fromPromise: async () => undefined,
+		}),
+
 		[UrlMetadataProvider.ModProtocol]: () => ({
 			fromQuery: (
 				createQuery({

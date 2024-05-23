@@ -46,110 +46,108 @@
 	{url}
 	let:urlMetadata
 >
-	{#if urlMetadata}
-		<Collapsible
-			containerClass="card"
-			class="column"
-			showTriggerText={false}
-			isOpen
-			canToggle={false}
-		>
-			<svelte:fragment slot="title">
-				<a
-					href={url}
-					target="_blank"
-					class="title row"
+	<Collapsible
+		containerClass="card"
+		class="column"
+		showTriggerText={false}
+		isOpen
+		canToggle={false}
+	>
+		<svelte:fragment slot="title">
+			<a
+				href={url}
+				target="_blank"
+				class="title row"
+			>
+				{#if urlMetadata?.logo}
+					<img
+						src={urlMetadata.logo.url}
+						width="24"
+						height="24"
+					/>
+				{/if}
+
+				<h4>
+					{urlMetadata?.title ?? url}
+				</h4>
+			</a>
+		</svelte:fragment>
+
+		<svelte:fragment slot="header-right">
+			<a
+				href={url}
+				target="_blank"
+				class="card-annotation"
+			>
+				<address
+					class="row inline"
+					data-after="↗︎"
 				>
-					{#if urlMetadata.logo}
-						<img
-							src={urlMetadata.logo.url}
-							width="24"
-							height="24"
-						/>
-					{/if}
-
-					<h4>
-						{urlMetadata.title ?? url}
-					</h4>
-				</a>
-			</svelte:fragment>
-
-			<svelte:fragment slot="header-right">
-				<a
-					href={url}
-					target="_blank"
-					class="card-annotation"
-				>
-					<address
-						class="row inline"
-						data-after="↗︎"
-					>
-						{#if urlDomain}
-							{#if (knownEmbedType || urlMetadata.publisher) && !urlDomain.toLowerCase().includes((knownEmbedType || urlMetadata.publisher).toLowerCase())}
-								{knownEmbedType || urlMetadata.publisher} ({urlDomain})
-							{:else}
-								{urlDomain}
-							{/if}
-
-							<!-- {#if knownEmbedType}
-								{knownEmbedType}
-							{:else if urlMetadata.publisher && !urlDomain.toLowerCase().includes(urlMetadata.publisher.toLowerCase())}
-								{urlMetadata.publisher} ({urlDomain})
-							{:else}
-								{urlDomain}
-							{/if} -->
+					{#if urlDomain}
+						{#if (knownEmbedType || urlMetadata?.publisher) && !urlDomain.toLowerCase().includes((knownEmbedType || urlMetadata?.publisher).toLowerCase())}
+							{knownEmbedType || urlMetadata?.publisher} ({urlDomain})
 						{:else}
-							{url}
+							{urlDomain}
 						{/if}
-					</address>
-				</a>
-			</svelte:fragment>
 
-			{#if urlMetadata.customOpenGraph?.['fc:frame']}
-				<FarcasterFrame
-					frameUrl={url}
-					farcasterFrameMetadata={
-						parseFarcasterFrameServerMeta(
-							urlMetadata.customOpenGraph
-						)
-					}
-				/>
-
-			{:else if urlMetadata.description || urlMetadata.image}
-				<div class="content-and-images bar align-top" class:wrap={$matchesLayoutBreakpoint}>
-					{#if urlMetadata.description}
-						<div class="content column scrollable-list" style="--resizeVertical-defaultHeight: 3lh">
-							{@html formatContent(urlMetadata.description)}
-						</div>
+						<!-- {#if knownEmbedType}
+							{knownEmbedType}
+						{:else if urlMetadata.publisher && !urlDomain.toLowerCase().includes(urlMetadata.publisher.toLowerCase())}
+							{urlMetadata.publisher} ({urlDomain})
+						{:else}
+							{urlDomain}
+						{/if} -->
+					{:else}
+						{url}
 					{/if}
+				</address>
+			</a>
+		</svelte:fragment>
 
-					{#if urlMetadata.image}
-						{@const src = urlMetadata.image.url}
+		{#if urlMetadata?.customOpenGraph?.['fc:frame']}
+			<FarcasterFrame
+				frameUrl={url}
+				farcasterFrameMetadata={
+					parseFarcasterFrameServerMeta(
+						urlMetadata?.customOpenGraph
+					)
+				}
+			/>
 
-						<div class="image-embeds row">
-							<Dialog>
-								<img
+		{:else if urlMetadata?.description || urlMetadata?.image}
+			<div class="content-and-images bar align-top" class:wrap={$matchesLayoutBreakpoint}>
+				{#if urlMetadata?.description}
+					<div class="content column scrollable-list" style="--resizeVertical-defaultHeight: 3lh">
+						{@html formatContent(urlMetadata.description)}
+					</div>
+				{/if}
+
+				{#if urlMetadata?.image}
+					{@const src = urlMetadata.image.url}
+
+					<div class="image-embeds row">
+						<Dialog>
+							<img
+								{src}
+								style={`
+									aspect-ratio: ${urlMetadata.image.width} / ${urlMetadata.image.height};
+								`}
+								alt={urlMetadata.alt}
+							/>
+						
+							<svelte:fragment slot="content">
+								<FileDetails
 									{src}
-									style={`
-										aspect-ratio: ${urlMetadata.image.width} / ${urlMetadata.image.height};
-									`}
-									alt={urlMetadata.alt}
+									displayType="image"
+									isOpen
 								/>
-							
-								<svelte:fragment slot="content">
-									<FileDetails
-										{src}
-										displayType="image"
-										isOpen
-									/>
-								</svelte:fragment>
-							</Dialog>
-						</div>
-					{/if}
-				</div>
-			{/if}
-		</Collapsible>
-	{/if}
+							</svelte:fragment>
+						</Dialog>
+					</div>
+				{/if}
+			</div>
+		{/if}
+	</Collapsible>
 </UrlMetadataLoader>
 
 
