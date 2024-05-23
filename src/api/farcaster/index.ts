@@ -87,6 +87,7 @@ export type FarcasterCast = {
 		}
 	)[];
 	imageEmbeds?: string[];
+	videoEmbeds?: string[];
 	urlEmbeds?: string[];
 	evmAddressEmbeds?: {
 		link: string;
@@ -156,6 +157,22 @@ const imageUrlRegex = new RegExp(
 	'i'
 )
 
+const videoCdns = [
+	'https://stream.warpcast.com',
+]
+
+const videoUrlRegex = new RegExp(
+	[
+		`^(?:${
+			videoCdns
+				.map(RegExp.escape)
+				.join('|')
+		})`,
+		`[.](m3u8|.mp4)$`,
+	].join('|'),
+	'i'
+)
+
 export const extractCastEmbeds = ({
 	embeds = [],
 	text,
@@ -168,7 +185,7 @@ export const extractCastEmbeds = ({
 	text: string,
 }): Pick<FarcasterCast, 'castEmbeds' | 'imageEmbeds' | 'urlEmbeds' | 'evmAddressEmbeds' | 'evmTransactionEmbeds'> => {
 	const embedGroups: Partial<Record<
-		'image' | 'url' | 'cast',
+		'image' | 'video' | 'url' | 'cast',
 		{
 			castId?: FarcasterCastId;
 			url?: string;
@@ -192,6 +209,8 @@ export const extractCastEmbeds = ({
 			'url' in embed && embed.url ?
 				String(embed.url).match(imageUrlRegex) ?
 					'image'
+				: String(embed.url).match(videoUrlRegex) ?
+					'video'
 				:
 					'url'
 			: 'castId' in embed ?
@@ -225,6 +244,9 @@ export const extractCastEmbeds = ({
 	]
 
 	const imageEmbeds = (embedGroups.image ?? [])
+		.map(embed => embed.url!)
+
+	const videoEmbeds = (embedGroups.video ?? [])
 		.map(embed => embed.url!)
 
 	const urlEmbeds = (embedGroups.url ?? [])
@@ -266,6 +288,7 @@ export const extractCastEmbeds = ({
 	return {
 		castEmbeds,
 		imageEmbeds,
+		videoEmbeds,
 		urlEmbeds,
 		evmAddressEmbeds,
 		evmTransactionEmbeds,
