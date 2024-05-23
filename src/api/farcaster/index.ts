@@ -154,7 +154,20 @@ export const extractCastEmbeds = ({
 			url?: string;
 		}[]
 	>> = Object.groupBy(
-		embeds,
+		[
+			...embeds,
+
+			...text && (
+				anchorme
+					.list(text, false)
+					.filter(item => item.isURL)
+					.map(item => item.string)
+					.filter(url => !embeds.some(embed => 'url' in embed && embed.url === url))
+					.map(url => ({
+						url,
+					}))
+			),
+		],
 		embed => (
 			'url' in embed && embed.url ?
 				// new URL(embed.url).pathname.match(/\.(png|jpe?g|gif|webp)$/i) ?
@@ -195,20 +208,9 @@ export const extractCastEmbeds = ({
 	const imageEmbeds = (embedGroups.image ?? [])
 		.map(embed => embed.url!)
 
-	const urlEmbeds = [...new Set([
-		...text && (
-			anchorme
-				.list(text, false)
-				.filter(item => item.isURL)
-				.map(item => item.string)
-		),
-
-		...(
-			(embedGroups.url ?? [])
-				.map(embed => embed.url!)
-				.filter(url => !castEmbeds.some(clientUrl => clientUrl === url))
-		),
-	])]
+	const urlEmbeds = (embedGroups.url ?? [])
+		.map(embed => embed.url!)
+		.filter(url => !castEmbeds.some(clientUrl => clientUrl === url))
 
 	const evmAddressEmbeds = [
 		new RegExp(`(?<explorerDomain>${Object.keys(chainIdByExplorerUrl).map(RegExp.escape).join('|')})/address/(?<address>0x[0-9a-f]{40})`, 'gi'),
