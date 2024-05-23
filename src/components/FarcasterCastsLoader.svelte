@@ -96,7 +96,7 @@
 
 							return await getFarcasterCastsByUserId({
 								userId: query.userId,
-								limit: 50,
+								limit: 20,
 								cursor,
 							})
 						},
@@ -126,7 +126,7 @@
 							return await getFarcasterCastsByChannel({
 								channelId,
 								withReplies,
-								limit: 50,
+								limit: 20,
 								cursor,
 							})
 						},
@@ -155,7 +155,7 @@
 							return await getFarcasterTrendingCasts({
 								criteria: feedOptions?.[FarcasterFeedProvider.Airstack]?.criteria,
 								timeFrame: feedOptions?.[FarcasterFeedProvider.Airstack]?.timeFrame,
-								limit: 50,
+								limit: 20,
 								cursor,
 							})
 						},
@@ -178,7 +178,7 @@
 							const { getFarcasterCasts } = await import('$/api/airstack')
 
 							return await getFarcasterCasts({
-								limit: 50,
+								limit: 20,
 								cursor,
 							})
 						},
@@ -216,7 +216,7 @@
 									fids: String(userId),
 									fid: userId,
 									cursor,
-									limit: 50,
+									limit: 20,
 								}
 							)
 						},
@@ -251,7 +251,7 @@
 								{
 									withReplies,
 									cursor,
-									limit: 50,
+									limit: 20,
 								}
 							)
 						},
@@ -283,7 +283,7 @@
 								{
 									filterType: FilterType.GlobalTrending,
 									cursor,
-									limit: 50,
+									limit: 20,
 								}
 							)
 						},
@@ -319,7 +319,7 @@
 								followedByUserId,
 								{
 									offset,
-									limit: 50,
+									limit: 20,
 								},
 								{
 									fetch: proxyFetch,
@@ -361,7 +361,7 @@
 									channelId,
 									{
 										offset,
-										limit: 50,
+										limit: 20,
 									},
 									{
 										fetch: proxyFetch,
@@ -405,7 +405,7 @@
 								3,
 								{
 									offset,
-									limit: 50,
+									limit: 20,
 								},
 								{
 									fetch: proxyFetch,
@@ -446,7 +446,7 @@
 							return await getCasts({
 								fid: userId,
 								reverse: true,
-								pageSize: 50,
+								pageSize: 20,
 								pageToken,
 							})
 						},
@@ -475,7 +475,7 @@
 							return await getCasts({
 								channel: channelId,
 								reverse: true,
-								pageSize: 50,
+								pageSize: 20,
 								pageToken,
 							})
 						},
@@ -504,7 +504,7 @@
 							return await getCasts({
 								channel: castParentUrl,
 								reverse: true,
-								pageSize: 50,
+								pageSize: 20,
 								pageToken,
 							})
 						},
@@ -528,7 +528,7 @@
 
 							return await getCasts({
 								reverse: true,
-								pageSize: 50,
+								pageSize: 20,
 								pageToken,
 							})
 						},
