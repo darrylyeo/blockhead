@@ -4,6 +4,12 @@
 	import { quintOut } from 'svelte/easing'
 
 
+	// Context
+	import { preferences } from '$/state/preferences'
+
+	$: isAnimationsEnabled = $preferences.animations === 'enabled'
+
+
 	// Inputs
 	export let value: number
 
@@ -28,7 +34,6 @@
 	// Size animation
 	export let clip = true
 	export let sizeDuration = 200
-
 
 
 	// Functions
@@ -79,8 +84,8 @@
 	let tweenedValue: Tweened<number>
 
 	$: tweenedValue = tweened(0, {
-		duration: tween ? duration : 0,
-		delay: tween ? 1 : 0,
+		duration: isAnimationsEnabled && tween ? duration : 0,
+		delay: isAnimationsEnabled && tween ? 1 : 0,
 		easing,
 		interpolate: (from, to) => t => {
 			const logFrom = from != 0 ? Math.log10(from) : -format.showDecimalPlaces - 1
