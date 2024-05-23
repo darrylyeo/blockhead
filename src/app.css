@@ -139,6 +139,23 @@
 		--is-light: 0;
 	}
 
+	@media (prefers-reduced-motion: reduce) {
+		&:not([data-animations="enabled"]) {
+			& * {
+				animation: none !important;
+				transition: none !important;
+			}
+		}
+	}
+	@media (prefers-reduced-motion: no-preference) {
+		&[data-animations="disabled"] {
+			& * {
+				animation: none !important;
+				transition: none !important;
+			}
+		}
+	}
+
 	/* Safari */
 	@supports (-webkit-hyphens: none) {
 		font-synthesis: none;

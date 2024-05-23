@@ -91,6 +91,17 @@ export const preferencesConfig = [
 					{ value: 'light', name: 'Light' }
 				]
 			},
+			{
+				preferenceId: 'animations',
+				name: 'Animations',
+				type: 'single',
+				defaultOption: 'enabled',
+				options: [
+					{ value: 'auto', name: () => 'Auto' },
+					{ value: 'enabled', name: 'Enabled' },
+					{ value: 'disabled', name: 'Disabled' }
+				]
+			},
 			// {
 			// 	preferenceId: 'tokenIcons',
 			// 	name: 'Token Icons',

@@ -90,6 +90,7 @@
 	$: if(browser)
 		Object.assign(globalThis.document.documentElement?.dataset ?? {}, {
 			'colorScheme': $preferences.theme,
+			'animations': $preferences.animations,
 		})
 
 
