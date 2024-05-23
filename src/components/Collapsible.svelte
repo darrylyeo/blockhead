@@ -201,7 +201,7 @@
 								'aria-controls': ariaId,
 								'aria-expanded': isOpen ? 'true' : 'false',
 							} : {}}
-							on:click|stopPropagation={toggle}
+							on:click|preventDefault={toggle}
 						>{#if showTriggerText}<slot name="trigger-text" {isOpen} {toggle}>{isOpen ? 'Hide' : 'Show'}</slot>{/if}</button>
 						<!-- <button
 							class="small"
