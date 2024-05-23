@@ -74,7 +74,7 @@
 						})
 					},
 					getNextPageParam: (lastPage) => lastPage?.FarcasterReplies?.pageInfo?.nextCursor,
-					select: result => (console.log({result}),
+					select: result => (
 						result.pages
 							.flatMap(page => page?.FarcasterReplies?.Reply ?? [])
 							.filter(isTruthy)
