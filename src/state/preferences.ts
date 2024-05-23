@@ -521,7 +521,8 @@ export const preferencesConfig = [
 			},
 			{
 				preferenceId: 'urlMetadataProvider',
-				name: 'URL Metadata',
+				// name: 'URL Metadata',
+				name: 'URLs/Frames',
 				type: 'single',
 				defaultOption: UrlMetadataProvider.ModProtocol,
 				options: [
