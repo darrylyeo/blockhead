@@ -114,9 +114,9 @@
 			/>
 		{/if}
 
-		{#if cast.imageEmbeds?.length}
+		{#if cast.imageEmbeds?.length || cast.videoEmbeds?.length}
 			<div class="image-embeds row">
-				{#each cast.imageEmbeds as src}
+				{#each cast.imageEmbeds ?? [] as src}
 					<Dialog>
 						<img {src} />
 					
@@ -124,6 +124,22 @@
 							<FileDetails
 								{src}
 								displayType="image"
+								isOpen
+							/>
+						</svelte:fragment>
+					</Dialog>
+				{/each}
+
+				{#each cast.videoEmbeds ?? [] as src}
+					<Dialog>
+						<video controls>
+							<source {src} />
+						</video>
+					
+						<svelte:fragment slot="content">
+							<FileDetails
+								{src}
+								displayType="video"
 								isOpen
 							/>
 						</svelte:fragment>
