@@ -384,7 +384,7 @@
 			</svelte:fragment>
 
 			{#if status === LoadingStatus.Resolved || status === LoadingStatus.Reloading || (fromStore && status === LoadingStatus.Loading && result)}
-				<div class={contentClass} transition:fade|global>
+				<div class={contentClass} transition:fade>
 					<slot
 						{result}
 						{status}
@@ -423,7 +423,7 @@
 					</slot>
 				</Loading>
 			{:else if !hideError && status === LoadingStatus.Errored}
-				<div class="card" transition:scale|global>
+				<div class="card" transition:scale>
 					<div class="bar wrap">
 						<slot name="errorTitle" {error} {errorMessage}>
 							<h4>{errorMessage || 'Error'}</h4>
@@ -499,7 +499,7 @@
 				{clip}
 			>
 				{#if status === LoadingStatus.Resolved || status === LoadingStatus.Reloading || (fromStore && status === LoadingStatus.Loading && result)}
-					<div class={contentClass} transition:fade|global>
+					<div class={contentClass} transition:fade>
 						<slot
 							{result}
 							{status}
@@ -537,7 +537,7 @@
 						</slot>
 					</Loading>
 				{:else if !hideError && status === LoadingStatus.Errored}
-					<div class="card" transition:scale|global>
+					<div class="card" transition:scale>
 						<div class="bar wrap">
 							<slot name="errorTitle" {error} {errorMessage}>
 								<h4>{errorMessage || 'Error'}</h4>
