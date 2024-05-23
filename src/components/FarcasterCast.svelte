@@ -388,7 +388,7 @@
 		margin-inline-end: auto;
 	}
 
-	.image-embeds img {
+	.image-embeds :is(img, video) {
 		border-radius: 4px;
 		object-fit: contain;
 		max-width: 100%;
