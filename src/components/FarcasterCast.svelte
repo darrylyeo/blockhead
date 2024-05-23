@@ -338,7 +338,7 @@
 
 					<button
 						class="small"
-						on:click={toggle}
+						on:click|preventDefault={toggle}
 						data-after={isOpen ? '⏶' : '⏷'}
 					>
 						{isOpen ? 'Hide' : 'Replies'}
