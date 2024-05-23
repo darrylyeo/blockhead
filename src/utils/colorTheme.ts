@@ -1,11 +1,11 @@
-import { readable } from 'svelte/store'
+import { derived } from 'svelte/store'
+import { matchesMediaQuery } from './matchesMediaQuery'
 
-export const colorTheme = readable<'dark' | 'light'>('dark', set => {
-	const prefersDark = globalThis.matchMedia('(prefers-color-scheme: dark)')
-
-	set(prefersDark.matches ? 'dark' : 'light')
-
-	prefersDark.addEventListener('change', ({matches}) =>
-		set(matches ? 'dark' : 'light')
+export const colorTheme = derived(
+	matchesMediaQuery('(prefers-color-scheme: dark)'),
+	($matches) => (
+		$matches
+			? 'dark'
+			: 'light'
 	)
-})
+)
