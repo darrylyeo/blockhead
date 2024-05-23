@@ -135,7 +135,27 @@ const chainIdByExplorerUrl = {
 
 import anchorme from 'anchorme'
 import { isTruthy } from '$/utils/isTruthy'
-	
+
+import shimRegexpEscape from 'regexp.escape'
+shimRegexpEscape.shim()
+
+const imageCdns = [
+	'https://imagedelivery.net',
+	'https://i.imgur.com',
+]
+
+const imageUrlRegex = new RegExp(
+	[
+		`^(?:${
+			imageCdns
+				.map(RegExp.escape)
+				.join('|')
+		})`,
+		`[.](png|jpe?g|gif|webp)$`,
+	].join('|'),
+	'i'
+)
+
 export const extractCastEmbeds = ({
 	embeds = [],
 	text,
@@ -170,8 +190,7 @@ export const extractCastEmbeds = ({
 		],
 		embed => (
 			'url' in embed && embed.url ?
-				// new URL(embed.url).pathname.match(/\.(png|jpe?g|gif|webp)$/i) ?
-				String(embed.url).match(/\.(png|jpe?g|gif|webp)$/i) ? 
+				String(embed.url).match(imageUrlRegex) ?
 					'image'
 				:
 					'url'
