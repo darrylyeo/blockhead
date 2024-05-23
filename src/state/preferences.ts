@@ -23,6 +23,12 @@ import { FarcasterFeedProvider } from '$/data/farcasterFeedProviders'
 import { UrlMetadataProvider } from '$/data/urlMetadataProvider'
 
 
+// Context
+import { get } from 'svelte/store'
+import { colorTheme } from '$/state/colorTheme'
+import { prefersReducedMotion } from '$/state/prefersReducedMotion'
+
+
 // Constants
 namespace Preferences {
 	export type Value = string | number | boolean
@@ -86,7 +92,7 @@ export const preferencesConfig = [
 				type: 'single',
 				defaultOption: 'auto',
 				options: [
-					{ value: 'auto', name: 'Auto' },
+					{ value: 'auto', name: () => `Auto (${get(colorTheme) === 'dark' ? 'Dark' : 'Light'})` }, 
 					{ value: 'dark', name: 'Dark' },
 					{ value: 'light', name: 'Light' }
 				]
@@ -97,7 +103,7 @@ export const preferencesConfig = [
 				type: 'single',
 				defaultOption: 'enabled',
 				options: [
-					{ value: 'auto', name: () => 'Auto' },
+					{ value: 'auto', name: () => `Auto (${get(prefersReducedMotion) ? 'Disabled' : 'Enabled'})` },
 					{ value: 'enabled', name: 'Enabled' },
 					{ value: 'disabled', name: 'Disabled' }
 				]
