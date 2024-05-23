@@ -69,9 +69,7 @@ export const normalizeCast = (cast: Cast): FarcasterCast => ({
 		text: cast.text,
 	}),
 
-	mentionedUsers: cast.mentioned_profiles?.map((mention) => ({
-		name: mention,
-	})),
+	mentionedUsers: cast.mentioned_profiles?.map(normalizeUser),
 
 	reactions: {
 		likes: cast.reactions.likes?.map((reaction) => ({
@@ -155,7 +153,9 @@ export const normalizeUser = (user: User): FarcasterUser => ({
 
 	bio: {
 		text: user.profile.bio.text,
-		mentionedUsers: user.profile.bio.mentioned_profiles,
+		...user.profile.bio.mentioned_profiles && {
+			mentionedUsers: user.profile.bio.mentioned_profiles.map(normalizeUser),
+		},
 	},
 
 	...user.verified_addresses && {

@@ -79,7 +79,7 @@ export type Cast = {
 	}[],
 	fid: number,
 	hash: `0x${string}`,
-	mentioned_profiles?: string[],
+	mentioned_profiles?: User[],
 	object: 'cast',
 	parent_author?: {
 		fid: number | null,
@@ -145,7 +145,7 @@ export type User = {
 	profile: {
 		bio: {
 			text: string,
-			mentioned_profiles?: string[],
+			mentioned_profiles?: User[],
 		},
 	},
 	username: string,
