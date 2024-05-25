@@ -1041,7 +1041,6 @@ const FarcasterChannel = graphql(`
 		dappSlug
 		description
 		followerCount
-		hostIds
 		id
 		imageUrl
 		leadIds
