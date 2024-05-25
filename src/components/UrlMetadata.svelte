@@ -5,11 +5,12 @@
 
 	// Internal state
 	// (Computed)
-	$: urlHostname = parseUrl(url)?.hostname
+	$: _url = url.includes('://') ? url : `https://${url}`
+	$: urlHostname = parseUrl(_url)?.hostname
 	$: urlDomain = urlHostname?.replace(/^www\./, '')
 	$: knownEmbedType =
-		url.match(new RegExp(`(?:${RegExp.escape(`https://x.com`)}|${RegExp.escape(`https://twitter.com`)})\/([a-zA-Z0-9_]+)\/status\/([0-9]+)`)) ? '𝕏 Post' :
-		url.match(/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|live\/|v\/)?)([\w\-]+)(\S+)?$/) ? 'YouTube Video' :
+		_url.match(new RegExp(`(?:${RegExp.escape(`https://x.com`)}|${RegExp.escape(`https://twitter.com`)})\/([a-zA-Z0-9_]+)\/status\/([0-9]+)`)) ? '𝕏 Post' :
+		_url.match(/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|live\/|v\/)?)([\w\-]+)(\S+)?$/) ? 'YouTube Video' :
 		'Link'
 
 
@@ -43,7 +44,7 @@
 
 
 <UrlMetadataLoader
-	{url}
+	url={_url}
 	let:urlMetadata
 >
 	<Collapsible
@@ -55,7 +56,7 @@
 	>
 		<svelte:fragment slot="title">
 			<a
-				href={url}
+				href={_url}
 				target="_blank"
 				class="title row"
 			>
@@ -68,14 +69,14 @@
 				{/if}
 
 				<h4>
-					{urlMetadata?.title ?? url}
+					{urlMetadata?.title ?? _url}
 				</h4>
 			</a>
 		</svelte:fragment>
 
 		<svelte:fragment slot="header-right">
 			<a
-				href={url}
+				href={_url}
 				target="_blank"
 				class="card-annotation"
 			>
@@ -98,7 +99,7 @@
 							{urlDomain}
 						{/if} -->
 					{:else}
-						{url}
+						{_url}
 					{/if}
 				</address>
 			</a>
@@ -106,7 +107,7 @@
 
 		{#if urlMetadata?.customOpenGraph?.['fc:frame']}
 			<FarcasterFrame
-				frameUrl={url}
+				frameUrl={_url}
 				farcasterFrameMetadata={
 					parseFarcasterFrameServerMeta(
 						urlMetadata?.customOpenGraph
