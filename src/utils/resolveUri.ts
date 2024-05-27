@@ -11,11 +11,11 @@ const pattern = /^(?:(?:ipfs|dweb):\/\/(?<ipfs>(?<ipfsCid>[^/]+)(?<ipfsPath>.+)?
 export const resolveUri = ({
 	src,
 	ipfsGatewayDomain,
-	arweaveGateway = arweaveGateways[0],
+	arweaveGatewayDomain = arweaveGateways[0].gatewayDomain,
 }: {
 	src: string,
 	ipfsGatewayDomain?: string,
-	arweaveGateway?: string,
+	arweaveGatewayDomain?: string,
 }) => {
 	if(!src) return undefined
 
@@ -24,8 +24,8 @@ export const resolveUri = ({
 			if(gatewayDomain)
 				src = src.replace(gatewayDomain, () => ipfsGatewayDomain)
 
-	for(const gateway of arweaveGateways)
-		src = src.replace(gateway, () => arweaveGateway)
+	for(const { gatewayDomain } of arweaveGateways)
+		src = src.replace(gatewayDomain, () => arweaveGatewayDomain)
 
 	// const [type, contentId] = findMatchedCaptureGroup<'ipfsCid' | 'arweaveCid'>(pattern, src)
 	// return type === 'ipfsCid' ?
@@ -48,7 +48,7 @@ export const resolveUri = ({
 		:
 			`https://${ipfsGatewayDomain}/ipns/${groups.ipnsName}${groups.ipnsPath ?? ''}`
 	: groups?.arweaveCid ?
-		`https://${arweaveGateway}/${groups.arweaveCid}`
+		`https://${arweaveGatewayDomain}/${groups.arweaveCid}`
 	:
 		src
 }

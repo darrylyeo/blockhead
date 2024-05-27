@@ -1,3 +1,9 @@
+import { ArweaveIcon } from '$/assets/icons'
+
 export const arweaveGateways = [
-	'arweave.net',
+	{
+		name: 'Arweave',
+		gatewayDomain: 'arweave.net',
+		icon: ArweaveIcon,
+	},
 ] as const

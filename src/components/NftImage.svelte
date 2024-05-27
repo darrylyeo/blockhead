@@ -34,7 +34,7 @@
 			uri: resolveUri({
 				src: uri,
 				ipfsGatewayDomain: ipfsGatewaysByProvider[ipfsGateway].gatewayDomain,
-				arweaveGateway,
+				arweaveGatewayDomain: arweaveGateway,
 			}),
 			media,
 		}))

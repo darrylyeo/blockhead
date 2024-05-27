@@ -434,11 +434,11 @@ export const preferencesConfig = [
 				preferenceId: 'arweaveGateway',
 				name: 'Arweave Gateway',
 				type: 'single',
-				defaultOption: arweaveGateways[0],
+				defaultOption: arweaveGateways[0].gatewayDomain,
 				options: [
-					...arweaveGateways.map(url => ({
-						value: url,
-						name: url,
+					...arweaveGateways.map(arweaveGateway => ({
+						value: arweaveGateway.gatewayDomain,
+						name: `${arweaveGateway.name} (${arweaveGateway.gatewayDomain})`,
 					})),
 				]
 			},

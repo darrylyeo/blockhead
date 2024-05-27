@@ -26,12 +26,12 @@
 	$: picture = resolveUri({
 		src: profile.picture?.uri || profile.picture?.original?.url,
 		ipfsGatewayDomain: ipfsGatewaysByProvider[$preferences.ipfsGateway].gatewayDomain,
-		arweaveGateway: $preferences.arweaveGateway,
+		arweaveGatewayDomain: $preferences.arweaveGateway,
 	})
 	$: coverPicture = resolveUri({
 		src: profile.coverPicture?.uri || profile.coverPicture?.original?.url,
 		ipfsGatewayDomain: ipfsGatewaysByProvider[$preferences.ipfsGateway].gatewayDomain,
-		arweaveGateway: $preferences.arweaveGateway,
+		arweaveGatewayDomain: $preferences.arweaveGateway,
 	})
 
 

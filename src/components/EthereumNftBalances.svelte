@@ -374,7 +374,7 @@ on:dblclick={() => show3D = !show3D} -->
 						src={resolveUri({
 							uri: contract.metadata.bannerImage,
 							ipfsGatewayDomain: ipfsGatewaysByProvider[$preferences.ipfsGateway].gatewayDomain,
-							arweaveGateway: $preferences.arweaveGateway,
+							arweaveGatewayDomain: $preferences.arweaveGateway,
 						})}
 						on:error={e => e.target.hidden = true}
 					/>
@@ -392,7 +392,7 @@ on:dblclick={() => show3D = !show3D} -->
 									imageSources={resolveUri({
 										uri: contract.metadata.logoImage,
 										ipfsGatewayDomain: ipfsGatewaysByProvider[$preferences.ipfsGateway].gatewayDomain,
-										arweaveGateway: $preferences.arweaveGateway,
+										arweaveGatewayDomain: $preferences.arweaveGateway,
 									})}
 								/>
 							{/if}
