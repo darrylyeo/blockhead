@@ -1,5 +1,6 @@
 export { default as AirstackIcon } from './icons/Airstack.svg'
 export { default as AlchemyIcon } from './icons/Alchemy.svg'
+export { default as ArweaveIcon } from './icons/Arweave.svg'
 export { default as AudiusIcon } from './icons/Audius.png'
 export { default as BeryxIcon } from './icons/Beryx.svg'
 export { default as BlastIcon } from './icons/Blast.svg'
