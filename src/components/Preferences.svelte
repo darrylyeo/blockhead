@@ -25,6 +25,25 @@
 			: name
 	)
 
+	const resolveIconUrl = (iconUrl: PreferenceOption['icon']) => (
+		typeof iconUrl === 'function'
+			? iconUrl($preferences)
+			: iconUrl
+	)
+
+	const extractOptions = (options: PreferenceOption[]): PreferenceOption['value'][] => (
+		options.flatMap(optionOrGroup => (
+			'groupId' in optionOrGroup
+				? extractOptions(optionOrGroup.options)
+				: optionOrGroup
+		))
+	)
+
+	const findOption = (preference: Preference, value: PreferenceOption['value']): PreferenceOption | undefined => (
+		extractOptions(preference.options)
+			.find(option => option.value === value)
+	)
+
 
 	// Components
 	import NetworkIcon from './NetworkIcon.svelte'
@@ -94,6 +113,8 @@
 				as preference, j (preference.preferenceId)
 			}
 				{@const preferenceKey = preference.preferenceId}
+				{@const currentOption = findOption(preference, $preferences[preferenceKey])}
+				{@const iconUrl = resolveIconUrl(currentOption?.icon)}
 
 				<label
 					class="preference"
@@ -114,6 +135,7 @@
 								preferenceKey: preference.preferenceId,
 								preferenceValue: e.target.value,
 							})}
+							style:--select-leftIcon-url={iconUrl && `url('${iconUrl}')`}
 						>
 							{#each preference.options as optionOrOptionGroup ('groupId' in optionOrOptionGroup ? optionOrOptionGroup.groupId : optionOrOptionGroup.value)}
 								{#if 'groupId' in optionOrOptionGroup}
@@ -149,6 +171,7 @@
 								preferenceKey: preference.preferenceId,
 								preferenceValue: e.target.value,
 							})}
+							style:--select-leftIcon-url={iconUrl && `url('${iconUrl}')`}
 						>
 						<!--  multiple={type === 'multiple'} -->
 							{#each preference.options as optionOrOptionGroup ('groupId' in optionOrOptionGroup ? optionOrOptionGroup.groupId : optionOrOptionGroup.value)}

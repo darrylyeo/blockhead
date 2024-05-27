@@ -41,6 +41,7 @@ namespace Preferences {
 		value: Value,
 		name: string | ((preferences: any /* PreferencesState */) => string),
 		disabled?: boolean,
+		icon?: string | ((preferences: any /* PreferencesState */) => string),
 	}
 
 	export type OptionGroup = {
