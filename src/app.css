@@ -525,16 +525,29 @@ h2 input {
 }
 
 select {
+	--select-backgroundColor: rgba(255, 255, 255, 0.9);
+	--select-chevronIcon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 0.25em center / 1.25em;
+	/* --select-chevronIcon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-12 -16 24 28'%3E%3Ctext text-anchor='middle' dominant-baseline='middle'%3E%26%23x23F7%3B%3C/text%3E%3C/svg%3E") no-repeat right 0.25em center; */
+
 	appearance: none;
 	border-radius: 0.5rem;
 	padding: 0.15em 0.75em;
 	padding-right: 1.725em;
 
-	background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 0.25em center / 1.25em;
-	/* background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-12 -16 24 28'%3E%3Ctext text-anchor='middle' dominant-baseline='middle'%3E%26%23x23F7%3B%3C/text%3E%3C/svg%3E") no-repeat right 0.25em center; */
+	background: var(--select-backgroundColor) var(--select-chevronIcon);
 
 	&:not(:focus) {
 		cursor: context-menu;
+	}
+
+	&[style*="--select-leftIcon-url"] {
+		background:
+			var(--select-chevronIcon),
+			var(--select-leftIcon-url) no-repeat left 0.485em center / 1.2em auto
+		;
+		background-color: var(--select-backgroundColor);
+
+		padding-left: 2.15em;
 	}
 }
 
