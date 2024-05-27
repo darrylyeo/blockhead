@@ -141,19 +141,19 @@ export const preferencesConfig = [
 				// 	{ value: 'Ethers', name: 'Ethers Quorum' }, // (Infura + Etherscan + Alchemy + Pocket)
 				// ]
 			},
-			{
-				preferenceId: 'transactionRelay',
-				name: 'Transaction Relay',
-				type: 'single', // 'multiple',
-				defaultOption: 'Ethers',
-				options: [
-					{ value: 'Ethers', name: 'Ethers Quorum' }, // (Infura + Etherscan + Alchemy + Pocket)
-					{ value: 'Pocket Network', name: 'Pocket Network' },
-					{ value: 'Alchemy', name: 'Alchemy' },
-					{ value: 'Infura', name: 'Infura' },
-					{ value: 'Moralis', name: 'Moralis' },
-				]
-			},
+			// {
+			// 	preferenceId: 'transactionRelay',
+			// 	name: 'Transaction Relay',
+			// 	type: 'single', // 'multiple',
+			// 	defaultOption: 'Ethers',
+			// 	options: [
+			// 		{ value: 'Ethers', name: 'Ethers Quorum' }, // (Infura + Etherscan + Alchemy + Pocket)
+			// 		{ value: 'Pocket Network', name: 'Pocket Network' },
+			// 		{ value: 'Alchemy', name: 'Alchemy' },
+			// 		{ value: 'Infura', name: 'Infura' },
+			// 		{ value: 'Moralis', name: 'Moralis' },
+			// 	]
+			// },
 			{
 				preferenceId: 'transactionProvider',
 				name: 'Transactions/Blocks',
