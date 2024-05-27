@@ -2,6 +2,7 @@ import type { DeepReadonly } from '$/utils/DeepReadonly'
 
 export enum IpfsGatewayProvider {
 	Helia = 'Helia',
+	Lighthouse = 'Lighthouse',
 	ProtocolLabsIpfsIo = 'IpfsIo',
 	ProtocolLabsDweb = 'Dweb',
 	Pinata = 'Pinata',
@@ -18,7 +19,7 @@ export type IpfsGatewayConfig = {
 	gatewayDomain?: string,
 }
 
-import { CloudflareIcon, HeliaIcon, PinataIcon, ProtocolLabsIcon } from '$/assets/icons'
+import { CloudflareIcon, HeliaIcon, LighthouseIcon, PinataIcon, ProtocolLabsIcon } from '$/assets/icons'
 
 export const ipfsGateways = [
 	{
@@ -27,6 +28,13 @@ export const ipfsGateways = [
 		icon: HeliaIcon,
 		colors: ['#073A53', '#F7DF1E'],
 		gatewayDomain: 'local'
+	},
+	{
+		gatewayProvider: IpfsGatewayProvider.Lighthouse,
+		name: 'Lighthouse',
+		icon: LighthouseIcon,
+		colors: ['#4a86d9', '#d53d6e'],
+		gatewayDomain: 'gateway.lighthouse.storage',
 	},
 	{
 		gatewayProvider: IpfsGatewayProvider.ProtocolLabsIpfsIo,
