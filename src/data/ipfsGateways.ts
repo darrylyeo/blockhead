@@ -18,7 +18,7 @@ export type IpfsGatewayConfig = {
 	gatewayDomain?: string,
 }
 
-import { HeliaIcon, PinataIcon, ProtocolLabsIcon } from '$/assets/icons'
+import { CloudflareIcon, HeliaIcon, PinataIcon, ProtocolLabsIcon } from '$/assets/icons'
 
 export const ipfsGateways = [
 	{
@@ -61,6 +61,7 @@ export const ipfsGateways = [
 	{
 		gatewayProvider: IpfsGatewayProvider.Cloudflare,
 		name: 'Cloudflare',
+		icon: CloudflareIcon,
 		gatewayDomain: 'cloudflare-ipfs.com',
 	},
 ] as const satisfies DeepReadonly<IpfsGatewayConfig[]>
