@@ -78,28 +78,26 @@
 		<Loader
 			fromPromise={
 				async () => {
-					throw new Error('IPFS node temporarily disabled.')
+					const { getIpfsContent, getIpfsDag } = await import('$/api/ipfs/helia')
 
-					// const { getIpfsContent, getIpfsDag } = await import('$/api/ipfs/helia')
-
-					// try {
-					// 	return await getIpfsContent({
-					// 		ipfsContentId,
-					// 		ipnsName,
-					// 		ipfsContentPath,
-					// 	})
-					// 		.then(parseResponse)
-					// }catch(e){
-					// 	if(e?.constructor?.name === 'NotAFileError'){
-					// 		return await getIpfsDag({
-					// 			ipfsContentId,
-					// 			ipfsContentPath,
-					// 		})
-					// 			.then(dagStats => ({
-					// 				dagStats
-					// 			}))
-					// 	}
-					// }
+					try {
+						return await getIpfsContent({
+							ipfsContentId,
+							ipnsName,
+							ipfsContentPath,
+						})
+							.then(parseResponse)
+					}catch(e){
+						if(e?.constructor?.name === 'NotAFileError'){
+							return await getIpfsDag({
+								ipfsContentId,
+								ipfsContentPath,
+							})
+								.then(dagStats => ({
+									dagStats
+								}))
+						}
+					}
 				}
 			}
 			loadingIcon={IpfsIcon}
@@ -146,9 +144,8 @@
 					)
 				})
 			}
-			loadingIcon={IpfsIcon}
-			loadingIconName="IPFS"
-			loadingMessage={`Fetching ${contentDescription} from IPFS via ${ipfsGateway.name}...`}
+			loadingIcon={ipfsGatewaysByProvider[ipfsGatewayProvider]?.icon ?? IpfsIcon}
+			loadingMessage={`Fetching ${contentDescription} from IPFS via ${ipfsGateway.name} (${ipfsGateway.gatewayDomain})...`}
 			errorMessage={`Couldn't fetch ${contentDescription} from IPFS via ${ipfsGateway.name}.`}
 			{whenLoaded}
 			let:result
