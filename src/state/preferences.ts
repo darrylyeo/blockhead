@@ -7,20 +7,21 @@ import type { UnionToObject } from '$/utils/UnionToObject'
 // External constants
 import type { Ethereum } from '$/data/networks/types'
 import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '$/data/currencies'
+import { tokenIcons } from '$/assets/tokenIcons'
 import { NetworkProvider } from '$/data/networkProviders/types'
-import { networkProviderConfigs } from '$/data/networkProviders'
-import { TokenBalancesProvider } from '$/data/tokenBalancesProvider'
-import { DefiProvider } from '$/data/defiProviders'
-import { NftProvider } from '$/data/nftProviders'
-import { PriceProvider } from '$/data/priceProviders'
-import { TransactionProvider } from '$/data/transactionProvider'
-import { ContractSourceProvider } from '$/data/contractSourceProvider'
-import { NotificationsProvider } from '$/data/notificationsProvider'
+import { networkProviderConfigs, networkProviderConfigByProvider } from '$/data/networkProviders'
+import { TokenBalancesProvider, tokenBalancesProviderIcons } from '$/data/tokenBalancesProvider'
+import { DefiProvider, defiProviderIcons } from '$/data/defiProviders'
+import { NftProvider, nftProviderIcons } from '$/data/nftProviders'
+import { PriceProvider, priceProviderIcons } from '$/data/priceProviders'
+import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProvider'
+import { ContractSourceProvider, contractSourceProviderIcons } from '$/data/contractSourceProvider'
+import { NotificationsProvider, notificationsProviderIcons } from '$/data/notificationsProvider'
 import { ipfsGateways } from '$/data/ipfsGateways'
 import { arweaveGateways } from '$/data/arweaveGateways'
-import { FarcasterProvider } from '$/data/farcasterProviders'
-import { FarcasterFeedProvider } from '$/data/farcasterFeedProviders'
-import { UrlMetadataProvider } from '$/data/urlMetadataProvider'
+import { FarcasterProvider, farcasterProviderIcons } from '$/data/farcasterProviders'
+import { FarcasterFeedProvider, farcasterFeedProviderIcons } from '$/data/farcasterFeedProviders'
+import { UrlMetadataProvider, urlMetadataProviderIcons } from '$/data/urlMetadataProvider'
 
 
 // Context
@@ -130,7 +131,7 @@ export const preferencesConfig = [
 				name: 'On-Chain Data',
 				type: 'single', // 'multiple',
 				defaultOption: NetworkProvider.Default,
-				options: networkProviderConfigs.map(({ provider, name }) => ({ value: provider, name }))
+				options: networkProviderConfigs.map(({ provider, name }) => ({ value: provider, name, icon: networkProviderConfigByProvider[provider]?.icon }))
 				// options: [
 				// 	{ value: 'Auto', name: 'Auto' },
 				// 	{ value: 'Pocket Network', name: 'Pocket Network' },
@@ -148,10 +149,10 @@ export const preferencesConfig = [
 			// 	defaultOption: 'Ethers',
 			// 	options: [
 			// 		{ value: 'Ethers', name: 'Ethers Quorum' }, // (Infura + Etherscan + Alchemy + Pocket)
-			// 		{ value: 'Pocket Network', name: 'Pocket Network' },
-			// 		{ value: 'Alchemy', name: 'Alchemy' },
-			// 		{ value: 'Infura', name: 'Infura' },
-			// 		{ value: 'Moralis', name: 'Moralis' },
+			// 		{ value: 'Pocket Network', name: 'Pocket Network', icon: networkProviderConfigByProvider[NetworkProvider.PocketNetwork].icon },
+			// 		{ value: 'Alchemy', name: 'Alchemy', icon: networkProviderConfigByProvider[NetworkProvider.Alchemy].icon },
+			// 		{ value: 'Infura', name: 'Infura', icon: networkProviderConfigByProvider[NetworkProvider.Infura]?.icon },
+			// 		{ value: 'Moralis', name: 'Moralis', icon: networkProviderConfigByProvider[NetworkProvider.Moralis].icon }
 			// 	]
 			// },
 			{
@@ -164,20 +165,20 @@ export const preferencesConfig = [
 						groupId: 'onChain',
 						name: 'On-Chain',
 						options: [
-							{ value: TransactionProvider.RpcProvider, name: (preferences: any) => `RPC Node (${preferences.rpcNetwork})` },
+							{ value: TransactionProvider.RpcProvider, name: (preferences: any) => `RPC Node (${preferences.rpcNetwork})`, icon: (preferences: any) => networkProviderConfigByProvider[preferences.rpcNetwork]?.icon },
 						]
 					},
 					{
 						groupId: 'offChain',
 						name: 'Off-Chain',
 						options: [
-							{ value: TransactionProvider.Etherscan, name: 'Etherscan' },
-							{ value: TransactionProvider.Chainbase, name: 'Chainbase' },
-							{ value: TransactionProvider.Covalent, name: 'Covalent' },
-							{ value: TransactionProvider.Decommas, name: 'Decommas' },
-							{ value: TransactionProvider.Moralis, name: 'Moralis' },
-							// { value: TransactionProvider.Etherspot, name: 'Etherspot' },
-							{ value: TransactionProvider.Beryx, name: 'Beryx' },
+							{ value: TransactionProvider.Etherscan, name: 'Etherscan', icon: transactionProviderIcons[TransactionProvider.Etherscan] },
+							{ value: TransactionProvider.Chainbase, name: 'Chainbase', icon: transactionProviderIcons[TransactionProvider.Chainbase] },
+							{ value: TransactionProvider.Covalent, name: 'Covalent', icon: transactionProviderIcons[TransactionProvider.Covalent] },
+							{ value: TransactionProvider.Decommas, name: 'Decommas', icon: transactionProviderIcons[TransactionProvider.Decommas] },
+							{ value: TransactionProvider.Moralis, name: 'Moralis', icon: transactionProviderIcons[TransactionProvider.Moralis] },
+							// { value: TransactionProvider.Etherspot, name: 'Etherspot', icon: transactionProviderIcons[TransactionProvider.Etherspot] },
+							{ value: TransactionProvider.Beryx, name: 'Beryx', icon: transactionProviderIcons[TransactionProvider.Beryx] },
 						]
 					}
 				]
@@ -192,15 +193,15 @@ export const preferencesConfig = [
 						groupId: 'web3',
 						name: 'Web3 Hosted',
 						options: [
-							{ value: ContractSourceProvider.Sourcify, name: 'Sourcify' },
+							{ value: ContractSourceProvider.Sourcify, name: 'Sourcify', icon: contractSourceProviderIcons[ContractSourceProvider.Sourcify] },
 						]
 					},
 					{
 						groupId: 'centralized',
 						name: 'Centrally Hosted',
 						options: [
-							{ value: ContractSourceProvider.Etherscan, name: 'Etherscan' },
-							// { value: ContractSourceProvider.Tenderly, name: 'Tenderly' },
+							{ value: ContractSourceProvider.Etherscan, name: 'Etherscan', icon: contractSourceProviderIcons[ContractSourceProvider.Etherscan] },
+							// { value: ContractSourceProvider.Tenderly, name: 'Tenderly', icon: contractSourceProviderIcons[ContractSourceProvider.Tenderly] },
 						]
 					}
 				]
@@ -222,22 +223,22 @@ export const preferencesConfig = [
 						name: 'On-Chain',
 						options: [
 							{ value: TokenBalancesProvider.RpcProvider, name: (preferences: any) => `On-Chain (${preferences.rpcNetwork})` }, // 'RPC Provider + Token List'
-							{ value: TokenBalancesProvider.Liquality, name: 'Liquality (Alchemy)' },
-							{ value: TokenBalancesProvider.QuickNode, name: 'QuickNode' },
+							{ value: TokenBalancesProvider.Liquality, name: 'Liquality (Alchemy)', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Liquality] },
+							{ value: TokenBalancesProvider.QuickNode, name: 'QuickNode', icon: tokenBalancesProviderIcons[TokenBalancesProvider.QuickNode] },
 						]
 					},
 					{
 						groupId: 'offChain',
 						name: 'Off-Chain',
 						options: [
-							{ value: TokenBalancesProvider.Airstack, name: 'Airstack' },
-							{ value: TokenBalancesProvider.Chainbase, name: 'Chainbase › Token API' },
-							{ value: TokenBalancesProvider.Covalent, name: 'Covalent' },
-							{ value: TokenBalancesProvider.Decommas, name: 'Decommas' },
-							{ value: TokenBalancesProvider.Moralis, name: 'Moralis › Web3 API' },
-							{ value: TokenBalancesProvider.Nexandria, name: 'Nexandria' },
-							{ value: TokenBalancesProvider.Zapper, name: 'Zapper' },
-							{ value: TokenBalancesProvider.Beryx, name: 'Beryx' },
+							{ value: TokenBalancesProvider.Airstack, name: 'Airstack', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Airstack] },
+							{ value: TokenBalancesProvider.Chainbase, name: 'Chainbase › Token API', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Chainbase] },
+							{ value: TokenBalancesProvider.Covalent, name: 'Covalent', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Covalent] },
+							{ value: TokenBalancesProvider.Decommas, name: 'Decommas', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Decommas] },
+							{ value: TokenBalancesProvider.Moralis, name: 'Moralis › Web3 API', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Moralis] },
+							{ value: TokenBalancesProvider.Nexandria, name: 'Nexandria', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Nexandria] },
+							{ value: TokenBalancesProvider.Zapper, name: 'Zapper', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Zapper] },
+							{ value: TokenBalancesProvider.Beryx, name: 'Beryx', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Beryx] },
 						]
 					}
 				]
@@ -252,14 +253,14 @@ export const preferencesConfig = [
 						groupId: 'onChain',
 						name: 'On-Chain',
 						options: [
-							{ value: DefiProvider.ZerionDefiSdk, name: DefiProvider.ZerionDefiSdk }
+							{ value: DefiProvider.ZerionDefiSdk, name: DefiProvider.ZerionDefiSdk, icon: defiProviderIcons[DefiProvider.ZerionDefiSdk] }
 						]
 					},
 					{
 						groupId: 'offChain',
 						name: 'Off-Chain',
 						options: [
-							{ value: DefiProvider.Zapper, name: DefiProvider.Zapper }
+							{ value: DefiProvider.Zapper, name: DefiProvider.Zapper, icon: defiProviderIcons[DefiProvider.Zapper] }
 						]
 					}
 				]
@@ -274,20 +275,20 @@ export const preferencesConfig = [
 						groupId: 'onChain',
 						name: 'On-Chain',
 						options: [
-							{ value: NftProvider.Liquality, name: 'Liquality (Alchemy)' },
+							{ value: NftProvider.Liquality, name: 'Liquality (Alchemy)', icon: nftProviderIcons[NftProvider.Liquality] },
 						]
 					},
 					{
 						groupId: 'offChain',
 						name: 'Off-Chain',
 						options: [
-							{ value: NftProvider.Airstack, name: 'Airstack' },
-							{ value: NftProvider.Chainbase, name: 'Chainbase' },
-							{ value: NftProvider.Covalent, name: 'Covalent' },
-							{ value: NftProvider.Decommas, name: 'Decommas' },
-							{ value: NftProvider.NftPort,  name: 'NFTPort' }
-							// { value: 'Zapper', name: 'Zapper' },
-							// { value: 'Moralis', name: 'Moralis' },
+							{ value: NftProvider.Airstack, name: 'Airstack', icon: nftProviderIcons[NftProvider.Airstack] },
+							{ value: NftProvider.Chainbase, name: 'Chainbase', icon: nftProviderIcons[NftProvider.Chainbase] },
+							{ value: NftProvider.Covalent, name: 'Covalent', icon: nftProviderIcons[NftProvider.Covalent] },
+							{ value: NftProvider.Decommas, name: 'Decommas', icon: nftProviderIcons[NftProvider.Decommas] },
+							{ value: NftProvider.NftPort,  name: 'NFTPort', icon: nftProviderIcons[NftProvider.NftPort] }
+							// { value: 'Zapper', name: 'Zapper', icon: nftProviderIcons[NftProvider.Zapper] },
+							// { value: 'Moralis', name: 'Moralis', icon: nftProviderIcons[NftProvider.Moralis] },
 						]
 					}
 				]
@@ -298,7 +299,7 @@ export const preferencesConfig = [
 				type: 'single',
 				defaultOption: NotificationsProvider.Push,
 				options: [
-					{ value: NotificationsProvider.Push, name: 'Push' },
+					{ value: NotificationsProvider.Push, name: 'Push', icon: notificationsProviderIcons[NotificationsProvider.Push] },
 				]
 			},
 		],
@@ -317,7 +318,7 @@ export const preferencesConfig = [
 						groupId: 'onChain',
 						name: 'On-Chain',
 						options: [
-							{ value: PriceProvider.Chainlink, name: 'Chainlink' },
+							{ value: PriceProvider.Chainlink, name: 'Chainlink', icon: priceProviderIcons[PriceProvider.Chainlink] },
 							// { value: 'Tellor', name: 'Tellor' },
 							// { value: 'Compound Price Feed', name: 'Open Price Feed' },
 						]
@@ -389,6 +390,7 @@ export const preferencesConfig = [
 						options: Object.values(cryptoQuoteCurrencies).map(currency => ({
 							value: currency.isoCode,
 							name: `${currency.name} (${currency.symbol})`,
+							icon: tokenIcons[currency.isoCode],
 						}))
 					}
 				]
@@ -414,6 +416,7 @@ export const preferencesConfig = [
 								.map(ipfsGateway => ({
 									value: ipfsGateway.gatewayProvider,
 									name: `${ipfsGateway.name} (${ipfsGateway.gatewayDomain})`,
+									icon: ipfsGateway.icon,
 								})),
 						]
 					},
@@ -426,6 +429,7 @@ export const preferencesConfig = [
 								.map(ipfsGateway => ({
 									value: ipfsGateway.gatewayProvider,
 									name: `${ipfsGateway.name} (${ipfsGateway.gatewayDomain})`,
+									icon: ipfsGateway.icon,
 								})),
 						]
 					}
@@ -440,6 +444,7 @@ export const preferencesConfig = [
 					...arweaveGateways.map(arweaveGateway => ({
 						value: arweaveGateway.gatewayDomain,
 						name: `${arweaveGateway.name} (${arweaveGateway.gatewayDomain})`,
+						icon: arweaveGateway.icon,
 					})),
 				]
 			},
@@ -467,14 +472,17 @@ export const preferencesConfig = [
 							{
 								value: FarcasterProvider.Airstack,
 								name: FarcasterProvider.Airstack,
+								icon: farcasterProviderIcons[FarcasterProvider.Airstack],
 							},
 							{
 								value: FarcasterProvider.Neynar,
 								name: FarcasterProvider.Neynar,
+								icon: farcasterProviderIcons[FarcasterProvider.Neynar],
 							},
 							{
 								value: FarcasterProvider.Pinata,
 								name: FarcasterProvider.Pinata,
+								icon: farcasterProviderIcons[FarcasterProvider.Pinata],
 							},
 						],
 					},
@@ -493,6 +501,7 @@ export const preferencesConfig = [
 							{
 								value: FarcasterFeedProvider.OpenRank,
 								name: FarcasterFeedProvider.OpenRank,
+								icon: farcasterFeedProviderIcons[FarcasterFeedProvider.OpenRank],
 							},
 						],
 					},
@@ -507,14 +516,17 @@ export const preferencesConfig = [
 							{
 								value: FarcasterFeedProvider.Airstack,
 								name: FarcasterFeedProvider.Airstack,
+								icon: farcasterFeedProviderIcons[FarcasterFeedProvider.Airstack],
 							},
 							{
 								value: FarcasterFeedProvider.Neynar,
 								name: FarcasterFeedProvider.Neynar,
+								icon: farcasterFeedProviderIcons[FarcasterFeedProvider.Neynar],
 							},
 							{
 								value: FarcasterFeedProvider.Pinata,
 								name: FarcasterFeedProvider.Pinata,
+								icon: farcasterFeedProviderIcons[FarcasterFeedProvider.Pinata],
 							},
 						],
 					},
@@ -544,6 +556,7 @@ export const preferencesConfig = [
 							{
 								value: UrlMetadataProvider.ModProtocol,
 								name: UrlMetadataProvider.ModProtocol,
+								icon: urlMetadataProviderIcons[UrlMetadataProvider.ModProtocol],
 							},
 						]
 					},
