@@ -135,7 +135,7 @@
 								preferenceKey: preference.preferenceId,
 								preferenceValue: e.target.value,
 							})}
-							style:--select-leftIcon-url={iconUrl && `url('${iconUrl}')`}
+							style:--select-leftIcon-url={iconUrl && `url("${iconUrl}")`}
 						>
 							{#each preference.options as optionOrOptionGroup ('groupId' in optionOrOptionGroup ? optionOrOptionGroup.groupId : optionOrOptionGroup.value)}
 								{#if 'groupId' in optionOrOptionGroup}
@@ -171,7 +171,7 @@
 								preferenceKey: preference.preferenceId,
 								preferenceValue: e.target.value,
 							})}
-							style:--select-leftIcon-url={iconUrl && `url('${iconUrl}')`}
+							style:--select-leftIcon-url={iconUrl && `url("${iconUrl}")`} 
 						>
 						<!--  multiple={type === 'multiple'} -->
 							{#each preference.options as optionOrOptionGroup ('groupId' in optionOrOptionGroup ? optionOrOptionGroup.groupId : optionOrOptionGroup.value)}
