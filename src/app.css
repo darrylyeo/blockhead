@@ -713,6 +713,8 @@ address {
 	break-inside: avoid;
 
 	&:hover {
+		opacity: 1;
+
 		/* background-image: none; */
 		background-color: var(--card-hover-background-color);
 	}
