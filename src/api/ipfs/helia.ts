@@ -102,6 +102,29 @@ import type { IpnsName } from './ipns'
 
 import { asyncIterableFromStream, streamFromAsyncIterable } from '$/utils/convertAsyncIterable'
 
+export const resolveIpfsContentId = async ({
+	ipfsContentId,
+	ipnsName,
+}: ({
+	ipfsContentId: IpfsCid,
+	ipnsName?: undefined,
+} | {
+	ipfsContentId?: undefined,
+	ipnsName: IpnsName,
+})) => {
+	if(ipfsContentId){
+		const { CID } = await import('multiformats/cid')
+
+		return CID.parse(ipfsContentId)
+	}
+
+	else if(ipnsName){
+		const ipnsClient = await getLocalIpnsClient()
+
+		return await ipnsClient.resolveDns(ipnsName)
+	}
+}
+
 export const getIpfsContent = async ({
 	ipfsContentId,
 	ipnsName,
@@ -110,24 +133,18 @@ export const getIpfsContent = async ({
 	ipfsContentId: IpfsCid,
 	ipnsName?: undefined,
 } | {
-	ipfsContentId?: IpfsCid,
+	ipfsContentId?: undefined,
 	ipnsName: IpnsName,
 }) & {
 	ipfsContentPath?: string,
 }) => {
-	const cid = await (async () => {
-		if(ipfsContentId){
-			const { CID } = await import('multiformats/cid')
+	const cid = await resolveIpfsContentId({
+		ipfsContentId,
+		ipnsName,
+	})
 
-			return CID.parse(ipfsContentId)
-		}
-
-		else if(ipnsName){
-			const ipnsClient = await getLocalIpnsClient()
-
-			return await ipnsClient.resolveDns(ipnsName)
-		}
-	})()!
+	if(!cid)
+		throw new Error('No CID found')
 
 	const fs = await getLocalFilesystem()
 
