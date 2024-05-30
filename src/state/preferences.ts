@@ -103,7 +103,7 @@ export const preferencesConfig = [
 				preferenceId: 'animations',
 				name: 'Animations',
 				type: 'single',
-				defaultOption: 'enabled',
+				defaultOption: 'auto',
 				options: [
 					{ value: 'auto', name: () => `Auto (${get(prefersReducedMotion) ? 'Disabled' : 'Enabled'})` },
 					{ value: 'enabled', name: 'Enabled' },
