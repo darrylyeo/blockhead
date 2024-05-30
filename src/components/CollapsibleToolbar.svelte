@@ -37,6 +37,10 @@
 		{/if}
 	</svelte:fragment>
 
+	<svelte:fragment slot="header-right">
+		<slot name="header-right" />
+	</svelte:fragment>
+
 	<svelte:fragment slot="trigger-text">
 		<slot name="trigger-text">
 			Navigate
