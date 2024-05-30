@@ -245,11 +245,13 @@
 	{/if}
 
 	{#if cast.urlEmbeds?.length}
-		{#each cast.urlEmbeds as url}
-			<UrlMetadata
-				{url}
-			/>
-		{/each}
+		<div class="url-embeds column">
+			{#each cast.urlEmbeds as url}
+				<UrlMetadata
+					{url}
+				/>
+			{/each}
+		</div>
 	{/if}
 
 	<hr>
@@ -394,6 +396,10 @@
 		max-width: 100%;
 		height: 100%;
 		max-height: 20rem;
+	}
+
+	.url-embeds {
+		font-size: smaller;
 	}
 
 	dl {
