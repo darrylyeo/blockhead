@@ -77,7 +77,9 @@
 		<Collapsible type="label" isOpen canToggle={false}>
 			<svelte:element this={`h${headingLevel + 1}`} slot="title">Content</svelte:element>
 
-			<span slot="header-right" class="card-annotation"><a href="https://{ipfsGateway.gatewayDomain}" target="_blank">{ipfsGateway.name}</a></span>
+			<svelte:fragment slot="header-right">
+				<span class="card-annotation"><a href="https://{ipfsGateway.gatewayDomain}" target="_blank">{ipfsGateway.name} ({ipfsGateway.gatewayDomain})</a></span>
+			</svelte:fragment>
 
 			<BlockTransition
 				key={[ipfsGateway, ipfsContentId]}
