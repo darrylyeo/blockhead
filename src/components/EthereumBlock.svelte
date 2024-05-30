@@ -20,6 +20,7 @@
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
 	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 	export let showFees = false
+	export let showSummary = true
 	export let showTransactions = false
 
 
@@ -79,101 +80,110 @@
 </style>
 
 
-<div class="bar">
-	<svelte:element this={`h${headingLevel + 1}`}>Network Consensus</svelte:element>
+<Collapsible
+	type="label"
+	bind:isOpen={showSummary}
+	class="column"
+	canToggle
+>
+	<svelte:fragment slot="title">
+		<svelte:element this={`h${headingLevel + 1}`}>Network Consensus</svelte:element>
+	</svelte:fragment>
 
-	{#if lastUpdate}
-		<span class="card-annotation">
-			{lastUpdate.consensus.type}
-			(<a href={lastUpdate.consensus.links[0]} target="_blank">{lastUpdate.consensus.algorithm}</a>)
-		</span>
-	{/if}
-</div>
-
-<div class="consensus card column">
-	<div class="row wrap">
-		{#if lastUpdate?.consensus.type === 'Proof of Work'}
-			<span class="miner">
-				<abbr title={'A network node that finds valid proof-of-work for new blocks, by repeated pass hashing (Ethash).\n\nSource: https://ethereum.org/en/glossary/#miner'}>Miner</abbr>
-
-				{#if block.minerAddress}
-					<span class="miner-address">
-						<Address 
-							{network}
-							address={block.minerAddress}
-							format="middle-truncated"
-						/>
-					</span>
-				{/if}
-			</span>
-
-			<span>
-				discovered <abbr title={'The random value in a block that was used to satisfy the proof-of-work.\n\nSource: https://ethereum.org/en/glossary/#nonce'}>nonce</abbr>
-				<output class="nonce">{block.nonce}</output>
-			</span>
-
-			<span>
-				at <abbr title={'A network-wide setting that controls how much computation is required to produce a proof-of-work.\n\nSource: https://ethereum.org/en/glossary/#difficulty'}>difficulty</abbr>
-				<output class="difficulty">{block.difficulty}</output>
-			</span>
-
-		{:else if lastUpdate?.consensus.type === 'Proof of Stake'}
-			<span class="validator">
-				<abbr title={'A node in a proof-of-stake system responsible for storing data, processing transactions, and adding new blocks to the blockchain.\n\nSource: https://ethereum.org/en/glossary/#validator'}>Validator</abbr>
-
-				{#if block.minerAddress}
-					<span class="validator-address">
-						<Address 
-							{network}
-							address={block.minerAddress}
-							format="middle-truncated"
-						/>
-					</span>
-				{/if}
-			</span>
-
-			<span>
-				proposed block
+	<svelte:fragment slot="header-right">
+		{#if lastUpdate}
+			<span class="card-annotation">
+				{lastUpdate.consensus.type}
+				(<a href={lastUpdate.consensus.links[0]} target="_blank">{lastUpdate.consensus.algorithm}</a>)
 			</span>
 		{/if}
+	</svelte:fragment>
 
-		{#if block.blockHash}
-			<span>
-				producing hash
-				<output class="block-hash"><abbr title="Block hash: {block.blockHash}">{formatTransactionHash(block.blockHash, 'middle-truncated')}</abbr></output>
-			</span>
-		{/if}
+	<div class="consensus card column">
+		<div class="row wrap">
+			{#if lastUpdate?.consensus.type === 'Proof of Work'}
+				<span class="miner">
+					<abbr title={'A network node that finds valid proof-of-work for new blocks, by repeated pass hashing (Ethash).\n\nSource: https://ethereum.org/en/glossary/#miner'}>Miner</abbr>
+
+					{#if block.minerAddress}
+						<span class="miner-address">
+							<Address 
+								{network}
+								address={block.minerAddress}
+								format="middle-truncated"
+							/>
+						</span>
+					{/if}
+				</span>
+
+				<span>
+					discovered <abbr title={'The random value in a block that was used to satisfy the proof-of-work.\n\nSource: https://ethereum.org/en/glossary/#nonce'}>nonce</abbr>
+					<output class="nonce">{block.nonce}</output>
+				</span>
+
+				<span>
+					at <abbr title={'A network-wide setting that controls how much computation is required to produce a proof-of-work.\n\nSource: https://ethereum.org/en/glossary/#difficulty'}>difficulty</abbr>
+					<output class="difficulty">{block.difficulty}</output>
+				</span>
+
+			{:else if lastUpdate?.consensus.type === 'Proof of Stake'}
+				<span class="validator">
+					<abbr title={'A node in a proof-of-stake system responsible for storing data, processing transactions, and adding new blocks to the blockchain.\n\nSource: https://ethereum.org/en/glossary/#validator'}>Validator</abbr>
+
+					{#if block.minerAddress}
+						<span class="validator-address">
+							<Address 
+								{network}
+								address={block.minerAddress}
+								format="middle-truncated"
+							/>
+						</span>
+					{/if}
+				</span>
+
+				<span>
+					proposed block
+				</span>
+			{/if}
+
+			{#if block.blockHash}
+				<span>
+					producing hash
+					<output class="block-hash"><abbr title="Block hash: {block.blockHash}">{formatTransactionHash(block.blockHash, 'middle-truncated')}</abbr></output>
+				</span>
+			{/if}
+		</div>
+
+		<hr>
+
+		<div class="including row wrap">
+			<h4>including</h4>
+
+			{#if block.transactions?.length}
+				<span>
+					{block.transactions.length}
+					transactions
+				</span>
+			{/if}
+
+			{#if block.blockNumber > 0}
+				<span>
+					<abbr title="Block {Number(block.blockNumber) - 1} hash: {block.parentBlockHash}">hash</abbr>
+					<!-- hash
+					<output><abbr title="Block {blockNumber - 1} hash: {block.parentHash}">{formatTransactionHash(block.parentHash, 'middle-truncated')}</abbr></output> -->
+					of previous block <BlockNumber {network} blockNumber={block.blockNumber - 1n} />
+				</span>
+			{/if}
+
+			{#if block.extraData}
+				<span class="extra-data-container">
+					extra data
+					<output class="extra-data"><abbr title={`Extra data:\n${block.extraData}`}>{bytesToString(toBytes(block.extraData))}</abbr></output>
+				</span>
+			{/if}
+		</div>
 	</div>
-
-	<hr>
-
-	<div class="including row wrap">
-		<h4>including</h4>
-
-		{#if block.transactions?.length}
-			<span>
-				{block.transactions.length}
-				transactions
-			</span>
-		{/if}
-
-		{#if block.blockNumber > 0}
-			<span>
-				<abbr title="Block {Number(block.blockNumber) - 1} hash: {block.parentBlockHash}">hash</abbr>
-				<!-- hash
-				<output><abbr title="Block {blockNumber - 1} hash: {block.parentHash}">{formatTransactionHash(block.parentHash, 'middle-truncated')}</abbr></output> -->
-				of previous block <BlockNumber {network} blockNumber={block.blockNumber - 1n} />
-			</span>
-		{/if}
-
-		{#if block.extraData}
-			<span class="extra-data-container">
-				extra data
-				<output class="extra-data"><abbr title={`Extra data:\n${block.extraData}`}>{bytesToString(toBytes(block.extraData))}</abbr></output>
-			</span>
-		{/if}
-	</div>
-</div>
+</Collapsible>
 
 {#if block.transactions?.length}
 	<hr>
