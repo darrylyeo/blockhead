@@ -110,6 +110,16 @@ export const preferencesConfig = [
 					{ value: 'disabled', name: 'Disabled' }
 				]
 			},
+			{
+				preferenceId: 'scrollSnap',
+				name: 'Scroll Snapping',
+				type: 'single',
+				defaultOption: 'enabled',
+				options: [
+					{ value: 'enabled', name: 'Enabled' },
+					{ value: 'disabled', name: 'Disabled' }
+				]
+			},
 			// {
 			// 	preferenceId: 'tokenIcons',
 			// 	name: 'Token Icons',

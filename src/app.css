@@ -865,7 +865,7 @@ address {
 }
 
 
-.scroll-snap-area {
+:root:not([data-animations="disabled"]) .scroll-snap-area {
 	scroll-snap-type: both proximity;
 	scroll-padding: var(--padding-inner);
 }
@@ -888,9 +888,12 @@ address {
 	/* contain: strict;
 	height: 30rem; */
 
-	&:hover,
-	&:focus-within {
-		scroll-snap-type: y proximity;
+
+	:root:not([data-animations="disabled"]) & {
+		&:hover,
+		&:focus-within {
+			scroll-snap-type: y proximity;
+		}
 	}
 	&[style*="height: "] {
 		transition: none;
