@@ -271,7 +271,7 @@
 
 <QueryClientProvider client={queryClient}>
 	<Nav>
-		<svelte:fragment slot="toolbar">
+		<svelte:fragment slot="header-right">
 			<div role="toolbar">
 				<label class="wallets-toggle">
 					<input type="checkbox" bind:checked={showAccounts} />

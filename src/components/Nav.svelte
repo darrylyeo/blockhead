@@ -121,7 +121,17 @@
 
 					text-decoration: none;
 
-					transition: 0.2s, font-weight 0.2s;
+					transition-duration: 0.2s;
+					transition-property:
+						color,
+						font-weight,
+						opacity,
+						padding
+					;
+
+					@media (width < 37rem) {
+						padding: 0.5rem 0.85rem;
+					}
 				}
 
 				&:not(.right) + .right {
@@ -156,8 +166,28 @@
 	}
 
 	.logo {
-		font-size: 1.1em;
+		display: inline-block;
 		margin: 0 -0.25rem;
+
+		font-size: 1.1em;
+		background: url('/Blockhead-Logo.svg') no-repeat -100% 0 / 0lh auto;
+
+		transition-duration: 0.3s;
+		transition-property:
+			background,
+			color,
+			margin,
+			width
+		;
+		transition-timing-function: var(--ease-out-expo);
+
+		@media (width < 37rem) {
+			color: transparent;
+			background-position: center;
+			background-size: 1lh auto;
+			width: 1lh;
+			margin-left: -0.85rem;
+		}
 	}
 
 	/* span {
