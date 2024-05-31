@@ -176,7 +176,7 @@
 						}[type]
 						: 'div'
 				}
-				class="bar wrap"
+				class={$$props.contentClass ?? `bar wrap`}
 			>
 				<slot name="title" {isOpen} {toggle}>
 					<h4>{title}</h4>
