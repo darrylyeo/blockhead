@@ -138,6 +138,12 @@
 					/* @media (max-width: 43rem) {
 						display: none;
 					} */
+
+					a {
+						img {
+							width: 1.25em;
+						}
+					}
 				}
 			}
 		}
