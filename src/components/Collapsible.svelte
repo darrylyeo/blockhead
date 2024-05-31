@@ -182,7 +182,7 @@
 					<h4>{title}</h4>
 				</slot>
 
-				<div class="row wrap">
+				<div class={$$props.contentRightClass ?? 'row wrap'}>
 					<slot name="toolbar" {isOpen} {toggle}>
 						{#if $$slots['toolbar-items']}
 							<div role="toolbar">
