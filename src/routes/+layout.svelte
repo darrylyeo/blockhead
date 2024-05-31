@@ -233,21 +233,6 @@
 		}
 	}
 
-	[role="toolbar"] {
-		position: sticky;
-		right: 0;
-		min-width: auto;
-		backdrop-filter: var(--overlay-backdrop-filter);
-		
-		&:after {
-			content: '';
-			z-index: -1;
-			position: absolute;
-			inset: -1rem;
-			background: linear-gradient(to right, rgba(var(--rgb-light-dark), 0), rgba(var(--rgb-light-dark), calc(0.925 - 0.2 * var(--is-light))) 1rem);
-		}
-	}
-
 	.wallets-toggle span {
 		font-weight: bold;
 		opacity: 1 !important;
