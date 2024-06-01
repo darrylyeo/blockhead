@@ -117,6 +117,13 @@
 					}
 				}
 
+				@media (20rem < width < 41rem) {
+					&:after {
+						content: '';
+						flex: 10000;
+					}
+				}
+
 				.item {
 					flex: 1 auto;
 
