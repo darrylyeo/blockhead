@@ -154,6 +154,7 @@
 			&:not(.right) {
 				li {
 					a {
+						position: relative;
 						display: flex;
 						padding: 0.75rem 1.25rem;
 						align-items: center;
@@ -168,8 +169,30 @@
 							padding
 						;
 
-						@media (width < 37rem) {
-							padding: 0.5rem 0.85rem;
+						&[aria-current]:after {
+							content: '';
+							z-index: -1;
+							position: absolute;
+							inset: auto 0 0 0;
+							height: 1px;
+							background-color: var(--primary-color);
+						}
+
+						.logo {
+							display: inline-block;
+							margin: 0 -0.25rem;
+
+							font-size: 1.1em;
+							background: url('/Blockhead-Logo.svg') no-repeat -100% 0 / 0lh auto;
+
+							transition-duration: 0.3s;
+							transition-property:
+								background,
+								color,
+								margin,
+								width
+							;
+							transition-timing-function: var(--ease-out-expo);
 						}
 					}
 				}
@@ -198,6 +221,31 @@
 			}
 		}
 
+		@media (width < 37rem) {
+			padding-inline-start: 0.25em;
+
+			ul {
+				&:not(.right) {
+					li {
+						a {
+							padding: 0.5rem 0.75rem;
+
+							&[aria-current]:after {
+								inset-inline: 0.25rem;
+							}
+
+							.logo {
+								color: transparent;
+								background-position: center;
+								background-size: 1lh auto;
+								width: 1lh;
+							}
+						}
+					}
+				}
+			}
+		}
+
 		:global(.nav-content-right) {
 			position: sticky;
 			right: 0;
@@ -210,37 +258,6 @@
 			position: absolute;
 			inset: -1rem;
 			background: linear-gradient(to right, rgba(var(--rgb-light-dark), 0), rgba(var(--rgb-light-dark), calc(0.925 - 0.2 * var(--is-light))) 1rem);
-		}
-	}
-
-	[aria-current] {
-		border-bottom: 2px solid var(--primary-color);
-		margin-bottom: -1px;
-		font-weight: bold;
-	}
-
-	.logo {
-		display: inline-block;
-		margin: 0 -0.25rem;
-
-		font-size: 1.1em;
-		background: url('/Blockhead-Logo.svg') no-repeat -100% 0 / 0lh auto;
-
-		transition-duration: 0.3s;
-		transition-property:
-			background,
-			color,
-			margin,
-			width
-		;
-		transition-timing-function: var(--ease-out-expo);
-
-		@media (width < 37rem) {
-			color: transparent;
-			background-position: center;
-			background-size: 1lh auto;
-			width: 1lh;
-			margin-left: -0.85rem;
 		}
 	}
 
