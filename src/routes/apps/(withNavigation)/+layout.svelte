@@ -27,6 +27,7 @@
 
 
 	// Components
+	import Icon from '$/components/Icon.svelte'
 	import TokenIcon from '$/components/TokenIcon.svelte'
 
 
@@ -68,7 +69,7 @@
 						style={cardStyle(app.colors)}
 					>
 						{#if app.icon}
-							<img src={app.icon} alt={app.name} width={24} />
+							<Icon imageSources={[app.icon]} title={app.name} />
 						{:else}
 							{#each app.views?.flatMap(view => view.erc20Tokens ?? []).filter(Boolean).slice(0, 1) as erc20Token}
 								<TokenIcon {erc20Token} />
