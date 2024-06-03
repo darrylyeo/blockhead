@@ -33,6 +33,7 @@
 	}
 
 
+	const buttonId = crypto.randomUUID()
 	const ariaId = crypto.randomUUID()
 
 
@@ -177,6 +178,11 @@
 						: 'div'
 				}
 				class={$$props.contentClass ?? `bar wrap`}
+				{...{
+					'label': {
+						'for': buttonId,
+					},
+				}[type]}
 			>
 				<slot name="title" {isOpen} {toggle}>
 					<h4>{title}</h4>
@@ -197,10 +203,13 @@
 						<button
 							class="small"
 							data-after={showTriggerText ? isOpen ? '⏶' : '⏷' : isOpen ? '▲' : '▼'}
-							{...type === 'label' ? {
-								'aria-controls': ariaId,
-								'aria-expanded': isOpen ? 'true' : 'false',
-							} : {}}
+							{...{
+								'label': {
+									'id': buttonId,
+									'aria-controls': ariaId,
+									'aria-expanded': isOpen ? 'true' : 'false',
+								},
+							}[type]}
 							on:click|preventDefault={toggle}
 						>{#if showTriggerText}<slot name="trigger-text" {isOpen} {toggle}>{isOpen ? 'Hide' : 'Show'}</slot>{/if}</button>
 						<!-- <button
