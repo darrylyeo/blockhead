@@ -15,6 +15,7 @@
 
 <nav>
 	<CollapsibleToolbar
+		type="label"
 		breakpointWidth="30rem"
 		contentRightClass="nav-content-right row"
 		bind:isOpen
