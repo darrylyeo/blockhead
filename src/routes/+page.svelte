@@ -24,6 +24,7 @@
 		gap: 5rem;
 
 		min-height: 100vh;
+		min-height: 100dvh;
 		align-content: center;
 
 		justify-items: center;

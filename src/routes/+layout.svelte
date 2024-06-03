@@ -162,7 +162,9 @@
 		margin: 0 auto;
 		width: 100%;
 		min-width: min(var(--one-column-width), 100vw);
+		min-width: min(var(--one-column-width), 100dvw);
 		min-height: 100vh;
+		min-height: 100dvh;
 
 		display: grid;
 		gap: var(--padding-inner);

@@ -131,6 +131,7 @@
 		grid-template-columns: 100%;
 
 		min-height: 100vh;
+		min-height: 100dvh;
 		grid-template-rows: auto 1fr;
 	}
 

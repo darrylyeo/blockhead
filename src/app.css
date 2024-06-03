@@ -65,6 +65,7 @@
 	--ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 
 	min-height: 100vh;
+	min-height: 100dvh;
 
 	/* font-size: 20px;
 	font-size: clamp(15px, 1.1vw, 20px); */
@@ -175,6 +176,7 @@
 body {
 	overflow: hidden auto;
 	height: 100vh;
+	height: 100dvh;
 }
 
 

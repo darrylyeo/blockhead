@@ -129,6 +129,7 @@
 		
 		/* Override scroll container to support position: sticky */
 		height: 100vh;
+		height: 100dvh;
 		overflow-y: auto;
 	}
 
