@@ -237,6 +237,7 @@
 
 							.logo {
 								color: transparent;
+								text-shadow: none;
 								background-position: center;
 								background-size: 1lh auto;
 								width: 1lh;
