@@ -703,9 +703,31 @@ export function getRecentCastsForFidCastsPersonalizedRecentFidGet(fid: number, {
     }));
 }
 /**
+ * Post Recent Casts For Fid
+ */
+export function postRecentCastsForFidCastsCuratedRecentPost(body: number[], { offset, limit }: {
+    offset?: number | null;
+    limit?: number | null;
+} = {}, opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchJson<{
+        status: 200;
+        data: any;
+    } | {
+        status: 422;
+        data: HttpValidationError;
+    }>(`/casts/curated/recent/${QS.query(QS.explode({
+        offset,
+        limit
+    }))}`, oazapfts.json({
+        ...opts,
+        method: "POST",
+        body
+    })));
+}
+/**
  * Get Top Channel Profiles
  */
-export function getTopChannelProfilesChannelsRankingsChannelGet(channel: Channel, { offset, limit, lite }: {
+export function getTopChannelProfilesChannelsRankingsChannelGet(channel: string, { offset, limit, lite }: {
     offset?: number | null;
     limit?: number | null;
     lite?: boolean;
@@ -727,7 +749,7 @@ export function getTopChannelProfilesChannelsRankingsChannelGet(channel: Channel
 /**
  * Get Channel Rank For Fids
  */
-export function getChannelRankForFidsChannelsRankingsChannelFidsPost(channel: Channel, body: number[], { lite }: {
+export function getChannelRankForFidsChannelsRankingsChannelFidsPost(channel: string, body: number[], { lite }: {
     lite?: boolean;
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
@@ -747,7 +769,7 @@ export function getChannelRankForFidsChannelsRankingsChannelFidsPost(channel: Ch
 /**
  * Get Channel Rank For Handles
  */
-export function getChannelRankForHandlesChannelsRankingsChannelHandlesPost(channel: Channel, body: string[], opts?: Oazapfts.RequestOpts) {
+export function getChannelRankForHandlesChannelsRankingsChannelHandlesPost(channel: string, body: string[], opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
         data: any;
@@ -763,7 +785,7 @@ export function getChannelRankForHandlesChannelsRankingsChannelHandlesPost(chann
 /**
  * Get Popular Channel Casts
  */
-export function getPopularChannelCastsChannelsCastsPopularChannelGet(channel: Channel, { agg, weights, offset, limit, lite }: {
+export function getPopularChannelCastsChannelsCastsPopularChannelGet(channel: string, { agg, weights, offset, limit, lite }: {
     agg?: ScoreAgg | null;
     weights?: string | null;
     offset?: number | null;
@@ -794,13 +816,4 @@ export enum ScoreAgg {
 export enum Voting {
     Single = "single",
     Multiple = "multiple"
-}
-export enum Channel {
-    Degen = "degen",
-    Base = "base",
-    Optimism = "optimism",
-    Founders = "founders",
-    Farcaster = "farcaster",
-    OpStack = "op-stack",
-    NewYork = "new-york"
 }
