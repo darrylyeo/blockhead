@@ -94,4 +94,8 @@
 		/* color: var(--primary-color); */
 		font-weight: bold;
 	}
+
+	.content :global(p:only-child) {
+		text-wrap: balance;
+	}
 </style>
