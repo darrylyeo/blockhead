@@ -351,10 +351,7 @@
 							queryKey: [, { channelId }],
 							pageParam: offset,
 						}) => {
-							const { getPopularChannelCastsChannelsCastsPopularChannelGet, Channel } = await import('$/api/openrank/farcaster/index')
-
-							// if(!Object.values(Channel).includes(channelId))
-							// 	throw `OpenRank has not yet indexed the Farcaster channel "${channelId}".`
+							const { getPopularChannelCastsChannelsCastsPopularChannelGet } = await import('$/api/openrank/farcaster/index')
 
 							try {
 								return await getPopularChannelCastsChannelsCastsPopularChannelGet(
@@ -375,9 +372,9 @@
 								}
 							}
 						},
-						getNextPageParam: (lastPage) => lastPage?.result?.next_cursor,
-						select: result => (
-							[...new Set(
+						getNextPageParam: (lastPage, allPages) => allPages.length,
+						select: result => {
+							const castIds = [...new Set(
 								result.pages
 									.flatMap(page => page.result ?? [])
 									.map(item => item.cast_hash)
@@ -385,7 +382,10 @@
 								.map(id => ({
 									id,
 								}))
-						),
+
+							if(!castIds.length)
+								throw `Either no casts exist, or OpenRank has not yet indexed the Farcaster channel "${query.channelId}".`
+						},
 						staleTime: 10 * 1000,
 					})
 
