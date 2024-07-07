@@ -17,7 +17,9 @@
 
 
 <button
+	type="button"
 	popovertarget={id}
+	on:click|stopPropagation
 >
 	<slot />
 </button>
