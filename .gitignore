@@ -5,7 +5,7 @@ node_modules
 /package
 .env*
 !.env.example
-!.env.vault
+!.env.production
 .netlify
 
 $houdini
