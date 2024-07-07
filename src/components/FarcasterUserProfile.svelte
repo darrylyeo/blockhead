@@ -16,6 +16,7 @@
 	import Collapsible from './Collapsible.svelte'
 	import FarcasterText from './FarcasterText.svelte'
 	import FarcasterUser from './FarcasterUser.svelte'
+	import TweenedNumber from './TweenedNumber.svelte'
 </script>
 
 
@@ -60,7 +61,7 @@
 					{#if user.summary.followingCount}
 						<div>
 							<dt data-before="👀">Following</dt>
-							<dd>{user.summary.followingCount}</dd>
+							<dd><TweenedNumber value={user.summary.followingCount}/></dd>
 						</div>
 					{/if}
 
@@ -68,7 +69,7 @@
 						{#if user.summary.followerCount}		
 							<div>
 								<dt data-before="👉">Followers</dt>
-								<dd>{user.summary.followerCount}</dd>
+								<dd><TweenedNumber value={user.summary.followerCount}/></dd>
 							</div>
 						{/if}
 					{/if}
