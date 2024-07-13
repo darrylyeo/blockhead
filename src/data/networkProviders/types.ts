@@ -13,6 +13,7 @@ export enum NetworkProvider {
 	GetBlock = 'GetBlock',
 	Blast = 'Blast',
 	Chainbase = 'Chainbase',
+	Blockscout = 'Blockscout',
 }
 
 export enum NetworkProviderConnectionType {

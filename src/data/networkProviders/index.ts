@@ -37,7 +37,8 @@ import { chainbaseProviderConfigs } from './chainbase'
 
 
 // Icons
-import { AlchemyIcon, BlastIcon, ChainbaseIcon, EtherscanIcon, FigmentIcon, GatewayFmIcon, GetBlockIcon, InfuraIcon, MoralisIcon, TenderlyIcon, PocketIcon, QuickNodeIcon } from '$/assets/icons'
+import { AlchemyIcon, BlastIcon, BlockscoutIcon, ChainbaseIcon, EtherscanIcon, FigmentIcon, GatewayFmIcon, GetBlockIcon, InfuraIcon, MoralisIcon, TenderlyIcon, PocketIcon, QuickNodeIcon } from '$/assets/icons'
+import { blockscoutProviderConfigs } from '$/api/blockscout'
 
 
 // Functions
@@ -741,6 +742,59 @@ export const networkProviderConfigs = [
 						[NetworkProviderConnectionType.WebSocket]: webSocket,
 					}[connectionType](
 						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.s.chainbase.online/v1/${publicEnv.PUBLIC_CHAINBASE_API_KEY}`,
+						{},
+					),
+				})
+			)
+		},
+	},
+
+	{
+		provider: NetworkProvider.Blockscout,
+		name: 'Blockscout',
+		icon: BlockscoutIcon,
+
+		getEthersProvider: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+			nodeType = NetworkProviderNodeType.Default,
+		}) => {
+			const config = blockscoutProviderConfigs.find(config =>
+				config.networkSlug === network.slug &&
+				config.connectionType === connectionType &&
+				config.nodeType === nodeType
+			)
+
+			return config && (
+				new ({
+					[NetworkProviderConnectionType.RPC]: JsonRpcProvider,
+					[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
+				}[connectionType])(
+					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.domain}/api/eth-rpc`,
+					network.chainId
+				)
+			)
+		},
+
+		getViemPublicClient: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+			nodeType = NetworkProviderNodeType.Default,
+		}) => {
+			const config = blockscoutProviderConfigs.find(config =>
+				config.networkSlug === network.slug &&
+				config.connectionType === connectionType &&
+				config.nodeType === nodeType
+			)
+
+			return config && (
+				createClient({
+					chain: networkToViemChain(network),
+					transport: {
+						[NetworkProviderConnectionType.RPC]: http,
+						[NetworkProviderConnectionType.WebSocket]: webSocket,
+					}[connectionType](
+						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.domain}/api/eth-rpc`,
 						{},
 					),
 				})
