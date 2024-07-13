@@ -42,7 +42,7 @@
 	export let contractMetadata: Ethereum.ContractMetadata<string>
 	export let contractName: string | undefined
 	// (Computed)
-	$: contractName = contractMetadata && Object.values(contractMetadata.settings.compilationTarget)?.[0]
+	$: contractName = contractMetadata?.settings?.compilationTarget && Object.values(contractMetadata.settings.compilationTarget)?.[0]
 
 
 	// Internal state

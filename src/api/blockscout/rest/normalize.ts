@@ -1,5 +1,5 @@
 // Types/constants
-import type { Block, Transaction } from './index'
+import type { Block, Transaction, SmartContract } from './index'
 import type { Ethereum } from '$/data/networks/types'
 
 
@@ -102,4 +102,41 @@ export const normalizeBlock = (
 	},
 	extraData: block.extra_data,
 	baseFeePerGas: block.priority_fee ? BigInt(block.priority_fee) : undefined,
+})
+
+export const normalizeContractSource = (
+	smartContract: SmartContract
+): {
+	sourcifyUrl?: string,
+	contractMetadata: Ethereum.ContractMetadata<string>
+} => ({
+	sourcifyUrl: smartContract.sourcify_repo_url,
+	contractMetadata: {
+		...smartContract.compiler_version && {
+			compiler: {
+				version: smartContract.compiler_version,
+			},
+		},
+		language: smartContract.language ?? (smartContract.is_vyper_contract ? 'Vyper' : undefined),
+		output: {
+			abi: smartContract.abi,
+		},
+		...smartContract.compiler_settings && {
+			settings: smartContract.compiler_settings,
+		},
+		sources: {
+			[smartContract.file_path ?? smartContract.name ?? '']: {
+				content: smartContract.source_code,
+			},
+			...smartContract.additional_sources && Object.fromEntries(
+				smartContract.additional_sources
+					.map(source => [
+						source.file_path,
+						{
+							content: source.source_code,
+						}
+					])
+			),
+		},
+	},
 })

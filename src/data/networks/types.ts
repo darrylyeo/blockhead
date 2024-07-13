@@ -299,10 +299,10 @@ export namespace Ethereum {
 	export type TopicHash = `0x${string}` // BrandedString<'TopicHash'>
 
 	export type ContractMetadata<SourcePath extends string> = {
-		compiler: {
+		compiler?: {
 			version: string
 		},
-		language: 'Solidity' | string,
+		language: 'Solidity' | string | undefined,
 		output: {
 			abi: Abi,
 			devdoc?: {

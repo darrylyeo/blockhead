@@ -46,6 +46,8 @@
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
 
+	import { normalizeContractSource as normalizeContractSourceBlockscout } from '$/api/blockscout/rest/normalize'
+
 	import type { Etherscan } from '$/api/etherscan/index'
 	import { normalizeContractSource as normalizeContractSourceEtherscan } from '$/api/etherscan/normalize'
 
@@ -65,6 +67,22 @@
 			}],
 
 			...{
+				[ContractSourceProvider.Blockscout]: () => ({
+					queryFn: async () => {
+						const { getSmartContract } = await import('$/api/blockscout/rest/index')
+						const { getBlockscoutRestEndpoint } = await import('$/api/blockscout')
+
+						return await getSmartContract(
+							contractAddress,
+							{
+								baseUrl: getBlockscoutRestEndpoint(network.chainId),
+							}
+						)
+					},
+
+					select: normalizeContractSourceBlockscout,
+				}),
+
 				[ContractSourceProvider.Etherscan]: () => ({
 					queryFn: async () => {
 						const { Etherscan } = await import('$/api/etherscan/index')
