@@ -60,6 +60,10 @@
 	import { normalizeTransaction as normalizeViemTransaction } from '$/api/viem/normalize'
 	import { getTransaction, getTransactionReceipt } from 'viem/actions'
 
+	import { getBlockscoutRestEndpoint } from '$/api/blockscout/index'
+	import { getTx as getTransactionBlockscout } from '$/api/blockscout/rest/index'
+	import { normalizeTransaction as normalizeTransactionBlockscout } from '$/api/blockscout/rest/normalize'
+
 	import { getTransaction as getTransactionChainbase } from '$/api/chainbase/index'
 	import { normalizeTransaction as normalizeTransactionChainbase } from '$/api/chainbase/normalize'
 
@@ -120,6 +124,36 @@
 						{ ...transaction, ...transactionReceipt },
 						network,
 					)
+				),
+			}),
+		},
+
+		[TransactionProvider.Blockscout]: {
+			fromQuery: createQuery({
+				queryKey: ['Transaction', {
+					transactionProvider,
+					chainId: network.chainId,
+					transactionId,
+				}],
+				queryFn: async ({
+					queryKey: [
+						_,
+						{
+							transactionProvider,
+							chainId,
+							transactionId,
+						},
+					]
+				}) => (
+					await getTransactionBlockscout(
+						transactionId,
+						{
+							baseUrl: getBlockscoutRestEndpoint(chainId),
+						}
+					)
+				),
+				select: result => (
+					normalizeTransactionBlockscout(result, network)
 				),
 			}),
 		},

@@ -213,7 +213,10 @@ export namespace Ethereum {
 		transactionId: TransactionID,
 
 		executionStatus?: 'failed' | 'successful',
+		revertReason?: string,
+
 		finalityStatus: 'pending' | 'finalized' | 'orphaned' | 'replaced',
+		confirmations?: number,
 
 		blockNumber?: BlockNumber,
 		blockHash?: BlockHash,
@@ -221,6 +224,7 @@ export namespace Ethereum {
 
 		transactionIndex?: TransactionIndex,
 		nonce?: TransactionNonce,
+		type: 'legacy' | 'eip2930' | 'eip1559',
 
 		fromAddress: Address,
 		toAddress?: Address,

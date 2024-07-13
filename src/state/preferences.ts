@@ -183,6 +183,7 @@ export const preferencesConfig = [
 						name: 'Off-Chain',
 						options: [
 							{ value: TransactionProvider.Etherscan, name: 'Etherscan', icon: transactionProviderIcons[TransactionProvider.Etherscan] },
+							{ value: TransactionProvider.Blockscout, name: 'Blockscout › REST API', icon: transactionProviderIcons[TransactionProvider.Blockscout] },
 							{ value: TransactionProvider.Chainbase, name: 'Chainbase', icon: transactionProviderIcons[TransactionProvider.Chainbase] },
 							{ value: TransactionProvider.Covalent, name: 'Covalent', icon: transactionProviderIcons[TransactionProvider.Covalent] },
 							{ value: TransactionProvider.Decommas, name: 'Decommas', icon: transactionProviderIcons[TransactionProvider.Decommas] },

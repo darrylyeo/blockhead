@@ -27,6 +27,10 @@
 	// Functions
 	import { createQuery, createInfiniteQuery } from '@tanstack/svelte-query'
 
+	import { getBlockscoutRestEndpoint } from '$/api/blockscout'
+	import { getAddressTxs as getTransactionsBlockscout } from '$/api/blockscout/rest'
+	import { normalizeTransaction as normalizeTransactionBlockscout } from '$/api/blockscout/rest/normalize'
+
 	import { getTransactionsByAccount as getTransactionsByAccountChainbase } from '$/api/chainbase'
 	import { normalizeTransaction as normalizeTransactionChainbase } from '$/api/chainbase/normalize'
 
@@ -70,6 +74,53 @@
 	{loadingMessage}
 	{errorMessage}
 	{...{
+		[TransactionProvider.Blockscout]: () => ({
+			fromInfiniteQuery: createInfiniteQuery({
+				queryKey: ['Transactions', {
+					transactionProvider,
+					chainId: network.chainId,
+					address,
+					quoteCurrency,
+				}],
+				initialPageParam: {},
+				queryFn: async ({
+					queryKey: [
+						_,
+						{
+							transactionProvider,
+							chainId,
+							address,
+							quoteCurrency,
+						},
+					],
+					pageParam: next_page_params,
+				}) => (
+					await getTransactionsBlockscout(
+						address,
+						{},
+						{
+							baseUrl: getBlockscoutRestEndpoint(chainId),
+							fetch: (url, ...args) => (
+								fetch(new URL(`?${new URLSearchParams(next_page_params)}`, url), ...args)
+							),
+						}
+					)
+				),
+				getNextPageParam: (lastPage) => lastPage.next_page_params,
+				select: ({ pages }) => (
+					pages
+						.flatMap(page => (
+							page
+								.items
+								.map(transaction => (
+									normalizeTransactionBlockscout(transaction, network)
+								))
+						))
+				),
+				staleTime: 10 * 1000,
+			}),
+		}),
+
 		[TransactionProvider.Chainbase]: () => ({
 			fromInfiniteQuery: createInfiniteQuery({
 				queryKey: ['Transactions', {

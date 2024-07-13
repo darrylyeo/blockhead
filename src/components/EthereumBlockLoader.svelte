@@ -67,6 +67,10 @@
 	import { normalizeBlock as normalizeViemBlock } from '$/api/viem/normalize'
 	import { getBlock } from 'viem/actions'
 
+	import { getBlockscoutRestEndpoint } from '$/api/blockscout/index'
+	import { getBlock as getBlockBlockscout, getBlockTxs as getBlockTransactionsBlockscout } from '$/api/blockscout/rest/index'
+	import { normalizeBlock as normalizeBlockBlockscout, normalizeTransaction as normalizeTransactionBlockscout } from '$/api/blockscout/rest/normalize'
+
 	import { getBlockByNumber as getBlockByNumberChainbase } from '$/api/chainbase'
 	import { normalizeBlock as normalizeBlockChainbase } from '$/api/chainbase/normalize'
 
@@ -96,6 +100,89 @@
 	{loadingMessage}
 	{errorMessage}
 	{...{
+		[TransactionProvider.Blockscout]: () => ({
+			fromQuery: createQueries({
+				queries: [
+					{
+						queryKey: ['Block', {
+							transactionProvider,
+							chainId: network.chainId,
+							blockNumber: Number(blockNumber),
+						}],
+						placeholderData: () => placeholderData,
+						queryFn: async ({
+							queryKey: [
+								_,
+								{
+									transactionProvider,
+									chainId,
+									blockNumber,
+								},
+							],
+						}) => (
+							await getBlockBlockscout(
+								blockNumber,
+								{
+									baseUrl: getBlockscoutRestEndpoint(chainId),
+								}
+							)
+						),
+						select: block => (
+							block === placeholderData
+								? block
+								: normalizeBlockBlockscout(block, network)
+						),
+					},
+					{
+						queryKey: ['BlockTransactions', {
+							transactionProvider,
+							chainId: network.chainId,
+							blockNumber: Number(blockNumber),
+						}],
+						placeholderData: () => placeholderData,
+						queryFn: async ({
+							queryKey: [
+								_,
+								{
+									transactionProvider,
+									chainId,
+									blockNumber,
+								},
+							],
+						}) => (
+							await getBlockTransactionsBlockscout(
+								blockNumber,
+								{
+									baseUrl: getBlockscoutRestEndpoint(chainId),
+								}
+							)
+						),
+						select: result => (
+							result === placeholderData
+								? result
+								: result.items
+									.map(transaction => (
+										normalizeTransactionBlockscout(transaction, network)
+									))
+						),
+					},
+				],
+				combine: ([
+					blockQuery,
+					transactionsQuery,
+				]) => ({
+					...blockQuery,
+					...transactionsQuery,
+					data: {
+						...blockQuery.data,
+						...transactionsQuery?.data && {
+							transactions: transactionsQuery.data,
+						},
+					},
+				}),
+			}),
+		}),
+
 		[TransactionProvider.Chainbase]: () => ({
 			fromQuery: createQuery({
 				queryKey: ['Block', {
