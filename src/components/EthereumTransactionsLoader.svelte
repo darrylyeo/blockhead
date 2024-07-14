@@ -27,24 +27,16 @@
 	// Functions
 	import { createQuery, createInfiniteQuery } from '@tanstack/svelte-query'
 
-	import { getBlockscoutRestEndpoint } from '$/api/blockscout'
-	import { getAddressTxs as getTransactionsBlockscout } from '$/api/blockscout/rest'
 	import { normalizeTransaction as normalizeTransactionBlockscout } from '$/api/blockscout/rest/normalize'
 
-	import { getTransactionsByAccount as getTransactionsByAccountChainbase } from '$/api/chainbase'
 	import { normalizeTransaction as normalizeTransactionChainbase } from '$/api/chainbase/normalize'
 
-	import { getPaginatedTransactionsForAddress } from '$/api/covalent/index'
 	import { normalizeTransaction as normalizeTransactionCovalent } from '$/api/covalent/normalize'
 
 	import { normalizeTransaction as normalizeTransactionDecommas } from '$/api/decommas/normalize'
 
-	import { Etherscan } from '$/api/etherscan/index'
 	import { normalizeTransaction as normalizeTransactionEtherscan } from '$/api/etherscan/normalize'
 
-	// import { getTransactions as getTransactionsEtherspot } from '$/api/etherspot'
-
-	import { chainCodeFromNetwork, MoralisWeb3Api } from '$/api/moralis/web3Api/index'
 	import { normalizeTransaction as normalizeTransactionMoralis } from '$/api/moralis/web3Api/normalize'
 
 
@@ -94,8 +86,11 @@
 						},
 					],
 					pageParam: next_page_params,
-				}) => (
-					await getTransactionsBlockscout(
+				}) => {
+					const { getBlockscoutRestEndpoint } = await import('$/api/blockscout')
+					const { getAddressTxs } = await import('$/api/blockscout/rest')
+
+					return await getAddressTxs(
 						address,
 						{},
 						{
@@ -105,7 +100,7 @@
 							),
 						}
 					)
-				),
+				},
 				getNextPageParam: (lastPage) => lastPage.next_page_params,
 				select: ({ pages }) => (
 					pages
@@ -130,13 +125,15 @@
 					quoteCurrency,
 				}],
 				initialPageParam: 0,
-				queryFn: async ({ pageParam: page }) => (
-					await getTransactionsByAccountChainbase({
+				queryFn: async ({ pageParam: page }) => {
+					const { getTransactionsByAccount } = await import('$/api/chainbase')
+
+					return await getTransactionsByAccount({
 						chainId: network.chainId,
 						address,
 						page,
 					})
-				),
+				},
 				getNextPageParam: (lastPage) => lastPage.next_page,
 				select: result => (
 					(result?.pages?.flatMap(page => page.data) ?? [])
@@ -156,15 +153,17 @@
 					includeLogs,
 				}],
 				initialPageParam: 0,
-				queryFn: async ({ pageParam: page }) => (
-					await getPaginatedTransactionsForAddress({
+				queryFn: async ({ pageParam: page }) => {
+					const { getPaginatedTransactionsForAddress } = await import('$/api/covalent/index')
+
+					return await getPaginatedTransactionsForAddress({
 						chainName: network.chainId,
 						walletAddress: address,
 						page,
 						quoteCurrency,
 						noLogs: !includeLogs,
 					})
-				),
+				},
 				getPreviousPageParam: (firstPage, allPages) => firstPage.links.prev !== null ? Number(firstPage.links.current_page) - 1 : undefined,
 				getNextPageParam: (lastPage, allPages) => lastPage.links.next !== null ? Number(lastPage.links.current_page) + 1 : undefined,
 				select: result => (
@@ -212,12 +211,14 @@
 					chainId: network.chainId,
 					address,
 				}],
-				queryFn: async () => (
-					await Etherscan.Accounts.getTransactions({
+				queryFn: async () => {
+					const { Etherscan } = await import('$/api/etherscan/index')
+
+					return await Etherscan.Accounts.getTransactions({
 						chainId: network.chainId,
 						address,
 					})
-				),
+				},
 				select: transactions => transactions.map(transaction => normalizeTransactionEtherscan(network, transaction)),
 				staleTime: 10 * 1000,
 			}),
@@ -234,6 +235,8 @@
 				}],
 				initialPageParam: { offset: 0, limit: 20 },
 				queryFn: async ({ pageParam: { offset = 0, limit } }) => {
+					const { chainCodeFromNetwork, MoralisWeb3Api } = await import('$/api/moralis/web3Api/index')
+
 					const response = await MoralisWeb3Api.address.getTransactions({
 						chain: chainCodeFromNetwork(network),
 						from_block: 0,
