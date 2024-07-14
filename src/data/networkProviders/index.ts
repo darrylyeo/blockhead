@@ -760,9 +760,7 @@ export const networkProviderConfigs = [
 			nodeType = NetworkProviderNodeType.Default,
 		}) => {
 			const config = blockscoutProviderConfigs.find(config =>
-				config.networkSlug === network.slug &&
-				config.connectionType === connectionType &&
-				config.nodeType === nodeType
+				config.networkSlug === network.slug
 			)
 
 			return config && (
@@ -782,9 +780,7 @@ export const networkProviderConfigs = [
 			nodeType = NetworkProviderNodeType.Default,
 		}) => {
 			const config = blockscoutProviderConfigs.find(config =>
-				config.networkSlug === network.slug &&
-				config.connectionType === connectionType &&
-				config.nodeType === nodeType
+				config.networkSlug === network.slug
 			)
 
 			return config && (
