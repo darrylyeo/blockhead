@@ -2,7 +2,7 @@
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
 	import type { Filecoin } from '$/data/filecoin'
-	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProvider'
+	import { FilecoinTransactionProvider, filecoinTransactionProviderIcons } from '$/data/filecoinTransactionProvider'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import { getViemPublicClient } from '$/data/networkProviders'
 
@@ -14,12 +14,12 @@
 	// Inputs
 	export let network: Ethereum.Network
 	export let address: Filecoin.Address
-	export let transactionProvider: TransactionProvider.Beryx = TransactionProvider.Beryx
+	export let filecoinTransactionProvider: FilecoinTransactionProvider = FilecoinTransactionProvider.Beryx
 	export let networkProvider: NetworkProvider | undefined
 	export let publicClient: Ethereum.PublicClient | undefined
 
 	// (Computed)
-	$: transactionProvider = $$props.transactionProvider ?? $preferences.transactionProvider
+	$: filecoinTransactionProvider = $$props.filecoinTransactionProvider ?? $preferences.filecoinTransactionProvider
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 	$: publicClient = network && networkProvider && getViemPublicClient({
 		network,
@@ -63,15 +63,15 @@
 	viewOptions={{
 		contentClass: 'column',
 	}}
-	loadingIcon={transactionProviderIcons[transactionProvider]}
-	loadingIconName={transactionProvider}
-	loadingMessage={`Retrieving ${network.name} account data from ${transactionProvider}...`}
-	errorMessage={`Couldn't retrieve ${network.name} account data from ${transactionProvider}.`}
+	loadingIcon={filecoinTransactionProviderIcons[filecoinTransactionProvider]}
+	loadingIconName={filecoinTransactionProvider}
+	loadingMessage={`Retrieving ${network.name} account data from ${filecoinTransactionProvider}...`}
+	errorMessage={`Couldn't retrieve ${network.name} account data from ${filecoinTransactionProvider}.`}
 	{...{
-		[TransactionProvider.Beryx]: () => ({
+		[FilecoinTransactionProvider.Beryx]: () => ({
 			fromQuery: createQuery({
 				queryKey: ['Account', {
-					transactionProvider,
+					transactionProvider: filecoinTransactionProvider,
 					chainId: network.chainId,
 					address,
 				}],
@@ -85,7 +85,7 @@
 				select: normalizeAccountBeryx,
 			}),
 		}),
-	}[transactionProvider]?.()}
+	}[filecoinTransactionProvider]?.()}
 	bind:result={account}
 	let:result={account}
 	debug

@@ -15,6 +15,7 @@ import { DefiProvider, defiProviderIcons } from '$/data/defiProviders'
 import { NftProvider, nftProviderIcons } from '$/data/nftProviders'
 import { PriceProvider, priceProviderIcons } from '$/data/priceProviders'
 import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProvider'
+import { FilecoinTransactionProvider, filecoinTransactionProviderIcons } from '$/data/filecoinTransactionProvider'
 import { ContractSourceProvider, contractSourceProviderIcons } from '$/data/contractSourceProvider'
 import { NotificationsProvider, notificationsProviderIcons } from '$/data/notificationsProvider'
 import { ipfsGateways } from '$/data/ipfsGateways'
@@ -189,10 +190,24 @@ export const preferencesConfig = [
 							{ value: TransactionProvider.Decommas, name: 'Decommas', icon: transactionProviderIcons[TransactionProvider.Decommas] },
 							{ value: TransactionProvider.Moralis, name: 'Moralis', icon: transactionProviderIcons[TransactionProvider.Moralis] },
 							// { value: TransactionProvider.Etherspot, name: 'Etherspot', icon: transactionProviderIcons[TransactionProvider.Etherspot] },
-							{ value: TransactionProvider.Beryx, name: 'Beryx', icon: transactionProviderIcons[TransactionProvider.Beryx] },
 						]
 					}
 				]
+			},
+			{
+				preferenceId: 'filecoinTransactionProvider',
+				name: 'Transactions/Blocks (Filecoin)',
+				type: 'single',
+				defaultOption: FilecoinTransactionProvider.Beryx,
+				options: [
+					{
+						groupId: 'offChain',
+						name: 'Off-Chain',
+						options: [
+							{ value: FilecoinTransactionProvider.Beryx, name: 'Beryx', icon: filecoinTransactionProviderIcons[FilecoinTransactionProvider.Beryx] },
+						]
+					},
+				],
 			},
 			{
 				preferenceId: 'contractSourceProvider',

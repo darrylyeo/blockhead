@@ -121,21 +121,41 @@ export const explorerTitle = derived([
 })
 
 export const relevantPreferences = derived([
-	explorerQueryType
+	explorerQueryType,
+	explorerNetwork,
 ], ([
-	$explorerQueryType
+	$explorerQueryType,
+	$explorerNetwork,
 ], set: (_: string[]) => void) => {
 	set([
 		'theme',
 		...(
 			$explorerQueryType === ExplorerQueryType.Account ?
-				['rpcNetwork', 'contractSourceProvider', 'tokenBalancesProvider', 'transactionProvider', 'quoteCurrency']
+				[
+					'rpcNetwork',
+					'contractSourceProvider',
+					'tokenBalancesProvider',
+					$explorerNetwork?.slug === 'filecoin' ? 'filecoinTransactionProvider' : 'transactionProvider',
+					'quoteCurrency',
+				]
 			: $explorerQueryType === ExplorerQueryType.Block ?
-				['rpcNetwork', 'transactionProvider', 'quoteCurrency']
+				[
+					'rpcNetwork',
+					$explorerNetwork?.slug === 'filecoin' ? 'filecoinTransactionProvider' : 'transactionProvider',
+					'quoteCurrency',
+				]
 			: $explorerQueryType === ExplorerQueryType.Transaction ?
-				['rpcNetwork', 'transactionProvider', 'quoteCurrency']
+				[
+					'rpcNetwork',
+					$explorerNetwork?.slug === 'filecoin' ? 'filecoinTransactionProvider' : 'transactionProvider',
+					'quoteCurrency',
+				]
 			:
-				['rpcNetwork', 'currentPriceProvider', 'transactionProvider']
+				[
+					'rpcNetwork',
+					'currentPriceProvider',
+					$explorerNetwork?.slug === 'filecoin' ? 'filecoinTransactionProvider' : 'transactionProvider',
+				]
 		),
 	])
 })
