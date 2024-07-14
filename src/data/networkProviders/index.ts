@@ -760,7 +760,7 @@ export const networkProviderConfigs = [
 			nodeType = NetworkProviderNodeType.Default,
 		}) => {
 			const config = blockscoutProviderConfigs.find(config =>
-				config.networkSlug === network.slug
+				config.chainId === network.chainId
 			)
 
 			return config && (
@@ -768,7 +768,7 @@ export const networkProviderConfigs = [
 					[NetworkProviderConnectionType.RPC]: JsonRpcProvider,
 					[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
 				}[connectionType])(
-					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.domain}/api/eth-rpc`,
+					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.explorerUrl}/api/eth-rpc`,
 					network.chainId
 				)
 			)
@@ -780,7 +780,7 @@ export const networkProviderConfigs = [
 			nodeType = NetworkProviderNodeType.Default,
 		}) => {
 			const config = blockscoutProviderConfigs.find(config =>
-				config.networkSlug === network.slug
+				config.chainId === network.chainId
 			)
 
 			return config && (
@@ -790,7 +790,7 @@ export const networkProviderConfigs = [
 						[NetworkProviderConnectionType.RPC]: http,
 						[NetworkProviderConnectionType.WebSocket]: webSocket,
 					}[connectionType](
-						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.domain}/api/eth-rpc`,
+						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.explorerUrl}/api/eth-rpc`,
 						{},
 					),
 				})

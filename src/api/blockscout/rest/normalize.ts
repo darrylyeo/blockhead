@@ -112,6 +112,7 @@ export const normalizeContractSource = (
 } => ({
 	sourcifyUrl: smartContract.sourcify_repo_url,
 	contractMetadata: {
+		name: smartContract.name,
 		...smartContract.compiler_version && {
 			compiler: {
 				version: smartContract.compiler_version,
