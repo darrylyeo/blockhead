@@ -6373,6 +6373,7 @@ export const defaultAccountNetworks = ([
 
 export const l1Networks = ([
 	'ethereum',
+	'gnosis',
 	'avalanche',
 	'celo',
 	'fantom',
@@ -6382,7 +6383,6 @@ export const l1Networks = ([
 
 export const l2Networks = ([
 	'polygon',
-	'gnosis',
 	'arbitrum-one',
 	'polygon-zkevm',
 	// 'scroll',
