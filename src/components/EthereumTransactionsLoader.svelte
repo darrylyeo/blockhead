@@ -189,7 +189,7 @@
 					const chainName = chainNameByChainId[network.chainId]
 
 					return await decommas.address.getTransactions({
-						chainName,
+						chain: chainName,
 						address,
 						limit: 100,
 						offset,
@@ -198,7 +198,7 @@
 				getNextPageParam: (lastPage, allPages) => allPages && allPages.length * 100 < lastPage.count ? allPages.length * 100 : undefined,
 				select: ({ pages }) => (
 					pages.flatMap(page => page.result)
-						.map(transaction => normalizeTransactionDecommas(transaction, network, quoteCurrency))
+						.map(transaction => normalizeTransactionDecommas(transaction, network))
 				),
 				staleTime: 10 * 1000,
 			}),
