@@ -224,6 +224,28 @@
 			}),
 		}),
 
+		[TransactionProvider.Etherspot]: () => ({
+			// fromQuery: createQuery({
+			// 	queryKey: ['Transactions', {
+			// 		transactionProvider,
+			// 		chainId: network.chainId,
+			// 		address,
+			// 		quoteCurrency,
+			// 	}],
+			// 	queryFn: async ({ pageParam: page }) => {
+			// 		const { getTransactions } = await import('$/api/etherspot')
+
+			// 		return await getTransactions({
+			// 			chainId: network.chainId,
+			// 			address,
+			// 			page,
+			// 			quoteCurrency,
+			// 		})
+			// 	},
+			// 	staleTime: 10 * 1000,
+			// }),
+		}),
+
 		[TransactionProvider.Moralis]: () => ({
 			fromInfiniteQuery: createInfiniteQuery({
 				queryKey: ['Transactions', {
