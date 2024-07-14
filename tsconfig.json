@@ -15,7 +15,7 @@
 		],
 		"plugins": [
 			{
-				"name": "@0no-co/graphqlsp",
+				"name": "gql.tada/ts-plugin",
 				"schemas": [
 					{
 						"name": "airstack",

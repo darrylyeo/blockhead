@@ -17,6 +17,8 @@
     "format": "prettier --plugin-search-dir . --write .",
     "env:encrypt": "dotenvx encrypt -f .env.production",
     "generate": "npx npm-run-all generate:*",
+	"generate:gql.tada": "gql.tada generate output",
+	"generate:gql.tada:turbo": "gql.tada turbo",
     "generate:oazapfts:beryx:filecoin": "oazapfts https://docs.zondax.ch/openapi/beryx-fil-mainnet.json ./src/api/beryx/filecoin/api.ts --optimistic --useEnumType",
     "generate:oazapfts:blockscout:rest": "oazapfts https://raw.githubusercontent.com/blockscout/blockscout-api-v2-swagger/main/swagger.yaml ./src/api/blockscout/rest/index.ts --optimistic --useEnumType",
     "generate:oazapfts:openrank:farcaster": "oazapfts https://graph.cast.k3l.io/openapi.json ./src/api/openrank/farcaster/index.ts --optimistic --useEnumType",
@@ -78,7 +80,7 @@
     "ethers": "^6.10.0",
     "etherspot": "^1.44.0",
     "file-type": "^18.7.0",
-    "gql.tada": "^1.7.5",
+    "gql.tada": "^1.8.2",
     "helia": "^4.2.2",
     "idb-keyval": "^6.2.1",
     "key-did-resolver": "^3.0.0",
@@ -100,7 +102,6 @@
     "webmax": "^0.2.0"
   },
   "devDependencies": {
-    "@0no-co/graphqlsp": "^1.12.3",
     "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "@playwright/test": "^1.41.1",
     "@sveltejs/adapter-auto": "^3.2.0",

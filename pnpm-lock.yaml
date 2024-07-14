@@ -155,7 +155,7 @@ dependencies:
     specifier: ^18.7.0
     version: 18.7.0
   gql.tada:
-    specifier: ^1.7.5
+    specifier: ^1.8.2
     version: 1.8.2(graphql@16.8.1)(svelte@4.2.17)(typescript@5.5.3)
   helia:
     specifier: ^4.2.2
@@ -216,9 +216,6 @@ dependencies:
     version: 0.2.0
 
 devDependencies:
-  '@0no-co/graphqlsp':
-    specifier: ^1.12.3
-    version: 1.12.11(graphql@16.8.1)(typescript@5.5.3)
   '@esbuild-plugins/node-modules-polyfill':
     specifier: ^0.2.2
     version: 0.2.2(esbuild@0.21.3)
@@ -318,6 +315,7 @@ packages:
         optional: true
     dependencies:
       graphql: 16.8.1
+    dev: false
 
   /@0no-co/graphqlsp@1.12.11(graphql@16.8.1)(typescript@5.5.3):
     resolution: {integrity: sha512-vLja9r7L6BBXwxW86Wyi5z5hjTHscH7qoQooy+MXHkM9srBB6ZuesYZq5DQ/+SErQrFyaxeY+hwv2qBAksxriw==}
@@ -328,6 +326,7 @@ packages:
       '@gql.tada/internal': 1.0.4(graphql@16.8.1)(typescript@5.5.3)
       graphql: 16.8.1
       typescript: 5.5.3
+    dev: false
 
   /@aashutoshrathi/word-wrap@1.2.6:
     resolution: {integrity: sha512-1Yjs2SvM8TflER/OD3cOjhWWOZb58A2t7wpE2S9XfBYTiIl+XFhQG2bjy4Pu1I+EAlCNUzRDYDdFwFYUKvXcIA==}
@@ -796,13 +795,13 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/template': 7.22.15
-      '@babel/types': 7.23.6
+      '@babel/types': 7.24.5
 
   /@babel/helper-hoist-variables@7.22.5:
     resolution: {integrity: sha512-wGjk9QZVzvknA6yKIUURb8zY3grXCcOZt+/7Wcy8O2uctxhplmUPkOdlgoNhmdVee2c92JXbf1xpMtVNbfoxRw==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.23.6
+      '@babel/types': 7.24.5
 
   /@babel/helper-member-expression-to-functions@7.23.0:
     resolution: {integrity: sha512-6gfrPwh7OuT6gZyJZvd6WbTfrqAo7vm4xCzAXOusKqq/vWdKXphTpj5klHKNmRUU6/QRGlBsyU9mAIPaWHlqJA==}
@@ -939,7 +938,7 @@ packages:
     resolution: {integrity: sha512-n0H99E/K+Bika3++WNL17POvo4rKWZ7lZEp1Q+fStVbUi8nxPQEBOlTmCOxW/0JsS56SKKQ+ojAe2pHKJHN35w==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.23.6
+      '@babel/types': 7.24.5
     dev: false
 
   /@babel/helper-simple-access@7.24.5:
@@ -959,7 +958,7 @@ packages:
     resolution: {integrity: sha512-AsUnxuLhRYsisFiaJwvp1QF+I3KjD5FOxut14q/GzovUe6orHLesW2C7d754kRm53h5gqrz6sFl6sxc4BVtE/g==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.23.6
+      '@babel/types': 7.24.5
     dev: false
 
   /@babel/helper-split-export-declaration@7.24.5:
@@ -4657,6 +4656,7 @@ packages:
       '@0no-co/graphql.web': 1.0.7(graphql@16.8.1)
       graphql: 16.8.1
       typescript: 5.5.3
+    dev: false
 
   /@graphql-typed-document-node/core@3.2.0(graphql@16.8.1):
     resolution: {integrity: sha512-mB9oAsNCm9aM3/SOv4YtBMqZbYj10R7dkq8byBqxGY/ncFwhf2oQzMV+LCRlWoDSEBJ3COiR1yeDvMtsoOsuFQ==}
@@ -9081,20 +9081,20 @@ packages:
   /@types/babel__generator@7.6.8:
     resolution: {integrity: sha512-ASsj+tpEDsEiFr1arWrlN6V3mdfjRMZt6LtK/Vp/kreFLnr5QH5+DhvD5nINYZXzwJvXeGq+05iUXcAzVrqWtw==}
     dependencies:
-      '@babel/types': 7.23.6
+      '@babel/types': 7.24.5
     dev: false
 
   /@types/babel__template@7.4.4:
     resolution: {integrity: sha512-h/NUaSyG5EyxBIp8YRxo4RMe2/qQgvyowRwVMzhYhBCONbW8PUsg4lkFMrhgZhUe5z3L3MiLDuvyJ/CaPa2A8A==}
     dependencies:
       '@babel/parser': 7.24.5
-      '@babel/types': 7.23.6
+      '@babel/types': 7.24.5
     dev: false
 
   /@types/babel__traverse@7.20.5:
     resolution: {integrity: sha512-WXCyOcRtH37HAUkpXhUduaxdm82b4GSlyTqajXviN4EfiuPgNYR109xMCKvpl6zPIpua0DGlMEDCq+g8EdoheQ==}
     dependencies:
-      '@babel/types': 7.23.6
+      '@babel/types': 7.24.5
     dev: false
 
   /@types/bn.js@4.11.6:
@@ -16897,6 +16897,7 @@ packages:
   /graphql@16.8.1:
     resolution: {integrity: sha512-59LZHPdGZVh695Ud9lRzPBVTtlX9ZCV150Er2W43ro37wVof0ctenSaskPPjN7lVTIN8mSZt8PHUNKZuNQUuxw==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
+    dev: false
 
   /gzip-size@6.0.0:
     resolution: {integrity: sha512-ax7ZYomf6jqPTQ4+XCpUGyXKHk5WweS+e05MBO4/y3WJ5RkmPXNKvX+bx1behVILVwr6JSQvZAku021CHPXG3Q==}
