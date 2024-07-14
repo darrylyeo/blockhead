@@ -119,14 +119,19 @@
 									blockNumber,
 								},
 							],
-						}) => (
-							await getBlockBlockscout(
+						}) => {
+							const block = await getBlockBlockscout(
 								blockNumber,
 								{
 									baseUrl: getBlockscoutRestEndpoint(chainId),
 								}
 							)
-						),
+
+							if(!block)
+								throw new Error(`Blockscout has not yet indexed block #${blockNumber}.`)
+
+							return block
+						},
 						select: block => (
 							block === placeholderData
 								? block
