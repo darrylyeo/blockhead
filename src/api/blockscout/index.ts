@@ -5,13 +5,7 @@ import type { Ethereum } from '$/data/networks/types'
 /**
  * @link https://github.com/blockscout/frontend-configs/tree/main/configs/featured-networks
  */
-export const blockscoutFeaturedNetworks: {
-	label: string,
-	chainId?: Ethereum.ChainID,
-	explorerUrl: string,
-	group?: string,
-}[] = [
-	
+export const blockscoutFeaturedNetworks = [
 	{
 		label: 'Arbitrum Blueberry',
 		chainId: 88153591557,
@@ -552,20 +546,18 @@ export const blockscoutFeaturedNetworks: {
 		explorerUrl: 'sepolia.explorer.zora.energy',
 		group: 'Testnets',
 	},
-]
+] as const satisfies {
+	label: string,
+	chainId?: Ethereum.ChainID,
+	explorerUrl: string,
+	group?: string,
+}[]
 
 
 /**
  * @link https://www.blockscout.com/chains-and-projects
  */
-export const blockscoutProjects: {
-	label: string,
-	chainId?: number,
-	explorerUrl: string,
-	host: string,
-	ecosystem: string,
-	tags: string[],
-}[] = [
+export const blockscoutProjects = [
 	{
 		label: '5dax',
 		chainId: undefined,
@@ -5411,16 +5403,17 @@ export const blockscoutProjects: {
 			'Mainnet'
 		],
 	}
-]
-
-export const blockscoutProviderConfigs: {
+] as const satisfies {
 	label: string,
-	chainId?: Ethereum.ChainID,
+	chainId?: number,
 	explorerUrl: string,
-	host?: string,
-	ecosystem?: string,
-	tags?: string[],
-}[] = [
+	host: string,
+	ecosystem: string,
+	tags: string[],
+}[]
+
+
+export const blockscoutProviderConfigs = [
 	...blockscoutFeaturedNetworks.map(({ group, ...config }) => ({
 		...config,
 		tags: (
@@ -5433,7 +5426,14 @@ export const blockscoutProviderConfigs: {
 		),
 	})),
 	...blockscoutProjects,
-]
+] as const satisfies {
+	label: string,
+	chainId?: Ethereum.ChainID,
+	explorerUrl: string,
+	host?: string,
+	ecosystem?: string,
+	tags?: string[],
+}[]
 
 export const blockscoutInstancesByChainId = Object.fromEntries(
 	blockscoutProviderConfigs
