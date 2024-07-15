@@ -20,17 +20,23 @@
 
 	// Internal state
 	let result: {
-		contractMetadata: Ethereum.ContractMetadata<SourcePath>,
+		contractState?: {
+			creationBytecode?: Ethereum.ContractBytecode,
+			runtimeBytecode?: Ethereum.ContractBytecode,
+			isSelfDestructed?: boolean,
+		},
+		contractMetadata?: Ethereum.ContractMetadata<SourcePath>,
 		swarmUri?: string,
 		sourcifyUrl?: string,
 	}
 
 
 	// Output
+	export let contractState: typeof result['contractState']
 	export let contractMetadata: typeof result['contractMetadata']
 	export let swarmUri: typeof result['swarmUri']
 	export let sourcifyUrl: typeof result['sourcifyUrl']
-	$: if(result) ({ contractMetadata, swarmUri, sourcifyUrl } = result)
+	$: if(result) ({ contractState, contractMetadata, swarmUri, sourcifyUrl } = result)
 
 	type SharedSlotProps = {
 		contractAddress: typeof contractAddress,
