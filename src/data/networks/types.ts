@@ -305,7 +305,7 @@ export namespace Ethereum {
 		},
 		language: 'Solidity' | string | undefined,
 		output: {
-			abi: Abi,
+			abi?: Abi,
 			devdoc?: {
 				kind: 'dev' | string,
 				methods: {},
@@ -317,7 +317,7 @@ export namespace Ethereum {
 				version: number,
 			}
 		},
-		settings: {
+		settings?: Partial<{
 			compilationTarget: { [key in SourcePath]: string },
 			evmVersion: 'istanbul' | string,
 			libraries: {},
@@ -329,7 +329,7 @@ export namespace Ethereum {
 				runs: number,
 			},
 			remappings: [],
-		},
+		}>,
 		sources: {
 			[key in SourcePath]: {
 				content?: string,

@@ -1,6 +1,7 @@
 // Types/constants
 import type { Block, Transaction, SmartContract } from './index'
 import type { Ethereum } from '$/data/networks/types'
+import type { Abi } from 'abitype'
 
 
 // Functions
@@ -107,37 +108,74 @@ export const normalizeBlock = (
 export const normalizeContractSource = (
 	smartContract: SmartContract
 ): {
+	source?: 'Sourcify' | 'Bytecode Match',
 	sourcifyUrl?: string,
-	contractMetadata: Ethereum.ContractMetadata<string>
+	contractState?: {
+		creationBytecode?: Ethereum.ContractBytecode,
+		runtimeBytecode?: Ethereum.ContractBytecode,
+		isSelfDestructed?: boolean,
+	},
+	contractMetadata?: Ethereum.ContractMetadata<string>,
 } => ({
-	sourcifyUrl: smartContract.sourcify_repo_url,
-	contractMetadata: {
-		name: smartContract.name,
-		...smartContract.compiler_version && {
-			compiler: {
-				version: smartContract.compiler_version,
+	source: (
+		smartContract.is_verified_via_sourcify ?
+			'Sourcify'
+		: smartContract.is_verified_via_eth_bytecode_db ?
+			'Bytecode Match'
+		:
+			undefined
+	),
+	...smartContract.sourcify_repo_url && {
+		sourcifyUrl: smartContract.sourcify_repo_url,
+	},
+	contractState: {
+		...smartContract.creation_bytecode && {
+			creationBytecode: smartContract.creation_bytecode as Ethereum.ContractBytecode,
+		},
+		...smartContract.deployed_bytecode && {
+			runtimeBytecode: smartContract.deployed_bytecode as Ethereum.ContractBytecode,
+		},
+		...'is_self_destructed' in smartContract && {
+			isSelfDestructed: smartContract.is_self_destructed,
+		},
+	},
+	...smartContract.is_verified && {
+		contractMetadata: {
+			name: smartContract.name,
+			...smartContract.compiler_version && {
+				compiler: {
+					version: smartContract.compiler_version,
+				},
 			},
-		},
-		language: smartContract.language ?? (smartContract.is_vyper_contract ? 'Vyper' : undefined),
-		output: {
-			abi: smartContract.abi,
-		},
-		...smartContract.compiler_settings && {
-			settings: smartContract.compiler_settings,
-		},
-		sources: {
-			[smartContract.file_path ?? smartContract.name ?? '']: {
-				content: smartContract.source_code,
+			language: smartContract.language ?? (smartContract.is_vyper_contract ? 'Vyper' : undefined),
+			output: {
+				...smartContract.abi && {
+					abi: smartContract.abi as unknown as Abi,
+				},
 			},
-			...smartContract.additional_sources && Object.fromEntries(
-				smartContract.additional_sources
-					.map(source => [
-						source.file_path,
-						{
-							content: source.source_code,
-						}
-					])
-			),
+			...smartContract.compiler_settings && {
+				settings: {
+					...smartContract.compiler_settings,
+					optimizer: {
+						...smartContract.compiler_settings.optimizer,
+						runs: smartContract.optimizations_runs,
+					},
+				},
+			},
+			sources: {
+				[smartContract.file_path ?? smartContract.name ?? '']: {
+					content: smartContract.source_code,
+				},
+				...smartContract.additional_sources && Object.fromEntries(
+					smartContract.additional_sources
+						.map(source => [
+							source.file_path,
+							{
+								content: source.source_code,
+							}
+						])
+				),
+			},
 		},
 	},
 })
