@@ -21,22 +21,22 @@
 	let publicClient: Ethereum.PublicClient | undefined
 	$: publicClient = network && networkProvider && getViemPublicClient({
 		network,
-		networkProvider: networkProvider,
+		networkProvider,
 	})
 
 	$: viaRPC = networkProvider === NetworkProvider.Default ? '' : ` via ${networkProvider}`
 
 	// (View options)
-	export let loaderViewOptions: Partial<Loader<any, any, any, any, any>['viewOptions']> | undefined
+	export let loaderViewOptions: Partial<Loader<any, any, any, any>['viewOptions']> | undefined
 
 
 	// Outputs
-	export let contractBytecode: Ethereum.ContractBytecode
+	export let contractBytecode: Ethereum.ContractBytecode | undefined
 
 	type SharedSlotProps = {
 		contractAddress: typeof contractAddress,
 		contractBytecode: typeof contractBytecode,
-		status: Loader<any, any, any, any, any>['status'],
+		status: Loader<any, any, any, any>['status'],
 	}
 
 	type $$Slots = {
