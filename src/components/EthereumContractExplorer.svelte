@@ -5,7 +5,7 @@
 	import { getViemPublicClient } from '$/data/networkProviders'
 
 	enum ContractCodeType {
-		// CreationBytecode = 'Creation Bytecode',
+		CreationBytecode = 'Creation Bytecode',
 		RuntimeBytecode = 'Runtime Bytecode',
 	}
 
@@ -38,7 +38,12 @@
 
 
 	// Outputs
-	export let contractBytecode: Ethereum.ContractBytecode
+	export let runtimeBytecode: Ethereum.ContractBytecode | undefined
+	export let contractState: {
+		creationBytecode?: Ethereum.ContractBytecode,
+		runtimeBytecode?: Ethereum.ContractBytecode,
+		isSelfDestructed?: boolean,
+	}
 	export let contractMetadata: Ethereum.ContractMetadata<string>
 	export let contractName: string | undefined
 	// (Computed)
@@ -110,7 +115,7 @@
 	{contractAddress}
 	{networkProvider}
 	{network}
-	bind:contractBytecode
+	bind:contractBytecode={runtimeBytecode}
 	let:contractBytecode
 >
 	<slot slot="header" name="header" />
@@ -120,7 +125,9 @@
 			{contractAddress}
 			{network}
 			bind:contractMetadata
+			bind:contractState
 			let:contractMetadata
+			let:contractState
 			let:swarmUri
 			let:sourcifyUrl
 			let:contractSourceProvider
@@ -135,17 +142,20 @@
 				<label>
 					<span>View: </span>
 					<select bind:value={showContractCodeTypeOrSourcePath}>
-						<optgroup label="On-Chain">
-							{#each Object.values(ContractCodeType) as contractCodeType}
-								<option value={contractCodeType} selected={showContractCodeTypeOrSourcePath === contractCodeType}>{contractCodeType}</option>
-							{/each}
+						<optgroup label="Onchain">
+							{#if contractState?.creationBytecode}
+								<option value={ContractCodeType.CreationBytecode}>Creation Bytecode</option>
+							{/if}
+							{#if runtimeBytecode || contractState?.runtimeBytecode}
+								<option value={ContractCodeType.RuntimeBytecode}>Runtime Bytecode</option>
+							{/if}
 						</optgroup>
 
 						{#if contractMetadata}
 							<optgroup label="Source Code">
 								<!-- Uncaught ReferenceError: contractMetadata is not defined -->
 								{#each Object.entries(contractMetadata?.sources) as [sourcePath, source]}
-									<option value={sourcePath} selected={showContractCodeTypeOrSourcePath === sourcePath}>{sourcePath}</option>
+									<option value={sourcePath}>{sourcePath}</option>
 								{/each}
 							</optgroup>
 						{/if}
@@ -244,7 +254,11 @@
 				{:else}
 					<section class="card">
 						<EvmBytecode
-							{contractBytecode}
+							contractBytecode={
+								showContractCodeTypeOrSourcePath === ContractCodeType.CreationBytecode
+									? contractState.creationBytecode
+									: runtimeBytecode || contractState?.runtimeBytecode
+							}
 							{networkProvider}
 						>
 							<svelte:fragment slot="title">
