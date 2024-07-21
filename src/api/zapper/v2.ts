@@ -27,7 +27,7 @@ export type GasPricesResponse = {
 /**
  * Application Positions
  */
-export function appContractPositionLegacyControllerGetContractPositions(appSlug: string, network: "ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen", groupId: string, opts?: Oazapfts.RequestOpts) {
+export function appContractPositionLegacyControllerGetContractPositions(appSlug: string, network: "ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen" | "mode" | "zksync" | "mantle", groupId: string, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchText(`/v2/apps/${encodeURIComponent(appSlug)}/positions${QS.query(QS.explode({
         network,
         groupId
@@ -38,7 +38,7 @@ export function appContractPositionLegacyControllerGetContractPositions(appSlug:
 /**
  * Application Tokens
  */
-export function appTokenControllerGetAppTokens(appSlug: string, network: "ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen", groupId: string, opts?: Oazapfts.RequestOpts) {
+export function appTokenControllerGetAppTokens(appSlug: string, network: "ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen" | "mode" | "zksync" | "mantle", groupId: string, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchText(`/v2/apps/${encodeURIComponent(appSlug)}/tokens${QS.query(QS.explode({
         network,
         groupId
@@ -60,7 +60,7 @@ export function appControllerGetApp(appSlug: string, opts?: Oazapfts.RequestOpts
  * Token Prices
  */
 export function pricesControllerListPricesV3({ network }: {
-    network?: "ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen";
+    network?: "ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen" | "mode" | "zksync" | "mantle";
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchText(`/v2/prices${QS.query(QS.explode({
         network
@@ -83,7 +83,7 @@ export function nftBalanceControllerGetBalanceCollections(addresses: string[], {
     search?: string;
     collectionAddresses?: string[];
     collectionLookUpParams?: string[];
-    network?: "ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen";
+    network?: "ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen" | "mode" | "zksync" | "mantle";
     limit?: string;
     cursor?: string;
 } = {}, opts?: Oazapfts.RequestOpts) {
@@ -105,7 +105,7 @@ export function nftBalanceControllerGetBalanceCollectionsTotals(addresses: strin
     search?: string;
     collectionAddresses?: string[];
     collectionLookUpParams?: string[];
-    network?: "ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen";
+    network?: "ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen" | "mode" | "zksync" | "mantle";
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchText(`/v2/nft/balances/collections-totals${QS.query(QS.explode({
         "addresses[]": addresses,
@@ -119,7 +119,7 @@ export function nftBalanceControllerGetBalanceCollectionsTotals(addresses: strin
     }));
 }
 export function nftBalanceControllerGetUserTokens(userAddress: string, { network, limit, cursor }: {
-    network?: "ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen";
+    network?: "ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen" | "mode" | "zksync" | "mantle";
     limit?: string;
     cursor?: string;
 } = {}, opts?: Oazapfts.RequestOpts) {
@@ -137,7 +137,7 @@ export function nftBalanceControllerGetBalanceTokens(addresses: string[], { minE
     search?: string;
     collectionAddresses?: string[];
     collectionLookUpParams?: string[];
-    network?: "ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen";
+    network?: "ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen" | "mode" | "zksync" | "mantle";
     limit?: string;
     cursor?: string;
 } = {}, opts?: Oazapfts.RequestOpts) {
@@ -159,7 +159,7 @@ export function nftBalanceControllerGetBalanceTokensTotals(addresses: string[], 
     search?: string;
     collectionAddresses?: string[];
     collectionLookUpParams?: string[];
-    network?: "ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen";
+    network?: "ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen" | "mode" | "zksync" | "mantle";
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchText(`/v2/nft/balances/tokens-totals${QS.query(QS.explode({
         "addresses[]": addresses,
@@ -182,7 +182,7 @@ export function nftCollectionControllerGetCollectionToken(address: string, netwo
         ...opts
     }));
 }
-export function nftCollectionControllerGetCollectionTokens(collectionAddress: string, network: "ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen", { cursor, tokenIds }: {
+export function nftCollectionControllerGetCollectionTokens(collectionAddress: string, network: "ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen" | "mode" | "zksync" | "mantle", { cursor, tokenIds }: {
     cursor?: string;
     tokenIds?: string[];
 } = {}, opts?: Oazapfts.RequestOpts) {
@@ -207,7 +207,7 @@ export function apiClientControllerPoints(opts?: Oazapfts.RequestOpts) {
  * Gas Price
  */
 export function gasPriceControllerGetGasPrice(eip1559: boolean, { network }: {
-    network?: "ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen";
+    network?: "ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen" | "mode" | "zksync" | "mantle";
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
@@ -223,7 +223,7 @@ export function gasPriceControllerGetGasPrice(eip1559: boolean, { network }: {
  * Balances
  */
 export function appBalanceControllerGetAppBalances(addresses: string[], { networks }: {
-    networks?: ("ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen")[];
+    networks?: ("ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen" | "mode" | "zksync" | "mantle")[];
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchText(`/v2/balances/apps${QS.query(QS.explode({
         "addresses[]": addresses,
@@ -236,7 +236,7 @@ export function appBalanceControllerGetAppBalances(addresses: string[], { networ
  * Balances
  */
 export function appBalanceControllerPostAppBalances(addresses: string[], { networks }: {
-    networks?: ("ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen")[];
+    networks?: ("ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen" | "mode" | "zksync" | "mantle")[];
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchText(`/v2/balances/apps${QS.query(QS.explode({
         "addresses[]": addresses,
@@ -284,7 +284,7 @@ export function chatChannelControllerGetChannel(id: string, opts?: Oazapfts.Requ
  * Balances
  */
 export function tokenBalanceControllerGetTokenBalances(addresses: string[], { networks }: {
-    networks?: ("ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen")[];
+    networks?: ("ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen" | "mode" | "zksync" | "mantle")[];
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchText(`/v2/balances/tokens${QS.query(QS.explode({
         "addresses[]": addresses,
@@ -297,7 +297,7 @@ export function tokenBalanceControllerGetTokenBalances(addresses: string[], { ne
  * Balances
  */
 export function tokenBalanceControllerPostTokenBalances(addresses: string[], { networks }: {
-    networks?: ("ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen")[];
+    networks?: ("ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen" | "mode" | "zksync" | "mantle")[];
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchText(`/v2/balances/tokens${QS.query(QS.explode({
         "addresses[]": addresses,
@@ -318,7 +318,7 @@ export function exchangeControllerGetExchangePrice(sellTokenAddress: string, buy
     buyAmount?: string;
     ownerAddress?: string;
     slippagePercentage?: number;
-    network?: "ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen";
+    network?: "ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen" | "mode" | "zksync" | "mantle";
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchText(`/v2/exchange/price${QS.query(QS.explode({
         gasPrice,
@@ -344,7 +344,7 @@ export function exchangeControllerGetExchangeQuote(sellTokenAddress: string, buy
     maxPriorityFeePerGas?: string;
     sellAmount?: string;
     buyAmount?: string;
-    network?: "ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen";
+    network?: "ethereum" | "polygon" | "optimism" | "gnosis" | "binance-smart-chain" | "fantom" | "avalanche" | "arbitrum" | "celo" | "harmony" | "moonriver" | "bitcoin" | "cronos" | "aurora" | "evmos" | "base" | "blast" | "solana" | "degen" | "mode" | "zksync" | "mantle";
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchText(`/v2/exchange/quote${QS.query(QS.explode({
         gasPrice,
