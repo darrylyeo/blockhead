@@ -146,7 +146,11 @@
 						<img class="card-background" src={appWithPositions.images[0]} alt={appWithPositions.name} width="20" />
 					{/if}
 					{#if appWithPositions.icon}<img src={appWithPositions.icon} alt={appWithPositions.name} width="20" />{/if}
-					<a href="/apps/{appWithPositions.app?.slug}/account/{address}">{appWithPositions.app?.name ?? appWithPositions.name}</a>
+					{#if appWithPositions.app}
+						<a href="/apps/{appWithPositions.app.slug}/account/{address}">{appWithPositions.app.name}</a>
+					{:else}
+						{appWithPositions.name}
+					{/if}
 				</h4>
 			</svelte:fragment>
 
@@ -240,11 +244,11 @@
 					{/if} -->
 
 					<div class="defi-protocol-balances column">
-						{#each view.positions ?? [] as position}
+						{#each view.positions ?? [] as position, i (position.id ?? i)}
 							<div class="defi-protocol-balance card column">
 								<SizeContainer contentProps={{ class: 'column' }}>
 									<!-- V2 -->
-									<header class="bar" title={`${position.tags?.[0] ? `${formatKebabCase(position.tags[0])}: ` : ''}${position.name} (${formatKebabCase(position.type)})`}>
+									<header class="bar wrap" title={`${position.tags?.[0] ? `${formatKebabCase(position.tags[0])}: ` : ''}${position.name} (${formatKebabCase(position.type)})`}>
 										<h6>
 											{#if position.type === 'contract-position' || position.type === 'app-token'}
 												<AddressWithLabel
@@ -264,7 +268,7 @@
 									</header>
 
 									{#if position.type === 'app-token'}
-										<div class="bar">
+										<div class="bar wrap">
 											<!-- V2 -->
 											{#if position.type === 'app-token'}
 												<TokenBalanceWithConversion
