@@ -135,6 +135,7 @@ export const normalizeAppBalance = (
 					// rate: asset.pricePerShare?.[0]
 				},
 			},
+			isDebt: asset.dataProps?.isDebt || asset.balanceUSD < 0,
 			metadata: normalizeAppBalanceAssetMetadata(asset),
 
 			subpositions: asset.tokens?.map(token => ({
@@ -156,6 +157,7 @@ export const normalizeAppBalance = (
 						// rate: token.pricePerShare?.[0]
 					},
 				},
+				isDebt: token.dataProps?.isDebt || token.balanceUSD < 0,
 				metadata: normalizeAppBalanceAssetMetadata(token),
 			})),
 		})),

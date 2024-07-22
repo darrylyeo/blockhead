@@ -64,10 +64,12 @@ export type DefiPosition = {
 	images?: string[],
 
 	tokenWithBalance: TokenWithBalance,
+	isDebt?: boolean,
 	metadata?: MetadataItem[],
 
 	subpositions?: {
 		tokenWithBalance: TokenWithBalance,
+		isDebt?: boolean,
 		metadata?: MetadataItem[],
 	}[],
 }

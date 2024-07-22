@@ -56,6 +56,7 @@ export const normalizeDefiPositions = (
 
 						balance: BigInt(balance.base.amount),
 					},
+					isDebt: adapterBalance.metadata.adapterType === 'Debt',
 
 					positions: balance.underlying?.map(tokenBalance => ({
 						tokenWithBalance: {

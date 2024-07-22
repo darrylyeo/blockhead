@@ -279,7 +279,7 @@
 													conversionCurrency={position.tokenWithBalance.conversion?.currency}
 													conversionRate={position.tokenWithBalance.conversion?.rate}
 
-													isDebt={position.tokenWithBalance.balance < 0n}
+													isDebt={position.isDebt}
 												/>
 											{/if}
 
@@ -358,7 +358,7 @@
 														conversionCurrency={subposition.tokenWithBalance.conversion?.currency}
 														conversionRate={subposition.tokenWithBalance.conversion?.rate}
 
-														isDebt={subposition.tokenWithBalance.balance < 0n}
+														isDebt={subposition.isDebt}
 													/>
 
 													<!-- V1 -->
