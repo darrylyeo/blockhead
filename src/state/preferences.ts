@@ -287,6 +287,7 @@ export const preferencesConfig = [
 						groupId: 'offChain',
 						name: 'Off-Chain',
 						options: [
+							{ value: DefiProvider.LlamaFolio, name: DefiProvider.LlamaFolio, icon: defiProviderIcons[DefiProvider.LlamaFolio] },
 							{ value: DefiProvider.Zapper, name: DefiProvider.Zapper, icon: defiProviderIcons[DefiProvider.Zapper] }
 						]
 					}

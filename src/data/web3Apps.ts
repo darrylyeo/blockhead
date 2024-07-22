@@ -1,5 +1,6 @@
 import type { ComponentType } from 'svelte'
 import type { Ethereum } from './networks/types'
+import type { LlamafolioAppName } from '$/api/defillama/llamafolio'
 import type { DefiSDK } from '$/api/zerion/defiSdk/index'
 // import type { ZapperAppId } from '$/api/zapper-old'
 import type { ZapperAppName } from '$/api/zapper'
@@ -54,6 +55,7 @@ export type Web3AppView = {
 	}[],
 	links?: string[],
 	providers?: {
+		llamafolio?: LlamafolioAppName,
 		theGraph?: string,
 		zapper?: ZapperAppName,
 		zerionDefiSDK?: DefiSDK.ProtocolName[],
@@ -88,6 +90,7 @@ export const web3Apps = [
 					}
 				],
 				providers: {
+					llamafolio: 'aave-v3',
 					zapper: 'aave-v3'
 				}
 			},
@@ -106,6 +109,7 @@ export const web3Apps = [
 					}
 				],
 				providers: {
+					llamafolio: 'aave-v2',
 					theGraph: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2',
 					zapper: 'aave-v2',
 					zerionDefiSDK: [
@@ -139,6 +143,7 @@ export const web3Apps = [
 					}
 				],
 				providers: {
+					llamafolio: 'aave-v1',
 					zapper: 'aave-v1',
 					zerionDefiSDK: ['Aave', 'Aave • Uniswap Market']
 				}
@@ -5424,6 +5429,7 @@ export const web3Apps = [
 					}
 				],
 				providers: {
+					llamafolio: '1inch-network',
 					theGraph: 'https://api.thegraph.com/subgraphs/name/1inch-exchange/one-inch-v2',
 					zapper: '1inch',
 					zerionDefiSDK: ['1inch Liquidity Protocol', '1inch LP • Staking']
@@ -8287,6 +8293,7 @@ export const web3Apps = [
 					}
 				],
 				providers: {
+					llamafolio: 'uniswap-v2',
 					theGraph: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2',
 					zapper: 'uniswap-v2',
 					zerionDefiSDK: ['Uniswap V2']
@@ -9352,6 +9359,9 @@ export type Web3AppSlug = typeof web3Apps[number]['slug']
 export const web3AppsBySlug = Object.fromEntries(web3Apps.map(web3AppConfig => [web3AppConfig.slug, web3AppConfig]))
 
 export const web3AppsByProviderName = {
+	llamafolio: Object.fromEntries(web3Apps.flatMap(web3AppConfig =>
+		web3AppConfig.views.map(view => view.providers?.llamafolio ? [view.providers.llamafolio, web3AppConfig] : [])
+	)) as Record<ZapperAppName, Web3AppConfig>,
 	zapper: Object.fromEntries(web3Apps.flatMap(web3AppConfig =>
 		web3AppConfig.views.map(view => view.providers?.zapper ? [view.providers.zapper, web3AppConfig] : [])
 	)) as Record<ZapperAppName, Web3AppConfig>,

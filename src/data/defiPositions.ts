@@ -22,6 +22,10 @@ export type AppWithDefiPositions = {
 			currency: QuoteCurrency,
 			value: number,
 		},
+		claimable?: {
+			currency: QuoteCurrency,
+			value: number,
+		},
 	},
 
 	views: {

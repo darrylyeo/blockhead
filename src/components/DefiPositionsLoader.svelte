@@ -10,6 +10,8 @@
 	import { DefiProvider, defiProviderIcons } from '$/data/defiProviders'
 	import type { AppWithDefiPositions } from '$/data/defiPositions'
 
+	import { supportedChains } from '$/api/defillama/llamafolio/index'
+
 
 	// Inputs
 	export let apps: Web3AppConfig[] | undefined
@@ -88,6 +90,8 @@
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
 
+	import { normalizeProtocolWithBalance as normalizeProtocolWithBalanceLlamafolio } from '$/api/defillama/llamafolio/normalize'
+
 	import { getDefiPositions } from '$/api/zerion/defiSdk/index'
 	import { normalizeDefiPositions as normalizeDefiPositionsZerion } from '$/api/zerion/defiSdk/normalize'
 
@@ -113,6 +117,30 @@
 	loadingIconName={defiProvider}
 	loadingIcon={defiProviderIcons[defiProvider]}
 	{...{
+		[DefiProvider.LlamaFolio]: () => ({
+			fromQuery: network && address && createQuery({
+				queryKey: ['DefiPositions', {
+					defiProvider,
+					address,
+				}],
+				queryFn: async () => {
+					const { getBalancesByAddress } = await import('$/api/defillama/llamafolio/index')
+
+					return await getBalancesByAddress({
+						address,
+					})
+				},
+				select: result => (
+					result
+						.protocols
+						.filter(protocol => protocol.id !== 'wallet')
+						.filter(protocol => network ? supportedChains[protocol.chain] === network.chainId : true)
+						.map(normalizeProtocolWithBalanceLlamafolio)
+				),
+				staleTime: 10 * 1000,
+			})
+		}),
+
 		// [DefiProvider.Zapper]: () => ({
 		// 	fromStore: network && address && (() => (
 		// 		getDefiPositionsForApps({
