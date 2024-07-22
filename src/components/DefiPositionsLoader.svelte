@@ -4,7 +4,7 @@
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import type { QuoteCurrency } from '$/data/currencies'
 	import type { Web3AppConfig } from '$/data/web3Apps'
-	import type { ZapperAppId, ZapperAppConfig } from '$/api/zapper-old'
+	// import type { ZapperAppId, ZapperAppConfig } from '$/api/zapper-old'
 
 	import { getViemPublicClient } from '$/data/networkProviders'
 	import { DefiProvider, defiProviderIcons } from '$/data/defiProviders'
@@ -40,9 +40,9 @@
 	$: zapperQuoteCurrency = zapperFiatRates ? quoteCurrency : 'USD' 
 	$: zapperFiatRate = zapperFiatRates?.[quoteCurrency] ?? 1
 
-	let allZapperAppConfigs: Partial<Record<ZapperAppId, ZapperAppConfig>>
-	$: if(defiProvider === DefiProvider.Zapper)
-		getAllApps().then(_ => allZapperAppConfigs = Object.fromEntries(_.map(app => [app.id, app])))
+	// let allZapperAppConfigs: Partial<Record<ZapperAppId, ZapperAppConfig>>
+	// $: if(defiProvider === DefiProvider.Zapper)
+	// 	getAllApps().then(_ => allZapperAppConfigs = Object.fromEntries(_.map(app => [app.id, app])))
 
 	$: defiBalancesDescription = apps?.map(({name}) => name).join('/') || `${network.name} DeFi`
 
@@ -91,8 +91,10 @@
 	import { getDefiPositions } from '$/api/zerion/defiSdk/index'
 	import { normalizeDefiPositions as normalizeDefiPositionsZerion } from '$/api/zerion/defiSdk/normalize'
 
-	import { getAllApps, getDefiPositionsForApps } from '$/api/zapper-old/index'
-	import { normalizeDefiPositions as normalizeDefiPositionsZapper } from '$/api/zapper-old/normalize'
+	// import { getAllApps, getDefiPositionsForApps } from '$/api/zapper-old/index'
+	// import { normalizeDefiPositions as normalizeDefiPositionsZapper } from '$/api/zapper-old/normalize'
+
+	import { normalizeAppBalance as normalizeAppBalanceZapper } from '$/api/zapper/normalize'
 
 
 	// Components
@@ -111,20 +113,50 @@
 	loadingIconName={defiProvider}
 	loadingIcon={defiProviderIcons[defiProvider]}
 	{...{
+		// [DefiProvider.Zapper]: () => ({
+		// 	fromStore: network && address && (() => (
+		// 		getDefiPositionsForApps({
+		// 			...apps && {
+		// 				appIds: [...new Set(apps.flatMap(({ views }) => views.flatMap(({ providers }) => providers?.zapper ?? [])))]
+		// 			},
+		// 			network,
+		// 			address,
+		// 			asStore: true,
+		// 		})
+		// 	)),
+		// 	then: defiBalances => (
+		// 		normalizeDefiPositionsZapper(defiBalances, allZapperAppConfigs)
+		// 	),
+		// }),
+
 		[DefiProvider.Zapper]: () => ({
-			fromStore: network && address && (() => (
-				getDefiPositionsForApps({
-					...apps && {
-						appIds: [...new Set(apps.flatMap(({ views }) => views.flatMap(({ providers }) => providers?.zapper ?? [])))]
-					},
-					network,
+			fromQuery: network && address && createQuery({
+				queryKey: ['DefiPositions', {
+					defiProvider,
 					address,
-					asStore: true,
-				})
-			)),
-			then: defiBalances => (
-				normalizeDefiPositionsZapper(defiBalances, allZapperAppConfigs)
-			),
+					chainId: network.chainId,
+				}],
+				queryFn: async ({
+					queryKey: [_, {
+						defiProvider,
+						address,
+						chainId,
+					}],
+				}) => {
+					const { getAppBalances } = await import('$/api/zapper/index')
+
+					return await getAppBalances({
+						network,
+						address,
+					})
+				},
+				select: appBalances => (
+					appBalances
+						.filter(appBalance => apps ? apps.some(app => app.views.some(view => view.providers?.zapper === appBalance.appId)) : true)
+						.map(normalizeAppBalanceZapper)
+				),
+				staleTime: 10 * 1000,
+			}),
 		}),
 
 		[DefiProvider.ZerionDefiSdk]: () => ({

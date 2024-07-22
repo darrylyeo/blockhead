@@ -23,7 +23,7 @@ export const networkNamesByChainId: Record<Ethereum.ChainID, ZapperSupportedNetw
 	8453: 'base',
 }
 
-type ZapperSupportedApp = string
+export type ZapperAppName = string
 
 type Address = `0x${string}`
 type Timestamp = `${number}-${number}-${number}T${number}:${number}:${number}.${number}Z`
@@ -119,6 +119,160 @@ type Token = {
 	balanceRaw: `${bigint}`,
 }
 
+type AppBalance = {
+	key: string,
+	address: Ethereum.Address,
+	appId: string,
+	appName: string,
+	appImage: string,
+	network: ZapperSupportedNetwork,
+	updatedAt: Date,
+	balanceUSD: number,
+	products: {
+		label: string,
+		assets: Asset[],
+		meta: {
+			label: string,
+			value: number,
+			type: ValueType,
+		}[],
+	}[],
+}
+
+export type Asset = {
+	key: string,
+	type: AssetType,
+	appId: string,
+	price?: number,
+	supply?: number,
+	symbol?: string,
+	tokens: AssetToken[],
+	address: Ethereum.Address,
+	groupId: string,
+	network: ZapperSupportedNetwork,
+	decimals?: number,
+	dataProps: {
+		apy?: number,
+		isDebt?: boolean,
+		reserves?: number[],
+		liquidity?: number,
+		exchangeable?: boolean,
+		incentivesControllerAddress?: Ethereum.Address,
+		protocolDataProviderAddress?: Ethereum.Address,
+		gaugeType?: string,
+		isActive?: boolean,
+		faucetAddresses?: Ethereum.Address[],
+		fee?: number,
+		weight?: number[],
+	},
+	displayProps: AssetDisplayProps,
+	pricePerShare?: number[],
+	balance?: number,
+	balanceRaw?: string,
+	balanceUSD: number,
+}
+
+type AssetDisplayProps = {
+	label: string,
+	images: string[],
+	statsItems?: {
+		label: LabelText,
+		value: Value | string,
+	}[],
+	secondaryLabel?: Value | string,
+	tertiaryLabel?: string,
+}
+
+type StatsItem = {
+	label: LabelText,
+	value: Value,
+}
+
+export type Value = {
+	type: ValueType,
+	value: number,
+}
+
+type ValueType = 'dollar' | 'pct' | 'number' | 'string'
+
+type LabelText = 'Liquidity' | 'Share' | 'APY' | 'Supply' | 'Fee' | 'Ratio'
+
+export type AssetToken = {
+	type: TokenType,
+	price: number,
+	symbol: string,
+	address: Address,
+	network: ZapperSupportedNetwork,
+	decimals: number,
+	metaType?: MetaType,
+	balance: number,
+	balanceRaw: `${bigint}`,
+	balanceUSD: number,
+	appId?: string,
+	supply?: number,
+	tokens?: {
+		key?: string,
+		type: TokenType,
+		appId?: string,
+		price: number,
+		supply?: number,
+		symbol: string,
+		tokens?: {
+			type: TokenType,
+			price: number,
+			symbol: string,
+			address: Address,
+			network: ZapperSupportedNetwork,
+			decimals: number,
+			metaType?: MetaType,
+			balance: number,
+			balanceRaw: `${bigint}`,
+			balanceUSD: number,
+		}[],
+		address: string,
+		groupId?: string,
+		network: ZapperSupportedNetwork,
+		decimals: number,
+		dataProps?: {
+			apy: number,
+			isDebt: boolean,
+			reserves: number[],
+			liquidity: number,
+			exchangeable: boolean,
+		},
+		displayProps?: {
+			label: string,
+			images: string[],
+			statsItems: StatsItem[],
+			secondaryLabel: Value,
+		},
+		pricePerShare?: number[],
+		balance: number,
+		balanceRaw: `${bigint}`,
+		balanceUSD: number,
+		metaType?: MetaType,
+	}[],
+	groupId?: string,
+	dataProps?: {
+		apy: number,
+		fee?: number,
+		isDebt: boolean,
+		weight?: number[],
+		reserves: number[],
+		liquidity: number,
+		exchangeable?: boolean,
+	},
+	displayProps?: AssetDisplayProps,
+	pricePerShare?: number[],
+	key?: string,
+}
+
+type MetaType = 'supplied' | 'claimable'
+
+type TokenType = 'base-token' | 'app-token'
+
+type AssetType = 'app-token' | 'contract-position'
+
 
 // API client
 import * as publicEnv from '$env/static/public'
@@ -138,6 +292,7 @@ defaults.fetch = (input: URL | RequestInfo, init?: RequestInit | undefined) => {
 // Functions
 import {
 	tokenBalanceControllerGetTokenBalances,
+	appBalanceControllerGetAppBalances,
 } from './v2'
 
 export const getTokenBalances = async ({
@@ -185,4 +340,32 @@ export const getTokenBalancesCount = async ({
 	})
 
 	return tokens.length
+}
+
+export const getAppBalances = async ({
+	address,
+	network,
+}: {
+	address: Ethereum.Address,
+	network?: Ethereum.Network,
+}) => {
+	let networkName
+	
+	if(network){
+		networkName = networkNamesByChainId[network.chainId]
+
+		if (!networkName)
+			throw new Error(`Zapper doesn't yet support ${network.name}.`)
+	}
+
+	const response = await appBalanceControllerGetAppBalances(
+		[address],
+		networkName && {
+			networks: [
+				networkName
+			],
+		},
+	) as string
+
+	return JSON.parse(response) as AppBalance[]
 }
