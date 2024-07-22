@@ -102,10 +102,31 @@ export const normalizeAppBalance = (
 			contractAddress: balance.address,
 		},
 
+		// summary: {
+		// 	assets: {
+		// 		currency: 'USD' as QuoteCurrency,
+		// 		value: balance.balanceUSD,
+		// 	},
+		// },
 		summary: {
 			assets: {
 				currency: 'USD' as QuoteCurrency,
-				value: balance.balanceUSD,
+				value: (
+					product.assets
+						.filter(asset => (
+							!(asset.dataProps?.isDebt || asset.balanceUSD < 0))
+						))
+						.reduce((sum, asset) => sum + asset.balanceUSD, 0),
+			},
+			debt: {
+				currency: 'USD',
+				value: (
+					product.assets
+						.filter(asset => (
+							asset.dataProps?.isDebt || asset.balanceUSD < 0
+						))
+						.reduce((sum, asset) => sum + asset.balanceUSD, 0)
+				),
 			},
 		},
 
