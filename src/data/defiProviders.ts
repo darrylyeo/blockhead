@@ -5,10 +5,10 @@ export enum DefiProvider {
 }
 
 
-import { DefiLlamaIcon, ZapperIcon, ZerionIcon } from '$/assets/icons'
+import { LlamaFolioIcon, ZapperIcon, ZerionIcon } from '$/assets/icons'
 
 export const defiProviderIcons: Record<DefiProvider, string> = {
-	[DefiProvider.LlamaFolio]: DefiLlamaIcon,
+	[DefiProvider.LlamaFolio]: LlamaFolioIcon,
 	[DefiProvider.Zapper]: ZapperIcon,
 	[DefiProvider.ZerionDefiSdk]: ZerionIcon,
 }
