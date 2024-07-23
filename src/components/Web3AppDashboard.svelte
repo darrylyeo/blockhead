@@ -220,7 +220,7 @@
 		) as {
 			name, slug, links, chainId, colors,
 			components, erc20Tokens, nfts, contracts, providers, embeds
-		} (`${name}/${chainId}/${slug}`)}
+		}, i (`${name}/${chainId}/${slug}`)}
 			{@const totalViewItems = (erc20Tokens?.length ?? 0) + (nfts?.length ?? 0) + (contracts?.length ?? 0) + (providers && Object.entries(providers).length)}
 			{@const _links = links ?? web3AppConfig?.links}
 
@@ -228,7 +228,7 @@
 				class="card defi-app-view"
 				class:full={embeds?.length}
 				style={cardStyle(colors || web3AppConfig.colors)}
-				transition:scale={{ duration: 300 }}
+				transition:scale={{ duration: 300, delay: i * 10 }}
 				animate:flip={{ duration: 300 }}
 			>
 			<!-- class:is-single={totalViewItems <= 1} -->
