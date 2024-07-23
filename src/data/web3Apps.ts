@@ -1,6 +1,6 @@
 import type { ComponentType } from 'svelte'
 import type { Ethereum } from './networks/types'
-import type { LlamafolioAppName } from '$/api/defillama/llamafolio'
+import type { LlamafolioAdapterName } from '$/api/defillama/llamafolio'
 import type { DefiSDK } from '$/api/zerion/defiSdk/index'
 // import type { ZapperAppId } from '$/api/zapper-old'
 import type { ZapperAppName } from '$/api/zapper'
@@ -55,7 +55,7 @@ export type Web3AppView = {
 	}[],
 	links?: string[],
 	providers?: {
-		llamafolio?: LlamafolioAppName,
+		llamafolio?: LlamafolioAdapterName,
 		theGraph?: string,
 		zapper?: ZapperAppName,
 		zerionDefiSDK?: DefiSDK.ProtocolName[],
