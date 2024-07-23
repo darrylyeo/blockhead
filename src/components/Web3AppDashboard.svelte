@@ -464,6 +464,7 @@
 										{#if currentView === 'Dashboard'}
 											<div class="column">
 												<CurrentPrice
+													layout="collapsible"
 													currentPriceProvider={$preferences.currentPriceProvider}
 													token={erc20Token.symbol}
 													tokenIcon={erc20Token.icon}

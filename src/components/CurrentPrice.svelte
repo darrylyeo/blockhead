@@ -25,6 +25,8 @@
 
 	export let blockNumber: number
 
+	export let layout: Loader<any, any, any, any>['viewOptions']['layout'] = 'default'
+
 
 	let oraclePublicClient: Ethereum.PublicClient | undefined
 	$: oraclePublicClient = oracleNetwork && networkProvider && getViemPublicClient({
@@ -110,6 +112,10 @@
 		{#if _currentPriceProvider === PriceProvider.Chainlink}
 			<div class="column">
 				<Loader
+					viewOptions={{
+						layout,
+						collapsibleType: 'label',
+					}}
 					loadingIcon={priceProviderIcons[_currentPriceProvider]}
 					loadingIconName={_currentPriceProvider}
 					loadingMessage="Retrieving price from {_currentPriceProvider}..."
@@ -137,7 +143,12 @@
 						// 	_currentPriceProvider = PriceProvider.Covalent
 					}}
 				>
-					<div slot="header" class="bar wrap" let:status let:result={priceFeed}>
+					<header slot="header" class="bar wrap"
+						let:status
+						let:result={priceFeed}
+						let:isOpen
+						let:toggle
+					>
 						<slot name="title">
 							<h3>Current Price</h3>
 						</slot>
@@ -149,7 +160,15 @@
 								<Address network={oracleNetwork} address={priceFeed.contractAddress}>{token}/{quoteCurrency} Price Feed</Address>
 							{/if}
 						</span>
-					</div>
+
+						{#if layout === 'collapsible'}
+							<button
+								class="small"
+								data-after={isOpen ? '⏶' : '⏷'}
+								on:click={toggle}
+							>{isOpen ? 'Hide' : 'Show'}</button>
+						{/if}
+					</header>
 
 					<div class="rate">
 						<TokenBalance
