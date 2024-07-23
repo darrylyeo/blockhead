@@ -83,12 +83,14 @@
 	import NetworkProviderLoader from './NetworkProviderLoader.svelte'
 	import CurrentPrice from './CurrentPrice.svelte'
 	import HistoricalPriceChart from './HistoricalPriceChart.svelte'
+	import Icon from './Icon.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
 	import GraphiqlExplorer from './GraphiqlExplorer.svelte'
 	import TokenName from './TokenName.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
 	import TokenBalanceFormatSelect from './TokenBalanceFormatSelect.svelte'
+	import { TheGraphIcon } from '$/assets/icons'
 
 
 	// Transitions/animations
@@ -211,7 +213,7 @@
 				.filter(view => showTestnets ? true : !isTestnet(networksByChainID[view.chainId]))
 	}
 
-	<div class="column defi-app-views">
+	<div class="column block defi-app-views">
 		{#each (
 			views
 				.filter(view => !view.showOn || view.showOn.includes(currentView))
@@ -628,7 +630,15 @@
 						{@const hostedSubgraphPath = providers.theGraph.match(/[^/]+\/[^/]+$/)}
 
 						<Collapsible containerClass="card" id="subgraph">
-							<h4 slot="title"><a href="https://thegraph.com/explorer/subgraph/{hostedSubgraphPath}">Subgraph ({hostedSubgraphPath})</a></h4>
+							<h4 slot="title">
+								<a
+									href="https://thegraph.com/explorer/subgraph/{hostedSubgraphPath}"
+									class="row inline"
+								>
+									<Icon imageSources={[TheGraphIcon]} />
+									<span>Subgraph ({hostedSubgraphPath})</span>
+								</a>
+							</h4>
 
 							<div slot="header-right" class="card-annotation">The Graph</div>
 
