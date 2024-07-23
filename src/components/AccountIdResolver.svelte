@@ -134,7 +134,11 @@
 				queryKey: ['LensProfileByLensName', {
 					lensName,
 				}],
-				queryFn: async () => {
+				queryFn: async ({
+					queryKey: [_, {
+						lensName,
+					}],
+				}) => {
 					const { getProfileByLensName } = await import('$/api/lens')
 					return await getProfileByLensName({ lensName })
 				},
@@ -177,7 +181,11 @@
 					// networkProvider,
 					ensName,
 				}],
-				queryFn: async () => {
+				queryFn: async ({
+					queryKey: [_, {
+						ensName,
+					}],
+				}) => {
 					const address = await getEnsAddress(publicClient, {
 						name: normalize(ensName)
 					})
@@ -226,7 +234,11 @@
 						// networkProvider,
 						address,
 					}],
-					queryFn: async () => {
+					queryFn: async ({
+						queryKey: [_, {
+							address,
+						}],
+					}) => {
 						const ensName = await getEnsName(publicClient, { address })
 
 						if(!ensName)
