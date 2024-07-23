@@ -75,7 +75,6 @@
 	// Components
 	import Address from './Address.svelte'
 	import Collapsible from './Collapsible.svelte'
-	import HeightContainer from './HeightContainer.svelte'
 	import DefiPositions from './DefiPositions.svelte'
 	import DefiPositionsLoader from './DefiPositionsLoader.svelte'
 	import EthereumBalancesLoader from './EthereumBalancesLoader.svelte'
@@ -93,9 +92,10 @@
 
 
 	// Transitions/animations
+	import BlockTransition from './BlockTransition.svelte'
 	import { cardStyle } from '$/utils/card-background'
 	import { flip } from 'svelte/animate'
-	import { scale } from 'svelte/transition'
+	import { fly, scale } from 'svelte/transition'
 	import { scaleFont } from '$/transitions/scale-font'
 </script>
 
@@ -416,25 +416,51 @@
 							)
 						)}
 							{#each erc20Tokens.filter(Boolean) as erc20Token}
-								<div class="card erc20-token">
-									<div class="bar wrap">
+								<Collapsible
+									type="label"
+									containerClass="card erc20-token"
+									class="column"
+									showTriggerText={false}
+								>
+									<svelte:fragment slot="title">
 										<h4>
 											{erc20Token.name}
 											(<TokenName {network} {erc20Token} />)
 										</h4>
+									</svelte:fragment>
+
+									<svelte:fragment slot="header-right">
 										<div class="card-annotation">ERC-20 Token</div>
-										<!-- <h4>
+									</svelte:fragment>
+
+									<!--
+									<svelte:fragment slot="title">
+										<h4>
 											<TokenName {network} {erc20Token} />
 											({erc20Token.name})
 										</h4>
-										<div class="card-annotation">ERC-20 Token</div> -->
-									</div>
+									</svelte:fragment>
+
+									<svelte:fragment slot="header-right">
+										<div class="card-annotation">ERC-20 Token</div>
+									</svelte:fragment>
+									-->
 
 									<hr>
 
-									<HeightContainer class="stack">
+									<BlockTransition
+										key={
+											currentView === 'Dashboard' ? 1 :
+											currentView === 'Account' && address ? 2 :
+											0
+										}
+										contentTransition={{
+											in: [fly, { x: 20, duration: 300 }],
+											out: [fly, { x: -20, duration: 300 }],
+										}}
+									>
 										{#if currentView === 'Dashboard'}
-											<div class="column" transition:scale>
+											<div class="column">
 												<CurrentPrice
 													currentPriceProvider={$preferences.currentPriceProvider}
 													token={erc20Token.symbol}
@@ -473,7 +499,7 @@
 											</div>
 
 										{:else if currentView === 'Account' && address}
-											<div class="card" transition:scale>
+											<div class="card">
 												<EthereumBalancesLoader
 													{network}
 													{address}
@@ -523,8 +549,8 @@
 												</EthereumBalancesLoader>
 											</div>
 										{/if}
-									</HeightContainer>
-								</div>
+									</BlockTransition>
+								</Collapsible>
 							{/each}
 						{/if}
 
