@@ -51,7 +51,7 @@ export type Web3AppView = {
 	contracts?: Ethereum.Contract[],
 	tags?: {
 		name: '',
-		hash: ''
+		hash: '',
 	}[],
 	links?: string[],
 	providers?: {
@@ -63,7 +63,7 @@ export type Web3AppView = {
 	embeds?: {
 		name: string,
 		description?: string,
-		src: string
+		src: string,
 	}[],
 }
 
@@ -72,8 +72,13 @@ export const web3Apps = [
 	{
 		name: 'Aave',
 		slug: 'aave',
-		links: ['https://aave.com'],
-		colors: ['#77c0c7', '#b56da4'],
+		links: [
+			'https://aave.com',
+		],
+		colors: [
+			'#77c0c7',
+			'#b56da4',
+		],
 		views: [
 			{
 				name: 'Aave V3',
@@ -86,13 +91,13 @@ export const web3Apps = [
 						address: '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9',
 						name: 'Aave',
 						symbol: 'AAVE',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					llamafolio: 'aave-v3',
-					zapper: 'aave-v3'
-				}
+					zapper: 'aave-v3',
+				},
 			},
 			{
 				name: 'Aave V2',
@@ -105,8 +110,8 @@ export const web3Apps = [
 						address: '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9',
 						name: 'Aave',
 						symbol: 'AAVE',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					llamafolio: 'aave-v2',
@@ -116,17 +121,17 @@ export const web3Apps = [
 						'Aave V2',
 						'Aave V2 • Stable Debt',
 						'Aave V2 • Variable Debt',
-						'Aave • Staking'
-					]
-				}
+						'Aave • Staking',
+					],
+				},
 			},
 			{
 				name: 'Aave AMM',
 				slug: 'amm',
 				chainId: 1,
 				providers: {
-					zapper: 'aave-amm'
-				}
+					zapper: 'aave-amm',
+				},
 			},
 			{
 				name: 'Aave V1',
@@ -139,14 +144,17 @@ export const web3Apps = [
 						address: '0x80fb784b7ed66730e8b1dbd9820afd29931aab03',
 						name: 'Aave	OLD ',
 						symbol: 'LEND',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					llamafolio: 'aave-v1',
 					zapper: 'aave-v1',
-					zerionDefiSDK: ['Aave', 'Aave • Uniswap Market']
-				}
+					zerionDefiSDK: [
+						'Aave',
+						'Aave • Uniswap Market',
+					],
+				},
 			},
 			{
 				name: 'Aave v2 Governance',
@@ -156,20 +164,25 @@ export const web3Apps = [
 					{
 						name: 'Aavote',
 						description: 'Aavote - Aave Governance v2 Interface',
-						src: 'https://aavote.netlify.app'
-					}
+						src: 'https://aavote.netlify.app',
+					},
 				],
 				providers: {
-					zapper: 'aave-safety-module'
-				}
-			}
-		]
+					zapper: 'aave-safety-module',
+				},
+			},
+		],
 	},
 	{
 		name: 'Aavegotchi',
 		slug: 'aavegotchi',
-		links: ['https://aavegotchi.com'],
-		colors: ['#fa34f3', '#5100B1'],
+		links: [
+			'https://aavegotchi.com',
+		],
+		colors: [
+			'#fa34f3',
+			'#5100B1',
+		],
 		views: [
 			{
 				chainId: 137,
@@ -180,20 +193,24 @@ export const web3Apps = [
 						address: '0x3f382dbd960e3a9bbceae22651e88158d2791550',
 						name: 'Aavegotchi',
 						symbol: 'GHST',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'aavegotchi'
-				}
-			}
-		]
+					zapper: 'aavegotchi',
+				},
+			},
+		],
 	},
 	{
 		name: 'Abracadabra',
 		slug: 'abracadabra',
-		links: ['https://abracadabra.money'],
-		colors: ['#7b79f7'],
+		links: [
+			'https://abracadabra.money',
+		],
+		colors: [
+			'#7b79f7',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -204,14 +221,14 @@ export const web3Apps = [
 						address: '0x090185f2135308bad17527004364ebcc2d37e5f6',
 						name: 'Spell Token',
 						symbol: 'SPELL',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'abracadabra'
-				}
-			}
-		]
+					zapper: 'abracadabra',
+				},
+			},
+		],
 	},
 	{
 		name: 'Across',
@@ -223,91 +240,108 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'across'
-				}
-			}
-		]
+					zapper: 'across',
+				},
+			},
+		],
 	},
 	{
 		name: 'Adamant',
 		slug: 'adamant',
-		links: ['https://adamant.finance'],
+		links: [
+			'https://adamant.finance',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 42161,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'adamant'
-				}
+					zapper: 'adamant',
+				},
 			},
 			{
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'adamant'
-				}
-			}
-		]
+					zapper: 'adamant',
+				},
+			},
+		],
 	},
 	{
 		name: 'Aelin',
 		slug: 'aelin',
-		links: ['https://aelin.xyz'],
+		links: [
+			'https://aelin.xyz',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'aelin'
-				}
+					zapper: 'aelin',
+				},
 			},
 			{
 				chainId: 10,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'aelin'
-				}
-			}
-		]
+					zapper: 'aelin',
+				},
+			},
+		],
 	},
 	{
 		name: 'Agave',
 		slug: 'agave',
-		links: ['https://agave.finance'],
-		colors: ['#fff'],
+		links: [
+			'https://agave.finance',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 100,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'agave'
-				}
-			}
-		]
+					zapper: 'agave',
+				},
+			},
+		],
 	},
 	{
 		name: 'Airswap',
 		slug: 'airswap',
-		links: ['https://airswap.io'],
-		colors: ['#2b71ff'],
+		links: [
+			'https://airswap.io',
+		],
+		colors: [
+			'#2b71ff',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/airswap/airswap',
-					zapper: 'airswap'
-				}
-			}
-		]
+					zapper: 'airswap',
+				},
+			},
+		],
 	},
 	{
 		name: 'Akropolis',
 		slug: 'akropolis',
-		links: ['https://www.akropolis.io'],
-		colors: ['#ef359c', '#5346e6'],
+		links: [
+			'https://www.akropolis.io',
+		],
+		colors: [
+			'#ef359c',
+			'#5346e6',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -318,23 +352,25 @@ export const web3Apps = [
 						address: '0x8ab7404063ec4dbcfd4598215992dc3f8ec853d7',
 						name: 'Akropolis',
 						symbol: 'AKRO',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/in19farkt/akropolis-os-mainnet',
 					zerionDefiSDK: [
 						'Akropolis • ADEL Staking',
-						'Akropolis • AKRO Staking'
-					]
-				}
-			}
-		]
+						'Akropolis • AKRO Staking',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Alchemix',
 		slug: 'alchemix',
-		links: ['https://alchemix.fi'],
+		links: [
+			'https://alchemix.fi',
+		],
 		views: [
 			{
 				name: 'Alchemix V2',
@@ -342,8 +378,8 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'alchemix-v2'
-				}
+					zapper: 'alchemix-v2',
+				},
 			},
 			{
 				name: 'Alchemix V1',
@@ -356,7 +392,7 @@ export const web3Apps = [
 						address: '0xdbdb4d16eda451d0503b854cf79d55697f90c8df',
 						name: 'Alchemix',
 						symbol: 'ALCX',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/16271/thumb/photo_2021-06-13_22-16-07.jpg?1623593846',
@@ -364,7 +400,7 @@ export const web3Apps = [
 						address: '0x0100546f2cd4c9d97f798ffc9755e47865ff7ee6',
 						name: 'Alchemix ETH',
 						symbol: 'ALETH',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/14114/thumb/Alchemix_USD.png?1614410406',
@@ -372,43 +408,49 @@ export const web3Apps = [
 						address: '0xbc6da0fe9ad5f3b0d58160288917aa56653660e9',
 						name: 'Alchemix USD',
 						symbol: 'ALUSD',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'alchemix'
-				}
-			}
-		]
+					zapper: 'alchemix',
+				},
+			},
+		],
 	},
 	{
 		name: 'Alkemi',
 		slug: 'alkemi',
-		links: ['https://alkemi.network'],
+		links: [
+			'https://alkemi.network',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [
 					{
-						address: '0x6c16119b20fa52600230f074b349da3cb861a7e3'
-					}
+						address: '0x6c16119b20fa52600230f074b349da3cb861a7e3',
+					},
 				],
 				providers: {
-					zapper: 'alkemi'
-				}
-			}
-		]
+					zapper: 'alkemi',
+				},
+			},
+		],
 	},
 	{
 		name: 'Alpha Finance',
 		slug: 'alpha',
-		links: ['https://alphafinance.io'],
+		links: [
+			'https://alphafinance.io',
+		],
 		views: [
 			{
 				name: 'Alpha Homora V2',
 				slug: 'v2',
-				links: ['https://homora-v2.alphafinance.io'],
+				links: [
+					'https://homora-v2.alphafinance.io',
+				],
 				chainId: 1,
 				erc20Tokens: [
 					{
@@ -417,40 +459,48 @@ export const web3Apps = [
 						address: '0xa1faa113cbe53436df28ff0aee54275c13b40975',
 						name: 'Alpha Finance',
 						symbol: 'ALPHA',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					zapper: 'alpha-v2',
-					zerionDefiSDK: ['Alpha Homora V2']
-				}
+					zerionDefiSDK: [
+						'Alpha Homora V2',
+					],
+				},
 			},
 			{
 				name: 'Alpha Homora V2',
 				slug: 'v2',
-				links: ['https://homora-v2.alphafinance.io'],
+				links: [
+					'https://homora-v2.alphafinance.io',
+				],
 				chainId: 250,
 				erc20Tokens: [
 				],
 				providers: {
-					zapper: 'homora-v2'
-				}
+					zapper: 'homora-v2',
+				},
 			},
 			{
 				name: 'Alpha Homora V2',
 				slug: 'v2',
-				links: ['https://homora-v2.alphafinance.io'],
+				links: [
+					'https://homora-v2.alphafinance.io',
+				],
 				chainId: 43114,
 				erc20Tokens: [
 				],
 				providers: {
-					zapper: 'homora-v2'
-				}
+					zapper: 'homora-v2',
+				},
 			},
 			{
 				name: 'Alpha Homora V1',
 				slug: 'v1',
-				links: ['https://homora.alphafinance.io'],
+				links: [
+					'https://homora.alphafinance.io',
+				],
 				chainId: 1,
 				erc20Tokens: [
 					{
@@ -459,51 +509,61 @@ export const web3Apps = [
 						address: '0xa1faa113cbe53436df28ff0aee54275c13b40975',
 						name: 'Alpha Finance',
 						symbol: 'ALPHA',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					zapper: 'alpha-v1',
-					zerionDefiSDK: ['Alpha Homora']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'Alpha Homora',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Alpha Tokenomics',
 		slug: 'alpha-tokenomics',
-		links: ['https://tokenomics.alphafinance.io'],
+		links: [
+			'https://tokenomics.alphafinance.io',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'alpha-tokenomics'
-				}
-			}
-		]
+					zapper: 'alpha-tokenomics',
+				},
+			},
+		],
 	},
 	{
 		name: 'Amp',
 		slug: 'amp',
-		links: ['https://app.flexa.network'],
+		links: [
+			'https://app.flexa.network',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'amp'
-				}
-			}
-		]
+					zapper: 'amp',
+				},
+			},
+		],
 	},
 	{
 		name: 'Ampleforth',
 		slug: 'ampleforth',
-		links: ['https://www.ampleforth.org'],
-		colors: ['#5856d6'],
+		links: [
+			'https://www.ampleforth.org',
+		],
+		colors: [
+			'#5856d6',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -514,13 +574,15 @@ export const web3Apps = [
 						address: '0xd46ba6d942050d489dbd938a2c909a5d5039a161',
 						name: 'Ampleforth',
 						symbol: 'AMPL',
-						decimals: 9
-					}
+						decimals: 9,
+					},
 				],
 				providers: {
-					zerionDefiSDK: ['Ampleforth'],
-					zapper: 'ampleforth'
-				}
+					zerionDefiSDK: [
+						'Ampleforth',
+					],
+					zapper: 'ampleforth',
+				},
 			},
 			{
 				name: 'Ampleforth Governance',
@@ -533,72 +595,88 @@ export const web3Apps = [
 						address: '0x77fba179c79de5b7653f68b5039af940ada60ce0',
 						name: 'Ampleforth Governan',
 						symbol: 'FORTH',
-						decimals: 18
-					}
-				]
-			}
-		]
+						decimals: 18,
+					},
+				],
+			},
+		],
 	},
 	{
 		name: 'Angle',
 		slug: 'angle',
-		links: ['https://www.angle.money'],
-		colors: ['#fff'],
+		links: [
+			'https://www.angle.money',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [
 					{
-						address: '0x31429d1856ad1377a8a0079410b297e1a9e214c2'
-					}
+						address: '0x31429d1856ad1377a8a0079410b297e1a9e214c2',
+					},
 				],
 				providers: {
-					zapper: 'angle'
-				}
-			}
-		]
+					zapper: 'angle',
+				},
+			},
+		],
 	},
 	{
 		name: 'Ape Tax',
 		slug: 'ape-tax',
-		links: ['https://ape.tax'],
+		links: [
+			'https://ape.tax',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'ape-tax'
-				}
+					zapper: 'ape-tax',
+				},
 			},
 			{
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'ape-tax'
-				}
-			}
-		]
+					zapper: 'ape-tax',
+				},
+			},
+		],
 	},
 	{
 		name: 'Apeswap',
 		slug: 'apeswap',
-		links: ['https://apeswap.finance'],
-		colors: ['#a16552', '#ffb300'],
+		links: [
+			'https://apeswap.finance',
+		],
+		colors: [
+			'#a16552',
+			'#ffb300',
+		],
 		views: [
 			{
 				chainId: 56,
 				providers: {
-					zapper: 'apeswap'
-				}
-			}
-		]
+					zapper: 'apeswap',
+				},
+			},
+		],
 	},
 	{
 		name: 'APY.Finance',
 		slug: 'apy',
-		links: ['https://apy.finance'],
-		colors: ['#d153f4', '#4d43df'],
+		links: [
+			'https://apy.finance',
+		],
+		colors: [
+			'#d153f4',
+			'#4d43df',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -609,19 +687,21 @@ export const web3Apps = [
 						address: '0x95a4492f028aa1fd432ea71146b433e7b4446611',
 						name: 'APY Finance',
 						symbol: 'APY',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'apy'
-				}
-			}
-		]
+					zapper: 'apy',
+				},
+			},
+		],
 	},
 	{
 		name: 'Aragon',
 		slug: 'aragon',
-		links: ['https://aragon.org'],
+		links: [
+			'https://aragon.org',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -632,19 +712,23 @@ export const web3Apps = [
 						address: '0xa117000000f279d81a1d3cc75430faa017fa5a2e',
 						name: 'Aragon',
 						symbol: 'ANT',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zerionDefiSDK: ['Aragon']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'Aragon',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'ARCx',
 		slug: 'arcx',
-		links: ['https://arcx.money'],
+		links: [
+			'https://arcx.money',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -655,20 +739,22 @@ export const web3Apps = [
 						address: '0x1321f1f1aa541a56c31682c57b80ecfccd9bb288',
 						name: 'ARC Governance',
 						symbol: 'ARCX',
-						decimals: 18
+						decimals: 18,
 					},
 					erc20TokensByContractAddress['0xed30dd7e50edf3581ad970efc5d9379ce2614adb'], // ARC Governance Old
 				],
 				providers: {
-					zapper: 'arcx'
-				}
-			}
-		]
+					zapper: 'arcx',
+				},
+			},
+		],
 	},
 	{
 		name: 'Apecoin DAO',
 		slug: 'apecoin',
-		links: ['https://apecoin.com'],
+		links: [
+			'https://apecoin.com',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -679,7 +765,7 @@ export const web3Apps = [
 						address: '0x4d224452801ACEd8B2F0aebE155379bb5D594381',
 						name: 'ApeCoin',
 						symbol: 'APE',
-						decimals: 18
+						decimals: 18,
 					},
 				],
 			},
@@ -692,36 +778,42 @@ export const web3Apps = [
 						address: '0x328507DC29C95c170B56a1b3A758eB7a9E73455c',
 						name: 'ApeCoin',
 						symbol: 'APE',
-						decimals: 18
+						decimals: 18,
 					},
 				],
 				contracts: [
 					{
 						address: '0x831e0c7A89Dbc52a1911b78ebf4ab905354C96Ce',
-					}
-				]
-			}
-		]
+					},
+				],
+			},
+		],
 	},
 	{
 		name: 'Argo Finance',
 		slug: 'argo-finance',
-		links: ['https://www.argofinance.money'],
-		colors: ['#fff'],
+		links: [
+			'https://www.argofinance.money',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 25,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'argo-finance'
-				}
-			}
-		]
+					zapper: 'argo-finance',
+				},
+			},
+		],
 	},
 	{
 		name: 'Armor',
 		slug: 'armor',
-		links: ['https://armor.fi'],
+		links: [
+			'https://armor.fi',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -732,79 +824,94 @@ export const web3Apps = [
 						address: '0x1337def16f9b486faed0293eb623dc8395dfe46a',
 						name: 'ARMOR',
 						symbol: 'ARMOR',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'armor'
-				}
-			}
-		]
+					zapper: 'armor',
+				},
+			},
+		],
 	},
 	{
 		name: 'Arrakis',
 		slug: 'arrakis',
-		links: ['https://arrakis.finance'],
+		links: [
+			'https://arrakis.finance',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'arrakis'
-				}
+					zapper: 'arrakis',
+				},
 			},
 			{
 				chainId: 10,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'arrakis'
-				}
+					zapper: 'arrakis',
+				},
 			},
 			{
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'arrakis'
-				}
-			}
-		]
+					zapper: 'arrakis',
+				},
+			},
+		],
 	},
 	{
 		name: 'Arth',
 		slug: 'arth',
-		links: ['https://arth.mahadao.com'],
-		colors: ['#222'],
+		links: [
+			'https://arth.mahadao.com',
+		],
+		colors: [
+			'#222',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'arth'
-				}
-			}
-		]
+					zapper: 'arth',
+				},
+			},
+		],
 	},
 	{
 		name: 'Atlendis V1',
 		slug: 'atlendis-v1',
-		links: ['https://app.atlendis.io'],
-		colors: ['#fff'],
+		links: [
+			'https://app.atlendis.io',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'atlendis-v1'
-				}
-			}
-		]
+					zapper: 'atlendis-v1',
+				},
+			},
+		],
 	},
 	{
 		name: 'Audius',
 		slug: 'audius',
-		links: ['https://audius.org'],
-		colors: ['#cc0fe0', '#7e1bcc'],
+		links: [
+			'https://audius.org',
+		],
+		colors: [
+			'#cc0fe0',
+			'#7e1bcc',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -815,24 +922,26 @@ export const web3Apps = [
 						address: '0x18aaa7115705e8be94bffebde57af9bfc265b998',
 						name: 'Audius',
 						symbol: 'AUDIO',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				contracts: [
 					{
-						address: '0x819fd65026848d710fe40d8c0439f1220e069398'
-					}
+						address: '0x819fd65026848d710fe40d8c0439f1220e069398',
+					},
 				],
 				providers: {
-					theGraph: 'https://api.thegraph.com/subgraphs/name/audius-infra/audius-network-mainnet'
-				}
-			}
-		]
+					theGraph: 'https://api.thegraph.com/subgraphs/name/audius-infra/audius-network-mainnet',
+				},
+			},
+		],
 	},
 	{
 		name: 'Augur',
 		slug: 'augur',
-		links: ['https://www.augur.net'],
+		links: [
+			'https://www.augur.net',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -843,12 +952,12 @@ export const web3Apps = [
 						address: '0x221657776846890989a759ba2973e427dff5c9bb',
 						name: 'Augur',
 						symbol: 'REP',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'augur'
-				}
+					zapper: 'augur',
+				},
 			},
 			{
 				chainId: 1,
@@ -859,80 +968,98 @@ export const web3Apps = [
 						address: '0x44ea84a85616f8e9cd719fc843de31d852ad7240',
 						name: 'NO Trump Augur Pred',
 						symbol: 'NTRUMP',
-						decimals: 15
-					}
-				]
-			}
-		]
+						decimals: 15,
+					},
+				],
+			},
+		],
 	},
 	{
 		name: 'Aura',
 		slug: 'aura',
-		links: ['https://app.aura.finance'],
-		colors: ['#7c3aed'],
+		links: [
+			'https://app.aura.finance',
+		],
+		colors: [
+			'#7c3aed',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [
 					{
-						address: '0xc0c293ce456ff0ed870add98a0828dd4d2903dbf'
-					}
+						address: '0xc0c293ce456ff0ed870add98a0828dd4d2903dbf',
+					},
 				],
 				providers: {
-					zapper: 'aura'
-				}
-			}
-		]
+					zapper: 'aura',
+				},
+			},
+		],
 	},
 	{
 		name: 'Aurigami',
 		slug: 'aurigami',
-		links: ['https://www.aurigami.finance'],
-		colors: ['#fff'],
+		links: [
+			'https://www.aurigami.finance',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1313161554,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'aurigami'
-				}
-			}
-		]
+					zapper: 'aurigami',
+				},
+			},
+		],
 	},
 	{
 		name: 'Aurora Plus',
 		slug: 'aurora-plus',
-		links: ['https://aurora.plus'],
-		colors: ['#fff'],
+		links: [
+			'https://aurora.plus',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1313161554,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'aurora-plus'
-				}
-			}
-		]
+					zapper: 'aurora-plus',
+				},
+			},
+		],
 	},
 	{
 		name: 'Autofarm',
 		slug: 'autofarm',
-		links: ['https://autofarm.network'],
+		links: [
+			'https://autofarm.network',
+		],
 		views: [
 			{
 				chainId: 56,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'autofarm'
-				}
-			}
-		]
+					zapper: 'autofarm',
+				},
+			},
+		],
 	},
 	{
 		name: 'Badger',
 		slug: 'badger',
-		links: ['https://badger.finance'],
-		colors: ['#F2A52B'],
+		links: [
+			'https://badger.finance',
+		],
+		colors: [
+			'#F2A52B',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -943,7 +1070,7 @@ export const web3Apps = [
 						address: '0x3472a5a71965499acd81997a54bba8d852c6e53d',
 						name: 'Badger DAO',
 						symbol: 'BADGER',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/14502/thumb/BADGER_DAO.png?1616559959',
@@ -951,7 +1078,7 @@ export const web3Apps = [
 						address: '0x19d97d8fa813ee2f51ad4b4e04ea08baf4dffc28',
 						name: 'Badger Sett Badger',
 						symbol: 'BBADGER',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/14503/thumb/DIGG.png?1616560407',
@@ -959,20 +1086,22 @@ export const web3Apps = [
 						address: '0x7e7e112a68d8d2e221e11047a72ffc1065c38e1a',
 						name: 'Badger Sett Digg',
 						symbol: 'BDIGG',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'badger'
-				}
-			}
-		]
+					zapper: 'badger',
+				},
+			},
+		],
 	},
 	{
 		name: 'Balancer',
 		slug: 'balancer',
 		links: ['https://balancer.fi', 'https://app.balancer.fi'],
-		colors: ['#536dfe'], // unofficial
+		colors: [
+			'#536dfe',
+		], // unofficial
 		views: [
 			{
 				name: 'Balancer V2',
@@ -981,8 +1110,10 @@ export const web3Apps = [
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer',
 					zapper: 'balancer-v2',
-					zerionDefiSDK: ['Balancer']
-				}
+					zerionDefiSDK: [
+						'Balancer',
+					],
+				},
 			},
 			{
 				name: 'Balancer Governance',
@@ -995,9 +1126,9 @@ export const web3Apps = [
 						address: '0xba100000625a3754423978a60c9317c58a424e3d',
 						name: 'Balancer',
 						symbol: 'BAL',
-						decimals: 18
-					}
-				]
+						decimals: 18,
+					},
+				],
 			},
 			{
 				name: 'Balancer V1',
@@ -1006,45 +1137,53 @@ export const web3Apps = [
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer',
 					zapper: 'balancer-v1',
-					zerionDefiSDK: ['Balancer']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'Balancer',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Banano',
 		slug: 'banano',
-		links: ['https://wrap.banano.cc'],
-		colors: ['#fff'],
+		links: [
+			'https://wrap.banano.cc',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'banano'
-				}
+					zapper: 'banano',
+				},
 			},
 			{
 				chainId: 56,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'banano'
-				}
+					zapper: 'banano',
+				},
 			},
 			{
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'banano'
-				}
-			}
-		]
+					zapper: 'banano',
+				},
+			},
+		],
 	},
 	{
 		name: 'Bancor',
 		slug: 'bancor',
 		links: ['https://bancor.network', 'https://app.bancor.network'],
-		colors: ['#070e1f'], // unofficial
+		colors: [
+			'#070e1f',
+		], // unofficial
 		views: [
 			{
 				name: 'Bancor V3',
@@ -1052,8 +1191,8 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'bancor-v3'
-				}
+					zapper: 'bancor-v3',
+				},
 			},
 			{
 				chainId: 1,
@@ -1064,7 +1203,7 @@ export const web3Apps = [
 						address: '0x1f573d6fb3f13d689ff844b4ce37794d79a7ff1c',
 						name: 'Bancor Network Toke',
 						symbol: 'BNT',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/14053/thumb/bancorvbnt_32.png?1614048819',
@@ -1072,7 +1211,7 @@ export const web3Apps = [
 						address: '0x48fb253446873234f2febbf9bdeaa72d9d387f94',
 						name: 'Bancor Governance T',
 						symbol: 'VBNT',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/10619/thumb/busd.png?1581026228',
@@ -1080,8 +1219,8 @@ export const web3Apps = [
 						address: '0x309627af60f0926daa6041b8279484312f2bf060',
 						name: 'USD Bancor',
 						symbol: 'USDB',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/blocklytics/bancor',
@@ -1089,16 +1228,18 @@ export const web3Apps = [
 					zerionDefiSDK: [
 						'Bancor',
 						'Bancor • Liquidity Protection',
-						'Bancor • Locked BNT'
-					]
-				}
-			}
-		]
+						'Bancor • Locked BNT',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Bao Finance',
 		slug: 'bao',
-		links: ['https://www.bao.finance'],
+		links: [
+			'https://www.bao.finance',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -1109,28 +1250,30 @@ export const web3Apps = [
 						address: '0x374cb8c27130e2c9e04f44303f3c8351b9de61c1',
 						name: 'Bao Finance',
 						symbol: 'BAO',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'bao'
-				}
-			}
-		]
+					zapper: 'bao',
+				},
+			},
+		],
 	},
 	{
 		name: 'BarnBridge',
 		slug: 'barnbridge',
-		links: ['https://barnbridge.com'],
+		links: [
+			'https://barnbridge.com',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [
-					// erc20TokensBySymbol['BOND']
+					// erc20TokensBySymbol['BOND'],
 				],
 				providers: {
-					zapper: 'barnbridge'
-				}
+					zapper: 'barnbridge',
+				},
 			},
 			{
 				name: 'Barnbridge Smart Alpha',
@@ -1138,25 +1281,29 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'barnbridge-smart-alpha'
-				}
+					zapper: 'barnbridge-smart-alpha',
+				},
 			},
 			{
 				name: 'BarnBridge Smart Yield',
 				slug: 'smart-yield',
-				links: ['https://app.barnbridge.com/smart-alpha/pools'],
+				links: [
+					'https://app.barnbridge.com/smart-alpha/pools',
+				],
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'barnbridge-smart-yield'
-				}
-			}
-		]
+					zapper: 'barnbridge-smart-yield',
+				},
+			},
+		],
 	},
 	{
 		name: 'Based Money',
 		slug: 'based-money',
-		links: ['https://based.money'],
+		links: [
+			'https://based.money',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -1167,24 +1314,28 @@ export const web3Apps = [
 						address: '0x68a118ef45063051eac49c7e647ce5ace48a68a5',
 						name: 'Based Money',
 						symbol: 'BASED',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'based-money'
-				}
-			}
-		]
+					zapper: 'based-money',
+				},
+			},
+		],
 	},
 	{
 		name: 'Basis',
 		slug: 'basis',
-		links: ['https://basis.io'],
+		links: [
+			'https://basis.io',
+		],
 		views: [
 			{
 				name: 'Basis Cash',
 				slug: 'cash',
-				links: ['https://basis.cash'],
+				links: [
+					'https://basis.cash',
+				],
 				chainId: 1,
 				erc20Tokens: [
 					{
@@ -1193,7 +1344,7 @@ export const web3Apps = [
 						address: '0x7dc59729b0adf4ae34721a1e06ef82a19e690b04',
 						name: 'BTC Alpha Token',
 						symbol: 'BAC',
-						decimals: 8
+						decimals: 8,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/13251/thumb/BAS.png?1613231139',
@@ -1201,7 +1352,7 @@ export const web3Apps = [
 						address: '0x106538cc16f938776c7c180186975bca23875287',
 						name: 'Basis Share',
 						symbol: 'BAS',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/13961/thumb/bab_1.png?1613358492',
@@ -1209,27 +1360,31 @@ export const web3Apps = [
 						address: '0xc36824905dff2eaaee7ecc09fcc63abc0af5abc5',
 						name: 'Basis Bond',
 						symbol: 'BAB',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'basis-cash'
-				}
+					zapper: 'basis-cash',
+				},
 			},
 			// {
 			// 	name: 'Basis Dollar',
 			// 	slug: 'dollar',
-			// 	links: ['https://basisdollar.fi'],
+			// 	links: [
+			// 	'https://basisdollar.fi',
+			// ],
 			// 	chainId: 1,
 			// 	erc20Tokens: [
 			// 		erc20TokensBySymbol['BSD'],
 			// 		erc20TokensBySymbol['BSDS'],
-			// 	]
+			// 	],
 			// },
 			{
 				name: 'Basis Gold',
 				slug: 'gold',
-				links: ['https://basis.gold'],
+				links: [
+					'https://basis.gold',
+				],
 				chainId: 1,
 				erc20Tokens: [
 					{
@@ -1238,13 +1393,13 @@ export const web3Apps = [
 						address: '0xb34ab2f65c6e4f764ffe740ab83f982021faed6d',
 						name: 'Basis Gold',
 						symbol: 'BSG',
-						decimals: 18
+						decimals: 18,
 					},
-					erc20TokensBySymbol['BSGS']
+					erc20TokensBySymbol['BSGS'],
 				],
 				providers: {
-					zapper: 'basis-gold'
-				}
+					zapper: 'basis-gold',
+				},
 			},
 			{
 				name: 'Basis Coin',
@@ -1257,25 +1412,27 @@ export const web3Apps = [
 						address: '0x03066da434e5264ef0b32f787923f974a5726fdc',
 						name: 'Basis Coin Share',
 						symbol: 'BCS',
-						decimals: 18
+						decimals: 18,
 					},
-					erc20TokensBySymbol['BSGS']
-				]
+					erc20TokensBySymbol['BSGS'],
+				],
 			},
 			{
 				name: 'Basis Bond',
 				slug: 'bond',
 				chainId: 1,
 				erc20Tokens: [
-					// erc20TokensBySymbol['BSB']
-				]
-			}
-		]
+					// erc20TokensBySymbol['BSB'],
+				],
+			},
+		],
 	},
 	{
 		name: 'BasketDAO',
 		slug: 'basket',
-		links: ['https://basketdao.org'],
+		links: [
+			'https://basketdao.org',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -1286,7 +1443,7 @@ export const web3Apps = [
 						address: '0xc03841b5135600312707d39eb2af0d2ad5d51a91',
 						name: 'BasketCoin',
 						symbol: 'BSKT',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/14664/thumb/BDI_200.png?1621851285',
@@ -1294,107 +1451,117 @@ export const web3Apps = [
 						address: '0x0309c98b1bffa350bcb3f9fb9780970ca32a5060',
 						name: 'BasketDAO DeFi Inde',
 						symbol: 'BDI',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'basket-dao'
-				}
-			}
-		]
+					zapper: 'basket-dao',
+				},
+			},
+		],
 	},
 	{
 		name: 'Bastion Protocol',
 		slug: 'bastion-protocol',
-		links: ['https://bastionprotocol.com'],
-		colors: ['#fff'],
+		links: [
+			'https://bastionprotocol.com',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1313161554,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'bastion-protocol'
-				}
-			}
-		]
+					zapper: 'bastion-protocol',
+				},
+			},
+		],
 	},
 	{
 		name: 'Beefy Finance',
 		slug: 'beefy',
-		links: ['https://www.beefy.finance'],
+		links: [
+			'https://www.beefy.finance',
+		],
 		views: [
 			{
 				slug: 'bsc',
 				chainId: 56,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'beefy'
-				}
+					zapper: 'beefy',
+				},
 			},
 			{
 				slug: 'heco',
 				chainId: 128,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'beefy'
-				}
+					zapper: 'beefy',
+				},
 			},
 			{
 				slug: 'avalanche',
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'beefy'
-				}
+					zapper: 'beefy',
+				},
 			},
 			{
 				slug: 'polygon',
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'beefy'
-				}
+					zapper: 'beefy',
+				},
 			},
 			{
 				slug: 'fantom',
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'beefy'
-				}
-			}
-		]
+					zapper: 'beefy',
+				},
+			},
+		],
 	},
 	{
 		name: 'Beethoven X',
 		slug: 'beethoven-x',
-		links: ['https://app.beets.fi'],
+		links: [
+			'https://app.beets.fi',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 250,
 				erc20Tokens: [
 					{
-						address: '0xf24bcf4d1e507740041c9cfd2dddb29585adce1e'
-					}
+						address: '0xf24bcf4d1e507740041c9cfd2dddb29585adce1e',
+					},
 				],
 				providers: {
-					zapper: 'beethoven-x'
-				}
+					zapper: 'beethoven-x',
+				},
 			},
 			{
 				chainId: 10,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'beethoven-x'
-				}
-			}
-		]
+					zapper: 'beethoven-x',
+				},
+			},
+		],
 	},
 	{
 		name: 'Bella',
 		slug: 'bella',
-		links: ['https://bella.fi'],
+		links: [
+			'https://bella.fi',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -1405,42 +1572,46 @@ export const web3Apps = [
 						address: '0xa91ac63d040deb1b7a5e4d4134ad23eb0ba07e14',
 						name: 'Bella Protocol',
 						symbol: 'BEL',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'bella'
-				}
-			}
-		]
+					zapper: 'bella',
+				},
+			},
+		],
 	},
 	{
 		name: 'Belt',
 		slug: 'belt',
-		links: ['https://belt.fi'],
+		links: [
+			'https://belt.fi',
+		],
 		views: [
 			{
 				slug: 'bsc',
 				chainId: 56,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'belt'
-				}
+					zapper: 'belt',
+				},
 			},
 			{
 				slug: 'heco',
 				chainId: 128,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'belt'
-				}
-			}
-		]
+					zapper: 'belt',
+				},
+			},
+		],
 	},
 	{
 		name: 'Benchmark',
 		slug: 'benchmark',
-		links: ['https://benchmarkprotocol.finance'],
+		links: [
+			'https://benchmarkprotocol.finance',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -1451,66 +1622,76 @@ export const web3Apps = [
 						address: '0x67c597624b17b16fb77959217360b7cd18284253',
 						name: 'Benchmark Protocol',
 						symbol: 'MARK',
-						decimals: 9
-					}
+						decimals: 9,
+					},
 				],
 				providers: {
-					zapper: 'benchmark'
-				}
-			}
-		]
+					zapper: 'benchmark',
+				},
+			},
+		],
 	},
 	{
 		name: 'Benqi',
 		slug: 'benqi',
-		links: ['https://benqi.fi'],
+		links: [
+			'https://benqi.fi',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'benqi'
-				}
-			}
-		]
+					zapper: 'benqi',
+				},
+			},
+		],
 	},
 	{
 		name: 'Bent',
 		slug: 'bent',
-		links: ['https://bentfinance.com'],
+		links: [
+			'https://bentfinance.com',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [
 					{
-						address: '0x01597e397605bf280674bf292623460b4204c375'
-					}
+						address: '0x01597e397605bf280674bf292623460b4204c375',
+					},
 				],
 				providers: {
-					zapper: 'bent'
-				}
-			}
-		]
+					zapper: 'bent',
+				},
+			},
+		],
 	},
 	{
 		name: 'Berezka',
 		slug: 'berezka',
-		links: ['https://www.berezka.io'],
+		links: [
+			'https://www.berezka.io',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zerionDefiSDK: ['Berezka']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'Berezka',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Big Data Protocol',
 		slug: 'big-data',
-		links: ['https://bigdataprotocol.com'],
+		links: [
+			'https://bigdataprotocol.com',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -1521,41 +1702,51 @@ export const web3Apps = [
 						address: '0xf3dcbc6d72a4e1892f7917b7c43b74131df8480e',
 						name: 'Big Data Protocol',
 						symbol: 'BDP',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'big-data'
-				}
-			}
-		]
+					zapper: 'big-data',
+				},
+			},
+		],
 	},
 	{
 		name: 'Biswap',
 		slug: 'biswap',
-		links: ['https://app.beets.fi'],
+		links: [
+			'https://app.beets.fi',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 56,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'biswap'
-				}
-			}
-		]
+					zapper: 'biswap',
+				},
+			},
+		],
 	},
 	{
 		name: 'BitGo',
 		slug: 'bitgo',
-		links: ['https://www.bitgo.com'],
-		colors: ['#62abf4'], // unofficial
+		links: [
+			'https://www.bitgo.com',
+		],
+		colors: [
+			'#62abf4',
+		], // unofficial
 		views: [
 			{
 				name: 'Wrapped Bitcoin',
 				slug: 'wbtc',
-				links: ['https://wbtc.network'],
-				colors: ['#f7931a'], // unofficial
+				links: [
+					'https://wbtc.network',
+				],
+				colors: [
+					'#f7931a',
+				], // unofficial
 				chainId: 1,
 				erc20Tokens: [
 					{
@@ -1564,16 +1755,18 @@ export const web3Apps = [
 						address: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
 						name: 'Wrapped Bitcoin',
 						symbol: 'WBTC',
-						decimals: 8
-					}
-				]
-			}
-		]
+						decimals: 8,
+					},
+				],
+			},
+		],
 	},
 	{
 		name: 'Boring DAO',
 		slug: 'boring',
-		links: ['https://www.boringdao.com'],
+		links: [
+			'https://www.boringdao.com',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -1584,7 +1777,7 @@ export const web3Apps = [
 						address: '0xbc19712feb3a26080ebf6f2f7849b417fdd792ca',
 						name: 'BoringDAO',
 						symbol: 'BORING',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/13525/thumb/gWzm2dr.png?1609390713',
@@ -1592,7 +1785,7 @@ export const web3Apps = [
 						address: '0x8064d9ae6cdf087b1bcd5bdf3531bd5d8c537a68',
 						name: 'BoringDAO BTC',
 						symbol: 'OBTC',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/12917/thumb/bor_logo.png?1603607502',
@@ -1600,29 +1793,31 @@ export const web3Apps = [
 						address: '0x3c9d6c1c73b31c837832c72e04d3152f051fc1a9',
 						name: 'BoringDAO	OLD ',
 						symbol: 'BOR',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'boring-dao'
-				}
-			}
-		]
+					zapper: 'boring-dao',
+				},
+			},
+		],
 	},
 	{
 		name: 'Botto',
 		slug: 'botto',
-		links: ['https://botto.com'],
+		links: [
+			'https://botto.com',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'botto'
-				}
-			}
-		]
+					zapper: 'botto',
+				},
+			},
+		],
 	},
 	{
 		name: 'BProtocol',
@@ -1633,16 +1828,21 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'b-protocol'
-				}
-			}
-		]
+					zapper: 'b-protocol',
+				},
+			},
+		],
 	},
 	{
 		name: 'bZx Protocol',
 		slug: 'bzx',
-		links: ['https://bzx.network'],
-		colors: ['#33dfcc', '#003cda'],
+		links: [
+			'https://bzx.network',
+		],
+		colors: [
+			'#33dfcc',
+			'#003cda',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -1653,8 +1853,8 @@ export const web3Apps = [
 						address: '0x56d811088235f11c8920698a204a5010a788f4b3',
 						name: 'bZx Protocol',
 						symbol: 'BZRX',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					zapper: 'bzx',
@@ -1662,17 +1862,22 @@ export const web3Apps = [
 						'bZx',
 						'bZx bZx',
 						'bZx • Staking',
-						'bZx • Vested Staking'
-					]
-				}
-			}
-		]
+						'bZx • Vested Staking',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Ceramic',
 		slug: 'ceramic',
-		links: ['https://ceramic.network'],
-		colors: ['#FF3600', '#FFB08A'],
+		links: [
+			'https://ceramic.network',
+		],
+		colors: [
+			'#FF3600',
+			'#FFB08A',
+		],
 		icon: CeramicIcon,
 		views: [
 			{
@@ -1680,13 +1885,15 @@ export const web3Apps = [
 				components: [
 					CeramicPage,
 				],
-			}
+			},
 		],
 	},
 	{
 		name: 'Chai',
 		slug: 'chai',
-		links: ['https://chai.money'],
+		links: [
+			'https://chai.money',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -1697,20 +1904,26 @@ export const web3Apps = [
 						address: '0x06af07097c9eeb7fd685c692751d5c66db49c215',
 						name: 'Chai',
 						symbol: 'CHAI',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zerionDefiSDK: ['Chai']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'Chai',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Chainlink',
 		slug: 'chainlink',
-		links: ['https://chain.link'],
-		colors: ['#375bd2'],
+		links: [
+			'https://chain.link',
+		],
+		colors: [
+			'#375bd2',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -1721,17 +1934,22 @@ export const web3Apps = [
 						address: '0x514910771af9ca656af840dff83e8264ecf986ca',
 						name: 'Chainlink',
 						symbol: 'LINK',
-						decimals: 18
-					}
-				]
-			}
-		]
+						decimals: 18,
+					},
+				],
+			},
+		],
 	},
 	{
 		name: 'Circle',
 		slug: 'circle',
 		links: ['https://www.circle.com/en/usdc', 'https://www.centre.io/usdc'],
-		colors: ['#4ee498', '#68d7fa', '#5fbfff', '#b090f5'],
+		colors: [
+			'#4ee498',
+			'#68d7fa',
+			'#5fbfff',
+			'#b090f5',
+		],
 		views: [
 			{
 				name: 'USDC',
@@ -1744,57 +1962,70 @@ export const web3Apps = [
 						address: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
 						name: 'USD Coin',
 						symbol: 'USDC',
-						decimals: 6
-					}
+						decimals: 6,
+					},
 				],
 				providers: {
-					theGraph: 'https://api.thegraph.com/subgraphs/name/centrehq/usdc'
-				}
-			}
-		]
+					theGraph: 'https://api.thegraph.com/subgraphs/name/centrehq/usdc',
+				},
+			},
+		],
 	},
 	{
 		name: 'Clearpool',
 		slug: 'clearpool',
-		links: ['https://clearpool.finance'],
-		colors: ['#fff'],
+		links: [
+			'https://clearpool.finance',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'clearpool'
-				}
+					zapper: 'clearpool',
+				},
 			},
 			{
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'clearpool'
-				}
-			}
-		]
+					zapper: 'clearpool',
+				},
+			},
+		],
 	},
 	{
 		name: 'Cometh',
 		slug: 'cometh',
-		links: ['https://www.cometh.io'],
+		links: [
+			'https://www.cometh.io',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zerionDefiSDK: ['Cometh • Staking', 'Cometh • Tube']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'Cometh • Staking',
+						'Cometh • Tube',
+					],
+				},
+			},
+		],
 	},
 	{
 		// https://compound.finance/docs#networks
 		name: 'Compound',
 		slug: 'compound',
-		links: ['https://compound.finance'],
-		colors: ['#01d395'],
+		links: [
+			'https://compound.finance',
+		],
+		colors: [
+			'#01d395',
+		],
 		views: [
 			{
 				name: 'Compound Governance',
@@ -1807,8 +2038,8 @@ export const web3Apps = [
 						address: '0xc00e94cb662c3520282e6f5717214004a7f26888',
 						name: 'Compound',
 						symbol: 'COMP',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				contracts: [
 					{
@@ -1825,13 +2056,18 @@ export const web3Apps = [
 					},
 				],
 				providers: {
-					zerionDefiSDK: ['Compound Governance']
-				}
+					zerionDefiSDK: [
+						'Compound Governance',
+					],
+				},
 			},
 			{
 				name: 'Compound V2',
 				slug: 'v2',
-				colors: ['#27D3A2', '#9388FD'],
+				colors: [
+					'#27D3A2',
+					'#9388FD',
+				],
 				chainId: 1,
 				erc20Tokens: [
 					erc20TokensBySymbol['cCOMP'],
@@ -1848,7 +2084,7 @@ export const web3Apps = [
 						address: '0xccf4429db6322d5c611ee964527d42e5d685dd6a',
 						name: 'cWBTC',
 						symbol: 'CWBTC',
-						decimals: 8
+						decimals: 8,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/15290/thumb/cwbtc.png?1620371929',
@@ -1856,15 +2092,17 @@ export const web3Apps = [
 						address: '0xc11b1268c1a384e55c48c2391d8d480264a3a7f4',
 						name: 'cWBTC	Legacy ',
 						symbol: 'CWBTC',
-						decimals: 8
+						decimals: 8,
 					},
-					erc20TokensBySymbol['cSAI']
+					erc20TokensBySymbol['cSAI'],
 				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/graphprotocol/compound-v2',
 					zapper: 'compound',
-					zerionDefiSDK: ['Compound']
-				}
+					zerionDefiSDK: [
+						'Compound',
+					],
+				},
 			},
 			{
 				name: 'Compound V1',
@@ -1872,42 +2110,55 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zerionDefiSDK: ['Compound']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'Compound',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Concentrator',
 		slug: 'concentrator',
-		links: ['https://concentrator.aladdin.club'],
-		colors: ['#fff'],
+		links: [
+			'https://concentrator.aladdin.club',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'concentrator'
-				}
-			}
-		]
+					zapper: 'concentrator',
+				},
+			},
+		],
 	},
 	{
 		name: 'Connext',
 		slug: 'connext',
-		colors: ['#29c1fc', '#9c62f9'],
-		links: ['https://connext.network'],
+		colors: [
+			'#29c1fc',
+			'#9c62f9',
+		],
+		links: [
+			'https://connext.network',
+		],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: []
-			}
-		]
+				erc20Tokens: [],
+			},
+		],
 	},
 	{
 		name: 'Convex',
 		slug: 'convex',
-		links: ['https://www.convexfinance.com'],
+		links: [
+			'https://www.convexfinance.com',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -1918,7 +2169,7 @@ export const web3Apps = [
 						address: '0x4e3fbd56cd56c3e72c1403e103b45db9da5b9d2b',
 						name: 'Convex Finance',
 						symbol: 'CVX',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/15586/thumb/convex-crv.png?1621255952',
@@ -1926,34 +2177,40 @@ export const web3Apps = [
 						address: '0x62b9c7356a2dc64a1969e19c23e4f579f9810aa7',
 						name: 'Convex CRV',
 						symbol: 'CVXCRV',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'convex'
-				}
-			}
-		]
+					zapper: 'convex',
+				},
+			},
+		],
 	},
 	{
 		name: 'Coslend',
 		slug: 'coslend',
-		links: ['https://coslend.com'],
-		colors: ['#e921c3'],
+		links: [
+			'https://coslend.com',
+		],
+		colors: [
+			'#e921c3',
+		],
 		views: [
 			{
 				chainId: 25,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'coslend'
-				}
-			}
-		]
+					zapper: 'coslend',
+				},
+			},
+		],
 	},
 	{
 		name: 'Cover Protocol',
 		slug: 'cover',
-		links: ['https://www.coverprotocol.com'],
+		links: [
+			'https://www.coverprotocol.com',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -1964,42 +2221,50 @@ export const web3Apps = [
 						address: '0x4688a8b1f292fdab17e9a90c8bc379dc1dbd8713',
 						name: 'Cover Protocol',
 						symbol: 'COVER',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'cover'
-				}
-			}
-		]
+					zapper: 'cover',
+				},
+			},
+		],
 	},
 	{
 		name: 'Cozy Finance',
 		slug: 'cozy-finance',
-		links: ['https://www.cozy.finance'],
-		colors: ['#fff'],
+		links: [
+			'https://www.cozy.finance',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 42161,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'cozy-finance'
-				}
+					zapper: 'cozy-finance',
+				},
 			},
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'cozy-finance'
-				}
-			}
-		]
+					zapper: 'cozy-finance',
+				},
+			},
+		],
 	},
 	{
 		name: 'C.R.E.A.M.',
 		slug: 'cream',
-		links: ['https://cream.finance'],
-		colors: ['#68e2dc'],
+		links: [
+			'https://cream.finance',
+		],
+		colors: [
+			'#68e2dc',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -2010,7 +2275,7 @@ export const web3Apps = [
 						address: '0x2ba592f78db6436527729929aaf6c908497cb200',
 						name: 'Cream',
 						symbol: 'CREAM',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/13568/thumb/creth2.png?1609837099',
@@ -2018,13 +2283,16 @@ export const web3Apps = [
 						address: '0xcbc1065255cbc3ab41a6868c22d1f1c573ab89fd',
 						name: 'Cream ETH 2',
 						symbol: 'CRETH2',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					zapper: 'cream',
-					zerionDefiSDK: ['C.R.E.A.M.', 'C.R.E.A.M. • Staking']
-				}
+					zerionDefiSDK: [
+						'C.R.E.A.M.',
+						'C.R.E.A.M. • Staking',
+					],
+				},
 			},
 			{
 				name: 'C.R.E.A.M. Iron Bank',
@@ -2032,15 +2300,17 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'cream-iron-bank'
-				}
-			}
-		]
+					zapper: 'cream-iron-bank',
+				},
+			},
+		],
 	},
 	{
 		name: 'Cryptex Finance',
 		slug: 'cryptex',
-		links: ['https://cryptex.finance'],
+		links: [
+			'https://cryptex.finance',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -2051,20 +2321,28 @@ export const web3Apps = [
 						address: '0x321c2fe4446c7c963dc41dd58879af648838f98d',
 						name: 'Cryptex Finance',
 						symbol: 'CTX',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'cryptex'
-				}
-			}
-		]
+					zapper: 'cryptex',
+				},
+			},
+		],
 	},
 	{
 		name: 'Curve',
 		slug: 'curve',
-		links: ['https://curve.fi'],
-		colors: [/*'#840000',*/ '#fd2700', '#f9ea02', '#91ff67'/*, '#0213fa'*/], // unofficial
+		links: [
+			'https://curve.fi',
+		],
+		colors: [
+			// '#840000',
+			'#fd2700',
+			'#f9ea02',
+			'#91ff67',
+			// '#0213fa',
+		], // unofficial
 		views: [
 			{
 				chainId: 1,
@@ -2075,8 +2353,8 @@ export const web3Apps = [
 						address: '0xd533a949740bb3306d119cc777fa900ba034cd52',
 						name: 'Curve DAO Token',
 						symbol: 'CRV',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					zapper: 'curve',
@@ -2084,102 +2362,124 @@ export const web3Apps = [
 						'Curve',
 						'Curve • Liquidity Gauges',
 						'Curve • Vesting',
-						'Curve • Vote Escrowed CRV'
-					]
-				}
-			}
-		]
+						'Curve • Vote Escrowed CRV',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'DDEX',
 		slug: 'ddex',
-		links: ['https://ddex.io'],
-		colors: ['#012d93', '#0367d8', '#00f6fa'], // unofficial
+		links: [
+			'https://ddex.io',
+		],
+		colors: [
+			'#012d93',
+			'#0367d8',
+			'#00f6fa',
+		], // unofficial
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zerionDefiSDK: ['DDEX • Lending', 'DDEX • Margin', 'DDEX • Spot']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'DDEX • Lending',
+						'DDEX • Margin',
+						'DDEX • Spot',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'DeFi Dollar',
 		slug: 'defi-dollar',
-		links: ['https://dusd.finance'],
+		links: [
+			'https://dusd.finance',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'defi-dollar'
-				}
-			}
-		]
+					zapper: 'defi-dollar',
+				},
+			},
+		],
 	},
 	{
 		name: 'Defi Kingdoms',
 		slug: 'defi-kingdoms',
-		links: ['https://www.defikingdoms.com'],
+		links: [
+			'https://www.defikingdoms.com',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1666600000,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'defi-kingdoms'
-				}
-			}
-		]
+					zapper: 'defi-kingdoms',
+				},
+			},
+		],
 	},
 	{
 		name: 'DeFi Saver',
 		slug: 'defi-saver',
-		links: ['https://defisaver.com'],
+		links: [
+			'https://defisaver.com',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'defisaver'
-				}
-			}
-		]
+					zapper: 'defisaver',
+				},
+			},
+		],
 	},
 	{
 		name: 'DeFi Swap',
 		slug: 'defi-swap',
-		links: ['https://crypto.com/defi/swap'],
+		links: [
+			'https://crypto.com/defi/swap',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'defi-swap'
-				}
-			}
-		]
+					zapper: 'defi-swap',
+				},
+			},
+		],
 	},
 	{
 		name: 'DerivaDEX',
 		slug: 'derivadex',
-		links: ['https://derivadex.com'],
+		links: [
+			'https://derivadex.com',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'derivadex'
-				}
-			}
-		]
+					zapper: 'derivadex',
+				},
+			},
+		],
 	},
 	{
 		name: 'DeversiFi',
 		slug: 'deversifi',
-		links: ['https://www.deversifi.com'],
+		links: [
+			'https://www.deversifi.com',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -2190,19 +2490,21 @@ export const web3Apps = [
 						address: '0xdddddd4301a082e62e84e43f474f044423921918',
 						name: 'DVF',
 						symbol: 'DVF',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'deversifi'
-				}
-			}
-		]
+					zapper: 'deversifi',
+				},
+			},
+		],
 	},
 	{
 		name: 'DFI Money',
 		slug: 'dfi-money',
-		links: ['https://dfi.money'],
+		links: [
+			'https://dfi.money',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -2213,19 +2515,21 @@ export const web3Apps = [
 						address: '0xa1d0e215a23d7030842fc67ce582a6afa3ccab83',
 						name: 'DFI money',
 						symbol: 'YFII',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'dfi-money'
-				}
-			}
-		]
+					zapper: 'dfi-money',
+				},
+			},
+		],
 	},
 	{
 		name: 'dForce',
 		slug: 'dforce',
-		links: ['https://dforce.network'],
+		links: [
+			'https://dforce.network',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -2236,41 +2540,47 @@ export const web3Apps = [
 						address: '0x431ad2ff6a9c365805ebad47ee021148d6f7dbe0',
 						name: 'dForce Token',
 						symbol: 'DF',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'dforce'
-				}
-			}
-		]
+					zapper: 'dforce',
+				},
+			},
+		],
 	},
 	{
 		name: 'Dfx',
 		slug: 'dfx',
-		links: ['https://exchange.dfx.finance'],
-		colors: ['#fff'],
+		links: [
+			'https://exchange.dfx.finance',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'dfx'
-				}
+					zapper: 'dfx',
+				},
 			},
 			{
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'dfx'
-				}
-			}
-		]
+					zapper: 'dfx',
+				},
+			},
+		],
 	},
 	{
 		name: 'Dfyn Network',
 		slug: 'dfyn',
-		links: ['https://dfyn.network'],
+		links: [
+			'https://dfyn.network',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -2281,19 +2591,21 @@ export const web3Apps = [
 						address: '0xa1d0e215a23d7030842fc67ce582a6afa3ccab83',
 						name: 'DFI money',
 						symbol: 'YFII',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'dfyn'
-				}
-			}
-		]
+					zapper: 'dfyn',
+				},
+			},
+		],
 	},
 	{
 		name: 'dHEDGE',
 		slug: 'dhedge',
-		links: ['https://www.dhedge.org'],
+		links: [
+			'https://www.dhedge.org',
+		],
 		views: [
 			{
 				name: 'Dhedge V2',
@@ -2301,8 +2613,8 @@ export const web3Apps = [
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'dhedge-v2'
-				}
+					zapper: 'dhedge-v2',
+				},
 			},
 			{
 				name: 'Dhedge V2',
@@ -2310,8 +2622,8 @@ export const web3Apps = [
 				chainId: 10,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'dhedge-v2'
-				}
+					zapper: 'dhedge-v2',
+				},
 			},
 			{
 				chainId: 1,
@@ -2322,7 +2634,7 @@ export const web3Apps = [
 						address: '0xca1207647ff814039530d7d35df0e1dd2e91fa84',
 						name: 'dHEDGE DAO',
 						symbol: 'DHT',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/14792/thumb/dtop.jpg?1618469418',
@@ -2330,53 +2642,63 @@ export const web3Apps = [
 						address: '0x0f4c00139602ab502bc7c1c0e71d6cb72a9fb0e7',
 						name: 'dHEDGE Top Index',
 						symbol: 'DTOP',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'dhedge'
-				}
-			}
-		]
+					zapper: 'dhedge',
+				},
+			},
+		],
 	},
 	{
 		name: 'Diffusion',
 		slug: 'diffusion',
-		links: ['https://app.diffusion.fi'],
-		colors: ['#27D2EA'],
+		links: [
+			'https://app.diffusion.fi',
+		],
+		colors: [
+			'#27D2EA',
+		],
 		views: [
 			{
 				chainId: 25,
 				erc20Tokens: [
 					{
-						address: '0x3f75ceabcdfed1aca03257dc6bdc0408e2b4b026'
-					}
+						address: '0x3f75ceabcdfed1aca03257dc6bdc0408e2b4b026',
+					},
 				],
 				providers: {
-					zapper: 'diffusion'
-				}
-			}
-		]
+					zapper: 'diffusion',
+				},
+			},
+		],
 	},
 	{
 		name: 'Disco',
 		slug: 'disco',
-		links: ['https://disco.xyz'],
-		colors: ['#020218'],
+		links: [
+			'https://disco.xyz',
+		],
+		colors: [
+			'#020218',
+		],
 		icon: DiscoIcon,
 		views: [
 			{
 				chainId: 1,
 				components: [
 					DiscoPage,
-				]
-			}
+				],
+			},
 		],
 	},
 	{
 		name: 'DeFi Money Market',
 		slug: 'dmm',
-		links: ['https://defimoneymarket.com'],
+		links: [
+			'https://defimoneymarket.com',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -2387,20 +2709,26 @@ export const web3Apps = [
 						address: '0xed91879919b71bb6905f23af0a68d231ecf87b14',
 						name: 'DMM	Governance',
 						symbol: 'DMG',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zerionDefiSDK: ['DeFi Money Market']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'DeFi Money Market',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'DODO',
 		slug: 'dodo',
-		links: ['https://dodoex.io'],
-		colors: ['#fff700'],
+		links: [
+			'https://dodoex.io',
+		],
+		colors: [
+			'#fff700',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -2411,20 +2739,24 @@ export const web3Apps = [
 						address: '0x43dfc4159d86f3a37a5a4b3d4580b888ad7d4ddd',
 						name: 'DODO',
 						symbol: 'DODO',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					zapper: 'dodo',
-					zerionDefiSDK: ['DODO']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'DODO',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Dopex',
 		slug: 'dopex',
-		links: ['https://dopex.io'],
+		links: [
+			'https://dopex.io',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -2435,7 +2767,7 @@ export const web3Apps = [
 						address: '0xeec2be5c91ae7f8a338e1e5f3b5de49d07afdc81',
 						name: 'Dopex',
 						symbol: 'DPX',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/16659/thumb/rDPX_200x200_Coingecko.png?1624614475',
@@ -2443,35 +2775,43 @@ export const web3Apps = [
 						address: '0x0ff5a8451a839f5f0bb3562689d9a44089738d11',
 						name: 'Dopex Rebate Token',
 						symbol: 'RDPX',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'dopex'
-				}
-			}
-		]
+					zapper: 'dopex',
+				},
+			},
+		],
 	},
 	{
 		name: 'dYdX',
 		slug: 'dydx',
-		links: ['https://dydx.exchange'],
-		colors: ['#6966ff'],
+		links: [
+			'https://dydx.exchange',
+		],
+		colors: [
+			'#6966ff',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
 					zapper: 'dydx',
-					zerionDefiSDK: ['dYdX']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'dYdX',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Dynamic Set Dollar',
 		slug: 'dynamic-set-dollar',
-		links: ['https://dsd.finance'],
+		links: [
+			'https://dsd.finance',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -2482,50 +2822,61 @@ export const web3Apps = [
 						address: '0xbd2f0cd039e0bfcf88901c98c0bfac5ab27566e3',
 						name: 'Dynamic Set Dollar',
 						symbol: 'DSD',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'dsd'
-				}
-			}
-		]
+					zapper: 'dsd',
+				},
+			},
+		],
 	},
 	{
 		name: 'Ease',
 		slug: 'ease',
-		links: ['https://ease.org'],
-		colors: ['#fff'],
+		links: [
+			'https://ease.org',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'ease'
-				}
-			}
-		]
+					zapper: 'ease',
+				},
+			},
+		],
 	},
 	{
 		name: 'Eden',
 		slug: 'eden',
-		links: ['https://www.edennetwork.io'],
+		links: [
+			'https://www.edennetwork.io',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'eden'
-				}
-			}
-		]
+					zapper: 'eden',
+				},
+			},
+		],
 	},
 	{
 		name: '88mph',
 		slug: '88mph',
-		links: ['https://88mph.app'],
-		colors: ['#743ad5', '#d53a9d'],
+		links: [
+			'https://88mph.app',
+		],
+		colors: [
+			'#743ad5',
+			'#d53a9d',
+		],
 		views: [
 			{
 				name: '88mph V3',
@@ -2533,8 +2884,8 @@ export const web3Apps = [
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'eighty-eight-mph-v3'
-				}
+					zapper: 'eighty-eight-mph-v3',
+				},
 			},
 			{
 				name: '88mph V3',
@@ -2547,12 +2898,12 @@ export const web3Apps = [
 						address: '0x8888801af4d980682e47f1a9036e589479e835c5',
 						name: '88mph',
 						symbol: 'MPH',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'eighty-eight-mph-v3'
-				}
+					zapper: 'eighty-eight-mph-v3',
+				},
 			},
 			{
 				name: '88mph V3',
@@ -2560,8 +2911,8 @@ export const web3Apps = [
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'eighty-eight-mph-v3'
-				}
+					zapper: 'eighty-eight-mph-v3',
+				},
 			},
 			{
 				name: '88mph V3',
@@ -2569,8 +2920,8 @@ export const web3Apps = [
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'eighty-eight-mph-v3'
-				}
+					zapper: 'eighty-eight-mph-v3',
+				},
 			},
 			{
 				name: '88mph V1',
@@ -2583,23 +2934,28 @@ export const web3Apps = [
 						address: '0x8888801af4d980682e47f1a9036e589479e835c5',
 						name: '88mph',
 						symbol: 'MPH',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/bacon-labs/eighty-eight-mph',
-					zapper: '88mph'
-				}
-			}
-		]
+					zapper: '88mph',
+				},
+			},
+		],
 	},
 	{
 		// https://docs.element.fi/developers/public-releases
 		// https://raw.githubusercontent.com/element-fi/elf-deploy/main/changelog/releases/mainnet/v1.0.0:2/addresses.json
 		name: 'Element Finance',
 		slug: 'element',
-		links: ['https://www.element.fi'],
-		colors: ['#1568CA', '#8FD8E7'],
+		links: [
+			'https://www.element.fi',
+		],
+		colors: [
+			'#1568CA',
+			'#8FD8E7',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -2625,7 +2981,7 @@ export const web3Apps = [
 						name: 'convergentCurvePoolFactory',
 						address: '0xb7561f547F3207eDb42A6AfA42170Cd47ADD17BD',
 					},
-
+					
 					// yearn lusd3crv-f
 					{
 						name: 'wrapped position',
@@ -2635,63 +2991,71 @@ export const web3Apps = [
 						name: 'vault',
 						address: '0x5fA5B62c8AF877CB37031e0a3B2f34A78e3C56A6',
 					},
-
+					
 					// tranches
 				],
 				providers: {
-					zapper: 'element'
-				}
-			}
-		]
+					zapper: 'element',
+				},
+			},
+		],
 	},
 	{
 		name: 'Eleven Finance',
 		slug: 'eleven-finance',
-		links: ['https://eleven.finance'],
+		links: [
+			'https://eleven.finance',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'eleven-finance'
-				}
+					zapper: 'eleven-finance',
+				},
 			},
 			{
 				chainId: 56,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'eleven-finance'
-				}
+					zapper: 'eleven-finance',
+				},
 			},
 			{
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'eleven-finance'
-				}
-			}
-		]
+					zapper: 'eleven-finance',
+				},
+			},
+		],
 	},
 	{
 		name: 'Ellipsis',
 		slug: 'ellipsis',
-		links: ['https://v2.ellipsis.finance'],
+		links: [
+			'https://v2.ellipsis.finance',
+		],
 		views: [
 			{
 				chainId: 56,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'ellipsis'
-				}
-			}
-		]
+					zapper: 'ellipsis',
+				},
+			},
+		],
 	},
 	{
 		name: 'Empty Set Dollar',
 		slug: 'empty-set-dollar',
-		links: ['https://www.emptyset.finance'],
-		colors: ['#312f32'],
+		links: [
+			'https://www.emptyset.finance',
+		],
+		colors: [
+			'#312f32',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -2702,20 +3066,24 @@ export const web3Apps = [
 						address: '0x36f3fd68e7325a35eb768f1aedaae9ea0689d723',
 						name: 'Empty Set Dollar',
 						symbol: 'ESD',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'esd'
-				}
-			}
-		]
+					zapper: 'esd',
+				},
+			},
+		],
 	},
 	{
 		name: 'ENS',
 		slug: 'ens',
-		links: ['https://ens.domains'],
-		colors: ['#5284ff'],
+		links: [
+			'https://ens.domains',
+		],
+		colors: [
+			'#5284ff',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -2726,27 +3094,32 @@ export const web3Apps = [
 						address: '0xc18360217d8f7ab5e7c516566761ea12ce7f9d72',
 						name: 'Ethereum Name Service',
 						symbol: 'ENS',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				nfts: [
 					{
 						name: 'ENS: Base Registrar',
 						address: '0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85',
-						symbol: 'ENS'
-					}
+						symbol: 'ENS',
+					},
 				],
 				providers: {
-					theGraph: 'https://api.thegraph.com/subgraphs/name/ensdomains/ens'
-				}
-			}
-		]
+					theGraph: 'https://api.thegraph.com/subgraphs/name/ensdomains/ens',
+				},
+			},
+		],
 	},
 	{
 		name: 'Enzyme Finance',
 		slug: 'enzyme',
-		links: ['https://enzyme.finance'],
-		colors: ['#01cabe', '#6852ed'], // ['#8167e0'],
+		links: [
+			'https://enzyme.finance',
+		],
+		colors: [
+			'#01cabe',
+			'#6852ed',
+		], // ['#8167e0'],
 		views: [
 			{
 				chainId: 1,
@@ -2757,21 +3130,26 @@ export const web3Apps = [
 						address: '0xec67005c4e498ec7f55e092bd1d35cbc47c91892',
 						name: 'Enzyme',
 						symbol: 'MLN',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/enzymefinance/enzyme',
-					zerionDefiSDK: ['Enzyme', 'Melon'],
-					zapper: 'enzyme-finance'
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'Enzyme',
+						'Melon',
+					],
+					zapper: 'enzyme-finance',
+				},
+			},
+		],
 	},
 	{
 		name: 'Essentia',
 		slug: 'essentia',
-		links: ['https://essentia.one'],
+		links: [
+			'https://essentia.one',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -2782,89 +3160,110 @@ export const web3Apps = [
 						address: '0xfc05987bd2be489accf0f509e44b0145d68240f7',
 						name: 'Essentia',
 						symbol: 'ESS',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'essentia'
-				}
-			}
-		]
+					zapper: 'essentia',
+				},
+			},
+		],
 	},
 	{
 		name: 'Ethereum',
 		slug: 'ethereum',
-		links: ['https://ethereum.org'],
-		colors: ['#627eea'],
+		links: [
+			'https://ethereum.org',
+		],
+		colors: [
+			'#627eea',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'ethereum'
-				}
-			}
-		]
+					zapper: 'ethereum',
+				},
+			},
+		],
 	},
 	{
 		name: 'Etherspot',
 		slug: 'etherspot',
-		colors: ['#f43c48', '#f67033'],
-		links: ['https://etherspot.io'],
+		colors: [
+			'#f43c48',
+			'#f67033',
+		],
+		links: [
+			'https://etherspot.io',
+		],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: []
-			}
-		]
+				erc20Tokens: [],
+			},
+		],
 	},
 	{
 		name: 'Euler',
 		slug: 'euler',
-		links: ['https://app.euler.finance'],
-		colors: ['#fff'],
+		links: [
+			'https://app.euler.finance',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'euler'
-				}
-			}
-		]
+					zapper: 'euler',
+				},
+			},
+		],
 	},
 	{
 		name: 'Evmoswap',
 		slug: 'evmoswap',
-		links: ['https://app.evmoswap.org'],
-		colors: ['#121212'],
+		links: [
+			'https://app.evmoswap.org',
+		],
+		colors: [
+			'#121212',
+		],
 		views: [
 			{
 				chainId: 25,
 				erc20Tokens: [
 					{
-						address: '0x181c262b973b22c307c646a67f64b76410d19b6b'
-					}
+						address: '0x181c262b973b22c307c646a67f64b76410d19b6b',
+					},
 				],
 				providers: {
-					zapper: 'evmoswap'
-				}
-			}
-		]
+					zapper: 'evmoswap',
+				},
+			},
+		],
 	},
 	{
 		name: 'Farcaster',
 		slug: 'farcaster',
-		links: ['https://www.farcaster.xyz'],
-		colors: ['#8a63d2'],
+		links: [
+			'https://www.farcaster.xyz',
+		],
+		colors: [
+			'#8a63d2',
+		],
 		icon: FarcasterIcon,
 		showCustomUi: true,
 		views: [
 			{
 				showOn: ['Dashboard'],
-
+				
 				chainId: 10,
-
+				
 				contracts: [
 					{
 						name: 'IdRegistry',
@@ -2905,7 +3304,9 @@ export const web3Apps = [
 	{
 		name: 'Fei Protocol',
 		slug: 'fei',
-		links: ['https://fei.money'],
+		links: [
+			'https://fei.money',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -2916,50 +3317,58 @@ export const web3Apps = [
 						address: '0x956f47f50a910163d8bf957cf5846d573e7f87ca',
 						name: 'Fei USD',
 						symbol: 'FEI',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'fei'
-				}
-			}
-		]
+					zapper: 'fei',
+				},
+			},
+		],
 	},
 	{
 		name: 'FinNexus',
 		slug: 'finnexus',
-		links: ['https://www.finnexus.io'],
+		links: [
+			'https://www.finnexus.io',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [
-					erc20TokensBySymbol['FNX']
+					erc20TokensBySymbol['FNX'],
 				],
 				providers: {
-					zerionDefiSDK: ['FinNexus']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'FinNexus',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Fixed Forex',
 		slug: 'fixed-forex',
-		links: ['https://fixedforex.fi'],
+		links: [
+			'https://fixedforex.fi',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'fixed-forex'
-				}
-			}
-		]
+					zapper: 'fixed-forex',
+				},
+			},
+		],
 	},
 	{
 		name: 'Float Protocol',
 		slug: 'float',
-		links: ['https://floatprotocol.com'],
+		links: [
+			'https://floatprotocol.com',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -2970,7 +3379,7 @@ export const web3Apps = [
 						address: '0xb05097849bca421a3f51b249ba6cca4af4b97cb9',
 						name: 'Float Protocol	Flo',
 						symbol: 'FLOAT',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/14116/thumb/FLOAT-Bank_LOGO-reduced_01.png?1616573606',
@@ -2978,64 +3387,74 @@ export const web3Apps = [
 						address: '0x24a6a37576377f63f194caa5f518a60f45b42921',
 						name: 'Float Protocol',
 						symbol: 'BANK',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'float-protocol'
-				}
-			}
-		]
+					zapper: 'float-protocol',
+				},
+			},
+		],
 	},
 	{
 		name: 'Float Capital',
 		slug: 'float-capital',
-		links: ['https://float.capital'],
-		colors: ['#1c1d26'],
+		links: [
+			'https://float.capital',
+		],
+		colors: [
+			'#1c1d26',
+		],
 		views: [
 			{
 				chainId: 137,
 				erc20Tokens: [
 					{
-						address: '0x01309a1ec476871760d9ea454628500bccc1e011'
-					}
+						address: '0x01309a1ec476871760d9ea454628500bccc1e011',
+					},
 				],
 				providers: {
-					zapper: 'float-capital'
-				}
+					zapper: 'float-capital',
+				},
 			},
 			{
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'float-capital'
-				}
-			}
-		]
+					zapper: 'float-capital',
+				},
+			},
+		],
 	},
 	{
 		name: 'Floor Dao',
 		slug: 'floor-dao',
-		links: ['https://floor.xyz'],
-		colors: ['#14f5da'],
+		links: [
+			'https://floor.xyz',
+		],
+		colors: [
+			'#14f5da',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [
 					{
-						address: '0xf59257e961883636290411c11ec5ae622d19455e'
-					}
+						address: '0xf59257e961883636290411c11ec5ae622d19455e',
+					},
 				],
 				providers: {
-					zapper: 'floor-dao'
-				}
-			}
-		]
+					zapper: 'floor-dao',
+				},
+			},
+		],
 	},
 	{
 		name: 'Frax',
 		slug: 'frax',
-		links: ['https://frax.finance'],
+		links: [
+			'https://frax.finance',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -3046,50 +3465,58 @@ export const web3Apps = [
 						address: '0x853d955acef822db058eb8505911ed77f175b99e',
 						name: 'Frax',
 						symbol: 'FRAX',
-						decimals: 18
+						decimals: 18,
 					},
-					// erc20TokensBySymbol['FSX']
+					// erc20TokensBySymbol['FSX'],
 				],
 				providers: {
-					zapper: 'frax'
-				}
-			}
-		]
+					zapper: 'frax',
+				},
+			},
+		],
 	},
 	{
 		name: 'Frax Lend',
 		slug: 'frax-lend',
-		links: ['https://frax.finance'],
+		links: [
+			'https://frax.finance',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'frax-lend'
-				}
-			}
-		]
+					zapper: 'frax-lend',
+				},
+			},
+		],
 	},
 	{
 		name: 'Furucombo',
 		slug: 'furucombo',
-		links: ['https://furucombo.app'],
-		colors: ['#1b1b21'],
+		links: [
+			'https://furucombo.app',
+		],
+		colors: [
+			'#1b1b21',
+		],
 		views: [
 			{
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'furucombo'
-				}
-			}
-		]
+					zapper: 'furucombo',
+				},
+			},
+		],
 	},
 	{
 		name: 'Futureswap',
 		slug: 'futureswap',
-		links: ['https://www.futureswap.com'],
+		links: [
+			'https://www.futureswap.com',
+		],
 		views: [
 			{
 				name: 'Futureswap V1',
@@ -3102,89 +3529,105 @@ export const web3Apps = [
 						address: '0x0e192d382a36de7011f795acc4391cd302003606',
 						name: 'Futureswap',
 						symbol: 'FST',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/futureswap/futureswap-v1',
-					zapper: 'futureswap'
-				}
-			}
-		]
+					zapper: 'futureswap',
+				},
+			},
+		],
 	},
 	{
 		name: 'Gamma Strategies',
 		slug: 'gamma-strategies',
-		links: ['https://www.gammastrategies.org'],
-		colors: ['#FF0025'],
+		links: [
+			'https://www.gammastrategies.org',
+		],
+		colors: [
+			'#FF0025',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [
 					{
-						address: '0x6bea7cfef803d1e3d5f7c0103f7ded065644e197'
-					}
+						address: '0x6bea7cfef803d1e3d5f7c0103f7ded065644e197',
+					},
 				],
 				providers: {
-					zapper: 'gamma-strategies'
-				}
-			}
-		]
+					zapper: 'gamma-strategies',
+				},
+			},
+		],
 	},
 	{
 		name: 'Geist',
 		slug: 'geist',
-		links: ['https://geist.finance'],
-		colors: ['#bcfd71'],
+		links: [
+			'https://geist.finance',
+		],
+		colors: [
+			'#bcfd71',
+		],
 		views: [
 			{
 				chainId: 250,
 				erc20Tokens: [
 					{
-						address: '0xd8321aa83fb0a4ecd6348d4577431310a6e0814d'
-					}
+						address: '0xd8321aa83fb0a4ecd6348d4577431310a6e0814d',
+					},
 				],
 				providers: {
-					zapper: 'geist'
-				}
-			}
-		]
+					zapper: 'geist',
+				},
+			},
+		],
 	},
 	{
 		name: 'GMX',
 		slug: 'gmx',
-		links: ['https://gmx.io'],
-		colors: ['#2d42fc'],
+		links: [
+			'https://gmx.io',
+		],
+		colors: [
+			'#2d42fc',
+		],
 		views: [
 			{
 				chainId: 42161,
 				erc20Tokens: [
 					{
-						address: '0xfc5a1a6eb076a2c7ad06ed22c90d7e710e35ad0a'
-					}
+						address: '0xfc5a1a6eb076a2c7ad06ed22c90d7e710e35ad0a',
+					},
 				],
 				providers: {
-					zapper: 'gmx'
-				}
+					zapper: 'gmx',
+				},
 			},
 			{
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'gmx'
-				}
-			}
-		]
+					zapper: 'gmx',
+				},
+			},
+		],
 	},
 	{
 		name: 'Gnosis',
 		slug: 'gnosis',
-		links: ['https://gnosis.io'],
+		links: [
+			'https://gnosis.io',
+		],
 		views: [
 			{
 				name: 'Gnosis Protocol',
 				slug: 'protocol',
-				links: ['https://gnosis.io/protocol'],
+				links: [
+					'https://gnosis.io/protocol',
+				],
 				chainId: 1,
 				erc20Tokens: [
 					{
@@ -3193,60 +3636,72 @@ export const web3Apps = [
 						address: '0x6810e776880c02933d47db1b9fc05908e5386b96',
 						name: 'Gnosis',
 						symbol: 'GNO',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zerionDefiSDK: ['Gnosis Protocol'],
-					theGraph: 'https://api.thegraph.com/subgraphs/name/gnosis/protocol'
-				}
+					zerionDefiSDK: [
+						'Gnosis Protocol',
+					],
+					theGraph: 'https://api.thegraph.com/subgraphs/name/gnosis/protocol',
+				},
 			},
 			{
 				name: 'Gnosis Protocol',
 				slug: 'protocol',
-				links: ['https://gnosis.io/protocol'],
+				links: [
+					'https://gnosis.io/protocol',
+				],
 				chainId: 100,
 				providers: {
-					theGraph: 'https://api.thegraph.com/subgraphs/name/gnosis/protocol-xdai'
-				}
+					theGraph: 'https://api.thegraph.com/subgraphs/name/gnosis/protocol-xdai',
+				},
 			},
 			{
 				name: 'Gnosis Safe',
 				slug: 'safe',
-				links: ['https://gnosis.io/protocol'],
+				links: [
+					'https://gnosis.io/protocol',
+				],
 				chainId: 100,
 				providers: {
-					theGraph: 'https://api.thegraph.com/subgraphs/name/gjeanmart/gnosis-safe-mainnet'
-				}
-			}
-		]
+					theGraph: 'https://api.thegraph.com/subgraphs/name/gjeanmart/gnosis-safe-mainnet',
+				},
+			},
+		],
 	},
 	{
 		name: 'Good Ghosting',
 		slug: 'good-ghosting',
-		links: ['https://goodghosting.com'],
-		colors: ['#fff'],
+		links: [
+			'https://goodghosting.com',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'good-ghosting'
-				}
+					zapper: 'good-ghosting',
+				},
 			},
 			{
 				chainId: 42220,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'good-ghosting'
-				}
-			}
-		]
+					zapper: 'good-ghosting',
+				},
+			},
+		],
 	},
 	{
 		name: 'Governor DAO',
 		slug: 'governor',
-		links: ['https://governordao.org'],
+		links: [
+			'https://governordao.org',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -3257,56 +3712,66 @@ export const web3Apps = [
 						address: '0x515d7e9d75e2b76db60f8a051cd890eba23286bc',
 						name: 'Governor DAO',
 						symbol: 'GDAO',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'governor-dao'
-				}
-			}
-		]
+					zapper: 'governor-dao',
+				},
+			},
+		],
 	},
 	{
 		name: 'Granary Finance',
 		slug: 'granary-finance',
-		links: ['https://granary.finance'],
-		colors: ['#fff'],
+		links: [
+			'https://granary.finance',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'granary-finance'
-				}
+					zapper: 'granary-finance',
+				},
 			},
 			{
 				chainId: 10,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'granary-finance'
-				}
-			}
-		]
+					zapper: 'granary-finance',
+				},
+			},
+		],
 	},
 	{
 		name: 'Grim',
 		slug: 'grim',
-		links: ['https://www.grim.finance'],
-		colors: ['#c11828'],
+		links: [
+			'https://www.grim.finance',
+		],
+		colors: [
+			'#c11828',
+		],
 		views: [
 			{
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'grim'
-				}
-			}
-		]
+					zapper: 'grim',
+				},
+			},
+		],
 	},
 	{
 		name: 'Gro',
 		slug: 'gro',
-		links: ['https://www.gro.xyz'],
+		links: [
+			'https://www.gro.xyz',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -3317,20 +3782,25 @@ export const web3Apps = [
 						address: '0x3ec8798b81485a254928b70cda1cf0a2bb0b74d7',
 						name: 'Gro DAO Token',
 						symbol: 'GRO',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'gro'
-				}
-			}
-		]
+					zapper: 'gro',
+				},
+			},
+		],
 	},
 	{
 		name: 'Harvest Finance',
 		slug: 'harvest',
-		links: ['https://harvest.finance'],
-		colors: ['#fffce6', '#bbe3e2'], // unofficial
+		links: [
+			'https://harvest.finance',
+		],
+		colors: [
+			'#fffce6',
+			'#bbe3e2',
+		], // unofficial
 		views: [
 			{
 				chainId: 1,
@@ -3341,42 +3811,49 @@ export const web3Apps = [
 						address: '0xa0246c9032bc3a600820415ae600c6388619a14d',
 						name: 'Harvest Finance',
 						symbol: 'FARM',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					zapper: 'harvest',
-					zerionDefiSDK: ['Harvest', 'Harvest • Profit Sharing']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'Harvest',
+						'Harvest • Profit Sharing',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Hector Network',
 		slug: 'hector-network',
-		links: ['https://hector.network'],
+		links: [
+			'https://hector.network',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'hector-network'
-				}
+					zapper: 'hector-network',
+				},
 			},
 			{
 				chainId: 56,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'hector-network'
-				}
-			}
-		]
+					zapper: 'hector-network',
+				},
+			},
+		],
 	},
 	{
 		name: 'Hegic',
 		slug: 'hegic',
-		links: ['https://www.hegic.co'],
+		links: [
+			'https://www.hegic.co',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -3387,7 +3864,7 @@ export const web3Apps = [
 						address: '0x584bc13c7d411c00c01a62e8019472de68768430',
 						name: 'Hegic',
 						symbol: 'HEGIC',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/13969/thumb/ezgif-4-b5306690cb32.jpg?1613385300',
@@ -3395,7 +3872,7 @@ export const web3Apps = [
 						address: '0xad7ca17e23f13982796d27d1e6406366def6ee5f',
 						name: 'rHEGIC2',
 						symbol: 'RHEGIC2',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/13074/thumb/zhegic_logo.png?1604903561',
@@ -3403,12 +3880,12 @@ export const web3Apps = [
 						address: '0x837010619aeb2ae24141605afc8f66577f6fb2e7',
 						name: 'zHEGIC',
 						symbol: 'ZHEGIC',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'hegic'
-				}
+					zapper: 'hegic',
+				},
 			},
 			{
 				name: 'zLOT Finance',
@@ -3421,108 +3898,124 @@ export const web3Apps = [
 						address: '0xa8e7ad77c60ee6f30bac54e2e7c0617bd7b5a03e',
 						name: 'zLOT',
 						symbol: 'ZLOT',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					zapper: 'zlot',
-					zerionDefiSDK: ['zlot.finance']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'zlot.finance',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Honeyswap',
 		slug: 'honeyswap',
-		links: ['https://honeyswap.org'],
-		colors: ['#fff'],
+		links: [
+			'https://honeyswap.org',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'honeyswap'
-				}
+					zapper: 'honeyswap',
+				},
 			},
 			{
 				chainId: 100,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'honeyswap'
-				}
-			}
-		]
+					zapper: 'honeyswap',
+				},
+			},
+		],
 	},
 	{
 		name: 'Hop',
 		slug: 'hop',
-		links: ['https://hop.exchange'],
+		links: [
+			'https://hop.exchange',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 42161,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'hop'
-				}
+					zapper: 'hop',
+				},
 			},
 			{
 				chainId: 100,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'hop'
-				}
+					zapper: 'hop',
+				},
 			},
 			{
 				chainId: 10,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'hop'
-				}
+					zapper: 'hop',
+				},
 			},
 			{
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'hop'
-				}
-			}
-		]
+					zapper: 'hop',
+				},
+			},
+		],
 	},
 	{
 		name: 'Hundred Finance',
 		slug: 'hundred-finance',
-		links: ['https://hundred.finance'],
+		links: [
+			'https://hundred.finance',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'hundred-finance'
-				}
+					zapper: 'hundred-finance',
+				},
 			},
 			{
 				chainId: 42161,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'hundred-finance'
-				}
+					zapper: 'hundred-finance',
+				},
 			},
 			{
 				chainId: 1666600000,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'hundred-finance'
-				}
-			}
-		]
+					zapper: 'hundred-finance',
+				},
+			},
+		],
 	},
 	{
 		name: 'Idle Finance',
 		slug: 'idle',
-		links: ['https://idle.finance'],
-		colors: ['#0B50B0', '#0F6BEB', '#6FA4F2'],
+		links: [
+			'https://idle.finance',
+		],
+		colors: [
+			'#0B50B0',
+			'#0F6BEB',
+			'#6FA4F2',
+		],
 		views: [
 			{
 				name: 'Idle Governance',
@@ -3535,12 +4028,14 @@ export const web3Apps = [
 						address: '0x875773784af8135ea0ef43b5a374aad105c5d39e',
 						name: 'IDLE',
 						symbol: 'IDLE',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zerionDefiSDK: ['Idle']
-				}
+					zerionDefiSDK: [
+						'Idle',
+					],
+				},
 			},
 			{
 				chainId: 1,
@@ -3551,7 +4046,7 @@ export const web3Apps = [
 						address: '0x3fe7940616e5bc47b0775a0dccf6237893353bb4',
 						name: 'IdleDAI	Best Yield',
 						symbol: 'IDLEDAIYIELD',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/11934/thumb/idlesusdv3mmaxyield_32.png?1596263703',
@@ -3559,7 +4054,7 @@ export const web3Apps = [
 						address: '0xf52cdcd458bf455aed77751743180ec4a595fd3f',
 						name: 'IdleSUSD	Yield ',
 						symbol: 'IDLESUSDYIELD',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/11930/thumb/idleusdc-safe.png?1596263257',
@@ -3567,7 +4062,7 @@ export const web3Apps = [
 						address: '0x3391bc034f2935ef0e1e41619445f998b2680d35',
 						name: 'IdleUSDC	Risk Adju',
 						symbol: 'IDLEUSDCSAFE',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/11933/thumb/idleusdtv3maxyield_32.png?1596263688',
@@ -3575,7 +4070,7 @@ export const web3Apps = [
 						address: '0xf34842d05a1c888ca02769a633df37177415c2f8',
 						name: 'IdleUSDT	Yield ',
 						symbol: 'IDLEUSDTYIELD',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/11929/thumb/idledai-safe.png?1596263241',
@@ -3583,7 +4078,7 @@ export const web3Apps = [
 						address: '0xa14ea0e11121e6e951e87c66afe460a00bcd6a16',
 						name: 'IdleDAI	Risk Adjus',
 						symbol: 'IDLEDAISAFE',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/11931/thumb/idleusdt-safe.png?1596263270',
@@ -3591,7 +4086,7 @@ export const web3Apps = [
 						address: '0x28fac5334c9f7262b3a3fe707e250e01053e07b5',
 						name: 'IdleUSDT	Risk Adju',
 						symbol: 'IDLEUSDTSAFE',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/11935/thumb/idletusdv3mMaxyield_32.png?1596263719',
@@ -3599,7 +4094,7 @@ export const web3Apps = [
 						address: '0xc278041fdd8249fe4c1aad1193876857eea3d68c',
 						name: 'IdleTUSD	Best Yiel',
 						symbol: 'IDLETUSDYIELD',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/11936/thumb/idlewbtcv3maxyield_32.png?1596263736',
@@ -3607,7 +4102,7 @@ export const web3Apps = [
 						address: '0x8c81121b15197fa0eeaee1dc75533419dcfd3151',
 						name: 'IdleWBTC	Best Yiel',
 						symbol: 'IDLEWBTCYIELD',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/11932/thumb/idleusdcv3_32.png?1596263673',
@@ -3615,21 +4110,26 @@ export const web3Apps = [
 						address: '0x5274891bec421b39d23760c04a6755ecb444797c',
 						name: 'IdleUSDC	Yield ',
 						symbol: 'IDLEUSDCYIELD',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/idle-finance/idle',
 					zapper: 'idle',
-					zerionDefiSDK: ['Idle • Early Rewards', 'Idle • Risk-Adjusted']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'Idle • Early Rewards',
+						'Idle • Risk-Adjusted',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Illuvium',
 		slug: 'illuvium',
-		links: ['https://www.illuvium.io'],
+		links: [
+			'https://www.illuvium.io',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -3640,62 +4140,70 @@ export const web3Apps = [
 						address: '0x767fe9edc9e0df98e07454847909b5e959d7ca0e',
 						name: 'Illuvium',
 						symbol: 'ILV',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'illuvium'
-				}
-			}
-		]
+					zapper: 'illuvium',
+				},
+			},
+		],
 	},
 	{
 		name: 'Impermax',
 		slug: 'impermax',
-		links: ['https://www.impermax.finance'],
-		colors: ['#fff'],
+		links: [
+			'https://www.impermax.finance',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 42161,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'impermax'
-				}
+					zapper: 'impermax',
+				},
 			},
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'impermax'
-				}
+					zapper: 'impermax',
+				},
 			},
 			{
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'impermax'
-				}
-			}
-		]
+					zapper: 'impermax',
+				},
+			},
+		],
 	},
 	{
 		name: 'Impossible Finance',
 		slug: 'impossible-finance',
-		links: ['https://impossible.finance'],
+		links: [
+			'https://impossible.finance',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'impossible-finance'
-				}
-			}
-		]
+					zapper: 'impossible-finance',
+				},
+			},
+		],
 	},
 	{
 		name: 'Index Cooperative',
 		slug: 'index-cooperative',
-		links: ['https://www.indexcoop.com'],
+		links: [
+			'https://www.indexcoop.com',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -3706,19 +4214,21 @@ export const web3Apps = [
 						address: '0x0954906da0bf32d5479e25f46056d22f08464cab',
 						name: 'Index Cooperative',
 						symbol: 'INDEX',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'index-coop'
-				}
-			}
-		]
+					zapper: 'index-coop',
+				},
+			},
+		],
 	},
 	{
 		name: 'Indexed Finance',
 		slug: 'indexed',
-		links: ['https://indexed.finance'],
+		links: [
+			'https://indexed.finance',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -3729,20 +4239,24 @@ export const web3Apps = [
 						address: '0x86772b1409b61c639eaac9ba0acfbb6e238e5f83',
 						name: 'Indexed Finance',
 						symbol: 'NDX',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'indexed'
-				}
-			}
-		]
+					zapper: 'indexed',
+				},
+			},
+		],
 	},
 	{
 		name: 'Instadapp',
 		slug: 'instadapp',
-		links: ['https://instadapp.io'],
-		colors: ['#3f75ff'],
+		links: [
+			'https://instadapp.io',
+		],
+		colors: [
+			'#3f75ff',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -3753,19 +4267,21 @@ export const web3Apps = [
 						address: '0x6f40d4a6237c257fff2db00fa0510deeecd303eb',
 						name: 'Instadapp',
 						symbol: 'INST',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'instadapp'
-				}
-			}
-		]
+					zapper: 'instadapp',
+				},
+			},
+		],
 	},
 	{
 		name: 'Inverse Finance',
 		slug: 'inverse',
-		links: ['https://inverse.finance'],
+		links: [
+			'https://inverse.finance',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -3776,109 +4292,131 @@ export const web3Apps = [
 						address: '0x41d5d79431a913c4ae7d69a668ecdfe5ff9dfb68',
 						name: 'Inverse Finance',
 						symbol: 'INV',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'inverse'
-				}
-			}
-		]
+					zapper: 'inverse',
+				},
+			},
+		],
 	},
 	{
 		name: 'IPFS',
 		slug: 'ipfs',
-		links: ['https://ipfs.tech'],
-		colors: ['#469ea2', '#6acad1', '#083b54'],
+		links: [
+			'https://ipfs.tech',
+		],
+		colors: [
+			'#469ea2',
+			'#6acad1',
+			'#083b54',
+		],
 		icon: IpfsIcon,
 		views: [
-
-		]
+			
+		],
 	},
 	{
 		name: 'Iron',
 		slug: 'iron',
-		links: ['https://iron.finance'],
+		links: [
+			'https://iron.finance',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'iron'
-				}
-			}
-		]
+					zapper: 'iron',
+				},
+			},
+		],
 	},
 	{
 		name: 'Iron Bank',
 		slug: 'iron-bank',
-		links: ['https://app.ib.xyz'],
-		colors: ['#fff'],
+		links: [
+			'https://app.ib.xyz',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'iron-bank'
-				}
+					zapper: 'iron-bank',
+				},
 			},
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'iron-bank'
-				}
+					zapper: 'iron-bank',
+				},
 			},
 			{
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'iron-bank'
-				}
+					zapper: 'iron-bank',
+				},
 			},
 			{
 				chainId: 10,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'iron-bank'
-				}
-			}
-		]
+					zapper: 'iron-bank',
+				},
+			},
+		],
 	},
 	{
 		name: 'Jones Dao',
 		slug: 'jones-dao',
-		links: ['https://jonesdao.io'],
-		colors: ['#fff'],
+		links: [
+			'https://jonesdao.io',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 42161,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'jones-dao'
-				}
-			}
-		]
+					zapper: 'jones-dao',
+				},
+			},
+		],
 	},
 	{
 		name: 'Jpegd',
 		slug: 'jpegd',
-		links: ['https://jpegd.io'],
-		colors: ['#fff'],
+		links: [
+			'https://jpegd.io',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'jpegd'
-				}
-			}
-		]
+					zapper: 'jpegd',
+				},
+			},
+		],
 	},
 	{
 		name: 'Keep Network',
 		slug: 'keep-network',
-		links: ['https://keep.network'],
+		links: [
+			'https://keep.network',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -3889,14 +4427,14 @@ export const web3Apps = [
 						address: '0x85eee30c52b0b379b046fb0f85f4f3dc3009afec',
 						name: 'Keep Network',
 						symbol: 'KEEP',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'keep-network'
-				}
-			}
-		]
+					zapper: 'keep-network',
+				},
+			},
+		],
 	},
 	{
 		name: 'KeeperDAO',
@@ -3912,20 +4450,24 @@ export const web3Apps = [
 						address: '0xfa5047c9c78b8877af97bdcb85db743fd7313d4a',
 						name: 'KeeperDAO',
 						symbol: 'ROOK',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					zapper: 'keeper-dao',
-					zerionDefiSDK: ['KeeperDAO']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'KeeperDAO',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Kimchi Finance',
 		slug: 'kimchi',
-		links: ['https://kimchi.finance'],
+		links: [
+			'https://kimchi.finance',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -3936,53 +4478,63 @@ export const web3Apps = [
 						address: '0x1e18821e69b9faa8e6e75dffe54e7e25754beda0',
 						name: 'KIMCHI finance',
 						symbol: 'KIMCHI',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zerionDefiSDK: ['KIMCHI']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'KIMCHI',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Kinesis Labs',
 		slug: 'kinesis-labs',
-		links: ['https://app.kinesislabs.co'],
-		colors: ['#fff'],
+		links: [
+			'https://app.kinesislabs.co',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 25,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'kinesis-labs'
-				}
-			}
-		]
+					zapper: 'kinesis-labs',
+				},
+			},
+		],
 	},
 	{
 		name: 'Klima',
 		slug: 'klima',
-		links: ['https://www.klimadao.finance'],
+		links: [
+			'https://www.klimadao.finance',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 137,
 				erc20Tokens: [
 					{
-						address: '0x4e78011ce80ee02d2c3e649fb657e45898257815'
-					}
+						address: '0x4e78011ce80ee02d2c3e649fb657e45898257815',
+					},
 				],
 				providers: {
-					zapper: 'klima'
-				}
-			}
-		]
+					zapper: 'klima',
+				},
+			},
+		],
 	},
 	{
 		name: 'Klondike Finance',
 		slug: 'klondike',
-		links: ['https://klondike.finance'],
+		links: [
+			'https://klondike.finance',
+		],
 		views: [
 			{
 				name: 'Klondike Finance v2',
@@ -3995,12 +4547,12 @@ export const web3Apps = [
 						address: '0xbf15797bb5e47f6fb094a4abdb2cfc43f77179ef',
 						name: 'Klondike Finance v2',
 						symbol: 'KLONX',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'klondike-v2'
-				}
+					zapper: 'klondike-v2',
+				},
 			},
 			{
 				name: 'Klondike Finance v1',
@@ -4014,41 +4566,47 @@ export const web3Apps = [
 						address: '0xe6c3502997f97f9bde34cb165fbce191065e068f',
 						name: 'Klondike BTC',
 						symbol: 'KBTC',
-						decimals: 18
+						decimals: 18,
 					},
-					erc20TokensBySymbol['KBOND']
+					erc20TokensBySymbol['KBOND'],
 				],
 				providers: {
-					zapper: 'klondike'
-				}
-			}
-		]
+					zapper: 'klondike',
+				},
+			},
+		],
 	},
 	{
 		name: 'Kogefarm',
 		slug: 'kogefarm',
-		links: ['https://www.kogefarm.io'],
+		links: [
+			'https://www.kogefarm.io',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'kogefarm'
-				}
-			}
-		]
+					zapper: 'kogefarm',
+				},
+			},
+		],
 	},
 	{
 		name: 'Kyber',
 		slug: 'kyber',
 		links: ['https://kyber.org', 'https://kyber.network'],
-		colors: ['#31cb9e'],
+		colors: [
+			'#31cb9e',
+		],
 		views: [
 			{
 				name: 'Kyber Dynamic Market Maker',
 				slug: 'dmm',
-				links: ['https://dmm.exchange'],
+				links: [
+					'https://dmm.exchange',
+				],
 				chainId: 1,
 				contracts: [
 					{
@@ -4078,13 +4636,15 @@ export const web3Apps = [
 				],
 				providers: {
 					zapper: 'kyber-dmm',
-					theGraph: 'https://api.thegraph.com/subgraphs/name/dynamic-amm/dynamic-amm'
-				}
+					theGraph: 'https://api.thegraph.com/subgraphs/name/dynamic-amm/dynamic-amm',
+				},
 			},
 			{
 				name: 'Kyber Dynamic Market Maker',
 				slug: 'dmm',
-				links: ['https://dmm.exchange'],
+				links: [
+					'https://dmm.exchange',
+				],
 				chainId: 137,
 				contracts: [
 					{
@@ -4111,7 +4671,7 @@ export const web3Apps = [
 					{
 						address: '0x7018C0bd73255C8966d0B26634E0BC0c7595D255',
 					},
-				]
+				],
 			},
 			{
 				name: 'KyberDAO v2',
@@ -4124,12 +4684,14 @@ export const web3Apps = [
 						address: '0xdefa4e8a7bcba345f687a2f1456f5edd9ce97202',
 						name: 'Kyber Network Cryst',
 						symbol: 'KNC',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zerionDefiSDK: ['KyberDAO']
-				}
+					zerionDefiSDK: [
+						'KyberDAO',
+					],
+				},
 			},
 			{
 				name: 'KyberDAO v1',
@@ -4142,34 +4704,38 @@ export const web3Apps = [
 						address: '0xdd974d5c2e2928dea5f71b9825b8b646686bd200',
 						name: 'Kyber Network Cryst',
 						symbol: 'KNCL',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'kyber-network'
-				}
-			}
-		]
+					zapper: 'kyber-network',
+				},
+			},
+		],
 	},
 	{
 		name: 'Kyber Dao',
 		slug: 'kyber-dao',
-		links: ['https://kyber.org'],
+		links: [
+			'https://kyber.org',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'kyber-dao'
-				}
-			}
-		]
+					zapper: 'kyber-dao',
+				},
+			},
+		],
 	},
 	{
 		name: 'Launchpool',
 		slug: 'launchpool',
-		links: ['https://launchpool.xyz'],
+		links: [
+			'https://launchpool.xyz',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -4180,20 +4746,25 @@ export const web3Apps = [
 						address: '0x6149c26cd2f7b5ccdb32029af817123f6e37df5b',
 						name: 'Launchpool',
 						symbol: 'LPOOL',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'launchpool'
-				}
-			}
-		]
+					zapper: 'launchpool',
+				},
+			},
+		],
 	},
 	{
 		name: 'Lens',
 		slug: 'lens',
-		links: ['https://lens.xyz'],
-		colors: ['#00501e', '#abfe2c'],
+		links: [
+			'https://lens.xyz',
+		],
+		colors: [
+			'#00501e',
+			'#abfe2c',
+		],
 		icon: LensIcon,
 		views: [
 			{
@@ -4372,7 +4943,7 @@ export const web3Apps = [
 						name: 'UIDataProvider',
 						address: '0x4fF8EB275b2817fB2e7893bFF7ae7994e54e0730',
 					},
-				]
+				],
 			},
 			{
 				name: 'Sandbox Mumbai',
@@ -4467,63 +5038,77 @@ export const web3Apps = [
 						name: 'UIDataProvider',
 						address: '0x5dDD1d6c04E805D830574A31Bf7979D416c6d7c5',
 					},
-				]
+				],
 			},
-		]
+		],
 	},
 	{
 		name: 'Lido',
 		slug: 'lido',
-		links: ['https://lido.fi'],
-		colors: ['#fff'],
+		links: [
+			'https://lido.fi',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'lido'
-				}
-			}
-		]
+					zapper: 'lido',
+				},
+			},
+		],
 	},
 	{
 		name: 'Linkswap',
 		slug: 'linkswap',
-		links: ['https://linkswap.app'],
+		links: [
+			'https://linkswap.app',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'linkswap'
-				}
-			}
-		]
+					zapper: 'linkswap',
+				},
+			},
+		],
 	},
 	{
 		name: 'Liquid Driver',
 		slug: 'liquid-driver',
-		links: ['https://www.liquiddriver.finance'],
+		links: [
+			'https://www.liquiddriver.finance',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 250,
 				erc20Tokens: [
 					{
-						address: '0x10b620b2dbac4faa7d7ffd71da486f5d44cd86f9'
-					}
+						address: '0x10b620b2dbac4faa7d7ffd71da486f5d44cd86f9',
+					},
 				],
 				providers: {
-					zapper: 'liquiddriver'
-				}
-			}
-		]
+					zapper: 'liquiddriver',
+				},
+			},
+		],
 	},
 	{
 		name: 'Liquity',
 		slug: 'liquity',
-		links: ['https://www.liquity.org'],
-		colors: ['#2eb6ea', '#1542cd', '#745ddf'],
+		links: [
+			'https://www.liquity.org',
+		],
+		colors: [
+			'#2eb6ea',
+			'#1542cd',
+			'#745ddf',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -4534,14 +5119,16 @@ export const web3Apps = [
 						address: '0x6dea81c8171d0ba574754ef6f8b412f2ed88c54d',
 						name: 'Liquity',
 						symbol: 'LQTY',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/liquity/liquity',
 					zapper: 'liquity',
-					zerionDefiSDK: ['Liquity']
-				}
+					zerionDefiSDK: [
+						'Liquity',
+					],
+				},
 			},
 			{
 				name: 'Liquity Frontend',
@@ -4550,33 +5137,38 @@ export const web3Apps = [
 				embeds: [
 					{
 						name: 'LiquityFi (eth.liquity.fi)',
-						src: 'https://eth.liquity.fi'
+						src: 'https://eth.liquity.fi',
 					},
 					{
 						name: 'Liquity.App (liquity.app)',
-						src: 'https://liquity.app'
+						src: 'https://liquity.app',
 					},
 					{
 						name: 'Lusd.eth.link (lusd.eth.link)',
-						src: 'https://lusd.eth.link'
+						src: 'https://lusd.eth.link',
 					},
 					{
 						name: 'Liquity Land (liquityland.com)',
-						src: 'https://liquityland.com'
+						src: 'https://liquityland.com',
 					},
 					{
 						name: 'LiquityApp (liquityapp.com)',
-						src: 'https://liquityapp.com'
-					}
-				]
-			}
-		]
+						src: 'https://liquityapp.com',
+					},
+				],
+			},
+		],
 	},
 	{
 		name: 'Livepeer',
 		slug: 'livepeer',
-		links: ['https://livepeer.org'],
-		colors: ['#00EB88', '#00A55F'],
+		links: [
+			'https://livepeer.org',
+		],
+		colors: [
+			'#00EB88',
+			'#00A55F',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -4587,45 +5179,53 @@ export const web3Apps = [
 						address: '0x58b6a8a3302369daec383334672404ee733ab239',
 						name: 'Livepeer',
 						symbol: 'LPT',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/livepeer/livepeer',
-					zerionDefiSDK: ['Livepeer']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'Livepeer',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Llama Airforce',
 		slug: 'llama-airforce',
-		links: ['https://llama.airforce'],
-		colors: ['#f8f8f8'],
+		links: [
+			'https://llama.airforce',
+		],
+		colors: [
+			'#f8f8f8',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'llama-airforce'
-				}
-			}
-		]
+					zapper: 'llama-airforce',
+				},
+			},
+		],
 	},
 	{
 		name: 'Looks Rare',
 		slug: 'looks-rare',
-		links: ['https://looksrare.org'],
+		links: [
+			'https://looksrare.org',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'looks-rare'
-				}
-			}
-		]
+					zapper: 'looks-rare',
+				},
+			},
+		],
 	},
 	{
 		name: 'Loopring',
@@ -4633,9 +5233,11 @@ export const web3Apps = [
 		links: [
 			'https://loopring.org',
 			'https://loopring.io',
-			'https://exchange.loopring.io'
+			'https://exchange.loopring.io',
 		],
-		colors: ['#1c42ff'],
+		colors: [
+			'#1c42ff',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -4646,69 +5248,84 @@ export const web3Apps = [
 						address: '0xbbbbca6a901c926f240b89eacb641d8aec7aeafd',
 						name: 'Loopring',
 						symbol: 'LRC',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/loopring',
-					zapper: 'loopring'
-				}
-			}
-		]
+					zapper: 'loopring',
+				},
+			},
+		],
 	},
 	{
 		name: 'Lydia Finance',
 		slug: 'lydia',
-		links: ['https://www.lydia.finance'],
+		links: [
+			'https://www.lydia.finance',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'lydia'
-				}
-			}
-		]
+					zapper: 'lydia',
+				},
+			},
+		],
 	},
 	{
 		name: 'Lyra',
 		slug: 'lyra',
-		links: ['https://www.lyra.finance'],
+		links: [
+			'https://www.lyra.finance',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'lyra'
-				}
-			}
-		]
+					zapper: 'lyra',
+				},
+			},
+		],
 	},
 	{
 		name: 'Lyra Avalon',
 		slug: 'lyra-avalon',
-		links: ['https://avalon.app.lyra.finance'],
-		colors: ['#fff'],
+		links: [
+			'https://avalon.app.lyra.finance',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 10,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'lyra-avalon'
-				}
-			}
-		]
+					zapper: 'lyra-avalon',
+				},
+			},
+		],
 	},
 	{
 		name: 'Maker',
 		slug: 'maker',
-		links: ['https://makerdao.com'],
-		colors: ['#4fa89b', '#6bcdba'], // unofficial // ['#1AAB9B'],
+		links: [
+			'https://makerdao.com',
+		],
+		colors: [
+			'#4fa89b',
+			'#6bcdba',
+		], // unofficial // ['#1AAB9B'],
 		views: [
 			{
 				name: 'Maker Governance',
 				slug: 'governance',
-				colors: ['#1AAB9B'],
+				colors: [
+					'#1AAB9B',
+				],
 				chainId: 1,
 				erc20Tokens: [
 					{
@@ -4717,16 +5334,20 @@ export const web3Apps = [
 						address: '0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2',
 						name: 'Maker',
 						symbol: 'MKR',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/protofire/makerdao-governance',
-					zerionDefiSDK: ['Maker Governance']
-				}
+					zerionDefiSDK: [
+						'Maker Governance',
+					],
+				},
 			},
 			{
-				colors: ['#f4b731'],
+				colors: [
+					'#f4b731',
+				],
 				chainId: 1,
 				erc20Tokens: [
 					{
@@ -4735,7 +5356,7 @@ export const web3Apps = [
 						address: '0x6b175474e89094c44da98b954eedeac495271d0f',
 						name: 'Dai',
 						symbol: 'DAI',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/1442/thumb/dai.png?1547035520',
@@ -4743,80 +5364,100 @@ export const web3Apps = [
 						address: '0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359',
 						name: 'Sai',
 						symbol: 'SAI',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					zapper: 'maker',
-					zerionDefiSDK: ['Dai Savings Protocol', 'Dai Savings Rate']
-				}
+					zerionDefiSDK: [
+						'Dai Savings Protocol',
+						'Dai Savings Rate',
+					],
+				},
 			},
-		]
+		],
 	},
 	{
 		name: 'Manifold Finance',
 		slug: 'manifold-finance',
-		links: ['https://www.manifoldfinance.com'],
-		colors: ['#fff'],
+		links: [
+			'https://www.manifoldfinance.com',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'manifold-finance'
-				}
-			}
-		]
+					zapper: 'manifold-finance',
+				},
+			},
+		],
 	},
 	{
 		name: 'Maple',
 		slug: 'maple',
-		links: ['https://www.maple.finance'],
-		colors: ['#fff'],
+		links: [
+			'https://www.maple.finance',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'maple'
-				}
-			}
-		]
+					zapper: 'maple',
+				},
+			},
+		],
 	},
 	{
 		name: 'Market.xyz',
 		slug: 'market-xyz',
-		links: ['https://www.market.xyz'],
-		colors: ['#fff'],
+		links: [
+			'https://www.market.xyz',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'market-xyz'
-				}
+					zapper: 'market-xyz',
+				},
 			},
 			{
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'market-xyz'
-				}
+					zapper: 'market-xyz',
+				},
 			},
 			{
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'market-xyz'
-				}
-			}
-		]
+					zapper: 'market-xyz',
+				},
+			},
+		],
 	},
 	{
 		name: 'Matic',
 		slug: 'matic',
-		links: ['https://wallet.matic.network/staking'],
-		colors: ['#8247e5', /*'#003cb2'*/],
+		links: [
+			'https://wallet.matic.network/staking',
+		],
+		colors: [
+			'#8247e5',
+			// '#003cb2',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -4827,77 +5468,91 @@ export const web3Apps = [
 						address: '0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0',
 						name: 'Polygon',
 						symbol: 'MATIC',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/maticnetwork/mainnet-root-subgraphs',
-					zerionDefiSDK: ['Matic'],
-					zapper: 'polygon'
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'Matic',
+					],
+					zapper: 'polygon',
+				},
+			},
+		],
 	},
 	{
 		name: 'Mean Finance',
 		slug: 'mean-finance',
-		links: ['https://mean.finance'],
-		colors: ['#3076F6'],
+		links: [
+			'https://mean.finance',
+		],
+		colors: [
+			'#3076F6',
+		],
 		views: [
 			{
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'mean-finance'
-				}
+					zapper: 'mean-finance',
+				},
 			},
 			{
 				chainId: 10,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'mean-finance'
-				}
-			}
-		]
+					zapper: 'mean-finance',
+				},
+			},
+		],
 	},
 	{
 		name: 'Meshswap',
 		slug: 'meshswap',
-		links: ['https://meshswap.fi'],
+		links: [
+			'https://meshswap.fi',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'meshswap'
-				}
-			}
-		]
+					zapper: 'meshswap',
+				},
+			},
+		],
 	},
 	{
 		name: 'Metavault Trade',
 		slug: 'metavault-trade',
-		links: ['https://metavault.trade'],
-		colors: ['#FFAA27'],
+		links: [
+			'https://metavault.trade',
+		],
+		colors: [
+			'#FFAA27',
+		],
 		views: [
 			{
 				chainId: 137,
 				erc20Tokens: [
 					{
-						address: '0x2760e46d9bb43dafcbecaad1f64b93207f9f0ed7'
-					}
+						address: '0x2760e46d9bb43dafcbecaad1f64b93207f9f0ed7',
+					},
 				],
 				providers: {
-					zapper: 'metavault-trade'
-				}
-			}
-		]
+					zapper: 'metavault-trade',
+				},
+			},
+		],
 	},
 	{
 		name: 'Mirror Protocol',
 		slug: 'mirror',
-		links: ['https://mirror.finance'],
+		links: [
+			'https://mirror.finance',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -4908,7 +5563,7 @@ export const web3Apps = [
 						address: '0x09a3ecafa817268f77be1283176b946c4ff2e608',
 						name: 'Mirror Protocol',
 						symbol: 'MIR',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/13514/thumb/mirror_logo_transparent.png?1611564758',
@@ -4916,7 +5571,7 @@ export const web3Apps = [
 						address: '0xd36932143f6ebdedd872d5fb0651f4b72fd15a84',
 						name: 'Mirrored Apple',
 						symbol: 'MAAPL',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/13646/thumb/mirror_logo_transparent.png?1611565645',
@@ -4924,7 +5579,7 @@ export const web3Apps = [
 						address: '0x0cae9e4d663793c2a2a0b211c1cf4bbca2b9caa7',
 						name: 'Mirrored Amazon',
 						symbol: 'MAMZN',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/13647/thumb/mirror_logo_transparent.png?1611565672',
@@ -4932,7 +5587,7 @@ export const web3Apps = [
 						address: '0x56aa298a19c93c6801fdde870fa63ef75cc0af72',
 						name: 'Mirrored Alibaba',
 						symbol: 'MBABA',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/13641/thumb/mirror_logo_transparent.png?1611565240',
@@ -4940,7 +5595,7 @@ export const web3Apps = [
 						address: '0x59a921db27dd6d4d974745b7ffc5c33932653442',
 						name: 'Mirrored Google',
 						symbol: 'MGOOGL',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/14020/thumb/mirror_logo_transparent.png?1613718368',
@@ -4948,7 +5603,7 @@ export const web3Apps = [
 						address: '0x0e99cc0535bb6251f6679fa6e65d6d3b430e840b',
 						name: 'Mirrored Facebook',
 						symbol: 'MFB',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/13649/thumb/mirror_logo_transparent.png?1611565655',
@@ -4956,7 +5611,7 @@ export const web3Apps = [
 						address: '0x1d350417d9787e000cc1b95d70e9536dcd91f373',
 						name: 'Mirrored iShares Go',
 						symbol: 'MIAU',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/13396/thumb/mirror_logo_transparent.png?1611564779',
@@ -4964,7 +5619,7 @@ export const web3Apps = [
 						address: '0x41bbedd7286daab5910a1f15d12cbda839852bd7',
 						name: 'Mirrored Microsoft',
 						symbol: 'MMSFT',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/13643/thumb/mirror_logo_transparent.png?1611565277',
@@ -4972,7 +5627,7 @@ export const web3Apps = [
 						address: '0xc8d674114bac90148d11d3c1d33c61835a0f9dcd',
 						name: 'Mirrored Netflix',
 						symbol: 'MNFLX',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/13645/thumb/mirror_logo_transparent.png?1611565327',
@@ -4980,7 +5635,7 @@ export const web3Apps = [
 						address: '0x13b02c8de71680e71f0820c996e4be43c2f57d15',
 						name: 'Mirrored Invesco QQ',
 						symbol: 'MQQQ',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/13642/thumb/mirror_logo_transparent.png?1611565255',
@@ -4988,7 +5643,7 @@ export const web3Apps = [
 						address: '0x9d1555d8cb3c846bb4f7d5b1b1080872c3166676',
 						name: 'Mirrored iShares Si',
 						symbol: 'MSLV',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/13644/thumb/mirror_logo_transparent.png?1611565294',
@@ -4996,7 +5651,7 @@ export const web3Apps = [
 						address: '0x21ca39943e91d704678f5d00b6616650f066fd63',
 						name: 'Mirrored Tesla',
 						symbol: 'MTSLA',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/13639/thumb/mirror_logo_transparent.png?1611564718',
@@ -5004,7 +5659,7 @@ export const web3Apps = [
 						address: '0xedb0414627e6f1e3f082de65cd4f9c693d78cca9',
 						name: 'Mirrored Twitter',
 						symbol: 'MTWTR',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/13640/thumb/mirror_logo_transparent.png?1611564829',
@@ -5012,7 +5667,7 @@ export const web3Apps = [
 						address: '0x31c63146a635eb7465e5853020b39713ac356991',
 						name: 'Mirrored United Sta',
 						symbol: 'MUSO',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/13638/thumb/mirror_logo_transparent.png?1611564742',
@@ -5020,19 +5675,21 @@ export const web3Apps = [
 						address: '0xf72fcd9dcf0190923fadd44811e240ef4533fc86',
 						name: 'Mirrored ProShares ',
 						symbol: 'MVIXY',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'mirror'
-				}
-			}
-		]
+					zapper: 'mirror',
+				},
+			},
+		],
 	},
 	{
 		name: 'Mith Cash',
 		slug: 'mith-cash',
-		links: ['https://mith.cash'],
+		links: [
+			'https://mith.cash',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -5043,7 +5700,7 @@ export const web3Apps = [
 						address: '0x3893b9422cd5d70a81edeffe3d5a1c6a978310bb',
 						name: 'Mithril',
 						symbol: 'MITH',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/13478/thumb/3uZAPv2CbXF5txM.png?1608947522',
@@ -5051,73 +5708,88 @@ export const web3Apps = [
 						address: '0xcd1cb16a67937ff8af5d726e2681010ce1e9891a',
 						name: 'Themis',
 						symbol: 'MIS',
-						decimals: 8
-					}
+						decimals: 8,
+					},
 				],
 				providers: {
-					zapper: 'mith-cash'
-				}
-			}
-		]
+					zapper: 'mith-cash',
+				},
+			},
+		],
 	},
 	{
 		name: 'MM.Finance',
 		slug: 'mm-finance',
-		links: ['https://mm.finance'],
-		colors: ['#cda16f'],
+		links: [
+			'https://mm.finance',
+		],
+		colors: [
+			'#cda16f',
+		],
 		views: [
 			{
 				chainId: 25,
 				erc20Tokens: [
 					{
-						address: '0x97749c9b61f878a880dfe312d2594ae07aed7656'
-					}
+						address: '0x97749c9b61f878a880dfe312d2594ae07aed7656',
+					},
 				],
 				providers: {
-					zapper: 'mm-finance'
-				}
-			}
-		]
+					zapper: 'mm-finance',
+				},
+			},
+		],
 	},
 	{
 		name: 'Morpheus Swap',
 		slug: 'morpheus-swap',
-		links: ['https://morpheusswap.finance'],
+		links: [
+			'https://morpheusswap.finance',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 250,
 				erc20Tokens: [
 					{
-						address: '0x0789ff5ba37f72abc4d561d00648acadc897b32d'
-					}
+						address: '0x0789ff5ba37f72abc4d561d00648acadc897b32d',
+					},
 				],
 				providers: {
-					zapper: 'morpheus-swap'
-				}
-			}
-		]
+					zapper: 'morpheus-swap',
+				},
+			},
+		],
 	},
 	{
 		name: 'Morpho',
 		slug: 'morpho',
-		links: ['https://app.morpho.xyz'],
-		colors: ['#14183D'],
+		links: [
+			'https://app.morpho.xyz',
+		],
+		colors: [
+			'#14183D',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'morpho'
-				}
-			}
-		]
+					zapper: 'morpho',
+				},
+			},
+		],
 	},
 	{
 		name: 'mStable',
 		slug: 'mstable',
-		links: ['https://mstable.org'],
-		colors: ['#4aa1ff', '#000000'], // '#176ede' unofficial
+		links: [
+			'https://mstable.org',
+		],
+		colors: [
+			'#4aa1ff',
+			'#000000',
+		], // '#176ede' unofficial
 		views: [
 			{
 				chainId: 1,
@@ -5128,7 +5800,7 @@ export const web3Apps = [
 						address: '0x7e8c149f70437eba6785f9059190a5b08abf03de',
 						name: 'MiniBitcoin',
 						symbol: 'MBTC',
-						decimals: 8
+						decimals: 8,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/11576/thumb/mStable_USD.png?1595591803',
@@ -5136,13 +5808,16 @@ export const web3Apps = [
 						address: '0xe2f2a5c287993345a840db3b0845fbc70f5935a5',
 						name: 'mStable USD',
 						symbol: 'MUSD',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					zapper: 'mstable',
-					zerionDefiSDK: ['mStable', 'mStable V2']
-				}
+					zerionDefiSDK: [
+						'mStable',
+						'mStable V2',
+					],
+				},
 			},
 			{
 				chainId: 1,
@@ -5153,19 +5828,23 @@ export const web3Apps = [
 						address: '0xa3bed4e1c75d00fa6f4e5e6922db7261b5e9acd2',
 						name: 'mStable Governance ',
 						symbol: 'MTA',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zerionDefiSDK: ['mStable • Staking']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'mStable • Staking',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Mushrooms Finance',
 		slug: 'mushrooms',
-		links: ['https://mushrooms.finance'],
+		links: [
+			'https://mushrooms.finance',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -5176,54 +5855,64 @@ export const web3Apps = [
 						address: '0x6b4c7a5e3f0b99fcd83e9c089bddd6c7fce5c611',
 						name: 'Million',
 						symbol: 'MM',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'mushroom'
-				}
-			}
-		]
+					zapper: 'mushroom',
+				},
+			},
+		],
 	},
 	{
 		name: 'Naos',
 		slug: 'naos',
-		links: ['https://naos.finance'],
+		links: [
+			'https://naos.finance',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'naos'
-				}
-			}
-		]
+					zapper: 'naos',
+				},
+			},
+		],
 	},
 	{
 		name: 'Nereus Finance',
 		slug: 'nereus-finance',
-		links: ['https://nereus.finance'],
-		colors: ['#4D4AEC'],
+		links: [
+			'https://nereus.finance',
+		],
+		colors: [
+			'#4D4AEC',
+		],
 		views: [
 			{
 				chainId: 43114,
 				erc20Tokens: [
 					{
-						address: '0xfcde4a87b8b6fa58326bb462882f1778158b02f1'
-					}
+						address: '0xfcde4a87b8b6fa58326bb462882f1778158b02f1',
+					},
 				],
 				providers: {
-					zapper: 'nereus-finance'
-				}
-			}
-		]
+					zapper: 'nereus-finance',
+				},
+			},
+		],
 	},
 	{
 		name: 'Nexus Mutual',
 		slug: 'nexus-mutual',
-		links: ['https://nexusmutual.io'],
-		colors: ['#1eab89'],
+		links: [
+			'https://nexusmutual.io',
+		],
+		colors: [
+			'#1eab89',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -5234,7 +5923,7 @@ export const web3Apps = [
 						address: '0xd7c49cee7e9188cca6ad8ff264c1da2e69d4cf3b',
 						name: 'Nexus Mutual',
 						symbol: 'NXM',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/11890/thumb/wrapped-nexus-mutual.jpg?1595811559',
@@ -5242,49 +5931,57 @@ export const web3Apps = [
 						address: '0x0d438f3b5175bebc262bf23753c1e53d03432bde',
 						name: 'Wrapped NXM',
 						symbol: 'WNXM',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/nexusmutual/nexus-mutual',
-					zerionDefiSDK: ['Nexus Mutual']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'Nexus Mutual',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Nexus Mutual',
 		slug: 'nexus-mutual',
-		links: ['https://nexusmutual.io'],
+		links: [
+			'https://nexusmutual.io',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'nexus-mutual'
-				}
-			}
-		]
+					zapper: 'nexus-mutual',
+				},
+			},
+		],
 	},
 	{
 		name: 'NFT20',
 		slug: 'nft20',
-		links: ['https://nft20.io'],
+		links: [
+			'https://nft20.io',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'nft20'
-				}
-			}
-		]
+					zapper: 'nft20',
+				},
+			},
+		],
 	},
 	{
 		name: 'NFTX',
 		slug: 'nftx',
-		links: ['https://nftx.io'],
+		links: [
+			'https://nftx.io',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -5295,36 +5992,42 @@ export const web3Apps = [
 						address: '0x87d73e916d7057945c9bcd8cdd94e42a6f47f776',
 						name: 'NFTX',
 						symbol: 'NFTX',
-						decimals: 18
+						decimals: 18,
 					},
 					erc20TokensByContractAddress['0x0fe629d1e84e171f8ff0c1ded2cc2221caa48a3f'], // NFTX Hashmasks Index
 				],
 				providers: {
-					zapper: 'nftx'
-				}
-			}
-		]
+					zapper: 'nftx',
+				},
+			},
+		],
 	},
 	{
 		name: 'Notional Finance',
 		slug: 'notional-finance',
-		links: ['https://notional.finance'],
+		links: [
+			'https://notional.finance',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'notional-finance'
-				}
-			}
-		]
+					zapper: 'notional-finance',
+				},
+			},
+		],
 	},
 	{
 		name: 'Nouns DAO',
 		slug: 'nouns',
-		links: ['https://nouns.wtf'],
-		colors: ['#D53C5E'],
+		links: [
+			'https://nouns.wtf',
+		],
+		colors: [
+			'#D53C5E',
+		],
 		icon: NounsIcon,
 		views: [
 			{
@@ -5333,25 +6036,27 @@ export const web3Apps = [
 					{
 						name: 'Nouns DAO: Treasury',
 						address: '0x0BC3807Ec262cB779b38D65b38158acC3bfedE10',
-					}
+					},
 				],
 				nfts: [
 					{
 						name: 'Nouns',
 						address: '0x9c8ff314c9bc7f6e59a9d9225fb22946427edc03',
-						symbol: 'NOUN'
-					}
+						symbol: 'NOUN',
+					},
 				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/nounsdao/nouns-subgraph',
-				}
-			}
-		]
+				},
+			},
+		],
 	},
 	{
 		name: 'Nsure Network',
 		slug: 'nsure-network',
-		links: ['https://nsure.network'],
+		links: [
+			'https://nsure.network',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -5362,19 +6067,21 @@ export const web3Apps = [
 						address: '0x20945ca1df56d237fd40036d47e866c7dccd2114',
 						name: 'Nsure Network',
 						symbol: 'NSURE',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'nsure-network'
-				}
-			}
-		]
+					zapper: 'nsure-network',
+				},
+			},
+		],
 	},
 	{
 		name: 'Olympus',
 		slug: 'olympus',
-		links: ['https://www.olympusdao.finance'],
+		links: [
+			'https://www.olympusdao.finance',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -5385,35 +6092,43 @@ export const web3Apps = [
 						address: '0x383518188c0c6d7730d91b2c03a03c837814a899',
 						name: 'Olympus',
 						symbol: 'OHM',
-						decimals: 9
-					}
+						decimals: 9,
+					},
 				],
 				providers: {
-					zapper: 'olympus'
-				}
-			}
-		]
+					zapper: 'olympus',
+				},
+			},
+		],
 	},
 	{
 		name: 'Ondo',
 		slug: 'ondo',
-		links: ['https://ondo.finance'],
+		links: [
+			'https://ondo.finance',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'ondo'
-				}
-			}
-		]
+					zapper: 'ondo',
+				},
+			},
+		],
 	},
 	{
 		name: '1inch',
 		slug: '1inch',
-		links: ['https://1inch.io'],
-		colors: ['#94a6c3', '#d82122', '#0a192b'],
+		links: [
+			'https://1inch.io',
+		],
+		colors: [
+			'#94a6c3',
+			'#d82122',
+			'#0a192b',
+		],
 		views: [
 			{
 				slug: 'ethereum',
@@ -5425,20 +6140,26 @@ export const web3Apps = [
 						address: '0x111111111117dc0aa78b770fa6a738034120c302',
 						name: '1inch',
 						symbol: '1INCH',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					llamafolio: '1inch-network',
 					theGraph: 'https://api.thegraph.com/subgraphs/name/1inch-exchange/one-inch-v2',
 					zapper: '1inch',
-					zerionDefiSDK: ['1inch Liquidity Protocol', '1inch LP • Staking']
-				}
+					zerionDefiSDK: [
+						'1inch Liquidity Protocol',
+						'1inch LP • Staking',
+					],
+				},
 			},
 			{
 				name: 'Chi Gastoken',
 				slug: 'chi',
-				colors: ['#d21318', '#3d3d3c'],
+				colors: [
+					'#d21318',
+					'#3d3d3c',
+				],
 				chainId: 1,
 				erc20Tokens: [
 					{
@@ -5447,45 +6168,53 @@ export const web3Apps = [
 						address: '0x0000000000004946c0e9f43f4dee607b0ef1fa1c',
 						name: 'Chi Gastoken',
 						symbol: 'CHI',
-						decimals: 0
-					}
+						decimals: 0,
+					},
 				],
 				providers: {
-					zerionDefiSDK: ['Chi Gastoken by 1inch']
-				}
+					zerionDefiSDK: [
+						'Chi Gastoken by 1inch',
+					],
+				},
 			},
 			{
 				slug: 'bsc',
 				chainId: 56,
 				erc20Tokens: [],
 				providers: {
-					zapper: '1inch'
-				}
+					zapper: '1inch',
+				},
 			},
 			{
 				slug: 'polygon',
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: '1inch'
-				}
+					zapper: '1inch',
+				},
 			},
 			{
 				name: 'Mooniswap',
 				slug: 'mooniswap',
 				chainId: 1,
-				links: ['https://mooniswap.exchange'],
+				links: [
+					'https://mooniswap.exchange',
+				],
 				providers: {
 					zapper: 'mooniswap',
-					zerionDefiSDK: ['Mooniswap']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'Mooniswap',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'OnX Finance',
 		slug: 'onx',
-		links: ['https://onx.finance'],
+		links: [
+			'https://onx.finance',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -5496,41 +6225,47 @@ export const web3Apps = [
 						address: '0xe0ad1806fd3e7edf6ff52fdb822432e847411033',
 						name: 'OnX Finance',
 						symbol: 'ONX',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'onx'
-				}
-			}
-		]
+					zapper: 'onx',
+				},
+			},
+		],
 	},
 	{
 		name: 'OpenLeverage',
 		slug: 'open-leverage',
-		links: ['https://openleverage.finance'],
-		colors: ['#fff'],
+		links: [
+			'https://openleverage.finance',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'openleverage'
-				}
+					zapper: 'openleverage',
+				},
 			},
 			{
 				chainId: 56,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'openleverage'
-				}
-			}
-		]
+					zapper: 'openleverage',
+				},
+			},
+		],
 	},
 	{
 		name: 'Opium Protocol',
 		slug: 'opium',
-		links: ['https://opium.network'],
+		links: [
+			'https://opium.network',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -5541,47 +6276,53 @@ export const web3Apps = [
 						address: '0x888888888889c00c67689029d7856aac1065ec11',
 						name: 'Opium',
 						symbol: 'OPIUM',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					zapper: 'opium-network',
-					theGraph: 'https://api.thegraph.com/subgraphs/name/opiumprotocol/opium-network'
-				}
-			}
-		]
+					theGraph: 'https://api.thegraph.com/subgraphs/name/opiumprotocol/opium-network',
+				},
+			},
+		],
 	},
 	{
 		name: 'Opyn',
 		slug: 'opyn',
-		links: ['https://www.opyn.co'],
+		links: [
+			'https://www.opyn.co',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'opyn'
-				}
-			}
-		]
+					zapper: 'opyn',
+				},
+			},
+		],
 	},
 	{
 		name: 'Origin',
 		slug: 'origin',
-		links: ['https://ousd.com'],
-		colors: ['#1762ee'],
+		links: [
+			'https://ousd.com',
+		],
+		colors: [
+			'#1762ee',
+		],
 		views: [
 			{
 				slug: 'origin',
 				chainId: 1,
 				erc20Tokens: [
 					{
-						address: '0x8207c1ffc5b6804f6024322ccf34f29c3541ae26'
-					}
+						address: '0x8207c1ffc5b6804f6024322ccf34f29c3541ae26',
+					},
 				],
 				providers: {
-					zapper: 'origin'
-				}
+					zapper: 'origin',
+				},
 			},
 			{
 				name: 'Origin Dollar',
@@ -5589,25 +6330,29 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'origin-dollar'
-				}
+					zapper: 'origin-dollar',
+				},
 			},
 			{
 				name: 'Origin Story',
 				slug: 'story',
-				links: ['https://www.story.xyz'],
+				links: [
+					'https://www.story.xyz',
+				],
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'origin-story'
-				}
-			}
-		]
+					zapper: 'origin-story',
+				},
+			},
+		],
 	},
 	{
 		name: 'Orion Protocol',
 		slug: 'orion',
-		links: ['https://www.orionprotocol.io'],
+		links: [
+			'https://www.orionprotocol.io',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -5618,88 +6363,102 @@ export const web3Apps = [
 						address: '0x0258f474786ddfd37abce6df6bbb1dd5dfc4434a',
 						name: 'Orion Protocol',
 						symbol: 'ORN',
-						decimals: 8
-					}
+						decimals: 8,
+					},
 				],
 				providers: {
-					zapper: 'orion-protocol'
-				}
-			}
-		]
+					zapper: 'orion-protocol',
+				},
+			},
+		],
 	},
 	{
 		name: 'Otterclam',
 		slug: 'otterclam',
-		links: ['https://www.otterclam.finance'],
+		links: [
+			'https://www.otterclam.finance',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 137,
 				erc20Tokens: [
 					{
-						address: '0xc250e9987a032acac293d838726c511e6e1c029d'
-					}
+						address: '0xc250e9987a032acac293d838726c511e6e1c029d',
+					},
 				],
 				providers: {
-					zapper: 'otterclam'
-				}
-			}
-		]
+					zapper: 'otterclam',
+				},
+			},
+		],
 	},
 	{
 		name: 'PancakeSwap',
 		slug: 'pancakeswap',
-		links: ['https://pancakeswap.finance'],
+		links: [
+			'https://pancakeswap.finance',
+		],
 		views: [
 			{
 				chainId: 56,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'pancakeswap'
-				}
-			}
-		]
+					zapper: 'pancakeswap',
+				},
+			},
+		],
 	},
 	{
 		name: 'Pangolin',
 		slug: 'pangolin',
-		links: ['https://pangolin.exchange'],
+		links: [
+			'https://pangolin.exchange',
+		],
 		views: [
 			{
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'pangolin'
-				}
-			}
-		]
+					zapper: 'pangolin',
+				},
+			},
+		],
 	},
 	{
 		name: 'Paraswap',
 		slug: 'paraswap',
-		links: ['https://paraswap.io'],
-		colors: ['#0060D8'], // unofficial
-		views: []
+		links: [
+			'https://paraswap.io',
+		],
+		colors: [
+			'#0060D8',
+		], // unofficial
+		views: [],
 	},
 	{
 		name: 'Pendle',
 		slug: 'pendle',
-		links: ['https://pendle.finance'],
+		links: [
+			'https://pendle.finance',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'pendle'
-				}
-			}
-		]
+					zapper: 'pendle',
+				},
+			},
+		],
 	},
 	{
 		name: 'Penguin',
 		slug: 'penguin',
-		links: ['https://penguinfinance.org'],
+		links: [
+			'https://penguinfinance.org',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -5710,19 +6469,21 @@ export const web3Apps = [
 						address: '0x30bcd71b8d21fe830e493b30e90befba29de9114',
 						name: 'Penguin Party Fish',
 						symbol: 'FISH',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'penguin'
-				}
-			}
-		]
+					zapper: 'penguin',
+				},
+			},
+		],
 	},
 	{
 		name: 'Perpetual Protocol',
 		slug: 'perpetual-protocol',
-		links: ['https://perp.exchange'],
+		links: [
+			'https://perp.exchange',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -5733,40 +6494,44 @@ export const web3Apps = [
 						address: '0xbc396689893d065f41bc2c6ecbee5e0085233447',
 						name: 'Perpetual Protocol',
 						symbol: 'PERP',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'perpetual-protocol'
-				}
-			}
-		]
+					zapper: 'perpetual-protocol',
+				},
+			},
+		],
 	},
 	{
 		name: 'Phuture',
 		slug: 'phuture',
-		links: ['https://phuture.finance'],
-		colors: ['#3e1fff'],
+		links: [
+			'https://phuture.finance',
+		],
+		colors: [
+			'#3e1fff',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [
 					{
-						address: '0xe1fc4455f62a6e89476f1072530c20cf1a0622da'
-					}
+						address: '0xe1fc4455f62a6e89476f1072530c20cf1a0622da',
+					},
 				],
 				providers: {
-					zapper: 'phuture'
-				}
+					zapper: 'phuture',
+				},
 			},
 			{
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'phuture'
-				}
-			}
-		]
+					zapper: 'phuture',
+				},
+			},
+		],
 	},
 	{
 		name: 'Pickle Finance',
@@ -5782,25 +6547,32 @@ export const web3Apps = [
 						address: '0x429881672b9ae42b8eba0e26cd9c73711b891ca5',
 						name: 'Pickle Finance',
 						symbol: 'PICKLE',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					zapper: 'pickle',
 					zerionDefiSDK: [
 						'Pickle Finance',
 						'Pickle Finance • Farms',
-						'Pickle Finance • Staking'
-					]
-				}
-			}
-		]
+						'Pickle Finance • Staking',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'PieDAO',
 		slug: 'pie-dao',
-		links: ['https://www.piedao.org'],
-		colors: ['#d90a9d', '#9811dc', '#7732f8', '#28d4ff'], // unofficial
+		links: [
+			'https://www.piedao.org',
+		],
+		colors: [
+			'#d90a9d',
+			'#9811dc',
+			'#7732f8',
+			'#28d4ff',
+		], // unofficial
 		views: [
 			{
 				chainId: 1,
@@ -5811,7 +6583,7 @@ export const web3Apps = [
 						address: '0xe4f726adc8e89c6a6017f01eada77865db22da14',
 						name: 'PieDAO Balanced Cry',
 						symbol: 'BCP',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/12731/thumb/DeFi_L.png?1602070128',
@@ -5819,7 +6591,7 @@ export const web3Apps = [
 						address: '0x78f225869c08d478c34e5f645d07a87d3fe8eb78',
 						name: 'PieDAO DEFI Large C',
 						symbol: 'DEFI+L',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/12701/thumb/DefiS.png?1601862595',
@@ -5827,7 +6599,7 @@ export const web3Apps = [
 						address: '0xad6a626ae2b43dcb1b39430ce496d2fa0365ba9c',
 						name: 'PieDAO DEFI Small C',
 						symbol: 'DEFI+S',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/13304/thumb/piedao__.png?1607322674',
@@ -5835,7 +6607,7 @@ export const web3Apps = [
 						address: '0x8d1ce361eb68e9e05573443c407d4a3bed23b033',
 						name: 'PieDAO DEFI	',
 						symbol: 'DEFI++',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/10959/thumb/BTC__.png?1586499443',
@@ -5843,7 +6615,7 @@ export const web3Apps = [
 						address: '0x0327112423f3a68efdf1fcf402f6c5cb9f7c33fd',
 						name: 'PieDAO BTC	',
 						symbol: 'BTC++',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/13572/thumb/YPIE.png?1610437730',
@@ -5851,7 +6623,7 @@ export const web3Apps = [
 						address: '0x17525e4f4af59fbc29551bc4ece6ab60ed49ce31',
 						name: 'PieDAO Yearn Ecosys',
 						symbol: 'YPIE',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/12693/thumb/DOUGH2v.png?1602655308',
@@ -5859,100 +6631,129 @@ export const web3Apps = [
 						address: '0xad32a8e6220741182940c5abf610bde99e737b2d',
 						name: 'PieDAO DOUGH v2',
 						symbol: 'DOUGH',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					zapper: 'pie-dao',
-					zerionDefiSDK: ['PieDAO', 'PieDAO ExperiPies']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'PieDAO',
+						'PieDAO ExperiPies',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Pika Protocol',
 		slug: 'pika-protocol',
-		links: ['https://app.pikaprotocol.com'],
-		colors: ['#fff'],
+		links: [
+			'https://app.pikaprotocol.com',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 10,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'pika-protocol'
-				}
-			}
-		]
+					zapper: 'pika-protocol',
+				},
+			},
+		],
 	},
 	{
 		name: 'Pika Protocol V3',
 		slug: 'pika-protocol-v3',
-		links: ['https://www.pikaprotocol.com'],
-		colors: ['#fff'],
+		links: [
+			'https://www.pikaprotocol.com',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 10,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'pika-protocol-v3'
-				}
-			}
-		]
+					zapper: 'pika-protocol-v3',
+				},
+			},
+		],
 	},
 	{
 		name: 'Pirex',
 		slug: 'pirex',
-		links: ['https://pirex.io'],
-		colors: ['#fff'],
+		links: [
+			'https://pirex.io',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'pirex'
-				}
-			}
-		]
+					zapper: 'pirex',
+				},
+			},
+		],
 	},
 	{
 		name: 'Platypus Finance',
 		slug: 'platypus-finance',
-		links: ['https://platypus.finance'],
-		colors: ['#1c1d26'],
+		links: [
+			'https://platypus.finance',
+		],
+		colors: [
+			'#1c1d26',
+		],
 		views: [
 			{
 				chainId: 43114,
 				erc20Tokens: [
 					{
-						address: '0x22d4002028f537599be9f666d1c4fa138522f9c8'
-					}
+						address: '0x22d4002028f537599be9f666d1c4fa138522f9c8',
+					},
 				],
 				providers: {
-					zapper: 'platypus-finance'
-				}
-			}
-		]
+					zapper: 'platypus-finance',
+				},
+			},
+		],
 	},
 	{
 		name: 'Plutus',
 		slug: 'plutus',
-		links: ['https://plutusdao.io'],
-		colors: ['#fff'],
+		links: [
+			'https://plutusdao.io',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 42161,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'plutus'
-				}
-			}
-		]
+					zapper: 'plutus',
+				},
+			},
+		],
 	},
 	{
 		name: 'Pods',
 		slug: 'pods',
-		links: ['https://www.pods.finance'],
-		colors: ['#b7156b', '#C41857', '#df1d2c'], // https://docs.pods.finance/interfacing-with-pods/brand-assets
+		links: [
+			'https://www.pods.finance',
+		],
+		colors: [
+			'#b7156b',
+			'#C41857',
+			'#df1d2c',
+		], // https://docs.pods.finance/interfacing-with-pods/brand-assets
 		views: [
 			// https://docs.pods.finance/developers/deployed-contracts
 			{
@@ -6024,134 +6825,162 @@ export const web3Apps = [
 					},
 				],
 				providers: {
-					theGraph: 'https://api.thegraph.com/subgraphs/name/pods-finance/pods'
-				}
-			}
-		]
+					theGraph: 'https://api.thegraph.com/subgraphs/name/pods-finance/pods',
+				},
+			},
+		],
 	},
 	{
 		name: 'Polynomial',
 		slug: 'polynomial',
-		links: ['https://earn.polynomial.fi'],
-		colors: ['#fff'],
+		links: [
+			'https://earn.polynomial.fi',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 10,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'polynomial'
-				}
-			}
-		]
+					zapper: 'polynomial',
+				},
+			},
+		],
 	},
 	{
 		name: 'Polywhale',
 		slug: 'polywhale',
-		links: ['https://polywhale.finance'],
+		links: [
+			'https://polywhale.finance',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'polywhale'
-				}
-			}
-		]
+					zapper: 'polywhale',
+				},
+			},
+		],
 	},
 	{
 		name: 'PoolTogether',
 		slug: 'pooltogether',
-		links: ['https://pooltogether.com'],
-		colors: ['#4a31a5'],
+		links: [
+			'https://pooltogether.com',
+		],
+		colors: [
+			'#4a31a5',
+		],
 		views: [
 			{
 				name: 'PoolTogether V4',
 				slug: 'v4',
-				colors: ['#843ff3'],
+				colors: [
+					'#843ff3',
+				],
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'pool-together-v4'
-				}
+					zapper: 'pool-together-v4',
+				},
 			},
 			{
 				name: 'PoolTogether V4',
 				slug: 'v4',
-				colors: ['#843ff3'],
+				colors: [
+					'#843ff3',
+				],
 				chainId: 1,
 				erc20Tokens: [
 					{
-						address: '0x0cec1a9154ff802e7934fc916ed7ca50bde6844e'
-					}
+						address: '0x0cec1a9154ff802e7934fc916ed7ca50bde6844e',
+					},
 				],
 				providers: {
-					zapper: 'pool-together-v4'
-				}
+					zapper: 'pool-together-v4',
+				},
 			},
 			{
 				name: 'PoolTogether V4',
 				slug: 'v4',
-				colors: ['#843ff3'],
+				colors: [
+					'#843ff3',
+				],
 				chainId: 10,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'pool-together-v4'
-				}
+					zapper: 'pool-together-v4',
+				},
 			},
 			{
 				name: 'PoolTogether V4',
 				slug: 'v4',
-				colors: ['#843ff3'],
+				colors: [
+					'#843ff3',
+				],
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'pool-together-v4'
-				}
+					zapper: 'pool-together-v4',
+				},
 			},
 			{
 				name: 'PoolTogether V3',
 				slug: 'v3',
-				colors: ['#843ff3'],
+				colors: [
+					'#843ff3',
+				],
 				chainId: 42220,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'pool-together-v3'
-				}
+					zapper: 'pool-together-v3',
+				},
 			},
 			{
 				name: 'PoolTogether V3',
 				slug: 'v3',
-				colors: ['#843ff3'],
+				colors: [
+					'#843ff3',
+				],
 				chainId: 1,
 				erc20Tokens: [
 					{
-						address: '0x0cec1a9154ff802e7934fc916ed7ca50bde6844e'
-					}
+						address: '0x0cec1a9154ff802e7934fc916ed7ca50bde6844e',
+					},
 				],
 				providers: {
 					zapper: 'pool-together-v3',
-					zerionDefiSDK: ['PoolTogether V3']
-				}
+					zerionDefiSDK: [
+						'PoolTogether V3',
+					],
+				},
 			},
 			{
 				name: 'PoolTogether V3',
 				slug: 'v3',
-				colors: ['#843ff3'],
+				colors: [
+					'#843ff3',
+				],
 				chainId: 100,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'pool-together-v3'
-				}
+					zapper: 'pool-together-v3',
+				},
 			},
 			{
 				name: 'PoolTogether V3',
 				slug: 'v3',
-				colors: ['#843ff3'],
+				colors: [
+					'#843ff3',
+				],
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'pool-together-v3'
-				}
+					zapper: 'pool-together-v3',
+				},
 			},
 			{
 				chainId: 1,
@@ -6162,7 +6991,7 @@ export const web3Apps = [
 						address: '0x0cec1a9154ff802e7934fc916ed7ca50bde6844e',
 						name: 'PoolTogether',
 						symbol: 'POOL',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/16255/thumb/fjRgQUo4_400x400.jpg?1623397960',
@@ -6170,21 +6999,25 @@ export const web3Apps = [
 						address: '0xd81b1a8b1ad00baa2d6609e0bae28a38713872f7',
 						name: 'PoolTogether USDC T',
 						symbol: 'PCUSDC',
-						decimals: 6
-					}
+						decimals: 6,
+					},
 				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/pooltogether/pooltogether',
 					zapper: 'pooltogether',
-					zerionDefiSDK: ['PoolTogether']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'PoolTogether',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Popsicle Finance',
 		slug: 'popsicle',
-		links: ['https://popsicle.finance'],
+		links: [
+			'https://popsicle.finance',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -6195,19 +7028,21 @@ export const web3Apps = [
 						address: '0xf16e81dce15b08f326220742020379b855b87df9',
 						name: 'Popsicle Finance',
 						symbol: 'ICE',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'popsicle'
-				}
-			}
-		]
+					zapper: 'popsicle',
+				},
+			},
+		],
 	},
 	{
 		name: 'PowerPool',
 		slug: 'powerpool',
-		links: ['https://powerpool.finance'],
+		links: [
+			'https://powerpool.finance',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -6218,143 +7053,159 @@ export const web3Apps = [
 						address: '0x38e4adb44ef08f22f5b5b76a8f0c2d0dcbe7dca1',
 						name: 'PowerPool Concentra',
 						symbol: 'CVP',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'powerpool'
-				}
-			}
-		]
+					zapper: 'powerpool',
+				},
+			},
+		],
 	},
 	{
 		name: 'Premia',
 		slug: 'premia',
-		links: ['https://premia.finance'],
+		links: [
+			'https://premia.finance',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'premia'
-				}
+					zapper: 'premia',
+				},
 			},
 			{
 				chainId: 42161,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'premia'
-				}
-			}
-		]
+					zapper: 'premia',
+				},
+			},
+		],
 	},
 	{
 		name: 'Push',
 		slug: 'push',
 		links: ['https://push.org', 'https://app.push.org'],
-		colors: ['#e20880', '#35c5f3', '#674c9f'],
+		colors: [
+			'#e20880',
+			'#35c5f3',
+			'#674c9f',
+		],
 		views: [
 			{
 				chainId: 1,
 				providers: {
 					zapper: 'epns',
-					theGraph: 'https://api.thegraph.com/subgraphs/name/epnsproject/epnsprod'
-				}
-			}
-		]
+					theGraph: 'https://api.thegraph.com/subgraphs/name/epnsproject/epnsprod',
+				},
+			},
+		],
 	},
 	{
 		name: 'Qi Dao',
 		slug: 'qi-dao',
-		links: ['https://www.mai.finance'],
+		links: [
+			'https://www.mai.finance',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'qi-dao'
-				}
+					zapper: 'qi-dao',
+				},
 			},
 			{
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'qi-dao'
-				}
+					zapper: 'qi-dao',
+				},
 			},
 			{
 				chainId: 100,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'qi-dao'
-				}
+					zapper: 'qi-dao',
+				},
 			},
 			{
 				chainId: 42161,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'qi-dao'
-				}
+					zapper: 'qi-dao',
+				},
 			},
 			{
 				chainId: 10,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'qi-dao'
-				}
-			}
-		]
+					zapper: 'qi-dao',
+				},
+			},
+		],
 	},
 	{
 		name: 'QuickSwap',
 		slug: 'quickswap',
-		links: ['https://quickswap.exchange'],
+		links: [
+			'https://quickswap.exchange',
+		],
 		views: [
 			{
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'quickswap'
-				}
-			}
-		]
+					zapper: 'quickswap',
+				},
+			},
+		],
 	},
 	{
 		name: 'R U Generous',
 		slug: 'r-u-generous',
-		links: ['https://www.rug.farm'],
+		links: [
+			'https://www.rug.farm',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'r-u-generous'
-				}
-			}
-		]
+					zapper: 'r-u-generous',
+				},
+			},
+		],
 	},
 	{
 		name: 'RAILGUN',
 		slug: 'railgun',
-		links: ['https://railgun.ch'],
+		links: [
+			'https://railgun.ch',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'railgun'
-				}
-			}
-		]
+					zapper: 'railgun',
+				},
+			},
+		],
 	},
 	{
 		name: 'Rally',
 		slug: 'rally',
-		links: ['https://rally.io'],
+		links: [
+			'https://rally.io',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -6365,19 +7216,21 @@ export const web3Apps = [
 						address: '0xf1f955016ecbcd7321c7266bccfb96c68ea5e49b',
 						name: 'Rally',
 						symbol: 'RLY',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'rally'
-				}
-			}
-		]
+					zapper: 'rally',
+				},
+			},
+		],
 	},
 	{
 		name: 'Rari Capital',
 		slug: 'rari',
-		links: ['https://www.rari.capital'],
+		links: [
+			'https://www.rari.capital',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -6388,19 +7241,21 @@ export const web3Apps = [
 						address: '0xd291e7a03283640fdc51b121ac401383a46cc623',
 						name: 'Rari Governance Tok',
 						symbol: 'RGT',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'rari'
-				}
-			}
-		]
+					zapper: 'rari',
+				},
+			},
+		],
 	},
 	{
 		name: 'Rari Capital',
 		slug: 'rari',
-		links: ['https://rari.capital'],
+		links: [
+			'https://rari.capital',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -6411,12 +7266,12 @@ export const web3Apps = [
 						address: '0xd291e7a03283640fdc51b121ac401383a46cc623',
 						name: 'Rari Governance Tok',
 						symbol: 'RGT',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'rari'
-				}
+					zapper: 'rari',
+				},
 			},
 			{
 				name: 'Rari Fuse',
@@ -6429,20 +7284,24 @@ export const web3Apps = [
 						address: '0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d',
 						name: 'Fuse',
 						symbol: 'FUSE',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'rari-fuse'
-				}
-			}
-		]
+					zapper: 'rari-fuse',
+				},
+			},
+		],
 	},
 	{
 		name: 'Rarible',
 		slug: 'rarible',
-		links: ['https://rarible.com'],
-		colors: ['#FEDA03'],
+		links: [
+			'https://rarible.com',
+		],
+		colors: [
+			'#FEDA03',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -6453,63 +7312,73 @@ export const web3Apps = [
 						address: '0xfca59cd816ab1ead66534d82bc21e7515ce441cf',
 						name: 'Rarible',
 						symbol: 'RARI',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					theGraph: 'https://api.thegraph.com/subgraphs/name/rarible/protocol'
-				}
-			}
-		]
+					theGraph: 'https://api.thegraph.com/subgraphs/name/rarible/protocol',
+				},
+			},
+		],
 	},
 	{
 		name: 'RealT',
 		slug: 'realt',
-		links: ['https://realt.co'],
+		links: [
+			'https://realt.co',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'realt'
-				}
-			}
-		]
+					zapper: 'realt',
+				},
+			},
+		],
 	},
 	{
 		name: 'Reaper',
 		slug: 'reaper',
-		links: ['https://www.reaper.farm'],
+		links: [
+			'https://www.reaper.farm',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'reaper'
-				}
-			}
-		]
+					zapper: 'reaper',
+				},
+			},
+		],
 	},
 	{
 		name: 'Redacted Cartel',
 		slug: 'redacted-cartel',
-		links: ['https://www.redacted.finance'],
-		colors: ['#27A5F2'],
+		links: [
+			'https://www.redacted.finance',
+		],
+		colors: [
+			'#27A5F2',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'redacted-cartel'
-				}
-			}
-		]
+					zapper: 'redacted-cartel',
+				},
+			},
+		],
 	},
 	{
 		name: 'Reflexer',
 		slug: 'reflexer',
-		links: ['https://reflexer.finance'],
+		links: [
+			'https://reflexer.finance',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -6519,85 +7388,97 @@ export const web3Apps = [
 						address: '0x54735d716995071585a4f6ba341a6ded79756f09',
 						name: 'FLUX Token',
 						symbol: 'FLX',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					zapper: 'reflexer',
-					zerionDefiSDK: ['Reflexer']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'Reflexer',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Ren',
 		slug: 'ren',
-		links: ['https://renproject.io'],
-		colors: ['#f5f6f8'],
+		links: [
+			'https://renproject.io',
+		],
+		colors: [
+			'#f5f6f8',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [
 					{
-						address: '0x408e41876cccdc0f92210600ef50372656052a38'
-					}
+						address: '0x408e41876cccdc0f92210600ef50372656052a38',
+					},
 				],
 				providers: {
-					zapper: 'ren'
-				}
-			}
-		]
+					zapper: 'ren',
+				},
+			},
+		],
 	},
 	{
 		name: 'Revert Finance',
 		slug: 'revert-finance',
-		links: ['https://revert.finance'],
-		colors: ['#fff'],
+		links: [
+			'https://revert.finance',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'revert-finance'
-				}
+					zapper: 'revert-finance',
+				},
 			},
 			{
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'revert-finance'
-				}
+					zapper: 'revert-finance',
+				},
 			},
 			{
 				chainId: 10,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'revert-finance'
-				}
+					zapper: 'revert-finance',
+				},
 			},
 			{
 				chainId: 42161,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'revert-finance'
-				}
-			}
-		]
+					zapper: 'revert-finance',
+				},
+			},
+		],
 	},
 	{
 		name: 'Rhino Fi',
 		slug: 'rhino-fi',
-		links: ['https://rhino.fi'],
+		links: [
+			'https://rhino.fi',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'rhino-fi'
-				}
-			}
-		]
+					zapper: 'rhino-fi',
+				},
+			},
+		],
 	},
 	{
 		name: 'Ribbon',
@@ -6610,8 +7491,8 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'ribbon-v2'
-				}
+					zapper: 'ribbon-v2',
+				},
 			},
 			{
 				name: 'Ribbon V2',
@@ -6619,8 +7500,8 @@ export const web3Apps = [
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'ribbon-v2'
-				}
+					zapper: 'ribbon-v2',
+				},
 			},
 			{
 				name: 'Ribbon V1',
@@ -6628,113 +7509,138 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'ribbon'
-				}
-			}
-		]
+					zapper: 'ribbon',
+				},
+			},
+		],
 	},
 	{
 		name: 'Robo Vault',
 		slug: 'robo-vault',
-		links: ['https://robo-vault.com'],
-		colors: ['#fff'],
+		links: [
+			'https://robo-vault.com',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'robo-vault'
-				}
+					zapper: 'robo-vault',
+				},
 			},
 			{
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'robo-vault'
-				}
-			}
-		]
+					zapper: 'robo-vault',
+				},
+			},
+		],
 	},
 	{
 		name: 'Rocket Pool',
 		slug: 'rocket-pool',
-		links: ['https://rocketpool.net'],
-		colors: ['#f97516'],
+		links: [
+			'https://rocketpool.net',
+		],
+		colors: [
+			'#f97516',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'rocket-pool'
-				}
-			}
-		]
+					zapper: 'rocket-pool',
+				},
+			},
+		],
 	},
 	{
 		name: 'Rook',
 		slug: 'rook',
-		links: ['https://www.rook.fi'],
+		links: [
+			'https://www.rook.fi',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'rook'
-				}
-			}
-		]
+					zapper: 'rook',
+				},
+			},
+		],
 	},
 	{
 		name: 'Rubicon',
 		slug: 'rubicon',
-		links: ['https://app.rubicon.finance'],
-		colors: ['#ba2f2a'],
+		links: [
+			'https://app.rubicon.finance',
+		],
+		colors: [
+			'#ba2f2a',
+		],
 		views: [
 			{
 				chainId: 10,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'rubicon'
-				}
-			}
-		]
+					zapper: 'rubicon',
+				},
+			},
+		],
 	},
 	{
 		name: 'Sablier',
 		slug: 'sablier',
-		links: ['https://sablier.finance'],
-		colors: ['#f77423', '#fbce5b'],
+		links: [
+			'https://sablier.finance',
+		],
+		colors: [
+			'#f77423',
+			'#fbce5b',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
 					zapper: 'sablier',
-					theGraph: 'https://api.thegraph.com/subgraphs/name/sablierhq/sablier'
-				}
-			}
-		]
+					theGraph: 'https://api.thegraph.com/subgraphs/name/sablierhq/sablier',
+				},
+			},
+		],
 	},
 	{
 		name: 'Saddle',
 		slug: 'saddle',
-		links: ['https://saddle.finance'],
+		links: [
+			'https://saddle.finance',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
 					zapper: 'saddle',
-					zerionDefiSDK: ['Saddle']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'Saddle',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'SashimiSwap',
 		slug: 'sashimiswap',
-		links: ['https://sashimi.cool'],
+		links: [
+			'https://sashimi.cool',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -6745,38 +7651,44 @@ export const web3Apps = [
 						address: '0xc28e27870558cf22add83540d2126da2e4b464c2',
 						name: 'Sashimi',
 						symbol: 'SASHIMI',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zerionDefiSDK: ['SashimiSwap']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'SashimiSwap',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Scarecrow',
 		slug: 'scarecrow',
-		links: ['https://app.scarecrow.fi'],
+		links: [
+			'https://app.scarecrow.fi',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 250,
 				erc20Tokens: [
 					{
-						address: '0x46e1ee17f51c52661d04238f1700c547de3b84a1'
-					}
+						address: '0x46e1ee17f51c52661d04238f1700c547de3b84a1',
+					},
 				],
 				providers: {
-					zapper: 'scarecrow'
-				}
-			}
-		]
+					zapper: 'scarecrow',
+				},
+			},
+		],
 	},
 	{
 		name: 'Scream',
 		slug: 'scream',
-		links: ['https://scream.sh'],
+		links: [
+			'https://scream.sh',
+		],
 		colors: [],
 		views: [
 			{
@@ -6785,8 +7697,8 @@ export const web3Apps = [
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'scream-v2'
-				}
+					zapper: 'scream-v2',
+				},
 			},
 			{
 				name: 'Scream V1',
@@ -6794,50 +7706,56 @@ export const web3Apps = [
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'scream'
-				}
-			}
-		]
+					zapper: 'scream',
+				},
+			},
+		],
 	},
 	{
 		name: 'S.finance',
 		slug: 'sfinance',
-		links: ['https://s.finance'],
+		links: [
+			'https://s.finance',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'sfinance'
-				}
+					zapper: 'sfinance',
+				},
 			},
 			{
 				chainId: 66,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'sfinance'
-				}
-			}
-		]
+					zapper: 'sfinance',
+				},
+			},
+		],
 	},
 	{
 		name: 'Shapeshift',
 		slug: 'shapeshift',
-		links: ['https://shapeshift.com/'],
+		links: [
+			'https://shapeshift.com/',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'shapeshift'
-				}
-			}
-		]
+					zapper: 'shapeshift',
+				},
+			},
+		],
 	},
 	{
 		name: 'SharedStake',
 		slug: 'sharedstake',
-		links: ['https://www.sharedstake.org/'],
+		links: [
+			'https://www.sharedstake.org/',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -6845,44 +7763,52 @@ export const web3Apps = [
 					erc20TokensByContractAddress['0x84810bcf08744d5862b8181f12d17bfd57d3b078'] // SharedStake Governance Token (SGT)
 				],
 				providers: {
-					zapper: 'shared-stake'
-				}
-			}
-		]
+					zapper: 'shared-stake',
+				},
+			},
+		],
 	},
 	{
 		name: 'Shell',
 		slug: 'shell',
-		links: ['https://www.shellprotocol.io'],
+		links: [
+			'https://www.shellprotocol.io',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'shell'
-				}
-			}
-		]
+					zapper: 'shell',
+				},
+			},
+		],
 	},
 	{
 		name: 'Single',
 		slug: 'single',
-		links: ['https://app.singlefinance.io'],
-		colors: ['#7480FF'],
+		links: [
+			'https://app.singlefinance.io',
+		],
+		colors: [
+			'#7480FF',
+		],
 		views: [
 			{
 				chainId: 25,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'single'
-				}
-			}
-		]
+					zapper: 'single',
+				},
+			},
+		],
 	},
 	{
 		name: 'Smoothy',
 		slug: 'smoothy',
-		links: ['https://www.smoothy.finance'],
+		links: [
+			'https://www.smoothy.finance',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -6893,63 +7819,71 @@ export const web3Apps = [
 						address: '0xbf776e4fca664d791c4ee3a71e2722990e003283',
 						name: 'Smoothy',
 						symbol: 'SMTY',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'smoothy'
-				}
-			}
-		]
+					zapper: 'smoothy',
+				},
+			},
+		],
 	},
 	{
 		name: 'Snowball',
 		slug: 'snowball',
-		links: ['https://snowball.network/'],
+		links: [
+			'https://snowball.network/',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'snowball'
-				}
-			}
-		]
+					zapper: 'snowball',
+				},
+			},
+		],
 	},
 	{
 		name: 'Snowbank',
 		slug: 'snowbank',
-		links: ['https://www.snowbank.finance'],
+		links: [
+			'https://www.snowbank.finance',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'snowbank'
-				}
-			}
-		]
+					zapper: 'snowbank',
+				},
+			},
+		],
 	},
 	{
 		name: 'Snowdog',
 		slug: 'snowdog',
-		links: ['https://www.snowdogdao.com'],
+		links: [
+			'https://www.snowdogdao.com',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'snowdog'
-				}
-			}
-		]
+					zapper: 'snowdog',
+				},
+			},
+		],
 	},
 	{
 		name: 'SnowSwap',
 		slug: 'snowswap',
-		links: ['https://snowswap.org'],
+		links: [
+			'https://snowswap.org',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -6960,172 +7894,200 @@ export const web3Apps = [
 						address: '0xfe9a29ab92522d14fc65880d817214261d8479ae',
 						name: 'Snowswap',
 						symbol: 'SNOW',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					zapper: 'snowswap',
-					zerionDefiSDK: ['SnowSwap']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'SnowSwap',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Solace',
 		slug: 'solace',
-		links: ['https://solace.fi'],
-		colors: ['#fff'],
+		links: [
+			'https://solace.fi',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'solace'
-				}
+					zapper: 'solace',
+				},
 			},
 			{
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'solace'
-				}
+					zapper: 'solace',
+				},
 			},
 			{
 				chainId: 1313161554,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'solace'
-				}
-			}
-		]
+					zapper: 'solace',
+				},
+			},
+		],
 	},
 	{
 		name: 'Solarbeam',
 		slug: 'solarbeam',
-		links: ['https://solarbeam.io'],
+		links: [
+			'https://solarbeam.io',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1285,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'solarbeam'
-				}
-			}
-		]
+					zapper: 'solarbeam',
+				},
+			},
+		],
 	},
 	{
 		name: 'Solidex',
 		slug: 'solidex',
-		links: ['https://solidexfinance.com'],
+		links: [
+			'https://solidexfinance.com',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'solidex'
-				}
-			}
-		]
+					zapper: 'solidex',
+				},
+			},
+		],
 	},
 	{
 		name: 'Solidly',
 		slug: 'solidly',
-		links: ['https://solidly.exchange'],
+		links: [
+			'https://solidly.exchange',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'solidly'
-				}
-			}
-		]
+					zapper: 'solidly',
+				},
+			},
+		],
 	},
 	{
 		name: 'Spartacus',
 		slug: 'spartacus',
-		links: ['https://app.spartacus.finance'],
+		links: [
+			'https://app.spartacus.finance',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'spartacus'
-				}
-			}
-		]
+					zapper: 'spartacus',
+				},
+			},
+		],
 	},
 	{
 		name: 'SpiritSwap',
 		slug: 'spiritswap',
-		links: ['https://www.spiritswap.finance'],
+		links: [
+			'https://www.spiritswap.finance',
+		],
 		views: [
 			{
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'spiritswap'
-				}
-			}
-		]
+					zapper: 'spiritswap',
+				},
+			},
+		],
 	},
 	{
 		name: 'SpookySwap',
 		slug: 'spookyswap',
-		links: ['https://spookyswap.finance'],
+		links: [
+			'https://spookyswap.finance',
+		],
 		views: [
 			{
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'spookyswap'
-				}
-			}
-		]
+					zapper: 'spookyswap',
+				},
+			},
+		],
 	},
 	{
 		name: 'Spool',
 		slug: 'spool',
-		links: ['https://app.spool.fi'],
-		colors: ['#fff'],
+		links: [
+			'https://app.spool.fi',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [
 					{
-						address: '0x40803cea2b2a32bda1be61d3604af6a814e70976'
-					}
+						address: '0x40803cea2b2a32bda1be61d3604af6a814e70976',
+					},
 				],
 				providers: {
-					zapper: 'spool'
-				}
-			}
-		]
+					zapper: 'spool',
+				},
+			},
+		],
 	},
 	{
 		name: 'Squid',
 		slug: 'squid',
-		links: ['https://squid.xyz'],
+		links: [
+			'https://squid.xyz',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'squid'
-				}
-			}
-		]
+					zapper: 'squid',
+				},
+			},
+		],
 	},
 	{
 		name: 'Stake DAO',
 		slug: 'stake-dao',
-		links: ['https://stakedao.org'],
-		colors: ['#7c3aed'], // unofficial
+		links: [
+			'https://stakedao.org',
+		],
+		colors: [
+			'#7c3aed',
+		], // unofficial
 		views: [
 			{
 				chainId: 1,
@@ -7136,108 +8098,123 @@ export const web3Apps = [
 						address: '0x73968b9a57c6e53d41345fd57a6e6ae27d6cdb2f',
 						name: 'Stake DAO',
 						symbol: 'SDT',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					zapper: 'stake-dao',
-					zerionDefiSDK: ['Stake DAO']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'Stake DAO',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Stargate',
 		slug: 'stargate',
-		links: ['https://stargate.finance'],
+		links: [
+			'https://stargate.finance',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 42161,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'stargate'
-				}
+					zapper: 'stargate',
+				},
 			},
 			{
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'stargate'
-				}
+					zapper: 'stargate',
+				},
 			},
 			{
 				chainId: 56,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'stargate'
-				}
+					zapper: 'stargate',
+				},
 			},
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'stargate'
-				}
+					zapper: 'stargate',
+				},
 			},
 			{
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'stargate'
-				}
+					zapper: 'stargate',
+				},
 			},
 			{
 				chainId: 10,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'stargate'
-				}
+					zapper: 'stargate',
+				},
 			},
 			{
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'stargate'
-				}
-			}
-		]
+					zapper: 'stargate',
+				},
+			},
+		],
 	},
 	{
 		name: 'Steak Hut',
 		slug: 'steak-hut',
-		links: ['https://www.steakhut.finance'],
-		colors: ['#fff'],
+		links: [
+			'https://www.steakhut.finance',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'steak-hut'
-				}
-			}
-		]
+					zapper: 'steak-hut',
+				},
+			},
+		],
 	},
 	{
 		name: 'Stormswap',
 		slug: 'stormswap',
-		links: ['https://stormswap.finance'],
+		links: [
+			'https://stormswap.finance',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'stormswap'
-				}
-			}
-		]
+					zapper: 'stormswap',
+				},
+			},
+		],
 	},
 	{
 		name: 'Streamr',
 		slug: 'streamr',
-		links: ['https://streamr.network'],
-		colors: ['#FF5C00', '#0D009A'], // https://streamr.network/design/#colours
+		links: [
+			'https://streamr.network',
+		],
+		colors: [
+			'#FF5C00',
+			'#0D009A',
+		], // https://streamr.network/design/#colours
 		views: [
 			{
 				chainId: 1,
@@ -7248,35 +8225,39 @@ export const web3Apps = [
 						address: '0x0cf0ee63788a0849fe5297f3407f701e122cc023',
 						name: 'Streamr XDATA',
 						symbol: 'XDATA',
-						decimals: 18
-					}
-				]
-			}
-		]
+						decimals: 18,
+					},
+				],
+			},
+		],
 	},
 	{
 		name: 'Strongblock',
 		slug: 'strongblock',
-		links: ['https://strongblock.com'],
+		links: [
+			'https://strongblock.com',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [
 					{
-						address: '0x990f341946a3fdb507ae7e52d17851b87168017c'
-					}
+						address: '0x990f341946a3fdb507ae7e52d17851b87168017c',
+					},
 				],
 				providers: {
-					zapper: 'strongblock'
-				}
-			}
-		]
+					zapper: 'strongblock',
+				},
+			},
+		],
 	},
 	{
 		name: 'Strudel Finance',
 		slug: 'strudel',
-		links: ['https://strudel.finance'],
+		links: [
+			'https://strudel.finance',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -7287,58 +8268,69 @@ export const web3Apps = [
 						address: '0x297d33e17e61c2ddd812389c2105193f8348188a',
 						name: 'Strudel Finance',
 						symbol: 'TRDL',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'snowball'
-				}
-			}
-		]
+					zapper: 'snowball',
+				},
+			},
+		],
 	},
 	{
 		name: 'Sturdy',
 		slug: 'sturdy',
-		links: ['https://app.sturdy.finance'],
-		colors: ['#fff'],
+		links: [
+			'https://app.sturdy.finance',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'sturdy'
-				}
+					zapper: 'sturdy',
+				},
 			},
 			{
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'sturdy'
-				}
-			}
-		]
+					zapper: 'sturdy',
+				},
+			},
+		],
 	},
 	{
 		name: 'Sudoswap',
 		slug: 'sudoswap',
-		links: ['https://sudoswap.xyz'],
+		links: [
+			'https://sudoswap.xyz',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'sudoswap'
-				}
-			}
-		]
+					zapper: 'sudoswap',
+				},
+			},
+		],
 	},
 	{
 		// https://docs.superfluid.finance/superfluid/networks/networks
 		name: 'Superfluid',
 		slug: 'superfluid',
-		links: ['https://www.superfluid.finance/home'],
-		colors: ['#10BB34', '#12141E'],
+		links: [
+			'https://www.superfluid.finance/home',
+		],
+		colors: [
+			'#10BB34',
+			'#12141E',
+		],
 		views: [
 			{
 				chainId: 137,
@@ -7348,36 +8340,36 @@ export const web3Apps = [
 						address: '0x3aD736904E9e65189c3000c7DD2c8AC8bB7cD4e3',
 						name: 'Super MATIC',
 						symbol: 'MATICx',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						chainId: 137,
 						address: '0x27e1e4E6BC79D93032abef01025811B7E4727e85',
 						name: 'Super WETH (PoS)',
 						symbol: 'ETHx',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						chainId: 137,
 						address: '0xCAa7349CEA390F89641fe306D93591f87595dc1F',
 						name: 'Super USDC (PoS)',
 						symbol: 'USDCx',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						chainId: 137,
 						address: '0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2',
 						name: 'Super DAI (PoS)',
 						symbol: 'DAIx',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						chainId: 137,
 						address: '0x4086eBf75233e8492F1BCDa41C7f2A8288c2fB92',
 						name: 'Super WBTC (PoS)',
 						symbol: 'WBTCx',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				contracts: [
 					{
@@ -7402,8 +8394,8 @@ export const web3Apps = [
 					},
 				],
 				providers: {
-					zapper: 'superfluid'
-				}
+					zapper: 'superfluid',
+				},
 			},
 			{
 				chainId: 100,
@@ -7413,8 +8405,8 @@ export const web3Apps = [
 						address: '0x59988e47A3503AaFaA0368b9deF095c818Fdca01',
 						name: 'Super xDAI',
 						symbol: 'xDAIx',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				contracts: [
 					{
@@ -7437,23 +8429,28 @@ export const web3Apps = [
 						name: 'SuperTokenFactory',
 						address: '0x23410e2659380784498509698ed70E414D384880',
 					},
-
+					
 					{
 						name: 'WORK SuperToken',
 						address: '0x0872d200f74e4a45e830eccc9e8b8f605df7ce06',
 					},
 				],
 				providers: {
-					zapper: 'superfluid'
-				}
-			}
-		]
+					zapper: 'superfluid',
+				},
+			},
+		],
 	},
 	{
 		name: 'Sushi',
 		slug: 'sushi',
-		links: ['https://sushi.com'],
-		colors: ['#016eda', '#d900c0'],
+		links: [
+			'https://sushi.com',
+		],
+		colors: [
+			'#016eda',
+			'#d900c0',
+		],
 		views: [
 			{
 				slug: 'ethereum',
@@ -7465,13 +8462,16 @@ export const web3Apps = [
 						address: '0x6b3595068778dd592e39a122f4f5a5cf09c90fe2',
 						name: 'Sushi',
 						symbol: 'SUSHI',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					zapper: 'sushiswap',
-					zerionDefiSDK: ['SushiSwap', 'SushiSwap • Staking']
-				}
+					zerionDefiSDK: [
+						'SushiSwap',
+						'SushiSwap • Staking',
+					],
+				},
 			},
 			{
 				name: 'Bentobox',
@@ -7479,8 +8479,8 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'sushiswap-bentobox'
-				}
+					zapper: 'sushiswap-bentobox',
+				},
 			},
 			{
 				name: 'Kashi',
@@ -7488,87 +8488,93 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'sushiswap-kashi'
-				}
+					zapper: 'sushiswap-kashi',
+				},
 			},
 			{
 				slug: 'fantom',
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'sushiswap'
-				}
+					zapper: 'sushiswap',
+				},
 			},
 			{
 				slug: 'bsc',
 				chainId: 56,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'sushiswap'
-				}
+					zapper: 'sushiswap',
+				},
 			},
 			{
 				slug: 'polygon',
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'sushiswap'
-				}
+					zapper: 'sushiswap',
+				},
 			},
 			{
 				slug: 'heco',
 				chainId: 128,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'sushiswap'
-				}
+					zapper: 'sushiswap',
+				},
 			},
 			{
 				slug: 'gnosis',
 				chainId: 100,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'sushiswap'
-				}
+					zapper: 'sushiswap',
+				},
 			},
 			{
 				slug: 'harmony',
 				chainId: 1666600000,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'sushiswap'
-				}
+					zapper: 'sushiswap',
+				},
 			},
 			{
 				slug: 'avalanche',
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'sushiswap'
-				}
-			}
-		]
+					zapper: 'sushiswap',
+				},
+			},
+		],
 	},
 	{
 		name: 'Swapr',
 		slug: 'swapr',
-		links: ['https://swapr.eth.link'],
+		links: [
+			'https://swapr.eth.link',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 42161,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'swapr'
-				}
-			}
-		]
+					zapper: 'swapr',
+				},
+			},
+		],
 	},
 	{
 		name: 'Swerve',
 		slug: 'swerve',
-		links: ['https://swerve.fi'],
-		colors: ['#86fce7'],
+		links: [
+			'https://swerve.fi',
+		],
+		colors: [
+			'#86fce7',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -7579,122 +8585,138 @@ export const web3Apps = [
 						address: '0xb8baa0e4287890a5f79863ab62b7f175cecbd433',
 						name: 'Swerve',
 						symbol: 'SWRV',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					zapper: 'swerve',
-					zerionDefiSDK: ['Swerve', 'Swerve • Liquidity Gauges']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'Swerve',
+						'Swerve • Liquidity Gauges',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Symphony',
 		slug: 'symphony',
-		links: ['https://app.symphony.finance'],
-		colors: ['#1f222c'],
+		links: [
+			'https://app.symphony.finance',
+		],
+		colors: [
+			'#1f222c',
+		],
 		views: [
 			{
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'symphony'
-				}
+					zapper: 'symphony',
+				},
 			},
 			{
 				chainId: 10,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'symphony'
-				}
+					zapper: 'symphony',
+				},
 			},
 			{
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'symphony'
-				}
-			}
-		]
+					zapper: 'symphony',
+				},
+			},
+		],
 	},
 	{
 		name: 'Synapse',
 		slug: 'synapse',
-		links: ['https://synapseprotocol.com'],
+		links: [
+			'https://synapseprotocol.com',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'synapse'
-				}
+					zapper: 'synapse',
+				},
 			},
 			{
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'synapse'
-				}
+					zapper: 'synapse',
+				},
 			},
 			{
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'synapse'
-				}
+					zapper: 'synapse',
+				},
 			},
 			{
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'synapse'
-				}
+					zapper: 'synapse',
+				},
 			},
 			{
 				chainId: 42161,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'synapse'
-				}
+					zapper: 'synapse',
+				},
 			},
 			{
 				chainId: 56,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'synapse'
-				}
+					zapper: 'synapse',
+				},
 			},
 			{
 				chainId: 10,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'synapse'
-				}
-			}
-		]
+					zapper: 'synapse',
+				},
+			},
+		],
 	},
 	{
 		name: 'Synlev',
 		slug: 'synlev',
-		links: ['https://synlev.com'],
+		links: [
+			'https://synlev.com',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'synlev'
-				}
-			}
-		]
+					zapper: 'synlev',
+				},
+			},
+		],
 	},
 	{
 		name: 'Synthetix',
-		colors: ['#00d1ff', '#1e1a31'],
+		colors: [
+			'#00d1ff',
+			'#1e1a31',
+		],
 		slug: 'synthetix',
-		links: ['https://www.synthetix.io'],
+		links: [
+			'https://www.synthetix.io',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -7705,14 +8727,16 @@ export const web3Apps = [
 						address: '0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f',
 						name: 'Synthetix Network T',
 						symbol: 'SNX',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/synthetixio-team/synthetix',
 					zapper: 'synthetix',
-					zerionDefiSDK: ['Synthetix']
-				}
+					zerionDefiSDK: [
+						'Synthetix',
+					],
+				},
 			},
 			{
 				name: 'Synthetix Mintr',
@@ -7720,61 +8744,75 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'mintr'
-				}
-			}
-		]
+					zapper: 'mintr',
+				},
+			},
+		],
 	},
 	{
 		name: 'Tarot',
 		slug: 'tarot',
-		links: ['https://www.tarot.to'],
+		links: [
+			'https://www.tarot.to',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'tarot'
-				}
-			}
-		]
+					zapper: 'tarot',
+				},
+			},
+		],
 	},
 	{
 		name: 'Tectonic',
 		slug: 'tectonic',
-		links: ['https://tectonic.finance'],
-		colors: ['#000024'],
+		links: [
+			'https://tectonic.finance',
+		],
+		colors: [
+			'#000024',
+		],
 		views: [
 			{
 				chainId: 25,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'tectonic'
-				}
-			}
-		]
+					zapper: 'tectonic',
+				},
+			},
+		],
 	},
 	{
 		name: 'Teddy Cash',
 		slug: 'teddy-cash',
-		links: ['https://teddy.cash'],
-		colors: ['#fff'],
+		links: [
+			'https://teddy.cash',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'teddy-cash'
-				}
-			}
-		]
+					zapper: 'teddy-cash',
+				},
+			},
+		],
 	},
 	{
 		name: 'Tellor',
 		slug: 'tellor',
-		links: ['https://tellor.io'],
-		colors: ['#20f092'],
+		links: [
+			'https://tellor.io',
+		],
+		colors: [
+			'#20f092',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -7785,8 +8823,8 @@ export const web3Apps = [
 						address: '0x88df592f8eb5d7bd38bfef7deb0fbc02cf3778a0',
 						name: 'Tellor',
 						symbol: 'TRB',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				contracts: [
 					{
@@ -7805,74 +8843,89 @@ export const web3Apps = [
 						name: 'Rivendell (voting logic)',
 						address: '0xd53412ff046B13318C05e923919d8dB07C3cB3E9',
 					},
-				]
-			}
-		]
+				],
+			},
+		],
 	},
 	{
 		name: 'Tempus',
 		slug: 'tempus',
-		links: ['https://tempus.finance'],
-		colors: ['#fff'],
+		links: [
+			'https://tempus.finance',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'tempus'
-				}
+					zapper: 'tempus',
+				},
 			},
 			{
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'tempus'
-				}
-			}
-		]
+					zapper: 'tempus',
+				},
+			},
+		],
 	},
 	{
 		name: 'Tenderize',
 		slug: 'tenderize',
-		links: ['https://app.tenderize.me'],
-		colors: ['#fff'],
+		links: [
+			'https://app.tenderize.me',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 42161,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'tenderize'
-				}
+					zapper: 'tenderize',
+				},
 			},
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'tenderize'
-				}
-			}
-		]
+					zapper: 'tenderize',
+				},
+			},
+		],
 	},
 	{
 		name: 'Thales',
 		slug: 'thales',
-		links: ['https://thalesmarket.io'],
+		links: [
+			'https://thalesmarket.io',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 10,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'thales'
-				}
-			}
-		]
+					zapper: 'thales',
+				},
+			},
+		],
 	},
 	{
 		name: 'The Graph',
 		slug: 'the-graph',
-		links: ['https://thegraph.com'],
-		colors: ['#4ca4ff', '#6f4cff'], // unofficial
+		links: [
+			'https://thegraph.com',
+		],
+		colors: [
+			'#4ca4ff',
+			'#6f4cff',
+		], // unofficial
 		views: [
 			{
 				chainId: 1,
@@ -7883,33 +8936,37 @@ export const web3Apps = [
 						address: '0xc944e90c64b2c07662a292be6244bdf05cda44a7',
 						name: 'The Graph',
 						symbol: 'GRT',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'the-graph'
-				}
-			}
-		]
+					zapper: 'the-graph',
+				},
+			},
+		],
 	},
 	{
 		name: 'Tokemak',
 		slug: 'tokemak',
-		links: ['https://www.tokemak.xyz'],
+		links: [
+			'https://www.tokemak.xyz',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'tokemak'
-				}
-			}
-		]
+					zapper: 'tokemak',
+				},
+			},
+		],
 	},
 	{
 		name: 'Tokenlon',
 		slug: 'tokenlon',
-		links: ['https://tokenlon.im'],
+		links: [
+			'https://tokenlon.im',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -7920,98 +8977,105 @@ export const web3Apps = [
 						address: '0x0000000000095413afc295d19edeb1ad7b71c952',
 						name: 'Tokenlon',
 						symbol: 'LON',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'tokenlon'
-				}
-			}
-		]
+					zapper: 'tokenlon',
+				},
+			},
+		],
 	},
 	{
 		name: 'Tokens',
 		slug: 'tokens',
-		links: ['https://ethereum.org'],
+		links: [
+			'https://ethereum.org',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 42161,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'tokens'
-				}
+					zapper: 'tokens',
+				},
 			},
 			{
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'tokens'
-				}
+					zapper: 'tokens',
+				},
 			},
 			{
 				chainId: 56,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'tokens'
-				}
+					zapper: 'tokens',
+				},
 			},
 			{
 				chainId: 42220,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'tokens'
-				}
+					zapper: 'tokens',
+				},
 			},
 			{
 				chainId: 1666600000,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'tokens'
-				}
+					zapper: 'tokens',
+				},
 			},
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'tokens'
-				}
+					zapper: 'tokens',
+				},
 			},
 			{
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'tokens'
-				}
+					zapper: 'tokens',
+				},
 			},
 			{
 				chainId: 10,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'tokens'
-				}
+					zapper: 'tokens',
+				},
 			},
 			{
 				chainId: 137,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'tokens'
-				}
+					zapper: 'tokens',
+				},
 			},
 			{
 				chainId: 25,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'tokens'
-				}
-			}
-		]
+					zapper: 'tokens',
+				},
+			},
+		],
 	},
 	{
 		name: 'TokenSets',
 		slug: 'tokensets',
-		links: ['https://www.tokensets.com'],
-		colors: ['#2D2CE5'/*, '#6BB1FF'*/],
+		links: [
+			'https://www.tokensets.com',
+		],
+		colors: [
+			'#2D2CE5',
+			// '#6BB1FF',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -8022,35 +9086,42 @@ export const web3Apps = [
 						address: '0x1494ca1f11d487c2bbe4543e90080aeba4ba3c2b',
 						name: 'DeFiPulse Index',
 						symbol: 'DPI',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					zapper: 'tokensets',
-					zerionDefiSDK: ['TokenSets', 'SetToken V2']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'TokenSets',
+						'SetToken V2',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Tomb',
 		slug: 'tomb',
-		links: ['https://tomb.finance'],
+		links: [
+			'https://tomb.finance',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'tomb'
-				}
-			}
-		]
+					zapper: 'tomb',
+				},
+			},
+		],
 	},
 	{
 		name: 'Tornado Cash',
 		slug: 'tornado-cash',
-		links: ['https://tornado.cash'],
+		links: [
+			'https://tornado.cash',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -8061,31 +9132,35 @@ export const web3Apps = [
 						address: '0x77777feddddffc19ff86db637967013e6c6a116c',
 						name: 'Tornado Cash',
 						symbol: 'TORN',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'tornado-cash'
-				}
-			}
-		]
+					zapper: 'tornado-cash',
+				},
+			},
+		],
 	},
 	{
 		name: 'Trader Joe',
 		slug: 'trader-joe',
-		links: ['https://traderjoexyz.com'],
-		colors: ['#ee6662'],
+		links: [
+			'https://traderjoexyz.com',
+		],
+		colors: [
+			'#ee6662',
+		],
 		views: [
 			{
 				chainId: 43114,
 				erc20Tokens: [
 					{
-						address: '0x6e84a6216ea6dacc71ee8e6b0a5b7322eebc0fdd'
-					}
+						address: '0x6e84a6216ea6dacc71ee8e6b0a5b7322eebc0fdd',
+					},
 				],
 				providers: {
-					zapper: 'trader-joe'
-				}
+					zapper: 'trader-joe',
+				},
 			},
 			{
 				name: 'Trader Joe Banker',
@@ -8093,69 +9168,83 @@ export const web3Apps = [
 				chainId: 43114,
 				erc20Tokens: [
 					{
-						address: '0x6e84a6216ea6dacc71ee8e6b0a5b7322eebc0fdd'
-					}
+						address: '0x6e84a6216ea6dacc71ee8e6b0a5b7322eebc0fdd',
+					},
 				],
 				providers: {
-					zapper: 'trader-joe-banker'
-				}
-			}
-		]
+					zapper: 'trader-joe-banker',
+				},
+			},
+		],
 	},
 	{
 		name: 'Trisolaris',
 		slug: 'trisolaris',
-		links: ['https://www.trisolaris.io'],
-		colors: ['#fff'],
+		links: [
+			'https://www.trisolaris.io',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1313161554,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'trisolaris'
-				}
-			}
-		]
+					zapper: 'trisolaris',
+				},
+			},
+		],
 	},
 	{
 		name: 'Truefi',
 		slug: 'truefi',
-		links: ['https://truefi.io'],
+		links: [
+			'https://truefi.io',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'truefi'
-				}
-			}
-		]
+					zapper: 'truefi',
+				},
+			},
+		],
 	},
 	{
 		name: 'Ubeswap',
 		slug: 'ubeswap',
-		links: ['https://ubeswap.org'],
-		colors: ['#a261b6'],
+		links: [
+			'https://ubeswap.org',
+		],
+		colors: [
+			'#a261b6',
+		],
 		views: [
 			{
 				chainId: 42220,
 				erc20Tokens: [
 					{
-						address: '0x00be915b9dcf56a3cbe739d9b9c202ca692409ec'
-					}
+						address: '0x00be915b9dcf56a3cbe739d9b9c202ca692409ec',
+					},
 				],
 				providers: {
-					zapper: 'ubeswap'
-				}
-			}
-		]
+					zapper: 'ubeswap',
+				},
+			},
+		],
 	},
 	{
 		name: 'UMA',
 		slug: 'uma',
-		links: ['https://umaproject.org'],
-		colors: ['#ff4a4a'],
+		links: [
+			'https://umaproject.org',
+		],
+		colors: [
+			'#ff4a4a',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -8166,36 +9255,45 @@ export const web3Apps = [
 						address: '0x04fa0d235c4abf4bcf4787af4cf447de572ef828',
 						name: 'UMA',
 						symbol: 'UMA',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					theGraph: 'https://api.thegraph.com/subgraphs/name/umaprotocol/uma'
-				}
-			}
-		]
+					theGraph: 'https://api.thegraph.com/subgraphs/name/umaprotocol/uma',
+				},
+			},
+		],
 	},
 	{
 		name: 'Umami Finance',
 		slug: 'umami-finance',
-		links: ['https://umami.finance'],
-		colors: ['#fff'],
+		links: [
+			'https://umami.finance',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 42161,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'umami-finance'
-				}
-			}
-		]
+					zapper: 'umami-finance',
+				},
+			},
+		],
 	},
 	{
 		// https://umbrella-network.readme.io/docs/umb-token-contracts
 		name: 'Umbrella',
 		slug: 'umbrella',
-		links: ['https://www.umb.network'],
-		colors: ['#2B28B7', '#000000'], // #06f398
+		links: [
+			'https://www.umb.network',
+		],
+		colors: [
+			'#2B28B7',
+			'#000000',
+		], // #06f398,
 		views: [
 			{
 				slug: 'ethereum',
@@ -8207,18 +9305,18 @@ export const web3Apps = [
 						address: '0x6fc13eace26590b80cccab1ba5d51890577d83b2',
 						name: 'Umbrella Network',
 						symbol: 'UMB',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						name: 'Umbrella Reward #1',
 						address: '0x1b17dbb40fbed8735e7fe8c9eb02c20984fadfd6',
 						symbol: 'rUMB1',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					theGraph: 'https://api.thegraph.com/subgraphs/name/cfengliu/umbrella'
-				}
+					theGraph: 'https://api.thegraph.com/subgraphs/name/cfengliu/umbrella',
+				},
 			},
 			{
 				slug: 'bsc',
@@ -8229,36 +9327,44 @@ export const web3Apps = [
 						name: 'Contract Registry',
 						address: '0xb2C6c4162c0d2B6963C62A9133331b4D0359AA34',
 					},
-				]
-			}
-		]
+				],
+			},
+		],
 	},
 	{
 		name: 'Unagii',
 		slug: 'unagii',
-		links: ['https://www.unagii.com'],
-		colors: ['#fff'],
+		links: [
+			'https://www.unagii.com',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'unagii'
-				}
-			}
-		]
+					zapper: 'unagii',
+				},
+			},
+		],
 	},
 	{
 		name: 'Uniswap',
 		slug: 'uniswap',
 		links: ['https://uniswap.org', 'https://app.uniswap.org'],
-		colors: ['#FC72FF'],
+		colors: [
+			'#FC72FF',
+		],
 		icon: UniswapIcon,
 		views: [
 			...UniswapV3.SUPPORTED_CHAIN_IDS.map(chainId => ({
 				name: 'Uniswap V3',
 				slug: 'v3',
-				colors: ['#FC72FF'],
+				colors: [
+					'#FC72FF',
+				],
 				chainId,
 				erc20Tokens: [],
 				components: [
@@ -8268,19 +9374,23 @@ export const web3Apps = [
 					theGraph: UniswapV3Subgraph.subgraphUrls[chainId]?.hosted,
 					...chainId === 1 && {
 						zapper: 'uniswap-v3',
-						zerionDefiSDK: ['Uniswap V3'],
+						zerionDefiSDK: [
+							'Uniswap V3',
+						],
 					},
 				},
 				contracts: Object.entries(UniswapV3.deployedContractsByChainId[chainId] ?? {})
-					.map(([name, address]) => ({
-						name,
-						address,
-					})),
+				.map(([name, address]) => ({
+					name,
+					address,
+				})),
 			})),
 			{
 				name: 'Uniswap V2',
 				slug: 'v2',
-				colors: ['#ff007a'],
+				colors: [
+					'#ff007a',
+				],
 				chainId: 1,
 				erc20Tokens: [
 					{
@@ -8289,38 +9399,46 @@ export const web3Apps = [
 						address: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
 						name: 'Uniswap',
 						symbol: 'UNI',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					llamafolio: 'uniswap-v2',
 					theGraph: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2',
 					zapper: 'uniswap-v2',
-					zerionDefiSDK: ['Uniswap V2']
-				}
+					zerionDefiSDK: [
+						'Uniswap V2',
+					],
+				},
 			},
 			{
 				name: 'Uniswap V1',
 				slug: 'v1',
-				colors: ['#DC6BE5'],
+				colors: [
+					'#DC6BE5',
+				],
 				chainId: 1,
 				erc20Tokens: [
 					// {
-					// 	address: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'
-					// }
+					// 	address: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
+					// },
 				],
 				providers: {
 					zapper: 'uniswap-v1',
-					zerionDefiSDK: ['Uniswap V1']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'Uniswap V1',
+					],
+				},
+			},
+		],
 	},
 	{
 		// https://github.com/unitprotocol/core/blob/master/CONTRACTS.md
 		name: 'Unit Protocol',
 		slug: 'unit',
-		links: ['https://unit.xyz'],
+		links: [
+			'https://unit.xyz',
+		],
 		views: [
 			{
 				slug: 'ethereum',
@@ -8332,7 +9450,7 @@ export const web3Apps = [
 						address: '0x92e187a03b6cd19cb6af293ba17f2745fd2357d5',
 						name: 'Unit Protocol New',
 						symbol: 'DUCK',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/6013/thumb/Pax_Dollar.png?1629877204',
@@ -8340,8 +9458,8 @@ export const web3Apps = [
 						address: '0x8e870d67f660d95d5be530380d0ec0bd388289e1',
 						name: 'Pax Dollar',
 						symbol: 'USDP',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				contracts: [
 					// Core
@@ -8373,7 +9491,7 @@ export const web3Apps = [
 						name: 'CDPManager01_Fallback',
 						address: '0xaD3617D11f4c1d30603551eA75e9Ace9CB386e15',
 					},
-
+					
 					// Helpers & Registries
 					{
 						name: 'OracleRegistry',
@@ -8401,8 +9519,8 @@ export const web3Apps = [
 					},
 				],
 				providers: {
-					zapper: 'unit'
-				}
+					zapper: 'unit',
+				},
 			},
 			{
 				name: 'Binance Smart Chain',
@@ -8435,7 +9553,7 @@ export const web3Apps = [
 						name: 'CDPManager01',
 						address: '0x1337daC01Fc21Fa21D17914f96725f7a7b73868f',
 					},
-
+					
 					// Helpers & Registries
 					{
 						name: 'OracleRegistry',
@@ -8459,15 +9577,17 @@ export const web3Apps = [
 					},
 				],
 				providers: {
-					zapper: 'unit'
-				}
-			}
-		]
+					zapper: 'unit',
+				},
+			},
+		],
 	},
 	{
 		name: 'Universe',
 		slug: 'universe',
-		links: ['https://universe.xyz'],
+		links: [
+			'https://universe.xyz',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -8478,25 +9598,31 @@ export const web3Apps = [
 						address: '0x618679df9efcd19694bb1daa8d00718eacfa2883',
 						name: 'Universe XYZ',
 						symbol: 'XYZ',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'universe'
-				}
-			}
-		]
+					zapper: 'universe',
+				},
+			},
+		],
 	},
 	{
 		name: 'Upshot',
 		slug: 'upshot',
 		links: ['https://upshot.io', 'https://app.upshot.io'],
-		colors: ['#e44bbe', '#0091ff', '#ff5628'],
+		colors: [
+			'#e44bbe',
+			'#0091ff',
+			'#ff5628',
+		],
 		views: [
 			{
 				name: 'Axie Infinity',
 				slug: 'axie-infinity',
-				links: ['https://axieinfinity.com/'],
+				links: [
+					'https://axieinfinity.com/',
+				],
 				chainId: 1,
 				erc20Tokens: [
 					{
@@ -8505,27 +9631,29 @@ export const web3Apps = [
 						address: '0xbb0e17ef65f82ab018d8edd776e8dd940327b28b',
 						name: 'Axie Infinity',
 						symbol: 'AXS',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				nfts: [
 					{
-						address: '0xF5b0A3eFB8e8E4c201e2A935F110eAaF3FFEcb8d'
-					}
+						address: '0xF5b0A3eFB8e8E4c201e2A935F110eAaF3FFEcb8d',
+					},
 				],
 				contracts: [
 					{
-						address: '0xf4985070ce32b6b1994329df787d1acc9a2dd9e2'
-					}
+						address: '0xf4985070ce32b6b1994329df787d1acc9a2dd9e2',
+					},
 				],
 				providers: {
-					theGraph: 'https://api.thegraph.com/subgraphs/name/upshot-tech/nft-analytics-axie-infinity'
-				}
+					theGraph: 'https://api.thegraph.com/subgraphs/name/upshot-tech/nft-analytics-axie-infinity',
+				},
 			},
 			{
 				name: 'CryptoKitties',
 				slug: 'cryptokitties',
-				links: ['https://www.cryptokitties.co'],
+				links: [
+					'https://www.cryptokitties.co',
+				],
 				chainId: 1,
 				erc20Tokens: [
 					{
@@ -8534,89 +9662,99 @@ export const web3Apps = [
 						address: '0x09fe5f0236f0ea5d930197dce254d77b04128075',
 						name: 'Wrapped CryptoKitti',
 						symbol: 'WCK',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				nfts: [
 					{
-						address: '0x06012c8cf97BEaD5deAe237070F9587f8E7A266d'
-					}
+						address: '0x06012c8cf97BEaD5deAe237070F9587f8E7A266d',
+					},
 				],
 				contracts: [
 					{
-						address: '0xb1690c08e213a35ed9bab7b318de14420fb57d8c'
-					}
+						address: '0xb1690c08e213a35ed9bab7b318de14420fb57d8c',
+					},
 				],
 				providers: {
-					theGraph: 'https://api.thegraph.com/subgraphs/name/upshot-tech/nft-analytics-cryptokitties'
-				}
+					theGraph: 'https://api.thegraph.com/subgraphs/name/upshot-tech/nft-analytics-cryptokitties',
+				},
 			},
 			{
 				name: 'CryptoPunks',
 				slug: 'cryptopunks',
-				links: ['https://www.larvalabs.com/cryptopunks'],
+				links: [
+					'https://www.larvalabs.com/cryptopunks',
+				],
 				chainId: 1,
 				erc20Tokens: [],
 				nfts: [
 					{
-						address: '0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB'
-					}
+						address: '0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB',
+					},
 				],
 				providers: {
-					theGraph: 'https://api.thegraph.com/subgraphs/name/upshot-tech/nft-analytics-cryptopunks'
-				}
+					theGraph: 'https://api.thegraph.com/subgraphs/name/upshot-tech/nft-analytics-cryptopunks',
+				},
 			},
 			{
 				name: 'Known Origin',
 				slug: 'known-origin',
-				links: ['https://knownorigin.io'],
+				links: [
+					'https://knownorigin.io',
+				],
 				chainId: 1,
 				erc20Tokens: [],
 				nfts: [
 					{
-						address: '0xfbeef911dc5821886e1dda71586d90ed28174b7d'
-					}
+						address: '0xfbeef911dc5821886e1dda71586d90ed28174b7d',
+					},
 				],
 				providers: {
-					theGraph: 'https://api.thegraph.com/subgraphs/name/upshot-tech/nft-analytics-known-origin'
-				}
+					theGraph: 'https://api.thegraph.com/subgraphs/name/upshot-tech/nft-analytics-known-origin',
+				},
 			},
 			{
 				name: 'SuperRare',
 				slug: 'superrare',
-				links: ['https://superrare.com'],
+				links: [
+					'https://superrare.com',
+				],
 				chainId: 1,
 				erc20Tokens: [],
 				nfts: [
 					{
-						address: '0x41a322b28d0ff354040e2cbc676f0320d8c8850d'
-					}
+						address: '0x41a322b28d0ff354040e2cbc676f0320d8c8850d',
+					},
 				],
 				providers: {
-					theGraph: 'https://api.thegraph.com/subgraphs/name/upshot-tech/nft-analytics-superrare'
-				}
-			}
-		]
+					theGraph: 'https://api.thegraph.com/subgraphs/name/upshot-tech/nft-analytics-superrare',
+				},
+			},
+		],
 	},
 	{
 		name: 'Vader',
 		slug: 'vader',
-		links: ['https://www.vaderprotocol.org'],
+		links: [
+			'https://www.vaderprotocol.org',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'vader'
-				}
-			}
-		]
+					zapper: 'vader',
+				},
+			},
+		],
 	},
 	{
 		name: 'Value DeFi',
 		slug: 'value',
-		links: ['https://valuedefi.io'],
+		links: [
+			'https://valuedefi.io',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -8627,7 +9765,7 @@ export const web3Apps = [
 						address: '0x49e833337ece7afe375e44f4e3e8481029218e5c',
 						name: 'Value DeFi',
 						symbol: 'VALUE',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/16253/thumb/Vesper_Token_600.png?1623394697',
@@ -8635,63 +9773,75 @@ export const web3Apps = [
 						address: '0x677ddbd918637e5f2c79e164d402454de7da8619',
 						name: 'Vesper V Dollar',
 						symbol: 'VUSD',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'value'
-				}
-			}
-		]
+					zapper: 'value',
+				},
+			},
+		],
 	},
 	{
 		name: 'Vector Finance',
 		slug: 'vector-finance',
-		links: ['https://vectorfinance.io'],
-		colors: ['#fff'],
+		links: [
+			'https://vectorfinance.io',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'vector-finance'
-				}
-			}
-		]
+					zapper: 'vector-finance',
+				},
+			},
+		],
 	},
 	{
 		name: 'Velodrome',
 		slug: 'velodrome',
-		links: ['https://app.velodrome.finance'],
-		colors: ['#fff'],
+		links: [
+			'https://app.velodrome.finance',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 10,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'velodrome'
-				}
-			}
-		]
+					zapper: 'velodrome',
+				},
+			},
+		],
 	},
 	{
 		name: 'Venus',
 		slug: 'venus',
-		links: ['https://www.venus.io'],
+		links: [
+			'https://www.venus.io',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'venus'
-				}
-			}
-		]
+					zapper: 'venus',
+				},
+			},
+		],
 	},
 	{
 		name: 'Vesper',
 		slug: 'vesper',
-		links: ['https://vesper.finance'],
+		links: [
+			'https://vesper.finance',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -8702,7 +9852,7 @@ export const web3Apps = [
 						address: '0x1b40183efb4dd766f11bda7a7c3ad8982e998421',
 						name: 'Vesper Finance',
 						symbol: 'VSP',
-						decimals: 18
+						decimals: 18,
 					},
 					{
 						icon: 'https://assets.coingecko.com/coins/images/16253/thumb/Vesper_Token_600.png?1623394697',
@@ -8710,133 +9860,153 @@ export const web3Apps = [
 						address: '0x677ddbd918637e5f2c79e164d402454de7da8619',
 						name: 'Vesper V Dollar',
 						symbol: 'VUSD',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'vesper'
-				}
-			}
-		]
+					zapper: 'vesper',
+				},
+			},
+		],
 	},
 	{
 		name: 'Vesta Finance',
 		slug: 'vesta-finance',
-		links: ['https://vestafinance.xyz'],
+		links: [
+			'https://vestafinance.xyz',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 42161,
 				erc20Tokens: [
 					{
-						address: '0xa684cd057951541187f288294a1e1c2646aa2d24'
-					}
+						address: '0xa684cd057951541187f288294a1e1c2646aa2d24',
+					},
 				],
 				providers: {
-					zapper: 'vesta-finance'
-				}
-			}
-		]
+					zapper: 'vesta-finance',
+				},
+			},
+		],
 	},
 	{
 		name: 'Votium',
 		slug: 'votium',
-		links: ['https://votium.app'],
-		colors: ['#fff'],
+		links: [
+			'https://votium.app',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'votium'
-				}
-			}
-		]
+					zapper: 'votium',
+				},
+			},
+		],
 	},
 	{
 		name: 'VVS Finance',
 		slug: 'vvs-finance',
-		links: ['https://vvs.finance'],
-		colors: ['#fff'],
+		links: [
+			'https://vvs.finance',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 25,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'vvs-finance'
-				}
-			}
-		]
+					zapper: 'vvs-finance',
+				},
+			},
+		],
 	},
 	{
 		name: 'Waultswap',
 		slug: 'waultswap',
-		links: ['https://wault.finance'],
+		links: [
+			'https://wault.finance',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'waultswap'
-				}
-			}
-		]
+					zapper: 'waultswap',
+				},
+			},
+		],
 	},
 	{
 		name: 'WePiggy',
 		slug: 'wepiggy',
-		links: ['https://wepiggy.com'],
+		links: [
+			'https://wepiggy.com',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'wepiggy'
-				}
-			}
-		]
+					zapper: 'wepiggy',
+				},
+			},
+		],
 	},
 	{
 		name: 'Wonderland',
 		slug: 'wonderland',
-		links: ['https://www.wonderland.money'],
+		links: [
+			'https://www.wonderland.money',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'wonderland'
-				}
+					zapper: 'wonderland',
+				},
 			},
 			{
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'wonderland'
-				}
-			}
-		]
+					zapper: 'wonderland',
+				},
+			},
+		],
 	},
 	{
 		name: 'X2Y2',
 		slug: 'x2y2',
-		links: ['https://x2y2.io'],
+		links: [
+			'https://x2y2.io',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'x2y2'
-				}
-			}
-		]
+					zapper: 'x2y2',
+				},
+			},
+		],
 	},
 	{
 		name: 'xSigma',
 		slug: 'xsigma',
-		links: ['https://www.xsigma.fi'],
+		links: [
+			'https://www.xsigma.fi',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -8847,19 +10017,21 @@ export const web3Apps = [
 						address: '0x7777777777697cfeecf846a76326da79cc606517',
 						name: 'xSigma',
 						symbol: 'SIG',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'xsigma'
-				}
-			}
-		]
+					zapper: 'xsigma',
+				},
+			},
+		],
 	},
 	{
 		name: 'xToken',
 		slug: 'xtoken',
-		links: ['https://xtoken.market'],
+		links: [
+			'https://xtoken.market',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -8870,19 +10042,21 @@ export const web3Apps = [
 						address: '0x7f3edcdd180dbe4819bd98fee8929b5cedb3adeb',
 						name: 'xToken',
 						symbol: 'XTK',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'xtoken'
-				}
-			}
-		]
+					zapper: 'xtoken',
+				},
+			},
+		],
 	},
 	{
 		name: 'Yam Finance',
 		slug: 'yam',
-		links: ['https://yam.finance'],
+		links: [
+			'https://yam.finance',
+		],
 		views: [
 			{
 				name: 'Yam Finance V2',
@@ -8895,12 +10069,12 @@ export const web3Apps = [
 						address: '0xaba8cac6866b83ae4eec97dd07ed254282f6ad8a',
 						name: 'YAM v2',
 						symbol: 'YAMV2',
-						decimals: 24
-					}
+						decimals: 24,
+					},
 				],
 				providers: {
-					zapper: 'yam'
-				}
+					zapper: 'yam',
+				},
 			},
 			{
 				name: 'Yam Finance V1',
@@ -8913,19 +10087,21 @@ export const web3Apps = [
 						address: '0x0aacfbec6a24756c20d41914f2caba817c0d8521',
 						name: 'YAM',
 						symbol: 'YAM',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
-					zapper: 'yam'
-				}
-			}
-		]
+					zapper: 'yam',
+				},
+			},
+		],
 	},
 	{
 		name: 'yAxis',
 		slug: 'yaxis',
-		links: ['https://www.yaxis.io'],
+		links: [
+			'https://www.yaxis.io',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -8936,21 +10112,26 @@ export const web3Apps = [
 						address: '0x0ada190c81b814548ddc2f6adc4a689ce7c1fe73',
 						name: 'yAxis',
 						symbol: 'YAXIS',
-						decimals: 18
+						decimals: 18,
 					},
-					erc20TokensBySymbol['SYAX']
+					erc20TokensBySymbol['SYAX'],
 				],
 				providers: {
-					zapper: 'yaxis'
-				}
-			}
-		]
+					zapper: 'yaxis',
+				},
+			},
+		],
 	},
 	{
 		name: 'Yearn',
 		slug: 'yearn',
-		links: ['https://yearn.finance'],
-        colors: ['#0273f6', '#075fb9'], // unofficial
+		links: [
+			'https://yearn.finance',
+		],
+		colors: [
+			'#0273f6',
+			'#075fb9',
+		], // unofficial
 		views: [
 			{
 				chainId: 1,
@@ -8962,9 +10143,9 @@ export const web3Apps = [
 						'iearn.finance (v2/v3)',
 						'iearn.finance (v3)',
 						'Yearn Token Vaults',
-						'yearn.finance • Vaults'
-					]
-				}
+						'yearn.finance • Vaults',
+					],
+				},
 			},
 			{
 				name: 'Yearn Governance',
@@ -8977,72 +10158,85 @@ export const web3Apps = [
 						address: '0x0bc529c00c6401aef6d220be8c6ea1667f6ad93e',
 						name: 'yearn finance',
 						symbol: 'YFI',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					zapper: 'yearn',
-					zerionDefiSDK: ['ygov.finance (v1)', 'ygov.finance (v2)']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'ygov.finance (v1)',
+						'ygov.finance (v2)',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Yield Protocol',
 		slug: 'yield-protocol',
-		links: ['https://app.yieldprotocol.com'],
-		colors: ['#fff'],
+		links: [
+			'https://app.yieldprotocol.com',
+		],
+		colors: [
+			'#fff',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'yield-protocol'
-				}
+					zapper: 'yield-protocol',
+				},
 			},
 			{
 				chainId: 42161,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'yield-protocol'
-				}
-			}
-		]
+					zapper: 'yield-protocol',
+				},
+			},
+		],
 	},
 	{
 		name: 'Yield Yak',
 		slug: 'yield-yak',
-		links: ['https://yieldyak.com'],
+		links: [
+			'https://yieldyak.com',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'yield-yak'
-				}
-			}
-		]
+					zapper: 'yield-yak',
+				},
+			},
+		],
 	},
 	{
 		name: 'Zerotwohm',
 		slug: 'zerotwohm',
-		links: ['https://umami.finance'],
+		links: [
+			'https://umami.finance',
+		],
 		colors: [],
 		views: [
 			{
 				chainId: 42161,
 				erc20Tokens: [],
 				providers: {
-					zapper: 'zerotwohm'
-				}
-			}
-		]
+					zapper: 'zerotwohm',
+				},
+			},
+		],
 	},
 	{
 		name: '0x',
 		slug: '0x',
-		links: ['https://0x.org'],
+		links: [
+			'https://0x.org',
+		],
 		views: [
 			{
 				chainId: 1,
@@ -9053,20 +10247,24 @@ export const web3Apps = [
 						address: '0xe41d2489571d322189246dafa5ebde1f4699f498',
 						name: '0x',
 						symbol: 'ZRX',
-						decimals: 18
-					}
+						decimals: 18,
+					},
 				],
 				providers: {
 					zapper: 'zero-x',
-					zerionDefiSDK: ['0x Staking']
-				}
-			}
-		]
+					zerionDefiSDK: [
+						'0x Staking',
+					],
+				},
+			},
+		],
 	},
 	{
 		name: 'Zora',
 		slug: 'zora',
-		links: ['https://zora.co'],
+		links: [
+			'https://zora.co',
+		],
 		colors: [
 			'#A1723A',
 			'#531002',
@@ -9079,7 +10277,9 @@ export const web3Apps = [
 		views: [
 			{
 				name: 'Zora Network',
-				links: ['https://zora.energy'],
+				links: [
+					'https://zora.energy',
+				],
 				chainId: 7777777,
 				contracts: [
 					// ERC-721 Factory
@@ -9087,13 +10287,13 @@ export const web3Apps = [
 						name: 'ZoraNFTCreatorProxy',
 						address: '0xA2c2A96A232113Dd4993E8b048EEbc3371AE8d85',
 					},
-
+					
 					// ERC-1155 Factory
 					{
 						name: 'ZoraCreator1155FactoryImpl',
 						address: '0x35ca784918bf11692708c1D530691704AAcEA95E',
 					},
-
+					
 					// OP Stack
 					{
 						name: 'OptimismPortalProxy',
@@ -9176,7 +10376,9 @@ export const web3Apps = [
 			{
 				name: 'Zora Network Goerli',
 				slug: 'network-goerli',
-				links: ['https://zora.energy'],
+				links: [
+					'https://zora.energy',
+				],
 				chainId: 999,
 				contracts: [
 					// ERC-721 Factory
@@ -9184,13 +10386,13 @@ export const web3Apps = [
 						name: 'ZoraNFTCreatorProxy',
 						address: '0xeB29A4e5b84fef428c072debA2444e93c080CE87',
 					},
-
+					
 					// ERC-1155 Factory
 					{
 						name: 'ZoraCreator1155FactoryImpl',
 						address: '0x6a357139C1bcDcf0B3AB9bC447932dDdcb956703',
 					},
-
+					
 					// OP Stack
 					{
 						name: 'OptimismPortalProxy',
@@ -9349,7 +10551,7 @@ export const web3Apps = [
 				],
 			},
 		],
-	}
+	},
 ] as const satisfies DeepReadonly<Web3AppConfig[]>
 
 export type Web3AppName = typeof web3Apps[number]['name']
@@ -9376,27 +10578,27 @@ const infrastructureApps = ([
 	'the-graph',
 	// 'push',
 ] as const)
-	.map(slug => web3AppsBySlug[slug])
+.map(slug => web3AppsBySlug[slug])
 
 const identityApps = ([
 	'ens',
 	'ceramic',
 	'disco',
 ] as const)
-	.map(slug => web3AppsBySlug[slug])
+.map(slug => web3AppsBySlug[slug])
 
 const socialApps = ([
 	'farcaster',
 	'lens',
 ] as const)
-	.map(slug => web3AppsBySlug[slug])
+.map(slug => web3AppsBySlug[slug])
 
 const oracleNetworks = ([
 	'chainlink',
 	'tellor',
 	// 'umbrella',
 ] as const)
-	.map(slug => web3AppsBySlug[slug])
+.map(slug => web3AppsBySlug[slug])
 
 const decentralizedExchanges = ([
 	'uniswap',
@@ -9406,9 +10608,9 @@ const decentralizedExchanges = ([
 	// 'kyber',
 	'paraswap',
 	'sushi',
-	'0x'
+	'0x',
 ] as const)
-	.map(slug => web3AppsBySlug[slug])
+.map(slug => web3AppsBySlug[slug])
 
 const defiPrimitives = ([
 	'aave',
@@ -9419,21 +10621,21 @@ const defiPrimitives = ([
 	'superfluid',
 	// 'uma',
 ] as const)
-	.map(slug => web3AppsBySlug[slug])
+.map(slug => web3AppsBySlug[slug])
 
 const crossChainInfrastructure = ([
 	'matic',
 	'connext',
 	'etherspot',
 ] as const)
-	.map(slug => web3AppsBySlug[slug])
+.map(slug => web3AppsBySlug[slug])
 
 const institutionalDefi = ([
 	'circle',
 	'bitgo',
 	'nexus-mutual',
 ] as const)
-	.map(slug => web3AppsBySlug[slug])
+.map(slug => web3AppsBySlug[slug])
 
 const creatorApps = ([
 	'audius',
@@ -9443,7 +10645,7 @@ const creatorApps = ([
 	// 'livepeer',
 	// 'rarible',
 ] as const)
-	.map(slug => web3AppsBySlug[slug])
+.map(slug => web3AppsBySlug[slug])
 
 // const collectibleCommunities = ([
 // 	'apecoin',
@@ -9516,7 +10718,7 @@ export const web3AppsBySection = ([
 			// ...collectibleCommunities
 		].includes(appConfig)),
 		isFeatured: false
-	}
+	},
 ]) as const
 
 
