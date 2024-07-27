@@ -148,7 +148,6 @@ export const web3Apps = [
 					},
 				],
 				providers: {
-					llamafolio: 'aave-v1',
 					zapper: 'aave-v1',
 					zerionDefiSDK: [
 						'Aave',
@@ -225,6 +224,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'abracadabra',
 					zapper: 'abracadabra',
 				},
 			},
@@ -240,6 +240,7 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
+					llamafolio: 'across',
 					zapper: 'across',
 				},
 			},
@@ -463,6 +464,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'homora-v2',
 					zapper: 'alpha-v2',
 					zerionDefiSDK: [
 						'Alpha Homora V2',
@@ -1136,6 +1138,7 @@ export const web3Apps = [
 				chainId: 1,
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer',
+					llamafolio: 'balancer',
 					zapper: 'balancer-v1',
 					zerionDefiSDK: [
 						'Balancer',
@@ -2098,6 +2101,7 @@ export const web3Apps = [
 				],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/graphprotocol/compound-v2',
+					llamafolio: 'compound-v2',
 					zapper: 'compound',
 					zerionDefiSDK: [
 						'Compound',
@@ -2287,6 +2291,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'cream-finance',
 					zapper: 'cream',
 					zerionDefiSDK: [
 						'C.R.E.A.M.',
@@ -2357,6 +2362,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'crvusd',
 					zapper: 'curve',
 					zerionDefiSDK: [
 						'Curve',
@@ -2798,6 +2804,7 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
+					llamafolio: 'dydx',
 					zapper: 'dydx',
 					zerionDefiSDK: [
 						'dYdX',
@@ -4635,6 +4642,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'kyberswap',
 					zapper: 'kyber-dmm',
 					theGraph: 'https://api.thegraph.com/subgraphs/name/dynamic-amm/dynamic-amm',
 				},
@@ -5123,6 +5131,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'liquity',
 					theGraph: 'https://api.thegraph.com/subgraphs/name/liquity/liquity',
 					zapper: 'liquity',
 					zerionDefiSDK: [
@@ -5368,6 +5377,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'makerdao',
 					zapper: 'maker',
 					zerionDefiSDK: [
 						'Dai Savings Protocol',
@@ -5812,6 +5822,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'mstable',
 					zapper: 'mstable',
 					zerionDefiSDK: [
 						'mStable',
@@ -5935,6 +5946,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'nexus-mutual',
 					theGraph: 'https://api.thegraph.com/subgraphs/name/nexusmutual/nexus-mutual',
 					zerionDefiSDK: [
 						'Nexus Mutual',
@@ -6635,6 +6647,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'piedao',
 					zapper: 'pie-dao',
 					zerionDefiSDK: [
 						'PieDAO',
@@ -7392,6 +7405,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'reflexer',
 					zapper: 'reflexer',
 					zerionDefiSDK: [
 						'Reflexer',
@@ -8102,6 +8116,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'stakedao',
 					zapper: 'stake-dao',
 					zerionDefiSDK: [
 						'Stake DAO',
@@ -8466,6 +8481,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'sushiswap',
 					zapper: 'sushiswap',
 					zerionDefiSDK: [
 						'SushiSwap',
@@ -8731,6 +8747,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'synthetix',
 					theGraph: 'https://api.thegraph.com/subgraphs/name/synthetixio-team/synthetix',
 					zapper: 'synthetix',
 					zerionDefiSDK: [
@@ -9090,6 +9107,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'set-protocol',
 					zapper: 'tokensets',
 					zerionDefiSDK: [
 						'TokenSets',
@@ -10162,6 +10180,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'yearn-finance',
 					zapper: 'yearn',
 					zerionDefiSDK: [
 						'ygov.finance (v1)',
