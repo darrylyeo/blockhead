@@ -6,6 +6,7 @@ export enum TokenBalancesProvider {
 	Covalent = 'Covalent',
 	Decommas = 'Decommas',
 	Liquality = 'Liquality',
+	LlamaFolio = 'LlamaFolio',
 	Moralis = 'Moralis',
 	Nexandria = 'Nexandria',
 	QuickNode = 'QuickNode',
@@ -14,7 +15,7 @@ export enum TokenBalancesProvider {
 }
 
 
-import { AirstackIcon, BeryxIcon, ChainbaseIcon, CovalentIcon, DecommasIcon, LiqualityIcon, MoralisIcon, NexandriaIcon, QuickNodeIcon, ZapperIcon, ZerionIcon } from '$/assets/icons'
+import { AirstackIcon, BeryxIcon, ChainbaseIcon, CovalentIcon, DecommasIcon, LiqualityIcon, LlamaFolioIcon, MoralisIcon, NexandriaIcon, QuickNodeIcon, ZapperIcon, ZerionIcon } from '$/assets/icons'
 
 export const tokenBalancesProviderIcons = {
 	[TokenBalancesProvider.Airstack]: AirstackIcon,
@@ -23,6 +24,7 @@ export const tokenBalancesProviderIcons = {
 	[TokenBalancesProvider.Covalent]: CovalentIcon,
 	[TokenBalancesProvider.Decommas]: DecommasIcon,
 	[TokenBalancesProvider.Liquality]: LiqualityIcon,
+	[TokenBalancesProvider.LlamaFolio]: LlamaFolioIcon,
 	[TokenBalancesProvider.Moralis]: MoralisIcon,
 	[TokenBalancesProvider.Nexandria]: NexandriaIcon,
 	[TokenBalancesProvider.QuickNode]: QuickNodeIcon,

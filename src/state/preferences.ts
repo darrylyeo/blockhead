@@ -262,6 +262,7 @@ export const preferencesConfig = [
 							{ value: TokenBalancesProvider.Chainbase, name: 'Chainbase › Token API', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Chainbase] },
 							{ value: TokenBalancesProvider.Covalent, name: 'Covalent', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Covalent] },
 							{ value: TokenBalancesProvider.Decommas, name: 'Decommas', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Decommas] },
+							{ value: TokenBalancesProvider.LlamaFolio, name: 'LlamaFolio', icon: tokenBalancesProviderIcons[TokenBalancesProvider.LlamaFolio] },
 							{ value: TokenBalancesProvider.Moralis, name: 'Moralis › Web3 API', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Moralis] },
 							{ value: TokenBalancesProvider.Nexandria, name: 'Nexandria', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Nexandria] },
 							{ value: TokenBalancesProvider.Zapper, name: 'Zapper', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Zapper] },

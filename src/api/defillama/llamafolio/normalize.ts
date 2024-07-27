@@ -1,6 +1,7 @@
 // Types/constants
 import type { AppWithDefiPositions, DefiPosition } from '$/data/defiPositions'
 import type { Protocol } from './index'
+import type { TokenWithBalance } from '$/data/tokens'
 
 import { web3AppsByProviderName } from '$/data/web3Apps'
 import { formatIdentifierToWords } from '$/utils/formatIdentifierToWords'
@@ -110,3 +111,24 @@ export const normalizeProtocolWithBalance = (
 		})),
 	})),
 })
+
+export const normalizeTokenBalances = (
+	protocol: Protocol,
+): TokenWithBalance[] => (console.log(protocol.groups[0].balances)||
+	protocol.groups[0].balances
+		.map(balance => ({
+			token: {
+				name: 'name' in balance ? balance.name : '',
+				address: balance.address,
+				symbol: balance.symbol,
+				decimals: balance.decimals,
+			},
+			balance: BigInt(balance.amount),
+
+			conversion: {
+				currency: 'USD',
+				value: balance.balanceUSD,
+				rate: balance.price,
+			},
+		}))
+)

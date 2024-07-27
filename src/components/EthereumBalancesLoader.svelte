@@ -3,6 +3,7 @@
 	import type { Ethereum } from '$/data/networks/types'
 	import type { TokenWithBalance } from '$/data/tokens'
 	import type { QuoteCurrency } from '$/data/currencies'
+	import { DefiProvider } from '$/data/defiProviders'
 	import { networkProviderConfigByProvider } from '$/data/networkProviders'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import { TokenBalancesProvider, tokenBalancesProviderIcons } from '$/data/tokenBalancesProvider'
@@ -53,6 +54,9 @@
 	import { normalizeTokenBalance as normalizeTokenBalanceDecommas } from '$/api/decommas/normalize'
 
 	import { normalizeTokenBalance as normalizeTokenBalanceLiquality } from '$/api/liquality/normalize'
+
+	import { supportedChains } from '$/api/defillama/llamafolio';
+	import { normalizeTokenBalances as normalizeTokenBalancesLlamafolio } from '$/api/defillama/llamafolio/normalize';
 
 	import { normalizeTokenBalance as normalizeTokenBalanceNexandria } from '$/api/nexandria/normalize'
 
@@ -281,6 +285,32 @@
 					staleTime: 10 * 1000,
 				})
 			),
+		}),
+
+		[TokenBalancesProvider.LlamaFolio]: () => ({
+			fromQuery: network && address && createQuery({
+				queryKey: ['DefiPositions', {
+					defiProvider: DefiProvider.LlamaFolio,
+					address,
+				}],
+				queryFn: async () => {
+					const { getBalancesByAddress } = await import('$/api/defillama/llamafolio')
+
+					return await getBalancesByAddress({
+						address,
+					})
+				},
+				select: result => (
+					result
+						.protocols
+						.filter(protocol => protocol.id === 'wallet')
+						.filter(protocol => network ? supportedChains[protocol.chain] === network.chainId : true)
+						.map(normalizeTokenBalancesLlamafolio)
+						[0]
+					?? []
+				),
+				staleTime: 10 * 1000,
+			})
 		}),
 
 		[TokenBalancesProvider.Liquality]: () => ({
