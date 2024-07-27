@@ -44,31 +44,20 @@
 	import { ConcurrentPromiseQueue } from '$/utils/ConcurrentPromiseQueue'
 	import { isTruthy } from '$/utils/isTruthy'
 
-	import { getViemPublicClient } from '$/data/networkProviders'
-	import { getBalance } from 'viem/actions'
-
-	import { getTokenBalances as getTokenBalancesAirstack } from '$/api/airstack/index'
 	import { normalizeTokenBalance as normalizeTokenBalanceAirstack } from '$/api/airstack/normalize'
 
-	import { getErc20TokenBalances } from '$/api/chainbase'
 	import { normalizeTokenBalance as normalizeTokenBalanceChainbase } from '$/api/chainbase/normalize'
 
-	import { getTokenBalancesForAddress } from '$/api/covalent/index'
 	import { normalizeTokenBalance as normalizeTokenBalanceCovalent } from '$/api/covalent/normalize'
 
 	import { normalizeTokenBalance as normalizeTokenBalanceDecommas } from '$/api/decommas/normalize'
 
 	import { normalizeTokenBalance as normalizeTokenBalanceLiquality } from '$/api/liquality/normalize'
 
-	import { MoralisWeb3Api, chainCodeFromNetwork } from '$/api/moralis/web3Api/index'
-
-	import { getPointInTimeBalances as getTokenBalancesNexandria } from '$/api/nexandria'
 	import { normalizeTokenBalance as normalizeTokenBalanceNexandria } from '$/api/nexandria/normalize'
 
-	import { getWalletTokenBalance } from '$/api/quicknode/index'
 	import { normalizeTokenBalance as normalizeTokenBalanceQuickNode } from '$/api/quicknode/normalize'
 
-	import { getTokenBalances as getTokenBalancesZapper } from '$/api/zapper/index'
 	import { normalizeTokenBalance as normalizeTokenBalanceZapper } from '$/api/zapper/normalize'
 
 
@@ -100,7 +89,15 @@
 						address,
 						chainId: network.chainId,
 					}],
-					queryFn: async () => {
+					queryFn: async ({
+						queryKey: [_, {
+							address,
+							chainId,
+						}],
+					}) => {
+						const { getViemPublicClient } = await import('$/data/networkProviders')
+						const { getBalance } = await import('viem/actions')
+
 						const publicClient = getViemPublicClient({
 							network,
 							networkProvider: networkProvider,
@@ -132,14 +129,22 @@
 						chainId: network.chainId,
 					}],
 					initialPageParam: '',
-					queryFn: async ({ pageParam: cursor }) => (
-						getTokenBalancesAirstack({
+					queryFn: async ({
+						queryKey: [_, {
+							address,
+							chainId,
+						}],
+						pageParam: cursor,
+					}) => {
+						const { getTokenBalances } = await import('$/api/airstack')
+
+						return await getTokenBalances({
 							network,
 							address,
 							cursor,
 							limit: 100,
 						})
-					),
+					},
 					getPreviousPageParam: (firstPage) => firstPage?.TokenBalances?.pageInfo?.prevCursor ?? undefined,
 					getNextPageParam: (lastPage) => lastPage?.TokenBalances?.pageInfo?.nextCursor ?? undefined,
 					select: data => (
@@ -160,13 +165,21 @@
 						address,
 						chainId: network.chainId,
 					}],
-					queryFn: async ({ pageParam: page }) => (
-						await getErc20TokenBalances({
+					queryFn: async ({
+						queryKey: [_, {
 							address,
-							chainId: network.chainId,
+							chainId,
+						}],
+						pageParam: page,
+					}) => {
+						const { getErc20TokenBalances } = await import('$/api/chainbase')
+
+						return await getErc20TokenBalances({
+							address,
+							chainId,
 							page,
 						})
-					),
+					},
 					getNextPageParam: (lastPage) => lastPage?.data.next_page,
 					select: result => (
 						result.pages
@@ -187,14 +200,22 @@
 						chainId: network.chainId,
 						quoteCurrency,
 					}],
-					queryFn: async () => (
-						await getTokenBalancesForAddress({
-							chainName: network.chainId,
+					queryFn: async ({
+						queryKey: [_, {
+							address,
+							chainId,
+							quoteCurrency,
+						}],
+					}) => {
+						const { getTokenBalancesForAddress } = await import('$/api/covalent/index')
+
+						return await getTokenBalancesForAddress({
+							chainName: chainId,
 							walletAddress: address,
 							quoteCurrency,
 							nft: false,
 						})
-					),
+					},
 					select: result => (
 						result.items
 							.map(tokenBalance => normalizeTokenBalanceCovalent(tokenBalance, quoteCurrency))
@@ -213,10 +234,16 @@
 						chainId: network.chainId,
 					}],
 					initialPageParam: 0,
-					queryFn: async ({ pageParam: offset }) => {
+					queryFn: async ({
+						queryKey: [_, {
+							address,
+							chainId,
+						}],
+						pageParam: offset,
+					}) => {
 						const { decommas, chainNameByChainId } = await import('$/api/decommas')
 
-						const chains = [chainNameByChainId[network.chainId]]
+						const chains = [chainNameByChainId[chainId]]
 
 						const [
 							coinsResponse,
@@ -264,17 +291,22 @@
 						address,
 						chainId: network.chainId,
 					}],
-					queryFn: async () => {
+					queryFn: async ({
+						queryKey: [_, {
+							address,
+							chainId,
+						}],
+					}) => {
 						const { ERC20Service } = await import('@liquality/wallet-sdk')
 
-						const { liqualitySupportedNetworks } = await import('$/api/liquality/index')
+						const { liqualitySupportedNetworks } = await import('$/api/liquality')
 
-						if(!liqualitySupportedNetworks.includes(network.chainId))
+						if(!liqualitySupportedNetworks.includes(chainId))
 							throw new Error(`Liquality doesn't yet support ${network.name}.`)
 
 						return await ERC20Service.listAccountTokens(
 							address,
-							network.chainId
+							chainId,
 						)
 					},
 					select: assets => (
@@ -293,7 +325,14 @@
 						address,
 						chainId: network.chainId,
 					}],
-					queryFn: async () => {
+					queryFn: async ({
+						queryKey: [_, {
+							address,
+							chainId,
+						}],
+					}) => {
+						const { MoralisWeb3Api, chainCodeFromNetwork } = await import('$/api/moralis/web3Api')
+
 						try {
 							const chain = chainCodeFromNetwork(network)
 							const nativeBalance = await MoralisWeb3Api.address.getNativeBalance({
@@ -366,12 +405,19 @@
 						address,
 						chainId: network.chainId,
 					}],
-					queryFn: async () => (
-						await getTokenBalancesNexandria({
+					queryFn: async ({
+						queryKey: [_, {
+							address,
+							chainId,
+						}],
+					}) => {
+						const { getPointInTimeBalances } = await import('$/api/nexandria')
+
+						return await getPointInTimeBalances({
 							network,
 							address
 						})
-					),
+					},
 					select: result => (
 						result.tokens
 							.map(tokenBalance => (
@@ -391,12 +437,19 @@
 						address,
 						chainId: network.chainId,
 					}],
-					queryFn: async () => (
-						await getTokenBalancesZapper({
+					queryFn: async ({
+						queryKey: [_, {
+							address,
+							chainId,
+						}],
+					}) => {
+						const { getTokenBalances } = await import('$/api/zapper')
+
+						return await getTokenBalances({
 							network,
 							address
 						})
-					),
+					},
 					select: tokenBalances => (
 						tokenBalances
 							.map(normalizeTokenBalanceZapper) ?? []
@@ -414,12 +467,19 @@
 						address,
 						chainId: network.chainId,
 					}],
-					queryFn: async () => (
-						await getWalletTokenBalance({
+					queryFn: async ({
+						queryKey: [_, {
+							address,
+							chainId,
+						}],
+					}) => {
+						const { getWalletTokenBalance } = await import('$/api/quicknode')
+
+						return await getWalletTokenBalance({
 							network,
 							address
 						})
-					),
+					},
 					select: tokenWithBalance => (
 						tokenWithBalance.assets.map(normalizeTokenBalanceQuickNode)
 					),
