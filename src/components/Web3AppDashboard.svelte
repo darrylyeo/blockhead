@@ -703,13 +703,16 @@
 					{web3AppConfig.name} is available on
 					{
 						new Intl.ListFormat(globalThis.navigator?.languages, {
-							style: 'short',
+							style: 'long',
 							type: 'conjunction',
 						})
 							.format(
-								web3AppConfig.views.map(view => (
-									networksByChainID[view.chainId].name
-								))
+								[...new Set(
+									web3AppConfig.views
+									.map(view => (
+										networksByChainID[view.chainId].name
+									))
+								)]
 							)
 					}.
 				</p>
