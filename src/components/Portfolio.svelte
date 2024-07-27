@@ -107,7 +107,7 @@
 	$: nftProvider = $$props.nftProvider || $preferences.nftProvider
 	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
 
-	let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
+	let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'both'
 	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
 	let showSmallValues = false
 	let showApps = false

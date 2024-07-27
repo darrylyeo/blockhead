@@ -41,7 +41,7 @@
 
 	// Internal state
 	let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
-	let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
+	let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'both'
 	let showFees = false
 	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
 	let showSmallValues = false

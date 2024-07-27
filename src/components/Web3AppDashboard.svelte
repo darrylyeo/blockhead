@@ -25,7 +25,7 @@
 	// (View options)
 	export let showTestnets = false
 	export let isOpen: boolean
-	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
+	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'both'
 	export let showUnderlyingAssets = true
 	export let showMetadata = true
 	export let showActions = false
