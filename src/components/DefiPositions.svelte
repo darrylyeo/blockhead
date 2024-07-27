@@ -37,6 +37,7 @@
 	import Address from './Address.svelte'
 	import AddressWithLabel from './AddressWithLabel.svelte'
 	import Collapsible from './Collapsible.svelte'
+	import Icon from './Icon.svelte'
 	import SizeContainer from './SizeContainer.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
@@ -104,8 +105,9 @@
 		line-height: 1.5;
 	}
 
-	h5 {
-		--icon-size: 1.75em;
+	h4, h5 {
+		--icon-size: 1.5em;
+		height: 1.5em;
 	}
 
 	.metadata {
@@ -144,8 +146,14 @@
 				<h4 class="row">
 					{#if appWithPositions.images?.[0]}
 						<img class="card-background" src={appWithPositions.images[0]} alt={appWithPositions.name} width="20" />
+
 					{/if}
-					{#if appWithPositions.icon}<img src={appWithPositions.icon} alt={appWithPositions.name} width="20" />{/if}
+					{#if appWithPositions.icon}
+						<Icon
+							imageSources={[appWithPositions.icon]}
+							title={appWithPositions.name}
+						/>
+					{/if}
 					{#if appWithPositions.app}
 						<a href="/apps/{appWithPositions.app.slug}/account/{address}">{appWithPositions.app.name}</a>
 					{:else}
@@ -195,7 +203,12 @@
 								{#if appWithPositions.images?.[0]}
 									<img class="card-background" src={appWithPositions.images[0]} alt={appWithPositions.name} width="20" />
 								{/if}
-								{#if appWithPositions.icon}<img src={appWithPositions.icon} alt={appWithPositions.name} width="20" />{/if}
+								{#if appWithPositions.icon}
+									<Icon
+										imageSources={[appWithPositions.icon]}
+										title={appWithPositions.name}
+									/>
+								{/if}
 							{/if}
 							<span>
 								{#if !showApps}
