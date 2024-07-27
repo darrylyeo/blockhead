@@ -120,7 +120,7 @@
 
 	.column {
 		display: grid;
-    	gap: var(--padding-inner);
+		gap: var(--padding-inner);
 	}
 
 	.card {
@@ -149,6 +149,7 @@
 		grid-template-columns: repeat(auto-fit, minmax(min(25rem, 100%), 1fr));
 		grid-template-rows: masonry;
 		align-items: stretch;
+		align-items: start;
 
 		--padding-inner: 0.75em;
 		gap: var(--padding-inner);
