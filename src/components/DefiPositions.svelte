@@ -263,10 +263,10 @@
 									<!-- V2 -->
 									<header class="bar wrap" title={`${position.tags?.[0] ? `${formatKebabCase(position.tags[0])}: ` : ''}${position.name} (${formatKebabCase(position.type)})`}>
 										<h6>
-											{#if position.type === 'contract-position' || position.type === 'app-token'}
+											{#if (position.type === 'contract-position' || position.type === 'app-token') && 'address' in position.tokenWithBalance.token} 
 												<AddressWithLabel
 													{network}
-													{address}
+													address={position.tokenWithBalance.token.address}
 													label={position.name}
 													addressFormat="middle-truncated"
 												/>
