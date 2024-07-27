@@ -155,7 +155,7 @@
 						/>
 					{/if}
 					{#if appWithPositions.app}
-						<a href="/apps/{appWithPositions.app.slug}/account/{address}">{appWithPositions.app.name}</a>
+						<a href="/apps/{appWithPositions.app.slug}/network/{network.slug}/account/{address}">{appWithPositions.app.name}</a>
 					{:else}
 						{appWithPositions.name}
 					{/if}
@@ -211,9 +211,9 @@
 								{/if}
 							{/if}
 							<span>
-								{#if !showApps}
-									<a href="/apps/{appWithPositions.app?.slug}/account/{address}">{appWithPositions.app?.name ?? appWithPositions.name}</a>
-									{#if view.name && !(appWithPositions.app?.name && appWithPositions.app.name === view.name)} › {view.name}{/if}
+								{#if !showApps && appWithPositions.app}
+									<a href={`/apps/${appWithPositions.app.slug}/network/${network.slug}/account/${address}`}>{appWithPositions.app.name ?? appWithPositions.name}</a>
+									{#if view.name && !(appWithPositions.app.name && appWithPositions.app.name === view.name)} › {view.name}{/if}
 								{:else}
 									{view.name}
 								{/if}
