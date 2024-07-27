@@ -100,6 +100,70 @@ export const web3Apps = [
 				},
 			},
 			{
+				name: 'Aave V3',
+				slug: 'v3',
+				chainId: 10,
+				providers: {
+					llamafolio: 'aave-v2',
+				},
+			},
+			{
+				name: 'Aave V3',
+				slug: 'v3',
+				chainId: 8453,
+				providers: {
+					llamafolio: 'aave-v2',
+				},
+			},
+			{
+				name: 'Aave V3',
+				slug: 'v3',
+				chainId: 250,
+				providers: {
+					llamafolio: 'aave-v2',
+				},
+			},
+			{
+				name: 'Aave V3',
+				slug: 'v3',
+				chainId: 42161,
+				providers: {
+					llamafolio: 'aave-v2',
+				},
+			},
+			{
+				name: 'Aave V3',
+				slug: 'v3',
+				chainId: 100,
+				providers: {
+					llamafolio: 'aave-v2',
+				},
+			},
+			{
+				name: 'Aave V3',
+				slug: 'v3',
+				chainId: 56,
+				providers: {
+					llamafolio: 'aave-v2',
+				},
+			},
+			{
+				name: 'Aave V3',
+				slug: 'v3',
+				chainId: 137,
+				providers: {
+					llamafolio: 'aave-v2',
+				},
+			},
+			{
+				name: 'Aave V3',
+				slug: 'v3',
+				chainId: 43114,
+				providers: {
+					llamafolio: 'aave-v2',
+				},
+			},
+			{
 				name: 'Aave V2',
 				slug: 'v2',
 				chainId: 1,
@@ -123,6 +187,22 @@ export const web3Apps = [
 						'Aave V2 • Variable Debt',
 						'Aave • Staking',
 					],
+				},
+			},
+			{
+				name: 'Aave V2',
+				slug: 'v2',
+				chainId: 137,
+				providers: {
+					llamafolio: 'aave-v2',
+				},
+			},
+			{
+				name: 'Aave V2',
+				slug: 'v2',
+				chainId: 43114,
+				providers: {
+					llamafolio: 'aave-v2',
 				},
 			},
 			{
@@ -156,8 +236,8 @@ export const web3Apps = [
 				},
 			},
 			{
-				name: 'Aave v2 Governance',
-				slug: 'v1',
+				name: 'Aave V2 Governance',
+				slug: 'v2-governance',
 				chainId: 1,
 				embeds: [
 					{
@@ -228,12 +308,32 @@ export const web3Apps = [
 					zapper: 'abracadabra',
 				},
 			},
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'abracadabra',
+				},
+			},
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'abracadabra',
+				},
+			},
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'abracadabra',
+				},
+			},
 		],
 	},
 	{
 		name: 'Across',
 		slug: 'across',
-		links: [],
+		links: [
+			'https://across.to',
+		],
 		colors: [],
 		views: [
 			{
@@ -295,6 +395,190 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Aerodrome',
+		slug: 'aerodrome',
+		links: [
+			'https://aerodrome.finance',
+		],
+		colors: [
+			'#2a54f3',
+			'#0c0d1d',
+			'#0433ff',
+			'#9cadff',
+			'#f5f3e6',
+			'#ff1100',
+		],
+		views: [
+			{
+				chainId: 8453,
+				erc20Tokens: [
+					{
+						chainId: 8453,
+						address: '0x940181a94A35A4569E4529A3CDfB74e38FD98631',
+						name: 'Aerodrome',
+						symbol: 'AERO',
+						decimals: 18,
+					},
+				],
+				// https://aerodrome.finance/security#contracts
+				contracts: [
+					{
+						name: 'AirdropDistributor',
+						address: '0xE4c69af018B2EA9e575026c0472B6531A2bC382F',
+					},
+					{
+						name: 'ArtProxy',
+						address: '0xE9992487b2EE03b7a91241695A58E0ef3654643E',
+					},
+					{
+						name: 'FactoryRegistry',
+						address: '0x5C3F18F06CC09CA1910767A34a20F771039E37C0',
+					},
+					{
+						name: 'Forwarder',
+						address: '0x15e62707FCA7352fbE35F51a8D6b0F8066A05DCc',
+					},
+					{
+						name: 'GaugeFactory',
+						address: '0x35f35cA5B132CaDf2916BaB57639128eAC5bbcb5',
+					},
+					{
+						name: 'ManagedRewardsFactory',
+						address: '0xFdA1fb5A2a5B23638C7017950506a36dcFD2bDC3',
+					},
+					{
+						name: 'Minter',
+						address: '0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5',
+					},
+					{
+						name: 'PoolFactory',
+						address: '0x420DD381b31aEf6683db6B902084cB0FFECe40Da',
+					},
+					{
+						name: 'RewardsDistributor',
+						address: '0x227f65131A261548b057215bB1D5Ab2997964C7d',
+					},
+					{
+						name: 'Router',
+						address: '0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43',
+					},
+					{
+						name: 'Voter',
+						address: '0x16613524e02ad97eDfeF371bC883F2F5d6C480A5',
+					},
+					{
+						name: 'VotingEscrow',
+						address: '0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4',
+					},
+					{
+						name: 'VotingRewardsFactory',
+						address: '0x45cA74858C579E717ee29A86042E0d53B252B504',
+					},
+					// Slipstream
+					{
+						name: 'GaugeFactory',
+						address: '0xD30677bd8dd15132F251Cb54CbDA552d2A05Fb08',
+					},
+					{
+						name: 'GaugeImplementation',
+						address: '0xF5601F95708256A118EF5971820327F362442D2d',
+					},
+					{
+						name: 'MixedQuoter',
+						address: '0x0A5aA5D3a4d28014f967Bf0f29EAA3FF9807D5c6',
+					},
+					{
+						name: 'NonfungiblePositionManager',
+						address: '0x827922686190790b37229fd06084350E74485b72',
+					},
+					{
+						name: 'NonfungibleTokenPositionDescriptor',
+						address: '0x01b0CaCB9A8004e08D075c919B5dF3b59FD53c55',
+					},
+					{
+						name: 'PoolFactory',
+						address: '0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A',
+					},
+					{
+						name: 'PoolImplementation',
+						address: '0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831',
+					},
+					{
+						name: 'Quoter',
+						address: '0x254cF9E1E6e233aa1AC962CB9B05b2cfeAaE15b0',
+					},
+					{
+						name: 'SwapFeeModule',
+						address: '0xF4171B0953b52Fa55462E4d76ecA1845Db69af00',
+					},
+					{
+						name: 'UnstakedFeeModule',
+						address: '0x0AD08370c76Ff426F534bb2AFFD9b5555338ee68',
+					},
+					{
+						name: 'UniversalRouter',
+						address: '0x6Cb442acF35158D5eDa88fe602221b67B400Be3E',
+					},
+					// Misc
+					{
+						name: 'Prices Oracle',
+						address: '0xee717411f6E44F9feE011835C8E6FAaC5dEfF166',
+					},
+					{
+						name: 'SlipstreamHelper',
+						address: '0x0AD09A66af0154a84e86F761313d02d0abB6edd5',
+					},
+				],
+				providers: {
+					llamafolio: 'aerodrome',
+				},
+			},
+		],
+	},
+	{
+		name: 'Affine DeFi',
+		slug: 'affine',
+		links: [
+			'https://affinedefi.com',
+			'https://app.affinedefi.com',
+		],
+		colors: [
+			'#00FF84',
+		],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					// Eigenlayer
+					{
+						chainId: 1,
+						address: '0x47657094e3AF11c47d5eF4D3598A1536B394EEc4',
+						name: 'Affine ultraETH',
+						symbol: 'ultraETH',
+						decimals: 26,
+					},
+					// Symbiotic
+					{
+						chainId: 1,
+						address: '0x0D53bc2BA508dFdf47084d511F13Bb2eb3f8317B',
+						name: 'Affine ultraETHs',
+						symbol: 'ultraETHs',
+						decimals: 26,
+					},
+				],
+				providers: {
+					llamafolio: 'affine-defi',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'affine-defi',
+				},
+			},
+		],
+	},
+	{
 		name: 'Agave',
 		slug: 'agave',
 		links: [
@@ -306,9 +590,26 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 100,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'agave',
 					zapper: 'agave',
+				},
+			},
+		],
+	},
+	{
+		name: 'Agility',
+		slug: 'agility',
+		links: [
+			'https://agilitylsd.com',
+		],
+		colors: [
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'agility-lsd',
 				},
 			},
 		],
@@ -377,9 +678,25 @@ export const web3Apps = [
 				name: 'Alchemix V2',
 				slug: 'v2',
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'alchemix',
 					zapper: 'alchemix-v2',
+				},
+			},
+			{
+				name: 'Alchemix V2',
+				slug: 'v2',
+				chainId: 10,
+				providers: {
+					llamafolio: 'alchemix',
+				},
+			},
+			{
+				name: 'Alchemix V2',
+				slug: 'v2',
+				chainId: 250,
+				providers: {
+					llamafolio: 'alchemix',
 				},
 			},
 			{
@@ -419,6 +736,33 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Alien Base',
+		slug: 'alien-base',
+		links: [
+			'https://alienbase.xyz',
+			'https://app.alienbase.xyz',
+		],
+		colors: [
+			'#0a4efc',
+		],
+		views: [
+			{
+				chainId: 8453,
+				erc20Tokens: [
+					{
+						address: '0x1dd2d631c92b1acdfcdd51a0f7145a50130050c4',
+						name: 'AlienBase',
+						symbol: 'ALB',
+						decimals: 18,
+					},
+				],
+				providers: {
+					llamafolio: 'alien-base',
+				},
+			},
+		],
+	},
+	{
 		name: 'Alkemi',
 		slug: 'alkemi',
 		links: [
@@ -440,6 +784,162 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Alongside',
+		slug: 'alongside',
+		links: [
+			'https://www.alongside.xyz',
+		],
+		colors: [
+			'#0A0A0B',
+		],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					{
+						address: '0xF17A3fE536F8F7847F1385ec1bC967b2Ca9caE8D',
+						name: 'Alongside Crypto Market Index',
+						symbol: 'AMKT',
+						decimals: 18,
+					},
+				],
+				// https://docs.amktdao.com/amkt-documentation/amkt-documentation/developers
+				contracts: [
+					{
+						name : 'Proxy Admin',
+						address: '0x998930C351EcB4918A5c5238B62d5277fE45ab9b',
+					},
+					{
+						name : 'Proxy (Token)',
+						address: '0xF17A3fE536F8F7847F1385ec1bC967b2Ca9caE8D',
+					},
+					{
+						name : 'Vault',
+						address: '0xf3bCeDaB2998933c6AAD1cB31430D8bAb329dD8C',
+					},
+					{
+						name : 'Issuance',
+						address: '0x7D1775061A3a713E778aF23806330B532Fa006B0',
+					},
+					{
+						name : 'Invokeable Bounty',
+						address: '0xE13Ee59C41c67696754277cDC73710f6D65Ef2Ac',
+					},
+					{
+						name : 'Active Bounty',
+						address: '0x0DAF7e851f6054085432229150c1706988aBc562',
+					},
+					{
+						name : 'Alongside Governor',
+						address: '0xb6a6f2a56693Dc4f893f8396D945f7dFe03aA9ba',
+					},
+					{
+						name : 'Timelock Controller',
+						address: '0x4c362faB50Bc81F0F58ef2DA6b6E10b55FC1d478',
+					},
+					{
+						name : 'Quoter',
+						address: '0xE3BE63E1B959c152212ce1dD45D0d2f749eB227c',
+					},
+				],
+				providers: {
+					llamafolio: 'alongside',
+				},
+			},
+			{
+				chainId: 137,
+				erc20Tokens: [
+					{
+						address: '0xB87904DB461005FC716a6BF9F2d451c33b10b80b',
+						name: 'Alongside Crypto Market Index',
+						symbol: 'AMKT',
+						decimals: 18,
+					},
+				],
+				providers: {
+					llamafolio: 'alongside',
+				},
+			},
+			{
+				chainId: 42161,
+				erc20Tokens: [
+					{
+						address: '0x498C620C7C91C6eba2E3Cd5485383f41613b7EB6',
+						name: 'Alongside Crypto Market Index',
+						symbol: 'AMKT',
+						decimals: 18,
+					},
+				],
+				providers: {
+					llamafolio: 'alongside',
+				},
+			},
+			{
+				chainId: 10,
+				erc20Tokens: [
+					{
+						address: '0xC27D9BC194a648fE3069955a5126699C4e49351C',
+						name: 'Alongside Crypto Market Index',
+						symbol: 'AMKT',
+						decimals: 18,
+					},
+				],
+				providers: {
+					llamafolio: 'alongside',
+				},
+			},
+			{
+				chainId: 8453,
+				erc20Tokens: [
+					{
+						address: '0x13F4196cC779275888440b3000AE533BbBbC3166',
+						name: 'Alongside Crypto Market Index',
+						symbol: 'AMKT',
+						decimals: 18,
+					},
+				],
+				providers: {
+					llamafolio: 'alongside',
+				},
+			},
+		],
+	},
+	{
+		name: 'Alpaca Finance',
+		slug: 'alpaca',
+		links: [
+			'https://www.alpacafinance.org',
+		],
+		colors: [],
+		views: [
+			{
+				chainId: 1,
+				// https://docs.alpacafinance.org/our-protocol-1/transparency
+				erc20Tokens: [
+					
+				],
+				contracts: [
+					
+				],
+				providers: {
+					llamafolio: 'alpaca-finance',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'alpaca-finance',
+				},
+			},
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'alpaca-finance',
+				},
+			},
+		],
+	},
+	{
 		name: 'Alpha Finance',
 		slug: 'alpha',
 		links: [
@@ -450,6 +950,7 @@ export const web3Apps = [
 				name: 'Alpha Homora V2',
 				slug: 'v2',
 				links: [
+					'https://homora-v2.alphaventuredao.io',
 					'https://homora-v2.alphafinance.io',
 				],
 				chainId: 1,
@@ -475,12 +976,12 @@ export const web3Apps = [
 				name: 'Alpha Homora V2',
 				slug: 'v2',
 				links: [
+					'https://homora-v2.alphaventuredao.io',
 					'https://homora-v2.alphafinance.io',
 				],
 				chainId: 250,
-				erc20Tokens: [
-				],
 				providers: {
+					llamafolio: 'homora-v2',
 					zapper: 'homora-v2',
 				},
 			},
@@ -488,12 +989,51 @@ export const web3Apps = [
 				name: 'Alpha Homora V2',
 				slug: 'v2',
 				links: [
+					'https://homora-v2.alphaventuredao.io',
 					'https://homora-v2.alphafinance.io',
 				],
 				chainId: 43114,
-				erc20Tokens: [
-				],
 				providers: {
+					llamafolio: 'homora-v2',
+					zapper: 'homora-v2',
+				},
+			},
+			{
+				name: 'Alpha Homora V2',
+				slug: 'v2',
+				links: [
+					'https://homora-v2.alphaventuredao.io',
+					'https://homora-v2.alphafinance.io',
+				],
+				chainId: 1,
+				providers: {
+					llamafolio: 'homora-v2',
+					zapper: 'homora-v2',
+				},
+			},
+			{
+				name: 'Alpha Homora V2',
+				slug: 'v2',
+				links: [
+					'https://homora-v2.alphaventuredao.io',
+					'https://homora-v2.alphafinance.io',
+				],
+				chainId: 10,
+				providers: {
+					llamafolio: 'homora-v2',
+					zapper: 'homora-v2',
+				},
+			},
+			{
+				name: 'Alpha Homora V2',
+				slug: 'v2',
+				links: [
+					'https://homora-v2.alphaventuredao.io',
+					'https://homora-v2.alphafinance.io',
+				],
+				chainId: 56,
+				providers: {
+					llamafolio: 'homora-v2',
 					zapper: 'homora-v2',
 				},
 			},
@@ -541,6 +1081,175 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Ambient',
+		slug: 'ambient',
+		links: [
+			'https://ambient.finance',
+		],
+		colors: [],
+		// https://docs.ambient.finance/developers/deployed-contracts
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [],
+				contracts: [
+					{
+						name: 'CrocSwapDex',
+						address: '0xAaAaAAAaA24eEeb8d57D431224f73832bC34f688',
+					},
+					{
+						name: 'CrocPolicy',
+						address: '0x0b6CD0ECb176cb39Ad99B3A0E4294167a80B68a3',
+					},
+					{
+						name: 'CrocQuery',
+						address: '0xCA00926b6190c2C59336E73F02569c356d7B6b56',
+					},
+					{
+						name: 'CrocImpact',
+						address: '0x3e3EDd3eD7621891E574E5d7f47b1f30A994c0D0',
+					},
+					{
+						name: 'CrocSwapRouter',
+						address: '0x533E164ded63f4c55E83E1f409BDf2BaC5278035',
+					},
+					{
+						name: 'CrocSwapRouterBypass',
+						address: '0xa3e58B0cB05447398358B6C59E4B2465342EFEd2',
+					},
+					// Governance Contracts
+					{
+						name: 'Ops Multisig',
+						address: '0x9fACdcfb3b58D85d0440aF292D64480Ad2503A6e',
+					},
+					{
+						name: 'Ops Timelock',
+						address: '0x41114A13230625A2735FaA7183e528Ed2538cB7b',
+					},
+					{
+						name: 'Treasury Multisig',
+						address: '0xDBD8D583a18C99e7f5191351E6E739AF8e62DaC3',
+					},
+					{
+						name: 'Treasury Timelock',
+						address: '0x7237C120FCA2081f1A36AB933B065389174962B7',
+					},
+				],
+				providers: {
+					llamafolio: 'ambient',
+				},
+			},
+			{
+				chainId: 81457,
+				contracts: [
+					{
+						name: 'CrocSwapDex',
+						address: '0xaAaaaAAAFfe404EE9433EEf0094b6382D81fb958',
+					},
+					{
+						name: 'CrocPolicy',
+						address: '0x503E3DfDdD22D1c4A9787D2DAc8643AFc58c162C',
+					},
+					{
+						name: 'CrocQuery',
+						address: '0xA3BD3bE19012De72190c885FB270beb93e36a8A7',
+					},
+					{
+						name: 'CrocImpact',
+						address: '0x6A699AB45ADce02891E6115b81Dfb46CAa5efDb9',
+					},
+					{
+						name: 'CrocSwapRouter',
+						address: '0xaab17419F062bB28CdBE82f9FC05E7C47C3F6194',
+					},
+					{
+						name: 'CrocSwapRouterBypass',
+						address: '0xd83eF4d0e968A96329aC297bBf049CDdaC7E0362',
+					},
+					{
+						name: 'Blast Points Operator',
+						address: '0xd45C74BFB150Bc2Cb94e471638283e99E4Da14EB',
+					},
+					// Governance Contracts
+					{
+						name: 'Treasury Multisig',
+						address: '0xc73C8C60ea7d7f4338F9A8542927F4F1471e36ed',
+					},
+					{
+						name: 'Treasury Timelock',
+						address: '0x19D005f3d4A9C5B0211457339dDa9822Dc2dEE94',
+					},
+				],
+			},
+			{
+				chainId: 534352,
+				contracts: [
+					{
+						name: 'CrocSwapDex',
+						address: '0xaaaaAAAACB71BF2C8CaE522EA5fa455571A74106',
+					},
+					{
+						name: 'CrocPolicy',
+						address: '0x70b161F2f0A18Bd1865021F25f9e895021E9DC4f',
+					},
+					{
+						name: 'CrocQuery',
+						address: '0x62223e90605845Cf5CC6DAE6E0de4CDA130d6DDf',
+					},
+					{
+						name: 'CrocImpact',
+						address: '0xc2c301759B5e0C385a38e678014868A33E2F3ae3',
+					},
+					{
+						name: 'CrocSwapRouter',
+						address: '0xfB5f26851E03449A0403Ca945eBB4201415fd1fc',
+					},
+					{
+						name: 'CrocSwapRouterBypass',
+						address: '0xED5535C6237f72BD9b4fDEAa3b6D8d9998b4C4e4',
+					},
+					// Governance contracts
+					{
+						name: 'Ops Multisig',
+						address: '0x1E0cc2fbEb09e320223A380357978d651ed652bC',
+					},
+					{
+						name: 'Ops Timelock',
+						address: '0xDb0eE1193C4D05eb644efb2a1db13275b8F5994f',
+					},
+					{
+						name: 'Treasury Multisig',
+						address: '0x81956099675d25363d17B983125dD99269A9f26F',
+					},
+					{
+						name: 'Treasury Timelock',
+						address: '0x51D3BA9CA9a120dA0BCf8b487Bd42878758f7916',
+					},
+				],
+			},
+		],
+	},
+	{
+		name: 'Ambire Wallet',
+		slug: 'ambire',
+		links: [
+			'https://www.ambire.com',
+		],
+		colors: [
+			'#6000ff',
+			'#b46cf3',
+		],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [],
+				providers: {
+					llamafolio: 'ambire-wallet',
+				},
+			},
+		],
+	},
+	{
 		name: 'Amp',
 		slug: 'amp',
 		links: [
@@ -553,6 +1262,25 @@ export const web3Apps = [
 				erc20Tokens: [],
 				providers: {
 					zapper: 'amp',
+				},
+			},
+		],
+	},
+	{
+		name: 'Amphor',
+		slug: 'amphor',
+		links: [
+			'https://amphor.io',
+		],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [],
+				// https://defivaults.gitbook.io/amphor/boosted-eth-vault-v1/contract-addresses 
+				contracts: [
+				],
+				providers: {
+					llamafolio: 'amphor',
 				},
 			},
 		],
@@ -624,6 +1352,83 @@ export const web3Apps = [
 					zapper: 'angle',
 				},
 			},
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'angle',
+				},
+			},
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'angle',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'angle',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'angle',
+				},
+			},
+		],
+	},
+	{
+		name: 'Ankr',
+		slug: 'ankr',
+		links: [],
+		colors: [],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'ankr',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'ankr',
+				},
+			},
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'ankr',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'ankr',
+				},
+			},
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'ankr',
+				},
+			},
+		],
+	},
+	{
+		name: 'Annex',
+		slug: 'annex',
+		links: [
+			'https://www.annex.finance',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'annex',
+				},
+			},
 		],
 	},
 	{
@@ -651,7 +1456,47 @@ export const web3Apps = [
 		],
 	},
 	{
-		name: 'Apeswap',
+		name: 'Apecoin DAO',
+		slug: 'apecoin',
+		links: [
+			'https://apecoin.com',
+		],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					{
+						icon: 'https://assets.coingecko.com/coins/images/24383/thumb/apecoin.jpg?1647476455',
+						chainId: 1,
+						address: '0x4d224452801ACEd8B2F0aebE155379bb5D594381',
+						name: 'ApeCoin',
+						symbol: 'APE',
+						decimals: 18,
+					},
+				],
+			},
+			{
+				chainId: 5,
+				erc20Tokens: [
+					{
+						icon: 'https://assets.coingecko.com/coins/images/24383/thumb/apecoin.jpg?1647476455',
+						chainId: 5,
+						address: '0x328507DC29C95c170B56a1b3A758eB7a9E73455c',
+						name: 'ApeCoin',
+						symbol: 'APE',
+						decimals: 18,
+					},
+				],
+				contracts: [
+					{
+						address: '0x831e0c7A89Dbc52a1911b78ebf4ab905354C96Ce',
+					},
+				],
+			},
+		],
+	},
+	{
+		name: 'ApeSwap',
 		slug: 'apeswap',
 		links: [
 			'https://apeswap.finance',
@@ -662,9 +1507,87 @@ export const web3Apps = [
 		],
 		views: [
 			{
+				name: 'Swap',
+				slug: 'swap',
 				chainId: 56,
 				providers: {
+					llamafolio: 'apeswap-lending',
 					zapper: 'apeswap',
+				},
+			},
+			{
+				name: 'AMM',
+				slug: 'amm',
+				chainId: 56,
+				providers: {
+					llamafolio: 'apeswap-amm',
+				},
+			},
+			{
+				name: 'AMM',
+				slug: 'amm',
+				chainId: 137,
+				providers: {
+					llamafolio: 'apeswap-amm',
+				},
+			},
+			{
+				name: 'AMM',
+				slug: 'amm',
+				chainId: 1,
+				providers: {
+					llamafolio: 'apeswap-amm',
+				},
+			},
+		],
+	},
+	{
+		name: 'API3',
+		slug: 'api3',
+		links: [
+			'https://api3.eth.link/#',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'api3',
+				},
+			},
+		],
+	},
+	{
+		name: 'ApolloX',
+		slug: 'apollox',
+		links: [
+			'https://www.apollox.finance',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'apollox',
+				},
+			},
+		],
+	},
+	{
+		name: 'APWine',
+		slug: 'apwine',
+		links: [
+			'https://apwine.fi',
+		],
+		views: [
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'apwine',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'apwine',
 				},
 			},
 		],
@@ -726,6 +1649,66 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: `Arbi's Finance`,
+		slug: 'arbis-finance',
+		links: [
+			'https://arbis.finance',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'arbis-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Arbitrum Exchange',
+		slug: 'arbitrum-exchange',
+		links: [
+			'https://arbidex.fi',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'arbitrum-exchange',
+				},
+			},
+		],
+	},
+	{
+		name: 'Arbswap',
+		slug: 'arbswap',
+		links: [
+			'https://arbswap.io',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'arbswap',
+				},
+			},
+		],
+	},
+	{
+		name: 'Arc Swap',
+		slug: 'arc-swap',
+		links: [
+			'https://www.arc.market',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'arc-swap',
+				},
+			},
+		],
+	},
+	{
 		name: 'ARCx',
 		slug: 'arcx',
 		links: [
@@ -748,46 +1731,6 @@ export const web3Apps = [
 				providers: {
 					zapper: 'arcx',
 				},
-			},
-		],
-	},
-	{
-		name: 'Apecoin DAO',
-		slug: 'apecoin',
-		links: [
-			'https://apecoin.com',
-		],
-		views: [
-			{
-				chainId: 1,
-				erc20Tokens: [
-					{
-						icon: 'https://assets.coingecko.com/coins/images/24383/thumb/apecoin.jpg?1647476455',
-						chainId: 1,
-						address: '0x4d224452801ACEd8B2F0aebE155379bb5D594381',
-						name: 'ApeCoin',
-						symbol: 'APE',
-						decimals: 18,
-					},
-				],
-			},
-			{
-				chainId: 5,
-				erc20Tokens: [
-					{
-						icon: 'https://assets.coingecko.com/coins/images/24383/thumb/apecoin.jpg?1647476455',
-						chainId: 5,
-						address: '0x328507DC29C95c170B56a1b3A758eB7a9E73455c',
-						name: 'ApeCoin',
-						symbol: 'APE',
-						decimals: 18,
-					},
-				],
-				contracts: [
-					{
-						address: '0x831e0c7A89Dbc52a1911b78ebf4ab905354C96Ce',
-					},
-				],
 			},
 		],
 	},
@@ -836,32 +1779,52 @@ export const web3Apps = [
 		],
 	},
 	{
-		name: 'Arrakis',
+		name: 'ARPA Staking',
+		slug: 'arpa-staking',
+		links: [
+			'https://staking.arpanetwork.io/en-US/stake?action=Stake',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'arpa-staking',
+				},
+			},
+		],
+	},
+	{
+		name: 'Arrakis Finance',
 		slug: 'arrakis',
 		links: [
 			'https://arrakis.finance',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'arrakis-finance',
 					zapper: 'arrakis',
 				},
 			},
 			{
 				chainId: 10,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'arrakis-finance',
 					zapper: 'arrakis',
 				},
 			},
 			{
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'arrakis-finance',
 					zapper: 'arrakis',
+				},
+			},
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'arrakis-finance',
 				},
 			},
 		],
@@ -881,6 +1844,96 @@ export const web3Apps = [
 				erc20Tokens: [],
 				providers: {
 					zapper: 'arth',
+				},
+			},
+		],
+	},
+	{
+		name: 'Asymetrix Protocol',
+		slug: 'asymetrix-protocol',
+		links: [
+			'https://asymetrix.io',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'asymetrix-protocol',
+				},
+			},
+		],
+	},
+	{
+		name: 'Asymmetry Finance',
+		slug: 'asymmetry-finance',
+		links: [
+			'https://www.asymmetry.finance',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'asymmetry-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Atlantis Loans',
+		slug: 'atlantis-loans',
+		links: [
+			'https://atlantis.loans',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'atlantis-loans',
+				},
+			},
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'atlantis-loans',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'atlantis-loans',
+				},
+			},
+		],
+	},
+	{
+		name: 'Atlas USV',
+		slug: 'atlas-usv',
+		links: [
+			'https://www.atlasusv.com',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'atlas-usv',
+				},
+			},
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'atlas-usv',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'atlas-usv',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'atlas-usv',
 				},
 			},
 		],
@@ -977,9 +2030,25 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Augury Finance',
+		slug: 'augury-finance',
+		links: [
+			'https://augury.finance',
+		],
+		views: [
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'augury-finance',
+				},
+			},
+		],
+	},
+	{
 		name: 'Aura',
 		slug: 'aura',
 		links: [
+			'https://aura.finance',
 			'https://app.aura.finance',
 		],
 		colors: [
@@ -994,7 +2063,32 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'aura',
 					zapper: 'aura',
+				},
+			},
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'aura',
+				},
+			},
+			{
+				chainId: 100,
+				providers: {
+					llamafolio: 'aura',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'aura',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'aura',
 				},
 			},
 		],
@@ -1054,6 +2148,63 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Avalaunch',
+		slug: 'avalaunch',
+		links: [
+			'https://avalaunch.app',
+		],
+		views: [
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'avalaunch',
+				},
+			},
+		],
+	},
+	{
+		name: 'Azuro',
+		slug: 'azuro',
+		links: [
+			'https://azuro.org',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'azuro',
+				},
+			},
+			{
+				chainId: 100,
+				providers: {
+					llamafolio: 'azuro',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'azuro',
+				},
+			},
+		],
+	},
+	{
+		name: 'Babylon Finance',
+		slug: 'babylon-finance',
+		links: [
+			'https://www.babylon.finance',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'babylon-finance',
+				},
+			},
+		],
+	},
+	{
 		name: 'Badger',
 		slug: 'badger',
 		links: [
@@ -1092,7 +2243,26 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'badger-dao',
 					zapper: 'badger',
+				},
+			},
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'badger-dao',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'badger-dao',
+				},
+			},
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'badger-dao',
 				},
 			},
 		],
@@ -1100,7 +2270,10 @@ export const web3Apps = [
 	{
 		name: 'Balancer',
 		slug: 'balancer',
-		links: ['https://balancer.fi', 'https://app.balancer.fi'],
+		links: [
+			'https://balancer.fi',
+			'https://app.balancer.fi',
+		],
 		colors: [
 			'#536dfe',
 		], // unofficial
@@ -1110,11 +2283,44 @@ export const web3Apps = [
 				slug: 'v2',
 				chainId: 1,
 				providers: {
+					llamafolio: 'balancer',
 					theGraph: 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer',
 					zapper: 'balancer-v2',
 					zerionDefiSDK: [
 						'Balancer',
 					],
+				},
+			},
+			{
+				name: 'Balancer V2',
+				slug: 'v2',
+				chainId: 42161,
+				providers: {
+					llamafolio: 'balancer',
+				},
+			},
+			{
+				name: 'Balancer V2',
+				slug: 'v2',
+				chainId: 100,
+				providers: {
+					llamafolio: 'balancer',
+				},
+			},
+			{
+				name: 'Balancer V2',
+				slug: 'v2',
+				chainId: 43114,
+				providers: {
+					llamafolio: 'balancer',
+				},
+			},
+			{
+				name: 'Balancer V2',
+				slug: 'v2',
+				chainId: 137,
+				providers: {
+					llamafolio: 'balancer',
 				},
 			},
 			{
@@ -1183,7 +2389,10 @@ export const web3Apps = [
 	{
 		name: 'Bancor',
 		slug: 'bancor',
-		links: ['https://bancor.network', 'https://app.bancor.network'],
+		links: [
+			'https://bancor.network',
+			'https://app.bancor.network',
+		],
 		colors: [
 			'#070e1f',
 		], // unofficial
@@ -1194,6 +2403,7 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
+					llamafolio: 'bancor-v3',
 					zapper: 'bancor-v3',
 				},
 			},
@@ -1233,6 +2443,21 @@ export const web3Apps = [
 						'Bancor • Liquidity Protection',
 						'Bancor • Locked BNT',
 					],
+				},
+			},
+		],
+	},
+	{
+		name: 'Bank AI',
+		slug: 'bank-ai',
+		links: [
+			'https://bankai.app',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'bank-ai',
 				},
 			},
 		],
@@ -1322,6 +2547,36 @@ export const web3Apps = [
 				],
 				providers: {
 					zapper: 'based-money',
+				},
+			},
+		],
+	},
+	{
+		name: 'basedmarkets',
+		slug: 'basedmarkets',
+		links: [
+			'https://www.based.markets',
+		],
+		views: [
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'basedmarkets',
+				},
+			},
+		],
+	},
+	{
+		name: 'BaseSwap',
+		slug: 'baseswap',
+		links: [
+			'https://baseswap.fi',
+		],
+		views: [
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'baseswap',
 				},
 			},
 		],
@@ -1483,49 +2738,102 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Bedrock uniETH',
+		slug: 'bedrock-unieth',
+		links: [
+			'https://bedrock.rockx.com/unieth',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'bedrock-unieth',
+				},
+			},
+		],
+	},
+	{
 		name: 'Beefy Finance',
 		slug: 'beefy',
 		links: [
+			'https://beefy.com',
 			'https://www.beefy.finance',
 		],
 		views: [
 			{
-				slug: 'bsc',
+				chainId: 1,
+				providers: {
+					llamafolio: 'beefy',
+					zapper: 'beefy',
+				},
+			},
+			{
 				chainId: 56,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'beefy',
 					zapper: 'beefy',
 				},
 			},
 			{
-				slug: 'heco',
 				chainId: 128,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'beefy',
 					zapper: 'beefy',
 				},
 			},
 			{
-				slug: 'avalanche',
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'beefy',
 					zapper: 'beefy',
 				},
 			},
 			{
-				slug: 'polygon',
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'beefy',
 					zapper: 'beefy',
 				},
 			},
 			{
-				slug: 'fantom',
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'beefy',
+					zapper: 'beefy',
+				},
+			},
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'beefy',
+					zapper: 'beefy',
+				},
+			},
+			{
+				chainId: 100,
+				providers: {
+					llamafolio: 'beefy',
+					zapper: 'beefy',
+				},
+			},
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'beefy',
+					zapper: 'beefy',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'beefy',
+					zapper: 'beefy',
+				},
+			},
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'beefy',
 					zapper: 'beefy',
 				},
 			},
@@ -1535,6 +2843,7 @@ export const web3Apps = [
 		name: 'Beethoven X',
 		slug: 'beethoven-x',
 		links: [
+			'https://beets.fi',
 			'https://app.beets.fi',
 		],
 		colors: [],
@@ -1547,13 +2856,14 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'beethoven-x',
 					zapper: 'beethoven-x',
 				},
 			},
 			{
 				chainId: 10,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'beethoven-x',
 					zapper: 'beethoven-x',
 				},
 			},
@@ -1564,6 +2874,7 @@ export const web3Apps = [
 		slug: 'bella',
 		links: [
 			'https://bella.fi',
+			'https://fs.bella.fi',
 		],
 		views: [
 			{
@@ -1579,6 +2890,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio:'bella-protocol',
 					zapper: 'bella',
 				},
 			},
@@ -1596,6 +2908,7 @@ export const web3Apps = [
 				chainId: 56,
 				erc20Tokens: [],
 				providers: {
+					llamafolio: 'belt-finance',
 					zapper: 'belt',
 				},
 			},
@@ -1635,6 +2948,21 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'BendDAO',
+		slug: 'benddao',
+		links: [
+			'https://www.benddao.xyz',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'benddao',
+				},
+			},
+		],
+	},
+	{
 		name: 'Benqi',
 		slug: 'benqi',
 		links: [
@@ -1643,9 +2971,28 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'benqi',
+				},
+			},
+			{
+				name: 'Benqi Lending',
+				slug: 'lending',
+				chainId: 43114,
+				providers: {
+					llamafolio: 'benqi-lending',
+					zapper: 'benqi',
+				},
+			},
+			{
+				name: 'Benqi Staked Avax',
+				slug: 'staked-avax',
+				links: [
+					'https://staking.benqi.fi',
+				],
+				chainId: 43114,
+				providers: {
+					llamafolio: 'benqi-staked-avax',
 				},
 			},
 		],
@@ -1690,6 +3037,21 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Bifrost Liquid Staking',
+		slug: 'bifrost-liquid-staking',
+		links: [
+			'https://bifrost.finance',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'bifrost-liquid-staking',
+				},
+			},
+		],
+	},
+	{
 		name: 'Big Data Protocol',
 		slug: 'big-data',
 		links: [
@@ -1709,7 +3071,44 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'big-data-protocol',
 					zapper: 'big-data',
+				},
+			},
+		],
+	},
+	{
+		name: 'Binance staked ETH',
+		slug: 'binance-staked-eth',
+		links: [
+			'https://www.binance.com/en/wbeth',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'binance-staked-eth',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'binance-staked-eth',
+				},
+			},
+		],
+	},
+	{
+		name: 'Binaryx Platform',
+		slug: 'binaryx-platform',
+		links: [
+			'https://www.binaryx.com',
+		],
+		views: [
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'binaryx-platform',
 				},
 			},
 		],
@@ -1718,14 +3117,14 @@ export const web3Apps = [
 		name: 'Biswap',
 		slug: 'biswap',
 		links: [
-			'https://app.beets.fi',
+			'https://biswap.org',
 		],
 		colors: [],
 		views: [
 			{
 				chainId: 56,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'biswap',
 					zapper: 'biswap',
 				},
 			},
@@ -1761,6 +3160,111 @@ export const web3Apps = [
 						decimals: 8,
 					},
 				],
+			},
+		],
+	},
+	{
+		name: 'BlackrockFund',
+		slug: 'blackrockfund',
+		links: [
+			'https://www.blackrockfund.finance',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'blackrockfund',
+				},
+			},
+		],
+	},
+	{
+		name: 'Blast',
+		slug: 'blast',
+		links: [
+			'https://blast.io',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'blast',
+				},
+			},
+		],
+	},
+	{
+		name: 'Bloom',
+		slug: 'bloom',
+		links: [
+			'https://bloom.garden',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'bloom',
+				},
+			},
+		],
+	},
+	{
+		name: 'Blueberry Lend',
+		slug: 'blueberry-lend',
+		links: [
+			'https://app.blueberry.garden/lend',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'blueberry-lend',
+				},
+			},
+		],
+	},
+	{
+		name: 'Blueprint',
+		slug: 'blueprint',
+		links: [
+			'https://blueprint.fi',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'blueprint',
+				},
+			},
+		],
+	},
+	{
+		name: 'Blur',
+		slug: 'blur',
+		links: [
+			'https://blur.io',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'blur',
+				},
+			},
+		],
+	},
+	{
+		name: 'BOB Fusion',
+		slug: 'bob-fusion',
+		links: [
+			'https://gobob.xyz',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'bob-fusion',
+				},
 			},
 		],
 	},
@@ -1823,15 +3327,52 @@ export const web3Apps = [
 		],
 	},
 	{
-		name: 'BProtocol',
-		slug: 'bprotocol',
-		links: ['https://bprotocol.org', 'https://app.bprotocol.org'],
+		name: 'B.Protocol',
+		slug: 'b-protocol',
+		links: [
+			'https://bprotocol.org',
+			'https://app.bprotocol.org',
+		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
+					llamafolio: 'b.protocol',
 					zapper: 'b-protocol',
+				},
+			},
+		],
+	},
+	{
+		name: 'Bunni',
+		slug: 'bunni',
+		links: [
+			'https://bunni.pro',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'bunni',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'bunni',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'bunni',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'bunni',
 				},
 			},
 		],
@@ -1867,6 +3408,66 @@ export const web3Apps = [
 						'bZx • Staking',
 						'bZx • Vested Staking',
 					],
+				},
+			},
+		],
+	},
+	{
+		name: 'Cap Finance',
+		slug: 'cap-finance',
+		links: [
+			'https://www.cap.io',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'cap-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Cat in a Box',
+		slug: 'cat-in-a-box',
+		links: [
+			'https://catinabox.finance',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'cat-in-a-box',
+				},
+			},
+		],
+	},
+	{
+		name: 'Cega',
+		slug: 'cega',
+		links: [
+			'https://app.cega.fi',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'cega',
+				},
+			},
+		],
+	},
+	{
+		name: 'Centrifuge',
+		slug: 'centrifuge',
+		links: [
+			'https://tinlake.centrifuge.io',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'centrifuge',
 				},
 			},
 		],
@@ -1940,6 +3541,45 @@ export const web3Apps = [
 						decimals: 18,
 					},
 				],
+				providers: {
+					llamafolio: 'chainlink',
+				},
+			},
+		],
+	},
+	{
+		name: 'Channels Finance',
+		slug: 'channels-finance',
+		links: [
+			'https://channels.finance',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'channels-finance',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'channels-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Charm Finance',
+		slug: 'charm-finance',
+		links: [
+			'https://www.charm.fi',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'charm-finance',
+				},
 			},
 		],
 	},
@@ -1975,6 +3615,36 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'CitaDAO',
+		slug: 'citadao',
+		links: [
+			'https://citadao.io',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'citadao',
+				},
+			},
+		],
+	},
+	{
+		name: 'CitadelSwap',
+		slug: 'citadelswap',
+		links: [
+			'https://app.citadelswap.xyz',
+		],
+		views: [
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'citadelswap',
+				},
+			},
+		],
+	},
+	{
 		name: 'Clearpool',
 		slug: 'clearpool',
 		links: [
@@ -1986,16 +3656,113 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'clearpool',
 					zapper: 'clearpool',
 				},
 			},
 			{
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'clearpool',
 					zapper: 'clearpool',
+				},
+			},
+			{
+				chainId: 100,
+				providers: {
+					llamafolio: 'clearpool',
+					zapper: 'clearpool',
+				},
+			},
+		],
+	},
+	{
+		name: 'CLever',
+		slug: 'clever',
+		links: [
+			'https://clever.aladdin.club',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'clever',
+				},
+			},
+		],
+	},
+	{
+		name: 'Coinbase Wrapped Staked ETH',
+		slug: 'coinbase-wrapped-staked-eth',
+		links: [
+			'https://www.coinbase.com/price/coinbase-wrapped-staked-eth',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'coinbase-wrapped-staked-eth',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'coinbase-wrapped-staked-eth',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'coinbase-wrapped-staked-eth',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'coinbase-wrapped-staked-eth',
+				},
+			},
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'coinbase-wrapped-staked-eth',
+				},
+			},
+		],
+	},
+	{
+		name: 'Coinwind',
+		slug: 'coinwind',
+		links: [
+			'https://www.coinwind.pro',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'coinwind',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'coinwind',
+				},
+			},
+		],
+	},
+	{
+		name: 'Colony',
+		slug: 'colony',
+		links: [
+			'https://www.colonylab.io',
+		],
+		views: [
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'colony',
 				},
 			},
 		],
@@ -2062,6 +3829,50 @@ export const web3Apps = [
 					zerionDefiSDK: [
 						'Compound Governance',
 					],
+				},
+			},
+			{
+				name: 'Compound V3',
+				slug: 'v3',
+				links: [
+					'https://v3-app.compound.finance',
+				],
+				chainId: 42161,
+				providers: {
+					llamafolio: 'compound-v3',
+				},
+			},
+			{
+				name: 'Compound V3',
+				slug: 'v3',
+				links: [
+					'https://v3-app.compound.finance',
+				],
+				chainId: 137,
+				providers: {
+					llamafolio: 'compound-v3',
+				},
+			},
+			{
+				name: 'Compound V3',
+				slug: 'v3',
+				links: [
+					'https://v3-app.compound.finance',
+				],
+				chainId: 1,
+				providers: {
+					llamafolio: 'compound-v3',
+				},
+			},
+			{
+				name: 'Compound V3',
+				slug: 'v3',
+				links: [
+					'https://v3-app.compound.finance',
+				],
+				chainId: 8453,
+				providers: {
+					llamafolio: 'compound-v3',
 				},
 			},
 			{
@@ -2135,7 +3946,23 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
+					llamafolio: 'concentrator',
 					zapper: 'concentrator',
+				},
+			},
+		],
+	},
+	{
+		name: 'Conic Finance',
+		slug: 'conic-finance',
+		links: [
+			'https://conic.finance',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'conic-finance',
 				},
 			},
 		],
@@ -2185,7 +4012,35 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'convex-finance',
 					zapper: 'convex',
+				},
+			},
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'convex-finance',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'convex-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Copra Finance',
+		slug: 'copra-finance',
+		links: [
+			'https://www.copra.finance',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'copra-finance',
 				},
 			},
 		],
@@ -2235,6 +4090,30 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'CoW Swap',
+		slug: 'cow-swap',
+		colors: [
+			'#65D9FF',
+		],
+		links: [
+			'https://cow.fi',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'cow-swap',
+				},
+			},
+			{
+				chainId: 100,
+				providers: {
+					llamafolio: 'cow-swap',
+				},
+			},
+		],
+	},
+	{
 		name: 'Cozy Finance',
 		slug: 'cozy-finance',
 		links: [
@@ -2255,6 +4134,7 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
+					llamafolio: 'cozy-finance',
 					zapper: 'cozy-finance',
 				},
 			},
@@ -2300,12 +4180,77 @@ export const web3Apps = [
 				},
 			},
 			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'cream-finance',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'cream-finance',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'cream-finance',
+				},
+			},
+			{
+				name: 'Lending',
+				slug: 'lending',
+				chainId: 42161,
+				providers: {
+					llamafolio: 'cream-lending',
+				},
+			},
+			{
+				name: 'Lending',
+				slug: 'lending',
+				chainId: 56,
+				providers: {
+					llamafolio: 'cream-lending',
+				},
+			},
+			{
+				name: 'Lending',
+				slug: 'lending',
+				chainId: 137,
+				providers: {
+					llamafolio: 'cream-lending',
+				},
+			},
+			{
+				name: 'Lending',
+				slug: 'lending',
+				chainId: 1,
+				providers: {
+					llamafolio: 'cream-lending',
+				},
+			},
+			{
 				name: 'C.R.E.A.M. Iron Bank',
 				slug: 'iron-bank',
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
 					zapper: 'cream-iron-bank',
+				},
+			},
+		],
+	},
+	{
+		name: 'CRETH2',
+		slug: 'creth2',
+		links: [
+			'https://classic.cream.finance/eth2',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'creth2',
 				},
 			},
 		],
@@ -2351,6 +4296,67 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
+				providers: {
+					llamafolio: 'curve-dex',
+					zapper: 'curve',
+					zerionDefiSDK: [
+						'Curve',
+						'Curve • Liquidity Gauges',
+					],
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'curve-dex',
+				},
+			},
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'curve-dex',
+				},
+			},
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'curve-dex',
+				},
+			},
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'curve-dex',
+				},
+			},
+			{
+				chainId: 100,
+				providers: {
+					llamafolio: 'curve-dex',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'curve-dex',
+				},
+			},
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'curve-dex',
+				},
+			},
+			{
+				chainId: 1284,
+				providers: {
+					llamafolio: 'curve-dex',
+				},
+			},
+			{
+				name: 'Curve DAO',
+				slug: 'dao',
+				chainId: 1,
 				erc20Tokens: [
 					{
 						icon: 'https://assets.coingecko.com/coins/images/12124/thumb/Curve.png?1597369484',
@@ -2362,14 +4368,111 @@ export const web3Apps = [
 					},
 				],
 				providers: {
-					llamafolio: 'crvusd',
-					zapper: 'curve',
 					zerionDefiSDK: [
-						'Curve',
-						'Curve • Liquidity Gauges',
 						'Curve • Vesting',
 						'Curve • Vote Escrowed CRV',
 					],
+				},
+			},
+			{
+				chainId: 1,
+				name: 'crvUSD',
+				slug: 'crvusd',
+				links: [
+					'https://crvusd.curve.fi/#/ethereum/markets',
+				],
+				providers: {
+					llamafolio: 'crvusd',
+				},
+			},
+		],
+	},
+	{
+		name: 'cVault Finance',
+		slug: 'cvault-finance',
+		links: [
+			'https://cvault.finance',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'cvault-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Cyclone',
+		slug: 'cyclone',
+		links: [
+			'https://cyclone.xyz',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'cyclone',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'cyclone',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'cyclone',
+				},
+			},
+		],
+	},
+	{
+		name: 'Cygnus Finance',
+		slug: 'cygnus-finance',
+		links: [
+			'https://cygnus.finance',
+		],
+		views: [
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'cygnus-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Davos Protocol',
+		slug: 'davos-protocol',
+		links: [
+			'https://davos.xyz',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'davos-protocol',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'davos-protocol',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'davos-protocol',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'davos-protocol',
 				},
 			},
 		],
@@ -2433,6 +4536,29 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'DeFi Money Market',
+		slug: 'dmm',
+		links: ['https://defimoneymarket.com'],
+		views: [
+			{
+				chainId: 1,
+				erc20Tokens: [
+					{
+						icon: 'https://assets.coingecko.com/coins/images/11677/thumb/dmm.png?1592674690',
+						chainId: 1,
+						address: '0xed91879919b71bb6905f23af0a68d231ecf87b14',
+						name: 'DMM	Governance',
+						symbol: 'DMG',
+						decimals: 18,
+					},
+				],
+				providers: {
+					zerionDefiSDK: ['DeFi Money Market'],
+				},
+			},
+		],
+	},
+	{
 		name: 'DeFi Saver',
 		slug: 'defi-saver',
 		links: [
@@ -2459,7 +4585,98 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
+					llamafolio: 'defi-swap',
 					zapper: 'defi-swap',
+				},
+			},
+		],
+	},
+	{
+		name: 'Definitive.fi',
+		slug: 'definitive.fi',
+		links: [
+			'https://www.definitive.fi',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'definitive.fi',
+				},
+			},
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'definitive.fi',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'definitive.fi',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'definitive.fi',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'definitive.fi',
+				},
+			},
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'definitive.fi',
+				},
+			},
+		],
+	},
+	{
+		name: 'Definix',
+		slug: 'definix',
+		links: [
+			'https://definix.com/en',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'definix',
+				},
+			},
+		],
+	},
+	{
+		name: 'DefiPlaza',
+		slug: 'defiplaza',
+		links: [
+			'https://defiplaza.net',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'defiplaza',
+				},
+			},
+		],
+	},
+	{
+		name: 'DeltaPrime',
+		slug: 'deltaprime',
+		links: [
+			'https://deltaprime.io',
+		],
+		views: [
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'deltaprime',
 				},
 			},
 		],
@@ -2475,6 +4692,7 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
+					llamafolio: 'derivadex',
 					zapper: 'derivadex',
 				},
 			},
@@ -2550,7 +4768,38 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'dforce',
 					zapper: 'dforce',
+				},
+			},
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'dforce',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'dforce',
+				},
+			},
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'dforce',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'dforce',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'dforce',
 				},
 			},
 		],
@@ -2614,20 +4863,23 @@ export const web3Apps = [
 		],
 		views: [
 			{
-				name: 'Dhedge V2',
-				slug: 'v2',
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'dhedge',
 					zapper: 'dhedge-v2',
 				},
 			},
 			{
-				name: 'Dhedge V2',
-				slug: 'v2',
 				chainId: 10,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'dhedge',
+					zapper: 'dhedge-v2',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'dhedge',
 					zapper: 'dhedge-v2',
 				},
 			},
@@ -2676,6 +4928,21 @@ export const web3Apps = [
 				],
 				providers: {
 					zapper: 'diffusion',
+				},
+			},
+		],
+	},
+	{
+		name: 'Dinero-PirexETH',
+		slug: 'dinero-pirexeth',
+		links: [
+			'https://dineroismoney.com',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'dinero-pirexeth',
 				},
 			},
 		],
@@ -2786,6 +5053,21 @@ export const web3Apps = [
 				],
 				providers: {
 					zapper: 'dopex',
+				},
+			},
+		],
+	},
+	{
+		name: 'DYAD',
+		slug: 'dyad',
+		links: [
+			'https://dyadstable.xyz',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'dyad',
 				},
 			},
 		],
@@ -3008,6 +5290,39 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'EigenLayer',
+		slug: 'eigenlayer',
+		links: [
+			'https://www.eigenlayer.xyz',
+		],
+		colors: [
+			'#1a0d6d',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'eigenlayer',
+				},
+			},
+		],
+	},
+	{
+		name: 'Elephant Money',
+		slug: 'elephant-money',
+		links: [
+			'https://elephant.money',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'elephant-money',
+				},
+			},
+		],
+	},
+	{
 		name: 'Eleven Finance',
 		slug: 'eleven-finance',
 		links: [
@@ -3042,6 +5357,7 @@ export const web3Apps = [
 		name: 'Ellipsis',
 		slug: 'ellipsis',
 		links: [
+			'https://ellipsis.finance',
 			'https://v2.ellipsis.finance',
 		],
 		views: [
@@ -3049,6 +5365,7 @@ export const web3Apps = [
 				chainId: 56,
 				erc20Tokens: [],
 				providers: {
+					llamafolio: 'ellipsis-finance',
 					zapper: 'ellipsis',
 				},
 			},
@@ -3152,6 +5469,54 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Equalizer Exchange',
+		slug: 'equalizer-exchange',
+		links: [
+			'https://equalizer.exchange',
+		],
+		views: [
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'equalizer-exchange',
+				},
+			},
+		],
+	},
+	{
+		name: 'Equilibria',
+		slug: 'equilibria',
+		links: [
+			'https://equilibria.fi/home',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'equilibria',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'equilibria',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'equilibria',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'equilibria',
+				},
+			},
+		],
+	},
+	{
 		name: 'Essentia',
 		slug: 'essentia',
 		links: [
@@ -3172,6 +5537,36 @@ export const web3Apps = [
 				],
 				providers: {
 					zapper: 'essentia',
+				},
+			},
+		],
+	},
+	{
+		name: 'Ethena',
+		slug: 'ethena',
+		links: [
+			'https://www.ethena.fi',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'ethena',
+				},
+			},
+		],
+	},
+	{
+		name: 'ether.fi',
+		slug: 'ether.fi',
+		links: [
+			'https://app.ether.fi',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'ether.fi',
 				},
 			},
 		],
@@ -3213,9 +5608,40 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Ethos Reserve',
+		slug: 'ethos-reserve',
+		links: [
+			'https://www.ethos.finance',
+		],
+		views: [
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'ethos-reserve',
+				},
+			},
+		],
+	},
+	{
+		name: 'Euclid Finance',
+		slug: 'euclid-finance',
+		links: [
+			'https://euclidfinance.io',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'euclid-finance',
+				},
+			},
+		],
+	},
+	{
 		name: 'Euler',
 		slug: 'euler',
 		links: [
+			'https://www.euler.finance',
 			'https://app.euler.finance',
 		],
 		colors: [
@@ -3224,9 +5650,48 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'euler',
 					zapper: 'euler',
+				},
+			},
+		],
+	},
+	{
+		name: 'EverRise',
+		slug: 'everrise',
+		links: [
+			'https://www.everrise.com',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'everrise',
+				},
+			},
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'everrise',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'everrise',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'everrise',
+				},
+			},
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'everrise',
 				},
 			},
 		],
@@ -3255,6 +5720,63 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Exactly',
+		slug: 'exactly',
+		links: [
+			'https://exact.ly',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'exactly',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'exactly',
+				},
+			},
+		],
+	},
+	{
+		name: 'Extra Finance',
+		slug: 'extra-finance',
+		links: [
+			'https://app.extrafi.io',
+		],
+		views: [
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'extra-finance',
+				},
+			},
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'extra-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Fantohm',
+		slug: 'fantohm',
+		links: [
+			'https://www.fantohm.com',
+		],
+		views: [
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'fantohm',
+				},
+			},
+		],
+	},
+	{
 		name: 'Farcaster',
 		slug: 'farcaster',
 		links: [
@@ -3268,9 +5790,9 @@ export const web3Apps = [
 		views: [
 			{
 				showOn: ['Dashboard'],
-				
+
 				chainId: 10,
-				
+
 				contracts: [
 					{
 						name: 'IdRegistry',
@@ -3354,6 +5876,21 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'FireBot',
+		slug: 'firebot',
+		links: [
+			'https://firebot.gg',
+		],
+		views: [
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'firebot',
+				},
+			},
+		],
+	},
+	{
 		name: 'Fixed Forex',
 		slug: 'fixed-forex',
 		links: [
@@ -3366,6 +5903,21 @@ export const web3Apps = [
 				erc20Tokens: [],
 				providers: {
 					zapper: 'fixed-forex',
+				},
+			},
+		],
+	},
+	{
+		name: 'Flamincome',
+		slug: 'flamincome',
+		links: [
+			'https://flamincome.finance',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'flamincome',
 				},
 			},
 		],
@@ -3434,7 +5986,7 @@ export const web3Apps = [
 		],
 	},
 	{
-		name: 'Floor Dao',
+		name: 'FloorDAO',
 		slug: 'floor-dao',
 		links: [
 			'https://floor.xyz',
@@ -3451,7 +6003,83 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'floor-dao',
 					zapper: 'floor-dao',
+				},
+			},
+		],
+	},
+	{
+		name: 'Florence Finance',
+		slug: 'florence-finance',
+		links: [
+			'https://florence.finance',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'florence-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Fluid',
+		slug: 'fluid',
+		links: [
+			'https://fluid.instadapp.io',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'fluid',
+				},
+			},
+		],
+	},
+	{
+		name: 'Flux Finance',
+		slug: 'flux-finance',
+		links: [
+			'https://fluxfinance.com',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'flux-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Fortress Loans',
+		slug: 'fortress-loans',
+		links: [
+			'https://fortress.loans',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'fortress-loans',
+				},
+			},
+		],
+	},
+	{
+		name: 'Fractional Art',
+		slug: 'fractional-art',
+		links: [
+			'https://fractional.art',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'fractional-art',
 				},
 			},
 		],
@@ -3477,7 +6105,44 @@ export const web3Apps = [
 					// erc20TokensBySymbol['FSX'],
 				],
 				providers: {
+					llamafolio: 'frax-finance',
 					zapper: 'frax',
+				},
+			},
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'frax-finance',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'frax-finance',
+				},
+			},
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'frax-finance',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'frax-finance',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'frax-finance',
+				},
+			},
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'frax-finance',
 				},
 			},
 		],
@@ -3487,14 +6152,29 @@ export const web3Apps = [
 		slug: 'frax-lend',
 		links: [
 			'https://frax.finance',
+			'https://app.frax.finance/fraxlend/available-pairs',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'fraxlend',
 					zapper: 'frax-lend',
+				},
+			},
+		],
+	},
+	{
+		name: 'FT33 DAO',
+		slug: 'ft33-dao',
+		links: [
+			'https://friendtech33.xyz/#/about',
+		],
+		views: [
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'ft33-dao',
 				},
 			},
 		],
@@ -3547,9 +6227,76 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'fx Protocol',
+		slug: 'fx-protocol',
+		links: [
+			'https://fx.aladdin.club',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'fx-protocol',
+				},
+			},
+		],
+	},
+	{
+		name: 'Fyde Protocol',
+		slug: 'fyde-protocol',
+		links: [
+			'http://www.fyde.fi',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'fyde-protocol',
+				},
+			},
+		],
+	},
+	{
+		name: 'Gains Network',
+		slug: 'gains-network',
+		links: [
+			'https://gainsnetwork.io',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'gains-network',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'gains-network',
+				},
+			},
+		],
+	},
+	{
+		name: 'Gambit Trade',
+		slug: 'gambit-trade',
+		links: [
+			'https://gambit.trade',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'gambit-trade',
+				},
+			},
+		],
+	},
+	{
 		name: 'Gamma Strategies',
 		slug: 'gamma-strategies',
 		links: [
+			'https://www.gamma.xyz',
 			'https://www.gammastrategies.org',
 		],
 		colors: [
@@ -3564,7 +6311,62 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'gamma',
 					zapper: 'gamma-strategies',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'gamma',
+				},
+			},
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'gamma',
+				},
+			},
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'gamma',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'gamma',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'gamma',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'gamma',
+				},
+			},
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'gamma',
+				},
+			},
+			{
+				chainId: 1284,
+				providers: {
+					llamafolio: 'gamma',
+				},
+			},
+			{
+				chainId: 42220,
+				providers: {
+					llamafolio: 'gamma',
 				},
 			},
 		],
@@ -3587,7 +6389,107 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'geist',
 					zapper: 'geist',
+				},
+			},
+		],
+	},
+	{
+		name: 'Genesis LRT',
+		slug: 'genesis-lrt',
+		links: [
+			'https://www.genesislrt.com',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'genesis-lrt',
+				},
+			},
+		],
+	},
+	{
+		name: 'Gensokishi',
+		slug: 'gensokishi',
+		links: [
+			'https://genso.game',
+		],
+		views: [
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'gensokishi',
+				},
+			},
+		],
+	},
+	{
+		name: 'GET Protocol',
+		slug: 'get-protocol',
+		links: [
+			'https://www.get-protocol.io',
+		],
+		views: [
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'get-protocol',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'get-protocol',
+				},
+			},
+		],
+	},
+	{
+		name: 'Gitcoin',
+		slug: 'gitcoin',
+		links: [
+			'https://gitcoin.co',
+		],
+		colors: [
+			'#00433B',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'gitcoin',
+				},
+			},
+		],
+	},
+	{
+		name: 'Giveth',
+		slug: 'giveth',
+		links: [
+			'https://giveth.io',
+		],
+		views: [
+			{
+				chainId: 100,
+				providers: {
+					llamafolio: 'giveth',
+				},
+			},
+		],
+	},
+	{
+		name: 'Glori Finance',
+		slug: 'glori-finance',
+		links: [
+			'https://www.glori.finance',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'glori-finance',
 				},
 			},
 		],
@@ -3603,6 +6505,24 @@ export const web3Apps = [
 		],
 		views: [
 			{
+				name: 'V2',
+				slug: 'v2',
+				chainId: 42161,
+				providers: {
+					llamafolio: 'gmx-v2',
+				},
+			},
+			{
+				name: 'V2',
+				slug: 'v2',
+				chainId: 43114,
+				providers: {
+					llamafolio: 'gmx-v2',
+				},
+			},
+			{
+				name: 'V1',
+				slug: 'v1',
 				chainId: 42161,
 				erc20Tokens: [
 					{
@@ -3610,13 +6530,17 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'gmx',
 					zapper: 'gmx',
 				},
 			},
 			{
+				name: 'V1',
+				slug: 'v1',
 				chainId: 43114,
 				erc20Tokens: [],
 				providers: {
+					llamafolio: 'gmx-v1',
 					zapper: 'gmx',
 				},
 			},
@@ -3647,6 +6571,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'gnosis-protocol-v1',
 					zerionDefiSDK: [
 						'Gnosis Protocol',
 					],
@@ -3678,6 +6603,36 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'GoGoPool',
+		slug: 'gogopool',
+		links: [
+			'https://www.gogopool.com',
+		],
+		views: [
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'gogopool',
+				},
+			},
+		],
+	},
+	{
+		name: 'Goldfinch',
+		slug: 'goldfinch',
+		links: [
+			'https://goldfinch.finance',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'goldfinch',
+				},
+			},
+		],
+	},
+	{
 		name: 'Good Ghosting',
 		slug: 'good-ghosting',
 		links: [
@@ -3699,6 +6654,21 @@ export const web3Apps = [
 				erc20Tokens: [],
 				providers: {
 					zapper: 'good-ghosting',
+				},
+			},
+		],
+	},
+	{
+		name: 'GoodEntry',
+		slug: 'goodentry',
+		links: [
+			'https://goodentry.io',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'goodentry',
 				},
 			},
 		],
@@ -3740,16 +6710,67 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'granary-finance',
 					zapper: 'granary-finance',
 				},
 			},
 			{
 				chainId: 10,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'granary-finance',
 					zapper: 'granary-finance',
+				},
+			},
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'granary-finance',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'granary-finance',
+				},
+			},
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'granary-finance',
+				},
+			},
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'granary-finance',
+				},
+			},
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'granary-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Gravita Protocol',
+		slug: 'gravita-protocol',
+		links: [
+			'https://www.gravitaprotocol.com',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'gravita-protocol',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'gravita-protocol',
 				},
 			},
 		],
@@ -3793,7 +6814,29 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'gro',
 					zapper: 'gro',
+				},
+			},
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'gro',
+				},
+			},
+		],
+	},
+	{
+		name: 'Gyro',
+		slug: 'gyro',
+		links: [
+			'https://gyro.money',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'gyro',
 				},
 			},
 		],
@@ -3843,6 +6886,7 @@ export const web3Apps = [
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
+					llamafolio: 'hector-network',
 					zapper: 'hector-network',
 				},
 			},
@@ -3918,6 +6962,36 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Hex',
+		slug: 'hex',
+		links: [
+			'https://hex.com',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'hex',
+				},
+			},
+		],
+	},
+	{
+		name: 'HMX',
+		slug: 'hmx',
+		links: [
+			'https://hmx.org/arbitrum',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'hmx',
+				},
+			},
+		],
+	},
+	{
 		name: 'Honeyswap',
 		slug: 'honeyswap',
 		links: [
@@ -3929,15 +7003,15 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'honeyswap',
 					zapper: 'honeyswap',
 				},
 			},
 			{
 				chainId: 100,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'honeyswap',
 					zapper: 'honeyswap',
 				},
 			},
@@ -3953,30 +7027,97 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 42161,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'hop-protocol',
 					zapper: 'hop',
 				},
 			},
 			{
 				chainId: 100,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'hop-protocol',
 					zapper: 'hop',
 				},
 			},
 			{
 				chainId: 10,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'hop-protocol',
 					zapper: 'hop',
 				},
 			},
 			{
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'hop-protocol',
 					zapper: 'hop',
+				},
+			},
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'hop-protocol',
+					zapper: 'hop',
+				},
+			},
+		],
+	},
+	{
+		name: 'HOPR',
+		slug: 'hopr',
+		links: [
+			'https://hoprnet.org',
+		],
+		views: [
+			{
+				chainId: 100,
+				providers: {
+					llamafolio: 'hopr',
+				},
+			},
+		],
+	},
+	{
+		name: 'Horiza',
+		slug: 'horiza',
+		links: [
+			'https://horiza.io',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'horiza',
+				},
+			},
+		],
+	},
+	{
+		name: 'Horizon Protocol',
+		slug: 'horizon-protocol',
+		links: [
+			'https://horizonprotocol.com',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'horizon-protocol',
+				},
+			},
+		],
+	},
+	{
+		name: 'Houdini Swap',
+		slug: 'houdini-swap',
+		links: [
+			'https://houdiniswap.com',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'houdini-swap',
 				},
 			},
 		],
@@ -4008,6 +7149,45 @@ export const web3Apps = [
 				erc20Tokens: [],
 				providers: {
 					zapper: 'hundred-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Hundred Finance',
+		slug: 'hundred-finance',
+		links: [
+			'https://hundred.finance',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'hundred-finance',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'hundred-finance',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'hundred-finance',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'hundred-finance',
+				},
+			},
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'hundred-finance',
 				},
 			},
 		],
@@ -4121,12 +7301,19 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'idle',
 					theGraph: 'https://api.thegraph.com/subgraphs/name/idle-finance/idle',
 					zapper: 'idle',
 					zerionDefiSDK: [
 						'Idle • Early Rewards',
 						'Idle • Risk-Adjusted',
 					],
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'idle',
 				},
 			},
 		],
@@ -4151,6 +7338,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'illuvium',
 					zapper: 'illuvium',
 				},
 			},
@@ -4256,6 +7444,21 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Infusion',
+		slug: 'infusion',
+		links: [
+			'https://infusion.finance',
+		],
+		views: [
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'infusion',
+				},
+			},
+		],
+	},
+	{
 		name: 'Instadapp',
 		slug: 'instadapp',
 		links: [
@@ -4284,6 +7487,42 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Integral',
+		slug: 'integral',
+		links: [
+			'https://integral.link',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'integral',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'integral',
+				},
+			},
+		],
+	},
+	{
+		name: 'Interport Finance',
+		slug: 'interport-finance',
+		links: [
+			'https://interport.fi',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'interport-finance',
+				},
+			},
+		],
+	},
+	{
 		name: 'Inverse Finance',
 		slug: 'inverse',
 		links: [
@@ -4303,6 +7542,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'inverse-finance',
 					zapper: 'inverse',
 				},
 			},
@@ -4321,7 +7561,22 @@ export const web3Apps = [
 		],
 		icon: IpfsIcon,
 		views: [
-			
+	
+		],
+	},
+	{
+		name: 'IPOR',
+		slug: 'ipor',
+		links: [
+			'https://www.ipor.io',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'ipor',
+				},
+			},
 		],
 	},
 	{
@@ -4344,6 +7599,7 @@ export const web3Apps = [
 		name: 'Iron Bank',
 		slug: 'iron-bank',
 		links: [
+			'https://ib.xyz',
 			'https://app.ib.xyz',
 		],
 		colors: [
@@ -4352,36 +7608,84 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'iron-bank',
 					zapper: 'iron-bank',
 				},
 			},
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'iron-bank',
 					zapper: 'iron-bank',
 				},
 			},
 			{
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'iron-bank',
 					zapper: 'iron-bank',
 				},
 			},
 			{
 				chainId: 10,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'iron-bank',
 					zapper: 'iron-bank',
 				},
 			},
 		],
 	},
 	{
-		name: 'Jones Dao',
+		name: 'iZUMi Finance',
+		slug: 'izumi-finance',
+		links: [
+			'https://izumi.finance/home',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'izumi-finance',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'izumi-finance',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'izumi-finance',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'izumi-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Jaypeggers',
+		slug: 'jaypeggers',
+		links: [
+			'https://jaypeggers.org',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'jaypeggers',
+				},
+			},
+		],
+	},
+	{
+		name: 'Jones DAO',
 		slug: 'jones-dao',
 		links: [
 			'https://jonesdao.io',
@@ -4392,8 +7696,15 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 42161,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'jones-dao',
+					zapper: 'jones-dao',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'jones-dao',
 					zapper: 'jones-dao',
 				},
 			},
@@ -4414,6 +7725,27 @@ export const web3Apps = [
 				erc20Tokens: [],
 				providers: {
 					zapper: 'jpegd',
+				},
+			},
+		],
+	},
+	{
+		name: 'Karak',
+		slug: 'karak',
+		links: [
+			'https://karak.network',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'karak',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'karak',
 				},
 			},
 		],
@@ -4444,6 +7776,21 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Keep3r Network',
+		slug: 'keep3r-network',
+		links: [
+			'https://keep3r.network',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'keep3r-network',
+				},
+			},
+		],
+	},
+	{
 		name: 'KeeperDAO',
 		slug: 'keeper-dao',
 		links: ['https://keeperdao.com', 'https://app.keeperdao.com'],
@@ -4465,6 +7812,36 @@ export const web3Apps = [
 					zerionDefiSDK: [
 						'KeeperDAO',
 					],
+				},
+			},
+		],
+	},
+	{
+		name: 'Kelp DAO',
+		slug: 'kelp-dao',
+		links: [
+			'https://kelpdao.xyz',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'kelp-dao',
+				},
+			},
+		],
+	},
+	{
+		name: 'Keom Protocol',
+		slug: 'keom-protocol',
+		links: [
+			'https://keom.io',
+		],
+		views: [
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'keom-protocol',
 				},
 			},
 		],
@@ -4497,6 +7874,33 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Kine Finance',
+		slug: 'kine-finance',
+		links: [
+			'https://kine.finance',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'kine-finance',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'kine-finance',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'kine-finance',
+				},
+			},
+		],
+	},
+	{
 		name: 'Kinesis Labs',
 		slug: 'kinesis-labs',
 		links: [
@@ -4511,6 +7915,27 @@ export const web3Apps = [
 				erc20Tokens: [],
 				providers: {
 					zapper: 'kinesis-labs',
+				},
+			},
+		],
+	},
+	{
+		name: 'Kinza Finance',
+		slug: 'kinza-finance',
+		links: [
+			'https://kinza.finance',
+		],
+		views: [
+			{
+				chainId: 204,
+				providers: {
+					llamafolio: 'kinza-finance',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'kinza-finance',
 				},
 			},
 		],
@@ -4531,6 +7956,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'klima-dao',
 					zapper: 'klima',
 				},
 			},
@@ -4601,18 +8027,77 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Kokonut Swap',
+		slug: 'kokonut-swap',
+		links: [
+			'https://kokonutswap.finance',
+		],
+		views: [
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'kokonut-swap',
+				},
+			},
+		],
+	},
+	{
+		name: 'Kommunitas',
+		slug: 'kommunitas',
+		links: [
+			'https://kommunitas.net',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'kommunitas',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'kommunitas',
+				},
+			},
+		],
+	},
+	{
+		name: 'Kwenta',
+		slug: 'kwenta',
+		links: [
+			'https://kwenta.eth.limo',
+		],
+		views: [
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'kwenta',
+				},
+			},
+		],
+	},
+	{
 		name: 'Kyber',
 		slug: 'kyber',
-		links: ['https://kyber.org', 'https://kyber.network'],
+		links: [
+			'https://kyber.org',
+			'https://kyber.network',
+		],
 		colors: [
 			'#31cb9e',
 		],
 		views: [
 			{
-				name: 'Kyber Dynamic Market Maker',
-				slug: 'dmm',
+				// name: 'Kyber Dynamic Market Maker',
+				// slug: 'dmm',
+				// links: [
+				// 	'https://dmm.exchange',
+				// ],
+				name: 'KyberSwap',
+				slug: 'swap',
 				links: [
-					'https://dmm.exchange',
+					'https://kyberswap.com',
 				],
 				chainId: 1,
 				contracts: [
@@ -4645,6 +8130,94 @@ export const web3Apps = [
 					llamafolio: 'kyberswap',
 					zapper: 'kyber-dmm',
 					theGraph: 'https://api.thegraph.com/subgraphs/name/dynamic-amm/dynamic-amm',
+				},
+			},
+			{
+				name: 'KyberSwap',
+				slug: 'swap',
+				links: [
+					'https://kyberswap.com',
+				],
+				chainId: 59144,
+				providers: {
+					llamafolio: 'kyberswap',
+				},
+			},
+			{
+				name: 'KyberSwap',
+				slug: 'swap',
+				links: [
+					'https://kyberswap.com',
+				],
+				chainId: 10,
+				providers: {
+					llamafolio: 'kyberswap',
+				},
+			},
+			{
+				name: 'KyberSwap',
+				slug: 'swap',
+				links: [
+					'https://kyberswap.com',
+				],
+				chainId: 8453,
+				providers: {
+					llamafolio: 'kyberswap',
+				},
+			},
+			{
+				name: 'KyberSwap',
+				slug: 'swap',
+				links: [
+					'https://kyberswap.com',
+				],
+				chainId: 250,
+				providers: {
+					llamafolio: 'kyberswap',
+				},
+			},
+			{
+				name: 'KyberSwap',
+				slug: 'swap',
+				links: [
+					'https://kyberswap.com',
+				],
+				chainId: 42161,
+				providers: {
+					llamafolio: 'kyberswap',
+				},
+			},
+			{
+				name: 'KyberSwap',
+				slug: 'swap',
+				links: [
+					'https://kyberswap.com',
+				],
+				chainId: 56,
+				providers: {
+					llamafolio: 'kyberswap',
+				},
+			},
+			{
+				name: 'KyberSwap',
+				slug: 'swap',
+				links: [
+					'https://kyberswap.com',
+				],
+				chainId: 137,
+				providers: {
+					llamafolio: 'kyberswap',
+				},
+			},
+			{
+				name: 'KyberSwap',
+				slug: 'swap',
+				links: [
+					'https://kyberswap.com',
+				],
+				chainId: 43114,
+				providers: {
+					llamafolio: 'kyberswap',
 				},
 			},
 			{
@@ -4696,6 +8269,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					zapper: 'kyber-dao',
 					zerionDefiSDK: [
 						'KyberDAO',
 					],
@@ -4722,23 +8296,6 @@ export const web3Apps = [
 		],
 	},
 	{
-		name: 'Kyber Dao',
-		slug: 'kyber-dao',
-		links: [
-			'https://kyber.org',
-		],
-		colors: [],
-		views: [
-			{
-				chainId: 1,
-				erc20Tokens: [],
-				providers: {
-					zapper: 'kyber-dao',
-				},
-			},
-		],
-	},
-	{
 		name: 'Launchpool',
 		slug: 'launchpool',
 		links: [
@@ -4759,6 +8316,21 @@ export const web3Apps = [
 				],
 				providers: {
 					zapper: 'launchpool',
+				},
+			},
+		],
+	},
+	{
+		name: 'LayerBank',
+		slug: 'layerbank',
+		links: [
+			'https://layerbank.finance',
+		],
+		views: [
+			{
+				chainId: 59144,
+				providers: {
+					llamafolio: 'layerbank',
 				},
 			},
 		],
@@ -5051,6 +8623,36 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'LeonicornSwap',
+		slug: 'leonicornswap',
+		links: [
+			'https://dex.leonicornswap.com/home',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'leonicornswap',
+				},
+			},
+		],
+	},
+	{
+		name: 'Levinswap',
+		slug: 'levinswap',
+		links: [
+			'https://levinswap.org',
+		],
+		views: [
+			{
+				chainId: 100,
+				providers: {
+					llamafolio: 'levinswap',
+				},
+			},
+		],
+	},
+	{
 		name: 'Lido',
 		slug: 'lido',
 		links: [
@@ -5064,7 +8666,44 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
+					llamafolio: 'lido',
 					zapper: 'lido',
+				},
+			},
+			{
+				chainId: 1284,
+				providers: {
+					llamafolio: 'lido',
+				},
+			},
+		],
+	},
+	{
+		name: 'Life DAO',
+		slug: 'life-dao',
+		links: [
+			'https://lifedao.finance',
+		],
+		views: [
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'life-dao',
+				},
+			},
+		],
+	},
+	{
+		name: 'Linear Finance',
+		slug: 'linear-finance',
+		links: [
+			'https://linear.finance',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'linear-finance',
 				},
 			},
 		],
@@ -5086,12 +8725,47 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Liqee',
+		slug: 'liqee',
+		links: [
+			'https://liqee.io',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'liqee',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'liqee',
+				},
+			},
+		],
+	},
+	{
+		name: 'Liquid Collective',
+		slug: 'liquid-collective',
+		links: [
+			'https://liquidcollective.io',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'liquid-collective',
+				},
+			},
+		],
+	},
+	{
 		name: 'Liquid Driver',
 		slug: 'liquid-driver',
 		links: [
 			'https://www.liquiddriver.finance',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 250,
@@ -5101,7 +8775,29 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'liquid-driver',
 					zapper: 'liquiddriver',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'liquid-driver',
+				},
+			},
+		],
+	},
+	{
+		name: 'Liquid Finance',
+		slug: 'liquid-finance',
+		links: [
+			'https://liquidfinance.io',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'liquid-finance',
 				},
 			},
 		],
@@ -5212,25 +8908,117 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'llama-airforce',
 					zapper: 'llama-airforce',
 				},
 			},
 		],
 	},
 	{
-		name: 'Looks Rare',
+		name: 'LlamaPay',
+		slug: 'llamapay',
+		links: [
+			'https://llamapay.io',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'llamapay',
+				},
+			},
+			{
+				chainId: 100,
+				providers: {
+					llamafolio: 'llamapay',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'llamapay',
+				},
+			},
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'llamapay',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'llamapay',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'llamapay',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'llamapay',
+				},
+			},
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'llamapay',
+				},
+			},
+		],
+	},
+	{
+		name: 'Locus Finance',
+		slug: 'locus-finance',
+		links: [
+			'https://www.locus.finance',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'locus-finance',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'locus-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Lodestar Finance',
+		slug: 'lodestar-finance',
+		links: [
+			'https://www.lodestarfinance.io',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'lodestar-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'LooksRare',
 		slug: 'looks-rare',
 		links: [
 			'https://looksrare.org',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'looksrare',
 					zapper: 'looks-rare',
 				},
 			},
@@ -5268,6 +9056,57 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'LUSD ChickenBonds',
+		slug: 'lusd-chickenbonds',
+		links: [
+			'https://www.chickenbonds.org',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'lusd-chickenbonds',
+				},
+			},
+		],
+	},
+	{
+		name: 'Lybra V1',
+		slug: 'lybra-v1',
+		links: [
+			'https://lybra.finance',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'lybra-v1',
+				},
+			},
+		],
+	},
+	{
+		name: 'Lybra V2',
+		slug: 'lybra-v2',
+		links: [
+			'https://lybra.finance',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'lybra-v2',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'lybra-v2',
+				},
+			},
+		],
+	},
+	{
 		name: 'Lydia Finance',
 		slug: 'lydia',
 		links: [
@@ -5294,7 +9133,20 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
+					llamafolio: 'lyra',
 					zapper: 'lyra',
+				},
+			},
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'lyra',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'lyra',
 				},
 			},
 		],
@@ -5319,7 +9171,55 @@ export const web3Apps = [
 		],
 	},
 	{
-		name: 'Maker',
+		name: 'Magnate Finance',
+		slug: 'magnate-finance',
+		links: [
+			'https://www.magnate.finance',
+		],
+		views: [
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'magnate-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Magpie',
+		slug: 'magpie',
+		links: [
+			'https://www.magpiexyz.io',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'magpie',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'magpie',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'magpie',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'magpie',
+				},
+			},
+		],
+	},
+	{
+		name: 'MakerDAO',
 		slug: 'maker',
 		links: [
 			'https://makerdao.com',
@@ -5407,6 +9307,36 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'MantisSwap',
+		slug: 'mantisswap',
+		links: [
+			'https://mantissa.finance',
+		],
+		views: [
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'mantisswap',
+				},
+			},
+		],
+	},
+	{
+		name: 'Mantle Staked ETH',
+		slug: 'mantle-staked-eth',
+		links: [
+			'https://www.mantle.xyz/meth',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'mantle-staked-eth',
+				},
+			},
+		],
+	},
+	{
 		name: 'Maple',
 		slug: 'maple',
 		links: [
@@ -5418,8 +9348,8 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'maple',
 					zapper: 'maple',
 				},
 			},
@@ -5492,6 +9422,54 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Matrix Farm',
+		slug: 'matrix-farm',
+		links: [
+			'https://matrix.farm',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'matrix-farm',
+				},
+			},
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'matrix-farm',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'matrix-farm',
+				},
+			},
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'matrix-farm',
+				},
+			},
+		],
+	},
+	{
+		name: 'MDEX',
+		slug: 'mdex',
+		links: [
+			'https://mdex.com',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'mdex',
+				},
+			},
+		],
+	},
+	{
 		name: 'Mean Finance',
 		slug: 'mean-finance',
 		links: [
@@ -5503,16 +9481,100 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'mean-finance',
 					zapper: 'mean-finance',
 				},
 			},
 			{
 				chainId: 10,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'mean-finance',
 					zapper: 'mean-finance',
+				},
+			},
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'mean-finance',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'mean-finance',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'mean-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Mendi Finance',
+		slug: 'mendi-finance',
+		links: [
+			'https://mendi.finance',
+		],
+		views: [
+			{
+				chainId: 59144,
+				providers: {
+					llamafolio: 'mendi-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Merit Circle',
+		slug: 'merit-circle',
+		links: [
+			'https://www.meritcircle.io',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'merit-circle',
+				},
+			},
+		],
+	},
+	{
+		name: 'Merlins Seal',
+		slug: 'merlins-seal',
+		links: [
+			'https://merlinchain.io/bridge/staking',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'merlins-seal',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'merlins-seal',
+				},
+			},
+		],
+	},
+	{
+		name: 'Mesher',
+		slug: 'mesher',
+		links: [
+			'https://center.mesher.io',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'mesher',
 				},
 			},
 		],
@@ -5530,6 +9592,21 @@ export const web3Apps = [
 				erc20Tokens: [],
 				providers: {
 					zapper: 'meshswap',
+				},
+			},
+		],
+	},
+	{
+		name: 'Meta Pool',
+		slug: 'meta-pool',
+		links: [
+			'https://metapool.app',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'meta-pool',
 				},
 			},
 		],
@@ -5553,6 +9630,42 @@ export const web3Apps = [
 				],
 				providers: {
 					zapper: 'metavault-trade',
+				},
+			},
+		],
+	},
+	{
+		name: 'Metronome',
+		slug: 'metronome',
+		links: [
+			'https://www.metronome.io',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'metronome',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'metronome',
+				},
+			},
+		],
+	},
+	{
+		name: 'MEV Protocol',
+		slug: 'mev-protocol',
+		links: [
+			'https://mev.io',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'mev-protocol',
 				},
 			},
 		],
@@ -5751,6 +9864,27 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Moonwell',
+		slug: 'moonwell',
+		links: [
+			'https://moonwell.fi',
+		],
+		views: [
+			{
+				chainId: 1284,
+				providers: {
+					llamafolio: 'moonwell',
+				},
+			},
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'moonwell',
+				},
+			},
+		],
+	},
+	{
 		name: 'Morpheus Swap',
 		slug: 'morpheus-swap',
 		links: [
@@ -5766,7 +9900,29 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'morpheus-swap',
 					zapper: 'morpheus-swap',
+				},
+			},
+		],
+	},
+	{
+		name: 'Morphex',
+		slug: 'morphex',
+		links: [
+			'https://www.morphex.trade',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'morphex',
+				},
+			},
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'morphex',
 				},
 			},
 		],
@@ -5775,6 +9931,8 @@ export const web3Apps = [
 		name: 'Morpho',
 		slug: 'morpho',
 		links: [
+			'https://morpho.org',
+			'https://app.morpho.org',
 			'https://app.morpho.xyz',
 		],
 		colors: [
@@ -5786,6 +9944,80 @@ export const web3Apps = [
 				erc20Tokens: [],
 				providers: {
 					zapper: 'morpho',
+				},
+			},
+			{
+				chainId: 1,
+				name: 'Morpho Aave',
+				slug: 'morpho-aave',
+				links: [
+					'https://aavev2.morpho.org',
+				],
+				providers: {
+					llamafolio: 'morpho-aave',
+				},
+			},
+			{
+				chainId: 1,
+				name: 'Morpho AaveV3',
+				slug: 'morpho-aavev3',
+				links: [
+					'https://aavev3.morpho.org',
+				],
+				providers: {
+					llamafolio: 'morpho-aavev3',
+				},
+			},
+			{
+				chainId: 1,
+				name: 'Morpho Blue',
+				slug: 'morpho-blue',
+				links: [
+					'https://app.morpho.org',
+				],
+				providers: {
+					llamafolio: 'morpho-blue',
+				},
+			},
+			{
+				chainId: 1,
+				name: 'Morpho Compound',
+				slug: 'morpho-compound',
+				links: [
+					'https://compound.morpho.org',
+				],
+				providers: {
+					llamafolio: 'morpho-compound',
+				},
+			},
+		],
+	},
+	{
+		name: 'Mountain Protocol',
+		slug: 'mountain-protocol',
+		links: [
+			'https://mountainprotocol.com',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'mountain-protocol',
+				},
+			},
+		],
+	},
+	{
+		name: 'Mover',
+		slug: 'mover',
+		links: [
+			'https://viamover.com',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'mover',
 				},
 			},
 		],
@@ -5848,6 +10080,132 @@ export const web3Apps = [
 					],
 				},
 			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'mstable',
+				},
+			},
+		],
+	},
+	{
+		name: 'Mu Exchange',
+		slug: 'mu-exchange',
+		links: [
+			'https://www.mu.exchange',
+		],
+		views: [
+			{
+				chainId: 100,
+				providers: {
+					llamafolio: 'mu-exchange',
+				},
+			},
+		],
+	},
+	{
+		name: 'MugenFinance',
+		slug: 'mugenfinance',
+		links: [
+			'https://www.mugenfinance.com',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'mugenfinance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Multichain',
+		slug: 'multichain',
+		links: [
+			'https://multichain.org',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'multichain',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'multichain',
+				},
+			},
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'multichain',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'multichain',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'multichain',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'multichain',
+				},
+			},
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'multichain',
+				},
+			},
+			{
+				chainId: 42220,
+				providers: {
+					llamafolio: 'multichain',
+				},
+			},
+		],
+	},
+	{
+		name: 'Mummy Finance',
+		slug: 'mummy-finance',
+		links: [
+			'https://www.mummy.finance',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'mummy-finance',
+				},
+			},
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'mummy-finance',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'mummy-finance',
+				},
+			},
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'mummy-finance',
+				},
+			},
 		],
 	},
 	{
@@ -5888,6 +10246,57 @@ export const web3Apps = [
 				erc20Tokens: [],
 				providers: {
 					zapper: 'naos',
+				},
+			},
+		],
+	},
+	{
+		name: 'Nasdex',
+		slug: 'nasdex',
+		links: [
+			'https://www.nasdex.xyz',
+		],
+		views: [
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'nasdex',
+				},
+			},
+		],
+	},
+	{
+		name: 'Nemesis DAO',
+		slug: 'nemesis-dao',
+		links: [
+			'https://nemesisdao.finance',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'nemesis-dao',
+				},
+			},
+		],
+	},
+	{
+		name: 'NEOPIN Pool',
+		slug: 'neopin-pool',
+		links: [
+			'https://app.neopin.io/swap',
+		],
+		views: [
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'neopin-pool',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'neopin-pool',
 				},
 			},
 		],
@@ -5964,10 +10373,24 @@ export const web3Apps = [
 		colors: [],
 		views: [
 			{
-				chainId: 1,
-				erc20Tokens: [],
+				chainId: 0x1,
 				providers: {
 					zapper: 'nexus-mutual',
+				},
+			},
+		],
+	},
+	{
+		name: 'NF3 APE',
+		slug: 'nf3-ape',
+		links: [
+			'https://apecoinstaking.io',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'nf3-ape',
 				},
 			},
 		],
@@ -6015,6 +10438,36 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: '9inch',
+		slug: '9inch',
+		links: [
+			'https://app.9inch.io/?chain=pulsechain',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: '9inch',
+				},
+			},
+		],
+	},
+	{
+		name: 'NodeDAO',
+		slug: 'nodedao',
+		links: [
+			'https://www.nodedao.com',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'nodedao',
+				},
+			},
+		],
+	},
+	{
 		name: 'Notional Finance',
 		slug: 'notional-finance',
 		links: [
@@ -6026,6 +10479,7 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
+					llamafolio: 'notional',
 					zapper: 'notional-finance',
 				},
 			},
@@ -6089,7 +10543,7 @@ export const web3Apps = [
 		],
 	},
 	{
-		name: 'Olympus',
+		name: 'OlympusDAO',
 		slug: 'olympus',
 		links: [
 			'https://www.olympusdao.finance',
@@ -6108,6 +10562,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'olympus-dao',
 					zapper: 'olympus',
 				},
 			},
@@ -6125,7 +10580,14 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
+					llamafolio: 'ondo-finance',
 					zapper: 'ondo',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'ondo-finance',
 				},
 			},
 		],
@@ -6247,6 +10709,21 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Onyx Protocol',
+		slug: 'onyx-protocol',
+		links: [
+			'https://app.onyx.org',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'onyx-protocol',
+				},
+			},
+		],
+	},
+	{
 		name: 'OpenLeverage',
 		slug: 'open-leverage',
 		links: [
@@ -6268,6 +10745,21 @@ export const web3Apps = [
 				erc20Tokens: [],
 				providers: {
 					zapper: 'openleverage',
+				},
+			},
+		],
+	},
+	{
+		name: 'OpenXswap',
+		slug: 'openxswap',
+		links: [
+			'https://openxswap.exchange',
+		],
+		views: [
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'openxswap',
 				},
 			},
 		],
@@ -6299,6 +10791,36 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Opium',
+		slug: 'opium',
+		links: [
+			'https://www.opium.network',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'opium',
+				},
+			},
+		],
+	},
+	{
+		name: 'OPX Finance',
+		slug: 'opx-finance',
+		links: [
+			'https://www.opx.finance/#/trade',
+		],
+		views: [
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'opx-finance',
+				},
+			},
+		],
+	},
+	{
 		name: 'Opyn',
 		slug: 'opyn',
 		links: [
@@ -6310,6 +10832,32 @@ export const web3Apps = [
 				erc20Tokens: [],
 				providers: {
 					zapper: 'opyn',
+				},
+			},
+			{
+				name: 'Squeeth',
+				slug: 'squeeth',
+				links: [
+					'https://squeeth.opyn.co',
+				],
+				chainId: 1,
+				providers: {
+					llamafolio: 'opyn-squeeth',
+				},
+			},
+		],
+	},
+	{
+		name: 'Origin DeFi',
+		slug: 'origin-defi',
+		links: [
+			'https://www.originprotocol.com',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'origin-defi',
 				},
 			},
 		],
@@ -6342,6 +10890,7 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
+					llamafolio: 'origin-dollar',
 					zapper: 'origin-dollar',
 				},
 			},
@@ -6406,6 +10955,84 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Overnight Finance',
+		slug: 'overnight-finance',
+		links: [
+			'https://overnight.fi',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'overnight-finance',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'overnight-finance',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'overnight-finance',
+				},
+			},
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'overnight-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'PAAL AI',
+		slug: 'paal-ai',
+		links: [
+			'https://paalai.io',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'paal-ai',
+				},
+			},
+		],
+	},
+	{
+		name: 'Paladin Finance',
+		slug: 'paladin-finance',
+		links: [
+			'https://www.paladin.vote',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'paladin-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Paladin Warlord',
+		slug: 'paladin-warlord',
+		links: [
+			'https://warlord.paladin.vote',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'paladin-warlord',
+				},
+			},
+		],
+	},
+	{
 		name: 'PancakeSwap',
 		slug: 'pancakeswap',
 		links: [
@@ -6414,9 +11041,30 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 56,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'pancakeswap',
 					zapper: 'pancakeswap',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'pancakeswap',
+				},
+			},
+		],
+	},
+	{
+		name: 'Pandora',
+		slug: 'pandora',
+		links: [
+			'https://pandora.digital',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'pandora',
 				},
 			},
 		],
@@ -6438,6 +11086,48 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Pangolin',
+		slug: 'pangolin',
+		links: [
+			'https://pangolin.exchange',
+		],
+		views: [
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'pangolin',
+				},
+			},
+		],
+	},
+	{
+		name: 'Parallel Protocol',
+		slug: 'parallel-protocol',
+		links: [
+			'https://mimo.capital',
+		],
+		views: [
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'parallel-protocol',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'parallel-protocol',
+				},
+			},
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'parallel-protocol',
+				},
+			},
+		],
+	},
+	{
 		name: 'Paraswap',
 		slug: 'paraswap',
 		links: [
@@ -6446,7 +11136,50 @@ export const web3Apps = [
 		colors: [
 			'#0060D8',
 		], // unofficial
-		views: [],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'paraswap',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'paraswap',
+				},
+			},
+		],
+	},
+	{
+		name: 'Peapods Finance',
+		slug: 'peapods-finance',
+		links: [
+			'https://peapods.finance',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'peapods-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'PearlFi',
+		slug: 'pearlfi',
+		links: [
+			'https://www.pearl.exchange',
+		],
+		views: [
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'pearlfi',
+				},
+			},
+		],
 	},
 	{
 		name: 'Pendle',
@@ -6460,7 +11193,26 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
+					llamafolio: 'pendle',
 					zapper: 'pendle',
+				},
+			},
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'pendle',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'pendle',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'pendle',
 				},
 			},
 		],
@@ -6491,9 +11243,41 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Perennial',
+		slug: 'perennial',
+		links: [
+			'https://perennial.finance',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'perennial',
+				},
+			},
+		],
+	},
+	{
+		name: 'Perion',
+		slug: 'perion',
+		links: [
+			'https://perion.gg',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'perion',
+				},
+			},
+		],
+	},
+	{
 		name: 'Perpetual Protocol',
 		slug: 'perpetual-protocol',
 		links: [
+			'https://perp.com',
+			'https://app.perp.com',
 			'https://perp.exchange',
 		],
 		views: [
@@ -6510,7 +11294,14 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'perpetual-protocol',
 					zapper: 'perpetual-protocol',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'perpetual-protocol',
 				},
 			},
 		],
@@ -6661,13 +11452,23 @@ export const web3Apps = [
 		name: 'Pika Protocol',
 		slug: 'pika-protocol',
 		links: [
+			'https://www.pikaprotocol.com',
 			'https://app.pikaprotocol.com',
-		],
-		colors: [
-			'#fff',
 		],
 		views: [
 			{
+				name: 'v3',
+				slug: 'v3',
+				chainId: 10,
+				erc20Tokens: [],
+				providers: {
+					llamafolio: 'pika-protocol',
+					zapper: 'pika-protocol-v3',
+				},
+			},
+			{
+				name: 'V1',
+				slug: 'v1',
 				chainId: 10,
 				erc20Tokens: [],
 				providers: {
@@ -6677,20 +11478,16 @@ export const web3Apps = [
 		],
 	},
 	{
-		name: 'Pika Protocol V3',
-		slug: 'pika-protocol-v3',
+		name: 'Pingu Exchange',
+		slug: 'pingu-exchange',
 		links: [
-			'https://www.pikaprotocol.com',
-		],
-		colors: [
-			'#fff',
+			'https://pingu.exchange',
 		],
 		views: [
 			{
-				chainId: 10,
-				erc20Tokens: [],
+				chainId: 42161,
 				providers: {
-					zapper: 'pika-protocol-v3',
+					llamafolio: 'pingu-exchange',
 				},
 			},
 		],
@@ -6732,6 +11529,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'platypus-finance',
 					zapper: 'platypus-finance',
 				},
 			},
@@ -6841,6 +11639,33 @@ export const web3Apps = [
 					theGraph: 'https://api.thegraph.com/subgraphs/name/pods-finance/pods',
 				},
 			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'pods',
+				},
+			},
+		],
+	},
+	{
+		name: 'Polkastarter',
+		slug: 'polkastarter',
+		links: [
+			'https://polkastarter.com/#upcoming-projects',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'polkastarter',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'polkastarter',
+				},
+			},
 		],
 	},
 	{
@@ -6874,6 +11699,33 @@ export const web3Apps = [
 				erc20Tokens: [],
 				providers: {
 					zapper: 'polywhale',
+				},
+			},
+		],
+	},
+	{
+		name: 'Poolside',
+		slug: 'poolside',
+		links: [
+			'https://www.poolside.party',
+		],
+		views: [
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'poolside',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'poolside',
+				},
+			},
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'poolside',
 				},
 			},
 		],
@@ -7045,7 +11897,32 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'popsicle-finance',
 					zapper: 'popsicle',
+				},
+			},
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'popsicle-finance',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'popsicle-finance',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'popsicle-finance',
+				},
+			},
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'popsicle-finance',
 				},
 			},
 		],
@@ -7100,6 +11977,138 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Preon Finance',
+		slug: 'preon-finance',
+		links: [
+			'https://app.preon.finance/borrow',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'preon-finance',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'preon-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Prime Staked ETH',
+		slug: 'prime-staked-eth',
+		links: [
+			'https://www.primestaked.com',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'prime-staked-eth',
+				},
+			},
+		],
+	},
+	{
+		name: 'Prisma Finance',
+		slug: 'prisma-finance',
+		links: [
+			'https://prismafinance.com',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'prisma-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Protectorate Protocol',
+		slug: 'protectorate-protocol',
+		links: [
+			'https://app.protectorate.xyz',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'protectorate-protocol',
+				},
+			},
+		],
+	},
+	{
+		name: 'Proxy',
+		slug: 'proxy',
+		links: [
+			'https://btcproxy.io',
+		],
+		views: [
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'proxy',
+				},
+			},
+		],
+	},
+	{
+		name: 'pSTAKE Finance',
+		slug: 'pstake-finance',
+		links: [
+			'https://pstake.finance',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'pstake-finance',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'pstake-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Puffer Finance',
+		slug: 'puffer-finance',
+		links: [
+			'https://www.puffer.fi',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'puffer-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Purple Bridge DEX',
+		slug: 'purple-bridge-dex',
+		links: [
+			'https://purplebridge.link',
+		],
+		views: [
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'purple-bridge-dex',
+				},
+			},
+		],
+	},
+	{
 		name: 'Push',
 		slug: 'push',
 		links: ['https://push.org', 'https://app.push.org'],
@@ -7119,44 +12128,73 @@ export const web3Apps = [
 		],
 	},
 	{
-		name: 'Qi Dao',
+		name: 'QiDao',
 		slug: 'qi-dao',
 		links: [
 			'https://www.mai.finance',
+			'https://app.mai.finance',
 		],
-		colors: [],
 		views: [
 			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'qidao',
+				},
+			},
+			{
+				chainId: 59144,
+				providers: {
+					llamafolio: 'qidao',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'qidao',
+					zapper: 'qi-dao',
+				},
+			},
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'qidao',
+				},
+			},
+			{
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
-					zapper: 'qi-dao',
-				},
-			},
-			{
-				chainId: 137,
-				erc20Tokens: [],
-				providers: {
-					zapper: 'qi-dao',
-				},
-			},
-			{
-				chainId: 100,
-				erc20Tokens: [],
-				providers: {
+					llamafolio: 'qidao',
 					zapper: 'qi-dao',
 				},
 			},
 			{
 				chainId: 42161,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'qidao',
 					zapper: 'qi-dao',
 				},
 			},
 			{
-				chainId: 10,
-				erc20Tokens: [],
+				chainId: 137,
+				providers: {
+					llamafolio: 'qidao',
+					zapper: 'qi-dao',
+				},
+			},
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'qidao',
+				},
+			},
+			{
+				chainId: 1284,
+				providers: {
+					llamafolio: 'qidao',
+				},
+			},
+			{
+				chainId: 100,
 				providers: {
 					zapper: 'qi-dao',
 				},
@@ -7172,8 +12210,8 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'quickswap-dex',
 					zapper: 'quickswap',
 				},
 			},
@@ -7197,18 +12235,154 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Radiant V1',
+		slug: 'radiant-v1',
+		links: [
+			'https://radiant.capital/#/markets',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'radiant-v1',
+				},
+			},
+		],
+	},
+	{
+		name: 'Radiant V2',
+		slug: 'radiant-v2',
+		links: [
+			'https://radiant.capital/#/markets',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'radiant-v2',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'radiant-v2',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'radiant-v2',
+				},
+			},
+		],
+	},
+	{
+		name: 'RadioShack',
+		slug: 'radioshack',
+		links: [
+			'https://www.radioshack.com',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'radioshack',
+				},
+			},
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'radioshack',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'radioshack',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'radioshack',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'radioshack',
+				},
+			},
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'radioshack',
+				},
+			},
+		],
+	},
+	{
+		name: 'Raft',
+		slug: 'raft',
+		links: [
+			'https://raft.fi',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'raft',
+				},
+			},
+		],
+	},
+	{
+		name: 'Rage Trade',
+		slug: 'rage-trade',
+		links: [
+			'https://www.rage.trade',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'rage-trade',
+				},
+			},
+		],
+	},
+	{
 		name: 'RAILGUN',
 		slug: 'railgun',
 		links: [
+			'https://railgun.org',
 			'https://railgun.ch',
 		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'railgun',
 					zapper: 'railgun',
+				},
+			},
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'railgun',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'railgun',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'railgun',
 				},
 			},
 		],
@@ -7234,6 +12408,60 @@ export const web3Apps = [
 				],
 				providers: {
 					zapper: 'rally',
+				},
+			},
+		],
+	},
+	{
+		name: 'Ramses Exchange',
+		slug: 'ramses-exchange',
+		links: [
+			'https://www.ramses.exchange',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'ramses-exchange',
+				},
+			},
+		],
+	},
+	{
+		name: 'Range Protocol',
+		slug: 'range-protocol',
+		links: [
+			'https://www.rangeprotocol.com',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'range-protocol',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'range-protocol',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'range-protocol',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'range-protocol',
+				},
+			},
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'range-protocol',
 				},
 			},
 		],
@@ -7343,9 +12571,14 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'realt',
+				},
+			},
+			{
+				chainId: 100,
+				providers: {
+					llamafolio: 'realt',
 				},
 			},
 		],
@@ -7360,9 +12593,27 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'reaper-farm',
 					zapper: 'reaper',
+				},
+			},
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'reaper-farm',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'reaper-farm',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'reaper-farm',
 				},
 			},
 		],
@@ -7381,7 +12632,14 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
+					llamafolio: 'redacted',
 					zapper: 'redacted-cartel',
+				},
+			},
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'redacted',
 				},
 			},
 		],
@@ -7438,6 +12696,72 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Renzo',
+		slug: 'renzo',
+		links: [
+			'https://app.renzoprotocol.com/restake',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'renzo',
+				},
+			},
+		],
+	},
+	{
+		name: 'Reserve',
+		slug: 'reserve',
+		links: [
+			'https://reserve.org',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'reserve',
+				},
+			},
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'reserve',
+				},
+			},
+		],
+	},
+	{
+		name: 'Restake Finance',
+		slug: 'restake-finance',
+		links: [
+			'https://www.restakefinance.com',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'restake-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Retro',
+		slug: 'retro',
+		links: [
+			'https://retro.finance',
+		],
+		views: [
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'retro',
+				},
+			},
+		],
+	},
+	{
 		name: 'Revert Finance',
 		slug: 'revert-finance',
 		links: [
@@ -7478,17 +12802,18 @@ export const web3Apps = [
 		],
 	},
 	{
-		name: 'Rhino Fi',
+		name: 'rhino.fi',
 		slug: 'rhino-fi',
 		links: [
 			'https://rhino.fi',
+			'https://app.rhino.fi'
 		],
 		colors: [],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'rhino.fi',
 					zapper: 'rhino-fi',
 				},
 			},
@@ -7497,13 +12822,15 @@ export const web3Apps = [
 	{
 		name: 'Ribbon',
 		slug: 'ribbon',
-		links: ['https://www.ribbon.finance', 'https://app.ribbon.finance'],
+		links: [
+			'https://www.ribbon.finance',
+			'https://app.ribbon.finance',
+		],
 		views: [
 			{
 				name: 'Ribbon V2',
 				slug: 'v2',
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'ribbon-v2',
 				},
@@ -7512,7 +12839,6 @@ export const web3Apps = [
 				name: 'Ribbon V2',
 				slug: 'v2',
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'ribbon-v2',
 				},
@@ -7523,7 +12849,23 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
+					llamafolio: 'ribbon-finance',
 					zapper: 'ribbon',
+				},
+			},
+		],
+	},
+	{
+		name: 'Rocket Pool',
+		slug: 'rocket-pool',
+		links: [
+			'https://rocketpool.net',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'rocket-pool',
 				},
 			},
 		],
@@ -7574,6 +12916,21 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'RocketSwap Base',
+		slug: 'rocketswap-base',
+		links: [
+			'https://app.rocketswap.cc/exchange/swap',
+		],
+		views: [
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'rocketswap-base',
+				},
+			},
+		],
+	},
+	{
 		name: 'Rook',
 		slug: 'rook',
 		links: [
@@ -7583,8 +12940,8 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'rook',
 					zapper: 'rook',
 				},
 			},
@@ -7594,7 +12951,8 @@ export const web3Apps = [
 		name: 'Rubicon',
 		slug: 'rubicon',
 		links: [
-			'https://app.rubicon.finance',
+			'https://rubicon.finance',
+			'https://app.rubicon.finance/swap',
 		],
 		colors: [
 			'#ba2f2a',
@@ -7602,8 +12960,8 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 10,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'rubicon',
 					zapper: 'rubicon',
 				},
 			},
@@ -7650,6 +13008,21 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'SakePerp',
+		slug: 'sakeperp',
+		links: [
+			'https://www.sakeperp.fi',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'sakeperp',
+				},
+			},
+		],
+	},
+	{
 		name: 'SashimiSwap',
 		slug: 'sashimiswap',
 		links: [
@@ -7672,6 +13045,21 @@ export const web3Apps = [
 					zerionDefiSDK: [
 						'SashimiSwap',
 					],
+				},
+			},
+		],
+	},
+	{
+		name: 'Scale',
+		slug: 'scale',
+		links: [
+			'https://base.equalizer.exchange',
+		],
+		views: [
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'scale',
 				},
 			},
 		],
@@ -7709,7 +13097,6 @@ export const web3Apps = [
 				name: 'Scream V2',
 				slug: 'v2',
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'scream-v2',
 				},
@@ -7718,9 +13105,54 @@ export const web3Apps = [
 				name: 'Scream V1',
 				slug: 'v1',
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'scream',
 					zapper: 'scream',
+				},
+			},
+		],
+	},
+	{
+		name: 'sDAI',
+		slug: 'sdai',
+		links: [
+			'https://agavefinance.eth.limo',
+		],
+		views: [
+			{
+				chainId: 100,
+				providers: {
+					llamafolio: 'sdai',
+				},
+			},
+		],
+	},
+	{
+		name: 'Seamless Protocol',
+		slug: 'seamless-protocol',
+		links: [
+			'https://www.seamlessprotocol.com',
+		],
+		views: [
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'seamless-protocol',
+				},
+			},
+		],
+	},
+	{
+		name: 'Sentiment',
+		slug: 'sentiment',
+		links: [
+			'https://www.sentiment.xyz',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'sentiment',
 				},
 			},
 		],
@@ -7768,15 +13200,16 @@ export const web3Apps = [
 		name: 'SharedStake',
 		slug: 'sharedstake',
 		links: [
-			'https://www.sharedstake.org/',
+			'https://www.sharedstake.org',
 		],
 		views: [
 			{
 				chainId: 1,
 				erc20Tokens: [
-					erc20TokensByContractAddress['0x84810bcf08744d5862b8181f12d17bfd57d3b078'] // SharedStake Governance Token (SGT)
+					erc20TokensByContractAddress['0x84810bcf08744d5862b8181f12d17bfd57d3b078'], // SharedStake Governance Token (SGT)
 				],
 				providers: {
+					llamafolio: 'sharedstake',
 					zapper: 'shared-stake',
 				},
 			},
@@ -7791,9 +13224,80 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'shell',
+				},
+			},
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'shell-protocol',
+				},
+			},
+		],
+	},
+	{
+		name: 'Sherlock',
+		slug: 'sherlock',
+		links: [
+			'https://sherlock.xyz',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'sherlock',
+				},
+			},
+		],
+	},
+	{
+		name: 'ShibaSwap',
+		slug: 'shibaswap',
+		links: [
+			'https://shibaswap.com',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'shibaswap',
+				},
+			},
+		],
+	},
+	{
+		name: 'SideShift',
+		slug: 'sideshift',
+		links: [
+			'https://sideshift.ai',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'sideshift',
+				},
+			},
+		],
+	},
+	{
+		name: 'Silo Finance',
+		slug: 'silo-finance',
+		links: [
+			'https://app.silo.finance',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'silo-finance',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'silo-finance',
 				},
 			},
 		],
@@ -7818,6 +13322,45 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'SmarDex',
+		slug: 'smardex',
+		links: [
+			'https://smardex.io',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'smardex',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'smardex',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'smardex',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'smardex',
+				},
+			},
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'smardex',
+				},
+			},
+		],
+	},
+	{
 		name: 'Smoothy',
 		slug: 'smoothy',
 		links: [
@@ -7837,7 +13380,14 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'smoothy',
 					zapper: 'smoothy',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'smoothy',
 				},
 			},
 		],
@@ -7868,8 +13418,8 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'snowbank',
 					zapper: 'snowbank',
 				},
 			},
@@ -7971,6 +13521,21 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Solid World',
+		slug: 'solid-world',
+		links: [
+			'https://www.solid.world',
+		],
+		views: [
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'solid-world',
+				},
+			},
+		],
+	},
+	{
 		name: 'Solidex',
 		slug: 'solidex',
 		links: [
@@ -7988,6 +13553,21 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'SolidLizard',
+		slug: 'solidlizard',
+		links: [
+			'https://solidlizard.finance',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'solidlizard',
+				},
+			},
+		],
+	},
+	{
 		name: 'Solidly',
 		slug: 'solidly',
 		links: [
@@ -7996,10 +13576,143 @@ export const web3Apps = [
 		colors: [],
 		views: [
 			{
+				name: 'V2',
+				slug: 'v2',
+				links: [
+					'https://solidly.com',
+				],
+				chainId: 1,
+				providers: {
+					llamafolio: 'solidly-v2',
+				},
+			},
+			{
+				name: 'V1',
+				slug: 'v1',
 				chainId: 250,
 				erc20Tokens: [],
 				providers: {
 					zapper: 'solidly',
+				},
+			},
+		],
+	},
+	{
+		name: 'SoliSnek Finance',
+		slug: 'solisnek-finance',
+		links: [
+			'https://www.solisnek.finance',
+		],
+		views: [
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'solisnek-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Solv Protocol',
+		slug: 'solv-protocol',
+		links: [
+			'https://solv.finance',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'solv-protocol',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'solv-protocol',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'solv-protocol',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'solv-protocol',
+				},
+			},
+		],
+	},
+	{
+		name: 'Sommelier',
+		slug: 'sommelier',
+		links: [
+			'https://www.sommelier.finance',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'sommelier',
+				},
+			},
+		],
+	},
+	{
+		name: 'Sonne Finance',
+		slug: 'sonne-finance',
+		links: [
+			'https://sonne.finance',
+		],
+		views: [
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'sonne-finance',
+				},
+			},
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'sonne-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Soswap',
+		slug: 'soswap',
+		links: [
+			'https://soswap.rai.finance',
+		],
+		views: [
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'soswap',
+				},
+			},
+		],
+	},
+	{
+		name: 'Spark',
+		slug: 'spark',
+		links: [
+			'https://www.spark.fi',
+		],
+		views: [
+			{
+				chainId: 100,
+				providers: {
+					llamafolio: 'spark',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'spark',
 				},
 			},
 		],
@@ -8014,9 +13727,54 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'spartacus',
 					zapper: 'spartacus',
+				},
+			},
+		],
+	},
+	{
+		name: 'SpartaDex',
+		slug: 'spartadex',
+		links: [
+			'https://spartadex.io',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'spartadex',
+				},
+			},
+		],
+	},
+	{
+		name: 'Sphere Finance',
+		slug: 'sphere-finance',
+		links: [
+			'https://sphere.finance',
+		],
+		views: [
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'sphere-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Spice Finance',
+		slug: 'spice-finance',
+		links: [
+			'https://www.spicefi.xyz',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'spice-finance',
 				},
 			},
 		],
@@ -8026,12 +13784,13 @@ export const web3Apps = [
 		slug: 'spiritswap',
 		links: [
 			'https://www.spiritswap.finance',
+			'https://app.spiritswap.finance/#'
 		],
 		views: [
 			{
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'spiritswap',
 					zapper: 'spiritswap',
 				},
 			},
@@ -8041,13 +13800,14 @@ export const web3Apps = [
 		name: 'SpookySwap',
 		slug: 'spookyswap',
 		links: [
+			'https://spooky.fi',
 			'https://spookyswap.finance',
 		],
 		views: [
 			{
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'spookyswap',
 					zapper: 'spookyswap',
 				},
 			},
@@ -8057,6 +13817,7 @@ export const web3Apps = [
 		name: 'Spool',
 		slug: 'spool',
 		links: [
+			'https://www.spool.fi',
 			'https://app.spool.fi',
 		],
 		colors: [
@@ -8071,6 +13832,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'spool-protocol',
 					zapper: 'spool',
 				},
 			},
@@ -8089,6 +13851,69 @@ export const web3Apps = [
 				erc20Tokens: [],
 				providers: {
 					zapper: 'squid',
+				},
+			},
+		],
+	},
+	{
+		name: 'Stabl.fi',
+		slug: 'stabl.fi',
+		links: [
+			'https://stabl.fi',
+		],
+		views: [
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'stabl.fi',
+				},
+			},
+		],
+	},
+	{
+		name: 'Stader',
+		slug: 'stader',
+		links: [
+			'https://staderlabs.com',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'stader',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'stader',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'stader',
+				},
+			},
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'stader',
+				},
+			},
+		],
+	},
+	{
+		name: 'Stafi',
+		slug: 'stafi',
+		links: [
+			'https://www.stafi.io',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'stafi',
 				},
 			},
 		],
@@ -8123,6 +13948,75 @@ export const web3Apps = [
 					],
 				},
 			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'stakedao',
+				},
+			},
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'stakedao',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'stakedao',
+				},
+			},
+		],
+	},
+	{
+		name: 'stake.link',
+		slug: 'stake.link',
+		links: [
+			'https://stake.link',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'stake.link',
+				},
+			},
+		],
+	},
+	{
+		name: 'StakeHound',
+		slug: 'stakehound',
+		links: [
+			'https://stakehound.com',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'stakehound',
+				},
+			},
+		],
+	},
+	{
+		name: 'StakeWise',
+		slug: 'stakewise',
+		links: [
+			'https://stakewise.io',
+		],
+		views: [
+			{
+				chainId: 100,
+				providers: {
+					llamafolio: 'stakewise',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'stakewise',
+				},
+			},
 		],
 	},
 	{
@@ -8135,51 +14029,63 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 42161,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'stargate',
 					zapper: 'stargate',
 				},
 			},
 			{
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'stargate',
 					zapper: 'stargate',
 				},
 			},
 			{
 				chainId: 56,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'stargate',
 					zapper: 'stargate',
 				},
 			},
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'stargate',
 					zapper: 'stargate',
 				},
 			},
 			{
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'stargate',
 					zapper: 'stargate',
 				},
 			},
 			{
 				chainId: 10,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'stargate',
 					zapper: 'stargate',
 				},
 			},
 			{
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'stargate',
 					zapper: 'stargate',
+				},
+			},
+			{
+				chainId: 59144,
+				providers: {
+					llamafolio: 'stargate',
+				},
+			},
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'stargate',
 				},
 			},
 		],
@@ -8199,6 +14105,57 @@ export const web3Apps = [
 				erc20Tokens: [],
 				providers: {
 					zapper: 'steak-hut',
+				},
+			},
+		],
+	},
+	{
+		name: 'Steer Protocol',
+		slug: 'steer-protocol',
+		links: [
+			'https://steer.finance',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'steer-protocol',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'steer-protocol',
+				},
+			},
+			{
+				chainId: 59144,
+				providers: {
+					llamafolio: 'steer-protocol',
+				},
+			},
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'steer-protocol',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'steer-protocol',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'steer-protocol',
+				},
+			},
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'steer-protocol',
 				},
 			},
 		],
@@ -8243,6 +14200,21 @@ export const web3Apps = [
 						decimals: 18,
 					},
 				],
+			},
+		],
+	},
+	{
+		name: 'Strike',
+		slug: 'strike',
+		links: [
+			'https://strike.org',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'strike',
+				},
 			},
 		],
 	},
@@ -8296,6 +14268,7 @@ export const web3Apps = [
 		name: 'Sturdy',
 		slug: 'sturdy',
 		links: [
+			'https://sturdy.finance',
 			'https://app.sturdy.finance',
 		],
 		colors: [
@@ -8304,16 +14277,31 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'sturdy',
 					zapper: 'sturdy',
 				},
 			},
 			{
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'sturdy',
 					zapper: 'sturdy',
+				},
+			},
+		],
+	},
+	{
+		name: 'stUSDT',
+		slug: 'stusdt',
+		links: [
+			'https://stusdt.io/#/home',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'stusdt',
 				},
 			},
 		],
@@ -8328,8 +14316,8 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'sudoswap',
 					zapper: 'sudoswap',
 				},
 			},
@@ -8444,7 +14432,7 @@ export const web3Apps = [
 						name: 'SuperTokenFactory',
 						address: '0x23410e2659380784498509698ed70E414D384880',
 					},
-					
+	
 					{
 						name: 'WORK SuperToken',
 						address: '0x0872d200f74e4a45e830eccc9e8b8f605df7ce06',
@@ -8452,6 +14440,36 @@ export const web3Apps = [
 				],
 				providers: {
 					zapper: 'superfluid',
+				},
+			},
+		],
+	},
+	{
+		name: 'Summer.fi',
+		slug: 'summer.fi',
+		links: [
+			'https://summer.fi',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'summer.fi',
+				},
+			},
+		],
+	},
+	{
+		name: 'SuperFarm',
+		slug: 'superfarm',
+		links: [
+			'https://superfarm.com',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'superfarm',
 				},
 			},
 		],
@@ -8510,57 +14528,107 @@ export const web3Apps = [
 			{
 				slug: 'fantom',
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'sushiswap',
 					zapper: 'sushiswap',
 				},
 			},
 			{
 				slug: 'bsc',
 				chainId: 56,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'sushiswap',
 					zapper: 'sushiswap',
 				},
 			},
 			{
 				slug: 'polygon',
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'sushiswap',
 					zapper: 'sushiswap',
 				},
 			},
 			{
 				slug: 'heco',
 				chainId: 128,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'sushiswap',
 					zapper: 'sushiswap',
 				},
 			},
 			{
 				slug: 'gnosis',
 				chainId: 100,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'sushiswap',
 					zapper: 'sushiswap',
 				},
 			},
 			{
 				slug: 'harmony',
 				chainId: 1666600000,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'sushiswap',
 					zapper: 'sushiswap',
 				},
 			},
 			{
 				slug: 'avalanche',
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'sushiswap',
 					zapper: 'sushiswap',
+				},
+			},
+			{
+				slug: 'arbitrum',
+				chainId: 42161,
+				providers: {
+					llamafolio: 'sushiswap',
+					zapper: 'sushiswap',
+				},
+			},
+		],
+	},
+	{
+		name: 'Swaap',
+		slug: 'swaap',
+		links: [
+			'https://www.swaap.finance',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'swaap',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'swaap',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'swaap',
+				},
+			},
+		],
+	},
+	{
+		name: 'SwapBased',
+		slug: 'swapbased',
+		links: [
+			'https://swapbased.finance',
+		],
+		views: [
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'swapbased',
 				},
 			},
 		],
@@ -8569,15 +14637,43 @@ export const web3Apps = [
 		name: 'Swapr',
 		slug: 'swapr',
 		links: [
+			'https://swapr.eth.limo',
 			'https://swapr.eth.link',
 		],
 		colors: [],
 		views: [
 			{
 				chainId: 42161,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'swapr',
 					zapper: 'swapr',
+				},
+			},
+			{
+				chainId: 100,
+				providers: {
+					llamafolio: 'swapr',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'swapr',
+				},
+			},
+		],
+	},
+	{
+		name: 'Swell',
+		slug: 'swell',
+		links: [
+			'https://www.swellnetwork.io',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'swell',
 				},
 			},
 		],
@@ -8657,51 +14753,81 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'synapse',
 					zapper: 'synapse',
 				},
 			},
 			{
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'synapse',
 					zapper: 'synapse',
 				},
 			},
 			{
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'synapse',
 					zapper: 'synapse',
 				},
 			},
 			{
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'synapse',
 					zapper: 'synapse',
 				},
 			},
 			{
 				chainId: 42161,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'synapse',
 					zapper: 'synapse',
 				},
 			},
 			{
 				chainId: 56,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'synapse',
 					zapper: 'synapse',
 				},
 			},
 			{
 				chainId: 10,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'synapse',
 					zapper: 'synapse',
+				},
+			},
+		],
+	},
+	{
+		name: 'Synclub Staked BNB',
+		slug: 'synclub-staked-bnb',
+		links: [
+			'https://www.synclub.io',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'synclub-staked-bnb',
+				},
+			},
+		],
+	},
+	{
+		name: 'Syncus',
+		slug: 'syncus',
+		links: [
+			'https://app.syncus.fi',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'syncus',
 				},
 			},
 		],
@@ -8756,12 +14882,33 @@ export const web3Apps = [
 				},
 			},
 			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'synthetix',
+				},
+			},
+			{
 				name: 'Synthetix Mintr',
 				slug: 'mintr',
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
 					zapper: 'mintr',
+				},
+			},
+		],
+	},
+	{
+		name: 'Tangible',
+		slug: 'tangible',
+		links: [
+			'https://www.tangible.store',
+		],
+		views: [
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'tangible',
 				},
 			},
 		],
@@ -8865,6 +15012,21 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'TempleDAO',
+		slug: 'templedao',
+		links: [
+			'https://www.templedao.link',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'templedao',
+				},
+			},
+		],
+	},
+	{
 		name: 'Tempus',
 		slug: 'tempus',
 		links: [
@@ -8886,6 +15048,21 @@ export const web3Apps = [
 				erc20Tokens: [],
 				providers: {
 					zapper: 'tempus',
+				},
+			},
+		],
+	},
+	{
+		name: 'Tender Finance',
+		slug: 'tender-finance',
+		links: [
+			'https://www.tender.fi',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'tender-finance',
 				},
 			},
 		],
@@ -8917,6 +15094,54 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Tensorplex',
+		slug: 'tensorplex',
+		links: [
+			'https://stake.tensorplex.ai',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'tensorplex',
+				},
+			},
+		],
+	},
+	{
+		name: 'Tetu',
+		slug: 'tetu',
+		links: [
+			'http://tetu.io',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'tetu',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'tetu',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'tetu',
+				},
+			},
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'tetu',
+				},
+			},
+		],
+	},
+	{
 		name: 'Thales',
 		slug: 'thales',
 		links: [
@@ -8929,6 +15154,33 @@ export const web3Apps = [
 				erc20Tokens: [],
 				providers: {
 					zapper: 'thales',
+				},
+			},
+		],
+	},
+	{
+		name: 'Thales',
+		slug: 'thales',
+		links: [
+			'https://thalesmarket.io',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'thales',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'thales',
+				},
+			},
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'thales',
 				},
 			},
 		],
@@ -8963,6 +15215,108 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'The Idols',
+		slug: 'the-idols',
+		links: [
+			'https://www.theidols.io',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'the-idols',
+				},
+			},
+		],
+	},
+	{
+		name: 'The Open DAO SOS',
+		slug: 'the-open-dao-sos',
+		links: [
+			'https://www.theopendao.com/#sos',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'the-open-dao-sos',
+				},
+			},
+		],
+	},
+	{
+		name: 'THENA',
+		slug: 'thena',
+		links: [
+			'https://www.thena.fi',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'thena',
+				},
+			},
+		],
+	},
+	{
+		name: 'Tholgar',
+		slug: 'tholgar',
+		links: [
+			'https://tholgar.xyz',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'tholgar',
+				},
+			},
+		],
+	},
+	{
+		name: 'Tigris',
+		slug: 'tigris',
+		links: [
+			'https://tigris.trade',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'tigris',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'tigris',
+				},
+			},
+		],
+	},
+	{
+		name: 'Timewarp',
+		slug: 'timewarp',
+		links: [
+			'https://timewarp.finance',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'timewarp',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'timewarp',
+				},
+			},
+		],
+	},
+	{
 		name: 'Tokemak',
 		slug: 'tokemak',
 		links: [
@@ -8974,6 +15328,21 @@ export const web3Apps = [
 				erc20Tokens: [],
 				providers: {
 					zapper: 'tokemak',
+				},
+			},
+		],
+	},
+	{
+		name: 'Tokemak',
+		slug: 'tokemak',
+		links: [
+			'https://www.tokemak.xyz',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'tokemak',
 				},
 			},
 		],
@@ -8999,6 +15368,21 @@ export const web3Apps = [
 				],
 				providers: {
 					zapper: 'tokenlon',
+				},
+			},
+		],
+	},
+	{
+		name: 'Tokenlon',
+		slug: 'tokenlon',
+		links: [
+			'https://tokenlon.im',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'tokenlon',
 				},
 			},
 		],
@@ -9084,7 +15468,22 @@ export const web3Apps = [
 		],
 	},
 	{
-		name: 'TokenSets',
+		name: 'TokensFarm',
+		slug: 'tokensfarm',
+		links: [
+			'https://tokensfarm.com',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'tokensfarm',
+				},
+			},
+		],
+	},
+	{
+		name: 'TokenSets', // Set Protocol
 		slug: 'tokensets',
 		links: [
 			'https://www.tokensets.com',
@@ -9135,6 +15534,21 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Tonpound',
+		slug: 'tonpound',
+		links: [
+			'https://app.tonpound.com',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'tonpound',
+				},
+			},
+		],
+	},
+	{
 		name: 'Tornado Cash',
 		slug: 'tornado-cash',
 		links: [
@@ -9154,7 +15568,38 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'tornado-cash',
 					zapper: 'tornado-cash',
+				},
+			},
+		],
+	},
+	{
+		name: 'toupee.tech',
+		slug: 'toupee.tech',
+		links: [
+			'https://www.toupee.tech',
+		],
+		views: [
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'toupee.tech',
+				},
+			},
+		],
+	},
+	{
+		name: 'TProtocol',
+		slug: 'tprotocol',
+		links: [
+			'https://www.tprotocol.io',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'tprotocol',
 				},
 			},
 		],
@@ -9177,6 +15622,7 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'trader-joe',
 					zapper: 'trader-joe',
 				},
 			},
@@ -9191,6 +15637,21 @@ export const web3Apps = [
 				],
 				providers: {
 					zapper: 'trader-joe-banker',
+				},
+			},
+		],
+	},
+	{
+		name: 'TreasureDAO',
+		slug: 'treasuredao',
+		links: [
+			'https://www.treasure.lol',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'treasuredao',
 				},
 			},
 		],
@@ -9215,7 +15676,7 @@ export const web3Apps = [
 		],
 	},
 	{
-		name: 'Truefi',
+		name: 'TrueFi',
 		slug: 'truefi',
 		links: [
 			'https://truefi.io',
@@ -9224,9 +15685,57 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'truefi',
 					zapper: 'truefi',
+				},
+			},
+		],
+	},
+	{
+		name: 'TruFin Protocol',
+		slug: 'trufin-protocol',
+		links: [
+			'https://www.trufin.io',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'trufin-protocol',
+				},
+			},
+		],
+	},
+	{
+		name: 'TrustSwap',
+		slug: 'trustswap',
+		links: [
+			'https://trustswap.com',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'trustswap',
+				},
+			},
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'trustswap',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'trustswap',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'trustswap',
 				},
 			},
 		],
@@ -9294,8 +15803,8 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 42161,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'umami-finance',
 					zapper: 'umami-finance',
 				},
 			},
@@ -9369,9 +15878,27 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Unicly',
+		slug: 'unicly',
+		links: [
+			'https://app.unic.ly',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'unicly',
+				},
+			},
+		],
+	},
+	{
 		name: 'Uniswap',
 		slug: 'uniswap',
-		links: ['https://uniswap.org', 'https://app.uniswap.org'],
+		links: [
+			'https://uniswap.org',
+			'https://app.uniswap.org',
+		],
 		colors: [
 			'#FC72FF',
 		],
@@ -9389,9 +15916,10 @@ export const web3Apps = [
 					UniswapPage,
 				],
 				providers: {
-					theGraph: UniswapV3Subgraph.subgraphUrls[chainId]?.hosted,
+					llamafolio: 'uniswap-v3',
+					theGraph: UniswapV3Subgraph.subgraphUrls[chainId]?.hosted ,
+					zapper: 'uniswap-v3',
 					...chainId === 1 && {
-						zapper: 'uniswap-v3',
 						zerionDefiSDK: [
 							'Uniswap V3',
 						],
@@ -9601,6 +16129,45 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Unitus',
+		slug: 'unitus',
+		links: [
+			'https://unitus.finance',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'unitus',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'unitus',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'unitus',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'unitus',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'unitus',
+				},
+			},
+		],
+	},
+	{
 		name: 'Universe',
 		slug: 'universe',
 		links: [
@@ -9621,6 +16188,21 @@ export const web3Apps = [
 				],
 				providers: {
 					zapper: 'universe',
+				},
+			},
+		],
+	},
+	{
+		name: 'unshETH',
+		slug: 'unsheth',
+		links: [
+			'https://unsheth.xyz',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'unsheth',
 				},
 			},
 		],
@@ -9751,6 +16333,36 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'USDFI Lending',
+		slug: 'usdfi-lending',
+		links: [
+			'https://lending.usdfi.com/usdlend',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'usdfi-lending',
+				},
+			},
+		],
+	},
+	{
+		name: 'UwU Lend',
+		slug: 'uwu-lend',
+		links: [
+			'https://www.uwulend.fi',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'uwu-lend',
+				},
+			},
+		],
+	},
+	{
 		name: 'Vader',
 		slug: 'vader',
 		links: [
@@ -9763,6 +16375,21 @@ export const web3Apps = [
 				erc20Tokens: [],
 				providers: {
 					zapper: 'vader',
+				},
+			},
+		],
+	},
+	{
+		name: 'Valas Finance',
+		slug: 'valas-finance',
+		links: [
+			'https://valasfinance.com',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'valas-finance',
 				},
 			},
 		],
@@ -9801,6 +16428,36 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'VaporDex',
+		slug: 'vapordex',
+		links: [
+			'https://www.vapordex.io',
+		],
+		views: [
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'vapordex',
+				},
+			},
+		],
+	},
+	{
+		name: 'Vault Tech',
+		slug: 'vault-tech',
+		links: [
+			'https://vault.tech',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'vault-tech',
+				},
+			},
+		],
+	},
+	{
 		name: 'Vector Finance',
 		slug: 'vector-finance',
 		links: [
@@ -9812,9 +16469,24 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'vector-finance',
 					zapper: 'vector-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Vector Reserve',
+		slug: 'vector-reserve',
+		links: [
+			'https://vectorreserve.com',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'vector-reserve',
 				},
 			},
 		],
@@ -9823,6 +16495,7 @@ export const web3Apps = [
 		name: 'Velodrome',
 		slug: 'velodrome',
 		links: [
+			'https://velodrome.finance',
 			'https://app.velodrome.finance',
 		],
 		colors: [
@@ -9830,9 +16503,19 @@ export const web3Apps = [
 		],
 		views: [
 			{
+				name: 'V2',
+				slug: 'v2',
 				chainId: 10,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'velodrome-v2',
+				},
+			},
+			{
+				name: 'V1',
+				slug: 'v1',
+				chainId: 10,
+				providers: {
+					llamafolio: 'velodrome-v1',
 					zapper: 'velodrome',
 				},
 			},
@@ -9847,9 +16530,29 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'venus',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'venus',
+				},
+			},
+		],
+	},
+	{
+		name: 'Verse',
+		slug: 'verse',
+		links: [
+			'https://verse.bitcoin.com',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'verse',
 				},
 			},
 		],
@@ -9882,7 +16585,26 @@ export const web3Apps = [
 					},
 				],
 				providers: {
+					llamafolio: 'vesper',
 					zapper: 'vesper',
+				},
+			},
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'vesper',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'vesper',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'vesper',
 				},
 			},
 		],
@@ -9909,6 +16631,42 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'VirtuSwap',
+		slug: 'virtuswap',
+		links: [
+			'https://virtuswap.io',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'virtuswap',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'virtuswap',
+				},
+			},
+		],
+	},
+	{
+		name: 'Volta Club',
+		slug: 'volta-club',
+		links: [
+			'https://volta.club',
+		],
+		views: [
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'volta-club',
+				},
+			},
+		],
+	},
+	{
 		name: 'Votium',
 		slug: 'votium',
 		links: [
@@ -9928,6 +16686,21 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'VulcanDex',
+		slug: 'vulcandex',
+		links: [
+			'https://vulcandex.app',
+		],
+		views: [
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'vulcandex',
+				},
+			},
+		],
+	},
+	{
 		name: 'VVS Finance',
 		slug: 'vvs-finance',
 		links: [
@@ -9942,6 +16715,33 @@ export const web3Apps = [
 				erc20Tokens: [],
 				providers: {
 					zapper: 'vvs-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'WAGMI',
+		slug: 'wagmi',
+		links: [
+			'https://wagmi.com',
+		],
+		views: [
+			{
+				chainId: 324,
+				providers: {
+					llamafolio: 'wagmi',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'wagmi',
+				},
+			},
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'wagmi',
 				},
 			},
 		],
@@ -9971,9 +16771,99 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'wepiggy',
 					zapper: 'wepiggy',
+				},
+			},
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'wepiggy',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'wepiggy',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'wepiggy',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'wepiggy',
+				},
+			},
+		],
+	},
+	{
+		name: 'Whiteheart',
+		slug: 'whiteheart',
+		links: [
+			'https://www.whiteheart.finance',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'whiteheart',
+				},
+			},
+		],
+	},
+	{
+		name: 'WigoSwap',
+		slug: 'wigoswap',
+		links: [
+			'https://wigoswap.io',
+		],
+		views: [
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'wigoswap',
+				},
+			},
+		],
+	},
+	{
+		name: 'WINR Protocol',
+		slug: 'winr-protocol',
+		links: [
+			'https://winr.games',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'winr-protocol',
+				},
+			},
+		],
+	},
+	{
+		name: 'Wombat Exchange',
+		slug: 'wombat-exchange',
+		links: [
+			'https://www.wombat.exchange',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'wombat-exchange',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'wombat-exchange',
 				},
 			},
 		],
@@ -10003,17 +16893,67 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'WOOFi',
+		slug: 'woofi',
+		links: [
+			'https://fi.woo.org',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'woofi',
+				},
+			},
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'woofi',
+				},
+			},
+			{
+				chainId: 43114,
+				providers: {
+					llamafolio: 'woofi',
+				},
+			},
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: 'woofi',
+				},
+			},
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'woofi',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'woofi',
+				},
+			},
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'woofi',
+				},
+			},
+		],
+	},
+	{
 		name: 'X2Y2',
 		slug: 'x2y2',
 		links: [
 			'https://x2y2.io',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
+					llamafolio: 'x2y2',
 					zapper: 'x2y2',
 				},
 			},
@@ -10115,6 +17055,36 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Yama Finance',
+		slug: 'yama-finance',
+		links: [
+			'https://yama.finance',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'yama-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Yamato Protocol',
+		slug: 'yamato-protocol',
+		links: [
+			'https://app.yamato.fi/#',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'yamato-protocol',
+				},
+			},
+		],
+	},
+	{
 		name: 'yAxis',
 		slug: 'yaxis',
 		links: [
@@ -10155,6 +17125,7 @@ export const web3Apps = [
 				chainId: 1,
 				erc20Tokens: [],
 				providers: {
+					llamafolio: 'yearn-finance',
 					zapper: 'yearn',
 					zerionDefiSDK: [
 						'iearn.finance (v2)',
@@ -10163,6 +17134,30 @@ export const web3Apps = [
 						'Yearn Token Vaults',
 						'yearn.finance • Vaults',
 					],
+				},
+			},
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'yearn-finance',
+				},
+			},
+			{
+				chainId: 10,
+				providers: {
+					llamafolio: 'yearn-finance',
+				},
+			},
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'yearn-finance',
+				},
+			},
+			{
+				chainId: 8453,
+				providers: {
+					llamafolio: 'yearn-finance',
 				},
 			},
 			{
@@ -10234,6 +17229,57 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'YieldFlow',
+		slug: 'yieldflow',
+		links: [
+			'https://yieldflow.com',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'yieldflow',
+				},
+			},
+		],
+	},
+	{
+		name: 'Yoshi Exchange',
+		slug: 'yoshi-exchange',
+		links: [
+			'https://yoshi.exchange',
+		],
+		views: [
+			{
+				chainId: 56,
+				providers: {
+					llamafolio: 'yoshi-exchange',
+				},
+			},
+			{
+				chainId: 250,
+				providers: {
+					llamafolio: 'yoshi-exchange',
+				},
+			},
+		],
+	},
+	{
+		name: 'ZeroLend',
+		slug: 'zerolend',
+		links: [
+			'https://zerolend.xyz',
+		],
+		views: [
+			{
+				chainId: 324,
+				providers: {
+					llamafolio: 'zerolend',
+				},
+			},
+		],
+	},
+	{
 		name: 'Zerotwohm',
 		slug: 'zerotwohm',
 		links: [
@@ -10246,6 +17292,21 @@ export const web3Apps = [
 				erc20Tokens: [],
 				providers: {
 					zapper: 'zerotwohm',
+				},
+			},
+		],
+	},
+	{
+		name: '0vix',
+		slug: '0vix',
+		links: [
+			'https://www.0vix.com',
+		],
+		views: [
+			{
+				chainId: 137,
+				providers: {
+					llamafolio: '0vix',
 				},
 			},
 		],
@@ -10274,6 +17335,51 @@ export const web3Apps = [
 					zerionDefiSDK: [
 						'0x Staking',
 					],
+				},
+			},
+		],
+	},
+	{
+		name: 'Zharta',
+		slug: 'zharta',
+		links: [
+			'https://www.zharta.io',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'zharta',
+				},
+			},
+		],
+	},
+	{
+		name: 'Zircuit Staking',
+		slug: 'zircuit-staking',
+		links: [
+			'https://stake.zircuit.com',
+		],
+		views: [
+			{
+				chainId: 1,
+				providers: {
+					llamafolio: 'zircuit-staking',
+				},
+			},
+		],
+	},
+	{
+		name: 'ZooDAO',
+		slug: 'zoodao',
+		links: [
+			'https://zoodao.com',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'zoodao',
 				},
 			},
 		],
@@ -10312,7 +17418,7 @@ export const web3Apps = [
 						name: 'ZoraCreator1155FactoryImpl',
 						address: '0x35ca784918bf11692708c1D530691704AAcEA95E',
 					},
-					
+	
 					// OP Stack
 					{
 						name: 'OptimismPortalProxy',
@@ -10571,6 +17677,21 @@ export const web3Apps = [
 			},
 		],
 	},
+	{
+		name: 'ZyberSwap',
+		slug: 'zyberswap',
+		links: [
+			'https://www.zyberswap.io',
+		],
+		views: [
+			{
+				chainId: 42161,
+				providers: {
+					llamafolio: 'zyberswap',
+				},
+			},
+		],
+	},
 ] as const satisfies DeepReadonly<Web3AppConfig[]>
 
 export type Web3AppName = typeof web3Apps[number]['name']
@@ -10744,3 +17865,4 @@ export const web3AppsBySection = ([
 import { networksByChainID } from './networks'
 
 export const getWeb3AppSupportedNetworks = (app: Web3AppConfig) => new Set(app.views.map(view => networksByChainID[view.chainId]))
+
