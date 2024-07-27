@@ -17846,17 +17846,23 @@ export const web3AppsBySection = ([
 	// },
 	{
 		title: 'Other Apps (Experimental)',
-		apps: web3Apps.filter(appConfig => ![
-			...infrastructureApps,
-			...socialApps,
-			...oracleNetworks,
-			...crossChainInfrastructure,
-			...defiPrimitives,
-			...decentralizedExchanges,
-			...institutionalDefi,
-			...creatorApps,
-			// ...collectibleCommunities
-		].includes(appConfig)),
+		apps: [...(
+			new Set(web3Apps)
+				.difference(
+					new Set([
+						...infrastructureApps,
+						...identityApps,
+						...socialApps,
+						...oracleNetworks,
+						...crossChainInfrastructure,
+						...defiPrimitives,
+						...decentralizedExchanges,
+						...institutionalDefi,
+						...creatorApps,
+						// ...collectibleCommunities
+					])
+			)
+		)],
 		isFeatured: false
 	},
 ]) as const
