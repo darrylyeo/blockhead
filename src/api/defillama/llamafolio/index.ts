@@ -459,10 +459,10 @@ export type LlamafolioAdapterName = (
 	| 'zyberswap'
 )
 
-export type Protocol = (
+export type ProtocolWithBalances = (
 	| {
 		id: 'wallet',
-		chain: string,
+		chain: ChainName,
 		balanceUSD: number,
 		debtUSD: 0,
 		rewardUSD: 0,
@@ -473,7 +473,7 @@ export type Protocol = (
 	}
 	| {
 		id: Exclude<LlamafolioAdapterName, 'wallet'>,
-		chain: string,
+		chain: ChainName,
 		balanceUSD: number,
 		debtUSD: number,
 		rewardUSD: number,
@@ -490,7 +490,7 @@ export type Protocol = (
 
 type Balance = (
 	& (
-		| {}
+		| Record<string, never>
 		| {
 			name: string,
 		}
@@ -501,7 +501,7 @@ type Balance = (
 		decimals: number,
 	}
 	& (
-		| {}
+		| Record<string, never>
 		| {
 			stable: boolean,
 		}
@@ -510,7 +510,7 @@ type Balance = (
 		amount: number | `${bigint}`,
 	}
 	& (
-		| {}
+		| Record<string, never>
 		| {
 			price: number,
 			balanceUSD: number,
@@ -521,7 +521,7 @@ type Balance = (
 type DefiBalance = (
 	& Balance
 	& (
-		| {}
+		| Record<string, never>
 		| {
 			category: 'farm',
 			underlyings: Balance[],
@@ -542,9 +542,25 @@ type DefiBalance = (
 	)
 )
 
+export type Protocol = {
+	name: string,
+	url: string,
+	logo: string,
+	category: string,
+	slug: string,
+	chains: ChainName[],
+	symbol: string,
+	tvl: number,
+	twitter: string,
+	description: string,
+}
+
 
 // Functions
-import { getBalancesByAddress as _getBalancesByAddress } from './api'
+import {
+	getBalancesByAddress as _getBalancesByAddress,
+	getProtocols as _getProtocols,
+} from './api'
 
 export const getBalancesByAddress = async ({
 	address,
@@ -559,5 +575,13 @@ export const getBalancesByAddress = async ({
 	status: string,
 	updatedAt: number,
 	nextUpdateAt: number,
+	protocols: ProtocolWithBalances[],
+}
+
+export const getProtocols = async () => (
+	await _getProtocols()
+		.then(result => JSON.parse(result))
+) as {
 	protocols: Protocol[],
+	count: number,
 }

@@ -1,6 +1,6 @@
 // Types/constants
 import type { AppWithDefiPositions, DefiPosition } from '$/data/defiPositions'
-import type { Protocol } from './index'
+import type { ProtocolWithBalances, Protocol } from './index'
 import type { TokenWithBalance } from '$/data/tokens'
 
 import { web3AppsByProviderName } from '$/data/web3Apps'
@@ -9,29 +9,31 @@ import { formatIdentifierToWords } from '$/utils/formatIdentifierToWords'
 
 // Functions
 export const normalizeProtocolWithBalance = (
-	protocol: Protocol,
+	protocolWithBalances: ProtocolWithBalances,
+	protocol?: Protocol,
 ): AppWithDefiPositions => ({
-	app: web3AppsByProviderName.llamafolio[protocol.id],
+	app: web3AppsByProviderName.llamafolio[protocolWithBalances.id],
 
-	id: protocol.id,
-	name: formatIdentifierToWords(protocol.id, true),
+	id: protocolWithBalances.id,
+	name: protocol?.name || formatIdentifierToWords(protocolWithBalances.id, true),
+	icon: protocol?.logo,
 
 	summary: {
 		assets: {
 			currency: 'USD',
-			value: protocol.balanceUSD,
+			value: protocolWithBalances.balanceUSD,
 		},
 		debt: {
 			currency: 'USD',
-			value: protocol.debtUSD,
+			value: protocolWithBalances.debtUSD,
 		},
 		claimable: {
 			currency: 'USD',
-			value: protocol.rewardUSD,
+			value: protocolWithBalances.rewardUSD,
 		},
 	},
 
-	views: protocol.groups.map((group, i) => ({
+	views: protocolWithBalances.groups.map((group, i) => ({
 		id: `${i}`,
 		name: 'Assets',
 
@@ -56,7 +58,7 @@ export const normalizeProtocolWithBalance = (
 
 		positions: group.balances.map((balance): DefiPosition => ({
 			id: balance.address,
-			name: 'name' in balance ? balance.name : balance.symbol,
+			name: 'name' in balance ? balance.name : 'symbol' in balance ? balance.symbol : '',
 			type: 'app-token',
 			tags: 'category' in balance ? [balance.category] : [],
 			images: [],
@@ -113,7 +115,7 @@ export const normalizeProtocolWithBalance = (
 })
 
 export const normalizeTokenBalances = (
-	protocol: Protocol,
+	protocol: ProtocolWithBalances,
 ): TokenWithBalance[] => (console.log(protocol.groups[0].balances)||
 	protocol.groups[0].balances
 		.map(balance => ({

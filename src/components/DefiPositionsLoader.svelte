@@ -88,7 +88,7 @@
 
 
 	// Functions
-	import { createQuery } from '@tanstack/svelte-query'
+	import { createQuery, createQueries } from '@tanstack/svelte-query'
 
 	import { normalizeProtocolWithBalance as normalizeProtocolWithBalanceLlamafolio } from '$/api/defillama/llamafolio/normalize'
 
@@ -118,27 +118,55 @@
 	loadingIcon={defiProviderIcons[defiProvider]}
 	{...{
 		[DefiProvider.LlamaFolio]: () => ({
-			fromQuery: network && address && createQuery({
-				queryKey: ['DefiPositions', {
-					defiProvider,
-					address,
-				}],
-				queryFn: async () => {
-					const { getBalancesByAddress } = await import('$/api/defillama/llamafolio/index')
+			fromQuery: network && address && createQueries({
+				queries: [
+					{
+						queryKey: ['DefiProtocols', {
+							defiProvider,
+							network,
+						}],
+						queryFn: async () => {
+							const { getProtocols } = await import('$/api/defillama/llamafolio')
 
-					return await getBalancesByAddress({
-						address,
-					})
-				},
-				select: result => (
-					result
-						.protocols
-						.filter(protocol => protocol.id !== 'wallet')
-						.filter(protocol => network ? supportedChains[protocol.chain] === network.chainId : true)
-						.map(normalizeProtocolWithBalanceLlamafolio)
-				),
-				staleTime: 10 * 1000,
-			})
+							return await getProtocols()
+						},
+					},
+					{
+						queryKey: ['DefiPositions', {
+							defiProvider,
+							address,
+						}],
+						queryFn: async () => {
+							const { getBalancesByAddress } = await import('$/api/defillama/llamafolio')
+
+							return await getBalancesByAddress({
+								address,
+							})
+						},
+						staleTime: 10 * 1000,
+					},
+				],
+				
+				combine: ([
+					protocolsQuery,
+					positionsQuery,
+				]) => ({
+					...positionsQuery,
+					data: (
+						positionsQuery.data
+							?.protocols
+							.filter(protocolWithPositions => protocolWithPositions.id !== 'wallet')
+							.filter(protocolWithPositions => network ? supportedChains[protocolWithPositions.chain] === network.chainId : true)
+							.map(protocolWithPositions => (
+								normalizeProtocolWithBalanceLlamafolio(
+									protocolWithPositions,
+									protocolsQuery.data?.protocols
+										.find(protocol => protocol.slug === protocolWithPositions.id)
+								)
+							))
+					),
+				}),
+			}),
 		}),
 
 		// [DefiProvider.Zapper]: () => ({
