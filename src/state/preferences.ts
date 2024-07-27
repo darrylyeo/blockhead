@@ -18,7 +18,7 @@ import { TransactionProvider, transactionProviderIcons } from '$/data/transactio
 import { FilecoinTransactionProvider, filecoinTransactionProviderIcons } from '$/data/filecoinTransactionProvider'
 import { ContractSourceProvider, contractSourceProviderIcons } from '$/data/contractSourceProvider'
 import { NotificationsProvider, notificationsProviderIcons } from '$/data/notificationsProvider'
-import { ipfsGateways } from '$/data/ipfsGateways'
+import { IpfsGatewayProvider, ipfsGateways } from '$/data/ipfsGateways'
 import { arweaveGateways } from '$/data/arweaveGateways'
 import { FarcasterProvider, farcasterProviderIcons } from '$/data/farcasterProviders'
 import { FarcasterFeedProvider, farcasterFeedProviderIcons } from '$/data/farcasterFeedProviders'
@@ -434,7 +434,7 @@ export const preferencesConfig = [
 				preferenceId: 'ipfsGateway',
 				name: 'IPFS Gateway',
 				type: 'single',
-				defaultOption: ipfsGateways[1].gatewayProvider,
+				defaultOption: IpfsGatewayProvider.ProtocolLabsIpfsIo,
 				options: [
 					{
 						groupId: 'local',
