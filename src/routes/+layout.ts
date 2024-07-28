@@ -21,6 +21,9 @@ shimObjectGroupBy.shim()
 import shimRegexpEscape from 'regexp.escape'
 shimRegexpEscape.shim()
 
+import shimSetDifference from 'set.prototype.difference'
+shimSetDifference.shim()
+
 
 // SvelteKit
 
