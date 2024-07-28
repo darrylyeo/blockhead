@@ -1,4 +1,5 @@
 // Types/constants
+import type { Ethereum } from '$/data/networks/types'
 import type { QuoteCurrency } from '$/data/currencies'
 import type { TokenWithBalance } from '$/data/tokens'
 import type { AppWithDefiPositions, DefiPosition, MetadataItem } from '$/data/defiPositions'
@@ -12,8 +13,10 @@ import { formatIdentifierToWords } from '$/utils/formatIdentifierToWords'
 export const normalizeTokenBalance = (
 	tokenBalance: Awaited<ReturnType<typeof getTokenBalances>>[number],
 	quoteCurrency: QuoteCurrency,
+	chainId: Ethereum.ChainID,
 ): TokenWithBalance => ({
 	token: {
+		chainId,
 		address: tokenBalance.token.address,
 		decimals: tokenBalance.token.decimals,
 		name: tokenBalance.token.name,

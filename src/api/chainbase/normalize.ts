@@ -84,8 +84,12 @@ export const normalizeTransaction = (
 	gasValue: BigInt(transaction.tx_fee),
 })
 
-export const normalizeTokenBalance = (asset: Awaited<ReturnType<typeof getErc20TokenBalances>>['data'][number]): TokenWithBalance => ({
+export const normalizeTokenBalance = (
+	asset: Awaited<ReturnType<typeof getErc20TokenBalances>>['data'][number],
+	chainId: Ethereum.ChainID,
+): TokenWithBalance => ({
 	token: {
+		chainId,
 		address: asset.contract_address,
 		name: asset.name,
 		symbol: asset.symbol,

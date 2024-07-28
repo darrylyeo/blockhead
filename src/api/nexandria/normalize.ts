@@ -1,13 +1,16 @@
-import type { getPointInTimeBalances } from '.'
+import type { Ethereum } from '$/data/networks/types'
 import type { TokenWithBalance } from '$/data/tokens'
 import type { QuoteCurrency } from '$/data/currencies'
+import type { getPointInTimeBalances } from '.'
 
 
 export const normalizeTokenBalance = (
 	tokenBalance: Awaited<ReturnType<typeof getPointInTimeBalances>>['tokens'][0],
 	quoteCurrency: QuoteCurrency = 'USD',
+	chainId: Ethereum.ChainID,
 ): TokenWithBalance => ({
 	token: {
+		chainId,
 		address: tokenBalance.token_type === 'ERC20' ? tokenBalance.address : undefined,
 		decimals: 100,
 		name: tokenBalance.name,

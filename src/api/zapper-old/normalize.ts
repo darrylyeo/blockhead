@@ -257,8 +257,12 @@ export const normalizeDefiPositions = (
 		})
 )
 
-export const normalizeTokenBalance = (asset: NonNullable<NonNullable<Awaited<ReturnType<typeof getTokenBalances>>['products']>[number]['assets']>[number]): TokenWithBalance => ({
+export const normalizeTokenBalance = (
+	asset: NonNullable<NonNullable<Awaited<ReturnType<typeof getTokenBalances>>['products']>[number]['assets']>[number],
+	chainId: Ethereum.ChainID,
+): TokenWithBalance => ({
 	token: {
+		chainId,
 		address: asset.address as Ethereum.ContractAddress,
 		name: asset.displayProps.label,
 		symbol: asset.symbol,

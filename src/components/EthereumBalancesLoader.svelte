@@ -114,7 +114,10 @@
 						})
 
 						return [{
-							token: network.nativeCurrency,
+							token: {
+								chainId,
+								...network.nativeCurrency
+							},
 							balance,
 						}]
 					},
@@ -154,7 +157,9 @@
 					select: data => (
 						data.pages
 							.flatMap(page => page?.TokenBalances?.TokenBalance ?? [])
-							.map(normalizeTokenBalanceAirstack)
+							.map(tokenWithBalance => (
+								normalizeTokenBalanceAirstack(tokenWithBalance, network.chainId)
+							))
 					),
 					staleTime: 10 * 1000,
 				})
@@ -188,7 +193,9 @@
 					select: result => (
 						result.pages
 							.flatMap(page => page.data)
-							.map(normalizeTokenBalanceChainbase)
+							.map(tokenWithBalance => (
+								normalizeTokenBalanceChainbase(tokenWithBalance, network.chainId)
+							))
 					),
 					staleTime: 10 * 1000,
 				})
@@ -222,7 +229,9 @@
 					},
 					select: result => (
 						result.items
-							.map(tokenBalance => normalizeTokenBalanceCovalent(tokenBalance, quoteCurrency))
+							.map(tokenBalance => (
+								normalizeTokenBalanceCovalent(tokenBalance, quoteCurrency, network.chainId)
+							))
 					),
 					staleTime: 10 * 1000,
 				})
@@ -280,7 +289,9 @@
 					select: ({ pages }) => (
 						pages
 							.flatMap(result => result.result)
-							.map(normalizeTokenBalanceDecommas)
+							.map(tokenWithBalance => (
+								normalizeTokenBalanceDecommas(tokenWithBalance)
+							))
 					),
 					staleTime: 10 * 1000,
 				})
@@ -305,7 +316,9 @@
 						.protocols
 						.filter(protocol => protocol.id === 'wallet')
 						.filter(protocol => network ? supportedChains[protocol.chain] === network.chainId : true)
-						.map(normalizeTokenBalancesLlamafolio)
+						.map(tokenWithBalance => (
+							normalizeTokenBalancesLlamafolio(tokenWithBalance, network.chainId)
+						))
 						[0]
 					?? []
 				),
@@ -340,7 +353,10 @@
 						)
 					},
 					select: assets => (
-						assets.map(normalizeTokenBalanceLiquality)
+						assets
+							.map(tokenBalance => (
+								normalizeTokenBalanceLiquality(tokenBalance, network.chainId)
+							))
 					),
 					staleTime: 10 * 1000,
 				})
@@ -384,6 +400,7 @@
 								},
 								...await Promise.all(tokenBalances.map(async tokenBalance => ({
 									token: {
+										chainId,
 										symbol: tokenBalance.symbol,
 										address: tokenBalance.token_address,
 										name: tokenBalance.name,
@@ -451,7 +468,7 @@
 					select: result => (
 						result.tokens
 							.map(tokenBalance => (
-								normalizeTokenBalanceNexandria(tokenBalance)
+								normalizeTokenBalanceNexandria(tokenBalance, network.chainId)
 							))
 					),
 					staleTime: 10 * 1000,
@@ -482,7 +499,9 @@
 					},
 					select: tokenBalances => (
 						tokenBalances
-							.map(normalizeTokenBalanceZapper) ?? []
+							.map(tokenWithBalance => (
+								normalizeTokenBalanceZapper(tokenWithBalance, network.chainId)
+							))
 					),
 					staleTime: 10 * 1000,
 				})
@@ -511,7 +530,10 @@
 						})
 					},
 					select: tokenWithBalance => (
-						tokenWithBalance.assets.map(normalizeTokenBalanceQuickNode)
+						tokenWithBalance.assets
+							.map(tokenBalance => (
+								normalizeTokenBalanceQuickNode(tokenBalance, network.chainId)
+							))
 					),
 					staleTime: 10 * 1000,
 				})

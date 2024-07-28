@@ -230,8 +230,10 @@ export const normalizeNft = (
 export const normalizeTokenBalance = (
 	tokenBalance: Awaited<ReturnType<typeof getTokenBalancesForAddress>>['items'][number],
 	quoteCurrency: QuoteCurrency,
+	chainId: Ethereum.ChainID,
 ): TokenWithBalance => ({
 	token: {
+		chainId,
 		address: tokenBalance.contract_address as Ethereum.ContractAddress,
 		name: tokenBalance.contract_name,
 		symbol: tokenBalance.contract_ticker_symbol || tokenBalance.contract_name,
