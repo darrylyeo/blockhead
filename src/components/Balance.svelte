@@ -11,19 +11,25 @@
 	export let networkProvider: NetworkProvider
 	export let address: Ethereum.Address
 
-	export let symbol: TickerSymbol | undefined
-	export let contractAddress: Ethereum.ContractAddress | undefined // = `${symbol.toLowerCase()}.thetoken.eth` // = `${symbol.toLowerCase()}.tokens.ethers.eth`
-	export let erc20Token: Ethereum.ERC20Token | undefined
-
-	// (Computed)
-	$: symbol = $$props.symbol || erc20Token?.symbol
-	$: contractAddress = $$props.contractAddress || erc20Token?.address
+	export let token: {
+		name?: string,
+		chainId?: Ethereum.ChainID,
+		symbol?: string,
+		address?: Ethereum.ContractAddress,
+		decimals?: number,
+		icon?: string,
+	}
 
 	let publicClient: Ethereum.PublicClient | undefined
 	$: publicClient = network && networkProvider && getViemPublicClient({
 		network,
 		networkProvider: networkProvider,
 	})
+
+	// (Computed)
+	// $: if(!token.address && token.symbol)
+	// 	token.address = `${token.symbol.toLowerCase()}.thetoken.eth`
+	// 	token.address = `${token.symbol.toLowerCase()}.tokens.ethers.eth`
 
 
 	// Functions
@@ -49,10 +55,10 @@
 			queryKey: ['TokenBalance', {
 				address,
 				chainId: network.chainId,
-				contractAddress,
+				contractAddress: token.address,
 			}],
 			queryFn: async () => {
-				if(contractAddress){
+				if(token.address){
 					const [
 						name,
 						symbol,
@@ -60,22 +66,22 @@
 						balance,
 					] = await Promise.all([
 						readContract(publicClient, {
-							address: contractAddress,
+							address: token.address,
 							abi: erc20Abi,
 							functionName: 'name',
 						}),
 						readContract(publicClient, {
-							address: contractAddress,
+							address: token.address,
 							abi: erc20Abi,
 							functionName: 'symbol',
 						}),
 						readContract(publicClient, {
-							address: contractAddress,
+							address: token.address,
 							abi: erc20Abi,
 							functionName: 'decimals',
 						}),
 						readContract(publicClient, {
-							address: contractAddress,
+							address: token.address,
 							abi: erc20Abi,
 							functionName: 'balanceOf',
 							args: [address]
@@ -94,7 +100,7 @@
 					}
 				}
 
-				else if(symbol === network.nativeCurrency.symbol)
+				else if(token.symbol === network.nativeCurrency.symbol)
 					return {
 						token: network.nativeCurrency,
 						balance: await getBalance(publicClient, {
@@ -103,7 +109,7 @@
 					}
 				
 				else
-					throw new Error(`Unknown token ${symbol}.`)
+					throw new Error(`Unknown token ${token.symbol}.`)
 			},
 		})}
 		loadingMessage="Querying token balance..."
@@ -111,17 +117,18 @@
 	>
 		<svelte:fragment slot="loadingIcon">
 			<TokenIcon
-				{network}
-				symbol={symbol}
-				address={contractAddress}
-				{erc20Token}
+				{token}
 			/>
 		</svelte:fragment>
 
 		{#if tokenBalance}
 			<div class="card" in:scale>
 				<TokenBalance
-					{network} symbol={symbol ?? tokenBalance.token?.symbol} address={contractAddress} erc20Token={{...erc20Token, ...tokenBalance.token}}
+					token={{
+						chainId: network.chainId,
+						symbol: tokenBalance.token.symbol,
+						address: token.address,
+					}}
 					balance={Number(tokenBalance.balance) * 0.1 ** (tokenBalance.token.decimals ?? 18)}
 				/>
 			</div>

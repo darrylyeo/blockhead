@@ -190,11 +190,7 @@
 				{hiddenEllipsis}
 			{:else if isToken}
 				<TokenName
-					{network}
-					symbol={logEvent.contract.symbol}
-					address={logEvent.contract.address}
-					name={logEvent.contract.name}
-					icon={logEvent.contract.icon}
+					token={logEvent.contract}
 				/>
 			{:else}
 				<span class="address">

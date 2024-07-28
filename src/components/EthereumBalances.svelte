@@ -216,7 +216,7 @@
 							<TokenBalanceWithConversion
 
 								{network}
-								erc20Token={tokenWithBalance.token}
+								token={tokenWithBalance.token}
 
 								balance={Number(tokenWithBalance.balance) * 0.1 ** tokenWithBalance.token.decimals}
 								conversionCurrency={quoteCurrency}
@@ -233,7 +233,7 @@
 								{tokenBalanceFormat}
 
 								{network}
-								erc20Token={tokenWithBalance.token}
+								token={tokenWithBalance.token}
 
 								balance={Number(tokenWithBalance.balance) * 0.1 ** tokenWithBalance.token.decimals}
 

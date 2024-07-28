@@ -120,8 +120,10 @@
 							{tokenBalanceFormat}
 							showDecimalPlaces={isExhaustive ? 9 : 6}
 
-							network={transaction.network}
-							erc20Token={transaction.network.nativeCurrency}
+							token={{
+								chainId: network.chainId,
+								...transaction.network.nativeCurrency,
+							}}
 
 							balance={Number(transaction.value) * 0.1 ** transaction.network.nativeCurrency.decimals}
 							conversionCurrency={transaction.conversion?.quoteCurrency} 
@@ -231,8 +233,10 @@
 							{tokenBalanceFormat}
 							showDecimalPlaces={isExhaustive ? 9 : 6}
 
-							network={transaction.network}
-							erc20Token={transaction.gasToken}
+							token={{
+								chainId: network.chainId,
+								...transaction.gasToken,
+							}}
 
 							balance={Number(transaction.gasValue) * 0.1 ** transaction.gasToken.decimals}
 							conversionCurrency={transaction.conversion?.quoteCurrency}

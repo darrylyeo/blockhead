@@ -389,7 +389,10 @@
 							{#if payableAmount > 0}
 								send
 								<TokenBalance
-									{network} erc20Token={network.nativeCurrency}
+									token={{
+										chainId: network.chainId,
+										...network.nativeCurrency
+									}}
 									balance={Number(payableAmount)}
 								/>
 								to

@@ -60,8 +60,7 @@
 					{tokenBalanceFormat}
 					showDecimalPlaces={isExhaustive ? 9 : 6}
 
-					{network}
-					erc20Token={erc20Transfer.transferredToken}
+					token={erc20Transfer.transferredToken}
 
 					balance={Number(erc20Transfer.value) * 0.1 ** erc20Transfer.transferredToken.decimals}
 					conversionCurrency={erc20Transfer.conversion?.quoteCurrency} 

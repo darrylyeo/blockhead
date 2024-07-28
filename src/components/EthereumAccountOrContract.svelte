@@ -227,7 +227,16 @@
 					<hr>
 
 					<div class="bar wrap">
-						<svelte:element this={`h${headingLevel + 1}`}>Balances (<TokenBalance symbol={summary.quoteCurrency} balance={summary.quoteTotal} format="fiat" />)</svelte:element>
+						<svelte:element this={`h${headingLevel + 1}`}>
+							Balances
+							(<TokenBalance
+								format="fiat"
+								token={{
+									symbol: summary.quoteCurrency
+								}}
+								balance={summary.quoteTotal}
+							/>)
+						</svelte:element>
 
 						<div role="toolbar" class="row wrap">
 							<TokenBalanceFormatSelect
@@ -349,7 +358,7 @@
 							<div class="bar wrap">
 								<svelte:element this={`h${headingLevel + 1}`}>
 									{selectedToken.name}
-									(<TokenName {network} erc20Token={selectedToken} />)
+									(<TokenName token={selectedToken} />)
 									Transactions
 									<InlineContainer isOpen={status === 'resolved'}>(<TweenedNumber value={transactions.length} /><InlineContainer isOpen={pagination?.hasNextPage}>+</InlineContainer>)</InlineContainer>
 								</svelte:element>

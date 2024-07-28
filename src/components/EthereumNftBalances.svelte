@@ -413,12 +413,14 @@ on:dblclick={() => show3D = !show3D} -->
 							contentTransition={[fly, { y: 100 }]}
 							clip
 						>
-							{#if showFloorPrice}
+							{#if showFloorPrice && contract.conversion}
 								<span class="summary">
 									<TokenBalance
-										symbol={contract.conversion.quoteCurrency}
-										balance={contract.conversion.value}
 										format="fiat"
+										token={{
+											symbol: contract.conversion.quoteCurrency,
+										}}
+										balance={contract.conversion.value}
 									/>
 									{#if contract.nfts && contract.nfts.length > 1}
 										× {contract.nfts.length}

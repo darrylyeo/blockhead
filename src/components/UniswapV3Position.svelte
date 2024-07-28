@@ -35,14 +35,18 @@
 			address={position.pool.contract?.address}
 		>
 			<TokenBalanceWithConversion
-				{network}
+				token={{
+					chainId: network.chainId,
+					...position.pool.token0,
+				}}
 				balance={Number(position.token0Amount) * 0.1 ** position.pool.token0.decimals}
-				erc20Token={position.pool.token0}
 				convertedValue={position.token0BalanceUsd}
 			/> / <TokenBalanceWithConversion
-				{network}
+				token={{
+					chainId: network.chainId,
+					...position.pool.token1,
+				}}
 				balance={Number(position.token1Amount) * 0.1 ** position.pool.token1.decimals}
-				erc20Token={position.pool.token1}
 				convertedValue={position.token1BalanceUsd}
 			/> @ {UniswapV3.formatFeeAmount(position.pool.fee)}
 		</Address>
@@ -50,7 +54,13 @@
 
 	<svelte:fragment slot="header-right">
 		<span class="summary">
-			<TokenBalance format="fiat" symbol="USD" balance={position.cumulativeWithdrawUSD - position.cumulativeDepositUSD} /> earned
+			<TokenBalance
+				format="fiat"
+				token={{
+					symbol: 'USD',
+				}}
+				balance={position.cumulativeWithdrawUSD - position.cumulativeDepositUSD}
+			/> earned 
 		</span>
 
 		<span class="card-annotation">

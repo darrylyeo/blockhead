@@ -113,8 +113,10 @@
 					{tokenBalanceFormat}
 					showDecimalPlaces={isExhaustive ? 9 : 6}
 
-					{network}
-					erc20Token={transaction.gasToken}
+					token={{
+						chainId: network.chainId,
+						...transaction.gasToken,
+					}}
 
 					balance={Number(transaction.value)}
 				/>
@@ -144,8 +146,10 @@
 					{tokenBalanceFormat}
 					showDecimalPlaces={isExhaustive ? 9 : 6}
 
-					{network}
-					erc20Token={transaction.gasToken}
+					token={{
+						chainId: network.chainId,
+						...transaction.gasToken,
+					}}
 
 					balance={Number(transaction.gasSpent)}
 				/>

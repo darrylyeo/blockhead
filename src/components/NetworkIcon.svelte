@@ -45,7 +45,12 @@
 		isGrayscale={isTestnet(network)}
 	>
 		<slot>
-			<TokenIcon {network} erc20Token={network.nativeCurrency} />
+			<TokenIcon
+				token={{
+					chainId: network.chainId,
+					...network.nativeCurrency,
+				}}
+			/>
 		</slot>
 	</Icon>
 <!-- {/if} -->

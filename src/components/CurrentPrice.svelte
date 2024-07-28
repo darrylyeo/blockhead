@@ -172,13 +172,18 @@
 
 					<div class="rate">
 						<TokenBalance
-							network={oracleNetwork} symbol={token}
+							token={{
+								chainId: oracleNetwork.chainId,
+								symbol: token,
+							}}
 							balance={1}
 							tween={false}
 						/>
 						=
 						<TokenBalance
-							symbol={quoteCurrency}
+							token={{
+								symbol: quoteCurrency,
+							}}
 							balance={priceFeed.price}
 							format="fiat"
 						/>
@@ -243,15 +248,20 @@
 
 					<div class="rate">
 						<TokenBalance
-							{network}
-							symbol={token}
-							icon={data.icon}
+							token={{
+								chainId: network.chainId,
+								symbol: token,
+								icon: data.icon,
+							}}
 							balance={1}
 							tween={false}
 						/>
 						=
 						<TokenBalance
-							symbol={/*quoteCurrency*/ 'USD'}
+							token={{
+								symbol: 'USD',
+								// symbol: quoteCurrency,
+							}}
 							balance={data.price}
 							format="fiat"
 						/>

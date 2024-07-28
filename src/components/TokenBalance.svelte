@@ -1,44 +1,47 @@
 <script lang="ts">
+	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
-	import type { TickerSymbol } from '$/data/currencies'
+	import { networksByChainID } from '$/data/networks'
 
-	export let network: Ethereum.Network
-	export let symbol: TickerSymbol
-	export let address: Ethereum.ContractAddress
-	export let name: string
-	export let icon: string
 
-	export let erc20Token: Ethereum.ERC20Token
-	$: symbol = $$props.symbol || erc20Token?.symbol
-	$: address = $$props.address || erc20Token?.address
-	$: name = $$props.name || erc20Token?.name
-	$: icon = $$props.icon || erc20Token?.icon
-
-	export let balance: number = 0
-	export let showDecimalPlaces = 3 // 2 + Math.round(Math.log10(price || 1))
-
+	// Inputs
 	export let format: 'token' | 'fiat' = 'token'
+	export let token: {
+		name?: string,
+		chainId?: Ethereum.ChainID,
+		symbol?: string,
+		address?: Ethereum.ContractAddress,
+		decimals?: number,
+		icon?: string,
+	}
+	export let balance: number = 0
 	export let isDebt = false
 
-
+	// (Derived)
+	$: network = token.chainId && networksByChainID[token.chainId]
 	$: isZero = balance == 0
 	$: isNegative = balance < 0
 
 	$: compactLargeValues = format === 'token'
 
-	$: title = `${balance} ${name || symbol}${symbol && name ? ` (${symbol})` : ``}`
+	$: title = `${balance} ${token.name || token.symbol}${token.symbol && token.name ? ` (${token.symbol})` : ``}`
 
+
+	// (View options)
+	export let showDecimalPlaces = 3 // 2 + Math.round(Math.log10(price || 1))
 
 	export let tween = true
 	export let clip = true
 	export let transitionWidth = true
 
 
+	// Actions
 	const onDragStart = (e: DragEvent) => {
 		e.dataTransfer.setData('text/plain', title)
 	}
 
 
+	// Components
 	import Address from './Address.svelte'
 	import TokenIcon from './TokenIcon.svelte'
 	import TweenedNumber from './TweenedNumber.svelte'
@@ -103,7 +106,7 @@
 			{isNegative ? '−' : ''}<TweenedNumber
 				value={Math.abs(balance)}
 				format={{
-					currency: symbol,
+					currency: token.symbol,
 					showDecimalPlaces,
 					compactLargeValues
 				}}
@@ -111,7 +114,7 @@
 			/>
 		</span>
 	{:else}
-		<TokenIcon {network} {symbol} {address} {name} {icon} {erc20Token} />
+		<TokenIcon {token} />
 
 		<span class="inline-no-wrap">
 			<span class="token-balance">
@@ -126,11 +129,11 @@
 			</span>
 			<Address
 				{network}
-				{address}
+				address={token.address}
 				format="middle-truncated"
 				let:formattedAddress
 			>
-				<span class="token-name">{symbol || formattedAddress}</span>
+				<span class="token-name">{token.symbol || formattedAddress}</span>
 			</Address>
 		</span>
 	{/if}

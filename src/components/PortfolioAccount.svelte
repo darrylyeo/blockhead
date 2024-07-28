@@ -379,7 +379,15 @@
 
 			{#if summary}
 				<span class="summary">
-					<span class="account-total-value"><TokenBalance symbol={quoteCurrency} balance={summary.quoteTotal} format="fiat" /></span>
+					<span class="account-total-value">
+						<TokenBalance
+							format="fiat"
+							token={{
+								symbol: quoteCurrency,
+							}}
+							balance={summary.quoteTotal}
+						/>
+					</span>
 
 					{#if summary.filteredBalancesCount}
 						│
@@ -568,7 +576,13 @@
 																class="summary align-end"
 																class:is-zero={!summary.filteredBalancesCount}
 															>
-																<TokenBalance symbol={summary.quoteCurrency} balance={summary.quoteTotal} format="fiat" />
+																<TokenBalance
+																	format="fiat"
+																	token={{
+																		symbol: summary.quoteCurrency,
+																	}}
+																	balance={summary.quoteTotal}
+																/>
 																│
 																<strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> tokens
 															</span>
@@ -709,9 +723,11 @@
 													{#if summary}
 														<span class="summary" class:is-zero={!summary.defiAppsCount}>
 															<TokenBalance
-																symbol={summary.quoteTotalCurrency || quoteCurrency}
-																balance={summary.quoteTotal}
 																format="fiat"
+																token={{
+																	symbol: summary.quoteTotalCurrency || quoteCurrency,
+																}}
+																balance={summary.quoteTotal}
 															/>
 															│
 															<strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}
@@ -852,9 +868,11 @@
 														<span class="summary" class:is-zero={!summary.nftsCount}>
 															{#if summary.quoteTotal}
 																<TokenBalance
-																	symbol={summary.quoteCurrency || quoteCurrency}
-																	balance={summary.quoteTotal}
 																	format="fiat"
+																	token={{
+																		symbol: summary.quoteCurrency || quoteCurrency,
+																	}}
+																	balance={summary.quoteTotal}
 																/>
 																│
 															{/if}

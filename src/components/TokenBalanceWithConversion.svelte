@@ -1,21 +1,18 @@
 <script lang="ts">
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
-	import type { QuoteCurrency, TickerSymbol } from '$/data/currencies'
+	import type { QuoteCurrency } from '$/data/currencies'
 
 
 	// Inputs
-	export let network: Ethereum.Network
-	export let symbol: TickerSymbol
-	export let address: Ethereum.ContractAddress
-	export let name: string
-	export let icon: string
-
-	export let erc20Token: Ethereum.ERC20Token
-	$: symbol = $$props.symbol || erc20Token?.symbol
-	$: address = $$props.address || erc20Token?.address
-	$: name = $$props.name || erc20Token?.name
-	$: icon = $$props.icon || erc20Token?.icon
+	export let token: {
+		name?: string,
+		chainId?: Ethereum.ChainID,
+		symbol?: string,
+		address?: Ethereum.ContractAddress,
+		decimals?: number,
+		icon?: string,
+	}
 
 	export let balance: number
 	export let isDebt = false
@@ -88,14 +85,16 @@
 		{#if computedTokenBalanceFormat === 'original' || computedTokenBalanceFormat === 'both'}
 			<span class="balance"><!-- style="font-size: {sizeByVolume(convertedValue)}em" -->
 				<TokenBalance
-					{network} {symbol} {address} {name} {icon}
+					{token}
 					{balance} {showDecimalPlaces} {isDebt}
 					{tween} {clip} {transitionWidth}
 				/>
 			</span>
 		{:else if computedTokenBalanceFormat === 'converted' && layout === 'block'}
 			<span class="balance">
-				<TokenName {network} {symbol} {address} {icon} {name} />
+				<TokenName
+					{token}
+				/>
 			</span>
 		{/if}
 	</InlineTransition>
@@ -109,19 +108,24 @@
 		<span class="balance-converted">
 			{#if computedTokenBalanceFormat === 'both'}{#if showParentheses}({/if}{/if
 			}<TokenBalance
-				{network} symbol={conversionCurrency}
-				balance={convertedValue} {showDecimalPlaces} format="fiat" {isDebt}
+				format="fiat"
+				token={{
+					symbol: conversionCurrency,
+				}}
+				balance={convertedValue} {showDecimalPlaces} {isDebt}
 				{tween} {clip} {transitionWidth}
 			/><InlineContainer
-				isOpen={computedTokenBalanceFormat === 'converted' && layout === 'inline' && conversionCurrency !== symbol}
+				isOpen={computedTokenBalanceFormat === 'converted' && layout === 'inline' && conversionCurrency !== token.symbol}
 				renderOnlyWhenOpen={false}
 				delay={animationDelay}
 				clip
 			>
 				<span class="worth">
-					&nbsp;in <TokenName {network} {symbol} {address} {icon} {name} />
+					&nbsp;in <TokenName
+						{token}
+					/>
 				</span>
-			</InlineContainer>{#if showConversionRate && conversionRate}<span class="rate"> at <TokenRate rate={conversionRate} quoteToken={conversionCurrency} baseToken={symbol} layout='horizontal'/></span>{/if
+			</InlineContainer>{#if showConversionRate && conversionRate}<span class="rate"> at <TokenRate rate={conversionRate} quoteToken={conversionCurrency} baseToken={token.symbol} layout='horizontal'/></span>{/if
 			}{#if computedTokenBalanceFormat === 'both' && showParentheses}){/if}
 		</span>
 	</InlineContainer>

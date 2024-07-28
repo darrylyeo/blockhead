@@ -1,28 +1,30 @@
 <script lang="ts">
-	import type { TickerSymbol } from '$/data/currencies'
+	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
+	import { networksByChainID } from '$/data/networks'
 
 
-	export let network: EthereumNetwork
-	export let symbol: TickerSymbol
-	export let address: Ethereum.ContractAddress
-	export let name: string
-	export let icon: string
+	// Inputs
+	export let token: {
+		name?: string,
+		chainId?: Ethereum.ChainID,
+		symbol?: string,
+		address?: Ethereum.ContractAddress,
+		decimals?: number,
+		icon?: string,
+	}
 
-	export let erc20Token: Ethereum.ERC20Token
-	$: symbol = $$props.symbol || erc20Token?.symbol
-	$: address = $$props.address || erc20Token?.address
-	$: name = $$props.name || erc20Token?.name
-	$: icon = $$props.icon || erc20Token?.icon
-
-	$: title = `${name || symbol}${symbol && name ? ` (${symbol})` : ``}`
+	$: title = `${token.name || token.symbol}${token.symbol && token.name ? ` (${token.symbol})` : ``}`
+	$: network = token.chainId && networksByChainID[token.chainId]
 
 
+	// Actions
 	const onDragStart = (e: DragEvent) => {
 		e.dataTransfer.setData('text/plain', title)
 	}
 
 
+	// Components
 	import Address from './Address.svelte'
 	import TokenIcon from './TokenIcon.svelte'
 </script>
@@ -51,7 +53,7 @@
 
 <Address
 	{network}
-	{address}
+	address={token.address}
 >
 	<span
 		class="token-value-container"
@@ -59,7 +61,10 @@
 		draggable={true}
 		on:dragstart={onDragStart}
 	>
-		<TokenIcon {network} {symbol} {address} {name} {icon} {erc20Token} />
-		<span class="token-name">{symbol}</span>
+		<TokenIcon
+			{network}
+			{token}
+		/>
+		<span class="token-name">{token.symbol}</span>
 	</span>
 </Address>

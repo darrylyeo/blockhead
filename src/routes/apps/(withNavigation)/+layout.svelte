@@ -71,8 +71,10 @@
 						{#if app.icon}
 							<Icon imageSources={[app.icon]} title={app.name} />
 						{:else}
-							{#each app.views?.flatMap(view => view.erc20Tokens ?? []).filter(Boolean).slice(0, 1) as erc20Token}
-								<TokenIcon {erc20Token} />
+							{#each app.views?.flatMap(view => view.erc20Tokens ?? []).filter(Boolean).slice(0, 1) as token}
+								<TokenIcon
+									{token}
+								/>
 							{/each}
 						{/if}
 

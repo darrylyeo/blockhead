@@ -385,9 +385,11 @@
 										{#if (status === 'resolved' || status === 'reloading') && summary}
 											<span class="summary row" class:is-zero={!summary.defiAppsCount}>
 												<TokenBalance
-													symbol={summary.quoteTotalCurrency || quoteCurrency}
-													balance={summary.quoteTotal}
 													format="fiat"
+													token={{
+														symbol: summary.quoteTotalCurrency || quoteCurrency,
+													}}
+													balance={summary.quoteTotal}
 												/>
 												<div class="card-annotation">{defiProvider}</div>
 											</span>
@@ -428,7 +430,12 @@
 									<svelte:fragment slot="title">
 										<h4>
 											{erc20Token.name}
-											(<TokenName {network} {erc20Token} />)
+											(<TokenName
+												token={{
+													chainId: network.chainId,
+													...erc20Token
+												}}
+											/>)
 										</h4>
 									</svelte:fragment>
 
@@ -439,7 +446,12 @@
 									<!--
 									<svelte:fragment slot="title">
 										<h4>
-											<TokenName {network} {erc20Token} />
+											<TokenName
+												token={{
+													chainId: network.chainId,
+													...erc20Token
+												}}
+											/>
 											({erc20Token.name})
 										</h4>
 									</svelte:fragment>
@@ -487,7 +499,12 @@
 												>
 													<h4 slot="title">
 														<!-- {erc20Token.name}
-														(<TokenName {network} {erc20Token} />)
+														(<TokenName
+															token={{
+																chainId: network.chainId,
+																...erc20Token
+															}}
+														/>)
 														- Historical Price -->
 														Historical Price
 													</h4>
@@ -531,8 +548,7 @@
 														<TokenBalanceWithConversion
 															{tokenBalanceFormat}
 
-															{network}
-															erc20Token={token}
+															{token}
 
 															balance={Number(balance) * 0.1 ** token.decimals}
 															conversionCurrency={quoteCurrency}
@@ -541,8 +557,8 @@
 														/>
 													{:else}
 														<TokenBalanceWithConversion
-															{network}
-															{erc20Token}
+
+															token={erc20Token}
 
 															balance={0}
 															conversionCurrency={quoteCurrency}

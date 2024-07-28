@@ -279,7 +279,15 @@
 
 		<InlineContainer isOpen={summary && state !== State.Editing}>
 			<span class="summary" transition:scale>
-				<span class="account-total-value"><TokenBalance symbol={quoteCurrency} balance={summary.quoteTotal} format="fiat" /></span>
+				<span class="account-total-value">
+					<TokenBalance
+						format="fiat"
+						token={{
+							symbol: quoteCurrency,
+						}}
+						balance={summary.quoteTotal}
+					/>
+				</span>
 
 				<!-- {#if summary.filteredBalancesCount}
 					│
@@ -303,7 +311,14 @@
 		</InlineContainer>
 		<!-- {#if quoteTotals.length && state !== State.Editing}
 			<span class="account-total-value" transition:scale>
-				<TokenBalance symbol={quoteCurrency} balance={quoteTotal} format="fiat" clip={false} />
+				<TokenBalance
+					format="fiat"
+					token={{
+						symbol: quoteCurrency,
+					}}
+					balance={quoteTotal}
+					clip={false}
+				/>
 			</span>
 		{/if} -->
 

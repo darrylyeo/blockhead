@@ -1,48 +1,45 @@
 <script lang="ts">
+	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
-	import type { TickerSymbol } from '$/data/currencies'
 	import { erc20TokensByContractAddress, erc20TokensBySymbol } from '$/data/tokens'
-	import { networksByChainID } from '$/data/networks'
 
 
-	export let network: Ethereum.Network
-	export let symbol: TickerSymbol
-	export let address: Ethereum.ContractAddress
-	export let name: string
-	export let icon: string
-
-	export let erc20Token: Ethereum.ERC20Token
-	$: network = $$props.network || erc20Token?.chainId && networksByChainID[erc20Token?.chainId]
-	$: symbol = $$props.symbol || erc20Token?.symbol
-	$: address = $$props.address || erc20Token?.address
-	$: name = $$props.name || erc20Token?.name
-	$: icon = $$props.icon || erc20Token?.icon
+	// Inputs
+	export let token: {
+		name?: string,
+		chainId?: Ethereum.ChainID,
+		symbol?: string,
+		address?: Ethereum.ContractAddress,
+		decimals?: number,
+		icon?: string,
+	}
 
 
+	// Components
 	import Icon from './Icon.svelte'
 	import { tokenIcons } from '$/assets/tokenIcons'
 </script>
 
 
-{#if symbol?.includes(' / ')}
-	{#each symbol.split(' / ') as _symbol}
+{#if token.symbol?.includes(' / ')}
+	{#each token.symbol.split(' / ') as _symbol}
 		<svelte:self symbol={_symbol} />
 	{/each}
 {:else}
 	<Icon
-		key={address || symbol}
+		key={token.address || token.symbol}
 		imageSources={[
-			tokenIcons[symbol],
-			// address && `https://token-icons.s3.amazonaws.com/${address.toLowerCase()}.png`,
-			icon,
-			// symbol && `https://zapper.fi/images/${symbol}-icon.png`,
-			// address && `https://tokens.1inch.exchange/${address.toLowerCase()}.png`,
-			// address && `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`,
-			address && erc20TokensByContractAddress[address.toLowerCase()]?.icon,
-			symbol && erc20TokensBySymbol[symbol]?.icon,
+			token.symbol && token.symbol in tokenIcons && tokenIcons[token.symbol],
+			// token.address && `https://token-icons.s3.amazonaws.com/${address.toLowerCase()}.png`,
+			token.icon,
+			// token.symbol && `https://zapper.fi/images/${symbol}-icon.png`,
+			// token.address && `https://tokens.1inch.exchange/${address.toLowerCase()}.png`,
+			// token.address && `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`,
+			token.address && erc20TokensByContractAddress[token.address.toLowerCase()]?.icon,
+			token.symbol && erc20TokensBySymbol[token.symbol]?.icon,
 		].filter(Boolean)}
-		title={symbol + (address ? ` (${address})` : '')}
-		placeholder={symbol ?? '?'}
+		title={token.symbol + (token.address ? ` (${token.address})` : '')}
+		placeholder={token.symbol ?? '?'}
 	>
 		<slot />
 	</Icon>

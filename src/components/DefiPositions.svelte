@@ -167,17 +167,21 @@
 					<div class="summary">
 						{#if appWithPositions.summary.assets?.value}
 							<TokenBalance
-								symbol={appWithPositions.summary.assets.currency}
-								balance={appWithPositions.summary.assets.value}
 								format="fiat"
+								token={{
+									symbol: appWithPositions.summary.assets.currency,
+								}}
+								balance={appWithPositions.summary.assets.value}
 							/>
 						{/if}
 
 						{#if appWithPositions.summary.debt?.value}
 							<TokenBalance
-								symbol={appWithPositions.summary.debt.currency}
-								balance={appWithPositions.summary.debt.value}
 								format="fiat"
+								token={{
+									symbol: appWithPositions.summary.debt.currency,
+								}}
+								balance={appWithPositions.summary.debt.value}
 								isDebt={true}
 							/>
 						{/if}
@@ -224,17 +228,21 @@
 							<div class="summary">
 								{#if view.summary.assets?.value}
 									<TokenBalance
-										symbol={view.summary.assets.currency}
-										balance={view.summary.assets.value}
 										format="fiat"
+										token={{
+											symbol: view.summary.assets.currency,
+										}}
+										balance={view.summary.assets.value}
 									/>
 								{/if}
 
 								{#if view.summary.debt?.value}
 									<TokenBalance
-										symbol={view.summary.debt.currency}
-										balance={view.summary.debt.value}
 										format="fiat"
+										token={{
+											symbol: view.summary.debt.currency,
+										}}
+										balance={view.summary.debt.value}
 										isDebt={true}
 									/>
 								{/if}
@@ -287,8 +295,7 @@
 												<TokenBalanceWithConversion
 													{tokenBalanceFormat}
 
-													{network}
-													erc20Token={position.tokenWithBalance.token}
+													token={position.tokenWithBalance.token}
 
 													balance={Number(position.tokenWithBalance.balance) * 0.1 ** position.tokenWithBalance.token.decimals}
 
@@ -304,8 +311,7 @@
 											<!-- <TokenBalanceWithConversion
 												{tokenBalanceFormat}
 
-												{network}
-												erc20Token={position.tokenWithBalance.token}
+												token={position.tokenWithBalance.token}
 
 												balance={position.tokenWithBalance.balance}
 
@@ -366,8 +372,7 @@
 													<TokenBalanceWithConversion
 														{tokenBalanceFormat}
 
-														{network}
-														erc20Token={subposition.tokenWithBalance.token}
+														token={subposition.tokenWithBalance.token}
 
 														balance={Number(subposition.tokenWithBalance.balance) * 0.1 ** subposition.tokenWithBalance.token.decimals}
 
@@ -382,8 +387,7 @@
 													<!-- <TokenBalanceWithConversion
 														{tokenBalanceFormat}
 
-														{network}
-														erc20Token={subposition.tokenWithBalance.token}
+														token={subposition.tokenWithBalance.token}
 
 														balance={subposition.tokenWithBalance.balance}
 
@@ -410,10 +414,12 @@
 																	-
 																{:else if item.type === 'currency'}
 																	<TokenBalance
-																		symbol={item.currency}
+																		format="fiat"
+																		token={{
+																			symbol: item.currency,
+																		}}
 																		balance={Number(item.value)}
 																		isDebt={item.label === 'Debt'}
-																		format="fiat"
 																	/>
 																{:else if item.type === 'number'}
 																	{#if item.format === 'percent'}
@@ -449,10 +455,12 @@
 														-
 													{:else if item.type === 'currency'}
 														<TokenBalance
-															symbol={item.currency}
+															format="fiat"
+															token={{
+																symbol: item.currency,
+															}}
 															balance={Number(item.value)}
 															isDebt={item.label === 'Debt'}
-															format="fiat"
 														/>
 													{:else if item.type === 'number'}
 														{#if item.format === 'percent'}
@@ -498,7 +506,10 @@
 	{#each assets as {type, address, balance, balanceUSD, symbol, price, img, label, reserve}}
 		{type}
 		<TokenBalance
-			{symbol} {address}
+			token={{
+				symbol,
+				address,
+			}}
 			{balance}
 		/>
 	{/each}

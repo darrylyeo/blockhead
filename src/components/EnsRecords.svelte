@@ -287,8 +287,13 @@
 				}
 					<dl transition:fade><!-- animate:flip|local={{duration: 300, delay: i * 10}} -->
 						<dt>
-							<TokenIcon {network} symbol={networksBySlip44[key]?.symbol || chainsBySlip44[key]?.symbol} />
-							<abbr title="{networksBySlip44[key]?.name || chainsBySlip44[key]?.name || ''}">{networksBySlip44[key]?.symbol || chainsBySlip44[key]?.symbol}</abbr>
+							<TokenIcon
+								token={{
+									chainId: networkBySlip44[key]?.chainId,
+									symbol: networkBySlip44[key]?.symbol || chainsBySlip44[key]?.symbol,
+								}}
+							/>
+							<abbr title="{networkBySlip44[key]?.name || chainsBySlip44[key]?.name || ''}">{networkBySlip44[key]?.symbol || chainsBySlip44[key]?.symbol}</abbr>
 						</dt>
 						<dd>
 							{#if address === null}

@@ -109,7 +109,10 @@
 					<Address address={makerId} format="middle-truncated" linked={false} />
 					<span class="action-{makerAction[tx.aggressor]}">{makerAction[tx.aggressor]}</span>
 					<span style="font-size: {sizeByVolume(size)}em">
-						<TokenBalance balance={size} symbol={quoteName} />
+						<TokenBalance
+							token={{ symbol: quoteName }}
+							balance={size}
+						/>
 					</span>
 				</p>
 			{/each}
@@ -130,7 +133,10 @@
 			</span>
 			<span>
 				<span style="font-size: {sizeByVolume(size)}em">
-					<TokenBalance balance={size} symbol={quoteName} />
+					<TokenBalance
+						token={{ symbol: quoteName }}
+						balance={size}
+					/>
 				</span>
 			</span>
 		</div>

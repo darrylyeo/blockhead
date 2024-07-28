@@ -126,7 +126,14 @@
 		<footer class="footer bar wrap">
 			{#if tipset.baseGasFee}
 				<span>
-					Base fee: <TokenBalance {...network.nativeCurrency} balance={Number(tipset.baseGasFee) / 1e18} showDecimalPlaces={network.nativeCurrency.decimals} /> / gas unit
+					Base fee: <TokenBalance
+						token={{
+							chainId: network.chainId,
+							...network.nativeCurrency,
+						}}
+						balance={Number(tipset.baseGasFee) / 1e18}
+						showDecimalPlaces={network.nativeCurrency.decimals}
+					/> / gas unit
 				</span>
 			{:else}
 				<span />
