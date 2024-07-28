@@ -8,6 +8,7 @@ import type { Asset, AssetToken, getAppBalances, getTokenBalances, Value } from 
 
 
 // Functions
+import { chainIdByNetworkName } from '.'
 import { formatIdentifierToWords } from '$/utils/formatIdentifierToWords'
 
 export const normalizeTokenBalance = (
@@ -142,7 +143,7 @@ export const normalizeAppBalance = (
 
 			tokenWithBalance: {
 				token: {
-					network: asset.network,
+					chainId: chainIdByNetworkName.get(asset.network),
 					symbol: asset.symbol,
 					address: asset.address,
 					name: asset.displayProps.label,

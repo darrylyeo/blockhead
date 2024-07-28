@@ -26,6 +26,19 @@ export const networkNamesByChainId = new Map<
 	[8453, 'base'],
 ])
 
+export const chainIdByNetworkName = new Map<
+	ZapperSupportedNetwork,
+	Ethereum.ChainID
+>(
+	Array.from(
+		networkNamesByChainId.entries(),
+		([chainId, networkName]) => [
+			networkName,
+			chainId
+		]
+	)
+)
+
 export type ZapperAppName = string
 
 type Address = `0x${string}`
