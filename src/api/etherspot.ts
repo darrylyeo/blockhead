@@ -86,7 +86,10 @@ type Transaction = Ethereum.Transaction & {
 	transferredToken?: Ethereum.ERC20Token
 }
 
-export const normalizeTransaction = (transaction: EtherspotTransaction, network: Ethereum.Network): Transaction => ({
+export const normalizeTransaction = (
+	transaction: EtherspotTransaction,
+	network: Ethereum.Network,
+): Transaction => ({
 	network,
 
 	transactionID: transaction.hash,
@@ -109,7 +112,12 @@ export const normalizeTransaction = (transaction: EtherspotTransaction, network:
 	gasRate: transaction.gasPrice,
 	gasValue: BigInt(transaction.gasPrice * transaction.gasUsed),
 	
-	logEvents: transaction.logs.map(normalizeLogEvent),
+	logEvents: (
+		transaction.logs
+			.map(log => (
+				normalizeLogEvent(log, network)
+			))
+	),
 
 	input: transaction.input as Ethereum.TransactionInput,
 
@@ -121,12 +129,15 @@ export const normalizeTransaction = (transaction: EtherspotTransaction, network:
 })
 
 
-export const normalizeLogEvent = (logEvent: TransactionLog): Ethereum.TransactionLogEvent => ({
-
+export const normalizeLogEvent = (
+	logEvent: TransactionLog,
+	network: Ethereum.Network,
+): Ethereum.TransactionLogEvent => ({
 	topics: logEvent.topics as Ethereum.TopicHash[],
 	data: logEvent.data,
 
 	contract: {
+		chainId: network.chainId,
 		address: logEvent.address as Ethereum.ContractAddress,
 	},
 

@@ -84,15 +84,23 @@ export const normalizeTransaction = (
 	...('logs' in transaction ? {
 		logEvents: transaction.logs.map(normalizeLogEvent)
 	} : logs ? {
-		logEvents: logs.map(normalizeLogEvent),
+		logEvents: (
+			logs.map(log => (
+				normalizeLogEvent(log, network)
+			))
+		),
 	} : {}),
 })
 		
-export const normalizeLogEvent = (logEvent: TransactionReceipt['logs'][number]): Ethereum.TransactionLogEvent => ({
+export const normalizeLogEvent = (
+	logEvent: TransactionReceipt['logs'][number],
+	network: Ethereum.Network,
+): Ethereum.TransactionLogEvent => ({
 	topics: logEvent.topics,
 	data: logEvent.data,
 
 	contract: {
+		chainId: network.chainId,
 		address: logEvent.address,
 	},
 

@@ -113,14 +113,23 @@ export const normalizeRpcTransactionReceipt = (
 	gasUnitsSpent: BigInt(transaction.gasUsed),
 	gasUnitRate: BigInt(transaction.effectiveGasPrice),
 
-	logEvents: transaction.logs.map(normalizeLog),
+	logEvents: (
+		transaction.logs
+			.map(log => (
+				normalizeLog(log, network)
+			))
+	),
 })
 
-export const normalizeLog = (log: Awaited<ReturnType<typeof Etherscan.RpcProxy.getTransactionReceipt>>['logs'][number]): Ethereum.TransactionLogEvent => ({
+export const normalizeLog = (
+	log: Awaited<ReturnType<typeof Etherscan.RpcProxy.getTransactionReceipt>>['logs'][number],
+	network: Ethereum.Network,
+): Ethereum.TransactionLogEvent => ({
 	topics: log.topics,
 	data: log.data,
 
 	contract: {
+		chainId: network.chainId,
 		address: log.address,
 	},
 

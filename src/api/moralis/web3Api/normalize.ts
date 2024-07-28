@@ -85,6 +85,7 @@ export const normalizeLog = (
 	data: log.data,
 
 	contract: {
+		chainId: network.chainId,
 		address: log.address as Ethereum.ContractAddress,
 	},
 })
