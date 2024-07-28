@@ -684,6 +684,49 @@ export const networks = [
 		"infoURL": "https://bitcoin.org"
 	},
 	{
+		"slug": "blast",
+		"name": "Blast",
+		"chainId": 81457,
+		"network": "mainnet",
+		"networkId": 81457,
+		"nativeCurrency": {
+			"name": "Ether",
+			"symbol": "ETH",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://rpc.blast.io",
+			"https://blast.din.dev/rpc",
+			"https://blastl2-mainnet.public.blastapi.io",
+			"https://blast.blockpi.network/v1/rpc/public",
+			"https://blast.blockpi.network/v1/rpc/public",
+			"https://rpc.ankr.com/blast",
+			"https://blast.gasswap.org",
+			"wss://blast.gasswap.org",
+			"https://rpc.envelop.is/blast",
+			"https://blast-rpc.publicnode.com",
+			"wss://blast-rpc.publicnode.com",
+			"https://blast.drpc.org",
+			"wss://blast.drpc.org",
+		],
+		"faucets": [],
+		"explorers": [
+			{
+				"name": "Blastscan",
+				"url": "https://blastscan.io",
+				"icon": "blast",
+				"standard": "EIP3091"
+			},
+			{
+				"name": "Blast Explorer",
+				"url": "https://blastexplorer.io",
+				"icon": "blast",
+				"standard": "EIP3091"
+			}
+		],
+		"infoURL": "https://blast.io"
+	},
+	{
 		"slug": "blockchain-genesis",
 		"name": "Blockchain Genesis",
 		"chainId": 10101,
