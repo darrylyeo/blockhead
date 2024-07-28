@@ -162,6 +162,7 @@ export const normalizeErc20Transfer = (
 	value: BigInt(transfer.delta),
 
 	transferredToken: {
+		chainId: network.chainId,
 		symbol: transfer.contract_ticker_symbol,
 		address: transfer.contract_address as Ethereum.Address,
 		name: transfer.contract_name,
