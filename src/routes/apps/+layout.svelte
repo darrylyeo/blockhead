@@ -4,11 +4,6 @@
 
 
 	// Params two-way binding
-
-	import { page } from '$app/stores'
-	import { browser } from '$app/environment'
-	import { goto, beforeNavigate } from '$app/navigation'
-
 	import {
 		web3AppSlug,
 		networkSlug,
@@ -35,33 +30,46 @@
 		derivedPath,
 	} from './_appsParams'
 
-	$: if($page.url.pathname.startsWith('/apps')){
-		$web3AppSlug = $page.params.web3AppSlug || $page.url.pathname.match(/^\/apps\/(audius|ceramic|disco|ens|farcaster|ipfs|lens|uniswap)/)?.[1] || ''
-		$networkSlug = $page.params.networkSlug || ''
-		$accountId = $page.params.accountId || ''
-		$audiusQuery = $page.params.audiusQuery || ''
-		$audiusPlaylistId = $page.params.audiusPlaylistId || ''
-		$audiusTrackId = $page.params.audiusTrackId || ''
-		$audiusUserId = $page.params.audiusUserId || ''
-		$didUrl = $page.params.didUrl || ''
-		$discoCredentialId = $page.params.discoCredentialId || ''
-		$farcasterCastId = $page.params.farcasterCastId || ''
-		$farcasterCastShortId = $page.params.farcasterCastShortId || ''
-		$farcasterChannelId = $page.params.farcasterChannelId || ''
-		$farcasterUserId = $page.params.farcasterUserId || ''
-		$farcasterUserName = $page.params.farcasterUserName || ''
-		$ipfsContentId = $page.params.ipfsContentId || ''
-		$ipnsName = $page.params.ipnsName || ''
-		$ipfsContentPath = $page.params.ipfsContentPath || ''
-	}
+	import { goto, beforeNavigate, afterNavigate } from '$app/navigation'
+	import { page } from '$app/stores'
+	import { get } from 'svelte/store'
 
-	$: if(browser) goto($derivedPath, { keepfocus: true })
+	let canNavigate = false
 
-	beforeNavigate(({from, to, cancel}) => {
-		if(from?.url.pathname === to?.url.pathname)
-			cancel()
+	afterNavigate(navigation => {
+		if(navigation.to?.url.pathname.startsWith('/apps') && navigation.to.params){
+			$web3AppSlug = navigation.to.params.web3AppSlug || navigation.to.url.pathname.match(/^\/apps\/(audius|ceramic|disco|ens|farcaster|ipfs|lens|uniswap)/)?.[1] || ''
+			$networkSlug = navigation.to.params.networkSlug || ''
+			$accountId = navigation.to.params.accountId || ''
+			$audiusQuery = navigation.to.params.audiusQuery || ''
+			$audiusPlaylistId = navigation.to.params.audiusPlaylistId || ''
+			$audiusTrackId = navigation.to.params.audiusTrackId || ''
+			$audiusUserId = navigation.to.params.audiusUserId || ''
+			$didUrl = navigation.to.params.didUrl || ''
+			$discoCredentialId = navigation.to.params.discoCredentialId || ''
+			$farcasterCastId = navigation.to.params.farcasterCastId || ''
+			$farcasterCastShortId = navigation.to.params.farcasterCastShortId || ''
+			$farcasterChannelId = navigation.to.params.farcasterChannelId || ''
+			$farcasterUserId = navigation.to.params.farcasterUserId || ''
+			$farcasterUserName = navigation.to.params.farcasterUserName || ''
+			$ipfsContentId = navigation.to.params.ipfsContentId || ''
+			$ipnsName = navigation.to.params.ipnsName || ''
+			$ipfsContentPath = navigation.to.params.ipfsContentPath || ''
+
+			canNavigate = true
+		}
 	})
-	
+
+	$: if(canNavigate && $derivedPath && $derivedPath !== get(page).url.pathname)
+		goto($derivedPath, { keepFocus: true })
+
+	beforeNavigate(navigation => {
+		if(navigation.type === 'goto' && navigation.from && navigation.to && navigation.from.url.pathname === navigation.to.url.pathname)
+			navigation.cancel()
+		else if(!navigation.to?.url.pathname.startsWith('/apps'))
+			canNavigate = false
+	})
+
 
 	// Context
 

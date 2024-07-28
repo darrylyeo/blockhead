@@ -2,11 +2,6 @@
 	import type { Ethereum } from '$/data/networks/types'
 
 	// Params two-way binding
-
-	import { page } from '$app/stores'
-	import { browser } from '$app/environment'
-	import { goto, beforeNavigate } from '$app/navigation'
-
 	import {
 		networkSlug,
 
@@ -18,21 +13,32 @@
 		derivedPath
 	} from './_explorerParams'
 
-	import { explorerQueryType, ExplorerQueryType, explorerQuery } from './_explorerContext'
+	import { goto, beforeNavigate, afterNavigate } from '$app/navigation'
+	import { page } from '$app/stores'
+	import { get } from 'svelte/store'
 
-	$: if($page.url.pathname.startsWith('/explorer')){
-		$networkSlug = $page.params.networkSlug || $page.url.pathname.match(/^\/explorer\/([^/]+)/)?.[1] || ''
-		$address = $page.params.address || ''
-		$blockNumber = $page.params.blockNumber || ''
-		$ensName = $page.params.ensName || ''
-		$transactionId = $page.params.transactionId || ''
-	}
+	let canNavigate = false
 
-	$: if(browser) goto($derivedPath, { keepFocus: true })
+	afterNavigate(navigation => {
+		if(navigation.to?.url.pathname.startsWith('/explorer') && navigation.to.params){ 
+			$networkSlug = navigation.to.params.networkSlug || navigation.to.url.pathname.match(/^\/explorer\/([^/]+)/)?.[1] || ''
+			$address = navigation.to.params.address || ''
+			$blockNumber = navigation.to.params.blockNumber || ''
+			$ensName = navigation.to.params.ensName || ''
+			$transactionId = navigation.to.params.transactionId || ''
 
-	beforeNavigate(({from, to, cancel}) => {
-		if(from?.url.pathname === to?.url.pathname)
-			cancel()
+			canNavigate = true
+		}
+	})
+
+	$: if(canNavigate && $derivedPath && get(page).url.pathname !== $derivedPath)
+		goto($derivedPath, { keepFocus: true })
+
+	beforeNavigate(navigation => {
+		if(navigation.type === 'goto' && navigation.from && navigation.to && navigation.from.url.pathname === navigation.to.url.pathname)
+			navigation.cancel()
+		else if(!navigation.to?.url.pathname.startsWith('/explorer'))
+			canNavigate = false
 	})
 
 
