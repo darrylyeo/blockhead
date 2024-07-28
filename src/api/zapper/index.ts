@@ -4,24 +4,27 @@ import type { appTokenControllerGetAppTokens } from './v2'
 
 export type ZapperSupportedNetwork = Parameters<typeof appTokenControllerGetAppTokens>[1]
 
-export const networkNamesByChainId: Record<Ethereum.ChainID, ZapperSupportedNetwork> = {
-	1: 'ethereum',
-	137: 'polygon',
-	10: 'optimism',
-	100: 'gnosis',
-	56: 'binance-smart-chain',
-	250: 'fantom',
-	43114: 'avalanche',
-	42161: 'arbitrum',
-	42220: 'celo',
-	1666600000: 'harmony',
-	1285: 'moonriver',
+export const networkNamesByChainId = new Map<
+	Ethereum.ChainID,
+	ZapperSupportedNetwork
+>([
+	[1, 'ethereum'],
+	[137, 'polygon'],
+	[10, 'optimism'],
+	[100, 'gnosis'],
+	[56, 'binance-smart-chain'],
+	[250, 'fantom'],
+	[43114, 'avalanche'],
+	[42161, 'arbitrum'],
+	[42220, 'celo'],
+	[1666600000, 'harmony'],
+	[1285, 'moonriver'],
 	// : 'bitcoin',
-	25: 'cronos',
-	1313161554: 'aurora',
-	9001: 'evmos',
-	8453: 'base',
-}
+	[25, 'cronos'],
+	[1313161554, 'aurora'],
+	[9001, 'evmos'],
+	[8453, 'base'],
+])
 
 export type ZapperAppName = string
 
@@ -302,7 +305,7 @@ export const getTokenBalances = async ({
 	network: Ethereum.Network,
 	address: Ethereum.Address,
 }) => {
-	const networkName = networkNamesByChainId[network.chainId]
+	const networkName = networkNamesByChainId.get(network.chainId)
 
 	if (!networkName)
 		throw new Error(`Zapper doesn't yet support ${network.name}.`)
@@ -312,7 +315,7 @@ export const getTokenBalances = async ({
 			[address],
 			{
 				networks: [
-					networkNamesByChainId[network.chainId],
+					networkName,
 				],
 			},
 		)
@@ -352,7 +355,7 @@ export const getAppBalances = async ({
 	let networkName
 	
 	if(network){
-		networkName = networkNamesByChainId[network.chainId]
+		networkName = networkNamesByChainId.get(network.chainId)
 
 		if (!networkName)
 			throw new Error(`Zapper doesn't yet support ${network.name}.`)
