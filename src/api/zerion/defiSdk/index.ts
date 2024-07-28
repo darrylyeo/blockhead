@@ -114,7 +114,7 @@ export namespace DefiSDK {
 		description: string
 		websiteURL: string
 		iconURL: string
-		version: string
+		version: bigint
 	}
 
 	export type ProtocolBalance = {
@@ -183,5 +183,5 @@ export const getDefiPositions = async ({
 		abi: defiSdkAbi,
 		functionName: 'getProtocolBalances',
 		args: [address, protocolNames]
-	}) as DefiSDK.ProtocolBalances[]
+	}) as DefiSDK.ProtocolBalances
 }
