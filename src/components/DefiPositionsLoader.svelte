@@ -235,7 +235,9 @@
 						address,
 					})
 				),
-				select: normalizeDefiPositionsZerion,
+				select: positions => (
+					normalizeDefiPositionsZerion(positions, network.chainId)
+				),
 				staleTime: 10 * 1000,
 			})
 		}),

@@ -13,7 +13,8 @@ import { web3AppsByProviderName } from '$/data/web3Apps'
 import { isTruthy } from '$/utils/isTruthy'
 
 export const normalizeDefiPositions = (
-	defiBalances: DefiSDK.ProtocolBalances
+	defiBalances: DefiSDK.ProtocolBalances,
+	chainId: Ethereum.ChainID,
 ): AppWithDefiPositions[] => (
 	defiBalances.map((protocolBalance: DefiSDK.ProtocolBalance) => {
 		const app: Web3AppConfig | undefined = web3AppsByProviderName.zerionDefiSDK?.[protocolBalance.metadata.name]
@@ -48,6 +49,7 @@ export const normalizeDefiPositions = (
 
 					tokenWithBalance: {
 						token: {
+							chainId,
 							symbol: balance.base.metadata.symbol,
 							address: balance.base.metadata.token as Ethereum.ContractAddress,
 							name: balance.base.metadata.name,
