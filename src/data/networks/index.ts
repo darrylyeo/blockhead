@@ -6301,105 +6301,85 @@ export const networkBySlip44 = new Map(
 ) satisfies Map<Slip44, Network>
 
 
-const testnetSlugsForMainnetSlugs = {
-	'ethereum': [
+const testnetSlugsForMainnetSlug = new Map([
+	['ethereum', [
 		'ethereum-sepolia',
 		'ethereum-goerli',
 		'ethereum-rinkeby',
 		'ethereum-ropsten',
 		'ethereum-kovan',
-	],
-	'polygon': [
+	]],
+	['polygon', [
 		'polygon-mumbai',
-	],
-	'arbitrum-one': [
+	]],
+	['arbitrum-one', [
 		'arbitrum-rinkeby',
 		'arbitrum-goerli',
 		'arbitrum-sepolia',
-	],
-	'optimism': [
+	]],
+	['optimism', [
 		'optimism-goerli',
 		'optimism-kovan',
 		'optimism-sepolia',
-	],
-	'avalanche': [
+	]],
+	['avalanche', [
 		'avalanche-fuji',
-	],
-	'base': [
+	]],
+	['base', [
 		'base-goerli',
-	],
-	'bsc': [
+	]],
+	['bsc', [
 		'bsc-testnet',
-	],
-	'celo': [
+	]],
+	['celo', [
 		'celo-alfajores',
 		'celo-baklava',
-	],
-	// 'nahmii': [
-	// 	'nahmii-testnet',
-	// ],
-	// 'metis': [
-	// 	'metis-stardust',
-	// ],
-	// 'mode': [
-	// 	'mode-sepolia'
-	// ],
-	// 'reef': [
-	// 	'reef-testnet',
-	// ],
-	// 'skale': [
-	// 	'skale-testnet',
-	// ],
-	'aurora': [
+	]],
+	['aurora', [
 		'aurora-testnet',
 		'aurora-betanet',
-	],
-	// 'nervos': [
-	// 	'nervos-godwoken',
-	// ],
-	'scroll': [
+	]],
+	['scroll', [
 		'scroll-alpha',
-	],
-	'zora': [
+	]],
+	['zora', [
 		'zora-goerli',
-	],
-	'filecoin': [
+	]],
+	['filecoin', [
 		'filecoin-wallaby',
 		'filecoin-calibration',
-	],
-} as const satisfies DeepReadonly<
-	Partial<Record<NetworkSlug, NetworkSlug[]>>
-> satisfies DeepReadonly<
-	Partial<Record<Ethereum.NetworkSlug, Ethereum.NetworkSlug[]>>
->
+	]],
+] as const) satisfies Map<NetworkSlug, readonly NetworkSlug[]>
 
-export const testnetsForMainnets = Object.fromEntries(
-	Object.entries(testnetSlugsForMainnetSlugs).map(([mainnetSlug, testnetSlugs]) =>
-		[mainnetSlug, testnetSlugs.map(slug => networkBySlug.get(slug))]
-	)
-) satisfies DeepReadonly<
-	Partial<Record<NetworkSlug, Network[]>>
-> satisfies DeepReadonly<
-	Partial<Record<Ethereum.NetworkSlug, Ethereum.Network[]>>
->
+export const testnetsForMainnet = new Map(
+	[...testnetSlugsForMainnetSlug.entries()]
+		.map(([mainnetSlug, testnetSlugs]) => [
+			mainnetSlug,
+			testnetSlugs
+				.map(slug => (
+					networkBySlug.get(slug)!
+				))
+		])
+) satisfies Map<NetworkSlug, Network[]>
 
-export const mainnetForTestnet = Object.fromEntries(
-	Object.entries(testnetSlugsForMainnetSlugs).flatMap(([mainnetSlug, testnetSlugs]) =>
-		testnetSlugs.map(slug => [slug, networkBySlug.get(mainnetSlug)])
-	)
-) satisfies DeepReadonly<
-	Partial<Record<NetworkSlug, Network[]>>
-> satisfies DeepReadonly<
-	Partial<Record<Ethereum.NetworkSlug, Ethereum.Network[]>>
->
+export const mainnetForTestnet = new Map(
+	[...testnetSlugsForMainnetSlug.entries()]
+		.flatMap(([mainnetSlug, testnetSlugs]) => (
+			testnetSlugs
+				.map(testnetSlug => [
+					testnetSlug,
+					networkBySlug.get(mainnetSlug)!
+				])
+		))
+) satisfies Map<NetworkSlug, Network>
 
-export const testnetNetworks = Object.values(testnetsForMainnets).flat()
+export const testnetNetworks = new Set(Array.from(testnetsForMainnet.values()).flat())
 
 export const isTestnet = (network: Network) => (
 	('network' in network && network.network?.includes('test'))
 		|| network.slug?.includes('testnet')
 		|| network.name?.toLowerCase().includes('testnet')
-		|| testnetNetworks.includes(network)
+		|| testnetNetworks.has(network)
 )
 
 
@@ -6499,7 +6479,7 @@ export const layer3Networks = ([
 // export const otherNetworks = networks.filter(network =>
 // 	!ethereumAndL2Networks.includes(network)
 // 	&& !evmNetworks.includes(network)
-// 	&& !Object.values(testnetsForMainnets).some(testnetNetworks => testnetNetworks.includes(network))
+// 	&& ![...testnetsForMainnet.values()].some(testnetNetworks => testnetNetworks.includes(network))
 // )
 
 export const networksBySection = [

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '$/data/networks/types'
-	import { networksBySection, testnetsForMainnets, getNetworkColor, networkByChainId, isTestnet } from '$/data/networks'
+	import { networksBySection, testnetsForMainnet, getNetworkColor, networkByChainId, isTestnet } from '$/data/networks'
 
 
 	export let placeholder = 'Select Network...'
@@ -46,7 +46,7 @@
 						<option disabled>{network.name}</option>
 						<option value={network}>{`${network.name}${isTestnet(network) || network.name.includes('Mainnet') ? '' : ' Mainnet'}`}{network.chainId ? ` (${network.chainId})` : ''}</option>
 
-						{#each testnetsForMainnets[network.slug] ?? [] as testnetNetwork}
+						{#each testnetsForMainnet.get(network.slug) ?? [] as testnetNetwork}
 							<option value={testnetNetwork}>{testnetNetwork.name}{testnetNetwork.chainId ? ` (${testnetNetwork.chainId})` : ''}</option>
 						{/each}
 					{:else}
@@ -66,7 +66,7 @@
 				<optgroup label={network.name} style={`--primary-color: ${getNetworkColor(network)}`}>
 					<option value={network}>{network.name} Mainnet{network.chainId ? ` (${network.chainId})` : ''}</option>
 
-					{#each testnetsForMainnets[network.slug] ?? [] as testnetNetwork (testnetNetwork.chainId)}
+					{#each testnetsForMainnet,get(network.slug) ?? [] as testnetNetwork (testnetNetwork.chainId)}
 						<option value={testnetNetwork}>{testnetNetwork.name}{testnetNetwork.chainId ? ` (${testnetNetwork.chainId})` : ''}</option>
 					{/each}
 				</optgroup>
