@@ -14,7 +14,7 @@ export namespace Ethereum {
 		shortName?: string,
 		chain?: ChainName,
 		network?: NetworkName,
-		networkId?: NetworkID,
+		networkId?: NetworkId,
 		nativeCurrency: NativeCurrency,
 		rpc: string[],
 		faucets?: string[],
@@ -41,7 +41,7 @@ export namespace Ethereum {
 	export type Slip44 = number // Branded<number, 'Slip44'>
 	export type ChainName = string // BrandedString<'ChainName'>
 	export type NetworkDisplayName = string // BrandedString<'NetworkDisplayName'>
-	export type NetworkID = number // Branded<number, 'NetworkID'>
+	export type NetworkId = number // Branded<number, 'NetworkId'>
 	export type NetworkName = 'mainnet' | 'ropsten' | 'rinkeby' | 'goerli' | 'kovan' | 'classic' | 'polygon' | string
 
 	export type NativeCurrency = {
