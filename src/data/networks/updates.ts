@@ -1,4 +1,4 @@
-import { networkBySlug } from '.'
+import { ethereumMainnet, networkBySlug } from '.'
 
 export const consensusMechanisms = {
 	'ethash': {
@@ -19,7 +19,7 @@ export const consensusMechanisms = {
 }
 
 export const updatesByNetwork = new Map([
-	[networkBySlug.get('ethereum')!, [
+	[ethereumMainnet, [
 		// {
 		// 	name: 'Shanghai',
 		// 	blockNumber: ,

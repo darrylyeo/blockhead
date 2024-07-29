@@ -2,13 +2,13 @@
 	import type { ENS } from '$/api/ens'
 	import type { Ethereum } from '$/data/networks/types'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
-	import { networkByChainId, networkBySlip44 } from '$/data/networks'
+	import { ethereumMainnet, networkBySlip44 } from '$/data/networks'
 	import { chainsBySlip44 } from '$/data/slip44'
 	import { getViemPublicClient } from '$/data/networkProviders'
 	import { preferences } from '$/state/preferences'
 
 
-	export let network = networkByChainId.get(1)!
+	export let network = ethereumMainnet
 	export let networkProvider: NetworkProvider
 	export let resolver: ENS.Resolver
 	export let ensName: string
@@ -307,7 +307,7 @@
 				<!-- {#each resolver.coinTypes as coinType}
 					<span class="crypto-address">
 						<span>{coinType}</span>
-						<Address network={networkBySlug.get('ethereum')!} address={records[coinType]} />
+						<Address network={ethereumMainnet} address={records[coinType]} />
 					</span>
 				{/each} -->
 			</div>

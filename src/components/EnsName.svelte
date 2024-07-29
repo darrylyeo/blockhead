@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { Ethereum } from '$/data/networks/types'
 	import type { ENS } from '$/api/ens'
-	import { networkByChainId } from '$/data/networks'
+	import { ethereumMainnet } from '$/data/networks'
 
 
-	export let network: Ethereum.Network = networkByChainId.get(1)!
+	export let network: Ethereum.Network = ethereumMainnet
 	export let ensName: string = ''
 
 	export let linked = true

@@ -163,7 +163,7 @@ export const getWalletConnection = async ({
 	selector,
 	networks = [ethereumMainnet], // availableNetworks
 	theme,
-	jsonRpcUri = getNetworkRPC(networkBySlug.get('ethereum')!),
+	jsonRpcUri = getNetworkRPC(ethereumMainnet),
 }: {
 	selector: AccountConnectionSelector,
 	networks?: Ethereum.Network[],

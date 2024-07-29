@@ -2,7 +2,7 @@
 import type { Ethereum } from '$/data/networks/types'
 import type { ENS } from '$/api/ens'
 
-import { networkBySlug } from '$/data/networks'
+import { ethereumMainnet, networkBySlug } from '$/data/networks'
 import { NetworkProvider } from '$/data/networkProviders/types'
 import { getViemPublicClient } from '$/data/networkProviders'
 
@@ -31,7 +31,7 @@ export const load = async ({
 	const network = networkBySlug.get(networkSlug)
 
 	const publicClient = getViemPublicClient({
-		network: networkBySlug.get('ethereum')!,
+		network: ethereumMainnet,
 		networkProvider: NetworkProvider.Alchemy,
 	})
 

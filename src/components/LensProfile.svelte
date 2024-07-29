@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import { type LensInstance, lensInstances, type LensProfile } from '$/api/lens'
-	import { networkByChainId } from '$/data/networks'
+	import { ethereumMainnet } from '$/data/networks'
 	import { ipfsGatewaysByProvider } from '$/data/ipfsGateways'
 
 
@@ -62,7 +62,7 @@
 			{#if profile.picture?.uri || profile.picture?.original?.url}
 				{#if profile.picture.contractAddress}
 					<Address
-						network={networkByChainId.get(1)!}
+						network={ethereumMainnet}
 						address={profile.picture.contractAddress}
 					>
 						<img src={picture} width="24" />

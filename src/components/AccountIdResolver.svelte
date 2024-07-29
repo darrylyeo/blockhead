@@ -7,7 +7,7 @@
 
 	import { NetworkProvider } from '$/data/networkProviders/types'
 	import { getViemPublicClient } from '$/data/networkProviders'
-	import { networkByChainId } from '$/data/networks'
+	import { ethereumMainnet } from '$/data/networks'
 
 
 	// Context
@@ -15,7 +15,7 @@
 
 
 	// External state
-	let network = networkByChainId.get(1)!
+	let network = ethereumMainnet
 	export let accountId: AccountId | undefined
 
 	export let passiveResolveToAddress = false

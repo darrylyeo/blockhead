@@ -4,7 +4,7 @@
 	import type { FarcasterProvider } from '$/data/farcasterProviders'
 	import type { FarcasterFeedProvider } from '$/data/farcasterFeedProviders'
 
-	import { networkByChainId, networkBySlug } from '$/data/networks'
+	import { ethereumMainnet, networkByChainId, networkBySlug } from '$/data/networks'
 
 
 	// Context
@@ -158,7 +158,7 @@
 					: evmAddressEmbed.networkSlug ?
 						networkBySlug.get(evmAddressEmbed.networkSlug)
 					: undefined
-				) || networkBySlug.get('ethereum')!}
+				) || ethereumMainnet}
 
 				<EthereumAccountOrContract
 					{network}
@@ -178,7 +178,7 @@
 					: evmTransactionEmbed.networkSlug ?
 						networkBySlug.get(evmTransactionEmbed.networkSlug)
 					: undefined
-				) || networkBySlug.get('ethereum')!}
+				) || ethereumMainnet}
 	
 				<EthereumTransactionLoader
 					{network}

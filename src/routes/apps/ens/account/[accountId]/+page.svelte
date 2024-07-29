@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { networkByChainId } from '$/data/networks'
+	import { ethereumMainnet } from '$/data/networks'
 
 
 	import { page } from '$app/stores'
@@ -17,5 +17,5 @@
 	passiveResolveToAddress
 	let:ensName
 >
-	<EnsSearchLoader network={networkByChainId.get(1)!} searchQuery={ensName} />
+	<EnsSearchLoader network={ethereumMainnet} searchQuery={ensName} />
 </AccountIdResolver>

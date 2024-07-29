@@ -76,7 +76,7 @@ const generateOpenGraphImage = async ({
 	// 			annotation: `${network.name} ${addressType}`,
 	// 			body: sourcePaths?.join('\n'),
 	// 			url,
-	// 			primaryColor: getNetworkColor(network) ?? getNetworkColor(networkBySlug.get('ethereum')!),
+	// 			primaryColor: getNetworkColor(network) ?? getNetworkColor(ethereumMainnet),
 	// 		})
 	// 	),
 	// })

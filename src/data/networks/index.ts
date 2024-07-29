@@ -6403,6 +6403,8 @@ export const isTestnet = (network: Network) => (
 )
 
 
+export const ethereumMainnet = networkBySlug.get('ethereum')!
+
 export const availableNetworks = ([
 	'ethereum',
 	'polygon',
