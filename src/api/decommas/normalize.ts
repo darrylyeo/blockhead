@@ -57,7 +57,7 @@ export const normalizeNftContracts = (
 			name: nftsWithMetadata[0].metadata?.collectionName ?? '',
 			symbol: '',
 
-			ercTokenStandards: [(nftsWithMetadata[0].metadata ?? nftsWithMetadata[0].nft).contractType.replace('-', '').toLowerCase() as Ethereum.ERCTokenStandard],
+			ercTokenStandards: [(nftsWithMetadata[0].metadata ?? nftsWithMetadata[0].nft).contractType.replace('-', '').toLowerCase() as Ethereum.ErcTokenStandard],
 			
 			nfts: nftsWithMetadata.map(({ nft, metadata }): Ethereum.NftWithBalance => ({
 				owner,

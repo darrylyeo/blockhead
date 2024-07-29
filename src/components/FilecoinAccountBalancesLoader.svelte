@@ -28,7 +28,7 @@
 
 
 	// Outputs
-	export let balances: Ethereum.ERC20Token[]
+	export let balances: Ethereum.Erc20Token[]
 
 	type SharedSlotProps = {
 		balances: typeof balances,

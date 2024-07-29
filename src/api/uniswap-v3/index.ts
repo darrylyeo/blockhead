@@ -25,8 +25,8 @@ export namespace UniswapV3 {
 	export const FeeAmount = Object.fromEntries(Object.entries(_FeeAmount).filter(([, value]) => typeof value === 'number'))
 
 	export type Pool = {
-		token0: Ethereum.ERC20Token,
-		token1: Ethereum.ERC20Token,
+		token0: Ethereum.Erc20Token,
+		token1: Ethereum.Erc20Token,
 		fee: FeeAmount,
 	}
 	export type DeployedPool = Pool & {

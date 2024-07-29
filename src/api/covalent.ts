@@ -635,7 +635,7 @@ export type Erc20Transfer = Pick<Ethereum.Transaction,
 	| 'logEvents'
 > & {
 	value: bigint,
-	transferredToken: Ethereum.ERC20Token,
+	transferredToken: Ethereum.Erc20Token,
 }
 
 export const normalizeTransaction = (

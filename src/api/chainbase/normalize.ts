@@ -15,7 +15,7 @@ export const normalizeNftContracts = (nfts: Awaited<ReturnType<typeof getNftsByA
 	]
 		.map(([contractAddress, nfts]: [Ethereum.ContractAddress, Awaited<ReturnType<typeof getNftsByAddress>>['data']]): Ethereum.NftContractWithNfts => ({
 			address: contractAddress,
-			ercTokenStandards: [nfts[0].erc_type as Ethereum.ERCTokenStandard],
+			ercTokenStandards: [nfts[0].erc_type as Ethereum.ErcTokenStandard],
 			nfts: nfts.map(nft => ({
 				owner: nft.owner,
 

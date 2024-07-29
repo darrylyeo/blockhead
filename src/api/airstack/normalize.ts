@@ -22,7 +22,7 @@ export const normalizeNftContracts = (
 			address: contractAddress,
 			name: contractsWithBalances[0].token?.name,
 			symbol: contractsWithBalances[0].token?.symbol,
-			ercTokenStandards: [contractsWithBalances[0].token?.type?.toLowerCase() as Ethereum.ERCTokenStandard].filter(isTruthy),
+			ercTokenStandards: [contractsWithBalances[0].token?.type?.toLowerCase() as Ethereum.ErcTokenStandard].filter(isTruthy),
 			metadata: {
 				...contractsWithBalances[0].token?.contractMetaData,
 				description: contractsWithBalances[0].token?.contractMetaData?.description ?? undefined,

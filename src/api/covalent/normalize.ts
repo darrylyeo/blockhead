@@ -22,7 +22,7 @@ export type Erc20Transfer = Pick<Ethereum.Transaction,
 	| 'logEvents'
 > & {
 	value: bigint,
-	transferredToken: Ethereum.ERC20Token,
+	transferredToken: Ethereum.Erc20Token,
 }
 
 
@@ -194,7 +194,7 @@ export const normalizeNftContract = (
 	name: nftContractWithBalance.contract_name,
 	address: nftContractWithBalance.contract_address as Ethereum.ContractAddress,
 	symbol: nftContractWithBalance.contract_ticker_symbol,
-	ercTokenStandards: nftContractWithBalance.supports_erc?.filter(erc => erc !== 'erc20' && erc !== 'erc165') as Ethereum.ERCTokenStandard[],
+	ercTokenStandards: nftContractWithBalance.supports_erc?.filter(erc => erc !== 'erc20' && erc !== 'erc165') as Ethereum.ErcTokenStandard[],
 	metadata: {
 		description: undefined,
 		bannerImage: undefined,

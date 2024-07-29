@@ -4,9 +4,9 @@
 
 
 	// External state
-	export let availableTokens: Ethereum.ERC20Token[]
+	export let availableTokens: Ethereum.Erc20Token[]
 
-	export let token: Ethereum.ERC20Token | undefined
+	export let token: Ethereum.Erc20Token | undefined
 	export let amount: bigint
 
 	export let min: bigint | undefined

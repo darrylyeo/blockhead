@@ -5,12 +5,12 @@
 
 	// Inputs
 	export let network: Ethereum.Network
-	export let availableTokens: Ethereum.ERC20Token[] | undefined
+	export let availableTokens: Ethereum.Erc20Token[] | undefined
 
 
 	// Internal state
-	let fromToken: Ethereum.ERC20Token | undefined = availableTokens?.[0]
-	let toToken: Ethereum.ERC20Token | undefined = availableTokens?.[1]
+	let fromToken: Ethereum.Erc20Token | undefined = availableTokens?.[0]
+	let toToken: Ethereum.Erc20Token | undefined = availableTokens?.[1]
 
 
 	// Components

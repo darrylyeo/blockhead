@@ -6,7 +6,7 @@
 	// Inputs
 	export let address: Ethereum.Address
 	export let network: Ethereum.Network
-	export let availableTokens: Ethereum.ERC20Token[]
+	export let availableTokens: Ethereum.Erc20Token[]
 
 
 	// Internal state

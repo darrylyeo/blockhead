@@ -4,9 +4,9 @@
 
 
 	// Inputs
-	export let availableTokens: Ethereum.ERC20Token[] | undefined
+	export let availableTokens: Ethereum.Erc20Token[] | undefined
 
-	export let token: Ethereum.ERC20Token | undefined
+	export let token: Ethereum.Erc20Token | undefined
 
 	export let required = false
 

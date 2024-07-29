@@ -22,7 +22,7 @@ export const normalizeNftContracts = ({
 				address: nftContract.address,
 				name: nftContract.name,
 				symbol: nftContract.symbol,
-				ercTokenStandards: [nftContract.type?.toLowerCase()] as Ethereum.ERCTokenStandard[],
+				ercTokenStandards: [nftContract.type?.toLowerCase()] as Ethereum.ErcTokenStandard[],
 				metadata: {
 					description: nftContract.metadata?.description,
 					bannerImage: nftContract.metadata?.banner_url || nftContract.metadata?.cached_banner_url,

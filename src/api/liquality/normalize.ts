@@ -21,7 +21,7 @@ export const normalizeNftContracts = ({
 				address: nft.contract.address,
 				name: nft.contract.name,
 				symbol: nft.contract.symbol,
-				ercTokenStandards: [nft.contract.type?.toLowerCase()] as Ethereum.ERCTokenStandard[],
+				ercTokenStandards: [nft.contract.type?.toLowerCase()] as Ethereum.ErcTokenStandard[],
 			} as Ethereum.NftContract
 		])
 	) as Record<Ethereum.ContractAddress, Ethereum.NftContract>

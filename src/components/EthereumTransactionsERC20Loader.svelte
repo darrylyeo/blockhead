@@ -11,7 +11,7 @@
 	export let networkProvider: NetworkProvider
 	export let address: Ethereum.Address
 
-	export let erc20Token: Ethereum.ERC20Token
+	export let erc20Token: Ethereum.Erc20Token
 
 	export let quoteCurrency: QuoteCurrency
 	export let transactionProvider: TransactionProvider

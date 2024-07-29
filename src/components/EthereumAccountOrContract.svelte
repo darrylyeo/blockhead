@@ -50,7 +50,7 @@
 
 	let priceScale: PriceScale
 
-	let selectedToken: Ethereum.NativeCurrency | Ethereum.ERC20Token | undefined
+	let selectedToken: Ethereum.NativeCurrency | Ethereum.Erc20Token | undefined
 
 	// (Computed)
 	import { isEvmAddress } from '$/utils/isEvmAddress'

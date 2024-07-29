@@ -10,7 +10,7 @@
 	export let transaction: Ethereum.Transaction | ReturnType<typeof normalizeTransaction>
 	export let quoteCurrency: QuoteCurrency
 
-	export let contextualAddress: Ethereum.Address
+	export let contextualAddress: Ethereum.Address | undefined
 
 	// (View options)
 	export let layout: 'standalone' | 'collapsible' | 'inline' = 'inline'

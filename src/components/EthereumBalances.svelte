@@ -20,7 +20,7 @@
 	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
 
 	export let isSelectable = false
-	export let selectedToken: Ethereum.NativeCurrency | Ethereum.ERC20Token | undefined
+	export let selectedToken: Ethereum.NativeCurrency | Ethereum.Erc20Token | undefined
 
 	// (View options)
 	export let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending'
@@ -92,7 +92,7 @@
 
 
 	// Functions
-	const tokensAreEqual = (token1: Ethereum.NativeCurrency | Ethereum.ERC20Token, token2: Ethereum.NativeCurrency | Ethereum.ERC20Token) =>
+	const tokensAreEqual = (token1: Ethereum.NativeCurrency | Ethereum.Erc20Token, token2: Ethereum.NativeCurrency | Ethereum.Erc20Token) =>
 		// token1.name === token2.name &&
 		token1.symbol === token2.symbol &&
 		token1.decimals === token2.decimals

@@ -83,7 +83,7 @@ export const getTransactions = async ({
 type Transaction = Ethereum.Transaction & {
 	cumulativeGasSpent: EtherspotTransaction['cumulativeGasUsed'],
 	inputData: EtherspotTransaction['input'],
-	transferredToken?: Ethereum.ERC20Token
+	transferredToken?: Ethereum.Erc20Token
 }
 
 export const normalizeTransaction = (

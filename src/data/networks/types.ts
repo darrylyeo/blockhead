@@ -98,24 +98,24 @@ export namespace Ethereum {
 
 	export type ContractBytecode = `0x${string}`
 
-	export type ERC20Token = Contract & {
+	export type Erc20Token = Contract & {
 		name: string,
 		symbol?: TickerSymbol,
 		decimals: number,
 		icon?: string
 	}
-	export type ERC721TokenContract = Contract & {
+	export type Erc721TokenContract = Contract & {
 		name: string,
 		symbol?: TickerSymbol,
 		icon?: string
 	}
-	export type ERC1155TokenContract = Contract & {
+	export type Erc1155TokenContract = Contract & {
 		name: string,
 		symbol?: TickerSymbol,
 		icon?: string
 	}
-	export type NftContract = (ERC721TokenContract | ERC1155TokenContract) & {
-		ercTokenStandards?: ERCTokenStandard[]
+	export type NftContract = (Erc721TokenContract | Erc1155TokenContract) & {
+		ercTokenStandards?: ErcTokenStandard[]
 
 		totalSupply?: bigint
 
@@ -163,7 +163,7 @@ export namespace Ethereum {
 		nfts?: NftWithBalance[]
 	}
 
-	export type ERCTokenStandard = 'erc20' | 'erc721' | 'erc1155'
+	export type ErcTokenStandard = 'erc20' | 'erc721' | 'erc1155'
 
 	export type NativeCurrencyAmount = bigint
 	export type GasAmount = bigint
@@ -242,7 +242,7 @@ export namespace Ethereum {
 		},
 		value: NativeCurrencyAmount,
 
-		gasToken: NativeCurrency | ERC20Token,
+		gasToken: NativeCurrency | Erc20Token,
 		gasUnitsOffered?: GasAmount,
 		gasUnitsSpent?: GasAmount,
 		gasUnitRate?: NativeCurrencyAmount,
@@ -268,7 +268,7 @@ export namespace Ethereum {
 		topics?: TopicHash[],
 		data?: string,
 
-		contract: Partial<Ethereum.Contract & Ethereum.ERC20Token & Ethereum.ERC721TokenContract & Ethereum.ERC1155TokenContract> & {
+		contract: Partial<Ethereum.Contract & Ethereum.Erc20Token & Ethereum.Erc721TokenContract & Ethereum.Erc1155TokenContract> & {
 			label?: string
 		},
 
