@@ -6,7 +6,7 @@
 	import { AccountIdType } from '$/data/accountId'
 	import { DefiProvider, defiProviderIcons } from '$/data/defiProviders'
 	import type { QuoteCurrency } from '$/data/currencies'
-	import { getNetworkColor, networksByChainID } from '$/data/networks'
+	import { getNetworkColor, networkByChainId } from '$/data/networks'
 	import { type TokenBalancesProvider, tokenBalancesProviderIcons } from '$/data/tokenBalancesProvider'
 	import { type NftProvider, nftProviderIcons } from '$/data/nftProviders'
 	import { NotificationsProvider, notificationsProviderIcons } from '$/data/notificationsProvider'
@@ -357,20 +357,20 @@
 				{#if lensName && type === AccountIdType.Lens}
 					<h3><LensName {lensName} /></h3>
 					{#if address}
-						<small class="align-start" transition:scale><Address network={networksByChainID[1]} {address} /></small>
+						<small class="align-start" transition:scale><Address network={networkByChainId.get(1)!} {address} /></small>
 					{/if}
 				{:else if nickname}
 					<h3>{nickname}</h3>
 					{#if address}
-						<small class="align-start" transition:scale><Address network={networksByChainID[1]} {address} /></small>
+						<small class="align-start" transition:scale><Address network={networkByChainId.get(1)!} {address} /></small>
 					{/if}
 				{:else if type === AccountIdType.ENS}
 					<h3><EnsName {ensName} showAvatar /></h3>
 					{#if address}
-						<small class="align-start" transition:scale><Address network={networksByChainID[1]} {address} /></small>
+						<small class="align-start" transition:scale><Address network={networkByChainId.get(1)!} {address} /></small>
 					{/if}
 				{:else if type === AccountIdType.Address}
-					<h3><Address network={networksByChainID[1]} {address} /></h3>
+					<h3><Address network={networkByChainId.get(1)!} {address} /></h3>
 					{#if ensName}
 						<small class="align-start" transition:scale><EnsName {ensName} showAvatar /></small>
 					{/if}
@@ -431,7 +431,7 @@
 		<!-- <hr> -->
 
 		{#each account.views ?? [] as view, i (view.chainId)}
-			{@const network = networksByChainID[view.chainId]}
+			{@const network = networkByChainId.get(view.chainId)}
 
 			{@const deleteView = () => {
 				account.deleteView(view)

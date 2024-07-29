@@ -157,13 +157,13 @@ let web3Modal: ReturnType<typeof createWeb3Modal> | undefined
 
 
 import * as publicEnv from '$env/static/public'
-import { availableNetworks, getNetworkRPC, networksByChainID, networksBySlug } from '$/data/networks'
+import { ethereumMainnet, getNetworkRPC, networkByChainId } from '$/data/networks'
 
 export const getWalletConnection = async ({
 	selector,
-	networks = [networksByChainID[1 as Ethereum.ChainId]], // availableNetworks
+	networks = [ethereumMainnet], // availableNetworks
 	theme,
-	jsonRpcUri = getNetworkRPC(networksBySlug['ethereum']),
+	jsonRpcUri = getNetworkRPC(networkBySlug.get('ethereum')!),
 }: {
 	selector: AccountConnectionSelector,
 	networks?: Ethereum.Network[],
@@ -748,7 +748,7 @@ export const getWalletConnection = async ({
 			case WalletConnectionType.BananaWalletSdk: {
 				const { Banana, Chains } = await import('@rize-labs/banana-wallet-sdk')
 
-				const network = networksByChainID[Chains.gnosis]
+				const network = networkByChainId.get(Chains.gnosis)
 
 				if(!Object.values(Chains).some(chainId => chainId === network.chainId))
 					throw new Error(`Banana Wallet SDK isn't yet deployed on ${network.name}.`)

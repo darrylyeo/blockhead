@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
-	import { networksByChainID } from '$/data/networks'
+	import { networkByChainId } from '$/data/networks'
 
 
 	// Inputs
@@ -18,7 +18,7 @@
 	export let isDebt = false
 
 	// (Derived)
-	$: network = token.chainId && networksByChainID[token.chainId]
+	$: network = token.chainId && networkByChainId.get(token.chainId)
 	$: isZero = balance == 0
 	$: isNegative = balance < 0
 

@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
-	import { networksByChainID } from '$/data/networks'
+	import { networkByChainId } from '$/data/networks'
 
 
 	// Inputs
@@ -15,7 +15,7 @@
 	}
 
 	$: title = `${token.name || token.symbol}${token.symbol && token.name ? ` (${token.symbol})` : ``}`
-	$: network = token.chainId && networksByChainID[token.chainId]
+	$: network = token.chainId && networkByChainId.get(token.chainId)
 
 
 	// Actions

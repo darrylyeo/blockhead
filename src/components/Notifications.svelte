@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '$/data/networks/types'
-	import { networksByChainID } from '$/data/networks'
+	import { networkByChainId } from '$/data/networks'
 	import type { NotificationsProvider } from '$/data/notificationsProvider';
 	import { type NotificationRawPayload, pushChainIdForBlockchainName } from '$/api/push'
 
@@ -123,10 +123,10 @@
 
 				<!-- raw: false -->
 				<!-- {#each notifications as notification}<!-- (`${notification.blockchain}-${notification.sid}`) -- >
-					{@const network = networksByChainID[pushChainIdForBlockchainName[notification.blockchain] ?? 1]} -->
+					{@const network = networkByChainId.get(pushChainIdForBlockchainName[notification.blockchain) ?? 1]} -->
 				<!-- raw: true -->
 				{#each notifications.slice(0, 100) as {source, sender, payload, payload_id} (payload_id)}
-					<!-- {@const network = networksByChainID[pushChainIdForBlockchainName[source]]} -->
+					<!-- {@const network = networkByChainId.get(pushChainIdForBlockchainName[source)]} -->
 
 					<article class="card" title="{payload.notification.title}">
 						<header class="bar">
@@ -177,10 +177,10 @@
 	{:else if feedLayout === 'chronological'}
 		<!-- raw: false -->
 		<!-- {#each notifications as notification}<!-- (`${notification.blockchain}-${notification.sid}`) -- >
-			{@const network = networksByChainID[pushChainIdForBlockchainName[notification.blockchain] ?? 1]} -->
+			{@const network = networkByChainId.get(pushChainIdForBlockchainName[notification.blockchain) ?? 1]} -->
 		<!-- raw: true -->
 		{#each notifications.slice(0, 100) as {source, sender, payload, payload_id} (payload_id)}
-			<!-- {@const network = networksByChainID[pushChainIdForBlockchainName[source] ?? 1]} -->
+			<!-- {@const network = networkByChainId.get(pushChainIdForBlockchainName[source) ?? 1]} -->
 
 			<article class="card" title="{payload.notification.title}">
 				<header class="bar">

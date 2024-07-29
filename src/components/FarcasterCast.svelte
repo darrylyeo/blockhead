@@ -4,7 +4,7 @@
 	import type { FarcasterProvider } from '$/data/farcasterProviders'
 	import type { FarcasterFeedProvider } from '$/data/farcasterFeedProviders'
 
-	import { networksByChainID, networksBySlug } from '$/data/networks'
+	import { networkByChainId, networkBySlug } from '$/data/networks'
 
 
 	// Context
@@ -154,11 +154,11 @@
 			{#each cast.evmAddressEmbeds ?? [] as evmAddressEmbed}
 				{@const network = (
 					evmAddressEmbed.chainId ?
-						networksByChainID[evmAddressEmbed.chainId]
+						networkByChainId.get(evmAddressEmbed.chainId)
 					: evmAddressEmbed.networkSlug ?
-						networksBySlug[evmAddressEmbed.networkSlug]
+						networkBySlug.get(evmAddressEmbed.networkSlug)
 					: undefined
-				) || networksBySlug['ethereum']}
+				) || networkBySlug.get('ethereum')!}
 
 				<EthereumAccountOrContract
 					{network}
@@ -174,11 +174,11 @@
 			{#each cast.evmTransactionEmbeds ?? [] as evmTransactionEmbed}
 				{@const network = (
 					evmTransactionEmbed.chainId ?
-						networksByChainID[evmTransactionEmbed.chainId]
+						networkByChainId.get(evmTransactionEmbed.chainId)
 					: evmTransactionEmbed.networkSlug ?
-						networksBySlug[evmTransactionEmbed.networkSlug]
+						networkBySlug.get(evmTransactionEmbed.networkSlug)
 					: undefined
-				) || networksBySlug['ethereum']}
+				) || networkBySlug.get('ethereum')!}
 	
 				<EthereumTransactionLoader
 					{network}

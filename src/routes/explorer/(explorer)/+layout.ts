@@ -1,5 +1,5 @@
 // Constants
-import { networksBySlug } from '$/data/networks'
+import { networkBySlug } from '$/data/networks'
 
 
 // Context
@@ -13,7 +13,7 @@ export const load: LayoutLoad = async ({
 }) => {
 	const data = await parent()
 
-	const explorerNetwork = networksBySlug[params.networkSlug!]
+	const explorerNetwork = networkBySlug.get(params.networkSlug!)
 
 	const metaTags: MetaTagsProps = {
 		...data.metaTags,

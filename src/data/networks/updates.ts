@@ -1,4 +1,4 @@
-import { networksBySlug } from '.'
+import { networkBySlug } from '.'
 
 export const consensusMechanisms = {
 	'ethash': {
@@ -19,7 +19,7 @@ export const consensusMechanisms = {
 }
 
 export const updatesByNetwork = new Map([
-	[networksBySlug['ethereum'], [
+	[networkBySlug.get('ethereum')!, [
 		// {
 		// 	name: 'Shanghai',
 		// 	blockNumber: ,
@@ -137,7 +137,7 @@ export const updatesByNetwork = new Map([
 				'https://eips.ethereum.org/EIPS/eip-779',
 			],
 			hardForks: [
-				networksBySlug['ethereum-classic'],
+				networkBySlug.get('ethereum-classic')!,
 			],
 		},
 		{

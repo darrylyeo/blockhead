@@ -17868,7 +17868,7 @@ export const web3AppsBySection = ([
 ]) as const
 
 
-import { networksByChainID } from './networks'
+import { networkByChainId } from './networks'
 
-export const getWeb3AppSupportedNetworks = (app: Web3AppConfig) => new Set(app.views.map(view => networksByChainID[view.chainId]))
+export const getWeb3AppSupportedNetworks = (app: Web3AppConfig) => new Set(app.views.map(view => networkByChainId.get(view.chainId)))
 

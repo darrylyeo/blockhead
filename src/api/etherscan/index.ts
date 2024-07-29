@@ -5,7 +5,7 @@ import ky, { type Options } from 'ky'
 import { ConcurrentPromiseQueue } from '$/utils/ConcurrentPromiseQueue'
 
 import type { Ethereum } from '$/data/networks/types'
-import { networksByChainID } from '$/data/networks'
+import { networkByChainId } from '$/data/networks'
 
 const endpointByChainId = {
 	1: 'https://api.etherscan.io/api',
@@ -58,7 +58,7 @@ const get = async <T, IsRpcProxyCall extends boolean = false>(
 	const endpointUrl = endpointByChainId[chainId]
 
 	if(!endpointUrl)
-		throw new Error(`Etherscan doesn't support ${networksByChainID[chainId].name}.`)
+		throw new Error(`Etherscan doesn't support ${networkByChainId.get(chainId).name}.`)
 
 	const getJson = async <T>(url: string, options: Options) => await ky.get(url, options).json<T>()
 
@@ -98,7 +98,7 @@ const post = async (
 	const endpointUrl = endpointByChainId[chainId]
 
 	if(!endpointUrl)
-		throw new Error(`Etherscan doesn't support ${networksByChainID[chainId].name}.`)
+		throw new Error(`Etherscan doesn't support ${networkByChainId.get(chainId).name}.`)
 
 	const postText = async (url: string, options: Options) => await ky.post(url, options).text()
 

@@ -5,7 +5,7 @@
 	import { FilecoinTransactionProvider, filecoinTransactionProviderIcons } from '$/data/filecoinTransactionProvider'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import { getViemPublicClient } from '$/data/networkProviders'
-	import { networksBySlug } from '$/data/networks'
+	import { networkBySlug } from '$/data/networks'
 
 
 	// Context
@@ -13,7 +13,7 @@
 
 
 	// Inputs
-	export let network: Ethereum.Network = networksBySlug['filecoin']
+	export let network: Ethereum.Network = networkBySlug.get('filecoin')!
 	export let transactionCid: Filecoin.TransactionCid
 	export let filecoinTransactionProvider: FilecoinTransactionProvider = FilecoinTransactionProvider.Beryx
 	export let networkProvider: NetworkProvider | undefined

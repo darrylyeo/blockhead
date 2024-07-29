@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '$/data/networks/types'
-	import { networksBySection, testnetsForMainnets, getNetworkColor, networksByChainID, isTestnet } from '$/data/networks'
+	import { networksBySection, testnetsForMainnets, getNetworkColor, networkByChainId, isTestnet } from '$/data/networks'
 
 
 	export let placeholder = 'Select Network...'

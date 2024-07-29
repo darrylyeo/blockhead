@@ -7,7 +7,7 @@ import { NetworkProvider, NetworkProviderConnectionType, NetworkProviderNodeType
 
 // Constants
 import * as publicEnv from '$env/static/public'
-import { isTestnet, networksBySlug } from '../networks'
+import { isTestnet, networkBySlug } from '../networks'
 
 
 // APIs
@@ -873,13 +873,13 @@ export const networkProviderConfigByProvider = Object.fromEntries(
 // 		[
 // 			slug,
 // 			[
-// 				...(networksBySlug[slug].rpc ?? [])
+// 				...(networkBySlug.get(slug).rpc ?? [])
 // 					.filter(rpcUrl => rpcUrl.startsWith('https://'))
 // 					.map(rpcUrl => ({
 // 						type: NetworkProvider.Default,
 // 						name: new URL(rpcUrl).host,
 // 						// name: `Default (${new URL(rpcUrl).host})`,
-// 						get: ({ network }) => new providers.JsonRpcProvider(rpcUrl, networksBySlug[slug].chainId)
+// 						get: ({ network }) => new providers.JsonRpcProvider(rpcUrl, networkBySlug.get(slug).chainId)
 // 					})),
 // 				...networkProviders
 // 					.map(networkProvider => networkProviderConfigByProvider[networkProvider])
@@ -889,10 +889,10 @@ export const networkProviderConfigByProvider = Object.fromEntries(
 // )
 
 // for(const slug in networkProviderConfigByNetworkSlug){
-// 	// if(networksBySlug[slug].rpc?.length)
+// 	// if(networkBySlug.get(slug).rpc?.length)
 // 	// 	networkProviderConfigByNetworkSlug[slug].unshift(RpcProvider.Default)
 
-// 	const network = networksBySlug[slug]
+// 	const network = networkBySlug.get(slug)
 // 	if(network.rpc?.length)
 // 		networkProviderConfigByNetworkSlug[slug].unshift({
 // 			type: RpcProvider.Default,

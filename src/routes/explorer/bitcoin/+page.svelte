@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { networksByChainID } from '$/data/networks'
+	import { networkByChainId } from '$/data/networks'
 
 
 	import { preferences } from '$/state/preferences'

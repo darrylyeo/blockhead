@@ -1,5 +1,5 @@
 // Types/constants
-import { networksBySlug } from '$/data/networks'
+import { networkBySlug } from '$/data/networks'
 
 
 // Context
@@ -79,7 +79,7 @@ export const farcasterFrameRoutes = Object.assign({}, ...([
 					({
 						svelteKitRouteParams: { address } = {},
 					}) => ({
-						label: networksBySlug[networkSlug].name,
+						label: networkBySlug.get(networkSlug).name,
 						toAppRoute: (
 							resolveRoute(`/explorer/[networkSlug]/address/[address]`, {
 								networkSlug,

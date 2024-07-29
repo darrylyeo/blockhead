@@ -1,8 +1,9 @@
 import type { ParamMatcher } from '@sveltejs/kit'
 
-import { networksBySlug } from '$/data/networks'
+import { networkBySlug } from '$/data/networks'
 
-const isNetworkSlug: ParamMatcher = (param) =>
-	param in networksBySlug
+const isNetworkSlug: ParamMatcher = (param) => (
+	networkBySlug.has(param)
+)
 
 export const match = isNetworkSlug

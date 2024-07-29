@@ -9,7 +9,7 @@
 	import type { AccountConnectionSelector, AccountConnectionState } from '$/state/account'
 
 	import { knownWalletsByType } from '$/data/wallets'
-	import { networksByChainID, getNetworkColor } from '$/data/networks'
+	import { networkByChainId, getNetworkColor } from '$/data/networks'
 
 
 	// Shared state
@@ -242,7 +242,7 @@
 
 			{#if state}
 				{@const walletConnectionTypeConfig = state.walletConnection && walletConnectionTypes[state.walletConnection.type]}
-				{@const network = state.chainId && networksByChainID[state.chainId]}
+				{@const network = state.chainId && networkByChainId.get(state.chainId)}
 
 				<article
 					class="wallet-connection card"

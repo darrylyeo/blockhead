@@ -17,7 +17,7 @@
 	import { type QuoteCurrency, fiatQuoteCurrencies } from '$/data/currencies'
 
 	import type { Portfolio } from '$/state/portfolio-accounts'
-	import { defaultAccountNetworks, getNetworkColor, networksByChainID } from '$/data/networks'
+	import { defaultAccountNetworks, getNetworkColor, networkByChainId } from '$/data/networks'
 
 	import { preferences } from '$/state/preferences'
 
@@ -52,7 +52,7 @@
 	// Wallet management
 
 	let newAccountId = globalThis.location?.hash.slice(1) ?? ''
-	let newNetworks = [networksByChainID[1 as Ethereum.ChainId]] as Ethereum.Network[]
+	let newNetworks = [networkByChainId.get(1 as Ethereum.ChainId)] as Ethereum.Network[]
 
 	const addAccount = ({
 		id,

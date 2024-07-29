@@ -2,11 +2,11 @@
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
 	import type { Filecoin } from '$/data/filecoin'
-	import { networksBySlug } from '$/data/networks'
+	import { networkBySlug } from '$/data/networks'
 	
 	
 	// Inputs
-	export let network: Ethereum.Network = networksBySlug['filecoin']
+	export let network: Ethereum.Network = networkBySlug.get('filecoin')!
 	export let block: Filecoin.Block
 	// (View options)
 	export let isOpen: boolean

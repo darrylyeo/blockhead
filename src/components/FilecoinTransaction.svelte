@@ -2,10 +2,10 @@
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
 	import type { Filecoin } from '$/data/filecoin'
-	import { networksBySlug } from '$/data/networks'
+	import { networkBySlug } from '$/data/networks'
 
 
-	export let network: Ethereum.Network = networksBySlug['filecoin']
+	export let network: Ethereum.Network = networkBySlug.get('filecoin')!
 
 	
 	// Inputs

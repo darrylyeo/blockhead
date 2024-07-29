@@ -1,5 +1,5 @@
 // Types/constants
-import { networksBySlug } from '$/data/networks'
+import { networkBySlug } from '$/data/networks'
 import type { Ethereum } from '$/data/networks/types'
 import { web3AppsBySlug, type Web3AppConfig } from '$/data/web3Apps'
 
@@ -25,7 +25,7 @@ export const web3AppConfig: Readable<Web3AppConfig> = derived(web3AppSlug, ($web
 )
 
 export let network: Readable<Ethereum.Network | undefined> = derived(networkSlug, ($networkSlug, set) =>
-	set($networkSlug && networksBySlug[$networkSlug] || undefined)
+	set($networkSlug && networkBySlug.get($networkSlug) || undefined)
 )
 
 export const currentView: Readable<'Dashboard' | 'Explorer' | 'Account'> = derived(appsParams, ($appsParams, set) => set(

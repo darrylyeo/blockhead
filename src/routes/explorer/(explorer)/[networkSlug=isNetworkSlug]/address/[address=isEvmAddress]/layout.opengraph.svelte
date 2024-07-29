@@ -6,7 +6,7 @@
 
 
 	// Constants
-	import { networksBySlug, getNetworkColor } from '$/data/networks'
+	import { networkBySlug, getNetworkColor } from '$/data/networks'
 
 
 	// Context
@@ -67,7 +67,7 @@
 			}
 	),
 	annotation: `${network.name} ${addressType}`,
-	primaryColor: getNetworkColor(network) ?? getNetworkColor(networksBySlug['ethereum']),
+	primaryColor: getNetworkColor(network) ?? getNetworkColor(networkBySlug.get('ethereum')!),
 	backgroundIcon: network && new URL(networkIcons[network.slug], new URL(url).origin).toString(),
 }}>
 	{#if pageComponent}

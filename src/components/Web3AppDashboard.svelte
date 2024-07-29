@@ -5,7 +5,7 @@
 	import { DefiProvider } from '$/data/defiProviders'
 	import type { QuoteCurrency } from '$/data/currencies'
 	import type { Web3AppConfig } from '$/data/web3Apps'
-	import { networksByChainID, isTestnet } from '$/data/networks'
+	import { networkByChainId, isTestnet } from '$/data/networks'
 	import { preferences } from '$/state/preferences'
 	import type { AccountConnection } from '$/state/account'
 
@@ -211,7 +211,7 @@
 			? web3AppConfig.views
 				.filter(view => view.chainId === network.chainId)
 			: web3AppConfig.views
-				.filter(view => showTestnets ? true : !isTestnet(networksByChainID[view.chainId]))
+				.filter(view => showTestnets ? true : !isTestnet(networkByChainId.get(view.chainId)))
 	}
 
 	<div class="column block defi-app-views">
@@ -239,7 +239,7 @@
 						collapsibleType: 'label',
 						isOpen: views.length === 1,
 					}}
-					network={networksByChainID[chainId]}
+					network={networkByChainId.get(chainId)}
 					{networkProvider}
 					let:network
 					let:publicClient
@@ -726,14 +726,14 @@
 								[...new Set(
 									web3AppConfig.views
 									.map(view => (
-										networksByChainID[view.chainId].name
+										networkByChainId.get(view.chainId).name
 									))
 								)]
 							)
 					}.
 				</p>
 
-				{#if web3AppConfig.views.every(view => isTestnet(networksByChainID[view.chainId]))}
+				{#if web3AppConfig.views.every(view => isTestnet(networkByChainId.get(view.chainId)))}
 					<button
 						class="medium"
 						on:click={() => showTestnets = true}

@@ -1,5 +1,5 @@
 // Constants
-import { networksBySlug } from '$/data/networks'
+import { networkBySlug } from '$/data/networks'
 
 
 // Functions
@@ -22,7 +22,7 @@ export const load: LayoutLoad = async ({
 		title: (
 			[
 				[
-					params.networkSlug && networksBySlug[params.networkSlug].name,
+					params.networkSlug && networkBySlug.get(params.networkSlug).name,
 					'Apps'
 				],
 				[

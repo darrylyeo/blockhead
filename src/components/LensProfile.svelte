@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import { type LensInstance, lensInstances, type LensProfile } from '$/api/lens'
-	import { networksByChainID } from '$/data/networks'
+	import { networkByChainId } from '$/data/networks'
 	import { ipfsGatewaysByProvider } from '$/data/ipfsGateways'
 
 
@@ -21,7 +21,7 @@
 	// Internal state
 
 	// (Computed)
-	$: network = networksByChainID[lensInstances[instance].chainId]
+	$: network = networkByChainId.get(lensInstances[instance].chainId)
 
 	$: picture = resolveUri({
 		src: profile.picture?.uri || profile.picture?.original?.url,
@@ -62,7 +62,7 @@
 			{#if profile.picture?.uri || profile.picture?.original?.url}
 				{#if profile.picture.contractAddress}
 					<Address
-						network={networksByChainID[1]}
+						network={networkByChainId.get(1)!}
 						address={profile.picture.contractAddress}
 					>
 						<img src={picture} width="24" />

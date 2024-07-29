@@ -4,7 +4,7 @@
 	import type { NetworkAccountAddress } from '$/data/address'
 	import { NetworkProvider } from '$/data/networkProviders/types'
 	import { getViemPublicClient } from '$/data/networkProviders'
-	import { networksByChainID } from '$/data/networks'
+	import { networkByChainId } from '$/data/networks'
 
 	type ContentHash = $$Generic<string>
 	type TextRecordKey = $$Generic<string>
@@ -16,7 +16,7 @@
 
 
 	// Inputs
-	export let network = networksByChainID[1]
+	export let network = networkByChainId.get(1)!
 	export let networkProvider: NetworkProvider
 	export let ensName: string
 

@@ -57,7 +57,7 @@
 
 
 	// Side effects
-	import { isTestnet, getNetworkColor, networksBySlug, networksByChainID } from '$/data/networks'
+	import { isTestnet, getNetworkColor, networkBySlug, networkByChainId } from '$/data/networks'
 
 	$: _isTestnet = $explorerNetwork && isTestnet($explorerNetwork)
 

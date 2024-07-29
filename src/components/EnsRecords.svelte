@@ -2,13 +2,13 @@
 	import type { ENS } from '$/api/ens'
 	import type { Ethereum } from '$/data/networks/types'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
-	import { networksByChainID, networksBySlip44 } from '$/data/networks'
+	import { networkByChainId, networkBySlip44 } from '$/data/networks'
 	import { chainsBySlip44 } from '$/data/slip44'
 	import { getViemPublicClient } from '$/data/networkProviders'
 	import { preferences } from '$/state/preferences'
 
 
-	export let network = networksByChainID[1]
+	export let network = networkByChainId.get(1)!
 	export let networkProvider: NetworkProvider
 	export let resolver: ENS.Resolver
 	export let ensName: string
@@ -289,17 +289,17 @@
 						<dt>
 							<TokenIcon
 								token={{
-									chainId: networkBySlip44[key]?.chainId,
-									symbol: networkBySlip44[key]?.symbol || chainsBySlip44[key]?.symbol,
+									chainId: networkBySlip44.get(key)?.chainId,
+									symbol: networkBySlip44.get(key)?.symbol || chainsBySlip44[key]?.symbol,
 								}}
 							/>
-							<abbr title="{networkBySlip44[key]?.name || chainsBySlip44[key]?.name || ''}">{networkBySlip44[key]?.symbol || chainsBySlip44[key]?.symbol}</abbr>
+							<abbr title="{networkBySlip44.get(key)?.name || chainsBySlip44[key]?.name || ''}">{networkBySlip44.get(key)?.symbol || chainsBySlip44[key]?.symbol}</abbr>
 						</dt>
 						<dd>
 							{#if address === null}
 								<span class="not-set" />
 							{:else}
-								<Address network={networksBySlip44[key]} {address} />
+								<Address network={networkBySlip44.get(key)} {address} />
 							{/if}
 						</dd>
 					</dl>
@@ -307,7 +307,7 @@
 				<!-- {#each resolver.coinTypes as coinType}
 					<span class="crypto-address">
 						<span>{coinType}</span>
-						<Address network={networksBySlug['ethereum']} address={records[coinType]} />
+						<Address network={networkBySlug.get('ethereum')!} address={records[coinType]} />
 					</span>
 				{/each} -->
 			</div>

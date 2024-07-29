@@ -1,5 +1,5 @@
 // Constants
-import { networksBySlug } from '$/data/networks'
+import { networkBySlug } from '$/data/networks'
 
 
 // Context
@@ -14,7 +14,7 @@ export const load: LayoutLoad = async ({
 	const data = await parent()
 
 	const networkSlug = 'bitcoin'
-	const explorerNetwork = networksBySlug[networkSlug]
+	const explorerNetwork = networkBySlug.get(networkSlug)
 
 	const metaTags: MetaTagsProps = {
 		...data.metaTags,

@@ -1,5 +1,5 @@
 // Types/constants
-import { getNetworkColor, networksBySlug } from '$/data/networks'
+import { getNetworkColor, networkBySlug } from '$/data/networks'
 import { NetworkProvider } from '$/data/networkProviders/types'
 
 
@@ -50,10 +50,10 @@ const generateOpenGraphImage: RequestHandler = async ({
 
 
 	// Internal state
-	const network = networksBySlug[networkSlug]
+	const network = networkBySlug.get(networkSlug)
 
 	const publicClient = getViemPublicClient({
-		network: networksBySlug['ethereum'],
+		network: networkBySlug.get('ethereum')!,
 		networkProvider: NetworkProvider.Alchemy,
 	})
 
@@ -112,7 +112,7 @@ const generateOpenGraphImage: RequestHandler = async ({
 	// 			annotation: `${network.name} ${addressType}`,
 	// 			body: sourcePaths?.join('\n'),
 	// 			url,
-	// 			primaryColor: getNetworkColor(network) ?? getNetworkColor(networksBySlug['ethereum']),
+	// 			primaryColor: getNetworkColor(network) ?? getNetworkColor(networkBySlug.get('ethereum')!),
 	// 		})
 	// 	),
 	// })
@@ -144,7 +144,7 @@ const generateOpenGraphImage: RequestHandler = async ({
 			bodyComponent,
 			bodyComponentProps,
 			url,
-			primaryColor: getNetworkColor(network) ?? getNetworkColor(networksBySlug['ethereum']),
+			primaryColor: getNetworkColor(network) ?? getNetworkColor(networkBySlug.get('ethereum')!),
 		},
 		{
 			headers: request.headers,

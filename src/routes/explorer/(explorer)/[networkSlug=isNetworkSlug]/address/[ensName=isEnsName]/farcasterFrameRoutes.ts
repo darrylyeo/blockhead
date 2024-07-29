@@ -1,5 +1,5 @@
 // Types/constants
-import { networksBySlug } from '$/data/networks'
+import { networkBySlug } from '$/data/networks'
 
 
 // Functions

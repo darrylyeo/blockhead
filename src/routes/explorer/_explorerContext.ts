@@ -3,7 +3,7 @@ import type { Ethereum } from '$/data/networks/types'
 
 
 // Constants
-import { networksBySlug } from '$/data/networks'
+import { networkBySlug } from '$/data/networks'
 
 
 // Functions
@@ -30,7 +30,7 @@ import { browser } from '$app/environment'
 
 export const explorerNetwork: Readable<Ethereum.Network | undefined> = derived(networkSlug, ($networkSlug, set) => {
 	if($networkSlug)
-		set(networksBySlug[$networkSlug])
+		set(networkBySlug.get($networkSlug))
 })
 
 export const explorerPublicClient: Readable<Ethereum.PublicClient | undefined> = derived([explorerNetwork, preferences], ([$explorerNetwork, $preferences], set) => {
