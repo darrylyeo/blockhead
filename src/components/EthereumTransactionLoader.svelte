@@ -12,7 +12,7 @@
 	export let network: Ethereum.Network
 	export let networkProvider: NetworkProvider
 	export let transactionProvider: TransactionProvider
-	export let transactionId: Ethereum.TransactionID
+	export let transactionId: Ethereum.TransactionId
 	export let quoteCurrency: QuoteCurrency
 
 	// (Computed)

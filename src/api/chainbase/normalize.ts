@@ -86,7 +86,7 @@ export const normalizeTransaction = (
 
 export const normalizeTokenBalance = (
 	asset: Awaited<ReturnType<typeof getErc20TokenBalances>>['data'][number],
-	chainId: Ethereum.ChainID,
+	chainId: Ethereum.ChainId,
 ): TokenWithBalance => ({
 	token: {
 		chainId,

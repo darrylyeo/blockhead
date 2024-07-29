@@ -8,7 +8,7 @@
 	export let format: 'token' | 'fiat' = 'token'
 	export let token: {
 		name?: string,
-		chainId?: Ethereum.ChainID,
+		chainId?: Ethereum.ChainId,
 		symbol?: string,
 		address?: Ethereum.ContractAddress,
 		decimals?: number,

@@ -30,7 +30,7 @@ export async function getPortis(network: Ethereum.Network){
 	})
 }
 
-const portisNetworkNames: Record<Ethereum.ChainID, string> = {
+const portisNetworkNames: Record<Ethereum.ChainId, string> = {
 	1: 'mainnet',
 	3: 'ropsten',
 	4: 'rinkeby',

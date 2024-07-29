@@ -24,7 +24,7 @@ const supportedChains = [
 	10,
 	8453,
 	324,
-] as const satisfies Ethereum.ChainID[]
+] as const satisfies Ethereum.ChainId[]
 
 const request = async (
 	endpoint: string,
@@ -191,7 +191,7 @@ export const getNftsByAddress = async ({
 				}[];
 			},
 			mint_time: string,
-			mint_transaction_hash: Ethereum.TransactionID,
+			mint_transaction_hash: Ethereum.TransactionId,
 			name: string,
 			owner: Ethereum.Address,
 			symbol: string,
@@ -326,7 +326,7 @@ export const getNftMetadata = async ({
 			symbol: string,
 			image_uri: string,
 			mint_time: integer,
-			mint_transaction_hash: Ethereum.TransactionID,
+			mint_transaction_hash: Ethereum.TransactionId,
 			token_uri: string,
 			metadata?: string,
 			traits?: string,
@@ -477,7 +477,7 @@ export const getNftCollectionItems = async ({
 			symbol: string,
 			image_uri: string,
 			mint_time: integer,
-			mint_transaction_hash: Ethereum.TransactionID,
+			mint_transaction_hash: Ethereum.TransactionId,
 			token_uri: string,
 			metadata?: string,
 			traits?: string,
@@ -536,7 +536,7 @@ export const searchNftCollections = async ({
 			symbol: string,
 			image_uri: string,
 			mint_time: integer,
-			mint_transaction_hash: Ethereum.TransactionID,
+			mint_transaction_hash: Ethereum.TransactionId,
 			token_uri: string,
 			metadata?: string,
 			traits?: string,
@@ -1328,7 +1328,7 @@ export const getTransaction = async ({
 	txIndex,
 }: {
 	chainId: integer,
-	hash?: Ethereum.TransactionID,
+	hash?: Ethereum.TransactionId,
 	blockNumber?: Ethereum.BlockNumber,
 	txIndex?: integer,
 }) => (
@@ -1345,7 +1345,7 @@ export const getTransaction = async ({
 			status: integer,
 			block_number: integer,
 			block_timestamp: string,
-			transaction_hash: Ethereum.TransactionID,
+			transaction_hash: Ethereum.TransactionId,
 			transaction_index: integer,
 			from_address: Ethereum.Address,
 			to_address: Ethereum.Address,

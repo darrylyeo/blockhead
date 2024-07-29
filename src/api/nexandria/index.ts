@@ -44,7 +44,7 @@ import type { Ethereum } from '$/data/networks/types'
  * Chains supported
  * @link https://docs.nexandria.com/overview/chains-supported
  */
-export const supportedChains: Record<Ethereum.ChainID, string> = {
+export const supportedChains: Record<Ethereum.ChainId, string> = {
 	1: 'eth',
 	169: 'manta-pacific',
 	8453: 'base',

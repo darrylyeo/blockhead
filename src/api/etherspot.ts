@@ -4,7 +4,7 @@ import type { Ethereum } from '$/data/networks/types'
 import type { AbiType } from 'abitype'
 
 
-const CHAIN_ID_TO_NETWORK_NAME: Record<Ethereum.ChainID, NetworkNames> = {
+const CHAIN_ID_TO_NETWORK_NAME: Record<Ethereum.ChainId, NetworkNames> = {
 	1: NetworkNames.Mainnet,
 	3: NetworkNames.Ropsten,
 	4: NetworkNames.Rinkeby,
@@ -45,11 +45,11 @@ export const getTransaction = async ({
 }: {
 	network: Ethereum.Network,
 	etherspotSdk?: Sdk,
-	transactionID: Ethereum.TransactionID
+	transactionID: Ethereum.TransactionId
 } | {
 	network?: Ethereum.Network,
 	etherspotSdk: Sdk,
-	transactionID: Ethereum.TransactionID
+	transactionID: Ethereum.TransactionId
 }) =>
 	await etherspotSdk.getTransaction({
 		hash: transactionID

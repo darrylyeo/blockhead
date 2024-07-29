@@ -54,7 +54,7 @@ export const normalizeTransaction = (
 	erc20Transfers?: Erc20Transfer[]
 } => ({
 	network,
-	transactionId: transaction.tx_hash as Ethereum.TransactionID,
+	transactionId: transaction.tx_hash as Ethereum.TransactionId,
 
 	executionStatus: transaction.successful ? 'successful' : 'failed',
 	finalityStatus: 'block_height' in transaction ? 'finalized' : 'pending',
@@ -110,7 +110,7 @@ export const normalizeLogEvent = (
 	indexInTransaction?: number,
 ): Ethereum.TransactionLogEvent => ({
 	indexInTransaction,
-	transactionHash: logEvent.tx_hash as Ethereum.TransactionID,
+	transactionHash: logEvent.tx_hash as Ethereum.TransactionId,
 
 	indexInBlock: logEvent.log_offset,
 	blockNumber: BigInt(logEvent.block_height),
@@ -148,7 +148,7 @@ export const normalizeErc20Transfer = (
 	quoteCurrency: QuoteCurrency,
 ): Erc20Transfer => ({
 	network,
-	transactionId: transfer.tx_hash as Ethereum.TransactionID,
+	transactionId: transfer.tx_hash as Ethereum.TransactionId,
 
 	blockTimestamp: new Date(transfer.block_signed_at).valueOf(),
 
@@ -231,7 +231,7 @@ export const normalizeNft = (
 export const normalizeTokenBalance = (
 	tokenBalance: Awaited<ReturnType<typeof getTokenBalancesForAddress>>['items'][number],
 	quoteCurrency: QuoteCurrency,
-	chainId: Ethereum.ChainID,
+	chainId: Ethereum.ChainId,
 ): TokenWithBalance => ({
 	token: {
 		chainId,

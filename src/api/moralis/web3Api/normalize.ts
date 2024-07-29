@@ -37,7 +37,7 @@ export const normalizeTransaction = (
 	network: Ethereum.Network
 ): Ethereum.Transaction => ({
 	network,
-	transactionId: transaction.hash as Ethereum.TransactionID,
+	transactionId: transaction.hash as Ethereum.TransactionId,
 
 	executionStatus: transaction.receipt_status === '1' ? 'successful' : 'failed',
 	finalityStatus: 'block_number' in transaction ? 'finalized' : 'pending',
@@ -70,7 +70,7 @@ export const normalizeLog = (
 	network: Ethereum.Network,
 ): Ethereum.TransactionLogEvent => ({
 	indexInTransaction,
-	transactionHash: log.transaction_hash as Ethereum.TransactionID,
+	transactionHash: log.transaction_hash as Ethereum.TransactionId,
 
 	indexInBlock: Number(log.log_index),
 	blockNumber: BigInt(log.block_number),

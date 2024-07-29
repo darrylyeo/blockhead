@@ -58,7 +58,7 @@ const getLocalPortfoliosStoreV2 = memoized(() => localStorageWritable<PortfolioV
 
 export class PortfolioAccountViewV3 {
 	constructor(
-		public chainID: Ethereum.ChainID,
+		public chainID: Ethereum.ChainId,
 		public show = true,
 		public showBalances = true,
 		public showDeFi = true,
@@ -146,7 +146,7 @@ function getDefaultPortfolioAccountView(){
 
 namespace V4 {
 	type PortfolioAccountView = {
-		chainId: Ethereum.ChainID,
+		chainId: Ethereum.ChainId,
 		showBalances: boolean,
 		showDefi: boolean,
 		showNfts: boolean,
@@ -154,7 +154,7 @@ namespace V4 {
 	}
 
 	type SerializedPortfolioAccountView = {
-		chainId: Ethereum.ChainID,
+		chainId: Ethereum.ChainId,
 		showBalances?: boolean,
 		showDefi?: boolean,
 		showNfts?: boolean,

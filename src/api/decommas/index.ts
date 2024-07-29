@@ -30,9 +30,9 @@ export const chainIdByChainName = {
 	[EvmChainName.POLYGON]: 137,
 	[EvmChainName.ARBITRUM_NOVA]: 42170,
 	[EvmChainName.POLYGON_ZKEVM]: 1101
-} as const satisfies Record<EvmChainName, Ethereum.ChainID>
+} as const satisfies Record<EvmChainName, Ethereum.ChainId>
 
 export const chainNameByChainId = Object.fromEntries(
 	Object.entries(chainIdByChainName)
 		.map(([chainName, chainId]) => [chainId, chainName])
-) as Record<Ethereum.ChainID, EvmChainName>
+) as Record<Ethereum.ChainId, EvmChainName>

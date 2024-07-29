@@ -27,7 +27,7 @@ const POCKET_NETWORK_APP_AUTH_TOKEN = {
 
 
 // https://docs.pokt.network/docs/supported-networks-on-mainnet
-const pocketNetworkChainIDs: Record<Ethereum.ChainID, string> = {
+const pocketNetworkChainIDs: Record<Ethereum.ChainId, string> = {
 	// 1: '0021', // Mainnet Full Node
 	1: '0022', // Mainnet Archival
 	3: '0023', // Ropsten Full Node

@@ -3,7 +3,7 @@
 
 
 	export let network: Ethereum.Network
-	export let transactionID: Ethereum.TransactionID
+	export let transactionID: Ethereum.TransactionId
 	export let transactionIndex: Ethereum.TransactionIndex
 	export let blockNumber: Ethereum.BlockNumber
 

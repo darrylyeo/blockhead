@@ -9,7 +9,7 @@ import type { Ethereum } from '$/data/networks/types'
 
 export type ZapperSupportedNetwork = NonNullable<BalanceControllerGetAppBalancesParams['network']>
 
-export const networkNamesByChainID: Record<Ethereum.ChainID, ZapperSupportedNetwork> = {
+export const networkNamesByChainID: Record<Ethereum.ChainId, ZapperSupportedNetwork> = {
 	1: 'ethereum',
 	137: 'polygon',
 	10: 'optimism',

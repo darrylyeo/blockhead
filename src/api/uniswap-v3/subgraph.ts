@@ -34,7 +34,7 @@ export namespace UniswapV3Subgraph {
 	}>
 
 
-	const clients: Partial<Record<Ethereum.ChainID, Client>> = {}
+	const clients: Partial<Record<Ethereum.ChainId, Client>> = {}
 
 	export const getClient = ({
 		network: { chainId },

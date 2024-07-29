@@ -23,11 +23,11 @@ export type Events = {
 		state: PortfolioState
 	},
 	'Portfolio/AddAccount': {
-		accountChainIds: Ethereum.ChainID[],
+		accountChainIds: Ethereum.ChainId[],
 		newPortfolioAccountsCount: number,
 	},
 	'Portfolio/DeleteAccount': {
-		accountChainIds: Ethereum.ChainID[],
+		accountChainIds: Ethereum.ChainId[],
 		newPortfolioAccountsCount: number,
 	},
 
@@ -35,11 +35,11 @@ export type Events = {
 		isShowing: boolean,
 	},
 	'PortfolioAccount/ToggleNetwork': {
-		chainId: Ethereum.ChainID,
+		chainId: Ethereum.ChainId,
 		networkIsShowing: boolean,
 	}
 	'PortfolioAccount/ToggleSection': {
-		chainId: Ethereum.ChainID,
+		chainId: Ethereum.ChainId,
 		sectionType: 'Balances' | 'DeFi' | 'NFTs' | 'Feed',
 		sectionIsShowing: boolean,
 	},

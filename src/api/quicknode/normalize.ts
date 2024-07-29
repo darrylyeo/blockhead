@@ -7,7 +7,7 @@ import type { getWalletTokenBalance } from './index'
 // Functions
 export const normalizeTokenBalance = (
 	asset: NonNullable<Awaited<ReturnType<typeof getWalletTokenBalance>>>['assets'][number],
-	chainId: Ethereum.ChainID,
+	chainId: Ethereum.ChainId,
 ): TokenWithBalance => ({
 	token: {
 		chainId,

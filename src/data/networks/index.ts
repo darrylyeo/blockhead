@@ -6278,7 +6278,7 @@ type Slip44 = keyof { [network in Network as network extends { slip44: infer Sli
 
 export const networksByChainID = Object.fromEntries(
 	networks.map(network => [network.chainId, network])
-) satisfies Record<ChainId, Network[]> satisfies Record<Ethereum.ChainID, Ethereum.Network[]>
+) satisfies Record<ChainId, Network[]> satisfies Record<Ethereum.ChainId, Ethereum.Network[]>
 
 export const networksBySlug = Object.fromEntries(
 	networks.map(network => [network.slug, network])

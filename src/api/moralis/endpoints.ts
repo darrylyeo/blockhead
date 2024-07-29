@@ -1,7 +1,7 @@
 /*
 import type { Ethereum } from '$/data/networks/types'
 
-const endpointForNetwork: Record<Ethereum.ChainID, string> = {
+const endpointForNetwork: Record<Ethereum.ChainId, string> = {
 	1: 'eth/mainnet',
 	3: 'eth/ropsten',
 	5: 'eth/goerli',

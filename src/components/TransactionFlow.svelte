@@ -57,7 +57,7 @@
 
 	let estimatedGas: Ethereum.GasAmount
 	let signedTransaction: `0x${string}`
-	let transactionId: Ethereum.TransactionID
+	let transactionId: Ethereum.TransactionId
 	let errorMessage: string
 
 	let isEip1559 = true

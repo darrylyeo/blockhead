@@ -9,7 +9,7 @@ export namespace Ethereum {
 	export type Network = {
 		slug: NetworkSlug,
 		name: NetworkDisplayName,
-		chainId: ChainID,
+		chainId: ChainId,
 		slip44?: Slip44,
 		shortName?: string,
 		chain?: ChainName,
@@ -30,14 +30,14 @@ export namespace Ethereum {
 			registry: ContractAddress
 		}
 		parent?: {
-			chain: `eip155-${ChainID}`,
+			chain: `eip155-${ChainId}`,
 			type: 'L2' | 'L3' | 'shard',
 			bridges?: {
 				url: string,
 			}[],
 		},
 	}
-	export type ChainID = number // Branded<number, 'ChainId'>
+	export type ChainId = number // Branded<number, 'ChainId'>
 	export type Slip44 = number // Branded<number, 'Slip44'>
 	export type ChainName = string // BrandedString<'ChainName'>
 	export type NetworkDisplayName = string // BrandedString<'NetworkDisplayName'>
@@ -53,7 +53,7 @@ export namespace Ethereum {
 	export type Provider = EIP1193Provider
 	export type PublicClient = ViemPublicClient
 
-	export type TransactionID = `0x${string}` // BrandedString<'TransactionID'>
+	export type TransactionId = `0x${string}` // BrandedString<'TransactionId'>
 	export type TransactionIndex = number
 	export type TransactionNonce = number
 
@@ -83,7 +83,7 @@ export namespace Ethereum {
 		baseFeePerGas?: NativeCurrencyAmount,
 
 		transactions?: Transaction[],
-		transactionIds?: TransactionID[],
+		transactionIds?: TransactionId[],
 	}
 
 	export type Address = `0x${string}` // BrandedString<'Address'>
@@ -92,7 +92,7 @@ export namespace Ethereum {
 	export type Contract = {
 		name?: string,
 		address: ContractAddress,
-		chainId?: Ethereum.ChainID,
+		chainId?: Ethereum.ChainId,
 		abi?: object
 	}
 
@@ -210,7 +210,7 @@ export namespace Ethereum {
 
 	export type Transaction = {
 		network: Network,
-		transactionId: TransactionID,
+		transactionId: TransactionId,
 
 		executionStatus?: 'failed' | 'successful',
 		revertReason?: string,
@@ -277,7 +277,7 @@ export namespace Ethereum {
 		decoded?: TransactionLogEventDecoded,
 
 		indexInTransaction?: number,
-		transactionHash?: TransactionID,
+		transactionHash?: TransactionId,
 
 		indexInBlock?: number,
 		blockNumber?: BlockNumber,

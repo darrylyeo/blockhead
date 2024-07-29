@@ -5,7 +5,7 @@ import type { getPointInTimeBalances } from '.'
 
 export const normalizeTokenBalance = (
 	tokenBalance: Awaited<ReturnType<typeof getPointInTimeBalances>>['tokens'][0],
-	chainId: Ethereum.ChainID,
+	chainId: Ethereum.ChainId,
 ): TokenWithBalance => ({
 	token: {
 		chainId,

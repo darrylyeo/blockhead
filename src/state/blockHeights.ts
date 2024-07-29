@@ -7,7 +7,7 @@ import { getViemPublicClient } from '$/data/networkProviders'
 import { watchBlockNumber } from 'viem/actions'
 
 
-const blockHeightForNetworkStores: Record<Ethereum.ChainID, SvelteStore<Ethereum.BlockNumber>> = {}
+const blockHeightForNetworkStores: Record<Ethereum.ChainId, SvelteStore<Ethereum.BlockNumber>> = {}
 
 export const blockHeightForNetwork = (network: Ethereum.Network) => (
 	blockHeightForNetworkStores[network.chainId] ??= derived([

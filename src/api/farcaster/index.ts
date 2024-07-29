@@ -91,16 +91,16 @@ export type FarcasterCast = {
 	urlEmbeds?: string[];
 	evmAddressEmbeds?: {
 		link: string;
-		chainId?: Ethereum.ChainID;
+		chainId?: Ethereum.ChainId;
 		networkSlug?: Ethereum.NetworkSlug;
 		address: Ethereum.Address;
 		tokenId?: bigint;
 	}[];
 	evmTransactionEmbeds?: {
 		link: string;
-		chainId?: Ethereum.ChainID;
+		chainId?: Ethereum.ChainId;
 		networkSlug?: Ethereum.NetworkSlug;
-		transactionId: Ethereum.TransactionID;
+		transactionId: Ethereum.TransactionId;
 	}[];
 
 	mentionedUsers?: Partial<FarcasterUser>[];
@@ -279,7 +279,7 @@ export const extractCastEmbeds = ({
 			match => match?.groups && ({
 				link: match[0],
 				chainId: match.groups.explorerDomain !== undefined ? chainIdByExplorerUrl[match.groups.explorerDomain] : undefined,
-				transactionId: match.groups.transactionId as Ethereum.TransactionID,
+				transactionId: match.groups.transactionId as Ethereum.TransactionId,
 			})
 		)
 			.filter(isTruthy)

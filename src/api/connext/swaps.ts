@@ -3,8 +3,8 @@ import type { Ethereum } from '$/data/networks/types'
 
 export namespace Connext {
 	export interface ConnextSwap {
-		"fromChainId": Ethereum.ChainID,
-		"toChainId": Ethereum.ChainID,
+		"fromChainId": Ethereum.ChainId,
+		"toChainId": Ethereum.ChainId,
 		"fromAssetId": Ethereum.ContractAddress,
 		"toAssetId": Ethereum.ContractAddress,
 		"priceType": "hardcoded",

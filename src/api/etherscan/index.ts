@@ -34,7 +34,7 @@ const endpointByChainId = {
 	421611: 'https://api-testnet.arbiscan.io/api',
 	421613: 'https://api-goerli.arbiscan.io/api',
 	11155111: 'https://api-sepolia.etherscan.io/api',
-} as const satisfies Record<Ethereum.ChainID, string>
+} as const satisfies Record<Ethereum.ChainId, string>
 
 export const chainIdByDomain = Object.fromEntries(
 	Object.entries(endpointByChainId)
@@ -43,7 +43,7 @@ export const chainIdByDomain = Object.fromEntries(
 			// new URL(endpointUrl).origin.replace(/(?<=[/][/])api[-.]/, ''),
 			chainId
 		])
-) satisfies Record<string, Ethereum.ChainID>
+) satisfies Record<string, Ethereum.ChainId>
 
 type ChainId = keyof typeof endpointByChainId
 
@@ -135,7 +135,7 @@ export namespace Etherscan {
 		type Transaction = {
 			blockNumber: `${Ethereum.BlockNumber}`,
 			timeStamp: `${number}`,
-			hash: Ethereum.TransactionID,
+			hash: Ethereum.TransactionId,
 			nonce: `${Ethereum.TransactionNonce}`,
 			blockHash: Ethereum.BlockHash,
 			transactionIndex: `${Ethereum.TransactionIndex}`,
@@ -430,7 +430,7 @@ export namespace Etherscan {
 		}) as {
 			blockNumber: number,
 			timeStamp: `${number}`,
-			hash: Ethereum.TransactionID,
+			hash: Ethereum.TransactionId,
 			nonce: Ethereum.TransactionNonce,
 			blockHash: Ethereum.BlockHash,
 			from: Ethereum.Address,
@@ -511,7 +511,7 @@ export namespace Etherscan {
 		}) as {
 			blockNumber: number,
 			timeStamp: `${number}`,
-			hash: Ethereum.TransactionID,
+			hash: Ethereum.TransactionId,
 			nonce: Ethereum.TransactionNonce,
 			blockHash: Ethereum.BlockHash,
 			from: Ethereum.Address,
@@ -592,7 +592,7 @@ export namespace Etherscan {
 		}) as {
 			blockNumber: `${Ethereum.BlockNumber}`,
 			timeStamp: `${number}`,
-			hash: Ethereum.TransactionID,
+			hash: Ethereum.TransactionId,
 			nonce: Ethereum.TransactionNonce,
 			blockHash: Ethereum.BlockHash,
 			from: Ethereum.Address,
@@ -802,7 +802,7 @@ export namespace Etherscan {
 		}) as {
 			contractAddress: Ethereum.ContractAddress,
 			contractCreator: Ethereum.Address,
-			txHash: Ethereum.TransactionID,
+			txHash: Ethereum.TransactionId,
 		}[]
 
 		/**
@@ -1030,7 +1030,7 @@ export namespace Etherscan {
 			transactionHash,
 		}: {
 			chainId: ChainId,
-			transactionHash: Ethereum.TransactionID,
+			transactionHash: Ethereum.TransactionId,
 		}) => await get(chainId, {
 			searchParams: {
 				module: 'transaction',
@@ -1056,7 +1056,7 @@ export namespace Etherscan {
 			transactionHash,
 		}: {
 			chainId: ChainId,
-			transactionHash: Ethereum.TransactionID,
+			transactionHash: Ethereum.TransactionId,
 		}) => await get(chainId, {
 			searchParams: {
 				module: 'transaction',
@@ -1332,7 +1332,7 @@ export namespace Etherscan {
 			gasPrice: `${Ethereum.NativeCurrencyAmount}`,
 			gasUsed: `${Ethereum.GasAmount}`,
 			logIndex: `0x${string}`,
-			transactionHash: Ethereum.TransactionID,
+			transactionHash: Ethereum.TransactionId,
 			transactionIndex: `0x${string}`,
 		}
 
@@ -1710,7 +1710,7 @@ export namespace Etherscan {
 			transactionId,
 		}: {
 			chainId: ChainId,
-			transactionId: Ethereum.TransactionID,
+			transactionId: Ethereum.TransactionId,
 		}) => await get(chainId, {
 			searchParams: {
 				module: 'proxy',
@@ -1847,7 +1847,7 @@ export namespace Etherscan {
 			transactionId,
 		}: {
 			chainId: ChainId,
-			transactionId: Ethereum.TransactionID,
+			transactionId: Ethereum.TransactionId,
 		}) => await get(chainId, {
 			searchParams: {
 				module: 'proxy',
@@ -1867,7 +1867,7 @@ export namespace Etherscan {
 				topics: Ethereum.TopicHash[],
 				data: `0x${string}`,
 				blockNumber: `0x${string}`,
-				transactionHash: Ethereum.TransactionID,
+				transactionHash: Ethereum.TransactionId,
 				transactionIndex: `0x${string}`,
 				blockHash: Ethereum.BlockHash,
 				logIndex: `0x${string}`,
@@ -1876,7 +1876,7 @@ export namespace Etherscan {
 			logsBloom: `0x${string}`,
 			status: `0x${string}`,
 			to: Ethereum.Address,
-			transactionHash: Ethereum.TransactionID,
+			transactionHash: Ethereum.TransactionId,
 			transactionIndex: `0x${string}`,
 			type: `0x${string}`,
 		}

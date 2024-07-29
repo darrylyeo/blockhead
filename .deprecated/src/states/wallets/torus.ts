@@ -9,7 +9,7 @@ export async function getTorusOpenLogin(network: Ethereum.Network){
 	const {default: OpenLogin, OPENLOGIN_NETWORK, LOGIN_PROVIDER} = globalThis.Openlogin
 	// const {default: OpenLogin, OPENLOGIN_NETWORK} = (await import('@toruslabs/openlogin'))
 
-	const networkTypeByChainID: Record<Ethereum.ChainID, typeof OPENLOGIN_NETWORK[keyof typeof OPENLOGIN_NETWORK]> = {
+	const networkTypeByChainID: Record<Ethereum.ChainId, typeof OPENLOGIN_NETWORK[keyof typeof OPENLOGIN_NETWORK]> = {
 		1: OPENLOGIN_NETWORK.MAINNET
 	}
 

@@ -14,7 +14,7 @@ import { formatIdentifierToWords } from '$/utils/formatIdentifierToWords'
 export const normalizeTokenBalance = (
 	tokenBalance: Awaited<ReturnType<typeof getTokenBalances>>[number],
 	quoteCurrency: QuoteCurrency,
-	chainId: Ethereum.ChainID,
+	chainId: Ethereum.ChainId,
 ): TokenWithBalance => ({
 	token: {
 		chainId,

@@ -9,7 +9,7 @@
 
 	export let historicalPriceProvider: PriceProvider
 	export let currencies: (TickerSymbol | Ethereum.ContractAddress)[]
-	export let chainID: Ethereum.ChainID = 1
+	export let chainID: Ethereum.ChainId = 1
 	export let quoteCurrency: QuoteCurrency
 	export let fromDate = '2017-01-01'
 	export let toDate = new Date().toISOString().slice(0, 10) // today's date

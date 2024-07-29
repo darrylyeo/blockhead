@@ -12,7 +12,7 @@ type PriceFeedContractInfo = {
 }
 
 // https://docs.chain.link/docs/reference-contracts
-const CHAINLINK_CONTRACTS: Record<Ethereum.ChainID, Record<AssetPair, PriceFeedContractInfo>> = {
+const CHAINLINK_CONTRACTS: Record<Ethereum.ChainId, Record<AssetPair, PriceFeedContractInfo>> = {
 	1: {
 		'1INCH/ETH': {
 			decimals: 18,

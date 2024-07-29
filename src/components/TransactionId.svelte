@@ -4,7 +4,7 @@
 
 
 	// Inputs
-	export let transactionId: Ethereum.TransactionID
+	export let transactionId: Ethereum.TransactionId
 	export let network: Ethereum.Network
 	// (View options)
 	export let format: 'full' | 'middle-truncated' = 'full'

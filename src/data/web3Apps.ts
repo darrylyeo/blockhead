@@ -44,7 +44,7 @@ export type Web3AppView = {
 	name?: string,
 	slug?: string,
 	colors?: string[],
-	chainId: Ethereum.ChainID,
+	chainId: Ethereum.ChainId,
 	components?: ComponentType[],
 	erc20Tokens?: Partial<Ethereum.Erc20Token>[],
 	nfts?: Partial<Ethereum.NftContract>[],

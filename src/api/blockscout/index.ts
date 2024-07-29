@@ -548,7 +548,7 @@ export const blockscoutFeaturedNetworks = [
 	},
 ] as const satisfies {
 	label: string,
-	chainId?: Ethereum.ChainID,
+	chainId?: Ethereum.ChainId,
 	explorerUrl: string,
 	group?: string,
 }[]
@@ -5428,7 +5428,7 @@ export const blockscoutProviderConfigs = [
 	...blockscoutProjects,
 ] as const satisfies {
 	label: string,
-	chainId?: Ethereum.ChainID,
+	chainId?: Ethereum.ChainId,
 	explorerUrl: string,
 	host?: string,
 	ecosystem?: string,
@@ -5444,7 +5444,7 @@ export const blockscoutInstancesByChainId = Object.fromEntries(
 )
 
 export const getBlockscoutRestEndpoint = (
-	chainId: Ethereum.ChainID,
+	chainId: Ethereum.ChainId,
 ) => (
 	`https://${blockscoutInstancesByChainId[chainId].explorerUrl}/api/v2`
 )

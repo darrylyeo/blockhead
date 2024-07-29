@@ -7,7 +7,7 @@ export const airstackNetworkNames = {
 	8453: 'base',
 	7777777: 'zora',
 	666666666: 'degen',
-} as Record<Ethereum.ChainID, string>
+} as Record<Ethereum.ChainId, string>
 
 
 // gql.tada

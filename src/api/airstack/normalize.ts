@@ -54,7 +54,7 @@ export const normalizeNftContracts = (
 
 export const normalizeTokenBalance = (
 	tokenWithBalance: NonNullable<NonNullable<NonNullable<Awaited<ReturnType<typeof getTokenBalances>>>['TokenBalances']>['TokenBalance']>[number],
-	chainId: Ethereum.ChainID,
+	chainId: Ethereum.ChainId,
 ): TokenWithBalance => ({
 	token: {
 		chainId: chainId || (tokenWithBalance.chainId ? Number(tokenWithBalance.chainId) : undefined),

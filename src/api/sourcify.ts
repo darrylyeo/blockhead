@@ -6,7 +6,7 @@ export const getSourcifyUrl = ({
 	partialMatch = false,
 }: {
 	contractAddress: Ethereum.ContractAddress,
-	chainId: Ethereum.ChainID,
+	chainId: Ethereum.ChainId,
 	partialMatch?: boolean,
 }) =>
 	`https://repo.sourcify.dev/contracts/${partialMatch ? 'partial_match' : 'full_match'}/${chainId}/${contractAddress}`
@@ -17,7 +17,7 @@ export const getContractMetadata = async ({
 	partialMatch,
 }: {
 	contractAddress: Ethereum.ContractAddress,
-	chainId: Ethereum.ChainID,
+	chainId: Ethereum.ChainId,
 	partialMatch?: boolean,
 }) => {
 	const sourcifyUrl = getSourcifyUrl({

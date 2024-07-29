@@ -5,7 +5,7 @@ import type { appTokenControllerGetAppTokens } from './v2'
 export type ZapperSupportedNetwork = Parameters<typeof appTokenControllerGetAppTokens>[1]
 
 export const networkNamesByChainId = new Map<
-	Ethereum.ChainID,
+	Ethereum.ChainId,
 	ZapperSupportedNetwork
 >([
 	[1, 'ethereum'],
@@ -28,7 +28,7 @@ export const networkNamesByChainId = new Map<
 
 export const chainIdByNetworkName = new Map<
 	ZapperSupportedNetwork,
-	Ethereum.ChainID
+	Ethereum.ChainId
 >(
 	Array.from(
 		networkNamesByChainId.entries(),

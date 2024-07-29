@@ -17,13 +17,13 @@ export type WalletConnection = {
 
 	connect: (isInitiatedByUser?: boolean) => Promise<{
 		accounts?: Account[],
-		chainId?: Ethereum.ChainID,
+		chainId?: Ethereum.ChainId,
 		newSelector?: AccountConnectionSelector,
 	}>
 
 	subscribe?: () => {
 		accounts: Readable<Account[]>,
-		chainId: Readable<Ethereum.ChainID>,
+		chainId: Readable<Ethereum.ChainId>,
 	},
 
 	switchNetwork?: (network: Ethereum.Network) => void,
@@ -92,8 +92,8 @@ const subscribeEip1193 = (provider: Ethereum.Provider) => ({
 		return () => provider.removeListener?.('accountsChanged', onAccountsChanged)
 	}),
 
-	chainId: readable<Ethereum.ChainID>(undefined, set => {
-		const onChainIdChanged = (chainId: number | string) => set(Number(chainId) as Ethereum.ChainID)
+	chainId: readable<Ethereum.ChainId>(undefined, set => {
+		const onChainIdChanged = (chainId: number | string) => set(Number(chainId) as Ethereum.ChainId)
 
 		provider.request({ method: 'eth_chainId' }).then(onChainIdChanged)
 
@@ -161,7 +161,7 @@ import { availableNetworks, getNetworkRPC, networksByChainID, networksBySlug } f
 
 export const getWalletConnection = async ({
 	selector,
-	networks = [networksByChainID[1 as Ethereum.ChainID]], // availableNetworks
+	networks = [networksByChainID[1 as Ethereum.ChainId]], // availableNetworks
 	theme,
 	jsonRpcUri = getNetworkRPC(networksBySlug['ethereum']),
 }: {
@@ -549,8 +549,8 @@ export const getWalletConnection = async ({
 							}
 						),
 					
-						chainId: readable<Ethereum.ChainID>(
-							session?.namespaces.eip155.accounts.map(caip2Id => Number(parseCaip2Id(caip2Id).chainId) as Ethereum.ChainID)[0],
+						chainId: readable<Ethereum.ChainId>(
+							session?.namespaces.eip155.accounts.map(caip2Id => Number(parseCaip2Id(caip2Id).chainId) as Ethereum.ChainId)[0],
 							set => {}
 						),
 
@@ -672,7 +672,7 @@ export const getWalletConnection = async ({
 							})
 						}),
 					
-						chainId: readable<Ethereum.ChainID>(undefined, set => {
+						chainId: readable<Ethereum.ChainId>(undefined, set => {
 							return watchChainId(wagmiConfig, {
 								onChange: (chainId) => {
 									set(chainId)
@@ -729,9 +729,9 @@ export const getWalletConnection = async ({
 							// return () => {}
 						}),
 					
-						chainId: readable<Ethereum.ChainID>(undefined, set => {
+						chainId: readable<Ethereum.ChainId>(undefined, set => {
 							signer.getChainId()
-								.then(chainId => set(chainId as Ethereum.ChainID))
+								.then(chainId => set(chainId as Ethereum.ChainId))
 						}),
 					}),
 

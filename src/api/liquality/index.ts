@@ -21,4 +21,4 @@ export const liqualitySupportedNetworks = [
 	137,
 	10,
 	42161,
-] as const satisfies Ethereum.ChainID[]
+] as const satisfies Ethereum.ChainId[]

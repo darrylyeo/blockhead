@@ -56,7 +56,7 @@ export const normalizeNftContracts = ({
 
 export const normalizeTokenBalance = (
 	asset: Awaited<ReturnType<typeof import('@liquality/wallet-sdk').ERC20Service.listAccountTokens>>[number],
-	chainId: Ethereum.ChainID,
+	chainId: Ethereum.ChainId,
 ): TokenWithBalance => ({
 	token: {
 		chainId,

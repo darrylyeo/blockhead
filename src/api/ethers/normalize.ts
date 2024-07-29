@@ -7,7 +7,7 @@ export const normalizeTransaction = (
 	network: Ethereum.Network,
 ): Partial<Ethereum.Transaction> => ({
 	network,
-	transactionId: transaction.hash as Ethereum.TransactionID,
+	transactionId: transaction.hash as Ethereum.TransactionId,
 
 	...('status' in transaction && {
 		executionStatus: transaction.status !== 0 ? 'successful' : 'failed',
@@ -58,7 +58,7 @@ export const normalizeTransactionLogEvent = (
 	network: Ethereum.Network,
 ): Ethereum.TransactionLogEvent => ({
 	indexInTransaction: logEvent.index,
-	transactionHash: logEvent.transactionHash as Ethereum.TransactionID,
+	transactionHash: logEvent.transactionHash as Ethereum.TransactionId,
 
 	indexInBlock: logEvent.transactionIndex,
 	blockNumber: BigInt(logEvent.blockNumber),

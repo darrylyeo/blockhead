@@ -7,7 +7,7 @@ export type ExplorerParams = {
 	address: Ethereum.Address | '',
 	blockNumber: Ethereum.BlockNumber | '',
 	ensName: ENS.Name | '',
-	transactionId: Ethereum.TransactionID | '',
+	transactionId: Ethereum.TransactionId | '',
 }
 
 export type ExplorerInputParams = Partial<Omit<ExplorerParams, 'networkSlug'>>

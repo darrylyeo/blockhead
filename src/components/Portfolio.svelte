@@ -52,7 +52,7 @@
 	// Wallet management
 
 	let newAccountId = globalThis.location?.hash.slice(1) ?? ''
-	let newNetworks = [networksByChainID[1 as Ethereum.ChainID]] as Ethereum.Network[]
+	let newNetworks = [networksByChainID[1 as Ethereum.ChainId]] as Ethereum.Network[]
 
 	const addAccount = ({
 		id,

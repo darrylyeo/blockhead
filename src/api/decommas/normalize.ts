@@ -10,7 +10,7 @@ export const normalizeTransaction = (
 	network: Ethereum.Network,
 ): Ethereum.Transaction => ({
 	network,
-	transactionId: transaction.hash as Ethereum.TransactionID,
+	transactionId: transaction.hash as Ethereum.TransactionId,
 
 	executionStatus: transaction.status ? 'successful' : 'failed',
 	finalityStatus: 'finalized',

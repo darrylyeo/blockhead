@@ -193,7 +193,7 @@ export namespace UniswapV3 {
 		chainId,
 		pool,
 	}: {
-		chainId: Ethereum.ChainID,
+		chainId: Ethereum.ChainId,
 		pool: Pool,
 	}) => computePoolAddress({
 		factoryAddress: deployedContractsByChainId[chainId].UniswapV3Factory,

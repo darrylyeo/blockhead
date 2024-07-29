@@ -575,7 +575,7 @@ export const getLogEventsByTopicHash = (
 
 export const getTransaction = (
 	{transactionHash, includeLogs = false, chainId, pageNumber, pageSize, quoteCurrency}:
-	{transactionHash: Ethereum.TransactionID, includeLogs?: boolean} & ChainIDParameters & PaginationParameters & QuoteCurrencyParameters
+	{transactionHash: Ethereum.TransactionId, includeLogs?: boolean} & ChainIDParameters & PaginationParameters & QuoteCurrencyParameters
 ) =>
 	makeRequest<Covalent.Transactions>(`/v1/${chainId}/transaction_v2/${transactionHash}`, {noLogs: !includeLogs, pageNumber, pageSize, quoteCurrency})
 
@@ -644,7 +644,7 @@ export const normalizeTransaction = (
 	quoteCurrency: QuoteCurrency,
 ): Transaction => ({
 	network,
-	transactionId: transaction.tx_hash as Ethereum.TransactionID,
+	transactionId: transaction.tx_hash as Ethereum.TransactionId,
 
 	executionStatus: transaction.successful ? 'successful' : 'failed',
 	finalityStatus: 'block_height' in transaction ? 'finalized' : 'pending',
@@ -693,7 +693,7 @@ export const normalizeTransaction = (
 
 export const normalizeLogEvent = (logEvent: Covalent.LogEvent): Ethereum.TransactionLogEvent => ({
 	indexInTransaction: logEvent.log_offset,
-	transactionHash: logEvent.tx_hash as Ethereum.TransactionID,
+	transactionHash: logEvent.tx_hash as Ethereum.TransactionId,
 
 	indexInBlock: logEvent.tx_offset,
 	blockNumber: BigInt(logEvent.block_height),
@@ -730,7 +730,7 @@ export const normalizeErc20Transfer = (
 	quoteCurrency: QuoteCurrency,
 ): Erc20Transfer => ({
 	network,
-	transactionId: transfer.tx_hash as Ethereum.TransactionID,
+	transactionId: transfer.tx_hash as Ethereum.TransactionId,
 
 	blockTimestamp: transfer.block_signed_at,
 

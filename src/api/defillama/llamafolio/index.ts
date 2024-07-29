@@ -18,7 +18,7 @@ export const supportedChains = {
 	'polygon': 137,
 	'polygon-zkevm': 1101,
 	'zksync-era': 324,
-} satisfies Record<string, Ethereum.ChainID>
+} satisfies Record<string, Ethereum.ChainId>
 
 export type ChainName = keyof typeof supportedChains
 

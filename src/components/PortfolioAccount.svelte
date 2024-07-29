@@ -47,7 +47,7 @@
 
 
 	// Computed Values
-	// export let portfolioData: Record<Ethereum.ChainID, {
+	// export let portfolioData: Record<Ethereum.ChainId, {
 	// 	balances: ,
 	// 	quoteTotal: number,
 	// }>
@@ -135,13 +135,13 @@
 		})
 	}
 
-	let gridLayoutIsChainExpanded: Record<Ethereum.ChainID, boolean> = {}
+	let gridLayoutIsChainExpanded: Record<Ethereum.ChainId, boolean> = {}
 
-	const toggleGridLayoutIsChainExpanded = (chainID: Ethereum.ChainID) =>
+	const toggleGridLayoutIsChainExpanded = (chainID: Ethereum.ChainId) =>
 		gridLayoutIsChainExpanded = {...gridLayoutIsChainExpanded, [chainID]: !gridLayoutIsChainExpanded[chainID]}
 
 
-	let columnLayoutIsSectionExpanded: Record<`${Ethereum.ChainID}-${'balances' | 'defi' | 'nfts'}`, boolean> = {}
+	let columnLayoutIsSectionExpanded: Record<`${Ethereum.ChainId}-${'balances' | 'defi' | 'nfts'}`, boolean> = {}
 
 	const toggleColumnLayoutIsSectionExpanded = (key: string) =>
 		columnLayoutIsSectionExpanded = {...columnLayoutIsSectionExpanded, [key]: !columnLayoutIsSectionExpanded[key]}
