@@ -393,7 +393,7 @@
 					<div class="row wrap align-end" transition:scale={{ start: 0.8, duration: 250 }}>
 						<label>
 							<input type="checkbox" bind:checked={showFees}>
-							<span>Show Fees</span>
+							<span>Fees</span>
 						</label>
 
 						<label>

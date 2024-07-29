@@ -202,7 +202,7 @@
 				<div class="row align-end" transition:scale={{ easing: expoOut }}>
 					<label>
 						<input type="checkbox" bind:checked={showFees}>
-						<span>Show Fees</span>
+						<span>Fees</span>
 					</label>
 
 					<label>
