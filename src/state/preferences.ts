@@ -213,7 +213,7 @@ export const preferencesConfig = [
 				preferenceId: 'contractSourceProvider',
 				name: 'Contract Source Code',
 				type: 'single',
-				defaultOption: ContractSourceProvider.Etherscan,
+				defaultOption: ContractSourceProvider.Blockscout,
 				options: [
 					{
 						groupId: 'web3',
