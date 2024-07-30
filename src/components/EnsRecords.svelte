@@ -290,10 +290,14 @@
 							<TokenIcon
 								token={{
 									chainId: networkBySlip44.get(key)?.chainId,
-									symbol: networkBySlip44.get(key)?.symbol || chainsBySlip44[key]?.symbol,
+									...networkBySlip44.get(key)?.nativeCurrency ?? { symbol: chainsBySlip44[key]?.symbol },
 								}}
 							/>
-							<abbr title="{networkBySlip44.get(key)?.name || chainsBySlip44[key]?.name || ''}">{networkBySlip44.get(key)?.symbol || chainsBySlip44[key]?.symbol}</abbr>
+							<abbr
+								title="{networkBySlip44.get(key)?.name || chainsBySlip44[key]?.name || ''}"
+							>
+								{networkBySlip44.get(key)?.nativeCurrency?.symbol || chainsBySlip44[key]?.symbol}
+							</abbr>
 						</dt>
 						<dd>
 							{#if address === null}
