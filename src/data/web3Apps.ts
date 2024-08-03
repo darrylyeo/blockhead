@@ -1,3 +1,9 @@
+// Shims
+import shimSetDifference from 'set.prototype.difference'
+shimSetDifference.shim()
+
+
+// Types/constants
 import type { ComponentType } from 'svelte'
 import type { Ethereum } from './networks/types'
 import type { LlamafolioAdapterName } from '$/api/defillama/llamafolio'
