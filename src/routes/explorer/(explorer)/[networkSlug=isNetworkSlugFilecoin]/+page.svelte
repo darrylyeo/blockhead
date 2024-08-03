@@ -1,10 +1,6 @@
 <script lang="ts">
 	// Params/Context
 	import {
-		networkSlug,
-	} from '../../_explorerParams'
-
-	import {
 		explorerNetwork,
 		explorerBlockNumber,
 	} from '../../_explorerContext'
@@ -19,13 +15,7 @@
 
 	$: showCurrentBlockHeight = true
 
-	$: showCurrentPrice = [
-		'ethereum',
-		'polygon',
-		'avalanche',
-		'fantom',
-		'bsc'
-	].includes($networkSlug)
+	$: showCurrentPrice = true
 
 	$: showHistoricalPrice = false
 

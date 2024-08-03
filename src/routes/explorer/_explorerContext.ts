@@ -165,3 +165,9 @@ export const relevantPreferences = derived([
 import { writable } from 'svelte/store'
 
 export const showTestnets = writable(false)
+
+export const navigationContext = writable<{
+	transaction?: Ethereum.Transaction,
+	transactionBlockNumber?: Ethereum.BlockNumber,
+	block?: Ethereum.Block,
+}>({})
