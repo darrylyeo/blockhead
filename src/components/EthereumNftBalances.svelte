@@ -196,7 +196,7 @@
 		}
 	}
 
-	.nft-contracts.showImagesOnly {
+	.nft-contracts[data-layout="images"] {
 		--grid-unit-size: 0.125rem;
 		--grid-item-width: 24;
 		--grid-item-height: 24;
@@ -264,7 +264,7 @@
 		}
 	}
 
-	.nft-contracts.show3D {
+	.nft-contracts[data-3d] {
 		--perspective: 1000px;
 		--transition-duration: 0.3s;
 
@@ -281,7 +281,7 @@
 			}
 		}
 
-		&:not(.showImagesOnly) .nft-contract {
+		&[data-layout="collections"] .nft-contract {
 			&:before {
 				--angle: -0.075turn;
 				content: '';
@@ -322,7 +322,7 @@
 			animation-delay: var(--transition-duration);
 
 			&:focus-within,
-			.show3D:not(.showImagesOnly) .nft-contract:focus-within &,
+			.nft-contracts[data-3d][data-layout="collections"] .nft-contract:focus-within &,
 			&:focus {
 				height: auto;
 				--angle: 0;
@@ -377,8 +377,8 @@
 <div
 	class="nft-contracts column"
 	class:scrollable-list={(isScrollable && nftContractsWithBalances?.length > 3) || show3D}
-	class:showImagesOnly
-	class:show3D
+	data-layout={showImagesOnly ? 'images' : 'collections'}
+	data-3d={show3D ? '' : undefined}
 >
 <!-- on:contextmenu={() => showImagesOnly = !showImagesOnly}
 on:dblclick={() => show3D = !show3D} -->
