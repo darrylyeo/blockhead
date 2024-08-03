@@ -37,7 +37,7 @@
 	let canNavigate = false
 
 	afterNavigate(navigation => {
-		if(navigation.to?.url.pathname.startsWith('/apps') && navigation.to.params){
+		if(navigation.to?.route.id?.startsWith('/apps') && navigation.to.params){
 			$web3AppSlug = navigation.to.params.web3AppSlug || navigation.to.url.pathname.match(/^\/apps\/(audius|ceramic|disco|ens|farcaster|ipfs|lens|uniswap)/)?.[1] || ''
 			$networkSlug = navigation.to.params.networkSlug || ''
 			$accountId = navigation.to.params.accountId || ''
@@ -66,7 +66,7 @@
 	beforeNavigate(navigation => {
 		if(navigation.type === 'goto' && navigation.from && navigation.to && navigation.from.url.pathname === navigation.to.url.pathname)
 			navigation.cancel()
-		else if(!navigation.to?.url.pathname.startsWith('/apps'))
+		else if(!navigation.to?.route.id?.startsWith('/apps'))
 			canNavigate = false
 	})
 

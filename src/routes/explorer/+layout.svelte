@@ -20,7 +20,7 @@
 	let canNavigate = false
 
 	afterNavigate(navigation => {
-		if(navigation.to?.url.pathname.startsWith('/explorer') && navigation.to.params){ 
+		if(navigation.to?.route.id?.startsWith('/explorer') && navigation.to.params){
 			$networkSlug = navigation.to.params.networkSlug || navigation.to.url.pathname.match(/^\/explorer\/([^/]+)/)?.[1] || ''
 			$address = navigation.to.params.address || ''
 			$blockNumber = navigation.to.params.blockNumber || ''
@@ -37,7 +37,7 @@
 	beforeNavigate(navigation => {
 		if(navigation.type === 'goto' && navigation.from && navigation.to && navigation.from.url.pathname === navigation.to.url.pathname)
 			navigation.cancel()
-		else if(!navigation.to?.url.pathname.startsWith('/explorer'))
+		else if(!navigation.to?.route.id?.startsWith('/explorer'))
 			canNavigate = false
 	})
 
