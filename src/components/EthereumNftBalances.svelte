@@ -312,7 +312,7 @@
 			50% / 100% calc(100% * var(--total-height))
 			no-repeat;
 
-		mask-position-y: calc(50% + var(--grid-height) / 2);
+		-webkit-mask-position-y: calc(50% + var(--grid-height) / 2);
 
 		backdrop-filter: blur(6px);
 
@@ -321,7 +321,7 @@
 	}
 	.show3D .nft:focus-within :global(.nft-image),
 	.show3D:not(.showImagesOnly) .nft-contract:focus-within .nft :global(.nft-image) {
-		mask-position-y: top;
+		-webkit-mask-position-y: top;
 	}
 	.show3D .nft figcaption {
 		order: -1;
