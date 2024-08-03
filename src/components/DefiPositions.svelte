@@ -132,7 +132,12 @@
 
 
 <div class="defi-balances column" class:scrollable-list={isScrollable && appsWithPositions.length > 6}>
-	{#each appsWithPositions as appWithPositions, i (appWithPositions.id ?? appWithPositions.app?.slug)}
+	{#each (
+		appsWithPositions
+			.sort((a, b) => (
+				(b.summary?.assets?.value ?? 0) - (a.summary?.assets?.value ?? 0)
+			))
+	) as appWithPositions, i (appWithPositions.id ?? appWithPositions.app?.slug)}
 		<Collapsible
 			type="label"
 			containerClass="card"
