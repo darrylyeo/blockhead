@@ -518,28 +518,3 @@
 		</div>
 	{/each}
 </div>
-<!-- {#if quoteCurrency !== 'USD'}
-	<small class="card row" transition:scale>
-		<img src={ZapperIcon} width="25" height="25" />
-		Note: The Zapper API doesn't yet support currencies other than US Dollars.
-	</small>
-{/if} -->
-
-<!-- {#each protocolBalances as {products: [{label, assets, meta: productMeta}], meta}}
-	<h4>{label}</h4>
-	{#each assets as {type, address, balance, balanceUSD, symbol, price, img, label, reserve}}
-		{type}
-		<TokenBalance
-			token={{
-				symbol,
-				address,
-			}}
-			{balance}
-		/>
-	{/each}
-	{#each meta as {label, type, value}}
-		{label}
-		{type}
-		{value}
-	{/each}
-{/each} -->
