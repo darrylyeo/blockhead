@@ -134,6 +134,25 @@
 <div class="defi-balances column" class:scrollable-list={isScrollable && appsWithPositions.length > 6}>
 	{#each (
 		appsWithPositions
+			.map(app => ({
+				...app,
+				summary: app.summary ?? {
+					assets: {
+						value: (
+							app.views.some(view => view.summary?.assets?.value)
+								? app.views.reduce((acc, view) => acc + (view.summary?.assets?.value ?? 0), 0)
+								: undefined
+						),
+					},
+					debt: {
+						value: (
+							app.views.some(view => view.summary?.debt?.value)
+								? app.views.reduce((acc, view) => acc + (view.summary?.debt?.value ?? 0), 0)
+								: undefined
+						),
+					},
+				},
+			}))
 			.sort((a, b) => (
 				(b.summary?.assets?.value ?? 0) - (a.summary?.assets?.value ?? 0)
 			))
