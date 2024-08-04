@@ -18,7 +18,7 @@
 	export let quoteCurrency: QuoteCurrency
 
 	// (View options)
-	export let showImagesOnly = false
+	export let layout: 'images' | 'collections' = 'collections'
 	export let show3D = false
 	export let collectionsSortBy: 'symbol-ascending' | 'floor-price-descending' | 'floor-price-ascending' | 'value-descending' | 'value-ascending' = 'floor-price-descending'
 	export let showNFTMetadata = false
@@ -204,10 +204,10 @@
 <div
 	class="nft-contracts column"
 	class:scrollable-list={(isScrollable && nftContractsWithBalances?.length > 3) || show3D}
-	data-layout={showImagesOnly ? 'images' : 'collections'}
+	data-layout={layout}
 	data-3d={show3D ? '' : undefined}
 >
-<!-- on:contextmenu={() => showImagesOnly = !showImagesOnly}
+<!-- on:contextmenu={() => layout = layout === 'images' ? 'collections' : 'images'}
 on:dblclick={() => show3D = !show3D} -->
 	{#each
 		nftContractsWithBalances
@@ -224,14 +224,14 @@ on:dblclick={() => show3D = !show3D} -->
 			tabIndex={show3D ? 0 : undefined}
 			animate:flip|local={{duration: 500, delay: Math.abs(i) * 10, easing: quintOut}}
 			draggable={true}
-			data-nft-focus-group={!showImagesOnly}
+			data-nft-focus-group={layout === 'collections'}
 		>
 			<Collapsible
 				type="label"
 				class="column"
-				isOpen={showImagesOnly}
+				isOpen={layout === 'images'}
 				clip={false}
-				showContentsOnly={showImagesOnly}
+				showContentsOnly={layout === 'images'}
 			>
 				{#if contract.metadata?.bannerImage && !show3D}
 					<img
@@ -327,10 +327,15 @@ on:dblclick={() => show3D = !show3D} -->
 
 					<div class="nfts" class:scrollable-list={isScrollable && contract.nfts?.length > 3 && !show3D}>
 						{#each contract.nfts as nft}<!-- (nft.tokenId || nft.tokenUri || nft.metadata.name) -->
-							<SizeContainerOld contentsOnly={showImagesOnly}>
+							<SizeContainerOld contentsOnly={layout === 'images'}>
 								<Nft
 									{nft}
-									layout={showImagesOnly ? 'stack' : 'column'}
+									layout={
+										{
+											'images': 'stack',
+											'collections': 'column',
+										}[layout]
+									}
 									showMetadata={showNFTMetadata}
 									is3d={show3D}
 								/>

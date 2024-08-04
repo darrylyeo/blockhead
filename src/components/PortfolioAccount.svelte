@@ -931,7 +931,7 @@
 									{address}
 									{nftProvider}
 									{quoteCurrency}
-									{collectionsSortBy} {showUnderlyingAssets} {showNFTMetadata} {showImagesOnly} {show3D} {showFloorPrices} {showSmallNftFloorPrices} isScrollable={!isGridLayout}
+									{collectionsSortBy} {showUnderlyingAssets} {showNFTMetadata} layout={showImagesOnly ? 'images' : 'collections'} {show3D} {showFloorPrices} {showSmallNftFloorPrices} isScrollable={!isGridLayout}
 								/>
 							{/if}
 						</EthereumNftBalancesLoader>
