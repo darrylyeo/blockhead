@@ -247,7 +247,7 @@
 									{#if !showApps && appWithPositions.app}
 										<a href={`/apps/${appWithPositions.app.slug}/network/${network.slug}/account/${address}`}>{appWithPositions.app.name ?? appWithPositions.name}</a>
 										{#if view.name && !(appWithPositions.app.name && appWithPositions.app.name === view.name)} › {view.name}{/if}
-									{:else}
+									{:else if view.name}
 										{view.name}
 									{/if}
 								</span>
@@ -280,7 +280,7 @@
 								</div>
 							{/if}
 
-							{#if 'source' in view && view.source}
+							{#if view.source}
 								<span class="card-annotation">
 									{#if view.source.contractAddress}
 										<Address {network} address={view.source.contractAddress}>{view.source.name}</Address>
@@ -321,9 +321,11 @@
 										</svelte:fragment>
 
 										<svelte:fragment slot="header-right">
-											<span class="card-annotation">
-												{position.tags?.[0] ? formatKebabCase(position.tags[0]) : ''}
-											</span>
+											{#if position.tags?.[0]}
+												<span class="card-annotation">
+													{formatKebabCase(position.tags[0])}
+												</span>
+											{/if}
 										</svelte:fragment>
 
 										<SizeContainer contentProps={{ class: 'column' }}>
