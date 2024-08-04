@@ -53,24 +53,6 @@
 
 
 <style>
-	.underlying {
-		font-size: 0.8em;
-		text-align: left;
-
-		display: grid;
-		justify-items: start;
-		--padding-inner: 0.1em;
-		gap: var(--padding-inner);
-		grid-template-columns: repeat(auto-fit, minmax(min(7rem, 100%), 1fr));
-	}
-	/* .underlying-symbol { */
-	.underlying-asset:before {
-		content: '┖';
-		display: inline-flex;
-		padding: 0 0.3em;
-		opacity: 0.8;
-	}
-
 	.view {
 		:global([data-collapsible-container].layout-horizontal) {
 			display: flex;
@@ -110,12 +92,27 @@
 		opacity: 0.8;
 	}
 
-	.underlying-asset {
-		display: flex;
-	}
-
 	.summary {
 		font-size: 0.8em;
+	}
+
+	.subpositions {
+		font-size: 0.8em;
+
+		gap: 0.7em;
+		padding: 0 0.3em;
+
+		display: grid;
+		justify-items: start;
+		grid-template-columns: repeat(auto-fit, minmax(min(7rem, 100%), 1fr));
+
+		.underlying-asset {
+			gap: 0.3em;
+
+			&:before {
+				opacity: 0.8;
+			}
+		}
 	}
 
 	.faded {
@@ -397,28 +394,68 @@
 
 										<!-- Underlying Assets -->
 										{#if position.subpositions?.length && (showUnderlyingAssets || position.type === 'contract-position')}
-											<div class="underlying">
+											<div class="subpositions">
 												{#each position.subpositions as subposition}
-													<span class="underlying-asset" in:scaleFont>
-														<!-- <span class="underlying-symbol">┖</span> -->
+													<!-- V2 -->
+													<span class="subposition column">
+														<span class="underlying-asset row inline" data-before="┖">
+															<TokenBalanceWithConversion
+																{tokenBalanceFormat}
 
-														<!-- V2 -->
+																token={subposition.tokenWithBalance.token}
+
+																balance={Number(subposition.tokenWithBalance.balance) * 0.1 ** subposition.tokenWithBalance.token.decimals}
+
+																convertedValue={subposition.tokenWithBalance.conversion?.value}
+																conversionCurrency={subposition.tokenWithBalance.conversion?.currency}
+																conversionRate={subposition.tokenWithBalance.conversion?.rate}
+
+																isDebt={subposition.isDebt}
+															/>
+														</span>
+
+														{#if showMetadata && subposition.metadata?.length}
+															<hr>
+						
+															<dl class="metadata">
+																{#each subposition.metadata as item}
+																	<dt>{formatIdentifierToWords(item.label, true)}</dt>
+																	<dd>
+																		{#if item.value === undefined}
+																			-
+																		{:else if item.type === 'currency'}
+																			<TokenBalance
+																				format="fiat"
+																				token={{
+																					symbol: item.currency,
+																				}}
+																				balance={Number(item.value)}
+																				isDebt={item.label === 'Debt'}
+																			/>
+																		{:else if item.type === 'number'}
+																			{#if item.format === 'percent'}
+																				{formatPercent(item.value)}
+																			{:else}
+																				{item.value}
+																			{/if}
+																		{:else if item.type === 'other'}
+																			{#if Array.isArray(item.value)}
+																				{#each item.value as value}
+																					<p>{value}</p>
+																				{/each}
+																			{:else}
+																				{item.value}
+																			{/if}
+																		{/if}
+																	</dd>
+																{/each}
+															</dl>
+														{/if}
+													</span>
+
+													<!-- V1 -->
+													<!-- <span class="underlying-asset column" in:scaleFont>
 														<TokenBalanceWithConversion
-															{tokenBalanceFormat}
-
-															token={subposition.tokenWithBalance.token}
-
-															balance={Number(subposition.tokenWithBalance.balance) * 0.1 ** subposition.tokenWithBalance.token.decimals}
-
-															convertedValue={subposition.tokenWithBalance.conversion?.value}
-															conversionCurrency={subposition.tokenWithBalance.conversion?.currency}
-															conversionRate={subposition.tokenWithBalance.conversion?.rate}
-
-															isDebt={subposition.isDebt}
-														/>
-
-														<!-- V1 -->
-														<!-- <TokenBalanceWithConversion
 															{tokenBalanceFormat}
 
 															token={subposition.tokenWithBalance.token}
@@ -434,46 +471,8 @@
 														{#if subposition.metadata.weight}
 															<small>({formatPercent(subposition.metadata.weight)})</small>
 														{/if}
-														{#if subposition.label}{subposition.label}{/if} -->
-													</span>
-
-													<!-- {#if showMetadata && position.metadata?.length}
-														<hr>
-					
-														<dl class="metadata">
-															{#each position.metadata as item}
-																<dt>{formatIdentifierToWords(item.label, true)}</dt>
-																<dd>
-																	{#if item.value === undefined}
-																		-
-																	{:else if item.type === 'currency'}
-																		<TokenBalance
-																			format="fiat"
-																			token={{
-																				symbol: item.currency,
-																			}}
-																			balance={Number(item.value)}
-																			isDebt={item.label === 'Debt'}
-																		/>
-																	{:else if item.type === 'number'}
-																		{#if item.format === 'percent'}
-																			{formatPercent(item.value)}
-																		{:else}
-																			{item.value}
-																		{/if}
-																	{:else if item.type === 'other'}
-																		{#if Array.isArray(item.value)}
-																			{#each item.value as value}
-																				<p>{value}</p>
-																			{/each}
-																		{:else}
-																			{item.value}
-																		{/if}
-																	{/if}
-																</dd>
-															{/each}
-														</dl>
-													{/if} -->
+														{#if subposition.label}{subposition.label}{/if}
+													</span> -->
 												{/each}
 											</div>
 										{/if}
