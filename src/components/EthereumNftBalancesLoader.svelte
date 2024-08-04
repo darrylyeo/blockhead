@@ -18,7 +18,7 @@
 	export let quoteCurrency: QuoteCurrency
 
 	// (View options)
-	export let loaderViewOptions: Partial<Loader<any, any, any, any, any>['viewOptions']> | undefined
+	export let loaderViewOptions: Partial<Loader<any, any, any, any>['viewOptions']> | undefined
 
 
 	// Internal state
@@ -48,14 +48,16 @@
 
 	type SharedSlotProps = {
 		nftContractsWithBalances: typeof nftContractsWithBalances,
+		status: Loader<any, any, any, any>['$$slot_def']['default']['status'],
+		pagination: Loader<any, any, any, any>['$$slot_def']['default']['pagination'],
 	}
 
 	type $$Slots = {
 		'default': SharedSlotProps,
 		'header': SharedSlotProps & {
 			summary: typeof summary,
-			loadingMessage: typeof loadingMessage,
-			errorMessage: typeof errorMessage,
+			loadingMessage: Loader<any, any, any, any>['$$slot_def']['header']['loadingMessage'],
+			errorMessage: Loader<any, any, any, any>['$$slot_def']['header']['errorMessage'],
 		},
 	}
 
@@ -322,18 +324,28 @@
 			),
 		})
 	}[nftProvider]?.()}
-	debug
 	bind:result={nftContractsWithBalances}
 	let:result={nftContractsWithBalances}
+	let:status
+	let:pagination
 >
 	<svelte:fragment slot="header"
 		let:result={nftContractsWithBalances}
 		let:status
+		let:pagination
 		let:loadingMessage
 		let:errorMessage
 	>
-		<slot name="header" {nftContractsWithBalances} {summary} {status} {loadingMessage} {errorMessage} />
+		<slot name="header"
+			{nftContractsWithBalances}
+			{summary}
+			{status} {pagination}
+			{loadingMessage} {errorMessage}
+		/>
 	</svelte:fragment>
 
-	<slot {nftContractsWithBalances} />
+	<slot
+		{nftContractsWithBalances}
+		{status} {pagination}
+	/>
 </Loader>
