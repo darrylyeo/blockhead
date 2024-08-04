@@ -112,6 +112,7 @@
 	let showSmallValues = false
 	let showApps = false
 	let showUnderlyingAssets = false
+	let showDefiPositionMetadata = false
 	let showNftMetadata = false
 	let showCollections = true
 	let collectionsSortBy: 'symbol-ascending' | 'floor-price-descending' | 'floor-price-ascending' | 'value-descending' | 'value-ascending' = 'floor-price-descending'
@@ -482,6 +483,7 @@
 					{showSmallValues}
 					{showApps}
 					{showUnderlyingAssets}
+					{showDefiPositionMetadata}
 					{showNftMetadata}
 					showImagesOnly={!showCollections}
 					{collectionsSortBy}
@@ -568,6 +570,11 @@
 					<input type="checkbox" bind:checked={showUnderlyingAssets}>
 					<!-- <span>Underlying Assets</span> -->
 					<span>Underlying</span>
+				</label>
+
+				<label>
+					<input type="checkbox" bind:checked={showDefiPositionMetadata}>
+					<span>Metadata</span>
 				</label>
 			</div>
 

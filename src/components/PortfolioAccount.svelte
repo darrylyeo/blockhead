@@ -32,6 +32,7 @@
 	export let showSmallValues = false
 	export let showApps = false
 	export let showUnderlyingAssets = false
+	export let showDefiPositionMetadata = false
 	export let collectionsSortBy: 'symbol-ascending' | 'floor-price-descending' | 'floor-price-ascending' | 'value-descending' | 'value-ascending' = 'floor-price-descending'
 	export let showNftMetadata = false
 	export let showImagesOnly = false
@@ -785,6 +786,7 @@
 									{tokenBalanceFormat}
 									{showApps}
 									{showUnderlyingAssets}
+									showMetadata={showDefiPositionMetadata}
 									isScrollable={!isGridLayout}
 								/>
 							{/if}
