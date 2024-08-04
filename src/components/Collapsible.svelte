@@ -42,7 +42,7 @@
 
 
 <style>
-	.container {
+	[data-collapsible-container] {
 		--collapsible-size: 1fr;
 		--collapsible-container-gap: var(--padding-inner);
 		--collapsible-trigger-cursor: zoom-out;
@@ -76,8 +76,7 @@
 			display: block;
 		}
 
-		label,
-		summary {
+		[data-collapsible-trigger] {
 			margin: calc(-1 * var(--padding-inner));
 			padding: var(--padding-inner);
 
@@ -101,7 +100,7 @@
 			}
 		}
 
-		.collapsible {
+		[data-collapsible-content] {
 			min-height: 0;
 			transform-origin: top;
 			align-content: start;
@@ -154,6 +153,7 @@
 				: 'div'
 		}
 		{...$$restProps}
+		data-collapsible-container
 		class="container {$$props.containerClass ?? ''}"
 		class:column-block={canToggle && type === 'details'}
 		{...{
@@ -177,6 +177,7 @@
 						}[type]
 						: 'div'
 				}
+				data-collapsible-trigger
 				class={$$props.contentClass ?? `bar wrap`}
 				{...{
 					'label': {
@@ -225,6 +226,7 @@
 		</slot>
 
 		<div
+			data-collapsible-content
 			class="collapsible {$$props.class ?? ''}"
 			class:clip
 			{...type === 'label' ? {
