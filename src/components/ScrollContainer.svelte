@@ -19,7 +19,7 @@
 	{#if pagination?.hasPreviousPage}
 		<Visible
 			{margin}
-			onVisible={() => pagination?.fetchPreviousPage()}
+			onVisible={() => { pagination?.fetchPreviousPage() }}
 		>
 			<slot name="before" />
 		</Visible>
@@ -30,7 +30,7 @@
 	{#if pagination?.hasNextPage}
 		<Visible
 			{margin}
-			onVisible={() => pagination?.fetchNextPage()}
+			onVisible={() => { pagination?.fetchNextPage() }}
 		>
 			<slot name="after" />
 		</Visible>
