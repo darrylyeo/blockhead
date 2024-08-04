@@ -48,6 +48,7 @@
 		animation: Spin 1s linear infinite;
 	}
 	.hover {
+		transform-style: flat;
 		animation: Hover 1s linear infinite;
 		--hover-intensity: 100px;
 	}
