@@ -1,5 +1,6 @@
 <script lang="ts">
 	// Inputs
+	export let isScrollEnabled = true
 	export let pagination: Loader<any, any, any, any>['$$slot_def']['default']['pagination']
 	export let margin: number | undefined
 
@@ -11,7 +12,8 @@
 
 
 <div
-	class="column scrollable-list"
+	class="column {$$restProps.class}"
+	class:scrollable-list={isScrollEnabled}
 	{...$$restProps}
 >
 	{#if pagination?.hasPreviousPage}
