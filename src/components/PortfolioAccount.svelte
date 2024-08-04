@@ -806,7 +806,11 @@
 							bind:summary={nftsSummaries[i]}
 							let:nftContractsWithBalances
 						>
-							<svelte:fragment slot="header" let:summary let:status let:loadingMessage let:errorMessage>
+							<svelte:fragment slot="header"
+								let:summary
+								let:status
+								let:loadingMessage let:errorMessage
+							>
 								<!-- {#if balances?.length || isGridLayout} -->
 									<!-- <hr> -->
 
@@ -876,7 +880,7 @@
 																/>
 																│
 															{/if}
-															<strong><TweenedNumber value={summary.nftsCount} /></strong> NFT{summary.nftsCount === 1 ? '' : 's'}
+															<strong><TweenedNumber value={summary.nftsCount} />{summary.hasMore ? '+' : ''}</strong> NFT{summary.nftsCount === 1 ? '' : 's'}
 															│
 															<!-- across -->
 															<strong><TweenedNumber value={summary.nftContractsCount} /></strong> collection{summary.nftContractsCount === 1 ? '' : 's'}

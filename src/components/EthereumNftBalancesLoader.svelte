@@ -22,6 +22,8 @@
 
 
 	// Internal state
+	let pagination: Loader<any, any, any, any>['$$slot_def']['default']['pagination']
+
 	// (Computed)
 	$: loadingMessage = `Retrieving ${network.name} NFTs from ${nftProvider}...`
 	$: errorMessage = `Couldn't retrieve ${network.name} NFTs from ${nftProvider}.`
@@ -35,6 +37,7 @@
 		quoteCurrency: QuoteCurrency,
 		nftContractsCount: number,
 		nftsCount: number,
+		hasMore: boolean
 	} | undefined
 
 	$: summary = nftContractsWithBalances
@@ -42,7 +45,8 @@
 			quoteTotal: nftContractsWithBalances.reduce((sum, item) => sum + (item.conversion?.value ?? 0) * (item.nftsCount ?? item.nfts?.length ?? 0), 0),
 			quoteCurrency,
 			nftContractsCount: nftContractsWithBalances.length,
-			nftsCount: nftContractsWithBalances.reduce((sum, item) => sum + (item.nfts?.length ?? 0), 0)
+			nftsCount: nftContractsWithBalances.reduce((sum, item) => sum + (item.nfts?.length ?? 0), 0),
+			hasMore: pagination ? pagination.hasNextPage : false,
 		}
 		: undefined
 
@@ -212,8 +216,6 @@
 
 						// return nftsResponse
 
-						const queue = new ConcurrentPromiseQueue(1)
-
 						return {
 							...nftsResponse,
 							result: await Promise.all(
@@ -327,6 +329,7 @@
 	bind:result={nftContractsWithBalances}
 	let:result={nftContractsWithBalances}
 	let:status
+	bind:pagination
 	let:pagination
 >
 	<svelte:fragment slot="header"
