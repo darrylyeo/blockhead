@@ -38,6 +38,7 @@
 	import AddressWithLabel from './AddressWithLabel.svelte'
 	import Collapsible from './Collapsible.svelte'
 	import Icon from './Icon.svelte'
+	import ScrollContainer from './ScrollContainer.svelte'
 	import SizeContainer from './SizeContainer.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
@@ -52,10 +53,6 @@
 
 
 <style>
-	.defi-balances.scrollable-list {
-		contain: layout;
-	}
-
 	.underlying {
 		font-size: 0.8em;
 		text-align: left;
@@ -131,7 +128,10 @@
 </style>
 
 
-<div class="defi-balances column" class:scrollable-list={isScrollable && appsWithPositions.length > 6}>
+<ScrollContainer
+	isScrollEnabled={isScrollable && appsWithPositions?.length > 6}
+	class="defi-balances column"
+>
 	{#each (
 		appsWithPositions
 			.map(app => ({
@@ -517,4 +517,4 @@
 			<p class="faded">No DeFi positions found.</p>
 		</div>
 	{/each}
-</div>
+</ScrollContainer>
