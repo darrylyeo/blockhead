@@ -89,6 +89,17 @@
 
 	let error: LoaderError
 
+	export let pagination: Pick<InfiniteQueryObserverResult<LoaderResult, LoaderError>, 'hasPreviousPage' | 'isFetchingPreviousPage' | 'fetchPreviousPage' | 'hasNextPage' | 'isFetchingNextPage' | 'fetchNextPage'> | undefined
+	$: pagination = $fromInfiniteQuery && {
+		hasPreviousPage: $fromInfiniteQuery.hasPreviousPage,
+		isFetchingPreviousPage: $fromInfiniteQuery.isFetchingPreviousPage,
+		fetchPreviousPage: $fromInfiniteQuery.fetchPreviousPage,
+
+		hasNextPage: $fromInfiniteQuery.hasNextPage,
+		isFetchingNextPage: $fromInfiniteQuery.isFetchingNextPage,
+		fetchNextPage: $fromInfiniteQuery.fetchNextPage,
+	}
+
 	// (Types)
 	type CollapsibleSlotProps = LoaderLayout extends 'collapsible'
 		? {
@@ -349,6 +360,7 @@
 				<slot name="header"
 					{result}
 					{status}
+					{pagination}
 					{loadingMessage}
 					{errorMessage}
 					{load}
@@ -392,15 +404,7 @@
 						{errorMessage}
 						{load}
 						{cancel}
-						pagination={$fromInfiniteQuery && {
-							hasPreviousPage: $fromInfiniteQuery.hasPreviousPage,
-							isFetchingPreviousPage: $fromInfiniteQuery.isFetchingPreviousPage,
-							fetchPreviousPage: $fromInfiniteQuery.fetchPreviousPage,
-
-							hasNextPage: $fromInfiniteQuery.hasNextPage,
-							isFetchingNextPage: $fromInfiniteQuery.isFetchingNextPage,
-							fetchNextPage: $fromInfiniteQuery.fetchNextPage,
-						}}
+						{pagination}
 						{isOpen}
 					/>
 					<!-- {toggle} --><!-- ReferenceError: toggle is not defined -->
@@ -458,6 +462,7 @@
 			name="header"
 			{result}
 			{status}
+			{pagination}
 			{loadingMessage}
 			{errorMessage}
 			{load}
@@ -467,19 +472,11 @@
 		<slot
 			{result}
 			{status}
+			{pagination}
 			{loadingMessage}
 			{errorMessage}
 			{load}
 			{cancel}
-			pagination={$fromInfiniteQuery && {
-				hasPreviousPage: $fromInfiniteQuery.hasPreviousPage,
-				isFetchingPreviousPage: $fromInfiniteQuery.isFetchingPreviousPage,
-				fetchPreviousPage: $fromInfiniteQuery.fetchPreviousPage,
-
-				hasNextPage: $fromInfiniteQuery.hasNextPage,
-				isFetchingNextPage: $fromInfiniteQuery.isFetchingNextPage,
-				fetchNextPage: $fromInfiniteQuery.fetchNextPage,
-			}}
 		/>
 	{:else if layout === 'default'}
 		<div class={containerClass}>
@@ -487,6 +484,7 @@
 				name="header"
 				{result}
 				{status}
+				{pagination}
 				{loadingMessage}
 				{errorMessage}
 				{load}
@@ -503,19 +501,11 @@
 						<slot
 							{result}
 							{status}
+							{pagination}
 							{loadingMessage}
 							{errorMessage}
 							{load}
 							{cancel}
-							pagination={$fromInfiniteQuery && {
-								hasPreviousPage: $fromInfiniteQuery.hasPreviousPage,
-								isFetchingPreviousPage: $fromInfiniteQuery.isFetchingPreviousPage,
-								fetchPreviousPage: $fromInfiniteQuery.fetchPreviousPage,
-	
-								hasNextPage: $fromInfiniteQuery.hasNextPage,
-								isFetchingNextPage: $fromInfiniteQuery.isFetchingNextPage,
-								fetchNextPage: $fromInfiniteQuery.fetchNextPage,
-							}}
 							{isOpen}
 						/>
 					</div>
