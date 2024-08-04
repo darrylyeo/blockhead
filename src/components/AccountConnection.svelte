@@ -104,13 +104,14 @@
 
 			loadingIcon={icon}
 
-			whenLoaded={() => dispatch('connect')}
+			whenLoaded={result => {
+				state = result
+				dispatch('connect')
+			}}
 
 			errorMessage={`Couldn't connect your ${name} account.`}
 
 			whenCanceled={async () => dispatch('cancel')}
-
-			bind:result={state}
 		>
 			<svelte:fragment slot="loadingMessage">
 				{@const walletConnectionTypeConfig = walletConnection && walletConnectionTypes[walletConnection.connectionType]}
