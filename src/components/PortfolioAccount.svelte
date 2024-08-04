@@ -64,6 +64,7 @@
 		defiAppsCount: number,
 		nftContractsCount: number,
 		nftsCount: number,
+		hasMoreNfts: boolean,
 	} | undefined
 
 	$: summary = {
@@ -108,6 +109,10 @@
 				.map(summary => summary?.nftsCount)
 				.filter(isTruthy)
 				.reduce((sum, item) => sum + item, 0),
+
+		hasMoreNfts:
+			nftsSummaries
+				.some(summary => summary?.hasMore),
 	}
 
 
@@ -402,7 +407,7 @@
 
 					{#if summary.nftsCount}
 						│
-						<strong><TweenedNumber value={summary.nftsCount} /></strong> NFT{summary.nftsCount === 1 ? '' : 's'}
+						<strong><TweenedNumber value={summary.nftsCount} /></strong>{summary.hasMoreNfts ? '+' : ''} NFT{summary.nftsCount === 1 ? '' : 's'}
 
 						{#if summary.nftContractsCount}
 							from <strong><TweenedNumber value={summary.nftContractsCount} /></strong> collection{summary.nftContractsCount === 1 ? '' : 's'}
