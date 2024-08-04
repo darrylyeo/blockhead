@@ -101,11 +101,6 @@ export const normalizeAppBalance = (
 		id: product.label,
 		name: product.label,
 
-		source: {
-			name: balance.appName,
-			contractAddress: balance.address,
-		},
-
 		// summary: {
 		// 	assets: {
 		// 		currency: 'USD' as QuoteCurrency,
