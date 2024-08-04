@@ -71,23 +71,13 @@
 		opacity: 0.8;
 	}
 
-	.column {
-		display: grid;
-		gap: var(--padding-inner);
-	}
-
-	.card {
-		position: relative;
-		overflow: hidden;
-	}
-
 	.view {
 		:global([data-collapsible-container].layout-horizontal) {
 			display: flex;
 			flex-wrap: wrap;
 			align-items: baseline;
 		}
-		:global([data-collapsible-container].layout-horizontal > [data-collapsible-trigger]) {
+		:global([data-collapsible-container]:is(.layout-horizontal, .layout-horizontal-alternate) > [data-collapsible-trigger]) {
 			flex: 1 auto;
 		}
 		:global([data-collapsible-container].layout-horizontal-alternate) {
@@ -99,9 +89,13 @@
 		:global([data-collapsible-container].layout-horizontal-alternate .card-annotation) {
 			font-weight: normal;
 			/* order: 1; */
-			margin-left: auto;
 			line-height: 1.5;
 		}
+	}
+
+	.position {
+		position: relative;
+		overflow: hidden;
 	}
 
 	h4, h5 {
@@ -298,9 +292,9 @@
 							<hr>
 						{/if} -->
 
-						<div class="defi-protocol-balances column">
+						<div class="positions column">
 							{#each view.positions ?? [] as position, i (position.id ?? i)}
-								<div class="defi-protocol-balance card column">
+								<div class="position card column">
 									<SizeContainer contentProps={{ class: 'column' }}>
 										<!-- V2 -->
 										<header class="bar wrap" title={`${position.tags?.[0] ? `${formatKebabCase(position.tags[0])}: ` : ''}${position.name} (${formatKebabCase(position.type)})`}>
