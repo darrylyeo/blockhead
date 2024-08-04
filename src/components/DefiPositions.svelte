@@ -133,20 +133,26 @@
 			.map(app => ({
 				...app,
 				summary: app.summary ?? {
-					assets: {
-						value: (
-							app.views.some(view => view.summary?.assets?.value)
-								? app.views.reduce((acc, view) => acc + (view.summary?.assets?.value ?? 0), 0)
-								: undefined
-						),
-					},
-					debt: {
-						value: (
-							app.views.some(view => view.summary?.debt?.value)
-								? app.views.reduce((acc, view) => acc + (view.summary?.debt?.value ?? 0), 0)
-								: undefined
-						),
-					},
+					assets: (
+						app.views.some(view => view.summary?.assets?.value)
+							? {
+								value: (
+									app.views.reduce((acc, view) => acc + (view.summary?.assets?.value ?? 0), 0)
+								),
+								currency: app.views[0].summary?.assets?.currency,
+							}
+							: undefined
+					),
+					debt: (
+						app.views.some(view => view.summary?.debt?.value)
+							? {
+								value: (
+									app.views.reduce((acc, view) => acc + (view.summary?.debt?.value ?? 0), 0)
+								),
+								currency: app.views[0].summary?.debt?.currency,
+							}
+							: undefined
+					),
 				},
 			}))
 			.sort((a, b) => (
