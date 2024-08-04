@@ -112,7 +112,7 @@
 	let showSmallValues = false
 	let showApps = false
 	let showUnderlyingAssets = false
-	let showNFTMetadata = false
+	let showNftMetadata = false
 	let showCollections = true
 	let collectionsSortBy: 'symbol-ascending' | 'floor-price-descending' | 'floor-price-ascending' | 'value-descending' | 'value-ascending' = 'floor-price-descending'
 	let show3D = false
@@ -482,7 +482,7 @@
 					{showSmallValues}
 					{showApps}
 					{showUnderlyingAssets}
-					{showNFTMetadata}
+					{showNftMetadata}
 					showImagesOnly={!showCollections}
 					{collectionsSortBy}
 					{showFloorPrices}
@@ -595,7 +595,7 @@
 				</div>
 
 				<label>
-					<input type="checkbox" bind:checked={showNFTMetadata}>
+					<input type="checkbox" bind:checked={showNftMetadata}>
 					<span>Metadata</span>
 				</label>
 

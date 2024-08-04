@@ -21,7 +21,7 @@
 	export let layout: 'images' | 'collections' = 'collections'
 	export let show3D = false
 	export let collectionsSortBy: 'symbol-ascending' | 'floor-price-descending' | 'floor-price-ascending' | 'value-descending' | 'value-ascending' = 'floor-price-descending'
-	export let showNFTMetadata = false
+	export let showNftMetadata = false
 	export let showFloorPrices = false
 	export let showSmallNftFloorPrices = false
 	export let isScrollable = true
@@ -317,7 +317,7 @@ on:dblclick={() => show3D = !show3D} -->
 						{/if}
 					</div>
 
-					{#if showNFTMetadata}
+					{#if showNftMetadata}
 						{#if contract.metadata?.description}<p>{contract.metadata.description}</p>{/if}
 					{/if}
 				</header>
@@ -336,7 +336,7 @@ on:dblclick={() => show3D = !show3D} -->
 											'collections': 'column',
 										}[layout]
 									}
-									showMetadata={showNFTMetadata}
+									showMetadata={showNftMetadata}
 									is3d={show3D}
 								/>
 							</SizeContainerOld>
