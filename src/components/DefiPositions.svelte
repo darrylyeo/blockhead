@@ -298,10 +298,15 @@
 						<div class="positions column">
 							{#each view.positions ?? [] as position, i (position.id ?? i)}
 								<div class="position card column">
-									<SizeContainer contentProps={{ class: 'column' }}>
+									<Collapsible
+										type="label"
+										containerClass="column"
+										showTriggerText={false}
+										isOpen
+									>
 										<!-- V2 -->
-										<header class="bar wrap" title={`${position.tags?.[0] ? `${formatKebabCase(position.tags[0])}: ` : ''}${position.name} (${formatKebabCase(position.type)})`}>
-											<h6>
+										<svelte:fragment slot="title">
+											<h6 title={`${position.tags?.[0] ? `${formatKebabCase(position.tags[0])}: ` : ''}${position.name} (${formatKebabCase(position.type)})`}>
 												{#if (position.type === 'contract-position' || position.type === 'app-token') && 'address' in position.tokenWithBalance.token} 
 													<AddressWithLabel
 														{network}
@@ -313,208 +318,212 @@
 													{position.name}
 												{/if}
 											</h6>
+										</svelte:fragment>
 
+										<svelte:fragment slot="header-right">
 											<span class="card-annotation">
 												{position.tags?.[0] ? formatKebabCase(position.tags[0]) : ''}
 											</span>
-										</header>
+										</svelte:fragment>
 
-										{#if position.type === 'app-token'}
-											<div class="bar wrap">
-												<!-- V2 -->
-												{#if position.type === 'app-token'}
-													<TokenBalanceWithConversion
+										<SizeContainer contentProps={{ class: 'column' }}>
+											{#if position.type === 'app-token'}
+												<div class="bar wrap">
+													<!-- V2 -->
+													{#if position.type === 'app-token'}
+														<TokenBalanceWithConversion
+															{tokenBalanceFormat}
+
+															token={position.tokenWithBalance.token}
+
+															balance={Number(position.tokenWithBalance.balance) * 0.1 ** position.tokenWithBalance.token.decimals}
+
+															convertedValue={position.tokenWithBalance.conversion?.value}
+															conversionCurrency={position.tokenWithBalance.conversion?.currency}
+															conversionRate={position.tokenWithBalance.conversion?.rate}
+
+															isDebt={position.isDebt}
+														/>
+													{/if}
+
+													<!-- V1 -->
+													<!-- <TokenBalanceWithConversion
 														{tokenBalanceFormat}
 
 														token={position.tokenWithBalance.token}
 
-														balance={Number(position.tokenWithBalance.balance) * 0.1 ** position.tokenWithBalance.token.decimals}
+														balance={position.tokenWithBalance.balance}
 
 														convertedValue={position.tokenWithBalance.conversion?.value}
 														conversionCurrency={position.tokenWithBalance.conversion?.currency}
 														conversionRate={position.tokenWithBalance.conversion?.rate}
 
-														isDebt={position.isDebt}
-													/>
-												{/if}
+														isDebt={position.tokenWithBalance.balance < 0n}
+													/> -->
 
-												<!-- V1 -->
-												<!-- <TokenBalanceWithConversion
-													{tokenBalanceFormat}
-
-													token={position.tokenWithBalance.token}
-
-													balance={position.tokenWithBalance.balance}
-
-													convertedValue={position.tokenWithBalance.conversion?.value}
-													conversionCurrency={position.tokenWithBalance.conversion?.currency}
-													conversionRate={position.tokenWithBalance.conversion?.rate}
-
-													isDebt={position.tokenWithBalance.balance < 0n}
-												/> -->
-
-												{#if showActions}
-													<!-- V1 -->
-													<!-- <div transition:scale>
-														{#if position.type === 'claimable'}
-															<button class="small">Claim</button>
-														{:else if position.type === 'pool'}
-															<button class="small">Remove Liquidity</button>
-														{:else if position.type === 'vault'}
-															<button class="small">Withdraw</button>
-														{:else if position.type === 'interest-bearing'}
-															<button class="small">Withdraw Collateral</button>
-														{:else if position.type === 'wallet'}
-															<!-- Don't count as part of total -- >
-														{:else}
-															{position.type}
-														{/if}
-													</div> -->
-												{:else}
-													<!-- V2 -->
-													<!-- <span class="card-annotation">
-														{formatKebabCase(position.type)}
-													</span> -->
-													<!-- <span class="card-annotation">
-														{formatKebabCase(position.tags?.[0])}
-														({formatKebabCase(position.type)})
-													</span> -->
-
-													<!-- V1 -->
-													<!-- {#if position.name && position.name !== position.tokenWithBalance.token.symbol}
-														<span class="card-annotation">{position.name}</span>
+													{#if showActions}
+														<!-- V1 -->
+														<!-- <div transition:scale>
+															{#if position.type === 'claimable'}
+																<button class="small">Claim</button>
+															{:else if position.type === 'pool'}
+																<button class="small">Remove Liquidity</button>
+															{:else if position.type === 'vault'}
+																<button class="small">Withdraw</button>
+															{:else if position.type === 'interest-bearing'}
+																<button class="small">Withdraw Collateral</button>
+															{:else if position.type === 'wallet'}
+																<!-- Don't count as part of total -- >
+															{:else}
+																{position.type}
+															{/if}
+														</div> -->
 													{:else}
-														<span class="card-annotation">
-															{type}{position.tags?.[0] && position.type !== position.tags?.[0] ? ` ${position.tags?.[0]}` : ''}
-														</span>
-													{/if} -->
-												{/if}
-											</div>
-										{/if}
+														<!-- V2 -->
+														<!-- <span class="card-annotation">
+															{formatKebabCase(position.type)}
+														</span> -->
+														<!-- <span class="card-annotation">
+															{formatKebabCase(position.tags?.[0])}
+															({formatKebabCase(position.type)})
+														</span> -->
 
-										<!-- Underlying Assets -->
-										{#if position.subpositions?.length && (showUnderlyingAssets || position.type === 'contract-position')}
-											<div class="subpositions">
-												{#each position.subpositions as subposition}
-													<!-- V2 -->
-													<span class="subposition column">
-														<span class="underlying-asset row inline" data-before="┖">
+														<!-- V1 -->
+														<!-- {#if position.name && position.name !== position.tokenWithBalance.token.symbol}
+															<span class="card-annotation">{position.name}</span>
+														{:else}
+															<span class="card-annotation">
+																{type}{position.tags?.[0] && position.type !== position.tags?.[0] ? ` ${position.tags?.[0]}` : ''}
+															</span>
+														{/if} -->
+													{/if}
+												</div>
+											{/if}
+
+											<!-- Underlying Assets -->
+											{#if position.subpositions?.length && (showUnderlyingAssets || position.type === 'contract-position')}
+												<div class="subpositions">
+													{#each position.subpositions as subposition}
+														<!-- V2 -->
+														<span class="subposition column">
+															<span class="underlying-asset row inline" data-before="┖">
+																<TokenBalanceWithConversion
+																	{tokenBalanceFormat}
+
+																	token={subposition.tokenWithBalance.token}
+
+																	balance={Number(subposition.tokenWithBalance.balance) * 0.1 ** subposition.tokenWithBalance.token.decimals}
+
+																	convertedValue={subposition.tokenWithBalance.conversion?.value}
+																	conversionCurrency={subposition.tokenWithBalance.conversion?.currency}
+																	conversionRate={subposition.tokenWithBalance.conversion?.rate}
+
+																	isDebt={subposition.isDebt}
+																/>
+															</span>
+
+															{#if showMetadata && subposition.metadata?.length}
+																<hr>
+							
+																<dl class="metadata">
+																	{#each subposition.metadata as item}
+																		<dt>{formatIdentifierToWords(item.label, true)}</dt>
+																		<dd>
+																			{#if item.value === undefined}
+																				-
+																			{:else if item.type === 'currency'}
+																				<TokenBalance
+																					format="fiat"
+																					token={{
+																						symbol: item.currency,
+																					}}
+																					balance={Number(item.value)}
+																					isDebt={item.label === 'Debt'}
+																				/>
+																			{:else if item.type === 'number'}
+																				{#if item.format === 'percent'}
+																					{formatPercent(item.value)}
+																				{:else}
+																					{item.value}
+																				{/if}
+																			{:else if item.type === 'other'}
+																				{#if Array.isArray(item.value)}
+																					{#each item.value as value}
+																						<p>{value}</p>
+																					{/each}
+																				{:else}
+																					{item.value}
+																				{/if}
+																			{/if}
+																		</dd>
+																	{/each}
+																</dl>
+															{/if}
+														</span>
+
+														<!-- V1 -->
+														<!-- <span class="underlying-asset column" in:scaleFont>
 															<TokenBalanceWithConversion
 																{tokenBalanceFormat}
 
 																token={subposition.tokenWithBalance.token}
 
-																balance={Number(subposition.tokenWithBalance.balance) * 0.1 ** subposition.tokenWithBalance.token.decimals}
+																balance={subposition.tokenWithBalance.balance}
 
 																convertedValue={subposition.tokenWithBalance.conversion?.value}
 																conversionCurrency={subposition.tokenWithBalance.conversion?.currency}
 																conversionRate={subposition.tokenWithBalance.conversion?.rate}
 
-																isDebt={subposition.isDebt}
+																isDebt={subposition.tokenWithBalance.balance < 0n}
 															/>
-														</span>
-
-														{#if showMetadata && subposition.metadata?.length}
-															<hr>
-						
-															<dl class="metadata">
-																{#each subposition.metadata as item}
-																	<dt>{formatIdentifierToWords(item.label, true)}</dt>
-																	<dd>
-																		{#if item.value === undefined}
-																			-
-																		{:else if item.type === 'currency'}
-																			<TokenBalance
-																				format="fiat"
-																				token={{
-																					symbol: item.currency,
-																				}}
-																				balance={Number(item.value)}
-																				isDebt={item.label === 'Debt'}
-																			/>
-																		{:else if item.type === 'number'}
-																			{#if item.format === 'percent'}
-																				{formatPercent(item.value)}
-																			{:else}
-																				{item.value}
-																			{/if}
-																		{:else if item.type === 'other'}
-																			{#if Array.isArray(item.value)}
-																				{#each item.value as value}
-																					<p>{value}</p>
-																				{/each}
-																			{:else}
-																				{item.value}
-																			{/if}
-																		{/if}
-																	</dd>
-																{/each}
-															</dl>
-														{/if}
-													</span>
-
-													<!-- V1 -->
-													<!-- <span class="underlying-asset column" in:scaleFont>
-														<TokenBalanceWithConversion
-															{tokenBalanceFormat}
-
-															token={subposition.tokenWithBalance.token}
-
-															balance={subposition.tokenWithBalance.balance}
-
-															convertedValue={subposition.tokenWithBalance.conversion?.value}
-															conversionCurrency={subposition.tokenWithBalance.conversion?.currency}
-															conversionRate={subposition.tokenWithBalance.conversion?.rate}
-
-															isDebt={subposition.tokenWithBalance.balance < 0n}
-														/>
-														{#if subposition.metadata.weight}
-															<small>({formatPercent(subposition.metadata.weight)})</small>
-														{/if}
-														{#if subposition.label}{subposition.label}{/if}
-													</span> -->
-												{/each}
-											</div>
-										{/if}
-
-										{#if showMetadata && position.metadata?.length}
-											<hr>
-
-											<dl class="metadata">
-												{#each position.metadata as item}
-													<dt>{formatIdentifierToWords(item.label, true)}</dt>
-													<dd>
-														{#if item.value === undefined}
-															-
-														{:else if item.type === 'currency'}
-															<TokenBalance
-																format="fiat"
-																token={{
-																	symbol: item.currency,
-																}}
-																balance={Number(item.value)}
-																isDebt={item.label === 'Debt'}
-															/>
-														{:else if item.type === 'number'}
-															{#if item.format === 'percent'}
-																{formatPercent(item.value)}
-															{:else}
-																{item.value}
+															{#if subposition.metadata.weight}
+																<small>({formatPercent(subposition.metadata.weight)})</small>
 															{/if}
-														{:else if item.type === 'other'}
-															{#if Array.isArray(item.value)}
-																{#each item.value as value}
-																	<p>{value}</p>
-																{/each}
-															{:else}
-																{item.value}
+															{#if subposition.label}{subposition.label}{/if}
+														</span> -->
+													{/each}
+												</div>
+											{/if}
+
+											{#if showMetadata && position.metadata?.length}
+												<hr>
+
+												<dl class="metadata">
+													{#each position.metadata as item}
+														<dt>{formatIdentifierToWords(item.label, true)}</dt>
+														<dd>
+															{#if item.value === undefined}
+																-
+															{:else if item.type === 'currency'}
+																<TokenBalance
+																	format="fiat"
+																	token={{
+																		symbol: item.currency,
+																	}}
+																	balance={Number(item.value)}
+																	isDebt={item.label === 'Debt'}
+																/>
+															{:else if item.type === 'number'}
+																{#if item.format === 'percent'}
+																	{formatPercent(item.value)}
+																{:else}
+																	{item.value}
+																{/if}
+															{:else if item.type === 'other'}
+																{#if Array.isArray(item.value)}
+																	{#each item.value as value}
+																		<p>{value}</p>
+																	{/each}
+																{:else}
+																	{item.value}
+																{/if}
 															{/if}
-														{/if}
-													</dd>
-												{/each}
-											</dl>
-										{/if}
-									</SizeContainer>
+														</dd>
+													{/each}
+												</dl>
+											{/if}
+										</SizeContainer>
+									</Collapsible>
 								</div>
 							{/each}
 						</div>
