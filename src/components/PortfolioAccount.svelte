@@ -805,6 +805,7 @@
 							}}
 							bind:summary={nftsSummaries[i]}
 							let:nftContractsWithBalances
+							let:pagination
 						>
 							<svelte:fragment slot="header"
 								let:summary
@@ -936,6 +937,7 @@
 									{nftProvider}
 									{quoteCurrency}
 									{collectionsSortBy} {showUnderlyingAssets} {showNftMetadata} layout={showImagesOnly ? 'images' : 'collections'} {show3D} {showFloorPrices} {showSmallNftFloorPrices} isScrollable={!isGridLayout}
+									{pagination}
 								/>
 							{/if}
 						</EthereumNftBalancesLoader>

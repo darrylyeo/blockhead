@@ -3,6 +3,7 @@
 	import type { Ethereum } from '$/data/networks/types'
 	import type { QuoteCurrency } from '$/data/currencies'
 	import type { NftProvider } from '$/data/nftProviders'
+	import type Loader from './Loader.svelte'
 	import { ipfsGatewaysByProvider } from '$/data/ipfsGateways'
 
 
@@ -27,6 +28,10 @@
 	export let isScrollable = true
 
 
+	// Events
+	export let pagination: Loader<any, any, any, any>['$$slot_def']['default']['pagination']
+
+
 	// Internal state
 	let collectionsSortFunction: (a: Ethereum.NftContractWithNfts, b: Ethereum.NftContractWithNfts) => number
 	$: collectionsSortFunction = {
@@ -49,8 +54,10 @@
 	import Icon from './Icon.svelte'
 	import Nft from './Nft.svelte'
 	import NftImage from './NftImage.svelte'
+	import ScrollContainer from './ScrollContainer.svelte'
 	import SizeContainerOld from './SizeContainerOld.svelte'
 	import TokenBalance from './TokenBalance.svelte'
+	import Loading from './Loading.svelte'
 
 
 	// Transitions/animations
@@ -65,7 +72,7 @@
 		font-size: 0.8em;
 	}
 
-	.nft-contracts {
+	:global(.nft-contracts) {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
 		grid-auto-flow: row dense;
@@ -125,7 +132,7 @@
 		}
 	}
 
-	.nft-contracts[data-layout="images"] {
+	:global(.nft-contracts[data-layout="images"]) {
 		--grid-unit-size: 0.125rem;
 		--grid-item-width: 24;
 		--grid-item-height: 24;
@@ -152,7 +159,7 @@
 		}
 	}
 
-	.nft-contracts[data-3d] {
+	:global(.nft-contracts[data-3d]) {
 		--perspective: 1000px;
 		--transition-duration: 0.3s;
 
@@ -201,11 +208,15 @@
 </style>
 
 
-<div
+<ScrollContainer
+	isScrollEnabled={(isScrollable && nftContractsWithBalances?.length > 3) || show3D}
+	{pagination}
 	class="nft-contracts column"
-	class:scrollable-list={(isScrollable && nftContractsWithBalances?.length > 3) || show3D}
 	data-layout={layout}
 	data-3d={show3D ? '' : undefined}
+	style="
+		--resizeVertical-defaultHeight: 100%;
+	"
 >
 <!-- on:contextmenu={() => layout = layout === 'images' ? 'collections' : 'images'}
 on:dblclick={() => show3D = !show3D} -->
@@ -350,4 +361,4 @@ on:dblclick={() => show3D = !show3D} -->
 			<p class="faded">No NFTs found.</p>
 		</div>
 	{/each}
-</div>
+</ScrollContainer>
