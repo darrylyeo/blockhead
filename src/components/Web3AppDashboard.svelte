@@ -102,31 +102,10 @@
 
 
 <style>
-	.balances.scrollable-list {
-		contain: layout;
-	}
-
-	.underlying {
-		font-size: 0.8em;
-		text-align: left;
-
-		display: grid;
-		justify-items: start;
-		--padding-inner: 0.1em;
-		gap: var(--padding-inner);
-		grid-template-columns: repeat(auto-fit, minmax(min(7rem, 100%), 1fr));
-	}
-
-	.column {
-		display: grid;
-		gap: var(--padding-inner);
-	}
-
 	.card {
 		position: relative;
 		overflow: hidden;
 	}
-
 
 	.views {
 		display: grid;
@@ -135,71 +114,77 @@
 		grid-auto-flow: dense;
 
 		--options-size: 0.8;
-	}
-	.view:not(.is-single), .view.full {
-		grid-column: 1 / -1;
-	}
-	.view.scrollable-list {
-		--resizeVertical-defaultHeight: 39.5rem;
-	}
 
-	.view-items {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(min(25rem, 100%), 1fr));
-		grid-template-rows: masonry;
-		align-items: stretch;
-		align-items: start;
+		.view {
+			&:not(.is-single),
+			&.full {
+				grid-column: 1 / -1;
+			}
 
-		--padding-inner: 0.75em;
-		gap: var(--padding-inner);
-	}
-	.view-items.scrollable-list {
-		--resizeVertical-defaultHeight: 31rem;
-	}
-	.view-items:not(:has(> *)) {
-		display: none;
-	}
+			&.scrollable-list {
+				--resizeVertical-defaultHeight: 39.5rem;
+			}
 
-	.view-items > * {
-		--padding-inner: 0.75em;
-	}
-	.view-items > .bar {
-		grid-column: 1 / -1;
-	}
+			--echart-height: 15rem;
 
-	.options {
-		position: sticky;
-		bottom: 0;
+			.view-items {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(min(25rem, 100%), 1fr));
+				grid-template-rows: masonry;
+				align-items: stretch;
+				align-items: start;
+				--padding-inner: 0.75em;
+				gap: var(--padding-inner);
 
-		z-index: 1;
+				&.scrollable-list {
+					--resizeVertical-defaultHeight: 31rem;
+				}
 
-		font-size: 0.8em;
+				&:not(:has(> *)) {
+					display: none;
+				}
 
-		backdrop-filter: var(--overlay-backdrop-filter);
-	}
+				> * {
+					--padding-inner: 0.75em;
+				}
 
-	.view {
-		--echart-height: 15rem;
+				> .bar {
+					grid-column: 1 / -1;
+				}
+			}
+
+			:global(.graphiql-explorer) {
+				height: 35rem;
+				max-height: 80vh;
+			}
+
+			iframe {
+				width: 100%;
+				justify-self: center;
+				border-radius: 0.5em;
+
+				&.embed {
+					height: 80vh;
+				}
+			}
+		}
+
+		.options {
+			position: sticky;
+			bottom: 0;
+
+			z-index: 1;
+
+			font-size: 0.8em;
+
+			backdrop-filter: var(--overlay-backdrop-filter);
+		}
 	}
 
 
 	/* Svelte bug */
 	.erc20-token :global(.token-balance-with-conversion:not(:last-child)) {
 		display: none;
-	}
-
-	.views :global(.graphiql-explorer) {
-		height: 35rem;
-		max-height: 80vh;
-	}
-
-	iframe {
-		width: 100%;
-		justify-self: center;
-		border-radius: 0.5em;
-	}
-	iframe.embed {
-		height: 80vh;
 	}
 </style>
 
