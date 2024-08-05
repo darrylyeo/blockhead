@@ -102,7 +102,7 @@
 
 
 <style>
-	.defi-balances.scrollable-list {
+	.balances.scrollable-list {
 		contain: layout;
 	}
 
@@ -128,7 +128,7 @@
 	}
 
 
-	.defi-app-views {
+	.views {
 		display: grid;
 		align-items: stretch;
 		grid-template-columns: repeat(auto-fit, minmax(min(25rem, 100%), 1fr));
@@ -136,14 +136,14 @@
 
 		--options-size: 0.8;
 	}
-	.defi-app-view:not(.is-single), .defi-app-view.full {
+	.view:not(.is-single), .view.full {
 		grid-column: 1 / -1;
 	}
-	.defi-app-view.scrollable-list {
+	.view.scrollable-list {
 		--resizeVertical-defaultHeight: 39.5rem;
 	}
 
-	.defi-app-view-items {
+	.view-items {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(min(25rem, 100%), 1fr));
 		grid-template-rows: masonry;
@@ -153,17 +153,17 @@
 		--padding-inner: 0.75em;
 		gap: var(--padding-inner);
 	}
-	.defi-app-view-items.scrollable-list {
+	.view-items.scrollable-list {
 		--resizeVertical-defaultHeight: 31rem;
 	}
-	.defi-app-view-items:not(:has(> *)) {
+	.view-items:not(:has(> *)) {
 		display: none;
 	}
 
-	.defi-app-view-items > * {
+	.view-items > * {
 		--padding-inner: 0.75em;
 	}
-	.defi-app-view-items > .bar {
+	.view-items > .bar {
 		grid-column: 1 / -1;
 	}
 
@@ -178,7 +178,7 @@
 		backdrop-filter: var(--overlay-backdrop-filter);
 	}
 
-	.defi-app-view {
+	.view {
 		--echart-height: 15rem;
 	}
 
@@ -188,7 +188,7 @@
 		display: none;
 	}
 
-	.defi-app-views :global(.graphiql-explorer) {
+	.views :global(.graphiql-explorer) {
 		height: 35rem;
 		max-height: 80vh;
 	}
@@ -213,7 +213,7 @@
 				.filter(view => showTestnets ? true : !(view.chainId && isTestnet(networkByChainId.get(view.chainId))))
 	}
 
-	<div class="column block defi-app-views">
+	<div class="views column block">
 		{#each (
 			views
 				.filter(view => !view.showOn || view.showOn.includes(currentView))
@@ -225,8 +225,8 @@
 			{@const _links = links ?? web3AppConfig?.links}
 			{@const network = chainId ? networkByChainId.get(chainId) : undefined}
 
-			<div
-				class="card defi-app-view"
+			<section
+				class="view card"
 				class:full={embeds?.length}
 				style={cardStyle(colors || web3AppConfig.colors)}
 				transition:scale={{ duration: 300, delay: i * 10 }}
@@ -295,9 +295,7 @@
 						</div>
 					{/if}
 
-					<div
-						class="column defi-app-view-items"
-					>
+					<div class="view-items column">
 					<!-- class:scrollable-list={currentView === 'Dashboard' && totalViewItems > 3} -->
 						<!-- No address specified - general information -->
 						{#if currentView === 'Dashboard'}
@@ -698,7 +696,7 @@
 						/>
 					{/if}
 				</Collapsible>
-			</div>
+			</section>
 		{/each}
 
 		{#if !views.length}
