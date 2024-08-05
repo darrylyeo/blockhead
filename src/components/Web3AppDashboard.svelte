@@ -240,49 +240,45 @@
 					isOpen={views.length === 1}
 					showTriggerText={false}
 				>
-					<svelte:fragment slot="header"
+					<svelte:fragment slot="title"
 						let:isOpen
 						let:toggle
 					>
-						<div class="bar wrap">
-							<span class="row inline wrap">
-								<h3 id={slug} class="row inline">
-									{#if network}
-										<NetworkIcon {network} />
-										›
-									{/if}
-									{#if slug}
-										<a href="#{slug}">{name || web3AppConfig.name}</a>
-									{:else}
-										{name || web3AppConfig.name}
-									{/if}
-								</h3>
-
-								{#if _links?.length}
-									<span>
-										({#each _links as href, i}<a {href} target="_blank">{new URL(href)?.host.replace(/^www[.]/, '')}</a>{#if i < _links.length - 1}{', '}{/if}{/each})
-									</span>
+						<span class="row inline wrap">
+							<h3 id={slug} class="row inline">
+								{#if network}
+									<NetworkIcon {network} />
+									›
 								{/if}
-							</span>
+								{#if slug}
+									<a href="#{slug}">{name || web3AppConfig.name}</a>
+								{:else}
+									{name || web3AppConfig.name}
+								{/if}
+							</h3>
 
-							{#if embeds?.length}
-								<select bind:value={selectedEmbed}>
-									{#each embeds as embed}
-										<option value={embed}>{embed.name}</option>
-									{/each}
-								</select>
-							{:else}
-								<div class="card-annotation">{network ? `${network.name} ` : ''} App</div>
+							{#if _links?.length}
+								<span>
+									({#each _links as href, i}<a {href} target="_blank">{new URL(href)?.host.replace(/^www[.]/, '')}</a>{#if i < _links.length - 1}{', '}{/if}{/each})
+								</span>
 							{/if}
+						</span>
+					</svelte:fragment>
 
-							{#if toggle}
-								<button
-									class="small"
-									data-after={isOpen ? '▲' : '▼'}
-									on:click={toggle}
-								/>
-							{/if}
-						</div>
+					<svelte:fragment slot="toolbar-items">
+						{#if embeds?.length}
+							<select bind:value={selectedEmbed}>
+								{#each embeds as embed}
+									<option value={embed}>{embed.name}</option>
+								{/each}
+							</select>
+						{/if}
+					</svelte:fragment>
+
+					<svelte:fragment slot="header-right">
+						{#if !embeds?.length}
+							<div class="card-annotation">{network ? `${network.name} ` : ''} App</div>
+						{/if}
 					</svelte:fragment>
 
 					<hr>
