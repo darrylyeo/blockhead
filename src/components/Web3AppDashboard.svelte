@@ -80,7 +80,6 @@
 	import EthereumBalancesLoader from './EthereumBalancesLoader.svelte'
 	import EthereumAccountOrContract from './EthereumAccountOrContract.svelte';
 	import EthereumContractExplorer from './EthereumContractExplorer.svelte'
-	import NetworkProviderLoader from './NetworkProviderLoader.svelte'
 	import CurrentPrice from './CurrentPrice.svelte'
 	import HistoricalPriceChart from './HistoricalPriceChart.svelte'
 	import Icon from './Icon.svelte'
@@ -224,6 +223,7 @@
 		}, i (`${name}/${chainId}/${slug}`)}
 			{@const totalViewItems = (erc20Tokens?.length ?? 0) + (nfts?.length ?? 0) + (contracts?.length ?? 0) + (providers && Object.entries(providers).length)}
 			{@const _links = links ?? web3AppConfig?.links}
+			{@const network = chainId ? networkByChainId.get(chainId) : undefined}
 
 			<div
 				class="card defi-app-view"
@@ -233,27 +233,24 @@
 				animate:flip={{ duration: 300 }}
 			>
 			<!-- class:is-single={totalViewItems <= 1} -->
-				<NetworkProviderLoader
-					loaderViewOptions={{
-						layout: 'collapsible',
-						collapsibleType: 'label',
-						isOpen: views.length === 1,
-					}}
-					network={chainId ? networkByChainId.get(chainId) : undefined}
-					{networkProvider}
-					let:network
-					let:publicClient
+				<Collapsible
+					type="label"
+					containerClass="column"
+					class="column"
+					isOpen={views.length === 1}
+					showTriggerText={false}
 				>
 					<svelte:fragment slot="header"
-						let:network
 						let:isOpen
 						let:toggle
 					>
 						<div class="bar wrap">
 							<span class="row inline wrap">
 								<h3 id={slug} class="row inline">
-									<NetworkIcon {network} />
-									›
+									{#if network}
+										<NetworkIcon {network} />
+										›
+									{/if}
 									{#if slug}
 										<a href="#{slug}">{name || web3AppConfig.name}</a>
 									{:else}
@@ -482,7 +479,6 @@
 													token={erc20Token.symbol}
 													tokenIcon={erc20Token.icon}
 													quoteCurrency={$preferences.quoteCurrency}
-													{publicClient}
 													{network}
 												>
 												<!-- blockNumber={$blockNumber} -->
@@ -579,7 +575,6 @@
 								<EthereumAccountOrContract
 									{network}
 									accountId={contractAddress}
-									{publicClient}
 									headingLevel={4}
 									isOpen={false}
 									resolveAccountNames={false}
@@ -706,7 +701,7 @@
 							src={selectedEmbed.src}
 						/>
 					{/if}
-				</NetworkProviderLoader>
+				</Collapsible>
 			</div>
 		{/each}
 
