@@ -211,7 +211,7 @@
 			? web3AppConfig.views
 				.filter(view => view.chainId === network.chainId)
 			: web3AppConfig.views
-				.filter(view => showTestnets ? true : !isTestnet(networkByChainId.get(view.chainId)))
+				.filter(view => showTestnets ? true : !(view.chainId && isTestnet(networkByChainId.get(view.chainId))))
 	}
 
 	<div class="column block defi-app-views">
@@ -239,7 +239,7 @@
 						collapsibleType: 'label',
 						isOpen: views.length === 1,
 					}}
-					network={networkByChainId.get(chainId)}
+					network={chainId ? networkByChainId.get(chainId) : undefined}
 					{networkProvider}
 					let:network
 					let:publicClient
@@ -725,15 +725,16 @@
 							.format(
 								[...new Set(
 									web3AppConfig.views
-									.map(view => (
-										networkByChainId.get(view.chainId).name
-									))
+										.filter(view => view.chainId)
+										.map(view => (
+											networkByChainId.get(view.chainId).name
+										))
 								)]
 							)
 					}.
 				</p>
 
-				{#if web3AppConfig.views.every(view => isTestnet(networkByChainId.get(view.chainId)))}
+				{#if web3AppConfig.views.every(view => view.chainId && isTestnet(networkByChainId.get(view.chainId)))}
 					<button
 						class="medium"
 						on:click={() => showTestnets = true}
