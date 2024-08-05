@@ -340,11 +340,9 @@ export const web3Apps = [
 		links: [
 			'https://across.to',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					llamafolio: 'across',
 					zapper: 'across',
@@ -358,18 +356,15 @@ export const web3Apps = [
 		links: [
 			'https://adamant.finance',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 42161,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'adamant',
 				},
 			},
 			{
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'adamant',
 				},
@@ -382,18 +377,15 @@ export const web3Apps = [
 		links: [
 			'https://aelin.xyz',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'aelin',
 				},
 			},
 			{
 				chainId: 10,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'aelin',
 				},
@@ -590,9 +582,6 @@ export const web3Apps = [
 		links: [
 			'https://agave.finance',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 100,
@@ -608,8 +597,6 @@ export const web3Apps = [
 		slug: 'agility',
 		links: [
 			'https://agilitylsd.com',
-		],
-		colors: [
 		],
 		views: [
 			{
@@ -632,7 +619,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/airswap/airswap',
 					zapper: 'airswap',
@@ -774,7 +760,6 @@ export const web3Apps = [
 		links: [
 			'https://alkemi.network',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
@@ -916,17 +901,10 @@ export const web3Apps = [
 		links: [
 			'https://www.alpacafinance.org',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
 				// https://docs.alpacafinance.org/our-protocol-1/transparency
-				erc20Tokens: [
-					
-				],
-				contracts: [
-					
-				],
 				providers: {
 					llamafolio: 'alpaca-finance',
 				},
@@ -1075,11 +1053,9 @@ export const web3Apps = [
 		links: [
 			'https://tokenomics.alphafinance.io',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'alpha-tokenomics',
 				},
@@ -1092,12 +1068,10 @@ export const web3Apps = [
 		links: [
 			'https://ambient.finance',
 		],
-		colors: [],
 		// https://docs.ambient.finance/developers/deployed-contracts
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				contracts: [
 					{
 						name: 'CrocSwapDex',
@@ -1248,7 +1222,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					llamafolio: 'ambire-wallet',
 				},
@@ -1261,11 +1234,9 @@ export const web3Apps = [
 		links: [
 			'https://app.flexa.network',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'amp',
 				},
@@ -1281,10 +1252,7 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
-				// https://defivaults.gitbook.io/amphor/boosted-eth-vault-v1/contract-addresses 
-				contracts: [
-				],
+				// https://defivaults.gitbook.io/amphor/boosted-eth-vault-v1/contract-addresses
 				providers: {
 					llamafolio: 'amphor',
 				},
@@ -1343,9 +1311,6 @@ export const web3Apps = [
 		links: [
 			'https://www.angle.money',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 1,
@@ -1387,8 +1352,6 @@ export const web3Apps = [
 	{
 		name: 'Ankr',
 		slug: 'ankr',
-		links: [],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
@@ -1443,18 +1406,15 @@ export const web3Apps = [
 		links: [
 			'https://ape.tax',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'ape-tax',
 				},
 			},
 			{
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'ape-tax',
 				},
@@ -1746,13 +1706,9 @@ export const web3Apps = [
 		links: [
 			'https://www.argofinance.money',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 25,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'argo-finance',
 				},
@@ -1847,7 +1803,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'arth',
 				},
@@ -1950,13 +1905,9 @@ export const web3Apps = [
 		links: [
 			'https://app.atlendis.io',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'atlendis-v1',
 				},
@@ -2105,13 +2056,9 @@ export const web3Apps = [
 		links: [
 			'https://www.aurigami.finance',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 1313161554,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'aurigami',
 				},
@@ -2124,13 +2071,9 @@ export const web3Apps = [
 		links: [
 			'https://aurora.plus',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 1313161554,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'aurora-plus',
 				},
@@ -2146,7 +2089,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 56,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'autofarm',
 				},
@@ -2365,27 +2307,21 @@ export const web3Apps = [
 		links: [
 			'https://wrap.banano.cc',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'banano',
 				},
 			},
 			{
 				chainId: 56,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'banano',
 				},
 			},
 			{
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'banano',
 				},
@@ -2407,7 +2343,6 @@ export const web3Apps = [
 				name: 'Bancor V3',
 				slug: 'v3',
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					llamafolio: 'bancor-v3',
 					zapper: 'bancor-v3',
@@ -2513,7 +2448,6 @@ export const web3Apps = [
 				name: 'Barnbridge Smart Alpha',
 				slug: 'smart-alpha',
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'barnbridge-smart-alpha',
 				},
@@ -2525,7 +2459,6 @@ export const web3Apps = [
 					'https://app.barnbridge.com/smart-alpha/pools',
 				],
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'barnbridge-smart-yield',
 				},
@@ -2730,13 +2663,9 @@ export const web3Apps = [
 		links: [
 			'https://bastionprotocol.com',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 1313161554,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'bastion-protocol',
 				},
@@ -2852,7 +2781,6 @@ export const web3Apps = [
 			'https://beets.fi',
 			'https://app.beets.fi',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 250,
@@ -2912,7 +2840,6 @@ export const web3Apps = [
 			{
 				slug: 'bsc',
 				chainId: 56,
-				erc20Tokens: [],
 				providers: {
 					llamafolio: 'belt-finance',
 					zapper: 'belt',
@@ -2921,7 +2848,6 @@ export const web3Apps = [
 			{
 				slug: 'heco',
 				chainId: 128,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'belt',
 				},
@@ -3009,7 +2935,6 @@ export const web3Apps = [
 		links: [
 			'https://bentfinance.com',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
@@ -3033,7 +2958,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zerionDefiSDK: [
 						'Berezka',
@@ -3125,7 +3049,6 @@ export const web3Apps = [
 		links: [
 			'https://biswap.org',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 56,
@@ -3321,11 +3244,9 @@ export const web3Apps = [
 		links: [
 			'https://botto.com',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'botto',
 				},
@@ -3342,7 +3263,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					llamafolio: 'b.protocol',
 					zapper: 'b-protocol',
@@ -3656,9 +3576,6 @@ export const web3Apps = [
 		links: [
 			'https://clearpool.finance',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 1,
@@ -3782,7 +3699,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zerionDefiSDK: [
 						'Cometh • Staking',
@@ -3929,7 +3845,6 @@ export const web3Apps = [
 				name: 'Compound V1',
 				slug: 'v1',
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zerionDefiSDK: [
 						'Compound',
@@ -3944,13 +3859,9 @@ export const web3Apps = [
 		links: [
 			'https://concentrator.aladdin.club',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					llamafolio: 'concentrator',
 					zapper: 'concentrator',
@@ -3986,7 +3897,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 			},
 		],
 	},
@@ -4063,7 +3973,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 25,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'coslend',
 				},
@@ -4125,20 +4034,15 @@ export const web3Apps = [
 		links: [
 			'https://www.cozy.finance',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 42161,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'cozy-finance',
 				},
 			},
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					llamafolio: 'cozy-finance',
 					zapper: 'cozy-finance',
@@ -4239,7 +4143,6 @@ export const web3Apps = [
 				name: 'C.R.E.A.M. Iron Bank',
 				slug: 'iron-bank',
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'cream-iron-bank',
 				},
@@ -4497,7 +4400,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zerionDefiSDK: [
 						'DDEX • Lending',
@@ -4517,7 +4419,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'defi-dollar',
 				},
@@ -4530,11 +4431,9 @@ export const web3Apps = [
 		links: [
 			'https://www.defikingdoms.com',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1666600000,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'defi-kingdoms',
 				},
@@ -4573,7 +4472,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'defisaver',
 				},
@@ -4589,7 +4487,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					llamafolio: 'defi-swap',
 					zapper: 'defi-swap',
@@ -4696,7 +4593,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					llamafolio: 'derivadex',
 					zapper: 'derivadex',
@@ -4816,20 +4712,15 @@ export const web3Apps = [
 		links: [
 			'https://exchange.dfx.finance',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'dfx',
 				},
 			},
 			{
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'dfx',
 				},
@@ -5090,7 +4981,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					llamafolio: 'dydx',
 					zapper: 'dydx',
@@ -5132,13 +5022,9 @@ export const web3Apps = [
 		links: [
 			'https://ease.org',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'ease',
 				},
@@ -5151,11 +5037,9 @@ export const web3Apps = [
 		links: [
 			'https://www.edennetwork.io',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'eden',
 				},
@@ -5177,7 +5061,6 @@ export const web3Apps = [
 				name: '88mph V3',
 				slug: 'v3',
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'eighty-eight-mph-v3',
 				},
@@ -5204,7 +5087,6 @@ export const web3Apps = [
 				name: '88mph V3',
 				slug: 'v3',
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'eighty-eight-mph-v3',
 				},
@@ -5213,7 +5095,6 @@ export const web3Apps = [
 				name: '88mph V3',
 				slug: 'v3',
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'eighty-eight-mph-v3',
 				},
@@ -5254,7 +5135,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				contracts: [
 					{
 						name: 'trancheFactory',
@@ -5334,25 +5214,21 @@ export const web3Apps = [
 		links: [
 			'https://eleven.finance',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'eleven-finance',
 				},
 			},
 			{
 				chainId: 56,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'eleven-finance',
 				},
 			},
 			{
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'eleven-finance',
 				},
@@ -5369,7 +5245,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 56,
-				erc20Tokens: [],
 				providers: {
 					llamafolio: 'ellipsis-finance',
 					zapper: 'ellipsis',
@@ -5589,7 +5464,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'ethereum',
 				},
@@ -5609,7 +5483,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 			},
 		],
 	},
@@ -5649,9 +5522,6 @@ export const web3Apps = [
 		links: [
 			'https://www.euler.finance',
 			'https://app.euler.finance',
-		],
-		colors: [
-			'#fff',
 		],
 		views: [
 			{
@@ -5902,11 +5772,9 @@ export const web3Apps = [
 		links: [
 			'https://fixedforex.fi',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'fixed-forex',
 				},
@@ -5984,7 +5852,6 @@ export const web3Apps = [
 			},
 			{
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'float-capital',
 				},
@@ -6197,7 +6064,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'furucombo',
 				},
@@ -6544,7 +6410,6 @@ export const web3Apps = [
 				name: 'V1',
 				slug: 'v1',
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
 					llamafolio: 'gmx-v1',
 					zapper: 'gmx',
@@ -6644,20 +6509,15 @@ export const web3Apps = [
 		links: [
 			'https://goodghosting.com',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'good-ghosting',
 				},
 			},
 			{
 				chainId: 42220,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'good-ghosting',
 				},
@@ -6709,9 +6569,6 @@ export const web3Apps = [
 		slug: 'granary-finance',
 		links: [
 			'https://granary.finance',
-		],
-		colors: [
-			'#fff',
 		],
 		views: [
 			{
@@ -6793,7 +6650,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'grim',
 				},
@@ -6886,11 +6742,9 @@ export const web3Apps = [
 		links: [
 			'https://hector.network',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
 					llamafolio: 'hector-network',
 					zapper: 'hector-network',
@@ -6898,7 +6752,6 @@ export const web3Apps = [
 			},
 			{
 				chainId: 56,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'hector-network',
 				},
@@ -7003,9 +6856,6 @@ export const web3Apps = [
 		links: [
 			'https://honeyswap.org',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 137,
@@ -7029,7 +6879,6 @@ export const web3Apps = [
 		links: [
 			'https://hop.exchange',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 42161,
@@ -7134,25 +6983,21 @@ export const web3Apps = [
 		links: [
 			'https://hundred.finance',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'hundred-finance',
 				},
 			},
 			{
 				chainId: 42161,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'hundred-finance',
 				},
 			},
 			{
 				chainId: 1666600000,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'hundred-finance',
 				},
@@ -7356,27 +7201,21 @@ export const web3Apps = [
 		links: [
 			'https://www.impermax.finance',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 42161,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'impermax',
 				},
 			},
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'impermax',
 				},
 			},
 			{
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'impermax',
 				},
@@ -7392,7 +7231,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'impossible-finance',
 				},
@@ -7594,7 +7432,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'iron',
 				},
@@ -7607,9 +7444,6 @@ export const web3Apps = [
 		links: [
 			'https://ib.xyz',
 			'https://app.ib.xyz',
-		],
-		colors: [
-			'#fff',
 		],
 		views: [
 			{
@@ -7696,9 +7530,6 @@ export const web3Apps = [
 		links: [
 			'https://jonesdao.io',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 42161,
@@ -7722,13 +7553,9 @@ export const web3Apps = [
 		links: [
 			'https://jpegd.io',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'jpegd',
 				},
@@ -7912,13 +7739,9 @@ export const web3Apps = [
 		links: [
 			'https://app.kinesislabs.co',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 25,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'kinesis-labs',
 				},
@@ -7952,7 +7775,6 @@ export const web3Apps = [
 		links: [
 			'https://www.klimadao.finance',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 137,
@@ -8021,11 +7843,9 @@ export const web3Apps = [
 		links: [
 			'https://www.kogefarm.io',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'kogefarm',
 				},
@@ -8664,13 +8484,9 @@ export const web3Apps = [
 		links: [
 			'https://lido.fi',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					llamafolio: 'lido',
 					zapper: 'lido',
@@ -8723,7 +8539,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'linkswap',
 				},
@@ -9121,7 +8936,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'lydia',
 				},
@@ -9137,7 +8951,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					llamafolio: 'lyra',
 					zapper: 'lyra',
@@ -9163,13 +8976,9 @@ export const web3Apps = [
 		links: [
 			'https://avalon.app.lyra.finance',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 10,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'lyra-avalon',
 				},
@@ -9299,13 +9108,9 @@ export const web3Apps = [
 		links: [
 			'https://www.manifoldfinance.com',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'manifold-finance',
 				},
@@ -9348,9 +9153,6 @@ export const web3Apps = [
 		links: [
 			'https://www.maple.finance',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 1,
@@ -9367,27 +9169,21 @@ export const web3Apps = [
 		links: [
 			'https://www.market.xyz',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'market-xyz',
 				},
 			},
 			{
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'market-xyz',
 				},
 			},
 			{
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'market-xyz',
 				},
@@ -9591,11 +9387,9 @@ export const web3Apps = [
 		links: [
 			'https://meshswap.fi',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'meshswap',
 				},
@@ -9896,7 +9690,6 @@ export const web3Apps = [
 		links: [
 			'https://morpheusswap.finance',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 250,
@@ -9947,7 +9740,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'morpho',
 				},
@@ -10245,11 +10037,9 @@ export const web3Apps = [
 		links: [
 			'https://naos.finance',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'naos',
 				},
@@ -10376,7 +10166,6 @@ export const web3Apps = [
 		links: [
 			'https://nexusmutual.io',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 0x1,
@@ -10410,7 +10199,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'nft20',
 				},
@@ -10479,11 +10267,9 @@ export const web3Apps = [
 		links: [
 			'https://notional.finance',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					llamafolio: 'notional',
 					zapper: 'notional-finance',
@@ -10580,11 +10366,9 @@ export const web3Apps = [
 		links: [
 			'https://ondo.finance',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					llamafolio: 'ondo-finance',
 					zapper: 'ondo',
@@ -10660,7 +10444,6 @@ export const web3Apps = [
 			{
 				slug: 'bsc',
 				chainId: 56,
-				erc20Tokens: [],
 				providers: {
 					zapper: '1inch',
 				},
@@ -10668,7 +10451,6 @@ export const web3Apps = [
 			{
 				slug: 'polygon',
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
 					zapper: '1inch',
 				},
@@ -10735,20 +10517,15 @@ export const web3Apps = [
 		links: [
 			'https://openleverage.finance',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'openleverage',
 				},
 			},
 			{
 				chainId: 56,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'openleverage',
 				},
@@ -10835,7 +10612,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'opyn',
 				},
@@ -10894,7 +10670,6 @@ export const web3Apps = [
 				name: 'Origin Dollar',
 				slug: 'dollar',
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					llamafolio: 'origin-dollar',
 					zapper: 'origin-dollar',
@@ -10907,7 +10682,6 @@ export const web3Apps = [
 					'https://www.story.xyz',
 				],
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'origin-story',
 				},
@@ -10945,7 +10719,6 @@ export const web3Apps = [
 		links: [
 			'https://www.otterclam.finance',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 137,
@@ -11084,7 +10857,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'pangolin',
 				},
@@ -11193,11 +10965,9 @@ export const web3Apps = [
 		links: [
 			'https://pendle.finance',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					llamafolio: 'pendle',
 					zapper: 'pendle',
@@ -11335,7 +11105,6 @@ export const web3Apps = [
 			},
 			{
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'phuture',
 				},
@@ -11466,7 +11235,6 @@ export const web3Apps = [
 				name: 'v3',
 				slug: 'v3',
 				chainId: 10,
-				erc20Tokens: [],
 				providers: {
 					llamafolio: 'pika-protocol',
 					zapper: 'pika-protocol-v3',
@@ -11476,7 +11244,6 @@ export const web3Apps = [
 				name: 'V1',
 				slug: 'v1',
 				chainId: 10,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'pika-protocol',
 				},
@@ -11504,13 +11271,9 @@ export const web3Apps = [
 		links: [
 			'https://pirex.io',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'pirex',
 				},
@@ -11547,13 +11310,9 @@ export const web3Apps = [
 		links: [
 			'https://plutusdao.io',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 42161,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'plutus',
 				},
@@ -11680,13 +11439,9 @@ export const web3Apps = [
 		links: [
 			'https://earn.polynomial.fi',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 10,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'polynomial',
 				},
@@ -11702,7 +11457,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'polywhale',
 				},
@@ -11753,7 +11507,6 @@ export const web3Apps = [
 					'#843ff3',
 				],
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'pool-together-v4',
 				},
@@ -11781,7 +11534,6 @@ export const web3Apps = [
 					'#843ff3',
 				],
 				chainId: 10,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'pool-together-v4',
 				},
@@ -11793,7 +11545,6 @@ export const web3Apps = [
 					'#843ff3',
 				],
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'pool-together-v4',
 				},
@@ -11805,7 +11556,6 @@ export const web3Apps = [
 					'#843ff3',
 				],
 				chainId: 42220,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'pool-together-v3',
 				},
@@ -11836,7 +11586,6 @@ export const web3Apps = [
 					'#843ff3',
 				],
 				chainId: 100,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'pool-together-v3',
 				},
@@ -11848,7 +11597,6 @@ export const web3Apps = [
 					'#843ff3',
 				],
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'pool-together-v3',
 				},
@@ -11964,18 +11712,15 @@ export const web3Apps = [
 		links: [
 			'https://premia.finance',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'premia',
 				},
 			},
 			{
 				chainId: 42161,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'premia',
 				},
@@ -12229,11 +11974,9 @@ export const web3Apps = [
 		links: [
 			'https://www.rug.farm',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'r-u-generous',
 				},
@@ -12364,7 +12107,6 @@ export const web3Apps = [
 			'https://railgun.org',
 			'https://railgun.ch',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
@@ -12595,7 +12337,6 @@ export const web3Apps = [
 		links: [
 			'https://www.reaper.farm',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 250,
@@ -12636,7 +12377,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					llamafolio: 'redacted',
 					zapper: 'redacted-cartel',
@@ -12773,34 +12513,27 @@ export const web3Apps = [
 		links: [
 			'https://revert.finance',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'revert-finance',
 				},
 			},
 			{
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'revert-finance',
 				},
 			},
 			{
 				chainId: 10,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'revert-finance',
 				},
 			},
 			{
 				chainId: 42161,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'revert-finance',
 				},
@@ -12814,7 +12547,6 @@ export const web3Apps = [
 			'https://rhino.fi',
 			'https://app.rhino.fi'
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
@@ -12853,7 +12585,6 @@ export const web3Apps = [
 				name: 'Ribbon V1',
 				slug: 'v1',
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					llamafolio: 'ribbon-finance',
 					zapper: 'ribbon',
@@ -12882,20 +12613,15 @@ export const web3Apps = [
 		links: [
 			'https://robo-vault.com',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'robo-vault',
 				},
 			},
 			{
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'robo-vault',
 				},
@@ -12914,7 +12640,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'rocket-pool',
 				},
@@ -12942,7 +12667,6 @@ export const web3Apps = [
 		links: [
 			'https://www.rook.fi',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
@@ -12986,7 +12710,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'sablier',
 					theGraph: 'https://api.thegraph.com/subgraphs/name/sablierhq/sablier',
@@ -13003,7 +12726,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'saddle',
 					zerionDefiSDK: [
@@ -13076,7 +12798,6 @@ export const web3Apps = [
 		links: [
 			'https://app.scarecrow.fi',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 250,
@@ -13097,7 +12818,6 @@ export const web3Apps = [
 		links: [
 			'https://scream.sh',
 		],
-		colors: [],
 		views: [
 			{
 				name: 'Scream V2',
@@ -13172,14 +12892,12 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'sfinance',
 				},
 			},
 			{
 				chainId: 66,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'sfinance',
 				},
@@ -13195,7 +12913,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'shapeshift',
 				},
@@ -13320,7 +13037,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 25,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'single',
 				},
@@ -13407,7 +13123,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'snowball',
 				},
@@ -13420,7 +13135,6 @@ export const web3Apps = [
 		links: [
 			'https://www.snowbank.finance',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 43114,
@@ -13437,11 +13151,9 @@ export const web3Apps = [
 		links: [
 			'https://www.snowdogdao.com',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'snowdog',
 				},
@@ -13482,27 +13194,21 @@ export const web3Apps = [
 		links: [
 			'https://solace.fi',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'solace',
 				},
 			},
 			{
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'solace',
 				},
 			},
 			{
 				chainId: 1313161554,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'solace',
 				},
@@ -13515,11 +13221,9 @@ export const web3Apps = [
 		links: [
 			'https://solarbeam.io',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1285,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'solarbeam',
 				},
@@ -13547,11 +13251,9 @@ export const web3Apps = [
 		links: [
 			'https://solidexfinance.com',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'solidex',
 				},
@@ -13579,7 +13281,6 @@ export const web3Apps = [
 		links: [
 			'https://solidly.exchange',
 		],
-		colors: [],
 		views: [
 			{
 				name: 'V2',
@@ -13596,7 +13297,6 @@ export const web3Apps = [
 				name: 'V1',
 				slug: 'v1',
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'solidly',
 				},
@@ -13729,7 +13429,6 @@ export const web3Apps = [
 		links: [
 			'https://app.spartacus.finance',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 250,
@@ -13826,9 +13525,6 @@ export const web3Apps = [
 			'https://www.spool.fi',
 			'https://app.spool.fi',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 1,
@@ -13850,11 +13546,9 @@ export const web3Apps = [
 		links: [
 			'https://squid.xyz',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'squid',
 				},
@@ -14031,7 +13725,6 @@ export const web3Apps = [
 		links: [
 			'https://stargate.finance',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 42161,
@@ -14102,13 +13795,9 @@ export const web3Apps = [
 		links: [
 			'https://www.steakhut.finance',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'steak-hut',
 				},
@@ -14172,11 +13861,9 @@ export const web3Apps = [
 		links: [
 			'https://stormswap.finance',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'stormswap',
 				},
@@ -14230,7 +13917,6 @@ export const web3Apps = [
 		links: [
 			'https://strongblock.com',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
@@ -14277,9 +13963,6 @@ export const web3Apps = [
 			'https://sturdy.finance',
 			'https://app.sturdy.finance',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 1,
@@ -14318,7 +14001,6 @@ export const web3Apps = [
 		links: [
 			'https://sudoswap.xyz',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
@@ -14517,7 +14199,6 @@ export const web3Apps = [
 				name: 'Bentobox',
 				slug: 'bentobox',
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'sushiswap-bentobox',
 				},
@@ -14526,7 +14207,6 @@ export const web3Apps = [
 				name: 'Kashi',
 				slug: 'kashi',
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'sushiswap-kashi',
 				},
@@ -14646,7 +14326,6 @@ export const web3Apps = [
 			'https://swapr.eth.limo',
 			'https://swapr.eth.link',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 42161,
@@ -14728,21 +14407,18 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'symphony',
 				},
 			},
 			{
 				chainId: 10,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'symphony',
 				},
 			},
 			{
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'symphony',
 				},
@@ -14755,7 +14431,6 @@ export const web3Apps = [
 		links: [
 			'https://synapseprotocol.com',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
@@ -14844,11 +14519,9 @@ export const web3Apps = [
 		links: [
 			'https://synlev.com',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'synlev',
 				},
@@ -14897,7 +14570,6 @@ export const web3Apps = [
 				name: 'Synthetix Mintr',
 				slug: 'mintr',
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'mintr',
 				},
@@ -14925,11 +14597,9 @@ export const web3Apps = [
 		links: [
 			'https://www.tarot.to',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'tarot',
 				},
@@ -14948,7 +14618,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 25,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'tectonic',
 				},
@@ -14961,13 +14630,9 @@ export const web3Apps = [
 		links: [
 			'https://teddy.cash',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'teddy-cash',
 				},
@@ -15038,20 +14703,15 @@ export const web3Apps = [
 		links: [
 			'https://tempus.finance',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'tempus',
 				},
 			},
 			{
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'tempus',
 				},
@@ -15079,20 +14739,15 @@ export const web3Apps = [
 		links: [
 			'https://app.tenderize.me',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 42161,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'tenderize',
 				},
 			},
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'tenderize',
 				},
@@ -15153,11 +14808,9 @@ export const web3Apps = [
 		links: [
 			'https://thalesmarket.io',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 10,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'thales',
 				},
@@ -15331,7 +14984,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'tokemak',
 				},
@@ -15399,74 +15051,63 @@ export const web3Apps = [
 		links: [
 			'https://ethereum.org',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 42161,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'tokens',
 				},
 			},
 			{
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'tokens',
 				},
 			},
 			{
 				chainId: 56,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'tokens',
 				},
 			},
 			{
 				chainId: 42220,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'tokens',
 				},
 			},
 			{
 				chainId: 1666600000,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'tokens',
 				},
 			},
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'tokens',
 				},
 			},
 			{
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'tokens',
 				},
 			},
 			{
 				chainId: 10,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'tokens',
 				},
 			},
 			{
 				chainId: 137,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'tokens',
 				},
 			},
 			{
 				chainId: 25,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'tokens',
 				},
@@ -15528,11 +15169,9 @@ export const web3Apps = [
 		links: [
 			'https://tomb.finance',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'tomb',
 				},
@@ -15668,13 +15307,9 @@ export const web3Apps = [
 		links: [
 			'https://www.trisolaris.io',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 1313161554,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'trisolaris',
 				},
@@ -15687,7 +15322,6 @@ export const web3Apps = [
 		links: [
 			'https://truefi.io',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
@@ -15803,9 +15437,6 @@ export const web3Apps = [
 		links: [
 			'https://umami.finance',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 42161,
@@ -15854,7 +15485,6 @@ export const web3Apps = [
 			{
 				slug: 'bsc',
 				chainId: 56,
-				erc20Tokens: [],
 				contracts: [
 					{
 						name: 'Contract Registry',
@@ -15870,13 +15500,9 @@ export const web3Apps = [
 		links: [
 			'https://www.unagii.com',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'unagii',
 				},
@@ -15917,7 +15543,6 @@ export const web3Apps = [
 					'#FC72FF',
 				],
 				chainId,
-				erc20Tokens: [],
 				components: [
 					UniswapPage,
 				],
@@ -16078,7 +15703,6 @@ export const web3Apps = [
 				name: 'Binance Smart Chain',
 				slug: 'bsc',
 				chainId: 56,
-				erc20Tokens: [],
 				contracts: [
 					// Core
 					{
@@ -16292,7 +15916,6 @@ export const web3Apps = [
 					'https://www.larvalabs.com/cryptopunks',
 				],
 				chainId: 1,
-				erc20Tokens: [],
 				nfts: [
 					{
 						address: '0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB',
@@ -16309,7 +15932,6 @@ export const web3Apps = [
 					'https://knownorigin.io',
 				],
 				chainId: 1,
-				erc20Tokens: [],
 				nfts: [
 					{
 						address: '0xfbeef911dc5821886e1dda71586d90ed28174b7d',
@@ -16326,7 +15948,6 @@ export const web3Apps = [
 					'https://superrare.com',
 				],
 				chainId: 1,
-				erc20Tokens: [],
 				nfts: [
 					{
 						address: '0x41a322b28d0ff354040e2cbc676f0320d8c8850d',
@@ -16374,11 +15995,9 @@ export const web3Apps = [
 		links: [
 			'https://www.vaderprotocol.org',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'vader',
 				},
@@ -16469,9 +16088,6 @@ export const web3Apps = [
 		links: [
 			'https://vectorfinance.io',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 43114,
@@ -16503,9 +16119,6 @@ export const web3Apps = [
 		links: [
 			'https://velodrome.finance',
 			'https://app.velodrome.finance',
-		],
-		colors: [
-			'#fff',
 		],
 		views: [
 			{
@@ -16621,7 +16234,6 @@ export const web3Apps = [
 		links: [
 			'https://vestafinance.xyz',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 42161,
@@ -16678,13 +16290,9 @@ export const web3Apps = [
 		links: [
 			'https://votium.app',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'votium',
 				},
@@ -16712,13 +16320,9 @@ export const web3Apps = [
 		links: [
 			'https://vvs.finance',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 25,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'vvs-finance',
 				},
@@ -16761,7 +16365,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'waultswap',
 				},
@@ -16880,18 +16483,15 @@ export const web3Apps = [
 		links: [
 			'https://www.wonderland.money',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'wonderland',
 				},
 			},
 			{
 				chainId: 250,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'wonderland',
 				},
@@ -17129,7 +16729,6 @@ export const web3Apps = [
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					llamafolio: 'yearn-finance',
 					zapper: 'yearn',
@@ -17197,20 +16796,15 @@ export const web3Apps = [
 		links: [
 			'https://app.yieldprotocol.com',
 		],
-		colors: [
-			'#fff',
-		],
 		views: [
 			{
 				chainId: 1,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'yield-protocol',
 				},
 			},
 			{
 				chainId: 42161,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'yield-protocol',
 				},
@@ -17223,11 +16817,9 @@ export const web3Apps = [
 		links: [
 			'https://yieldyak.com',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 43114,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'yield-yak',
 				},
@@ -17291,11 +16883,9 @@ export const web3Apps = [
 		links: [
 			'https://umami.finance',
 		],
-		colors: [],
 		views: [
 			{
 				chainId: 42161,
-				erc20Tokens: [],
 				providers: {
 					zapper: 'zerotwohm',
 				},
