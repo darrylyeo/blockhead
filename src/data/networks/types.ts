@@ -8,15 +8,21 @@ export namespace Ethereum {
 
 	export type Network = {
 		slug: NetworkSlug,
-		name: NetworkDisplayName,
+		name: string,
+
 		chainId: ChainId,
 		slip44?: Slip44,
 		shortName?: string,
 		chain?: ChainName,
 		network?: NetworkName,
 		networkId?: NetworkId,
+
 		nativeCurrency: NativeCurrency,
-		rpc: string[],
+
+		colors?: string[],
+		icon?: string,
+
+		rpc?: string[],
 		faucets?: string[],
 		explorers?: {
 			name?: string,
@@ -25,10 +31,11 @@ export namespace Ethereum {
 			icon?: string,
 		}[],
 		infoURL?: string,
-		icon?: string,
+
 		ens?: {
 			registry: ContractAddress
-		}
+		},
+
 		parent?: {
 			chain: `eip155-${ChainId}`,
 			type: 'L2' | 'L3' | 'shard',
@@ -40,7 +47,6 @@ export namespace Ethereum {
 	export type ChainId = number // Branded<number, 'ChainId'>
 	export type Slip44 = number // Branded<number, 'Slip44'>
 	export type ChainName = string // BrandedString<'ChainName'>
-	export type NetworkDisplayName = string // BrandedString<'NetworkDisplayName'>
 	export type NetworkId = number // Branded<number, 'NetworkId'>
 	export type NetworkName = 'mainnet' | 'ropsten' | 'rinkeby' | 'goerli' | 'kovan' | 'classic' | 'polygon' | string
 

@@ -6640,9 +6640,9 @@ export const getNetworkColor = (network: Ethereum.Network | undefined) =>
 	networkColors[network?.slug] ?? networkColors[mainnetForTestnet[network?.slug]?.slug] ?? ''
 
 
-export function getNetworkRPC(network: Ethereum.Network){
-	return network.rpc[0] ?? ''
-}
+export const getNetworkRPC = (network: Ethereum.Network) => (
+	network.rpc?.[0] ?? ''
+)
 
 export const networkRedirectsBySlug = {
 	'arbitrum': 'arbitrum-one',
