@@ -36,6 +36,21 @@
 	// Outputs
 	export let balances: TokenWithBalance[] | undefined
 
+	type SharedSlotProps = {
+		balances: typeof balances,
+		status: Loader<any, any, any, any>['$$slot_def']['default']['status'],
+	}
+
+	type $$Slots = {
+		'default': SharedSlotProps,
+		'header': SharedSlotProps & {
+			loadingMessage: Loader<any, any, any, any>['$$slot_def']['header']['loadingMessage'],
+			errorMessage: Loader<any, any, any, any>['$$slot_def']['header']['errorMessage'],
+		},
+	}
+
+
+	// Internal state
 	$: loadingMessage = `Retrieving ${network.name} balances from ${tokenBalancesProvider === TokenBalancesProvider.RpcProvider ? networkProvider : tokenBalancesProvider}...`
 	$: errorMessage = `Couldn't retrieve ${network.name} balances from ${tokenBalancesProvider}.`
 
@@ -542,6 +557,7 @@
 	}[tokenBalancesProvider]?.()}
 	bind:result={balances}
 	let:result={balances}
+	let:status
 >
 	<svelte:fragment slot="header"
 		let:result={balances}
@@ -549,9 +565,15 @@
 		let:loadingMessage
 		let:errorMessage
 	>
-		<slot name="header" {balances} {status} {loadingMessage} {errorMessage} />
+		<slot name="header"
+			{balances}
+			{status} {loadingMessage} {errorMessage}
+		/>
 	</svelte:fragment>
 
-	<slot {balances} />
+	<slot
+		{balances}
+		{status}
+	/>
 </Loader>
 
