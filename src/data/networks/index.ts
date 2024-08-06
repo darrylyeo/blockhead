@@ -91,6 +91,9 @@ export const networks = [
 			symbol: 'AETH',
 			decimals: 18,
 		},
+		colors: [
+			'#28a0f0',
+		],
 		rpc: [
 			'https://arb1.arbitrum.io/rpc',
 			'wss://arb1.arbitrum.io/ws',
@@ -373,6 +376,9 @@ export const networks = [
 			symbol: 'ETH',
 			decimals: 18,
 		},
+		colors: [
+			'#92d36f',
+		],
 		rpc: [
 			'https://rpc.mainnet.aurora.dev:8545',
 		],
@@ -446,6 +452,9 @@ export const networks = [
 			symbol: 'AVAX',
 			decimals: 18,
 		},
+		colors: [
+			'#f9273c',
+		],
 		rpc: [
 			'https://api.avax.network/ext/bc/C/rpc',
 		],
@@ -485,6 +494,9 @@ export const networks = [
 			symbol: 'ETH',
 			decimals: 18,
 		},
+		colors: [
+			'#0052ff',
+		],
 		rpc: [
 			'https://mainnet.base.org',
 			'https://developer-access-mainnet.base.org',
@@ -570,6 +582,9 @@ export const networks = [
 			symbol: 'BNB',
 			decimals: 18,
 		},
+		colors: [
+			'#fcd535',
+		],
 		rpc: [
 			'https://binance.llamarpc.com',
 			'https://endpoints.omniatech.io/v1/bsc/mainnet/public',
@@ -643,6 +658,9 @@ export const networks = [
 			symbol: 'BTC',
 			decimals: 8,
 		},
+		colors: [
+			'#f7931a',
+		],
 		infoURL: 'https://bitcoin.org',
 	},
 	{
@@ -793,6 +811,10 @@ export const networks = [
 			symbol: 'CELO',
 			decimals: 18,
 		},
+		colors: [
+			'#35d07f',
+			'#fbcc5c',
+		],
 		rpc: [
 			'https://forno.celo.org',
 			'wss://forno.celo.org/ws',
@@ -946,6 +968,9 @@ export const networks = [
 			symbol: 'CRO',
 			decimals: 18,
 		},
+		colors: [
+			'#002d74',
+		],
 		rpc: [
 			'https://evm.cronos.org',
 			'https://cronos-rpc.heavenswail.one',
@@ -1064,6 +1089,10 @@ export const networks = [
 			symbol: 'DEGEN',
 			decimals: 18
 		},
+		colors: [
+			'#a36efe',
+			'#4c2896',
+		],
 		rpc: [
 			'https://rpc.degen.tips',
 		],
@@ -1406,6 +1435,9 @@ export const networks = [
 			symbol: 'ETH',
 			decimals: 18,
 		},
+		colors: [
+			'#627eea',
+		],
 		rpc: [
 			'https://eth.llamarpc.com',
 			'https://endpoints.omniatech.io/v1/eth/mainnet/public',
@@ -1876,6 +1908,9 @@ export const networks = [
 			symbol: 'FTM',
 			decimals: 18,
 		},
+		colors: [
+			'#1969ff',
+		],
 		rpc: [
 			'https://rpc.fantom.network',
 			'https://fantomscan.io/rpc',
@@ -2290,6 +2325,9 @@ export const networks = [
 			symbol: 'xDAI',
 			decimals: 18,
 		},
+		colors: [
+			'#04795b',
+		],
 		rpc: [
 			'https://rpc.gnosischain.com',
 			'wss://rpc.gnosischain.com/wss',
@@ -2488,6 +2526,9 @@ export const networks = [
 			symbol: 'ONE',
 			decimals: 18,
 		},
+		colors: [
+			'#00aee9',
+		],
 		rpc: [
 			'https://api.harmony.one',
 		],
@@ -2513,6 +2554,9 @@ export const networks = [
 			symbol: 'ONE',
 			decimals: 18,
 		},
+		colors: [
+			'#00aee9',
+		],
 		rpc: [
 			'https://s1.api.harmony.one',
 		],
@@ -2531,6 +2575,9 @@ export const networks = [
 			symbol: 'ONE',
 			decimals: 18,
 		},
+		colors: [
+			'#00aee9',
+		],
 		rpc: [
 			'https://s2.api.harmony.one',
 		],
@@ -2549,6 +2596,9 @@ export const networks = [
 			symbol: 'ONE',
 			decimals: 18,
 		},
+		colors: [
+			'#00aee9',
+		],
 		rpc: [
 			'https://s3.api.harmony.one',
 		],
@@ -3212,6 +3262,9 @@ export const networks = [
 			symbol: 'MNT',
 			decimals: 18,
 		},
+		colors: [
+			'#000000',
+		],
 		rpc: [
 			'https://rpc.mantle.xyz',
 			'https://mantle.publicnode.com',
@@ -3410,6 +3463,11 @@ export const networks = [
 			symbol: 'ETH',
 			decimals: 18,
 		},
+		colors: [
+			'#4400e2',
+			'#f94e6c',
+			'#ffcb00',
+		],
 		rpc: [
 			'https://rpc.metall2.com',
 		],
@@ -3476,6 +3534,9 @@ export const networks = [
 			symbol: 'METIS',
 			decimals: 18,
 		},
+		colors: [
+			'#00dacd',
+		],
 		rpc: [
 			'https://dragonfire.metis.io/?owner=488',
 			// 'https://rocketfuel.metis.io/?owner=435',
@@ -3881,6 +3942,13 @@ export const networks = [
 		],
 		infoURL: 'https://nepalblockchain.network',
 	},
+	// {
+	// 	'slug': 'nervos',
+	// 	'name': 'Nervos',
+	// 	'colors': [
+	// 		'#3cc68a',
+	// 	],
+	// },
 	{
 		slug: 'newton',
 		name: 'Newton',
@@ -4063,6 +4131,9 @@ export const networks = [
 			symbol: 'ETH',
 			decimals: 18,
 		},
+		colors: [
+			'#ff0420',
+		],
 		rpc: [
 			'https://mainnet.optimism.io',
 			'https://rpc.ankr.com/optimism',
@@ -4380,6 +4451,9 @@ export const networks = [
 			symbol: 'MATIC',
 			decimals: 18,
 		},
+		colors: [
+			'#8247e5',
+		],
 		rpc: [
 			'https://polygon.llamarpc.com',
 			'https://rpc-mainnet.maticvigil.com',
@@ -4454,6 +4528,9 @@ export const networks = [
 			symbol: 'ETH',
 			decimals: 18,
 		},
+		colors: [
+			'#8247e5',
+		],
 		rpc: [
 			'https://rpc.ankr.com/polygon_zkevm',
 			'https://zkevm-rpc.com',
@@ -4986,6 +5063,13 @@ export const networks = [
 		],
 		infoURL: 'https://www.quarkchain.io/',
 	},
+	// {
+	// 	'slug': 'reef',
+	// 	'name': 'Reef',
+	// 	'colors': [
+	// 		'#962ee5',
+	// 	],
+	// },
 	{
 		slug: 'redstone',
 		name: 'Redstone',
@@ -5372,6 +5456,9 @@ export const networks = [
 			symbol: 'skETH',
 			decimals: 18,
 		},
+		colors: [
+			'#393939',
+		],
 		rpc: [
 			'https://dev-testnet-v1-0.skalelabs.com',
 		],
@@ -6058,6 +6145,14 @@ export const networks = [
 			symbol: 'ETH',
 			decimals: 18,
 		},
+		colors: [
+			'#a1723a',
+			'#531002',
+			'#2b5df0',
+			'#fcb8d4',
+			'#ffffff',
+			'#387afa',
+		],
 		icon: 'zora',
 		rpc: [
 			'https://rpc.zora.energy',
@@ -6376,42 +6471,10 @@ export const networksBySection = [
 const includedNetworks = new Set(networksBySection.flatMap(({ featuredNetworks = [], otherNetworks = [] }) => [...featuredNetworks, ...otherNetworks]))
 networksBySection[networksBySection.length - 1].otherNetworks = networks.filter(network => !includedNetworks.has(network))
 
-export const networkColors = {
-	'arbitrum-one': '#28a0f0',
-	'aurora': '#92D36F',
-	'avalanche': '#f9273c',
-	'base': '#0052FF',
-	'bitcoin': '#f7931a',
-	'bsc': '#FCD535',
-	'celo': '#35D07F', // #fbcc5c
-	'cronos': '#002D74',
-	'degen': '#a36efe', // #4c2896
-	'ethereum': '#627eea',
-	'fantom': '#1969ff',
-	'filecoin': '#0090ff',
-	'gnosis': '#04795B',
-	// 'harmony': '#00AEE9',
-	'metis': '#00dacd',
-	'mantle': '#000',
-	// 'mode': '#dffe00',
-	// 'nahmii': '#E952AC',
-	// 'nervos': '#3CC68A',
-	'optimism': '#f01a37',
-	'polygon': '#8248e5',
-	'polygon-zkevm': '#8248e5',
-	// 'reef': '#962EE5',
-	'scroll': '#cba68d', // '#cba68d', '#e5d1b8', '#cba58c', '#d7af94',
-	// 'skale': '#393939',
-	'zora': '#FCB8D4', // '#A1723A', '#531002', '#2B5DF0', '#FCB8D4', '#FFFFFF', '#387AFA'
-} as const satisfies Readonly<
-	Partial<Record<NetworkSlug, string>>
-> satisfies DeepReadonly<
-	Partial<Record<Ethereum.NetworkSlug, string>>
->
-
-export const getNetworkColor = (network: Ethereum.Network | undefined) =>
-	networkColors[network?.slug] ?? networkColors[mainnetForTestnet[network?.slug]?.slug] ?? ''
-
+export const getNetworkColor = (network: Ethereum.Network | undefined) => {
+	const colors = network?.colors ?? mainnetForTestnet.get(network?.slug)?.colors
+	return colors?.[Math.floor((colors.length - 1) / 2)] ?? ''
+}
 
 export const getNetworkRPC = (network: Ethereum.Network) => (
 	network.rpc?.[0] ?? ''
