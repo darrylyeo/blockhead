@@ -44,6 +44,40 @@ export type ZapperAppName = string
 type Address = `0x${string}`
 type Timestamp = `${number}-${number}-${number}T${number}:${number}:${number}.${number}Z`
 
+type App = {
+	id: string,
+	databaseId: number,
+	slug: string,
+	name: string,
+	description: string,
+	url: string,
+	imgUrl: string,
+	tags: string[],
+	categoryId: number | null,
+	token: {
+		address: string,
+		network: string,
+	} | null,
+	twitterUrl: null | string,
+	farcasterUrl: null,
+	category: {
+		id: number,
+		name: 'DeFi' | 'DEX' | 'Bridge' | 'Utility' | 'Art' | 'Metaverse' | 'Gaming' | 'Perpetuals' | 'DePin' | 'Staking' | 'Memes' | 'AI' | 'NFT Marketplace' | 'NFT Fi' | 'Governance' | 'Social' | 'Wallet' | 'Gambling',
+		slug: 'defi' | 'dex' | 'bridge' | 'utility' | 'art' | 'metaverse' | 'gaming' | 'perpetuals' | 'depin' | 'staking' | 'memes' | 'ai' | 'nft-marketplace' | 'nft-fi' | 'governance' | 'social' | 'wallet' | 'gambling',
+		description: string,
+		createdAt: Date,
+		updatedAt: Date,
+	} | null,
+	supportedNetworks: Record<string, never>,
+	groups: {
+		type: 'contract-position' | 'token',
+		id: string,
+		label: string,
+		isHiddenFromExplore: boolean,
+	}[],
+}
+
+
 type Network = {
 	id: number,
 	slug: string,
@@ -293,7 +327,7 @@ type AssetType = 'app-token' | 'contract-position'
 // API client
 import * as publicEnv from '$env/static/public'
 
-import { defaults } from './v2'
+import { appControllerGetApps, defaults } from './v2'
 defaults.fetch = (input: URL | RequestInfo, init?: RequestInit | undefined) => {
 	const url = new URL(input)
 	url.searchParams.set('api_key', publicEnv.PUBLIC_ZAPPER_API_KEY)
@@ -384,4 +418,10 @@ export const getAppBalances = async ({
 	) as string
 
 	return JSON.parse(response) as AppBalance[]
+}
+
+export const getApps = async () => {
+	const response = await appControllerGetApps()
+
+	return JSON.parse(response) as App[]
 }
