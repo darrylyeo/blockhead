@@ -101,6 +101,7 @@
 	// Components
 	import EthereumBalancesLoader from './EthereumBalancesLoader.svelte'
 	import TokenBalance from './TokenBalance.svelte'
+	import ScrollContainer from './ScrollContainer.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
 
 
@@ -189,7 +190,9 @@
 		<slot name="header" {balances} {filteredBalances} {summary} {status} {loadingMessage} {errorMessage} />
 	</svelte:fragment>
 
-	<div class:scrollable-list={isScrollable && filteredBalances.length > 45}>
+	<ScrollContainer
+		isScrollEnabled={isScrollable && filteredBalances.length > 45}
+	>
 		{#if filteredBalances.length}
 			<div class="ethereum-balances card" class:horizontal={isHorizontal} class:show-amounts-and-values={tokenBalanceFormat === 'both'}>
 				{#each
@@ -248,5 +251,5 @@
 				{/each}
 			</div>
 		{/if}
-	</div>
+	</ScrollContainer>
 </EthereumBalancesLoader>
