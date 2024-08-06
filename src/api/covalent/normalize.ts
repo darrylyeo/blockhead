@@ -59,7 +59,7 @@ export const normalizeTransaction = (
 	gasUnitsOffered: BigInt(transaction.gas_offered),
 	gasUnitsSpent: BigInt(transaction.gas_spent),
 	gasUnitRate: BigInt(transaction.gas_price),
-	gasValue: BigInt(transaction.gas_spent) * BigInt(transaction.gas_price),
+	gasValue: BigInt(transaction.fees_paid), // BigInt(transaction.gas_spent) * BigInt(transaction.gas_price),
 
 	...(transaction.value_quote !== null && {
 		conversion: {
