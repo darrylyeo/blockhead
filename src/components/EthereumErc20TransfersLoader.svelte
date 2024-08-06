@@ -19,7 +19,7 @@
 	export let erc20Token: Ethereum.Erc20Token
 
 	export let quoteCurrency: QuoteCurrency
-	export let transactionProvider: TransactionProvider
+	export let transactionProvider: TransactionProvider.Covalent = TransactionProvider.Covalent
 	export let includeLogs = true
 
 	// (Computed)
@@ -65,50 +65,62 @@
 </script>
 
 
-<!-- {#if transactionProvider === TransactionProvider.Covalent} -->
-	<Loader
-		loadingIcon={transactionProviderIcons[transactionProvider]}
-		loadingIconName={transactionProvider}
-		{loadingMessage}
-		{errorMessage}
-		fromInfiniteQuery={createInfiniteQuery({
-			queryKey: ['TransactionsErc20', {
-				transactionProvider,
-				chainId: network.chainId,
-				contractAddress: erc20Token.address,
-				address,
-				quoteCurrency,
-			}],
-			initialPageParam: 0,
-			queryFn: async ({ pageParam: pageNumber }) => (
-				await getErc20TransfersForWalletAddress({
-					chainName: network.chainId,
-					walletAddress: address,
-					quoteCurrency,
+<Loader
+	loadingIcon={transactionProviderIcons[transactionProvider]}
+	loadingIconName={transactionProvider}
+	{loadingMessage}
+	{errorMessage}
+	{...{
+		[TransactionProvider.Covalent]: {
+			fromInfiniteQuery: createInfiniteQuery({
+				queryKey: ['TransactionsErc20', {
+					transactionProvider,
+					chainId: network.chainId,
 					contractAddress: erc20Token.address,
-					pageSize: 100,
-					pageNumber,
-				})
-			),
-			getPreviousPageParam: (firstPage, allPages) => firstPage.pagination?.page_number > 0 ? firstPage.pagination.page_number - 1 : undefined,
-			getNextPageParam: (lastPage, allPages) => lastPage.pagination?.has_more ? lastPage.pagination.page_number + 1 : undefined,
-			select: result => (
-				(result?.pages?.flatMap(page => page.items) ?? [])
-					.map(transaction => normalizeTransactionCovalent(transaction, network, quoteCurrency))
-			),
-		})}
-		bind:result={transactions}
+					address,
+					quoteCurrency,
+				}],
+				initialPageParam: 0,
+				queryFn: async ({ pageParam: pageNumber }) => (
+					await getErc20TransfersForWalletAddress({
+						chainName: network.chainId,
+						walletAddress: address,
+						quoteCurrency,
+						contractAddress: erc20Token.address,
+						pageSize: 100,
+						pageNumber,
+					})
+				),
+				getPreviousPageParam: (firstPage, allPages) => firstPage.pagination?.page_number > 0 ? firstPage.pagination.page_number - 1 : undefined,
+				getNextPageParam: (lastPage, allPages) => lastPage.pagination?.has_more ? lastPage.pagination.page_number + 1 : undefined,
+				select: result => (
+					result.pages
+						.flatMap(page => page.items)
+						.map(transaction => (
+							normalizeTransactionCovalent(transaction, network, quoteCurrency)
+						))
+				),
+			}),
+		},
+	}[transactionProvider]}
+	bind:result={transactions}
+	let:result={transactions}
+	let:status
+	let:pagination
+>
+	<svelte:fragment slot="header"
 		let:result={transactions}
 		let:status
 		let:pagination
 	>
-		<svelte:fragment slot="header"
-			let:result={transactions}
-			let:status
-			let:pagination
-		>
-			<slot name="header" {transactions} {status} {pagination} />
-		</svelte:fragment>
-		<slot {transactions} {status} {pagination} />
-	</Loader>
-<!-- {/if} -->
+		<slot name="header"
+			{transactions}
+			{status} {pagination}
+		/>
+	</svelte:fragment>
+
+	<slot
+		{transactions}
+		{status} {pagination}
+	/>
+</Loader>
