@@ -252,9 +252,11 @@ export const networks = [
 		rpc: [
 			'https://nova.arbitrum.io/rpc',
 			'https://arbitrum-nova.blockpi.network/v1/rpc/public',
-			'https://arbitrum-nova.publicnode.com',
-			'wss://arbitrum-nova.publicnode.com',
+			'https://arbitrum-nova-rpc.publicnode.com',
+			'wss://arbitrum-nova-rpc.publicnode.com',
 			'https://arbitrum-nova.drpc.org',
+			'https://arb-nova-mainnet.gateway.tatum.io',
+			'wss://arbitrum-nova.publicnode.com',
 		],
 		explorers: [
 			{
@@ -1773,7 +1775,16 @@ export const networks = [
 	{
 		slug: 'evmos',
 		name: 'Evmos',
+		chainId: 9001,
+		shortName: 'evmos',
 		chain: 'Evmos',
+		network: 'mainnet',
+		networkId: 9001,
+		nativeCurrency: {
+			name: 'Evmos',
+			symbol: 'EVMOS',
+			decimals: 18,
+		},
 		rpc: [
 			'https://eth.bd.evmos.org:8545',
 			'https://evmos-json-rpc.stakely.io',
@@ -1783,16 +1794,6 @@ export const networks = [
 			'https://evmos-evm.publicnode.com',
 			'https://jsonrpc-evmos.goldenratiostaking.net',
 		],
-		nativeCurrency: {
-			name: 'Evmos',
-			symbol: 'EVMOS',
-			decimals: 18,
-		},
-		infoURL: 'https://evmos.org',
-		shortName: 'evmos',
-		chainId: 9001,
-		networkId: 9001,
-		icon: 'evmos',
 		explorers: [
 			{
 				name: 'Evmos EVM Explorer (Blockscout)',
@@ -1807,6 +1808,7 @@ export const networks = [
 				icon: 'evmos',
 			},
 		],
+		infoURL: 'https://evmos.org',
 	},
 	{
 		slug: 'evrice',
@@ -2280,7 +2282,7 @@ export const networks = [
 		chainId: 100,
 		slip44: 700,
 		shortName: 'gno',
-		chain: 'Gnosis',
+		chain: 'GNO',
 		network: 'mainnet',
 		networkId: 100,
 		nativeCurrency: {
@@ -2290,23 +2292,41 @@ export const networks = [
 		},
 		rpc: [
 			'https://rpc.gnosischain.com',
-			'https://xdai.poanetwork.dev',
-			'https://dai.poa.network',
-			'https://rpc.ankr.com/gnosis',
 			'wss://rpc.gnosischain.com/wss',
-			'wss://xdai.poanetwork.dev/wss',
+			'https://gnosis-rpc.publicnode.com',
+			'https://gnosis.api.onfinality.io/public',
+			'https://gnosis.blockpi.network/v1/rpc/public',
+			'https://gnosis.oat.farm',
+			'https://rpc.ankr.com/gnosis',
+			'https://rpc.gnosis.gateway.fm',
+			'https://web3endpoints.com/gnosischain-mainnet',
+			'wss://gnosis-rpc.publicnode.com',
 		],
 		faucets: [
+			'https://gnosisfaucet.com',
 			'https://faucet.gimlu.com/gnosis',
 			'https://stakely.io/faucet/gnosis-chain-xdai',
 			'https://faucet.prussia.dev/xdai',
 		],
-		explorers: [{
-			name: 'blockscout',
-			url: 'https://blockscout.com/xdai/mainnet',
-			icon: 'blockscout',
-			standard: 'EIP3091',
-		}],
+		explorers: [
+			{
+				name: 'gnosisscan',
+				url: 'https://gnosisscan.io',
+				standard: 'EIP3091',
+			},
+			{
+				name: 'blockscout',
+				url: 'https://gnosis.blockscout.com',
+				icon: 'blockscout',
+				standard: 'EIP3091',
+			},
+			{
+				name: 'dexguru',
+				url: 'https://gnosis.dex.guru',
+				icon: 'dexguru',
+				standard: 'EIP3091',
+			},
+		],
 		infoURL: 'https://developers.gnosischain.com',
 	},
 	{
@@ -3499,10 +3519,37 @@ export const networks = [
 		],
 		infoURL: 'https://mix-blockchain.org',
 	},
-	// {
-	// 	'slug': 'mode',
-	// 	'name': 'Mode',
-	// },
+	{
+		slug: 'mode',
+		name: 'Mode',
+		chainId: 34443,
+		shortName: 'mode',
+		chain: 'ETH',
+		network: 'mainnet',
+		networkId: 34443,
+		nativeCurrency: {
+			name: 'Ether',
+			symbol: 'ETH',
+			decimals: 18,
+		},
+		colors: [
+			'#dffe00',
+		],
+		rpc: [
+			'https://mainnet.mode.network',
+			'https://1rpc.io/mode',
+			'https://mode.drpc.org',
+			'wss://mode.drpc.org',
+		],
+		infoURL: 'https://docs.mode.network',
+		explorers: [
+			{
+				name: 'modescout',
+				url: 'https://explorer.mode.network',
+				standard: 'none',
+			},
+		],
+	},
 	{
 		slug: 'mode-sepolia',
 		name: 'Mode Testnet',
@@ -3643,6 +3690,90 @@ export const networks = [
 		infoURL: 'https://musicoin.tw',
 	},
 	{
+		slug: 'nahmii-2',
+		name: 'Nahmii 2 Mainnet',
+		chainId: 5551,
+		shortName: 'Nahmii',
+		chain: 'Nahmii',
+		network: 'mainnet',
+		networkId: 5551,
+		nativeCurrency: {
+			name: 'Ether',
+			symbol: 'ETH',
+			decimals: 18,
+		},
+		colors: [
+			'#902784',
+			'#2c338a',
+			'#aa2d87',
+			'#dc398c',
+			'#00a3de',
+			'#0e67ab',
+		],
+		rpc: [
+			'https://l2.nahmii.io',
+		],
+		infoURL: 'https://nahmii.io',
+		explorers: [
+			{
+				name: 'Nahmii 2 Mainnet Explorer',
+				url: 'https://explorer.n2.nahmii.io',
+				standard: 'EIP3091',
+			},
+		],
+		parent: {
+			type: 'L2',
+			chain: 'eip155-1',
+			bridges: [
+				{
+					url: 'https://n2.bridge.nahmii.io',
+				},
+			],
+		},
+	},
+	{
+		slug: 'nahmii-3',
+		name: 'Nahmii 3 Mainnet',
+		chainId: 4061,
+		shortName: 'Nahmii3Mainnet',
+		chain: 'Nahmii',
+		network: 'mainnet',
+		networkId: 4061,
+		nativeCurrency: {
+			name: 'Ether',
+			symbol: 'ETH',
+			decimals: 18,
+		},
+		colors: [
+			'#902784',
+			'#2c338a',
+			'#aa2d87',
+			'#dc398c',
+			'#00a3de',
+			'#0e67ab',
+		],
+		rpc: [
+			'https://rpc.n3.nahmii.io',
+		],
+		infoURL: 'https://nahmii.io',
+		explorers: [
+			{
+				name: 'Nahmii 3 Mainnet Explorer',
+				url: 'https://explorer.nahmii.io',
+				standard: 'EIP3091',
+			},
+		],
+		parent: {
+			type: 'L2',
+			chain: 'eip155-1',
+			bridges: [
+				{
+					url: 'https://accounts.nahmii.io',
+				},
+			],
+		},
+	},
+	{
 		slug: 'near-betanet',
 		name: 'NEAR BetaNet',
 		chainId: 1313161556,
@@ -3657,24 +3788,28 @@ export const networks = [
 		},
 		infoURL: 'https://near.org/',
 	},
-	// {
-	// 	'slug': 'near',
-	// 	'name': 'NEAR',
-	// 	'chainId': 1313161554,
-	// 	'shortName': 'near',
-	// 	'chain': 'NEAR',
-	// 	'network': 'mainnet',
-	// 	'networkId': 1313161554,
-	// 	'nativeCurrency': {
-	// 		'name': 'NEAR',
-	// 		'symbol': 'NEAR',
-	// 		'decimals': 24
-	// 	},
-	// 	'rpc': [],
-	// 	'faucets': [],
-	// 	'explorers': [],
-	// 	'infoURL': 'https://near.org/',
-	// },
+	{
+		slug: 'near',
+		name: 'NEAR',
+		chainId: 397,
+		shortName: 'near',
+		chain: 'NEAR',
+		network: 'mainnet',
+		networkId: 397,
+		nativeCurrency: {
+			name: 'NEAR',
+			symbol: 'NEAR',
+			decimals: 18,
+		},
+		infoURL: 'https://near.org',
+		explorers: [
+			{
+				name: 'Near Blocks',
+				url: 'https://nearblocks.io',
+				standard: 'none',
+			},
+		],
+	},
 	{
 		slug: 'near-testnet',
 		name: 'NEAR Testnet',
@@ -4852,6 +4987,50 @@ export const networks = [
 		infoURL: 'https://www.quarkchain.io/',
 	},
 	{
+		slug: 'redstone',
+		name: 'Redstone',
+		chainId: 690,
+		shortName: 'redstone',
+		chain: 'ETH',
+		network: 'mainnet',
+		networkId: 690,
+		nativeCurrency: {
+			name: 'Ether',
+			symbol: 'ETH',
+			decimals: 18,
+		},
+		rpc: [
+			'https://rpc.redstonechain.com',
+			'wss://rpc.redstonechain.com',
+		],
+		infoURL: 'https://redstone.xyz',
+		icon: 'redstone',
+		explorers: [
+			{
+				name: 'blockscout',
+				url: 'https://explorer.redstone.xyz',
+				icon: 'blockscout',
+				standard: 'EIP3091',
+			},
+		],
+		parent: {
+			type: 'L2',
+			chain: 'eip155-1',
+			bridges: [
+				{
+					url: 'https://redstone.xyz/deposit',
+				},
+			],
+		},
+	},
+	// {
+	// 	slug: 'reef',
+	// 	name: 'Reef',
+	// 	colors: [
+	// 		'#962ee5',
+	// 	],
+	// },
+	{
 		slug: 'rsk',
 		name: 'RSK',
 		chainId: 30,
@@ -4929,14 +5108,19 @@ export const networks = [
 		name: 'Scroll',
 		chainId: 534352,
 		chain: 'ETH',
+		shortName: 'scr',
+		networkId: 534352,
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
 			decimals: 18,
 		},
-		infoURL: 'https://scroll.io',
-		shortName: 'scr',
-		networkId: 534352,
+		colors: [
+			'#cba68d',
+			'#e5d1b8',
+			'#cba58c',
+			'#d7af94',
+		],
 		explorers: [
 			{
 				url: 'https://blockscout.scroll.io',
@@ -4946,6 +5130,7 @@ export const networks = [
 			type: 'L2',
 			chain: 'eip155-1',
 		},
+		infoURL: 'https://scroll.io',
 	},
 	{
 		slug: 'scroll-alpha',
@@ -5868,15 +6053,15 @@ export const networks = [
 		shortName: 'zora',
 		networkId: 7777777,
 		chain: 'ETH',
-		rpc: [
-			'https://rpc.zora.energy',
-		],
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
 			decimals: 18,
 		},
 		icon: 'zora',
+		rpc: [
+			'https://rpc.zora.energy',
+		],
 		explorers: [
 			{
 				name: 'Zora Network Explorer',
