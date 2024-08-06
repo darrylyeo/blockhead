@@ -39,6 +39,7 @@
 	type SharedSlotProps = {
 		balances: typeof balances,
 		status: Loader<any, any, any, any>['$$slot_def']['default']['status'],
+		pagination: Loader<any, any, any, any>['$$slot_def']['default']['pagination'],
 	}
 
 	type $$Slots = {
@@ -558,22 +559,25 @@
 	bind:result={balances}
 	let:result={balances}
 	let:status
+	let:pagination
 >
 	<svelte:fragment slot="header"
 		let:result={balances}
 		let:status
+		let:pagination
 		let:loadingMessage
 		let:errorMessage
 	>
 		<slot name="header"
 			{balances}
-			{status} {loadingMessage} {errorMessage}
+			{status} {pagination}
+			{loadingMessage} {errorMessage}
 		/>
 	</svelte:fragment>
 
 	<slot
 		{balances}
-		{status}
+		{status} {pagination}
 	/>
 </Loader>
 
