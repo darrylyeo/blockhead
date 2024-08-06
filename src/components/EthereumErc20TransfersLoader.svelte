@@ -1,12 +1,17 @@
 <script lang="ts">
+	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
-	import { getViemPublicClient } from '$/data/networkProviders'
 	import type { QuoteCurrency } from '$/data/currencies'
-	import { preferences } from '$/state/preferences'
 	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProvider'
+	import { getViemPublicClient } from '$/data/networkProviders'
 
 
+	// Context
+	import { preferences } from '$/state/preferences'
+
+
+	// Inputs
 	export let network: Ethereum.Network
 	export let networkProvider: NetworkProvider
 	export let address: Ethereum.Address
@@ -17,6 +22,7 @@
 	export let transactionProvider: TransactionProvider
 	export let includeLogs = true
 
+	// (Computed)
 	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
 
@@ -27,6 +33,7 @@
 	})
 
 
+	// Internal state
 	$: loadingMessage = `Retrieving ERC-20 transactions from ${transactionProvider}...`
 	$: errorMessage = `Couldn't retrieve ERC-20 transactions from ${transactionProvider}.`
 
@@ -46,12 +53,14 @@
 	}
 
 
+	// Functions
 	import { createInfiniteQuery } from '@tanstack/svelte-query'
 
 	import { getErc20TransfersForWalletAddress } from '$/api/covalent/index'
 	import { normalizeTransaction as normalizeTransactionCovalent } from '$/api/covalent/normalize'
 
 
+	// Components
 	import Loader from './Loader.svelte'
 </script>
 
