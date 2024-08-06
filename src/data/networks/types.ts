@@ -168,6 +168,28 @@ export namespace Ethereum {
 	export type NativeCurrencyAmount = bigint
 	export type GasAmount = bigint
 
+	export type Erc20Transfer = {
+		token: Ethereum.Erc20Token,
+
+		fromAddress: Ethereum.Address,
+		toAddress: Ethereum.Address,
+		labels?: {
+			fromAddress?: string,
+			toAddress?: string,
+		},
+
+		value: bigint,
+
+		conversion?: {
+			quoteCurrency: QuoteCurrency,
+
+			value: number,
+			rate?: number,
+		},
+
+		transaction?: Ethereum.Transaction,
+	}
+
 	export type AccessList = {
 		address: Address,
 		storageKeys: `0x${string}`[],
