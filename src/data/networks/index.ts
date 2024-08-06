@@ -3602,6 +3602,60 @@ export const networks = [
 		"infoURL": "https://metadot.network"
 	},
 	{
+		"slug": "metal",
+		"name": "Metal L2",
+		"chainId": 1750,
+		"shortName": "metall2",
+		"chain": "Metal L2",
+		"network": "mainnet",
+		"networkId": 1750,
+		"nativeCurrency": {
+			"name": "ETH",
+			"symbol": "ETH",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://rpc.metall2.com"
+		],
+		"faucets": [],
+		"explorers": [
+			{
+				"name": "blockscout",
+				"url": "https://explorer.metall2.com",
+				"icon": "blockscout",
+				"standard": "EIP3091"
+			}
+		],
+		"infoURL": "https://metall2.com",
+	},
+	{
+		"slug": "metal-testnet",
+		"name": "Metal L2 Testnet",
+		"chainId": 1740,
+		"shortName": "metall2test",
+		"chain": "Metal L2",
+		"network": "testnet",
+		"networkId": 1740,
+		"nativeCurrency": {
+			"name": "ETH",
+			"symbol": "ETH",
+			"decimals": 18
+		},
+		"rpc": [
+			"https://testnet.rpc.metall2.com"
+		],
+		"faucets": [],
+		"explorers": [
+			{
+				"name": "blockscout",
+				"url": "https://testnet.explorer.metall2.com",
+				"icon": "blockscout",
+				"standard": "EIP3091"
+			},
+		],
+		"infoURL": "https://metall2.com"
+	},
+	{
 		"slug": "meter",
 		"name": "Meter",
 		"chainId": 82,
@@ -6349,6 +6403,9 @@ const testnetSlugsForMainnetSlug = new Map([
 		'filecoin-wallaby',
 		'filecoin-calibration',
 	]],
+	['metal', [
+		'metal-testnet',
+	]],
 ] as const) satisfies Map<NetworkSlug, readonly NetworkSlug[]>
 
 export const testnetsForMainnet = new Map(
@@ -6433,6 +6490,7 @@ export const opStackNetworks = ([
 	'base',
 	'zora',
 	'mantle',
+	'metal',
 	// 'mode',
 	// 'mode-sepolia',
 	// 'worldcoin',

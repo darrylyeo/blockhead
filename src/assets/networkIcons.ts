@@ -16,6 +16,7 @@ import FilecoinIcon from './networks/Filecoin.svg'
 import FvmIcon from './networks/FVM.svg'
 import GnosisIcon from './networks/Gnosis.svg'
 import HarmonyIcon from './networks/Harmony.svg'
+import MetalIcon from './networks/Metal.svg'
 import MetisIcon from './networks/Metis.png'
 import ModeIcon from './networks/Mode.svg'
 // import NahmiiIcon from './networks/Nahmii.svg'
@@ -45,6 +46,7 @@ export const networkIcons = {
 	'gnosis': GnosisIcon,
 	'harmony': HarmonyIcon,
 	'mantle': tokenIcons.MNT,
+	'metal': MetalIcon,
 	'metis': MetisIcon,
 	'mode': ModeIcon,
 	'optimism': OptimismIcon,
