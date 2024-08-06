@@ -43,8 +43,8 @@
 
 	type SharedSlotProps = {
 		transactions: typeof transactions,
-		status: Loader<any, any, any, any, any>['$$slot_def']['default']['status'],
-		pagination: Loader<any, any, any, any, any>['$$slot_def']['default']['pagination'],
+		status: Loader<any, any, any, any>['$$slot_def']['default']['status'],
+		pagination: Loader<any, any, any, any>['$$slot_def']['default']['pagination'],
 	}
 
 	type $$Slots = {
@@ -104,7 +104,7 @@
 		},
 	}[transactionProvider]}
 	bind:result={transactions}
-	let:result={transactions}
+	let:result={transfers}
 	let:status
 	let:pagination
 >

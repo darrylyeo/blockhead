@@ -94,7 +94,7 @@
 			</div>
 		{/if}
 
-		{#if !(isSummary && transaction.erc20Transfers?.length && transaction.value === 0n)}
+		{#if !(isSummary && 'erc20Transfers' in transaction && transaction.erc20Transfers?.length && transaction.value === 0n)}
 			<div class="container inner-layout-{innerLayout}" class:card={isStandaloneLayout}>
 				{#if !(isSummary && (contextIsSender || contextIsReceiver))}
 					<span class="sender" class:mark={contextIsSender}><!-- transition:fade -->
@@ -272,11 +272,10 @@
 			<div class="transfers">
 				{#each transaction.erc20Transfers as erc20Transfer}
 					<EthereumErc20Transfer
-						network={erc20Transfer.network}
+						{network}
 						{erc20Transfer}
-						quoteCurrency={erc20Transfer.conversion?.quoteCurrency}
-
 						{contextualAddress}
+
 						{detailLevel}
 						{tokenBalanceFormat}
 						showFees={false}

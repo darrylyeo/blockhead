@@ -77,6 +77,7 @@
 	import EthereumContractExplorer from './EthereumContractExplorer.svelte'
 	import EthereumTransaction from './EthereumTransaction.svelte'
 	import EthereumTransactionsLoader from './EthereumTransactionsLoader.svelte'
+	import EthereumErc20Transfer from './EthereumErc20Transfer.svelte'
 	import EthereumErc20TransfersLoader from './EthereumErc20TransfersLoader.svelte'
 	import InlineContainer from './InlineContainer.svelte'
 	import TokenName from './TokenName.svelte'
@@ -339,7 +340,7 @@
 				</div>
 			{:else}{#key selectedToken}
 				<div class="column" transition:fade>
-					<!-- ERC-20 Transactions -->
+					<!-- Transactions with ERC-20 Transfers -->
 					<EthereumErc20TransfersLoader
 						{network}
 						{networkProvider}
@@ -389,9 +390,13 @@
 						</svelte:fragment>
 
 						{#if transactions?.length}
-							<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
+							<div class="transfers-list column" class:scrollable-list={transactions.length > 7}>
 								{#each transactions as transaction}
-									<a class="card" id={transaction.tx_hash} href="#{transaction.tx_hash}">
+									<a
+										class="card"
+										id={transaction.transactionId}
+										href={`#/tx/${transaction.transactionId}`}
+									>
 										<EthereumTransaction
 											{network}
 											{transaction}

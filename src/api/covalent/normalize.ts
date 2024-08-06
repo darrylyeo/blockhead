@@ -5,26 +5,6 @@ import type { Ethereum } from '$/data/networks/types'
 import type { TokenWithBalance } from '$/data/tokens'
 import type { BlockResponse, Transaction, Erc20TransfersResponse, LogEvent, NftAddressBalanceNftResponse, getTokenBalancesForAddress } from '../covalent/index'
 
-export type Erc20Transfer = Pick<Ethereum.Transaction,
-	| 'network'
-	| 'transactionId'
-
-	| 'blockNumber'
-	| 'blockHash'
-	| 'blockTimestamp'
-
-	| 'fromAddress'
-	| 'toAddress'
-	| 'labels'
-
-	| 'conversion'
-
-	| 'logEvents'
-> & {
-	value: bigint,
-	transferredToken: Ethereum.Erc20Token,
-}
-
 
 // Functions
 import { normalizeNftAttributes } from '$/utils/normalizeNftAttributes'
@@ -51,7 +31,7 @@ export const normalizeTransaction = (
 	network: Ethereum.Network,
 	quoteCurrency: QuoteCurrency
 ): Ethereum.Transaction & {
-	erc20Transfers?: Erc20Transfer[]
+	erc20Transfers?: Ethereum.Erc20Transfer[]
 } => ({
 	network,
 	transactionId: transaction.tx_hash as Ethereum.TransactionId,
@@ -99,8 +79,12 @@ export const normalizeTransaction = (
 	}),
 
 	...('transfers' in transaction && {
-		erc20Transfers: transaction.transfers.map(transfer => (
-			normalizeErc20Transfer(transfer, network, quoteCurrency))
+		erc20Transfers: (
+			transaction
+				.transfers
+				.map(transfer => (
+					normalizeErc20Transfer(transfer, network, quoteCurrency)
+				))
 		)
 	}),
 })
@@ -146,28 +130,41 @@ export const normalizeErc20Transfer = (
 	transfer: Erc20TransfersResponse['items'][number]['transfers'][number],
 	network: Ethereum.Network,
 	quoteCurrency: QuoteCurrency,
-): Erc20Transfer => ({
-	network,
-	transactionId: transfer.tx_hash as Ethereum.TransactionId,
+): Ethereum.Erc20Transfer => ({
+	token: {
+		chainId: network.chainId,
+		address: transfer.contract_address as Ethereum.Address,
+		name: transfer.contract_name,
+		symbol: transfer.contract_ticker_symbol,
+		decimals: transfer.contract_decimals,
+	},
 
-	blockTimestamp: new Date(transfer.block_signed_at).valueOf(),
+	value: BigInt(transfer.delta),
 
 	fromAddress: transfer.from_address as Ethereum.Address,
 	toAddress: transfer.to_address as Ethereum.Address,
+
 	labels: {
 		fromAddress: transfer.from_address_label ?? undefined,
 		toAddress: transfer.to_address_label ?? undefined,
 	},
 
-	value: BigInt(transfer.delta),
+	transaction: {
+		network,
+		transactionId: transfer.tx_hash as Ethereum.TransactionId,
+		blockTimestamp: new Date(transfer.block_signed_at).valueOf(),
 
-	transferredToken: {
-		chainId: network.chainId,
-		symbol: transfer.contract_ticker_symbol,
-		address: transfer.contract_address as Ethereum.Address,
-		name: transfer.contract_name,
-		icon: transfer.logo_url,
-		decimals: transfer.contract_decimals,
+		logEvents: (
+			transfer.method_calls
+				?.map(methodCall => ({
+					contract: {
+						address: methodCall.sender_address as Ethereum.ContractAddress,
+					},
+					decoded: {
+						name: methodCall.method,
+					},
+				}))
+		),
 	},
 
 	conversion: {
@@ -175,15 +172,6 @@ export const normalizeErc20Transfer = (
 		value: transfer.delta_quote,
 		rate: transfer.quote_rate,
 	},
-
-	logEvents: transfer.method_calls?.map(methodCall => ({
-		contract: {
-			address: methodCall.sender_address as Ethereum.ContractAddress,
-		},
-		decoded: {
-			name: methodCall.method,
-		},
-	})),
 })
 
 export const normalizeNftContract = (

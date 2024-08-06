@@ -1,20 +1,16 @@
 <script lang="ts">
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
-	import type { Erc20Transfer } from '$/api/covalent'
-	import type { QuoteCurrency } from '$/data/currencies'
 
 
 	// Inputs
 	export let network: Ethereum.Network
-	export let erc20Transfer: Erc20Transfer
-	export let quoteCurrency: QuoteCurrency
+	export let erc20Transfer: Ethereum.Erc20Transfer
+	export let contextualAddress: Ethereum.Address | undefined
 
 	// (View options)
-	export let contextualAddress: Ethereum.Address
 	export let detailLevel: 'summary' | 'detailed' | 'exhaustive' = 'detailed'
 	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
-	export let showFees = false
 
 	export let layout: 'standalone' | 'inline' = 'inline'
 	export let innerLayout: 'columns' | 'row' = 'row'
@@ -31,6 +27,7 @@
 	$: contextIsReceiver = contextualAddress && erc20Transfer.toAddress && contextualAddress.toLowerCase() === erc20Transfer.toAddress.toLowerCase()
 
 
+	// Components
 	import AddressWithLabel from './AddressWithLabel.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
 </script>
@@ -49,6 +46,7 @@
 				/>
 			</span>
 		{/if}
+
 		{#if erc20Transfer.value}
 			<span>
 				<span class="action">
@@ -56,21 +54,25 @@
 						? 'received'
 						: 'sent'}
 				</span>
+
 				<TokenBalanceWithConversion
 					{tokenBalanceFormat}
 					showDecimalPlaces={isExhaustive ? 9 : 6}
 
-					token={erc20Transfer.transferredToken}
+					token={erc20Transfer.token}
 
-					balance={Number(erc20Transfer.value) * 0.1 ** erc20Transfer.transferredToken.decimals}
+					balance={Number(erc20Transfer.value) * 0.1 ** erc20Transfer.token.decimals}
 					conversionCurrency={erc20Transfer.conversion?.quoteCurrency} 
 					convertedValue={erc20Transfer.conversion?.value}
+					conversionRate={erc20Transfer.conversion?.rate}
 				/>
 			</span>
 		{/if}
+
 		{#if isSummary && contextIsReceiver && erc20Transfer.fromAddress}
 			<span class="sender">
 				<span>from</span>
+
 				<AddressWithLabel
 					{network}
 					address={erc20Transfer.fromAddress}
@@ -82,6 +84,7 @@
 		{:else if erc20Transfer.toAddress}
 			<span class="receiver" class:mark={contextIsReceiver}>
 				<span>to</span>
+
 				<AddressWithLabel
 					{network}
 					address={erc20Transfer.toAddress}
