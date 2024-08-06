@@ -77,7 +77,7 @@
 	import EthereumContractExplorer from './EthereumContractExplorer.svelte'
 	import EthereumTransaction from './EthereumTransaction.svelte'
 	import EthereumTransactionsLoader from './EthereumTransactionsLoader.svelte'
-	import EthereumTransactionsERC20Loader from './EthereumTransactionsERC20Loader.svelte'
+	import EthereumErc20TransfersLoader from './EthereumErc20TransfersLoader.svelte'
 	import InlineContainer from './InlineContainer.svelte'
 	import TokenName from './TokenName.svelte'
 	import TokenBalance from './TokenBalance.svelte'
@@ -340,7 +340,7 @@
 			{:else}{#key selectedToken}
 				<div class="column" transition:fade>
 					<!-- ERC-20 Transactions -->
-					<EthereumTransactionsERC20Loader
+					<EthereumErc20TransfersLoader
 						{network}
 						{networkProvider}
 						{transactionProvider}
@@ -408,7 +408,7 @@
 								{/each}
 							</div>
 						{/if}
-					</EthereumTransactionsERC20Loader>
+					</EthereumErc20TransfersLoader>
 				</div>
 			{/key}{/if}
 		</div>
