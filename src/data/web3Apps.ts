@@ -24,7 +24,19 @@ import {
 	UniswapIcon,
 } from '$/assets/icons'
 import {
+	ArbitrumIcon,
+	ArbitrumOneIcon,
+	AuroraIcon,
+	BaseIcon,
+	BlastIcon,
+	DegenIcon,
+	EthereumIcon,
+	LineaIcon,
+	MantleIcon,
 	MetalIcon,
+	MetisIcon,
+	OptimismIcon,
+	PolygonIcon,
 	ZoraIcon,
 } from '$/assets/networkIcons'
 
@@ -2199,6 +2211,10 @@ export const web3Apps = [
 	{
 		name: 'Arbitrum',
 		slug: 'arbitrum',
+		icon: ArbitrumIcon,
+		colors: [
+			'#28a0f0',
+		],
 		views: [
 			{
 				name: 'Arbitrum Governance',
@@ -2214,6 +2230,10 @@ export const web3Apps = [
 			{
 				name: 'Arbitrum Bridge',
 				slug: 'arbitrum-bridge',
+				icon: ArbitrumOneIcon,
+				colors: [
+					'#1b4add',
+				],
 				links: [
 					'https://bridge.arbitrum.io',
 				],
@@ -2819,6 +2839,10 @@ export const web3Apps = [
 	{
 		name: 'Aurora+',
 		slug: 'aurora-plus',
+		icon: AuroraIcon,
+		colors: [
+			'#92d36f',
+		],
 		links: [
 			'https://aurora.plus',
 		],
@@ -3508,6 +3532,10 @@ export const web3Apps = [
 	{
 		name: 'Base',
 		slug: 'base',
+		icon: BaseIcon,
+		colors: [
+			'#0052ff',
+		],
 		links: [
 			'https://base.org',
 		],
@@ -4743,6 +4771,10 @@ export const web3Apps = [
 	{
 		name: 'Blast',
 		slug: 'blast',
+		icon: BlastIcon,
+		colors: [
+			'#fcfc03',
+		],
 		links: [
 			'https://blast.io',
 		],
@@ -7862,6 +7894,11 @@ export const web3Apps = [
 	{
 		name: 'Degen',
 		slug: 'degen',
+		icon: DegenIcon,
+		colors: [
+			'#a36efe',
+			'#4c2896',
+		],
 		links: [
 			'https://www.degen.tips',
 		],
@@ -9595,11 +9632,12 @@ export const web3Apps = [
 	{
 		name: 'Ethereum',
 		slug: 'ethereum',
-		links: [
-			'https://ethereum.org',
-		],
+		icon: EthereumIcon,
 		colors: [
 			'#627eea',
+		],
+		links: [
+			'https://ethereum.org',
 		],
 		views: [
 			{
@@ -14950,6 +14988,10 @@ export const web3Apps = [
 	{
 		name: 'Linea',
 		slug: 'linea',
+		icon: LineaIcon,
+		colors: [
+			'#61DFFF',
+		],
 		links: [
 			'https://linea.build',
 		],
@@ -15993,6 +16035,10 @@ export const web3Apps = [
 	{
 		name: 'Mantle',
 		slug: 'mantle',
+		icon: MantleIcon,
+		colors: [
+			'#000000',
+		],
 		links: [
 			'https://www.mantle.xyz',
 		],
@@ -16585,6 +16631,369 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Metal L2',
+		slug: 'metal',
+		links: [
+			'https://metall2.com',
+		],
+		icon: MetalIcon,
+		colors: [
+			'#4400E2',
+			'#F94E6C', 
+			'#FFCB00',
+		],
+		views: [
+			{
+				chainId: 1,
+				name: 'Ethereum (L1)',
+				contracts: [
+					{
+						name: 'AnchorStateRegistryProxy',
+						address: '0x18DAc71c228D1C32c99489B7323d441E1175e443',
+					},
+					{
+						name: 'BatchSubmitter',
+						address: '0x6887246668a3b87F54DeB3b94Ba47a6f63F32985',
+					},
+					{
+						name: 'Challenger',
+						address: '0x9BA6e03D8B90dE867373Db8cF1A58d2F7F006b3A',
+					},
+					{
+						name: 'DelayedWETHProxy',
+						address: '0xE497B094d6DbB3D5E4CaAc9a14696D7572588d14',
+					},
+					{
+						name: 'DisputeGameFactoryProxy',
+						address: '0xe5965Ab5962eDc7477C8520243A95517CD252fA9',
+					},
+					{
+						name: 'FaultDisputeGame',
+						address: '0x4146DF64D83acB0DcB0c1a4884a16f090165e122',
+					},
+					{
+						name: 'Guardian',
+						address: '0x09f7150D8c019BeF34450d6920f6B3608ceFdAf2',
+					},
+					{
+						name: 'L1CrossDomainMessengerProxy',
+						address: '0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1',
+					},
+					{
+						name: 'L1ERC721BridgeProxy',
+						address: '0x5a7749f83b81B301cAb5f48EB8516B986DAef23D',
+					},
+					{
+						name: 'L1StandardBridgeProxy',
+						address: '0x99C9fc46f92E8a1c0deC1b1747d010903E884bE1',
+					},
+					{
+						name: 'MIPS',
+						address: '0x0f8EdFbDdD3c0256A80AD8C0F2560B1807873C9c',
+					},
+					{
+						name: 'OptimismMintableERC20FactoryProxy',
+						address: '0x75505a97BD334E7BD3C476893285569C4136Fa0F',
+					},
+					{
+						name: 'OptimismPortalProxy',
+						address: '0xbEb5Fc579115071764c7423A4f12eDde41f106Ed',
+					},
+					{
+						name: 'PermissionedDisputeGame',
+						address: '0xE9daD167EF4DE8812C1abD013Ac9570C616599A0',
+					},
+					{
+						name: 'PreimageOracle',
+						address: '0xD326E10B8186e90F4E2adc5c13a2d0C137ee8b34',
+					},
+					{
+						name: 'Proposer',
+						address: '0x473300df21D047806A082244b417f96b32f13A33',
+					},
+					{
+						name: 'ProxyAdmin',
+						address: '0x543bA4AADBAb8f9025686Bd03993043599c6fB04',
+					},
+					{
+						name: 'ProxyAdminOwner',
+						address: '0x5a0Aae59D09fccBdDb6C6CcEB07B7279367C3d2A',
+					},
+					{
+						name: 'SystemConfigOwner',
+						address: '0x847B5c174615B1B7fDF770882256e2D3E95b9D92',
+					},
+					{
+						name: 'SystemConfigProxy',
+						address: '0x229047fed2591dbec1eF1118d64F7aF3dB9EB290',
+					},
+					{
+						name: 'UnsafeBlockSigner',
+						address: '0xAAAA45d9549EDA09E70937013520214382Ffc4A2',
+					},
+				],
+			},
+			{
+				chainId: 1,
+				name: 'Ethereum Legacy Contracts (L1)',
+				contracts: [
+					{
+						name: 'AddressManager',
+						address: '0xdE1FCfB0851916CA5101820A69b13a4E276bd81F',
+					},
+				],
+			},
+			{
+				chainId: 59144,
+				name: 'Metal L2 (L2)',
+				contracts: [
+					{
+						name: 'L2ToL1MessagePasser',
+						address: '0x4200000000000000000000000000000000000016',
+					},
+					{
+						name: 'L2CrossDomainMessenger',
+						address: '0x4200000000000000000000000000000000000007',
+					},
+					{
+						name: 'L2StandardBridge',
+						address: '0x4200000000000000000000000000000000000010',
+					},
+					{
+						name: 'L2ERC721Bridge',
+						address: '0x4200000000000000000000000000000000000014',
+					},
+					{
+						name: 'SequencerFeeVault',
+						address: '0x4200000000000000000000000000000000000011',
+					},
+					{
+						name: 'OptimismMintableERC20Factory',
+						address: '0x4200000000000000000000000000000000000012',
+					},
+					{
+						name: 'OptimismMintableERC721Factory',
+						address: '0x4200000000000000000000000000000000000017',
+					},
+					{
+						name: 'L1Block',
+						address: '0x4200000000000000000000000000000000000015',
+					},
+					{
+						name: 'GasPriceOracle',
+						address: '0x420000000000000000000000000000000000000F',
+					},
+					{
+						name: 'ProxyAdmin',
+						address: '0x4200000000000000000000000000000000000018',
+					},
+					{
+						name: 'BaseFeeVault',
+						address: '0x4200000000000000000000000000000000000019',
+					},
+					{
+						name: 'L1FeeVault',
+						address: '0x420000000000000000000000000000000000001A',
+					},
+					{
+						name: 'GovernanceToken',
+						address: '0x4200000000000000000000000000000000000042',
+					},
+					{
+						name: 'SchemaRegistry',
+						address: '0x4200000000000000000000000000000000000020',
+					},
+					{
+						name: 'EAS',
+						address: '0x4200000000000000000000000000000000000021',
+					},
+				],
+			},
+			{
+				chainId: 59144,
+				name: 'Metal L2 Legacy Contracts (L2)',
+				contracts: [
+					{
+						name: 'L1MessageSender',
+						address: '0x4200000000000000000000000000000000000001',
+					},
+					{
+						name: 'DeployerWhitelist',
+						address: '0x4200000000000000000000000000000000000002',
+					},
+					{
+						name: 'LegacyERC20ETH',
+						address: '0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000',
+					},
+					{
+						name: 'L1BlockNumber',
+						address: '0x4200000000000000000000000000000000000013',
+					},
+					{
+						name: 'LegacyMessagePasser',
+						address: '0x4200000000000000000000000000000000000000',
+					},
+				],
+			},
+			{
+				chainId: 11155111,
+				name: 'Sepolia (L1)',
+				contracts: [
+					{
+						name: 'AnchorStateRegistryProxy',
+						address: '0x218CD9489199F321E1177b56385d333c5B598629',
+					},
+					{
+						name: 'BatchSubmitter',
+						address: '0x8F23BB38F531600e5d8FDDaAEC41F13FaB46E98c',
+					},
+					{
+						name: 'Challenger',
+						address: '0xfd1D2e729aE8eEe2E146c033bf4400fE75284301',
+					},
+					{
+						name: 'DelayedWETHProxy',
+						address: '0xF3D833949133e4E4D3551343494b34079598EA5a',
+					},
+					{
+						name: 'DisputeGameFactoryProxy',
+						address: '0x05F9613aDB30026FFd634f38e5C4dFd30a197Fa1',
+					},
+					{
+						name: 'FaultDisputeGame',
+						address: '0xD5Bc8c45692aada756f2d68f0a2002d6Bf130C42',
+					},
+					{
+						name: 'Guardian',
+						address: '0x7a50f00e8D05b95F98fE38d8BeE366a7324dCf7E',
+					},
+					{
+						name: 'L1CrossDomainMessengerProxy',
+						address: '0x58Cc85b8D04EA49cC6DBd3CbFFd00B4B8D6cb3ef',
+					},
+					{
+						name: 'L1ERC721BridgeProxy',
+						address: '0xd83e03D576d23C9AEab8cC44Fa98d058D2176D1f',
+					},
+					{
+						name: 'L1StandardBridgeProxy',
+						address: '0xFBb0621E0B23b5478B630BD55a5f21f67730B0F1',
+					},
+					{
+						name: 'MIPS',
+						address: '0xFF760A87E41144b336E29b6D4582427dEBdB6dee',
+					},
+					{
+						name: 'OptimismMintableERC20FactoryProxy',
+						address: '0x868D59fF9710159C2B330Cc0fBDF57144dD7A13b',
+					},
+					{
+						name: 'OptimismPortalProxy',
+						address: '0x16Fc5058F25648194471939df75CF27A2fdC48BC',
+					},
+					{
+						name: 'PermissionedDisputeGame',
+						address: '0xBEA4384faCBcf51279962fbCFb8f16F9eD2fe0C6',
+					},
+					{
+						name: 'PreimageOracle',
+						address: '0x627F825CBd48c4102d36f287be71f4234426b9e4',
+					},
+					{
+						name: 'Proposer',
+						address: '0x49277EE36A024120Ee218127354c4a3591dc90A9',
+					},
+					{
+						name: 'ProxyAdmin',
+						address: '0x189aBAAaa82DfC015A588A7dbaD6F13b1D3485Bc',
+					},
+					{
+						name: 'ProxyAdminOwner',
+						address: '0x1Eb2fFc903729a0F03966B917003800b145F56E2',
+					},
+					{
+						name: 'SystemConfigOwner',
+						address: '0xfd1D2e729aE8eEe2E146c033bf4400fE75284301',
+					},
+					{
+						name: 'SystemConfigProxy',
+						address: '0x034edD2A225f7f429A63E0f1D2084B9E0A93b538',
+					},
+					{
+						name: 'UnsafeBlockSigner',
+						address: '0x57CACBB0d30b01eb2462e5dC940c161aff3230D3',
+					},
+				],
+			},
+			{
+				chainId: 11155111,
+				name: 'Metal L2 Testnet (L2)',
+				contracts: [
+					{
+						name: 'L2ToL1MessagePasser',
+						address: '0x4200000000000000000000000000000000000016',
+					},
+					{
+						name: 'L2CrossDomainMessenger',
+						address: '0x4200000000000000000000000000000000000007',
+					},
+					{
+						name: 'L2StandardBridge',
+						address: '0x4200000000000000000000000000000000000010',
+					},
+					{
+						name: 'L2ERC721Bridge',
+						address: '0x4200000000000000000000000000000000000014',
+					},
+					{
+						name: 'SequencerFeeVault',
+						address: '0x4200000000000000000000000000000000000011',
+					},
+					{
+						name: 'OptimismMintableERC20Factory',
+						address: '0x4200000000000000000000000000000000000012',
+					},
+					{
+						name: 'OptimismMintableERC721Factory',
+						address: '0x4200000000000000000000000000000000000017',
+					},
+					{
+						name: 'L1Block',
+						address: '0x4200000000000000000000000000000000000015',
+					},
+					{
+						name: 'GasPriceOracle',
+						address: '0x420000000000000000000000000000000000000F',
+					},
+					{
+						name: 'ProxyAdmin',
+						address: '0x4200000000000000000000000000000000000018',
+					},
+					{
+						name: 'BaseFeeVault',
+						address: '0x4200000000000000000000000000000000000019',
+					},
+					{
+						name: 'L1FeeVault',
+						address: '0x420000000000000000000000000000000000001A',
+					},
+					{
+						name: 'GovernanceToken',
+						address: '0x4200000000000000000000000000000000000042',
+					},
+					{
+						name: 'SchemaRegistry',
+						address: '0x4200000000000000000000000000000000000020',
+					},
+					{
+						name: 'EAS',
+						address: '0x4200000000000000000000000000000000000021',
+					},
+				],
+			},
+		],
+	},
+	{
 		name: 'MetaTdex',
 		slug: 'metatdex',
 		links: [
@@ -16655,6 +17064,10 @@ export const web3Apps = [
 	{
 		name: 'Metis',
 		slug: 'metis',
+		icon: MetisIcon,
+		colors: [
+			'#00dacd',
+		],
 		links: [
 			'https://metis.io',
 		],
@@ -18884,6 +19297,10 @@ export const web3Apps = [
 	{
 		name: 'Optimism',
 		slug: 'optimism',
+		icon: OptimismIcon,
+		colors: [
+			'#ff0420',
+		],
 		links: [
 			'https://www.optimism.io',
 		],
@@ -20484,6 +20901,10 @@ export const web3Apps = [
 	{
 		name: 'Polygon',
 		slug: 'polygon',
+		icon: PolygonIcon,
+		colors: [
+			'#8247e5',
+		],
 		links: [
 			'https://polygon.technology',
 		],
