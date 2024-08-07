@@ -128,7 +128,7 @@ export const preferencesConfig = [
 			// 	defaultOption: 'CoinGecko',
 			// 	options: [
 			// 		{ value: 'CoinGecko', name: 'CoinGecko' },
-			// 		{ value: 'Covalent', name: 'Covalent' },
+			// 		{ value: 'Covalent', name: 'Covalent › GoldRush' },
 			// 	]
 			// }
 		]
@@ -186,7 +186,7 @@ export const preferencesConfig = [
 							{ value: TransactionProvider.Etherscan, name: 'Etherscan', icon: transactionProviderIcons[TransactionProvider.Etherscan] },
 							{ value: TransactionProvider.Blockscout, name: 'Blockscout › REST API', icon: transactionProviderIcons[TransactionProvider.Blockscout] },
 							{ value: TransactionProvider.Chainbase, name: 'Chainbase', icon: transactionProviderIcons[TransactionProvider.Chainbase] },
-							{ value: TransactionProvider.Covalent, name: 'Covalent', icon: transactionProviderIcons[TransactionProvider.Covalent] },
+							{ value: TransactionProvider.Covalent, name: 'Covalent › GoldRush', icon: transactionProviderIcons[TransactionProvider.Covalent] },
 							{ value: TransactionProvider.Decommas, name: 'Decommas', icon: transactionProviderIcons[TransactionProvider.Decommas] },
 							{ value: TransactionProvider.Moralis, name: 'Moralis', icon: transactionProviderIcons[TransactionProvider.Moralis] },
 							// { value: TransactionProvider.Etherspot, name: 'Etherspot', icon: transactionProviderIcons[TransactionProvider.Etherspot] },
@@ -260,7 +260,7 @@ export const preferencesConfig = [
 						options: [
 							{ value: TokenBalancesProvider.Airstack, name: 'Airstack', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Airstack] },
 							{ value: TokenBalancesProvider.Chainbase, name: 'Chainbase › Token API', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Chainbase] },
-							{ value: TokenBalancesProvider.Covalent, name: 'Covalent', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Covalent] },
+							{ value: TokenBalancesProvider.Covalent, name: 'Covalent › GoldRush', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Covalent] },
 							{ value: TokenBalancesProvider.Decommas, name: 'Decommas', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Decommas] },
 							{ value: TokenBalancesProvider.LlamaFolio, name: 'LlamaFolio', icon: tokenBalancesProviderIcons[TokenBalancesProvider.LlamaFolio] },
 							{ value: TokenBalancesProvider.Moralis, name: 'Moralis › Web3 API', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Moralis] },
@@ -313,7 +313,7 @@ export const preferencesConfig = [
 						options: [
 							{ value: NftProvider.Airstack, name: 'Airstack', icon: nftProviderIcons[NftProvider.Airstack] },
 							{ value: NftProvider.Chainbase, name: 'Chainbase', icon: nftProviderIcons[NftProvider.Chainbase] },
-							{ value: NftProvider.Covalent, name: 'Covalent', icon: nftProviderIcons[NftProvider.Covalent] },
+							{ value: NftProvider.Covalent, name: 'Covalent › GoldRush', icon: nftProviderIcons[NftProvider.Covalent] },
 							{ value: NftProvider.Decommas, name: 'Decommas', icon: nftProviderIcons[NftProvider.Decommas] },
 							{ value: NftProvider.NftPort,  name: 'NFTPort', icon: nftProviderIcons[NftProvider.NftPort] }
 							// { value: 'Zapper', name: 'Zapper', icon: nftProviderIcons[NftProvider.Zapper] },
@@ -356,7 +356,7 @@ export const preferencesConfig = [
 					// 	groupId: 'offChain',
 					// 	name: 'Off-Chain',
 					// 	options: [
-					// 		// { value: PriceProvider.Covalent, name: 'Covalent' },
+					// 		// { value: PriceProvider.Covalent, name: 'Covalent › GoldRush' },
 					// 		// { value: 'Moralis', name: 'Moralis' },
 					// 		// { value: 'Zapper', name: 'Zapper' },
 					// 		// { value: 'CoinGecko', name: 'CoinGecko' },
@@ -389,7 +389,7 @@ export const preferencesConfig = [
 						groupId: 'offChain',
 						name: 'Off-Chain',
 						options: [
-							// { value: PriceProvider.Covalent, name: 'Covalent' },
+							// { value: PriceProvider.Covalent, name: 'Covalent › GoldRush' },
 							// { value: 'The Graph', name: 'The Graph' },
 							// { value: 'Zapper', name: 'Zapper' },
 							// { value: 'CoinGecko', name: 'CoinGecko' },
