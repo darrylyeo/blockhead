@@ -1,10 +1,13 @@
 import type { Ethereum } from './types'
 import type { DeepReadonly } from '$/utils/DeepReadonly'
 import {
-	ArbitrumIcon,
+	ArbitrumNovaIcon,
+	ArbitrumOneIcon,
 	AuroraIcon,
 	AvalancheIcon,
 	BaseIcon,
+	BlastIcon,
+	BnbChainIcon,
 	CeloIcon,
 	CronosIcon,
 	DegenIcon,
@@ -14,6 +17,7 @@ import {
 	FilecoinIcon,
 	GnosisIcon,
 	HarmonyIcon,
+	LineaIcon,
 	MantleIcon,
 	MetalIcon,
 	MetisIcon,
@@ -22,6 +26,7 @@ import {
 	OptimismIcon,
 	PolygonIcon,
 	PolygonZkevmIcon,
+	RedstoneIcon,
 	ScrollIcon,
 	SkaleIcon,
 	ZoraIcon,
@@ -117,9 +122,9 @@ export const networks = [
 			symbol: 'AETH',
 			decimals: 18,
 		},
-		icon: ArbitrumIcon,
+		icon: ArbitrumOneIcon,
 		colors: [
-			'#28a0f0',
+			'#1b4add',
 		],
 		rpc: [
 			'https://arb1.arbitrum.io/rpc',
@@ -279,6 +284,10 @@ export const networks = [
 			symbol: 'ETH',
 			decimals: 18,
 		},
+		icon: ArbitrumNovaIcon,
+		colors: [
+			'#ff7700',
+		],
 		rpc: [
 			'https://nova.arbitrum.io/rpc',
 			'https://arbitrum-nova.blockpi.network/v1/rpc/public',
@@ -611,8 +620,9 @@ export const networks = [
 			symbol: 'BNB',
 			decimals: 18,
 		},
+		icon: BnbChainIcon,
 		colors: [
-			'#fcd535',
+			'#f0b90b',
 		],
 		rpc: [
 			'https://binance.llamarpc.com',
@@ -703,6 +713,10 @@ export const networks = [
 			symbol: 'ETH',
 			decimals: 18,
 		},
+		icon: BlastIcon,
+		colors: [
+			'#fcfc03',
+		],
 		rpc: [
 			'https://rpc.blast.io',
 			'https://blast.din.dev/rpc',
@@ -841,9 +855,12 @@ export const networks = [
 			decimals: 18,
 		},
 		icon: CeloIcon,
+		// colors: [
+		// 	'#35d07f',
+		// 	'#fbcc5c',
+		// ],
 		colors: [
-			'#35d07f',
-			'#fbcc5c',
+			'#fcff52',
 		],
 		rpc: [
 			'https://forno.celo.org',
@@ -1850,6 +1867,9 @@ export const networks = [
 			decimals: 18,
 		},
 		icon: EvmosIcon,
+		colors: [
+			'#ed4e33',
+		],
 		rpc: [
 			'https://eth.bd.evmos.org:8545',
 			'https://evmos-json-rpc.stakely.io',
@@ -1958,7 +1978,6 @@ export const networks = [
 			},
 		],
 		infoURL: 'https://fantom.foundation',
-		icon: 'fantom',
 	},
 	{
 		slug: 'fantom-testnet',
@@ -3162,6 +3181,10 @@ export const networks = [
 			symbol: 'ETH',
 			decimals: 18,
 		},
+		icon: LineaIcon,
+		colors: [
+			'#61dfff',
+		],
 		rpc: [
 			'https://rpc.linea.build',
 			'wss://rpc.linea.build',
@@ -3193,7 +3216,6 @@ export const networks = [
 			],
 		},
 		infoURL: 'https://linea.build',
-		icon: 'linea',
 	},
 	{
 		slug: 'linea-goerli',
@@ -3240,7 +3262,6 @@ export const networks = [
 			],
 		},
 		infoURL: 'https://linea.build',
-		icon: 'linea',
 	},
 	{
 		slug: 'lisinski',
@@ -5130,12 +5151,15 @@ export const networks = [
 			symbol: 'ETH',
 			decimals: 18,
 		},
+		icon: RedstoneIcon,
+		colors: [
+			'#f34242',
+		],
 		rpc: [
 			'https://rpc.redstonechain.com',
 			'wss://rpc.redstonechain.com',
 		],
 		infoURL: 'https://redstone.xyz',
-		icon: 'redstone',
 		explorers: [
 			{
 				name: 'blockscout',
