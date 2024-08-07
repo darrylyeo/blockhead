@@ -14,6 +14,7 @@ export enum NetworkProvider {
 	Blast = 'Blast',
 	Chainbase = 'Chainbase',
 	Blockscout = 'Blockscout',
+	LlamaNodes = 'LlamaNodes',
 }
 
 export enum NetworkProviderConnectionType {
