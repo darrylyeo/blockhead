@@ -34,10 +34,11 @@ import { gatewayFmProviderConfigs } from './gatewayFm'
 import { getBlockProviderConfigs } from './getBlock'
 import { blastProviderConfigs } from './blast'
 import { chainbaseProviderConfigs } from './chainbase'
+import { llamaNodesProviderConfigs } from './llamaNodes'
 
 
 // Icons
-import { AlchemyIcon, BlastIcon, BlockscoutIcon, ChainbaseIcon, EtherscanIcon, FigmentIcon, GatewayFmIcon, GetBlockIcon, InfuraIcon, MoralisIcon, TenderlyIcon, PocketIcon, QuickNodeIcon } from '$/assets/icons'
+import { AlchemyIcon, BlastIcon, BlockscoutIcon, ChainbaseIcon, EtherscanIcon, FigmentIcon, GatewayFmIcon, GetBlockIcon, InfuraIcon, MoralisIcon, TenderlyIcon, PocketIcon, QuickNodeIcon, LlamaNodesIcon } from '$/assets/icons'
 import { blockscoutProviderConfigs } from '$/api/blockscout'
 
 
@@ -797,6 +798,53 @@ export const networkProviderConfigs = [
 			)
 		},
 	},
+
+	{
+		provider: NetworkProvider.LlamaNodes,
+		name: 'LlamaNodes',
+		icon: LlamaNodesIcon,
+
+		getEthersProvider: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+		}) => {
+			const config = llamaNodesProviderConfigs.find(config =>
+				config.chainId === network.chainId
+			)
+
+			return config && (
+				new ({
+					[NetworkProviderConnectionType.RPC]: JsonRpcProvider,
+					[NetworkProviderConnectionType.WebSocket]: WebSocketProvider,
+				}[connectionType])(
+					`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.llamarpc.com`,
+					network.chainId
+				)
+			)
+		},
+
+		getViemPublicClient: ({
+			network,
+			connectionType = NetworkProviderConnectionType.RPC,
+		}) => {
+			const config = llamaNodesProviderConfigs.find(config =>
+				config.chainId === network.chainId
+			)
+
+			return config && (
+				createClient({
+					chain: networkToViemChain(network),
+					transport: {
+						[NetworkProviderConnectionType.RPC]: http,
+						[NetworkProviderConnectionType.WebSocket]: webSocket,
+					}[connectionType](
+						`${config.connectionType === NetworkProviderConnectionType.WebSocket ? 'wss' : 'https'}://${config.subdomain}.llamarpc.com`,
+						{},
+					),
+				})
+			)
+		},
+	}
 ] as const satisfies NetworkProviderConfig[]
 
 export const networkProviderConfigByProvider = Object.fromEntries(
