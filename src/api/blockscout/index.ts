@@ -800,7 +800,7 @@ export const blockscoutProjects = [
 		chainId: undefined,
 		explorerUrl: 'b2-explorer.antimatter.finance',
 		host: 'Self-hosted',
-		ecosystem: 'Binance Smart Chain',
+		ecosystem: 'BNB Smart Chain',
 		tags: [
 			'L1',
 			'Mainnet'
@@ -3132,7 +3132,7 @@ export const blockscoutProjects = [
 		chainId: undefined,
 		explorerUrl: 'explorer.bas.metaapesgame.com',
 		host: 'Self-hosted',
-		ecosystem: 'Binance Smart Chain',
+		ecosystem: 'BNB Smart Chain',
 		tags: [
 			'L1',
 			'Mainnet'
@@ -5227,7 +5227,7 @@ export const blockscoutProjects = [
 		chainId: undefined,
 		explorerUrl: 'bnb.xterscan.io',
 		host: 'Altlayer',
-		ecosystem: 'Binance Smart Chain',
+		ecosystem: 'BNB Smart Chain',
 		tags: [
 			'L2',
 			'Optimistic Rollup',

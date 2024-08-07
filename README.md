@@ -56,7 +56,7 @@ The Graph, IPFS, Infura, Lens, Liquality, LlamaNodes, Mod Protocol, Moralis, Nex
 
 ### 🌐 **TO ETHEREUM & BEYOND!**
 Supporting [**Ethereum**](https://blockhead.info/explorer/ethereum) + **layer-2s** ([Polygon PoS](https://blockhead.info/explorer/polygon), [Gnosis Chain](https://blockhead.info/explorer/chain), [Arbitrum](https://blockhead.info/explorer/arbitrum-one), [Optimism](https://blockhead.info/explorer/optimism),  
-**EVM-based chains** ([Aurora](https://blockhead.info/explorer/aurora), [Avalanche](https://blockhead.info/explorer/avalanche), [Binance Smart Chain](https://blockhead.info/explorer/bsc), [Celo](https://blockhead.info/explorer/celo), [Cronos](https://blockhead.info/explorer/cronos), [Evmos](https://blockhead.info/explorer/evmos), [Fantom](https://blockhead.info/explorer/fantom)),  
+**EVM-based chains** ([Aurora](https://blockhead.info/explorer/aurora), [Avalanche](https://blockhead.info/explorer/avalanche), [BNB Smart Chain](https://blockhead.info/explorer/bsc), [Celo](https://blockhead.info/explorer/celo), [Cronos](https://blockhead.info/explorer/cronos), [Evmos](https://blockhead.info/explorer/evmos), [Fantom](https://blockhead.info/explorer/fantom)),  
 and many more **blockchain networks** and **web3-native ecosystems** to come!
 
 </div>
@@ -83,7 +83,7 @@ and many more **blockchain networks** and **web3-native ecosystems** to come!
   * Preferences and portfolio data are saved/cached within your browser's local storage.
 
 ### 🧭 [**Explorer**](https://blockhead.info/explorer):
-* Explore **blocks** and **transactions** across several **EVM-based blockchain networks**: [Ethereum](https://blockhead.info/explorer/ethereum), [Polygon](https://blockhead.info/explorer/polygon), [Gnosis Chain](https://blockhead.info/explorer/chain), [Arbitrum](https://blockhead.info/explorer/arbitrum-one), [Optimism](https://blockhead.info/explorer/optimism), [Aurora](https://blockhead.info/explorer/aurora), [Avalanche](https://blockhead.info/explorer/avalanche), [Binance Smart Chain](https://blockhead.info/explorer/bsc), [Celo](https://blockhead.info/explorer/celo), [Cronos](https://blockhead.info/explorer/cronos), [Evmos](https://blockhead.info/explorer/evmos), [Fantom](https://blockhead.info/explorer/fantom) and [more](https://blockhead.info/explorer)!
+* Explore **blocks** and **transactions** across several **EVM-based blockchain networks**: [Ethereum](https://blockhead.info/explorer/ethereum), [Polygon](https://blockhead.info/explorer/polygon), [Gnosis Chain](https://blockhead.info/explorer/chain), [Arbitrum](https://blockhead.info/explorer/arbitrum-one), [Optimism](https://blockhead.info/explorer/optimism), [Aurora](https://blockhead.info/explorer/aurora), [Avalanche](https://blockhead.info/explorer/avalanche), [BNB Smart Chain](https://blockhead.info/explorer/bsc), [Celo](https://blockhead.info/explorer/celo), [Cronos](https://blockhead.info/explorer/cronos), [Evmos](https://blockhead.info/explorer/evmos), [Fantom](https://blockhead.info/explorer/fantom) and [more](https://blockhead.info/explorer)!
 * **Network overview**: monitor statistics for a given network including the current block height and the native currency's current/historical price.
 * Look up a **transaction ID**, **block number**, or **address** (`0xabcd...6789`, **ENS name** or **Lens handle**) by typing in the search field or via URL (`blockhead.info/explorer/{networkName}/{query}`).
   * The search field query is preserved when switching chains so you can easily look up details for the same address across multiple chains.

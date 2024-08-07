@@ -609,7 +609,7 @@ export const networks = [
 	},
 	{
 		slug: 'bsc',
-		name: 'Binance Smart Chain',
+		name: 'BNB Smart Chain',
 		chainId: 56,
 		shortName: 'bnb',
 		chain: 'BSC',
@@ -653,7 +653,7 @@ export const networks = [
 	},
 	{
 		slug: 'bsc-testnet',
-		name: 'Binance Smart Chain Testnet',
+		name: 'BNB Smart Chain Testnet',
 		chainId: 97,
 		shortName: 'bnbt',
 		chain: 'BSC',

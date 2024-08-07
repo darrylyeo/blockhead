@@ -13,7 +13,7 @@ for(const [color, tokenNames] of Object.entries({
 
 	'polygon-purple': ['matic', 'Matic', 'MATIC', 'polygon', 'Polygon'],
 	'optimism-red': ['optimism', 'Optimism', 'OP', 'OETH', 'oeth', 'op'],
-	'binance-gold': ['BSC', 'Binance Smart Chain', 'bsc', 'BNB', 'bnb'],
+	'binance-gold': ['BSC', 'BNB Smart Chain', 'bsc', 'BNB', 'bnb'],
 	'avalanche-red': ['avalanche', 'Avalanche', 'AVAX'],
 	'gnosis-teal': ['gnosis', 'GNO', 'xdai', 'xDAI'],
 	'fantom-blue': ['fantom', 'ftm', 'FTM'],

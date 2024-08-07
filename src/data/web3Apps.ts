@@ -28379,7 +28379,7 @@ export const web3Apps = [
 				},
 			},
 			{
-				name: 'Binance Smart Chain',
+				name: 'BNB Smart Chain',
 				slug: 'bsc',
 				chainId: 56,
 				contracts: [
