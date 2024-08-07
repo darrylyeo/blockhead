@@ -1,61 +1,34 @@
-// Types
-import type { Ethereum } from '$/data/networks/types'
-
-
 // Components
-import ArbitrumIcon from './networks/Arbitrum.svg'
-import AuroraIcon from './networks/Aurora.svg'
-import AvalancheIcon from './networks/Avalanche.svg'
-import BaseIcon from './networks/Base.svg'
-import CeloIcon from './networks/Celo.svg'
-import CronosIcon from './networks/Cronos.svg'
-import DegenIcon from './tokens/DEGEN.svg'
-import EvmosIcon from './networks/Evmos.svg'
-import EthereumIcon from './networks/Ethereum.svg'
-import FilecoinIcon from './networks/Filecoin.svg'
-import FvmIcon from './networks/FVM.svg'
-import GnosisIcon from './networks/Gnosis.svg'
-import HarmonyIcon from './networks/Harmony.svg'
-import MetalIcon from './networks/Metal.svg'
-import MetisIcon from './networks/Metis.png'
-import ModeIcon from './networks/Mode.svg'
-// import NahmiiIcon from './networks/Nahmii.svg'
-// import NervosIcon from './networks/Nervos.svg'
-import OptimismIcon from './networks/Optimism.svg'
-import PolygonIcon from './networks/Polygon.svg'
-import PolygonZkevmIcon from './networks/Polygon-zkEVM.svg'
-import ScrollIcon from './networks/Scroll.svg'
-// import ReefIcon from './networks/Reef.svg'
-import SKALEIcon from './networks/SKALE.svg'
-import ZoraIcon from './networks/Zora.svg'
-
 import { tokenIcons } from './tokenIcons'
 
-export const networkIcons = {
-	'arbitrum-one': ArbitrumIcon,
-	'aurora': AuroraIcon,
-	'avalanche': tokenIcons.AVAX, // AvalancheIcon,
-	'base': BaseIcon,
-	'celo': CeloIcon,
-	'cronos': CronosIcon,
-	'degen': DegenIcon,
-	'ethereum': tokenIcons.ETH, // EthereumIcon,
-	'evmos': EvmosIcon,
-	'filecoin': FilecoinIcon,
-	'fvm': FvmIcon,
-	'gnosis': GnosisIcon,
-	'harmony': HarmonyIcon,
-	'mantle': tokenIcons.MNT,
-	'metal': MetalIcon,
-	'metis': MetisIcon,
-	'mode': ModeIcon,
-	'optimism': OptimismIcon,
-	// 'nahmii': NahmiiIcon,
-	// 'nervos': NervosIcon,
-	'polygon': tokenIcons.MATIC, // PolygonIcon,
-	'polygon-zkevm': PolygonZkevmIcon, // PolygonIcon,
-	// 'reef': ReefIcon,
-	'scroll': ScrollIcon,
-	'skale': SKALEIcon,
-	'zora': ZoraIcon,
-} as const satisfies Record<Ethereum.NetworkSlug, string>
+
+export { default as ArbitrumIcon } from './networks/Arbitrum.svg'
+export { default as AuroraIcon } from './networks/Aurora.svg'
+// export { default as AvalancheIcon } from './networks/Avalanche.svg'
+export const AvalancheIcon = tokenIcons.AVAX
+export { default as BaseIcon } from './networks/Base.svg'
+export { default as CeloIcon } from './networks/Celo.svg'
+export { default as CronosIcon } from './networks/Cronos.svg'
+export { default as DegenIcon } from './tokens/DEGEN.svg'
+export { default as EvmosIcon } from './networks/Evmos.svg'
+// export { default as EthereumIcon } from './networks/Ethereum.svg'
+export const EthereumIcon = tokenIcons.ETH
+export const FantomIcon = tokenIcons.FTM
+export { default as FilecoinIcon } from './networks/Filecoin.svg'
+export { default as FvmIcon } from './networks/FVM.svg'
+export { default as GnosisIcon } from './networks/Gnosis.svg'
+export { default as HarmonyIcon } from './networks/Harmony.svg'
+export { default as MetalIcon } from './networks/Metal.svg'
+export { default as MetisIcon } from './networks/Metis.png'
+export const MantleIcon = tokenIcons.MNT
+export { default as ModeIcon } from './networks/Mode.svg'
+export { default as NahmiiIcon } from './networks/Nahmii.svg'
+// export { default as NervosIcon } from './networks/Nervos.svg'
+export { default as OptimismIcon } from './networks/Optimism.svg'
+// export { default as PolygonIcon } from './networks/Polygon.svg'
+export const PolygonIcon = tokenIcons.MATIC
+export { default as PolygonZkevmIcon } from './networks/Polygon-zkEVM.svg'
+// export { default as ReefIcon } from './networks/Reef.svg'
+export { default as ScrollIcon } from './networks/Scroll.svg'
+export { default as SkaleIcon } from './networks/SKALE.svg'
+export { default as ZoraIcon } from './networks/Zora.svg'

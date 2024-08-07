@@ -1,5 +1,31 @@
 import type { Ethereum } from './types'
 import type { DeepReadonly } from '$/utils/DeepReadonly'
+import {
+	ArbitrumIcon,
+	AuroraIcon,
+	AvalancheIcon,
+	BaseIcon,
+	CeloIcon,
+	CronosIcon,
+	DegenIcon,
+	EthereumIcon,
+	EvmosIcon,
+	FantomIcon,
+	FilecoinIcon,
+	GnosisIcon,
+	HarmonyIcon,
+	MantleIcon,
+	MetalIcon,
+	MetisIcon,
+	ModeIcon,
+	NahmiiIcon,
+	OptimismIcon,
+	PolygonIcon,
+	PolygonZkevmIcon,
+	ScrollIcon,
+	SkaleIcon,
+	ZoraIcon,
+} from '$/assets/networkIcons'
 
 // https://github.com/ethereum-lists/chains
 // https://chainid.network/chains.json
@@ -91,6 +117,7 @@ export const networks = [
 			symbol: 'AETH',
 			decimals: 18,
 		},
+		icon: ArbitrumIcon,
 		colors: [
 			'#28a0f0',
 		],
@@ -376,6 +403,7 @@ export const networks = [
 			symbol: 'ETH',
 			decimals: 18,
 		},
+		icon: AuroraIcon,
 		colors: [
 			'#92d36f',
 		],
@@ -452,6 +480,7 @@ export const networks = [
 			symbol: 'AVAX',
 			decimals: 18,
 		},
+		icon: AvalancheIcon,
 		colors: [
 			'#f9273c',
 		],
@@ -488,12 +517,12 @@ export const networks = [
 		shortName: 'base',
 		chain: 'ETH',
 		networkId: 8453,
-		icon: 'base',
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
 			decimals: 18,
 		},
+		icon: BaseIcon,
 		colors: [
 			'#0052ff',
 		],
@@ -811,6 +840,7 @@ export const networks = [
 			symbol: 'CELO',
 			decimals: 18,
 		},
+		icon: CeloIcon,
 		colors: [
 			'#35d07f',
 			'#fbcc5c',
@@ -968,6 +998,7 @@ export const networks = [
 			symbol: 'CRO',
 			decimals: 18,
 		},
+		icon: CronosIcon,
 		colors: [
 			'#002d74',
 		],
@@ -1089,6 +1120,7 @@ export const networks = [
 			symbol: 'DEGEN',
 			decimals: 18
 		},
+		icon: DegenIcon,
 		colors: [
 			'#a36efe',
 			'#4c2896',
@@ -1435,6 +1467,7 @@ export const networks = [
 			symbol: 'ETH',
 			decimals: 18,
 		},
+		icon: EthereumIcon,
 		colors: [
 			'#627eea',
 		],
@@ -1482,7 +1515,6 @@ export const networks = [
 		ens: {
 			registry: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e',
 		},
-		icon: 'ethereum',
 	},
 	{
 		slug: 'ethereumclassic',
@@ -1817,6 +1849,7 @@ export const networks = [
 			symbol: 'EVMOS',
 			decimals: 18,
 		},
+		icon: EvmosIcon,
 		rpc: [
 			'https://eth.bd.evmos.org:8545',
 			'https://evmos-json-rpc.stakely.io',
@@ -1908,6 +1941,7 @@ export const networks = [
 			symbol: 'FTM',
 			decimals: 18,
 		},
+		icon: FantomIcon,
 		colors: [
 			'#1969ff',
 		],
@@ -1974,6 +2008,7 @@ export const networks = [
 			symbol: 'FIL',
 			decimals: 18,
 		},
+		icon: FilecoinIcon,
 		colors: [
 			'#0090ff',
 		],
@@ -2019,7 +2054,6 @@ export const networks = [
 			},
 		],
 		infoURL: 'https://filecoin.io',
-		icon: 'filecoin',
 	},
 	{
 		slug: 'filecoin-wallaby',
@@ -2325,6 +2359,7 @@ export const networks = [
 			symbol: 'xDAI',
 			decimals: 18,
 		},
+		icon: GnosisIcon,
 		colors: [
 			'#04795b',
 		],
@@ -2526,6 +2561,7 @@ export const networks = [
 			symbol: 'ONE',
 			decimals: 18,
 		},
+		icon: HarmonyIcon,
 		colors: [
 			'#00aee9',
 		],
@@ -2554,6 +2590,7 @@ export const networks = [
 			symbol: 'ONE',
 			decimals: 18,
 		},
+		icon: HarmonyIcon,
 		colors: [
 			'#00aee9',
 		],
@@ -2575,6 +2612,7 @@ export const networks = [
 			symbol: 'ONE',
 			decimals: 18,
 		},
+		icon: HarmonyIcon,
 		colors: [
 			'#00aee9',
 		],
@@ -2596,6 +2634,7 @@ export const networks = [
 			symbol: 'ONE',
 			decimals: 18,
 		},
+		icon: HarmonyIcon,
 		colors: [
 			'#00aee9',
 		],
@@ -3262,6 +3301,7 @@ export const networks = [
 			symbol: 'MNT',
 			decimals: 18,
 		},
+		icon: MantleIcon,
 		colors: [
 			'#000000',
 		],
@@ -3289,7 +3329,6 @@ export const networks = [
 			],
 		},
 		infoURL: 'https://mantle.xyz',
-		icon: 'mantle',
 	},
 	{
 		slug: 'mantle-testnet',
@@ -3463,6 +3502,7 @@ export const networks = [
 			symbol: 'ETH',
 			decimals: 18,
 		},
+		icon: MetalIcon,
 		colors: [
 			'#4400e2',
 			'#f94e6c',
@@ -3534,6 +3574,7 @@ export const networks = [
 			symbol: 'METIS',
 			decimals: 18,
 		},
+		icon: MetisIcon,
 		colors: [
 			'#00dacd',
 		],
@@ -3593,6 +3634,7 @@ export const networks = [
 			symbol: 'ETH',
 			decimals: 18,
 		},
+		icon: ModeIcon,
 		colors: [
 			'#dffe00',
 		],
@@ -3763,6 +3805,7 @@ export const networks = [
 			symbol: 'ETH',
 			decimals: 18,
 		},
+		icon: NahmiiIcon,
 		colors: [
 			'#902784',
 			'#2c338a',
@@ -3805,6 +3848,7 @@ export const networks = [
 			symbol: 'ETH',
 			decimals: 18,
 		},
+		icon: NahmiiIcon,
 		colors: [
 			'#902784',
 			'#2c338a',
@@ -4131,6 +4175,7 @@ export const networks = [
 			symbol: 'ETH',
 			decimals: 18,
 		},
+		icon: OptimismIcon,
 		colors: [
 			'#ff0420',
 		],
@@ -4451,6 +4496,7 @@ export const networks = [
 			symbol: 'MATIC',
 			decimals: 18,
 		},
+		icon: PolygonIcon,
 		colors: [
 			'#8247e5',
 		],
@@ -4528,6 +4574,7 @@ export const networks = [
 			symbol: 'ETH',
 			decimals: 18,
 		},
+		icon: PolygonZkevmIcon,
 		colors: [
 			'#8247e5',
 		],
@@ -5199,6 +5246,7 @@ export const networks = [
 			symbol: 'ETH',
 			decimals: 18,
 		},
+		icon: ScrollIcon,
 		colors: [
 			'#cba68d',
 			'#e5d1b8',
@@ -5456,6 +5504,7 @@ export const networks = [
 			symbol: 'skETH',
 			decimals: 18,
 		},
+		icon: SkaleIcon,
 		colors: [
 			'#393939',
 		],
@@ -6145,6 +6194,7 @@ export const networks = [
 			symbol: 'ETH',
 			decimals: 18,
 		},
+		icon: ZoraIcon,
 		colors: [
 			'#a1723a',
 			'#531002',
@@ -6153,7 +6203,6 @@ export const networks = [
 			'#ffffff',
 			'#387afa',
 		],
-		icon: 'zora',
 		rpc: [
 			'https://rpc.zora.energy',
 		],
@@ -6470,6 +6519,10 @@ export const networksBySection = [
 
 const includedNetworks = new Set(networksBySection.flatMap(({ featuredNetworks = [], otherNetworks = [] }) => [...featuredNetworks, ...otherNetworks]))
 networksBySection[networksBySection.length - 1].otherNetworks = networks.filter(network => !includedNetworks.has(network))
+
+export const getNetworkIcon = (network: Ethereum.Network | undefined) => (
+	network?.icon ?? mainnetForTestnet.get(network?.slug)?.icon
+)
 
 export const getNetworkColor = (network: Ethereum.Network | undefined) => {
 	const colors = network?.colors ?? mainnetForTestnet.get(network?.slug)?.colors

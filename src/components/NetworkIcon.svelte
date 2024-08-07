@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '$/data/networks/types'
-	import { isTestnet, mainnetForTestnet } from '$/data/networks'
+	import { getNetworkIcon, isTestnet } from '$/data/networks'
 
 
 	export let network: Ethereum.Network
@@ -8,9 +8,7 @@
 	// export let defaultToTokenIcon = true
 
 
-	import { networkIcons } from '$/assets/networkIcons'
-
-	$: imageSource = networkIcons[network?.slug] || networkIcons[mainnetForTestnet[network?.slug]?.slug]
+	$: imageSource = getNetworkIcon(network)
 
 
 	import Icon from './Icon.svelte'
