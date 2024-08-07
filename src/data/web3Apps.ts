@@ -24,6 +24,7 @@ import {
 	UniswapIcon,
 } from '$/assets/icons'
 import {
+	MetalIcon,
 	ZoraIcon,
 } from '$/assets/networkIcons'
 
