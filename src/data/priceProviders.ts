@@ -15,9 +15,9 @@ export enum PriceProvider {
 }
 
 
-import { ChainlinkIcon, CovalentIcon } from '$/assets/icons'
+import { ChainlinkIcon, CovalentGoldRushIcon } from '$/assets/icons'
 
 export const priceProviderIcons: Record<PriceProvider, string> = {
 	[PriceProvider.Chainlink]: ChainlinkIcon,
-	[PriceProvider.Covalent]: CovalentIcon,
+	[PriceProvider.Covalent]: CovalentGoldRushIcon,
 }

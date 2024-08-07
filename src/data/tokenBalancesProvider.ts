@@ -15,13 +15,13 @@ export enum TokenBalancesProvider {
 }
 
 
-import { AirstackIcon, BeryxIcon, ChainbaseIcon, CovalentIcon, DecommasIcon, LiqualityIcon, LlamaFolioIcon, MoralisIcon, NexandriaIcon, QuickNodeIcon, ZapperIcon, ZerionIcon } from '$/assets/icons'
+import { AirstackIcon, BeryxIcon, ChainbaseIcon, CovalentGoldRushIcon, DecommasIcon, LiqualityIcon, LlamaFolioIcon, MoralisIcon, NexandriaIcon, QuickNodeIcon, ZapperIcon, ZerionIcon } from '$/assets/icons'
 
 export const tokenBalancesProviderIcons = {
 	[TokenBalancesProvider.Airstack]: AirstackIcon,
 	[TokenBalancesProvider.Beryx]: BeryxIcon,
 	[TokenBalancesProvider.Chainbase]: ChainbaseIcon,
-	[TokenBalancesProvider.Covalent]: CovalentIcon,
+	[TokenBalancesProvider.Covalent]: CovalentGoldRushIcon,
 	[TokenBalancesProvider.Decommas]: DecommasIcon,
 	[TokenBalancesProvider.Liquality]: LiqualityIcon,
 	[TokenBalancesProvider.LlamaFolio]: LlamaFolioIcon,

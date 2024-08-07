@@ -8,12 +8,12 @@ export enum NftProvider {
 }
 
 
-import { AirstackIcon, ChainbaseIcon, CovalentIcon, DecommasIcon, LiqualityIcon, NFTPortIcon } from '$/assets/icons'
+import { AirstackIcon, ChainbaseIcon, CovalentGoldRushIcon, DecommasIcon, LiqualityIcon, NFTPortIcon } from '$/assets/icons'
 
 export const nftProviderIcons: Record<NftProvider, string> = {
 	[NftProvider.Airstack]: AirstackIcon,
 	[NftProvider.Chainbase]: ChainbaseIcon,
-	[NftProvider.Covalent]: CovalentIcon,
+	[NftProvider.Covalent]: CovalentGoldRushIcon,
 	[NftProvider.Decommas]: DecommasIcon,
 	[NftProvider.Liquality]: LiqualityIcon,
 	[NftProvider.NftPort]: NFTPortIcon,
