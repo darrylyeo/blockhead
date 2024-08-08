@@ -17,6 +17,7 @@ import type { DeepReadonly } from '$/utils/DeepReadonly'
 import {
 	CeramicIcon,
 	DiscoIcon,
+	EthereumAttestationServiceIcon,
 	FarcasterIcon,
 	IpfsIcon,
 	LensIcon,
@@ -8883,6 +8884,7 @@ export const web3Apps = [
 	{
 		name: 'Ethereum Attestation Service',
 		slug: 'eas',
+		icon: EthereumAttestationServiceIcon,
 		links: [
 			'https://attest.org',
 			'https://attest.sh',
