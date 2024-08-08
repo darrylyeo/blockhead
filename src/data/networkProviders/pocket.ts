@@ -1,3 +1,4 @@
+// Types/constants
 import type { Ethereum } from '../networks/types'
 import { NetworkProviderConnectionType, NetworkProviderNodeType } from './types'
 

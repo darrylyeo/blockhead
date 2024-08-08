@@ -1,7 +1,10 @@
+// Types/constants
 import type { Ethereum } from '../networks/types'
 import { NetworkProviderConnectionType, NetworkProviderNodeType } from './types'
 
-// https://account.getblock.io
+/**
+ * @link https://account.getblock.io
+ */
 export const getBlockProviderConfigs: {
 	label: string,
 	subdomain: string,
