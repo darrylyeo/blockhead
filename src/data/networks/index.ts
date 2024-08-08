@@ -561,21 +561,17 @@ export const networks = [
 		slug: 'base-goerli',
 		name: 'Base Goerli Testnet',
 		chain: 'ETH',
-		rpc: [
-			'https://goerli.base.org',
-		],
-		faucets: [
-			'https://www.coinbase.com/faucets/base-ethereum-goerli-faucet',
-		],
+		shortName: 'basegor',
+		chainId: 84531,
+		networkId: 84531,
 		nativeCurrency: {
 			name: 'Goerli Ether',
 			symbol: 'ETH',
 			decimals: 18,
 		},
-		infoURL: 'https://base.org',
-		shortName: 'basegor',
-		chainId: 84531,
-		networkId: 84531,
+		rpc: [
+			'https://goerli.base.org',
+		],
 		explorers: [
 			{
 				name: 'basescan',
@@ -588,6 +584,41 @@ export const networks = [
 				standard: 'none',
 			},
 		],
+		faucets: [
+			'https://www.coinbase.com/faucets/base-ethereum-goerli-faucet',
+		],
+		infoURL: 'https://base.org',
+	},
+	{
+		slug: 'base-sepolia',
+		name: 'Base Sepolia Testnet',
+		chain: 'ETH',
+		shortName: 'basesep',
+		chainId: 84532,
+		networkId: 84532,
+		slip44: 1,
+		nativeCurrency: {
+			name: 'Sepolia Ether',
+			symbol: 'ETH',
+			decimals: 18,
+		},
+		rpc: [
+			'https://rpc.notadegen.com/base/sepolia',
+			'https://base-sepolia.blockpi.network/v1/rpc/public',
+			'https://public.stackup.sh/api/v1/node/base-sepolia',
+			'https://sepolia.base.org',
+			'https://base-sepolia-rpc.publicnode.com',
+			'wss://base-sepolia-rpc.publicnode.com',
+		],
+		explorers: [
+			{
+				name: 'basescout',
+				url: 'https://base-sepolia.blockscout.com',
+				icon: 'blockscout',
+				standard: 'EIP3091',
+			},
+		],
+		infoURL: 'https://base.org',
 	},
 	{
 		slug: 'beresheet-testnet',
@@ -6153,6 +6184,36 @@ export const networks = [
 		infoURL: 'http://wegochain.io',
 	},
 	{
+		slug: 'world-chain',
+		name: 'World Chain',
+		chainId: 480,
+		shortName: 'wc',
+		chain: 'ETH',
+		network: 'mainnet',
+		networkId: 480,
+		nativeCurrency: {
+			name: 'Ether',
+			symbol: 'ETH',
+			decimals: 18,
+		},
+		infoURL: 'https://worldcoin.org',
+	},
+	{
+		slug: 'world-chain-sepolia',
+		name: 'World Chain Sepolia Testnet',
+		chainId: 4801,
+		shortName: 'wcsep',
+		chain: 'ETH',
+		network: 'testnet',
+		networkId: 4801,
+		nativeCurrency: {
+			name: 'Sepolia Ether',
+			symbol: 'ETH',
+			decimals: 18,
+		},
+		infoURL: 'https://worldcoin.org',
+	},
+	{
 		slug: 'xerom',
 		name: 'Xerom',
 		chainId: 1313500,
@@ -6259,6 +6320,31 @@ export const networks = [
 			{
 				name: 'Zora Network Explorer',
 				url: 'https://testnet.explorer.zora.energy',
+				standard: 'EIP3091',
+			},
+		],
+		infoURL: 'https://zora.energy',
+	},
+	{
+		slug: 'zora-sepolia',
+		name: 'Zora Sepolia Testnet',
+		chainId: 999999999,
+		shortName: 'zsep',
+		networkId: 999999999,
+		chain: 'ETH',
+		slip44: 1,
+		nativeCurrency: {
+			name: 'Sepolia Ether',
+			symbol: 'ETH',
+			decimals: 18,
+		},
+		rpc: [
+			'https://sepolia.rpc.zora.energy',
+		],
+		explorers: [
+			{
+				name: 'Zora Sepolia Testnet Network Explorer',
+				url: 'https://sepolia.explorer.zora.energy',
 				standard: 'EIP3091',
 			},
 		],
