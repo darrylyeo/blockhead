@@ -25,6 +25,13 @@
 						"tadaPersistedLocation": "./src/api/airstack/graphql-persisted.d.ts"
 					},
 					{
+						"name": "eas/easscan",
+						"schema": "https://easscan.org/graphql",
+						"tadaOutputLocation": "./src/api/eas/easscan/graphql-env.d.ts",
+						"tadaTurboLocation": "./src/api/eas/easscan/graphql-turbo.d.ts",
+						"tadaPersistedLocation": "./src/api/eas/easscan/graphql-persisted.d.ts"
+					},
+					{
 						"name": "thegraph/ens",
 						"schema": "https://api.thegraph.com/subgraphs/name/ensdomains/ens",
 						"tadaOutputLocation": "./src/api/ens/graphql-env.d.ts",
