@@ -1,7 +1,10 @@
+// Types/constants
 import type { Ethereum } from '../networks/types'
 import { NetworkProviderConnectionType, NetworkProviderNodeType } from './types'
 
-// https://admin.gateway.fm/projects
+/**
+ * @link https://admin.gateway.fm/projects
+ */
 export const gatewayFmProviderConfigs: {
 	label: string,
 	endpointUrl: string,
@@ -139,4 +142,3 @@ export const gatewayFmProviderConfigs: {
 		nodeType: NetworkProviderNodeType.Default,
 	}
 ]
-

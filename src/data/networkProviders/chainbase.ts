@@ -1,3 +1,4 @@
+// Types/constants
 import type { Ethereum } from '../networks/types'
 import { NetworkProviderConnectionType, NetworkProviderNodeType } from './types'
 
@@ -7,7 +8,6 @@ export const chainbaseProviderConfigs: {
 	networkSlug: Ethereum.NetworkSlug,
 	connectionType: NetworkProviderConnectionType,
 	nodeType: NetworkProviderNodeType,
-	path?: string,
 }[] = [
 	{
 		label: 'Ethereum RPC - Mainnet - HTTPS',

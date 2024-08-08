@@ -1,7 +1,9 @@
+// Types/constants
 import { NetworkProviderConnectionType, NetworkProviderNodeType } from './types'
 
-
-// https://datahub.figment.io/apps
+/**
+ * @link https://datahub.figment.io/apps
+ */
 export const figmentProviderConfigs: {
 	label: string,
 	subdomain: string,
@@ -234,11 +236,4 @@ export const figmentProviderConfigs: {
 		connectionType: NetworkProviderConnectionType.WebSocket,
 		nodeType: NetworkProviderNodeType.Default,
 	},
-	// {
-	// 	label: '',
-	// 	subdomain: '',
-	// 	networkSlug: '',
-	// 	connectionType: NetworkProviderConnectionType.,
-	// 	nodeType: NetworkProviderNodeType.,
-	// },
 ]
