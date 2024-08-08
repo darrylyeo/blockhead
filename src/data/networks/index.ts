@@ -6383,31 +6383,21 @@ export const networkBySlip44 = new Map(
 
 
 const testnetSlugsForMainnetSlug = new Map([
-	['ethereum', [
-		'ethereum-sepolia',
-		'ethereum-goerli',
-		'ethereum-rinkeby',
-		'ethereum-ropsten',
-		'ethereum-kovan',
-	]],
-	['polygon', [
-		'polygon-mumbai',
-	]],
 	['arbitrum-one', [
-		'arbitrum-rinkeby',
 		'arbitrum-goerli',
+		'arbitrum-rinkeby',
 		'arbitrum-sepolia',
 	]],
-	['optimism', [
-		'optimism-goerli',
-		'optimism-kovan',
-		'optimism-sepolia',
+	['aurora', [
+		'aurora-testnet',
+		'aurora-betanet',
 	]],
 	['avalanche', [
 		'avalanche-fuji',
 	]],
 	['base', [
 		'base-goerli',
+		'base-sepolia',
 	]],
 	['bsc', [
 		'bsc-testnet',
@@ -6416,22 +6406,43 @@ const testnetSlugsForMainnetSlug = new Map([
 		'celo-alfajores',
 		'celo-baklava',
 	]],
-	['aurora', [
-		'aurora-testnet',
-		'aurora-betanet',
-	]],
-	['scroll', [
-		'scroll-alpha',
-	]],
-	['zora', [
-		'zora-goerli',
+	['ethereum', [
+		'ethereum-sepolia',
+		'ethereum-goerli',
+		'ethereum-rinkeby',
+		'ethereum-ropsten',
+		'ethereum-kovan',
 	]],
 	['filecoin', [
 		'filecoin-wallaby',
 		'filecoin-calibration',
 	]],
+	['linea', [
+		'linea-goerli',
+	]],
 	['metal', [
 		'metal-testnet',
+	]],
+	['mode', [
+		'mode-sepolia',
+	]],
+	['optimism', [
+		'optimism-sepolia',
+		'optimism-goerli',
+		'optimism-kovan',
+	]],
+	['polygon', [
+		'polygon-mumbai',
+	]],
+	['scroll', [
+		'scroll-alpha',
+	]],
+	['world-chain', [
+		'world-chain-sepolia',
+	]],
+	['zora', [
+		'zora-goerli',
+		'zora-sepolia',
 	]],
 ] as const) satisfies Map<NetworkSlug, readonly NetworkSlug[]>
 
