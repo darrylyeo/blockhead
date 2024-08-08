@@ -23,6 +23,7 @@ import { arweaveGateways } from '$/data/arweaveGateways'
 import { FarcasterProvider, farcasterProviderIcons } from '$/data/farcasterProviders'
 import { FarcasterFeedProvider, farcasterFeedProviderIcons } from '$/data/farcasterFeedProviders'
 import { UrlMetadataProvider, urlMetadataProviderIcons } from '$/data/urlMetadataProvider'
+import { EasProvider, easProviderIcons } from '$/api/eas/provider'
 
 
 // Context
@@ -591,6 +592,26 @@ export const preferencesConfig = [
 					},
 				],
 			},
+		]
+	},
+	{
+		sectionId: 'attestations',
+		name: 'Attestations',
+		preferences: [
+			{
+				preferenceId: 'easProvider',
+				name: 'Ethereum Attestation Service',
+				type: 'single',
+				defaultOption: EasProvider.Easscan,
+				options: (
+					Object.values(EasProvider)
+						.map(provider => ({
+							value: provider,
+							name: provider,
+							icon: easProviderIcons[provider],
+						}))
+				)
+			}
 		]
 	},
 	// {
