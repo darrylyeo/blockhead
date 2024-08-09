@@ -38,7 +38,7 @@
 
 	afterNavigate(navigation => {
 		if(navigation.to?.route.id?.startsWith('/apps') && navigation.to.params){
-			$web3AppSlug = navigation.to.params.web3AppSlug || navigation.to.url.pathname.match(/^\/apps\/(audius|ceramic|disco|ens|farcaster|ipfs|lens|uniswap)/)?.[1] || ''
+			$web3AppSlug = navigation.to.params.web3AppSlug || navigation.to.url.pathname.match(/^\/apps\/(audius|ceramic|disco|eas|ens|farcaster|ipfs|lens|uniswap)/)?.[1] || ''
 			$networkSlug = navigation.to.params.networkSlug || ''
 			$accountId = navigation.to.params.accountId || ''
 			$audiusQuery = navigation.to.params.audiusQuery || ''
