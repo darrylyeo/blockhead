@@ -8885,9 +8885,14 @@ export const web3Apps = [
 		name: 'Ethereum Attestation Service',
 		slug: 'eas',
 		icon: EthereumAttestationServiceIcon,
+		colors: [
+			'#4c63b6',
+			'#7b93db',
+			'#bed0f7',
+		],
 		links: [
 			'https://attest.org',
-			'https://attest.sh',
+			// 'https://attest.sh',
 		],
 		showCustomUi: true,
 
