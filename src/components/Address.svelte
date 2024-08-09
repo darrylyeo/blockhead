@@ -39,7 +39,7 @@
 		on:dragstart={onDragStart}
 	>
 		<slot {formattedAddress}>
-			{#if format === 'middle-truncated'}
+			{#if formattedAddress !== address}
 				<abbr class="monospace" title={address}>{formattedAddress}</abbr>
 			{:else}
 				<span class="monospace">{formattedAddress}</span>
@@ -49,7 +49,7 @@
 {:else}
 	<span>
 		<slot {formattedAddress}>
-			{#if format === 'middle-truncated'}
+			{#if formattedAddress !== address}
 				<abbr
 					class="address monospace"
 					title={address}
