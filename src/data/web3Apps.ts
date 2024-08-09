@@ -8889,14 +8889,381 @@ export const web3Apps = [
 			'https://attest.org',
 			'https://attest.sh',
 		],
+		showCustomUi: true,
+
+		/**
+		 * @link https://docs.attest.org/docs/quick--start/contracts
+		 */
 		views: [
 			{
-				chainId: undefined,
+				showOn: ['Dashboard'],
+		
+				chainId: 1,
+				contracts: [
+					{
+						name: 'EAS (v0.26)',
+						address: '0xA1207F3BBa224E2c9c3c6D5aF63D0eb1582Ce587',
+					},
+					{
+						name: 'SchemaRegistry (v0.26)',
+						address: '0xA7b39296258348C78294F95B872b282326A97BDF',
+					},
+				],
 				providers: {
 					zapper: 'eas',
 				},
 			},
-		],
+			{
+				showOn: ['Dashboard'],
+		
+				chainId: 10,
+				contracts: [
+					{
+						name: 'EAS (v1.0.1)',
+						address: '0x4200000000000000000000000000000000000021',
+					},
+					{
+						name: 'SchemaRegistry (v1.0.1)',
+						address: '0x4200000000000000000000000000000000000020',
+					},
+					{
+						name: 'EIP712Proxy (v1.2.1)',
+						address: '0xE132c2E90274B44FfD8090b58399D04ddc060AE1',
+					},
+					{
+						name: 'Indexer (v1.2.1)',
+						address: '0x6dd0CB3C3711c8B5d03b3790e5339Bbc2Bbcf934',
+					},
+				],
+				providers: {
+					zapper: 'eas',
+				},
+			},
+			{
+				showOn: ['Dashboard'],
+		
+				chainId: 8453,
+				contracts: [
+					{
+						name: 'EAS (v1.0.1)',
+						address: '0x4200000000000000000000000000000000000021',
+					},
+					{
+						name: 'SchemaRegistry (v1.0.1)',
+						address: '0x4200000000000000000000000000000000000020',
+					},
+					{
+						name: 'EIP712Proxy (v1.2.0)',
+						address: '0xF095fE4b23958b08D38e52d5d5674bBF0C03cbF6',
+					},
+					{
+						name: 'Indexer (v1.2.0)',
+						address: '0x37AC6006646f2e687B7fB379F549Dc7634dF5b84',
+					},
+				],
+				providers: {
+					zapper: 'eas',
+				},
+			},
+			{
+				showOn: ['Dashboard'],
+		
+				chainId: 42161,
+				contracts: [
+					{
+						name: 'EAS (v0.26)',
+						address: '0xbD75f629A22Dc1ceD33dDA0b68c546A1c035c458',
+					},
+					{
+						name: 'SchemaRegistry (v0.26)',
+						address: '0xA310da9c5B885E7fb3fbA9D66E9Ba6Df512b78eB',
+					},
+				],
+				providers: {
+					zapper: 'eas',
+				},
+			},
+			{
+				showOn: ['Dashboard'],
+		
+				chainId: 42170,
+				contracts: [
+					{
+						name: 'EAS (v1.3.0)',
+						address: '0x6d3dC0Fe5351087E3Af3bDe8eB3F7350ed894fc3',
+					},
+					{
+						name: 'SchemaRegistry (v1.3.0)',
+						address: '0x49563d0DA8DF38ef2eBF9C1167270334D72cE0AE',
+					},
+					{
+						name: 'EIP712Proxy (v1.3.0)',
+						address: '0xEbf2DeeD690F8A68b8248d6a12231ee70ED2154A',
+					},
+					{
+						name: 'Indexer (v1.3.0)',
+						address: '0x7182Be5e84aFEe9Dc29C69D081F8A0FA834d6CB8',
+					},
+				],
+				providers: {
+					zapper: 'eas',
+				},
+			},
+			{
+				showOn: ['Dashboard'],
+		
+				chainId: 137,
+				contracts: [
+					{
+						name: 'EAS (v1.3.0)',
+						address: '0x5E634ef5355f45A855d02D66eCD687b1502AF790',
+					},
+					{
+						name: 'SchemaRegistry (v1.3.0)',
+						address: '0x7876EEF51A891E737AF8ba5A5E0f0Fd29073D5a7',
+					},
+					{
+						name: 'EIP712Proxy (v1.3.0)',
+						address: '0x4be71865917C7907ccA531270181D9B7dD4f2733',
+					},
+					{
+						name: 'Indexer (v1.3.0)',
+						address: '0x12d0f50Eb2d67b14293bdDA2C248358f3dfE5308',
+					},
+				],
+				providers: {
+					zapper: 'eas',
+				},
+			},
+			{
+				showOn: ['Dashboard'],
+		
+				chainId: 534352,
+				contracts: [
+					{
+						name: 'EAS (v1.3.0)',
+						address: '0xC47300428b6AD2c7D03BB76D05A176058b47E6B0',
+					},
+					{
+						name: 'SchemaRegistry (v1.3.0)',
+						address: '0xD2CDF46556543316e7D34e8eDc4624e2bB95e3B6',
+					},
+					{
+						name: 'EIP712Proxy (v1.3.0)',
+						address: '0x77b7DA1c40762Cd8AFfE2069b575328EfD4D9801',
+					},
+					{
+						name: 'Indexer (v1.3.0)',
+						address: '0x8314bc1B2f7F286cb4f0323FE7119C0F99D4A083',
+					},
+				],
+				providers: {
+					zapper: 'eas',
+				},
+			},
+			{
+				showOn: ['Dashboard'],
+		
+				chainId: 59144,
+				contracts: [
+					{
+						name: 'EAS (v1.2.0)',
+						address: '0xaEF4103A04090071165F78D45D83A0C0782c2B2a',
+					},
+					{
+						name: 'SchemaRegistry (v1.2.0)',
+						address: '0x55D26f9ae0203EF95494AE4C170eD35f4Cf77797',
+					},
+				],
+				providers: {
+					zapper: 'eas',
+				},
+			},
+			{
+				showOn: ['Dashboard'],
+		
+				chainId: 11155111,
+				contracts: [
+					{
+						name: 'EAS (v1.2.0)',
+						address: '0xC2679fBD37d54388Ce493F1DB75320D236e1815e',
+					},
+					{
+						name: 'SchemaRegistry (v1.2.0)',
+						address: '0x0a7E2Ff54e76B8E6659aedc9103FB21c038050D0',
+					},
+					{
+						name: 'EIP712Proxy (v1.2.0)',
+						address: '0x9C9d17bEE150E4eCDf3b99baFA62c08Cb30E82BC',
+					},
+					{
+						name: 'Indexer (v1.2.0)',
+						address: '0xaEF4103A04090071165F78D45D83A0C0782c2B2a',
+					},
+				],
+				providers: {
+					zapper: 'eas',
+				},
+			},
+			{
+				showOn: ['Dashboard'],
+		
+				chainId: 11155420,
+				contracts: [
+					{
+						name: 'EAS (v1.0.2)',
+						address: '0x4200000000000000000000000000000000000021',
+					},
+					{
+						name: 'SchemaRegistry (v1.0.2)',
+						address: '0x4200000000000000000000000000000000000020',
+					},
+					{
+						name: 'EIP712Proxy (v1.0.2)',
+						address: '0x37AC6006646f2e687B7fB379F549Dc7634dF5b84',
+					},
+					{
+						name: 'Indexer (v1.0.2)',
+						address: '0x97e6822A36E38D4d93C0c810CC2be1C6Fd492b64',
+					},
+				],
+				providers: {
+					zapper: 'eas',
+				},
+			},
+			{
+				showOn: ['Dashboard'],
+		
+				chainId: 420,
+				contracts: [
+					{
+						name: 'EAS (v1.0.1)',
+						address: '0x4200000000000000000000000000000000000021',
+					},
+					{
+						name: 'SchemaRegistry (v1.0.1)',
+						address: '0x4200000000000000000000000000000000000020',
+					},
+					{
+						name: 'EIP712Proxy (v1.0.1)',
+						address: '0x88D1bd62AC014424b987CE5ABf311BD7749e426B',
+					},
+					{
+						name: 'Indexer (v1.0.1)',
+						address: '0xa42428D1bf904d762adD02b27ADac26d53643782',
+					},
+				],
+				providers: {
+					zapper: 'eas',
+				},
+			},
+			{
+				showOn: ['Dashboard'],
+		
+				chainId: 84532,
+				contracts: [
+					{
+						name: 'EAS (v1.2.0)',
+						address: '0x4200000000000000000000000000000000000021',
+					},
+					{
+						name: 'SchemaRegistry (v1.2.0)',
+						address: '0x4200000000000000000000000000000000000020',
+					},
+					{
+						name: 'EIP712Proxy (v1.2.0)',
+						address: '0xAd64A04c20dDBbA7cBb0EcAe4823095B4adA5c57',
+					},
+					{
+						name: 'Indexer (v1.2.0)',
+						address: '0x2C7BCE69D5Ee84EF73CC9286416F68E60F9A61b3',
+					},
+				],
+				providers: {
+					zapper: 'eas',
+				},
+			},
+			{
+				showOn: ['Dashboard'],
+		
+				chainId: 84531,
+				contracts: [
+					{
+						name: 'EAS (v1.0.1)',
+						address: '0x4200000000000000000000000000000000000021',
+					},
+					{
+						name: 'SchemaRegistry (v1.0.1)',
+						address: '0x4200000000000000000000000000000000000020',
+					},
+					{
+						name: 'EIP712Proxy (v1.0.1)',
+						address: '0x37AC6006646f2e687B7fB379F549Dc7634dF5b84',
+					},
+					{
+						name: 'Indexer (v1.0.1)',
+						address: '0xE0893F47009776D6aEC3De8455Cb0ed325Eea74a',
+					},
+				],
+				providers: {
+					zapper: 'eas',
+				},
+			},
+			{
+				showOn: ['Dashboard'],
+		
+				chainId: 421613,
+				contracts: [
+					{
+						name: 'EAS (v1.1.0)',
+						address: '0xaEF4103A04090071165F78D45D83A0C0782c2B2a',
+					},
+					{
+						name: 'SchemaRegistry (v1.1.0)',
+						address: '0x55D26f9ae0203EF95494AE4C170eD35f4Cf77797',
+					},
+				],
+				providers: {
+					zapper: 'eas',
+				},
+			},
+			{
+				showOn: ['Dashboard'],
+		
+				chainId: 80001,
+				contracts: [
+					{
+						name: 'EAS (v1.1.0)',
+						address: '0xaEF4103A04090071165F78D45D83A0C0782c2B2a',
+					},
+					{
+						name: 'SchemaRegistry (v1.1.0)',
+						address: '0x55D26f9ae0203EF95494AE4C170eD35f4Cf77797',
+					},
+				],
+				providers: {
+					zapper: 'eas',
+				},
+			},
+			{
+				showOn: ['Dashboard'],
+		
+				chainId: 59140,
+				contracts: [
+					{
+						name: 'EAS (v1.2.0)',
+						address: '0xaEF4103A04090071165F78D45D83A0C0782c2B2a',
+					},
+					{
+						name: 'SchemaRegistry (v1.2.0)',
+						address: '0x55D26f9ae0203EF95494AE4C170eD35f4Cf77797',
+					},
+				],
+				providers: {
+					zapper: 'eas',
+				},
+			},
+		]
 	},
 	{
 		name: 'Ease',
