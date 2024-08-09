@@ -40,6 +40,7 @@ export namespace Ethereum {
 			chain: `eip155-${ChainId}`,
 			type: 'L2' | 'L3' | 'shard',
 			bridges?: {
+				name?: string,
 				url: string,
 			}[],
 		},
