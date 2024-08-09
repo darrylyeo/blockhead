@@ -6505,7 +6505,6 @@ export const l1Networks = ([
 	'ethereum',
 	'gnosis',
 	'avalanche',
-	'celo',
 	'fantom',
 	// 'bsc',
 ] as const satisfies Readonly<NetworkSlug[]>)
@@ -6526,12 +6525,13 @@ export const l2Networks = ([
 export const opStackNetworks = ([
 	'optimism',
 	'base',
-	'zora',
+	'celo',
 	'mantle',
 	'metal',
-	// 'mode',
-	// 'mode-sepolia',
-	// 'worldcoin',
+	'mode',
+	'redstone',
+	'world-chain',
+	'zora',
 ] as const satisfies Readonly<NetworkSlug[]>)
 	.map(slug => networkBySlug.get(slug))
 
@@ -6584,7 +6584,7 @@ export const networksBySection = [
 		featuredNetworks: l1Networks,
 	},
 	{
-		title: 'Ethereum › OP Stack', // Superchain
+		title: 'Ethereum › Superchain (OP Stack)', // Superchain
 		featuredNetworks: opStackNetworks,
 	},
 	{
