@@ -36,6 +36,8 @@ export const currentView: Readable<'Dashboard' | 'Explorer' | 'Account'> = deriv
 			$appsParams.didUrl || $appsParams.discoCredentialId
 		: $appsParams.web3AppSlug === 'farcaster' ?
 			$appsParams.farcasterCastId || $appsParams.farcasterChannelId || $appsParams.farcasterUserId || $appsParams.farcasterUserName
+		: $appsParams.web3AppSlug === 'eas' ?
+			$appsParams.easAttestationId || $appsParams.easSchemaId
 		: $appsParams.web3AppSlug === 'ens' ?
 			$appsParams.accountId
 		: $appsParams.web3AppSlug === 'ipfs' ?
@@ -59,6 +61,8 @@ export const defaultSearchInputValue: Readable<string> = derived(appsParams, ($a
 		|| $appsParams.audiusUserId
 		|| $appsParams.didUrl
 		|| $appsParams.discoCredentialId
+		|| $appsParams.easAttestationId
+		|| $appsParams.easSchemaId
 		|| $appsParams.farcasterCastId
 		|| $appsParams.farcasterUserId
 		|| $appsParams.farcasterUserName

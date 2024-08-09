@@ -14,6 +14,8 @@
 		audiusUserId,
 		didUrl,
 		discoCredentialId,
+		easAttestationId,
+		easSchemaId,
 		farcasterCastId,
 		farcasterUserId,
 		farcasterUserName,
@@ -156,6 +158,8 @@
 		$audiusUserId = searchInputParams.audiusUserId ?? ''
 		$didUrl = searchInputParams.didUrl ?? ''
 		$discoCredentialId = searchInputParams.discoCredentialId ?? ''
+		$easAttestationId = searchInputParams.easAttestationId ?? ''
+		$easSchemaId = searchInputParams.easSchemaId ?? ''
 		$farcasterCastId = searchInputParams.farcasterCastId ?? ''
 		$farcasterUserId = searchInputParams.farcasterUserId ?? ''
 		$farcasterUserName = searchInputParams.farcasterUserName ?? searchInputParams.farcasterUserNameEns ?? ''
@@ -167,6 +171,11 @@
 					InputPattern.FarcasterUserId,
 					InputPattern.FarcasterUserName,
 					InputPattern.FarcasterUserNameEns,
+				] :  $web3AppConfig?.slug === 'eas' ? [
+					InputPattern.EasAttestationId,
+					InputPattern.EasSchemaId,
+					InputPattern.Address,
+					InputPattern.EnsName,
 				] : [
 					InputPattern.Address,
 					InputPattern.EnsName,

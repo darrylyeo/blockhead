@@ -4,6 +4,7 @@ import type { Ethereum } from '$/data/networks/types'
 import type { AccountId } from '$/data/accountId'
 
 import type { DidUrl } from '$/api/ceramic/did'
+import type { EasAttestationId, EasSchemaId } from '$/api/eas'
 import type { FarcasterCastId, FarcasterCastShortId, FarcasterChannelId, FarcasterUserId, FarcasterUserName } from '$/api/farcaster'
 import type { IpfsCid } from '$/api/ipfs/contentId'
 import type { IpnsName } from '$/api/ipfs/ipns'
@@ -20,6 +21,8 @@ export type AppsParams = {
 	audiusUserId: string,
 	didUrl: DidUrl | '',
 	discoCredentialId: ReturnType<typeof crypto.randomUUID> | '',
+	easAttestationId: EasAttestationId | '',
+	easSchemaId: EasSchemaId | '',
 	farcasterCastId: FarcasterCastId | '',
 	farcasterCastShortId: FarcasterCastShortId | '',
 	farcasterChannelId: FarcasterChannelId | '',
@@ -39,6 +42,8 @@ export type AppsSearchInputParams = Partial<Pick<AppsParams,
 	| 'audiusUserId'
 	| 'didUrl'
 	| 'discoCredentialId'
+	| 'easAttestationId'
+	| 'easSchemaId'
 	| 'farcasterCastId'
 	| 'farcasterCastShortId'
 	| 'farcasterChannelId'
@@ -60,6 +65,8 @@ export const audiusTrackId = writable('')
 export const audiusUserId = writable('')
 export const didUrl = writable<DidUrl | ''>('')
 export const discoCredentialId = writable<ReturnType<typeof crypto.randomUUID> | ''>('')
+export const easAttestationId = writable<EasAttestationId | ''>('')
+export const easSchemaId = writable<EasSchemaId | ''>('')
 export const farcasterCastId = writable<FarcasterCastId | ''>('')
 export const farcasterCastShortId = writable<FarcasterCastShortId | ''>('')
 export const farcasterChannelId = writable<FarcasterChannelId | ''>('')
@@ -79,6 +86,8 @@ export const appsParams = derived([
 	audiusUserId,
 	didUrl,
 	discoCredentialId,
+	easAttestationId,
+	easSchemaId,
 	farcasterCastId,
 	farcasterCastShortId,
 	farcasterChannelId,
@@ -97,6 +106,8 @@ export const appsParams = derived([
 	$audiusUserId,
 	$didUrl,
 	$discoCredentialId,
+	$easAttestationId,
+	$easSchemaId,
 	$farcasterCastId,
 	$farcasterCastShortId,
 	$farcasterChannelId,
@@ -116,6 +127,8 @@ export const appsParams = derived([
 		audiusUserId: $audiusUserId,
 		didUrl: $didUrl,
 		discoCredentialId: $discoCredentialId,
+		easAttestationId: $easAttestationId,
+		easSchemaId: $easSchemaId,
 		farcasterCastId: $farcasterCastId,
 		farcasterCastShortId: $farcasterCastShortId,
 		farcasterChannelId: $farcasterChannelId,
@@ -140,6 +153,8 @@ export const derivedPath: Readable<string> = derived([
 	audiusUserId,
 	didUrl,
 	discoCredentialId,
+	easAttestationId,
+	easSchemaId,
 	farcasterCastId,
 	farcasterCastShortId,
 	farcasterChannelId,
@@ -159,6 +174,8 @@ export const derivedPath: Readable<string> = derived([
 	$audiusUserId,
 	$didUrl,
 	$discoCredentialId,
+	$easAttestationId,
+	$easSchemaId,
 	$farcasterCastId,
 	$farcasterCastShortId,
 	$farcasterChannelId,
@@ -171,15 +188,11 @@ export const derivedPath: Readable<string> = derived([
 	`/apps${
 		$web3AppSlug ?
 			`/${$web3AppSlug}${
-				// All web3 apps
-				$networkSlug ?
-					$accountId ?
+				$accountId ?
+					$networkSlug ?
 						`/network/${$networkSlug}/account/${$accountId}`
 					:
-						`/network/${$networkSlug}`
-
-				: $accountId ?
-					`/account/${$accountId}`
+						`/account/${$accountId}`
 
 				// Audius
 				: $web3AppSlug === 'audius' ?
@@ -200,6 +213,17 @@ export const derivedPath: Readable<string> = derived([
 						`/credential/${$discoCredentialId}`
 					: $didUrl ?
 						`/account/${$didUrl}`
+					:
+						''
+
+				// EAS
+				: $web3AppSlug === 'eas' ?
+					$easAttestationId ?
+						`/network/${$networkSlug}/attestation/${$easAttestationId}`
+					: $easSchemaId ?
+						`/network/${$networkSlug}/schema/${$easSchemaId}`
+					: $networkSlug ?
+						`/network/${$networkSlug}`
 					:
 						''
 
@@ -225,6 +249,10 @@ export const derivedPath: Readable<string> = derived([
 							`/content/${encodeURIComponent($ipfsContentId || $ipnsName)}`
 					:
 						''
+
+				// All web3 apps
+				: $networkSlug ?
+					`/network/${$networkSlug}`
 
 				:
 					''
