@@ -1,8 +1,12 @@
 <script lang="ts">
 	// Constants/types
-	import type { IpfsGatewayConfig } from '$/data/ipfsGateways'
+	import { type IpfsGatewayConfig, ipfsGatewaysByProvider } from '$/data/ipfsGateways'
 	import type { IpfsCid } from '$/api/ipfs/contentId'
 	import type { IpnsName } from '$/api/ipfs/ipns'
+
+
+	// Context
+	import { preferences } from '$/state/preferences'
 
 
 	// External state
@@ -10,6 +14,8 @@
 	export let ipfsContentId: IpfsCid | undefined
 	export let ipnsName: IpnsName | undefined
 	export let ipfsContentPath: string
+
+	$: ipfsGateway = $$props.ipfsGateway || ipfsGatewaysByProvider[$preferences.ipfsGateway]
 
 
 	// View Options
