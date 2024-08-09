@@ -140,7 +140,7 @@ export const preferencesConfig = [
 		preferences: [
 			{
 				preferenceId: 'rpcNetwork',
-				name: 'On-Chain Data',
+				name: 'Node Client',
 				type: 'single', // 'multiple',
 				defaultOption: NetworkProvider.Default,
 				options: [
@@ -193,7 +193,7 @@ export const preferencesConfig = [
 						groupId: 'onChain',
 						name: 'On-Chain',
 						options: [
-							{ value: TransactionProvider.RpcProvider, name: (preferences: any) => `RPC Node (${preferences.rpcNetwork})`, icon: (preferences: any) => networkProviderConfigByProvider[preferences.rpcNetwork]?.icon },
+							{ value: TransactionProvider.RpcProvider, name: (preferences: any) => `Node Client (${preferences.rpcNetwork})`, icon: (preferences: any) => networkProviderConfigByProvider[preferences.rpcNetwork]?.icon },
 						]
 					},
 					{
