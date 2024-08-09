@@ -143,7 +143,23 @@ export const preferencesConfig = [
 				name: 'On-Chain Data',
 				type: 'single', // 'multiple',
 				defaultOption: NetworkProvider.Default,
-				options: networkProviderConfigs.map(({ provider, name }) => ({ value: provider, name, icon: networkProviderConfigByProvider[provider]?.icon }))
+				options: [
+					{
+						value: NetworkProvider.Default,
+						name: 'Default',
+						icon: networkProviderConfigByProvider[NetworkProvider.Default]?.icon,
+					},
+					...(
+						networkProviderConfigs
+							.filter(providerConfig => providerConfig.provider !== NetworkProvider.Default)
+							.sort((a, b) => a.name.localeCompare(b.name))
+							.map(providerConfig => ({
+								value: providerConfig.provider,
+								name: providerConfig.name,
+								icon: providerConfig.icon,
+							}))
+					),
+				],
 				// options: [
 				// 	{ value: 'Auto', name: 'Auto' },
 				// 	{ value: 'Pocket Network', name: 'Pocket Network' },
@@ -184,11 +200,11 @@ export const preferencesConfig = [
 						groupId: 'offChain',
 						name: 'Off-Chain',
 						options: [
-							{ value: TransactionProvider.Etherscan, name: 'Etherscan', icon: transactionProviderIcons[TransactionProvider.Etherscan] },
 							{ value: TransactionProvider.Blockscout, name: 'Blockscout › REST API', icon: transactionProviderIcons[TransactionProvider.Blockscout] },
 							{ value: TransactionProvider.Chainbase, name: 'Chainbase', icon: transactionProviderIcons[TransactionProvider.Chainbase] },
 							{ value: TransactionProvider.Covalent, name: 'Covalent › GoldRush', icon: transactionProviderIcons[TransactionProvider.Covalent] },
 							{ value: TransactionProvider.Decommas, name: 'Decommas', icon: transactionProviderIcons[TransactionProvider.Decommas] },
+							{ value: TransactionProvider.Etherscan, name: 'Etherscan', icon: transactionProviderIcons[TransactionProvider.Etherscan] },
 							{ value: TransactionProvider.Moralis, name: 'Moralis', icon: transactionProviderIcons[TransactionProvider.Moralis] },
 							// { value: TransactionProvider.Etherspot, name: 'Etherspot', icon: transactionProviderIcons[TransactionProvider.Etherspot] },
 						]
