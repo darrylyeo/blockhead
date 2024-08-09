@@ -90,7 +90,7 @@ type NetworkProviderConfig = {
 export const networkProviderConfigs = [
 	{
 		provider: NetworkProvider.Default,
-		name: 'Default RPC Provider',
+		name: 'Default Node Client',
 
 		getEthersProvider: ({ network }) => (
 			network.rpc?.[0]
