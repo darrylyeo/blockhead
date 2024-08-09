@@ -4,6 +4,8 @@ import { filecoinAddressPattern } from '$/utils/isFilecoinAddress'
 export enum InputPattern {
 	Address = 'address',
 	BlockNumber = 'blockNumber',
+	EasAttestationId = 'easAttestationId',
+	EasSchemaId = 'easSchemaId',
 	EnsName = 'ensName',
 	FarcasterCastId = 'farcasterCastId',
 	FarcasterUserId = 'farcasterUserId',
@@ -29,6 +31,18 @@ export const inputPatternsConfig = {
 		placeholder: '12345678',
 		pattern: /0|[1-9][0-9]*/,
 		matchComplexity: 1,
+	},
+	[InputPattern.EasAttestationId]: {
+		label: 'EAS Attestation ID',
+		placeholder: '0xabcd...6789',
+		pattern: /0x[0-9a-fA-F]{64}/,
+		matchComplexity: 2,
+	},
+	[InputPattern.EasSchemaId]: {
+		label: 'EAS Schema ID',
+		placeholder: '0xabcd...6789',
+		pattern: /0x[0-9a-fA-F]{64}/,
+		matchComplexity: 2,
 	},
 	[InputPattern.EnsName]: {
 		label: 'ENS Name',

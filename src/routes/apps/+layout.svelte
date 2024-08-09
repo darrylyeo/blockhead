@@ -17,6 +17,9 @@
 		didUrl,
 		discoCredentialId,
 
+		easAttestationId,
+		easSchemaId,
+
 		farcasterCastId,
 		farcasterCastShortId,
 		farcasterChannelId,
@@ -47,6 +50,8 @@
 			$audiusUserId = navigation.to.params.audiusUserId || ''
 			$didUrl = navigation.to.params.didUrl || ''
 			$discoCredentialId = navigation.to.params.discoCredentialId || ''
+			$easAttestationId = navigation.to.params.easAttestationId || ''
+			$easSchemaId = navigation.to.params.easSchemaId || ''
 			$farcasterCastId = navigation.to.params.farcasterCastId || ''
 			$farcasterCastShortId = navigation.to.params.farcasterCastShortId || ''
 			$farcasterChannelId = navigation.to.params.farcasterChannelId || ''
