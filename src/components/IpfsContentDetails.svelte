@@ -5,11 +5,17 @@
 	import type { IpnsName } from '$/api/ipfs/ipns'
 
 
+	// Context
+	import { preferences } from '$/state/preferences'
+
+
 	// External state
 	export let ipfsGateway: IpfsGatewayConfig
 	export let ipfsContentId: IpfsCid | undefined
 	export let ipnsName: IpnsName | undefined
 	export let ipfsContentPath: string
+
+	$: ipfsGateway = $$props.ipfsGateway || $preferences.ipfsGateway
 
 
 	// View Options
