@@ -18,11 +18,16 @@
 	export let inputPatterns: InputPattern[] = Object.values(InputPattern)
 	export let required = false
 	export let autofocus = false
-	export let placeholder = inputPatterns
-		.map(type => `${inputPatternsConfig[type].label} (${inputPatternsConfig[type].placeholder})`)
-		.join(' / ')
+	export let placeholder: string
 
 	export let network: Ethereum.Network
+	
+	// (Computed)
+	$: placeholder = $$props.placeholder || (
+		inputPatterns
+			.map(type => `${inputPatternsConfig[type].label} (${inputPatternsConfig[type].placeholder})`)
+			.join(' / ')
+	)
 
 
 	// Functions
