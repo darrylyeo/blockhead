@@ -2403,3 +2403,11 @@ export const conduitNetworks = [
 		],
 	},
 ] as const satisfies NetworkWithRollupInfo[]
+
+export const conduitNetworkByChainId = new Map(
+	conduitNetworks
+		.map(network => [
+			network.chainId,
+			network,
+		])
+)
