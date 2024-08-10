@@ -29,6 +29,7 @@
 	import Collapsible from '$/components/Collapsible.svelte'
 	import DateComponent from '$/components/Date.svelte'
 	import EthereumTransaction from '$/components/EthereumTransaction.svelte'
+	import EthereumTransactionLoader from '$/components/EthereumTransactionLoader.svelte'
 	import EasSchema from './EasSchema.svelte'
 	import IpfsContentDetails from '$/components/IpfsContentDetails.svelte'
 	import NetworkIcon from '$/components/NetworkIcon.svelte'
@@ -186,27 +187,6 @@
 			</Collapsible>
 		</section>
 
-		{#if attestation.txid}
-			<hr>
-
-			<section>
-				<Collapsible
-					type="label"
-					showTriggerText={false}
-				>
-					<svelte:fragment slot="title">
-						<svelte:element this={`h${headingLevel + 1}`}>
-							Transaction
-						</svelte:element>
-					</svelte:fragment>
-
-					<EthereumTransaction
-						transaction={attestation.txid}
-					/>
-				</Collapsible>
-			</section>
-		{/if}
-
 		{#if attestation.ipfsHash}
 			<hr>
 
@@ -249,17 +229,65 @@
 					</svelte:element>
 				</svelte:fragment>
 
-				<section class="card row wrap">
-					<svelte:element this={`h${headingLevel + 2}`}>
-						Created
-					</svelte:element>
+				<section class="card">
+					<Collapsible
+						type="label"
+						class="column"
+						showTriggerText={false}
+						canToggle={Boolean(attestation.txid)}
+						isOpen={Boolean(attestation.txid)}
+					>
+						<svelte:fragment slot="title">
+							<svelte:element this={`h${headingLevel + 2}`}>
+								Created
+							</svelte:element>
+						</svelte:fragment>
 
-					<span class="date">
-						<DateComponent
-							date={attestation.timeCreated * 1000}
-							layout="horizontal"
-						/>
-					</span>
+						<svelte:fragment slot="header-right">
+							<span class="date">
+								<DateComponent
+									date={attestation.timeCreated * 1000}
+									layout="horizontal"
+								/>
+							</span>
+						</svelte:fragment>
+
+						{#if attestation.txid}
+							<hr>
+				
+							<section>
+								<Collapsible
+									type="label"
+									showTriggerText={false}
+								>
+									<svelte:fragment slot="title">
+										<svelte:element this={`h${headingLevel + 2}`}>
+											Transaction
+										</svelte:element>
+									</svelte:fragment>
+
+									<svelte:fragment slot="header-right">
+										<span class="card-annotation">
+											{network.name}
+										</span>
+									</svelte:fragment>
+
+									<EthereumTransactionLoader
+										{network}
+										transactionId={attestation.txid}
+										let:transaction
+									>
+										<EthereumTransaction
+											{network}
+											{transaction}
+											layout="standalone"
+											detailLevel="exhaustive"
+										/>
+									</EthereumTransactionLoader>
+								</Collapsible>
+							</section>
+						{/if}
+					</Collapsible>
 				</section>
 
 				{#if attestation.revocationTime}
