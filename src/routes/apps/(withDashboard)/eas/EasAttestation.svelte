@@ -33,6 +33,7 @@
 
 <article class="card">
 	<Collapsible
+		type="label"
 		class="column"
 		showTriggerText={false}
 		{isOpen}
@@ -61,12 +62,6 @@
 						{network}
 						address={attestation.attester}
 						format="middle-truncated"
-					/>
-
-					<DateComponent
-						date={attestation.timeCreated * 1000}
-						format="relative"
-						layout="horizontal"
 					/>
 				</svelte:element>
 			</a>
@@ -281,5 +276,23 @@
 				</Collapsible>
 			</section>
 		{/if}
+
+		<hr>
 	</Collapsible>
+
+	<footer class="row wrap">
+		<DateComponent
+			date={attestation.timeCreated * 1000}
+			format="relative"
+			layout="horizontal"
+		/>
+	</footer>
 </article>
+
+
+<style>
+	footer {
+		font-size: 0.66em;
+		opacity: 0.8;
+	}
+</style>
