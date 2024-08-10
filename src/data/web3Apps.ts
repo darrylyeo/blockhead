@@ -31728,7 +31728,8 @@ const infrastructureApps = ([
 
 const identityApps = ([
 	'ens',
-	'ceramic',
+	'eas',
+	// 'ceramic',
 	'disco',
 ] as const)
 .map(slug => web3AppsBySlug[slug])
