@@ -2,11 +2,13 @@
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
 	import type { getAttestation } from '$/api/eas/easscan'
+	import { IpfsGatewayProvider, ipfsGateways } from '$/data/ipfsGateways'
 	
 	
 	// Inputs
 	export let network: Ethereum.Network
 	export let attestation: NonNullable<NonNullable<Awaited<ReturnType<typeof getAttestation>>>['attestation']>
+	export let ipfsGatewayProvider = IpfsGatewayProvider.InfuraEas
 
 	// (View options)
 	export let isOpen = false
@@ -266,12 +268,13 @@
 
 					<svelte:fragment slot="header-right">
 						<span class="card-annotation">
-							IPFS Hash
+							{ipfsGatewaysByProvider[ipfsGatewayProvider].name}
 						</span>
 					</svelte:fragment>
 
 					<IpfsContentDetails
 						ipfsContentId={attestation.ipfsHash}
+						ipfsGateway={ipfsGatewaysByProvider[ipfsGatewayProvider]}
 					/>
 				</Collapsible>
 			</section>
