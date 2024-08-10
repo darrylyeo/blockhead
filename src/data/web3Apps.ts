@@ -41,6 +41,7 @@ import {
 	OptimismIcon,
 	PolygonIcon,
 	ZoraIcon,
+	ZksyncIcon,
 } from '$/assets/networkIcons'
 
 
@@ -31306,8 +31307,12 @@ export const web3Apps = [
 		],
 	},
 	{
-		name: 'zkSync',
+		name: 'ZKsync',
 		slug: 'zksync',
+		icon: ZksyncIcon,
+		colors: [
+			'##214af6',
+		],
 		links: [
 			'https://zksync.io',
 		],
