@@ -25,6 +25,7 @@ import {
 	PythIcon,
 	UniswapIcon,
 	ZapperIcon,
+	ZerionIcon,
 } from '$/assets/icons'
 import {
 	ArbitrumIcon,
@@ -31006,6 +31007,10 @@ export const web3Apps = [
 	{
 		name: 'Zerion',
 		slug: 'zerion',
+		icon: ZerionIcon,
+		colors: [
+			'#2461ed',
+		],
 		links: [
 			'https://zerion.io',
 		],
