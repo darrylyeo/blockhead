@@ -105,7 +105,7 @@
 		<ScrollContainer
 			{pagination}
 		>
-			{#each attestations as attestation (attestation.id)}
+			{#each attestations ?? [] as attestation (attestation.id)}
 				<EasAttestation
 					{attestation}
 				/>
@@ -203,7 +203,7 @@
 		<ScrollContainer
 			{pagination}
 		>
-			{#each schemas as schema (schema.id)}
+			{#each schemas ?? [] as schema (schema.id)}
 				<EasSchema
 					{schema}
 				/>
