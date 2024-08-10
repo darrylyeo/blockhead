@@ -61,6 +61,7 @@
 						<Address
 							{network}
 							address={schema.resolver}
+							resolveToEnsName
 						/>
 					</dd>
 				</div>
@@ -73,6 +74,7 @@
 					<Address
 						{network}
 						address={schema.creator}
+						resolveToEnsName
 					/>
 				</dd>
 			</div>
@@ -96,6 +98,7 @@
 						<Address
 							{network}
 							address={schema.schemaNames[0].attesterAddress}
+							resolveToEnsName
 						/>
 					</dd>
 				</div>
@@ -168,6 +171,7 @@
 									<Address
 										{network}
 										address={nameAttestation.attesterAddress}
+										resolveToEnsName
 									/>
 								</svelte:element>
 							</svelte:fragment>

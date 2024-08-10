@@ -54,6 +54,7 @@
 					<Address
 						{network}
 						address={attestation.recipient}
+						resolveToEnsName
 						format="middle-truncated"
 					/>
 
@@ -66,6 +67,7 @@
 					<Address
 						{network}
 						address={attestation.attester}
+						resolveToEnsName
 						format="middle-truncated"
 					/>
 				</svelte:element>
@@ -85,6 +87,7 @@
 				<dd>
 					<Address
 						{network}
+						resolveToEnsName
 						address={attestation.attester}
 					/>
 				</dd>
@@ -96,6 +99,7 @@
 				<dd>
 					<Address
 						{network}
+						resolveToEnsName
 						address={attestation.recipient}
 					/>
 				</dd>
