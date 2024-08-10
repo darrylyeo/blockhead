@@ -9,6 +9,7 @@ export enum IpfsGatewayProvider {
 	NftStorage = 'NftStorage',
 	Web3Storage = 'Web3Storage',
 	Cloudflare = 'Cloudflare',
+	InfuraEas = 'InfuraEas'
 }
 
 export type IpfsGatewayConfig = {
@@ -19,7 +20,7 @@ export type IpfsGatewayConfig = {
 	gatewayDomain?: string,
 }
 
-import { CloudflareIcon, HeliaIcon, LighthouseIcon, PinataIcon, ProtocolLabsIcon } from '$/assets/icons'
+import { CloudflareIcon, EthereumAttestationServiceIcon, HeliaIcon, LighthouseIcon, PinataIcon, ProtocolLabsIcon } from '$/assets/icons'
 
 export const ipfsGateways = [
 	{
@@ -71,6 +72,12 @@ export const ipfsGateways = [
 		name: 'Cloudflare',
 		icon: CloudflareIcon,
 		gatewayDomain: 'cloudflare-ipfs.com',
+	},
+	{
+		gatewayProvider: IpfsGatewayProvider.InfuraEas,
+		name: 'Infura › EAS',
+		icon: EthereumAttestationServiceIcon,
+		gatewayDomain: 'eas.infura-ipfs.io',
 	},
 ] as const satisfies DeepReadonly<IpfsGatewayConfig[]>
 
