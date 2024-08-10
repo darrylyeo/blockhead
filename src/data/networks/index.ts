@@ -6804,18 +6804,24 @@ export const l1Networks = ([
 	'gnosis',
 	'avalanche',
 	'fantom',
-	// 'bsc',
+	'bsc',
+	'cronos',
+	'evmos',
 ] as const satisfies Readonly<NetworkSlug[]>)
 	.map(slug => networkBySlug.get(slug))
 
 export const l2Networks = ([
-	'polygon',
 	'arbitrum-one',
+	'arbitrum-nova',
+	'blast',
+	'linea',
+	'metis-andromeda',
+	'polygon',
 	'polygon-zkevm',
-	// 'scroll',
+	'scroll',
+	// 'opbnb',
 	// 'skale-testnet',
 	// 'arbitrum-xdai',
-	'metis-andromeda',
 	// 'oasis-paratime',
 ] as const satisfies Readonly<NetworkSlug[]>)
 	.map(slug => networkBySlug.get(slug))
@@ -6830,7 +6836,7 @@ export const opStackNetworks = ([
 	'mint',
 	'mode',
 	'redstone',
-	'world-chain',
+	// 'world-chain',
 	'zora',
 ] as const satisfies Readonly<NetworkSlug[]>)
 	.map(slug => networkBySlug.get(slug))
@@ -6855,10 +6861,6 @@ export const evmNetworks = ([
 export const otherL1Networks = ([
 	'aurora',
 	'bitcoin',
-	'bsc',
-	'cronos',
-	'evmos',
-	'metis',
 ] as const satisfies Readonly<NetworkSlug[]>)
 	.map(slug => networkBySlug.get(slug))
 
@@ -6911,13 +6913,13 @@ export const networksBySection = [
 	// {
 	// 	title: 'Other Networks',
 	// 	featuredNetworks: otherL1Networks,
-	// }
+	// },
 	// {
 	// 	title: 'Other Networks (Experimental)',
 	// 	otherNetworks: otherNetworks,
 	// },
 	{
-		title: 'Ethereum › Layer-Three Networks',
+		title: 'Base › Layer-Three Networks',
 		featuredNetworks: layer3Networks,
 	},
 	{
