@@ -44,6 +44,7 @@ import {
 
 import CeramicPage from '$/routes/apps/(withDashboard)/ceramic/+page.svelte'
 import DiscoPage from '$/routes/apps/(withDashboard)/disco/+page.svelte'
+import EasPage from '$/routes/apps/(withDashboard)/eas/network/[networkSlug=isNetworkSlug]/+page.svelte'
 
 
 import { UniswapV3 } from '$/api/uniswap-v3/index'
@@ -8894,8 +8895,7 @@ export const web3Apps = [
 			'https://attest.org',
 			// 'https://attest.sh',
 		],
-		showCustomUi: true,
-
+		
 		/**
 		 * @link https://docs.attest.org/docs/quick--start/contracts
 		 */
@@ -8904,6 +8904,9 @@ export const web3Apps = [
 				showOn: ['Dashboard'],
 		
 				chainId: 1,
+				components: [
+					EasPage,
+				],
 				contracts: [
 					{
 						name: 'EAS (v0.26)',
@@ -8922,6 +8925,9 @@ export const web3Apps = [
 				showOn: ['Dashboard'],
 		
 				chainId: 10,
+				components: [
+					EasPage,
+				],
 				contracts: [
 					{
 						name: 'EAS (v1.0.1)',
@@ -8948,6 +8954,9 @@ export const web3Apps = [
 				showOn: ['Dashboard'],
 		
 				chainId: 8453,
+				components: [
+					EasPage,
+				],
 				contracts: [
 					{
 						name: 'EAS (v1.0.1)',
@@ -8974,6 +8983,9 @@ export const web3Apps = [
 				showOn: ['Dashboard'],
 		
 				chainId: 42161,
+				components: [
+					EasPage,
+				],
 				contracts: [
 					{
 						name: 'EAS (v0.26)',
@@ -8992,6 +9004,9 @@ export const web3Apps = [
 				showOn: ['Dashboard'],
 		
 				chainId: 42170,
+				components: [
+					EasPage,
+				],
 				contracts: [
 					{
 						name: 'EAS (v1.3.0)',
@@ -9018,6 +9033,9 @@ export const web3Apps = [
 				showOn: ['Dashboard'],
 		
 				chainId: 137,
+				components: [
+					EasPage,
+				],
 				contracts: [
 					{
 						name: 'EAS (v1.3.0)',
@@ -9044,6 +9062,9 @@ export const web3Apps = [
 				showOn: ['Dashboard'],
 		
 				chainId: 534352,
+				components: [
+					EasPage,
+				],
 				contracts: [
 					{
 						name: 'EAS (v1.3.0)',
@@ -9070,6 +9091,9 @@ export const web3Apps = [
 				showOn: ['Dashboard'],
 		
 				chainId: 59144,
+				components: [
+					EasPage,
+				],
 				contracts: [
 					{
 						name: 'EAS (v1.2.0)',
@@ -9088,6 +9112,9 @@ export const web3Apps = [
 				showOn: ['Dashboard'],
 		
 				chainId: 11155111,
+				components: [
+					EasPage,
+				],
 				contracts: [
 					{
 						name: 'EAS (v1.2.0)',
@@ -9114,6 +9141,9 @@ export const web3Apps = [
 				showOn: ['Dashboard'],
 		
 				chainId: 11155420,
+				components: [
+					EasPage,
+				],
 				contracts: [
 					{
 						name: 'EAS (v1.0.2)',
@@ -9140,6 +9170,9 @@ export const web3Apps = [
 				showOn: ['Dashboard'],
 		
 				chainId: 420,
+				components: [
+					EasPage,
+				],
 				contracts: [
 					{
 						name: 'EAS (v1.0.1)',
@@ -9166,6 +9199,9 @@ export const web3Apps = [
 				showOn: ['Dashboard'],
 		
 				chainId: 84532,
+				components: [
+					EasPage,
+				],
 				contracts: [
 					{
 						name: 'EAS (v1.2.0)',
@@ -9192,6 +9228,9 @@ export const web3Apps = [
 				showOn: ['Dashboard'],
 		
 				chainId: 84531,
+				components: [
+					EasPage,
+				],
 				contracts: [
 					{
 						name: 'EAS (v1.0.1)',
@@ -9218,6 +9257,9 @@ export const web3Apps = [
 				showOn: ['Dashboard'],
 		
 				chainId: 421613,
+				components: [
+					EasPage,
+				],
 				contracts: [
 					{
 						name: 'EAS (v1.1.0)',
@@ -9236,6 +9278,9 @@ export const web3Apps = [
 				showOn: ['Dashboard'],
 		
 				chainId: 80001,
+				components: [
+					EasPage,
+				],
 				contracts: [
 					{
 						name: 'EAS (v1.1.0)',
@@ -9254,6 +9299,9 @@ export const web3Apps = [
 				showOn: ['Dashboard'],
 		
 				chainId: 59140,
+				components: [
+					EasPage,
+				],
 				contracts: [
 					{
 						name: 'EAS (v1.2.0)',

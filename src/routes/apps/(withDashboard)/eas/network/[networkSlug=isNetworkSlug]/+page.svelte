@@ -1,13 +1,19 @@
 <script lang="ts">
 	// Types/constants
+	import type { Ethereum } from '$/data/networks/types'
 	import { EasProvider, easProviderIcons } from '$/api/eas/provider'
 
 
 	// Context
-	import { network } from '$/routes/apps/_appsContext'
+	import { network as appsContextNetwork } from '$/routes/apps/_appsContext'
 
 	import { preferences } from '$/state/preferences'
 	$: easProvider = $preferences.easProvider ?? EasProvider.Easscan
+
+
+	// <Web3AppDashboard> embed
+	export let network: Ethereum.Network | undefined
+	$: network = $$props.network ?? $appsContextNetwork
 
 
 	// Functions
@@ -39,7 +45,7 @@
 				fromInfiniteQuery: createInfiniteQuery({
 					queryKey: ['EasAttestations', {
 						easProvider,
-						chainId: $network?.chainId,
+						chainId: network?.chainId,
 					}],
 					initialPageParam: 0,
 					queryFn: async ({
@@ -81,12 +87,12 @@
 			let:pagination
 		>
 			<header class="bar wrap">
-				<h3>
+				<h4>
 					Recent Attestations
 					{#if status === 'resolved'}
 						(<TweenedNumber value={attestations?.length} />{#if pagination?.hasNextPage}+{/if})
 					{/if}
-				</h3>
+				</h4>
 
 				<span class="card-annotation">
 					{easProvider}
@@ -137,7 +143,7 @@
 				fromInfiniteQuery: createInfiniteQuery({
 					queryKey: ['EasSchemas', {
 						easProvider,
-						chainId: $network?.chainId,
+						chainId: network?.chainId,
 					}],
 					initialPageParam: 0,
 					queryFn: async ({
@@ -179,12 +185,12 @@
 			let:pagination
 		>
 			<header class="bar wrap">
-				<h3>
+				<h4>
 					Recent Schemas
 					{#if status === 'resolved'}
 						(<TweenedNumber value={schemas?.length} />{#if pagination?.hasNextPage}+{/if})
 					{/if}
-				</h3>
+				</h4>
 
 				<span class="card-annotation">
 					{easProvider}

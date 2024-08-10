@@ -39,7 +39,8 @@
 	>
 		<svelte:fragment slot="title">
 			<a
-				href={resolveRoute('/apps/eas/attestation/[attestationId]', {
+				href={resolveRoute('/apps/eas/network/[networkSlug]/attestation/[attestationId]', {
+					networkSlug: network.slug,
 					attestationId: attestation.id,
 				})}
 			>
