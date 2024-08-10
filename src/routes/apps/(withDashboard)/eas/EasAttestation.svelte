@@ -146,6 +146,7 @@
 			<Collapsible
 				type="label"
 				showTriggerText={false}
+				isOpen
 			>
 				<svelte:fragment slot="title">
 					<svelte:element this={`h${headingLevel + 1}`}>
@@ -159,61 +160,6 @@
 					headingLevel={headingLevel + 1}
 					isOpen
 				/>
-			</Collapsible>
-		</section>
-
-		<hr>
-
-		<section>
-			<Collapsible
-				type="label"
-				class="column"
-				showTriggerText={false}
-			>
-				<svelte:fragment slot="title">
-					<svelte:element this={`h${headingLevel + 1}`}>
-						Timeline
-					</svelte:element>
-				</svelte:fragment>
-
-				<section class="card row wrap">
-					<svelte:element this={`h${headingLevel + 2}`}>
-						Created
-					</svelte:element>
-
-					<DateComponent
-						date={attestation.timeCreated * 1000}
-						layout="horizontal"
-					/>
-				</section>
-
-				{#if attestation.revocationTime}
-					<section class="card row wrap">
-						<svelte:element this={`h${headingLevel + 2}`}>
-							Revoked
-						</svelte:element>
-
-						<DateComponent
-							date={attestation.revocationTime * 1000}
-							layout="horizontal"
-						/>
-					</section>
-				{/if}
-
-				{#if attestation.expirationTime}
-					{@const expirationTime = attestation.expirationTime * 1000}
-
-					<section class="card row wrap">
-						<svelte:element this={`h${headingLevel + 2}`}>
-							{expirationTime < Date.now() ? 'Will expire' : 'Expired'}
-						</svelte:element>
-
-						<DateComponent
-							date={expirationTime}
-							layout="horizontal"
-						/>
-					</section>
-				{/if}
 			</Collapsible>
 		</section>
 
@@ -287,6 +233,62 @@
 				</Collapsible>
 			</section>
 		{/if}
+
+		<hr>
+
+		<section>
+			<Collapsible
+				type="label"
+				class="column"
+				showTriggerText={false}
+				isOpen
+			>
+				<svelte:fragment slot="title">
+					<svelte:element this={`h${headingLevel + 1}`}>
+						Timeline
+					</svelte:element>
+				</svelte:fragment>
+
+				<section class="card row wrap">
+					<svelte:element this={`h${headingLevel + 2}`}>
+						Created
+					</svelte:element>
+
+					<DateComponent
+						date={attestation.timeCreated * 1000}
+						layout="horizontal"
+					/>
+				</section>
+
+				{#if attestation.revocationTime}
+					<section class="card row wrap">
+						<svelte:element this={`h${headingLevel + 2}`}>
+							Revoked
+						</svelte:element>
+
+						<DateComponent
+							date={attestation.revocationTime * 1000}
+							layout="horizontal"
+						/>
+					</section>
+				{/if}
+
+				{#if attestation.expirationTime}
+					{@const expirationTime = attestation.expirationTime * 1000}
+
+					<section class="card row wrap">
+						<svelte:element this={`h${headingLevel + 2}`}>
+							{expirationTime < Date.now() ? 'Will expire' : 'Expired'}
+						</svelte:element>
+
+						<DateComponent
+							date={expirationTime}
+							layout="horizontal"
+						/>
+					</section>
+				{/if}
+			</Collapsible>
+		</section>
 
 		<hr>
 	</Collapsible>
