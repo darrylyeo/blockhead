@@ -174,29 +174,6 @@
 									layout="horizontal"
 								/>
 							</svelte:fragment>
-
-							<hr>
-
-							<section>
-								<Collapsible
-									type="label"
-									class="column"
-									showTriggerText={false}
-								>
-									<svelte:fragment slot="title">
-										<svelte:element this={`h${headingLevel + 3}`}>
-											Name Schema
-										</svelte:element>
-									</svelte:fragment>
-		
-									<svelte:self
-										{network}
-										schema={nameAttestation.schema}
-										isOpen
-										headingLevel={headingLevel + 3}
-									/>
-								</Collapsible>
-							</section>
 						</Collapsible>
 					</section>
 				{/each}
