@@ -324,7 +324,8 @@
 	export let debug: boolean = dev
 
 	$: if(debug && result){
-		(console.groupCollapsed || console.log)(loadingMessage, { status })
+		// (console.groupCollapsed || console.log)(loadingMessage ?? '', { status })
+		(console.group || console.log)(loadingMessage ?? '', { status })
 		// if(Array.isArray(result)){
 		// 	console.log({ status })
 		// 	console.table(result)
