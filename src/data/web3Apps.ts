@@ -22,6 +22,7 @@ import {
 	IpfsIcon,
 	LensIcon,
 	NounsIcon,
+	PythIcon,
 	UniswapIcon,
 } from '$/assets/icons'
 import {
@@ -22180,8 +22181,13 @@ export const web3Apps = [
 		],
 	},
 	{
-		name: 'Pyth Network',
-		slug: 'pyth-network',
+		name: 'Pyth',
+		slug: 'pyth',
+		icon: PythIcon,
+		colors: [
+			'#e6dafe',
+			'#7142cf',
+		],
 		links: [
 			'https://pyth.network',
 		],
@@ -31720,6 +31726,7 @@ const socialApps = ([
 
 const oracleNetworks = ([
 	'chainlink',
+	'pyth',
 	'tellor',
 	// 'umbrella',
 ] as const)
