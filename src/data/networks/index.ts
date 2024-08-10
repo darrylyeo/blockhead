@@ -31,6 +31,7 @@ import {
 	RedstoneIcon,
 	ScrollIcon,
 	SkaleIcon,
+	ZksyncIcon,
 	ZoraIcon,
 } from '$/assets/networkIcons'
 
@@ -6555,6 +6556,90 @@ export const networks = [
 		infoURL: 'https://xinfin.org',
 	},
 	{
+		slug: 'zksync',
+		name: 'ZKsync',
+		chainId: 324,
+		shortName: 'zksync',
+		chain: 'ETH',
+		networkId: 324,
+		icon: ZksyncIcon,
+		colors: [
+			'#214af6',
+		],
+		nativeCurrency: {
+			name: 'Ether',
+			symbol: 'ETH',
+			decimals: 18,
+		},
+		rpc: [
+			'https://zksync-era.blockpi.network/v1/rpc/public',
+			'https://go.getblock.io/f76c09905def4618a34946bf71851542',
+			'https://zksync.meowrpc.com',
+			'https://zksync.drpc.org',
+			'https://1rpc.io/zksync2-era',
+			'https://endpoints.omniatech.io/v1/zksync-era/mainnet/public',
+			'https://mainnet.era.zksync.io',
+			'wss://zksync.drpc.org',
+		],
+		infoURL: 'https://zksync.io',
+		explorers: [
+			{
+				name: 'zkSync Era Block Explorer',
+				url: 'https://explorer.zksync.io',
+				icon: 'zksync-era',
+				standard: 'EIP3091',
+			},
+		],
+		parent: {
+			type: 'L2',
+			chain: 'eip155-1',
+			bridges: [
+				{
+					url: 'https://bridge.zksync.io',
+				},
+			],
+		},
+	},
+	{
+		slug: 'ZKsync Sepolia Testnet',
+		name: 'ZKsync Sepolia Testnet',
+		chainId: 300,
+		shortName: 'zksync-sepolia',
+		chain: 'ETH',
+		networkId: 300,
+		nativeCurrency: {
+			name: 'Ether',
+			symbol: 'ETH',
+			decimals: 18,
+		},
+		rpc: [
+			'https://zksync-era-sepolia.blockpi.network/v1/rpc/public',
+			'https://endpoints.omniatech.io/v1/zksync-era/sepolia/public',
+			'https://sepolia.era.zksync.dev',
+			'https://zksync-sepolia.drpc.org',
+			'wss://zksync-sepolia.drpc.org',
+		],
+		infoURL: 'https://zksync.io',
+		icon: 'zksync-era',
+		explorers: [
+			{
+				name: 'zkSync Block Explorer',
+				url: 'https://sepolia.explorer.zksync.io',
+				icon: 'zksync-era',
+				standard: 'EIP3091',
+			},
+		],
+		parent: {
+			type: 'L2',
+			chain: 'eip155-1',
+			bridges: [
+				{
+					url: 'https://bridge.zksync.io',
+				},
+			],
+		},
+	},
+	{
 		slug: 'zora',
 		name: 'Zora Network',
 		chainId: 7777777,
@@ -6738,6 +6823,9 @@ const testnetSlugsForMainnetSlug = new Map([
 	['world-chain', [
 		'world-chain-sepolia',
 	]],
+	['zksync', [
+		'zksync-sepolia',
+	]],
 	['zora', [
 		'zora-goerli',
 		'zora-sepolia',
@@ -6819,6 +6907,7 @@ export const l2Networks = ([
 	'polygon',
 	'polygon-zkevm',
 	'scroll',
+	'zksync',
 	// 'opbnb',
 	// 'skale-testnet',
 	// 'arbitrum-xdai',
