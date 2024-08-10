@@ -31846,7 +31846,7 @@ export const web3AppsBySection = ([
 					])
 			)
 		)],
-		isFeatured: false
+		isCollapsible: true,
 	},
 ]) as const
 

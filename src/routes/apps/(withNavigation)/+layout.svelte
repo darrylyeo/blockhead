@@ -27,6 +27,7 @@
 
 
 	// Components
+	import Collapsible from '$/components/Collapsible.svelte'
 	import Icon from '$/components/Icon.svelte'
 	import TokenIcon from '$/components/TokenIcon.svelte'
 
@@ -44,44 +45,54 @@
 	in:fly={{ x: 150, easing: expoOut }}
 	out:fly={{ x: -150, easing: expoOut }}
 >
-	{#each displayedWeb3AppsBySection as {title, apps, isFeatured}, i(title)}
+	{#each displayedWeb3AppsBySection as { title, apps, isFeatured, isCollapsible }, i(title)}
 		<section
 			class="column"
+			class:full={isCollapsible}
 			in:fly|global={{ y: 30, delay: i * 50, duration: 300, easing: expoOut }}
 			animate:flip={{ duration: 300, easing: expoOut }}
 		>
-			<h2>{title}</h2>
-
-			<div
-				class="content row wrap"
-				class:featured={isFeatured}
+			<Collapsible
+				type="label"
+				isOpen={!isCollapsible}
+				canToggle={Boolean(isCollapsible)}
+				class="column"
 			>
-				{#each apps as app, i}
-					<a
-						href={
-							$network
-								? resolveRoute(`/apps/[web3AppSlug]/network/[networkSlug]`, { web3AppSlug: app.slug, networkSlug: $network.slug })
-								: resolveRoute(`/apps/[web3AppSlug]`, { web3AppSlug: app.slug })
-						}
-						class="item card row"
-						in:scale={{ delay: i * 10, duration: 300 }}
-						out:scale={{ duration: 200 }}
-						style={cardStyle(app.colors)}
-					>
-						{#if app.icon}
-							<Icon imageSources={[app.icon]} title={app.name} />
-						{:else}
-							{#each app.views?.flatMap(view => view.erc20Tokens ?? []).filter(Boolean).slice(0, 1) as token}
-								<TokenIcon
-									{token}
-								/>
-							{/each}
-						{/if}
+				<svelte:fragment slot="title">
+					<h2>{title}</h2>
+				</svelte:fragment>
 
-						<span>{app.name}</span>
-					</a>
-				{/each}
-			</div>
+				<div
+					class="content row wrap"
+					class:featured={isFeatured}
+				>
+					{#each apps as app, i}
+						<a
+							href={
+								$network
+									? resolveRoute(`/apps/[web3AppSlug]/network/[networkSlug]`, { web3AppSlug: app.slug, networkSlug: $network.slug })
+									: resolveRoute(`/apps/[web3AppSlug]`, { web3AppSlug: app.slug })
+							}
+							class="item card row"
+							in:scale={{ delay: i * 10, duration: 300 }}
+							out:scale={{ duration: 200 }}
+							style={cardStyle(app.colors)}
+						>
+							{#if app.icon}
+								<Icon imageSources={[app.icon]} title={app.name} />
+							{:else}
+								{#each app.views?.flatMap(view => view.erc20Tokens ?? []).filter(Boolean).slice(0, 1) as token}
+									<TokenIcon
+										{token}
+									/>
+								{/each}
+							{/if}
+
+							<span>{app.name}</span>
+						</a>
+					{/each}
+				</div>
+			</Collapsible>
 		</section>
 	{:else}
 		<section
@@ -107,11 +118,16 @@
 <style>
 	.layout {
 		display: flex;
+		align-content: start;
 		flex-wrap: wrap;
 		gap: 1.5rem 2rem;
 
 		> section {
 			flex: 1 auto;
+
+			&.full {
+				width: 100%;
+			}
 
 			position: relative;
 			align-content: start;

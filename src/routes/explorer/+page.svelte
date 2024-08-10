@@ -7,6 +7,7 @@
 	import { isTruthy } from '$/utils/isTruthy'
 
 
+	import Collapsible from '$/components/Collapsible.svelte'
 	import NetworkIcon from '$/components/NetworkIcon.svelte'
 	import SizeContainer from '$/components/SizeContainer.svelte'
 
@@ -23,53 +24,63 @@
 	in:fly={{ x: 150, easing: expoOut }}
 	out:fly={{ x: -150, easing: expoOut }}
 >
-	{#each networksBySection as {title, featuredNetworks, otherNetworks}, i (title)}
+	{#each networksBySection as { title, featuredNetworks, otherNetworks, isCollapsible }, i (title)}
 		<section
 			class="column"
+			class:full={isCollapsible}
 			in:fly|global={{ y: 30, delay: i * 50, duration: 300, easing: expoOut }}
 			animate:flip={{ duration: 300, easing: expoOut }}
 		>
-			<h2>{title}</h2>
+			<Collapsible
+				type="label"
+				isOpen={!isCollapsible}
+				canToggle={Boolean(isCollapsible)}
+				class="column"
+			>
+				<svelte:fragment slot="title">
+					<h2>{title}</h2>
+				</svelte:fragment>
 
-			{#each
-				[
-					featuredNetworks && { networks: featuredNetworks, isFeatured: true },
-					otherNetworks && { networks: otherNetworks, isFeatured: false }
-				].filter(isTruthy)
-				as
-				{ networks, isFeatured }
-			}
-				<SizeContainer>
-					<div
-						class="content row wrap"
-						class:featured={isFeatured}
-					>
-						{#each
-							(
-								$showTestnets
-									? networks
-										.filter(network => isTestnet(network) ? !mainnetForTestnet.has(network.slug) : true)
-										.flatMap(network => [network, ...testnetsForMainnet.get(network.slug) ?? []])
-									: networks
-										.filter(network => !isTestnet(network))
-							).filter(network => network.chainId)
-							as
-							network, i (network.slug)
-						}
-							<a
-								href="/explorer/{network.slug}"
-								class="item card row"
-								style={cardStyle([getNetworkColor(network)])}
-								in:scale={{ delay: i * 10, duration: 300 }}
-								out:scale={{ duration: 200 }}
+				{#each
+					[
+						featuredNetworks && { networks: featuredNetworks, isFeatured: true },
+						otherNetworks && { networks: otherNetworks, isFeatured: false }
+					].filter(isTruthy)
+					as
+					{ networks, isFeatured }
+				}
+					<SizeContainer>
+						<div
+							class="content row wrap"
+							class:featured={isFeatured}
 						>
-								<NetworkIcon {network} />
-								<span>{network.name}</span>
-							</a>
-						{/each}
-					</div>
-				</SizeContainer>
-			{/each}
+							{#each
+								(
+									$showTestnets
+										? networks
+											.filter(network => isTestnet(network) ? !mainnetForTestnet.has(network.slug) : true)
+											.flatMap(network => [network, ...testnetsForMainnet.get(network.slug) ?? []])
+										: networks
+											.filter(network => !isTestnet(network))
+								).filter(network => network.chainId)
+								as
+								network, i (network.slug)
+							}
+								<a
+									href="/explorer/{network.slug}"
+									class="item card row"
+									style={cardStyle([getNetworkColor(network)])}
+									in:scale={{ delay: i * 10, duration: 300 }}
+									out:scale={{ duration: 200 }}
+							>
+									<NetworkIcon {network} />
+									<span>{network.name}</span>
+								</a>
+							{/each}
+						</div>
+					</SizeContainer>
+				{/each}
+			</Collapsible>
 		</section>
 	{/each}
 </div>
@@ -78,11 +89,16 @@
 <style>
 	.layout {
 		display: flex;
+		align-content: start;
 		flex-wrap: wrap;
 		gap: 1.5rem 2rem;
 
 		> section {
 			flex: 1 auto;
+
+			&.full {
+				width: 100%;
+			}
 
 			position: relative;
 			align-content: start;

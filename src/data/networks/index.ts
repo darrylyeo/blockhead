@@ -6627,15 +6627,18 @@ export const networksBySection = [
 	{
 		title: 'Other Networks (Experimental)',
 		featuredNetworks: otherL1Networks,
+		isCollapsible: true,
 	},
 ] as const satisfies Readonly<{
 	title: string,
 	featuredNetworks?: Network[],
 	otherNetworks?: Network[],
+	isCollapsible?: boolean,
 }[]> satisfies Readonly<{
 	title: string,
 	featuredNetworks?: Ethereum.Network[],
 	otherNetworks?: Ethereum.Network[],
+	isCollapsible?: boolean,
 }[]>
 
 const includedNetworks = new Set(networksBySection.flatMap(({ featuredNetworks = [], otherNetworks = [] }) => [...featuredNetworks, ...otherNetworks]))
