@@ -895,6 +895,7 @@ address {
 	justify-content: start;
 
 	--resizeVertical-defaultHeight: 30rem;
+	--resizeVertical-defaultFocusHeight: max(30rem, 100vh - 25rem);
 	resize: vertical;
 	/* contain: strict;
 	height: 30rem; */
@@ -910,7 +911,17 @@ address {
 		transition: none;
 	}
 	&:not([style*="height: "]) {
+		transition: max-height 0.2s var(--ease-out-expo);
+
 		max-height: var(--resizeVertical-defaultHeight);
+
+		&:hover {
+			will-change: max-height;
+		}
+
+		&:focus-within {
+			max-height: var(--resizeVertical-defaultFocusHeight);
+		}
 	}
 	& > *,
 	& .scroll-snap-item {
