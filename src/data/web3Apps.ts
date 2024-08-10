@@ -58,7 +58,7 @@ export type Web3AppConfig = {
 	links?: string[],
 	icon?: string,
 	colors?: string[],
-	showCustomUi?: boolean,
+	showCustomUi?: boolean | ('Dashboard' | 'Explorer' | 'Account')[],
 	views: Web3AppView[],
 }
 

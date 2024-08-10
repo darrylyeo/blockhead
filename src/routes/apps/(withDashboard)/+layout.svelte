@@ -210,7 +210,11 @@
 					out: [fly, { x: -100, duration: 300 }],
 				}}
 			>
-				{#if $web3AppConfig?.showCustomUi}
+				{#if (
+					Array.isArray($web3AppConfig?.showCustomUi)
+						? $web3AppConfig.showCustomUi.includes($currentView)
+						: $web3AppConfig?.showCustomUi === true
+				)}
 					<slot />
 				{/if}
 
