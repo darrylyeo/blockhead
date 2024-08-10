@@ -13,7 +13,8 @@
 	export let ipfsGatewayProvider = IpfsGatewayProvider.InfuraEas
 
 	// (View options)
-	export let isOpen = false
+	export let layout: 'standalone' | 'inline' = 'inline'
+	export let isOpen = layout === 'standalone'
 	export let headingLevel = 4
 
 	// (Derived)
@@ -36,7 +37,10 @@
 </script>
 
 
-<article class="card">
+<article
+	class="column"
+	class:card={layout === 'standalone'}
+>
 	<Collapsible
 		type="label"
 		class="column"
@@ -159,12 +163,14 @@
 					</svelte:element>
 				</svelte:fragment>
 
-				<EasSchema
-					{network}
-					schema={attestation.schema}
-					headingLevel={headingLevel + 1}
-					isOpen
-				/>
+				<div class="card">
+					<EasSchema
+						{network}
+						schema={attestation.schema}
+						headingLevel={headingLevel + 1}
+						isOpen
+					/>
+				</div>
 			</Collapsible>
 		</section>
 
@@ -197,6 +203,7 @@
 			<section>
 				<Collapsible
 					showTriggerText={false}
+					isOpen={layout === 'standalone'}
 				>
 					<svelte:fragment slot="title">
 						<svelte:element this={`h${headingLevel + 1}`}>
@@ -263,6 +270,7 @@
 								<Collapsible
 									type="label"
 									showTriggerText={false}
+									isOpen={layout === 'standalone'}
 								>
 									<svelte:fragment slot="title">
 										<svelte:element this={`h${headingLevel + 2}`}>

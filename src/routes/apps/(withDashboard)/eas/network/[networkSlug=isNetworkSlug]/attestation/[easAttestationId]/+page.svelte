@@ -65,8 +65,9 @@
 		<EasAttestation
 			{easProvider}
 			network={$network}
+			layout="standalone"
+			headingLevel={3}
 			{attestation}
-			isOpen
 		/>
 	{/if}
 </Loader>

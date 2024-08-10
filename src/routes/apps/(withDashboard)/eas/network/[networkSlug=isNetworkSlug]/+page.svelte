@@ -22,6 +22,7 @@
 
 
 	// Components
+	import AnchorLink from '$/components/AnchorLink.svelte'
 	import EasAttestation from '../../EasAttestation.svelte'
 	import EasSchema from '../../EasSchema.svelte'
 	import Loader from '$/components/Loader.svelte'
@@ -106,11 +107,16 @@
 			{pagination}
 		>
 			{#each attestations ?? [] as attestation (attestation.id)}
-				<EasAttestation
-					{easProvider}
-					{network}
-					{attestation}
-				/>
+				<AnchorLink
+					base={`/apps/eas/network/${network.slug}`}
+					link={`/attestation/${attestation.id}`}
+				>
+					<EasAttestation
+						{easProvider}
+						{network}
+						{attestation}
+					/>
+				</AnchorLink>
 			{/each}
 			
 			<svelte:fragment slot="after">
@@ -206,10 +212,15 @@
 			{pagination}
 		>
 			{#each schemas ?? [] as schema (schema.id)}
-				<EasSchema
-					{network}
-					{schema}
-				/>
+				<AnchorLink
+					base={`/apps/eas/network/${network.slug}`}
+					link={`/schema/${schema.id}`}
+				>
+					<EasSchema
+						{network}
+						{schema}
+					/>
+				</AnchorLink>
 			{/each}
 			
 			<svelte:fragment slot="after">

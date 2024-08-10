@@ -10,7 +10,8 @@
 	export let schemaNames: NonNullable<NonNullable<Awaited<ReturnType<typeof getAttestation>>>['attestation']>['schemaNames']
 
 	// (View options)
-	export let isOpen = false
+	export let layout: 'standalone' | 'inline' = 'inline'
+	export let isOpen = layout === 'standalone'
 	export let headingLevel = 4
 
 
@@ -27,11 +28,15 @@
 </script>
 
 
-<article class="card">
+<article
+	class="column"
+	class:card={layout === 'standalone'}
+>
 	<Collapsible
 		type="label"
 		class="column"
 		showTriggerText={false}
+		isOpen={layout === 'standalone'}
 	>
 		<svelte:fragment slot="title">
 			<a 
@@ -164,6 +169,7 @@
 							class="column"
 							showTriggerText={false}
 							canToggle={false}
+							isOpen={layout === 'standalone'}
 						>
 							<svelte:fragment slot="title">
 								<svelte:element this={`h${headingLevel + 2}`}>

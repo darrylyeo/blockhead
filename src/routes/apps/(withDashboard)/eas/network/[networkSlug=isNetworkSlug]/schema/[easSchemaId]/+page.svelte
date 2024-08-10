@@ -65,6 +65,7 @@
 		<EasSchema
 			network={$network}
 			{schema}
+			layout="standalone"
 		/>
 	{/if}
 </Loader>
