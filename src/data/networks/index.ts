@@ -15,6 +15,7 @@ import {
 	EvmosIcon,
 	FantomIcon,
 	FilecoinIcon,
+	FraxtalIcon,
 	GnosisIcon,
 	HarmonyIcon,
 	LineaIcon,
@@ -2226,6 +2227,63 @@ export const networks = [
 			decimals: 18,
 		},
 		infoURL: 'https://420integrated.com',
+	},
+	{
+		slug: 'fraxtal',
+		name: 'Fraxtal',
+		chainId: 252,
+		shortName: 'fraxtal',
+		chain: 'FRAX',
+		network: 'mainnet',
+		networkId: 252,
+		nativeCurrency: {
+			name: 'Frax Ether',
+			symbol: 'frxETH',
+			decimals: 18,
+		},
+		icon: FraxtalIcon,
+		colors: [
+			'#000000',
+		],
+		rpc: [
+			'https://rpc.frax.com',
+			'https://fraxtal.drpc.org',
+			'wss://fraxtal.drpc.org',
+		],
+		infoURL: 'https://mainnet.frax.com',
+		explorers: [
+			{
+				name: 'fraxscan',
+				url: 'https://fraxscan.com',
+				standard: 'EIP3091',
+			},
+		],
+	},
+	{
+		slug: 'fraxtal-testnet',
+		name: 'Fraxtal Testnet',
+		chainId: 2522,
+		shortName: 'fraxtal-testnet',
+		chain: 'FRAX',
+		network: 'testnet',
+		networkId: 2522,
+		nativeCurrency: {
+			name: 'Frax Ether',
+			symbol: 'frxETH',
+			decimals: 18,
+		},
+		rpc: [
+			'https://rpc.testnet.frax.com',
+		],
+		infoURL: 'https://testnet.frax.com',
+		icon: 'fraxtal',
+		explorers: [
+			{
+				name: 'fraxscan',
+				url: 'https://holesky.fraxscan.com',
+				standard: 'EIP3091',
+			},
+		],
 	},
 	{
 		slug: 'freight',
@@ -6417,6 +6475,9 @@ const testnetSlugsForMainnetSlug = new Map([
 		'filecoin-wallaby',
 		'filecoin-calibration',
 	]],
+	['fraxtal', [
+		'fraxtal-testnet',
+	]],
 	['linea', [
 		'linea-goerli',
 	]],
@@ -6526,6 +6587,7 @@ export const opStackNetworks = ([
 	'optimism',
 	'base',
 	'celo',
+	'fraxtal',
 	'mantle',
 	'metal',
 	'mode',

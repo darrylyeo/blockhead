@@ -19,6 +19,7 @@ export { default as EvmosIcon } from './networks/Evmos.svg'
 export const EthereumIcon = tokenIcons.ETH
 export const FantomIcon = tokenIcons.FTM
 export { default as FilecoinIcon } from './networks/Filecoin.svg'
+export { default as FraxtalIcon } from './networks/Fraxtal.svg'
 export { default as FvmIcon } from './networks/FVM.svg'
 export { default as GnosisIcon } from './networks/Gnosis.svg'
 export { default as HarmonyIcon } from './networks/Harmony.svg'
