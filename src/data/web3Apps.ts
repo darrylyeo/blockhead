@@ -31800,6 +31800,22 @@ const creatorApps = ([
 // ] as const)
 //	.map(slug => web3AppsBySlug[slug])
 
+const networkApps = ([
+	'arbitrum',
+	'aurora-plus',
+	'base',
+	'blast',
+	'degen',
+	'ethereum',
+	'linea',
+	'metal',
+	'metis',
+	'optimism',
+	'polygon',
+	'zksync',
+] as const)
+.map(slug => web3AppsBySlug[slug])
+
 export const web3AppsBySection = ([
 	{
 		title: 'Data Infrastucture',
@@ -31852,6 +31868,11 @@ export const web3AppsBySection = ([
 	// 	isFeatured: true,
 	// },
 	{
+		title: 'EVM Networks',
+		apps: networkApps,
+		isFeatured: true,
+	},
+	{
 		title: 'Other Apps (Experimental)',
 		apps: [...(
 			new Set(web3Apps)
@@ -31867,6 +31888,7 @@ export const web3AppsBySection = ([
 						...institutionalDefi,
 						...creatorApps,
 						// ...collectibleCommunities
+						...networkApps,
 					])
 			)
 		)],
