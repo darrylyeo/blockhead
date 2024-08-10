@@ -254,10 +254,12 @@
 						Created
 					</svelte:element>
 
-					<DateComponent
-						date={attestation.timeCreated * 1000}
-						layout="horizontal"
-					/>
+					<span class="date">
+						<DateComponent
+							date={attestation.timeCreated * 1000}
+							layout="horizontal"
+						/>
+					</span>
 				</section>
 
 				{#if attestation.revocationTime}
@@ -266,10 +268,12 @@
 							Revoked
 						</svelte:element>
 
-						<DateComponent
-							date={attestation.revocationTime * 1000}
-							layout="horizontal"
-						/>
+						<span class="date">
+							<DateComponent
+								date={attestation.revocationTime * 1000}
+								layout="horizontal"
+							/>
+						</span>
 					</section>
 				{/if}
 
@@ -294,17 +298,19 @@
 	</Collapsible>
 
 	<footer class="row wrap">
-		<DateComponent
-			date={attestation.timeCreated * 1000}
-			format="relative"
-			layout="horizontal"
-		/>
+		<span class="date">
+			<DateComponent
+				date={attestation.timeCreated * 1000}
+				format="relative"
+				layout="horizontal"
+			/>
+		</span>
 	</footer>
 </article>
 
 
 <style>
-	footer {
+	.date {
 		font-size: 0.66em;
 		opacity: 0.8;
 	}
