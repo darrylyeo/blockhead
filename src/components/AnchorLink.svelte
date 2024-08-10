@@ -20,6 +20,7 @@
 {#if isEnabled}
 	<a
 		id={link}
+		data-focused={isFocused ? '' : undefined}
 		href={isFocused ? `${base}${link}` : `#${link}`}
 		{...$$restProps}
 		class={$$props.class ?? 'card scroll-snap-item'}
@@ -33,3 +34,12 @@
 		<slot />
 	</span>
 {/if}
+
+
+<style>
+	a {
+		&:not([data-focused]) {
+			cursor: inherit;
+		}
+	}
+</style>
