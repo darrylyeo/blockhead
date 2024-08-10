@@ -36,6 +36,7 @@
 
 
 	// Components
+	import AnchorLink from './AnchorLink.svelte'
 	import Collapsible from './Collapsible.svelte'
 	import EthereumBlock from './EthereumBlock.svelte'
 	import EthereumBlockLoader from './EthereumBlockLoader.svelte'
@@ -68,44 +69,47 @@
 
 	<div class="scrollable-list column">
 		{#each blockNumbers as blockNumber (blockNumber)}
-			<a
-				class="card"
-				href={`#/block/${blockNumber}`}
-				id={`/block/${blockNumber}`}
+			<div
 				animate:flip|local={{ duration: 300 }}
 				transition:blur={{ duration: 1000 }}
 			>
-				<EthereumBlockLoader
-					{network}
-					{blockNumber}
-					{transactionProvider}
-					{networkProvider}
-					includeTransactions={true}
-
-					let:block
-					let:status
+				<AnchorLink
+					class="card"
+					base={`/explorer/${network.slug}`}
+					link={`/block/${blockNumber}`}
 				>
-					<svelte:fragment slot="header" let:block>
-						{#if block}
-							<EthereumBlockHeader
+					<EthereumBlockLoader
+						{network}
+						{blockNumber}
+						{transactionProvider}
+						{networkProvider}
+						includeTransactions={true}
+
+						let:block
+						let:status
+					>
+						<svelte:fragment slot="header" let:block>
+							{#if block}
+								<EthereumBlockHeader
+									{network}
+									{block}
+									headingLevel={headingLevel}
+								/>
+							{/if}
+						</svelte:fragment>
+
+						{#if status === 'resolved'}
+							<hr>
+
+							<EthereumBlock
 								{network}
 								{block}
 								headingLevel={headingLevel}
 							/>
 						{/if}
-					</svelte:fragment>
-
-					{#if status === 'resolved'}
-						<hr>
-
-						<EthereumBlock
-							{network}
-							{block}
-							headingLevel={headingLevel}
-						/>
-					{/if}
-				</EthereumBlockLoader>
-			</a>
+					</EthereumBlockLoader>
+				</AnchorLink>
+			</div>
 		{/each}
 	</div>
 </Collapsible>
