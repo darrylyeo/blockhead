@@ -829,6 +829,11 @@ address {
 			text-overflow: ellipsis;
 			white-space: nowrap;
 		}
+
+		&:is(a) {
+			flex: 0 auto;
+			margin-inline-end: auto;
+		}
 	}
 
 	& > :not(:first-child) {
