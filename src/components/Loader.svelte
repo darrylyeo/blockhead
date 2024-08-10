@@ -21,6 +21,10 @@
 	}
 
 
+	// Context
+	import { dev } from '$app/environment'
+
+
 	// Inputs
 	export let startImmediately = true
 
@@ -317,7 +321,7 @@
 
 
 	// Debugging
-	export let debug: boolean
+	export let debug: boolean = dev
 
 	$: if(debug && result){
 		(console.groupCollapsed || console.log)(loadingMessage, { status })
