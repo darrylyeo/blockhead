@@ -25,7 +25,7 @@ export { default as GnosisIcon } from './networks/Gnosis.svg'
 export { default as HarmonyIcon } from './networks/Harmony.svg'
 export { default as LineaIcon } from './networks/Linea.svg'
 export { default as MetalIcon } from './networks/Metal.svg'
-export { default as MetisIcon } from './networks/Metis.png'
+export { default as MetisIcon } from './networks/Metis.svg'
 export const MantleIcon = tokenIcons.MNT
 export { default as MintIcon } from './networks/Mint.svg'
 export { default as ModeIcon } from './networks/Mode.svg'

@@ -3676,10 +3676,31 @@ export const networks = [
 		],
 		infoURL: 'https://www.meter.io',
 	},
+	// {
+	// 	slug: 'metis',
+	// 	name: 'Metis',
+	// 	chainId: 488, // 435
+	// 	nativeCurrency: {
+	// 		name: 'Metis',
+	// 		symbol: 'METIS',
+	// 		decimals: 18,
+	// 	},
+	// 	icon: MetisIcon,
+	// 	colors: [
+	// 		'#00dacd',
+	// 	],
+	// 	rpc: [
+	// 		'https://dragonfire.metis.io/?owner=488',
+	// 		// 'https://rocketfuel.metis.io/?owner=435',
+	// 	],
 	{
-		slug: 'metis',
-		name: 'Metis',
-		chainId: 488, // 435
+		slug: 'metis-andromeda',
+		name: 'Metis Andromeda',
+		chainId: 1088,
+		shortName: 'metis-andromeda',
+		chain: 'ETH',
+		network: 'mainnet',
+		networkId: 1088,
 		nativeCurrency: {
 			name: 'Metis',
 			symbol: 'METIS',
@@ -3687,13 +3708,70 @@ export const networks = [
 		},
 		icon: MetisIcon,
 		colors: [
-			'#00dacd',
+			'#00cfff',
 		],
 		rpc: [
-			'https://dragonfire.metis.io/?owner=488',
-			// 'https://rocketfuel.metis.io/?owner=435',
+			'https://andromeda.metis.io/?owner=1088',
+			'https://metis-mainnet.public.blastapi.io',
+			'https://metis.api.onfinality.io/public',
+			'https://metis-pokt.nodies.app',
+			'https://metis.drpc.org',
+			'wss://metis.drpc.org',
 		],
 		infoURL: 'https://www.metis.io',
+		explorers: [
+			{
+				name: 'blockscout',
+				url: 'https://andromeda-explorer.metis.io',
+				standard: 'EIP3091',
+			},
+		],
+		parent: {
+			type: 'L2',
+			chain: 'eip155-1',
+			bridges: [
+				{
+					url: 'https://bridge.metis.io',
+				},
+			],
+		},
+	},
+	{
+		slug: 'metis-sepolia',
+		name: 'Metis Sepolia Testnet',
+		chainId: 59902,
+		shortName: 'metis-sepolia',
+		chain: 'ETH',
+		network: 'testnet',
+		networkId: 59902,
+		nativeCurrency: {
+			name: 'tMetis',
+			symbol: 'tMETIS',
+			decimals: 18,
+		},
+		rpc: [
+			'https://sepolia.metisdevops.link',
+		],
+		faucets: [
+			'https://sepolia.faucet.metisdevops.link',
+		],
+		infoURL: 'https://www.metis.io',
+		explorers: [
+			{
+				name: 'blockscout',
+				url: 'https://sepolia-explorer.metisdevops.link',
+				standard: 'EIP3091',
+			},
+		],
+		parent: {
+			type: 'L2',
+			chain: 'eip155-11155111',
+			bridges: [
+				{
+					url: 'https://bridge.metis.io',
+				},
+			],
+		},
 	},
 	{
 		slug: 'mint',
@@ -6589,6 +6667,9 @@ const testnetSlugsForMainnetSlug = new Map([
 	['metal', [
 		'metal-testnet',
 	]],
+	['metis', [
+		'metis-sepolia',
+	]],
 	['mint', [
 		'mint-testnet',
 		'mint-sepolia',
@@ -6687,7 +6768,7 @@ export const l2Networks = ([
 	// 'scroll',
 	// 'skale-testnet',
 	// 'arbitrum-xdai',
-	// 'metis',
+	'metis-andromeda',
 	// 'oasis-paratime',
 ] as const satisfies Readonly<NetworkSlug[]>)
 	.map(slug => networkBySlug.get(slug))

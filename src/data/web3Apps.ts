@@ -17488,7 +17488,7 @@ export const web3Apps = [
 		slug: 'metis',
 		icon: MetisIcon,
 		colors: [
-			'#00dacd',
+			'#00cfff',
 		],
 		links: [
 			'https://metis.io',
