@@ -4,16 +4,16 @@
 
 
 	// Context
-	import { page } from '$app/stores'
-	import { preferences } from '$/state/preferences'
+	import {
+		network,
+	} from '$/routes/apps/_appsContext'
 
-	$: ({
+	import {
 		easSchemaId,
-	} = $page.params)
+	} from '$/routes/apps/_appsParams'
 
+	import { preferences } from '$/state/preferences'
 	$: easProvider = $preferences.easProvider ?? EasProvider.Easscan
-
-	let chainId = 1
 
 
 	// Functions
@@ -22,7 +22,7 @@
 
 	// Components
 	import Loader from '$/components/Loader.svelte'
-	import EasSchema from '../../EasSchema.svelte'
+	import EasSchema from '../../../../EasSchema.svelte'
 </script>
 
 
@@ -34,8 +34,8 @@
 			fromQuery: createQuery({
 				queryKey: ['EasSchema', {
 					easProvider,
-					chainId,
-					schemaId: easSchemaId,
+					chainId: $network?.chainId,
+					schemaId: $easSchemaId,
 				}],
 				queryFn: async ({
 					queryKey: [_, {

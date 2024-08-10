@@ -4,11 +4,10 @@
 
 
 	// Context
+	import { network } from '$/routes/apps/_appsContext'
+
 	import { preferences } from '$/state/preferences'
-
 	$: easProvider = $preferences.easProvider ?? EasProvider.Easscan
-
-	let chainId = 1
 
 
 	// Functions
@@ -17,8 +16,8 @@
 
 
 	// Components
-	import EasAttestation from './EasAttestation.svelte'
-	import EasSchema from './EasSchema.svelte'
+	import EasAttestation from '../../EasAttestation.svelte'
+	import EasSchema from '../../EasSchema.svelte'
 	import Loader from '$/components/Loader.svelte'
 	import Loading from '$/components/Loading.svelte'
 	import ScrollContainer from '$/components/ScrollContainer.svelte'
@@ -40,7 +39,7 @@
 				fromInfiniteQuery: createInfiniteQuery({
 					queryKey: ['EasAttestations', {
 						easProvider,
-						chainId,
+						chainId: $network?.chainId,
 					}],
 					initialPageParam: 0,
 					queryFn: async ({
@@ -125,7 +124,7 @@
 
 
 <section class="column">
-	<Loader debug
+	<Loader
 		viewOptions={{
 			layout: 'collapsible',
 			collapsibleType: 'label',
@@ -138,7 +137,7 @@
 				fromInfiniteQuery: createInfiniteQuery({
 					queryKey: ['EasSchemas', {
 						easProvider,
-						chainId,
+						chainId: $network?.chainId,
 					}],
 					initialPageParam: 0,
 					queryFn: async ({
