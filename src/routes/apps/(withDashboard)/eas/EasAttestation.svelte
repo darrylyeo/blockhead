@@ -222,7 +222,7 @@
 			>
 				<svelte:fragment slot="title">
 					<svelte:element this={`h${headingLevel + 1}`}>
-						Raw Data
+						Data (Indexed)
 					</svelte:element>
 				</svelte:fragment>
 
@@ -260,7 +260,7 @@
 				>
 					<svelte:fragment slot="title">
 						<svelte:element this={`h${headingLevel + 1}`}>
-							{attestation.ipfsHash}
+							Data (IPFS)
 						</svelte:element>
 					</svelte:fragment>
 
