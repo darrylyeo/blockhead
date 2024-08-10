@@ -107,6 +107,7 @@
 			..._loaderViewOptions,
 		}}
 		fromPromise={async () => 1}
+		debug={false}
 	>
 		<svelte:fragment slot="header"
 			let:isOpen
