@@ -5579,14 +5579,34 @@ export const networks = [
 			'#cba58c',
 			'#d7af94',
 		],
+		rpc: [
+			'https://rpc.scroll.io',
+			'https://rpc-scroll.icecreamswap.com',
+			'https://scroll-mainnet.public.blastapi.io',
+			'https://scroll-mainnet-public.unifra.io',
+			'https://scroll.blockpi.network/v1/rpc/public',
+			'https://1rpc.io/scroll',
+			'https://scroll.drpc.org',
+			'https://scroll-mainnet.rpc.grove.city/v1/a7a7c8e2',
+			'https://scroll.api.onfinality.io/public',
+			'https://rpc.ankr.com/scroll',
+			'https://scroll-mainnet.chainstacklabs.com',
+		],
 		explorers: [
 			{
-				url: 'https://blockscout.scroll.io',
+				name: 'Scrollscan',
+				url: 'https://scrollscan.com',
+				standard: 'EIP3091',
 			},
 		],
 		parent: {
 			type: 'L2',
 			chain: 'eip155-1',
+			bridges: [
+				{
+					url: 'https://scroll.io/bridge',
+				},
+			],
 		},
 		infoURL: 'https://scroll.io',
 	},
@@ -5622,24 +5642,20 @@ export const networks = [
 			decimals: 18,
 		},
 		rpc: [
-			'https://sepolia-rpc.scroll.io',
 			'https://scroll-sepolia.blockpi.network/v1/rpc/public',
 			'https://scroll-testnet-public.unifra.io',
 			'https://rpc.ankr.com/scroll_sepolia_testnet',
-			'https://1rpc.io/scroll/sepolia',
 			'https://scroll-public.scroll-testnet.quiknode.pro',
 			'https://scroll-sepolia.chainstacklabs.com',
+			'https://scroll-sepolia.drpc.org',
+			'https://scroll-testnet.rpc.grove.city/v1/a7a7c8e2',
 			'http://scroll-sepolia-rpc.01no.de:8545',
+			'https://sepolia-rpc.scroll.io',
 		],
 		explorers: [
 			{
 				name: 'Scroll Sepolia Etherscan',
-				url: 'https://sepolia.scrollscan.dev',
-				standard: 'EIP3091',
-			},
-			{
-				name: 'Scroll Sepolia Blockscout',
-				url: 'https://sepolia-blockscout.scroll.io',
+				url: 'https://sepolia.scrollscan.com',
 				standard: 'EIP3091',
 			},
 		],
@@ -5648,7 +5664,7 @@ export const networks = [
 			chain: 'eip155-11155111',
 			bridges: [
 				{
-					url: 'https://scroll.io/bridge',
+					url: 'https://sepolia.scroll.io/bridge',
 				},
 			],
 		},
@@ -6716,6 +6732,7 @@ const testnetSlugsForMainnetSlug = new Map([
 		'polygon-mumbai',
 	]],
 	['scroll', [
+		'scroll-sepolia',
 		'scroll-alpha',
 	]],
 	['world-chain', [
