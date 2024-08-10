@@ -157,7 +157,7 @@
 
 						return await getSchemas({
 							chainId,
-							orderByTime: 'desc',
+							orderByTime: 'asc',
 							take: 100,
 							skip,
 						})
@@ -187,7 +187,7 @@
 		>
 			<header class="bar wrap">
 				<h4>
-					Recent Schemas
+					Schemas
 					{#if status === 'resolved'}
 						(<TweenedNumber value={schemas?.length} />{#if pagination?.hasNextPage}+{/if})
 					{/if}
