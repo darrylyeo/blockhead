@@ -201,7 +201,7 @@
 
 <style>
 	.date {
-		font-size: 0.66em;
+		font-size: 0.75em;
 		opacity: 0.8;
 	}
 </style>
