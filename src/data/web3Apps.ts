@@ -8895,6 +8895,8 @@ export const web3Apps = [
 			'https://attest.org',
 			// 'https://attest.sh',
 		],
+
+		showCustomUi: ['Explorer'],
 		
 		/**
 		 * @link https://docs.attest.org/docs/quick--start/contracts
