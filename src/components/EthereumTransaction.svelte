@@ -85,238 +85,275 @@
 			<span class="card-annotation">{transaction.network.name} Transaction</span>
 		</svelte:fragment>
 
-		{#if isStandaloneLayout}
-			<hr>
-
-			<div class="bar">
-				<svelte:element this={`h${headingLevel + 1}`}>Signed Transaction Data</svelte:element>
-				{#if transaction.nonce}<p class="card-annotation">Nonce #{transaction.nonce}</p>{/if}
-			</div>
-		{/if}
-
 		{#if !(isSummary && 'erc20Transfers' in transaction && transaction.erc20Transfers?.length && transaction.value === 0n)}
-			<div class="container inner-layout-{innerLayout}" class:card={isStandaloneLayout}>
-				{#if !(isSummary && (contextIsSender || contextIsReceiver))}
-					<span class="sender" class:mark={contextIsSender}><!-- transition:fade -->
-						<AddressWithLabel
-							network={transaction.network}
-							address={transaction.fromAddress}
-							label={transaction.labels?.fromAddress}
-							format={isExhaustive ? 'both' : 'label'}
-							addressFormat="middle-truncated"
-						/>
-					</span>
-				{/if}
+			{#if isStandaloneLayout}
+				<hr>
+			{/if}
 
-				<!-- {#if transaction.value} -->
-				{#if transaction.value || !isContractCall} <!-- Show "sent 0 to" if can't infer whether isContractCall -->
-					<span>
-						<span class="action">
-							{isSummary && contextIsReceiver
-								? transaction.executionStatus !== 'failed' ? 'received' : 'failed to receive'
-								: transaction.executionStatus !== 'failed' ? 'sent' : 'failed to send'}
-						</span>
-						<TokenBalanceWithConversion
-							{tokenBalanceFormat}
-							showDecimalPlaces={isExhaustive ? 9 : 6}
+			<section>
+				<Collapsible
+					type="label"
+					isOpen
+					showTriggerText={false}
+					showContentsOnly={!isStandaloneLayout}
+				>
+					<svelte:fragment slot="title">
+						<svelte:element this={`h${headingLevel + 1}`}>Signed Transaction Data</svelte:element>
+					</svelte:fragment>
 
-							token={{
-								chainId: network.chainId,
-								...transaction.network.nativeCurrency,
-							}}
+					<svelte:fragment slot="header-right">
+						{#if transaction.nonce}<p class="card-annotation">Nonce #{transaction.nonce}</p>{/if}
+					</svelte:fragment>
 
-							balance={Number(transaction.value) * 0.1 ** transaction.network.nativeCurrency.decimals}
-							conversionCurrency={transaction.conversion?.quoteCurrency} 
-							convertedValue={transaction.conversion?.value}
-						/>
-					</span>
-				{/if}
-
-				{#if isSummary && contextIsReceiver && transaction.fromAddress}
-					<span class="sender"><!-- transition:fade -->
-						<span>from</span>
-						<AddressWithLabel
-							network={transaction.network}
-							address={transaction.fromAddress}
-							label={transaction.labels?.fromAddress}
-							format={isExhaustive ? 'both' : 'label'}
-							addressFormat="middle-truncated"
-						/>
-					</span>
-				{:else}
-					<span class="receiver" class:mark={contextIsReceiver}><!-- transition:fade -->
-						{#if isContractCall}
-							<span class="action">
-								{`${
-									transaction.deployedContractAddress ?
-										transaction.executionStatus !== 'failed'
-											? transaction.value
-												? 'and deployed'
-												: 'deployed'
-											: transaction.value
-												? 'and failed to deploy'
-												: 'failed to deploy'
-									: transaction.toAddress ?
-										transaction.executionStatus !== 'failed'
-											? transaction.value
-												? 'and called'
-												: 'called'
-											: transaction.value
-												? 'and failed to call'
-												: 'failed to call'
-									:
-										transaction.executionStatus !== 'failed'
-											? transaction.value
-												? 'and called'
-												: 'called'
-											: transaction.value
-												? 'and failed to call'
-												: 'failed to call'
-								}${
-									transaction.deployedContractAddress ?
-										' contract'
-									: transaction.inputDecoded?.methodHash || transaction.inputDecoded?.methodName ?
-										''
-									: !transaction.toAddress ? 
-										' a contract'
-									:
-										' contract'
-								}`}
+					<div class="container inner-layout-{innerLayout}" class:card={isStandaloneLayout}>
+						{#if !(isSummary && (contextIsSender || contextIsReceiver))}
+							<span class="sender" class:mark={contextIsSender}><!-- transition:fade -->
+								<AddressWithLabel
+									network={transaction.network}
+									address={transaction.fromAddress}
+									label={transaction.labels?.fromAddress}
+									format={isExhaustive ? 'both' : 'label'}
+									addressFormat="middle-truncated"
+								/>
 							</span>
 						{/if}
 
-						<!-- {#if !isContractCall && transaction.value && (transaction.toAddress || transaction.deployedContractAddress)} -->
-						{#if !isContractCall && transaction.toAddress || transaction.deployedContractAddress} <!-- Show "sent 0 to" if can't infer whether isContractCall -->
-							<span>to</span>
+						<!-- {#if transaction.value} -->
+						{#if transaction.value || !isContractCall} <!-- Show "sent 0 to" if can't infer whether isContractCall -->
+							<span>
+								<span class="action">
+									{isSummary && contextIsReceiver
+										? transaction.executionStatus !== 'failed' ? 'received' : 'failed to receive'
+										: transaction.executionStatus !== 'failed' ? 'sent' : 'failed to send'}
+								</span>
+								<TokenBalanceWithConversion
+									{tokenBalanceFormat}
+									showDecimalPlaces={isExhaustive ? 9 : 6}
+
+									token={{
+										chainId: network.chainId,
+										...transaction.network.nativeCurrency,
+									}}
+
+									balance={Number(transaction.value) * 0.1 ** transaction.network.nativeCurrency.decimals}
+									conversionCurrency={transaction.conversion?.quoteCurrency} 
+									convertedValue={transaction.conversion?.value}
+								/>
+							</span>
 						{/if}
 
-						{#if transaction.toAddress || transaction.deployedContractAddress}
-							<AddressWithLabel
-								network={transaction.network}
-								{
-									...(transaction.deployedContractAddress
-										? {
-											address: transaction.deployedContractAddress,
-											label: transaction.labels?.deployedContractAddress,
+						{#if isSummary && contextIsReceiver && transaction.fromAddress}
+							<span class="sender"><!-- transition:fade -->
+								<span>from</span>
+								<AddressWithLabel
+									network={transaction.network}
+									address={transaction.fromAddress}
+									label={transaction.labels?.fromAddress}
+									format={isExhaustive ? 'both' : 'label'}
+									addressFormat="middle-truncated"
+								/>
+							</span>
+						{:else}
+							<span class="receiver" class:mark={contextIsReceiver}><!-- transition:fade -->
+								{#if isContractCall}
+									<span class="action">
+										{`${
+											transaction.deployedContractAddress ?
+												transaction.executionStatus !== 'failed'
+													? transaction.value
+														? 'and deployed'
+														: 'deployed'
+													: transaction.value
+														? 'and failed to deploy'
+														: 'failed to deploy'
+											: transaction.toAddress ?
+												transaction.executionStatus !== 'failed'
+													? transaction.value
+														? 'and called'
+														: 'called'
+													: transaction.value
+														? 'and failed to call'
+														: 'failed to call'
+											:
+												transaction.executionStatus !== 'failed'
+													? transaction.value
+														? 'and called'
+														: 'called'
+													: transaction.value
+														? 'and failed to call'
+														: 'failed to call'
+										}${
+											transaction.deployedContractAddress ?
+												' contract'
+											: transaction.inputDecoded?.methodHash || transaction.inputDecoded?.methodName ?
+												''
+											: !transaction.toAddress ? 
+												' a contract'
+											:
+												' contract'
+										}`}
+									</span>
+								{/if}
+
+								<!-- {#if !isContractCall && transaction.value && (transaction.toAddress || transaction.deployedContractAddress)} -->
+								{#if !isContractCall && transaction.toAddress || transaction.deployedContractAddress} <!-- Show "sent 0 to" if can't infer whether isContractCall -->
+									<span>to</span>
+								{/if}
+
+								{#if transaction.toAddress || transaction.deployedContractAddress}
+									<AddressWithLabel
+										network={transaction.network}
+										{
+											...(transaction.deployedContractAddress
+												? {
+													address: transaction.deployedContractAddress,
+													label: transaction.labels?.deployedContractAddress,
+												}
+												: {
+													address: transaction.toAddress,
+													label: transaction.labels?.toAddress,
+												}
+											)
 										}
-										: {
-											address: transaction.toAddress,
-											label: transaction.labels?.toAddress,
-										}
-									)
-								}
-								format={isExhaustive ? 'both' : 'label'}
-								addressFormat="middle-truncated"
-							/>
-							{#if transaction.inputDecoded?.methodHash || transaction.inputDecoded?.methodName}
-								›
-								<abbr
-									title={
-										transaction.inputDecoded.methodHash && transaction.inputDecoded.methodName
-											? `${transaction.inputDecoded.methodName} (${transaction.inputDecoded.methodHash})`
-											: transaction.inputDecoded.methodHash || transaction.inputDecoded.methodName
-									}
-								>
-									{transaction.inputDecoded.methodName
-										? formatIdentifier(transaction.inputDecoded.methodName, true)
-										: transaction.inputDecoded.methodHash}
-								</abbr>
-							{/if}
+										format={isExhaustive ? 'both' : 'label'}
+										addressFormat="middle-truncated"
+									/>
+									{#if transaction.inputDecoded?.methodHash || transaction.inputDecoded?.methodName}
+										›
+										<abbr
+											title={
+												transaction.inputDecoded.methodHash && transaction.inputDecoded.methodName
+													? `${transaction.inputDecoded.methodName} (${transaction.inputDecoded.methodHash})`
+													: transaction.inputDecoded.methodHash || transaction.inputDecoded.methodName
+											}
+										>
+											{transaction.inputDecoded.methodName
+												? formatIdentifier(transaction.inputDecoded.methodName, true)
+												: transaction.inputDecoded.methodHash}
+										</abbr>
+									{/if}
+								{/if}
+							</span>
 						{/if}
-					</span>
-				{/if}
 
-				{#if (showFees || isExhaustive) && transaction.gasUnitsSpent !== undefined}
-					<span class="fee"><!-- transition:fade -->
-						<span>for fee</span>
-						<TokenBalanceWithConversion
-							{tokenBalanceFormat}
-							showDecimalPlaces={isExhaustive ? 9 : 6}
+						{#if (showFees || isExhaustive) && transaction.gasUnitsSpent !== undefined}
+							<span class="fee"><!-- transition:fade -->
+								<span>for fee</span>
+								<TokenBalanceWithConversion
+									{tokenBalanceFormat}
+									showDecimalPlaces={isExhaustive ? 9 : 6}
 
-							token={{
-								chainId: network.chainId,
-								...transaction.gasToken,
-							}}
+									token={{
+										chainId: network.chainId,
+										...transaction.gasToken,
+									}}
 
-							balance={Number(transaction.gasValue) * 0.1 ** transaction.gasToken.decimals}
-							conversionCurrency={transaction.conversion?.quoteCurrency}
-							conversionRate={transaction.conversion?.gasUnitRate}
-							convertedValue={transaction.conversion?.gasValue}
-						/>
-					</span>
-				{/if}
+									balance={Number(transaction.gasValue) * 0.1 ** transaction.gasToken.decimals}
+									conversionCurrency={transaction.conversion?.quoteCurrency}
+									conversionRate={transaction.conversion?.gasUnitRate}
+									convertedValue={transaction.conversion?.gasValue}
+								/>
+							</span>
+						{/if}
 
-				{#if (isStandaloneLayout || isExhaustive) && transaction.input}
-					<hr>
+						{#if (isStandaloneLayout || isExhaustive) && transaction.input}
+							<hr>
 
-					<div class="input row inline wrap">
-						<span>with input</span>
+							<div class="input row inline wrap">
+								<span>with input</span>
 
-						<output class:scrollable-list={transaction.input.length > 80}>{transaction.input}</output>
+								<output class:scrollable-list={transaction.input.length > 80}>{transaction.input}</output>
+							</div>
+						{/if}
+
+						{#if isSummary && transaction.blockTimestamp}
+							<span class="date"><Date date={transaction.blockTimestamp} layout="vertical" format="relative" /></span>
+						{/if}
 					</div>
-				{/if}
-
-				{#if isSummary && transaction.blockTimestamp}
-					<span class="date"><Date date={transaction.blockTimestamp} layout="vertical" format="relative" /></span>
-				{/if}
-			</div>
+				</Collapsible>
+			</section>
 		{/if}
 
 		{#if 'erc20Transfers' in transaction && transaction.erc20Transfers?.length}
 			{#if isStandaloneLayout}
 				<hr>
-
-				<svelte:element this={`h${headingLevel + 1}`}>ERC-20 Token Transfers</svelte:element>
 			{/if}
 
-			<div class="transfers">
-				{#each transaction.erc20Transfers as erc20Transfer}
-					<EthereumErc20Transfer
-						{network}
-						{erc20Transfer}
-						{contextualAddress}
+			<section>
+				<Collapsible
+					type="label"
+					isOpen
+					showTriggerText={false}
+					showContentsOnly={!isStandaloneLayout}
+				>
+					<svelte:fragment slot="title">
+						<svelte:element this={`h${headingLevel + 1}`}>ERC-20 Token Transfers</svelte:element>
+					</svelte:fragment>
 
-						{detailLevel}
-						{tokenBalanceFormat}
-						showFees={false}
+					<svelte:element this={`h${headingLevel + 1}`}></svelte:element>
 
-						layout="inline"
-						innerLayout="row"
-					/>
-				{/each}
-			</div>
+					<div class="transfers">
+						{#each transaction.erc20Transfers as erc20Transfer}
+							<EthereumErc20Transfer
+								{network}
+								{erc20Transfer}
+								{contextualAddress}
+
+								{detailLevel}
+								{tokenBalanceFormat}
+								showFees={false}
+
+								layout="inline"
+								innerLayout="row"
+							/>
+						{/each}
+					</div>
+				</Collapsible>
+			</section>
 		{/if}
 
 		{#if !isSummary && transaction.logEvents?.length}
 			{#if isStandaloneLayout}
 				<hr>
-
-				<svelte:element this={`h${headingLevel + 1}`}>Smart Contract Log Events</svelte:element>
 			{/if}
 
-			<div class="log-events column" class:scrollable-list={isExhaustive && transaction.logEvents.length > (isStandaloneLayout ? 8 : 16)}>
-				{#each transaction.logEvents as logEvent}
-					<a
-						href={`#/event/${logEvent.indexInBlock}`}
-						id={`/event/${logEvent.indexInBlock}`}
-						class="log-event"
-						class:card={isStandaloneLayout}
-					>
-						<EthereumLogEvent
-							network={transaction.network}
-							{logEvent}
-							{detailLevel}
-							{contextualAddress}
-						/>
-					</a>
-				{/each}
-			</div>
+			<section>
+				<Collapsible
+					type="label"
+					isOpen
+					showTriggerText={false}
+					showContentsOnly={!isStandaloneLayout}
+				>
+					<svelte:fragment slot="title">
+						<svelte:element this={`h${headingLevel + 1}`}>Smart Contract Log Events</svelte:element>
+					</svelte:fragment>
+
+					<div class="log-events column" class:scrollable-list={isExhaustive && transaction.logEvents.length > (isStandaloneLayout ? 8 : 16)}>
+						{#each transaction.logEvents as logEvent}
+							<a
+								href={`#/event/${logEvent.indexInBlock}`}
+								id={`/event/${logEvent.indexInBlock}`}
+								class="log-event"
+								class:card={isStandaloneLayout}
+							>
+								<EthereumLogEvent
+									network={transaction.network}
+									{logEvent}
+									{detailLevel}
+									{contextualAddress}
+								/>
+							</a>
+						{/each}
+					</div>
+				</Collapsible>
+			</section>
 		{/if}
 
 		{#if !isSummary && (transaction.transactionId || transaction.blockNumber)}
 			{#if isStandaloneLayout}
 				<hr>
 			{/if}
+
 			<div class="footer bar"><!-- transition:fade -->
 				<EthereumTransactionSummary
 					network={transaction.network}
