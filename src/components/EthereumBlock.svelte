@@ -35,6 +35,7 @@
 
 	// Components
 	import Address from './Address.svelte'
+	import AnchorLink from './AnchorLink.svelte'
 	import Date from './Date.svelte'
 	import BlockNumber from './BlockNumber.svelte'
 	import Collapsible from './Collapsible.svelte'
@@ -220,10 +221,10 @@
 		<div class="transactions-list column" class:scrollable-list={block.transactions?.length > 7}>
 			{#if block.transactions}
 				{#each block.transactions as transaction (transaction.transactionId)}
-					<a
+					<AnchorLink
 						class="card"
-						href={`#/tx/${transaction.transactionId}`}
-						id={`/tx/${transaction.transactionId}`}
+						base={`/explorer/${network.slug}`}
+						link={`/tx/${transaction.transactionId}`}
 					>
 						<EthereumTransaction
 							{network}
@@ -236,15 +237,15 @@
 							{tokenBalanceFormat}
 							{showFees}
 						/>
-					</a>
+					</AnchorLink>
 				{/each}
 
 			{:else if block.transactionIds}
 				{#each block.transactionIds as transactionId (transactionId)}
-					<a
+					<AnchorLink
 						class="card"
-						href={`#/tx/${transactionId}`}
-						id={`/tx/${transactionId}`}
+						base={`/explorer/${network.slug}`}
+						link={`/tx/${transactionId}`}
 					>
 						<EthereumTransactionLoader
 							{network}
@@ -256,7 +257,7 @@
 							{tokenBalanceFormat}
 							{showFees}
 						/>
-					</a>
+				</AnchorLink>
 				{/each}
 			{/if}
 		</div>
