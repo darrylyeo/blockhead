@@ -24,6 +24,7 @@ import {
 	NounsIcon,
 	PythIcon,
 	UniswapIcon,
+	ZapperIcon,
 } from '$/assets/icons'
 import {
 	ArbitrumIcon,
@@ -30970,6 +30971,10 @@ export const web3Apps = [
 	{
 		name: 'Zapper',
 		slug: 'zapper',
+		icon: ZapperIcon,
+		colors: [
+			'#784ffe',
+		],
 		links: [
 			'https://www.zapper.xyz',
 		],
