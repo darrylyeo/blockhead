@@ -12,14 +12,9 @@ export const graphqlEndpoints = [
 		endpoint: 'https://easscan.org/graphql',
 	},
 	{
-		label: 'Ethereum (Sepolia)',
-		chainId: 11155111,
-		endpoint: 'https://sepolia.easscan.org/graphql',
-	},
-	{
-		label: 'Arbitrum',
-		chainId: 42161,
-		endpoint: 'https://arbitrum.easscan.org/graphql',
+		label: 'Optimism',
+		chainId: 10,
+		endpoint: 'https://optimism.easscan.org/graphql',
 	},
 	{
 		label: 'Base',
@@ -27,9 +22,24 @@ export const graphqlEndpoints = [
 		endpoint: 'https://base.easscan.org/graphql',
 	},
 	{
-		label: 'Base (Goerli)',
-		chainId: 59144,
-		endpoint: 'https://base-goerli.easscan.org/graphql',
+		label: 'Arbitrum One',
+		chainId: 42161,
+		endpoint: 'https://arbitrum.easscan.org/graphql',
+	},
+	{
+		label: 'Arbitrum Nova',
+		chainId: 42170,
+		endpoint: 'https://arbitrum-nova.easscan.org/graphql',
+	},
+	{
+		label: 'Polygon',
+		chainId: 137,
+		endpoint: 'https://polygon.easscan.org/graphql',
+	},
+	{
+		label: 'Scroll',
+		chainId: 534353,
+		endpoint: 'https://scroll.easscan.org/graphql',
 	},
 	{
 		label: 'Linea',
@@ -37,14 +47,39 @@ export const graphqlEndpoints = [
 		endpoint: 'https://linea.easscan.org/graphql',
 	},
 	{
-		label: 'Optimism',
-		chainId: 10,
-		endpoint: 'https://optimism.easscan.org/graphql',
+		label: 'Sepolia',
+		chainId: 11155111,
+		endpoint: 'https://sepolia.easscan.org/graphql',
 	},
 	{
-		label: 'Optimism (Goerli)',
+		label: 'Optimism Sepolia',
 		chainId: 1101,
-		endpoint: 'https://optimism-goerli-bedrock.easscan.org/graphql',
+		endpoint: 'https://optimism-sepolia.easscan.org/graphql',
+	},
+	{
+		label: 'Optimism Goerli',
+		chainId: 420,
+		endpoint: 'https://optimism-goerli.easscan.org/graphql',
+	},
+	{
+		label: 'Base Sepolia',
+		chainId: 11155111,
+		endpoint: 'https://base-sepolia.easscan.org/graphql',
+	},
+	{
+		label: 'Base Goerli',
+		chainId: 59144,
+		endpoint: 'https://base-goerli.easscan.org/graphql',
+	},
+	{
+		label: 'Polygon Mumbai',
+		chainId: 80001,
+		endpoint: 'https://polygon-mumbai.easscan.org/graphql',
+	},
+	{
+		label: 'Scroll Sepolia',
+		chainId: 534353,
+		endpoint: 'https://scroll-sepolia.easscan.org/graphql',
 	},
 ] as const satisfies {
 	label: string,
