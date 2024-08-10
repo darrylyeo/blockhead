@@ -69,6 +69,7 @@
 	import AccountIdResolver from './AccountIdResolver.svelte'
 	import Address from './Address.svelte'
 	import AddressWithLabel from './AddressWithLabel.svelte'
+	import AnchorLink from './AnchorLink.svelte'
 	import Balance from './Balance.svelte'
 	import CovalentPriceChart from './CovalentPriceChart.svelte'
 	import EnsName from './EnsName.svelte'
@@ -315,10 +316,10 @@
 						{#if transactions?.length}
 							<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
 								{#each transactions as transaction}
-									<a
+									<AnchorLink
 										class="card"
-										href={`#/tx/${transaction.transactionId}`}
-										id={`/tx/${transaction.transactionId}`}
+										base={`/explorer/${network.slug}`}
+										link={`/tx/${transaction.transactionId}`}
 									>
 										<EthereumTransaction
 											{network}
@@ -330,7 +331,7 @@
 											{showFees}
 											layout="inline"
 										/>
-									</a>
+									</AnchorLink>
 								{:else}
 									<div class="card">No transactions yet.</div>
 								{/each}
@@ -392,10 +393,10 @@
 						{#if transactions?.length}
 							<div class="transfers-list column" class:scrollable-list={transactions.length > 7}>
 								{#each transactions as transaction}
-									<a
+									<AnchorLink
 										class="card"
-										id={transaction.transactionId}
-										href={`#/tx/${transaction.transactionId}`}
+										base={`/explorer/${network.slug}`}
+										link={`/tx/${transaction.transactionId}`}
 									>
 										<EthereumTransaction
 											{network}
@@ -407,7 +408,7 @@
 											{showFees}
 											layout="inline"
 										/>
-									</a>
+									</AnchorLink>
 								{:else}
 									<div class="card">No transactions yet.</div>
 								{/each}
