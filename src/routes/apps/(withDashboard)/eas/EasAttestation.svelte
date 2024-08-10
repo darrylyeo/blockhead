@@ -193,7 +193,11 @@
 					</span>
 				</svelte:fragment>
 
-				<pre class="card scrollable-list">{JSON.stringify(JSON.parse(attestation.data), null, '\t')}</pre>
+				{#if attestation.isOffchain}
+					<pre class="card scrollable-list">{JSON.stringify(JSON.parse(attestation.data), null, '\t')}</pre>
+				{:else}
+					<pre class="card scrollable-list">{attestation.data}</pre>
+				{/if}
 			</Collapsible>
 		</section>
 
