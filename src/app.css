@@ -75,6 +75,8 @@
 	line-height: 1.5;
 	letter-spacing: 0.03ch;
 
+	tab-size: 4;
+
 	-webkit-font-feature-settings: "liga" on, "calt" on;
 	font-feature-settings: "liga" on, "calt" on;
 	font-variant: tabular-nums;
