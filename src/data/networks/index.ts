@@ -927,6 +927,35 @@ export const networks = [
 		infoURL: 'https://docs.celo.org/',
 	},
 	{
+		slug: 'celo-dango',
+		name: 'Cel2 Dango Testnet',
+		chainId: 44787,
+		nativeCurrency: {
+			name: 'CELO',
+			symbol: 'CELO',
+			decimals: 18,
+		},
+		rpc: [
+			'https://forno.dango.celo-testnet.org',
+		],
+		explorers: [
+			{
+				name: 'Blockscout',
+				url: 'https://celo-dango.blockscout.com',
+			},
+		],
+		infoURL: 'https://docs.celo.org',
+		parent: {
+			type: 'L2',
+			chain: 'eip155-17000',
+			bridges: [
+				{
+					url: 'https://testnets.superbridge.app/celo-testnet',
+				},
+			],
+		},
+	},
+	{
 		slug: 'celo-baklava',
 		name: 'Celo Baklava Testnet',
 		chainId: 62320,
@@ -6831,6 +6860,7 @@ const testnetSlugsForMainnetSlug = new Map([
 	['celo', [
 		'celo-alfajores',
 		'celo-baklava',
+		'celo-dango',
 	]],
 	['ethereum', [
 		'ethereum-sepolia',
