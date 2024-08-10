@@ -60,11 +60,11 @@
 						return await getAttestations({
 							chainId,
 							orderByTime: 'desc',
-							take: 100,
+							take: 20,
 							skip,
 						})
 					},
-					getNextPageParam: (lastPage, allPages) => allPages.length * 100,
+					getNextPageParam: (lastPage, allPages) => allPages.length * 20,
 					select: result => (
 						result.pages
 							.filter(isTruthy)
@@ -165,11 +165,11 @@
 						return await getSchemas({
 							chainId,
 							orderByTime: 'asc',
-							take: 100,
+							take: 20,
 							skip,
 						})
 					},
-					getNextPageParam: (lastPage, allPages) => allPages.length * 100,
+					getNextPageParam: (lastPage, allPages) => allPages.length * 20,
 					select: result => (
 						result.pages
 							.filter(isTruthy)
