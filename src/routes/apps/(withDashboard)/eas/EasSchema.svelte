@@ -127,6 +127,7 @@
 				type="label"
 				class="column"
 				showTriggerText={false}
+				isOpen
 			>
 				<svelte:fragment slot="title">
 					<svelte:element this={`h${headingLevel + 1}`}>
@@ -140,10 +141,12 @@
 							Created
 						</svelte:element>
 
-						<DateComponent
-							date={schema.time * 1000}
-							layout="horizontal"
-						/>
+						<span class="date">
+							<DateComponent
+								date={schema.time * 1000}
+								layout="horizontal"
+							/>
+						</span>
 					</header>
 
 					<EthereumTransaction
@@ -157,6 +160,7 @@
 							type="label"
 							class="column"
 							showTriggerText={false}
+							canToggle={false}
 						>
 							<svelte:fragment slot="title">
 								<svelte:element this={`h${headingLevel + 2}`}>
@@ -169,10 +173,12 @@
 							</svelte:fragment>
 
 							<svelte:fragment slot="header-right">
-								<DateComponent
-									date={nameAttestation.time * 1000}
-									layout="horizontal"
-								/>
+								<span class="date">
+									<DateComponent
+										date={nameAttestation.time * 1000}
+										layout="horizontal"
+									/>
+								</span>
 							</svelte:fragment>
 						</Collapsible>
 					</section>
@@ -181,3 +187,11 @@
 		</section>
 	</Collapsible>
 </article>
+
+
+<style>
+	.date {
+		font-size: 0.66em;
+		opacity: 0.8;
+	}
+</style>
