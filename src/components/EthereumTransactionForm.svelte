@@ -254,7 +254,7 @@
 					</svelte:element>
 
 					{#if contractMethod.stateMutability === 'nonpayable' || contractMethod.stateMutability === 'payable'}
-						<label>
+						<label class="row inline">
 							<span>From</span>
 							<ConnectedAccountSelect bind:selectedAccountConnection required />
 						</label>
@@ -354,7 +354,7 @@
 				<hr>
 
 				<footer class="bar">
-					<label>
+					<label class="row">
 						<!-- <span>Estimated Gas:</span>
 						<output>
 
@@ -362,8 +362,8 @@
 						</output> -->
 
 						{#if contractMethod.stateMutability === 'payable'}
-							<label>
-								<span>Pay {network.nativeCurrency.symbol}</span>
+							<label class="row">
+								<span>Pay</span>
 								<TokenAmountSelect
 									bind:token={network.nativeCurrency.symbol}
 									bind:amount={payableAmount}
