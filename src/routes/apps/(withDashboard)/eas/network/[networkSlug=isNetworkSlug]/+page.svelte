@@ -107,6 +107,7 @@
 		>
 			{#each attestations ?? [] as attestation (attestation.id)}
 				<EasAttestation
+					{network}
 					{attestation}
 				/>
 			{/each}
@@ -205,6 +206,7 @@
 		>
 			{#each schemas ?? [] as schema (schema.id)}
 				<EasSchema
+					{network}
 					{schema}
 				/>
 			{/each}

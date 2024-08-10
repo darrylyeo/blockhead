@@ -63,6 +63,7 @@
 >
 	{#if attestation}
 		<EasAttestation
+			network={$network}
 			{attestation}
 			isOpen
 		/>

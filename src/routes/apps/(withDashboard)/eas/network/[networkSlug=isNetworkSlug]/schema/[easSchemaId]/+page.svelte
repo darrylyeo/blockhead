@@ -63,6 +63,7 @@
 >
 	{#if schema}
 		<EasSchema
+			network={$network}
 			{schema}
 		/>
 	{/if}

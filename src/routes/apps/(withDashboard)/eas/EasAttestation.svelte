@@ -155,6 +155,7 @@
 				</svelte:fragment>
 
 				<EasSchema
+					{network}
 					schema={attestation.schema}
 					headingLevel={headingLevel + 1}
 					isOpen
