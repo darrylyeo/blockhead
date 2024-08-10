@@ -2,11 +2,15 @@
 	// Types/constants
 	import type { NetworkAccountAddress } from '$/data/address'
 	import type { Ethereum } from '$/data/networks/types'
+	import type { ENS } from '$/api/ens'
+	import { AccountIdType } from '$/data/accountId'
 
 
 	// Inputs
 	export let network: Ethereum.Network
 	export let address: NetworkAccountAddress
+	export let resolveToEnsName = false
+
 	// (View options)
 	export let format: 'full' | 'middle-truncated' = 'full'
 	export let linked = true
@@ -18,8 +22,10 @@
 
 
 	// Internal state
+	let ensName: ENS.Name
+
 	// (Computed)
-	$: formattedAddress = formatAddress(address, format)
+	$: formattedAddress = ensName || formatAddress(address, format)
 	$: link = linked && network && address ? resolveRoute(`/explorer/[networkSlug]/address/[address]`, { networkSlug: network.slug, address }) : undefined
 
 
@@ -28,6 +34,10 @@
 		e.dataTransfer?.setData('text/plain', address)
 		if(link) e.dataTransfer?.setData('text/uri-list', link)
 	}
+
+
+	// Components
+	import AccountIdResolver from './AccountIdResolver.svelte'
 </script>
 
 
@@ -67,3 +77,13 @@
 		</slot>
 	</span>
 {/if}
+
+<AccountIdResolver
+	accountId={address}
+	resolveToName={resolveToEnsName ? AccountIdType.ENS : false}
+	passiveResolveToName
+	loaderViewOptions={{
+		layout: 'passive',
+	}}
+	bind:ensName
+/>
