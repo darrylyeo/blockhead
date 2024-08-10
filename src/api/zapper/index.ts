@@ -24,6 +24,11 @@ export const networkNamesByChainId = new Map<
 	[1313161554, 'aurora'],
 	[9001, 'evmos'],
 	[8453, 'base'],
+	[666666666, 'degen'],
+	[34443, 'mode'],
+	[324, 'zksync'],
+	[5000, 'mantle'],
+
 ])
 
 export const chainIdByNetworkName = new Map<
