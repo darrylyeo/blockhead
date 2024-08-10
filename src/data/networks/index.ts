@@ -22,6 +22,7 @@ import {
 	MantleIcon,
 	MetalIcon,
 	MetisIcon,
+	MintIcon,
 	ModeIcon,
 	NahmiiIcon,
 	OptimismIcon,
@@ -3695,6 +3696,110 @@ export const networks = [
 		infoURL: 'https://www.metis.io',
 	},
 	{
+		slug: 'mint',
+		name: 'Mint',
+		chainId: 185,
+		shortName: 'mint',
+		chain: 'ETH',
+		network: 'mainnet',
+		networkId: 185,
+		nativeCurrency: {
+			name: 'Ether',
+			symbol: 'ETH',
+			decimals: 18,
+		},
+		icon: MintIcon,
+		colors: [
+			'#30BF54',
+		],
+		rpc: [
+			'https://rpc.mintchain.io',
+			'https://global.rpc.mintchain.io',
+			'https://asia.rpc.mintchain.io',
+		],
+		infoURL: 'https://www.mintchain.io',
+		explorers: [
+			{
+				name: 'blockscout',
+				url: 'https://explorer.mintchain.io',
+				icon: 'mint',
+				standard: 'EIP3091',
+			},
+		],
+	},
+	{
+		slug: 'mint-testnet',
+		name: 'Mint Testnet',
+		chainId: 1686,
+		shortName: 'minttest',
+		chain: 'ETH',
+		network: 'mainnet',
+		networkId: 1686,
+		nativeCurrency: {
+			name: 'Sepolia Ether',
+			symbol: 'ETH',
+			decimals: 18,
+		},
+		rpc: [
+			'https://testnet-rpc.mintchain.io',
+		],
+		infoURL: 'https://www.mintchain.io',
+		icon: MintIcon,
+		explorers: [
+			{
+				name: 'blockscout',
+				url: 'https://testnet-explorer.mintchain.io',
+				icon: 'mintTestnet',
+				standard: 'EIP3091',
+			},
+		],
+		parent: {
+			type: 'L2',
+			chain: 'eip155-1',
+			bridges: [
+				{
+					url: 'https://testnet-bridge.mintchain.io',
+				},
+			],
+		},
+	},
+	{
+		slug: 'mint-sepolia',
+		name: 'Mint Sepolia Testnet',
+		chainId: 1687,
+		shortName: 'mintsepoliatest',
+		chain: 'ETH',
+		network: 'testnet',
+		networkId: 1687,
+		nativeCurrency: {
+			name: 'Sepolia Ether',
+			symbol: 'ETH',
+			decimals: 18,
+		},
+		rpc: [
+			'https://sepolia-testnet-rpc.mintchain.io',
+		],
+		infoURL: 'https://www.mintchain.io',
+		icon: MintIcon,
+		explorers: [
+			{
+				name: 'blockscout',
+				url: 'https://sepolia-testnet-explorer.mintchain.io',
+				icon: 'mintTestnet',
+				standard: 'EIP3091',
+			},
+		],
+		parent: {
+			type: 'L2',
+			chain: 'eip155-1',
+			bridges: [
+				{
+					url: 'https://sepolia-testnet-bridge.mintchain.io',
+				},
+			],
+		},
+	},
+	{
 		slug: 'mintme',
 		name: 'MintMe.com Coin',
 		chainId: 24734,
@@ -6484,6 +6589,10 @@ const testnetSlugsForMainnetSlug = new Map([
 	['metal', [
 		'metal-testnet',
 	]],
+	['mint', [
+		'mint-testnet',
+		'mint-sepolia',
+	]],
 	['mode', [
 		'mode-sepolia',
 	]],
@@ -6590,6 +6699,7 @@ export const opStackNetworks = ([
 	'fraxtal',
 	'mantle',
 	'metal',
+	'mint',
 	'mode',
 	'redstone',
 	'world-chain',

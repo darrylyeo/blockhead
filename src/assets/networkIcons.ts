@@ -27,6 +27,7 @@ export { default as LineaIcon } from './networks/Linea.svg'
 export { default as MetalIcon } from './networks/Metal.svg'
 export { default as MetisIcon } from './networks/Metis.png'
 export const MantleIcon = tokenIcons.MNT
+export { default as MintIcon } from './networks/Mint.svg'
 export { default as ModeIcon } from './networks/Mode.svg'
 export { default as NahmiiIcon } from './networks/Nahmii.svg'
 // export { default as NervosIcon } from './networks/Nervos.svg'
