@@ -107,6 +107,7 @@
 		>
 			{#each attestations ?? [] as attestation (attestation.id)}
 				<EasAttestation
+					{easProvider}
 					{network}
 					{attestation}
 				/>
