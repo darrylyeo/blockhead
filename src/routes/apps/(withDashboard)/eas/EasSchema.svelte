@@ -19,6 +19,13 @@
 	import { resolveRoute } from '$app/paths'
 
 
+	// Internal state
+	$: link = resolveRoute('/apps/eas/network/[networkSlug]/schema/[schemaId]', {
+		networkSlug: network.slug,
+		schemaId: schema.id,
+	})
+
+
 	// Components
 	import Address from '$/components/Address.svelte'
 	import Collapsible from '$/components/Collapsible.svelte'
@@ -41,12 +48,7 @@
 		isOpen={layout === 'standalone'}
 	>
 		<svelte:fragment slot="title">
-			<a 
-				href={resolveRoute('/apps/eas/network/[networkSlug]/schema/[schemaId]', {
-					networkSlug: network.slug,
-					schemaId: schema.id,
-				})}
-			>
+			<a href={link}>
 				<svelte:element this={`h${headingLevel}`}>
 					{schema.schemaNames?.[0]?.name ?? `[Untitled Schema]`}
 				</svelte:element>
