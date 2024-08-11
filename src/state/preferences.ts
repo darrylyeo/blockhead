@@ -145,20 +145,30 @@ export const preferencesConfig = [
 				defaultOption: NetworkProvider.Default,
 				options: [
 					{
-						value: NetworkProvider.Default,
-						name: 'Default',
-						icon: networkProviderConfigByProvider[NetworkProvider.Default]?.icon,
+						groupId: 'default',
+						name: 'Per-Network',
+						options: [
+							{
+								value: NetworkProvider.Default,
+								name: 'Default',
+								icon: networkProviderConfigByProvider[NetworkProvider.Default]?.icon,
+							},
+						],
 					},
-					...(
-						networkProviderConfigs
-							.filter(providerConfig => providerConfig.provider !== NetworkProvider.Default)
-							.sort((a, b) => a.name.localeCompare(b.name))
-							.map(providerConfig => ({
-								value: providerConfig.provider,
-								name: providerConfig.name,
-								icon: providerConfig.icon,
-							}))
-					),
+					{
+						groupId: 'nodeServices',
+						name: 'Node Services',
+						options: (
+							networkProviderConfigs
+								.filter(providerConfig => providerConfig.provider !== NetworkProvider.Default)
+								.sort((a, b) => a.name.localeCompare(b.name))
+								.map(providerConfig => ({
+									value: providerConfig.provider,
+									name: providerConfig.name,
+									icon: providerConfig.icon,
+								}))
+						),
+					},
 				],
 				// options: [
 				// 	{ value: 'Auto', name: 'Auto' },
