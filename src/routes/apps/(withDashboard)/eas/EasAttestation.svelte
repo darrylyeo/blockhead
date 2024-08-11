@@ -87,6 +87,10 @@
 			</span>
 		</svelte:fragment>
 
+		{#if layout === 'standalone'}
+			<hr>
+		{/if}
+
 		<dl>
 			<div>
 				<dt>Location</dt>
