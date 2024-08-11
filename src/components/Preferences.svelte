@@ -271,6 +271,10 @@
 		min-width: max-content;
 	}
 
+	.preferences select {
+		max-width: 18em;
+	}
+
 
 	/* .header, .footer {
 		transition: margin 0.3s;
