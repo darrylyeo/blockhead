@@ -309,18 +309,33 @@
 
 <Preferences
 	relevantPreferences={
-		$web3AppSlug === 'farcaster' ? [
-			'theme',
-			'farcasterProvider',
-			'farcasterFeedProvider',
-			'urlMetadataProvider',
-		] : $web3AppSlug === 'ipfs' ? [
-			'theme',
-			'ipfsGateway',
-		] : [
-			'theme',
-			'rpcNetwork', 'defiProvider', 'nftsProvider', 'currentPriceProvider', 'historicalPriceProvider', 'transactionProvider',
-			'quoteCurrency'
-		]
+		$web3AppSlug === 'eas' ?
+			[
+				'theme',
+				'transactionProvider',
+				'ipfsGateway',
+				'easProvider',
+			]
+
+		: $web3AppSlug === 'farcaster' ?
+			[
+				'theme',
+				'farcasterProvider',
+				'farcasterFeedProvider',
+				'urlMetadataProvider',
+			]
+
+		: $web3AppSlug === 'ipfs' ?
+			[
+				'theme',
+				'ipfsGateway',
+			]
+
+		:
+			[
+				'theme',
+				'rpcNetwork', 'defiProvider', 'nftsProvider', 'currentPriceProvider', 'historicalPriceProvider', 'transactionProvider',
+				'quoteCurrency'
+			]
 	}
 />
