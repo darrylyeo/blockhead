@@ -63,7 +63,8 @@
 		box-shadow: inset 0 0 0 calc(0.5px + 0.1em) rgba(var(--rgb-light-dark-inverse), 0.15);
 		filter: drop-shadow(0 0 0 var(--primary-color));
 
-		transition: 0.3s;
+		transition-property: background-color;
+		transition-duration: 0.3s;
 		animation: Flash 0.75s;
 	}
 	.block-number:not(:hover) {
