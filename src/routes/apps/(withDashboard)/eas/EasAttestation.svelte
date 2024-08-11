@@ -57,27 +57,41 @@
 					attestationId: attestation.id,
 				})}
 			>
-				<svelte:element this={`h${headingLevel}`}>
-					<Address
-						{network}
-						address={attestation.recipient}
-						resolveToEnsName
-						format="middle-truncated"
-					/>
+				{#if attestation.recipient}
+					<svelte:element this={`h${headingLevel}`}>
+						<Address
+							{network}
+							address={attestation.recipient}
+							resolveToEnsName
+							format="middle-truncated"
+						/>
 
-					<span>received</span>
+						<span>received</span>
 
-					<span>{schemaName ? ` "${schemaName}"` : ''}</span>
+						<span>{schemaName ? ` "${schemaName}"` : ''}</span>
 
-					<span>from</span>
+						<span>from</span>
 
+						<Address
+							{network}
+							address={attestation.attester}
+							resolveToEnsName
+							format="middle-truncated"
+						/>
+					</svelte:element>
+
+				{:else}
 					<Address
 						{network}
 						address={attestation.attester}
 						resolveToEnsName
 						format="middle-truncated"
 					/>
-				</svelte:element>
+
+					<span>attested</span>
+
+					<span>{schemaName ? ` "${schemaName}"` : ''}</span>
+				{/if}
 			</a>
 		</svelte:fragment>
 
@@ -138,17 +152,19 @@
 				</dd>
 			</div>
 
-			<div>
-				<dt>Recipient</dt>
+			{#if attestation.recipient}
+				<div>
+					<dt>Recipient</dt>
 
-				<dd>
-					<Address
-						{network}
-						resolveToEnsName
-						address={attestation.recipient}
-					/>
-				</dd>
-			</div>
+					<dd>
+						<Address
+							{network}
+							resolveToEnsName
+							address={attestation.recipient}
+						/>
+					</dd>
+				</div>
+			{/if}
 
 			{#if attestation.schema.revocable}
 				<div>
