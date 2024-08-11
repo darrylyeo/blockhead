@@ -4940,6 +4940,42 @@ export const networks = [
 		infoURL: 'https://polygon.technology',
 	},
 	{
+		slug: 'polygon-amoy',
+		name: 'Polygon Amoy Testnet',
+		chainId: 80002,
+		shortName: 'polygonamoy',
+		chain: 'Polygon',
+		network: 'testnet',
+		networkId: 80002,
+		nativeCurrency: {
+			name: 'MATIC',
+			symbol: 'MATIC',
+			decimals: 18,
+		},
+		rpc: [
+			'https://rpc-amoy.polygon.technology',
+			'https://polygon-bor-amoy-rpc.publicnode.com',
+			'wss://polygon-bor-amoy-rpc.publicnode.com',
+			'https://polygon-amoy.blockpi.network/v1/rpc/public',
+			'https://rpc.ankr.com/polygon_amoy',
+			'https://polygon-amoy.drpc.org',
+			'https://polygon-amoy.gateway.tatum.io',
+			'https://polygon-amoy-bor-rpc.publicnode.com',
+			'wss://polygon-amoy-bor-rpc.publicnode.com',
+		],
+		faucets: [
+			'https://faucet.polygon.technology',
+		],
+		explorers: [
+			{
+				name: 'polygonamoy',
+				url: 'https://www.oklink.com/amoy',
+				standard: 'EIP3091',
+			},
+		],
+		infoURL: 'https://polygon.technology',
+	},
+	{
 		slug: 'polygon-mumbai',
 		name: 'Polygon Mumbai Testnet',
 		chainId: 80001,
@@ -6900,6 +6936,7 @@ const testnetSlugsForMainnetSlug = new Map([
 	]],
 	['polygon', [
 		'polygon-mumbai',
+		'polygon-amoy',
 	]],
 	['scroll', [
 		'scroll-sepolia',
