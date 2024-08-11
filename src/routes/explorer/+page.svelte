@@ -1,17 +1,23 @@
 <script lang="ts">
+	// Types/constants
 	import { networksBySection, getNetworkColor, mainnetForTestnet, testnetsForMainnet, isTestnet } from '$/data/networks'
 
+
+	// Context
 	import { showTestnets } from './_explorerContext'
 
 
+	// Functions
 	import { isTruthy } from '$/utils/isTruthy'
 
 
+	// COmponents
 	import Collapsible from '$/components/Collapsible.svelte'
 	import NetworkIcon from '$/components/NetworkIcon.svelte'
 	import SizeContainer from '$/components/SizeContainer.svelte'
 
 
+	// Transitions/animations
 	import { cardStyle } from '$/utils/card-background'
 	import { fly, scale } from 'svelte/transition'
 	import { flip } from 'svelte/animate'
