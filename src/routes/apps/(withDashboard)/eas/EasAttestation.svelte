@@ -61,7 +61,7 @@
 			<a
 				href={link}
 			>
-				{#if attestation.recipient}
+				{#if attestation.recipient !== '0x0000000000000000000000000000000000000000'}
 					<svelte:element this={`h${headingLevel}`}>
 						<Address
 							{network}
@@ -162,19 +162,21 @@
 				</dd>
 			</div>
 
-			{#if attestation.recipient}
-				<div>
-					<dt>Recipient</dt>
+			<div>
+				<dt>Recipient</dt>
 
-					<dd>
+				<dd>
+					{#if attestation.recipient !== '0x0000000000000000000000000000000000000000'}
 						<Address
 							{network}
 							resolveToEnsName
 							address={attestation.recipient}
 						/>
-					</dd>
-				</div>
-			{/if}
+					{:else}
+						<span class="not-set"></span>
+					{/if}
+				</dd>
+			</div>
 
 			{#if attestation.schema.revocable}
 				<div>
@@ -411,5 +413,10 @@
 	.date {
 		font-size: 0.75em;
 		opacity: 0.8;
+	}
+
+	.not-set:after {
+		content: '—';
+		opacity: 0.3;
 	}
 </style>
