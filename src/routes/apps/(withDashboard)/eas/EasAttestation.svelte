@@ -128,15 +128,19 @@
 							Offchain
 						{/if}
 					{:else}
-						<span class="row inline">
-							<NetworkIcon
-								{network}
-							/>
+						<span>
+							<a
+								href={`/apps/eas/network/${network.slug}`}
+								class="row inline"
+							>
+								<NetworkIcon
+									{network}
+								/>
 
-							<span>
 								{network.name}
-								(Onchain)
-							</span>
+							</a>
+
+							(Onchain)
 						</span>
 					{/if}
 				</dd>
