@@ -150,7 +150,21 @@ export const getProfileByDid = async (
 		headers,
 		redirect: 'follow',
 	})
-		.then(response => response.json())
+		.then(async response => {
+			if(!response.ok){
+				const result = await response.json()
+
+				try {
+					var error = JSON.parse(result?.message).message
+				}catch(e){
+					throw result
+				}
+
+				throw error
+			}
+
+			return await response.json()
+		})
 		.then(result => {
 			if(result.status && result.status !== 200)
 				throw result
@@ -170,8 +184,22 @@ export const getProfileByEvmAddress = async (
 		headers,
 		redirect: 'follow',
 	})
-		.then(response => response.json())
-		.then(result => {
+		.then(async response => {
+			if(!response.ok){
+				const result = await response.json()
+
+				try {
+					var error = JSON.parse(result?.message).message
+				}catch(e){
+					throw result
+				}
+
+				throw error
+			}
+
+			return await response.json()
+		})
+		.then(result => {console.log({result})
 			if(result.status && result.status !== 200)
 				throw result
 
