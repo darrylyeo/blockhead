@@ -86,6 +86,8 @@
 			let:result={attestations}
 			let:status
 			let:pagination
+			let:isOpen
+			let:toggle
 		>
 			<header class="bar wrap">
 				<h4>
@@ -98,6 +100,12 @@
 				<span class="card-annotation">
 					{easProvider}
 				</span>
+
+				<button
+					class="small"
+					data-after={isOpen ? '⏶' : '⏷'}
+					on:click={toggle}
+				>{isOpen ? 'Hide' : 'Show'}</button>
 			</header>
 		</svelte:fragment>
 
@@ -191,6 +199,8 @@
 			let:result={schemas}
 			let:status
 			let:pagination
+			let:isOpen
+			let:toggle
 		>
 			<header class="bar wrap">
 				<h4>
@@ -203,6 +213,12 @@
 				<span class="card-annotation">
 					{easProvider}
 				</span>
+
+				<button
+					class="small"
+					data-after={isOpen ? '⏶' : '⏷'}
+					on:click={toggle}
+				>{isOpen ? 'Hide' : 'Show'}</button>
 			</header>
 		</svelte:fragment>
 
