@@ -11,8 +11,13 @@
 	import { isTruthy } from '$/utils/isTruthy'
 
 
+	// Internal state
+	let watchBlockHeights: Record<string, boolean> = {}
+
+
 	// COmponents
 	import Collapsible from '$/components/Collapsible.svelte'
+	import EthereumLatestBlockNumber from '$/components/EthereumLatestBlockNumber.svelte'
 	import NetworkIcon from '$/components/NetworkIcon.svelte'
 	import SizeContainer from '$/components/SizeContainer.svelte'
 
@@ -47,6 +52,17 @@
 					<h2>{title}</h2>
 				</svelte:fragment>
 
+				<svelte:fragment slot="toolbar-items">
+					<label>
+						<input
+							type="checkbox"
+							bind:checked={watchBlockHeights[i]}
+						/>
+
+						<span>Block Heights</span>
+					</label>
+				</svelte:fragment>
+
 				{#each
 					[
 						featuredNetworks && { networks: featuredNetworks, isFeatured: true },
@@ -70,17 +86,23 @@
 											.filter(network => !isTestnet(network))
 								).filter(network => network.chainId)
 								as
-								network, i (network.slug)
+								network, j (network.slug)
 							}
 								<a
 									href="/explorer/{network.slug}"
 									class="item card row"
 									style={cardStyle([getNetworkColor(network)])}
-									in:scale={{ delay: i * 10, duration: 300 }}
+									in:scale={{ delay: j * 10, duration: 300 }}
 									out:scale={{ duration: 200 }}
 							>
 									<NetworkIcon {network} />
 									<span>{network.name}</span>
+
+									{#if watchBlockHeights[i]}
+										<EthereumLatestBlockNumber
+											{network}
+										/>
+									{/if}
 								</a>
 							{/each}
 						</div>
