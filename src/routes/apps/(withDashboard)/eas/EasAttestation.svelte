@@ -132,7 +132,11 @@
 							<NetworkIcon
 								{network}
 							/>
-							{network.name}
+
+							<span>
+								{network.name}
+								(Onchain)
+							</span>
 						</span>
 					{/if}
 				</dd>
