@@ -25,6 +25,13 @@
 	import { resolveRoute } from '$app/paths'
 
 
+	// Internal state
+	$: link = resolveRoute('/apps/eas/network/[networkSlug]/attestation/[attestationId]', {
+		networkSlug: network.slug,
+		attestationId: attestation.id,
+	})
+
+
 	// Components
 	import Address from '$/components/Address.svelte'
 	import Collapsible from '$/components/Collapsible.svelte'
@@ -52,10 +59,7 @@
 	>
 		<svelte:fragment slot="title">
 			<a
-				href={resolveRoute('/apps/eas/network/[networkSlug]/attestation/[attestationId]', {
-					networkSlug: network.slug,
-					attestationId: attestation.id,
-				})}
+				href={link}
 			>
 				{#if attestation.recipient}
 					<svelte:element this={`h${headingLevel}`}>
@@ -390,13 +394,15 @@
 	</Collapsible>
 
 	<footer class="row wrap">
-		<span class="date">
-			<DateComponent
-				date={attestation.timeCreated * 1000}
-				format="relative"
-				layout="horizontal"
-			/>
-		</span>
+		<a href={link}>
+			<span class="date">
+				<DateComponent
+					date={attestation.timeCreated * 1000}
+					format="relative"
+					layout="horizontal"
+				/>
+			</span>
+		</a>
 	</footer>
 </article>
 
