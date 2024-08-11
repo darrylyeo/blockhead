@@ -335,7 +335,7 @@
 			>
 				<span>App</span>
 				<select bind:value={$web3AppSlug}>
-					<option value="" selected>Select App...</option>
+					<option value="" selected>All {$network ? `${$network.name} ` : ''}Apps</option>
 
 					{#each filteredWeb3AppsBySection as {title, apps}}
 						<optgroup label={title}>
