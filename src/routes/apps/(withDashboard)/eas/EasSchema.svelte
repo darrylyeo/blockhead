@@ -30,6 +30,8 @@
 		networkSlug: network.slug
 	})
 
+	$: schemaName = schema.schemaNames?.[0]?.name
+
 
 	// Components
 	import Address from '$/components/Address.svelte'
@@ -53,11 +55,41 @@
 		isOpen={layout === 'standalone'}
 	>
 		<svelte:fragment slot="title">
-			<a href={link}>
-				<svelte:element this={`h${headingLevel}`}>
-					{schema.schemaNames?.[0]?.name ?? `[Untitled Schema]`}
-				</svelte:element>
-			</a>
+			<svelte:element this={`h${headingLevel}`} class="row">
+				<a
+					href={networkLink}
+					class="row inline"
+				>
+					<NetworkIcon
+						{network}
+					/>
+				</a>
+
+				<span>
+					<a href={link}>
+						{#if schemaName}
+							<strong>
+								{schemaName}
+							</strong>
+						{:else}
+							<span>[Untitled schema]</span>
+						{/if}
+					</a>
+
+					<small>
+						by
+
+						<strong>
+							<Address
+								{network}
+								address={schema.creator}
+								resolveToEnsName
+								format="middle-truncated"
+							/>
+						</strong>
+					</small>
+				</span>
+			</svelte:element>
 		</svelte:fragment>
 
 		<svelte:fragment slot="header-right">
