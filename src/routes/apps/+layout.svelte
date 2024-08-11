@@ -107,7 +107,7 @@
 
 	// Side effects
 
-	import { isTestnet } from '$/data/networks'
+	import { isTestnet, getNetworkColor } from '$/data/networks'
 
 	$: _isTestnet = $network && isTestnet($network)
 
@@ -119,7 +119,14 @@
 	}
 
 	$: if(globalThis.document)
-		document.documentElement.style.setProperty('--primary-color', $web3AppConfig?.colors?.[$web3AppConfig.colors.length / 2 | 0] || `var(--${tokenColors['ethereum']})`)
+		document.documentElement.style.setProperty(
+			'--primary-color',
+			(
+				$web3AppConfig?.colors?.[$web3AppConfig.colors.length / 2 | 0]
+				|| getNetworkColor($network)
+				|| `var(--${tokenColors['ethereum']})`
+			)
+		)
 
 
 	// Components
