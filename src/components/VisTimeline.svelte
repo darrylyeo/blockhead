@@ -15,17 +15,34 @@
 
 
 	// Actions
-	$: if(container){
-		timeline = new Timeline(
+	$: if(container)
+		timeline ??= new Timeline(
 			container,
 			data,
 			options
 		)
-	}
+
+	$: timeline?.setData(data)
+
 </script>
 
 
 <div
 	bind:this={container}
-	class="container"
+	class="container card"
 ></div>
+
+
+<style>
+	:global(.vis-timeline) {
+		border: none;
+	}
+
+	:global(.vis-time-axis .vis-text) {
+		color: inherit;
+	}
+
+	:global(.vis-item-content > *) {
+		display: contents;
+	}
+</style>

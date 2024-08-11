@@ -13,12 +13,14 @@
 
 	// Internal state
 	let watchBlockHeights: Record<string, boolean> = {}
+	let showTimeline: Record<string, boolean> = {}
 
 
 	// COmponents
 	import Collapsible from '$/components/Collapsible.svelte'
 	import EthereumLatestBlockNumber from '$/components/EthereumLatestBlockNumber.svelte'
 	import NetworkIcon from '$/components/NetworkIcon.svelte'
+	import NetworksTimeline from '$/components/NetworksTimeline.svelte'
 	import SizeContainer from '$/components/SizeContainer.svelte'
 
 
@@ -61,6 +63,17 @@
 
 						<span>Block Heights</span>
 					</label>
+
+					{#if watchBlockHeights[i]}
+						<label>
+							<input
+								type="checkbox"
+								bind:checked={showTimeline[i]}
+							/>
+
+							<span>Timeline</span>
+						</label>
+					{/if}
 				</svelte:fragment>
 
 				{#each
@@ -72,39 +85,47 @@
 					{ networks, isFeatured }
 				}
 					<SizeContainer>
-						<div
-							class="content row wrap"
-							class:featured={isFeatured}
-						>
-							{#each
-								(
-									$showTestnets
-										? networks
-											.filter(network => isTestnet(network) ? !mainnetForTestnet.has(network.slug) : true)
-											.flatMap(network => [network, ...testnetsForMainnet.get(network.slug) ?? []])
-										: networks
-											.filter(network => !isTestnet(network))
-								).filter(network => network.chainId)
-								as
-								network, j (network.slug)
-							}
-								<a
-									href="/explorer/{network.slug}"
-									class="item card row"
-									style={cardStyle([getNetworkColor(network)])}
-									in:scale={{ delay: j * 10, duration: 300 }}
-									out:scale={{ duration: 200 }}
-							>
-									<NetworkIcon {network} />
-									<span>{network.name}</span>
+						<div class="column">
+							{#if showTimeline[i]}
+								<NetworksTimeline
+									{networks}
+								/>
+							{/if}
 
-									{#if watchBlockHeights[i]}
-										<EthereumLatestBlockNumber
-											{network}
-										/>
-									{/if}
-								</a>
-							{/each}
+							<div
+								class="content row wrap"
+								class:featured={isFeatured}
+							>
+								{#each
+									(
+										$showTestnets
+											? networks
+												.filter(network => isTestnet(network) ? !mainnetForTestnet.has(network.slug) : true)
+												.flatMap(network => [network, ...testnetsForMainnet.get(network.slug) ?? []])
+											: networks
+												.filter(network => !isTestnet(network))
+									).filter(network => network.chainId)
+									as
+									network, j (network.slug)
+								}
+									<a
+										href="/explorer/{network.slug}"
+										class="item card row"
+										style={cardStyle([getNetworkColor(network)])}
+										in:scale={{ delay: j * 10, duration: 300 }}
+										out:scale={{ duration: 200 }}
+								>
+										<NetworkIcon {network} />
+										<span>{network.name}</span>
+
+										{#if watchBlockHeights[i]}
+											<EthereumLatestBlockNumber
+												{network}
+											/>
+										{/if}
+									</a>
+								{/each}
+							</div>
 						</div>
 					</SizeContainer>
 				{/each}
