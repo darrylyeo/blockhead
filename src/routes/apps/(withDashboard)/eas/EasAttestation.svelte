@@ -32,8 +32,11 @@
 	import EthereumTransaction from '$/components/EthereumTransaction.svelte'
 	import EthereumTransactionLoader from '$/components/EthereumTransactionLoader.svelte'
 	import EasSchema from './EasSchema.svelte'
+	import Icon from '$/components/Icon.svelte'
 	import IpfsContentDetails from '$/components/IpfsContentDetails.svelte'
+	import IpfsContentId from '$/components/IpfsContentId.svelte'
 	import NetworkIcon from '$/components/NetworkIcon.svelte'
+	import { IpfsIcon } from '$/assets/icons'
 </script>
 
 
@@ -86,6 +89,40 @@
 
 		<dl>
 			<div>
+				<dt>Location</dt>
+
+				<dd>
+					{#if attestation.isOffchain}
+						{#if attestation.ipfsHash}
+							<span class="row inline">
+								<IpfsContentId
+									ipfsContentId={attestation.ipfsHash}
+									let:ipfsContentId
+								>
+									<span class="row inline">
+										<Icon imageSources={[IpfsIcon]} />
+
+										IPFS
+									</span>
+								</IpfsContentId>
+
+								(Offchain)
+							</span>
+						{:else}
+							Offchain
+						{/if}
+					{:else}
+						<span class="row inline">
+							<NetworkIcon
+								{network}
+							/>
+							{network.name}
+						</span>
+					{/if}
+				</dd>
+			</div>
+
+			<div>
 				<dt>Attester</dt>
 
 				<dd>
@@ -106,23 +143,6 @@
 						resolveToEnsName
 						address={attestation.recipient}
 					/>
-				</dd>
-			</div>
-
-			<div>
-				<dt>Location</dt>
-
-				<dd>
-					{#if attestation.isOffchain}
-						Offchain
-					{:else}
-						<span class="row inline">
-							<NetworkIcon
-								{network}
-							/>
-							{network.name}
-						</span>
-					{/if}
 				</dd>
 			</div>
 
