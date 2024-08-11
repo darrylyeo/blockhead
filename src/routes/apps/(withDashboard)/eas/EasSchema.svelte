@@ -20,9 +20,14 @@
 
 
 	// Internal state
+	// (Computed)
 	$: link = resolveRoute('/apps/eas/network/[networkSlug]/schema/[schemaId]', {
 		networkSlug: network.slug,
 		schemaId: schema.id,
+	})
+
+	$: networkLink = resolveRoute('/apps/eas/network/[networkSlug]', {
+		networkSlug: network.slug
 	})
 
 
@@ -69,7 +74,7 @@
 
 				<dd>
 					<a
-						href={`/apps/eas/network/${network.slug}`}
+						href={networkLink}
 						class="row inline"
 					>
 						<NetworkIcon
