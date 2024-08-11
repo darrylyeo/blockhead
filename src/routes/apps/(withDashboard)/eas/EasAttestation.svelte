@@ -17,19 +17,23 @@
 	export let isOpen = layout === 'standalone'
 	export let headingLevel = 4
 
-	// (Derived)
-	$: schemaName = attestation.schema.schemaNames?.[0]?.name
-
 
 	// Functions
 	import { resolveRoute } from '$app/paths'
 
 
 	// Internal state
+	// (Derived)
 	$: link = resolveRoute('/apps/eas/network/[networkSlug]/attestation/[attestationId]', {
 		networkSlug: network.slug,
 		attestationId: attestation.id,
 	})
+
+	$: networkLink = resolveRoute('/apps/eas/network/[networkSlug]', {
+		networkSlug: network.slug
+	})
+
+	$: schemaName = attestation.schema.schemaNames?.[0]?.name
 
 
 	// Components
@@ -69,7 +73,7 @@
 					{/if}
 				{:else}
 					<a
-						href={`/apps/eas/network/${network.slug}`}
+						href={networkLink}
 						class="row inline"
 					>
 						<NetworkIcon
@@ -174,7 +178,7 @@
 					{:else}
 						<span>
 							<a
-								href={`/apps/eas/network/${network.slug}`}
+								href={networkLink}
 								class="row inline"
 							>
 								<NetworkIcon
