@@ -9304,6 +9304,35 @@ export const web3Apps = [
 			},
 			{
 				showOn: ['Dashboard'],
+
+				chainId: 80002,
+				components: [
+					EasPage,
+				],
+				contracts: [
+					{
+						name: 'EAS (v1.3.0)',
+						address: '0xb101275a60d8bfb14529C421899aD7CA1Ae5B5Fc',
+					},
+					{
+						name: 'SchemaRegistry (v1.3.0)',
+						address: '0x23c5701A1BDa89C61d181BD79E5203c730708AE7',
+					},
+					{
+						name: 'EIP712Proxy (v1.3.0)',
+						address: '0xA0ec8a80a0b8496B9Cf6Ee703bC16ABdC9F4cf2e',
+					},
+					{
+						name: 'Indexer (v1.3.0)',
+						address: '0x9F07c0B0E52C36D78Ac8ABfC543c77f83888ac64',
+					},
+				],
+				providers: {
+					zapper: 'eas',
+				},
+			},
+			{
+				showOn: ['Dashboard'],
 		
 				chainId: 59140,
 				components: [
