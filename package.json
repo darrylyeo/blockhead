@@ -101,6 +101,7 @@
     "svelvet": "^6.0.12",
     "uint8arrays": "^4.0.10",
     "viem": "^2.11.1",
+    "vis-timeline": "^7.7.3",
     "webmax": "^0.2.0"
   },
   "devDependencies": {

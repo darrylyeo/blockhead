@@ -14,6 +14,8 @@ const config: UserConfig = {
 			// ^^^^^^
 			// SyntaxError: Unexpected token 'export'
 			'echarts',
+
+			'vis-timeline',
 		],
 
 		// Transform into ESModules
