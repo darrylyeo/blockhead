@@ -218,47 +218,44 @@
 	<header>
 		<CollapsibleToolbar>
 			<svelte:fragment slot="title">
-				<h1>
-					<a
-						href={`/apps/${$web3AppSlug}`}
-						class="row"
+				<h1 class="row">
+					<InlineTransition
+						key={$web3AppConfig || $network}
+						align="center"
+						contentTransition={[scale, { duration: 400 }]}
 					>
-						<InlineTransition
-							key={$web3AppConfig || $network}
-							align="center"
-							contentTransition={[scale, { duration: 400 }]}
-						>
-							{#if $web3AppConfig}
-								{#if $web3AppConfig.icon}
-									<img src={$web3AppConfig.icon} width="30" />
-								{:else}
-									{@const token = $web3AppConfig.views?.flatMap(view => view.erc20Tokens ?? [])[0]}
-
-									{#if token}
-										<TokenIcon
-											{token}
-										/>
-									{:else}
-										<img src="/Blockhead-Logo.svg" width="30" />
-									{/if}
-								{/if}
-							{:else if $network}
-								<NetworkIcon network={$network} />
+						{#if $web3AppConfig}
+							{#if $web3AppConfig.icon}
+								<img src={$web3AppConfig.icon} width="30" />
 							{:else}
-								<img src="/Blockhead-Logo.svg" width="30" />
-							{/if}
-						</InlineTransition>
+								{@const token = $web3AppConfig.views?.flatMap(view => view.erc20Tokens ?? [])[0]}
 
-						<InlineTransition
-							key={Boolean($web3AppSlug && $web3AppConfig)}
-							align="start"
-							contentProps={{ class: '' }}
-							contentTransition={{
-								in: [scale, { duration: 400 }],
-								out: [scale, { duration: 400 }],
-							}}
-						>
-							{#if $web3AppSlug && $web3AppConfig}
+								{#if token}
+									<TokenIcon
+										{token}
+									/>
+								{:else}
+									<img src="/Blockhead-Logo.svg" width="30" />
+								{/if}
+							{/if}
+						{:else if $network}
+							<NetworkIcon network={$network} />
+						{:else}
+							<img src="/Blockhead-Logo.svg" width="30" />
+						{/if}
+					</InlineTransition>
+
+					<InlineTransition
+						key={Boolean($web3AppSlug && $web3AppConfig)}
+						align="start"
+						contentProps={{ class: '' }}
+						contentTransition={{
+							in: [scale, { duration: 400 }],
+							out: [scale, { duration: 400 }],
+						}}
+					>
+						{#if $web3AppSlug && $web3AppConfig}
+							<a href={`/apps/${$web3AppSlug}`}>
 								<InlineTransition
 									key={$web3AppConfig}
 									clip
@@ -270,39 +267,43 @@
 								>
 									<mark>{$web3AppConfig.name}</mark>
 								</InlineTransition>
+							</a>
 
-								<InlineTransition
-									isOpen={$currentView !== 'Dashboard'}
-									key={$currentView} 
-									clip
-									align="start"
-									contentTransition={{
-										in: [fly, { y: 20, duration: 400 }],
-										out: [fly, { y: -20, duration: 400 }],
-									}}
-								>
-									<span>{$currentView}</span>
-								</InlineTransition>
-							{:else}
-								<InlineTransition
-									isOpen={Boolean($network)}
-									key={$network}
-									clip
-									align="start"
-									contentTransition={{
-										in: [fly, { y: 20, duration: 400 }],
-										out: [fly, { y: -20, duration: 400 }],
-									}}
-								>
-									{#if $network}
-										<span>{$network.name}</span>
-									{/if}
-								</InlineTransition>
+							<InlineTransition
+								isOpen={$currentView !== 'Dashboard'}
+								key={$currentView} 
+								clip
+								align="start"
+								contentTransition={{
+									in: [fly, { y: 20, duration: 400 }],
+									out: [fly, { y: -20, duration: 400 }],
+								}}
+							>
+								<span>{$currentView}</span>
+							</InlineTransition>
+						{:else}
+							<InlineTransition
+								isOpen={Boolean($network)}
+								key={$network}
+								clip
+								align="start"
+								contentTransition={{
+									in: [fly, { y: 20, duration: 400 }],
+									out: [fly, { y: -20, duration: 400 }],
+								}}
+							>
+								{#if $network}
+									<a href={`/explorer/${$network.slug}`}>
+										<mark>{$network.name}</mark>
+									</a>
+								{/if}
+							</InlineTransition>
 
+							<a href={`/apps/${$web3AppSlug}`}>
 								Apps
-							{/if}
-						</InlineTransition>
-					</a>
+							</a>
+						{/if}
+					</InlineTransition>
 				</h1>
 			</svelte:fragment>
 
