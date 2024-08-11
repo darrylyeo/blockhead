@@ -24,6 +24,7 @@
 	export let publicClient: Ethereum.PublicClient | undefined
 
 	// (View options)
+	export let layout: 'standalone' | 'inline' = 'standalone'
 	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 2
 	export let isOpen = true
 	export let resolveAccountNames = true
@@ -281,7 +282,7 @@
 						includeLogs={detailLevel === 'exhaustive'}
 						viewOptions={{
 							showIf: transactions => transactions,
-							isOpen: false,
+							isOpen: layout === 'standalone',
 						}}
 						let:transactions
 					>

@@ -206,6 +206,7 @@
 					<EthereumAccountOrContract
 						{network}
 						accountId={schema.resolver}
+						layout="inline"
 						isOpen={false}
 						headingLevel={headingLevel + 2}
 					/>
