@@ -57,9 +57,7 @@
 			</span>
 		</svelte:fragment>
 
-		{#if layout === 'standalone'}
-			<hr>
-		{/if}
+		<hr>
 
 		<dl>
 			{#if schema.resolver !== '0x0000000000000000000000000000000000000000'}

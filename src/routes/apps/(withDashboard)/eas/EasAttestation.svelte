@@ -101,9 +101,7 @@
 			</span>
 		</svelte:fragment>
 
-		{#if layout === 'standalone'}
-			<hr>
-		{/if}
+		<hr>
 
 		<dl>
 			<div>
