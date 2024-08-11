@@ -15,8 +15,9 @@
 
 	// Context
 	import { preferences } from '$/state/preferences'
+	import { prefersReducedMotion } from '$/state/prefersReducedMotion'
 
-	$: isAnimationsEnabled = $preferences.animations === 'enabled'
+	$: isAnimationsEnabled = $preferences.animations === 'enabled' || ($preferences.animations === 'auto' && !$prefersReducedMotion)
 
 
 	// Inputs
