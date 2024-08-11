@@ -49,7 +49,10 @@
 
 	type $$Slots = {
 		'default': SharedSlotProps,
-		'header': SharedSlotProps,
+		'header': SharedSlotProps & {
+			isOpen: Loader<any, any, any, 'collapsible'>['$$slot_def']['default']['isOpen'],
+			toggle: Loader<any, any, any, 'collapsible'>['$$slot_def']['default']['toggle'],
+		},
 	}
 
 
@@ -305,8 +308,19 @@
 		let:result={transactions}
 		let:status
 		let:pagination
+		let:isOpen
+		let:toggle
 	>
-		<slot name="header" {transactions} {status} {pagination} />
+		<slot name="header"
+			{transactions}
+			{status} {pagination}
+			{isOpen} {toggle}
+		/>
 	</svelte:fragment>
-	<slot {transactions} {pagination} />
+
+	<slot
+		{transactions}
+		{status} {pagination}
+		{isOpen} {toggle}
+	/>
 </Loader>
