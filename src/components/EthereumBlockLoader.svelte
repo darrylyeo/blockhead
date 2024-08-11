@@ -263,6 +263,21 @@
 			})
 		}),
 
+		[TransactionProvider.Decommas]: () => ({
+			fromQuery: createQuery({
+				queryKey: ['Block', {
+					transactionProvider,
+					chainId: network.chainId,
+					blockNumber: Number(blockNumber),
+					includeTransactions,
+				}],
+				placeholderData: () => placeholderData,
+				queryFn: async () => {
+					throw `Decommas does not yet support querying blocks.`
+				},
+			}),
+		}),
+
 		[TransactionProvider.Etherscan]: () => ({
 			fromQuery: createQuery({
 				queryKey: ['Block', {
