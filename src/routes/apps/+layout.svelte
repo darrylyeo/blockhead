@@ -273,8 +273,9 @@
 				</small>
 
 				<!-- svelte-ignore a11y-label-has-associated-control -->
-				<label>
-					<span>Network: </span>
+				<label class="row inline">
+					<span>Network </span>
+
 					<NetworkSelect
 						network={$network}
 						allowedNetworks={$web3AppConfig ? getWeb3AppSupportedNetworks($web3AppConfig) : undefined}
@@ -285,7 +286,10 @@
 				</label>
 			</div>
 
-			<label>
+			<label
+				data-app-select-label
+				class="row inline"
+			>
 				<span>App</span>
 				<select bind:value={$web3AppSlug}>
 					<option value="" selected>Select App...</option>
