@@ -23,6 +23,7 @@
 	import Address from '$/components/Address.svelte'
 	import Collapsible from '$/components/Collapsible.svelte'
 	import DateComponent from '$/components/Date.svelte'
+	import EthereumAccountOrContract from '$/components/EthereumAccountOrContract.svelte'
 	import EthereumTransaction from '$/components/EthereumTransaction.svelte'
 	import NetworkIcon from '$/components/NetworkIcon.svelte'
 	import TweenedNumber from '$/components/TweenedNumber.svelte'
@@ -79,7 +80,7 @@
 
 			{#if schema.resolver !== '0x0000000000000000000000000000000000000000'}
 				<div>
-					<dt>Resolver</dt>
+					<dt>Resolver Contract</dt>
 
 					<dd>
 						<Address
@@ -146,6 +147,32 @@
 				</dd>
 			</div>
 		</dl>
+
+		{#if schema.resolver !== '0x0000000000000000000000000000000000000000'}
+			<hr>
+
+			<section>
+				<Collapsible
+					type="label"
+					class="column"
+					showTriggerText={false}
+					isOpen
+				>
+					<svelte:fragment slot="title">
+						<svelte:element this={`h${headingLevel + 1}`}>
+							Resolver Contract
+						</svelte:element>
+					</svelte:fragment>
+
+					<EthereumAccountOrContract
+						{network}
+						accountId={schema.resolver}
+						isOpen={false}
+						headingLevel={headingLevel + 2}
+					/>
+				</Collapsible>
+			</section>
+		{/if}
 
 		<hr>
 
