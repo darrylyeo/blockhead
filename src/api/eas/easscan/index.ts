@@ -153,51 +153,6 @@ const Schema = graphql(`
 			id
 			isCreator
 			name
-			schema {
-				id
-				time
-				schema
-				_count {
-					attestations
-					schemaNames
-				}
-				creator
-				id
-				index
-				resolver
-				revocable
-				schema
-				schemaNames {
-					attesterAddress
-					id
-					isCreator
-					name
-					schema {
-						id
-						time
-						schema
-						_count {
-							attestations
-							schemaNames
-						}
-						creator
-						id
-						index
-						resolver
-						revocable
-						schema
-						# schemaNames {
-							
-						# }
-						time
-						txid
-					}
-					schemaId
-					time
-				}
-				time
-				txid
-			}
 			schemaId
 			time
 		}
