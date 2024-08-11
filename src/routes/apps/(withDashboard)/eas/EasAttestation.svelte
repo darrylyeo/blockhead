@@ -68,7 +68,7 @@
 
 						<span>received</span>
 
-						<span>{schemaName ? ` "${schemaName}"` : ''}</span>
+						<span>{schemaName ? ` "${schemaName}"` : 'an attestation'}</span>
 
 						<span>from</span>
 
