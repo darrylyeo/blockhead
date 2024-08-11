@@ -148,6 +148,19 @@
 		grid-template-rows: auto 1fr;
 	}
 
+	h1 {
+		--icon-size: 1em;
+		flex: 0 auto;
+		margin-inline-end: auto;
+
+		> a {
+			--text-decoration-opacity: 0.05;
+			text-decoration-thickness: 2px;
+			text-underline-offset: 20%;
+			line-height: 1.4;
+		}
+	}
+
 	select {
 		max-width: 11.5rem;
 	}
@@ -156,13 +169,6 @@
 		container: Content / inline-size;
 		flex: 1;
 	}
-
-
-	.title-icon {
-		display: inline-flex;
-		align-items: center;
-		font-size: 1.5em;
-	}
 </style>
 
 
@@ -170,13 +176,16 @@
 	<header>
 		<CollapsibleToolbar>
 			<svelte:fragment slot="title">
-				<div class="title row">
-					<InlineTransition
-						key={$web3AppConfig || $network}
-						align="center"
-						contentTransition={[scale, { duration: 400 }]}
+				<h1>
+					<a
+						href={`/apps/${$web3AppSlug}`}
+						class="row"
 					>
-						<span class="title-icon">
+						<InlineTransition
+							key={$web3AppConfig || $network}
+							align="center"
+							contentTransition={[scale, { duration: 400 }]}
+						>
 							{#if $web3AppConfig}
 								{#if $web3AppConfig.icon}
 									<img src={$web3AppConfig.icon} width="30" />
@@ -196,67 +205,63 @@
 							{:else}
 								<img src="/Blockhead-Logo.svg" width="30" />
 							{/if}
-						</span>
-					</InlineTransition>
+						</InlineTransition>
 
-					<h1>
-						<a href="/apps/{$web3AppSlug}" class="stack inline">
-							<InlineTransition
-								key={Boolean($web3AppSlug && $web3AppConfig)}
-								align="start"
-								contentProps={{ class: '' }}
-								contentTransition={{
-									in: [scale, { duration: 400 }],
-									out: [scale, { duration: 400 }],
-								}}
-							>
-								{#if $web3AppSlug && $web3AppConfig}
-									<InlineTransition
-										key={$web3AppConfig}
-										clip
-										align="start"
-										contentTransition={{
-											in: [fly, { y: 20, duration: 400 }],
-											out: [fly, { y: -20, duration: 400 }],
-										}}
-									>
-										<mark>{$web3AppConfig.name}</mark>
-									</InlineTransition>
+						<InlineTransition
+							key={Boolean($web3AppSlug && $web3AppConfig)}
+							align="start"
+							contentProps={{ class: '' }}
+							contentTransition={{
+								in: [scale, { duration: 400 }],
+								out: [scale, { duration: 400 }],
+							}}
+						>
+							{#if $web3AppSlug && $web3AppConfig}
+								<InlineTransition
+									key={$web3AppConfig}
+									clip
+									align="start"
+									contentTransition={{
+										in: [fly, { y: 20, duration: 400 }],
+										out: [fly, { y: -20, duration: 400 }],
+									}}
+								>
+									<mark>{$web3AppConfig.name}</mark>
+								</InlineTransition>
 
-									<InlineTransition
-										isOpen={$currentView !== 'Dashboard'}
-										key={$currentView} 
-										clip
-										align="start"
-										contentTransition={{
-											in: [fly, { y: 20, duration: 400 }],
-											out: [fly, { y: -20, duration: 400 }],
-										}}
-									>
-										<span>{$currentView}</span>
-									</InlineTransition>
-								{:else}
-									<InlineTransition
-										isOpen={Boolean($network)}
-										key={$network}
-										clip
-										align="start"
-										contentTransition={{
-											in: [fly, { y: 20, duration: 400 }],
-											out: [fly, { y: -20, duration: 400 }],
-										}}
-									>
-										{#if $network}
-											<span>{$network.name}</span>
-										{/if}
-									</InlineTransition>
+								<InlineTransition
+									isOpen={$currentView !== 'Dashboard'}
+									key={$currentView} 
+									clip
+									align="start"
+									contentTransition={{
+										in: [fly, { y: 20, duration: 400 }],
+										out: [fly, { y: -20, duration: 400 }],
+									}}
+								>
+									<span>{$currentView}</span>
+								</InlineTransition>
+							{:else}
+								<InlineTransition
+									isOpen={Boolean($network)}
+									key={$network}
+									clip
+									align="start"
+									contentTransition={{
+										in: [fly, { y: 20, duration: 400 }],
+										out: [fly, { y: -20, duration: 400 }],
+									}}
+								>
+									{#if $network}
+										<span>{$network.name}</span>
+									{/if}
+								</InlineTransition>
 
-									Apps
-								{/if}
-							</InlineTransition>
-						</a>
-					</h1>
-				</div>
+								Apps
+							{/if}
+						</InlineTransition>
+					</a>
+				</h1>
 			</svelte:fragment>
 
 			<div class="row wrap">

@@ -93,11 +93,17 @@
 		grid-template-columns: 100%;
 	}
 
-	.title {
-		gap: 0.66em;
-	}
-	.title-icon {
-		font-size: 1.5em;
+	h1 {
+		--icon-size: 1em;
+		flex: 0 auto;
+		margin-inline-end: auto;
+
+		> a {
+			--text-decoration-opacity: 0.05;
+			text-decoration-thickness: 2px;
+			text-underline-offset: 20%;
+			line-height: 1.4;
+		}
 	}
 </style>
 
@@ -106,34 +112,38 @@
 	<header>
 		<CollapsibleToolbar>
 			<svelte:fragment slot="title">
-				<div class="title row">
-					<InlineTransition
-						key={$networkSlug}
-						align="center"
-						contentTransition={[scale, { duration: 400 }]}
+				<h1>
+					<a
+						href={`/explorer${$explorerNetwork ? `/${$explorerNetwork.slug}` : ''}`}
+						class="row"
 					>
-						<span class="row title-icon">
+						<InlineTransition
+							key={$networkSlug}
+							align="center"
+							contentTransition={[scale, { duration: 400 }]}
+						>
 							{#if $networkSlug}
 								<NetworkIcon network={$explorerNetwork} />
 							{:else}
 								<img src="/Blockhead-Logo.svg" width="30" />
 							{/if}
-						</span>
-					</InlineTransition>
+						</InlineTransition>
 
-					<h1>
-						<InlineTransition
-							key={$networkSlug}
-							align="start"
-							clip
-							contentTransition={{
-								in: [fly, { y: 20, duration: 400 }],
-								out: [fly, { y: -20, duration: 400 }]
-							}}
-						>{networkDisplayName}</InlineTransition>
-						Explorer
-					</h1>
-				</div>
+						<span>
+							<InlineTransition
+								key={$networkSlug}
+								align="start"
+								clip
+								contentTransition={{
+									in: [fly, { y: 20, duration: 400 }],
+									out: [fly, { y: -20, duration: 400 }]
+								}}
+							>{#if $networkSlug}<mark>{networkDisplayName}</mark>{:else}{networkDisplayName}{/if}</InlineTransition>
+
+							Explorer
+						</span>
+					</a>
+				</h1>
 			</svelte:fragment>
 
 			<div class="row wrap">
