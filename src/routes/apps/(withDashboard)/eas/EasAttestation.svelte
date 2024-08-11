@@ -61,41 +61,62 @@
 			<a
 				href={link}
 			>
-				{#if attestation.recipient !== '0x0000000000000000000000000000000000000000'}
-					<svelte:element this={`h${headingLevel}`}>
-						<Address
-							{network}
-							address={attestation.recipient}
-							resolveToEnsName
-							format="middle-truncated"
-						/>
+				<svelte:element this={`h${headingLevel}`}>
+					{#if attestation.recipient !== '0x0000000000000000000000000000000000000000'}
+						<strong>
+							<Address
+								{network}
+								address={attestation.recipient}
+								resolveToEnsName
+								format="middle-truncated"
+							/>
+						</strong>
 
 						<span>received</span>
 
-						<span>{schemaName ? ` "${schemaName}"` : 'an attestation'}</span>
+						<a
+							href={resolveRoute('/apps/eas/network/[networkSlug]/schema/[schemaId]', {
+								networkSlug: network.slug,
+								schemaId: attestation.schema.id,
+							})}
+						>
+							{#if schemaName}
+								<strong>{schemaName}</strong>
+							{:else}
+								<span>an attestation</span>
+							{/if}
+						</a>
 
 						<span>from</span>
 
-						<Address
-							{network}
-							address={attestation.attester}
-							resolveToEnsName
-							format="middle-truncated"
-						/>
-					</svelte:element>
+						<strong>
+							<Address
+								{network}
+								address={attestation.attester}
+								resolveToEnsName
+								format="middle-truncated"
+							/>
+						</strong>
 
-				{:else}
-					<Address
-						{network}
-						address={attestation.attester}
-						resolveToEnsName
-						format="middle-truncated"
-					/>
+					{:else}
+						<strong>
+							<Address
+								{network}
+								address={attestation.attester}
+								resolveToEnsName
+								format="middle-truncated"
+							/>
+						</strong>
 
-					<span>attested</span>
+						{#if schemaName}
+							<span>attested</span>
 
-					<span>{schemaName ? ` "${schemaName}"` : ''}</span>
-				{/if}
+							<strong>{schemaName}</strong>
+						{:else}
+							<span>recorded an attestation</span>
+						{/if}
+					{/if}
+				</svelte:element>
 			</a>
 		</svelte:fragment>
 
