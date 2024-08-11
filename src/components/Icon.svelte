@@ -61,6 +61,7 @@
 		height: 1em;
 		align-self: center;
 		align-items: center;
+		vertical-align: text-bottom;
 	}
 	.icon + :global(.icon) {
 		margin-left: calc(-0.25em - var(--padding-inner));
