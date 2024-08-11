@@ -176,17 +176,19 @@
 				</div>
 			{/if}
 
-			{#if attestation.expirationTime}
-				<div>
-					<dt>Expires</dt>
+			<div>
+				<dt>Expires</dt>
 
-					<dd>
+				<dd>
+					{#if attestation.expirationTime}
 						<DateComponent
 							date={attestation.expirationTime * 1000}
 						/>
-					</dd>
-				</div>
-			{/if}
+					{:else}
+						Never
+					{/if}
+				</dd>
+			</div>
 		</dl>
 
 		<hr>
