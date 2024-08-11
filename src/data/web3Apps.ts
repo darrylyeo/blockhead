@@ -12,6 +12,7 @@ import type { DefiSDK } from '$/api/zerion/defiSdk/index'
 import type { ZapperAppName } from '$/api/zapper'
 import { erc20TokensByContractAddress, erc20TokensBySymbol } from './tokens'
 import type { DeepReadonly } from '$/utils/DeepReadonly'
+import { networkBySlug } from '$/data/networks'
 
 
 import {
@@ -31801,21 +31802,28 @@ const creatorApps = ([
 // ] as const)
 //	.map(slug => web3AppsBySlug[slug])
 
-const networkApps = ([
-	'arbitrum',
-	'aurora-plus',
-	'base',
-	'blast',
-	'degen',
-	'ethereum',
-	'linea',
-	'metal',
-	'metis',
-	'optimism',
-	'polygon',
-	'zksync',
-] as const)
-.map(slug => web3AppsBySlug[slug])
+export const appForNetwork = new Map(
+	([
+		['arbitrum-one', 'arbitrum'],
+		['aurora', 'aurora-plus'],
+		['base', 'base'],
+		['blast', 'blast'],
+		['degen', 'degen'],
+		['ethereum', 'ethereum'],
+		['linea', 'linea'],
+		['metal', 'metal'],
+		['metis', 'metis'],
+		['optimism', 'optimism'],
+		['polygon', 'polygon'],
+		['zksync', 'zksync'],
+	] as const)
+		.map(([networkSlug, appSlug]) => [
+			networkBySlug.get(networkSlug)!,
+			web3AppsBySlug[appSlug]
+		])
+)
+
+export const networkApps = [...appForNetwork.values()]
 
 export const web3AppsBySection = ([
 	{
