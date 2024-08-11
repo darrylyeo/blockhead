@@ -24,6 +24,7 @@
 	import Collapsible from '$/components/Collapsible.svelte'
 	import DateComponent from '$/components/Date.svelte'
 	import EthereumTransaction from '$/components/EthereumTransaction.svelte'
+	import NetworkIcon from '$/components/NetworkIcon.svelte'
 	import TweenedNumber from '$/components/TweenedNumber.svelte'
 </script>
 
@@ -60,6 +61,22 @@
 		<hr>
 
 		<dl>
+			<div>
+				<dt>Location</dt>
+
+				<dd>
+					<a
+						href={`/apps/eas/network/${network.slug}`}
+						class="row inline"
+					>
+						<NetworkIcon
+							{network}
+						/>
+						{network.name}
+					</a>
+				</dd>
+			</div>
+
 			{#if schema.resolver !== '0x0000000000000000000000000000000000000000'}
 				<div>
 					<dt>Resolver</dt>
