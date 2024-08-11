@@ -58,10 +58,29 @@
 		{isOpen}
 	>
 		<svelte:fragment slot="title">
-			<a
-				href={link}
-			>
-				<svelte:element this={`h${headingLevel}`}>
+			<svelte:element this={`h${headingLevel}`} class="row">
+				{#if attestation.isOffchain}
+					{#if attestation.ipfsHash}
+						<IpfsContentId
+							ipfsContentId={attestation.ipfsHash}
+						>
+							<Icon imageSources={[IpfsIcon]} />
+						</IpfsContentId>
+					{/if}
+				{:else}
+					<a
+						href={`/apps/eas/network/${network.slug}`}
+						class="row inline"
+					>
+						<NetworkIcon
+							{network}
+						/>
+					</a>
+				{/if}
+
+				<a
+					href={link}
+				>
 					{#if attestation.recipient !== '0x0000000000000000000000000000000000000000'}
 						<strong>
 							<Address
@@ -116,8 +135,8 @@
 							<span>recorded an attestation</span>
 						{/if}
 					{/if}
-				</svelte:element>
-			</a>
+				</a>
+			</svelte:element>
 		</svelte:fragment>
 
 		<svelte:fragment slot="header-right">
