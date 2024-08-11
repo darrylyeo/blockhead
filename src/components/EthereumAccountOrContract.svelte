@@ -281,6 +281,7 @@
 						includeLogs={detailLevel === 'exhaustive'}
 						viewOptions={{
 							showIf: transactions => transactions,
+							isOpen: false,
 						}}
 						let:transactions
 					>
@@ -288,6 +289,8 @@
 							let:status
 							let:transactions
 							let:pagination
+							let:isOpen
+							let:toggle
 						>
 							<summary class="bar wrap">
 								<svelte:element this={`h${headingLevel + 1}`}>
@@ -295,21 +298,29 @@
 									<InlineContainer isOpen={status === 'resolved'}>(<TweenedNumber value={transactions.length} /><InlineContainer isOpen={pagination?.hasNextPage}>+</InlineContainer>)</InlineContainer>
 								</svelte:element>
 
-								<div role="toolbar" class="row wrap">
-									<label>
-										<input type="checkbox" bind:checked={showFees}>
-										<span>Fees</span>
-									</label>
+								{#if isOpen}
+									<div role="toolbar" class="row wrap align-end" transition:scale>
+										<label>
+											<input type="checkbox" bind:checked={showFees}>
+											<span>Fees</span>
+										</label>
 
-									<label>
-										<span>View</span>
-										<select bind:value={detailLevel}>
-											<option value="summary">Summary</option>
-											<option value="detailed">Detailed</option>
-											<option value="exhaustive">Exhaustive</option>
-										</select>
-									</label>
-								</div>
+										<label>
+											<span>View</span>
+											<select bind:value={detailLevel}>
+												<option value="summary">Summary</option>
+												<option value="detailed">Detailed</option>
+												<option value="exhaustive">Exhaustive</option>
+											</select>
+										</label>
+									</div>
+								{/if}
+
+								<button
+									class="small"
+									data-after={isOpen ? '⏶' : '⏷'}
+									on:click={toggle}
+								>{isOpen ? 'Hide' : 'Show'}</button>
 							</summary>
 						</svelte:fragment>
 
