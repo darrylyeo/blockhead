@@ -16,6 +16,9 @@
 
 	export let includeLogs = true
 
+	// (View options)
+	export let viewOptions: Loader<any, any, any, any>['$$prop_def']['viewOptions'] | undefined
+
 	// (Computed)
 	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
@@ -64,6 +67,7 @@
 <Loader
 	viewOptions={{
 		layout: 'collapsible',
+		...viewOptions,
 	}}
 	loadingIcon={transactionProviderIcons[transactionProvider]}
 	{loadingMessage}
