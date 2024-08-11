@@ -202,10 +202,15 @@ body {
 	text-decoration-line: underline;
 	text-decoration-color: rgba(var(--text-decoration-color), var(--text-decoration-opacity));
 
-	&:hover {
+	&:is(:hover, :focus):not(:focus-within) {
 		--text-decoration-opacity: 0.33;
 		opacity: 0.9;
 		/* text-shadow: 0 1px 3px; */
+
+		&:has(:any-link:is(:hover, :focus)) {
+			--text-decoration-opacity: 0;
+			opacity: 1;
+		}
 	}
 }
 
