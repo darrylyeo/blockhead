@@ -93,7 +93,7 @@
 				filter: brightness(1.1);
 			}
 
-			&:active:not(:has(:any-link:active)) {
+			&:active {
 				scale: 0.992;
 				opacity: 0.75;
 				transition-duration: 0.15s;
@@ -192,7 +192,7 @@
 				<div class={$$props.contentRightClass ?? 'row wrap'}>
 					<slot name="toolbar" {isOpen} {toggle}>
 						{#if $$slots['toolbar-items']}
-							<div role="toolbar">
+							<div role="toolbar" class="row">
 								<slot name="toolbar-items" {isOpen} {toggle} />
 							</div>
 						{/if}
