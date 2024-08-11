@@ -30,7 +30,7 @@
 
 
 <style>
-	.ipfs-content-id {
+	.format {
 		font-family: var(--monospace-fonts), var(--base-fonts);
 	}
 </style>
@@ -38,7 +38,7 @@
 
 {#if linkedParts}
 	<span
-		class="ipfs-content-id"
+		class="ipfs-content-id format"
 		title={ipfsContentId}
 	>
 		<slot {ipfsContentId} {ipfsContentPath}>
@@ -62,6 +62,8 @@
 		draggable={true}
 		on:dragstart={onDragStart}
 	>
-		<slot {ipfsContentId} {ipfsContentPath}>{fullPath}</slot>
+		<slot {ipfsContentId} {ipfsContentPath}>
+			<span class="format">{fullPath}</span>
+		</slot>
 	</svelte:element>
 {/if}
