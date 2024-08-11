@@ -258,7 +258,9 @@
 						>
 							<svelte:fragment slot="title">
 								<svelte:element this={`h${headingLevel + 2}`}>
-									Named by
+									Named
+									"{nameAttestation.name}"
+									by
 									<Address
 										{network}
 										address={nameAttestation.attesterAddress}
