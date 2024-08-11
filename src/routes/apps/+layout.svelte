@@ -165,6 +165,41 @@
 		max-width: 11.5rem;
 	}
 
+	/* Alternative layout: move App <select> to right of <h1> */
+	header {
+		h1 + :global(*) {
+			flex: 1;
+		}
+
+		h1 + :global(* > *) {
+			flex: 1;
+			flex-direction: row-reverse;
+			justify-content: space-between;
+		}
+
+		[data-app-select-label] span {
+			display: none;
+		}
+		select {
+			width: 0;
+			margin: -0.5em;
+			padding: 1em;
+
+			background-position: center;
+			background-color: transparent;
+			color: white;
+			outline: none;
+
+			transition-property: filter;
+
+			@media (prefers-color-scheme: dark) {
+				:global(:root:not([data-color-scheme="light"])) & {
+					filter: invert();
+				}
+			}
+		}
+	}
+
 	.content {
 		container: Content / inline-size;
 		flex: 1;
