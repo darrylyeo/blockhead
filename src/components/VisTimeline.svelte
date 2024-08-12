@@ -34,15 +34,24 @@
 
 
 <style>
-	:global(.vis-timeline) {
-		border: none;
-	}
+	.container {
+		:global(.vis-timeline) {
+			border: none;
+			border-color: rgba(255, 255, 255, 0.1);
+		}
 
-	:global(.vis-time-axis .vis-text) {
-		color: inherit;
-	}
+		:global(.vis-timeline *) {
+			color: inherit;
+			border-color: inherit;
+		}
 
-	:global(.vis-item-content > *) {
-		display: contents;
+		:global(.vis-time-axis) {
+			color: rgba(255, 255, 255, 0.75);
+		}
+
+		:global(.vis-item-content),
+		:global(.vis-item-content > *) {
+			display: contents;
+		}
 	}
 </style>
