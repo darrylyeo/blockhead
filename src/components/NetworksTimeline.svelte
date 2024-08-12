@@ -136,7 +136,7 @@
 		zoomMax: 16 * 1000,
 		rollingMode: {
 			follow: true,
-			offset: 1,
+			offset: 1.25,
 		},
 		zoomFriction: 10,
 	}}
