@@ -84,11 +84,22 @@
 					as
 					{ networks, isFeatured }
 				}
+					{@const shownNetworks = (
+						(
+							$showTestnets
+								? networks
+									.filter(network => isTestnet(network) ? !mainnetForTestnet.has(network.slug) : true)
+									.flatMap(network => [network, ...testnetsForMainnet.get(network.slug) ?? []])
+								: networks
+									.filter(network => !isTestnet(network))
+						).filter(network => network?.chainId)
+					)}
+
 					<SizeContainer>
 						<div class="column">
 							{#if showTimeline[i]}
 								<NetworksTimeline
-									{networks}
+									networks={shownNetworks}
 								/>
 							{/if}
 
@@ -96,18 +107,7 @@
 								class="content row wrap"
 								class:featured={isFeatured}
 							>
-								{#each
-									(
-										$showTestnets
-											? networks
-												.filter(network => isTestnet(network) ? !mainnetForTestnet.has(network.slug) : true)
-												.flatMap(network => [network, ...testnetsForMainnet.get(network.slug) ?? []])
-											: networks
-												.filter(network => !isTestnet(network))
-									).filter(network => network.chainId)
-									as
-									network, j (network.slug)
-								}
+								{#each shownNetworks as network, j (network.slug)}
 									<a
 										href="/explorer/{network.slug}"
 										class="item card row"
