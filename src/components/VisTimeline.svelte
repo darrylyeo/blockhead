@@ -13,8 +13,7 @@
 	let timeline: Timeline
 	let container: HTMLElement | undefined
 
-
-	// Actions
+	// (Derived)
 	$: if(container)
 		timeline ??= new Timeline(
 			container,
@@ -22,7 +21,11 @@
 			options
 		)
 
+
+	// Actions
 	$: timeline?.setData(data)
+
+	$: timeline?.setOptions(options ?? {})
 </script>
 
 
