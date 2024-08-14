@@ -1,7 +1,6 @@
 <script lang="ts">
 	// Libraries
 	import { Timeline, type TimelineOptions } from 'vis-timeline/standalone'
-	import 'vis-timeline/dist/vis-timeline-graph2d.min.css'
 
 
 	// Inputs
@@ -26,6 +25,10 @@
 	$: timeline?.setData(data)
 
 	$: timeline?.setOptions(options ?? {})
+
+
+	// Styles
+	import 'vis-timeline/dist/vis-timeline-graph2d.min.css'
 </script>
 
 
