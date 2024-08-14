@@ -1,12 +1,12 @@
 <script lang="ts">
 	// Libraries
-	import { Timeline } from 'vis-timeline/standalone'
+	import { Timeline, type TimelineOptions } from 'vis-timeline/standalone'
 	import 'vis-timeline/dist/vis-timeline-graph2d.min.css'
 
 
 	// Inputs
 	export let data: Parameters<Timeline['setData']>[0]
-	export let options: ConstructorParameters<typeof Timeline>[2]
+	export let options: TimelineOptions
 
 
 	// Internal state
