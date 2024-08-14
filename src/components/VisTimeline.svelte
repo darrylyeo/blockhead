@@ -9,7 +9,7 @@
 
 
 	// Internal state
-	let timeline: Timeline
+	let timeline: Timeline | undefined
 	let container: HTMLElement | undefined
 
 	// (Derived)
