@@ -5,7 +5,7 @@
 
 
 	// Inputs
-	export let data: ConstructorParameters<typeof Timeline>[1]
+	export let data: Parameters<Timeline['setData']>[0]
 	export let options: ConstructorParameters<typeof Timeline>[2]
 
 
@@ -18,12 +18,11 @@
 	$: if(container)
 		timeline ??= new Timeline(
 			container,
-			data,
+			data.items ?? [],
 			options
 		)
 
 	$: timeline?.setData(data)
-
 </script>
 
 
