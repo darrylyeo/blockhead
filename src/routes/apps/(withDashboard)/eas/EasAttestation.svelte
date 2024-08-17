@@ -17,6 +17,7 @@
 	export let isOpen = layout === 'standalone'
 	export let headingLevel = 4
 	export let showFormattedNames = true
+	export let numberFormat: 'decimal' | 'hexadecimal' = 'decimal'
 
 
 	// Functions
@@ -273,10 +274,24 @@
 
 					<svelte:fragment slot="toolbar-items" let:isOpen>
 						{#if isOpen}
-							<label class="align-end" transition:scale={{ duration: 200 }}>
-								<input type="checkbox" bind:checked={showFormattedNames} />
-								<span>Format Names</span>
-							</label>
+							<div
+								class="row align-end"
+								transition:scale={{ duration: 200 }}
+							>
+								<label>
+									<input type="checkbox" bind:checked={showFormattedNames} />
+									<span>Format Names</span>
+								</label>
+								
+								<label>
+									<span>Numbers</span>
+
+									<select bind:value={numberFormat}>
+										<option value="decimal">Decimal</option>
+										<option value="hexadecimal">Hexadecimal</option>
+									</select>
+								</label>
+							</div>
 						{/if}
 					</svelte:fragment>
 
@@ -306,7 +321,11 @@
 													address={value}
 												/>
 											{:else if value.type === 'BigNumber'}
-												<output>{value.hex}</output>
+												{#if numberFormat === 'decimal'}
+													<output>{String(BigInt(value.hex))}</output>
+												{:else}
+													<output>{value.hex}</output>
+												{/if}
 											{:else}
 												<output>{value}</output>
 											{/if}
