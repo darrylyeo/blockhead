@@ -177,6 +177,14 @@
 			</div>
 
 			<div>
+				<dt>Index</dt>
+
+				<dd>
+					#{schema.index}
+				</dd>
+			</div>
+
+			<div>
 				<dt>Total Attestations</dt>
 
 				<dd>
