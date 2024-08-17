@@ -13,10 +13,29 @@
 	export let layout: 'standalone' | 'inline' = 'inline'
 	export let isOpen = layout === 'standalone'
 	export let headingLevel = 4
+	export let showFormattedNames = true
 
 
 	// Functions
 	import { resolveRoute } from '$app/paths'
+	import { formatIdentifierToWords } from '$/utils/formatIdentifierToWords'
+	import { parseAbiParameters } from 'abitype'
+
+	const parseSchema = (schema: string) => {
+		try {
+			return parseAbiParameters(schema)
+		} catch (error) {
+			console.error(error, schema)
+
+			return schema
+				?.split(',')
+				.map(item => item.split(' '))
+				.map(([type, name]) => ({
+					type,
+					name,
+				}))
+		}
+	}
 
 
 	// Internal state
@@ -31,6 +50,8 @@
 	})
 
 	$: schemaName = schema.schemaNames?.[0]?.name
+
+	let decodedSchema = schema.schema && parseSchema(schema.schema)
 
 
 	// Components
@@ -218,6 +239,45 @@
 						isOpen={false}
 						headingLevel={headingLevel + 2}
 					/>
+				</Collapsible>
+			</section>
+		{/if}
+
+		{#if decodedSchema?.length}
+			<hr>
+
+			<section>
+				<Collapsible
+					type="label"
+					showTriggerText={false}
+					isOpen
+					showContentsOnly={layout === 'inline'}
+				>
+					<svelte:fragment slot="title">
+						<svelte:element this={`h${headingLevel + 1}`}>
+							Properties
+						</svelte:element>
+					</svelte:fragment>
+
+					<dl class="decoded-data">
+						{#each decodedSchema as item}
+							<div>
+								<dt>
+									{#if showFormattedNames && item.name}
+										{`${formatIdentifierToWords(item.name, true)}${item.type === 'bool' ? '?' : ''}`}
+									{:else}
+										{item.name}
+									{/if}
+								</dt>
+
+								<dd>
+									<span class="card-annotation">
+										{item.type}
+									</span>
+								</dd>
+							</div>
+						{/each}
+					</dl>
 				</Collapsible>
 			</section>
 		{/if}
