@@ -16,10 +16,12 @@
 	export let layout: 'standalone' | 'inline' = 'inline'
 	export let isOpen = layout === 'standalone'
 	export let headingLevel = 4
+	export let showFormattedNames = true
 
 
 	// Functions
 	import { resolveRoute } from '$app/paths'
+	import { formatIdentifierToWords } from '$/utils/formatIdentifierToWords'
 
 
 	// Internal state
@@ -34,6 +36,8 @@
 	})
 
 	$: schemaName = attestation.schema.schemaNames?.[0]?.name
+
+	$: decodedData = JSON.parse(attestation.decodedDataJson)
 
 
 	// Components
@@ -247,6 +251,68 @@
 			</div>
 		</dl>
 
+		{#if decodedData?.length}
+			<hr>
+
+			<section>
+				<Collapsible
+					type="label"
+					showTriggerText={false}
+					isOpen
+					showContentsOnly={layout === 'inline'}
+				>
+					<svelte:fragment slot="title">
+						<svelte:element this={`h${headingLevel + 1}`}>
+							Data
+						</svelte:element>
+					</svelte:fragment>
+
+					<dl class="decoded-data">
+						{#each decodedData as item}
+							<dt>
+								{#if showFormattedNames}
+									{`${formatIdentifierToWords(item.name, true)}${item.type === 'bool' ? '?' : ''}`}
+								{:else}
+									{item.name}
+								{/if}
+							</dt>
+
+							<dd class="row">
+								<div class="column">
+									{#each (
+										item.type.endsWith('[]')
+											? item.value.value
+											: [item.value.value]
+									) as value}
+										{#if value}
+											{#if item.type === 'bool'}
+												<span>{value ? 'Yes' : 'No'}</span>
+											{:else if item.type === 'address'}
+												<Address
+													{network}
+													address={value}
+												/>
+											{:else if value.type === 'BigNumber'}
+												<output>{value.hex}</output>
+											{:else}
+												<output>{value}</output>
+											{/if}
+										{:else}
+											<span class="not-set"></span>
+										{/if}
+									{/each}
+								</div>
+
+								<span class="card-annotation">
+									{item.type}
+								</span>
+							</dd>
+						{/each}
+					</dl>
+				</Collapsible>
+			</section>
+		{/if}
+
 		<hr>
 
 		<section>
@@ -281,7 +347,7 @@
 			>
 				<svelte:fragment slot="title">
 					<svelte:element this={`h${headingLevel + 1}`}>
-						Data (Indexed)
+						Raw Attestation (Indexed)
 					</svelte:element>
 				</svelte:fragment>
 
@@ -309,7 +375,7 @@
 				>
 					<svelte:fragment slot="title">
 						<svelte:element this={`h${headingLevel + 1}`}>
-							Data (IPFS)
+							Raw Attestation (IPFS)
 						</svelte:element>
 					</svelte:fragment>
 
@@ -462,5 +528,19 @@
 	.not-set:after {
 		content: '—';
 		opacity: 0.3;
+	}
+
+	.decoded-data {
+		grid-template-columns: minmax(auto, 1fr) minmax(max-content, 1fr);
+
+		dd {
+			.column {
+				gap: 0.25em;
+			}
+
+			.card-annotation {
+				flex: 0 0 auto;
+			}
+		}
 	}
 </style>
