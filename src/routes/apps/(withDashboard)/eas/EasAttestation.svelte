@@ -52,6 +52,10 @@
 	import IpfsContentId from '$/components/IpfsContentId.svelte'
 	import NetworkIcon from '$/components/NetworkIcon.svelte'
 	import { IpfsIcon } from '$/assets/icons'
+
+
+	// Transitions
+	import { scale } from 'svelte/transition'
 </script>
 
 
@@ -265,6 +269,15 @@
 						<svelte:element this={`h${headingLevel + 1}`}>
 							Data
 						</svelte:element>
+					</svelte:fragment>
+
+					<svelte:fragment slot="toolbar-items" let:isOpen>
+						{#if isOpen}
+							<label class="align-end" transition:scale={{ duration: 200 }}>
+								<input type="checkbox" bind:checked={showFormattedNames} />
+								<span>Format Names</span>
+							</label>
+						{/if}
 					</svelte:fragment>
 
 					<dl class="decoded-data">
