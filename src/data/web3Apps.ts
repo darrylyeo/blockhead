@@ -22,6 +22,7 @@ import {
 	FarcasterIcon,
 	IpfsIcon,
 	LensIcon,
+	MoxieIcon,
 	NounsIcon,
 	PythIcon,
 	UniswapIcon,
@@ -18251,6 +18252,38 @@ export const web3Apps = [
 				providers: {
 					llamafolio: 'mover',
 				},
+			},
+		],
+	},
+	{
+		name: 'Moxie',
+		slug: 'moxie',
+		icon: MoxieIcon,
+		colors: [
+			'#6a2de0',
+			'#8e55ff',
+			'#a577ff',
+			'#bb99ff',
+			'#d2bbff',
+			'#e8ddff',
+		],
+		links: [
+			'https://www.moxie.xyz',
+		],
+
+		showCustomUi: ['Explorer', 'Account'],
+
+		views: [
+			{
+				showOn: ['Dashboard'],
+
+				chainId: 8453,
+				erc20Tokens: [
+					{
+						symbol: 'MOXIE',
+						address: '0x8C9037D1Ef5c6D1f6816278C7AAF5491d24CD527',
+					},
+				],
 			},
 		],
 	},
