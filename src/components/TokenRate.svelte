@@ -1,22 +1,35 @@
 <script lang="ts">
+	// Types/constants
 	import type { TickerSymbol } from '$/data/currencies'
+	import { tokenColors } from '$/data/tokenColors'
 
+
+	// Inputs
 	export let rate = 0.0
 	export let quoteToken: TickerSymbol
 	export let baseToken: TickerSymbol
 	export let decimals = 3
 
+	// (View options)
 	export let layout: 'horizontal' | 'vertical' = 'vertical'
 	export let fractionLayout: 'horizontal' | 'vertical' = layout === 'vertical' ? 'horizontal' : 'vertical'
 
-	const formatRate = value =>
-		typeof value === 'number' ? value.toFixed(decimals) :
-		typeof value === 'string' ? value :
-		value.toString()
 
-	import { tokenColors } from '$/data/tokenColors'
+	// Functions
+	const formatRate = (value: number | string): string => (
+		typeof value === 'number' ?
+			value.toFixed(decimals)
+		: typeof value === 'string' ?
+			value
+		:
+			value.toString()
+	)
+
+
+	// Components
 	import TokenIcon from './TokenIcon.svelte'
 </script>
+
 
 <style>
 	.token-rate.horizontal, .fraction.horizontal {
@@ -89,16 +102,20 @@
 	}
 </style>
 
+
 <div class="token-rate {layout}">
 	<span class="rate" style="--color-1: var(--{tokenColors[quoteToken]}); --color-2: var(--{tokenColors[baseToken]})">
 		{formatRate(rate)}
 	</span>
+
 	<span class="fraction {fractionLayout}">
 		<span>
 			<TokenIcon symbol={quoteToken} />
 			<span class="token-name">{quoteToken}</span>
 		</span>
+
 		<span class="fraction-bar">/</span>
+
 		<span>
 			<TokenIcon symbol={baseToken} />
 			<span class="token-name">{baseToken}</span>
