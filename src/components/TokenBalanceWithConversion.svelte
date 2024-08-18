@@ -125,7 +125,7 @@
 						{token}
 					/>
 				</span>
-			</InlineContainer>{#if showConversionRate && conversionRate}<span class="rate"> at <TokenRate rate={conversionRate} quoteToken={conversionCurrency} baseToken={token.symbol} layout='horizontal'/></span>{/if
+			</InlineContainer>{#if showConversionRate && conversionRate}<span class="rate"> at <TokenRate rate={conversionRate} quoteToken={{ symbol: conversionCurrency }} baseToken={{ symbol: token.symbol }} layout="horizontal" /></span>{/if
 			}{#if computedTokenBalanceFormat === 'both' && showParentheses}){/if}
 		</span>
 	</InlineContainer>

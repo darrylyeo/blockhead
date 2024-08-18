@@ -74,8 +74,12 @@
 
 		<TokenRate
 			rate={priceFeed.price}
-			quoteToken={quoteCurrency}
-			baseToken={token}
+			quoteToken={{
+				symbol: quoteCurrency,
+			}}
+			baseToken={{
+				symbol: token,
+			}}
 			layout="horizontal"
 		/>
 		<p>Updated {priceFeed.updatedAt.toLocaleTimeString()}
@@ -97,8 +101,12 @@
 				</div>
 				<TokenRate
 					rate={priceFeed.price}
-					quoteToken={quoteCurrency}
-					baseToken={token}
+					quoteToken={{
+						symbol: quoteCurrency,
+					}}
+					baseToken={{
+						symbol: token,
+					}}
 					layout="horizontal"
 				/>
 				<p>Updated {priceFeed.updatedAt.toLocaleTimeString()}
@@ -191,8 +199,12 @@
 					<!-- <div class="rate">
 						<TokenRate
 							rate={priceFeed.price}
-							quoteToken={quoteCurrency}
-							baseToken={token}
+							quoteToken={{
+								symbol: quoteCurrency,
+							}}
+							baseToken={{
+								symbol: token,
+							}}
 							layout="horizontal"
 						/>
 					</div> -->
@@ -269,8 +281,12 @@
 					<!-- <div class="rate">
 						<TokenRate
 							rate={data.price}
-							quoteToken={quoteCurrency}
-							baseToken={token}
+							quoteToken={{
+								symbol: quoteCurrency,
+							}}
+							baseToken={{
+								symbol: token,
+							}}
 							layout="horizontal"
 						/>
 					</div> -- >
@@ -292,7 +308,15 @@
 		{:then rate}
 			<section class="card">
 				<h3>Current Rate (Chainlink)</h3>
-				<TokenRate {rate} quoteToken={token} baseToken={quoteCurrency} />
+				<TokenRate
+					rate={rate}
+					quoteToken={{
+						symbol: quoteCurrency,
+					}}
+					baseToken={{
+						symbol: token,
+					}}
+				/>
 			</section>
 		{/await}
 	{/if} -->

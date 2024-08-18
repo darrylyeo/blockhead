@@ -1,13 +1,13 @@
 <script lang="ts">
 	// Types/constants
-	import type { TickerSymbol } from '$/data/currencies'
+	import type { Ethereum } from '$/data/networks/types'
 	import { tokenColors } from '$/data/tokenColors'
 
 
 	// Inputs
 	export let rate = 0.0
-	export let quoteToken: TickerSymbol
-	export let baseToken: TickerSymbol
+	export let quoteToken: Ethereum.Erc20Token
+	export let baseToken: Ethereum.Erc20Token
 	export let decimals = 3
 
 	// (View options)
@@ -104,21 +104,27 @@
 
 
 <div class="token-rate {layout}">
-	<span class="rate" style="--color-1: var(--{tokenColors[quoteToken]}); --color-2: var(--{tokenColors[baseToken]})">
+	<span
+		class="rate"
+		style="
+			--color-1: var(--{tokenColors[quoteToken.symbol ?? '']});
+			--color-2: var(--{tokenColors[baseToken.symbol ?? '']});
+		"
+	>
 		{formatRate(rate)}
 	</span>
 
 	<span class="fraction {fractionLayout}">
 		<span>
-			<TokenIcon symbol={quoteToken} />
-			<span class="token-name">{quoteToken}</span>
+			<TokenIcon token={quoteToken} />
+			<span class="token-name">{quoteToken.symbol}</span>
 		</span>
 
 		<span class="fraction-bar">/</span>
 
 		<span>
-			<TokenIcon symbol={baseToken} />
-			<span class="token-name">{baseToken}</span>
+			<TokenIcon token={baseToken} />
+			<span class="token-name">{baseToken.symbol}</span>
 		</span>
 	</span>
 </div>

@@ -120,7 +120,11 @@
 		<div class="rate">
 			at
 			<span>
-				<TokenRate rate={price} quoteToken={quoteName} baseToken={baseName} />
+				<TokenRate
+					rate={price}
+					quoteToken={{ symbol: quoteName }}
+					baseToken={{ symbol: baseName }}
+				/>
 			</span>
 			<!-- {actions[tx.aggressor]} -->
 		</div>
