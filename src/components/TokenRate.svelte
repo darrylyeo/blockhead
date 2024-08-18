@@ -32,13 +32,6 @@
 
 
 <style>
-	.token-rate.horizontal, .fraction.horizontal {
-		grid-auto-flow: column;
-	}
-	.token-rate.vertical, .fraction.vertical {
-		grid-auto-flow: row;
-	}
-
 	.token-rate {
 		display: inline-grid;
 		justify-content: center;
@@ -50,55 +43,67 @@
 		--padding-inner: 0.33em;
 
 		align-self: baseline;
-	}
-	.token-rate.horizontal {
-		--padding-inner: 0.33em;
-	}
 
-	@supports (-webkit-background-clip: text) or (background-clip: text) {
-		.rate {
-			--color-1: currentColor;
-			--color-2: var(--bitcoin-gold);
-			background: linear-gradient(135deg, var(--color-1), var(--color-2));
-			-webkit-background-clip: text;
-			background-clip: text;
-			-webkit-text-fill-color: #ffffff20;
+		&.horizontal {
+			grid-auto-flow: column;
+			--padding-inner: 0.33em;
 		}
-	}
 
-	.fraction {
-		display: inline-grid;
-		align-items: center;
+		&.vertical {
+			grid-auto-flow: row;
+		}
 
-		font-size: 0.5em;
-	}
-	.fraction.horizontal {
-		gap: 0.33em;
-	}
-	.token-rate.horizontal .fraction.horizontal {
-		align-self: baseline;
-	}
-	.fraction.vertical {
-		gap: 0.33em;
-	}
+		.rate {
+			@supports (-webkit-background-clip: text) or (background-clip: text) {
+				--color-1: currentColor;
+				--color-2: var(--bitcoin-gold);
+				background: linear-gradient(135deg, var(--color-1), var(--color-2));
+				-webkit-background-clip: text;
+				background-clip: text;
+				-webkit-text-fill-color: #ffffff20;
+			}
+		}
 
-	.fraction > * {
-		display: inline-grid;
-		grid-auto-flow: column;
-		gap: var(--padding-inner);
+		.fraction {
+			display: inline-grid;
+			align-items: center;
 
-		justify-items: center;
-		align-items: center;
-	}
-	.fraction.vertical .fraction-bar {
-		text-indent: -1000vw;
-		border-bottom: 0.1em solid;
-		height: 0;
-		width: 100%;
-	}
+			font-size: 0.5em;
 
-	.token-name {
-		font-weight: 300;
+			&.horizontal {
+				grid-auto-flow: column;
+
+				gap: 0.33em;
+
+				.token-rate.horizontal & {
+					align-self: baseline;
+				}
+			}
+
+			&.vertical {
+				grid-auto-flow: row;
+				gap: 0.33em;
+
+				.fraction-bar {
+					text-indent: -1000vw;
+					border-bottom: 0.1em solid;
+					height: 0;
+					width: 100%;
+				}
+			}
+
+			> * {
+				display: inline-grid;
+				grid-auto-flow: column;
+				gap: var(--padding-inner);
+				justify-items: center;
+				align-items: center;
+			}
+		}
+
+		.token-name {
+			font-weight: 300;
+		}
 	}
 </style>
 
