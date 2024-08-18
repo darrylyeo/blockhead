@@ -51,6 +51,7 @@ import {
 import CeramicPage from '$/routes/apps/(withDashboard)/ceramic/+page.svelte'
 import DiscoPage from '$/routes/apps/(withDashboard)/disco/+page.svelte'
 import EasPage from '$/routes/apps/(withDashboard)/eas/network/[networkSlug=isNetworkSlug]/+page.svelte'
+import MoxiePage from '$/routes/apps/(withDashboard)/moxie/network/[networkSlug=isNetworkSlug]/+page.svelte'
 
 
 import { UniswapV3 } from '$/api/uniswap-v3/index'
@@ -18278,6 +18279,9 @@ export const web3Apps = [
 				showOn: ['Dashboard'],
 
 				chainId: 8453,
+				components: [
+					MoxiePage,
+				],
 				erc20Tokens: [
 					{
 						symbol: 'MOXIE',

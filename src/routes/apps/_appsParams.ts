@@ -8,6 +8,7 @@ import type { EasAttestationId, EasSchemaId } from '$/api/eas'
 import type { FarcasterCastId, FarcasterCastShortId, FarcasterChannelId, FarcasterUserId, FarcasterUserName } from '$/api/farcaster'
 import type { IpfsCid } from '$/api/ipfs/contentId'
 import type { IpnsName } from '$/api/ipfs/ipns'
+import type { MoxieAuctionId, MoxieOrderId } from '$/api/moxie'
 
 export type AppsParams = {
 	web3AppSlug: Web3AppSlug | '',
@@ -31,6 +32,8 @@ export type AppsParams = {
 	ipfsContentId: IpfsCid | '',
 	ipnsName: IpnsName | '',
 	ipfsContentPath: string,
+	moxieAuctionId: MoxieAuctionId | '',
+	moxieOrderId: MoxieOrderId | '',
 }
 
 export type AppsSearchInputParams = Partial<Pick<AppsParams,
@@ -49,6 +52,8 @@ export type AppsSearchInputParams = Partial<Pick<AppsParams,
 	| 'farcasterChannelId'
 	| 'farcasterUserId'
 	| 'farcasterUserName'
+	| 'moxieAuctionId'
+	| 'moxieOrderId'
 >>
 
 
@@ -75,6 +80,8 @@ export const farcasterUserName = writable<FarcasterUserName | ''>('')
 export const ipfsContentId = writable<IpfsCid | ''>('')
 export const ipnsName = writable<IpnsName | ''>('')
 export const ipfsContentPath = writable('')
+export const moxieAuctionId = writable<MoxieAuctionId | ''>('')
+export const moxieOrderId = writable<MoxieOrderId | ''>('')
 
 export const appsParams = derived([
 	web3AppSlug,
@@ -96,6 +103,8 @@ export const appsParams = derived([
 	ipfsContentId,
 	ipnsName,
 	ipfsContentPath,
+	moxieAuctionId,
+	moxieOrderId,
 ], ([
 	$web3AppSlug,
 	$networkSlug,
@@ -116,6 +125,8 @@ export const appsParams = derived([
 	$ipfsContentId,
 	$ipnsName,
 	$ipfsContentPath,
+	$moxieAuctionId,
+	$moxieOrderId,
 ], set: (_: AppsParams) => void) => {
 	set(({
 		web3AppSlug: $web3AppSlug,
@@ -137,6 +148,8 @@ export const appsParams = derived([
 		ipfsContentId: $ipfsContentId,
 		ipnsName: $ipnsName,
 		ipfsContentPath: $ipfsContentPath,
+		moxieAuctionId: $moxieAuctionId,
+		moxieOrderId: $moxieOrderId,
 	}))
 })
 
@@ -163,6 +176,8 @@ export const derivedPath: Readable<string> = derived([
 	ipfsContentId,
 	ipnsName,
 	ipfsContentPath,
+	moxieAuctionId,
+	moxieOrderId,
 ], ([
 	$web3AppSlug,
 	$networkSlug,
@@ -184,6 +199,8 @@ export const derivedPath: Readable<string> = derived([
 	$ipfsContentId,
 	$ipnsName,
 	$ipfsContentPath,
+	$moxieAuctionId,
+	$moxieOrderId,
 ], set) => set(
 	`/apps${
 		$web3AppSlug ?
@@ -237,6 +254,15 @@ export const derivedPath: Readable<string> = derived([
 						`/account/${$farcasterUserId || $farcasterUserName}`
 					: $farcasterChannelId ?
 						`/channel/${$farcasterChannelId}`
+					:
+						''
+
+				// Moxie
+				: $web3AppSlug === 'moxie' ?
+					$moxieAuctionId ?
+						`/network/${$networkSlug}/auction/${$moxieAuctionId}`
+					: $moxieOrderId ?
+						`/network/${$networkSlug}/order/${$moxieOrderId}`
 					:
 						''
 

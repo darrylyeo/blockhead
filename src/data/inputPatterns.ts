@@ -16,6 +16,8 @@ export enum InputPattern {
 	FilecoinTipsetNumber = 'filecoinTipsetNumber',
 	FilecoinTransactionId = 'filecoinTransactionId',
 	LensHandle = 'lensHandle',
+	MoxieAuctionId = 'moxieAuctionId',
+	MoxieOrderId = 'moxieOrderId',
 	TransactionId = 'transactionId',
 }
 
@@ -103,6 +105,18 @@ export const inputPatternsConfig = {
 		placeholder: 'stani.lens',
 		pattern: /[^. ]+[.](?:lens|test)/,
 		matchComplexity: 2,
+	},
+	[InputPattern.MoxieAuctionId]: {
+		label: 'Moxie Auction ID',
+		placeholder: '12345',
+		pattern: /[1-9][0-9]*/,
+		matchComplexity: 1,
+	},
+	[InputPattern.MoxieOrderId]: {
+		label: 'Moxie Order ID',
+		placeholder: '67890',
+		pattern: /[1-9][0-9]*/,
+		matchComplexity: 1,
 	},
 	[InputPattern.TransactionId]: {
 		label: 'Transaction ID',

@@ -42,6 +42,8 @@ export const currentView: Readable<'Dashboard' | 'Explorer' | 'Account'> = deriv
 			$appsParams.accountId
 		: $appsParams.web3AppSlug === 'ipfs' ?
 			$appsParams.ipfsContentId || $appsParams.ipnsName || $appsParams.ipfsContentPath
+		: $appsParams.web3AppSlug === 'moxie' ?
+			$appsParams.moxieAuctionId || $appsParams.moxieOrderId
 		: 
 			false
 	) ?
@@ -66,6 +68,8 @@ export const defaultSearchInputValue: Readable<string> = derived(appsParams, ($a
 		|| $appsParams.farcasterCastId
 		|| $appsParams.farcasterUserId
 		|| $appsParams.farcasterUserName
+		|| $appsParams.moxieAuctionId
+		|| $appsParams.moxieOrderId
 		|| ''
 	)
 ))

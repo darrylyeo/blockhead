@@ -19,6 +19,8 @@
 		farcasterCastId,
 		farcasterUserId,
 		farcasterUserName,
+		moxieAuctionId,
+		moxieOrderId,
 	} from '../_appsParams'
 
 
@@ -163,6 +165,8 @@
 		$farcasterCastId = searchInputParams.farcasterCastId ?? ''
 		$farcasterUserId = searchInputParams.farcasterUserId ?? ''
 		$farcasterUserName = searchInputParams.farcasterUserName ?? searchInputParams.farcasterUserNameEns ?? ''
+		$moxieAuctionId = searchInputParams.moxieAuctionId ?? ''
+		$moxieOrderId = searchInputParams.moxieOrderId ?? ''
 	}}>
 		<SearchInput
 			inputPatterns={
@@ -174,6 +178,11 @@
 				] :  $web3AppConfig?.slug === 'eas' ? [
 					InputPattern.EasAttestationId,
 					InputPattern.EasSchemaId,
+					InputPattern.Address,
+					InputPattern.EnsName,
+				] : $web3AppConfig?.slug === 'moxie' ? [
+					InputPattern.MoxieAuctionId,
+					InputPattern.MoxieOrderId,
 					InputPattern.Address,
 					InputPattern.EnsName,
 				] : [
