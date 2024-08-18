@@ -68,8 +68,6 @@
 			display: inline-grid;
 			align-items: center;
 
-			font-size: 0.5em;
-
 			&[data-layout="horizontal"] {
 				grid-auto-flow: column;
 
@@ -81,6 +79,8 @@
 			}
 
 			&[data-layout="vertical"] {
+				font-size: 0.5em;
+
 				grid-auto-flow: row;
 				gap: 0.33em;
 
