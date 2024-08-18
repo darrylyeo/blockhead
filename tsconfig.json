@@ -44,6 +44,27 @@
 						"tadaOutputLocation": "./src/api/lens/graphql-env.d.ts",
 						"tadaTurboLocation": "./src/api/lens/graphql-turbo.d.ts",
 						"tadaPersistedLocation": "./src/api/lens/graphql-persisted.d.ts"
+					},
+					{
+						"name": "moxie/auction",
+						"schema": "https://api.studio.thegraph.com/query/23537/moxie_auction_stats_mainnet/version/latest",
+						"tadaOutputLocation": "./src/api/moxie/auction/graphql-env.d.ts",
+						"tadaTurboLocation": "./src/api/moxie/auction/graphql-turbo.d.ts",
+						"tadaPersistedLocation": "./src/api/moxie/auction/graphql-persisted.d.ts"
+					},
+					{
+						"name": "moxie/protocol",
+						"schema": "https://api.studio.thegraph.com/query/23537/moxie_protocol_stats_mainnet/version/latest",
+						"tadaOutputLocation": "./src/api/moxie/protocol/graphql-env.d.ts",
+						"tadaTurboLocation": "./src/api/moxie/protocol/graphql-turbo.d.ts",
+						"tadaPersistedLocation": "./src/api/moxie/protocol/graphql-persisted.d.ts"
+					},
+					{
+						"name": "moxie/vesting",
+						"schema": "https://api.studio.thegraph.com/query/23537/moxie_vesting_mainnet/version/latest",
+						"tadaOutputLocation": "./src/api/moxie/vesting/graphql-env.d.ts",
+						"tadaTurboLocation": "./src/api/moxie/stats/graphql-turbo.d.ts",
+						"tadaPersistedLocation": "./src/api/moxie/stats/graphql-persisted.d.ts"
 					}
 				]
 			}
