@@ -44,12 +44,12 @@
 
 		align-self: baseline;
 
-		&.horizontal {
+		&[data-layout="horizontal"] {
 			grid-auto-flow: column;
 			--padding-inner: 0.33em;
 		}
 
-		&.vertical {
+		&[data-layout="vertical"] {
 			grid-auto-flow: row;
 		}
 
@@ -70,17 +70,17 @@
 
 			font-size: 0.5em;
 
-			&.horizontal {
+			&[data-layout="horizontal"] {
 				grid-auto-flow: column;
 
 				gap: 0.33em;
 
-				.token-rate.horizontal & {
+				.token-rate[data-layout="horizontal"] & {
 					align-self: baseline;
 				}
 			}
 
-			&.vertical {
+			&[data-layout="vertical"] {
 				grid-auto-flow: row;
 				gap: 0.33em;
 
@@ -108,7 +108,10 @@
 </style>
 
 
-<div class="token-rate {layout}">
+<div
+	class="token-rate"
+	data-layout={layout}
+>
 	<span
 		class="rate"
 		style="
@@ -119,7 +122,10 @@
 		{formatRate(rate)}
 	</span>
 
-	<span class="fraction {fractionLayout}">
+	<span
+		class="fraction"
+		data-layout={fractionLayout}
+	>
 		<span>
 			<TokenIcon token={quoteToken} />
 			<span class="token-name">{quoteToken.symbol}</span>
