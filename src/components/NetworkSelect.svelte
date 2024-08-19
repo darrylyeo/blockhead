@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '$/data/networks/types'
-	import { networksBySection, testnetsForMainnet, getNetworkColor, networkByChainId, isTestnet } from '$/data/networks'
+	import { networksBySection, testnetsForMainnet, getNetworkColor, isTestnet, getNetworkIcon } from '$/data/networks'
 
 
 	export let placeholder = 'Select Network...'
@@ -13,10 +13,6 @@
 
 	import { createEventDispatcher } from 'svelte'
 	const dispatch = createEventDispatcher()
-
-
-	// Components
-	import NetworkIcon from './NetworkIcon.svelte'
 </script>
 
 
@@ -33,6 +29,7 @@
 		// dispatchEvent(new CustomEvent('change', { detail: { network } }))
 		dispatch('change', { network, target: e.target })
 	}}
+	style:--select-leftIcon-url={network && getNetworkIcon(network) ? `url(${getNetworkIcon(network)})` : ''}
 >
 	<option value={undefined} selected>{placeholder}</option>
 
