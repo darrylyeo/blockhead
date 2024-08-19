@@ -27,7 +27,7 @@
 
 
 	// Components
-	import TokenIcon from './TokenIcon.svelte'
+	import TokenName from './TokenName.svelte'
 </script>
 
 
@@ -127,15 +127,17 @@
 		data-layout={fractionLayout}
 	>
 		<span>
-			<TokenIcon token={quoteToken} />
-			<span class="token-name">{quoteToken.symbol}</span>
+			<TokenName
+				token={quoteToken}
+			/>
 		</span>
 
 		<span class="fraction-bar">/</span>
 
 		<span>
-			<TokenIcon token={baseToken} />
-			<span class="token-name">{baseToken.symbol}</span>
+			<TokenName
+				token={baseToken}
+			/>
 		</span>
 	</span>
 </div>
