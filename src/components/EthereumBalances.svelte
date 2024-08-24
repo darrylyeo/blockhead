@@ -185,8 +185,15 @@
 	bind:balances
 >
 	<!-- showIf={() => balances.length} -->
-	<svelte:fragment slot="header" let:status let:loadingMessage let:errorMessage>
-		<slot name="header" {balances} {filteredBalances} {summary} {status} {loadingMessage} {errorMessage} />
+	<svelte:fragment slot="header"
+		let:status let:loadingMessage let:errorMessage
+		let:isOpen let:toggle
+	>
+		<slot name="header"
+			{balances} {filteredBalances} {summary}
+			{status} {loadingMessage} {errorMessage}
+			{isOpen} {toggle}
+		/>
 	</svelte:fragment>
 
 	<ScrollContainer
