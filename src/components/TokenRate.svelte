@@ -130,7 +130,7 @@
 		<span>
 			<TokenName
 				token={quoteToken}
-				{showName}
+				layout={showName ? 'name' : 'symbol'}
 			/>
 		</span>
 
@@ -139,7 +139,7 @@
 		<span>
 			<TokenName
 				token={baseToken}
-				{showName}
+				layout={showName ? 'name' : 'symbol'}
 			/>
 		</span>
 	</span>

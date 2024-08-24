@@ -89,14 +89,14 @@
 					{token}
 					{balance} {showDecimalPlaces} {isDebt}
 					{tween} {clip} {transitionWidth}
-					{showName}
+					layout={showName ? 'name' : 'symbol'}
 				/>
 			</span>
 		{:else if computedTokenBalanceFormat === 'converted' && layout === 'block'}
 			<span class="balance">
 				<TokenName
 					{token}
-					{showName}
+					layout={showName ? 'name' : 'symbol'}
 				/>
 			</span>
 		{/if}
@@ -127,7 +127,7 @@
 				<span class="worth">
 					&nbsp;in <TokenName
 						{token}
-						{showName}
+						layout={showName ? 'name' : 'symbol'}
 					/>
 				</span>
 			</InlineContainer>{#if showConversionRate && conversionRate}<span class="rate"> at <TokenRate rate={conversionRate} quoteToken={{ symbol: conversionCurrency }} baseToken={{ symbol: token.symbol }} layout="horizontal" /></span>{/if

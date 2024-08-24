@@ -17,7 +17,24 @@
 	$: title = `${token.name || token.symbol}${token.symbol && token.name ? ` (${token.symbol})` : ``}`
 	$: network = token.chainId && networkByChainId.get(token.chainId)
 
-	export let showName = false
+	export let layout: 'name-and-symbol' | 'name-or-symbol' | 'symbol' = 'symbol'
+
+
+	// Internal state
+	// (Computed)
+	$: computedLayout = (
+		layout === 'name-and-symbol' && token.name && token.symbol ?
+			'name-and-symbol'
+		: layout === 'name-or-symbol' && token.symbol ?
+			token.name ?
+				'name'
+			:
+				'symbol'
+		: token.symbol ?
+			'symbol'
+		:
+			'none'
+	)
 
 
 	// Actions
@@ -32,33 +49,16 @@
 </script>
 
 
-<style>
-	.token-value-container {
-		display: inline-grid;
-		grid-auto-flow: column;
-		justify-content: start;
-		align-items: baseline;
-		--padding-inner: 0.33em;
-		gap: var(--padding-inner);
-	}
-
-	.token-name {
-		font-weight: 300;
-		font-size: 0.8em;
-
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-</style>
-
-
 <Address
 	{network}
 	address={token.address}
 >
-	<span
-		class="token-value-container"
+	{#if computedLayout === 'name-and-symbol'}
+		<span class="name">{token.name}</span>
+	{/if}
+
+	{#if computedLayout === 'name-and-symbol'}({/if}<span
+		class="with-icon row inline"
 		{title}
 		draggable={true}
 		on:dragstart={onDragStart}
@@ -67,12 +67,34 @@
 			{network}
 			{token}
 		/>
-		<span class="token-name">
-			{#if showName && token.name}
-				{token.name}
-			{:else if token.symbol}
-				{token.symbol}
-			{/if}
-		</span>
-	</span>
+
+		{#if computedLayout === 'name'}
+			<span class="name">{token.name}</span>
+		{:else if computedLayout === 'symbol' || computedLayout === 'name-and-symbol'}
+			<span class="symbol">{token.symbol}</span>
+		{/if}
+	</span>{#if computedLayout === 'name-and-symbol'}){/if}
 </Address>
+
+
+<style>
+	.name,
+	.symbol {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.symbol {
+		font-weight: 300;
+	}
+
+	.with-icon {
+		justify-content: start;
+
+		.name,
+		.symbol {
+			font-size: 0.8em;
+		}
+	}
+</style>
