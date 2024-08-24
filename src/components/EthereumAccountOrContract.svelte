@@ -225,42 +225,53 @@
 			bind:selectedToken
 			bind:balances
 		>
-			<svelte:fragment slot="header" let:summary>
+			<svelte:fragment slot="header"
+				let:summary
+				let:isOpen let:toggle
+			>
 				{#if balances?.length}
-					<hr>
+					<div class="column">
+						<hr>
 
-					<div class="bar wrap">
-						<svelte:element this={`h${headingLevel + 1}`}>
-							Balances
-							(<TokenBalance
-								format="fiat"
-								token={{
-									symbol: summary.quoteCurrency
-								}}
-								balance={summary.quoteTotal}
-							/>)
-						</svelte:element>
+						<div class="bar wrap">
+							<svelte:element this={`h${headingLevel + 1}`}>
+								Balances
+								(<TokenBalance
+									format="fiat"
+									token={{
+										symbol: summary.quoteCurrency
+									}}
+									balance={summary.quoteTotal}
+								/>)
+							</svelte:element>
 
-						<div role="toolbar" class="row wrap">
-							<TokenBalanceFormatSelect
-								type="checkboxes"
-								bind:tokenBalanceFormat
-								quoteCurrency={summary.quoteCurrency}
+							<div role="toolbar" class="row wrap">
+								<TokenBalanceFormatSelect
+									type="checkboxes"
+									bind:tokenBalanceFormat
+									quoteCurrency={summary.quoteCurrency}
+								/>
+
+								<label>
+									<input type="checkbox" bind:checked={showSmallValues}>
+									<span>Small</span>
+								</label>
+
+								<label>
+									<span>Sort</span>
+									<select bind:value={sortBy}>
+										<option value="ticker-ascending">A–Z</option>
+										<option value="value-descending">Highest</option>
+										<option value="value-ascending">Lowest</option>
+									</select>
+								</label>
+							</div>
+
+							<button
+								class="small"
+								data-after={isOpen ? '▲' : '▼'}
+								on:click={toggle}
 							/>
-
-							<label>
-								<input type="checkbox" bind:checked={showSmallValues}>
-								<span>Small</span>
-							</label>
-
-							<label>
-								<span>Sort</span>
-								<select bind:value={sortBy}>
-									<option value="ticker-ascending">A–Z</option>
-									<option value="value-descending">Highest</option>
-									<option value="value-ascending">Lowest</option>
-								</select>
-							</label>
 						</div>
 					</div>
 				{/if}
