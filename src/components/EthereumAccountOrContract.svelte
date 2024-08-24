@@ -371,9 +371,13 @@
 						>
 							<div class="bar wrap">
 								<svelte:element this={`h${headingLevel + 1}`}>
-									{selectedToken.name}
-									(<TokenName token={selectedToken} />)
+									<TokenName
+										token={selectedToken}
+										layout="name-and-symbol"
+									/>
+
 									Transactions
+
 									<InlineContainer isOpen={status === 'resolved'}>(<TweenedNumber value={transactions.length} /><InlineContainer isOpen={pagination?.hasNextPage}>+</InlineContainer>)</InlineContainer>
 								</svelte:element>
 
