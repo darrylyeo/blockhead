@@ -57,7 +57,8 @@
 		.rate {
 			@supports (-webkit-background-clip: text) or (background-clip: text) {
 				--color-1: currentColor;
-				--color-2: var(--bitcoin-gold);
+				/* --color-2: var(--bitcoin-gold); */
+				--color-2: currentColor;
 				background: linear-gradient(135deg, var(--color-1), var(--color-2));
 				-webkit-background-clip: text;
 				background-clip: text;
@@ -115,10 +116,8 @@
 >
 	<span
 		class="rate"
-		style="
-			--color-1: var(--{tokenColors[quoteToken.symbol ?? '']});
-			--color-2: var(--{tokenColors[baseToken.symbol ?? '']});
-		"
+		style:--color-1={quoteToken.symbol && tokenColors[quoteToken.symbol] ? `var(--${tokenColors[quoteToken.symbol]})` : undefined}
+		style:--color-2={baseToken.symbol && tokenColors[baseToken.symbol] ? `var(--${tokenColors[baseToken.symbol]})` : undefined}
 	>
 		{formatRate(rate)}
 	</span>
