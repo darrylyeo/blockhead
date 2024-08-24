@@ -25,7 +25,7 @@
 
 
 <picture
-	class="icon"
+	data-icon
 	class:isGrayscale={isGrayscale}
 	{title}
 	{...$$restProps}
@@ -50,68 +50,72 @@
 		--icon-borderRadius: 0.3em;
 	}
 
-	picture:empty,
-	picture:has(picture:empty) {
-		display: none;
-	}
-
-	.icon {
+	[data-icon] {
 		display: inline-flex;
 		width: var(--icon-size);
 		height: 1em;
 		align-self: center;
 		align-items: center;
 		vertical-align: text-bottom;
+
+		&:empty,
+		&:has([data-icon]:empty) {
+			display: none;
+		}
+
+		& + :global([data-icon]) {
+			margin-left: calc(-0.25em - var(--padding-inner));
+		}
+
+		source {
+			display: none;
+		}
+
+		img, 
+		.placeholder-icon,
+		& > :global(svg) {
+			width: var(--icon-size);
+			height: var(--icon-size);
+			max-width: 100%;
+			aspect-ratio: 1;
+			border-radius: var(--icon-borderRadius);
+			object-fit: contain;
+		}
+
+		.placeholder-icon {
+			/* background-color: rgba(50, 50, 50, 0.75);
+			background-color: var(--primary-color); */
+			background: radial-gradient(transparent -175%, var(--primary-color) 125%);
+			/* border: 0.1em dotted var(--primary-color); */
+			/* box-shadow: 0 0 0.125em 0.125em var(--primary-color) inset; */
+
+			color: #fff;
+
+			display: inline-flex;
+			/* place-items: center; */
+			place-content: center;
+			text-align: center;
+			border-radius: 50%;
+			overflow: hidden;
+			line-height: var(--icon-size);
+			padding: 0 0.1em;
+
+			&:before {
+				content: attr(data-placeholder);
+
+				font-family: Pally, var(--base-fonts);
+				font-size: 0.5em;
+				font-weight: bold;
+
+				/* white-space: pre;
+				word-break: keep-all; */
+			}
+		}
 	}
-	.icon + :global(.icon) {
-		margin-left: calc(-0.25em - var(--padding-inner));
-	}
 
-	source {
-		display: none;
-	}
-
-	img, .placeholder-icon, .icon > :global(svg) {
-		width: var(--icon-size);
-		height: var(--icon-size);
-		max-width: 100%;
-		aspect-ratio: 1;
-		border-radius: var(--icon-borderRadius);
-		object-fit: contain;
-	}
-
-	.placeholder-icon {
-		/* background-color: rgba(50, 50, 50, 0.75);
-		background-color: var(--primary-color); */
-		background: radial-gradient(transparent -175%, var(--primary-color) 125%);
-		/* border: 0.1em dotted var(--primary-color); */
-		/* box-shadow: 0 0 0.125em 0.125em var(--primary-color) inset; */
-
-		color: #fff;
-
-		display: inline-flex;
-		/* place-items: center; */
-		place-content: center;
-		text-align: center;
-		border-radius: 50%;
-		overflow: hidden;
-
-		line-height: var(--icon-size);
-		padding: 0 0.1em;
-	}
-	.placeholder-icon:before {
-		content: attr(data-placeholder);
-
-		font-family: Pally, var(--base-fonts);
-		font-size: 0.5em;
-		font-weight: bold;
-
-		/* white-space: pre;
-		word-break: keep-all; */
-	}
 
 	/* ETH SVG off-center correction */
-	picture[title="ETH"] :global(circle + g) {
+	[data-icon][title="ETH"] :global(circle + g) {
 		transform: translateX(-.498px);
 	}
 
