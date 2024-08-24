@@ -14,17 +14,20 @@
 		decimals?: number,
 		icon?: string,
 	}
-	export let balance: number = 0
+	export let balance: number | bigint | undefined
 	export let isDebt = false
 
 	// (Derived)
 	$: network = token.chainId && networkByChainId.get(token.chainId)
+
+	$: formattedBalance = Number(balance) * 0.1 ** (token.decimals ?? 0)
+
 	$: isZero = balance == 0
-	$: isNegative = balance < 0
+	$: isNegative = balance && balance < 0
 
 	$: compactLargeValues = format === 'token'
 
-	$: title = `${balance} ${token.name || token.symbol}${token.symbol && token.name ? ` (${token.symbol})` : ``}`
+	$: title = `${formattedBalance} ${token.name || token.symbol}${token.symbol && token.name ? ` (${token.symbol})` : ``}`
 
 
 	// (View options)
@@ -105,7 +108,7 @@
 	{#if format === 'fiat'}
 		<span class="token-balance">
 			{isNegative ? '−' : ''}<TweenedNumber
-				value={Math.abs(balance)}
+				value={Math.abs(formattedBalance)}
 				format={{
 					currency: token.symbol,
 					showDecimalPlaces,
@@ -120,7 +123,7 @@
 		<span class="inline-no-wrap">
 			<span class="token-balance">
 				{isNegative ? '−' : ''}<TweenedNumber
-					value={Math.abs(balance)}
+					value={Math.abs(formattedBalance)}
 					format={{
 						showDecimalPlaces,
 						compactLargeValues

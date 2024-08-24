@@ -14,7 +14,7 @@
 		icon?: string,
 	}
 
-	export let balance: number
+	export let balance: number | bigint | undefined
 	export let isDebt = false
 
 	export let conversionCurrency: QuoteCurrency | undefined

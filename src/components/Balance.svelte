@@ -129,7 +129,7 @@
 						symbol: tokenBalance.token.symbol,
 						address: token.address,
 					}}
-					balance={Number(tokenBalance.balance) * 0.1 ** (tokenBalance.token.decimals ?? 18)}
+					balance={tokenBalance.balance}
 				/>
 			</div>
 		{/if}

@@ -118,7 +118,7 @@
 						...transaction.gasToken,
 					}}
 
-					balance={Number(transaction.value)}
+					balance={transaction.value}
 				/>
 			</span>
 		{/if}
@@ -151,7 +151,7 @@
 						...transaction.gasToken,
 					}}
 
-					balance={Number(transaction.gasSpent)}
+					balance={transaction.gasSpent}
 				/>
 			</span>
 		{/if}

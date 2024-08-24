@@ -135,7 +135,7 @@
 										...transaction.network.nativeCurrency,
 									}}
 
-									balance={Number(transaction.value) * 0.1 ** transaction.network.nativeCurrency.decimals}
+									balance={transaction.value}
 									conversionCurrency={transaction.conversion?.quoteCurrency} 
 									convertedValue={transaction.conversion?.value}
 								/>
@@ -248,7 +248,7 @@
 										...transaction.gasToken,
 									}}
 
-									balance={Number(transaction.gasValue) * 0.1 ** transaction.gasToken.decimals}
+									balance={transaction.gasValue}
 									conversionCurrency={transaction.conversion?.quoteCurrency}
 									conversionRate={transaction.conversion?.gasUnitRate}
 									convertedValue={transaction.conversion?.gasValue}

@@ -221,7 +221,7 @@
 								{network}
 								token={tokenWithBalance.token}
 
-								balance={Number(tokenWithBalance.balance) * 0.1 ** tokenWithBalance.token.decimals}
+								balance={tokenWithBalance.balance}
 								conversionCurrency={quoteCurrency}
 								convertedValue={tokenWithBalance.conversion.value}
 								conversionRate={tokenWithBalance.conversion.rate}
@@ -238,7 +238,7 @@
 								{network}
 								token={tokenWithBalance.token}
 
-								balance={Number(tokenWithBalance.balance) * 0.1 ** tokenWithBalance.token.decimals}
+								balance={tokenWithBalance.balance}
 
 								animationDelay={i * 10}
 

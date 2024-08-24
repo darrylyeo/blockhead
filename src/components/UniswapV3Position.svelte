@@ -39,14 +39,14 @@
 					chainId: network.chainId,
 					...position.pool.token0,
 				}}
-				balance={Number(position.token0Amount) * 0.1 ** position.pool.token0.decimals}
+				balance={position.token0Amount}
 				convertedValue={position.token0BalanceUsd}
 			/> / <TokenBalanceWithConversion
 				token={{
 					chainId: network.chainId,
 					...position.pool.token1,
 				}}
-				balance={Number(position.token1Amount) * 0.1 ** position.pool.token1.decimals}
+				balance={position.token1Amount}
 				convertedValue={position.token1BalanceUsd}
 			/> @ {UniswapV3.formatFeeAmount(position.pool.fee)}
 		</Address>

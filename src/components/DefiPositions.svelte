@@ -338,7 +338,7 @@
 
 															token={position.tokenWithBalance.token}
 
-															balance={Number(position.tokenWithBalance.balance) * 0.1 ** position.tokenWithBalance.token.decimals}
+															balance={position.tokenWithBalance.balance}
 
 															convertedValue={position.tokenWithBalance.conversion?.value}
 															conversionCurrency={position.tokenWithBalance.conversion?.currency}
@@ -414,7 +414,7 @@
 
 																	token={subposition.tokenWithBalance.token}
 
-																	balance={Number(subposition.tokenWithBalance.balance) * 0.1 ** subposition.tokenWithBalance.token.decimals}
+																	balance={subposition.tokenWithBalance.balance}
 
 																	convertedValue={subposition.tokenWithBalance.conversion?.value}
 																	conversionCurrency={subposition.tokenWithBalance.conversion?.currency}
@@ -439,7 +439,7 @@
 																					token={{
 																						symbol: item.currency,
 																					}}
-																					balance={Number(item.value)}
+																					balance={BigInt(item.value)}
 																					isDebt={item.label === 'Debt'}
 																				/>
 																			{:else if item.type === 'number'}

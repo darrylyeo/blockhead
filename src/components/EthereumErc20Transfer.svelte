@@ -61,7 +61,7 @@
 
 					token={erc20Transfer.token}
 
-					balance={Number(erc20Transfer.value) * 0.1 ** erc20Transfer.token.decimals}
+					balance={erc20Transfer.value}
 					conversionCurrency={erc20Transfer.conversion?.quoteCurrency} 
 					convertedValue={erc20Transfer.conversion?.value}
 					conversionRate={erc20Transfer.conversion?.rate}

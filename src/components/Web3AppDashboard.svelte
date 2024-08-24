@@ -525,7 +525,7 @@
 
 															{token}
 
-															balance={Number(balance) * 0.1 ** token.decimals}
+															{balance}
 															conversionCurrency={quoteCurrency}
 															convertedValue={value}
 															conversionRate={rate}
@@ -535,7 +535,7 @@
 
 															token={erc20Token}
 
-															balance={0}
+															balance={0n}
 															conversionCurrency={quoteCurrency}
 															convertedValue={0}
 															conversionRate={0}
