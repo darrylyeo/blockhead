@@ -945,9 +945,14 @@ address {
 		}
 	}
 	& > *,
-	& .scroll-snap-item {
+	& .scroll-snap-item,
+	section {
 		scroll-snap-stop: always;
 		scroll-snap-align: start;
+
+		.column > hr + & {
+			scroll-margin-top: var(--padding-inner);
+		}
 	}
 }
 
