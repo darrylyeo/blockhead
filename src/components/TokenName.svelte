@@ -17,6 +17,8 @@
 	$: title = `${token.name || token.symbol}${token.symbol && token.name ? ` (${token.symbol})` : ``}`
 	$: network = token.chainId && networkByChainId.get(token.chainId)
 
+	export let showName = false
+
 
 	// Actions
 	const onDragStart = (e: DragEvent) => {
@@ -65,6 +67,12 @@
 			{network}
 			{token}
 		/>
-		<span class="token-name">{token.symbol}</span>
+		<span class="token-name">
+			{#if showName && token.name}
+				{token.name}
+			{:else if token.symbol}
+				{token.symbol}
+			{/if}
+		</span>
 	</span>
 </Address>

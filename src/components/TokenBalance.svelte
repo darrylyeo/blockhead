@@ -28,6 +28,7 @@
 
 
 	// (View options)
+	export let showName = false
 	export let showDecimalPlaces = 3 // 2 + Math.round(Math.log10(price || 1))
 
 	export let tween = true
@@ -133,7 +134,15 @@
 				format="middle-truncated"
 				let:formattedAddress
 			>
-				<span class="token-name">{token.symbol || formattedAddress}</span>
+				<span class="token-name">
+					{#if showName && token.name}
+						{token.name}
+					{:else if token.symbol}
+						{token.symbol}
+					{:else if formattedAddress}
+						{formattedAddress}
+					{/if}
+				</span>
 			</Address>
 		</span>
 	{/if}

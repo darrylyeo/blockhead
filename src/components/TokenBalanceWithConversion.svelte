@@ -24,6 +24,7 @@
 	// (View options)
 	export let layout: 'inline' | 'block' = 'inline'
 	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
+	export let showName = false
 	export let showDecimalPlaces = 3
 	export let showConversionRate = false
 
@@ -88,12 +89,14 @@
 					{token}
 					{balance} {showDecimalPlaces} {isDebt}
 					{tween} {clip} {transitionWidth}
+					{showName}
 				/>
 			</span>
 		{:else if computedTokenBalanceFormat === 'converted' && layout === 'block'}
 			<span class="balance">
 				<TokenName
 					{token}
+					{showName}
 				/>
 			</span>
 		{/if}
@@ -114,6 +117,7 @@
 				}}
 				balance={convertedValue} {showDecimalPlaces} {isDebt}
 				{tween} {clip} {transitionWidth}
+				{showName}
 			/><InlineContainer
 				isOpen={computedTokenBalanceFormat === 'converted' && layout === 'inline' && conversionCurrency !== token.symbol}
 				renderOnlyWhenOpen={false}
@@ -123,6 +127,7 @@
 				<span class="worth">
 					&nbsp;in <TokenName
 						{token}
+						{showName}
 					/>
 				</span>
 			</InlineContainer>{#if showConversionRate && conversionRate}<span class="rate"> at <TokenRate rate={conversionRate} quoteToken={{ symbol: conversionCurrency }} baseToken={{ symbol: token.symbol }} layout="horizontal" /></span>{/if

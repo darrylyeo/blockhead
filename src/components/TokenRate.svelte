@@ -13,6 +13,7 @@
 	// (View options)
 	export let layout: 'horizontal' | 'vertical' = 'vertical'
 	export let fractionLayout: 'horizontal' | 'vertical' = layout === 'vertical' ? 'horizontal' : 'vertical'
+	export let showName = false
 
 
 	// Functions
@@ -129,6 +130,7 @@
 		<span>
 			<TokenName
 				token={quoteToken}
+				{showName}
 			/>
 		</span>
 
@@ -137,6 +139,7 @@
 		<span>
 			<TokenName
 				token={baseToken}
+				{showName}
 			/>
 		</span>
 	</span>
