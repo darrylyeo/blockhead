@@ -54,7 +54,7 @@
 			'original'
 
 	$: showParentheses = layout === 'inline'
-	$: isSmallValue = convertedValue !== undefined && Math.abs(convertedValue) < 1e-3
+	$: isSmallValue = convertedValue !== undefined && Math.abs(convertedValue) < 1
 	$: isZero = balance == 0
 
 
