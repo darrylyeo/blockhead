@@ -12,7 +12,7 @@
 
 
 	// Inputs
-	export let value: number
+	export let value: number | bigint
 
 	// (View options)
 	export let format: {
@@ -99,7 +99,7 @@
 		}
 	})
 
-	$: tweenedValue.set(value || 0)
+	$: tweenedValue.set(Number(value) || 0)
 
 
 	// Components
