@@ -84,7 +84,6 @@
 	}
 
 	address {
-		font-size: 1.05em;
 		font-style: normal;
 		font-weight: bold;
 		display: inline;
