@@ -226,7 +226,10 @@
 								)
 							},
 							select: result => (
-								normalizeCastWithRepliesV1Neynar(result.result.casts)
+								normalizeCastWithRepliesV1Neynar(
+									result.result.casts,
+									query.castId
+								)
 							),
 						})
 

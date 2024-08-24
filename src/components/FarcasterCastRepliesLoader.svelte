@@ -104,8 +104,11 @@
 						)
 					},
 					select: result => (
-						normalizeCastWithRepliesV1Neynar(result.result.casts)
-							.replies
+						normalizeCastWithRepliesV1Neynar(
+							result.result.casts,
+							query.parentCastId,
+						)
+							?.replies
 					),
 				})
 			),

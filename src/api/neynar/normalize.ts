@@ -195,17 +195,29 @@ export const normalizeCastV1 = (cast: CastV1 | CastWithInteractionsV1): Farcaste
 	},
 })
 
-export const normalizeCastWithRepliesV1 = (casts: CastWithInteractionsV1[]): FarcasterCast => {
-	const normalizedCasts = casts.map(cast => normalizeCastV1(cast))
+export const normalizeCastWithRepliesV1 = (
+	casts: CastWithInteractionsV1[],
+	castId: FarcasterCastId,
+): FarcasterCast | undefined => {
+	const normalizedCasts = new Map(
+		casts
+			.map(cast => [
+				cast.hash,
+				normalizeCastV1(cast)
+			] as const)
+	)
 
-	const castsByParentHash = Object.groupBy(normalizedCasts, cast => cast.parentCast?.id)
+	const castsByParentHash = Map.groupBy(
+		normalizedCasts.values(),
+		cast => cast.parentCast?.id
+	)
 
-	for(const cast of normalizedCasts){
-		cast.replies = castsByParentHash[cast.id]
-		cast.repliesCount = castsByParentHash[cast.id]?.length
+	for(const cast of normalizedCasts.values()){
+		cast.replies = castsByParentHash.get(cast.id) ?? []
+		cast.repliesCount = castsByParentHash.get(cast.id)?.length ?? 0
 	}
 
-	return normalizedCasts[0]
+	return normalizedCasts.get(castId)
 }
 
 export const normalizeCastV2 = (cast: CastV2 | CastWithInteractionsV2): FarcasterCast => ({
