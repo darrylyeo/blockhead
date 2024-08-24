@@ -405,13 +405,13 @@
 								>
 									<svelte:fragment slot="title">
 										<h4>
-											{erc20Token.name}
-											(<TokenName
+											<TokenName
 												token={{
 													chainId: network.chainId,
 													...erc20Token
 												}}
-											/>)
+												layout="name-and-symbol"
+											/>
 										</h4>
 									</svelte:fragment>
 
