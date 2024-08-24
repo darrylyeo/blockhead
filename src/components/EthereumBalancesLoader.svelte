@@ -40,6 +40,8 @@
 		balances: typeof balances,
 		status: Loader<any, any, any, any>['$$slot_def']['default']['status'],
 		pagination: Loader<any, any, any, any>['$$slot_def']['default']['pagination'],
+		isOpen: Loader<any, any, any, 'collapsible'>['$$slot_def']['default']['isOpen'],
+		toggle: Loader<any, any, any, 'collapsible'>['$$slot_def']['default']['toggle'],
 	}
 
 	type $$Slots = {
@@ -560,6 +562,7 @@
 	let:result={balances}
 	let:status
 	let:pagination
+	let:isOpen let:toggle
 >
 	<svelte:fragment slot="header"
 		let:result={balances}
@@ -567,17 +570,20 @@
 		let:pagination
 		let:loadingMessage
 		let:errorMessage
+		let:isOpen let:toggle
 	>
 		<slot name="header"
 			{balances}
 			{status} {pagination}
 			{loadingMessage} {errorMessage}
+			{isOpen} {toggle}
 		/>
 	</svelte:fragment>
 
 	<slot
 		{balances}
 		{status} {pagination}
+		{isOpen} {toggle}
 	/>
 </Loader>
 
