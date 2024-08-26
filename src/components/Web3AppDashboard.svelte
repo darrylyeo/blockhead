@@ -77,27 +77,20 @@
 	import Collapsible from './Collapsible.svelte'
 	import DefiPositions from './DefiPositions.svelte'
 	import DefiPositionsLoader from './DefiPositionsLoader.svelte'
-	import EthereumBalancesLoader from './EthereumBalancesLoader.svelte'
+	import EthereumErc20Token from './EthereumErc20Token.svelte'
 	import EthereumAccountOrContract from './EthereumAccountOrContract.svelte';
-	import EthereumContractExplorer from './EthereumContractExplorer.svelte'
-	import CurrentPrice from './CurrentPrice.svelte'
-	import HistoricalPriceChart from './HistoricalPriceChart.svelte'
 	import Icon from './Icon.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
 	import GraphiqlExplorer from './GraphiqlExplorer.svelte'
-	import TokenName from './TokenName.svelte'
 	import TokenBalance from './TokenBalance.svelte'
-	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
 	import TokenBalanceFormatSelect from './TokenBalanceFormatSelect.svelte'
 	import { TheGraphIcon } from '$/assets/icons'
 
 
 	// Transitions/animations
-	import BlockTransition from './BlockTransition.svelte'
 	import { cardStyle } from '$/utils/card-background'
 	import { flip } from 'svelte/animate'
-	import { fly, scale } from 'svelte/transition'
-	import { scaleFont } from '$/transitions/scale-font'
+	import { scale } from 'svelte/transition'
 </script>
 
 
@@ -397,155 +390,16 @@
 							)
 						)}
 							{#each erc20Tokens.filter(Boolean) as erc20Token}
-								<Collapsible
-									type="label"
-									containerClass="card erc20-token"
-									class="column"
-									showTriggerText={false}
-								>
-									<svelte:fragment slot="title">
-										<h4>
-											<TokenName
-												token={{
-													chainId: network.chainId,
-													...erc20Token
-												}}
-												layout="name-and-symbol"
-											/>
-										</h4>
-									</svelte:fragment>
-
-									<svelte:fragment slot="header-right">
-										<div class="card-annotation">ERC-20 Token</div>
-									</svelte:fragment>
-
-									<!--
-									<svelte:fragment slot="title">
-										<h4>
-											<TokenName
-												token={{
-													chainId: network.chainId,
-													...erc20Token
-												}}
-											/>
-											({erc20Token.name})
-										</h4>
-									</svelte:fragment>
-
-									<svelte:fragment slot="header-right">
-										<div class="card-annotation">ERC-20 Token</div>
-									</svelte:fragment>
-									-->
-
-									<hr>
-
-									<BlockTransition
-										key={
-											currentView === 'Dashboard' ? 1 :
-											currentView === 'Account' && address ? 2 :
-											0
-										}
-										contentTransition={{
-											in: [fly, { x: 20, duration: 300 }],
-											out: [fly, { x: -20, duration: 300 }],
-										}}
-									>
-										{#if currentView === 'Dashboard'}
-											<div class="column">
-												<CurrentPrice
-													layout="collapsible"
-													currentPriceProvider={$preferences.currentPriceProvider}
-													token={erc20Token.symbol}
-													tokenIcon={erc20Token.icon}
-													quoteCurrency={$preferences.quoteCurrency}
-													{network}
-												>
-												<!-- blockNumber={$blockNumber} -->
-													<h4 slot="title">
-														Current Price
-													</h4>
-												</CurrentPrice>
-
-												<hr>
-
-												<HistoricalPriceChart
-													currencies={[erc20Token.address]}
-													quoteCurrency={$preferences.quoteCurrency}
-												>
-													<h4 slot="title">
-														<!-- {erc20Token.name}
-														(<TokenName
-															token={{
-																chainId: network.chainId,
-																...erc20Token
-															}}
-														/>)
-														- Historical Price -->
-														Historical Price
-													</h4>
-												</HistoricalPriceChart>
-
-												<hr>
-
-												<EthereumContractExplorer
-													{network}
-													address={erc20Token.address}
-													headingLevel={4}
-												/>
-											</div>
-
-										{:else if currentView === 'Account' && address}
-											<div class="card">
-												<EthereumBalancesLoader
-													{network}
-													{address}
-													tokenBalancesProvider={$preferences.tokenBalancesProvider}
-													quoteCurrency={$preferences.quoteCurrency}
-													showIf={balances => balances}
-													let:balances
-												>
-													<svelte:fragment slot="header">
-														<div class="bar wrap">
-															<h4>Current Balance</h4>
-															<div class="card-annotation">{$preferences.tokenBalancesProvider}</div>
-														</div>
-
-														<hr>
-													</svelte:fragment>
-						
-													{#each
-														[
-															balances?.find(balance => balance.token.address.toLowerCase() === erc20Token.address.toLowerCase())
-														].filter(_ => _)
-														as {type, token, balance, value, rate},
-														i (i)
-													}
-														<TokenBalanceWithConversion
-															{tokenBalanceFormat}
-
-															{token}
-
-															{balance}
-															conversionCurrency={quoteCurrency}
-															convertedValue={value}
-															conversionRate={rate}
-														/>
-													{:else}
-														<TokenBalanceWithConversion
-
-															token={erc20Token}
-
-															balance={0n}
-															conversionCurrency={quoteCurrency}
-															convertedValue={0}
-															conversionRate={0}
-														/>
-													{/each}
-												</EthereumBalancesLoader>
-											</div>
-										{/if}
-									</BlockTransition>
-								</Collapsible>
+								<EthereumErc20Token
+									{network}
+									{erc20Token}
+									view={currentView}
+									{address}
+									{quoteCurrency}
+									currentPriceProvider={$preferences.currentPriceProvider}
+									tokenBalancesProvider={$preferences.tokenBalancesProvider}
+									{tokenBalanceFormat}
+								/>
 							{/each}
 						{/if}
 
