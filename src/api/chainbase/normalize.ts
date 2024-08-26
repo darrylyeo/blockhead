@@ -1,7 +1,7 @@
 // Types
 import type { Ethereum } from '$/data/networks/types'
 import type { TokenWithBalance } from '$/data/tokens'
-import type { getNftsByAddress, getBlockByNumber, getTransaction, getErc20TokenBalances } from './index'
+import type { getNftsByAddress, getBlockByNumber, getTransaction, getErc20TokenBalances, getTokenMetadata } from './index'
 
 
 // Functions
@@ -84,17 +84,48 @@ export const normalizeTransaction = (
 	gasValue: BigInt(transaction.tx_fee),
 })
 
+export const normalizeTokenMetadata = (
+	token: Awaited<ReturnType<typeof getTokenMetadata>>['data'],
+	chainId: Ethereum.ChainId,
+): Ethereum.Erc20Token => ({
+	chainId,
+	address: token.contract_address,
+
+	name: token.name,
+	symbol: token.symbol,
+	decimals: token.decimals,
+
+	icon: token.logos?.[0]?.uri,
+
+	totalSupply: (
+		token.total_supply
+			? BigInt(token.total_supply)
+			: undefined
+	),
+
+	conversion: {
+		quoteCurrency: 'USD',
+		rate: token.current_usd_price,
+	},
+})
+
 export const normalizeTokenBalance = (
 	asset: Awaited<ReturnType<typeof getErc20TokenBalances>>['data'][number],
 	chainId: Ethereum.ChainId,
 ): TokenWithBalance => ({
-	token: {
-		chainId,
-		address: asset.contract_address,
-		name: asset.name,
-		symbol: asset.symbol,
-		decimals: asset.decimals,
-		icon: asset.logos?.[0]?.uri,
-	},
+	token: normalizeTokenMetadata(
+		{
+			...asset,
+			current_usd_price: asset.current_usd_price / (Number(asset.balance) * 0.1 ** asset.decimals),
+		},
+		chainId
+	),
+
 	balance: BigInt(asset.balance),
+
+	conversion: {
+		currency: 'USD',
+		value: asset.current_usd_price,
+		rate: asset.current_usd_price / (Number(asset.balance) * 0.1 ** asset.decimals),
+	},
 })
