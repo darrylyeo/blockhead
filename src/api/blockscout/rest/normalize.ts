@@ -1,10 +1,30 @@
 // Types/constants
-import type { Block, Transaction, SmartContract } from './index'
+import type { TokenInfo, Block, Transaction, SmartContract } from './index'
 import type { Ethereum } from '$/data/networks/types'
 import type { Abi } from 'abitype'
 
 
 // Functions
+export const normalizeToken = (
+	token: TokenInfo,
+	chainId: Ethereum.ChainId
+): Ethereum.Erc20Token => ({
+	chainId,
+	address: token.address as Ethereum.ContractAddress,
+
+	name: token.name,
+	symbol: token.symbol,
+	decimals: Number(token.decimals),
+	icon: token.icon_url,
+
+	totalSupply: BigInt(token.total_supply),
+
+	conversion: {
+		quoteCurrency: 'USD',
+		rate: Number(token.exchange_rate),
+	},
+})
+
 export const normalizeTransaction = (
 	transaction: Transaction,
 	network: Ethereum.Network
