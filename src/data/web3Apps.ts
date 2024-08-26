@@ -28715,16 +28715,6 @@ export const web3Apps = [
 					'#ff007a',
 				],
 				chainId: 1,
-				erc20Tokens: [
-					{
-						icon: 'https://assets.coingecko.com/coins/images/12504/thumb/uniswap-uni.png?1600306604',
-						chainId: 1,
-						address: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
-						name: 'Uniswap',
-						symbol: 'UNI',
-						decimals: 18,
-					},
-				],
 				providers: {
 					llamafolio: 'uniswap-v2',
 					theGraph: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2',
@@ -28785,6 +28775,16 @@ export const web3Apps = [
 				providers: {
 					zapper: 'uniswap-governance',
 				},
+				erc20Tokens: [
+					{
+						icon: 'https://assets.coingecko.com/coins/images/12504/thumb/uniswap-uni.png?1600306604',
+						chainId: 1,
+						address: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
+						name: 'Uniswap',
+						symbol: 'UNI',
+						decimals: 18,
+					},
+				],
 			},
 		],
 	},
