@@ -2,6 +2,7 @@
 	// Constants/types
 	import type { Ethereum } from '$/data/networks/types'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
+	import { Erc20TokenProvider } from '$/data/erc20TokenProvider'
 	import { DefiProvider } from '$/data/defiProviders'
 	import type { QuoteCurrency } from '$/data/currencies'
 	import type { Web3AppConfig } from '$/data/web3Apps'
@@ -19,6 +20,7 @@
 	export let address: Ethereum.Address | undefined
 	export let accountConnection: AccountConnection | undefined
 	export let networkProvider: NetworkProvider
+	export let erc20TokenProvider: Erc20TokenProvider
 	export let defiProvider: DefiProvider = DefiProvider.Zapper
 	export let quoteCurrency: QuoteCurrency
 
@@ -399,6 +401,7 @@
 									currentPriceProvider={$preferences.currentPriceProvider}
 									tokenBalancesProvider={$preferences.tokenBalancesProvider}
 									{tokenBalanceFormat}
+									{erc20TokenProvider}
 								/>
 							{/each}
 						{/if}
