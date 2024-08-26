@@ -102,6 +102,50 @@ export const TokenBalance = graphql(`
 
 
 // Queries
+export const getToken = async ({
+	address,
+	chainId,
+}: {
+	address: Ethereum.Address
+	chainId: Ethereum.ChainId
+}) => {
+	if (!(chainId in airstackNetworkNames))
+		throw new Error(`Airstack doesn't yet support chain ID ${chainId}.`)
+
+	return await client
+		.query(
+			graphql(`
+				query Token(
+					$address: Address!
+					$blockchain: TokenBlockchain!
+				) {
+					Tokens(
+						input: {
+							blockchain: $blockchain
+							filter: {
+								address: {
+									_eq: $address
+								}
+							}
+						}
+					) {
+						Token {
+							...Token
+						}
+					}
+				}
+			`, [
+				Token,
+			]),
+			{
+				address,
+				blockchain: airstackNetworkNames[chainId],
+			},
+		)
+		.toPromise()
+		.then(handleUrqlResult)
+}
+
 export const getTokenBalances = async ({
 	address,
 	network,
