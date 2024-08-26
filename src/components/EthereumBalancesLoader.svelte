@@ -308,7 +308,10 @@
 						pages
 							.flatMap(result => result.result)
 							.map(tokenWithBalance => (
-								normalizeTokenBalanceDecommas(tokenWithBalance)
+								normalizeTokenBalanceDecommas(
+									tokenWithBalance,
+									address,
+								)
 							))
 					),
 					staleTime: 10 * 1000,

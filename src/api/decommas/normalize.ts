@@ -77,16 +77,21 @@ export const normalizeNftContracts = (
 
 export const normalizeTokenBalance = (
 	tokenWithAmount: TCoinWithAmount,
+	address: Ethereum.ContractAddress,
 ): TokenWithBalance => ({
 	token: {
 		chainId: tokenWithAmount.chainId,
-		address: tokenWithAmount.address as Ethereum.ContractAddress,
+		address,
+
 		name: tokenWithAmount.name,
 		symbol: tokenWithAmount.symbol,
 		decimals: tokenWithAmount.decimals,
+
 		icon: tokenWithAmount.logoUrl,
 	},
+
 	balance: BigInt(tokenWithAmount.amount),
+
 	...tokenWithAmount.actualPrice !== null && {
 		conversion: {
 			currency: 'USD',
