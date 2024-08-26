@@ -1,7 +1,7 @@
 // Types
 import type { Ethereum } from '$/data/networks/types'
 import type { TokenWithBalance } from '$/data/tokens'
-import type { TTransaction, TTxDetail, TNft, TNftMetadata, TCoinWithAmount } from '@decommas/sdk'
+import type { TTransaction, TTxDetail, TNft, TNftMetadata, TCoinWithAmount, TToken } from '@decommas/sdk'
 
 
 // Functions
@@ -74,6 +74,32 @@ export const normalizeNftContracts = (
 			})),
 		}))
 )
+
+export const normalizeToken = (
+	token: TToken,
+	chainId: Ethereum.ChainId
+): Ethereum.Erc20Token => ({
+	chainId,
+	address: token.address as Ethereum.ContractAddress,
+
+	name: token.name,
+	symbol: token.symbol,
+	decimals: token.decimals,
+
+	icon: token.logoUrl,
+
+	totalSupply: (
+		token.totalSupply
+			? BigInt(token.totalSupply)
+			: undefined
+	),
+
+	conversion: {
+		currency: 'USD',
+		value: Number(token.actualPrice) * 0.1 ** token.decimals * Number(token.actualPrice),
+		rate: Number(token.actualPrice),
+	},
+})
 
 export const normalizeTokenBalance = (
 	tokenWithAmount: TCoinWithAmount,
