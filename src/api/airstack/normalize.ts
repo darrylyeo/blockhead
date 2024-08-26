@@ -1,7 +1,16 @@
 // Types
 import type { Ethereum } from '$/data/networks/types'
 import type { TokenWithBalance } from '$/data/tokens'
-import type { getNftsByAddress, getTokenBalances, getFarcasterCastByHash, getFarcasterUserByName, getFarcasterTrendingCasts, getFarcasterChannels } from '.'
+import type {
+	Token,
+	TokenBalance,
+	getNftsByAddress,
+	getFarcasterCastByHash,
+	getFarcasterUserByName,
+	getFarcasterTrendingCasts,
+	getFarcasterChannels
+} from '.'
+import type { FragmentOf } from 'gql.tada'
 
 
 // Functions
@@ -52,18 +61,42 @@ export const normalizeNftContracts = (
 	)
 )
 
-export const normalizeTokenBalance = (
-	tokenWithBalance: NonNullable<NonNullable<NonNullable<Awaited<ReturnType<typeof getTokenBalances>>>['TokenBalances']>['TokenBalance']>[number],
+export const normalizeToken = (
+	token: FragmentOf<typeof Token>,
 	chainId: Ethereum.ChainId,
+): Ethereum.Erc20Token => ({
+	chainId: chainId || (token.chainId ? Number(token.chainId) : undefined),
+	address: token.address as Ethereum.ContractAddress,
+
+	name: token.name,
+	symbol: token.symbol,
+	decimals: token.decimals,
+
+	icon: (
+		token.contractMetaData?.image
+		?? token.logo.external
+		?? token.logo.small
+		?? token.logo.medium
+		?? token.logo.large
+		?? token.logo.original
+	),
+
+	totalSupply: (
+		token.totalSupply
+			? BigInt(token.totalSupply)
+			: undefined
+	),
+})
+
+export const normalizeTokenBalance = (
+	tokenWithBalance: FragmentOf<typeof TokenBalance>,
+	chainId: Ethereum.ChainId
 ): TokenWithBalance => ({
-	token: {
-		chainId: chainId || (tokenWithBalance.chainId ? Number(tokenWithBalance.chainId) : undefined),
-		address: tokenWithBalance.tokenAddress as Ethereum.ContractAddress,
-		name: tokenWithBalance.token?.name ?? undefined,
-		symbol: tokenWithBalance.token?.symbol ?? undefined,
-		decimals: tokenWithBalance.token?.decimals ?? undefined,
-	},
-	balance: BigInt(tokenWithBalance.amount),
+	token: normalizeToken(
+		tokenWithBalance.token,
+		chainId
+	),
+	balance: BigInt(tokenWithBalance.amount)
 })
 
 export const normalizeFarcasterCast = (
