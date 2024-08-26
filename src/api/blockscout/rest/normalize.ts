@@ -1,11 +1,13 @@
 // Types/constants
-import type { TokenInfo, Token, TokenBalance, Block, Transaction, SmartContract } from './index'
+import type { TokenInfo, Token, TokenBalance, AddressNftCollection, AddressNftInstanceCollection, Block, Transaction, SmartContract } from './index'
 import type { Ethereum } from '$/data/networks/types'
 import type { TokenWithBalance } from '$/data/tokens'
 import type { Abi } from 'abitype'
 
 
 // Functions
+import { normalizeNftAttributes } from '$/utils/normalizeNftAttributes'
+
 export const normalizeToken = (
 	token: TokenInfo | Token,
 	chainId: Ethereum.ChainId
@@ -36,6 +38,56 @@ export const normalizeTokenBalance = (
 	),
 
 	balance: BigInt(tokenBalance.value),
+})
+
+export const normalizeNft = (
+	nft: AddressNftInstanceCollection,
+): Ethereum.Nft => ({
+	owner: nft.holder_address_hash as Ethereum.Address,
+	
+	tokenId: BigInt(nft.id),
+	tokenUri: nft.external_app_url,
+
+	metadata: {
+		...(
+			nft.metadata
+				? normalizeNftAttributes(nft.metadata as Record<string, string>)
+				: []
+		),
+
+		image: (
+			nft.image_url
+			|| nft.animation_url
+			|| (nft.metadata as Record<string, string>)?.image
+			|| (nft.metadata as Record<string, string>)?.error
+		),
+	}
+})
+
+export const normalizeNftContract = (
+	nftCollection: AddressNftCollection,
+	network: Ethereum.Network
+): Ethereum.NftContractWithNfts => ({
+	chainId: network.chainId,
+	address: nftCollection.token.address as Ethereum.ContractAddress,
+
+	ercTokenStandards: (
+		[
+			nftCollection.token_instances[0]?.token_type?.toLowerCase(),
+		]
+			.filter(Boolean) as Ethereum.ErcTokenStandard[]
+	),
+
+	name: nftCollection.token.name,
+	symbol: nftCollection.token.symbol,
+
+	nfts: (
+		nftCollection.token_instances
+			.map(nft => (
+				normalizeNft(nft)
+			))
+	),
+	nftsCount: Number(nftCollection.amount),
 })
 
 export const normalizeTransaction = (

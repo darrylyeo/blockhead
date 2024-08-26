@@ -74,6 +74,8 @@
 	import { getNftsByAddress as getNftsByAddressAirstack } from '$/api/airstack/index'
 	import { normalizeNftContracts as normalizeNftContractsAirstack } from '$/api/airstack/normalize'
 
+	import { normalizeNftContract as normalizeNftContractBlockscout } from '$/api/blockscout/rest/normalize'
+
 	import { normalizeNftContracts as normalizeNftContractsChainbase } from '$/api/chainbase/normalize'
 
 	import { getNftsForAddress as getNftsForAddressCovalent } from '$/api/covalent/index'
@@ -130,6 +132,51 @@
 									page?.TokenBalances?.TokenBalance ?? []
 								))
 						)
+					),
+					staleTime: 10 * 1000,
+				})
+			),
+		}),
+
+		[NftProvider.Blockscout]: () => ({
+			fromInfiniteQuery: address && network && (
+				createInfiniteQuery({
+					queryKey: ['NFTs', {
+						nftProvider,
+						address,
+						chainId: network.chainId,
+						quoteCurrency,
+					}],
+					initialPageParam: {},
+					queryFn: async ({
+						queryKey: [_, {
+							address,
+							chainId,
+						}],
+						pageParam: next_page_params,
+					}) => {
+						const { getAddressNftCollections } = await import('$/api/blockscout/rest')
+						const { getBlockscoutRestEndpoint } = await import('$/api/blockscout/index')
+
+						return await getAddressNftCollections(
+							address,
+							{
+								$type: 'ERC-721',
+							},
+							{
+								baseUrl: getBlockscoutRestEndpoint(chainId),
+								fetch: (url, ...args) => (
+									fetch(new URL(`?${new URLSearchParams(next_page_params)}`, url), ...args)
+								),
+							}
+						)
+					},
+					getNextPageParam: lastPage => lastPage.next_page_params,
+					select: result => (
+						result
+							.pages
+							.flatMap(page => page.items)
+							.map(item => normalizeNftContractBlockscout(item, network))
 					),
 					staleTime: 10 * 1000,
 				})

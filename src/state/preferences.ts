@@ -340,6 +340,7 @@ export const preferencesConfig = [
 						name: 'Off-Chain',
 						options: [
 							{ value: NftProvider.Airstack, name: 'Airstack', icon: nftProviderIcons[NftProvider.Airstack] },
+							{ value: NftProvider.Blockscout, name: 'Blockscout › REST API', icon: nftProviderIcons[NftProvider.Blockscout] },
 							{ value: NftProvider.Chainbase, name: 'Chainbase', icon: nftProviderIcons[NftProvider.Chainbase] },
 							{ value: NftProvider.Covalent, name: 'Covalent › GoldRush', icon: nftProviderIcons[NftProvider.Covalent] },
 							{ value: NftProvider.Decommas, name: 'Decommas', icon: nftProviderIcons[NftProvider.Decommas] },
