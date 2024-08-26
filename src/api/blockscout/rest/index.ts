@@ -419,6 +419,37 @@ export type CoinBalanceHistoryByDaysEntry = {
     date: string;
     value: number;
 };
+export type AddressNftInstance = {
+    is_unique: boolean;
+    id: string;
+    holder_address_hash?: string;
+    image_url?: string;
+    animation_url?: string;
+    external_app_url?: string;
+    metadata?: object;
+    owner: AddressParam;
+    token: TokenInfo;
+    token_type: string;
+    value: string;
+};
+export type AddressNftInstanceCollection = {
+    is_unique: boolean;
+    id: string;
+    holder_address_hash?: string;
+    image_url?: string;
+    animation_url?: string;
+    external_app_url?: string;
+    metadata?: object;
+    owner: AddressParam;
+    token?: object;
+    token_type: string;
+    value: string;
+};
+export type AddressNftCollection = {
+    token: TokenInfo;
+    amount?: string;
+    token_instances: AddressNftInstanceCollection[];
+};
 export type Holder = {
     address: AddressParam;
     value: string;
@@ -1018,6 +1049,46 @@ export function getAddressWithdrawals(addressHash: string, opts?: Oazapfts.Reque
     } | {
         status: 400;
     }>(`/addresses/${encodeURIComponent(addressHash)}/withdrawals`, {
+        ...opts
+    }));
+}
+/**
+ * get list of NFT owned by address
+ */
+export function getAddressNft(addressHash: string, { $type }: {
+    $type?: string;
+} = {}, opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchJson<{
+        status: 200;
+        data: {
+            items: AddressNftInstance[];
+            next_page_params: object;
+        };
+    } | {
+        status: 400;
+    }>(`/addresses/${encodeURIComponent(addressHash)}/nft${QS.query(QS.explode({
+        "type": $type
+    }))}`, {
+        ...opts
+    }));
+}
+/**
+ * get list of NFT owned by address, grouped by collection
+ */
+export function getAddressNftCollections(addressHash: string, { $type }: {
+    $type?: string;
+} = {}, opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchJson<{
+        status: 200;
+        data: {
+            items: AddressNftCollection[];
+            next_page_params: object;
+        };
+    } | {
+        status: 400;
+    }>(`/addresses/${encodeURIComponent(addressHash)}/nft/collections${QS.query(QS.explode({
+        "type": $type
+    }))}`, {
         ...opts
     }));
 }
