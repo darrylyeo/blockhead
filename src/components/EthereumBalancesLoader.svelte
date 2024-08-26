@@ -65,6 +65,8 @@
 
 	import { normalizeTokenBalance as normalizeTokenBalanceAirstack } from '$/api/airstack/normalize'
 
+	import { normalizeTokenBalance as normalizeTokenBalanceBlockscout } from '$/api/blockscout/rest/normalize'
+
 	import { normalizeTokenBalance as normalizeTokenBalanceChainbase } from '$/api/chainbase/normalize'
 
 	import { normalizeTokenBalance as normalizeTokenBalanceCovalent } from '$/api/covalent/normalize'
@@ -177,6 +179,47 @@
 							.flatMap(page => page?.TokenBalances?.TokenBalance ?? [])
 							.map(tokenWithBalance => (
 								normalizeTokenBalanceAirstack(tokenWithBalance, network.chainId)
+							))
+					),
+					staleTime: 10 * 1000,
+				})
+			),
+		}),
+
+		[TokenBalancesProvider.Blockscout]: () => ({
+			fromQuery: address && network && (
+				createQuery({
+					queryKey: ['Balances', {
+						tokenBalancesProvider,
+						address,
+						chainId: network.chainId,
+					}],
+					queryFn: async ({
+						queryKey: [_, {
+							address,
+							chainId,
+						}],
+					}) => {
+						const { getAddressTokenBalances } = await import('$/api/blockscout/rest')
+						const { getBlockscoutRestEndpoint } = await import('$/api/blockscout/index')
+
+						return await getAddressTokenBalances(
+							address,
+							{
+								baseUrl: getBlockscoutRestEndpoint(chainId),
+							}
+						)
+					},
+					select: (result) => (
+						result
+							.filter(tokenBalance => (
+								tokenBalance.token.type === 'ERC-20'
+							))
+							.map(tokenBalance => (
+								normalizeTokenBalanceBlockscout(
+									tokenBalance,
+									network.chainId,
+								)
 							))
 					),
 					staleTime: 10 * 1000,

@@ -2,6 +2,7 @@ export enum TokenBalancesProvider {
 	RpcProvider = 'RPC Provider',
 	Airstack = 'Airstack',
 	Beryx = 'Beryx',
+	Blockscout = 'Blockscout',
 	Chainbase = 'Chainbase',
 	Covalent = 'Covalent',
 	Decommas = 'Decommas',
@@ -15,11 +16,12 @@ export enum TokenBalancesProvider {
 }
 
 
-import { AirstackIcon, BeryxIcon, ChainbaseIcon, CovalentGoldRushIcon, DecommasIcon, LiqualityIcon, LlamaFolioIcon, MoralisIcon, NexandriaIcon, QuickNodeIcon, ZapperIcon, ZerionIcon } from '$/assets/icons'
+import { AirstackIcon, BeryxIcon, BlockscoutIcon, ChainbaseIcon, CovalentGoldRushIcon, DecommasIcon, LiqualityIcon, LlamaFolioIcon, MoralisIcon, NexandriaIcon, QuickNodeIcon, ZapperIcon, ZerionIcon } from '$/assets/icons'
 
 export const tokenBalancesProviderIcons = {
 	[TokenBalancesProvider.Airstack]: AirstackIcon,
 	[TokenBalancesProvider.Beryx]: BeryxIcon,
+	[TokenBalancesProvider.Blockscout]: BlockscoutIcon,
 	[TokenBalancesProvider.Chainbase]: ChainbaseIcon,
 	[TokenBalancesProvider.Covalent]: CovalentGoldRushIcon,
 	[TokenBalancesProvider.Decommas]: DecommasIcon,

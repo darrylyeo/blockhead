@@ -286,6 +286,7 @@ export const preferencesConfig = [
 						name: 'Off-Chain',
 						options: [
 							{ value: TokenBalancesProvider.Airstack, name: 'Airstack', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Airstack] },
+							{ value: TokenBalancesProvider.Blockscout, name: 'Blockscout › REST API', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Blockscout] },
 							{ value: TokenBalancesProvider.Chainbase, name: 'Chainbase › Token API', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Chainbase] },
 							{ value: TokenBalancesProvider.Covalent, name: 'Covalent › GoldRush', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Covalent] },
 							{ value: TokenBalancesProvider.Decommas, name: 'Decommas', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Decommas] },
