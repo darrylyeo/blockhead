@@ -3,7 +3,9 @@
 	import type { Ethereum } from '$/data/networks/types'
 	import type { QuoteCurrency } from '$/data/currencies'
 	import type { PriceProvider } from '$/data/priceProviders'
-	import { TokenBalancesProvider } from '$/data/tokenBalancesProvider'
+	import type { NetworkProvider } from '$/data/networkProviders/types'
+	import type { Erc20TokenProvider } from '$/data/erc20TokenProvider'
+	import type { TokenBalancesProvider } from '$/data/tokenBalancesProvider'
 
 
 	// Inputs
@@ -14,8 +16,11 @@
 	export let address: Ethereum.Address | undefined
 
 	export let quoteCurrency: QuoteCurrency
+	export let networkProvider: NetworkProvider
+	export let erc20TokenProvider: Erc20TokenProvider
 	export let currentPriceProvider: PriceProvider
 	export let tokenBalancesProvider: TokenBalancesProvider
+
 
 	// (View options)
 	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'both'
@@ -25,6 +30,7 @@
 	import Collapsible from './Collapsible.svelte'
 	import EthereumBalancesLoader from './EthereumBalancesLoader.svelte'
 	import EthereumContractExplorer from './EthereumContractExplorer.svelte'
+	import EthereumErc20TokenLoader from './EthereumErc20TokenLoader.svelte'
 	import CurrentPrice from './CurrentPrice.svelte'
 	import HistoricalPriceChart from './HistoricalPriceChart.svelte'
 	import TokenName from './TokenName.svelte'
@@ -91,6 +97,49 @@
 		}}
 	>
 		{#if view === 'Dashboard'}
+			<EthereumErc20TokenLoader
+				{network}
+				address={erc20Token.address}
+				{erc20TokenProvider}
+				{networkProvider}
+				let:erc20Token
+			>
+				{#if erc20Token}
+					<dl>
+						{#if erc20Token.name}
+							<dt>Name</dt>
+							<dd>{erc20Token.name}</dd>
+						{/if}
+
+						{#if erc20Token.symbol}
+							<dt>Symbol</dt>
+							<dd>{erc20Token.symbol}</dd>
+						{/if}
+
+						{#if erc20Token.decimals !== undefined}
+							<dt>Decimals</dt>
+							<dd>{erc20Token.decimals}</dd>
+						{/if}
+
+						{#if erc20Token.totalSupply !== undefined}
+							<dt>Total Supply</dt>
+							<dd>
+								<TokenBalanceWithConversion
+									{tokenBalanceFormat}
+									token={erc20Token}
+									balance={erc20Token.totalSupply}
+									conversionCurrency={quoteCurrency}
+									convertedValue={erc20Token.conversion?.value}
+									conversionRate={erc20Token.conversion?.rate}
+								/>
+							</dd>
+						{/if}
+					</dl>
+				{/if}
+			</EthereumErc20TokenLoader>
+
+			<hr>
+
 			<div class="column">
 				<CurrentPrice
 					layout="collapsible"
