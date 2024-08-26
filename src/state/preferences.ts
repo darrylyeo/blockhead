@@ -10,6 +10,7 @@ import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '$/data/currencies'
 import { tokenIcons } from '$/assets/tokenIcons'
 import { NetworkProvider } from '$/data/networkProviders/types'
 import { networkProviderConfigs, networkProviderConfigByProvider } from '$/data/networkProviders'
+import { Erc20TokenProvider, erc20TokenProviderIcons } from '$/data/erc20TokenProvider'
 import { TokenBalancesProvider, tokenBalancesProviderIcons } from '$/data/tokenBalancesProvider'
 import { DefiProvider, defiProviderIcons } from '$/data/defiProviders'
 import { NftProvider, nftProviderIcons } from '$/data/nftProviders'
@@ -233,6 +234,37 @@ export const preferencesConfig = [
 						options: [
 							{ value: FilecoinTransactionProvider.Beryx, name: 'Beryx', icon: filecoinTransactionProviderIcons[FilecoinTransactionProvider.Beryx] },
 						]
+					},
+				],
+			},
+			{
+				preferenceId: 'erc20TokenProvider',
+				name: 'ERC-20 Tokens',
+				type: 'single',
+				defaultOption: Erc20TokenProvider.RpcProvider,
+				options: [
+					{
+						groupId: 'onchain',
+						name: 'Onchain',
+						options: [
+							{
+								value: Erc20TokenProvider.RpcProvider,
+								name: (preferences: any) => `Node Client (${preferences.rpcNetwork})`,
+							},
+						],
+					},
+					{
+						groupId: 'offchain',
+						name: 'Offchain',
+						options: (
+							Object.values(Erc20TokenProvider)
+								.filter(provider => provider !== Erc20TokenProvider.RpcProvider)
+								.map(provider => ({
+									value: provider,
+									name: provider,
+									icon: erc20TokenProviderIcons[provider],
+								}))
+						),
 					},
 				],
 			},
