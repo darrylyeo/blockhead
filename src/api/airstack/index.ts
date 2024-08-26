@@ -37,6 +37,70 @@ const client = new Client({
 import { handleUrqlResult } from '$/utils/urql'
 
 
+// Fragments
+export const Token = graphql(`
+	fragment Token on Token @_unmask {
+		address
+		baseURI
+		blockchain
+		chainId
+		contractMetaData {
+			description
+			externalLink
+			feeRecipient
+			image
+			name
+			sellerFeeBasisPoints
+		}
+		contractMetaDataURI
+		decimals
+		id
+		lastTransferBlock
+		lastTransferHash
+		lastTransferTimestamp
+		logo {
+			external
+			large
+			medium
+			original
+			small
+		}
+		name
+		projectDetails {
+			collectionName
+			description
+			discordUrl
+			externalUrl
+			twitterUrl
+		}
+		rawContractMetaData
+		symbol
+		tokenTraits
+		totalSupply
+		type
+	}
+`)
+
+export const TokenBalance = graphql(`
+	fragment TokenBalance on TokenBalance {
+		amount
+		blockchain
+		chainId
+		formattedAmount
+		id
+		lastUpdatedBlock
+		lastUpdatedTimestamp
+		token {
+			...Token
+		}
+		tokenAddress
+		tokenType
+	}
+`, [
+	Token,
+])
+
+
 // Queries
 export const getTokenBalances = async ({
 	address,
@@ -49,7 +113,7 @@ export const getTokenBalances = async ({
 	limit: number,
 	cursor: string,
 }) => {
-	if(!(network.chainId in airstackNetworkNames))
+	if (!(network.chainId in airstackNetworkNames))
 		throw new Error(`Airstack doesn't yet support ${network.name}.`)
 
 	return await client
@@ -77,55 +141,7 @@ export const getTokenBalances = async ({
 						}
 					) {
 						TokenBalance {
-							amount
-							blockchain
-							chainId
-							formattedAmount
-							id
-							lastUpdatedBlock
-							lastUpdatedTimestamp
-							token {
-								address
-								baseURI
-								blockchain
-								chainId
-								contractMetaData {
-									description
-									externalLink
-									feeRecipient
-									image
-									name
-									sellerFeeBasisPoints
-								}
-								contractMetaDataURI
-								decimals
-								id
-								lastTransferBlock
-								lastTransferHash
-								lastTransferTimestamp
-								logo {
-									external
-									large
-									medium
-									original
-									small
-								}
-								name
-								projectDetails {
-									collectionName
-									description
-									discordUrl
-									externalUrl
-									twitterUrl
-								}
-								rawContractMetaData
-								symbol
-								tokenTraits
-								totalSupply
-								type
-							}
-							tokenAddress
-							tokenType
+							...TokenBalance
 						}
 						pageInfo {
 							nextCursor
@@ -133,7 +149,9 @@ export const getTokenBalances = async ({
 						}
 					}
 				}
-			`),
+			`, [
+				TokenBalance,
+			]),
 			{
 				address,
 				blockchain: airstackNetworkNames[network.chainId],
@@ -196,44 +214,7 @@ export const getNftsByAddress = async ({
 								identity
 							}
 							token {
-								address
-								baseURI
-								blockchain
-								chainId
-								contractMetaData {
-									description
-									externalLink
-									feeRecipient
-									image
-									name
-									sellerFeeBasisPoints
-								}
-								contractMetaDataURI
-								decimals
-								id
-								lastTransferBlock
-								lastTransferHash
-								lastTransferTimestamp
-								logo {
-									external
-									large
-									medium
-									original
-									small
-								}
-								name
-								projectDetails {
-									collectionName
-									description
-									discordUrl
-									externalUrl
-									twitterUrl
-								}
-								rawContractMetaData
-								symbol
-								tokenTraits
-								totalSupply
-								type
+								...Token
 							}
 							tokenAddress
 							tokenId
@@ -290,7 +271,9 @@ export const getNftsByAddress = async ({
 						}
 					}
 				}
-			`),
+			`, [
+				Token,
+			]),
 			{
 				address,
 				blockchain: airstackNetworkNames[network.chainId],
