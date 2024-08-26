@@ -106,10 +106,18 @@ export namespace Ethereum {
 	export type ContractBytecode = `0x${string}`
 
 	export type Erc20Token = Contract & {
-		name: string,
-		symbol?: TickerSymbol,
-		decimals: number,
+		name: string
+		symbol?: TickerSymbol
+		decimals: number
+
 		icon?: string
+
+		totalSupply?: bigint
+
+		conversion?: {
+			quoteCurrency: QuoteCurrency
+			rate?: number
+		}
 	}
 	export type Erc721TokenContract = Contract & {
 		name: string,
