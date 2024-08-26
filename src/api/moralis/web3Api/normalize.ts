@@ -1,9 +1,26 @@
 // Types
 import type { Ethereum } from '$/data/networks/types'
-import type { Block, BlockTransaction, Log } from '../api/Api'
+import type { Erc20Metadata, Block, BlockTransaction, Log } from '../api/Api'
 
 
 // Functions
+export const normalizeErc20Token = (
+	token: Erc20Metadata,
+	chainId: Ethereum.ChainId
+): Ethereum.Erc20Token => ({
+	chainId,
+	address: token.address as Ethereum.ContractAddress,
+
+	name: token.name,
+	symbol: token.symbol,
+	decimals: Number(token.decimals),
+
+	icon: (
+		token.logo
+		?? token.thumbnail
+	),
+})
+
 export const normalizeBlock = (
 	block: Block,
 	network: Ethereum.Network
