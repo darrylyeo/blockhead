@@ -120,7 +120,7 @@
 				<img src={displaySrc} />
 			{:else if displayType === 'video'}
 				<video controls>
-					<source srcset={displaySrc} type={contentType} />
+					<source src={displaySrc} type={contentType} />
 					<track kind="captions">
 				</video>
 			{:else if displayType === 'audio'}
