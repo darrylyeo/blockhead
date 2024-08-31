@@ -224,8 +224,13 @@
 						let:isOpen
 						let:toggle
 					>
-						<span class="row inline wrap">
-							<h3 id={slug} class="row inline">
+						<span>
+							<h3
+								id={slug}
+								class="row"
+								class:with-float={network}
+								class:inline={!network}
+							>
 								{#if network}
 									<NetworkIcon {network} />
 									›
@@ -482,9 +487,10 @@
 							<h4 slot="title">
 								<a
 									href="https://thegraph.com/explorer/subgraph/{hostedSubgraphPath}"
-									class="row inline"
+									class="row with-float"
 								>
 									<Icon imageSources={[TheGraphIcon]} />
+
 									<span>Subgraph ({hostedSubgraphPath})</span>
 								</a>
 							</h4>

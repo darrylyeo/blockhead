@@ -58,7 +58,7 @@
 	{/if}
 
 	{#if computedLayout === 'name-and-symbol'}({/if}<span
-		class="with-icon row inline"
+		class="row with-float"
 		{title}
 		draggable={true}
 		on:dragstart={onDragStart}
@@ -89,7 +89,7 @@
 		font-weight: 300;
 	}
 
-	.with-icon {
+	.with-float {
 		justify-content: start;
 
 		.name,

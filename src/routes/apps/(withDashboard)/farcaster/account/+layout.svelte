@@ -81,7 +81,6 @@
 							<svelte:fragment slot="title">
 								<a
 									href="#/casts"
-									class="title row inline"
 								>
 									<FarcasterUser
 										{user}
@@ -116,7 +115,6 @@
 							<svelte:fragment slot="title">
 								<a
 									href="#/following/casts"
-									class="title row inline"
 								>
 									<FarcasterUser
 										{user}
@@ -135,10 +133,3 @@
 		{/if}
 	{/if}
 </FarcasterUserProfileLoader>
-
-
-<style>
-	.title {
-		align-items: center;
-	}
-</style>

@@ -55,22 +55,25 @@
 	let:textRecords
 >
 	{@const title = `${formattedENSName}${textRecords ? [...textRecords.entries()].map(([key, value]) => `${key} ${value}`).join('\n') : ''}`}
+	{@const avatarUri = textRecords?.get('avatar')}
+	{@const showAvatar = textRecords && avatarUri && avatarUri?.match(/^https?:\/\//)}
 
-	<span class="ens-name-container row inline {$$props.class}">
-		{#if textRecords?.get('avatar')}
-			{@const avatarUri = textRecords.get('avatar')}
-			{#if avatarUri?.match(/^https?:\/\//)}
-				<Icon
-					key="ENSName/avatar/{ensName}"
-					imageSources={[avatarUri]}
-					title={textRecords.get('name') ?? formattedENSName}
-					placeholder=""
-					transition={scaleFont}
-					transitionConfig={{ duration: 300 }}
-				/>
-				<!-- transition={scale}
-				transitionConfig={{ start: 0.8, duration: 200 }} -->
-			{/if}
+	<span
+		class="ens-name-container row {$$props.class}"
+		class:with-float={showAvatar}
+		class:inline={!showAvatar}
+	>
+		{#if showAvatar}
+			<Icon
+				key="ENSName/avatar/{ensName}"
+				imageSources={[avatarUri]}
+				title={textRecords.get('name') ?? formattedENSName}
+				placeholder=""
+				transition={scaleFont}
+				transitionConfig={{ duration: 300 }}
+			/>
+			<!-- transition={scale}
+			transitionConfig={{ start: 0.8, duration: 200 }} -->
 		{/if}
 
 		<!-- <InlineContainer isOpen={textRecords?.get('avatar')}>

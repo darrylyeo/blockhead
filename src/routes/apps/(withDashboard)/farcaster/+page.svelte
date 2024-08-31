@@ -60,9 +60,12 @@
 			farcasterFeedProvider={_farcasterFeedProvider}
 		>
 			<svelte:fragment slot="title">
-				<h3 class="title row inline">
-					<Icon imageSources={[farcasterFeedProviderIcons[_farcasterFeedProvider]]} />
-					{_farcasterFeedProvider}
+				<h3 class="title">
+					<span class="row with-float">
+						<Icon imageSources={[farcasterFeedProviderIcons[_farcasterFeedProvider]]} />
+
+						{_farcasterFeedProvider}
+					</span>
 					›
 					{#if _farcasterFeedProvider === FarcasterFeedProvider.Airstack}
 						Trending / Past Day
@@ -94,13 +97,3 @@
 		</FarcasterCasts>
 	{/if}
 </FarcasterCastsLoader>
-
-
-<style>
-	.title {
-		align-items: center;
-
-		--icon-size: 1.5em;
-		line-height: 1.5;
-	}
-</style>

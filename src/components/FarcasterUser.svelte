@@ -32,7 +32,9 @@
 
 
 <a
-	class="farcaster-user row inline align-center"
+	class="farcaster-user row"
+	class:with-float={user.avatar?.url}
+	class:inline={!user.avatar?.url}
 	href={
 		user.name && linkType === 'name'
 			? resolveRoute(`/apps/farcaster/account/[farcasterUserName]`, { farcasterUserName: user.name })

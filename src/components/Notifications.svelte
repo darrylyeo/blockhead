@@ -217,7 +217,7 @@
 				</SizeContainer>
 
 				<footer class="bar">
-					<div class="row inline">
+					<div class="row with-float">
 						<img
 							src={payload.icon} 
 							height="16"

@@ -821,9 +821,23 @@ address {
 	}
 
 	&.inline {
+		--padding-inner: 0.5ch;
+
 		display: inline-flex;
-		gap: 0.5ch;
 		align-items: baseline;
+		vertical-align: baseline;
+	}
+
+	&.with-float {
+		--padding-inner: 0.5ch;
+		display: inline-block;
+		line-height: inherit;
+
+		> :first-child {
+			float: inline-start;
+			margin-inline-end: var(--padding-inner);
+			translate: 0 calc((1lh - 100%) / 2);
+		}
 	}
 }
 
