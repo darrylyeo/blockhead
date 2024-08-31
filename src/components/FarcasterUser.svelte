@@ -42,6 +42,7 @@
 	{#if user.avatar?.url}
 		<Icon
 			imageSources={[user.avatar.url]}
+			layout="cover"
 		/>
 	{/if}
 
