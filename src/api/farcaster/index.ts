@@ -296,5 +296,10 @@ export const extractCastEmbeds = ({
 }
 
 export const getChannelIdFromUrl = (channelUrl: string) => (
-	channelUrl.match(new RegExp(`${RegExp.escape(`https://warpcast.com/~/channel/`)}(?<channelId>[a-z0-9-]+)`))?.groups?.channelId ?? undefined as (FarcasterChannel | undefined)
-)
+	channelUrl.match(
+		new RegExp(`${RegExp.escape(`https://warpcast.com/~/channel/`)}(?<channelId>[a-z0-9-]+)`)
+	)
+		?.groups
+		?.channelId
+	?? undefined
+) as FarcasterChannelId | undefined
