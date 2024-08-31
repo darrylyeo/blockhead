@@ -12,7 +12,8 @@
 
 	export let title = ''
 	export let placeholder = ''
-	
+
+	export let layout: 'contain' | 'cover' = 'contain'
 	export let isGrayscale = false
 
 	export let transition: (node: Element, params: any) => TransitionConfig = () => ({})
@@ -26,6 +27,7 @@
 
 <picture
 	data-icon
+	data-layout={layout}
 	class:isGrayscale={isGrayscale}
 	{title}
 	{...$$restProps}
@@ -51,6 +53,14 @@
 	}
 
 	[data-icon] {
+		&[data-layout="contain"] {
+			--icon-objectFit: contain;
+		}
+
+		&[data-layout="cover"] {
+			--icon-objectFit: cover;
+		}
+
 		display: inline-flex;
 		width: var(--icon-size);
 		height: 1em;
@@ -79,7 +89,7 @@
 			max-width: 100%;
 			aspect-ratio: 1;
 			border-radius: var(--icon-borderRadius);
-			object-fit: contain;
+			object-fit: var(--icon-objectFit);
 		}
 
 		.placeholder-icon {
