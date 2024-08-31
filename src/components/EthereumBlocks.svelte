@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
-	import { TransactionProvider } from '$/data/transactionProvider'
+	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProvider'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import { networkProviderConfigByProvider } from '$/data/networkProviders'
 
@@ -41,6 +41,7 @@
 	import EthereumBlock from './EthereumBlock.svelte'
 	import EthereumBlockLoader from './EthereumBlockLoader.svelte'
 	import EthereumBlockHeader from './EthereumBlockHeader.svelte'
+	import Loading from './Loading.svelte'
 
 
 	// Transitions
@@ -110,6 +111,15 @@
 					</EthereumBlockLoader>
 				</AnchorLink>
 			</div>
+		{:else}
+			<Loading
+				icon={{
+					src: transactionProviderIcons[transactionProvider],
+				}}
+				iconAnimation="hover"
+			>
+				Loading recent blocks from {transactionProvider}...
+			</Loading>
 		{/each}
 	</div>
 </Collapsible>
