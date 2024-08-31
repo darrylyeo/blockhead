@@ -14,10 +14,9 @@ import { formatIdentifierToWords } from '$/utils/formatIdentifierToWords'
 export const normalizeTokenBalance = (
 	tokenBalance: Awaited<ReturnType<typeof getTokenBalances>>[number],
 	quoteCurrency: QuoteCurrency,
-	chainId: Ethereum.ChainId,
 ): TokenWithBalance => ({
 	token: {
-		chainId,
+		chainId: chainIdByNetworkName.get(tokenBalance.network),
 		address: tokenBalance.token.address,
 		decimals: tokenBalance.token.decimals,
 		name: tokenBalance.token.name,
@@ -161,6 +160,7 @@ export const normalizeAppBalance = (
 			subpositions: asset.tokens?.map(token => ({
 				tokenWithBalance: {
 					token: {
+						chainId: chainIdByNetworkName.get(asset.network),
 						symbol: token.symbol,
 						address: token.address,
 						name: token.displayProps?.label ?? '',

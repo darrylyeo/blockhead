@@ -564,7 +564,7 @@
 					select: tokenBalances => (
 						tokenBalances
 							.map(tokenWithBalance => (
-								normalizeTokenBalanceZapper(tokenWithBalance, network.chainId)
+								normalizeTokenBalanceZapper(tokenWithBalance)
 							))
 					),
 					staleTime: 10 * 1000,
