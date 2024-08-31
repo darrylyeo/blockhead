@@ -6,6 +6,7 @@
 
 	// Context
 	import * as publicEnv from '$env/static/public'
+	import { preferences } from '$/state/preferences'
 
 
 	// Inputs
@@ -17,6 +18,9 @@
 		| {
 			castParentUrl: string,
 		}
+
+	// (Computed)
+	$: farcasterProvider = $$props.farcasterProvider || $preferences.farcasterProvider
 
 
 	// Outputs
