@@ -176,7 +176,7 @@
 				</span>
 			{/if}
 
-			{#if block.extraData}
+			{#if block.extraData && block.extraData !== '0x'}
 				<span class="extra-data-container">
 					extra data
 					<output class="extra-data"><abbr title={`Extra data:\n${block.extraData}`}>{bytesToString(toBytes(block.extraData))}</abbr></output>
