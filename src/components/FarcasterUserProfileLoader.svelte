@@ -4,14 +4,18 @@
 	import { FarcasterProvider, farcasterProviderIcons } from '$/data/farcasterProviders'
 
 
+	// Context
 	import * as publicEnv from '$env/static/public'
+	import { preferences } from '$/state/preferences'
 
 
 	// Inputs
-	export let farcasterProvider: FarcasterProvider = FarcasterProvider.Neynar
+	export let farcasterProvider: FarcasterProvider
 	export let userId: FarcasterUserId | undefined
 	export let userName: FarcasterUserName | undefined
 	export let viewerUserId: FarcasterUserId | undefined
+
+	$: farcasterProvider = farcasterProvider ?? $preferences.farcasterProvider
 
 
 	// Outputs
