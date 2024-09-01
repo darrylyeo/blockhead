@@ -72,7 +72,7 @@
 
 			<div>
 				<dt>Expires</dt>
-				<dd><DateComponent date={Date.now() + 1000 * didSession.expireInSecs} layout="horizontal" /></dd>
+				<dd><DateComponent date={Date.now() + 1000 * didSession.expireInSecs} /></dd>
 			</div>
 		</dl>
 	</section>

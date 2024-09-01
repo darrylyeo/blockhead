@@ -278,6 +278,6 @@
 	</span>
 
 	{#if block.timestamp}
-		<Date date={block.timestamp} layout="horizontal" />
+		<Date date={block.timestamp} />
 	{/if}
 </div>

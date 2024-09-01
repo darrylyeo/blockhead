@@ -364,7 +364,7 @@
 				/>
 
 				{#if showDate && transaction.blockTimestamp}
-					<Date date={transaction.blockTimestamp} layout="horizontal" />
+					<Date date={transaction.blockTimestamp} />
 				{/if}
 			</div>
 		{/if}

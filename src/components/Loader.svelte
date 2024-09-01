@@ -578,7 +578,6 @@
 							<Date
 								date={$fromQuery.dataUpdatedAt || $fromQuery.errorUpdatedAt}
 								format="relative"
-								layout="horizontal"
 							/>
 						</span>
 					{/if}
@@ -598,7 +597,6 @@
 							<Date
 								date={$fromInfiniteQuery.dataUpdatedAt || $fromInfiniteQuery.errorUpdatedAt}
 								format="relative"
-								layout="horizontal"
 							/>
 						</span>
 					{/if}

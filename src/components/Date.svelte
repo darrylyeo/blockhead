@@ -4,7 +4,7 @@
 
 	// (View options)
 	export let format: 'absolute' | 'relative' | 'both' = 'both'
-	export let layout: 'horizontal' | 'vertical' = 'vertical'
+	export let layout: 'horizontal' | 'vertical' = 'horizontal'
 	export let showTime = true
 	export let updateInterval = 1000
 

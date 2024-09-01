@@ -170,7 +170,6 @@
 				<dd>
 					<DateComponent
 						date={schema.time * 1000}
-						layout="horizontal"
 					/>
 				</dd>
 			</div>
@@ -306,7 +305,6 @@
 						<span class="date">
 							<DateComponent
 								date={schema.time * 1000}
-								layout="horizontal"
 							/>
 						</span>
 					</header>
@@ -342,7 +340,6 @@
 								<span class="date">
 									<DateComponent
 										date={nameAttestation.time * 1000}
-										layout="horizontal"
 									/>
 								</span>
 							</svelte:fragment>

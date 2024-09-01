@@ -458,7 +458,6 @@
 							<span class="date">
 								<DateComponent
 									date={attestation.timeCreated * 1000}
-									layout="horizontal"
 								/>
 							</span>
 						</svelte:fragment>
@@ -511,7 +510,6 @@
 						<span class="date">
 							<DateComponent
 								date={attestation.revocationTime * 1000}
-								layout="horizontal"
 							/>
 						</span>
 					</section>
@@ -527,7 +525,6 @@
 
 						<DateComponent
 							date={expirationTime}
-							layout="horizontal"
 						/>
 					</section>
 				{/if}
@@ -543,7 +540,6 @@
 				<DateComponent
 					date={attestation.timeCreated * 1000}
 					format="relative"
-					layout="horizontal"
 				/>
 			</span>
 		</a>

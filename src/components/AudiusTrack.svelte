@@ -149,7 +149,6 @@
 								<span class="released">
 									<Date
 										date={track.release_date}
-										layout="horizontal"
 										showTime={false}
 									/>
 								</span>

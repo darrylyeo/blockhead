@@ -304,7 +304,6 @@
 						>
 							<Date
 								date={cast.timestamp}
-								layout="horizontal"
 								format="relative"
 							/>
 						</a>

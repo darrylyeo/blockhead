@@ -157,7 +157,7 @@
 		{/if}
 
 		{#if isSummary && transaction.tipsetTimestamp}
-			<Date date={transaction.tipsetTimestamp} layout="horizontal" />
+			<Date date={transaction.tipsetTimestamp} />
 		{/if}
 	</div>
 
@@ -204,7 +204,7 @@
 			</span>
 
 			{#if transaction.tipsetTimestamp}
-				<Date date={transaction.tipsetTimestamp} layout="horizontal" />
+				<Date date={transaction.tipsetTimestamp} />
 			{/if}
 		</footer>
 	{/if}

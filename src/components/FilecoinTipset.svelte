@@ -139,7 +139,7 @@
 				<span />
 			{/if}
 
-			<Date date={tipset.timestamp} layout="horizontal" />
+			<Date date={tipset.timestamp} />
 		</footer>
 	</Collapsible>
 </article>

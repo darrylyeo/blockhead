@@ -61,7 +61,7 @@
 
 			<div>
 				<dt>Issued</dt>
-				<dd><DateComponent date={credential.vc.issuanceDate} layout="horizontal" /></dd>
+				<dd><DateComponent date={credential.vc.issuanceDate} /></dd>
 			</div>
 
 			{#if credential.vc.expirationDate}
@@ -71,7 +71,7 @@
 						{#if credential.vc.expirationDate === '9999-12-31T23:59:59.000Z'}
 							never
 						{:else}
-							<DateComponent date={credential.vc.expirationDate} layout="horizontal" />
+							<DateComponent date={credential.vc.expirationDate} />
 						{/if}
 					</dd>
 				</div>
@@ -185,7 +185,7 @@
 
 							<div>
 								<dt>Created</dt>
-								<dd><DateComponent date={credential.vc.proof.created} layout="horizontal" /></dd>
+								<dd><DateComponent date={credential.vc.proof.created} /></dd>
 							</div>
 						{/if}
 					{:else if 'jwt' in credential.vc.proof}
@@ -248,7 +248,7 @@
 							</dl>
 
 							<footer class="align-end">
-								<DateComponent date={parsedItem.updatedAt} layout="horizontal" />
+								<DateComponent date={parsedItem.updatedAt} />
 							</footer>
 						</div>
 					{/each}
