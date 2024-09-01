@@ -1,16 +1,24 @@
 <script lang="ts">
+	// Inputs
 	export let date: number | string | Date
 
-
+	// (View options)
 	export let format: 'absolute' | 'relative' | 'both' = 'both'
 	export let layout: 'horizontal' | 'vertical' = 'vertical'
 	export let showTime = true
 	export let updateInterval = 1000
 
 
+	// Functions
+	import { formatRelativeTime } from '$/utils/formatRelativeTime'
+
+
+	// Internal state
 	$: dateObject = date instanceof Date ? date : new Date(date)
+	$: relativeTime = formatRelativeTime(dateObject.getTime())
 
 
+	// Actions
 	import { onDestroy } from 'svelte'
 
 	let isMounted = true
@@ -22,11 +30,6 @@
 			await new Promise(resolve => setTimeout(resolve, updateInterval))
 		}
 	})()
-
-
-	import { formatRelativeTime } from '$/utils/formatRelativeTime'
-
-	$: relativeTime = formatRelativeTime(dateObject)
 </script>
 
 
