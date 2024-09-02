@@ -1,30 +1,126 @@
-const units = [
-	['year', 31536000000],
-	['month', 2628000000],
-	['day', 86400000],
-	['hour', 3600000],
-	['minute', 60000],
-	['second', 1000],
-] as const
+// Constants
+export const timeUnits = {
+	year: 365 * 24 * 60 * 60 * 1000,
+	month: 30 * 24 * 60 * 60 * 1000,
+	week: 7 * 24 * 60 * 60 * 1000,
+	day: 24 * 60 * 60 * 1000,
+	hour: 60 * 60 * 1000,
+	minute: 60 * 1000,
+	second: 1000,
+} as const satisfies Partial<Record<Intl.RelativeTimeFormatUnit, number>>
 
-export const formatRelativeTime = (d1: number, d2: number = Date.now(), style: 'long' | 'short' | 'narrow' = 'short', resolution = 6) => {
-	let elapsed = Math.abs(d1 - d2)
-	const sign = Math.sign(d1 - d2)
 
+/**
+ * Given a literal part value from `Intl.RelativeTimeFormat.formatToParts`,
+ * split into time unit and "past"/"future" words/symbols
+ */
+const parseLiteral = (literal: string): { type: 'literal', literalType: 'unit' | 'future' | 'past', value: string }[] => {
+	const regex = /(?<future>(?<fr_ru_future>^[+])|(?<en_de_future>^in )|(?<es_future>^dentro de )|(?<zh_future>后$)|(?<ja_future>後$)|(?<ko_future>후$)|(?<tr_future>[.]? önce$)|(?<pt_future>^em ))|(?<past>(?<fr_ru_past>^[-])|(?<en_past>[.]? ago$)|(?<es_past>^hace )|(?<zh_ja_past>前$)|(?<ko_past>전$)|(?<tr_past>[.]? önce$)|(?<de_past>^vor )|(?<pt_past>^há ))/g
+
+	const parts: ReturnType<typeof parseLiteral> = []
+	let lastIndex = 0
+	let match
+
+	while ((match = regex.exec(literal)) !== null) {
+		if (match.index > lastIndex)
+			parts.push({ type: 'literal', literalType: 'unit', value: literal.slice(lastIndex, match.index) })
+
+		if(match.groups?.future)
+			parts.push({ type: 'literal', literalType: 'future', value: match.groups.future })
+		else if(match.groups?.past)
+			parts.push({ type: 'literal', literalType: 'past', value: match.groups.past })
+
+		lastIndex = match.index + match[0].length
+	}
+
+	if (lastIndex < literal.length)
+		parts.push({ type: 'literal', literalType: 'unit', value: literal.slice(lastIndex) })
+
+	return parts
+}
+
+export const formatRelativeTime = (
+	timestamp: number,
+	relativeToTimestamp = Date.now(),
+	{
+		locale,
+		format = 'short',
+		largestUnit = 'year',
+		resolution = 2,
+		includeRelativeWords = true,
+	}: {
+		locale?: string
+		relativeToTimestamp?: number
+		format?: 'long' | 'short' | 'narrow'
+		largestUnit?: keyof typeof timeUnits
+		resolution?: number
+		includeRelativeWords?: boolean
+	} = {}
+) => {
+	let elapsed = Math.abs(timestamp - relativeToTimestamp)
 	if(elapsed < 1000) return 'just now'
 
-	const result = []
-	for (const [unit, amount] of units)
-		if (Math.abs(elapsed) >= amount){
-			result.push(
-				new Intl.RelativeTimeFormat('en', { style }).format(sign * Math.floor(elapsed / amount), unit)
+	const sign = Math.sign(timestamp - relativeToTimestamp)
+
+	const unitParts = []
+
+	for (const [unit, amount] of (
+		Object.entries(timeUnits)
+			.slice(
+				Object.keys(timeUnits)
+					.indexOf(largestUnit)
+			)
+	))
+		if (Math.abs(elapsed) >= amount) {
+			unitParts.push(
+				new Intl.RelativeTimeFormat(locale, {
+					style: (
+						{
+							long: 'long',
+							short: 'short',
+							narrow: 'narrow',
+						} as const
+					)[format],
+					numeric: 'always',
+				})
+					.formatToParts(
+						sign * Math.floor(elapsed / amount),
+						unit as keyof typeof timeUnits
+					)
 			)
 
-			if(--resolution === 0)
-				break
-			
+			if (--resolution === 0) break
+
 			elapsed %= amount
 		}
 
-	return [...result.slice(0, -1).map(string => string.replace(/ [^ ]+?$/, '')), result[result.length - 1]].join(', ').replace(/\./g, '')
+	return (
+		unitParts
+			.map((parts, i, { length: iLength }) => (
+				parts
+					.flatMap(part => (
+						part.type === 'literal'
+							? parseLiteral(part.value)
+							: [part]
+					))
+					.filter((part, j, { length: jLength }) => (
+						part.type !== 'literal'
+						|| part.literalType === 'unit'
+						|| (includeRelativeWords && (
+							(i === 0 && j === 0)
+							|| (i === iLength - 1 && j === jLength - 1)
+						))
+					))
+					.join('')
+			))
+			.join(
+				(
+					{
+						long: ', ',
+						short: ', ',
+						narrow: ' ',
+					} as const
+				)[format],
+			)
+	)
 }
