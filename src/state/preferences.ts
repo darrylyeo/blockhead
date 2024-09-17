@@ -655,6 +655,26 @@ export const preferencesConfig = [
 		]
 	},
 	{
+		sectionId: 'social',
+		name: 'Social',
+		preferences: [
+			{
+				preferenceId: 'moxieProvider',
+				name: 'Moxie Provider',
+				type: 'single',
+				defaultOption: MoxieProvider.TheGraph,
+				options: (
+					Object.values(MoxieProvider)
+						.map(provider => ({
+							value: provider,
+							name: provider,
+							icon: moxieProviderIcons[provider],
+						}))
+				)
+			}
+		]
+	},
+	{
 		sectionId: 'attestations',
 		name: 'Attestations',
 		preferences: [
