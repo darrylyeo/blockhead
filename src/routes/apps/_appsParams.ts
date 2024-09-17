@@ -9,6 +9,7 @@ import type { FarcasterCastId, FarcasterCastShortId, FarcasterChannelId, Farcast
 import type { IpfsCid } from '$/api/ipfs/contentId'
 import type { IpnsName } from '$/api/ipfs/ipns'
 import type { MoxieAuctionId, MoxieOrderId } from '$/api/moxie'
+import type { MoxieSubjectId } from '$/api/moxie'
 
 export type AppsParams = {
 	web3AppSlug: Web3AppSlug | '',
@@ -34,6 +35,7 @@ export type AppsParams = {
 	ipfsContentPath: string,
 	moxieAuctionId: MoxieAuctionId | '',
 	moxieOrderId: MoxieOrderId | '',
+	moxieSubjectId: MoxieSubjectId | '',
 }
 
 export type AppsSearchInputParams = Partial<Pick<AppsParams,
@@ -54,6 +56,7 @@ export type AppsSearchInputParams = Partial<Pick<AppsParams,
 	| 'farcasterUserName'
 	| 'moxieAuctionId'
 	| 'moxieOrderId'
+	| 'moxieSubjectId'
 >>
 
 
@@ -82,6 +85,7 @@ export const ipnsName = writable<IpnsName | ''>('')
 export const ipfsContentPath = writable('')
 export const moxieAuctionId = writable<MoxieAuctionId | ''>('')
 export const moxieOrderId = writable<MoxieOrderId | ''>('')
+export const moxieSubjectId = writable<MoxieSubjectId | ''>('')
 
 export const appsParams = derived([
 	web3AppSlug,
@@ -105,6 +109,7 @@ export const appsParams = derived([
 	ipfsContentPath,
 	moxieAuctionId,
 	moxieOrderId,
+	moxieSubjectId,
 ], ([
 	$web3AppSlug,
 	$networkSlug,
@@ -127,6 +132,7 @@ export const appsParams = derived([
 	$ipfsContentPath,
 	$moxieAuctionId,
 	$moxieOrderId,
+	$moxieSubjectId,
 ], set: (_: AppsParams) => void) => {
 	set(({
 		web3AppSlug: $web3AppSlug,
@@ -150,6 +156,7 @@ export const appsParams = derived([
 		ipfsContentPath: $ipfsContentPath,
 		moxieAuctionId: $moxieAuctionId,
 		moxieOrderId: $moxieOrderId,
+		moxieSubjectId: $moxieSubjectId,
 	}))
 })
 
@@ -178,6 +185,7 @@ export const derivedPath: Readable<string> = derived([
 	ipfsContentPath,
 	moxieAuctionId,
 	moxieOrderId,
+	moxieSubjectId,
 ], ([
 	$web3AppSlug,
 	$networkSlug,
@@ -201,6 +209,7 @@ export const derivedPath: Readable<string> = derived([
 	$ipfsContentPath,
 	$moxieAuctionId,
 	$moxieOrderId,
+	$moxieSubjectId,
 ], set) => set(
 	`/apps${
 		$web3AppSlug ?
@@ -263,6 +272,10 @@ export const derivedPath: Readable<string> = derived([
 						`/network/${$networkSlug}/auction/${$moxieAuctionId}`
 					: $moxieOrderId ?
 						`/network/${$networkSlug}/order/${$moxieOrderId}`
+					: $moxieSubjectId ?
+						`/network/${$networkSlug}/token/${$moxieSubjectId}`
+					: $networkSlug ?
+						`/network/${$networkSlug}`
 					:
 						''
 

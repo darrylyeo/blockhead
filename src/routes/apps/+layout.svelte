@@ -32,6 +32,7 @@
 
 		moxieAuctionId,
 		moxieOrderId,
+		moxieSubjectId,
 
 		derivedPath,
 	} from './_appsParams'
@@ -65,6 +66,7 @@
 			$ipfsContentPath = navigation.to.params.ipfsContentPath || ''
 			$moxieAuctionId = navigation.to.params.moxieAuctionId || ''
 			$moxieOrderId = navigation.to.params.moxieOrderId || ''
+			$moxieSubjectId = navigation.to.params.moxieSubjectId || ''
 
 			canNavigate = true
 		}
@@ -393,7 +395,7 @@
 		:
 			[
 				'theme',
-				'rpcNetwork', 'defiProvider', 'nftsProvider', 'currentPriceProvider', 'historicalPriceProvider', 'transactionProvider',
+				'rpcNetwork', 'defiProvider', 'nftsProvider', 'currentPriceProvider', 'historicalPriceProvider', 'transactionProvider', 'erc20TokenProvider',
 				'quoteCurrency'
 			]
 	}

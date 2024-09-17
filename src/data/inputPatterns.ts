@@ -18,6 +18,7 @@ export enum InputPattern {
 	LensHandle = 'lensHandle',
 	MoxieAuctionId = 'moxieAuctionId',
 	MoxieOrderId = 'moxieOrderId',
+	MoxieSubjectId = 'moxieSubjectId',
 	TransactionId = 'transactionId',
 }
 
@@ -117,6 +118,12 @@ export const inputPatternsConfig = {
 		placeholder: '67890',
 		pattern: /[1-9][0-9]*/,
 		matchComplexity: 1,
+	},
+	[InputPattern.MoxieSubjectId]: {
+		label: 'Moxie Subject ID',
+		placeholder: 'id:farcaster / fid:1234 / cid:founders',
+		pattern: /id:([a-z]+)|fid:(\d+)|cid:(:?[a-z0-9]+(?:-[a-z0-9]+)*)/,
+		matchComplexity: 3,
 	},
 	[InputPattern.TransactionId]: {
 		label: 'Transaction ID',
