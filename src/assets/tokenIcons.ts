@@ -11,6 +11,8 @@ import FIL from './networks/Filecoin.svg'
 import FTM from './tokens/FTM.svg'
 import MATIC from './tokens/MATIC.svg'
 import MNT from './tokens/MNT.svg'
+import MOXIE from './icons/Moxie.svg'
+// import MOXIE from './tokens/MOXIE.svg'
 import MKR from './tokens/MKR.svg'
 import ONE from './tokens/ONE.svg'
 import OP from './networks/Optimism.svg'
@@ -31,6 +33,7 @@ export const tokenIcons = {
 	FIL,
 	FTM,
 	MATIC,
+	MOXIE,
 	MKR,
 	MNT,
 	ONE,
