@@ -25,6 +25,7 @@ import { FarcasterProvider, farcasterProviderIcons } from '$/data/farcasterProvi
 import { FarcasterFeedProvider, farcasterFeedProviderIcons } from '$/data/farcasterFeedProviders'
 import { UrlMetadataProvider, urlMetadataProviderIcons } from '$/data/urlMetadataProvider'
 import { EasProvider, easProviderIcons } from '$/api/eas/provider'
+import { MoxieProvider, moxieProviderIcons } from '$/api/moxie/provider'
 
 
 // Context
@@ -542,7 +543,7 @@ export const preferencesConfig = [
 				preferenceId: 'farcasterProvider',
 				name: 'Farcaster Source',
 				type: 'single',
-				defaultOption: FarcasterProvider.Neynar,
+				defaultOption: FarcasterProvider.Airstack,
 				options: [
 					// {
 					// 	groupId: 'hubs',
