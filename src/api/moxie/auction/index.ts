@@ -98,6 +98,13 @@ export const Order = graphql(`
 		auctionId
 		auction {
 			id
+			auctionId
+			auctioningToken {
+				...Token
+			}
+			biddingToken {
+				...Token
+			}
 		}
 		user {
 			...User
@@ -117,6 +124,7 @@ export const Order = graphql(`
 		finalTxHash
 	}
 `, [
+	Token,
 	User,
 	BlockInfo,
 ])
