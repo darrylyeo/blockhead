@@ -184,3 +184,174 @@ export const AuctionDetail = graphql(`
 	Order,
 	Token,
 ])
+
+
+// Queries
+export const getAuctions = async ({
+	chainId,
+	skip = 0,
+	first = 100,
+	orderBy = 'auctionEndDate',
+	orderDirection = 'desc',
+}: {
+	chainId: number,
+	skip: number,
+	first: number,
+	orderBy: 'auctionEndDate',
+	orderDirection: 'asc' | 'desc',
+}) => (
+	await getClient({ chainId })
+		.query(
+			graphql(`
+				query AuctionDetails(
+					$skip: Int!
+					$first: Int!
+					$orderBy: AuctionDetail_orderBy!
+					$orderDirection: OrderDirection!
+				) {
+					auctionDetails(
+						skip: $skip
+						first: $first
+						orderBy: $orderBy
+						orderDirection: $orderDirection
+					) {
+						...AuctionDetail
+					}
+				}
+			`, [
+				AuctionDetail,
+			]),
+			{
+				skip,
+				first,
+				orderBy,
+				orderDirection,
+			},
+		)
+		.toPromise()
+		.then(handleUrqlResult)
+)
+
+export const getAuction = async ({
+	chainId,
+	auctionId,
+}: {
+	chainId: number,
+	auctionId: string,
+}) => (
+	await getClient({ chainId })
+		.query(
+			graphql(`
+				query AuctionDetails(
+					$auctionId: ID!
+				) {
+					auctionDetail(
+						id: $auctionId
+					) {
+						...AuctionDetail
+					}
+				}
+			`, [
+				AuctionDetail,
+			]),
+			{
+				auctionId,
+			},
+		)
+		.toPromise()
+		.then(handleUrqlResult)
+)
+
+export const getOrders = async ({
+	chainId,
+	filter,
+	skip = 0,
+	first = 100,
+	orderBy = 'timestamp',
+	orderDirection = 'desc',
+}: {
+	chainId: number
+	filter: {
+		auctionId?: string
+		userId?: string
+	}
+	skip: number
+	first: number
+	orderBy: 'timestamp' | 'price'
+	orderDirection: 'asc' | 'desc'
+}) => (
+	await getClient({ chainId })
+		.query(
+			graphql(`
+				query Orders(
+					$skip: Int!
+					$first: Int!
+					$orderBy: Order_orderBy!
+					$orderDirection: OrderDirection!
+					$where: Order_filter
+				) {
+					orders(
+						skip: $skip
+						first: $first
+						orderBy: $orderBy
+						orderDirection: $orderDirection
+						where: $where
+					) {
+						...Order
+					}
+				}
+			`, [
+				Order,
+			]),
+			{
+				skip,
+				first,
+				orderBy,
+				orderDirection,
+				where: {
+					...filter?.auctionId && {
+						auction_: {
+							id: filter.auctionId,
+						},
+					},
+					...filter?.userId && {
+						user_: {
+							id: filter.userId,
+						},
+					},
+				},
+			},
+		)
+		.toPromise()
+		.then(handleUrqlResult)
+)
+
+export const getOrder = async ({
+	chainId,
+	orderId,
+}: {
+	chainId: number,
+	orderId: string,
+}) => (
+	await getClient({ chainId })
+		.query(
+			graphql(`
+				query Order(
+					$orderId: ID!
+				) {
+					order(
+						id: $orderId
+					) {
+						...Order
+					}
+				}
+			`, [
+				Order,
+			]),
+			{
+				orderId,
+			},
+		)
+		.toPromise()
+		.then(handleUrqlResult)
+)
