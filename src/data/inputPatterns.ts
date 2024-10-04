@@ -8,6 +8,7 @@ export enum InputPattern {
 	EasSchemaId = 'easSchemaId',
 	EnsName = 'ensName',
 	FarcasterCastId = 'farcasterCastId',
+	FarcasterChannelId = 'farcasterChannelId',
 	FarcasterUserId = 'farcasterUserId',
 	FarcasterUserName = 'farcasterUserName',
 	FarcasterUserNameEns = 'farcasterUserNameEns',
@@ -57,6 +58,12 @@ export const inputPatternsConfig = {
 		label: 'Cast ID',
 		placeholder: '0xabcd...6789',
 		pattern: /0x[0-9a-fA-F]{40}/,
+		matchComplexity: 2,
+	},
+	[InputPattern.FarcasterChannelId]: {
+		label: 'Farcaster Channel ID',
+		placeholder: 'my-channel-name',
+		pattern: /[a-z0-9]+(?:-[a-z0-9]+)*/, 
 		matchComplexity: 2,
 	},
 	[InputPattern.FarcasterUserId]: {
