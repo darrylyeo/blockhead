@@ -39,6 +39,23 @@ const parseLiteral = (literal: string): { type: 'literal', literalType: 'unit' |
 	return parts
 }
 
+
+/**
+ * Abbreviate time unit from Intl.RelativeTimeFormat { style: "narrow" }
+ * (e.g. "day" -> "d", "дн" -> "д")
+ */
+const toSingleCharacterTimeUnit = (timeUnit: string) => (
+	timeUnit
+		// Disambiguate ambiguous prefixes
+		.replace(/(?<en> ?mo)/, ' Mo')
+
+		// Remove articles/"counting" words
+		.replace(/(?<zh>个)|(?<ja>か)|(?<ko>개)/, '')
+
+		// Strip leading space and naively take just the 1st character
+		.match(/^\s?(.)|/)?.[1]
+)
+
 export const formatRelativeTime = (
 	timestamp: number,
 	relativeToTimestamp = Date.now(),
@@ -51,7 +68,7 @@ export const formatRelativeTime = (
 	}: {
 		locale?: string
 		relativeToTimestamp?: number
-		format?: 'long' | 'short' | 'narrow'
+		format?: 'long' | 'short' | 'narrow' | 'singleCharacter'
 		largestUnit?: keyof typeof timeUnits
 		resolution?: number
 		includeRelativeWords?: boolean
@@ -79,6 +96,7 @@ export const formatRelativeTime = (
 							long: 'long',
 							short: 'short',
 							narrow: 'narrow',
+							singleCharacter: 'narrow',
 						} as const
 					)[format],
 					numeric: 'always',
@@ -111,6 +129,11 @@ export const formatRelativeTime = (
 							|| (i === iLength - 1 && j === jLength - 1)
 						))
 					))
+					.map((part) => (
+						format === 'singleCharacter' && part.literalType === 'unit'
+							? toSingleCharacterTimeUnit(part.value)
+							: part.value
+					))
 					.join('')
 			))
 			.join(
@@ -119,6 +142,7 @@ export const formatRelativeTime = (
 						long: ', ',
 						short: ', ',
 						narrow: ' ',
+						singleCharacter: ' ',
 					} as const
 				)[format],
 			)
