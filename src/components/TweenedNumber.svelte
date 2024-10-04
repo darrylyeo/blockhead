@@ -20,9 +20,11 @@
 		showDecimalPlaces: number,
 		useGrouping?: boolean,
 		compactLargeValues?: boolean,
-		locale?: string | string[]
+		locale?: string | string[],
+		notation?: 'standard' | 'scientific' | 'engineering' | 'compact',
 	} = {
 		showDecimalPlaces: 0,
+		notation: 'standard'
 	}
 	export let padZero = true
 	export let formatParts = true
@@ -45,7 +47,7 @@
 		align: 'start' | 'end',
 		part: Intl.NumberFormatPart,
 	}[] => {
-		const decimalIndex = parts.findIndex(part => part.type === 'decimal')
+		const decimalIndex = parts.findIndex(part => part.type === 'decimal' || part.type === 'exponentSeparator')
 		const partsLeft = decimalIndex === -1 ? parts : parts.slice(0, decimalIndex)
 		const partsRight = decimalIndex === -1 ? [] : parts.slice(decimalIndex)
 
@@ -155,7 +157,10 @@
 		[data-number-part-type="fraction"],
 		[data-number-part-type="group"],
 		[data-number-part-type="decimal"],
-		[data-number-part-type="integer"] ~ [data-number-part-type="integer"]
+		[data-number-part-type="integer"] ~ [data-number-part-type="integer"],
+		[data-number-part-type="exponentSeparator"],
+		[data-number-part-type="exponentMinusSign"],
+		[data-number-part-type="exponentInteger"]
 	)) {
 		opacity: 0.66;
 		font-size: 0.9em;
