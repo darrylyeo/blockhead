@@ -543,7 +543,7 @@ export const preferencesConfig = [
 				preferenceId: 'farcasterProvider',
 				name: 'Farcaster Source',
 				type: 'single',
-				defaultOption: FarcasterProvider.Airstack,
+				defaultOption: FarcasterProvider.Neynar,
 				options: [
 					// {
 					// 	groupId: 'hubs',
