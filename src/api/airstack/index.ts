@@ -483,6 +483,16 @@ const FarcasterUser = graphql(`
 		dappName
 		dappSlug
 		dappVersion
+		farcasterScore {
+			farBoost
+			farRank
+			farScore
+			farScoreRaw
+			liquidityBoost
+			powerBoost
+			tvl
+			tvlBoost
+		}
 		fnames
 		followerCount
 		followerTokenAddress
@@ -492,7 +502,6 @@ const FarcasterUser = graphql(`
 		id
 		identity
 		isDefault
-		isFarcasterPowerUser
 		location
 		metadataURI
 		profileBio
@@ -537,14 +546,20 @@ const FarcasterUser = graphql(`
 		twitterUserName
 		updatedAt
 		userAddress
+		userAddressDetails {
+			addresses
+		}
+		userAssociatedAddressDetails {
+			addresses
+		}
 		userAssociatedAddresses
 		userCreatedAtBlockNumber
 		userCreatedAtBlockTimestamp
 		userHomeURL
+		userId
 		userLastUpdatedAtBlockNumber
 		userLastUpdatedAtBlockTimestamp
 		userRecoveryAddress
-		userId
 		website
 	}
 `)
