@@ -90,7 +90,7 @@
 								?.map(normalizeChannelAirstack)
 								[0]
 						),
-						staleTime: 10 * 1000,
+						staleTime: 10 * 60 * 1000,
 					})
 
 				: 'castParentUrl' in query ?
@@ -121,7 +121,7 @@
 								?.map(normalizeChannelAirstack)
 								[0]
 						),
-						staleTime: 10 * 1000,
+						staleTime: 10 * 60 * 1000,
 					})
 
 				:
@@ -153,7 +153,7 @@
 						select: (result) => (
 							normalizeChannelNeynar(result.channel)
 						),
-						staleTime: 10 * 1000,
+						staleTime: 10 * 60 * 1000,
 					})
 
 				: 'castParentUrl' in query ?
@@ -178,7 +178,7 @@
 						select: (result) => (
 							normalizeChannelNeynar(result.channel)
 						),
-						staleTime: 10 * 1000,
+						staleTime: 10 * 60 * 1000,
 					})
 				
 				:
@@ -204,7 +204,7 @@
 						select: (result) => (
 							normalizeChannelPinata(result.channel)
 						),
-						staleTime: 10 * 1000,
+						staleTime: 10 * 60 * 1000,
 					})
 
 				: 'castParentUrl' in query ?
@@ -229,6 +229,7 @@
 						select: (result) => (
 							normalizeChannelPinata(result.channel)
 						),
+						staleTime: 10 * 60 * 1000,
 					})
 
 				:
