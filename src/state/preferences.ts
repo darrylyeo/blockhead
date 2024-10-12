@@ -359,7 +359,7 @@ export const preferencesConfig = [
 				preferenceId: 'nftProvider',
 				name: 'NFTs',
 				type: 'single',
-				defaultOption: NftProvider.Airstack,
+				defaultOption: NftProvider.Blockscout,
 				options: [
 					{
 						groupId: 'onChain',
