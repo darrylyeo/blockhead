@@ -318,7 +318,7 @@ export const preferencesConfig = [
 						groupId: 'offChain',
 						name: 'Off-Chain',
 						options: [
-							{ value: TokenBalancesProvider.Airstack, name: 'Airstack', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Airstack] },
+							// { value: TokenBalancesProvider.Airstack, name: 'Airstack', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Airstack] },
 							{ value: TokenBalancesProvider.Blockscout, name: 'Blockscout › REST API', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Blockscout] },
 							{ value: TokenBalancesProvider.Chainbase, name: 'Chainbase › Token API', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Chainbase] },
 							{ value: TokenBalancesProvider.Covalent, name: 'Covalent › GoldRush', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Covalent] },
@@ -372,7 +372,7 @@ export const preferencesConfig = [
 						groupId: 'offChain',
 						name: 'Off-Chain',
 						options: [
-							{ value: NftProvider.Airstack, name: 'Airstack', icon: nftProviderIcons[NftProvider.Airstack] },
+							// { value: NftProvider.Airstack, name: 'Airstack', icon: nftProviderIcons[NftProvider.Airstack] },
 							{ value: NftProvider.Blockscout, name: 'Blockscout › REST API', icon: nftProviderIcons[NftProvider.Blockscout] },
 							{ value: NftProvider.Chainbase, name: 'Chainbase', icon: nftProviderIcons[NftProvider.Chainbase] },
 							{ value: NftProvider.Covalent, name: 'Covalent › GoldRush', icon: nftProviderIcons[NftProvider.Covalent] },
