@@ -100,7 +100,9 @@
 	text-underline-offset: 12.5%;
 	text-decoration-skip-ink: auto;
 	text-shadow: 0px 2px 1px rgba(0, 0, 0, 0.1);
-	
+
+	interpolate-size: allow-keywords;
+
 	--global-background-gradient-base-color: #f6f6f6;
 
 	accent-color: var(--primary-color);
