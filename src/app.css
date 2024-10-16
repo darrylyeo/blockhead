@@ -3,6 +3,7 @@
 		box-sizing: border-box;
 		margin: 0;
 		padding: 0;
+		field-sizing: content;
 		text-decoration-line: inherit;
 		text-decoration-thickness: inherit;
 		text-decoration-style: inherit;
