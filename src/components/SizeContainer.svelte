@@ -223,18 +223,6 @@
 					contain-intrinsic-block-size: auto var(--blockSize);
 				}
 
-				/* @supports not (contain: block-size) {
-					contain: size;
-
-					&[data-clip] {
-						contain: size paint;
-					}
-
-					transition-property: display, contain-intrinsic-block-size;
-					will-change: contain-intrinsic-block-size;
-					contain-intrinsic-block-size: auto var(--blockSize);
-				} */
-
 				@supports not (contain: block-size) {
 					&[data-clip] {
 						contain: paint;
