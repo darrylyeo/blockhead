@@ -191,19 +191,23 @@
 			}
 
 			&[data-contain="inline"] {
-				contain: inline-size;
+				@supports (contain: inline-size) and (contain-intrinsic-inline-size: 0) {
+					contain: inline-size;
 
-				&[data-clip] {
-					contain: inline-size paint;
-				}
-
-				@supports (contain-intrinsic-inline-size: 0) {
+					&[data-clip] {
+						contain: inline-size paint;
+					}
+					
 					transition-property: display, contain-intrinsic-inline-size;
 					will-change: contain-intrinsic-inline-size;
 					contain-intrinsic-inline-size: auto var(--inlineSize);
 				}
 
-				@supports not (contain-intrinsic-inline-size: 0) {
+				@supports not (contain: inline-size) {
+					&[data-clip] {
+						contain: paint;
+					}
+
 					transition-property: display, inline-size;
 					will-change: inline-size;
 					inline-size: var(--inlineSize);
@@ -211,7 +215,7 @@
 			}
 
 			&[data-contain="block"] {
-				@supports (contain: block-size) {
+				@supports (contain: block-size) and (contain-intrinsic-block-size: 0) {
 					contain: block-size;
 
 					&[data-clip] {
@@ -235,19 +239,23 @@
 			}
 
 			&[data-contain="both"] {
-				contain: size; 
+				@supports (contain: size) and (contain-intrinsic-size: 0) {
+					contain: size;
 
-				&[data-clip] {
-					contain: size paint;
-				}
-
-				@supports (contain-intrinsic-size: 0) {
+					&[data-clip] {
+						contain: size paint;
+					}
+					
 					transition-property: display, contain-intrinsic-size;
 					will-change: contain-intrinsic-size;
-					contain-intrinsic-size: auto var(--blockSize) auto var(--inlineSize);
+					contain-intrinsic-size: auto var(--blockSize);
 				}
 
-				@supports not (contain-intrinsic-size: 0) {
+				@supports not (contain: size) {
+					&[data-clip] {
+						contain: paint;
+					}
+
 					transition-property: display, block-size, inline-size;
 					will-change: block-size, inline-size;
 					block-size: var(--blockSize);
