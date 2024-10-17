@@ -191,7 +191,7 @@
 			}
 
 			&[data-contain="inline"] {
-				@supports (contain: inline-size) and (contain-intrinsic-inline-size: 0) {
+				/* @supports (contain: inline-size) and (contain-intrinsic-inline-size: 0) {
 					contain: inline-size;
 
 					&[data-clip] {
@@ -201,9 +201,9 @@
 					transition-property: display, contain-intrinsic-inline-size;
 					will-change: contain-intrinsic-inline-size;
 					contain-intrinsic-inline-size: auto var(--inlineSize);
-				}
+				} */
 
-				@supports not (contain: inline-size) {
+				/* @supports not (contain: inline-size) { */
 					&[data-clip] {
 						contain: paint;
 					}
@@ -211,11 +211,11 @@
 					transition-property: display, inline-size;
 					will-change: inline-size;
 					inline-size: var(--inlineSize);
-				}
+				/* } */
 			}
 
 			&[data-contain="block"] {
-				@supports (contain: block-size) and (contain-intrinsic-block-size: 0) {
+				/* @supports (contain: block-size) and (contain-intrinsic-block-size: 0) {
 					contain: block-size;
 
 					&[data-clip] {
@@ -225,9 +225,9 @@
 					transition-property: display, contain-intrinsic-block-size;
 					will-change: contain-intrinsic-block-size;
 					contain-intrinsic-block-size: auto var(--blockSize);
-				}
+				} */
 
-				@supports not (contain: block-size) {
+				/* @supports not (contain: block-size) { */
 					&[data-clip] {
 						contain: paint;
 					}
@@ -235,11 +235,11 @@
 					transition-property: display, block-size;
 					will-change: block-size;
 					block-size: var(--blockSize);
-				}
+				/* } */
 			}
 
 			&[data-contain="both"] {
-				@supports (contain: size) and (contain-intrinsic-size: 0) {
+				/* @supports (contain: size) and (contain-intrinsic-size: 0) {
 					contain: size;
 
 					&[data-clip] {
@@ -249,9 +249,9 @@
 					transition-property: display, contain-intrinsic-size;
 					will-change: contain-intrinsic-size;
 					contain-intrinsic-size: auto var(--blockSize);
-				}
+				} */
 
-				@supports not (contain: size) {
+				/* @supports not (contain: size) { */
 					&[data-clip] {
 						contain: paint;
 					}
@@ -260,7 +260,7 @@
 					will-change: block-size, inline-size;
 					block-size: var(--blockSize);
 					inline-size: var(--inlineSize);
-				}
+				/* } */
 			}
 		}
 
