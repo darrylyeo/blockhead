@@ -256,7 +256,7 @@
 				@supports (contain-intrinsic-size: 0) {
 					transition-property: display, contain-intrinsic-size;
 					will-change: contain-intrinsic-size;
-					contain-intrinsic-size: auto var(--blockSize) var(--inlineSize);
+					contain-intrinsic-size: auto var(--blockSize) auto var(--inlineSize);
 				}
 
 				@supports not (contain-intrinsic-size: 0) {
