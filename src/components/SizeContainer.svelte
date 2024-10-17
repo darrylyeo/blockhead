@@ -162,7 +162,7 @@
 				@layer Reset {
 					display: block;
 				}
-				height: max-content;
+				block-size: max-content;
 			}
 		}
 
@@ -173,7 +173,7 @@
 				@layer Reset {
 					display: inline block;
 				}
-				width: max-content;
+				inline-size: max-content;
 			}
 		}
 
