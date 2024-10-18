@@ -2,7 +2,7 @@
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
 	import type { Filecoin } from '$/data/filecoin'
-	import { TokenBalancesProvider, tokenBalancesProviderIcons } from '$/data/tokenBalancesProvider'
+	import { FilecoinTokenBalancesProvider, filecoinTokenBalancesProviderIcons } from '$/data/filecoinTokenBalancesProvider'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import { getViemPublicClient } from '$/data/networkProviders'
 
@@ -14,12 +14,12 @@
 	// Inputs
 	export let network: Ethereum.Network
 	export let address: Filecoin.Address
-	export let tokenBalancesProvider: TokenBalancesProvider.Beryx = TokenBalancesProvider.Beryx
+	export let tokenBalancesProvider: FilecoinTokenBalancesProvider = FilecoinTokenBalancesProvider.Beryx
 	export let networkProvider: NetworkProvider | undefined
 	export let publicClient: Ethereum.PublicClient | undefined
 
 	// (Computed)
-	$: tokenBalancesProvider = $$props.tokenBalancesProvider ?? $preferences.tokenBalancesProvider
+	$: tokenBalancesProvider = $$props.tokenBalancesProvider ?? $preferences.filecoinTokenBalancesProvider
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 	$: publicClient = network && networkProvider && getViemPublicClient({
 		network,
@@ -62,12 +62,12 @@
 	viewOptions={{
 		contentClass: 'column',
 	}}
-	loadingIcon={tokenBalancesProviderIcons[tokenBalancesProvider]}
+	loadingIcon={filecoinTokenBalancesProviderIcons[tokenBalancesProvider]}
 	loadingIconName={tokenBalancesProvider}
 	loadingMessage={`Retrieving ${network.name} account data from ${tokenBalancesProvider}...`}
 	errorMessage={`Couldn't retrieve ${network.name} account data from ${tokenBalancesProvider}.`}
 	{...{
-		[TokenBalancesProvider.Beryx]: () => ({
+		[FilecoinTokenBalancesProvider.Beryx]: () => ({
 			fromQuery: createQuery({
 				queryKey: ['Balances', {
 					tokenBalancesProvider,
@@ -79,7 +79,7 @@
 
 					const { getAccountBalanceByAddress } = await import('$/api/beryx/filecoin/index')
 
-					return (await getAccountBalanceByAddress(address)).balances.map(normalizeBalanceBeryx)
+					return (await getAccountBalanceByAddress(address)).balances?.map(normalizeBalanceBeryx)
 				},
 			}),
 		}),

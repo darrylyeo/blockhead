@@ -134,7 +134,7 @@ export const relevantPreferences = derived([
 				[
 					'rpcNetwork',
 					'contractSourceProvider',
-					'tokenBalancesProvider',
+					$explorerNetwork?.slug === 'filecoin' ? 'filecoinTokenBalancesProvider' : 'tokenBalancesProvider',
 					$explorerNetwork?.slug === 'filecoin' ? 'filecoinTransactionProvider' : 'transactionProvider',
 					'quoteCurrency',
 				]

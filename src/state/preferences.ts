@@ -12,6 +12,7 @@ import { NetworkProvider } from '$/data/networkProviders/types'
 import { networkProviderConfigs, networkProviderConfigByProvider } from '$/data/networkProviders'
 import { Erc20TokenProvider, erc20TokenProviderIcons } from '$/data/erc20TokenProvider'
 import { TokenBalancesProvider, tokenBalancesProviderIcons } from '$/data/tokenBalancesProvider'
+import { FilecoinTokenBalancesProvider, filecoinTokenBalancesProviderIcons } from '$/data/filecoinTokenBalancesProvider'
 import { DefiProvider, defiProviderIcons } from '$/data/defiProviders'
 import { NftProvider, nftProviderIcons } from '$/data/nftProviders'
 import { PriceProvider, priceProviderIcons } from '$/data/priceProviders'
@@ -327,9 +328,30 @@ export const preferencesConfig = [
 							{ value: TokenBalancesProvider.Moralis, name: 'Moralis › Web3 API', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Moralis] },
 							{ value: TokenBalancesProvider.Nexandria, name: 'Nexandria', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Nexandria] },
 							{ value: TokenBalancesProvider.Zapper, name: 'Zapper', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Zapper] },
-							{ value: TokenBalancesProvider.Beryx, name: 'Beryx', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Beryx] },
 						]
 					}
+				]
+			},
+			{
+				preferenceId: 'filecoinTokenBalancesProvider',
+				name: 'Token Balances (Filecoin)',
+				type: 'single',
+				defaultOption: FilecoinTokenBalancesProvider.Beryx,
+				options: [
+					{
+						groupId: 'onChain',
+						name: 'On-Chain',
+						options: [
+							{ value: FilecoinTokenBalancesProvider.Beryx, name: (preferences: any) => `On-Chain (${preferences.rpcNetwork})` },
+						]
+					},
+					{
+						groupId: 'offChain',
+						name: 'Off-Chain',
+						options: [
+							{ value: FilecoinTokenBalancesProvider.Beryx, name: 'Beryx', icon: filecoinTokenBalancesProviderIcons[FilecoinTokenBalancesProvider.Beryx] },
+						],
+					},
 				]
 			},
 			{
