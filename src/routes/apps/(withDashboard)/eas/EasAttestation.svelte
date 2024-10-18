@@ -95,40 +95,67 @@
 					href={link}
 				>
 					{#if attestation.recipient !== '0x0000000000000000000000000000000000000000'}
-						<strong>
-							<Address
-								{network}
-								address={attestation.recipient}
-								resolveToEnsName
-								format="middle-truncated"
-							/>
-						</strong>
+						{#if attestation.recipient === attestation.attester}
+							<strong>
+								<Address
+									{network}
+									address={attestation.recipient}
+									resolveToEnsName
+									format="middle-truncated"
+								/>
+							</strong>
 
-						<span>received</span>
+							<span>self-attested</span>
 
-						<a
-							href={resolveRoute('/apps/eas/network/[networkSlug]/schema/[schemaId]', {
-								networkSlug: network.slug,
-								schemaId: attestation.schema.id,
-							})}
-						>
-							{#if schemaName}
-								<strong>{schemaName}</strong>
-							{:else}
-								<span>an attestation</span>
-							{/if}
-						</a>
+							<a
+								href={resolveRoute('/apps/eas/network/[networkSlug]/schema/[schemaId]', {
+									networkSlug: network.slug,
+									schemaId: attestation.schema.id,
+								})}
+							>
+								{#if schemaName}
+									<strong>{schemaName}</strong>
+								{:else}
+									<span>an attestation</span>
+								{/if}
+							</a>
 
-						<span>from</span>
+						{:else}
+							<strong>
+								<Address
+									{network}
+									address={attestation.recipient}
+									resolveToEnsName
+									format="middle-truncated"
+								/>
+							</strong>
 
-						<strong>
-							<Address
-								{network}
-								address={attestation.attester}
-								resolveToEnsName
-								format="middle-truncated"
-							/>
-						</strong>
+							<span>received</span>
+
+							<a
+								href={resolveRoute('/apps/eas/network/[networkSlug]/schema/[schemaId]', {
+									networkSlug: network.slug,
+									schemaId: attestation.schema.id,
+								})}
+							>
+								{#if schemaName}
+									<strong>{schemaName}</strong>
+								{:else}
+									<span>an attestation</span>
+								{/if}
+							</a>
+
+							<span>from</span>
+
+							<strong>
+								<Address
+									{network}
+									address={attestation.attester}
+									resolveToEnsName
+									format="middle-truncated"
+								/>
+							</strong>
+						{/if}
 
 					{:else}
 						<strong>
