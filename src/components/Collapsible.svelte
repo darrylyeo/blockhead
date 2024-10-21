@@ -93,7 +93,7 @@
 				filter: brightness(1.1);
 			}
 
-			&:active {
+			&:active:not(:has(:is(a, label, button):active)) {
 				scale: 0.992;
 				opacity: 0.75;
 				transition-duration: 0.15s;
