@@ -384,7 +384,7 @@
 
 		<Collapsible let:isOpen>
 			<h3 slot="title">
-				Transaction History
+				History
 				({domain.events.length}{domain.events.length === 100 ? '+' : ''})
 			</h3>
 
