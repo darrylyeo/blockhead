@@ -181,19 +181,24 @@
 
 	/* Alternative layout: move App <select> to right of <h1> */
 	header {
-		h1 + :global(*) {
-			flex: 1;
-		}
+		h1 {
+			flex: 0 auto !important;
 
-		h1 + :global(* > *) {
-			flex: 1;
-			flex-direction: row-reverse;
-			justify-content: space-between;
+			+ :global(*) {
+				flex: 1 !important;
+			}
+
+			+ :global(* > *) {
+				flex: 1;
+				flex-direction: row-reverse;
+				justify-content: space-between;
+			}
 		}
 
 		[data-app-select-label] span {
 			display: none;
 		}
+
 		select {
 			width: 0;
 			margin: -0.5em;
