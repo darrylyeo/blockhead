@@ -201,4 +201,8 @@
 		background-color: color-mix(in oklab, var(--primary-color) 8%, #eee);
 		border-radius: 0.33em;
 	}
+
+	input::-webkit-textfield-decoration-container {
+		width: 100%;
+	}
 </style>
