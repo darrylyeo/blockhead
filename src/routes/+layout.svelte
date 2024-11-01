@@ -25,6 +25,7 @@
 
 
 	// Tanstack Query
+	import { browser } from '$app/environment'
 	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query'
 	import { type PersistedClient, persistQueryClient } from '@tanstack/query-persist-client-core'
 	import { get, set, del } from 'idb-keyval'
@@ -41,7 +42,7 @@
 		}
 	})
 	
-	if(browser){
+	$effect(() => {
 		const idbKey = 'blockhead:queryClient'
 
 		persistQueryClient({
@@ -74,35 +75,40 @@
 					),
 				})
 		})
-	}
+	})
 
 
-	// Global state
-	import { browser } from '$app/environment'
-
+	// Global context
 	import { preferences } from '$/state/preferences'
 
-	$: if(browser)
+	$effect(() => {
 		Object.assign(globalThis.document.documentElement?.dataset ?? {}, {
 			'colorScheme': $preferences.theme,
 			'animations': $preferences.animations,
 			'scrollSnap': $preferences.scrollSnap,
 		})
+	})
 
 
-	// Context
+	// Page data
 	import type { PageData } from './$types'
 	import { page } from '$app/stores'
 
-	$: ({ metaTags } = $page.data as PageData)
+	let metaTags = $derived($page.data.metaTags as PageData['metaTags'])
 
 
 	// Metadata
 	import { MetaTags } from 'svelte-meta-tags'
 
 
-	// Internal state
-	let showAccounts = false
+	// Accounts
+	let showAccounts = $state(false)
+
+	$effect(() => {
+		globalThis.addEventListener('blockhead_addAccountConnection', () => {
+			showAccounts = true
+		})
+	})
 
 
 	// Functions
@@ -247,9 +253,6 @@
 		bottom: 4rem;
 	}
 </style>
-
-
-<svelte:window on:blockhead_addAccountConnection={e => showAccounts = true} />
 
 
 <QueryClientProvider client={queryClient}>
