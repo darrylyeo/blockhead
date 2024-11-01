@@ -1,33 +1,35 @@
 <script lang="ts">
-	import { getLocalPortfolios, createPortfolio } from '$/state/portfolio-accounts'
+	import { getLocalPortfolios } from '$/state/portfolios.svelte'
 	import { preferences } from '$/state/preferences'
 
 
-	const localPortfolios = getLocalPortfolios()
+	const _portfoliosState = getLocalPortfolios()
+	const portfoliosState = $derived(_portfoliosState.value)
 
 
 	import { triggerEvent } from '$/events/triggerEvent'
 
 	const addPortfolio = () => {
-		$localPortfolios = [...$localPortfolios, createPortfolio()]
+		portfoliosState.addPortfolio()
 
 		triggerEvent('Portfolios/AddPortfolio', {
-			newPortfolioCount: $localPortfolios.length
+			newPortfolioCount: portfoliosState.portfolios.length
 		})
 	}
 
 	const deletePortfolio = (i: number) => {
-		const deletedPortfolio = $localPortfolios[i]
-		$localPortfolios = [...$localPortfolios.slice(0, i), ...$localPortfolios.slice(i + 1)]
+		const deletedPortfolio = portfoliosState.deletePortfolio(i)
 
 		triggerEvent('Portfolios/DeletePortfolio', {
 			portfolioAccountsCount: deletedPortfolio.accounts.length,
-			newPortfolioCount: $localPortfolios.length,
+			newPortfolioCount: portfoliosState.portfolios.length,
 		})
 	}
 
-	$: if(localPortfolios && !$localPortfolios.length)
-		addPortfolio()
+	$effect(() => {
+		if(portfoliosState && !portfoliosState.portfolios.length)
+			addPortfolio()
+	})
 
 
 	// Components
@@ -42,8 +44,11 @@
 	import { matchesMediaQuery } from '$/utils/matchesMediaQuery'
 
 	const matchesLayoutBreakpoint = matchesMediaQuery('(min-width: 100rem)')
-	let layout: 'row' | 'column'
-	$: layout = $matchesLayoutBreakpoint ? 'row' : 'column'
+	const layout = $derived(
+		$matchesLayoutBreakpoint
+			? 'row' as const
+			: 'column' as const
+	)
 
 	import { fly } from 'svelte/transition'
 	import { expoOut } from 'svelte/easing'
@@ -52,10 +57,10 @@
 
 <main in:fly={{ x: 150, easing: expoOut }} out:fly={{ x: -150, easing: expoOut }}>
 	<section class="portfolios column">
-		{#if localPortfolios}
-			{#each $localPortfolios as portfolio, i (i)}
+		{#if portfoliosState}
+			{#each portfoliosState.portfolios as portfolio, i (i)}
 				<PortfolioComponent
-					bind:portfolio
+					bind:portfolio={portfoliosState.portfolios[i]}
 					isEditable
 					networkProvider={$preferences.rpcNetwork}
 					defiProvider={$preferences.defiProvider}
@@ -66,11 +71,11 @@
 				/>
 			{/each}
 
-			{#if $localPortfolios[$localPortfolios.length - 1]?.accounts.length}
+			{#if portfoliosState.portfolios[portfoliosState.portfolios.length - 1]?.accounts.length}
 				<div class="align-end">
 					<button
 						data-before="＋"
-						on:click={() => addPortfolio()}
+						onclick={() => { addPortfolio() }}
 					>New Portfolio</button>
 				</div>
 			{/if}

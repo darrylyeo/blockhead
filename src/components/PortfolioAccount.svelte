@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ComponentProps } from 'svelte'
-	import type { PortfolioAccount } from '$/state/portfolio-accounts'
+	import type { PortfolioAccount } from '$/state/portfolios.svelte'
 	import type { Ethereum } from '$/data/networks/types'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import { AccountIdType } from '$/data/accountId'

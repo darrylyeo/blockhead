@@ -16,31 +16,68 @@
 	import type { NotificationsProvider } from '$/data/notificationsProvider'
 	import { type QuoteCurrency, quoteCurrencies } from '$/data/currencies'
 
-	import type { Portfolio } from '$/state/portfolio-accounts'
+	import type { Portfolio } from '$/state/portfolios.svelte'
 	import { defaultAccountNetworks, getNetworkColor, networkByChainId } from '$/data/networks'
 
 	import { preferences } from '$/state/preferences'
 
 
+	// Props
+	let {
+		// Portfolio management
+		portfolio = $bindable(),
+		isEditable = true,
+
+		// Balances view options
+		networkProvider,
+		defiProvider,
+		tokenBalancesProvider,
+		nftProvider,
+		notificationsProvider,
+		quoteCurrency,
+
+		// Computed values
+		summary,
+	}: {
+		// Portfolio management
+		portfolio: Portfolio
+		isEditable: boolean
+
+		// Balances view options
+		networkProvider: NetworkProvider
+		defiProvider: DefiProvider
+		tokenBalancesProvider: any
+		nftProvider: any
+		notificationsProvider: NotificationsProvider
+		quoteCurrency: QuoteCurrency
+
+		// Computed values
+		summary?: {
+			quoteTotal: number
+			quoteTotalCurrency: QuoteCurrency
+			balancesCount: number
+			defiAppsCount: number
+			nftContractsCount: number
+			nftsCount: number
+			hasMoreNfts: boolean
+		}
+	} = $props()
+
+
 	// Portfolio management
-
-	export let portfolio: Portfolio
-
-	export let isEditable = true
-
-
 	import { triggerEvent } from '$/events/triggerEvent'
 
+	let currentState = $state(State.Idle)
+	$effect(() => {
+		if(isEditable && portfolio.name === '')
+			currentState = State.Editing
+	})
 
-	let state = State.Idle
-	$: if(isEditable && portfolio.name === '')
-		state = State.Editing
-
-	let previousState: State
-	$: {
-		triggerEvent('Portfolio/ChangeState', { fromState: previousState, toState: state })
-		previousState = state
-	}
+	let previousState = $state<State>()
+	$effect(() => {
+		triggerEvent('Portfolio/ChangeState', { fromState: previousState, toState: currentState })
+		previousState = currentState
+	})
 
 
 	import { createEventDispatcher } from 'svelte'
@@ -50,41 +87,40 @@
 
 
 	// Wallet management
-
-	let newAccountId = globalThis.location?.hash.slice(1) ?? ''
-	let newNetworks = [networkByChainId.get(1 as Ethereum.ChainId)] as Ethereum.Network[]
+	let newAccount = $state(
+		{
+			id: globalThis.location?.hash.slice(1) ?? '',
+			chainIds: [1] as Ethereum.ChainId[],
+		}
+	)
 
 	const addAccount = ({
 		id,
 		nickname,
-		networks,
+		chainIds,
 	}: {
 		id: string,
 		nickname: string,
-		networks: Ethereum.Network[],
+		chainIds: Ethereum.ChainId[],
 	}) => {
 		const added = portfolio.addAccount({
 			id: id as AccountId,
 			nickname,
-			networks,
+			chainIds,
 		})
 
-		portfolio = portfolio
-
 		triggerEvent('Portfolio/AddAccount', {
-			accountChainIds: networks.map(({ chainId }) => chainId),
+			accountChainIds: chainIds,
 			newPortfolioAccountsCount: portfolio.accounts.length,
 		})
 
-		goto(`#${newAccountId}`, { noScroll: added })
+		goto(`#${newAccount.id}`, { noScroll: added })
 	}
 
 	const deleteAccount = (i: number) => {
 		delayStartIndex = i
 
 		const deletedAccount = portfolio.deleteAccount(i)
-
-		portfolio = portfolio
 
 		triggerEvent('Portfolio/DeleteAccount', {
 			accountChainIds: deletedAccount.views.map(({ chainId }) => chainId),
@@ -94,93 +130,79 @@
 	
 	
 	// Balances view options
-	
-	export let networkProvider: NetworkProvider
-	export let defiProvider: DefiProvider
-	export let tokenBalancesProvider
-	export let nftProvider
-	export let notificationsProvider: NotificationsProvider
-	export let quoteCurrency: QuoteCurrency
+	$effect(() => {
+		defiProvider ??= $preferences.defiProvider
+		tokenBalancesProvider ??= $preferences.tokenBalancesProvider
+		nftProvider ??= $preferences.nftProvider
+		quoteCurrency ??= $preferences.quoteCurrency
+	})
 
-	$: defiProvider = $$props.defiProvider || $preferences.defiProvider
-	$: tokenBalancesProvider = $$props.tokenBalancesProvider || $preferences.tokenBalancesProvider
-	$: nftProvider = $$props.nftProvider || $preferences.nftProvider
-	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
-
-	let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'both'
-	let sortBy: 'value-descending' | 'value-ascending' | 'ticker-ascending' = 'value-descending'
-	let showSmallValues = false
-	let showApps = false
-	let showUnderlyingAssets = false
-	let showDefiPositionMetadata = false
-	let showNftMetadata = false
-	let showCollections = true
-	let collectionsSortBy: 'symbol-ascending' | 'floor-price-descending' | 'floor-price-ascending' | 'value-descending' | 'value-ascending' = 'floor-price-descending'
-	let show3D = false
-	let showFloorPrices = false
-	let showSmallNftFloorPrices = false
-	let showFeed = false
-	let feedLayout: 'byChannel' | 'chronological' = 'byChannel'
+	let tokenBalanceFormat = $state<'original' | 'converted' | 'both'>('both')
+	let sortBy = $state<'value-descending' | 'value-ascending' | 'ticker-ascending'>('value-descending')
+	let showSmallValues = $state(false)
+	let showApps = $state(false)
+	let showUnderlyingAssets = $state(false)
+	let showDefiPositionMetadata = $state(false)
+	let showNftMetadata = $state(false)
+	let showCollections = $state(true)
+	let collectionsSortBy = $state<'symbol-ascending' | 'floor-price-descending' | 'floor-price-ascending' | 'value-descending' | 'value-ascending'>('floor-price-descending')
+	let show3D = $state(false)
+	let showFloorPrices = $state(false)
+	let showSmallNftFloorPrices = $state(false)
+	let showFeed = $state(false)
+	let feedLayout = $state<'byChannel' | 'chronological'>('byChannel')
 
 
 	// Computed Values
-	let accountsSummaries: Record<AccountId, ComponentProps<PortfolioAccount>['summary']> = {}
+	let accountsSummaries = $state<Record<AccountId, ComponentProps<PortfolioAccount>['summary']>>({})
 
-	export let summary: {
-		quoteTotal: number,
-		quoteTotalCurrency: QuoteCurrency,
-		balancesCount: number,
-		defiAppsCount: number,
-		nftContractsCount: number,
-		nftsCount: number,
-		hasMoreNfts: boolean,
-	} | undefined
+	$effect(() => {
+		summary = {
+			quoteTotal:
+				portfolio.accounts
+					.map(account => accountsSummaries[account.id]?.quoteTotal)
+					.filter(isTruthy)
+					.reduce((sum, item) => sum + item, 0),
 
-	$: summary = {
-		quoteTotal:
-			portfolio.accounts
-				.map(account => accountsSummaries[account.id]?.quoteTotal)
-				.filter(isTruthy)
-				.reduce((sum, item) => sum + item, 0),
+			quoteTotalCurrency: quoteCurrency,
 
-		quoteTotalCurrency: quoteCurrency,
+			balancesCount:
+				portfolio.accounts
+					.map(account => accountsSummaries[account.id]?.balancesCount)
+					.filter(isTruthy)
+					.reduce((sum, item) => sum + item, 0),
 
-		balancesCount:
-			portfolio.accounts
-				.map(account => accountsSummaries[account.id]?.balancesCount)
-				.filter(isTruthy)
-				.reduce((sum, item) => sum + item, 0),
+			defiAppsCount:
+				portfolio.accounts
+					.map(account => accountsSummaries[account.id]?.defiAppsCount)
+					.filter(isTruthy)
+					.reduce((sum, item) => sum + item, 0),
 
-		defiAppsCount:
-			portfolio.accounts
-				.map(account => accountsSummaries[account.id]?.defiAppsCount)
-				.filter(isTruthy)
-				.reduce((sum, item) => sum + item, 0),
+			nftContractsCount:
+				portfolio.accounts
+					.map(account => accountsSummaries[account.id]?.nftContractsCount)
+					.filter(isTruthy)
+					.reduce((sum, item) => sum + item, 0),
 
-		nftContractsCount:
-			portfolio.accounts
-				.map(account => accountsSummaries[account.id]?.nftContractsCount)
-				.filter(isTruthy)
-				.reduce((sum, item) => sum + item, 0),
+			nftsCount:
+				portfolio.accounts
+					.map(account => accountsSummaries[account.id]?.nftsCount)
+					.filter(isTruthy)
+					.reduce((sum, item) => sum + item, 0),
 
-		nftsCount:
-			portfolio.accounts
-				.map(account => accountsSummaries[account.id]?.nftsCount)
-				.filter(isTruthy)
-				.reduce((sum, item) => sum + item, 0),
-
-		hasMoreNfts:
-			portfolio.accounts
-				.some(account => accountsSummaries[account.id]?.hasMoreNfts)
-	}
+			hasMoreNfts:
+				portfolio.accounts
+					.some(account => accountsSummaries[account.id]?.hasMoreNfts)
+		}
+	})
 
 
 	// Options menu
-	let showOptions = true
+	let showOptions = $state(true)
 	const toggleShowOptions = () => showOptions = !showOptions
 
 
-	let delayStartIndex = 0
+	let delayStartIndex = $state(0)
 
 
 	// Functions
@@ -191,7 +213,7 @@
 	import { getQueryClientContext } from '@tanstack/svelte-query'
 	const queryClient = getQueryClientContext()
 
-	let isRefetching = false
+	let isRefetching = $state(false)
 
 	const refetchAllData = async () => {
 		isRefetching = true
@@ -265,25 +287,25 @@
 
 <section
 	class="portfolio column-block"
-	on:keydown={e => { if(e.code === 'Escape') state = State.Idle }}
-	on:dragenter={e => state = State.Adding}
+	onkeydown={e => { if(e.code === 'Escape') currentState = State.Idle }}
+	ondragenter={e => { currentState = State.Adding }}
 	transition:scale={{ duration: 300, start: 0.95 }}
 	tabIndex={0}
 >
 	<header class="bar wrap">
 		<slot name="title">
-			<h1 class="row" on:dblclick={isEditable && (() => state = State.Editing)}>
-				{#if state !== State.Editing}
+			<h1 class="row" ondblclick={() => { if(isEditable) currentState = State.Editing }}>
+				{#if currentState !== State.Editing}
 					{portfolio.name || '[Untitled Portfolio]'}
 				{:else}
-					<form on:submit={() => state = State.Idle}>
+					<form onsubmit={() => { currentState = State.Idle }}>
 						<input type="text" bind:value={portfolio.name} placeholder="My Portfolio" autofocus />
 					</form>
 				{/if}
 			</h1>
 		</slot>
 
-		<InlineContainer isOpen={summary && state !== State.Editing}>
+		<InlineContainer isOpen={summary && currentState !== State.Editing}>
 			<span class="summary" transition:scale>
 				<span class="account-total-value">
 					<TokenBalance
@@ -291,26 +313,26 @@
 						token={{
 							symbol: quoteCurrency,
 						}}
-						balance={summary.quoteTotal}
+						balance={summary?.quoteTotal}
 					/>
 				</span>
 
-				<!-- {#if summary.filteredBalancesCount}
+				<!-- {#if summary?.filteredBalancesCount}
 					│
-					<strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> token{summary.balancesCount === 1 ? '' : 's'}
+					<strong><TweenedNumber value={summary?.filteredBalancesCount} /></strong> token{summary?.balancesCount === 1 ? '' : 's'}
 				{/if} -->
 
-				<!-- {#if summary.defiAppsCount}
+				<!-- {#if summary?.defiAppsCount}
 					│
-					<strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}
+					<strong><TweenedNumber value={summary?.defiAppsCount} /></strong> app{summary?.defiAppsCount === 1 ? '' : 's'}
 				{/if} -->
 
-				{#if summary.nftsCount}
+				{#if summary?.nftsCount}
 					│
-					<strong><TweenedNumber value={summary.nftsCount} />{summary.hasMoreNfts ? '+' : ''}</strong> NFT{summary.nftsCount === 1 ? '' : 's'}
+					<strong><TweenedNumber value={summary?.nftsCount} />{summary?.hasMoreNfts ? '+' : ''}</strong> NFT{summary?.nftsCount === 1 ? '' : 's'}
 
-					<!-- {#if summary.nftContractsCount}
-						from <strong><TweenedNumber value={summary.nftContractsCount} /></strong> collection{summary.nftContractsCount === 1 ? '' : 's'}
+					<!-- {#if summary?.nftContractsCount}
+						from <strong><TweenedNumber value={summary?.nftContractsCount} /></strong> collection{summary?.nftContractsCount === 1 ? '' : 's'}
 					{/if} -->
 				{/if}
 			</span>
@@ -331,34 +353,34 @@
 		{#if isEditable}
 			<InlineTransition
 				align="end"
-				key={state !== State.Editing}
+				key={currentState !== State.Editing}
 				clip={false}
 			>
 				<span class="row align-end wrap">
-					{#if state !== State.Editing}
+					{#if currentState !== State.Editing}
 						<InlineContainer
-							isOpen={state === State.Idle}
+							isOpen={currentState === State.Idle}
 							alignInline="end"
 							contentTransition={[scale]}
 						>
-							<button class="add" data-before="＋" on:click={() => state = State.Adding}>Add Account</button>
+							<button class="add" data-before="＋" onclick={() => { currentState = State.Adding }}>Add Account</button>
 						</InlineContainer>
 
 						<InlineContainer align="end">
-							<button data-before="↻" on:click={refetchAllData} disabled={isRefetching}>{isRefetching ? 'Refreshing...' : 'Refresh'}</button>
+							<button data-before="↻" onclick={refetchAllData} disabled={isRefetching}>{isRefetching ? 'Refreshing...' : 'Refresh'}</button>
 						</InlineContainer>
 
 						<InlineContainer align="end">
-							<button data-before="✎" on:click={() => state = State.Editing}>Edit</button>
+							<button data-before="✎" onclick={() => { currentState = State.Editing }}>Edit</button>
 						</InlineContainer>
 					{:else}
-						<button class="destructive" data-before="☒" on:click={() => dispatch('delete')}>Delete Portfolio</button>
-						<button data-before="✓" on:click={() => state = State.Idle}>Done</button>
+						<button class="destructive" data-before="☒" onclick={() => dispatch('delete')}>Delete Portfolio</button>
+						<button data-before="✓" onclick={() => { currentState = State.Idle }}>Done</button>
 					{/if}
 				</span>
 			</InlineTransition>
 		{/if}
-		<!-- <button on:click={toggleShowOptions}>Options</button> -->
+		<!-- <button onclick={toggleShowOptions}>Options</button> -->
 
 		<slot name="actions"></slot>
 	</header>
@@ -370,22 +392,24 @@
 			containerProps={{
 				class: 'align-bottom',
 			}}
-			isOpen={state === State.Adding || !portfolio.accounts.length}
+			isOpen={currentState === State.Adding || !portfolio.accounts.length}
 		>
 			<div class="stack align-bottom">
-				{#if state === State.Adding}
+				{#if currentState === State.Adding}
 					<form
 						class="card"
 						name="add-account"
-						on:submit|preventDefault={() => {
+						onsubmit={e => {
+							e.preventDefault()
+
 							addAccount({
-								id: newAccountId,
+								id: newAccount.id,
 								nickname: '',
-								networks: [...newNetworks],
+								chainIds: [...newAccount.chainIds],
 							})
 
-							state = State.Idle
-							newAccountId = ''
+							currentState = State.Idle
+							newAccount.id = ''
 						}}
 						in:fly={{ duration: 200, opacity: 0, y: -20 }}
 						out:scale={{ start: 0.95, duration: 150, opacity: 0 }}
@@ -406,7 +430,11 @@
 									<div class="row wrap align-start">
 										{#each [
 											...defaultAccountNetworks,
-											...newNetworks.filter(network => !defaultAccountNetworks.includes(network))
+											...(
+												[...newAccount.chainIds]
+													.filter(chainId => !defaultAccountNetworks.some(network => network.chainId === chainId))
+													.map(chainId => networkByChainId.get(chainId)!)
+											),
 										] as network, i (network)}
 											<label
 												class="align-start"
@@ -417,10 +445,10 @@
 											>
 												<input
 													type="checkbox"
-													bind:group={newNetworks}
+													bind:group={newAccount.chainIds}
 													name="networks[]"
-													value={network}
-													required={!newNetworks.length}
+													value={network.chainId}
+													required={!newAccount.chainIds.length}
 												/>
 												<span>{network.name}</span>
 											</label>
@@ -428,7 +456,7 @@
 
 										<NetworkSelect
 											on:change={({ detail: { network, target }}) => {
-												newNetworks = newNetworks.includes(network) ? newNetworks.filter(_ => _ !== network) : [...newNetworks, network]
+												newAccount.chainIds = newAccount.chainIds.includes(network.chainId) ? newAccount.chainIds.filter(_ => _ !== network.chainId) : [...newAccount.chainIds, network.chainId]
 												target.value = ''
 											}}
 											placeholder="Add Network..."
@@ -437,20 +465,20 @@
 									</div>
 								</InlineContainer>
 
-								<!-- <input type="text" name="networks[]" bind:value={newNetworks} required hidden /> -->
+								<!-- <input type="text" name="networks[]" bind:value={newAccount.networks} required hidden /> -->
 							</div>
 						</div>
 
 						<div class="bar wrap">
 							<AddressInput
-								bind:address={newAccountId}
+								bind:address={newAccount.id}
 								placeholder="EVM Address (0xabcd...6789) / ENS Domain (vitalik.eth) / Lens Handle (stani.lens)"
 								autofocus
 								required
 							/>
 
 							<button type="submit" class="medium add">Add</button>
-							<button type="button" class="medium cancel" on:click={() => state = State.Idle}>Cancel</button>
+							<button type="button" class="medium cancel" onclick={() => { currentState = State.Idle }}>Cancel</button>
 						</div>
 					</form>
 				{:else if !portfolio.accounts.length}
@@ -461,7 +489,7 @@
 					>
 						<h3>Your Blockhead Portfolio is empty!</h3>
 						{#if isEditable}
-							<p>You can <a on:click={() => state = State.Adding}>add a new wallet address manually</a>, or import an address by connecting a wallet service!</p>
+							<p>You can <a onclick={() => { currentState = State.Adding }}>add a new wallet address manually</a>, or import an address by connecting a wallet service!</p>
 						{/if}
 					</div>
 				{/if}
@@ -474,7 +502,7 @@
 				animate:flip|local={{ duration: 300, delay: Math.abs(delayStartIndex - i) * 50 }}
 			>
 				<PortfolioAccount
-					bind:account
+					bind:account={portfolio.accounts[i]}
 
 					{networkProvider}
 					{defiProvider}
@@ -498,17 +526,17 @@
 					{showFeed}
 					{feedLayout}
 
-					isEditing={state === State.Editing}
+					isEditing={currentState === State.Editing}
 
 					bind:summary={accountsSummaries[account.id]}
 				>
-					{#if state === State.Editing}
+					{#if currentState === State.Editing}
 						<InlineContainer
 							align="end"
-							isOpen={state === State.Editing}
+							isOpen={currentState === State.Editing}
 						>
 							<div class="row edit-controls">
-								<button class="destructive" data-before="☒" on:click={() => deleteAccount(i)}>Delete Account</button>
+								<button class="destructive" data-before="☒" onclick={() => deleteAccount(i)}>Delete Account</button>
 							</div>
 						</InlineContainer>
 					{/if}
@@ -522,7 +550,7 @@
 	{/if}
 
 	<SizeContainer layout="block"
-		isOpen={showOptions && portfolio.accounts.length && state !== State.Editing}
+		isOpen={showOptions && portfolio.accounts.length && currentState !== State.Editing}
 		containerProps={{
 			class: 'sticky-bottom',
 		}}
