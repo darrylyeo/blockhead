@@ -77,12 +77,7 @@
 	}
 
 
-	import Nav from '$/components/Nav.svelte'
-
-
-
 	// Global state
-
 	import { browser } from '$app/environment'
 
 	import { preferences } from '$/state/preferences'
@@ -115,6 +110,7 @@
 
 
 	// Components
+	import Nav from '$/components/Nav.svelte'
 	import AccountConnections from '$/components/AccountConnections.svelte'
 	import SharePageDialog from '$/components/SharePageDialog.svelte'
 </script>
