@@ -35,7 +35,7 @@
 	let currentExplorerInputValue: string
 	$: currentExplorerInputValue = $explorerQuery
 
-	let currentExplorerInputParams: ExplorerInputParams | undefined
+	let currentExplorerInputParams: ExplorerInputParams = {}
 
 
 	$: networkProvider = $preferences.rpcNetwork

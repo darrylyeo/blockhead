@@ -7,26 +7,46 @@
 	// Context
 	import { accountConnectionToInfo } from '$/state/account'
 
-	import { getLocalPortfolios } from '$/state/portfolio-accounts'
-	const localPortfolios = getLocalPortfolios()
+	import { getLocalPortfolios } from '$/state/portfolios.svelte'
+	const _portfoliosState = getLocalPortfolios()
+	const portfoliosState = $derived(_portfoliosState.value)
 
 	import { localStorageWritable } from '$/utils/localStorageWritable'
 	const history = localStorageWritable<string[]>('ExplorerInput/history', [])
 
 
 	// Inputs
-	export let inputPatterns: InputPattern[] = Object.values(InputPattern)
-	export let required = false
-	export let autofocus = false
-	export let placeholder: string
+	let {
+		inputPatterns = Object.values(InputPattern),
+		required = false,
+		autofocus = false,
+		placeholder,
+		network,
 
-	export let network: Ethereum.Network
-	
+		// Outputs
+		value = $bindable(''),
+		matchedPatterns = $bindable({}),
+		datalistId = $bindable(crypto.randomUUID())
+	}: {
+		inputPatterns?: InputPattern[]
+		required?: boolean
+		autofocus?: boolean
+		placeholder?: string
+		network?: Ethereum.Network
+
+		// Outputs
+		value?: string
+		matchedPatterns?: Partial<Record<InputPattern, string>>
+		datalistId?: string
+	} = $props()
+
 	// (Computed)
-	$: placeholder = $$props.placeholder || (
-		inputPatterns
-			.map(type => `${inputPatternsConfig[type].label} (${inputPatternsConfig[type].placeholder})`)
-			.join(' / ')
+	const computedPlaceholder = $derived(
+		placeholder || (
+			inputPatterns
+				.map(type => `${inputPatternsConfig[type].label} (${inputPatternsConfig[type].placeholder})`)
+				.join(' / ')
+		)
 	)
 
 
@@ -44,32 +64,37 @@
 			)
 
 
-	// Shared state
-	export let value: string
-	export let matchedPatterns: Partial<Record<InputPattern, string>>
-	$: matchedPatterns = value.match(pattern)?.groups ?? {}
-
-
 	// Internal state
-	export const datalistId = crypto.randomUUID()
-
 	// (Computed)
-	$: pattern = new RegExp(`^(?:${
-		inputPatterns
-			.sort((a, b) => inputPatternsConfig[b].matchComplexity - inputPatternsConfig[a].matchComplexity)
-			.map(inputPattern => `(?<${inputPattern}>${inputPatternsConfig[inputPattern].pattern.source})`)
-			.join('|')
-	})$`)
+	const pattern = $derived(
+		new RegExp(`^(?:${
+			inputPatterns
+				.sort((a, b) => inputPatternsConfig[b].matchComplexity - inputPatternsConfig[a].matchComplexity)
+				.map(inputPattern => `(?<${inputPattern}>${inputPatternsConfig[inputPattern].pattern.source})`)
+				.join('|')
+		})$`)
+	)
 
-	// const subpattern = /(?<address>0x[0-9a-fA-F]{40})|(?<transactionId>0x[0-9a-fA-F]{64})|(?<blockNumber>0|[1-9][0-9]*)|(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))/g
-	$: subpattern = new RegExp(`(?:${
-		inputPatterns
-			.sort((a, b) => inputPatternsConfig[b].matchComplexity - inputPatternsConfig[a].matchComplexity)
-			.map(inputPattern => `(?<${inputPattern}>${inputPatternsConfig[inputPattern].pattern.source})`)
-			.join('|')}
-		)`, 'g')
+	// const subpattern = $derived(
+	// 	/(?<address>0x[0-9a-fA-F]{40})|(?<transactionId>0x[0-9a-fA-F]{64})|(?<blockNumber>0|[1-9][0-9]*)|(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))/g
+	// )
+	const subpattern = $derived(
+		new RegExp(`(?:${
+			inputPatterns
+				.sort((a, b) => inputPatternsConfig[b].matchComplexity - inputPatternsConfig[a].matchComplexity)
+				.map(inputPattern => `(?<${inputPattern}>${inputPatternsConfig[inputPattern].pattern.source})`)
+				.join('|')}
+			)`, 'g')
+	)
 
-	$: matchedInputPattern = findMatchedCaptureGroupName<InputPattern>(pattern, value) ?? ''	
+	const matchedInputPattern = $derived(
+		findMatchedCaptureGroupName<InputPattern>(pattern, value) ?? ''
+	)
+
+	// Outputs
+	$effect(() => {
+		matchedPatterns = value.match(pattern)?.groups ?? {}
+	})
 
 
 	// Actions
@@ -86,7 +111,7 @@
 	bind:value
 	{required}
 	{autofocus}
-	{placeholder}
+	placeholder={computedPlaceholder}
 	pattern={pattern.source}
 	data-matched-input-pattern={matchedInputPattern}
 	list={datalistId}
@@ -102,12 +127,13 @@
 		/>
 	{/each}
 
-	{#if $localPortfolios.length}
-		{#each $localPortfolios as {name, accounts}, i (i)}
+	{#if portfoliosState.portfolios.length}
+		{#each portfoliosState.portfolios as {name, accounts}, i (i)}
 			<optgroup label={name}>
 				{#each accounts as account}
 					{@const _value = account.id}
 					{@const inputPattern = inputPatternsConfig[findPatternMatches(_value, subpattern)[0]?.inputPattern]}
+
 					<option
 						value={_value}
 						label={`Portfolio › ${name}${inputPattern ? ` │ ${network ? `${network.name} › ` : ''}${inputPattern.label}` : ''}`}
