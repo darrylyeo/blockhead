@@ -53,7 +53,7 @@
 	<ScrollContainer
 		{pagination}
 		style="
-			--resizeVertical-defaultHeight: calc(100dvh - 24rem);
+			--resizeVertical-defaultHeight: max(16rem, calc(100dvh - 24rem));
 		"
 	>
 		{#each casts as cast (cast.id)}
