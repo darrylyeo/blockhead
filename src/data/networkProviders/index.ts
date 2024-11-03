@@ -482,9 +482,13 @@ export const networkProviderConfigs = [
 			network,
 			connectionType = NetworkProviderConnectionType.RPC,
 		}) => {
-			const subdomain = publicEnv[`QUICKNODE_ENDPOINT_NAME_${network.chainId}`]
+			// Single chain
+			// const subdomain = publicEnv[`PUBLIC_QUICKNODE_ENDPOINT_NAME_${network.chainId}`]
+			// const authToken = publicEnv[`PUBLIC_QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_${network.chainId}`]
 
-			const authToken = publicEnv[`QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_${network.chainId}`]
+			// Multi-chain
+			const subdomain = publicEnv.PUBLIC_QUICKNODE_ENDPOINT_NAME
+			const authToken = publicEnv.PUBLIC_QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN
 
 			return subdomain && (
 				new JsonRpcProvider(
@@ -498,9 +502,13 @@ export const networkProviderConfigs = [
 			network,
 			connectionType = NetworkProviderConnectionType.RPC,
 		}) => {
-			const subdomain = publicEnv[`QUICKNODE_ENDPOINT_NAME_${network.chainId}`]
+			// Single chain
+			// const subdomain = publicEnv[`PUBLIC_QUICKNODE_ENDPOINT_NAME_${network.chainId}`]
+			// const authToken = publicEnv[`PUBLIC_QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_${network.chainId}`]
 
-			const authToken = publicEnv[`QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN_${network.chainId}`]
+			// Multi-chain
+			const subdomain = publicEnv.PUBLIC_QUICKNODE_ENDPOINT_NAME
+			const authToken = publicEnv.PUBLIC_QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN
 
 			return subdomain && (
 				createClient({
