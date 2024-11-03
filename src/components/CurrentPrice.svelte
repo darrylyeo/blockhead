@@ -90,54 +90,25 @@
 			{/if}
 		</header>
 
-		{#if _currentPriceProvider === PriceProvider.Chainlink}
-			{@const priceFeed = result}
-
+		{#if result}
 			<div class="rate">
 				<TokenBalance
-					token={{
-						chainId: oracleNetwork?.chainId,
-						symbol: query.symbol,
-					}}
-					balance={1}
-					tween={false}
-				/>
-				=
-				<TokenBalance
-					token={{
-						symbol: quoteCurrency,
-					}}
-					balance={priceFeed.price}
-					format="fiat"
-				/>
-			</div>
-			<!-- <div class="rate">
-				<TokenRate
-					rate={priceFeed.price}
-					quoteToken={{
-						symbol: quoteCurrency,
-					}}
-					baseToken={{
-						symbol: query.symbol,
-					}}
-					layout="horizontal"
-				/>
-			</div> -->
-
-		{:else}
-			<div class="rate">
-				<TokenBalance
-					token={
+					{...(
 						'erc20Token' in query ?
-							query.erc20Token
+							{
+								token: query.erc20Token,
+								balance: 1 * 10 ** query.erc20Token.decimals,
+							}
 						:
 							{
-								chainId: 'chainId' in query && query.chainId,
-								symbol: query.symbol,
-								icon: result.icon,
+								token: {
+									chainId: 'chainId' in query && query.chainId,
+									symbol: query.symbol,
+									icon: result.icon,
+								},
+								balance: 1,
 							}
-					}
-					balance={1}
+					)}
 					tween={false}
 				/>
 				=
@@ -161,26 +132,26 @@
 					layout="horizontal"
 				/>
 			</div> -->
+
+			<footer class="bar wrap">
+				{#if 'rank' in result}
+					<span>Rank #{result.rank}</span>
+				{:else}
+					<span></span>
+				{/if}
+
+				{#if result.updatedAt}
+					<span class="card-annotation">
+						Updated
+						<Date
+							date={result.updatedAt}
+							format="relative"
+							layout="horizontal"
+						/>
+					</span>
+				{/if}
+			</footer>
 		{/if}
-
-		<footer class="bar wrap">
-			{#if _currentPriceProvider === PriceProvider.Chainlink}
-				{@const priceFeed = result}
-
-				<span />
-				<span class="card-annotation">
-					Updated
-					<Date
-						date={priceFeed.updatedAt}
-						format="relative"
-						layout="horizontal"
-					/>
-				</span>
-			{:else if _currentPriceProvider === PriceProvider.Covalent}
-				<span>Rank #{result.rank}</span>
-				<span class="card-annotation">Updated {new Date(result.updatedAt).toLocaleTimeString()}</span>
-			{/if}
-		</footer>
 
 		<svelte:fragment slot="errorActions" let:cancel>
 			<button class="small" on:click={() => {

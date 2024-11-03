@@ -64,7 +64,27 @@
 
 
 	// Outputs
-	export let result
+	export let result: {
+		quoteCurrency: QuoteCurrency
+		price: number
+		updatedAt: number
+
+		// Chainlink
+		contractAddress?: Ethereum.ContractAddress
+
+		// Covalent
+		icon?: string
+		rank?: number
+	}
+
+	type SharedSlotProps = {
+		result: typeof result,
+	}
+
+	type $$Slots = {
+		header: SharedSlotProps,
+		default: SharedSlotProps,
+	}
 
 
 	// Components
@@ -109,12 +129,15 @@
 					if(!('symbol' in query && query.symbol))
 						throw new Error(`Token contract addresses not yet supported.`) 
 
-					return await getChainlinkPriceFeed(
-						oraclePublicClient,
-						oracleNetwork,
-						query.symbol,
+					return {
 						quoteCurrency,
-					)
+						...await getChainlinkPriceFeed(
+							oraclePublicClient,
+							oracleNetwork,
+							query.symbol,
+							quoteCurrency,
+						),
+					}
 				},
 			}),
 		},
