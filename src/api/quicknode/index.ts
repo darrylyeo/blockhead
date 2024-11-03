@@ -3,12 +3,16 @@ import { NetworkProvider } from '$/data/networkProviders/types'
 import { getViemPublicClient } from '$/data/networkProviders'
 
 
-const getQuickNodePublicClient = ({
-	network
+export const getQuickNodePublicClient = ({
+	network,
 }: {
 	network: Ethereum.Network,
-}) =>
-	getViemPublicClient({ network, networkProvider: NetworkProvider.QuickNode })
+}) => (
+	getViemPublicClient({
+		network,
+		networkProvider: NetworkProvider.QuickNode,
+	})
+)
 
 
 // https://www.quicknode.com/docs/ethereum/qn_getWalletTokenBalance
