@@ -4,7 +4,7 @@
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import type { QuoteCurrency, TickerSymbol } from '$/data/currencies'
 	import { PriceProvider, priceProviderIcons } from '$/data/priceProviders'
-	import { ethereumMainnet } from '$/data/networks'
+	import { ethereumMainnet, networkByChainId } from '$/data/networks'
 
 
 	// Context
@@ -202,6 +202,57 @@
 		// 		},
 		// 	}),
 		// },
+
+		[PriceProvider.QuickNode_Odos]: {
+			fromQuery: createQuery({
+				queryKey: ['CurrentPrice', {
+					currentPriceProvider,
+					query: _query,
+					quoteCurrency,
+				}],
+				queryFn: async ({
+					queryKey: [_, {
+						query,
+						quoteCurrency,
+					}],
+				}) => {
+					const { getTokenPrice } = await import('$/api/quicknode/addons/odos')
+
+					const symbol = (
+						'symbol' in query ?
+							query.symbol
+						:
+							undefined
+					)
+
+					const contractAddress = (
+						symbol === 'ETH' ?
+							'0x0000000000000000000000000000000000000000'
+						: 'contractAddress' in query ?
+							query.contractAddress
+						:
+							undefined
+					)
+
+					if(!contractAddress)
+						throw new Error(`Token symbols are not yet supported.`)
+
+					if(!('chainId' in query && query.chainId))
+						throw new Error(`Chain ID not specified.`)
+
+					return await getTokenPrice({
+						network: networkByChainId.get(query.chainId),
+						contractAddresses: [
+							contractAddress,
+						],
+					})
+				},
+				select: result => ({
+					quoteCurrency: 'USD',
+					price: Object.values(result)[0],
+				}),
+			}),
+		},
 	}[currentPriceProvider]}
 	bind:result
 	let:result

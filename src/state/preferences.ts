@@ -436,24 +436,25 @@ export const preferencesConfig = [
 							// { value: 'Compound Price Feed', name: 'Open Price Feed' },
 						]
 					},
-					// {
-					// 	groupId: 'offChain',
-					// 	name: 'Off-Chain',
-					// 	options: [
-					// 		// { value: PriceProvider.Covalent, name: 'Covalent › GoldRush' },
-					// 		// { value: 'Moralis', name: 'Moralis' },
-					// 		// { value: 'Zapper', name: 'Zapper' },
-					// 		// { value: 'CoinGecko', name: 'CoinGecko' },
-					// 		// { value: 'Etherscan', name: 'Etherscan' },
-					// 	]
-					// },
+					{
+						groupId: 'offChain',
+						name: 'Off-Chain',
+						options: [
+							{ value: PriceProvider.QuickNode_Odos, name: 'Odos (via QuickNode)', icon: priceProviderIcons[PriceProvider.QuickNode_Odos] },
+							// { value: PriceProvider.Covalent, name: 'Covalent › GoldRush' },
+							// { value: 'Moralis', name: 'Moralis' },
+							// { value: 'Zapper', name: 'Zapper' },
+							// { value: 'CoinGecko', name: 'CoinGecko' },
+							// { value: 'Etherscan', name: 'Etherscan' },
+						]
+					},
 					// {
 					// 	groupId: 'auto',
 					// 	name: 'Auto',
 					// 	options: [
 					// 		{ value: 'auto', name: 'Auto' },
 					// 	]
-					// }
+					// },
 				]
 			},
 			/*{
