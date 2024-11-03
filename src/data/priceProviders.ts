@@ -6,18 +6,18 @@ export enum OnchainPriceProvider {
 }
 
 export enum OffchainPriceProvider {
-	Covalent = 'Covalent',
+	// Covalent = 'Covalent',
 }
 
 export enum PriceProvider {
 	Chainlink = OnchainPriceProvider.Chainlink,
-	Covalent = OffchainPriceProvider.Covalent,
+	// Covalent = OffchainPriceProvider.Covalent,
 }
 
 
-import { ChainlinkIcon, CovalentGoldRushIcon } from '$/assets/icons'
+import { ChainlinkIcon, CovalentGoldRushIcon, QuickNodeIcon } from '$/assets/icons'
 
 export const priceProviderIcons: Record<PriceProvider, string> = {
 	[PriceProvider.Chainlink]: ChainlinkIcon,
-	[PriceProvider.Covalent]: CovalentGoldRushIcon,
+	// [PriceProvider.Covalent]: CovalentGoldRushIcon,
 }
