@@ -43,8 +43,9 @@
 			<CurrentPrice
 				{networkProvider}
 				currentPriceProvider={$preferences.currentPriceProvider}
-				network={$explorerNetwork}
-				token={$explorerNetwork.nativeCurrency.symbol}
+				query={{
+					symbol: $explorerNetwork.nativeCurrency.symbol,
+				}}
 				quoteCurrency={$preferences.quoteCurrency}
 				blockNumber={$explorerBlockNumber}
 			/>

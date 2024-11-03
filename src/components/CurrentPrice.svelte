@@ -13,8 +13,7 @@
 	$: oracleNetwork = $$props.oracleNetwork || ethereumMainnet
 	export let networkProvider: NetworkProvider
 
-	export let network: Ethereum.Network | undefined
-	export let token: TickerSymbol
+	export let query: CurrentPriceLoader['$$prop_def']['query']
 	export let quoteCurrency: QuoteCurrency
 
 	export let blockNumber: number
@@ -49,8 +48,7 @@
 		currentPriceProvider={_currentPriceProvider}
 		{oracleNetwork}
 		{networkProvider}
-		{network}
-		{token}
+		{query}
 		{quoteCurrency}
 		{blockNumber}
 		let:result
@@ -79,7 +77,7 @@
 					<Address
 						network={oracleNetwork}
 						address={priceFeed.contractAddress}
-					>{token}/{quoteCurrency} Price Feed</Address>
+					>{'symbol' in query ? `${query.symbol}/${quoteCurrency} ` : ''}Price Feed</Address>
 				{/if}
 			</span>
 
@@ -99,7 +97,7 @@
 				<TokenBalance
 					token={{
 						chainId: oracleNetwork?.chainId,
-						symbol: token,
+						symbol: query.symbol,
 					}}
 					balance={1}
 					tween={false}
@@ -120,30 +118,34 @@
 						symbol: quoteCurrency,
 					}}
 					baseToken={{
-						symbol: token,
+						symbol: query.symbol,
 					}}
 					layout="horizontal"
 				/>
 			</div> -->
 
-		{:else if _currentPriceProvider === PriceProvider.Covalent}
+		{:else}
 			<div class="rate">
 				<TokenBalance
-					token={{
-						chainId: network.chainId,
-						symbol: token,
-						icon: data.icon,
-					}}
+					token={
+						'erc20Token' in query ?
+							query.erc20Token
+						:
+							{
+								chainId: 'chainId' in query && query.chainId,
+								symbol: query.symbol,
+								icon: result.icon,
+							}
+					}
 					balance={1}
 					tween={false}
 				/>
 				=
 				<TokenBalance
 					token={{
-						symbol: 'USD',
-						// symbol: quoteCurrency,
+						symbol: result.quoteCurrency,
 					}}
-					balance={data.price}
+					balance={result.price}
 					format="fiat"
 				/>
 			</div>
@@ -154,7 +156,7 @@
 						symbol: quoteCurrency,
 					}}
 					baseToken={{
-						symbol: token,
+						symbol: query.symbol,
 					}}
 					layout="horizontal"
 				/>

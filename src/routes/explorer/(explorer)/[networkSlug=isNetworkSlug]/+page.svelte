@@ -53,8 +53,9 @@
 			<CurrentPrice
 				{networkProvider}
 				currentPriceProvider={$preferences.currentPriceProvider}
-				network={$explorerNetwork}
-				token={$explorerNetwork.nativeCurrency.symbol}
+				query={{
+					erc20Token: $explorerNetwork.nativeCurrency,
+				}}
 				quoteCurrency={$preferences.quoteCurrency}
 				blockNumber={$explorerBlockNumber}
 			/>

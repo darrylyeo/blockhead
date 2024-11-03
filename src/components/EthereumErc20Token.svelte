@@ -144,8 +144,9 @@
 				<CurrentPrice
 					layout="collapsible"
 					{currentPriceProvider}
-					token={erc20Token.symbol}
-					tokenIcon={erc20Token.icon}
+					query={{
+						erc20Token,
+					}}
 					{quoteCurrency}
 					{network}
 				>

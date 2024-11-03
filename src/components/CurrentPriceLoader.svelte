@@ -17,11 +17,45 @@
 	export let oracleNetwork: Ethereum.Network | undefined = ethereumMainnet
 	export let networkProvider: NetworkProvider
 
-	export let network: Ethereum.Network | undefined
-	export let token: TickerSymbol
+	export let query: (
+		| {
+			chainId: Ethereum.ChainId
+			contractAddress: Ethereum.ContractAddress
+			symbol?: TickerSymbol
+		}
+		| {
+			erc20Token: Ethereum.Erc20Token
+		}
+		| {
+			symbol: TickerSymbol
+		}
+	)
 	export let quoteCurrency: QuoteCurrency
 
 	export let blockNumber: number
+
+
+	// Internal state
+	let _query: (
+		| {
+			chainId: Ethereum.ChainId
+			contractAddress: Ethereum.ContractAddress
+			symbol?: TickerSymbol
+		}
+		| {
+			symbol: TickerSymbol
+		}
+	)
+	$: _query = (
+		'erc20Token' in query ?
+			{
+				chainId: query.erc20Token.chainId ?? 1,
+				contractAddress: query.erc20Token.address,
+				symbol: query.erc20Token.symbol,
+			}
+		:
+			query
+	)
 
 
 	// Functions
@@ -43,15 +77,14 @@
 	loadingIcon={priceProviderIcons[currentPriceProvider]}
 	loadingIconName={currentPriceProvider}
 	loadingMessage="Retrieving price from {currentPriceProvider}..."
-	errorMessage="{token} price not available"
+	errorMessage={`${'symbol' in _query ? `${_query.symbol} price` : 'Price'} not available.`}
 	{...{
 		[PriceProvider.Chainlink]: {
 			fromQuery: oracleNetwork && createQuery({
 				queryKey: ['CurrentPrice', {
 					currentPriceProvider,
 					oracleChainId: oracleNetwork?.chainId,
-					chainId: network?.chainId,
-					token,
+					query: _query,
 					quoteCurrency,
 					blockNumber,
 				}],
@@ -59,8 +92,7 @@
 					queryKey: [_, {
 						currentPriceProvider,
 						oracleChainId,
-						chainId,
-						token,
+						query,
 						quoteCurrency,
 						blockNumber,
 					}],
@@ -80,7 +112,7 @@
 					return await getChainlinkPriceFeed(
 						oraclePublicClient,
 						oracleNetwork,
-						token,
+						query.symbol,
 						quoteCurrency,
 					)
 				},
@@ -91,20 +123,22 @@
 		// 	fromQuery: createQuery({
 		// 		queryKey: ['CurrentPrice', {
 		// 			currentPriceProvider,
-		// 			chainId: network?.chainId,
-		// 			token,
+		// 			query: _query,
 		// 			quoteCurrency,
 		// 		}],
 		// 		queryFn: async ({
 		// 			queryKey: [_, {
-		// 				token,
+		// 				query
 		// 				quoteCurrency,
 		// 			}],
 		// 		}) => {
 		// 			const { getSpotPrices } = await import('$/api/covalent')
 
+		// 			if(!('symbol' in query))
+		// 				throw new Error(`Token contract addresses not yet supported.`) 
+
 		// 			const data = await getSpotPrices({
-		// 				tickers: [token],
+		// 				tickers: [query.symbol],
 		// 			})
 
 		// 			if(!data?.items?.[0])
@@ -124,20 +158,22 @@
 		// 	fromQuery: createQuery({
 		// 		queryKey: ['CurrentPrice', {
 		// 			currentPriceProvider,
-		// 			chainId: network?.chainId,
-		// 			token,
+		// 			query: _query,
 		// 			quoteCurrency,
 		// 		}],
 		// 		queryFn: async ({
 		// 			queryKey: [_, {
-		// 				token,
 		// 				quoteCurrency,
+		// 				query,
 		// 			}],
 		// 		}) => {
 		// 			const { getCompoundPriceFeed } = await import('.$/data/ethereum/price/compound-price-feed')
+					
+		// 			if(!('symbol' in query))
+		// 				throw new Error(`Token contract addresses not yet supported.`) 
 
 		// 			return await getCompoundPriceFeed(
-		// 				token,
+		// 				query.symbol,
 		// 				quoteCurrency,
 		// 			)
 		// 		},

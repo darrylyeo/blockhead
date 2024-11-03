@@ -5,7 +5,7 @@
 	import { preferences } from '$/state/preferences'
 
 
-	const token = 'BTC'
+	const symbol = 'BTC'
 
 
 	import CurrentPrice from '$/components/CurrentPrice.svelte'
@@ -34,7 +34,9 @@
 		<CurrentPrice
 			networkProvider={$preferences.rpcNetwork}
 			currentPriceProvider={$preferences.currentPriceProvider}
-			{token}
+			query={{
+				symbol,
+			}}
 			quoteCurrency={$preferences.quoteCurrency}
 		/>
 	</section>
@@ -44,7 +46,7 @@
 	<section class="card">
 		<HistoricalPriceChart
 			historicalPriceProvider={$preferences.historicalPriceProvider}
-			currencies={[token]}
+			currencies={[symbol]}
 			quoteCurrency={$preferences.quoteCurrency}
 		/>
 	</section>
