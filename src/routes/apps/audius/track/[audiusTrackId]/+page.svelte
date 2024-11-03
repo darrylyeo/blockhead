@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Params
-	import { audiusTrackId } from '../../../_appsParams'
+	import { appsParams } from '../../../_appsParams.svelte'
 
 
 	// Components
@@ -8,4 +8,4 @@
 </script>
 
 
-<AudiusTrackLoader trackId={$audiusTrackId} />
+<AudiusTrackLoader trackId={appsParams.audiusTrackId} />

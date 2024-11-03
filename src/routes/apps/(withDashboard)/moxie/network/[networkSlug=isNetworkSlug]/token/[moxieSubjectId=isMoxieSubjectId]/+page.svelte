@@ -4,13 +4,9 @@
 
 
 	// Context
-	import {
-		network,
-	} from '$/routes/apps/_appsContext'
+	import { appsContext } from '$/routes/apps/_appsContext.svelte'
 
-	import {
-		moxieSubjectId,
-	} from '$/routes/apps/_appsParams'
+	import { appsParams } from '$/routes/apps/_appsParams.svelte'
 
 	import { preferences } from '$/state/preferences'
 
@@ -25,9 +21,9 @@
 
 <MoxieSubjectLoader
 	{moxieProvider}
-	{network}
+	network={appsContext.network}
 	token={{
-		symbol: $moxieSubjectId,
+		symbol: appsParams.moxieSubjectId,
 	}}
 	let:subjectToken
 	let:subject

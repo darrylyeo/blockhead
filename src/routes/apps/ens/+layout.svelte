@@ -5,21 +5,18 @@
 
 
 	// Params
-	import {
-		type AppsSearchInputParams,
-		accountId,
-	} from '../_appsParams'
+	import { type AppsSearchInputParams, appsParams } from '../_appsParams.svelte'
 
 
 	// Context
-	import {
-		defaultSearchInputValue,
-	} from '../_appsContext'
+	import { appsContext } from '../_appsContext.svelte'
 
 
 	// Internal state
-	let searchInputValue: string
-	$: searchInputValue = $defaultSearchInputValue
+	let searchInputValue = $state(appsContext.defaultSearchInputValue)
+	$effect(() => {
+		searchInputValue = appsContext.defaultSearchInputValue
+	})
 
 	let searchInputParams: Partial<AppsSearchInputParams> = {}
 
@@ -47,7 +44,7 @@
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
 	<form class="accountId-form row" on:submit|preventDefault={() => {
-		$accountId = searchInputParams.address ?? searchInputParams.ensName ?? ''
+		appsParams.accountId = searchInputParams.address ?? searchInputParams.ensName ?? ''
 	}}>
 		<SearchInput
 			inputPatterns={[
@@ -61,7 +58,7 @@
 		<span>or</span>
 
 		<label class="row inline">
-			<ConnectedAccountSelect address={$accountId} bind:selectedAccountConnection />
+			<ConnectedAccountSelect address={appsParams.accountId} bind:selectedAccountConnection />
 		</label>
 
 		<button type="submit">Go</button>

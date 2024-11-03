@@ -4,38 +4,7 @@
 
 
 	// Params two-way binding
-	import {
-		web3AppSlug,
-		networkSlug,
-		accountId,
-
-		audiusQuery,
-		audiusPlaylistId,
-		audiusTrackId,
-		audiusUserId,
-
-		didUrl,
-		discoCredentialId,
-
-		easAttestationId,
-		easSchemaId,
-
-		farcasterCastId,
-		farcasterCastShortId,
-		farcasterChannelId,
-		farcasterUserId,
-		farcasterUserName,
-
-		ipfsContentId,
-		ipnsName,
-		ipfsContentPath,
-
-		moxieAuctionId,
-		moxieOrderId,
-		moxieSubjectId,
-
-		derivedPath,
-	} from './_appsParams'
+	import { appsParams } from './_appsParams.svelte'
 
 	import { goto, beforeNavigate, afterNavigate } from '$app/navigation'
 	import { page } from '$app/stores'
@@ -45,67 +14,64 @@
 
 	afterNavigate(navigation => {
 		if(navigation.to?.route.id?.startsWith('/apps') && navigation.to.params){
-			$web3AppSlug = navigation.to.params.web3AppSlug || navigation.to.url.pathname.match(/^\/apps\/(audius|ceramic|disco|eas|ens|farcaster|ipfs|lens|moxie|uniswap)/)?.[1] || ''
-			$networkSlug = navigation.to.params.networkSlug || ''
-			$accountId = navigation.to.params.accountId || ''
-			$audiusQuery = navigation.to.params.audiusQuery || ''
-			$audiusPlaylistId = navigation.to.params.audiusPlaylistId || ''
-			$audiusTrackId = navigation.to.params.audiusTrackId || ''
-			$audiusUserId = navigation.to.params.audiusUserId || ''
-			$didUrl = navigation.to.params.didUrl || ''
-			$discoCredentialId = navigation.to.params.discoCredentialId || ''
-			$easAttestationId = navigation.to.params.easAttestationId || ''
-			$easSchemaId = navigation.to.params.easSchemaId || ''
-			$farcasterCastId = navigation.to.params.farcasterCastId || ''
-			$farcasterCastShortId = navigation.to.params.farcasterCastShortId || ''
-			$farcasterChannelId = navigation.to.params.farcasterChannelId || ''
-			$farcasterUserId = navigation.to.params.farcasterUserId || ''
-			$farcasterUserName = navigation.to.params.farcasterUserName || ''
-			$ipfsContentId = navigation.to.params.ipfsContentId || ''
-			$ipnsName = navigation.to.params.ipnsName || ''
-			$ipfsContentPath = navigation.to.params.ipfsContentPath || ''
-			$moxieAuctionId = navigation.to.params.moxieAuctionId || ''
-			$moxieOrderId = navigation.to.params.moxieOrderId || ''
-			$moxieSubjectId = navigation.to.params.moxieSubjectId || ''
+			appsParams.web3AppSlug = navigation.to.params.web3AppSlug || navigation.to.url.pathname.match(/^\/apps\/(audius|ceramic|disco|eas|ens|farcaster|ipfs|lens|moxie|uniswap)/)?.[1] || ''
+			appsParams.networkSlug = navigation.to.params.networkSlug || ''
+			appsParams.accountId = navigation.to.params.accountId || ''
+			appsParams.audiusQuery = navigation.to.params.audiusQuery || ''
+			appsParams.audiusPlaylistId = navigation.to.params.audiusPlaylistId || ''
+			appsParams.audiusTrackId = navigation.to.params.audiusTrackId || ''
+			appsParams.audiusUserId = navigation.to.params.audiusUserId || ''
+			appsParams.didUrl = navigation.to.params.didUrl || ''
+			appsParams.discoCredentialId = navigation.to.params.discoCredentialId || ''
+			appsParams.easAttestationId = navigation.to.params.easAttestationId || ''
+			appsParams.easSchemaId = navigation.to.params.easSchemaId || ''
+			appsParams.farcasterCastId = navigation.to.params.farcasterCastId || ''
+			appsParams.farcasterCastShortId = navigation.to.params.farcasterCastShortId || ''
+			appsParams.farcasterChannelId = navigation.to.params.farcasterChannelId || ''
+			appsParams.farcasterUserId = navigation.to.params.farcasterUserId || ''
+			appsParams.farcasterUserName = navigation.to.params.farcasterUserName || ''
+			appsParams.ipfsContentId = navigation.to.params.ipfsContentId || ''
+			appsParams.ipnsName = navigation.to.params.ipnsName || ''
+			appsParams.ipfsContentPath = navigation.to.params.ipfsContentPath || ''
+			appsParams.moxieAuctionId = navigation.to.params.moxieAuctionId || ''
+			appsParams.moxieOrderId = navigation.to.params.moxieOrderId || ''
+			appsParams.moxieSubjectId = navigation.to.params.moxieSubjectId || ''
 
 			canNavigate = true
 		}
 	})
 
-	$: if(canNavigate && $derivedPath && $derivedPath !== get(page).url.pathname)
-		goto($derivedPath, { keepFocus: true })
+	$effect(() => {
+		if(canNavigate && appsParams.derivedPath && appsParams.derivedPath !== get(page).url.pathname)
+			goto(appsParams.derivedPath, { keepFocus: true })
+	})
 
 	beforeNavigate(navigation => {
 		if(navigation.type === 'goto' && navigation.from && navigation.to && navigation.from.url.pathname === navigation.to.url.pathname)
 			navigation.cancel()
 		else if(!navigation.to?.route.id?.startsWith('/apps'))
 			canNavigate = false
+			{}
 	})
 
 
 	// Context
 
-	import {
-		web3AppConfig,
-		network,
-		currentView,
-		showTestnets,
-		title,
-	} from './_appsContext'
+	import { appsContext } from './_appsContext.svelte'
 
 	import { web3AppsBySection, getWeb3AppSupportedNetworks } from '$/data/web3Apps'
 
 	// (Derived)
-
-	$: filteredWeb3AppsBySection =
-		$network
+	const filteredWeb3AppsBySection = $derived(
+		appsContext.network
 			? web3AppsBySection
 				.map(({title, apps}) => ({
 					title,
-					apps: apps.filter(app => !$network || app === $web3AppConfig || app.views.some(view => view.chainId === $network.chainId)),
+					apps: apps.filter(app => !appsContext.network || app === appsContext.web3AppConfig || app.views.some(view => view.chainId === appsContext.network.chainId)),
 				}))
 				.filter(({apps}) => apps.length)
 			: web3AppsBySection
+	)
 
 
 	// Internal state
@@ -113,27 +79,32 @@
 
 
 	// Side effects
-
 	import { isTestnet, getNetworkColor } from '$/data/networks'
 
-	$: _isTestnet = $network && isTestnet($network)
+	$effect(() => {
+		_isTestnet = appsContext.network && isTestnet(appsContext.network)
+	})
 
-	$: if(_isTestnet)
-		$showTestnets = true
+	$effect(() => {
+		if(_isTestnet)
+			appsContext.showTestnets = true
+	})
 
 	const setSelectedNetwork = async (selectedNetwork: Ethereum.Network | undefined) => {
-		$networkSlug = selectedNetwork?.slug ?? ''
+		appsParams.networkSlug = selectedNetwork?.slug ?? ''
 	}
 
-	$: if(globalThis.document)
-		document.documentElement.style.setProperty(
-			'--primary-color',
-			(
-				$web3AppConfig?.colors?.[$web3AppConfig.colors.length / 2 | 0]
-				|| getNetworkColor($network)
-				|| `var(--${tokenColors['ethereum']})`
+	$effect(() => {
+		if(globalThis.document)
+			document.documentElement.style.setProperty(
+				'--primary-color',
+				(
+					appsContext.web3AppConfig?.colors?.[appsContext.web3AppConfig.colors.length / 2 | 0]
+					|| getNetworkColor(appsContext.network)
+					|| `var(--${tokenColors['ethereum']})`
+				)
 			)
-		)
+	})
 
 
 	// Components
@@ -232,15 +203,15 @@
 			<svelte:fragment slot="title">
 				<h1 class="row">
 					<InlineTransition
-						key={$web3AppConfig || $network}
+						key={appsContext.web3AppConfig || appsContext.network}
 						align="center"
 						contentTransition={[scale, { duration: 400 }]}
 					>
-						{#if $web3AppConfig}
-							{#if $web3AppConfig.icon}
-								<img src={$web3AppConfig.icon} width="30" />
+						{#if appsContext.web3AppConfig}
+							{#if appsContext.web3AppConfig.icon}
+								<img src={appsContext.web3AppConfig.icon} width="30" />
 							{:else}
-								{@const token = $web3AppConfig.views?.flatMap(view => view.erc20Tokens ?? [])[0]}
+								{@const token = appsContext.web3AppConfig.views?.flatMap(view => view.erc20Tokens ?? [])[0]}
 
 								{#if token}
 									<TokenIcon
@@ -250,15 +221,15 @@
 									<img src="/Blockhead-Logo.svg" width="30" />
 								{/if}
 							{/if}
-						{:else if $network}
-							<NetworkIcon network={$network} />
+						{:else if appsContext.network}
+							<NetworkIcon network={appsContext.network} />
 						{:else}
 							<img src="/Blockhead-Logo.svg" width="30" />
 						{/if}
 					</InlineTransition>
 
 					<InlineTransition
-						key={Boolean($web3AppSlug && $web3AppConfig)}
+						key={Boolean(appsParams.web3AppSlug && appsContext.web3AppConfig)}
 						align="start"
 						contentProps={{ class: '' }}
 						contentTransition={{
@@ -266,10 +237,10 @@
 							out: [scale, { duration: 400 }],
 						}}
 					>
-						{#if $web3AppSlug && $web3AppConfig}
-							<a href={`/apps/${$web3AppSlug}`}>
+						{#if appsParams.web3AppSlug && appsContext.web3AppConfig}
+							<a href={`/apps/${appsParams.web3AppSlug}`}>
 								<InlineTransition
-									key={$web3AppConfig}
+									key={appsContext.web3AppConfig}
 									clip
 									align="start"
 									contentTransition={{
@@ -277,13 +248,13 @@
 										out: [fly, { y: -20, duration: 400 }],
 									}}
 								>
-									<mark>{$web3AppConfig.name}</mark>
+									<mark>{appsContext.web3AppConfig.name}</mark>
 								</InlineTransition>
 							</a>
 
 							<InlineTransition
-								isOpen={$currentView !== 'Dashboard'}
-								key={$currentView} 
+								isOpen={appsContext.currentView !== 'Dashboard'}
+								key={appsContext.currentView} 
 								clip
 								align="start"
 								contentTransition={{
@@ -291,12 +262,12 @@
 									out: [fly, { y: -20, duration: 400 }],
 								}}
 							>
-								<span>{$currentView}</span>
+								<span>{appsContext.currentView}</span>
 							</InlineTransition>
 						{:else}
 							<InlineTransition
-								isOpen={Boolean($network)}
-								key={$network}
+								isOpen={Boolean(appsContext.network)}
+								key={appsContext.network}
 								clip
 								align="start"
 								contentTransition={{
@@ -304,14 +275,14 @@
 									out: [fly, { y: -20, duration: 400 }],
 								}}
 							>
-								{#if $network}
-									<a href={`/explorer/${$network.slug}`}>
-										<mark>{$network.name}</mark>
+								{#if appsContext.network}
+									<a href={`/explorer/${appsContext.network.slug}`}>
+										<mark>{appsContext.network.name}</mark>
 									</a>
 								{/if}
 							</InlineTransition>
 
-							<a href={`/apps/${$web3AppSlug}`}>
+							<a href={`/apps/${appsParams.web3AppSlug}`}>
 								Apps
 							</a>
 						{/if}
@@ -322,7 +293,7 @@
 			<div class="row wrap">
 				<small>
 					<label>
-						<input type="checkbox" bind:checked={$showTestnets} disabled={_isTestnet} />
+						<input type="checkbox" bind:checked={appsContext.showTestnets} disabled={_isTestnet} />
 						<span>Testnets</span>
 					</label>
 				</small>
@@ -332,10 +303,10 @@
 					<span>Network </span>
 
 					<NetworkSelect
-						network={$network}
-						allowedNetworks={$web3AppConfig ? getWeb3AppSupportedNetworks($web3AppConfig) : undefined}
+						network={appsContext.network}
+						allowedNetworks={appsContext.web3AppConfig ? getWeb3AppSupportedNetworks(appsContext.web3AppConfig) : undefined}
 						on:change={({ detail: { network } }) => setSelectedNetwork(network)}
-						showTestnets={$showTestnets}
+						showTestnets={appsContext.showTestnets}
 						placeholder="All Networks"
 					/>
 				</label>
@@ -346,8 +317,8 @@
 				class="row inline"
 			>
 				<span>App</span>
-				<select bind:value={$web3AppSlug}>
-					<option value="" selected>All {$network ? `${$network.name} ` : ''}Apps</option>
+				<select bind:value={appsParams.web3AppSlug}>
+					<option value="" selected>All {appsContext.network ? `${appsContext.network.name} ` : ''}Apps</option>
 
 					{#each filteredWeb3AppsBySection as {title, apps}}
 						<optgroup label={title}>
@@ -368,7 +339,7 @@
 
 <Preferences
 	relevantPreferences={
-		$web3AppSlug === 'eas' ?
+		appsParams.web3AppSlug === 'eas' ?
 			[
 				'theme',
 				'transactionProvider',
@@ -376,7 +347,7 @@
 				'easProvider',
 			]
 
-		: $web3AppSlug === 'farcaster' ?
+		: appsParams.web3AppSlug === 'farcaster' ?
 			[
 				'theme',
 				'farcasterProvider',
@@ -384,13 +355,13 @@
 				'urlMetadataProvider',
 			]
 
-		: $web3AppSlug === 'ipfs' ?
+		: appsParams.web3AppSlug === 'ipfs' ?
 			[
 				'theme',
 				'ipfsGateway',
 			]
 
-		: $web3AppSlug === 'moxie' ?
+		: appsParams.web3AppSlug === 'moxie' ?
 			[
 				'theme',
 				'farcasterProvider',

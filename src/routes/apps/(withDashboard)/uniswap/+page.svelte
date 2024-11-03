@@ -4,11 +4,11 @@
 
 
 	// Params
-	import { accountId } from '../../_appsParams'
+	import { appsParams } from '../../_appsParams.svelte'
 
 
 	// Context
-	import { network } from '../../_appsContext'
+	import { appsContext } from '../../_appsContext.svelte'
 
 
 	// Internal state
@@ -27,7 +27,7 @@
 
 
 <AccountIdResolver
-	accountId={$accountId}
+	accountId={appsParams.accountId}
 	passiveResolveToAddress
 	passiveResolveToName
 	let:address
@@ -39,12 +39,12 @@
 		{@const availableTokens = (tokenlist?.tokens ?? []).map(({ logoURI, ...props }) => ({ icon: logoURI, ...props }))}
 
 		<UniswapV3SwapForm
-			network={$network}
+			network={appsContext.network}
 			{availableTokens}
 		/>
 
 		<UniswapV3PositionCreateForm
-			network={$network}
+			network={appsContext.network}
 			{availableTokens}
 		/>
 
@@ -57,7 +57,7 @@
 				}}
 				{address}
 				{dataProvider}
-				network={$network}
+				network={appsContext.network}
 				let:positions
 			>
 				<svelte:fragment slot="header"
@@ -86,7 +86,7 @@
 				<div class="scrollable-list column">
 					{#each positions as position}
 						<UniswapV3Position
-							network={$network}
+							network={appsContext.network}
 							{position}
 						/>
 					{/each}

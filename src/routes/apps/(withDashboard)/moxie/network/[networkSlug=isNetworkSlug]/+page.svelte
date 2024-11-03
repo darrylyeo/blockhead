@@ -5,20 +5,29 @@
 
 
 	// Context
-	import { network as appsContextNetwork } from '$/routes/apps/_appsContext'
+	import { appsContext } from '$/routes/apps/_appsContext.svelte'
 
 	import { preferences } from '$/state/preferences'
-	$: moxieProvider = $preferences.moxieProvider ?? MoxieProvider.TheGraph
+	const moxieProvider = $derived(
+		$preferences.moxieProvider ?? MoxieProvider.TheGraph
+	)
 
 
 	// <Web3AppDashboard> embed
-	export let network: Ethereum.Network
-	$: network = $$props.network ?? $appsContextNetwork
+	let {
+		network: _network,
+	}: {
+		network: Ethereum.Network
+	} = $props()
+
+	const network = $derived(
+		_network ?? appsContext.network
+	)
 
 
 	// Internal state
-	let showFormattedNames = true
-	let showFormattedTokenSymbols = true
+	let showFormattedNames = $state(true)
+	let showFormattedTokenSymbols = $state(true)
 
 
 	// Components

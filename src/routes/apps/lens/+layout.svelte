@@ -5,22 +5,28 @@
 
 
 	// Params
-	import { accountId } from '../_appsParams'
+	import { appsParams } from '../_appsParams.svelte'
 
 
 	// Context
-	import { web3AppConfig } from '../_appsContext'
+	import { appsContext } from '../_appsContext.svelte'
 
 
 	// Internal state
-	let selectedAccountConnection: AccountConnection
-	let selectedLoginAddress: Ethereum.Address = $accountId
-	let selectedLoginAccountConnection: AccountConnection
+	let selectedAccountConnection = $state<AccountConnection>()
+	let selectedLoginAddress = $state<Ethereum.Address>(appsParams.accountId)
+	let selectedLoginAccountConnection = $state<AccountConnection>()
+	let currentAccountId = $state(appsParams.accountId)
 
 
 	// Computed
-	$: if(selectedAccountConnection?.state?.account?.address) $accountId = selectedAccountConnection.state.account.address
-	$: currentAccountId = $accountId
+	$effect(() => {
+		if(selectedAccountConnection?.state?.account?.address)
+			appsParams.accountId = selectedAccountConnection.state.account.address
+	})
+	$effect(() => {
+		currentAccountId = appsParams.accountId
+	})
 
 
 	// Components
@@ -74,20 +80,20 @@
 
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
-	<form class="accountId-form row" on:submit|preventDefault={() => $accountId = currentAccountId}>
+	<form class="accountId-form row" on:submit|preventDefault={() => appsParams.accountId = currentAccountId}>
 		<AddressField bind:address={currentAccountId} placeholder="Lens Handle (stani.lens) / ENS Domain (vitalik.eth) / EVM Address (0xabcd...6789)" />
 
 		<span>or</span>
 
 		<label class="row inline">
-			<ConnectedAccountSelect address={$accountId} bind:selectedAccountConnection />
+			<ConnectedAccountSelect address={appsParams.accountId} bind:selectedAccountConnection />
 		</label>
 
 		<button type="submit">Go</button>
 	</form>
 
 	<div class="layout">
-		<aside class="card column" style={$web3AppConfig?.colors && cardStyle([...$web3AppConfig.colors].reverse())}>
+		<aside class="card column" style={appsContext.web3AppConfig?.colors && cardStyle([...appsContext.web3AppConfig.colors].reverse())}>
 			<LensAuthenticationLoader
 				accountConnection={selectedLoginAccountConnection}
 				let:accessToken

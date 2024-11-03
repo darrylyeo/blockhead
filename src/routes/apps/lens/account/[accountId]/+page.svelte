@@ -4,7 +4,7 @@
 
 
 	// Params
-	import { accountId } from '../../../_appsParams'
+	import { appsParams } from '../../../_appsParams.svelte'
 
 
 	// Internal state
@@ -19,7 +19,7 @@
 
 
 <AccountIdResolver
-	accountId={$accountId || undefined}
+	accountId={appsParams.accountId || undefined}
 	let:address
 	let:lensName
 >

@@ -4,11 +4,12 @@
 
 
 	// Params
-	import { accountId, audiusQuery } from '../_appsParams'
+	import { appsParams } from '../_appsParams.svelte'
 
 
 	// Context
-	import { web3AppConfig, currentView } from '../_appsContext'
+	import { appsContext } from '../_appsContext.svelte'
+
 	import { preferences } from '$/state/preferences'
 
 
@@ -20,9 +21,9 @@
 
 
 	// Computed
-	$: if(selectedAccountConnection?.state?.account?.address) $accountId = selectedAccountConnection.state.account.address
-	$: currentAccountId = $accountId
-	$: currentQuery = $audiusQuery
+	$: if(selectedAccountConnection?.state?.account?.address) appsParams.accountId = selectedAccountConnection.state.account.address
+	$: currentAccountId = appsParams.accountId
+	$: currentQuery = appsParams.audiusQuery
 
 
 	// Components
@@ -51,7 +52,7 @@
 
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
-	{#if $currentView === 'Dashboard'}
+	{#if appsContext.currentView === 'Dashboard'}
 		<div class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
 			<hr>
 
@@ -59,49 +60,49 @@
 		</div>
 	{/if}
 
-	{#if $currentView === 'Dashboard' || $currentView === 'Explorer'}
-		<form class="audiusQuery-form" on:submit|preventDefault={() => $audiusQuery = currentQuery}>
+	{#if appsContext.currentView === 'Dashboard' || appsContext.currentView === 'Explorer'}
+		<form class="audiusQuery-form" on:submit|preventDefault={() => appsParams.audiusQuery = currentQuery}>
 			<input type="search" bind:value={currentQuery} placeholder="Search Audius tracks, artists, and playlists..." />
 			<button>Search</button>
 		</form>
 	{/if}
 
 	<div class="column">
-		{#if $currentView === 'Explorer'}
+		{#if appsContext.currentView === 'Explorer'}
 			<div class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
 				<hr>
 
 				<slot />
 			</div>
 		{/if}
-		{#if $currentView === 'Dashboard'}
+		{#if appsContext.currentView === 'Dashboard'}
 			<hr>
 
 			<h2>Dashboard</h2>
 		{/if}
 
-		{#if $currentView === 'Dashboard' || $currentView === 'Account'}
-			<form class="accountId-form row" on:submit|preventDefault={() => $accountId = currentAccountId}>
+		{#if appsContext.currentView === 'Dashboard' || appsContext.currentView === 'Account'}
+			<form class="accountId-form row" on:submit|preventDefault={() => appsParams.accountId = currentAccountId}>
 				<AddressField bind:address={currentAccountId} placeholder="EVM Address (0xabcd...6789) / ENS Domain (vitalik.eth) / Lens Handle (stani.lens)" />
 		
 				<span>or</span>
 
 				<label class="row inline">
-					<ConnectedAccountSelect address={$accountId} bind:selectedAccountConnection />
+					<ConnectedAccountSelect address={appsParams.accountId} bind:selectedAccountConnection />
 				</label>
 
 				<button type="submit">Go</button>
 			</form>
 
 			<AccountIdResolver
-				accountId={$accountId}
+				accountId={appsParams.accountId}
 				passiveResolveToAddress
 				passiveResolveToName
 				let:address
 			>
 				<Web3AppDashboard
 					{address}
-					web3AppConfig={$web3AppConfig}
+					web3AppConfig={appsContext.web3AppConfig}
 					networkProvider={$preferences.rpcNetwork}
 					defiProvider={$preferences.defiProvider}
 					quoteCurrency={$preferences.quoteCurrency}

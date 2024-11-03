@@ -4,13 +4,9 @@
 
 
 	// Context
-	import {
-		network,
-	} from '$/routes/apps/_appsContext'
+	import { appsContext } from '$/routes/apps/_appsContext.svelte'
 
-	import {
-		moxieOrderId,
-	} from '$/routes/apps/_appsParams'
+	import { appsParams } from '$/routes/apps/_appsParams.svelte'
 
 	import { preferences } from '$/state/preferences'
 
@@ -25,14 +21,14 @@
 
 <MoxieOrderLoader
 	{moxieProvider}
-	network={$network}
-	orderId={$moxieOrderId}
+	network={appsContext.network}
+	orderId={appsParams.moxieOrderId}
 	let:order
 >
 	{#if order}
 		<MoxieOrder
 			{moxieProvider}
-			network={$network}
+			network={appsContext.network}
 			layout="standalone"
 			headingLevel={3}
 			{order}

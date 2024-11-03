@@ -4,13 +4,9 @@
 
 
 	// Context
-	import {
-		network,
-	} from '$/routes/apps/_appsContext'
+	import { appsContext } from '$/routes/apps/_appsContext.svelte'
 
-	import {
-		easAttestationId,
-	} from '$/routes/apps/_appsParams'
+	import { appsParams } from '$/routes/apps/_appsParams.svelte'
 
 	import { preferences } from '$/state/preferences'
 	$: easProvider = $preferences.easProvider ?? EasProvider.Easscan
@@ -34,8 +30,8 @@
 			fromQuery: createQuery({
 				queryKey: ['EasAttestation', {
 					easProvider,
-					chainId: $network.chainId,
-					attestationId: $easAttestationId,
+					chainId: appsContext.network.chainId,
+					attestationId: appsParams.easAttestationId,
 				}],
 				queryFn: async ({
 					queryKey: [_, {
@@ -64,7 +60,7 @@
 	{#if attestation}
 		<EasAttestation
 			{easProvider}
-			network={$network}
+			network={appsContext.network}
 			layout="standalone"
 			headingLevel={3}
 			{attestation}

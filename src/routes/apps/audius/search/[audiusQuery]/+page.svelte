@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Params
-	import { audiusQuery } from '../../../_appsParams'
+	import { appsParams } from '../../../_appsParams.svelte'
 
 
 	// Components
@@ -8,4 +8,4 @@
 </script>
 
 
-<AudiusSearch query={$audiusQuery} />
+<AudiusSearch query={appsParams.audiusQuery} />

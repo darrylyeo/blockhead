@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Params
-	import { audiusUserId } from '../../../_appsParams'
+	import { appsParams } from '../../../_appsParams.svelte'
 
 
 	// Components
@@ -10,16 +10,16 @@
 </script>
 
 
-<AudiusUserLoader userId={$audiusUserId} />
+<AudiusUserLoader userId={appsParams.audiusUserId} />
 
-<!-- <AudiusUserTracksLoader userId={$audiusUserId}>
+<!-- <AudiusUserTracksLoader userId={appsParams.audiusUserId}>
 	<svelte:fragment slot="header">
 		<hr>
 		<h3>Tracks</h3>
 	</svelte:fragment>
 </AudiusUserTracksLoader>
 
-<AudiusUserFavoritesLoader userId={$audiusUserId}>
+<AudiusUserFavoritesLoader userId={appsParams.audiusUserId}>
 	<svelte:fragment slot="header">
 		<hr>
 		<h3>Favorites</h3>
@@ -28,10 +28,10 @@
 
 <div class="card">
 	<h3>Tracks</h3>
-	<AudiusUserTracksLoader userId={$audiusUserId} />
+	<AudiusUserTracksLoader userId={appsParams.audiusUserId} />
 </div>
 
 <div class="card">
 	<h3>Favorites</h3>
-	<AudiusUserFavoritesLoader userId={$audiusUserId} />
+	<AudiusUserFavoritesLoader userId={appsParams.audiusUserId} />
 </div>

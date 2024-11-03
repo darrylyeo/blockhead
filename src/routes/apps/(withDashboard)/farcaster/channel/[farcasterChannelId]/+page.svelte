@@ -5,9 +5,7 @@
 
 
 	// Context
-	import {
-		farcasterChannelId,
-	} from '$/routes/apps/_appsParams' 
+	import { appsParams } from '$/routes/apps/_appsParams.svelte'
 
 	import { preferences } from '$/state/preferences'
 
@@ -43,7 +41,7 @@
 <FarcasterChannelLoader
 	{farcasterProvider}
 	query={{
-		channelId: $farcasterChannelId,
+		channelId: appsParams.farcasterChannelId,
 	}}
 	let:channel
 >
@@ -60,7 +58,7 @@
 	{farcasterProvider}
 	farcasterFeedProvider={_farcasterFeedProvider}
 	query={{
-		channelId: $farcasterChannelId,
+		channelId: appsParams.farcasterChannelId,
 	}}
 	let:casts
 	let:pagination
@@ -80,7 +78,7 @@
 						}}
 						{farcasterProvider}
 						query={{
-							channelId: $farcasterChannelId,
+							channelId: appsParams.farcasterChannelId,
 						}}
 						let:channel
 					>

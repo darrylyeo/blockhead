@@ -4,13 +4,9 @@
 
 
 	// Context
-	import {
-		network,
-	} from '$/routes/apps/_appsContext'
+	import { appsContext } from '$/routes/apps/_appsContext.svelte'
 
-	import {
-		easSchemaId,
-	} from '$/routes/apps/_appsParams'
+	import { appsParams } from '$/routes/apps/_appsParams.svelte'
 
 	import { preferences } from '$/state/preferences'
 	$: easProvider = $preferences.easProvider ?? EasProvider.Easscan
@@ -34,8 +30,8 @@
 			fromQuery: createQuery({
 				queryKey: ['EasSchema', {
 					easProvider,
-					chainId: $network?.chainId,
-					schemaId: $easSchemaId,
+					chainId: appsContext.network?.chainId,
+					schemaId: appsParams.easSchemaId,
 				}],
 				queryFn: async ({
 					queryKey: [_, {
@@ -63,7 +59,7 @@
 >
 	{#if schema}
 		<EasSchema
-			network={$network}
+			network={appsContext.network}
 			{schema}
 			layout="standalone"
 		/>

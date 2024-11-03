@@ -5,10 +5,7 @@
 
 
 	// Context
-	import {
-		farcasterUserId,
-		farcasterUserName,
-	} from '$/routes/apps/_appsParams' 
+	import { appsParams } from '$/routes/apps/_appsParams.svelte'
 
 	import { preferences } from '$/state/preferences'
 
@@ -42,13 +39,13 @@
 
 <FarcasterUserProfileLoader
 	{farcasterProvider}
-	{...$farcasterUserId ?
+	{...appsParams.farcasterUserId ?
 		{
-			userId: $farcasterUserId,
+			userId: appsParams.farcasterUserId,
 		}
-	: $farcasterUserName ?
+	: appsParams.farcasterUserName ?
 		{
-			userName: $farcasterUserName,
+			userName: appsParams.farcasterUserName,
 		}
 	: {}}
 	let:user

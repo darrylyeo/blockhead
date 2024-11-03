@@ -4,22 +4,23 @@
 
 
 	// Context
-	import { network } from '../_appsContext'
+	import { appsContext } from '../_appsContext.svelte'
 
 
 	// Internal state
 	// (Derived)
-	$: displayedWeb3AppsBySection =
-		$network
+	const displayedWeb3AppsBySection = $derived(
+		appsContext.network
 			? web3AppsBySection
 				.map(section => ({
 					...section,
 					apps: section.apps.filter(app => (
-						app.views.some(view => view.chainId === $network?.chainId)
+						app.views.some(view => view.chainId === appsContext.network?.chainId)
 					)),
 				}))
 				.filter(section => section.apps.length)
 			: web3AppsBySection
+	)
 
 
 	// Functions
@@ -69,8 +70,8 @@
 					{#each apps as app, i}
 						<a
 							href={
-								$network
-									? resolveRoute(`/apps/[web3AppSlug]/network/[networkSlug]`, { web3AppSlug: app.slug, networkSlug: $network.slug })
+								appsContext.network
+									? resolveRoute(`/apps/[web3AppSlug]/network/[networkSlug]`, { web3AppSlug: app.slug, networkSlug: appsContext.network.slug })
 									: resolveRoute(`/apps/[web3AppSlug]`, { web3AppSlug: app.slug })
 							}
 							class="item card row"
@@ -100,7 +101,7 @@
 			transition:scale={{ duration: 300, easing: expoOut }}
 		>
 			<div class="card bar wrap">
-				<p class="faded">No apps to show{$network ? ` for ${$network.name}` : ''} yet!</p>
+				<p class="faded">No apps to show{appsContext.network ? ` for ${appsContext.network.name}` : ''} yet!</p>
 
 				<a
 					href="/#contact"

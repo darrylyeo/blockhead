@@ -4,13 +4,9 @@
 
 
 	// Context
-	import {
-		network,
-	} from '$/routes/apps/_appsContext'
+	import { appsContext } from '$/routes/apps/_appsContext.svelte'
 
-	import {
-		moxieAuctionId,
-	} from '$/routes/apps/_appsParams'
+	import { appsParams } from '$/routes/apps/_appsParams.svelte'
 
 	import { preferences } from '$/state/preferences'
 
@@ -25,14 +21,14 @@
 
 <MoxieAuctionLoader
 	{moxieProvider}
-	network={$network}
-	auctionId={$moxieAuctionId}
+	network={appsContext.network}
+	auctionId={appsParams.moxieAuctionId}
 	let:auction
 >
 	{#if auction}
 		<MoxieAuction
 			{moxieProvider}
-			network={$network}
+			network={appsContext.network}
 			layout="standalone"
 			headingLevel={3}
 			{auction}

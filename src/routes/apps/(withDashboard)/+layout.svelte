@@ -5,42 +5,20 @@
 
 
 	// Params
-	import {
-		type AppsSearchInputParams,
-		accountId,
-		audiusQuery,
-		audiusPlaylistId,
-		audiusTrackId,
-		audiusUserId,
-		didUrl,
-		discoCredentialId,
-		easAttestationId,
-		easSchemaId,
-		farcasterCastId,
-		farcasterUserId,
-		farcasterUserName,
-		moxieAuctionId,
-		moxieOrderId,
-		moxieSubjectId,
-	} from '../_appsParams'
+	import { type AppsSearchInputParams, appsParams } from '../_appsParams.svelte'
 
 
 	// Context
-	import {
-		web3AppConfig,
-		network,
-		accountConnection,
-		currentView,
-		defaultSearchInputValue,
-		showTestnets,
-	} from '../_appsContext'
+	import { appsContext } from '../_appsContext.svelte'
 
 	import { preferences } from '$/state/preferences'
 
 
 	// Internal state
-	let searchInputValue: string
-	$: searchInputValue = $defaultSearchInputValue
+	let searchInputValue = $state(appsContext.defaultSearchInputValue)
+	$effect(() => {
+		searchInputValue = appsContext.defaultSearchInputValue
+	})
 
 	let searchInputParams: Partial<AppsSearchInputParams> = {}
 
@@ -48,7 +26,10 @@
 
 
 	// Computed
-	$: if(selectedAccountConnection?.state?.account?.address) $accountId = selectedAccountConnection.state.account.address
+	$effect(() => {
+		if(selectedAccountConnection?.state?.account?.address)
+			appsParams.accountId = selectedAccountConnection.state.account.address
+	})
 
 
 	// Components
@@ -149,40 +130,40 @@
 
 <section
 	class="layout column"
-	data-app={$web3AppConfig?.slug}
+	data-app={appsContext.web3AppConfig?.slug}
 	in:fly={{x: 100}}
 	out:fly={{x: -100}}
 >
 	<form class="accountId-form bar wrap" on:submit|preventDefault={() => {
-		$accountId = searchInputParams.address ?? searchInputParams.ensName ?? searchInputParams.lensHandle ?? ''
-		$audiusQuery = searchInputParams.audiusQuery ?? ''
-		$audiusPlaylistId = searchInputParams.audiusPlaylistId ?? ''
-		$audiusTrackId = searchInputParams.audiusTrackId ?? ''
-		$audiusUserId = searchInputParams.audiusUserId ?? ''
-		$didUrl = searchInputParams.didUrl ?? ''
-		$discoCredentialId = searchInputParams.discoCredentialId ?? ''
-		$easAttestationId = searchInputParams.easAttestationId ?? ''
-		$easSchemaId = searchInputParams.easSchemaId ?? ''
-		$farcasterCastId = searchInputParams.farcasterCastId ?? ''
-		$farcasterUserId = searchInputParams.farcasterUserId ?? ''
-		$farcasterUserName = searchInputParams.farcasterUserName ?? searchInputParams.farcasterUserNameEns ?? ''
-		$moxieAuctionId = searchInputParams.moxieAuctionId ?? ''
-		$moxieOrderId = searchInputParams.moxieOrderId ?? ''
-		$moxieSubjectId = searchInputParams.moxieSubjectId ?? ''
+		appsParams.accountId = searchInputParams.address ?? searchInputParams.ensName ?? searchInputParams.lensHandle ?? ''
+		appsParams.audiusQuery = searchInputParams.audiusQuery ?? ''
+		appsParams.audiusPlaylistId = searchInputParams.audiusPlaylistId ?? ''
+		appsParams.audiusTrackId = searchInputParams.audiusTrackId ?? ''
+		appsParams.audiusUserId = searchInputParams.audiusUserId ?? ''
+		appsParams.didUrl = searchInputParams.didUrl ?? ''
+		appsParams.discoCredentialId = searchInputParams.discoCredentialId ?? ''
+		appsParams.easAttestationId = searchInputParams.easAttestationId ?? ''
+		appsParams.easSchemaId = searchInputParams.easSchemaId ?? ''
+		appsParams.farcasterCastId = searchInputParams.farcasterCastId ?? ''
+		appsParams.farcasterUserId = searchInputParams.farcasterUserId ?? ''
+		appsParams.farcasterUserName = searchInputParams.farcasterUserName ?? searchInputParams.farcasterUserNameEns ?? ''
+		appsParams.moxieAuctionId = searchInputParams.moxieAuctionId ?? ''
+		appsParams.moxieOrderId = searchInputParams.moxieOrderId ?? ''
+		appsParams.moxieSubjectId = searchInputParams.moxieSubjectId ?? ''
 	}}>
 		<SearchInput
 			inputPatterns={
-				$web3AppConfig?.slug === 'farcaster' ? [
+				appsContext.web3AppConfig?.slug === 'farcaster' ? [
 					InputPattern.FarcasterCastId,
 					InputPattern.FarcasterUserId,
 					InputPattern.FarcasterUserName,
 					InputPattern.FarcasterUserNameEns,
-				] :  $web3AppConfig?.slug === 'eas' ? [
+				] : appsContext.web3AppConfig?.slug === 'eas' ? [
 					InputPattern.EasAttestationId,
 					InputPattern.EasSchemaId,
 					InputPattern.Address,
 					InputPattern.EnsName,
-				] : $web3AppConfig?.slug === 'moxie' ? [
+				] : appsContext.web3AppConfig?.slug === 'moxie' ? [
 					InputPattern.MoxieAuctionId,
 					InputPattern.MoxieOrderId,
 					InputPattern.MoxieSubjectId,
@@ -201,21 +182,21 @@
 		<span>or</span>
 
 		<label class="row inline">
-			<ConnectedAccountSelect address={$accountId} bind:selectedAccountConnection />
+			<ConnectedAccountSelect address={appsParams.accountId} bind:selectedAccountConnection />
 		</label>
 
 		<button type="submit">Go</button>
 	</form>
 
 	<AccountIdResolver
-		accountId={$accountId}
+		accountId={appsParams.accountId}
 		passiveResolveToAddress
 		passiveResolveToName
 		let:address
 	>
-		{#if $web3AppConfig}
+		{#if appsContext.web3AppConfig}
 			<BlockTransition
-				key={$web3AppConfig}
+				key={appsContext.web3AppConfig}
 				clip={false}
 				contentTransition={{
 					in: [fly, { x: 100, duration: 300 }],
@@ -223,23 +204,23 @@
 				}}
 			>
 				{#if (
-					Array.isArray($web3AppConfig?.showCustomUi)
-						? $web3AppConfig.showCustomUi.includes($currentView)
-						: $web3AppConfig?.showCustomUi === true
+					Array.isArray(appsContext.web3AppConfig?.showCustomUi)
+						? appsContext.web3AppConfig.showCustomUi.includes(appsContext.currentView)
+						: appsContext.web3AppConfig?.showCustomUi === true
 				)}
 					<slot />
 				{/if}
 
 				<Web3AppDashboard
-					web3AppConfig={$web3AppConfig}
-					network={$network}
-					currentView={$currentView}
+					web3AppConfig={appsContext.web3AppConfig}
+					network={appsContext.network}
+					currentView={appsContext.currentView}
 					{address}
-					accountConnection={$accountConnection}
+					accountConnection={appsContext.accountConnection}
 					networkProvider={$preferences.rpcNetwork}
 					defiProvider={$preferences.defiProvider}
 					quoteCurrency={$preferences.quoteCurrency}
-					bind:showTestnets={$showTestnets}
+					bind:showTestnets={appsContext.showTestnets}
 				/>
 			</BlockTransition>
 		{/if}

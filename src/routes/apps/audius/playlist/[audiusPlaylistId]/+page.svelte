@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Params
-	import { audiusPlaylistId } from '../../../_appsParams'
+	import { appsParams } from '../../../_appsParams.svelte'
 
 
 	// Components
@@ -9,9 +9,9 @@
 </script>
 
 
-<AudiusPlaylistLoader playlistId={$audiusPlaylistId} />
+<AudiusPlaylistLoader playlistId={appsParams.audiusPlaylistId} />
 
 <div class="card">
 	<h3>Tracks</h3>
-	<AudiusPlaylistTracksLoader playlistId={$audiusPlaylistId} />
+	<AudiusPlaylistTracksLoader playlistId={appsParams.audiusPlaylistId} />
 </div>

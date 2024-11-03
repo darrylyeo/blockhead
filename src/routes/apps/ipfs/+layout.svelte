@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Params
-	import { ipfsContentId, ipnsName, ipfsContentPath } from '../_appsParams'
+	import { appsParams } from '../_appsParams.svelte'
 
 
 	// Context
@@ -8,8 +8,8 @@
 
 
 	// Computed
-	$: currentIpfsContentId = $ipfsContentId
-	$: currentIpfsContentPath = $ipfsContentPath
+	let currentIpfsContentId = $state(appsParams.ipfsContentId)
+	let currentIpfsContentPath = $state(appsParams.ipfsContentPath)
 
 
 	// Components
@@ -32,7 +32,7 @@
 
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
-	<form class="row" on:submit|preventDefault={() => [$ipfsContentId, $ipfsContentPath] = [currentIpfsContentId, currentIpfsContentPath]}>
+	<form class="row" on:submit|preventDefault={() => [appsParams.ipfsContentId, appsParams.ipfsContentPath] = [currentIpfsContentId, currentIpfsContentPath]}>
 		<input bind:value={currentIpfsContentId} placeholder="IPFS Content ID: v0 (Qm...) / v1 (bafy..., k2..., 🚀...) or IPNS name (tokens.uniswap.org)" />
 
 		<span>/</span>
@@ -43,17 +43,17 @@
 	</form>
 
 
-	{#if $ipfsContentId}
+	{#if appsParams.ipfsContentId}
 		<IpfsContentIdDetails
 			ipfsGateway={$ipfsGateway}
-			ipfsContentId={$ipfsContentId}
-			ipfsContentPath={$ipfsContentPath}
+			ipfsContentId={appsParams.ipfsContentId}
+			ipfsContentPath={appsParams.ipfsContentPath}
 		/>
-	{:else if $ipnsName}
+	{:else if appsParams.ipnsName}
 		<IpfsContentDetails
 			ipfsGateway={$ipfsGateway}
-			ipnsName={$ipnsName}
-			ipfsContentPath={$ipfsContentPath}
+			ipfsContentId={appsParams.ipfsContentId}
+			ipfsContentPath={appsParams.ipfsContentPath}
 		/>
 	{/if}
 

@@ -6,7 +6,7 @@
 
 
 	// Context
-	import { discoCredentialId, didUrl } from '../../_appsParams'
+	import { appsParams } from '../../_appsParams.svelte'
 
 
 	// Inputs
@@ -26,19 +26,19 @@
 </script>
 
 
-{#if $discoCredentialId}
+{#if appsParams.discoCredentialId}
 	<VerifiableCredentialLoader
 		{verifiableCredentialProvider}
-		credentialId={$discoCredentialId}
+		credentialId={appsParams.discoCredentialId}
 	/>
-{:else if $didUrl}
+{:else if appsParams.didUrl}
 	<DiscoProfileLoader
-		didUrl={$didUrl}
+		didUrl={appsParams.didUrl}
 		let:profile
 	>
 		{#if profile}
 			<DiscoProfile
-				didUrl={$didUrl}
+				didUrl={appsParams.didUrl}
 				{profile}
 			/>
 		{/if}

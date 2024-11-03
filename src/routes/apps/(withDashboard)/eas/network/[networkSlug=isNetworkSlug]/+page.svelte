@@ -5,15 +5,22 @@
 
 
 	// Context
-	import { network as appsContextNetwork } from '$/routes/apps/_appsContext'
+	import { appsContext } from '$/routes/apps/_appsContext.svelte'
 
 	import { preferences } from '$/state/preferences'
-	$: easProvider = $preferences.easProvider ?? EasProvider.Easscan
+	const easProvider = $derived(
+		$preferences.easProvider ?? EasProvider.Easscan
+	)
 
 
 	// <Web3AppDashboard> embed
-	export let network: Ethereum.Network | undefined
-	$: network = $$props.network ?? $appsContextNetwork
+	let {
+		network: _network,
+	} = $props()
+
+	const network: Ethereum.Network | undefined = $derived(
+		_network ?? appsContext.network
+	)
 
 
 	// Functions

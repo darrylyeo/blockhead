@@ -5,11 +5,7 @@
 
 
 	// Context
-	import {
-		farcasterCastId,
-		farcasterUserName,
-		farcasterCastShortId,
-	} from '$/routes/apps/_appsParams' 
+	import { appsParams } from '$/routes/apps/_appsParams.svelte'
 
 	import { preferences } from '$/state/preferences'
 
@@ -42,14 +38,14 @@
 <FarcasterCastLoader
 	{farcasterProvider}
 	query={
-		$farcasterCastId ?
+		appsParams.farcasterCastId ?
 			{
-				castId: $farcasterCastId,
+				castId: appsParams.farcasterCastId,
 				withReplies: true,
 			}
-		: $farcasterUserName && $farcasterCastShortId ?
+		: appsParams.farcasterUserName && appsParams.farcasterCastShortId ?
 			{
-				clientUrl: `https://warpcast.com/${$farcasterUserName}/${$farcasterCastShortId}`,
+				clientUrl: `https://warpcast.com/${appsParams.farcasterUserName}/${appsParams.farcasterCastShortId}`,
 				withReplies: true,
 			}
 		:
