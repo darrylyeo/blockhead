@@ -7,7 +7,8 @@
 
 	// Context
 	import { accountConnections, accountConnectionToInfo } from '$/state/account'
-	import { eip6963Providers } from '$/state/wallets'
+	import { getWalletsContext } from '$/state/wallets.svelte'
+	const wallets = getWalletsContext()
 
 
 	// External state
@@ -104,7 +105,7 @@
 		<!-- </optgroup> -->
 
 		<optgroup label="+ Connect Wallet">
-			{#each Object.values($eip6963Providers) as eip6963Provider}
+			{#each wallets.eip6963Providers as [id, eip6963Provider] (id)}
 				<option
 					value="blockhead_addAccountConnection"
 					data-eip6963-rdns={eip6963Provider.info.rdns}

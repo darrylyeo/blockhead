@@ -79,6 +79,9 @@
 
 
 	// Global context
+	import { setWalletsContext } from '$/state/wallets.svelte'
+	setWalletsContext()
+
 	import { preferences } from '$/state/preferences'
 
 	$effect(() => {

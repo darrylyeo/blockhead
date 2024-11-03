@@ -9,7 +9,9 @@
 <script lang="ts">
 	// Context
 	import { accountConnections, AccountConnection, type AccountConnectionSelector } from '$/state/account'
-	import { eip6963Providers } from '$/state/wallets'
+
+	import { getWalletsContext } from '$/state/wallets.svelte'
+	const wallets = getWalletsContext()
 
 
 	// Constants
@@ -129,7 +131,7 @@
 	>
 		<div class="wallets">
 			{#each (
-				Object.values($eip6963Providers)
+				[...wallets.eip6963Providers.values()]
 					.sort((a, b) => a.info.name.localeCompare(b.info.name))
 			) as eip6963Provider}
 				<button

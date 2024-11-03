@@ -1,3 +1,7 @@
+// Context
+import type { Wallets } from './wallets.svelte'
+
+
 // Types/constants
 import type { BrandedString } from '$/utils/branded'
 
@@ -160,11 +164,13 @@ import * as publicEnv from '$env/static/public'
 import { ethereumMainnet, getNetworkRPC, networkByChainId } from '$/data/networks'
 
 export const getWalletConnection = async ({
+	wallets,
 	selector,
 	networks = [ethereumMainnet], // availableNetworks
 	theme,
 	jsonRpcUri = getNetworkRPC(ethereumMainnet),
 }: {
+	wallets: Wallets,
 	selector: AccountConnectionSelector,
 	networks?: Ethereum.Network[],
 	theme?: SvelteStore<{
@@ -265,11 +271,7 @@ export const getWalletConnection = async ({
 			}
 
 			case WalletConnectionType.Eip6963: {
-				const { eip6963Providers, findEip6963Provider } = await import('./wallets')
-				const { get } = await import('svelte/store')
-
-				const eip6963Provider = findEip6963Provider({
-					eip6963Providers: get(eip6963Providers),
+				const eip6963Provider = wallets.findEip6963Provider({
 					rdns: selector.eip6963?.rdns,
 				})
 

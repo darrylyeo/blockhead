@@ -1,7 +1,8 @@
 <script lang="ts">
 	// Context
 	import { preferences } from '$/state/preferences'
-	import { eip6963Providers, findEip6963Provider } from '$/state/wallets'
+	import { getWalletsContext } from '$/state/wallets.svelte'
+	const wallets = getWalletsContext()
 
 
 	// Constants/types
@@ -23,7 +24,6 @@
 
 
 	// Internal state
-	$inspect({accountConnection})
 	const knownWalletConfig = $derived(
 		accountConnection.selector.knownWallet && (
 			knownWalletsByType[accountConnection.selector.knownWallet.type]
@@ -31,8 +31,7 @@
 	)
 	const eip6963Provider = $derived(
 		accountConnection.selector.eip6963 && (
-			findEip6963Provider({
-				eip6963Providers: $eip6963Providers,
+			wallets.findEip6963Provider({
 				rdns: accountConnection.selector.eip6963.rdns,
 			})
 		)
