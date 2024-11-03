@@ -7,12 +7,17 @@ export const getQuickNodePublicClient = ({
 	network,
 }: {
 	network: Ethereum.Network,
-}) => (
-	getViemPublicClient({
+}) => {
+	const publicClient = getViemPublicClient({
 		network,
 		networkProvider: NetworkProvider.QuickNode,
 	})
-)
+
+	if(!publicClient)
+		throw new Error(`Couldn't instantiate QuickNode client.`)
+
+	return publicClient
+}
 
 
 // https://www.quicknode.com/docs/ethereum/qn_getWalletTokenBalance
@@ -28,7 +33,7 @@ export const getWalletTokenBalance = async ({
 
 	const publicClient = getQuickNodePublicClient({ network })
 
-	return await publicClient?.request<{
+	return await publicClient.request<{
 		Parameters: {
 			wallet: Ethereum.Address,
 		},
@@ -73,7 +78,7 @@ export const fetchNFTs = async ({
 
 	const publicClient = getQuickNodePublicClient({ network })
 
-	return await publicClient?.request<{
+	return await publicClient.request<{
 		Parameters: {
 			wallet: Ethereum.Address,
 			contracts?: Ethereum.Address[],
