@@ -135,9 +135,9 @@
 					--resizeVertical-defaultHeight: 31rem;
 				}
 
-				&:not(:has(> *)) {
+				/* &:not(:has(> *)) {
 					display: none;
-				}
+				} */
 
 				> * {
 					--padding-inner: 0.75em;
