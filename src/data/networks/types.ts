@@ -312,11 +312,36 @@ export namespace Ethereum {
 			gasValue?: number,
 		},
 
+		trace?: Trace,
 		logEvents?: TransactionLogEvent[],
 
 		accessList?: AccessList,
 
 		tags?: string[],
+	}
+	export type Trace = {
+		blockHash: BlockHash
+		blockNumber: BlockNumber
+		transactionHash: TransactionId
+		transactionPosition: number
+
+		type: string // 'call' | 'create' | 'suicide' | 'reward'
+
+		action: {
+			fromAddress: Address
+			toAddress: Address
+
+			callType: string
+			input: TransactionInput
+			value: NativeCurrencyAmount
+
+			gasUnits: GasAmount
+		}
+		result: {
+			gasUsed: GasAmount
+			output: string
+		}
+		subtraces?: Trace[]
 	}
 	export type TransactionLogEvent = {
 		topics?: TopicHash[],
