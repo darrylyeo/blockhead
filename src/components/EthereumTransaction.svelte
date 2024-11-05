@@ -58,9 +58,10 @@
 	import Date from './Date.svelte'
 	import EthereumErc20Transfer from './EthereumErc20Transfer.svelte'
 	import EthereumLogEvent from './EthereumLogEvent.svelte'
-	import TransactionId from './TransactionId.svelte'
 	import EthereumTransactionSummary from './EthereumTransactionSummary.svelte'
+	import EthereumTransactionTrace from './EthereumTransactionTrace.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
+	import TransactionId from './TransactionId.svelte'
 </script>
 
 
@@ -312,6 +313,33 @@
 			</section>
 		{/if}
 
+		{#if !isSummary && transaction.trace}
+			{#if isStandaloneLayout}
+				<hr>
+			{/if}
+
+			<section>
+				<Collapsible
+					type="label"
+					isOpen
+					showTriggerText={false}
+					showContentsOnly={!isStandaloneLayout}
+				>
+					<svelte:fragment slot="title">
+						<svelte:element this={`h${headingLevel + 1}`}>Execution</svelte:element>
+					</svelte:fragment>
+
+					<EthereumTransactionTrace
+						network={transaction.network}
+						trace={transaction.trace}
+						{contextualAddress}
+						{detailLevel}
+						{tokenBalanceFormat}
+					/>
+				</Collapsible>
+			</section>
+		{/if}
+
 		{#if !isSummary && transaction.logEvents?.length}
 			{#if isStandaloneLayout}
 				<hr>
@@ -325,7 +353,7 @@
 					showContentsOnly={!isStandaloneLayout}
 				>
 					<svelte:fragment slot="title">
-						<svelte:element this={`h${headingLevel + 1}`}>Smart Contract Log Events</svelte:element>
+						<svelte:element this={`h${headingLevel + 1}`}>Log Events</svelte:element>
 					</svelte:fragment>
 
 					<div class="log-events column" class:scrollable-list={isExhaustive && transaction.logEvents.length > (isStandaloneLayout ? 8 : 16)}>
