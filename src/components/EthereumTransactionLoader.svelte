@@ -80,6 +80,8 @@
 	import { MoralisWeb3Api, chainCodeFromNetwork } from '$/api/moralis/web3Api/index'
 	import { normalizeTransaction as normalizeTransactionMoralis } from '$/api/moralis/web3Api/normalize'
 
+	import { normalizeTransaction as normalizeTransactionNoves, normalizeRawTransaction as normalizeRawTransactionNoves } from '$/api/noves/normalize'
+
 
 	// Components
 	import EthereumTransaction from './EthereumTransaction.svelte'
@@ -298,6 +300,49 @@
 				select: transaction => normalizeTransactionMoralis(transaction, network),
 			}),
 		},
+
+		[TransactionProvider.Noves]: {
+			fromQuery: createQuery({
+				queryKey: ['Transaction', {
+					transactionProvider,
+					chainId: network.chainId,
+					transactionId,
+				}],
+				queryFn: async ({
+					queryKey: [_, {
+						chainId,
+						transactionId,
+					}],
+				}) => {
+					const { Noves } = await import('$/api/noves')
+
+					const chains = await Noves.Translate.Evm.getChains()
+					const chain = chains.find(chain => chain.evmChainId === chainId)
+					
+					if (!chain)
+						throw new Error(`Chain ${chainId} not supported by Noves`)
+
+					// const result = await Noves.Translate.Evm.getTransaction({
+					// 	chain: chain.name,
+					// 	txHash: transactionId,
+					// })
+
+					const result = await Noves.Translate.Evm.getRawTransaction({
+						chain: chain.name,
+						txHash: transactionId,
+					})
+
+					if (!result)
+						throw new Error('Transaction not found')
+
+					return result
+				},
+				select: result => (
+					// normalizeTransactionNoves(result, network)
+					normalizeRawTransactionNoves(result, network)
+				),
+			})
+		}
 	}[transactionProvider]}
 	bind:result={transaction}
 	let:result={transaction}

@@ -42,6 +42,8 @@
 
 	import { normalizeTransaction as normalizeTransactionMoralis } from '$/api/moralis/web3Api/normalize'
 
+	import { normalizeTransaction as normalizeTransactionNoves } from '$/api/noves/normalize'
+
 
 	// Outputs
 	export let transactions: Ethereum.Transaction[] | undefined
@@ -302,6 +304,50 @@
 				),
 				staleTime: 10 * 1000,
 			}),
+		}),
+
+		[TransactionProvider.Noves]: () => ({
+			fromInfiniteQuery: createInfiniteQuery({
+				queryKey: ['Transactions', {
+					transactionProvider,
+					chainId: network.chainId,
+					address,
+					quoteCurrency,
+				}],
+				initialPageParam: 0,
+				queryFn: async ({
+					queryKey: [_, {
+						chainId,
+						address,
+					}],
+					pageParam: { page },
+				}) => {
+					const { Noves } = await import('$/api/noves')
+
+					const chains = await Noves.Translate.Evm.getChains()
+					const chain = chains.find(chain => chain.evmChainId === chainId)
+					
+					if (!chain)
+						throw new Error(`Chain ${network.chainId} not supported by Noves`)
+
+					return await Noves.Translate.Evm.getTransactions({
+						accountAddress: address,
+						chain: chain.name,
+						page,
+						pageSize: 50,
+						sort: 'desc',
+						viewAsAccountAddress: address
+					})
+				},
+				getNextPageParam: (lastPage, allPages) => allPages.length,
+				select: ({ pages }) => (
+					pages.flatMap(page => page.items)
+						.map(transaction => (
+							normalizeTransactionNoves(transaction, network)
+						))
+				),
+				staleTime: 10 * 1000,
+			})
 		}),
 	}[transactionProvider]?.()}
 	bind:result={transactions}

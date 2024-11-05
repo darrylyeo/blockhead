@@ -49,39 +49,6 @@ export namespace Noves {
 		pageSize: int32
 		hasNextPage: boolean
 		nextPageUrl?: string
-		count: integer
-	}
-
-	type TokenMetadata = {
-		address: Ethereum.ContractAddress
-		name: string
-		symbol: string
-		decimals: integer
-	}
-
-	type AssetTransfer = {
-		token: TokenMetadata
-		amount: string
-		label: string
-		type: 'fungible' | 'non-fungible'
-	}
-	
-	
-	type ClassifiedTransaction = {
-		txTypeVersion: int32
-		chain: string | null
-		accountAddress: string | null
-		classificationData: string
-		rawTransactionData: {
-			transactionHash: string | null
-			fromAddress: string | null
-			toAddress: string | null
-			blockNumber: int64
-			gas: number
-			gasPrice: number
-			transactionFee: number
-			timestamp: number
-		}
 	}
 
 	/**

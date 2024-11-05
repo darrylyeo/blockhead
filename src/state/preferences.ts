@@ -220,6 +220,11 @@ export const preferencesConfig = [
 							{ value: TransactionProvider.Etherscan, name: 'Etherscan', icon: transactionProviderIcons[TransactionProvider.Etherscan] },
 							{ value: TransactionProvider.Moralis, name: 'Moralis', icon: transactionProviderIcons[TransactionProvider.Moralis] },
 							// { value: TransactionProvider.Etherspot, name: 'Etherspot', icon: transactionProviderIcons[TransactionProvider.Etherspot] },
+							{ 
+								value: TransactionProvider.Noves,
+								name: 'Noves',
+								icon: transactionProviderIcons[TransactionProvider.Noves]
+							}
 						]
 					}
 				]

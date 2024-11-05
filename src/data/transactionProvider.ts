@@ -7,10 +7,11 @@ export enum TransactionProvider {
 	Etherscan = 'Etherscan',
 	Etherspot = 'Etherspot',
 	Moralis = 'Moralis',
+	Noves = 'Noves',
 }
 
 
-import { BlockscoutIcon, ChainbaseIcon, CovalentGoldRushIcon, DecommasIcon, EtherscanIcon, EtherspotIcon, MoralisIcon } from '$/assets/icons'
+import { BlockscoutIcon, ChainbaseIcon, CovalentGoldRushIcon, DecommasIcon, EtherscanIcon, EtherspotIcon, MoralisIcon, NovesIcon } from '$/assets/icons'
 
 export const transactionProviderIcons: Record<TransactionProvider, string> = {
 	[TransactionProvider.Blockscout]: BlockscoutIcon,
@@ -20,4 +21,5 @@ export const transactionProviderIcons: Record<TransactionProvider, string> = {
 	[TransactionProvider.Etherscan]: EtherscanIcon,
 	[TransactionProvider.Etherspot]: EtherspotIcon,
 	[TransactionProvider.Moralis]: MoralisIcon,
+	[TransactionProvider.Noves]: NovesIcon,
 }
