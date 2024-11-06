@@ -307,13 +307,13 @@
 	bind:result={transactions}
 	let:result={transactions}
 	let:pagination
+	let:isOpen let:toggle
 >
 	<svelte:fragment slot="header"
 		let:result={transactions}
 		let:status
 		let:pagination
-		let:isOpen
-		let:toggle
+		let:isOpen let:toggle
 	>
 		<slot name="header"
 			{transactions}
