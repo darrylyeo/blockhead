@@ -48,8 +48,10 @@
 	}}
 	let:result={node}
 >
-	<CodeFragment
-		{node}
-		{...$$restProps}
-	/>
+	{#if node}
+		<CodeFragment
+			{node}
+			{...$$restProps}
+		/>
+	{/if}
 </Loader>
