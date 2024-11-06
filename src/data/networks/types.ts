@@ -292,6 +292,7 @@ export namespace Ethereum {
 		inputDecoded?: {
 			methodName?: string,
 			methodHash?: string,
+			params: ContractFunctionParameter[],
 		},
 		value: NativeCurrencyAmount,
 
