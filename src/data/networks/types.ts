@@ -205,6 +205,22 @@ export namespace Ethereum {
 		transaction?: Ethereum.Transaction,
 	}
 
+	export type NftTransfer = {
+		nftContract: NftContract,
+		nftId: bigint,
+
+		fromAddress: Address,
+		toAddress: Address,
+		labels: {
+			fromAddress: string,
+			toAddress: string,
+		},
+
+		value?: bigint,
+
+		action: string,
+	}
+
 	export type AccessList = {
 		address: Address,
 		storageKeys: `0x${string}`[],
