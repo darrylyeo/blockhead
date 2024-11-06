@@ -2,6 +2,8 @@
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
+	import type { TransactionProvider } from '$/data/transactionProvider'
+	import { getViemPublicClient } from '$/data/networkProviders'
 
 	enum ContractCodeType {
 		CreationBytecode = 'Creation Bytecode',
@@ -15,58 +17,96 @@
 
 
 	// Inputs
-	export let name: string
-	export let network: Ethereum.Network
-	export let contractAddress: Ethereum.ContractAddress
-	export let networkProvider: NetworkProvider
+	let {
+		name,
+		network,
+		contractAddress,
+		networkProvider: _networkProvider,
+		transactionProvider: _transactionProvider,
 
-	export let transactionProvider
+		// View options
+		headingLevel = 3,
+
+		// Outputs
+		runtimeBytecode = $bindable(),
+		contractState = $bindable(),
+		contractMetadata = $bindable(),
+		contractName = $bindable(),
+	}: {
+		name: string
+		network: Ethereum.Network
+		contractAddress: Ethereum.ContractAddress
+		networkProvider: NetworkProvider
+		transactionProvider: TransactionProvider
+
+		// View options
+		headingLevel: 1 | 2 | 3 | 4 | 5 | 6
+
+		// Outputs
+		runtimeBytecode?: Ethereum.ContractBytecode
+		contractState: {
+			creationBytecode?: Ethereum.ContractBytecode
+			runtimeBytecode?: Ethereum.ContractBytecode
+			isSelfDestructed?: boolean
+		}
+		contractMetadata: Ethereum.ContractMetadata<string>
+		contractName?: string
+	} = $props()
+
 
 	// (Computed)
-	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
+	const networkProvider = $derived(
+		_networkProvider ?? $preferences.rpcNetwork
+	)
 
-	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
+	const publicClient = $derived<Ethereum.PublicClient | undefined>(
+		network && networkProvider && getViemPublicClient({
+			network,
+			networkProvider: networkProvider,
+		})
+	)
 
-	// (View options)
-	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 3
+	const transactionProvider = $derived(
+		_transactionProvider || $preferences.transactionProvider
+	)
 
 
 	// Outputs
-	export let runtimeBytecode: Ethereum.ContractBytecode | undefined
-	export let contractState: {
-		creationBytecode?: Ethereum.ContractBytecode,
-		runtimeBytecode?: Ethereum.ContractBytecode,
-		isSelfDestructed?: boolean,
-	}
-	export let contractMetadata: Ethereum.ContractMetadata<string>
-	export let contractName: string | undefined
 	// (Computed)
-	$: contractName = contractMetadata?.name ||contractMetadata?.settings?.compilationTarget && Object.values(contractMetadata.settings.compilationTarget)?.[0]
+	$effect(() => {
+		contractName = contractMetadata?.name || contractMetadata?.settings?.compilationTarget && Object.values(contractMetadata.settings.compilationTarget)?.[0]
+	})
 
 
 	// Internal state
-	let showContractCodeTypeOrSourcePath: ContractCodeType | keyof typeof contractMetadata.sources = ContractCodeType.RuntimeBytecode
+	let showContractCodeTypeOrSourcePath = $state<ContractCodeType | keyof typeof contractMetadata.sources>(
+		ContractCodeType.RuntimeBytecode
+	)
 
 	// (Computed)
-	$: source = contractMetadata?.sources?.[showContractCodeTypeOrSourcePath]
+	const source = $derived(
+		contractMetadata?.sources?.[showContractCodeTypeOrSourcePath]
+	)
 
 	// Auto-set to target source path
-	let hasLoadedMetadata = {} as Record<Ethereum.Address, boolean>
-	$: if(contractAddress && contractMetadata){
-		const sourcePaths = Object.keys(contractMetadata.sources)
+	let hasLoadedMetadata = $state<Record<Ethereum.Address, boolean>>({})
+	$effect(() => {
+		if(contractAddress && contractMetadata) {
+			const sourcePaths = Object.keys(contractMetadata.sources)
 
-		const targetSourcePath =
-			sourcePaths.length === 1
-				? sourcePaths[0]
-				: sourcePaths.find(sourcePath => sourcePath.match(new RegExp(`(?:^|[/])${contractName}[.]`)))
+			const targetSourcePath =
+				sourcePaths.length === 1
+					? sourcePaths[0]
+					: sourcePaths.find(sourcePath => sourcePath.match(new RegExp(`(?:^|[/])${contractName}[.]`)))
 
-		if(!hasLoadedMetadata[contractAddress])
-			showContractCodeTypeOrSourcePath = targetSourcePath ?? ContractCodeType.RuntimeBytecode
-		
-		hasLoadedMetadata[contractAddress] = true
-	}else{
-		showContractCodeTypeOrSourcePath = ContractCodeType.RuntimeBytecode
-	}
+			if(!hasLoadedMetadata[contractAddress])
+				showContractCodeTypeOrSourcePath = targetSourcePath ?? ContractCodeType.RuntimeBytecode
+			
+			hasLoadedMetadata[contractAddress] = true
+		} else {
+			showContractCodeTypeOrSourcePath = ContractCodeType.RuntimeBytecode
+		}
+	})
 
 
 	// Components
