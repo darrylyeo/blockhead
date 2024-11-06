@@ -24,6 +24,7 @@
 			symbol?: TickerSymbol
 		}
 		| {
+			chainId?: Ethereum.ChainId
 			erc20Token: Ethereum.Erc20Token
 		}
 		| {
@@ -49,7 +50,7 @@
 	$: _query = (
 		'erc20Token' in query ?
 			{
-				chainId: query.erc20Token.chainId ?? 1,
+				chainId: query.erc20Token.chainId ?? query.chainId ?? 1,
 				contractAddress: query.erc20Token.address,
 				symbol: query.erc20Token.symbol,
 			}

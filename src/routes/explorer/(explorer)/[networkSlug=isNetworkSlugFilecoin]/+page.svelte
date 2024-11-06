@@ -44,6 +44,7 @@
 				{networkProvider}
 				currentPriceProvider={$preferences.currentPriceProvider}
 				query={{
+					chainId: $explorerNetwork.chainId,
 					symbol: $explorerNetwork.nativeCurrency.symbol,
 				}}
 				quoteCurrency={$preferences.quoteCurrency}
