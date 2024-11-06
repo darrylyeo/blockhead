@@ -24,11 +24,23 @@ export const networkNamesByChainId = new Map<
 	[1313161554, 'aurora'],
 	[9001, 'evmos'],
 	[8453, 'base'],
+	[81457, 'blast'],
+	// : 'solana',
 	[666666666, 'degen'],
 	[34443, 'mode'],
 	[324, 'zksync'],
 	[5000, 'mantle'],
-
+	[534352, 'scroll'],
+	[1284, 'moonbeam'],
+	[59144, 'linea'],
+	[7777777, 'zora'],
+	[1088, 'metis'],
+	[480, 'worldchain'],
+	[360, 'shape'],
+	[204, 'opbnb'],
+	[33139, 'apechain'],
+	[2818, 'morph'],
+	[60808, 'bob'],
 ])
 
 export const chainIdByNetworkName = new Map<
