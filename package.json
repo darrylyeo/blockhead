@@ -31,7 +31,7 @@
     "generate:swagger-typescript-api:nftport": "swagger-typescript-api --path https://api.nftport.xyz/openapi.json --output ./src/api/nftport/api/ --clean-output true --union-enums false --route-types true --enum-names-as-values true --extract-request-params true --extract-request-body true --single-http-client true --default-response {} --unwrap-response-data true"
   },
   "type": "module",
-  "packageManager": "pnpm@8.14.1",
+  "packageManager": "pnpm@9.12.3",
   "dependencies": {
     "@coinbase/wallet-sdk": "^3.7.2",
     "@decommas/sdk": "^1.8.0",
@@ -120,7 +120,7 @@
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-svelte3": "^4.0.0",
-    "pnpm": "^8.14.1",
+    "pnpm": "^9.12.3",
     "postcss": "^8.4.38",
     "postcss-load-config": "^5.1.0",
     "postcss-nesting": "^12.1.4",
