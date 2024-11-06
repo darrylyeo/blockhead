@@ -1,9 +1,6 @@
 <script lang="ts">
-	// Params/Context
-	import {
-		explorerNetwork,
-		explorerBlockNumber,
-	} from '../../_explorerContext'
+	// Context
+	import { explorerContext } from '../../_explorerContext.svelte'
 
 
 	// External stores
@@ -15,13 +12,19 @@
 
 
 	// Internal state
-	$: networkProvider = $preferences.rpcNetwork
+	const networkProvider = $derived(
+		$preferences.rpcNetwork
+	)
 
-	$: showCurrentBlockHeight = true
+	let showCurrentBlockHeight = $state(true)
 
-	$: showCurrentPrice = !isTestnet($explorerNetwork)
+	const showCurrentPrice = $derived(
+		!isTestnet(explorerContext.network)
+	)
 
-	$: showHistoricalPrice = showCurrentPrice
+	const showHistoricalPrice = $derived(
+		showCurrentPrice
+	)
 
 
 	// Components
@@ -36,26 +39,26 @@
 	{#if showCurrentBlockHeight}
 		<section class="card">
 			<EthereumBlockHeight
-				network={$explorerNetwork}
-				blockNumber={$explorerBlockNumber}
+				network={explorerContext.network}
+				blockNumber={explorerContext.blockNumber}
 			/>
 		</section>
 	{/if}
 
-	{#if showCurrentPrice && $explorerNetwork}
+	{#if showCurrentPrice && explorerContext.network}
 		<section class="card">
 			<CurrentPrice
 				{networkProvider}
 				currentPriceProvider={$preferences.currentPriceProvider}
 				query={{
-					chainId: $explorerNetwork.chainId,
+					chainId: explorerContext.network.chainId,
 					erc20Token: {
 						address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-						...$explorerNetwork.nativeCurrency,
+						...explorerContext.network.nativeCurrency,
 					},
 				}}
 				quoteCurrency={$preferences.quoteCurrency}
-				blockNumber={$explorerBlockNumber}
+				blockNumber={explorerContext.blockNumber}
 			/>
 		</section>
 	{/if}
@@ -69,10 +72,10 @@
 				query={{
 					coins: [
 						{
-							chainId: $explorerNetwork.chainId,
+							chainId: explorerContext.network.chainId,
 							erc20Token: {
 								address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-								...$explorerNetwork.nativeCurrency,
+								...explorerContext.network.nativeCurrency,
 							},
 						},
 					],
@@ -83,9 +86,9 @@
 	</div>
 {/if}
 
-{#if $explorerNetwork}
+{#if explorerContext.network}
 	<EthereumBlocks
-		network={$explorerNetwork}
+		network={explorerContext.network}
 	/>
 {/if}
 

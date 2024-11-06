@@ -1,12 +1,8 @@
 <script lang="ts">
 	// Params/Context
-	import {
-		explorerParams,
-	} from '../../../../_explorerParams'
+	import { explorerParams } from '../../../../_explorerParams.svelte'
 
-	import {
-		explorerNetwork,
-	} from '../../../../_explorerContext'
+	import { explorerContext } from '../../../../_explorerContext.svelte'
 
 
 	// Components
@@ -16,12 +12,12 @@
 
 
 <FilecoinTipsetLoader
-	network={$explorerNetwork}
-	tipsetNumber={BigInt($explorerParams.blockNumber)}
+	network={explorerContext.network}
+	tipsetNumber={BigInt(explorerParams.blockNumber)}
 	let:tipset
 >
 	<FilecoinTipset
-		network={$explorerNetwork}
+		network={explorerContext.network}
 		{tipset}
 		headingLevel={2}
 	/>

@@ -2,37 +2,30 @@
 	import type { Ethereum } from '$/data/networks/types'
 
 	// Params two-way binding
-	import {
-		networkSlug,
-
-		address,
-		blockNumber,
-		ensName,
-		transactionId,
-
-		derivedPath
-	} from './_explorerParams'
+	import { explorerParams } from './_explorerParams.svelte'
 
 	import { goto, beforeNavigate, afterNavigate } from '$app/navigation'
 	import { page } from '$app/stores'
 	import { get } from 'svelte/store'
 
-	let canNavigate = false
+	let canNavigate = $state(false)
 
 	afterNavigate(navigation => {
 		if(navigation.to?.route.id?.startsWith('/explorer') && navigation.to.params){
-			$networkSlug = navigation.to.params.networkSlug || navigation.to.url.pathname.match(/^\/explorer\/([^/]+)/)?.[1] || ''
-			$address = navigation.to.params.address || ''
-			$blockNumber = navigation.to.params.blockNumber || ''
-			$ensName = navigation.to.params.ensName || ''
-			$transactionId = navigation.to.params.transactionId || ''
+			explorerParams.networkSlug = navigation.to.params.networkSlug || navigation.to.url.pathname.match(/^\/explorer\/([^/]+)/)?.[1] || ''
+			explorerParams.address = navigation.to.params.address || ''
+			explorerParams.blockNumber = navigation.to.params.blockNumber && BigInt(navigation.to.params.blockNumber) || ''
+			explorerParams.ensName = navigation.to.params.ensName || ''
+			explorerParams.transactionId = navigation.to.params.transactionId || ''
 
 			canNavigate = true
 		}
 	})
 
-	$: if(canNavigate && $derivedPath && get(page).url.pathname !== $derivedPath)
-		goto($derivedPath, { keepFocus: true })
+	$effect(() => {
+		if(canNavigate && explorerParams.derivedPath && get(page).url.pathname !== explorerParams.derivedPath)
+			goto(explorerParams.derivedPath, { keepFocus: true })
+	})
 
 	beforeNavigate(navigation => {
 		if(navigation.type === 'goto' && navigation.from && navigation.to && navigation.from.url.pathname === navigation.to.url.pathname)
@@ -43,34 +36,41 @@
 
 
 	// Context
-	import { explorerNetwork, showTestnets, relevantPreferences } from './_explorerContext'
+	import { explorerContext } from './_explorerContext.svelte'
 
 
 	// Internal state
-	let _isTestnet: boolean
+	let _isTestnet = $state<boolean>()
 
 
 	// Actions
 	const setSelectedNetwork = async (selectedNetwork: Ethereum.Network | undefined) => {
-		$networkSlug = selectedNetwork?.slug ?? ''
+		explorerParams.networkSlug = selectedNetwork?.slug ?? ''
 	}
 
 
 	// Side effects
 	import { isTestnet, getNetworkColor } from '$/data/networks'
 
-	$: _isTestnet = $explorerNetwork && isTestnet($explorerNetwork)
+	$effect(() => {
+		_isTestnet = explorerContext.network && isTestnet(explorerContext.network)
+	})
 
-	$: if(_isTestnet)
-		$showTestnets = true
+	$effect(() => {
+		if(_isTestnet)
+			explorerContext.showTestnets = true
+	})
 
-	$: networkDisplayName =
-		$networkSlug && $explorerNetwork ? $explorerNetwork.name :
-		$networkSlug ? $networkSlug[0].toUpperCase() + $networkSlug.slice(1) :
+	const networkDisplayName = $derived(
+		explorerParams.networkSlug && explorerContext.network ? explorerContext.network.name :
+		explorerParams.networkSlug ? explorerParams.networkSlug[0].toUpperCase() + explorerParams.networkSlug.slice(1) :
 		'Network'
+	)
 
-	$: if(globalThis.document && $explorerNetwork)
-		document.documentElement.style.setProperty('--primary-color', getNetworkColor($explorerNetwork))
+	$effect(() =>{
+		if(globalThis.document && explorerContext.network)
+			document.documentElement.style.setProperty('--primary-color', getNetworkColor(explorerContext.network))
+	})
 
 
 	// Components
@@ -114,16 +114,16 @@
 			<svelte:fragment slot="title">
 				<h1>
 					<a
-						href={`/explorer${$explorerNetwork ? `/${$explorerNetwork.slug}` : ''}`}
+						href={`/explorer${explorerContext.network ? `/${explorerContext.network.slug}` : ''}`}
 						class="row"
 					>
 						<InlineTransition
-							key={$networkSlug}
+							key={explorerParams.networkSlug}
 							align="center"
 							contentTransition={[scale, { duration: 400 }]}
 						>
-							{#if $networkSlug}
-								<NetworkIcon network={$explorerNetwork} />
+							{#if explorerParams.networkSlug}
+								<NetworkIcon network={explorerContext.network} />
 							{:else}
 								<img src="/Blockhead-Logo.svg" width="30" />
 							{/if}
@@ -131,14 +131,14 @@
 
 						<span>
 							<InlineTransition
-								key={$networkSlug}
+								key={explorerParams.networkSlug}
 								align="start"
 								clip
 								contentTransition={{
 									in: [fly, { y: 20, duration: 400 }],
 									out: [fly, { y: -20, duration: 400 }]
 								}}
-							>{#if $networkSlug}<mark>{networkDisplayName}</mark>{:else}{networkDisplayName}{/if}</InlineTransition>
+							>{#if explorerParams.networkSlug}<mark>{networkDisplayName}</mark>{:else}{networkDisplayName}{/if}</InlineTransition>
 
 							Explorer
 						</span>
@@ -149,7 +149,7 @@
 			<div class="row wrap">
 				<small>
 					<label>
-						<input type="checkbox" bind:checked={$showTestnets} disabled={_isTestnet} />
+						<input type="checkbox" bind:checked={explorerContext.showTestnets} disabled={_isTestnet} />
 						<span>Testnets</span>
 					</label>
 				</small>
@@ -158,9 +158,9 @@
 				<label>
 					<span>Network: </span>
 					<NetworkSelect
-						network={$explorerNetwork}
+						network={explorerContext.network}
 						on:change={({ detail: { network } }) => setSelectedNetwork(network)}
-						showTestnets={$showTestnets}
+						showTestnets={explorerContext.showTestnets}
 					/>
 				</label>
 			</div>
@@ -173,5 +173,5 @@
 </main>
 
 <Preferences
-	relevantPreferences={$relevantPreferences}
+	relevantPreferences={explorerContext.relevantPreferences}
 />

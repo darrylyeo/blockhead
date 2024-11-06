@@ -4,7 +4,7 @@
 
 
 	// Context
-	import { showTestnets } from './_explorerContext'
+	import { explorerContext } from './_explorerContext.svelte'
 
 
 	// Functions
@@ -86,7 +86,7 @@
 				}
 					{@const shownNetworks = (
 						(
-							$showTestnets
+							explorerContext.showTestnets
 								? networks
 									.filter(network => isTestnet(network) ? !mainnetForTestnet.has(network.slug) : true)
 									.flatMap(network => [network, ...testnetsForMainnet.get(network.slug) ?? []])

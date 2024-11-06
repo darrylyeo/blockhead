@@ -1,13 +1,7 @@
 <script lang="ts">
-	// Params/Context
-	import {
-		explorerParams,
-	} from '../../../../_explorerParams'
-
-	import {
-		explorerNetwork,
-		navigationContext,
-	} from '../../../../_explorerContext'
+	// Context
+	import { explorerContext } from '../../../../_explorerContext.svelte'
+	import { explorerParams } from '../../../../_explorerParams.svelte'
 
 
 	// External stores
@@ -15,7 +9,9 @@
 
 
 	// Internal state
-	$: networkProvider = $preferences.rpcNetwork
+	const networkProvider = $derived(
+		$preferences.rpcNetwork
+	)
 
 
 	// Components
@@ -29,20 +25,20 @@
 	loaderViewOptions={{
 		containerClass: 'card',
 	}}
-	network={$explorerNetwork}
+	network={explorerContext.network}
 	{networkProvider}
-	blockNumber={$explorerParams.blockNumber}
+	blockNumber={explorerParams.blockNumber}
 	transactionProvider={$preferences.transactionProvider}
 	includeTransactions={true}
 
-	bind:block={$navigationContext.block}
+	bind:block={explorerContext.navigationContext.block}
 	let:block
 	let:status
 >
 	<svelte:fragment slot="header" let:block>
 		{#if block}
 			<EthereumBlockHeader
-				network={$explorerNetwork}
+				network={explorerContext.network}
 				{block}
 				headingLevel={2}
 			/>
@@ -53,7 +49,7 @@
 		<hr>
 
 		<EthereumBlock
-			network={$explorerNetwork}
+			network={explorerContext.network}
 			{block}
 			headingLevel={2}
 		/>

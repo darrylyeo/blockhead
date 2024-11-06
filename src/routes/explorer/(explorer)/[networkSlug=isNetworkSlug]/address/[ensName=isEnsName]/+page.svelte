@@ -1,18 +1,16 @@
 <script lang="ts">
 	// Params/Context
-	import {
-		explorerParams,
-	} from '../../../../_explorerParams'
+	import { explorerParams } from '../../../../_explorerParams.svelte'
 
-	import {
-		explorerNetwork,
-	} from '../../../../_explorerContext'
+	import { explorerContext } from '../../../../_explorerContext.svelte'
 
 
 	// External stores
 	import { preferences } from '$/state/preferences'
 
-	$: networkProvider = $preferences.rpcNetwork
+	const networkProvider = $derived(
+		$preferences.rpcNetwork
+	)
 
 
 	// Components
@@ -21,7 +19,7 @@
 
 
 <EthereumAccountOrContract
-	network={$explorerNetwork}
+	network={explorerContext.network}
 	{networkProvider}
-	accountId={$explorerParams.ensName}
+	accountId={explorerParams.ensName}
 />

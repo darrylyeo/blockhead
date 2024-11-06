@@ -1,13 +1,7 @@
 <script lang="ts">
-	// Params/Context
-	import {
-		explorerParams,
-	} from '../../../../_explorerParams'
-
-	import {
-		explorerNetwork,
-		navigationContext,
-	} from '../../../../_explorerContext'
+	// Context
+	import { explorerContext } from '../../../../_explorerContext.svelte'
+	import { explorerParams } from '../../../../_explorerParams.svelte'
 
 
 	// External stores
@@ -15,7 +9,9 @@
 
 
 	// Internal state
-	$: networkProvider = $preferences.rpcNetwork
+	const networkProvider = $derived(
+		$preferences.rpcNetwork
+	)
 
 
 	// Components
@@ -24,12 +20,12 @@
 
 
 <EthereumTransactionLoader
-	network={$explorerNetwork}
+	network={explorerContext.network}
 	{networkProvider}
-	transactionId={$explorerParams.transactionId}
+	transactionId={explorerParams.transactionId}
 	detailLevel="exhaustive"
 	tokenBalanceFormat="both"
 	showFees={true}
 	layout="standalone"
-	bind:transaction={$navigationContext.transaction}
+	bind:transaction={explorerContext.navigationContext.transaction}
 />

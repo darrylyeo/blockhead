@@ -6,25 +6,9 @@
 	// Params/Context
 	import { page } from '$app/stores'
 
-	import {
-		address,
-		blockNumber,
-		ensName,
-		transactionId,
+	import { explorerParams, type ExplorerInputParams } from '../_explorerParams.svelte'
 
-		explorerParams,
-		type ExplorerInputParams,
-	} from '../_explorerParams'
-
-	import {
-		explorerNetwork,
-
-		explorerQueryType,
-		explorerQuery,
-
-		explorerTitle,
-		navigationContext,
-	} from '../_explorerContext'
+	import { explorerContext } from '../_explorerContext.svelte'
 
 
 	// External stores
@@ -32,17 +16,23 @@
 
 
 	// Internal state
-	let currentExplorerInputValue: string
-	$: currentExplorerInputValue = $explorerQuery
+	let currentExplorerInputValue = $state<string>('')
+	$effect(() => {
+		currentExplorerInputValue = explorerContext.query
+	})
 
 	let currentExplorerInputParams: ExplorerInputParams = {}
 
 
-	$: networkProvider = $preferences.rpcNetwork
+	const networkProvider = $derived(
+		$preferences.rpcNetwork
+	)
 
 
 	// Block Navigation
-	$: $navigationContext.transactionBlockNumber = $navigationContext.transaction?.blockNumber
+	$effect(() => {
+		explorerContext.navigationContext.transactionBlockNumber = explorerContext.navigationContext.transaction?.blockNumber
+	})
 
 	import { availableNetworks } from '$/data/networks'
 	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProvider'
@@ -106,14 +96,14 @@
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
 	<form on:submit|preventDefault={() => {
-		$address = currentExplorerInputParams.address
-		$blockNumber = currentExplorerInputParams.blockNumber
-		$ensName = currentExplorerInputParams.ensName
-		$transactionId = currentExplorerInputParams.transactionId
+		explorerParams.address = currentExplorerInputParams.address
+		explorerParams.blockNumber = currentExplorerInputParams.blockNumber
+		explorerParams.ensName = currentExplorerInputParams.ensName
+		explorerParams.transactionId = currentExplorerInputParams.transactionId
 	}}>
 		<SearchInput
 			inputPatterns={
-				$explorerNetwork?.slug === 'filecoin' ?
+				explorerContext.network?.slug === 'filecoin' ?
 					[
 						InputPattern.FilecoinAccountId,
 						InputPattern.FilecoinTransactionId,
@@ -129,12 +119,12 @@
 			}
 			bind:value={currentExplorerInputValue}
 			bind:matchedPatterns={currentExplorerInputParams}
-			network={$explorerNetwork}
+			network={explorerContext.network}
 		/>
 		<button type="submit">Go</button>
 	</form>
 
-	{#if $explorerNetwork}
+	{#if explorerContext.network}
 		<div class="stack">
 			{#key $page.route.id}
 				<div
@@ -149,23 +139,23 @@
 
 		<div class="navigation currentNetwork column">
 			<EthereumBlockNavigation
-				network={$explorerNetwork}
+				network={explorerContext.network}
 				{networkProvider}
 				blockNumber={
-					$explorerQueryType === 'block' ?
-						BigInt($blockNumber)
-					: $explorerQueryType === 'transaction' ?
-						$navigationContext.transactionBlockNumber
+					explorerContext.queryType === 'block' ?
+						BigInt(explorerParams.blockNumber)
+					: explorerContext.queryType === 'transaction' ?
+						explorerContext.navigationContext.transactionBlockNumber
 					:
 						undefined
 				}
-				showBeforeAndAfter={$explorerQueryType === 'block'}
+				showBeforeAndAfter={explorerContext.queryType === 'block'}
 			/>
 		</div>
 		
 		{@const transactionProvider = $preferences.transactionProvider}
-		{#if $explorerQueryType === 'block' && availableNetworks && transactionProvider === TransactionProvider.Moralis && $navigationContext.block?.timestamp}
-			{@const network = $explorerNetwork}
+		{#if explorerContext.queryType === 'block' && availableNetworks && transactionProvider === TransactionProvider.Moralis && explorerContext.navigationContext.block?.timestamp}
+			{@const network = explorerContext.network}
 			{@const otherNetworks = availableNetworks.filter(_network => _network !== network)}
 		
 			<Loader
@@ -174,12 +164,12 @@
 				}}
 				loadingIconName={'Moralis'}
 				loadingIcon={transactionProviderIcons[transactionProvider]}
-				fromStore={otherNetworks && $navigationContext.block?.timestamp && (() =>
+				fromStore={otherNetworks && explorerContext.navigationContext.block?.timestamp && (() =>
 					// <Awaited<ReturnType<typeof MoralisWeb3Api.dateToBlock.getDateToBlock>>[]>
 					parallelLoaderStore(otherNetworks, network => (
 						MoralisWeb3Api.dateToBlock.getDateToBlock({
 							chain: chainCodeFromNetwork(network),
-							date: $navigationContext.block.timestamp
+							date: explorerContext.navigationContext.block.timestamp
 						})
 					))
 				)}
@@ -195,7 +185,7 @@
 				let:result={networksAndClosestBlock}
 			>
 				<svelte:fragment slot="loadingMessage">
-					Finding blocks produced around the same time as {network.name} › Block {$navigationContext.block.blockNumber}...
+					Finding blocks produced around the same time as {network.name} › Block {explorerContext.navigationContext.block.blockNumber}...
 				</svelte:fragment>
 		
 				{#if networksAndClosestBlock?.length}
