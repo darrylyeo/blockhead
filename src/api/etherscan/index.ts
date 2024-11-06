@@ -73,7 +73,7 @@ const get = async <T, IsRpcProxyCall extends boolean = false>(
 				...options,
 				searchParams: {
 					...options?.searchParams as Record<string, string | number>,
-					apikey: publicEnv[`ETHERSCAN_API_KEY_${chainId}`],
+					apikey: publicEnv[`PUBLIC_ETHERSCAN_API_KEY_${chainId}`],
 				}
 			}
 		)
@@ -109,7 +109,7 @@ const post = async (
 				...options,
 				json: {
 					...options?.json as Record<string, string | number>,
-					apikey: publicEnv[`ETHERSCAN_API_KEY_${chainId}`],
+					apikey: publicEnv[`PUBLIC_ETHERSCAN_API_KEY_${chainId}`],
 				},
 			}
 		)
