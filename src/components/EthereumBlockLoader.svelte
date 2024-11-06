@@ -316,6 +316,20 @@
 			}),
 		}),
 
+		[TransactionProvider.Noves]: () => ({
+			fromQuery: createQuery({
+				queryKey: ['Block', {
+					transactionProvider,
+					chainId: network.chainId,
+					blockNumber: Number(blockNumber),
+				}],
+				placeholderData: () => placeholderData,
+				queryFn: async () => {
+					throw `Noves does not yet support querying blocks.`
+				},
+			}),
+		}),
+
 		[TransactionProvider.RpcProvider]: () => ({
 			fromQuery: publicClient && createQuery({
 				queryKey: ['Block', {
