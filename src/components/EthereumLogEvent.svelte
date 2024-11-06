@@ -181,7 +181,7 @@
 	].filter(isTruthy).join('\n\n')}
 >
 	{#if isExhaustive}
-		<span class="log-event-index">{isHidden ? hiddenEllipsis : logEvent.indexInBlock}</span>
+		<span class="log-event-index">{isHidden ? hiddenEllipsis : (logEvent.indexInBlock ?? logEvent.indexInTransaction)}</span>
 	{/if}
 
 	<header class="log-event-contract-and-name">
