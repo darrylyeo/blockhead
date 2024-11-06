@@ -1,11 +1,11 @@
 export enum TokenBalancesProvider {
 	RpcProvider = 'RPC Provider',
 	Airstack = 'Airstack',
+	Alchemy_Liquality = 'Alchemy (Liquality)',
 	Blockscout = 'Blockscout',
 	Chainbase = 'Chainbase',
 	Covalent = 'Covalent',
 	Decommas = 'Decommas',
-	Liquality = 'Liquality',
 	LlamaFolio = 'LlamaFolio',
 	Moralis = 'Moralis',
 	Nexandria = 'Nexandria',
@@ -19,11 +19,11 @@ import { AirstackIcon, BlockscoutIcon, ChainbaseIcon, CovalentGoldRushIcon, Deco
 
 export const tokenBalancesProviderIcons = {
 	[TokenBalancesProvider.Airstack]: AirstackIcon,
+	[TokenBalancesProvider.Alchemy_Liquality]: LiqualityIcon,
 	[TokenBalancesProvider.Blockscout]: BlockscoutIcon,
 	[TokenBalancesProvider.Chainbase]: ChainbaseIcon,
 	[TokenBalancesProvider.Covalent]: CovalentGoldRushIcon,
 	[TokenBalancesProvider.Decommas]: DecommasIcon,
-	[TokenBalancesProvider.Liquality]: LiqualityIcon,
 	[TokenBalancesProvider.LlamaFolio]: LlamaFolioIcon,
 	[TokenBalancesProvider.Moralis]: MoralisIcon,
 	[TokenBalancesProvider.Nexandria]: NexandriaIcon,

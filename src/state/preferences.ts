@@ -316,7 +316,7 @@ export const preferencesConfig = [
 						name: 'On-Chain',
 						options: [
 							{ value: TokenBalancesProvider.RpcProvider, name: (preferences: any) => `On-Chain (${preferences.rpcNetwork})` }, // 'RPC Provider + Token List'
-							{ value: TokenBalancesProvider.Liquality, name: 'Liquality (Alchemy)', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Liquality] },
+							{ value: TokenBalancesProvider.Alchemy_Liquality, name: 'Alchemy (via Liquality)', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Alchemy_Liquality] },
 							{ value: TokenBalancesProvider.QuickNode, name: 'QuickNode', icon: tokenBalancesProviderIcons[TokenBalancesProvider.QuickNode] },
 						]
 					},

@@ -390,7 +390,7 @@
 			})
 		}),
 
-		[TokenBalancesProvider.Liquality]: () => ({
+		[TokenBalancesProvider.Alchemy_Liquality]: () => ({
 			fromQuery: address && network && (
 				createQuery({
 					queryKey: ['Balances', {
