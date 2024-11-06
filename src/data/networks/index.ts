@@ -6720,7 +6720,7 @@ export const networks = [
 		},
 	},
 	{
-		slug: 'ZKsync Sepolia Testnet',
+		slug: 'zksync-sepolia',
 		name: 'ZKsync Sepolia Testnet',
 		chainId: 300,
 		shortName: 'zksync-sepolia',
