@@ -142,6 +142,7 @@
 	import AddressWithLabel from './AddressWithLabel.svelte'
 	import ConnectedAccountSelect from './ConnectedAccountSelect.svelte'
 	import BigNumberInput from './BigNumberInput.svelte'
+	import EthereumTransactionParameters from './EthereumTransactionParameters.svelte'
 	import HeightContainer from './HeightContainer.svelte'
 	import Input from './Input.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
@@ -421,24 +422,27 @@
 					{#if contractMethod.inputs.length}
 						<hr>
 
-						{#each contractMethod.inputs as input, i (`${contractMethod.name || i}/${input.name || i}`)}
-							{@const inputKey = `${contractMethod.name || i}/${input.name || i}`}
-							{@const arg = inputValues[inputKey]}
+						<EthereumTransactionParameters
+							{network}
+							inputDecoded={{
+								methodName: contractMethod.name,
+								methodHash: contractMethod.signature,
+								params: (
+									contractMethod.inputs
+										.map(input => {
+											const inputKey = `${contractMethod.name || i}/${input.name || i}`
+											const value = inputValues[inputKey]
 
-							<label class="input-param" transition:scale={{ duration: 300, start: 0.8, delay: i * 25 }}>
-								<span>
-									{#if input.name}
-										<abbr title={input.name}>{formatIdentifier(input.name, true)}</abbr>
-									{:else}
-										<span class="input-index">Input {i + 1}</span>
-									{/if}
-								</span>
-
-								<output>{#if input.type === 'address'}<Address {network} address={arg} />{:else}{arg}{/if}</output>
-
-								<abbr class="card-annotation" title="{input.type} ({input.indexed ? `indexed ` : ''}{input.internalType})">{input.type}</abbr>
-							</label>
-						{/each}
+											return {
+												name: input.name,
+												type: input.type,
+												value,
+											}
+										})
+								),
+							}}
+							{showFormattedNames}
+						/>
 					{/if}
 				</article>
 
