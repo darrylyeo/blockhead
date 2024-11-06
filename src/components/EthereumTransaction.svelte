@@ -58,6 +58,7 @@
 	import Date from './Date.svelte'
 	import EthereumErc20Transfer from './EthereumErc20Transfer.svelte'
 	import EthereumLogEvent from './EthereumLogEvent.svelte'
+	import EthereumTransactionParameters from './EthereumTransactionParameters.svelte'
 	import EthereumTransactionSummary from './EthereumTransactionSummary.svelte'
 	import EthereumTransactionTrace from './EthereumTransactionTrace.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
@@ -257,13 +258,22 @@
 							</span>
 						{/if}
 
-						{#if (isStandaloneLayout || isExhaustive) && transaction.input}
+						{#if (isStandaloneLayout || isExhaustive) && (transaction.inputDecoded || transaction.input)}
 							<hr>
 
 							<div class="input row inline wrap">
 								<span>with input</span>
 
-								<output class:scrollable-list={transaction.input.length > 80}>{transaction.input}</output>
+								{#if transaction.inputDecoded}
+									<EthereumTransactionParameters
+										{network}
+										inputDecoded={transaction.inputDecoded}
+										{showFormattedNames}
+									/>
+
+								{:else if transaction.input}
+									<output class:scrollable-list={transaction.input.length > 80}>{transaction.input}</output>
+								{/if}
 							</div>
 						{/if}
 
