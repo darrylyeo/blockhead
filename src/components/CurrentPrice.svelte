@@ -27,6 +27,7 @@
 	$: _currentPriceProvider = currentPriceProvider === 'auto' ? PriceProvider.Chainlink : currentPriceProvider
 
 	let isHidden = false
+	let showInverse = false
 
 
 	// Components
@@ -91,34 +92,70 @@
 		</header>
 
 		{#if result}
-			<div class="rate">
-				<TokenBalance
-					{...(
-						'erc20Token' in query ?
-							{
-								token: query.erc20Token,
-								balance: 1 * 10 ** query.erc20Token.decimals,
-							}
-						:
-							{
-								token: {
-									chainId: 'chainId' in query && query.chainId,
-									symbol: query.symbol,
-									icon: result.icon,
-								},
-								balance: 1,
-							}
-					)}
-					tween={false}
-				/>
-				=
-				<TokenBalance
-					token={{
-						symbol: result.quoteCurrency,
-					}}
-					balance={result.price}
-					format="fiat"
-				/>
+			<div
+				class="rate"
+				on:click={() => showInverse = !showInverse}
+			>
+				{#if !showInverse}
+					<TokenBalance
+						{...(
+							'erc20Token' in query ?
+								{
+									token: query.erc20Token,
+									balance: 1 * 10 ** query.erc20Token.decimals,
+								}
+							:
+								{
+									token: {
+										chainId: 'chainId' in query && query.chainId,
+										symbol: query.symbol,
+										icon: result.icon,
+									},
+									balance: 1,
+								}
+						)}
+						tween={false}
+						showDecimalPlaces={0}
+					/>
+					=
+					<TokenBalance
+						token={{
+							symbol: result.quoteCurrency,
+						}}
+						balance={result.price}
+						format="fiat"
+					/>
+				{:else}
+					<TokenBalance
+						token={{
+							symbol: result.quoteCurrency,
+						}}
+						balance={1}
+						format="fiat"
+						tween={false}
+						showDecimalPlaces={0}
+					/>
+					=
+					<TokenBalance
+						{...(
+							'erc20Token' in query ?
+								{
+									token: query.erc20Token,
+									balance: 1 / result.price * 1 * 10 ** query.erc20Token.decimals,
+								}
+							:
+								{
+									token: {
+										chainId: 'chainId' in query && query.chainId,
+										symbol: query.symbol,
+										icon: result.icon,
+									},
+									balance: 1 / result.price,
+								}
+						)}
+						showDecimalPlaces={Math.ceil(Math.log10(result.price)) * 2}
+					/>
+				{/if}
 			</div>
 			<!-- <div class="rate">
 				<TokenRate
@@ -167,6 +204,7 @@
 	.rate {
 		font-size: 1.8em;
 		text-align: center;
+		cursor: pointer;
 	}
 
 	footer {
