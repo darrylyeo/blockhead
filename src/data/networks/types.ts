@@ -1,6 +1,6 @@
 // import type { Branded, BrandedString } from '$/utils/branded'
 import type { QuoteCurrency, TickerSymbol } from '../currencies'
-import type { Abi as _Abi, AbiType, ExtractAbiFunctionNames, ExtractAbiFunction, ExtractAbiFunctions, AbiStateMutability, AbiParametersToPrimitiveTypes, AbiParameterToPrimitiveType } from 'abitype'
+import type { Abi as _Abi, AbiType, ExtractAbiFunctionNames, ExtractAbiFunction, ExtractAbiFunctions, AbiStateMutability, AbiParametersToPrimitiveTypes, AbiParameterToPrimitiveType, AbiInternalType } from 'abitype'
 import type { EIP1193Provider, PublicClient as ViemPublicClient } from 'viem'
 
 export namespace Ethereum {
@@ -367,12 +367,24 @@ export namespace Ethereum {
 		signature: string,
 		params: ContractFunctionParameter[],
 	}
-	export type ContractFunctionParameter = {
-		name?: ContractFunctionParameterName,
-		type?: AbiType,
+	export type ContractFunctionParameter<
+		_AbiType extends AbiType = AbiType,
+		_ContractFunctionParameterName extends ContractFunctionParameterName = ContractFunctionParameterName,
+		_AbiInternalType extends AbiInternalType = AbiInternalType,
+	> = {
+		name?: _ContractFunctionParameterName,
+		type?: _AbiType,
+		internalType?: _AbiInternalType,
 		indexed?: boolean,
 		decoded?: boolean,
-		value: any,
+		value: AbiParameterToPrimitiveType<
+			{
+				name: _ContractFunctionParameterName
+				type: _AbiType
+				internalType: _AbiInternalType
+			},
+			'inputs'
+		>,
 	}
 	export type ContractFunctionParameterName = string
 	export type TopicHash = `0x${string}` // BrandedString<'TopicHash'>
