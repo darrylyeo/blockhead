@@ -273,6 +273,45 @@
 		// 	}),
 		// }),
 
+		[PriceProvider.Etherscan]: () => ({
+			fromQuery: createQuery({
+				queryKey: ['CurrentPrice', {
+					currentPriceProvider,
+					query: _query,
+					quoteCurrency,
+				}],
+				queryFn: async ({
+					queryKey: [_, {
+						query,
+					}],
+				}) => {
+					const { Etherscan } = await import('$/api/etherscan')
+
+					const network = networkByChainId.get(query.chainId)
+
+					if(!network)
+						throw new Error(`Network not supported.`)
+
+						console.log({query})
+
+					if(!(
+						(!query.erc20Token?.contractAddress || query.erc20Token.contractAddress === '0x0000000000000000000000000000000000000000')
+						&& query.symbol === network.nativeCurrency.symbol
+					))
+						throw new Error(`Etherscan doesn't support fetching prices for tokens other than the native currency.`)
+
+					return await Etherscan.Stats.getPrice({
+						chainId: query.chainId,
+					})
+				}
+			}),
+			select: result => ({
+				quoteCurrency: 'USD',
+				price: Number(result.ethusd),
+				updatedAt: Number(result.ethusd_timestamp) * 1000,
+			}),
+		}),
+
 		[PriceProvider.QuickNode_Odos]: () => ({
 			fromQuery: createQuery({
 				queryKey: ['CurrentPrice', {
