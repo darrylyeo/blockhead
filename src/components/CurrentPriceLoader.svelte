@@ -142,6 +142,75 @@
 			}),
 		},
 
+		[PriceProvider.CoinGecko_Zapper]: {
+			fromQuery: createQuery({
+				queryKey: ['CurrentPrice', {
+					currentPriceProvider,
+					query: _query,
+					quoteCurrency,
+				}],
+				queryFn: async ({
+					queryKey: [_, {
+						query,
+					}],
+				}) => {
+					const { networkNamesByChainId } = await import('$/api/zapper')
+					const { pricesControllerListPricesV3 } = await import('$/api/zapper/v2')
+
+					const symbol = (
+						'symbol' in query ?
+							query.symbol
+						:
+							undefined
+					)
+
+					if(!('chainId' in query && query.chainId))
+						throw new Error(`Chain ID not specified.`)
+
+					const result = await pricesControllerListPricesV3({
+						network: networkNamesByChainId.get(query.chainId),
+					})
+
+					const prices = JSON.parse(result)
+
+					return prices
+				},
+				select: result => {
+					const query = _query
+
+					const symbol = (
+						'symbol' in query ?
+							query.symbol
+						:
+							undefined
+					)
+
+					const contractAddress = (
+						symbol === 'ETH' ?
+							'0x0000000000000000000000000000000000000000'
+						: 'contractAddress' in query ?
+							query.contractAddress
+						:
+							undefined
+					)
+
+					const price = result.find(tokenPrice => (
+						tokenPrice.networkId === query.chainId
+						&& tokenPrice.address === contractAddress
+					))
+
+					if(!price)
+						throw new Error('Price not found')
+
+					return {
+						quoteCurrency: 'USD',
+						price: price.price,
+						updatedAt: price.priceUpdatedAt,
+					}
+				},
+			})
+		},
+
 		// [PriceProvider.Covalent]: {
 		// 	fromQuery: createQuery({
 		// 		queryKey: ['CurrentPrice', {
