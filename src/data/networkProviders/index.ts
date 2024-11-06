@@ -200,7 +200,7 @@ export const networkProviderConfigs = [
 		}) => {
 			const config = alchemyProviderConfigs.find(config => config.networkSlug === network.slug)
 
-			const apiKey = publicEnv[`ALCHEMY_API_KEY_${network.chainId}`]
+			const apiKey = publicEnv[`PUBLIC_ALCHEMY_API_KEY_${network.chainId}`]
 
 			return config && (
 				new ({
@@ -226,7 +226,7 @@ export const networkProviderConfigs = [
 		}) => {
 			const config = alchemyProviderConfigs.find(config => config.networkSlug === network.slug)
 
-			const apiKey = publicEnv[`ALCHEMY_API_KEY_${network.chainId}`]
+			const apiKey = publicEnv[`PUBLIC_ALCHEMY_API_KEY_${network.chainId}`]
 
 			return config && (
 				createClient({
