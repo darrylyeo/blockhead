@@ -99,7 +99,7 @@
 	loadingMessage="Retrieving price from {currentPriceProvider}..."
 	errorMessage={`${'symbol' in _query ? `${_query.symbol} price` : 'Price'} not available.`}
 	{...{
-		[PriceProvider.Chainlink]: {
+		[PriceProvider.Chainlink]: () => ({
 			fromQuery: oracleNetwork && createQuery({
 				queryKey: ['CurrentPrice', {
 					currentPriceProvider,
@@ -140,9 +140,9 @@
 					}
 				},
 			}),
-		},
+		}),
 
-		[PriceProvider.CoinGecko_Zapper]: {
+		[PriceProvider.CoinGecko_Zapper]: () => ({
 			fromQuery: createQuery({
 				queryKey: ['CurrentPrice', {
 					currentPriceProvider,
@@ -209,9 +209,9 @@
 					}
 				},
 			})
-		},
+		}),
 
-		// [PriceProvider.Covalent]: {
+		// [PriceProvider.Covalent]: () => ({
 		// 	fromQuery: createQuery({
 		// 		queryKey: ['CurrentPrice', {
 		// 			currentPriceProvider,
@@ -244,9 +244,9 @@
 		// 			}
 		// 		},
 		// 	}),
-		// },
+		// }),
 
-		// [PriceProvider.CompoundOpenPriceFeed]: {
+		// [PriceProvider.CompoundOpenPriceFeed]: () => ({
 		// 	fromQuery: createQuery({
 		// 		queryKey: ['CurrentPrice', {
 		// 			currentPriceProvider,
@@ -270,9 +270,9 @@
 		// 			)
 		// 		},
 		// 	}),
-		// },
+		// }),
 
-		[PriceProvider.QuickNode_Odos]: {
+		[PriceProvider.QuickNode_Odos]: () => ({
 			fromQuery: createQuery({
 				queryKey: ['CurrentPrice', {
 					currentPriceProvider,
@@ -321,8 +321,8 @@
 					price: Object.values(result)[0],
 				}),
 			}),
-		},
-	}[currentPriceProvider]}
+		}),
+	}[currentPriceProvider]()}
 	bind:result
 	let:result
 	let:status
