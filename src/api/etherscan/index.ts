@@ -80,10 +80,11 @@ const get = async <T, IsRpcProxyCall extends boolean = false>(
 			.then(
 				isRpcProxyCall
 					? ({ result, message }) => {
-						if(message === 'NOTOK') throw result ?? message
+						if(message.startsWith('NOTOK')) throw result ?? message
 						return result
 					}
 					: ({ status, result, message }) => {
+						if (message.startsWith('NOTOK')) throw result ?? message
 						if (status != 1) throw result ?? message
 						return result
 					}
