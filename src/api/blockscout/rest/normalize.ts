@@ -135,7 +135,11 @@ export const normalizeTransaction = (
 		inputDecoded: {
 			methodName: transaction.decoded_input.method_call.match(/^[^(]+/)?.[0],
 			methodHash: transaction.decoded_input.method_id,
-			// parameters: transaction.decoded_input.parameters,
+			params: transaction.decoded_input.parameters.map(param => ({
+				name: param.name,
+				type: param.type,
+				value: param.value,
+			})),
 		},
 	},
 	value: BigInt(transaction.value),
