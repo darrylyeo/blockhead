@@ -8,6 +8,7 @@
 
 
 	// Context
+	import * as publicEnv from '$env/static/public'
 	import { preferences } from '$/state/preferences'
 
 
@@ -360,6 +361,74 @@
 					quoteCurrency: 'USD',
 					price: Object.values(result)[0],
 				}),
+			}),
+		}),
+
+		[PriceProvider.CoinPaprika]: () => ({
+			fromQuery: createQuery({
+				queryKey: ['CurrentPrice', {
+					currentPriceProvider,
+					query: _query,
+					quoteCurrency,
+				}],
+				queryFn: async ({
+					queryKey: [_, {
+						query,
+						quoteCurrency,
+					}],
+				}) => {
+					const { getTickers, getTickersById } = await import('$/api/coinpaprika/api')
+					const { tickerIdForSymbol } = await import('$/api/coinpaprika')
+
+					if(!('symbol' in query))
+						throw new Error(`Token contract addresses not yet supported.`)
+
+					const tickerId = tickerIdForSymbol.get(query.symbol)
+
+					const result = (
+						!tickerId ?
+							await (async () => {
+								const tickers = await getTickers({
+									quotes: quoteCurrency,
+								})
+
+								for(const ticker of tickers.toReversed())
+									if(ticker.symbol && ticker.id)
+										tickerIdForSymbol.set(ticker.symbol, ticker.id)
+
+								return tickers.find(ticker => (
+									ticker.symbol === query.symbol
+									&& (
+										!('type' in ticker) || (
+											query.contractAddress && query.contractAddress !== '0x0000000000000000000000000000000000000000'
+												? ticker.type === 'token'
+												: ticker.type === 'coin'
+										)
+									)
+								))
+							})()
+						:
+							await getTickersById(
+								tickerId,
+								{
+									quotes: quoteCurrency,
+								},
+							)
+					)
+
+					return result
+				},
+				select: result => {
+					if(!result?.quotes?.[quoteCurrency])
+						throw new Error(`Price not available in ${quoteCurrency}`)
+
+					return {
+						quoteCurrency,
+						price: result.quotes[quoteCurrency].price,
+						updatedAt: result.last_updated ? new Date(result.last_updated).getTime() : undefined,
+						rank: result.rank,
+					}
+				},
 			}),
 		}),
 	}[currentPriceProvider]()}

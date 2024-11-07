@@ -446,6 +446,7 @@ export const preferencesConfig = [
 						name: 'Off-Chain',
 						options: [
 							{ value: PriceProvider.CoinGecko_Zapper, name: 'CoinGecko (via Zapper)', icon: priceProviderIcons[PriceProvider.CoinGecko_Zapper] },
+							{ value: PriceProvider.CoinPaprika, name: 'CoinPaprika', icon: priceProviderIcons[PriceProvider.CoinPaprika] },
 							{ value: PriceProvider.Etherscan, name: 'Etherscan', icon: priceProviderIcons[PriceProvider.Etherscan] },
 							{ value: PriceProvider.QuickNode_Odos, name: 'Odos (via QuickNode)', icon: priceProviderIcons[PriceProvider.QuickNode_Odos] },
 							// { value: PriceProvider.Covalent, name: 'Covalent › GoldRush' },
