@@ -1,4 +1,4 @@
-<!-- <script lang="ts">
+<script lang="ts">
 	import * as echarts from 'echarts/core'
 
 	import type {
@@ -121,4 +121,4 @@
 </style>
 
 
-<div class="chart" bind:this={chartContainer}></div> -->
+<div class="chart" bind:this={chartContainer}></div>
