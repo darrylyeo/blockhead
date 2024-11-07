@@ -79,7 +79,7 @@
     "did-resolver": "^4.1.0",
     "did-session": "^2.1.2",
     "dids": "^4.0.4",
-    "echarts": "^5.4.3",
+    "echarts": "^5.5.1",
     "ethers": "^6.10.0",
     "etherspot": "^1.44.0",
     "file-type": "^18.7.0",
