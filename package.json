@@ -21,6 +21,7 @@
     "generate:gql.tada:turbo": "gql.tada turbo",
     "generate:oazapfts:beryx:filecoin": "oazapfts https://docs.zondax.ch/openapi/beryx-fil-mainnet.json ./src/api/beryx/filecoin/api.ts --optimistic --useEnumType",
     "generate:oazapfts:blockscout:rest": "oazapfts https://raw.githubusercontent.com/blockscout/blockscout-api-v2-swagger/main/swagger.yaml ./src/api/blockscout/rest/index.ts --optimistic --useEnumType",
+    "generate:oazapfts:coinpaprika": "oazapfts https://raw.githubusercontent.com/coinpaprika/coinpaprika.github.io/master/1.7/openapi/index.yml ./src/api/coinpaprika/api.ts --optimistic --useEnumType",
     "generate:oazapfts:defillama:llamafolio": "oazapfts https://raw.githubusercontent.com/llamafolio/llamafolio-api/master/docs/swagger/swagger.json ./src/api/defillama/llamafolio/api.ts --optimistic --useEnumType",
     "generate:oazapfts:openrank:farcaster": "oazapfts https://graph.cast.k3l.io/openapi.json ./src/api/openrank/farcaster/index.ts --optimistic --useEnumType",
     "generate:oazapfts:neynar:v1": "oazapfts https://raw.githubusercontent.com/neynarxyz/OAS/main/src/v1/spec.yaml ./src/api/neynar/v1.ts --optimistic --useEnumType",
