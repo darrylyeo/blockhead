@@ -1,10 +1,6 @@
 <script lang="ts">
 	// Params/Context
 	import {
-		networkSlug,
-	} from '../../_explorerParams'
-
-	import {
 		explorerNetwork,
 		explorerBlockNumber,
 	} from '../../_explorerContext'
@@ -14,18 +10,16 @@
 	import { preferences } from '$/state/preferences'
 
 
+	// Functions
+	import { isTestnet } from '$/data/networks'
+
+
 	// Internal state
 	$: networkProvider = $preferences.rpcNetwork
 
 	$: showCurrentBlockHeight = true
 
-	$: showCurrentPrice = [
-		'ethereum',
-		'polygon',
-		'avalanche',
-		'fantom',
-		'bsc'
-	].includes($networkSlug)
+	$: showCurrentPrice = !isTestnet($explorerNetwork)
 
 	$: showHistoricalPrice = false
 
@@ -48,7 +42,7 @@
 		</section>
 	{/if}
 
-	{#if showCurrentPrice}
+	{#if showCurrentPrice && $explorerNetwork}
 		<section class="card">
 			<CurrentPrice
 				{networkProvider}
