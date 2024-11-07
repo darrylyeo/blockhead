@@ -6,6 +6,7 @@ export enum OnchainPriceProvider {
 }
 
 export enum OffchainPriceProvider {
+	CoinApi = 'CoinAPI',
 	CoinGecko_Zapper = 'CoinGecko (Zapper)',
 	CoinPaprika = 'CoinPaprika',
 	// Covalent = 'Covalent',
@@ -15,6 +16,7 @@ export enum OffchainPriceProvider {
 
 export enum PriceProvider {
 	Chainlink = OnchainPriceProvider.Chainlink,
+	CoinApi = OffchainPriceProvider.CoinApi,
 	CoinGecko_Zapper = OffchainPriceProvider.CoinGecko_Zapper,
 	CoinPaprika = OffchainPriceProvider.CoinPaprika,
 	// Covalent = OffchainPriceProvider.Covalent,
@@ -23,10 +25,11 @@ export enum PriceProvider {
 }
 
 
-import { ChainlinkIcon, CoinGeckoIcon, CoinPaprikaIcon, CovalentGoldRushIcon, EtherscanIcon, OdosIcon } from '$/assets/icons'
+import { ChainlinkIcon, CoinApiIcon, CoinGeckoIcon, CoinPaprikaIcon, CovalentGoldRushIcon, EtherscanIcon, OdosIcon } from '$/assets/icons'
 
 export const priceProviderIcons: Record<PriceProvider, string> = {
 	[PriceProvider.Chainlink]: ChainlinkIcon,
+	[PriceProvider.CoinApi]: CoinApiIcon,
 	[PriceProvider.CoinGecko_Zapper]: CoinGeckoIcon,
 	[PriceProvider.CoinPaprika]: CoinPaprikaIcon,
 	// [PriceProvider.Covalent]: CovalentGoldRushIcon,

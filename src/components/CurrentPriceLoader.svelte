@@ -431,6 +431,46 @@
 				},
 			}),
 		}),
+
+		[PriceProvider.CoinApi]: () => ({
+			fromQuery: createQuery({
+				queryKey: ['CurrentPrice', {
+					currentPriceProvider,
+					query: _query,
+					quoteCurrency,
+				}],
+				queryFn: async ({
+					queryKey: [_, {
+						query,
+					}],
+				}) => {
+					const { getSpecificRate } = await import('$/api/coinapi/market-data/rest')
+
+					if(!('symbol' in query))
+						throw new Error(`Token contract addresses not yet supported.`)
+
+					const result = await getSpecificRate(
+						query.symbol,
+						quoteCurrency,
+						{},
+						{
+							headers: {
+								'X-CoinAPI-Key': publicEnv.PUBLIC_COINAPI_MARKETDATA_API_KEY,
+							},
+						},
+					)
+
+					if(!result?.rate)
+						throw new Error(`Price not available in ${quoteCurrency}`)
+
+					return {
+						quoteCurrency,
+						price: result.rate,
+						updatedAt: result.time && new Date(result.time).getTime(),
+					}
+				}
+			})
+		}),
 	}[currentPriceProvider]()}
 	bind:result
 	let:result

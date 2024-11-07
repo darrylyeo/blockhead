@@ -445,6 +445,7 @@ export const preferencesConfig = [
 						groupId: 'offChain',
 						name: 'Off-Chain',
 						options: [
+							{ value: PriceProvider.CoinApi, name: 'CoinAPI › Crypto Market Data', icon: priceProviderIcons[PriceProvider.CoinApi] },
 							{ value: PriceProvider.CoinGecko_Zapper, name: 'CoinGecko (via Zapper)', icon: priceProviderIcons[PriceProvider.CoinGecko_Zapper] },
 							{ value: PriceProvider.CoinPaprika, name: 'CoinPaprika', icon: priceProviderIcons[PriceProvider.CoinPaprika] },
 							{ value: PriceProvider.Etherscan, name: 'Etherscan', icon: priceProviderIcons[PriceProvider.Etherscan] },
