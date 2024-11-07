@@ -137,7 +137,8 @@
   },
   "pnpm": {
     "patchedDependencies": {
-      "@didtools/pkh-ethereum@0.4.1": "patches/@didtools__pkh-ethereum@0.4.1.patch"
+      "@didtools/pkh-ethereum@0.4.1": "patches/@didtools__pkh-ethereum@0.4.1.patch",
+      "oazapfts": "patches/oazapfts.patch"
     }
   },
   "engines": {
