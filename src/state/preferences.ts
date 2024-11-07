@@ -430,7 +430,8 @@ export const preferencesConfig = [
 				preferenceId: 'currentPriceProvider',
 				name: 'Current Price',
 				type: 'single',
-				defaultOption: 'Chainlink', // 'auto',
+				defaultOption: PriceProvider.CoinPaprika,
+				// defaultOption: 'auto',
 				options: [
 					{
 						groupId: 'onChain',
