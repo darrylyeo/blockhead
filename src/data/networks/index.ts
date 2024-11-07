@@ -122,7 +122,7 @@ export const networks = [
 		networkId: 42161,
 		nativeCurrency: {
 			name: 'Ether',
-			symbol: 'AETH',
+			symbol: 'ETH',
 			decimals: 18,
 		},
 		icon: ArbitrumOneIcon,
