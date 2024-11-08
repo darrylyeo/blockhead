@@ -98,7 +98,7 @@
 	loadingMessage="Looking up {network.name} transaction via {transactionProvider}..."
 	errorMessage="Error looking up transaction from {transactionProvider}"
 	{...{
-		[TransactionProvider.RpcProvider]: {
+		[TransactionProvider.RpcProvider]: () => ({
 			fromQuery: publicClient && createQuery({
 				queryKey: ['Transaction', {
 					transactionProvider,
@@ -128,9 +128,9 @@
 					)
 				),
 			}),
-		},
+		}),
 
-		[TransactionProvider.Blockscout]: {
+		[TransactionProvider.Blockscout]: () => ({
 			fromQuery: createQuery({
 				queryKey: ['Transaction', {
 					transactionProvider,
@@ -158,9 +158,9 @@
 					normalizeTransactionBlockscout(result, network)
 				),
 			}),
-		},
+		}),
 
-		[TransactionProvider.Chainbase]: {
+		[TransactionProvider.Chainbase]: () => ({
 			fromQuery: createQuery({
 				queryKey: ['Transaction', {
 					transactionProvider,
@@ -182,9 +182,9 @@
 					normalizeTransactionChainbase(result.data, network)
 				),
 			}),
-		},
+		}),
 
-		[TransactionProvider.Covalent]: {
+		[TransactionProvider.Covalent]: () => ({
 			fromQuery: createQuery({
 				queryKey: ['Transaction', {
 					transactionProvider,
@@ -202,9 +202,9 @@
 					normalizeTransactionCovalent(transaction, network, quoteCurrency)
 				),
 			}),
-		},
+		}),
 
-		[TransactionProvider.Decommas]: {
+		[TransactionProvider.Decommas]: () => ({
 			fromQuery: createQuery({
 				queryKey: ['Transaction', {
 					transactionProvider,
@@ -225,9 +225,9 @@
 					normalizeTransactionDecommas(transaction, network)
 				),
 			}),
-		},
+		}),
 
-		[TransactionProvider.Etherscan]: {
+		[TransactionProvider.Etherscan]: () => ({
 			fromQuery: createQuery({
 				queryKey: ['Transaction', {
 					transactionProvider,
@@ -263,9 +263,9 @@
 					}
 				},
 			}),
-		},
+		}),
 
-		// [TransactionProvider.Etherspot]: {
+		// [TransactionProvider.Etherspot]: () => ({
 		// 	fromQuery: createQuery({
 		// 		queryKey: ['Transaction', {
 		// 			transactionProvider,
@@ -282,9 +282,9 @@
 		// 			normalizeEtherspotTransaction(transaction, network)
 		// 		),
 		// 	}),
-		// },
+		// }),
 
-		[TransactionProvider.Moralis]: {
+		[TransactionProvider.Moralis]: () => ({
 			fromQuery: createQuery({
 				queryKey: ['Transaction', {
 					transactionProvider,
@@ -299,9 +299,9 @@
 				),
 				select: transaction => normalizeTransactionMoralis(transaction, network),
 			}),
-		},
+		}),
 
-		[TransactionProvider.Noves]: {
+		[TransactionProvider.Noves]: () => ({
 			fromQuery: createQuery({
 				queryKey: ['Transaction', {
 					transactionProvider,
@@ -342,8 +342,8 @@
 					normalizeRawTransactionNoves(result, network)
 				),
 			})
-		}
-	}[transactionProvider]}
+		})
+	}[transactionProvider]?.()}
 	bind:result={transaction}
 	let:result={transaction}
 	let:status
