@@ -322,21 +322,21 @@
 					}],
 					pageParam: { page },
 				}) => {
-					const { Noves } = await import('$/api/noves')
+					const { Evm } = await import('$/api/noves/translate')
 
-					const chains = await Noves.Translate.Evm.getChains()
+					const chains = await Evm.getChains()
 					const chain = chains.find(chain => chain.evmChainId === chainId)
 					
 					if (!chain)
 						throw new Error(`Chain ${network.chainId} not supported by Noves`)
 
-					return await Noves.Translate.Evm.getTransactions({
+					return await Evm.getTransactions({
 						accountAddress: address,
 						chain: chain.name,
 						page,
 						pageSize: 50,
 						sort: 'desc',
-						viewAsAccountAddress: address
+						viewAsAccountAddress: address,
 					})
 				},
 				getNextPageParam: (lastPage, allPages) => allPages.length,

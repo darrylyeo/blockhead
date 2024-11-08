@@ -4,10 +4,10 @@ import type { AbiType } from 'abitype'
 
 
 // Functions
-import { Noves } from './index'
+import { Evm } from './translate/index'
 
 export const normalizeTransaction = (
-	transaction: Awaited<ReturnType<typeof Noves.Translate.Evm.getTransaction>>,
+	transaction: Awaited<ReturnType<typeof Evm.getTransaction>>,
 	network: Ethereum.Network,
 ): Ethereum.Transaction => ({
 	network,
@@ -48,7 +48,7 @@ export const normalizeTransaction = (
 })
 
 export const normalizeAssetTransfer = (
-	transfer: NonNullable<Awaited<ReturnType<typeof Noves.Translate.Evm.getTransaction>>['classificationData']['sent']>[0]
+	transfer: NonNullable<Awaited<ReturnType<typeof Evm.getTransaction>>['classificationData']['sent']>[0]
 ): Ethereum.Erc20Transfer | Ethereum.NftTransfer => (
 	'token' in transfer ?
 		{
@@ -89,7 +89,7 @@ export const normalizeAssetTransfer = (
 )
 
 export const normalizeRawTransaction = (
-	transaction: Awaited<ReturnType<typeof Noves.Translate.Evm.getRawTransaction>>,
+	transaction: Awaited<ReturnType<typeof Evm.getRawTransaction>>,
 	network: Ethereum.Network,
 ): Ethereum.Transaction => ({
 	network,
@@ -145,7 +145,7 @@ export const normalizeRawTransaction = (
 })
 
 const normalizeTransactionTraces = (
-	traces: Awaited<ReturnType<typeof Noves.Translate.Evm.getRawTransaction>>['rawTraces'],
+	traces: Awaited<ReturnType<typeof Evm.getRawTransaction>>['rawTraces'],
 ): Ethereum.Trace => {
 	type Trace = typeof traces[0]
 
@@ -187,7 +187,7 @@ const normalizeTransactionTraces = (
 }
 
 export const normalizeEventLog = (
-	log: Awaited<ReturnType<typeof Noves.Translate.Evm.getRawTransaction>>['eventLogs'][number],
+	log: Awaited<ReturnType<typeof Evm.getRawTransaction>>['eventLogs'][number],
 ): Ethereum.TransactionLogEvent => ({
 	topics: log.raw.topics as Ethereum.TopicHash[],
 	data: log.raw.data,

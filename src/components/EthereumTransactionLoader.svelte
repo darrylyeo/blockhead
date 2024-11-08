@@ -314,20 +314,20 @@
 						transactionId,
 					}],
 				}) => {
-					const { Noves } = await import('$/api/noves')
+					const { Evm } = await import('$/api/noves/translate')
 
-					const chains = await Noves.Translate.Evm.getChains()
+					const chains = await Evm.getChains()
 					const chain = chains.find(chain => chain.evmChainId === chainId)
 					
 					if (!chain)
 						throw new Error(`Chain ${chainId} not supported by Noves`)
 
-					// const result = await Noves.Translate.Evm.getTransaction({
+					// const result = await Evm.getTransaction({
 					// 	chain: chain.name,
 					// 	txHash: transactionId,
 					// })
 
-					const result = await Noves.Translate.Evm.getRawTransaction({
+					const result = await Evm.getRawTransaction({
 						chain: chain.name,
 						txHash: transactionId,
 					})
