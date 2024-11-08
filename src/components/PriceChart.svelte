@@ -3,17 +3,20 @@
 </script>
 
 <script lang="ts">
+	// Types
 	import type { QuoteCurrency, TickerSymbol } from '$/data/currencies'
 	
 	type TimePrice = {
-		time: number,
+		time: number
 		price: number
 	}
 	type TimePricesForCurrency = {
-		currency: TickerSymbol,
+		currency: TickerSymbol
 		prices: TimePrice[]
 	}
 
+
+	// Inputs
 	export let data: TimePricesForCurrency[]
 	export let quoteCurrency: QuoteCurrency
 	export let timeRange: [number, number]
@@ -22,195 +25,202 @@
 	export let priceScale: PriceScale = 'logarithmic' // isMultiple ? 'logarithmic' : 'linear'
 
 
+	// Functions
 	import { formatValue } from '$/utils/formatValue'
 
-	function formatTimestamp(timestamp){
-		return new Date(timestamp).toLocaleDateString()
-	}
+	const formatTimestamp = (timestamp) => (
+		new Date(timestamp).toLocaleDateString()
+	)
 
 
+	// Components
 	import Echart from './Echart.svelte'
 
+
+	// Styles
 	import { tokenColors } from '$/data/tokenColors'
 </script>
 
-<Echart options={{
-	grid: {
-		left: 6,
-		right: 60,
-	},
-	xAxis: {
-		type: 'time',
-		boundaryGap: false,
-		splitNumber: 12,
-		splitLine: {
-			show: true,
-			lineStyle: {
-				color: 'hsla(0deg, 0%, 71%, 0.15)'
-			}
+
+<Echart
+	options={{
+		grid: {
+			left: 6,
+			right: 60,
 		},
-		// minorSplitLine: {}
-	},
-	yAxis: {
-		...{
-			'linear': {
-				type: 'value',
-				scale: true,
-				min: 'dataMin',
-				// max: 'dataMax'
+		xAxis: {
+			type: 'time',
+			boundaryGap: false,
+			splitNumber: 12,
+			splitLine: {
+				show: true,
+				lineStyle: {
+					color: 'hsla(0deg, 0%, 71%, 0.15)',
+				},
 			},
-			'linearFromZero': {
-				type: 'value',
-				scale: false,
-				min: 0,
-				// max: 'dataMax'
+			// minorSplitLine: {},
+		},
+		yAxis: {
+			...{
+				'linear': {
+					type: 'value',
+					scale: true,
+					min: 'dataMin',
+					// max: 'dataMax',
+				},
+				'linearFromZero': {
+					type: 'value',
+					scale: false,
+					min: 0,
+					// max: 'dataMax',
+				},
+				'logarithmic': {
+					type: 'log',
+					logBase: 10,
+					min: 'dataMin',
+					max: 'dataMax',
+					// minorTick: {
+					// 	splitNumber: 2,
+					// },
+					// minorSplitLine: {
+					// 	show: true,
+					// 	lineStyle: {
+					// 		color: 'hsla(0deg, 0%, 71%, 0.15)',
+					// 	},
+					// },
+					splitNumber: 10,
+				},
+			}[priceScale],
+			splitLine: {
+				show: true,
+				lineStyle: {
+					color: 'hsla(0deg, 0%, 71%, 0.15)',
+				},
 			},
-			'logarithmic': {
-				type: 'log',
-				logBase: 10,
-				min: 'dataMin',
-				max: 'dataMax',
-				// minorTick: {
-				// 	splitNumber: 2
-				// },
-				// minorSplitLine: {
-				// 	show: true,
-				// 	lineStyle: {
-				// 		color: 'hsla(0deg, 0%, 71%, 0.15)'
-				// 	},
-				// },
-				splitNumber: 10
-			}
-		}[priceScale],
-		splitLine: {
-			show: true,
-			lineStyle: {
-				color: 'hsla(0deg, 0%, 71%, 0.15)'
-			}
-		},
-		boundaryGap: ['2%', '2%'],
+			boundaryGap: ['2%', '2%'],
 
-		position: 'right',
-		axisLabel: {
-			formatter: value => formatValue(value, { currency: quoteCurrency }),
+			position: 'right',
+			axisLabel: {
+				formatter: value => formatValue(value, { currency: quoteCurrency }),
+			},
 		},
-	},
-	series: data?.map(({currency, prices}) => ({
-		type: 'line',
-		name: currency,
+		series: data?.map(({currency, prices}) => ({
+			type: 'line',
+			name: currency,
 
-		data: prices.map(({time, price}) => [time, price]),
-		// data: prices,
-		// encode: {
-		// 	x: 'time',
-		// 	y: 'price',
-		// 	label: ['Time', 'Price'],
-		// 	itemName: '???',
-		// 	tooltip: ['price'],
-		// },
+			data: prices.map(({time, price}) => [time, price]),
+			// data: prices,
+			// encode: {
+			// 	x: 'time',
+			// 	y: 'price',
+			// 	label: ['Time', 'Price'],
+			// 	itemName: '???',
+			// 	tooltip: ['price'],
+			// },
 
-		symbol: 'none',
-		// symbol: `https://tokens.1inch.exchange/0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.png`,
-		
-		color: `var(--${tokenColors[currency]}, var(--primary-color, hsla(0deg, 0%, 90%, 0.75)))`,
-		areaStyle: isMultiple ? {
-			color: 'transparent'
-		} : {
-			color: {
-				type: 'linear',
-				x: 0, y: 0,
-				x2: 0, y2: 2,
-				colorStops: [{
-					offset: 0.05,
-					color: `var(--${tokenColors[currency]}, var(--primary-color, hsla(0deg, 0%, 90%, 0.75)))`,
-				}, {
-					offset: 1,
-					color: 'transparent'
-				}]
-			}
+			symbol: 'none',
+			// symbol: `https://tokens.1inch.exchange/0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.png`,
+
+			color: `var(--${tokenColors[currency]}, var(--primary-color, hsla(0deg, 0%, 90%, 0.75)))`,
+			areaStyle: isMultiple ? {
+				color: 'transparent',
+			} : {
+				color: {
+					type: 'linear',
+					x: 0, y: 0,
+					x2: 0, y2: 2,
+					colorStops: [{
+						offset: 0.05,
+						color: `var(--${tokenColors[currency]}, var(--primary-color, hsla(0deg, 0%, 90%, 0.75)))`,
+					}, {
+						offset: 1,
+						color: 'transparent',
+					}],
+				},
+			},
+			labelLayout: {
+				moveOverlap: 'shiftY',
+			},
+			endLabel: {
+				show: true,
+				formatter: ({value: [time, price]}) => formatValue(price, { currency: quoteCurrency }),
+				fontSize: 6,
+				textBorderColor: 'transparent',
+			},
+			emphasis: {
+				focus: 'series',
+			},
+		})),
+		tooltip: {
+			trigger: 'axis',
+			position: points => [points[0], points[1]],
+			order: 'valueDesc',
+			axisPointer: {
+				type: 'cross',
+			},
+			symbol: 'circle',
 		},
-		labelLayout: {
-			moveOverlap: 'shiftY'
-		},
-		endLabel: {
-			show: true,
-			formatter: ({value: [time, price]}) => formatValue(price, { currency: quoteCurrency }),
-			fontSize: 6,
-			textBorderColor: 'transparent'
-		},
-		emphasis: {
-			focus: 'series'
-		},
-	})),
-	tooltip: {
-		trigger: 'axis',
-		position: points => [points[0], points[1]],
-		order: 'valueDesc',
 		axisPointer: {
 			type: 'cross',
-		},
-		symbol: 'circle',
-	},
-	axisPointer: {
-		type: 'cross',
-		link: {xAxisIndex: 'all'},
-		label: {
-			formatter: ({axisDimension, value}) =>
-				axisDimension === 'x' ? formatTimestamp(value) :
-				axisDimension === 'y' ? formatValue(value, { currency: quoteCurrency }) :
-				'',
-			backgroundColor: 'rgba(250, 250, 250, 0.5)'
-		}
-	},
-	dataZoom: [{
-		type: 'inside',
-		start: 80,
-		end: 100
-		// start: timeRange[0],
-		// end: timeRange[1]
-	}, {
-		type: 'slider',
-		start: 0,
-		end: 100
-	}],
-	legend: {
-		left: 120,
-		right: 120,
-		top: 4
-		// type: 'scroll',
-		// orient: 'vertical',
-		// right: 10,
-		// top: 20,
-		// bottom: 20,
-		// data: data.legendData,
-		// selected: data.selected
-	},
-	toolbox: [{
-		feature: {
-			magicType: {
-				type: [
-					'line',
-					'bar',
-					'stack'
-				]
+			link: {xAxisIndex: 'all'},
+			label: {
+				formatter: ({axisDimension, value}) =>
+					axisDimension === 'x' ? formatTimestamp(value) :
+					axisDimension === 'y' ? formatValue(value, { currency: quoteCurrency }) :
+					'',
+				backgroundColor: 'rgba(250, 250, 250, 0.5)',
 			},
 		},
-		x: 0
-	}, {
-		feature: {
-			dataZoom: {
-				title: {
-					zoom: 'Zoom Tool',
-					back: 'Undo Zoom'
+		dataZoom: [{
+			type: 'inside',
+			start: 80,
+			end: 100,
+			// start: timeRange[0],
+			// end: timeRange[1],
+		}, {
+			type: 'slider',
+			start: 0,
+			end: 100,
+		}],
+		legend: {
+			left: 120,
+			right: 120,
+			top: 4,
+			// type: 'scroll',
+			// orient: 'vertical',
+			// right: 10,
+			// top: 20,
+			// bottom: 20,
+			// data: data.legendData,
+			// selected: data.selected,
+		},
+		toolbox: [{
+			feature: {
+				magicType: {
+					type: [
+						'line',
+						'bar',
+						'stack',
+					],
 				},
-				yAxisIndex: 'none'
 			},
-			restore: {
-				title: 'Reset'
+			x: 0,
+		}, {
+			feature: {
+				dataZoom: {
+					title: {
+						zoom: 'Zoom Tool',
+						back: 'Undo Zoom',
+					},
+					yAxisIndex: 'none',
+				},
+				restore: {
+					title: 'Reset',
+				},
+				saveAsImage: {
+					title: 'Save',
+				},
 			},
-            saveAsImage: {
-				title: 'Save'
-			}
-		}
-	}]
-}} />
+		}],
+	}}
+/>
