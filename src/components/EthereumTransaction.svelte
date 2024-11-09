@@ -89,6 +89,46 @@
 			<span class="card-annotation">{transaction.network.name} Transaction</span>
 		</svelte:fragment>
 
+		{#if transaction.summary?.description}
+			{#if isStandaloneLayout}
+				<hr>
+
+				<section>
+					<Collapsible
+						type="label"
+						isOpen
+						showTriggerText={false}
+					>
+						<svelte:fragment slot="title">
+							<svelte:element this={`h${headingLevel + 1}`}>Summary</svelte:element>
+						</svelte:fragment>
+
+						<svelte:fragment slot="header-right">
+							<span class="card-annotation">{transactionProvider}</span>
+						</svelte:fragment>
+
+						<div class="card row wrap">
+							<svelte:element this={`h${headingLevel + 2}`}>{transaction.summary.description}</svelte:element>
+		
+							{#if transaction.summary.category}
+								<span class="card-annotation">{formatIdentifierToWords(transaction.summary.category)}</span>
+							{/if}
+						</div>
+					</Collapsible>
+				</section>
+			{:else}
+				<div class="row wrap">
+					<svelte:element this={`h${headingLevel + 1}`}>{transaction.summary.description}</svelte:element>
+
+					{#if transaction.summary.category}
+						<span class="card-annotation">{formatIdentifierToWords(transaction.summary.category)}</span>
+					{/if}
+				</div>
+
+				<hr>
+			{/if}
+		{/if}
+
 		{#if !(isSummary && 'erc20Transfers' in transaction && transaction.erc20Transfers?.length && transaction.value === 0n)}
 			{#if isStandaloneLayout}
 				<hr>
