@@ -68,7 +68,7 @@ export const normalizeAssetTransfer = (
 				toAddress: transfer.to?.name,
 			},
 
-			value: BigInt(Number(transfer.amount) * 10 ** transfer.token.decimals),
+			value: BigInt(Math.floor(Number(transfer.amount) * 10 ** transfer.token.decimals)),
 
 			action: transfer.action,
 		} as Ethereum.Erc20Transfer
