@@ -325,6 +325,11 @@ export namespace Ethereum {
 			v?: 0 | 1,
 			yParity?: number,
 		},
+
+		summary?: {
+			description?: string,
+			category?: string,
+		},
 	}
 	export type Trace = {
 		blockHash: BlockHash
