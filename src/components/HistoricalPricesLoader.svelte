@@ -178,7 +178,8 @@
 
 								const tickerId = tickerIdForSymbol.get(coin.symbol)
 								if(!tickerId)
-									throw new Error(`No CoinPaprika ticker ID found for ${coin.symbol}.`)
+									return null
+									// throw new Error(`No CoinPaprika ticker ID found for ${coin.symbol}.`)
 
 								const data = await getCoinsByCoinIdOhlcvHistorical(
 									tickerId,
@@ -207,9 +208,10 @@
 						}))
 				),
 				combine: queries => ({
-					...queries[0],
+					...queries.find(query => query.isSuccess) ?? queries[0],
 					data: (
 						queries
+							.filter(query => query.isSuccess)
 							.map(query => query.data)
 							.filter(isTruthy)
 					),
