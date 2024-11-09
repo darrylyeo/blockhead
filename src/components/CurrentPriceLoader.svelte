@@ -227,22 +227,32 @@
 					}],
 				}) => {
 					const coin = query
-
-					const { getHistoricalPricesByAddress, getHistoricalPricesByTickerSymbol } = await import('$/api/covalent')
+					const { getHistoricalPricesByTickerSymbol } = await import('$/api/covalent')
+					const { getHistoricalTokenPrices } = await import('$/api/covalent/index')
 
 					const now = new Date(Date.now()).toISOString().slice(0, 10)
 
 					const data = (
 						'contractAddress' in coin && coin.contractAddress ?
-							await getHistoricalPricesByAddress({
-								chainId: coin.chainId,
-								contractAddress: coin.contractAddress,
+							// v2
+							await getHistoricalTokenPrices({
+								chainName: coin.chainId,
 								quoteCurrency,
+								contractAddress: coin.contractAddress,
 								from: now,
 								to: now,
+								pricesAtAsc: true,
 							})
+							// v1
+							// (await getHistoricalPricesByAddress({
+							// 	chainId: coin.chainId,
+							// 	contractAddress: coin.contractAddress,
+							// 	quoteCurrency,
+							// 	from: now,
+							// 	to: now,
+							// }))[0]
 						:
-							await getHistoricalPricesByTickerSymbol({
+							(await getHistoricalPricesByTickerSymbol({
 								chainId: coin.chainId,
 								tickerSymbol: (
 									!coin.symbol && coin.contractAddress === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
@@ -252,8 +262,8 @@
 								quoteCurrency,
 								from: now,
 								to: now,
-							})
-					)[0]
+							}))[0]
+					)
 
 					const item = data.prices[data.prices.length - 1]
 
