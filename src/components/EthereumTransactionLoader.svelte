@@ -323,25 +323,29 @@
 					if (!chain)
 						throw new Error(`Chain ${chainId} not supported by Noves`)
 
-					// const result = await Evm.getTransaction({
-					// 	chain: chain.name,
-					// 	txHash: transactionId,
-					// })
+					const [
+						transaction,
+						rawTransaction,
+					] = await Promise.all([
+						Evm.getTransaction({
+							chain: chain.name,
+							txHash: transactionId,
+						}),
+						Evm.getRawTransaction({
+							chain: chain.name,
+							txHash: transactionId,
+						}),
+					])
 
-					const result = await Evm.getRawTransaction({
-						chain: chain.name,
-						txHash: transactionId,
-					})
-
-					if (!result)
-						throw new Error('Transaction not found')
-
-					return result
+					return {
+						transaction,
+						rawTransaction,
+					}
 				},
-				select: result => (
-					// normalizeTransactionNoves(result, network)
-					normalizeRawTransactionNoves(result, network)
-				),
+				select: ({ transaction, rawTransaction }) => ({
+					...normalizeTransactionNoves(transaction, network),
+					...normalizeRawTransactionNoves(rawTransaction, network),
+				}),
 			})
 		})
 	}[transactionProvider]?.()}
