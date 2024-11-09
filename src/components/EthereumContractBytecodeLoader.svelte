@@ -37,6 +37,8 @@
 		contractAddress: typeof contractAddress,
 		contractBytecode: typeof contractBytecode,
 		status: Loader<any, any, any, any>['status'],
+		isOpen: Loader<any, any, any, 'collapsible'>['$$slot_def']['default']['isOpen'],
+		toggle: Loader<any, any, any, 'collapsible'>['$$slot_def']['default']['toggle'],
 	}
 
 	type $$Slots = {
@@ -92,9 +94,11 @@
 
 	<svelte:fragment slot="header"
 		let:status
+		let:isOpen let:toggle
 	>
 		<slot name="header"
 			{contractAddress} {contractBytecode}
+			{isOpen} {toggle}
 			{status}
 		/>
 	</svelte:fragment>
