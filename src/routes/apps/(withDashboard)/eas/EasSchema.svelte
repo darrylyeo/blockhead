@@ -59,6 +59,7 @@
 	import Collapsible from '$/components/Collapsible.svelte'
 	import DateComponent from '$/components/Date.svelte'
 	import EthereumAccountOrContract from '$/components/EthereumAccountOrContract.svelte'
+	import EthereumTransactionLoader from '$/components/EthereumTransactionLoader.svelte'
 	import EthereumTransaction from '$/components/EthereumTransaction.svelte'
 	import NetworkIcon from '$/components/NetworkIcon.svelte'
 	import TweenedNumber from '$/components/TweenedNumber.svelte'
@@ -309,9 +310,18 @@
 						</span>
 					</header>
 
-					<EthereumTransaction
-						transaction={schema.txid}
-					/>
+					<EthereumTransactionLoader
+						{network}
+						transactionId={schema.txid}
+						let:transaction
+					>
+						<EthereumTransaction
+							{network}
+							{transaction}
+							layout="standalone"
+							detailLevel="exhaustive"
+						/>
+					</EthereumTransactionLoader>
 				</section>
 
 				{#each schema.schemaNames as nameAttestation}
