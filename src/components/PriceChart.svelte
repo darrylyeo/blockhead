@@ -137,13 +137,26 @@
 							type: 'linear',
 							x: 0, y: 0,
 							x2: 0, y2: 2,
-							colorStops: [{
-								offset: 0.05,
-								color: `var(--${tokenColors[coinWithHistoricalPrices.coin.symbol]}, var(--primary-color, hsla(0deg, 0%, 90%, 0.75)))`,
-							}, {
-								offset: 1,
-								color: 'transparent',
-							}],
+							colorStops: [
+								{
+									offset: 0.05,
+									color: `rgba(127, 127, 127, 0.25)`,
+								},
+								{
+									offset: 1,
+									color: `rgba(127, 127, 127, 0)`,
+								},
+							],
+							// colorStops: [
+							// 	{
+							// 		offset: 0.05,
+							// 		color: `var(--${tokenColors[coinWithHistoricalPrices.coin.symbol]}, var(--primary-color, hsla(0deg, 0%, 90%, 0.75)))`,
+							// 	},
+							// 	{
+							// 		offset: 1,
+							// 		color: 'transparent',
+							// 	},
+							// ],
 						},
 					},
 					labelLayout: {
