@@ -31,19 +31,26 @@ export const normalizeTransaction = (
 	gasUnitsSpent: BigInt(transaction.rawTransactionData.gas),
 	gasUnitRate: BigInt(transaction.rawTransactionData.gasPrice),
 
-	classification: {
-		type: transaction.classificationData.type,
-		source: transaction.classificationData.source,
-		description: transaction.classificationData.description,
-		protocol: transaction.classificationData.protocol,
-		sent: (
+	erc20Transfers: [
+		...(
 			transaction.classificationData.sent
 				?.map(transfer => normalizeAssetTransfer(transfer))
+				.filter(transfer => 'token' in transfer)
+			?? []
 		),
-		received: (
+		...(
 			transaction.classificationData.received
 				?.map(transfer => normalizeAssetTransfer(transfer))
+				.filter(transfer => 'token' in transfer)
+			?? []
 		),
+	],
+
+	summary: {
+		description: transaction.classificationData.description,
+		category: transaction.classificationData.type,
+		// source: transaction.classificationData.source,
+		// protocol: transaction.classificationData.protocol,
 	},
 })
 
