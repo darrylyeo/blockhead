@@ -243,27 +243,33 @@
 								/>)
 							</svelte:element>
 
-							<div role="toolbar" class="row wrap">
-								<TokenBalanceFormatSelect
-									type="checkboxes"
-									bind:tokenBalanceFormat
-									quoteCurrency={summary.quoteCurrency}
-								/>
+							{#if isOpen}
+								<div
+									role="toolbar"
+									class="row wrap align-end"
+									transition:scale={{ duration: 300 }}
+								>
+									<TokenBalanceFormatSelect
+										type="checkboxes"
+										bind:tokenBalanceFormat
+										quoteCurrency={summary.quoteCurrency}
+									/>
 
-								<label>
-									<input type="checkbox" bind:checked={showSmallValues}>
-									<span>Small</span>
-								</label>
+									<label>
+										<input type="checkbox" bind:checked={showSmallValues}>
+										<span>Small</span>
+									</label>
 
-								<label>
-									<span>Sort</span>
-									<select bind:value={sortBy}>
-										<option value="ticker-ascending">A–Z</option>
-										<option value="value-descending">Highest</option>
-										<option value="value-ascending">Lowest</option>
-									</select>
-								</label>
-							</div>
+									<label>
+										<span>Sort</span>
+										<select bind:value={sortBy}>
+											<option value="ticker-ascending">A–Z</option>
+											<option value="value-descending">Highest</option>
+											<option value="value-ascending">Lowest</option>
+										</select>
+									</label>
+								</div>
+							{/if}
 
 							<button
 								class="small"
