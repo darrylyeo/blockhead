@@ -468,7 +468,7 @@ export const preferencesConfig = [
 				preferenceId: 'historicalPriceProvider',
 				name: 'Historical Price',
 				type: 'single', // 'multiple'
-				defaultOption: HistoricalPriceProvider.CoinPaprika,
+				defaultOption: HistoricalPriceProvider.Covalent,
 				options: [
 					{
 						groupId: 'offChain',
