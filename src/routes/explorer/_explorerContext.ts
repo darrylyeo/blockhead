@@ -154,6 +154,7 @@ export const relevantPreferences = derived([
 				[
 					'rpcNetwork',
 					'currentPriceProvider',
+					'historicalPriceProvider',
 					$explorerNetwork?.slug === 'filecoin' ? 'filecoinTransactionProvider' : 'transactionProvider',
 				]
 		),

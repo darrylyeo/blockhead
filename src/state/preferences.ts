@@ -464,11 +464,11 @@ export const preferencesConfig = [
 					// },
 				]
 			},
-			/*{
+			{
 				preferenceId: 'historicalPriceProvider',
 				name: 'Historical Price',
 				type: 'single', // 'multiple'
-				defaultOption: '',
+				defaultOption: PriceProvider.CoinPaprika,
 				options: [
 					// {
 					// 	groupId: 'onChain',
@@ -481,7 +481,8 @@ export const preferencesConfig = [
 						groupId: 'offChain',
 						name: 'Off-Chain',
 						options: [
-							// { value: PriceProvider.Covalent, name: 'Covalent › GoldRush' },
+							{ value: PriceProvider.CoinPaprika, name: 'CoinPaprika', icon: priceProviderIcons[PriceProvider.CoinPaprika] },
+							{ value: PriceProvider.Covalent, name: 'Covalent › GoldRush', icon: priceProviderIcons[PriceProvider.Covalent] },
 							// { value: 'The Graph', name: 'The Graph' },
 							// { value: 'Zapper', name: 'Zapper' },
 							// { value: 'CoinGecko', name: 'CoinGecko' },
@@ -490,7 +491,7 @@ export const preferencesConfig = [
 						]
 					}
 				]
-			},*/
+			},
 			{
 				preferenceId: 'quoteCurrency',
 				name: 'Currency',
