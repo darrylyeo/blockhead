@@ -3,6 +3,13 @@ import { NetworkProvider } from '$/data/networkProviders/types'
 import { getViemPublicClient } from '$/data/networkProviders'
 
 
+// Functions
+import * as publicEnv from '$env/static/public'
+
+export const getQuicknodeEndpoint = () => (
+	`https://${publicEnv.PUBLIC_QUICKNODE_ENDPOINT_NAME}.quiknode.pro/${publicEnv.PUBLIC_QUICKNODE_ENDPOINT_AUTHENTICATION_TOKEN}`
+)
+
 export const getQuickNodePublicClient = ({
 	network,
 }: {
