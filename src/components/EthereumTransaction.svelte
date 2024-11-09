@@ -303,7 +303,10 @@
 						<svelte:element this={`h${headingLevel + 1}`}>ERC-20 Token Transfers</svelte:element>
 					</svelte:fragment>
 
-					<div class="transfers">
+					<div
+						class="transfers card"
+						class:scrollable-list={transaction.erc20Transfers.length > 6}
+					>
 						{#each transaction.erc20Transfers as erc20Transfer}
 							<EthereumErc20Transfer
 								{network}
@@ -558,5 +561,9 @@
 
 	.signature {
 		grid-template-columns: minmax(max-content, 0.25fr) minmax(max-content, 1fr);
+	}
+
+	.transfers {
+		gap: 0.33em;
 	}
 </style>
