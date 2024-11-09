@@ -21,7 +21,7 @@
 
 	$: showCurrentPrice = !isTestnet($explorerNetwork)
 
-	$: showHistoricalPrice = false
+	$: showHistoricalPrice = showCurrentPrice
 
 
 	// Components
