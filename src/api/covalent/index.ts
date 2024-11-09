@@ -2394,28 +2394,33 @@ export const getTransaction = ({
 	txHash,
 	quoteCurrency = 'USD',
 	noLogs = false,
-	withDex = false,
+	// withDex = false,
 	withNftSales = false,
-	withLending = false,
+	// withLending = false,
 	withSafe = false,
 }: {
 	chainName: string | number
 	txHash: string
 	quoteCurrency?: string
 	noLogs?: boolean
-	withDex?: boolean
+	// withDex?: boolean
 	withNftSales?: boolean
-	withLending?: boolean
+	// withLending?: boolean
 	withSafe?: boolean
 }) => (
-	get<TransactionResponse>(`v1/${chainName}/transaction_v2/${txHash}`, {
-		'quote-currency': quoteCurrency,
-		'no-logs': noLogs,
-		'with-dex': withDex,
-		'with-nft-sales': withNftSales,
-		'with-lending': withLending,
-		'with-safe': withSafe,
-	})
+	get<
+		TransactionResponse
+	>(
+		`v1/${chainName}/transaction_v2/${txHash}`,
+		{
+			'quote-currency': quoteCurrency,
+			'no-logs': noLogs,
+			// 'with-dex': withDex,
+			'with-nft-sales': withNftSales,
+			// 'with-lending': withLending,
+			'with-safe': withSafe,
+		},
+	)
 )
 
 export type TransactionResponse = {
