@@ -9,7 +9,7 @@ export enum OffchainPriceProvider {
 	CoinApi = 'CoinAPI',
 	CoinGecko_Zapper = 'CoinGecko (Zapper)',
 	CoinPaprika = 'CoinPaprika',
-	// Covalent = 'Covalent',
+	Covalent = 'Covalent',
 	Etherscan = 'Etherscan',
 	QuickNode_Odos = 'Odos (QuickNode)',
 }
@@ -19,7 +19,7 @@ export enum PriceProvider {
 	CoinApi = OffchainPriceProvider.CoinApi,
 	CoinGecko_Zapper = OffchainPriceProvider.CoinGecko_Zapper,
 	CoinPaprika = OffchainPriceProvider.CoinPaprika,
-	// Covalent = OffchainPriceProvider.Covalent,
+	Covalent = OffchainPriceProvider.Covalent,
 	Etherscan = OffchainPriceProvider.Etherscan,
 	QuickNode_Odos = OffchainPriceProvider.QuickNode_Odos,
 }
@@ -32,7 +32,7 @@ export const priceProviderIcons: Record<PriceProvider, string> = {
 	[PriceProvider.CoinApi]: CoinApiIcon,
 	[PriceProvider.CoinGecko_Zapper]: CoinGeckoIcon,
 	[PriceProvider.CoinPaprika]: CoinPaprikaIcon,
-	// [PriceProvider.Covalent]: CovalentGoldRushIcon,
+	[PriceProvider.Covalent]: CovalentGoldRushIcon,
 	[PriceProvider.Etherscan]: EtherscanIcon,
 	[PriceProvider.QuickNode_Odos]: OdosIcon,
 }
