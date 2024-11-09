@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Types/constants
 	import type { QuoteCurrency } from '$/data/currencies'
-	import { fiatQuoteCurrencies } from '$/data/currencies'
+	import { quoteCurrencies } from '$/data/currencies'
 
 
 	// Inputs
@@ -10,14 +10,17 @@
 
 	// (View options)
 	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
+
+	// (Derived)
+	$: symbol = quoteCurrencies[quoteCurrency]?.symbol ?? quoteCurrency
 </script>
 
 
 {#if type ==='select'}
 	<select bind:value={tokenBalanceFormat}>
 		<option value="original">Amount</option>
-		<option value="converted">Value ({fiatQuoteCurrencies[quoteCurrency].symbol})</option>
-		<option value="both">Amount + Value ({fiatQuoteCurrencies[quoteCurrency].symbol})</option>
+		<option value="converted">Value ({symbol})</option>
+		<option value="both">Amount + Value ({symbol})</option>
 		<!-- <option value="original">Balances</option>
 		<option value="converted">Quotes</option>
 		<option value="both">Balances + Quotes</option> -->
@@ -55,6 +58,6 @@
 					: 'original'
 			}
 		/>
-		<span>{fiatQuoteCurrencies[quoteCurrency].symbol}</span>
+		<span>{symbol}</span>
 	</label>
 {/if}
