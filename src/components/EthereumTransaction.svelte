@@ -301,8 +301,6 @@
 						<svelte:element this={`h${headingLevel + 1}`}>ERC-20 Token Transfers</svelte:element>
 					</svelte:fragment>
 
-					<svelte:element this={`h${headingLevel + 1}`}></svelte:element>
-
 					<div class="transfers">
 						{#each transaction.erc20Transfers as erc20Transfer}
 							<EthereumErc20Transfer
