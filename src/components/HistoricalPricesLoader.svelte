@@ -183,7 +183,15 @@
 
 								const data = await getCoinsByCoinIdOhlcvHistorical(
 									tickerId,
-									new Date(fromDate).toISOString(),
+									(
+										new Date(
+											Math.max(
+												fromDate,
+												toDate - 29 * 24 * 60 * 60 * 1000,
+											)
+										)
+											.toISOString()
+									),
 									{
 										end: new Date(toDate).toISOString(),
 										quote: quoteCurrency.toLowerCase(),
