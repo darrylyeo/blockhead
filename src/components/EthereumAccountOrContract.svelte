@@ -344,6 +344,7 @@
 									>
 										<EthereumTransaction
 											{network}
+											{transactionProvider}
 											{transaction}
 											{quoteCurrency}
 											contextualAddress={address}
@@ -425,6 +426,7 @@
 									>
 										<EthereumTransaction
 											{network}
+											{transactionProvider}
 											{transaction}
 											{quoteCurrency}
 											contextualAddress={address}

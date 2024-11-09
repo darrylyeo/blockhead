@@ -45,6 +45,7 @@
 
 	type SharedSlotProps = {
 		transaction: typeof transaction,
+		transactionProvider: typeof transactionProvider,
 		status: Loader<any, any, any, any, any>['$$slot_def']['default']['status'],
 	}
 
@@ -365,13 +366,20 @@
 		let:result={transaction}
 		let:status
 	>
-		<slot name="header" {status} {transaction} />
+		<slot name="header"
+			{status}
+			{transaction} {transactionProvider}
+		/>
 	</svelte:fragment>
 
-	<slot {status} {transaction}>
+	<slot
+		{status}
+		{transaction} {transactionProvider}
+	>
 		{#if transaction}
 			<EthereumTransaction
 				{network}
+				{transactionProvider}
 				{transaction}
 				{quoteCurrency}
 

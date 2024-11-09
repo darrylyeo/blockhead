@@ -190,6 +190,7 @@
 					{#if transaction}
 						<EthereumTransaction
 							{network}
+							{transactionProvider}
 							{transaction}
 							{quoteCurrency}
 			

@@ -3,10 +3,12 @@
 	import type { Ethereum } from '$/data/networks/types'
 	import type { QuoteCurrency } from '$/data/currencies'
 	import type { normalizeTransaction } from '$/api/covalent/normalize'
+	import type { TransactionProvider } from '$/data/transactionProvider'
 
 
 	// Inputs
 	export let network: Ethereum.Network
+	export let transactionProvider: TransactionProvider
 	export let transaction: Ethereum.Transaction | ReturnType<typeof normalizeTransaction>
 	export let quoteCurrency: QuoteCurrency
 

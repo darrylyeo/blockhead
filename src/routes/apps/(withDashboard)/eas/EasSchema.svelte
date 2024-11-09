@@ -314,9 +314,11 @@
 						{network}
 						transactionId={schema.txid}
 						let:transaction
+						let:transactionProvider
 					>
 						<EthereumTransaction
 							{network}
+							{transactionProvider}
 							{transaction}
 							layout="standalone"
 							detailLevel="exhaustive"

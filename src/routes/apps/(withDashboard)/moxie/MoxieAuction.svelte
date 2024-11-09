@@ -626,8 +626,10 @@
 							{network}
 							transactionId={auction.txHash}
 							let:transaction
+							let:transactionProvider
 						>
 							<EthereumTransaction
+								{transactionProvider}
 								{transaction}
 							/>
 						</EthereumTransactionLoader>

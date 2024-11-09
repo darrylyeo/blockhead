@@ -298,12 +298,13 @@
 							<EthereumTransactionLoader
 								{network}
 								transactionId={order.txHash}
-
 								let:transaction
+								let:transactionProvider
 							>
 								{#if transaction}
 									<EthereumTransaction
 										{network}
+										{transactionProvider}
 										{transaction}
 										quoteCurrency="USD"
 										contextualAddress={order.userWalletAddress}
@@ -341,10 +342,12 @@
 								{network}
 								transactionId={order.finalTxHash}
 								let:transaction
+								let:transactionProvider
 							>
 								{#if transaction}
 									<EthereumTransaction
 										{network}
+										{transactionProvider}
 										{transaction}
 										quoteCurrency="USD"
 										contextualAddress={order.userWalletAddress}

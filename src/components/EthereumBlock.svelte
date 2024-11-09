@@ -228,6 +228,7 @@
 					>
 						<EthereumTransaction
 							{network}
+							{transactionProvider}
 							{transaction}
 							{quoteCurrency}
 							includeLogs={detailLevel === 'exhaustive'}
