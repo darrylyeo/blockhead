@@ -15,7 +15,7 @@ import { TokenBalancesProvider, tokenBalancesProviderIcons } from '$/data/tokenB
 import { FilecoinTokenBalancesProvider, filecoinTokenBalancesProviderIcons } from '$/data/filecoinTokenBalancesProvider'
 import { DefiProvider, defiProviderIcons } from '$/data/defiProviders'
 import { NftProvider, nftProviderIcons } from '$/data/nftProviders'
-import { PriceProvider, priceProviderIcons } from '$/data/priceProviders'
+import { PriceProvider, HistoricalPriceProvider, priceProviderIcons } from '$/data/priceProviders'
 import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProvider'
 import { FilecoinTransactionProvider, filecoinTransactionProviderIcons } from '$/data/filecoinTransactionProvider'
 import { ContractSourceProvider, contractSourceProviderIcons } from '$/data/contractSourceProvider'
@@ -468,26 +468,14 @@ export const preferencesConfig = [
 				preferenceId: 'historicalPriceProvider',
 				name: 'Historical Price',
 				type: 'single', // 'multiple'
-				defaultOption: PriceProvider.CoinPaprika,
+				defaultOption: HistoricalPriceProvider.CoinPaprika,
 				options: [
-					// {
-					// 	groupId: 'onChain',
-					// 	name: 'On-Chain',
-					// 	options: [
-					//	{ value: PriceProvider.Chainlink, name: 'Chainlink' },
-					// 	]
-					// },
 					{
 						groupId: 'offChain',
 						name: 'Off-Chain',
 						options: [
-							{ value: PriceProvider.CoinPaprika, name: 'CoinPaprika', icon: priceProviderIcons[PriceProvider.CoinPaprika] },
-							{ value: PriceProvider.Covalent, name: 'Covalent › GoldRush', icon: priceProviderIcons[PriceProvider.Covalent] },
-							// { value: 'The Graph', name: 'The Graph' },
-							// { value: 'Zapper', name: 'Zapper' },
-							// { value: 'CoinGecko', name: 'CoinGecko' },
-							// { value: 'Etherscan', name: 'Etherscan' },
-							// { value: 'TradingView', name: 'TradingView' },
+							{ value: HistoricalPriceProvider.CoinPaprika, name: 'CoinPaprika', icon: priceProviderIcons[PriceProvider.CoinPaprika] },
+							{ value: HistoricalPriceProvider.Covalent, name: 'Covalent › GoldRush', icon: priceProviderIcons[PriceProvider.Covalent] },
 						]
 					}
 				]

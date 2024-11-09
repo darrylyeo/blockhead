@@ -24,6 +24,11 @@ export enum PriceProvider {
 	QuickNode_Odos = OffchainPriceProvider.QuickNode_Odos,
 }
 
+export enum HistoricalPriceProvider {
+	CoinPaprika = OffchainPriceProvider.CoinPaprika,
+	Covalent = OffchainPriceProvider.Covalent,
+}
+
 
 import { ChainlinkIcon, CoinApiIcon, CoinGeckoIcon, CoinPaprikaIcon, CovalentGoldRushIcon, EtherscanIcon, OdosIcon } from '$/assets/icons'
 

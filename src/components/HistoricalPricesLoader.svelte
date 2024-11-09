@@ -3,12 +3,12 @@
 	import type { Ethereum } from '$/data/networks/types'
 	import type { QuoteCurrency, TickerSymbol } from '$/data/currencies'
 	import type { Coin, CoinWithHistoricalPrices } from '$/data/coins'
-	import { PriceProvider, priceProviderIcons } from '$/data/priceProviders'
+	import { HistoricalPriceProvider, priceProviderIcons } from '$/data/priceProviders'
 	import { networkByChainId } from '$/data/networks'
 
 
 	// Inputs
-	export let historicalPriceProvider: PriceProvider
+	export let historicalPriceProvider: HistoricalPriceProvider
 	export let query: {
 		coins: Coin[]
 	}
@@ -86,7 +86,7 @@
 	loadingIconName={historicalPriceProvider}
 	loadingMessage="Retrieving price history from {historicalPriceProvider}..."
 	{...{
-		[PriceProvider.Covalent]: () => ({
+		[HistoricalPriceProvider.Covalent]: () => ({
 			fromQuery: createQueries({
 				queries: (
 					resolvedQuery.coins
@@ -153,7 +153,7 @@
 			})
 		}),
 
-		[PriceProvider.CoinPaprika]: () => ({
+		[HistoricalPriceProvider.CoinPaprika]: () => ({
 			fromQuery: createQueries({
 				queries: (
 					resolvedQuery.coins
