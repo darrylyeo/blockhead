@@ -108,8 +108,6 @@
 		grid-template-columns: repeat(auto-fit, minmax(min(25rem, 100%), 1fr));
 		grid-auto-flow: dense;
 
-		--options-size: 0.8;
-
 		.view {
 			&:not(.is-single),
 			&.full {

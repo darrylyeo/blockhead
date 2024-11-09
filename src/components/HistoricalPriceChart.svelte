@@ -60,7 +60,10 @@
 		{/if}
 	</HistoricalPricesLoader>
 
-	<footer class="options bar wrap">
+	<footer
+		role="toolbar"
+		class="options bar wrap"
+	>
 		<h4>Show</h4>
 
 		<label>
@@ -73,10 +76,3 @@
 		</label>
 	</footer>
 </Collapsible>
-
-
-<style>
-	.options {
-		font-size: calc(var(--options-size, 1) * 1em);
-	}
-</style>
