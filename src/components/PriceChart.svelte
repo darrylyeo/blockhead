@@ -246,3 +246,14 @@
 		}],
 	}}
 />
+
+
+<style>
+	:global(.chart linearGradient > stop[offset="5%"]) {
+		stop-color: var(--primary-color, hsla(0deg, 0%, 90%, 0.75));
+	}
+
+	:global(.chart linearGradient > stop[offset="100%"]) {
+		stop-color: transparent;
+	}
+</style>
