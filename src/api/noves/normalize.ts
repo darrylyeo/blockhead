@@ -149,6 +149,12 @@ export const normalizeRawTransaction = (
 		transaction.eventLogs
 			.map(log => normalizeEventLog(log))
 	),
+
+	signature: {
+		r: transaction.rawTx.r as `0x${string}`,
+		s: transaction.rawTx.s as `0x${string}`,
+		v: Number(transaction.rawTx.v) as 0 | 1,
+	},
 })
 
 const normalizeTransactionTraces = (
