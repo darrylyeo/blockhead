@@ -49,7 +49,10 @@
 				currentPriceProvider={$preferences.currentPriceProvider}
 				query={{
 					chainId: $explorerNetwork.chainId,
-					erc20Token: $explorerNetwork.nativeCurrency,
+					erc20Token: {
+						address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+						...$explorerNetwork.nativeCurrency,
+					},
 				}}
 				quoteCurrency={$preferences.quoteCurrency}
 				blockNumber={$explorerBlockNumber}
