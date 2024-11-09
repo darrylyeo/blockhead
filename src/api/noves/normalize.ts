@@ -13,7 +13,7 @@ export const normalizeTransaction = (
 	network,
 	transactionId: transaction.rawTransactionData.transactionHash! as Ethereum.TransactionId,
 
-	blockNumber: BigInt(transaction.rawTransactionData.blockNumber),
+	blockNumber: transaction.rawTransactionData.blockNumber !== undefined ? BigInt(transaction.rawTransactionData.blockNumber) : undefined,
 	blockTimestamp: transaction.rawTransactionData.timestamp * 1000,
 
 	type: ({
