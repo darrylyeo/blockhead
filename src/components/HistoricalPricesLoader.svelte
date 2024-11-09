@@ -152,6 +152,70 @@
 				}),
 			})
 		}),
+
+		[PriceProvider.CoinPaprika]: () => ({
+			fromQuery: createQueries({
+				queries: (
+					resolvedQuery.coins
+						.map(coin => ({
+							queryKey: ['HistoricalPrice', {
+								historicalPriceProvider,
+								coin,
+								quoteCurrency,
+								fromDate,
+								toDate,
+							}],
+							queryFn: async ({
+								queryKey: [_, {
+									coin,
+								}],
+							}) => {
+								const { getCoinsByCoinIdOhlcvHistorical } = await import('$/api/coinpaprika/api')
+								const { tickerIdForSymbol } = await import('$/api/coinpaprika')
+
+								if(!('symbol' in coin && coin.symbol))
+									throw new Error('CoinPaprika only supports coin symbols.')
+
+								const tickerId = tickerIdForSymbol.get(coin.symbol)
+								if(!tickerId)
+									throw new Error(`No CoinPaprika ticker ID found for ${coin.symbol}.`)
+
+								const data = await getCoinsByCoinIdOhlcvHistorical(
+									tickerId,
+									new Date(fromDate).toISOString(),
+									{
+										end: new Date(toDate).toISOString(),
+										quote: quoteCurrency.toLowerCase(),
+									},
+									{
+										baseUrl: `${getQuicknodeEndpoint()}/addon/748/v1`,
+									},
+								)
+
+								return {
+									coin,
+									quoteCurrency,
+									prices: (
+										data
+											.map(item => ({
+												time: new Date(item.time_open).toISOString().slice(0, 10),
+												price: item.open,
+											}))
+									),
+								}
+							},
+						}))
+				),
+				combine: queries => ({
+					...queries[0],
+					data: (
+						queries
+							.map(query => query.data)
+							.filter(isTruthy)
+					),
+				}),
+			}),
+		})
 	}[historicalPriceProvider]()}
 	bind:result={coinsWithHistoricalPrices}
 	let:result={coinsWithHistoricalPrices}
