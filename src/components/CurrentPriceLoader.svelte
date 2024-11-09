@@ -213,40 +213,85 @@
 			})
 		}),
 
-		// [PriceProvider.Covalent]: () => ({
-		// 	fromQuery: createQuery({
-		// 		queryKey: ['CurrentPrice', {
-		// 			currentPriceProvider,
-		// 			query: _query,
-		// 			quoteCurrency,
-		// 		}],
-		// 		queryFn: async ({
-		// 			queryKey: [_, {
-		// 				query
-		// 				quoteCurrency,
-		// 			}],
-		// 		}) => {
-		// 			const { getSpotPrices } = await import('$/api/covalent')
+		[PriceProvider.Covalent]: () => ({
+			fromQuery: createQuery({
+				queryKey: ['CurrentPrice', {
+					currentPriceProvider,
+					query: _query,
+					quoteCurrency,
+				}],
+				queryFn: async ({
+					queryKey: [_, {
+						query,
+						quoteCurrency,
+					}],
+				}) => {
+					const coin = query
 
-		// 			if(!('symbol' in query))
-		// 				throw new Error(`Token contract addresses not yet supported.`) 
+					const { getHistoricalPricesByAddress, getHistoricalPricesByTickerSymbol } = await import('$/api/covalent')
 
-		// 			const data = await getSpotPrices({
-		// 				tickers: [query.symbol],
-		// 			})
+					const now = new Date(Date.now()).toISOString().slice(0, 10)
 
-		// 			if(!data?.items?.[0])
-		// 				throw new Error(`The ${token} spot price isn't currently indexed by Covalent.`)
+					const data = (
+						'contractAddress' in coin && coin.contractAddress ?
+							await getHistoricalPricesByAddress({
+								chainId: coin.chainId,
+								contractAddress: coin.contractAddress,
+								quoteCurrency,
+								from: now,
+								to: now,
+							})
+						:
+							await getHistoricalPricesByTickerSymbol({
+								chainId: coin.chainId,
+								tickerSymbol: (
+									!coin.symbol && coin.contractAddress === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
+										? networkByChainId.get(coin.chainId)?.nativeCurrency.symbol
+										: coin.symbol
+								),
+								quoteCurrency,
+								from: now,
+								to: now,
+							})
+					)[0]
 
-		// 			return {
-		// 				price: data.items[0].quote_rate,
-		// 				rank: data.items[0].rank,
-		// 				icon: data.items[0].logo_url,
-		// 				updatedAt: data.updated_at
-		// 			}
-		// 		},
-		// 	}),
-		// }),
+					const item = data.prices[data.prices.length - 1]
+
+					return {
+						quoteCurrency: 'USD',
+						price: Number(item.price),
+						updatedAt: new Date(data.update_at).getTime(),
+					}
+				},
+				// queryFn: async ({
+				// 	queryKey: [_, {
+				// 		query,
+				// 		quoteCurrency,
+				// 	}],
+				// }) => {
+				// 	const { getSpotPrices } = await import('$/api/covalent')
+
+				// 	if(!('symbol' in query))
+				// 		throw new Error(`Token contract addresses not yet supported.`) 
+
+				// 	const data = await getSpotPrices({
+				// 		tickers: [query.symbol],
+				// 	})
+
+				// 	console.log({data})
+
+				// 	if(!data?.items?.[0])
+				// 		throw new Error(`The ${query.symbol} spot price isn't currently indexed by Covalent.`)
+
+				// 	return {
+				// 		price: data.items[0].quote_rate,
+				// 		rank: data.items[0].rank,
+				// 		icon: data.items[0].logo_url,
+				// 		updatedAt: data.updated_at
+				// 	}
+				// },
+			}),
+		}),
 
 		// [PriceProvider.CompoundOpenPriceFeed]: () => ({
 		// 	fromQuery: createQuery({
