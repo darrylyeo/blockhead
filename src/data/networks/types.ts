@@ -318,6 +318,13 @@ export namespace Ethereum {
 		accessList?: AccessList,
 
 		tags?: string[],
+
+		signature?: {
+			r: `0x${string}`,
+			s: `0x${string}`,
+			v?: 0 | 1,
+			yParity?: number,
+		},
 	}
 	export type Trace = {
 		blockHash: BlockHash
