@@ -46,7 +46,13 @@
 	<section class="card">
 		<HistoricalPriceChart
 			historicalPriceProvider={$preferences.historicalPriceProvider}
-			currencies={[symbol]}
+			query={{
+				coins: [
+					{
+						symbol,
+					},
+				],
+			}}
 			quoteCurrency={$preferences.quoteCurrency}
 		/>
 	</section>

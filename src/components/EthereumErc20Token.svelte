@@ -159,7 +159,13 @@
 				<hr>
 
 				<HistoricalPriceChart
-					currencies={[erc20Token.address]}
+					query={{
+						coins: [
+							{
+								erc20Token,
+							},
+						],
+					}}
 					{quoteCurrency}
 				>
 					<h4 slot="title">

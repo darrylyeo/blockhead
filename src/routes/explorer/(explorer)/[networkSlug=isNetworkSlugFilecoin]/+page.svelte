@@ -59,7 +59,17 @@
 		<section class="card">
 			<HistoricalPriceChart
 				historicalPriceProvider={$preferences.historicalPriceProvider}
-				currencies={[$explorerNetwork.nativeCurrency.symbol]}
+				query={{
+					coins: [
+						{
+							chainId: $explorerNetwork.chainId,
+							erc20Token: {
+								address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+								...$explorerNetwork.nativeCurrency,
+							},
+						},
+					],
+				}}
 				quoteCurrency={$preferences.quoteCurrency}
 			/>
 		</section>

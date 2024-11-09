@@ -4,24 +4,16 @@
 
 <script lang="ts">
 	// Types
-	import type { QuoteCurrency, TickerSymbol } from '$/data/currencies'
-	
-	type TimePrice = {
-		time: number
-		price: number
-	}
-	type TimePricesForCurrency = {
-		currency: TickerSymbol
-		prices: TimePrice[]
-	}
+	import type { QuoteCurrency } from '$/data/currencies'
+	import type { CoinWithHistoricalPrices } from '$/data/coins'
 
 
 	// Inputs
-	export let data: TimePricesForCurrency[]
+	export let coinsWithHistoricalPrices: CoinWithHistoricalPrices[]
 	export let quoteCurrency: QuoteCurrency
 	export let timeRange: [number, number]
 	export let priceRange: [number, number]
-	$: isMultiple = data.length > 1
+	$: isMultiple = coinsWithHistoricalPrices.length > 1
 	export let priceScale: PriceScale = 'logarithmic' // isMultiple ? 'logarithmic' : 'linear'
 
 
@@ -104,53 +96,70 @@
 				formatter: value => formatValue(value, { currency: quoteCurrency }),
 			},
 		},
-		series: data?.map(({currency, prices}) => ({
-			type: 'line',
-			name: currency,
+		series: (
+			coinsWithHistoricalPrices
+				?.map(coinWithHistoricalPrices => ({
+					type: 'line',
+					name: (
+						'symbol' in coinWithHistoricalPrices.coin ?
+							coinWithHistoricalPrices.coin.symbol
+						: 'contractAddress' in coinWithHistoricalPrices.coin ?
+							coinWithHistoricalPrices.coin.contractAddress
+						:
+							coinWithHistoricalPrices.coin.erc20Token.symbol
+					),
 
-			data: prices.map(({time, price}) => [time, price]),
-			// data: prices,
-			// encode: {
-			// 	x: 'time',
-			// 	y: 'price',
-			// 	label: ['Time', 'Price'],
-			// 	itemName: '???',
-			// 	tooltip: ['price'],
-			// },
+					data: (
+						coinWithHistoricalPrices
+							.prices
+							?.map(priceAtTime => [
+								priceAtTime.time,
+								priceAtTime.price,
+							])
+					),
+					// data: prices,
+					// encode: {
+					// 	x: 'time',
+					// 	y: 'price',
+					// 	label: ['Time', 'Price'],
+					// 	itemName: '???',
+					// 	tooltip: ['price'],
+					// },
 
-			symbol: 'none',
-			// symbol: `https://tokens.1inch.exchange/0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.png`,
+					symbol: 'none',
+					// symbol: `https://tokens.1inch.exchange/0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.png`,
 
-			color: `var(--${tokenColors[currency]}, var(--primary-color, hsla(0deg, 0%, 90%, 0.75)))`,
-			areaStyle: isMultiple ? {
-				color: 'transparent',
-			} : {
-				color: {
-					type: 'linear',
-					x: 0, y: 0,
-					x2: 0, y2: 2,
-					colorStops: [{
-						offset: 0.05,
-						color: `var(--${tokenColors[currency]}, var(--primary-color, hsla(0deg, 0%, 90%, 0.75)))`,
-					}, {
-						offset: 1,
+					color: `var(--${tokenColors[coinWithHistoricalPrices.coin.symbol]}, var(--primary-color, hsla(0deg, 0%, 90%, 0.75)))`,
+					areaStyle: isMultiple ? {
 						color: 'transparent',
-					}],
-				},
-			},
-			labelLayout: {
-				moveOverlap: 'shiftY',
-			},
-			endLabel: {
-				show: true,
-				formatter: ({value: [time, price]}) => formatValue(price, { currency: quoteCurrency }),
-				fontSize: 6,
-				textBorderColor: 'transparent',
-			},
-			emphasis: {
-				focus: 'series',
-			},
-		})),
+					} : {
+						color: {
+							type: 'linear',
+							x: 0, y: 0,
+							x2: 0, y2: 2,
+							colorStops: [{
+								offset: 0.05,
+								color: `var(--${tokenColors[coinWithHistoricalPrices.coin.symbol]}, var(--primary-color, hsla(0deg, 0%, 90%, 0.75)))`,
+							}, {
+								offset: 1,
+								color: 'transparent',
+							}],
+						},
+					},
+					labelLayout: {
+						moveOverlap: 'shiftY',
+					},
+					endLabel: {
+						show: true,
+						formatter: ({value: [time, price]}) => formatValue(price, { currency: quoteCurrency }),
+						fontSize: 6,
+						textBorderColor: 'transparent',
+					},
+					emphasis: {
+						focus: 'series',
+					},
+				}))
+		),
 		tooltip: {
 			trigger: 'axis',
 			position: points => [points[0], points[1]],

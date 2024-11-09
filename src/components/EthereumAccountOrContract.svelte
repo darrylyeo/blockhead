@@ -49,8 +49,6 @@
 
 	let balances: TokenWithBalance[] = []
 
-	let priceScale: PriceScale
-
 	let selectedToken: Ethereum.NativeCurrency | Ethereum.Erc20Token | undefined
 
 	// (Computed)
@@ -72,7 +70,6 @@
 	import AddressWithLabel from './AddressWithLabel.svelte'
 	import AnchorLink from './AnchorLink.svelte'
 	import Balance from './Balance.svelte'
-	import CovalentPriceChart from './CovalentPriceChart.svelte'
 	import EnsName from './EnsName.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
 	import EthereumContractBytecodeLoader from './EthereumContractBytecodeLoader.svelte'
@@ -81,6 +78,7 @@
 	import EthereumTransactionsLoader from './EthereumTransactionsLoader.svelte'
 	import EthereumErc20Transfer from './EthereumErc20Transfer.svelte'
 	import EthereumErc20TransfersLoader from './EthereumErc20TransfersLoader.svelte'
+	import HistoricalPriceChart from './HistoricalPriceChart.svelte'
 	import InlineContainer from './InlineContainer.svelte'
 	import TokenName from './TokenName.svelte'
 	import TokenBalance from './TokenBalance.svelte'
@@ -447,36 +445,28 @@
 		</div>
 
 		{#if balances?.length}
-			<CovalentPriceChart
+			<hr>
+
+			<HistoricalPriceChart
 				historicalPriceProvider={$preferences.historicalPriceProvider}
+				query={{
+					coins: (
+						selectedToken ?
+							[
+								{
+									erc20Token: selectedToken,
+								},
+							]
+						:
+							balances
+								.map(balance => ({
+									chainId: network.chainId,
+									erc20Token: balance.token,
+								}))
+					),
+				}}
 				quoteCurrency={$preferences.quoteCurrency}
-				chainID={network.chainId}
-				currencies={
-					(selectedToken ? [selectedToken] : balances.map(({ token }) => token))
-						.map(token => 'address' in token ? token.address : token.symbol)
-						.filter(Boolean)
-				}
-				{priceScale}
-			>
-				<svelte:fragment slot="header">
-					<hr>
-
-					<div class="bar wrap">
-						<svelte:element this={`h${headingLevel + 1}`}>Chart</svelte:element>	
-
-						<div role="toolbar">
-							<label>
-								<span>Price Scale</span>
-								<select bind:value={priceScale}>
-									<option value="logarithmic">Logarithmic</option>
-									<option value="linear">Linear</option>
-									<option value="linearFromZero">Linear From Zero</option>
-								</select>
-							</label>
-						</div>
-					</div>
-				</svelte:fragment>
-			</CovalentPriceChart>
+			/>
 		{/if}
 	</AccountIdResolver>
 </div>
