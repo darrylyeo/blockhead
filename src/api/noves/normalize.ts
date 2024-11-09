@@ -28,8 +28,8 @@ export const normalizeTransaction = (
 	// input: transaction.rawTransactionData.input as `0x${string}`,
 	// value: BigInt(transaction.rawTransactionData.value),
 
-	gasUnitsSpent: BigInt(transaction.rawTransactionData.gas),
-	gasUnitRate: BigInt(transaction.rawTransactionData.gasPrice),
+	gasUnitsSpent: transaction.rawTransactionData.gas !== undefined ? BigInt(transaction.rawTransactionData.gas) : undefined,
+	gasUnitRate: transaction.rawTransactionData.gasPrice !== undefined ? BigInt(transaction.rawTransactionData.gasPrice) : undefined,
 
 	erc20Transfers: [
 		...(
