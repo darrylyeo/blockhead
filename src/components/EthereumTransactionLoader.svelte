@@ -96,6 +96,7 @@
 	viewOptions={{
 		contentClass: 'column',
 	}}
+	loadingIcon={transactionProviderIcons[transactionProvider]}
 	loadingMessage="Looking up {network.name} transaction via {transactionProvider}..."
 	errorMessage="Error looking up transaction from {transactionProvider}"
 	{...{
@@ -355,7 +356,7 @@
 	let:result={transaction}
 	let:status
 >
-	<svelte:fragment slot="loadingIcon">
+	<!-- <svelte:fragment slot="loadingIcon">
 		<NetworkIcon {network}>
 			<img src="/Blockhead-Logo.svg" width="30" />
 		</NetworkIcon>
@@ -366,7 +367,7 @@
 			]}
 			title={transactionProvider}
 		/>
-	</svelte:fragment>
+	</svelte:fragment> -->
 
 	<svelte:fragment slot="header"
 		let:result={transaction}
