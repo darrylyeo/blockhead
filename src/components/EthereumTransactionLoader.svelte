@@ -191,11 +191,13 @@
 					transactionProvider,
 					chainId: network.chainId,
 					transactionId,
+					quoteCurrency,
 				}],
 				queryFn: async () => (
 					await getTransactionCovalent({
 						chainName: network.chainId,
 						txHash: transactionId,
+						quoteCurrency,
 						noLogs: false,
 					})
 				),
