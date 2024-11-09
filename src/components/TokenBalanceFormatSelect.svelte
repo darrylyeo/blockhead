@@ -1,14 +1,14 @@
 <script lang="ts">
+	// Types/constants
 	import type { QuoteCurrency } from '$/data/currencies'
-
-
 	import { fiatQuoteCurrencies } from '$/data/currencies'
 
 
+	// Inputs
 	export let type: 'select' | 'checkboxes' = 'select'
-	export let quoteCurrency: QuoteCurrency	
+	export let quoteCurrency: QuoteCurrency
 
-
+	// (View options)
 	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 </script>
 
