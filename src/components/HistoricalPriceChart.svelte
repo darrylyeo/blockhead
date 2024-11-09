@@ -8,7 +8,7 @@
 	export let historicalPriceProvider = PriceProvider.CoinPaprika
 	export let query: HistoricalPricesLoader['$$prop_def']['query']
 	export let quoteCurrency: QuoteCurrency
-	export let fromDate = Date.now() - 29 * 24 * 60 * 60 * 1000
+	export let fromDate = new Date('2015-01-01').getTime()
 	export let toDate = Date.now()
 
 
