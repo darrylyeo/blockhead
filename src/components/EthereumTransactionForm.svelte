@@ -142,6 +142,7 @@
 	import AddressWithLabel from './AddressWithLabel.svelte'
 	import ConnectedAccountSelect from './ConnectedAccountSelect.svelte'
 	import BigNumberInput from './BigNumberInput.svelte'
+	import Collapsible from './Collapsible.svelte'
 	import EthereumTransactionParameters from './EthereumTransactionParameters.svelte'
 	import HeightContainer from './HeightContainer.svelte'
 	import Input from './Input.svelte'
@@ -186,36 +187,46 @@
 </style>
 
 
-<section class="column">
-	<header class="bar wrap">
-		<div class="row wrap">
-			<svelte:element this={`h${headingLevel}`}>Smart Contract Interactions</svelte:element>
+<Collapsible
+	type="label"
+	showTriggerText={false}
+>
+	<svelte:fragment slot="title">
+		<svelte:element this={`h${headingLevel}`}>Smart Contract Interactions</svelte:element>
+	</svelte:fragment>
 
-			<div role="toolbar">
+	<svelte:fragment slot="toolbar-items"
+		let:isOpen
+	>
+		{#if isOpen}
+			<div
+				class="row align-end"
+				transition:scale={{ duration: 300 }}
+			>
 				<label>
 					<input type="checkbox" bind:checked={showFormattedNames} />
 					<span>Format Names</span>
 				</label>
-			</div>
-		</div>
 
-		<label>
-			<span>{contractMethod && methodsByGroup.find(group => group.methods.includes(contractMethod))?.singularName || 'Method'}</span> 
+				<label>
+					<span>{contractMethod && methodsByGroup.find(group => group.methods.includes(contractMethod))?.singularName || 'Method'}</span> 
 
-			<select bind:value={contractMethod}>
-				{#each methodsByGroup.filter(({ methods }) => methods.length) as { name, methods }}
-					<optgroup label={name}>
-						{#each methods.sort((a, b) => a.name.localeCompare(b.name)) as method}
-							<!-- <option value={method}>{formatIdentifierToWords(method.name, true)} {#if !showFormattedNames}({method.name}){/if}</option> -->
-							<option value={method}>{formatIdentifier(method.name, true)}</option>
+					<select bind:value={contractMethod}>
+						{#each methodsByGroup.filter(({ methods }) => methods.length) as { name, methods }}
+							<optgroup label={name}>
+								{#each methods.sort((a, b) => a.name.localeCompare(b.name)) as method}
+									<!-- <option value={method}>{formatIdentifierToWords(method.name, true)} {#if !showFormattedNames}({method.name}){/if}</option> -->
+									<option value={method}>{formatIdentifier(method.name, true)}</option>
+								{/each}
+							</optgroup>
+						{:else}
+							<option value={undefined} selected disabled>[No interactions available.]</option>
 						{/each}
-					</optgroup>
-				{:else}
-					<option value={undefined} selected disabled>[No interactions available.]</option>
-				{/each}
-			</select>
-		</label>
-	</header>
+					</select>
+				</label>
+			</div>
+		{/if}
+	</svelte:fragment>
 
 	{#if contractMethod}
 		<TransactionFlow
@@ -513,4 +524,4 @@
 			</svelte:fragment>
 		</TransactionFlow>
 	{/if}
-</section>
+</Collapsible>
