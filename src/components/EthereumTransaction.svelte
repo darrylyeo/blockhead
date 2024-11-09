@@ -387,6 +387,53 @@
 			</section>
 		{/if}
 
+		{#if isStandaloneLayout && transaction.signature}
+			<hr>
+
+			<section>
+				<Collapsible
+					type="label"
+					isOpen
+					showTriggerText={false}
+					showContentsOnly={false}
+				>
+					<svelte:fragment slot="title">
+						<svelte:element this={`h${headingLevel + 1}`}>Signature</svelte:element>
+					</svelte:fragment>
+
+					<svelte:fragment slot="header-right">
+						<span class="card-annotation">
+							ECDSA (<a href="https://eips.ethereum.org/EIPS/eip-2098" target="_blank">secp256k1</a>)
+						</span>
+					</svelte:fragment>
+
+					<dl class="signature card">
+						<dt>R</dt>
+						<dd>
+							<output>{transaction.signature.r}</output>
+						</dd>
+
+						<dt>S</dt>
+						<dd>
+							<output>{transaction.signature.s}</output>
+						</dd>
+
+						<dt>V</dt>
+						<dd>
+							<output>{transaction.signature.v}</output>
+						</dd>
+
+						{#if transaction.signature.yParity !== undefined}
+							<dt>Y Parity</dt>
+							<dd>
+								<output>{transaction.signature.yParity}</output>
+							</dd>
+						{/if}
+					</dl>
+				</Collapsible>
+			</section>
+		{/if}
+
 		{#if !isSummary && (transaction.transactionId || transaction.blockNumber)}
 			{#if isStandaloneLayout}
 				<hr>
@@ -507,5 +554,9 @@
 	}
 	.transaction.layout-standalone .log-events.scrollable-list {
 		--resizeVertical-defaultHeight: 54vh;
+	}
+
+	.signature {
+		grid-template-columns: minmax(max-content, 0.25fr) minmax(max-content, 1fr);
 	}
 </style>
