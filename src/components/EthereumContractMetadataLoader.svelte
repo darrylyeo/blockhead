@@ -41,6 +41,8 @@
 	type SharedSlotProps = {
 		contractAddress: typeof contractAddress,
 		contractSourceProvider: typeof contractSourceProvider,
+		isOpen: Loader<any, any, any, 'collapsible'>['$$slot_def']['default']['isOpen'],
+		toggle: Loader<any, any, any, 'collapsible'>['$$slot_def']['default']['toggle'],
 	} & typeof result
 
 	type $$Slots = {
@@ -64,6 +66,10 @@
 
 
 <Loader
+	viewOptions={{
+		layout: 'collapsible',
+		collapsibleType: 'label',
+	}}
 	fromQuery={
 		createQuery({
 			queryKey: ['ContractMetadata', {
@@ -135,12 +141,24 @@
 	errorMessage={`Couldn't find contract metadata on ${contractSourceProvider}.`}
 	bind:result
 	let:result
+	let:isOpen
+	let:toggle
 >
 	<svelte:fragment slot="header"
 		let:result
+		let:isOpen
+		let:toggle
 	>
-		<slot name="header" {contractAddress} {contractSourceProvider} {...result} />
+		<slot name="header"
+			{contractAddress} {contractSourceProvider}
+			{...result}
+			{isOpen} {toggle}
+		/>
 	</svelte:fragment>
 
-	<slot {contractAddress} {contractSourceProvider} {...result} />
+	<slot
+		{contractAddress} {contractSourceProvider}
+		{...result}
+		{isOpen} {toggle}
+	/>
 </Loader>
