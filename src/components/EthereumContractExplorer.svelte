@@ -86,7 +86,8 @@
 	import IpfsLoader from './IpfsLoader.svelte'
 
 
-	import { fade, fly } from 'svelte/transition'
+	// Transitions
+	import { fade, fly, scale } from 'svelte/transition'
 </script>
 
 
@@ -118,7 +119,15 @@
 	bind:contractBytecode={runtimeBytecode}
 	let:contractBytecode
 >
-	<slot slot="header" name="header" />
+	<svelte:fragment slot="header"
+		let:isOpen
+		let:toggle
+	>
+		<slot name="header"
+			{isOpen}
+			{toggle}
+		/>
+	</svelte:fragment>
 
 	<section>
 		<EthereumContractMetadataLoader
@@ -132,36 +141,53 @@
 			let:sourcifyUrl
 			let:contractSourceProvider
 		>
-			<header class="bar" slot="header" let:contractMetadata>
-				<slot name="title" contractName={name} {network} {contractAddress}>
-					<svelte:element this={`h${headingLevel}`}>
-						<Address {network} address={contractAddress} format="middle-truncated" let:formattedAddress>{name || formattedAddress}</Address>
-					</svelte:element>
-				</slot>
+			<svelte:fragment slot="header"
+				let:contractMetadata
+				let:isOpen
+				let:toggle
+			>
+				<header class="bar">
+					<slot name="title" contractName={name} {network} {contractAddress}>
+						<svelte:element this={`h${headingLevel}`}>
+							<Address {network} address={contractAddress} format="middle-truncated" let:formattedAddress>{name || formattedAddress}</Address>
+						</svelte:element>
+					</slot>
 
-				<label>
-					<span>View: </span>
-					<select bind:value={showContractCodeTypeOrSourcePath}>
-						<optgroup label="Onchain">
-							{#if contractState?.creationBytecode}
-								<option value={ContractCodeType.CreationBytecode}>Creation Bytecode</option>
-							{/if}
-							{#if runtimeBytecode || contractState?.runtimeBytecode}
-								<option value={ContractCodeType.RuntimeBytecode}>Runtime Bytecode</option>
-							{/if}
-						</optgroup>
+					{#if isOpen}
+						<label
+							class="align-end"
+							transition:scale={{ duration: 300 }}
+						>
+							<span>View: </span>
+							<select bind:value={showContractCodeTypeOrSourcePath}>
+								<optgroup label="Onchain">
+									{#if contractState?.creationBytecode}
+										<option value={ContractCodeType.CreationBytecode}>Creation Bytecode</option>
+									{/if}
+									{#if runtimeBytecode || contractState?.runtimeBytecode}
+										<option value={ContractCodeType.RuntimeBytecode}>Runtime Bytecode</option>
+									{/if}
+								</optgroup>
 
-						{#if contractMetadata}
-							<optgroup label="Source Code">
-								<!-- Uncaught ReferenceError: contractMetadata is not defined -->
-								{#each Object.entries(contractMetadata?.sources) as [sourcePath, source]}
-									<option value={sourcePath}>{sourcePath}</option>
-								{/each}
-							</optgroup>
-						{/if}
-					</select>
-				</label>
-			</header>
+								{#if contractMetadata}
+									<optgroup label="Source Code">
+										<!-- Uncaught ReferenceError: contractMetadata is not defined -->
+										{#each Object.entries(contractMetadata?.sources) as [sourcePath, source]}
+											<option value={sourcePath}>{sourcePath}</option>
+										{/each}
+									</optgroup>
+								{/if}
+							</select>
+						</label>
+					{/if}
+
+					<button
+						class="small"
+						data-after={isOpen ? '▲' : '▼'}
+						on:click={toggle}
+					/>
+				</header>
+			</svelte:fragment>
 
 			<BlockTransition
 				key={showContractCodeTypeOrSourcePath}
