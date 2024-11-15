@@ -5,6 +5,7 @@ import type { AbiType } from 'abitype'
 
 // Functions
 import { Evm } from './translate/index'
+import type { TokenWithBalance } from '$/data/tokens'
 
 export const normalizeTransaction = (
 	transaction: Awaited<ReturnType<typeof Evm.getTransaction>>,
@@ -217,4 +218,19 @@ export const normalizeEventLog = (
 		}))
 	},
 	indexInTransaction: log.logIndex,
+})
+
+export const normalizeTokenBalance = (
+	tokenBalance: Awaited<ReturnType<typeof Evm.getTokenBalances>>[number],
+	chainId: Ethereum.ChainId,
+): TokenWithBalance => ({
+	token: {
+		chainId,
+		address: tokenBalance.token.address,
+		name: tokenBalance.token.name,
+		symbol: tokenBalance.token.symbol,
+		decimals: tokenBalance.token.decimals,
+	},
+
+	balance: BigInt(Number(tokenBalance.balance) * 10 ** tokenBalance.token.decimals),
 })

@@ -332,6 +332,7 @@ export const preferencesConfig = [
 							{ value: TokenBalancesProvider.LlamaFolio, name: 'LlamaFolio', icon: tokenBalancesProviderIcons[TokenBalancesProvider.LlamaFolio] },
 							{ value: TokenBalancesProvider.Moralis, name: 'Moralis › Web3 API', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Moralis] },
 							{ value: TokenBalancesProvider.Nexandria, name: 'Nexandria', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Nexandria] },
+							{ value: TokenBalancesProvider.Noves, name: 'Noves', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Noves] },
 							{ value: TokenBalancesProvider.Zapper, name: 'Zapper', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Zapper] },
 						]
 					}

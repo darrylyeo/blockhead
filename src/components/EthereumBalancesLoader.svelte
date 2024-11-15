@@ -80,6 +80,8 @@
 
 	import { normalizeTokenBalance as normalizeTokenBalanceNexandria } from '$/api/nexandria/normalize'
 
+	import { normalizeTokenBalance as normalizeTokenBalanceNoves } from '$/api/noves/normalize'
+
 	import { normalizeTokenBalance as normalizeTokenBalanceQuickNode } from '$/api/quicknode/normalize'
 
 	import { normalizeTokenBalance as normalizeTokenBalanceZapper } from '$/api/zapper/normalize'
@@ -534,6 +536,54 @@
 							.map(tokenBalance => (
 								normalizeTokenBalanceNexandria(tokenBalance, network.chainId)
 							))
+					),
+					staleTime: 10 * 1000,
+				})
+			),
+		}),
+
+		[TokenBalancesProvider.Noves]: () => ({
+			fromQuery: address && network && (
+				createQuery({
+					queryKey: ['Balances', {
+						tokenBalancesProvider,
+						address,
+						chainId: network.chainId,
+					}],
+					queryFn: async ({
+						queryKey: [_, {
+							address,
+							chainId,
+						}],
+					}) => {
+						const { Evm } = await import('$/api/noves/translate')
+
+						const chains = await Evm.getChains()
+						const chain = chains.find(chain => chain.evmChainId === chainId)
+						
+						if (!chain)
+							throw new Error(`Chain ${chainId} not supported by Noves`)
+
+						const uniswapLabsDefaultTokenList = await import('$/data/tokens/tokens.uniswap.org.tokenlist.json')
+
+						return await Evm.getTokenBalances({
+							chain: chain.name,
+							accountAddress: address,
+							tokenAddresses: (
+								chainId === 1 ?
+									uniswapLabsDefaultTokenList
+										.map(token => token.address)
+								:
+									[
+										'0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+									]
+							),
+						})
+					},
+					select: result => (
+						result.map(tokenBalance => (
+							normalizeTokenBalanceNoves(tokenBalance, network.chainId)
+						))
 					),
 					staleTime: 10 * 1000,
 				})
