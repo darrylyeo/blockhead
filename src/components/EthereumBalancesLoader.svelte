@@ -504,9 +504,9 @@
 							throw new Error(e?.error?.message ?? e?.error ?? e)
 						}
 					},
-					staleTime: 10 * 1000,
-				})
-			)}),
+				staleTime: 10 * 1000,
+			})
+		)}),
 
 		[TokenBalancesProvider.Nexandria]: () => ({
 			fromQuery: address && network && (
