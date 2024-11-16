@@ -135,10 +135,10 @@
 			{network}
 			bind:contractMetadata
 			bind:contractState
+			let:repository
 			let:contractMetadata
 			let:contractState
 			let:swarmUri
-			let:sourcifyUrl
 			let:contractSourceProvider
 		>
 			<svelte:fragment slot="header"
@@ -238,7 +238,7 @@
 							<hr>
 
 							<footer class="footer bar">
-								<a href={sourcifyUrl || swarmUri} target="_blank">{contractSourceProvider}</a>
+								<a href={repository?.url || swarmUri} target="_blank">{repository?.name || contractSourceProvider}</a>
 
 								<!-- {#if source.license}<span>License: {source.license}</span>{/if} -->
 							</footer>
@@ -267,7 +267,7 @@
 
 								<footer class="footer row">
 									<span>
-										<a href={sourcifyUrl} target="_blank">Sourcify</a>
+										<a href={repository?.url} target="_blank">{repository?.name ?? 'Sourcify'}</a>
 									</span>
 
 									<!-- {#if source.license}<span>License: {source.license}</span>{/if} -->

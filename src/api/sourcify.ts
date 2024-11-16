@@ -29,7 +29,10 @@ export const getContractMetadata = async ({
 	const contractMetadata = await fetch(`${sourcifyUrl}/metadata.json`).then(r => r.json()) as Ethereum.ContractMetadata<string>
 
 	return {
-		sourcifyUrl,
+		repository: {
+			name: 'Sourcify',
+			url: sourcifyUrl,
+		},
 		contractMetadata,
 	}
 }

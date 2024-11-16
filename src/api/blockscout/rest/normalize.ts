@@ -197,8 +197,10 @@ export const normalizeBlock = (
 export const normalizeContractSource = (
 	smartContract: SmartContract
 ): {
-	source?: 'Sourcify' | 'Bytecode Match',
-	sourcifyUrl?: string,
+	repository?: {
+		name?: 'Sourcify' | 'Bytecode Match',
+		url?: string,
+	},
 	contractState?: {
 		creationBytecode?: Ethereum.ContractBytecode,
 		runtimeBytecode?: Ethereum.ContractBytecode,
@@ -206,16 +208,16 @@ export const normalizeContractSource = (
 	},
 	contractMetadata?: Ethereum.ContractMetadata<string>,
 } => ({
-	source: (
-		smartContract.is_verified_via_sourcify ?
-			'Sourcify'
-		: smartContract.is_verified_via_eth_bytecode_db ?
-			'Bytecode Match'
-		:
-			undefined
-	),
-	...smartContract.sourcify_repo_url && {
-		sourcifyUrl: smartContract.sourcify_repo_url,
+	repository: {
+		name: (
+			smartContract.is_verified_via_sourcify ?
+				'Sourcify'
+			: smartContract.is_verified_via_eth_bytecode_db ?
+				'Bytecode Match'
+			:
+				undefined
+		),
+		url: smartContract.sourcify_repo_url,
 	},
 	contractState: {
 		...smartContract.creation_bytecode && {
