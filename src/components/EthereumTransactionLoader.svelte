@@ -476,50 +476,80 @@
 		}),
 
 		[TransactionProvider.Noves]: () => ({
-			fromQuery: createQuery({
-				queryKey: ['Transaction', {
-					transactionProvider,
-					chainId: network.chainId,
-					transactionId,
-				}],
-				queryFn: async ({
-					queryKey: [_, {
-						chainId,
-						transactionId,
-					}],
-				}) => {
-					const { Evm } = await import('$/api/noves/translate')
+			fromQuery: createQueries({
+				queries: [
+					{
+						queryKey: ['Transaction', {
+							transactionProvider,
+							chainId: network.chainId,
+							transactionId,
+						}],
+						queryFn: async ({
+							queryKey: [_, {
+								chainId,
+								transactionId,
+							}],
+						}) => {
+							const { Evm } = await import('$/api/noves/translate')
 
-					const chains = await Evm.getChains()
-					const chain = chains.find(chain => chain.evmChainId === chainId)
-					
-					if (!chain)
-						throw new Error(`Chain ${chainId} not supported by Noves`)
+							const chains = await Evm.getChains()
+							const chain = chains.find(chain => chain.evmChainId === chainId)
+							
+							if (!chain)
+								throw new Error(`Chain ${chainId} not supported by Noves`)
 
-					const [
-						transaction,
-						rawTransaction,
-					] = await Promise.all([
-						Evm.getTransaction({
-							chain: chain.name,
-							txHash: transactionId,
-						}),
-						Evm.getRawTransaction({
-							chain: chain.name,
-							txHash: transactionId,
-						}),
-					])
+							return await Evm.getTransaction({
+								chain: chain.name,
+								txHash: transactionId,
+							})
+						},
+						select: transaction => (
+							normalizeTransactionNoves(transaction, network)
+						),
+					},
+					{
+						queryKey: ['TransactionReceipt', {
+							transactionProvider,
+							chainId: network.chainId,
+							transactionId,
+						}],
+						queryFn: async ({
+							queryKey: [_, {
+								chainId,
+								transactionId,
+							}],
+						}) => {
+							const { Evm } = await import('$/api/noves/translate')
 
-					return {
-						transaction,
-						rawTransaction,
-					}
-				},
-				select: ({ transaction, rawTransaction }) => ({
-					...normalizeTransactionNoves(transaction, network),
-					...normalizeRawTransactionNoves(rawTransaction, network),
+							const chains = await Evm.getChains()
+							const chain = chains.find(chain => chain.evmChainId === chainId)
+							
+							if (!chain)
+								throw new Error(`Chain ${chainId} not supported by Noves`)
+
+							return await Evm.getRawTransaction({
+								chain: chain.name,
+								txHash: transactionId,
+							})
+						},
+						select: rawTransaction => (
+							normalizeRawTransactionNoves(rawTransaction, network)
+						),
+					},
+				],
+
+				combine: ([
+					transactionQuery,
+					rawTransactionQuery,
+				]) => ({
+					...transactionQuery,
+					...rawTransactionQuery,
+					data: {
+						...transactionQuery.data,
+						...rawTransactionQuery.data,
+					},
 				}),
-			})
+			}),
 		})
 	}[transactionProvider]?.()}
 	bind:result={transaction}
