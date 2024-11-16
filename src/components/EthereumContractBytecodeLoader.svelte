@@ -18,12 +18,6 @@
 	// (Computed)
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
-	let publicClient: Ethereum.PublicClient | undefined
-	$: publicClient = network && networkProvider && getViemPublicClient({
-		network,
-		networkProvider,
-	})
-
 	$: viaRPC = networkProvider === NetworkProvider.Default ? '' : ` via ${networkProvider}`
 
 	// (View options)
@@ -31,7 +25,7 @@
 
 
 	// Outputs
-	export let contractBytecode: Ethereum.ContractBytecode | undefined
+	export let contractBytecode: Ethereum.ContractBytecode | null
 
 	type SharedSlotProps = {
 		contractAddress: typeof contractAddress,
@@ -67,12 +61,28 @@
 				chainId: network.chainId,
 				contractAddress,
 			}],
-			queryFn: publicClient && (async () => (
-				await getBytecode(publicClient, {
-					address: contractAddress,
+			queryFn: async ({
+				queryKey: [_, {
+					networkProvider,
+				}],
+			}) => {
+				const publicClient = await getViemPublicClient({
+					network,
+					networkProvider,
 				})
-					.then(contractBytecode => contractBytecode === undefined ? null : contractBytecode)
-			))
+
+				if(!publicClient)
+					throw new Error(`Couldn't connect to ${network.name} via ${networkProvider}.`)
+
+				const contractBytecode = await getBytecode(
+					publicClient,
+					{
+						address: contractAddress,
+					},
+				)
+
+				return contractBytecode ?? null
+			},
 		})
 	}
 	loadingIcon={networkProviderConfigByProvider[$preferences.rpcNetwork]?.icon}
