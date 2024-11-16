@@ -303,40 +303,72 @@
 		}),
 
 		[TransactionProvider.Etherscan]: () => ({
-			fromQuery: createQuery({
-				queryKey: ['Transaction', {
-					transactionProvider,
-					chainId: network.chainId,
-					transactionId,
-				}],
-				queryFn: async () => {
-					const { Etherscan } = await import('$/api/etherscan/index')
-
-					const [
-						transaction,
-						transactionReceipt,
-					] = await Promise.all([
-						Etherscan.RpcProxy.getTransactionByHash({
+			fromQuery: createQueries({
+				queries: [
+					{
+						queryKey: ['Transaction', {
+							transactionProvider,
 							chainId: network.chainId,
 							transactionId,
-						}),
-						Etherscan.RpcProxy.getTransactionReceipt({
+						}],
+						queryFn: async ({
+							queryKey: [_, {
+								chainId,
+								transactionId,
+							}],
+						}) => {
+							const { Etherscan } = await import('$/api/etherscan/index')
+
+							return await Etherscan.RpcProxy.getTransactionByHash({
+								chainId: network.chainId,
+								transactionId,
+							})
+						},
+						select: transaction => (
+							normalizeTransactionEtherscan(network, transaction)
+						),
+					},
+					{
+						queryKey: ['TransactionReceipt', {
+							transactionProvider,
 							chainId: network.chainId,
 							transactionId,
-						}),
-					])
+						}],
+						queryFn: async ({
+							queryKey: [_, {
+								chainId,
+								transactionId,
+							}],
+						}) => {
+							const { Etherscan } = await import('$/api/etherscan/index')
 
-					return { transaction, transactionReceipt }
-				},
-				select: ({ transaction, transactionReceipt }) => {
-					const _transaction = {
-						...normalizeTransactionReceiptEtherscan(network, transactionReceipt),
-						...normalizeTransactionEtherscan(network, transaction),
+							return await Etherscan.RpcProxy.getTransactionReceipt({
+								chainId: network.chainId,
+								transactionId,
+							})
+						},
+						select: receipt => (
+							normalizeTransactionReceiptEtherscan(network, receipt)
+						),
+					},
+				],
+
+				combine: ([
+					transactionQuery,
+					receiptQuery,
+				]) => {
+					const transaction = {
+						...transactionQuery.data,
+						...receiptQuery?.data,
 					}
 
 					return {
-						..._transaction,
-						gasValue: BigInt(_transaction.gasUnitsSpent) * BigInt(_transaction.gasUnitRate),
+						...transactionQuery,
+						...receiptQuery,
+						data: {
+							...transaction,
+							gasValue: BigInt(transaction.gasUnitsSpent) * BigInt(transaction.gasUnitRate),
+						},
 					}
 				},
 			}),
