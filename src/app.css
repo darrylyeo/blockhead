@@ -890,7 +890,9 @@ address {
 		display: inline-grid;
 	}
 
-	& > * {
+	& > *,
+	&::before,
+	&::after {
 		grid-area: stack;
 	}
 }
