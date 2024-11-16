@@ -59,6 +59,8 @@
 
 	import { normalizeContractSource as normalizeContractSourceBlockscout } from '$/api/blockscout/rest/normalize'
 
+	import { normalizeAddressDetails as normalizeAddressDetailsCurvegridMultibaas } from '$/api/curvegrid/multibaas/normalize'
+
 	import type { Etherscan } from '$/api/etherscan/index'
 	import { normalizeContractSource as normalizeContractSourceEtherscan } from '$/api/etherscan/normalize'
 
@@ -100,6 +102,31 @@
 					},
 
 					select: normalizeContractSourceBlockscout,
+				}),
+
+				[ContractSourceProvider.Curvegrid_Multibaas]: () => ({
+					queryFn: async ({
+						queryKey: [_, {
+							chainId,
+							contractAddress,
+						}],
+					}) => {
+						const { getAddressDetails } = await import('$/api/curvegrid/multibaas')
+
+						return await getAddressDetails({
+							chain: 'ethereum',
+							'address-or-label': contractAddress,
+							include: [
+								'balance',
+								'code',
+								'nonce',
+								'contractLookup',
+							],
+						})
+					},
+					select: result => (
+						normalizeAddressDetailsCurvegridMultibaas(result)
+					),
 				}),
 
 				[ContractSourceProvider.Etherscan]: () => ({

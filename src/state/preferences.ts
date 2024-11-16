@@ -294,6 +294,7 @@ export const preferencesConfig = [
 						name: 'Centrally Hosted',
 						options: [
 							{ value: ContractSourceProvider.Blockscout, name: 'Blockscout', icon: contractSourceProviderIcons[ContractSourceProvider.Blockscout] },
+							{ value: ContractSourceProvider.Curvegrid_Multibaas, name: 'Curvegrid › MultiBaas', icon: contractSourceProviderIcons[ContractSourceProvider.Curvegrid_Multibaas] },
 							{ value: ContractSourceProvider.Etherscan, name: 'Etherscan', icon: contractSourceProviderIcons[ContractSourceProvider.Etherscan] },
 							// { value: ContractSourceProvider.Tenderly, name: 'Tenderly', icon: contractSourceProviderIcons[ContractSourceProvider.Tenderly] },
 						]

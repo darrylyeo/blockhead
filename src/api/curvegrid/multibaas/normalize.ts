@@ -2,7 +2,7 @@
 import type { Ethereum } from '$/data/networks/types'
 import type { AbiType } from 'abitype'
 import type { FetchReturnType } from 'openapi-typescript-fetch'
-import type { getBlock, getTransaction, getTransactionReceipt } from '.'
+import type { getBlock, getTransaction, getTransactionReceipt, getAddressDetails } from '.'
 
 
 // Functions
@@ -157,3 +157,85 @@ export const normalizeLogEvent = (
 	blockNumber: BigInt(log.blockNumber),
 	blockHash: log.blockHash as `0x${string}`
 })
+
+export const normalizeAddressDetails = (
+	addressDetails: FetchReturnType<typeof getAddressDetails>['result'],
+): {
+	source: {
+		name?: string,
+		url?: string,
+	},
+	contractState?: {
+		runtimeBytecode?: Ethereum.ContractBytecode,
+	},
+	contractMetadata?: Ethereum.ContractMetadata,
+} => {
+	const contract = addressDetails.contractLookup?.[0]
+	const verifiedSource = contract?.verifiedSource
+	const verifiedLink = contract?.verifiedLink
+	const codeAt = addressDetails.codeAt
+	
+	const abi = contract?.abi ? JSON.parse(contract.abi) : undefined
+	const devdoc = contract?.devdoc ? JSON.parse(contract.devdoc) : {}
+	const userdoc = contract?.userdoc ? JSON.parse(contract.userdoc) : {}
+
+	let source
+	try {
+		if(contract?.source)
+			source = JSON.parse(contract.source)
+	}catch(e){}
+
+	return {
+		source: {
+			name: (
+				verifiedSource && (
+					{
+						'etherscan': 'Etherscan',
+					}[verifiedSource]
+					?? verifiedSource
+				)
+			),
+			url: verifiedLink,
+		},
+		...codeAt && {
+			contractState: {
+				runtimeBytecode: codeAt as `0x${string}`,
+			},
+		},
+		...contract && {
+			contractMetadata: {
+				name: contract.name,
+				compiler: {
+					version: abi?.compiler?.version
+				},
+				language: abi?.language,
+				output: {
+					abi,
+					devdoc,
+					userdoc
+				},
+				settings: abi?.settings,
+				sources: (
+					source && Array.isArray(source) ?
+						Object.fromEntries(
+							(source as unknown as { path: string, content: string }[])
+								.map(item => [
+									item.path,
+									{
+										content: item.content,
+									}
+								])
+						)
+					: contract.source ?
+						{
+							[contract.name ?? '[Contract Code]']: {
+								content: contract.source,
+							},
+						}
+					:
+						undefined
+				),
+			}
+		}
+	}
+}
