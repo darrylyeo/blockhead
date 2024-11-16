@@ -10,13 +10,14 @@ export enum TokenBalancesProvider {
 	Moralis = 'Moralis',
 	Nexandria = 'Nexandria',
 	Noves = 'Noves',
+	OneInch_Balance = '1inch',
 	QuickNode = 'QuickNode',
 	Zapper = 'Zapper',
 	ZerionDefiSdk = 'Zerion DeFi SDK',
 }
 
 
-import { AirstackIcon, BlockscoutIcon, ChainbaseIcon, CovalentGoldRushIcon, DecommasIcon, LiqualityIcon, LlamaFolioIcon, MoralisIcon, NexandriaIcon, NovesIcon, QuickNodeIcon, ZapperIcon, ZerionIcon } from '$/assets/icons'
+import { AirstackIcon, BlockscoutIcon, ChainbaseIcon, CovalentGoldRushIcon, DecommasIcon, LiqualityIcon, LlamaFolioIcon, MoralisIcon, NexandriaIcon, NovesIcon, OneInchIcon, QuickNodeIcon, ZapperIcon, ZerionIcon } from '$/assets/icons'
 
 export const tokenBalancesProviderIcons = {
 	[TokenBalancesProvider.Airstack]: AirstackIcon,
@@ -29,6 +30,7 @@ export const tokenBalancesProviderIcons = {
 	[TokenBalancesProvider.Moralis]: MoralisIcon,
 	[TokenBalancesProvider.Nexandria]: NexandriaIcon,
 	[TokenBalancesProvider.Noves]: NovesIcon,
+	[TokenBalancesProvider.OneInch_Balance]: OneInchIcon,
 	[TokenBalancesProvider.QuickNode]: QuickNodeIcon,
 	[TokenBalancesProvider.Zapper]: ZapperIcon,
 	[TokenBalancesProvider.ZerionDefiSdk]: ZerionIcon,

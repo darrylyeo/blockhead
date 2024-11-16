@@ -29,3 +29,6 @@ fetcher.configure({
 		},
 	],
 })
+
+export const getTokens = fetcher.path('/v1.2/multi-chain').method('get').create()
+export const getTokensForChain = fetcher.path('/v1.2/{chain_id}/token-list').method('get').create()

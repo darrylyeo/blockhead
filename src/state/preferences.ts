@@ -335,6 +335,7 @@ export const preferencesConfig = [
 							{ value: TokenBalancesProvider.Moralis, name: 'Moralis › Web3 API', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Moralis] },
 							{ value: TokenBalancesProvider.Nexandria, name: 'Nexandria', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Nexandria] },
 							{ value: TokenBalancesProvider.Noves, name: 'Noves', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Noves] },
+							{ value: TokenBalancesProvider.OneInch_Balance, name: '1inch › Balance API', icon: tokenBalancesProviderIcons[TokenBalancesProvider.OneInch_Balance] },
 							{ value: TokenBalancesProvider.Zapper, name: 'Zapper', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Zapper] },
 						]
 					}

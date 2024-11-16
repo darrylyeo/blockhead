@@ -59,7 +59,7 @@
 
 
 	// Functions
-	import { createInfiniteQuery, createQuery } from '@tanstack/svelte-query'
+	import { createInfiniteQuery, createQuery, createQueries } from '@tanstack/svelte-query'
 	import { ConcurrentPromiseQueue } from '$/utils/ConcurrentPromiseQueue'
 	import { isTruthy } from '$/utils/isTruthy'
 
@@ -81,6 +81,8 @@
 	import { normalizeTokenBalance as normalizeTokenBalanceNexandria } from '$/api/nexandria/normalize'
 
 	import { normalizeTokenBalance as normalizeTokenBalanceNoves } from '$/api/noves/normalize'
+
+	import { normalizeTokenBalance as normalizeTokenBalanceOneinch } from '$/api/1inch/balances/normalize'
 
 	import { normalizeTokenBalance as normalizeTokenBalanceQuickNode } from '$/api/quicknode/normalize'
 
@@ -586,6 +588,81 @@
 						))
 					),
 					staleTime: 10 * 1000,
+				})
+			),
+		}),
+
+		[TokenBalancesProvider.OneInch_Balance]: () => ({
+			fromQuery: address && network && (
+				createQueries({
+					queries: [
+						{
+							queryKey: ['Balances', {
+								tokenBalancesProvider,
+								address,
+								chainId: network.chainId
+							}],
+							queryFn: async ({
+								queryKey: [_, {
+									address,
+									chainId,
+								}],
+							}) => {
+								const { getBalances } = await import('$/api/1inch/balances')
+
+								return getBalances({
+									chainId,
+									walletAddress: address
+								})
+							},
+							staleTime: 10 * 1000,
+						},
+						{
+							queryKey: ['TokenList', {
+								tokenBalancesProvider,
+								chainId: network.chainId
+							}],
+							queryFn: async ({
+								queryKey: [_, {
+									chainId,
+								}],
+							}) => {
+								const { getTokensForChain } = await import('$/api/1inch/tokens')
+
+								return getTokensForChain({
+									chain_id: chainId
+								})
+							},
+							staleTime: 10 * 1000,
+						},
+					],
+					combine: ([balancesQuery, tokensQuery]) => {
+						const tokensByAddress = (
+							Object.fromEntries(
+								(tokensQuery.data?.tokens ?? [])
+									.map(token => [token.address, token])
+							)
+						)
+
+						return {
+							...balancesQuery,
+							...tokensQuery,
+							isLoading: balancesQuery.isLoading || tokensQuery.isLoading,
+							data: (
+								!(balancesQuery.isLoading || tokensQuery.isLoading) ?
+									Object.entries(balancesQuery.data)
+										.filter(([address, balance]) => tokensByAddress[address] && BigInt(balance) > 0n)
+										.map(([address, balance]) => (
+											normalizeTokenBalanceOneinch(
+												tokensByAddress[address],
+												balance,
+											)
+										))
+								:
+									[]
+							),
+						}
+					},
 				})
 			),
 		}),

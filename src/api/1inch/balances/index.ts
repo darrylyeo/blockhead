@@ -29,3 +29,5 @@ fetcher.configure({
 		},
 	],
 })
+
+export const getBalances = fetcher.path('/v1.2/{chainId}/balances/{walletAddress}').method('get').create()
