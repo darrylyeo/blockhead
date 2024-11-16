@@ -146,7 +146,6 @@
 					</svelte:fragment>
 
 					<svelte:fragment slot="header-right">
-						{#if transaction.nonce}<p class="card-annotation">Nonce #{transaction.nonce}</p>{/if}
 					</svelte:fragment>
 
 					<div class="container inner-layout-{innerLayout}" class:card={isStandaloneLayout}>
@@ -317,6 +316,14 @@
 									<output class:scrollable-list={transaction.input.length > 80}>{transaction.input}</output>
 								{/if}
 							</div>
+						{/if}
+
+						{#if isStandaloneLayout && transaction.nonce}
+							<hr>
+							
+							<footer>
+								<small>Nonce #{transaction.nonce}</small>
+							</footer>
 						{/if}
 
 						{#if isSummary && transaction.blockTimestamp}
