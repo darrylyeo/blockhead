@@ -354,7 +354,7 @@
 						chainId,
 						address,
 					}],
-					pageParam: { page },
+					pageParam: page,
 				}) => {
 					const { Evm } = await import('$/api/noves/translate')
 
