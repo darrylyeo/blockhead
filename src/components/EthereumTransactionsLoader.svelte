@@ -85,15 +85,10 @@
 				}],
 				initialPageParam: {},
 				queryFn: async ({
-					queryKey: [
-						_,
-						{
-							transactionProvider,
-							chainId,
-							address,
-							quoteCurrency,
-						},
-					],
+					queryKey: [_, {
+						chainId,
+						address,
+					}],
 					pageParam: next_page_params,
 				}) => {
 					const { getBlockscoutRestEndpoint } = await import('$/api/blockscout')
@@ -134,11 +129,17 @@
 					quoteCurrency,
 				}],
 				initialPageParam: 0,
-				queryFn: async ({ pageParam: page }) => {
+				queryFn: async ({
+					queryKey: [_, {
+						chainId,
+						address,
+					}],
+					pageParam: page,
+				}) => {
 					const { getTransactionsByAccount } = await import('$/api/chainbase')
 
 					return await getTransactionsByAccount({
-						chainId: network.chainId,
+						chainId,
 						address,
 						page,
 					})
@@ -162,11 +163,19 @@
 					includeLogs,
 				}],
 				initialPageParam: 0,
-				queryFn: async ({ pageParam: page }) => {
+				queryFn: async ({
+					queryKey: [_, {
+						chainId,
+						address,
+						quoteCurrency,
+						includeLogs,
+					}],
+					pageParam: page,
+				}) => {
 					const { getPaginatedTransactionsForAddress } = await import('$/api/covalent/index')
 
 					return await getPaginatedTransactionsForAddress({
-						chainName: network.chainId,
+						chainName: chainId,
 						walletAddress: address,
 						page,
 						quoteCurrency,
@@ -192,10 +201,16 @@
 					quoteCurrency,
 				}],
 				initialPageParam: 0,
-				queryFn: async ({ pageParam: offset }) => {
+				queryFn: async ({
+					queryKey: [_, {
+						chainId,
+						address,
+					}],
+					pageParam: offset,
+				}) => {
 					const { decommas, chainNameByChainId } = await import('$/api/decommas')
 
-					const chainName = chainNameByChainId[network.chainId]
+					const chainName = chainNameByChainId[chainId]
 
 					return await decommas.address.getTransactions({
 						chain: chainName,
@@ -220,11 +235,16 @@
 					chainId: network.chainId,
 					address,
 				}],
-				queryFn: async () => {
+				queryFn: async ({
+					queryKey: [_, {
+						chainId,
+						address,
+					}],
+				}) => {
 					const { Etherscan } = await import('$/api/etherscan/index')
 
 					return await Etherscan.Accounts.getTransactions({
-						chainId: network.chainId,
+						chainId,
 						address,
 					})
 				},
@@ -241,11 +261,18 @@
 			// 		address,
 			// 		quoteCurrency,
 			// 	}],
-			// 	queryFn: async ({ pageParam: page }) => {
+			// 	queryFn: async ({
+			// 		queryKey: [_, {
+			// 			chainId,
+			// 			address,
+			// 			quoteCurrency,
+			// 		}],
+			// 		pageParam: page,
+			// 	}) => {
 			// 		const { getTransactions } = await import('$/api/etherspot')
 
 			// 		return await getTransactions({
-			// 			chainId: network.chainId,
+			// 			chainId,
 			// 			address,
 			// 			page,
 			// 			quoteCurrency,
@@ -265,7 +292,14 @@
 					includeLogs,
 				}],
 				initialPageParam: { offset: 0, limit: 20 },
-				queryFn: async ({ pageParam: { offset = 0, limit } }) => {
+				queryFn: async ({
+					queryKey: [_, {
+						chainId,
+						address,
+						includeLogs,
+					}],
+					pageParam: { offset = 0, limit },
+				}) => {
 					const { chainCodeFromNetwork, MoralisWeb3Api } = await import('$/api/moralis/web3Api/index')
 
 					const response = await MoralisWeb3Api.address.getTransactions({
@@ -328,7 +362,7 @@
 					const chain = chains.find(chain => chain.evmChainId === chainId)
 					
 					if (!chain)
-						throw new Error(`Chain ${network.chainId} not supported by Noves`)
+						throw new Error(`Chain ${chainId} not supported by Noves`)
 
 					return await Evm.getTransactions({
 						accountAddress: address,
