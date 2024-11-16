@@ -7,6 +7,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		const url = new URL(`${event.url.pathname.replace(PROXY_PATH, '')}${event.url.search}`)
 
 		if(![
+			'https://api.1inch.dev',
 			'https://api.disco.xyz',
 			'https://api.intuition.systems',
 			'https://api.pinata.cloud',
