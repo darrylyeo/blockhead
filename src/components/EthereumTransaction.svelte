@@ -142,7 +142,7 @@
 					showContentsOnly={!isStandaloneLayout}
 				>
 					<svelte:fragment slot="title">
-						<svelte:element this={`h${headingLevel + 1}`}>Signed Transaction Data</svelte:element>
+						<svelte:element this={`h${headingLevel + 1}`}>Signed Data</svelte:element>
 					</svelte:fragment>
 
 					<svelte:fragment slot="header-right">
