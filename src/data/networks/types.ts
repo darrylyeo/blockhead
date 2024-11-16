@@ -409,7 +409,7 @@ export namespace Ethereum {
 	export type ContractFunctionParameterName = string
 	export type TopicHash = `0x${string}` // BrandedString<'TopicHash'>
 
-	export type ContractMetadata<SourcePath extends string> = {
+	export type ContractMetadata<SourcePath extends string = string> = {
 		name?: string,
 		compiler?: {
 			version: string
