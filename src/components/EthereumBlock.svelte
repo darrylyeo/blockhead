@@ -27,7 +27,6 @@
 	// Functions
 	import { formatPercent } from '$/utils/formatPercent'
 	import { bytesToString, toBytes } from 'viem'
-	import { formatTransactionHash } from '$/utils/formatTransactionHash'
 
 	const formatNumber = (number: number) =>
 		new Intl.NumberFormat(globalThis.navigator.languages).format(number)
@@ -41,6 +40,7 @@
 	import Collapsible from './Collapsible.svelte'
 	import EthereumTransaction from './EthereumTransaction.svelte'
 	import EthereumTransactionLoader from './EthereumTransactionLoader.svelte'
+	import TruncatedValue from './TruncatedValue.svelte'
 
 
 	// Transitions/animations
@@ -54,16 +54,18 @@
 		justify-content: space-between;
 	}
 
+	output {
+		font-size: 0.9em;
+	}
+
 	.miner-address {
 		font-weight: 600;
-	}
-	.miner-address, .nonce, .difficulty, .block-hash {
-		font-size: 0.9em;
 	}
 
 	.including {
 		font-size: 0.85em;
 		align-items: baseline;
+		column-gap: 4ch;
 	}
 
 	.extra-data-container {
@@ -119,12 +121,15 @@
 
 				<span>
 					discovered <abbr title={'The random value in a block that was used to satisfy the proof-of-work.\n\nSource: https://ethereum.org/en/glossary/#nonce'}>nonce</abbr>
-					<output class="nonce">{block.nonce}</output>
+					<output>{block.nonce}</output>
 				</span>
 
 				<span>
-					at <abbr title={'A network-wide setting that controls how much computation is required to produce a proof-of-work.\n\nSource: https://ethereum.org/en/glossary/#difficulty'}>difficulty</abbr>
-					<output class="difficulty">{block.difficulty}</output>
+					with <abbr title={'A network-wide setting that controls how much computation is required to produce a proof-of-work.\n\nSource: https://ethereum.org/en/glossary/#difficulty'}>difficulty</abbr>
+					<output>{block.difficulty}</output>
+					{#if block.totalDifficulty}
+						<small>(total: <output>{block.totalDifficulty}</output>)</small>
+					{/if}
 				</span>
 
 			{:else if lastUpdate?.consensus.type === 'Proof of Stake'}
@@ -149,8 +154,8 @@
 
 			{#if block.blockHash}
 				<span>
-					producing hash
-					<output class="block-hash"><abbr title="Block hash: {block.blockHash}">{formatTransactionHash(block.blockHash, 'middle-truncated')}</abbr></output>
+					producing block hash
+					<abbr title="Block hash: {block.blockHash}"><output><TruncatedValue value={block.blockHash} /></output></abbr>
 				</span>
 			{/if}
 		</div>
@@ -160,26 +165,61 @@
 		<div class="including row wrap">
 			<h4>including</h4>
 
+			{#if block.blockNumber > 0}
+				<span>
+					<abbr title="Block {Number(block.blockNumber) - 1} hash: {block.parentBlockHash}">hash</abbr>
+					of block <BlockNumber {network} blockNumber={block.blockNumber - 1n} />
+					<small>(<output><TruncatedValue value={block.parentBlockHash} /></output>)</small>
+				</span>
+			{/if}
+
 			{#if block.transactions?.length}
 				<span>
 					{block.transactions.length}
 					transactions
+
+					{#if block.transactionsRoot}
+						<small>(root: <abbr title={`Transactions root: ${block.transactionsRoot}`}><output><TruncatedValue value={block.transactionsRoot} /></output></abbr>)</small>
+					{/if}
+
+
+					{#if block.receiptsRoot}
+						<span>
+							with receipts
+							<small>(root: <abbr title={`Receipts root: ${block.receiptsRoot}`}><output><TruncatedValue value={block.receiptsRoot} /></output></abbr>)</small>
+						</span>
+					{/if}
 				</span>
 			{/if}
 
-			{#if block.blockNumber > 0}
+			{#if block.mixHashOrPrevRandao}
 				<span>
-					<abbr title="Block {Number(block.blockNumber) - 1} hash: {block.parentBlockHash}">hash</abbr>
-					<!-- hash
-					<output><abbr title="Block {blockNumber - 1} hash: {block.parentHash}">{formatTransactionHash(block.parentHash, 'middle-truncated')}</abbr></output> -->
-					of previous block <BlockNumber {network} blockNumber={block.blockNumber - 1n} />
+					{#if lastUpdate?.consensus.type === 'Proof of Work'}
+						mix hash <output><TruncatedValue value={block.mixHashOrPrevRandao} /></output>
+					{:else if lastUpdate?.consensus.type === 'Proof of Stake'}
+						RANDAO <output><TruncatedValue value={block.mixHashOrPrevRandao} /></output>
+					{/if}
+				</span>
+			{/if}
+
+			{#if block.logsBloom && BigInt(block.logsBloom) !== 0n}
+				<span>
+					logs
+					<small>(Bloom filter: <abbr title={`Logs bloom filter: ${block.logsBloom}`}><output><TruncatedValue value={block.logsBloom} /></output></abbr>)</small>
+				</span>
+			{/if}
+
+			{#if block.sha3Uncles && block.sha3Uncles !== '0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347'}
+				<span>
+					SHA-3 hash of uncle block(s)
+					<abbr title={`SHA3 of uncles: ${block.sha3Uncles}`}><output><TruncatedValue value={block.sha3Uncles} /></output></abbr>
 				</span>
 			{/if}
 
 			{#if block.extraData && block.extraData !== '0x'}
 				<span class="extra-data-container">
 					extra data
-					<output class="extra-data"><abbr title={`Extra data:\n${block.extraData}`}>{bytesToString(toBytes(block.extraData))}</abbr></output>
+					<span class="extra-data"><abbr title={`Extra data:\n${block.extraData}`}>{bytesToString(toBytes(block.extraData))}</abbr></span>
 				</span>
 			{/if}
 		</div>
