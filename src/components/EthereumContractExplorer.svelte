@@ -7,6 +7,7 @@
 	enum ContractCodeType {
 		CreationBytecode = 'Creation Bytecode',
 		RuntimeBytecode = 'Runtime Bytecode',
+		Abi = 'ABI',
 	}
 
 
@@ -83,6 +84,7 @@
 	import EthereumContractMetadataLoader from './EthereumContractMetadataLoader.svelte'
 	import EthereumTransactionForm from './EthereumTransactionForm.svelte'
 	import EvmBytecode from './EvmBytecode.svelte'
+	import FileDetails from './FileDetails.svelte'
 	import IpfsLoader from './IpfsLoader.svelte'
 
 
@@ -151,6 +153,12 @@
 											<option value={ContractCodeType.RuntimeBytecode}>Runtime Bytecode</option>
 										{/if}
 									</optgroup>
+
+									{#if contractMetadata?.output?.abi}
+										<optgroup label="ABI">
+											<option value={ContractCodeType.Abi}>ABI</option>
+										</optgroup>
+									{/if}
 
 									{#if contractMetadata}
 										<optgroup label="Source Code">
@@ -261,6 +269,15 @@
 							</IpfsLoader>
 						{/if}
 					</section>
+
+				{:else if showContractCodeTypeOrSourcePath === ContractCodeType.Abi}
+					<FileDetails
+						displayType="json"
+						fileName={contractName}
+						text={JSON.stringify(contractMetadata.output.abi, null, '\t')}
+						isOpen
+					/>
+
 				{:else}
 					<section class="card">
 						<EvmBytecode
