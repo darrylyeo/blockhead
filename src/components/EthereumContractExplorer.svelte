@@ -295,3 +295,10 @@
 		</EthereumContractMetadataLoader>
 	</section>
 </EthereumContractBytecodeLoader>
+
+
+<style>
+	* :global(code) {
+		user-select: initial;
+	}
+</style>
