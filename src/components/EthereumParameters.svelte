@@ -24,7 +24,7 @@
 
 
 	// Components
-	import Address from './Address.svelte'
+	import EthereumParameterValue from './EthereumParameterValue.svelte'
 
 
 	// Transitions
@@ -59,32 +59,10 @@
 						{/if}
 					</span>
 
-					<output
-						class="value"
-						class:scrollable-list={param.type?.endsWith('[]') && param.value.length > 10}
-					>
-						{#if param.type?.endsWith('[]')}
-							{#if param.type === 'address[]'}
-								{#each param.value as address}
-									<Address
-										{network}
-										{address}
-									/>
-								{/each}
-							{:else}
-								{#each param.value as value}
-									{value}
-								{/each}
-							{/if}
-						{:else if param.type === 'address'}
-							<Address
-								{network}
-								address={param.value}
-							/>
-						{:else}
-							{param.value}
-						{/if}
-					</output>
+					<EthereumParameterValue
+						{network}
+						{param}
+					/>
 
 					<abbr
 						class="card-annotation"
@@ -99,11 +77,14 @@
 
 <style>
 	.params {
+		display: grid;
+		grid-template-columns: minmax(max-content, 0.1fr) minmax(0, 1fr) minmax(max-content, 0.1fr);
 		gap: 1em;
 
 		.param {
 			display: grid;
-			grid-template-columns: 1fr minmax(52ch, 1fr) 1fr;
+			grid-template-columns: subgrid;
+			grid-column: 1 / -1;
 			align-items: center;
 
 			gap: 1em;
