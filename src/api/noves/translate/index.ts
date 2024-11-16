@@ -329,6 +329,20 @@ export namespace Evm {
 		balanceUsd?: string
 	}
 
+	type Parameter = {
+		parameter: {
+			name: string
+			type: string
+			order: number
+			internalType: null
+			serpentSignature: null
+			structTypeName: null
+			indexed: boolean
+		}
+		dataIndexStart: number
+		result: string | Parameter[]
+	}
+
 	/**
 	 * /evm/{chain}/tokens/balancesOf/{accountAddress}
 	 * 
@@ -439,7 +453,21 @@ export namespace Evm {
 					params: {
 						name: string
 						type: string
-						value: string | number
+						value: (
+							| string
+							| number
+							| {
+								parameter: {
+									name: string
+									type: string
+									order: number
+									internalType: string | null
+									indexed: boolean
+								}
+								dataIndexStart: number
+								result: string | number | string[]
+							}[]
+						)
 					}[]
 					raw: {
 						eventSignature: string
@@ -457,19 +485,7 @@ export namespace Evm {
 				}
 				decodedInput: {
 					functionName: string
-					parameters: {
-						parameter: {
-							name: string
-							type: string
-							order: number
-							internalType: null
-							serpentSignature: null
-							structTypeName: null
-							indexed: boolean
-						}
-						dataIndexStart: number
-						result: string
-					}[]
+					parameters: Parameter[]
 				}
 			}
 		>(

@@ -125,13 +125,7 @@ export const normalizeRawTransaction = (
 				methodName: transaction.decodedInput.functionName,
 				params: (
 					transaction.decodedInput.parameters
-						?.map(param => ({
-							name: param.parameter.name,
-							type: param.parameter.type as AbiType,
-							internalType: param.parameter.internalType ?? undefined,
-							indexed: param.parameter.indexed,
-							value: param.result,
-						}))
+						?.map(param => normalizeParameter(param))
 				),
 			}
 		: undefined
@@ -156,6 +150,21 @@ export const normalizeRawTransaction = (
 		s: transaction.rawTx.s as `0x${string}`,
 		v: Number(transaction.rawTx.v) as 0 | 1,
 	},
+})
+
+export const normalizeParameter = (
+	param: Awaited<ReturnType<typeof Evm.getRawTransaction>>['decodedInput']['parameters'][number],
+): Ethereum.ContractFunctionParameter => ({
+	name: param.parameter.name,
+	type: param.parameter.type as AbiType,
+	internalType: param.parameter.internalType ?? undefined,
+	indexed: param.parameter.indexed,
+	value: (
+		param.parameter.type === 'tuple' ?
+			param.result.map(value => normalizeParameter(value))
+		:
+			param.result
+	),
 })
 
 const normalizeTransactionTraces = (
