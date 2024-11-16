@@ -62,7 +62,6 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
-	import { getViemPublicClient } from '$/data/networkProviders'
 
 
 	// Outputs
@@ -119,6 +118,8 @@
 						blockNumber,
 					}],
 				}) => {
+					const { getViemPublicClient } = await import('$/data/networkProviders')
+
 					const { getChainlinkPriceFeed } = await import('$/api/chainlink')
 
 					const oraclePublicClient = getViemPublicClient({
