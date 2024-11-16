@@ -91,24 +91,6 @@
 </script>
 
 
-<style>
-	.bar {
-		--padding-inner: 1em;
-	}
-	label {
-		font-size: 0.9em;
-	}
-
-	h3 {
-		line-height: 1.6;
-	}
-
-	.source-code {
-		display: block;
-	}
-</style>
-
-
 <EthereumContractBytecodeLoader
 	loaderViewOptions={{
 		showIf: contractBytecode => !!contractBytecode,
@@ -154,31 +136,33 @@
 					</slot>
 
 					{#if isOpen}
-						<label
-							class="align-end"
-							transition:scale={{ duration: 300 }}
-						>
-							<span>View: </span>
-							<select bind:value={showContractCodeTypeOrSourcePath}>
-								<optgroup label="Onchain">
-									{#if contractState?.creationBytecode}
-										<option value={ContractCodeType.CreationBytecode}>Creation Bytecode</option>
-									{/if}
-									{#if runtimeBytecode || contractState?.runtimeBytecode}
-										<option value={ContractCodeType.RuntimeBytecode}>Runtime Bytecode</option>
-									{/if}
-								</optgroup>
-
-								{#if contractMetadata}
-									<optgroup label="Source Code">
-										<!-- Uncaught ReferenceError: contractMetadata is not defined -->
-										{#each Object.entries(contractMetadata?.sources) as [sourcePath, source]}
-											<option value={sourcePath}>{sourcePath}</option>
-										{/each}
+						<div role="toolbar">
+							<label
+								class="align-end"
+								transition:scale={{ duration: 300 }}
+							>
+								<span>View: </span>
+								<select bind:value={showContractCodeTypeOrSourcePath}>
+									<optgroup label="Onchain">
+										{#if contractState?.creationBytecode}
+											<option value={ContractCodeType.CreationBytecode}>Creation Bytecode</option>
+										{/if}
+										{#if runtimeBytecode || contractState?.runtimeBytecode}
+											<option value={ContractCodeType.RuntimeBytecode}>Runtime Bytecode</option>
+										{/if}
 									</optgroup>
-								{/if}
-							</select>
-						</label>
+
+									{#if contractMetadata}
+										<optgroup label="Source Code">
+											<!-- Uncaught ReferenceError: contractMetadata is not defined -->
+											{#each Object.entries(contractMetadata?.sources) as [sourcePath, source]}
+												<option value={sourcePath}>{sourcePath}</option>
+											{/each}
+										</optgroup>
+									{/if}
+								</select>
+							</label>
+						</div>
 					{/if}
 
 					<button
