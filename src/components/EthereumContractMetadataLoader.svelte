@@ -80,7 +80,11 @@
 
 			...{
 				[ContractSourceProvider.Blockscout]: () => ({
-					queryFn: async () => {
+					queryFn: async ({
+						queryKey: [_, {
+							contractAddress,
+						}],
+					}) => {
 						const { getSmartContract } = await import('$/api/blockscout/rest/index')
 						const { getBlockscoutRestEndpoint } = await import('$/api/blockscout')
 
@@ -96,7 +100,11 @@
 				}),
 
 				[ContractSourceProvider.Etherscan]: () => ({
-					queryFn: async () => {
+					queryFn: async ({
+						queryKey: [_, {
+							contractAddress,
+						}],
+					}) => {
 						const { Etherscan } = await import('$/api/etherscan/index')
 
 						const metadata = await Etherscan.Contracts.getSource({
