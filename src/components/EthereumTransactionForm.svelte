@@ -143,7 +143,7 @@
 	import ConnectedAccountSelect from './ConnectedAccountSelect.svelte'
 	import BigNumberInput from './BigNumberInput.svelte'
 	import Collapsible from './Collapsible.svelte'
-	import EthereumTransactionParameters from './EthereumTransactionParameters.svelte'
+	import EthereumParameters from './EthereumParameters.svelte'
 	import HeightContainer from './HeightContainer.svelte'
 	import Input from './Input.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
@@ -433,7 +433,7 @@
 					{#if contractMethod.inputs.length}
 						<hr>
 
-						<EthereumTransactionParameters
+						<EthereumParameters
 							{network}
 							inputDecoded={{
 								methodName: contractMethod.name,

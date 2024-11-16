@@ -60,7 +60,7 @@
 	import Date from './Date.svelte'
 	import EthereumErc20Transfer from './EthereumErc20Transfer.svelte'
 	import EthereumLogEvent from './EthereumLogEvent.svelte'
-	import EthereumTransactionParameters from './EthereumTransactionParameters.svelte'
+	import EthereumParameters from './EthereumParameters.svelte'
 	import EthereumTransactionSummary from './EthereumTransactionSummary.svelte'
 	import EthereumTransactionTrace from './EthereumTransactionTrace.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
@@ -307,7 +307,7 @@
 								<span>with input</span>
 
 								{#if transaction.inputDecoded}
-									<EthereumTransactionParameters
+									<EthereumParameters
 										{network}
 										inputDecoded={transaction.inputDecoded}
 										{showFormattedNames}
