@@ -276,7 +276,7 @@ export namespace Ethereum {
 		executionStatus?: 'failed' | 'successful',
 		revertReason?: string,
 
-		finalityStatus: 'pending' | 'finalized' | 'orphaned' | 'replaced',
+		finalityStatus?: 'pending' | 'finalized' | 'orphaned' | 'replaced',
 		confirmations?: number,
 
 		blockNumber?: BlockNumber,
