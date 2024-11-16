@@ -29,3 +29,5 @@ fetcher.configure({
 		},
 	],
 })
+
+export const getSpotPrices = fetcher.path('/v1.1/{chain}/{addresses}').method('get').create()

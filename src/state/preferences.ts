@@ -455,6 +455,7 @@ export const preferencesConfig = [
 							{ value: PriceProvider.Covalent, name: 'Covalent › GoldRush', icon: priceProviderIcons[PriceProvider.Covalent] },
 							{ value: PriceProvider.Etherscan, name: 'Etherscan', icon: priceProviderIcons[PriceProvider.Etherscan] },
 							{ value: PriceProvider.QuickNode_Odos, name: 'Odos (via QuickNode)', icon: priceProviderIcons[PriceProvider.QuickNode_Odos] },
+							{ value: PriceProvider.OneInch_SpotPrice, name: '1inch › Spot Price API', icon: priceProviderIcons[PriceProvider.OneInch_SpotPrice] },
 							// { value: 'Moralis', name: 'Moralis' },
 						]
 					},

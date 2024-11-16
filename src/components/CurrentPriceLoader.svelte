@@ -63,6 +63,8 @@
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
 
+	import { normalizeSpotPrice as normalizeSpotPriceOneinch } from '$/api/1inch/spot-prices/normalize'
+
 
 	// Outputs
 	export let result: {
@@ -526,6 +528,43 @@
 					}
 				}
 			})
+		}),
+
+		[PriceProvider.OneInch_SpotPrice]: () => ({
+			fromQuery: createQuery({
+				queryKey: ['CurrentPrice', {
+					currentPriceProvider,
+					query: _query,
+					quoteCurrency,
+					a: Date.now(),
+				}],
+				queryFn: async ({
+					queryKey: [_, {
+						query,
+						quoteCurrency,
+					}],
+				}) => {
+					const { getSpotPrices } = await import('$/api/1inch/spot-prices')
+
+					if(!('contractAddress' in query))
+						throw new Error('Token contract address not specified.')
+
+					return await getSpotPrices({
+						chain: query.chainId,
+						currency: (
+							quoteCurrency === 'ETH'
+								? undefined
+								: quoteCurrency
+						),
+						addresses: [
+							query.contractAddress,
+						],
+					})
+				},
+				select: result => (
+					normalizeSpotPriceOneinch(result, quoteCurrency)
+				),
+			}),
 		}),
 	}[currentPriceProvider]()}
 	bind:result
