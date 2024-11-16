@@ -146,6 +146,17 @@
 					</svelte:fragment>
 
 					<svelte:fragment slot="header-right">
+						<span class="card-annotation">
+							<a href="https://eips.ethereum.org/EIPS/eip-2718" target="_blank">Type </a>
+
+							{#if transaction.type === 'legacy'}
+								<a href="https://ethereum.org/en/developers/docs/transactions/" target="_blank">0 (Legacy)</a>
+							{:else if transaction.type === 'eip2930'}
+								<a href="https://eips.ethereum.org/EIPS/eip-2930" target="_blank">1 (EIP-2930)</a>
+							{:else if transaction.type === 'eip1559'}
+								<a href="https://eips.ethereum.org/EIPS/eip-1559" target="_blank">2 (EIP-1559)</a>
+							{/if}
+						</span>
 					</svelte:fragment>
 
 					<div class="container inner-layout-{innerLayout}" class:card={isStandaloneLayout}>
