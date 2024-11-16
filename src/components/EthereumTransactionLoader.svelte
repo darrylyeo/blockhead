@@ -96,42 +96,68 @@
 	errorMessage="Error looking up transaction from {transactionProvider}"
 	{...{
 		[TransactionProvider.RpcProvider]: () => ({
-			fromQuery: publicClient && createQuery({
-				queryKey: ['Transaction', {
-					transactionProvider,
-					networkProvider,
-					chainId: network.chainId,
-					transactionId,
-				}],
-				queryFn: async ({
-					queryKey: [_, {
-						transactionProvider,
-						networkProvider,
-						chainId,
-						transactionId,
-					}],
-				}) => {
-					const { getTransaction, getTransactionReceipt } = await import('viem/actions')
-					const [
-						transaction,
-						transactionReceipt,
-					] = await Promise.all([
-						getTransaction(publicClient, {
-							hash: transactionId
-						}),
-						getTransactionReceipt(publicClient, {
-							hash: transactionId
-						}),
-					])
+			fromQuery: publicClient && createQueries({
+				queries: [
+					{
+						queryKey: ['Transaction', {
+							transactionProvider,
+							networkProvider,
+							chainId: network.chainId,
+							transactionId,
+						}],
+						queryFn: async ({
+							queryKey: [_, {
+								chainId,
+								transactionId,
+							}],
+						}) => {
+							const { getTransaction } = await import('viem/actions')
 
-					return { transaction, transactionReceipt }
-				},
-				select: ({ transaction, transactionReceipt }) => (
-					normalizeViemTransaction(
-						{ ...transaction, ...transactionReceipt },
-						network,
-					)
-				),
+							return await getTransaction(publicClient, {
+								hash: transactionId,
+							})
+						},
+					},
+					{
+						queryKey: ['TransactionReceipt', {
+							transactionProvider,
+							networkProvider,
+							chainId: network.chainId,
+							transactionId,
+						}],
+						queryFn: async ({
+							queryKey: [_, {
+								chainId,
+								transactionId,
+							}],
+						}) => {
+							const { getTransactionReceipt } = await import('viem/actions')
+
+							return await getTransactionReceipt(publicClient, {
+								hash: transactionId,
+							})
+						},
+					},
+				],
+
+				combine: ([
+					transactionQuery,
+					receiptQuery,
+				]) => ({
+					...transactionQuery,
+					...receiptQuery,
+					isLoading: transactionQuery.isLoading || receiptQuery.isLoading,
+					isSuccess: transactionQuery.isSuccess && receiptQuery.isSuccess,
+					data: transactionQuery.data && receiptQuery?.data && (
+						normalizeViemTransaction(
+							{
+								...transactionQuery.data,
+								...receiptQuery?.data,
+							},
+							network,
+						)
+					),
+				}),
 			}),
 		}),
 
