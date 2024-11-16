@@ -59,28 +59,21 @@
 	import { createQuery, createQueries } from '@tanstack/svelte-query'
 
 	import { normalizeTransaction as normalizeViemTransaction } from '$/api/viem/normalize'
-	import { getTransaction, getTransactionReceipt } from 'viem/actions'
 
-	import { getBlockscoutRestEndpoint } from '$/api/blockscout/index'
-	import { getTx as getTransactionBlockscout } from '$/api/blockscout/rest/index'
 	import { normalizeTransaction as normalizeTransactionBlockscout } from '$/api/blockscout/rest/normalize'
 
-	import { getTransaction as getTransactionChainbase } from '$/api/chainbase/index'
 	import { normalizeTransaction as normalizeTransactionChainbase } from '$/api/chainbase/normalize'
 
-	import { getTransaction as getTransactionCovalent } from '$/api/covalent/index'
 	import { normalizeTransaction as normalizeTransactionCovalent } from '$/api/covalent/normalize'
 
 	import { normalizeTransaction as normalizeTransactionCurvegridMultibaas, normalizeTransactionReceipt as normalizeTransactionReceiptCurvegridMultibaas } from '$/api/curvegrid/multibaas/normalize'
 
 	import { normalizeTransaction as normalizeTransactionDecommas } from '$/api/decommas/normalize'
 
-	import { Etherscan } from '$/api/etherscan/index'
 	import { normalizeRpcTransaction as normalizeTransactionEtherscan, normalizeRpcTransactionReceipt as normalizeTransactionReceiptEtherscan } from '$/api/etherscan/normalize'
 
-	// import { getTransaction as getTransactionEtherspot, normalizeTransaction as normalizeEtherspotTransaction } from '$/api/etherspot'
+	// import { normalizeTransaction as normalizeEtherspotTransaction } from '$/api/etherspot'
 
-	import { MoralisWeb3Api, chainCodeFromNetwork } from '$/api/moralis/web3Api/index'
 	import { normalizeTransaction as normalizeTransactionMoralis } from '$/api/moralis/web3Api/normalize'
 
 	import { normalizeTransaction as normalizeTransactionNoves, normalizeRawTransaction as normalizeRawTransactionNoves } from '$/api/noves/normalize'
@@ -111,6 +104,7 @@
 					transactionId
 				}],
 				queryFn: async () => {
+					const { getTransaction, getTransactionReceipt } = await import('viem/actions')
 					const [
 						transaction,
 						transactionReceipt,
@@ -150,14 +144,18 @@
 							transactionId,
 						},
 					]
-				}) => (
-					await getTransactionBlockscout(
+				}) => {
+					const { getBlockscoutRestEndpoint } = await import('$/api/blockscout/index')
+
+					const { getTx } = await import('$/api/blockscout/rest/index')
+
+					return await getTx(
 						transactionId,
 						{
 							baseUrl: getBlockscoutRestEndpoint(chainId),
 						}
 					)
-				),
+				},
 				select: result => (
 					normalizeTransactionBlockscout(result, network)
 				),
@@ -172,7 +170,9 @@
 					transactionId,
 				}],
 				queryFn: async () => {
-					const result = await getTransactionChainbase({
+					const { getTransaction } = await import('$/api/chainbase/index')
+
+					const result = await getTransaction({
 						chainId: network.chainId,
 						hash: transactionId,
 					})
@@ -196,14 +196,16 @@
 					transactionId,
 					quoteCurrency,
 				}],
-				queryFn: async () => (
-					await getTransactionCovalent({
+				queryFn: async () => {
+					const { getTransaction } = await import('$/api/covalent/index')
+
+					return await getTransaction({
 						chainName: network.chainId,
 						txHash: transactionId,
 						quoteCurrency,
 						noLogs: false,
 					})
-				),
+				},
 				select: ({ items: [transaction] }) => (
 					normalizeTransactionCovalent(transaction, network, quoteCurrency)
 				),
@@ -308,6 +310,8 @@
 					transactionId,
 				}],
 				queryFn: async () => {
+					const { Etherscan } = await import('$/api/etherscan/index')
+
 					const [
 						transaction,
 						transactionReceipt,
@@ -345,12 +349,14 @@
 		// 			chainId: network.chainId,
 		// 			transactionId,
 		// 		}],
-		// 		queryFn: async () => (
-		// 			await getTransactionEtherspot({
+		// 		queryFn: async () => {
+		// 			const { getTransaction } = await import('$/api/etherspot')
+
+		// 			return await getTransaction({
 		// 				network,
 		// 				transactionID: transactionId
 		// 			})
-		// 		),
+		// 		},
 		// 		select: transaction => (
 		// 			normalizeEtherspotTransaction(transaction, network)
 		// 		),
@@ -364,12 +370,14 @@
 					chainId: network.chainId,
 					transactionId,
 				}],
-				queryFn: async () => (
-					await MoralisWeb3Api.transaction.getTransaction({
+				queryFn: async () => {
+					const { MoralisWeb3Api, chainCodeFromNetwork } = await import('$/api/moralis/web3Api/index')
+
+					return await MoralisWeb3Api.transaction.getTransaction({
 						chain: chainCodeFromNetwork(network),
 						transactionHash: transactionId,
 					})
-				),
+				},
 				select: transaction => normalizeTransactionMoralis(transaction, network),
 			}),
 		}),
