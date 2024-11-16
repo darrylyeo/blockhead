@@ -36,6 +36,8 @@
 
 	import { normalizeTransaction as normalizeTransactionCovalent } from '$/api/covalent/normalize'
 
+	// import { normalizeTransaction as normalizeTransactionCurvegridMultibaas } from '$/api/curvegrid/multibaas/normalize'
+
 	import { normalizeTransaction as normalizeTransactionDecommas } from '$/api/decommas/normalize'
 
 	import { normalizeTransaction as normalizeTransactionEtherscan } from '$/api/etherscan/normalize'
@@ -190,6 +192,52 @@
 				),
 				staleTime: 10 * 1000,
 			}),
+		}),
+
+		[TransactionProvider.Curvegrid_Multibaas]: () => ({
+			fromQuery: createQuery({
+				queryKey: ['Transactions', {
+					transactionProvider,
+					chainId: network.chainId,
+					address,
+				}],
+				queryFn: () => {
+					throw new Error('Curvegrid does not yet support querying transactions by address.')
+				},
+				// initialPageParam: {
+				// 	limit: 100,
+				// 	offset: 0,
+				// },
+				// queryFn: async ({
+				// 	queryKey: [_, {
+				// 		chainId,
+				// 		address,
+				// 	}],
+				// 	pageParam: {
+				// 		limit,
+				// 		offset,
+				// 	},
+				// }) => {
+				// 	const { getTransactions } = await import('$/api/curvegrid/multibaas')
+
+				// 	return await getTransactions({
+				// 		chain: 'ethereum',
+				// 		wallet_address: address,
+				// 		limit,
+				// 		offset,
+				// 	})
+				// },
+				// getNextPageParam: (lastPage, allPages) => ({
+				// 	limit: lastPage.pageParam.limit,
+				// 	offset: lastPage.offset + lastPage.pageParam.limit,
+				// }),
+				// select: result => (
+				// 	result.pages
+				// 		.flatMap(page => page.data.result)
+				// 		.map(transaction => normalizeTransactionCurvegridMultibaas(transaction, network))
+				// ),
+				staleTime: 10 * 1000,
+			})
 		}),
 
 		[TransactionProvider.Decommas]: () => ({

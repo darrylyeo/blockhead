@@ -29,3 +29,8 @@ fetcher.configure({
 		},
 	],
 })
+
+export const getBlock = fetcher.path('/chains/{chain}/blocks/{block}').method('get').create()
+export const getTransaction = fetcher.path('/chains/{chain}/transactions/{hash}').method('get').create()
+export const getTransactionReceipt = fetcher.path('/chains/{chain}/transactions/receipt/{hash}').method('get').create()
+export const getTransactions = fetcher.path('/chains/{chain}/txm/{wallet_address}').method('get').create()

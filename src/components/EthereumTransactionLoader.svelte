@@ -56,7 +56,7 @@
 
 
 	// Functions
-	import { createQuery } from '@tanstack/svelte-query'
+	import { createQuery, createQueries } from '@tanstack/svelte-query'
 
 	import { normalizeTransaction as normalizeViemTransaction } from '$/api/viem/normalize'
 	import { getTransaction, getTransactionReceipt } from 'viem/actions'
@@ -70,6 +70,8 @@
 
 	import { getTransaction as getTransactionCovalent } from '$/api/covalent/index'
 	import { normalizeTransaction as normalizeTransactionCovalent } from '$/api/covalent/normalize'
+
+	import { normalizeTransaction as normalizeTransactionCurvegridMultibaas, normalizeTransactionReceipt as normalizeTransactionReceiptCurvegridMultibaas } from '$/api/curvegrid/multibaas/normalize'
 
 	import { normalizeTransaction as normalizeTransactionDecommas } from '$/api/decommas/normalize'
 
@@ -205,6 +207,73 @@
 				select: ({ items: [transaction] }) => (
 					normalizeTransactionCovalent(transaction, network, quoteCurrency)
 				),
+			}),
+		}),
+
+		[TransactionProvider.Curvegrid_Multibaas]: () => ({
+			fromQuery: createQueries({
+				queries: [
+					{
+						queryKey: ['Transaction', {
+							transactionProvider,
+							chainId: network.chainId,
+							transactionId,
+						}],
+						queryFn: async ({
+							queryKey: [_, {
+								chainId,
+								transactionId,
+							}],
+						}) => {
+							const { getTransaction } = await import('$/api/curvegrid/multibaas')
+
+							return await getTransaction({
+								chain: 'ethereum',
+								hash: transactionId,
+								include: 'contract',
+							})
+						},
+						select: transaction => (
+							normalizeTransactionCurvegridMultibaas(transaction, network)
+						),
+					},
+					{
+						queryKey: ['TransactionReceipt', {
+							transactionProvider,
+							chainId: network.chainId,
+							transactionId,
+						}],
+						queryFn: async ({
+							queryKey: [_, {
+								chainId,
+								transactionId,
+							}],
+						}) => {
+							const { getTransactionReceipt } = await import('$/api/curvegrid/multibaas')
+
+							return await getTransactionReceipt({
+								chain: 'ethereum',
+								hash: transactionId,
+								include: 'contract',
+							})
+						},
+						select: receipt => (
+							normalizeTransactionReceiptCurvegridMultibaas(receipt, network)
+						),
+					},
+				],
+
+				combine: ([
+					transactionQuery,
+					receiptQuery,
+				]) => ({
+					...transactionQuery,
+					...receiptQuery,
+					data: {
+						...transactionQuery.data,
+						...receiptQuery?.data,
+					},
+				}),
 			}),
 		}),
 

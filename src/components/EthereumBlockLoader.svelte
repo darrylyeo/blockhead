@@ -72,6 +72,8 @@
 
 	import { normalizeBlock as normalizeBlockCovalent, normalizeTransaction as normalizeTransactionCovalent } from '$/api/covalent/normalize'
 
+	import { normalizeBlock as normalizeBlockCurvegridMultibaas } from '$/api/curvegrid/multibaas/normalize'
+
 	import { normalizeBlock as normalizeBlockEtherscan } from '$/api/etherscan/normalize'
 
 	import { normalizeBlock as normalizeMoralisBlock } from '$/api/moralis/web3Api/normalize'
@@ -264,6 +266,32 @@
 					},
 				}),
 			})
+		}),
+
+		[TransactionProvider.Curvegrid_Multibaas]: () => ({
+			fromQuery: createQuery({
+				queryKey: ['Block', {
+					transactionProvider,
+					chainId: network.chainId,
+					blockNumber: Number(blockNumber),
+				}],
+				placeholderData: () => placeholderData,
+				queryFn: async ({
+					queryKey: [_, {
+						chainId,
+						blockNumber,
+					}],
+				}) => {
+					const { getBlock } = await import('$/api/curvegrid/multibaas')
+
+					return await getBlock({
+						chain: 'ethereum',
+						block: blockNumber.toString(),
+					})
+				},
+				select: block => block === placeholderData ? block : normalizeBlockCurvegridMultibaas(block, network),
+				staleTime: 10 * 1000,
+			}),
 		}),
 
 		[TransactionProvider.Decommas]: () => ({

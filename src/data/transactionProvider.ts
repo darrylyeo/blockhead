@@ -3,6 +3,7 @@ export enum TransactionProvider {
 	Blockscout = 'Blockscout',
 	Chainbase = 'Chainbase',
 	Covalent = 'Covalent',
+	Curvegrid_Multibaas = 'Curvegrid › MultiBaas',
 	Decommas = 'Decommas',
 	Etherscan = 'Etherscan',
 	Etherspot = 'Etherspot',
@@ -11,12 +12,13 @@ export enum TransactionProvider {
 }
 
 
-import { BlockscoutIcon, ChainbaseIcon, CovalentGoldRushIcon, DecommasIcon, EtherscanIcon, EtherspotIcon, MoralisIcon, NovesIcon } from '$/assets/icons'
+import { BlockscoutIcon, ChainbaseIcon, CovalentGoldRushIcon, CurvegridIcon, DecommasIcon, EtherscanIcon, EtherspotIcon, MoralisIcon, NovesIcon } from '$/assets/icons'
 
 export const transactionProviderIcons: Record<TransactionProvider, string> = {
 	[TransactionProvider.Blockscout]: BlockscoutIcon,
 	[TransactionProvider.Chainbase]: ChainbaseIcon,
 	[TransactionProvider.Covalent]: CovalentGoldRushIcon,
+	[TransactionProvider.Curvegrid_Multibaas]: CurvegridIcon,
 	[TransactionProvider.Decommas]: DecommasIcon,
 	[TransactionProvider.Etherscan]: EtherscanIcon,
 	[TransactionProvider.Etherspot]: EtherspotIcon,

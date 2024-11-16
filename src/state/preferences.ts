@@ -216,6 +216,7 @@ export const preferencesConfig = [
 							{ value: TransactionProvider.Blockscout, name: 'Blockscout › REST API', icon: transactionProviderIcons[TransactionProvider.Blockscout] },
 							{ value: TransactionProvider.Chainbase, name: 'Chainbase', icon: transactionProviderIcons[TransactionProvider.Chainbase] },
 							{ value: TransactionProvider.Covalent, name: 'Covalent › GoldRush', icon: transactionProviderIcons[TransactionProvider.Covalent] },
+							{ value: TransactionProvider.Curvegrid_Multibaas, name: 'Curvegrid › MultiBaas', icon: transactionProviderIcons[TransactionProvider.Curvegrid_Multibaas] },
 							{ value: TransactionProvider.Decommas, name: 'Decommas', icon: transactionProviderIcons[TransactionProvider.Decommas] },
 							{ value: TransactionProvider.Etherscan, name: 'Etherscan', icon: transactionProviderIcons[TransactionProvider.Etherscan] },
 							{ value: TransactionProvider.Moralis, name: 'Moralis', icon: transactionProviderIcons[TransactionProvider.Moralis] },
