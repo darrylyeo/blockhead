@@ -101,9 +101,16 @@
 					transactionProvider,
 					networkProvider,
 					chainId: network.chainId,
-					transactionId
+					transactionId,
 				}],
-				queryFn: async () => {
+				queryFn: async ({
+					queryKey: [_, {
+						transactionProvider,
+						networkProvider,
+						chainId,
+						transactionId,
+					}],
+				}) => {
 					const { getTransaction, getTransactionReceipt } = await import('viem/actions')
 					const [
 						transaction,
@@ -136,14 +143,11 @@
 					transactionId,
 				}],
 				queryFn: async ({
-					queryKey: [
-						_,
-						{
-							transactionProvider,
-							chainId,
-							transactionId,
-						},
-					]
+					queryKey: [_, {
+						transactionProvider,
+						chainId,
+						transactionId,
+					}],
 				}) => {
 					const { getBlockscoutRestEndpoint } = await import('$/api/blockscout/index')
 
@@ -169,11 +173,17 @@
 					chainId: network.chainId,
 					transactionId,
 				}],
-				queryFn: async () => {
+				queryFn: async ({
+					queryKey: [_, {
+						transactionProvider,
+						chainId,
+						transactionId,
+					}],
+				}) => {
 					const { getTransaction } = await import('$/api/chainbase/index')
 
 					const result = await getTransaction({
-						chainId: network.chainId,
+						chainId,
 						hash: transactionId,
 					})
 
@@ -196,11 +206,18 @@
 					transactionId,
 					quoteCurrency,
 				}],
-				queryFn: async () => {
+				queryFn: async ({
+					queryKey: [_, {
+						transactionProvider,
+						chainId,
+						transactionId,
+						quoteCurrency,
+					}],
+				}) => {
 					const { getTransaction } = await import('$/api/covalent/index')
 
 					return await getTransaction({
-						chainName: network.chainId,
+						chainName: chainId,
 						txHash: transactionId,
 						quoteCurrency,
 						noLogs: false,
@@ -286,10 +303,16 @@
 					chainId: network.chainId,
 					transactionId,
 				}],
-				queryFn: async () => {
+				queryFn: async ({
+					queryKey: [_, {
+						transactionProvider,
+						chainId,
+						transactionId,
+					}],
+				}) => {
 					const { decommas, chainNameByChainId } = await import('$/api/decommas')
 
-					const chainName = chainNameByChainId[network.chainId]
+					const chainName = chainNameByChainId[chainId]
 
 					return await decommas.tx.getDetail({
 						chainName,
@@ -381,7 +404,13 @@
 		// 			chainId: network.chainId,
 		// 			transactionId,
 		// 		}],
-		// 		queryFn: async () => {
+		// 		queryFn: async ({
+		// 			queryKey: [_, {
+		// 				transactionProvider,
+		// 				chainId,
+		// 				transactionId,
+		// 			}],
+		// 		}) => {
 		// 			const { getTransaction } = await import('$/api/etherspot')
 
 		// 			return await getTransaction({
@@ -402,7 +431,13 @@
 					chainId: network.chainId,
 					transactionId,
 				}],
-				queryFn: async () => {
+				queryFn: async ({
+					queryKey: [_, {
+						transactionProvider,
+						chainId,
+						transactionId,
+					}],
+				}) => {
 					const { MoralisWeb3Api, chainCodeFromNetwork } = await import('$/api/moralis/web3Api/index')
 
 					return await MoralisWeb3Api.transaction.getTransaction({
