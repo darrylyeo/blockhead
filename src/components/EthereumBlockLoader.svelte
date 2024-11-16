@@ -65,22 +65,15 @@
 	import { isTruthy } from '$/utils/isTruthy'
 
 	import { normalizeBlock as normalizeViemBlock } from '$/api/viem/normalize'
-	import { getBlock } from 'viem/actions'
 
-	import { getBlockscoutRestEndpoint } from '$/api/blockscout/index'
-	import { getBlock as getBlockBlockscout, getBlockTxs as getBlockTransactionsBlockscout } from '$/api/blockscout/rest/index'
 	import { normalizeBlock as normalizeBlockBlockscout, normalizeTransaction as normalizeTransactionBlockscout } from '$/api/blockscout/rest/normalize'
 
-	import { getBlockByNumber as getBlockByNumberChainbase } from '$/api/chainbase'
 	import { normalizeBlock as normalizeBlockChainbase } from '$/api/chainbase/normalize'
 
-	import { getBlock as getBlockCovalent, getAllTransactionsInABlock as getBlockTransactionsCovalent } from '$/api/covalent/index'
 	import { normalizeBlock as normalizeBlockCovalent, normalizeTransaction as normalizeTransactionCovalent } from '$/api/covalent/normalize'
 
-	import { Etherscan } from '$/api/etherscan/index'
 	import { normalizeBlock as normalizeBlockEtherscan } from '$/api/etherscan/normalize'
 
-	import { chainCodeFromNetwork, MoralisWeb3Api } from '$/api/moralis/web3Api/index'
 	import { normalizeBlock as normalizeMoralisBlock } from '$/api/moralis/web3Api/normalize'
 
 
@@ -120,10 +113,12 @@
 								},
 							],
 						}) => {
-							const block = await getBlockBlockscout(
+							const { getBlock } = await import('$/api/blockscout/rest/index')
+
+							const block = await getBlock(
 								blockNumber,
 								{
-									baseUrl: getBlockscoutRestEndpoint(chainId),
+									baseUrl: (await import('$/api/blockscout/index')).getBlockscoutRestEndpoint(chainId),
 								}
 							)
 
@@ -154,14 +149,16 @@
 									blockNumber,
 								},
 							],
-						}) => (
-							await getBlockTransactionsBlockscout(
+						}) => {
+							const { getBlockTxs } = await import('$/api/blockscout/rest/index')
+
+							return await getBlockTxs(
 								blockNumber,
 								{
-									baseUrl: getBlockscoutRestEndpoint(chainId),
+									baseUrl: (await import('$/api/blockscout/index')).getBlockscoutRestEndpoint(chainId),
 								}
 							)
-						),
+						},
 						select: result => (
 							result === placeholderData
 								? result
@@ -196,12 +193,14 @@
 					blockNumber: Number(blockNumber),
 				}],
 				placeholderData: () => placeholderData,
-				queryFn: async () => (
-					await getBlockByNumberChainbase({
+				queryFn: async () => {
+					const { getBlockByNumber } = await import('$/api/chainbase')
+
+					return await getBlockByNumber({
 						chainId: network.chainId,
 						number: Number(blockNumber),
 					})
-				),
+				},
 				select: result => result === placeholderData ? result : normalizeBlockChainbase(result.data, network),
 			}),
 		}),
@@ -217,12 +216,14 @@
 							chainId: network.chainId,
 							blockNumber: Number(blockNumber),
 						}],
-						queryFn: async () => (
-							await getBlockCovalent({
+						queryFn: async () => {
+							const { getBlock } = await import('$/api/covalent/index')
+
+							return await getBlock({
 								chainName: network.chainId,
 								blockHeight: Number(blockNumber),
 							})
-						),
+						},
 						select: result => result === placeholderData ? result : normalizeBlockCovalent(result.items[0], network),
 					},
 
@@ -233,13 +234,15 @@
 							blockNumber: Number(blockNumber),
 							quoteCurrency,
 						}],
-						queryFn: async () => (
-							await getBlockTransactionsCovalent({
+						queryFn: async () => {
+							const { getAllTransactionsInABlock } = await import('$/api/covalent/index')
+
+							return await getAllTransactionsInABlock({
 								chainName: network.chainId,
 								blockHeight: Number(blockNumber),
 								quoteCurrency,
 							})
-						),
+						},
 						select: result => (
 							result.items
 								.map(transaction => normalizeTransactionCovalent(transaction, network, quoteCurrency))
@@ -287,13 +290,15 @@
 					includeTransactions,
 				}],
 				placeholderData: () => placeholderData,
-				queryFn: async () => (
-					await Etherscan.RpcProxy.getBlockByNumber({
+				queryFn: async () => {
+					const { Etherscan } = await import('$/api/etherscan/index')
+
+					return await Etherscan.RpcProxy.getBlockByNumber({
 						chainId: network.chainId,
 						tag: numberToHex(blockNumber),
 						getFullTransactionObjects: includeTransactions,
 					})
-				),
+				},
 				select: block => block === placeholderData ? block : normalizeBlockEtherscan(block, network),
 			}),
 		}),
@@ -306,12 +311,14 @@
 					blockNumber: Number(blockNumber),
 				}],
 				placeholderData: () => placeholderData,
-				queryFn: async () => (
-					await MoralisWeb3Api.block.getBlock({
+				queryFn: async () => {
+					const { MoralisWeb3Api, chainCodeFromNetwork } = await import('$/api/moralis/web3Api/index')
+
+					return await MoralisWeb3Api.block.getBlock({
 						chain: chainCodeFromNetwork(network),
 						blockNumberOrHash: blockNumber,
 					})
-				),
+				},
 				select: block => block === placeholderData ? block : normalizeMoralisBlock(block, network),
 			}),
 		}),
@@ -340,12 +347,14 @@
 					includeTransactions,
 				}],
 				placeholderData: () => placeholderData,
-				queryFn: async () => (
-					await getBlock(publicClient, {
+				queryFn: async () => {
+					const { getBlock } = await import('viem/actions')
+
+					return await getBlock(publicClient, {
 						blockNumber,
 						includeTransactions,
 					})
-				),
+				},
 				select: block => block === placeholderData ? block : normalizeViemBlock(block, network),
 			}),
 		}),
