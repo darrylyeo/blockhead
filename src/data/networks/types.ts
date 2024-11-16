@@ -72,22 +72,30 @@ export namespace Ethereum {
 	export type Block = {
 		network: Ethereum.Network,
 		blockNumber: BlockNumber,
-		finalityStatus: 'pending' | 'finalized' | 'orphaned' | 'replaced',
+
+		finalityStatus?: 'pending' | 'finalized' | 'orphaned' | 'replaced',
+		confirmations?: number,
 
 		blockHash?: BlockHash,
 		parentBlockHash: BlockHash,
 		timestamp?: number,
-		nonce?: BlockNonce,
-
-		difficulty: BlockDifficulty,
-		totalDifficulty?: BlockDifficulty,
 
 		gasLimit: GasAmount,
 		gasUsed: GasAmount,
-
-		minerAddress: Address,
-		extraData: string,
 		baseFeePerGas?: NativeCurrencyAmount,
+
+		transactionsRoot?: `0x${string}`,
+		receiptsRoot?: `0x${string}`,
+		logsBloom?: `0x${string}`,
+		
+		minerAddress?: Address,
+		difficulty?: BlockDifficulty,
+		totalDifficulty?: BlockDifficulty,
+		nonce?: BlockNonce,
+		sha3Uncles?: `0x${string}`,
+		mixHashOrPrevRandao?: `0x${string}`,
+
+		extraData: string,
 
 		transactions?: Transaction[],
 		transactionIds?: TransactionId[],
