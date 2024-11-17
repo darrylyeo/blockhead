@@ -481,6 +481,7 @@ export const preferencesConfig = [
 						options: [
 							{ value: HistoricalPriceProvider.CoinPaprika, name: 'CoinPaprika', icon: priceProviderIcons[PriceProvider.CoinPaprika] },
 							{ value: HistoricalPriceProvider.Covalent, name: 'Covalent › GoldRush', icon: priceProviderIcons[PriceProvider.Covalent] },
+							{ value: HistoricalPriceProvider.OneInch_Charts, name: '1inch › Charts API', icon: priceProviderIcons[PriceProvider.OneInch_Charts] },
 						]
 					}
 				]

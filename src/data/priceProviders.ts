@@ -11,7 +11,8 @@ export enum OffchainPriceProvider {
 	CoinPaprika = 'CoinPaprika',
 	Covalent = 'Covalent',
 	Etherscan = 'Etherscan',
-	OneInch_SpotPrice = '1inch',
+	OneInch_Charts = '1inch Charts',
+	OneInch_SpotPrice = '1inch Spot Prices',
 	QuickNode_Odos = 'Odos (QuickNode)',
 }
 
@@ -22,6 +23,7 @@ export enum PriceProvider {
 	CoinPaprika = OffchainPriceProvider.CoinPaprika,
 	Covalent = OffchainPriceProvider.Covalent,
 	Etherscan = OffchainPriceProvider.Etherscan,
+	OneInch_Charts = OffchainPriceProvider.OneInch_Charts,
 	OneInch_SpotPrice = OffchainPriceProvider.OneInch_SpotPrice,
 	QuickNode_Odos = OffchainPriceProvider.QuickNode_Odos,
 }
@@ -29,6 +31,7 @@ export enum PriceProvider {
 export enum HistoricalPriceProvider {
 	CoinPaprika = OffchainPriceProvider.CoinPaprika,
 	Covalent = OffchainPriceProvider.Covalent,
+	OneInch_Charts = OffchainPriceProvider.OneInch_Charts,
 }
 
 
@@ -41,6 +44,7 @@ export const priceProviderIcons: Record<PriceProvider, string> = {
 	[PriceProvider.CoinPaprika]: CoinPaprikaIcon,
 	[PriceProvider.Covalent]: CovalentGoldRushIcon,
 	[PriceProvider.Etherscan]: EtherscanIcon,
+	[PriceProvider.OneInch_Charts]: OneInchIcon,
 	[PriceProvider.OneInch_SpotPrice]: OneInchIcon,
 	[PriceProvider.QuickNode_Odos]: OdosIcon,
 }

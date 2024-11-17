@@ -225,6 +225,54 @@
 					),
 				}),
 			}),
+		}),
+
+		[HistoricalPriceProvider.OneInch_Charts]: () => ({
+			fromQuery: createQueries({
+				queries: (
+					resolvedQuery.coins
+						.map(coin => ({
+							queryKey: ['HistoricalPrice', {
+								historicalPriceProvider,
+								coin,
+								quoteCurrency,
+								fromDate,
+								toDate,
+							}],
+							queryFn: async ({
+								queryKey: [_, {
+									coin,
+								}],
+							}) => {
+								const { getTokenPriceHistory } = await import('$/api/1inch/charts')
+								
+								if(!('contractAddress' in coin && coin.chainId))
+									throw new Error('1inch Charts only supports tokens with contract addresses')
+
+								return await getTokenPriceHistory({
+									token0: coin.contractAddress,
+									token1: quoteCurrency === 'USD' && coin.chainId === 1 ? '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48' : '',
+									period: 'AllTime',
+									chainId: coin.chainId,
+								})
+							},
+							select: result => ({
+								coin,
+								quoteCurrency,
+								prices: result.data.map(item => ({
+									time: new Date(item.time * 1000).toISOString().slice(0, 10),
+									price: item.value,
+								})),
+							}),
+						}))
+				),
+				combine: queries => ({
+					...queries[0],
+					data: queries
+						.map(query => query.data)
+						.filter(isTruthy)
+				}),
+			})
 		})
 	}[historicalPriceProvider]()}
 	bind:result={coinsWithHistoricalPrices}
