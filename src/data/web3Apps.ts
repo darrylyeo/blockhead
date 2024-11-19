@@ -97,6 +97,20 @@ export type Web3AppView = {
 
 export const web3Apps = [
 	{
+		name: 'Aarna',
+		slug: 'aarna',
+		links: [
+			'https://www.aarna.ai',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'aarna',
+				},
+			},
+		],
+	},
+	{
 		name: 'Aave',
 		slug: 'aave',
 		links: [
@@ -386,6 +400,20 @@ export const web3Apps = [
 				chainId: 250,
 				providers: {
 					llamafolio: 'abracadabra',
+				},
+			},
+		],
+	},
+	{
+		name: 'AbstraDEX',
+		slug: 'abstra',
+		links: [
+			'https://abstradex.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'abstra',
 				},
 			},
 		],
@@ -771,6 +799,20 @@ export const web3Apps = [
 				providers: {
 					llamafolio: 'agility-lsd',
 					zapper: 'agility',
+				},
+			},
+		],
+	},
+	{
+		name: 'Agni Finance',
+		slug: 'agnifinance',
+		links: [
+			'https://agni.finance',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'agnifinance',
 				},
 			},
 		],
@@ -1670,6 +1712,7 @@ export const web3Apps = [
 				// https://defivaults.gitbook.io/amphor/boosted-eth-vault-v1/contract-addresses
 				providers: {
 					llamafolio: 'amphor',
+					zapper: 'amphor',
 				},
 			},
 		],
@@ -1907,6 +1950,34 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'anzem',
+				},
+			},
+		],
+	},
+	{
+		name: 'Ape Express',
+		slug: 'ape-express',
+		links: [
+			'https://ape.express',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'ape-express',
+				},
+			},
+		],
+	},
+	{
+		name: 'Ape Portal',
+		slug: 'ape-portal',
+		links: [
+			'https://apechain.com/portal',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'ape-portal',
 				},
 			},
 		],
@@ -2508,6 +2579,48 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'ArtRun',
+		slug: 'artrun',
+		links: [
+			'https://artrun.io',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'art-run',
+				},
+			},
+		],
+	},
+	{
+		name: 'Artchains',
+		slug: 'artchains',
+		links: [
+			'https://artchains.app',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'artchains',
+				},
+			},
+		],
+	},
+	{
+		name: 'Artemis Finance',
+		slug: 'artemis-finance',
+		links: [
+			'https://artemisfinance.io/home',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'artemis-finance',
+				},
+			},
+		],
+	},
+	{
 		name: 'Arth',
 		slug: 'arth',
 		links: [
@@ -2598,6 +2711,34 @@ export const web3Apps = [
 				providers: {
 					llamafolio: 'asymmetry-finance',
 					zapper: 'asymmetry-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Atari Onchain Arcade',
+		slug: 'atari-onchain-arcade',
+		links: [
+			'https://www.arcade.fun',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'onchainarcade',
+				},
+			},
+		],
+	},
+	{
+		name: 'Athena Finance',
+		slug: 'athena-finance',
+		links: [
+			'https://www.athenafinance.io',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'athena-finance',
 				},
 			},
 		],
@@ -2831,6 +2972,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Aurelius',
+		slug: 'aurelius',
+		links: [
+			'https://www.aurelius.finance',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'aurelius',
+				},
+			},
+		],
+	},
+	{
 		name: 'Aurigami',
 		slug: 'aurigami',
 		links: [
@@ -2950,6 +3105,20 @@ export const web3Apps = [
 				chainId: 43114,
 				providers: {
 					llamafolio: 'avalaunch',
+				},
+			},
+		],
+	},
+	{
+		name: 'Avalon Finance',
+		slug: 'avalon',
+		links: [
+			'https://app.avalonfinance.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'avalon',
 				},
 			},
 		],
@@ -3193,6 +3362,20 @@ export const web3Apps = [
 				chainId: 250,
 				providers: {
 					llamafolio: 'badger-dao',
+				},
+			},
+		],
+	},
+	{
+		name: 'BakerySwap',
+		slug: 'bakery-swap',
+		links: [
+			'https://www.bakeryswap.org',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'bakery-swap',
 				},
 			},
 		],
@@ -3578,6 +3761,21 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Base Colors',
+		slug: 'basecolors',
+		links: [
+			'https://basecolors.com',
+		],
+		views: [
+			{
+				chainId: undefined,
+				providers: {
+					zapper: 'basecolors',
+				},
+			},
+		],
+	},
+	{
 		name: 'BaseMax',
 		slug: 'basemax',
 		links: [
@@ -3588,21 +3786,6 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'base-max-finance',
-				},
-			},
-		],
-	},
-	{
-		name: 'Base Colors',
-		slug: 'basecolors',
-		links: [
-			'basecolors.com',
-		],
-		views: [
-			{
-				chainId: undefined,
-				providers: {
-					zapper: 'basecolors',
 				},
 			},
 		],
@@ -3653,6 +3836,34 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Basewords',
+		slug: 'base-words',
+		links: [
+			'https://www.basewords.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'base-words',
+				},
+			},
+		],
+	},
+	{
+		name: 'Based Bits',
+		slug: 'basedbits',
+		links: [
+			'https://www.basedbits.fun',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'basedbits',
+				},
+			},
+		],
+	},
+	{
 		name: 'BasedFarm',
 		slug: 'based-farm',
 		links: [
@@ -3663,6 +3874,22 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'based-farm',
+				},
+			},
+		],
+	},
+	{
+		name: 'Based Markets',
+		slug: 'based-markets',
+		links: [
+			'https://www.based.markets',
+		],
+		views: [
+			{
+				chainId: 8453,
+				providers: {
+					zapper: ' basedmarkets',
+					llamafolio: 'basedmarkets',
 				},
 			},
 		],
@@ -3723,17 +3950,15 @@ export const web3Apps = [
 		],
 	},
 	{
-		name: 'Based Markets',
-		slug: 'based-markets',
+		name: 'Basenames',
+		slug: 'basenames',
 		links: [
-			'https://www.based.markets',
+			'https://www.base.org/names',
 		],
 		views: [
 			{
-				chainId: 8453,
 				providers: {
-					zapper: ' basedmarkets',
-					llamafolio: 'basedmarkets',
+					zapper: 'basenames',
 				},
 			},
 		],
@@ -4181,6 +4406,20 @@ export const web3Apps = [
 				providers: {
 					llamafolio: 'beefy',
 					zapper: 'beefy',
+				},
+			},
+		],
+	},
+	{
+		name: 'BeerMe',
+		slug: 'beerme',
+		links: [
+			'https://beerme.world',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'beerme',
 				},
 			},
 		],
@@ -4937,6 +5176,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Bloom',
+		slug: 'bloom',
+		links: [
+			'https://x.com/BloomOnBlast',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'bloom',
+				},
+			},
+		],
+	},
+	{
 		name: 'Blueberry',
 		slug: 'blueberry',
 		views: [
@@ -5110,6 +5363,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Boost',
+		slug: 'boost',
+		links: [
+			'https://boost.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'boost',
+				},
+			},
+		],
+	},
+	{
 		name: 'Boring DAO',
 		slug: 'boring',
 		links: [
@@ -5208,6 +5475,20 @@ export const web3Apps = [
 				providers: {
 					llamafolio: 'b.protocol',
 					zapper: 'b-protocol',
+				},
+			},
+		],
+	},
+	{
+		name: 'Bracket Game',
+		slug: 'bracket-game',
+		links: [
+			'https://bracket.game',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'bracket-game',
 				},
 			},
 		],
@@ -5314,6 +5595,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'BSCSwap',
+		slug: 'bscswap',
+		links: [
+			'https://bscswap.finance',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'bscswap',
+				},
+			},
+		],
+	},
+	{
 		name: 'BSX',
 		slug: 'bsx',
 		links: [
@@ -5392,13 +5687,27 @@ export const web3Apps = [
 		name: 'Build',
 		slug: 'buildtop',
 		links: [
-			'build.top',
+			'https://build.top',
 		],
 		views: [
 			{
 				chainId: undefined,
 				providers: {
 					zapper: 'buildtop',
+				},
+			},
+		],
+	},
+	{
+		name: 'BulbaSwap',
+		slug: 'bulba-swap',
+		links: [
+			'https://bulbaswap.io',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'bulba-swap',
 				},
 			},
 		],
@@ -5414,6 +5723,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'bullet-game',
+				},
+			},
+		],
+	},
+	{
+		name: 'Bullishs',
+		slug: 'bullishs',
+		links: [
+			'https://t.me/BullishsBot',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'bullishs',
 				},
 			},
 		],
@@ -5536,6 +5859,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'CafeSwap',
+		slug: 'cafeswap',
+		links: [
+			'https://x.com/CafeSwapFinance',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'cafeswap',
+				},
+			},
+		],
+	},
+	{
 		name: 'Cambria',
 		slug: 'cambria',
 		links: [
@@ -5574,6 +5911,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'camelot',
+				},
+			},
+		],
+	},
+	{
+		name: 'Canary',
+		slug: 'canary',
+		links: [
+			'https://canary.exchange',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'canary',
 				},
 			},
 		],
@@ -5666,6 +6017,20 @@ export const web3Apps = [
 				providers: {
 					llamafolio: 'cat-in-a-box',
 					zapper: 'cat-in-a-box-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Cat Town',
+		slug: 'cat-town',
+		links: [
+			'https://cat.town',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'cat-town',
 				},
 			},
 		],
@@ -5920,28 +6285,6 @@ export const web3Apps = [
 		],
 	},
 	{
-		name: 'Chicken Bonds',
-		slug: 'chicken-bonds',
-		links: [
-			'https://www.chickenbonds.org',
-		],
-		views: [
-			{
-				name: 'LUSD Chicken Bonds',
-				slug: 'lusd',
-				views: [
-					{
-						chainId: 1,
-						providers: {
-							llamafolio: 'lusd-chickenbonds',
-							zapper: 'chicken-bond',
-						},
-					},
-				],
-			},
-		],
-	},
-	{
 		name: 'Chimpers',
 		slug: 'chimpers',
 		links: [
@@ -6032,6 +6375,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'The Circle',
+		slug: 'circle-on-shape',
+		links: [
+			'https://www.circleonshape.network',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'circle-on-shape',
+				},
+			},
+		],
+	},
+	{
 		name: 'Circle',
 		slug: 'circle',
 		links: [
@@ -6094,6 +6451,20 @@ export const web3Apps = [
 				providers: {
 					llamafolio: 'citadelswap',
 					zapper: 'citadel',
+				},
+			},
+		],
+	},
+	{
+		name: 'Clankers',
+		slug: 'clankers',
+		links: [
+			'https://www.clanker.world/clanker',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'clankers',
 				},
 			},
 		],
@@ -6215,6 +6586,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'clusters',
+				},
+			},
+		],
+	},
+	{
+		name: 'Cog Finance',
+		slug: 'cog-finance',
+		links: [
+			'https://www.cog.finance',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'cog-finance',
 				},
 			},
 		],
@@ -6464,6 +6849,7 @@ export const web3Apps = [
 				chainId: 42161,
 				providers: {
 					llamafolio: 'compound-v3',
+					zapper: 'compound-v3',
 				},
 			},
 			{
@@ -6475,6 +6861,7 @@ export const web3Apps = [
 				chainId: 137,
 				providers: {
 					llamafolio: 'compound-v3',
+					zapper: 'compound-v3',
 				},
 			},
 			{
@@ -6486,6 +6873,7 @@ export const web3Apps = [
 				chainId: 1,
 				providers: {
 					llamafolio: 'compound-v3',
+					zapper: 'compound-v3',
 				},
 			},
 			{
@@ -6497,6 +6885,7 @@ export const web3Apps = [
 				chainId: 8453,
 				providers: {
 					llamafolio: 'compound-v3',
+					zapper: 'compound-v3',
 				},
 			},
 			{
@@ -6652,21 +7041,6 @@ export const web3Apps = [
 		],
 		views: [
 			{
-				chainId: undefined,
-				providers: {
-					zapper: 'convex',
-				},
-			},
-		],
-	},
-	{
-		name: 'Convex',
-		slug: 'convex',
-		links: [
-			'https://www.convexfinance.com',
-		],
-		views: [
-			{
 				chainId: 1,
 				erc20Tokens: [
 					{
@@ -6794,6 +7168,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'coresky',
+				},
+			},
+		],
+	},
+	{
+		name: 'corn',
+		slug: 'corn',
+		links: [
+			'https://usecorn.com',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'corn',
 				},
 			},
 		],
@@ -7401,6 +7789,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Daily Meme',
+		slug: 'daily-meme',
+		links: [
+			'https://www.dailymeme.io',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'daily-meme',
+				},
+			},
+		],
+	},
+	{
 		name: 'Daimo',
 		slug: 'daimo',
 		links: [
@@ -7441,6 +7843,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'dapp-radar',
+				},
+			},
+		],
+	},
+	{
+		name: 'Dappmon',
+		slug: 'dappmon',
+		links: [
+			'https://play.dappmon.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'dappmon',
 				},
 			},
 		],
@@ -7524,6 +7940,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Davos',
+		slug: 'davos',
+		links: [
+			'https://davos.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'davos',
+				},
+			},
+		],
+	},
+	{
 		name: 'Daxio',
 		slug: 'daxio',
 		links: [
@@ -7584,6 +8014,20 @@ export const web3Apps = [
 						'DDEX • Margin',
 						'DDEX • Spot',
 					],
+				},
+			},
+		],
+	},
+	{
+		name: 'DeSyn Protocol',
+		slug: 'de-syn',
+		links: [
+			'https://www.desyn.io',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'de-syn',
 				},
 			},
 		],
@@ -7758,6 +8202,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Defibox',
+		slug: 'defibox',
+		links: [
+			'https://defibox.io',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'defibox',
+				},
+			},
+		],
+	},
+	{
 		name: 'DefiEdge',
 		slug: 'defiedge',
 		links: [
@@ -7855,6 +8313,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Definix',
+		slug: 'definix',
+		links: [
+			'https://definix.com/en',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'definix',
+				},
+			},
+		],
+	},
+	{
 		name: 'DefiPlaza',
 		slug: 'defiplaza',
 		links: [
@@ -7929,6 +8401,34 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'degen',
+				},
+			},
+		],
+	},
+	{
+		name: 'Degen Names',
+		slug: 'degen-names',
+		links: [
+			'https://degenname.lol',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'degen-names',
+				},
+			},
+		],
+	},
+	{
+		name: 'Degen Radio',
+		slug: 'degen-radio',
+		links: [
+			'https://degenradio.lol',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'degen-radio',
 				},
 			},
 		],
@@ -8385,6 +8885,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'DIN',
+		slug: 'din',
+		links: [
+			'https://din.lol',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'din',
+				},
+			},
+		],
+	},
+	{
 		name: 'Dinari',
 		slug: 'dinari',
 		links: [
@@ -8693,6 +9207,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Dot',
+		slug: 'dot',
+		links: [
+			'https://dot.fan',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'dot',
+				},
+			},
+		],
+	},
+	{
 		name: 'Draft Shares',
 		slug: 'draft-shares',
 		links: [
@@ -8708,21 +9236,6 @@ export const web3Apps = [
 		],
 	},
 	{
-		name: 'Drops',
-		slug: 'drops',
-		links: [
-			'https://drops.co',
-		],
-		views: [
-			{
-				chainId: undefined,
-				providers: {
-					zapper: 'drops',
-				},
-			},
-		],
-	},
-	{
 		name: 'DREAMBYT3',
 		slug: 'dreambyt3',
 		links: [
@@ -8733,6 +9246,21 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'DRΞAMBYT3',
+				},
+			},
+		],
+	},
+	{
+		name: 'Drops',
+		slug: 'drops',
+		links: [
+			'https://drops.co',
+		],
+		views: [
+			{
+				chainId: undefined,
+				providers: {
+					zapper: 'drops',
 				},
 			},
 		],
@@ -9417,6 +9945,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Ethereum Follow Protocol',
+		slug: 'efp',
+		links: [
+			'https://ethfollow.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'ethereum-follow-protocol',
+				},
+			},
+		],
+	},
+	{
 		name: 'EGGFAM',
 		slug: 'eggfam',
 		links: [
@@ -9683,6 +10225,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Elk Finance',
+		slug: 'elkfinance',
+		links: [
+			'https://elk.finance',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'elkfinance',
+				},
+			},
+		],
+	},
+	{
 		name: 'Ellipsis',
 		slug: 'ellipsis',
 		links: [
@@ -9773,6 +10329,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'ENKI',
+		slug: 'enki',
+		links: [
+			'https://www.enkixyz.com/home',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'enki',
+				},
+			},
+		],
+	},
+	{
 		name: 'ENS',
 		slug: 'ens',
 		links: [
@@ -9827,7 +10397,7 @@ export const web3Apps = [
 		name: 'Entangle',
 		slug: 'entangle',
 		links: [
-			'entangle.fi',
+			'https://entangle.fi',
 		],
 		views: [
 			{
@@ -9883,6 +10453,21 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'epoch-island',
+				},
+			},
+		],
+	},
+	{
+		name: 'Epsylon',
+		slug: 'epsylon',
+		links: [
+			'https://www.epsylon.finance',
+			'https://x.com/epsylon_finance',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'epsylon',
 				},
 			},
 		],
@@ -10028,16 +10613,15 @@ export const web3Apps = [
 		],
 	},
 	{
-		name: 'EthXY',
-		slug: 'ethxy',
+		name: 'Eternal Legacy',
+		slug: 'eternal-legacy',
 		links: [
-			'https://ethxy.com',
+			'https://eternallegacy.xyz',
 		],
 		views: [
 			{
-				chainId: undefined,
 				providers: {
-					zapper: 'eth-xy',
+					zapper: 'eternal-legacy',
 				},
 			},
 		],
@@ -10053,6 +10637,7 @@ export const web3Apps = [
 				chainId: 1,
 				providers: {
 					llamafolio: 'ethena',
+					zapper: 'ethena',
 				},
 			},
 		],
@@ -10181,6 +10766,21 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'EthXY',
+		slug: 'ethxy',
+		links: [
+			'https://ethxy.com',
+		],
+		views: [
+			{
+				chainId: undefined,
+				providers: {
+					zapper: 'eth-xy',
+				},
+			},
+		],
+	},
+	{
 		name: 'Euclid Finance',
 		slug: 'euclid-finance',
 		links: [
@@ -10191,6 +10791,7 @@ export const web3Apps = [
 				chainId: 1,
 				providers: {
 					llamafolio: 'euclid-finance',
+					zapper: 'euclid',
 				},
 			},
 		],
@@ -10352,7 +10953,7 @@ export const web3Apps = [
 		name: 'Excalibur',
 		slug: 'excalibur',
 		links: [
-			'excalibur.exchange',
+			'https://excalibur.exchange',
 		],
 		views: [
 			{
@@ -10412,6 +11013,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'factor',
+				},
+			},
+		],
+	},
+	{
+		name: 'Fantasy.Top',
+		slug: 'fantasy-top',
+		links: [
+			'https://fantasy.top',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'fantasy-top',
 				},
 			},
 		],
@@ -10485,6 +11100,34 @@ export const web3Apps = [
 
 				providers: {
 					zapper: 'Farcaster',
+				},
+			},
+		],
+	},
+	{
+		name: 'FarFantasy',
+		slug: 'farfantasy',
+		links: [
+			'https://farfantasy.com',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'farfantasy',
+				},
+			},
+		],
+	},
+	{
+		name: 'Farworld',
+		slug: 'farworld',
+		links: [
+			'https://farworld.gg',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'farworld',
 				},
 			},
 		],
@@ -10657,6 +11300,34 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Fishing Frenzy',
+		slug: 'fishing-frenzy',
+		links: [
+			'https://fishingfrenzy.co',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'fishing-frenzy',
+				},
+			},
+		],
+	},
+	{
+		name: 'Fit Club',
+		slug: 'fitclub',
+		links: [
+			'https://www.fitclub.tech',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'fitclub',
+				},
+			},
+		],
+	},
+	{
 		name: 'Fixed Forex',
 		slug: 'fixed-forex',
 		links: [
@@ -10779,6 +11450,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Floki',
+		slug: 'floki',
+		links: [
+			'https://floki.com',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'floki',
+				},
+			},
+		],
+	},
+	{
 		name: 'FloorDAO',
 		slug: 'floor-dao',
 		links: [
@@ -10843,6 +11528,34 @@ export const web3Apps = [
 				chainId: 1,
 				providers: {
 					llamafolio: 'florence-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Florence Finance',
+		slug: 'florencefinance',
+		links: [
+			'https://www.florence.finance',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'florencefinance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Fluence',
+		slug: 'fluence',
+		links: [
+			'https://fluence.network',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'fluence',
 				},
 			},
 		],
@@ -10969,23 +11682,6 @@ export const web3Apps = [
 		],
 	},
 	{
-		name: 'Frax Lend',
-		slug: 'frax-lend',
-		links: [
-			'https://frax.finance',
-			'https://app.frax.finance/fraxlend/available-pairs',
-		],
-		views: [
-			{
-				chainId: 1,
-				providers: {
-					llamafolio: 'fraxlend',
-					zapper: 'frax-lend',
-				},
-			},
-		],
-	},
-	{
 		name: 'Frax',
 		slug: 'frax',
 		links: [
@@ -11054,6 +11750,25 @@ export const web3Apps = [
 					llamafolio: 'frax-finance',
 				},
 			},
+			{
+				name: 'Frax Swap',
+				slug: 'swap',
+				providers: {
+					zapper: 'frax-swap',
+				},
+			},
+			{
+				name: 'Frax Lend',
+				slug: 'lend',
+				links: [
+					'https://app.frax.finance/fraxlend/available-pairs',
+				],
+				chainId: 1,
+				providers: {
+					llamafolio: 'fraxlend',
+					zapper: 'frax-lend',
+				},
+			},
 		],
 	},
 	{
@@ -11102,21 +11817,6 @@ export const web3Apps = [
 		],
 	},
 	{
-		name: 'Frogswap',
-		slug: 'frog-swap',
-		links: [
-			'https://frogswap.xyz',
-		],
-		views: [
-			{
-				chainId: undefined,
-				providers: {
-					zapper: 'frog-swap',
-				},
-			},
-		],
-	},
-	{
 		name: 'FT33 DAO',
 		slug: 'friendtech33-dao',
 		links: [
@@ -11133,6 +11833,21 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Frogswap',
+		slug: 'frog-swap',
+		links: [
+			'https://frogswap.xyz',
+		],
+		views: [
+			{
+				chainId: undefined,
+				providers: {
+					zapper: 'frog-swap',
+				},
+			},
+		],
+	},
+	{
 		name: 'FTSX',
 		slug: 'ftsx',
 		links: [
@@ -11143,6 +11858,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'ftsx',
+				},
+			},
+		],
+	},
+	{
+		name: 'Fuel',
+		slug: 'fuel',
+		links: [
+			'https://fuel.network',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'fuel',
 				},
 			},
 		],
@@ -11687,6 +12416,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'GIBXSwap',
+		slug: 'gibx-swap',
+		links: [
+			'https://gibxswap.io',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'gibx-swap',
+				},
+			},
+		],
+	},
+	{
 		name: 'Gitcoin',
 		slug: 'gitcoin',
 		links: [
@@ -11776,6 +12519,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'gm.io',
+				},
+			},
+		],
+	},
+	{
+		name: 'GMD Protocol',
+		slug: 'gmdprotocol',
+		links: [
+			'https://gmdprotocol.com',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'gmdprotocol',
 				},
 			},
 		],
@@ -11945,6 +12702,7 @@ export const web3Apps = [
 				chainId: 43114,
 				providers: {
 					llamafolio: 'gogopool',
+					zapper: 'gogopool',
 				},
 			},
 		],
@@ -11976,6 +12734,20 @@ export const web3Apps = [
 				providers: {
 					llamafolio: 'goldfinch',
 					zapper: 'goldfinch',
+				},
+			},
+		],
+	},
+	{
+		name: 'Goldlink',
+		slug: 'goldlink',
+		links: [
+			'https://www.goldlink.io',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'goldlink',
 				},
 			},
 		],
@@ -12137,6 +12909,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Govi DAO',
+		slug: 'govi-dao',
+		links: [
+			'https://github.com/govi-dao/cvi-contracts',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'govi-dao',
+				},
+			},
+		],
+	},
+	{
 		name: 'Granary Finance',
 		slug: 'granary-finance',
 		links: [
@@ -12284,6 +13070,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'GuildFi',
+		slug: 'guildfi',
+		links: [
+			'https://guildfi.com',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'guildfi',
+				},
+			},
+		],
+	},
+	{
 		name: 'Guiser',
 		slug: 'guiser',
 		links: [
@@ -12369,6 +13169,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'handle-fi',
+				},
+			},
+		],
+	},
+	{
+		name: 'Handshake',
+		slug: 'handshake',
+		links: [
+			'https://www.transient.fun/handshake/feed',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'handshake',
 				},
 			},
 		],
@@ -12515,6 +13329,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Hedgey',
+		slug: 'hedgey',
+		links: [
+			'https://app.hedgey.finance',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'hedgy',
+				},
+			},
+		],
+	},
+	{
 		name: 'Hedron',
 		slug: 'hedron',
 		links: [
@@ -12652,6 +13480,34 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Hercules',
+		slug: 'hercules',
+		links: [
+			'https://www.hercules.exchange',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'hercules',
+				},
+			},
+		],
+	},
+	{
+		name: 'Hermes Protocol',
+		slug: 'hermes-protocol',
+		links: [
+			'https://hermes.maiadao.io',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'hermes-protocol',
+				},
+			},
+		],
+	},
+	{
 		name: 'Heroes of Mavia',
 		slug: 'heroes-of-mavia',
 		links: [
@@ -12738,6 +13594,34 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'hifi-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Highlight',
+		slug: 'highlight',
+		links: [
+			'https://highlight.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'highlight',
+				},
+			},
+		],
+	},
+	{
+		name: 'Hippo Swap',
+		slug: 'hipposwap',
+		links: [
+			'https://hipposwap.finance',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'hipposwap',
 				},
 			},
 		],
@@ -12853,6 +13737,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'honorworld',
+				},
+			},
+		],
+	},
+	{
+		name: 'Hooked',
+		slug: 'hooked',
+		links: [
+			'https://hooked.io',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'hooked',
 				},
 			},
 		],
@@ -13009,6 +13907,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Hummus Exchange',
+		slug: 'hummus-exchange',
+		links: [
+			'https://www.hummus.exchange',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'hummus-exchange',
+				},
+			},
+		],
+	},
+	{
 		name: 'Hundred Finance',
 		slug: 'hundred-finance',
 		links: [
@@ -13074,6 +13986,34 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Hunt Town',
+		slug: 'hunt-town',
+		links: [
+			'https://hunt.town',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'hunt-town',
+				},
+			},
+		],
+	},
+	{
+		name: 'HurricaneSwap',
+		slug: 'hurricaneswap',
+		links: [
+			'https://hurricaneswap.com',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'hurricaneswap',
+				},
+			},
+		],
+	},
+	{
 		name: 'HV-MTL',
 		slug: 'hv-mtl',
 		links: [
@@ -13086,6 +14026,21 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'hv-mtl-forge',
+				},
+			},
+		],
+	},
+	{
+		name: 'HyperJump',
+		slug: 'hyperjump',
+		links: [
+			'https://hyperjump.app',
+			'https://x.com/Hyperjump_fi',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'hyperjump',
 				},
 			},
 		],
@@ -13136,6 +14091,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Hypersub',
+		slug: 'hypersub',
+		links: [
+			'https://www.hypersub.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'hypersub',
+				},
+			},
+		],
+	},
+	{
 		name: 'IceCreamSwap',
 		slug: 'ice-cream-swap',
 		links: [
@@ -13151,10 +14120,24 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Ichi',
+		slug: 'ichi',
+		links: [
+			'https://www.ichi.org',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'ichi',
+				},
+			},
+		],
+	},
+	{
 		name: 'Icosa',
 		slug: 'icosa',
 		links: [
-			'icosa.pro',
+			'https://icosa.pro',
 		],
 		views: [
 			{
@@ -13530,6 +14513,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Infusion',
+		slug: 'infusion',
+		links: [
+			'https://infusion.finance',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'infusion',
+				},
+			},
+		],
+	},
+	{
 		name: 'INIT Capital',
 		slug: 'init-capital',
 		links: [
@@ -13707,6 +14704,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Ionic Protcool',
+		slug: 'ionic-protocol',
+		links: [
+			'https://www.ionic.money',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'ionic-protocol',
+				},
+			},
+		],
+	},
+	{
 		name: 'IPFS',
 		slug: 'ipfs',
 		links: [
@@ -13802,6 +14813,20 @@ export const web3Apps = [
 				chainId: 1,
 				providers: {
 					zapper: 'iron',
+				},
+			},
+		],
+	},
+	{
+		name: 'Ironclad Protocol',
+		slug: 'ironclad-protocol',
+		links: [
+			'https://www.ironclad.finance',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'ironclad-protocol',
 				},
 			},
 		],
@@ -13906,6 +14931,48 @@ export const web3Apps = [
 				providers: {
 					llamafolio: 'jaypeggers',
 					zapper: 'jaypeggers',
+				},
+			},
+		],
+	},
+	{
+		name: 'Jeeves',
+		slug: 'jeeves',
+		links: [
+			'https://app.degenjeeves.com',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'jeeves',
+				},
+			},
+		],
+	},
+	{
+		name: 'Jelly Beans',
+		slug: 'jelly-beans',
+		links: [
+			'https://jellybeans.wtf',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'jelly-beans',
+				},
+			},
+		],
+	},
+	{
+		name: 'JetSwap',
+		slug: 'jetswap',
+		links: [
+			'https://jetswap.finance',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'jetswap',
 				},
 			},
 		],
@@ -14024,6 +15091,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'JulSwap X',
+		slug: 'julswap-x',
+		links: [
+			'https://julswap.com/#/swap',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'julswap-x',
+				},
+			},
+		],
+	},
+	{
 		name: 'The Junkyard',
 		slug: 'junkyard',
 		links: [
@@ -14061,30 +15142,17 @@ export const web3Apps = [
 		],
 		views: [
 			{
-				chainId: undefined,
-				providers: {
-					zapper: 'karak',
-				},
-			},
-		],
-	},
-	{
-		name: 'Karak',
-		slug: 'karak',
-		links: [
-			'https://karak.network',
-		],
-		views: [
-			{
 				chainId: 42161,
 				providers: {
 					llamafolio: 'karak',
+					zapper: 'karak',
 				},
 			},
 			{
 				chainId: 1,
 				providers: {
 					llamafolio: 'karak',
+					zapper: 'karak',
 				},
 			},
 		],
@@ -14228,6 +15296,34 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'keungz',
+				},
+			},
+		],
+	},
+	{
+		name: 'kiloex',
+		slug: 'kiloex',
+		links: [
+			'https://www.kiloex.io',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'kiloex',
+				},
+			},
+		],
+	},
+	{
+		name: 'Kim Exchange',
+		slug: 'kim-exchange',
+		links: [
+			'https://www.kim.exchange',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'kim-exchange',
 				},
 			},
 		],
@@ -14925,6 +16021,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Layer3',
+		slug: 'layer-3',
+		links: [
+			'https://layer3.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'layer-3',
+				},
+			},
+		],
+	},
+	{
 		name: 'LayerBank',
 		slug: 'layerbank',
 		links: [
@@ -14935,6 +16045,7 @@ export const web3Apps = [
 				chainId: 59144,
 				providers: {
 					llamafolio: 'layerbank',
+					zapper: 'layer-bank',
 				},
 			},
 		],
@@ -15017,6 +16128,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Lemon',
+		slug: 'lemon',
+		links: [
+			'https://beta.lemon.tips',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'lemon',
+				},
+			},
+		],
+	},
+	{
 		name: 'LemonBlast',
 		slug: 'lemonblast',
 		links: [
@@ -15027,6 +16152,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: ' lemonblast',
+				},
+			},
+		],
+	},
+	{
+		name: 'Lendle.xyz',
+		slug: 'lendle',
+		links: [
+			'https://www.lendle.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'lendle',
 				},
 			},
 		],
@@ -15131,6 +16270,9 @@ export const web3Apps = [
 						address: '0x8b0A28a8DE1de77668260A876c6DCF0330183742',
 					},
 				],
+				providers: {
+					zapper: 'lens',
+				},
 			},
 			{
 				chainId: 80001,
@@ -15446,6 +16588,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Limitless',
+		slug: 'limitless',
+		links: [
+			'https://limitlessfi.app',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'limitless',
+				},
+			},
+		],
+	},
+	{
 		name: 'Linea',
 		slug: 'linea',
 		icon: LineaIcon,
@@ -15737,6 +16893,18 @@ export const web3Apps = [
 					},
 				],
 			},
+			{
+				name: 'Chicken Bonds',
+				slug: 'chicken-bonds',
+				links: [
+					'https://www.chickenbonds.org',
+				],
+				chainId: 1,
+				providers: {
+					llamafolio: 'lusd-chickenbonds',
+					zapper: 'chicken-bond',
+				},
+			},
 		],
 	},
 	{
@@ -15770,6 +16938,20 @@ export const web3Apps = [
 				chainId: 56,
 				providers: {
 					llamafolio: 'synclub-staked-bnb',
+				},
+			},
+		],
+	},
+	{
+		name: 'Lista DAO',
+		slug: 'listadao',
+		links: [
+			'https://lista.org',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'listadao',
 				},
 			},
 		],
@@ -15989,6 +17171,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Lombard Finance',
+		slug: 'lombard',
+		links: [
+			'https://www.lombard.finance/app/vault',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'lombard',
+				},
+			},
+		],
+	},
+	{
 		name: 'LooksRare',
 		slug: 'looks-rare',
 		links: [
@@ -16031,6 +17227,34 @@ export const web3Apps = [
 				providers: {
 					theGraph: 'https://api.thegraph.com/subgraphs/name/loopring',
 					zapper: 'loopring',
+				},
+			},
+		],
+	},
+	{
+		name: 'Loopring',
+		slug: 'loopring',
+		links: [
+			'https://loopring.org',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'Loopring',
+				},
+			},
+		],
+	},
+	{
+		name: 'Loot Genie',
+		slug: 'loot-genie',
+		links: [
+			'https://www.lootgenie.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'loot-genie',
 				},
 			},
 		],
@@ -16531,6 +17755,30 @@ export const web3Apps = [
 					zapper: 'bit-dao',
 				},
 			},
+			{
+				name: 'Mantle Reward Station',
+				slug: 'mantlerewardstation',
+				links: [
+					'https://rewards.mantle.xyz',
+				],
+				providers: {
+					zapper: 'mantlerewardstation',
+				},
+			},
+		],
+	},
+	{
+		name: 'MantleSwap',
+		slug: 'mantle-swap',
+		links: [
+			'https://mantleswap.org',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'mantle-swap',
+				},
+			},
 		],
 	},
 	{
@@ -16604,6 +17852,34 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'Marlin',
+				},
+			},
+		],
+	},
+	{
+		name: 'MARSWAP',
+		slug: 'marswap',
+		links: [
+			'https://zk.marswap.exchange',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'marswap',
+				},
+			},
+		],
+	},
+	{
+		name: 'MasterDEX',
+		slug: 'masterdex',
+		links: [
+			'https://masterdex.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'masterdex',
 				},
 			},
 		],
@@ -16829,6 +18105,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Memecoin.new',
+		slug: 'memecoin-new',
+		links: [
+			'https://memecoin.new',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'memecoin-new',
+				},
+			},
+		],
+	},
+	{
 		name: 'Mendi Finance',
 		slug: 'mendi-finance',
 		links: [
@@ -16839,6 +18129,21 @@ export const web3Apps = [
 				chainId: 59144,
 				providers: {
 					llamafolio: 'mendi-finance',
+					zapper: 'mendifinance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Merchant Moe',
+		slug: 'merchantmoe',
+		links: [
+			'https://merchantmoe.com',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'merchantmoe',
 				},
 			},
 		],
@@ -17071,21 +18376,6 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'metacade',
-				},
-			},
-		],
-	},
-	{
-		name: 'Metamask',
-		slug: 'metamask',
-		links: [
-			'https://metamask.io',
-		],
-		views: [
-			{
-				chainId: undefined,
-				providers: {
-					zapper: 'metamask',
 				},
 			},
 		],
@@ -17454,6 +18744,21 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Metamask',
+		slug: 'metamask',
+		links: [
+			'https://metamask.io',
+		],
+		views: [
+			{
+				chainId: undefined,
+				providers: {
+					zapper: 'metamask',
+				},
+			},
+		],
+	},
+	{
 		name: 'MetaTdex',
 		slug: 'metatdex',
 		links: [
@@ -17655,6 +18960,34 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'mimic',
+				},
+			},
+		],
+	},
+	{
+		name: 'Mimo Labs',
+		slug: 'mimo',
+		links: [
+			'https://www.mimo.capital',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'mimo',
+				},
+			},
+		],
+	},
+	{
+		name: 'Mind Network',
+		slug: 'mindnetwork',
+		links: [
+			'https://www.mindnetwork.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'mindnetwork',
 				},
 			},
 		],
@@ -17973,6 +19306,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Mode Network',
+		slug: 'mode-network',
+		links: [
+			'https://www.mode.network',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'mode-network',
+				},
+			},
+		],
+	},
+	{
 		name: 'MODragon',
 		slug: 'modragon',
 		links: [
@@ -18050,6 +19397,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Moonbeam Staking',
+		slug: 'moonbeam-staking',
+		links: [
+			'https://apps.moonbeam.network/moonbeam/staking',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'moonbeam-staking',
+				},
+			},
+		],
+	},
+	{
 		name: 'Moonbirds',
 		slug: 'moonbirds',
 		links: [
@@ -18098,6 +19459,48 @@ export const web3Apps = [
 				providers: {
 					llamafolio: 'moonwell',
 					zapper: 'moonwell',
+				},
+			},
+		],
+	},
+	{
+		name: 'MORCHI',
+		slug: 'morchi',
+		links: [
+			'https://morchi.mooar.com',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'morchi',
+				},
+			},
+		],
+	},
+	{
+		name: 'MorFi',
+		slug: 'morfi',
+		links: [
+			'https://morfi.io',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'morfi',
+				},
+			},
+		],
+	},
+	{
+		name: 'Morph Bridge',
+		slug: 'morph-bridge',
+		links: [
+			'https://bridge.morphl2.io',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'morph-bridge',
 				},
 			},
 		],
@@ -18226,6 +19629,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Moshi.cam',
+		slug: 'moshicam',
+		links: [
+			'https://moshi.cam',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'moshicam',
+				},
+			},
+		],
+	},
+	{
 		name: 'Mountain Protocol',
 		slug: 'mountain-protocol',
 		links: [
@@ -18288,6 +19705,9 @@ export const web3Apps = [
 						address: '0x8C9037D1Ef5c6D1f6816278C7AAF5491d24CD527',
 					},
 				],
+				providers: {
+					zapper: 'moxie-protocol',
+				},
 			},
 		],
 	},
@@ -18609,6 +20029,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Napier Finance',
+		slug: 'napier-finance',
+		links: [
+			'https://napier.finance',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'napier-finance',
+				},
+			},
+		],
+	},
+	{
 		name: 'Nasdex',
 		slug: 'nasdex',
 		links: [
@@ -18758,6 +20192,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Netswap',
+		slug: 'netswap',
+		links: [
+			'https://netswap.io',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'netswap',
+				},
+			},
+		],
+	},
+	{
 		name: 'New Dawn',
 		slug: 'new-dawn',
 		links: [
@@ -18835,7 +20283,7 @@ export const web3Apps = [
 				providers: {
 					llamafolio: 'nexus-mutual',
 					theGraph: 'https://api.thegraph.com/subgraphs/name/nexusmutual/nexus-mutual',
-					zapper: 'nexus-mutal',
+					zapper: 'nexus-mutual',
 					zerionDefiSDK: [
 						'Nexus Mutual',
 					],
@@ -18844,16 +20292,15 @@ export const web3Apps = [
 		],
 	},
 	{
-		name: 'NFTfi',
-		slug: 'nftfi',
+		name: 'NFT Degen',
+		slug: 'nft-degen',
 		links: [
-			'https://nftfi.com',
+			'https://nftdegen.lol',
 		],
 		views: [
 			{
-				chainId: undefined,
 				providers: {
-					zapper: 'nft-fi',
+					zapper: 'nft-degen',
 				},
 			},
 		],
@@ -18899,6 +20346,21 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'NFTEarth',
+				},
+			},
+		],
+	},
+	{
+		name: 'NFTfi',
+		slug: 'nftfi',
+		links: [
+			'https://nftfi.com',
+		],
+		views: [
+			{
+				chainId: undefined,
+				providers: {
+					zapper: 'nft-fi',
 				},
 			},
 		],
@@ -18990,6 +20452,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'nifty-island',
+				},
+			},
+		],
+	},
+	{
+		name: 'Nile Exchange',
+		slug: 'nile-exchange',
+		links: [
+			'https://www.nile.build',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'nile-exchange',
 				},
 			},
 		],
@@ -19275,6 +20751,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'numun.fi',
+		slug: 'numunfi',
+		links: [
+			'https://numun.fi',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'numunfi',
+				},
+			},
+		],
+	},
+	{
 		name: 'OasisSwap',
 		slug: 'oasis-swap',
 		links: [
@@ -19411,6 +20901,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'OmniKingdoms',
+		slug: 'omni-kingdoms',
+		links: [
+			'https://www.omnikingdoms.io',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'omni-kingdoms',
+				},
+			},
+		],
+	},
+	{
 		name: 'Omni Network',
 		slug: 'omni-network',
 		links: [
@@ -19436,6 +20940,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'omni-x',
+				},
+			},
+		],
+	},
+	{
+		name: 'Omni Liquid Staking',
+		slug: 'omnilst',
+		links: [
+			'https://omni.ls',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'omnilst',
 				},
 			},
 		],
@@ -19864,6 +21382,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Orange Finance',
+		slug: 'orange-finance',
+		links: [
+			'https://app.orangefinance.io',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'orange-finance',
+				},
+			},
+		],
+	},
+	{
 		name: 'ORA',
 		slug: 'oraprotocol',
 		links: [
@@ -19874,6 +21406,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'oraprotocol',
+				},
+			},
+		],
+	},
+	{
+		name: 'ORB',
+		slug: 'orb',
+		links: [
+			'https://www.orbtoken.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'orb',
 				},
 			},
 		],
@@ -19919,6 +21465,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'orderly-network',
+				},
+			},
+		],
+	},
+	{
+		name: 'Origami Finance',
+		slug: 'origami',
+		links: [
+			'https://origami.finance',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'origami',
 				},
 			},
 		],
@@ -20387,6 +21947,43 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Own The Doge',
+		slug: 'own-the-doge',
+		links: [
+			'https://www.ownthedoge.com',
+		],
+		views: [
+			{
+				name: 'Pixel Portal',
+				slug: 'pixel-portal',
+				links: [
+					'https://pixels.ownthedoge.com',
+				],
+				views: [
+					{
+						providers: {
+							zapper: 'pixelportal',
+						},
+					},
+				],
+			},
+		],
+	},
+	{
+		name: 'Papyrus Swap',
+		slug: 'papyrus-swap',
+		links: [
+			'https://papyrusswap.com',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'papyrus-swap',
+				},
+			},
+		],
+	},
+	{
 		name: 'ParaX',
 		slug: 'para-space',
 		links: [
@@ -20515,6 +22112,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Particle Network',
+		slug: 'partcile-network',
+		links: [
+			'https://particle.network',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'partcile-network',
+				},
+			},
+		],
+	},
+	{
 		name: 'Particle',
 		slug: 'particle',
 		links: [
@@ -20540,6 +22151,36 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'party-dao',
+				},
+			},
+		],
+	},
+	{
+		name: 'PartySwap',
+		slug: 'partyswap',
+		links: [
+			'https://partyswap.io',
+			'https://app.partyswap.io',
+		],
+		views: [
+			{
+				chainId: 43114,
+				providers: {
+					zapper: 'partyswap',
+				},
+			},
+		],
+	},
+	{
+		name: 'Paycaster',
+		slug: 'paycaster',
+		links: [
+			'https://paycaster.co',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'paycaster',
 				},
 			},
 		],
@@ -20586,6 +22227,20 @@ export const web3Apps = [
 				providers: {
 					llamafolio: 'pearlfi',
 					zapper: 'pearl-fi',
+				},
+			},
+		],
+	},
+	{
+		name: 'Pencils Protocol',
+		slug: 'pencils-protocol',
+		links: [
+			'https://pencilsprotocol.io',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'pencils-protocol',
 				},
 			},
 		],
@@ -20729,6 +22384,20 @@ export const web3Apps = [
 				chainId: 10,
 				providers: {
 					llamafolio: 'perpetual-protocol',
+				},
+			},
+		],
+	},
+	{
+		name: 'Pharaoh Exchange',
+		slug: 'pharaoh-exchange',
+		links: [
+			'https://pharaoh.exchange',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'pharaoh-exchange',
 				},
 			},
 		],
@@ -20978,7 +22647,7 @@ export const web3Apps = [
 		name: 'Pinata',
 		slug: 'pinata',
 		links: [
-			'pinata.cloud',
+			'https://pinata.cloud',
 		],
 		views: [
 			{
@@ -21111,6 +22780,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Pixels',
+		slug: 'pixels',
+		links: [
+			'https://www.pixels.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'pixels',
+				},
+			},
+		],
+	},
+	{
 		name: 'Pixl',
 		slug: 'pixl',
 		links: [
@@ -21121,6 +22804,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'pixl',
+				},
+			},
+		],
+	},
+	{
+		name: 'Pixotchi',
+		slug: 'pixotchi',
+		links: [
+			'https://app.pixotchi.tech',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'pixotchi',
 				},
 			},
 		],
@@ -21962,6 +23659,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Prime Protocol',
+		slug: 'primeprotocol',
+		links: [
+			'https://www.primeprotocol.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'primeprotocol',
+				},
+			},
+		],
+	},
+	{
 		name: 'Prisma Finance',
 		slug: 'prisma-finance',
 		links: [
@@ -22003,6 +23714,21 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'proof-of-humanity',
+				},
+			},
+		],
+	},
+	{
+		name: 'Prosper',
+		slug: 'prosper',
+		links: [
+			'https://prosper-fi.com',
+			'https://x.com/prosperfi_xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'prosper',
 				},
 			},
 		],
@@ -22466,6 +24192,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Rabby',
+		slug: 'rabby',
+		links: [
+			'https://rabby.io',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'rabby',
+				},
+			},
+		],
+	},
+	{
 		name: 'Radiant',
 		slug: 'radiant',
 		links: [
@@ -22763,6 +24503,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Rango',
+		slug: 'rango',
+		links: [
+			'https://rango.exchange',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'Rango',
+				},
+			},
+		],
+	},
+	{
 		name: 'Rari Capital',
 		slug: 'rari',
 		links: [
@@ -22884,6 +24638,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'reach',
+				},
+			},
+		],
+	},
+	{
+		name: 'ReactorFusion',
+		slug: 'reactorfusion',
+		links: [
+			'https://reactorfusion.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'reactorfusion',
 				},
 			},
 		],
@@ -23159,6 +24927,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Resolv',
+		slug: 'resolv',
+		links: [
+			'https://resolv.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'resolv',
+				},
+			},
+		],
+	},
+	{
 		name: 'Restake Finance',
 		slug: 'restake-finance',
 		links: [
@@ -23279,6 +25061,20 @@ export const web3Apps = [
 				providers: {
 					llamafolio: 'rhino.fi',
 					zapper: 'rhino-fi',
+				},
+			},
+		],
+	},
+	{
+		name: 'Rho Markets',
+		slug: 'rho-markets',
+		links: [
+			'https://www.rhomarkets.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'rho-markets',
 				},
 			},
 		],
@@ -23522,10 +25318,24 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Rodeo',
+		slug: 'rodeo',
+		links: [
+			'https://rodeo.club',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'rodeo',
+				},
+			},
+		],
+	},
+	{
 		name: 'Ronin Bridge',
 		slug: 'ronin-bridge',
 		links: [
-			'roninchain.com',
+			'https://roninchain.com',
 		],
 		views: [
 			{
@@ -23708,6 +25518,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'SA World',
+		slug: 'sa-world',
+		links: [
+			'https://saworld.io',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'sa-world',
+				},
+			},
+		],
+	},
+	{
 		name: 'Sablier',
 		slug: 'sablier',
 		links: [
@@ -23777,6 +25601,20 @@ export const web3Apps = [
 	},
 	{
 		name: 'SakePerp',
+		slug: 'sake-perp',
+		links: [
+			'https://sakeperp.fi',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'sake-perp',
+				},
+			},
+		],
+	},
+	{
+		name: 'SakePerp',
 		slug: 'sakeperp',
 		links: [
 			'https://www.sakeperp.fi',
@@ -23786,6 +25624,20 @@ export const web3Apps = [
 				chainId: 1,
 				providers: {
 					llamafolio: 'sakeperp',
+				},
+			},
+		],
+	},
+	{
+		name: 'SamSwap',
+		slug: 'samswap',
+		links: [
+			'',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'SamSwap',
 				},
 			},
 		],
@@ -23864,6 +25716,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'SatsDAO',
+		slug: 'sats-dao',
+		links: [
+			'https://sats.do',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'sats-dao',
+				},
+			},
+		],
+	},
+	{
 		name: 'Scale',
 		slug: 'scale',
 		links: [
@@ -23894,6 +25760,20 @@ export const web3Apps = [
 				],
 				providers: {
 					zapper: 'scarecrow',
+				},
+			},
+		],
+	},
+	{
+		name: 'Super Champs: Bullet League',
+		slug: 'scbulletleague',
+		links: [
+			'https://www.superchamps.com/super-champs-bullet-league?',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'scbulletleague',
 				},
 			},
 		],
@@ -24061,6 +25941,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Segment Finance',
+		slug: 'segment-finance',
+		links: [
+			'https://app.segment.finance',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'segment-finance',
+				},
+			},
+		],
+	},
+	{
 		name: 'Sentiment',
 		slug: 'sentiment',
 		links: [
@@ -24072,6 +25966,20 @@ export const web3Apps = [
 				providers: {
 					llamafolio: 'sentiment',
 					zapper: 'sentiment',
+				},
+			},
+		],
+	},
+	{
+		name: 'SERAPH: In The Darkness',
+		slug: 'seraph',
+		links: [
+			'https://www.seraph.game/#/main',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'seraph',
 				},
 			},
 		],
@@ -24108,6 +26016,34 @@ export const web3Apps = [
 				chainId: 66,
 				providers: {
 					zapper: 'sfinance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Shape Stacks',
+		slug: 'shape-stacks',
+		links: [
+			'https://stack.shape.network/about',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'shape-stacks',
+				},
+			},
+		],
+	},
+	{
+		name: 'Shapepe Swap',
+		slug: 'shapepe-swap',
+		links: [
+			'https://shapepe.network',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'shapepe-swap',
 				},
 			},
 		],
@@ -24439,6 +26375,34 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Sky',
+		slug: 'sky',
+		links: [
+			'https://sky.money',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'sky',
+				},
+			},
+		],
+	},
+	{
+		name: 'Skydrome',
+		slug: 'skydrome',
+		links: [
+			'https://skydrome.finance',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'skydrome',
+				},
+			},
+		],
+	},
+	{
 		name: 'Skyoneer',
 		slug: 'skyoneer',
 		links: [
@@ -24611,6 +26575,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Snaky Cat',
+		slug: 'snakycat',
+		links: [
+			'https://snakycat.io',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'snakycat',
+				},
+			},
+		],
+	},
+	{
 		name: 'Snapshot',
 		slug: 'snapshot',
 		links: [
@@ -24710,6 +26688,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'soaps-tech',
+				},
+			},
+		],
+	},
+	{
+		name: 'Soccersm',
+		slug: 'soccersm',
+		links: [
+			'https://soccersm.ai',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'soccersm',
 				},
 			},
 		],
@@ -24926,6 +26918,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Solunea',
+		slug: 'solunea',
+		links: [
+			'https://www.solunea.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'solunea',
+				},
+			},
+		],
+	},
+	{
 		name: 'Solv Protocol',
 		slug: 'solv-protocol',
 		links: [
@@ -24954,6 +26960,20 @@ export const web3Apps = [
 				chainId: 1,
 				providers: {
 					llamafolio: 'solv-protocol',
+				},
+			},
+		],
+	},
+	{
+		name: 'Solv Protocol',
+		slug: 'solv-protocol',
+		links: [
+			'https://solv.finance',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'solv-protocol',
 				},
 			},
 		],
@@ -25076,6 +27096,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'SoulSwap',
+		slug: 'soul-swap',
+		links: [
+			'https://exchange.soulswap.finance/swap',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'soul-swap',
+				},
+			},
+		],
+	},
+	{
 		name: 'Sound.xyz',
 		slug: 'sound-xyz',
 		links: [
@@ -25086,6 +27120,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'sound-xyz',
+				},
+			},
+		],
+	},
+	{
+		name: 'Sovryn',
+		slug: 'sovryn',
+		links: [
+			'https://sovryn.com',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'sovryn',
 				},
 			},
 		],
@@ -25179,6 +27227,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Sparkswap',
+		slug: 'sparkswap',
+		links: [
+			'https://sparkswap.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'sparkswap',
+				},
+			},
+		],
+	},
+	{
 		name: 'Spartacus',
 		slug: 'spartacus',
 		links: [
@@ -25257,6 +27319,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Spiko',
+		slug: 'spiko',
+		links: [
+			'https://www.spiko.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'spiko',
+				},
+			},
+		],
+	},
+	{
 		name: 'Spiral DAO',
 		slug: 'spiral-dao',
 		links: [
@@ -25284,6 +27360,20 @@ export const web3Apps = [
 				providers: {
 					llamafolio: 'spiritswap',
 					zapper: 'spiritswap',
+				},
+			},
+		],
+	},
+	{
+		name: 'Splice Finance',
+		slug: 'splice-finance',
+		links: [
+			'https://app.splice.fi',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'splice-finance',
 				},
 			},
 		],
@@ -25834,6 +27924,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'StellaSwap',
+		slug: 'stellaswap',
+		links: [
+			'https://stellaswap.com',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'stellaswap',
+				},
+			},
+		],
+	},
+	{
 		name: 'STEPN',
 		slug: 'stepn',
 		links: [
@@ -25849,6 +27953,34 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Sterling Finance',
+		slug: 'sterling-finance',
+		links: [
+			'https://x.com/Sterling_Fi',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'sterling-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Stoke Fire',
+		slug: 'stoke-fire',
+		links: [
+			'https://stokefire.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'stoke-fire',
+				},
+			},
+		],
+	},
+	{
 		name: 'Stormswap',
 		slug: 'stormswap',
 		links: [
@@ -25859,6 +27991,20 @@ export const web3Apps = [
 				chainId: 43114,
 				providers: {
 					zapper: 'stormswap',
+				},
+			},
+		],
+	},
+	{
+		name: 'Stream Finance',
+		slug: 'stream-finance',
+		links: [
+			'https://streamprotocol.money',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'stream-finance',
 				},
 			},
 		],
@@ -26236,6 +28382,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Superstate',
+		slug: 'superstate',
+		links: [
+			'https://superstate.co',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'superstate',
+				},
+			},
+		],
+	},
+	{
 		name: 'SuperVerse DAO',
 		slug: 'superverse-dao',
 		links: [
@@ -26430,6 +28590,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Swaap',
+		slug: 'swaapfinance',
+		links: [
+			'https://www.swaap.finance',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'swaapfinance',
+				},
+			},
+		],
+	},
+	{
 		name: 'SwapBased',
 		slug: 'swapbased',
 		links: [
@@ -26456,6 +28630,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'swap-blast',
+				},
+			},
+		],
+	},
+	{
+		name: 'SwapMode',
+		slug: 'swapmode',
+		links: [
+			'https://swapmode.fi',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'swapmode',
 				},
 			},
 		],
@@ -26858,6 +29046,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Talent Protocol',
+		slug: 'talent-protocol',
+		links: [
+			'https://talentprotocol.com',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'talent-protocol',
+				},
+			},
+		],
+	},
+	{
 		name: 'Tales of Elleria',
 		slug: 'talesofelleria',
 		links: [
@@ -26898,6 +29100,20 @@ export const web3Apps = [
 				chainId: 137,
 				providers: {
 					llamafolio: 'tangible',
+				},
+			},
+		],
+	},
+	{
+		name: 'Tapioca',
+		slug: 'tapioca',
+		links: [
+			'https://www.tapioca.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'tapioca',
 				},
 			},
 		],
@@ -27155,6 +29371,34 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'tessera',
+				},
+			},
+		],
+	},
+	{
+		name: 'Tesseract',
+		slug: 'tesseract',
+		links: [
+			'https://tesr.finance',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'tesseract',
+				},
+			},
+		],
+	},
+	{
+		name: 'Tethys Finance',
+		slug: 'tethys-finance',
+		links: [
+			'https://tethys.finance',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'tethys-finance',
 				},
 			},
 		],
@@ -27434,6 +29678,20 @@ export const web3Apps = [
 				chainId: 56,
 				providers: {
 					llamafolio: 'thena',
+				},
+			},
+		],
+	},
+	{
+		name: 'Thena',
+		slug: 'thena',
+		links: [
+			'https://thena.fi',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'thena',
 				},
 			},
 		],
@@ -27731,6 +29989,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'TMR.NEWS',
+		slug: 'tmr-news',
+		links: [
+			'https://tmr.news',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'tmrnews',
+				},
+			},
+		],
+	},
+	{
 		name: 'tofuNFT',
 		slug: 'tofunft',
 		links: [
@@ -27756,6 +30028,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'Tokamak-Network',
+				},
+			},
+		],
+	},
+	{
+		name: 'Tokan Exchange',
+		slug: 'tokan-exchange',
+		links: [
+			'https://www.tokan.exchange',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'tokan-exchange',
 				},
 			},
 		],
@@ -27991,6 +30277,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'tokepad',
+				},
+			},
+		],
+	},
+	{
+		name: 'Tokiemon',
+		slug: 'tokiemon',
+		links: [
+			'https://app.tokiemon.io',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'tokiemon',
 				},
 			},
 		],
@@ -28278,6 +30578,34 @@ export const web3Apps = [
 				chainId: 1,
 				providers: {
 					llamafolio: 'trufin-protocol',
+				},
+			},
+		],
+	},
+	{
+		name: 'TruFin Protocol',
+		slug: 'trufin-protocol',
+		links: [
+			'https://www.trufin.io',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'trufin-protocol',
+				},
+			},
+		],
+	},
+	{
+		name: 'Truflation',
+		slug: 'truflation',
+		links: [
+			'https://truflation.com',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'truflation',
 				},
 			},
 		],
@@ -28591,6 +30919,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'unibot',
+				},
+			},
+		],
+	},
+	{
+		name: 'uniBTC',
+		slug: 'unibtc',
+		links: [
+			'https://www.unibtc.ai',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'unibtc',
 				},
 			},
 		],
@@ -29087,7 +31429,7 @@ export const web3Apps = [
 				name: 'Axie Infinity',
 				slug: 'axie-infinity',
 				links: [
-					'https://axieinfinity.com/',
+					'https://axieinfinity.com',
 				],
 				chainId: 1,
 				erc20Tokens: [
@@ -29241,6 +31583,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Usual',
+		slug: 'usual',
+		links: [
+			'https://usual.money',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'usual',
+				},
+			},
+		],
+	},
+	{
 		name: 'USDV.Money',
 		slug: 'usvd-money',
 		links: [
@@ -29381,6 +31737,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'VaporDEX',
+		slug: 'vapordex',
+		links: [
+			'https://www.vapordex.io',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'vapordex',
+				},
+			},
+		],
+	},
+	{
 		name: 'Vaporwave Finance',
 		slug: 'vaporwave-finance',
 		links: [
@@ -29467,6 +31837,20 @@ export const web3Apps = [
 				chainId: 1,
 				providers: {
 					llamafolio: 'vector-reserve',
+				},
+			},
+		],
+	},
+	{
+		name: 'Vector Reserve',
+		slug: 'vector-reserve',
+		links: [
+			'https://www.vectorreserve.com',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'vector-reserve',
 				},
 			},
 		],
@@ -29694,6 +32078,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Vessel',
+		slug: 'vessel',
+		links: [
+			'https://vessel.finance',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'vessel',
+				},
+			},
+		],
+	},
+	{
 		name: 'Vesta Finance',
 		slug: 'vesta-finance',
 		links: [
@@ -29805,6 +32203,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'vmpx',
+				},
+			},
+		],
+	},
+	{
+		name: 'VolBoost',
+		slug: 'volboost',
+		links: [
+			'https://volboost.com',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'volboost',
 				},
 			},
 		],
@@ -29988,6 +32400,48 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'WannaBet',
+		slug: 'wanabet',
+		links: [
+			'https://wannabet.cc',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'wanabet',
+				},
+			},
+		],
+	},
+	{
+		name: 'Wand Finance',
+		slug: 'wand-finance',
+		links: [
+			'https://wand.fi',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'wand-finance',
+				},
+			},
+		],
+	},
+	{
+		name: 'Warden',
+		slug: 'warden',
+		links: [
+			'https://www.wardenswap.com',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'warden',
+				},
+			},
+		],
+	},
+	{
 		name: 'Warpcast',
 		slug: 'warpcast',
 		links: [
@@ -30013,6 +32467,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'wasabi',
+				},
+			},
+		],
+	},
+	{
+		name: 'Wault Finance',
+		slug: 'wault-finance',
+		links: [
+			'https://wault.finance',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'wault-finance',
 				},
 			},
 		],
@@ -30340,6 +32808,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'WOOFi',
+		slug: 'woofi',
+		links: [
+			'https://woo.org',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'woofi',
+				},
+			},
+		],
+	},
+	{
 		name: 'WORDS',
 		slug: 'words-art',
 		links: [
@@ -30355,16 +32837,30 @@ export const web3Apps = [
 		],
 	},
 	{
-		name: 'Worldcoin',
-		slug: 'worldcoin',
+		name: 'World',
+		slug: 'world',
 		links: [
-			'https://worldcoin.org',
+			'https://world.org',
 		],
 		views: [
 			{
 				chainId: undefined,
 				providers: {
 					zapper: 'Worldcoin',
+				},
+			},
+		],
+	},
+	{
+		name: 'World Art',
+		slug: 'world-art',
+		links: [
+			'https://world-art-eta.vercel.app',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'world-art',
 				},
 			},
 		],
@@ -30395,6 +32891,20 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'wormhole',
+				},
+			},
+		],
+	},
+	{
+		name: 'wow',
+		slug: 'wow',
+		links: [
+			'https://wow.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'wow',
 				},
 			},
 		],
@@ -30764,6 +33274,20 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Yay!',
+		slug: 'yay',
+		links: [
+			'https://portal.yay.space/stake',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'yay',
+				},
+			},
+		],
+	},
+	{
 		name: 'Yearn',
 		slug: 'yearn',
 		links: [
@@ -30841,6 +33365,20 @@ export const web3Apps = [
 						'ygov.finance (v1)',
 						'ygov.finance (v2)',
 					],
+				},
+			},
+		],
+	},
+	{
+		name: 'YetiSwap',
+		slug: 'yetiswap',
+		links: [
+			'https://www.yetiswap.app',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'yetiswap',
 				},
 			},
 		],
@@ -31057,6 +33595,34 @@ export const web3Apps = [
 		],
 	},
 	{
+		name: 'Zeno Exchange',
+		slug: 'zeno-exchange',
+		links: [
+			'https://zeno.exchange',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'zeno-exchange',
+				},
+			},
+		],
+	},
+	{
+		name: 'ZenoLend',
+		slug: 'zenolend',
+		links: [
+			'https://www.zeno.finance',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'zenolend',
+				},
+			},
+		],
+	},
+	{
 		name: 'Zentry',
 		slug: 'zentry',
 		links: [
@@ -31092,14 +33658,15 @@ export const web3Apps = [
 	},
 	{
 		name: 'ZeroLend',
-		slug: 'zero-lend',
+		slug: 'zerolend',
 		links: [
 			'https://zerolend.xyz',
 		],
 		views: [
 			{
-				chainId: undefined,
+				chainId: 324,
 				providers: {
+					llamafolio: 'zerolend',
 					zapper: 'zero-lend',
 				},
 			},
@@ -31182,21 +33749,6 @@ export const web3Apps = [
 				chainId: undefined,
 				providers: {
 					zapper: 'zero-x-zero-audits',
-				},
-			},
-		],
-	},
-	{
-		name: 'ZeroLend',
-		slug: 'zerolend',
-		links: [
-			'https://zerolend.xyz',
-		],
-		views: [
-			{
-				chainId: 324,
-				providers: {
-					llamafolio: 'zerolend',
 				},
 			},
 		],
@@ -31730,6 +34282,20 @@ export const web3Apps = [
 						address: '0xb0C56317E9cEBc6E0f7A59458a83D0A9ccC3e955',
 					},
 				],
+			},
+		],
+	},
+	{
+		name: 'Z Protocol',
+		slug: 'z-protocol',
+		links: [
+			'https://www.zprotocol.xyz',
+		],
+		views: [
+			{
+				providers: {
+					zapper: 'zprotocol',
+				},
 			},
 		],
 	},
