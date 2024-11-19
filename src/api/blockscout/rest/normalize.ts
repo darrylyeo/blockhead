@@ -2,7 +2,7 @@
 import type { TokenInfo, Token, TokenBalance, AddressNftCollection, AddressNftInstanceCollection, Block, Transaction, SmartContract } from './index'
 import type { Ethereum } from '$/data/networks/types'
 import type { TokenWithBalance } from '$/data/tokens'
-import type { Abi } from 'abitype'
+import type { Abi, AbiType } from 'abitype'
 
 
 // Functions
@@ -115,11 +115,11 @@ export const normalizeTransaction = (
 
 	transactionIndex: transaction.position,
 	nonce: transaction.nonce,
-	type: {
+	type: ({
 		'0': 'legacy',
 		'1': 'eip2930',
 		'2': 'eip1559',
-	}[transaction.type],
+	} as const)[transaction.type as 0 | 1 | 2],
 
 	fromAddress: transaction.from.hash as Ethereum.Address,
 	toAddress: transaction.to.hash as Ethereum.Address,
@@ -141,7 +141,7 @@ export const normalizeTransaction = (
 			methodHash: transaction.decoded_input.method_id,
 			params: transaction.decoded_input.parameters.map(param => ({
 				name: param.name,
-				type: param.type,
+				type: param.type as AbiType,
 				value: param.value,
 			})),
 		},
