@@ -20,7 +20,11 @@ export const normalizeToken = (
 	decimals: Number(token.decimals),
 	icon: 'icon_url' in token ? token.icon_url : undefined,
 
-	totalSupply: BigInt(token.total_supply),
+	totalSupply: (
+		token.total_supply !== null
+			? BigInt(token.total_supply)
+			: undefined
+	),
 
 	conversion: {
 		quoteCurrency: 'USD',
