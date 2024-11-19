@@ -31,6 +31,7 @@
 	import { formatPercent } from '$/utils/formatPercent'
 	import { formatKebabCase } from '$/utils/formatKebabCase'
 	import { formatIdentifierToWords } from '$/utils/formatIdentifierToWords'
+	import { isTruthy } from '$/utils/isTruthy'
 
 
 	// Components
@@ -171,12 +172,20 @@
 						<img class="card-background" src={appWithPositions.images[0]} alt={appWithPositions.name} width="20" />
 
 					{/if}
-					{#if appWithPositions.icon}
+
+					{#if appWithPositions.icon || appWithPositions.app?.icon}
 						<Icon
-							imageSources={[appWithPositions.icon]}
+							imageSources={
+								[
+									appWithPositions.icon,
+									appWithPositions.app?.icon
+								]
+									.filter(isTruthy)
+							}
 							title={appWithPositions.name}
 						/>
 					{/if}
+
 					{#if appWithPositions.app}
 						<a href="/apps/{appWithPositions.app.slug}/network/{network.slug}/account/{address}">{appWithPositions.app.name}</a>
 					{:else}
@@ -236,9 +245,16 @@
 									{#if appWithPositions.images?.[0]}
 										<img class="card-background" src={appWithPositions.images[0]} alt={appWithPositions.name} width="20" />
 									{/if}
-									{#if appWithPositions.icon}
+
+									{#if appWithPositions.icon || appWithPositions.app?.icon}
 										<Icon
-											imageSources={[appWithPositions.icon]}
+											imageSources={
+												[
+													appWithPositions.icon,
+													appWithPositions.app?.icon
+												]
+													.filter(isTruthy)
+											}
 											title={appWithPositions.name}
 										/>
 									{/if}
