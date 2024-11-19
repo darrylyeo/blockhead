@@ -14,7 +14,7 @@
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import type { DefiProvider } from '$/data/defiProviders'
 	import type { NotificationsProvider } from '$/data/notificationsProvider'
-	import { type QuoteCurrency, fiatQuoteCurrencies } from '$/data/currencies'
+	import { type QuoteCurrency, quoteCurrencies } from '$/data/currencies'
 
 	import type { Portfolio } from '$/state/portfolio-accounts'
 	import { defaultAccountNetworks, getNetworkColor, networkByChainId } from '$/data/networks'
@@ -619,7 +619,7 @@
 				<div class="row">
 					<label>
 						<input type="checkbox" bind:checked={showFloorPrices}>
-						<span>Floor ({fiatQuoteCurrencies[quoteCurrency].symbol})</span>
+						<span>Floor ({quoteCurrencies[quoteCurrency]?.symbol})</span>
 					</label>
 
 					<InlineContainer isOpen={showFloorPrices} clip>
