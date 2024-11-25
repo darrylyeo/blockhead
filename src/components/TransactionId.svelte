@@ -26,6 +26,10 @@
 		e.dataTransfer?.setData('text/plain', transactionId)
 		if(link) e.dataTransfer?.setData('text/uri-list', link)
 	}
+
+
+	// Components
+	import TruncatedValue from './TruncatedValue.svelte'
 </script>
 
 
@@ -39,5 +43,13 @@
 	draggable={true}
 	on:dragstart={onDragStart}
 >
-	<slot {formattedTransactionId}>{formattedTransactionId}</slot>
+	<slot {formattedTransactionId}>
+		{#if format === 'middle-truncated'}
+			<TruncatedValue
+				value={transactionId}
+			/>
+		{:else}
+			{formattedTransactionId}
+		{/if}
+	</slot>
 </svelte:element>
