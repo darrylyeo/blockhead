@@ -20,6 +20,10 @@
 			cursor: zoom-in;
 		}
 
+		* {
+			text-decoration: none;
+		}
+
 		&:focus-within {
 			outline: 1px solid var(--primary-color);
 			outline-offset: 2px;
