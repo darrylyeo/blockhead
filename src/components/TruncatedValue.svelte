@@ -1,12 +1,23 @@
 <script lang="ts">
 	// Inputs
 	export let value: string
+
+	// (View options)
 	export let startLength = 6
 	export let endLength = 4
+
+	export let format: 'abbr' | 'visual' = 'visual'
 </script>
 
 
-<span tabindex="0">{#if value}<span>{value.slice(0, startLength)}</span><span class="middle"><span>{value.slice(startLength, value.length / 2)}</span><span></span><span>{value.slice(value.length / 2, -endLength)}</span></span><span>{value.slice(-endLength)}</span>{/if}</span>
+{#if format === 'abbr'}
+	{@const formattedValue = `${value.slice(0, startLength)}⸱⸱⸱${value.slice(-endLength)}`}
+
+	<abbr title={value}>{formattedValue}</abbr>
+
+{:else if format === 'visual'}
+	<span tabindex="0">{#if value}<span>{value.slice(0, startLength)}</span><span class="middle"><span>{value.slice(startLength, value.length / 2)}</span><span></span><span>{value.slice(value.length / 2, -endLength)}</span></span><span>{value.slice(-endLength)}</span>{/if}</span>
+{/if}
 
 
 <style>
