@@ -947,6 +947,7 @@ address {
 .scrollable-list {
 	max-height: 100%;
 	overflow-y: auto;
+	grid-auto-columns: minmax(0, 1fr);
 	grid-auto-rows: min-content;
 	padding-right: var(--padding-inner);
 	justify-content: start;
