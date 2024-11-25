@@ -34,6 +34,7 @@
 
 	// Components
 	import AccountIdResolver from './AccountIdResolver.svelte'
+	import TruncatedValue from './TruncatedValue.svelte'
 </script>
 
 
@@ -56,31 +57,17 @@
 			on:dragstart={onDragStart}
 		>
 			<slot {formattedAddress}>
-				{#if formattedAddress !== address}
-					<abbr class="monospace" title={address}>{formattedAddress}</abbr>
-				{:else}
-					<span class="monospace">{formattedAddress}</span>
-				{/if}
+				<span class="monospace">{#if !ensName}<TruncatedValue value={address} />{:else}<span class="monospace">{ensName}</span>{/if}</span>
 			</slot>
 		</a>
 	{:else}
 		<span>
 			<slot {formattedAddress}>
-				{#if formattedAddress !== address}
-					<abbr
-						class="address monospace"
-						title={address}
-						draggable={true}
-						on:dragstart={onDragStart}
-
-					>{formattedAddress}</abbr>
-				{:else}
-					<span
-						class="address monospace"
-						draggable={true}
-						on:dragstart={onDragStart}
-					>{formattedAddress}</span>
-				{/if}
+				<span
+					class="address monospace"
+					draggable={true}
+					on:dragstart={onDragStart}
+				>{#if !ensName}<TruncatedValue value={address} />{:else}<span class="monospace">{ensName}</span>{/if}</span>
 			</slot>
 		</span>
 	{/if}
