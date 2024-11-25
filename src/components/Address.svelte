@@ -2,7 +2,6 @@
 	// Types/constants
 	import type { NetworkAccountAddress } from '$/data/address'
 	import type { Ethereum } from '$/data/networks/types'
-	import type { ENS } from '$/api/ens'
 	import { AccountIdType } from '$/data/accountId'
 
 
@@ -22,10 +21,7 @@
 
 
 	// Internal state
-	let ensName: ENS.Name
-
 	// (Computed)
-	$: formattedAddress = ensName || formatAddress(address, format)
 	$: link = linked && network && address ? resolveRoute(`/explorer/[networkSlug]/address/[address]`, { networkSlug: network.slug, address }) : undefined
 
 
@@ -41,43 +37,6 @@
 </script>
 
 
-{#if link}
-	<a
-		class="address"
-		href={link}
-		draggable={true}
-		on:dragstart={onDragStart}
-	>
-		<slot {formattedAddress}>
-			{#if formattedAddress !== address}
-				<abbr class="monospace" title={address}>{formattedAddress}</abbr>
-			{:else}
-				<span class="monospace">{formattedAddress}</span>
-			{/if}
-		</slot>
-	</a>
-{:else}
-	<span>
-		<slot {formattedAddress}>
-			{#if formattedAddress !== address}
-				<abbr
-					class="address monospace"
-					title={address}
-					draggable={true}
-					on:dragstart={onDragStart}
-
-				>{formattedAddress}</abbr>
-			{:else}
-				<span
-					class="address monospace"
-					draggable={true}
-					on:dragstart={onDragStart}
-				>{formattedAddress}</span>
-			{/if}
-		</slot>
-	</span>
-{/if}
-
 <AccountIdResolver
 	accountId={address}
 	resolveToName={resolveToEnsName ? AccountIdType.ENS : false}
@@ -85,5 +44,44 @@
 	loaderViewOptions={{
 		layout: 'passive',
 	}}
-	bind:ensName
-/>
+	let:ensName
+>
+	{@const formattedAddress = ensName || formatAddress(address, format)}
+
+	{#if link}
+		<a
+			class="address"
+			href={link}
+			draggable={true}
+			on:dragstart={onDragStart}
+		>
+			<slot {formattedAddress}>
+				{#if formattedAddress !== address}
+					<abbr class="monospace" title={address}>{formattedAddress}</abbr>
+				{:else}
+					<span class="monospace">{formattedAddress}</span>
+				{/if}
+			</slot>
+		</a>
+	{:else}
+		<span>
+			<slot {formattedAddress}>
+				{#if formattedAddress !== address}
+					<abbr
+						class="address monospace"
+						title={address}
+						draggable={true}
+						on:dragstart={onDragStart}
+
+					>{formattedAddress}</abbr>
+				{:else}
+					<span
+						class="address monospace"
+						draggable={true}
+						on:dragstart={onDragStart}
+					>{formattedAddress}</span>
+				{/if}
+			</slot>
+		</span>
+	{/if}
+</AccountIdResolver>
