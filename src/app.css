@@ -632,17 +632,34 @@ hr {
 
 
 dl {
-	&,
-	& > div {
-		display: grid;
-		/* grid-template-columns: minmax(min-content, 1fr) minmax(min-content, 1fr); */
-		grid-template-columns: minmax(min-content, 1fr) 1fr;
-		align-items: center;
-		align-items: start;
-		margin: 0 auto;
+	@supports not (grid-template-columns: subgrid) {
+		&,
+		& > div {
+			display: grid;
+			/* grid-template-columns: minmax(min-content, 1fr) minmax(min-content, 1fr); */
+			grid-template-columns: minmax(min-content, 1fr) 1fr;
+			align-items: center;
+			align-items: start;
+			margin: 0 auto;
+		}
+		& > div {
+			grid-column: 1 / -1;
+		}
 	}
-	& > div {
-		grid-column: 1 / -1;
+
+	@supports (grid-template-columns: subgrid) {
+		& {
+			display: grid;
+			grid-template-columns: auto auto;
+			align-items: start;
+			margin: 0 auto;
+		}
+
+		& > div {
+			display: grid;
+			grid-column: 1 / -1;
+			grid-template-columns: subgrid;
+		}
 	}
 
 	dt {
