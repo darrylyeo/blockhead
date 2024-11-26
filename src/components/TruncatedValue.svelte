@@ -6,7 +6,7 @@
 	export let startLength = 6
 	export let endLength = 4
 
-	export let format: 'abbr' | 'visual' = 'visual'
+	export let format: 'abbr' | 'visual' | 'visual-characters' = 'visual'
 </script>
 
 
@@ -17,6 +17,7 @@
 
 {:else if format === 'visual'}
 	<span
+		data-format="visual"
 		tabindex="0"
 	>
 		{#if value}
@@ -27,6 +28,13 @@
 			<span>{start}</span><span class="middle"><span>{middle.slice(0, middle.length / 2)}</span><span></span><span>{middle.slice(middle.length / 2)}</span></span><span>{end}</span>
 		{/if}
 	</span>
+
+{:else if format === 'visual-characters'}
+	<span
+		data-format="visual-characters"
+		tabindex="0"
+	>{#if startLength}<span>{value.slice(0, startLength)}</span>{/if}<span class="middle" style:--l={value.length - startLength - endLength}>{#each value.slice(startLength, -endLength || undefined) as char, i}<span style:--i={i}>{char}</span>{/each}</span>{#if endLength}<span>{value.slice(-endLength)}</span>{/if}</span>
+
 {/if}
 
 
@@ -51,7 +59,7 @@
 			text-shadow: 0 0.5px 0.2em var(--primary-color);
 		}
 
-		> .middle {
+		&[data-format="visual"] > .middle {
 			align-items: baseline;
 
 			> span {
@@ -78,6 +86,33 @@
 					&:after {
 						content: '⸱⸱⸱';
 					}
+				}
+			}
+		}
+
+		&[data-format="visual-characters"] > span {
+			vertical-align: baseline;
+
+			&.middle {
+				> span {
+					--d: (
+						1 - sin(var(--i) / (var(--l) - 1) * 180deg)
+					);
+
+					--x: (
+						pow(
+							var(--d),
+							var(--isTruncated) * 2.5
+						)
+					);
+
+					vertical-align: middle;
+
+					font-size: calc(var(--x) * 1em);
+					letter-spacing: calc(var(--x) * 0.03ch);
+
+					transition-property: font-size;
+					transition-duration: 0.2s;
 				}
 			}
 		}
