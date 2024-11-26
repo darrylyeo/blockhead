@@ -16,7 +16,17 @@
 	<abbr title={value}>{formattedValue}</abbr>
 
 {:else if format === 'visual'}
-	<span tabindex="0">{#if value}<span>{value.slice(0, startLength)}</span><span class="middle"><span>{value.slice(startLength, value.length / 2)}</span><span></span><span>{value.slice(value.length / 2, -endLength)}</span></span><span>{value.slice(-endLength)}</span>{/if}</span>
+	<span
+		tabindex="0"
+	>
+		{#if value}
+			{@const start = value.slice(0, startLength)}
+			{@const middle = value.slice(startLength, -endLength || undefined)}
+			{@const end = value.slice(-endLength || undefined)}
+
+			<span>{start}</span><span class="middle"><span>{middle.slice(0, middle.length / 2)}</span><span></span><span>{middle.slice(middle.length / 2)}</span></span><span>{end}</span>
+		{/if}
+	</span>
 {/if}
 
 
