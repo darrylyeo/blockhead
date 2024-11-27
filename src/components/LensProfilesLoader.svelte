@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import type { Ethereum } from '$/data/networks/types'
-	import { type LensName, LensInstance, getProfileByLensName, type LensProfile } from '$/api/lens'
+	import { type LensName, LensInstance, type LensProfile } from '$/api/lens'
 
 
 	// External state
@@ -16,7 +16,6 @@
 
 	// Actions
 	import { createQuery } from '@tanstack/svelte-query'
-	import { getProfilesOwnedByAddress } from '$/api/lens'
 
 
 	// Components
@@ -36,12 +35,14 @@
 				instance,
 				address,
 			}],
-			queryFn: async () => (
-				await getProfilesOwnedByAddress({
+			queryFn: async () => {
+				const { getProfilesOwnedByAddress } = await import('$/api/lens')
+
+				return await getProfilesOwnedByAddress({
 					instance,
 					address,
 				})
-			),
+			},
 			select: ({data, error}) => {
 				if(error){
 					console.error(error)
@@ -74,12 +75,14 @@
 				queryKey: ['LensProfileByLensName', {
 					lensName,
 				}],
-				queryFn: async () => (
-					await getProfileByLensName({
+				queryFn: async () => {
+					const { getProfileByLensName } = await import('$/api/lens')
+
+					return await getProfileByLensName({
 						instance,
 						lensName,
 					})
-				),
+				},
 				select: ({data, error}) => {
 					if(error){
 						console.error(error)
