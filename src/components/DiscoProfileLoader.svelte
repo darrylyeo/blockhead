@@ -30,7 +30,6 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
-	import { getProfileByDid, getProfileByEvmAddress } from '$/api/disco/index'
 
 
 	// Components
@@ -51,9 +50,11 @@
 							verifiableCredentialProvider,
 							didUrl,
 						}],
-						queryFn: async () => (
-							await getProfileByDid(didUrl)
-						),
+						queryFn: async () => {
+							const { getProfileByDid } = await import('$/api/disco/index')
+
+							return await getProfileByDid(didUrl)
+						},
 					})
 				: address ? 
 					createQuery({
@@ -61,9 +62,11 @@
 							verifiableCredentialProvider,
 							address,
 						}],
-						queryFn: async () => (
-							await getProfileByEvmAddress(address)
-						),
+						queryFn: async () => {
+							const { getProfileByEvmAddress } = await import('$/api/disco/index')
+
+							return await getProfileByEvmAddress(address)
+						},
 					})
 				:
 					undefined
