@@ -10,8 +10,6 @@
 	// Actions
 	import { createQuery } from '@tanstack/svelte-query'
 
-	import { authenticate, generateChallenge } from '$/api/lens'
-
 
 	// Components
 	import Loader from './Loader.svelte'
@@ -29,6 +27,8 @@
 			address: accountConnection.state.account?.address,
 		}],
 		queryFn: async () => {
+			const { authenticate, generateChallenge } = await import('$/api/lens')
+
 			const { signer, account, chainId } = accountConnection.state
 
 			if(!signer || !account?.address) throw new Error(`Connect an account first.`)
