@@ -1,15 +1,14 @@
 <script lang="ts">
-	import { AudiusIcon } from '$/assets/icons'
-
 	export let userId: string
 
 
-	import type { Audius } from '$/api/audius'
-	import { getUserTracks } from '$/api/audius'
+	import { createQuery } from '@tanstack/svelte-query'
 
 
 	import AudiusTrack from './AudiusTrack.svelte'
 	import Loader from './Loader.svelte'
+
+	import { AudiusIcon } from '$/assets/icons'
 </script>
 
 
@@ -17,7 +16,23 @@
 	<Loader
 		loadingIcon={AudiusIcon}
 		loadingMessage="Fetching tracks from Audius network..."
-		fromPromise={() => getUserTracks({userId}).then(({data: tracks}) => tracks)}
+		fromQuery={createQuery({
+			queryKey: ['AudiusUserTracks', {
+				userId,
+			}],
+			queryFn: async ({
+				queryKey: [_, {
+					userId,
+				}]
+			}) => {
+				const { getUserTracks } = await import('$/api/audius')
+
+				return await getUserTracks({
+					userId,
+				})
+			},
+			select: result => result.data,
+		})}
 		let:result={tracks}
 		viewOptions={{
 			showIf: tracks => tracks.length,
