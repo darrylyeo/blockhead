@@ -45,11 +45,15 @@
 		queryKey: ['EnsName', {
 			name: searchQuery,
 		}],
-		queryFn: async () => {
+		queryFn: async ({
+			queryKey: [_, {
+				name,
+			}],
+		}) => {
 			const { getEnsName } = await import('$/api/ens')
 
 			return await getEnsName({
-				name: searchQuery,
+				name,
 			})
 		},
 		select: result => (
@@ -95,14 +99,18 @@
 				showIf: domains => domains?.length
 			}}
 			fromQuery={createQuery({
-				queryKey: ['EnsDomain', {
-					domain: searchQuery,
+				queryKey: ['EnsNameSearch', {
+					query: searchQuery,
 				}],
-				queryFn: async () => {
+				queryFn: async ({
+					queryKey: [_, {
+						query,
+					}],
+				}) => {
 					const { getEnsDomainsContaining } = await import('$/api/ens')
 
 					return await getEnsDomainsContaining({
-						query: searchQuery,
+						query,
 					})
 				},
 				select: result => (
