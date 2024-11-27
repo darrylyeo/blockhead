@@ -4,7 +4,6 @@
 	import type { QuoteCurrency } from '$/data/currencies'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProvider'
-	import { getViemPublicClient } from '$/data/networkProviders'
 	import { preferences } from '$/state/preferences'
 
 
@@ -28,16 +27,6 @@
 
 	export let layout: 'standalone' | 'inline' = 'inline'
 	export let innerLayout: 'columns' | 'row' = 'row'
-
-
-	// Internal state
-	let publicClient: Ethereum.PublicClient | undefined
-
-	// (Computed)
-	$: publicClient = network && networkProvider && getViemPublicClient({
-		network,
-		networkProvider: networkProvider,
-	})
 
 
 	// Outputs
@@ -96,7 +85,7 @@
 	errorMessage="Error looking up transaction from {transactionProvider}"
 	{...{
 		[TransactionProvider.RpcProvider]: () => ({
-			fromQuery: publicClient && createQueries({
+			fromQuery: createQueries({
 				queries: [
 					{
 						queryKey: ['Transaction', {
@@ -111,7 +100,13 @@
 								transactionId,
 							}],
 						}) => {
+							const { getViemPublicClient } = await import('$/data/networkProviders')
 							const { getTransaction } = await import('viem/actions')
+
+							const publicClient = network && getViemPublicClient({
+								network,
+								networkProvider,
+							})
 
 							return await getTransaction(publicClient, {
 								hash: transactionId,
@@ -131,7 +126,13 @@
 								transactionId,
 							}],
 						}) => {
+							const { getViemPublicClient } = await import('$/data/networkProviders')
 							const { getTransactionReceipt } = await import('viem/actions')
+
+							const publicClient = getViemPublicClient({
+								network,
+								networkProvider,
+							})
 
 							return await getTransactionReceipt(publicClient, {
 								hash: transactionId,
