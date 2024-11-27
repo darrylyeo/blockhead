@@ -195,7 +195,12 @@
 					blockNumber: Number(blockNumber),
 				}],
 				placeholderData: () => placeholderData,
-				queryFn: async () => {
+				queryFn: async ({
+					queryKey: [_, {
+						chainId,
+						blockNumber,
+					}],
+				}) => {
 					const { getBlockByNumber } = await import('$/api/chainbase')
 
 					return await getBlockByNumber({
@@ -218,7 +223,12 @@
 							chainId: network.chainId,
 							blockNumber: Number(blockNumber),
 						}],
-						queryFn: async () => {
+						queryFn: async ({
+							queryKey: [_, {
+								chainId,
+								blockNumber,
+							}],
+						}) => {
 							const { getBlock } = await import('$/api/covalent/index')
 
 							return await getBlock({
@@ -236,7 +246,12 @@
 							blockNumber: Number(blockNumber),
 							quoteCurrency,
 						}],
-						queryFn: async () => {
+						queryFn: async ({
+							queryKey: [_, {
+								chainId,
+								blockNumber,
+							}],
+						}) => {
 							const { getAllTransactionsInABlock } = await import('$/api/covalent/index')
 
 							return await getAllTransactionsInABlock({
@@ -318,11 +333,16 @@
 					includeTransactions,
 				}],
 				placeholderData: () => placeholderData,
-				queryFn: async () => {
+				queryFn: async ({
+					queryKey: [_, {
+						chainId,
+						blockNumber,
+					}],
+				}) => {
 					const { Etherscan } = await import('$/api/etherscan/index')
 
 					return await Etherscan.RpcProxy.getBlockByNumber({
-						chainId: network.chainId,
+						chainId,
 						tag: numberToHex(blockNumber),
 						getFullTransactionObjects: includeTransactions,
 					})
@@ -339,7 +359,12 @@
 					blockNumber: Number(blockNumber),
 				}],
 				placeholderData: () => placeholderData,
-				queryFn: async () => {
+				queryFn: async ({
+					queryKey: [_, {
+						chainId,
+						blockNumber,
+					}],
+				}) => {
 					const { MoralisWeb3Api, chainCodeFromNetwork } = await import('$/api/moralis/web3Api/index')
 
 					return await MoralisWeb3Api.block.getBlock({
@@ -375,7 +400,12 @@
 					includeTransactions,
 				}],
 				placeholderData: () => placeholderData,
-				queryFn: async () => {
+				queryFn: async ({
+					queryKey: [_, {
+						chainId,
+						blockNumber,
+					}],
+				}) => {
 					const { getBlock } = await import('viem/actions')
 
 					return await getBlock(publicClient, {
