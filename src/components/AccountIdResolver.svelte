@@ -28,12 +28,6 @@
 	// (Computed)
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 
-	let publicClient: Ethereum.PublicClient | undefined
-	$: publicClient = network && networkProvider && getViemPublicClient({
-		network,
-		networkProvider: networkProvider,
-	})
-
 	// (View options)
 	export let loaderViewOptions: Partial<Loader<any, any, any, any, any>['viewOptions']> | undefined
 
@@ -175,7 +169,7 @@
 			..._loaderViewOptions,
 		}}
 		fromQuery={
-			ensName && publicClient && createQuery({
+			ensName && createQuery({
 				queryKey: ['EnsResolution', {
 					// networkProvider,
 					ensName,
@@ -185,7 +179,13 @@
 						ensName,
 					}],
 				}) => {
+					const { getViemPublicClient } = await import('$/data/networkProviders')
 					const { getEnsAddress, normalize } = await import('viem/ens')
+
+					const publicClient = getViemPublicClient({
+						network,
+						networkProvider,
+					})
 
 					const address = await getEnsAddress(publicClient, {
 						name: normalize(ensName)
@@ -230,7 +230,7 @@
 				..._loaderViewOptions,
 			}}
 			fromQuery={
-				address && publicClient && createQuery({
+				address && createQuery({
 					queryKey: ['EnsReverseResolution', {
 						// networkProvider,
 						address,
@@ -240,7 +240,13 @@
 							address,
 						}],
 					}) => {
+						const { getViemPublicClient } = await import('$/data/networkProviders')
 						const { getEnsName } = await import('viem/ens')
+
+						const publicClient = getViemPublicClient({
+							network,
+							networkProvider,
+						})
 
 						const ensName = await getEnsName(publicClient, { address })
 
