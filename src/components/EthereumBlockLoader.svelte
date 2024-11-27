@@ -29,14 +29,6 @@
 	
 
 	// Internal state
-	let publicClient: Ethereum.PublicClient | undefined
-
-	// (Computed)
-	$: publicClient = network && networkProvider && getViemPublicClient({
-		network,
-		networkProvider: networkProvider,
-	})
-
 	$: loadingMessage = `Retrieving block data from ${transactionProvider}...`
 	$: errorMessage = `Couldn't retrieve block data from ${transactionProvider}.`
 
@@ -391,7 +383,7 @@
 		}),
 
 		[TransactionProvider.RpcProvider]: () => ({
-			fromQuery: publicClient && createQuery({
+			fromQuery: createQuery({
 				queryKey: ['Block', {
 					transactionProvider,
 					networkProvider,
@@ -406,7 +398,13 @@
 						blockNumber,
 					}],
 				}) => {
+					const { getViemPublicClient } = await import('$/data/networkProviders')
 					const { getBlock } = await import('viem/actions')
+
+					const publicClient = getViemPublicClient({
+						network,
+						networkProvider,
+					})
 
 					return await getBlock(publicClient, {
 						blockNumber,
