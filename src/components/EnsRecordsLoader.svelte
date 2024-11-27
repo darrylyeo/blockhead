@@ -279,7 +279,13 @@
 					parallelLoaderStore(
 						resolveCoinTypes,
 						async coinType => {
+							const { getViemPublicClient } = await import('$/data/networkProviders')
 							const { readContract } = await import('viem/actions')
+
+							const publicClient = getViemPublicClient({
+								network,
+								networkProvider
+							})
 
 							const address = await readContract(publicClient, {
 								address: resolverContractAddress,
