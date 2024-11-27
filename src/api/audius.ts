@@ -253,7 +253,7 @@ export const getUserTracks = (
 	{userId, limit, offset, sort}:
 	{userId: string, limit?: number, offset?: number, sort?: 'asc' | 'desc'}
 ) =>
-	makeRequest<Audius.TrackResponse>(`/v1/users/${userId}/tracks`, {limit, offset, sort})
+	makeRequest<Audius.TracksResponse>(`/v1/users/${userId}/tracks`, {limit, offset, sort})
 
 
 export const searchPlaylists = (
