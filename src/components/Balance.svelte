@@ -3,7 +3,6 @@
 	import type { TickerSymbol } from '$/data/currencies'
 	import type { Ethereum } from '$/data/networks/types'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
-	import { getViemPublicClient } from '$/data/networkProviders'
 
 
 	// Inputs
@@ -20,12 +19,6 @@
 		icon?: string,
 	}
 
-	let publicClient: Ethereum.PublicClient | undefined
-	$: publicClient = network && networkProvider && getViemPublicClient({
-		network,
-		networkProvider: networkProvider,
-	})
-
 	// (Computed)
 	// $: if(!token.address && token.symbol)
 	// 	token.address = `${token.symbol.toLowerCase()}.thetoken.eth`
@@ -33,8 +26,6 @@
 
 
 	// Functions
-	import { erc20Abi } from 'viem'
-	import { getBalance, readContract } from 'viem/actions'
 	import { createQuery } from '@tanstack/svelte-query'
 
 
@@ -58,7 +49,17 @@
 				contractAddress: token.address,
 			}],
 			queryFn: async () => {
+				const { getViemPublicClient } = await import('$/data/networkProviders')
+
+				const publicClient = getViemPublicClient({
+					network,
+					networkProvider,
+				})
+
 				if(token.address){
+					const { erc20Abi } = await import('viem')
+					const { readContract, getBalance } = await import('viem/actions')
+
 					const [
 						name,
 						symbol,
@@ -100,13 +101,16 @@
 					}
 				}
 
-				else if(token.symbol === network.nativeCurrency.symbol)
+				else if(token.symbol === network.nativeCurrency.symbol){
+					const { getBalance } = await import('viem/actions')
+
 					return {
 						token: network.nativeCurrency,
 						balance: await getBalance(publicClient, {
 							address,
 						})
 					}
+				}
 				
 				else
 					throw new Error(`Unknown token ${token.symbol}.`)
