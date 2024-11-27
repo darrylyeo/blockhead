@@ -71,14 +71,12 @@
 
 	const queryClient = useQueryClient()
 
-	import { getNftsByAddress as getNftsByAddressAirstack } from '$/api/airstack/index'
 	import { normalizeNftContracts as normalizeNftContractsAirstack } from '$/api/airstack/normalize'
 
 	import { normalizeNftContract as normalizeNftContractBlockscout } from '$/api/blockscout/rest/normalize'
 
 	import { normalizeNftContracts as normalizeNftContractsChainbase } from '$/api/chainbase/normalize'
 
-	import { getNftsForAddress as getNftsForAddressCovalent } from '$/api/covalent/index'
 	import { normalizeNftContract as normalizeNftContractCovalent } from '$/api/covalent/normalize'
 
 	import { normalizeNftContracts as normalizeNftContractsDecommas } from '$/api/decommas/normalize'
@@ -86,7 +84,7 @@
 	import { ConcurrentPromiseQueue } from '$/utils/ConcurrentPromiseQueue'
 	import { normalizeNftContracts as normalizeNftContractsLiquality } from '$/api/liquality/normalize'
 
-	import { NftportApi, networkSlugToNftportChain } from '$/api/nftport/index'
+	import { networkSlugToNftportChain } from '$/api/nftport/index'
 	import { normalizeNftContracts as normalizeNftContractsNftport } from '$/api/nftport/normalize'
 
 
@@ -116,13 +114,15 @@
 						quoteCurrency: quoteCurrency
 					}],
 					initialPageParam: '',
-					queryFn: async ({ pageParam: cursor }) => (
-						getNftsByAddressAirstack({
+					queryFn: async ({ pageParam: cursor }) => {
+						const { getNftsByAddress } = await import('$/api/airstack/index')
+
+						return await getNftsByAddress({
 							network,
 							address,
 							cursor,
 						})
-					),
+					},
 					getPreviousPageParam: (firstPage) => firstPage.TokenBalances.pageInfo.prevCursor || undefined,
 					getNextPageParam: (lastPage) => lastPage.TokenBalances.pageInfo.nextCursor || undefined,
 					select: data => (
@@ -221,14 +221,16 @@
 						chainId: network.chainId,
 						quoteCurrency: quoteCurrency
 					}],
-					queryFn: async () => (
-						await getNftsForAddressCovalent({
+					queryFn: async () => {
+						const { getNftsForAddress } = await import('$/api/covalent/index')
+
+						return await getNftsForAddress({
 							chainName: network.chainId,
 							walletAddress: address,
 							quoteCurrency: 'EUR',
 							noSpam: true,
 						})
-					),
+					},
 					select: result => (
 						result.items
 							.filter(tokenContract => tokenContract.type === 'nft')
@@ -310,7 +312,6 @@
 					}],
 					queryFn: async () => {
 						const { NftService } = await import('@liquality/wallet-sdk')
-
 						const { liqualitySupportedNetworks } = await import('$/api/liquality/index')
 
 						if(!liqualitySupportedNetworks.includes(network.chainId))
@@ -342,6 +343,8 @@
 						quoteCurrency: quoteCurrency
 					}],
 					queryFn: async () => {
+						const { NftportApi } = await import('$/api/nftport/index')
+
 						const chain = networkSlugToNftportChain[network.slug]
 						if(!chain)
 							throw new Error(`NFTPort does not support the ${network.name} network.`)
