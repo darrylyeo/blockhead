@@ -87,8 +87,6 @@
 	// Actions
 	import { createQuery } from '@tanstack/svelte-query'
 
-	import { getEnsAddress, getEnsName, normalize } from 'viem/ens'
-
 	// import ENS, { getEnsAddress } from '@ensdomains/ensjs'
 	// const ens = new ENS({ provider, ensAddress: getEnsAddress('1') })
 
@@ -187,6 +185,8 @@
 						ensName,
 					}],
 				}) => {
+					const { getEnsAddress, normalize } = await import('viem/ens')
+
 					const address = await getEnsAddress(publicClient, {
 						name: normalize(ensName)
 					})
@@ -240,6 +240,8 @@
 							address,
 						}],
 					}) => {
+						const { getEnsName } = await import('viem/ens')
+
 						const ensName = await getEnsName(publicClient, { address })
 
 						if(!ensName)
