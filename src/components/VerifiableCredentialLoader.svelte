@@ -27,7 +27,6 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
-	import { getCredential } from '$/api/disco/index'
 
 
 	// Components
@@ -46,9 +45,11 @@
 					credentialId,
 					verifiableCredentialProvider,
 				}],
-				queryFn: async () => (
-					await getCredential(credentialId)
-				),
+				queryFn: async () => {
+					const { getCredential } = await import('$/api/disco/index')
+
+					return await getCredential(credentialId)
+				},
 			}),
 		}),
 	}[verifiableCredentialProvider]?.()}
