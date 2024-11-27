@@ -106,8 +106,6 @@
 
 	// Methods
 	import { createQuery } from '@tanstack/svelte-query'
-	import { simulateTransaction } from '$/api/tenderly'
-	import { readContract } from 'viem/actions'
 
 
 	// Formatting
@@ -181,14 +179,16 @@
 						contractMethodName,
 						contractMethodArgs: JSON.stringify(contractMethodArgs, (key, value) => typeof value === 'bigint' ? value.toString() : value),
 					}],
-					queryFn: async () => (
-						await readContract(publicClient, {
+					queryFn: async () => {
+						const { readContract } = await import('viem/actions')
+
+						return await readContract(publicClient, {
 							address: contractAddress,
 							abi: contractAbi,
 							functionName: contractMethodName,
 							args: contractMethodArgs,
 						})
-					),
+					},
 				})}
 				let:result
 			>
@@ -226,8 +226,10 @@
 				loadingIconName={'Tenderly'}
 				loadingMessage="Simulating transaction on Tenderly..."
 				errorMessage="The transaction failed to be simulated."
-				fromPromise={async () => (
-					await simulateTransaction({
+				fromPromise={async () => {
+					const { simulateTransaction } = await import('$/api/tenderly')
+
+					return await simulateTransaction({
 						params: {
 							network,
 							contractAddress,
@@ -251,7 +253,7 @@
 							accessList,
 						},
 					})
-				)}
+				}}
 				let:result
 			>
 				<header slot="header" class="bar">
