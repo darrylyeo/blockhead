@@ -16,7 +16,7 @@
 
 	import { createQuery } from '@tanstack/svelte-query'
 
-	import { type NotificationRawPayload, getNotifications } from '$/api/push'
+	import { type NotificationRawPayload } from '$/api/push'
 	
 	export let notifications: NotificationRawPayload[]
 
@@ -43,8 +43,10 @@
 					address,
 					chainId: network.chainId,
 				}],
-				queryFn: async ({ pageParam: pageNumber }) => (
-					await getNotifications({
+				queryFn: async ({ pageParam: pageNumber }) => {
+					const { getNotifications } = await import('$/api/push')
+
+					return await getNotifications({
 						network,
 						address,
 						raw: true,
@@ -54,7 +56,7 @@
 						.then(notifications =>
 							notifications.sort((a, b) => b.payload.data.epoch - a.payload.data.epoch)
 						)
-				),
+				},
 				// getPreviousPageParam: (firstPage, allPages) => firstPage.length ? allPages.length - 1 : undefined
 				getNextPageParam: (lastPage, allPages) => lastPage.length ? allPages.length + 1 : undefined
 			})
