@@ -42,7 +42,6 @@
 
 
 	// Functions
-	import { UniswapV3Subgraph } from '$/api/uniswap-v3/subgraph'
 	import { createInfiniteQuery } from '@tanstack/svelte-query'
 	import { gql } from '@urql/svelte'
 
@@ -72,8 +71,10 @@
 					chainId: network.chainId,
 					dataProvider,
 				}],
-				queryFn: async ({ pageParam: skip }) => (
-					await UniswapV3Subgraph.getClient({ network })
+				queryFn: async ({ pageParam: skip }) => {
+					const { UniswapV3Subgraph } = await import('$/api/uniswap-v3/subgraph')
+
+					return await UniswapV3Subgraph.getClient({ network })
 						.query(gql`
 							query(
 								$address: Bytes,
@@ -176,7 +177,7 @@
 							address,
 							skip,
 						})
-				),
+				},
 				getNextPageParam: (lastPage, allPages) => lastPage.data.length ? allPages.length * 100 : undefined,
 				select: result => (
 					result.pages.flatMap(page => page.data.positions)
