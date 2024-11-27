@@ -56,7 +56,6 @@
 	// Functions
 	import { createInfiniteQuery } from '@tanstack/svelte-query'
 
-	import { getErc20TransfersForWalletAddress } from '$/api/covalent/index'
 	import { normalizeTransaction as normalizeTransactionCovalent } from '$/api/covalent/normalize'
 
 
@@ -81,8 +80,10 @@
 					quoteCurrency,
 				}],
 				initialPageParam: 0,
-				queryFn: async ({ pageParam: pageNumber }) => (
-					await getErc20TransfersForWalletAddress({
+				queryFn: async ({ pageParam: pageNumber }) => {
+					const { getErc20TransfersForWalletAddress } = await import('$/api/covalent/index')
+
+					return await getErc20TransfersForWalletAddress({
 						chainName: network.chainId,
 						walletAddress: address,
 						quoteCurrency,
@@ -90,7 +91,7 @@
 						pageSize: 100,
 						pageNumber,
 					})
-				),
+				},
 				getPreviousPageParam: (firstPage, allPages) => firstPage.pagination?.page_number > 0 ? firstPage.pagination.page_number - 1 : undefined,
 				getNextPageParam: (lastPage, allPages) => lastPage.pagination?.has_more ? lastPage.pagination.page_number + 1 : undefined,
 				select: result => (
