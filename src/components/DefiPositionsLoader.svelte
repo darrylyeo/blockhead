@@ -6,7 +6,6 @@
 	import type { Web3AppConfig } from '$/data/web3Apps'
 	// import type { ZapperAppId, ZapperAppConfig } from '$/api/zapper-old'
 
-	import { getViemPublicClient } from '$/data/networkProviders'
 	import { DefiProvider, defiProviderIcons } from '$/data/defiProviders'
 	import type { AppWithDefiPositions } from '$/data/defiPositions'
 
@@ -22,12 +21,6 @@
 	export let publicClient: Ethereum.PublicClient | undefined
 	export let defiProvider: DefiProvider = DefiProvider.Zapper
 	export let quoteCurrency: QuoteCurrency
-
-	// (Computed)
-	$: publicClient = network && networkProvider && getViemPublicClient({
-		network,
-		networkProvider,
-	})
 
 	// (View options)
 	export let loaderViewOptions: Partial<Loader<any, any, any, any, any>['viewOptions']> | undefined
@@ -92,7 +85,6 @@
 
 	import { normalizeProtocolWithBalance as normalizeProtocolWithBalanceLlamafolio } from '$/api/defillama/llamafolio/normalize'
 
-	import { getDefiPositions } from '$/api/zerion/defiSdk/index'
 	import { normalizeDefiPositions as normalizeDefiPositionsZerion } from '$/api/zerion/defiSdk/normalize'
 
 	// import { getAllApps, getDefiPositionsForApps } from '$/api/zapper-old/index'
@@ -225,8 +217,16 @@
 					address,
 					chainId: network.chainId,
 				}],
-				queryFn: async () => (
-					await getDefiPositions({
+				queryFn: async () => {
+					const { getViemPublicClient } = await import('$/data/networkProviders')
+					const { getDefiPositions } = await import('$/api/zerion/defiSdk/index')
+
+					const publicClient = network && getViemPublicClient({
+						network,
+						networkProvider,
+					})
+
+					return await getDefiPositions({
 						...apps && {
 							protocolNames: [...new Set(apps.flatMap(({views}) => views.flatMap(({providers}) => providers?.zerionDefiSDK ?? [])))],
 						},
@@ -234,7 +234,7 @@
 						publicClient,
 						address,
 					})
-				),
+				},
 				select: positions => (
 					normalizeDefiPositionsZerion(positions, network.chainId)
 				),
