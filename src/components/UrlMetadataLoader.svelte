@@ -31,7 +31,6 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
-	import { getMetadataForUrls } from '$/api/mod'
 
 
 	// Components
@@ -55,11 +54,13 @@
 						urlMetadataProvider,
 						url,
 					}],
-					queryFn: async () => (
-						await getMetadataForUrls([
+					queryFn: async () => {
+						const { getMetadataForUrls } = await import('$/api/mod')
+
+						return await getMetadataForUrls([
 							url,
 						])
-					),
+					},
 					select: result => (
 						Object.values(result)[0]
 					),
