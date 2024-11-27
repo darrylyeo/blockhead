@@ -53,7 +53,7 @@
 
 				const publicClient = getViemPublicClient({
 					network,
-					networkProvider: networkProvider,
+					networkProvider,
 				})
 
 				if(token.address){
