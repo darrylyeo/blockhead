@@ -73,9 +73,6 @@
 	import { parallelLoaderStore } from '$/utils/parallelLoaderStore'
 	import { createQuery } from '@tanstack/svelte-query'
 
-	import { getEnsText, readContract } from 'viem/actions'
-	import { getEnsResolver } from 'viem/ens'
-
 
 	// Components
 	import Loader from './Loader.svelte'
@@ -99,11 +96,13 @@
 				networkProvider,
 				ensName,
 			}],
-			queryFn: async () => (
-				await getEnsResolver(publicClient, {
+			queryFn: async () => {
+				const { getEnsResolver } = await import('viem/ens')
+
+				return await getEnsResolver(publicClient, {
 					name: normalizedEnsName,
 				})
-			)
+			},
 		})}
 		let:result={resolverContractAddress}
 	>
@@ -127,8 +126,10 @@
 							networkProvider,
 							resolverContractAddress,
 						}],
-						queryFn: async () => (
-							await readContract(publicClient, {
+						queryFn: async () => {
+							const { readContract } = await import('viem/actions')
+
+							return await readContract(publicClient, {
 								address: resolverContractAddress,
 								functionName: 'supportsInterface',
 								abi: parseAbi([`function supportsInterface(bytes4 interfaceID) public pure returns (bool)`]),
@@ -136,7 +137,7 @@
 									'0xbc1c58d1',
 								],
 							})
-						)
+						},
 					})
 				)}
 				errorMessage={`Failed to check resolver for ENSIP-7 support${viaRPC}.`}
@@ -160,6 +161,8 @@
 								supportsEnsip7,
 							}],
 							queryFn: async () => {
+								const { readContract } = await import('viem/actions')
+
 								if(!supportsEnsip7)
 									throw `ENSIP-7 Content Hashes are not supported by resolver ${resolverContractAddress}.`
 
@@ -196,12 +199,14 @@
 				fromStore={(() => (
 					parallelLoaderStore(
 						resolveTextRecordKeys,
-						async textRecordKey => (
-							await getEnsText(publicClient, {
+						async textRecordKey => {
+							const { getEnsText } = await import('viem/actions')
+
+							return await getEnsText(publicClient, {
 								name: normalizedEnsName,
 								key: textRecordKey,
 							})
-						))
+						})
 					)
 				)}
 				bind:result={textRecords}
@@ -224,8 +229,10 @@
 							networkProvider,
 							resolverContractAddress,
 						}],
-						queryFn: async () => (
-							await readContract(publicClient, {
+						queryFn: async () => {
+							const { readContract } = await import('viem/actions')
+
+							return await readContract(publicClient, {
 								address: resolverContractAddress,
 								functionName: 'supportsInterface',
 								abi: parseAbi([`function supportsInterface(bytes4 interfaceID) public pure returns (bool)`]),
@@ -233,7 +240,7 @@
 									'0xf1cb7e06',
 								],
 							})
-						)
+						},
 					})
 				)}
 				errorMessage={`Failed to check resolver for ENSIP-9 support${viaRPC}.`}
@@ -251,6 +258,8 @@
 						parallelLoaderStore(
 							resolveCoinTypes,
 							async coinType => {
+								const { readContract } = await import('viem/actions')
+
 								const address = await readContract(publicClient, {
 									address: resolverContractAddress,
 									functionName: 'addr',
