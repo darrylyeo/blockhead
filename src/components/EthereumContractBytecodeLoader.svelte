@@ -2,7 +2,7 @@
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
 	import { NetworkProvider } from '$/data/networkProviders/types'
-	import { getViemPublicClient, networkProviderConfigByProvider } from '$/data/networkProviders'
+	import { networkProviderConfigByProvider } from '$/data/networkProviders'
 
 
 	// Context
@@ -66,6 +66,8 @@
 					networkProvider,
 				}],
 			}) => {
+				const { getViemPublicClient } = await import('$/data/networkProviders')
+
 				const publicClient = await getViemPublicClient({
 					network,
 					networkProvider,
