@@ -7,7 +7,6 @@
 
 
 	import { createQuery } from '@tanstack/svelte-query'
-	import { getEnsName, getEnsDomainsContaining } from '$/api/ens'
 
 
 	const sortByLength = (a, b) => a.name.length - b.name.length
@@ -46,11 +45,13 @@
 		queryKey: ['EnsName', {
 			name: searchQuery,
 		}],
-		queryFn: async () => (
-			await getEnsName({
+		queryFn: async () => {
+			const { getEnsName } = await import('$/api/ens')
+
+			return await getEnsName({
 				name: searchQuery,
 			})
-		),
+		},
 		select: result => (
 			result?.domains[0] ?? null
 		),
@@ -97,11 +98,13 @@
 				queryKey: ['EnsDomain', {
 					domain: searchQuery,
 				}],
-				queryFn: async () => (
-					await getEnsDomainsContaining({
+				queryFn: async () => {
+					const { getEnsDomainsContaining } = await import('$/api/ens')
+
+					return await getEnsDomainsContaining({
 						query: searchQuery,
 					})
-				),
+				},
 				select: result => (
 					result?.domains
 				),
