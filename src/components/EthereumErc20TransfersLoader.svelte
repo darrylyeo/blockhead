@@ -80,14 +80,22 @@
 					quoteCurrency,
 				}],
 				initialPageParam: 0,
-				queryFn: async ({ pageParam: pageNumber }) => {
+				queryFn: async ({
+					queryKey: [_, {
+						chainId,
+						contractAddress,
+						address,
+						quoteCurrency,
+					}],
+					pageParam: pageNumber,
+				}) => {
 					const { getErc20TransfersForWalletAddress } = await import('$/api/covalent/index')
 
 					return await getErc20TransfersForWalletAddress({
-						chainName: network.chainId,
+						chainName: chainId,
 						walletAddress: address,
 						quoteCurrency,
-						contractAddress: erc20Token.address,
+						contractAddress,
 						pageSize: 100,
 						pageNumber,
 					})
