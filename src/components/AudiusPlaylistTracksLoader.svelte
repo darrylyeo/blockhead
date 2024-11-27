@@ -1,11 +1,10 @@
 <script lang="ts">
 	export let playlistId: string
-	
-	
-	import type { Audius } from '$/api/audius'
-	import { getPlaylistTracks } from '$/api/audius'
-	
-	
+
+
+	import { createQuery } from '@tanstack/svelte-query'
+
+
 	import AudiusTrack from './AudiusTrack.svelte'
 	import Loader from './Loader.svelte'
 
@@ -18,7 +17,23 @@
 	<Loader
 		loadingIcon={AudiusIcon}
 		loadingMessage="Fetching tracks from Audius network..."
-		fromPromise={() => getPlaylistTracks({playlistId}).then(({data: tracks}) => tracks)}
+		fromQuery={createQuery({
+			queryKey: ['AudiusPlaylistTracks', {
+				playlistId,
+			}],
+			queryFn: async ({
+				queryKey: [_, {
+					playlistId,
+				}]
+			}) => {
+				const { getPlaylistTracks } = await import('$/api/audius')
+
+				return await getPlaylistTracks({
+					playlistId,
+				})
+			},
+			select: result => result.data,
+		})}
 		let:result={tracks}
 		viewOptions={{
 			showIf: tracks => tracks.length,
