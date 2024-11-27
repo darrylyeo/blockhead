@@ -28,7 +28,6 @@
 
 	// Functions
 	import { createInfiniteQuery } from '@tanstack/svelte-query'
-	import { getCredentials } from '$/api/disco/index'
 
 
 	// Components
@@ -47,9 +46,11 @@
 					did,
 					verifiableCredentialProvider,
 				}],
-				queryFn: async ({ pageParam: page }) => (
-					await getCredentials(did, { page })
-				),
+				queryFn: async ({ pageParam: page }) => {
+					const { getCredentials } = await import('$/api/disco/index')
+
+					return await getCredentials(did, { page })
+				},
 				getNextPageParam: (lastPage, allPages) => allPages.length,
 				select: result => (
 					result.pages.flat()
