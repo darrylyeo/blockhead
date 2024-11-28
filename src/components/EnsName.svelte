@@ -27,6 +27,9 @@
 	}
 
 
+	import { isTruthy } from '$/utils/isTruthy'
+
+
 	import EnsRecordsLoader from './EnsRecordsLoader.svelte'
 	import Icon from './Icon.svelte'
 	// import InlineContainer from './InlineContainer.svelte'
@@ -51,7 +54,15 @@
 <EnsRecordsLoader
 	layout="passive"
 	{ensName}
-	resolveTextRecordKeys={[showAvatar && 'avatar', showName && 'name'].filter(Boolean)}
+	query={{
+		textRecords: (
+			[
+				showAvatar && 'avatar',
+				showName && 'name',
+			]
+				.filter(isTruthy)
+		),
+	}}
 	let:textRecords
 >
 	{@const title = `${formattedENSName}${textRecords ? [...textRecords.entries()].map(([key, value]) => `${key} ${value}`).join('\n') : ''}`}

@@ -18,9 +18,11 @@
 	export let networkProvider: NetworkProvider
 	export let ensName: string
 
-	export let resolveContentHash = false
-	export let resolveTextRecordKeys: TextRecordKey[] | undefined
-	export let resolveCoinTypes: CoinType[] | undefined
+	export let query: {
+		contentHash?: boolean
+		textRecords?: TextRecordKey[]
+		coinTypes?: CoinType[]
+	}
 
 	// (View options)
 	export let layout: 'default' | 'passive' = 'default'
@@ -113,7 +115,7 @@
 		<slot name="header" {networkProvider} />
 	</svelte:fragment>
 
-	{#if resolveContentHash}
+	{#if query.contentHash}
 		<Loader
 			viewOptions={{
 				layout,
@@ -215,7 +217,7 @@
 		</Loader>
 	{/if}
 
-	{#if resolveTextRecordKeys?.length}
+	{#if query.textRecords?.length}
 		<Loader
 			viewOptions={{
 				layout,
@@ -226,7 +228,7 @@
 			loadingMessage={`Resolving ENS records${viaRPC}...`}
 			fromQuery={createQueries({
 				queries: (
-					resolveTextRecordKeys
+					query.textRecords
 						.map(textRecordKey => ({
 							queryKey: ['EnsTextRecord', {
 								chainId: network.chainId,
@@ -264,7 +266,7 @@
 						new Map(
 							textRecordQueries
 								.map((textRecordQuery, i) => [
-									resolveTextRecordKeys[i],
+									query.textRecords[i],
 									textRecordQuery.data
 								])
 						)
@@ -275,7 +277,7 @@
 		/>
 	{/if}
 
-	{#if resolveCoinTypes?.length}
+	{#if query.coinTypes?.length}
 		<Loader
 			viewOptions={{
 				layout,
@@ -324,7 +326,7 @@
 				loadingMessage={`Resolving crypto addresses${viaRPC}...`}
 				fromQuery={createQueries({
 					queries: (
-						resolveCoinTypes
+						query.coinTypes
 							.map(coinType => ({
 								queryKey: ['EnsCoinType', {
 									networkProvider,
