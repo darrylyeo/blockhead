@@ -410,20 +410,16 @@ export const getTokenBalancesCount = async ({
 }
 
 export const getAppBalances = async ({
+	chainId,
 	address,
-	network,
 }: {
+	chainId?: Ethereum.ChainId,
 	address: Ethereum.Address,
-	network?: Ethereum.Network,
 }) => {
-	let networkName
-	
-	if(network){
-		networkName = networkNamesByChainId.get(network.chainId)
+	const networkName = chainId ? networkNamesByChainId.get(chainId) : undefined
 
-		if (!networkName)
-			throw new Error(`Zapper doesn't yet support ${network.name}.`)
-	}
+	if (chainId && !networkName)
+		throw new Error(`Zapper doesn't yet support chain ID ${chainId}.`)
 
 	const response = await appBalanceControllerGetAppBalances(
 		[address],
