@@ -83,11 +83,17 @@
 	loadingMessage={`Getting ENS Resolver${viaRPC}...`}
 	fromQuery={createQuery({
 		queryKey: ['EnsResolver', {
-			chainId: network.chainId,
 			networkProvider,
-			ensName,
+			chainId: network.chainId,
+			ensName: normalizedEnsName,
 		}],
-		queryFn: async () => {
+		queryFn: async ({
+			queryKey: [_, {
+				networkProvider,
+				chainId,
+				ensName,
+			}],
+		}) => {
 			const { getEnsResolver } = await import('viem/ens')
 			const { getViemPublicClient } = await import('$/data/networkProviders')
 
@@ -97,7 +103,7 @@
 			})
 
 			return await getEnsResolver(publicClient, {
-				name: normalizedEnsName,
+				name: ensName,
 			})
 		},
 	})}
@@ -119,11 +125,16 @@
 			fromQuery={(
 				createQuery({
 					queryKey: ['EnsResolverEnsip7Support', {
-						chainId: network.chainId,
 						networkProvider,
+						chainId: network.chainId,
 						resolverContractAddress,
 					}],
-					queryFn: async () => {
+					queryFn: async ({
+						queryKey: [_, {
+							chainId,
+							resolverContractAddress,
+						}],
+					}) => {
 						const { getViemPublicClient } = await import('$/data/networkProviders')
 						const { readContract } = await import('viem/actions')
 
@@ -160,10 +171,18 @@
 							chainId: network.chainId,
 							networkProvider,
 							resolverContractAddress,
-							ensName,
+							ensName: normalizedEnsName,
 							supportsEnsip7,
 						}],
-						queryFn: async () => {
+						queryFn: async ({
+							queryKey: [_, {
+								chainId,
+								networkProvider,
+								resolverContractAddress,
+								ensName,
+								supportsEnsip7,
+							}],
+						}) => {
 							const { getViemPublicClient } = await import('$/data/networkProviders')
 							const { readContract } = await import('viem/actions')
 
