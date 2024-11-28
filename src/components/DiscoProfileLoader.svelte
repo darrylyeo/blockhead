@@ -50,7 +50,11 @@
 							verifiableCredentialProvider,
 							didUrl,
 						}],
-						queryFn: async () => {
+						queryFn: async ({
+							queryKey: [_, {
+								didUrl,
+							}],
+						}) => {
 							const { getProfileByDid } = await import('$/api/disco/index')
 
 							return await getProfileByDid(didUrl)
@@ -62,7 +66,11 @@
 							verifiableCredentialProvider,
 							address,
 						}],
-						queryFn: async () => {
+						queryFn: async ({
+							queryKey: [_, {
+								address,
+							}],
+						}) => {
 							const { getProfileByEvmAddress } = await import('$/api/disco/index')
 
 							return await getProfileByEvmAddress(address)
