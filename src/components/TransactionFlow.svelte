@@ -173,12 +173,22 @@
 				fromQuery={createQuery({
 					queryKey: ['QueryContract', {
 						networkProvider,
+						chainId: network.chainId,
 						contractAddress,
 						contractAbi,
 						contractMethodName,
 						contractMethodArgs: JSON.stringify(contractMethodArgs, (key, value) => typeof value === 'bigint' ? value.toString() : value),
 					}],
-					queryFn: async () => {
+					queryFn: async ({
+						queryKey: [_, {
+							networkProvider,
+							chainId,
+							contractAddress,
+							contractAbi,
+							contractMethodName,
+							// contractMethodArgs,
+						}],
+					}) => {
 						const { getViemPublicClient } = await import('$/data/networkProviders')
 						const { readContract } = await import('viem/actions')
 
