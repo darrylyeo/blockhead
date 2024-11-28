@@ -63,7 +63,7 @@
 	// Functions
 	import { parseAbi } from 'abitype'
 	import { parallelLoaderStore } from '$/utils/parallelLoaderStore'
-	import { createQuery } from '@tanstack/svelte-query'
+	import { createQuery, createQueries } from '@tanstack/svelte-query'
 
 
 	// Components
@@ -224,25 +224,53 @@
 			loadingIconName={'ENS'}
 			loadingIcon={ENSIcon}
 			loadingMessage={`Resolving ENS records${viaRPC}...`}
-			fromStore={(() => (
-				parallelLoaderStore(
-					resolveTextRecordKeys,
-					async textRecordKey => {
-						const { getViemPublicClient } = await import('$/data/networkProviders')
-						const { getEnsText } = await import('viem/actions')
+			fromQuery={createQueries({
+				queries: (
+					resolveTextRecordKeys
+						.map(textRecordKey => ({
+							queryKey: ['EnsTextRecord', {
+								chainId: network.chainId,
+								networkProvider,
+								ensName: normalizedEnsName,
+								textRecordKey
+							}],
+							queryFn: async ({
+								queryKey: [_, {
+									chainId,
+									networkProvider,
+									ensName,
+									textRecordKey,
+								}],
+							}) => {
+								const { getViemPublicClient } = await import('$/data/networkProviders')
+								const { getEnsText } = await import('viem/actions')
 
-						const publicClient = getViemPublicClient({
-							network,
-							networkProvider,
-						})
+								const publicClient = getViemPublicClient({
+									network,
+									networkProvider
+								})
 
-						return await getEnsText(publicClient, {
-							name: normalizedEnsName,
-							key: textRecordKey,
-						})
-					})
-				)
-			)}
+								return await getEnsText(publicClient, {
+									name: ensName,
+									key: textRecordKey
+								})
+							}
+						}))
+				),
+				combine: (textRecordQueries) => ({
+					...textRecordQueries[0],
+					isLoading: textRecordQueries.some(query => query.isLoading),
+					data: (
+						new Map(
+							textRecordQueries
+								.map((textRecordQuery, i) => [
+									resolveTextRecordKeys[i],
+									textRecordQuery.data
+								])
+						)
+					),
+				}),
+			})}
 			bind:result={textRecords}
 		/>
 	{/if}
@@ -294,34 +322,51 @@
 				loadingIconName={'ENS'}
 				loadingIcon={ENSIcon}
 				loadingMessage={`Resolving crypto addresses${viaRPC}...`}
-				fromStore={(() => (
-					parallelLoaderStore(
-						resolveCoinTypes,
-						async coinType => {
-							const { getViemPublicClient } = await import('$/data/networkProviders')
-							const { readContract } = await import('viem/actions')
-
-							const publicClient = getViemPublicClient({
-								network,
-								networkProvider
-							})
-
-							const address = await readContract(publicClient, {
-								address: resolverContractAddress,
-								functionName: 'addr',
-								abi: parseAbi([`function addr(bytes32 node, uint coinType) public view returns(bytes memory)`]),
-								args: [
+				fromQuery={createQueries({
+					queries: (
+						resolveCoinTypes
+							.map(coinType => ({
+								queryKey: ['EnsCoinType', {
+									networkProvider,
+									chainId: network.chainId,
+									resolverContractAddress,
 									node,
-									BigInt(coinType),
-								],
-							})
+									coinType,
+								}],
+								queryFn: async ({
+									queryKey: [_, {
+										networkProvider,
+										chainId,
+										resolverContractAddress,
+										node,
+										coinType,
+									}],
+								}) => {
+									const { getViemPublicClient } = await import('$/data/networkProviders')
+									const { readContract } = await import('viem/actions')
 
-							return address === '0x'
-								? undefined
-								: address
-						}
-					)
-				))}
+									const publicClient = getViemPublicClient({
+										network,
+										networkProvider
+									})
+
+									const address = await readContract(publicClient, {
+										address: resolverContractAddress,
+										functionName: 'addr',
+										abi: parseAbi([`function addr(bytes32 node, uint coinType) public view returns(bytes memory)`]),
+										args: [
+											node,
+											BigInt(coinType),
+										],
+									})
+
+									return address === '0x'
+										? undefined
+										: address
+								}
+							}))
+					),
+				})}
 				bind:result={cryptoAddressRecords}
 			/>
 		</Loader>
