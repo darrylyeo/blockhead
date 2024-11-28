@@ -145,9 +145,15 @@
 	{network}
 	{networkProvider}
 	{ensName}
-	resolveContentHash
-	resolveTextRecordKeys={resolver.texts}
-	resolveCoinTypes={resolver.coinTypes?.map(Number)}
+	query={{
+		contentHash: true,
+		...resolver.texts && {
+			textRecords: resolver.texts,
+		},
+		...resolver.coinTypes && {
+			coinTypes: resolver.coinTypes.map(Number),
+		},
+	}}
 	{isOpen}
 	let:contentHash
 	let:textRecords
