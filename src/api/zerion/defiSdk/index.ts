@@ -159,18 +159,18 @@ export namespace DefiSDK {
 import { readContract } from 'viem/actions'
 
 export const getDefiPositions = async ({
-	protocolNames, 
-	network, 
-	publicClient, 
+	protocolNames,
+	chainId,
+	publicClient,
 	address
 }: {
 	protocolNames?: DefiSDK.ProtocolName[],
-	network: Ethereum.Network,
+	chainId: Ethereum.ChainId,
 	publicClient: Ethereum.PublicClient,
 	address: Ethereum.Address
 }) => {
-	if(network.chainId !== 1)
-		throw new Error(`The Zerion DeFi SDK doesn't support the ${network.name} network.`)
+	if(chainId !== 1)
+		throw new Error(`The Zerion DeFi SDK doesn't support chain ID ${chainId}.`)
 
 	protocolNames ??= await readContract(publicClient, {
 		address: defiSDKContractAddress,
