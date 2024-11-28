@@ -77,7 +77,6 @@
 	// Inputs
 	export let network: Ethereum.Network
 	export let networkProvider: NetworkProvider
-	export let publicClient: Ethereum.PublicClient
 	export let contractAddress: Ethereum.ContractAddress
 	export let contractName: string = ''
 	export let contractAbi: Abi = [] as unknown as Abi
@@ -233,8 +232,6 @@
 			accountConnection={selectedAccountConnection}
 			{network}
 			{networkProvider}
-
-			{publicClient}
 
 			{contractAddress}
 			{contractAbi}

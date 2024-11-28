@@ -37,7 +37,6 @@
 	export let networkProvider: NetworkProvider
 
 	export let accountConnection: AccountConnection
-	export let publicClient: PublicClient
 	export let transactionRelay: NetworkProvider | 'Wallet'
 
 	export let payableAmount: AbiMethod extends Ethereum.AbiMethod<Abi, 'payable'> ? bigint : undefined
@@ -180,7 +179,13 @@
 						contractMethodArgs: JSON.stringify(contractMethodArgs, (key, value) => typeof value === 'bigint' ? value.toString() : value),
 					}],
 					queryFn: async () => {
+						const { getViemPublicClient } = await import('$/data/networkProviders')
 						const { readContract } = await import('viem/actions')
+
+						const publicClient = getViemPublicClient({
+							network,
+							networkProvider,
+						})
 
 						return await readContract(publicClient, {
 							address: contractAddress,

@@ -2,7 +2,6 @@
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
-	import { getViemPublicClient } from '$/data/networkProviders'
 
 	enum ContractCodeType {
 		CreationBytecode = 'Creation Bytecode',
@@ -25,12 +24,6 @@
 
 	// (Computed)
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
-
-	let publicClient: Ethereum.PublicClient | undefined
-	$: publicClient = network && networkProvider && getViemPublicClient({
-		network,
-		networkProvider: networkProvider,
-	})
 
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
 
@@ -302,7 +295,6 @@
 				<EthereumTransactionForm
 					{network}
 					{networkProvider}
-					{publicClient}
 					{contractName}
 					{contractAddress}
 					contractAbi={contractMetadata?.output?.abi}
