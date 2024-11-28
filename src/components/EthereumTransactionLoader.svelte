@@ -171,7 +171,6 @@
 				}],
 				queryFn: async ({
 					queryKey: [_, {
-						transactionProvider,
 						chainId,
 						transactionId,
 					}],
@@ -202,7 +201,6 @@
 				}],
 				queryFn: async ({
 					queryKey: [_, {
-						transactionProvider,
 						chainId,
 						transactionId,
 					}],
@@ -235,7 +233,6 @@
 				}],
 				queryFn: async ({
 					queryKey: [_, {
-						transactionProvider,
 						chainId,
 						transactionId,
 						quoteCurrency,
