@@ -115,7 +115,6 @@
 					{
 						queryKey: ['DefiProtocols', {
 							defiProvider,
-							network,
 						}],
 						queryFn: async () => {
 							const { getProtocols } = await import('$/api/defillama/llamafolio')
@@ -128,7 +127,11 @@
 							defiProvider,
 							address,
 						}],
-						queryFn: async () => {
+						queryFn: async ({
+							queryKey: [_, {
+								address,
+							}],
+						}) => {
 							const { getBalancesByAddress } = await import('$/api/defillama/llamafolio')
 
 							return await getBalancesByAddress({
@@ -181,20 +184,19 @@
 			fromQuery: network && address && createQuery({
 				queryKey: ['DefiPositions', {
 					defiProvider,
-					address,
 					chainId: network.chainId,
+					address,
 				}],
 				queryFn: async ({
 					queryKey: [_, {
-						defiProvider,
-						address,
 						chainId,
+						address,
 					}],
 				}) => {
 					const { getAppBalances } = await import('$/api/zapper/index')
 
 					return await getAppBalances({
-						chainId: network.chainId,
+						chainId,
 						address,
 					})
 				},
@@ -214,10 +216,15 @@
 					...apps && {
 						apps: apps.map(app => app.slug),
 					},
-					address,
 					chainId: network.chainId,
+					address,
 				}],
-				queryFn: async () => {
+				queryFn: async ({
+					queryKey: [_, {
+						chainId,
+						address,
+					}],
+				}) => {
 					const { getViemPublicClient } = await import('$/data/networkProviders')
 					const { getDefiPositions } = await import('$/api/zerion/defiSdk/index')
 
@@ -230,7 +237,7 @@
 						...apps && {
 							protocolNames: [...new Set(apps.flatMap(({views}) => views.flatMap(({providers}) => providers?.zerionDefiSDK ?? [])))],
 						},
-						chainId: network.chainId,
+						chainId,
 						publicClient,
 						address,
 					})
