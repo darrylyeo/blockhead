@@ -160,10 +160,10 @@
 										</optgroup>
 									{/if}
 
-									{#if contractMetadata}
+									{#if contractMetadata?.sources}
 										<optgroup label="Source Code">
 											<!-- Uncaught ReferenceError: contractMetadata is not defined -->
-											{#each Object.entries(contractMetadata?.sources) as [sourcePath, source]}
+											{#each Object.entries(contractMetadata.sources) as [sourcePath, source]}
 												<option value={sourcePath}>{sourcePath}</option>
 											{/each}
 										</optgroup>
@@ -305,7 +305,7 @@
 					{publicClient}
 					{contractName}
 					{contractAddress}
-					contractAbi={contractMetadata.output.abi}
+					contractAbi={contractMetadata?.output?.abi}
 					{headingLevel}
 				/>
 			{/if}
