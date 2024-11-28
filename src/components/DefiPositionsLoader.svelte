@@ -194,7 +194,7 @@
 					const { getAppBalances } = await import('$/api/zapper/index')
 
 					return await getAppBalances({
-						network,
+						chainId: network.chainId,
 						address,
 					})
 				},
