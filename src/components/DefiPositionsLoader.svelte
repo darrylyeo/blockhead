@@ -230,7 +230,7 @@
 						...apps && {
 							protocolNames: [...new Set(apps.flatMap(({views}) => views.flatMap(({providers}) => providers?.zerionDefiSDK ?? [])))],
 						},
-						network,
+						chainId: network.chainId,
 						publicClient,
 						address,
 					})
