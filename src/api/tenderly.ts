@@ -12,15 +12,17 @@ const config: Omit<TenderlyConfiguration, 'network'> = {
 }
 
 export const simulateTransaction = async ({
+	chainId,
 	params,
 	blockNumber,
 }: {
-	params: Ethereum.TransactionContractCallParameters<any, any, any>,
+	chainId: Ethereum.ChainId,
+	params: Ethereum.TransactionContractCallParameters,
 	blockNumber?: Ethereum.BlockNumber,
 }) => {
 	const tenderly = await new Tenderly({
 		...config,
-		network: params.network.chainId,
+		network: chainId,
 	})
 
 	return tenderly.simulator.simulateTransaction({
@@ -34,11 +36,11 @@ export const simulateTransaction = async ({
 			}),
 
 			...params.isEip1559 ? {
-				max_fee_per_gas: params.maxFeePerGas,
-				max_priority_fee_per_gas: params.maxPriorityFeePerGas,
+				max_fee_per_gas: Number(params.maxFeePerGas),
+				max_priority_fee_per_gas: Number(params.maxPriorityFeePerGas),
 			} : {
-				gas: params.gasAmount,
-				gas_price: params.gasPrice,
+				gas: Number(params.gasAmount),
+				gas_price: String(params.gasPrice),
 			},
 
 			value: String(params.payableAmount),

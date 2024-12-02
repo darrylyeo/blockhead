@@ -175,23 +175,20 @@
 					queryKey: ['QueryContract', {
 						networkProvider,
 						chainId: network.chainId,
-						contractAddress,
-						contractAbi,
-						contractMethodName,
-						contractMethodArgs: stringify(contractMethodArgs),
+						params: {
+							contractAddress,
+							contractAbi,
+							contractMethodName,
+							contractMethodArgs: stringify(contractMethodArgs),
+						},
 					}],
 					queryFn: async ({
 						queryKey: [_, {
 							networkProvider,
 							chainId,
-							contractAddress,
-							contractAbi,
-							contractMethodName,
-							contractMethodArgs: _contractMethodArgs,
+							params,
 						}],
 					}) => {
-						const contractMethodArgs = parse(_contractMethodArgs)
-
 						const { getViemPublicClient } = await import('$/data/networkProviders')
 						const { readContract } = await import('viem/actions')
 
@@ -200,12 +197,15 @@
 							networkProvider,
 						})
 
-						return await readContract(publicClient, {
-							address: contractAddress,
-							abi: contractAbi,
-							functionName: contractMethodName,
-							args: contractMethodArgs,
-						})
+						return await readContract(
+							publicClient,
+							{
+								address: params.contractAddress,
+								abi: params.contractAbi,
+								functionName: params.contractMethodName,
+								args: parse(params.contractMethodArgs),
+							}
+						)
 					},
 				})}
 				let:result
