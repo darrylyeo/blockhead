@@ -19,7 +19,6 @@
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import { networkProviderConfigByProvider } from '$/data/networkProviders'
 	import type { AccountConnection } from '$/state/account'
-	import type { PublicClient } from 'viem'
 
 	import { knownWalletsByType } from '$/data/wallets'
 
@@ -31,6 +30,8 @@
 	// Functions
 	import { stringify, parse } from 'devalue'
 	import { isReadable, isReadableWithoutInputs, isWritable } from '$/utils/abi'
+
+	import { normalizeSimulationOutput as normalizeSimulationOutputTenderly } from '$/api/tenderly/normalize'
 
 
 	// External state
@@ -60,8 +61,8 @@
 	let transactionId: Ethereum.TransactionId
 	let errorMessage: string
 
-	let isEip1559 = true
-	let accessList = []
+	let isEip1559 = false
+	let accessList: Ethereum.AccessList = []
 
 	// (Computed)
 	$: networkProviderConfig = networkProviderConfigByProvider[networkProvider]
@@ -82,9 +83,31 @@
 	$: isMethodReadableWithoutInputs = abiPart && isReadableWithoutInputs(abiPart)
 	$: isMethodWritable = abiPart && isWritable(abiPart)
 
+	let params: Partial<Ethereum.TransactionContractCallParameters>
+	$: params = {
+		contractAddress,
+		contractAbi,
+		contractMethodName,
+		contractMethodArgs,
+
+		fromAddress,
+		// nonce,
+		payableAmount,
+
+		// gasAmount: estimatedGas,
+		isEip1559,
+		...isEip1559 ? {
+			maxFeePerGas: 100000000n,
+			maxPriorityFeePerGas: 100000000n,
+		} : {
+			gasPrice: 100000000n,
+		},
+
+		accessList,
+	}
+
 
 	// Actions
-
 	const actions = {
 		back: () => currentStep--,
 		next: () => currentStep++,
@@ -113,7 +136,8 @@
 
 
 	// Components
-	import EthereumSimulatedTransactionTenderly from './EthereumSimulatedTransactionTenderly.svelte'
+	import BlockNumber from './BlockNumber.svelte'
+	import EthereumTransaction from './EthereumTransaction.svelte'
 	import Loader from './Loader.svelte'
 	import { TenderlyIcon } from '$/assets/icons'
 
@@ -244,57 +268,60 @@
 				loadingIconName={'Tenderly'}
 				loadingMessage="Simulating transaction on Tenderly..."
 				errorMessage="The transaction failed to be simulated."
-				fromPromise={async () => {
-					const { simulateTransaction } = await import('$/api/tenderly')
+				fromQuery={createQuery({
+					queryKey: ['TransactionSimulation', {
+						transactionSimulationProvider: 'Tenderly',
+						chainId: network.chainId,
+						params: stringify(params),
+						blockNumber: undefined,
+					}],
+					queryFn: async ({
+						queryKey: [_, {
+							chainId,
+							params,
+							blockNumber,
+						}],
+					}) => {
+						const { simulateTransaction } = await import('$/api/tenderly')
 
-					return await simulateTransaction({
-						params: {
+						return await simulateTransaction({
+							chainId,
+							params: parse(params),
+							blockNumber,
+						})
+					},
+					select: output => (
+						normalizeSimulationOutputTenderly(
+							output,
 							network,
-							contractAddress,
-							contractAbi,
-							contractMethodName,
-							contractMethodArgs,
-
-							fromAddress,
-							// nonce,
-							payableAmount,
-
-							// gasAmount: estimatedGas,
-							isEip1559,
-							// ...isEip1559 ? {
-							// 	maxFeePerGas,
-							// 	maxPriorityFeePerGas,
-							// } : {
-							// 	gasPrice,
-							// },
-
-							accessList,
-						},
-					})
-				}}
-				let:result
+						)
+					),
+				})}
+				let:result={transaction}
 			>
 				<header slot="header" class="bar">
-					<h4>Transaction Simulator</h4>
+					<h4>Transaction Simulation</h4>
+
 					<span class="card-annotation">Tenderly</span>
 				</header>
 
-				{#if result}
-					<section class="card">
-						{#if result.simulation?.status}
-							<p>The simulated transaction executed successfully!</p>
-						{:else}
-							<p>The simulated transaction failed to execute and was reverted.</p>
-						{/if}
-
-						<hr>
-
-						<EthereumSimulatedTransactionTenderly
-							{network}
-							contextualAddress={fromAddress}
-							data={result}
-						/>
-					</section>
+				{#if transaction}
+					<EthereumTransaction
+						{network}
+						contextualAddress={fromAddress}
+						{transaction}
+						layout="collapsible"
+						detailLevel="exhaustive"
+						isOpen={false}
+					>
+						<svelte:fragment slot="title">
+							{#if transaction?.executionStatus === 'successful'}
+								<p>Transaction would execute successfully at block <BlockNumber {network} blockNumber={transaction.blockNumber} />.</p>
+							{:else}
+								<p>Transaction would fail to execute and revert at block <BlockNumber {network} blockNumber={transaction.blockNumber} />.</p>
+							{/if}
+						</svelte:fragment>
+					</EthereumTransaction>
 				{/if}
 			</Loader>
 
@@ -303,6 +330,7 @@
 				{actions}
 			/>
 		</section>
+
 	{:else if currentStep === Steps.TransactionSigning}
 		<section
 			class="card column"
