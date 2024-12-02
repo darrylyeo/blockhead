@@ -78,11 +78,16 @@
 		class="column layout-{layout}"
 	>
 		<svelte:fragment slot="title">
-			<svelte:element this={`h${headingLevel}`}>
-				<span class="transaction-id">
-					<TransactionId network={transaction.network} transactionId={transaction.transactionId} />
-				</span>
-			</svelte:element>
+			<slot name="title">
+				<svelte:element this={`h${headingLevel}`}>
+					<span class="transaction-id">
+						<TransactionId
+							network={transaction.network}
+							transactionId={transaction.transactionId}
+						/>
+					</span>
+				</svelte:element>
+			</slot>
 		</svelte:fragment>
 
 		<svelte:fragment slot="header-right">
