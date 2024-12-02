@@ -92,6 +92,7 @@
     "datastore-core": "^9.2.7",
     "datastore-idb": "^2.1.7",
     "detect-content-type": "^1.2.0",
+    "devalue": "^5.1.1",
     "did-resolver": "^4.1.0",
     "did-session": "^2.1.2",
     "dids": "^4.0.4",
