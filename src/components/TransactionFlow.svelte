@@ -29,8 +29,9 @@
 
 
 	// Functions
+	import { stringify, parse } from 'devalue'
 	import { isReadable, isReadableWithoutInputs, isWritable } from '$/utils/abi'
-	
+
 
 	// External state
 	export let network: Ethereum.Network
@@ -177,7 +178,7 @@
 						contractAddress,
 						contractAbi,
 						contractMethodName,
-						contractMethodArgs: JSON.stringify(contractMethodArgs, (key, value) => typeof value === 'bigint' ? value.toString() : value),
+						contractMethodArgs: stringify(contractMethodArgs),
 					}],
 					queryFn: async ({
 						queryKey: [_, {
@@ -186,9 +187,11 @@
 							contractAddress,
 							contractAbi,
 							contractMethodName,
-							// contractMethodArgs,
+							contractMethodArgs: _contractMethodArgs,
 						}],
 					}) => {
+						const contractMethodArgs = parse(_contractMethodArgs)
+
 						const { getViemPublicClient } = await import('$/data/networkProviders')
 						const { readContract } = await import('viem/actions')
 
