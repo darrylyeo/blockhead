@@ -437,7 +437,7 @@
 								methodHash: contractMethod.signature,
 								params: (
 									contractMethod.inputs
-										.map(input => {
+										.map((input, i) => {
 											const inputKey = `${contractMethod.name || i}/${input.name || i}`
 											const value = inputValues[inputKey]
 
