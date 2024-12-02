@@ -242,14 +242,14 @@ export namespace Ethereum {
 	export type AbiMethodArg<Abi extends _Abi, MethodName extends AbiMethodName<Abi>, ArgumentIndex extends number> = AbiParameterToPrimitiveType<ExtractAbiFunction<Abi, MethodName>['inputs'][ArgumentIndex]>
 
 	export type TransactionContractCallParameters<
-		Abi extends _Abi,
-		MethodName extends AbiMethodName<Abi>,
+		Abi extends _Abi = _Abi,
+		MethodName extends AbiMethodName<Abi> = AbiMethodName<Abi>,
 		MethodArgs = AbiMethodArgs<Abi, MethodName>,
 	> = {
 		network: Network,
 		contractAddress: ContractAddress,
 		contractAbi: Abi,
-		contractMethod: MethodName,
+		contractMethodName: MethodName,
 		contractMethodArgs: MethodArgs,
 
 		fromAddress: Address,
@@ -271,7 +271,7 @@ export namespace Ethereum {
 
 	export type Transaction = {
 		network: Network,
-		transactionId: TransactionId,
+		transactionId?: TransactionId,
 
 		executionStatus?: 'failed' | 'successful',
 		revertReason?: string,
@@ -340,10 +340,10 @@ export namespace Ethereum {
 		},
 	}
 	export type Trace = {
-		blockHash: BlockHash
-		blockNumber: BlockNumber
-		transactionHash: TransactionId
-		transactionPosition: number
+		blockHash?: BlockHash
+		blockNumber?: BlockNumber
+		transactionHash?: TransactionId
+		transactionPosition?: number
 
 		type: string // 'call' | 'create' | 'suicide' | 'reward'
 
@@ -360,6 +360,7 @@ export namespace Ethereum {
 		result: {
 			gasUsed: GasAmount
 			output: string
+			error?: string
 		}
 		subtraces?: Trace[]
 	}
