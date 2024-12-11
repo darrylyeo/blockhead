@@ -64,7 +64,7 @@ const connectEip1193 = async (eip1193Provider: Ethereum.Provider): Promise<{ acc
 		) as Ethereum.Address[]
 
 		if(!accounts)
-			throw new Error('Provider does not support any known methods.')
+			throw new Error(`The EIP-1193 provider does not support any known connection methods.`)
 
 		return {
 			accounts: accounts
@@ -74,7 +74,7 @@ const connectEip1193 = async (eip1193Provider: Ethereum.Provider): Promise<{ acc
 		if(e.message.includes('User rejected the request'))
 			throw e
 
-		throw new Error('Provider does not support any known methods.')
+		throw new Error(`The EIP-1193 provider does not support any known connection methods.`)
 	}
 }
 
