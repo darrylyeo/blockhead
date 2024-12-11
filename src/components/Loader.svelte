@@ -221,8 +221,8 @@
 	// 		fromInfiniteQuery.setEnabled(false)
 	// }
 
-	$: if(fromPromise){
-		fromPromise().then(result => {
+	$: if(promise){
+		promise.then(result => {
 			_result = result
 			status = LoadingStatus.Resolved
 		}, _error => {
