@@ -176,11 +176,9 @@
 	class:row-scrollable={layout === 'row'}
 	class:column={layout === 'column'}
 >
-	{#each $accountConnections as { id, selector, autoconnect, state }, i (id)}
+	{#each $accountConnections as accountConnection, i (accountConnection.id)}
 		<AccountConnectionComponent
-			bind:selector
-			bind:autoconnect
-			bind:state
+			bind:accountConnection
 			isFirstConnection={i === lastAddedConnectionIndex}
 			on:connect={() => { if(i === lastAddedConnectionIndex) lastAddedConnectionIndex = undefined }}
 			on:disconnect={() => removeAccountConnection(i)}

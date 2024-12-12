@@ -1,8 +1,13 @@
+// Types
 import type { Ethereum } from '$/data/networks/types'
 import type { Signer } from 'ethers'
 import type { KnownWalletType } from '$/data/wallets'
-import type { WalletConnection, Provider, WalletconnectTopic } from './walletConnection'
+import { type WalletConnection, type WalletconnectTopic, getWalletConnection } from './walletConnection'
 
+export type Account = {
+	address?: Ethereum.Address,
+	nickname?: string,
+}
 
 export type AccountConnectionSelector = {
 	knownWallet?: {
@@ -22,8 +27,6 @@ export type AccountConnectionState = {
 
 	account?: Account,
 	chainId?: number,
-
-	newSelector?: AccountConnectionSelector,
 }
 
 type SerializedAccountConnection = {
@@ -32,6 +35,11 @@ type SerializedAccountConnection = {
 	autoconnect?: boolean,
 	state?: Omit<AccountConnectionState, 'walletConnection' | 'signer'>,
 }
+
+
+// State
+import { readable } from 'svelte/store'
+import type { ApolloResult } from '$/utils/apolloResult'
 
 export class AccountConnection {
 	id: string
@@ -62,11 +70,78 @@ export class AccountConnection {
 			},
 		} as SerializedAccountConnection
 	}
-}
 
-export type Account = {
-	address?: Ethereum.Address,
-	nickname?: string,
+	async getWalletConnection({
+		theme,
+	}: {
+		theme: Parameters<typeof getWalletConnection>[0]['theme']
+	}){
+		return this.state.walletConnection ??= await getWalletConnection({
+			selector: this.selector,
+			theme,
+		})
+	}
+
+	#unsubscribe = new Set<() => void>
+
+	connectWallet({
+		isInitiatedByUser,
+		theme,
+	}: {
+		isInitiatedByUser: boolean
+		theme?: Parameters<typeof getWalletConnection>[0]['theme']
+	}){
+		return readable<ApolloResult<AccountConnectionState>>(
+			this.state ? { loading: true } : { loading: false, data: this.state },
+			set => {
+				(async () => {
+					const walletConnection = await this.getWalletConnection({
+						theme,
+					})
+			
+					const { accounts, chainId, newSelector } = await walletConnection.connect(isInitiatedByUser)
+
+					set({ loading: false, data: this.state })
+
+					this.state.walletConnection = walletConnection
+					this.state.signer = walletConnection.provider && getSigner(walletConnection.provider),
+
+					this.state.account = accounts?.[0],
+					this.state.chainId = chainId
+
+					if(newSelector)
+						this.selector = newSelector
+
+					if(walletConnection.subscribe){
+						const stores = await walletConnection.subscribe()
+
+						this.#unsubscribe.add(
+							stores.accounts.subscribe(accounts => {
+								this.state.account = accounts[0]
+								set({ loading: false, data: this.state })
+							})
+						)
+
+						this.#unsubscribe.add(
+							stores.chainId.subscribe(chainId => {
+								this.state.chainId = chainId
+								set({ loading: false, data: this.state })
+							})
+						)
+					}
+				})()
+			}
+		)
+	}
+
+	async disconnectWallet(){
+		await this.state.walletConnection?.disconnect?.()
+
+		this.state.walletConnection = undefined
+
+		for(const unsubscribe of this.#unsubscribe) unsubscribe()
+		this.#unsubscribe.clear()
+	}
 }
 
 
@@ -131,62 +206,3 @@ const getSigner = (provider: Provider) => {
 		return undefined
 	}
 }
-
-
-import { readable } from 'svelte/store'
-import type { ApolloResult } from '$/utils/apolloResult'
-
-export const getAccountConnectionState = ({
-	walletConnection,
-	isInitiatedByUser = true,
-}: {
-	walletConnection: WalletConnection,
-	isInitiatedByUser?: boolean
-}) =>
-	readable<ApolloResult<AccountConnectionState>>(
-		{loading: true},
-		set => void (async () => {
-			const { accounts, chainId, newSelector } = await walletConnection.connect(isInitiatedByUser)
-
-			const accountConnectionState: AccountConnectionState = {
-				walletConnection,
-				signer: walletConnection.provider && await getSigner(walletConnection.provider),
-
-				account: accounts?.[0]!,
-				chainId,
-
-				newSelector,
-			}
-
-			set({
-				loading: false,
-				data: accountConnectionState
-			})
-
-			if(walletConnection.subscribe){
-				const stores = walletConnection.subscribe()
-
-				stores.accounts.subscribe(accounts => set({
-					loading: false,
-					data: {
-						...accountConnectionState,
-						account: accounts[0]
-					}
-				}))
-
-				stores.chainId.subscribe(chainId => set({
-					loading: false,
-					data: {
-						...accountConnectionState,
-						chainId
-					}
-				}))
-			}
-		})()
-		.catch(error => {
-			set({
-				loading: false,
-				error
-			})
-		})
-	)
