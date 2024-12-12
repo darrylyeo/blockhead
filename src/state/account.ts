@@ -104,7 +104,7 @@ export class AccountConnection {
 					set({ loading: false, data: this.state })
 
 					this.state.walletConnection = walletConnection
-					this.state.signer = walletConnection.provider && getSigner(walletConnection.provider),
+					this.state.signer = walletConnection.provider && await this.getSigner({ isInitiatedByUser }),
 
 					this.state.account = accounts?.[0],
 					this.state.chainId = chainId
@@ -141,6 +141,19 @@ export class AccountConnection {
 
 		for(const unsubscribe of this.#unsubscribe) unsubscribe()
 		this.#unsubscribe.clear()
+	}
+
+	async getSigner({
+		isInitiatedByUser,
+	}: {
+		isInitiatedByUser: boolean
+	}){
+		if(!this.state.walletConnection)
+			await this.connectWallet({
+				isInitiatedByUser,
+			})
+
+		return await getSigner(this.state.walletConnection!.provider)
 	}
 }
 
