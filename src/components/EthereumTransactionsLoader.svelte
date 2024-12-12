@@ -148,7 +148,7 @@
 				},
 				getNextPageParam: (lastPage) => lastPage.next_page,
 				select: result => (
-					(result?.pages?.flatMap(page => page.data) ?? [])
+					(result?.pages?.flatMap(page => page.data ?? []) ?? [])
 						.map(transaction => normalizeTransactionChainbase(transaction, network))
 				),
 				staleTime: 10 * 1000,

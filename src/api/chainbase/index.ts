@@ -1420,7 +1420,7 @@ export const getTransactionsByAccount = async ({
 			from_address: Ethereum.Address,
 			to_address: Ethereum.Address,
 			value: string,
-		}[],
+		}[] | null,
 		next_page?: integer,
 		count: integer,
 	}
