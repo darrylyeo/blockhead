@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	export enum State {
 		Idle = 'idle',
 		Adding = 'adding'
@@ -17,15 +17,15 @@
 
 
 	// Internal state
-	let state = State.Idle
+	let currentState = $state(State.Idle)
 
 	let previousState: State
-	$: {
-		triggerEvent('AccountConnections/ChangeState', { fromState: previousState, toState: state })
-		previousState = state
-	}
+	$effect(() => {
+		triggerEvent('AccountConnections/ChangeState', { fromState: previousState, toState: currentState })
+		previousState = currentState
+	})
 
-	let lastAddedConnectionIndex: number | undefined
+	let lastAddedConnectionIndex = $state<number | undefined>()
 
 
 	// Actions
@@ -62,7 +62,11 @@
 
 
 	// Style
-	export let layout: 'row' | 'column' = 'row'
+	let {
+		layout = 'row',
+	}: {
+		layout?: 'row' | 'column'
+	} = $props()
 
 
 	// Transitions
@@ -100,27 +104,27 @@
 	<h2>Wallets</h2>
 
 	<div class="stack align-end" transition:scale>
-		{#if state === State.Idle}
+		{#if currentState === State.Idle}
 			<button
 				class="add medium"
 				data-before="＋"
-				on:click={() => state = State.Adding}
+				onclick={() => { currentState = State.Adding }}
 				transition:scale
 			>Connect Wallet</button>
-		{:else if state === State.Adding}
+		{:else if currentState === State.Adding}
 			<button
 				class="cancel medium"
-				on:click={() => state = State.Idle}
+				onclick={() => { currentState = State.Idle }}
 				transition:scale
 			>Cancel</button>
 		{/if}
 	</div>
 </header>
 
-<HeightContainer class="stack" isOpen={state === State.Adding}>
+<HeightContainer class="stack" isOpen={currentState === State.Adding}>
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div class="card"
-		on:keydown={e => { if(e.code === 'Escape') state = State.Idle }}
+		onkeydown={e => { if(e.code === 'Escape') currentState = State.Idle }}
 		transition:scale|global
 	>
 		<div class="wallets">
@@ -130,13 +134,13 @@
 			) as eip6963Provider}
 				<button
 					class="wallet medium row"
-					on:click={() => {
+					onclick={() => {
 						addAccountConnection({
 							eip6963: {
 								rdns: eip6963Provider.info.rdns,
 							},
 						})
-						state = State.Idle
+						currentState = State.Idle
 					}}
 				>
 					<Icon
@@ -151,13 +155,13 @@
 				<button
 					class="wallet medium row"
 					style="--primary-color: {knownWallet.colors[knownWallet.colors.length - 1]}"
-					on:click={() => {
+					onclick={() => {
 						addAccountConnection({
 							knownWallet: {
 								type: knownWallet.type,
 							},
 						})
-						state = State.Idle
+						currentState = State.Idle
 					}}
 				>
 					<Icon
@@ -178,7 +182,7 @@
 >
 	{#each $accountConnections as accountConnection, i (accountConnection.id)}
 		<AccountConnectionComponent
-			bind:accountConnection
+			{accountConnection}
 			isFirstConnection={i === lastAddedConnectionIndex}
 			on:connect={() => { if(i === lastAddedConnectionIndex) lastAddedConnectionIndex = undefined }}
 			on:disconnect={() => removeAccountConnection(i)}

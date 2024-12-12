@@ -13,20 +13,40 @@
 
 
 	// Shared state
-	export let accountConnection: AccountConnection
-	export let isFirstConnection = false
+	let {
+		accountConnection = $bindable(),
+		isFirstConnection = $bindable(false),
+	}: {
+		accountConnection: AccountConnection
+		isFirstConnection: boolean
+	} = $props()
 
 
 	// Internal state
-	$: knownWalletConfig = accountConnection.selector.knownWallet && knownWalletsByType[accountConnection.selector.knownWallet.type]
-	$: eip6963Provider = accountConnection.selector.eip6963 && findEip6963Provider({
-		eip6963Providers: $eip6963Providers,
-		rdns: accountConnection.selector.eip6963.rdns,
-	})
+	$inspect({accountConnection})
+	const knownWalletConfig = $derived(
+		accountConnection.selector.knownWallet && (
+			knownWalletsByType[accountConnection.selector.knownWallet.type]
+		)
+	)
+	const eip6963Provider = $derived(
+		accountConnection.selector.eip6963 && (
+			findEip6963Provider({
+				eip6963Providers: $eip6963Providers,
+				rdns: accountConnection.selector.eip6963.rdns,
+			})
+		)
+	)
 
-	$: icon = knownWalletConfig?.icon || eip6963Provider?.info.icon
-	$: name = knownWalletConfig?.name || eip6963Provider?.info.name
-	$: colors = knownWalletConfig?.colors || []
+	const icon = $derived(
+		knownWalletConfig?.icon || eip6963Provider?.info.icon
+	)
+	const name = $derived(
+		knownWalletConfig?.name || eip6963Provider?.info.name
+	)
+	const colors = $derived(
+		knownWalletConfig?.colors || []
+	)
 
 
 	// Derived
