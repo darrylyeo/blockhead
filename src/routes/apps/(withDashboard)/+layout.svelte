@@ -9,9 +9,19 @@
 
 
 	// Context
+	import { getAccountConnectionsContext } from '$/state/account.svelte'
+	const accountConnections = getAccountConnectionsContext()
+
 	import { appsContext } from '../_appsContext.svelte'
 
 	import { preferences } from '$/state/preferences'
+
+	// (Computed)
+	const accountConnection = $derived(
+		accountConnections.connections.find(accountConnection => (
+			accountConnection.state.account?.address?.toLowerCase() === appsParams.accountId.toLowerCase()
+		))
+	)
 
 
 	// Internal state
@@ -216,7 +226,7 @@
 					network={appsContext.network}
 					currentView={appsContext.currentView}
 					{address}
-					accountConnection={appsContext.accountConnection}
+					{accountConnection}
 					networkProvider={$preferences.rpcNetwork}
 					defiProvider={$preferences.defiProvider}
 					quoteCurrency={$preferences.quoteCurrency}

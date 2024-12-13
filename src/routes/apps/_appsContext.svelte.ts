@@ -7,8 +7,6 @@ import { web3AppsBySlug, type Web3AppConfig } from '$/data/web3Apps'
 // External stores
 import { appsParams } from './_appsParams.svelte'
 
-import { accountConnections } from '$/state/account.svelte'
-
 
 // Derived stores
 import { isTruthy } from '$/utils/isTruthy'
@@ -67,11 +65,6 @@ export const appsContext = new class {
 			|| appsParams.moxieSubjectId
 			|| ''
 		)
-	)
-
-	accountConnection = $derived(
-		// $accountConnections.find(accountConnection => accountConnection.state?.account?.address?.toLowerCase() === appsParams.accountId.toLowerCase())
-		undefined
 	)
 
 	title = $derived(

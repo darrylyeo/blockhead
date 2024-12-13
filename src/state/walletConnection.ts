@@ -8,7 +8,7 @@ import type { BrandedString } from '$/utils/branded'
 import { WalletConnectionType } from '$/data/walletConnectionTypes'
 import { knownWalletsByType } from '$/data/wallets'
 
-import type { Account, AccountConnectionSelector } from './account'
+import type { Account, AccountConnectionSelector } from './account.svelte'
 
 import type { Readable } from 'svelte/store'
 
