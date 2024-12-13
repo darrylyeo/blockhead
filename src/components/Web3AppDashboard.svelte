@@ -8,7 +8,7 @@
 	import type { Web3AppConfig } from '$/data/web3Apps'
 	import { networkByChainId, isTestnet } from '$/data/networks'
 	import { preferences } from '$/state/preferences'
-	import type { AccountConnection } from '$/state/account'
+	import type { AccountConnection } from '$/state/account.svelte'
 
 	type Layout = 'horizontal' | 'horizontal-alternate' | 'vertical'
 

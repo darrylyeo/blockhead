@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import type { Ethereum } from '$/data/networks/types'
-	import type { AccountConnection } from '$/state/account'
+	import type { AccountConnection } from '$/state/account.svelte'
 
 	import type { DIDSession } from 'did-session'
 	import { DidProvider, didProviderIcons } from '$/data/didProvider'

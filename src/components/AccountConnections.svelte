@@ -8,7 +8,8 @@
 
 <script lang="ts">
 	// Context
-	import { accountConnections, AccountConnection, type AccountConnectionSelector } from '$/state/account'
+	import { getAccountConnectionsContext, type AccountConnectionSelector } from '$/state/account.svelte'
+	const accountConnections = getAccountConnectionsContext()
 
 	import { getWalletsContext } from '$/state/wallets.svelte'
 	const wallets = getWalletsContext()
@@ -34,12 +35,9 @@
 	import { triggerEvent } from '$/events/triggerEvent'
 
 	const addAccountConnection = (selector: AccountConnectionSelector) => {
-		$accountConnections = [
-			new AccountConnection({ selector }),
-			...$accountConnections,
-		]
-
-		lastAddedConnectionIndex = 0
+		lastAddedConnectionIndex = accountConnections.addConnection({
+			selector,
+		})
 
 		triggerEvent('AccountConnections/AddConnection', {
 			knownWalletType: selector.knownWallet?.type,
@@ -48,8 +46,7 @@
 	}
 
 	const removeAccountConnection = (i: number) => {
-		const deletedAccountConnection = $accountConnections[i]
-		$accountConnections = [...$accountConnections.slice(0, i), ...$accountConnections.slice(i + 1)]
+		const deletedAccountConnection = accountConnections.removeConnection(i)
 
 		triggerEvent('AccountConnections/DeleteConnection', {
 			knownWalletType: deletedAccountConnection.selector.knownWallet?.type,
@@ -182,7 +179,7 @@
 	class:row-scrollable={layout === 'row'}
 	class:column={layout === 'column'}
 >
-	{#each $accountConnections as accountConnection, i (accountConnection.id)}
+	{#each accountConnections.connections as accountConnection, i (accountConnection.id)}
 		<AccountConnectionComponent
 			{accountConnection}
 			isFirstConnection={i === lastAddedConnectionIndex}

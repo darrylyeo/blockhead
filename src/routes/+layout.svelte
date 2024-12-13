@@ -79,6 +79,9 @@
 
 
 	// Global context
+	import { setAccountConnectionsContext } from '$/state/account.svelte'
+	setAccountConnectionsContext()
+
 	import { setWalletsContext } from '$/state/wallets.svelte'
 	setWalletsContext()
 

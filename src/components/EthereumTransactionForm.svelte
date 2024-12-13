@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import type { Ethereum } from '$/data/networks/types'
-	import type { AccountConnection } from '$/state/account'
+	import type { AccountConnection } from '$/state/account.svelte'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import { networkProviderConfigByProvider } from '$/data/networkProviders'
 	import { knownWalletsByType } from '$/data/wallets'

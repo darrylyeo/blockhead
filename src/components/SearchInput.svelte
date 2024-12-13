@@ -5,7 +5,11 @@
 
 
 	// Context
-	import { accountConnectionToInfo } from '$/state/account'
+	import { getAccountConnectionsContext, getAccountConnectionsInfo } from '$/state/account.svelte'
+	const accountConnections = getAccountConnectionsContext()
+
+	import { getWalletsContext } from '$/state/wallets.svelte'
+	const wallets = getWalletsContext()
 
 	import { getLocalPortfolios } from '$/state/portfolios.svelte'
 	const _portfoliosState = getLocalPortfolios()
@@ -13,6 +17,16 @@
 
 	import { localStorageWritable } from '$/utils/localStorageWritable'
 	const history = localStorageWritable<string[]>('ExplorerInput/history', [])
+
+	// (Computed)
+	const accountConnectionsInfo = $derived(
+		accountConnections.connections && wallets.eip6963Providers && (
+			getAccountConnectionsInfo({
+				accountConnections,
+				wallets,
+			})
+		)
+	)
 
 
 	// Inputs
@@ -143,9 +157,9 @@
 		{/each}
 	{/if}
 
-	{#if $accountConnectionToInfo.size}
+	{#if accountConnectionsInfo.size}
 		<optgroup label="Connected Accounts">
-			{#each $accountConnectionToInfo.values() as accountConnectionInfo}
+			{#each accountConnectionsInfo.values() as accountConnectionInfo}
 				{#if accountConnectionInfo.address}
 					<option
 						value={accountConnectionInfo.address}

@@ -7,7 +7,7 @@
 
 	// Constants/types
 	import { walletConnectionTypes } from '$/data/walletConnectionTypes'
-	import type { AccountConnection } from '$/state/account'
+	import type { AccountConnection } from '$/state/account.svelte'
 
 	import { knownWalletsByType } from '$/data/wallets'
 	import { networkByChainId, getNetworkColor } from '$/data/networks'
@@ -91,6 +91,7 @@
 	<Loader
 		fromPromise={async () => (
 			await accountConnection.getWalletConnection({
+				wallets,
 				theme,
 			})
 		)}
@@ -105,11 +106,13 @@
 	>
 		<Loader
 			startImmediately={accountConnection.autoconnect || isFirstConnection}
-			fromStore={() => (
-				accountConnection.connectWallet({
+
+			fromPromise={async () => {
+				await accountConnection.connectWallet({
 					isInitiatedByUser: !accountConnection.autoconnect,
+					wallets,
 				})
-			)}
+			}}
 
 			loadingIcon={icon}
 

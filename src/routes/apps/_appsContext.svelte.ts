@@ -7,7 +7,7 @@ import { web3AppsBySlug, type Web3AppConfig } from '$/data/web3Apps'
 // External stores
 import { appsParams } from './_appsParams.svelte'
 
-import { accountConnections } from '$/state/account'
+import { accountConnections } from '$/state/account.svelte'
 
 
 // Derived stores

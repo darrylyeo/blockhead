@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Constants/types
-	import type { AccountConnection } from '$/state/account'
+	import type { AccountConnection } from '$/state/account.svelte'
 	import { InputPattern } from '$/data/inputPatterns'
 
 

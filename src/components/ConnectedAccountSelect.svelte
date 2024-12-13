@@ -1,14 +1,26 @@
 <script lang="ts">
 	// Constants/types
 	import type { Ethereum } from '$/data/networks/types'
-	import type { AccountConnection, AccountConnectionSelector } from '$/state/account'
+	import type { AccountConnection, AccountConnectionSelector } from '$/state/account.svelte'
 	import { KnownWalletType, displayedKnownWallets } from '$/data/wallets'
 
 
 	// Context
-	import { accountConnections, accountConnectionToInfo } from '$/state/account'
+	import { getAccountConnectionsContext, getAccountConnectionsInfo } from '$/state/account.svelte'
+	const accountConnections = getAccountConnectionsContext()
+
 	import { getWalletsContext } from '$/state/wallets.svelte'
 	const wallets = getWalletsContext()
+
+	// (Computed)
+	$: accountConnectionsInfo = (
+		accountConnections.connections && wallets.eip6963Providers && (
+			getAccountConnectionsInfo({
+				accountConnections,
+				wallets,
+			})
+		)
+	)
 
 
 	// External state
@@ -20,10 +32,11 @@
 	export let selectedAccountConnection: AccountConnection | undefined
 
 
-	// Computed
+	// Internal state
+	// (Computed)
 	$: if(address)
 		selectedAccountConnection = (
-			[...$accountConnectionToInfo.entries()]
+			[...accountConnectionsInfo.entries()]
 				.find(([_, accountConnectionInfo]) => (
 					accountConnectionInfo.address
 					&& accountConnectionInfo.address.toLowerCase() === address!.toLowerCase()
@@ -93,11 +106,11 @@
 	{required}
 	on:input={onInput}
 >
-	{#if $accountConnectionToInfo.size}
+	{#if accountConnectionsInfo.size}
 		<option value={undefined} selected disabled>Choose account...</option>
 
 		<!-- <optgroup label="Connected"> -->
-			{#each $accountConnectionToInfo.entries() as [accountConnection, { walletName, address }]}
+			{#each accountConnectionsInfo.entries() as [accountConnection, { walletName, address }]}
 				<option value={accountConnection}>
 					{walletName}: {address}
 				</option>
