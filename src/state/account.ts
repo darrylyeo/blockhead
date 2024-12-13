@@ -95,39 +95,47 @@ export class AccountConnection {
 			this.state ? { loading: true } : { loading: false, data: this.state },
 			set => {
 				(async () => {
-					const walletConnection = await this.getWalletConnection({
-						theme,
-					})
-			
-					const { accounts, chainId, newSelector } = await walletConnection.connect(isInitiatedByUser)
+					try {
+						const walletConnection = await this.getWalletConnection({
+							theme,
+						})
+				
+						const { accounts, chainId, newSelector } = await walletConnection.connect(isInitiatedByUser)
 
-					set({ loading: false, data: this.state })
+						set({ loading: false, data: this.state })
 
-					this.state.walletConnection = walletConnection
-					this.state.signer = walletConnection.provider && await this.getSigner({ isInitiatedByUser }),
+						this.state.walletConnection = walletConnection
+						this.state.signer = walletConnection.provider && await this.getSigner({ isInitiatedByUser }),
 
-					this.state.account = accounts?.[0],
-					this.state.chainId = chainId
+						this.state.account = accounts?.[0],
+						this.state.chainId = chainId
 
-					if(newSelector)
-						this.selector = newSelector
+						if(newSelector)
+							this.selector = newSelector
 
-					if(walletConnection.subscribe){
-						const stores = await walletConnection.subscribe()
+						if(walletConnection.subscribe){
+							const stores = await walletConnection.subscribe()
 
-						this.#unsubscribe.add(
-							stores.accounts.subscribe(accounts => {
-								this.state.account = accounts[0]
-								set({ loading: false, data: this.state })
-							})
-						)
+							this.#unsubscribe.add(
+								stores.accounts.subscribe(accounts => {
+									this.state.account = accounts[0]
+									set({ loading: false, data: this.state })
+								})
+							)
 
-						this.#unsubscribe.add(
-							stores.chainId.subscribe(chainId => {
-								this.state.chainId = chainId
-								set({ loading: false, data: this.state })
-							})
-						)
+							this.#unsubscribe.add(
+								stores.chainId.subscribe(chainId => {
+									this.state.chainId = chainId
+									set({ loading: false, data: this.state })
+								})
+							)
+						}
+					}catch(error){
+						set({
+							error,
+							loading: false,
+							data: this.state,
+						})
 					}
 				})()
 			}
