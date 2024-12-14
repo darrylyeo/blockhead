@@ -13,13 +13,20 @@ import { WalletConnectionType } from './walletConnectionTypes'
 export enum KnownWalletType {
 	BananaWallet = 'BananaWallet',
 	CoinbaseWallet = 'Coinbase Wallet',
+	Coin98 = 'Coin98',
+	Enkrypt = 'Enkrypt',
+	Frame = 'Frame',
 	Intmax = 'Intmax',
 	Liquality = 'Liquality',
 	MetaMask = 'MetaMask',
 	MEW = 'MEW',
+	Phantom = 'Phantom',
+	Rabby = 'Rabby',
 	Rainbow = 'Rainbow',
-	Tally = 'Tally',
+	Rivet = 'Rivet',
+	Taho = 'Taho',
 	Trust = 'Trust',
+	UniswapExtension = 'Uniswap Extension',
 	WalletConnect1 = 'WalletConnect1',
 	WalletConnect2 = 'WalletConnect2',
 	Web3Modal = 'Web3Modal',
@@ -67,13 +74,20 @@ export type KnownWalletConfig = {
 
 import {
 	BananaWalletIcon,
+	Coin98Icon,
 	CoinbaseWalletIcon,
+	EnkryptIcon,
+	FrameIcon,
 	IntmaxIcon,
 	MetaMaskIcon,
 	MyEtherWalletIcon,
+	PhantomIcon,
+	RabbyIcon,
 	RainbowIcon,
-	TallyIcon,
+	RivetIcon,
+	TahoIcon,
 	TrustWalletIcon,
+	UniswapExtensionIcon,
 	WalletConnect2Icon,
 	WalletConnectIcon,
 } from '$/assets/walletIcons'
@@ -85,9 +99,15 @@ export const knownWallets = [
 		type: KnownWalletType.MetaMask,
 		name: 'MetaMask',
 		icon: MetaMaskIcon,
-		colors: ['#e27625'],
+		colors: [
+			'#e27625',
+		],
 
 		connectionTypes: [
+			{
+				type: WalletConnectionType.Eip6963,
+				rdns: 'io.metamask',
+			},
 			{
 				type: WalletConnectionType.InjectedEip1193,
 				globalResolvers: [
@@ -111,7 +131,9 @@ export const knownWallets = [
 		// name: 'WalletConnect 2.0',
 		name: 'WalletConnect',
 		icon: WalletConnect2Icon,
-		colors: ['#3083FC'],
+		colors: [
+			'#3083fc',
+		],
 
 		connectionTypes: [
 			{
@@ -123,7 +145,9 @@ export const knownWallets = [
 		type: KnownWalletType.WalletConnect1,
 		name: 'WalletConnect 1.0',
 		icon: WalletConnectIcon,
-		colors: ['#3083FC'],
+		colors: [
+			'#3083fc',
+		],
 
 		connectionTypes: [
 			{
@@ -135,7 +159,12 @@ export const knownWallets = [
 		type: KnownWalletType.BananaWallet,
 		name: 'Banana Wallet',
 		icon: BananaWalletIcon,
-		colors: ['#ffcf4a', '#f8b42c'], // '#e67f1c', '#b95300'
+		colors: [
+			'#ffcf4a',
+			'#f8b42c',
+			// '#e67f1c',
+			// '#b95300',
+		],
 
 		connectionTypes: [
 			{
@@ -147,12 +176,20 @@ export const knownWallets = [
 		type: KnownWalletType.CoinbaseWallet,
 		name: 'Coinbase Wallet',
 		icon: CoinbaseWalletIcon,
-		colors: ['#1652F0'],
+		colors: [
+			'#1652f0',
+		],
 
 		connectionTypes: [
 			{
+				type: WalletConnectionType.Eip6963,
+				rdns: 'com.coinbase.wallet',
+			},
+			{
 				type: WalletConnectionType.InjectedEip1193,
 				globalResolvers: [
+					globalThis => globalThis.coinbaseWalletExtension,
+					globalThis => globalThis.coinbaseWalletRequestProvider?.provide(),
 					globalEthereumResolver,
 					globalWeb3Resolver,
 				],
@@ -169,13 +206,108 @@ export const knownWallets = [
 				type: WalletConnectionType.WalletConnect1,
 			},
 		],
+	},
+	{
+		type: KnownWalletType.Coin98,
+		name: 'Coin98',
+		icon: Coin98Icon,
+		colors: [
+			'#f1d961',
+			'#cda146',
+		],
 
+		connectionTypes: [
+			{
+				type: WalletConnectionType.Eip6963,
+				rdns: 'coin98.com',
+			},
+			{
+				type: WalletConnectionType.InjectedEip1193,
+				globalResolvers: [
+					globalThis => globalThis.coin98?.provider,
+					globalEthereumResolver,
+					globalWeb3Resolver,
+				],
+				matches: provider => provider.isCoin98 === true,
+			},
+			{
+				type: WalletConnectionType.WalletConnect2,
+			},
+			{
+				type: WalletConnectionType.WalletConnect1,
+			},
+		],
+	},
+	{
+		type: KnownWalletType.Enkrypt,
+		name: 'Enkrypt',
+		icon: EnkryptIcon,
+		colors: [
+			'#c549ff',
+			'#654bff',
+		],
+
+		connectionTypes: [
+			{
+				type: WalletConnectionType.Eip6963,
+				rdns: 'com.enkrypt',
+			},
+			{
+				type: WalletConnectionType.InjectedEip1193,
+				globalResolvers: [
+					globalThis => globalThis.enkrypt?.providers?.ethereum,
+					globalEthereumResolver,
+					globalWeb3Resolver,
+				],
+				matches: provider => provider.isEnkrypt === true,
+			},
+			{
+				type: WalletConnectionType.WalletConnect2,
+			},
+			{
+				type: WalletConnectionType.WalletConnect1,
+			},
+		],
+	},
+	{
+		type: KnownWalletType.Frame,
+		name: 'Frame',
+		icon: FrameIcon,
+		colors: [
+			'#28272a',
+			'#00d2be',
+		],
+
+		connectionTypes: [
+			{
+				type: WalletConnectionType.Eip6963,
+				rdns: 'sh.frame',
+			},
+			{
+				type: WalletConnectionType.InjectedEip1193,
+				globalResolvers: [
+					globalEthereumResolver,
+					globalWeb3Resolver,
+				],
+				matches: provider => provider.isFrame === true,
+			},
+			{
+				type: WalletConnectionType.WalletConnect2,
+			},
+			{
+				type: WalletConnectionType.WalletConnect1,
+			},
+		],
 	},
 	{
 		type: KnownWalletType.Intmax,
 		name: 'IntmaxWallet',
 		icon: IntmaxIcon,
-		colors: ['#14ded2', '#3680fe', '#d32dfd'],
+		colors: [
+			'#14ded2',
+			'#3680fe',
+			'#d32dfd',
+		],
 
 		connectionTypes: [
 			{
@@ -188,11 +320,11 @@ export const knownWallets = [
 		name: 'Liquality Wallet',
 		icon: LiqualityIcon,
 		colors: [
-			'#1CE5C3',
-			'#5440D7',
-			'#8B2CE4',
-			'#D421EB',
-			'#AC39FD',
+			'#1ce5c3',
+			'#5440d7',
+			'#8b2ce4',
+			'#d421eb',
+			'#ac39fd',
 		],
 
 		connectionTypes: [
@@ -210,7 +342,9 @@ export const knownWallets = [
 		type: KnownWalletType.MEW,
 		name: 'MyEtherWallet',
 		icon: MyEtherWalletIcon,
-		colors: ['#1896A4'],
+		colors: [
+			'#1896a4',
+		],
 
 		connectionTypes: [
 			{
@@ -232,21 +366,90 @@ export const knownWallets = [
 		],
 	},
 	{
+		type: KnownWalletType.Phantom,
+		name: 'Phantom',
+		icon: PhantomIcon,
+		colors: [
+			'#9886e5',
+			// '#ab9ff2',
+		],
+
+		connectionTypes: [
+			{
+				type: WalletConnectionType.Eip6963,
+				rdns: 'app.phantom',
+			},
+			{
+				type: WalletConnectionType.InjectedEip1193,
+				globalResolvers: [
+					globalThis => globalThis.phantom?.ethereum,
+					globalEthereumResolver,
+					globalWeb3Resolver,
+				],
+				matches: provider => provider.isPhantom === true,
+			},
+			{
+				type: WalletConnectionType.WalletConnect2,
+			},
+			{
+				type: WalletConnectionType.WalletConnect1,
+			},
+		],
+	},
+	{
+		type: KnownWalletType.Rabby,
+		name: 'Rabby',
+		icon: RabbyIcon,
+		colors: [
+			'#7084FF',
+			'#8697FF',
+			// '#D1D8FF',
+		],
+
+		connectionTypes: [
+			{
+				type: WalletConnectionType.Eip6963,
+				rdns: 'io.rabby',
+			},
+			{
+				type: WalletConnectionType.InjectedEip1193,
+				globalResolvers: [
+					globalEthereumResolver,
+					globalWeb3Resolver,
+				],
+				matches: provider => provider.isRabby,
+			},
+		],
+	},
+	{
 		type: KnownWalletType.Rainbow,
 		name: 'Rainbow',
 		icon: RainbowIcon,
 		colors: [
-			'#001E59',
-			'#8754C9',
-			'#FF4000',
-			'#FF9901',
-			'#FFF700',
-			'#01DA40',
-			'#00AAFF',
+			'#001e59',
+			'#8754c9',
+			'#ff4000',
+			'#ff9901',
+			'#fff700',
+			'#01da40',
+			'#00aaff',
 			'#174299',
 		],
 
 		connectionTypes: [
+			{
+				type: WalletConnectionType.Eip6963,
+				rdns: 'me.rainbow',
+			},
+			{
+				type: WalletConnectionType.InjectedEip1193,
+				globalResolvers: [
+					globalThis => globalThis.rainbow,
+					globalEthereumResolver,
+					globalWeb3Resolver,
+				],
+				matches: provider => provider.isRainbow === true,
+			},
 			{
 				type: WalletConnectionType.WalletConnect2,
 				explorerIds: ['1ae92b26df02f0abca6304df07debccd18262fdf5fe82daa81593582dac9a369'],
@@ -255,13 +458,43 @@ export const knownWallets = [
 				type: WalletConnectionType.WalletConnect1,
 			},
 		],
-
 	},
 	{
-		type: KnownWalletType.Tally,
-		name: 'Tally',
-		icon: TallyIcon,
-		colors: ['#D08E39', '#002522'],
+		type: KnownWalletType.Rivet,
+		name: 'Rivet',
+		icon: RivetIcon,
+		colors: [
+			'#3e7ce1',
+		],
+
+		connectionTypes: [
+			{
+				type: WalletConnectionType.Eip6963,
+				rdns: 'et.riv',
+			},
+			{
+				type: WalletConnectionType.InjectedEip1193,
+				globalResolvers: [
+					globalEthereumResolver,
+					globalWeb3Resolver,
+				],
+			},
+			{
+				type: WalletConnectionType.WalletConnect2,
+			},
+			{
+				type: WalletConnectionType.WalletConnect1,
+			},
+		],
+	},
+	{
+		type: KnownWalletType.Taho,
+		name: 'Taho',
+		icon: TahoIcon,
+		colors: [
+			'#d08e39',
+			'#002522',
+		],
 
 		connectionTypes: [
 			{
@@ -271,7 +504,7 @@ export const knownWallets = [
 					globalEthereumResolver,
 					globalWeb3Resolver,
 				],
-				matches: provider => provider.isTally,
+				matches: provider => provider.isTaho && provider.isTally,
 			},
 			{
 				type: WalletConnectionType.WalletConnect2,
@@ -287,16 +520,28 @@ export const knownWallets = [
 		type: KnownWalletType.Trust,
 		name: 'Trust',
 		icon: TrustWalletIcon,
-		colors: ['#3375BB'],
+		colors: [
+			'#0000ff',
+			'#0094ff',
+			'#48ff91',
+			'#0094ff',
+			'#0038ff',
+			'#0500ff',
+		],
 
 		connectionTypes: [
 			{
+				type: WalletConnectionType.Eip6963,
+				rdns: 'com.trustwallet.app',
+			},
+			{
 				type: WalletConnectionType.InjectedEip1193,
 				globalResolvers: [
+					globalThis => globalThis.trustwallet,
 					globalEthereumResolver,
 					globalWeb3Resolver,
 				],
-				matches: provider => provider.isTrust,
+				matches: provider => provider.isTrust && provider.isTrustWallet,
 			},
 			{
 				type: WalletConnectionType.WalletConnect2,
@@ -309,10 +554,37 @@ export const knownWallets = [
 		],
 	},
 	{
+		type: KnownWalletType.UniswapExtension,
+		name: 'Uniswap Extension',
+		icon: UniswapExtensionIcon,
+		colors: [
+			'#FEF4FF',
+			'#F50DB4',
+		],
+
+		connectionTypes: [
+			{
+				type: WalletConnectionType.Eip6963,
+				rdns: 'org.uniswap.app',
+			},
+			{
+				type: WalletConnectionType.InjectedEip1193,
+				globalResolvers: [
+					globalEthereumResolver,
+					globalWeb3Resolver,
+				],
+				matches: provider => provider.isUniswapWallet,
+			},
+		],
+	},
+	{
 		type: KnownWalletType.Web3Modal,
 		name: 'Web3Modal',
 		icon: WalletConnect2Icon,
-		colors: ['#3396ff', '#66b1ff'],
+		colors: [
+			'#3396ff',
+			'#66b1ff',
+		],
 
 		connectionTypes: [
 			{
@@ -340,7 +612,7 @@ export const knownWallets = [
 	// },
 ] as const satisfies KnownWalletConfig[]
 
-export const knownWalletsByType: Record<KnownWalletType, KnownWalletConfig> = Object.fromEntries(
+export const knownWalletsByType: Partial<Record<KnownWalletType, KnownWalletConfig>> = Object.fromEntries(
 	knownWallets
 		.map(knownWallet => [knownWallet.type, knownWallet])
 )
