@@ -11,6 +11,7 @@
 		text-decoration-offset: inherit;
 		min-width: 0;
 		gap: inherit;
+		user-select: inherit;
 		scroll-behavior: smooth;
 		transition-property: none;
 		transform-style: inherit;
