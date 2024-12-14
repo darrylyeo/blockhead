@@ -1,7 +1,5 @@
 export enum WalletConnectionType {
 	InjectedEip1193 = 'InjectedEip1193',
-	InjectedEthereum = 'InjectedEthereum',
-	InjectedWeb3 = 'InjectedWeb3',
 	Eip6963 = 'Eip6963',
 	WalletConnect1 = 'WalletConnect1',
 	WalletConnect2 = 'WalletConnect2',
@@ -17,12 +15,6 @@ export const walletConnectionTypes: Record<WalletConnectionType, {
 }> = {
 	[WalletConnectionType.InjectedEip1193]: {
 		name: 'injected EIP-1193 provider',
-	},
-	[WalletConnectionType.InjectedEthereum]: {
-		name: 'injected ethereum', // 'injected ethereum provider',
-	},
-	[WalletConnectionType.InjectedWeb3]: {
-		name: 'injected web3', // 'injected web3 provider',
 	},
 	[WalletConnectionType.Eip6963]: {
 		name: 'EIP-6963 wallet provider',

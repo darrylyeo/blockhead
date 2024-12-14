@@ -2,7 +2,7 @@
 import type { BrandedString } from '$/utils/branded'
 
 import { WalletConnectionType } from '$/data/walletConnectionTypes'
-import { knownWalletsByType } from '$/data/wallets'
+import { knownWalletsByType, type GlobalInjectedEip1193Resolver } from '$/data/wallets'
 
 import type { Account, AccountConnectionSelector } from './account'
 
@@ -14,6 +14,7 @@ export type WalletConnection = {
 	type: WalletConnectionType,
 
 	provider?: Ethereum.Provider,
+	globalInjectedEip1193Resolver?: GlobalInjectedEip1193Resolver,
 
 	connect: (isInitiatedByUser?: boolean) => Promise<{
 		accounts?: Account[],
@@ -177,88 +178,36 @@ export const getWalletConnection = async ({
 	const knownWalletConfig = selector.knownWallet && knownWalletsByType[selector.knownWallet.type]
 
 	const connectionTypes = (
-		selector.knownWallet ?
-			knownWalletConfig!.connectionTypes
+		knownWalletConfig ?
+			knownWalletConfig.connectionTypes
 		: selector.eip6963 ?
 			[
-				WalletConnectionType.Eip6963
-			]
+				{
+					type: WalletConnectionType.Eip6963,
+				},
+			] as const
 		:
 			[]
 	)
 
 	for (const connectionType of connectionTypes) {
-		switch (connectionType) {
+		switch (connectionType.type) {
 			case WalletConnectionType.InjectedEip1193: {
-				const provider = globalThis[knownWalletConfig.injectedEip1193ProviderGlobal]
+				for(const globalInjectedEip1193Resolver of connectionType.globalResolvers){
+					const provider = globalInjectedEip1193Resolver(globalThis)
 
-				if (provider?.[knownWalletConfig.injectedEip1193ProviderFlag]) {
-					return {
-						type: WalletConnectionType.InjectedEip1193,
-						provider,
+					if (provider && (!connectionType.matches || connectionType.matches(provider)))
+						return {
+							type: WalletConnectionType.InjectedEip1193,
+							provider,
+							globalInjectedEip1193Resolver,
 
-						connect: async () => await connectEip1193(provider),
+							connect: async () => await connectEip1193(provider),
 
-						subscribe: () => subscribeEip1193(provider),
+							subscribe: () => subscribeEip1193(provider),
 
-						switchNetwork: async (network: Ethereum.Network) => await switchNetworkEip1193({ provider, network }),
-					}
-				}
-
-				break
-			}
-
-			case WalletConnectionType.InjectedEthereum: {
-				const provider = globalThis.ethereum
-
-				if (
-					provider && (
-						!knownWalletConfig.injectedEip1193ProviderFlag
-						|| provider[knownWalletConfig.injectedEip1193ProviderFlag]
-					)
-				) {
-					// https://docs.metamask.io/guide/provider-migration.html#migrating-to-the-new-provider-api
-					provider.autoRefreshOnNetworkChange = false
-
-					// Coinbase Wallet browser extension disguised as MetaMask
-					if(provider.selectedProvider?.isCoinbaseWallet)
-						break
-						// walletType = WalletType.CoinbaseWallet
-
-					return {
-						type: WalletConnectionType.InjectedEthereum,
-						provider,
-
-						connect: async () => await connectEip1193(provider),
-
-						subscribe: () => subscribeEip1193(provider),
-
-						switchNetwork: async (network: Ethereum.Network) => await switchNetworkEip1193({ provider, network }),
-					}
-				}
-
-				break
-			}
-
-			case WalletConnectionType.InjectedWeb3: {
-				const provider = globalThis.web3?.currentProvider as Ethereum.Provider | undefined
-
-				if (
-					provider && (
-						!knownWalletConfig.injectedEip1193ProviderFlag
-						|| provider[knownWalletConfig.injectedEip1193ProviderFlag]
-					)
-				) {
-					return {
-						type: WalletConnectionType.InjectedWeb3,
-						provider,
-
-						connect: async () => await connectEip1193(provider),
-
-						subscribe: () => subscribeEip1193(provider),
-
-						switchNetwork: async (network: Ethereum.Network) => await switchNetworkEip1193({ provider, network }),
-					}
+							switchNetwork: async (network: Ethereum.Network) => await switchNetworkEip1193({ provider, network }),
+						}
 				}
 
 				break
@@ -346,9 +295,11 @@ export const getWalletConnection = async ({
 					bridge: publicEnv.PUBLIC_WALLETCONNECT1_BRIDGE_URI,
 
 					// Restrict WalletConnect options to the selected wallet
-					...knownWalletConfig?.walletConnectMobileLinks
-						? { qrcodeModalOptions: { mobileLinks: knownWalletConfig.walletConnectMobileLinks } }
-						: {},
+					...connectionType.mobileLinks && {
+						qrcodeModalOptions: {
+							mobileLinks: connectionType.mobileLinks,
+						},
+					},
 				})
 
 				return {
@@ -361,9 +312,11 @@ export const getWalletConnection = async ({
 							bridge: publicEnv.PUBLIC_WALLETCONNECT1_BRIDGE_URI,
 		
 							// Restrict WalletConnect options to the selected wallet
-							...knownWalletConfig?.walletConnectMobileLinks
-								? { qrcodeModalOptions: { mobileLinks: knownWalletConfig.walletConnectMobileLinks } }
-								: {},
+							...connectionType.mobileLinks && {
+								qrcodeModalOptions: {
+									mobileLinks: connectionType.mobileLinks,
+								},
+							},
 						})
 
 						try {
@@ -462,7 +415,7 @@ export const getWalletConnection = async ({
 												},
 												chains,
 												enableExplorer: true,
-												explorerRecommendedWalletIds: knownWalletConfig?.walletConnect2Ids,
+												explorerRecommendedWalletIds: connectionType?.explorerIds,
 											})
 
 											theme?.subscribe($theme => {
