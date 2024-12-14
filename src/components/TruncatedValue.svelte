@@ -25,7 +25,7 @@
 			{@const middle = value.slice(startLength, -endLength || undefined)}
 			{@const end = value.slice(-endLength || undefined)}
 
-			<span>{start}</span><span class="middle"><span>{middle.slice(0, middle.length / 2)}</span><span></span><span>{middle.slice(middle.length / 2)}</span></span><span>{end}</span>
+			<span>{start}</span><span class="middle"><span>{middle.slice(0, middle.length / 2)}</span><span aria-hidden="true"></span><span>{middle.slice(middle.length / 2)}</span></span><span>{end}</span>
 		{/if}
 	</span>
 
