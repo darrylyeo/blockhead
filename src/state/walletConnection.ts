@@ -160,6 +160,8 @@ let web3Modal: ReturnType<typeof createWeb3Modal> | undefined
 import * as publicEnv from '$env/static/public'
 import { ethereumMainnet, getNetworkRPC, networkByChainId } from '$/data/networks'
 
+import { isTruthy } from '$/utils/isTruthy'
+
 export const getWalletConnection = async ({
 	selector,
 	networks = [ethereumMainnet], // availableNetworks
@@ -184,6 +186,7 @@ export const getWalletConnection = async ({
 			[
 				{
 					type: WalletConnectionType.Eip6963,
+					rdns: selector.eip6963.rdns,
 				},
 			] as const
 		:
@@ -217,24 +220,33 @@ export const getWalletConnection = async ({
 				const { eip6963Providers, findEip6963Provider } = await import('./wallets')
 				const { get } = await import('svelte/store')
 
-				const eip6963Provider = findEip6963Provider({
-					eip6963Providers: get(eip6963Providers),
-					rdns: selector.eip6963?.rdns,
-				})
+				for(const rdns of (
+					new Set(
+						[
+							selector.eip6963?.rdns,
+							connectionType.rdns,
+						]
+							.filter(isTruthy)
+					)
+				)){
+					const eip6963Provider = findEip6963Provider({
+						eip6963Providers: get(eip6963Providers),
+						rdns,
+					})
 
-				const provider = eip6963Provider?.provider
+					const provider = eip6963Provider?.provider
 
-				if(provider){
-					return {
-						type: WalletConnectionType.Eip6963,
-						provider,
+					if(provider)
+						return {
+							type: WalletConnectionType.Eip6963,
+							provider,
 
-						connect: async () => await connectEip1193(provider),
+							connect: async () => await connectEip1193(provider),
 
-						subscribe: () => subscribeEip1193(provider),
+							subscribe: () => subscribeEip1193(provider),
 
-						switchNetwork: async (network: Ethereum.Network) => await switchNetworkEip1193({ provider, network }),
-					}
+							switchNetwork: async (network: Ethereum.Network) => await switchNetworkEip1193({ provider, network }),
+						}
 				}
 
 				break

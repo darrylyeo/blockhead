@@ -7,7 +7,7 @@ declare global {
 	}
 }
 
-export type Eip6963Rdns = string
+export type Eip6963Rdns = `${string}.${string}`
 
 type Eip6963ProviderInfo = {
 	uuid: ReturnType<typeof crypto.randomUUID>,

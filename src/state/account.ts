@@ -1,4 +1,5 @@
 // Types
+import type { Eip6963Rdns } from './wallets'
 import type { Ethereum } from '$/data/networks/types'
 import type { Signer } from 'ethers'
 import type { KnownWalletType } from '$/data/wallets'
@@ -14,7 +15,7 @@ export type AccountConnectionSelector = {
 		type: KnownWalletType,
 	},
 	eip6963?: {
-		rdns: string
+		rdns: Eip6963Rdns,
 	},
 	walletconnect?: {
 		topic: WalletconnectTopic,

@@ -7,6 +7,7 @@ const globalEthereumResolver: GlobalInjectedEip1193Resolver = globalThis => glob
 const globalWeb3Resolver: GlobalInjectedEip1193Resolver = globalThis => globalThis.web3?.currentProvider
 
 
+import type { Eip6963Rdns } from '$/state/wallets'
 import { WalletConnectionType } from './walletConnectionTypes'
 
 export enum KnownWalletType {
@@ -38,6 +39,7 @@ export type KnownWalletConfig = {
 		}
 		| {
 			type: WalletConnectionType.Eip6963
+			rdns: Eip6963Rdns
 		}
 		| {
 			type: WalletConnectionType.WalletConnect1
