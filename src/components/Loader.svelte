@@ -185,6 +185,8 @@
 		try {
 			if(fromPromise)
 				promise = fromPromise()
+			else
+				promise = undefined
 
 			if(fromStore){
 				const storeOrPromise = fromStore()
@@ -199,6 +201,8 @@
 				else
 					store = storeOrPromise
 			}
+			else
+				store = undefined
 
 			// if(fromHoudiniQuery)
 			// 	houdiniQuery = fromHoudiniQuery()
