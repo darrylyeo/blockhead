@@ -184,8 +184,7 @@
 			bind:accountConnection
 			isFirstConnection={i === lastAddedConnectionIndex}
 			on:connect={() => { if(i === lastAddedConnectionIndex) lastAddedConnectionIndex = undefined }}
-			on:disconnect={() => removeAccountConnection(i)}
-			on:cancel={() => removeAccountConnection(i)}
+			on:delete={() => removeAccountConnection(i)}
 		/>
 	{/each}
 </section>

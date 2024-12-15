@@ -60,6 +60,7 @@
 	import Loader from './Loader.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
 	import Icon from './Icon.svelte'
+	import InlineTransition from './InlineTransition.svelte'
 	
 
 	// Styles/animation
@@ -80,10 +81,15 @@
 
 		errorMessage={`Couldn't find ${name} connection.`}
 
-		whenCanceled={async () => dispatch('cancel')}
+		whenCanceled={() => { dispatch('cancel') }}
 
-		let:result={walletConnection}
+		viewOptions={{
+			contentClass: 'stack',
+		}}
 	>
+		{@const walletConnectionTypeConfig = accountConnection.state.walletConnection && walletConnectionTypes[accountConnection.state.walletConnection.type]}
+		{@const network = accountConnection.state.chainId && networkByChainId.get(accountConnection.state.chainId)}
+
 		<Loader
 			startImmediately={accountConnection.autoconnect || isFirstConnection}
 			fromStore={() => (
@@ -94,194 +100,165 @@
 
 			loadingIcon={icon}
 
+			loadingMessage={`Connecting to ${name}${walletConnectionTypeConfig ? ` (using ${walletConnectionTypeConfig.name})` : ''}...`}
 			whenLoaded={() => {
+				isFirstConnection = false
 				dispatch('connect')
 			}}
 
 			errorMessage={`Couldn't connect your ${name} account.`}
 
-			whenCanceled={async () => dispatch('cancel')}
-		>
-			<svelte:fragment slot="loadingMessage">
-				{@const walletConnectionTypeConfig = walletConnection && walletConnectionTypes[walletConnection.connectionType]}
+			whenCanceled={async () => {
+				await accountConnection.disconnectWallet?.()
+				dispatch('cancel')
+			}}
 
+			viewOptions={{
+				showContentWhenIdle: true,
+				loadingClass: 'backdrop',
+				errorClass: 'backdrop',
+			}}
+
+			let:status={walletConnectionStatus}
+			let:load={connectWallet}
+			let:cancel={disconnectWallet}
+		>
+			{@const isConnected = walletConnectionStatus === 'resolved'}
+
+			<svelte:fragment slot="loadingMessage">
 				<p>
 					Connecting to {name}...
 					{#if walletConnectionTypeConfig}<br><small>(using {walletConnectionTypeConfig.name})</small>{/if}
 				</p>
 			</svelte:fragment>
 
-			<svelte:fragment slot="idle" let:load>
-				<article
-					class="wallet-connection card"
-
-					title={name}
-
-					style={cardStyle([...colors])}
-				>
-					<div class="wallet-icon-container stack">
-						<Icon imageSources={[icon]} />
-					</div>
-
-					<!-- <div class="column align-start">
-						<h4>{name}</h4>
-
-						<div class="row">
-							<button class="small" on:click={load}>Connect</button>
-
-							<small>
-								<label>
-									<input type="checkbox" bind:checked={accountConnection.autoconnect} />
-									<span>Autoconnect</span>
-								</label>
-							</small>
-
-							<button
-								class="small align-end destructive"
-								data-before="✕"
-								on:click={async () => {
-									await await accountConnection.disconnectWallet?.()
-									dispatch('disconnect')
-								}}
-							/>
-						</div>
-					</div> -->
-
-					<!-- <div class="bar">
-						<h4>{name}</h4>
-
-						<div class="column align-end">
-							<div class="row inline">
-								<button class="small" on:click={load}>Connect</button>
-
-								<button
-									class="small align-end destructive"
-									data-before="✕"
-									on:click={async () => {
-										await await accountConnection.disconnectWallet?.()
-										dispatch('disconnect')
-									}}
-								/>
-							</div>
-
-							<small>
-								<label>
-									<input type="checkbox" bind:checked={accountConnection.autoconnect} />
-									<span>Autoconnect</span>
-								</label>
-							</small>
-						</div>
-					</div> -->
-
-					<!-- <div class="column">
-						<div class="bar">
-							<h4>{name}</h4>
-
-							<div class="row inline">
-								<button class="small" on:click={load}>Connect</button>
-
-								<button
-									class="small align-end destructive"
-									data-before="✕"
-									on:click={async () => {
-										await await accountConnection.disconnectWallet?.()
-										dispatch('disconnect')
-									}}
-								/>
-							</div>
-						</div>
-
-						<div class="row">
-							<small>
-								<label>
-									<input type="checkbox" bind:checked={accountConnection.autoconnect} />
-									<span>Autoconnect</span>
-								</label>
-							</small>
-						</div>
-					</div> -->
-
-					<div class="column">
-						<div class="bar">
-							<h4>{name}</h4>
-
-							<button class="small" on:click={load}>Connect</button>
-						</div>
-
-						<div class="bar">
-							<span />
-							<small>
-								<label>
-									<input type="checkbox" bind:checked={accountConnection.autoconnect} />
-									<span>Autoconnect</span>
-								</label>
-							</small>
-
-							<button
-								class="small align-end destructive"
-								data-before="✕"
-								on:click={async () => {
-									await accountConnection.disconnectWallet?.()
-									dispatch('disconnect')
-								}}
-							>Delete</button>
-						</div>
-					</div>
-				</article>
-			</svelte:fragment>
-
-			{@const state = accountConnection.state}
-			{@const walletConnectionTypeConfig = state.walletConnection && walletConnectionTypes[state.walletConnection.type]}
-			{@const network = state.chainId && networkByChainId.get(state.chainId)}
-
 			<article
 				class="wallet-connection card"
 
-				title="{name ?? state.walletConnection?.type}{walletConnectionTypeConfig ? ` via ${walletConnectionTypeConfig?.name}` : ''}"
+				title="{name ?? accountConnection.state.walletConnection?.type}{walletConnectionTypeConfig ? ` via ${walletConnectionTypeConfig?.name}` : ''}"
 
-				draggable={!!state.account?.address}
+				draggable={!!accountConnection.state.account?.address}
 				on:dragstart={onDragStart}
 
-				style={cardStyle([...colors ?? [], getNetworkColor(network)].filter(isTruthy))}
+				style={isConnected ? cardStyle([...colors ?? [], getNetworkColor(network)].filter(isTruthy)) : undefined}
 			>
-				<!-- style="--primary-color: {walletConfig.colors[0]}" -->
-				<!-- {getNetworkColor(network)} -->
 				<div class="wallet-icon-container stack">
 					<Icon imageSources={[icon]} />
-					{#key state.chainId}{#if network}<div class="network-icon" transition:scale><NetworkIcon {network} /></div>{/if}{/key}
+
+					{#key network}{#if network}<div class="network-icon" transition:scale><NetworkIcon {network} /></div>{/if}{/key}
 				</div>
 
-				<div class="column align-start">
-					{#if state.account?.address}
-						<span>
-							<Address
-								address={state.account.address} {network}
-								format="middle-truncated"
-							/>
-							{#if state.account.nickname}
-								<small>"{state.account.nickname}"</small>
+				<div class="column">
+					<div class="bar">
+						<InlineTransition
+							key={isConnected && accountConnection.state.account?.address}
+							align="start"
+						>
+							{#if isConnected && accountConnection.state.account?.address}
+								<span>
+									<InlineTransition
+										value={accountConnection.state.account?.address}
+										align="start"
+									>
+										<Address
+											address={accountConnection.state.account?.address} {network}
+											format="middle-truncated"
+										/>
+									</InlineTransition>
+
+									{#if accountConnection.state.account?.nickname}
+										<small>"{accountConnection.state.account?.nickname}"</small>
+									{/if}
+								</span>
+							{:else}
+								<span class="overflow-ellipsis">
+									<h4>{name}</h4>
+								</span>
 							{/if}
-						</span>
-					{:else}
-						<span class="disconnected">Disconnected</span>
-					{/if}
+						</InlineTransition>
 
-					{#if state.walletConnection}
-						<div class="overflow-ellipsis">
-							{name}
-							<small>({walletConnectionTypeConfig?.name})</small>
-						</div>
-					{/if}
+						<InlineTransition
+							align="end"
+							key={isConnected}
+						>
+							{#if !isConnected}
+								<div class="bar">
+									<button class="small" on:click={connectWallet}>Connect</button>
+								</div>
+							{:else}
+								<small>
+									<label>
+										<input type="checkbox" bind:checked={accountConnection.autoconnect} />
+										<span>Pin</span>
+									</label>
+								</small>
+							{/if}
+						</InlineTransition>
+					</div>
+
+					<div class="bar">
+						<InlineTransition
+							key={isConnected && accountConnection.state.account?.address}
+							align="start"
+							containerProps={{
+								class: 'overflow-ellipsis',
+								style: 'flex: 1 0;',
+							}}
+							contentProps={{
+								class: 'overflow-ellipsis',
+							}}
+						>
+							{#if isConnected && accountConnection.state.account?.address}
+								<div class="overflow-ellipsis" style="flex: 1 0;">
+									{name}
+									{#if walletConnectionTypeConfig?.name}
+										<small>({walletConnectionTypeConfig?.name})</small>
+									{/if}
+								</div>
+							{:else if accountConnection.state.account?.address || walletConnectionTypeConfig?.name}
+								<div class="overflow-ellipsis" style="flex: 1 0;">
+									{#if accountConnection.state.account?.address}
+										Last:
+
+										<Address
+											address={accountConnection.state.account?.address} {network}
+											format="middle-truncated"
+										/>
+
+										{#if walletConnectionTypeConfig?.name}
+											<small>({walletConnectionTypeConfig?.name})</small>
+										{/if}
+									{:else if walletConnectionTypeConfig?.name}
+										{walletConnectionTypeConfig?.name}
+									{/if}
+								</div>
+							{/if}
+						</InlineTransition>
+
+						<InlineTransition
+							key={!isConnected ? 1 : isConnected && !accountConnection.autoconnect ? 2 : 0}
+							align="end"
+						>
+							{#if !isConnected}
+								<button
+									class="small align-end destructive"
+									data-before="✕"
+									title="Delete"
+									on:click={async () => {
+										dispatch('delete')
+									}}
+								></button>
+							{:else if isConnected && !accountConnection.autoconnect}
+								<button
+									class="small cancel"
+									data-before="✕"
+									title="Disconnect"
+									on:click={disconnectWallet}
+								></button>
+							{/if}
+						</InlineTransition>
+					</div>
 				</div>
-
-				<button
-					class="small align-end"
-					on:click={async () => {
-						await accountConnection.disconnectWallet?.()
-						dispatch('disconnect')
-					}}
-					data-before="✕"
-				/>
 			</article>
 		</Loader>
 	</Loader>
@@ -303,9 +280,6 @@
 	.wallet-connection > :global(*) {
 		--padding-inner: 0.33rem;
 		gap: 0.33rem;
-	}
-	.wallet-connection .column > :global(:nth-child(1)) {
-		line-height: 1;
 	}
 	.wallet-connection h4 {
 		font-weight: 600;
