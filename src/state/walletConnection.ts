@@ -710,70 +710,70 @@ export const getWalletConnection = async ({
 				}
 			}
 
-			case WalletConnectionType.BananaWalletSdk: {
-				const { Banana, Chains } = await import('@rize-labs/banana-wallet-sdk')
+			// case WalletConnectionType.BananaWalletSdk: {
+			// 	const { Banana, Chains } = await import('@rize-labs/banana-wallet-sdk')
 
-				const network = networkByChainId.get(Chains.gnosis)
+			// 	const network = networkByChainId.get(Chains.gnosis)
 
-				if(!Object.values(Chains).some(chainId => chainId === network.chainId))
-					throw new Error(`Banana Wallet SDK isn't yet deployed on ${network.name}.`)
+			// 	if(!Object.values(Chains).some(chainId => chainId === network.chainId))
+			// 		throw new Error(`Banana Wallet SDK isn't yet deployed on ${network.name}.`)
 
-				const sdk = new Banana(network.chainId)
+			// 	const sdk = new Banana(network.chainId)
 
-				return {
-					type: WalletConnectionType.BananaWalletSdk,
+			// 	return {
+			// 		type: WalletConnectionType.BananaWalletSdk,
 
-					connect: async () => {
-						const username: string = sdk.getWalletName();
+			// 		connect: async () => {
+			// 			const username: string = sdk.getWalletName();
 
-						const wallet = username
-							? await sdk.connectWallet(username)
-							: await (async () => {
-								const username = globalThis.prompt('Choose a unique Banana Wallet username:')?.trim()
+			// 			const wallet = username
+			// 				? await sdk.connectWallet(username)
+			// 				: await (async () => {
+			// 					const username = globalThis.prompt('Choose a unique Banana Wallet username:')?.trim()
 
-								if(!username)
-									throw new Error('No username provided.')
+			// 					if(!username)
+			// 						throw new Error('No username provided.')
 
-								if(await sdk.isWalletNameUnique(username) === false)
-									throw new Error(`The username "${username}" is taken.`)
+			// 					if(await sdk.isWalletNameUnique(username) === false)
+			// 						throw new Error(`The username "${username}" is taken.`)
 
-								return await sdk.createWallet(username)
+			// 					return await sdk.createWallet(username)
 
-								// Variant: re-prompt if username is invalid
-								/*
-								let username
+			// 					// Variant: re-prompt if username is invalid
+			// 					/*
+			// 					let username
 
-								while(!username)
-									username = globalThis.prompt('Choose a Banana Wallet username:').trim()
+			// 					while(!username)
+			// 						username = globalThis.prompt('Choose a Banana Wallet username:').trim()
 
-								while(await sdk.isWalletNameUnique(username) === false)
-									username = globalThis.prompt(`The username "${username}" is taken.\nChoose a Banana Wallet username:`).trim()
+			// 					while(await sdk.isWalletNameUnique(username) === false)
+			// 						username = globalThis.prompt(`The username "${username}" is taken.\nChoose a Banana Wallet username:`).trim()
 
-								await sdk.createWallet(username)
-								*/
-							})()
+			// 					await sdk.createWallet(username)
+			// 					*/
+			// 				})()
 
-						const address = wallet.walletAddress
+			// 			const address = wallet.walletAddress
 
-						// const eoas = await sdk.getEOAAddress(username)
+			// 			// const eoas = await sdk.getEOAAddress(username)
 
-						return {
-							accounts: [{
-								address,
-								nickname: username,
-							}],
-							chainId: network.chainId,
-						}
-					},
+			// 			return {
+			// 				accounts: [{
+			// 					address,
+			// 					nickname: username,
+			// 				}],
+			// 				chainId: network.chainId,
+			// 			}
+			// 		},
 
-					disconnect: async () => {
-						const { success, error } = await sdk.resetWallet()
+			// 		disconnect: async () => {
+			// 			const { success, error } = await sdk.resetWallet()
 
-						if(error)
-							throw new Error(error)
-					},
-				}
-			}
+			// 			if(error)
+			// 				throw new Error(error)
+			// 		},
+			// 	}
+			// }
 		}
 	}
 

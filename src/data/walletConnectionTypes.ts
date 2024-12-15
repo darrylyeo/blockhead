@@ -6,7 +6,7 @@ export enum WalletConnectionType {
 	Web3Modal = 'Web3Modal',
 	CoinbaseWalletSDK = 'CoinbaseWalletSDK',
 	WebmaxJs = 'WebmaxJs',
-	BananaWalletSdk = 'BananaWalletSdk'
+	// BananaWalletSdk = 'BananaWalletSdk'
 }
 
 
@@ -34,7 +34,7 @@ export const walletConnectionTypes: Record<WalletConnectionType, {
 	[WalletConnectionType.WebmaxJs]: {
 		name: 'webmax.js',
 	},
-	[WalletConnectionType.BananaWalletSdk]: {
-		name: 'Banana Wallet SDK',
-	},
+	// [WalletConnectionType.BananaWalletSdk]: {
+	// 	name: 'Banana Wallet SDK',
+	// },
 }

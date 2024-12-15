@@ -64,7 +64,6 @@
     "@pushprotocol/restapi": "^1.6.3",
     "@pushprotocol/socket": "^0.5.3",
     "@resvg/resvg-js": "^2.6.0",
-    "@rize-labs/banana-wallet-sdk": "^0.1.28",
     "@tanstack/query-broadcast-client-experimental": "^5.36.1",
     "@tanstack/query-persist-client-core": "^5.37.1",
     "@tanstack/svelte-query": "^5.37.1",

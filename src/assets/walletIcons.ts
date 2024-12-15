@@ -1,4 +1,4 @@
-export { default as BananaWalletIcon } from './wallets/BananaWallet.png'
+// export { default as BananaWalletIcon } from './wallets/BananaWallet.png'
 export { default as Coin98Icon } from './wallets/Coin98.svg'
 export { default as CoinbaseWalletIcon } from './wallets/CoinbaseWallet.svg'
 export { default as EnkryptIcon } from './wallets/Enkrypt.svg'

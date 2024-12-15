@@ -11,7 +11,7 @@ import type { Eip6963Rdns } from '$/state/wallets'
 import { WalletConnectionType } from './walletConnectionTypes'
 
 export enum KnownWalletType {
-	BananaWallet = 'BananaWallet',
+	// BananaWallet = 'BananaWallet',
 	CoinbaseWallet = 'Coinbase Wallet',
 	Coin98 = 'Coin98',
 	Enkrypt = 'Enkrypt',
@@ -65,15 +65,15 @@ export type KnownWalletConfig = {
 		| {
 			type: WalletConnectionType.WebmaxJs
 		}
-		| {
-			type: WalletConnectionType.BananaWalletSdk
-		}
+		// | {
+		// 	type: WalletConnectionType.BananaWalletSdk
+		// }
 	)[]
 }
 
 
 import {
-	BananaWalletIcon,
+	// BananaWalletIcon,
 	Coin98Icon,
 	CoinbaseWalletIcon,
 	EnkryptIcon,
@@ -155,23 +155,23 @@ export const knownWallets = [
 			},
 		],
 	},
-	{
-		type: KnownWalletType.BananaWallet,
-		name: 'Banana Wallet',
-		icon: BananaWalletIcon,
-		colors: [
-			'#ffcf4a',
-			'#f8b42c',
-			// '#e67f1c',
-			// '#b95300',
-		],
+	// {
+	// 	type: KnownWalletType.BananaWallet,
+	// 	name: 'Banana Wallet',
+	// 	icon: BananaWalletIcon,
+	// 	colors: [
+	// 		'#ffcf4a',
+	// 		'#f8b42c',
+	// 		// '#e67f1c',
+	// 		// '#b95300',
+	// 	],
 
-		connectionTypes: [
-			{
-				type: WalletConnectionType.BananaWalletSdk,
-			},
-		],
-	},
+	// 	connectionTypes: [
+	// 		{
+	// 			type: WalletConnectionType.BananaWalletSdk,
+	// 		},
+	// 	],
+	// },
 	{
 		type: KnownWalletType.CoinbaseWallet,
 		name: 'Coinbase Wallet',
