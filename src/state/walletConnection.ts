@@ -36,7 +36,18 @@ export type WalletconnectTopic = BrandedString<'WalletconnectTopic'>
 
 
 // Functions
-const connectEip1193 = async (eip1193Provider: Ethereum.Provider): Promise<{ accounts: Account[]}> => {
+const connectEip1193 = async (
+	eip1193Provider: (
+		| Ethereum.Provider
+		| Omit<Ethereum.Provider, 'request'> & { send: Ethereum.Provider['request'] }
+		| {
+			sendAsync: (
+				args: { method: string }, // Parameters<Ethereum.Provider['request']>[0],
+				callback: (error: Error, accounts: Ethereum.Address[]) => void
+			) => void
+		}
+	)
+): Promise<{ accounts: Account[]}> => {
 	if(!['request', 'send', 'sendAsync'].some(method => method in eip1193Provider))
 		throw new Error(`The EIP-1193 provider does not support any known connection methods.`)
 
@@ -48,14 +59,14 @@ const connectEip1193 = async (eip1193Provider: Ethereum.Provider): Promise<{ acc
 		: 'send' in eip1193Provider ?
 			await eip1193Provider.send({
 				method: 'eth_requestAccounts',
-			}) as Ethereum.Address[]
+			})
 		: 'sendAsync' in eip1193Provider ?
 			await new Promise((resolve, reject) => {
 				eip1193Provider.sendAsync(
 					{
-						method: 'eth_accounts'
+						method: 'eth_accounts',
 					},
-					(error, accounts: Ethereum.Address[]) => {
+					(error, accounts) => {
 						error
 							? reject(error)
 							: resolve(accounts)
