@@ -57,6 +57,8 @@
 		isOpen: boolean,
 		clip: boolean,
 
+		showContentWhenIdle?: boolean,
+
 		containerClass: string,
 		contentClass: string,
 	}> = {}
@@ -68,6 +70,8 @@
 		showIf = undefined,
 		isOpen = true,
 		clip = true,
+
+		showContentWhenIdle = false,
 
 		containerClass = 'column-block',
 		contentClass = 'column-block',
@@ -505,7 +509,7 @@
 				{isOpen}
 				{clip}
 			>
-				{#if status === LoadingStatus.Resolved || status === LoadingStatus.Reloading || (fromStore && status === LoadingStatus.Loading && result)}
+				{#if status === LoadingStatus.Resolved || status === LoadingStatus.Reloading || (fromStore && status === LoadingStatus.Loading && result) || showContentWhenIdle}
 					<div class={contentClass} transition:fade>
 						<slot
 							{result}
