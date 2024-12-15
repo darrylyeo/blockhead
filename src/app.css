@@ -783,6 +783,10 @@ address {
 		outline: none;
 	}
 
+	&.backdrop {
+		backdrop-filter: var(--overlay-backdrop-filter);
+	}
+
 	& .card-annotation {
 		opacity: 0.4;
 		letter-spacing: 0.2ch;
