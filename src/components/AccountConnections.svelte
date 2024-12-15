@@ -127,7 +127,7 @@
 			{#each (
 				Object.values($eip6963Providers)
 					.sort((a, b) => a.info.name.localeCompare(b.info.name))
-			) as eip6963Provider}
+			) as eip6963Provider (eip6963Provider.info.uuid)}
 				<button
 					class="wallet medium row"
 					on:click={() => {
@@ -147,7 +147,7 @@
 				</button>
 			{/each}
 
-			{#each displayedKnownWallets as knownWallet}
+			{#each displayedKnownWallets as knownWallet (knownWallet.type)}
 				<button
 					class="wallet medium row"
 					style="--primary-color: {knownWallet.colors[knownWallet.colors.length - 1]}"
