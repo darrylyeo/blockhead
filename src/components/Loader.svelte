@@ -59,8 +59,10 @@
 
 		showContentWhenIdle?: boolean,
 
-		containerClass: string,
-		contentClass: string,
+		containerClass?: string,
+		contentClass?: string,
+		loadingClass?: string,
+		errorClass?: string,
 	}> = {}
 
 	$: ({
@@ -75,6 +77,8 @@
 
 		containerClass = 'column-block',
 		contentClass = 'column-block',
+		loadingClass = '',
+		errorClass = '',
 	} = viewOptions)
 
 	export let showStatusAndActions = false
@@ -434,13 +438,14 @@
 						width: loadingIconWidth,
 					}}
 					iconAnimation="hover"
+					class={loadingClass}
 				>
 					<slot name="loadingMessage">
 						{loadingMessage}
 					</slot>
 				</Loading>
 			{:else if !hideError && status === LoadingStatus.Errored}
-				<div class="card" transition:scale>
+				<div class="card {errorClass}" transition:scale>
 					<div class="bar wrap">
 						<slot name="errorTitle" {error} {errorMessage}>
 							<h4>{errorMessage || 'Error'}</h4>
@@ -534,13 +539,14 @@
 							width: loadingIconWidth,
 						}}
 						iconAnimation="hover"
+						class={loadingClass}
 					>
 						<slot name="loadingMessage">
 							{loadingMessage}
 						</slot>
 					</Loading>
 				{:else if !hideError && status === LoadingStatus.Errored}
-					<div class="card" transition:scale>
+					<div class="card {errorClass}" transition:scale>
 						<div class="bar wrap">
 							<slot name="errorTitle" {error} {errorMessage}>
 								<h4>{errorMessage || 'Error'}</h4>
