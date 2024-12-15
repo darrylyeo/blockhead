@@ -37,45 +37,41 @@ export type WalletconnectTopic = BrandedString<'WalletconnectTopic'>
 
 // Functions
 const connectEip1193 = async (eip1193Provider: Ethereum.Provider): Promise<{ accounts: Account[]}> => {
-	try {
-		const accounts = (
-			'request' in eip1193Provider ?
-				await eip1193Provider.request({
-					method: 'eth_requestAccounts',
-				})
-			: 'send' in eip1193Provider ?
-				await eip1193Provider.send({
-					method: 'eth_requestAccounts',
-				}) as Ethereum.Address[]
-			: 'sendAsync' in eip1193Provider ?
-				await new Promise((resolve, reject) => {
-					eip1193Provider.sendAsync(
-						{
-							method: 'eth_accounts'
-						},
-						(error, accounts: Ethereum.Address[]) => {
-							error
-								? reject(error)
-								: resolve(accounts)
-						},
-					)
-				})
-			:
-				undefined
-		) as Ethereum.Address[]
-
-		if(!accounts)
-			throw new Error(`The EIP-1193 provider does not support any known connection methods.`)
-
-		return {
-			accounts: accounts
-				.map(address => ({ address })),
-		}
-	}catch(e){
-		if(e.message.includes('User rejected the request'))
-			throw e
-
+	if(!['request', 'send', 'sendAsync'].some(method => method in eip1193Provider))
 		throw new Error(`The EIP-1193 provider does not support any known connection methods.`)
+
+	const accounts = (
+		'request' in eip1193Provider ?
+			await eip1193Provider.request({
+				method: 'eth_requestAccounts',
+			})
+		: 'send' in eip1193Provider ?
+			await eip1193Provider.send({
+				method: 'eth_requestAccounts',
+			}) as Ethereum.Address[]
+		: 'sendAsync' in eip1193Provider ?
+			await new Promise((resolve, reject) => {
+				eip1193Provider.sendAsync(
+					{
+						method: 'eth_accounts'
+					},
+					(error, accounts: Ethereum.Address[]) => {
+						error
+							? reject(error)
+							: resolve(accounts)
+					},
+				)
+			})
+		:
+			undefined
+	) as Ethereum.Address[]
+
+	if(!accounts)
+		throw new Error(`No accounts were found.`)
+
+	return {
+		accounts: accounts
+			.map(address => ({ address })),
 	}
 }
 
