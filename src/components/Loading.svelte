@@ -85,7 +85,8 @@
 
 
 <div
-	class="loading"
+	{...$$restProps}
+	class="loading {$$restProps.class}"
 	class:card={layout === 'card'}
 	data-layout={layout}
 	{title}
