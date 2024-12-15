@@ -13,7 +13,7 @@
 
 
 	// Constants
-	import { displayedKnownWallets } from '$/data/wallets'
+	import { displayedKnownWallets, knownWalletsByEip6963Rdns } from '$/data/wallets'
 
 
 	// Internal state
@@ -128,8 +128,11 @@
 				Object.values($eip6963Providers)
 					.sort((a, b) => a.info.name.localeCompare(b.info.name))
 			) as eip6963Provider (eip6963Provider.info.uuid)}
+				{@const knownWallet = knownWalletsByEip6963Rdns[eip6963Provider.info.rdns]}
+
 				<button
 					class="wallet medium row"
+					style:--primary-color={knownWallet?.colors?.[knownWallet.colors.length - 1]}
 					on:click={() => {
 						addAccountConnection({
 							eip6963: {
@@ -150,7 +153,7 @@
 			{#each displayedKnownWallets as knownWallet (knownWallet.type)}
 				<button
 					class="wallet medium row"
-					style="--primary-color: {knownWallet.colors[knownWallet.colors.length - 1]}"
+					style:--primary-color={knownWallet.colors?.[knownWallet.colors.length - 1]}
 					on:click={() => {
 						addAccountConnection({
 							knownWallet: {
