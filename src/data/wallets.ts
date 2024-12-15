@@ -617,6 +617,18 @@ export const knownWalletsByType: Partial<Record<KnownWalletType, KnownWalletConf
 		.map(knownWallet => [knownWallet.type, knownWallet])
 )
 
+export const knownWalletsByEip6963Rdns: Partial<Record<Eip6963Rdns, KnownWalletConfig>> = Object.fromEntries(
+	knownWallets
+		.flatMap(knownWallet => (
+			knownWallet.connectionTypes
+				.filter(connectionType => connectionType.type === WalletConnectionType.Eip6963)
+				.map(connectionType => [
+					connectionType.rdns,
+					knownWallet,
+				])
+		))
+)
+
 export const displayedKnownWallets = ([
 	KnownWalletType.MetaMask,
 	KnownWalletType.WalletConnect2,
