@@ -14,10 +14,10 @@ export const walletConnectionTypes: Record<WalletConnectionType, {
 	name: string;
 }> = {
 	[WalletConnectionType.InjectedEip1193]: {
-		name: 'injected EIP-1193 provider',
+		name: 'injected EIP-1193',
 	},
 	[WalletConnectionType.Eip6963]: {
-		name: 'EIP-6963 wallet provider',
+		name: 'EIP-6963',
 	},
 	[WalletConnectionType.WalletConnect1]: {
 		name: 'WalletConnect 1.0',
