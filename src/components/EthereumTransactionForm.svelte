@@ -144,6 +144,7 @@
 	import Collapsible from './Collapsible.svelte'
 	import EthereumParameters from './EthereumParameters.svelte'
 	import HeightContainer from './HeightContainer.svelte'
+	import Icon from './Icon.svelte'
 	import Input from './Input.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
 	import TokenAmountSelect from './TokenAmountSelect.svelte'
@@ -178,6 +179,10 @@
 
 	.input-index {
 		opacity: 0.8;
+	}
+
+	button.medium {
+		--icon-size: 1em;
 	}
 
 	.tenderly {
@@ -389,7 +394,7 @@
 				<article class="card">
 					<header class="row">
 						<span class="row">
-							<img src={walletIcon} width="25" />
+							<Icon imageSources={[walletIcon]} />
 							<Address {network} address={selectedAccountConnection?.state?.account?.address} format="middle-truncated" />
 						</span>
 
@@ -459,11 +464,11 @@
 
 					<div class="row">
 						{#if isReadable(contractMethod)}
-							<button type="button" class="medium" on:click={actions.query}><img src={networkProviderConfigByProvider[$preferences.rpcNetwork]?.icon} width="16" /> Query Contract ›</button>
+							<button type="button" class="medium" on:click={actions.query}><Icon imageSources={[networkProviderConfigByProvider[$preferences.rpcNetwork]?.icon]} /> Query Contract ›</button>
 						{:else if isWritable(contractMethod)}
-							<button type="button" class="tenderly medium" on:click={actions.simulate}><img src={TenderlyIcon} width="16" /> Simulate Transaction ›</button>
+							<button type="button" class="tenderly medium" on:click={actions.simulate}><Icon imageSources={[TenderlyIcon]} /> Simulate Transaction ›</button>
 
-							<button type="button" class="medium" on:click={actions.sign}><img src={walletIcon} width="16" /> Sign & Broadcast Transaction ›</button>
+							<button type="button" class="medium" on:click={actions.sign}><Icon imageSources={[walletIcon]} /> Sign & Broadcast Transaction ›</button>
 						{:else}
 						{/if}
 					</div>
@@ -503,7 +508,7 @@
 
 					<div class="row">
 						<button type="button" class="medium destructive" on:click={actions.cancel}>« Start Over</button>
-						<button type="button" class="tenderly medium" on:click={actions.simulate}><img src={TenderlyIcon} width="16" /> Simulate Again</button>
+						<button type="button" class="tenderly medium" on:click={actions.simulate}><Icon imageSources={[TenderlyIcon]} /> Simulate Again</button>
 					</div>
 				</div>
 			</svelte:fragment>

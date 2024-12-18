@@ -74,6 +74,7 @@
 	// Components
 	import Loader from './Loader.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
+	import Icon from './Icon.svelte'
 </script>
 
 
@@ -423,7 +424,7 @@
 		{#if transactionProvider === TransactionProvider.RpcProvider}
 			<NetworkIcon {network} />
 		{:else}
-			<img src={transactionProviderIcons[transactionProvider]} alt={transactionProvider} width={25}>
+			<Icon imageSources={[transactionProviderIcons[transactionProvider]]} alt={transactionProvider} />
 		{/if}
 	</svelte:fragment>
 

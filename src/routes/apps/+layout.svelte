@@ -138,6 +138,7 @@
 
 	// Components
 	import CollapsibleToolbar from '$/components/CollapsibleToolbar.svelte'
+	import Icon from '$/components/Icon.svelte'
 	import InlineTransition from '$/components/InlineTransition.svelte'
 	import NetworkIcon from '$/components/NetworkIcon.svelte'
 	import NetworkSelect from '$/components/NetworkSelect.svelte'
@@ -238,7 +239,7 @@
 					>
 						{#if $web3AppConfig}
 							{#if $web3AppConfig.icon}
-								<img src={$web3AppConfig.icon} width="30" />
+								<Icon imageSources={[$web3AppConfig.icon]} />
 							{:else}
 								{@const token = $web3AppConfig.views?.flatMap(view => view.erc20Tokens ?? [])[0]}
 
@@ -247,13 +248,13 @@
 										{token}
 									/>
 								{:else}
-									<img src="/Blockhead-Logo.svg" width="30" />
+									<Icon imageSources={['/Blockhead-Logo.svg']} />
 								{/if}
 							{/if}
 						{:else if $network}
 							<NetworkIcon network={$network} />
 						{:else}
-							<img src="/Blockhead-Logo.svg" width="30" />
+							<Icon imageSources={['/Blockhead-Logo.svg']} />
 						{/if}
 					</InlineTransition>
 

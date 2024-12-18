@@ -47,6 +47,7 @@
 
 
 	// Components
+	import Icon from './Icon.svelte'
 	import Loader from './Loader.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
 </script>
@@ -98,7 +99,7 @@
 		{@const networkProviderConfig = networkProviderConfigByProvider[$preferences.rpcNetwork]}
 
 		{#if networkProviderConfig?.icon}
-			<img src={networkProviderConfig.icon} alt={networkProviderConfig.name} width={25}>
+			<Icon imageSources={[networkProviderConfig.icon]} alt={networkProviderConfig.name} />
 		{:else}
 			<NetworkIcon {network} />
 		{/if}

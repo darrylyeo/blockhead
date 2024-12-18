@@ -27,6 +27,7 @@
 	// Components
 	import Collapsible from './Collapsible.svelte'
 	import DiscoProfileLinkage from './DiscoProfileLinkage.svelte'
+	import Icon from './Icon.svelte'
 	import VerifiableCredentials from './VerifiableCredentials.svelte'
 	import VerifiableCredentialsLoader from './VerifiableCredentialsLoader.svelte'
 	import TweenedNumber from './TweenedNumber.svelte'
@@ -42,7 +43,7 @@
 		<svelte:fragment slot="title">
 			<a href={resolveRoute(`/apps/[web3AppSlug]/account/[accountId]`, { web3AppSlug: 'disco', accountId: profile.profile.name })}>
 				<svelte:element this={`h${headingLevel}`} class="row">
-					<img class="avatar" src={profile.profile.avatar} />
+					<span class="avatar"><Icon imageSources={[profile.profile.avatar]} /></span>
 					<output>{profile.profile.name}</output>
 				</svelte:element>
 			</a>
@@ -98,9 +99,7 @@
 
 <style>
 	.avatar {
-		border-radius: 0.2rem;
-		width: auto;
-		height: 1.75em;
+		--icon-size: 1.75em;
 	}
 
 	.bio {

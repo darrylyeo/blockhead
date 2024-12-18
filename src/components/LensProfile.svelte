@@ -43,6 +43,7 @@
 	import Address from './Address.svelte'
 	import Collapsible from './Collapsible.svelte'
 	import EthereumAccountOrContract from './EthereumAccountOrContract.svelte'
+	import Icon from './Icon.svelte'
 	import LensName from './LensName.svelte'
 </script>
 
@@ -65,10 +66,10 @@
 						network={ethereumMainnet}
 						address={profile.picture.contractAddress}
 					>
-						<img src={picture} width="24" />
+						<Icon imageSources={[picture]} />
 					</Address>
 				{:else}
-					<img src={picture} width="24" />
+					<Icon imageSources={[picture]} />
 				{/if}
 			{/if}
 

@@ -10,6 +10,7 @@
 	// Components
 	import { FarcasterIcon, GitcoinIcon } from '$/assets/icons'
 	import CollapsibleToolbar from './CollapsibleToolbar.svelte'
+	import Icon from './Icon.svelte'
 </script>
 
 
@@ -42,7 +43,7 @@
 					class="button medium"
 					style="--primary-color: #00ae84"
 				>
-					<img src={GitcoinIcon} width="16" /> Gitcoin Grants
+					<Icon imageSources={[GitcoinIcon]} /> Gitcoin Grants
 				</a>
 			</li> -->
 			<li>
@@ -52,7 +53,7 @@
 					class="button medium"
 					style="--primary-color: hsl(261.08deg 55.22% 63.59%)"
 				>
-					<img src={FarcasterIcon} /> Farcaster
+					<Icon imageSources={[FarcasterIcon]} /> Farcaster
 				</a>
 			</li>
 			<!-- <li>
@@ -214,9 +215,7 @@
 					} */
 
 					a {
-						img {
-							width: 1.25em;
-						}
+						--icon-size: 1.25em;
 					}
 				}
 			}

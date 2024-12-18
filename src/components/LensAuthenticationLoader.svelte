@@ -12,6 +12,7 @@
 
 
 	// Components
+	import Icon from './Icon.svelte'
 	import Loader from './Loader.svelte'
 	import { LensIcon } from '$/assets/icons'
 </script>
@@ -86,7 +87,7 @@
 					type="submit"
 					class="lens medium"
 				>
-					<img src={LensIcon} width="20" />
+					<Icon imageSources={[LensIcon]} />
 					Sign in ›
 				</button>
 			</div>

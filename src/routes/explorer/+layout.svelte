@@ -75,6 +75,7 @@
 
 	// Components
 	import CollapsibleToolbar from '$/components/CollapsibleToolbar.svelte'
+	import Icon from '$/components/Icon.svelte'
 	import NetworkSelect from '$/components/NetworkSelect.svelte'
 	import Preferences from '$/components/Preferences.svelte'
 	import InlineTransition from '$/components/InlineTransition.svelte'
@@ -125,7 +126,7 @@
 							{#if $networkSlug}
 								<NetworkIcon network={$explorerNetwork} />
 							{:else}
-								<img src="/Blockhead-Logo.svg" width="30" />
+								<Icon imageSources={['/Blockhead-Logo.svg']} />
 							{/if}
 						</InlineTransition>
 
