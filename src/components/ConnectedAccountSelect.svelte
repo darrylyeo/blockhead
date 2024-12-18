@@ -91,6 +91,7 @@
 	bind:value={selectedAccountConnection}
 	{required}
 	on:input={onInput}
+	style:--select-leftIcon-url={selectedAccountConnection && `url(${$accountConnectionToInfo.get(selectedAccountConnection).icon})`}
 >
 	{#if $accountConnectionToInfo.size}
 		<option value={undefined} selected disabled>Choose account...</option>
