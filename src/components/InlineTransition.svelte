@@ -44,7 +44,7 @@
 	{contentTransition}
 	contentProps={{
 		...contentProps,
-		class: `stack inline align-${align} ${contentProps && contentProps.class || ''}`,
+		class: `row align-${align} ${contentProps && contentProps.class || ''}`,
 	}}
 >
 	<slot
