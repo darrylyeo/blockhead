@@ -10,8 +10,9 @@
 	export let key: string | undefined
 	export let imageSources: string[] | undefined
 
-	export let title = ''
-	export let placeholder = ''
+	export let title: string | undefined
+	export let alt: string | undefined
+	export let placeholder: string | undefined
 
 	export let layout: 'contain' | 'cover' = 'contain'
 	export let isGrayscale = false
@@ -36,6 +37,7 @@
 	{#if imageSources?.[i]}
 		<img
 			src={imageSources[i]}
+			{alt}
 			on:error={e => i++}
 		/>
 	{:else}
