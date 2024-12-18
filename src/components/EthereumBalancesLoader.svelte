@@ -566,7 +566,7 @@
 						if (!chain)
 							throw new Error(`Chain ${chainId} not supported by Noves`)
 
-						const uniswapLabsDefaultTokenList = await import('$/data/tokens/tokens.uniswap.org.tokenlist.json')
+						const uniswapLabsDefaultTokenList = (await import('$/data/tokens/tokens.uniswap.org.tokenlist.json')).default.tokens
 
 						return await Evm.getTokenBalances({
 							chain: chain.name,
