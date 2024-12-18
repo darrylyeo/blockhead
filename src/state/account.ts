@@ -2,7 +2,7 @@
 import type { Eip6963Rdns } from './wallets'
 import type { Ethereum } from '$/data/networks/types'
 import type { Signer } from 'ethers'
-import type { KnownWalletType } from '$/data/wallets'
+import { type KnownWalletType, knownWalletsByType } from '$/data/wallets'
 import { type WalletConnection, type WalletconnectTopic, getWalletConnection } from './walletConnection'
 
 export type Account = {
@@ -185,8 +185,10 @@ export const accountConnectionToInfo: SvelteStore<
 	Map<
 		AccountConnection,
 		{
-			address: Account['address'] | undefined,
-			walletName: string | undefined,
+			address?: Account['address']
+			walletName?: string
+			icon?: string
+			colors?: string[]
 		}
 	>
 > = derived(
@@ -198,7 +200,7 @@ export const accountConnectionToInfo: SvelteStore<
 		new Map(
 			$accountConnections
 				.map(accountConnection => {
-					const knownWalletConfig = accountConnection.selector.knownWallet
+					const knownWalletConfig = accountConnection.selector.knownWallet && knownWalletsByType[accountConnection.selector.knownWallet.type]
 
 					const eip6963Provider = accountConnection.selector.eip6963 && findEip6963Provider({
 						eip6963Providers: $eip6963Providers,
@@ -209,7 +211,9 @@ export const accountConnectionToInfo: SvelteStore<
 						accountConnection,
 						{
 							address: accountConnection.state.account?.address,
-							walletName: knownWalletConfig?.type || eip6963Provider?.info.name,
+							walletName: knownWalletConfig?.type ?? eip6963Provider?.info.name,
+							icon: knownWalletConfig?.icon ?? eip6963Provider?.info.icon,
+							colors: knownWalletConfig?.colors,
 						}
 					]
 				})
