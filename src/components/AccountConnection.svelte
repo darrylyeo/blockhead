@@ -136,6 +136,8 @@
 			<article
 				class="wallet-connection card"
 
+				data-connected={isConnected}
+
 				title="{name ?? accountConnection.state.walletConnection?.type}{walletConnectionTypeConfig ? ` via ${walletConnectionTypeConfig?.name}` : ''}"
 
 				draggable={!!accountConnection.state.account?.address}
@@ -276,6 +278,8 @@
 
 		--icon-size: 2.5em;
 
+		transition-property: box-shadow;
+
 		.wallet-icon-container {
 			aspect-ratio: 1;
 
@@ -284,6 +288,8 @@
 				--icon-size: 1em;
 				place-self: end;
 			}
+
+			transition-property: filter, opacity;
 		}
 
 		.column {
@@ -295,6 +301,8 @@
 				h4 {
 					font-weight: 600;
 				}
+
+				transition-property: opacity;
 			}
 
 			> :nth-child(2) {
@@ -306,7 +314,36 @@
 					font-weight: 200;
 					opacity: 0.8;
 				}
+
+				transition-property: opacity;
 			}
+		}
+
+		&[data-connected="false"] {
+			box-shadow: 0 0 0 0 transparent inset;
+
+			.wallet-icon-container {
+				filter: grayscale(0.25) contrast(1.25);
+				opacity: 0.5;
+			}
+
+			.column {
+				> :nth-child(1) {
+					> :first-child {
+						opacity: 0.75;
+					}
+				}
+
+				> :nth-child(2) {
+					> :global(:first-child) {
+						opacity: 0.66;
+					}
+				}
+			}
+		}
+
+		&[data-connected="true"] {
+			box-shadow: 0 0 0 2px color-mix(in oklch, transparent 80%, var(--primary-color)) inset;
 		}
 	}
 
@@ -317,9 +354,5 @@
 
 	small {
 		font-size: 0.75em;
-	}
-
-	.disconnected {
-		opacity: 0.5;
 	}
 </style>
