@@ -14,6 +14,7 @@
 	export let align: 'start' | 'center' | 'end' = 'start'
 	export let clip: boolean | undefined
 	
+	export let containerProps: Record<string, any> | undefined
 	export let contentTransition: SizeContainer['$$prop_def']['contentTransition'] = [scale]
 	export let contentProps: Record<string, any> | undefined
 	
@@ -35,14 +36,15 @@
 	{clip}
 
 	containerProps={{
-		class: `stack inline align-${align}`,
+		...containerProps,
+		class: `stack inline align-${align} ${containerProps && containerProps.class || ''}`,
 	}}
 
 	contentKey={key ?? value}
 	{contentTransition}
 	contentProps={{
-		class: `stack inline align-${align}`,
 		...contentProps,
+		class: `stack inline align-${align} ${contentProps && contentProps.class || ''}`,
 	}}
 >
 	<slot

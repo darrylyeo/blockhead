@@ -17,7 +17,10 @@
 
 	// (View options)
 	export let align: 'top' | 'center' | 'bottom' = 'top'
+	
+	export let containerProps: Record<string, any> | undefined
 	export let contentTransition: SizeContainer['$$prop_def']['contentTransition']
+	export let contentProps: Record<string, any> | undefined
 
 	// (Computed)
 	$: alignBlock = ({ 'top': 'start', 'center': 'center', 'bottom': 'end' } as const)[align]
@@ -37,13 +40,15 @@
 	{alignBlock}
 
 	containerProps={{
-		class: `stack align-${align}`,
+		...containerProps,
+		class: `stack align-${align} ${containerProps && containerProps.class || ''}`,
 	}}
 
 	contentKey={key ?? value}
 	{contentTransition}
 	contentProps={{
-		class: `column align-${align}`,
+		...contentProps,
+		class: `column align-${align} ${contentProps && contentProps.class || ''}`,
 	}}
 >
 	<slot
