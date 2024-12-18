@@ -181,7 +181,11 @@
 
 	const cancel = async () => {
 		if(whenCanceled)
-			await whenCanceled().catch(() => {}) // .catch(console.error)
+			try {
+				await whenCanceled()
+			}catch(e){
+				console.warn(e)
+			}
 
 		status = LoadingStatus.Idle
 
