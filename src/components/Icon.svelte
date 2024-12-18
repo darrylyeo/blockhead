@@ -20,6 +20,8 @@
 	export let transition: (node: Element, params: any) => TransitionConfig = () => ({})
 	export let transitionConfig: any
 
+	export let draggable = false
+
 
 	let i = key ? cachedIndex[key] ||= 0 : 0
 	$: if(key) cachedIndex[key] = i
@@ -38,6 +40,7 @@
 		<img
 			src={imageSources[i]}
 			{alt}
+			{draggable}
 			on:error={e => i++}
 		/>
 	{:else}
