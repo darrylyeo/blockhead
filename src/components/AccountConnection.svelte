@@ -275,30 +275,43 @@
 		line-height: 1.25;
 
 		--icon-size: 2.5em;
-	}
-	.wallet-connection > :global(*) {
-		--padding-inner: 0.33rem;
-		gap: 0.33rem;
-	}
-	.wallet-connection h4 {
-		font-weight: 600;
-	}
-	.wallet-connection :global(.column > :nth-child(2)) {
-		font-weight: 200;
-		font-size: 0.75em;
-		opacity: 0.8;
-	}
-	.align-end {
-		margin-left: auto;
+
+		.wallet-icon-container {
+			aspect-ratio: 1;
+
+			.network-icon {
+				display: flex;
+				--icon-size: 1em;
+				place-self: end;
+			}
+		}
+
+		.column {
+			gap: 0.33rem;
+
+			> :nth-child(1) {
+				gap: inherit;
+
+				h4 {
+					font-weight: 600;
+				}
+			}
+
+			> :nth-child(2) {
+				gap: inherit;
+
+				font-size: 0.75em;
+
+				> :global(:first-child) {
+					font-weight: 200;
+					opacity: 0.8;
+				}
+			}
+		}
 	}
 
-	.wallet-icon-container {
-		aspect-ratio: 1;
-	}
-	.network-icon {
-		display: flex;
-		--icon-size: 1em;
-		place-self: end;
+	.align-end {
+		margin-left: auto;
 	}
 
 
