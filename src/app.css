@@ -15,6 +15,9 @@
 		scroll-behavior: smooth;
 		transition-property: none;
 		transform-style: inherit;
+		--transformOriginX: center;
+		--transformOriginY: center;
+		transform-origin: var(--transformOriginX, center) var(--transformOriginY, center);
 		transition-duration: inherit;
 		transition-timing-function: inherit;
 	}
@@ -342,7 +345,6 @@ button,
 
 	box-shadow: 0px var(--button-depth) rgba(0, 0, 0, 0.25), 0px var(--button-depth) var(--button-backgroundColor), 0 var(--button-depth) var(--button-glow) var(--button-backgroundColor);
 	transform: translateY(calc(-1 * var(--button-depth))) scale(var(--button-scale));
-	transform-origin: var(--button-transformOrigin);
 
 	transition-duration: 0.2s;
 	transition-property:
@@ -1040,33 +1042,29 @@ address {
 	text-align: left;
 	justify-items: start;
 	justify-content: start;
-	transform-origin: left;
-	--button-transformOrigin: left;
+	--transformOriginX: left;
 }
 .align-center {
 	text-align: center;
 	justify-items: center;
 	justify-content: center;
-	transform-origin: center;
-	--button-transformOrigin: center;
+	--transformOriginX: center;
+	--transformOriginY: center;
 }
 .align-end {
 	text-align: right;
 	justify-items: end;
 	justify-content: end;
-	transform-origin: right;
-	--button-transformOrigin: right;
+	--transformOriginX: right;
 }
 .align-top {
 	place-items: start stretch;
-	transform-origin: top;
-	--button-transformOrigin: top;
+	--transformOriginY: top;
 }
 .align-bottom {
 	place-items: end stretch;
 	align-content: end;
-	transform-origin: bottom;
-	--button-transformOrigin: bottom;
+	--transformOriginY: bottom;
 }
 
 

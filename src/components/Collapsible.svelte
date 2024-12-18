@@ -102,7 +102,7 @@
 
 		[data-collapsible-content] {
 			min-height: 0;
-			transform-origin: top;
+			--transformOriginY: top;
 			align-content: start;
 
 			transition-property:

@@ -268,21 +268,21 @@
 			justify-content: start;
 
 			& > [data-content] {
-				transform-origin: left;
+				--transformOriginX: left;
 			}
 		}
 		&[data-align-inline="center"] {
 			justify-content: center;
 
 			& > [data-content] {
-				transform-origin: center;
+				--transformOriginX: center;
 			}
 		}
 		&[data-align-inline="end"] {
 			justify-content: end;
 
 			& > [data-content] {
-				transform-origin: right;
+				--transformOriginX: right;
 			}
 		}
 
@@ -290,21 +290,21 @@
 			align-content: start;
 
 			& > [data-content] {
-				transform-origin: top;
+				--transformOriginY: top;
 			}
 		}
 		&[data-align-block="center"] {
 			align-content: center;
 
 			& > [data-content] {
-				transform-origin: center;
+				--transformOriginY: center;
 			}
 		}
 		&[data-align-block="end"] {
 			align-content: end;
 
 			& > [data-content] {
-				transform-origin: bottom;
+				--transformOriginY: bottom;
 			}
 		}
 	}

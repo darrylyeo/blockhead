@@ -183,7 +183,7 @@
 				position: absolute;
 				inset: 0;
 				transform: rotateX(var(--angle));
-				transform-origin: top;
+				--transformOriginY: top;
 				/* background-color: var(--card-background-color); */
 				border-radius: inherit;
 				transition: 2s;
@@ -196,7 +196,7 @@
 			}
 
 			&:not(:focus-within):before {
-				transform-origin: top;
+				--transformOriginY: top;
 				backdrop-filter: blur(10px);
 			}
 		}

@@ -195,7 +195,7 @@
 			overflow: visible;
 			height: var(--grid-height);
 			transform: rotateX(var(--angle));
-			transform-origin: top;
+			--transformOriginY: top;
 			display: grid;
 			grid-auto-flow: row reverse;
 
@@ -243,8 +243,8 @@
 			figcaption {
 				order: -1;
 				transform: rotateX(calc(-1 * var(--angle)));
-				transform-origin: bottom;
-				transform-origin: top;
+				/* --transformOriginX: bottom; */
+				--transformOriginY: top;
 				transition: var(--transition-duration);
 			}
 		}
