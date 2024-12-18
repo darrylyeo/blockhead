@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Types
-	import type { EasingFunction, TransitionConfig } from 'svelte/transition'
+	import type { EasingFunction } from 'svelte/transition'
 
 	type Key = $$Generic<any>
 	type Value = $$Generic<any>
@@ -19,7 +19,7 @@
 	export let align: 'top' | 'center' | 'bottom' = 'top'
 	
 	export let containerProps: Record<string, any> | undefined
-	export let contentTransition: SizeContainer['$$prop_def']['contentTransition']
+	export let contentTransition: SizeContainer['$$prop_def']['contentTransition'] = [scale]
 	export let contentProps: Record<string, any> | undefined
 
 	// (Computed)
@@ -28,6 +28,10 @@
 
 	// Components
 	import SizeContainer from './SizeContainer.svelte'
+
+
+	// Transitions
+	import { scale } from 'svelte/transition'
 </script>
 
 
