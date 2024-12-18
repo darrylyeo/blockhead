@@ -620,7 +620,7 @@ abbr {
 	text-decoration: underline dotted 1px rgba(var(--text-decoration-color), var(--text-decoration-opacity));
 }
 
-:not(a) > :not(a)[title],
+:not(a) > :not(:is(a, button))[title],
 a > :not(a):not(:only-child)[title] {
 	cursor: help;
 }
