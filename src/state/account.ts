@@ -2,7 +2,7 @@
 import type { Eip6963Rdns } from './wallets'
 import type { Ethereum } from '$/data/networks/types'
 import type { Signer } from 'ethers'
-import { type KnownWalletType, knownWalletsByType } from '$/data/wallets'
+import { type KnownWalletType, knownWalletsByType, knownWalletsByEip6963Rdns } from '$/data/wallets'
 import { type WalletConnection, type WalletconnectTopic, getWalletConnection } from './walletConnection'
 
 export type Account = {
@@ -207,13 +207,15 @@ export const accountConnectionToInfo: SvelteStore<
 						rdns: accountConnection.selector.eip6963.rdns,
 					})
 
+					const knownEip6963WalletConfig = accountConnection.selector.eip6963 && knownWalletsByEip6963Rdns[accountConnection.selector.eip6963.rdns]
+
 					return [
 						accountConnection,
 						{
 							address: accountConnection.state.account?.address,
-							walletName: knownWalletConfig?.type ?? eip6963Provider?.info.name,
-							icon: knownWalletConfig?.icon ?? eip6963Provider?.info.icon,
-							colors: knownWalletConfig?.colors,
+							walletName: knownWalletConfig?.type ?? eip6963Provider?.info.name ?? knownEip6963WalletConfig?.type,
+							icon: knownWalletConfig?.icon ?? eip6963Provider?.info.icon ?? knownEip6963WalletConfig?.icon,
+							colors: knownWalletConfig?.colors ?? knownEip6963WalletConfig?.colors,
 						}
 					]
 				})
