@@ -57,6 +57,7 @@
 
 	// Components
 	import Address from './Address.svelte'
+	import BlockTransition from './BlockTransition.svelte'
 	import Loader from './Loader.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
 	import Icon from './Icon.svelte'
@@ -150,36 +151,40 @@
 
 				<div class="column">
 					<div class="bar">
-						<InlineTransition
+						<BlockTransition
 							key={isConnected && accountConnection.state.account?.address}
-							align="start"
+							align="bottom"
+							contentProps={{
+								class: 'align-start',
+							}}
 						>
-							{#if isConnected && accountConnection.state.account?.address}
-								<span>
-									<InlineTransition
+							<span class="overflow-ellipsis">
+								{#if isConnected && accountConnection.state.account?.address}
+									<BlockTransition
 										value={accountConnection.state.account?.address}
-										align="start"
+										align="bottom"
+										contentProps={{
+											class: 'align-start',
+										}}
 									>
 										<Address
 											address={accountConnection.state.account?.address} {network}
 											format="middle-truncated"
 										/>
-									</InlineTransition>
+									</BlockTransition>
 
 									{#if accountConnection.state.account?.nickname}
 										<small>"{accountConnection.state.account?.nickname}"</small>
 									{/if}
-								</span>
-							{:else}
-								<span class="overflow-ellipsis">
+								{:else}
 									<h4>{name}</h4>
-								</span>
-							{/if}
-						</InlineTransition>
+								{/if}
+							</span>
+						</BlockTransition>
 
 						<InlineTransition
-							align="end"
 							key={isConnected}
+							align="end"
 						>
 							{#if !isConnected}
 								<div class="bar">
@@ -197,26 +202,20 @@
 					</div>
 
 					<div class="bar">
-						<InlineTransition
+						<BlockTransition
 							key={isConnected && accountConnection.state.account?.address}
-							align="start"
-							containerProps={{
-								class: 'overflow-ellipsis',
-								style: 'flex: 1 0;',
-							}}
+							align="top"
 							contentProps={{
-								class: 'overflow-ellipsis',
+								class: 'align-start',
 							}}
 						>
-							{#if isConnected && accountConnection.state.account?.address}
-								<div class="overflow-ellipsis" style="flex: 1 0;">
+							<span class="overflow-ellipsis">
+								{#if isConnected && accountConnection.state.account?.address}
 									{name}
 									{#if walletConnectionTypeConfig?.name}
 										<small>({walletConnectionTypeConfig?.name})</small>
 									{/if}
-								</div>
-							{:else if accountConnection.state.account?.address || walletConnectionTypeConfig?.name}
-								<div class="overflow-ellipsis" style="flex: 1 0;">
+								{:else if accountConnection.state.account?.address || walletConnectionTypeConfig?.name}
 									{#if accountConnection.state.account?.address}
 										Last:
 
@@ -231,9 +230,9 @@
 									{:else if walletConnectionTypeConfig?.name}
 										{walletConnectionTypeConfig?.name}
 									{/if}
-								</div>
-							{/if}
-						</InlineTransition>
+								{/if}
+							</span>
+						</BlockTransition>
 
 						<InlineTransition
 							key={!isConnected ? 1 : isConnected && !accountConnection.autoconnect ? 2 : 0}
