@@ -568,7 +568,7 @@ export const preferencesConfig = [
 				preferenceId: 'farcasterProvider',
 				name: 'Farcaster Source',
 				type: 'single',
-				defaultOption: FarcasterProvider.Neynar,
+				defaultOption: FarcasterProvider.Pinata,
 				options: [
 					// {
 					// 	groupId: 'hubs',
