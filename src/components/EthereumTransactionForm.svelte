@@ -248,7 +248,11 @@
 				console.log(tx)
 			}}
 		>
-			<svelte:fragment slot="idle" let:actions={{ next }} let:isValid>
+			<svelte:fragment slot="idle"
+				let:actions={{ next }}
+				let:isValid
+				let:accountConnectionInfo
+			>
 				<header class="bar">
 					<svelte:element this={`h${headingLevel + 1}`} class="row with-float">
 						<!-- <span class="row with-float"> -->
@@ -285,9 +289,9 @@
 
 							{@const otherValuesOfType = Object.entries(inputValues).filter(([key, address]) => key !== inputKey && address && inputTypes[key] === input.type)}
 							{@const suggestedValues = [
-								selectedAccountConnection?.state?.account?.address && {
-									value: selectedAccountConnection.state.account.address,
-									label: `From Address (${selectedAccountConnection.selector.knownWallet && knownWalletsByType[selectedAccountConnection.selector.knownWallet]?.name})`,
+								accountConnectionInfo?.address && {
+									value: accountConnectionInfo.address,
+									label: `From Address${accountConnectionInfo.walletName ? ` (${accountConnectionInfo.walletName})` : ''}`,
 								},
 								...otherValuesOfType
 									.map(([key, address]) => ({
@@ -390,11 +394,11 @@
 				</footer>
 			</svelte:fragment>
 
-			<svelte:fragment slot="confirming" let:walletName let:walletIcon let:actions>
+			<svelte:fragment slot="confirming" let:accountConnectionInfo let:actions>
 				<article class="card">
 					<header class="row">
 						<span class="row">
-							<Icon imageSources={[walletIcon]} />
+							<Icon imageSources={[accountConnectionInfo?.icon]} />
 							<Address {network} address={selectedAccountConnection?.state?.account?.address} format="middle-truncated" />
 						</span>
 
@@ -468,7 +472,7 @@
 						{:else if isWritable(contractMethod)}
 							<button type="button" class="tenderly medium" on:click={actions.simulate}><Icon imageSources={[TenderlyIcon]} /> Simulate Transaction ›</button>
 
-							<button type="button" class="medium" on:click={actions.sign}><Icon imageSources={[walletIcon]} /> Sign & Broadcast Transaction ›</button>
+							<button type="button" class="medium" on:click={actions.sign}><Icon imageSources={[accountConnectionInfo?.icon]} /> Sign & Broadcast Transaction ›</button>
 						{:else}
 						{/if}
 					</div>

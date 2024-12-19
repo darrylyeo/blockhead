@@ -20,11 +20,13 @@
 	import { networkProviderConfigByProvider } from '$/data/networkProviders'
 	import type { AccountConnection } from '$/state/account'
 
-	import { knownWalletsByType } from '$/data/wallets'
-
 	type Abi = $$Generic<Ethereum.Abi>
 	type AbiMethod = Ethereum.AbiMethod<Abi>
 	type AbiMethodArgs = Ethereum.AbiMethodArgs<Abi, AbiMethod['name']>
+
+
+	// Context
+	import { accountConnectionToInfo } from '$/state/account'
 
 
 	// Functions
@@ -69,9 +71,7 @@
 	$: networkProviderName = networkProviderConfig?.name ?? ''
 	$: networkProviderIcon = networkProviderConfig?.icon ?? ''
 
-	$: walletConfig = accountConnection?.selector.knownWallet && knownWalletsByType[accountConnection.selector.knownWallet.type]
-	$: walletName = walletConfig?.name ?? ''
-	$: walletIcon = walletConfig?.icon ?? ''
+	$: accountConnectionInfo = $accountConnectionToInfo.get(accountConnection)
 
 
 	$: fromAddress = accountConnection?.state?.account?.address
@@ -165,6 +165,7 @@
 				name="idle"
 				{actions}
 				{isValid}
+				{accountConnectionInfo}
 			/>
 		</form>
 	{:else if currentStep === Steps.Confirming}
@@ -180,8 +181,7 @@
 			<slot
 				name="confirming"
 				{actions}
-				{walletName}
-				{walletIcon}
+				{accountConnectionInfo}
 			/>
 		</form>
 	
@@ -347,14 +347,14 @@
 					// 	currentStep = Steps.TransactionFailed
 					// }
 				}}
-				loadingIcon={walletIcon}
-				loadingIconName={walletName}
-				loadingMessage="Sign the transaction with {walletName} ({formatAddress(fromAddress)})."
+				loadingIcon={accountConnectionInfo?.icon}
+				loadingIconName={accountConnectionInfo?.walletName}
+				loadingMessage="Sign the transaction with {accountConnectionInfo?.walletName} ({formatAddress(fromAddress)})."
 				bind:result={signedTransaction}
 			>
 				<header slot="header" class="bar">
 					<h4>Sign Transaction</h4>
-					<span class="card-annotation">{walletName}</span>
+					<span class="card-annotation">{accountConnectionInfo?.walletName}</span>
 				</header>
 			</Loader>
 
