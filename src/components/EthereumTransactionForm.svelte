@@ -397,10 +397,10 @@
 			<svelte:fragment slot="confirming" let:accountConnectionInfo let:actions>
 				<article class="card">
 					<header class="row">
-						<span class="row">
+						<strong class="row inline">
 							<Icon imageSources={[accountConnectionInfo?.icon]} />
 							<Address {network} address={selectedAccountConnection?.state?.account?.address} format="middle-truncated" />
-						</span>
+						</strong>
 
 						<span>
 							will
@@ -419,7 +419,7 @@
 							{/if}
 						</span>
 
-						<span>
+						<strong>
 							<AddressWithLabel
 								{network}
 								label={formatIdentifier(contractName, true)}
@@ -429,10 +429,12 @@
 							/>
 							›
 							<abbr title={contractMethod.name}>{formatIdentifier(contractMethod.name, true)}</abbr>
-						</span>
+						</strong>
 
 						{#if contractMethod.inputs.length}
-							with {contractMethod.inputs.length} parameters:
+							<span>
+								with <strong>{contractMethod.inputs.length} parameters</strong>:
+							</span>
 						{/if}
 					</header>
 
