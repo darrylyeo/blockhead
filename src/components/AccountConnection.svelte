@@ -144,10 +144,8 @@
 
 					const result = parseCaip2Id(text)
 					if(!('chainId' in result)) return
-
-					const { chainId } = result
-					if(!chainId) return
-
+					
+					const chainId = Number(result.chainId)
 					const network = networkByChainId.get(chainId)
 					if(!network) return
 
