@@ -180,12 +180,14 @@ export const accountConnections = localStorageWritable(
 
 import { derived } from 'svelte/store'
 import { eip6963Providers, findEip6963Provider } from './wallets'
+import { networkByChainId } from '$/data/networks'
 
 export const accountConnectionToInfo: SvelteStore<
 	Map<
 		AccountConnection,
 		{
 			walletConnectionTypeName?: string
+			network?: Ethereum.Network
 			address?: Account['address']
 			walletName?: string
 			icon?: string
@@ -216,6 +218,7 @@ export const accountConnectionToInfo: SvelteStore<
 						accountConnection,
 						{
 							walletConnectionTypeName: walletConnectionType && walletConnectionTypes[walletConnectionType]?.name || walletConnectionType,
+							network: accountConnection.state.chainId && networkByChainId.get(accountConnection.state.chainId),
 							address: accountConnection.state.account?.address,
 							walletName: knownWalletConfig?.name ?? eip6963Provider?.info.name ?? knownEip6963WalletConfig?.name,
 							icon: knownWalletConfig?.icon ?? eip6963Provider?.info.icon ?? knownEip6963WalletConfig?.icon,
