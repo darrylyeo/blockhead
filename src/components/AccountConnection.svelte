@@ -6,7 +6,6 @@
 
 
 	// Constants/types
-	import { walletConnectionTypes } from '$/data/walletConnectionTypes'
 	import type { AccountConnection } from '$/state/account'
 	import { networkByChainId, getNetworkColor } from '$/data/networks'
 
@@ -18,11 +17,7 @@
 
 
 	// Internal state
-	$: accountConnectionInfo = $accountConnectionToInfo.get(accountConnection)
-
-	$: icon = accountConnectionInfo?.icon
-	$: name = accountConnectionInfo?.walletName
-	$: colors = accountConnectionInfo?.colors || []
+	$: info = $accountConnectionToInfo.get(accountConnection)!
 
 
 	// Derived
@@ -42,8 +37,8 @@
 
 
 	const onDragStart = (e: DragEvent) => {
-		if(accountConnection.state.account?.address)
-			e.dataTransfer.setData('text/plain', accountConnection.state.account.address)
+		if(info.address)
+			e.dataTransfer?.setData('text/plain', info.address)
 	}
 
 
@@ -74,10 +69,10 @@
 				theme,
 			})
 		)}
-		loadingIcon={icon}
-		loadingMessage={`Finding ${name} connection...`}
+		loadingIcon={info.icon}
+		loadingMessage={`Finding ${info.walletName} connection...`}
 
-		errorMessage={`Couldn't find ${name} connection.`}
+		errorMessage={`Couldn't find ${info.walletName} connection.`}
 
 		whenCanceled={() => { dispatch('delete') }}
 
@@ -85,9 +80,6 @@
 			contentClass: 'stack',
 		}}
 	>
-		{@const walletConnectionTypeConfig = accountConnection.state.walletConnection && walletConnectionTypes[accountConnection.state.walletConnection.type]}
-		{@const network = accountConnection.state.chainId && networkByChainId.get(accountConnection.state.chainId)}
-
 		<Loader
 			startImmediately={accountConnection.autoconnect || isFirstConnection}
 			fromStore={() => (
@@ -96,15 +88,15 @@
 				})
 			)}
 
-			loadingIcon={icon}
+			loadingIcon={info.icon}
 
-			loadingMessage={`Connecting to ${name}${walletConnectionTypeConfig ? ` (using ${walletConnectionTypeConfig.name})` : ''}...`}
+			loadingMessage={`Connecting to ${info.walletName}${info.walletConnectionTypeName ? ` (using ${info.walletConnectionTypeName})` : ''}...`}
 			whenLoaded={() => {
 				isFirstConnection = false
 				dispatch('connect')
 			}}
 
-			errorMessage={`Couldn't connect your ${name} account.`}
+			errorMessage={`Couldn't connect your ${info.walletName} account.`}
 
 			whenCanceled={async () => {
 				await accountConnection.disconnectWallet?.()
@@ -125,8 +117,8 @@
 
 			<svelte:fragment slot="loadingMessage">
 				<p>
-					Connecting to {name}...
-					{#if walletConnectionTypeConfig}<br><small>(using {walletConnectionTypeConfig.name})</small>{/if}
+					Connecting to {info.walletName}...
+					{#if info.walletConnectionTypeName}<br><small>(using {info.walletConnectionTypeName})</small>{/if}
 				</p>
 			</svelte:fragment>
 
@@ -135,7 +127,7 @@
 
 				data-connected={isConnected}
 
-				title="{name ?? accountConnection.state.walletConnection?.type}{walletConnectionTypeConfig ? ` via ${walletConnectionTypeConfig?.name}` : ''}"
+				title="{info.walletName ?? info.walletConnectionTypeName}{info.walletConnectionTypeName ? ` via ${info.walletConnectionTypeName}` : ''}"
 
 				on:dragover={e => { e.preventDefault() }}
 				on:drop={e => {
@@ -152,46 +144,47 @@
 					accountConnection.state.walletConnection?.switchNetwork?.(network)
 				}}
 
-				draggable={!!accountConnection.state.account?.address}
+				draggable={!!info.address}
 				on:dragstart={onDragStart}
 
-				style={isConnected ? cardStyle([...colors ?? [], getNetworkColor(network)].filter(isTruthy)) : undefined}
+				style={isConnected ? cardStyle([...info.colors ?? [], info.network && getNetworkColor(info.network)].filter(isTruthy)) : undefined}
 			>
 				<div class="wallet-icon-container stack">
-					<Icon imageSources={[icon]} />
+					<Icon imageSources={[info.icon].filter(isTruthy)} />
 
-					{#key network}{#if network}<div class="network-icon" transition:scale><NetworkIcon {network} /></div>{/if}{/key}
+					{#key info.network}{#if info.network}<div class="network-icon" transition:scale><NetworkIcon network={info.network} /></div>{/if}{/key}
 				</div>
 
 				<div class="column">
 					<div class="bar">
 						<BlockTransition
-							key={isConnected && accountConnection.state.account?.address}
+							key={isConnected && info.address}
 							align="bottom"
 							contentProps={{
 								class: 'align-start',
 							}}
 						>
 							<span class="overflow-ellipsis">
-								{#if isConnected && accountConnection.state.account?.address}
+								{#if isConnected && info.address}
 									<BlockTransition
-										value={accountConnection.state.account?.address}
+										value={info.address}
 										align="bottom"
 										contentProps={{
 											class: 'align-start',
 										}}
 									>
 										<Address
-											address={accountConnection.state.account?.address} {network}
+											network={info.network}
+											address={info.address}
 											format="middle-truncated"
 										/>
 									</BlockTransition>
 
-									{#if accountConnection.state.account?.nickname}
-										<small>"{accountConnection.state.account?.nickname}"</small>
+									{#if info.nickname}
+										<small>"{info.nickname}"</small>
 									{/if}
 								{:else}
-									<h4>{name}</h4>
+									<h4>{info.walletName}</h4>
 								{/if}
 							</span>
 						</BlockTransition>
@@ -217,32 +210,33 @@
 
 					<div class="bar">
 						<BlockTransition
-							key={isConnected && accountConnection.state.account?.address}
+							key={isConnected && info.address}
 							align="top"
 							contentProps={{
 								class: 'align-start',
 							}}
 						>
 							<span class="overflow-ellipsis">
-								{#if isConnected && accountConnection.state.account?.address}
-									{name}
-									{#if walletConnectionTypeConfig?.name}
-										<small>({walletConnectionTypeConfig?.name})</small>
+								{#if isConnected && info.address}
+									{info.walletName}
+									{#if info.walletConnectionTypeName}
+										<small>({info.walletConnectionTypeName})</small>
 									{/if}
-								{:else if accountConnection.state.account?.address || walletConnectionTypeConfig?.name}
-									{#if accountConnection.state.account?.address}
+								{:else if info.address || info.walletConnectionTypeName}
+									{#if info.address}
 										Last:
 
 										<Address
-											address={accountConnection.state.account?.address} {network}
+											network={info.network}
+											address={info.address}
 											format="middle-truncated"
 										/>
 
-										{#if walletConnectionTypeConfig?.name}
-											<small>({walletConnectionTypeConfig?.name})</small>
+										{#if info.walletConnectionTypeName}
+											<small>({info.walletConnectionTypeName})</small>
 										{/if}
-									{:else if walletConnectionTypeConfig?.name}
-										{walletConnectionTypeConfig?.name}
+									{:else if info.walletConnectionTypeName}
+										{info.walletConnectionTypeName}
 									{/if}
 								{/if}
 							</span>
