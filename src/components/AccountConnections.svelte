@@ -17,7 +17,7 @@
 
 
 	// Internal state
-	let state = State.Idle
+	let state = $accountConnections.length === 0 ? State.Adding : State.Idle
 
 	let previousState: State
 	$: {
@@ -109,7 +109,7 @@
 				on:click={() => state = State.Adding}
 				transition:scale
 			>Connect Wallet</button>
-		{:else if state === State.Adding}
+		{:else if state === State.Adding && $accountConnections.length > 0}
 			<button
 				class="cancel align-end medium"
 				on:click={() => state = State.Idle}
