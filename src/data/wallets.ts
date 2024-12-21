@@ -20,7 +20,7 @@ export enum KnownWalletType {
 	Intmax = 'Intmax',
 	Liquality = 'Liquality',
 	MetaMask = 'MetaMask',
-	MEW = 'MEW',
+	// MEW = 'MEW',
 	Phantom = 'Phantom',
 	Rabby = 'Rabby',
 	Rainbow = 'Rainbow',
@@ -82,7 +82,7 @@ import {
 	FrameIcon,
 	IntmaxIcon,
 	MetaMaskIcon,
-	MyEtherWalletIcon,
+	// MyEtherWalletIcon,
 	PhantomIcon,
 	RabbyIcon,
 	RainbowIcon,
@@ -365,33 +365,33 @@ export const knownWallets = [
 			},
 		],
 	},
-	{
-		type: KnownWalletType.MEW,
-		name: 'MyEtherWallet',
-		icon: MyEtherWalletIcon,
-		colors: [
-			'#1896a4',
-		],
+	// {
+	// 	type: KnownWalletType.MEW,
+	// 	name: 'MyEtherWallet',
+	// 	icon: MyEtherWalletIcon,
+	// 	colors: [
+	// 		'#1896a4',
+	// 	],
 
-		connectionTypes: [
-			{
-				type: WalletConnectionType.InjectedEip1193,
-				globalResolvers: [
-					globalEthereumResolver,
-					globalWeb3Resolver,
-				],
-				matches: provider => provider.isMew === true,
-			},
-			{
-				type: WalletConnectionType.WalletConnect2,
-				explorerIds: ['f5b4eeb6015d66be3f5940a895cbaa49ef3439e518cd771270e6b553b48f31d2'],
-			},
-			{
-				type: WalletConnectionType.WalletConnect1,
-				mobileLinks: ['mew'],
-			},
-		],
-	},
+	// 	connectionTypes: [
+	// 		{
+	// 			type: WalletConnectionType.InjectedEip1193,
+	// 			globalResolvers: [
+	// 				globalEthereumResolver,
+	// 				globalWeb3Resolver,
+	// 			],
+	// 			matches: provider => provider.isMew === true,
+	// 		},
+	// 		{
+	// 			type: WalletConnectionType.WalletConnect2,
+	// 			explorerIds: ['f5b4eeb6015d66be3f5940a895cbaa49ef3439e518cd771270e6b553b48f31d2'],
+	// 		},
+	// 		{
+	// 			type: WalletConnectionType.WalletConnect1,
+	// 			mobileLinks: ['mew'],
+	// 		},
+	// 	],
+	// },
 	{
 		type: KnownWalletType.Phantom,
 		name: 'Phantom',
