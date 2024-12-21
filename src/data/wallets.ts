@@ -12,8 +12,8 @@ import { WalletConnectionType } from './walletConnectionTypes'
 
 export enum KnownWalletType {
 	// BananaWallet = 'BananaWallet',
-	BraveWallet = 'Brave Wallet',
-	CoinbaseWallet = 'Coinbase Wallet',
+	BraveWallet = 'BraveWallet',
+	CoinbaseWallet = 'CoinbaseWallet',
 	Coin98 = 'Coin98',
 	Enkrypt = 'Enkrypt',
 	Frame = 'Frame',
@@ -27,7 +27,7 @@ export enum KnownWalletType {
 	Rivet = 'Rivet',
 	Taho = 'Taho',
 	Trust = 'Trust',
-	UniswapExtension = 'Uniswap Extension',
+	UniswapExtension = 'UniswapExtension',
 	WalletConnect1 = 'WalletConnect1',
 	WalletConnect2 = 'WalletConnect2',
 	Web3Modal = 'Web3Modal',
