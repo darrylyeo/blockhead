@@ -12,6 +12,7 @@ import { WalletConnectionType } from './walletConnectionTypes'
 
 export enum KnownWalletType {
 	// BananaWallet = 'BananaWallet',
+	BraveWallet = 'Brave Wallet',
 	CoinbaseWallet = 'Coinbase Wallet',
 	Coin98 = 'Coin98',
 	Enkrypt = 'Enkrypt',
@@ -74,6 +75,7 @@ export type KnownWalletConfig = {
 
 import {
 	// BananaWalletIcon,
+	BraveIcon,
 	Coin98Icon,
 	CoinbaseWalletIcon,
 	EnkryptIcon,
@@ -123,6 +125,31 @@ export const knownWallets = [
 			{
 				type: WalletConnectionType.WalletConnect1,
 				mobileLinks: ['metamask'],
+			},
+		],
+	},
+	{
+		type: KnownWalletType.BraveWallet,
+		name: 'Brave Wallet',
+		icon: BraveIcon,
+		colors: [
+			'#ff2000',
+			'#ff5500',
+		],
+
+		connectionTypes: [
+			{
+				type: WalletConnectionType.Eip6963,
+				rdns: 'com.brave.wallet',
+			},
+			{
+				type: WalletConnectionType.InjectedEip1193,
+				globalResolvers: [
+					globalThis => globalThis.braveEthereum,
+					globalEthereumResolver,
+					globalWeb3Resolver,
+				],
+				matches: provider => provider.isBraveWallet === true,
 			},
 		],
 	},
