@@ -189,6 +189,7 @@ export const accountConnectionToInfo: SvelteStore<
 			walletConnectionTypeName?: string
 			network?: Ethereum.Network
 			address?: Account['address']
+			nickname?: string
 			walletName?: string
 			icon?: string
 			colors?: string[]
@@ -220,6 +221,7 @@ export const accountConnectionToInfo: SvelteStore<
 							walletConnectionTypeName: walletConnectionType && walletConnectionTypes[walletConnectionType]?.name || walletConnectionType,
 							network: accountConnection.state.chainId && networkByChainId.get(accountConnection.state.chainId),
 							address: accountConnection.state.account?.address,
+							nickname: accountConnection.state.account?.nickname,
 							walletName: knownWalletConfig?.name ?? eip6963Provider?.info.name ?? knownEip6963WalletConfig?.name,
 							icon: knownWalletConfig?.icon ?? eip6963Provider?.info.icon ?? knownEip6963WalletConfig?.icon,
 							colors: knownWalletConfig?.colors ?? knownEip6963WalletConfig?.colors,
