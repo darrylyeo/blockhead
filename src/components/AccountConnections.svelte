@@ -67,6 +67,8 @@
 
 	// Transitions
 	import { scale } from 'svelte/transition'
+	import { flip } from 'svelte/animate'
+	import { expoOut } from 'svelte/easing'
 </script>
 
 
@@ -180,11 +182,13 @@
 	class:column={layout === 'column'}
 >
 	{#each $accountConnections as accountConnection, i (accountConnection.id)}
-		<AccountConnectionComponent
-			bind:accountConnection
-			isFirstConnection={i === lastAddedConnectionIndex}
-			on:connect={() => { if(i === lastAddedConnectionIndex) lastAddedConnectionIndex = undefined }}
-			on:delete={() => removeAccountConnection(i)}
-		/>
+		<div animate:flip={{ duration: 500, easing: expoOut }}>
+			<AccountConnectionComponent
+				{accountConnection}
+				isFirstConnection={i === lastAddedConnectionIndex}
+				on:connect={() => { if(i === lastAddedConnectionIndex) lastAddedConnectionIndex = undefined }}
+				on:delete={() => removeAccountConnection(i)}
+			/>
+		</div>
 	{/each}
 </section>
