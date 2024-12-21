@@ -108,13 +108,19 @@
 								class:featured={isFeatured}
 							>
 								{#each shownNetworks as network, j (network.slug)}
+									{@const caip2Id = `eip155:${network.chainId}`}
+
 									<a
 										href="/explorer/{network.slug}"
 										class="item card row"
 										style={cardStyle([getNetworkColor(network)])}
+										draggable="true"
+										on:dragstart={e => {
+											e.dataTransfer?.setData('text/plain', caip2Id)
+										}}
 										in:scale={{ delay: j * 10, duration: 300 }}
 										out:scale={{ duration: 200 }}
-								>
+									>
 										<NetworkIcon {network} />
 										<span>{network.name}</span>
 
