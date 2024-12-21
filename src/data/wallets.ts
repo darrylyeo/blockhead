@@ -18,7 +18,7 @@ export enum KnownWalletType {
 	Enkrypt = 'Enkrypt',
 	Frame = 'Frame',
 	Intmax = 'Intmax',
-	Liquality = 'Liquality',
+	// Liquality = 'Liquality',
 	MetaMask = 'MetaMask',
 	// MEW = 'MEW',
 	Phantom = 'Phantom',
@@ -94,7 +94,7 @@ import {
 	WalletConnectIcon,
 } from '$/assets/walletIcons'
 
-import { LiqualityIcon } from '$/assets/icons'
+// import { LiqualityIcon } from '$/assets/icons'
 
 export const knownWallets = [
 	{
@@ -342,29 +342,29 @@ export const knownWallets = [
 			},
 		],
 	},
-	{
-		type: KnownWalletType.Liquality,
-		name: 'Liquality Wallet',
-		icon: LiqualityIcon,
-		colors: [
-			'#1ce5c3',
-			'#5440d7',
-			'#8b2ce4',
-			'#d421eb',
-			'#ac39fd',
-		],
+	// {
+	// 	type: KnownWalletType.Liquality,
+	// 	name: 'Liquality Wallet',
+	// 	icon: LiqualityIcon,
+	// 	colors: [
+	// 		'#1ce5c3',
+	// 		'#5440d7',
+	// 		'#8b2ce4',
+	// 		'#d421eb',
+	// 		'#ac39fd',
+	// 	],
 
-		connectionTypes: [
-			{
-				type: WalletConnectionType.InjectedEip1193,
-				globalResolvers: [
-					globalEthereumResolver,
-					globalWeb3Resolver,
-				],
-				matches: provider => provider.isLiquality === true,
-			},
-		],
-	},
+	// 	connectionTypes: [
+	// 		{
+	// 			type: WalletConnectionType.InjectedEip1193,
+	// 			globalResolvers: [
+	// 				globalEthereumResolver,
+	// 				globalWeb3Resolver,
+	// 			],
+	// 			matches: provider => provider.isLiquality === true,
+	// 		},
+	// 	],
+	// },
 	// {
 	// 	type: KnownWalletType.MEW,
 	// 	name: 'MyEtherWallet',
