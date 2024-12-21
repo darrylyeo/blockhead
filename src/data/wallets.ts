@@ -656,12 +656,23 @@ export const knownWalletsByEip6963Rdns: Partial<Record<Eip6963Rdns, KnownWalletC
 		))
 )
 
-export const displayedKnownWallets = ([
-	KnownWalletType.MetaMask,
-	KnownWalletType.Web3Modal,
-	KnownWalletType.WalletConnect2,
-	KnownWalletType.CoinbaseWallet,
-	KnownWalletType.Taho,
-	KnownWalletType.WalletConnect1,
-] as const satisfies KnownWalletType[])
-	.map(type => knownWalletsByType[type])
+export const displayedKnownWallets = [
+	...new Set([
+		...(
+			([
+				KnownWalletType.MetaMask,
+				KnownWalletType.CoinbaseWallet,
+				KnownWalletType.Web3Modal,
+				KnownWalletType.WalletConnect2,
+			] as const)
+				.map(type => knownWalletsByType[type])
+		),
+		...(
+			knownWallets
+				.filter(wallet => (
+					wallet.connectionTypes.some(connectionType => connectionType.type === WalletConnectionType.InjectedEip1193)
+					&& !wallet.connectionTypes.some(connectionType => connectionType.type === WalletConnectionType.Eip6963)
+				))
+		),
+	])
+]
