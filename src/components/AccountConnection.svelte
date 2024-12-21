@@ -48,6 +48,7 @@
 
 
 	// Functions
+	import { parseCaip2Id } from '$/utils/parseCaip2Id'
 	import { isTruthy } from '$/utils/isTruthy'
 
 
@@ -135,6 +136,23 @@
 				data-connected={isConnected}
 
 				title="{name ?? accountConnection.state.walletConnection?.type}{walletConnectionTypeConfig ? ` via ${walletConnectionTypeConfig?.name}` : ''}"
+
+				on:dragover={e => { e.preventDefault() }}
+				on:drop={e => {
+					const text = e.dataTransfer?.getData('text/plain')
+					if(!text) return
+
+					const result = parseCaip2Id(text)
+					if(!('chainId' in result)) return
+
+					const { chainId } = result
+					if(!chainId) return
+
+					const network = networkByChainId.get(chainId)
+					if(!network) return
+
+					accountConnection.state.walletConnection?.switchNetwork?.(network)
+				}}
 
 				draggable={!!accountConnection.state.account?.address}
 				on:dragstart={onDragStart}
