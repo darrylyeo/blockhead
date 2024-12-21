@@ -413,7 +413,7 @@ export const getWalletConnection = async ({
 				const chains = networks.map(network => `eip155:${network.chainId}`)
 
 				return {
-					type: connectionType,
+					type: connectionType.type,
 
 					// eslint-disable-next-line no-async-promise-executor
 					connect: () => new Promise(async (resolve, reject) => {
@@ -575,7 +575,7 @@ export const getWalletConnection = async ({
 				console.log({connections})
 
 				return {
-					type: connectionType,
+					type: connectionType.type,
 
 					connect: (isInitiatedByUser) => new Promise(async (resolve, reject) => {
 						web3Modal ||= (() => {
