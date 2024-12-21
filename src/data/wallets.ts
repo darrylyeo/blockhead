@@ -631,10 +631,10 @@ export const knownWalletsByEip6963Rdns: Partial<Record<Eip6963Rdns, KnownWalletC
 
 export const displayedKnownWallets = ([
 	KnownWalletType.MetaMask,
-	KnownWalletType.WalletConnect2,
-	KnownWalletType.WalletConnect1,
-	KnownWalletType.CoinbaseWallet,
-	KnownWalletType.Rainbow,
 	KnownWalletType.Web3Modal,
+	KnownWalletType.WalletConnect2,
+	KnownWalletType.CoinbaseWallet,
+	KnownWalletType.Taho,
+	KnownWalletType.WalletConnect1,
 ] as const satisfies KnownWalletType[])
 	.map(type => knownWalletsByType[type])
