@@ -82,7 +82,7 @@
 
 		errorMessage={`Couldn't find ${name} connection.`}
 
-		whenCanceled={() => { dispatch('cancel') }}
+		whenCanceled={() => { dispatch('delete') }}
 
 		viewOptions={{
 			contentClass: 'stack',
