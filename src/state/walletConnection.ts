@@ -1,7 +1,7 @@
 // Types/constants
 import type { BrandedString } from '$/utils/branded'
 
-import { WalletConnectionType } from '$/data/walletConnectionTypes'
+import { WalletConnectionType, walletConnectionTypes } from '$/data/walletConnectionTypes'
 import { knownWalletsByType, type GlobalInjectedEip1193Resolver } from '$/data/wallets'
 
 import type { Account, AccountConnectionSelector } from './account'
@@ -784,5 +784,11 @@ export const getWalletConnection = async ({
 		}
 	}
 
-	throw new Error('No provider found')
+	throw new Error(`The wallet was not detected through any known connection methods: ${
+		new Intl.ListFormat(undefined, { type: 'disjunction' })
+			.format(
+				connectionTypes
+					.map(connectionType => walletConnectionTypes[connectionType.type].name)
+			)
+	}`)
 }
