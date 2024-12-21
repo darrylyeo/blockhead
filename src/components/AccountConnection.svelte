@@ -1,32 +1,28 @@
 <script lang="ts">
 	// Context
 	import { preferences } from '$/state/preferences'
-	import { eip6963Providers, findEip6963Provider } from '$/state/wallets'
+
+	import { accountConnectionToInfo } from '$/state/account'
 
 
 	// Constants/types
 	import { walletConnectionTypes } from '$/data/walletConnectionTypes'
 	import type { AccountConnection } from '$/state/account'
-
-	import { knownWalletsByType } from '$/data/wallets'
 	import { networkByChainId, getNetworkColor } from '$/data/networks'
 
 
 	// Shared state
 	export let accountConnection: AccountConnection
+	
 	export let isFirstConnection = false
 
 
 	// Internal state
-	$: knownWalletConfig = accountConnection.selector.knownWallet && knownWalletsByType[accountConnection.selector.knownWallet.type]
-	$: eip6963Provider = accountConnection.selector.eip6963 && findEip6963Provider({
-		eip6963Providers: $eip6963Providers,
-		rdns: accountConnection.selector.eip6963.rdns,
-	})
+	$: accountConnectionInfo = $accountConnectionToInfo.get(accountConnection)
 
-	$: icon = knownWalletConfig?.icon || eip6963Provider?.info.icon
-	$: name = knownWalletConfig?.name || eip6963Provider?.info.name
-	$: colors = knownWalletConfig?.colors || []
+	$: icon = accountConnectionInfo?.icon
+	$: name = accountConnectionInfo?.walletName
+	$: colors = accountConnectionInfo?.colors || []
 
 
 	// Derived
