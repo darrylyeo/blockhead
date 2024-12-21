@@ -185,6 +185,7 @@ export const accountConnectionToInfo: SvelteStore<
 	Map<
 		AccountConnection,
 		{
+			walletConnectionTypeName?: string
 			address?: Account['address']
 			walletName?: string
 			icon?: string
@@ -209,9 +210,12 @@ export const accountConnectionToInfo: SvelteStore<
 
 					const knownEip6963WalletConfig = accountConnection.selector.eip6963 && knownWalletsByEip6963Rdns[accountConnection.selector.eip6963.rdns]
 
+					const walletConnectionType = accountConnection.state.walletConnection?.type
+
 					return [
 						accountConnection,
 						{
+							walletConnectionTypeName: walletConnectionType && walletConnectionTypes[walletConnectionType]?.name || walletConnectionType,
 							address: accountConnection.state.account?.address,
 							walletName: knownWalletConfig?.type ?? eip6963Provider?.info.name ?? knownEip6963WalletConfig?.type,
 							icon: knownWalletConfig?.icon ?? eip6963Provider?.info.icon ?? knownEip6963WalletConfig?.icon,
@@ -225,6 +229,7 @@ export const accountConnectionToInfo: SvelteStore<
 
 
 import { BrowserProvider } from 'ethers'
+import { walletConnectionTypes } from '$/data/walletConnectionTypes'
 
 const getSigner = (provider: Provider) => {
 	try {
