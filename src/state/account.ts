@@ -217,7 +217,7 @@ export const accountConnectionToInfo: SvelteStore<
 						{
 							walletConnectionTypeName: walletConnectionType && walletConnectionTypes[walletConnectionType]?.name || walletConnectionType,
 							address: accountConnection.state.account?.address,
-							walletName: knownWalletConfig?.type ?? eip6963Provider?.info.name ?? knownEip6963WalletConfig?.type,
+							walletName: knownWalletConfig?.name ?? eip6963Provider?.info.name ?? knownEip6963WalletConfig?.name,
 							icon: knownWalletConfig?.icon ?? eip6963Provider?.info.icon ?? knownEip6963WalletConfig?.icon,
 							colors: knownWalletConfig?.colors ?? knownEip6963WalletConfig?.colors,
 						}
