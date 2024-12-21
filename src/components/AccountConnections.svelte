@@ -102,14 +102,14 @@
 	<div class="stack align-end" transition:scale>
 		{#if state === State.Idle}
 			<button
-				class="add medium"
+				class="add align-end medium"
 				data-before="＋"
 				on:click={() => state = State.Adding}
 				transition:scale
 			>Connect Wallet</button>
 		{:else if state === State.Adding}
 			<button
-				class="cancel medium"
+				class="cancel align-end medium"
 				on:click={() => state = State.Idle}
 				transition:scale
 			>Cancel</button>
