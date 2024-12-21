@@ -74,19 +74,17 @@
 
 <style>
 	.wallets {
-		--grid-gap: 0.66rem;
-		
 		display: flex;
 		flex-wrap: wrap;
-		margin: calc(-0.5 * var(--grid-gap));
-		gap: 0;
+		gap: 0.5rem;
 	}
 
 	.wallet {
-		justify-content: center;
-		flex: 1 auto;
+		--primary-color: var(--wallet-color);
+		--primary-color: color-mix(in oklch, var(--wallet-color), rgb(var(--rgb-light-dark)) 15%);
+		--button-fontSize: 0.75em;
+		flex: 1 1 calc((100% - 0.5em - 2px) / 2);
 		gap: 0.5em;
-		margin: calc(0.5 * var(--grid-gap));
 	}
 </style>
 
@@ -133,8 +131,8 @@
 				{@const knownWallet = knownWalletsByEip6963Rdns[eip6963Provider.info.rdns]}
 
 				<button
-					class="wallet medium row"
-					style:--primary-color={knownWallet?.colors?.[knownWallet.colors.length - 1]}
+					class="wallet"
+					style:--wallet-color={knownWallet?.colors?.[knownWallet.colors.length - 1]}
 					on:click={() => {
 						addAccountConnection({
 							eip6963: {
@@ -154,8 +152,8 @@
 
 			{#each displayedKnownWallets as knownWallet (knownWallet.type)}
 				<button
-					class="wallet medium row"
-					style:--primary-color={knownWallet.colors?.[knownWallet.colors.length - 1]}
+					class="wallet"
+					style:--wallet-color={knownWallet.colors?.[knownWallet.colors.length - 1]}
 					on:click={() => {
 						addAccountConnection({
 							knownWallet: {
