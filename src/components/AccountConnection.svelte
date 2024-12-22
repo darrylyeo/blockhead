@@ -293,6 +293,7 @@
 				display: flex;
 				--icon-size: 1em;
 				place-self: end;
+				margin: -5%;
 			}
 
 			transition-property: filter, opacity;
