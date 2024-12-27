@@ -71,6 +71,7 @@
 
 	// Functions
 	import { isReadable, isWritable, isReadableWithoutInputs } from '$/utils/abi'
+	import { encodeAbiParameters } from 'viem'
 	import { isTruthy } from '$/utils/isTruthy'
 
 
@@ -395,6 +396,11 @@
 			</svelte:fragment>
 
 			<svelte:fragment slot="confirming" let:accountConnectionInfo let:actions>
+				{@const data = encodeAbiParameters(
+					contractMethod.inputs,
+					contractMethodArgs,
+				)}
+
 				<article class="card">
 					<header class="row">
 						<strong class="row inline">
@@ -462,6 +468,12 @@
 							}}
 							{showFormattedNames}
 						/>
+
+						{#if data}
+							<hr>
+
+							<pre>{data}</pre>
+						{/if}
 					{/if}
 				</article>
 
