@@ -6,7 +6,7 @@
 
 
 	// Constants/types
-	import type { AccountConnection } from '$/state/account'
+	import type { AccountConnection, AccountConnectionState } from '$/state/account'
 	import { networkByChainId, getNetworkColor } from '$/data/networks'
 
 
@@ -17,7 +17,14 @@
 
 
 	// Internal state
+	let accountConnectionState: AccountConnectionState
+
 	$: info = $accountConnectionToInfo.get(accountConnection)!
+
+	$: {
+		accountConnectionState
+		info = $accountConnectionToInfo.get(accountConnection)!
+	}
 
 
 	// Derived
@@ -112,6 +119,8 @@
 			let:status={walletConnectionStatus}
 			let:load={connectWallet}
 			let:cancel={disconnectWallet}
+
+			bind:result={accountConnectionState}
 		>
 			{@const isConnected = walletConnectionStatus === 'resolved'}
 
