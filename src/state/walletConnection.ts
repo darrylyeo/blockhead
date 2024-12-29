@@ -10,6 +10,15 @@ import type { Readable } from 'svelte/store'
 
 import type { Ethereum } from '$/data/networks/types'
 
+export type WalletConnectionState = {
+	accounts: Account[]
+	chainId: Ethereum.ChainId
+}
+
+type WalletConnectionStateStores = {
+	[K in keyof WalletConnectionState]: Readable<WalletConnectionState[K]>
+}
+
 export type WalletConnection = {
 	type: WalletConnectionType,
 
@@ -22,10 +31,7 @@ export type WalletConnection = {
 		newSelector?: AccountConnectionSelector,
 	}>
 
-	subscribe?: () => {
-		accounts: Readable<Account[]>,
-		chainId: Readable<Ethereum.ChainId>,
-	},
+	subscribe?: () => WalletConnectionStateStores,
 
 	switchNetwork?: (network: Ethereum.Network) => void,
 
@@ -90,7 +96,7 @@ const connectEip1193 = async (
 import { readable } from 'svelte/store'
 
 const subscribeEip1193 = (provider: Ethereum.Provider) => ({
-	accounts: readable<Account[]>([], set => {
+	accounts: readable<WalletConnectionState['accounts']>([], set => {
 		const onAccountsChanged = (addresses: Ethereum.Address[]) => set(addresses.map(address => ({ address })))
 
 		provider.request({ method: 'eth_accounts' }).then(onAccountsChanged)
@@ -100,7 +106,7 @@ const subscribeEip1193 = (provider: Ethereum.Provider) => ({
 		return () => provider.removeListener?.('accountsChanged', onAccountsChanged)
 	}),
 
-	chainId: readable<Ethereum.ChainId>(undefined, set => {
+	chainId: readable<WalletConnectionState['chainId']>(undefined, set => {
 		const onChainIdChanged = (chainId: number | string) => set(Number(chainId) as Ethereum.ChainId)
 
 		provider.request({ method: 'eth_chainId' }).then(onChainIdChanged)
