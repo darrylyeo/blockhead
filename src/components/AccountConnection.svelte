@@ -2,7 +2,8 @@
 	// Context
 	import { preferences } from '$/state/preferences'
 
-	import { accountConnectionToInfo } from '$/state/account'
+	import { getAccountConnectionInfo } from '$/state/account'
+	import { eip6963Providers } from '$/state/wallets'
 
 
 	// Constants/types
@@ -19,11 +20,15 @@
 	// Internal state
 	let accountConnectionState: AccountConnectionState
 
-	$: info = $accountConnectionToInfo.get(accountConnection)!
-
+	let info: ReturnType<typeof getAccountConnectionInfo>
 	$: {
 		accountConnectionState
-		info = $accountConnectionToInfo.get(accountConnection)!
+		info = getAccountConnectionInfo(
+			accountConnection,
+			{
+				eip6963Providers: $eip6963Providers,
+			}
+		)
 	}
 
 
