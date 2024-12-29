@@ -28,12 +28,12 @@
 	// Inputs
 	export let startImmediately = true
 
-	export let loadingIcon: string
-	export let loadingIconName: string
-	export let loadingMessage: string
+	export let loadingIcon: string | undefined
+	export let loadingIconName: string | undefined
+	export let loadingMessage: string | undefined
 	export let loadingIconWidth = 25
 
-	export let errorMessage: string
+	export let errorMessage: string | undefined
 	export let errorFunction: ((error: LoaderError) => string) | undefined
 	export let hideError = false
 
@@ -46,7 +46,7 @@
 	export let then: ((result: LoaderResult) => LoaderReturnResult) | undefined
 	export let whenLoaded: ((result: LoaderReturnResult) => void) | undefined
 	export let whenErrored: ((error: LoaderError) => void) | undefined
-	export let whenCanceled: (() => Promise<any>) | undefined
+	export let whenCanceled: (() => void | Promise<void>) | undefined
 
 	// (View options)
 	export let viewOptions: Partial<{
