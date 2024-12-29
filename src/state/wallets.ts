@@ -21,7 +21,7 @@ type Eip6963ProviderDetail = {
 	provider: Ethereum.Provider,
 }
 
-type Eip6963Providers = Record<ReturnType<typeof crypto.randomUUID>, Eip6963ProviderDetail>
+export type Eip6963Providers = Record<ReturnType<typeof crypto.randomUUID>, Eip6963ProviderDetail>
 
 export const eip6963Providers = readable<Eip6963Providers>(
 	{},

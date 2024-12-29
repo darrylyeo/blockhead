@@ -178,23 +178,53 @@ export const accountConnections = localStorageWritable(
 )
 
 
-import { derived } from 'svelte/store'
-import { eip6963Providers, findEip6963Provider } from './wallets'
+// Derived info
+type AccountConnectionInfo = {
+	walletConnectionTypeName?: string
+	network?: Ethereum.Network
+	address?: Account['address']
+	nickname?: string
+	walletName?: string
+	icon?: string
+	colors?: string[]
+}
+
+import { type Readable, derived } from 'svelte/store'
+import { type Eip6963Providers, eip6963Providers, findEip6963Provider } from './wallets'
 import { networkByChainId } from '$/data/networks'
 
-export const accountConnectionToInfo: SvelteStore<
-	Map<
-		AccountConnection,
-		{
-			walletConnectionTypeName?: string
-			network?: Ethereum.Network
-			address?: Account['address']
-			nickname?: string
-			walletName?: string
-			icon?: string
-			colors?: string[]
-		}
-	>
+export const getAccountConnectionInfo = (
+	accountConnection: AccountConnection,
+	{
+		eip6963Providers,
+	}: {
+		eip6963Providers: Eip6963Providers,
+	},
+) => {
+	const knownWalletConfig = accountConnection.selector.knownWallet && knownWalletsByType[accountConnection.selector.knownWallet.type]
+
+	const eip6963Provider = accountConnection.selector.eip6963 && findEip6963Provider({
+		eip6963Providers,
+		rdns: accountConnection.selector.eip6963.rdns,
+	})
+
+	const knownEip6963WalletConfig = accountConnection.selector.eip6963 && knownWalletsByEip6963Rdns[accountConnection.selector.eip6963.rdns]
+
+	const walletConnectionType = accountConnection.state.walletConnection?.type
+
+	return {
+		walletConnectionTypeName: walletConnectionType && walletConnectionTypes[walletConnectionType]?.name || walletConnectionType,
+		network: accountConnection.state.chainId && networkByChainId.get(accountConnection.state.chainId),
+		address: accountConnection.state.account?.address,
+		nickname: accountConnection.state.account?.nickname,
+		walletName: knownWalletConfig?.name ?? eip6963Provider?.info.name ?? knownEip6963WalletConfig?.name,
+		icon: knownWalletConfig?.icon ?? knownEip6963WalletConfig?.icon ?? eip6963Provider?.info.icon,
+		colors: knownWalletConfig?.colors ?? knownEip6963WalletConfig?.colors,
+	} as AccountConnectionInfo
+}
+
+export const accountConnectionToInfo: Readable<
+	Map<AccountConnection, AccountConnectionInfo>
 > = derived(
 	[
 		accountConnections,
@@ -203,31 +233,15 @@ export const accountConnectionToInfo: SvelteStore<
 	([$accountConnections, $eip6963Providers], set) => set(
 		new Map(
 			$accountConnections
-				.map(accountConnection => {
-					const knownWalletConfig = accountConnection.selector.knownWallet && knownWalletsByType[accountConnection.selector.knownWallet.type]
-
-					const eip6963Provider = accountConnection.selector.eip6963 && findEip6963Provider({
-						eip6963Providers: $eip6963Providers,
-						rdns: accountConnection.selector.eip6963.rdns,
-					})
-
-					const knownEip6963WalletConfig = accountConnection.selector.eip6963 && knownWalletsByEip6963Rdns[accountConnection.selector.eip6963.rdns]
-
-					const walletConnectionType = accountConnection.state.walletConnection?.type
-
-					return [
+				.map(accountConnection => [
+					accountConnection,
+					getAccountConnectionInfo(
 						accountConnection,
 						{
-							walletConnectionTypeName: walletConnectionType && walletConnectionTypes[walletConnectionType]?.name || walletConnectionType,
-							network: accountConnection.state.chainId && networkByChainId.get(accountConnection.state.chainId),
-							address: accountConnection.state.account?.address,
-							nickname: accountConnection.state.account?.nickname,
-							walletName: knownWalletConfig?.name ?? eip6963Provider?.info.name ?? knownEip6963WalletConfig?.name,
-							icon: knownWalletConfig?.icon ?? eip6963Provider?.info.icon ?? knownEip6963WalletConfig?.icon,
-							colors: knownWalletConfig?.colors ?? knownEip6963WalletConfig?.colors,
-						}
-					]
-				})
+							eip6963Providers: $eip6963Providers,
+						},
+					),
+				])
 		)
 	)
 )
