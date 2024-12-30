@@ -61,6 +61,10 @@
 	import Icon from './Icon.svelte'
 
 
+	// Actions
+	import { dragToReorder } from '$/actions/dragToReorder'
+
+
 	// Style
 	export let layout: 'row' | 'column' = 'row'
 
@@ -178,9 +182,16 @@
 	class="scroll-snap-area"
 	class:row-scrollable={layout === 'row'}
 	class:column={layout === 'column'}
+	use:dragToReorder={{
+		items: $accountConnections,
+		setItems: _ => { $accountConnections = _ },
+	}}
 >
 	{#each $accountConnections as accountConnection, i (accountConnection.id)}
-		<div animate:flip={{ duration: 500, easing: expoOut }}>
+		<div
+			draggable="true"
+			animate:flip={{ duration: 500, easing: expoOut }}
+		>
 			<AccountConnectionComponent
 				{accountConnection}
 				isFirstConnection={i === lastAddedConnectionIndex}
