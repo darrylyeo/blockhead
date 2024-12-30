@@ -22,49 +22,57 @@ export const dragToReorder = <T>(
 	node.addEventListener('dragend', (e: DragEvent) => {
 		e.preventDefault()
 
-		const draggedIndex = [...node.children].findIndex(child => child.contains(e.target as Node))
+		const fromIndex = [...node.children].findIndex(child => child.contains(e.target as Node))
 
-		const insertBeforeIndex = (
-			[...node.children].slice(0, draggedIndex)
-				.findIndex(element => {
-					const rect = element.getBoundingClientRect()
+		const toIndex = (
+			(() => {
+				let start = 0
+				let end = fromIndex - 1
 
-					return (
-						direction === 'horizontal' ?
-							e.clientX <= rect.right
-						:
-							e.clientY <= rect.bottom
+				while (start <= end) {
+					const mid = Math.floor((start + end) / 2)
+					const rect = node.children[mid].getBoundingClientRect()
+
+					if(
+						direction === 'horizontal'
+							? rect.right < e.clientX
+							: rect.bottom < e.clientY
 					)
-				})
-		)
+						start = mid + 1
+					else
+						end = mid - 1
+				}
 
-		const insertAfterIndex = (
-			[...node.children].slice(draggedIndex + 1)
-				.findLastIndex(element => {
-					const rect = element.getBoundingClientRect()
+				if(start < fromIndex)
+					return start
+			})()
+			?? (() => {
+				let start = fromIndex + 1
+				let end = node.children.length - 1
 
-					return (
-						direction === 'horizontal' ?
-							rect.left <= e.clientX
-						:
-							rect.top <= e.clientY
+				while (start <= end) {
+					const mid = Math.floor((start + end) / 2)
+					const rect = node.children[mid].getBoundingClientRect()
+
+					if(
+						direction === 'horizontal'
+							? e.clientX < rect.left
+							: e.clientY < rect.top
 					)
-				})
+						end = mid - 1
+					else
+						start = mid + 1
+				}
+
+				if(fromIndex < end)
+					return end
+			})()
 		)
 
-		const insertIndex = (
-			insertBeforeIndex !== -1 ?
-				insertBeforeIndex
-			: insertAfterIndex !== -1 ?
-				draggedIndex + 1 + insertAfterIndex
-			:
-				-1
-		)
-
-		if(insertIndex === -1) return
+		if(toIndex === undefined) return
 
 		const newItems = [...items]
-		newItems.splice(insertIndex !== -1 ? insertIndex : node.children.length, 0, newItems.splice(draggedIndex, 1)[0])
+		newItems.splice(toIndex ?? node.children.length, 0, ...newItems.splice(fromIndex, 1))
 		setItems(newItems)
 	}, { signal })
 
