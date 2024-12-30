@@ -57,7 +57,7 @@
 			on:dragstart={onDragStart}
 		>
 			<slot {formattedAddress}>
-				<span class="monospace">{#if !ensName}<TruncatedValue value={address} />{:else}<span class="monospace">{ensName}</span>{/if}</span>
+				<span class="monospace">{#if !ensName}{#if format === 'full'}{address}{:else}<TruncatedValue value={address} />{/if}{:else}<span class="monospace">{ensName}</span>{/if}</span>
 			</slot>
 		</a>
 	{:else}
@@ -67,7 +67,7 @@
 					class="address monospace"
 					draggable={true}
 					on:dragstart={onDragStart}
-				>{#if !ensName}<TruncatedValue value={address} />{:else}<span class="monospace">{ensName}</span>{/if}</span>
+				>{#if !ensName}{#if format === 'full'}{address}{:else}<TruncatedValue value={address} />{/if}{:else}<span class="monospace">{ensName}</span>{/if}</span>
 			</slot>
 		</span>
 	{/if}
