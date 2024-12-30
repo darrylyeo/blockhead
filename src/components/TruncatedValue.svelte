@@ -7,17 +7,27 @@
 	export let endLength = 4
 
 	export let format: 'abbr' | 'visual' | 'visual-characters' = 'visual'
+
+
+	// (Computed)
+	$: isTruncated = startLength + endLength < value.length
 </script>
 
 
 {#if format === 'abbr'}
-	{@const formattedValue = `${value.slice(0, startLength)}⸱⸱⸱${value.slice(-endLength)}`}
+	{@const formattedValue = (
+		isTruncated ?
+			`${value.slice(0, startLength)}⸱⸱⸱${value.slice(-endLength)}`
+		:
+			value
+	)}
 
 	<abbr title={value}>{formattedValue}</abbr>
 
 {:else if format === 'visual'}
 	<span
 		data-format="visual"
+		data-is-truncated={isTruncated}
 		tabindex="0"
 	>
 		{#if value}
@@ -32,6 +42,7 @@
 {:else if format === 'visual-characters'}
 	<span
 		data-format="visual-characters"
+		data-is-truncated={isTruncated}
 		tabindex="0"
 	>{#if startLength}<span>{value.slice(0, startLength)}</span>{/if}<span class="middle" style:--l={value.length - startLength - endLength}>{#each value.slice(startLength, -endLength || undefined) as char, i}<span style:--i={i}>{char}</span>{/each}</span>{#if endLength}<span>{value.slice(-endLength)}</span>{/if}</span>
 
@@ -40,11 +51,15 @@
 
 <style>
 	[tabindex] {
-		&:is(:active, :focus-within) {
-			--isTruncated: 0;
-		}
+		--isTruncated: 0;
 
-		&:not(:is(:active, :focus-within)) {
+		&:not(
+			:is(
+				:active,
+				:focus-within,
+				[data-is-truncated="false"]
+			)
+		) {
 			--isTruncated: 1;
 			cursor: zoom-in;
 		}
