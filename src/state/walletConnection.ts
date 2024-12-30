@@ -25,11 +25,12 @@ export type WalletConnection = {
 	provider?: Ethereum.Provider,
 	globalInjectedEip1193Resolver?: GlobalInjectedEip1193Resolver,
 
-	connect: (isInitiatedByUser?: boolean) => Promise<{
-		accounts?: Account[],
-		chainId?: Ethereum.ChainId,
-		newSelector?: AccountConnectionSelector,
-	}>
+	connect: (isInitiatedByUser?: boolean) => Promise<(
+		& WalletConnectionState
+		& {
+			newSelector?: AccountConnectionSelector,
+		}
+	)>
 
 	subscribe?: () => WalletConnectionStateStores,
 
