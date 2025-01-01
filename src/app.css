@@ -1265,14 +1265,27 @@ body::-webkit-scrollbar-button {
 }
 
 
-[draggable=true] {
-	&:active:where(:not(:has([draggable=true]:active))) {
-		cursor: grabbing;
-		will-change: transform;
-		animation: Dragging 0.45s infinite ease-in-out;
+[draggable="true"] {
+	&:not(:any-link) {
+		cursor: grab;
 	}
 
-	&:active:where(:has([draggable=true]:active)) {
+	&[aria-grabbed="false"]:active {
+		cursor: grabbing;
+	}
+
+	:root:not(:has([aria-grabbed])) &:active:where(:not(:has([draggable=true]:active))),
+	&[aria-grabbed="true"] {
+		cursor: grabbing;
+
+		will-change: transform;
+		animation: Dragging 0.45s infinite ease-in-out;
+
+		user-select: none;
+	}
+
+	:root:not(:has([aria-grabbed])) &:active:where(:has([draggable=true]:active)),
+	&:active:where(:has([aria-grabbed="true"])) {
 		animation: DraggingParent 0.9s infinite ease-in-out;
 	}
 }
