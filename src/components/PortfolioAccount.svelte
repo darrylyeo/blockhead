@@ -42,7 +42,8 @@
 	export let showFeed = false
 	export let feedLayout: 'byChannel' | 'chronological' = 'byChannel'
 
-	export let isEditing: boolean
+	export let isEditing = false
+	export let isDragging = false
 
 	export let nickname: string
 
@@ -190,6 +191,12 @@
 <style>
 	.account {
 		--padding-inner: 0.75em;
+
+		transition-property: padding-block;
+
+		&[data-is-dragging] {
+			padding-block: 0;
+		}
 	}
 
 	.account-total-value {
@@ -349,18 +356,22 @@
 	class="account card column sticky-layout"
 	class:is-editing={isEditing}
 	class:grid-layout={isGridLayout}
+	data-is-dragging={isDragging ? '' : undefined}
 >
 	<AccountIdResolver
 		accountId={account.id}
 		passiveResolveToName
 		let:address
 		loaderViewOptions={{
-			clip: false,
+			clip: isDragging,
+			isOpen: !isDragging,
 		}}
 	>
 		<header
 			slot="header"
 			class="bar card sticky"
+			draggable="true"
+			data-drag-handle="portfolio-account"
 			let:type
 			let:address
 			let:ensName
@@ -424,10 +435,10 @@
 			{/if}
 
 			<InlineTransition
-				key={$matchesGridLayoutBreakpoint && !isEditing}
+				key={$matchesGridLayoutBreakpoint && !isEditing && !isDragging}
 				align="end"
 			>
-				{#if $matchesGridLayoutBreakpoint && !isEditing}
+				{#if $matchesGridLayoutBreakpoint && !isEditing && !isDragging}
 					<div class="row">
 						<!--<button class="small" on:click={() => layout = isGridLayout ? 'column' : 'grid'} transition:scale>{isGridLayout ? '⊟' : '⊞'}</button>--><!-- ▤ -->
 						<select bind:value={layout}>

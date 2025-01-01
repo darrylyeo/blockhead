@@ -42,6 +42,8 @@
 		previousState = state
 	}
 
+	let isReordering = false
+
 
 	import { createEventDispatcher } from 'svelte'
 	const dispatch = createEventDispatcher()
@@ -220,6 +222,11 @@
 	import TweenedNumber from './TweenedNumber.svelte'
 
 
+	// Actions
+	import { dragToReorder } from '$/actions/dragToReorder'
+
+
+	// Transitions/animations
 	import { flip } from 'svelte/animate'
 	import { blur, fade, fly, scale } from 'svelte/transition'
 </script>
@@ -270,7 +277,10 @@
 	transition:scale={{ duration: 300, start: 0.95 }}
 	tabIndex={0}
 >
-	<header class="bar wrap">
+	<header
+		class="bar wrap"
+		draggable={true}
+	>
 		<slot name="title">
 			<h1 class="row" on:dblclick={isEditable && (() => state = State.Editing)}>
 				{#if state !== State.Editing}
@@ -468,53 +478,74 @@
 			</div>
 		</SizeContainer>
 
-		{#each portfolio.accounts as account, i (account.id)}
-			<div
-				transition:scale={{ start: 0.8, duration: 300 }}
-				animate:flip|local={{ duration: 300, delay: Math.abs(delayStartIndex - i) * 50 }}
-			>
-				<PortfolioAccount
-					bind:account
-
-					{networkProvider}
-					{defiProvider}
-					{tokenBalancesProvider}
-					{nftProvider}
-					{notificationsProvider}
-					{quoteCurrency}
-
-					{tokenBalanceFormat}
-					{sortBy}
-					{showSmallValues}
-					{showApps}
-					{showUnderlyingAssets}
-					{showDefiPositionMetadata}
-					{showNftMetadata}
-					showImagesOnly={!showCollections}
-					{collectionsSortBy}
-					{showFloorPrices}
-					{showSmallNftFloorPrices}
-					{show3D}
-					{showFeed}
-					{feedLayout}
-
-					isEditing={state === State.Editing}
-
-					bind:summary={accountsSummaries[account.id]}
+		<div
+			class="column"
+			use:dragToReorder={{
+				handle: target => (
+					target instanceof HTMLElement && target.dataset.dragHandle === 'portfolio-account'
+				),
+				afterDragStart: e => {
+					isReordering = true
+				},
+				onDragEnd: e => {
+					// Wait for animate:flip to complete
+					setTimeout(() => {
+						isReordering = false
+					}, 300)
+				},
+				items: portfolio.accounts,
+				setItems: _ => { portfolio.accounts = _ },
+			}}
+		>
+			{#each portfolio.accounts as account, i (account.id)}
+				<div
+					transition:scale={{ start: 0.8, duration: 300 }}
+					animate:flip={{ duration: 300, delay: Math.abs(delayStartIndex - i) * 50 }}
 				>
-					{#if state === State.Editing}
-						<InlineContainer
-							align="end"
-							isOpen={state === State.Editing}
-						>
-							<div class="row edit-controls">
-								<button class="destructive" data-before="☒" on:click={() => deleteAccount(i)}>Delete Account</button>
-							</div>
-						</InlineContainer>
-					{/if}
-				</PortfolioAccount>
-			</div>
-		{/each}
+					<PortfolioAccount
+						bind:account
+
+						{networkProvider}
+						{defiProvider}
+						{tokenBalancesProvider}
+						{nftProvider}
+						{notificationsProvider}
+						{quoteCurrency}
+
+						{tokenBalanceFormat}
+						{sortBy}
+						{showSmallValues}
+						{showApps}
+						{showUnderlyingAssets}
+						{showDefiPositionMetadata}
+						{showNftMetadata}
+						showImagesOnly={!showCollections}
+						{collectionsSortBy}
+						{showFloorPrices}
+						{showSmallNftFloorPrices}
+						{show3D}
+						{showFeed}
+						{feedLayout}
+
+						isEditing={state === State.Editing}
+						isDragging={isReordering}
+
+						bind:summary={accountsSummaries[account.id]}
+					>
+						{#if state === State.Editing && !isReordering}
+							<InlineContainer
+								align="end"
+								isOpen={state === State.Editing && !isReordering}
+							>
+								<div class="row edit-controls">
+									<button class="destructive" data-before="☒" on:click={() => deleteAccount(i)}>Delete Account</button>
+								</div>
+							</InlineContainer>
+						{/if}
+					</PortfolioAccount>
+				</div>
+			{/each}
+		</div>
 	{:else}
 		<slot name="loading">
 			<Loading>Loading your accounts...</Loading>
@@ -522,7 +553,7 @@
 	{/if}
 
 	<SizeContainer layout="block"
-		isOpen={showOptions && portfolio.accounts.length && state !== State.Editing}
+		isOpen={showOptions && portfolio.accounts.length && state !== State.Editing && !isReordering}
 		containerProps={{
 			class: 'sticky-bottom',
 		}}
