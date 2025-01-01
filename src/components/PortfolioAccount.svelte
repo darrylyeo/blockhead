@@ -192,10 +192,25 @@
 	.account {
 		--padding-inner: 0.75em;
 
-		transition-property: padding-block;
+		transition-property: padding, background-color;
+
+		header,
+		:global(.header) {
+			grid-column: 1 / -1;
+		}
+
+		.sticky {
+			transition-property: margin-inline;
+		}
 
 		&[data-is-dragging] {
-			padding-block: 0;
+			background-color: transparent;
+
+			padding: 0 calc(var(--padding-outer) * 1.5);
+
+			header.sticky {
+				--sticky-header-outset: calc(var(--padding-outer) * 1.5);
+			}
 		}
 	}
 
