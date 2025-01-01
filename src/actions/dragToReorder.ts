@@ -6,6 +6,7 @@ export const dragToReorder = <T>(
 		direction = 'vertical',
 		handle,
 		onDragStart,
+		afterDragStart,
 		onDragEnd,
 		items,
 		setItems,
@@ -13,6 +14,7 @@ export const dragToReorder = <T>(
 		direction?: 'horizontal' | 'vertical',
 		handle?: (element: Element) => boolean,
 		onDragStart?: (e: DragEvent) => void,
+		afterDragStart?: (e: DragEvent) => void,
 		onDragEnd?: (e: DragEvent) => void,
 		items: T[],
 		setItems: (items: T[]) => void,
@@ -39,6 +41,11 @@ export const dragToReorder = <T>(
 			return
 
 		onDragStart?.(e)
+
+		if(afterDragStart)
+			globalThis.window.requestAnimationFrame(() => {
+				afterDragStart?.(e)
+			})
 	})
 
 	node.addEventListener('dragend', (e: DragEvent) => {
