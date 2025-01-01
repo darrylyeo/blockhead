@@ -457,6 +457,9 @@
 		<div
 			class="column"
 			use:dragToReorder={{
+				handle: target => (
+					target instanceof HTMLElement && target.dataset.dragHandle === 'portfolio-account-network'
+				),
 				items: account.views,
 				setItems: _ => { account.views = _ },
 			}}
@@ -505,6 +508,7 @@
 					class:column={layout === 'column'}
 					class:sticky-layout={isEditing}
 					draggable={isEditing}
+					data-drag-handle="portfolio-account-network"
 					animate:flip={{ duration: 300, easing: expoOut }}
 					style="{getNetworkColor(network) ? `--primary-color: ${getNetworkColor(network)};` : ''}"
 				>
