@@ -212,122 +212,75 @@
 				--sticky-header-outset: calc(var(--padding-outer) * 1.5);
 			}
 		}
-	}
 
-	.account-total-value {
-		font-weight: bold;
-		font-size: 1.1em;
-	}
+		/* hr {
+			display: none;
+		} */
 
-	.account :global(.ethereum-balances) {
-		--padding-inner: 0.5em;
-	}
-
-	/* .account :global(.defi-balances) {
-		--padding-inner: 0.5em;
-		display: grid;
-		gap: var(--padding-inner);
-		grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));;
-	} */
-
-	h4 {
-		white-space: nowrap;
-	}
-	/* h4 {
-		transition: padding-left 0.15s;
-	}
-	.is-editing h4 {
-		padding-left: calc(1.5 * var(--padding-outer));
-	} */
-
-
-	.network {
-		scroll-snap-align: start;
-		scroll-margin-top: calc(var(--bleed-top) + var(--padding-outer) + 4.5rem);
-	}
-
-	.grid-row {
-		transition: 0.3s grid-template var(--ease-out-expo);
-	}
-	/* .network.grid-row {
-		display: grid;
-		/* grid-template:
-			auto
-			/ 1fr 1fr 1fr; * /
-		/* grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr)); * /
-		gap: 1.75em;
-		/* align-items: start; * /
-	} */
-	/* @media (min-width: 62rem) {
-		.network.grid-row {
-			grid-template:
-				"Tokens DeFi NFTs" auto
-				/ 1fr 1fr 1fr;
-		}
-	}
-	.network.grid-row .token-balances {
-		grid-area: Tokens;
-	}
-	.network.grid-row .defi-balances {
-		grid-area: DeFi;
-	}
-	.network.grid-row .nft-balances {
-		grid-area: NFTs;
-	} */
-
-	@media (min-width: 62rem) {
-		.grid-row {
-			--account-gridRow-feedColumnWidth: 1fr;
-			--account-gridRow-marginRight: 1fr;
-
-			display: grid;
-			grid-template:
-				"Tokens DeFi NFTs Feed" auto
-				/ [Tokens] 1fr [DeFi] 1fr [NFTs] 1fr [Feed] var(--account-gridRow-feedColumnWidth);
-			gap: 1.5em;
-		}
-		.grid-row[data-showing-feed="false"] {
-			--account-gridRow-feedColumnWidth: 0fr;
-			margin-right: -1.5em;
+		.account-total-value {
+			font-weight: bold;
+			font-size: 1.1em;
 		}
 
-		.grid-row > :global(.token-balances) {
-			grid-column-start: Tokens;
+		.network {
+			scroll-snap-align: start;
+			scroll-margin-top: calc(var(--bleed-top) + var(--padding-outer) + 4.5rem);
+
+			> :global(section) {
+				--padding-inner: 0.5rem;
+			}
+
+			.grid-row {
+				transition: 0.3s grid-template var(--ease-out-expo);
+
+				@media (min-width: 62rem) {
+					--account-gridRow-feedColumnWidth: 1fr;
+					--account-gridRow-marginRight: 1fr;
+
+					display: grid;
+					grid-template:
+						"Tokens DeFi NFTs Feed" auto
+						/ [Tokens] 1fr [DeFi] 1fr [NFTs] 1fr [Feed] var(--account-gridRow-feedColumnWidth);
+					gap: 1.5em;
+
+					&[data-showing-feed="false"] {
+						--account-gridRow-feedColumnWidth: 0fr;
+						margin-right: -1.5em;
+					}
+
+					> section {
+						&.token-balances {
+							grid-column-start: Tokens;
+						}
+						&.defi-balances {
+							grid-column-start: DeFi;
+						}
+						&.nft-balances {
+							grid-column-start: NFTs;
+						}
+						&.feed {
+							grid-column-start: Feed;
+						}
+					}
+				}
+
+				> section {
+					/* max-height: 50vh; */
+					/* overflow-y: auto;
+					position: sticky;
+					top: 4.5rem; */
+
+					h4 {
+						white-space: nowrap;
+					}
+
+					/* hr {
+						display: none;
+					} */
+				}
+			}
 		}
-		.grid-row > :global(.defi-balances) {
-			grid-column-start: DeFi;
-		}
-		.grid-row > :global(.nft-balances) {
-			grid-column-start: NFTs;
-		}
-		.grid-row > :global(.feed) {
-			grid-column-start: Feed;
-		}
 	}
-
-	.network.grid-row > section {
-		/* max-height: 50vh; */
-		/* overflow-y: auto;
-		position: sticky;
-		top: 4.5rem; */
-	}
-
-	.network > :global(section) {
-		--padding-inner: 0.5rem;
-	}
-
-	.network.grid-row hr {
-		display: none;
-	}
-	hr {
-		display: none;
-	}
-
-
-	header, .account :global(.header) {
-		grid-column: 1 / -1;
-	}
-
 
 	.is-zero {
 		opacity: 0.55;
@@ -335,29 +288,33 @@
 
 	.error-icon-container {
 		align-items: center;
-	}
-	.error-icon-container > :first-child {
-		/* opacity: 0.75; */
-		filter: contrast(0.95) grayscale(0.75);
-	}
-	.error-icon-container > :last-child {
-		color: var(--primary-color);
-		font-size: 0.75em;
-		place-self: end;
-		justify-content: center;
-		align-items: center;
-		z-index: 1;
-		display: flex;
-		line-height: 0;
-		width: 0;
-		height: 0;
+
+		> :first-child {
+			/* opacity: 0.75; */
+			filter: contrast(0.95) grayscale(0.75);
+		}
+
+		> :last-child {
+			color: var(--primary-color);
+			font-size: 0.75em;
+			place-self: end;
+			justify-content: center;
+			align-items: center;
+			z-index: 1;
+			display: flex;
+			line-height: 0;
+			width: 0;
+			height: 0;
+		}
 	}
 
-	:global([data-state="closed"]) > label {
-		cursor: zoom-in;
-	}
-	:global([data-state="open"]) > label {
-		cursor: zoom-out;
+	label {
+		:global([data-state="closed"]) > & {
+			cursor: zoom-in;
+		}
+		:global([data-state="open"]) > & {
+			cursor: zoom-out;
+		}
 	}
 
 	.summary {
