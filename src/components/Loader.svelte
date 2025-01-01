@@ -58,6 +58,7 @@
 		clip: boolean,
 
 		showContentWhenIdle?: boolean,
+		showContentWhenLoading?: boolean,
 
 		containerClass?: string,
 		contentClass?: string,
@@ -74,6 +75,7 @@
 		clip = true,
 
 		showContentWhenIdle = false,
+		showContentWhenLoading = true,
 
 		containerClass = 'column-block',
 		contentClass = 'column-block',
