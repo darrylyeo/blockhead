@@ -231,22 +231,29 @@
 			}
 
 			.grid-row {
-				transition: 0.3s grid-template var(--ease-out-expo);
+				transition: 0.3s var(--ease-out-expo);
+				transition-property: grid-template, gap, margin-inline-end;
 
 				@media (min-width: 62rem) {
 					--account-gridRow-feedColumnWidth: 1fr;
-					--account-gridRow-marginRight: 1fr;
+					--account-gridRow-gap: 1.5em;
+					--account-gridRow-marginInlineEnd: 0;
+
+					&[data-showing-feed="false"] {
+						--account-gridRow-feedColumnWidth: 0fr;
+						--account-gridRow-marginInlineEnd: calc(-1 * var(--account-gridRow-gap));
+					}
+
+					.account[data-is-editing] & {
+						--account-gridRow-gap: 0.5rem;
+					}
 
 					display: grid;
 					grid-template:
 						"Tokens DeFi NFTs Feed" auto
 						/ [Tokens] 1fr [DeFi] 1fr [NFTs] 1fr [Feed] var(--account-gridRow-feedColumnWidth);
-					gap: 1.5em;
-
-					&[data-showing-feed="false"] {
-						--account-gridRow-feedColumnWidth: 0fr;
-						margin-right: -1.5em;
-					}
+					gap: var(--account-gridRow-gap);
+					margin-inline-end: var(--account-gridRow-marginInlineEnd);
 
 					> section {
 						&.token-balances {
@@ -326,8 +333,8 @@
 <article
 	id={account.id}
 	class="account card column sticky-layout"
-	class:is-editing={isEditing}
 	class:grid-layout={isGridLayout}
+	data-is-editing={isEditing ? '' : undefined}
 	data-is-dragging={isDragging ? '' : undefined}
 >
 	<AccountIdResolver
