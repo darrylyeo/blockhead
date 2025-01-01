@@ -54,12 +54,17 @@
 	{autofocus}
 	{placeholder}
 	pattern={pattern.source}
-	on:input={e => {
-		if([
-			'insertFromDrop',
-			'insertFromPaste'
-		].includes(e.inputType)){
-			address = value.match(pattern)?.[0] || value || ''
+	on:input={event => {
+		if(!(event instanceof InputEvent)) return
+
+		if(
+			[
+				'insertFromDrop',
+				'insertFromPaste'
+			].includes(event.inputType)
+			&& event.data
+		){
+			address = event.data
 			value = address
 		}
 
