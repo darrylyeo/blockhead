@@ -1,5 +1,15 @@
 import type { ActionReturn } from 'svelte/action'
 
+type ActionParameter<T> = {
+	direction?: 'horizontal' | 'vertical'
+	handle?: (element: Element) => boolean
+	onDragStart?: (e: DragEvent) => void
+	afterDragStart?: (e: DragEvent) => void
+	onDragEnd?: (e: DragEvent) => void
+	items: T[]
+	setItems: (items: T[]) => void
+}
+
 export const dragToReorder = <T>(
 	node: HTMLElement,
 	{
@@ -10,20 +20,8 @@ export const dragToReorder = <T>(
 		onDragEnd,
 		items,
 		setItems,
-	}: {
-		direction?: 'horizontal' | 'vertical',
-		handle?: (element: Element) => boolean,
-		onDragStart?: (e: DragEvent) => void,
-		afterDragStart?: (e: DragEvent) => void,
-		onDragEnd?: (e: DragEvent) => void,
-		items: T[],
-		setItems: (items: T[]) => void,
-	},
-): ActionReturn<{
-	direction: 'horizontal' | 'vertical',
-	items: T[],
-	setItems: (items: T[]) => void,
-}> => {
+	}: ActionParameter<T>,
+): ActionReturn<ActionParameter<T>> => {
 	const controller = new AbortController()
 	const signal = controller.signal
 
@@ -115,7 +113,16 @@ export const dragToReorder = <T>(
 
 	return {
 		update: (_) => {
-			({ direction, items, setItems } = _)
+			_.direction ??= 'vertical'
+			;({
+				direction,
+				handle,
+				onDragStart,
+				afterDragStart,
+				onDragEnd,
+				items,
+				setItems,
+			} = _)
 		},
 		destroy: () => {
 			controller.abort()
