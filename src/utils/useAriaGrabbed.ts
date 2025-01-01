@@ -13,15 +13,34 @@ export const useAriaGrabbed = () => {
 
 			element.setAttribute('aria-grabbed', 'false')
 
+			const controller = new AbortController()
+			const signal = controller.signal
+
 			element.addEventListener(
 				'pointerup',
 				() => {
 					element.removeAttribute('aria-grabbed')
+					controller.abort()
 				},
 				{
 					capture: true,
 					passive: true,
 					once: true,
+					signal,
+				}
+			)
+
+			element.addEventListener(
+				'pointercancel',
+				() => {
+					element.removeAttribute('aria-grabbed')
+					controller.abort()
+				},
+				{
+					capture: true,
+					passive: true,
+					once: true,
+					signal,
 				}
 			)
 		},
