@@ -22,9 +22,6 @@ export const dragToReorder = <T>(
 		setItems,
 	}: ActionParameter<T>,
 ): ActionReturn<ActionParameter<T>> => {
-	const controller = new AbortController()
-	const signal = controller.signal
-
 	const isDraggingHandle = (
 		event: DragEvent,
 	) => (
@@ -34,9 +31,35 @@ export const dragToReorder = <T>(
 		)
 	)
 
+	const controller = new AbortController()
+	const signal = controller.signal
+
+	let acceptingDropController: AbortController
+
 	node.addEventListener('dragstart', (e: DragEvent) => {
-		if(handle && !isDraggingHandle(e))
-			return
+		if(handle && !isDraggingHandle(e)) return
+
+		acceptingDropController = new AbortController()
+
+		node.addEventListener(
+			'dragenter',
+			(e: DragEvent) => {
+				e.preventDefault()
+			},
+			{
+				signal: acceptingDropController.signal,
+			}
+		)
+
+		node.addEventListener(
+			'dragover',
+			(e: DragEvent) => {
+				e.preventDefault()
+			},
+			{
+				signal: acceptingDropController.signal,
+			}
+		)
 
 		onDragStart?.(e)
 
@@ -44,11 +67,12 @@ export const dragToReorder = <T>(
 			globalThis.window.requestAnimationFrame(() => {
 				afterDragStart?.(e)
 			})
-	})
+	}, { signal })
 
 	node.addEventListener('dragend', (e: DragEvent) => {
-		if(handle && !isDraggingHandle(e))
-			return
+		if(handle && !isDraggingHandle(e)) return
+
+		acceptingDropController?.abort()
 
 		e.preventDefault()
 
@@ -108,9 +132,6 @@ export const dragToReorder = <T>(
 		onDragEnd?.(e)
 	}, { signal })
 
-	node.addEventListener('dragenter', (e: DragEvent) => { e.preventDefault() }, { signal })
-	node.addEventListener('dragover', (e: DragEvent) => { e.preventDefault() }, { signal })
-
 	return {
 		update: (_) => {
 			_.direction ??= 'vertical'
@@ -125,6 +146,7 @@ export const dragToReorder = <T>(
 			} = _)
 		},
 		destroy: () => {
+			acceptingDropController?.abort()
 			controller.abort()
 		},
 	}
