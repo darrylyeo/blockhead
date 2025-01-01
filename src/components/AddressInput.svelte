@@ -29,36 +29,6 @@
 	// const pattern = /(?<ensName>(?:[^. ]+[.])+(?:eth|xyz|luxe|kred|art|club|test))|(?<address>0x[0-9a-fA-F]{40})|(?<ensTld>(?:eth|xyz|luxe|kred|art|club|test))/
 
 
-	// Methods/hooks/lifecycle
-
-	const onInput = (e: InputEvent) => {
-		if([
-			'insertFromDrop',
-			'insertFromPaste'
-		].includes(e.inputType)){
-			address = value.match(pattern)?.[0] || value || ''
-			value = address
-		}
-
-		// value = value.trim()
-		// address = value
-	}
-
-	const onChange = () => {
-		// address = inputElement?.valid || value === '' ? value : ''
-		// address = pattern.test(value) || value === '' ? value : ''
-		address = value.match(pattern)?.[0] || value || ''
-
-		// address =
-		// 	value.match(/(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))/)?.[0]
-		// 	|| value.match(/(?<address>0x[0-9a-fA-F]{40})/)?.[0]
-		// 	|| value
-		// 	|| ''
-
-		value = address
-	}
-
-
 	import { findMatchedCaptureGroupName } from '$/utils/findMatchedCaptureGroup'
 	// import { isAddress } from 'ethers'
 	
@@ -84,8 +54,31 @@
 	{autofocus}
 	{placeholder}
 	pattern={pattern.source}
-	on:input={onInput}
-	on:change={onChange}
+	on:input={e => {
+		if([
+			'insertFromDrop',
+			'insertFromPaste'
+		].includes(e.inputType)){
+			address = value.match(pattern)?.[0] || value || ''
+			value = address
+		}
+
+		// value = value.trim()
+		// address = value
+	}}
+	on:change={() => {
+		// address = inputElement?.valid || value === '' ? value : ''
+		// address = pattern.test(value) || value === '' ? value : ''
+		address = value.match(pattern)?.[0] || value || ''
+
+		// address =
+		// 	value.match(/(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))/)?.[0]
+		// 	|| value.match(/(?<address>0x[0-9a-fA-F]{40})/)?.[0]
+		// 	|| value
+		// 	|| ''
+
+		value = address
+	}}
 	data-format={findMatchedCaptureGroupName(new RegExp(`^${pattern.source}$`), value)}
 	list={datalistId}
 />
