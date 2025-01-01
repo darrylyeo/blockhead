@@ -90,6 +90,13 @@
 		})
 
 
+	// ARIA
+	import { onMount } from 'svelte'
+	import { useAriaGrabbed } from '$/utils/useAriaGrabbed'
+
+	onMount(useAriaGrabbed)
+
+
 	// Context
 	import type { PageData } from './$types'
 	import { page } from '$app/stores'
