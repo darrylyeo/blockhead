@@ -117,6 +117,7 @@
 
 			viewOptions={{
 				showContentWhenIdle: true,
+				showContentWhenLoading: false,
 				loadingClass: 'backdrop',
 				errorClass: 'backdrop',
 			}}
