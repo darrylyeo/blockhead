@@ -273,7 +273,10 @@
 <section
 	class="portfolio column-block"
 	on:keydown={e => { if(e.code === 'Escape') state = State.Idle }}
-	on:dragenter={e => state = State.Adding}
+	on:dragenter={e => {
+		if(e.dataTransfer?.types.includes('text/plain'))
+			state = State.Adding
+	}}
 	transition:scale={{ duration: 300, start: 0.95 }}
 	tabIndex={0}
 >
