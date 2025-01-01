@@ -4,10 +4,16 @@ export const dragToReorder = <T>(
 	node: HTMLElement,
 	{
 		direction = 'vertical',
+		handle,
+		onDragStart,
+		onDragEnd,
 		items,
 		setItems,
 	}: {
 		direction?: 'horizontal' | 'vertical',
+		handle?: (element: HTMLElement) => boolean,
+		onDragStart?: (e: DragEvent) => void,
+		onDragEnd?: (e: DragEvent) => void,
 		items: T[],
 		setItems: (items: T[]) => void,
 	},
@@ -18,6 +24,11 @@ export const dragToReorder = <T>(
 }> => {
 	const controller = new AbortController()
 	const signal = controller.signal
+
+	node.addEventListener('dragstart', (e: DragEvent) => {
+		if(!handle || (e.target && handle(e.target as HTMLElement)))
+			onDragStart?.(e)
+	})
 
 	node.addEventListener('dragend', (e: DragEvent) => {
 		e.preventDefault()
@@ -69,11 +80,13 @@ export const dragToReorder = <T>(
 			})()
 		)
 
-		if(toIndex === undefined) return
+		if(toIndex !== undefined){
+			const newItems = [...items]
+			newItems.splice(toIndex ?? node.children.length, 0, ...newItems.splice(fromIndex, 1))
+			setItems(newItems)
+		}
 
-		const newItems = [...items]
-		newItems.splice(toIndex ?? node.children.length, 0, ...newItems.splice(fromIndex, 1))
-		setItems(newItems)
+		onDragEnd?.(e)
 	}, { signal })
 
 	node.addEventListener('dragenter', (e: DragEvent) => { e.preventDefault() }, { signal })
