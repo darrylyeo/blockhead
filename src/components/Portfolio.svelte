@@ -272,7 +272,6 @@
 
 <section
 	class="portfolio column-block"
-	on:keydown={e => { if(e.code === 'Escape') state = State.Idle }}
 	on:dragenter={e => {
 		if(e.dataTransfer?.types.includes('text/plain'))
 			state = State.Adding
@@ -399,6 +398,10 @@
 
 							state = State.Idle
 							newAccountId = ''
+						}}
+						on:keydown={e => {
+							if(e.code === 'Escape')
+								state = State.Idle 
 						}}
 						in:fly={{ duration: 200, opacity: 0, y: -20 }}
 						out:scale={{ start: 0.95, duration: 150, opacity: 0 }}
