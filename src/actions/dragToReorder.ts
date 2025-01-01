@@ -11,7 +11,7 @@ export const dragToReorder = <T>(
 		setItems,
 	}: {
 		direction?: 'horizontal' | 'vertical',
-		handle?: (element: HTMLElement) => boolean,
+		handle?: (element: Element) => boolean,
 		onDragStart?: (e: DragEvent) => void,
 		onDragEnd?: (e: DragEvent) => void,
 		items: T[],
@@ -25,12 +25,26 @@ export const dragToReorder = <T>(
 	const controller = new AbortController()
 	const signal = controller.signal
 
+	const isDraggingHandle = (
+		event: DragEvent,
+	) => (
+		handle && (
+			event.target instanceof Element
+			&& handle(event.target)
+		)
+	)
+
 	node.addEventListener('dragstart', (e: DragEvent) => {
-		if(!handle || (e.target && handle(e.target as HTMLElement)))
-			onDragStart?.(e)
+		if(handle && !isDraggingHandle(e))
+			return
+
+		onDragStart?.(e)
 	})
 
 	node.addEventListener('dragend', (e: DragEvent) => {
+		if(handle && !isDraggingHandle(e))
+			return
+
 		e.preventDefault()
 
 		const fromIndex = [...node.children].findIndex(child => child.contains(e.target as Node))
