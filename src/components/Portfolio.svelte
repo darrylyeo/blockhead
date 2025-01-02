@@ -32,6 +32,9 @@
 	import { triggerEvent } from '$/events/triggerEvent'
 
 
+	// UI state
+	let container: HTMLElement
+
 	let state = State.Idle
 	$: if(isEditable && portfolio.name === '')
 		state = State.Editing
@@ -41,6 +44,8 @@
 		triggerEvent('Portfolio/ChangeState', { fromState: previousState, toState: state })
 		previousState = state
 	}
+
+	let isDraggingToAdd = false
 
 	let isReordering = false
 
@@ -270,11 +275,31 @@
 </style>
 
 
+<svelte:window
+	on:dragleave|capture|passive={e => {
+		if(
+			isDraggingToAdd
+			&& e.target instanceof Node
+			&& !container.contains(e.target)
+		){
+			state = State.Idle
+			isDraggingToAdd = false
+		}
+	}}
+	on:dragend|capture|passive={e => {
+		if(isDraggingToAdd)
+			isDraggingToAdd = false
+	}}
+/>
+
 <section
+	bind:this={container}
 	class="portfolio column-block"
 	on:dragenter={e => {
-		if(e.dataTransfer?.types.includes('text/plain'))
+		if(e.dataTransfer?.types.includes('text/plain') && state !== State.Adding){
+			isDraggingToAdd = true
 			state = State.Adding
+		}
 	}}
 	transition:scale={{ duration: 300, start: 0.95 }}
 	tabIndex={0}
