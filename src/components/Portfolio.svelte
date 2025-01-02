@@ -215,7 +215,9 @@
 	}
 
 
+	// Components
 	import AddressInput from './AddressInput.svelte'
+	import Collapsible from './Collapsible.svelte'
 	import Loading from './Loading.svelte'
 	import InlineContainer from './InlineContainer.svelte'
 	import InlineTransition from './InlineTransition.svelte'
@@ -294,7 +296,7 @@
 
 <section
 	bind:this={container}
-	class="portfolio column-block"
+	class="portfolio"
 	on:dragenter={e => {
 		if(e.dataTransfer?.types.includes('text/plain') && state !== State.Adding){
 			isDraggingToAdd = true
@@ -304,413 +306,420 @@
 	transition:scale={{ duration: 300, start: 0.95 }}
 	tabIndex={0}
 >
-	<header
-		class="bar wrap"
-		draggable={true}
+	<Collapsible
+		type="label"
+		isOpen
+		class="column"
 	>
-		<slot name="title">
-			<h1 class="row" on:dblclick={isEditable && (() => state = State.Editing)}>
-				{#if state !== State.Editing}
-					{portfolio.name || '[Untitled Portfolio]'}
-				{:else}
-					<form on:submit={() => state = State.Idle}>
-						<input type="text" bind:value={portfolio.name} placeholder="My Portfolio" autofocus />
-					</form>
-				{/if}
-			</h1>
-		</slot>
+		<header
+			slot="header"
+			class="bar wrap"
+			draggable={true}
+		>
+			<slot name="title">
+				<h1 class="row" on:dblclick={isEditable && (() => state = State.Editing)}>
+					{#if state !== State.Editing}
+						{portfolio.name || '[Untitled Portfolio]'}
+					{:else}
+						<form on:submit={() => state = State.Idle}>
+							<input type="text" bind:value={portfolio.name} placeholder="My Portfolio" autofocus />
+						</form>
+					{/if}
+				</h1>
+			</slot>
 
-		<InlineContainer isOpen={summary && state !== State.Editing}>
-			<span class="summary" transition:scale>
-				<span class="account-total-value">
+			<InlineContainer isOpen={summary && state !== State.Editing}>
+				<span class="summary" transition:scale>
+					<span class="account-total-value">
+						<TokenBalance
+							format="fiat"
+							token={{
+								symbol: quoteCurrency,
+							}}
+							balance={summary.quoteTotal}
+						/>
+					</span>
+
+					<!-- {#if summary.filteredBalancesCount}
+						│
+						<strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> token{summary.balancesCount === 1 ? '' : 's'}
+					{/if} -->
+
+					<!-- {#if summary.defiAppsCount}
+						│
+						<strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}
+					{/if} -->
+
+					{#if summary.nftsCount}
+						│
+						<strong><TweenedNumber value={summary.nftsCount} />{summary.hasMoreNfts ? '+' : ''}</strong> NFT{summary.nftsCount === 1 ? '' : 's'}
+
+						<!-- {#if summary.nftContractsCount}
+							from <strong><TweenedNumber value={summary.nftContractsCount} /></strong> collection{summary.nftContractsCount === 1 ? '' : 's'}
+						{/if} -->
+					{/if}
+				</span>
+			</InlineContainer>
+			<!-- {#if quoteTotals.length && state !== State.Editing}
+				<span class="account-total-value" transition:scale>
 					<TokenBalance
 						format="fiat"
 						token={{
 							symbol: quoteCurrency,
 						}}
-						balance={summary.quoteTotal}
+						balance={quoteTotal}
+						clip={false}
 					/>
 				</span>
+			{/if} -->
 
-				<!-- {#if summary.filteredBalancesCount}
-					│
-					<strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> token{summary.balancesCount === 1 ? '' : 's'}
-				{/if} -->
-
-				<!-- {#if summary.defiAppsCount}
-					│
-					<strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}
-				{/if} -->
-
-				{#if summary.nftsCount}
-					│
-					<strong><TweenedNumber value={summary.nftsCount} />{summary.hasMoreNfts ? '+' : ''}</strong> NFT{summary.nftsCount === 1 ? '' : 's'}
-
-					<!-- {#if summary.nftContractsCount}
-						from <strong><TweenedNumber value={summary.nftContractsCount} /></strong> collection{summary.nftContractsCount === 1 ? '' : 's'}
-					{/if} -->
-				{/if}
-			</span>
-		</InlineContainer>
-		<!-- {#if quoteTotals.length && state !== State.Editing}
-			<span class="account-total-value" transition:scale>
-				<TokenBalance
-					format="fiat"
-					token={{
-						symbol: quoteCurrency,
-					}}
-					balance={quoteTotal}
+			{#if isEditable}
+				<InlineTransition
+					align="end"
+					key={state !== State.Editing}
 					clip={false}
-				/>
-			</span>
-		{/if} -->
+				>
+					<span class="row align-end wrap">
+						{#if state !== State.Editing}
+							<InlineContainer
+								isOpen={state === State.Idle}
+								alignInline="end"
+								contentTransition={[scale]}
+							>
+								<button class="add" data-before="＋" on:click={() => state = State.Adding}>Add Account</button>
+							</InlineContainer>
 
-		{#if isEditable}
-			<InlineTransition
-				align="end"
-				key={state !== State.Editing}
-				clip={false}
+							<InlineContainer align="end">
+								<button data-before="↻" on:click={refetchAllData} disabled={isRefetching}>{isRefetching ? 'Refreshing...' : 'Refresh'}</button>
+							</InlineContainer>
+
+							<InlineContainer align="end">
+								<button data-before="✎" on:click={() => state = State.Editing}>Edit</button>
+							</InlineContainer>
+						{:else}
+							<button class="destructive" data-before="☒" on:click={() => dispatch('delete')}>Delete Portfolio</button>
+							<button data-before="✓" on:click={() => state = State.Idle}>Done</button>
+						{/if}
+					</span>
+				</InlineTransition>
+			{/if}
+			<!-- <button on:click={toggleShowOptions}>Options</button> -->
+
+			<slot name="actions"></slot>
+		</header>
+
+		{#if portfolio.accounts}
+			<SizeContainer layout="block"
+				renderOnlyWhenOpen={false}
+				alignBlock="end"
+				containerProps={{
+					class: 'align-bottom',
+				}}
+				isOpen={state === State.Adding || !portfolio.accounts.length}
 			>
-				<span class="row align-end wrap">
-					{#if state !== State.Editing}
-						<InlineContainer
-							isOpen={state === State.Idle}
-							alignInline="end"
-							contentTransition={[scale]}
+				<div class="stack align-bottom">
+					{#if state === State.Adding}
+						<form
+							class="card"
+							name="add-account"
+							on:submit|preventDefault={() => {
+								addAccount({
+									id: newAccountId,
+									nickname: '',
+									networks: [...newNetworks],
+								})
+
+								state = State.Idle
+								newAccountId = ''
+							}}
+							on:keydown={e => {
+								if(e.code === 'Escape')
+									state = State.Idle 
+							}}
+							in:fly={{ duration: 200, opacity: 0, y: -20 }}
+							out:scale={{ start: 0.95, duration: 150, opacity: 0 }}
 						>
-							<button class="add" data-before="＋" on:click={() => state = State.Adding}>Add Account</button>
-						</InlineContainer>
+						<!-- in:blur={{ duration: 200, opacity: 0, amount: 20 }} -->
+						<!-- in:scale={{ start: 0.95, duration: 300, opacity: 0 }} -->
+							<div class="bar wrap">
+								<div>
+									<h3>Add Account</h3>
+								</div>
 
-						<InlineContainer align="end">
-							<button data-before="↻" on:click={refetchAllData} disabled={isRefetching}>{isRefetching ? 'Refreshing...' : 'Refresh'}</button>
-						</InlineContainer>
+								<!-- <small>{availableNetworks.map(network => network.name).join(', ')}</small> -->
 
-						<InlineContainer align="end">
-							<button data-before="✎" on:click={() => state = State.Editing}>Edit</button>
-						</InlineContainer>
-					{:else}
-						<button class="destructive" data-before="☒" on:click={() => dispatch('delete')}>Delete Portfolio</button>
-						<button data-before="✓" on:click={() => state = State.Idle}>Done</button>
-					{/if}
-				</span>
-			</InlineTransition>
-		{/if}
-		<!-- <button on:click={toggleShowOptions}>Options</button> -->
+								<div role="toolbar" class="row wrap align-end">
+									Networks:
 
-		<slot name="actions"></slot>
-	</header>
+									<InlineContainer alignInline="end">
+										<div class="row wrap align-start">
+											{#each [
+												...defaultAccountNetworks,
+												...newNetworks.filter(network => !defaultAccountNetworks.includes(network))
+											] as network, i (network)}
+												<label
+													class="align-start"
+													title={`${network.name}\nChain ID: ${network.chainId}`}
+													style="--primary-color: {getNetworkColor(network)}"
+													transition:scale={{ duration: 300 }}
+													animate:flip|local={{ duration: 300 }}
+												>
+													<input
+														type="checkbox"
+														bind:group={newNetworks}
+														name="networks[]"
+														value={network}
+														required={!newNetworks.length}
+													/>
+													<span>{network.name}</span>
+												</label>
+											{/each}
 
-	{#if portfolio.accounts}
-		<SizeContainer layout="block"
-			renderOnlyWhenOpen={false}
-			alignBlock="end"
-			containerProps={{
-				class: 'align-bottom',
-			}}
-			isOpen={state === State.Adding || !portfolio.accounts.length}
-		>
-			<div class="stack align-bottom">
-				{#if state === State.Adding}
-					<form
-						class="card"
-						name="add-account"
-						on:submit|preventDefault={() => {
-							addAccount({
-								id: newAccountId,
-								nickname: '',
-								networks: [...newNetworks],
-							})
+											<NetworkSelect
+												on:change={({ detail: { network, target }}) => {
+													newNetworks = newNetworks.includes(network) ? newNetworks.filter(_ => _ !== network) : [...newNetworks, network]
+													target.value = ''
+												}}
+												placeholder="Add Network..."
+												showTestnets={false}
+											/>
+										</div>
+									</InlineContainer>
 
-							state = State.Idle
-							newAccountId = ''
-						}}
-						on:keydown={e => {
-							if(e.code === 'Escape')
-								state = State.Idle 
-						}}
-						in:fly={{ duration: 200, opacity: 0, y: -20 }}
-						out:scale={{ start: 0.95, duration: 150, opacity: 0 }}
-					>
-					<!-- in:blur={{ duration: 200, opacity: 0, amount: 20 }} -->
-					<!-- in:scale={{ start: 0.95, duration: 300, opacity: 0 }} -->
-						<div class="bar wrap">
-							<div>
-								<h3>Add Account</h3>
+									<!-- <input type="text" name="networks[]" bind:value={newNetworks} required hidden /> -->
+								</div>
 							</div>
 
-							<!-- <small>{availableNetworks.map(network => network.name).join(', ')}</small> -->
+							<div class="bar wrap">
+								<AddressInput
+									bind:address={newAccountId}
+									placeholder="EVM Address (0xabcd...6789) / ENS Domain (vitalik.eth) / Lens Handle (stani.lens)"
+									autofocus
+									required
+								/>
 
-							<div role="toolbar" class="row wrap align-end">
-								Networks:
+								<button type="submit" class="medium add">Add</button>
+								<button type="button" class="medium cancel" on:click={() => state = State.Idle}>Cancel</button>
+							</div>
+						</form>
+					{:else if !portfolio.accounts.length}
+						<div
+							class="card"
+							in:scale={{ start: 0.95, duration: 300, opacity: 0 }}
+							out:scale={{ start: 0.95, duration: 150, opacity: 0 }}
+						>
+							<h3>Your Blockhead Portfolio is empty!</h3>
+							{#if isEditable}
+								<p>You can <a on:click={() => state = State.Adding}>add a new wallet address manually</a>, or import an address by connecting a wallet service!</p>
+							{/if}
+						</div>
+					{/if}
+				</div>
+			</SizeContainer>
 
-								<InlineContainer alignInline="end">
-									<div class="row wrap align-start">
-										{#each [
-											...defaultAccountNetworks,
-											...newNetworks.filter(network => !defaultAccountNetworks.includes(network))
-										] as network, i (network)}
-											<label
-												class="align-start"
-												title={`${network.name}\nChain ID: ${network.chainId}`}
-												style="--primary-color: {getNetworkColor(network)}"
-												transition:scale={{ duration: 300 }}
-												animate:flip|local={{ duration: 300 }}
-											>
-												<input
-													type="checkbox"
-													bind:group={newNetworks}
-													name="networks[]"
-													value={network}
-													required={!newNetworks.length}
-												/>
-												<span>{network.name}</span>
-											</label>
-										{/each}
+			<div
+				class="column"
+				use:dragToReorder={{
+					handle: target => (
+						target instanceof HTMLElement && target.dataset.dragHandle === 'portfolio-account'
+					),
+					afterDragStart: e => {
+						isReordering = true
+					},
+					onDragEnd: e => {
+						// Wait for animate:flip to complete
+						setTimeout(() => {
+							isReordering = false
+						}, 300)
+					},
+					items: portfolio.accounts,
+					setItems: _ => { portfolio.accounts = _ },
+				}}
+			>
+				{#each portfolio.accounts as account, i (account.id)}
+					<div
+						transition:scale={{ start: 0.8, duration: 300 }}
+						animate:flip={{ duration: 300, delay: Math.abs(delayStartIndex - i) * 50 }}
+					>
+						<PortfolioAccount
+							bind:account
 
-										<NetworkSelect
-											on:change={({ detail: { network, target }}) => {
-												newNetworks = newNetworks.includes(network) ? newNetworks.filter(_ => _ !== network) : [...newNetworks, network]
-												target.value = ''
-											}}
-											placeholder="Add Network..."
-											showTestnets={false}
-										/>
+							{networkProvider}
+							{defiProvider}
+							{tokenBalancesProvider}
+							{nftProvider}
+							{notificationsProvider}
+							{quoteCurrency}
+
+							{tokenBalanceFormat}
+							{sortBy}
+							{showSmallValues}
+							{showApps}
+							{showUnderlyingAssets}
+							{showDefiPositionMetadata}
+							{showNftMetadata}
+							showImagesOnly={!showCollections}
+							{collectionsSortBy}
+							{showFloorPrices}
+							{showSmallNftFloorPrices}
+							{show3D}
+							{showFeed}
+							{feedLayout}
+
+							isEditing={state === State.Editing}
+							isDragging={isReordering}
+
+							bind:summary={accountsSummaries[account.id]}
+						>
+							{#if state === State.Editing && !isReordering}
+								<InlineContainer
+									align="end"
+									isOpen={state === State.Editing && !isReordering}
+								>
+									<div class="row edit-controls">
+										<button class="destructive" data-before="☒" on:click={() => deleteAccount(i)}>Delete Account</button>
 									</div>
 								</InlineContainer>
-
-								<!-- <input type="text" name="networks[]" bind:value={newNetworks} required hidden /> -->
-							</div>
-						</div>
-
-						<div class="bar wrap">
-							<AddressInput
-								bind:address={newAccountId}
-								placeholder="EVM Address (0xabcd...6789) / ENS Domain (vitalik.eth) / Lens Handle (stani.lens)"
-								autofocus
-								required
-							/>
-
-							<button type="submit" class="medium add">Add</button>
-							<button type="button" class="medium cancel" on:click={() => state = State.Idle}>Cancel</button>
-						</div>
-					</form>
-				{:else if !portfolio.accounts.length}
-					<div
-						class="card"
-						in:scale={{ start: 0.95, duration: 300, opacity: 0 }}
-						out:scale={{ start: 0.95, duration: 150, opacity: 0 }}
-					>
-						<h3>Your Blockhead Portfolio is empty!</h3>
-						{#if isEditable}
-							<p>You can <a on:click={() => state = State.Adding}>add a new wallet address manually</a>, or import an address by connecting a wallet service!</p>
-						{/if}
+							{/if}
+						</PortfolioAccount>
 					</div>
-				{/if}
+				{/each}
 			</div>
-		</SizeContainer>
+		{:else}
+			<slot name="loading">
+				<Loading>Loading your accounts...</Loading>
+			</slot>
+		{/if}
 
-		<div
-			class="column"
-			use:dragToReorder={{
-				handle: target => (
-					target instanceof HTMLElement && target.dataset.dragHandle === 'portfolio-account'
-				),
-				afterDragStart: e => {
-					isReordering = true
-				},
-				onDragEnd: e => {
-					// Wait for animate:flip to complete
-					setTimeout(() => {
-						isReordering = false
-					}, 300)
-				},
-				items: portfolio.accounts,
-				setItems: _ => { portfolio.accounts = _ },
+		<SizeContainer layout="block"
+			isOpen={showOptions && portfolio.accounts.length && state !== State.Editing && !isReordering}
+			containerProps={{
+				class: 'sticky-bottom',
 			}}
 		>
-			{#each portfolio.accounts as account, i (account.id)}
-				<div
-					transition:scale={{ start: 0.8, duration: 300 }}
-					animate:flip={{ duration: 300, delay: Math.abs(delayStartIndex - i) * 50 }}
-				>
-					<PortfolioAccount
-						bind:account
+			<div role="toolbar" class="options card row wrap" transition:fly|global={{ y: 100 }}>
+				<div class="row wrap">
+					<h3>Balances</h3>
 
-						{networkProvider}
-						{defiProvider}
-						{tokenBalancesProvider}
-						{nftProvider}
-						{notificationsProvider}
-						{quoteCurrency}
-
-						{tokenBalanceFormat}
-						{sortBy}
-						{showSmallValues}
-						{showApps}
-						{showUnderlyingAssets}
-						{showDefiPositionMetadata}
-						{showNftMetadata}
-						showImagesOnly={!showCollections}
-						{collectionsSortBy}
-						{showFloorPrices}
-						{showSmallNftFloorPrices}
-						{show3D}
-						{showFeed}
-						{feedLayout}
-
-						isEditing={state === State.Editing}
-						isDragging={isReordering}
-
-						bind:summary={accountsSummaries[account.id]}
-					>
-						{#if state === State.Editing && !isReordering}
-							<InlineContainer
-								align="end"
-								isOpen={state === State.Editing && !isReordering}
-							>
-								<div class="row edit-controls">
-									<button class="destructive" data-before="☒" on:click={() => deleteAccount(i)}>Delete Account</button>
-								</div>
-							</InlineContainer>
-						{/if}
-					</PortfolioAccount>
-				</div>
-			{/each}
-		</div>
-	{:else}
-		<slot name="loading">
-			<Loading>Loading your accounts...</Loading>
-		</slot>
-	{/if}
-
-	<SizeContainer layout="block"
-		isOpen={showOptions && portfolio.accounts.length && state !== State.Editing && !isReordering}
-		containerProps={{
-			class: 'sticky-bottom',
-		}}
-	>
-		<div role="toolbar" class="options card row wrap" transition:fly|global={{ y: 100 }}>
-			<div class="row wrap">
-				<h3>Balances</h3>
-
-				<!-- <label>
-					<!-- <span>Show</span> -- >
+					<!-- <label>
+						<!-- <span>Show</span> -- >
+						<TokenBalanceFormatSelect
+							bind:tokenBalanceFormat
+							{quoteCurrency}
+						/>
+					</label> -->
 					<TokenBalanceFormatSelect
+						type="checkboxes"
 						bind:tokenBalanceFormat
 						{quoteCurrency}
 					/>
-				</label> -->
-				<TokenBalanceFormatSelect
-					type="checkboxes"
-					bind:tokenBalanceFormat
-					{quoteCurrency}
-				/>
 
-				<label>
-					<input type="checkbox" bind:checked={showSmallValues}>
-					<!-- <span>Small Values</span> -->
-					<span>Small</span>
-				</label>
-
-				<label>
-					<span>Sort</span>
-					<select bind:value={sortBy}>
-						<!-- <option value="ticker-ascending">Alphabetical</option>
-						<option value="value-descending">Highest Value</option>
-						<option value="value-ascending">Lowest Value</option> -->
-						<option value="ticker-ascending">A–Z</option>
-						<option value="value-descending">Highest</option>
-						<option value="value-ascending">Lowest</option>
-					</select>
-				</label>
-			</div>
-
-			<div class="row wrap">
-				<h3>DeFi</h3>
-
-				<label>
-					<input type="checkbox" bind:checked={showApps}>
-					<span>Apps</span>
-				</label>
-
-				<label>
-					<input type="checkbox" bind:checked={showUnderlyingAssets}>
-					<!-- <span>Underlying Assets</span> -->
-					<span>Underlying</span>
-				</label>
-
-				<label>
-					<input type="checkbox" bind:checked={showDefiPositionMetadata}>
-					<span>Metadata</span>
-				</label>
-			</div>
-
-			<div class="row wrap">
-				<h3>NFTs</h3>
-
-				<div class="row">
 					<label>
-						<input type="checkbox" bind:checked={showCollections}>
-						<span>Collections</span>
+						<input type="checkbox" bind:checked={showSmallValues}>
+						<!-- <span>Small Values</span> -->
+						<span>Small</span>
 					</label>
 
-					<InlineContainer isOpen={showCollections} clip>
+					<label>
+						<span>Sort</span>
+						<select bind:value={sortBy}>
+							<!-- <option value="ticker-ascending">Alphabetical</option>
+							<option value="value-descending">Highest Value</option>
+							<option value="value-ascending">Lowest Value</option> -->
+							<option value="ticker-ascending">A–Z</option>
+							<option value="value-descending">Highest</option>
+							<option value="value-ascending">Lowest</option>
+						</select>
+					</label>
+				</div>
+
+				<div class="row wrap">
+					<h3>DeFi</h3>
+
+					<label>
+						<input type="checkbox" bind:checked={showApps}>
+						<span>Apps</span>
+					</label>
+
+					<label>
+						<input type="checkbox" bind:checked={showUnderlyingAssets}>
+						<!-- <span>Underlying Assets</span> -->
+						<span>Underlying</span>
+					</label>
+
+					<label>
+						<input type="checkbox" bind:checked={showDefiPositionMetadata}>
+						<span>Metadata</span>
+					</label>
+				</div>
+
+				<div class="row wrap">
+					<h3>NFTs</h3>
+
+					<div class="row">
 						<label>
-							<span>Sort</span>
-							<select bind:value={collectionsSortBy}>
-								<option value="symbol-ascending">A–Z</option>
-								<option value="floor-price-descending">Highest Floor</option>
-								<option value="floor-price-ascending">Lowest Floor</option>
-								<option value="value-descending">Highest Value</option>
-								<option value="value-ascending">Lowest Value</option>
+							<input type="checkbox" bind:checked={showCollections}>
+							<span>Collections</span>
+						</label>
+
+						<InlineContainer isOpen={showCollections} clip>
+							<label>
+								<span>Sort</span>
+								<select bind:value={collectionsSortBy}>
+									<option value="symbol-ascending">A–Z</option>
+									<option value="floor-price-descending">Highest Floor</option>
+									<option value="floor-price-ascending">Lowest Floor</option>
+									<option value="value-descending">Highest Value</option>
+									<option value="value-ascending">Lowest Value</option>
+								</select>
+							</label>
+						</InlineContainer>
+					</div>
+
+					<label>
+						<input type="checkbox" bind:checked={showNftMetadata}>
+						<span>Metadata</span>
+					</label>
+
+					<label>
+						<input type="checkbox" bind:checked={show3D}>
+						<span>3D</span>
+					</label>
+
+					<div class="row">
+						<label>
+							<input type="checkbox" bind:checked={showFloorPrices}>
+							<span>Floor ({quoteCurrencies[quoteCurrency]?.symbol})</span>
+						</label>
+
+						<InlineContainer isOpen={showFloorPrices} clip>
+							<label>
+								<input type="checkbox" bind:checked={showSmallNftFloorPrices}>
+								<span>Small</span>
+							</label>
+						</InlineContainer>
+					</div>
+				</div>
+
+				<div class="row wrap">
+					<h3>Feed</h3>
+
+					<label>
+						<input type="checkbox" bind:checked={showFeed}>
+						<span>Show</span>
+					</label>
+
+					<InlineContainer isOpen={showFeed} clip>
+						<label transition:fade={{duration: 300}}>
+							<!-- <span>View</span> -->
+							<select bind:value={feedLayout}>
+								<option value="byChannel">By Channel</option>
+								<option value="chronological">Chronological</option>
 							</select>
 						</label>
 					</InlineContainer>
 				</div>
-
-				<label>
-					<input type="checkbox" bind:checked={showNftMetadata}>
-					<span>Metadata</span>
-				</label>
-
-				<label>
-					<input type="checkbox" bind:checked={show3D}>
-					<span>3D</span>
-				</label>
-
-				<div class="row">
-					<label>
-						<input type="checkbox" bind:checked={showFloorPrices}>
-						<span>Floor ({quoteCurrencies[quoteCurrency]?.symbol})</span>
-					</label>
-
-					<InlineContainer isOpen={showFloorPrices} clip>
-						<label>
-							<input type="checkbox" bind:checked={showSmallNftFloorPrices}>
-							<span>Small</span>
-						</label>
-					</InlineContainer>
-				</div>
 			</div>
-
-			<div class="row wrap">
-				<h3>Feed</h3>
-
-				<label>
-					<input type="checkbox" bind:checked={showFeed}>
-					<span>Show</span>
-				</label>
-
-				<InlineContainer isOpen={showFeed} clip>
-					<label transition:fade={{duration: 300}}>
-						<!-- <span>View</span> -->
-						<select bind:value={feedLayout}>
-							<option value="byChannel">By Channel</option>
-							<option value="chronological">Chronological</option>
-						</select>
-					</label>
-				</InlineContainer>
-			</div>
-		</div>
-	</SizeContainer>
+		</SizeContainer>
+	</Collapsible>
 </section>
