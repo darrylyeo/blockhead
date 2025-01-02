@@ -198,7 +198,7 @@
 						contain: inline-size paint;
 					}
 					
-					transition-property: display, contain-intrinsic-inline-size;
+					transition-property: display, contain-intrinsic-inline-size, margin-inline;
 					will-change: contain-intrinsic-inline-size;
 					contain-intrinsic-inline-size: auto var(--inlineSize);
 				} */
@@ -208,7 +208,7 @@
 						contain: paint;
 					}
 
-					transition-property: display, inline-size;
+					transition-property: display, inline-size, margin-inline;
 					will-change: inline-size;
 					inline-size: var(--inlineSize);
 				/* } */
@@ -222,7 +222,7 @@
 						contain: block-size paint;
 					}
 					
-					transition-property: display, contain-intrinsic-block-size;
+					transition-property: display, contain-intrinsic-block-size, margin-block;
 					will-change: contain-intrinsic-block-size;
 					contain-intrinsic-block-size: auto var(--blockSize);
 				} */
@@ -232,7 +232,7 @@
 						contain: paint;
 					}
 
-					transition-property: display, block-size;
+					transition-property: display, block-size, margin-block;
 					will-change: block-size;
 					block-size: var(--blockSize);
 				/* } */
@@ -246,7 +246,7 @@
 						contain: size paint;
 					}
 					
-					transition-property: display, contain-intrinsic-size;
+					transition-property: display, contain-intrinsic-size, margin;
 					will-change: contain-intrinsic-size;
 					contain-intrinsic-size: auto var(--blockSize);
 				} */
@@ -256,7 +256,7 @@
 						contain: paint;
 					}
 
-					transition-property: display, block-size, inline-size;
+					transition-property: display, block-size, inline-size, margin;
 					will-change: block-size, inline-size;
 					block-size: var(--blockSize);
 					inline-size: var(--inlineSize);
