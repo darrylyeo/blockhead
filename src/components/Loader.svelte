@@ -77,7 +77,7 @@
 		showContentWhenIdle = false,
 		showContentWhenLoading = true,
 
-		containerClass = 'column-block',
+		containerClass = 'column-block with-hidden-transitions',
 		contentClass = 'column-block',
 		loadingClass = '',
 		errorClass = '',
