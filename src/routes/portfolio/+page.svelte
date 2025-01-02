@@ -1,11 +1,16 @@
 <script lang="ts">
+	// Context
 	import { getLocalPortfolios, createPortfolio } from '$/state/portfolio-accounts'
 	import { preferences } from '$/state/preferences'
-
 
 	const localPortfolios = getLocalPortfolios()
 
 
+	// Internal state
+	let isReordering = false
+
+
+	// Actions
 	import { triggerEvent } from '$/events/triggerEvent'
 
 	const addPortfolio = () => {
@@ -37,33 +42,60 @@
 	// import WalletProviders from '$/components/WalletProviders.svelte'
 
 
-	// Style
+	// Actions
+	import { dragToReorder } from '$/actions/dragToReorder'
 
+
+	// Style
 	import { matchesMediaQuery } from '$/utils/matchesMediaQuery'
 
 	const matchesLayoutBreakpoint = matchesMediaQuery('(min-width: 100rem)')
 	let layout: 'row' | 'column'
 	$: layout = $matchesLayoutBreakpoint ? 'row' : 'column'
 
+
+	// Transitions
 	import { fly } from 'svelte/transition'
+	import { flip } from 'svelte/animate'
 	import { expoOut } from 'svelte/easing'
 </script>
 
 
 <main in:fly={{ x: 150, easing: expoOut }} out:fly={{ x: -150, easing: expoOut }}>
-	<section class="portfolios column">
+	<section
+		class="portfolios column"
+		use:dragToReorder={{
+			handle: target => (
+				target instanceof HTMLElement && target.dataset.dragHandle === 'portfolio'
+			),
+			items: $localPortfolios,
+			setItems: _ => { $localPortfolios = _ },
+			afterDragStart: e => {
+				isReordering = true
+			},
+			onDragEnd: e => {
+				// Wait for animate:flip to complete
+				setTimeout(() => {
+					isReordering = false
+				}, 300)
+			},
+		}}
+	>
 		{#if localPortfolios}
-			{#each $localPortfolios as portfolio, i (i)}
-				<PortfolioComponent
-					bind:portfolio
-					isEditable
-					networkProvider={$preferences.rpcNetwork}
-					defiProvider={$preferences.defiProvider}
-					tokenBalancesProvider={$preferences.tokenBalancesProvider}
-					notificationsProvider={$preferences.notificationsProvider}
-					quoteCurrency={$preferences.quoteCurrency}
-					on:delete={e => deletePortfolio(i)}
-				/>
+			{#each $localPortfolios as portfolio, i (portfolio)}
+				<div animate:flip={{ duration: 300 }}>
+					<PortfolioComponent
+						bind:portfolio
+						isDragging={isReordering}
+						isEditable
+						networkProvider={$preferences.rpcNetwork}
+						defiProvider={$preferences.defiProvider}
+						tokenBalancesProvider={$preferences.tokenBalancesProvider}
+						notificationsProvider={$preferences.notificationsProvider}
+						quoteCurrency={$preferences.quoteCurrency}
+						on:delete={e => deletePortfolio(i)}
+					/>
+				</div>
 			{/each}
 
 			{#if $localPortfolios[$localPortfolios.length - 1]?.accounts.length}

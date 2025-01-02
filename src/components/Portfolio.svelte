@@ -27,6 +27,7 @@
 	export let portfolio: Portfolio
 
 	export let isEditable = true
+	export let isDragging = false
 
 
 	import { triggerEvent } from '$/events/triggerEvent'
@@ -315,6 +316,7 @@
 			slot="header"
 			class="bar wrap"
 			draggable={true}
+			data-drag-handle="portfolio"
 		>
 			<slot name="title">
 				<h1 class="row" on:dblclick={isEditable && (() => state = State.Editing)}>
@@ -376,11 +378,13 @@
 			{#if isEditable}
 				<InlineTransition
 					align="end"
-					key={state !== State.Editing}
+					key={isDragging ? 0 : state !== State.Editing ? 1 : 2}
 					clip={false}
 				>
 					<span class="row align-end wrap">
-						{#if state !== State.Editing}
+						{#if isDragging}
+
+						{:else if state !== State.Editing}
 							<InlineContainer
 								isOpen={state === State.Idle}
 								alignInline="end"
@@ -567,7 +571,7 @@
 							{feedLayout}
 
 							isEditing={state === State.Editing}
-							isDragging={isReordering}
+							isDragging={isReordering || isDragging}
 
 							bind:summary={accountsSummaries[account.id]}
 						>
@@ -592,7 +596,7 @@
 		{/if}
 
 		<SizeContainer layout="block"
-			isOpen={showOptions && portfolio.accounts.length && state !== State.Editing && !isReordering}
+			isOpen={showOptions && portfolio.accounts.length && state !== State.Editing && !isReordering && !isDragging}
 			containerProps={{
 				class: 'sticky-bottom',
 			}}
