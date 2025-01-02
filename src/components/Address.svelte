@@ -6,7 +6,7 @@
 
 
 	// Inputs
-	export let network: Ethereum.Network
+	export let network: Ethereum.Network | undefined
 	export let address: NetworkAccountAddress
 	export let resolveToEnsName = false
 
