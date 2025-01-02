@@ -928,15 +928,109 @@ address {
 	gap: var(--padding-inner);
 }
 .column-block {
+	--gap: var(--padding-inner);
+
 	display: block;
 
 	& > * + * {
-		margin-top: var(--padding-inner);
+		margin-block-start: var(--gap);
 	}
 
 	/* & > :not(:last-child) {
 		margin-bottom: var(--padding-inner);
 	} */
+
+	&.with-hidden-transitions {
+		> * {
+			--gapBefore: 0;
+			--gapAfter: 0;
+			--gapBefore-hidden: var(--gapBefore);
+			--gapAfter-hidden: var(--gapAfter);
+			--isHidden: 0;
+			--offset-hidden: 0;
+			
+			&[hidden] {
+				--isHidden: 1;
+				height: 0;
+			}
+
+			@starting-style {
+				--isHidden: 1;
+				height: 0;
+			}
+
+			transition-property: display, block-size, margin-block;
+			transition-behavior: allow-discrete;
+			interpolate-size: allow-keywords;
+
+			margin-block-start: calc(
+				(
+					(1 - var(--isHidden)) * (
+						var(--gapBefore)
+					)
+					+ var(--isHidden) * (
+						var(--gapBefore-hidden)
+						+ var(--offset-hidden) * 0.5
+					)
+				) * var(--gap)
+			);
+			margin-block-end: calc(
+				(
+					(1 - var(--isHidden)) * (
+						var(--gapAfter)
+					)
+					+ var(--isHidden) * (
+						var(--gapAfter-hidden)
+						- var(--offset-hidden) * 0.5
+					)
+				) * var(--gap)
+			);
+
+			/* First */
+			& {
+				--gapBefore: 0;
+				--gapAfter: 1;
+				--gapBefore-hidden: -0.5;
+				--gapAfter-hidden: 0.5;
+				--offset-hidden: -1;
+			}
+
+			/* Middle */
+			&:where(
+				:not([hidden]) ~ *
+			) {
+				--gapBefore: 1;
+				--gapAfter: 1;
+				/* sum to -1 to simulate margin collapse between previous element's "end" margin and next element's "start" margin */
+				--gapBefore-hidden: -0.5;
+				--gapAfter-hidden: -0.5;
+				--offset-hidden: 0;
+			}
+
+			/* Last */
+			&:where(
+				:nth-last-child(1 of :not([hidden])),
+				:nth-last-child(1 of :not([hidden])) ~ [hidden]
+			) {
+				--gapBefore: 1;
+				--gapAfter: 0;
+				--gapBefore-hidden: 0.5;
+				--gapAfter-hidden: -0.5;
+				--offset-hidden: 1;
+			}
+
+			/* Only */
+			&:where(
+				:not(:not([hidden]) ~ *):not(:has(~ :not([hidden])))
+			) {
+				--gapBefore: 0;
+				--gapAfter: 0;
+				--gapBefore-hidden: 0;
+				--gapAfter-hidden: 0;
+				--offset-hidden: 0;
+			}
+		}
+	}
 }
 
 
