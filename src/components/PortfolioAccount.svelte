@@ -117,6 +117,10 @@
 	}
 
 
+	// UI state
+	let isReordering = false
+
+
 	// Functions
 	import { isTruthy } from '$/utils/isTruthy'
 
@@ -441,6 +445,15 @@
 				),
 				items: account.views,
 				setItems: _ => { account.views = _ },
+				afterDragStart: e => {
+					isReordering = true
+				},
+				onDragEnd: e => {
+					// Wait for animate:flip to complete
+					setTimeout(() => {
+						isReordering = false
+					}, 300)
+				},
 			}}
 		>
 			{#each account.views ?? [] as view, i (view.chainId)}
@@ -483,8 +496,7 @@
 				<!-- {#if isGridLayout}<hr>{/if} -->
 
 				<section
-					class="network"
-					class:column={layout === 'column'}
+					class="network column-block with-hidden-transitions"
 					class:sticky-layout={isEditing}
 					draggable={isEditing}
 					data-drag-handle="portfolio-account-network"
@@ -511,26 +523,180 @@
 						</header>
 					</SizeContainer>
 
-					<div
-						class="network-content {isGridLayout ? 'column grid-row' : 'column-block'} sticky-layout"
-						data-showing-feed={showFeed}
+					<SizeContainer
+						layout="block"
+						isOpen={!isReordering}
+						clip={isReordering}
 					>
-						<!-- Token Balances -->
-						{#if view.showBalances}<section class="token-balances column-block">
-						<!-- <HeightContainer containerClass="token-balances" class="column" isOpen={showBalances}> -->
-							<!-- {#if tokenBalancesProvider === TokenBalancesProvider.Covalent && Covalent.ChainIDs.includes(network.chainId)} -->
-								<EthereumBalances
+						<div
+							class="network-content {isGridLayout ? 'column grid-row' : 'column-block'} sticky-layout"
+							data-showing-feed={showFeed}
+						>
+							<!-- Token Balances -->
+							{#if view.showBalances}<section class="token-balances column-block">
+							<!-- <HeightContainer containerClass="token-balances" class="column" isOpen={showBalances}> -->
+								<!-- {#if tokenBalancesProvider === TokenBalancesProvider.Covalent && Covalent.ChainIDs.includes(network.chainId)} -->
+									<EthereumBalances
+										{network}
+										{address}
+										{tokenBalancesProvider}
+										{quoteCurrency}
+										{tokenBalanceFormat} {sortBy} {showSmallValues} {showUnderlyingAssets}
+										isOpen={Boolean(isGridLayout ? gridLayoutIsChainExpanded[view.chainId] : columnLayoutIsSectionExpanded[`${view.chainId}-${'tokens'}`]) && !isEditing}
+										isScrollable={!isGridLayout} isHorizontal={!isGridLayout}
+										bind:summary={balancesSummaries[i]}
+									>
+										<svelte:fragment slot="header" let:summary let:status let:loadingMessage let:errorMessage>
+											<!-- {#if balances.length || isGridLayout} -->
+												<!-- <hr> -->
+
+												<label class="bar card sticky">
+													<!-- <span class="card-background"><NetworkIcon {network} /></span> -->
+													<h4 class="row">
+														<NetworkIcon {network} />
+
+														<Address {network} {address}>
+															<InlineContainer
+																isOpen={!isEditing && !(showFeed && isGridLayout)}
+																renderOnlyWhenOpen={false}
+																align="end"
+																clip
+															><mark>{network.name}</mark>&nbsp;</InlineContainer>Balances
+														</Address>
+													</h4>
+
+													<InlineTransition
+														align="end"
+														key={
+															status === 'loading' ? 1 :
+															status === 'error' ? 2 :
+															status === 'resolved' || status === 'reloading' ? 3 :
+															0
+														}
+													>
+														{#if status === 'loading'}
+															<InlineTransition
+																key={defiProvider}
+																align="center"
+															>
+																<Loading
+																	layout="icon"
+																	iconAnimation="hover"
+																	title={loadingMessage}
+																>
+																	<img
+																		slot="icon"
+																		src={tokenBalancesProviderIcons[tokenBalancesProvider]}
+																		alt={tokenBalancesProvider}
+																		height={20}
+																	/>
+																</Loading>
+															</InlineTransition>
+														{:else if status === 'error'}
+															<div class="error-icon-container stack">
+																<img
+																	title={errorMessage}
+																	src={tokenBalancesProviderIcons[tokenBalancesProvider]}
+																	alt={tokenBalancesProvider}
+																	height={20}
+																/>
+																<span>⚠︎</span>
+															</div>
+														{:else if status === 'resolved' || status === 'reloading'}
+															<span class="row">
+																{#if summary}
+																	<span
+																		class="summary align-end"
+																		class:is-zero={!summary.filteredBalancesCount}
+																	>
+																		<TokenBalance
+																			format="fiat"
+																			token={{
+																				symbol: summary.quoteCurrency,
+																			}}
+																			balance={summary.quoteTotal}
+																		/>
+																		│
+																		<strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> tokens
+																	</span>
+																{/if}
+
+																<InlineContainer
+																	align="end"
+																	isOpen={status === 'reloading'}
+																>
+																	<Loading
+																		layout="icon"
+																		iconAnimation="hover"
+																		title={loadingMessage}
+																	>
+																		<img
+																			slot="icon"
+																			src={tokenBalancesProviderIcons[tokenBalancesProvider]}
+																			alt={tokenBalancesProvider}
+																			height={20}
+																		/>
+																	</Loading>
+																</InlineContainer>
+															</span>
+														{/if}
+													</InlineTransition>
+				
+													<InlineTransition
+														key={isEditing}
+														align="end"
+													>
+														{#if isEditing}
+															<button class="small" on:click={() => toggleSection('Balances')}>Hide</button>
+														{:else}
+															<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'tokens'}`)}>▼</button>
+														{/if}
+													</InlineTransition>
+													<!-- {#if isEditing}
+														<label>
+															<input type="checkbox" bind:checked={showBalances}>
+															<span>Show Balances</span>
+														</label>
+													{/if} -->
+												</label>
+											<!-- {/if} -->
+										</svelte:fragment>
+									</EthereumBalances>
+								<!-- {:else if provider}
+									{#each [network.nativeCurrency.symbol] as symbol}
+										<Balance
+											{network}
+											{networkProvider}
+											{address}
+											{symbol}
+										/>
+									{/each}
+								{/if} -->
+							</section>{/if}
+							<!-- </HeightContainer> -->
+
+							<!-- DeFi Positions -->
+							{#if view.showDefi}<section class="defi-balances column-block">
+							<!-- <HeightContainer containerClass="defi-balances" class="column" isOpen={showDeFi}> -->
+								<DefiPositionsLoader
+									loaderViewOptions={{
+										isOpen: Boolean(isGridLayout ? gridLayoutIsChainExpanded[view.chainId] : columnLayoutIsSectionExpanded[`${view.chainId}-${'defi'}`]) && !isEditing,
+									}}
 									{network}
+									{networkProvider}
 									{address}
-									{tokenBalancesProvider}
+									{defiProvider}
 									{quoteCurrency}
-									{tokenBalanceFormat} {sortBy} {showSmallValues} {showUnderlyingAssets}
-									isOpen={Boolean(isGridLayout ? gridLayoutIsChainExpanded[view.chainId] : columnLayoutIsSectionExpanded[`${view.chainId}-${'tokens'}`]) && !isEditing}
-									isScrollable={!isGridLayout} isHorizontal={!isGridLayout}
-									bind:summary={balancesSummaries[i]}
+									bind:summary={defiAppsSummaries[i]}
+									let:appsWithPositions
 								>
-									<svelte:fragment slot="header" let:summary let:status let:loadingMessage let:errorMessage>
-										<!-- {#if balances.length || isGridLayout} -->
+									<svelte:fragment slot="header"
+										let:status
+										let:summary
+										let:loadingMessage
+										let:errorMessage
+									>
+										<!-- {#if (status === 'resolved' && summary?.defiAppsCount) || status === 'error' || isGridLayout} -->
 											<!-- <hr> -->
 
 											<label class="bar card sticky">
@@ -538,14 +704,14 @@
 												<h4 class="row">
 													<NetworkIcon {network} />
 
-													<Address {network} {address}>
+													<span>
 														<InlineContainer
 															isOpen={!isEditing && !(showFeed && isGridLayout)}
 															renderOnlyWhenOpen={false}
 															align="end"
 															clip
-														><mark>{network.name}</mark>&nbsp;</InlineContainer>Balances
-													</Address>
+														><mark>{network.name}</mark>&nbsp;</InlineContainer>DeFi
+													</span>
 												</h4>
 
 												<InlineTransition
@@ -569,8 +735,8 @@
 															>
 																<img
 																	slot="icon"
-																	src={tokenBalancesProviderIcons[tokenBalancesProvider]}
-																	alt={tokenBalancesProvider}
+																	src={defiProviderIcons[defiProvider]}
+																	alt={defiProvider}
 																	height={20}
 																/>
 															</Loading>
@@ -579,8 +745,8 @@
 														<div class="error-icon-container stack">
 															<img
 																title={errorMessage}
-																src={tokenBalancesProviderIcons[tokenBalancesProvider]}
-																alt={tokenBalancesProvider}
+																src={defiProviderIcons[defiProvider]}
+																alt={defiProvider}
 																height={20}
 															/>
 															<span>⚠︎</span>
@@ -588,19 +754,16 @@
 													{:else if status === 'resolved' || status === 'reloading'}
 														<span class="row">
 															{#if summary}
-																<span
-																	class="summary align-end"
-																	class:is-zero={!summary.filteredBalancesCount}
-																>
+																<span class="summary" class:is-zero={!summary.defiAppsCount}>
 																	<TokenBalance
 																		format="fiat"
 																		token={{
-																			symbol: summary.quoteCurrency,
+																			symbol: summary.quoteTotalCurrency || quoteCurrency,
 																		}}
 																		balance={summary.quoteTotal}
 																	/>
 																	│
-																	<strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> tokens
+																	<strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}
 																</span>
 															{/if}
 
@@ -615,8 +778,8 @@
 																>
 																	<img
 																		slot="icon"
-																		src={tokenBalancesProviderIcons[tokenBalancesProvider]}
-																		alt={tokenBalancesProvider}
+																		src={defiProviderIcons[defiProvider]}
+																		alt={defiProvider}
 																		height={20}
 																	/>
 																</Loading>
@@ -624,290 +787,96 @@
 														</span>
 													{/if}
 												</InlineTransition>
-			
+
 												<InlineTransition
 													key={isEditing}
 													align="end"
 												>
 													{#if isEditing}
-														<button class="small" on:click={() => toggleSection('Balances')}>Hide</button>
+														<button class="small" on:click={() => toggleSection('DeFi')}>Hide</button>
 													{:else}
-														<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'tokens'}`)}>▼</button>
+														<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'defi'}`)}>▼</button>
 													{/if}
 												</InlineTransition>
+
 												<!-- {#if isEditing}
 													<label>
-														<input type="checkbox" bind:checked={showBalances}>
-														<span>Show Balances</span>
+														<input type="checkbox" bind:checked={showDeFi}>
+														<span>Show DeFi</span>
 													</label>
 												{/if} -->
 											</label>
 										<!-- {/if} -->
 									</svelte:fragment>
-								</EthereumBalances>
-							<!-- {:else if provider}
-								{#each [network.nativeCurrency.symbol] as symbol}
-									<Balance
-										{network}
-										{networkProvider}
-										{address}
-										{symbol}
-									/>
-								{/each}
-							{/if} -->
-						</section>{/if}
-						<!-- </HeightContainer> -->
 
-						<!-- DeFi Positions -->
-						{#if view.showDefi}<section class="defi-balances column-block">
-						<!-- <HeightContainer containerClass="defi-balances" class="column" isOpen={showDeFi}> -->
-							<DefiPositionsLoader
-								loaderViewOptions={{
-									isOpen: Boolean(isGridLayout ? gridLayoutIsChainExpanded[view.chainId] : columnLayoutIsSectionExpanded[`${view.chainId}-${'defi'}`]) && !isEditing,
-								}}
-								{network}
-								{networkProvider}
-								{address}
-								{defiProvider}
-								{quoteCurrency}
-								bind:summary={defiAppsSummaries[i]}
-								let:appsWithPositions
-							>
-								<svelte:fragment slot="header"
-									let:status
-									let:summary
-									let:loadingMessage
-									let:errorMessage
+									{#if appsWithPositions}
+										<DefiPositions
+											{appsWithPositions}
+											{network}
+											{address}
+											{quoteCurrency}
+											{tokenBalanceFormat}
+											{showApps}
+											{showUnderlyingAssets}
+											showMetadata={showDefiPositionMetadata}
+											isScrollable={!isGridLayout}
+										/>
+									{/if}
+								</DefiPositionsLoader>
+							</section>{/if}
+							<!-- </HeightContainer> -->
+
+							<!-- NFT Balances -->
+							{#if view.showNfts}<section class="nft-balances column-block">
+							<!-- <HeightContainer containerClass="nft-balances" class="column" isOpen={showNFTs}> -->
+								<EthereumNftBalancesLoader
+									{network}
+									{address}
+									{nftProvider}
+									{quoteCurrency}
+									loaderViewOptions={{
+										isOpen: Boolean(isGridLayout ? gridLayoutIsChainExpanded[view.chainId] : columnLayoutIsSectionExpanded[`${view.chainId}-${'nfts'}`]) && !isEditing,
+									}}
+									bind:summary={nftsSummaries[i]}
+									let:nftContractsWithBalances
+									let:pagination
 								>
-									<!-- {#if (status === 'resolved' && summary?.defiAppsCount) || status === 'error' || isGridLayout} -->
-										<!-- <hr> -->
+									<svelte:fragment slot="header"
+										let:summary
+										let:status
+										let:loadingMessage let:errorMessage
+									>
+										<!-- {#if balances?.length || isGridLayout} -->
+											<!-- <hr> -->
 
-										<label class="bar card sticky">
-											<!-- <span class="card-background"><NetworkIcon {network} /></span> -->
-											<h4 class="row">
-												<NetworkIcon {network} />
+											<label class="bar card sticky">
+												<h4 class="row">
+													<!-- <span class="card-background"><NetworkIcon {network} /></span> -->
+													<NetworkIcon {network} />
 
-												<span>
-													<InlineContainer
-														isOpen={!isEditing && !(showFeed && isGridLayout)}
-														renderOnlyWhenOpen={false}
-														align="end"
-														clip
-													><mark>{network.name}</mark>&nbsp;</InlineContainer>DeFi
-												</span>
-											</h4>
-
-											<InlineTransition
-												align="end"
-												key={
-													status === 'loading' ? 1 :
-													status === 'error' ? 2 :
-													status === 'resolved' || status === 'reloading' ? 3 :
-													0
-												}
-											>
-												{#if status === 'loading'}
-													<InlineTransition
-														key={defiProvider}
-														align="center"
-													>
-														<Loading
-															layout="icon"
-															iconAnimation="hover"
-															title={loadingMessage}
-														>
-															<img
-																slot="icon"
-																src={defiProviderIcons[defiProvider]}
-																alt={defiProvider}
-																height={20}
-															/>
-														</Loading>
-													</InlineTransition>
-												{:else if status === 'error'}
-													<div class="error-icon-container stack">
-														<img
-															title={errorMessage}
-															src={defiProviderIcons[defiProvider]}
-															alt={defiProvider}
-															height={20}
-														/>
-														<span>⚠︎</span>
-													</div>
-												{:else if status === 'resolved' || status === 'reloading'}
-													<span class="row">
-														{#if summary}
-															<span class="summary" class:is-zero={!summary.defiAppsCount}>
-																<TokenBalance
-																	format="fiat"
-																	token={{
-																		symbol: summary.quoteTotalCurrency || quoteCurrency,
-																	}}
-																	balance={summary.quoteTotal}
-																/>
-																│
-																<strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}
-															</span>
-														{/if}
-
+													<span>
 														<InlineContainer
+															isOpen={!isEditing && !(showFeed && isGridLayout)}
+															renderOnlyWhenOpen={false}
 															align="end"
-															isOpen={status === 'reloading'}
-														>
-															<Loading
-																layout="icon"
-																iconAnimation="hover"
-																title={loadingMessage}
-															>
-																<img
-																	slot="icon"
-																	src={defiProviderIcons[defiProvider]}
-																	alt={defiProvider}
-																	height={20}
-																/>
-															</Loading>
-														</InlineContainer>
+															clip
+														><mark>{network.name}</mark>&nbsp;</InlineContainer>NFTs
 													</span>
-												{/if}
-											</InlineTransition>
+												</h4>
 
-											<InlineTransition
-												key={isEditing}
-												align="end"
-											>
-												{#if isEditing}
-													<button class="small" on:click={() => toggleSection('DeFi')}>Hide</button>
-												{:else}
-													<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'defi'}`)}>▼</button>
-												{/if}
-											</InlineTransition>
-
-											<!-- {#if isEditing}
-												<label>
-													<input type="checkbox" bind:checked={showDeFi}>
-													<span>Show DeFi</span>
-												</label>
-											{/if} -->
-										</label>
-									<!-- {/if} -->
-								</svelte:fragment>
-
-								{#if appsWithPositions}
-									<DefiPositions
-										{appsWithPositions}
-										{network}
-										{address}
-										{quoteCurrency}
-										{tokenBalanceFormat}
-										{showApps}
-										{showUnderlyingAssets}
-										showMetadata={showDefiPositionMetadata}
-										isScrollable={!isGridLayout}
-									/>
-								{/if}
-							</DefiPositionsLoader>
-						</section>{/if}
-						<!-- </HeightContainer> -->
-
-						<!-- NFT Balances -->
-						{#if view.showNfts}<section class="nft-balances column-block">
-						<!-- <HeightContainer containerClass="nft-balances" class="column" isOpen={showNFTs}> -->
-							<EthereumNftBalancesLoader
-								{network}
-								{address}
-								{nftProvider}
-								{quoteCurrency}
-								loaderViewOptions={{
-									isOpen: Boolean(isGridLayout ? gridLayoutIsChainExpanded[view.chainId] : columnLayoutIsSectionExpanded[`${view.chainId}-${'nfts'}`]) && !isEditing,
-								}}
-								bind:summary={nftsSummaries[i]}
-								let:nftContractsWithBalances
-								let:pagination
-							>
-								<svelte:fragment slot="header"
-									let:summary
-									let:status
-									let:loadingMessage let:errorMessage
-								>
-									<!-- {#if balances?.length || isGridLayout} -->
-										<!-- <hr> -->
-
-										<label class="bar card sticky">
-											<h4 class="row">
-												<!-- <span class="card-background"><NetworkIcon {network} /></span> -->
-												<NetworkIcon {network} />
-
-												<span>
-													<InlineContainer
-														isOpen={!isEditing && !(showFeed && isGridLayout)}
-														renderOnlyWhenOpen={false}
-														align="end"
-														clip
-													><mark>{network.name}</mark>&nbsp;</InlineContainer>NFTs
-												</span>
-											</h4>
-
-											<InlineTransition
-												align="end"
-												key={
-													status === 'loading' ? 1 :
-													status === 'error' ? 2 :
-													status === 'resolved' || status === 'reloading' ? 3 :
-													0
-												}
-											>
-												{#if status === 'loading'}
-													<InlineTransition
-														key={nftProvider}
-														align="center"
-													>
-														<Loading
-															layout="icon"
-															iconAnimation="hover"
-															title={loadingMessage}
-														>
-															<img
-																slot="icon"
-																src={nftProviderIcons[nftProvider]}
-																alt={nftProvider}
-																height={20}
-															/>
-														</Loading>
-													</InlineTransition>
-												{:else if status === 'error'}
-													<div class="error-icon-container stack">
-														<img
-															title={errorMessage}
-															src={nftProviderIcons[nftProvider]}
-															alt={nftProvider}
-															height={20}
-														/>
-														<span>⚠︎</span>
-													</div>
-												{:else if status === 'resolved' || status === 'reloading'}
-													<span class="row">
-														{#if summary}
-															<span class="summary" class:is-zero={!summary.nftsCount}>
-																{#if summary.quoteTotal}
-																	<TokenBalance
-																		format="fiat"
-																		token={{
-																			symbol: summary.quoteCurrency || quoteCurrency,
-																		}}
-																		balance={summary.quoteTotal}
-																	/>
-																	│
-																{/if}
-																<strong><TweenedNumber value={summary.nftsCount} />{summary.hasMore ? '+' : ''}</strong> NFT{summary.nftsCount === 1 ? '' : 's'}
-																│
-																<!-- across -->
-																<strong><TweenedNumber value={summary.nftContractsCount} /></strong> collection{summary.nftContractsCount === 1 ? '' : 's'}
-															</span>
-														{/if}
-
-														<InlineContainer
-															align="end"
-															isOpen={status === 'reloading'}
+												<InlineTransition
+													align="end"
+													key={
+														status === 'loading' ? 1 :
+														status === 'error' ? 2 :
+														status === 'resolved' || status === 'reloading' ? 3 :
+														0
+													}
+												>
+													{#if status === 'loading'}
+														<InlineTransition
+															key={nftProvider}
+															align="center"
 														>
 															<Loading
 																layout="icon"
@@ -921,118 +890,128 @@
 																	height={20}
 																/>
 															</Loading>
-														</InlineContainer>
-													</span>
-												{/if}
-											</InlineTransition>
-		
-											<InlineTransition
-												key={isEditing}
-												align="end"
-											>
-												{#if isEditing}
-													<button class="small" on:click={() => toggleSection('NFTs')}>Hide</button>
-												{:else}
-													<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'nfts'}`)}>▼</button>
-												{/if}
-											</InlineTransition>
-											<!-- {#if isEditing}
-												<label>
-													<input type="checkbox" bind:checked={showNFTs}>
-													<span>Show NFTs</span>
-												</label>
-											{/if} -->
-										</label>
-									<!-- {/if} -->
-								</svelte:fragment>
+														</InlineTransition>
+													{:else if status === 'error'}
+														<div class="error-icon-container stack">
+															<img
+																title={errorMessage}
+																src={nftProviderIcons[nftProvider]}
+																alt={nftProvider}
+																height={20}
+															/>
+															<span>⚠︎</span>
+														</div>
+													{:else if status === 'resolved' || status === 'reloading'}
+														<span class="row">
+															{#if summary}
+																<span class="summary" class:is-zero={!summary.nftsCount}>
+																	{#if summary.quoteTotal}
+																		<TokenBalance
+																			format="fiat"
+																			token={{
+																				symbol: summary.quoteCurrency || quoteCurrency,
+																			}}
+																			balance={summary.quoteTotal}
+																		/>
+																		│
+																	{/if}
+																	<strong><TweenedNumber value={summary.nftsCount} />{summary.hasMore ? '+' : ''}</strong> NFT{summary.nftsCount === 1 ? '' : 's'}
+																	│
+																	<!-- across -->
+																	<strong><TweenedNumber value={summary.nftContractsCount} /></strong> collection{summary.nftContractsCount === 1 ? '' : 's'}
+																</span>
+															{/if}
 
-								{#if nftContractsWithBalances}
-									<EthereumNftBalances
-										{nftContractsWithBalances}
-										{network}
-										{address}
-										{nftProvider}
-										{quoteCurrency}
-										{collectionsSortBy} {showUnderlyingAssets} {showNftMetadata} layout={showImagesOnly ? 'images' : 'collections'} {show3D} {showFloorPrices} {showSmallNftFloorPrices} isScrollable={!isGridLayout}
-										{pagination}
-									/>
-								{/if}
-							</EthereumNftBalancesLoader>
-						</section>{/if}
-
-						{#if showFeed}<section class="feed" transition:fade={{duration: 300}}>
-							<Notifications
-								loaderViewOptions={{
-									isOpen: Boolean(isGridLayout ? gridLayoutIsChainExpanded[view.chainId] : columnLayoutIsSectionExpanded[`${view.chainId}-${'feed'}`]) && !isEditing,
-									showIf: notifications => notifications,
-								}}
-								{network}
-								{address}
-								isScrollable={!isGridLayout}
-								{feedLayout}
-							>
-								<svelte:fragment slot="header" let:summary let:status let:loadingMessage let:errorMessage>
-									<label class="bar card sticky">
-										<h4 class="row">
-											<img
-												src={notificationsProviderIcons[notificationsProvider]}
-												alt={notificationsProvider}
-												width={17.5}
-											/>
-											Feed
-										</h4>
-
-										<InlineTransition
-											align="end"
-											key={
-												status === 'loading' ? 1 :
-												status === 'error' ? 2 :
-												status === 'resolved' || status === 'reloading' ? 3 :
-												0
-											}
-										>
-											{#if status === 'loading'}
-												<InlineTransition
-													key={notificationsProvider}
-													align="center"
-												>
-													<Loading
-														layout="icon"
-														iconAnimation="hover"
-														title={loadingMessage}
-													>
-														<img
-															slot="icon"
-															src={notificationsProviderIcons[notificationsProvider]}
-															alt={notificationsProvider}
-															height={20}
-														/>
-													</Loading>
-												</InlineTransition>
-											{:else if status === 'error'}
-												<div class="error-icon-container stack">
-													<img
-														title={errorMessage}
-														src={notificationsProviderIcons[notificationsProvider]}
-														alt={notificationsProvider}
-														height={20}
-													/>
-													<span>⚠︎</span>
-												</div>
-											{:else if status === 'resolved' || status === 'reloading'}
-												<span class="row">
-													{#if summary}
-														<span class="summary" class:is-zero={!summary.notificationsCount}>
-															<strong><TweenedNumber value={summary.notificationsCount} /></strong> notification{summary.notificationsCount === 1 ? '' : 's'}
-															│
-															<!-- across -->
-															<strong><TweenedNumber value={summary.channelsCount} /></strong> channel{summary.channelsCount === 1 ? '' : 's'}
+															<InlineContainer
+																align="end"
+																isOpen={status === 'reloading'}
+															>
+																<Loading
+																	layout="icon"
+																	iconAnimation="hover"
+																	title={loadingMessage}
+																>
+																	<img
+																		slot="icon"
+																		src={nftProviderIcons[nftProvider]}
+																		alt={nftProvider}
+																		height={20}
+																	/>
+																</Loading>
+															</InlineContainer>
 														</span>
 													{/if}
+												</InlineTransition>
+			
+												<InlineTransition
+													key={isEditing}
+													align="end"
+												>
+													{#if isEditing}
+														<button class="small" on:click={() => toggleSection('NFTs')}>Hide</button>
+													{:else}
+														<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'nfts'}`)}>▼</button>
+													{/if}
+												</InlineTransition>
+												<!-- {#if isEditing}
+													<label>
+														<input type="checkbox" bind:checked={showNFTs}>
+														<span>Show NFTs</span>
+													</label>
+												{/if} -->
+											</label>
+										<!-- {/if} -->
+									</svelte:fragment>
 
-													<InlineContainer
-														align="end"
-														isOpen={status === 'reloading'}
+									{#if nftContractsWithBalances}
+										<EthereumNftBalances
+											{nftContractsWithBalances}
+											{network}
+											{address}
+											{nftProvider}
+											{quoteCurrency}
+											{collectionsSortBy} {showUnderlyingAssets} {showNftMetadata} layout={showImagesOnly ? 'images' : 'collections'} {show3D} {showFloorPrices} {showSmallNftFloorPrices} isScrollable={!isGridLayout}
+											{pagination}
+										/>
+									{/if}
+								</EthereumNftBalancesLoader>
+							</section>{/if}
+
+							{#if showFeed}<section class="feed" transition:fade={{duration: 300}}>
+								<Notifications
+									loaderViewOptions={{
+										isOpen: Boolean(isGridLayout ? gridLayoutIsChainExpanded[view.chainId] : columnLayoutIsSectionExpanded[`${view.chainId}-${'feed'}`]) && !isEditing,
+										showIf: notifications => notifications,
+									}}
+									{network}
+									{address}
+									isScrollable={!isGridLayout}
+									{feedLayout}
+								>
+									<svelte:fragment slot="header" let:summary let:status let:loadingMessage let:errorMessage>
+										<label class="bar card sticky">
+											<h4 class="row">
+												<img
+													src={notificationsProviderIcons[notificationsProvider]}
+													alt={notificationsProvider}
+													width={17.5}
+												/>
+												Feed
+											</h4>
+
+											<InlineTransition
+												align="end"
+												key={
+													status === 'loading' ? 1 :
+													status === 'error' ? 2 :
+													status === 'resolved' || status === 'reloading' ? 3 :
+													0
+												}
+											>
+												{#if status === 'loading'}
+													<InlineTransition
+														key={notificationsProvider}
+														align="center"
 													>
 														<Loading
 															layout="icon"
@@ -1046,27 +1025,66 @@
 																height={20}
 															/>
 														</Loading>
-													</InlineContainer>
-												</span>
-											{/if}
-										</InlineTransition>
+													</InlineTransition>
+												{:else if status === 'error'}
+													<div class="error-icon-container stack">
+														<img
+															title={errorMessage}
+															src={notificationsProviderIcons[notificationsProvider]}
+															alt={notificationsProvider}
+															height={20}
+														/>
+														<span>⚠︎</span>
+													</div>
+												{:else if status === 'resolved' || status === 'reloading'}
+													<span class="row">
+														{#if summary}
+															<span class="summary" class:is-zero={!summary.notificationsCount}>
+																<strong><TweenedNumber value={summary.notificationsCount} /></strong> notification{summary.notificationsCount === 1 ? '' : 's'}
+																│
+																<!-- across -->
+																<strong><TweenedNumber value={summary.channelsCount} /></strong> channel{summary.channelsCount === 1 ? '' : 's'}
+															</span>
+														{/if}
 
-										<InlineTransition
-											key={isEditing}
-											align="end"
-										>
-											{#if isEditing}
-												<button class="small" on:click={() => toggleSection('Feed')}>Hide</button>
-											{:else}
-												<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'feed'}`)}>▼</button>
-											{/if}
-										</InlineTransition>
-									</label>
-								</svelte:fragment>
-							</Notifications>
-						</section>{/if}
-						<!-- </HeightContainer> -->
-					</div>
+														<InlineContainer
+															align="end"
+															isOpen={status === 'reloading'}
+														>
+															<Loading
+																layout="icon"
+																iconAnimation="hover"
+																title={loadingMessage}
+															>
+																<img
+																	slot="icon"
+																	src={notificationsProviderIcons[notificationsProvider]}
+																	alt={notificationsProvider}
+																	height={20}
+																/>
+															</Loading>
+														</InlineContainer>
+													</span>
+												{/if}
+											</InlineTransition>
+
+											<InlineTransition
+												key={isEditing}
+												align="end"
+											>
+												{#if isEditing}
+													<button class="small" on:click={() => toggleSection('Feed')}>Hide</button>
+												{:else}
+													<button class="small" on:click={() => isGridLayout ? toggleGridLayoutIsChainExpanded(view.chainId) : toggleColumnLayoutIsSectionExpanded(`${view.chainId}-${'feed'}`)}>▼</button>
+												{/if}
+											</InlineTransition>
+										</label>
+									</svelte:fragment>
+								</Notifications>
+							</section>{/if}
+							<!-- </HeightContainer> -->
+						</div>
+					</SizeContainer>
 				</section>
 			{/each}
 		</div>
