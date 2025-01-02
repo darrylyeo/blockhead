@@ -43,18 +43,22 @@
 	}
 
 	const onChange = () => {
-		value = parse(inputValue, decimals)
+		const parsedValue = parse(inputValue, decimals)
 
-		if(max && value && value > max)
-			value = max
-		else if(min && value && value > min)
-			value = min
+		value = (
+			max !== undefined && parsedValue !== undefined && parsedValue > max ?
+				max
+			: min !== undefined && parsedValue !== undefined && parsedValue > min ?
+				min
+			:
+				parsedValue
+		)
 
 		inputValue = format(value, decimals)
 	}
 
 	const setMax = () => {
-		if(max) value = max
+		if(max !== undefined) value = max
 		inputValue = format(value, decimals)
 	}
 
@@ -89,7 +93,7 @@
 		{required}
 		on:input={onInput}
 		on:change={onChange}
-		placeholder={max ? max > 2n ** 16n ? '0' : max.toString() : undefined}
+		placeholder={max !== undefined ? max > 2n ** 16n ? '0' : max.toString() : undefined}
 		list={datalistId}
 	/>
 	<!-- placeholder={min && max ? `${min} to ${max}` : '0'} -->
