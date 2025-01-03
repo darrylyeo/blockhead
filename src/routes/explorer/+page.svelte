@@ -117,6 +117,7 @@
 										draggable="true"
 										on:dragstart={e => {
 											e.dataTransfer?.setData('text/plain', caip2Id)
+											e.dataTransfer?.setData('@blockhead/caip2id', caip2Id)
 										}}
 										in:scale={{ delay: j * 10, duration: 300 }}
 										out:scale={{ duration: 200 }}

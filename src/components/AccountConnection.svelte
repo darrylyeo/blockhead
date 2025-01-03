@@ -144,7 +144,16 @@
 
 				title="{info.walletName ?? info.walletConnectionTypeName}{info.walletConnectionTypeName ? ` via ${info.walletConnectionTypeName}` : ''}"
 
-				on:dragover={e => { e.preventDefault() }}
+				on:dragover={e => {
+					if(!(e instanceof DragEvent) || !e.dataTransfer) return
+
+					if(!isConnected) return
+
+					if([...e.dataTransfer.types].includes('@blockhead/caip2id')){
+						e.preventDefault()
+						e.dataTransfer.dropEffect = 'link'
+					}
+				}}
 				on:drop={e => {
 					const text = e.dataTransfer?.getData('text/plain')
 					if(!text) return
