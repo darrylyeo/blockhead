@@ -39,11 +39,17 @@ export const dragToReorder = <T>(
 	node.addEventListener('dragstart', (e: DragEvent) => {
 		if(handle && !isDraggingHandle(e)) return
 
+		if(e.dataTransfer)
+			e.dataTransfer.dropEffect = 'move'
+
 		acceptingDropController = new AbortController()
 
 		node.addEventListener(
 			'dragenter',
 			(e: DragEvent) => {
+				if(e.dataTransfer)
+					e.dataTransfer.dropEffect = 'move'
+
 				e.preventDefault()
 			},
 			{
@@ -54,6 +60,9 @@ export const dragToReorder = <T>(
 		node.addEventListener(
 			'dragover',
 			(e: DragEvent) => {
+				if(e.dataTransfer)
+					e.dataTransfer.dropEffect = 'move'
+
 				e.preventDefault()
 			},
 			{
