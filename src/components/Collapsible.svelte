@@ -156,6 +156,7 @@
 		data-collapsible-container
 		class="container {$$props.containerClass ?? ''}"
 		class:column-block={canToggle && type === 'details'}
+		class:with-hidden-transitions={canToggle && type === 'details'}
 		{...{
 			'label': {
 				'data-state': isOpen ? 'open' : 'closed',
@@ -227,7 +228,7 @@
 
 		<div
 			data-collapsible-content
-			class="collapsible {$$props.class ?? ''}"
+			class="collapsible column-block with-hidden-transitions {$$props.class ?? ''}"
 			class:clip
 			{...type === 'label' ? {
 				id: ariaId,
