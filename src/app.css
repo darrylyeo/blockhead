@@ -1360,8 +1360,17 @@ body::-webkit-scrollbar-button {
 
 
 [draggable="true"] {
-	&:not(:any-link) {
-		cursor: grab;
+	&:hover {
+		&:not(:any-link) {
+			cursor: grab;
+
+			:root:not(:has([aria-grabbed])) &:active:where(:not(:has([draggable=true]:active))),
+			&[aria-grabbed] {
+				:hover {
+					cursor: inherit !important;
+				}
+			}
+		}
 	}
 
 	&[aria-grabbed="false"]:active {
