@@ -203,8 +203,8 @@
 			grid-column: 1 / -1;
 		}
 
-		.sticky {
-			transition-property: margin-inline;
+		header.sticky {
+			transition-property: var(--draggable-transitionProperties), margin-inline;
 		}
 
 		&[data-is-dragging] {
@@ -280,6 +280,10 @@
 					/* overflow-y: auto;
 					position: sticky;
 					top: 4.5rem; */
+
+					:global(.sticky) {
+						transition-property: margin-inline;
+					}
 
 					h4 {
 						white-space: nowrap;
