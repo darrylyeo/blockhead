@@ -1360,6 +1360,11 @@ body::-webkit-scrollbar-button {
 
 
 [draggable="true"] {
+	--draggable-transitionProperties: opacity, scale, filter;
+
+	transition-property: var(--draggable-transitionProperties);
+	transition-timing-function: var(--ease-out-expo);
+
 	&:hover {
 		&:not(:any-link) {
 			cursor: grab;
@@ -1371,10 +1376,16 @@ body::-webkit-scrollbar-button {
 				}
 			}
 		}
+
+		scale: 1.001;
+		filter: brightness(110%);
 	}
 
 	&[aria-grabbed="false"]:active {
 		cursor: grabbing;
+
+		opacity: 0.8;
+		scale: 0.995;
 	}
 
 	:root:not(:has([aria-grabbed])) &:active:where(:not(:has([draggable=true]:active))),
@@ -1382,7 +1393,7 @@ body::-webkit-scrollbar-button {
 		cursor: grabbing;
 
 		will-change: transform;
-		animation: Dragging 0.45s infinite ease-in-out;
+		animation: Dragging 0.475s infinite ease-in-out;
 
 		user-select: none;
 	}
@@ -1393,20 +1404,23 @@ body::-webkit-scrollbar-button {
 	}
 }
 @keyframes Dragging {
+	0% {
+		translate: 0 -0.5%;
+	}
 	50% {
 		opacity: 0.66;
-		transform: scale(0.96) translateY(2%);
-		/* filter: brightness(120%) invert() hue-rotate(0.5turn) */
+		scale: 0.9975;
+		translate: 0 0.5%;
 	}
-	/* 0%, 50%, 100% {
-		transform: rotate(0);
+	0%, 50%, 100% {
+		rotate: 0;
 	}
 	25% {
-		transform: rotate(-2deg);
+		rotate: -0.05deg;
 	}
 	75% {
-		transform: rotate(2deg);
-	} */
+		rotate: 0.05deg;
+	}
 }
 @keyframes DraggingParent {
 	50% {
