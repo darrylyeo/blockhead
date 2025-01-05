@@ -534,10 +534,13 @@
 					handle: target => (
 						target instanceof HTMLElement && target.dataset.dragHandle === 'portfolio-account'
 					),
-					afterDragStart: e => {
+					afterDragStart: () => {
 						isReordering = true
 					},
-					onDragEnd: e => {
+					beforeDragEnd: (_, { fromIndex }) => {
+						delayStartIndex = fromIndex
+					},
+					onDragEnd: () => {
 						// Wait for animate:flip to complete
 						setTimeout(() => {
 							isReordering = false
