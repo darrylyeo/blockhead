@@ -191,6 +191,9 @@
 
 		status = LoadingStatus.Idle
 
+		promise = undefined
+		store = undefined
+
 		// if(startImmediately)
 		// 	load()
 	}
