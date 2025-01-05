@@ -399,19 +399,19 @@
 								alignInline="end"
 								contentTransition={[scale]}
 							>
-								<button class="add" data-before="＋" on:click={() => state = State.Adding}>Add Account</button>
+								<button class="medium add" data-before="＋" on:click={() => state = State.Adding}>Add Account</button>
 							</InlineContainer>
 
 							<InlineContainer align="end">
-								<button data-before="↻" on:click={refetchAllData} disabled={isRefetching}>{isRefetching ? 'Refreshing...' : 'Refresh'}</button>
+								<button class="medium " data-before="↻" on:click={refetchAllData} disabled={isRefetching}>{isRefetching ? 'Refreshing...' : 'Refresh'}</button>
 							</InlineContainer>
 
 							<InlineContainer align="end">
-								<button data-before="✎" on:click={() => state = State.Editing}>Edit</button>
+								<button class="medium" data-before="✎" on:click={() => state = State.Editing}>Edit</button>
 							</InlineContainer>
 						{:else}
-							<button class="destructive" data-before="☒" on:click={() => dispatch('delete')}>Delete Portfolio</button>
-							<button data-before="✓" on:click={() => state = State.Idle}>Done</button>
+							<button class="medium destructive" data-before="☒" on:click={() => dispatch('delete')}>Delete Portfolio</button>
+							<button class="medium" data-before="✓" on:click={() => state = State.Idle}>Done</button>
 						{/if}
 					</span>
 				</InlineTransition>
@@ -588,7 +588,7 @@
 									isOpen={state === State.Editing && !isReordering}
 								>
 									<div class="row edit-controls">
-										<button class="destructive" data-before="☒" on:click={() => deleteAccount(i)}>Delete Account</button>
+										<button class="destructive medium" data-before="☒" on:click={() => deleteAccount(i)}>Delete Account</button>
 									</div>
 								</InlineContainer>
 							{/if}
