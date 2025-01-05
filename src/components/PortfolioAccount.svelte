@@ -402,21 +402,31 @@
 
 					{#if summary.filteredBalancesCount}
 						│
-						<strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> token{summary.filteredBalancesCount === 1 ? '' : 's'}
+						<span>
+							<strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> token{summary.filteredBalancesCount === 1 ? '' : 's'}
+						</span>
 					{/if}
 
 					{#if summary.defiAppsCount}
 						│
-						<strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}
+						<span>
+							<strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}
+						</span>
 					{/if}
 
 					{#if summary.nftsCount}
 						│
-						<strong><TweenedNumber value={summary.nftsCount} /></strong>{summary.hasMoreNfts ? '+' : ''} NFT{summary.nftsCount === 1 ? '' : 's'}
+						<span>
+							<span>
+								<strong><TweenedNumber value={summary.nftsCount} /></strong>{summary.hasMoreNfts ? '+' : ''} NFT{summary.nftsCount === 1 ? '' : 's'}
+							</span>
 
-						{#if summary.nftContractsCount}
-							from <strong><TweenedNumber value={summary.nftContractsCount} /></strong> collection{summary.nftContractsCount === 1 ? '' : 's'}
-						{/if}
+							{#if summary.nftContractsCount}
+								<span>
+									from <strong><TweenedNumber value={summary.nftContractsCount} /></strong> collection{summary.nftContractsCount === 1 ? '' : 's'}
+								</span>
+							{/if}
+						</span>
 					{/if}
 				</span>
 			{/if}
@@ -621,7 +631,9 @@
 																			balance={summary.quoteTotal}
 																		/>
 																		│
-																		<strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> tokens
+																		<span>
+																			<strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> tokens
+																		</span>
 																	</span>
 																{/if}
 
@@ -767,7 +779,9 @@
 																		balance={summary.quoteTotal}
 																	/>
 																	│
-																	<strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}
+																	<span>
+																		<strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}
+																	</span>
 																</span>
 															{/if}
 
@@ -919,10 +933,14 @@
 																		/>
 																		│
 																	{/if}
-																	<strong><TweenedNumber value={summary.nftsCount} />{summary.hasMore ? '+' : ''}</strong> NFT{summary.nftsCount === 1 ? '' : 's'}
+																	<span>
+																		<strong><TweenedNumber value={summary.nftsCount} />{summary.hasMore ? '+' : ''}</strong> NFT{summary.nftsCount === 1 ? '' : 's'}
+																	</span>
 																	│
 																	<!-- across -->
-																	<strong><TweenedNumber value={summary.nftContractsCount} /></strong> collection{summary.nftContractsCount === 1 ? '' : 's'}
+																	<span>
+																		<strong><TweenedNumber value={summary.nftContractsCount} /></strong> collection{summary.nftContractsCount === 1 ? '' : 's'}
+																	</span>
 																</span>
 															{/if}
 
@@ -1044,10 +1062,14 @@
 													<span class="row">
 														{#if summary}
 															<span class="summary" class:is-zero={!summary.notificationsCount}>
-																<strong><TweenedNumber value={summary.notificationsCount} /></strong> notification{summary.notificationsCount === 1 ? '' : 's'}
+																<span>
+																	<strong><TweenedNumber value={summary.notificationsCount} /></strong> notification{summary.notificationsCount === 1 ? '' : 's'}
+																</span>
 																│
 																<!-- across -->
-																<strong><TweenedNumber value={summary.channelsCount} /></strong> channel{summary.channelsCount === 1 ? '' : 's'}
+																<span>
+																	<strong><TweenedNumber value={summary.channelsCount} /></strong> channel{summary.channelsCount === 1 ? '' : 's'}
+																</span>
 															</span>
 														{/if}
 

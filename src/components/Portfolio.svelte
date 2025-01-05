@@ -344,17 +344,23 @@
 
 					<!-- {#if summary.filteredBalancesCount}
 						│
-						<strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> token{summary.balancesCount === 1 ? '' : 's'}
+						<span>
+							<strong><TweenedNumber value={summary.filteredBalancesCount} /></strong> token{summary.balancesCount === 1 ? '' : 's'}
+						</span>
 					{/if} -->
 
 					<!-- {#if summary.defiAppsCount}
 						│
-						<strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}
+						<span>
+							<strong><TweenedNumber value={summary.defiAppsCount} /></strong> app{summary.defiAppsCount === 1 ? '' : 's'}
+						</span>
 					{/if} -->
 
 					{#if summary.nftsCount}
 						│
-						<strong><TweenedNumber value={summary.nftsCount} />{summary.hasMoreNfts ? '+' : ''}</strong> NFT{summary.nftsCount === 1 ? '' : 's'}
+						<span>
+							<strong><TweenedNumber value={summary.nftsCount} />{summary.hasMoreNfts ? '+' : ''}</strong> NFT{summary.nftsCount === 1 ? '' : 's'}
+						</span>
 
 						<!-- {#if summary.nftContractsCount}
 							from <strong><TweenedNumber value={summary.nftContractsCount} /></strong> collection{summary.nftContractsCount === 1 ? '' : 's'}
