@@ -272,8 +272,11 @@
 
 
 	form[name="add-account"] :global(select) {
-		max-width: 7.5rem;
 		position: relative;
+
+		@supports not (field-sizing: content) {
+			max-width: 11em;
+		}
 	}
 </style>
 
