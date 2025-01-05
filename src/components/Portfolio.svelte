@@ -521,10 +521,8 @@
 							in:scale={{ start: 0.95, duration: 300, opacity: 0 }}
 							out:scale={{ start: 0.95, duration: 150, opacity: 0 }}
 						>
-							<h3>Your Blockhead Portfolio is empty!</h3>
-							{#if isEditable}
-								<p>You can <a on:click={() => state = State.Adding}>add a new wallet address manually</a>, or import an address by connecting a wallet service!</p>
-							{/if}
+							<h3>Track token balances, DeFi positions and NFT collections in one place!</h3>
+							<p><a href="#" role="button" tabIndex="0" on:click={() => { state = State.Adding }}>Enter an account address manually</a>, or connect a wallet and drag it here.</p>
 						</div>
 					{/if}
 				</div>
