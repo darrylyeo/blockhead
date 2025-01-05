@@ -5,7 +5,8 @@ type ActionParameter<T> = {
 	handle?: (element: Element) => boolean
 	onDragStart?: (e: DragEvent) => void
 	afterDragStart?: (e: DragEvent) => void
-	onDragEnd?: (e: DragEvent) => void
+	beforeDragEnd?: (e: DragEvent, _: { fromIndex: number, toIndex?: number }) => void
+	onDragEnd?: (e: DragEvent, _: { fromIndex: number, toIndex?: number }) => void
 	items: T[]
 	setItems: (items: T[]) => void
 }
@@ -17,6 +18,7 @@ export const dragToReorder = <T>(
 		handle,
 		onDragStart,
 		afterDragStart,
+		beforeDragEnd,
 		onDragEnd,
 		items,
 		setItems,
@@ -38,6 +40,8 @@ export const dragToReorder = <T>(
 
 	node.addEventListener('dragstart', (e: DragEvent) => {
 		if(handle && !isDraggingHandle(e)) return
+
+		// e.dataTransfer?.setDragImage(e.target, e.clientX, e.clientY)
 
 		if(e.dataTransfer)
 			e.dataTransfer.dropEffect = 'move'
@@ -132,13 +136,21 @@ export const dragToReorder = <T>(
 			})()
 		)
 
+		beforeDragEnd?.(e, {
+			fromIndex,
+			toIndex,
+		})
+
 		if(toIndex !== undefined){
 			const newItems = [...items]
 			newItems.splice(toIndex ?? node.children.length, 0, ...newItems.splice(fromIndex, 1))
 			setItems(newItems)
 		}
 
-		onDragEnd?.(e)
+		onDragEnd?.(e, {
+			fromIndex,
+			toIndex,
+		})
 	}, { signal })
 
 	return {
