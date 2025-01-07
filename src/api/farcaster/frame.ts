@@ -99,7 +99,7 @@ export const serializeFarcasterFrameServerMeta = (frameMeta: FarcasterFrameServe
 )
 
 
-import type { UrlMetadata } from '../mod'
+import type { UrlMetadata } from '$/data/urlMetadata'
 
 export const parseFarcasterFrameServerMeta = (
 	metaTags: NonNullable<UrlMetadata['customOpenGraph']>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import { UrlMetadataProvider, urlMetadataProviderIcons } from '$/data/urlMetadataProvider'
-	import type { UrlMetadata } from '$/api/mod'
+	import type { UrlMetadata } from '$/data/urlMetadata'
 
 
 	// Context
