@@ -1,6 +1,7 @@
 import type { Ethereum } from '$/data/networks/types'
 
 export type UrlMetadata = {
+	url: string
 	image?: {
 		url?: string
 		width?: number

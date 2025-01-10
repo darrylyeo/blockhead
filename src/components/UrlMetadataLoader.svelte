@@ -67,6 +67,7 @@
 						Object.entries(result)
 							.map(([url, metadata]) => (
 								normalizeUrlMetadataModProtocol(
+									url,
 									metadata,
 								)
 							))
