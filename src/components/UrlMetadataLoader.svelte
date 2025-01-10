@@ -32,6 +32,8 @@
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
 
+	import { normalizeUrlMetadata as normalizeUrlMetadataMetadataVision } from '$/api/metadataVision/normalize'
+
 	import { normalizeUrlMetadata as normalizeUrlMetadataModProtocol } from '$/api/mod/normalize'
 
 
@@ -47,6 +49,26 @@
 	{...{
 		[String(undefined)]: () => ({
 			fromPromise: async () => undefined,
+		}),
+
+		[UrlMetadataProvider.MetadataVision]: () => ({
+			fromQuery: (
+				createQuery({
+					queryKey: ['UrlMetadata', {
+						urlMetadataProvider,
+						url,
+					}],
+					queryFn: async () => {
+						const { getUrlMetadata } = await import('$/api/metadataVision/index')
+
+						return getUrlMetadata(url)
+					},
+					select: result => (
+						normalizeUrlMetadataMetadataVision(result)
+					),
+					staleTime: 10 * 1000,
+				})
+			),
 		}),
 
 		[UrlMetadataProvider.ModProtocol]: () => ({

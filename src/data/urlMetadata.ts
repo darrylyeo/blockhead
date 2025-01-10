@@ -7,11 +7,24 @@ export type UrlMetadata = {
 		width?: number
 		height?: number
 	}
+	video?: {
+		url?: string
+		width?: number
+		height?: number
+	}
+	audio?: {
+		url?: string
+	}
 	"json-ld"?: Record<string, object[]>
 	description?: string
 	alt?: string
 	title?: string
 	publisher?: string
+	date?: number
+	datePublished?: number
+	dateModified?: number
+	language?: string
+	feed?: string
 	logo?: {
 		url: string
 	}
