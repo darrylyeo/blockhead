@@ -32,6 +32,8 @@
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
 
+	import { normalizeUrlMetadata as normalizeUrlMetadataModProtocol } from '$/api/mod/normalize'
+
 
 	// Components
 	import Loader from './Loader.svelte'
@@ -55,14 +57,20 @@
 						url,
 					}],
 					queryFn: async () => {
-						const { getMetadataForUrls } = await import('$/api/mod')
+						const { getMetadataForUrls } = await import('$/api/mod/index')
 
 						return await getMetadataForUrls([
 							url,
 						])
 					},
 					select: result => (
-						Object.values(result)[0]
+						Object.entries(result)
+							.map(([url, metadata]) => (
+								normalizeUrlMetadataModProtocol(
+									metadata,
+								)
+							))
+							[0]
 					),
 					staleTime: 10 * 1000,
 				})
