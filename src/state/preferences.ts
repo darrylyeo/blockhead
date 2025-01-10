@@ -653,7 +653,7 @@ export const preferencesConfig = [
 				// name: 'URL Metadata',
 				name: 'URLs/Frames',
 				type: 'single',
-				defaultOption: UrlMetadataProvider.ModProtocol,
+				defaultOption: UrlMetadataProvider.MetadataVision,
 				options: [
 					{
 						groupId: 'none',
@@ -669,6 +669,11 @@ export const preferencesConfig = [
 						groupId: 'crawlers',
 						name: 'OpenGraph Crawlers',
 						options: [
+							{
+								value: UrlMetadataProvider.MetadataVision,
+								name: UrlMetadataProvider.MetadataVision,
+								icon: urlMetadataProviderIcons[UrlMetadataProvider.MetadataVision],
+							},
 							{
 								value: UrlMetadataProvider.ModProtocol,
 								name: UrlMetadataProvider.ModProtocol,
