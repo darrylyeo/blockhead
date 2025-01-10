@@ -3,12 +3,14 @@
 	export let displayType: 'text' | 'image' | 'video' | 'audio' | 'json' | 'xml' | 'pdf' | 'iframe' | undefined
 	export let src: string | undefined
 	export let fileName: string | undefined
-    export let extension: string | undefined
-    export let contentType: string | undefined
+	export let extension: string | undefined
+	export let contentType: string | undefined
 	export let contentSize: number | BigInt | undefined
 	export let text: string | undefined
 	export let blob: Blob | undefined
 	export let file: File | undefined
+	export let width: number | undefined
+	export let height: number | undefined
 
 	// (Computed)
 	$: if(!fileName && src) fileName = src.match(/[^/]+$/)![0]
@@ -115,11 +117,21 @@
 					bind:this={iframeElement}
 					src={displaySrc}
 					title={`${fileName ?? ''}${extension ? `.${extension}` : ''}`}
+					{width}
+					{height}
 				/>
 			{:else if displayType === 'image'}
-				<img src={displaySrc} />
+				<img
+					src={displaySrc}
+					{width}
+					{height}
+				/>
 			{:else if displayType === 'video'}
-				<video controls>
+				<video
+					controls
+					{width}
+					{height}
+				>
 					<source src={displaySrc} type={contentType} />
 					<track kind="captions">
 				</video>
@@ -135,6 +147,8 @@
 				<object
 					data={displaySrc}
 					type={contentType}
+					{width}
+					{height}
 				>
 					<p>Your browser does not support PDFs. <a href={dataUrl} download>Download the PDF</a> instead.</p>
 				</object>
