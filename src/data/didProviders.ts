@@ -5,6 +5,12 @@ export enum DidProvider {
 
 import { CeramicIcon } from '$/assets/icons'
 
-export const didProviderIcons = {
-	[DidProvider.Ceramic]: CeramicIcon,
-} as const satisfies Record<DidProvider, string>
+export const didProviders = {
+	[DidProvider.Ceramic]: {
+		name: 'Ceramic Network',
+		icon: CeramicIcon,
+	},
+} as const satisfies Record<DidProvider, {
+	name: string
+	icon?: string
+}>

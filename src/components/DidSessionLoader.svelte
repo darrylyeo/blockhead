@@ -4,7 +4,7 @@
 	import type { AccountConnection } from '$/state/account'
 
 	import type { DIDSession } from 'did-session'
-	import { DidProvider, didProviderIcons } from '$/data/didProviders'
+	import { DidProvider, didProviders } from '$/data/didProviders'
 
 	
 	// Inputs
@@ -36,9 +36,9 @@
 
 
 <Loader
-	loadingMessage="Loading DIDs via {didProvider}..."
-	loadingIcon={didProviderIcons[didProvider]}
-	errorMessage="Couldn't load DIDs via {didProvider}."
+	loadingMessage="Loading DIDs via {didProviders[didProvider].name}..."
+	loadingIcon={didProviders[didProvider].icon}
+	errorMessage="Couldn't load DIDs via {didProviders[didProvider].name}."
 	{...{
 		[DidProvider.Ceramic]: {
 			fromPromise: address && accountConnection?.state?.signer && (async () => {
