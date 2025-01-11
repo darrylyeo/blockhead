@@ -3,7 +3,7 @@
 	import type { Ethereum } from '$/data/networks/types'
 	import type { QuoteCurrency } from '$/data/currencies'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
-	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProviders'
+	import { TransactionProvider, transactionProviders } from '$/data/transactionProviders'
 	import { preferences } from '$/state/preferences'
 
 
@@ -80,9 +80,9 @@
 	viewOptions={{
 		contentClass: 'column',
 	}}
-	loadingIcon={transactionProviderIcons[transactionProvider]}
-	loadingMessage="Looking up {network.name} transaction via {transactionProvider}..."
-	errorMessage="Error looking up transaction from {transactionProvider}"
+	loadingIcon={transactionProviders[transactionProvider].icon}
+	loadingMessage="Looking up {network.name} transaction via {transactionProviders[transactionProvider].name}..."
+	errorMessage="Error looking up transaction from {transactionProviders[transactionProvider].name}"
 	{...{
 		[TransactionProvider.RpcProvider]: () => ({
 			fromQuery: createQueries({
@@ -561,9 +561,9 @@
 
 		<Icon
 			imageSources={[
-				transactionProviderIcons[transactionProvider]
+				transactionProviders[transactionProvider].icon
 			]}
-			title={transactionProvider}
+			title={transactionProviders[transactionProvider].name}
 		/>
 	</svelte:fragment> -->
 

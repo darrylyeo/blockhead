@@ -45,7 +45,7 @@
 	$: $navigationContext.transactionBlockNumber = $navigationContext.transaction?.blockNumber
 
 	import { availableNetworks } from '$/data/networks'
-	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProviders'
+	import { TransactionProvider, transactionProviders } from '$/data/transactionProviders'
 	import { parallelLoaderStore } from '$/utils/parallelLoaderStore'
 	import { chainCodeFromNetwork, MoralisWeb3Api } from '$/api/moralis/web3Api/index'
 
@@ -173,7 +173,7 @@
 					clip: false,
 				}}
 				loadingIconName={'Moralis'}
-				loadingIcon={transactionProviderIcons[transactionProvider]}
+				loadingIcon={transactionProviders[transactionProvider].icon}
 				fromStore={otherNetworks && $navigationContext.block?.timestamp && (() =>
 					// <Awaited<ReturnType<typeof MoralisWeb3Api.dateToBlock.getDateToBlock>>[]>
 					parallelLoaderStore(otherNetworks, network => (

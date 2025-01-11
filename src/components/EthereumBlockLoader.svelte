@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
-	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProviders'
+	import { TransactionProvider, transactionProviders } from '$/data/transactionProviders'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import type { QuoteCurrency } from '$/data/currencies'
 	import { getViemPublicClient } from '$/data/networkProviders'
@@ -29,8 +29,8 @@
 	
 
 	// Internal state
-	$: loadingMessage = `Retrieving block data from ${transactionProvider}...`
-	$: errorMessage = `Couldn't retrieve block data from ${transactionProvider}.`
+	$: loadingMessage = `Retrieving block data from ${transactionProviders[transactionProvider].name}...`
+	$: errorMessage = `Couldn't retrieve block data from ${transactionProviders[transactionProvider].name}.`
 
 
 	// Outputs
@@ -83,8 +83,8 @@
 		contentClass: 'column',
 		...loaderViewOptions,
 	}}
-	loadingIcon={transactionProviderIcons[transactionProvider]}
-	loadingIconName={transactionProvider}
+	loadingIcon={transactionProviders[transactionProvider].icon}
+	loadingIconName={transactionProviders[transactionProvider].name}
 	{loadingMessage}
 	{errorMessage}
 	{...{
@@ -424,7 +424,7 @@
 		{#if transactionProvider === TransactionProvider.RpcProvider}
 			<NetworkIcon {network} />
 		{:else}
-			<Icon imageSources={[transactionProviderIcons[transactionProvider]]} alt={transactionProvider} />
+			<Icon imageSources={[transactionProviders[transactionProvider].icon]} alt={transactionProviders[transactionProvider].name} />
 		{/if}
 	</svelte:fragment>
 

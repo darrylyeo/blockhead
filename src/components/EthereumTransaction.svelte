@@ -3,7 +3,7 @@
 	import type { Ethereum } from '$/data/networks/types'
 	import type { QuoteCurrency } from '$/data/currencies'
 	import type { normalizeTransaction } from '$/api/covalent/normalize'
-	import type { TransactionProvider } from '$/data/transactionProviders'
+	import { type TransactionProvider, transactionProviders } from '$/data/transactionProviders'
 
 
 	// Inputs
@@ -109,7 +109,7 @@
 						</svelte:fragment>
 
 						<svelte:fragment slot="header-right">
-							<span class="card-annotation">{transactionProvider}</span>
+							<span class="card-annotation">{transactionProviders[transactionProvider].name}</span>
 						</svelte:fragment>
 
 						<div class="card row wrap">

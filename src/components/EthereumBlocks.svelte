@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
-	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProviders'
+	import { TransactionProvider, transactionProviders } from '$/data/transactionProviders'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import { networkProviderConfigByProvider } from '$/data/networkProviders'
 
@@ -64,7 +64,7 @@
 
 	<svelte:fragment slot="header-right">
 		<span class="card-annotation">
-			{transactionProvider === TransactionProvider.RpcProvider ? networkProviderConfigByProvider[$preferences.rpcNetwork].name : transactionProvider}
+			{transactionProvider === TransactionProvider.RpcProvider ? networkProviderConfigByProvider[$preferences.rpcNetwork].name : transactionProviders[transactionProvider].name}
 		</span>
 	</svelte:fragment>
 
@@ -114,11 +114,11 @@
 		{:else}
 			<Loading
 				icon={{
-					src: transactionProviderIcons[transactionProvider],
+					src: transactionProviders[transactionProvider].icon,
 				}}
 				iconAnimation="hover"
 			>
-				Loading recent blocks from {transactionProvider}...
+				Loading recent blocks from {transactionProviders[transactionProvider].name}...
 			</Loading>
 		{/each}
 	</div>

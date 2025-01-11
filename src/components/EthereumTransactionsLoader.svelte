@@ -2,7 +2,7 @@
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
 	import type { TickerSymbol } from '$/data/currencies'
-	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProviders'
+	import { TransactionProvider, transactionProviders } from '$/data/transactionProviders'
 	import { preferences } from '$/state/preferences'
 
 
@@ -23,8 +23,8 @@
 	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
 
-	$: loadingMessage = `Retrieving ${network.name} transactions from ${transactionProvider}...`
-	$: errorMessage = `Couldn't retrieve ${network.name} transactions from ${transactionProvider}.`
+	$: loadingMessage = `Retrieving ${network.name} transactions from ${transactionProviders[transactionProvider].name}...`
+	$: errorMessage = `Couldn't retrieve ${network.name} transactions from ${transactionProviders[transactionProvider].name}.`
 
 
 	// Functions
@@ -73,7 +73,7 @@
 		layout: 'collapsible',
 		...viewOptions,
 	}}
-	loadingIcon={transactionProviderIcons[transactionProvider]}
+	loadingIcon={transactionProviders[transactionProvider].icon}
 	{loadingMessage}
 	{errorMessage}
 	{...{

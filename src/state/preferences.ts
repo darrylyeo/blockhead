@@ -16,7 +16,7 @@ import { FilecoinTokenBalancesProvider, filecoinTokenBalancesProviders } from '$
 import { DefiProvider, defiProviders } from '$/data/defiProviders'
 import { NftProvider, nftProviders } from '$/data/nftProviders'
 import { PriceProvider, HistoricalPriceProvider, priceProviders } from '$/data/priceProviders'
-import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProviders'
+import { TransactionProvider, transactionProviders } from '$/data/transactionProviders'
 import { FilecoinTransactionProvider, filecoinTransactionProviders } from '$/data/filecoinTransactionProviders'
 import { ContractSourceProvider, contractSourceProviders } from '$/data/contractSourceProviders'
 import { NotificationsProvider, notificationsProviders } from '$/data/notificationsProviders'
@@ -212,21 +212,24 @@ export const preferencesConfig = [
 					{
 						groupId: 'offChain',
 						name: 'Off-Chain',
-						options: [
-							{ value: TransactionProvider.Blockscout, name: 'Blockscout › REST API', icon: transactionProviderIcons[TransactionProvider.Blockscout] },
-							{ value: TransactionProvider.Chainbase, name: 'Chainbase', icon: transactionProviderIcons[TransactionProvider.Chainbase] },
-							{ value: TransactionProvider.Covalent, name: 'Covalent › GoldRush', icon: transactionProviderIcons[TransactionProvider.Covalent] },
-							{ value: TransactionProvider.Curvegrid_Multibaas, name: 'Curvegrid › MultiBaas', icon: transactionProviderIcons[TransactionProvider.Curvegrid_Multibaas] },
-							{ value: TransactionProvider.Decommas, name: 'Decommas', icon: transactionProviderIcons[TransactionProvider.Decommas] },
-							{ value: TransactionProvider.Etherscan, name: 'Etherscan', icon: transactionProviderIcons[TransactionProvider.Etherscan] },
-							{ value: TransactionProvider.Moralis, name: 'Moralis', icon: transactionProviderIcons[TransactionProvider.Moralis] },
-							// { value: TransactionProvider.Etherspot, name: 'Etherspot', icon: transactionProviderIcons[TransactionProvider.Etherspot] },
-							{ 
-								value: TransactionProvider.Noves,
-								name: 'Noves',
-								icon: transactionProviderIcons[TransactionProvider.Noves]
-							}
-						]
+						options: (
+							([
+								TransactionProvider.Blockscout,
+								TransactionProvider.Chainbase,
+								TransactionProvider.Covalent,
+								TransactionProvider.Curvegrid_Multibaas,
+								TransactionProvider.Decommas,
+								// TransactionProvider.Etherspot,
+								TransactionProvider.Etherscan,
+								TransactionProvider.Moralis,
+								TransactionProvider.Noves,
+							] as const)
+								.map(provider => ({
+									value: provider,
+									name: transactionProviders[provider].name,
+									icon: transactionProviders[provider].icon,
+								}))
+						),
 					}
 				]
 			},

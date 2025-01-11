@@ -3,7 +3,7 @@
 	import type { Ethereum } from '$/data/networks/types'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import type { QuoteCurrency } from '$/data/currencies'
-	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProviders'
+	import { TransactionProvider, transactionProviders } from '$/data/transactionProviders'
 	import { getViemPublicClient } from '$/data/networkProviders'
 
 
@@ -34,8 +34,8 @@
 
 
 	// Internal state
-	$: loadingMessage = `Retrieving ERC-20 transactions from ${transactionProvider}...`
-	$: errorMessage = `Couldn't retrieve ERC-20 transactions from ${transactionProvider}.`
+	$: loadingMessage = `Retrieving ERC-20 transactions from ${transactionProviders[transactionProvider].name}...`
+	$: errorMessage = `Couldn't retrieve ERC-20 transactions from ${transactionProviders[transactionProvider].name}.`
 
 
 	// Outputs
@@ -65,8 +65,8 @@
 
 
 <Loader
-	loadingIcon={transactionProviderIcons[transactionProvider]}
-	loadingIconName={transactionProvider}
+	loadingIcon={transactionProviders[transactionProvider].icon}
+	loadingIconName={transactionProviders[transactionProvider].name}
 	{loadingMessage}
 	{errorMessage}
 	{...{
