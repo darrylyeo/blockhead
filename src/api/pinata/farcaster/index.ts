@@ -312,7 +312,7 @@ export const getCasts = async <
 	parentHash,
 	pageToken,
 	topLevel,
-	pageSize = 100,
+	pageSize = 50,
 }: T) => get<(
 	T extends { fid: number } ?
 		{
@@ -528,7 +528,7 @@ export const deleteReactionToCast = async ({
  * {@link https://docs.pinata.cloud/farcaster/farcaster-api/endpoint/channels-list}
  */
 export const getChannels = async ({
-	pageSize = 100,
+	pageSize = 50,
 	pageToken,
 }: {
 	/**
@@ -675,7 +675,7 @@ export const getUsers = async ({
 	fid,
 	followers,
 	following,
-	pageSize = 100,
+	pageSize = 50,
 	pageToken,
 }: {
 	/**
