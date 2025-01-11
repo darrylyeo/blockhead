@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Constants/types
-	import { VerifiableCredentialProvider, verifiableCredentialProviderIcons } from '$/data/verifiableCredentialProviders'
+	import { VerifiableCredentialProvider, verifiableCredentialProviders } from '$/data/verifiableCredentialProviders'
 	import type { DidUrl } from '$/api/ceramic/did'
 	import type { Disco } from '$/api/disco/index'
 
@@ -36,9 +36,9 @@
 
 
 <Loader
-	loadingMessage="Loading verified credentials via {verifiableCredentialProvider}..."
-	loadingIcon={verifiableCredentialProviderIcons[verifiableCredentialProvider]}
-	errorMessage="Couldn't load verified credentials via {verifiableCredentialProvider}."
+	loadingMessage="Loading verified credentials via {verifiableCredentialProviders[verifiableCredentialProvider].name}..."
+	loadingIcon={verifiableCredentialProviders[verifiableCredentialProvider].icon}
+	errorMessage="Couldn't load verified credentials via {verifiableCredentialProviders[verifiableCredentialProvider].name}."
 	{...{
 		[VerifiableCredentialProvider.Disco]: () => ({
 			fromQuery: did && createInfiniteQuery({

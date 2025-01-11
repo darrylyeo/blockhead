@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import type { Ethereum } from '$/data/networks/types'
-	import { VerifiableCredentialProvider, verifiableCredentialProviderIcons } from '$/data/verifiableCredentialProviders'
+	import { VerifiableCredentialProvider, verifiableCredentialProviders } from '$/data/verifiableCredentialProviders'
 	import type { Disco } from '$/api/disco/index'
 	import type { DidUrl } from '$/api/ceramic/did'
 
@@ -38,9 +38,9 @@
 
 
 <Loader
-	loadingMessage="Loading {verifiableCredentialProvider} profile..."
-	loadingIcon={verifiableCredentialProviderIcons[verifiableCredentialProvider]}
-	errorMessage="Couldn't load {verifiableCredentialProvider} profile."
+	loadingMessage="Loading {verifiableCredentialProviders[verifiableCredentialProvider].name} profile..."
+	loadingIcon={verifiableCredentialProviders[verifiableCredentialProvider].icon}
+	errorMessage="Couldn't load {verifiableCredentialProviders[verifiableCredentialProvider].name} profile."
 	{...{
 		[VerifiableCredentialProvider.Disco]: () => ({
 			fromQuery: (

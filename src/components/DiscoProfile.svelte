@@ -50,7 +50,7 @@
 		</svelte:fragment>
 
 		<svelte:fragment slot="header-right">
-			<span class="card-annotation">{verifiableCredentialProvider} Profile</span>
+			<span class="card-annotation">{verifiableCredentialProviders[verifiableCredentialProvider].name} Profile</span>
 		</svelte:fragment>
 
 		{#if profile.profile.bio}
