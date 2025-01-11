@@ -24,7 +24,7 @@ import { IpfsGatewayProvider, ipfsGateways } from '$/data/ipfsGateways'
 import { arweaveGateways } from '$/data/arweaveGateways'
 import { FarcasterProvider, farcasterProviders } from '$/data/farcasterProviders'
 import { FarcasterFeedProvider, farcasterFeedProviders } from '$/data/farcasterFeedProviders'
-import { UrlMetadataProvider, urlMetadataProviderIcons } from '$/data/urlMetadataProviders'
+import { UrlMetadataProvider, urlMetadataProviders } from '$/data/urlMetadataProviders'
 import { EasProvider, easProviderIcons } from '$/api/eas/provider'
 import { MoxieProvider, moxieProviderIcons } from '$/api/moxie/provider'
 
@@ -766,18 +766,17 @@ export const preferencesConfig = [
 					{
 						groupId: 'crawlers',
 						name: 'OpenGraph Crawlers',
-						options: [
-							{
-								value: UrlMetadataProvider.MetadataVision,
-								name: UrlMetadataProvider.MetadataVision,
-								icon: urlMetadataProviderIcons[UrlMetadataProvider.MetadataVision],
-							},
-							{
-								value: UrlMetadataProvider.ModProtocol,
-								name: UrlMetadataProvider.ModProtocol,
-								icon: urlMetadataProviderIcons[UrlMetadataProvider.ModProtocol],
-							},
-						]
+						options: (
+							([
+								UrlMetadataProvider.MetadataVision,
+								UrlMetadataProvider.ModProtocol,
+							] as const)
+								.map(provider => ({
+									value: provider,
+									name: urlMetadataProviders[provider].name,
+									icon: urlMetadataProviders[provider].icon,
+								}))
+						),
 					},
 				],
 			},

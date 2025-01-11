@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Constants/types
-	import { UrlMetadataProvider, urlMetadataProviderIcons } from '$/data/urlMetadataProviders'
+	import { UrlMetadataProvider, urlMetadataProviders } from '$/data/urlMetadataProviders'
 	import type { UrlMetadata } from '$/data/urlMetadata'
 
 
@@ -43,9 +43,9 @@
 
 
 <Loader
-	loadingMessage="Loading metadata from {urlMetadataProvider}..."
-	loadingIcon={urlMetadataProviderIcons[urlMetadataProvider]}
-	errorMessage="Couldn't load metadata from {urlMetadataProvider}."
+	loadingMessage="Loading metadata from {urlMetadataProviders[urlMetadataProvider].name}..."
+	loadingIcon={urlMetadataProviders[urlMetadataProvider].icon}
+	errorMessage="Couldn't load metadata from {urlMetadataProviders[urlMetadataProvider].name}."
 	{...{
 		[String(undefined)]: () => ({
 			fromPromise: async () => undefined,
