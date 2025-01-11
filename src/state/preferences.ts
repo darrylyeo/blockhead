@@ -18,7 +18,7 @@ import { NftProvider, nftProviders } from '$/data/nftProviders'
 import { PriceProvider, HistoricalPriceProvider, priceProviders } from '$/data/priceProviders'
 import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProviders'
 import { FilecoinTransactionProvider, filecoinTransactionProviderIcons } from '$/data/filecoinTransactionProviders'
-import { ContractSourceProvider, contractSourceProviderIcons } from '$/data/contractSourceProviders'
+import { ContractSourceProvider, contractSourceProviders } from '$/data/contractSourceProviders'
 import { NotificationsProvider, notificationsProviderIcons } from '$/data/notificationsProviders'
 import { IpfsGatewayProvider, ipfsGateways } from '$/data/ipfsGateways'
 import { arweaveGateways } from '$/data/arweaveGateways'
@@ -285,19 +285,33 @@ export const preferencesConfig = [
 					{
 						groupId: 'web3',
 						name: 'Web3 Hosted',
-						options: [
-							{ value: ContractSourceProvider.Sourcify, name: 'Sourcify', icon: contractSourceProviderIcons[ContractSourceProvider.Sourcify] },
-						]
+						options: (
+							([
+								ContractSourceProvider.Sourcify,
+							] as const)
+								.map(provider => ({
+									value: provider,
+									name: contractSourceProviders[provider].name,
+									icon: contractSourceProviders[provider].icon,
+								}))
+						),
 					},
 					{
 						groupId: 'centralized',
 						name: 'Centrally Hosted',
-						options: [
-							{ value: ContractSourceProvider.Blockscout, name: 'Blockscout', icon: contractSourceProviderIcons[ContractSourceProvider.Blockscout] },
-							{ value: ContractSourceProvider.Curvegrid_Multibaas, name: 'Curvegrid › MultiBaas', icon: contractSourceProviderIcons[ContractSourceProvider.Curvegrid_Multibaas] },
-							{ value: ContractSourceProvider.Etherscan, name: 'Etherscan', icon: contractSourceProviderIcons[ContractSourceProvider.Etherscan] },
-							// { value: ContractSourceProvider.Tenderly, name: 'Tenderly', icon: contractSourceProviderIcons[ContractSourceProvider.Tenderly] },
-						]
+						options: (
+							([
+								ContractSourceProvider.Blockscout,
+								ContractSourceProvider.Curvegrid_Multibaas,
+								ContractSourceProvider.Etherscan,
+								// ContractSourceProvider.Tenderly,
+							] as const)
+								.map(provider => ({
+									value: provider,
+									name: contractSourceProviders[provider].name,
+									icon: contractSourceProviders[provider].icon,
+								}))
+						),
 					}
 				]
 			}

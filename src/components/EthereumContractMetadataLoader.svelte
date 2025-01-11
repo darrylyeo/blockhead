@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import type { Ethereum } from '$/data/networks/types'
-	import { ContractSourceProvider, contractSourceProviderIcons } from '$/data/contractSourceProvider'
+	import { ContractSourceProvider, contractSourceProviders } from '$/data/contractSourceProviders'
 
 	type SourcePath = $$Generic<string>
 
@@ -173,10 +173,10 @@
 			}[contractSourceProvider]?.()
 		})
 	}
-	loadingIcon={contractSourceProviderIcons[contractSourceProvider]}
-	loadingIconName={contractSourceProvider}
-	loadingMessage={`Looking up contract metadata on ${contractSourceProvider}...`}
-	errorMessage={`Couldn't find contract metadata on ${contractSourceProvider}.`}
+	loadingIcon={contractSourceProviders[contractSourceProvider].icon}
+	loadingIconName={contractSourceProviders[contractSourceProvider].name}
+	loadingMessage={`Looking up contract metadata on ${contractSourceProviders[contractSourceProvider].name}...`}
+	errorMessage={`Couldn't find contract metadata on ${contractSourceProviders[contractSourceProvider].name}.`}
 	bind:result
 	let:result
 	let:isOpen

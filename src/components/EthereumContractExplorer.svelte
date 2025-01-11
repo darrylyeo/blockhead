@@ -2,6 +2,7 @@
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
+	import { contractSourceProviders } from '$/data/contractSourceProviders'
 
 	enum ContractCodeType {
 		CreationBytecode = 'Creation Bytecode',
@@ -223,7 +224,7 @@
 							<hr>
 
 							<footer class="footer bar">
-								<a href={repository?.url || swarmUri} target="_blank">{repository?.name || contractSourceProvider}</a>
+								<a href={repository?.url || swarmUri} target="_blank">{repository?.name || contractSourceProviders[contractSourceProvider].name}</a>
 
 								<!-- {#if source.license}<span>License: {source.license}</span>{/if} -->
 							</footer>

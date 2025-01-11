@@ -9,10 +9,28 @@ export enum ContractSourceProvider {
 
 import { BlockscoutIcon, EtherscanIcon, SourcifyIcon, CurvegridIcon /*, TenderlyIcon */ } from '$/assets/icons'
 
-export const contractSourceProviderIcons: Record<ContractSourceProvider, string> = {
-	[ContractSourceProvider.Blockscout]: BlockscoutIcon,
-	[ContractSourceProvider.Curvegrid_Multibaas]: CurvegridIcon,
-	[ContractSourceProvider.Etherscan]: EtherscanIcon,
-	[ContractSourceProvider.Sourcify]: SourcifyIcon,
-	// [ContractSourceProvider.Tenderly]: TenderlyIcon,
-}
+export const contractSourceProviders = {
+	[ContractSourceProvider.Blockscout]: {
+		name: 'Blockscout',
+		icon: BlockscoutIcon,
+	},
+	[ContractSourceProvider.Curvegrid_Multibaas]: {
+		name: 'Curvegrid › MultiBaas',
+		icon: CurvegridIcon,
+	},
+	[ContractSourceProvider.Etherscan]: {
+		name: 'Etherscan',
+		icon: EtherscanIcon,
+	},
+	[ContractSourceProvider.Sourcify]: {
+		name: 'Sourcify',
+		icon: SourcifyIcon,
+	},
+	// [ContractSourceProvider.Tenderly]: {
+	// 	name: 'Tenderly',
+	// 	icon: TenderlyIcon,
+	// },
+} as const satisfies Record<ContractSourceProvider, {
+	name: string
+	icon: string
+}>
