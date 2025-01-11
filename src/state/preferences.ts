@@ -24,7 +24,7 @@ import { IpfsGatewayProvider, ipfsGateways } from '$/data/ipfsGateways'
 import { arweaveGateways } from '$/data/arweaveGateways'
 import { FarcasterProvider, farcasterProviderIcons } from '$/data/farcasterProviders'
 import { FarcasterFeedProvider, farcasterFeedProviderIcons } from '$/data/farcasterFeedProviders'
-import { UrlMetadataProvider, urlMetadataProviderIcons } from '$/data/urlMetadataProvider'
+import { UrlMetadataProvider, urlMetadataProviderIcons } from '$/data/urlMetadataProviders'
 import { EasProvider, easProviderIcons } from '$/api/eas/provider'
 import { MoxieProvider, moxieProviderIcons } from '$/api/moxie/provider'
 
