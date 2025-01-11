@@ -13,7 +13,7 @@
 	import type { Ethereum } from '$/data/networks/types'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import type { DefiProvider } from '$/data/defiProviders'
-	import type { NotificationsProvider } from '$/data/notificationsProvider'
+	import type { NotificationsProvider } from '$/data/notificationsProviders'
 	import { type QuoteCurrency, quoteCurrencies } from '$/data/currencies'
 
 	import type { Portfolio } from '$/state/portfolio-accounts'

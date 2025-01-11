@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '$/data/networks/types'
-	import { NotificationsProvider, notificationsProviderIcons } from '$/data/notificationsProvider'
+	import { NotificationsProvider, notificationsProviderIcons } from '$/data/notificationsProviders'
 	import { preferences } from '$/state/preferences'
 
 

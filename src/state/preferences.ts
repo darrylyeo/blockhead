@@ -19,7 +19,7 @@ import { PriceProvider, HistoricalPriceProvider, priceProviderIcons } from '$/da
 import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProviders'
 import { FilecoinTransactionProvider, filecoinTransactionProviderIcons } from '$/data/filecoinTransactionProviders'
 import { ContractSourceProvider, contractSourceProviderIcons } from '$/data/contractSourceProviders'
-import { NotificationsProvider, notificationsProviderIcons } from '$/data/notificationsProvider'
+import { NotificationsProvider, notificationsProviderIcons } from '$/data/notificationsProviders'
 import { IpfsGatewayProvider, ipfsGateways } from '$/data/ipfsGateways'
 import { arweaveGateways } from '$/data/arweaveGateways'
 import { FarcasterProvider, farcasterProviderIcons } from '$/data/farcasterProviders'

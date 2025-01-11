@@ -9,7 +9,7 @@
 	import { ethereumMainnet, getNetworkColor, networkByChainId } from '$/data/networks'
 	import { type TokenBalancesProvider, tokenBalancesProviderIcons } from '$/data/tokenBalancesProviders'
 	import { type NftProvider, nftProviderIcons } from '$/data/nftProviders'
-	import { NotificationsProvider, notificationsProviderIcons } from '$/data/notificationsProvider'
+	import { NotificationsProvider, notificationsProviderIcons } from '$/data/notificationsProviders'
 	import { Covalent } from '$/api/covalent'
 	import { getDefaultProvider } from 'ethers'
 
