@@ -381,7 +381,7 @@ export const preferencesConfig = [
 				preferenceId: 'defiProvider',
 				name: 'DeFi Positions',
 				type: 'single',
-				defaultOption: DefiProvider.ZapperRest,
+				defaultOption: DefiProvider.ZapperGraphql,
 				options: [
 					{
 						groupId: 'onChain',
@@ -403,6 +403,7 @@ export const preferencesConfig = [
 						options: (
 							([
 								DefiProvider.LlamaFolio,
+								DefiProvider.ZapperGraphql,
 								DefiProvider.ZapperRest,
 							] as const)
 								.map(provider => ({

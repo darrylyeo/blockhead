@@ -90,6 +90,8 @@
 	// import { getAllApps, getDefiPositionsForApps } from '$/api/zapper-old/index'
 	// import { normalizeDefiPositions as normalizeDefiPositionsZapper } from '$/api/zapper-old/normalize'
 
+	import { normalizeAppBalance as normalizeAppBalanceZapperGraphql } from '$/api/zapper/graphql/normalize'
+
 	import { normalizeAppBalance as normalizeAppBalanceZapperRest } from '$/api/zapper/rest/normalize'
 
 
@@ -161,6 +163,36 @@
 							))
 					),
 				}),
+			}),
+		}),
+
+		[DefiProvider.ZapperGraphql]: () => ({
+			fromQuery: network && address && createQuery({
+				queryKey: ['DefiPositions', {
+					defiProvider,
+					chainId: network.chainId,
+					address,
+				}],
+				queryFn: async ({
+					queryKey: [_, {
+						chainId,
+						address,
+					}],
+				}) => {
+					const { getAppBalances } = await import('$/api/zapper/graphql/index')
+
+					return await getAppBalances({
+						chainId,
+						address,
+					})
+				},
+				select: data => (
+					data
+						.portfolio
+						.appBalances
+						.map(normalizeAppBalanceZapperGraphql)
+				),
+				staleTime: 10 * 1000,
 			}),
 		}),
 

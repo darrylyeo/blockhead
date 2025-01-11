@@ -106,6 +106,30 @@ export const TokenBalance = graphql(`
 	WalletTokenBalanceToken,
 ])
 
+export const AppBalance = graphql(`
+	fragment AppBalance on AppBalance @_unmask {
+		appId
+		appName
+		network
+		balanceUSD
+		products {
+			label
+			assets {
+				type
+				address
+				network
+				... on AppTokenPositionBalance {
+					balance
+					balanceUSD
+					price
+					symbol
+					decimals
+				}
+			}
+		}
+	}
+`)
+
 
 // Queries
 import type { Ethereum } from '$/data/networks/types'
@@ -137,6 +161,41 @@ export const getTokenBalances = async ({
 				}
 			`, [
 				TokenBalance,
+			]),
+			{
+				addresses: [address],
+				networks: chainId ? [getNetworkName(chainId)] : undefined,
+			},
+		)
+		.toPromise()
+		.then(handleUrqlResult)
+)
+
+export const getAppBalances = async ({
+	address,
+	chainId,
+}: {
+	address: Ethereum.Address,
+	chainId?: Ethereum.ChainId,
+}) => (
+	await client
+		.query(
+			graphql(`
+				query GetAppBalances(
+					$addresses: [Address!]!
+					$networks: [Network!]
+				) {
+					portfolio(
+						addresses: $addresses
+						networks: $networks
+					) {
+						appBalances {
+							...AppBalance
+						}
+					}
+				}
+			`, [
+				AppBalance,
 			]),
 			{
 				addresses: [address],
