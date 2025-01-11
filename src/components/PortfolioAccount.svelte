@@ -4,7 +4,7 @@
 	import type { Ethereum } from '$/data/networks/types'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import { AccountIdType } from '$/data/accountId'
-	import { DefiProvider, defiProviderIcons } from '$/data/defiProviders'
+	import { DefiProvider, defiProviders } from '$/data/defiProviders'
 	import type { QuoteCurrency } from '$/data/currencies'
 	import { ethereumMainnet, getNetworkColor, networkByChainId } from '$/data/networks'
 	import { type TokenBalancesProvider, tokenBalancesProviders } from '$/data/tokenBalancesProviders'
@@ -751,7 +751,7 @@
 															>
 																<img
 																	slot="icon"
-																	src={defiProviderIcons[defiProvider]}
+																	src={defiProviders[defiProvider].icon}
 																	alt={defiProvider}
 																	height={20}
 																/>
@@ -761,7 +761,7 @@
 														<div class="error-icon-container stack">
 															<img
 																title={errorMessage}
-																src={defiProviderIcons[defiProvider]}
+																src={defiProviders[defiProvider].icon}
 																alt={defiProvider}
 																height={20}
 															/>
@@ -796,7 +796,7 @@
 																>
 																	<img
 																		slot="icon"
-																		src={defiProviderIcons[defiProvider]}
+																		src={defiProviders[defiProvider].icon}
 																		alt={defiProvider}
 																		height={20}
 																	/>

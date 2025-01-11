@@ -6,7 +6,7 @@
 	import type { Web3AppConfig } from '$/data/web3Apps'
 	// import type { ZapperAppId, ZapperAppConfig } from '$/api/zapper-old'
 
-	import { DefiProvider, defiProviderIcons } from '$/data/defiProviders'
+	import { DefiProvider, defiProviders } from '$/data/defiProviders'
 	import type { AppWithDefiPositions } from '$/data/defiPositions'
 
 	import { supportedChains } from '$/api/defillama/llamafolio/index'
@@ -104,10 +104,10 @@
 		collapsibleType: 'label',
 		...loaderViewOptions,
 	}}
-	loadingMessage="Reading {defiBalancesDescription} balances from {defiProvider}..."
-	errorMessage="Error getting {defiBalancesDescription} balances from {defiProvider}."
+	loadingMessage="Reading {defiBalancesDescription} balances from {defiProviders[defiProvider].name}..."
+	errorMessage="Error getting {defiBalancesDescription} balances from {defiProviders[defiProvider].name}."
 	loadingIconName={defiProvider}
-	loadingIcon={defiProviderIcons[defiProvider]}
+	loadingIcon={defiProviders[defiProvider].icon}
 	{...{
 		[DefiProvider.LlamaFolio]: () => ({
 			fromQuery: network && address && createQueries({

@@ -13,7 +13,7 @@ import { networkProviderConfigs, networkProviderConfigByProvider } from '$/data/
 import { Erc20TokenProvider, erc20TokenProviderIcons } from '$/data/erc20TokenProviders'
 import { TokenBalancesProvider, tokenBalancesProviders } from '$/data/tokenBalancesProviders'
 import { FilecoinTokenBalancesProvider, filecoinTokenBalancesProviderIcons } from '$/data/filecoinTokenBalancesProviders'
-import { DefiProvider, defiProviderIcons } from '$/data/defiProviders'
+import { DefiProvider, defiProviders } from '$/data/defiProviders'
 import { NftProvider, nftProviderIcons } from '$/data/nftProviders'
 import { PriceProvider, HistoricalPriceProvider, priceProviderIcons } from '$/data/priceProviders'
 import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProviders'
@@ -385,17 +385,31 @@ export const preferencesConfig = [
 					{
 						groupId: 'onChain',
 						name: 'On-Chain',
-						options: [
-							{ value: DefiProvider.ZerionDefiSdk, name: DefiProvider.ZerionDefiSdk, icon: defiProviderIcons[DefiProvider.ZerionDefiSdk] }
-						]
+						options: (
+							([
+								DefiProvider.ZerionDefiSdk,
+							] as const)
+								.map(provider => ({
+									value: provider,
+									name: defiProviders[provider].name,
+									icon: defiProviders[provider].icon,
+								}))
+						)
 					},
 					{
 						groupId: 'offChain',
 						name: 'Off-Chain',
-						options: [
-							{ value: DefiProvider.LlamaFolio, name: DefiProvider.LlamaFolio, icon: defiProviderIcons[DefiProvider.LlamaFolio] },
-							{ value: DefiProvider.Zapper, name: DefiProvider.Zapper, icon: defiProviderIcons[DefiProvider.Zapper] }
-						]
+						options: (
+							([
+								DefiProvider.LlamaFolio,
+								DefiProvider.Zapper,
+							] as const)
+								.map(provider => ({
+									value: provider,
+									name: defiProviders[provider].name,
+									icon: defiProviders[provider].icon,
+								}))
+						)
 					}
 				]
 			},
