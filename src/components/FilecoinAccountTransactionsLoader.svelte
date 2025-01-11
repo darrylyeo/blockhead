@@ -2,7 +2,7 @@
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
 	import type { Filecoin } from '$/data/filecoin'
-	import { FilecoinTransactionProvider, filecoinTransactionProviderIcons } from '$/data/filecoinTransactionProviders'
+	import { FilecoinTransactionProvider, filecoinTransactionProviders } from '$/data/filecoinTransactionProviders'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import { getViemPublicClient } from '$/data/networkProviders'
 	import { networkBySlug } from '$/data/networks'
@@ -98,10 +98,10 @@
 	viewOptions={{
 		contentClass: 'column',
 	}}
-	loadingIcon={filecoinTransactionProviderIcons[transactionProvider]}
-	loadingIconName={transactionProvider}
-	loadingMessage={`Retrieving account transactions from ${transactionProvider}...`}
-	errorMessage={`Couldn't retrieve account transactions from ${transactionProvider}.`}
+	loadingIcon={filecoinTransactionProviders[transactionProvider].icon}
+	loadingIconName={filecoinTransactionProviders[transactionProvider].name}
+	loadingMessage={`Retrieving account transactions from ${filecoinTransactionProviders[transactionProvider].name}...`}
+	errorMessage={`Couldn't retrieve account transactions from ${filecoinTransactionProviders[transactionProvider].name}.`}
 	{...{
 		[FilecoinTransactionProvider.Beryx]: () => ({
 			fromInfiniteQuery: createInfiniteQuery({

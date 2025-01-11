@@ -17,7 +17,7 @@ import { DefiProvider, defiProviders } from '$/data/defiProviders'
 import { NftProvider, nftProviders } from '$/data/nftProviders'
 import { PriceProvider, HistoricalPriceProvider, priceProviders } from '$/data/priceProviders'
 import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProviders'
-import { FilecoinTransactionProvider, filecoinTransactionProviderIcons } from '$/data/filecoinTransactionProviders'
+import { FilecoinTransactionProvider, filecoinTransactionProviders } from '$/data/filecoinTransactionProviders'
 import { ContractSourceProvider, contractSourceProviders } from '$/data/contractSourceProviders'
 import { NotificationsProvider, notificationsProviderIcons } from '$/data/notificationsProviders'
 import { IpfsGatewayProvider, ipfsGateways } from '$/data/ipfsGateways'
@@ -239,9 +239,16 @@ export const preferencesConfig = [
 					{
 						groupId: 'offChain',
 						name: 'Off-Chain',
-						options: [
-							{ value: FilecoinTransactionProvider.Beryx, name: 'Beryx', icon: filecoinTransactionProviderIcons[FilecoinTransactionProvider.Beryx] },
-						]
+						options: (
+							([
+								FilecoinTransactionProvider.Beryx,
+							] as const)
+								.map(provider => ({
+									value: provider,
+									name: filecoinTransactionProviders[provider].name,
+									icon: filecoinTransactionProviders[provider].icon,
+								}))
+						)
 					},
 				],
 			},

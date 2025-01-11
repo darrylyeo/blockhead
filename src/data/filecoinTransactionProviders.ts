@@ -5,6 +5,12 @@ export enum FilecoinTransactionProvider {
 
 import { BeryxIcon } from '$/assets/icons'
 
-export const filecoinTransactionProviderIcons: Record<FilecoinTransactionProvider, string> = {
-	[FilecoinTransactionProvider.Beryx]: BeryxIcon,
-}
+export const filecoinTransactionProviders = {
+	[FilecoinTransactionProvider.Beryx]: {
+		name: 'Beryx',
+		icon: BeryxIcon,
+	},
+} as const satisfies Record<FilecoinTransactionProvider, {
+	name: string
+	icon?: string
+}>
