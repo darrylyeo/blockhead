@@ -16,7 +16,7 @@ import { FilecoinTokenBalancesProvider, filecoinTokenBalancesProviderIcons } fro
 import { DefiProvider, defiProviderIcons } from '$/data/defiProviders'
 import { NftProvider, nftProviderIcons } from '$/data/nftProviders'
 import { PriceProvider, HistoricalPriceProvider, priceProviderIcons } from '$/data/priceProviders'
-import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProvider'
+import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProviders'
 import { FilecoinTransactionProvider, filecoinTransactionProviderIcons } from '$/data/filecoinTransactionProvider'
 import { ContractSourceProvider, contractSourceProviderIcons } from '$/data/contractSourceProvider'
 import { NotificationsProvider, notificationsProviderIcons } from '$/data/notificationsProvider'

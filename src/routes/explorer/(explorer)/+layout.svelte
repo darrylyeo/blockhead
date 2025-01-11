@@ -45,7 +45,7 @@
 	$: $navigationContext.transactionBlockNumber = $navigationContext.transaction?.blockNumber
 
 	import { availableNetworks } from '$/data/networks'
-	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProvider'
+	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProviders'
 	import { parallelLoaderStore } from '$/utils/parallelLoaderStore'
 	import { chainCodeFromNetwork, MoralisWeb3Api } from '$/api/moralis/web3Api/index'
 

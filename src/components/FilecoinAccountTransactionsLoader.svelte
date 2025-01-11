@@ -2,7 +2,7 @@
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
 	import type { Filecoin } from '$/data/filecoin'
-	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProvider'
+	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProviders'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import { getViemPublicClient } from '$/data/networkProviders'
 	import { networkBySlug } from '$/data/networks'

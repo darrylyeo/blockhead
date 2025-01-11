@@ -3,7 +3,7 @@
 	import type { Ethereum } from '$/data/networks/types'
 	import type { QuoteCurrency } from '$/data/currencies'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
-	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProvider'
+	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProviders'
 	import { preferences } from '$/state/preferences'
 
 

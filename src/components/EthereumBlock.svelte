@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import type { Ethereum } from '$/data/networks/types'
-	import type { TransactionProvider } from '$/data/transactionProvider'
+	import type { TransactionProvider } from '$/data/transactionProviders'
 	import type { QuoteCurrency } from '$/data/currencies'
 	import { updatesByNetwork } from '$/data/networks/updates'
 

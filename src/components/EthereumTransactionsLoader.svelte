@@ -2,7 +2,7 @@
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
 	import type { TickerSymbol } from '$/data/currencies'
-	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProvider'
+	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProviders'
 	import { preferences } from '$/state/preferences'
 
 

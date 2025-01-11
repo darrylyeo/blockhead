@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
-	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProvider'
+	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProviders'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import type { QuoteCurrency } from '$/data/currencies'
 	import { getViemPublicClient } from '$/data/networkProviders'

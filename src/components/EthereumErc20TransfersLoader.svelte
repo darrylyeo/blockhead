@@ -3,7 +3,7 @@
 	import type { Ethereum } from '$/data/networks/types'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import type { QuoteCurrency } from '$/data/currencies'
-	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProvider'
+	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProviders'
 	import { getViemPublicClient } from '$/data/networkProviders'
 
 

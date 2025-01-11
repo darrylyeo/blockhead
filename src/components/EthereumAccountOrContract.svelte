@@ -8,7 +8,7 @@
 	import type { PriceScale } from './PriceChart.svelte'
 	import { preferences } from '$/state/preferences'
 	import type { TokenBalancesProvider } from '$/data/tokenBalancesProviders'
-	import type { TransactionProvider } from '$/data/transactionProvider'
+	import type { TransactionProvider } from '$/data/transactionProviders'
 	import type { QuoteCurrency } from '$/data/currencies'
 
 

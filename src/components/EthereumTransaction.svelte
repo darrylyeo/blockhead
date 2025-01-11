@@ -3,7 +3,7 @@
 	import type { Ethereum } from '$/data/networks/types'
 	import type { QuoteCurrency } from '$/data/currencies'
 	import type { normalizeTransaction } from '$/api/covalent/normalize'
-	import type { TransactionProvider } from '$/data/transactionProvider'
+	import type { TransactionProvider } from '$/data/transactionProviders'
 
 
 	// Inputs
