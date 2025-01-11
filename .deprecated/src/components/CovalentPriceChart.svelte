@@ -4,7 +4,7 @@
 	import { getHistoricalPricesByTickerSymbol, getHistoricalPricesByAddress } from '$/api/covalent'
 	import type { QuoteCurrency, TickerSymbol } from '$/data/currencies'
 	import type { PriceScale } from './PriceChart.svelte'
-	import { PriceProvider, priceProviderIcons } from '$/data/priceProviders'
+	import { PriceProvider, priceProviders } from '$/data/priceProviders'
 
 
 	export let historicalPriceProvider: PriceProvider
@@ -51,7 +51,7 @@
 			})
 		}
 
-		loadingIcon={priceProviderIcons[historicalPriceProvider]}
+		loadingIcon={priceProviders[historicalPriceProvider].icon}
 		loadingIconName={historicalPriceProvider}
 		loadingMessage="Retrieving price history from {historicalPriceProvider}..."
 		then={data => [...data.values()]}

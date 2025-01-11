@@ -3,7 +3,7 @@
 	import type { Ethereum } from '$/data/networks/types'
 	import type { QuoteCurrency, TickerSymbol } from '$/data/currencies'
 	import type { Coin, CoinWithHistoricalPrices } from '$/data/coins'
-	import { HistoricalPriceProvider, priceProviderIcons } from '$/data/priceProviders'
+	import { HistoricalPriceProvider, priceProviders } from '$/data/priceProviders'
 	import { networkByChainId } from '$/data/networks'
 
 
@@ -82,7 +82,7 @@
 
 <Loader
 	{...$$props}
-	loadingIcon={priceProviderIcons[historicalPriceProvider]}
+	loadingIcon={priceProviders[historicalPriceProvider].icon}
 	loadingIconName={historicalPriceProvider}
 	loadingMessage="Retrieving price history from {historicalPriceProvider}..."
 	{...{

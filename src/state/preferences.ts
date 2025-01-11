@@ -15,7 +15,7 @@ import { TokenBalancesProvider, tokenBalancesProviders } from '$/data/tokenBalan
 import { FilecoinTokenBalancesProvider, filecoinTokenBalancesProviderIcons } from '$/data/filecoinTokenBalancesProviders'
 import { DefiProvider, defiProviders } from '$/data/defiProviders'
 import { NftProvider, nftProviders } from '$/data/nftProviders'
-import { PriceProvider, HistoricalPriceProvider, priceProviderIcons } from '$/data/priceProviders'
+import { PriceProvider, HistoricalPriceProvider, priceProviders } from '$/data/priceProviders'
 import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProviders'
 import { FilecoinTransactionProvider, filecoinTransactionProviderIcons } from '$/data/filecoinTransactionProviders'
 import { ContractSourceProvider, contractSourceProviderIcons } from '$/data/contractSourceProviders'
@@ -481,25 +481,40 @@ export const preferencesConfig = [
 					{
 						groupId: 'onChain',
 						name: 'On-Chain',
-						options: [
-							{ value: PriceProvider.Chainlink, name: 'Chainlink', icon: priceProviderIcons[PriceProvider.Chainlink] },
-							// { value: 'Tellor', name: 'Tellor' },
-							// { value: 'Compound Price Feed', name: 'Open Price Feed' },
-						]
+						options: (
+							[
+								PriceProvider.Chainlink,
+								// PriceProvider.CompoundOpenPriceFeed,
+								// PriceProvider.Tellor,
+								// PriceProvider.Umbrella,
+							]
+								.map(provider => ({
+									value: provider,
+									name: priceProviders[provider].name,
+									icon: priceProviders[provider].icon,
+								}))
+						),
 					},
 					{
 						groupId: 'offChain',
 						name: 'Off-Chain',
-						options: [
-							{ value: PriceProvider.CoinApi, name: 'CoinAPI › Crypto Market Data', icon: priceProviderIcons[PriceProvider.CoinApi] },
-							{ value: PriceProvider.CoinGecko_Zapper, name: 'CoinGecko (via Zapper)', icon: priceProviderIcons[PriceProvider.CoinGecko_Zapper] },
-							{ value: PriceProvider.CoinPaprika, name: 'CoinPaprika', icon: priceProviderIcons[PriceProvider.CoinPaprika] },
-							{ value: PriceProvider.Covalent, name: 'Covalent › GoldRush', icon: priceProviderIcons[PriceProvider.Covalent] },
-							{ value: PriceProvider.Etherscan, name: 'Etherscan', icon: priceProviderIcons[PriceProvider.Etherscan] },
-							{ value: PriceProvider.QuickNode_Odos, name: 'Odos (via QuickNode)', icon: priceProviderIcons[PriceProvider.QuickNode_Odos] },
-							{ value: PriceProvider.OneInch_SpotPrice, name: '1inch › Spot Price API', icon: priceProviderIcons[PriceProvider.OneInch_SpotPrice] },
-							// { value: 'Moralis', name: 'Moralis' },
-						]
+						options: (
+							[
+								PriceProvider.CoinApi,
+								PriceProvider.CoinGecko_Zapper,
+								PriceProvider.CoinPaprika,
+								PriceProvider.Covalent,
+								PriceProvider.Etherscan,
+								PriceProvider.QuickNode_Odos,
+								PriceProvider.OneInch_SpotPrice,
+								// PriceProvider.Moralis,
+							]
+								.map(provider => ({
+									value: provider,
+									name: priceProviders[provider].name,
+									icon: priceProviders[provider].icon,
+								}))
+						)
 					},
 					// {
 					// 	groupId: 'auto',
@@ -519,11 +534,18 @@ export const preferencesConfig = [
 					{
 						groupId: 'offChain',
 						name: 'Off-Chain',
-						options: [
-							{ value: HistoricalPriceProvider.CoinPaprika, name: 'CoinPaprika', icon: priceProviderIcons[PriceProvider.CoinPaprika] },
-							{ value: HistoricalPriceProvider.Covalent, name: 'Covalent › GoldRush', icon: priceProviderIcons[PriceProvider.Covalent] },
-							{ value: HistoricalPriceProvider.OneInch_Charts, name: '1inch › Charts API', icon: priceProviderIcons[PriceProvider.OneInch_Charts] },
-						]
+						options: (
+							[
+								HistoricalPriceProvider.CoinPaprika,
+								HistoricalPriceProvider.Covalent,
+								HistoricalPriceProvider.OneInch_Charts,
+							]
+								.map(provider => ({
+									value: provider,
+									name: priceProviders[provider].name,
+									icon: priceProviders[provider].icon,
+								}))
+						),
 					}
 				]
 			},

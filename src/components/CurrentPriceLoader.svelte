@@ -3,7 +3,7 @@
 	import type { Ethereum } from '$/data/networks/types'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import type { QuoteCurrency, TickerSymbol } from '$/data/currencies'
-	import { PriceProvider, priceProviderIcons } from '$/data/priceProviders'
+	import { PriceProvider, priceProviders } from '$/data/priceProviders'
 	import { ethereumMainnet, networkByChainId } from '$/data/networks'
 
 
@@ -97,7 +97,7 @@
 
 <Loader
 	{...$$props}
-	loadingIcon={priceProviderIcons[currentPriceProvider]}
+	loadingIcon={priceProviders[currentPriceProvider].icon}
 	loadingIconName={currentPriceProvider}
 	loadingMessage="Retrieving price from {currentPriceProvider}..."
 	errorMessage={`${'symbol' in _query ? `${_query.symbol} price` : 'Price'} not available.`}

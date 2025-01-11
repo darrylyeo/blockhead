@@ -37,14 +37,44 @@ export enum HistoricalPriceProvider {
 
 import { ChainlinkIcon, CoinApiIcon, CoinGeckoIcon, CoinPaprikaIcon, CovalentGoldRushIcon, EtherscanIcon, OneInchIcon, OdosIcon } from '$/assets/icons'
 
-export const priceProviderIcons: Record<PriceProvider, string> = {
-	[PriceProvider.Chainlink]: ChainlinkIcon,
-	[PriceProvider.CoinApi]: CoinApiIcon,
-	[PriceProvider.CoinGecko_Zapper]: CoinGeckoIcon,
-	[PriceProvider.CoinPaprika]: CoinPaprikaIcon,
-	[PriceProvider.Covalent]: CovalentGoldRushIcon,
-	[PriceProvider.Etherscan]: EtherscanIcon,
-	[PriceProvider.OneInch_Charts]: OneInchIcon,
-	[PriceProvider.OneInch_SpotPrice]: OneInchIcon,
-	[PriceProvider.QuickNode_Odos]: OdosIcon,
-}
+export const priceProviders = {
+	[OnchainPriceProvider.Chainlink]: {
+		name: 'Chainlink',
+		icon: ChainlinkIcon,
+	},
+	[OffchainPriceProvider.CoinApi]: {
+		name: 'CoinAPI › Crypto Market Data',
+		icon: CoinApiIcon,
+	},
+	[OffchainPriceProvider.CoinGecko_Zapper]: {
+		name: 'CoinGecko (via Zapper)',
+		icon: CoinGeckoIcon,
+	},
+	[OffchainPriceProvider.CoinPaprika]: {
+		name: 'CoinPaprika',
+		icon: CoinPaprikaIcon,
+	},
+	[OffchainPriceProvider.Covalent]: {
+		name: 'Covalent › GoldRush',
+		icon: CovalentGoldRushIcon,
+	},
+	[OffchainPriceProvider.Etherscan]: {
+		name: 'Etherscan',
+		icon: EtherscanIcon,
+	},
+	[OffchainPriceProvider.OneInch_Charts]: {
+		name: '1inch › Charts API',
+		icon: OneInchIcon,
+	},
+	[OffchainPriceProvider.OneInch_SpotPrice]: {
+		name: '1inch › Spot Price API',
+		icon: OneInchIcon,
+	},
+	[OffchainPriceProvider.QuickNode_Odos]: {
+		name: 'Odos (via QuickNode)',
+		icon: OdosIcon,
+	},
+} as const satisfies Record<PriceProvider, {
+	name: string
+	icon?: string
+}>
