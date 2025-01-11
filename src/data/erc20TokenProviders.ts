@@ -4,16 +4,37 @@ export enum Erc20TokenProvider {
 	Chainbase = 'Chainbase',
 	Decommas = 'Decommas',
 	Moralis = 'Moralis',
-	RpcProvider = 'RPC Provider',
+	RpcProvider = 'RpcProvider',
 }
 
 
 import { AirstackIcon, BlockscoutIcon, ChainbaseIcon, DecommasIcon, MoralisIcon } from '$/assets/icons'
 
-export const erc20TokenProviderIcons = {
-	[Erc20TokenProvider.Airstack]: AirstackIcon,
-	[Erc20TokenProvider.Blockscout]: BlockscoutIcon,
-	[Erc20TokenProvider.Chainbase]: ChainbaseIcon,
-	[Erc20TokenProvider.Decommas]: DecommasIcon,
-	[Erc20TokenProvider.Moralis]: MoralisIcon,
-} as const satisfies Record<Exclude<Erc20TokenProvider, Erc20TokenProvider.RpcProvider>, string>
+export const erc20TokenProviders = {
+	[Erc20TokenProvider.Airstack]: {
+		name: 'Airstack',
+		icon: AirstackIcon,
+	},
+	[Erc20TokenProvider.Blockscout]: {
+		name: 'Blockscout',
+		icon: BlockscoutIcon,
+	},
+	[Erc20TokenProvider.Chainbase]: {
+		name: 'Chainbase',
+		icon: ChainbaseIcon,
+	},
+	[Erc20TokenProvider.Decommas]: {
+		name: 'Decommas',
+		icon: DecommasIcon,
+	},
+	[Erc20TokenProvider.Moralis]: {
+		name: 'Moralis',
+		icon: MoralisIcon,
+	},
+	[Erc20TokenProvider.RpcProvider]: {
+		name: 'Node Client',
+	},
+} as const satisfies Record<Erc20TokenProvider, {
+	name: string
+	icon?: string
+}>

@@ -10,7 +10,7 @@ import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '$/data/currencies'
 import { tokenIcons } from '$/assets/tokenIcons'
 import { NetworkProvider } from '$/data/networkProviders/types'
 import { networkProviderConfigs, networkProviderConfigByProvider } from '$/data/networkProviders'
-import { Erc20TokenProvider, erc20TokenProviderIcons } from '$/data/erc20TokenProviders'
+import { Erc20TokenProvider, erc20TokenProviders } from '$/data/erc20TokenProviders'
 import { TokenBalancesProvider, tokenBalancesProviders } from '$/data/tokenBalancesProviders'
 import { FilecoinTokenBalancesProvider, filecoinTokenBalancesProviderIcons } from '$/data/filecoinTokenBalancesProviders'
 import { DefiProvider, defiProviders } from '$/data/defiProviders'
@@ -270,7 +270,7 @@ export const preferencesConfig = [
 								.map(provider => ({
 									value: provider,
 									name: provider,
-									icon: erc20TokenProviderIcons[provider],
+									icon: erc20TokenProviders[provider].icon,
 								}))
 						),
 					},

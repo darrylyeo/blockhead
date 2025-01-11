@@ -3,7 +3,7 @@
 	import type { Ethereum } from '$/data/networks/types'
 	import type { QuoteCurrency } from '$/data/currencies'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
-	import { Erc20TokenProvider, erc20TokenProviderIcons } from '$/data/erc20TokenProviders'
+	import { Erc20TokenProvider, erc20TokenProviders } from '$/data/erc20TokenProviders'
 	import { preferences } from '$/state/preferences'
 
 
@@ -54,10 +54,10 @@
 
 <Loader
 	{...$$restProps}
-	loadingIcon={erc20TokenProviderIcons[erc20TokenProvider] || undefined}
-	loadingIconName={erc20TokenProvider}
-	loadingMessage="Loading token metadata from {erc20TokenProvider}..."
-	errorMessage="Failed to load token metadata from {erc20TokenProvider}."
+	loadingIcon={erc20TokenProviders[erc20TokenProvider].icon}
+	loadingIconName={erc20TokenProviders[erc20TokenProvider].name}
+	loadingMessage="Loading token metadata from {erc20TokenProviders[erc20TokenProvider].name}..."
+	errorMessage="Failed to load token metadata from {erc20TokenProviders[erc20TokenProvider].name}."
 	fromQuery={{
 		[Erc20TokenProvider.RpcProvider]: createQuery({
 			queryKey: ['Erc20Token', {
