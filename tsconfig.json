@@ -65,6 +65,13 @@
 						"tadaOutputLocation": "./src/api/moxie/vesting/graphql-env.d.ts",
 						"tadaTurboLocation": "./src/api/moxie/stats/graphql-turbo.d.ts",
 						"tadaPersistedLocation": "./src/api/moxie/stats/graphql-persisted.d.ts"
+					},
+					{
+						"name": "zapper",
+						"schema": "https://public.zapper.xyz/graphql",
+						"tadaOutputLocation": "./src/api/zapper/graphql/graphql-env.d.ts",
+						"tadaTurboLocation": "./src/api/zapper/graphql/graphql-turbo.d.ts",
+						"tadaPersistedLocation": "./src/api/zapper/graphql/graphql-persisted.d.ts"
 					}
 				]
 			}
