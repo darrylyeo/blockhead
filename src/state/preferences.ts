@@ -12,7 +12,7 @@ import { NetworkProvider } from '$/data/networkProviders/types'
 import { networkProviderConfigs, networkProviderConfigByProvider } from '$/data/networkProviders'
 import { Erc20TokenProvider, erc20TokenProviders } from '$/data/erc20TokenProviders'
 import { TokenBalancesProvider, tokenBalancesProviders } from '$/data/tokenBalancesProviders'
-import { FilecoinTokenBalancesProvider, filecoinTokenBalancesProviderIcons } from '$/data/filecoinTokenBalancesProviders'
+import { FilecoinTokenBalancesProvider, filecoinTokenBalancesProviders } from '$/data/filecoinTokenBalancesProviders'
 import { DefiProvider, defiProviders } from '$/data/defiProviders'
 import { NftProvider, nftProviders } from '$/data/nftProviders'
 import { PriceProvider, HistoricalPriceProvider, priceProviders } from '$/data/priceProviders'
@@ -385,9 +385,16 @@ export const preferencesConfig = [
 					{
 						groupId: 'offChain',
 						name: 'Off-Chain',
-						options: [
-							{ value: FilecoinTokenBalancesProvider.Beryx, name: 'Beryx', icon: filecoinTokenBalancesProviderIcons[FilecoinTokenBalancesProvider.Beryx] },
-						],
+						options: (
+							([
+								FilecoinTokenBalancesProvider.Beryx,
+							] as const)
+								.map(provider => ({
+									value: provider,
+									name: filecoinTokenBalancesProviders[provider].name,
+									icon: filecoinTokenBalancesProviders[provider].icon,
+								}))
+						),
 					},
 				]
 			},
