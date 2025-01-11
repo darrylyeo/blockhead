@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import type { FarcasterChannel } from '$/api/farcaster/index'
-	import { FarcasterProvider, farcasterProviderIcons } from '$/data/farcasterProviders'
+	import { FarcasterProvider, farcasterProviders } from '$/data/farcasterProviders'
 
 
 	// Context
@@ -39,9 +39,9 @@
 
 
 <Loader
-	loadingMessage="Loading channels from {farcasterProvider}..."
-	loadingIcon={farcasterProviderIcons[farcasterProvider]}
-	errorMessage="Couldn't load channels from {farcasterProvider}."
+	loadingMessage="Loading channels from {farcasterProviders[farcasterProvider].name}..."
+	loadingIcon={farcasterProviders[farcasterProvider].icon}
+	errorMessage="Couldn't load channels from {farcasterProviders[farcasterProvider].name}."
 	{...$$restProps}
 	{...{
 		[FarcasterProvider.Hub]: () => {},

@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import type { FarcasterCast, FarcasterCastId } from '$/api/farcaster/index'
-	import { FarcasterProvider, farcasterProviderIcons } from '$/data/farcasterProviders'
+	import { FarcasterProvider, farcasterProviders } from '$/data/farcasterProviders'
 
 
 	// Context
@@ -47,9 +47,9 @@
 
 
 <Loader
-	loadingMessage="Loading replies from {farcasterProvider}..."
-	loadingIcon={farcasterProviderIcons[farcasterProvider]}
-	errorMessage="Couldn't load replies from {farcasterProvider}."
+	loadingMessage="Loading replies from {farcasterProviders[farcasterProvider].name}..."
+	loadingIcon={farcasterProviders[farcasterProvider].icon}
+	errorMessage="Couldn't load replies from {farcasterProviders[farcasterProvider].name}."
 	{...{
 		[FarcasterProvider.Hub]: () => ({}),
 

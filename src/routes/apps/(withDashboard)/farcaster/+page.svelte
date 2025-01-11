@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Types
 	import type { FarcasterProvider } from '$/data/farcasterProviders'
-	import { FarcasterFeedProvider, farcasterFeedProviderIcons } from '$/data/farcasterFeedProviders'
+	import { FarcasterFeedProvider, farcasterFeedProviders } from '$/data/farcasterFeedProviders'
 
 
 	// Context
@@ -62,7 +62,7 @@
 			<svelte:fragment slot="title">
 				<h3 class="title">
 					<span class="row with-float">
-						<Icon imageSources={[farcasterFeedProviderIcons[_farcasterFeedProvider]]} />
+						<Icon imageSources={[farcasterFeedProviders[farcasterFeedProvider].icon]} />
 
 						{_farcasterFeedProvider}
 					</span>

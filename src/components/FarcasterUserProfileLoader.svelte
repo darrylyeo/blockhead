@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import type { FarcasterUser, FarcasterUserId, FarcasterUserName } from '$/api/farcaster/index'
-	import { FarcasterProvider, farcasterProviderIcons } from '$/data/farcasterProviders'
+	import { FarcasterProvider, farcasterProviders } from '$/data/farcasterProviders'
 
 
 	// Context
@@ -55,8 +55,8 @@
 
 
 <Loader
-	loadingMessage={`Searching for Farcaster user ${userId ? `#${userId}` : `"${userName}"`} via ${farcasterProvider}...`}
-	loadingIcon={farcasterProviderIcons[farcasterProvider]}
+	loadingMessage={`Searching for Farcaster user ${userId ? `#${userId}` : `"${userName}"`} via ${farcasterProviders[farcasterProvider].name}...`}
+	loadingIcon={farcasterProviders[farcasterProvider].icon}
 	errorMessage={`Couldn't find Farcaster user ${userId ? `#${userId}` : `"${userName}"`}.`}
 	{...$$restProps}
 	{...{

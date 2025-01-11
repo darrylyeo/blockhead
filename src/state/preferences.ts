@@ -22,8 +22,8 @@ import { ContractSourceProvider, contractSourceProviders } from '$/data/contract
 import { NotificationsProvider, notificationsProviderIcons } from '$/data/notificationsProviders'
 import { IpfsGatewayProvider, ipfsGateways } from '$/data/ipfsGateways'
 import { arweaveGateways } from '$/data/arweaveGateways'
-import { FarcasterProvider, farcasterProviderIcons } from '$/data/farcasterProviders'
-import { FarcasterFeedProvider, farcasterFeedProviderIcons } from '$/data/farcasterFeedProviders'
+import { FarcasterProvider, farcasterProviders } from '$/data/farcasterProviders'
+import { FarcasterFeedProvider, farcasterFeedProviders } from '$/data/farcasterFeedProviders'
 import { UrlMetadataProvider, urlMetadataProviderIcons } from '$/data/urlMetadataProviders'
 import { EasProvider, easProviderIcons } from '$/api/eas/provider'
 import { MoxieProvider, moxieProviderIcons } from '$/api/moxie/provider'
@@ -663,23 +663,18 @@ export const preferencesConfig = [
 					{
 						groupId: 'indexers',
 						name: 'Indexers',
-						options: [
-							{
-								value: FarcasterProvider.Airstack,
-								name: FarcasterProvider.Airstack,
-								icon: farcasterProviderIcons[FarcasterProvider.Airstack],
-							},
-							{
-								value: FarcasterProvider.Neynar,
-								name: FarcasterProvider.Neynar,
-								icon: farcasterProviderIcons[FarcasterProvider.Neynar],
-							},
-							{
-								value: FarcasterProvider.Pinata,
-								name: FarcasterProvider.Pinata,
-								icon: farcasterProviderIcons[FarcasterProvider.Pinata],
-							},
-						],
+						options: (
+							([
+								FarcasterProvider.Airstack,
+								FarcasterProvider.Neynar,
+								FarcasterProvider.Pinata,
+							] as const)
+								.map(provider => ({
+									value: provider,
+									name: farcasterProviders[provider].name,
+									icon: farcasterProviders[provider].icon,
+								}))
+						),
 					},
 				]
 			},
@@ -692,13 +687,16 @@ export const preferencesConfig = [
 					{
 						groupId: 'algorithms',
 						name: 'Algorithms',
-						options: [
-							{
-								value: FarcasterFeedProvider.OpenRank,
-								name: FarcasterFeedProvider.OpenRank,
-								icon: farcasterFeedProviderIcons[FarcasterFeedProvider.OpenRank],
-							},
-						],
+						options: (
+							([
+								FarcasterFeedProvider.OpenRank,
+							] as const)
+								.map(provider => ({
+									value: provider,
+									name: farcasterFeedProviders[provider].name,
+									icon: farcasterFeedProviders[provider].icon,
+								}))
+						),
 					},
 					{
 						groupId: 'indexers',
@@ -706,23 +704,20 @@ export const preferencesConfig = [
 						options: [
 							{
 								value: 'indexer',
-								name: (preferences: any) => `Indexer (${preferences.farcasterProvider})`,
+								name: (preferences: any) => `Indexer (${farcasterProviders[preferences.farcasterProvider].name})`,
 							},
-							{
-								value: FarcasterFeedProvider.Airstack,
-								name: FarcasterFeedProvider.Airstack,
-								icon: farcasterFeedProviderIcons[FarcasterFeedProvider.Airstack],
-							},
-							{
-								value: FarcasterFeedProvider.Neynar,
-								name: FarcasterFeedProvider.Neynar,
-								icon: farcasterFeedProviderIcons[FarcasterFeedProvider.Neynar],
-							},
-							{
-								value: FarcasterFeedProvider.Pinata,
-								name: FarcasterFeedProvider.Pinata,
-								icon: farcasterFeedProviderIcons[FarcasterFeedProvider.Pinata],
-							},
+							...(
+								([
+									FarcasterFeedProvider.Airstack,
+									FarcasterFeedProvider.Neynar,
+									FarcasterFeedProvider.Pinata,
+								] as const)
+									.map(provider => ({
+										value: provider,
+										name: farcasterFeedProviders[provider].name,
+										icon: farcasterFeedProviders[provider].icon,
+									}))
+							),
 						],
 					},
 				]

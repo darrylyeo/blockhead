@@ -2,7 +2,7 @@
 	// Constants/types
 	import { CastParamType } from '$/api/neynar/v2'
 	import type { FarcasterCast, FarcasterCastId, FarcasterUserId } from '$/api/farcaster/index'
-	import { FarcasterProvider, farcasterProviderIcons } from '$/data/farcasterProviders'
+	import { FarcasterProvider, farcasterProviders } from '$/data/farcasterProviders'
 
 
 	// Context
@@ -53,9 +53,9 @@
 
 
 <Loader
-	loadingMessage="Loading cast from {farcasterProvider}..."
-	loadingIcon={farcasterProviderIcons[farcasterProvider]}
-	errorMessage="Couldn't load cast from {farcasterProvider}."
+	loadingMessage="Loading cast from {farcasterProviders[farcasterProvider].name}..."
+	loadingIcon={farcasterProviders[farcasterProvider].icon}
+	errorMessage="Couldn't load cast from {farcasterProviders[farcasterProvider].name}."
 	{...{
 		[FarcasterProvider.Hub]: () => {},
 

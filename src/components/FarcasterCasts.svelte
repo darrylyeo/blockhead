@@ -2,7 +2,7 @@
 	// Types/constants
 	import type { FarcasterCast as _FarcasterCast } from '$/api/farcaster'
 	import { type FarcasterProvider } from '$/data/farcasterProviders'
-	import { farcasterFeedProviderIcons, type FarcasterFeedProvider } from '$/data/farcasterFeedProviders'
+	import { type FarcasterFeedProvider, farcasterFeedProviders } from '$/data/farcasterFeedProviders'
 	
 
 	// Inputs
@@ -100,12 +100,12 @@
 			{#if pagination?.isFetchingNextPage}
 				<Loading
 					icon={{
-						src: farcasterFeedProviderIcons[farcasterFeedProvider],
-						name: farcasterFeedProvider,
+						src: farcasterFeedProviders[farcasterFeedProvider].icon,
+						name: farcasterFeedProviders[farcasterFeedProvider].name,
 					}}
 					iconAnimation="hover"
 				>
-					Loading more {isReplies ? 'replies' : 'casts'} via {farcasterFeedProvider}...
+					Loading more {isReplies ? 'replies' : 'casts'} via {farcasterFeedProviders[farcasterFeedProvider].name}...
 				</Loading>
 			{/if}
 		</svelte:fragment>

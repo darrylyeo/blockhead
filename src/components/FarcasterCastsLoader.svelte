@@ -3,7 +3,7 @@
 	import { FeedType, FilterType } from '$/api/neynar/v2'
 	import type { FarcasterCast, FarcasterUserId, FarcasterChannelId } from '$/api/farcaster/index'
 	import { FarcasterProvider } from '$/data/farcasterProviders'
-	import { FarcasterFeedProvider, farcasterFeedProviderIcons } from '$/data/farcasterFeedProviders'
+	import { FarcasterFeedProvider, farcasterFeedProviders } from '$/data/farcasterFeedProviders'
 
 
 	// Context
@@ -76,9 +76,9 @@
 
 
 <Loader
-	loadingMessage="Loading casts from {farcasterFeedProvider}..."
-	loadingIcon={farcasterFeedProviderIcons[farcasterFeedProvider]}
-	errorMessage="Couldn't load casts from {farcasterFeedProvider}."
+	loadingMessage="Loading casts from {farcasterFeedProviders[farcasterFeedProvider].name}..."
+	loadingIcon={farcasterFeedProviders[farcasterFeedProvider].icon}
+	errorMessage="Couldn't load casts from {farcasterFeedProviders[farcasterFeedProvider].name}."
 	{...{
 		[FarcasterFeedProvider.Airstack]: () => ({
 			fromInfiniteQuery: (

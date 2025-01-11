@@ -1,4 +1,4 @@
-import { FarcasterProvider, farcasterProviderIcons } from './farcasterProviders'
+import { FarcasterProvider, farcasterProviders } from './farcasterProviders'
 
 export enum FarcasterFeedProvider {
 	Airstack = FarcasterProvider.Airstack,
@@ -11,7 +11,14 @@ export enum FarcasterFeedProvider {
 
 import { OpenRankIcon } from '$/assets/icons'
 
-export const farcasterFeedProviderIcons: Record<FarcasterFeedProvider, string> = {
-	...farcasterProviderIcons,
-	[FarcasterFeedProvider.OpenRank]: OpenRankIcon,
-}
+export const farcasterFeedProviders = {
+	...farcasterProviders,
+
+	[FarcasterFeedProvider.OpenRank]: {
+		name: 'OpenRank',
+		icon: OpenRankIcon,
+	},
+} as const satisfies Record<FarcasterFeedProvider, {
+	name: string
+	icon?: string
+}>
