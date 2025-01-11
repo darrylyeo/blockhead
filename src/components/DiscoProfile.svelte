@@ -3,7 +3,7 @@
 	import type { Ethereum } from '$/data/networks/types'
 	import type { Disco } from '$/api/disco/index'
 	import type { DidUrl } from '$/api/ceramic/did'
-	import { VerifiableCredentialProvider } from '$/data/verifiableCredentialProvider'
+	import { VerifiableCredentialProvider } from '$/data/verifiableCredentialProviders'
 
 	
 	// Inputs

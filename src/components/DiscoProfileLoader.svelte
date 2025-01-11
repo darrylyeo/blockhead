@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import type { Ethereum } from '$/data/networks/types'
-	import { VerifiableCredentialProvider, verifiableCredentialProviderIcons } from '$/data/verifiableCredentialProvider'
+	import { VerifiableCredentialProvider, verifiableCredentialProviderIcons } from '$/data/verifiableCredentialProviders'
 	import type { Disco } from '$/api/disco/index'
 	import type { DidUrl } from '$/api/ceramic/did'
 

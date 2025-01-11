@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Constants/types
-	import { VerifiableCredentialProvider, verifiableCredentialProviderIcons } from '$/data/verifiableCredentialProvider'
+	import { VerifiableCredentialProvider, verifiableCredentialProviderIcons } from '$/data/verifiableCredentialProviders'
 	import type { Disco } from '$/api/disco/index'
 
 	

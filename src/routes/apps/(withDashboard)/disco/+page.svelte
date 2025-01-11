@@ -2,7 +2,7 @@
 	// Constants/types
 	import type { Ethereum } from '$/data/networks/types'
 	import type { AccountConnection } from '$/state/account'
-	import { VerifiableCredentialProvider } from '$/data/verifiableCredentialProvider'
+	import { VerifiableCredentialProvider } from '$/data/verifiableCredentialProviders'
 
 
 	// Context
