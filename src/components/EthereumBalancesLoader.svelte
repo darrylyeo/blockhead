@@ -86,6 +86,8 @@
 
 	import { normalizeTokenBalance as normalizeTokenBalanceQuickNode } from '$/api/quicknode/normalize'
 
+	import { normalizeTokenBalance as normalizeTokenBalanceZapperGraphql } from '$/api/zapper/graphql/normalize'
+
 	import { normalizeTokenBalance as normalizeTokenBalanceZapperRest } from '$/api/zapper/rest/normalize'
 
 
@@ -663,6 +665,43 @@
 							),
 						}
 					},
+				})
+			),
+		}),
+
+		[TokenBalancesProvider.ZapperGraphql]: () => ({
+			fromQuery: address && network && (
+				createQuery({
+					queryKey: ['Balances', {
+						tokenBalancesProvider,
+						address,
+						chainId: network.chainId,
+					}],
+					queryFn: async ({
+						queryKey: [_, {
+							address,
+							chainId,
+						}],
+					}) => {
+						const { getTokenBalances } = await import('$/api/zapper/graphql')
+
+						return await getTokenBalances({
+							address,
+							chainId,
+						})
+					},
+					select: data => (
+						data
+							?.portfolio
+							.tokenBalances
+							.map(tokenWithBalance => (
+								normalizeTokenBalanceZapperGraphql(
+									tokenWithBalance,
+									quoteCurrency,
+								)
+							))
+					),
+					staleTime: 10 * 1000,
 				})
 			),
 		}),

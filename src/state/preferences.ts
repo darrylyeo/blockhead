@@ -311,7 +311,7 @@ export const preferencesConfig = [
 				preferenceId: 'tokenBalancesProvider',
 				name: 'Token Balances',
 				type: 'single',
-				defaultOption: TokenBalancesProvider.Zapper,
+				defaultOption: TokenBalancesProvider.ZapperGraphql,
 				options: [
 					{
 						groupId: 'onChain',
@@ -343,6 +343,7 @@ export const preferencesConfig = [
 								TokenBalancesProvider.Nexandria,
 								TokenBalancesProvider.Noves,
 								TokenBalancesProvider.OneInch_Balance,
+								TokenBalancesProvider.ZapperGraphql,
 								TokenBalancesProvider.ZapperRest,
 							] as const)
 								.map(provider => ({

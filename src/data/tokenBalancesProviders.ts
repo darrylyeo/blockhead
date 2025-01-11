@@ -12,6 +12,7 @@ export enum TokenBalancesProvider {
 	Noves = 'Noves',
 	OneInch_Balance = 'OneInch_Balance',
 	QuickNode = 'QuickNode',
+	ZapperGraphql = 'ZapperGraphql',
 	ZapperRest = 'ZapperRest',
 	ZerionDefiSdk = 'ZerionDefiSdk',
 }
@@ -70,6 +71,10 @@ export const tokenBalancesProviders = {
 	[TokenBalancesProvider.QuickNode]: {
 		name: 'QuickNode',
 		icon: QuickNodeIcon,
+	},
+	[TokenBalancesProvider.ZapperGraphql]: {
+		name: 'Zapper › GraphQL',
+		icon: ZapperIcon,
 	},
 	[TokenBalancesProvider.ZapperRest]: {
 		name: 'Zapper › REST API',
