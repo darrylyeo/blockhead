@@ -8,7 +8,7 @@
 	import type { QuoteCurrency } from '$/data/currencies'
 	import { ethereumMainnet, getNetworkColor, networkByChainId } from '$/data/networks'
 	import { type TokenBalancesProvider, tokenBalancesProviders } from '$/data/tokenBalancesProviders'
-	import { type NftProvider, nftProviderIcons } from '$/data/nftProviders'
+	import { type NftProvider, nftProviders } from '$/data/nftProviders'
 	import { NotificationsProvider, notificationsProviderIcons } from '$/data/notificationsProviders'
 	import { Covalent } from '$/api/covalent'
 	import { getDefaultProvider } from 'ethers'
@@ -903,8 +903,8 @@
 															>
 																<img
 																	slot="icon"
-																	src={nftProviderIcons[nftProvider]}
-																	alt={nftProvider}
+																	src={nftProviders[nftProvider].icon}
+																	alt={nftProviders[nftProvider].name}
 																	height={20}
 																/>
 															</Loading>
@@ -913,8 +913,8 @@
 														<div class="error-icon-container stack">
 															<img
 																title={errorMessage}
-																src={nftProviderIcons[nftProvider]}
-																alt={nftProvider}
+																src={nftProviders[nftProvider].icon}
+																alt={nftProviders[nftProvider].name}
 																height={20}
 															/>
 															<span>⚠︎</span>
@@ -955,8 +955,8 @@
 																>
 																	<img
 																		slot="icon"
-																		src={nftProviderIcons[nftProvider]}
-																		alt={nftProvider}
+																		src={nftProviders[nftProvider].icon}
+																		alt={nftProviders[nftProvider].name}
 																		height={20}
 																	/>
 																</Loading>

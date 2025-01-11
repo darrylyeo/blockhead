@@ -14,7 +14,7 @@ import { Erc20TokenProvider, erc20TokenProviderIcons } from '$/data/erc20TokenPr
 import { TokenBalancesProvider, tokenBalancesProviders } from '$/data/tokenBalancesProviders'
 import { FilecoinTokenBalancesProvider, filecoinTokenBalancesProviderIcons } from '$/data/filecoinTokenBalancesProviders'
 import { DefiProvider, defiProviders } from '$/data/defiProviders'
-import { NftProvider, nftProviderIcons } from '$/data/nftProviders'
+import { NftProvider, nftProviders } from '$/data/nftProviders'
 import { PriceProvider, HistoricalPriceProvider, priceProviderIcons } from '$/data/priceProviders'
 import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProviders'
 import { FilecoinTransactionProvider, filecoinTransactionProviderIcons } from '$/data/filecoinTransactionProviders'
@@ -422,25 +422,39 @@ export const preferencesConfig = [
 					{
 						groupId: 'onChain',
 						name: 'On-Chain',
-						options: [
-							{ value: NftProvider.Liquality, name: 'Liquality (Alchemy)', icon: nftProviderIcons[NftProvider.Liquality] },
-						]
+						options: (
+							[
+								NftProvider.Liquality,
+							]
+								.map(provider => ({
+									value: provider,
+									name: nftProviders[provider].name,
+									icon: nftProviders[provider].icon,
+								}))
+						),
 					},
 					{
 						groupId: 'offChain',
 						name: 'Off-Chain',
-						options: [
-							// { value: NftProvider.Airstack, name: 'Airstack', icon: nftProviderIcons[NftProvider.Airstack] },
-							{ value: NftProvider.Blockscout, name: 'Blockscout › REST API', icon: nftProviderIcons[NftProvider.Blockscout] },
-							{ value: NftProvider.Chainbase, name: 'Chainbase', icon: nftProviderIcons[NftProvider.Chainbase] },
-							{ value: NftProvider.Covalent, name: 'Covalent › GoldRush', icon: nftProviderIcons[NftProvider.Covalent] },
-							{ value: NftProvider.Decommas, name: 'Decommas', icon: nftProviderIcons[NftProvider.Decommas] },
-							{ value: NftProvider.NftPort,  name: 'NFTPort', icon: nftProviderIcons[NftProvider.NftPort] }
-							// { value: 'Zapper', name: 'Zapper', icon: nftProviderIcons[NftProvider.Zapper] },
-							// { value: 'Moralis', name: 'Moralis', icon: nftProviderIcons[NftProvider.Moralis] },
-						]
-					}
-				]
+						options: (
+							[
+								// NftProvider.Airstack,
+								NftProvider.Blockscout,
+								NftProvider.Chainbase,
+								NftProvider.Covalent,
+								NftProvider.Decommas,
+								NftProvider.NftPort,
+								// NftProvider.Zapper,
+								// NftProvider.Moralis,
+							]
+								.map(provider => ({
+									value: provider,
+									name: nftProviders[provider].name,
+									icon: nftProviders[provider].icon,
+								}))
+						),
+					},
+				],
 			},
 			{
 				preferenceId: 'notificationsProvider',

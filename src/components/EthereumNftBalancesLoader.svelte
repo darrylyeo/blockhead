@@ -7,7 +7,7 @@
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
 	import type { QuoteCurrency } from '$/data/currencies'
-	import { NftProvider, nftProviderIcons } from '$/data/nftProviders'
+	import { NftProvider, nftProviders } from '$/data/nftProviders'
 
 
 	// Inputs
@@ -25,8 +25,8 @@
 	let pagination: Loader<any, any, any, any>['$$slot_def']['default']['pagination']
 
 	// (Computed)
-	$: loadingMessage = `Retrieving ${network.name} NFTs from ${nftProvider}...`
-	$: errorMessage = `Couldn't retrieve ${network.name} NFTs from ${nftProvider}.`
+	$: loadingMessage = `Retrieving ${network.name} NFTs from ${nftProviders[nftProvider].name}...`
+	$: errorMessage = `Couldn't retrieve ${network.name} NFTs from ${nftProviders[nftProvider].name}.`
 
 
 	// Outputs
@@ -99,8 +99,8 @@
 		collapsibleType: 'label',
 		...loaderViewOptions,
 	}}
-	loadingIcon={nftProviderIcons[nftProvider]}
-	loadingIconName={nftProvider}
+	loadingIcon={nftProviders[nftProvider].icon}
+	loadingIconName={nftProviders[nftProvider].name}
 	{loadingMessage}
 	{errorMessage}
 	{...{

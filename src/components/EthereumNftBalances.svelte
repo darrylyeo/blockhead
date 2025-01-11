@@ -2,7 +2,7 @@
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
 	import type { QuoteCurrency } from '$/data/currencies'
-	import { type NftProvider, nftProviderIcons } from '$/data/nftProviders'
+	import { type NftProvider, nftProviders } from '$/data/nftProviders'
 	import type Loader from './Loader.svelte'
 	import { ipfsGatewaysByProvider } from '$/data/ipfsGateways'
 
@@ -366,12 +366,12 @@ on:dblclick={() => show3D = !show3D} -->
 		{#if pagination?.isFetchingNextPage}
 			<Loading
 				icon={{
-					src: nftProviderIcons[nftProvider],
-					name: nftProvider,
+					src: nftProviders[nftProvider].icon,
+					name: nftProviders[nftProvider].name,
 				}}
 				iconAnimation="hover"
 			>
-				Loading more NFTs via {nftProvider}...
+				Loading more NFTs via {nftProviders[nftProvider].name}...
 			</Loading>
 		{/if}
 	</svelte:fragment>
