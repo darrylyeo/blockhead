@@ -5,7 +5,7 @@
 	import type { PriceProvider } from '$/data/priceProviders'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import type { Erc20TokenProvider } from '$/data/erc20TokenProvider'
-	import type { TokenBalancesProvider } from '$/data/tokenBalancesProvider'
+	import type { TokenBalancesProvider } from '$/data/tokenBalancesProviders'
 
 
 	// Inputs

@@ -2,7 +2,7 @@
 	// Constants/types
 	import type { Ethereum } from '$/data/networks/types'
 	import type { QuoteCurrency } from '$/data/currencies'
-	import type { TokenBalancesProvider } from '$/data/tokenBalancesProvider'
+	import type { TokenBalancesProvider } from '$/data/tokenBalancesProviders'
 
 	import type { TokenWithBalance } from '$/data/tokens'
 

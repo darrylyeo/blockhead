@@ -6,7 +6,7 @@
 	import { DefiProvider } from '$/data/defiProviders'
 	import { networkProviderConfigByProvider } from '$/data/networkProviders'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
-	import { TokenBalancesProvider, tokenBalancesProviderIcons } from '$/data/tokenBalancesProvider'
+	import { TokenBalancesProvider, tokenBalancesProviderIcons } from '$/data/tokenBalancesProviders'
 
 
 	// Context

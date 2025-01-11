@@ -7,7 +7,7 @@
 	import { DefiProvider, defiProviderIcons } from '$/data/defiProviders'
 	import type { QuoteCurrency } from '$/data/currencies'
 	import { ethereumMainnet, getNetworkColor, networkByChainId } from '$/data/networks'
-	import { type TokenBalancesProvider, tokenBalancesProviderIcons } from '$/data/tokenBalancesProvider'
+	import { type TokenBalancesProvider, tokenBalancesProviderIcons } from '$/data/tokenBalancesProviders'
 	import { type NftProvider, nftProviderIcons } from '$/data/nftProviders'
 	import { NotificationsProvider, notificationsProviderIcons } from '$/data/notificationsProvider'
 	import { Covalent } from '$/api/covalent'
