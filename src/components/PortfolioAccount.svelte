@@ -7,7 +7,7 @@
 	import { DefiProvider, defiProviderIcons } from '$/data/defiProviders'
 	import type { QuoteCurrency } from '$/data/currencies'
 	import { ethereumMainnet, getNetworkColor, networkByChainId } from '$/data/networks'
-	import { type TokenBalancesProvider, tokenBalancesProviderIcons } from '$/data/tokenBalancesProviders'
+	import { type TokenBalancesProvider, tokenBalancesProviders } from '$/data/tokenBalancesProviders'
 	import { type NftProvider, nftProviderIcons } from '$/data/nftProviders'
 	import { NotificationsProvider, notificationsProviderIcons } from '$/data/notificationsProviders'
 	import { Covalent } from '$/api/covalent'
@@ -600,8 +600,8 @@
 																>
 																	<img
 																		slot="icon"
-																		src={tokenBalancesProviderIcons[tokenBalancesProvider]}
-																		alt={tokenBalancesProvider}
+																		src={tokenBalancesProviders[tokenBalancesProvider].icon}
+																		alt={tokenBalancesProviders[tokenBalancesProvider].name}
 																		height={20}
 																	/>
 																</Loading>
@@ -610,8 +610,8 @@
 															<div class="error-icon-container stack">
 																<img
 																	title={errorMessage}
-																	src={tokenBalancesProviderIcons[tokenBalancesProvider]}
-																	alt={tokenBalancesProvider}
+																	src={tokenBalancesProviders[tokenBalancesProvider].icon}
+																	alt={tokenBalancesProviders[tokenBalancesProvider].name}
 																	height={20}
 																/>
 																<span>⚠︎</span>
@@ -648,8 +648,8 @@
 																	>
 																		<img
 																			slot="icon"
-																			src={tokenBalancesProviderIcons[tokenBalancesProvider]}
-																			alt={tokenBalancesProvider}
+																			src={tokenBalancesProviders[tokenBalancesProvider].icon}
+																			alt={tokenBalancesProviders[tokenBalancesProvider].name}
 																			height={20}
 																		/>
 																	</Loading>

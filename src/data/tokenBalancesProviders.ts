@@ -1,7 +1,7 @@
 export enum TokenBalancesProvider {
-	RpcProvider = 'RPC Provider',
+	RpcProvider = 'RpcProvider',
 	Airstack = 'Airstack',
-	Alchemy_Liquality = 'Alchemy (Liquality)',
+	Alchemy_Liquality = 'Alchemy_Liquality',
 	Blockscout = 'Blockscout',
 	Chainbase = 'Chainbase',
 	Covalent = 'Covalent',
@@ -10,28 +10,76 @@ export enum TokenBalancesProvider {
 	Moralis = 'Moralis',
 	Nexandria = 'Nexandria',
 	Noves = 'Noves',
-	OneInch_Balance = '1inch',
+	OneInch_Balance = 'OneInch_Balance',
 	QuickNode = 'QuickNode',
 	Zapper = 'Zapper',
-	ZerionDefiSdk = 'Zerion DeFi SDK',
+	ZerionDefiSdk = 'ZerionDefiSdk',
 }
 
 
 import { AirstackIcon, BlockscoutIcon, ChainbaseIcon, CovalentGoldRushIcon, DecommasIcon, LiqualityIcon, LlamaFolioIcon, MoralisIcon, NexandriaIcon, NovesIcon, OneInchIcon, QuickNodeIcon, ZapperIcon, ZerionIcon } from '$/assets/icons'
 
-export const tokenBalancesProviderIcons = {
-	[TokenBalancesProvider.Airstack]: AirstackIcon,
-	[TokenBalancesProvider.Alchemy_Liquality]: LiqualityIcon,
-	[TokenBalancesProvider.Blockscout]: BlockscoutIcon,
-	[TokenBalancesProvider.Chainbase]: ChainbaseIcon,
-	[TokenBalancesProvider.Covalent]: CovalentGoldRushIcon,
-	[TokenBalancesProvider.Decommas]: DecommasIcon,
-	[TokenBalancesProvider.LlamaFolio]: LlamaFolioIcon,
-	[TokenBalancesProvider.Moralis]: MoralisIcon,
-	[TokenBalancesProvider.Nexandria]: NexandriaIcon,
-	[TokenBalancesProvider.Noves]: NovesIcon,
-	[TokenBalancesProvider.OneInch_Balance]: OneInchIcon,
-	[TokenBalancesProvider.QuickNode]: QuickNodeIcon,
-	[TokenBalancesProvider.Zapper]: ZapperIcon,
-	[TokenBalancesProvider.ZerionDefiSdk]: ZerionIcon,
-} as const satisfies Record<Exclude<TokenBalancesProvider, TokenBalancesProvider.RpcProvider>, string>
+export const tokenBalancesProviders = {
+	[TokenBalancesProvider.RpcProvider]: {
+		name: 'RPC Provider',
+	},
+	[TokenBalancesProvider.Airstack]: {
+		name: 'Airstack',
+		icon: AirstackIcon,
+	},
+	[TokenBalancesProvider.Alchemy_Liquality]: {
+		name: 'Alchemy (Liquality)',
+		icon: LiqualityIcon,
+	},
+	[TokenBalancesProvider.Blockscout]: {
+		name: 'Blockscout',
+		icon: BlockscoutIcon,
+	},
+	[TokenBalancesProvider.Chainbase]: {
+		name: 'Chainbase',
+		icon: ChainbaseIcon,
+	},
+	[TokenBalancesProvider.Covalent]: {
+		name: 'Covalent',
+		icon: CovalentGoldRushIcon,
+	},
+	[TokenBalancesProvider.Decommas]: {
+		name: 'Decommas',
+		icon: DecommasIcon,
+	},
+	[TokenBalancesProvider.LlamaFolio]: {
+		name: 'LlamaFolio',
+		icon: LlamaFolioIcon,
+	},
+	[TokenBalancesProvider.Moralis]: {
+		name: 'Moralis',
+		icon: MoralisIcon,
+	},
+	[TokenBalancesProvider.Nexandria]: {
+		name: 'Nexandria',
+		icon: NexandriaIcon,
+	},
+	[TokenBalancesProvider.Noves]: {
+		name: 'Noves',
+		icon: NovesIcon,
+	},
+	[TokenBalancesProvider.OneInch_Balance]: {
+		name: '1inch',
+		icon: OneInchIcon,
+	},
+	[TokenBalancesProvider.QuickNode]: {
+		name: 'QuickNode',
+		icon: QuickNodeIcon,
+	},
+	[TokenBalancesProvider.Zapper]: {
+		name: 'Zapper',
+		icon: ZapperIcon,
+	},
+	[TokenBalancesProvider.ZerionDefiSdk]: {
+		name: 'Zerion',
+		icon: ZerionIcon,
+	},
+} as const satisfies Record<TokenBalancesProvider, {
+	name: string
+	icon?: string
+}>

@@ -5,7 +5,7 @@
 	import type { PriceProvider } from '$/data/priceProviders'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import type { Erc20TokenProvider } from '$/data/erc20TokenProviders'
-	import type { TokenBalancesProvider } from '$/data/tokenBalancesProviders'
+	import { type TokenBalancesProvider, tokenBalancesProviders } from '$/data/tokenBalancesProviders'
 
 
 	// Inputs
@@ -203,7 +203,7 @@
 					<svelte:fragment slot="header">
 						<div class="bar wrap">
 							<h4>Current Balance</h4>
-							<div class="card-annotation">{tokenBalancesProvider}</div>
+							<div class="card-annotation">{tokenBalancesProviders[tokenBalancesProvider].name}</div>
 						</div>
 
 						<hr>

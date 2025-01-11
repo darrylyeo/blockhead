@@ -11,7 +11,7 @@ import { tokenIcons } from '$/assets/tokenIcons'
 import { NetworkProvider } from '$/data/networkProviders/types'
 import { networkProviderConfigs, networkProviderConfigByProvider } from '$/data/networkProviders'
 import { Erc20TokenProvider, erc20TokenProviderIcons } from '$/data/erc20TokenProviders'
-import { TokenBalancesProvider, tokenBalancesProviderIcons } from '$/data/tokenBalancesProviders'
+import { TokenBalancesProvider, tokenBalancesProviders } from '$/data/tokenBalancesProviders'
 import { FilecoinTokenBalancesProvider, filecoinTokenBalancesProviderIcons } from '$/data/filecoinTokenBalancesProviders'
 import { DefiProvider, defiProviderIcons } from '$/data/defiProviders'
 import { NftProvider, nftProviderIcons } from '$/data/nftProviders'
@@ -318,26 +318,39 @@ export const preferencesConfig = [
 						name: 'On-Chain',
 						options: [
 							{ value: TokenBalancesProvider.RpcProvider, name: (preferences: any) => `On-Chain (${preferences.rpcNetwork})` }, // 'RPC Provider + Token List'
-							{ value: TokenBalancesProvider.Alchemy_Liquality, name: 'Alchemy (via Liquality)', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Alchemy_Liquality] },
-							{ value: TokenBalancesProvider.QuickNode, name: 'QuickNode', icon: tokenBalancesProviderIcons[TokenBalancesProvider.QuickNode] },
+							...[
+								TokenBalancesProvider.Alchemy_Liquality,
+								TokenBalancesProvider.QuickNode,
+							].map(provider => ({
+								value: provider,
+								name: tokenBalancesProviders[provider].name,
+								icon: tokenBalancesProviders[provider].icon,
+							})),
 						]
 					},
 					{
 						groupId: 'offChain',
 						name: 'Off-Chain',
-						options: [
-							// { value: TokenBalancesProvider.Airstack, name: 'Airstack', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Airstack] },
-							{ value: TokenBalancesProvider.Blockscout, name: 'Blockscout › REST API', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Blockscout] },
-							{ value: TokenBalancesProvider.Chainbase, name: 'Chainbase › Token API', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Chainbase] },
-							{ value: TokenBalancesProvider.Covalent, name: 'Covalent › GoldRush', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Covalent] },
-							{ value: TokenBalancesProvider.Decommas, name: 'Decommas', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Decommas] },
-							{ value: TokenBalancesProvider.LlamaFolio, name: 'LlamaFolio', icon: tokenBalancesProviderIcons[TokenBalancesProvider.LlamaFolio] },
-							{ value: TokenBalancesProvider.Moralis, name: 'Moralis › Web3 API', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Moralis] },
-							{ value: TokenBalancesProvider.Nexandria, name: 'Nexandria', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Nexandria] },
-							{ value: TokenBalancesProvider.Noves, name: 'Noves', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Noves] },
-							{ value: TokenBalancesProvider.OneInch_Balance, name: '1inch › Balance API', icon: tokenBalancesProviderIcons[TokenBalancesProvider.OneInch_Balance] },
-							{ value: TokenBalancesProvider.Zapper, name: 'Zapper', icon: tokenBalancesProviderIcons[TokenBalancesProvider.Zapper] },
-						]
+						options: (
+							([
+								// TokenBalancesProvider.Airstack,
+								TokenBalancesProvider.Blockscout,
+								TokenBalancesProvider.Chainbase,
+								TokenBalancesProvider.Covalent,
+								TokenBalancesProvider.Decommas,
+								TokenBalancesProvider.LlamaFolio,
+								TokenBalancesProvider.Moralis,
+								TokenBalancesProvider.Nexandria,
+								TokenBalancesProvider.Noves,
+								TokenBalancesProvider.OneInch_Balance,
+								TokenBalancesProvider.Zapper,
+							] as const)
+								.map(provider => ({
+									value: provider,
+									name: tokenBalancesProviders[provider].name,
+									icon: tokenBalancesProviders[provider].icon,
+								}))
+						),
 					}
 				]
 			},

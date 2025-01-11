@@ -6,7 +6,7 @@
 	import { DefiProvider } from '$/data/defiProviders'
 	import { networkProviderConfigByProvider } from '$/data/networkProviders'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
-	import { TokenBalancesProvider, tokenBalancesProviderIcons } from '$/data/tokenBalancesProviders'
+	import { TokenBalancesProvider, tokenBalancesProviders } from '$/data/tokenBalancesProviders'
 
 
 	// Context
@@ -54,8 +54,8 @@
 
 
 	// Internal state
-	$: loadingMessage = `Retrieving ${network.name} balances from ${tokenBalancesProvider === TokenBalancesProvider.RpcProvider ? networkProvider : tokenBalancesProvider}...`
-	$: errorMessage = `Couldn't retrieve ${network.name} balances from ${tokenBalancesProvider}.`
+	$: loadingMessage = `Retrieving ${network.name} balances from ${tokenBalancesProvider === TokenBalancesProvider.RpcProvider ? networkProvider : tokenBalancesProviders[tokenBalancesProvider].name}...`
+	$: errorMessage = `Couldn't retrieve ${network.name} balances from ${tokenBalancesProviders[tokenBalancesProvider].name}.`
 
 
 	// Functions
@@ -103,7 +103,7 @@
 		containerClass,
 		contentClass,
 	}}
-	loadingIcon={tokenBalancesProvider === TokenBalancesProvider.RpcProvider ? networkProviderConfigByProvider[networkProvider].icon : tokenBalancesProviderIcons[tokenBalancesProvider]}
+	loadingIcon={tokenBalancesProvider === TokenBalancesProvider.RpcProvider ? networkProviderConfigByProvider[networkProvider].icon : tokenBalancesProviders[tokenBalancesProvider].icon}
 	loadingIconName={tokenBalancesProvider}
 	{loadingMessage}
 	{errorMessage}
