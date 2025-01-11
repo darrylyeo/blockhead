@@ -3,7 +3,7 @@
 	import type { Ethereum } from '$/data/networks/types'
 	import type { QuoteCurrency } from '$/data/currencies'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
-	import { Erc20TokenProvider, erc20TokenProviderIcons } from '$/data/erc20TokenProvider'
+	import { Erc20TokenProvider, erc20TokenProviderIcons } from '$/data/erc20TokenProviders'
 	import { preferences } from '$/state/preferences'
 
 

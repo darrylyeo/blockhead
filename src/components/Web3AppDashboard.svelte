@@ -2,7 +2,7 @@
 	// Constants/types
 	import type { Ethereum } from '$/data/networks/types'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
-	import { Erc20TokenProvider } from '$/data/erc20TokenProvider'
+	import { Erc20TokenProvider } from '$/data/erc20TokenProviders'
 	import { DefiProvider } from '$/data/defiProviders'
 	import type { QuoteCurrency } from '$/data/currencies'
 	import type { Web3AppConfig } from '$/data/web3Apps'
