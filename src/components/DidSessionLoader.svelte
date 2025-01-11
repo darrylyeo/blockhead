@@ -4,7 +4,7 @@
 	import type { AccountConnection } from '$/state/account'
 
 	import type { DIDSession } from 'did-session'
-	import { DidProvider, didProviderIcons } from '$/data/didProvider'
+	import { DidProvider, didProviderIcons } from '$/data/didProviders'
 
 	
 	// Inputs

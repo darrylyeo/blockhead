@@ -3,7 +3,7 @@
 	import type { Ethereum } from '$/data/networks/types'
 	import type { DIDSession } from 'did-session'
 	import type { DidUrl } from '$/api/ceramic/did'
-	import type { DidProvider } from '$/data/didProvider'
+	import type { DidProvider } from '$/data/didProviders'
 
 	
 	// Inputs

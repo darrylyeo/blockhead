@@ -2,7 +2,7 @@
 	// Constants/types
 	import type { Ethereum } from '$/data/networks/types'
 	import type { AccountConnection } from '$/state/account'
-	import { DidProvider } from '$/data/didProvider'
+	import { DidProvider } from '$/data/didProviders'
 
 
 	// Inputs
