@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ethereum } from '$/data/networks/types'
-	import { NotificationsProvider, notificationsProviderIcons } from '$/data/notificationsProviders'
+	import { NotificationsProvider, notificationsProviders } from '$/data/notificationsProviders'
 	import { preferences } from '$/state/preferences'
 
 
@@ -32,10 +32,10 @@
 			collapsibleType: 'label',
 			...loaderViewOptions,
 		}}
-		loadingIcon={notificationsProviderIcons[notificationsProvider]}
-		loadingIconName={notificationsProvider}
-		loadingMessage="Loading {network.name} notifications from {notificationsProvider}..."
-		errorMessage="Error loading {network.name} notifications from {notificationsProvider}."
+		loadingIcon={notificationsProviders[notificationsProvider].icon}
+		loadingIconName={notificationsProviders[notificationsProvider].name}
+		loadingMessage="Loading {network.name} notifications from {notificationsProviders[notificationsProvider].name}..."
+		errorMessage="Error loading {network.name} notifications from {notificationsProviders[notificationsProvider].name}."
 		fromQuery={
 			createQuery({
 				queryKey: ['Notifications', {

@@ -5,6 +5,12 @@ export enum NotificationsProvider {
 
 import { PushIcon } from '$/assets/icons'
 
-export const notificationsProviderIcons: Record<NotificationsProvider, string> = {
-	[NotificationsProvider.Push]: PushIcon,
-}
+export const notificationsProviders = {
+	[NotificationsProvider.Push]: {
+		name: 'Push Protocol',
+		icon: PushIcon,
+	},
+} as const satisfies Record<NotificationsProvider, {
+	name: string
+	icon?: string
+}>

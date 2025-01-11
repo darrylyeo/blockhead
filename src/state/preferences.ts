@@ -19,7 +19,7 @@ import { PriceProvider, HistoricalPriceProvider, priceProviders } from '$/data/p
 import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProviders'
 import { FilecoinTransactionProvider, filecoinTransactionProviders } from '$/data/filecoinTransactionProviders'
 import { ContractSourceProvider, contractSourceProviders } from '$/data/contractSourceProviders'
-import { NotificationsProvider, notificationsProviderIcons } from '$/data/notificationsProviders'
+import { NotificationsProvider, notificationsProviders } from '$/data/notificationsProviders'
 import { IpfsGatewayProvider, ipfsGateways } from '$/data/ipfsGateways'
 import { arweaveGateways } from '$/data/arweaveGateways'
 import { FarcasterProvider, farcasterProviders } from '$/data/farcasterProviders'
@@ -491,9 +491,16 @@ export const preferencesConfig = [
 				name: 'Notifications',
 				type: 'single',
 				defaultOption: NotificationsProvider.Push,
-				options: [
-					{ value: NotificationsProvider.Push, name: 'Push', icon: notificationsProviderIcons[NotificationsProvider.Push] },
-				]
+				options: (
+					([
+						NotificationsProvider.Push,
+					] as const)
+						.map(provider => ({
+							value: provider,
+							name: notificationsProviders[provider].name,
+							icon: notificationsProviders[provider].icon,
+						}))
+				),
 			},
 		],
 	},

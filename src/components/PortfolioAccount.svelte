@@ -9,7 +9,7 @@
 	import { ethereumMainnet, getNetworkColor, networkByChainId } from '$/data/networks'
 	import { type TokenBalancesProvider, tokenBalancesProviders } from '$/data/tokenBalancesProviders'
 	import { type NftProvider, nftProviders } from '$/data/nftProviders'
-	import { NotificationsProvider, notificationsProviderIcons } from '$/data/notificationsProviders'
+	import { NotificationsProvider, notificationsProviders } from '$/data/notificationsProviders'
 	import { Covalent } from '$/api/covalent'
 	import { getDefaultProvider } from 'ethers'
 
@@ -1014,8 +1014,8 @@
 										<label class="bar card sticky">
 											<h4 class="row">
 												<img
-													src={notificationsProviderIcons[notificationsProvider]}
-													alt={notificationsProvider}
+													src={notificationsProviders[notificationsProvider].icon}
+													alt={notificationsProviders[notificationsProvider].name}
 													width={17.5}
 												/>
 												Feed
@@ -1042,8 +1042,8 @@
 														>
 															<img
 																slot="icon"
-																src={notificationsProviderIcons[notificationsProvider]}
-																alt={notificationsProvider}
+																src={notificationsProviders[notificationsProvider].icon}
+																alt={notificationsProviders[notificationsProvider].name}
 																height={20}
 															/>
 														</Loading>
@@ -1052,8 +1052,8 @@
 													<div class="error-icon-container stack">
 														<img
 															title={errorMessage}
-															src={notificationsProviderIcons[notificationsProvider]}
-															alt={notificationsProvider}
+															src={notificationsProviders[notificationsProvider].icon}
+															alt={notificationsProviders[notificationsProvider].name}
 															height={20}
 														/>
 														<span>⚠︎</span>
@@ -1084,8 +1084,8 @@
 															>
 																<img
 																	slot="icon"
-																	src={notificationsProviderIcons[notificationsProvider]}
-																	alt={notificationsProvider}
+																	src={notificationsProviders[notificationsProvider].icon}
+																	alt={notificationsProviders[notificationsProvider].name}
 																	height={20}
 																/>
 															</Loading>
