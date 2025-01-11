@@ -1,6 +1,6 @@
 export enum DefiProvider {
 	LlamaFolio = 'LlamaFolio',
-	Zapper = 'Zapper',
+	ZapperRest = 'ZapperRest',
 	ZerionDefiSdk = 'ZerionDefiSdk',
 }
 
@@ -12,8 +12,8 @@ export const defiProviders = {
 		name: 'LlamaFolio',
 		icon: LlamaFolioIcon,
 	},
-	[DefiProvider.Zapper]: {
-		name: 'Zapper',
+	[DefiProvider.ZapperRest]: {
+		name: 'Zapper › REST API',
 		icon: ZapperIcon,
 	},
 	[DefiProvider.ZerionDefiSdk]: {

@@ -159,8 +159,8 @@
 						query,
 					}],
 				}) => {
-					const { networkNamesByChainId } = await import('$/api/zapper')
-					const { pricesControllerListPricesV3 } = await import('$/api/zapper/v2')
+					const { networkNamesByChainId } = await import('$/api/zapper/rest')
+					const { pricesControllerListPricesV3 } = await import('$/api/zapper/rest/v2')
 
 					const symbol = (
 						'symbol' in query ?

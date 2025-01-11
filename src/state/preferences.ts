@@ -343,7 +343,7 @@ export const preferencesConfig = [
 								TokenBalancesProvider.Nexandria,
 								TokenBalancesProvider.Noves,
 								TokenBalancesProvider.OneInch_Balance,
-								TokenBalancesProvider.Zapper,
+								TokenBalancesProvider.ZapperRest,
 							] as const)
 								.map(provider => ({
 									value: provider,
@@ -380,7 +380,7 @@ export const preferencesConfig = [
 				preferenceId: 'defiProvider',
 				name: 'DeFi Positions',
 				type: 'single',
-				defaultOption: DefiProvider.Zapper,
+				defaultOption: DefiProvider.ZapperRest,
 				options: [
 					{
 						groupId: 'onChain',
@@ -402,7 +402,7 @@ export const preferencesConfig = [
 						options: (
 							([
 								DefiProvider.LlamaFolio,
-								DefiProvider.Zapper,
+								DefiProvider.ZapperRest,
 							] as const)
 								.map(provider => ({
 									value: provider,
@@ -860,7 +860,7 @@ const resolveDefaultPreferences = (preferences?: Partial<PreferencesState>): Pre
 // (Stores - V1)
 // export const rpcNetwork = localStorageWritable<NetworkProvider>('preferred-ethereum-provider', 'Ethers')
 // export const transactionProvider = localStorageWritable<TransactionProvider>('preferred-transaction-provider', TransactionProvider.Etherspot)
-// export const defiProvider = localStorageWritable<DefiProvider>('preferred-defi-provider', DefiProvider.Zapper)
+// export const defiProvider = localStorageWritable<DefiProvider>('preferred-defi-provider', DefiProvider.ZapperRest)
 // export const currentPriceProvider = localStorageWritable<PriceProvider>('preferred-price-feed-provider', PriceProvider.Chainlink)
 // export const analyticsProvider = localStorageWritable<AnalyticsProvider>('preferred-analytics-provider', 'Covalent')
 // export const quoteCurrency = localStorageWritable<QuoteCurrency>('preferred-quote-currency', 'USD')

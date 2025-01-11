@@ -19,7 +19,7 @@
 
 	export let networkProvider: NetworkProvider
 	export let publicClient: Ethereum.PublicClient | undefined
-	export let defiProvider: DefiProvider = DefiProvider.Zapper
+	export let defiProvider: DefiProvider = DefiProvider.ZapperRest
 	export let quoteCurrency: QuoteCurrency
 
 	// (View options)
@@ -30,13 +30,13 @@
 	let appsWithPositions: AppWithDefiPositions[] | undefined
 
 	let zapperFiatRates: Record<QuoteCurrency, number> | undefined
-	// $: if(defiProvider === DefiProvider.Zapper && quoteCurrency !== 'USD')
+	// $: if(defiProvider === DefiProvider.ZapperRest && quoteCurrency !== 'USD')
 	// 	getFiatRates().then(_ => zapperFiatRates = _)
 	$: zapperQuoteCurrency = zapperFiatRates ? quoteCurrency : 'USD' 
 	$: zapperFiatRate = zapperFiatRates?.[quoteCurrency] ?? 1
 
 	// let allZapperAppConfigs: Partial<Record<ZapperAppId, ZapperAppConfig>>
-	// $: if(defiProvider === DefiProvider.Zapper)
+	// $: if(defiProvider === DefiProvider.ZapperRest)
 	// 	getAllApps().then(_ => allZapperAppConfigs = Object.fromEntries(_.map(app => [app.id, app])))
 
 	$: defiBalancesDescription = apps?.map(({name}) => name).join('/') || `${network.name} DeFi`
@@ -60,7 +60,7 @@
 
 				defiAppsCount: appsWithPositions.length,
 
-				quoteTotalCurrency: defiProvider === DefiProvider.Zapper ? zapperQuoteCurrency : undefined
+				quoteTotalCurrency: defiProvider === DefiProvider.ZapperRest ? zapperQuoteCurrency : undefined
 			}
 		:
 			undefined
@@ -90,7 +90,7 @@
 	// import { getAllApps, getDefiPositionsForApps } from '$/api/zapper-old/index'
 	// import { normalizeDefiPositions as normalizeDefiPositionsZapper } from '$/api/zapper-old/normalize'
 
-	import { normalizeAppBalance as normalizeAppBalanceZapper } from '$/api/zapper/normalize'
+	import { normalizeAppBalance as normalizeAppBalanceZapperRest } from '$/api/zapper/rest/normalize'
 
 
 	// Components
@@ -164,7 +164,7 @@
 			}),
 		}),
 
-		// [DefiProvider.Zapper]: () => ({
+		// [DefiProvider.ZapperRest]: () => ({
 		// 	fromStore: network && address && (() => (
 		// 		getDefiPositionsForApps({
 		// 			...apps && {
@@ -180,7 +180,7 @@
 		// 	),
 		// }),
 
-		[DefiProvider.Zapper]: () => ({
+		[DefiProvider.ZapperRest]: () => ({
 			fromQuery: network && address && createQuery({
 				queryKey: ['DefiPositions', {
 					defiProvider,
@@ -193,7 +193,7 @@
 						address,
 					}],
 				}) => {
-					const { getAppBalances } = await import('$/api/zapper/index')
+					const { getAppBalances } = await import('$/api/zapper/rest/index')
 
 					return await getAppBalances({
 						chainId,
@@ -203,7 +203,7 @@
 				select: appBalances => (
 					appBalances
 						.filter(appBalance => apps ? apps.some(app => app.views.some(view => view.providers?.zapper === appBalance.appId)) : true)
-						.map(normalizeAppBalanceZapper)
+						.map(normalizeAppBalanceZapperRest)
 				),
 				staleTime: 10 * 1000,
 			}),

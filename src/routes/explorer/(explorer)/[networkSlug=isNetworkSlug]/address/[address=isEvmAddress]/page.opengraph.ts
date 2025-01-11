@@ -1,5 +1,5 @@
 // Functions
-import { getTokenBalancesCount as getTokenBalancesCountZapper } from '$/api/zapper'
+import { getTokenBalancesCount as getTokenBalancesCountZapper } from '$/api/zapper/rest'
 import { getNftContractsCountByAddress as getNftContractsCountByAddressAirstack } from '$/api/airstack'
 
 

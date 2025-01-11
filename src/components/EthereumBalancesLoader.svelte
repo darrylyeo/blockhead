@@ -86,7 +86,7 @@
 
 	import { normalizeTokenBalance as normalizeTokenBalanceQuickNode } from '$/api/quicknode/normalize'
 
-	import { normalizeTokenBalance as normalizeTokenBalanceZapper } from '$/api/zapper/normalize'
+	import { normalizeTokenBalance as normalizeTokenBalanceZapperRest } from '$/api/zapper/rest/normalize'
 
 
 	// Components
@@ -667,7 +667,7 @@
 			),
 		}),
 
-		[TokenBalancesProvider.Zapper]: () => ({
+		[TokenBalancesProvider.ZapperRest]: () => ({
 			fromQuery: address && network && (
 				createQuery({
 					queryKey: ['Balances', {
@@ -681,7 +681,7 @@
 							chainId,
 						}],
 					}) => {
-						const { getTokenBalances } = await import('$/api/zapper')
+						const { getTokenBalances } = await import('$/api/zapper/rest')
 
 						return await getTokenBalances({
 							network,
@@ -691,7 +691,7 @@
 					select: tokenBalances => (
 						tokenBalances
 							.map(tokenWithBalance => (
-								normalizeTokenBalanceZapper(tokenWithBalance)
+								normalizeTokenBalanceZapperRest(tokenWithBalance)
 							))
 					),
 					staleTime: 10 * 1000,

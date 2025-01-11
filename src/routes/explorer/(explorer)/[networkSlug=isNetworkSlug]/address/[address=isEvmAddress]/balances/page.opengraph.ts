@@ -1,6 +1,6 @@
 // Functions
-import { getTokenBalances as getTokenBalancesZapper } from '$/api/zapper/index'
-import { normalizeTokenBalance as normalizeTokenBalanceZapper } from '$/api/zapper/normalize'
+import { getTokenBalances as getTokenBalancesZapper } from '$/api/zapper/rest/index'
+import { normalizeTokenBalance as normalizeTokenBalanceZapper } from '$/api/zapper/rest/normalize'
 
 
 // OpenGraph load

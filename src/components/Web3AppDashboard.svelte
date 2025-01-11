@@ -21,7 +21,7 @@
 	export let accountConnection: AccountConnection | undefined
 	export let networkProvider: NetworkProvider
 	export let erc20TokenProvider: Erc20TokenProvider
-	export let defiProvider: DefiProvider = DefiProvider.Zapper
+	export let defiProvider: DefiProvider = DefiProvider.ZapperRest
 	export let quoteCurrency: QuoteCurrency
 
 	// (View options)
@@ -54,7 +54,7 @@
 	let zapperFiatRate: number
 
 	// (Computed)
-	// $: if(defiProvider === DefiProvider.Zapper && quoteCurrency !== 'USD')
+	// $: if(defiProvider === DefiProvider.ZapperRest && quoteCurrency !== 'USD')
 	// 	getFiatRates().then(_ => zapperFiatRates = _)
 	$: zapperQuoteCurrency = zapperFiatRates ? quoteCurrency : 'USD' 
 	$: zapperFiatRate = zapperFiatRates?.[quoteCurrency] ?? 1
@@ -332,7 +332,7 @@
 
 						<!-- Address specified - account balances -->
 						{:else if currentView === 'Account' && (
-							(providers?.zapper && defiProvider === DefiProvider.Zapper)
+							(providers?.zapper && defiProvider === DefiProvider.ZapperRest)
 							|| (providers?.zerionDefiSDK && defiProvider === DefiProvider.ZerionDefiSdk)
 						)}
 							<DefiPositionsLoader
@@ -390,7 +390,7 @@
 						</div> -->
 						{#if erc20Tokens && !(
 							currentView === 'Account' && (
-								(providers?.zapper && defiProvider === DefiProvider.Zapper)
+								(providers?.zapper && defiProvider === DefiProvider.ZapperRest)
 								|| (providers?.zerionDefiSDK && defiProvider === DefiProvider.ZerionDefiSdk)
 							)
 						)}

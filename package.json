@@ -27,7 +27,7 @@
     "generate:oazapfts:openrank:farcaster": "oazapfts https://graph.cast.k3l.io/openapi.json ./src/api/openrank/farcaster/index.ts --optimistic --useEnumType",
     "generate:oazapfts:neynar:v1": "oazapfts https://raw.githubusercontent.com/neynarxyz/OAS/main/src/v1/spec.yaml ./src/api/neynar/v1.ts --optimistic --useEnumType",
     "generate:oazapfts:neynar:v2": "oazapfts https://raw.githubusercontent.com/neynarxyz/OAS/main/src/v2/spec.yaml ./src/api/neynar/v2.ts --optimistic --useEnumType",
-    "generate:oazapfts:zapper:v2": "oazapfts https://api.zapper.xyz/api-json ./src/api/zapper/v2.ts --optimistic --useEnumType",
+    "generate:oazapfts:zapper:rest:v2": "oazapfts https://api.zapper.xyz/api-json ./src/api/zapper/rest/v2.ts --optimistic --useEnumType",
     "generate:openapi-typescript:1inch:aggregation": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/aggregation-openapi.json -o ./src/api/1inch/aggregation/api.d.ts",
     "generate:openapi-typescript:1inch:balances": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/balances-openapi.json -o ./src/api/1inch/balances/api.d.ts",
     "generate:openapi-typescript:1inch:fusion-orders": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/fusion_orders-openapi.json -o ./src/api/1inch/fusion-orders/api.d.ts",
