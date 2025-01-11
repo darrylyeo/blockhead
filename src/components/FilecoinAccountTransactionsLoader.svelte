@@ -2,7 +2,7 @@
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
 	import type { Filecoin } from '$/data/filecoin'
-	import { TransactionProvider, transactionProviderIcons } from '$/data/transactionProviders'
+	import { FilecoinTransactionProvider, filecoinTransactionProviderIcons } from '$/data/filecoinTransactionProviders'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import { getViemPublicClient } from '$/data/networkProviders'
 	import { networkBySlug } from '$/data/networks'
@@ -15,12 +15,12 @@
 	// Inputs
 	export let network: Ethereum.Network = networkBySlug.get('filecoin')!
 	export let address: Filecoin.Address
-	export let transactionProvider: TransactionProvider.Beryx = TransactionProvider.Beryx
+	export let transactionProvider: FilecoinTransactionProvider.Beryx = FilecoinTransactionProvider.Beryx
 	export let networkProvider: NetworkProvider | undefined
 	export let publicClient: Ethereum.PublicClient | undefined
 
 	// (Computed)
-	$: transactionProvider = $$props.transactionProvider ?? $preferences.transactionProvider
+	$: transactionProvider = $$props.transactionProvider ?? $preferences.filecoinTransactionProvider
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
 	$: publicClient = network && networkProvider && getViemPublicClient({
 		network,
@@ -98,12 +98,12 @@
 	viewOptions={{
 		contentClass: 'column',
 	}}
-	loadingIcon={transactionProviderIcons[transactionProvider]}
+	loadingIcon={filecoinTransactionProviderIcons[transactionProvider]}
 	loadingIconName={transactionProvider}
 	loadingMessage={`Retrieving account transactions from ${transactionProvider}...`}
 	errorMessage={`Couldn't retrieve account transactions from ${transactionProvider}.`}
 	{...{
-		[TransactionProvider.Beryx]: () => ({
+		[FilecoinTransactionProvider.Beryx]: () => ({
 			fromInfiniteQuery: createInfiniteQuery({
 				queryKey: ['BlockTransactions', {
 					transactionProvider,
