@@ -53,10 +53,16 @@
 				address={account.address}
 				let:balances
 			>
-				<!-- <EthereumBalances
+				<svelte:fragment slot="header">
+					<header class="bar wrap">
+						<svelte:element this={`h${headingLevel + 1}`}>Balances</svelte:element>
+					</header>
+				</svelte:fragment>
+
+				<EthereumBalances
 					{network}
 					{balances}
-				/> -->
+				/>
 			</FilecoinAccountBalancesLoader>
 		</section>
 
