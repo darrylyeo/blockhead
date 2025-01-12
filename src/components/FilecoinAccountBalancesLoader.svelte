@@ -32,6 +32,7 @@
 
 	type SharedSlotProps = {
 		balances: typeof balances,
+		tokenBalancesProvider: typeof tokenBalancesProvider,
 	}
 
 	type $$Slots = {
@@ -87,13 +88,16 @@
 	}[tokenBalancesProvider]?.()}
 	bind:result={balances}
 	let:result={balances}
-	debug
 >
 	<svelte:fragment slot="header">
 		<slot name="header"
 			{balances}
+			{tokenBalancesProvider}
 		/>
 	</svelte:fragment>
 
-	<slot {balances} />
+	<slot
+		{balances}
+		{tokenBalancesProvider}
+	/>
 </Loader>
