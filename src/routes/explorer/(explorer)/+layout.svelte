@@ -11,6 +11,7 @@
 		blockNumber,
 		ensName,
 		transactionId,
+		filecoinTipsetId,
 
 		explorerParams,
 		type ExplorerInputParams,
@@ -114,14 +115,16 @@
 		$blockNumber = currentExplorerInputParams.blockNumber
 		$ensName = currentExplorerInputParams.ensName
 		$transactionId = currentExplorerInputParams.transactionId
+		$filecoinTipsetId = !isNaN(Number(currentExplorerInputParams.filecoinTipsetNumber)) ? BigInt(Number(currentExplorerInputParams.filecoinTipsetNumber)) : currentExplorerInputParams.filecoinTipsetCid ?? ''
 	}}>
 		<SearchInput
 			inputPatterns={
 				$explorerNetwork && isNetworkSlugFilecoin($explorerNetwork.slug) ?
 					[
 						InputPattern.FilecoinAccountId,
-						InputPattern.FilecoinTransactionId,
+						InputPattern.FilecoinTipsetCid,
 						InputPattern.FilecoinTipsetNumber,
+						InputPattern.FilecoinTransactionId,
 					]
 				:
 					[

@@ -2,8 +2,8 @@ import type { Ethereum } from './networks/types'
 import type { IpfsCid } from '$/api/ipfs/contentId'
 
 export namespace Filecoin {
+	export type TipsetId =  TipsetNumber | TipsetCid
 	export type TipsetNumber = bigint
-
 	export type TipsetCid = IpfsCid
 
 	export type Tipset = {

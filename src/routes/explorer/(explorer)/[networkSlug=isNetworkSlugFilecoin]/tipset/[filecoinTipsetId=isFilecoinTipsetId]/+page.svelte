@@ -17,12 +17,23 @@
 
 <FilecoinTipsetLoader
 	network={$explorerNetwork}
-	tipsetNumber={BigInt($explorerParams.blockNumber)}
+	query={
+		typeof $explorerParams.filecoinTipsetId === 'bigint' ?
+			{
+				tipsetNumber: BigInt($explorerParams.filecoinTipsetId),
+			}
+		:
+			{
+				tipsetCid: $explorerParams.filecoinTipsetId,
+			}
+	}
 	let:tipset
 >
-	<FilecoinTipset
-		network={$explorerNetwork}
-		{tipset}
-		headingLevel={2}
-	/>
+	{#if tipset}
+		<FilecoinTipset
+			network={$explorerNetwork}
+			{tipset}
+			headingLevel={2}
+		/>
+	{/if}
 </FilecoinTipsetLoader>

@@ -13,7 +13,14 @@
 
 	// Inputs
 	export let network: Ethereum.Network
-	export let tipsetNumber: Filecoin.TipsetNumber
+	export let query: (
+		| {
+			tipsetNumber: Filecoin.TipsetNumber,
+		}
+		| {
+			tipsetCid: Filecoin.TipsetCid,
+		}
+	)
 	export let filecoinTransactionProvider: FilecoinTransactionProvider = FilecoinTransactionProvider.Beryx
 	export let networkProvider: NetworkProvider | undefined
 	export let publicClient: Ethereum.PublicClient | undefined
@@ -42,8 +49,7 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
-	import type { getTipsetByHeight } from '$/api/beryx/filecoin/api'
-	
+
 	import { normalizeTipset as normalizeTipsetBeryx } from '$/api/beryx/filecoin/normalize'
 
 
@@ -62,23 +68,52 @@
 	errorMessage={`Couldn't retrieve ${network.name} tipset from ${filecoinTransactionProviders[filecoinTransactionProvider].name}.`}
 	{...{
 		[FilecoinTransactionProvider.Beryx]: () => ({
-			fromQuery: createQuery({
-				queryKey: ['Block', {
-					filecoinTransactionProvider,
-					chainId: network.chainId,
-					tipsetNumber: Number(tipsetNumber),
-				}],
-				queryFn: async () => {
-					if(network.slug !== 'filecoin') throw new Error('Beryx only supports Filecoin.')
+			fromQuery: (
+				'tipsetNumber' in query ?
+					createQuery({
+						queryKey: ['Block', {
+							filecoinTransactionProvider,
+							chainId: network.chainId,
+							tipsetNumber: Number(query.tipsetNumber),
+						}],
+						queryFn: async ({
+							queryKey: [_, {
+								tipsetNumber,
+							}],
+						}) => {
+							const { getTipsetByHeight } = await import('$/api/beryx/filecoin/index')
 
-					const { getTipsetByHeight } = await import('$/api/beryx/filecoin/index')
+							return await getTipsetByHeight(tipsetNumber)
+						},
+						select: result => (
+							normalizeTipsetBeryx(result[0])
+						),
+					})
 
-					return await getTipsetByHeight(tipsetNumber)
-				},
-				select: result => (
-					normalizeTipsetBeryx(result[0])
-				),
-			}),
+				: 'tipsetCid' in query ?
+					createQuery({
+						queryKey: ['Block', {
+							filecoinTransactionProvider,
+							chainId: network.chainId,
+							tipsetCid: query.tipsetCid,
+						}],
+						queryFn: async ({
+							queryKey: [_, {
+								tipsetCid,
+							}],
+						}) => {
+							const { getTipsetByHash } = await import('$/api/beryx/filecoin/index')
+
+							return await getTipsetByHash(tipsetCid)
+						},
+						select: result => (
+							normalizeTipsetBeryx(result[0])
+						),
+					})
+
+				:
+					undefined
+			),
 		}),
 	}[filecoinTransactionProvider]?.()}
 	bind:result={tipset}

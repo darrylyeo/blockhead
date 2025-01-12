@@ -8,6 +8,7 @@ export type ExplorerParams = {
 	blockNumber: Ethereum.BlockNumber | '',
 	ensName: ENS.Name | '',
 	transactionId: Ethereum.TransactionId | '',
+	filecoinTipsetId: Filecoin.TipsetId | '',
 }
 
 export type ExplorerInputParams = Partial<Omit<ExplorerParams, 'networkSlug'>>
@@ -20,6 +21,7 @@ export const address = writable<ExplorerParams['address']>('')
 export const blockNumber = writable<ExplorerParams['blockNumber']>('')
 export const ensName = writable<ExplorerParams['ensName']>('')
 export const transactionId = writable<ExplorerParams['transactionId']>('')
+export const filecoinTipsetId = writable<ExplorerParams['filecoinTipsetId']>('')
 
 export const explorerParams = derived([
 	networkSlug,
@@ -27,12 +29,14 @@ export const explorerParams = derived([
 	blockNumber,
 	ensName,
 	transactionId,
+	filecoinTipsetId,
 ], ([
 	$networkSlug,
 	$address,
 	$blockNumber,
 	$ensName,
 	$transactionId,
+	$filecoinTipsetId,
 ], set: (_: ExplorerParams) => void) => {
 	set(({
 		networkSlug: $networkSlug,
@@ -40,6 +44,7 @@ export const explorerParams = derived([
 		blockNumber: $blockNumber,
 		ensName: $ensName,
 		transactionId: $transactionId,
+		filecoinTipsetId: $filecoinTipsetId,
 	}))
 })
 
@@ -52,12 +57,14 @@ export const derivedPath: Readable<string> = derived([
 	blockNumber,
 	ensName,
 	transactionId,
+	filecoinTipsetId,
 ], ([
 	$networkSlug,
 	$address,
 	$blockNumber,
 	$ensName,
 	$transactionId,
+	$filecoinTipsetId,
 ], set) => set(
 	`/explorer${
 		$networkSlug ?
@@ -68,6 +75,8 @@ export const derivedPath: Readable<string> = derived([
 					`/block/${$blockNumber}`
 				: $transactionId ?
 					`/tx/${$transactionId}`
+				: $filecoinTipsetId ?
+					`/tipset/${$filecoinTipsetId}`
 				:
 					''
 			}`

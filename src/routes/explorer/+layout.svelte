@@ -9,6 +9,7 @@
 		blockNumber,
 		ensName,
 		transactionId,
+		filecoinTipsetId,
 
 		derivedPath
 	} from './_explorerParams'
@@ -26,6 +27,7 @@
 			$blockNumber = navigation.to.params.blockNumber || ''
 			$ensName = navigation.to.params.ensName || ''
 			$transactionId = navigation.to.params.transactionId || ''
+			$filecoinTipsetId = !isNaN(Number(navigation.to.params.filecoinTipsetId)) ? BigInt(navigation.to.params.filecoinTipsetId) : navigation.to.params.filecoinTipsetId || ''
 
 			canNavigate = true
 		}
