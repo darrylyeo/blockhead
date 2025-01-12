@@ -2,7 +2,7 @@
 import type { Filecoin } from '$/data/filecoin'
 import type { Ethereum } from '$/data/networks/types'
 import type { TokenWithBalance } from '$/data/tokens'
-import type { TipsetInfo, Transaction, AccountInfo, AccountBalance } from './api'
+import type { TipsetInfo, BlockInfo, Transaction, AccountInfo, AccountBalance } from './api'
 
 type TransactionWithInternalTransactions = Transaction & { internalTransactions?: Transaction[] }
 
@@ -23,14 +23,42 @@ export const normalizeTipset = (
 	blocks: (
 		tipset
 			.blocks_info
-			?.map(block => ({
-				id: block.BlockCid,
-				minerAddress: block.Miner,
-			}))
+			?.map(block => (
+				normalizeBlock(
+					block,
+					tipset,
+				)
+			))
 	),
 
 	transactions: tipset.transactions,
 })
+
+export const normalizeBlock = (
+	block: BlockInfo,
+	tipset: TipsetInfo,
+): Filecoin.Block => ({
+	id: block.BlockCid,
+	minerAddress: block.Miner,
+
+	tipsetId: tipset.tipset_cid,
+	tipsetNumber: tipset.height !== undefined ? BigInt(tipset.height) : undefined,
+	tipsetTimestamp: tipset.timestamp !== undefined ? new Date(tipset.timestamp).valueOf() : undefined
+})
+
+export const normalizeBlockFromTipset = (
+	tipset: TipsetInfo,
+	blockCid: Filecoin.BlockCid,
+): Filecoin.Block => (
+	normalizeBlock(
+		(
+			tipset
+				.blocks_info
+				?.find(block => block.BlockCid === blockCid)
+		),
+		tipset
+	)
+)
 
 export const normalizeTransaction = (
 	transaction: Transaction | TransactionWithInternalTransactions,
