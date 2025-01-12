@@ -90,7 +90,7 @@
 	}}
 	use:animationKey={blockNumber}
 	style="{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}"
-	draggable={true}
+	draggable={blockNumber !== undefined}
 	on:dragstart={onDragStart}
 >
 	<NetworkIcon {network} />
