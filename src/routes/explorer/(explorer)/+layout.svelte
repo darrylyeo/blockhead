@@ -34,10 +34,10 @@
 
 
 	// Internal state
-	let currentExplorerInputValue: string
-	$: currentExplorerInputValue = $explorerQuery
+	let searchInputValue: string
+	$: searchInputValue = $explorerQuery
 
-	let currentExplorerInputParams: ExplorerInputParams | undefined
+	let searchInputPatterns: ExplorerInputParams | undefined
 
 
 	$: networkProvider = $preferences.rpcNetwork
@@ -112,12 +112,12 @@
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
 	<form on:submit|preventDefault={() => {
-		$address = currentExplorerInputParams.address
-		$blockNumber = currentExplorerInputParams.blockNumber
-		$ensName = currentExplorerInputParams.ensName
-		$transactionId = currentExplorerInputParams.transactionId
-		$filecoinTipsetId = !isNaN(Number(currentExplorerInputParams.filecoinTipsetNumber)) ? BigInt(Number(currentExplorerInputParams.filecoinTipsetNumber)) : currentExplorerInputParams.filecoinTipsetCid ?? ''
-		$filecoinBlockCid = currentExplorerInputParams.filecoinBlockCid ? BigInt(currentExplorerInputParams.filecoinBlockCid) : currentExplorerInputParams.filecoinBlockCid ?? ''
+		$address = searchInputPatterns.address
+		$blockNumber = searchInputPatterns.blockNumber
+		$ensName = searchInputPatterns.ensName
+		$transactionId = searchInputPatterns.transactionId
+		$filecoinTipsetId = !isNaN(Number(searchInputPatterns.filecoinTipsetNumber)) ? BigInt(Number(searchInputPatterns.filecoinTipsetNumber)) : searchInputPatterns.filecoinTipsetCid ?? ''
+		$filecoinBlockCid = searchInputPatterns.filecoinBlockCid ? BigInt(searchInputPatterns.filecoinBlockCid) : searchInputPatterns.filecoinBlockCid ?? ''
 	}}>
 		<SearchInput
 			inputPatterns={
@@ -137,8 +137,8 @@
 						InputPattern.EnsName,
 					]
 			}
-			bind:value={currentExplorerInputValue}
-			bind:matchedPatterns={currentExplorerInputParams}
+			bind:value={searchInputValue}
+			bind:matchedPatterns={searchInputPatterns}
 			network={$explorerNetwork}
 		/>
 		<button type="submit">Go</button>
