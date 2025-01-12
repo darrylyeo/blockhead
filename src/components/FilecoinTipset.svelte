@@ -117,12 +117,14 @@
 				}}
 				transactions={tipset.transactions}
 				let:transactions
+				let:pagination
 			>
 				<FilecoinTransactions
 					bind:isOpen={showTransactions}
 					{transactions}
 					layout="inline"
 					headingLevel={headingLevel + 1}
+					{pagination}
 				/>
 			</FilecoinTransactionsLoader>
 		</section>

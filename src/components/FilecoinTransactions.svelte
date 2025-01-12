@@ -4,11 +4,13 @@
 	import type { Filecoin } from '$/data/filecoin'
 	
 	import { networkBySlug } from '$/data/networks'
+	import { FilecoinTransactionProvider, filecoinTransactionProviders } from '$/data/filecoinTransactionProviders'
 
 	
 	// Inputs
 	export let network: Ethereum.Network = networkBySlug.get('filecoin')!
 	export let transactions: Filecoin.Transaction[] = []
+	export let filecoinTransactionProvider: FilecoinTransactionProvider = FilecoinTransactionProvider.Beryx
 	export let isInternal = false
 
 	// (View options)
@@ -21,11 +23,18 @@
 	export let isOpen: boolean
 
 
+	// Events
+	export let pagination: Loader<any, any, any, any>['$$slot_def']['default']['pagination']
+
+
 	// Components
+	import type Loader from './Loader.svelte'
 	import AnchorLink from './AnchorLink.svelte'
 	import Collapsible from './Collapsible.svelte'
 	import FilecoinTransaction from './FilecoinTransaction.svelte'
 	import InlineContainer from './InlineContainer.svelte'
+	import Loading from './Loading.svelte'
+	import ScrollContainer from './ScrollContainer.svelte'
 	import TweenedNumber from './TweenedNumber.svelte'
 </script>
 
@@ -39,7 +48,7 @@
 		<slot name="title">
 			<svelte:element this={`h${headingLevel}`}>
 				{title}
-				<span>(<TweenedNumber value={transactions.length} />)</span>
+				<span>(<TweenedNumber value={transactions.length} />{#if pagination?.hasNextPage}+{/if})</span>
 			</svelte:element>
 		</slot>
 	</svelte:fragment>
@@ -62,7 +71,12 @@
 		</InlineContainer>
 	</svelte:fragment>
 	
-	<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
+	<ScrollContainer
+		{pagination}
+		style="
+			--resizeVertical-defaultHeight: max(16rem, calc(100dvh - 24rem));
+		"
+	>
 		{#each transactions as transaction}
 			<AnchorLink
 				class={layout === 'inline' ? 'card' : ''}
@@ -81,5 +95,19 @@
 				/>
 			</AnchorLink>
 		{/each}
-	</div>
+
+		<svelte:fragment slot="after">
+			{#if pagination?.isFetchingNextPage}
+				<Loading
+					icon={{
+						src: filecoinTransactionProviders[filecoinTransactionProvider].icon,
+						name: filecoinTransactionProviders[filecoinTransactionProvider].name,
+					}}
+					iconAnimation="hover"
+				>
+					Loading more transactions via {filecoinTransactionProviders[filecoinTransactionProvider].name}...
+				</Loading>
+			{/if}
+		</svelte:fragment>
+	</ScrollContainer>
 </Collapsible>

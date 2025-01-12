@@ -81,11 +81,13 @@
 					type: 'sender',
 				}}
 				let:transactions
+				let:pagination
 			>
 				<FilecoinTransactions
 					{network}
 					{transactions}
 					headingLevel={headingLevel + 1}
+					{pagination}
 				/>
 			</FilecoinTransactionsLoader>
 		</section>
