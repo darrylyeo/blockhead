@@ -37,7 +37,7 @@
 	let searchInputValue: string
 	$: searchInputValue = $explorerQuery
 
-	let searchInputPatterns: ExplorerInputParams | undefined
+	let searchInputPatterns: { [key in InputPattern]?: string }
 
 
 	$: networkProvider = $preferences.rpcNetwork
@@ -112,12 +112,12 @@
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
 	<form on:submit|preventDefault={() => {
-		$address = searchInputPatterns.address
-		$blockNumber = searchInputPatterns.blockNumber
-		$ensName = searchInputPatterns.ensName
-		$transactionId = searchInputPatterns.transactionId
-		$filecoinTipsetId = !isNaN(Number(searchInputPatterns.filecoinTipsetNumber)) ? BigInt(Number(searchInputPatterns.filecoinTipsetNumber)) : searchInputPatterns.filecoinTipsetCid ?? ''
-		$filecoinBlockCid = searchInputPatterns.filecoinBlockCid ? BigInt(searchInputPatterns.filecoinBlockCid) : searchInputPatterns.filecoinBlockCid ?? ''
+		$address = searchInputPatterns[InputPattern.Address] ?? ''
+		$blockNumber = searchInputPatterns[InputPattern.BlockNumber] !== undefined && searchInputPatterns[InputPattern.BlockNumber] !== '' ? BigInt(searchInputPatterns[InputPattern.BlockNumber]) : ''
+		$ensName = searchInputPatterns[InputPattern.EnsName] ?? ''
+		$transactionId = searchInputPatterns[InputPattern.TransactionId] ?? ''
+		$filecoinTipsetId = !isNaN(Number(searchInputPatterns[InputPattern.FilecoinTipsetNumber])) ? BigInt(Number(searchInputPatterns[InputPattern.FilecoinTipsetNumber])) : searchInputPatterns[InputPattern.FilecoinTipsetCid] ?? ''
+		$filecoinBlockCid = searchInputPatterns[InputPattern.FilecoinBlockCid] ?? ''
 	}}>
 		<SearchInput
 			inputPatterns={
@@ -132,9 +132,9 @@
 				:
 					[
 						InputPattern.Address,
-						InputPattern.TransactionId,
 						InputPattern.BlockNumber,
 						InputPattern.EnsName,
+						InputPattern.TransactionId,
 					]
 			}
 			bind:value={searchInputValue}
