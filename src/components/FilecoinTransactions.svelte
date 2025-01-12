@@ -1,11 +1,16 @@
 <script lang="ts">
 	// Types/constants
+	import type { Ethereum } from '$/data/networks/types'
 	import type { Filecoin } from '$/data/filecoin'
+	
+	import { networkBySlug } from '$/data/networks'
 
 	
 	// Inputs
+	export let network: Ethereum.Network = networkBySlug.get('filecoin')!
 	export let transactions: Filecoin.Transaction[] = []
 	export let isInternal = false
+
 	// (View options)
 	export let layout: 'default' | 'inline' | undefined
 	export let title = 'Transactions'
@@ -17,6 +22,7 @@
 
 
 	// Components
+	import AnchorLink from './AnchorLink.svelte'
 	import Collapsible from './Collapsible.svelte'
 	import FilecoinTransaction from './FilecoinTransaction.svelte'
 	import InlineContainer from './InlineContainer.svelte'
@@ -58,16 +64,22 @@
 	
 	<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
 		{#each transactions as transaction}
-			<FilecoinTransaction
-				{transaction}
-				{isInternal}
+			<AnchorLink
+				class={layout === 'inline' ? 'card' : ''}
+				base={`/explorer/${network.slug}`}
+				link={`/tx/${transaction.id}`}
+			>
+				<FilecoinTransaction
+					{transaction}
+					{isInternal}
 
-				{layout}
-				headingLevel={headingLevel + 1}
-				{detailLevel}
-				{tokenBalanceFormat}
-				{showFees}
-			/>
+					{layout}
+					headingLevel={headingLevel + 1}
+					{detailLevel}
+					{tokenBalanceFormat}
+					{showFees}
+				/>
+			</AnchorLink>
 		{/each}
 	</div>
 </Collapsible>
