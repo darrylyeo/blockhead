@@ -20,9 +20,11 @@
 	address={$explorerParams.address}
 	let:account
 >
-	<FilecoinAccount
-		network={$explorerNetwork}
-		{account}
-		headingLevel={2}
-	/>
+	{#if account}
+		<FilecoinAccount
+			network={$explorerNetwork}
+			{account}
+			headingLevel={2}
+		/>
+	{/if}
 </FilecoinAccountLoader>
