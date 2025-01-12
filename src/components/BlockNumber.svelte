@@ -66,12 +66,16 @@
 		transition-property: background-color;
 		transition-duration: 0.3s;
 		animation: Flash 0.75s;
-	}
-	.block-number:not(:hover) {
-		text-decoration: none;
-	}
-	.block-number:hover {
-		filter: drop-shadow(0 0 2px var(--primary-color)) contrast(1.2)
+
+		&:is(a) {
+			&:not(:hover) {
+				text-decoration: none;
+			}
+
+			&:hover {
+				filter: drop-shadow(0 0 2px var(--primary-color)) contrast(1.2)
+			}
+		}
 	}
 
 	@keyframes Flash {
