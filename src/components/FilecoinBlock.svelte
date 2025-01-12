@@ -17,7 +17,9 @@
 	
 	// Components
 	import Address from './Address.svelte'
+	import BlockNumber from './BlockNumber.svelte'
 	import Collapsible from './Collapsible.svelte'
+	import DateComponent from './Date.svelte'
 	import FilecoinBlockCid from './FilecoinBlockCid.svelte'
 	import FilecoinTransactions from './FilecoinTransactions.svelte'
 </script>
@@ -68,4 +70,35 @@
 			/>
 		</section>
 	{/if}
+
+	<hr>
+
+	<footer class="footer row">
+		<span class="row inline wrap">
+			<span>
+				Block
+				<FilecoinBlockCid
+					{network}
+					blockCid={block.id}
+					format="middle-truncated"
+				/>
+			</span>
+
+			in
+
+			<span>
+				tipset
+				<BlockNumber
+					{network}
+					blockNumber={block.tipsetNumber}
+				/>
+			</span>
+		</span>
+
+		<DateComponent
+			date={block.tipsetTimestamp}
+			format="both"
+			layout="horizontal"
+		/>
+	</footer>
 </Collapsible>
