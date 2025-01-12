@@ -102,9 +102,12 @@ export const normalizeAccount = (
 	address: Filecoin.Address,
 ): Filecoin.Account => ({
 	address,
-	actorType: account.actor_type,
-
 	robustAddress: account.robust,
+	shortAddress: account.short,
+
+	actorType: account.actor_type,
+	actorCid: account.actor_cid,
+
 	createdTipsetTimestamp: account.create_timestamp,
 	createdTransactionId: account.creation_tx_hash,
 })
