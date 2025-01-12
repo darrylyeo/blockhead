@@ -556,7 +556,9 @@
 										{tokenBalancesProvider}
 										{quoteCurrency}
 										{tokenBalanceFormat} {sortBy} {showSmallValues} {showUnderlyingAssets}
-										isOpen={Boolean(isGridLayout ? gridLayoutIsChainExpanded[view.chainId] : columnLayoutIsSectionExpanded[`${view.chainId}-${'tokens'}`]) && !isEditing}
+										loaderViewOptions={{
+											isOpen: Boolean(isGridLayout ? gridLayoutIsChainExpanded[view.chainId] : columnLayoutIsSectionExpanded[`${view.chainId}-${'tokens'}`]) && !isEditing,
+										}}
 										isScrollable={!isGridLayout} isHorizontal={!isGridLayout}
 										bind:summary={balancesSummaries[i]}
 									>

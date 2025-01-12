@@ -30,10 +30,7 @@
 	export let isScrollable = true
 	export let isHorizontal = false
 
-	export let isOpen: boolean
-
-	export let containerClass: string
-	export let contentClass: string
+	export let loaderViewOptions: Loader<any, any, any, any>['$$prop_def']['viewOptions'] | undefined
 
 
 	// Internal state
@@ -98,6 +95,7 @@
 
 
 	// Components
+	import type Loader from './Loader.svelte'
 	import EthereumBalancesLoader from './EthereumBalancesLoader.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import ScrollContainer from './ScrollContainer.svelte'
@@ -179,11 +177,7 @@
 	{address}
 	{tokenBalancesProvider}
 	{quoteCurrency}
-	viewOptions={{
-		isOpen,
-		containerClass,
-		contentClass,
-	}}
+	viewOptions={loaderViewOptions}
 	bind:balances
 >
 	<!-- showIf={() => balances.length} -->
