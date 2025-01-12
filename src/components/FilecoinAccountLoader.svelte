@@ -67,9 +67,11 @@
 					chainId: network.chainId,
 					address,
 				}],
-				queryFn: async () => {
-					if(network.slug !== 'filecoin') throw new Error('Beryx only supports Filecoin.')
-
+				queryFn: async ({
+					queryKey: [_, {
+						address,
+					}],
+				}) => {
 					const { getAccountInfoByAddress } = await import('$/api/beryx/filecoin/index')
 
 					return await getAccountInfoByAddress(address)
