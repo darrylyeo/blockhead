@@ -20,6 +20,8 @@
 	// Internal state
 	$: formattedId = formatTransactionHash(blockCid, format)
 
+	$: link = network ? `/explorer/${network.slug}/block/${blockCid}` : ''
+
 
 	// Components
 	import NetworkIcon from './NetworkIcon.svelte'
@@ -28,9 +30,9 @@
 
 <svelte:element
 	this={linked && network ? 'a' : 'span'}
-	{...linked && network ? {
-		href: `/explorer/${network.slug}/${blockCid}`
-	} : undefined}
+	{...linked && network && {
+		href: link,
+	}}
 	class="block-cid"
 	title={blockCid}
 >
