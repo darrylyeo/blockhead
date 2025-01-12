@@ -8,6 +8,8 @@ import { networkBySlug } from '$/data/networks'
 
 // Functions
 import { isTruthy } from '$/utils/isTruthy'
+import { match as isNetworkSlugFilecoin } from '$/params/isNetworkSlugFilecoin'
+
 import { getViemPublicClient } from '$/data/networkProviders'
 import { watchBlockNumber } from 'viem/actions'
 
@@ -127,6 +129,8 @@ export const relevantPreferences = derived([
 	$explorerQueryType,
 	$explorerNetwork,
 ], set: (_: string[]) => void) => {
+	const isFilecoin = isNetworkSlugFilecoin($explorerNetwork?.slug)
+
 	set([
 		'theme',
 		...(
@@ -134,20 +138,40 @@ export const relevantPreferences = derived([
 				[
 					'rpcNetwork',
 					'contractSourceProvider',
-					$explorerNetwork?.slug === 'filecoin' ? 'filecoinTokenBalancesProvider' : 'tokenBalancesProvider',
-					$explorerNetwork?.slug === 'filecoin' ? 'filecoinTransactionProvider' : 'transactionProvider',
+					...(
+						isFilecoin ?
+							[
+								'filecoinTokenBalancesProvider',
+								'filecoinTransactionProvider',
+							]
+						:
+							[
+								'tokenBalancesProvider',
+								'transactionProvider',
+							]
+					),
 					'quoteCurrency',
 				]
 			: $explorerQueryType === ExplorerQueryType.Block ?
 				[
 					'rpcNetwork',
-					$explorerNetwork?.slug === 'filecoin' ? 'filecoinTransactionProvider' : 'transactionProvider',
+					(
+						isFilecoin ?
+							'filecoinTransactionProvider'
+						:
+							'transactionProvider'
+					),
 					'quoteCurrency',
 				]
 			: $explorerQueryType === ExplorerQueryType.Transaction ?
 				[
 					'rpcNetwork',
-					$explorerNetwork?.slug === 'filecoin' ? 'filecoinTransactionProvider' : 'transactionProvider',
+					(
+						isFilecoin ?
+							'filecoinTransactionProvider'
+						:
+							'transactionProvider'
+					),
 					'quoteCurrency',
 				]
 			:
@@ -155,7 +179,12 @@ export const relevantPreferences = derived([
 					'rpcNetwork',
 					'currentPriceProvider',
 					'historicalPriceProvider',
-					$explorerNetwork?.slug === 'filecoin' ? 'filecoinTransactionProvider' : 'transactionProvider',
+					(
+						isFilecoin ?
+							'filecoinTransactionProvider'
+						:
+							'transactionProvider'
+					),
 				]
 		),
 	])

@@ -41,6 +41,10 @@
 	$: networkProvider = $preferences.rpcNetwork
 
 
+	// Functions
+	import { match as isNetworkSlugFilecoin } from '$/params/isNetworkSlugFilecoin'
+
+
 	// Block Navigation
 	$: $navigationContext.transactionBlockNumber = $navigationContext.transaction?.blockNumber
 
@@ -113,7 +117,7 @@
 	}}>
 		<SearchInput
 			inputPatterns={
-				$explorerNetwork?.slug === 'filecoin' ?
+				$explorerNetwork && isNetworkSlugFilecoin($explorerNetwork.slug) ?
 					[
 						InputPattern.FilecoinAccountId,
 						InputPattern.FilecoinTransactionId,
