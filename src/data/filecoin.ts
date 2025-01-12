@@ -82,26 +82,38 @@ export namespace Filecoin {
 		Account = 'account',
 	}
 
-	export type Account = {
-		address: Address,
-	} & ({
-		actorType: ActorType.Unknown,
-	} | {
-		actorType: ActorType.Miner,
+	export type ActorCid = `bafk${string}`
 
-		// ---
+	export type Account = (
+		& {
+			address: Address,
+		}
+		& (
+			| {
+				actorType: ActorType.Miner,
 
-		robustAddress: Address,
-		shortAddress: Address,
-		createdTipsetTimestamp: number,
-		createdTransactionId: TransactionCid,
-	} | {
-		actorType: ActorType.Account,
+				robustAddress: Address,
+				shortAddress: Address,
 
-		// ---
+				// ---
 
-		robustAddress: Address,
-		shortAddress: Address,
-		createdTipsetTimestamp: number,
-	})
+				createdTipsetTimestamp: number,
+				createdTransactionId: TransactionCid,
+			}
+			| {
+				actorType: ActorType.Account,
+				actorCid: ActorCid,
+
+				robustAddress: Address,
+				shortAddress: Address,
+
+				// ---
+
+				createdTipsetTimestamp: number,
+			}
+			| {
+				actorType: ActorType.Unknown,
+			}
+		)
+	)
 }
