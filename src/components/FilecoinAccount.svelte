@@ -19,7 +19,7 @@
 	import Collapsible from './Collapsible.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
 	import FilecoinAccountBalancesLoader from './FilecoinAccountBalancesLoader.svelte'
-	import FilecoinAccountTransactionsLoader from './FilecoinAccountTransactionsLoader.svelte'
+	import FilecoinTransactionsLoader from './FilecoinTransactionsLoader.svelte'
 	import FilecoinTransactions from './FilecoinTransactions.svelte'
 </script>
 
@@ -74,9 +74,12 @@
 		<hr>
 
 		<section>
-			<FilecoinAccountTransactionsLoader
+			<FilecoinTransactionsLoader
 				{network}
-				address={account.address}
+				query={{
+					address: account.address,
+					type: 'sender',
+				}}
 				let:transactions
 			>
 				<FilecoinTransactions
@@ -84,7 +87,7 @@
 					{transactions}
 					headingLevel={headingLevel + 1}
 				/>
-			</FilecoinAccountTransactionsLoader>
+			</FilecoinTransactionsLoader>
 		</section>
 	</Collapsible>
 </article>

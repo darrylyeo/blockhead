@@ -18,7 +18,7 @@
 	import Date from './Date.svelte'
 	import BlockNumber from './BlockNumber.svelte'
 	import FilecoinBlocks from './FilecoinBlocks.svelte'
-	import FilecoinTipsetTransactionsLoader from './FilecoinTipsetTransactionsLoader.svelte'
+	import FilecoinTransactionsLoader from './FilecoinTransactionsLoader.svelte'
 	import FilecoinTransactions from './FilecoinTransactions.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 </script>
@@ -111,8 +111,10 @@
 		<hr>
 
 		<section>
-			<FilecoinTipsetTransactionsLoader
-				tipsetNumber={tipset.number}
+			<FilecoinTransactionsLoader
+				query={{
+					tipsetNumber: tipset.number
+				}}
 				transactions={tipset.transactions}
 				let:transactions
 			>
@@ -122,7 +124,7 @@
 					layout="inline"
 					headingLevel={headingLevel + 1}
 				/>
-			</FilecoinTipsetTransactionsLoader>
+			</FilecoinTransactionsLoader>
 		</section>
 
 		<hr>
