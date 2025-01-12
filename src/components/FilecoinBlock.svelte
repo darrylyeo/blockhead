@@ -8,8 +8,11 @@
 	// Inputs
 	export let network: Ethereum.Network = networkBySlug.get('filecoin')!
 	export let block: Filecoin.Block
+
 	// (View options)
-	export let isOpen: boolean
+	export let isOpen = true
+	export let layout: 'standalone' | 'inline' = 'inline'
+	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 4
 	
 	
 	// Components
@@ -23,13 +26,14 @@
 <Collapsible
 	type="label"
 	bind:isOpen
-	class="column"
+	canToggle={false}
+	containerClass="column {layout === 'standalone' ? 'card' : ''}"
 >
 	<svelte:fragment slot="title">
 		<div class="row wrap">
-			<h4>
+			<svelte:element this={`h${headingLevel}`}>
 				<FilecoinBlockCid blockCid={block.id} format="middle-truncated" />
-			</h4>
+			</svelte:element>
 
 			<!-- <span>
 				mined by
