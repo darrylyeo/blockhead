@@ -68,20 +68,41 @@
 					chainId: network.chainId,
 					blockNumber: Number(tipsetNumber),
 				}],
-				queryFn: async ({ pageParam: next_cursor }) => {
-					if(network.slug !== 'filecoin') throw new Error('Beryx only supports Filecoin.')
-
+				initialPageParam: {
+					cursor: undefined
+				},
+				queryFn: async ({
+					queryKey: [_, {
+						blockNumber: tipsetNumber,
+					}],
+					pageParam: {
+						cursor,
+					},
+				}) => {
 					const { getTransactionsByHeight } = await import('$/api/beryx/filecoin/index')
 
-					return await getTransactionsByHeight(Number(tipsetNumber), { page: next_cursor })
+					return await getTransactionsByHeight(tipsetNumber, {
+						cursor,
+						limit: 100,
+					})
 				},
-				getNextPageParam: (lastPage, allPages) => lastPage.next_cursor ? lastPage.next_cursor : undefined,
+				getNextPageParam: (lastPage, allPages) => ({
+					cursor: lastPage.next_cursor,
+				}),
 				select: result => (
 					linkInternalTransactionsBeryx(
 						result.pages
-							.flatMap(({ transactions }) => transactions)
+							.flatMap(result => (
+								result.transactions
+								?? []
+							))
 					)
-						.map(normalizeTransactionBeryx)
+						.map(transaction => (
+							normalizeTransactionBeryx(
+								transaction,
+								network
+							)
+						))
 				),
 			}),
 		}),
