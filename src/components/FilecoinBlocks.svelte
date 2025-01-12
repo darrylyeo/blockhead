@@ -1,9 +1,12 @@
 <script lang="ts">
 	// Types/constants
+	import type { Ethereum } from '$/data/networks/types'
 	import type { Filecoin } from '$/data/filecoin'
+	import { networkBySlug } from '$/data/networks'
 
 	
 	// Inputs
+	export let network: Ethereum.Network = networkBySlug.get('filecoin')!
 	export let blocks: Filecoin.Block[] = []
 	// (View options)
 	export let headingLevel: 2 | 3 | 4 | 5 | 6 = 3
@@ -11,6 +14,7 @@
 
 
 	// Components
+	import AnchorLink from './AnchorLink.svelte'
 	import Collapsible from './Collapsible.svelte'
 	import FilecoinBlock from './FilecoinBlock.svelte'
 	import TweenedNumber from './TweenedNumber.svelte'
@@ -30,12 +34,16 @@
 	
 	<div class="blocks-list column" class:scrollable-list={blocks.length > 7}>
 		{#each blocks as block (block.id)}
-			<div class="card">
+			<AnchorLink
+				class="card"
+				base={`/explorer/${network.slug}`}
+				link={`/block/${block.id}`}
+			>
 				<FilecoinBlock
 					{block}
 					isOpen
 				/>
-			</div>
+			</AnchorLink>
 		{/each}
 	</div>
 </Collapsible>
