@@ -25,6 +25,7 @@
 
 	// Components
 	import NetworkIcon from './NetworkIcon.svelte'
+	import TruncatedValue from './TruncatedValue.svelte'
 </script>
 
 
@@ -38,7 +39,9 @@
 >
 	<NetworkIcon {network} />
 
-	<slot formattedTransactionId={formattedId}>{formattedId}</slot>
+	<slot formattedTransactionId={formattedId}>
+		<TruncatedValue value={blockCid} />
+	</slot>
 </svelte:element>
 
 
