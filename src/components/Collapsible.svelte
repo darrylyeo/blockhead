@@ -171,6 +171,10 @@
 		on:toggle={e => isOpen = e.target.open}
 	>
 	<!-- bind:open={isOpen} -->
+		{#if $$slots['header'] && type === 'details'}
+			<summary hidden></summary>
+		{/if}
+
 		<slot name="header" {isOpen} {toggle}>
 			<svelte:element
 				this={
