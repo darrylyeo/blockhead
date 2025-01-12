@@ -41,6 +41,8 @@
 			src={imageSources[i]}
 			{alt}
 			{draggable}
+			width="20"
+			height="20"
 			on:error={e => i++}
 		/>
 	{:else}
