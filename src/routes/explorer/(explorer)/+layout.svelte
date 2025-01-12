@@ -12,6 +12,7 @@
 		ensName,
 		transactionId,
 		filecoinTipsetId,
+		filecoinBlockCid,
 
 		explorerParams,
 		type ExplorerInputParams,
@@ -116,12 +117,14 @@
 		$ensName = currentExplorerInputParams.ensName
 		$transactionId = currentExplorerInputParams.transactionId
 		$filecoinTipsetId = !isNaN(Number(currentExplorerInputParams.filecoinTipsetNumber)) ? BigInt(Number(currentExplorerInputParams.filecoinTipsetNumber)) : currentExplorerInputParams.filecoinTipsetCid ?? ''
+		$filecoinBlockCid = currentExplorerInputParams.filecoinBlockCid ? BigInt(currentExplorerInputParams.filecoinBlockCid) : currentExplorerInputParams.filecoinBlockCid ?? ''
 	}}>
 		<SearchInput
 			inputPatterns={
 				$explorerNetwork && isNetworkSlugFilecoin($explorerNetwork.slug) ?
 					[
 						InputPattern.FilecoinAccountId,
+						InputPattern.FilecoinBlockCid,
 						InputPattern.FilecoinTipsetCid,
 						InputPattern.FilecoinTipsetNumber,
 						InputPattern.FilecoinTransactionId,

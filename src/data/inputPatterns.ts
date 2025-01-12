@@ -13,7 +13,7 @@ export enum InputPattern {
 	FarcasterUserName = 'farcasterUserName',
 	FarcasterUserNameEns = 'farcasterUserNameEns',
 	FilecoinAccountId = 'filecoinAccountId',
-	FilecoinBlockId = 'filecoinBlockId',
+	FilecoinBlockCid = 'filecoinBlockCid',
 	FilecoinTipsetCid = 'filecoinTipsetCid',
 	FilecoinTipsetNumber = 'filecoinTipsetNumber',
 	FilecoinTransactionId = 'filecoinTransactionId',
@@ -91,6 +91,12 @@ export const inputPatternsConfig = {
 		pattern: filecoinAddressPattern,
 		matchComplexity: 2,
 	},
+	[InputPattern.FilecoinBlockCid]: {
+		label: 'Block CID',
+		placeholder: 'bafy...wxyz',
+		pattern: /bafy.+/,
+		matchComplexity: 2,
+	},
 	[InputPattern.FilecoinTipsetCid]: {
 		label: 'Tipset CID',
 		placeholder: 'bafy...wxyz',
@@ -102,12 +108,6 @@ export const inputPatternsConfig = {
 		placeholder: '12345678',
 		pattern: /0|[1-9][0-9]*/,
 		matchComplexity: 1,
-	},
-	[InputPattern.FilecoinBlockId]: {
-		label: 'Block ID',
-		placeholder: 'bafy...wxyz',
-		pattern: /bafy.+/,
-		matchComplexity: 2,
 	},
 	[InputPattern.FilecoinTransactionId]: {
 		label: 'Transaction ID',

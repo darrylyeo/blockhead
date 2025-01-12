@@ -1,6 +1,7 @@
 import { derived, writable, type Readable } from 'svelte/store'
 import type { Ethereum } from '$/data/networks/types'
 import type { ENS } from '$/api/ens'
+import type { Filecoin } from '$/data/filecoin'
 
 export type ExplorerParams = {
 	networkSlug: Ethereum.NetworkSlug | '',
@@ -9,6 +10,7 @@ export type ExplorerParams = {
 	ensName: ENS.Name | '',
 	transactionId: Ethereum.TransactionId | '',
 	filecoinTipsetId: Filecoin.TipsetId | '',
+	filecoinBlockCid: Filecoin.BlockCid | '',
 }
 
 export type ExplorerInputParams = Partial<Omit<ExplorerParams, 'networkSlug'>>
@@ -22,6 +24,7 @@ export const blockNumber = writable<ExplorerParams['blockNumber']>('')
 export const ensName = writable<ExplorerParams['ensName']>('')
 export const transactionId = writable<ExplorerParams['transactionId']>('')
 export const filecoinTipsetId = writable<ExplorerParams['filecoinTipsetId']>('')
+export const filecoinBlockCid = writable<ExplorerParams['filecoinBlockCid']>('')
 
 export const explorerParams = derived([
 	networkSlug,
@@ -30,6 +33,7 @@ export const explorerParams = derived([
 	ensName,
 	transactionId,
 	filecoinTipsetId,
+	filecoinBlockCid,
 ], ([
 	$networkSlug,
 	$address,
@@ -37,6 +41,7 @@ export const explorerParams = derived([
 	$ensName,
 	$transactionId,
 	$filecoinTipsetId,
+	$filecoinBlockCid,
 ], set: (_: ExplorerParams) => void) => {
 	set(({
 		networkSlug: $networkSlug,
@@ -45,6 +50,7 @@ export const explorerParams = derived([
 		ensName: $ensName,
 		transactionId: $transactionId,
 		filecoinTipsetId: $filecoinTipsetId,
+		filecoinBlockCid: $filecoinBlockCid,
 	}))
 })
 
@@ -58,6 +64,7 @@ export const derivedPath: Readable<string> = derived([
 	ensName,
 	transactionId,
 	filecoinTipsetId,
+	filecoinBlockCid,
 ], ([
 	$networkSlug,
 	$address,
@@ -65,6 +72,7 @@ export const derivedPath: Readable<string> = derived([
 	$ensName,
 	$transactionId,
 	$filecoinTipsetId,
+	$filecoinBlockCid,
 ], set) => set(
 	`/explorer${
 		$networkSlug ?
@@ -77,6 +85,8 @@ export const derivedPath: Readable<string> = derived([
 					`/tx/${$transactionId}`
 				: $filecoinTipsetId ?
 					`/tipset/${$filecoinTipsetId}`
+				: $filecoinBlockCid ?
+					`/block/${$filecoinBlockCid}`
 				:
 					''
 			}`
