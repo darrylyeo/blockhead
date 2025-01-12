@@ -118,7 +118,7 @@
 
 				<label
 					class="preference"
-					data-preference={sectionKey}
+					data-preference={preferenceKey}
 					transition:scale={{duration: 200, opacity: 0, /* delay: i * 20 + j * 10, */ easing: expoOut}}
 					animate:flip={{duration: 250, easing: expoOut}}
 				>
