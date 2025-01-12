@@ -26,11 +26,7 @@
 
 
 	// View options
-	export let showIf: (<TData = unknown> (then: TData) => boolean | any) | undefined
-	export let isOpen: boolean
-
-	export let containerClass: string
-	export let contentClass: string
+	export let viewOptions: Loader<any, any, any, any>['$$prop_def']['viewOptions'] | undefined
 
 
 	// Outputs
@@ -100,10 +96,7 @@
 	viewOptions={{
 		layout: 'collapsible',
 		collapsibleType: 'label',
-		showIf,
-		isOpen,
-		containerClass,
-		contentClass,
+		...viewOptions,
 	}}
 	loadingIcon={tokenBalancesProvider === TokenBalancesProvider.RpcProvider ? networkProviderConfigByProvider[networkProvider].icon : tokenBalancesProviders[tokenBalancesProvider].icon}
 	loadingIconName={tokenBalancesProvider}

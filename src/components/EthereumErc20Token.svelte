@@ -197,7 +197,9 @@
 					{address}
 					{tokenBalancesProvider}
 					{quoteCurrency}
-					showIf={balances => balances}
+					viewOptions={{
+						showIf: balances => balances,
+					}}
 					let:balances
 				>
 					<svelte:fragment slot="header">

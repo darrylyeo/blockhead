@@ -179,9 +179,11 @@
 	{address}
 	{tokenBalancesProvider}
 	{quoteCurrency}
-	{isOpen}
-	{containerClass}
-	{contentClass}
+	viewOptions={{
+		isOpen,
+		containerClass,
+		contentClass,
+	}}
 	bind:balances
 >
 	<!-- showIf={() => balances.length} -->
