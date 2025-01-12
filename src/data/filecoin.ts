@@ -35,7 +35,7 @@ export namespace Filecoin {
 		tipsetTimestamp: number,
 	}
 
-	export type Address = `f${number | string}`
+	export type Address = `${`f` | `t`}${`0${number}` | `1${string}` | `2${string}` | `3${string}` | `4${number}f${string}`}`
 
 	/** FIL */
 	export type NativeCurrencyAmount = bigint
