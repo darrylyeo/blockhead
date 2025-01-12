@@ -43,50 +43,8 @@
 
 	// Functions
 	import { createInfiniteQuery } from '@tanstack/svelte-query'
-	import { formatUnits } from 'viem'
-	import type { getTransactionsByHeight } from '$/api/beryx/filecoin/index'
 
-	type BeryxTransaction = NonNullable<Awaited<ReturnType<typeof getTransactionsByHeight>>['Transactions']>[number]
-	type BeryxTransactionWithInternalTransactions = BeryxTransaction & { internalTransactions: BeryxTransaction[] }
-
-	const normalizeTransactionBeryx = (transaction: BeryxTransactionWithInternalTransactions) => ({
-		id: transaction.tx_cid,
-
-		isSuccessful: transaction.status == 'Ok',
-
-		fromAddress: transaction.tx_from,
-		toAddress: transaction.tx_to,
-
-		value: formatUnits(transaction.amount, network.nativeCurrency.decimals),
-
-		gasToken: network.nativeCurrency,
-		gasSpent: transaction.gas_used,
-
-		method: transaction.tx_type,
-
-		metadata: transaction.tx_metadata,
-		
-		internalTransactions: transaction.internalTransactions?.map(normalizeTransactionBeryx),
-		blockId: transaction.block_cid,
-		tipsetId: transaction.tipset_cid,
-		address: transaction.height,
-		tipsetTimestamp: new Date(transaction.tx_timestamp).valueOf(),
-	} as Filecoin.Transaction)
-
-	const linkInternalTransactionsBeryx = (transactions: BeryxTransaction[]) => {
-		const transactionsById = Object.fromEntries(transactions.map(transaction => [transaction.id, transaction]))
-
-		const rootTransactions: BeryxTransactionWithInternalTransactions[] = []
-
-		for(const transaction of transactions){
-			const parentTransaction = transactionsById[transaction.parent_id]
-
-			if(parentTransaction) (parentTransaction.internalTransactions ??= []).push(transaction)
-			else rootTransactions.push(transaction)
-		}
-
-		return rootTransactions
-	}
+	import { normalizeTransaction as normalizeTransactionBeryx, linkInternalTransactions as linkInternalTransactionsBeryx } from '$/api/beryx/filecoin/normalize'
 
 
 	// Components

@@ -42,15 +42,8 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
-	import type { getAccountBalanceByAddress } from '$/api/beryx/filecoin/api'
 
-	const normalizeBalanceBeryx = (balance: Awaited<ReturnType<typeof getAccountBalanceByAddress>>['balances'][number]) => ({
-		value: Number(balance.value),
-		token: {
-			symbol: balance.currency.symbol,
-			decimals: balance.currency.decimals,
-		},
-	})
+	import { normalizeBalance as normalizeBalanceBeryx } from '$/api/beryx/filecoin/normalize'
 
 
 	// Components
@@ -79,8 +72,14 @@
 
 					const { getAccountBalanceByAddress } = await import('$/api/beryx/filecoin/index')
 
-					return (await getAccountBalanceByAddress(address)).balances?.map(normalizeBalanceBeryx)
+					return await getAccountBalanceByAddress(address)
 				},
+				select: result => (
+					result.balances
+						?.map(balance => (
+							normalizeBalanceBeryx(balance)
+						))
+				),
 			}),
 		}),
 	}[tokenBalancesProvider]?.()}

@@ -42,16 +42,8 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
-	import type { getAccountInfoByAddress } from '$/api/beryx/filecoin/api'
 
-	const normalizeAccountBeryx = (account: Awaited<ReturnType<typeof getAccountInfoByAddress>>) => ({
-		address,
-		actorType: account.actor_type,
-
-		robustAddress: account.robust,
-		createdTipsetTimestamp: account.create_timestamp,
-		createdTransactionId: account.creation_tx_hash,
-	} as Filecoin.Account)
+	import { normalizeAccount as normalizeAccountBeryx } from '$/api/beryx/filecoin/normalize'
 
 
 	// Components
@@ -82,7 +74,12 @@
 
 					return await getAccountInfoByAddress(address)
 				},
-				select: normalizeAccountBeryx,
+				select: account => (
+					normalizeAccountBeryx(
+						account,
+						address
+					)
+				),
 			}),
 		}),
 	}[filecoinTransactionProvider]?.()}

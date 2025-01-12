@@ -43,21 +43,8 @@
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
 	import type { getTipsetByHeight } from '$/api/beryx/filecoin/api'
-
-	const normalizeTipsetBeryx = (tipset: Awaited<ReturnType<typeof getTipsetByHeight>>) => ({
-		id: tipset.tipset_cid,
-		number: BigInt(tipset.height),
-		timestamp: new Date(tipset.timestamp).valueOf(),
-		isCanonical: tipset.canonical,
-		baseGasFee: BigInt(tipset.base_fee),
-
-		previousId: tipset.parent_tipset_cid,
-		blocks: tipset.blocks_info?.map(block => ({
-			id: block.BlockCid,
-			minerAddress: block.Miner,
-		})),
-		transactions: tipset.transactions,
-	} as Filecoin.Tipset)
+	
+	import { normalizeTipset as normalizeTipsetBeryx } from '$/api/beryx/filecoin/normalize'
 
 
 	// Components
@@ -86,8 +73,11 @@
 
 					const { getTipsetByHeight } = await import('$/api/beryx/filecoin/index')
 
-					return normalizeTipsetBeryx((await getTipsetByHeight(Number(tipsetNumber)))[0])
+					return await getTipsetByHeight(tipsetNumber)
 				},
+				select: result => (
+					normalizeTipsetBeryx(result[0])
+				),
 			}),
 		}),
 	}[filecoinTransactionProvider]?.()}
