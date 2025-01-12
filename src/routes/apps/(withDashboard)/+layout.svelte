@@ -42,7 +42,7 @@
 	let searchInputValue: string
 	$: searchInputValue = $defaultSearchInputValue
 
-	let searchInputParams: Partial<AppsSearchInputParams> = {}
+	let searchInputPatterns: Partial<AppsSearchInputParams> = {}
 
 	let selectedAccountConnection: AccountConnection | undefined
 
@@ -154,21 +154,21 @@
 	out:fly={{x: -100}}
 >
 	<form class="accountId-form bar wrap" on:submit|preventDefault={() => {
-		$accountId = searchInputParams.address ?? searchInputParams.ensName ?? searchInputParams.lensHandle ?? ''
-		$audiusQuery = searchInputParams.audiusQuery ?? ''
-		$audiusPlaylistId = searchInputParams.audiusPlaylistId ?? ''
-		$audiusTrackId = searchInputParams.audiusTrackId ?? ''
-		$audiusUserId = searchInputParams.audiusUserId ?? ''
-		$didUrl = searchInputParams.didUrl ?? ''
-		$discoCredentialId = searchInputParams.discoCredentialId ?? ''
-		$easAttestationId = searchInputParams.easAttestationId ?? ''
-		$easSchemaId = searchInputParams.easSchemaId ?? ''
-		$farcasterCastId = searchInputParams.farcasterCastId ?? ''
-		$farcasterUserId = searchInputParams.farcasterUserId ?? ''
-		$farcasterUserName = searchInputParams.farcasterUserName ?? searchInputParams.farcasterUserNameEns ?? ''
-		$moxieAuctionId = searchInputParams.moxieAuctionId ?? ''
-		$moxieOrderId = searchInputParams.moxieOrderId ?? ''
-		$moxieSubjectId = searchInputParams.moxieSubjectId ?? ''
+		$accountId = searchInputPatterns.address ?? searchInputPatterns.ensName ?? searchInputPatterns.lensHandle ?? ''
+		$audiusQuery = searchInputPatterns.audiusQuery ?? ''
+		$audiusPlaylistId = searchInputPatterns.audiusPlaylistId ?? ''
+		$audiusTrackId = searchInputPatterns.audiusTrackId ?? ''
+		$audiusUserId = searchInputPatterns.audiusUserId ?? ''
+		$didUrl = searchInputPatterns.didUrl ?? ''
+		$discoCredentialId = searchInputPatterns.discoCredentialId ?? ''
+		$easAttestationId = searchInputPatterns.easAttestationId ?? ''
+		$easSchemaId = searchInputPatterns.easSchemaId ?? ''
+		$farcasterCastId = searchInputPatterns.farcasterCastId ?? ''
+		$farcasterUserId = searchInputPatterns.farcasterUserId ?? ''
+		$farcasterUserName = searchInputPatterns.farcasterUserName ?? searchInputPatterns.farcasterUserNameEns ?? ''
+		$moxieAuctionId = searchInputPatterns.moxieAuctionId ?? ''
+		$moxieOrderId = searchInputPatterns.moxieOrderId ?? ''
+		$moxieSubjectId = searchInputPatterns.moxieSubjectId ?? ''
 	}}>
 		<SearchInput
 			inputPatterns={
@@ -195,7 +195,7 @@
 				]
 			}
 			bind:value={searchInputValue}
-			bind:matchedPatterns={searchInputParams}
+			bind:matchedPatterns={searchInputPatterns}
 		/>
 
 		<span>or</span>
