@@ -85,7 +85,15 @@ export const explorerQuery = derived(explorerParams, (
 	set: (_: string) => void
 ) => {
 	set(
-		String($explorerParams.address || $explorerParams.blockNumber || $explorerParams.ensName || $explorerParams.transactionId || '')
+		String(
+			$explorerParams.address
+			|| $explorerParams.blockNumber
+			|| $explorerParams.ensName
+			|| $explorerParams.transactionId
+			|| $explorerParams.filecoinTipsetId
+			|| $explorerParams.filecoinBlockCid
+			|| ''
+		)
 	)
 })
 
