@@ -69,20 +69,35 @@
 					chainId: network.chainId,
 					transactionId: transactionCid,
 				}],
-				queryFn: async ({ pageParam: NextPage }) => {
-					if(network.slug !== 'filecoin') throw new Error('Beryx only supports Filecoin.')
-
+				initialPageParam: {
+					cursor: undefined
+				},
+				queryFn: async ({
+					queryKey: [_, {
+						transactionId,
+					}],
+					pageParam: {
+						cursor,
+					},
+				}) => {
 					const { getTransactionsByHash } = await import('$/api/beryx/filecoin/index')
 
-					return await getTransactionsByHash(transactionCid, { page: NextPage })
+					return await getTransactionsByHash(transactionId, { cursor })
 				},
-				getNextPageParam: (lastPage, allPages) => lastPage.HasNextPage ? lastPage.NextPage : undefined,
+				getNextPageParam: (lastPage, allPages) => ({
+					cursor: lastPage.next_cursor,
+				}),
 				select: result => (
 					linkInternalTransactionsBeryx(
 						result.pages
-							.flatMap(({ transactions }) => transactions)
+							.flatMap(result => result.transactions)
 					)
-						.map(normalizeTransactionBeryx)
+						.map(transaction => (
+							normalizeTransactionBeryx(
+								transaction,
+								network
+							)
+						))
 						[0]
 				),
 			}),
