@@ -83,54 +83,30 @@
 </style>
 
 
-{#if link && blockNumber !== undefined}
-	<a
-		class="block-number"
-		href={link}
-		use:animationKey={blockNumber}
-		style="{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}"
-		draggable={true}
-		on:dragstart={onDragStart}
-	>
-		<NetworkIcon {network} />
+<svelte:element this={link && blockNumber !== undefined ? 'a' : 'span'}
+	class="block-number"
+	{...link && blockNumber !== undefined && {
+		href: link,
+	}}
+	use:animationKey={blockNumber}
+	style="{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}"
+	draggable={true}
+	on:dragstart={onDragStart}
+>
+	<NetworkIcon {network} />
 
-		{#if blockNumber !== undefined}
-			<TweenedNumber
-				value={Number(blockNumber)}
-				format={{
-					showDecimalPlaces: 0,
-					useGrouping: false,
-				}}
-				{tween}
-				duration={500}
-				padZero
-			/>
-		{:else}
-			•••
-		{/if}
-	</a>
-{:else}
-	<span
-		class="block-number format"
-		use:animationKey={blockNumber}
-		style="{tokenColors[network.slug] ? `--primary-color: var(--${tokenColors[network.slug]});` : ''}"
-		draggable={true}
-	>
-		<NetworkIcon {network} />
-
-		{#if blockNumber !== undefined}
-			<TweenedNumber
-				value={Number(blockNumber)}
-				format={{
-					showDecimalPlaces: 0,
-					useGrouping: false,
-				}}
-				{tween}
-				duration={500}
-				padZero
-			/>
-		{:else}
-			•••
-		{/if}
-	</span>
-{/if}
+	{#if blockNumber !== undefined}
+		<TweenedNumber
+			value={Number(blockNumber)}
+			format={{
+				showDecimalPlaces: 0,
+				useGrouping: false,
+			}}
+			{tween}
+			duration={500}
+			padZero
+		/>
+	{:else}
+		•••
+	{/if}
+</svelte:element>
