@@ -80,8 +80,6 @@
 			margin: calc(-1 * var(--padding-inner));
 			padding: var(--padding-inner);
 
-			cursor: var(--collapsible-trigger-cursor);
-
 			transition-property:
 				filter,
 				opacity,
@@ -89,14 +87,18 @@
 				translate
 			;
 
-			&:hover {
-				filter: brightness(1.1);
-			}
+			[data-collapsible-container][data-can-toggle] & {
+				cursor: var(--collapsible-trigger-cursor);
 
-			&:active:not(:has(:global(:is(a, label, button):active))) {
-				scale: 0.992;
-				opacity: 0.75;
-				transition-duration: 0.15s;
+				&:hover {
+					filter: brightness(1.1);
+				}
+
+				&:active:not(:has(:global(:is(a, label, button):active))) {
+					scale: 0.992;
+					opacity: 0.75;
+					transition-duration: 0.15s;
+				}
 			}
 		}
 
@@ -154,6 +156,7 @@
 		}
 		{...$$restProps}
 		data-collapsible-container
+		data-can-toggle={canToggle ? '' : undefined}
 		class="container {$$props.containerClass ?? ''}"
 		class:column-block={canToggle && type === 'details'}
 		class:with-hidden-transitions={canToggle && type === 'details'}
