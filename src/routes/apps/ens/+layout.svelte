@@ -21,7 +21,7 @@
 	let searchInputValue: string
 	$: searchInputValue = $defaultSearchInputValue
 
-	let searchInputParams: Partial<AppsSearchInputParams> = {}
+	let searchInputPatterns: Partial<AppsSearchInputParams> = {}
 
 	let selectedAccountConnection: AccountConnection | undefined
 
@@ -47,7 +47,7 @@
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
 	<form class="accountId-form row" on:submit|preventDefault={() => {
-		$accountId = searchInputParams.address ?? searchInputParams.ensName ?? ''
+		$accountId = searchInputPatterns.address ?? searchInputPatterns.ensName ?? ''
 	}}>
 		<SearchInput
 			inputPatterns={[
@@ -55,7 +55,7 @@
 				InputPattern.EnsName,
 			]}
 			bind:value={searchInputValue}
-			bind:matchedPatterns={searchInputParams}
+			bind:matchedPatterns={searchInputPatterns}
 		/>
 
 		<span>or</span>
