@@ -61,9 +61,9 @@
 				<div class="row wrap">
 					<span class="row inline">
 						{#if tipset.isCanonical}
-							<span class="row inline" data-before="✔">Canonical</span>
+							<abbr title="Canonical" class="row inline" data-before="✔">Canonical</abbr>
 						{:else}
-							<span class="row inline" data-before="✘">Non-Canonical</span>
+							<abbr title="Non-canonical" class="row inline" data-before="✘">Non-canonical</abbr>
 						{/if}
 
 						tipset
