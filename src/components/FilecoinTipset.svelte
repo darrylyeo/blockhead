@@ -74,19 +74,21 @@
 					{#if tipset.blocks?.length}
 						<span>
 							{tipset.blocks.length}
-							blocks
+							{new Intl.PluralRules('en-US').select(tipset.blocks.length) === 'one' ? 'block' : 'blocks'}
 						</span>
 					{/if}
 
 					{#if tipset.transactions?.length}
 						<span>
+							{#if tipset.blocks?.length && !(tipset.number > 0n)}and{/if}
 							{tipset.transactions.length}
-							transactions
+							{new Intl.PluralRules('en-US').select(tipset.transactions.length) === 'one' ? 'transaction' : 'transactions'}
 						</span>
 					{/if}
 
-					{#if Number(tipset.number) > 0}
+					{#if tipset.number > 0n}
 						<span>
+							{#if tipset.blocks?.length || tipset.transactions?.length}and{/if}
 							<abbr title="Block {Number(tipset.number) - 1} hash: {tipset.previousId}">hash</abbr>
 							of previous tipset
 							<BlockNumber
