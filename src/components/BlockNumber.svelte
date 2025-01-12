@@ -1,11 +1,13 @@
 <script lang="ts">
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
+	import type { Filecoin } from '$/data/filecoin'
 
 
 	// Inputs
 	export let network: Ethereum.Network
-	export let blockNumber: Ethereum.BlockNumber | undefined
+	export let blockNumber: Ethereum.BlockNumber | Filecoin.TipsetId | undefined
+
 	// (View options)
 	export let linked = true
 	export let tween = true
@@ -13,11 +15,20 @@
 
 	// Functions
 	import { resolveRoute } from '$app/paths'
+	import { match as isNetworkSlugFilecoin } from '$/params/isNetworkSlugFilecoin'
 
 
 	// Internal state
 	// (Computed)
-	$: link = linked && network && blockNumber !== undefined ? resolveRoute(`/explorer/[networkSlug]/block/[blockNumber]`, { networkSlug: network.slug, blockNumber: String(blockNumber) }) : undefined
+	$: link = (
+		linked && network && blockNumber !== undefined ?
+			isNetworkSlugFilecoin(network.slug) ?
+				resolveRoute(`/explorer/[networkSlug]/tipset/[filecoinTipsetId]`, { networkSlug: network.slug, filecoinTipsetId: String(blockNumber) })
+			:
+				resolveRoute(`/explorer/[networkSlug]/block/[blockNumber]`, { networkSlug: network.slug, blockNumber: String(blockNumber) })
+		:
+			undefined
+	)
 
 
 	// Actions
@@ -99,7 +110,7 @@
 >
 	<NetworkIcon {network} />
 
-	{#if blockNumber !== undefined}
+	{#if typeof blockNumber === 'bigint'}
 		<TweenedNumber
 			value={Number(blockNumber)}
 			format={{
@@ -110,6 +121,10 @@
 			duration={500}
 			padZero
 		/>
+
+	{:else if blockNumber === 'string'}
+		<span>{blockNumber}</span>
+
 	{:else}
 		<span data-after="•••"></span>
 	{/if}

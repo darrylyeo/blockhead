@@ -35,7 +35,7 @@
 			<svelte:element this={`h${headingLevel}`}>
 				<BlockNumber
 					{network}
-					blockNumber={Number(tipset.number)}
+					blockNumber={tipset.number ?? tipset.id}
 				/>
 			</svelte:element>
 		</svelte:fragment>
@@ -88,7 +88,11 @@
 					{#if Number(tipset.number) > 0}
 						<span>
 							<abbr title="Block {Number(tipset.number) - 1} hash: {tipset.previousId}">hash</abbr>
-							of previous tipset <BlockNumber {network} blockNumber={Number(tipset.number - 1n)} />
+							of previous tipset
+							<BlockNumber
+								{network}
+								blockNumber={tipset.number - 1n}
+							/>
 						</span>
 					{/if}
 				</div>

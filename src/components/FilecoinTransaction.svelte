@@ -199,7 +199,10 @@
 
 				<span>
 					in tipset
-					<BlockNumber {network} blockNumber={Number(transaction.tipsetNumber)} />
+					<BlockNumber
+						{network}
+						blockNumber={transaction.tipsetNumber}
+					/>
 				</span>
 			</span>
 
