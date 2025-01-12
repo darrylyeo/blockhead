@@ -32,7 +32,11 @@
 	<svelte:fragment slot="title">
 		<div class="row wrap">
 			<svelte:element this={`h${headingLevel}`}>
-				<FilecoinBlockCid blockCid={block.id} format="middle-truncated" />
+				<FilecoinBlockCid
+					{network}
+					blockCid={block.id}
+					format="middle-truncated"
+				/>
 			</svelte:element>
 
 			<!-- <span>
