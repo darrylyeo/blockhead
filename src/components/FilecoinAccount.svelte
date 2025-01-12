@@ -3,6 +3,7 @@
 	import type { Ethereum } from '$/data/networks/types'
 	import { Filecoin } from '$/data/filecoin'
 	import { networkBySlug } from '$/data/networks'
+	import { filecoinTokenBalancesProviders } from '$/data/filecoinTokenBalancesProviders'
 
 
 	// Inputs
@@ -53,9 +54,13 @@
 				address={account.address}
 				let:balances
 			>
-				<svelte:fragment slot="header">
+				<svelte:fragment slot="header"
+					let:tokenBalancesProvider
+				>
 					<header class="bar wrap">
 						<svelte:element this={`h${headingLevel + 1}`}>Balances</svelte:element>
+
+						<span class="card-annotation">{filecoinTokenBalancesProviders[tokenBalancesProvider].name}</span>
 					</header>
 				</svelte:fragment>
 
