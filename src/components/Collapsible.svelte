@@ -138,6 +138,9 @@
 		}
 	}
 
+	::marker {
+		display: none;
+	}
 	::-webkit-details-marker {
 		display: none;
 	}
