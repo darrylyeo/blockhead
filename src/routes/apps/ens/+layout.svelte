@@ -6,7 +6,6 @@
 
 	// Params
 	import {
-		type AppsSearchInputParams,
 		accountId,
 	} from '../_appsParams'
 
@@ -21,7 +20,7 @@
 	let searchInputValue: string
 	$: searchInputValue = $defaultSearchInputValue
 
-	let searchInputPatterns: Partial<AppsSearchInputParams> = {}
+	let searchInputPatterns: { [key in InputPattern]?: string } = {}
 
 	let selectedAccountConnection: AccountConnection | undefined
 
@@ -47,7 +46,7 @@
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
 	<form class="accountId-form row" on:submit|preventDefault={() => {
-		$accountId = searchInputPatterns.address ?? searchInputPatterns.ensName ?? ''
+		$accountId = searchInputPatterns[InputPattern.Address] ?? searchInputPatterns[InputPattern.EnsName] ?? ''
 	}}>
 		<SearchInput
 			inputPatterns={[
