@@ -107,6 +107,6 @@
 			padZero
 		/>
 	{:else}
-		•••
+		<span data-after="•••"></span>
 	{/if}
 </svelte:element>
