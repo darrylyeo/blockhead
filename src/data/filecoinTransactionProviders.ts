@@ -7,7 +7,7 @@ import { BeryxIcon } from '$/assets/icons'
 
 export const filecoinTransactionProviders = {
 	[FilecoinTransactionProvider.Beryx]: {
-		name: 'Beryx',
+		name: 'Zondax › Beryx',
 		icon: BeryxIcon,
 	},
 } as const satisfies Record<FilecoinTransactionProvider, {
