@@ -1,17 +1,34 @@
 <script lang="ts">
 	// Types
 	import type { Ethereum } from '$/data/networks/types'
+	import { StringPattern, stringPatterns } from '$/data/stringPatterns'
 
 
 	// External state
 	export let address: Ethereum.Address | string = ''
 
 	export let name: string
+	export let patterns: StringPattern[] = [
+		StringPattern.Address,
+		StringPattern.EnsName,
+	]
 	export let required = false
-	export let placeholder = "0x0000000000000000000000000000000000000000 / ens.eth"
+	export let placeholder: string
 	export let autofocus = false
 
 	export let suggestedValues: Datalist<typeof address>['$$prop_def']['list']
+	
+	// (Computed)
+	$: placeholder = $$props.placeholder || (
+		patterns
+			.map(type => 'placeholderLong' in stringPatterns[type] ? stringPatterns[type].placeholderLong : stringPatterns[type].placeholder)
+			.join(' / ')
+	)
+
+
+	// Functions
+	import { createExactMatcher, createPartialMatcher } from '$/utils/stringPatterns'
+	import { findMatchedCaptureGroup, findMatchedCaptureGroupName } from '$/utils/findMatchedCaptureGroup'
 
 
 	// Internal state
@@ -23,23 +40,27 @@
 
 	let datalistId: Datalist<typeof address>['$$prop_def']['datalistId']
 
+	$: _patterns = (
+		patterns
+			.map(inputPattern => ({
+				name: inputPattern,
+				pattern: stringPatterns[inputPattern].pattern,
+				complexity: stringPatterns[inputPattern].complexity
+			}))
+	)
 
-	// const pattern = /^(?<address>0x[0-9a-fA-F]{40})|(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))$/g
-	const pattern = /(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club))|(?<lensName>(?:[^. ]+[.])(?:lens|test))|(?<address>0x[0-9a-fA-F]{40})/
-	// const pattern = /(?<ensName>(?:[^. ]+[.])+(?:eth|xyz|luxe|kred|art|club|test))|(?<address>0x[0-9a-fA-F]{40})|(?<ensTld>(?:eth|xyz|luxe|kred|art|club|test))/
+	$: exactMatcher = createExactMatcher(_patterns)
+
+	$: partialMatcher = createPartialMatcher(_patterns)
 
 
-	import { findMatchedCaptureGroupName } from '$/utils/findMatchedCaptureGroup'
-	// import { isAddress } from 'ethers'
-	
-	
 	// Components
 	import Datalist from './Datalist.svelte'
 </script>
 
 
 <style>
-	[data-format="address"] {
+	[data-matched-input-pattern="address"] {
 		font-family: var(--monospace-fonts);
 	}
 </style>
@@ -53,7 +74,7 @@
 	{required}
 	{autofocus}
 	{placeholder}
-	pattern={pattern.source}
+	pattern={exactMatcher.source}
 	on:input={event => {
 		if(!(event instanceof InputEvent)) return
 
@@ -67,26 +88,13 @@
 			address = event.data
 			value = address
 		}
-
-		// value = value.trim()
-		// address = value
 	}}
 	on:change={() => {
-		// address = inputElement?.valid || value === '' ? value : ''
-		// address = pattern.test(value) || value === '' ? value : ''
-		address = value.match(pattern)?.[0] || value || ''
-
-		// address =
-		// 	value.match(/(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))/)?.[0]
-		// 	|| value.match(/(?<address>0x[0-9a-fA-F]{40})/)?.[0]
-		// 	|| value
-		// 	|| ''
-
+		address = findMatchedCaptureGroup(partialMatcher, value)?.[0] ?? value ?? ''
 		value = address
 	}}
-	data-format={findMatchedCaptureGroupName(new RegExp(`^${pattern.source}$`), value)}
+	data-matched-input-pattern={findMatchedCaptureGroupName(exactMatcher, value)}
 	list={datalistId}
 />
-<!-- placeholder="0xabc...6789 / ens.eth" -->
 
 <Datalist list={suggestedValues} bind:datalistId />
