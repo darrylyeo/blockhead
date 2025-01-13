@@ -307,7 +307,7 @@
 
 <hr>
 
-<div class="footer bar wrap">
+<footer class="footer bar wrap">
 	<span class="gas-stats">
 		{#if block.gasLimit && block.gasUsed}
 			<abbr title={'Gas Used\n\nGas: A virtual fuel used in Ethereum to execute smart contracts. The EVM uses an accounting mechanism to measure the consumption of gas and limit the consumption of computing resources.\n\nSource: https://ethereum.org/en/glossary/#gas'}>{formatNumber(block.gasUsed)}</abbr>
@@ -321,4 +321,4 @@
 	{#if block.timestamp}
 		<Date date={block.timestamp} />
 	{/if}
-</div>
+</footer>
