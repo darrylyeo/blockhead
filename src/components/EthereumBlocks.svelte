@@ -58,7 +58,9 @@
 >
 	<svelte:fragment slot="title">
 		<svelte:element this={`h${headingLevel}`}>
-			Latest Blocks
+			<slot name="title">
+				Latest Blocks
+			</slot>
 		</svelte:element>
 	</svelte:fragment>
 
