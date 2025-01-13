@@ -21,6 +21,7 @@
 	import Collapsible from './Collapsible.svelte'
 	import DateComponent from './Date.svelte'
 	import FilecoinBlockCid from './FilecoinBlockCid.svelte'
+	import FilecoinTransactionsLoader from './FilecoinTransactionsLoader.svelte'
 	import FilecoinTransactions from './FilecoinTransactions.svelte'
 </script>
 
@@ -61,15 +62,25 @@
 		<Address {network} address={block.minerAddress} />
 	</span>
 
-	{#if block.transactions?.length}	
-		<hr>
+	<hr>
 
-		<section>
+	<section>
+		<FilecoinTransactionsLoader
+			{network}
+			query={{
+				blockCid: block.id,
+			}}
+			let:transactions
+			let:pagination
+		>
 			<FilecoinTransactions
-				transactions={block.transactions}
+				{network}
+				{transactions}
+				{pagination}
+				isOpen
 			/>
-		</section>
-	{/if}
+		</FilecoinTransactionsLoader>
+	</section>
 
 	<hr>
 
