@@ -8,6 +8,7 @@
 	export let ipfsContentPath: string | undefined
 	export let linked = true
 	export let linkedParts = false
+	export let format: 'full' | 'middle-truncated' = 'full'
 
 
 	// Internal state
@@ -26,6 +27,10 @@
 		e.dataTransfer.setData('text/plain', ipfsContentId)
 		if(linked) e.dataTransfer.setData('text/uri-list', link)
 	}
+
+
+	// Components
+	import TruncatedValue from './TruncatedValue.svelte'
 </script>
 
 
@@ -47,7 +52,7 @@
 					href={`/apps/ipfs/content/${parts.slice(0, i + 1).map(encodeURIComponent).join('/')}`}
 					draggable={true}
 					on:dragstart={onDragStart}
-				>{part}</a>
+				>{#if format === 'full'}{part}{:else}<TruncatedValue value={part} startLength={8} endLength={6} />{/if}</a>
 			{/each}
 		</slot>
 	</span>
@@ -63,7 +68,7 @@
 		on:dragstart={onDragStart}
 	>
 		<slot {ipfsContentId} {ipfsContentPath}>
-			<span class="format">{fullPath}</span>
+			<span class="format">{#if format === 'full'}{ipfsContentId}{:else}<TruncatedValue value={ipfsContentId} startLength={8} endLength={6} />{/if}</span>
 		</slot>
 	</svelte:element>
 {/if}
