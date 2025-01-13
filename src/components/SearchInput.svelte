@@ -166,6 +166,11 @@
 	[data-matched-input-pattern="address"],
 	[data-matched-input-pattern="blockNumber"],
 	/* [data-matched-input-pattern="ensName"], */
+	[data-matched-input-pattern="filecoinAccountId"],
+	[data-matched-input-pattern="filecoinBlockCid"],
+	[data-matched-input-pattern="filecoinTipsetCid"],
+	[data-matched-input-pattern="filecoinTipsetNumber"],
+	[data-matched-input-pattern="filecoinTransactionId"],
 	[data-matched-input-pattern="transactionId"] {
 		font-family: var(--monospace-fonts);
 	}
