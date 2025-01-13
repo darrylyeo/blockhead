@@ -6,7 +6,7 @@
 	import type { LensName } from '$/api/lens'
 
 	import { NetworkProvider } from '$/data/networkProviders/types'
-	import { getViemPublicClient } from '$/data/networkProviders'
+	import { networkProviderConfigByProvider } from '$/data/networkProviders'
 	import { ethereumMainnet } from '$/data/networks'
 
 
@@ -15,7 +15,7 @@
 
 
 	// External state
-	let network = ethereumMainnet
+	export let ensResolutionNetwork = ethereumMainnet
 	export let accountId: AccountId | undefined
 
 	export let passiveResolveToAddress = false
@@ -80,9 +80,6 @@
 
 	// Actions
 	import { createQuery } from '@tanstack/svelte-query'
-
-	// import ENS, { getEnsAddress } from '@ensdomains/ensjs'
-	// const ens = new ENS({ provider, ensAddress: getEnsAddress('1') })
 
 
 	// Components
@@ -171,11 +168,13 @@
 		fromQuery={
 			ensName && createQuery({
 				queryKey: ['EnsResolution', {
-					// networkProvider,
+					networkProvider,
+					chainId: ensResolutionNetwork.chainId,
 					ensName,
 				}],
 				queryFn: async ({
 					queryKey: [_, {
+						networkProvider,
 						ensName,
 					}],
 				}) => {
@@ -183,22 +182,27 @@
 					const { getEnsAddress, normalize } = await import('viem/ens')
 
 					const publicClient = getViemPublicClient({
-						network,
+						network: ensResolutionNetwork,
 						networkProvider,
 					})
 
-					const address = await getEnsAddress(publicClient, {
-						name: normalize(ensName)
-					})
+					if(!publicClient)
+						throw new Error(`The${networkProvider === NetworkProvider.Default ? `` : ` ${networkProviderConfigByProvider[networkProvider]?.name ?? networkProvider}`} JSON-RPC connection is not available.`)
 
+					return await getEnsAddress(
+						publicClient,
+						{
+							name: normalize(ensName),
+						}
+					)
+				},
+				select: address => {
 					if(!address)
-						// throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address.`)
-						throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address (or there's an issue with the${networkProvider === NetworkProvider.Default ? `` : ` ${networkProvider}`} JSON-RPC connection).`)
+						throw new Error(`The ENS Name "${ensName}" doesn't resolve to an address.`)
 
 					return address
-
-					// addressPromise = ens.name(accountId).getAddress()
-				}
+				},
+				staleTime: 24 * 60 * 60 * 1000,
 			})
 		}
 		loadingIcon={ENSIcon}
@@ -232,11 +236,14 @@
 			fromQuery={
 				address && createQuery({
 					queryKey: ['EnsReverseResolution', {
-						// networkProvider,
+						networkProvider,
+						chainId: ensResolutionNetwork.chainId,
 						address,
 					}],
 					queryFn: async ({
+						
 						queryKey: [_, {
+							networkProvider,
 							address,
 						}],
 					}) => {
@@ -244,23 +251,27 @@
 						const { getEnsName } = await import('viem/ens')
 
 						const publicClient = getViemPublicClient({
-							network,
+							network: ensResolutionNetwork,
 							networkProvider,
 						})
 
-						const ensName = await getEnsName(publicClient, { address })
+						if (!publicClient)
+							throw new Error(`The${networkProvider === NetworkProvider.Default ? '' : ` ${networkProviderConfigByProvider[networkProvider]?.name ?? networkProvider}`} JSON-RPC connection is not available.`)
 
-						if(!ensName)
-							// throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name.`)
-							throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name (or there's an issue with the${networkProvider === NetworkProvider.Default ? `` : ` ${networkProvider}`} JSON-RPC connection).`)
+						return await getEnsName(
+							publicClient,
+							{
+								address,
+							}
+						)
+					},
+					select: ensName => {
+						if (!ensName)
+							throw new Error(`The address "${address}" doesn't reverse-resolve to an ENS name.`)
 
 						return ensName
-
-						// ensNamePromise = ens.getName(address).then(async name => {
-						// 	if(address === await ens.name(name).getAddress())
-						// 		return name 
-						// })
-					}
+					},
+					staleTime: 24 * 60 * 60 * 1000,
 				})
 			}
 			loadingIcon={ENSIcon}
