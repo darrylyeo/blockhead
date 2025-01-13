@@ -35,9 +35,11 @@
 	bind:transaction={$navigationContext.transaction}
 	let:transaction
 >
-	<FilecoinTransaction
-		network={$explorerNetwork}
-		{transaction}
-		headingLevel={2}
-	/>
+	{#if transaction}
+		<FilecoinTransaction
+			network={$explorerNetwork}
+			{transaction}
+			headingLevel={2}
+		/>
+	{/if}
 </FilecoinTransactionLoader>
