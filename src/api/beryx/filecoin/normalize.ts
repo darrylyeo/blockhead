@@ -100,7 +100,7 @@ export const normalizeTransaction = (
 export const normalizeAccount = (
 	account: AccountInfo,
 	address: Filecoin.Address,
-): Filecoin.Account => ({
+): Filecoin.Actor => ({
 	address,
 	robustAddress: account.robust,
 	shortAddress: account.short,

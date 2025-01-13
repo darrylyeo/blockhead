@@ -84,7 +84,7 @@ export namespace Filecoin {
 
 	export type ActorCid = `bafk${string}`
 
-	export type Account = (
+	export type Actor = (
 		& {
 			address: Address,
 		}

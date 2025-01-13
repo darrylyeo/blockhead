@@ -18,12 +18,12 @@
 <FilecoinActorDetailsLoader
 	network={$explorerNetwork}
 	address={$explorerParams.address}
-	let:account
+	let:actor
 >
-	{#if account}
+	{#if actor}
 		<FilecoinActor
 			network={$explorerNetwork}
-			{account}
+			{actor}
 			headingLevel={2}
 		/>
 	{/if}
