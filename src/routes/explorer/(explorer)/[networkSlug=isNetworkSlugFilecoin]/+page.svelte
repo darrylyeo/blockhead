@@ -79,7 +79,11 @@
 {#if $explorerNetwork}
 	<EthereumBlocks
 		network={$explorerNetwork}
-	/>
+	>
+		<svelte:fragment slot="title">
+			Latest Tipsets
+		</svelte:fragment>
+	</EthereumBlocks>
 {/if}
 
 
