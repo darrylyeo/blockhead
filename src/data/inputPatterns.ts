@@ -27,7 +27,8 @@ export enum InputPattern {
 export const inputPatternsConfig = {
 	[InputPattern.Address]: {
 		label: 'Address',
-		placeholder: '0xabcd...6789',
+		placeholder: '0xabcd…6789',
+		placeholderLong: '0x0000000000000000000000000000000000000000',
 		pattern: /0x[0-9a-fA-F]{40}/,
 		matchComplexity: 2,
 	},
@@ -39,25 +40,25 @@ export const inputPatternsConfig = {
 	},
 	[InputPattern.EasAttestationId]: {
 		label: 'EAS Attestation ID',
-		placeholder: '0xabcd...6789',
+		placeholder: '0xabcd…6789',
 		pattern: /0x[0-9a-fA-F]{64}/,
 		matchComplexity: 2,
 	},
 	[InputPattern.EasSchemaId]: {
 		label: 'EAS Schema ID',
-		placeholder: '0xabcd...6789',
+		placeholder: '0xabcd…6789',
 		pattern: /0x[0-9a-fA-F]{64}/,
 		matchComplexity: 2,
 	},
 	[InputPattern.EnsName]: {
 		label: 'ENS Name',
-		placeholder: 'vitalik.eth',
+		placeholder: 'ens.eth',
 		pattern: /(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test)/,
 		matchComplexity: 2,
 	},
 	[InputPattern.FarcasterCastId]: {
 		label: 'Cast ID',
-		placeholder: '0xabcd...6789',
+		placeholder: '0xabcd…6789',
 		pattern: /0x[0-9a-fA-F]{40}/,
 		matchComplexity: 2,
 	},
@@ -87,19 +88,22 @@ export const inputPatternsConfig = {
 	},
 	[InputPattern.FilecoinAccountId]: {
 		label: 'Address',
-		placeholder: 'f05, f1',
+		placeholder: 'f05 / f1… / f2… / f3… / f4…',
+		placeholderLong: 'f05 / f1…xyz / f2…xyz / f3…xyz / f4123f…xyz',
 		pattern: filecoinAddressPattern,
 		matchComplexity: 2,
 	},
 	[InputPattern.FilecoinBlockCid]: {
 		label: 'Block CID',
-		placeholder: 'bafy...wxyz',
+		placeholder: 'bafy…',
+		placeholderLong: 'bafy…wxyz',
 		pattern: /bafy.+/,
 		matchComplexity: 2,
 	},
 	[InputPattern.FilecoinTipsetCid]: {
 		label: 'Tipset CID',
-		placeholder: 'bafy...wxyz',
+		placeholder: 'bafy…',
+		placeholderLong: 'bafy…wxyz',
 		pattern: /bafy.+/,
 		matchComplexity: 3,
 	},
@@ -111,7 +115,8 @@ export const inputPatternsConfig = {
 	},
 	[InputPattern.FilecoinTransactionId]: {
 		label: 'Transaction ID',
-		placeholder: 'bafy...wxyz',
+		placeholder: 'bafy…',
+		placeholderLong: 'bafy…wxyz',
 		pattern: /bafy.+/,
 		matchComplexity: 3,
 	},
@@ -141,13 +146,14 @@ export const inputPatternsConfig = {
 	},
 	[InputPattern.TransactionId]: {
 		label: 'Transaction ID',
-		placeholder: '0xabcdef...456789',
+		placeholder: '0xabcdef…456789',
 		pattern: /0x[0-9a-fA-F]{64}/,
 		matchComplexity: 3,
 	},
 } as const satisfies Record<InputPattern, {
 	label: string,
 	placeholder: string,
+	placeholderLong?: string,
 	pattern: RegExp,
 	matchComplexity: number,
 }>
