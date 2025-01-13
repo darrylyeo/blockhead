@@ -84,6 +84,7 @@
 				link={`/tx/${transaction.id}`}
 			>
 				<FilecoinTransaction
+					{network}
 					{transaction}
 					{isInternal}
 
