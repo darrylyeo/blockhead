@@ -50,8 +50,8 @@
 	}}>
 		<SearchInput
 			patterns={[
-				StringPattern.Address,
 				StringPattern.EnsName,
+				StringPattern.Address,
 			]}
 			bind:value={searchInputValue}
 			bind:matchedPatterns={searchInputPatterns}
