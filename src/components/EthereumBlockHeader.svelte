@@ -15,6 +15,10 @@
 	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 2
 
 
+	// Functions
+	import { match as isNetworkSlugFilecoin } from '$/params/isNetworkSlugFilecoin'
+
+
 	// Components
 	import BlockNumber from './BlockNumber.svelte'
 </script>
@@ -26,7 +30,7 @@
 	</svelte:element>
 
 	<span class="card-annotation">
-		{network.name} {block.blockNumber == 0 ? 'Genesis Block' : 'Block'}
+		{network.name} {`${block.blockNumber === 0n ? 'Genesis ' : ''} ${isNetworkSlugFilecoin(network.slug) ? 'Tipset' : 'Block'}`}
 
 		{#if lastUpdate}(<a href={lastUpdate.links[0]} target="_blank">{lastUpdate.name}</a>){/if}
 	</span>
