@@ -34,10 +34,6 @@
 	// Internal state
 	let value: string = address
 
-	let inputElement
-
-	// let isResolvingEns = false
-
 	let datalistId: Datalist<typeof address>['$$prop_def']['datalistId']
 
 	$: _patterns = (
@@ -68,7 +64,6 @@
 
 <input
 	type="text"
-	bind:this={inputElement}
 	bind:value
 	{name}
 	{required}
