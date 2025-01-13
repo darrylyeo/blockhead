@@ -33,6 +33,7 @@
 	// Functions
 	import { isTruthy } from '$/utils/isTruthy'
 
+	import { createExactMatcher, createPartialMatcher } from '$/utils/stringPatterns'
 	import { findMatchedCaptureGroupName } from '$/utils/findMatchedCaptureGroup'
 
 	const findPatternMatches = (value: string, pattern: RegExp) =>
@@ -47,29 +48,27 @@
 	// Shared state
 	export let value: string
 	export let matchedPatterns: Partial<Record<InputPattern, string>>
-	$: matchedPatterns = value.match(pattern)?.groups ?? {}
+	$: matchedPatterns = value.match(exactMatcher)?.groups ?? {}
 
 
 	// Internal state
 	export const datalistId = crypto.randomUUID()
 
 	// (Computed)
-	$: pattern = new RegExp(`^(?:${
+	$: patterns = (
 		inputPatterns
-			.sort((a, b) => inputPatternsConfig[b].matchComplexity - inputPatternsConfig[a].matchComplexity)
-			.map(inputPattern => `(?<${inputPattern}>${inputPatternsConfig[inputPattern].pattern.source})`)
-			.join('|')
-	})$`)
+			.map(inputPattern => ({
+				name: inputPattern,
+				pattern: inputPatternsConfig[inputPattern].pattern,
+				complexity: inputPatternsConfig[inputPattern].matchComplexity,
+			}))
+	)
 
-	// const subpattern = /(?<address>0x[0-9a-fA-F]{40})|(?<transactionId>0x[0-9a-fA-F]{64})|(?<blockNumber>0|[1-9][0-9]*)|(?<ensName>(?:[^. ]+[.])*(?:eth|xyz|luxe|kred|art|club|test))/g
-	$: subpattern = new RegExp(`(?:${
-		inputPatterns
-			.sort((a, b) => inputPatternsConfig[b].matchComplexity - inputPatternsConfig[a].matchComplexity)
-			.map(inputPattern => `(?<${inputPattern}>${inputPatternsConfig[inputPattern].pattern.source})`)
-			.join('|')}
-		)`, 'g')
+	$: exactMatcher = createExactMatcher(patterns)
 
-	$: matchedInputPattern = findMatchedCaptureGroupName<InputPattern>(pattern, value) ?? ''	
+	$: partialMatcher = createPartialMatcher(patterns)
+
+	$: matchedInputPattern = findMatchedCaptureGroupName<InputPattern>(exactMatcher, value) ?? ''
 
 
 	// Actions
@@ -87,7 +86,7 @@
 	{required}
 	{autofocus}
 	{placeholder}
-	pattern={pattern.source}
+	pattern={exactMatcher.source}
 	data-matched-input-pattern={matchedInputPattern}
 	list={datalistId}
 	on:focus={e => e.target.select()}
@@ -95,7 +94,7 @@
 />
 
 <datalist id={datalistId}>
-	{#each findPatternMatches(value, subpattern) as { inputPattern, match }}
+	{#each findPatternMatches(value, partialMatcher) as { inputPattern, match }}
 		<option
 			value={match}
 			label={inputPatternsConfig[inputPattern].label}
@@ -107,7 +106,7 @@
 			<optgroup label={name}>
 				{#each accounts as account}
 					{@const _value = account.id}
-					{@const inputPattern = inputPatternsConfig[findPatternMatches(_value, subpattern)[0]?.inputPattern]}
+					{@const inputPattern = inputPatternsConfig[findPatternMatches(_value, partialMatcher)[0]?.inputPattern]}
 					<option
 						value={_value}
 						label={`Portfolio › ${name}${inputPattern ? ` │ ${network ? `${network.name} › ` : ''}${inputPattern.label}` : ''}`}
@@ -135,7 +134,7 @@
 			$history
 				.map(value => ({
 					value,
-					match: findPatternMatches(value, pattern)[0],
+					match: findPatternMatches(value, exactMatcher)[0],
 				}))
 				.filter(({ match }) => match)
 		as
