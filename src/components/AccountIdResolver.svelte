@@ -20,7 +20,7 @@
 
 	export let passiveResolveToAddress = false
 
-	export let resolveToName: Omit<AccountIdType, AccountIdType.Address> | false = AccountIdType.ENS
+	export let resolveToName: Omit<AccountIdType, AccountIdType.Address> | false = AccountIdType.EnsName
 	export let passiveResolveToName = true
 
 	export let networkProvider: NetworkProvider
@@ -56,8 +56,8 @@
 	// (Computed)
 	$: {
 		address = type === AccountIdType.Address ? accountId as Ethereum.Address : undefined
-		ensName = type === AccountIdType.ENS ? accountId as ENS.Name : undefined
-		lensName = type === AccountIdType.Lens ? accountId as LensName : undefined
+		ensName = type === AccountIdType.EnsName ? accountId as ENS.Name : undefined
+		lensName = type === AccountIdType.LensHandle ? accountId as LensName : undefined
 	}
 
 
@@ -115,7 +115,7 @@
 	</Loader>
 
 <!-- Resolve name to address -->
-{:else if type === AccountIdType.Lens}
+{:else if type === AccountIdType.LensHandle}
 	<Loader
 		viewOptions={{
 			layout: passiveResolveToAddress ? 'passive' : layout,
@@ -161,7 +161,7 @@
 		<slot {type} {address} {ensName} {lensName} />
 	</Loader>
 
-{:else if type === AccountIdType.ENS}
+{:else if type === AccountIdType.EnsName}
 	<Loader
 		viewOptions={{
 			layout: passiveResolveToAddress ? 'passive' : layout,
@@ -222,7 +222,7 @@
 
 {#if address && resolveToName && type !== resolveToName}
 	<!-- Resolve address to name -->
-	{#if resolveToName === AccountIdType.ENS}
+	{#if resolveToName === AccountIdType.EnsName}
 		<Loader
 			viewOptions={{
 				layout: passiveResolveToName ? 'headless' : layout,

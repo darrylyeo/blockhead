@@ -6,9 +6,9 @@ import type { LensName } from '$/api/lens'
 export type AccountId = Ethereum.Address | ENS.Name | LensName
 
 export enum AccountIdType {
-	ENS = 'ensName',
-	Lens = 'lensName',
 	Address = 'address',
+	EnsName = 'ensName',
+	LensHandle = 'lensHandle',
 }
 
 

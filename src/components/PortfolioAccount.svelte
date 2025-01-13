@@ -365,7 +365,7 @@
 			let:lensName
 		>
 			<div class="row inline wrap">
-				{#if lensName && type === AccountIdType.Lens}
+				{#if lensName && type === AccountIdType.LensHandle}
 					<h3><LensName {lensName} /></h3>
 					{#if address}
 						<small class="align-start" transition:scale><Address network={ethereumMainnet} {address} /></small>
@@ -375,7 +375,7 @@
 					{#if address}
 						<small class="align-start" transition:scale><Address network={ethereumMainnet} {address} /></small>
 					{/if}
-				{:else if type === AccountIdType.ENS}
+				{:else if type === AccountIdType.EnsName}
 					<h3><EnsName {ensName} showAvatar /></h3>
 					{#if address}
 						<small class="align-start" transition:scale><Address network={ethereumMainnet} {address} /></small>

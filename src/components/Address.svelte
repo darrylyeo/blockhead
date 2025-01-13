@@ -40,7 +40,7 @@
 
 <AccountIdResolver
 	accountId={address}
-	resolveToName={resolveToEnsName ? AccountIdType.ENS : false}
+	resolveToName={resolveToEnsName ? AccountIdType.EnsName : false}
 	passiveResolveToName
 	loaderViewOptions={{
 		layout: 'passive',
