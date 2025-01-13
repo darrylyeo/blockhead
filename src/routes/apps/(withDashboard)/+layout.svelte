@@ -172,27 +172,44 @@
 	}}>
 		<SearchInput
 			patterns={
-				$web3AppConfig?.slug === 'farcaster' ? [
-					StringPattern.FarcasterCastId,
-					StringPattern.FarcasterUserId,
-					StringPattern.FarcasterUserName,
-					StringPattern.FarcasterUserNameEns,
-				] :  $web3AppConfig?.slug === 'eas' ? [
-					StringPattern.EasAttestationId,
-					StringPattern.EasSchemaId,
-					StringPattern.Address,
-					StringPattern.EnsName,
-				] : $web3AppConfig?.slug === 'moxie' ? [
-					StringPattern.MoxieAuctionId,
-					StringPattern.MoxieOrderId,
-					StringPattern.MoxieSubjectId,
-					StringPattern.Address,
-					StringPattern.EnsName,
-				] : [
-					StringPattern.Address,
-					StringPattern.EnsName,
-					StringPattern.LensHandle,
-				]
+				$web3AppConfig?.slug === 'farcaster' ?
+					[
+						StringPattern.FarcasterCastId,
+						StringPattern.FarcasterUserId,
+						StringPattern.FarcasterUserName,
+						StringPattern.FarcasterUserNameEns,
+					]
+
+				: $web3AppConfig?.slug === 'eas' ?
+					[
+						StringPattern.EasAttestationId,
+						StringPattern.EasSchemaId,
+						StringPattern.Address,
+						StringPattern.EnsName,
+					]
+
+				: $web3AppConfig?.slug === 'ens' ?
+					[
+						StringPattern.EnsName,
+						StringPattern.Address,
+						StringPattern.LensHandle,
+					]
+
+				: $web3AppConfig?.slug === 'moxie' ?
+					[
+						StringPattern.MoxieAuctionId,
+						StringPattern.MoxieOrderId,
+						StringPattern.MoxieSubjectId,
+						StringPattern.Address,
+						StringPattern.EnsName,
+					]
+
+				:
+					[
+						StringPattern.Address,
+						StringPattern.EnsName,
+						StringPattern.LensHandle,
+					]
 			}
 			bind:value={searchInputValue}
 			bind:matchedPatterns={searchInputPatterns}
