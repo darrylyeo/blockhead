@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Types/constants
-	import { InputPattern } from '$/data/inputPatterns'
+	import { StringPattern } from '$/data/stringPatterns'
 
 
 	// Params/Context
@@ -37,7 +37,7 @@
 	let searchInputValue: string
 	$: searchInputValue = $explorerQuery
 
-	let searchInputPatterns: { [key in InputPattern]?: string }
+	let searchInputPatterns: { [key in StringPattern]?: string }
 
 
 	$: networkProvider = $preferences.rpcNetwork
@@ -112,29 +112,29 @@
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
 	<form on:submit|preventDefault={() => {
-		$address = searchInputPatterns[InputPattern.Address] ?? ''
-		$blockNumber = searchInputPatterns[InputPattern.BlockNumber] !== undefined && searchInputPatterns[InputPattern.BlockNumber] !== '' ? BigInt(searchInputPatterns[InputPattern.BlockNumber]) : ''
-		$ensName = searchInputPatterns[InputPattern.EnsName] ?? ''
-		$transactionId = searchInputPatterns[InputPattern.TransactionId] ?? ''
-		$filecoinTipsetId = !isNaN(Number(searchInputPatterns[InputPattern.FilecoinTipsetNumber])) ? BigInt(Number(searchInputPatterns[InputPattern.FilecoinTipsetNumber])) : searchInputPatterns[InputPattern.FilecoinTipsetCid] ?? ''
-		$filecoinBlockCid = searchInputPatterns[InputPattern.FilecoinBlockCid] ?? ''
+		$address = searchInputPatterns[StringPattern.Address] ?? ''
+		$blockNumber = searchInputPatterns[StringPattern.BlockNumber] !== undefined && searchInputPatterns[StringPattern.BlockNumber] !== '' ? BigInt(searchInputPatterns[StringPattern.BlockNumber]) : ''
+		$ensName = searchInputPatterns[StringPattern.EnsName] ?? ''
+		$transactionId = searchInputPatterns[StringPattern.TransactionId] ?? ''
+		$filecoinTipsetId = !isNaN(Number(searchInputPatterns[StringPattern.FilecoinTipsetNumber])) ? BigInt(Number(searchInputPatterns[StringPattern.FilecoinTipsetNumber])) : searchInputPatterns[StringPattern.FilecoinTipsetCid] ?? ''
+		$filecoinBlockCid = searchInputPatterns[StringPattern.FilecoinBlockCid] ?? ''
 	}}>
 		<SearchInput
 			inputPatterns={
 				$explorerNetwork && isNetworkSlugFilecoin($explorerNetwork.slug) ?
 					[
-						InputPattern.FilecoinAccountId,
-						InputPattern.FilecoinBlockCid,
-						InputPattern.FilecoinTipsetCid,
-						InputPattern.FilecoinTipsetNumber,
-						InputPattern.FilecoinTransactionId,
+						StringPattern.FilecoinAccountId,
+						StringPattern.FilecoinBlockCid,
+						StringPattern.FilecoinTipsetCid,
+						StringPattern.FilecoinTipsetNumber,
+						StringPattern.FilecoinTransactionId,
 					]
 				:
 					[
-						InputPattern.Address,
-						InputPattern.BlockNumber,
-						InputPattern.EnsName,
-						InputPattern.TransactionId,
+						StringPattern.Address,
+						StringPattern.BlockNumber,
+						StringPattern.EnsName,
+						StringPattern.TransactionId,
 					]
 			}
 			bind:value={searchInputValue}

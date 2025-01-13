@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import type { AccountConnection } from '$/state/account'
-	import { InputPattern } from '$/data/inputPatterns'
+	import { StringPattern } from '$/data/stringPatterns'
 
 
 	// Params
@@ -42,7 +42,7 @@
 	let searchInputValue: string
 	$: searchInputValue = $defaultSearchInputValue
 
-	let searchInputPatterns: { [key in InputPattern]?: string }
+	let searchInputPatterns: { [key in StringPattern]?: string }
 
 	let selectedAccountConnection: AccountConnection | undefined
 
@@ -154,44 +154,44 @@
 	out:fly={{x: -100}}
 >
 	<form class="accountId-form bar wrap" on:submit|preventDefault={() => {
-		$accountId = searchInputPatterns[InputPattern.Address] ?? searchInputPatterns[InputPattern.EnsName] ?? searchInputPatterns[InputPattern.LensHandle] ?? ''
-		$audiusQuery = searchInputPatterns[InputPattern.AudiusQuery] ?? ''
-		$audiusPlaylistId = searchInputPatterns[InputPattern.AudiusPlaylistId] ?? ''
-		$audiusTrackId = searchInputPatterns[InputPattern.AudiusTrackId] ?? ''
-		$audiusUserId = searchInputPatterns[InputPattern.AudiusUserId] ?? ''
-		$didUrl = searchInputPatterns[InputPattern.DidUrl] ?? ''
-		$discoCredentialId = searchInputPatterns[InputPattern.DiscoCredentialId] ?? ''
-		$easAttestationId = searchInputPatterns[InputPattern.EasAttestationId] ?? ''
-		$easSchemaId = searchInputPatterns[InputPattern.EasSchemaId] ?? ''
-		$farcasterCastId = searchInputPatterns[InputPattern.FarcasterCastId] ?? ''
-		$farcasterUserId = searchInputPatterns[InputPattern.FarcasterUserId] ?? ''
-		$farcasterUserName = searchInputPatterns[InputPattern.FarcasterUserName] ?? searchInputPatterns[InputPattern.FarcasterUserNameEns] ?? ''
-		$moxieAuctionId = searchInputPatterns[InputPattern.MoxieAuctionId] ?? ''
-		$moxieOrderId = searchInputPatterns[InputPattern.MoxieOrderId] ?? ''
-		$moxieSubjectId = searchInputPatterns[InputPattern.MoxieSubjectId] ?? ''
+		$accountId = searchInputPatterns[StringPattern.Address] ?? searchInputPatterns[StringPattern.EnsName] ?? searchInputPatterns[StringPattern.LensHandle] ?? ''
+		$audiusQuery = searchInputPatterns[StringPattern.AudiusQuery] ?? ''
+		$audiusPlaylistId = searchInputPatterns[StringPattern.AudiusPlaylistId] ?? ''
+		$audiusTrackId = searchInputPatterns[StringPattern.AudiusTrackId] ?? ''
+		$audiusUserId = searchInputPatterns[StringPattern.AudiusUserId] ?? ''
+		$didUrl = searchInputPatterns[StringPattern.DidUrl] ?? ''
+		$discoCredentialId = searchInputPatterns[StringPattern.DiscoCredentialId] ?? ''
+		$easAttestationId = searchInputPatterns[StringPattern.EasAttestationId] ?? ''
+		$easSchemaId = searchInputPatterns[StringPattern.EasSchemaId] ?? ''
+		$farcasterCastId = searchInputPatterns[StringPattern.FarcasterCastId] ?? ''
+		$farcasterUserId = searchInputPatterns[StringPattern.FarcasterUserId] ?? ''
+		$farcasterUserName = searchInputPatterns[StringPattern.FarcasterUserName] ?? searchInputPatterns[StringPattern.FarcasterUserNameEns] ?? ''
+		$moxieAuctionId = searchInputPatterns[StringPattern.MoxieAuctionId] ?? ''
+		$moxieOrderId = searchInputPatterns[StringPattern.MoxieOrderId] ?? ''
+		$moxieSubjectId = searchInputPatterns[StringPattern.MoxieSubjectId] ?? ''
 	}}>
 		<SearchInput
 			inputPatterns={
 				$web3AppConfig?.slug === 'farcaster' ? [
-					InputPattern.FarcasterCastId,
-					InputPattern.FarcasterUserId,
-					InputPattern.FarcasterUserName,
-					InputPattern.FarcasterUserNameEns,
+					StringPattern.FarcasterCastId,
+					StringPattern.FarcasterUserId,
+					StringPattern.FarcasterUserName,
+					StringPattern.FarcasterUserNameEns,
 				] :  $web3AppConfig?.slug === 'eas' ? [
-					InputPattern.EasAttestationId,
-					InputPattern.EasSchemaId,
-					InputPattern.Address,
-					InputPattern.EnsName,
+					StringPattern.EasAttestationId,
+					StringPattern.EasSchemaId,
+					StringPattern.Address,
+					StringPattern.EnsName,
 				] : $web3AppConfig?.slug === 'moxie' ? [
-					InputPattern.MoxieAuctionId,
-					InputPattern.MoxieOrderId,
-					InputPattern.MoxieSubjectId,
-					InputPattern.Address,
-					InputPattern.EnsName,
+					StringPattern.MoxieAuctionId,
+					StringPattern.MoxieOrderId,
+					StringPattern.MoxieSubjectId,
+					StringPattern.Address,
+					StringPattern.EnsName,
 				] : [
-					InputPattern.Address,
-					InputPattern.EnsName,
-					InputPattern.LensHandle,
+					StringPattern.Address,
+					StringPattern.EnsName,
+					StringPattern.LensHandle,
 				]
 			}
 			bind:value={searchInputValue}

@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Constants/types
 	import type { AccountConnection } from '$/state/account'
-	import { InputPattern } from '$/data/inputPatterns'
+	import { StringPattern } from '$/data/stringPatterns'
 
 
 	// Params
@@ -20,7 +20,7 @@
 	let searchInputValue: string
 	$: searchInputValue = $defaultSearchInputValue
 
-	let searchInputPatterns: { [key in InputPattern]?: string } = {}
+	let searchInputPatterns: { [key in StringPattern]?: string } = {}
 
 	let selectedAccountConnection: AccountConnection | undefined
 
@@ -46,12 +46,12 @@
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
 	<form class="accountId-form row" on:submit|preventDefault={() => {
-		$accountId = searchInputPatterns[InputPattern.Address] ?? searchInputPatterns[InputPattern.EnsName] ?? ''
+		$accountId = searchInputPatterns[StringPattern.Address] ?? searchInputPatterns[StringPattern.EnsName] ?? ''
 	}}>
 		<SearchInput
 			inputPatterns={[
-				InputPattern.Address,
-				InputPattern.EnsName,
+				StringPattern.Address,
+				StringPattern.EnsName,
 			]}
 			bind:value={searchInputValue}
 			bind:matchedPatterns={searchInputPatterns}

@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
-	import { InputPattern, inputPatternsConfig } from '$/data/inputPatterns'
+	import { StringPattern, stringPatterns } from '$/data/stringPatterns'
 
 
 	// Context
@@ -15,7 +15,7 @@
 
 
 	// Inputs
-	export let inputPatterns: InputPattern[] = Object.values(InputPattern)
+	export let inputPatterns: StringPattern[] = Object.values(StringPattern)
 	export let required = false
 	export let autofocus = false
 	export let placeholder: string
@@ -25,7 +25,7 @@
 	// (Computed)
 	$: placeholder = $$props.placeholder || (
 		inputPatterns
-			.map(type => `${inputPatternsConfig[type].label} (${inputPatternsConfig[type].placeholder})`)
+			.map(type => `${stringPatterns[type].label} (${stringPatterns[type].placeholder})`)
 			.join(' / ')
 	)
 
@@ -40,14 +40,14 @@
 		(pattern.global ? [...value.matchAll(pattern)] : [value.match(pattern)].filter(isTruthy))
 			.flatMap(match =>
 				Object.entries(match.groups ?? {})
-					.map(([groupName, match]) => ({ inputPattern: groupName as InputPattern, match }))
+					.map(([groupName, match]) => ({ inputPattern: groupName as StringPattern, match }))
 					.filter(({match}) => match)
 			)
 
 
 	// Shared state
 	export let value: string
-	export let matchedPatterns: Partial<Record<InputPattern, string>>
+	export let matchedPatterns: Partial<Record<StringPattern, string>>
 	$: matchedPatterns = value.match(exactMatcher)?.groups ?? {}
 
 
@@ -59,8 +59,8 @@
 		inputPatterns
 			.map(inputPattern => ({
 				name: inputPattern,
-				pattern: inputPatternsConfig[inputPattern].pattern,
-				complexity: inputPatternsConfig[inputPattern].complexity,
+				pattern: stringPatterns[inputPattern].pattern,
+				complexity: stringPatterns[inputPattern].complexity,
 			}))
 	)
 
@@ -68,7 +68,7 @@
 
 	$: partialMatcher = createPartialMatcher(patterns)
 
-	$: matchedInputPattern = findMatchedCaptureGroupName<InputPattern>(exactMatcher, value) ?? ''
+	$: matchedStringPattern = findMatchedCaptureGroupName<StringPattern>(exactMatcher, value) ?? ''
 
 
 	// Actions
@@ -87,17 +87,17 @@
 	{autofocus}
 	{placeholder}
 	pattern={exactMatcher.source}
-	data-matched-input-pattern={matchedInputPattern}
+	data-matched-input-pattern={matchedStringPattern}
 	list={datalistId}
 	on:focus={e => e.target.select()}
-	style={matchedInputPattern && `--input-annotation: " ${inputPatternsConfig[matchedInputPattern]?.label.toUpperCase()}   │   ✕"`}
+	style={matchedStringPattern && `--input-annotation: " ${stringPatterns[matchedStringPattern]?.label.toUpperCase()}   │   ✕"`}
 />
 
 <datalist id={datalistId}>
 	{#each findPatternMatches(value, partialMatcher) as { inputPattern, match }}
 		<option
 			value={match}
-			label={inputPatternsConfig[inputPattern].label}
+			label={stringPatterns[inputPattern].label}
 		/>
 	{/each}
 
@@ -106,7 +106,7 @@
 			<optgroup label={name}>
 				{#each accounts as account}
 					{@const _value = account.id}
-					{@const inputPattern = inputPatternsConfig[findPatternMatches(_value, partialMatcher)[0]?.inputPattern]}
+					{@const inputPattern = stringPatterns[findPatternMatches(_value, partialMatcher)[0]?.inputPattern]}
 					<option
 						value={_value}
 						label={`Portfolio › ${name}${inputPattern ? ` │ ${network ? `${network.name} › ` : ''}${inputPattern.label}` : ''}`}
@@ -140,7 +140,7 @@
 		as
 			{ value: _value, match }
 		}
-			{@const inputPattern = inputPatternsConfig[match.inputPattern]}
+			{@const inputPattern = stringPatterns[match.inputPattern]}
 
 			<!-- {#if _value !== value}
 				<option value={_value} />
