@@ -13,6 +13,7 @@
 	// (View options)
 	export let format: 'full' | 'middle-truncated' = 'full'
 	export let linked = true
+	export let truncateOptions: Pick<TruncatedValue['$$prop_def'], 'startLength' | 'endLength'> | undefined
 
 
 	// Functions
@@ -57,7 +58,7 @@
 			on:dragstart={onDragStart}
 		>
 			<slot {formattedAddress}>
-				<span class="monospace">{#if !ensName}{#if format === 'full'}{address}{:else}<TruncatedValue value={address} />{/if}{:else}<span class="monospace">{ensName}</span>{/if}</span>
+				<span class="monospace">{#if !ensName}{#if format === 'full'}{address}{:else}<TruncatedValue value={address} {...truncateOptions} />{/if}{:else}<span class="monospace">{ensName}</span>{/if}</span>
 			</slot>
 		</a>
 	{:else}
@@ -67,7 +68,7 @@
 					class="address monospace"
 					draggable={true}
 					on:dragstart={onDragStart}
-				>{#if !ensName}{#if format === 'full'}{address}{:else}<TruncatedValue value={address} />{/if}{:else}<span class="monospace">{ensName}</span>{/if}</span>
+				>{#if !ensName}{#if format === 'full'}{address}{:else}<TruncatedValue value={address} {...truncateOptions} />{/if}{:else}<span class="monospace">{ensName}</span>{/if}</span>
 			</slot>
 		</span>
 	{/if}
