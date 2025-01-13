@@ -10,21 +10,21 @@
 
 
 	// Components
-	import FilecoinAccount from '$/components/FilecoinAccount.svelte'
-	import FilecoinAccountLoader from '$/components/FilecoinAccountLoader.svelte'
+	import FilecoinActorDetailsLoader from '$/components/FilecoinActorDetailsLoader.svelte'
+	import FilecoinActor from '$/components/FilecoinActor.svelte'
 </script>
 
 
-<FilecoinAccountLoader
+<FilecoinActorDetailsLoader
 	network={$explorerNetwork}
 	address={$explorerParams.address}
 	let:account
 >
 	{#if account}
-		<FilecoinAccount
+		<FilecoinActor
 			network={$explorerNetwork}
 			{account}
 			headingLevel={2}
 		/>
 	{/if}
-</FilecoinAccountLoader>
+</FilecoinActorDetailsLoader>

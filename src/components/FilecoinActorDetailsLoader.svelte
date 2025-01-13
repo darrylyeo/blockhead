@@ -57,8 +57,8 @@
 	}}
 	loadingIcon={filecoinTransactionProviders[filecoinTransactionProvider].icon}
 	loadingIconName={filecoinTransactionProviders[filecoinTransactionProvider].name}
-	loadingMessage={`Retrieving ${network.name} account data from ${filecoinTransactionProviders[filecoinTransactionProvider].name}...`}
-	errorMessage={`Couldn't retrieve ${network.name} account data from ${filecoinTransactionProviders[filecoinTransactionProvider].name}.`}
+	loadingMessage={`Retrieving ${network.name} actor information from ${filecoinTransactionProviders[filecoinTransactionProvider].name}...`}
+	errorMessage={`Couldn't retrieve ${network.name} actor information from ${filecoinTransactionProviders[filecoinTransactionProvider].name}.`}
 	{...{
 		[FilecoinTransactionProvider.Beryx]: () => ({
 			fromQuery: createQuery({
