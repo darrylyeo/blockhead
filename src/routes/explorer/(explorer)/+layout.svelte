@@ -124,17 +124,17 @@
 				$explorerNetwork && isNetworkSlugFilecoin($explorerNetwork.slug) ?
 					[
 						StringPattern.FilecoinAccountId,
-						StringPattern.FilecoinBlockCid,
 						StringPattern.FilecoinTipsetCid,
 						StringPattern.FilecoinTipsetNumber,
+						StringPattern.FilecoinBlockCid,
 						StringPattern.FilecoinTransactionId,
 					]
 				:
 					[
 						StringPattern.Address,
-						StringPattern.BlockNumber,
 						StringPattern.EnsName,
 						StringPattern.TransactionId,
+						StringPattern.BlockNumber,
 					]
 			}
 			bind:value={searchInputValue}
