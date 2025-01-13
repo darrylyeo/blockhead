@@ -1,12 +1,12 @@
-import { filecoinAddressPattern } from '$/utils/isFilecoinAddress'
-
+// Types/constants
+import { AccountIdType } from './accountId'
 
 export enum StringPattern {
-	Address = 'address',
+	Address = AccountIdType.Address,
 	BlockNumber = 'blockNumber',
 	EasAttestationId = 'easAttestationId',
 	EasSchemaId = 'easSchemaId',
-	EnsName = 'ensName',
+	EnsName = AccountIdType.EnsName,
 	FarcasterCastId = 'farcasterCastId',
 	FarcasterChannelId = 'farcasterChannelId',
 	FarcasterUserId = 'farcasterUserId',
@@ -17,12 +17,16 @@ export enum StringPattern {
 	FilecoinTipsetCid = 'filecoinTipsetCid',
 	FilecoinTipsetNumber = 'filecoinTipsetNumber',
 	FilecoinTransactionId = 'filecoinTransactionId',
-	LensHandle = 'lensHandle',
+	LensHandle = AccountIdType.LensHandle,
 	MoxieAuctionId = 'moxieAuctionId',
 	MoxieOrderId = 'moxieOrderId',
 	MoxieSubjectId = 'moxieSubjectId',
 	TransactionId = 'transactionId',
 }
+
+
+// Patterns
+import { filecoinAddressPattern } from '$/utils/isFilecoinAddress'
 
 export const stringPatterns = {
 	[StringPattern.Address]: {
