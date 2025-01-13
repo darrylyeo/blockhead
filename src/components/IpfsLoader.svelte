@@ -23,7 +23,7 @@
 	$: ipfsGatewayProvider = $$props.ipfsGateway ?? $preferences.ipfsGateway
 
 	// (Loader)
-	export let whenLoaded: Loader<any, any, any, any, any>['whenLoaded']
+	export let whenLoaded: Loader['whenLoaded']
 
 
 	// Internal state

@@ -19,7 +19,7 @@
 	export let blockNumber: number
 
 	// (View options)
-	export let layout: Loader<any, any, any, any>['viewOptions']['layout'] = 'default'
+	export let layout: Loader['viewOptions']['layout'] = 'default'
 
 
 	// Internal state

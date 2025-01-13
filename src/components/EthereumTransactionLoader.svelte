@@ -35,7 +35,7 @@
 	type SharedSlotProps = {
 		transaction: typeof transaction,
 		transactionProvider: typeof transactionProvider,
-		status: Loader<any, any, any, any, any>['$$slot_def']['default']['status'],
+		status: Loader['$$slot_def']['default']['status'],
 	}
 
 	type $$Slots = {

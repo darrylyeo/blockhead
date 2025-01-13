@@ -30,8 +30,8 @@
 
 	type SharedSlotProps = {
 		orders: typeof orders,
-		status: Loader<any, any, any, any>['$$slot_def']['default']['status'],
-		pagination: Loader<any, any, any, any>['$$slot_def']['default']['pagination'],
+		status: Loader['$$slot_def']['default']['status'],
+		pagination: Loader['$$slot_def']['default']['pagination'],
 	}
 
 	type $$Slots = {

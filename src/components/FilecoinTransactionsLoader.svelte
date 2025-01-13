@@ -41,7 +41,7 @@
 
 	type SharedSlotProps = {
 		transactions: typeof transactions,
-		pagination: Loader<any, any, any, any>['$$slot_def']['default']['pagination'],
+		pagination: Loader['$$slot_def']['default']['pagination'],
 	}
 
 	type $$Slots = {

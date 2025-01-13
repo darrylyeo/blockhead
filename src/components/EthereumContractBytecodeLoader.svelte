@@ -21,7 +21,7 @@
 	$: viaRPC = networkProvider === NetworkProvider.Default ? '' : ` via ${networkProvider}`
 
 	// (View options)
-	export let loaderViewOptions: Partial<Loader<any, any, any, any>['viewOptions']> | undefined
+	export let loaderViewOptions: Partial<Loader['viewOptions']> | undefined
 
 
 	// Outputs
@@ -30,7 +30,7 @@
 	type SharedSlotProps = {
 		contractAddress: typeof contractAddress,
 		contractBytecode: typeof contractBytecode,
-		status: Loader<any, any, any, any>['status'],
+		status: Loader['status'],
 		isOpen: Loader<any, any, any, 'collapsible'>['$$slot_def']['default']['isOpen'],
 		toggle: Loader<any, any, any, 'collapsible'>['$$slot_def']['default']['toggle'],
 	}

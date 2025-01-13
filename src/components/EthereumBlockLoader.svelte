@@ -25,7 +25,7 @@
 	$: quoteCurrency = $$props.quoteCurrency ?? $preferences.quoteCurrency
 
 	// (View options)
-	export let loaderViewOptions: Partial<Loader<any, any, any, any, any>['viewOptions']> | undefined
+	export let loaderViewOptions: Partial<Loader['viewOptions']> | undefined
 	
 
 	// Internal state
@@ -41,7 +41,7 @@
 
 	type SharedSlotProps = {
 		block: typeof block,
-		status: Loader<any, any, any, any, any>['$$slot_def']['default']['status'],
+		status: Loader['$$slot_def']['default']['status'],
 	}
 
 	type $$Slots = {

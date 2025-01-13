@@ -15,8 +15,8 @@
 
 	type SharedSlotProps = {
 		auctions: typeof auctions,
-		status: Loader<any, any, any, any>['$$slot_def']['default']['status'],
-		pagination: Loader<any, any, any, any>['$$slot_def']['default']['pagination'],
+		status: Loader['$$slot_def']['default']['status'],
+		pagination: Loader['$$slot_def']['default']['pagination'],
 		isOpen: Loader<any, any, any, 'collapsible'>['$$slot_def']['default']['isOpen'],
 		toggle: Loader<any, any, any, 'collapsible'>['$$slot_def']['default']['toggle'],
 	}
@@ -24,8 +24,8 @@
 	type $$Slots = {
 		'default': SharedSlotProps,
 		'header': SharedSlotProps & {
-			loadingMessage: Loader<any, any, any, any>['$$slot_def']['header']['loadingMessage'],
-			errorMessage: Loader<any, any, any, any>['$$slot_def']['header']['errorMessage'],
+			loadingMessage: Loader['$$slot_def']['header']['loadingMessage'],
+			errorMessage: Loader['$$slot_def']['header']['errorMessage'],
 		},
 	}
 

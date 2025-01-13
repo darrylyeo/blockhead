@@ -11,7 +11,7 @@
 	$: notificationsProvider = $preferences.notificationsProvider || NotificationsProvider.Push
 
 	// (View options)
-	export let loaderViewOptions: Partial<Loader<any, any, any, any, any>['viewOptions']> | undefined
+	export let loaderViewOptions: Partial<Loader['viewOptions']> | undefined
 
 
 	import { createQuery } from '@tanstack/svelte-query'

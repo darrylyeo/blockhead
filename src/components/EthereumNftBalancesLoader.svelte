@@ -18,11 +18,11 @@
 	export let quoteCurrency: QuoteCurrency
 
 	// (View options)
-	export let loaderViewOptions: Partial<Loader<any, any, any, any>['viewOptions']> | undefined
+	export let loaderViewOptions: Partial<Loader['viewOptions']> | undefined
 
 
 	// Internal state
-	let pagination: Loader<any, any, any, any>['$$slot_def']['default']['pagination']
+	let pagination: Loader['$$slot_def']['default']['pagination']
 
 	// (Computed)
 	$: loadingMessage = `Retrieving ${network.name} NFTs from ${nftProviders[nftProvider].name}...`
@@ -52,16 +52,16 @@
 
 	type SharedSlotProps = {
 		nftContractsWithBalances: typeof nftContractsWithBalances,
-		status: Loader<any, any, any, any>['$$slot_def']['default']['status'],
-		pagination: Loader<any, any, any, any>['$$slot_def']['default']['pagination'],
+		status: Loader['$$slot_def']['default']['status'],
+		pagination: Loader['$$slot_def']['default']['pagination'],
 	}
 
 	type $$Slots = {
 		'default': SharedSlotProps,
 		'header': SharedSlotProps & {
 			summary: typeof summary,
-			loadingMessage: Loader<any, any, any, any>['$$slot_def']['header']['loadingMessage'],
-			errorMessage: Loader<any, any, any, any>['$$slot_def']['header']['errorMessage'],
+			loadingMessage: Loader['$$slot_def']['header']['loadingMessage'],
+			errorMessage: Loader['$$slot_def']['header']['errorMessage'],
 		},
 	}
 

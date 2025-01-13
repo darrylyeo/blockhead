@@ -11,7 +11,7 @@
 	export let feedLayout: 'byChannel' | 'chronological' = 'byChannel'
 
 	// (View options)
-	export let loaderViewOptions: Partial<Loader<any, any, any, any, any>['viewOptions']> | undefined
+	export let loaderViewOptions: Partial<Loader['viewOptions']> | undefined
 
 
 	let notifications: NotificationRawPayload[] = []

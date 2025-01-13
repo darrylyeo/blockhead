@@ -27,7 +27,7 @@
 	})
 
 	// View options
-	export let viewOptions: Loader<any, any, any, any>['$$prop_def']['viewOptions'] | undefined = {
+	export let viewOptions: Loader['$$prop_def']['viewOptions'] | undefined = {
 		contentClass: 'column',
 	}
 

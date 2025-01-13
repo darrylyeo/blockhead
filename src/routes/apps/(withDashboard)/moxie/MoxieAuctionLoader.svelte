@@ -23,7 +23,7 @@
 
 	type SharedSlotProps = {
 		auction: typeof auction,
-		status: Loader<any, any, any, any>['$$slot_def']['default']['status'],
+		status: Loader['$$slot_def']['default']['status'],
 	}
 
 	type $$Slots = {

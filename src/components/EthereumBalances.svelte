@@ -30,7 +30,7 @@
 	export let isScrollable = true
 	export let isHorizontal = false
 
-	export let loaderViewOptions: Loader<any, any, any, any>['$$prop_def']['viewOptions'] | undefined
+	export let loaderViewOptions: Loader['$$prop_def']['viewOptions'] | undefined
 
 
 	// Internal state

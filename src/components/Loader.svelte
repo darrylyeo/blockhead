@@ -1,16 +1,18 @@
-<script lang="ts">
+<script lang="ts"
+	generics="
+		LoaderResult extends unknown = unknown,
+		LoaderError extends {message: string} | Error | ApolloResultError | unknown = {message: string} | Error | ApolloResultError | unknown,
+		// type HoudiniQueryInput extends unknown = unknown
+		LoaderReturnResult extends unknown = unknown,
+		LoaderLayout extends 'default' | 'passive' | 'collapsible' | 'headless' = 'default' | 'passive' | 'collapsible' | 'headless'
+	"
+>
 	// Types/constants
 	import type { Readable } from 'svelte/store'
 	import type { ApolloResult, ApolloResultError } from '$/utils/apolloResult'
 	// import type { GraphQLObject, GraphQLVariables } from 'houdini'
 	// import type { QueryStore } from '$houdini'
 	import type { CreateQueryResult, CreateInfiniteQueryResult, InfiniteQueryObserverResult } from '@tanstack/svelte-query'
-
-	type LoaderResult = $$Generic<unknown>
-	type LoaderError = $$Generic<{message: string} | Error | ApolloResultError | unknown>
-	// type HoudiniQueryInput = $$Generic<unknown>
-	type LoaderReturnResult = $$Generic<unknown>
-	type LoaderLayout = $$Generic<'default' | 'passive' | 'collapsible' | 'headless'>
 
 	enum LoadingStatus {
 		Idle = 'idle',

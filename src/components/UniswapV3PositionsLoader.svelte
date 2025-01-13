@@ -22,7 +22,7 @@
 	$: viaDataProvider = dataProvider === UniswapV3.DataProvider.RpcProvider ? viaRPC : ` via ${dataProvider}`
 
 	// (View options)
-	export let loaderViewOptions: Partial<Loader<any, any, any, any, any>['viewOptions']> | undefined
+	export let loaderViewOptions: Partial<Loader['viewOptions']> | undefined
 
 
 	// Outputs

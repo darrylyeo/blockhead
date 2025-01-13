@@ -18,7 +18,7 @@
 
 
 	// Events
-	export let pagination: Loader<any, any, any, any>['$$slot_def']['default']['pagination']
+	export let pagination: Loader['$$slot_def']['default']['pagination']
 
 
 	// Components

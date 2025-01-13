@@ -26,7 +26,7 @@
 
 
 	// View options
-	export let viewOptions: Loader<any, any, any, any>['$$prop_def']['viewOptions'] | undefined
+	export let viewOptions: Loader['$$prop_def']['viewOptions'] | undefined
 
 
 	// Outputs
@@ -34,8 +34,8 @@
 
 	type SharedSlotProps = {
 		balances: typeof balances,
-		status: Loader<any, any, any, any>['$$slot_def']['default']['status'],
-		pagination: Loader<any, any, any, any>['$$slot_def']['default']['pagination'],
+		status: Loader['$$slot_def']['default']['status'],
+		pagination: Loader['$$slot_def']['default']['pagination'],
 		isOpen: Loader<any, any, any, 'collapsible'>['$$slot_def']['default']['isOpen'],
 		toggle: Loader<any, any, any, 'collapsible'>['$$slot_def']['default']['toggle'],
 	}
@@ -43,8 +43,8 @@
 	type $$Slots = {
 		'default': SharedSlotProps,
 		'header': SharedSlotProps & {
-			loadingMessage: Loader<any, any, any, any>['$$slot_def']['header']['loadingMessage'],
-			errorMessage: Loader<any, any, any, any>['$$slot_def']['header']['errorMessage'],
+			loadingMessage: Loader['$$slot_def']['header']['loadingMessage'],
+			errorMessage: Loader['$$slot_def']['header']['errorMessage'],
 		},
 	}
 
