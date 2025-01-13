@@ -49,7 +49,7 @@
 		$accountId = searchInputPatterns[StringPattern.Address] ?? searchInputPatterns[StringPattern.EnsName] ?? ''
 	}}>
 		<SearchInput
-			inputPatterns={[
+			patterns={[
 				StringPattern.Address,
 				StringPattern.EnsName,
 			]}

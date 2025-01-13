@@ -120,7 +120,7 @@
 		$filecoinBlockCid = searchInputPatterns[StringPattern.FilecoinBlockCid] ?? ''
 	}}>
 		<SearchInput
-			inputPatterns={
+			patterns={
 				$explorerNetwork && isNetworkSlugFilecoin($explorerNetwork.slug) ?
 					[
 						StringPattern.FilecoinAccountId,

@@ -171,7 +171,7 @@
 		$moxieSubjectId = searchInputPatterns[StringPattern.MoxieSubjectId] ?? ''
 	}}>
 		<SearchInput
-			inputPatterns={
+			patterns={
 				$web3AppConfig?.slug === 'farcaster' ? [
 					StringPattern.FarcasterCastId,
 					StringPattern.FarcasterUserId,

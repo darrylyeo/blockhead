@@ -15,7 +15,7 @@
 
 
 	// Inputs
-	export let inputPatterns: StringPattern[] = Object.values(StringPattern)
+	export let patterns: StringPattern[] = Object.values(StringPattern)
 	export let required = false
 	export let autofocus = false
 	export let placeholder: string
@@ -24,7 +24,7 @@
 	
 	// (Computed)
 	$: placeholder = $$props.placeholder || (
-		inputPatterns
+		patterns
 			.map(type => `${stringPatterns[type].label} (${stringPatterns[type].placeholder})`)
 			.join(' / ')
 	)
@@ -55,8 +55,8 @@
 	export const datalistId = crypto.randomUUID()
 
 	// (Computed)
-	$: patterns = (
-		inputPatterns
+	$: _patterns = (
+		patterns
 			.map(inputPattern => ({
 				name: inputPattern,
 				pattern: stringPatterns[inputPattern].pattern,
@@ -64,9 +64,9 @@
 			}))
 	)
 
-	$: exactMatcher = createExactMatcher(patterns)
+	$: exactMatcher = createExactMatcher(_patterns)
 
-	$: partialMatcher = createPartialMatcher(patterns)
+	$: partialMatcher = createPartialMatcher(_patterns)
 
 	$: matchedStringPattern = findMatchedCaptureGroupName<StringPattern>(exactMatcher, value) ?? ''
 
