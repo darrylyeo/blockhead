@@ -112,7 +112,7 @@
 
 <section class="column" in:fly={{x: 100}} out:fly={{x: -100}}>
 	<form on:submit|preventDefault={() => {
-		$address = searchInputPatterns[StringPattern.Address] ?? ''
+		$address = searchInputPatterns[StringPattern.Address] ?? searchInputPatterns[StringPattern.FilecoinAccountId] ?? ''
 		$blockNumber = searchInputPatterns[StringPattern.BlockNumber] !== undefined && searchInputPatterns[StringPattern.BlockNumber] !== '' ? BigInt(searchInputPatterns[StringPattern.BlockNumber]) : ''
 		$ensName = searchInputPatterns[StringPattern.EnsName] ?? ''
 		$transactionId = searchInputPatterns[StringPattern.TransactionId] ?? ''
