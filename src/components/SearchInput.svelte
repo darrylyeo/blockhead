@@ -60,7 +60,7 @@
 			.map(inputPattern => ({
 				name: inputPattern,
 				pattern: inputPatternsConfig[inputPattern].pattern,
-				complexity: inputPatternsConfig[inputPattern].matchComplexity,
+				complexity: inputPatternsConfig[inputPattern].complexity,
 			}))
 	)
 
