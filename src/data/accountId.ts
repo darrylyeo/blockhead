@@ -1,10 +1,10 @@
 // Types/constants
-import type { Ethereum } from '$/data/networks/types'
+import type { NetworkAccountAddress } from './address'
 import type { ENS } from '$/api/ens'
 import type { LensName } from '$/api/lens'
 
 
-export type AccountId = Ethereum.Address | ENS.Name | LensName
+export type AccountId = NetworkAccountAddress | ENS.Name | LensName
 
 export enum AccountIdType {
 	Address = 'address',
